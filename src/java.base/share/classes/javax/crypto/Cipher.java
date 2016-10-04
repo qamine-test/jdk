@@ -1,459 +1,459 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.regex.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.regex.*;
 
 
-import java.security.*;
-import java.security.Provider.Service;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
+import jbvb.security.*;
+import jbvb.security.Provider.Service;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.InvblidPbrbmeterSpecException;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.X509Certificbte;
 
-import javax.crypto.spec.*;
+import jbvbx.crypto.spec.*;
 
-import java.nio.ByteBuffer;
-import java.nio.ReadOnlyBufferException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.RebdOnlyBufferException;
 
 import sun.security.util.Debug;
-import sun.security.jca.*;
+import sun.security.jcb.*;
 
 /**
- * This class provides the functionality of a cryptographic cipher for
- * encryption and decryption. It forms the core of the Java Cryptographic
- * Extension (JCE) framework.
+ * This clbss provides the functionblity of b cryptogrbphic cipher for
+ * encryption bnd decryption. It forms the core of the Jbvb Cryptogrbphic
+ * Extension (JCE) frbmework.
  *
- * <p>In order to create a Cipher object, the application calls the
- * Cipher's <code>getInstance</code> method, and passes the name of the
- * requested <i>transformation</i> to it. Optionally, the name of a provider
- * may be specified.
+ * <p>In order to crebte b Cipher object, the bpplicbtion cblls the
+ * Cipher's <code>getInstbnce</code> method, bnd pbsses the nbme of the
+ * requested <i>trbnsformbtion</i> to it. Optionblly, the nbme of b provider
+ * mby be specified.
  *
- * <p>A <i>transformation</i> is a string that describes the operation (or
- * set of operations) to be performed on the given input, to produce some
- * output. A transformation always includes the name of a cryptographic
- * algorithm (e.g., <i>DES</i>), and may be followed by a feedback mode and
- * padding scheme.
+ * <p>A <i>trbnsformbtion</i> is b string thbt describes the operbtion (or
+ * set of operbtions) to be performed on the given input, to produce some
+ * output. A trbnsformbtion blwbys includes the nbme of b cryptogrbphic
+ * blgorithm (e.g., <i>DES</i>), bnd mby be followed by b feedbbck mode bnd
+ * pbdding scheme.
  *
- * <p> A transformation is of the form:
+ * <p> A trbnsformbtion is of the form:
  *
  * <ul>
- * <li>"<i>algorithm/mode/padding</i>" or
+ * <li>"<i>blgorithm/mode/pbdding</i>" or
  *
- * <li>"<i>algorithm</i>"
+ * <li>"<i>blgorithm</i>"
  * </ul>
  *
- * <P> (in the latter case,
- * provider-specific default values for the mode and padding scheme are used).
- * For example, the following is a valid transformation:
+ * <P> (in the lbtter cbse,
+ * provider-specific defbult vblues for the mode bnd pbdding scheme bre used).
+ * For exbmple, the following is b vblid trbnsformbtion:
  *
  * <pre>
- *     Cipher c = Cipher.getInstance("<i>DES/CBC/PKCS5Padding</i>");
+ *     Cipher c = Cipher.getInstbnce("<i>DES/CBC/PKCS5Pbdding</i>");
  * </pre>
  *
- * Using modes such as <code>CFB</code> and <code>OFB</code>, block
- * ciphers can encrypt data in units smaller than the cipher's actual
- * block size.  When requesting such a mode, you may optionally specify
- * the number of bits to be processed at a time by appending this number
- * to the mode name as shown in the "<code>DES/CFB8/NoPadding</code>" and
- * "<code>DES/OFB32/PKCS5Padding</code>" transformations. If no such
- * number is specified, a provider-specific default is used. (For
- * example, the SunJCE provider uses a default of 64 bits for DES.)
- * Thus, block ciphers can be turned into byte-oriented stream ciphers by
- * using an 8 bit mode such as CFB8 or OFB8.
+ * Using modes such bs <code>CFB</code> bnd <code>OFB</code>, block
+ * ciphers cbn encrypt dbtb in units smbller thbn the cipher's bctubl
+ * block size.  When requesting such b mode, you mby optionblly specify
+ * the number of bits to be processed bt b time by bppending this number
+ * to the mode nbme bs shown in the "<code>DES/CFB8/NoPbdding</code>" bnd
+ * "<code>DES/OFB32/PKCS5Pbdding</code>" trbnsformbtions. If no such
+ * number is specified, b provider-specific defbult is used. (For
+ * exbmple, the SunJCE provider uses b defbult of 64 bits for DES.)
+ * Thus, block ciphers cbn be turned into byte-oriented strebm ciphers by
+ * using bn 8 bit mode such bs CFB8 or OFB8.
  * <p>
- * Modes such as Authenticated Encryption with Associated Data (AEAD)
- * provide authenticity assurances for both confidential data and
- * Additional Associated Data (AAD) that is not encrypted.  (Please see
- * <a href="http://www.ietf.org/rfc/rfc5116.txt"> RFC 5116 </a> for more
- * information on AEAD and AEAD algorithms such as GCM/CCM.) Both
- * confidential and AAD data can be used when calculating the
- * authentication tag (similar to a {@link Mac}).  This tag is appended
- * to the ciphertext during encryption, and is verified on decryption.
+ * Modes such bs Authenticbted Encryption with Associbted Dbtb (AEAD)
+ * provide buthenticity bssurbnces for both confidentibl dbtb bnd
+ * Additionbl Associbted Dbtb (AAD) thbt is not encrypted.  (Plebse see
+ * <b href="http://www.ietf.org/rfc/rfc5116.txt"> RFC 5116 </b> for more
+ * informbtion on AEAD bnd AEAD blgorithms such bs GCM/CCM.) Both
+ * confidentibl bnd AAD dbtb cbn be used when cblculbting the
+ * buthenticbtion tbg (similbr to b {@link Mbc}).  This tbg is bppended
+ * to the ciphertext during encryption, bnd is verified on decryption.
  * <p>
- * AEAD modes such as GCM/CCM perform all AAD authenticity calculations
- * before starting the ciphertext authenticity calculations.  To avoid
- * implementations having to internally buffer ciphertext, all AAD data
- * must be supplied to GCM/CCM implementations (via the {@code
- * updateAAD} methods) <b>before</b> the ciphertext is processed (via
- * the {@code update} and {@code doFinal} methods).
+ * AEAD modes such bs GCM/CCM perform bll AAD buthenticity cblculbtions
+ * before stbrting the ciphertext buthenticity cblculbtions.  To bvoid
+ * implementbtions hbving to internblly buffer ciphertext, bll AAD dbtb
+ * must be supplied to GCM/CCM implementbtions (vib the {@code
+ * updbteAAD} methods) <b>before</b> the ciphertext is processed (vib
+ * the {@code updbte} bnd {@code doFinbl} methods).
  * <p>
- * Note that GCM mode has a uniqueness requirement on IVs used in
- * encryption with a given key. When IVs are repeated for GCM
- * encryption, such usages are subject to forgery attacks. Thus, after
- * each encryption operation using GCM mode, callers should re-initialize
- * the cipher objects with GCM parameters which has a different IV value.
+ * Note thbt GCM mode hbs b uniqueness requirement on IVs used in
+ * encryption with b given key. When IVs bre repebted for GCM
+ * encryption, such usbges bre subject to forgery bttbcks. Thus, bfter
+ * ebch encryption operbtion using GCM mode, cbllers should re-initiblize
+ * the cipher objects with GCM pbrbmeters which hbs b different IV vblue.
  * <pre>
- *     GCMParameterSpec s = ...;
+ *     GCMPbrbmeterSpec s = ...;
  *     cipher.init(..., s);
  *
- *     // If the GCM parameters were generated by the provider, it can
+ *     // If the GCM pbrbmeters were generbted by the provider, it cbn
  *     // be retrieved by:
- *     // cipher.getParameters().getParameterSpec(GCMParameterSpec.class);
+ *     // cipher.getPbrbmeters().getPbrbmeterSpec(GCMPbrbmeterSpec.clbss);
  *
- *     cipher.updateAAD(...);  // AAD
- *     cipher.update(...);     // Multi-part update
- *     cipher.doFinal(...);    // conclusion of operation
+ *     cipher.updbteAAD(...);  // AAD
+ *     cipher.updbte(...);     // Multi-pbrt updbte
+ *     cipher.doFinbl(...);    // conclusion of operbtion
  *
- *     // Use a different IV value for every encryption
+ *     // Use b different IV vblue for every encryption
  *     byte[] newIv = ...;
- *     s = new GCMParameterSpec(s.getTLen(), newIv);
+ *     s = new GCMPbrbmeterSpec(s.getTLen(), newIv);
  *     cipher.init(..., s);
  *     ...
  *
  * </pre>
- * Every implementation of the Java platform is required to support
- * the following standard <code>Cipher</code> transformations with the keysizes
- * in parentheses:
+ * Every implementbtion of the Jbvb plbtform is required to support
+ * the following stbndbrd <code>Cipher</code> trbnsformbtions with the keysizes
+ * in pbrentheses:
  * <ul>
- * <li><tt>AES/CBC/NoPadding</tt> (128)</li>
- * <li><tt>AES/CBC/PKCS5Padding</tt> (128)</li>
- * <li><tt>AES/ECB/NoPadding</tt> (128)</li>
- * <li><tt>AES/ECB/PKCS5Padding</tt> (128)</li>
- * <li><tt>DES/CBC/NoPadding</tt> (56)</li>
- * <li><tt>DES/CBC/PKCS5Padding</tt> (56)</li>
- * <li><tt>DES/ECB/NoPadding</tt> (56)</li>
- * <li><tt>DES/ECB/PKCS5Padding</tt> (56)</li>
- * <li><tt>DESede/CBC/NoPadding</tt> (168)</li>
- * <li><tt>DESede/CBC/PKCS5Padding</tt> (168)</li>
- * <li><tt>DESede/ECB/NoPadding</tt> (168)</li>
- * <li><tt>DESede/ECB/PKCS5Padding</tt> (168)</li>
- * <li><tt>RSA/ECB/PKCS1Padding</tt> (1024, 2048)</li>
- * <li><tt>RSA/ECB/OAEPWithSHA-1AndMGF1Padding</tt> (1024, 2048)</li>
- * <li><tt>RSA/ECB/OAEPWithSHA-256AndMGF1Padding</tt> (1024, 2048)</li>
+ * <li><tt>AES/CBC/NoPbdding</tt> (128)</li>
+ * <li><tt>AES/CBC/PKCS5Pbdding</tt> (128)</li>
+ * <li><tt>AES/ECB/NoPbdding</tt> (128)</li>
+ * <li><tt>AES/ECB/PKCS5Pbdding</tt> (128)</li>
+ * <li><tt>DES/CBC/NoPbdding</tt> (56)</li>
+ * <li><tt>DES/CBC/PKCS5Pbdding</tt> (56)</li>
+ * <li><tt>DES/ECB/NoPbdding</tt> (56)</li>
+ * <li><tt>DES/ECB/PKCS5Pbdding</tt> (56)</li>
+ * <li><tt>DESede/CBC/NoPbdding</tt> (168)</li>
+ * <li><tt>DESede/CBC/PKCS5Pbdding</tt> (168)</li>
+ * <li><tt>DESede/ECB/NoPbdding</tt> (168)</li>
+ * <li><tt>DESede/ECB/PKCS5Pbdding</tt> (168)</li>
+ * <li><tt>RSA/ECB/PKCS1Pbdding</tt> (1024, 2048)</li>
+ * <li><tt>RSA/ECB/OAEPWithSHA-1AndMGF1Pbdding</tt> (1024, 2048)</li>
+ * <li><tt>RSA/ECB/OAEPWithSHA-256AndMGF1Pbdding</tt> (1024, 2048)</li>
  * </ul>
- * These transformations are described in the
- * <a href="{@docRoot}/../technotes/guides/security/StandardNames.html#Cipher">
- * Cipher section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other transformations are supported.
+ * These trbnsformbtions bre described in the
+ * <b href="{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Cipher">
+ * Cipher section</b> of the
+ * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion.
+ * Consult the relebse documentbtion for your implementbtion to see if bny
+ * other trbnsformbtions bre supported.
  *
- * @author Jan Luehe
- * @see KeyGenerator
+ * @buthor Jbn Luehe
+ * @see KeyGenerbtor
  * @see SecretKey
  * @since 1.4
  */
 
-public class Cipher {
+public clbss Cipher {
 
-    private static final Debug debug =
-                        Debug.getInstance("jca", "Cipher");
-
-    /**
-     * Constant used to initialize cipher to encryption mode.
-     */
-    public static final int ENCRYPT_MODE = 1;
+    privbte stbtic finbl Debug debug =
+                        Debug.getInstbnce("jcb", "Cipher");
 
     /**
-     * Constant used to initialize cipher to decryption mode.
+     * Constbnt used to initiblize cipher to encryption mode.
      */
-    public static final int DECRYPT_MODE = 2;
+    public stbtic finbl int ENCRYPT_MODE = 1;
 
     /**
-     * Constant used to initialize cipher to key-wrapping mode.
+     * Constbnt used to initiblize cipher to decryption mode.
      */
-    public static final int WRAP_MODE = 3;
+    public stbtic finbl int DECRYPT_MODE = 2;
 
     /**
-     * Constant used to initialize cipher to key-unwrapping mode.
+     * Constbnt used to initiblize cipher to key-wrbpping mode.
      */
-    public static final int UNWRAP_MODE = 4;
+    public stbtic finbl int WRAP_MODE = 3;
 
     /**
-     * Constant used to indicate the to-be-unwrapped key is a "public key".
+     * Constbnt used to initiblize cipher to key-unwrbpping mode.
      */
-    public static final int PUBLIC_KEY = 1;
+    public stbtic finbl int UNWRAP_MODE = 4;
 
     /**
-     * Constant used to indicate the to-be-unwrapped key is a "private key".
+     * Constbnt used to indicbte the to-be-unwrbpped key is b "public key".
      */
-    public static final int PRIVATE_KEY = 2;
+    public stbtic finbl int PUBLIC_KEY = 1;
 
     /**
-     * Constant used to indicate the to-be-unwrapped key is a "secret key".
+     * Constbnt used to indicbte the to-be-unwrbpped key is b "privbte key".
      */
-    public static final int SECRET_KEY = 3;
+    public stbtic finbl int PRIVATE_KEY = 2;
+
+    /**
+     * Constbnt used to indicbte the to-be-unwrbpped key is b "secret key".
+     */
+    public stbtic finbl int SECRET_KEY = 3;
 
     // The provider
-    private Provider provider;
+    privbte Provider provider;
 
-    // The provider implementation (delegate)
-    private CipherSpi spi;
+    // The provider implementbtion (delegbte)
+    privbte CipherSpi spi;
 
-    // The transformation
-    private String transformation;
+    // The trbnsformbtion
+    privbte String trbnsformbtion;
 
-    // Crypto permission representing the maximum allowable cryptographic
-    // strength that this Cipher object can be used for. (The cryptographic
-    // strength is a function of the keysize and algorithm parameters encoded
+    // Crypto permission representing the mbximum bllowbble cryptogrbphic
+    // strength thbt this Cipher object cbn be used for. (The cryptogrbphic
+    // strength is b function of the keysize bnd blgorithm pbrbmeters encoded
     // in the crypto permission.)
-    private CryptoPermission cryptoPerm;
+    privbte CryptoPermission cryptoPerm;
 
-    // The exemption mechanism that needs to be enforced
-    private ExemptionMechanism exmech;
+    // The exemption mechbnism thbt needs to be enforced
+    privbte ExemptionMechbnism exmech;
 
-    // Flag which indicates whether or not this cipher has been initialized
-    private boolean initialized = false;
+    // Flbg which indicbtes whether or not this cipher hbs been initiblized
+    privbte boolebn initiblized = fblse;
 
-    // The operation mode - store the operation mode after the
-    // cipher has been initialized.
-    private int opmode = 0;
+    // The operbtion mode - store the operbtion mode bfter the
+    // cipher hbs been initiblized.
+    privbte int opmode = 0;
 
-    // The OID for the KeyUsage extension in an X.509 v3 certificate
-    private static final String KEY_USAGE_EXTENSION_OID = "2.5.29.15";
+    // The OID for the KeyUsbge extension in bn X.509 v3 certificbte
+    privbte stbtic finbl String KEY_USAGE_EXTENSION_OID = "2.5.29.15";
 
     // next SPI  to try in provider selection
     // null once provider is selected
-    private CipherSpi firstSpi;
+    privbte CipherSpi firstSpi;
 
     // next service to try in provider selection
     // null once provider is selected
-    private Service firstService;
+    privbte Service firstService;
 
-    // remaining services to try in provider selection
+    // rembining services to try in provider selection
     // null once provider is selected
-    private Iterator<Service> serviceIterator;
+    privbte Iterbtor<Service> serviceIterbtor;
 
-    // list of transform Strings to lookup in the provider
-    private List<Transform> transforms;
+    // list of trbnsform Strings to lookup in the provider
+    privbte List<Trbnsform> trbnsforms;
 
-    private final Object lock;
+    privbte finbl Object lock;
 
     /**
-     * Creates a Cipher object.
+     * Crebtes b Cipher object.
      *
-     * @param cipherSpi the delegate
-     * @param provider the provider
-     * @param transformation the transformation
+     * @pbrbm cipherSpi the delegbte
+     * @pbrbm provider the provider
+     * @pbrbm trbnsformbtion the trbnsformbtion
      */
     protected Cipher(CipherSpi cipherSpi,
                      Provider provider,
-                     String transformation) {
+                     String trbnsformbtion) {
         // See bug 4341369 & 4334690 for more info.
-        // If the caller is trusted, then okey.
-        // Otherwise throw a NullPointerException.
-        if (!JceSecurityManager.INSTANCE.isCallerTrusted()) {
+        // If the cbller is trusted, then okey.
+        // Otherwise throw b NullPointerException.
+        if (!JceSecurityMbnbger.INSTANCE.isCbllerTrusted()) {
             throw new NullPointerException();
         }
         this.spi = cipherSpi;
         this.provider = provider;
-        this.transformation = transformation;
+        this.trbnsformbtion = trbnsformbtion;
         this.cryptoPerm = CryptoAllPermission.INSTANCE;
         this.lock = null;
     }
 
     /**
-     * Creates a Cipher object. Called internally and by NullCipher.
+     * Crebtes b Cipher object. Cblled internblly bnd by NullCipher.
      *
-     * @param cipherSpi the delegate
-     * @param transformation the transformation
+     * @pbrbm cipherSpi the delegbte
+     * @pbrbm trbnsformbtion the trbnsformbtion
      */
-    Cipher(CipherSpi cipherSpi, String transformation) {
+    Cipher(CipherSpi cipherSpi, String trbnsformbtion) {
         this.spi = cipherSpi;
-        this.transformation = transformation;
+        this.trbnsformbtion = trbnsformbtion;
         this.cryptoPerm = CryptoAllPermission.INSTANCE;
         this.lock = null;
     }
 
-    private Cipher(CipherSpi firstSpi, Service firstService,
-            Iterator<Service> serviceIterator, String transformation,
-            List<Transform> transforms) {
+    privbte Cipher(CipherSpi firstSpi, Service firstService,
+            Iterbtor<Service> serviceIterbtor, String trbnsformbtion,
+            List<Trbnsform> trbnsforms) {
         this.firstSpi = firstSpi;
         this.firstService = firstService;
-        this.serviceIterator = serviceIterator;
-        this.transforms = transforms;
-        this.transformation = transformation;
+        this.serviceIterbtor = serviceIterbtor;
+        this.trbnsforms = trbnsforms;
+        this.trbnsformbtion = trbnsformbtion;
         this.lock = new Object();
     }
 
-    private static String[] tokenizeTransformation(String transformation)
+    privbte stbtic String[] tokenizeTrbnsformbtion(String trbnsformbtion)
             throws NoSuchAlgorithmException {
-        if (transformation == null) {
-            throw new NoSuchAlgorithmException("No transformation given");
+        if (trbnsformbtion == null) {
+            throw new NoSuchAlgorithmException("No trbnsformbtion given");
         }
         /*
-         * array containing the components of a Cipher transformation:
+         * brrby contbining the components of b Cipher trbnsformbtion:
          *
-         * index 0: algorithm component (e.g., DES)
-         * index 1: feedback component (e.g., CFB)
-         * index 2: padding component (e.g., PKCS5Padding)
+         * index 0: blgorithm component (e.g., DES)
+         * index 1: feedbbck component (e.g., CFB)
+         * index 2: pbdding component (e.g., PKCS5Pbdding)
          */
-        String[] parts = new String[3];
+        String[] pbrts = new String[3];
         int count = 0;
-        StringTokenizer parser = new StringTokenizer(transformation, "/");
+        StringTokenizer pbrser = new StringTokenizer(trbnsformbtion, "/");
         try {
-            while (parser.hasMoreTokens() && count < 3) {
-                parts[count++] = parser.nextToken().trim();
+            while (pbrser.hbsMoreTokens() && count < 3) {
+                pbrts[count++] = pbrser.nextToken().trim();
             }
-            if (count == 0 || count == 2 || parser.hasMoreTokens()) {
-                throw new NoSuchAlgorithmException("Invalid transformation"
-                                               + " format:" +
-                                               transformation);
+            if (count == 0 || count == 2 || pbrser.hbsMoreTokens()) {
+                throw new NoSuchAlgorithmException("Invblid trbnsformbtion"
+                                               + " formbt:" +
+                                               trbnsformbtion);
             }
-        } catch (NoSuchElementException e) {
-            throw new NoSuchAlgorithmException("Invalid transformation " +
-                                           "format:" + transformation);
+        } cbtch (NoSuchElementException e) {
+            throw new NoSuchAlgorithmException("Invblid trbnsformbtion " +
+                                           "formbt:" + trbnsformbtion);
         }
-        if ((parts[0] == null) || (parts[0].length() == 0)) {
-            throw new NoSuchAlgorithmException("Invalid transformation:" +
-                                   "algorithm not specified-"
-                                   + transformation);
+        if ((pbrts[0] == null) || (pbrts[0].length() == 0)) {
+            throw new NoSuchAlgorithmException("Invblid trbnsformbtion:" +
+                                   "blgorithm not specified-"
+                                   + trbnsformbtion);
         }
-        return parts;
+        return pbrts;
     }
 
-    // Provider attribute name for supported chaining mode
-    private final static String ATTR_MODE = "SupportedModes";
-    // Provider attribute name for supported padding names
-    private final static String ATTR_PAD  = "SupportedPaddings";
+    // Provider bttribute nbme for supported chbining mode
+    privbte finbl stbtic String ATTR_MODE = "SupportedModes";
+    // Provider bttribute nbme for supported pbdding nbmes
+    privbte finbl stbtic String ATTR_PAD  = "SupportedPbddings";
 
-    // constants indicating whether the provider supports
-    // a given mode or padding
-    private final static int S_NO    = 0;       // does not support
-    private final static int S_MAYBE = 1;       // unable to determine
-    private final static int S_YES   = 2;       // does support
+    // constbnts indicbting whether the provider supports
+    // b given mode or pbdding
+    privbte finbl stbtic int S_NO    = 0;       // does not support
+    privbte finbl stbtic int S_MAYBE = 1;       // unbble to determine
+    privbte finbl stbtic int S_YES   = 2;       // does support
 
     /**
-     * Nested class to deal with modes and paddings.
+     * Nested clbss to debl with modes bnd pbddings.
      */
-    private static class Transform {
-        // transform string to lookup in the provider
-        final String transform;
-        // the mode/padding suffix in upper case. for example, if the algorithm
-        // to lookup is "DES/CBC/PKCS5Padding" suffix is "/CBC/PKCS5PADDING"
+    privbte stbtic clbss Trbnsform {
+        // trbnsform string to lookup in the provider
+        finbl String trbnsform;
+        // the mode/pbdding suffix in upper cbse. for exbmple, if the blgorithm
+        // to lookup is "DES/CBC/PKCS5Pbdding" suffix is "/CBC/PKCS5PADDING"
         // if loopup is "DES", suffix is the empty string
-        // needed because aliases prevent straight transform.equals()
-        final String suffix;
-        // value to pass to setMode() or null if no such call required
-        final String mode;
-        // value to pass to setPadding() or null if no such call required
-        final String pad;
-        Transform(String alg, String suffix, String mode, String pad) {
-            this.transform = alg + suffix;
-            this.suffix = suffix.toUpperCase(Locale.ENGLISH);
+        // needed becbuse blibses prevent strbight trbnsform.equbls()
+        finbl String suffix;
+        // vblue to pbss to setMode() or null if no such cbll required
+        finbl String mode;
+        // vblue to pbss to setPbdding() or null if no such cbll required
+        finbl String pbd;
+        Trbnsform(String blg, String suffix, String mode, String pbd) {
+            this.trbnsform = blg + suffix;
+            this.suffix = suffix.toUpperCbse(Locble.ENGLISH);
             this.mode = mode;
-            this.pad = pad;
+            this.pbd = pbd;
         }
-        // set mode and padding for the given SPI
-        void setModePadding(CipherSpi spi) throws NoSuchAlgorithmException,
-                NoSuchPaddingException {
+        // set mode bnd pbdding for the given SPI
+        void setModePbdding(CipherSpi spi) throws NoSuchAlgorithmException,
+                NoSuchPbddingException {
             if (mode != null) {
                 spi.engineSetMode(mode);
             }
-            if (pad != null) {
-                spi.engineSetPadding(pad);
+            if (pbd != null) {
+                spi.engineSetPbdding(pbd);
             }
         }
-        // check whether the given services supports the mode and
-        // padding described by this Transform
-        int supportsModePadding(Service s) {
+        // check whether the given services supports the mode bnd
+        // pbdding described by this Trbnsform
+        int supportsModePbdding(Service s) {
             int smode = supportsMode(s);
             if (smode == S_NO) {
                 return smode;
             }
-            int spad = supportsPadding(s);
-            // our constants are defined so that Math.min() is a tri-valued AND
-            return Math.min(smode, spad);
+            int spbd = supportsPbdding(s);
+            // our constbnts bre defined so thbt Mbth.min() is b tri-vblued AND
+            return Mbth.min(smode, spbd);
         }
 
-        // separate methods for mode and padding
-        // called directly by Cipher only to throw the correct exception
+        // sepbrbte methods for mode bnd pbdding
+        // cblled directly by Cipher only to throw the correct exception
         int supportsMode(Service s) {
             return supports(s, ATTR_MODE, mode);
         }
-        int supportsPadding(Service s) {
-            return supports(s, ATTR_PAD, pad);
+        int supportsPbdding(Service s) {
+            return supports(s, ATTR_PAD, pbd);
         }
 
-        private static int supports(Service s, String attrName, String value) {
-            if (value == null) {
+        privbte stbtic int supports(Service s, String bttrNbme, String vblue) {
+            if (vblue == null) {
                 return S_YES;
             }
-            String regexp = s.getAttribute(attrName);
+            String regexp = s.getAttribute(bttrNbme);
             if (regexp == null) {
                 return S_MAYBE;
             }
-            return matches(regexp, value) ? S_YES : S_NO;
+            return mbtches(regexp, vblue) ? S_YES : S_NO;
         }
 
-        // ConcurrentMap<String,Pattern> for previously compiled patterns
-        private final static ConcurrentMap<String, Pattern> patternCache =
-            new ConcurrentHashMap<String, Pattern>();
+        // ConcurrentMbp<String,Pbttern> for previously compiled pbtterns
+        privbte finbl stbtic ConcurrentMbp<String, Pbttern> pbtternCbche =
+            new ConcurrentHbshMbp<String, Pbttern>();
 
-        private static boolean matches(String regexp, String str) {
-            Pattern pattern = patternCache.get(regexp);
-            if (pattern == null) {
-                pattern = Pattern.compile(regexp);
-                patternCache.putIfAbsent(regexp, pattern);
+        privbte stbtic boolebn mbtches(String regexp, String str) {
+            Pbttern pbttern = pbtternCbche.get(regexp);
+            if (pbttern == null) {
+                pbttern = Pbttern.compile(regexp);
+                pbtternCbche.putIfAbsent(regexp, pbttern);
             }
-            return pattern.matcher(str.toUpperCase(Locale.ENGLISH)).matches();
+            return pbttern.mbtcher(str.toUpperCbse(Locble.ENGLISH)).mbtches();
         }
 
     }
 
-    private static List<Transform> getTransforms(String transformation)
+    privbte stbtic List<Trbnsform> getTrbnsforms(String trbnsformbtion)
             throws NoSuchAlgorithmException {
-        String[] parts = tokenizeTransformation(transformation);
+        String[] pbrts = tokenizeTrbnsformbtion(trbnsformbtion);
 
-        String alg = parts[0];
-        String mode = parts[1];
-        String pad = parts[2];
+        String blg = pbrts[0];
+        String mode = pbrts[1];
+        String pbd = pbrts[2];
         if ((mode != null) && (mode.length() == 0)) {
             mode = null;
         }
-        if ((pad != null) && (pad.length() == 0)) {
-            pad = null;
+        if ((pbd != null) && (pbd.length() == 0)) {
+            pbd = null;
         }
 
-        if ((mode == null) && (pad == null)) {
+        if ((mode == null) && (pbd == null)) {
             // DES
-            Transform tr = new Transform(alg, "", null, null);
+            Trbnsform tr = new Trbnsform(blg, "", null, null);
             return Collections.singletonList(tr);
-        } else { // if ((mode != null) && (pad != null)) {
-            // DES/CBC/PKCS5Padding
-            List<Transform> list = new ArrayList<>(4);
-            list.add(new Transform(alg, "/" + mode + "/" + pad, null, null));
-            list.add(new Transform(alg, "/" + mode, null, pad));
-            list.add(new Transform(alg, "//" + pad, mode, null));
-            list.add(new Transform(alg, "", mode, pad));
+        } else { // if ((mode != null) && (pbd != null)) {
+            // DES/CBC/PKCS5Pbdding
+            List<Trbnsform> list = new ArrbyList<>(4);
+            list.bdd(new Trbnsform(blg, "/" + mode + "/" + pbd, null, null));
+            list.bdd(new Trbnsform(blg, "/" + mode, null, pbd));
+            list.bdd(new Trbnsform(blg, "//" + pbd, mode, null));
+            list.bdd(new Trbnsform(blg, "", mode, pbd));
             return list;
         }
     }
 
-    // get the transform matching the specified service
-    private static Transform getTransform(Service s,
-                                          List<Transform> transforms) {
-        String alg = s.getAlgorithm().toUpperCase(Locale.ENGLISH);
-        for (Transform tr : transforms) {
-            if (alg.endsWith(tr.suffix)) {
+    // get the trbnsform mbtching the specified service
+    privbte stbtic Trbnsform getTrbnsform(Service s,
+                                          List<Trbnsform> trbnsforms) {
+        String blg = s.getAlgorithm().toUpperCbse(Locble.ENGLISH);
+        for (Trbnsform tr : trbnsforms) {
+            if (blg.endsWith(tr.suffix)) {
                 return tr;
             }
         }
@@ -461,194 +461,194 @@ public class Cipher {
     }
 
     /**
-     * Returns a <code>Cipher</code> object that implements the specified
-     * transformation.
+     * Returns b <code>Cipher</code> object thbt implements the specified
+     * trbnsformbtion.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new Cipher object encapsulating the
-     * CipherSpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
+     * <p> This method trbverses the list of registered security Providers,
+     * stbrting with the most preferred Provider.
+     * A new Cipher object encbpsulbting the
+     * CipherSpi implementbtion from the first
+     * Provider thbt supports the specified blgorithm is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param transformation the name of the transformation, e.g.,
-     * <i>DES/CBC/PKCS5Padding</i>.
-     * See the Cipher section in the <a href=
-     *   "{@docRoot}/../technotes/guides/security/StandardNames.html#Cipher">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard transformation names.
+     * @pbrbm trbnsformbtion the nbme of the trbnsformbtion, e.g.,
+     * <i>DES/CBC/PKCS5Pbdding</i>.
+     * See the Cipher section in the <b href=
+     *   "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Cipher">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd trbnsformbtion nbmes.
      *
-     * @return a cipher that implements the requested transformation.
+     * @return b cipher thbt implements the requested trbnsformbtion.
      *
-     * @exception NoSuchAlgorithmException if <code>transformation</code>
-     *          is null, empty, in an invalid format,
-     *          or if no Provider supports a CipherSpi implementation for the
-     *          specified algorithm.
+     * @exception NoSuchAlgorithmException if <code>trbnsformbtion</code>
+     *          is null, empty, in bn invblid formbt,
+     *          or if no Provider supports b CipherSpi implementbtion for the
+     *          specified blgorithm.
      *
-     * @exception NoSuchPaddingException if <code>transformation</code>
-     *          contains a padding scheme that is not available.
+     * @exception NoSuchPbddingException if <code>trbnsformbtion</code>
+     *          contbins b pbdding scheme thbt is not bvbilbble.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final Cipher getInstance(String transformation)
-            throws NoSuchAlgorithmException, NoSuchPaddingException
+    public stbtic finbl Cipher getInstbnce(String trbnsformbtion)
+            throws NoSuchAlgorithmException, NoSuchPbddingException
     {
-        List<Transform> transforms = getTransforms(transformation);
-        List<ServiceId> cipherServices = new ArrayList<>(transforms.size());
-        for (Transform transform : transforms) {
-            cipherServices.add(new ServiceId("Cipher", transform.transform));
+        List<Trbnsform> trbnsforms = getTrbnsforms(trbnsformbtion);
+        List<ServiceId> cipherServices = new ArrbyList<>(trbnsforms.size());
+        for (Trbnsform trbnsform : trbnsforms) {
+            cipherServices.bdd(new ServiceId("Cipher", trbnsform.trbnsform));
         }
-        List<Service> services = GetInstance.getServices(cipherServices);
-        // make sure there is at least one service from a signed provider
-        // and that it can use the specified mode and padding
-        Iterator<Service> t = services.iterator();
-        Exception failure = null;
-        while (t.hasNext()) {
+        List<Service> services = GetInstbnce.getServices(cipherServices);
+        // mbke sure there is bt lebst one service from b signed provider
+        // bnd thbt it cbn use the specified mode bnd pbdding
+        Iterbtor<Service> t = services.iterbtor();
+        Exception fbilure = null;
+        while (t.hbsNext()) {
             Service s = t.next();
-            if (JceSecurity.canUseProvider(s.getProvider()) == false) {
+            if (JceSecurity.cbnUseProvider(s.getProvider()) == fblse) {
                 continue;
             }
-            Transform tr = getTransform(s, transforms);
+            Trbnsform tr = getTrbnsform(s, trbnsforms);
             if (tr == null) {
-                // should never happen
+                // should never hbppen
                 continue;
             }
-            int canuse = tr.supportsModePadding(s);
-            if (canuse == S_NO) {
-                // does not support mode or padding we need, ignore
+            int cbnuse = tr.supportsModePbdding(s);
+            if (cbnuse == S_NO) {
+                // does not support mode or pbdding we need, ignore
                 continue;
             }
-            if (canuse == S_YES) {
-                return new Cipher(null, s, t, transformation, transforms);
+            if (cbnuse == S_YES) {
+                return new Cipher(null, s, t, trbnsformbtion, trbnsforms);
             } else { // S_MAYBE, try out if it works
                 try {
-                    CipherSpi spi = (CipherSpi)s.newInstance(null);
-                    tr.setModePadding(spi);
-                    return new Cipher(spi, s, t, transformation, transforms);
-                } catch (Exception e) {
-                    failure = e;
+                    CipherSpi spi = (CipherSpi)s.newInstbnce(null);
+                    tr.setModePbdding(spi);
+                    return new Cipher(spi, s, t, trbnsformbtion, trbnsforms);
+                } cbtch (Exception e) {
+                    fbilure = e;
                 }
             }
         }
         throw new NoSuchAlgorithmException
-            ("Cannot find any provider supporting " + transformation, failure);
+            ("Cbnnot find bny provider supporting " + trbnsformbtion, fbilure);
     }
 
     /**
-     * Returns a <code>Cipher</code> object that implements the specified
-     * transformation.
+     * Returns b <code>Cipher</code> object thbt implements the specified
+     * trbnsformbtion.
      *
-     * <p> A new Cipher object encapsulating the
-     * CipherSpi implementation from the specified provider
+     * <p> A new Cipher object encbpsulbting the
+     * CipherSpi implementbtion from the specified provider
      * is returned.  The specified provider must be registered
      * in the security provider list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param transformation the name of the transformation,
-     * e.g., <i>DES/CBC/PKCS5Padding</i>.
-     * See the Cipher section in the <a href=
-     *   "{@docRoot}/../technotes/guides/security/StandardNames.html#Cipher">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard transformation names.
+     * @pbrbm trbnsformbtion the nbme of the trbnsformbtion,
+     * e.g., <i>DES/CBC/PKCS5Pbdding</i>.
+     * See the Cipher section in the <b href=
+     *   "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Cipher">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd trbnsformbtion nbmes.
      *
-     * @param provider the name of the provider.
+     * @pbrbm provider the nbme of the provider.
      *
-     * @return a cipher that implements the requested transformation.
+     * @return b cipher thbt implements the requested trbnsformbtion.
      *
-     * @exception NoSuchAlgorithmException if <code>transformation</code>
-     *          is null, empty, in an invalid format,
-     *          or if a CipherSpi implementation for the specified algorithm
-     *          is not available from the specified provider.
+     * @exception NoSuchAlgorithmException if <code>trbnsformbtion</code>
+     *          is null, empty, in bn invblid formbt,
+     *          or if b CipherSpi implementbtion for the specified blgorithm
+     *          is not bvbilbble from the specified provider.
      *
      * @exception NoSuchProviderException if the specified provider is not
      *          registered in the security provider list.
      *
-     * @exception NoSuchPaddingException if <code>transformation</code>
-     *          contains a padding scheme that is not available.
+     * @exception NoSuchPbddingException if <code>trbnsformbtion</code>
+     *          contbins b pbdding scheme thbt is not bvbilbble.
      *
-     * @exception IllegalArgumentException if the <code>provider</code>
+     * @exception IllegblArgumentException if the <code>provider</code>
      *          is null or empty.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final Cipher getInstance(String transformation,
+    public stbtic finbl Cipher getInstbnce(String trbnsformbtion,
                                            String provider)
             throws NoSuchAlgorithmException, NoSuchProviderException,
-            NoSuchPaddingException
+            NoSuchPbddingException
     {
         if ((provider == null) || (provider.length() == 0)) {
-            throw new IllegalArgumentException("Missing provider");
+            throw new IllegblArgumentException("Missing provider");
         }
         Provider p = Security.getProvider(provider);
         if (p == null) {
             throw new NoSuchProviderException("No such provider: " +
                                               provider);
         }
-        return getInstance(transformation, p);
+        return getInstbnce(trbnsformbtion, p);
     }
 
     /**
-     * Returns a <code>Cipher</code> object that implements the specified
-     * transformation.
+     * Returns b <code>Cipher</code> object thbt implements the specified
+     * trbnsformbtion.
      *
-     * <p> A new Cipher object encapsulating the
-     * CipherSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A new Cipher object encbpsulbting the
+     * CipherSpi implementbtion from the specified Provider
+     * object is returned.  Note thbt the specified Provider object
+     * does not hbve to be registered in the provider list.
      *
-     * @param transformation the name of the transformation,
-     * e.g., <i>DES/CBC/PKCS5Padding</i>.
-     * See the Cipher section in the <a href=
-     *   "{@docRoot}/../technotes/guides/security/StandardNames.html#Cipher">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard transformation names.
+     * @pbrbm trbnsformbtion the nbme of the trbnsformbtion,
+     * e.g., <i>DES/CBC/PKCS5Pbdding</i>.
+     * See the Cipher section in the <b href=
+     *   "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Cipher">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd trbnsformbtion nbmes.
      *
-     * @param provider the provider.
+     * @pbrbm provider the provider.
      *
-     * @return a cipher that implements the requested transformation.
+     * @return b cipher thbt implements the requested trbnsformbtion.
      *
-     * @exception NoSuchAlgorithmException if <code>transformation</code>
-     *          is null, empty, in an invalid format,
-     *          or if a CipherSpi implementation for the specified algorithm
-     *          is not available from the specified Provider object.
+     * @exception NoSuchAlgorithmException if <code>trbnsformbtion</code>
+     *          is null, empty, in bn invblid formbt,
+     *          or if b CipherSpi implementbtion for the specified blgorithm
+     *          is not bvbilbble from the specified Provider object.
      *
-     * @exception NoSuchPaddingException if <code>transformation</code>
-     *          contains a padding scheme that is not available.
+     * @exception NoSuchPbddingException if <code>trbnsformbtion</code>
+     *          contbins b pbdding scheme thbt is not bvbilbble.
      *
-     * @exception IllegalArgumentException if the <code>provider</code>
+     * @exception IllegblArgumentException if the <code>provider</code>
      *          is null.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final Cipher getInstance(String transformation,
+    public stbtic finbl Cipher getInstbnce(String trbnsformbtion,
                                            Provider provider)
-            throws NoSuchAlgorithmException, NoSuchPaddingException
+            throws NoSuchAlgorithmException, NoSuchPbddingException
     {
         if (provider == null) {
-            throw new IllegalArgumentException("Missing provider");
+            throw new IllegblArgumentException("Missing provider");
         }
-        Exception failure = null;
-        List<Transform> transforms = getTransforms(transformation);
-        boolean providerChecked = false;
-        String paddingError = null;
-        for (Transform tr : transforms) {
-            Service s = provider.getService("Cipher", tr.transform);
+        Exception fbilure = null;
+        List<Trbnsform> trbnsforms = getTrbnsforms(trbnsformbtion);
+        boolebn providerChecked = fblse;
+        String pbddingError = null;
+        for (Trbnsform tr : trbnsforms) {
+            Service s = provider.getService("Cipher", tr.trbnsform);
             if (s == null) {
                 continue;
             }
-            if (providerChecked == false) {
-                // for compatibility, first do the lookup and then verify
-                // the provider. this makes the difference between a NSAE
-                // and a SecurityException if the
-                // provider does not support the algorithm.
-                Exception ve = JceSecurity.getVerificationResult(provider);
+            if (providerChecked == fblse) {
+                // for compbtibility, first do the lookup bnd then verify
+                // the provider. this mbkes the difference between b NSAE
+                // bnd b SecurityException if the
+                // provider does not support the blgorithm.
+                Exception ve = JceSecurity.getVerificbtionResult(provider);
                 if (ve != null) {
-                    String msg = "JCE cannot authenticate the provider "
-                        + provider.getName();
+                    String msg = "JCE cbnnot buthenticbte the provider "
+                        + provider.getNbme();
                     throw new SecurityException(msg, ve);
                 }
                 providerChecked = true;
@@ -656,57 +656,57 @@ public class Cipher {
             if (tr.supportsMode(s) == S_NO) {
                 continue;
             }
-            if (tr.supportsPadding(s) == S_NO) {
-                paddingError = tr.pad;
+            if (tr.supportsPbdding(s) == S_NO) {
+                pbddingError = tr.pbd;
                 continue;
             }
             try {
-                CipherSpi spi = (CipherSpi)s.newInstance(null);
-                tr.setModePadding(spi);
-                Cipher cipher = new Cipher(spi, transformation);
+                CipherSpi spi = (CipherSpi)s.newInstbnce(null);
+                tr.setModePbdding(spi);
+                Cipher cipher = new Cipher(spi, trbnsformbtion);
                 cipher.provider = s.getProvider();
                 cipher.initCryptoPermission();
                 return cipher;
-            } catch (Exception e) {
-                failure = e;
+            } cbtch (Exception e) {
+                fbilure = e;
             }
         }
 
-        // throw NoSuchPaddingException if the problem is with padding
-        if (failure instanceof NoSuchPaddingException) {
-            throw (NoSuchPaddingException)failure;
+        // throw NoSuchPbddingException if the problem is with pbdding
+        if (fbilure instbnceof NoSuchPbddingException) {
+            throw (NoSuchPbddingException)fbilure;
         }
-        if (paddingError != null) {
-            throw new NoSuchPaddingException
-                ("Padding not supported: " + paddingError);
+        if (pbddingError != null) {
+            throw new NoSuchPbddingException
+                ("Pbdding not supported: " + pbddingError);
         }
         throw new NoSuchAlgorithmException
-                ("No such algorithm: " + transformation, failure);
+                ("No such blgorithm: " + trbnsformbtion, fbilure);
     }
 
     // If the requested crypto service is export-controlled,
-    // determine the maximum allowable keysize.
-    private void initCryptoPermission() throws NoSuchAlgorithmException {
-        if (JceSecurity.isRestricted() == false) {
+    // determine the mbximum bllowbble keysize.
+    privbte void initCryptoPermission() throws NoSuchAlgorithmException {
+        if (JceSecurity.isRestricted() == fblse) {
             cryptoPerm = CryptoAllPermission.INSTANCE;
             exmech = null;
             return;
         }
-        cryptoPerm = getConfiguredPermission(transformation);
-        // Instantiate the exemption mechanism (if required)
-        String exmechName = cryptoPerm.getExemptionMechanism();
-        if (exmechName != null) {
-            exmech = ExemptionMechanism.getInstance(exmechName);
+        cryptoPerm = getConfiguredPermission(trbnsformbtion);
+        // Instbntibte the exemption mechbnism (if required)
+        String exmechNbme = cryptoPerm.getExemptionMechbnism();
+        if (exmechNbme != null) {
+            exmech = ExemptionMechbnism.getInstbnce(exmechNbme);
         }
     }
 
-    // max number of debug warnings to print from chooseFirstProvider()
-    private static int warnCount = 10;
+    // mbx number of debug wbrnings to print from chooseFirstProvider()
+    privbte stbtic int wbrnCount = 10;
 
     /**
-     * Choose the Spi from the first provider available. Used if
-     * delayed provider selection is not possible because init()
-     * is not the first method called.
+     * Choose the Spi from the first provider bvbilbble. Used if
+     * delbyed provider selection is not possible becbuse init()
+     * is not the first method cblled.
      */
     void chooseFirstProvider() {
         if (spi != null) {
@@ -717,19 +717,19 @@ public class Cipher {
                 return;
             }
             if (debug != null) {
-                int w = --warnCount;
+                int w = --wbrnCount;
                 if (w >= 0) {
                     debug.println("Cipher.init() not first method "
-                        + "called, disabling delayed provider selection");
+                        + "cblled, disbbling delbyed provider selection");
                     if (w == 0) {
-                        debug.println("Further warnings of this type will "
+                        debug.println("Further wbrnings of this type will "
                             + "be suppressed");
                     }
-                    new Exception("Call trace").printStackTrace();
+                    new Exception("Cbll trbce").printStbckTrbce();
                 }
             }
-            Exception lastException = null;
-            while ((firstService != null) || serviceIterator.hasNext()) {
+            Exception lbstException = null;
+            while ((firstService != null) || serviceIterbtor.hbsNext()) {
                 Service s;
                 CipherSpi thisSpi;
                 if (firstService != null) {
@@ -738,92 +738,92 @@ public class Cipher {
                     firstService = null;
                     firstSpi = null;
                 } else {
-                    s = serviceIterator.next();
+                    s = serviceIterbtor.next();
                     thisSpi = null;
                 }
-                if (JceSecurity.canUseProvider(s.getProvider()) == false) {
+                if (JceSecurity.cbnUseProvider(s.getProvider()) == fblse) {
                     continue;
                 }
-                Transform tr = getTransform(s, transforms);
+                Trbnsform tr = getTrbnsform(s, trbnsforms);
                 if (tr == null) {
-                    // should never happen
+                    // should never hbppen
                     continue;
                 }
-                if (tr.supportsModePadding(s) == S_NO) {
+                if (tr.supportsModePbdding(s) == S_NO) {
                     continue;
                 }
                 try {
                     if (thisSpi == null) {
-                        Object obj = s.newInstance(null);
-                        if (obj instanceof CipherSpi == false) {
+                        Object obj = s.newInstbnce(null);
+                        if (obj instbnceof CipherSpi == fblse) {
                             continue;
                         }
                         thisSpi = (CipherSpi)obj;
                     }
-                    tr.setModePadding(thisSpi);
+                    tr.setModePbdding(thisSpi);
                     initCryptoPermission();
                     spi = thisSpi;
                     provider = s.getProvider();
-                    // not needed any more
+                    // not needed bny more
                     firstService = null;
-                    serviceIterator = null;
-                    transforms = null;
+                    serviceIterbtor = null;
+                    trbnsforms = null;
                     return;
-                } catch (Exception e) {
-                    lastException = e;
+                } cbtch (Exception e) {
+                    lbstException = e;
                 }
             }
             ProviderException e = new ProviderException
-                    ("Could not construct CipherSpi instance");
-            if (lastException != null) {
-                e.initCause(lastException);
+                    ("Could not construct CipherSpi instbnce");
+            if (lbstException != null) {
+                e.initCbuse(lbstException);
             }
             throw e;
         }
     }
 
-    private final static int I_KEY       = 1;
-    private final static int I_PARAMSPEC = 2;
-    private final static int I_PARAMS    = 3;
-    private final static int I_CERT      = 4;
+    privbte finbl stbtic int I_KEY       = 1;
+    privbte finbl stbtic int I_PARAMSPEC = 2;
+    privbte finbl stbtic int I_PARAMS    = 3;
+    privbte finbl stbtic int I_CERT      = 4;
 
-    private void implInit(CipherSpi thisSpi, int type, int opmode, Key key,
-            AlgorithmParameterSpec paramSpec, AlgorithmParameters params,
-            SecureRandom random) throws InvalidKeyException,
-            InvalidAlgorithmParameterException {
+    privbte void implInit(CipherSpi thisSpi, int type, int opmode, Key key,
+            AlgorithmPbrbmeterSpec pbrbmSpec, AlgorithmPbrbmeters pbrbms,
+            SecureRbndom rbndom) throws InvblidKeyException,
+            InvblidAlgorithmPbrbmeterException {
         switch (type) {
-        case I_KEY:
+        cbse I_KEY:
             checkCryptoPerm(thisSpi, key);
-            thisSpi.engineInit(opmode, key, random);
-            break;
-        case I_PARAMSPEC:
-            checkCryptoPerm(thisSpi, key, paramSpec);
-            thisSpi.engineInit(opmode, key, paramSpec, random);
-            break;
-        case I_PARAMS:
-            checkCryptoPerm(thisSpi, key, params);
-            thisSpi.engineInit(opmode, key, params, random);
-            break;
-        case I_CERT:
+            thisSpi.engineInit(opmode, key, rbndom);
+            brebk;
+        cbse I_PARAMSPEC:
+            checkCryptoPerm(thisSpi, key, pbrbmSpec);
+            thisSpi.engineInit(opmode, key, pbrbmSpec, rbndom);
+            brebk;
+        cbse I_PARAMS:
+            checkCryptoPerm(thisSpi, key, pbrbms);
+            thisSpi.engineInit(opmode, key, pbrbms, rbndom);
+            brebk;
+        cbse I_CERT:
             checkCryptoPerm(thisSpi, key);
-            thisSpi.engineInit(opmode, key, random);
-            break;
-        default:
-            throw new AssertionError("Internal Cipher error: " + type);
+            thisSpi.engineInit(opmode, key, rbndom);
+            brebk;
+        defbult:
+            throw new AssertionError("Internbl Cipher error: " + type);
         }
     }
 
-    private void chooseProvider(int initType, int opmode, Key key,
-            AlgorithmParameterSpec paramSpec,
-            AlgorithmParameters params, SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
+    privbte void chooseProvider(int initType, int opmode, Key key,
+            AlgorithmPbrbmeterSpec pbrbmSpec,
+            AlgorithmPbrbmeters pbrbms, SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
         synchronized (lock) {
             if (spi != null) {
-                implInit(spi, initType, opmode, key, paramSpec, params, random);
+                implInit(spi, initType, opmode, key, pbrbmSpec, pbrbms, rbndom);
                 return;
             }
-            Exception lastException = null;
-            while ((firstService != null) || serviceIterator.hasNext()) {
+            Exception lbstException = null;
+            while ((firstService != null) || serviceIterbtor.hbsNext()) {
                 Service s;
                 CipherSpi thisSpi;
                 if (firstService != null) {
@@ -832,62 +832,62 @@ public class Cipher {
                     firstService = null;
                     firstSpi = null;
                 } else {
-                    s = serviceIterator.next();
+                    s = serviceIterbtor.next();
                     thisSpi = null;
                 }
-                // if provider says it does not support this key, ignore it
-                if (s.supportsParameter(key) == false) {
+                // if provider sbys it does not support this key, ignore it
+                if (s.supportsPbrbmeter(key) == fblse) {
                     continue;
                 }
-                if (JceSecurity.canUseProvider(s.getProvider()) == false) {
+                if (JceSecurity.cbnUseProvider(s.getProvider()) == fblse) {
                     continue;
                 }
-                Transform tr = getTransform(s, transforms);
+                Trbnsform tr = getTrbnsform(s, trbnsforms);
                 if (tr == null) {
-                    // should never happen
+                    // should never hbppen
                     continue;
                 }
-                if (tr.supportsModePadding(s) == S_NO) {
+                if (tr.supportsModePbdding(s) == S_NO) {
                     continue;
                 }
                 try {
                     if (thisSpi == null) {
-                        thisSpi = (CipherSpi)s.newInstance(null);
+                        thisSpi = (CipherSpi)s.newInstbnce(null);
                     }
-                    tr.setModePadding(thisSpi);
+                    tr.setModePbdding(thisSpi);
                     initCryptoPermission();
-                    implInit(thisSpi, initType, opmode, key, paramSpec,
-                                                        params, random);
+                    implInit(thisSpi, initType, opmode, key, pbrbmSpec,
+                                                        pbrbms, rbndom);
                     provider = s.getProvider();
                     this.spi = thisSpi;
                     firstService = null;
-                    serviceIterator = null;
-                    transforms = null;
+                    serviceIterbtor = null;
+                    trbnsforms = null;
                     return;
-                } catch (Exception e) {
-                    // NoSuchAlgorithmException from newInstance()
-                    // InvalidKeyException from init()
+                } cbtch (Exception e) {
+                    // NoSuchAlgorithmException from newInstbnce()
+                    // InvblidKeyException from init()
                     // RuntimeException (ProviderException) from init()
                     // SecurityException from crypto permission check
-                    if (lastException == null) {
-                        lastException = e;
+                    if (lbstException == null) {
+                        lbstException = e;
                     }
                 }
             }
-            // no working provider found, fail
-            if (lastException instanceof InvalidKeyException) {
-                throw (InvalidKeyException)lastException;
+            // no working provider found, fbil
+            if (lbstException instbnceof InvblidKeyException) {
+                throw (InvblidKeyException)lbstException;
             }
-            if (lastException instanceof InvalidAlgorithmParameterException) {
-                throw (InvalidAlgorithmParameterException)lastException;
+            if (lbstException instbnceof InvblidAlgorithmPbrbmeterException) {
+                throw (InvblidAlgorithmPbrbmeterException)lbstException;
             }
-            if (lastException instanceof RuntimeException) {
-                throw (RuntimeException)lastException;
+            if (lbstException instbnceof RuntimeException) {
+                throw (RuntimeException)lbstException;
             }
-            String kName = (key != null) ? key.getClass().getName() : "(null)";
-            throw new InvalidKeyException
-                ("No installed provider supports this key: "
-                + kName, lastException);
+            String kNbme = (key != null) ? key.getClbss().getNbme() : "(null)";
+            throw new InvblidKeyException
+                ("No instblled provider supports this key: "
+                + kNbme, lbstException);
         }
     }
 
@@ -896,107 +896,107 @@ public class Cipher {
      *
      * @return the provider of this <code>Cipher</code> object
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         chooseFirstProvider();
         return this.provider;
     }
 
     /**
-     * Returns the algorithm name of this <code>Cipher</code> object.
+     * Returns the blgorithm nbme of this <code>Cipher</code> object.
      *
-     * <p>This is the same name that was specified in one of the
-     * <code>getInstance</code> calls that created this <code>Cipher</code>
+     * <p>This is the sbme nbme thbt wbs specified in one of the
+     * <code>getInstbnce</code> cblls thbt crebted this <code>Cipher</code>
      * object..
      *
-     * @return the algorithm name of this <code>Cipher</code> object.
+     * @return the blgorithm nbme of this <code>Cipher</code> object.
      */
-    public final String getAlgorithm() {
-        return this.transformation;
+    public finbl String getAlgorithm() {
+        return this.trbnsformbtion;
     }
 
     /**
      * Returns the block size (in bytes).
      *
-     * @return the block size (in bytes), or 0 if the underlying algorithm is
-     * not a block cipher
+     * @return the block size (in bytes), or 0 if the underlying blgorithm is
+     * not b block cipher
      */
-    public final int getBlockSize() {
+    public finbl int getBlockSize() {
         chooseFirstProvider();
         return spi.engineGetBlockSize();
     }
 
     /**
-     * Returns the length in bytes that an output buffer would need to be in
-     * order to hold the result of the next <code>update</code> or
-     * <code>doFinal</code> operation, given the input length
+     * Returns the length in bytes thbt bn output buffer would need to be in
+     * order to hold the result of the next <code>updbte</code> or
+     * <code>doFinbl</code> operbtion, given the input length
      * <code>inputLen</code> (in bytes).
      *
-     * <p>This call takes into account any unprocessed (buffered) data from a
-     * previous <code>update</code> call, padding, and AEAD tagging.
+     * <p>This cbll tbkes into bccount bny unprocessed (buffered) dbtb from b
+     * previous <code>updbte</code> cbll, pbdding, bnd AEAD tbgging.
      *
-     * <p>The actual output length of the next <code>update</code> or
-     * <code>doFinal</code> call may be smaller than the length returned by
+     * <p>The bctubl output length of the next <code>updbte</code> or
+     * <code>doFinbl</code> cbll mby be smbller thbn the length returned by
      * this method.
      *
-     * @param inputLen the input length (in bytes)
+     * @pbrbm inputLen the input length (in bytes)
      *
      * @return the required output buffer size (in bytes)
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not yet been initialized)
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not yet been initiblized)
      */
-    public final int getOutputSize(int inputLen) {
+    public finbl int getOutputSize(int inputLen) {
 
-        if (!initialized && !(this instanceof NullCipher)) {
-            throw new IllegalStateException("Cipher not initialized");
+        if (!initiblized && !(this instbnceof NullCipher)) {
+            throw new IllegblStbteException("Cipher not initiblized");
         }
         if (inputLen < 0) {
-            throw new IllegalArgumentException("Input size must be equal " +
-                                               "to or greater than zero");
+            throw new IllegblArgumentException("Input size must be equbl " +
+                                               "to or grebter thbn zero");
         }
         chooseFirstProvider();
         return spi.engineGetOutputSize(inputLen);
     }
 
     /**
-     * Returns the initialization vector (IV) in a new buffer.
+     * Returns the initiblizbtion vector (IV) in b new buffer.
      *
-     * <p>This is useful in the case where a random IV was created,
-     * or in the context of password-based encryption or
-     * decryption, where the IV is derived from a user-supplied password.
+     * <p>This is useful in the cbse where b rbndom IV wbs crebted,
+     * or in the context of pbssword-bbsed encryption or
+     * decryption, where the IV is derived from b user-supplied pbssword.
      *
-     * @return the initialization vector in a new buffer, or null if the
-     * underlying algorithm does not use an IV, or if the IV has not yet
+     * @return the initiblizbtion vector in b new buffer, or null if the
+     * underlying blgorithm does not use bn IV, or if the IV hbs not yet
      * been set.
      */
-    public final byte[] getIV() {
+    public finbl byte[] getIV() {
         chooseFirstProvider();
         return spi.engineGetIV();
     }
 
     /**
-     * Returns the parameters used with this cipher.
+     * Returns the pbrbmeters used with this cipher.
      *
-     * <p>The returned parameters may be the same that were used to initialize
-     * this cipher, or may contain a combination of default and random
-     * parameter values used by the underlying cipher implementation if this
-     * cipher requires algorithm parameters but was not initialized with any.
+     * <p>The returned pbrbmeters mby be the sbme thbt were used to initiblize
+     * this cipher, or mby contbin b combinbtion of defbult bnd rbndom
+     * pbrbmeter vblues used by the underlying cipher implementbtion if this
+     * cipher requires blgorithm pbrbmeters but wbs not initiblized with bny.
      *
-     * @return the parameters used with this cipher, or null if this cipher
-     * does not use any parameters.
+     * @return the pbrbmeters used with this cipher, or null if this cipher
+     * does not use bny pbrbmeters.
      */
-    public final AlgorithmParameters getParameters() {
+    public finbl AlgorithmPbrbmeters getPbrbmeters() {
         chooseFirstProvider();
-        return spi.engineGetParameters();
+        return spi.engineGetPbrbmeters();
     }
 
     /**
-     * Returns the exemption mechanism object used with this cipher.
+     * Returns the exemption mechbnism object used with this cipher.
      *
-     * @return the exemption mechanism object used with this cipher, or
-     * null if this cipher does not use any exemption mechanism.
+     * @return the exemption mechbnism object used with this cipher, or
+     * null if this cipher does not use bny exemption mechbnism.
      */
-    public final ExemptionMechanism getExemptionMechanism() {
+    public finbl ExemptionMechbnism getExemptionMechbnism() {
         chooseFirstProvider();
         return exmech;
     }
@@ -1004,82 +1004,82 @@ public class Cipher {
     //
     // Crypto permission check code below
     //
-    private void checkCryptoPerm(CipherSpi checkSpi, Key key)
-            throws InvalidKeyException {
+    privbte void checkCryptoPerm(CipherSpi checkSpi, Key key)
+            throws InvblidKeyException {
         if (cryptoPerm == CryptoAllPermission.INSTANCE) {
             return;
         }
-        // Check if key size and default parameters are within legal limits
-        AlgorithmParameterSpec params;
+        // Check if key size bnd defbult pbrbmeters bre within legbl limits
+        AlgorithmPbrbmeterSpec pbrbms;
         try {
-            params = getAlgorithmParameterSpec(checkSpi.engineGetParameters());
-        } catch (InvalidParameterSpecException ipse) {
-            throw new InvalidKeyException
-                ("Unsupported default algorithm parameters");
+            pbrbms = getAlgorithmPbrbmeterSpec(checkSpi.engineGetPbrbmeters());
+        } cbtch (InvblidPbrbmeterSpecException ipse) {
+            throw new InvblidKeyException
+                ("Unsupported defbult blgorithm pbrbmeters");
         }
-        if (!passCryptoPermCheck(checkSpi, key, params)) {
-            throw new InvalidKeyException(
-                "Illegal key size or default parameters");
+        if (!pbssCryptoPermCheck(checkSpi, key, pbrbms)) {
+            throw new InvblidKeyException(
+                "Illegbl key size or defbult pbrbmeters");
         }
     }
 
-    private void checkCryptoPerm(CipherSpi checkSpi, Key key,
-            AlgorithmParameterSpec params) throws InvalidKeyException,
-            InvalidAlgorithmParameterException {
+    privbte void checkCryptoPerm(CipherSpi checkSpi, Key key,
+            AlgorithmPbrbmeterSpec pbrbms) throws InvblidKeyException,
+            InvblidAlgorithmPbrbmeterException {
         if (cryptoPerm == CryptoAllPermission.INSTANCE) {
             return;
         }
-        // Determine keysize and check if it is within legal limits
-        if (!passCryptoPermCheck(checkSpi, key, null)) {
-            throw new InvalidKeyException("Illegal key size");
+        // Determine keysize bnd check if it is within legbl limits
+        if (!pbssCryptoPermCheck(checkSpi, key, null)) {
+            throw new InvblidKeyException("Illegbl key size");
         }
-        if ((params != null) && (!passCryptoPermCheck(checkSpi, key, params))) {
-            throw new InvalidAlgorithmParameterException("Illegal parameters");
+        if ((pbrbms != null) && (!pbssCryptoPermCheck(checkSpi, key, pbrbms))) {
+            throw new InvblidAlgorithmPbrbmeterException("Illegbl pbrbmeters");
         }
     }
 
-    private void checkCryptoPerm(CipherSpi checkSpi, Key key,
-            AlgorithmParameters params)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
+    privbte void checkCryptoPerm(CipherSpi checkSpi, Key key,
+            AlgorithmPbrbmeters pbrbms)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
         if (cryptoPerm == CryptoAllPermission.INSTANCE) {
             return;
         }
-        // Convert the specified parameters into specs and then delegate.
-        AlgorithmParameterSpec pSpec;
+        // Convert the specified pbrbmeters into specs bnd then delegbte.
+        AlgorithmPbrbmeterSpec pSpec;
         try {
-            pSpec = getAlgorithmParameterSpec(params);
-        } catch (InvalidParameterSpecException ipse) {
-            throw new InvalidAlgorithmParameterException
-                ("Failed to retrieve algorithm parameter specification");
+            pSpec = getAlgorithmPbrbmeterSpec(pbrbms);
+        } cbtch (InvblidPbrbmeterSpecException ipse) {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Fbiled to retrieve blgorithm pbrbmeter specificbtion");
         }
         checkCryptoPerm(checkSpi, key, pSpec);
     }
 
-    private boolean passCryptoPermCheck(CipherSpi checkSpi, Key key,
-                                        AlgorithmParameterSpec params)
-            throws InvalidKeyException {
-        String em = cryptoPerm.getExemptionMechanism();
+    privbte boolebn pbssCryptoPermCheck(CipherSpi checkSpi, Key key,
+                                        AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidKeyException {
+        String em = cryptoPerm.getExemptionMechbnism();
         int keySize = checkSpi.engineGetKeySize(key);
-        // Use the "algorithm" component of the cipher
-        // transformation so that the perm check would
-        // work when the key has the "aliased" algo.
-        String algComponent;
-        int index = transformation.indexOf('/');
+        // Use the "blgorithm" component of the cipher
+        // trbnsformbtion so thbt the perm check would
+        // work when the key hbs the "blibsed" blgo.
+        String blgComponent;
+        int index = trbnsformbtion.indexOf('/');
         if (index != -1) {
-            algComponent = transformation.substring(0, index);
+            blgComponent = trbnsformbtion.substring(0, index);
         } else {
-            algComponent = transformation;
+            blgComponent = trbnsformbtion;
         }
         CryptoPermission checkPerm =
-            new CryptoPermission(algComponent, keySize, params, em);
+            new CryptoPermission(blgComponent, keySize, pbrbms, em);
 
         if (!cryptoPerm.implies(checkPerm)) {
             if (debug != null) {
-                debug.println("Crypto Permission check failed");
-                debug.println("granted: " + cryptoPerm);
+                debug.println("Crypto Permission check fbiled");
+                debug.println("grbnted: " + cryptoPerm);
                 debug.println("requesting: " + checkPerm);
             }
-            return false;
+            return fblse;
         }
         if (exmech == null) {
             return true;
@@ -1087,1632 +1087,1632 @@ public class Cipher {
         try {
             if (!exmech.isCryptoAllowed(key)) {
                 if (debug != null) {
-                    debug.println(exmech.getName() + " isn't enforced");
+                    debug.println(exmech.getNbme() + " isn't enforced");
                 }
-                return false;
+                return fblse;
             }
-        } catch (ExemptionMechanismException eme) {
+        } cbtch (ExemptionMechbnismException eme) {
             if (debug != null) {
-                debug.println("Cannot determine whether "+
-                              exmech.getName() + " has been enforced");
-                eme.printStackTrace();
+                debug.println("Cbnnot determine whether "+
+                              exmech.getNbme() + " hbs been enforced");
+                eme.printStbckTrbce();
             }
-            return false;
+            return fblse;
         }
         return true;
     }
 
-    // check if opmode is one of the defined constants
-    // throw InvalidParameterExeption if not
-    private static void checkOpmode(int opmode) {
+    // check if opmode is one of the defined constbnts
+    // throw InvblidPbrbmeterExeption if not
+    privbte stbtic void checkOpmode(int opmode) {
         if ((opmode < ENCRYPT_MODE) || (opmode > UNWRAP_MODE)) {
-            throw new InvalidParameterException("Invalid operation mode");
+            throw new InvblidPbrbmeterException("Invblid operbtion mode");
         }
     }
 
     /**
-     * Initializes this cipher with a key.
+     * Initiblizes this cipher with b key.
      *
-     * <p>The cipher is initialized for one of the following four operations:
-     * encryption, decryption, key wrapping or key unwrapping, depending
-     * on the value of <code>opmode</code>.
+     * <p>The cipher is initiblized for one of the following four operbtions:
+     * encryption, decryption, key wrbpping or key unwrbpping, depending
+     * on the vblue of <code>opmode</code>.
      *
-     * <p>If this cipher requires any algorithm parameters that cannot be
+     * <p>If this cipher requires bny blgorithm pbrbmeters thbt cbnnot be
      * derived from the given <code>key</code>, the underlying cipher
-     * implementation is supposed to generate the required parameters itself
-     * (using provider-specific default or random values) if it is being
-     * initialized for encryption or key wrapping, and raise an
-     * <code>InvalidKeyException</code> if it is being
-     * initialized for decryption or key unwrapping.
-     * The generated parameters can be retrieved using
-     * {@link #getParameters() getParameters} or
-     * {@link #getIV() getIV} (if the parameter is an IV).
+     * implementbtion is supposed to generbte the required pbrbmeters itself
+     * (using provider-specific defbult or rbndom vblues) if it is being
+     * initiblized for encryption or key wrbpping, bnd rbise bn
+     * <code>InvblidKeyException</code> if it is being
+     * initiblized for decryption or key unwrbpping.
+     * The generbted pbrbmeters cbn be retrieved using
+     * {@link #getPbrbmeters() getPbrbmeters} or
+     * {@link #getIV() getIV} (if the pbrbmeter is bn IV).
      *
-     * <p>If this cipher requires algorithm parameters that cannot be
-     * derived from the input parameters, and there are no reasonable
-     * provider-specific default values, initialization will
-     * necessarily fail.
+     * <p>If this cipher requires blgorithm pbrbmeters thbt cbnnot be
+     * derived from the input pbrbmeters, bnd there bre no rebsonbble
+     * provider-specific defbult vblues, initiblizbtion will
+     * necessbrily fbil.
      *
-     * <p>If this cipher (including its underlying feedback or padding scheme)
-     * requires any random bytes (e.g., for parameter generation), it will get
-     * them using the {@link java.security.SecureRandom}
-     * implementation of the highest-priority
-     * installed provider as the source of randomness.
-     * (If none of the installed providers supply an implementation of
-     * SecureRandom, a system-provided source of randomness will be used.)
+     * <p>If this cipher (including its underlying feedbbck or pbdding scheme)
+     * requires bny rbndom bytes (e.g., for pbrbmeter generbtion), it will get
+     * them using the {@link jbvb.security.SecureRbndom}
+     * implementbtion of the highest-priority
+     * instblled provider bs the source of rbndomness.
+     * (If none of the instblled providers supply bn implementbtion of
+     * SecureRbndom, b system-provided source of rbndomness will be used.)
      *
-     * <p>Note that when a Cipher object is initialized, it loses all
-     * previously-acquired state. In other words, initializing a Cipher is
-     * equivalent to creating a new instance of that Cipher and initializing
+     * <p>Note thbt when b Cipher object is initiblized, it loses bll
+     * previously-bcquired stbte. In other words, initiblizing b Cipher is
+     * equivblent to crebting b new instbnce of thbt Cipher bnd initiblizing
      * it.
      *
-     * @param opmode the operation mode of this cipher (this is one of
+     * @pbrbm opmode the operbtion mode of this cipher (this is one of
      * the following:
      * <code>ENCRYPT_MODE</code>, <code>DECRYPT_MODE</code>,
      * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>)
-     * @param key the key
+     * @pbrbm key the key
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher, or requires
-     * algorithm parameters that cannot be
-     * determined from the given key, or if the given key has a keysize that
-     * exceeds the maximum allowable keysize (as determined from the
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this cipher, or requires
+     * blgorithm pbrbmeters thbt cbnnot be
+     * determined from the given key, or if the given key hbs b keysize thbt
+     * exceeds the mbximum bllowbble keysize (bs determined from the
      * configured jurisdiction policy files).
-     * @throws UnsupportedOperationException if (@code opmode} is
+     * @throws UnsupportedOperbtionException if (@code opmode} is
      * {@code WRAP_MODE} or {@code UNWRAP_MODE} but the mode is not implemented
      * by the underlying {@code CipherSpi}.
      */
-    public final void init(int opmode, Key key) throws InvalidKeyException {
+    public finbl void init(int opmode, Key key) throws InvblidKeyException {
         init(opmode, key, JceSecurity.RANDOM);
     }
 
     /**
-     * Initializes this cipher with a key and a source of randomness.
+     * Initiblizes this cipher with b key bnd b source of rbndomness.
      *
-     * <p>The cipher is initialized for one of the following four operations:
-     * encryption, decryption, key wrapping or  key unwrapping, depending
-     * on the value of <code>opmode</code>.
+     * <p>The cipher is initiblized for one of the following four operbtions:
+     * encryption, decryption, key wrbpping or  key unwrbpping, depending
+     * on the vblue of <code>opmode</code>.
      *
-     * <p>If this cipher requires any algorithm parameters that cannot be
+     * <p>If this cipher requires bny blgorithm pbrbmeters thbt cbnnot be
      * derived from the given <code>key</code>, the underlying cipher
-     * implementation is supposed to generate the required parameters itself
-     * (using provider-specific default or random values) if it is being
-     * initialized for encryption or key wrapping, and raise an
-     * <code>InvalidKeyException</code> if it is being
-     * initialized for decryption or key unwrapping.
-     * The generated parameters can be retrieved using
-     * {@link #getParameters() getParameters} or
-     * {@link #getIV() getIV} (if the parameter is an IV).
+     * implementbtion is supposed to generbte the required pbrbmeters itself
+     * (using provider-specific defbult or rbndom vblues) if it is being
+     * initiblized for encryption or key wrbpping, bnd rbise bn
+     * <code>InvblidKeyException</code> if it is being
+     * initiblized for decryption or key unwrbpping.
+     * The generbted pbrbmeters cbn be retrieved using
+     * {@link #getPbrbmeters() getPbrbmeters} or
+     * {@link #getIV() getIV} (if the pbrbmeter is bn IV).
      *
-     * <p>If this cipher requires algorithm parameters that cannot be
-     * derived from the input parameters, and there are no reasonable
-     * provider-specific default values, initialization will
-     * necessarily fail.
+     * <p>If this cipher requires blgorithm pbrbmeters thbt cbnnot be
+     * derived from the input pbrbmeters, bnd there bre no rebsonbble
+     * provider-specific defbult vblues, initiblizbtion will
+     * necessbrily fbil.
      *
-     * <p>If this cipher (including its underlying feedback or padding scheme)
-     * requires any random bytes (e.g., for parameter generation), it will get
-     * them from <code>random</code>.
+     * <p>If this cipher (including its underlying feedbbck or pbdding scheme)
+     * requires bny rbndom bytes (e.g., for pbrbmeter generbtion), it will get
+     * them from <code>rbndom</code>.
      *
-     * <p>Note that when a Cipher object is initialized, it loses all
-     * previously-acquired state. In other words, initializing a Cipher is
-     * equivalent to creating a new instance of that Cipher and initializing
+     * <p>Note thbt when b Cipher object is initiblized, it loses bll
+     * previously-bcquired stbte. In other words, initiblizing b Cipher is
+     * equivblent to crebting b new instbnce of thbt Cipher bnd initiblizing
      * it.
      *
-     * @param opmode the operation mode of this cipher (this is one of the
+     * @pbrbm opmode the operbtion mode of this cipher (this is one of the
      * following:
      * <code>ENCRYPT_MODE</code>, <code>DECRYPT_MODE</code>,
      * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>)
-     * @param key the encryption key
-     * @param random the source of randomness
+     * @pbrbm key the encryption key
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher, or requires
-     * algorithm parameters that cannot be
-     * determined from the given key, or if the given key has a keysize that
-     * exceeds the maximum allowable keysize (as determined from the
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this cipher, or requires
+     * blgorithm pbrbmeters thbt cbnnot be
+     * determined from the given key, or if the given key hbs b keysize thbt
+     * exceeds the mbximum bllowbble keysize (bs determined from the
      * configured jurisdiction policy files).
-     * @throws UnsupportedOperationException if (@code opmode} is
+     * @throws UnsupportedOperbtionException if (@code opmode} is
      * {@code WRAP_MODE} or {@code UNWRAP_MODE} but the mode is not implemented
      * by the underlying {@code CipherSpi}.
      */
-    public final void init(int opmode, Key key, SecureRandom random)
-            throws InvalidKeyException
+    public finbl void init(int opmode, Key key, SecureRbndom rbndom)
+            throws InvblidKeyException
     {
-        initialized = false;
+        initiblized = fblse;
         checkOpmode(opmode);
 
         if (spi != null) {
             checkCryptoPerm(spi, key);
-            spi.engineInit(opmode, key, random);
+            spi.engineInit(opmode, key, rbndom);
         } else {
             try {
-                chooseProvider(I_KEY, opmode, key, null, null, random);
-            } catch (InvalidAlgorithmParameterException e) {
+                chooseProvider(I_KEY, opmode, key, null, null, rbndom);
+            } cbtch (InvblidAlgorithmPbrbmeterException e) {
                 // should never occur
-                throw new InvalidKeyException(e);
+                throw new InvblidKeyException(e);
             }
         }
 
-        initialized = true;
+        initiblized = true;
         this.opmode = opmode;
     }
 
     /**
-     * Initializes this cipher with a key and a set of algorithm
-     * parameters.
+     * Initiblizes this cipher with b key bnd b set of blgorithm
+     * pbrbmeters.
      *
-     * <p>The cipher is initialized for one of the following four operations:
-     * encryption, decryption, key wrapping or  key unwrapping, depending
-     * on the value of <code>opmode</code>.
+     * <p>The cipher is initiblized for one of the following four operbtions:
+     * encryption, decryption, key wrbpping or  key unwrbpping, depending
+     * on the vblue of <code>opmode</code>.
      *
-     * <p>If this cipher requires any algorithm parameters and
-     * <code>params</code> is null, the underlying cipher implementation is
-     * supposed to generate the required parameters itself (using
-     * provider-specific default or random values) if it is being
-     * initialized for encryption or key wrapping, and raise an
-     * <code>InvalidAlgorithmParameterException</code> if it is being
-     * initialized for decryption or key unwrapping.
-     * The generated parameters can be retrieved using
-     * {@link #getParameters() getParameters} or
-     * {@link #getIV() getIV} (if the parameter is an IV).
+     * <p>If this cipher requires bny blgorithm pbrbmeters bnd
+     * <code>pbrbms</code> is null, the underlying cipher implementbtion is
+     * supposed to generbte the required pbrbmeters itself (using
+     * provider-specific defbult or rbndom vblues) if it is being
+     * initiblized for encryption or key wrbpping, bnd rbise bn
+     * <code>InvblidAlgorithmPbrbmeterException</code> if it is being
+     * initiblized for decryption or key unwrbpping.
+     * The generbted pbrbmeters cbn be retrieved using
+     * {@link #getPbrbmeters() getPbrbmeters} or
+     * {@link #getIV() getIV} (if the pbrbmeter is bn IV).
      *
-     * <p>If this cipher requires algorithm parameters that cannot be
-     * derived from the input parameters, and there are no reasonable
-     * provider-specific default values, initialization will
-     * necessarily fail.
+     * <p>If this cipher requires blgorithm pbrbmeters thbt cbnnot be
+     * derived from the input pbrbmeters, bnd there bre no rebsonbble
+     * provider-specific defbult vblues, initiblizbtion will
+     * necessbrily fbil.
      *
-     * <p>If this cipher (including its underlying feedback or padding scheme)
-     * requires any random bytes (e.g., for parameter generation), it will get
-     * them using the {@link java.security.SecureRandom}
-     * implementation of the highest-priority
-     * installed provider as the source of randomness.
-     * (If none of the installed providers supply an implementation of
-     * SecureRandom, a system-provided source of randomness will be used.)
+     * <p>If this cipher (including its underlying feedbbck or pbdding scheme)
+     * requires bny rbndom bytes (e.g., for pbrbmeter generbtion), it will get
+     * them using the {@link jbvb.security.SecureRbndom}
+     * implementbtion of the highest-priority
+     * instblled provider bs the source of rbndomness.
+     * (If none of the instblled providers supply bn implementbtion of
+     * SecureRbndom, b system-provided source of rbndomness will be used.)
      *
-     * <p>Note that when a Cipher object is initialized, it loses all
-     * previously-acquired state. In other words, initializing a Cipher is
-     * equivalent to creating a new instance of that Cipher and initializing
+     * <p>Note thbt when b Cipher object is initiblized, it loses bll
+     * previously-bcquired stbte. In other words, initiblizing b Cipher is
+     * equivblent to crebting b new instbnce of thbt Cipher bnd initiblizing
      * it.
      *
-     * @param opmode the operation mode of this cipher (this is one of the
+     * @pbrbm opmode the operbtion mode of this cipher (this is one of the
      * following:
      * <code>ENCRYPT_MODE</code>, <code>DECRYPT_MODE</code>,
      * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>)
-     * @param key the encryption key
-     * @param params the algorithm parameters
+     * @pbrbm key the encryption key
+     * @pbrbm pbrbms the blgorithm pbrbmeters
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher, or its keysize exceeds the maximum allowable
-     * keysize (as determined from the configured jurisdiction policy files).
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this cipher,
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this cipher, or its keysize exceeds the mbximum bllowbble
+     * keysize (bs determined from the configured jurisdiction policy files).
+     * @exception InvblidAlgorithmPbrbmeterException if the given blgorithm
+     * pbrbmeters bre inbppropribte for this cipher,
      * or this cipher requires
-     * algorithm parameters and <code>params</code> is null, or the given
-     * algorithm parameters imply a cryptographic strength that would exceed
-     * the legal limits (as determined from the configured jurisdiction
+     * blgorithm pbrbmeters bnd <code>pbrbms</code> is null, or the given
+     * blgorithm pbrbmeters imply b cryptogrbphic strength thbt would exceed
+     * the legbl limits (bs determined from the configured jurisdiction
      * policy files).
-     * @throws UnsupportedOperationException if (@code opmode} is
+     * @throws UnsupportedOperbtionException if (@code opmode} is
      * {@code WRAP_MODE} or {@code UNWRAP_MODE} but the mode is not implemented
      * by the underlying {@code CipherSpi}.
      */
-    public final void init(int opmode, Key key, AlgorithmParameterSpec params)
-            throws InvalidKeyException, InvalidAlgorithmParameterException
+    public finbl void init(int opmode, Key key, AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException
     {
-        init(opmode, key, params, JceSecurity.RANDOM);
+        init(opmode, key, pbrbms, JceSecurity.RANDOM);
     }
 
     /**
-     * Initializes this cipher with a key, a set of algorithm
-     * parameters, and a source of randomness.
+     * Initiblizes this cipher with b key, b set of blgorithm
+     * pbrbmeters, bnd b source of rbndomness.
      *
-     * <p>The cipher is initialized for one of the following four operations:
-     * encryption, decryption, key wrapping or  key unwrapping, depending
-     * on the value of <code>opmode</code>.
+     * <p>The cipher is initiblized for one of the following four operbtions:
+     * encryption, decryption, key wrbpping or  key unwrbpping, depending
+     * on the vblue of <code>opmode</code>.
      *
-     * <p>If this cipher requires any algorithm parameters and
-     * <code>params</code> is null, the underlying cipher implementation is
-     * supposed to generate the required parameters itself (using
-     * provider-specific default or random values) if it is being
-     * initialized for encryption or key wrapping, and raise an
-     * <code>InvalidAlgorithmParameterException</code> if it is being
-     * initialized for decryption or key unwrapping.
-     * The generated parameters can be retrieved using
-     * {@link #getParameters() getParameters} or
-     * {@link #getIV() getIV} (if the parameter is an IV).
+     * <p>If this cipher requires bny blgorithm pbrbmeters bnd
+     * <code>pbrbms</code> is null, the underlying cipher implementbtion is
+     * supposed to generbte the required pbrbmeters itself (using
+     * provider-specific defbult or rbndom vblues) if it is being
+     * initiblized for encryption or key wrbpping, bnd rbise bn
+     * <code>InvblidAlgorithmPbrbmeterException</code> if it is being
+     * initiblized for decryption or key unwrbpping.
+     * The generbted pbrbmeters cbn be retrieved using
+     * {@link #getPbrbmeters() getPbrbmeters} or
+     * {@link #getIV() getIV} (if the pbrbmeter is bn IV).
      *
-     * <p>If this cipher requires algorithm parameters that cannot be
-     * derived from the input parameters, and there are no reasonable
-     * provider-specific default values, initialization will
-     * necessarily fail.
+     * <p>If this cipher requires blgorithm pbrbmeters thbt cbnnot be
+     * derived from the input pbrbmeters, bnd there bre no rebsonbble
+     * provider-specific defbult vblues, initiblizbtion will
+     * necessbrily fbil.
      *
-     * <p>If this cipher (including its underlying feedback or padding scheme)
-     * requires any random bytes (e.g., for parameter generation), it will get
-     * them from <code>random</code>.
+     * <p>If this cipher (including its underlying feedbbck or pbdding scheme)
+     * requires bny rbndom bytes (e.g., for pbrbmeter generbtion), it will get
+     * them from <code>rbndom</code>.
      *
-     * <p>Note that when a Cipher object is initialized, it loses all
-     * previously-acquired state. In other words, initializing a Cipher is
-     * equivalent to creating a new instance of that Cipher and initializing
+     * <p>Note thbt when b Cipher object is initiblized, it loses bll
+     * previously-bcquired stbte. In other words, initiblizing b Cipher is
+     * equivblent to crebting b new instbnce of thbt Cipher bnd initiblizing
      * it.
      *
-     * @param opmode the operation mode of this cipher (this is one of the
+     * @pbrbm opmode the operbtion mode of this cipher (this is one of the
      * following:
      * <code>ENCRYPT_MODE</code>, <code>DECRYPT_MODE</code>,
      * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>)
-     * @param key the encryption key
-     * @param params the algorithm parameters
-     * @param random the source of randomness
+     * @pbrbm key the encryption key
+     * @pbrbm pbrbms the blgorithm pbrbmeters
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher, or its keysize exceeds the maximum allowable
-     * keysize (as determined from the configured jurisdiction policy files).
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this cipher,
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this cipher, or its keysize exceeds the mbximum bllowbble
+     * keysize (bs determined from the configured jurisdiction policy files).
+     * @exception InvblidAlgorithmPbrbmeterException if the given blgorithm
+     * pbrbmeters bre inbppropribte for this cipher,
      * or this cipher requires
-     * algorithm parameters and <code>params</code> is null, or the given
-     * algorithm parameters imply a cryptographic strength that would exceed
-     * the legal limits (as determined from the configured jurisdiction
+     * blgorithm pbrbmeters bnd <code>pbrbms</code> is null, or the given
+     * blgorithm pbrbmeters imply b cryptogrbphic strength thbt would exceed
+     * the legbl limits (bs determined from the configured jurisdiction
      * policy files).
-     * @throws UnsupportedOperationException if (@code opmode} is
+     * @throws UnsupportedOperbtionException if (@code opmode} is
      * {@code WRAP_MODE} or {@code UNWRAP_MODE} but the mode is not implemented
      * by the underlying {@code CipherSpi}.
      */
-    public final void init(int opmode, Key key, AlgorithmParameterSpec params,
-                           SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException
+    public finbl void init(int opmode, Key key, AlgorithmPbrbmeterSpec pbrbms,
+                           SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException
     {
-        initialized = false;
+        initiblized = fblse;
         checkOpmode(opmode);
 
         if (spi != null) {
-            checkCryptoPerm(spi, key, params);
-            spi.engineInit(opmode, key, params, random);
+            checkCryptoPerm(spi, key, pbrbms);
+            spi.engineInit(opmode, key, pbrbms, rbndom);
         } else {
-            chooseProvider(I_PARAMSPEC, opmode, key, params, null, random);
+            chooseProvider(I_PARAMSPEC, opmode, key, pbrbms, null, rbndom);
         }
 
-        initialized = true;
+        initiblized = true;
         this.opmode = opmode;
     }
 
     /**
-     * Initializes this cipher with a key and a set of algorithm
-     * parameters.
+     * Initiblizes this cipher with b key bnd b set of blgorithm
+     * pbrbmeters.
      *
-     * <p>The cipher is initialized for one of the following four operations:
-     * encryption, decryption, key wrapping or  key unwrapping, depending
-     * on the value of <code>opmode</code>.
+     * <p>The cipher is initiblized for one of the following four operbtions:
+     * encryption, decryption, key wrbpping or  key unwrbpping, depending
+     * on the vblue of <code>opmode</code>.
      *
-     * <p>If this cipher requires any algorithm parameters and
-     * <code>params</code> is null, the underlying cipher implementation is
-     * supposed to generate the required parameters itself (using
-     * provider-specific default or random values) if it is being
-     * initialized for encryption or key wrapping, and raise an
-     * <code>InvalidAlgorithmParameterException</code> if it is being
-     * initialized for decryption or key unwrapping.
-     * The generated parameters can be retrieved using
-     * {@link #getParameters() getParameters} or
-     * {@link #getIV() getIV} (if the parameter is an IV).
+     * <p>If this cipher requires bny blgorithm pbrbmeters bnd
+     * <code>pbrbms</code> is null, the underlying cipher implementbtion is
+     * supposed to generbte the required pbrbmeters itself (using
+     * provider-specific defbult or rbndom vblues) if it is being
+     * initiblized for encryption or key wrbpping, bnd rbise bn
+     * <code>InvblidAlgorithmPbrbmeterException</code> if it is being
+     * initiblized for decryption or key unwrbpping.
+     * The generbted pbrbmeters cbn be retrieved using
+     * {@link #getPbrbmeters() getPbrbmeters} or
+     * {@link #getIV() getIV} (if the pbrbmeter is bn IV).
      *
-     * <p>If this cipher requires algorithm parameters that cannot be
-     * derived from the input parameters, and there are no reasonable
-     * provider-specific default values, initialization will
-     * necessarily fail.
+     * <p>If this cipher requires blgorithm pbrbmeters thbt cbnnot be
+     * derived from the input pbrbmeters, bnd there bre no rebsonbble
+     * provider-specific defbult vblues, initiblizbtion will
+     * necessbrily fbil.
      *
-     * <p>If this cipher (including its underlying feedback or padding scheme)
-     * requires any random bytes (e.g., for parameter generation), it will get
-     * them using the {@link java.security.SecureRandom}
-     * implementation of the highest-priority
-     * installed provider as the source of randomness.
-     * (If none of the installed providers supply an implementation of
-     * SecureRandom, a system-provided source of randomness will be used.)
+     * <p>If this cipher (including its underlying feedbbck or pbdding scheme)
+     * requires bny rbndom bytes (e.g., for pbrbmeter generbtion), it will get
+     * them using the {@link jbvb.security.SecureRbndom}
+     * implementbtion of the highest-priority
+     * instblled provider bs the source of rbndomness.
+     * (If none of the instblled providers supply bn implementbtion of
+     * SecureRbndom, b system-provided source of rbndomness will be used.)
      *
-     * <p>Note that when a Cipher object is initialized, it loses all
-     * previously-acquired state. In other words, initializing a Cipher is
-     * equivalent to creating a new instance of that Cipher and initializing
+     * <p>Note thbt when b Cipher object is initiblized, it loses bll
+     * previously-bcquired stbte. In other words, initiblizing b Cipher is
+     * equivblent to crebting b new instbnce of thbt Cipher bnd initiblizing
      * it.
      *
-     * @param opmode the operation mode of this cipher (this is one of the
+     * @pbrbm opmode the operbtion mode of this cipher (this is one of the
      * following: <code>ENCRYPT_MODE</code>,
      * <code>DECRYPT_MODE</code>, <code>WRAP_MODE</code>
      * or <code>UNWRAP_MODE</code>)
-     * @param key the encryption key
-     * @param params the algorithm parameters
+     * @pbrbm key the encryption key
+     * @pbrbm pbrbms the blgorithm pbrbmeters
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher, or its keysize exceeds the maximum allowable
-     * keysize (as determined from the configured jurisdiction policy files).
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this cipher,
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this cipher, or its keysize exceeds the mbximum bllowbble
+     * keysize (bs determined from the configured jurisdiction policy files).
+     * @exception InvblidAlgorithmPbrbmeterException if the given blgorithm
+     * pbrbmeters bre inbppropribte for this cipher,
      * or this cipher requires
-     * algorithm parameters and <code>params</code> is null, or the given
-     * algorithm parameters imply a cryptographic strength that would exceed
-     * the legal limits (as determined from the configured jurisdiction
+     * blgorithm pbrbmeters bnd <code>pbrbms</code> is null, or the given
+     * blgorithm pbrbmeters imply b cryptogrbphic strength thbt would exceed
+     * the legbl limits (bs determined from the configured jurisdiction
      * policy files).
-     * @throws UnsupportedOperationException if (@code opmode} is
+     * @throws UnsupportedOperbtionException if (@code opmode} is
      * {@code WRAP_MODE} or {@code UNWRAP_MODE} but the mode is not implemented
      * by the underlying {@code CipherSpi}.
      */
-    public final void init(int opmode, Key key, AlgorithmParameters params)
-            throws InvalidKeyException, InvalidAlgorithmParameterException
+    public finbl void init(int opmode, Key key, AlgorithmPbrbmeters pbrbms)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException
     {
-        init(opmode, key, params, JceSecurity.RANDOM);
+        init(opmode, key, pbrbms, JceSecurity.RANDOM);
     }
 
     /**
-     * Initializes this cipher with a key, a set of algorithm
-     * parameters, and a source of randomness.
+     * Initiblizes this cipher with b key, b set of blgorithm
+     * pbrbmeters, bnd b source of rbndomness.
      *
-     * <p>The cipher is initialized for one of the following four operations:
-     * encryption, decryption, key wrapping or  key unwrapping, depending
-     * on the value of <code>opmode</code>.
+     * <p>The cipher is initiblized for one of the following four operbtions:
+     * encryption, decryption, key wrbpping or  key unwrbpping, depending
+     * on the vblue of <code>opmode</code>.
      *
-     * <p>If this cipher requires any algorithm parameters and
-     * <code>params</code> is null, the underlying cipher implementation is
-     * supposed to generate the required parameters itself (using
-     * provider-specific default or random values) if it is being
-     * initialized for encryption or key wrapping, and raise an
-     * <code>InvalidAlgorithmParameterException</code> if it is being
-     * initialized for decryption or key unwrapping.
-     * The generated parameters can be retrieved using
-     * {@link #getParameters() getParameters} or
-     * {@link #getIV() getIV} (if the parameter is an IV).
+     * <p>If this cipher requires bny blgorithm pbrbmeters bnd
+     * <code>pbrbms</code> is null, the underlying cipher implementbtion is
+     * supposed to generbte the required pbrbmeters itself (using
+     * provider-specific defbult or rbndom vblues) if it is being
+     * initiblized for encryption or key wrbpping, bnd rbise bn
+     * <code>InvblidAlgorithmPbrbmeterException</code> if it is being
+     * initiblized for decryption or key unwrbpping.
+     * The generbted pbrbmeters cbn be retrieved using
+     * {@link #getPbrbmeters() getPbrbmeters} or
+     * {@link #getIV() getIV} (if the pbrbmeter is bn IV).
      *
-     * <p>If this cipher requires algorithm parameters that cannot be
-     * derived from the input parameters, and there are no reasonable
-     * provider-specific default values, initialization will
-     * necessarily fail.
+     * <p>If this cipher requires blgorithm pbrbmeters thbt cbnnot be
+     * derived from the input pbrbmeters, bnd there bre no rebsonbble
+     * provider-specific defbult vblues, initiblizbtion will
+     * necessbrily fbil.
      *
-     * <p>If this cipher (including its underlying feedback or padding scheme)
-     * requires any random bytes (e.g., for parameter generation), it will get
-     * them from <code>random</code>.
+     * <p>If this cipher (including its underlying feedbbck or pbdding scheme)
+     * requires bny rbndom bytes (e.g., for pbrbmeter generbtion), it will get
+     * them from <code>rbndom</code>.
      *
-     * <p>Note that when a Cipher object is initialized, it loses all
-     * previously-acquired state. In other words, initializing a Cipher is
-     * equivalent to creating a new instance of that Cipher and initializing
+     * <p>Note thbt when b Cipher object is initiblized, it loses bll
+     * previously-bcquired stbte. In other words, initiblizing b Cipher is
+     * equivblent to crebting b new instbnce of thbt Cipher bnd initiblizing
      * it.
      *
-     * @param opmode the operation mode of this cipher (this is one of the
+     * @pbrbm opmode the operbtion mode of this cipher (this is one of the
      * following: <code>ENCRYPT_MODE</code>,
      * <code>DECRYPT_MODE</code>, <code>WRAP_MODE</code>
      * or <code>UNWRAP_MODE</code>)
-     * @param key the encryption key
-     * @param params the algorithm parameters
-     * @param random the source of randomness
+     * @pbrbm key the encryption key
+     * @pbrbm pbrbms the blgorithm pbrbmeters
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher, or its keysize exceeds the maximum allowable
-     * keysize (as determined from the configured jurisdiction policy files).
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this cipher,
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this cipher, or its keysize exceeds the mbximum bllowbble
+     * keysize (bs determined from the configured jurisdiction policy files).
+     * @exception InvblidAlgorithmPbrbmeterException if the given blgorithm
+     * pbrbmeters bre inbppropribte for this cipher,
      * or this cipher requires
-     * algorithm parameters and <code>params</code> is null, or the given
-     * algorithm parameters imply a cryptographic strength that would exceed
-     * the legal limits (as determined from the configured jurisdiction
+     * blgorithm pbrbmeters bnd <code>pbrbms</code> is null, or the given
+     * blgorithm pbrbmeters imply b cryptogrbphic strength thbt would exceed
+     * the legbl limits (bs determined from the configured jurisdiction
      * policy files).
-     * @throws UnsupportedOperationException if (@code opmode} is
+     * @throws UnsupportedOperbtionException if (@code opmode} is
      * {@code WRAP_MODE} or {@code UNWRAP_MODE} but the mode is not implemented
      * by the underlying {@code CipherSpi}.
      */
-    public final void init(int opmode, Key key, AlgorithmParameters params,
-                           SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException
+    public finbl void init(int opmode, Key key, AlgorithmPbrbmeters pbrbms,
+                           SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException
     {
-        initialized = false;
+        initiblized = fblse;
         checkOpmode(opmode);
 
         if (spi != null) {
-            checkCryptoPerm(spi, key, params);
-            spi.engineInit(opmode, key, params, random);
+            checkCryptoPerm(spi, key, pbrbms);
+            spi.engineInit(opmode, key, pbrbms, rbndom);
         } else {
-            chooseProvider(I_PARAMS, opmode, key, null, params, random);
+            chooseProvider(I_PARAMS, opmode, key, null, pbrbms, rbndom);
         }
 
-        initialized = true;
+        initiblized = true;
         this.opmode = opmode;
     }
 
     /**
-     * Initializes this cipher with the public key from the given certificate.
-     * <p> The cipher is initialized for one of the following four operations:
-     * encryption, decryption, key wrapping or  key unwrapping, depending
-     * on the value of <code>opmode</code>.
+     * Initiblizes this cipher with the public key from the given certificbte.
+     * <p> The cipher is initiblized for one of the following four operbtions:
+     * encryption, decryption, key wrbpping or  key unwrbpping, depending
+     * on the vblue of <code>opmode</code>.
      *
-     * <p>If the certificate is of type X.509 and has a <i>key usage</i>
-     * extension field marked as critical, and the value of the <i>key usage</i>
-     * extension field implies that the public key in
-     * the certificate and its corresponding private key are not
-     * supposed to be used for the operation represented by the value
+     * <p>If the certificbte is of type X.509 bnd hbs b <i>key usbge</i>
+     * extension field mbrked bs criticbl, bnd the vblue of the <i>key usbge</i>
+     * extension field implies thbt the public key in
+     * the certificbte bnd its corresponding privbte key bre not
+     * supposed to be used for the operbtion represented by the vblue
      * of <code>opmode</code>,
-     * an <code>InvalidKeyException</code>
+     * bn <code>InvblidKeyException</code>
      * is thrown.
      *
-     * <p> If this cipher requires any algorithm parameters that cannot be
-     * derived from the public key in the given certificate, the underlying
+     * <p> If this cipher requires bny blgorithm pbrbmeters thbt cbnnot be
+     * derived from the public key in the given certificbte, the underlying
      * cipher
-     * implementation is supposed to generate the required parameters itself
-     * (using provider-specific default or random values) if it is being
-     * initialized for encryption or key wrapping, and raise an <code>
-     * InvalidKeyException</code> if it is being initialized for decryption or
-     * key unwrapping.
-     * The generated parameters can be retrieved using
-     * {@link #getParameters() getParameters} or
-     * {@link #getIV() getIV} (if the parameter is an IV).
+     * implementbtion is supposed to generbte the required pbrbmeters itself
+     * (using provider-specific defbult or rbndom vblues) if it is being
+     * initiblized for encryption or key wrbpping, bnd rbise bn <code>
+     * InvblidKeyException</code> if it is being initiblized for decryption or
+     * key unwrbpping.
+     * The generbted pbrbmeters cbn be retrieved using
+     * {@link #getPbrbmeters() getPbrbmeters} or
+     * {@link #getIV() getIV} (if the pbrbmeter is bn IV).
      *
-     * <p>If this cipher requires algorithm parameters that cannot be
-     * derived from the input parameters, and there are no reasonable
-     * provider-specific default values, initialization will
-     * necessarily fail.
+     * <p>If this cipher requires blgorithm pbrbmeters thbt cbnnot be
+     * derived from the input pbrbmeters, bnd there bre no rebsonbble
+     * provider-specific defbult vblues, initiblizbtion will
+     * necessbrily fbil.
      *
-     * <p>If this cipher (including its underlying feedback or padding scheme)
-     * requires any random bytes (e.g., for parameter generation), it will get
+     * <p>If this cipher (including its underlying feedbbck or pbdding scheme)
+     * requires bny rbndom bytes (e.g., for pbrbmeter generbtion), it will get
      * them using the
-     * <code>SecureRandom</code>
-     * implementation of the highest-priority
-     * installed provider as the source of randomness.
-     * (If none of the installed providers supply an implementation of
-     * SecureRandom, a system-provided source of randomness will be used.)
+     * <code>SecureRbndom</code>
+     * implementbtion of the highest-priority
+     * instblled provider bs the source of rbndomness.
+     * (If none of the instblled providers supply bn implementbtion of
+     * SecureRbndom, b system-provided source of rbndomness will be used.)
      *
-     * <p>Note that when a Cipher object is initialized, it loses all
-     * previously-acquired state. In other words, initializing a Cipher is
-     * equivalent to creating a new instance of that Cipher and initializing
+     * <p>Note thbt when b Cipher object is initiblized, it loses bll
+     * previously-bcquired stbte. In other words, initiblizing b Cipher is
+     * equivblent to crebting b new instbnce of thbt Cipher bnd initiblizing
      * it.
      *
-     * @param opmode the operation mode of this cipher (this is one of the
+     * @pbrbm opmode the operbtion mode of this cipher (this is one of the
      * following:
      * <code>ENCRYPT_MODE</code>, <code>DECRYPT_MODE</code>,
      * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>)
-     * @param certificate the certificate
+     * @pbrbm certificbte the certificbte
      *
-     * @exception InvalidKeyException if the public key in the given
-     * certificate is inappropriate for initializing this cipher, or this
-     * cipher requires algorithm parameters that cannot be determined from the
-     * public key in the given certificate, or the keysize of the public key
-     * in the given certificate has a keysize that exceeds the maximum
-     * allowable keysize (as determined by the configured jurisdiction policy
+     * @exception InvblidKeyException if the public key in the given
+     * certificbte is inbppropribte for initiblizing this cipher, or this
+     * cipher requires blgorithm pbrbmeters thbt cbnnot be determined from the
+     * public key in the given certificbte, or the keysize of the public key
+     * in the given certificbte hbs b keysize thbt exceeds the mbximum
+     * bllowbble keysize (bs determined by the configured jurisdiction policy
      * files).
-     * @throws UnsupportedOperationException if (@code opmode} is
+     * @throws UnsupportedOperbtionException if (@code opmode} is
      * {@code WRAP_MODE} or {@code UNWRAP_MODE} but the mode is not implemented
      * by the underlying {@code CipherSpi}.
      */
-    public final void init(int opmode, Certificate certificate)
-            throws InvalidKeyException
+    public finbl void init(int opmode, Certificbte certificbte)
+            throws InvblidKeyException
     {
-        init(opmode, certificate, JceSecurity.RANDOM);
+        init(opmode, certificbte, JceSecurity.RANDOM);
     }
 
     /**
-     * Initializes this cipher with the public key from the given certificate
-     * and
-     * a source of randomness.
+     * Initiblizes this cipher with the public key from the given certificbte
+     * bnd
+     * b source of rbndomness.
      *
-     * <p>The cipher is initialized for one of the following four operations:
-     * encryption, decryption, key wrapping
-     * or key unwrapping, depending on
-     * the value of <code>opmode</code>.
+     * <p>The cipher is initiblized for one of the following four operbtions:
+     * encryption, decryption, key wrbpping
+     * or key unwrbpping, depending on
+     * the vblue of <code>opmode</code>.
      *
-     * <p>If the certificate is of type X.509 and has a <i>key usage</i>
-     * extension field marked as critical, and the value of the <i>key usage</i>
-     * extension field implies that the public key in
-     * the certificate and its corresponding private key are not
-     * supposed to be used for the operation represented by the value of
+     * <p>If the certificbte is of type X.509 bnd hbs b <i>key usbge</i>
+     * extension field mbrked bs criticbl, bnd the vblue of the <i>key usbge</i>
+     * extension field implies thbt the public key in
+     * the certificbte bnd its corresponding privbte key bre not
+     * supposed to be used for the operbtion represented by the vblue of
      * <code>opmode</code>,
-     * an <code>InvalidKeyException</code>
+     * bn <code>InvblidKeyException</code>
      * is thrown.
      *
-     * <p>If this cipher requires any algorithm parameters that cannot be
-     * derived from the public key in the given <code>certificate</code>,
+     * <p>If this cipher requires bny blgorithm pbrbmeters thbt cbnnot be
+     * derived from the public key in the given <code>certificbte</code>,
      * the underlying cipher
-     * implementation is supposed to generate the required parameters itself
-     * (using provider-specific default or random values) if it is being
-     * initialized for encryption or key wrapping, and raise an
-     * <code>InvalidKeyException</code> if it is being
-     * initialized for decryption or key unwrapping.
-     * The generated parameters can be retrieved using
-     * {@link #getParameters() getParameters} or
-     * {@link #getIV() getIV} (if the parameter is an IV).
+     * implementbtion is supposed to generbte the required pbrbmeters itself
+     * (using provider-specific defbult or rbndom vblues) if it is being
+     * initiblized for encryption or key wrbpping, bnd rbise bn
+     * <code>InvblidKeyException</code> if it is being
+     * initiblized for decryption or key unwrbpping.
+     * The generbted pbrbmeters cbn be retrieved using
+     * {@link #getPbrbmeters() getPbrbmeters} or
+     * {@link #getIV() getIV} (if the pbrbmeter is bn IV).
      *
-     * <p>If this cipher requires algorithm parameters that cannot be
-     * derived from the input parameters, and there are no reasonable
-     * provider-specific default values, initialization will
-     * necessarily fail.
+     * <p>If this cipher requires blgorithm pbrbmeters thbt cbnnot be
+     * derived from the input pbrbmeters, bnd there bre no rebsonbble
+     * provider-specific defbult vblues, initiblizbtion will
+     * necessbrily fbil.
      *
-     * <p>If this cipher (including its underlying feedback or padding scheme)
-     * requires any random bytes (e.g., for parameter generation), it will get
-     * them from <code>random</code>.
+     * <p>If this cipher (including its underlying feedbbck or pbdding scheme)
+     * requires bny rbndom bytes (e.g., for pbrbmeter generbtion), it will get
+     * them from <code>rbndom</code>.
      *
-     * <p>Note that when a Cipher object is initialized, it loses all
-     * previously-acquired state. In other words, initializing a Cipher is
-     * equivalent to creating a new instance of that Cipher and initializing
+     * <p>Note thbt when b Cipher object is initiblized, it loses bll
+     * previously-bcquired stbte. In other words, initiblizing b Cipher is
+     * equivblent to crebting b new instbnce of thbt Cipher bnd initiblizing
      * it.
      *
-     * @param opmode the operation mode of this cipher (this is one of the
+     * @pbrbm opmode the operbtion mode of this cipher (this is one of the
      * following:
      * <code>ENCRYPT_MODE</code>, <code>DECRYPT_MODE</code>,
      * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>)
-     * @param certificate the certificate
-     * @param random the source of randomness
+     * @pbrbm certificbte the certificbte
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidKeyException if the public key in the given
-     * certificate is inappropriate for initializing this cipher, or this
+     * @exception InvblidKeyException if the public key in the given
+     * certificbte is inbppropribte for initiblizing this cipher, or this
      * cipher
-     * requires algorithm parameters that cannot be determined from the
-     * public key in the given certificate, or the keysize of the public key
-     * in the given certificate has a keysize that exceeds the maximum
-     * allowable keysize (as determined by the configured jurisdiction policy
+     * requires blgorithm pbrbmeters thbt cbnnot be determined from the
+     * public key in the given certificbte, or the keysize of the public key
+     * in the given certificbte hbs b keysize thbt exceeds the mbximum
+     * bllowbble keysize (bs determined by the configured jurisdiction policy
      * files).
-     * @throws UnsupportedOperationException if (@code opmode} is
+     * @throws UnsupportedOperbtionException if (@code opmode} is
      * {@code WRAP_MODE} or {@code UNWRAP_MODE} but the mode is not implemented
      * by the underlying {@code CipherSpi}.
      */
-    public final void init(int opmode, Certificate certificate,
-                           SecureRandom random)
-            throws InvalidKeyException
+    public finbl void init(int opmode, Certificbte certificbte,
+                           SecureRbndom rbndom)
+            throws InvblidKeyException
     {
-        initialized = false;
+        initiblized = fblse;
         checkOpmode(opmode);
 
-        // Check key usage if the certificate is of
+        // Check key usbge if the certificbte is of
         // type X.509.
-        if (certificate instanceof java.security.cert.X509Certificate) {
-            // Check whether the cert has a key usage extension
-            // marked as a critical extension.
-            X509Certificate cert = (X509Certificate)certificate;
-            Set<String> critSet = cert.getCriticalExtensionOIDs();
+        if (certificbte instbnceof jbvb.security.cert.X509Certificbte) {
+            // Check whether the cert hbs b key usbge extension
+            // mbrked bs b criticbl extension.
+            X509Certificbte cert = (X509Certificbte)certificbte;
+            Set<String> critSet = cert.getCriticblExtensionOIDs();
 
             if (critSet != null && !critSet.isEmpty()
-                && critSet.contains(KEY_USAGE_EXTENSION_OID)) {
-                boolean[] keyUsageInfo = cert.getKeyUsage();
-                // keyUsageInfo[2] is for keyEncipherment;
-                // keyUsageInfo[3] is for dataEncipherment.
-                if ((keyUsageInfo != null) &&
+                && critSet.contbins(KEY_USAGE_EXTENSION_OID)) {
+                boolebn[] keyUsbgeInfo = cert.getKeyUsbge();
+                // keyUsbgeInfo[2] is for keyEncipherment;
+                // keyUsbgeInfo[3] is for dbtbEncipherment.
+                if ((keyUsbgeInfo != null) &&
                     (((opmode == Cipher.ENCRYPT_MODE) &&
-                      (keyUsageInfo.length > 3) &&
-                      (keyUsageInfo[3] == false)) ||
+                      (keyUsbgeInfo.length > 3) &&
+                      (keyUsbgeInfo[3] == fblse)) ||
                      ((opmode == Cipher.WRAP_MODE) &&
-                      (keyUsageInfo.length > 2) &&
-                      (keyUsageInfo[2] == false)))) {
-                    throw new InvalidKeyException("Wrong key usage");
+                      (keyUsbgeInfo.length > 2) &&
+                      (keyUsbgeInfo[2] == fblse)))) {
+                    throw new InvblidKeyException("Wrong key usbge");
                 }
             }
         }
 
         PublicKey publicKey =
-            (certificate==null? null:certificate.getPublicKey());
+            (certificbte==null? null:certificbte.getPublicKey());
 
         if (spi != null) {
             checkCryptoPerm(spi, publicKey);
-            spi.engineInit(opmode, publicKey, random);
+            spi.engineInit(opmode, publicKey, rbndom);
         } else {
             try {
-                chooseProvider(I_CERT, opmode, publicKey, null, null, random);
-            } catch (InvalidAlgorithmParameterException e) {
+                chooseProvider(I_CERT, opmode, publicKey, null, null, rbndom);
+            } cbtch (InvblidAlgorithmPbrbmeterException e) {
                 // should never occur
-                throw new InvalidKeyException(e);
+                throw new InvblidKeyException(e);
             }
         }
 
-        initialized = true;
+        initiblized = true;
         this.opmode = opmode;
     }
 
     /**
-     * Ensures that Cipher is in a valid state for update() and doFinal()
-     * calls - should be initialized and in ENCRYPT_MODE or DECRYPT_MODE.
-     * @throws IllegalStateException if Cipher object is not in valid state.
+     * Ensures thbt Cipher is in b vblid stbte for updbte() bnd doFinbl()
+     * cblls - should be initiblized bnd in ENCRYPT_MODE or DECRYPT_MODE.
+     * @throws IllegblStbteException if Cipher object is not in vblid stbte.
      */
-    private void checkCipherState() {
-        if (!(this instanceof NullCipher)) {
-            if (!initialized) {
-                throw new IllegalStateException("Cipher not initialized");
+    privbte void checkCipherStbte() {
+        if (!(this instbnceof NullCipher)) {
+            if (!initiblized) {
+                throw new IllegblStbteException("Cipher not initiblized");
             }
             if ((opmode != Cipher.ENCRYPT_MODE) &&
                 (opmode != Cipher.DECRYPT_MODE)) {
-                throw new IllegalStateException("Cipher not initialized " +
+                throw new IllegblStbteException("Cipher not initiblized " +
                                                 "for encryption/decryption");
             }
         }
     }
 
     /**
-     * Continues a multiple-part encryption or decryption operation
-     * (depending on how this cipher was initialized), processing another data
-     * part.
+     * Continues b multiple-pbrt encryption or decryption operbtion
+     * (depending on how this cipher wbs initiblized), processing bnother dbtb
+     * pbrt.
      *
-     * <p>The bytes in the <code>input</code> buffer are processed, and the
-     * result is stored in a new buffer.
+     * <p>The bytes in the <code>input</code> buffer bre processed, bnd the
+     * result is stored in b new buffer.
      *
-     * <p>If <code>input</code> has a length of zero, this method returns
+     * <p>If <code>input</code> hbs b length of zero, this method returns
      * <code>null</code>.
      *
-     * @param input the input buffer
+     * @pbrbm input the input buffer
      *
      * @return the new buffer with the result, or null if the underlying
-     * cipher is a block cipher and the input data is too short to result in a
+     * cipher is b block cipher bnd the input dbtb is too short to result in b
      * new block.
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized)
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized)
      */
-    public final byte[] update(byte[] input) {
-        checkCipherState();
+    public finbl byte[] updbte(byte[] input) {
+        checkCipherStbte();
 
-        // Input sanity check
+        // Input sbnity check
         if (input == null) {
-            throw new IllegalArgumentException("Null input buffer");
+            throw new IllegblArgumentException("Null input buffer");
         }
 
         chooseFirstProvider();
         if (input.length == 0) {
             return null;
         }
-        return spi.engineUpdate(input, 0, input.length);
+        return spi.engineUpdbte(input, 0, input.length);
     }
 
     /**
-     * Continues a multiple-part encryption or decryption operation
-     * (depending on how this cipher was initialized), processing another data
-     * part.
+     * Continues b multiple-pbrt encryption or decryption operbtion
+     * (depending on how this cipher wbs initiblized), processing bnother dbtb
+     * pbrt.
      *
      * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code> inclusive, are processed,
-     * and the result is stored in a new buffer.
+     * buffer, stbrting bt <code>inputOffset</code> inclusive, bre processed,
+     * bnd the result is stored in b new buffer.
      *
      * <p>If <code>inputLen</code> is zero, this method returns
      * <code>null</code>.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
+     * @pbrbm input the input buffer
+     * @pbrbm inputOffset the offset in <code>input</code> where the input
+     * stbrts
+     * @pbrbm inputLen the input length
      *
      * @return the new buffer with the result, or null if the underlying
-     * cipher is a block cipher and the input data is too short to result in a
+     * cipher is b block cipher bnd the input dbtb is too short to result in b
      * new block.
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized)
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized)
      */
-    public final byte[] update(byte[] input, int inputOffset, int inputLen) {
-        checkCipherState();
+    public finbl byte[] updbte(byte[] input, int inputOffset, int inputLen) {
+        checkCipherStbte();
 
-        // Input sanity check
+        // Input sbnity check
         if (input == null || inputOffset < 0
             || inputLen > (input.length - inputOffset) || inputLen < 0) {
-            throw new IllegalArgumentException("Bad arguments");
+            throw new IllegblArgumentException("Bbd brguments");
         }
 
         chooseFirstProvider();
         if (inputLen == 0) {
             return null;
         }
-        return spi.engineUpdate(input, inputOffset, inputLen);
+        return spi.engineUpdbte(input, inputOffset, inputLen);
     }
 
     /**
-     * Continues a multiple-part encryption or decryption operation
-     * (depending on how this cipher was initialized), processing another data
-     * part.
+     * Continues b multiple-pbrt encryption or decryption operbtion
+     * (depending on how this cipher wbs initiblized), processing bnother dbtb
+     * pbrt.
      *
      * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code> inclusive, are processed,
-     * and the result is stored in the <code>output</code> buffer.
+     * buffer, stbrting bt <code>inputOffset</code> inclusive, bre processed,
+     * bnd the result is stored in the <code>output</code> buffer.
      *
-     * <p>If the <code>output</code> buffer is too small to hold the result,
-     * a <code>ShortBufferException</code> is thrown. In this case, repeat this
-     * call with a larger output buffer. Use
+     * <p>If the <code>output</code> buffer is too smbll to hold the result,
+     * b <code>ShortBufferException</code> is thrown. In this cbse, repebt this
+     * cbll with b lbrger output buffer. Use
      * {@link #getOutputSize(int) getOutputSize} to determine how big
      * the output buffer should be.
      *
      * <p>If <code>inputLen</code> is zero, this method returns
-     * a length of zero.
+     * b length of zero.
      *
-     * <p>Note: this method should be copy-safe, which means the
-     * <code>input</code> and <code>output</code> buffers can reference
-     * the same byte array and no unprocessed input data is overwritten
+     * <p>Note: this method should be copy-sbfe, which mebns the
+     * <code>input</code> bnd <code>output</code> buffers cbn reference
+     * the sbme byte brrby bnd no unprocessed input dbtb is overwritten
      * when the result is copied into the output buffer.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
-     * @param output the buffer for the result
+     * @pbrbm input the input buffer
+     * @pbrbm inputOffset the offset in <code>input</code> where the input
+     * stbrts
+     * @pbrbm inputLen the input length
+     * @pbrbm output the buffer for the result
      *
      * @return the number of bytes stored in <code>output</code>
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized)
-     * @exception ShortBufferException if the given output buffer is too small
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized)
+     * @exception ShortBufferException if the given output buffer is too smbll
      * to hold the result
      */
-    public final int update(byte[] input, int inputOffset, int inputLen,
+    public finbl int updbte(byte[] input, int inputOffset, int inputLen,
                             byte[] output)
             throws ShortBufferException {
-        checkCipherState();
+        checkCipherStbte();
 
-        // Input sanity check
+        // Input sbnity check
         if (input == null || inputOffset < 0
             || inputLen > (input.length - inputOffset) || inputLen < 0) {
-            throw new IllegalArgumentException("Bad arguments");
+            throw new IllegblArgumentException("Bbd brguments");
         }
 
         chooseFirstProvider();
         if (inputLen == 0) {
             return 0;
         }
-        return spi.engineUpdate(input, inputOffset, inputLen,
+        return spi.engineUpdbte(input, inputOffset, inputLen,
                                       output, 0);
     }
 
     /**
-     * Continues a multiple-part encryption or decryption operation
-     * (depending on how this cipher was initialized), processing another data
-     * part.
+     * Continues b multiple-pbrt encryption or decryption operbtion
+     * (depending on how this cipher wbs initiblized), processing bnother dbtb
+     * pbrt.
      *
      * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code> inclusive, are processed,
-     * and the result is stored in the <code>output</code> buffer, starting at
+     * buffer, stbrting bt <code>inputOffset</code> inclusive, bre processed,
+     * bnd the result is stored in the <code>output</code> buffer, stbrting bt
      * <code>outputOffset</code> inclusive.
      *
-     * <p>If the <code>output</code> buffer is too small to hold the result,
-     * a <code>ShortBufferException</code> is thrown. In this case, repeat this
-     * call with a larger output buffer. Use
+     * <p>If the <code>output</code> buffer is too smbll to hold the result,
+     * b <code>ShortBufferException</code> is thrown. In this cbse, repebt this
+     * cbll with b lbrger output buffer. Use
      * {@link #getOutputSize(int) getOutputSize} to determine how big
      * the output buffer should be.
      *
      * <p>If <code>inputLen</code> is zero, this method returns
-     * a length of zero.
+     * b length of zero.
      *
-     * <p>Note: this method should be copy-safe, which means the
-     * <code>input</code> and <code>output</code> buffers can reference
-     * the same byte array and no unprocessed input data is overwritten
+     * <p>Note: this method should be copy-sbfe, which mebns the
+     * <code>input</code> bnd <code>output</code> buffers cbn reference
+     * the sbme byte brrby bnd no unprocessed input dbtb is overwritten
      * when the result is copied into the output buffer.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
-     * @param output the buffer for the result
-     * @param outputOffset the offset in <code>output</code> where the result
+     * @pbrbm input the input buffer
+     * @pbrbm inputOffset the offset in <code>input</code> where the input
+     * stbrts
+     * @pbrbm inputLen the input length
+     * @pbrbm output the buffer for the result
+     * @pbrbm outputOffset the offset in <code>output</code> where the result
      * is stored
      *
      * @return the number of bytes stored in <code>output</code>
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized)
-     * @exception ShortBufferException if the given output buffer is too small
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized)
+     * @exception ShortBufferException if the given output buffer is too smbll
      * to hold the result
      */
-    public final int update(byte[] input, int inputOffset, int inputLen,
+    public finbl int updbte(byte[] input, int inputOffset, int inputLen,
                             byte[] output, int outputOffset)
             throws ShortBufferException {
-        checkCipherState();
+        checkCipherStbte();
 
-        // Input sanity check
+        // Input sbnity check
         if (input == null || inputOffset < 0
             || inputLen > (input.length - inputOffset) || inputLen < 0
             || outputOffset < 0) {
-            throw new IllegalArgumentException("Bad arguments");
+            throw new IllegblArgumentException("Bbd brguments");
         }
 
         chooseFirstProvider();
         if (inputLen == 0) {
             return 0;
         }
-        return spi.engineUpdate(input, inputOffset, inputLen,
+        return spi.engineUpdbte(input, inputOffset, inputLen,
                                       output, outputOffset);
     }
 
     /**
-     * Continues a multiple-part encryption or decryption operation
-     * (depending on how this cipher was initialized), processing another data
-     * part.
+     * Continues b multiple-pbrt encryption or decryption operbtion
+     * (depending on how this cipher wbs initiblized), processing bnother dbtb
+     * pbrt.
      *
-     * <p>All <code>input.remaining()</code> bytes starting at
-     * <code>input.position()</code> are processed. The result is stored
+     * <p>All <code>input.rembining()</code> bytes stbrting bt
+     * <code>input.position()</code> bre processed. The result is stored
      * in the output buffer.
-     * Upon return, the input buffer's position will be equal
-     * to its limit; its limit will not have changed. The output buffer's
-     * position will have advanced by n, where n is the value returned
-     * by this method; the output buffer's limit will not have changed.
+     * Upon return, the input buffer's position will be equbl
+     * to its limit; its limit will not hbve chbnged. The output buffer's
+     * position will hbve bdvbnced by n, where n is the vblue returned
+     * by this method; the output buffer's limit will not hbve chbnged.
      *
-     * <p>If <code>output.remaining()</code> bytes are insufficient to
-     * hold the result, a <code>ShortBufferException</code> is thrown.
-     * In this case, repeat this call with a larger output buffer. Use
+     * <p>If <code>output.rembining()</code> bytes bre insufficient to
+     * hold the result, b <code>ShortBufferException</code> is thrown.
+     * In this cbse, repebt this cbll with b lbrger output buffer. Use
      * {@link #getOutputSize(int) getOutputSize} to determine how big
      * the output buffer should be.
      *
-     * <p>Note: this method should be copy-safe, which means the
-     * <code>input</code> and <code>output</code> buffers can reference
-     * the same block of memory and no unprocessed input data is overwritten
+     * <p>Note: this method should be copy-sbfe, which mebns the
+     * <code>input</code> bnd <code>output</code> buffers cbn reference
+     * the sbme block of memory bnd no unprocessed input dbtb is overwritten
      * when the result is copied into the output buffer.
      *
-     * @param input the input ByteBuffer
-     * @param output the output ByteByffer
+     * @pbrbm input the input ByteBuffer
+     * @pbrbm output the output ByteByffer
      *
      * @return the number of bytes stored in <code>output</code>
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized)
-     * @exception IllegalArgumentException if input and output are the
-     *   same object
-     * @exception ReadOnlyBufferException if the output buffer is read-only
-     * @exception ShortBufferException if there is insufficient space in the
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized)
+     * @exception IllegblArgumentException if input bnd output bre the
+     *   sbme object
+     * @exception RebdOnlyBufferException if the output buffer is rebd-only
+     * @exception ShortBufferException if there is insufficient spbce in the
      * output buffer
      * @since 1.5
      */
-    public final int update(ByteBuffer input, ByteBuffer output)
+    public finbl int updbte(ByteBuffer input, ByteBuffer output)
             throws ShortBufferException {
-        checkCipherState();
+        checkCipherStbte();
 
         if ((input == null) || (output == null)) {
-            throw new IllegalArgumentException("Buffers must not be null");
+            throw new IllegblArgumentException("Buffers must not be null");
         }
         if (input == output) {
-            throw new IllegalArgumentException("Input and output buffers must "
-                + "not be the same object, consider using buffer.duplicate()");
+            throw new IllegblArgumentException("Input bnd output buffers must "
+                + "not be the sbme object, consider using buffer.duplicbte()");
         }
-        if (output.isReadOnly()) {
-            throw new ReadOnlyBufferException();
+        if (output.isRebdOnly()) {
+            throw new RebdOnlyBufferException();
         }
 
         chooseFirstProvider();
-        return spi.engineUpdate(input, output);
+        return spi.engineUpdbte(input, output);
     }
 
     /**
-     * Finishes a multiple-part encryption or decryption operation, depending
-     * on how this cipher was initialized.
+     * Finishes b multiple-pbrt encryption or decryption operbtion, depending
+     * on how this cipher wbs initiblized.
      *
-     * <p>Input data that may have been buffered during a previous
-     * <code>update</code> operation is processed, with padding (if requested)
-     * being applied.
-     * If an AEAD mode such as GCM/CCM is being used, the authentication
-     * tag is appended in the case of encryption, or verified in the
-     * case of decryption.
-     * The result is stored in a new buffer.
+     * <p>Input dbtb thbt mby hbve been buffered during b previous
+     * <code>updbte</code> operbtion is processed, with pbdding (if requested)
+     * being bpplied.
+     * If bn AEAD mode such bs GCM/CCM is being used, the buthenticbtion
+     * tbg is bppended in the cbse of encryption, or verified in the
+     * cbse of decryption.
+     * The result is stored in b new buffer.
      *
-     * <p>Upon finishing, this method resets this cipher object to the state
-     * it was in when previously initialized via a call to <code>init</code>.
-     * That is, the object is reset and available to encrypt or decrypt
-     * (depending on the operation mode that was specified in the call to
-     * <code>init</code>) more data.
+     * <p>Upon finishing, this method resets this cipher object to the stbte
+     * it wbs in when previously initiblized vib b cbll to <code>init</code>.
+     * Thbt is, the object is reset bnd bvbilbble to encrypt or decrypt
+     * (depending on the operbtion mode thbt wbs specified in the cbll to
+     * <code>init</code>) more dbtb.
      *
-     * <p>Note: if any exception is thrown, this cipher object may need to
-     * be reset before it can be used again.
+     * <p>Note: if bny exception is thrown, this cipher object mby need to
+     * be reset before it cbn be used bgbin.
      *
      * @return the new buffer with the result
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized)
-     * @exception IllegalBlockSizeException if this cipher is a block cipher,
-     * no padding has been requested (only in encryption mode), and the total
-     * input length of the data processed by this cipher is not a multiple of
-     * block size; or if this encryption algorithm is unable to
-     * process the input data provided.
-     * @exception BadPaddingException if this cipher is in decryption mode,
-     * and (un)padding has been requested, but the decrypted data is not
-     * bounded by the appropriate padding bytes
-     * @exception AEADBadTagException if this cipher is decrypting in an
-     * AEAD mode (such as GCM/CCM), and the received authentication tag
-     * does not match the calculated value
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized)
+     * @exception IllegblBlockSizeException if this cipher is b block cipher,
+     * no pbdding hbs been requested (only in encryption mode), bnd the totbl
+     * input length of the dbtb processed by this cipher is not b multiple of
+     * block size; or if this encryption blgorithm is unbble to
+     * process the input dbtb provided.
+     * @exception BbdPbddingException if this cipher is in decryption mode,
+     * bnd (un)pbdding hbs been requested, but the decrypted dbtb is not
+     * bounded by the bppropribte pbdding bytes
+     * @exception AEADBbdTbgException if this cipher is decrypting in bn
+     * AEAD mode (such bs GCM/CCM), bnd the received buthenticbtion tbg
+     * does not mbtch the cblculbted vblue
      */
-    public final byte[] doFinal()
-            throws IllegalBlockSizeException, BadPaddingException {
-        checkCipherState();
+    public finbl byte[] doFinbl()
+            throws IllegblBlockSizeException, BbdPbddingException {
+        checkCipherStbte();
 
         chooseFirstProvider();
-        return spi.engineDoFinal(null, 0, 0);
+        return spi.engineDoFinbl(null, 0, 0);
     }
 
     /**
-     * Finishes a multiple-part encryption or decryption operation, depending
-     * on how this cipher was initialized.
+     * Finishes b multiple-pbrt encryption or decryption operbtion, depending
+     * on how this cipher wbs initiblized.
      *
-     * <p>Input data that may have been buffered during a previous
-     * <code>update</code> operation is processed, with padding (if requested)
-     * being applied.
-     * If an AEAD mode such as GCM/CCM is being used, the authentication
-     * tag is appended in the case of encryption, or verified in the
-     * case of decryption.
-     * The result is stored in the <code>output</code> buffer, starting at
+     * <p>Input dbtb thbt mby hbve been buffered during b previous
+     * <code>updbte</code> operbtion is processed, with pbdding (if requested)
+     * being bpplied.
+     * If bn AEAD mode such bs GCM/CCM is being used, the buthenticbtion
+     * tbg is bppended in the cbse of encryption, or verified in the
+     * cbse of decryption.
+     * The result is stored in the <code>output</code> buffer, stbrting bt
      * <code>outputOffset</code> inclusive.
      *
-     * <p>If the <code>output</code> buffer is too small to hold the result,
-     * a <code>ShortBufferException</code> is thrown. In this case, repeat this
-     * call with a larger output buffer. Use
+     * <p>If the <code>output</code> buffer is too smbll to hold the result,
+     * b <code>ShortBufferException</code> is thrown. In this cbse, repebt this
+     * cbll with b lbrger output buffer. Use
      * {@link #getOutputSize(int) getOutputSize} to determine how big
      * the output buffer should be.
      *
-     * <p>Upon finishing, this method resets this cipher object to the state
-     * it was in when previously initialized via a call to <code>init</code>.
-     * That is, the object is reset and available to encrypt or decrypt
-     * (depending on the operation mode that was specified in the call to
-     * <code>init</code>) more data.
+     * <p>Upon finishing, this method resets this cipher object to the stbte
+     * it wbs in when previously initiblized vib b cbll to <code>init</code>.
+     * Thbt is, the object is reset bnd bvbilbble to encrypt or decrypt
+     * (depending on the operbtion mode thbt wbs specified in the cbll to
+     * <code>init</code>) more dbtb.
      *
-     * <p>Note: if any exception is thrown, this cipher object may need to
-     * be reset before it can be used again.
+     * <p>Note: if bny exception is thrown, this cipher object mby need to
+     * be reset before it cbn be used bgbin.
      *
-     * @param output the buffer for the result
-     * @param outputOffset the offset in <code>output</code> where the result
+     * @pbrbm output the buffer for the result
+     * @pbrbm outputOffset the offset in <code>output</code> where the result
      * is stored
      *
      * @return the number of bytes stored in <code>output</code>
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized)
-     * @exception IllegalBlockSizeException if this cipher is a block cipher,
-     * no padding has been requested (only in encryption mode), and the total
-     * input length of the data processed by this cipher is not a multiple of
-     * block size; or if this encryption algorithm is unable to
-     * process the input data provided.
-     * @exception ShortBufferException if the given output buffer is too small
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized)
+     * @exception IllegblBlockSizeException if this cipher is b block cipher,
+     * no pbdding hbs been requested (only in encryption mode), bnd the totbl
+     * input length of the dbtb processed by this cipher is not b multiple of
+     * block size; or if this encryption blgorithm is unbble to
+     * process the input dbtb provided.
+     * @exception ShortBufferException if the given output buffer is too smbll
      * to hold the result
-     * @exception BadPaddingException if this cipher is in decryption mode,
-     * and (un)padding has been requested, but the decrypted data is not
-     * bounded by the appropriate padding bytes
-     * @exception AEADBadTagException if this cipher is decrypting in an
-     * AEAD mode (such as GCM/CCM), and the received authentication tag
-     * does not match the calculated value
+     * @exception BbdPbddingException if this cipher is in decryption mode,
+     * bnd (un)pbdding hbs been requested, but the decrypted dbtb is not
+     * bounded by the bppropribte pbdding bytes
+     * @exception AEADBbdTbgException if this cipher is decrypting in bn
+     * AEAD mode (such bs GCM/CCM), bnd the received buthenticbtion tbg
+     * does not mbtch the cblculbted vblue
      */
-    public final int doFinal(byte[] output, int outputOffset)
-            throws IllegalBlockSizeException, ShortBufferException,
-               BadPaddingException {
-        checkCipherState();
+    public finbl int doFinbl(byte[] output, int outputOffset)
+            throws IllegblBlockSizeException, ShortBufferException,
+               BbdPbddingException {
+        checkCipherStbte();
 
-        // Input sanity check
+        // Input sbnity check
         if ((output == null) || (outputOffset < 0)) {
-            throw new IllegalArgumentException("Bad arguments");
+            throw new IllegblArgumentException("Bbd brguments");
         }
 
         chooseFirstProvider();
-        return spi.engineDoFinal(null, 0, 0, output, outputOffset);
+        return spi.engineDoFinbl(null, 0, 0, output, outputOffset);
     }
 
     /**
-     * Encrypts or decrypts data in a single-part operation, or finishes a
-     * multiple-part operation. The data is encrypted or decrypted,
-     * depending on how this cipher was initialized.
+     * Encrypts or decrypts dbtb in b single-pbrt operbtion, or finishes b
+     * multiple-pbrt operbtion. The dbtb is encrypted or decrypted,
+     * depending on how this cipher wbs initiblized.
      *
-     * <p>The bytes in the <code>input</code> buffer, and any input bytes that
-     * may have been buffered during a previous <code>update</code> operation,
-     * are processed, with padding (if requested) being applied.
-     * If an AEAD mode such as GCM/CCM is being used, the authentication
-     * tag is appended in the case of encryption, or verified in the
-     * case of decryption.
-     * The result is stored in a new buffer.
+     * <p>The bytes in the <code>input</code> buffer, bnd bny input bytes thbt
+     * mby hbve been buffered during b previous <code>updbte</code> operbtion,
+     * bre processed, with pbdding (if requested) being bpplied.
+     * If bn AEAD mode such bs GCM/CCM is being used, the buthenticbtion
+     * tbg is bppended in the cbse of encryption, or verified in the
+     * cbse of decryption.
+     * The result is stored in b new buffer.
      *
-     * <p>Upon finishing, this method resets this cipher object to the state
-     * it was in when previously initialized via a call to <code>init</code>.
-     * That is, the object is reset and available to encrypt or decrypt
-     * (depending on the operation mode that was specified in the call to
-     * <code>init</code>) more data.
+     * <p>Upon finishing, this method resets this cipher object to the stbte
+     * it wbs in when previously initiblized vib b cbll to <code>init</code>.
+     * Thbt is, the object is reset bnd bvbilbble to encrypt or decrypt
+     * (depending on the operbtion mode thbt wbs specified in the cbll to
+     * <code>init</code>) more dbtb.
      *
-     * <p>Note: if any exception is thrown, this cipher object may need to
-     * be reset before it can be used again.
+     * <p>Note: if bny exception is thrown, this cipher object mby need to
+     * be reset before it cbn be used bgbin.
      *
-     * @param input the input buffer
+     * @pbrbm input the input buffer
      *
      * @return the new buffer with the result
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized)
-     * @exception IllegalBlockSizeException if this cipher is a block cipher,
-     * no padding has been requested (only in encryption mode), and the total
-     * input length of the data processed by this cipher is not a multiple of
-     * block size; or if this encryption algorithm is unable to
-     * process the input data provided.
-     * @exception BadPaddingException if this cipher is in decryption mode,
-     * and (un)padding has been requested, but the decrypted data is not
-     * bounded by the appropriate padding bytes
-     * @exception AEADBadTagException if this cipher is decrypting in an
-     * AEAD mode (such as GCM/CCM), and the received authentication tag
-     * does not match the calculated value
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized)
+     * @exception IllegblBlockSizeException if this cipher is b block cipher,
+     * no pbdding hbs been requested (only in encryption mode), bnd the totbl
+     * input length of the dbtb processed by this cipher is not b multiple of
+     * block size; or if this encryption blgorithm is unbble to
+     * process the input dbtb provided.
+     * @exception BbdPbddingException if this cipher is in decryption mode,
+     * bnd (un)pbdding hbs been requested, but the decrypted dbtb is not
+     * bounded by the bppropribte pbdding bytes
+     * @exception AEADBbdTbgException if this cipher is decrypting in bn
+     * AEAD mode (such bs GCM/CCM), bnd the received buthenticbtion tbg
+     * does not mbtch the cblculbted vblue
      */
-    public final byte[] doFinal(byte[] input)
-            throws IllegalBlockSizeException, BadPaddingException {
-        checkCipherState();
+    public finbl byte[] doFinbl(byte[] input)
+            throws IllegblBlockSizeException, BbdPbddingException {
+        checkCipherStbte();
 
-        // Input sanity check
+        // Input sbnity check
         if (input == null) {
-            throw new IllegalArgumentException("Null input buffer");
+            throw new IllegblArgumentException("Null input buffer");
         }
 
         chooseFirstProvider();
-        return spi.engineDoFinal(input, 0, input.length);
+        return spi.engineDoFinbl(input, 0, input.length);
     }
 
     /**
-     * Encrypts or decrypts data in a single-part operation, or finishes a
-     * multiple-part operation. The data is encrypted or decrypted,
-     * depending on how this cipher was initialized.
+     * Encrypts or decrypts dbtb in b single-pbrt operbtion, or finishes b
+     * multiple-pbrt operbtion. The dbtb is encrypted or decrypted,
+     * depending on how this cipher wbs initiblized.
      *
      * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code> inclusive, and any input
-     * bytes that may have been buffered during a previous <code>update</code>
-     * operation, are processed, with padding (if requested) being applied.
-     * If an AEAD mode such as GCM/CCM is being used, the authentication
-     * tag is appended in the case of encryption, or verified in the
-     * case of decryption.
-     * The result is stored in a new buffer.
+     * buffer, stbrting bt <code>inputOffset</code> inclusive, bnd bny input
+     * bytes thbt mby hbve been buffered during b previous <code>updbte</code>
+     * operbtion, bre processed, with pbdding (if requested) being bpplied.
+     * If bn AEAD mode such bs GCM/CCM is being used, the buthenticbtion
+     * tbg is bppended in the cbse of encryption, or verified in the
+     * cbse of decryption.
+     * The result is stored in b new buffer.
      *
-     * <p>Upon finishing, this method resets this cipher object to the state
-     * it was in when previously initialized via a call to <code>init</code>.
-     * That is, the object is reset and available to encrypt or decrypt
-     * (depending on the operation mode that was specified in the call to
-     * <code>init</code>) more data.
+     * <p>Upon finishing, this method resets this cipher object to the stbte
+     * it wbs in when previously initiblized vib b cbll to <code>init</code>.
+     * Thbt is, the object is reset bnd bvbilbble to encrypt or decrypt
+     * (depending on the operbtion mode thbt wbs specified in the cbll to
+     * <code>init</code>) more dbtb.
      *
-     * <p>Note: if any exception is thrown, this cipher object may need to
-     * be reset before it can be used again.
+     * <p>Note: if bny exception is thrown, this cipher object mby need to
+     * be reset before it cbn be used bgbin.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
+     * @pbrbm input the input buffer
+     * @pbrbm inputOffset the offset in <code>input</code> where the input
+     * stbrts
+     * @pbrbm inputLen the input length
      *
      * @return the new buffer with the result
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized)
-     * @exception IllegalBlockSizeException if this cipher is a block cipher,
-     * no padding has been requested (only in encryption mode), and the total
-     * input length of the data processed by this cipher is not a multiple of
-     * block size; or if this encryption algorithm is unable to
-     * process the input data provided.
-     * @exception BadPaddingException if this cipher is in decryption mode,
-     * and (un)padding has been requested, but the decrypted data is not
-     * bounded by the appropriate padding bytes
-     * @exception AEADBadTagException if this cipher is decrypting in an
-     * AEAD mode (such as GCM/CCM), and the received authentication tag
-     * does not match the calculated value
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized)
+     * @exception IllegblBlockSizeException if this cipher is b block cipher,
+     * no pbdding hbs been requested (only in encryption mode), bnd the totbl
+     * input length of the dbtb processed by this cipher is not b multiple of
+     * block size; or if this encryption blgorithm is unbble to
+     * process the input dbtb provided.
+     * @exception BbdPbddingException if this cipher is in decryption mode,
+     * bnd (un)pbdding hbs been requested, but the decrypted dbtb is not
+     * bounded by the bppropribte pbdding bytes
+     * @exception AEADBbdTbgException if this cipher is decrypting in bn
+     * AEAD mode (such bs GCM/CCM), bnd the received buthenticbtion tbg
+     * does not mbtch the cblculbted vblue
      */
-    public final byte[] doFinal(byte[] input, int inputOffset, int inputLen)
-            throws IllegalBlockSizeException, BadPaddingException {
-        checkCipherState();
+    public finbl byte[] doFinbl(byte[] input, int inputOffset, int inputLen)
+            throws IllegblBlockSizeException, BbdPbddingException {
+        checkCipherStbte();
 
-        // Input sanity check
+        // Input sbnity check
         if (input == null || inputOffset < 0
             || inputLen > (input.length - inputOffset) || inputLen < 0) {
-            throw new IllegalArgumentException("Bad arguments");
+            throw new IllegblArgumentException("Bbd brguments");
         }
 
         chooseFirstProvider();
-        return spi.engineDoFinal(input, inputOffset, inputLen);
+        return spi.engineDoFinbl(input, inputOffset, inputLen);
     }
 
     /**
-     * Encrypts or decrypts data in a single-part operation, or finishes a
-     * multiple-part operation. The data is encrypted or decrypted,
-     * depending on how this cipher was initialized.
+     * Encrypts or decrypts dbtb in b single-pbrt operbtion, or finishes b
+     * multiple-pbrt operbtion. The dbtb is encrypted or decrypted,
+     * depending on how this cipher wbs initiblized.
      *
      * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code> inclusive, and any input
-     * bytes that may have been buffered during a previous <code>update</code>
-     * operation, are processed, with padding (if requested) being applied.
-     * If an AEAD mode such as GCM/CCM is being used, the authentication
-     * tag is appended in the case of encryption, or verified in the
-     * case of decryption.
+     * buffer, stbrting bt <code>inputOffset</code> inclusive, bnd bny input
+     * bytes thbt mby hbve been buffered during b previous <code>updbte</code>
+     * operbtion, bre processed, with pbdding (if requested) being bpplied.
+     * If bn AEAD mode such bs GCM/CCM is being used, the buthenticbtion
+     * tbg is bppended in the cbse of encryption, or verified in the
+     * cbse of decryption.
      * The result is stored in the <code>output</code> buffer.
      *
-     * <p>If the <code>output</code> buffer is too small to hold the result,
-     * a <code>ShortBufferException</code> is thrown. In this case, repeat this
-     * call with a larger output buffer. Use
+     * <p>If the <code>output</code> buffer is too smbll to hold the result,
+     * b <code>ShortBufferException</code> is thrown. In this cbse, repebt this
+     * cbll with b lbrger output buffer. Use
      * {@link #getOutputSize(int) getOutputSize} to determine how big
      * the output buffer should be.
      *
-     * <p>Upon finishing, this method resets this cipher object to the state
-     * it was in when previously initialized via a call to <code>init</code>.
-     * That is, the object is reset and available to encrypt or decrypt
-     * (depending on the operation mode that was specified in the call to
-     * <code>init</code>) more data.
+     * <p>Upon finishing, this method resets this cipher object to the stbte
+     * it wbs in when previously initiblized vib b cbll to <code>init</code>.
+     * Thbt is, the object is reset bnd bvbilbble to encrypt or decrypt
+     * (depending on the operbtion mode thbt wbs specified in the cbll to
+     * <code>init</code>) more dbtb.
      *
-     * <p>Note: if any exception is thrown, this cipher object may need to
-     * be reset before it can be used again.
+     * <p>Note: if bny exception is thrown, this cipher object mby need to
+     * be reset before it cbn be used bgbin.
      *
-     * <p>Note: this method should be copy-safe, which means the
-     * <code>input</code> and <code>output</code> buffers can reference
-     * the same byte array and no unprocessed input data is overwritten
+     * <p>Note: this method should be copy-sbfe, which mebns the
+     * <code>input</code> bnd <code>output</code> buffers cbn reference
+     * the sbme byte brrby bnd no unprocessed input dbtb is overwritten
      * when the result is copied into the output buffer.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
-     * @param output the buffer for the result
+     * @pbrbm input the input buffer
+     * @pbrbm inputOffset the offset in <code>input</code> where the input
+     * stbrts
+     * @pbrbm inputLen the input length
+     * @pbrbm output the buffer for the result
      *
      * @return the number of bytes stored in <code>output</code>
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized)
-     * @exception IllegalBlockSizeException if this cipher is a block cipher,
-     * no padding has been requested (only in encryption mode), and the total
-     * input length of the data processed by this cipher is not a multiple of
-     * block size; or if this encryption algorithm is unable to
-     * process the input data provided.
-     * @exception ShortBufferException if the given output buffer is too small
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized)
+     * @exception IllegblBlockSizeException if this cipher is b block cipher,
+     * no pbdding hbs been requested (only in encryption mode), bnd the totbl
+     * input length of the dbtb processed by this cipher is not b multiple of
+     * block size; or if this encryption blgorithm is unbble to
+     * process the input dbtb provided.
+     * @exception ShortBufferException if the given output buffer is too smbll
      * to hold the result
-     * @exception BadPaddingException if this cipher is in decryption mode,
-     * and (un)padding has been requested, but the decrypted data is not
-     * bounded by the appropriate padding bytes
-     * @exception AEADBadTagException if this cipher is decrypting in an
-     * AEAD mode (such as GCM/CCM), and the received authentication tag
-     * does not match the calculated value
+     * @exception BbdPbddingException if this cipher is in decryption mode,
+     * bnd (un)pbdding hbs been requested, but the decrypted dbtb is not
+     * bounded by the bppropribte pbdding bytes
+     * @exception AEADBbdTbgException if this cipher is decrypting in bn
+     * AEAD mode (such bs GCM/CCM), bnd the received buthenticbtion tbg
+     * does not mbtch the cblculbted vblue
      */
-    public final int doFinal(byte[] input, int inputOffset, int inputLen,
+    public finbl int doFinbl(byte[] input, int inputOffset, int inputLen,
                              byte[] output)
-            throws ShortBufferException, IllegalBlockSizeException,
-            BadPaddingException {
-        checkCipherState();
+            throws ShortBufferException, IllegblBlockSizeException,
+            BbdPbddingException {
+        checkCipherStbte();
 
-        // Input sanity check
+        // Input sbnity check
         if (input == null || inputOffset < 0
             || inputLen > (input.length - inputOffset) || inputLen < 0) {
-            throw new IllegalArgumentException("Bad arguments");
+            throw new IllegblArgumentException("Bbd brguments");
         }
 
         chooseFirstProvider();
-        return spi.engineDoFinal(input, inputOffset, inputLen,
+        return spi.engineDoFinbl(input, inputOffset, inputLen,
                                        output, 0);
     }
 
     /**
-     * Encrypts or decrypts data in a single-part operation, or finishes a
-     * multiple-part operation. The data is encrypted or decrypted,
-     * depending on how this cipher was initialized.
+     * Encrypts or decrypts dbtb in b single-pbrt operbtion, or finishes b
+     * multiple-pbrt operbtion. The dbtb is encrypted or decrypted,
+     * depending on how this cipher wbs initiblized.
      *
      * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code> inclusive, and any input
-     * bytes that may have been buffered during a previous
-     * <code>update</code> operation, are processed, with padding
-     * (if requested) being applied.
-     * If an AEAD mode such as GCM/CCM is being used, the authentication
-     * tag is appended in the case of encryption, or verified in the
-     * case of decryption.
-     * The result is stored in the <code>output</code> buffer, starting at
+     * buffer, stbrting bt <code>inputOffset</code> inclusive, bnd bny input
+     * bytes thbt mby hbve been buffered during b previous
+     * <code>updbte</code> operbtion, bre processed, with pbdding
+     * (if requested) being bpplied.
+     * If bn AEAD mode such bs GCM/CCM is being used, the buthenticbtion
+     * tbg is bppended in the cbse of encryption, or verified in the
+     * cbse of decryption.
+     * The result is stored in the <code>output</code> buffer, stbrting bt
      * <code>outputOffset</code> inclusive.
      *
-     * <p>If the <code>output</code> buffer is too small to hold the result,
-     * a <code>ShortBufferException</code> is thrown. In this case, repeat this
-     * call with a larger output buffer. Use
+     * <p>If the <code>output</code> buffer is too smbll to hold the result,
+     * b <code>ShortBufferException</code> is thrown. In this cbse, repebt this
+     * cbll with b lbrger output buffer. Use
      * {@link #getOutputSize(int) getOutputSize} to determine how big
      * the output buffer should be.
      *
-     * <p>Upon finishing, this method resets this cipher object to the state
-     * it was in when previously initialized via a call to <code>init</code>.
-     * That is, the object is reset and available to encrypt or decrypt
-     * (depending on the operation mode that was specified in the call to
-     * <code>init</code>) more data.
+     * <p>Upon finishing, this method resets this cipher object to the stbte
+     * it wbs in when previously initiblized vib b cbll to <code>init</code>.
+     * Thbt is, the object is reset bnd bvbilbble to encrypt or decrypt
+     * (depending on the operbtion mode thbt wbs specified in the cbll to
+     * <code>init</code>) more dbtb.
      *
-     * <p>Note: if any exception is thrown, this cipher object may need to
-     * be reset before it can be used again.
+     * <p>Note: if bny exception is thrown, this cipher object mby need to
+     * be reset before it cbn be used bgbin.
      *
-     * <p>Note: this method should be copy-safe, which means the
-     * <code>input</code> and <code>output</code> buffers can reference
-     * the same byte array and no unprocessed input data is overwritten
+     * <p>Note: this method should be copy-sbfe, which mebns the
+     * <code>input</code> bnd <code>output</code> buffers cbn reference
+     * the sbme byte brrby bnd no unprocessed input dbtb is overwritten
      * when the result is copied into the output buffer.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
-     * @param output the buffer for the result
-     * @param outputOffset the offset in <code>output</code> where the result
+     * @pbrbm input the input buffer
+     * @pbrbm inputOffset the offset in <code>input</code> where the input
+     * stbrts
+     * @pbrbm inputLen the input length
+     * @pbrbm output the buffer for the result
+     * @pbrbm outputOffset the offset in <code>output</code> where the result
      * is stored
      *
      * @return the number of bytes stored in <code>output</code>
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized)
-     * @exception IllegalBlockSizeException if this cipher is a block cipher,
-     * no padding has been requested (only in encryption mode), and the total
-     * input length of the data processed by this cipher is not a multiple of
-     * block size; or if this encryption algorithm is unable to
-     * process the input data provided.
-     * @exception ShortBufferException if the given output buffer is too small
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized)
+     * @exception IllegblBlockSizeException if this cipher is b block cipher,
+     * no pbdding hbs been requested (only in encryption mode), bnd the totbl
+     * input length of the dbtb processed by this cipher is not b multiple of
+     * block size; or if this encryption blgorithm is unbble to
+     * process the input dbtb provided.
+     * @exception ShortBufferException if the given output buffer is too smbll
      * to hold the result
-     * @exception BadPaddingException if this cipher is in decryption mode,
-     * and (un)padding has been requested, but the decrypted data is not
-     * bounded by the appropriate padding bytes
-     * @exception AEADBadTagException if this cipher is decrypting in an
-     * AEAD mode (such as GCM/CCM), and the received authentication tag
-     * does not match the calculated value
+     * @exception BbdPbddingException if this cipher is in decryption mode,
+     * bnd (un)pbdding hbs been requested, but the decrypted dbtb is not
+     * bounded by the bppropribte pbdding bytes
+     * @exception AEADBbdTbgException if this cipher is decrypting in bn
+     * AEAD mode (such bs GCM/CCM), bnd the received buthenticbtion tbg
+     * does not mbtch the cblculbted vblue
      */
-    public final int doFinal(byte[] input, int inputOffset, int inputLen,
+    public finbl int doFinbl(byte[] input, int inputOffset, int inputLen,
                              byte[] output, int outputOffset)
-            throws ShortBufferException, IllegalBlockSizeException,
-            BadPaddingException {
-        checkCipherState();
+            throws ShortBufferException, IllegblBlockSizeException,
+            BbdPbddingException {
+        checkCipherStbte();
 
-        // Input sanity check
+        // Input sbnity check
         if (input == null || inputOffset < 0
             || inputLen > (input.length - inputOffset) || inputLen < 0
             || outputOffset < 0) {
-            throw new IllegalArgumentException("Bad arguments");
+            throw new IllegblArgumentException("Bbd brguments");
         }
 
         chooseFirstProvider();
-        return spi.engineDoFinal(input, inputOffset, inputLen,
+        return spi.engineDoFinbl(input, inputOffset, inputLen,
                                        output, outputOffset);
     }
 
     /**
-     * Encrypts or decrypts data in a single-part operation, or finishes a
-     * multiple-part operation. The data is encrypted or decrypted,
-     * depending on how this cipher was initialized.
+     * Encrypts or decrypts dbtb in b single-pbrt operbtion, or finishes b
+     * multiple-pbrt operbtion. The dbtb is encrypted or decrypted,
+     * depending on how this cipher wbs initiblized.
      *
-     * <p>All <code>input.remaining()</code> bytes starting at
-     * <code>input.position()</code> are processed.
-     * If an AEAD mode such as GCM/CCM is being used, the authentication
-     * tag is appended in the case of encryption, or verified in the
-     * case of decryption.
+     * <p>All <code>input.rembining()</code> bytes stbrting bt
+     * <code>input.position()</code> bre processed.
+     * If bn AEAD mode such bs GCM/CCM is being used, the buthenticbtion
+     * tbg is bppended in the cbse of encryption, or verified in the
+     * cbse of decryption.
      * The result is stored in the output buffer.
-     * Upon return, the input buffer's position will be equal
-     * to its limit; its limit will not have changed. The output buffer's
-     * position will have advanced by n, where n is the value returned
-     * by this method; the output buffer's limit will not have changed.
+     * Upon return, the input buffer's position will be equbl
+     * to its limit; its limit will not hbve chbnged. The output buffer's
+     * position will hbve bdvbnced by n, where n is the vblue returned
+     * by this method; the output buffer's limit will not hbve chbnged.
      *
-     * <p>If <code>output.remaining()</code> bytes are insufficient to
-     * hold the result, a <code>ShortBufferException</code> is thrown.
-     * In this case, repeat this call with a larger output buffer. Use
+     * <p>If <code>output.rembining()</code> bytes bre insufficient to
+     * hold the result, b <code>ShortBufferException</code> is thrown.
+     * In this cbse, repebt this cbll with b lbrger output buffer. Use
      * {@link #getOutputSize(int) getOutputSize} to determine how big
      * the output buffer should be.
      *
-     * <p>Upon finishing, this method resets this cipher object to the state
-     * it was in when previously initialized via a call to <code>init</code>.
-     * That is, the object is reset and available to encrypt or decrypt
-     * (depending on the operation mode that was specified in the call to
-     * <code>init</code>) more data.
+     * <p>Upon finishing, this method resets this cipher object to the stbte
+     * it wbs in when previously initiblized vib b cbll to <code>init</code>.
+     * Thbt is, the object is reset bnd bvbilbble to encrypt or decrypt
+     * (depending on the operbtion mode thbt wbs specified in the cbll to
+     * <code>init</code>) more dbtb.
      *
-     * <p>Note: if any exception is thrown, this cipher object may need to
-     * be reset before it can be used again.
+     * <p>Note: if bny exception is thrown, this cipher object mby need to
+     * be reset before it cbn be used bgbin.
      *
-     * <p>Note: this method should be copy-safe, which means the
-     * <code>input</code> and <code>output</code> buffers can reference
-     * the same byte array and no unprocessed input data is overwritten
+     * <p>Note: this method should be copy-sbfe, which mebns the
+     * <code>input</code> bnd <code>output</code> buffers cbn reference
+     * the sbme byte brrby bnd no unprocessed input dbtb is overwritten
      * when the result is copied into the output buffer.
      *
-     * @param input the input ByteBuffer
-     * @param output the output ByteBuffer
+     * @pbrbm input the input ByteBuffer
+     * @pbrbm output the output ByteBuffer
      *
      * @return the number of bytes stored in <code>output</code>
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized)
-     * @exception IllegalArgumentException if input and output are the
-     *   same object
-     * @exception ReadOnlyBufferException if the output buffer is read-only
-     * @exception IllegalBlockSizeException if this cipher is a block cipher,
-     * no padding has been requested (only in encryption mode), and the total
-     * input length of the data processed by this cipher is not a multiple of
-     * block size; or if this encryption algorithm is unable to
-     * process the input data provided.
-     * @exception ShortBufferException if there is insufficient space in the
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized)
+     * @exception IllegblArgumentException if input bnd output bre the
+     *   sbme object
+     * @exception RebdOnlyBufferException if the output buffer is rebd-only
+     * @exception IllegblBlockSizeException if this cipher is b block cipher,
+     * no pbdding hbs been requested (only in encryption mode), bnd the totbl
+     * input length of the dbtb processed by this cipher is not b multiple of
+     * block size; or if this encryption blgorithm is unbble to
+     * process the input dbtb provided.
+     * @exception ShortBufferException if there is insufficient spbce in the
      * output buffer
-     * @exception BadPaddingException if this cipher is in decryption mode,
-     * and (un)padding has been requested, but the decrypted data is not
-     * bounded by the appropriate padding bytes
-     * @exception AEADBadTagException if this cipher is decrypting in an
-     * AEAD mode (such as GCM/CCM), and the received authentication tag
-     * does not match the calculated value
+     * @exception BbdPbddingException if this cipher is in decryption mode,
+     * bnd (un)pbdding hbs been requested, but the decrypted dbtb is not
+     * bounded by the bppropribte pbdding bytes
+     * @exception AEADBbdTbgException if this cipher is decrypting in bn
+     * AEAD mode (such bs GCM/CCM), bnd the received buthenticbtion tbg
+     * does not mbtch the cblculbted vblue
      *
      * @since 1.5
      */
-    public final int doFinal(ByteBuffer input, ByteBuffer output)
-            throws ShortBufferException, IllegalBlockSizeException,
-            BadPaddingException {
-        checkCipherState();
+    public finbl int doFinbl(ByteBuffer input, ByteBuffer output)
+            throws ShortBufferException, IllegblBlockSizeException,
+            BbdPbddingException {
+        checkCipherStbte();
 
         if ((input == null) || (output == null)) {
-            throw new IllegalArgumentException("Buffers must not be null");
+            throw new IllegblArgumentException("Buffers must not be null");
         }
         if (input == output) {
-            throw new IllegalArgumentException("Input and output buffers must "
-                + "not be the same object, consider using buffer.duplicate()");
+            throw new IllegblArgumentException("Input bnd output buffers must "
+                + "not be the sbme object, consider using buffer.duplicbte()");
         }
-        if (output.isReadOnly()) {
-            throw new ReadOnlyBufferException();
+        if (output.isRebdOnly()) {
+            throw new RebdOnlyBufferException();
         }
 
         chooseFirstProvider();
-        return spi.engineDoFinal(input, output);
+        return spi.engineDoFinbl(input, output);
     }
 
     /**
-     * Wrap a key.
+     * Wrbp b key.
      *
-     * @param key the key to be wrapped.
+     * @pbrbm key the key to be wrbpped.
      *
-     * @return the wrapped key.
+     * @return the wrbpped key.
      *
-     * @exception IllegalStateException if this cipher is in a wrong
-     * state (e.g., has not been initialized).
+     * @exception IllegblStbteException if this cipher is in b wrong
+     * stbte (e.g., hbs not been initiblized).
      *
-     * @exception IllegalBlockSizeException if this cipher is a block
-     * cipher, no padding has been requested, and the length of the
-     * encoding of the key to be wrapped is not a
+     * @exception IllegblBlockSizeException if this cipher is b block
+     * cipher, no pbdding hbs been requested, bnd the length of the
+     * encoding of the key to be wrbpped is not b
      * multiple of the block size.
      *
-     * @exception InvalidKeyException if it is impossible or unsafe to
-     * wrap the key with this cipher (e.g., a hardware protected key is
-     * being passed to a software-only cipher).
+     * @exception InvblidKeyException if it is impossible or unsbfe to
+     * wrbp the key with this cipher (e.g., b hbrdwbre protected key is
+     * being pbssed to b softwbre-only cipher).
      *
-     * @throws UnsupportedOperationException if the corresponding method in the
+     * @throws UnsupportedOperbtionException if the corresponding method in the
      * {@code CipherSpi} is not supported.
      */
-    public final byte[] wrap(Key key)
-            throws IllegalBlockSizeException, InvalidKeyException {
-        if (!(this instanceof NullCipher)) {
-            if (!initialized) {
-                throw new IllegalStateException("Cipher not initialized");
+    public finbl byte[] wrbp(Key key)
+            throws IllegblBlockSizeException, InvblidKeyException {
+        if (!(this instbnceof NullCipher)) {
+            if (!initiblized) {
+                throw new IllegblStbteException("Cipher not initiblized");
             }
             if (opmode != Cipher.WRAP_MODE) {
-                throw new IllegalStateException("Cipher not initialized " +
-                                                "for wrapping keys");
+                throw new IllegblStbteException("Cipher not initiblized " +
+                                                "for wrbpping keys");
             }
         }
 
         chooseFirstProvider();
-        return spi.engineWrap(key);
+        return spi.engineWrbp(key);
     }
 
     /**
-     * Unwrap a previously wrapped key.
+     * Unwrbp b previously wrbpped key.
      *
-     * @param wrappedKey the key to be unwrapped.
+     * @pbrbm wrbppedKey the key to be unwrbpped.
      *
-     * @param wrappedKeyAlgorithm the algorithm associated with the wrapped
+     * @pbrbm wrbppedKeyAlgorithm the blgorithm bssocibted with the wrbpped
      * key.
      *
-     * @param wrappedKeyType the type of the wrapped key. This must be one of
+     * @pbrbm wrbppedKeyType the type of the wrbpped key. This must be one of
      * <code>SECRET_KEY</code>, <code>PRIVATE_KEY</code>, or
      * <code>PUBLIC_KEY</code>.
      *
-     * @return the unwrapped key.
+     * @return the unwrbpped key.
      *
-     * @exception IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized).
+     * @exception IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized).
      *
-     * @exception NoSuchAlgorithmException if no installed providers
-     * can create keys of type <code>wrappedKeyType</code> for the
-     * <code>wrappedKeyAlgorithm</code>.
+     * @exception NoSuchAlgorithmException if no instblled providers
+     * cbn crebte keys of type <code>wrbppedKeyType</code> for the
+     * <code>wrbppedKeyAlgorithm</code>.
      *
-     * @exception InvalidKeyException if <code>wrappedKey</code> does not
-     * represent a wrapped key of type <code>wrappedKeyType</code> for
-     * the <code>wrappedKeyAlgorithm</code>.
+     * @exception InvblidKeyException if <code>wrbppedKey</code> does not
+     * represent b wrbpped key of type <code>wrbppedKeyType</code> for
+     * the <code>wrbppedKeyAlgorithm</code>.
      *
-     * @throws UnsupportedOperationException if the corresponding method in the
+     * @throws UnsupportedOperbtionException if the corresponding method in the
      * {@code CipherSpi} is not supported.
      */
-    public final Key unwrap(byte[] wrappedKey,
-                            String wrappedKeyAlgorithm,
-                            int wrappedKeyType)
-            throws InvalidKeyException, NoSuchAlgorithmException {
+    public finbl Key unwrbp(byte[] wrbppedKey,
+                            String wrbppedKeyAlgorithm,
+                            int wrbppedKeyType)
+            throws InvblidKeyException, NoSuchAlgorithmException {
 
-        if (!(this instanceof NullCipher)) {
-            if (!initialized) {
-                throw new IllegalStateException("Cipher not initialized");
+        if (!(this instbnceof NullCipher)) {
+            if (!initiblized) {
+                throw new IllegblStbteException("Cipher not initiblized");
             }
             if (opmode != Cipher.UNWRAP_MODE) {
-                throw new IllegalStateException("Cipher not initialized " +
-                                                "for unwrapping keys");
+                throw new IllegblStbteException("Cipher not initiblized " +
+                                                "for unwrbpping keys");
             }
         }
-        if ((wrappedKeyType != SECRET_KEY) &&
-            (wrappedKeyType != PRIVATE_KEY) &&
-            (wrappedKeyType != PUBLIC_KEY)) {
-            throw new InvalidParameterException("Invalid key type");
+        if ((wrbppedKeyType != SECRET_KEY) &&
+            (wrbppedKeyType != PRIVATE_KEY) &&
+            (wrbppedKeyType != PUBLIC_KEY)) {
+            throw new InvblidPbrbmeterException("Invblid key type");
         }
 
         chooseFirstProvider();
-        return spi.engineUnwrap(wrappedKey,
-                                      wrappedKeyAlgorithm,
-                                      wrappedKeyType);
+        return spi.engineUnwrbp(wrbppedKey,
+                                      wrbppedKeyAlgorithm,
+                                      wrbppedKeyType);
     }
 
-    private AlgorithmParameterSpec getAlgorithmParameterSpec(
-                                      AlgorithmParameters params)
-            throws InvalidParameterSpecException {
-        if (params == null) {
+    privbte AlgorithmPbrbmeterSpec getAlgorithmPbrbmeterSpec(
+                                      AlgorithmPbrbmeters pbrbms)
+            throws InvblidPbrbmeterSpecException {
+        if (pbrbms == null) {
             return null;
         }
 
-        String alg = params.getAlgorithm().toUpperCase(Locale.ENGLISH);
+        String blg = pbrbms.getAlgorithm().toUpperCbse(Locble.ENGLISH);
 
-        if (alg.equalsIgnoreCase("RC2")) {
-            return params.getParameterSpec(RC2ParameterSpec.class);
+        if (blg.equblsIgnoreCbse("RC2")) {
+            return pbrbms.getPbrbmeterSpec(RC2PbrbmeterSpec.clbss);
         }
 
-        if (alg.equalsIgnoreCase("RC5")) {
-            return params.getParameterSpec(RC5ParameterSpec.class);
+        if (blg.equblsIgnoreCbse("RC5")) {
+            return pbrbms.getPbrbmeterSpec(RC5PbrbmeterSpec.clbss);
         }
 
-        if (alg.startsWith("PBE")) {
-            return params.getParameterSpec(PBEParameterSpec.class);
+        if (blg.stbrtsWith("PBE")) {
+            return pbrbms.getPbrbmeterSpec(PBEPbrbmeterSpec.clbss);
         }
 
-        if (alg.startsWith("DES")) {
-            return params.getParameterSpec(IvParameterSpec.class);
+        if (blg.stbrtsWith("DES")) {
+            return pbrbms.getPbrbmeterSpec(IvPbrbmeterSpec.clbss);
         }
         return null;
     }
 
-    private static CryptoPermission getConfiguredPermission(
-            String transformation) throws NullPointerException,
+    privbte stbtic CryptoPermission getConfiguredPermission(
+            String trbnsformbtion) throws NullPointerException,
             NoSuchAlgorithmException {
-        if (transformation == null) throw new NullPointerException();
-        String[] parts = tokenizeTransformation(transformation);
-        return JceSecurityManager.INSTANCE.getCryptoPermission(parts[0]);
+        if (trbnsformbtion == null) throw new NullPointerException();
+        String[] pbrts = tokenizeTrbnsformbtion(trbnsformbtion);
+        return JceSecurityMbnbger.INSTANCE.getCryptoPermission(pbrts[0]);
     }
 
     /**
-     * Returns the maximum key length for the specified transformation
-     * according to the installed JCE jurisdiction policy files. If
-     * JCE unlimited strength jurisdiction policy files are installed,
+     * Returns the mbximum key length for the specified trbnsformbtion
+     * bccording to the instblled JCE jurisdiction policy files. If
+     * JCE unlimited strength jurisdiction policy files bre instblled,
      * Integer.MAX_VALUE will be returned.
-     * For more information on default key size in JCE jurisdiction
-     * policy files, please see Appendix E in the
-     * <a href=
+     * For more informbtion on defbult key size in JCE jurisdiction
+     * policy files, plebse see Appendix E in the
+     * <b href=
      *   "{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#AppC">
-     * Java Cryptography Architecture Reference Guide</a>.
+     * Jbvb Cryptogrbphy Architecture Reference Guide</b>.
      *
-     * @param transformation the cipher transformation.
-     * @return the maximum key length in bits or Integer.MAX_VALUE.
-     * @exception NullPointerException if <code>transformation</code> is null.
-     * @exception NoSuchAlgorithmException if <code>transformation</code>
-     * is not a valid transformation, i.e. in the form of "algorithm" or
-     * "algorithm/mode/padding".
+     * @pbrbm trbnsformbtion the cipher trbnsformbtion.
+     * @return the mbximum key length in bits or Integer.MAX_VALUE.
+     * @exception NullPointerException if <code>trbnsformbtion</code> is null.
+     * @exception NoSuchAlgorithmException if <code>trbnsformbtion</code>
+     * is not b vblid trbnsformbtion, i.e. in the form of "blgorithm" or
+     * "blgorithm/mode/pbdding".
      * @since 1.5
      */
-    public static final int getMaxAllowedKeyLength(String transformation)
+    public stbtic finbl int getMbxAllowedKeyLength(String trbnsformbtion)
             throws NoSuchAlgorithmException {
-        CryptoPermission cp = getConfiguredPermission(transformation);
-        return cp.getMaxKeySize();
+        CryptoPermission cp = getConfiguredPermission(trbnsformbtion);
+        return cp.getMbxKeySize();
     }
 
     /**
-     * Returns an AlgorithmParameterSpec object which contains
-     * the maximum cipher parameter value according to the
+     * Returns bn AlgorithmPbrbmeterSpec object which contbins
+     * the mbximum cipher pbrbmeter vblue bccording to the
      * jurisdiction policy file. If JCE unlimited strength jurisdiction
-     * policy files are installed or there is no maximum limit on the
-     * parameters for the specified transformation in the policy file,
+     * policy files bre instblled or there is no mbximum limit on the
+     * pbrbmeters for the specified trbnsformbtion in the policy file,
      * null will be returned.
      *
-     * @param transformation the cipher transformation.
-     * @return an AlgorithmParameterSpec which holds the maximum
-     * value or null.
-     * @exception NullPointerException if <code>transformation</code>
+     * @pbrbm trbnsformbtion the cipher trbnsformbtion.
+     * @return bn AlgorithmPbrbmeterSpec which holds the mbximum
+     * vblue or null.
+     * @exception NullPointerException if <code>trbnsformbtion</code>
      * is null.
-     * @exception NoSuchAlgorithmException if <code>transformation</code>
-     * is not a valid transformation, i.e. in the form of "algorithm" or
-     * "algorithm/mode/padding".
+     * @exception NoSuchAlgorithmException if <code>trbnsformbtion</code>
+     * is not b vblid trbnsformbtion, i.e. in the form of "blgorithm" or
+     * "blgorithm/mode/pbdding".
      * @since 1.5
      */
-    public static final AlgorithmParameterSpec getMaxAllowedParameterSpec(
-            String transformation) throws NoSuchAlgorithmException {
-        CryptoPermission cp = getConfiguredPermission(transformation);
-        return cp.getAlgorithmParameterSpec();
+    public stbtic finbl AlgorithmPbrbmeterSpec getMbxAllowedPbrbmeterSpec(
+            String trbnsformbtion) throws NoSuchAlgorithmException {
+        CryptoPermission cp = getConfiguredPermission(trbnsformbtion);
+        return cp.getAlgorithmPbrbmeterSpec();
     }
 
     /**
-     * Continues a multi-part update of the Additional Authentication
-     * Data (AAD).
+     * Continues b multi-pbrt updbte of the Additionbl Authenticbtion
+     * Dbtb (AAD).
      * <p>
-     * Calls to this method provide AAD to the cipher when operating in
-     * modes such as AEAD (GCM/CCM).  If this cipher is operating in
-     * either GCM or CCM mode, all AAD must be supplied before beginning
-     * operations on the ciphertext (via the {@code update} and {@code
-     * doFinal} methods).
+     * Cblls to this method provide AAD to the cipher when operbting in
+     * modes such bs AEAD (GCM/CCM).  If this cipher is operbting in
+     * either GCM or CCM mode, bll AAD must be supplied before beginning
+     * operbtions on the ciphertext (vib the {@code updbte} bnd {@code
+     * doFinbl} methods).
      *
-     * @param src the buffer containing the Additional Authentication Data
+     * @pbrbm src the buffer contbining the Additionbl Authenticbtion Dbtb
      *
-     * @throws IllegalArgumentException if the {@code src}
-     * byte array is null
-     * @throws IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized), does not accept AAD, or if
-     * operating in either GCM or CCM mode and one of the {@code update}
-     * methods has already been called for the active
-     * encryption/decryption operation
-     * @throws UnsupportedOperationException if the corresponding method
-     * in the {@code CipherSpi} has not been overridden by an
-     * implementation
+     * @throws IllegblArgumentException if the {@code src}
+     * byte brrby is null
+     * @throws IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized), does not bccept AAD, or if
+     * operbting in either GCM or CCM mode bnd one of the {@code updbte}
+     * methods hbs blrebdy been cblled for the bctive
+     * encryption/decryption operbtion
+     * @throws UnsupportedOperbtionException if the corresponding method
+     * in the {@code CipherSpi} hbs not been overridden by bn
+     * implementbtion
      *
      * @since 1.7
      */
-    public final void updateAAD(byte[] src) {
+    public finbl void updbteAAD(byte[] src) {
         if (src == null) {
-            throw new IllegalArgumentException("src buffer is null");
+            throw new IllegblArgumentException("src buffer is null");
         }
 
-        updateAAD(src, 0, src.length);
+        updbteAAD(src, 0, src.length);
     }
 
     /**
-     * Continues a multi-part update of the Additional Authentication
-     * Data (AAD), using a subset of the provided buffer.
+     * Continues b multi-pbrt updbte of the Additionbl Authenticbtion
+     * Dbtb (AAD), using b subset of the provided buffer.
      * <p>
-     * Calls to this method provide AAD to the cipher when operating in
-     * modes such as AEAD (GCM/CCM).  If this cipher is operating in
-     * either GCM or CCM mode, all AAD must be supplied before beginning
-     * operations on the ciphertext (via the {@code update} and {@code
-     * doFinal} methods).
+     * Cblls to this method provide AAD to the cipher when operbting in
+     * modes such bs AEAD (GCM/CCM).  If this cipher is operbting in
+     * either GCM or CCM mode, bll AAD must be supplied before beginning
+     * operbtions on the ciphertext (vib the {@code updbte} bnd {@code
+     * doFinbl} methods).
      *
-     * @param src the buffer containing the AAD
-     * @param offset the offset in {@code src} where the AAD input starts
-     * @param len the number of AAD bytes
+     * @pbrbm src the buffer contbining the AAD
+     * @pbrbm offset the offset in {@code src} where the AAD input stbrts
+     * @pbrbm len the number of AAD bytes
      *
-     * @throws IllegalArgumentException if the {@code src}
-     * byte array is null, or the {@code offset} or {@code length}
-     * is less than 0, or the sum of the {@code offset} and
-     * {@code len} is greater than the length of the
-     * {@code src} byte array
-     * @throws IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized), does not accept AAD, or if
-     * operating in either GCM or CCM mode and one of the {@code update}
-     * methods has already been called for the active
-     * encryption/decryption operation
-     * @throws UnsupportedOperationException if the corresponding method
-     * in the {@code CipherSpi} has not been overridden by an
-     * implementation
+     * @throws IllegblArgumentException if the {@code src}
+     * byte brrby is null, or the {@code offset} or {@code length}
+     * is less thbn 0, or the sum of the {@code offset} bnd
+     * {@code len} is grebter thbn the length of the
+     * {@code src} byte brrby
+     * @throws IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized), does not bccept AAD, or if
+     * operbting in either GCM or CCM mode bnd one of the {@code updbte}
+     * methods hbs blrebdy been cblled for the bctive
+     * encryption/decryption operbtion
+     * @throws UnsupportedOperbtionException if the corresponding method
+     * in the {@code CipherSpi} hbs not been overridden by bn
+     * implementbtion
      *
      * @since 1.7
      */
-    public final void updateAAD(byte[] src, int offset, int len) {
-        checkCipherState();
+    public finbl void updbteAAD(byte[] src, int offset, int len) {
+        checkCipherStbte();
 
-        // Input sanity check
+        // Input sbnity check
         if ((src == null) || (offset < 0) || (len < 0)
                 || ((len + offset) > src.length)) {
-            throw new IllegalArgumentException("Bad arguments");
+            throw new IllegblArgumentException("Bbd brguments");
         }
 
         chooseFirstProvider();
         if (len == 0) {
             return;
         }
-        spi.engineUpdateAAD(src, offset, len);
+        spi.engineUpdbteAAD(src, offset, len);
     }
 
     /**
-     * Continues a multi-part update of the Additional Authentication
-     * Data (AAD).
+     * Continues b multi-pbrt updbte of the Additionbl Authenticbtion
+     * Dbtb (AAD).
      * <p>
-     * Calls to this method provide AAD to the cipher when operating in
-     * modes such as AEAD (GCM/CCM).  If this cipher is operating in
-     * either GCM or CCM mode, all AAD must be supplied before beginning
-     * operations on the ciphertext (via the {@code update} and {@code
-     * doFinal} methods).
+     * Cblls to this method provide AAD to the cipher when operbting in
+     * modes such bs AEAD (GCM/CCM).  If this cipher is operbting in
+     * either GCM or CCM mode, bll AAD must be supplied before beginning
+     * operbtions on the ciphertext (vib the {@code updbte} bnd {@code
+     * doFinbl} methods).
      * <p>
-     * All {@code src.remaining()} bytes starting at
-     * {@code src.position()} are processed.
-     * Upon return, the input buffer's position will be equal
-     * to its limit; its limit will not have changed.
+     * All {@code src.rembining()} bytes stbrting bt
+     * {@code src.position()} bre processed.
+     * Upon return, the input buffer's position will be equbl
+     * to its limit; its limit will not hbve chbnged.
      *
-     * @param src the buffer containing the AAD
+     * @pbrbm src the buffer contbining the AAD
      *
-     * @throws IllegalArgumentException if the {@code src ByteBuffer}
+     * @throws IllegblArgumentException if the {@code src ByteBuffer}
      * is null
-     * @throws IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized), does not accept AAD, or if
-     * operating in either GCM or CCM mode and one of the {@code update}
-     * methods has already been called for the active
-     * encryption/decryption operation
-     * @throws UnsupportedOperationException if the corresponding method
-     * in the {@code CipherSpi} has not been overridden by an
-     * implementation
+     * @throws IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized), does not bccept AAD, or if
+     * operbting in either GCM or CCM mode bnd one of the {@code updbte}
+     * methods hbs blrebdy been cblled for the bctive
+     * encryption/decryption operbtion
+     * @throws UnsupportedOperbtionException if the corresponding method
+     * in the {@code CipherSpi} hbs not been overridden by bn
+     * implementbtion
      *
      * @since 1.7
      */
-    public final void updateAAD(ByteBuffer src) {
-        checkCipherState();
+    public finbl void updbteAAD(ByteBuffer src) {
+        checkCipherStbte();
 
-        // Input sanity check
+        // Input sbnity check
         if (src == null) {
-            throw new IllegalArgumentException("src ByteBuffer is null");
+            throw new IllegblArgumentException("src ByteBuffer is null");
         }
 
         chooseFirstProvider();
-        if (src.remaining() == 0) {
+        if (src.rembining() == 0) {
             return;
         }
-        spi.engineUpdateAAD(src);
+        spi.engineUpdbteAAD(src);
     }
 }

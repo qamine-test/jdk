@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 2001, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifdef WIN32_LEAN_AND_MEAN
-typedef signed char byte ;
+typedef signed chbr byte ;
 #endif
 
 struct bytes {
@@ -33,28 +33,28 @@ struct bytes {
   byte*  limit() { return ptr+len; }
 
   void set(byte* ptr_, size_t len_) { ptr = ptr_; len = len_; }
-  void set(const char* str)         { ptr = (byte*)str; len = strlen(str); }
+  void set(const chbr* str)         { ptr = (byte*)str; len = strlen(str); }
   bool inBounds(const void* p);     // p in [ptr, limit)
-  void malloc(size_t len_);
-  void realloc(size_t len_);
+  void mblloc(size_t len_);
+  void reblloc(size_t len_);
   void free();
   void copyFrom(const void* ptr_, size_t len_, size_t offset = 0);
-  void saveFrom(const void* ptr_, size_t len_);
-  void saveFrom(const char* str) { saveFrom(str, strlen(str)); }
+  void sbveFrom(const void* ptr_, size_t len_);
+  void sbveFrom(const chbr* str) { sbveFrom(str, strlen(str)); }
   void copyFrom(bytes& other, size_t offset = 0) {
     copyFrom(other.ptr, other.len, offset);
   }
-  void saveFrom(bytes& other) {
-    saveFrom(other.ptr, other.len);
+  void sbveFrom(bytes& other) {
+    sbveFrom(other.ptr, other.len);
   }
-  void clear(int fill_byte = 0) { memset(ptr, fill_byte, len); }
+  void clebr(int fill_byte = 0) { memset(ptr, fill_byte, len); }
   byte* writeTo(byte* bp);
-  bool equals(bytes& other) { return 0 == compareTo(other); }
-  int compareTo(bytes& other);
-  bool contains(byte c) { return indexOf(c) >= 0; }
+  bool equbls(bytes& other) { return 0 == compbreTo(other); }
+  int compbreTo(bytes& other);
+  bool contbins(byte c) { return indexOf(c) >= 0; }
   int indexOf(byte c);
   // substrings:
-  static bytes of(byte* ptr, size_t len) {
+  stbtic bytes of(byte* ptr, size_t len) {
     bytes res;
     res.set(ptr, len);
     return res;
@@ -63,82 +63,82 @@ struct bytes {
     bytes res;
     res.ptr = ptr + beg;
     res.len = end - beg;
-    assert(res.len == 0 || inBounds(res.ptr) && inBounds(res.limit()-1));
+    bssert(res.len == 0 || inBounds(res.ptr) && inBounds(res.limit()-1));
     return res;
   }
   // building C strings inside byte buffers:
-  bytes& strcat(const char* str) { ::strcat((char*)ptr, str); return *this; }
-  bytes& strcat(bytes& other) { ::strncat((char*)ptr, (char*)other.ptr, other.len); return *this; }
-  char* strval() { assert(strlen((char*)ptr) == len); return (char*) ptr; }
+  bytes& strcbt(const chbr* str) { ::strcbt((chbr*)ptr, str); return *this; }
+  bytes& strcbt(bytes& other) { ::strncbt((chbr*)ptr, (chbr*)other.ptr, other.len); return *this; }
+  chbr* strvbl() { bssert(strlen((chbr*)ptr) == len); return (chbr*) ptr; }
 #ifdef PRODUCT
-  const char* string() { return 0; }
+  const chbr* string() { return 0; }
 #else
-  const char* string();
+  const chbr* string();
 #endif
 };
-#define BYTES_OF(var) (bytes::of((byte*)&(var), sizeof(var)))
+#define BYTES_OF(vbr) (bytes::of((byte*)&(vbr), sizeof(vbr)))
 
 struct fillbytes {
   bytes b;
-  size_t allocated;
+  size_t bllocbted;
 
-  byte*  base()               { return b.ptr; }
+  byte*  bbse()               { return b.ptr; }
   size_t size()               { return b.len; }
-  byte*  limit()              { return b.limit(); }          // logical limit
-  void   setLimit(byte* lp)   { assert(isAllocated(lp)); b.len = lp - b.ptr; }
-  byte*  end()                { return b.ptr + allocated; }  // physical limit
-  byte*  loc(size_t o)        { assert(o < b.len); return b.ptr + o; }
-  void   init()               { allocated = 0; b.set(null, 0); }
+  byte*  limit()              { return b.limit(); }          // logicbl limit
+  void   setLimit(byte* lp)   { bssert(isAllocbted(lp)); b.len = lp - b.ptr; }
+  byte*  end()                { return b.ptr + bllocbted; }  // physicbl limit
+  byte*  loc(size_t o)        { bssert(o < b.len); return b.ptr + o; }
+  void   init()               { bllocbted = 0; b.set(null, 0); }
   void   init(size_t s)       { init(); ensureSize(s); }
-  void   free()               { if (allocated != 0) b.free(); allocated = 0; }
+  void   free()               { if (bllocbted != 0) b.free(); bllocbted = 0; }
   void   empty()              { b.len = 0; }
-  byte*  grow(size_t s);      // grow so that limit() += s
+  byte*  grow(size_t s);      // grow so thbt limit() += s
   int    getByte(uint i)      { return *loc(i) & 0xFF; }
-  void   addByte(byte x)      { *grow(1) = x; }
-  void   ensureSize(size_t s); // make sure allocated >= s
-  void   trimToSize()         { if (allocated > size())  b.realloc(allocated = size()); }
-  bool   canAppend(size_t s)  { return allocated > b.len+s; }
-  bool   isAllocated(byte* p) { return p >= base() && p <= end(); } //asserts
+  void   bddByte(byte x)      { *grow(1) = x; }
+  void   ensureSize(size_t s); // mbke sure bllocbted >= s
+  void   trimToSize()         { if (bllocbted > size())  b.reblloc(bllocbted = size()); }
+  bool   cbnAppend(size_t s)  { return bllocbted > b.len+s; }
+  bool   isAllocbted(byte* p) { return p >= bbse() && p <= end(); } //bsserts
   void   set(bytes& src)      { set(src.ptr, src.len); }
 
   void set(byte* ptr, size_t len) {
     b.set(ptr, len);
-    allocated = 0;   // mark as not reallocatable
+    bllocbted = 0;   // mbrk bs not rebllocbtbble
   }
 
-  // block operations on resizing byte buffer:
-  fillbytes& append(const void* ptr_, size_t len_)
+  // block operbtions on resizing byte buffer:
+  fillbytes& bppend(const void* ptr_, size_t len_)
     { memcpy(grow(len_), ptr_, len_); return (*this); }
-  fillbytes& append(bytes& other)
-    { return append(other.ptr, other.len); }
-  fillbytes& append(const char* str)
-    { return append(str, strlen(str)); }
+  fillbytes& bppend(bytes& other)
+    { return bppend(other.ptr, other.len); }
+  fillbytes& bppend(const chbr* str)
+    { return bppend(str, strlen(str)); }
 };
 
 struct ptrlist : fillbytes {
   typedef const void* cvptr;
   int    length()     { return (int)(size() / sizeof(cvptr)); }
-  cvptr* base()       { return (cvptr*) fillbytes::base(); }
+  cvptr* bbse()       { return (cvptr*) fillbytes::bbse(); }
   cvptr& get(int i)   { return *(cvptr*)loc(i * sizeof(cvptr)); }
   cvptr* limit()      { return (cvptr*) fillbytes::limit(); }
-  void   add(cvptr x) { *(cvptr*)grow(sizeof(x)) = x; }
-  void   popTo(int l) { assert(l <= length()); b.len = l * sizeof(cvptr); }
+  void   bdd(cvptr x) { *(cvptr*)grow(sizeof(x)) = x; }
+  void   popTo(int l) { bssert(l <= length()); b.len = l * sizeof(cvptr); }
   int    indexOf(cvptr x);
-  bool   contains(cvptr x) { return indexOf(x) >= 0; }
+  bool   contbins(cvptr x) { return indexOf(x) >= 0; }
   void   freeAll();   // frees every ptr on the list, plus the list itself
 };
-// Use a macro rather than mess with subtle mismatches
-// between member and non-member function pointers.
+// Use b mbcro rbther thbn mess with subtle mismbtches
+// between member bnd non-member function pointers.
 #define PTRLIST_QSORT(ptrls, fn) \
-  ::qsort((ptrls).base(), (ptrls).length(), sizeof(void*), fn)
+  ::qsort((ptrls).bbse(), (ptrls).length(), sizeof(void*), fn)
 
 struct intlist : fillbytes {
   int    length()     { return (int)(size() / sizeof(int)); }
-  int*   base()       { return (int*) fillbytes::base(); }
+  int*   bbse()       { return (int*) fillbytes::bbse(); }
   int&   get(int i)   { return *(int*)loc(i * sizeof(int)); }
   int*   limit()      { return (int*) fillbytes::limit(); }
-  void   add(int x)   { *(int*)grow(sizeof(x)) = x; }
-  void   popTo(int l) { assert(l <= length()); b.len = l * sizeof(int); }
+  void   bdd(int x)   { *(int*)grow(sizeof(x)) = x; }
+  void   popTo(int l) { bssert(l <= length()); b.len = l * sizeof(int); }
   int    indexOf(int x);
-  bool   contains(int x) { return indexOf(x) >= 0; }
+  bool   contbins(int x) { return indexOf(x) >= 0; }
 };

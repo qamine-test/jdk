@@ -3,78 +3,78 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.transforms.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsers.DocumentBuilderFbctory;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.Transform;
-import com.sun.org.apache.xml.internal.security.transforms.TransformSpi;
-import com.sun.org.apache.xml.internal.security.transforms.TransformationException;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.Bbse64DecodingException;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsform;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.TrbnsformSpi;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.TrbnsformbtionException;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsforms;
+import com.sun.org.bpbche.xml.internbl.security.utils.Bbse64;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
-import org.xml.sax.SAXException;
+import org.xml.sbx.SAXException;
 
 /**
- * Implements the <CODE>http://www.w3.org/2000/09/xmldsig#base64</CODE> decoding
- * transform.
+ * Implements the <CODE>http://www.w3.org/2000/09/xmldsig#bbse64</CODE> decoding
+ * trbnsform.
  *
- * <p>The normative specification for base64 decoding transforms is
+ * <p>The normbtive specificbtion for bbse64 decoding trbnsforms is
  * <A HREF="http://www.w3.org/TR/2001/CR-xmldsig-core-20010419/#ref-MIME">[MIME]</A>.
- * The base64 Transform element has no content. The input
- * is decoded by the algorithms. This transform is useful if an
- * application needs to sign the raw data associated with the encoded
- * content of an element. </p>
+ * The bbse64 Trbnsform element hbs no content. The input
+ * is decoded by the blgorithms. This trbnsform is useful if bn
+ * bpplicbtion needs to sign the rbw dbtb bssocibted with the encoded
+ * content of bn element. </p>
  *
- * <p>This transform requires an octet stream for input.
- * If an XPath node-set (or sufficiently functional alternative) is
- * given as input, then it is converted to an octet stream by
- * performing operations logically equivalent to 1) applying an XPath
- * transform with expression self::text(), then 2) taking the string-value
- * of the node-set. Thus, if an XML element is identified by a barename
- * XPointer in the Reference URI, and its content consists solely of base64
- * encoded character data, then this transform automatically strips away the
- * start and end tags of the identified element and any of its descendant
- * elements as well as any descendant comments and processing instructions.
- * The output of this transform is an octet stream.</p>
+ * <p>This trbnsform requires bn octet strebm for input.
+ * If bn XPbth node-set (or sufficiently functionbl blternbtive) is
+ * given bs input, then it is converted to bn octet strebm by
+ * performing operbtions logicblly equivblent to 1) bpplying bn XPbth
+ * trbnsform with expression self::text(), then 2) tbking the string-vblue
+ * of the node-set. Thus, if bn XML element is identified by b bbrenbme
+ * XPointer in the Reference URI, bnd its content consists solely of bbse64
+ * encoded chbrbcter dbtb, then this trbnsform butombticblly strips bwby the
+ * stbrt bnd end tbgs of the identified element bnd bny of its descendbnt
+ * elements bs well bs bny descendbnt comments bnd processing instructions.
+ * The output of this trbnsform is bn octet strebm.</p>
  *
- * @author Christian Geuer-Pollmann
- * @see com.sun.org.apache.xml.internal.security.utils.Base64
+ * @buthor Christibn Geuer-Pollmbnn
+ * @see com.sun.org.bpbche.xml.internbl.security.utils.Bbse64
  */
-public class TransformBase64Decode extends TransformSpi {
+public clbss TrbnsformBbse64Decode extends TrbnsformSpi {
 
-    /** Field implementedTransformURI */
-    public static final String implementedTransformURI =
-        Transforms.TRANSFORM_BASE64_DECODE;
+    /** Field implementedTrbnsformURI */
+    public stbtic finbl String implementedTrbnsformURI =
+        Trbnsforms.TRANSFORM_BASE64_DECODE;
 
     /**
      * Method engineGetURI
@@ -82,94 +82,94 @@ public class TransformBase64Decode extends TransformSpi {
      * @inheritDoc
      */
     protected String engineGetURI() {
-        return TransformBase64Decode.implementedTransformURI;
+        return TrbnsformBbse64Decode.implementedTrbnsformURI;
     }
 
     /**
-     * Method enginePerformTransform
+     * Method enginePerformTrbnsform
      *
-     * @param input
-     * @return {@link XMLSignatureInput} as the result of transformation
+     * @pbrbm input
+     * @return {@link XMLSignbtureInput} bs the result of trbnsformbtion
      * @inheritDoc
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      * @throws IOException
-     * @throws TransformationException
+     * @throws TrbnsformbtionException
      */
-    protected XMLSignatureInput enginePerformTransform(
-        XMLSignatureInput input, Transform transformObject
-    ) throws IOException, CanonicalizationException, TransformationException {
-        return enginePerformTransform(input, null, transformObject);
+    protected XMLSignbtureInput enginePerformTrbnsform(
+        XMLSignbtureInput input, Trbnsform trbnsformObject
+    ) throws IOException, CbnonicblizbtionException, TrbnsformbtionException {
+        return enginePerformTrbnsform(input, null, trbnsformObject);
     }
 
-    protected XMLSignatureInput enginePerformTransform(
-        XMLSignatureInput input, OutputStream os, Transform transformObject
-    ) throws IOException, CanonicalizationException, TransformationException {
+    protected XMLSignbtureInput enginePerformTrbnsform(
+        XMLSignbtureInput input, OutputStrebm os, Trbnsform trbnsformObject
+    ) throws IOException, CbnonicblizbtionException, TrbnsformbtionException {
         try {
             if (input.isElement()) {
                 Node el = input.getSubNode();
                 if (input.getSubNode().getNodeType() == Node.TEXT_NODE) {
-                    el = el.getParentNode();
+                    el = el.getPbrentNode();
                 }
                 StringBuilder sb = new StringBuilder();
-                traverseElement((Element)el, sb);
+                trbverseElement((Element)el, sb);
                 if (os == null) {
-                    byte[] decodedBytes = Base64.decode(sb.toString());
-                    return new XMLSignatureInput(decodedBytes);
+                    byte[] decodedBytes = Bbse64.decode(sb.toString());
+                    return new XMLSignbtureInput(decodedBytes);
                 }
-                Base64.decode(sb.toString(), os);
-                XMLSignatureInput output = new XMLSignatureInput((byte[])null);
-                output.setOutputStream(os);
+                Bbse64.decode(sb.toString(), os);
+                XMLSignbtureInput output = new XMLSignbtureInput((byte[])null);
+                output.setOutputStrebm(os);
                 return output;
             }
 
-            if (input.isOctetStream() || input.isNodeSet()) {
+            if (input.isOctetStrebm() || input.isNodeSet()) {
                 if (os == null) {
-                    byte[] base64Bytes = input.getBytes();
-                    byte[] decodedBytes = Base64.decode(base64Bytes);
-                    return new XMLSignatureInput(decodedBytes);
+                    byte[] bbse64Bytes = input.getBytes();
+                    byte[] decodedBytes = Bbse64.decode(bbse64Bytes);
+                    return new XMLSignbtureInput(decodedBytes);
                 }
-                if (input.isByteArray() || input.isNodeSet()) {
-                    Base64.decode(input.getBytes(), os);
+                if (input.isByteArrby() || input.isNodeSet()) {
+                    Bbse64.decode(input.getBytes(), os);
                 } else {
-                    Base64.decode(new BufferedInputStream(input.getOctetStreamReal()), os);
+                    Bbse64.decode(new BufferedInputStrebm(input.getOctetStrebmRebl()), os);
                 }
-                XMLSignatureInput output = new XMLSignatureInput((byte[])null);
-                output.setOutputStream(os);
+                XMLSignbtureInput output = new XMLSignbtureInput((byte[])null);
+                output.setOutputStrebm(os);
                 return output;
             }
 
             try {
-                //Exceptional case there is current not text case testing this(Before it was a
-                //a common case).
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+                //Exceptionbl cbse there is current not text cbse testing this(Before it wbs b
+                //b common cbse).
+                DocumentBuilderFbctory dbf = DocumentBuilderFbctory.newInstbnce();
+                dbf.setFebture(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolebn.TRUE);
                 Document doc =
-                    dbf.newDocumentBuilder().parse(input.getOctetStream());
+                    dbf.newDocumentBuilder().pbrse(input.getOctetStrebm());
 
                 Element rootNode = doc.getDocumentElement();
                 StringBuilder sb = new StringBuilder();
-                traverseElement(rootNode, sb);
-                byte[] decodedBytes = Base64.decode(sb.toString());
-                return new XMLSignatureInput(decodedBytes);
-            } catch (ParserConfigurationException e) {
-                throw new TransformationException("c14n.Canonicalizer.Exception",e);
-            } catch (SAXException e) {
-                throw new TransformationException("SAX exception", e);
+                trbverseElement(rootNode, sb);
+                byte[] decodedBytes = Bbse64.decode(sb.toString());
+                return new XMLSignbtureInput(decodedBytes);
+            } cbtch (PbrserConfigurbtionException e) {
+                throw new TrbnsformbtionException("c14n.Cbnonicblizer.Exception",e);
+            } cbtch (SAXException e) {
+                throw new TrbnsformbtionException("SAX exception", e);
             }
-        } catch (Base64DecodingException e) {
-            throw new TransformationException("Base64Decoding", e);
+        } cbtch (Bbse64DecodingException e) {
+            throw new TrbnsformbtionException("Bbse64Decoding", e);
         }
     }
 
-    void traverseElement(org.w3c.dom.Element node, StringBuilder sb) {
+    void trbverseElement(org.w3c.dom.Element node, StringBuilder sb) {
         Node sibling = node.getFirstChild();
         while (sibling != null) {
             switch (sibling.getNodeType()) {
-            case Node.ELEMENT_NODE:
-                traverseElement((Element)sibling, sb);
-                break;
-            case Node.TEXT_NODE:
-                sb.append(((Text)sibling).getData());
+            cbse Node.ELEMENT_NODE:
+                trbverseElement((Element)sibling, sb);
+                brebk;
+            cbse Node.TEXT_NODE:
+                sb.bppend(((Text)sibling).getDbtb());
             }
             sibling = sibling.getNextSibling();
         }

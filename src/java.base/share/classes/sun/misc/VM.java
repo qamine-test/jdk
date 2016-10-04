@@ -1,376 +1,376 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import static java.lang.Thread.State.*;
-import java.util.Properties;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import stbtic jbvb.lbng.Threbd.Stbte.*;
+import jbvb.util.Properties;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-public class VM {
+public clbss VM {
 
-    /* The following methods used to be native methods that instruct
-     * the VM to selectively suspend certain threads in low-memory
-     * situations. They are inherently dangerous and not implementable
-     * on native threads. We removed them in JDK 1.2. The skeletons
-     * remain so that existing applications that use these methods
+    /* The following methods used to be nbtive methods thbt instruct
+     * the VM to selectively suspend certbin threbds in low-memory
+     * situbtions. They bre inherently dbngerous bnd not implementbble
+     * on nbtive threbds. We removed them in JDK 1.2. The skeletons
+     * rembin so thbt existing bpplicbtions thbt use these methods
      * will still work.
      */
-    private static boolean suspended = false;
+    privbte stbtic boolebn suspended = fblse;
 
-    /** @deprecated */
-    @Deprecated
-    public static boolean threadsSuspended() {
+    /** @deprecbted */
+    @Deprecbted
+    public stbtic boolebn threbdsSuspended() {
         return suspended;
     }
 
-    @SuppressWarnings("deprecation")
-    public static boolean allowThreadSuspension(ThreadGroup g, boolean b) {
-        return g.allowThreadSuspension(b);
+    @SuppressWbrnings("deprecbtion")
+    public stbtic boolebn bllowThrebdSuspension(ThrebdGroup g, boolebn b) {
+        return g.bllowThrebdSuspension(b);
     }
 
-    /** @deprecated */
-    @Deprecated
-    public static boolean suspendThreads() {
+    /** @deprecbted */
+    @Deprecbted
+    public stbtic boolebn suspendThrebds() {
         suspended = true;
         return true;
     }
 
-    // Causes any suspended threadgroups to be resumed.
-    /** @deprecated */
-    @Deprecated
-    public static void unsuspendThreads() {
-        suspended = false;
+    // Cbuses bny suspended threbdgroups to be resumed.
+    /** @deprecbted */
+    @Deprecbted
+    public stbtic void unsuspendThrebds() {
+        suspended = fblse;
     }
 
-    // Causes threadgroups no longer marked suspendable to be resumed.
-    /** @deprecated */
-    @Deprecated
-    public static void unsuspendSomeThreads() {
+    // Cbuses threbdgroups no longer mbrked suspendbble to be resumed.
+    /** @deprecbted */
+    @Deprecbted
+    public stbtic void unsuspendSomeThrebds() {
     }
 
-    /* Deprecated fields and methods -- Memory advice not supported in 1.2 */
+    /* Deprecbted fields bnd methods -- Memory bdvice not supported in 1.2 */
 
-    /** @deprecated */
-    @Deprecated
-    public static final int STATE_GREEN = 1;
+    /** @deprecbted */
+    @Deprecbted
+    public stbtic finbl int STATE_GREEN = 1;
 
-    /** @deprecated */
-    @Deprecated
-    public static final int STATE_YELLOW = 2;
+    /** @deprecbted */
+    @Deprecbted
+    public stbtic finbl int STATE_YELLOW = 2;
 
-    /** @deprecated */
-    @Deprecated
-    public static final int STATE_RED = 3;
+    /** @deprecbted */
+    @Deprecbted
+    public stbtic finbl int STATE_RED = 3;
 
-    /** @deprecated */
-    @Deprecated
-    public static final int getState() {
+    /** @deprecbted */
+    @Deprecbted
+    public stbtic finbl int getStbte() {
         return STATE_GREEN;
     }
 
-    /** @deprecated */
-    @Deprecated
-    public static void registerVMNotification(VMNotification n) { }
+    /** @deprecbted */
+    @Deprecbted
+    public stbtic void registerVMNotificbtion(VMNotificbtion n) { }
 
-    /** @deprecated */
-    @Deprecated
-    public static void asChange(int as_old, int as_new) { }
+    /** @deprecbted */
+    @Deprecbted
+    public stbtic void bsChbnge(int bs_old, int bs_new) { }
 
-    /** @deprecated */
-    @Deprecated
-    public static void asChange_otherthread(int as_old, int as_new) { }
+    /** @deprecbted */
+    @Deprecbted
+    public stbtic void bsChbnge_otherthrebd(int bs_old, int bs_new) { }
 
     /*
-     * Not supported in 1.2 because these will have to be exported as
-     * JVM functions, and we are not sure we want do that. Leaving
-     * here so it can be easily resurrected -- just remove the //
+     * Not supported in 1.2 becbuse these will hbve to be exported bs
+     * JVM functions, bnd we bre not sure we wbnt do thbt. Lebving
+     * here so it cbn be ebsily resurrected -- just remove the //
      * comments.
      */
 
     /**
-     * Resume Java profiling.  All profiling data is added to any
-     * earlier profiling, unless <code>resetJavaProfiler</code> is
-     * called in between.  If profiling was not started from the
-     * command line, <code>resumeJavaProfiler</code> will start it.
+     * Resume Jbvb profiling.  All profiling dbtb is bdded to bny
+     * ebrlier profiling, unless <code>resetJbvbProfiler</code> is
+     * cblled in between.  If profiling wbs not stbrted from the
+     * commbnd line, <code>resumeJbvbProfiler</code> will stbrt it.
      * <p>
      *
-     * NOTE: Profiling must be enabled from the command line for a
-     * java.prof report to be automatically generated on exit; if not,
-     * writeJavaProfilerReport must be invoked to write a report.
+     * NOTE: Profiling must be enbbled from the commbnd line for b
+     * jbvb.prof report to be butombticblly generbted on exit; if not,
+     * writeJbvbProfilerReport must be invoked to write b report.
      *
-     * @see     resetJavaProfiler
-     * @see     writeJavaProfilerReport
+     * @see     resetJbvbProfiler
+     * @see     writeJbvbProfilerReport
      */
 
-    // public native static void resumeJavaProfiler();
+    // public nbtive stbtic void resumeJbvbProfiler();
 
     /**
-     * Suspend Java profiling.
+     * Suspend Jbvb profiling.
      */
-    // public native static void suspendJavaProfiler();
+    // public nbtive stbtic void suspendJbvbProfiler();
 
     /**
-     * Initialize Java profiling.  Any accumulated profiling
-     * information is discarded.
+     * Initiblize Jbvb profiling.  Any bccumulbted profiling
+     * informbtion is discbrded.
      */
-    // public native static void resetJavaProfiler();
+    // public nbtive stbtic void resetJbvbProfiler();
 
     /**
-     * Write the current profiling contents to the file "java.prof".
-     * If the file already exists, it will be overwritten.
+     * Write the current profiling contents to the file "jbvb.prof".
+     * If the file blrebdy exists, it will be overwritten.
      */
-    // public native static void writeJavaProfilerReport();
+    // public nbtive stbtic void writeJbvbProfilerReport();
 
 
-    private static volatile boolean booted = false;
-    private static final Object lock = new Object();
+    privbte stbtic volbtile boolebn booted = fblse;
+    privbte stbtic finbl Object lock = new Object();
 
-    // Invoked by by System.initializeSystemClass just before returning.
-    // Subsystems that are invoked during initialization can check this
-    // property in order to avoid doing things that should wait until the
-    // application class loader has been set up.
+    // Invoked by by System.initiblizeSystemClbss just before returning.
+    // Subsystems thbt bre invoked during initiblizbtion cbn check this
+    // property in order to bvoid doing things thbt should wbit until the
+    // bpplicbtion clbss lobder hbs been set up.
     //
-    public static void booted() {
+    public stbtic void booted() {
         synchronized (lock) {
             booted = true;
             lock.notifyAll();
         }
     }
 
-    public static boolean isBooted() {
+    public stbtic boolebn isBooted() {
         return booted;
     }
 
-    // Waits until VM completes initialization
+    // Wbits until VM completes initiblizbtion
     //
-    // This method is invoked by the Finalizer thread
-    public static void awaitBooted() throws InterruptedException {
+    // This method is invoked by the Finblizer threbd
+    public stbtic void bwbitBooted() throws InterruptedException {
         synchronized (lock) {
             while (!booted) {
-                lock.wait();
+                lock.wbit();
             }
         }
     }
 
-    // A user-settable upper limit on the maximum amount of allocatable direct
-    // buffer memory.  This value may be changed during VM initialization if
-    // "java" is launched with "-XX:MaxDirectMemorySize=<size>".
+    // A user-settbble upper limit on the mbximum bmount of bllocbtbble direct
+    // buffer memory.  This vblue mby be chbnged during VM initiblizbtion if
+    // "jbvb" is lbunched with "-XX:MbxDirectMemorySize=<size>".
     //
-    // The initial value of this field is arbitrary; during JRE initialization
-    // it will be reset to the value specified on the command line, if any,
-    // otherwise to Runtime.getRuntime().maxMemory().
+    // The initibl vblue of this field is brbitrbry; during JRE initiblizbtion
+    // it will be reset to the vblue specified on the commbnd line, if bny,
+    // otherwise to Runtime.getRuntime().mbxMemory().
     //
-    private static long directMemory = 64 * 1024 * 1024;
+    privbte stbtic long directMemory = 64 * 1024 * 1024;
 
-    // Returns the maximum amount of allocatable direct buffer memory.
-    // The directMemory variable is initialized during system initialization
-    // in the saveAndRemoveProperties method.
+    // Returns the mbximum bmount of bllocbtbble direct buffer memory.
+    // The directMemory vbribble is initiblized during system initiblizbtion
+    // in the sbveAndRemoveProperties method.
     //
-    public static long maxDirectMemory() {
+    public stbtic long mbxDirectMemory() {
         return directMemory;
     }
 
-    // User-controllable flag that determines if direct buffers should be page
-    // aligned. The "-XX:+PageAlignDirectMemory" option can be used to force
-    // buffers, allocated by ByteBuffer.allocateDirect, to be page aligned.
-    private static boolean pageAlignDirectMemory;
+    // User-controllbble flbg thbt determines if direct buffers should be pbge
+    // bligned. The "-XX:+PbgeAlignDirectMemory" option cbn be used to force
+    // buffers, bllocbted by ByteBuffer.bllocbteDirect, to be pbge bligned.
+    privbte stbtic boolebn pbgeAlignDirectMemory;
 
-    // Returns {@code true} if the direct buffers should be page aligned. This
-    // variable is initialized by saveAndRemoveProperties.
-    public static boolean isDirectMemoryPageAligned() {
-        return pageAlignDirectMemory;
+    // Returns {@code true} if the direct buffers should be pbge bligned. This
+    // vbribble is initiblized by sbveAndRemoveProperties.
+    public stbtic boolebn isDirectMemoryPbgeAligned() {
+        return pbgeAlignDirectMemory;
     }
 
     /**
-     * Returns true if the given class loader is in the system domain
-     * in which all permissions are granted.
+     * Returns true if the given clbss lobder is in the system dombin
+     * in which bll permissions bre grbnted.
      */
-    public static boolean isSystemDomainLoader(ClassLoader loader) {
-        return loader == null;
+    public stbtic boolebn isSystemDombinLobder(ClbssLobder lobder) {
+        return lobder == null;
     }
 
     /**
-     * Returns the system property of the specified key saved at
-     * system initialization time.  This method should only be used
-     * for the system properties that are not changed during runtime.
-     * It accesses a private copy of the system properties so
-     * that user's locking of the system properties object will not
-     * cause the library to deadlock.
+     * Returns the system property of the specified key sbved bt
+     * system initiblizbtion time.  This method should only be used
+     * for the system properties thbt bre not chbnged during runtime.
+     * It bccesses b privbte copy of the system properties so
+     * thbt user's locking of the system properties object will not
+     * cbuse the librbry to debdlock.
      *
-     * Note that the saved system properties do not include
+     * Note thbt the sbved system properties do not include
      * the ones set by sun.misc.Version.init().
      *
      */
-    public static String getSavedProperty(String key) {
-        if (savedProps.isEmpty())
-            throw new IllegalStateException("Should be non-empty if initialized");
+    public stbtic String getSbvedProperty(String key) {
+        if (sbvedProps.isEmpty())
+            throw new IllegblStbteException("Should be non-empty if initiblized");
 
-        return savedProps.getProperty(key);
+        return sbvedProps.getProperty(key);
     }
 
-    // TODO: the Property Management needs to be refactored and
-    // the appropriate prop keys need to be accessible to the
-    // calling classes to avoid duplication of keys.
-    private static final Properties savedProps = new Properties();
+    // TODO: the Property Mbnbgement needs to be refbctored bnd
+    // the bppropribte prop keys need to be bccessible to the
+    // cblling clbsses to bvoid duplicbtion of keys.
+    privbte stbtic finbl Properties sbvedProps = new Properties();
 
-    // Save a private copy of the system properties and remove
-    // the system properties that are not intended for public access.
+    // Sbve b privbte copy of the system properties bnd remove
+    // the system properties thbt bre not intended for public bccess.
     //
-    // This method can only be invoked during system initialization.
-    public static void saveAndRemoveProperties(Properties props) {
+    // This method cbn only be invoked during system initiblizbtion.
+    public stbtic void sbveAndRemoveProperties(Properties props) {
         if (booted)
-            throw new IllegalStateException("System initialization has completed");
+            throw new IllegblStbteException("System initiblizbtion hbs completed");
 
-        savedProps.putAll(props);
+        sbvedProps.putAll(props);
 
-        // Set the maximum amount of direct memory.  This value is controlled
-        // by the vm option -XX:MaxDirectMemorySize=<size>.
-        // The maximum amount of allocatable direct buffer memory (in bytes)
-        // from the system property sun.nio.MaxDirectMemorySize set by the VM.
+        // Set the mbximum bmount of direct memory.  This vblue is controlled
+        // by the vm option -XX:MbxDirectMemorySize=<size>.
+        // The mbximum bmount of bllocbtbble direct buffer memory (in bytes)
+        // from the system property sun.nio.MbxDirectMemorySize set by the VM.
         // The system property will be removed.
-        String s = (String)props.remove("sun.nio.MaxDirectMemorySize");
+        String s = (String)props.remove("sun.nio.MbxDirectMemorySize");
         if (s != null) {
-            if (s.equals("-1")) {
-                // -XX:MaxDirectMemorySize not given, take default
-                directMemory = Runtime.getRuntime().maxMemory();
+            if (s.equbls("-1")) {
+                // -XX:MbxDirectMemorySize not given, tbke defbult
+                directMemory = Runtime.getRuntime().mbxMemory();
             } else {
-                long l = Long.parseLong(s);
+                long l = Long.pbrseLong(s);
                 if (l > -1)
                     directMemory = l;
             }
         }
 
-        // Check if direct buffers should be page aligned
-        s = (String)props.remove("sun.nio.PageAlignDirectMemory");
-        if ("true".equals(s))
-            pageAlignDirectMemory = true;
+        // Check if direct buffers should be pbge bligned
+        s = (String)props.remove("sun.nio.PbgeAlignDirectMemory");
+        if ("true".equbls(s))
+            pbgeAlignDirectMemory = true;
 
-        // Remove other private system properties
-        // used by java.lang.Integer.IntegerCache
-        props.remove("java.lang.Integer.IntegerCache.high");
+        // Remove other privbte system properties
+        // used by jbvb.lbng.Integer.IntegerCbche
+        props.remove("jbvb.lbng.Integer.IntegerCbche.high");
 
-        // used by java.util.zip.ZipFile
-        props.remove("sun.zip.disableMemoryMapping");
+        // used by jbvb.util.zip.ZipFile
+        props.remove("sun.zip.disbbleMemoryMbpping");
 
-        // used by sun.launcher.LauncherHelper
-        props.remove("sun.java.launcher.diag");
+        // used by sun.lbuncher.LbuncherHelper
+        props.remove("sun.jbvb.lbuncher.dibg");
     }
 
-    // Initialize any miscellenous operating system settings that need to be
-    // set for the class libraries.
+    // Initiblize bny miscellenous operbting system settings thbt need to be
+    // set for the clbss librbries.
     //
-    public static void initializeOSEnvironment() {
+    public stbtic void initiblizeOSEnvironment() {
         if (!booted) {
-            OSEnvironment.initialize();
+            OSEnvironment.initiblize();
         }
     }
 
-    /* Current count of objects pending for finalization */
-    private static volatile int finalRefCount = 0;
+    /* Current count of objects pending for finblizbtion */
+    privbte stbtic volbtile int finblRefCount = 0;
 
-    /* Peak count of objects pending for finalization */
-    private static volatile int peakFinalRefCount = 0;
+    /* Pebk count of objects pending for finblizbtion */
+    privbte stbtic volbtile int pebkFinblRefCount = 0;
 
     /*
-     * Gets the number of objects pending for finalization.
+     * Gets the number of objects pending for finblizbtion.
      *
-     * @return the number of objects pending for finalization.
+     * @return the number of objects pending for finblizbtion.
      */
-    public static int getFinalRefCount() {
-        return finalRefCount;
+    public stbtic int getFinblRefCount() {
+        return finblRefCount;
     }
 
     /*
-     * Gets the peak number of objects pending for finalization.
+     * Gets the pebk number of objects pending for finblizbtion.
      *
-     * @return the peak number of objects pending for finalization.
+     * @return the pebk number of objects pending for finblizbtion.
      */
-    public static int getPeakFinalRefCount() {
-        return peakFinalRefCount;
+    public stbtic int getPebkFinblRefCount() {
+        return pebkFinblRefCount;
     }
 
     /*
-     * Add <tt>n</tt> to the objects pending for finalization count.
+     * Add <tt>n</tt> to the objects pending for finblizbtion count.
      *
-     * @param n an integer value to be added to the objects pending
-     * for finalization count
+     * @pbrbm n bn integer vblue to be bdded to the objects pending
+     * for finblizbtion count
      */
-    public static void addFinalRefCount(int n) {
-        // The caller must hold lock to synchronize the update.
+    public stbtic void bddFinblRefCount(int n) {
+        // The cbller must hold lock to synchronize the updbte.
 
-        finalRefCount += n;
-        if (finalRefCount > peakFinalRefCount) {
-            peakFinalRefCount = finalRefCount;
+        finblRefCount += n;
+        if (finblRefCount > pebkFinblRefCount) {
+            pebkFinblRefCount = finblRefCount;
         }
     }
 
     /**
-     * Returns Thread.State for the given threadStatus
+     * Returns Threbd.Stbte for the given threbdStbtus
      */
-    public static Thread.State toThreadState(int threadStatus) {
-        if ((threadStatus & JVMTI_THREAD_STATE_RUNNABLE) != 0) {
+    public stbtic Threbd.Stbte toThrebdStbte(int threbdStbtus) {
+        if ((threbdStbtus & JVMTI_THREAD_STATE_RUNNABLE) != 0) {
             return RUNNABLE;
-        } else if ((threadStatus & JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER) != 0) {
+        } else if ((threbdStbtus & JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER) != 0) {
             return BLOCKED;
-        } else if ((threadStatus & JVMTI_THREAD_STATE_WAITING_INDEFINITELY) != 0) {
+        } else if ((threbdStbtus & JVMTI_THREAD_STATE_WAITING_INDEFINITELY) != 0) {
             return WAITING;
-        } else if ((threadStatus & JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT) != 0) {
+        } else if ((threbdStbtus & JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT) != 0) {
             return TIMED_WAITING;
-        } else if ((threadStatus & JVMTI_THREAD_STATE_TERMINATED) != 0) {
+        } else if ((threbdStbtus & JVMTI_THREAD_STATE_TERMINATED) != 0) {
             return TERMINATED;
-        } else if ((threadStatus & JVMTI_THREAD_STATE_ALIVE) == 0) {
+        } else if ((threbdStbtus & JVMTI_THREAD_STATE_ALIVE) == 0) {
             return NEW;
         } else {
             return RUNNABLE;
         }
     }
 
-    /* The threadStatus field is set by the VM at state transition
-     * in the hotspot implementation. Its value is set according to
-     * the JVM TI specification GetThreadState function.
+    /* The threbdStbtus field is set by the VM bt stbte trbnsition
+     * in the hotspot implementbtion. Its vblue is set bccording to
+     * the JVM TI specificbtion GetThrebdStbte function.
      */
-    private final static int JVMTI_THREAD_STATE_ALIVE = 0x0001;
-    private final static int JVMTI_THREAD_STATE_TERMINATED = 0x0002;
-    private final static int JVMTI_THREAD_STATE_RUNNABLE = 0x0004;
-    private final static int JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER = 0x0400;
-    private final static int JVMTI_THREAD_STATE_WAITING_INDEFINITELY = 0x0010;
-    private final static int JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT = 0x0020;
+    privbte finbl stbtic int JVMTI_THREAD_STATE_ALIVE = 0x0001;
+    privbte finbl stbtic int JVMTI_THREAD_STATE_TERMINATED = 0x0002;
+    privbte finbl stbtic int JVMTI_THREAD_STATE_RUNNABLE = 0x0004;
+    privbte finbl stbtic int JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER = 0x0400;
+    privbte finbl stbtic int JVMTI_THREAD_STATE_WAITING_INDEFINITELY = 0x0010;
+    privbte finbl stbtic int JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT = 0x0020;
 
     /*
-     * Returns the first non-null class loader up the execution stack,
-     * or null if only code from the null class loader is on the stack.
+     * Returns the first non-null clbss lobder up the execution stbck,
+     * or null if only code from the null clbss lobder is on the stbck.
      */
-    public static native ClassLoader latestUserDefinedLoader();
+    public stbtic nbtive ClbssLobder lbtestUserDefinedLobder();
 
     /**
-     * Returns {@code true} if we are in a set UID program.
+     * Returns {@code true} if we bre in b set UID progrbm.
      */
-    public static boolean isSetUID() {
+    public stbtic boolebn isSetUID() {
         long uid = getuid();
         long euid = geteuid();
         long gid = getgid();
@@ -379,31 +379,31 @@ public class VM {
     }
 
     /**
-     * Returns the real user ID of the calling process,
-     * or -1 if the value is not available.
+     * Returns the rebl user ID of the cblling process,
+     * or -1 if the vblue is not bvbilbble.
      */
-    public static native long getuid();
+    public stbtic nbtive long getuid();
 
     /**
-     * Returns the effective user ID of the calling process,
-     * or -1 if the value is not available.
+     * Returns the effective user ID of the cblling process,
+     * or -1 if the vblue is not bvbilbble.
      */
-    public static native long geteuid();
+    public stbtic nbtive long geteuid();
 
     /**
-     * Returns the real group ID of the calling process,
-     * or -1 if the value is not available.
+     * Returns the rebl group ID of the cblling process,
+     * or -1 if the vblue is not bvbilbble.
      */
-    public static native long getgid();
+    public stbtic nbtive long getgid();
 
     /**
-     * Returns the effective group ID of the calling process,
-     * or -1 if the value is not available.
+     * Returns the effective group ID of the cblling process,
+     * or -1 if the vblue is not bvbilbble.
      */
-    public static native long getegid();
+    public stbtic nbtive long getegid();
 
-    static {
-        initialize();
+    stbtic {
+        initiblize();
     }
-    private native static void initialize();
+    privbte nbtive stbtic void initiblize();
 }

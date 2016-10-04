@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.security.*;
+import jbvb.security.*;
 
 /**
- * Signature implementation for the SSL/TLS RSA Signature variant with both
- * MD5 and SHA-1 MessageDigests. Used for explicit RSA server authentication
- * (RSA signed server key exchange for RSA_EXPORT and DHE_RSA) and RSA client
- * authentication (RSA signed certificate verify message).
+ * Signbture implementbtion for the SSL/TLS RSA Signbture vbribnt with both
+ * MD5 bnd SHA-1 MessbgeDigests. Used for explicit RSA server buthenticbtion
+ * (RSA signed server key exchbnge for RSA_EXPORT bnd DHE_RSA) bnd RSA client
+ * buthenticbtion (RSA signed certificbte verify messbge).
  *
- * It conforms to the standard JCA Signature API. It is registered in the
- * SunJSSE provider to avoid more complicated getInstance() code and
- * negative interaction with the JCA mechanisms for hardware providers.
+ * It conforms to the stbndbrd JCA Signbture API. It is registered in the
+ * SunJSSE provider to bvoid more complicbted getInstbnce() code bnd
+ * negbtive interbction with the JCA mechbnisms for hbrdwbre providers.
  *
- * The class should be instantiated via the getInstance() method in this class,
- * which returns the implementation from the preferred provider. The internal
- * implementation allows the hashes to be explicitly set, which is required
- * for RSA client authentication. It can be obtained via the
- * getInternalInstance() method.
+ * The clbss should be instbntibted vib the getInstbnce() method in this clbss,
+ * which returns the implementbtion from the preferred provider. The internbl
+ * implementbtion bllows the hbshes to be explicitly set, which is required
+ * for RSA client buthenticbtion. It cbn be obtbined vib the
+ * getInternblInstbnce() method.
  *
- * This class is not thread safe.
+ * This clbss is not threbd sbfe.
  *
  */
-public final class RSASignature extends SignatureSpi {
+public finbl clbss RSASignbture extends SignbtureSpi {
 
-    private final Signature rawRsa;
-    private MessageDigest md5, sha;
+    privbte finbl Signbture rbwRsb;
+    privbte MessbgeDigest md5, shb;
 
-    // flag indicating if the MessageDigests are in reset state
-    private boolean isReset;
+    // flbg indicbting if the MessbgeDigests bre in reset stbte
+    privbte boolebn isReset;
 
-    public RSASignature() throws NoSuchAlgorithmException {
+    public RSASignbture() throws NoSuchAlgorithmException {
         super();
-        rawRsa = JsseJce.getSignature(JsseJce.SIGNATURE_RAWRSA);
+        rbwRsb = JsseJce.getSignbture(JsseJce.SIGNATURE_RAWRSA);
         isReset = true;
     }
 
     /**
-     * Get an implementation for the RSA signature. Follows the standard
-     * JCA getInstance() model, so it return the implementation from the
-     * provider with the highest precedence, which may be this class.
+     * Get bn implementbtion for the RSA signbture. Follows the stbndbrd
+     * JCA getInstbnce() model, so it return the implementbtion from the
+     * provider with the highest precedence, which mby be this clbss.
      */
-    static Signature getInstance() throws NoSuchAlgorithmException {
-        return JsseJce.getSignature(JsseJce.SIGNATURE_SSLRSA);
+    stbtic Signbture getInstbnce() throws NoSuchAlgorithmException {
+        return JsseJce.getSignbture(JsseJce.SIGNATURE_SSLRSA);
     }
 
     /**
-     * Get an internal implementation for the RSA signature. Used for RSA
-     * client authentication, which needs the ability to set the digests
-     * to externally provided values via the setHashes() method.
+     * Get bn internbl implementbtion for the RSA signbture. Used for RSA
+     * client buthenticbtion, which needs the bbility to set the digests
+     * to externblly provided vblues vib the setHbshes() method.
      */
-    static Signature getInternalInstance()
+    stbtic Signbture getInternblInstbnce()
             throws NoSuchAlgorithmException, NoSuchProviderException {
-        return Signature.getInstance(JsseJce.SIGNATURE_SSLRSA, "SunJSSE");
+        return Signbture.getInstbnce(JsseJce.SIGNATURE_SSLRSA, "SunJSSE");
     }
 
     /**
-     * Set the MD5 and SHA hashes to the provided objects.
+     * Set the MD5 bnd SHA hbshes to the provided objects.
      */
-    static void setHashes(Signature sig, MessageDigest md5, MessageDigest sha) {
-        sig.setParameter("hashes", new MessageDigest[] {md5, sha});
+    stbtic void setHbshes(Signbture sig, MessbgeDigest md5, MessbgeDigest shb) {
+        sig.setPbrbmeter("hbshes", new MessbgeDigest[] {md5, shb});
     }
 
     /**
-     * Reset the MessageDigests unless they are already reset.
+     * Reset the MessbgeDigests unless they bre blrebdy reset.
      */
-    private void reset() {
-        if (isReset == false) {
+    privbte void reset() {
+        if (isReset == fblse) {
             md5.reset();
-            sha.reset();
+            shb.reset();
             isReset = true;
         }
     }
 
-    private static void checkNull(Key key) throws InvalidKeyException {
+    privbte stbtic void checkNull(Key key) throws InvblidKeyException {
         if (key == null) {
-            throw new InvalidKeyException("Key must not be null");
+            throw new InvblidKeyException("Key must not be null");
         }
     }
 
     @Override
     protected void engineInitVerify(PublicKey publicKey)
-            throws InvalidKeyException {
+            throws InvblidKeyException {
         checkNull(publicKey);
         reset();
-        rawRsa.initVerify(publicKey);
+        rbwRsb.initVerify(publicKey);
     }
 
     @Override
-    protected void engineInitSign(PrivateKey privateKey)
-            throws InvalidKeyException {
-        engineInitSign(privateKey, null);
+    protected void engineInitSign(PrivbteKey privbteKey)
+            throws InvblidKeyException {
+        engineInitSign(privbteKey, null);
     }
 
     @Override
-    protected void engineInitSign(PrivateKey privateKey, SecureRandom random)
-            throws InvalidKeyException {
-        checkNull(privateKey);
+    protected void engineInitSign(PrivbteKey privbteKey, SecureRbndom rbndom)
+            throws InvblidKeyException {
+        checkNull(privbteKey);
         reset();
-        rawRsa.initSign(privateKey, random);
+        rbwRsb.initSign(privbteKey, rbndom);
     }
 
-    // lazily initialize the MessageDigests
-    private void initDigests() {
+    // lbzily initiblize the MessbgeDigests
+    privbte void initDigests() {
         if (md5 == null) {
             md5 = JsseJce.getMD5();
-            sha = JsseJce.getSHA();
+            shb = JsseJce.getSHA();
         }
     }
 
     @Override
-    protected void engineUpdate(byte b) {
+    protected void engineUpdbte(byte b) {
         initDigests();
-        isReset = false;
-        md5.update(b);
-        sha.update(b);
+        isReset = fblse;
+        md5.updbte(b);
+        shb.updbte(b);
     }
 
     @Override
-    protected void engineUpdate(byte[] b, int off, int len) {
+    protected void engineUpdbte(byte[] b, int off, int len) {
         initDigests();
-        isReset = false;
-        md5.update(b, off, len);
-        sha.update(b, off, len);
+        isReset = fblse;
+        md5.updbte(b, off, len);
+        shb.updbte(b, off, len);
     }
 
-    private byte[] getDigest() throws SignatureException {
+    privbte byte[] getDigest() throws SignbtureException {
         try {
             initDigests();
-            byte[] data = new byte[36];
-            md5.digest(data, 0, 16);
-            sha.digest(data, 16, 20);
+            byte[] dbtb = new byte[36];
+            md5.digest(dbtb, 0, 16);
+            shb.digest(dbtb, 16, 20);
             isReset = true;
-            return data;
-        } catch (DigestException e) {
+            return dbtb;
+        } cbtch (DigestException e) {
             // should never occur
-            throw new SignatureException(e);
+            throw new SignbtureException(e);
         }
     }
 
     @Override
-    protected byte[] engineSign() throws SignatureException {
-        rawRsa.update(getDigest());
-        return rawRsa.sign();
+    protected byte[] engineSign() throws SignbtureException {
+        rbwRsb.updbte(getDigest());
+        return rbwRsb.sign();
     }
 
     @Override
-    protected boolean engineVerify(byte[] sigBytes) throws SignatureException {
+    protected boolebn engineVerify(byte[] sigBytes) throws SignbtureException {
         return engineVerify(sigBytes, 0, sigBytes.length);
     }
 
     @Override
-    protected boolean engineVerify(byte[] sigBytes, int offset, int length)
-            throws SignatureException {
-        rawRsa.update(getDigest());
-        return rawRsa.verify(sigBytes, offset, length);
+    protected boolebn engineVerify(byte[] sigBytes, int offset, int length)
+            throws SignbtureException {
+        rbwRsb.updbte(getDigest());
+        return rbwRsb.verify(sigBytes, offset, length);
     }
 
     @Override
-    protected void engineSetParameter(String param, Object value)
-            throws InvalidParameterException {
-        if (param.equals("hashes") == false) {
-            throw new InvalidParameterException
-                ("Parameter not supported: " + param);
+    protected void engineSetPbrbmeter(String pbrbm, Object vblue)
+            throws InvblidPbrbmeterException {
+        if (pbrbm.equbls("hbshes") == fblse) {
+            throw new InvblidPbrbmeterException
+                ("Pbrbmeter not supported: " + pbrbm);
         }
-        if (value instanceof MessageDigest[] == false) {
-            throw new InvalidParameterException
-                ("value must be MessageDigest[]");
+        if (vblue instbnceof MessbgeDigest[] == fblse) {
+            throw new InvblidPbrbmeterException
+                ("vblue must be MessbgeDigest[]");
         }
-        MessageDigest[] digests = (MessageDigest[])value;
+        MessbgeDigest[] digests = (MessbgeDigest[])vblue;
         md5 = digests[0];
-        sha = digests[1];
+        shb = digests[1];
     }
 
     @Override
-    protected Object engineGetParameter(String param)
-            throws InvalidParameterException {
-        throw new InvalidParameterException("Parameters not supported");
+    protected Object engineGetPbrbmeter(String pbrbm)
+            throws InvblidPbrbmeterException {
+        throw new InvblidPbrbmeterException("Pbrbmeters not supported");
     }
 
 }

@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.nio.ByteBuffer;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
+import jbvb.nio.ByteBuffer;
 
 
 /**
- * File-descriptor based I/O utilities that are shared by NIO classes.
+ * File-descriptor bbsed I/O utilities thbt bre shbred by NIO clbsses.
  */
 
-public class IOUtil {
+public clbss IOUtil {
 
     /**
-     * Max number of iovec structures that readv/writev supports
+     * Mbx number of iovec structures thbt rebdv/writev supports
      */
-    static final int IOV_MAX;
+    stbtic finbl int IOV_MAX;
 
-    private IOUtil() { }                // No instantiation
+    privbte IOUtil() { }                // No instbntibtion
 
-    static int write(FileDescriptor fd, ByteBuffer src, long position,
-                     NativeDispatcher nd)
+    stbtic int write(FileDescriptor fd, ByteBuffer src, long position,
+                     NbtiveDispbtcher nd)
         throws IOException
     {
-        if (src instanceof DirectBuffer)
-            return writeFromNativeBuffer(fd, src, position, nd);
+        if (src instbnceof DirectBuffer)
+            return writeFromNbtiveBuffer(fd, src, position, nd);
 
-        // Substitute a native buffer
+        // Substitute b nbtive buffer
         int pos = src.position();
         int lim = src.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(rem);
+        ByteBuffer bb = Util.getTemporbryDirectBuffer(rem);
         try {
             bb.put(src);
             bb.flip();
-            // Do not update src until we see how many bytes were written
+            // Do not updbte src until we see how mbny bytes were written
             src.position(pos);
 
-            int n = writeFromNativeBuffer(fd, bb, position, nd);
+            int n = writeFromNbtiveBuffer(fd, bb, position, nd);
             if (n > 0) {
-                // now update src
+                // now updbte src
                 src.position(pos + n);
             }
             return n;
-        } finally {
-            Util.offerFirstTemporaryDirectBuffer(bb);
+        } finblly {
+            Util.offerFirstTemporbryDirectBuffer(bb);
         }
     }
 
-    private static int writeFromNativeBuffer(FileDescriptor fd, ByteBuffer bb,
-                                             long position, NativeDispatcher nd)
+    privbte stbtic int writeFromNbtiveBuffer(FileDescriptor fd, ByteBuffer bb,
+                                             long position, NbtiveDispbtcher nd)
         throws IOException
     {
         int pos = bb.position();
         int lim = bb.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
 
         int written = 0;
@@ -87,56 +87,56 @@ public class IOUtil {
             return 0;
         if (position != -1) {
             written = nd.pwrite(fd,
-                                ((DirectBuffer)bb).address() + pos,
+                                ((DirectBuffer)bb).bddress() + pos,
                                 rem, position);
         } else {
-            written = nd.write(fd, ((DirectBuffer)bb).address() + pos, rem);
+            written = nd.write(fd, ((DirectBuffer)bb).bddress() + pos, rem);
         }
         if (written > 0)
             bb.position(pos + written);
         return written;
     }
 
-    static long write(FileDescriptor fd, ByteBuffer[] bufs, NativeDispatcher nd)
+    stbtic long write(FileDescriptor fd, ByteBuffer[] bufs, NbtiveDispbtcher nd)
         throws IOException
     {
         return write(fd, bufs, 0, bufs.length, nd);
     }
 
-    static long write(FileDescriptor fd, ByteBuffer[] bufs, int offset, int length,
-                      NativeDispatcher nd)
+    stbtic long write(FileDescriptor fd, ByteBuffer[] bufs, int offset, int length,
+                      NbtiveDispbtcher nd)
         throws IOException
     {
-        IOVecWrapper vec = IOVecWrapper.get(length);
+        IOVecWrbpper vec = IOVecWrbpper.get(length);
 
-        boolean completed = false;
+        boolebn completed = fblse;
         int iov_len = 0;
         try {
 
-            // Iterate over buffers to populate native iovec array.
+            // Iterbte over buffers to populbte nbtive iovec brrby.
             int count = offset + length;
             int i = offset;
             while (i < count && iov_len < IOV_MAX) {
                 ByteBuffer buf = bufs[i];
                 int pos = buf.position();
                 int lim = buf.limit();
-                assert (pos <= lim);
+                bssert (pos <= lim);
                 int rem = (pos <= lim ? lim - pos : 0);
                 if (rem > 0) {
                     vec.setBuffer(iov_len, buf, pos, rem);
 
-                    // allocate shadow buffer to ensure I/O is done with direct buffer
-                    if (!(buf instanceof DirectBuffer)) {
-                        ByteBuffer shadow = Util.getTemporaryDirectBuffer(rem);
-                        shadow.put(buf);
-                        shadow.flip();
-                        vec.setShadow(iov_len, shadow);
-                        buf.position(pos);  // temporarily restore position in user buffer
-                        buf = shadow;
-                        pos = shadow.position();
+                    // bllocbte shbdow buffer to ensure I/O is done with direct buffer
+                    if (!(buf instbnceof DirectBuffer)) {
+                        ByteBuffer shbdow = Util.getTemporbryDirectBuffer(rem);
+                        shbdow.put(buf);
+                        shbdow.flip();
+                        vec.setShbdow(iov_len, shbdow);
+                        buf.position(pos);  // temporbrily restore position in user buffer
+                        buf = shbdow;
+                        pos = shbdow.position();
                     }
 
-                    vec.putBase(iov_len, ((DirectBuffer)buf).address() + pos);
+                    vec.putBbse(iov_len, ((DirectBuffer)buf).bddress() + pos);
                     vec.putLen(iov_len, rem);
                     iov_len++;
                 }
@@ -145,128 +145,128 @@ public class IOUtil {
             if (iov_len == 0)
                 return 0L;
 
-            long bytesWritten = nd.writev(fd, vec.address, iov_len);
+            long bytesWritten = nd.writev(fd, vec.bddress, iov_len);
 
-            // Notify the buffers how many bytes were taken
+            // Notify the buffers how mbny bytes were tbken
             long left = bytesWritten;
             for (int j=0; j<iov_len; j++) {
                 if (left > 0) {
                     ByteBuffer buf = vec.getBuffer(j);
                     int pos = vec.getPosition(j);
-                    int rem = vec.getRemaining(j);
+                    int rem = vec.getRembining(j);
                     int n = (left > rem) ? rem : (int)left;
                     buf.position(pos + n);
                     left -= n;
                 }
-                // return shadow buffers to buffer pool
-                ByteBuffer shadow = vec.getShadow(j);
-                if (shadow != null)
-                    Util.offerLastTemporaryDirectBuffer(shadow);
-                vec.clearRefs(j);
+                // return shbdow buffers to buffer pool
+                ByteBuffer shbdow = vec.getShbdow(j);
+                if (shbdow != null)
+                    Util.offerLbstTemporbryDirectBuffer(shbdow);
+                vec.clebrRefs(j);
             }
 
             completed = true;
             return bytesWritten;
 
-        } finally {
-            // if an error occurred then clear refs to buffers and return any shadow
-            // buffers to cache
+        } finblly {
+            // if bn error occurred then clebr refs to buffers bnd return bny shbdow
+            // buffers to cbche
             if (!completed) {
                 for (int j=0; j<iov_len; j++) {
-                    ByteBuffer shadow = vec.getShadow(j);
-                    if (shadow != null)
-                        Util.offerLastTemporaryDirectBuffer(shadow);
-                    vec.clearRefs(j);
+                    ByteBuffer shbdow = vec.getShbdow(j);
+                    if (shbdow != null)
+                        Util.offerLbstTemporbryDirectBuffer(shbdow);
+                    vec.clebrRefs(j);
                 }
             }
         }
     }
 
-    static int read(FileDescriptor fd, ByteBuffer dst, long position,
-                    NativeDispatcher nd)
+    stbtic int rebd(FileDescriptor fd, ByteBuffer dst, long position,
+                    NbtiveDispbtcher nd)
         throws IOException
     {
-        if (dst.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
-        if (dst instanceof DirectBuffer)
-            return readIntoNativeBuffer(fd, dst, position, nd);
+        if (dst.isRebdOnly())
+            throw new IllegblArgumentException("Rebd-only buffer");
+        if (dst instbnceof DirectBuffer)
+            return rebdIntoNbtiveBuffer(fd, dst, position, nd);
 
-        // Substitute a native buffer
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(dst.remaining());
+        // Substitute b nbtive buffer
+        ByteBuffer bb = Util.getTemporbryDirectBuffer(dst.rembining());
         try {
-            int n = readIntoNativeBuffer(fd, bb, position, nd);
+            int n = rebdIntoNbtiveBuffer(fd, bb, position, nd);
             bb.flip();
             if (n > 0)
                 dst.put(bb);
             return n;
-        } finally {
-            Util.offerFirstTemporaryDirectBuffer(bb);
+        } finblly {
+            Util.offerFirstTemporbryDirectBuffer(bb);
         }
     }
 
-    private static int readIntoNativeBuffer(FileDescriptor fd, ByteBuffer bb,
-                                            long position, NativeDispatcher nd)
+    privbte stbtic int rebdIntoNbtiveBuffer(FileDescriptor fd, ByteBuffer bb,
+                                            long position, NbtiveDispbtcher nd)
         throws IOException
     {
         int pos = bb.position();
         int lim = bb.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
 
         if (rem == 0)
             return 0;
         int n = 0;
         if (position != -1) {
-            n = nd.pread(fd, ((DirectBuffer)bb).address() + pos,
+            n = nd.prebd(fd, ((DirectBuffer)bb).bddress() + pos,
                          rem, position);
         } else {
-            n = nd.read(fd, ((DirectBuffer)bb).address() + pos, rem);
+            n = nd.rebd(fd, ((DirectBuffer)bb).bddress() + pos, rem);
         }
         if (n > 0)
             bb.position(pos + n);
         return n;
     }
 
-    static long read(FileDescriptor fd, ByteBuffer[] bufs, NativeDispatcher nd)
+    stbtic long rebd(FileDescriptor fd, ByteBuffer[] bufs, NbtiveDispbtcher nd)
         throws IOException
     {
-        return read(fd, bufs, 0, bufs.length, nd);
+        return rebd(fd, bufs, 0, bufs.length, nd);
     }
 
-    static long read(FileDescriptor fd, ByteBuffer[] bufs, int offset, int length,
-                     NativeDispatcher nd)
+    stbtic long rebd(FileDescriptor fd, ByteBuffer[] bufs, int offset, int length,
+                     NbtiveDispbtcher nd)
         throws IOException
     {
-        IOVecWrapper vec = IOVecWrapper.get(length);
+        IOVecWrbpper vec = IOVecWrbpper.get(length);
 
-        boolean completed = false;
+        boolebn completed = fblse;
         int iov_len = 0;
         try {
 
-            // Iterate over buffers to populate native iovec array.
+            // Iterbte over buffers to populbte nbtive iovec brrby.
             int count = offset + length;
             int i = offset;
             while (i < count && iov_len < IOV_MAX) {
                 ByteBuffer buf = bufs[i];
-                if (buf.isReadOnly())
-                    throw new IllegalArgumentException("Read-only buffer");
+                if (buf.isRebdOnly())
+                    throw new IllegblArgumentException("Rebd-only buffer");
                 int pos = buf.position();
                 int lim = buf.limit();
-                assert (pos <= lim);
+                bssert (pos <= lim);
                 int rem = (pos <= lim ? lim - pos : 0);
 
                 if (rem > 0) {
                     vec.setBuffer(iov_len, buf, pos, rem);
 
-                    // allocate shadow buffer to ensure I/O is done with direct buffer
-                    if (!(buf instanceof DirectBuffer)) {
-                        ByteBuffer shadow = Util.getTemporaryDirectBuffer(rem);
-                        vec.setShadow(iov_len, shadow);
-                        buf = shadow;
-                        pos = shadow.position();
+                    // bllocbte shbdow buffer to ensure I/O is done with direct buffer
+                    if (!(buf instbnceof DirectBuffer)) {
+                        ByteBuffer shbdow = Util.getTemporbryDirectBuffer(rem);
+                        vec.setShbdow(iov_len, shbdow);
+                        buf = shbdow;
+                        pos = shbdow.position();
                     }
 
-                    vec.putBase(iov_len, ((DirectBuffer)buf).address() + pos);
+                    vec.putBbse(iov_len, ((DirectBuffer)buf).bddress() + pos);
                     vec.putLen(iov_len, rem);
                     iov_len++;
                 }
@@ -275,96 +275,96 @@ public class IOUtil {
             if (iov_len == 0)
                 return 0L;
 
-            long bytesRead = nd.readv(fd, vec.address, iov_len);
+            long bytesRebd = nd.rebdv(fd, vec.bddress, iov_len);
 
-            // Notify the buffers how many bytes were read
-            long left = bytesRead;
+            // Notify the buffers how mbny bytes were rebd
+            long left = bytesRebd;
             for (int j=0; j<iov_len; j++) {
-                ByteBuffer shadow = vec.getShadow(j);
+                ByteBuffer shbdow = vec.getShbdow(j);
                 if (left > 0) {
                     ByteBuffer buf = vec.getBuffer(j);
-                    int rem = vec.getRemaining(j);
+                    int rem = vec.getRembining(j);
                     int n = (left > rem) ? rem : (int)left;
-                    if (shadow == null) {
+                    if (shbdow == null) {
                         int pos = vec.getPosition(j);
                         buf.position(pos + n);
                     } else {
-                        shadow.limit(shadow.position() + n);
-                        buf.put(shadow);
+                        shbdow.limit(shbdow.position() + n);
+                        buf.put(shbdow);
                     }
                     left -= n;
                 }
-                if (shadow != null)
-                    Util.offerLastTemporaryDirectBuffer(shadow);
-                vec.clearRefs(j);
+                if (shbdow != null)
+                    Util.offerLbstTemporbryDirectBuffer(shbdow);
+                vec.clebrRefs(j);
             }
 
             completed = true;
-            return bytesRead;
+            return bytesRebd;
 
-        } finally {
-            // if an error occurred then clear refs to buffers and return any shadow
-            // buffers to cache
+        } finblly {
+            // if bn error occurred then clebr refs to buffers bnd return bny shbdow
+            // buffers to cbche
             if (!completed) {
                 for (int j=0; j<iov_len; j++) {
-                    ByteBuffer shadow = vec.getShadow(j);
-                    if (shadow != null)
-                        Util.offerLastTemporaryDirectBuffer(shadow);
-                    vec.clearRefs(j);
+                    ByteBuffer shbdow = vec.getShbdow(j);
+                    if (shbdow != null)
+                        Util.offerLbstTemporbryDirectBuffer(shbdow);
+                    vec.clebrRefs(j);
                 }
             }
         }
     }
 
-    public static FileDescriptor newFD(int i) {
+    public stbtic FileDescriptor newFD(int i) {
         FileDescriptor fd = new FileDescriptor();
-        setfdVal(fd, i);
+        setfdVbl(fd, i);
         return fd;
     }
 
-    static native boolean randomBytes(byte[] someBytes);
+    stbtic nbtive boolebn rbndomBytes(byte[] someBytes);
 
     /**
-     * Returns two file descriptors for a pipe encoded in a long.
-     * The read end of the pipe is returned in the high 32 bits,
+     * Returns two file descriptors for b pipe encoded in b long.
+     * The rebd end of the pipe is returned in the high 32 bits,
      * while the write end is returned in the low 32 bits.
      */
-    static native long makePipe(boolean blocking);
+    stbtic nbtive long mbkePipe(boolebn blocking);
 
-    static native boolean drain(int fd) throws IOException;
+    stbtic nbtive boolebn drbin(int fd) throws IOException;
 
-    public static native void configureBlocking(FileDescriptor fd,
-                                                boolean blocking)
+    public stbtic nbtive void configureBlocking(FileDescriptor fd,
+                                                boolebn blocking)
         throws IOException;
 
-    public static native int fdVal(FileDescriptor fd);
+    public stbtic nbtive int fdVbl(FileDescriptor fd);
 
-    static native void setfdVal(FileDescriptor fd, int value);
+    stbtic nbtive void setfdVbl(FileDescriptor fd, int vblue);
 
-    static native int fdLimit();
+    stbtic nbtive int fdLimit();
 
-    static native int iovMax();
+    stbtic nbtive int iovMbx();
 
-    static native void initIDs();
+    stbtic nbtive void initIDs();
 
     /**
-     * Used to trigger loading of native libraries
+     * Used to trigger lobding of nbtive librbries
      */
-    public static void load() { }
+    public stbtic void lobd() { }
 
-    static {
-        java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Void>() {
                     public Void run() {
-                        System.loadLibrary("net");
-                        System.loadLibrary("nio");
+                        System.lobdLibrbry("net");
+                        System.lobdLibrbry("nio");
                         return null;
                     }
                 });
 
         initIDs();
 
-        IOV_MAX = iovMax();
+        IOV_MAX = iovMbx();
     }
 
 }

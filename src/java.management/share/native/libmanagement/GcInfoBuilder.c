@@ -1,284 +1,284 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <jni.h>
-#include "management.h"
-#include "sun_management_GcInfoBuilder.h"
+#include "mbnbgement.h"
+#include "sun_mbnbgement_GcInfoBuilder.h"
 
-JNIEXPORT jint JNICALL Java_sun_management_GcInfoBuilder_getNumGcExtAttributes
+JNIEXPORT jint JNICALL Jbvb_sun_mbnbgement_GcInfoBuilder_getNumGcExtAttributes
   (JNIEnv *env, jobject dummy, jobject gc) {
-    jlong value;
+    jlong vblue;
 
     if (gc == NULL) {
-        JNU_ThrowNullPointerException(env, "Invalid GarbageCollectorMBean");
+        JNU_ThrowNullPointerException(env, "Invblid GbrbbgeCollectorMBebn");
         return 0;
     }
-    value = jmm_interface->GetLongAttribute(env, gc,
+    vblue = jmm_interfbce->GetLongAttribute(env, gc,
                                             JMM_GC_EXT_ATTRIBUTE_INFO_SIZE);
-    return (jint) value;
+    return (jint) vblue;
 }
 
-JNIEXPORT void JNICALL Java_sun_management_GcInfoBuilder_fillGcAttributeInfo
+JNIEXPORT void JNICALL Jbvb_sun_mbnbgement_GcInfoBuilder_fillGcAttributeInfo
   (JNIEnv *env, jobject dummy, jobject gc,
-   jint num_attributes, jobjectArray attributeNames,
-   jcharArray types, jobjectArray descriptions) {
+   jint num_bttributes, jobjectArrby bttributeNbmes,
+   jchbrArrby types, jobjectArrby descriptions) {
 
-    jmmExtAttributeInfo* ext_att_info;
-    jchar* nativeTypes;
-    jstring attName = NULL;
+    jmmExtAttributeInfo* ext_btt_info;
+    jchbr* nbtiveTypes;
+    jstring bttNbme = NULL;
     jstring desc = NULL;
     jint ret = 0;
     jint i;
 
     if (gc == NULL) {
-        JNU_ThrowNullPointerException(env, "Invalid GarbageCollectorMBean");
+        JNU_ThrowNullPointerException(env, "Invblid GbrbbgeCollectorMBebn");
         return;
     }
 
-    if (num_attributes <= 0) {
-        JNU_ThrowIllegalArgumentException(env, "Invalid num_attributes");
+    if (num_bttributes <= 0) {
+        JNU_ThrowIllegblArgumentException(env, "Invblid num_bttributes");
         return;
     }
 
-    ext_att_info = (jmmExtAttributeInfo*) malloc((size_t)num_attributes *
+    ext_btt_info = (jmmExtAttributeInfo*) mblloc((size_t)num_bttributes *
                                                  sizeof(jmmExtAttributeInfo));
-    if (ext_att_info == NULL) {
+    if (ext_btt_info == NULL) {
         JNU_ThrowOutOfMemoryError(env, 0);
         return;
     }
-    ret = jmm_interface->GetGCExtAttributeInfo(env, gc,
-                                               ext_att_info, num_attributes);
-    if (ret != num_attributes) {
-        JNU_ThrowInternalError(env, "Unexpected num_attributes");
-        free(ext_att_info);
+    ret = jmm_interfbce->GetGCExtAttributeInfo(env, gc,
+                                               ext_btt_info, num_bttributes);
+    if (ret != num_bttributes) {
+        JNU_ThrowInternblError(env, "Unexpected num_bttributes");
+        free(ext_btt_info);
         return;
     }
 
-    nativeTypes = (jchar*) malloc((size_t)num_attributes * sizeof(jchar));
-    if (nativeTypes == NULL) {
-        free(ext_att_info);
+    nbtiveTypes = (jchbr*) mblloc((size_t)num_bttributes * sizeof(jchbr));
+    if (nbtiveTypes == NULL) {
+        free(ext_btt_info);
         JNU_ThrowOutOfMemoryError(env, 0);
         return;
     }
-    for (i = 0; i < num_attributes; i++) {
-        nativeTypes[i] = ext_att_info[i].type;
-        attName = (*env)->NewStringUTF(env, ext_att_info[i].name);
-        desc = (*env)->NewStringUTF(env, ext_att_info[i].description);
-        (*env)->SetObjectArrayElement(env, attributeNames, i, attName);
-        (*env)->SetObjectArrayElement(env, descriptions, i, desc);
+    for (i = 0; i < num_bttributes; i++) {
+        nbtiveTypes[i] = ext_btt_info[i].type;
+        bttNbme = (*env)->NewStringUTF(env, ext_btt_info[i].nbme);
+        desc = (*env)->NewStringUTF(env, ext_btt_info[i].description);
+        (*env)->SetObjectArrbyElement(env, bttributeNbmes, i, bttNbme);
+        (*env)->SetObjectArrbyElement(env, descriptions, i, desc);
     }
-    (*env)->SetCharArrayRegion(env, types, 0, num_attributes, nativeTypes);
+    (*env)->SetChbrArrbyRegion(env, types, 0, num_bttributes, nbtiveTypes);
 
-    if (ext_att_info != NULL) {
-        free(ext_att_info);
+    if (ext_btt_info != NULL) {
+        free(ext_btt_info);
     }
-    if (nativeTypes != NULL) {
-        free(nativeTypes);
+    if (nbtiveTypes != NULL) {
+        free(nbtiveTypes);
     }
 }
 
-static void setLongValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                      jsize index, jlong value) {
-    static const char* class_name = "java/lang/Long";
-    static const char* signature = "(J)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtic void setLongVblueAtObjectArrby(JNIEnv *env, jobjectArrby brrby,
+                                      jsize index, jlong vblue) {
+    stbtic const chbr* clbss_nbme = "jbvb/lbng/Long";
+    stbtic const chbr* signbture = "(J)V";
+    jobject obj = JNU_NewObjectByNbme(env, clbss_nbme, signbture, vblue);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*env)->SetObjectArrbyElement(env, brrby, index, obj);
 }
 
-static void setBooleanValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                         jsize index, jboolean value) {
-    static const char* class_name = "java/lang/Boolean";
-    static const char* signature = "(Z)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtic void setBoolebnVblueAtObjectArrby(JNIEnv *env, jobjectArrby brrby,
+                                         jsize index, jboolebn vblue) {
+    stbtic const chbr* clbss_nbme = "jbvb/lbng/Boolebn";
+    stbtic const chbr* signbture = "(Z)V";
+    jobject obj = JNU_NewObjectByNbme(env, clbss_nbme, signbture, vblue);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*env)->SetObjectArrbyElement(env, brrby, index, obj);
 }
 
-static void setByteValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                      jsize index, jbyte value) {
-    static const char* class_name = "java/lang/Byte";
-    static const char* signature = "(B)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtic void setByteVblueAtObjectArrby(JNIEnv *env, jobjectArrby brrby,
+                                      jsize index, jbyte vblue) {
+    stbtic const chbr* clbss_nbme = "jbvb/lbng/Byte";
+    stbtic const chbr* signbture = "(B)V";
+    jobject obj = JNU_NewObjectByNbme(env, clbss_nbme, signbture, vblue);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*env)->SetObjectArrbyElement(env, brrby, index, obj);
 }
 
-static void setIntValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                     jsize index, jint value) {
-    static const char* class_name = "java/lang/Integer";
-    static const char* signature = "(I)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtic void setIntVblueAtObjectArrby(JNIEnv *env, jobjectArrby brrby,
+                                     jsize index, jint vblue) {
+    stbtic const chbr* clbss_nbme = "jbvb/lbng/Integer";
+    stbtic const chbr* signbture = "(I)V";
+    jobject obj = JNU_NewObjectByNbme(env, clbss_nbme, signbture, vblue);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*env)->SetObjectArrbyElement(env, brrby, index, obj);
 }
 
-static void setShortValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                       jsize index, jshort value) {
-    static const char* class_name = "java/lang/Short";
-    static const char* signature = "(S)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtic void setShortVblueAtObjectArrby(JNIEnv *env, jobjectArrby brrby,
+                                       jsize index, jshort vblue) {
+    stbtic const chbr* clbss_nbme = "jbvb/lbng/Short";
+    stbtic const chbr* signbture = "(S)V";
+    jobject obj = JNU_NewObjectByNbme(env, clbss_nbme, signbture, vblue);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*env)->SetObjectArrbyElement(env, brrby, index, obj);
 }
 
-static void setDoubleValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                        jsize index, jdouble value) {
-    static const char* class_name = "java/lang/Double";
-    static const char* signature = "(D)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtic void setDoubleVblueAtObjectArrby(JNIEnv *env, jobjectArrby brrby,
+                                        jsize index, jdouble vblue) {
+    stbtic const chbr* clbss_nbme = "jbvb/lbng/Double";
+    stbtic const chbr* signbture = "(D)V";
+    jobject obj = JNU_NewObjectByNbme(env, clbss_nbme, signbture, vblue);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*env)->SetObjectArrbyElement(env, brrby, index, obj);
 }
 
-static void setFloatValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                       jsize index, jfloat value) {
-    static const char* class_name = "java/lang/Float";
-    static const char* signature = "(D)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtic void setFlobtVblueAtObjectArrby(JNIEnv *env, jobjectArrby brrby,
+                                       jsize index, jflobt vblue) {
+    stbtic const chbr* clbss_nbme = "jbvb/lbng/Flobt";
+    stbtic const chbr* signbture = "(D)V";
+    jobject obj = JNU_NewObjectByNbme(env, clbss_nbme, signbture, vblue);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*env)->SetObjectArrbyElement(env, brrby, index, obj);
 }
 
-static void setCharValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                      jsize index, jchar value) {
-    static const char* class_name = "java/lang/Character";
-    static const char* signature = "(C)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtic void setChbrVblueAtObjectArrby(JNIEnv *env, jobjectArrby brrby,
+                                      jsize index, jchbr vblue) {
+    stbtic const chbr* clbss_nbme = "jbvb/lbng/Chbrbcter";
+    stbtic const chbr* signbture = "(C)V";
+    jobject obj = JNU_NewObjectByNbme(env, clbss_nbme, signbture, vblue);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*env)->SetObjectArrbyElement(env, brrby, index, obj);
 }
 
-JNIEXPORT jobject JNICALL Java_sun_management_GcInfoBuilder_getLastGcInfo0
+JNIEXPORT jobject JNICALL Jbvb_sun_mbnbgement_GcInfoBuilder_getLbstGcInfo0
   (JNIEnv *env, jobject builder, jobject gc,
-   jint ext_att_count, jobjectArray ext_att_values, jcharArray ext_att_types,
-   jobjectArray usageBeforeGC, jobjectArray usageAfterGC) {
+   jint ext_btt_count, jobjectArrby ext_btt_vblues, jchbrArrby ext_btt_types,
+   jobjectArrby usbgeBeforeGC, jobjectArrby usbgeAfterGC) {
 
-    jmmGCStat   gc_stat;
-    jchar*      nativeTypes;
+    jmmGCStbt   gc_stbt;
+    jchbr*      nbtiveTypes;
     jsize       i;
-    jvalue      v;
+    jvblue      v;
 
     if (gc == NULL) {
-        JNU_ThrowNullPointerException(env, "Invalid GarbageCollectorMBean");
+        JNU_ThrowNullPointerException(env, "Invblid GbrbbgeCollectorMBebn");
         return 0;
     }
 
-    if (ext_att_count <= 0) {
-        JNU_ThrowIllegalArgumentException(env, "Invalid ext_att_count");
+    if (ext_btt_count <= 0) {
+        JNU_ThrowIllegblArgumentException(env, "Invblid ext_btt_count");
         return 0;
     }
 
-    gc_stat.usage_before_gc = usageBeforeGC;
-    gc_stat.usage_after_gc = usageAfterGC;
-    gc_stat.gc_ext_attribute_values_size = ext_att_count;
-    if (ext_att_count > 0) {
-        gc_stat.gc_ext_attribute_values = (jvalue*) malloc((size_t)ext_att_count *
-                                                           sizeof(jvalue));
-        if (gc_stat.gc_ext_attribute_values == NULL) {
+    gc_stbt.usbge_before_gc = usbgeBeforeGC;
+    gc_stbt.usbge_bfter_gc = usbgeAfterGC;
+    gc_stbt.gc_ext_bttribute_vblues_size = ext_btt_count;
+    if (ext_btt_count > 0) {
+        gc_stbt.gc_ext_bttribute_vblues = (jvblue*) mblloc((size_t)ext_btt_count *
+                                                           sizeof(jvblue));
+        if (gc_stbt.gc_ext_bttribute_vblues == NULL) {
             JNU_ThrowOutOfMemoryError(env, 0);
             return 0;
         }
     } else {
-        gc_stat.gc_ext_attribute_values = NULL;
+        gc_stbt.gc_ext_bttribute_vblues = NULL;
     }
 
 
-    jmm_interface->GetLastGCStat(env, gc, &gc_stat);
-    if (gc_stat.gc_index == 0) {
-        if (gc_stat.gc_ext_attribute_values != NULL) {
-            free(gc_stat.gc_ext_attribute_values);
+    jmm_interfbce->GetLbstGCStbt(env, gc, &gc_stbt);
+    if (gc_stbt.gc_index == 0) {
+        if (gc_stbt.gc_ext_bttribute_vblues != NULL) {
+            free(gc_stbt.gc_ext_bttribute_vblues);
         }
         return 0;
     }
 
-    // convert the ext_att_types to native types
-    nativeTypes = (jchar*) malloc((size_t)ext_att_count * sizeof(jchar));
-    if (nativeTypes == NULL) {
-        if (gc_stat.gc_ext_attribute_values != NULL) {
-            free(gc_stat.gc_ext_attribute_values);
+    // convert the ext_btt_types to nbtive types
+    nbtiveTypes = (jchbr*) mblloc((size_t)ext_btt_count * sizeof(jchbr));
+    if (nbtiveTypes == NULL) {
+        if (gc_stbt.gc_ext_bttribute_vblues != NULL) {
+            free(gc_stbt.gc_ext_bttribute_vblues);
         }
         JNU_ThrowOutOfMemoryError(env, 0);
         return 0;
     }
-    (*env)->GetCharArrayRegion(env, ext_att_types, 0, ext_att_count, nativeTypes);
-    for (i = 0; i < ext_att_count; i++) {
-       v = gc_stat.gc_ext_attribute_values[i];
-       switch (nativeTypes[i]) {
-            case 'Z':
-                setBooleanValueAtObjectArray(env, ext_att_values, i, v.z);
-                break;
-            case 'B':
-                setByteValueAtObjectArray(env, ext_att_values, i, v.b);
-                break;
-            case 'C':
-                setCharValueAtObjectArray(env, ext_att_values, i, v.c);
-                break;
-            case 'S':
-                setShortValueAtObjectArray(env, ext_att_values, i, v.s);
-                break;
-            case 'I':
-                setIntValueAtObjectArray(env, ext_att_values, i, v.i);
-                break;
-            case 'J':
-                setLongValueAtObjectArray(env, ext_att_values, i, v.j);
-                break;
-            case 'F':
-                setFloatValueAtObjectArray(env, ext_att_values, i, v.f);
-                break;
-            case 'D':
-                setDoubleValueAtObjectArray(env, ext_att_values, i, v.d);
-                break;
-            default:
-                if (gc_stat.gc_ext_attribute_values != NULL) {
-                    free(gc_stat.gc_ext_attribute_values);
+    (*env)->GetChbrArrbyRegion(env, ext_btt_types, 0, ext_btt_count, nbtiveTypes);
+    for (i = 0; i < ext_btt_count; i++) {
+       v = gc_stbt.gc_ext_bttribute_vblues[i];
+       switch (nbtiveTypes[i]) {
+            cbse 'Z':
+                setBoolebnVblueAtObjectArrby(env, ext_btt_vblues, i, v.z);
+                brebk;
+            cbse 'B':
+                setByteVblueAtObjectArrby(env, ext_btt_vblues, i, v.b);
+                brebk;
+            cbse 'C':
+                setChbrVblueAtObjectArrby(env, ext_btt_vblues, i, v.c);
+                brebk;
+            cbse 'S':
+                setShortVblueAtObjectArrby(env, ext_btt_vblues, i, v.s);
+                brebk;
+            cbse 'I':
+                setIntVblueAtObjectArrby(env, ext_btt_vblues, i, v.i);
+                brebk;
+            cbse 'J':
+                setLongVblueAtObjectArrby(env, ext_btt_vblues, i, v.j);
+                brebk;
+            cbse 'F':
+                setFlobtVblueAtObjectArrby(env, ext_btt_vblues, i, v.f);
+                brebk;
+            cbse 'D':
+                setDoubleVblueAtObjectArrby(env, ext_btt_vblues, i, v.d);
+                brebk;
+            defbult:
+                if (gc_stbt.gc_ext_bttribute_vblues != NULL) {
+                    free(gc_stbt.gc_ext_bttribute_vblues);
                 }
-                if (nativeTypes != NULL) {
-                    free(nativeTypes);
+                if (nbtiveTypes != NULL) {
+                    free(nbtiveTypes);
                 }
-                JNU_ThrowInternalError(env, "Unsupported attribute type");
+                JNU_ThrowInternblError(env, "Unsupported bttribute type");
                 return 0;
        }
     }
-    if (gc_stat.gc_ext_attribute_values != NULL) {
-        free(gc_stat.gc_ext_attribute_values);
+    if (gc_stbt.gc_ext_bttribute_vblues != NULL) {
+        free(gc_stbt.gc_ext_bttribute_vblues);
     }
-    if (nativeTypes != NULL) {
-        free(nativeTypes);
+    if (nbtiveTypes != NULL) {
+        free(nbtiveTypes);
     }
 
-    return JNU_NewObjectByName(env,
-       "com/sun/management/GcInfo",
-       "(Lsun/management/GcInfoBuilder;JJJ[Ljava/lang/management/MemoryUsage;[Ljava/lang/management/MemoryUsage;[Ljava/lang/Object;)V",
+    return JNU_NewObjectByNbme(env,
+       "com/sun/mbnbgement/GcInfo",
+       "(Lsun/mbnbgement/GcInfoBuilder;JJJ[Ljbvb/lbng/mbnbgement/MemoryUsbge;[Ljbvb/lbng/mbnbgement/MemoryUsbge;[Ljbvb/lbng/Object;)V",
        builder,
-       gc_stat.gc_index,
-       gc_stat.start_time,
-       gc_stat.end_time,
-       usageBeforeGC,
-       usageAfterGC,
-       ext_att_values);
+       gc_stbt.gc_index,
+       gc_stbt.stbrt_time,
+       gc_stbt.end_time,
+       usbgeBeforeGC,
+       usbgeAfterGC,
+       ext_btt_vblues);
 }

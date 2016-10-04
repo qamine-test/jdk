@@ -1,479 +1,479 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.PKIXReason;
-import java.security.cert.CertStore;
-import java.security.cert.CertStoreException;
-import java.security.cert.PKIXBuilderParameters;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.TrustAnchor;
-import java.security.cert.X509Certificate;
-import java.security.cert.X509CertSelector;
-import java.util.*;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.IOException;
+import jbvb.security.GenerblSecurityException;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertPbthVblidbtorException;
+import jbvb.security.cert.PKIXRebson;
+import jbvb.security.cert.CertStore;
+import jbvb.security.cert.CertStoreException;
+import jbvb.security.cert.PKIXBuilderPbrbmeters;
+import jbvb.security.cert.PKIXCertPbthChecker;
+import jbvb.security.cert.TrustAnchor;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.X509CertSelector;
+import jbvb.util.*;
+import jbvbx.security.buth.x500.X500Principbl;
 
-import sun.security.provider.certpath.PKIX.BuilderParams;
+import sun.security.provider.certpbth.PKIX.BuilderPbrbms;
 import sun.security.util.Debug;
 import sun.security.x509.AccessDescription;
 import sun.security.x509.AuthorityInfoAccessExtension;
-import static sun.security.x509.PKIXExtensions.*;
-import sun.security.x509.X500Name;
+import stbtic sun.security.x509.PKIXExtensions.*;
+import sun.security.x509.X500Nbme;
 import sun.security.x509.AuthorityKeyIdentifierExtension;
 
 /**
- * This class represents a forward builder, which is able to retrieve
- * matching certificates from CertStores and verify a particular certificate
- * against a ForwardState.
+ * This clbss represents b forwbrd builder, which is bble to retrieve
+ * mbtching certificbtes from CertStores bnd verify b pbrticulbr certificbte
+ * bgbinst b ForwbrdStbte.
  *
  * @since       1.4
- * @author      Yassir Elley
- * @author      Sean Mullan
+ * @buthor      Ybssir Elley
+ * @buthor      Sebn Mullbn
  */
-class ForwardBuilder extends Builder {
+clbss ForwbrdBuilder extends Builder {
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    private final Set<X509Certificate> trustedCerts;
-    private final Set<X500Principal> trustedSubjectDNs;
-    private final Set<TrustAnchor> trustAnchors;
-    private X509CertSelector eeSelector;
-    private AdaptableX509CertSelector caSelector;
-    private X509CertSelector caTargetSelector;
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
+    privbte finbl Set<X509Certificbte> trustedCerts;
+    privbte finbl Set<X500Principbl> trustedSubjectDNs;
+    privbte finbl Set<TrustAnchor> trustAnchors;
+    privbte X509CertSelector eeSelector;
+    privbte AdbptbbleX509CertSelector cbSelector;
+    privbte X509CertSelector cbTbrgetSelector;
     TrustAnchor trustAnchor;
-    private Comparator<X509Certificate> comparator;
-    private boolean searchAllCertStores = true;
+    privbte Compbrbtor<X509Certificbte> compbrbtor;
+    privbte boolebn sebrchAllCertStores = true;
 
     /**
-     * Initialize the builder with the input parameters.
+     * Initiblize the builder with the input pbrbmeters.
      *
-     * @param params the parameter set used to build a certification path
+     * @pbrbm pbrbms the pbrbmeter set used to build b certificbtion pbth
      */
-    ForwardBuilder(BuilderParams buildParams, boolean searchAllCertStores) {
-        super(buildParams);
+    ForwbrdBuilder(BuilderPbrbms buildPbrbms, boolebn sebrchAllCertStores) {
+        super(buildPbrbms);
 
-        // populate sets of trusted certificates and subject DNs
-        trustAnchors = buildParams.trustAnchors();
-        trustedCerts = new HashSet<X509Certificate>(trustAnchors.size());
-        trustedSubjectDNs = new HashSet<X500Principal>(trustAnchors.size());
-        for (TrustAnchor anchor : trustAnchors) {
-            X509Certificate trustedCert = anchor.getTrustedCert();
+        // populbte sets of trusted certificbtes bnd subject DNs
+        trustAnchors = buildPbrbms.trustAnchors();
+        trustedCerts = new HbshSet<X509Certificbte>(trustAnchors.size());
+        trustedSubjectDNs = new HbshSet<X500Principbl>(trustAnchors.size());
+        for (TrustAnchor bnchor : trustAnchors) {
+            X509Certificbte trustedCert = bnchor.getTrustedCert();
             if (trustedCert != null) {
-                trustedCerts.add(trustedCert);
-                trustedSubjectDNs.add(trustedCert.getSubjectX500Principal());
+                trustedCerts.bdd(trustedCert);
+                trustedSubjectDNs.bdd(trustedCert.getSubjectX500Principbl());
             } else {
-                trustedSubjectDNs.add(anchor.getCA());
+                trustedSubjectDNs.bdd(bnchor.getCA());
             }
         }
-        comparator = new PKIXCertComparator(trustedSubjectDNs);
-        this.searchAllCertStores = searchAllCertStores;
+        compbrbtor = new PKIXCertCompbrbtor(trustedSubjectDNs);
+        this.sebrchAllCertStores = sebrchAllCertStores;
     }
 
     /**
-     * Retrieves all certs from the specified CertStores that satisfy the
-     * requirements specified in the parameters and the current
-     * PKIX state (name constraints, policy constraints, etc).
+     * Retrieves bll certs from the specified CertStores thbt sbtisfy the
+     * requirements specified in the pbrbmeters bnd the current
+     * PKIX stbte (nbme constrbints, policy constrbints, etc).
      *
-     * @param currentState the current state.
-     *        Must be an instance of <code>ForwardState</code>
-     * @param certStores list of CertStores
+     * @pbrbm currentStbte the current stbte.
+     *        Must be bn instbnce of <code>ForwbrdStbte</code>
+     * @pbrbm certStores list of CertStores
      */
     @Override
-    Collection<X509Certificate> getMatchingCerts(State currentState,
+    Collection<X509Certificbte> getMbtchingCerts(Stbte currentStbte,
                                                  List<CertStore> certStores)
-        throws CertStoreException, CertificateException, IOException
+        throws CertStoreException, CertificbteException, IOException
     {
         if (debug != null) {
-            debug.println("ForwardBuilder.getMatchingCerts()...");
+            debug.println("ForwbrdBuilder.getMbtchingCerts()...");
         }
 
-        ForwardState currState = (ForwardState) currentState;
+        ForwbrdStbte currStbte = (ForwbrdStbte) currentStbte;
 
         /*
-         * We store certs in a Set because we don't want duplicates.
-         * As each cert is added, it is sorted based on the PKIXCertComparator
-         * algorithm.
+         * We store certs in b Set becbuse we don't wbnt duplicbtes.
+         * As ebch cert is bdded, it is sorted bbsed on the PKIXCertCompbrbtor
+         * blgorithm.
          */
-        Set<X509Certificate> certs = new TreeSet<>(comparator);
+        Set<X509Certificbte> certs = new TreeSet<>(compbrbtor);
 
         /*
-         * Only look for EE certs if search has just started.
+         * Only look for EE certs if sebrch hbs just stbrted.
          */
-        if (currState.isInitial()) {
-            getMatchingEECerts(currState, certStores, certs);
+        if (currStbte.isInitibl()) {
+            getMbtchingEECerts(currStbte, certStores, certs);
         }
-        getMatchingCACerts(currState, certStores, certs);
+        getMbtchingCACerts(currStbte, certStores, certs);
 
         return certs;
     }
 
     /*
-     * Retrieves all end-entity certificates which satisfy constraints
-     * and requirements specified in the parameters and PKIX state.
+     * Retrieves bll end-entity certificbtes which sbtisfy constrbints
+     * bnd requirements specified in the pbrbmeters bnd PKIX stbte.
      */
-    private void getMatchingEECerts(ForwardState currentState,
+    privbte void getMbtchingEECerts(ForwbrdStbte currentStbte,
                                     List<CertStore> certStores,
-                                    Collection<X509Certificate> eeCerts)
+                                    Collection<X509Certificbte> eeCerts)
         throws IOException
     {
         if (debug != null) {
-            debug.println("ForwardBuilder.getMatchingEECerts()...");
+            debug.println("ForwbrdBuilder.getMbtchingEECerts()...");
         }
         /*
-         * Compose a certificate matching rule to filter out
-         * certs which don't satisfy constraints
+         * Compose b certificbte mbtching rule to filter out
+         * certs which don't sbtisfy constrbints
          *
-         * First, retrieve clone of current target cert constraints,
-         * and then add more selection criteria based on current validation
-         * state. Since selector never changes, cache local copy & reuse.
+         * First, retrieve clone of current tbrget cert constrbints,
+         * bnd then bdd more selection criterib bbsed on current vblidbtion
+         * stbte. Since selector never chbnges, cbche locbl copy & reuse.
          */
         if (eeSelector == null) {
-            eeSelector = (X509CertSelector) targetCertConstraints.clone();
+            eeSelector = (X509CertSelector) tbrgetCertConstrbints.clone();
 
             /*
-             * Match on certificate validity date
+             * Mbtch on certificbte vblidity dbte
              */
-            eeSelector.setCertificateValid(buildParams.date());
+            eeSelector.setCertificbteVblid(buildPbrbms.dbte());
 
             /*
-             * Policy processing optimizations
+             * Policy processing optimizbtions
              */
-            if (buildParams.explicitPolicyRequired()) {
-                eeSelector.setPolicy(getMatchingPolicies());
+            if (buildPbrbms.explicitPolicyRequired()) {
+                eeSelector.setPolicy(getMbtchingPolicies());
             }
             /*
              * Require EE certs
              */
-            eeSelector.setBasicConstraints(-2);
+            eeSelector.setBbsicConstrbints(-2);
         }
 
-        /* Retrieve matching EE certs from CertStores */
-        addMatchingCerts(eeSelector, certStores, eeCerts, searchAllCertStores);
+        /* Retrieve mbtching EE certs from CertStores */
+        bddMbtchingCerts(eeSelector, certStores, eeCerts, sebrchAllCertStores);
     }
 
     /**
-     * Retrieves all CA certificates which satisfy constraints
-     * and requirements specified in the parameters and PKIX state.
+     * Retrieves bll CA certificbtes which sbtisfy constrbints
+     * bnd requirements specified in the pbrbmeters bnd PKIX stbte.
      */
-    private void getMatchingCACerts(ForwardState currentState,
+    privbte void getMbtchingCACerts(ForwbrdStbte currentStbte,
                                     List<CertStore> certStores,
-                                    Collection<X509Certificate> caCerts)
+                                    Collection<X509Certificbte> cbCerts)
         throws IOException
     {
         if (debug != null) {
-            debug.println("ForwardBuilder.getMatchingCACerts()...");
+            debug.println("ForwbrdBuilder.getMbtchingCACerts()...");
         }
-        int initialSize = caCerts.size();
+        int initiblSize = cbCerts.size();
 
         /*
-         * Compose a CertSelector to filter out
-         * certs which do not satisfy requirements.
+         * Compose b CertSelector to filter out
+         * certs which do not sbtisfy requirements.
          */
         X509CertSelector sel = null;
 
-        if (currentState.isInitial()) {
-            if (targetCertConstraints.getBasicConstraints() == -2) {
-                // no need to continue: this means we never can match a CA cert
+        if (currentStbte.isInitibl()) {
+            if (tbrgetCertConstrbints.getBbsicConstrbints() == -2) {
+                // no need to continue: this mebns we never cbn mbtch b CA cert
                 return;
             }
 
-            /* This means a CA is the target, so match on same stuff as
-             * getMatchingEECerts
+            /* This mebns b CA is the tbrget, so mbtch on sbme stuff bs
+             * getMbtchingEECerts
              */
             if (debug != null) {
-                debug.println("ForwardBuilder.getMatchingCACerts(): ca is target");
+                debug.println("ForwbrdBuilder.getMbtchingCACerts(): cb is tbrget");
             }
 
-            if (caTargetSelector == null) {
-                caTargetSelector =
-                    (X509CertSelector) targetCertConstraints.clone();
+            if (cbTbrgetSelector == null) {
+                cbTbrgetSelector =
+                    (X509CertSelector) tbrgetCertConstrbints.clone();
 
                 /*
-                 * Since we don't check the validity period of trusted
-                 * certificates, please don't set the certificate valid
-                 * criterion unless the trusted certificate matching is
+                 * Since we don't check the vblidity period of trusted
+                 * certificbtes, plebse don't set the certificbte vblid
+                 * criterion unless the trusted certificbte mbtching is
                  * completed.
                  */
 
                 /*
-                 * Policy processing optimizations
+                 * Policy processing optimizbtions
                  */
-                if (buildParams.explicitPolicyRequired())
-                    caTargetSelector.setPolicy(getMatchingPolicies());
+                if (buildPbrbms.explicitPolicyRequired())
+                    cbTbrgetSelector.setPolicy(getMbtchingPolicies());
             }
 
-            sel = caTargetSelector;
+            sel = cbTbrgetSelector;
         } else {
 
-            if (caSelector == null) {
-                caSelector = new AdaptableX509CertSelector();
+            if (cbSelector == null) {
+                cbSelector = new AdbptbbleX509CertSelector();
 
                 /*
-                 * Since we don't check the validity period of trusted
-                 * certificates, please don't set the certificate valid
-                 * criterion unless the trusted certificate matching is
+                 * Since we don't check the vblidity period of trusted
+                 * certificbtes, plebse don't set the certificbte vblid
+                 * criterion unless the trusted certificbte mbtching is
                  * completed.
                  */
 
                 /*
-                 * Policy processing optimizations
+                 * Policy processing optimizbtions
                  */
-                if (buildParams.explicitPolicyRequired())
-                    caSelector.setPolicy(getMatchingPolicies());
+                if (buildPbrbms.explicitPolicyRequired())
+                    cbSelector.setPolicy(getMbtchingPolicies());
             }
 
             /*
-             * Match on subject (issuer of previous cert)
+             * Mbtch on subject (issuer of previous cert)
              */
-            caSelector.setSubject(currentState.issuerDN);
+            cbSelector.setSubject(currentStbte.issuerDN);
 
             /*
-             * Match on subjectNamesTraversed (both DNs and AltNames)
-             * (checks that current cert's name constraints permit it
-             * to certify all the DNs and AltNames that have been traversed)
+             * Mbtch on subjectNbmesTrbversed (both DNs bnd AltNbmes)
+             * (checks thbt current cert's nbme constrbints permit it
+             * to certify bll the DNs bnd AltNbmes thbt hbve been trbversed)
              */
-            CertPathHelper.setPathToNames
-                (caSelector, currentState.subjectNamesTraversed);
+            CertPbthHelper.setPbthToNbmes
+                (cbSelector, currentStbte.subjectNbmesTrbversed);
 
             /*
-             * Facilitate certification path construction with authority
-             * key identifier and subject key identifier.
+             * Fbcilitbte certificbtion pbth construction with buthority
+             * key identifier bnd subject key identifier.
              */
-            AuthorityKeyIdentifierExtension akidext =
-                    currentState.cert.getAuthorityKeyIdentifierExtension();
-            caSelector.setSkiAndSerialNumber(akidext);
+            AuthorityKeyIdentifierExtension bkidext =
+                    currentStbte.cert.getAuthorityKeyIdentifierExtension();
+            cbSelector.setSkiAndSeriblNumber(bkidext);
 
             /*
-             * check the validity period
+             * check the vblidity period
              */
-            caSelector.setValidityPeriod(currentState.cert.getNotBefore(),
-                                         currentState.cert.getNotAfter());
+            cbSelector.setVblidityPeriod(currentStbte.cert.getNotBefore(),
+                                         currentStbte.cert.getNotAfter());
 
-            sel = caSelector;
+            sel = cbSelector;
         }
 
         /*
-         * For compatibility, conservatively, we don't check the path
-         * length constraint of trusted anchors.  Please don't set the
-         * basic constraints criterion unless the trusted certificate
-         * matching is completed.
+         * For compbtibility, conservbtively, we don't check the pbth
+         * length constrbint of trusted bnchors.  Plebse don't set the
+         * bbsic constrbints criterion unless the trusted certificbte
+         * mbtching is completed.
          */
-        sel.setBasicConstraints(-1);
+        sel.setBbsicConstrbints(-1);
 
-        for (X509Certificate trustedCert : trustedCerts) {
-            if (sel.match(trustedCert)) {
+        for (X509Certificbte trustedCert : trustedCerts) {
+            if (sel.mbtch(trustedCert)) {
                 if (debug != null) {
-                    debug.println("ForwardBuilder.getMatchingCACerts: "
-                        + "found matching trust anchor");
+                    debug.println("ForwbrdBuilder.getMbtchingCACerts: "
+                        + "found mbtching trust bnchor");
                 }
-                if (caCerts.add(trustedCert) && !searchAllCertStores) {
+                if (cbCerts.bdd(trustedCert) && !sebrchAllCertStores) {
                     return;
                 }
             }
         }
 
         /*
-         * The trusted certificate matching is completed. We need to match
-         * on certificate validity date.
+         * The trusted certificbte mbtching is completed. We need to mbtch
+         * on certificbte vblidity dbte.
          */
-        sel.setCertificateValid(buildParams.date());
+        sel.setCertificbteVblid(buildPbrbms.dbte());
 
         /*
-         * Require CA certs with a pathLenConstraint that allows
-         * at least as many CA certs that have already been traversed
+         * Require CA certs with b pbthLenConstrbint thbt bllows
+         * bt lebst bs mbny CA certs thbt hbve blrebdy been trbversed
          */
-        sel.setBasicConstraints(currentState.traversedCACerts);
+        sel.setBbsicConstrbints(currentStbte.trbversedCACerts);
 
         /*
-         * If we have already traversed as many CA certs as the maxPathLength
-         * will allow us to, then we don't bother looking through these
-         * certificate pairs. If maxPathLength has a value of -1, this
-         * means it is unconstrained, so we always look through the
-         * certificate pairs.
+         * If we hbve blrebdy trbversed bs mbny CA certs bs the mbxPbthLength
+         * will bllow us to, then we don't bother looking through these
+         * certificbte pbirs. If mbxPbthLength hbs b vblue of -1, this
+         * mebns it is unconstrbined, so we blwbys look through the
+         * certificbte pbirs.
          */
-        if (currentState.isInitial() ||
-           (buildParams.maxPathLength() == -1) ||
-           (buildParams.maxPathLength() > currentState.traversedCACerts))
+        if (currentStbte.isInitibl() ||
+           (buildPbrbms.mbxPbthLength() == -1) ||
+           (buildPbrbms.mbxPbthLength() > currentStbte.trbversedCACerts))
         {
-            if (addMatchingCerts(sel, certStores,
-                                 caCerts, searchAllCertStores)
-                && !searchAllCertStores) {
+            if (bddMbtchingCerts(sel, certStores,
+                                 cbCerts, sebrchAllCertStores)
+                && !sebrchAllCertStores) {
                 return;
             }
         }
 
-        if (!currentState.isInitial() && Builder.USE_AIA) {
-            // check for AuthorityInformationAccess extension
-            AuthorityInfoAccessExtension aiaExt =
-                currentState.cert.getAuthorityInfoAccessExtension();
-            if (aiaExt != null) {
-                getCerts(aiaExt, caCerts);
+        if (!currentStbte.isInitibl() && Builder.USE_AIA) {
+            // check for AuthorityInformbtionAccess extension
+            AuthorityInfoAccessExtension bibExt =
+                currentStbte.cert.getAuthorityInfoAccessExtension();
+            if (bibExt != null) {
+                getCerts(bibExt, cbCerts);
             }
         }
 
         if (debug != null) {
-            int numCerts = caCerts.size() - initialSize;
-            debug.println("ForwardBuilder.getMatchingCACerts: found " +
+            int numCerts = cbCerts.size() - initiblSize;
+            debug.println("ForwbrdBuilder.getMbtchingCACerts: found " +
                 numCerts + " CA certs");
         }
     }
 
     /**
-     * Download Certificates from the given AIA and add them to the
+     * Downlobd Certificbtes from the given AIA bnd bdd them to the
      * specified Collection.
      */
-    // cs.getCertificates(caSelector) returns a collection of X509Certificate's
-    // because of the selector, so the cast is safe
-    @SuppressWarnings("unchecked")
-    private boolean getCerts(AuthorityInfoAccessExtension aiaExt,
-                             Collection<X509Certificate> certs)
+    // cs.getCertificbtes(cbSelector) returns b collection of X509Certificbte's
+    // becbuse of the selector, so the cbst is sbfe
+    @SuppressWbrnings("unchecked")
+    privbte boolebn getCerts(AuthorityInfoAccessExtension bibExt,
+                             Collection<X509Certificbte> certs)
     {
-        if (Builder.USE_AIA == false) {
-            return false;
+        if (Builder.USE_AIA == fblse) {
+            return fblse;
         }
-        List<AccessDescription> adList = aiaExt.getAccessDescriptions();
-        if (adList == null || adList.isEmpty()) {
-            return false;
+        List<AccessDescription> bdList = bibExt.getAccessDescriptions();
+        if (bdList == null || bdList.isEmpty()) {
+            return fblse;
         }
 
-        boolean add = false;
-        for (AccessDescription ad : adList) {
-            CertStore cs = URICertStore.getInstance(ad);
+        boolebn bdd = fblse;
+        for (AccessDescription bd : bdList) {
+            CertStore cs = URICertStore.getInstbnce(bd);
             if (cs != null) {
                 try {
-                    if (certs.addAll((Collection<X509Certificate>)
-                        cs.getCertificates(caSelector))) {
-                        add = true;
-                        if (!searchAllCertStores) {
+                    if (certs.bddAll((Collection<X509Certificbte>)
+                        cs.getCertificbtes(cbSelector))) {
+                        bdd = true;
+                        if (!sebrchAllCertStores) {
                             return true;
                         }
                     }
-                } catch (CertStoreException cse) {
+                } cbtch (CertStoreException cse) {
                     if (debug != null) {
                         debug.println("exception getting certs from CertStore:");
-                        cse.printStackTrace();
+                        cse.printStbckTrbce();
                     }
                 }
             }
         }
-        return add;
+        return bdd;
     }
 
     /**
-     * This inner class compares 2 PKIX certificates according to which
-     * should be tried first when building a path from the target.
-     * The preference order is as follows:
+     * This inner clbss compbres 2 PKIX certificbtes bccording to which
+     * should be tried first when building b pbth from the tbrget.
+     * The preference order is bs follows:
      *
-     * Given trusted certificate(s):
+     * Given trusted certificbte(s):
      *    Subject:ou=D,ou=C,o=B,c=A
      *
      * Preference order for current cert:
      *
-     * 1) Issuer matches a trusted subject
+     * 1) Issuer mbtches b trusted subject
      *    Issuer: ou=D,ou=C,o=B,c=A
      *
-     * 2) Issuer is a descendant of a trusted subject (in order of
+     * 2) Issuer is b descendbnt of b trusted subject (in order of
      *    number of links to the trusted subject)
-     *    a) Issuer: ou=E,ou=D,ou=C,o=B,c=A        [links=1]
+     *    b) Issuer: ou=E,ou=D,ou=C,o=B,c=A        [links=1]
      *    b) Issuer: ou=F,ou=E,ou=D,ou=C,ou=B,c=A  [links=2]
      *
-     * 3) Issuer is an ancestor of a trusted subject (in order of number of
+     * 3) Issuer is bn bncestor of b trusted subject (in order of number of
      *    links to the trusted subject)
-     *    a) Issuer: ou=C,o=B,c=A [links=1]
+     *    b) Issuer: ou=C,o=B,c=A [links=1]
      *    b) Issuer: o=B,c=A      [links=2]
      *
-     * 4) Issuer is in the same namespace as a trusted subject (in order of
+     * 4) Issuer is in the sbme nbmespbce bs b trusted subject (in order of
      *    number of links to the trusted subject)
-     *    a) Issuer: ou=G,ou=C,o=B,c=A  [links=2]
+     *    b) Issuer: ou=G,ou=C,o=B,c=A  [links=2]
      *    b) Issuer: ou=H,o=B,c=A       [links=3]
      *
-     * 5) Issuer is an ancestor of certificate subject (in order of number
-     *    of links to the certificate subject)
-     *    a) Issuer:  ou=K,o=J,c=A
+     * 5) Issuer is bn bncestor of certificbte subject (in order of number
+     *    of links to the certificbte subject)
+     *    b) Issuer:  ou=K,o=J,c=A
      *       Subject: ou=L,ou=K,o=J,c=A
      *    b) Issuer:  o=J,c=A
      *       Subject: ou=L,ou=K,0=J,c=A
      *
-     * 6) Any other certificates
+     * 6) Any other certificbtes
      */
-    static class PKIXCertComparator implements Comparator<X509Certificate> {
+    stbtic clbss PKIXCertCompbrbtor implements Compbrbtor<X509Certificbte> {
 
-        final static String METHOD_NME = "PKIXCertComparator.compare()";
+        finbl stbtic String METHOD_NME = "PKIXCertCompbrbtor.compbre()";
 
-        private final Set<X500Principal> trustedSubjectDNs;
+        privbte finbl Set<X500Principbl> trustedSubjectDNs;
 
-        PKIXCertComparator(Set<X500Principal> trustedSubjectDNs) {
+        PKIXCertCompbrbtor(Set<X500Principbl> trustedSubjectDNs) {
             this.trustedSubjectDNs = trustedSubjectDNs;
         }
 
         /**
-         * @param oCert1 First X509Certificate to be compared
-         * @param oCert2 Second X509Certificate to be compared
-         * @return -1 if oCert1 is preferable to oCert2, or
-         *            if oCert1 and oCert2 are equally preferable (in this
-         *            case it doesn't matter which is preferable, but we don't
-         *            return 0 because the comparator would behave strangely
-         *            when used in a SortedSet).
-         *          1 if oCert2 is preferable to oCert1
-         *          0 if oCert1.equals(oCert2). We only return 0 if the
-         *          certs are equal so that this comparator behaves
-         *          correctly when used in a SortedSet.
-         * @throws ClassCastException if either argument is not of type
-         * X509Certificate
+         * @pbrbm oCert1 First X509Certificbte to be compbred
+         * @pbrbm oCert2 Second X509Certificbte to be compbred
+         * @return -1 if oCert1 is preferbble to oCert2, or
+         *            if oCert1 bnd oCert2 bre equblly preferbble (in this
+         *            cbse it doesn't mbtter which is preferbble, but we don't
+         *            return 0 becbuse the compbrbtor would behbve strbngely
+         *            when used in b SortedSet).
+         *          1 if oCert2 is preferbble to oCert1
+         *          0 if oCert1.equbls(oCert2). We only return 0 if the
+         *          certs bre equbl so thbt this compbrbtor behbves
+         *          correctly when used in b SortedSet.
+         * @throws ClbssCbstException if either brgument is not of type
+         * X509Certificbte
          */
         @Override
-        public int compare(X509Certificate oCert1, X509Certificate oCert2) {
+        public int compbre(X509Certificbte oCert1, X509Certificbte oCert2) {
 
-            // if certs are the same, return 0
-            if (oCert1.equals(oCert2)) return 0;
+            // if certs bre the sbme, return 0
+            if (oCert1.equbls(oCert2)) return 0;
 
-            X500Principal cIssuer1 = oCert1.getIssuerX500Principal();
-            X500Principal cIssuer2 = oCert2.getIssuerX500Principal();
-            X500Name cIssuer1Name = X500Name.asX500Name(cIssuer1);
-            X500Name cIssuer2Name = X500Name.asX500Name(cIssuer2);
+            X500Principbl cIssuer1 = oCert1.getIssuerX500Principbl();
+            X500Principbl cIssuer2 = oCert2.getIssuerX500Principbl();
+            X500Nbme cIssuer1Nbme = X500Nbme.bsX500Nbme(cIssuer1);
+            X500Nbme cIssuer2Nbme = X500Nbme.bsX500Nbme(cIssuer2);
 
             if (debug != null) {
                 debug.println(METHOD_NME + " o1 Issuer:  " + cIssuer1);
                 debug.println(METHOD_NME + " o2 Issuer:  " + cIssuer2);
             }
 
-            /* If one cert's issuer matches a trusted subject, then it is
-             * preferable.
+            /* If one cert's issuer mbtches b trusted subject, then it is
+             * preferbble.
              */
             if (debug != null) {
                 debug.println(METHOD_NME + " MATCH TRUSTED SUBJECT TEST...");
             }
 
-            boolean m1 = trustedSubjectDNs.contains(cIssuer1);
-            boolean m2 = trustedSubjectDNs.contains(cIssuer2);
+            boolebn m1 = trustedSubjectDNs.contbins(cIssuer1);
+            boolebn m2 = trustedSubjectDNs.contbins(cIssuer2);
             if (debug != null) {
                 debug.println(METHOD_NME + " m1: " + m1);
                 debug.println(METHOD_NME + " m2: " + m2);
@@ -486,62 +486,62 @@ class ForwardBuilder extends Builder {
                 return 1;
             }
 
-            /* If one cert's issuer is a naming descendant of a trusted subject,
-             * then it is preferable, in order of increasing naming distance.
+            /* If one cert's issuer is b nbming descendbnt of b trusted subject,
+             * then it is preferbble, in order of increbsing nbming distbnce.
              */
             if (debug != null) {
                 debug.println(METHOD_NME + " NAMING DESCENDANT TEST...");
             }
-            for (X500Principal tSubject : trustedSubjectDNs) {
-                X500Name tSubjectName = X500Name.asX500Name(tSubject);
-                int distanceTto1 =
-                    Builder.distance(tSubjectName, cIssuer1Name, -1);
-                int distanceTto2 =
-                    Builder.distance(tSubjectName, cIssuer2Name, -1);
+            for (X500Principbl tSubject : trustedSubjectDNs) {
+                X500Nbme tSubjectNbme = X500Nbme.bsX500Nbme(tSubject);
+                int distbnceTto1 =
+                    Builder.distbnce(tSubjectNbme, cIssuer1Nbme, -1);
+                int distbnceTto2 =
+                    Builder.distbnce(tSubjectNbme, cIssuer2Nbme, -1);
                 if (debug != null) {
-                    debug.println(METHOD_NME +" distanceTto1: " + distanceTto1);
-                    debug.println(METHOD_NME +" distanceTto2: " + distanceTto2);
+                    debug.println(METHOD_NME +" distbnceTto1: " + distbnceTto1);
+                    debug.println(METHOD_NME +" distbnceTto2: " + distbnceTto2);
                 }
-                if (distanceTto1 > 0 || distanceTto2 > 0) {
-                    if (distanceTto1 == distanceTto2) {
+                if (distbnceTto1 > 0 || distbnceTto2 > 0) {
+                    if (distbnceTto1 == distbnceTto2) {
                         return -1;
-                    } else if (distanceTto1 > 0 && distanceTto2 <= 0) {
+                    } else if (distbnceTto1 > 0 && distbnceTto2 <= 0) {
                         return -1;
-                    } else if (distanceTto1 <= 0 && distanceTto2 > 0) {
+                    } else if (distbnceTto1 <= 0 && distbnceTto2 > 0) {
                         return 1;
-                    } else if (distanceTto1 < distanceTto2) {
+                    } else if (distbnceTto1 < distbnceTto2) {
                         return -1;
-                    } else {    // distanceTto1 > distanceTto2
+                    } else {    // distbnceTto1 > distbnceTto2
                         return 1;
                     }
                 }
             }
 
-            /* If one cert's issuer is a naming ancestor of a trusted subject,
-             * then it is preferable, in order of increasing naming distance.
+            /* If one cert's issuer is b nbming bncestor of b trusted subject,
+             * then it is preferbble, in order of increbsing nbming distbnce.
              */
             if (debug != null) {
                 debug.println(METHOD_NME + " NAMING ANCESTOR TEST...");
             }
-            for (X500Principal tSubject : trustedSubjectDNs) {
-                X500Name tSubjectName = X500Name.asX500Name(tSubject);
+            for (X500Principbl tSubject : trustedSubjectDNs) {
+                X500Nbme tSubjectNbme = X500Nbme.bsX500Nbme(tSubject);
 
-                int distanceTto1 = Builder.distance
-                    (tSubjectName, cIssuer1Name, Integer.MAX_VALUE);
-                int distanceTto2 = Builder.distance
-                    (tSubjectName, cIssuer2Name, Integer.MAX_VALUE);
+                int distbnceTto1 = Builder.distbnce
+                    (tSubjectNbme, cIssuer1Nbme, Integer.MAX_VALUE);
+                int distbnceTto2 = Builder.distbnce
+                    (tSubjectNbme, cIssuer2Nbme, Integer.MAX_VALUE);
                 if (debug != null) {
-                    debug.println(METHOD_NME +" distanceTto1: " + distanceTto1);
-                    debug.println(METHOD_NME +" distanceTto2: " + distanceTto2);
+                    debug.println(METHOD_NME +" distbnceTto1: " + distbnceTto1);
+                    debug.println(METHOD_NME +" distbnceTto2: " + distbnceTto2);
                 }
-                if (distanceTto1 < 0 || distanceTto2 < 0) {
-                    if (distanceTto1 == distanceTto2) {
+                if (distbnceTto1 < 0 || distbnceTto2 < 0) {
+                    if (distbnceTto1 == distbnceTto2) {
                         return -1;
-                    } else if (distanceTto1 < 0 && distanceTto2 >= 0) {
+                    } else if (distbnceTto1 < 0 && distbnceTto2 >= 0) {
                         return -1;
-                    } else if (distanceTto1 >= 0 && distanceTto2 < 0) {
+                    } else if (distbnceTto1 >= 0 && distbnceTto2 < 0) {
                         return 1;
-                    } else if (distanceTto1 > distanceTto2) {
+                    } else if (distbnceTto1 > distbnceTto2) {
                         return -1;
                     } else {
                         return 1;
@@ -549,27 +549,27 @@ class ForwardBuilder extends Builder {
                 }
             }
 
-            /* If one cert's issuer is in the same namespace as a trusted
-             * subject, then it is preferable, in order of increasing naming
-             * distance.
+            /* If one cert's issuer is in the sbme nbmespbce bs b trusted
+             * subject, then it is preferbble, in order of increbsing nbming
+             * distbnce.
              */
             if (debug != null) {
                 debug.println(METHOD_NME +" SAME NAMESPACE AS TRUSTED TEST...");
             }
-            for (X500Principal tSubject : trustedSubjectDNs) {
-                X500Name tSubjectName = X500Name.asX500Name(tSubject);
-                X500Name tAo1 = tSubjectName.commonAncestor(cIssuer1Name);
-                X500Name tAo2 = tSubjectName.commonAncestor(cIssuer2Name);
+            for (X500Principbl tSubject : trustedSubjectDNs) {
+                X500Nbme tSubjectNbme = X500Nbme.bsX500Nbme(tSubject);
+                X500Nbme tAo1 = tSubjectNbme.commonAncestor(cIssuer1Nbme);
+                X500Nbme tAo2 = tSubjectNbme.commonAncestor(cIssuer2Nbme);
                 if (debug != null) {
-                    debug.println(METHOD_NME +" tAo1: " + String.valueOf(tAo1));
-                    debug.println(METHOD_NME +" tAo2: " + String.valueOf(tAo2));
+                    debug.println(METHOD_NME +" tAo1: " + String.vblueOf(tAo1));
+                    debug.println(METHOD_NME +" tAo2: " + String.vblueOf(tAo2));
                 }
                 if (tAo1 != null || tAo2 != null) {
                     if (tAo1 != null && tAo2 != null) {
                         int hopsTto1 = Builder.hops
-                            (tSubjectName, cIssuer1Name, Integer.MAX_VALUE);
+                            (tSubjectNbme, cIssuer1Nbme, Integer.MAX_VALUE);
                         int hopsTto2 = Builder.hops
-                            (tSubjectName, cIssuer2Name, Integer.MAX_VALUE);
+                            (tSubjectNbme, cIssuer2Nbme, Integer.MAX_VALUE);
                         if (debug != null) {
                             debug.println(METHOD_NME +" hopsTto1: " + hopsTto1);
                             debug.println(METHOD_NME +" hopsTto2: " + hopsTto2);
@@ -589,127 +589,127 @@ class ForwardBuilder extends Builder {
             }
 
 
-            /* If one cert's issuer is an ancestor of that cert's subject,
-             * then it is preferable, in order of increasing naming distance.
+            /* If one cert's issuer is bn bncestor of thbt cert's subject,
+             * then it is preferbble, in order of increbsing nbming distbnce.
              */
             if (debug != null) {
                 debug.println(METHOD_NME+" CERT ISSUER/SUBJECT COMPARISON TEST...");
             }
-            X500Principal cSubject1 = oCert1.getSubjectX500Principal();
-            X500Principal cSubject2 = oCert2.getSubjectX500Principal();
-            X500Name cSubject1Name = X500Name.asX500Name(cSubject1);
-            X500Name cSubject2Name = X500Name.asX500Name(cSubject2);
+            X500Principbl cSubject1 = oCert1.getSubjectX500Principbl();
+            X500Principbl cSubject2 = oCert2.getSubjectX500Principbl();
+            X500Nbme cSubject1Nbme = X500Nbme.bsX500Nbme(cSubject1);
+            X500Nbme cSubject2Nbme = X500Nbme.bsX500Nbme(cSubject2);
 
             if (debug != null) {
                 debug.println(METHOD_NME + " o1 Subject: " + cSubject1);
                 debug.println(METHOD_NME + " o2 Subject: " + cSubject2);
             }
-            int distanceStoI1 = Builder.distance
-                (cSubject1Name, cIssuer1Name, Integer.MAX_VALUE);
-            int distanceStoI2 = Builder.distance
-                (cSubject2Name, cIssuer2Name, Integer.MAX_VALUE);
+            int distbnceStoI1 = Builder.distbnce
+                (cSubject1Nbme, cIssuer1Nbme, Integer.MAX_VALUE);
+            int distbnceStoI2 = Builder.distbnce
+                (cSubject2Nbme, cIssuer2Nbme, Integer.MAX_VALUE);
             if (debug != null) {
-                debug.println(METHOD_NME + " distanceStoI1: " + distanceStoI1);
-                debug.println(METHOD_NME + " distanceStoI2: " + distanceStoI2);
+                debug.println(METHOD_NME + " distbnceStoI1: " + distbnceStoI1);
+                debug.println(METHOD_NME + " distbnceStoI2: " + distbnceStoI2);
             }
-            if (distanceStoI2 > distanceStoI1) {
+            if (distbnceStoI2 > distbnceStoI1) {
                 return -1;
-            } else if (distanceStoI2 < distanceStoI1) {
+            } else if (distbnceStoI2 < distbnceStoI1) {
                 return 1;
             }
 
-            /* Otherwise, certs are equally preferable.
+            /* Otherwise, certs bre equblly preferbble.
              */
             if (debug != null) {
-                debug.println(METHOD_NME + " no tests matched; RETURN 0");
+                debug.println(METHOD_NME + " no tests mbtched; RETURN 0");
             }
             return -1;
         }
     }
 
     /**
-     * Verifies a matching certificate.
+     * Verifies b mbtching certificbte.
      *
-     * This method executes the validation steps in the PKIX path
-     * validation algorithm <draft-ietf-pkix-new-part1-08.txt> which were
-     * not satisfied by the selection criteria used by getCertificates()
-     * to find the certs and only the steps that can be executed in a
-     * forward direction (target to trust anchor). Those steps that can
-     * only be executed in a reverse direction are deferred until the
-     * complete path has been built.
+     * This method executes the vblidbtion steps in the PKIX pbth
+     * vblidbtion blgorithm <drbft-ietf-pkix-new-pbrt1-08.txt> which were
+     * not sbtisfied by the selection criterib used by getCertificbtes()
+     * to find the certs bnd only the steps thbt cbn be executed in b
+     * forwbrd direction (tbrget to trust bnchor). Those steps thbt cbn
+     * only be executed in b reverse direction bre deferred until the
+     * complete pbth hbs been built.
      *
-     * Trust anchor certs are not validated, but are used to verify the
-     * signature and revocation status of the previous cert.
+     * Trust bnchor certs bre not vblidbted, but bre used to verify the
+     * signbture bnd revocbtion stbtus of the previous cert.
      *
-     * If the last certificate is being verified (the one whose subject
-     * matches the target subject, then steps in 6.1.4 of the PKIX
-     * Certification Path Validation algorithm are NOT executed,
-     * regardless of whether or not the last cert is an end-entity
-     * cert or not. This allows callers to certify CA certs as
-     * well as EE certs.
+     * If the lbst certificbte is being verified (the one whose subject
+     * mbtches the tbrget subject, then steps in 6.1.4 of the PKIX
+     * Certificbtion Pbth Vblidbtion blgorithm bre NOT executed,
+     * regbrdless of whether or not the lbst cert is bn end-entity
+     * cert or not. This bllows cbllers to certify CA certs bs
+     * well bs EE certs.
      *
-     * @param cert the certificate to be verified
-     * @param currentState the current state against which the cert is verified
-     * @param certPathList the certPathList generated thus far
+     * @pbrbm cert the certificbte to be verified
+     * @pbrbm currentStbte the current stbte bgbinst which the cert is verified
+     * @pbrbm certPbthList the certPbthList generbted thus fbr
      */
     @Override
-    void verifyCert(X509Certificate cert, State currentState,
-                    List<X509Certificate> certPathList)
-        throws GeneralSecurityException
+    void verifyCert(X509Certificbte cert, Stbte currentStbte,
+                    List<X509Certificbte> certPbthList)
+        throws GenerblSecurityException
     {
         if (debug != null) {
-            debug.println("ForwardBuilder.verifyCert(SN: "
-                + Debug.toHexString(cert.getSerialNumber())
-                + "\n  Issuer: " + cert.getIssuerX500Principal() + ")"
-                + "\n  Subject: " + cert.getSubjectX500Principal() + ")");
+            debug.println("ForwbrdBuilder.verifyCert(SN: "
+                + Debug.toHexString(cert.getSeriblNumber())
+                + "\n  Issuer: " + cert.getIssuerX500Principbl() + ")"
+                + "\n  Subject: " + cert.getSubjectX500Principbl() + ")");
         }
 
-        ForwardState currState = (ForwardState)currentState;
+        ForwbrdStbte currStbte = (ForwbrdStbte)currentStbte;
 
-        // Don't bother to verify untrusted certificate more.
-        currState.untrustedChecker.check(cert, Collections.<String>emptySet());
+        // Don't bother to verify untrusted certificbte more.
+        currStbte.untrustedChecker.check(cert, Collections.<String>emptySet());
 
         /*
-         * check for looping - abort a loop if we encounter the same
-         * certificate twice
+         * check for looping - bbort b loop if we encounter the sbme
+         * certificbte twice
          */
-        if (certPathList != null) {
-            for (X509Certificate cpListCert : certPathList) {
-                if (cert.equals(cpListCert)) {
+        if (certPbthList != null) {
+            for (X509Certificbte cpListCert : certPbthList) {
+                if (cert.equbls(cpListCert)) {
                     if (debug != null) {
                         debug.println("loop detected!!");
                     }
-                    throw new CertPathValidatorException("loop detected");
+                    throw new CertPbthVblidbtorException("loop detected");
                 }
             }
         }
 
         /* check if trusted cert */
-        boolean isTrustedCert = trustedCerts.contains(cert);
+        boolebn isTrustedCert = trustedCerts.contbins(cert);
 
-        /* we don't perform any validation of the trusted cert */
+        /* we don't perform bny vblidbtion of the trusted cert */
         if (!isTrustedCert) {
             /*
-             * Check CRITICAL private extensions for user checkers that
-             * support forward checking (forwardCheckers) and remove
+             * Check CRITICAL privbte extensions for user checkers thbt
+             * support forwbrd checking (forwbrdCheckers) bnd remove
              * ones we know how to check.
              */
-            Set<String> unresCritExts = cert.getCriticalExtensionOIDs();
+            Set<String> unresCritExts = cert.getCriticblExtensionOIDs();
             if (unresCritExts == null) {
                 unresCritExts = Collections.<String>emptySet();
             }
-            for (PKIXCertPathChecker checker : currState.forwardCheckers) {
+            for (PKIXCertPbthChecker checker : currStbte.forwbrdCheckers) {
                 checker.check(cert, unresCritExts);
             }
 
             /*
-             * Remove extensions from user checkers that don't support
-             * forward checking. After this step, we will have removed
-             * all extensions that all user checkers are capable of
+             * Remove extensions from user checkers thbt don't support
+             * forwbrd checking. After this step, we will hbve removed
+             * bll extensions thbt bll user checkers bre cbpbble of
              * processing.
              */
-            for (PKIXCertPathChecker checker : buildParams.certPathCheckers()) {
-                if (!checker.isForwardCheckingSupported()) {
+            for (PKIXCertPbthChecker checker : buildPbrbms.certPbthCheckers()) {
+                if (!checker.isForwbrdCheckingSupported()) {
                     Set<String> supportedExts = checker.getSupportedExtensions();
                     if (supportedExts != null) {
                         unresCritExts.removeAll(supportedExts);
@@ -718,157 +718,157 @@ class ForwardBuilder extends Builder {
             }
 
             /*
-             * Look at the remaining extensions and remove any ones we know how
-             * to check. If there are any left, throw an exception!
+             * Look bt the rembining extensions bnd remove bny ones we know how
+             * to check. If there bre bny left, throw bn exception!
              */
             if (!unresCritExts.isEmpty()) {
-                unresCritExts.remove(BasicConstraints_Id.toString());
-                unresCritExts.remove(NameConstraints_Id.toString());
-                unresCritExts.remove(CertificatePolicies_Id.toString());
-                unresCritExts.remove(PolicyMappings_Id.toString());
-                unresCritExts.remove(PolicyConstraints_Id.toString());
+                unresCritExts.remove(BbsicConstrbints_Id.toString());
+                unresCritExts.remove(NbmeConstrbints_Id.toString());
+                unresCritExts.remove(CertificbtePolicies_Id.toString());
+                unresCritExts.remove(PolicyMbppings_Id.toString());
+                unresCritExts.remove(PolicyConstrbints_Id.toString());
                 unresCritExts.remove(InhibitAnyPolicy_Id.toString());
-                unresCritExts.remove(SubjectAlternativeName_Id.toString());
-                unresCritExts.remove(KeyUsage_Id.toString());
-                unresCritExts.remove(ExtendedKeyUsage_Id.toString());
+                unresCritExts.remove(SubjectAlternbtiveNbme_Id.toString());
+                unresCritExts.remove(KeyUsbge_Id.toString());
+                unresCritExts.remove(ExtendedKeyUsbge_Id.toString());
 
                 if (!unresCritExts.isEmpty())
-                    throw new CertPathValidatorException
-                        ("Unrecognized critical extension(s)", null, null, -1,
-                         PKIXReason.UNRECOGNIZED_CRIT_EXT);
+                    throw new CertPbthVblidbtorException
+                        ("Unrecognized criticbl extension(s)", null, null, -1,
+                         PKIXRebson.UNRECOGNIZED_CRIT_EXT);
             }
         }
 
         /*
-         * if this is the target certificate (init=true), then we are
-         * not able to do any more verification, so just return
+         * if this is the tbrget certificbte (init=true), then we bre
+         * not bble to do bny more verificbtion, so just return
          */
-        if (currState.isInitial()) {
+        if (currStbte.isInitibl()) {
             return;
         }
 
-        /* we don't perform any validation of the trusted cert */
+        /* we don't perform bny vblidbtion of the trusted cert */
         if (!isTrustedCert) {
-            /* Make sure this is a CA cert */
-            if (cert.getBasicConstraints() == -1) {
-                throw new CertificateException("cert is NOT a CA cert");
+            /* Mbke sure this is b CA cert */
+            if (cert.getBbsicConstrbints() == -1) {
+                throw new CertificbteException("cert is NOT b CA cert");
             }
 
             /*
-             * Check keyUsage extension
+             * Check keyUsbge extension
              */
-            KeyChecker.verifyCAKeyUsage(cert);
+            KeyChecker.verifyCAKeyUsbge(cert);
         }
 
         /*
-         * the following checks are performed even when the cert
-         * is a trusted cert, since we are only extracting the
-         * subjectDN, and publicKey from the cert
-         * in order to verify a previous cert
+         * the following checks bre performed even when the cert
+         * is b trusted cert, since we bre only extrbcting the
+         * subjectDN, bnd publicKey from the cert
+         * in order to verify b previous cert
          */
 
         /*
-         * Check signature only if no key requiring key parameters has been
+         * Check signbture only if no key requiring key pbrbmeters hbs been
          * encountered.
          */
-        if (!currState.keyParamsNeeded()) {
-            (currState.cert).verify(cert.getPublicKey(),
-                                    buildParams.sigProvider());
+        if (!currStbte.keyPbrbmsNeeded()) {
+            (currStbte.cert).verify(cert.getPublicKey(),
+                                    buildPbrbms.sigProvider());
         }
     }
 
     /**
-     * Verifies whether the input certificate completes the path.
-     * Checks the cert against each trust anchor that was specified, in order,
-     * and returns true as soon as it finds a valid anchor.
-     * Returns true if the cert matches a trust anchor specified as a
-     * certificate or if the cert verifies with a trust anchor that
-     * was specified as a trusted {pubkey, caname} pair. Returns false if none
-     * of the trust anchors are valid for this cert.
+     * Verifies whether the input certificbte completes the pbth.
+     * Checks the cert bgbinst ebch trust bnchor thbt wbs specified, in order,
+     * bnd returns true bs soon bs it finds b vblid bnchor.
+     * Returns true if the cert mbtches b trust bnchor specified bs b
+     * certificbte or if the cert verifies with b trust bnchor thbt
+     * wbs specified bs b trusted {pubkey, cbnbme} pbir. Returns fblse if none
+     * of the trust bnchors bre vblid for this cert.
      *
-     * @param cert the certificate to test
-     * @return a boolean value indicating whether the cert completes the path.
+     * @pbrbm cert the certificbte to test
+     * @return b boolebn vblue indicbting whether the cert completes the pbth.
      */
     @Override
-    boolean isPathCompleted(X509Certificate cert) {
-        for (TrustAnchor anchor : trustAnchors) {
-            if (anchor.getTrustedCert() != null) {
-                if (cert.equals(anchor.getTrustedCert())) {
-                    this.trustAnchor = anchor;
+    boolebn isPbthCompleted(X509Certificbte cert) {
+        for (TrustAnchor bnchor : trustAnchors) {
+            if (bnchor.getTrustedCert() != null) {
+                if (cert.equbls(bnchor.getTrustedCert())) {
+                    this.trustAnchor = bnchor;
                     return true;
                 } else {
                     continue;
                 }
             }
-            X500Principal principal = anchor.getCA();
-            PublicKey publicKey = anchor.getCAPublicKey();
+            X500Principbl principbl = bnchor.getCA();
+            PublicKey publicKey = bnchor.getCAPublicKey();
 
-            if (principal != null && publicKey != null &&
-                    principal.equals(cert.getSubjectX500Principal())) {
-                if (publicKey.equals(cert.getPublicKey())) {
-                    // the cert itself is a trust anchor
-                    this.trustAnchor = anchor;
+            if (principbl != null && publicKey != null &&
+                    principbl.equbls(cert.getSubjectX500Principbl())) {
+                if (publicKey.equbls(cert.getPublicKey())) {
+                    // the cert itself is b trust bnchor
+                    this.trustAnchor = bnchor;
                     return true;
                 }
-                // else, it is a self-issued certificate of the anchor
+                // else, it is b self-issued certificbte of the bnchor
             }
 
-            // Check subject/issuer name chaining
-            if (principal == null ||
-                    !principal.equals(cert.getIssuerX500Principal())) {
+            // Check subject/issuer nbme chbining
+            if (principbl == null ||
+                    !principbl.equbls(cert.getIssuerX500Principbl())) {
                 continue;
             }
 
-            // skip anchor if it contains a DSA key with no DSA params
-            if (PKIX.isDSAPublicKeyWithoutParams(publicKey)) {
+            // skip bnchor if it contbins b DSA key with no DSA pbrbms
+            if (PKIX.isDSAPublicKeyWithoutPbrbms(publicKey)) {
                 continue;
             }
 
             /*
-             * Check signature
+             * Check signbture
              */
             try {
-                cert.verify(publicKey, buildParams.sigProvider());
-            } catch (InvalidKeyException ike) {
+                cert.verify(publicKey, buildPbrbms.sigProvider());
+            } cbtch (InvblidKeyException ike) {
                 if (debug != null) {
-                    debug.println("ForwardBuilder.isPathCompleted() invalid "
+                    debug.println("ForwbrdBuilder.isPbthCompleted() invblid "
                                   + "DSA key found");
                 }
                 continue;
-            } catch (GeneralSecurityException e){
+            } cbtch (GenerblSecurityException e){
                 if (debug != null) {
-                    debug.println("ForwardBuilder.isPathCompleted() " +
+                    debug.println("ForwbrdBuilder.isPbthCompleted() " +
                                   "unexpected exception");
-                    e.printStackTrace();
+                    e.printStbckTrbce();
                 }
                 continue;
             }
 
-            this.trustAnchor = anchor;
+            this.trustAnchor = bnchor;
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
-    /** Adds the certificate to the certPathList
+    /** Adds the certificbte to the certPbthList
      *
-     * @param cert the certificate to be added
-     * @param certPathList the certification path list
+     * @pbrbm cert the certificbte to be bdded
+     * @pbrbm certPbthList the certificbtion pbth list
      */
     @Override
-    void addCertToPath(X509Certificate cert,
-                       LinkedList<X509Certificate> certPathList)
+    void bddCertToPbth(X509Certificbte cert,
+                       LinkedList<X509Certificbte> certPbthList)
     {
-        certPathList.addFirst(cert);
+        certPbthList.bddFirst(cert);
     }
 
-    /** Removes final certificate from the certPathList
+    /** Removes finbl certificbte from the certPbthList
      *
-     * @param certPathList the certification path list
+     * @pbrbm certPbthList the certificbtion pbth list
      */
     @Override
-    void removeFinalCertFromPath(LinkedList<X509Certificate> certPathList) {
-        certPathList.removeFirst();
+    void removeFinblCertFromPbth(LinkedList<X509Certificbte> certPbthList) {
+        certPbthList.removeFirst();
     }
 }

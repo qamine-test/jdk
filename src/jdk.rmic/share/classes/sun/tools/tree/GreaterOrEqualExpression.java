@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.Lbbel;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class GreaterOrEqualExpression extends BinaryCompareExpression {
+clbss GrebterOrEqublExpression extends BinbryCompbreExpression {
     /**
      * constructor
      */
-    public GreaterOrEqualExpression(long where, Expression left, Expression right) {
+    public GrebterOrEqublExpression(long where, Expression left, Expression right) {
         super(GE, where, left, right);
     }
 
     /**
-     * Evaluate
+     * Evblubte
      */
-    Expression eval(int a, int b) {
-        return new BooleanExpression(where, a >= b);
+    Expression evbl(int b, int b) {
+        return new BoolebnExpression(where, b >= b);
     }
-    Expression eval(long a, long b) {
-        return new BooleanExpression(where, a >= b);
+    Expression evbl(long b, long b) {
+        return new BoolebnExpression(where, b >= b);
     }
-    Expression eval(float a, float b) {
-        return new BooleanExpression(where, a >= b);
+    Expression evbl(flobt b, flobt b) {
+        return new BoolebnExpression(where, b >= b);
     }
-    Expression eval(double a, double b) {
-        return new BooleanExpression(where, a >= b);
+    Expression evbl(double b, double b) {
+        return new BoolebnExpression(where, b >= b);
     }
 
     /**
      * Simplify
      */
     Expression simplify() {
-        if (left.isConstant() && !right.isConstant()) {
-            return new LessOrEqualExpression(where, right, left);
+        if (left.isConstbnt() && !right.isConstbnt()) {
+            return new LessOrEqublExpression(where, right, left);
         }
         return this;
     }
@@ -72,31 +72,31 @@ class GreaterOrEqualExpression extends BinaryCompareExpression {
     /**
      * Code
      */
-    void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
-        left.codeValue(env, ctx, asm);
+    void codeBrbnch(Environment env, Context ctx, Assembler bsm, Lbbel lbl, boolebn whenTrue) {
+        left.codeVblue(env, ctx, bsm);
         switch (left.type.getTypeCode()) {
-          case TC_INT:
-            if (!right.equals(0)) {
-                right.codeValue(env, ctx, asm);
-                asm.add(where, whenTrue ? opc_if_icmpge : opc_if_icmplt, lbl, whenTrue);
+          cbse TC_INT:
+            if (!right.equbls(0)) {
+                right.codeVblue(env, ctx, bsm);
+                bsm.bdd(where, whenTrue ? opc_if_icmpge : opc_if_icmplt, lbl, whenTrue);
                 return;
             }
-            break;
-          case TC_LONG:
-            right.codeValue(env, ctx, asm);
-            asm.add(where, opc_lcmp);
-            break;
-          case TC_FLOAT:
-            right.codeValue(env, ctx, asm);
-            asm.add(where, opc_fcmpl);
-            break;
-          case TC_DOUBLE:
-            right.codeValue(env, ctx, asm);
-            asm.add(where, opc_dcmpl);
-            break;
-          default:
+            brebk;
+          cbse TC_LONG:
+            right.codeVblue(env, ctx, bsm);
+            bsm.bdd(where, opc_lcmp);
+            brebk;
+          cbse TC_FLOAT:
+            right.codeVblue(env, ctx, bsm);
+            bsm.bdd(where, opc_fcmpl);
+            brebk;
+          cbse TC_DOUBLE:
+            right.codeVblue(env, ctx, bsm);
+            bsm.bdd(where, opc_dcmpl);
+            brebk;
+          defbult:
             throw new CompilerError("Unexpected Type");
         }
-        asm.add(where, whenTrue ? opc_ifge : opc_iflt, lbl, whenTrue);
+        bsm.bdd(where, whenTrue ? opc_ifge : opc_iflt, lbl, whenTrue);
     }
 }

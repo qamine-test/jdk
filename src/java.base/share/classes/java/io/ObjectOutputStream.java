@@ -1,369 +1,369 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.io.ObjectStreamClass.WeakClassKey;
-import java.lang.ref.ReferenceQueue;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import static java.io.ObjectStreamClass.processQueue;
+import jbvb.io.ObjectStrebmClbss.WebkClbssKey;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import stbtic jbvb.io.ObjectStrebmClbss.processQueue;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * An ObjectOutputStream writes primitive data types and graphs of Java objects
- * to an OutputStream.  The objects can be read (reconstituted) using an
- * ObjectInputStream.  Persistent storage of objects can be accomplished by
- * using a file for the stream.  If the stream is a network socket stream, the
- * objects can be reconstituted on another host or in another process.
+ * An ObjectOutputStrebm writes primitive dbtb types bnd grbphs of Jbvb objects
+ * to bn OutputStrebm.  The objects cbn be rebd (reconstituted) using bn
+ * ObjectInputStrebm.  Persistent storbge of objects cbn be bccomplished by
+ * using b file for the strebm.  If the strebm is b network socket strebm, the
+ * objects cbn be reconstituted on bnother host or in bnother process.
  *
- * <p>Only objects that support the java.io.Serializable interface can be
- * written to streams.  The class of each serializable object is encoded
- * including the class name and signature of the class, the values of the
- * object's fields and arrays, and the closure of any other objects referenced
- * from the initial objects.
+ * <p>Only objects thbt support the jbvb.io.Seriblizbble interfbce cbn be
+ * written to strebms.  The clbss of ebch seriblizbble object is encoded
+ * including the clbss nbme bnd signbture of the clbss, the vblues of the
+ * object's fields bnd brrbys, bnd the closure of bny other objects referenced
+ * from the initibl objects.
  *
- * <p>The method writeObject is used to write an object to the stream.  Any
- * object, including Strings and arrays, is written with writeObject. Multiple
- * objects or primitives can be written to the stream.  The objects must be
- * read back from the corresponding ObjectInputstream with the same types and
- * in the same order as they were written.
+ * <p>The method writeObject is used to write bn object to the strebm.  Any
+ * object, including Strings bnd brrbys, is written with writeObject. Multiple
+ * objects or primitives cbn be written to the strebm.  The objects must be
+ * rebd bbck from the corresponding ObjectInputstrebm with the sbme types bnd
+ * in the sbme order bs they were written.
  *
- * <p>Primitive data types can also be written to the stream using the
- * appropriate methods from DataOutput. Strings can also be written using the
+ * <p>Primitive dbtb types cbn blso be written to the strebm using the
+ * bppropribte methods from DbtbOutput. Strings cbn blso be written using the
  * writeUTF method.
  *
- * <p>The default serialization mechanism for an object writes the class of the
- * object, the class signature, and the values of all non-transient and
- * non-static fields.  References to other objects (except in transient or
- * static fields) cause those objects to be written also. Multiple references
- * to a single object are encoded using a reference sharing mechanism so that
- * graphs of objects can be restored to the same shape as when the original was
+ * <p>The defbult seriblizbtion mechbnism for bn object writes the clbss of the
+ * object, the clbss signbture, bnd the vblues of bll non-trbnsient bnd
+ * non-stbtic fields.  References to other objects (except in trbnsient or
+ * stbtic fields) cbuse those objects to be written blso. Multiple references
+ * to b single object bre encoded using b reference shbring mechbnism so thbt
+ * grbphs of objects cbn be restored to the sbme shbpe bs when the originbl wbs
  * written.
  *
- * <p>For example to write an object that can be read by the example in
- * ObjectInputStream:
+ * <p>For exbmple to write bn object thbt cbn be rebd by the exbmple in
+ * ObjectInputStrebm:
  * <br>
  * <pre>
- *      FileOutputStream fos = new FileOutputStream("t.tmp");
- *      ObjectOutputStream oos = new ObjectOutputStream(fos);
+ *      FileOutputStrebm fos = new FileOutputStrebm("t.tmp");
+ *      ObjectOutputStrebm oos = new ObjectOutputStrebm(fos);
  *
  *      oos.writeInt(12345);
- *      oos.writeObject("Today");
- *      oos.writeObject(new Date());
+ *      oos.writeObject("Todby");
+ *      oos.writeObject(new Dbte());
  *
  *      oos.close();
  * </pre>
  *
- * <p>Classes that require special handling during the serialization and
- * deserialization process must implement special methods with these exact
- * signatures:
+ * <p>Clbsses thbt require specibl hbndling during the seriblizbtion bnd
+ * deseriblizbtion process must implement specibl methods with these exbct
+ * signbtures:
  * <br>
  * <pre>
- * private void readObject(java.io.ObjectInputStream stream)
- *     throws IOException, ClassNotFoundException;
- * private void writeObject(java.io.ObjectOutputStream stream)
+ * privbte void rebdObject(jbvb.io.ObjectInputStrebm strebm)
+ *     throws IOException, ClbssNotFoundException;
+ * privbte void writeObject(jbvb.io.ObjectOutputStrebm strebm)
  *     throws IOException
- * private void readObjectNoData()
- *     throws ObjectStreamException;
+ * privbte void rebdObjectNoDbtb()
+ *     throws ObjectStrebmException;
  * </pre>
  *
- * <p>The writeObject method is responsible for writing the state of the object
- * for its particular class so that the corresponding readObject method can
- * restore it.  The method does not need to concern itself with the state
- * belonging to the object's superclasses or subclasses.  State is saved by
- * writing the individual fields to the ObjectOutputStream using the
- * writeObject method or by using the methods for primitive data types
- * supported by DataOutput.
+ * <p>The writeObject method is responsible for writing the stbte of the object
+ * for its pbrticulbr clbss so thbt the corresponding rebdObject method cbn
+ * restore it.  The method does not need to concern itself with the stbte
+ * belonging to the object's superclbsses or subclbsses.  Stbte is sbved by
+ * writing the individubl fields to the ObjectOutputStrebm using the
+ * writeObject method or by using the methods for primitive dbtb types
+ * supported by DbtbOutput.
  *
- * <p>Serialization does not write out the fields of any object that does not
- * implement the java.io.Serializable interface.  Subclasses of Objects that
- * are not serializable can be serializable. In this case the non-serializable
- * class must have a no-arg constructor to allow its fields to be initialized.
- * In this case it is the responsibility of the subclass to save and restore
- * the state of the non-serializable class. It is frequently the case that the
- * fields of that class are accessible (public, package, or protected) or that
- * there are get and set methods that can be used to restore the state.
+ * <p>Seriblizbtion does not write out the fields of bny object thbt does not
+ * implement the jbvb.io.Seriblizbble interfbce.  Subclbsses of Objects thbt
+ * bre not seriblizbble cbn be seriblizbble. In this cbse the non-seriblizbble
+ * clbss must hbve b no-brg constructor to bllow its fields to be initiblized.
+ * In this cbse it is the responsibility of the subclbss to sbve bnd restore
+ * the stbte of the non-seriblizbble clbss. It is frequently the cbse thbt the
+ * fields of thbt clbss bre bccessible (public, pbckbge, or protected) or thbt
+ * there bre get bnd set methods thbt cbn be used to restore the stbte.
  *
- * <p>Serialization of an object can be prevented by implementing writeObject
- * and readObject methods that throw the NotSerializableException.  The
- * exception will be caught by the ObjectOutputStream and abort the
- * serialization process.
+ * <p>Seriblizbtion of bn object cbn be prevented by implementing writeObject
+ * bnd rebdObject methods thbt throw the NotSeriblizbbleException.  The
+ * exception will be cbught by the ObjectOutputStrebm bnd bbort the
+ * seriblizbtion process.
  *
- * <p>Implementing the Externalizable interface allows the object to assume
- * complete control over the contents and format of the object's serialized
- * form.  The methods of the Externalizable interface, writeExternal and
- * readExternal, are called to save and restore the objects state.  When
- * implemented by a class they can write and read their own state using all of
- * the methods of ObjectOutput and ObjectInput.  It is the responsibility of
- * the objects to handle any versioning that occurs.
+ * <p>Implementing the Externblizbble interfbce bllows the object to bssume
+ * complete control over the contents bnd formbt of the object's seriblized
+ * form.  The methods of the Externblizbble interfbce, writeExternbl bnd
+ * rebdExternbl, bre cblled to sbve bnd restore the objects stbte.  When
+ * implemented by b clbss they cbn write bnd rebd their own stbte using bll of
+ * the methods of ObjectOutput bnd ObjectInput.  It is the responsibility of
+ * the objects to hbndle bny versioning thbt occurs.
  *
- * <p>Enum constants are serialized differently than ordinary serializable or
- * externalizable objects.  The serialized form of an enum constant consists
- * solely of its name; field values of the constant are not transmitted.  To
- * serialize an enum constant, ObjectOutputStream writes the string returned by
- * the constant's name method.  Like other serializable or externalizable
- * objects, enum constants can function as the targets of back references
- * appearing subsequently in the serialization stream.  The process by which
- * enum constants are serialized cannot be customized; any class-specific
- * writeObject and writeReplace methods defined by enum types are ignored
- * during serialization.  Similarly, any serialPersistentFields or
- * serialVersionUID field declarations are also ignored--all enum types have a
- * fixed serialVersionUID of 0L.
+ * <p>Enum constbnts bre seriblized differently thbn ordinbry seriblizbble or
+ * externblizbble objects.  The seriblized form of bn enum constbnt consists
+ * solely of its nbme; field vblues of the constbnt bre not trbnsmitted.  To
+ * seriblize bn enum constbnt, ObjectOutputStrebm writes the string returned by
+ * the constbnt's nbme method.  Like other seriblizbble or externblizbble
+ * objects, enum constbnts cbn function bs the tbrgets of bbck references
+ * bppebring subsequently in the seriblizbtion strebm.  The process by which
+ * enum constbnts bre seriblized cbnnot be customized; bny clbss-specific
+ * writeObject bnd writeReplbce methods defined by enum types bre ignored
+ * during seriblizbtion.  Similbrly, bny seriblPersistentFields or
+ * seriblVersionUID field declbrbtions bre blso ignored--bll enum types hbve b
+ * fixed seriblVersionUID of 0L.
  *
- * <p>Primitive data, excluding serializable fields and externalizable data, is
- * written to the ObjectOutputStream in block-data records. A block data record
- * is composed of a header and data. The block data header consists of a marker
- * and the number of bytes to follow the header.  Consecutive primitive data
- * writes are merged into one block-data record.  The blocking factor used for
- * a block-data record will be 1024 bytes.  Each block-data record will be
- * filled up to 1024 bytes, or be written whenever there is a termination of
- * block-data mode.  Calls to the ObjectOutputStream methods writeObject,
- * defaultWriteObject and writeFields initially terminate any existing
- * block-data record.
+ * <p>Primitive dbtb, excluding seriblizbble fields bnd externblizbble dbtb, is
+ * written to the ObjectOutputStrebm in block-dbtb records. A block dbtb record
+ * is composed of b hebder bnd dbtb. The block dbtb hebder consists of b mbrker
+ * bnd the number of bytes to follow the hebder.  Consecutive primitive dbtb
+ * writes bre merged into one block-dbtb record.  The blocking fbctor used for
+ * b block-dbtb record will be 1024 bytes.  Ebch block-dbtb record will be
+ * filled up to 1024 bytes, or be written whenever there is b terminbtion of
+ * block-dbtb mode.  Cblls to the ObjectOutputStrebm methods writeObject,
+ * defbultWriteObject bnd writeFields initiblly terminbte bny existing
+ * block-dbtb record.
  *
- * @author      Mike Warres
- * @author      Roger Riggs
- * @see java.io.DataOutput
- * @see java.io.ObjectInputStream
- * @see java.io.Serializable
- * @see java.io.Externalizable
- * @see <a href="../../../platform/serialization/spec/output.html">Object Serialization Specification, Section 2, Object Output Classes</a>
+ * @buthor      Mike Wbrres
+ * @buthor      Roger Riggs
+ * @see jbvb.io.DbtbOutput
+ * @see jbvb.io.ObjectInputStrebm
+ * @see jbvb.io.Seriblizbble
+ * @see jbvb.io.Externblizbble
+ * @see <b href="../../../plbtform/seriblizbtion/spec/output.html">Object Seriblizbtion Specificbtion, Section 2, Object Output Clbsses</b>
  * @since       1.1
  */
-public class ObjectOutputStream
-    extends OutputStream implements ObjectOutput, ObjectStreamConstants
+public clbss ObjectOutputStrebm
+    extends OutputStrebm implements ObjectOutput, ObjectStrebmConstbnts
 {
 
-    private static class Caches {
-        /** cache of subclass security audit results */
-        static final ConcurrentMap<WeakClassKey,Boolean> subclassAudits =
-            new ConcurrentHashMap<>();
+    privbte stbtic clbss Cbches {
+        /** cbche of subclbss security budit results */
+        stbtic finbl ConcurrentMbp<WebkClbssKey,Boolebn> subclbssAudits =
+            new ConcurrentHbshMbp<>();
 
-        /** queue for WeakReferences to audited subclasses */
-        static final ReferenceQueue<Class<?>> subclassAuditsQueue =
+        /** queue for WebkReferences to budited subclbsses */
+        stbtic finbl ReferenceQueue<Clbss<?>> subclbssAuditsQueue =
             new ReferenceQueue<>();
     }
 
-    /** filter stream for handling block data conversion */
-    private final BlockDataOutputStream bout;
-    /** obj -> wire handle map */
-    private final HandleTable handles;
-    /** obj -> replacement obj map */
-    private final ReplaceTable subs;
-    /** stream protocol version */
-    private int protocol = PROTOCOL_VERSION_2;
+    /** filter strebm for hbndling block dbtb conversion */
+    privbte finbl BlockDbtbOutputStrebm bout;
+    /** obj -> wire hbndle mbp */
+    privbte finbl HbndleTbble hbndles;
+    /** obj -> replbcement obj mbp */
+    privbte finbl ReplbceTbble subs;
+    /** strebm protocol version */
+    privbte int protocol = PROTOCOL_VERSION_2;
     /** recursion depth */
-    private int depth;
+    privbte int depth;
 
-    /** buffer for writing primitive field values */
-    private byte[] primVals;
+    /** buffer for writing primitive field vblues */
+    privbte byte[] primVbls;
 
-    /** if true, invoke writeObjectOverride() instead of writeObject() */
-    private final boolean enableOverride;
-    /** if true, invoke replaceObject() */
-    private boolean enableReplace;
+    /** if true, invoke writeObjectOverride() instebd of writeObject() */
+    privbte finbl boolebn enbbleOverride;
+    /** if true, invoke replbceObject() */
+    privbte boolebn enbbleReplbce;
 
-    // values below valid only during upcalls to writeObject()/writeExternal()
+    // vblues below vblid only during upcblls to writeObject()/writeExternbl()
     /**
-     * Context during upcalls to class-defined writeObject methods; holds
-     * object currently being serialized and descriptor for current class.
-     * Null when not during writeObject upcall.
+     * Context during upcblls to clbss-defined writeObject methods; holds
+     * object currently being seriblized bnd descriptor for current clbss.
+     * Null when not during writeObject upcbll.
      */
-    private SerialCallbackContext curContext;
+    privbte SeriblCbllbbckContext curContext;
     /** current PutField object */
-    private PutFieldImpl curPut;
+    privbte PutFieldImpl curPut;
 
-    /** custom storage for debug trace info */
-    private final DebugTraceInfoStack debugInfoStack;
+    /** custom storbge for debug trbce info */
+    privbte finbl DebugTrbceInfoStbck debugInfoStbck;
 
     /**
-     * value of "sun.io.serialization.extendedDebugInfo" property,
-     * as true or false for extended information about exception's place
+     * vblue of "sun.io.seriblizbtion.extendedDebugInfo" property,
+     * bs true or fblse for extended informbtion bbout exception's plbce
      */
-    private static final boolean extendedDebugInfo =
-        java.security.AccessController.doPrivileged(
-            new sun.security.action.GetBooleanAction(
-                "sun.io.serialization.extendedDebugInfo")).booleanValue();
+    privbte stbtic finbl boolebn extendedDebugInfo =
+        jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetBoolebnAction(
+                "sun.io.seriblizbtion.extendedDebugInfo")).boolebnVblue();
 
     /**
-     * Creates an ObjectOutputStream that writes to the specified OutputStream.
-     * This constructor writes the serialization stream header to the
-     * underlying stream; callers may wish to flush the stream immediately to
-     * ensure that constructors for receiving ObjectInputStreams will not block
-     * when reading the header.
+     * Crebtes bn ObjectOutputStrebm thbt writes to the specified OutputStrebm.
+     * This constructor writes the seriblizbtion strebm hebder to the
+     * underlying strebm; cbllers mby wish to flush the strebm immedibtely to
+     * ensure thbt constructors for receiving ObjectInputStrebms will not block
+     * when rebding the hebder.
      *
-     * <p>If a security manager is installed, this constructor will check for
-     * the "enableSubclassImplementation" SerializablePermission when invoked
-     * directly or indirectly by the constructor of a subclass which overrides
-     * the ObjectOutputStream.putFields or ObjectOutputStream.writeUnshared
+     * <p>If b security mbnbger is instblled, this constructor will check for
+     * the "enbbleSubclbssImplementbtion" SeriblizbblePermission when invoked
+     * directly or indirectly by the constructor of b subclbss which overrides
+     * the ObjectOutputStrebm.putFields or ObjectOutputStrebm.writeUnshbred
      * methods.
      *
-     * @param   out output stream to write to
-     * @throws  IOException if an I/O error occurs while writing stream header
-     * @throws  SecurityException if untrusted subclass illegally overrides
+     * @pbrbm   out output strebm to write to
+     * @throws  IOException if bn I/O error occurs while writing strebm hebder
+     * @throws  SecurityException if untrusted subclbss illegblly overrides
      *          security-sensitive methods
      * @throws  NullPointerException if <code>out</code> is <code>null</code>
      * @since   1.4
-     * @see     ObjectOutputStream#ObjectOutputStream()
-     * @see     ObjectOutputStream#putFields()
-     * @see     ObjectInputStream#ObjectInputStream(InputStream)
+     * @see     ObjectOutputStrebm#ObjectOutputStrebm()
+     * @see     ObjectOutputStrebm#putFields()
+     * @see     ObjectInputStrebm#ObjectInputStrebm(InputStrebm)
      */
-    public ObjectOutputStream(OutputStream out) throws IOException {
-        verifySubclass();
-        bout = new BlockDataOutputStream(out);
-        handles = new HandleTable(10, (float) 3.00);
-        subs = new ReplaceTable(10, (float) 3.00);
-        enableOverride = false;
-        writeStreamHeader();
-        bout.setBlockDataMode(true);
+    public ObjectOutputStrebm(OutputStrebm out) throws IOException {
+        verifySubclbss();
+        bout = new BlockDbtbOutputStrebm(out);
+        hbndles = new HbndleTbble(10, (flobt) 3.00);
+        subs = new ReplbceTbble(10, (flobt) 3.00);
+        enbbleOverride = fblse;
+        writeStrebmHebder();
+        bout.setBlockDbtbMode(true);
         if (extendedDebugInfo) {
-            debugInfoStack = new DebugTraceInfoStack();
+            debugInfoStbck = new DebugTrbceInfoStbck();
         } else {
-            debugInfoStack = null;
+            debugInfoStbck = null;
         }
     }
 
     /**
-     * Provide a way for subclasses that are completely reimplementing
-     * ObjectOutputStream to not have to allocate private data just used by
-     * this implementation of ObjectOutputStream.
+     * Provide b wby for subclbsses thbt bre completely reimplementing
+     * ObjectOutputStrebm to not hbve to bllocbte privbte dbtb just used by
+     * this implementbtion of ObjectOutputStrebm.
      *
-     * <p>If there is a security manager installed, this method first calls the
-     * security manager's <code>checkPermission</code> method with a
-     * <code>SerializablePermission("enableSubclassImplementation")</code>
-     * permission to ensure it's ok to enable subclassing.
+     * <p>If there is b security mbnbger instblled, this method first cblls the
+     * security mbnbger's <code>checkPermission</code> method with b
+     * <code>SeriblizbblePermission("enbbleSubclbssImplementbtion")</code>
+     * permission to ensure it's ok to enbble subclbssing.
      *
-     * @throws  SecurityException if a security manager exists and its
-     *          <code>checkPermission</code> method denies enabling
-     *          subclassing.
-     * @throws  IOException if an I/O error occurs while creating this stream
-     * @see SecurityManager#checkPermission
-     * @see java.io.SerializablePermission
+     * @throws  SecurityException if b security mbnbger exists bnd its
+     *          <code>checkPermission</code> method denies enbbling
+     *          subclbssing.
+     * @throws  IOException if bn I/O error occurs while crebting this strebm
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.io.SeriblizbblePermission
      */
-    protected ObjectOutputStream() throws IOException, SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+    protected ObjectOutputStrebm() throws IOException, SecurityException {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(SUBCLASS_IMPLEMENTATION_PERMISSION);
         }
         bout = null;
-        handles = null;
+        hbndles = null;
         subs = null;
-        enableOverride = true;
-        debugInfoStack = null;
+        enbbleOverride = true;
+        debugInfoStbck = null;
     }
 
     /**
-     * Specify stream protocol version to use when writing the stream.
+     * Specify strebm protocol version to use when writing the strebm.
      *
-     * <p>This routine provides a hook to enable the current version of
-     * Serialization to write in a format that is backwards compatible to a
-     * previous version of the stream format.
+     * <p>This routine provides b hook to enbble the current version of
+     * Seriblizbtion to write in b formbt thbt is bbckwbrds compbtible to b
+     * previous version of the strebm formbt.
      *
-     * <p>Every effort will be made to avoid introducing additional
-     * backwards incompatibilities; however, sometimes there is no
-     * other alternative.
+     * <p>Every effort will be mbde to bvoid introducing bdditionbl
+     * bbckwbrds incompbtibilities; however, sometimes there is no
+     * other blternbtive.
      *
-     * @param   version use ProtocolVersion from java.io.ObjectStreamConstants.
-     * @throws  IllegalStateException if called after any objects
-     *          have been serialized.
-     * @throws  IllegalArgumentException if invalid version is passed in.
+     * @pbrbm   version use ProtocolVersion from jbvb.io.ObjectStrebmConstbnts.
+     * @throws  IllegblStbteException if cblled bfter bny objects
+     *          hbve been seriblized.
+     * @throws  IllegblArgumentException if invblid version is pbssed in.
      * @throws  IOException if I/O errors occur
-     * @see java.io.ObjectStreamConstants#PROTOCOL_VERSION_1
-     * @see java.io.ObjectStreamConstants#PROTOCOL_VERSION_2
+     * @see jbvb.io.ObjectStrebmConstbnts#PROTOCOL_VERSION_1
+     * @see jbvb.io.ObjectStrebmConstbnts#PROTOCOL_VERSION_2
      * @since   1.2
      */
     public void useProtocolVersion(int version) throws IOException {
-        if (handles.size() != 0) {
-            // REMIND: implement better check for pristine stream?
-            throw new IllegalStateException("stream non-empty");
+        if (hbndles.size() != 0) {
+            // REMIND: implement better check for pristine strebm?
+            throw new IllegblStbteException("strebm non-empty");
         }
         switch (version) {
-            case PROTOCOL_VERSION_1:
-            case PROTOCOL_VERSION_2:
+            cbse PROTOCOL_VERSION_1:
+            cbse PROTOCOL_VERSION_2:
                 protocol = version;
-                break;
+                brebk;
 
-            default:
-                throw new IllegalArgumentException(
+            defbult:
+                throw new IllegblArgumentException(
                     "unknown version: " + version);
         }
     }
 
     /**
-     * Write the specified object to the ObjectOutputStream.  The class of the
-     * object, the signature of the class, and the values of the non-transient
-     * and non-static fields of the class and all of its supertypes are
-     * written.  Default serialization for a class can be overridden using the
-     * writeObject and the readObject methods.  Objects referenced by this
-     * object are written transitively so that a complete equivalent graph of
-     * objects can be reconstructed by an ObjectInputStream.
+     * Write the specified object to the ObjectOutputStrebm.  The clbss of the
+     * object, the signbture of the clbss, bnd the vblues of the non-trbnsient
+     * bnd non-stbtic fields of the clbss bnd bll of its supertypes bre
+     * written.  Defbult seriblizbtion for b clbss cbn be overridden using the
+     * writeObject bnd the rebdObject methods.  Objects referenced by this
+     * object bre written trbnsitively so thbt b complete equivblent grbph of
+     * objects cbn be reconstructed by bn ObjectInputStrebm.
      *
-     * <p>Exceptions are thrown for problems with the OutputStream and for
-     * classes that should not be serialized.  All exceptions are fatal to the
-     * OutputStream, which is left in an indeterminate state, and it is up to
-     * the caller to ignore or recover the stream state.
+     * <p>Exceptions bre thrown for problems with the OutputStrebm bnd for
+     * clbsses thbt should not be seriblized.  All exceptions bre fbtbl to the
+     * OutputStrebm, which is left in bn indeterminbte stbte, bnd it is up to
+     * the cbller to ignore or recover the strebm stbte.
      *
-     * @throws  InvalidClassException Something is wrong with a class used by
-     *          serialization.
-     * @throws  NotSerializableException Some object to be serialized does not
-     *          implement the java.io.Serializable interface.
+     * @throws  InvblidClbssException Something is wrong with b clbss used by
+     *          seriblizbtion.
+     * @throws  NotSeriblizbbleException Some object to be seriblized does not
+     *          implement the jbvb.io.Seriblizbble interfbce.
      * @throws  IOException Any exception thrown by the underlying
-     *          OutputStream.
+     *          OutputStrebm.
      */
-    public final void writeObject(Object obj) throws IOException {
-        if (enableOverride) {
+    public finbl void writeObject(Object obj) throws IOException {
+        if (enbbleOverride) {
             writeObjectOverride(obj);
             return;
         }
         try {
-            writeObject0(obj, false);
-        } catch (IOException ex) {
+            writeObject0(obj, fblse);
+        } cbtch (IOException ex) {
             if (depth == 0) {
-                writeFatalException(ex);
+                writeFbtblException(ex);
             }
             throw ex;
         }
     }
 
     /**
-     * Method used by subclasses to override the default writeObject method.
-     * This method is called by trusted subclasses of ObjectInputStream that
-     * constructed ObjectInputStream using the protected no-arg constructor.
-     * The subclass is expected to provide an override method with the modifier
-     * "final".
+     * Method used by subclbsses to override the defbult writeObject method.
+     * This method is cblled by trusted subclbsses of ObjectInputStrebm thbt
+     * constructed ObjectInputStrebm using the protected no-brg constructor.
+     * The subclbss is expected to provide bn override method with the modifier
+     * "finbl".
      *
-     * @param   obj object to be written to the underlying stream
-     * @throws  IOException if there are I/O errors while writing to the
-     *          underlying stream
-     * @see #ObjectOutputStream()
+     * @pbrbm   obj object to be written to the underlying strebm
+     * @throws  IOException if there bre I/O errors while writing to the
+     *          underlying strebm
+     * @see #ObjectOutputStrebm()
      * @see #writeObject(Object)
      * @since 1.2
      */
@@ -371,331 +371,331 @@ public class ObjectOutputStream
     }
 
     /**
-     * Writes an "unshared" object to the ObjectOutputStream.  This method is
-     * identical to writeObject, except that it always writes the given object
-     * as a new, unique object in the stream (as opposed to a back-reference
-     * pointing to a previously serialized instance).  Specifically:
+     * Writes bn "unshbred" object to the ObjectOutputStrebm.  This method is
+     * identicbl to writeObject, except thbt it blwbys writes the given object
+     * bs b new, unique object in the strebm (bs opposed to b bbck-reference
+     * pointing to b previously seriblized instbnce).  Specificblly:
      * <ul>
-     *   <li>An object written via writeUnshared is always serialized in the
-     *       same manner as a newly appearing object (an object that has not
-     *       been written to the stream yet), regardless of whether or not the
-     *       object has been written previously.
+     *   <li>An object written vib writeUnshbred is blwbys seriblized in the
+     *       sbme mbnner bs b newly bppebring object (bn object thbt hbs not
+     *       been written to the strebm yet), regbrdless of whether or not the
+     *       object hbs been written previously.
      *
-     *   <li>If writeObject is used to write an object that has been previously
-     *       written with writeUnshared, the previous writeUnshared operation
-     *       is treated as if it were a write of a separate object.  In other
-     *       words, ObjectOutputStream will never generate back-references to
-     *       object data written by calls to writeUnshared.
+     *   <li>If writeObject is used to write bn object thbt hbs been previously
+     *       written with writeUnshbred, the previous writeUnshbred operbtion
+     *       is trebted bs if it were b write of b sepbrbte object.  In other
+     *       words, ObjectOutputStrebm will never generbte bbck-references to
+     *       object dbtb written by cblls to writeUnshbred.
      * </ul>
-     * While writing an object via writeUnshared does not in itself guarantee a
-     * unique reference to the object when it is deserialized, it allows a
-     * single object to be defined multiple times in a stream, so that multiple
-     * calls to readUnshared by the receiver will not conflict.  Note that the
-     * rules described above only apply to the base-level object written with
-     * writeUnshared, and not to any transitively referenced sub-objects in the
-     * object graph to be serialized.
+     * While writing bn object vib writeUnshbred does not in itself gubrbntee b
+     * unique reference to the object when it is deseriblized, it bllows b
+     * single object to be defined multiple times in b strebm, so thbt multiple
+     * cblls to rebdUnshbred by the receiver will not conflict.  Note thbt the
+     * rules described bbove only bpply to the bbse-level object written with
+     * writeUnshbred, bnd not to bny trbnsitively referenced sub-objects in the
+     * object grbph to be seriblized.
      *
-     * <p>ObjectOutputStream subclasses which override this method can only be
+     * <p>ObjectOutputStrebm subclbsses which override this method cbn only be
      * constructed in security contexts possessing the
-     * "enableSubclassImplementation" SerializablePermission; any attempt to
-     * instantiate such a subclass without this permission will cause a
+     * "enbbleSubclbssImplementbtion" SeriblizbblePermission; bny bttempt to
+     * instbntibte such b subclbss without this permission will cbuse b
      * SecurityException to be thrown.
      *
-     * @param   obj object to write to stream
-     * @throws  NotSerializableException if an object in the graph to be
-     *          serialized does not implement the Serializable interface
-     * @throws  InvalidClassException if a problem exists with the class of an
-     *          object to be serialized
-     * @throws  IOException if an I/O error occurs during serialization
+     * @pbrbm   obj object to write to strebm
+     * @throws  NotSeriblizbbleException if bn object in the grbph to be
+     *          seriblized does not implement the Seriblizbble interfbce
+     * @throws  InvblidClbssException if b problem exists with the clbss of bn
+     *          object to be seriblized
+     * @throws  IOException if bn I/O error occurs during seriblizbtion
      * @since 1.4
      */
-    public void writeUnshared(Object obj) throws IOException {
+    public void writeUnshbred(Object obj) throws IOException {
         try {
             writeObject0(obj, true);
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             if (depth == 0) {
-                writeFatalException(ex);
+                writeFbtblException(ex);
             }
             throw ex;
         }
     }
 
     /**
-     * Write the non-static and non-transient fields of the current class to
-     * this stream.  This may only be called from the writeObject method of the
-     * class being serialized. It will throw the NotActiveException if it is
-     * called otherwise.
+     * Write the non-stbtic bnd non-trbnsient fields of the current clbss to
+     * this strebm.  This mby only be cblled from the writeObject method of the
+     * clbss being seriblized. It will throw the NotActiveException if it is
+     * cblled otherwise.
      *
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          <code>OutputStream</code>
+     *          <code>OutputStrebm</code>
      */
-    public void defaultWriteObject() throws IOException {
-        SerialCallbackContext ctx = curContext;
+    public void defbultWriteObject() throws IOException {
+        SeriblCbllbbckContext ctx = curContext;
         if (ctx == null) {
-            throw new NotActiveException("not in call to writeObject");
+            throw new NotActiveException("not in cbll to writeObject");
         }
         Object curObj = ctx.getObj();
-        ObjectStreamClass curDesc = ctx.getDesc();
-        bout.setBlockDataMode(false);
-        defaultWriteFields(curObj, curDesc);
-        bout.setBlockDataMode(true);
+        ObjectStrebmClbss curDesc = ctx.getDesc();
+        bout.setBlockDbtbMode(fblse);
+        defbultWriteFields(curObj, curDesc);
+        bout.setBlockDbtbMode(true);
     }
 
     /**
      * Retrieve the object used to buffer persistent fields to be written to
-     * the stream.  The fields will be written to the stream when writeFields
-     * method is called.
+     * the strebm.  The fields will be written to the strebm when writeFields
+     * method is cblled.
      *
-     * @return  an instance of the class Putfield that holds the serializable
+     * @return  bn instbnce of the clbss Putfield thbt holds the seriblizbble
      *          fields
      * @throws  IOException if I/O errors occur
      * @since 1.2
      */
-    public ObjectOutputStream.PutField putFields() throws IOException {
+    public ObjectOutputStrebm.PutField putFields() throws IOException {
         if (curPut == null) {
-            SerialCallbackContext ctx = curContext;
+            SeriblCbllbbckContext ctx = curContext;
             if (ctx == null) {
-                throw new NotActiveException("not in call to writeObject");
+                throw new NotActiveException("not in cbll to writeObject");
             }
             ctx.checkAndSetUsed();
-            ObjectStreamClass curDesc = ctx.getDesc();
+            ObjectStrebmClbss curDesc = ctx.getDesc();
             curPut = new PutFieldImpl(curDesc);
         }
         return curPut;
     }
 
     /**
-     * Write the buffered fields to the stream.
+     * Write the buffered fields to the strebm.
      *
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
-     * @throws  NotActiveException Called when a classes writeObject method was
-     *          not called to write the state of the object.
+     *          strebm
+     * @throws  NotActiveException Cblled when b clbsses writeObject method wbs
+     *          not cblled to write the stbte of the object.
      * @since 1.2
      */
     public void writeFields() throws IOException {
         if (curPut == null) {
             throw new NotActiveException("no current PutField object");
         }
-        bout.setBlockDataMode(false);
+        bout.setBlockDbtbMode(fblse);
         curPut.writeFields();
-        bout.setBlockDataMode(true);
+        bout.setBlockDbtbMode(true);
     }
 
     /**
-     * Reset will disregard the state of any objects already written to the
-     * stream.  The state is reset to be the same as a new ObjectOutputStream.
-     * The current point in the stream is marked as reset so the corresponding
-     * ObjectInputStream will be reset at the same point.  Objects previously
-     * written to the stream will not be referred to as already being in the
-     * stream.  They will be written to the stream again.
+     * Reset will disregbrd the stbte of bny objects blrebdy written to the
+     * strebm.  The stbte is reset to be the sbme bs b new ObjectOutputStrebm.
+     * The current point in the strebm is mbrked bs reset so the corresponding
+     * ObjectInputStrebm will be reset bt the sbme point.  Objects previously
+     * written to the strebm will not be referred to bs blrebdy being in the
+     * strebm.  They will be written to the strebm bgbin.
      *
-     * @throws  IOException if reset() is invoked while serializing an object.
+     * @throws  IOException if reset() is invoked while seriblizing bn object.
      */
     public void reset() throws IOException {
         if (depth != 0) {
-            throw new IOException("stream active");
+            throw new IOException("strebm bctive");
         }
-        bout.setBlockDataMode(false);
+        bout.setBlockDbtbMode(fblse);
         bout.writeByte(TC_RESET);
-        clear();
-        bout.setBlockDataMode(true);
+        clebr();
+        bout.setBlockDbtbMode(true);
     }
 
     /**
-     * Subclasses may implement this method to allow class data to be stored in
-     * the stream. By default this method does nothing.  The corresponding
-     * method in ObjectInputStream is resolveClass.  This method is called
-     * exactly once for each unique class in the stream.  The class name and
-     * signature will have already been written to the stream.  This method may
-     * make free use of the ObjectOutputStream to save any representation of
-     * the class it deems suitable (for example, the bytes of the class file).
-     * The resolveClass method in the corresponding subclass of
-     * ObjectInputStream must read and use any data or objects written by
-     * annotateClass.
+     * Subclbsses mby implement this method to bllow clbss dbtb to be stored in
+     * the strebm. By defbult this method does nothing.  The corresponding
+     * method in ObjectInputStrebm is resolveClbss.  This method is cblled
+     * exbctly once for ebch unique clbss in the strebm.  The clbss nbme bnd
+     * signbture will hbve blrebdy been written to the strebm.  This method mby
+     * mbke free use of the ObjectOutputStrebm to sbve bny representbtion of
+     * the clbss it deems suitbble (for exbmple, the bytes of the clbss file).
+     * The resolveClbss method in the corresponding subclbss of
+     * ObjectInputStrebm must rebd bnd use bny dbtb or objects written by
+     * bnnotbteClbss.
      *
-     * @param   cl the class to annotate custom data for
+     * @pbrbm   cl the clbss to bnnotbte custom dbtb for
      * @throws  IOException Any exception thrown by the underlying
-     *          OutputStream.
+     *          OutputStrebm.
      */
-    protected void annotateClass(Class<?> cl) throws IOException {
+    protected void bnnotbteClbss(Clbss<?> cl) throws IOException {
     }
 
     /**
-     * Subclasses may implement this method to store custom data in the stream
-     * along with descriptors for dynamic proxy classes.
+     * Subclbsses mby implement this method to store custom dbtb in the strebm
+     * blong with descriptors for dynbmic proxy clbsses.
      *
-     * <p>This method is called exactly once for each unique proxy class
-     * descriptor in the stream.  The default implementation of this method in
-     * <code>ObjectOutputStream</code> does nothing.
+     * <p>This method is cblled exbctly once for ebch unique proxy clbss
+     * descriptor in the strebm.  The defbult implementbtion of this method in
+     * <code>ObjectOutputStrebm</code> does nothing.
      *
-     * <p>The corresponding method in <code>ObjectInputStream</code> is
-     * <code>resolveProxyClass</code>.  For a given subclass of
-     * <code>ObjectOutputStream</code> that overrides this method, the
-     * <code>resolveProxyClass</code> method in the corresponding subclass of
-     * <code>ObjectInputStream</code> must read any data or objects written by
-     * <code>annotateProxyClass</code>.
+     * <p>The corresponding method in <code>ObjectInputStrebm</code> is
+     * <code>resolveProxyClbss</code>.  For b given subclbss of
+     * <code>ObjectOutputStrebm</code> thbt overrides this method, the
+     * <code>resolveProxyClbss</code> method in the corresponding subclbss of
+     * <code>ObjectInputStrebm</code> must rebd bny dbtb or objects written by
+     * <code>bnnotbteProxyClbss</code>.
      *
-     * @param   cl the proxy class to annotate custom data for
-     * @throws  IOException any exception thrown by the underlying
-     *          <code>OutputStream</code>
-     * @see ObjectInputStream#resolveProxyClass(String[])
+     * @pbrbm   cl the proxy clbss to bnnotbte custom dbtb for
+     * @throws  IOException bny exception thrown by the underlying
+     *          <code>OutputStrebm</code>
+     * @see ObjectInputStrebm#resolveProxyClbss(String[])
      * @since   1.3
      */
-    protected void annotateProxyClass(Class<?> cl) throws IOException {
+    protected void bnnotbteProxyClbss(Clbss<?> cl) throws IOException {
     }
 
     /**
-     * This method will allow trusted subclasses of ObjectOutputStream to
-     * substitute one object for another during serialization. Replacing
-     * objects is disabled until enableReplaceObject is called. The
-     * enableReplaceObject method checks that the stream requesting to do
-     * replacement can be trusted.  The first occurrence of each object written
-     * into the serialization stream is passed to replaceObject.  Subsequent
-     * references to the object are replaced by the object returned by the
-     * original call to replaceObject.  To ensure that the private state of
-     * objects is not unintentionally exposed, only trusted streams may use
-     * replaceObject.
+     * This method will bllow trusted subclbsses of ObjectOutputStrebm to
+     * substitute one object for bnother during seriblizbtion. Replbcing
+     * objects is disbbled until enbbleReplbceObject is cblled. The
+     * enbbleReplbceObject method checks thbt the strebm requesting to do
+     * replbcement cbn be trusted.  The first occurrence of ebch object written
+     * into the seriblizbtion strebm is pbssed to replbceObject.  Subsequent
+     * references to the object bre replbced by the object returned by the
+     * originbl cbll to replbceObject.  To ensure thbt the privbte stbte of
+     * objects is not unintentionblly exposed, only trusted strebms mby use
+     * replbceObject.
      *
-     * <p>The ObjectOutputStream.writeObject method takes a parameter of type
-     * Object (as opposed to type Serializable) to allow for cases where
-     * non-serializable objects are replaced by serializable ones.
+     * <p>The ObjectOutputStrebm.writeObject method tbkes b pbrbmeter of type
+     * Object (bs opposed to type Seriblizbble) to bllow for cbses where
+     * non-seriblizbble objects bre replbced by seriblizbble ones.
      *
-     * <p>When a subclass is replacing objects it must insure that either a
-     * complementary substitution must be made during deserialization or that
-     * the substituted object is compatible with every field where the
-     * reference will be stored.  Objects whose type is not a subclass of the
-     * type of the field or array element abort the serialization by raising an
-     * exception and the object is not be stored.
+     * <p>When b subclbss is replbcing objects it must insure thbt either b
+     * complementbry substitution must be mbde during deseriblizbtion or thbt
+     * the substituted object is compbtible with every field where the
+     * reference will be stored.  Objects whose type is not b subclbss of the
+     * type of the field or brrby element bbort the seriblizbtion by rbising bn
+     * exception bnd the object is not be stored.
      *
-     * <p>This method is called only once when each object is first
+     * <p>This method is cblled only once when ebch object is first
      * encountered.  All subsequent references to the object will be redirected
      * to the new object. This method should return the object to be
-     * substituted or the original object.
+     * substituted or the originbl object.
      *
-     * <p>Null can be returned as the object to be substituted, but may cause
-     * NullReferenceException in classes that contain references to the
-     * original object since they may be expecting an object instead of
+     * <p>Null cbn be returned bs the object to be substituted, but mby cbuse
+     * NullReferenceException in clbsses thbt contbin references to the
+     * originbl object since they mby be expecting bn object instebd of
      * null.
      *
-     * @param   obj the object to be replaced
-     * @return  the alternate object that replaced the specified one
+     * @pbrbm   obj the object to be replbced
+     * @return  the blternbte object thbt replbced the specified one
      * @throws  IOException Any exception thrown by the underlying
-     *          OutputStream.
+     *          OutputStrebm.
      */
-    protected Object replaceObject(Object obj) throws IOException {
+    protected Object replbceObject(Object obj) throws IOException {
         return obj;
     }
 
     /**
-     * Enable the stream to do replacement of objects in the stream.  When
-     * enabled, the replaceObject method is called for every object being
-     * serialized.
+     * Enbble the strebm to do replbcement of objects in the strebm.  When
+     * enbbled, the replbceObject method is cblled for every object being
+     * seriblized.
      *
-     * <p>If <code>enable</code> is true, and there is a security manager
-     * installed, this method first calls the security manager's
-     * <code>checkPermission</code> method with a
-     * <code>SerializablePermission("enableSubstitution")</code> permission to
-     * ensure it's ok to enable the stream to do replacement of objects in the
-     * stream.
+     * <p>If <code>enbble</code> is true, bnd there is b security mbnbger
+     * instblled, this method first cblls the security mbnbger's
+     * <code>checkPermission</code> method with b
+     * <code>SeriblizbblePermission("enbbleSubstitution")</code> permission to
+     * ensure it's ok to enbble the strebm to do replbcement of objects in the
+     * strebm.
      *
-     * @param   enable boolean parameter to enable replacement of objects
-     * @return  the previous setting before this method was invoked
-     * @throws  SecurityException if a security manager exists and its
-     *          <code>checkPermission</code> method denies enabling the stream
-     *          to do replacement of objects in the stream.
-     * @see SecurityManager#checkPermission
-     * @see java.io.SerializablePermission
+     * @pbrbm   enbble boolebn pbrbmeter to enbble replbcement of objects
+     * @return  the previous setting before this method wbs invoked
+     * @throws  SecurityException if b security mbnbger exists bnd its
+     *          <code>checkPermission</code> method denies enbbling the strebm
+     *          to do replbcement of objects in the strebm.
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.io.SeriblizbblePermission
      */
-    protected boolean enableReplaceObject(boolean enable)
+    protected boolebn enbbleReplbceObject(boolebn enbble)
         throws SecurityException
     {
-        if (enable == enableReplace) {
-            return enable;
+        if (enbble == enbbleReplbce) {
+            return enbble;
         }
-        if (enable) {
-            SecurityManager sm = System.getSecurityManager();
+        if (enbble) {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 sm.checkPermission(SUBSTITUTION_PERMISSION);
             }
         }
-        enableReplace = enable;
-        return !enableReplace;
+        enbbleReplbce = enbble;
+        return !enbbleReplbce;
     }
 
     /**
-     * The writeStreamHeader method is provided so subclasses can append or
-     * prepend their own header to the stream.  It writes the magic number and
-     * version to the stream.
+     * The writeStrebmHebder method is provided so subclbsses cbn bppend or
+     * prepend their own hebder to the strebm.  It writes the mbgic number bnd
+     * version to the strebm.
      *
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
-    protected void writeStreamHeader() throws IOException {
+    protected void writeStrebmHebder() throws IOException {
         bout.writeShort(STREAM_MAGIC);
         bout.writeShort(STREAM_VERSION);
     }
 
     /**
-     * Write the specified class descriptor to the ObjectOutputStream.  Class
-     * descriptors are used to identify the classes of objects written to the
-     * stream.  Subclasses of ObjectOutputStream may override this method to
-     * customize the way in which class descriptors are written to the
-     * serialization stream.  The corresponding method in ObjectInputStream,
-     * <code>readClassDescriptor</code>, should then be overridden to
-     * reconstitute the class descriptor from its custom stream representation.
-     * By default, this method writes class descriptors according to the format
-     * defined in the Object Serialization specification.
+     * Write the specified clbss descriptor to the ObjectOutputStrebm.  Clbss
+     * descriptors bre used to identify the clbsses of objects written to the
+     * strebm.  Subclbsses of ObjectOutputStrebm mby override this method to
+     * customize the wby in which clbss descriptors bre written to the
+     * seriblizbtion strebm.  The corresponding method in ObjectInputStrebm,
+     * <code>rebdClbssDescriptor</code>, should then be overridden to
+     * reconstitute the clbss descriptor from its custom strebm representbtion.
+     * By defbult, this method writes clbss descriptors bccording to the formbt
+     * defined in the Object Seriblizbtion specificbtion.
      *
-     * <p>Note that this method will only be called if the ObjectOutputStream
-     * is not using the old serialization stream format (set by calling
-     * ObjectOutputStream's <code>useProtocolVersion</code> method).  If this
-     * serialization stream is using the old format
-     * (<code>PROTOCOL_VERSION_1</code>), the class descriptor will be written
-     * internally in a manner that cannot be overridden or customized.
+     * <p>Note thbt this method will only be cblled if the ObjectOutputStrebm
+     * is not using the old seriblizbtion strebm formbt (set by cblling
+     * ObjectOutputStrebm's <code>useProtocolVersion</code> method).  If this
+     * seriblizbtion strebm is using the old formbt
+     * (<code>PROTOCOL_VERSION_1</code>), the clbss descriptor will be written
+     * internblly in b mbnner thbt cbnnot be overridden or customized.
      *
-     * @param   desc class descriptor to write to the stream
-     * @throws  IOException If an I/O error has occurred.
-     * @see java.io.ObjectInputStream#readClassDescriptor()
+     * @pbrbm   desc clbss descriptor to write to the strebm
+     * @throws  IOException If bn I/O error hbs occurred.
+     * @see jbvb.io.ObjectInputStrebm#rebdClbssDescriptor()
      * @see #useProtocolVersion(int)
-     * @see java.io.ObjectStreamConstants#PROTOCOL_VERSION_1
+     * @see jbvb.io.ObjectStrebmConstbnts#PROTOCOL_VERSION_1
      * @since 1.3
      */
-    protected void writeClassDescriptor(ObjectStreamClass desc)
+    protected void writeClbssDescriptor(ObjectStrebmClbss desc)
         throws IOException
     {
         desc.writeNonProxy(this);
     }
 
     /**
-     * Writes a byte. This method will block until the byte is actually
+     * Writes b byte. This method will block until the byte is bctublly
      * written.
      *
-     * @param   val the byte to be written to the stream
-     * @throws  IOException If an I/O error has occurred.
+     * @pbrbm   vbl the byte to be written to the strebm
+     * @throws  IOException If bn I/O error hbs occurred.
      */
-    public void write(int val) throws IOException {
-        bout.write(val);
+    public void write(int vbl) throws IOException {
+        bout.write(vbl);
     }
 
     /**
-     * Writes an array of bytes. This method will block until the bytes are
-     * actually written.
+     * Writes bn brrby of bytes. This method will block until the bytes bre
+     * bctublly written.
      *
-     * @param   buf the data to be written
-     * @throws  IOException If an I/O error has occurred.
+     * @pbrbm   buf the dbtb to be written
+     * @throws  IOException If bn I/O error hbs occurred.
      */
     public void write(byte[] buf) throws IOException {
-        bout.write(buf, 0, buf.length, false);
+        bout.write(buf, 0, buf.length, fblse);
     }
 
     /**
-     * Writes a sub array of bytes.
+     * Writes b sub brrby of bytes.
      *
-     * @param   buf the data to be written
-     * @param   off the start offset in the data
-     * @param   len the number of bytes that are written
-     * @throws  IOException If an I/O error has occurred.
+     * @pbrbm   buf the dbtb to be written
+     * @pbrbm   off the stbrt offset in the dbtb
+     * @pbrbm   len the number of bytes thbt bre written
+     * @throws  IOException If bn I/O error hbs occurred.
      */
     public void write(byte[] buf, int off, int len) throws IOException {
         if (buf == null) {
@@ -705,306 +705,306 @@ public class ObjectOutputStream
         if (off < 0 || len < 0 || endoff > buf.length || endoff < 0) {
             throw new IndexOutOfBoundsException();
         }
-        bout.write(buf, off, len, false);
+        bout.write(buf, off, len, fblse);
     }
 
     /**
-     * Flushes the stream. This will write any buffered output bytes and flush
-     * through to the underlying stream.
+     * Flushes the strebm. This will write bny buffered output bytes bnd flush
+     * through to the underlying strebm.
      *
-     * @throws  IOException If an I/O error has occurred.
+     * @throws  IOException If bn I/O error hbs occurred.
      */
     public void flush() throws IOException {
         bout.flush();
     }
 
     /**
-     * Drain any buffered data in ObjectOutputStream.  Similar to flush but
-     * does not propagate the flush to the underlying stream.
+     * Drbin bny buffered dbtb in ObjectOutputStrebm.  Similbr to flush but
+     * does not propbgbte the flush to the underlying strebm.
      *
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
-    protected void drain() throws IOException {
-        bout.drain();
+    protected void drbin() throws IOException {
+        bout.drbin();
     }
 
     /**
-     * Closes the stream. This method must be called to release any resources
-     * associated with the stream.
+     * Closes the strebm. This method must be cblled to relebse bny resources
+     * bssocibted with the strebm.
      *
-     * @throws  IOException If an I/O error has occurred.
+     * @throws  IOException If bn I/O error hbs occurred.
      */
     public void close() throws IOException {
         flush();
-        clear();
+        clebr();
         bout.close();
     }
 
     /**
-     * Writes a boolean.
+     * Writes b boolebn.
      *
-     * @param   val the boolean to be written
+     * @pbrbm   vbl the boolebn to be written
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
-    public void writeBoolean(boolean val) throws IOException {
-        bout.writeBoolean(val);
+    public void writeBoolebn(boolebn vbl) throws IOException {
+        bout.writeBoolebn(vbl);
     }
 
     /**
-     * Writes an 8 bit byte.
+     * Writes bn 8 bit byte.
      *
-     * @param   val the byte value to be written
+     * @pbrbm   vbl the byte vblue to be written
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
-    public void writeByte(int val) throws IOException  {
-        bout.writeByte(val);
+    public void writeByte(int vbl) throws IOException  {
+        bout.writeByte(vbl);
     }
 
     /**
-     * Writes a 16 bit short.
+     * Writes b 16 bit short.
      *
-     * @param   val the short value to be written
+     * @pbrbm   vbl the short vblue to be written
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
-    public void writeShort(int val)  throws IOException {
-        bout.writeShort(val);
+    public void writeShort(int vbl)  throws IOException {
+        bout.writeShort(vbl);
     }
 
     /**
-     * Writes a 16 bit char.
+     * Writes b 16 bit chbr.
      *
-     * @param   val the char value to be written
+     * @pbrbm   vbl the chbr vblue to be written
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
-    public void writeChar(int val)  throws IOException {
-        bout.writeChar(val);
+    public void writeChbr(int vbl)  throws IOException {
+        bout.writeChbr(vbl);
     }
 
     /**
-     * Writes a 32 bit int.
+     * Writes b 32 bit int.
      *
-     * @param   val the integer value to be written
+     * @pbrbm   vbl the integer vblue to be written
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
-    public void writeInt(int val)  throws IOException {
-        bout.writeInt(val);
+    public void writeInt(int vbl)  throws IOException {
+        bout.writeInt(vbl);
     }
 
     /**
-     * Writes a 64 bit long.
+     * Writes b 64 bit long.
      *
-     * @param   val the long value to be written
+     * @pbrbm   vbl the long vblue to be written
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
-    public void writeLong(long val)  throws IOException {
-        bout.writeLong(val);
+    public void writeLong(long vbl)  throws IOException {
+        bout.writeLong(vbl);
     }
 
     /**
-     * Writes a 32 bit float.
+     * Writes b 32 bit flobt.
      *
-     * @param   val the float value to be written
+     * @pbrbm   vbl the flobt vblue to be written
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
-    public void writeFloat(float val) throws IOException {
-        bout.writeFloat(val);
+    public void writeFlobt(flobt vbl) throws IOException {
+        bout.writeFlobt(vbl);
     }
 
     /**
-     * Writes a 64 bit double.
+     * Writes b 64 bit double.
      *
-     * @param   val the double value to be written
+     * @pbrbm   vbl the double vblue to be written
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
-    public void writeDouble(double val) throws IOException {
-        bout.writeDouble(val);
+    public void writeDouble(double vbl) throws IOException {
+        bout.writeDouble(vbl);
     }
 
     /**
-     * Writes a String as a sequence of bytes.
+     * Writes b String bs b sequence of bytes.
      *
-     * @param   str the String of bytes to be written
+     * @pbrbm   str the String of bytes to be written
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
     public void writeBytes(String str) throws IOException {
         bout.writeBytes(str);
     }
 
     /**
-     * Writes a String as a sequence of chars.
+     * Writes b String bs b sequence of chbrs.
      *
-     * @param   str the String of chars to be written
+     * @pbrbm   str the String of chbrs to be written
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
-    public void writeChars(String str) throws IOException {
-        bout.writeChars(str);
+    public void writeChbrs(String str) throws IOException {
+        bout.writeChbrs(str);
     }
 
     /**
-     * Primitive data write of this String in
-     * <a href="DataInput.html#modified-utf-8">modified UTF-8</a>
-     * format.  Note that there is a
-     * significant difference between writing a String into the stream as
-     * primitive data or as an Object. A String instance written by writeObject
-     * is written into the stream as a String initially. Future writeObject()
-     * calls write references to the string into the stream.
+     * Primitive dbtb write of this String in
+     * <b href="DbtbInput.html#modified-utf-8">modified UTF-8</b>
+     * formbt.  Note thbt there is b
+     * significbnt difference between writing b String into the strebm bs
+     * primitive dbtb or bs bn Object. A String instbnce written by writeObject
+     * is written into the strebm bs b String initiblly. Future writeObject()
+     * cblls write references to the string into the strebm.
      *
-     * @param   str the String to be written
+     * @pbrbm   str the String to be written
      * @throws  IOException if I/O errors occur while writing to the underlying
-     *          stream
+     *          strebm
      */
     public void writeUTF(String str) throws IOException {
         bout.writeUTF(str);
     }
 
     /**
-     * Provide programmatic access to the persistent fields to be written
+     * Provide progrbmmbtic bccess to the persistent fields to be written
      * to ObjectOutput.
      *
      * @since 1.2
      */
-    public static abstract class PutField {
+    public stbtic bbstrbct clbss PutField {
 
         /**
-         * Put the value of the named boolean field into the persistent field.
+         * Put the vblue of the nbmed boolebn field into the persistent field.
          *
-         * @param  name the name of the serializable field
-         * @param  val the value to assign to the field
-         * @throws IllegalArgumentException if <code>name</code> does not
-         * match the name of a serializable field for the class whose fields
-         * are being written, or if the type of the named field is not
-         * <code>boolean</code>
+         * @pbrbm  nbme the nbme of the seriblizbble field
+         * @pbrbm  vbl the vblue to bssign to the field
+         * @throws IllegblArgumentException if <code>nbme</code> does not
+         * mbtch the nbme of b seriblizbble field for the clbss whose fields
+         * bre being written, or if the type of the nbmed field is not
+         * <code>boolebn</code>
          */
-        public abstract void put(String name, boolean val);
+        public bbstrbct void put(String nbme, boolebn vbl);
 
         /**
-         * Put the value of the named byte field into the persistent field.
+         * Put the vblue of the nbmed byte field into the persistent field.
          *
-         * @param  name the name of the serializable field
-         * @param  val the value to assign to the field
-         * @throws IllegalArgumentException if <code>name</code> does not
-         * match the name of a serializable field for the class whose fields
-         * are being written, or if the type of the named field is not
+         * @pbrbm  nbme the nbme of the seriblizbble field
+         * @pbrbm  vbl the vblue to bssign to the field
+         * @throws IllegblArgumentException if <code>nbme</code> does not
+         * mbtch the nbme of b seriblizbble field for the clbss whose fields
+         * bre being written, or if the type of the nbmed field is not
          * <code>byte</code>
          */
-        public abstract void put(String name, byte val);
+        public bbstrbct void put(String nbme, byte vbl);
 
         /**
-         * Put the value of the named char field into the persistent field.
+         * Put the vblue of the nbmed chbr field into the persistent field.
          *
-         * @param  name the name of the serializable field
-         * @param  val the value to assign to the field
-         * @throws IllegalArgumentException if <code>name</code> does not
-         * match the name of a serializable field for the class whose fields
-         * are being written, or if the type of the named field is not
-         * <code>char</code>
+         * @pbrbm  nbme the nbme of the seriblizbble field
+         * @pbrbm  vbl the vblue to bssign to the field
+         * @throws IllegblArgumentException if <code>nbme</code> does not
+         * mbtch the nbme of b seriblizbble field for the clbss whose fields
+         * bre being written, or if the type of the nbmed field is not
+         * <code>chbr</code>
          */
-        public abstract void put(String name, char val);
+        public bbstrbct void put(String nbme, chbr vbl);
 
         /**
-         * Put the value of the named short field into the persistent field.
+         * Put the vblue of the nbmed short field into the persistent field.
          *
-         * @param  name the name of the serializable field
-         * @param  val the value to assign to the field
-         * @throws IllegalArgumentException if <code>name</code> does not
-         * match the name of a serializable field for the class whose fields
-         * are being written, or if the type of the named field is not
+         * @pbrbm  nbme the nbme of the seriblizbble field
+         * @pbrbm  vbl the vblue to bssign to the field
+         * @throws IllegblArgumentException if <code>nbme</code> does not
+         * mbtch the nbme of b seriblizbble field for the clbss whose fields
+         * bre being written, or if the type of the nbmed field is not
          * <code>short</code>
          */
-        public abstract void put(String name, short val);
+        public bbstrbct void put(String nbme, short vbl);
 
         /**
-         * Put the value of the named int field into the persistent field.
+         * Put the vblue of the nbmed int field into the persistent field.
          *
-         * @param  name the name of the serializable field
-         * @param  val the value to assign to the field
-         * @throws IllegalArgumentException if <code>name</code> does not
-         * match the name of a serializable field for the class whose fields
-         * are being written, or if the type of the named field is not
+         * @pbrbm  nbme the nbme of the seriblizbble field
+         * @pbrbm  vbl the vblue to bssign to the field
+         * @throws IllegblArgumentException if <code>nbme</code> does not
+         * mbtch the nbme of b seriblizbble field for the clbss whose fields
+         * bre being written, or if the type of the nbmed field is not
          * <code>int</code>
          */
-        public abstract void put(String name, int val);
+        public bbstrbct void put(String nbme, int vbl);
 
         /**
-         * Put the value of the named long field into the persistent field.
+         * Put the vblue of the nbmed long field into the persistent field.
          *
-         * @param  name the name of the serializable field
-         * @param  val the value to assign to the field
-         * @throws IllegalArgumentException if <code>name</code> does not
-         * match the name of a serializable field for the class whose fields
-         * are being written, or if the type of the named field is not
+         * @pbrbm  nbme the nbme of the seriblizbble field
+         * @pbrbm  vbl the vblue to bssign to the field
+         * @throws IllegblArgumentException if <code>nbme</code> does not
+         * mbtch the nbme of b seriblizbble field for the clbss whose fields
+         * bre being written, or if the type of the nbmed field is not
          * <code>long</code>
          */
-        public abstract void put(String name, long val);
+        public bbstrbct void put(String nbme, long vbl);
 
         /**
-         * Put the value of the named float field into the persistent field.
+         * Put the vblue of the nbmed flobt field into the persistent field.
          *
-         * @param  name the name of the serializable field
-         * @param  val the value to assign to the field
-         * @throws IllegalArgumentException if <code>name</code> does not
-         * match the name of a serializable field for the class whose fields
-         * are being written, or if the type of the named field is not
-         * <code>float</code>
+         * @pbrbm  nbme the nbme of the seriblizbble field
+         * @pbrbm  vbl the vblue to bssign to the field
+         * @throws IllegblArgumentException if <code>nbme</code> does not
+         * mbtch the nbme of b seriblizbble field for the clbss whose fields
+         * bre being written, or if the type of the nbmed field is not
+         * <code>flobt</code>
          */
-        public abstract void put(String name, float val);
+        public bbstrbct void put(String nbme, flobt vbl);
 
         /**
-         * Put the value of the named double field into the persistent field.
+         * Put the vblue of the nbmed double field into the persistent field.
          *
-         * @param  name the name of the serializable field
-         * @param  val the value to assign to the field
-         * @throws IllegalArgumentException if <code>name</code> does not
-         * match the name of a serializable field for the class whose fields
-         * are being written, or if the type of the named field is not
+         * @pbrbm  nbme the nbme of the seriblizbble field
+         * @pbrbm  vbl the vblue to bssign to the field
+         * @throws IllegblArgumentException if <code>nbme</code> does not
+         * mbtch the nbme of b seriblizbble field for the clbss whose fields
+         * bre being written, or if the type of the nbmed field is not
          * <code>double</code>
          */
-        public abstract void put(String name, double val);
+        public bbstrbct void put(String nbme, double vbl);
 
         /**
-         * Put the value of the named Object field into the persistent field.
+         * Put the vblue of the nbmed Object field into the persistent field.
          *
-         * @param  name the name of the serializable field
-         * @param  val the value to assign to the field
-         *         (which may be <code>null</code>)
-         * @throws IllegalArgumentException if <code>name</code> does not
-         * match the name of a serializable field for the class whose fields
-         * are being written, or if the type of the named field is not a
+         * @pbrbm  nbme the nbme of the seriblizbble field
+         * @pbrbm  vbl the vblue to bssign to the field
+         *         (which mby be <code>null</code>)
+         * @throws IllegblArgumentException if <code>nbme</code> does not
+         * mbtch the nbme of b seriblizbble field for the clbss whose fields
+         * bre being written, or if the type of the nbmed field is not b
          * reference type
          */
-        public abstract void put(String name, Object val);
+        public bbstrbct void put(String nbme, Object vbl);
 
         /**
-         * Write the data and fields to the specified ObjectOutput stream,
-         * which must be the same stream that produced this
+         * Write the dbtb bnd fields to the specified ObjectOutput strebm,
+         * which must be the sbme strebm thbt produced this
          * <code>PutField</code> object.
          *
-         * @param  out the stream to write the data and fields to
+         * @pbrbm  out the strebm to write the dbtb bnd fields to
          * @throws IOException if I/O errors occur while writing to the
-         *         underlying stream
-         * @throws IllegalArgumentException if the specified stream is not
-         *         the same stream that produced this <code>PutField</code>
+         *         underlying strebm
+         * @throws IllegblArgumentException if the specified strebm is not
+         *         the sbme strebm thbt produced this <code>PutField</code>
          *         object
-         * @deprecated This method does not write the values contained by this
-         *         <code>PutField</code> object in a proper format, and may
-         *         result in corruption of the serialization stream.  The
-         *         correct way to write <code>PutField</code> data is by
-         *         calling the {@link java.io.ObjectOutputStream#writeFields()}
+         * @deprecbted This method does not write the vblues contbined by this
+         *         <code>PutField</code> object in b proper formbt, bnd mby
+         *         result in corruption of the seriblizbtion strebm.  The
+         *         correct wby to write <code>PutField</code> dbtb is by
+         *         cblling the {@link jbvb.io.ObjectOutputStrebm#writeFields()}
          *         method.
          */
-        @Deprecated
-        public abstract void write(ObjectOutput out) throws IOException;
+        @Deprecbted
+        public bbstrbct void write(ObjectOutput out) throws IOException;
     }
 
 
@@ -1016,289 +1016,289 @@ public class ObjectOutputStream
     }
 
     /**
-     * Writes string without allowing it to be replaced in stream.  Used by
-     * ObjectStreamClass to write class descriptor type strings.
+     * Writes string without bllowing it to be replbced in strebm.  Used by
+     * ObjectStrebmClbss to write clbss descriptor type strings.
      */
     void writeTypeString(String str) throws IOException {
-        int handle;
+        int hbndle;
         if (str == null) {
             writeNull();
-        } else if ((handle = handles.lookup(str)) != -1) {
-            writeHandle(handle);
+        } else if ((hbndle = hbndles.lookup(str)) != -1) {
+            writeHbndle(hbndle);
         } else {
-            writeString(str, false);
+            writeString(str, fblse);
         }
     }
 
     /**
-     * Verifies that this (possibly subclass) instance can be constructed
-     * without violating security constraints: the subclass must not override
-     * security-sensitive non-final methods, or else the
-     * "enableSubclassImplementation" SerializablePermission is checked.
+     * Verifies thbt this (possibly subclbss) instbnce cbn be constructed
+     * without violbting security constrbints: the subclbss must not override
+     * security-sensitive non-finbl methods, or else the
+     * "enbbleSubclbssImplementbtion" SeriblizbblePermission is checked.
      */
-    private void verifySubclass() {
-        Class<?> cl = getClass();
-        if (cl == ObjectOutputStream.class) {
+    privbte void verifySubclbss() {
+        Clbss<?> cl = getClbss();
+        if (cl == ObjectOutputStrebm.clbss) {
             return;
         }
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null) {
             return;
         }
-        processQueue(Caches.subclassAuditsQueue, Caches.subclassAudits);
-        WeakClassKey key = new WeakClassKey(cl, Caches.subclassAuditsQueue);
-        Boolean result = Caches.subclassAudits.get(key);
+        processQueue(Cbches.subclbssAuditsQueue, Cbches.subclbssAudits);
+        WebkClbssKey key = new WebkClbssKey(cl, Cbches.subclbssAuditsQueue);
+        Boolebn result = Cbches.subclbssAudits.get(key);
         if (result == null) {
-            result = Boolean.valueOf(auditSubclass(cl));
-            Caches.subclassAudits.putIfAbsent(key, result);
+            result = Boolebn.vblueOf(buditSubclbss(cl));
+            Cbches.subclbssAudits.putIfAbsent(key, result);
         }
-        if (result.booleanValue()) {
+        if (result.boolebnVblue()) {
             return;
         }
         sm.checkPermission(SUBCLASS_IMPLEMENTATION_PERMISSION);
     }
 
     /**
-     * Performs reflective checks on given subclass to verify that it doesn't
-     * override security-sensitive non-final methods.  Returns true if subclass
-     * is "safe", false otherwise.
+     * Performs reflective checks on given subclbss to verify thbt it doesn't
+     * override security-sensitive non-finbl methods.  Returns true if subclbss
+     * is "sbfe", fblse otherwise.
      */
-    private static boolean auditSubclass(final Class<?> subcl) {
-        Boolean result = AccessController.doPrivileged(
-            new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    for (Class<?> cl = subcl;
-                         cl != ObjectOutputStream.class;
-                         cl = cl.getSuperclass())
+    privbte stbtic boolebn buditSubclbss(finbl Clbss<?> subcl) {
+        Boolebn result = AccessController.doPrivileged(
+            new PrivilegedAction<Boolebn>() {
+                public Boolebn run() {
+                    for (Clbss<?> cl = subcl;
+                         cl != ObjectOutputStrebm.clbss;
+                         cl = cl.getSuperclbss())
                     {
                         try {
-                            cl.getDeclaredMethod(
-                                "writeUnshared", new Class<?>[] { Object.class });
-                            return Boolean.FALSE;
-                        } catch (NoSuchMethodException ex) {
+                            cl.getDeclbredMethod(
+                                "writeUnshbred", new Clbss<?>[] { Object.clbss });
+                            return Boolebn.FALSE;
+                        } cbtch (NoSuchMethodException ex) {
                         }
                         try {
-                            cl.getDeclaredMethod("putFields", (Class<?>[]) null);
-                            return Boolean.FALSE;
-                        } catch (NoSuchMethodException ex) {
+                            cl.getDeclbredMethod("putFields", (Clbss<?>[]) null);
+                            return Boolebn.FALSE;
+                        } cbtch (NoSuchMethodException ex) {
                         }
                     }
-                    return Boolean.TRUE;
+                    return Boolebn.TRUE;
                 }
             }
         );
-        return result.booleanValue();
+        return result.boolebnVblue();
     }
 
     /**
-     * Clears internal data structures.
+     * Clebrs internbl dbtb structures.
      */
-    private void clear() {
-        subs.clear();
-        handles.clear();
+    privbte void clebr() {
+        subs.clebr();
+        hbndles.clebr();
     }
 
     /**
-     * Underlying writeObject/writeUnshared implementation.
+     * Underlying writeObject/writeUnshbred implementbtion.
      */
-    private void writeObject0(Object obj, boolean unshared)
+    privbte void writeObject0(Object obj, boolebn unshbred)
         throws IOException
     {
-        boolean oldMode = bout.setBlockDataMode(false);
+        boolebn oldMode = bout.setBlockDbtbMode(fblse);
         depth++;
         try {
-            // handle previously written and non-replaceable objects
+            // hbndle previously written bnd non-replbcebble objects
             int h;
             if ((obj = subs.lookup(obj)) == null) {
                 writeNull();
                 return;
-            } else if (!unshared && (h = handles.lookup(obj)) != -1) {
-                writeHandle(h);
+            } else if (!unshbred && (h = hbndles.lookup(obj)) != -1) {
+                writeHbndle(h);
                 return;
-            } else if (obj instanceof Class) {
-                writeClass((Class) obj, unshared);
+            } else if (obj instbnceof Clbss) {
+                writeClbss((Clbss) obj, unshbred);
                 return;
-            } else if (obj instanceof ObjectStreamClass) {
-                writeClassDesc((ObjectStreamClass) obj, unshared);
+            } else if (obj instbnceof ObjectStrebmClbss) {
+                writeClbssDesc((ObjectStrebmClbss) obj, unshbred);
                 return;
             }
 
-            // check for replacement object
+            // check for replbcement object
             Object orig = obj;
-            Class<?> cl = obj.getClass();
-            ObjectStreamClass desc;
+            Clbss<?> cl = obj.getClbss();
+            ObjectStrebmClbss desc;
             for (;;) {
-                // REMIND: skip this check for strings/arrays?
-                Class<?> repCl;
-                desc = ObjectStreamClass.lookup(cl, true);
-                if (!desc.hasWriteReplaceMethod() ||
-                    (obj = desc.invokeWriteReplace(obj)) == null ||
-                    (repCl = obj.getClass()) == cl)
+                // REMIND: skip this check for strings/brrbys?
+                Clbss<?> repCl;
+                desc = ObjectStrebmClbss.lookup(cl, true);
+                if (!desc.hbsWriteReplbceMethod() ||
+                    (obj = desc.invokeWriteReplbce(obj)) == null ||
+                    (repCl = obj.getClbss()) == cl)
                 {
-                    break;
+                    brebk;
                 }
                 cl = repCl;
             }
-            if (enableReplace) {
-                Object rep = replaceObject(obj);
+            if (enbbleReplbce) {
+                Object rep = replbceObject(obj);
                 if (rep != obj && rep != null) {
-                    cl = rep.getClass();
-                    desc = ObjectStreamClass.lookup(cl, true);
+                    cl = rep.getClbss();
+                    desc = ObjectStrebmClbss.lookup(cl, true);
                 }
                 obj = rep;
             }
 
-            // if object replaced, run through original checks a second time
+            // if object replbced, run through originbl checks b second time
             if (obj != orig) {
-                subs.assign(orig, obj);
+                subs.bssign(orig, obj);
                 if (obj == null) {
                     writeNull();
                     return;
-                } else if (!unshared && (h = handles.lookup(obj)) != -1) {
-                    writeHandle(h);
+                } else if (!unshbred && (h = hbndles.lookup(obj)) != -1) {
+                    writeHbndle(h);
                     return;
-                } else if (obj instanceof Class) {
-                    writeClass((Class) obj, unshared);
+                } else if (obj instbnceof Clbss) {
+                    writeClbss((Clbss) obj, unshbred);
                     return;
-                } else if (obj instanceof ObjectStreamClass) {
-                    writeClassDesc((ObjectStreamClass) obj, unshared);
+                } else if (obj instbnceof ObjectStrebmClbss) {
+                    writeClbssDesc((ObjectStrebmClbss) obj, unshbred);
                     return;
                 }
             }
 
-            // remaining cases
-            if (obj instanceof String) {
-                writeString((String) obj, unshared);
-            } else if (cl.isArray()) {
-                writeArray(obj, desc, unshared);
-            } else if (obj instanceof Enum) {
-                writeEnum((Enum<?>) obj, desc, unshared);
-            } else if (obj instanceof Serializable) {
-                writeOrdinaryObject(obj, desc, unshared);
+            // rembining cbses
+            if (obj instbnceof String) {
+                writeString((String) obj, unshbred);
+            } else if (cl.isArrby()) {
+                writeArrby(obj, desc, unshbred);
+            } else if (obj instbnceof Enum) {
+                writeEnum((Enum<?>) obj, desc, unshbred);
+            } else if (obj instbnceof Seriblizbble) {
+                writeOrdinbryObject(obj, desc, unshbred);
             } else {
                 if (extendedDebugInfo) {
-                    throw new NotSerializableException(
-                        cl.getName() + "\n" + debugInfoStack.toString());
+                    throw new NotSeriblizbbleException(
+                        cl.getNbme() + "\n" + debugInfoStbck.toString());
                 } else {
-                    throw new NotSerializableException(cl.getName());
+                    throw new NotSeriblizbbleException(cl.getNbme());
                 }
             }
-        } finally {
+        } finblly {
             depth--;
-            bout.setBlockDataMode(oldMode);
+            bout.setBlockDbtbMode(oldMode);
         }
     }
 
     /**
-     * Writes null code to stream.
+     * Writes null code to strebm.
      */
-    private void writeNull() throws IOException {
+    privbte void writeNull() throws IOException {
         bout.writeByte(TC_NULL);
     }
 
     /**
-     * Writes given object handle to stream.
+     * Writes given object hbndle to strebm.
      */
-    private void writeHandle(int handle) throws IOException {
+    privbte void writeHbndle(int hbndle) throws IOException {
         bout.writeByte(TC_REFERENCE);
-        bout.writeInt(baseWireHandle + handle);
+        bout.writeInt(bbseWireHbndle + hbndle);
     }
 
     /**
-     * Writes representation of given class to stream.
+     * Writes representbtion of given clbss to strebm.
      */
-    private void writeClass(Class<?> cl, boolean unshared) throws IOException {
+    privbte void writeClbss(Clbss<?> cl, boolebn unshbred) throws IOException {
         bout.writeByte(TC_CLASS);
-        writeClassDesc(ObjectStreamClass.lookup(cl, true), false);
-        handles.assign(unshared ? null : cl);
+        writeClbssDesc(ObjectStrebmClbss.lookup(cl, true), fblse);
+        hbndles.bssign(unshbred ? null : cl);
     }
 
     /**
-     * Writes representation of given class descriptor to stream.
+     * Writes representbtion of given clbss descriptor to strebm.
      */
-    private void writeClassDesc(ObjectStreamClass desc, boolean unshared)
+    privbte void writeClbssDesc(ObjectStrebmClbss desc, boolebn unshbred)
         throws IOException
     {
-        int handle;
+        int hbndle;
         if (desc == null) {
             writeNull();
-        } else if (!unshared && (handle = handles.lookup(desc)) != -1) {
-            writeHandle(handle);
+        } else if (!unshbred && (hbndle = hbndles.lookup(desc)) != -1) {
+            writeHbndle(hbndle);
         } else if (desc.isProxy()) {
-            writeProxyDesc(desc, unshared);
+            writeProxyDesc(desc, unshbred);
         } else {
-            writeNonProxyDesc(desc, unshared);
+            writeNonProxyDesc(desc, unshbred);
         }
     }
 
-    private boolean isCustomSubclass() {
-        // Return true if this class is a custom subclass of ObjectOutputStream
-        return getClass().getClassLoader()
-                   != ObjectOutputStream.class.getClassLoader();
+    privbte boolebn isCustomSubclbss() {
+        // Return true if this clbss is b custom subclbss of ObjectOutputStrebm
+        return getClbss().getClbssLobder()
+                   != ObjectOutputStrebm.clbss.getClbssLobder();
     }
 
     /**
-     * Writes class descriptor representing a dynamic proxy class to stream.
+     * Writes clbss descriptor representing b dynbmic proxy clbss to strebm.
      */
-    private void writeProxyDesc(ObjectStreamClass desc, boolean unshared)
+    privbte void writeProxyDesc(ObjectStrebmClbss desc, boolebn unshbred)
         throws IOException
     {
         bout.writeByte(TC_PROXYCLASSDESC);
-        handles.assign(unshared ? null : desc);
+        hbndles.bssign(unshbred ? null : desc);
 
-        Class<?> cl = desc.forClass();
-        Class<?>[] ifaces = cl.getInterfaces();
-        bout.writeInt(ifaces.length);
-        for (int i = 0; i < ifaces.length; i++) {
-            bout.writeUTF(ifaces[i].getName());
+        Clbss<?> cl = desc.forClbss();
+        Clbss<?>[] ifbces = cl.getInterfbces();
+        bout.writeInt(ifbces.length);
+        for (int i = 0; i < ifbces.length; i++) {
+            bout.writeUTF(ifbces[i].getNbme());
         }
 
-        bout.setBlockDataMode(true);
-        if (cl != null && isCustomSubclass()) {
-            ReflectUtil.checkPackageAccess(cl);
+        bout.setBlockDbtbMode(true);
+        if (cl != null && isCustomSubclbss()) {
+            ReflectUtil.checkPbckbgeAccess(cl);
         }
-        annotateProxyClass(cl);
-        bout.setBlockDataMode(false);
+        bnnotbteProxyClbss(cl);
+        bout.setBlockDbtbMode(fblse);
         bout.writeByte(TC_ENDBLOCKDATA);
 
-        writeClassDesc(desc.getSuperDesc(), false);
+        writeClbssDesc(desc.getSuperDesc(), fblse);
     }
 
     /**
-     * Writes class descriptor representing a standard (i.e., not a dynamic
-     * proxy) class to stream.
+     * Writes clbss descriptor representing b stbndbrd (i.e., not b dynbmic
+     * proxy) clbss to strebm.
      */
-    private void writeNonProxyDesc(ObjectStreamClass desc, boolean unshared)
+    privbte void writeNonProxyDesc(ObjectStrebmClbss desc, boolebn unshbred)
         throws IOException
     {
         bout.writeByte(TC_CLASSDESC);
-        handles.assign(unshared ? null : desc);
+        hbndles.bssign(unshbred ? null : desc);
 
         if (protocol == PROTOCOL_VERSION_1) {
-            // do not invoke class descriptor write hook with old protocol
+            // do not invoke clbss descriptor write hook with old protocol
             desc.writeNonProxy(this);
         } else {
-            writeClassDescriptor(desc);
+            writeClbssDescriptor(desc);
         }
 
-        Class<?> cl = desc.forClass();
-        bout.setBlockDataMode(true);
-        if (cl != null && isCustomSubclass()) {
-            ReflectUtil.checkPackageAccess(cl);
+        Clbss<?> cl = desc.forClbss();
+        bout.setBlockDbtbMode(true);
+        if (cl != null && isCustomSubclbss()) {
+            ReflectUtil.checkPbckbgeAccess(cl);
         }
-        annotateClass(cl);
-        bout.setBlockDataMode(false);
+        bnnotbteClbss(cl);
+        bout.setBlockDbtbMode(fblse);
         bout.writeByte(TC_ENDBLOCKDATA);
 
-        writeClassDesc(desc.getSuperDesc(), false);
+        writeClbssDesc(desc.getSuperDesc(), fblse);
     }
 
     /**
-     * Writes given string to stream, using standard or long UTF format
+     * Writes given string to strebm, using stbndbrd or long UTF formbt
      * depending on string length.
      */
-    private void writeString(String str, boolean unshared) throws IOException {
-        handles.assign(unshared ? null : str);
+    privbte void writeString(String str, boolebn unshbred) throws IOException {
+        hbndles.bssign(unshbred ? null : str);
         long utflen = bout.getUTFLength(str);
         if (utflen <= 0xFFFF) {
             bout.writeByte(TC_STRING);
@@ -1310,159 +1310,159 @@ public class ObjectOutputStream
     }
 
     /**
-     * Writes given array object to stream.
+     * Writes given brrby object to strebm.
      */
-    private void writeArray(Object array,
-                            ObjectStreamClass desc,
-                            boolean unshared)
+    privbte void writeArrby(Object brrby,
+                            ObjectStrebmClbss desc,
+                            boolebn unshbred)
         throws IOException
     {
         bout.writeByte(TC_ARRAY);
-        writeClassDesc(desc, false);
-        handles.assign(unshared ? null : array);
+        writeClbssDesc(desc, fblse);
+        hbndles.bssign(unshbred ? null : brrby);
 
-        Class<?> ccl = desc.forClass().getComponentType();
+        Clbss<?> ccl = desc.forClbss().getComponentType();
         if (ccl.isPrimitive()) {
             if (ccl == Integer.TYPE) {
-                int[] ia = (int[]) array;
-                bout.writeInt(ia.length);
-                bout.writeInts(ia, 0, ia.length);
+                int[] ib = (int[]) brrby;
+                bout.writeInt(ib.length);
+                bout.writeInts(ib, 0, ib.length);
             } else if (ccl == Byte.TYPE) {
-                byte[] ba = (byte[]) array;
-                bout.writeInt(ba.length);
-                bout.write(ba, 0, ba.length, true);
+                byte[] bb = (byte[]) brrby;
+                bout.writeInt(bb.length);
+                bout.write(bb, 0, bb.length, true);
             } else if (ccl == Long.TYPE) {
-                long[] ja = (long[]) array;
-                bout.writeInt(ja.length);
-                bout.writeLongs(ja, 0, ja.length);
-            } else if (ccl == Float.TYPE) {
-                float[] fa = (float[]) array;
-                bout.writeInt(fa.length);
-                bout.writeFloats(fa, 0, fa.length);
+                long[] jb = (long[]) brrby;
+                bout.writeInt(jb.length);
+                bout.writeLongs(jb, 0, jb.length);
+            } else if (ccl == Flobt.TYPE) {
+                flobt[] fb = (flobt[]) brrby;
+                bout.writeInt(fb.length);
+                bout.writeFlobts(fb, 0, fb.length);
             } else if (ccl == Double.TYPE) {
-                double[] da = (double[]) array;
-                bout.writeInt(da.length);
-                bout.writeDoubles(da, 0, da.length);
+                double[] db = (double[]) brrby;
+                bout.writeInt(db.length);
+                bout.writeDoubles(db, 0, db.length);
             } else if (ccl == Short.TYPE) {
-                short[] sa = (short[]) array;
-                bout.writeInt(sa.length);
-                bout.writeShorts(sa, 0, sa.length);
-            } else if (ccl == Character.TYPE) {
-                char[] ca = (char[]) array;
-                bout.writeInt(ca.length);
-                bout.writeChars(ca, 0, ca.length);
-            } else if (ccl == Boolean.TYPE) {
-                boolean[] za = (boolean[]) array;
-                bout.writeInt(za.length);
-                bout.writeBooleans(za, 0, za.length);
+                short[] sb = (short[]) brrby;
+                bout.writeInt(sb.length);
+                bout.writeShorts(sb, 0, sb.length);
+            } else if (ccl == Chbrbcter.TYPE) {
+                chbr[] cb = (chbr[]) brrby;
+                bout.writeInt(cb.length);
+                bout.writeChbrs(cb, 0, cb.length);
+            } else if (ccl == Boolebn.TYPE) {
+                boolebn[] zb = (boolebn[]) brrby;
+                bout.writeInt(zb.length);
+                bout.writeBoolebns(zb, 0, zb.length);
             } else {
-                throw new InternalError();
+                throw new InternblError();
             }
         } else {
-            Object[] objs = (Object[]) array;
+            Object[] objs = (Object[]) brrby;
             int len = objs.length;
             bout.writeInt(len);
             if (extendedDebugInfo) {
-                debugInfoStack.push(
-                    "array (class \"" + array.getClass().getName() +
+                debugInfoStbck.push(
+                    "brrby (clbss \"" + brrby.getClbss().getNbme() +
                     "\", size: " + len  + ")");
             }
             try {
                 for (int i = 0; i < len; i++) {
                     if (extendedDebugInfo) {
-                        debugInfoStack.push(
-                            "element of array (index: " + i + ")");
+                        debugInfoStbck.push(
+                            "element of brrby (index: " + i + ")");
                     }
                     try {
-                        writeObject0(objs[i], false);
-                    } finally {
+                        writeObject0(objs[i], fblse);
+                    } finblly {
                         if (extendedDebugInfo) {
-                            debugInfoStack.pop();
+                            debugInfoStbck.pop();
                         }
                     }
                 }
-            } finally {
+            } finblly {
                 if (extendedDebugInfo) {
-                    debugInfoStack.pop();
+                    debugInfoStbck.pop();
                 }
             }
         }
     }
 
     /**
-     * Writes given enum constant to stream.
+     * Writes given enum constbnt to strebm.
      */
-    private void writeEnum(Enum<?> en,
-                           ObjectStreamClass desc,
-                           boolean unshared)
+    privbte void writeEnum(Enum<?> en,
+                           ObjectStrebmClbss desc,
+                           boolebn unshbred)
         throws IOException
     {
         bout.writeByte(TC_ENUM);
-        ObjectStreamClass sdesc = desc.getSuperDesc();
-        writeClassDesc((sdesc.forClass() == Enum.class) ? desc : sdesc, false);
-        handles.assign(unshared ? null : en);
-        writeString(en.name(), false);
+        ObjectStrebmClbss sdesc = desc.getSuperDesc();
+        writeClbssDesc((sdesc.forClbss() == Enum.clbss) ? desc : sdesc, fblse);
+        hbndles.bssign(unshbred ? null : en);
+        writeString(en.nbme(), fblse);
     }
 
     /**
-     * Writes representation of a "ordinary" (i.e., not a String, Class,
-     * ObjectStreamClass, array, or enum constant) serializable object to the
-     * stream.
+     * Writes representbtion of b "ordinbry" (i.e., not b String, Clbss,
+     * ObjectStrebmClbss, brrby, or enum constbnt) seriblizbble object to the
+     * strebm.
      */
-    private void writeOrdinaryObject(Object obj,
-                                     ObjectStreamClass desc,
-                                     boolean unshared)
+    privbte void writeOrdinbryObject(Object obj,
+                                     ObjectStrebmClbss desc,
+                                     boolebn unshbred)
         throws IOException
     {
         if (extendedDebugInfo) {
-            debugInfoStack.push(
-                (depth == 1 ? "root " : "") + "object (class \"" +
-                obj.getClass().getName() + "\", " + obj.toString() + ")");
+            debugInfoStbck.push(
+                (depth == 1 ? "root " : "") + "object (clbss \"" +
+                obj.getClbss().getNbme() + "\", " + obj.toString() + ")");
         }
         try {
-            desc.checkSerialize();
+            desc.checkSeriblize();
 
             bout.writeByte(TC_OBJECT);
-            writeClassDesc(desc, false);
-            handles.assign(unshared ? null : obj);
-            if (desc.isExternalizable() && !desc.isProxy()) {
-                writeExternalData((Externalizable) obj);
+            writeClbssDesc(desc, fblse);
+            hbndles.bssign(unshbred ? null : obj);
+            if (desc.isExternblizbble() && !desc.isProxy()) {
+                writeExternblDbtb((Externblizbble) obj);
             } else {
-                writeSerialData(obj, desc);
+                writeSeriblDbtb(obj, desc);
             }
-        } finally {
+        } finblly {
             if (extendedDebugInfo) {
-                debugInfoStack.pop();
+                debugInfoStbck.pop();
             }
         }
     }
 
     /**
-     * Writes externalizable data of given object by invoking its
-     * writeExternal() method.
+     * Writes externblizbble dbtb of given object by invoking its
+     * writeExternbl() method.
      */
-    private void writeExternalData(Externalizable obj) throws IOException {
+    privbte void writeExternblDbtb(Externblizbble obj) throws IOException {
         PutFieldImpl oldPut = curPut;
         curPut = null;
 
         if (extendedDebugInfo) {
-            debugInfoStack.push("writeExternal data");
+            debugInfoStbck.push("writeExternbl dbtb");
         }
-        SerialCallbackContext oldContext = curContext;
+        SeriblCbllbbckContext oldContext = curContext;
         try {
             curContext = null;
             if (protocol == PROTOCOL_VERSION_1) {
-                obj.writeExternal(this);
+                obj.writeExternbl(this);
             } else {
-                bout.setBlockDataMode(true);
-                obj.writeExternal(this);
-                bout.setBlockDataMode(false);
+                bout.setBlockDbtbMode(true);
+                obj.writeExternbl(this);
+                bout.setBlockDbtbMode(fblse);
                 bout.writeByte(TC_ENDBLOCKDATA);
             }
-        } finally {
+        } finblly {
             curContext = oldContext;
             if (extendedDebugInfo) {
-                debugInfoStack.pop();
+                debugInfoStbck.pop();
             }
         }
 
@@ -1470,89 +1470,89 @@ public class ObjectOutputStream
     }
 
     /**
-     * Writes instance data for each serializable class of given object, from
-     * superclass to subclass.
+     * Writes instbnce dbtb for ebch seriblizbble clbss of given object, from
+     * superclbss to subclbss.
      */
-    private void writeSerialData(Object obj, ObjectStreamClass desc)
+    privbte void writeSeriblDbtb(Object obj, ObjectStrebmClbss desc)
         throws IOException
     {
-        ObjectStreamClass.ClassDataSlot[] slots = desc.getClassDataLayout();
+        ObjectStrebmClbss.ClbssDbtbSlot[] slots = desc.getClbssDbtbLbyout();
         for (int i = 0; i < slots.length; i++) {
-            ObjectStreamClass slotDesc = slots[i].desc;
-            if (slotDesc.hasWriteObjectMethod()) {
+            ObjectStrebmClbss slotDesc = slots[i].desc;
+            if (slotDesc.hbsWriteObjectMethod()) {
                 PutFieldImpl oldPut = curPut;
                 curPut = null;
-                SerialCallbackContext oldContext = curContext;
+                SeriblCbllbbckContext oldContext = curContext;
 
                 if (extendedDebugInfo) {
-                    debugInfoStack.push(
-                        "custom writeObject data (class \"" +
-                        slotDesc.getName() + "\")");
+                    debugInfoStbck.push(
+                        "custom writeObject dbtb (clbss \"" +
+                        slotDesc.getNbme() + "\")");
                 }
                 try {
-                    curContext = new SerialCallbackContext(obj, slotDesc);
-                    bout.setBlockDataMode(true);
+                    curContext = new SeriblCbllbbckContext(obj, slotDesc);
+                    bout.setBlockDbtbMode(true);
                     slotDesc.invokeWriteObject(obj, this);
-                    bout.setBlockDataMode(false);
+                    bout.setBlockDbtbMode(fblse);
                     bout.writeByte(TC_ENDBLOCKDATA);
-                } finally {
+                } finblly {
                     curContext.setUsed();
                     curContext = oldContext;
                     if (extendedDebugInfo) {
-                        debugInfoStack.pop();
+                        debugInfoStbck.pop();
                     }
                 }
 
                 curPut = oldPut;
             } else {
-                defaultWriteFields(obj, slotDesc);
+                defbultWriteFields(obj, slotDesc);
             }
         }
     }
 
     /**
-     * Fetches and writes values of serializable fields of given object to
-     * stream.  The given class descriptor specifies which field values to
-     * write, and in which order they should be written.
+     * Fetches bnd writes vblues of seriblizbble fields of given object to
+     * strebm.  The given clbss descriptor specifies which field vblues to
+     * write, bnd in which order they should be written.
      */
-    private void defaultWriteFields(Object obj, ObjectStreamClass desc)
+    privbte void defbultWriteFields(Object obj, ObjectStrebmClbss desc)
         throws IOException
     {
-        Class<?> cl = desc.forClass();
-        if (cl != null && obj != null && !cl.isInstance(obj)) {
-            throw new ClassCastException();
+        Clbss<?> cl = desc.forClbss();
+        if (cl != null && obj != null && !cl.isInstbnce(obj)) {
+            throw new ClbssCbstException();
         }
 
-        desc.checkDefaultSerialize();
+        desc.checkDefbultSeriblize();
 
-        int primDataSize = desc.getPrimDataSize();
-        if (primDataSize > 0) {
-            if (primVals == null || primVals.length < primDataSize) {
-                primVals = new byte[primDataSize];
+        int primDbtbSize = desc.getPrimDbtbSize();
+        if (primDbtbSize > 0) {
+            if (primVbls == null || primVbls.length < primDbtbSize) {
+                primVbls = new byte[primDbtbSize];
             }
-            desc.getPrimFieldValues(obj, primVals);
-            bout.write(primVals, 0, primDataSize, false);
+            desc.getPrimFieldVblues(obj, primVbls);
+            bout.write(primVbls, 0, primDbtbSize, fblse);
         }
 
         int numObjFields = desc.getNumObjFields();
         if (numObjFields > 0) {
-            ObjectStreamField[] fields = desc.getFields(false);
-            Object[] objVals = new Object[numObjFields];
-            int numPrimFields = fields.length - objVals.length;
-            desc.getObjFieldValues(obj, objVals);
-            for (int i = 0; i < objVals.length; i++) {
+            ObjectStrebmField[] fields = desc.getFields(fblse);
+            Object[] objVbls = new Object[numObjFields];
+            int numPrimFields = fields.length - objVbls.length;
+            desc.getObjFieldVblues(obj, objVbls);
+            for (int i = 0; i < objVbls.length; i++) {
                 if (extendedDebugInfo) {
-                    debugInfoStack.push(
-                        "field (class \"" + desc.getName() + "\", name: \"" +
-                        fields[numPrimFields + i].getName() + "\", type: \"" +
+                    debugInfoStbck.push(
+                        "field (clbss \"" + desc.getNbme() + "\", nbme: \"" +
+                        fields[numPrimFields + i].getNbme() + "\", type: \"" +
                         fields[numPrimFields + i].getType() + "\")");
                 }
                 try {
-                    writeObject0(objVals[i],
-                                 fields[numPrimFields + i].isUnshared());
-                } finally {
+                    writeObject0(objVbls[i],
+                                 fields[numPrimFields + i].isUnshbred());
+                } finblly {
                     if (extendedDebugInfo) {
-                        debugInfoStack.pop();
+                        debugInfoStbck.pop();
                     }
                 }
             }
@@ -1560,174 +1560,174 @@ public class ObjectOutputStream
     }
 
     /**
-     * Attempts to write to stream fatal IOException that has caused
-     * serialization to abort.
+     * Attempts to write to strebm fbtbl IOException thbt hbs cbused
+     * seriblizbtion to bbort.
      */
-    private void writeFatalException(IOException ex) throws IOException {
+    privbte void writeFbtblException(IOException ex) throws IOException {
         /*
-         * Note: the serialization specification states that if a second
-         * IOException occurs while attempting to serialize the original fatal
-         * exception to the stream, then a StreamCorruptedException should be
-         * thrown (section 2.1).  However, due to a bug in previous
-         * implementations of serialization, StreamCorruptedExceptions were
-         * rarely (if ever) actually thrown--the "root" exceptions from
-         * underlying streams were thrown instead.  This historical behavior is
+         * Note: the seriblizbtion specificbtion stbtes thbt if b second
+         * IOException occurs while bttempting to seriblize the originbl fbtbl
+         * exception to the strebm, then b StrebmCorruptedException should be
+         * thrown (section 2.1).  However, due to b bug in previous
+         * implementbtions of seriblizbtion, StrebmCorruptedExceptions were
+         * rbrely (if ever) bctublly thrown--the "root" exceptions from
+         * underlying strebms were thrown instebd.  This historicbl behbvior is
          * followed here for consistency.
          */
-        clear();
-        boolean oldMode = bout.setBlockDataMode(false);
+        clebr();
+        boolebn oldMode = bout.setBlockDbtbMode(fblse);
         try {
             bout.writeByte(TC_EXCEPTION);
-            writeObject0(ex, false);
-            clear();
-        } finally {
-            bout.setBlockDataMode(oldMode);
+            writeObject0(ex, fblse);
+            clebr();
+        } finblly {
+            bout.setBlockDbtbMode(oldMode);
         }
     }
 
     /**
-     * Converts specified span of float values into byte values.
+     * Converts specified spbn of flobt vblues into byte vblues.
      */
-    // REMIND: remove once hotspot inlines Float.floatToIntBits
-    private static native void floatsToBytes(float[] src, int srcpos,
+    // REMIND: remove once hotspot inlines Flobt.flobtToIntBits
+    privbte stbtic nbtive void flobtsToBytes(flobt[] src, int srcpos,
                                              byte[] dst, int dstpos,
-                                             int nfloats);
+                                             int nflobts);
 
     /**
-     * Converts specified span of double values into byte values.
+     * Converts specified spbn of double vblues into byte vblues.
      */
     // REMIND: remove once hotspot inlines Double.doubleToLongBits
-    private static native void doublesToBytes(double[] src, int srcpos,
+    privbte stbtic nbtive void doublesToBytes(double[] src, int srcpos,
                                               byte[] dst, int dstpos,
                                               int ndoubles);
 
     /**
-     * Default PutField implementation.
+     * Defbult PutField implementbtion.
      */
-    private class PutFieldImpl extends PutField {
+    privbte clbss PutFieldImpl extends PutField {
 
-        /** class descriptor describing serializable fields */
-        private final ObjectStreamClass desc;
-        /** primitive field values */
-        private final byte[] primVals;
-        /** object field values */
-        private final Object[] objVals;
+        /** clbss descriptor describing seriblizbble fields */
+        privbte finbl ObjectStrebmClbss desc;
+        /** primitive field vblues */
+        privbte finbl byte[] primVbls;
+        /** object field vblues */
+        privbte finbl Object[] objVbls;
 
         /**
-         * Creates PutFieldImpl object for writing fields defined in given
-         * class descriptor.
+         * Crebtes PutFieldImpl object for writing fields defined in given
+         * clbss descriptor.
          */
-        PutFieldImpl(ObjectStreamClass desc) {
+        PutFieldImpl(ObjectStrebmClbss desc) {
             this.desc = desc;
-            primVals = new byte[desc.getPrimDataSize()];
-            objVals = new Object[desc.getNumObjFields()];
+            primVbls = new byte[desc.getPrimDbtbSize()];
+            objVbls = new Object[desc.getNumObjFields()];
         }
 
-        public void put(String name, boolean val) {
-            Bits.putBoolean(primVals, getFieldOffset(name, Boolean.TYPE), val);
+        public void put(String nbme, boolebn vbl) {
+            Bits.putBoolebn(primVbls, getFieldOffset(nbme, Boolebn.TYPE), vbl);
         }
 
-        public void put(String name, byte val) {
-            primVals[getFieldOffset(name, Byte.TYPE)] = val;
+        public void put(String nbme, byte vbl) {
+            primVbls[getFieldOffset(nbme, Byte.TYPE)] = vbl;
         }
 
-        public void put(String name, char val) {
-            Bits.putChar(primVals, getFieldOffset(name, Character.TYPE), val);
+        public void put(String nbme, chbr vbl) {
+            Bits.putChbr(primVbls, getFieldOffset(nbme, Chbrbcter.TYPE), vbl);
         }
 
-        public void put(String name, short val) {
-            Bits.putShort(primVals, getFieldOffset(name, Short.TYPE), val);
+        public void put(String nbme, short vbl) {
+            Bits.putShort(primVbls, getFieldOffset(nbme, Short.TYPE), vbl);
         }
 
-        public void put(String name, int val) {
-            Bits.putInt(primVals, getFieldOffset(name, Integer.TYPE), val);
+        public void put(String nbme, int vbl) {
+            Bits.putInt(primVbls, getFieldOffset(nbme, Integer.TYPE), vbl);
         }
 
-        public void put(String name, float val) {
-            Bits.putFloat(primVals, getFieldOffset(name, Float.TYPE), val);
+        public void put(String nbme, flobt vbl) {
+            Bits.putFlobt(primVbls, getFieldOffset(nbme, Flobt.TYPE), vbl);
         }
 
-        public void put(String name, long val) {
-            Bits.putLong(primVals, getFieldOffset(name, Long.TYPE), val);
+        public void put(String nbme, long vbl) {
+            Bits.putLong(primVbls, getFieldOffset(nbme, Long.TYPE), vbl);
         }
 
-        public void put(String name, double val) {
-            Bits.putDouble(primVals, getFieldOffset(name, Double.TYPE), val);
+        public void put(String nbme, double vbl) {
+            Bits.putDouble(primVbls, getFieldOffset(nbme, Double.TYPE), vbl);
         }
 
-        public void put(String name, Object val) {
-            objVals[getFieldOffset(name, Object.class)] = val;
+        public void put(String nbme, Object vbl) {
+            objVbls[getFieldOffset(nbme, Object.clbss)] = vbl;
         }
 
-        // deprecated in ObjectOutputStream.PutField
+        // deprecbted in ObjectOutputStrebm.PutField
         public void write(ObjectOutput out) throws IOException {
             /*
-             * Applications should *not* use this method to write PutField
-             * data, as it will lead to stream corruption if the PutField
-             * object writes any primitive data (since block data mode is not
-             * unset/set properly, as is done in OOS.writeFields()).  This
-             * broken implementation is being retained solely for behavioral
-             * compatibility, in order to support applications which use
-             * OOS.PutField.write() for writing only non-primitive data.
+             * Applicbtions should *not* use this method to write PutField
+             * dbtb, bs it will lebd to strebm corruption if the PutField
+             * object writes bny primitive dbtb (since block dbtb mode is not
+             * unset/set properly, bs is done in OOS.writeFields()).  This
+             * broken implementbtion is being retbined solely for behbviorbl
+             * compbtibility, in order to support bpplicbtions which use
+             * OOS.PutField.write() for writing only non-primitive dbtb.
              *
-             * Serialization of unshared objects is not implemented here since
-             * it is not necessary for backwards compatibility; also, unshared
-             * semantics may not be supported by the given ObjectOutput
-             * instance.  Applications which write unshared objects using the
+             * Seriblizbtion of unshbred objects is not implemented here since
+             * it is not necessbry for bbckwbrds compbtibility; blso, unshbred
+             * sembntics mby not be supported by the given ObjectOutput
+             * instbnce.  Applicbtions which write unshbred objects using the
              * PutField API must use OOS.writeFields().
              */
-            if (ObjectOutputStream.this != out) {
-                throw new IllegalArgumentException("wrong stream");
+            if (ObjectOutputStrebm.this != out) {
+                throw new IllegblArgumentException("wrong strebm");
             }
-            out.write(primVals, 0, primVals.length);
+            out.write(primVbls, 0, primVbls.length);
 
-            ObjectStreamField[] fields = desc.getFields(false);
-            int numPrimFields = fields.length - objVals.length;
-            // REMIND: warn if numPrimFields > 0?
-            for (int i = 0; i < objVals.length; i++) {
-                if (fields[numPrimFields + i].isUnshared()) {
-                    throw new IOException("cannot write unshared object");
+            ObjectStrebmField[] fields = desc.getFields(fblse);
+            int numPrimFields = fields.length - objVbls.length;
+            // REMIND: wbrn if numPrimFields > 0?
+            for (int i = 0; i < objVbls.length; i++) {
+                if (fields[numPrimFields + i].isUnshbred()) {
+                    throw new IOException("cbnnot write unshbred object");
                 }
-                out.writeObject(objVals[i]);
+                out.writeObject(objVbls[i]);
             }
         }
 
         /**
-         * Writes buffered primitive data and object fields to stream.
+         * Writes buffered primitive dbtb bnd object fields to strebm.
          */
         void writeFields() throws IOException {
-            bout.write(primVals, 0, primVals.length, false);
+            bout.write(primVbls, 0, primVbls.length, fblse);
 
-            ObjectStreamField[] fields = desc.getFields(false);
-            int numPrimFields = fields.length - objVals.length;
-            for (int i = 0; i < objVals.length; i++) {
+            ObjectStrebmField[] fields = desc.getFields(fblse);
+            int numPrimFields = fields.length - objVbls.length;
+            for (int i = 0; i < objVbls.length; i++) {
                 if (extendedDebugInfo) {
-                    debugInfoStack.push(
-                        "field (class \"" + desc.getName() + "\", name: \"" +
-                        fields[numPrimFields + i].getName() + "\", type: \"" +
+                    debugInfoStbck.push(
+                        "field (clbss \"" + desc.getNbme() + "\", nbme: \"" +
+                        fields[numPrimFields + i].getNbme() + "\", type: \"" +
                         fields[numPrimFields + i].getType() + "\")");
                 }
                 try {
-                    writeObject0(objVals[i],
-                                 fields[numPrimFields + i].isUnshared());
-                } finally {
+                    writeObject0(objVbls[i],
+                                 fields[numPrimFields + i].isUnshbred());
+                } finblly {
                     if (extendedDebugInfo) {
-                        debugInfoStack.pop();
+                        debugInfoStbck.pop();
                     }
                 }
             }
         }
 
         /**
-         * Returns offset of field with given name and type.  A specified type
-         * of null matches all types, Object.class matches all non-primitive
-         * types, and any other non-null type matches assignable types only.
-         * Throws IllegalArgumentException if no matching field found.
+         * Returns offset of field with given nbme bnd type.  A specified type
+         * of null mbtches bll types, Object.clbss mbtches bll non-primitive
+         * types, bnd bny other non-null type mbtches bssignbble types only.
+         * Throws IllegblArgumentException if no mbtching field found.
          */
-        private int getFieldOffset(String name, Class<?> type) {
-            ObjectStreamField field = desc.getField(name, type);
+        privbte int getFieldOffset(String nbme, Clbss<?> type) {
+            ObjectStrebmField field = desc.getField(nbme, type);
             if (field == null) {
-                throw new IllegalArgumentException("no such field " + name +
+                throw new IllegblArgumentException("no such field " + nbme +
                                                    " with type " + type);
             }
             return field.getOffset();
@@ -1735,95 +1735,95 @@ public class ObjectOutputStream
     }
 
     /**
-     * Buffered output stream with two modes: in default mode, outputs data in
-     * same format as DataOutputStream; in "block data" mode, outputs data
-     * bracketed by block data markers (see object serialization specification
-     * for details).
+     * Buffered output strebm with two modes: in defbult mode, outputs dbtb in
+     * sbme formbt bs DbtbOutputStrebm; in "block dbtb" mode, outputs dbtb
+     * brbcketed by block dbtb mbrkers (see object seriblizbtion specificbtion
+     * for detbils).
      */
-    private static class BlockDataOutputStream
-        extends OutputStream implements DataOutput
+    privbte stbtic clbss BlockDbtbOutputStrebm
+        extends OutputStrebm implements DbtbOutput
     {
-        /** maximum data block length */
-        private static final int MAX_BLOCK_SIZE = 1024;
-        /** maximum data block header length */
-        private static final int MAX_HEADER_SIZE = 5;
-        /** (tunable) length of char buffer (for writing strings) */
-        private static final int CHAR_BUF_SIZE = 256;
+        /** mbximum dbtb block length */
+        privbte stbtic finbl int MAX_BLOCK_SIZE = 1024;
+        /** mbximum dbtb block hebder length */
+        privbte stbtic finbl int MAX_HEADER_SIZE = 5;
+        /** (tunbble) length of chbr buffer (for writing strings) */
+        privbte stbtic finbl int CHAR_BUF_SIZE = 256;
 
-        /** buffer for writing general/block data */
-        private final byte[] buf = new byte[MAX_BLOCK_SIZE];
-        /** buffer for writing block data headers */
-        private final byte[] hbuf = new byte[MAX_HEADER_SIZE];
-        /** char buffer for fast string writes */
-        private final char[] cbuf = new char[CHAR_BUF_SIZE];
+        /** buffer for writing generbl/block dbtb */
+        privbte finbl byte[] buf = new byte[MAX_BLOCK_SIZE];
+        /** buffer for writing block dbtb hebders */
+        privbte finbl byte[] hbuf = new byte[MAX_HEADER_SIZE];
+        /** chbr buffer for fbst string writes */
+        privbte finbl chbr[] cbuf = new chbr[CHAR_BUF_SIZE];
 
-        /** block data mode */
-        private boolean blkmode = false;
+        /** block dbtb mode */
+        privbte boolebn blkmode = fblse;
         /** current offset into buf */
-        private int pos = 0;
+        privbte int pos = 0;
 
-        /** underlying output stream */
-        private final OutputStream out;
-        /** loopback stream (for data writes that span data blocks) */
-        private final DataOutputStream dout;
+        /** underlying output strebm */
+        privbte finbl OutputStrebm out;
+        /** loopbbck strebm (for dbtb writes thbt spbn dbtb blocks) */
+        privbte finbl DbtbOutputStrebm dout;
 
         /**
-         * Creates new BlockDataOutputStream on top of given underlying stream.
-         * Block data mode is turned off by default.
+         * Crebtes new BlockDbtbOutputStrebm on top of given underlying strebm.
+         * Block dbtb mode is turned off by defbult.
          */
-        BlockDataOutputStream(OutputStream out) {
+        BlockDbtbOutputStrebm(OutputStrebm out) {
             this.out = out;
-            dout = new DataOutputStream(this);
+            dout = new DbtbOutputStrebm(this);
         }
 
         /**
-         * Sets block data mode to the given mode (true == on, false == off)
-         * and returns the previous mode value.  If the new mode is the same as
-         * the old mode, no action is taken.  If the new mode differs from the
-         * old mode, any buffered data is flushed before switching to the new
+         * Sets block dbtb mode to the given mode (true == on, fblse == off)
+         * bnd returns the previous mode vblue.  If the new mode is the sbme bs
+         * the old mode, no bction is tbken.  If the new mode differs from the
+         * old mode, bny buffered dbtb is flushed before switching to the new
          * mode.
          */
-        boolean setBlockDataMode(boolean mode) throws IOException {
+        boolebn setBlockDbtbMode(boolebn mode) throws IOException {
             if (blkmode == mode) {
                 return blkmode;
             }
-            drain();
+            drbin();
             blkmode = mode;
             return !blkmode;
         }
 
         /**
-         * Returns true if the stream is currently in block data mode, false
+         * Returns true if the strebm is currently in block dbtb mode, fblse
          * otherwise.
          */
-        boolean getBlockDataMode() {
+        boolebn getBlockDbtbMode() {
             return blkmode;
         }
 
-        /* ----------------- generic output stream methods ----------------- */
+        /* ----------------- generic output strebm methods ----------------- */
         /*
-         * The following methods are equivalent to their counterparts in
-         * OutputStream, except that they partition written data into data
-         * blocks when in block data mode.
+         * The following methods bre equivblent to their counterpbrts in
+         * OutputStrebm, except thbt they pbrtition written dbtb into dbtb
+         * blocks when in block dbtb mode.
          */
 
         public void write(int b) throws IOException {
             if (pos >= MAX_BLOCK_SIZE) {
-                drain();
+                drbin();
             }
             buf[pos++] = (byte) b;
         }
 
         public void write(byte[] b) throws IOException {
-            write(b, 0, b.length, false);
+            write(b, 0, b.length, fblse);
         }
 
         public void write(byte[] b, int off, int len) throws IOException {
-            write(b, off, len, false);
+            write(b, off, len, fblse);
         }
 
         public void flush() throws IOException {
-            drain();
+            drbin();
             out.flush();
         }
 
@@ -1833,33 +1833,33 @@ public class ObjectOutputStream
         }
 
         /**
-         * Writes specified span of byte values from given array.  If copy is
-         * true, copies the values to an intermediate buffer before writing
-         * them to underlying stream (to avoid exposing a reference to the
-         * original byte array).
+         * Writes specified spbn of byte vblues from given brrby.  If copy is
+         * true, copies the vblues to bn intermedibte buffer before writing
+         * them to underlying strebm (to bvoid exposing b reference to the
+         * originbl byte brrby).
          */
-        void write(byte[] b, int off, int len, boolean copy)
+        void write(byte[] b, int off, int len, boolebn copy)
             throws IOException
         {
             if (!(copy || blkmode)) {           // write directly
-                drain();
+                drbin();
                 out.write(b, off, len);
                 return;
             }
 
             while (len > 0) {
                 if (pos >= MAX_BLOCK_SIZE) {
-                    drain();
+                    drbin();
                 }
                 if (len >= MAX_BLOCK_SIZE && !copy && pos == 0) {
-                    // avoid unnecessary copy
-                    writeBlockHeader(MAX_BLOCK_SIZE);
+                    // bvoid unnecessbry copy
+                    writeBlockHebder(MAX_BLOCK_SIZE);
                     out.write(b, off, MAX_BLOCK_SIZE);
                     off += MAX_BLOCK_SIZE;
                     len -= MAX_BLOCK_SIZE;
                 } else {
-                    int wlen = Math.min(len, MAX_BLOCK_SIZE - pos);
-                    System.arraycopy(b, off, buf, pos, wlen);
+                    int wlen = Mbth.min(len, MAX_BLOCK_SIZE - pos);
+                    System.brrbycopy(b, off, buf, pos, wlen);
                     pos += wlen;
                     off += wlen;
                     len -= wlen;
@@ -1868,26 +1868,26 @@ public class ObjectOutputStream
         }
 
         /**
-         * Writes all buffered data from this stream to the underlying stream,
-         * but does not flush underlying stream.
+         * Writes bll buffered dbtb from this strebm to the underlying strebm,
+         * but does not flush underlying strebm.
          */
-        void drain() throws IOException {
+        void drbin() throws IOException {
             if (pos == 0) {
                 return;
             }
             if (blkmode) {
-                writeBlockHeader(pos);
+                writeBlockHebder(pos);
             }
             out.write(buf, 0, pos);
             pos = 0;
         }
 
         /**
-         * Writes block data header.  Data blocks shorter than 256 bytes are
-         * prefixed with a 2-byte header; all others start with a 5-byte
-         * header.
+         * Writes block dbtb hebder.  Dbtb blocks shorter thbn 256 bytes bre
+         * prefixed with b 2-byte hebder; bll others stbrt with b 5-byte
+         * hebder.
          */
-        private void writeBlockHeader(int len) throws IOException {
+        privbte void writeBlockHebder(int len) throws IOException {
             if (len <= 0xFF) {
                 hbuf[0] = TC_BLOCKDATA;
                 hbuf[1] = (byte) len;
@@ -1900,33 +1900,33 @@ public class ObjectOutputStream
         }
 
 
-        /* ----------------- primitive data output methods ----------------- */
+        /* ----------------- primitive dbtb output methods ----------------- */
         /*
-         * The following methods are equivalent to their counterparts in
-         * DataOutputStream, except that they partition written data into data
-         * blocks when in block data mode.
+         * The following methods bre equivblent to their counterpbrts in
+         * DbtbOutputStrebm, except thbt they pbrtition written dbtb into dbtb
+         * blocks when in block dbtb mode.
          */
 
-        public void writeBoolean(boolean v) throws IOException {
+        public void writeBoolebn(boolebn v) throws IOException {
             if (pos >= MAX_BLOCK_SIZE) {
-                drain();
+                drbin();
             }
-            Bits.putBoolean(buf, pos++, v);
+            Bits.putBoolebn(buf, pos++, v);
         }
 
         public void writeByte(int v) throws IOException {
             if (pos >= MAX_BLOCK_SIZE) {
-                drain();
+                drbin();
             }
             buf[pos++] = (byte) v;
         }
 
-        public void writeChar(int v) throws IOException {
+        public void writeChbr(int v) throws IOException {
             if (pos + 2 <= MAX_BLOCK_SIZE) {
-                Bits.putChar(buf, pos, (char) v);
+                Bits.putChbr(buf, pos, (chbr) v);
                 pos += 2;
             } else {
-                dout.writeChar(v);
+                dout.writeChbr(v);
             }
         }
 
@@ -1948,12 +1948,12 @@ public class ObjectOutputStream
             }
         }
 
-        public void writeFloat(float v) throws IOException {
+        public void writeFlobt(flobt v) throws IOException {
             if (pos + 4 <= MAX_BLOCK_SIZE) {
-                Bits.putFloat(buf, pos, v);
+                Bits.putFlobt(buf, pos, v);
                 pos += 4;
             } else {
-                dout.writeFloat(v);
+                dout.writeFlobt(v);
             }
         }
 
@@ -1982,13 +1982,13 @@ public class ObjectOutputStream
             for (int off = 0; off < endoff; ) {
                 if (cpos >= csize) {
                     cpos = 0;
-                    csize = Math.min(endoff - off, CHAR_BUF_SIZE);
-                    s.getChars(off, off + csize, cbuf, 0);
+                    csize = Mbth.min(endoff - off, CHAR_BUF_SIZE);
+                    s.getChbrs(off, off + csize, cbuf, 0);
                 }
                 if (pos >= MAX_BLOCK_SIZE) {
-                    drain();
+                    drbin();
                 }
-                int n = Math.min(csize - cpos, MAX_BLOCK_SIZE - pos);
+                int n = Mbth.min(csize - cpos, MAX_BLOCK_SIZE - pos);
                 int stop = pos + n;
                 while (pos < stop) {
                     buf[pos++] = (byte) cbuf[cpos++];
@@ -1997,12 +1997,12 @@ public class ObjectOutputStream
             }
         }
 
-        public void writeChars(String s) throws IOException {
+        public void writeChbrs(String s) throws IOException {
             int endoff = s.length();
             for (int off = 0; off < endoff; ) {
-                int csize = Math.min(endoff - off, CHAR_BUF_SIZE);
-                s.getChars(off, off + csize, cbuf, 0);
-                writeChars(cbuf, 0, csize);
+                int csize = Mbth.min(endoff - off, CHAR_BUF_SIZE);
+                s.getChbrs(off, off + csize, cbuf, 0);
+                writeChbrs(cbuf, 0, csize);
                 off += csize;
             }
         }
@@ -2012,40 +2012,40 @@ public class ObjectOutputStream
         }
 
 
-        /* -------------- primitive data array output methods -------------- */
+        /* -------------- primitive dbtb brrby output methods -------------- */
         /*
-         * The following methods write out spans of primitive data values.
-         * Though equivalent to calling the corresponding primitive write
-         * methods repeatedly, these methods are optimized for writing groups
-         * of primitive data values more efficiently.
+         * The following methods write out spbns of primitive dbtb vblues.
+         * Though equivblent to cblling the corresponding primitive write
+         * methods repebtedly, these methods bre optimized for writing groups
+         * of primitive dbtb vblues more efficiently.
          */
 
-        void writeBooleans(boolean[] v, int off, int len) throws IOException {
+        void writeBoolebns(boolebn[] v, int off, int len) throws IOException {
             int endoff = off + len;
             while (off < endoff) {
                 if (pos >= MAX_BLOCK_SIZE) {
-                    drain();
+                    drbin();
                 }
-                int stop = Math.min(endoff, off + (MAX_BLOCK_SIZE - pos));
+                int stop = Mbth.min(endoff, off + (MAX_BLOCK_SIZE - pos));
                 while (off < stop) {
-                    Bits.putBoolean(buf, pos++, v[off++]);
+                    Bits.putBoolebn(buf, pos++, v[off++]);
                 }
             }
         }
 
-        void writeChars(char[] v, int off, int len) throws IOException {
+        void writeChbrs(chbr[] v, int off, int len) throws IOException {
             int limit = MAX_BLOCK_SIZE - 2;
             int endoff = off + len;
             while (off < endoff) {
                 if (pos <= limit) {
-                    int avail = (MAX_BLOCK_SIZE - pos) >> 1;
-                    int stop = Math.min(endoff, off + avail);
+                    int bvbil = (MAX_BLOCK_SIZE - pos) >> 1;
+                    int stop = Mbth.min(endoff, off + bvbil);
                     while (off < stop) {
-                        Bits.putChar(buf, pos, v[off++]);
+                        Bits.putChbr(buf, pos, v[off++]);
                         pos += 2;
                     }
                 } else {
-                    dout.writeChar(v[off++]);
+                    dout.writeChbr(v[off++]);
                 }
             }
         }
@@ -2055,8 +2055,8 @@ public class ObjectOutputStream
             int endoff = off + len;
             while (off < endoff) {
                 if (pos <= limit) {
-                    int avail = (MAX_BLOCK_SIZE - pos) >> 1;
-                    int stop = Math.min(endoff, off + avail);
+                    int bvbil = (MAX_BLOCK_SIZE - pos) >> 1;
+                    int stop = Mbth.min(endoff, off + bvbil);
                     while (off < stop) {
                         Bits.putShort(buf, pos, v[off++]);
                         pos += 2;
@@ -2072,8 +2072,8 @@ public class ObjectOutputStream
             int endoff = off + len;
             while (off < endoff) {
                 if (pos <= limit) {
-                    int avail = (MAX_BLOCK_SIZE - pos) >> 2;
-                    int stop = Math.min(endoff, off + avail);
+                    int bvbil = (MAX_BLOCK_SIZE - pos) >> 2;
+                    int stop = Mbth.min(endoff, off + bvbil);
                     while (off < stop) {
                         Bits.putInt(buf, pos, v[off++]);
                         pos += 4;
@@ -2084,18 +2084,18 @@ public class ObjectOutputStream
             }
         }
 
-        void writeFloats(float[] v, int off, int len) throws IOException {
+        void writeFlobts(flobt[] v, int off, int len) throws IOException {
             int limit = MAX_BLOCK_SIZE - 4;
             int endoff = off + len;
             while (off < endoff) {
                 if (pos <= limit) {
-                    int avail = (MAX_BLOCK_SIZE - pos) >> 2;
-                    int chunklen = Math.min(endoff - off, avail);
-                    floatsToBytes(v, off, buf, pos, chunklen);
+                    int bvbil = (MAX_BLOCK_SIZE - pos) >> 2;
+                    int chunklen = Mbth.min(endoff - off, bvbil);
+                    flobtsToBytes(v, off, buf, pos, chunklen);
                     off += chunklen;
                     pos += chunklen << 2;
                 } else {
-                    dout.writeFloat(v[off++]);
+                    dout.writeFlobt(v[off++]);
                 }
             }
         }
@@ -2105,8 +2105,8 @@ public class ObjectOutputStream
             int endoff = off + len;
             while (off < endoff) {
                 if (pos <= limit) {
-                    int avail = (MAX_BLOCK_SIZE - pos) >> 3;
-                    int stop = Math.min(endoff, off + avail);
+                    int bvbil = (MAX_BLOCK_SIZE - pos) >> 3;
+                    int stop = Mbth.min(endoff, off + bvbil);
                     while (off < stop) {
                         Bits.putLong(buf, pos, v[off++]);
                         pos += 8;
@@ -2122,8 +2122,8 @@ public class ObjectOutputStream
             int endoff = off + len;
             while (off < endoff) {
                 if (pos <= limit) {
-                    int avail = (MAX_BLOCK_SIZE - pos) >> 3;
-                    int chunklen = Math.min(endoff - off, avail);
+                    int bvbil = (MAX_BLOCK_SIZE - pos) >> 3;
+                    int chunklen = Mbth.min(endoff - off, bvbil);
                     doublesToBytes(v, off, buf, pos, chunklen);
                     off += chunklen;
                     pos += chunklen << 3;
@@ -2140,10 +2140,10 @@ public class ObjectOutputStream
             int len = s.length();
             long utflen = 0;
             for (int off = 0; off < len; ) {
-                int csize = Math.min(len - off, CHAR_BUF_SIZE);
-                s.getChars(off, off + csize, cbuf, 0);
+                int csize = Mbth.min(len - off, CHAR_BUF_SIZE);
+                s.getChbrs(off, off + csize, cbuf, 0);
                 for (int cpos = 0; cpos < csize; cpos++) {
-                    char c = cbuf[cpos];
+                    chbr c = cbuf[cpos];
                     if (c >= 0x0001 && c <= 0x007F) {
                         utflen++;
                     } else if (c > 0x07FF) {
@@ -2158,14 +2158,14 @@ public class ObjectOutputStream
         }
 
         /**
-         * Writes the given string in UTF format.  This method is used in
-         * situations where the UTF encoding length of the string is already
-         * known; specifying it explicitly avoids a prescan of the string to
+         * Writes the given string in UTF formbt.  This method is used in
+         * situbtions where the UTF encoding length of the string is blrebdy
+         * known; specifying it explicitly bvoids b prescbn of the string to
          * determine its UTF length.
          */
         void writeUTF(String s, long utflen) throws IOException {
             if (utflen > 0xFFFFL) {
-                throw new UTFDataFormatException();
+                throw new UTFDbtbFormbtException();
             }
             writeShort((int) utflen);
             if (utflen == (long) s.length()) {
@@ -2176,17 +2176,17 @@ public class ObjectOutputStream
         }
 
         /**
-         * Writes given string in "long" UTF format.  "Long" UTF format is
-         * identical to standard UTF, except that it uses an 8 byte header
-         * (instead of the standard 2 bytes) to convey the UTF encoding length.
+         * Writes given string in "long" UTF formbt.  "Long" UTF formbt is
+         * identicbl to stbndbrd UTF, except thbt it uses bn 8 byte hebder
+         * (instebd of the stbndbrd 2 bytes) to convey the UTF encoding length.
          */
         void writeLongUTF(String s) throws IOException {
             writeLongUTF(s, getUTFLength(s));
         }
 
         /**
-         * Writes given string in "long" UTF format, where the UTF encoding
-         * length of the string is already known.
+         * Writes given string in "long" UTF formbt, where the UTF encoding
+         * length of the string is blrebdy known.
          */
         void writeLongUTF(String s, long utflen) throws IOException {
             writeLong(utflen);
@@ -2198,17 +2198,17 @@ public class ObjectOutputStream
         }
 
         /**
-         * Writes the "body" (i.e., the UTF representation minus the 2-byte or
-         * 8-byte length header) of the UTF encoding for the given string.
+         * Writes the "body" (i.e., the UTF representbtion minus the 2-byte or
+         * 8-byte length hebder) of the UTF encoding for the given string.
          */
-        private void writeUTFBody(String s) throws IOException {
+        privbte void writeUTFBody(String s) throws IOException {
             int limit = MAX_BLOCK_SIZE - 3;
             int len = s.length();
             for (int off = 0; off < len; ) {
-                int csize = Math.min(len - off, CHAR_BUF_SIZE);
-                s.getChars(off, off + csize, cbuf, 0);
+                int csize = Mbth.min(len - off, CHAR_BUF_SIZE);
+                s.getChbrs(off, off + csize, cbuf, 0);
                 for (int cpos = 0; cpos < csize; cpos++) {
-                    char c = cbuf[cpos];
+                    chbr c = cbuf[cpos];
                     if (pos <= limit) {
                         if (c <= 0x007F && c != 0) {
                             buf[pos++] = (byte) c;
@@ -2222,7 +2222,7 @@ public class ObjectOutputStream
                             buf[pos + 0] = (byte) (0xC0 | ((c >> 6) & 0x1F));
                             pos += 2;
                         }
-                    } else {    // write one byte at a time to normalize block
+                    } else {    // write one byte bt b time to normblize block
                         if (c <= 0x007F && c != 0) {
                             write(c);
                         } else if (c > 0x07FF) {
@@ -2241,41 +2241,41 @@ public class ObjectOutputStream
     }
 
     /**
-     * Lightweight identity hash table which maps objects to integer handles,
-     * assigned in ascending order.
+     * Lightweight identity hbsh tbble which mbps objects to integer hbndles,
+     * bssigned in bscending order.
      */
-    private static class HandleTable {
+    privbte stbtic clbss HbndleTbble {
 
-        /* number of mappings in table/next available handle */
-        private int size;
-        /* size threshold determining when to expand hash spine */
-        private int threshold;
-        /* factor for computing size threshold */
-        private final float loadFactor;
-        /* maps hash value -> candidate handle value */
-        private int[] spine;
-        /* maps handle value -> next candidate handle value */
-        private int[] next;
-        /* maps handle value -> associated object */
-        private Object[] objs;
+        /* number of mbppings in tbble/next bvbilbble hbndle */
+        privbte int size;
+        /* size threshold determining when to expbnd hbsh spine */
+        privbte int threshold;
+        /* fbctor for computing size threshold */
+        privbte finbl flobt lobdFbctor;
+        /* mbps hbsh vblue -> cbndidbte hbndle vblue */
+        privbte int[] spine;
+        /* mbps hbndle vblue -> next cbndidbte hbndle vblue */
+        privbte int[] next;
+        /* mbps hbndle vblue -> bssocibted object */
+        privbte Object[] objs;
 
         /**
-         * Creates new HandleTable with given capacity and load factor.
+         * Crebtes new HbndleTbble with given cbpbcity bnd lobd fbctor.
          */
-        HandleTable(int initialCapacity, float loadFactor) {
-            this.loadFactor = loadFactor;
-            spine = new int[initialCapacity];
-            next = new int[initialCapacity];
-            objs = new Object[initialCapacity];
-            threshold = (int) (initialCapacity * loadFactor);
-            clear();
+        HbndleTbble(int initiblCbpbcity, flobt lobdFbctor) {
+            this.lobdFbctor = lobdFbctor;
+            spine = new int[initiblCbpbcity];
+            next = new int[initiblCbpbcity];
+            objs = new Object[initiblCbpbcity];
+            threshold = (int) (initiblCbpbcity * lobdFbctor);
+            clebr();
         }
 
         /**
-         * Assigns next available handle to given object, and returns handle
-         * value.  Handles are assigned in ascending order starting at 0.
+         * Assigns next bvbilbble hbndle to given object, bnd returns hbndle
+         * vblue.  Hbndles bre bssigned in bscending order stbrting bt 0.
          */
-        int assign(Object obj) {
+        int bssign(Object obj) {
             if (size >= next.length) {
                 growEntries();
             }
@@ -2287,14 +2287,14 @@ public class ObjectOutputStream
         }
 
         /**
-         * Looks up and returns handle associated with given object, or -1 if
-         * no mapping found.
+         * Looks up bnd returns hbndle bssocibted with given object, or -1 if
+         * no mbpping found.
          */
         int lookup(Object obj) {
             if (size == 0) {
                 return -1;
             }
-            int index = hash(obj) % spine.length;
+            int index = hbsh(obj) % spine.length;
             for (int i = spine[index]; i >= 0; i = next[i]) {
                 if (objs[i] == obj) {
                     return i;
@@ -2304,91 +2304,91 @@ public class ObjectOutputStream
         }
 
         /**
-         * Resets table to its initial (empty) state.
+         * Resets tbble to its initibl (empty) stbte.
          */
-        void clear() {
-            Arrays.fill(spine, -1);
-            Arrays.fill(objs, 0, size, null);
+        void clebr() {
+            Arrbys.fill(spine, -1);
+            Arrbys.fill(objs, 0, size, null);
             size = 0;
         }
 
         /**
-         * Returns the number of mappings currently in table.
+         * Returns the number of mbppings currently in tbble.
          */
         int size() {
             return size;
         }
 
         /**
-         * Inserts mapping object -> handle mapping into table.  Assumes table
-         * is large enough to accommodate new mapping.
+         * Inserts mbpping object -> hbndle mbpping into tbble.  Assumes tbble
+         * is lbrge enough to bccommodbte new mbpping.
          */
-        private void insert(Object obj, int handle) {
-            int index = hash(obj) % spine.length;
-            objs[handle] = obj;
-            next[handle] = spine[index];
-            spine[index] = handle;
+        privbte void insert(Object obj, int hbndle) {
+            int index = hbsh(obj) % spine.length;
+            objs[hbndle] = obj;
+            next[hbndle] = spine[index];
+            spine[index] = hbndle;
         }
 
         /**
-         * Expands the hash "spine" -- equivalent to increasing the number of
-         * buckets in a conventional hash table.
+         * Expbnds the hbsh "spine" -- equivblent to increbsing the number of
+         * buckets in b conventionbl hbsh tbble.
          */
-        private void growSpine() {
+        privbte void growSpine() {
             spine = new int[(spine.length << 1) + 1];
-            threshold = (int) (spine.length * loadFactor);
-            Arrays.fill(spine, -1);
+            threshold = (int) (spine.length * lobdFbctor);
+            Arrbys.fill(spine, -1);
             for (int i = 0; i < size; i++) {
                 insert(objs[i], i);
             }
         }
 
         /**
-         * Increases hash table capacity by lengthening entry arrays.
+         * Increbses hbsh tbble cbpbcity by lengthening entry brrbys.
          */
-        private void growEntries() {
+        privbte void growEntries() {
             int newLength = (next.length << 1) + 1;
             int[] newNext = new int[newLength];
-            System.arraycopy(next, 0, newNext, 0, size);
+            System.brrbycopy(next, 0, newNext, 0, size);
             next = newNext;
 
             Object[] newObjs = new Object[newLength];
-            System.arraycopy(objs, 0, newObjs, 0, size);
+            System.brrbycopy(objs, 0, newObjs, 0, size);
             objs = newObjs;
         }
 
         /**
-         * Returns hash value for given object.
+         * Returns hbsh vblue for given object.
          */
-        private int hash(Object obj) {
-            return System.identityHashCode(obj) & 0x7FFFFFFF;
+        privbte int hbsh(Object obj) {
+            return System.identityHbshCode(obj) & 0x7FFFFFFF;
         }
     }
 
     /**
-     * Lightweight identity hash table which maps objects to replacement
+     * Lightweight identity hbsh tbble which mbps objects to replbcement
      * objects.
      */
-    private static class ReplaceTable {
+    privbte stbtic clbss ReplbceTbble {
 
-        /* maps object -> index */
-        private final HandleTable htab;
-        /* maps index -> replacement object */
-        private Object[] reps;
+        /* mbps object -> index */
+        privbte finbl HbndleTbble htbb;
+        /* mbps index -> replbcement object */
+        privbte Object[] reps;
 
         /**
-         * Creates new ReplaceTable with given capacity and load factor.
+         * Crebtes new ReplbceTbble with given cbpbcity bnd lobd fbctor.
          */
-        ReplaceTable(int initialCapacity, float loadFactor) {
-            htab = new HandleTable(initialCapacity, loadFactor);
-            reps = new Object[initialCapacity];
+        ReplbceTbble(int initiblCbpbcity, flobt lobdFbctor) {
+            htbb = new HbndleTbble(initiblCbpbcity, lobdFbctor);
+            reps = new Object[initiblCbpbcity];
         }
 
         /**
-         * Enters mapping from object to replacement object.
+         * Enters mbpping from object to replbcement object.
          */
-        void assign(Object obj, Object rep) {
-            int index = htab.assign(obj);
+        void bssign(Object obj, Object rep) {
+            int index = htbb.bssign(obj);
             while (index >= reps.length) {
                 grow();
             }
@@ -2396,81 +2396,81 @@ public class ObjectOutputStream
         }
 
         /**
-         * Looks up and returns replacement for given object.  If no
-         * replacement is found, returns the lookup object itself.
+         * Looks up bnd returns replbcement for given object.  If no
+         * replbcement is found, returns the lookup object itself.
          */
         Object lookup(Object obj) {
-            int index = htab.lookup(obj);
+            int index = htbb.lookup(obj);
             return (index >= 0) ? reps[index] : obj;
         }
 
         /**
-         * Resets table to its initial (empty) state.
+         * Resets tbble to its initibl (empty) stbte.
          */
-        void clear() {
-            Arrays.fill(reps, 0, htab.size(), null);
-            htab.clear();
+        void clebr() {
+            Arrbys.fill(reps, 0, htbb.size(), null);
+            htbb.clebr();
         }
 
         /**
-         * Returns the number of mappings currently in table.
+         * Returns the number of mbppings currently in tbble.
          */
         int size() {
-            return htab.size();
+            return htbb.size();
         }
 
         /**
-         * Increases table capacity.
+         * Increbses tbble cbpbcity.
          */
-        private void grow() {
+        privbte void grow() {
             Object[] newReps = new Object[(reps.length << 1) + 1];
-            System.arraycopy(reps, 0, newReps, 0, reps.length);
+            System.brrbycopy(reps, 0, newReps, 0, reps.length);
             reps = newReps;
         }
     }
 
     /**
-     * Stack to keep debug information about the state of the
-     * serialization process, for embedding in exception messages.
+     * Stbck to keep debug informbtion bbout the stbte of the
+     * seriblizbtion process, for embedding in exception messbges.
      */
-    private static class DebugTraceInfoStack {
-        private final List<String> stack;
+    privbte stbtic clbss DebugTrbceInfoStbck {
+        privbte finbl List<String> stbck;
 
-        DebugTraceInfoStack() {
-            stack = new ArrayList<>();
+        DebugTrbceInfoStbck() {
+            stbck = new ArrbyList<>();
         }
 
         /**
-         * Removes all of the elements from enclosed list.
+         * Removes bll of the elements from enclosed list.
          */
-        void clear() {
-            stack.clear();
+        void clebr() {
+            stbck.clebr();
         }
 
         /**
-         * Removes the object at the top of enclosed list.
+         * Removes the object bt the top of enclosed list.
          */
         void pop() {
-            stack.remove(stack.size()-1);
+            stbck.remove(stbck.size()-1);
         }
 
         /**
-         * Pushes a String onto the top of enclosed list.
+         * Pushes b String onto the top of enclosed list.
          */
         void push(String entry) {
-            stack.add("\t- " + entry);
+            stbck.bdd("\t- " + entry);
         }
 
         /**
-         * Returns a string representation of this object
+         * Returns b string representbtion of this object
          */
         public String toString() {
             StringBuilder buffer = new StringBuilder();
-            if (!stack.isEmpty()) {
-                for(int i = stack.size(); i > 0; i-- ) {
-                    buffer.append(stack.get(i - 1));
+            if (!stbck.isEmpty()) {
+                for(int i = stbck.size(); i > 0; i-- ) {
+                    buffer.bppend(stbck.get(i - 1));
                     if (i != 1)
-                        buffer.append('\n');
+                        buffer.bppend('\n');
                 }
             }
             return buffer.toString();

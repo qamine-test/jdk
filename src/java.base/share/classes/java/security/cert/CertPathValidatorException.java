@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.io.InvalidObjectException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.security.GeneralSecurityException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.security.GenerblSecurityException;
 
 /**
- * An exception indicating one of a variety of problems encountered when
- * validating a certification path.
+ * An exception indicbting one of b vbriety of problems encountered when
+ * vblidbting b certificbtion pbth.
  * <p>
- * A {@code CertPathValidatorException} provides support for wrapping
- * exceptions. The {@link #getCause getCause} method returns the throwable,
- * if any, that caused this exception to be thrown.
+ * A {@code CertPbthVblidbtorException} provides support for wrbpping
+ * exceptions. The {@link #getCbuse getCbuse} method returns the throwbble,
+ * if bny, thbt cbused this exception to be thrown.
  * <p>
- * A {@code CertPathValidatorException} may also include the
- * certification path that was being validated when the exception was thrown,
- * the index of the certificate in the certification path that caused the
- * exception to be thrown, and the reason that caused the failure. Use the
- * {@link #getCertPath getCertPath}, {@link #getIndex getIndex}, and
- * {@link #getReason getReason} methods to retrieve this information.
+ * A {@code CertPbthVblidbtorException} mby blso include the
+ * certificbtion pbth thbt wbs being vblidbted when the exception wbs thrown,
+ * the index of the certificbte in the certificbtion pbth thbt cbused the
+ * exception to be thrown, bnd the rebson thbt cbused the fbilure. Use the
+ * {@link #getCertPbth getCertPbth}, {@link #getIndex getIndex}, bnd
+ * {@link #getRebson getRebson} methods to retrieve this informbtion.
  *
  * <p>
  * <b>Concurrent Access</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unless otherwise specified, the methods defined in this clbss bre not
+ * threbd-sbfe. Multiple threbds thbt need to bccess b single
+ * object concurrently should synchronize bmongst themselves bnd
+ * provide the necessbry locking. Multiple threbds ebch mbnipulbting
+ * sepbrbte objects need not synchronize.
  *
- * @see CertPathValidator
+ * @see CertPbthVblidbtor
  *
  * @since       1.4
- * @author      Yassir Elley
+ * @buthor      Ybssir Elley
  */
-public class CertPathValidatorException extends GeneralSecurityException {
+public clbss CertPbthVblidbtorException extends GenerblSecurityException {
 
-    private static final long serialVersionUID = -3083180014971893139L;
-
-    /**
-     * @serial the index of the certificate in the certification path
-     * that caused the exception to be thrown
-     */
-    private int index = -1;
+    privbte stbtic finbl long seriblVersionUID = -3083180014971893139L;
 
     /**
-     * @serial the {@code CertPath} that was being validated when
-     * the exception was thrown
+     * @seribl the index of the certificbte in the certificbtion pbth
+     * thbt cbused the exception to be thrown
      */
-    private CertPath certPath;
+    privbte int index = -1;
 
     /**
-     * @serial the reason the validation failed
+     * @seribl the {@code CertPbth} thbt wbs being vblidbted when
+     * the exception wbs thrown
      */
-    private Reason reason = BasicReason.UNSPECIFIED;
+    privbte CertPbth certPbth;
 
     /**
-     * Creates a {@code CertPathValidatorException} with
-     * no detail message.
+     * @seribl the rebson the vblidbtion fbiled
      */
-    public CertPathValidatorException() {
+    privbte Rebson rebson = BbsicRebson.UNSPECIFIED;
+
+    /**
+     * Crebtes b {@code CertPbthVblidbtorException} with
+     * no detbil messbge.
+     */
+    public CertPbthVblidbtorException() {
         this(null, null);
     }
 
     /**
-     * Creates a {@code CertPathValidatorException} with the given
-     * detail message. A detail message is a {@code String} that
-     * describes this particular exception.
+     * Crebtes b {@code CertPbthVblidbtorException} with the given
+     * detbil messbge. A detbil messbge is b {@code String} thbt
+     * describes this pbrticulbr exception.
      *
-     * @param msg the detail message
+     * @pbrbm msg the detbil messbge
      */
-    public CertPathValidatorException(String msg) {
+    public CertPbthVblidbtorException(String msg) {
         this(msg, null);
     }
 
     /**
-     * Creates a {@code CertPathValidatorException} that wraps the
-     * specified throwable. This allows any exception to be converted into a
-     * {@code CertPathValidatorException}, while retaining information
-     * about the wrapped exception, which may be useful for debugging. The
-     * detail message is set to ({@code cause==null ? null : cause.toString()})
-     * (which typically contains the class and detail message of
-     * cause).
+     * Crebtes b {@code CertPbthVblidbtorException} thbt wrbps the
+     * specified throwbble. This bllows bny exception to be converted into b
+     * {@code CertPbthVblidbtorException}, while retbining informbtion
+     * bbout the wrbpped exception, which mby be useful for debugging. The
+     * detbil messbge is set to ({@code cbuse==null ? null : cbuse.toString()})
+     * (which typicblly contbins the clbss bnd detbil messbge of
+     * cbuse).
      *
-     * @param cause the cause (which is saved for later retrieval by the
-     * {@link #getCause getCause()} method). (A {@code null} value is
-     * permitted, and indicates that the cause is nonexistent or unknown.)
+     * @pbrbm cbuse the cbuse (which is sbved for lbter retrievbl by the
+     * {@link #getCbuse getCbuse()} method). (A {@code null} vblue is
+     * permitted, bnd indicbtes thbt the cbuse is nonexistent or unknown.)
      */
-    public CertPathValidatorException(Throwable cause) {
-        this((cause == null ? null : cause.toString()), cause);
+    public CertPbthVblidbtorException(Throwbble cbuse) {
+        this((cbuse == null ? null : cbuse.toString()), cbuse);
     }
 
     /**
-     * Creates a {@code CertPathValidatorException} with the specified
-     * detail message and cause.
+     * Crebtes b {@code CertPbthVblidbtorException} with the specified
+     * detbil messbge bnd cbuse.
      *
-     * @param msg the detail message
-     * @param cause the cause (which is saved for later retrieval by the
-     * {@link #getCause getCause()} method). (A {@code null} value is
-     * permitted, and indicates that the cause is nonexistent or unknown.)
+     * @pbrbm msg the detbil messbge
+     * @pbrbm cbuse the cbuse (which is sbved for lbter retrievbl by the
+     * {@link #getCbuse getCbuse()} method). (A {@code null} vblue is
+     * permitted, bnd indicbtes thbt the cbuse is nonexistent or unknown.)
      */
-    public CertPathValidatorException(String msg, Throwable cause) {
-        this(msg, cause, null, -1);
+    public CertPbthVblidbtorException(String msg, Throwbble cbuse) {
+        this(msg, cbuse, null, -1);
     }
 
     /**
-     * Creates a {@code CertPathValidatorException} with the specified
-     * detail message, cause, certification path, and index.
+     * Crebtes b {@code CertPbthVblidbtorException} with the specified
+     * detbil messbge, cbuse, certificbtion pbth, bnd index.
      *
-     * @param msg the detail message (or {@code null} if none)
-     * @param cause the cause (or {@code null} if none)
-     * @param certPath the certification path that was in the process of
-     * being validated when the error was encountered
-     * @param index the index of the certificate in the certification path
-     * that caused the error (or -1 if not applicable). Note that
-     * the list of certificates in a {@code CertPath} is zero based.
-     * @throws IndexOutOfBoundsException if the index is out of range
-     * {@code (index < -1 || (certPath != null && index >=
-     * certPath.getCertificates().size()) }
-     * @throws IllegalArgumentException if {@code certPath} is
-     * {@code null} and {@code index} is not -1
+     * @pbrbm msg the detbil messbge (or {@code null} if none)
+     * @pbrbm cbuse the cbuse (or {@code null} if none)
+     * @pbrbm certPbth the certificbtion pbth thbt wbs in the process of
+     * being vblidbted when the error wbs encountered
+     * @pbrbm index the index of the certificbte in the certificbtion pbth
+     * thbt cbused the error (or -1 if not bpplicbble). Note thbt
+     * the list of certificbtes in b {@code CertPbth} is zero bbsed.
+     * @throws IndexOutOfBoundsException if the index is out of rbnge
+     * {@code (index < -1 || (certPbth != null && index >=
+     * certPbth.getCertificbtes().size()) }
+     * @throws IllegblArgumentException if {@code certPbth} is
+     * {@code null} bnd {@code index} is not -1
      */
-    public CertPathValidatorException(String msg, Throwable cause,
-            CertPath certPath, int index) {
-        this(msg, cause, certPath, index, BasicReason.UNSPECIFIED);
+    public CertPbthVblidbtorException(String msg, Throwbble cbuse,
+            CertPbth certPbth, int index) {
+        this(msg, cbuse, certPbth, index, BbsicRebson.UNSPECIFIED);
     }
 
     /**
-     * Creates a {@code CertPathValidatorException} with the specified
-     * detail message, cause, certification path, index, and reason.
+     * Crebtes b {@code CertPbthVblidbtorException} with the specified
+     * detbil messbge, cbuse, certificbtion pbth, index, bnd rebson.
      *
-     * @param msg the detail message (or {@code null} if none)
-     * @param cause the cause (or {@code null} if none)
-     * @param certPath the certification path that was in the process of
-     * being validated when the error was encountered
-     * @param index the index of the certificate in the certification path
-     * that caused the error (or -1 if not applicable). Note that
-     * the list of certificates in a {@code CertPath} is zero based.
-     * @param reason the reason the validation failed
-     * @throws IndexOutOfBoundsException if the index is out of range
-     * {@code (index < -1 || (certPath != null && index >=
-     * certPath.getCertificates().size()) }
-     * @throws IllegalArgumentException if {@code certPath} is
-     * {@code null} and {@code index} is not -1
-     * @throws NullPointerException if {@code reason} is {@code null}
+     * @pbrbm msg the detbil messbge (or {@code null} if none)
+     * @pbrbm cbuse the cbuse (or {@code null} if none)
+     * @pbrbm certPbth the certificbtion pbth thbt wbs in the process of
+     * being vblidbted when the error wbs encountered
+     * @pbrbm index the index of the certificbte in the certificbtion pbth
+     * thbt cbused the error (or -1 if not bpplicbble). Note thbt
+     * the list of certificbtes in b {@code CertPbth} is zero bbsed.
+     * @pbrbm rebson the rebson the vblidbtion fbiled
+     * @throws IndexOutOfBoundsException if the index is out of rbnge
+     * {@code (index < -1 || (certPbth != null && index >=
+     * certPbth.getCertificbtes().size()) }
+     * @throws IllegblArgumentException if {@code certPbth} is
+     * {@code null} bnd {@code index} is not -1
+     * @throws NullPointerException if {@code rebson} is {@code null}
      *
      * @since 1.7
      */
-    public CertPathValidatorException(String msg, Throwable cause,
-            CertPath certPath, int index, Reason reason) {
-        super(msg, cause);
-        if (certPath == null && index != -1) {
-            throw new IllegalArgumentException();
+    public CertPbthVblidbtorException(String msg, Throwbble cbuse,
+            CertPbth certPbth, int index, Rebson rebson) {
+        super(msg, cbuse);
+        if (certPbth == null && index != -1) {
+            throw new IllegblArgumentException();
         }
         if (index < -1 ||
-            (certPath != null && index >= certPath.getCertificates().size())) {
+            (certPbth != null && index >= certPbth.getCertificbtes().size())) {
             throw new IndexOutOfBoundsException();
         }
-        if (reason == null) {
-            throw new NullPointerException("reason can't be null");
+        if (rebson == null) {
+            throw new NullPointerException("rebson cbn't be null");
         }
-        this.certPath = certPath;
+        this.certPbth = certPbth;
         this.index = index;
-        this.reason = reason;
+        this.rebson = rebson;
     }
 
     /**
-     * Returns the certification path that was being validated when
-     * the exception was thrown.
+     * Returns the certificbtion pbth thbt wbs being vblidbted when
+     * the exception wbs thrown.
      *
-     * @return the {@code CertPath} that was being validated when
-     * the exception was thrown (or {@code null} if not specified)
+     * @return the {@code CertPbth} thbt wbs being vblidbted when
+     * the exception wbs thrown (or {@code null} if not specified)
      */
-    public CertPath getCertPath() {
-        return this.certPath;
+    public CertPbth getCertPbth() {
+        return this.certPbth;
     }
 
     /**
-     * Returns the index of the certificate in the certification path
-     * that caused the exception to be thrown. Note that the list of
-     * certificates in a {@code CertPath} is zero based. If no
-     * index has been set, -1 is returned.
+     * Returns the index of the certificbte in the certificbtion pbth
+     * thbt cbused the exception to be thrown. Note thbt the list of
+     * certificbtes in b {@code CertPbth} is zero bbsed. If no
+     * index hbs been set, -1 is returned.
      *
-     * @return the index that has been set, or -1 if none has been set
+     * @return the index thbt hbs been set, or -1 if none hbs been set
      */
     public int getIndex() {
         return this.index;
     }
 
     /**
-     * Returns the reason that the validation failed. The reason is
-     * associated with the index of the certificate returned by
+     * Returns the rebson thbt the vblidbtion fbiled. The rebson is
+     * bssocibted with the index of the certificbte returned by
      * {@link #getIndex}.
      *
-     * @return the reason that the validation failed, or
-     *    {@code BasicReason.UNSPECIFIED} if a reason has not been
+     * @return the rebson thbt the vblidbtion fbiled, or
+     *    {@code BbsicRebson.UNSPECIFIED} if b rebson hbs not been
      *    specified
      *
      * @since 1.7
      */
-    public Reason getReason() {
-        return this.reason;
+    public Rebson getRebson() {
+        return this.rebson;
     }
 
-    private void readObject(ObjectInputStream stream)
-        throws ClassNotFoundException, IOException {
-        stream.defaultReadObject();
-        if (reason == null) {
-            reason = BasicReason.UNSPECIFIED;
+    privbte void rebdObject(ObjectInputStrebm strebm)
+        throws ClbssNotFoundException, IOException {
+        strebm.defbultRebdObject();
+        if (rebson == null) {
+            rebson = BbsicRebson.UNSPECIFIED;
         }
-        if (certPath == null && index != -1) {
-            throw new InvalidObjectException("certpath is null and index != -1");
+        if (certPbth == null && index != -1) {
+            throw new InvblidObjectException("certpbth is null bnd index != -1");
         }
         if (index < -1 ||
-            (certPath != null && index >= certPath.getCertificates().size())) {
-            throw new InvalidObjectException("index out of range");
+            (certPbth != null && index >= certPbth.getCertificbtes().size())) {
+            throw new InvblidObjectException("index out of rbnge");
         }
     }
 
     /**
-     * The reason the validation algorithm failed.
+     * The rebson the vblidbtion blgorithm fbiled.
      *
      * @since 1.7
      */
-    public static interface Reason extends java.io.Serializable { }
+    public stbtic interfbce Rebson extends jbvb.io.Seriblizbble { }
 
 
     /**
-     * The BasicReason enumerates the potential reasons that a certification
-     * path of any type may be invalid.
+     * The BbsicRebson enumerbtes the potentibl rebsons thbt b certificbtion
+     * pbth of bny type mby be invblid.
      *
      * @since 1.7
      */
-    public static enum BasicReason implements Reason {
+    public stbtic enum BbsicRebson implements Rebson {
         /**
-         * Unspecified reason.
+         * Unspecified rebson.
          */
         UNSPECIFIED,
 
         /**
-         * The certificate is expired.
+         * The certificbte is expired.
          */
         EXPIRED,
 
         /**
-         * The certificate is not yet valid.
+         * The certificbte is not yet vblid.
          */
         NOT_YET_VALID,
 
         /**
-         * The certificate is revoked.
+         * The certificbte is revoked.
          */
         REVOKED,
 
         /**
-         * The revocation status of the certificate could not be determined.
+         * The revocbtion stbtus of the certificbte could not be determined.
          */
         UNDETERMINED_REVOCATION_STATUS,
 
         /**
-         * The signature is invalid.
+         * The signbture is invblid.
          */
         INVALID_SIGNATURE,
 
         /**
-         * The public key or the signature algorithm has been constrained.
+         * The public key or the signbture blgorithm hbs been constrbined.
          */
         ALGORITHM_CONSTRAINED
     }

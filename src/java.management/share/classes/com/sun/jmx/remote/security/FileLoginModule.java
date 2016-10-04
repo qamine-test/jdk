@@ -1,420 +1,420 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.security;
+pbckbge com.sun.jmx.remote.security;
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import com.sun.jmx.mbeanserver.Util;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilePermission;
-import java.io.IOException;
-import java.security.AccessControlException;
-import java.security.AccessController;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Properties;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
+import com.sun.jmx.mbebnserver.Util;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FilePermission;
+import jbvb.io.IOException;
+import jbvb.security.AccessControlException;
+import jbvb.security.AccessController;
+import jbvb.util.Arrbys;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Mbp;
+import jbvb.util.Properties;
 
-import javax.security.auth.*;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.*;
-import javax.security.auth.spi.*;
-import javax.management.remote.JMXPrincipal;
+import jbvbx.security.buth.*;
+import jbvbx.security.buth.cbllbbck.*;
+import jbvbx.security.buth.login.*;
+import jbvbx.security.buth.spi.*;
+import jbvbx.mbnbgement.remote.JMXPrincipbl;
 
-import com.sun.jmx.remote.util.ClassLogger;
+import com.sun.jmx.remote.util.ClbssLogger;
 import com.sun.jmx.remote.util.EnvHelp;
-import sun.management.jmxremote.ConnectorBootstrap;
+import sun.mbnbgement.jmxremote.ConnectorBootstrbp;
 
 /**
- * This {@link LoginModule} performs file-based authentication.
+ * This {@link LoginModule} performs file-bbsed buthenticbtion.
  *
- * <p> A supplied username and password is verified against the
- * corresponding user credentials stored in a designated password file.
- * If successful then a new {@link JMXPrincipal} is created with the
- * user's name and it is associated with the current {@link Subject}.
- * Such principals may be identified and granted management privileges in
- * the access control file for JMX remote management or in a Java security
+ * <p> A supplied usernbme bnd pbssword is verified bgbinst the
+ * corresponding user credentibls stored in b designbted pbssword file.
+ * If successful then b new {@link JMXPrincipbl} is crebted with the
+ * user's nbme bnd it is bssocibted with the current {@link Subject}.
+ * Such principbls mby be identified bnd grbnted mbnbgement privileges in
+ * the bccess control file for JMX remote mbnbgement or in b Jbvb security
  * policy.
  *
- * <p> The password file comprises a list of key-value pairs as specified in
- * {@link Properties}. The key represents a user's name and the value is its
- * associated cleartext password. By default, the following password file is
+ * <p> The pbssword file comprises b list of key-vblue pbirs bs specified in
+ * {@link Properties}. The key represents b user's nbme bnd the vblue is its
+ * bssocibted clebrtext pbssword. By defbult, the following pbssword file is
  * used:
  * <pre>
- *     ${java.home}/lib/management/jmxremote.password
+ *     ${jbvb.home}/lib/mbnbgement/jmxremote.pbssword
  * </pre>
- * A different password file can be specified via the <code>passwordFile</code>
- * configuration option.
+ * A different pbssword file cbn be specified vib the <code>pbsswordFile</code>
+ * configurbtion option.
  *
- * <p> This module recognizes the following <code>Configuration</code> options:
+ * <p> This module recognizes the following <code>Configurbtion</code> options:
  * <dl>
- * <dt> <code>passwordFile</code> </dt>
- * <dd> the path to an alternative password file. It is used instead of
- *      the default password file.</dd>
+ * <dt> <code>pbsswordFile</code> </dt>
+ * <dd> the pbth to bn blternbtive pbssword file. It is used instebd of
+ *      the defbult pbssword file.</dd>
  *
- * <dt> <code>useFirstPass</code> </dt>
- * <dd> if <code>true</code>, this module retrieves the username and password
- *      from the module's shared state, using "javax.security.auth.login.name"
- *      and "javax.security.auth.login.password" as the respective keys. The
- *      retrieved values are used for authentication. If authentication fails,
- *      no attempt for a retry is made, and the failure is reported back to
- *      the calling application.</dd>
+ * <dt> <code>useFirstPbss</code> </dt>
+ * <dd> if <code>true</code>, this module retrieves the usernbme bnd pbssword
+ *      from the module's shbred stbte, using "jbvbx.security.buth.login.nbme"
+ *      bnd "jbvbx.security.buth.login.pbssword" bs the respective keys. The
+ *      retrieved vblues bre used for buthenticbtion. If buthenticbtion fbils,
+ *      no bttempt for b retry is mbde, bnd the fbilure is reported bbck to
+ *      the cblling bpplicbtion.</dd>
  *
- * <dt> <code>tryFirstPass</code> </dt>
- * <dd> if <code>true</code>, this module retrieves the username and password
- *      from the module's shared state, using "javax.security.auth.login.name"
- *       and "javax.security.auth.login.password" as the respective keys.  The
- *      retrieved values are used for authentication. If authentication fails,
- *      the module uses the CallbackHandler to retrieve a new username and
- *      password, and another attempt to authenticate is made. If the
- *      authentication fails, the failure is reported back to the calling
- *      application.</dd>
+ * <dt> <code>tryFirstPbss</code> </dt>
+ * <dd> if <code>true</code>, this module retrieves the usernbme bnd pbssword
+ *      from the module's shbred stbte, using "jbvbx.security.buth.login.nbme"
+ *       bnd "jbvbx.security.buth.login.pbssword" bs the respective keys.  The
+ *      retrieved vblues bre used for buthenticbtion. If buthenticbtion fbils,
+ *      the module uses the CbllbbckHbndler to retrieve b new usernbme bnd
+ *      pbssword, bnd bnother bttempt to buthenticbte is mbde. If the
+ *      buthenticbtion fbils, the fbilure is reported bbck to the cblling
+ *      bpplicbtion.</dd>
  *
- * <dt> <code>storePass</code> </dt>
- * <dd> if <code>true</code>, this module stores the username and password
- *      obtained from the CallbackHandler in the module's shared state, using
- *      "javax.security.auth.login.name" and
- *      "javax.security.auth.login.password" as the respective keys.  This is
- *      not performed if existing values already exist for the username and
- *      password in the shared state, or if authentication fails.</dd>
+ * <dt> <code>storePbss</code> </dt>
+ * <dd> if <code>true</code>, this module stores the usernbme bnd pbssword
+ *      obtbined from the CbllbbckHbndler in the module's shbred stbte, using
+ *      "jbvbx.security.buth.login.nbme" bnd
+ *      "jbvbx.security.buth.login.pbssword" bs the respective keys.  This is
+ *      not performed if existing vblues blrebdy exist for the usernbme bnd
+ *      pbssword in the shbred stbte, or if buthenticbtion fbils.</dd>
  *
- * <dt> <code>clearPass</code> </dt>
- * <dd> if <code>true</code>, this module clears the username and password
- *      stored in the module's shared state after both phases of authentication
- *      (login and commit) have completed.</dd>
+ * <dt> <code>clebrPbss</code> </dt>
+ * <dd> if <code>true</code>, this module clebrs the usernbme bnd pbssword
+ *      stored in the module's shbred stbte bfter both phbses of buthenticbtion
+ *      (login bnd commit) hbve completed.</dd>
  * </dl>
  */
-public class FileLoginModule implements LoginModule {
+public clbss FileLoginModule implements LoginModule {
 
-    // Location of the default password file
-    private static final String DEFAULT_PASSWORD_FILE_NAME =
-        AccessController.doPrivileged(new GetPropertyAction("java.home")) +
-        File.separatorChar + "lib" +
-        File.separatorChar + "management" + File.separatorChar +
-        ConnectorBootstrap.DefaultValues.PASSWORD_FILE_NAME;
+    // Locbtion of the defbult pbssword file
+    privbte stbtic finbl String DEFAULT_PASSWORD_FILE_NAME =
+        AccessController.doPrivileged(new GetPropertyAction("jbvb.home")) +
+        File.sepbrbtorChbr + "lib" +
+        File.sepbrbtorChbr + "mbnbgement" + File.sepbrbtorChbr +
+        ConnectorBootstrbp.DefbultVblues.PASSWORD_FILE_NAME;
 
-    // Key to retrieve the stored username
-    private static final String USERNAME_KEY =
-        "javax.security.auth.login.name";
+    // Key to retrieve the stored usernbme
+    privbte stbtic finbl String USERNAME_KEY =
+        "jbvbx.security.buth.login.nbme";
 
-    // Key to retrieve the stored password
-    private static final String PASSWORD_KEY =
-        "javax.security.auth.login.password";
+    // Key to retrieve the stored pbssword
+    privbte stbtic finbl String PASSWORD_KEY =
+        "jbvbx.security.buth.login.pbssword";
 
-    // Log messages
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc", "FileLoginModule");
+    // Log messbges
+    privbte stbtic finbl ClbssLogger logger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.misc", "FileLoginModule");
 
-    // Configurable options
-    private boolean useFirstPass = false;
-    private boolean tryFirstPass = false;
-    private boolean storePass = false;
-    private boolean clearPass = false;
+    // Configurbble options
+    privbte boolebn useFirstPbss = fblse;
+    privbte boolebn tryFirstPbss = fblse;
+    privbte boolebn storePbss = fblse;
+    privbte boolebn clebrPbss = fblse;
 
-    // Authentication status
-    private boolean succeeded = false;
-    private boolean commitSucceeded = false;
+    // Authenticbtion stbtus
+    privbte boolebn succeeded = fblse;
+    privbte boolebn commitSucceeded = fblse;
 
-    // Supplied username and password
-    private String username;
-    private char[] password;
-    private JMXPrincipal user;
+    // Supplied usernbme bnd pbssword
+    privbte String usernbme;
+    privbte chbr[] pbssword;
+    privbte JMXPrincipbl user;
 
-    // Initial state
-    private Subject subject;
-    private CallbackHandler callbackHandler;
-    private Map<String, Object> sharedState;
-    private Map<String, ?> options;
-    private String passwordFile;
-    private String passwordFileDisplayName;
-    private boolean userSuppliedPasswordFile;
-    private boolean hasJavaHomePermission;
-    private Properties userCredentials;
+    // Initibl stbte
+    privbte Subject subject;
+    privbte CbllbbckHbndler cbllbbckHbndler;
+    privbte Mbp<String, Object> shbredStbte;
+    privbte Mbp<String, ?> options;
+    privbte String pbsswordFile;
+    privbte String pbsswordFileDisplbyNbme;
+    privbte boolebn userSuppliedPbsswordFile;
+    privbte boolebn hbsJbvbHomePermission;
+    privbte Properties userCredentibls;
 
     /**
-     * Initialize this <code>LoginModule</code>.
+     * Initiblize this <code>LoginModule</code>.
      *
-     * @param subject the <code>Subject</code> to be authenticated.
-     * @param callbackHandler a <code>CallbackHandler</code> to acquire the
-     *                  user's name and password.
-     * @param sharedState shared <code>LoginModule</code> state.
-     * @param options options specified in the login
-     *                  <code>Configuration</code> for this particular
+     * @pbrbm subject the <code>Subject</code> to be buthenticbted.
+     * @pbrbm cbllbbckHbndler b <code>CbllbbckHbndler</code> to bcquire the
+     *                  user's nbme bnd pbssword.
+     * @pbrbm shbredStbte shbred <code>LoginModule</code> stbte.
+     * @pbrbm options options specified in the login
+     *                  <code>Configurbtion</code> for this pbrticulbr
      *                  <code>LoginModule</code>.
      */
-    public void initialize(Subject subject, CallbackHandler callbackHandler,
-                           Map<String,?> sharedState,
-                           Map<String,?> options)
+    public void initiblize(Subject subject, CbllbbckHbndler cbllbbckHbndler,
+                           Mbp<String,?> shbredStbte,
+                           Mbp<String,?> options)
     {
 
         this.subject = subject;
-        this.callbackHandler = callbackHandler;
-        this.sharedState = Util.cast(sharedState);
+        this.cbllbbckHbndler = cbllbbckHbndler;
+        this.shbredStbte = Util.cbst(shbredStbte);
         this.options = options;
 
-        // initialize any configured options
-        tryFirstPass =
-                "true".equalsIgnoreCase((String)options.get("tryFirstPass"));
-        useFirstPass =
-                "true".equalsIgnoreCase((String)options.get("useFirstPass"));
-        storePass =
-                "true".equalsIgnoreCase((String)options.get("storePass"));
-        clearPass =
-                "true".equalsIgnoreCase((String)options.get("clearPass"));
+        // initiblize bny configured options
+        tryFirstPbss =
+                "true".equblsIgnoreCbse((String)options.get("tryFirstPbss"));
+        useFirstPbss =
+                "true".equblsIgnoreCbse((String)options.get("useFirstPbss"));
+        storePbss =
+                "true".equblsIgnoreCbse((String)options.get("storePbss"));
+        clebrPbss =
+                "true".equblsIgnoreCbse((String)options.get("clebrPbss"));
 
-        passwordFile = (String)options.get("passwordFile");
-        passwordFileDisplayName = passwordFile;
-        userSuppliedPasswordFile = true;
+        pbsswordFile = (String)options.get("pbsswordFile");
+        pbsswordFileDisplbyNbme = pbsswordFile;
+        userSuppliedPbsswordFile = true;
 
-        // set the location of the password file
-        if (passwordFile == null) {
-            passwordFile = DEFAULT_PASSWORD_FILE_NAME;
-            userSuppliedPasswordFile = false;
+        // set the locbtion of the pbssword file
+        if (pbsswordFile == null) {
+            pbsswordFile = DEFAULT_PASSWORD_FILE_NAME;
+            userSuppliedPbsswordFile = fblse;
             try {
-                System.getProperty("java.home");
-                hasJavaHomePermission = true;
-                passwordFileDisplayName = passwordFile;
-            } catch (SecurityException e) {
-                hasJavaHomePermission = false;
-                passwordFileDisplayName =
-                        ConnectorBootstrap.DefaultValues.PASSWORD_FILE_NAME;
+                System.getProperty("jbvb.home");
+                hbsJbvbHomePermission = true;
+                pbsswordFileDisplbyNbme = pbsswordFile;
+            } cbtch (SecurityException e) {
+                hbsJbvbHomePermission = fblse;
+                pbsswordFileDisplbyNbme =
+                        ConnectorBootstrbp.DefbultVblues.PASSWORD_FILE_NAME;
             }
         }
     }
 
     /**
-     * Begin user authentication (Authentication Phase 1).
+     * Begin user buthenticbtion (Authenticbtion Phbse 1).
      *
-     * <p> Acquire the user's name and password and verify them against
-     * the corresponding credentials from the password file.
+     * <p> Acquire the user's nbme bnd pbssword bnd verify them bgbinst
+     * the corresponding credentibls from the pbssword file.
      *
-     * @return true always, since this <code>LoginModule</code>
+     * @return true blwbys, since this <code>LoginModule</code>
      *          should not be ignored.
-     * @exception FailedLoginException if the authentication fails.
+     * @exception FbiledLoginException if the buthenticbtion fbils.
      * @exception LoginException if this <code>LoginModule</code>
-     *          is unable to perform the authentication.
+     *          is unbble to perform the buthenticbtion.
      */
-    public boolean login() throws LoginException {
+    public boolebn login() throws LoginException {
 
         try {
-            loadPasswordFile();
-        } catch (IOException ioe) {
+            lobdPbsswordFile();
+        } cbtch (IOException ioe) {
             LoginException le = new LoginException(
-                    "Error: unable to load the password file: " +
-                    passwordFileDisplayName);
-            throw EnvHelp.initCause(le, ioe);
+                    "Error: unbble to lobd the pbssword file: " +
+                    pbsswordFileDisplbyNbme);
+            throw EnvHelp.initCbuse(le, ioe);
         }
 
-        if (userCredentials == null) {
+        if (userCredentibls == null) {
             throw new LoginException
-                ("Error: unable to locate the users' credentials.");
+                ("Error: unbble to locbte the users' credentibls.");
         }
 
         if (logger.debugOn()) {
             logger.debug("login",
-                    "Using password file: " + passwordFileDisplayName);
+                    "Using pbssword file: " + pbsswordFileDisplbyNbme);
         }
 
-        // attempt the authentication
-        if (tryFirstPass) {
+        // bttempt the buthenticbtion
+        if (tryFirstPbss) {
 
             try {
-                // attempt the authentication by getting the
-                // username and password from shared state
-                attemptAuthentication(true);
+                // bttempt the buthenticbtion by getting the
+                // usernbme bnd pbssword from shbred stbte
+                bttemptAuthenticbtion(true);
 
-                // authentication succeeded
+                // buthenticbtion succeeded
                 succeeded = true;
                 if (logger.debugOn()) {
                     logger.debug("login",
-                        "Authentication using cached password has succeeded");
+                        "Authenticbtion using cbched pbssword hbs succeeded");
                 }
                 return true;
 
-            } catch (LoginException le) {
-                // authentication failed -- try again below by prompting
-                cleanState();
+            } cbtch (LoginException le) {
+                // buthenticbtion fbiled -- try bgbin below by prompting
+                clebnStbte();
                 logger.debug("login",
-                    "Authentication using cached password has failed");
+                    "Authenticbtion using cbched pbssword hbs fbiled");
             }
 
-        } else if (useFirstPass) {
+        } else if (useFirstPbss) {
 
             try {
-                // attempt the authentication by getting the
-                // username and password from shared state
-                attemptAuthentication(true);
+                // bttempt the buthenticbtion by getting the
+                // usernbme bnd pbssword from shbred stbte
+                bttemptAuthenticbtion(true);
 
-                // authentication succeeded
+                // buthenticbtion succeeded
                 succeeded = true;
                 if (logger.debugOn()) {
                     logger.debug("login",
-                        "Authentication using cached password has succeeded");
+                        "Authenticbtion using cbched pbssword hbs succeeded");
                 }
                 return true;
 
-            } catch (LoginException le) {
-                // authentication failed
-                cleanState();
+            } cbtch (LoginException le) {
+                // buthenticbtion fbiled
+                clebnStbte();
                 logger.debug("login",
-                    "Authentication using cached password has failed");
+                    "Authenticbtion using cbched pbssword hbs fbiled");
 
                 throw le;
             }
         }
 
         if (logger.debugOn()) {
-            logger.debug("login", "Acquiring password");
+            logger.debug("login", "Acquiring pbssword");
         }
 
-        // attempt the authentication using the supplied username and password
+        // bttempt the buthenticbtion using the supplied usernbme bnd pbssword
         try {
-            attemptAuthentication(false);
+            bttemptAuthenticbtion(fblse);
 
-            // authentication succeeded
+            // buthenticbtion succeeded
             succeeded = true;
             if (logger.debugOn()) {
-                logger.debug("login", "Authentication has succeeded");
+                logger.debug("login", "Authenticbtion hbs succeeded");
             }
             return true;
 
-        } catch (LoginException le) {
-            cleanState();
-            logger.debug("login", "Authentication has failed");
+        } cbtch (LoginException le) {
+            clebnStbte();
+            logger.debug("login", "Authenticbtion hbs fbiled");
 
             throw le;
         }
     }
 
     /**
-     * Complete user authentication (Authentication Phase 2).
+     * Complete user buthenticbtion (Authenticbtion Phbse 2).
      *
-     * <p> This method is called if the LoginContext's
-     * overall authentication has succeeded
-     * (all the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL
-     * LoginModules have succeeded).
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion hbs succeeded
+     * (bll the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * LoginModules hbve succeeded).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> method), then this method associates a
-     * <code>JMXPrincipal</code> with the <code>Subject</code> located in the
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * <code>login</code> method), then this method bssocibtes b
+     * <code>JMXPrincipbl</code> with the <code>Subject</code> locbted in the
      * <code>LoginModule</code>.  If this LoginModule's own
-     * authentication attempted failed, then this method removes
-     * any state that was originally saved.
+     * buthenticbtion bttempted fbiled, then this method removes
+     * bny stbte thbt wbs originblly sbved.
      *
-     * @exception LoginException if the commit fails
-     * @return true if this LoginModule's own login and commit
-     *          attempts succeeded, or false otherwise.
+     * @exception LoginException if the commit fbils
+     * @return true if this LoginModule's own login bnd commit
+     *          bttempts succeeded, or fblse otherwise.
      */
-    public boolean commit() throws LoginException {
+    public boolebn commit() throws LoginException {
 
-        if (succeeded == false) {
-            return false;
+        if (succeeded == fblse) {
+            return fblse;
         } else {
-            if (subject.isReadOnly()) {
-                cleanState();
-                throw new LoginException("Subject is read-only");
+            if (subject.isRebdOnly()) {
+                clebnStbte();
+                throw new LoginException("Subject is rebd-only");
             }
-            // add Principals to the Subject
-            if (!subject.getPrincipals().contains(user)) {
-                subject.getPrincipals().add(user);
+            // bdd Principbls to the Subject
+            if (!subject.getPrincipbls().contbins(user)) {
+                subject.getPrincipbls().bdd(user);
             }
 
             if (logger.debugOn()) {
                 logger.debug("commit",
-                    "Authentication has completed successfully");
+                    "Authenticbtion hbs completed successfully");
             }
         }
-        // in any case, clean out state
-        cleanState();
+        // in bny cbse, clebn out stbte
+        clebnStbte();
         commitSucceeded = true;
         return true;
     }
 
     /**
-     * Abort user authentication (Authentication Phase 2).
+     * Abort user buthenticbtion (Authenticbtion Phbse 2).
      *
-     * <p> This method is called if the LoginContext's overall authentication
-     * failed (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL
+     * <p> This method is cblled if the LoginContext's overbll buthenticbtion
+     * fbiled (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
      * LoginModules did not succeed).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> and <code>commit</code> methods),
-     * then this method cleans up any state that was originally saved.
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * <code>login</code> bnd <code>commit</code> methods),
+     * then this method clebns up bny stbte thbt wbs originblly sbved.
      *
-     * @exception LoginException if the abort fails.
-     * @return false if this LoginModule's own login and/or commit attempts
-     *          failed, and true otherwise.
+     * @exception LoginException if the bbort fbils.
+     * @return fblse if this LoginModule's own login bnd/or commit bttempts
+     *          fbiled, bnd true otherwise.
      */
-    public boolean abort() throws LoginException {
+    public boolebn bbort() throws LoginException {
 
         if (logger.debugOn()) {
-            logger.debug("abort",
-                "Authentication has not completed successfully");
+            logger.debug("bbort",
+                "Authenticbtion hbs not completed successfully");
         }
 
-        if (succeeded == false) {
-            return false;
-        } else if (succeeded == true && commitSucceeded == false) {
+        if (succeeded == fblse) {
+            return fblse;
+        } else if (succeeded == true && commitSucceeded == fblse) {
 
-            // Clean out state
-            succeeded = false;
-            cleanState();
+            // Clebn out stbte
+            succeeded = fblse;
+            clebnStbte();
             user = null;
         } else {
-            // overall authentication succeeded and commit succeeded,
-            // but someone else's commit failed
+            // overbll buthenticbtion succeeded bnd commit succeeded,
+            // but someone else's commit fbiled
             logout();
         }
         return true;
     }
 
     /**
-     * Logout a user.
+     * Logout b user.
      *
-     * <p> This method removes the Principals
-     * that were added by the <code>commit</code> method.
+     * <p> This method removes the Principbls
+     * thbt were bdded by the <code>commit</code> method.
      *
-     * @exception LoginException if the logout fails.
-     * @return true in all cases since this <code>LoginModule</code>
+     * @exception LoginException if the logout fbils.
+     * @return true in bll cbses since this <code>LoginModule</code>
      *          should not be ignored.
      */
-    public boolean logout() throws LoginException {
-        if (subject.isReadOnly()) {
-            cleanState();
-            throw new LoginException ("Subject is read-only");
+    public boolebn logout() throws LoginException {
+        if (subject.isRebdOnly()) {
+            clebnStbte();
+            throw new LoginException ("Subject is rebd-only");
         }
-        subject.getPrincipals().remove(user);
+        subject.getPrincipbls().remove(user);
 
-        // clean out state
-        cleanState();
-        succeeded = false;
-        commitSucceeded = false;
+        // clebn out stbte
+        clebnStbte();
+        succeeded = fblse;
+        commitSucceeded = fblse;
         user = null;
 
         if (logger.debugOn()) {
@@ -425,146 +425,146 @@ public class FileLoginModule implements LoginModule {
     }
 
     /**
-     * Attempt authentication
+     * Attempt buthenticbtion
      *
-     * @param usePasswdFromSharedState a flag to tell this method whether
-     *          to retrieve the password from the sharedState.
+     * @pbrbm usePbsswdFromShbredStbte b flbg to tell this method whether
+     *          to retrieve the pbssword from the shbredStbte.
      */
-    @SuppressWarnings("unchecked")  // sharedState used as Map<String,Object>
-    private void attemptAuthentication(boolean usePasswdFromSharedState)
+    @SuppressWbrnings("unchecked")  // shbredStbte used bs Mbp<String,Object>
+    privbte void bttemptAuthenticbtion(boolebn usePbsswdFromShbredStbte)
         throws LoginException {
 
-        // get the username and password
-        getUsernamePassword(usePasswdFromSharedState);
+        // get the usernbme bnd pbssword
+        getUsernbmePbssword(usePbsswdFromShbredStbte);
 
-        String localPassword;
+        String locblPbssword;
 
-        // userCredentials is initialized in login()
-        if (((localPassword = userCredentials.getProperty(username)) == null) ||
-            (! localPassword.equals(new String(password)))) {
+        // userCredentibls is initiblized in login()
+        if (((locblPbssword = userCredentibls.getProperty(usernbme)) == null) ||
+            (! locblPbssword.equbls(new String(pbssword)))) {
 
-            // username not found or passwords do not match
+            // usernbme not found or pbsswords do not mbtch
             if (logger.debugOn()) {
-                logger.debug("login", "Invalid username or password");
+                logger.debug("login", "Invblid usernbme or pbssword");
             }
-            throw new FailedLoginException("Invalid username or password");
+            throw new FbiledLoginException("Invblid usernbme or pbssword");
         }
 
-        // Save the username and password in the shared state
-        // only if authentication succeeded
-        if (storePass &&
-            !sharedState.containsKey(USERNAME_KEY) &&
-            !sharedState.containsKey(PASSWORD_KEY)) {
-            sharedState.put(USERNAME_KEY, username);
-            sharedState.put(PASSWORD_KEY, password);
+        // Sbve the usernbme bnd pbssword in the shbred stbte
+        // only if buthenticbtion succeeded
+        if (storePbss &&
+            !shbredStbte.contbinsKey(USERNAME_KEY) &&
+            !shbredStbte.contbinsKey(PASSWORD_KEY)) {
+            shbredStbte.put(USERNAME_KEY, usernbme);
+            shbredStbte.put(PASSWORD_KEY, pbssword);
         }
 
-        // Create a new user principal
-        user = new JMXPrincipal(username);
+        // Crebte b new user principbl
+        user = new JMXPrincipbl(usernbme);
 
         if (logger.debugOn()) {
             logger.debug("login",
-                "User '" + username + "' successfully validated");
+                "User '" + usernbme + "' successfully vblidbted");
         }
     }
 
     /*
-     * Read the password file.
+     * Rebd the pbssword file.
      */
-    private void loadPasswordFile() throws IOException {
-        FileInputStream fis;
+    privbte void lobdPbsswordFile() throws IOException {
+        FileInputStrebm fis;
         try {
-            fis = new FileInputStream(passwordFile);
-        } catch (SecurityException e) {
-            if (userSuppliedPasswordFile || hasJavaHomePermission) {
+            fis = new FileInputStrebm(pbsswordFile);
+        } cbtch (SecurityException e) {
+            if (userSuppliedPbsswordFile || hbsJbvbHomePermission) {
                 throw e;
             } else {
-                final FilePermission fp =
-                        new FilePermission(passwordFileDisplayName, "read");
-                AccessControlException ace = new AccessControlException(
-                        "access denied " + fp.toString());
-                ace.setStackTrace(e.getStackTrace());
-                throw ace;
+                finbl FilePermission fp =
+                        new FilePermission(pbsswordFileDisplbyNbme, "rebd");
+                AccessControlException bce = new AccessControlException(
+                        "bccess denied " + fp.toString());
+                bce.setStbckTrbce(e.getStbckTrbce());
+                throw bce;
             }
         }
         try {
-            final BufferedInputStream bis = new BufferedInputStream(fis);
+            finbl BufferedInputStrebm bis = new BufferedInputStrebm(fis);
             try {
-                userCredentials = new Properties();
-                userCredentials.load(bis);
-            } finally {
+                userCredentibls = new Properties();
+                userCredentibls.lobd(bis);
+            } finblly {
                 bis.close();
             }
-        } finally {
+        } finblly {
             fis.close();
         }
     }
 
     /**
-     * Get the username and password.
-     * This method does not return any value.
-     * Instead, it sets global name and password variables.
+     * Get the usernbme bnd pbssword.
+     * This method does not return bny vblue.
+     * Instebd, it sets globbl nbme bnd pbssword vbribbles.
      *
-     * <p> Also note that this method will set the username and password
-     * values in the shared state in case subsequent LoginModules
-     * want to use them via use/tryFirstPass.
+     * <p> Also note thbt this method will set the usernbme bnd pbssword
+     * vblues in the shbred stbte in cbse subsequent LoginModules
+     * wbnt to use them vib use/tryFirstPbss.
      *
-     * @param usePasswdFromSharedState boolean that tells this method whether
-     *          to retrieve the password from the sharedState.
+     * @pbrbm usePbsswdFromShbredStbte boolebn thbt tells this method whether
+     *          to retrieve the pbssword from the shbredStbte.
      */
-    private void getUsernamePassword(boolean usePasswdFromSharedState)
+    privbte void getUsernbmePbssword(boolebn usePbsswdFromShbredStbte)
         throws LoginException {
 
-        if (usePasswdFromSharedState) {
-            // use the password saved by the first module in the stack
-            username = (String)sharedState.get(USERNAME_KEY);
-            password = (char[])sharedState.get(PASSWORD_KEY);
+        if (usePbsswdFromShbredStbte) {
+            // use the pbssword sbved by the first module in the stbck
+            usernbme = (String)shbredStbte.get(USERNAME_KEY);
+            pbssword = (chbr[])shbredStbte.get(PASSWORD_KEY);
             return;
         }
 
-        // acquire username and password
-        if (callbackHandler == null)
-            throw new LoginException("Error: no CallbackHandler available " +
-                "to garner authentication information from the user");
+        // bcquire usernbme bnd pbssword
+        if (cbllbbckHbndler == null)
+            throw new LoginException("Error: no CbllbbckHbndler bvbilbble " +
+                "to gbrner buthenticbtion informbtion from the user");
 
-        Callback[] callbacks = new Callback[2];
-        callbacks[0] = new NameCallback("username");
-        callbacks[1] = new PasswordCallback("password", false);
+        Cbllbbck[] cbllbbcks = new Cbllbbck[2];
+        cbllbbcks[0] = new NbmeCbllbbck("usernbme");
+        cbllbbcks[1] = new PbsswordCbllbbck("pbssword", fblse);
 
         try {
-            callbackHandler.handle(callbacks);
-            username = ((NameCallback)callbacks[0]).getName();
-            char[] tmpPassword = ((PasswordCallback)callbacks[1]).getPassword();
-            password = new char[tmpPassword.length];
-            System.arraycopy(tmpPassword, 0,
-                                password, 0, tmpPassword.length);
-            ((PasswordCallback)callbacks[1]).clearPassword();
+            cbllbbckHbndler.hbndle(cbllbbcks);
+            usernbme = ((NbmeCbllbbck)cbllbbcks[0]).getNbme();
+            chbr[] tmpPbssword = ((PbsswordCbllbbck)cbllbbcks[1]).getPbssword();
+            pbssword = new chbr[tmpPbssword.length];
+            System.brrbycopy(tmpPbssword, 0,
+                                pbssword, 0, tmpPbssword.length);
+            ((PbsswordCbllbbck)cbllbbcks[1]).clebrPbssword();
 
-        } catch (IOException ioe) {
+        } cbtch (IOException ioe) {
             LoginException le = new LoginException(ioe.toString());
-            throw EnvHelp.initCause(le, ioe);
-        } catch (UnsupportedCallbackException uce) {
+            throw EnvHelp.initCbuse(le, ioe);
+        } cbtch (UnsupportedCbllbbckException uce) {
             LoginException le = new LoginException(
-                                    "Error: " + uce.getCallback().toString() +
-                                    " not available to garner authentication " +
-                                    "information from the user");
-            throw EnvHelp.initCause(le, uce);
+                                    "Error: " + uce.getCbllbbck().toString() +
+                                    " not bvbilbble to gbrner buthenticbtion " +
+                                    "informbtion from the user");
+            throw EnvHelp.initCbuse(le, uce);
         }
     }
 
     /**
-     * Clean out state because of a failed authentication attempt
+     * Clebn out stbte becbuse of b fbiled buthenticbtion bttempt
      */
-    private void cleanState() {
-        username = null;
-        if (password != null) {
-            Arrays.fill(password, ' ');
-            password = null;
+    privbte void clebnStbte() {
+        usernbme = null;
+        if (pbssword != null) {
+            Arrbys.fill(pbssword, ' ');
+            pbssword = null;
         }
 
-        if (clearPass) {
-            sharedState.remove(USERNAME_KEY);
-            sharedState.remove(PASSWORD_KEY);
+        if (clebrPbss) {
+            shbredStbte.remove(USERNAME_KEY);
+            shbredStbte.remove(PASSWORD_KEY);
         }
     }
 }

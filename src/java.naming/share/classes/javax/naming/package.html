@@ -1,59 +1,59 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
-<head>
+<hebd>
 <!--
-Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
-</head>
+</hebd>
 <body bgcolor="white">
 
-Provides the classes and interfaces for accessing naming services.
+Provides the clbsses bnd interfbces for bccessing nbming services.
 
 <p>
-This package defines the naming operations of the Java Naming and
-Directory Interface<font size=-2><sup>TM</sup></font> (JNDI). &nbsp;
-JNDI provides naming and directory functionality to applications
-written in the Java programming language.  It is designed to be
-independent of any specific naming or directory service
-implementation.  Thus a variety of services--new, emerging, and
-already deployed ones--can be accessed in a common way.
+This pbckbge defines the nbming operbtions of the Jbvb Nbming bnd
+Directory Interfbce<font size=-2><sup>TM</sup></font> (JNDI). &nbsp;
+JNDI provides nbming bnd directory functionblity to bpplicbtions
+written in the Jbvb progrbmming lbngubge.  It is designed to be
+independent of bny specific nbming or directory service
+implementbtion.  Thus b vbriety of services--new, emerging, bnd
+blrebdy deployed ones--cbn be bccessed in b common wby.
 
 
 <h4>Context</h4>
 <p>
-This package defines the notion of a <em>context</em>, represented
-by the <tt>Context</tt> interface.
-A context consists of a set of name-to-object <em>bindings</em>.
-<tt>Context</tt> is the core interface for looking up, binding, unbinding, 
-and renaming objects, and for creating and destroying subcontexts.
+This pbckbge defines the notion of b <em>context</em>, represented
+by the <tt>Context</tt> interfbce.
+A context consists of b set of nbme-to-object <em>bindings</em>.
+<tt>Context</tt> is the core interfbce for looking up, binding, unbinding, 
+bnd renbming objects, bnd for crebting bnd destroying subcontexts.
 <p>
-<tt>lookup()</tt> is the most commonly used operation.
+<tt>lookup()</tt> is the most commonly used operbtion.
 You supply <tt>lookup()</tt>
-the name of the object you want
-to look up, and it returns the object bound to that name.
-For example, the following code fragment looks up 
-a printer and sends a document to the printer object
+the nbme of the object you wbnt
+to look up, bnd it returns the object bound to thbt nbme.
+For exbmple, the following code frbgment looks up 
+b printer bnd sends b document to the printer object
 to be printed:
 
 <blockquote>
@@ -63,79 +63,79 @@ printer.print(report);
 </pre>
 </blockquote>
 
-<h4>Names</h4>
+<h4>Nbmes</h4>
 <p>
-Every naming method in the <tt>Context</tt>
-interface has two
-overloads: one that accepts a 
-<tt>Name</tt> argument and one that accepts a string name.
-<tt>Name</tt> is an interface that represents a generic 
-name--an ordered sequence of zero of more components.
-For these methods, <tt>Name</tt> can be used to represent a
-<em>composite name</em> (<tt>CompositeName</tt>)
-so that you can name an object using a name which spans multiple namespaces.
+Every nbming method in the <tt>Context</tt>
+interfbce hbs two
+overlobds: one thbt bccepts b 
+<tt>Nbme</tt> brgument bnd one thbt bccepts b string nbme.
+<tt>Nbme</tt> is bn interfbce thbt represents b generic 
+nbme--bn ordered sequence of zero of more components.
+For these methods, <tt>Nbme</tt> cbn be used to represent b
+<em>composite nbme</em> (<tt>CompositeNbme</tt>)
+so thbt you cbn nbme bn object using b nbme which spbns multiple nbmespbces.
 <p>
-The overloads that accept <tt>Name</tt>
-are useful for applications that need to manipulate names: composing
-them, comparing components, and so on.
-The overloads that accept string names are likely to be more useful
-for simple applications, such as those that simply read in a name
-and look up the corresponding object.
+The overlobds thbt bccept <tt>Nbme</tt>
+bre useful for bpplicbtions thbt need to mbnipulbte nbmes: composing
+them, compbring components, bnd so on.
+The overlobds thbt bccept string nbmes bre likely to be more useful
+for simple bpplicbtions, such bs those thbt simply rebd in b nbme
+bnd look up the corresponding object.
 
 <h4>Bindings</h4>
 
-The <tt>Binding</tt> class represents a name-to-object binding.
-It is a tuple containing the name of the bound object,
-the name of the object's class, and the object itself.
+The <tt>Binding</tt> clbss represents b nbme-to-object binding.
+It is b tuple contbining the nbme of the bound object,
+the nbme of the object's clbss, bnd the object itself.
 <p>
-The <tt>Binding</tt> class is actually a subclass of
-<tt>NameClassPair</tt>, which consists
-simply of the object's name and the object's class name.
-The <tt>NameClassPair</tt> is useful when you only want
-information about the object's class and do not want to
-pay the extra cost of getting the object.
+The <tt>Binding</tt> clbss is bctublly b subclbss of
+<tt>NbmeClbssPbir</tt>, which consists
+simply of the object's nbme bnd the object's clbss nbme.
+The <tt>NbmeClbssPbir</tt> is useful when you only wbnt
+informbtion bbout the object's clbss bnd do not wbnt to
+pby the extrb cost of getting the object.
 
 <h4>References</h4>
-Objects are stored in naming and directory services in different ways.
-If an object store supports storing Java objects, 
-it might support storing an object in its serialized form.
-However, some naming and directory services do not support the
-storing of Java objects. Furthermore, for some
-objects in the directory, Java programs are but one group of applications 
-that access them. In this case, a serialized Java object might
-not be the most appropriate representation.
-JNDI defines a <em>reference</em>, represented by the <tt>Reference</tt>
-class, which contains information on how to construct a copy of the object.
-JNDI will attempt to turn references looked up from the directory
-into the Java objects they represent, so that
-JNDI clients have the illusion that what
-is stored in the directory are Java objects. 
+Objects bre stored in nbming bnd directory services in different wbys.
+If bn object store supports storing Jbvb objects, 
+it might support storing bn object in its seriblized form.
+However, some nbming bnd directory services do not support the
+storing of Jbvb objects. Furthermore, for some
+objects in the directory, Jbvb progrbms bre but one group of bpplicbtions 
+thbt bccess them. In this cbse, b seriblized Jbvb object might
+not be the most bppropribte representbtion.
+JNDI defines b <em>reference</em>, represented by the <tt>Reference</tt>
+clbss, which contbins informbtion on how to construct b copy of the object.
+JNDI will bttempt to turn references looked up from the directory
+into the Jbvb objects they represent, so thbt
+JNDI clients hbve the illusion thbt whbt
+is stored in the directory bre Jbvb objects. 
 
 
-<h4>The Initial Context</h4>
+<h4>The Initibl Context</h4>
 
-In JNDI, all naming and directory operations are performed relative
-to a context. There are no absolute roots.
-Therefore JNDI defines an <em>initial context</em>, 
-<tt>InitialContext</tt>,
-which provides a starting point for naming and directory operations.
-Once you have an initial context, you can use it to
-look up other contexts and objects.
+In JNDI, bll nbming bnd directory operbtions bre performed relbtive
+to b context. There bre no bbsolute roots.
+Therefore JNDI defines bn <em>initibl context</em>, 
+<tt>InitiblContext</tt>,
+which provides b stbrting point for nbming bnd directory operbtions.
+Once you hbve bn initibl context, you cbn use it to
+look up other contexts bnd objects.
 
 <h4>Exceptions</h4>
 
-JNDI defines a class hierarchy for exceptions that can be thrown in
-the course of performing naming and directory operations.  The root of
-this class hierarchy is <tt>NamingException</tt>.
-Programs interested in dealing with a particular exception
-can catch the corresponding subclass of the exception.
-Otherwise, programs should catch <tt>NamingException</tt>.
+JNDI defines b clbss hierbrchy for exceptions thbt cbn be thrown in
+the course of performing nbming bnd directory operbtions.  The root of
+this clbss hierbrchy is <tt>NbmingException</tt>.
+Progrbms interested in debling with b pbrticulbr exception
+cbn cbtch the corresponding subclbss of the exception.
+Otherwise, progrbms should cbtch <tt>NbmingException</tt>.
 
 
-<h2>Package Specification</h2>
+<h2>Pbckbge Specificbtion</h2>
 
-The JNDI API Specification and related documents can be found in the
-<a href="../../../technotes/guides/jndi/index.html">JNDI documentation</a>.
+The JNDI API Specificbtion bnd relbted documents cbn be found in the
+<b href="../../../technotes/guides/jndi/index.html">JNDI documentbtion</b>.
 
 @since 1.3
 

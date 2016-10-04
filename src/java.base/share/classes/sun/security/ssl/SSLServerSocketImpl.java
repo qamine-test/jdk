@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
+import jbvb.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.net.Socket;
 
-import java.security.AlgorithmConstraints;
+import jbvb.security.AlgorithmConstrbints;
 
-import java.util.*;
+import jbvb.util.*;
 
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLParameters;
-import javax.net.ssl.SNIMatcher;
+import jbvbx.net.ssl.SSLException;
+import jbvbx.net.ssl.SSLServerSocket;
+import jbvbx.net.ssl.SSLPbrbmeters;
+import jbvbx.net.ssl.SNIMbtcher;
 
 
 /**
- * This class provides a simple way for servers to support conventional
- * use of the Secure Sockets Layer (SSL).  Application code uses an
- * SSLServerSocketImpl exactly like it uses a regular TCP ServerSocket; the
- * difference is that the connections established are secured using SSL.
+ * This clbss provides b simple wby for servers to support conventionbl
+ * use of the Secure Sockets Lbyer (SSL).  Applicbtion code uses bn
+ * SSLServerSocketImpl exbctly like it uses b regulbr TCP ServerSocket; the
+ * difference is thbt the connections estbblished bre secured using SSL.
  *
- * <P> Also, the constructors take an explicit authentication context
- * parameter, giving flexibility with respect to how the server socket
- * authenticates itself.  That policy flexibility is not exposed through
- * the standard SSLServerSocketFactory API.
+ * <P> Also, the constructors tbke bn explicit buthenticbtion context
+ * pbrbmeter, giving flexibility with respect to how the server socket
+ * buthenticbtes itself.  Thbt policy flexibility is not exposed through
+ * the stbndbrd SSLServerSocketFbctory API.
  *
- * <P> System security defaults prevent server sockets from accepting
- * connections if they the authentication context has not been given
- * a certificate chain and its matching private key.  If the clients
- * of your application support "anonymous" cipher suites, you may be
- * able to configure a server socket to accept those suites.
+ * <P> System security defbults prevent server sockets from bccepting
+ * connections if they the buthenticbtion context hbs not been given
+ * b certificbte chbin bnd its mbtching privbte key.  If the clients
+ * of your bpplicbtion support "bnonymous" cipher suites, you mby be
+ * bble to configure b server socket to bccept those suites.
  *
  * @see SSLSocketImpl
- * @see SSLServerSocketFactoryImpl
+ * @see SSLServerSocketFbctoryImpl
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-final
-class SSLServerSocketImpl extends SSLServerSocket
+finbl
+clbss SSLServerSocketImpl extends SSLServerSocket
 {
-    private SSLContextImpl      sslContext;
+    privbte SSLContextImpl      sslContext;
 
-    /* Do newly accepted connections require clients to authenticate? */
-    private byte                doClientAuth = SSLEngineImpl.clauth_none;
+    /* Do newly bccepted connections require clients to buthenticbte? */
+    privbte byte                doClientAuth = SSLEngineImpl.clbuth_none;
 
-    /* Do new connections created here use the "server" mode of SSL? */
-    private boolean             useServerMode = true;
+    /* Do new connections crebted here use the "server" mode of SSL? */
+    privbte boolebn             useServerMode = true;
 
-    /* Can new connections created establish new sessions? */
-    private boolean             enableSessionCreation = true;
+    /* Cbn new connections crebted estbblish new sessions? */
+    privbte boolebn             enbbleSessionCrebtion = true;
 
-    /* what cipher suites to use by default */
-    private CipherSuiteList     enabledCipherSuites = null;
+    /* whbt cipher suites to use by defbult */
+    privbte CipherSuiteList     enbbledCipherSuites = null;
 
-    /* which protocol to use by default */
-    private ProtocolList        enabledProtocols = null;
+    /* which protocol to use by defbult */
+    privbte ProtocolList        enbbledProtocols = null;
 
-    // the endpoint identification protocol to use by default
-    private String              identificationProtocol = null;
+    // the endpoint identificbtion protocol to use by defbult
+    privbte String              identificbtionProtocol = null;
 
-    // The cryptographic algorithm constraints
-    private AlgorithmConstraints    algorithmConstraints = null;
+    // The cryptogrbphic blgorithm constrbints
+    privbte AlgorithmConstrbints    blgorithmConstrbints = null;
 
-    // The server name indication
-    Collection<SNIMatcher>      sniMatchers =
-                                    Collections.<SNIMatcher>emptyList();
+    // The server nbme indicbtion
+    Collection<SNIMbtcher>      sniMbtchers =
+                                    Collections.<SNIMbtcher>emptyList();
 
     /*
-     * Whether local cipher suites preference in server side should be
-     * honored during handshaking?
+     * Whether locbl cipher suites preference in server side should be
+     * honored during hbndshbking?
      */
-    private boolean             preferLocalCipherSuites = false;
+    privbte boolebn             preferLocblCipherSuites = fblse;
 
     /**
-     * Create an SSL server socket on a port, using a non-default
-     * authentication context and a specified connection backlog.
+     * Crebte bn SSL server socket on b port, using b non-defbult
+     * buthenticbtion context bnd b specified connection bbcklog.
      *
-     * @param port the port on which to listen
-     * @param backlog how many connections may be pending before
-     *          the system should start rejecting new requests
-     * @param context authentication context for this server
+     * @pbrbm port the port on which to listen
+     * @pbrbm bbcklog how mbny connections mby be pending before
+     *          the system should stbrt rejecting new requests
+     * @pbrbm context buthenticbtion context for this server
      */
-    SSLServerSocketImpl(int port, int backlog, SSLContextImpl context)
+    SSLServerSocketImpl(int port, int bbcklog, SSLContextImpl context)
     throws IOException, SSLException
     {
-        super(port, backlog);
+        super(port, bbcklog);
         initServer(context);
     }
 
 
     /**
-     * Create an SSL server socket on a port, using a specified
-     * authentication context and a specified backlog of connections
-     * as well as a particular specified network interface.  This
-     * constructor is used on multihomed hosts, such as those used
-     * for firewalls or as routers, to control through which interface
-     * a network service is provided.
+     * Crebte bn SSL server socket on b port, using b specified
+     * buthenticbtion context bnd b specified bbcklog of connections
+     * bs well bs b pbrticulbr specified network interfbce.  This
+     * constructor is used on multihomed hosts, such bs those used
+     * for firewblls or bs routers, to control through which interfbce
+     * b network service is provided.
      *
-     * @param port the port on which to listen
-     * @param backlog how many connections may be pending before
-     *          the system should start rejecting new requests
-     * @param address the address of the network interface through
-     *          which connections will be accepted
-     * @param context authentication context for this server
+     * @pbrbm port the port on which to listen
+     * @pbrbm bbcklog how mbny connections mby be pending before
+     *          the system should stbrt rejecting new requests
+     * @pbrbm bddress the bddress of the network interfbce through
+     *          which connections will be bccepted
+     * @pbrbm context buthenticbtion context for this server
      */
     SSLServerSocketImpl(
         int             port,
-        int             backlog,
-        InetAddress     address,
+        int             bbcklog,
+        InetAddress     bddress,
         SSLContextImpl  context)
         throws IOException
     {
-        super(port, backlog, address);
+        super(port, bbcklog, bddress);
         initServer(context);
     }
 
 
     /**
-     * Creates an unbound server socket.
+     * Crebtes bn unbound server socket.
      */
     SSLServerSocketImpl(SSLContextImpl context) throws IOException {
         super();
@@ -152,198 +152,198 @@ class SSLServerSocketImpl extends SSLServerSocket
 
 
     /**
-     * Initializes the server socket.
+     * Initiblizes the server socket.
      */
-    private void initServer(SSLContextImpl context) throws SSLException {
+    privbte void initServer(SSLContextImpl context) throws SSLException {
         if (context == null) {
-            throw new SSLException("No Authentication context given");
+            throw new SSLException("No Authenticbtion context given");
         }
         sslContext = context;
-        enabledCipherSuites = sslContext.getDefaultCipherSuiteList(true);
-        enabledProtocols = sslContext.getDefaultProtocolList(true);
+        enbbledCipherSuites = sslContext.getDefbultCipherSuiteList(true);
+        enbbledProtocols = sslContext.getDefbultProtocolList(true);
     }
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on an SSL connection.  Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not support the mutual authentication of servers and clients, or
-     * which do not protect data confidentiality.  Servers may also need
-     * certain kinds of certificates to use certain cipher suites.
+     * Returns the nbmes of the cipher suites which could be enbbled for use
+     * on bn SSL connection.  Normblly, only b subset of these will bctublly
+     * be enbbled by defbult, since this list mby include cipher suites which
+     * do not support the mutubl buthenticbtion of servers bnd clients, or
+     * which do not protect dbtb confidentiblity.  Servers mby blso need
+     * certbin kinds of certificbtes to use certbin cipher suites.
      *
-     * @return an array of cipher suite names
+     * @return bn brrby of cipher suite nbmes
      */
     @Override
     public String[] getSupportedCipherSuites() {
-        return sslContext.getSupportedCipherSuiteList().toStringArray();
+        return sslContext.getSupportedCipherSuiteList().toStringArrby();
     }
 
     /**
-     * Returns the list of cipher suites which are currently enabled
-     * for use by newly accepted connections.  A null return indicates
-     * that the system defaults are in effect.
+     * Returns the list of cipher suites which bre currently enbbled
+     * for use by newly bccepted connections.  A null return indicbtes
+     * thbt the system defbults bre in effect.
      */
     @Override
-    synchronized public String[] getEnabledCipherSuites() {
-        return enabledCipherSuites.toStringArray();
+    synchronized public String[] getEnbbledCipherSuites() {
+        return enbbledCipherSuites.toStringArrby();
     }
 
     /**
-     * Controls which particular SSL cipher suites are enabled for use
-     * by accepted connections.
+     * Controls which pbrticulbr SSL cipher suites bre enbbled for use
+     * by bccepted connections.
      *
-     * @param suites Names of all the cipher suites to enable; null
-     *  means to accept system defaults.
+     * @pbrbm suites Nbmes of bll the cipher suites to enbble; null
+     *  mebns to bccept system defbults.
      */
     @Override
-    synchronized public void setEnabledCipherSuites(String[] suites) {
-        enabledCipherSuites = new CipherSuiteList(suites);
+    synchronized public void setEnbbledCipherSuites(String[] suites) {
+        enbbledCipherSuites = new CipherSuiteList(suites);
     }
 
     @Override
     public String[] getSupportedProtocols() {
-        return sslContext.getSuportedProtocolList().toStringArray();
+        return sslContext.getSuportedProtocolList().toStringArrby();
     }
 
     /**
-     * Controls which protocols are enabled for use.
-     * The protocols must have been listed by
-     * getSupportedProtocols() as being supported.
+     * Controls which protocols bre enbbled for use.
+     * The protocols must hbve been listed by
+     * getSupportedProtocols() bs being supported.
      *
-     * @param protocols protocols to enable.
-     * @exception IllegalArgumentException when one of the protocols
-     *  named by the parameter is not supported.
+     * @pbrbm protocols protocols to enbble.
+     * @exception IllegblArgumentException when one of the protocols
+     *  nbmed by the pbrbmeter is not supported.
      */
     @Override
-    synchronized public void setEnabledProtocols(String[] protocols) {
-        enabledProtocols = new ProtocolList(protocols);
+    synchronized public void setEnbbledProtocols(String[] protocols) {
+        enbbledProtocols = new ProtocolList(protocols);
     }
 
     @Override
-    synchronized public String[] getEnabledProtocols() {
-        return enabledProtocols.toStringArray();
+    synchronized public String[] getEnbbledProtocols() {
+        return enbbledProtocols.toStringArrby();
     }
 
     /**
-     * Controls whether the connections which are accepted must include
-     * client authentication.
+     * Controls whether the connections which bre bccepted must include
+     * client buthenticbtion.
      */
     @Override
-    public void setNeedClientAuth(boolean flag) {
-        doClientAuth = (flag ?
-            SSLEngineImpl.clauth_required : SSLEngineImpl.clauth_none);
+    public void setNeedClientAuth(boolebn flbg) {
+        doClientAuth = (flbg ?
+            SSLEngineImpl.clbuth_required : SSLEngineImpl.clbuth_none);
     }
 
     @Override
-    public boolean getNeedClientAuth() {
-        return (doClientAuth == SSLEngineImpl.clauth_required);
+    public boolebn getNeedClientAuth() {
+        return (doClientAuth == SSLEngineImpl.clbuth_required);
     }
 
     /**
-     * Controls whether the connections which are accepted should request
-     * client authentication.
+     * Controls whether the connections which bre bccepted should request
+     * client buthenticbtion.
      */
     @Override
-    public void setWantClientAuth(boolean flag) {
-        doClientAuth = (flag ?
-            SSLEngineImpl.clauth_requested : SSLEngineImpl.clauth_none);
+    public void setWbntClientAuth(boolebn flbg) {
+        doClientAuth = (flbg ?
+            SSLEngineImpl.clbuth_requested : SSLEngineImpl.clbuth_none);
     }
 
     @Override
-    public boolean getWantClientAuth() {
-        return (doClientAuth == SSLEngineImpl.clauth_requested);
+    public boolebn getWbntClientAuth() {
+        return (doClientAuth == SSLEngineImpl.clbuth_requested);
     }
 
     /**
-     * Makes the returned sockets act in SSL "client" mode, not the usual
-     * server mode.  The canonical example of why this is needed is for
-     * FTP clients, which accept connections from servers and should be
-     * rejoining the already-negotiated SSL connection.
+     * Mbkes the returned sockets bct in SSL "client" mode, not the usubl
+     * server mode.  The cbnonicbl exbmple of why this is needed is for
+     * FTP clients, which bccept connections from servers bnd should be
+     * rejoining the blrebdy-negotibted SSL connection.
      */
     @Override
-    public void setUseClientMode(boolean flag) {
+    public void setUseClientMode(boolebn flbg) {
         /*
-         * If we need to change the socket mode and the enabled
-         * protocols haven't specifically been set by the user,
-         * change them to the corresponding default ones.
+         * If we need to chbnge the socket mode bnd the enbbled
+         * protocols hbven't specificblly been set by the user,
+         * chbnge them to the corresponding defbult ones.
          */
-        if (useServerMode != (!flag) &&
-                sslContext.isDefaultProtocolList(enabledProtocols)) {
-            enabledProtocols = sslContext.getDefaultProtocolList(!flag);
+        if (useServerMode != (!flbg) &&
+                sslContext.isDefbultProtocolList(enbbledProtocols)) {
+            enbbledProtocols = sslContext.getDefbultProtocolList(!flbg);
         }
 
-        useServerMode = !flag;
+        useServerMode = !flbg;
     }
 
     @Override
-    public boolean getUseClientMode() {
+    public boolebn getUseClientMode() {
         return !useServerMode;
     }
 
 
     /**
-     * Controls whether new connections may cause creation of new SSL
+     * Controls whether new connections mby cbuse crebtion of new SSL
      * sessions.
      */
     @Override
-    public void setEnableSessionCreation(boolean flag) {
-        enableSessionCreation = flag;
+    public void setEnbbleSessionCrebtion(boolebn flbg) {
+        enbbleSessionCrebtion = flbg;
     }
 
     /**
-     * Returns true if new connections may cause creation of new SSL
+     * Returns true if new connections mby cbuse crebtion of new SSL
      * sessions.
      */
     @Override
-    public boolean getEnableSessionCreation() {
-        return enableSessionCreation;
+    public boolebn getEnbbleSessionCrebtion() {
+        return enbbleSessionCrebtion;
     }
 
     /**
-     * Returns the SSLParameters in effect for newly accepted connections.
+     * Returns the SSLPbrbmeters in effect for newly bccepted connections.
      */
     @Override
-    synchronized public SSLParameters getSSLParameters() {
-        SSLParameters params = super.getSSLParameters();
+    synchronized public SSLPbrbmeters getSSLPbrbmeters() {
+        SSLPbrbmeters pbrbms = super.getSSLPbrbmeters();
 
-        // the super implementation does not handle the following parameters
-        params.setEndpointIdentificationAlgorithm(identificationProtocol);
-        params.setAlgorithmConstraints(algorithmConstraints);
-        params.setSNIMatchers(sniMatchers);
-        params.setUseCipherSuitesOrder(preferLocalCipherSuites);
+        // the super implementbtion does not hbndle the following pbrbmeters
+        pbrbms.setEndpointIdentificbtionAlgorithm(identificbtionProtocol);
+        pbrbms.setAlgorithmConstrbints(blgorithmConstrbints);
+        pbrbms.setSNIMbtchers(sniMbtchers);
+        pbrbms.setUseCipherSuitesOrder(preferLocblCipherSuites);
 
 
-        return params;
+        return pbrbms;
     }
 
     /**
-     * Applies SSLParameters to newly accepted connections.
+     * Applies SSLPbrbmeters to newly bccepted connections.
      */
     @Override
-    synchronized public void setSSLParameters(SSLParameters params) {
-        super.setSSLParameters(params);
+    synchronized public void setSSLPbrbmeters(SSLPbrbmeters pbrbms) {
+        super.setSSLPbrbmeters(pbrbms);
 
-        // the super implementation does not handle the following parameters
-        identificationProtocol = params.getEndpointIdentificationAlgorithm();
-        algorithmConstraints = params.getAlgorithmConstraints();
-        preferLocalCipherSuites = params.getUseCipherSuitesOrder();
-        Collection<SNIMatcher> matchers = params.getSNIMatchers();
-        if (matchers != null) {
-            sniMatchers = params.getSNIMatchers();
+        // the super implementbtion does not hbndle the following pbrbmeters
+        identificbtionProtocol = pbrbms.getEndpointIdentificbtionAlgorithm();
+        blgorithmConstrbints = pbrbms.getAlgorithmConstrbints();
+        preferLocblCipherSuites = pbrbms.getUseCipherSuitesOrder();
+        Collection<SNIMbtcher> mbtchers = pbrbms.getSNIMbtchers();
+        if (mbtchers != null) {
+            sniMbtchers = pbrbms.getSNIMbtchers();
         }
     }
 
     /**
-     * Accept a new SSL connection.  This server identifies itself with
-     * information provided in the authentication context which was
+     * Accept b new SSL connection.  This server identifies itself with
+     * informbtion provided in the buthenticbtion context which wbs
      * presented during construction.
      */
     @Override
-    public Socket accept() throws IOException {
+    public Socket bccept() throws IOException {
         SSLSocketImpl s = new SSLSocketImpl(sslContext, useServerMode,
-            enabledCipherSuites, doClientAuth, enableSessionCreation,
-            enabledProtocols, identificationProtocol, algorithmConstraints,
-            sniMatchers, preferLocalCipherSuites);
+            enbbledCipherSuites, doClientAuth, enbbleSessionCrebtion,
+            enbbledProtocols, identificbtionProtocol, blgorithmConstrbints,
+            sniMbtchers, preferLocblCipherSuites);
 
         implAccept(s);
         s.doneConnect();
@@ -351,7 +351,7 @@ class SSLServerSocketImpl extends SSLServerSocket
     }
 
     /**
-     * Provides a brief description of this SSL socket.
+     * Provides b brief description of this SSL socket.
      */
     @Override
     public String toString() {

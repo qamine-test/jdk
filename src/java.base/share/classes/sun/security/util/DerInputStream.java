@@ -1,584 +1,584 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.EOFException;
-import java.util.Date;
-import java.util.Vector;
-import java.math.BigInteger;
-import java.io.DataInputStream;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.EOFException;
+import jbvb.util.Dbte;
+import jbvb.util.Vector;
+import jbvb.mbth.BigInteger;
+import jbvb.io.DbtbInputStrebm;
 
 /**
- * A DER input stream, used for parsing ASN.1 DER-encoded data such as
- * that found in X.509 certificates.  DER is a subset of BER/1, which has
- * the advantage that it allows only a single encoding of primitive data.
- * (High level data such as dates still support many encodings.)  That is,
- * it uses the "Definite" Encoding Rules (DER) not the "Basic" ones (BER).
+ * A DER input strebm, used for pbrsing ASN.1 DER-encoded dbtb such bs
+ * thbt found in X.509 certificbtes.  DER is b subset of BER/1, which hbs
+ * the bdvbntbge thbt it bllows only b single encoding of primitive dbtb.
+ * (High level dbtb such bs dbtes still support mbny encodings.)  Thbt is,
+ * it uses the "Definite" Encoding Rules (DER) not the "Bbsic" ones (BER).
  *
- * <P>Note that, like BER/1, DER streams are streams of explicitly
- * tagged data values.  Accordingly, this programming interface does
- * not expose any variant of the java.io.InputStream interface, since
- * that kind of input stream holds untagged data values and using that
- * I/O model could prevent correct parsing of the DER data.
+ * <P>Note thbt, like BER/1, DER strebms bre strebms of explicitly
+ * tbgged dbtb vblues.  Accordingly, this progrbmming interfbce does
+ * not expose bny vbribnt of the jbvb.io.InputStrebm interfbce, since
+ * thbt kind of input strebm holds untbgged dbtb vblues bnd using thbt
+ * I/O model could prevent correct pbrsing of the DER dbtb.
  *
- * <P>At this time, this class supports only a subset of the types of DER
- * data encodings which are defined.  That subset is sufficient for parsing
- * most X.509 certificates.
+ * <P>At this time, this clbss supports only b subset of the types of DER
+ * dbtb encodings which bre defined.  Thbt subset is sufficient for pbrsing
+ * most X.509 certificbtes.
  *
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Dbvid Brownell
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
 
-public class DerInputStream {
+public clbss DerInputStrebm {
 
     /*
-     * This version only supports fully buffered DER.  This is easy to
-     * work with, though if large objects are manipulated DER becomes
-     * awkward to deal with.  That's where BER is useful, since BER
-     * handles streaming data relatively well.
+     * This version only supports fully buffered DER.  This is ebsy to
+     * work with, though if lbrge objects bre mbnipulbted DER becomes
+     * bwkwbrd to debl with.  Thbt's where BER is useful, since BER
+     * hbndles strebming dbtb relbtively well.
      */
     DerInputBuffer      buffer;
 
-    /** The DER tag of the value; one of the tag_ constants. */
-    public byte         tag;
+    /** The DER tbg of the vblue; one of the tbg_ constbnts. */
+    public byte         tbg;
 
     /**
-     * Create a DER input stream from a data buffer.  The buffer is not
-     * copied, it is shared.  Accordingly, the buffer should be treated
-     * as read-only.
+     * Crebte b DER input strebm from b dbtb buffer.  The buffer is not
+     * copied, it is shbred.  Accordingly, the buffer should be trebted
+     * bs rebd-only.
      *
-     * @param data the buffer from which to create the string (CONSUMED)
+     * @pbrbm dbtb the buffer from which to crebte the string (CONSUMED)
      */
-    public DerInputStream(byte[] data) throws IOException {
-        init(data, 0, data.length);
+    public DerInputStrebm(byte[] dbtb) throws IOException {
+        init(dbtb, 0, dbtb.length);
     }
 
     /**
-     * Create a DER input stream from part of a data buffer.
-     * The buffer is not copied, it is shared.  Accordingly, the
-     * buffer should be treated as read-only.
+     * Crebte b DER input strebm from pbrt of b dbtb buffer.
+     * The buffer is not copied, it is shbred.  Accordingly, the
+     * buffer should be trebted bs rebd-only.
      *
-     * @param data the buffer from which to create the string (CONSUMED)
-     * @param offset the first index of <em>data</em> which will
-     *          be read as DER input in the new stream
-     * @param len how long a chunk of the buffer to use,
-     *          starting at "offset"
+     * @pbrbm dbtb the buffer from which to crebte the string (CONSUMED)
+     * @pbrbm offset the first index of <em>dbtb</em> which will
+     *          be rebd bs DER input in the new strebm
+     * @pbrbm len how long b chunk of the buffer to use,
+     *          stbrting bt "offset"
      */
-    public DerInputStream(byte[] data, int offset, int len) throws IOException {
-        init(data, offset, len);
+    public DerInputStrebm(byte[] dbtb, int offset, int len) throws IOException {
+        init(dbtb, offset, len);
     }
 
     /*
-     * private helper routine
+     * privbte helper routine
      */
-    private void init(byte[] data, int offset, int len) throws IOException {
-        if ((offset+2 > data.length) || (offset+len > data.length)) {
+    privbte void init(byte[] dbtb, int offset, int len) throws IOException {
+        if ((offset+2 > dbtb.length) || (offset+len > dbtb.length)) {
             throw new IOException("Encoding bytes too short");
         }
         // check for indefinite length encoding
-        if (DerIndefLenConverter.isIndefinite(data[offset+1])) {
-            byte[] inData = new byte[len];
-            System.arraycopy(data, offset, inData, 0, len);
+        if (DerIndefLenConverter.isIndefinite(dbtb[offset+1])) {
+            byte[] inDbtb = new byte[len];
+            System.brrbycopy(dbtb, offset, inDbtb, 0, len);
 
             DerIndefLenConverter derIn = new DerIndefLenConverter();
-            buffer = new DerInputBuffer(derIn.convert(inData));
+            buffer = new DerInputBuffer(derIn.convert(inDbtb));
         } else
-            buffer = new DerInputBuffer(data, offset, len);
-        buffer.mark(Integer.MAX_VALUE);
+            buffer = new DerInputBuffer(dbtb, offset, len);
+        buffer.mbrk(Integer.MAX_VALUE);
     }
 
-    DerInputStream(DerInputBuffer buf) {
+    DerInputStrebm(DerInputBuffer buf) {
         buffer = buf;
-        buffer.mark(Integer.MAX_VALUE);
+        buffer.mbrk(Integer.MAX_VALUE);
     }
 
     /**
-     * Creates a new DER input stream from part of this input stream.
+     * Crebtes b new DER input strebm from pbrt of this input strebm.
      *
-     * @param len how long a chunk of the current input stream to use,
-     *          starting at the current position.
-     * @param do_skip true if the existing data in the input stream should
-     *          be skipped.  If this value is false, the next data read
-     *          on this stream and the newly created stream will be the
-     *          same.
+     * @pbrbm len how long b chunk of the current input strebm to use,
+     *          stbrting bt the current position.
+     * @pbrbm do_skip true if the existing dbtb in the input strebm should
+     *          be skipped.  If this vblue is fblse, the next dbtb rebd
+     *          on this strebm bnd the newly crebted strebm will be the
+     *          sbme.
      */
-    public DerInputStream subStream(int len, boolean do_skip)
+    public DerInputStrebm subStrebm(int len, boolebn do_skip)
     throws IOException {
         DerInputBuffer  newbuf = buffer.dup();
 
-        newbuf.truncate(len);
+        newbuf.truncbte(len);
         if (do_skip) {
             buffer.skip(len);
         }
-        return new DerInputStream(newbuf);
+        return new DerInputStrebm(newbuf);
     }
 
     /**
-     * Return what has been written to this DerInputStream
-     * as a byte array. Useful for debugging.
+     * Return whbt hbs been written to this DerInputStrebm
+     * bs b byte brrby. Useful for debugging.
      */
-    public byte[] toByteArray() {
-        return buffer.toByteArray();
+    public byte[] toByteArrby() {
+        return buffer.toByteArrby();
     }
 
     /*
-     * PRIMITIVES -- these are "universal" ASN.1 simple types.
+     * PRIMITIVES -- these bre "universbl" ASN.1 simple types.
      *
      *  INTEGER, ENUMERATED, BIT STRING, OCTET STRING, NULL
      *  OBJECT IDENTIFIER, SEQUENCE (OF), SET (OF)
-     *  UTF8String, PrintableString, T61String, IA5String, UTCTime,
-     *  GeneralizedTime, BMPString.
-     * Note: UniversalString not supported till encoder is available.
+     *  UTF8String, PrintbbleString, T61String, IA5String, UTCTime,
+     *  GenerblizedTime, BMPString.
+     * Note: UniversblString not supported till encoder is bvbilbble.
      */
 
     /**
-     * Get an integer from the input stream as an integer.
+     * Get bn integer from the input strebm bs bn integer.
      *
-     * @return the integer held in this DER input stream.
+     * @return the integer held in this DER input strebm.
      */
     public int getInteger() throws IOException {
-        if (buffer.read() != DerValue.tag_Integer) {
-            throw new IOException("DER input, Integer tag error");
+        if (buffer.rebd() != DerVblue.tbg_Integer) {
+            throw new IOException("DER input, Integer tbg error");
         }
         return buffer.getInteger(getDefiniteLength(buffer));
     }
 
     /**
-     * Get a integer from the input stream as a BigInteger object.
+     * Get b integer from the input strebm bs b BigInteger object.
      *
-     * @return the integer held in this DER input stream.
+     * @return the integer held in this DER input strebm.
      */
     public BigInteger getBigInteger() throws IOException {
-        if (buffer.read() != DerValue.tag_Integer) {
-            throw new IOException("DER input, Integer tag error");
+        if (buffer.rebd() != DerVblue.tbg_Integer) {
+            throw new IOException("DER input, Integer tbg error");
         }
-        return buffer.getBigInteger(getDefiniteLength(buffer), false);
+        return buffer.getBigInteger(getDefiniteLength(buffer), fblse);
     }
 
     /**
-     * Returns an ASN.1 INTEGER value as a positive BigInteger.
-     * This is just to deal with implementations that incorrectly encode
-     * some values as negative.
+     * Returns bn ASN.1 INTEGER vblue bs b positive BigInteger.
+     * This is just to debl with implementbtions thbt incorrectly encode
+     * some vblues bs negbtive.
      *
-     * @return the integer held in this DER value as a BigInteger.
+     * @return the integer held in this DER vblue bs b BigInteger.
      */
     public BigInteger getPositiveBigInteger() throws IOException {
-        if (buffer.read() != DerValue.tag_Integer) {
-            throw new IOException("DER input, Integer tag error");
+        if (buffer.rebd() != DerVblue.tbg_Integer) {
+            throw new IOException("DER input, Integer tbg error");
         }
         return buffer.getBigInteger(getDefiniteLength(buffer), true);
     }
 
     /**
-     * Get an enumerated from the input stream.
+     * Get bn enumerbted from the input strebm.
      *
-     * @return the integer held in this DER input stream.
+     * @return the integer held in this DER input strebm.
      */
-    public int getEnumerated() throws IOException {
-        if (buffer.read() != DerValue.tag_Enumerated) {
-            throw new IOException("DER input, Enumerated tag error");
+    public int getEnumerbted() throws IOException {
+        if (buffer.rebd() != DerVblue.tbg_Enumerbted) {
+            throw new IOException("DER input, Enumerbted tbg error");
         }
         return buffer.getInteger(getDefiniteLength(buffer));
     }
 
     /**
-     * Get a bit string from the input stream. Padded bits (if any)
+     * Get b bit string from the input strebm. Pbdded bits (if bny)
      * will be stripped off before the bit string is returned.
      */
     public byte[] getBitString() throws IOException {
-        if (buffer.read() != DerValue.tag_BitString)
-            throw new IOException("DER input not an bit string");
+        if (buffer.rebd() != DerVblue.tbg_BitString)
+            throw new IOException("DER input not bn bit string");
 
         return buffer.getBitString(getDefiniteLength(buffer));
     }
 
     /**
-     * Get a bit string from the input stream.  The bit string need
-     * not be byte-aligned.
+     * Get b bit string from the input strebm.  The bit string need
+     * not be byte-bligned.
      */
-    public BitArray getUnalignedBitString() throws IOException {
-        if (buffer.read() != DerValue.tag_BitString) {
-            throw new IOException("DER input not a bit string");
+    public BitArrby getUnblignedBitString() throws IOException {
+        if (buffer.rebd() != DerVblue.tbg_BitString) {
+            throw new IOException("DER input not b bit string");
         }
 
         int length = getDefiniteLength(buffer);
 
         if (length == 0) {
-            return new BitArray(0);
+            return new BitArrby(0);
         }
 
         /*
-         * First byte = number of excess bits in the last octet of the
-         * representation.
+         * First byte = number of excess bits in the lbst octet of the
+         * representbtion.
          */
         length--;
-        int validBits = length*8 - buffer.read();
-        if (validBits < 0) {
-            throw new IOException("valid bits of bit string invalid");
+        int vblidBits = length*8 - buffer.rebd();
+        if (vblidBits < 0) {
+            throw new IOException("vblid bits of bit string invblid");
         }
 
         byte[] repn = new byte[length];
 
-        if ((length != 0) && (buffer.read(repn) != length)) {
-            throw new IOException("short read of DER bit string");
+        if ((length != 0) && (buffer.rebd(repn) != length)) {
+            throw new IOException("short rebd of DER bit string");
         }
 
-        return new BitArray(validBits, repn);
+        return new BitArrby(vblidBits, repn);
     }
 
     /**
-     * Returns an ASN.1 OCTET STRING from the input stream.
+     * Returns bn ASN.1 OCTET STRING from the input strebm.
      */
     public byte[] getOctetString() throws IOException {
-        if (buffer.read() != DerValue.tag_OctetString)
-            throw new IOException("DER input not an octet string");
+        if (buffer.rebd() != DerVblue.tbg_OctetString)
+            throw new IOException("DER input not bn octet string");
 
         int length = getDefiniteLength(buffer);
-        byte[] retval = new byte[length];
-        if ((length != 0) && (buffer.read(retval) != length))
-            throw new IOException("short read of DER octet string");
+        byte[] retvbl = new byte[length];
+        if ((length != 0) && (buffer.rebd(retvbl) != length))
+            throw new IOException("short rebd of DER octet string");
 
-        return retval;
+        return retvbl;
     }
 
     /**
-     * Returns the asked number of bytes from the input stream.
+     * Returns the bsked number of bytes from the input strebm.
      */
-    public void getBytes(byte[] val) throws IOException {
-        if ((val.length != 0) && (buffer.read(val) != val.length)) {
-            throw new IOException("short read of DER octet string");
+    public void getBytes(byte[] vbl) throws IOException {
+        if ((vbl.length != 0) && (buffer.rebd(vbl) != vbl.length)) {
+            throw new IOException("short rebd of DER octet string");
         }
     }
 
     /**
-     * Reads an encoded null value from the input stream.
+     * Rebds bn encoded null vblue from the input strebm.
      */
     public void getNull() throws IOException {
-        if (buffer.read() != DerValue.tag_Null || buffer.read() != 0)
-            throw new IOException("getNull, bad data");
+        if (buffer.rebd() != DerVblue.tbg_Null || buffer.rebd() != 0)
+            throw new IOException("getNull, bbd dbtb");
     }
 
     /**
-     * Reads an X.200 style Object Identifier from the stream.
+     * Rebds bn X.200 style Object Identifier from the strebm.
      */
     public ObjectIdentifier getOID() throws IOException {
         return new ObjectIdentifier(this);
     }
 
     /**
-     * Return a sequence of encoded entities.  ASN.1 sequences are
-     * ordered, and they are often used, like a "struct" in C or C++,
-     * to group data values.  They may have optional or context
-     * specific values.
+     * Return b sequence of encoded entities.  ASN.1 sequences bre
+     * ordered, bnd they bre often used, like b "struct" in C or C++,
+     * to group dbtb vblues.  They mby hbve optionbl or context
+     * specific vblues.
      *
-     * @param startLen guess about how long the sequence will be
-     *          (used to initialize an auto-growing data structure)
-     * @return array of the values in the sequence
+     * @pbrbm stbrtLen guess bbout how long the sequence will be
+     *          (used to initiblize bn buto-growing dbtb structure)
+     * @return brrby of the vblues in the sequence
      */
-    public DerValue[] getSequence(int startLen) throws IOException {
-        tag = (byte)buffer.read();
-        if (tag != DerValue.tag_Sequence)
-            throw new IOException("Sequence tag error");
-        return readVector(startLen);
+    public DerVblue[] getSequence(int stbrtLen) throws IOException {
+        tbg = (byte)buffer.rebd();
+        if (tbg != DerVblue.tbg_Sequence)
+            throw new IOException("Sequence tbg error");
+        return rebdVector(stbrtLen);
     }
 
     /**
-     * Return a set of encoded entities.  ASN.1 sets are unordered,
-     * though DER may specify an order for some kinds of sets (such
-     * as the attributes in an X.500 relative distinguished name)
-     * to facilitate binary comparisons of encoded values.
+     * Return b set of encoded entities.  ASN.1 sets bre unordered,
+     * though DER mby specify bn order for some kinds of sets (such
+     * bs the bttributes in bn X.500 relbtive distinguished nbme)
+     * to fbcilitbte binbry compbrisons of encoded vblues.
      *
-     * @param startLen guess about how large the set will be
-     *          (used to initialize an auto-growing data structure)
-     * @return array of the values in the sequence
+     * @pbrbm stbrtLen guess bbout how lbrge the set will be
+     *          (used to initiblize bn buto-growing dbtb structure)
+     * @return brrby of the vblues in the sequence
      */
-    public DerValue[] getSet(int startLen) throws IOException {
-        tag = (byte)buffer.read();
-        if (tag != DerValue.tag_Set)
-            throw new IOException("Set tag error");
-        return readVector(startLen);
+    public DerVblue[] getSet(int stbrtLen) throws IOException {
+        tbg = (byte)buffer.rebd();
+        if (tbg != DerVblue.tbg_Set)
+            throw new IOException("Set tbg error");
+        return rebdVector(stbrtLen);
     }
 
     /**
-     * Return a set of encoded entities.  ASN.1 sets are unordered,
-     * though DER may specify an order for some kinds of sets (such
-     * as the attributes in an X.500 relative distinguished name)
-     * to facilitate binary comparisons of encoded values.
+     * Return b set of encoded entities.  ASN.1 sets bre unordered,
+     * though DER mby specify bn order for some kinds of sets (such
+     * bs the bttributes in bn X.500 relbtive distinguished nbme)
+     * to fbcilitbte binbry compbrisons of encoded vblues.
      *
-     * @param startLen guess about how large the set will be
-     *          (used to initialize an auto-growing data structure)
-     * @param implicit if true tag is assumed implicit.
-     * @return array of the values in the sequence
+     * @pbrbm stbrtLen guess bbout how lbrge the set will be
+     *          (used to initiblize bn buto-growing dbtb structure)
+     * @pbrbm implicit if true tbg is bssumed implicit.
+     * @return brrby of the vblues in the sequence
      */
-    public DerValue[] getSet(int startLen, boolean implicit)
+    public DerVblue[] getSet(int stbrtLen, boolebn implicit)
         throws IOException {
-        tag = (byte)buffer.read();
+        tbg = (byte)buffer.rebd();
         if (!implicit) {
-            if (tag != DerValue.tag_Set) {
-                throw new IOException("Set tag error");
+            if (tbg != DerVblue.tbg_Set) {
+                throw new IOException("Set tbg error");
             }
         }
-        return (readVector(startLen));
+        return (rebdVector(stbrtLen));
     }
 
     /*
-     * Read a "vector" of values ... set or sequence have the
-     * same encoding, except for the initial tag, so both use
-     * this same helper routine.
+     * Rebd b "vector" of vblues ... set or sequence hbve the
+     * sbme encoding, except for the initibl tbg, so both use
+     * this sbme helper routine.
      */
-    protected DerValue[] readVector(int startLen) throws IOException {
-        DerInputStream  newstr;
+    protected DerVblue[] rebdVector(int stbrtLen) throws IOException {
+        DerInputStrebm  newstr;
 
-        byte lenByte = (byte)buffer.read();
+        byte lenByte = (byte)buffer.rebd();
         int len = getLength((lenByte & 0xff), buffer);
 
         if (len == -1) {
            // indefinite length encoding found
-           int readLen = buffer.available();
-           int offset = 2;     // for tag and length bytes
-           byte[] indefData = new byte[readLen + offset];
-           indefData[0] = tag;
-           indefData[1] = lenByte;
-           DataInputStream dis = new DataInputStream(buffer);
-           dis.readFully(indefData, offset, readLen);
+           int rebdLen = buffer.bvbilbble();
+           int offset = 2;     // for tbg bnd length bytes
+           byte[] indefDbtb = new byte[rebdLen + offset];
+           indefDbtb[0] = tbg;
+           indefDbtb[1] = lenByte;
+           DbtbInputStrebm dis = new DbtbInputStrebm(buffer);
+           dis.rebdFully(indefDbtb, offset, rebdLen);
            dis.close();
            DerIndefLenConverter derIn = new DerIndefLenConverter();
-           buffer = new DerInputBuffer(derIn.convert(indefData));
-           if (tag != buffer.read())
+           buffer = new DerInputBuffer(derIn.convert(indefDbtb));
+           if (tbg != buffer.rebd())
                 throw new IOException("Indefinite length encoding" +
                         " not supported");
-           len = DerInputStream.getDefiniteLength(buffer);
+           len = DerInputStrebm.getDefiniteLength(buffer);
         }
 
         if (len == 0)
-            // return empty array instead of null, which should be
-            // used only for missing optionals
-            return new DerValue[0];
+            // return empty brrby instebd of null, which should be
+            // used only for missing optionbls
+            return new DerVblue[0];
 
         /*
-         * Create a temporary stream from which to read the data,
-         * unless it's not really needed.
+         * Crebte b temporbry strebm from which to rebd the dbtb,
+         * unless it's not reblly needed.
          */
-        if (buffer.available() == len)
+        if (buffer.bvbilbble() == len)
             newstr = this;
         else
-            newstr = subStream(len, true);
+            newstr = subStrebm(len, true);
 
         /*
-         * Pull values out of the stream.
+         * Pull vblues out of the strebm.
          */
-        Vector<DerValue> vec = new Vector<DerValue>(startLen);
-        DerValue value;
+        Vector<DerVblue> vec = new Vector<DerVblue>(stbrtLen);
+        DerVblue vblue;
 
         do {
-            value = new DerValue(newstr.buffer);
-            vec.addElement(value);
-        } while (newstr.available() > 0);
+            vblue = new DerVblue(newstr.buffer);
+            vec.bddElement(vblue);
+        } while (newstr.bvbilbble() > 0);
 
-        if (newstr.available() != 0)
-            throw new IOException("extra data at end of vector");
+        if (newstr.bvbilbble() != 0)
+            throw new IOException("extrb dbtb bt end of vector");
 
         /*
-         * Now stick them into the array we're returning.
+         * Now stick them into the brrby we're returning.
          */
-        int             i, max = vec.size();
-        DerValue[]      retval = new DerValue[max];
+        int             i, mbx = vec.size();
+        DerVblue[]      retvbl = new DerVblue[mbx];
 
-        for (i = 0; i < max; i++)
-            retval[i] = vec.elementAt(i);
+        for (i = 0; i < mbx; i++)
+            retvbl[i] = vec.elementAt(i);
 
-        return retval;
+        return retvbl;
     }
 
     /**
-     * Get a single DER-encoded value from the input stream.
-     * It can often be useful to pull a value from the stream
-     * and defer parsing it.  For example, you can pull a nested
-     * sequence out with one call, and only examine its elements
-     * later when you really need to.
+     * Get b single DER-encoded vblue from the input strebm.
+     * It cbn often be useful to pull b vblue from the strebm
+     * bnd defer pbrsing it.  For exbmple, you cbn pull b nested
+     * sequence out with one cbll, bnd only exbmine its elements
+     * lbter when you reblly need to.
      */
-    public DerValue getDerValue() throws IOException {
-        return new DerValue(buffer);
+    public DerVblue getDerVblue() throws IOException {
+        return new DerVblue(buffer);
     }
 
     /**
-     * Read a string that was encoded as a UTF8String DER value.
+     * Rebd b string thbt wbs encoded bs b UTF8String DER vblue.
      */
     public String getUTF8String() throws IOException {
-        return readString(DerValue.tag_UTF8String, "UTF-8", "UTF8");
+        return rebdString(DerVblue.tbg_UTF8String, "UTF-8", "UTF8");
     }
 
     /**
-     * Read a string that was encoded as a PrintableString DER value.
+     * Rebd b string thbt wbs encoded bs b PrintbbleString DER vblue.
      */
-    public String getPrintableString() throws IOException {
-        return readString(DerValue.tag_PrintableString, "Printable",
+    public String getPrintbbleString() throws IOException {
+        return rebdString(DerVblue.tbg_PrintbbleString, "Printbble",
                           "ASCII");
     }
 
     /**
-     * Read a string that was encoded as a T61String DER value.
+     * Rebd b string thbt wbs encoded bs b T61String DER vblue.
      */
     public String getT61String() throws IOException {
         /*
-         * Works for common characters between T61 and ASCII.
+         * Works for common chbrbcters between T61 bnd ASCII.
          */
-        return readString(DerValue.tag_T61String, "T61", "ISO-8859-1");
+        return rebdString(DerVblue.tbg_T61String, "T61", "ISO-8859-1");
     }
 
     /**
-     * Read a string that was encoded as a IA5tring DER value.
+     * Rebd b string thbt wbs encoded bs b IA5tring DER vblue.
      */
     public String getIA5String() throws IOException {
-        return readString(DerValue.tag_IA5String, "IA5", "ASCII");
+        return rebdString(DerVblue.tbg_IA5String, "IA5", "ASCII");
     }
 
     /**
-     * Read a string that was encoded as a BMPString DER value.
+     * Rebd b string thbt wbs encoded bs b BMPString DER vblue.
      */
     public String getBMPString() throws IOException {
-        return readString(DerValue.tag_BMPString, "BMP",
-                          "UnicodeBigUnmarked");
+        return rebdString(DerVblue.tbg_BMPString, "BMP",
+                          "UnicodeBigUnmbrked");
     }
 
     /**
-     * Read a string that was encoded as a GeneralString DER value.
+     * Rebd b string thbt wbs encoded bs b GenerblString DER vblue.
      */
-    public String getGeneralString() throws IOException {
-        return readString(DerValue.tag_GeneralString, "General",
+    public String getGenerblString() throws IOException {
+        return rebdString(DerVblue.tbg_GenerblString, "Generbl",
                           "ASCII");
     }
 
     /**
-     * Private helper routine to read an encoded string from the input
-     * stream.
-     * @param stringTag the tag for the type of string to read
-     * @param stringName a name to display in error messages
-     * @param enc the encoder to use to interpret the data. Should
-     * correspond to the stringTag above.
+     * Privbte helper routine to rebd bn encoded string from the input
+     * strebm.
+     * @pbrbm stringTbg the tbg for the type of string to rebd
+     * @pbrbm stringNbme b nbme to displby in error messbges
+     * @pbrbm enc the encoder to use to interpret the dbtb. Should
+     * correspond to the stringTbg bbove.
      */
-    private String readString(byte stringTag, String stringName,
+    privbte String rebdString(byte stringTbg, String stringNbme,
                               String enc) throws IOException {
 
-        if (buffer.read() != stringTag)
-            throw new IOException("DER input not a " +
-                                  stringName + " string");
+        if (buffer.rebd() != stringTbg)
+            throw new IOException("DER input not b " +
+                                  stringNbme + " string");
 
         int length = getDefiniteLength(buffer);
-        byte[] retval = new byte[length];
-        if ((length != 0) && (buffer.read(retval) != length))
-            throw new IOException("short read of DER " +
-                                  stringName + " string");
+        byte[] retvbl = new byte[length];
+        if ((length != 0) && (buffer.rebd(retvbl) != length))
+            throw new IOException("short rebd of DER " +
+                                  stringNbme + " string");
 
-        return new String(retval, enc);
+        return new String(retvbl, enc);
     }
 
     /**
-     * Get a UTC encoded time value from the input stream.
+     * Get b UTC encoded time vblue from the input strebm.
      */
-    public Date getUTCTime() throws IOException {
-        if (buffer.read() != DerValue.tag_UtcTime)
-            throw new IOException("DER input, UTCtime tag invalid ");
+    public Dbte getUTCTime() throws IOException {
+        if (buffer.rebd() != DerVblue.tbg_UtcTime)
+            throw new IOException("DER input, UTCtime tbg invblid ");
         return buffer.getUTCTime(getDefiniteLength(buffer));
     }
 
     /**
-     * Get a Generalized encoded time value from the input stream.
+     * Get b Generblized encoded time vblue from the input strebm.
      */
-    public Date getGeneralizedTime() throws IOException {
-        if (buffer.read() != DerValue.tag_GeneralizedTime)
-            throw new IOException("DER input, GeneralizedTime tag invalid ");
-        return buffer.getGeneralizedTime(getDefiniteLength(buffer));
+    public Dbte getGenerblizedTime() throws IOException {
+        if (buffer.rebd() != DerVblue.tbg_GenerblizedTime)
+            throw new IOException("DER input, GenerblizedTime tbg invblid ");
+        return buffer.getGenerblizedTime(getDefiniteLength(buffer));
     }
 
     /*
-     * Get a byte from the input stream.
+     * Get b byte from the input strebm.
      */
-    // package private
+    // pbckbge privbte
     int getByte() throws IOException {
-        return (0x00ff & buffer.read());
+        return (0x00ff & buffer.rebd());
     }
 
     public int peekByte() throws IOException {
         return buffer.peek();
     }
 
-    // package private
+    // pbckbge privbte
     int getLength() throws IOException {
         return getLength(buffer);
     }
 
     /*
-     * Get a length from the input stream, allowing for at most 32 bits of
-     * encoding to be used.  (Not the same as getting a tagged integer!)
+     * Get b length from the input strebm, bllowing for bt most 32 bits of
+     * encoding to be used.  (Not the sbme bs getting b tbgged integer!)
      *
      * @return the length or -1 if indefinite length found.
-     * @exception IOException on parsing error or unsupported lengths.
+     * @exception IOException on pbrsing error or unsupported lengths.
      */
-    static int getLength(InputStream in) throws IOException {
-        return getLength(in.read(), in);
+    stbtic int getLength(InputStrebm in) throws IOException {
+        return getLength(in.rebd(), in);
     }
 
     /*
-     * Get a length from the input stream, allowing for at most 32 bits of
-     * encoding to be used.  (Not the same as getting a tagged integer!)
+     * Get b length from the input strebm, bllowing for bt most 32 bits of
+     * encoding to be used.  (Not the sbme bs getting b tbgged integer!)
      *
      * @return the length or -1 if indefinite length found.
-     * @exception IOException on parsing error or unsupported lengths.
+     * @exception IOException on pbrsing error or unsupported lengths.
      */
-    static int getLength(int lenByte, InputStream in) throws IOException {
-        int value, tmp;
+    stbtic int getLength(int lenByte, InputStrebm in) throws IOException {
+        int vblue, tmp;
 
         tmp = lenByte;
-        if ((tmp & 0x080) == 0x00) { // short form, 1 byte datum
-            value = tmp;
+        if ((tmp & 0x080) == 0x00) { // short form, 1 byte dbtum
+            vblue = tmp;
         } else {                     // long form or indefinite
             tmp &= 0x07f;
 
             /*
-             * NOTE:  tmp == 0 indicates indefinite length encoded data.
-             * tmp > 4 indicates more than 4Gb of data.
+             * NOTE:  tmp == 0 indicbtes indefinite length encoded dbtb.
+             * tmp > 4 indicbtes more thbn 4Gb of dbtb.
              */
             if (tmp == 0)
                 return -1;
             if (tmp < 0 || tmp > 4)
-                throw new IOException("DerInputStream.getLength(): lengthTag="
+                throw new IOException("DerInputStrebm.getLength(): lengthTbg="
                     + tmp + ", "
                     + ((tmp < 0) ? "incorrect DER encoding." : "too big."));
 
-            for (value = 0; tmp > 0; tmp --) {
-                value <<= 8;
-                value += 0x0ff & in.read();
+            for (vblue = 0; tmp > 0; tmp --) {
+                vblue <<= 8;
+                vblue += 0x0ff & in.rebd();
             }
         }
-        return value;
+        return vblue;
     }
 
     int getDefiniteLength() throws IOException {
@@ -586,12 +586,12 @@ public class DerInputStream {
     }
 
     /*
-     * Get a length from the input stream.
+     * Get b length from the input strebm.
      *
      * @return the length
-     * @exception IOException on parsing error or if indefinite length found.
+     * @exception IOException on pbrsing error or if indefinite length found.
      */
-    static int getDefiniteLength(InputStream in) throws IOException {
+    stbtic int getDefiniteLength(InputStrebm in) throws IOException {
         int len = getLength(in);
         if (len < 0) {
             throw new IOException("Indefinite length encoding not supported");
@@ -600,24 +600,24 @@ public class DerInputStream {
     }
 
     /**
-     * Mark the current position in the buffer, so that
-     * a later call to <code>reset</code> will return here.
+     * Mbrk the current position in the buffer, so thbt
+     * b lbter cbll to <code>reset</code> will return here.
      */
-    public void mark(int value) { buffer.mark(value); }
+    public void mbrk(int vblue) { buffer.mbrk(vblue); }
 
 
     /**
-     * Return to the position of the last <code>mark</code>
-     * call.  A mark is implicitly set at the beginning of
-     * the stream when it is created.
+     * Return to the position of the lbst <code>mbrk</code>
+     * cbll.  A mbrk is implicitly set bt the beginning of
+     * the strebm when it is crebted.
      */
     public void reset() { buffer.reset(); }
 
 
     /**
-     * Returns the number of bytes available for reading.
-     * This is most useful for testing whether the stream is
+     * Returns the number of bytes bvbilbble for rebding.
+     * This is most useful for testing whether the strebm is
      * empty.
      */
-    public int available() { return buffer.available(); }
+    public int bvbilbble() { return buffer.bvbilbble(); }
 }

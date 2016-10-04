@@ -1,290 +1,290 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * This class implements the Dual-Pivot Quicksort algorithm by
- * Vladimir Yaroslavskiy, Jon Bentley, and Josh Bloch. The algorithm
- * offers O(n log(n)) performance on many data sets that cause other
- * quicksorts to degrade to quadratic performance, and is typically
- * faster than traditional (one-pivot) Quicksort implementations.
+ * This clbss implements the Dubl-Pivot Quicksort blgorithm by
+ * Vlbdimir Ybroslbvskiy, Jon Bentley, bnd Josh Bloch. The blgorithm
+ * offers O(n log(n)) performbnce on mbny dbtb sets thbt cbuse other
+ * quicksorts to degrbde to qubdrbtic performbnce, bnd is typicblly
+ * fbster thbn trbditionbl (one-pivot) Quicksort implementbtions.
  *
- * All exposed methods are package-private, designed to be invoked
- * from public methods (in class Arrays) after performing any
- * necessary array bounds checks and expanding parameters into the
+ * All exposed methods bre pbckbge-privbte, designed to be invoked
+ * from public methods (in clbss Arrbys) bfter performing bny
+ * necessbry brrby bounds checks bnd expbnding pbrbmeters into the
  * required forms.
  *
- * @author Vladimir Yaroslavskiy
- * @author Jon Bentley
- * @author Josh Bloch
+ * @buthor Vlbdimir Ybroslbvskiy
+ * @buthor Jon Bentley
+ * @buthor Josh Bloch
  *
  * @version 2011.02.11 m765.827.12i:5\7pm
  * @since 1.7
  */
-final class DualPivotQuicksort {
+finbl clbss DublPivotQuicksort {
 
     /**
-     * Prevents instantiation.
+     * Prevents instbntibtion.
      */
-    private DualPivotQuicksort() {}
+    privbte DublPivotQuicksort() {}
 
     /*
-     * Tuning parameters.
+     * Tuning pbrbmeters.
      */
 
     /**
-     * The maximum number of runs in merge sort.
+     * The mbximum number of runs in merge sort.
      */
-    private static final int MAX_RUN_COUNT = 67;
+    privbte stbtic finbl int MAX_RUN_COUNT = 67;
 
     /**
-     * The maximum length of run in merge sort.
+     * The mbximum length of run in merge sort.
      */
-    private static final int MAX_RUN_LENGTH = 33;
+    privbte stbtic finbl int MAX_RUN_LENGTH = 33;
 
     /**
-     * If the length of an array to be sorted is less than this
-     * constant, Quicksort is used in preference to merge sort.
+     * If the length of bn brrby to be sorted is less thbn this
+     * constbnt, Quicksort is used in preference to merge sort.
      */
-    private static final int QUICKSORT_THRESHOLD = 286;
+    privbte stbtic finbl int QUICKSORT_THRESHOLD = 286;
 
     /**
-     * If the length of an array to be sorted is less than this
-     * constant, insertion sort is used in preference to Quicksort.
+     * If the length of bn brrby to be sorted is less thbn this
+     * constbnt, insertion sort is used in preference to Quicksort.
      */
-    private static final int INSERTION_SORT_THRESHOLD = 47;
+    privbte stbtic finbl int INSERTION_SORT_THRESHOLD = 47;
 
     /**
-     * If the length of a byte array to be sorted is greater than this
-     * constant, counting sort is used in preference to insertion sort.
+     * If the length of b byte brrby to be sorted is grebter thbn this
+     * constbnt, counting sort is used in preference to insertion sort.
      */
-    private static final int COUNTING_SORT_THRESHOLD_FOR_BYTE = 29;
+    privbte stbtic finbl int COUNTING_SORT_THRESHOLD_FOR_BYTE = 29;
 
     /**
-     * If the length of a short or char array to be sorted is greater
-     * than this constant, counting sort is used in preference to Quicksort.
+     * If the length of b short or chbr brrby to be sorted is grebter
+     * thbn this constbnt, counting sort is used in preference to Quicksort.
      */
-    private static final int COUNTING_SORT_THRESHOLD_FOR_SHORT_OR_CHAR = 3200;
+    privbte stbtic finbl int COUNTING_SORT_THRESHOLD_FOR_SHORT_OR_CHAR = 3200;
 
     /*
      * Sorting methods for seven primitive types.
      */
 
     /**
-     * Sorts the specified range of the array using the given
-     * workspace array slice if possible for merging
+     * Sorts the specified rbnge of the brrby using the given
+     * workspbce brrby slice if possible for merging
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param work a workspace array (slice)
-     * @param workBase origin of usable space in work array
-     * @param workLen usable size of work array
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm work b workspbce brrby (slice)
+     * @pbrbm workBbse origin of usbble spbce in work brrby
+     * @pbrbm workLen usbble size of work brrby
      */
-    static void sort(int[] a, int left, int right,
-                     int[] work, int workBase, int workLen) {
-        // Use Quicksort on small arrays
+    stbtic void sort(int[] b, int left, int right,
+                     int[] work, int workBbse, int workLen) {
+        // Use Quicksort on smbll brrbys
         if (right - left < QUICKSORT_THRESHOLD) {
-            sort(a, left, right, true);
+            sort(b, left, right, true);
             return;
         }
 
         /*
-         * Index run[i] is the start of i-th run
-         * (ascending or descending sequence).
+         * Index run[i] is the stbrt of i-th run
+         * (bscending or descending sequence).
          */
         int[] run = new int[MAX_RUN_COUNT + 1];
         int count = 0; run[0] = left;
 
-        // Check if the array is nearly sorted
+        // Check if the brrby is nebrly sorted
         for (int k = left; k < right; run[count] = k) {
-            if (a[k] < a[k + 1]) { // ascending
-                while (++k <= right && a[k - 1] <= a[k]);
-            } else if (a[k] > a[k + 1]) { // descending
-                while (++k <= right && a[k - 1] >= a[k]);
+            if (b[k] < b[k + 1]) { // bscending
+                while (++k <= right && b[k - 1] <= b[k]);
+            } else if (b[k] > b[k + 1]) { // descending
+                while (++k <= right && b[k - 1] >= b[k]);
                 for (int lo = run[count] - 1, hi = k; ++lo < --hi; ) {
-                    int t = a[lo]; a[lo] = a[hi]; a[hi] = t;
+                    int t = b[lo]; b[lo] = b[hi]; b[hi] = t;
                 }
-            } else { // equal
-                for (int m = MAX_RUN_LENGTH; ++k <= right && a[k - 1] == a[k]; ) {
+            } else { // equbl
+                for (int m = MAX_RUN_LENGTH; ++k <= right && b[k - 1] == b[k]; ) {
                     if (--m == 0) {
-                        sort(a, left, right, true);
+                        sort(b, left, right, true);
                         return;
                     }
                 }
             }
 
             /*
-             * The array is not highly structured,
-             * use Quicksort instead of merge sort.
+             * The brrby is not highly structured,
+             * use Quicksort instebd of merge sort.
              */
             if (++count == MAX_RUN_COUNT) {
-                sort(a, left, right, true);
+                sort(b, left, right, true);
                 return;
             }
         }
 
-        // Check special cases
-        // Implementation note: variable "right" is increased by 1.
-        if (run[count] == right++) { // The last run contains one element
+        // Check specibl cbses
+        // Implementbtion note: vbribble "right" is increbsed by 1.
+        if (run[count] == right++) { // The lbst run contbins one element
             run[++count] = right;
-        } else if (count == 1) { // The array is already sorted
+        } else if (count == 1) { // The brrby is blrebdy sorted
             return;
         }
 
-        // Determine alternation base for merge
+        // Determine blternbtion bbse for merge
         byte odd = 0;
         for (int n = 1; (n <<= 1) < count; odd ^= 1);
 
-        // Use or create temporary array b for merging
-        int[] b;                 // temp array; alternates with a
-        int ao, bo;              // array offsets from 'left'
-        int blen = right - left; // space needed for b
-        if (work == null || workLen < blen || workBase + blen > work.length) {
+        // Use or crebte temporbry brrby b for merging
+        int[] b;                 // temp brrby; blternbtes with b
+        int bo, bo;              // brrby offsets from 'left'
+        int blen = right - left; // spbce needed for b
+        if (work == null || workLen < blen || workBbse + blen > work.length) {
             work = new int[blen];
-            workBase = 0;
+            workBbse = 0;
         }
         if (odd == 0) {
-            System.arraycopy(a, left, work, workBase, blen);
-            b = a;
+            System.brrbycopy(b, left, work, workBbse, blen);
+            b = b;
             bo = 0;
-            a = work;
-            ao = workBase - left;
+            b = work;
+            bo = workBbse - left;
         } else {
             b = work;
-            ao = 0;
-            bo = workBase - left;
+            bo = 0;
+            bo = workBbse - left;
         }
 
         // Merging
-        for (int last; count > 1; count = last) {
-            for (int k = (last = 0) + 2; k <= count; k += 2) {
+        for (int lbst; count > 1; count = lbst) {
+            for (int k = (lbst = 0) + 2; k <= count; k += 2) {
                 int hi = run[k], mi = run[k - 1];
                 for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
-                    if (q >= hi || p < mi && a[p + ao] <= a[q + ao]) {
-                        b[i + bo] = a[p++ + ao];
+                    if (q >= hi || p < mi && b[p + bo] <= b[q + bo]) {
+                        b[i + bo] = b[p++ + bo];
                     } else {
-                        b[i + bo] = a[q++ + ao];
+                        b[i + bo] = b[q++ + bo];
                     }
                 }
-                run[++last] = hi;
+                run[++lbst] = hi;
             }
             if ((count & 1) != 0) {
                 for (int i = right, lo = run[count - 1]; --i >= lo;
-                    b[i + bo] = a[i + ao]
+                    b[i + bo] = b[i + bo]
                 );
-                run[++last] = right;
+                run[++lbst] = right;
             }
-            int[] t = a; a = b; b = t;
-            int o = ao; ao = bo; bo = o;
+            int[] t = b; b = b; b = t;
+            int o = bo; bo = bo; bo = o;
         }
     }
 
     /**
-     * Sorts the specified range of the array by Dual-Pivot Quicksort.
+     * Sorts the specified rbnge of the brrby by Dubl-Pivot Quicksort.
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param leftmost indicates if this part is the leftmost in the range
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm leftmost indicbtes if this pbrt is the leftmost in the rbnge
      */
-    private static void sort(int[] a, int left, int right, boolean leftmost) {
+    privbte stbtic void sort(int[] b, int left, int right, boolebn leftmost) {
         int length = right - left + 1;
 
-        // Use insertion sort on tiny arrays
+        // Use insertion sort on tiny brrbys
         if (length < INSERTION_SORT_THRESHOLD) {
             if (leftmost) {
                 /*
-                 * Traditional (without sentinel) insertion sort,
-                 * optimized for server VM, is used in case of
-                 * the leftmost part.
+                 * Trbditionbl (without sentinel) insertion sort,
+                 * optimized for server VM, is used in cbse of
+                 * the leftmost pbrt.
                  */
                 for (int i = left, j = i; i < right; j = ++i) {
-                    int ai = a[i + 1];
-                    while (ai < a[j]) {
-                        a[j + 1] = a[j];
+                    int bi = b[i + 1];
+                    while (bi < b[j]) {
+                        b[j + 1] = b[j];
                         if (j-- == left) {
-                            break;
+                            brebk;
                         }
                     }
-                    a[j + 1] = ai;
+                    b[j + 1] = bi;
                 }
             } else {
                 /*
-                 * Skip the longest ascending sequence.
+                 * Skip the longest bscending sequence.
                  */
                 do {
                     if (left >= right) {
                         return;
                     }
-                } while (a[++left] >= a[left - 1]);
+                } while (b[++left] >= b[left - 1]);
 
                 /*
-                 * Every element from adjoining part plays the role
-                 * of sentinel, therefore this allows us to avoid the
-                 * left range check on each iteration. Moreover, we use
-                 * the more optimized algorithm, so called pair insertion
-                 * sort, which is faster (in the context of Quicksort)
-                 * than traditional implementation of insertion sort.
+                 * Every element from bdjoining pbrt plbys the role
+                 * of sentinel, therefore this bllows us to bvoid the
+                 * left rbnge check on ebch iterbtion. Moreover, we use
+                 * the more optimized blgorithm, so cblled pbir insertion
+                 * sort, which is fbster (in the context of Quicksort)
+                 * thbn trbditionbl implementbtion of insertion sort.
                  */
                 for (int k = left; ++left <= right; k = ++left) {
-                    int a1 = a[k], a2 = a[left];
+                    int b1 = b[k], b2 = b[left];
 
-                    if (a1 < a2) {
-                        a2 = a1; a1 = a[left];
+                    if (b1 < b2) {
+                        b2 = b1; b1 = b[left];
                     }
-                    while (a1 < a[--k]) {
-                        a[k + 2] = a[k];
+                    while (b1 < b[--k]) {
+                        b[k + 2] = b[k];
                     }
-                    a[++k + 1] = a1;
+                    b[++k + 1] = b1;
 
-                    while (a2 < a[--k]) {
-                        a[k + 1] = a[k];
+                    while (b2 < b[--k]) {
+                        b[k + 1] = b[k];
                     }
-                    a[k + 1] = a2;
+                    b[k + 1] = b2;
                 }
-                int last = a[right];
+                int lbst = b[right];
 
-                while (last < a[--right]) {
-                    a[right + 1] = a[right];
+                while (lbst < b[--right]) {
+                    b[right + 1] = b[right];
                 }
-                a[right + 1] = last;
+                b[right + 1] = lbst;
             }
             return;
         }
 
-        // Inexpensive approximation of length / 7
+        // Inexpensive bpproximbtion of length / 7
         int seventh = (length >> 3) + (length >> 6) + 1;
 
         /*
-         * Sort five evenly spaced elements around (and including) the
-         * center element in the range. These elements will be used for
-         * pivot selection as described below. The choice for spacing
-         * these elements was empirically determined to work well on
-         * a wide variety of inputs.
+         * Sort five evenly spbced elements bround (bnd including) the
+         * center element in the rbnge. These elements will be used for
+         * pivot selection bs described below. The choice for spbcing
+         * these elements wbs empiricblly determined to work well on
+         * b wide vbriety of inputs.
          */
         int e3 = (left + right) >>> 1; // The midpoint
         int e2 = e3 - seventh;
@@ -293,446 +293,446 @@ final class DualPivotQuicksort {
         int e5 = e4 + seventh;
 
         // Sort these elements using insertion sort
-        if (a[e2] < a[e1]) { int t = a[e2]; a[e2] = a[e1]; a[e1] = t; }
+        if (b[e2] < b[e1]) { int t = b[e2]; b[e2] = b[e1]; b[e1] = t; }
 
-        if (a[e3] < a[e2]) { int t = a[e3]; a[e3] = a[e2]; a[e2] = t;
-            if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e3] < b[e2]) { int t = b[e3]; b[e3] = b[e2]; b[e2] = t;
+            if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
         }
-        if (a[e4] < a[e3]) { int t = a[e4]; a[e4] = a[e3]; a[e3] = t;
-            if (t < a[e2]) { a[e3] = a[e2]; a[e2] = t;
-                if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e4] < b[e3]) { int t = b[e4]; b[e4] = b[e3]; b[e3] = t;
+            if (t < b[e2]) { b[e3] = b[e2]; b[e2] = t;
+                if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
             }
         }
-        if (a[e5] < a[e4]) { int t = a[e5]; a[e5] = a[e4]; a[e4] = t;
-            if (t < a[e3]) { a[e4] = a[e3]; a[e3] = t;
-                if (t < a[e2]) { a[e3] = a[e2]; a[e2] = t;
-                    if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e5] < b[e4]) { int t = b[e5]; b[e5] = b[e4]; b[e4] = t;
+            if (t < b[e3]) { b[e4] = b[e3]; b[e3] = t;
+                if (t < b[e2]) { b[e3] = b[e2]; b[e2] = t;
+                    if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
                 }
             }
         }
 
         // Pointers
-        int less  = left;  // The index of the first element of center part
-        int great = right; // The index before the first element of right part
+        int less  = left;  // The index of the first element of center pbrt
+        int grebt = right; // The index before the first element of right pbrt
 
-        if (a[e1] != a[e2] && a[e2] != a[e3] && a[e3] != a[e4] && a[e4] != a[e5]) {
+        if (b[e1] != b[e2] && b[e2] != b[e3] && b[e3] != b[e4] && b[e4] != b[e5]) {
             /*
-             * Use the second and fourth of the five sorted elements as pivots.
-             * These values are inexpensive approximations of the first and
-             * second terciles of the array. Note that pivot1 <= pivot2.
+             * Use the second bnd fourth of the five sorted elements bs pivots.
+             * These vblues bre inexpensive bpproximbtions of the first bnd
+             * second terciles of the brrby. Note thbt pivot1 <= pivot2.
              */
-            int pivot1 = a[e2];
-            int pivot2 = a[e4];
+            int pivot1 = b[e2];
+            int pivot2 = b[e4];
 
             /*
-             * The first and the last elements to be sorted are moved to the
-             * locations formerly occupied by the pivots. When partitioning
-             * is complete, the pivots are swapped back into their final
-             * positions, and excluded from subsequent sorting.
+             * The first bnd the lbst elements to be sorted bre moved to the
+             * locbtions formerly occupied by the pivots. When pbrtitioning
+             * is complete, the pivots bre swbpped bbck into their finbl
+             * positions, bnd excluded from subsequent sorting.
              */
-            a[e2] = a[left];
-            a[e4] = a[right];
+            b[e2] = b[left];
+            b[e4] = b[right];
 
             /*
-             * Skip elements, which are less or greater than pivot values.
+             * Skip elements, which bre less or grebter thbn pivot vblues.
              */
-            while (a[++less] < pivot1);
-            while (a[--great] > pivot2);
+            while (b[++less] < pivot1);
+            while (b[--grebt] > pivot2);
 
             /*
-             * Partitioning:
+             * Pbrtitioning:
              *
-             *   left part           center part                   right part
+             *   left pbrt           center pbrt                   right pbrt
              * +--------------------------------------------------------------+
              * |  < pivot1  |  pivot1 <= && <= pivot2  |    ?    |  > pivot2  |
              * +--------------------------------------------------------------+
              *               ^                          ^       ^
              *               |                          |       |
-             *              less                        k     great
+             *              less                        k     grebt
              *
-             * Invariants:
+             * Invbribnts:
              *
-             *              all in (left, less)   < pivot1
-             *    pivot1 <= all in [less, k)     <= pivot2
-             *              all in (great, right) > pivot2
+             *              bll in (left, less)   < pivot1
+             *    pivot1 <= bll in [less, k)     <= pivot2
+             *              bll in (grebt, right) > pivot2
              *
-             * Pointer k is the first index of ?-part.
+             * Pointer k is the first index of ?-pbrt.
              */
             outer:
-            for (int k = less - 1; ++k <= great; ) {
-                int ak = a[k];
-                if (ak < pivot1) { // Move a[k] to left part
-                    a[k] = a[less];
+            for (int k = less - 1; ++k <= grebt; ) {
+                int bk = b[k];
+                if (bk < pivot1) { // Move b[k] to left pbrt
+                    b[k] = b[less];
                     /*
-                     * Here and below we use "a[i] = b; i++;" instead
-                     * of "a[i++] = b;" due to performance issue.
+                     * Here bnd below we use "b[i] = b; i++;" instebd
+                     * of "b[i++] = b;" due to performbnce issue.
                      */
-                    a[less] = ak;
+                    b[less] = bk;
                     ++less;
-                } else if (ak > pivot2) { // Move a[k] to right part
-                    while (a[great] > pivot2) {
-                        if (great-- == k) {
-                            break outer;
+                } else if (bk > pivot2) { // Move b[k] to right pbrt
+                    while (b[grebt] > pivot2) {
+                        if (grebt-- == k) {
+                            brebk outer;
                         }
                     }
-                    if (a[great] < pivot1) { // a[great] <= pivot2
-                        a[k] = a[less];
-                        a[less] = a[great];
+                    if (b[grebt] < pivot1) { // b[grebt] <= pivot2
+                        b[k] = b[less];
+                        b[less] = b[grebt];
                         ++less;
-                    } else { // pivot1 <= a[great] <= pivot2
-                        a[k] = a[great];
+                    } else { // pivot1 <= b[grebt] <= pivot2
+                        b[k] = b[grebt];
                     }
                     /*
-                     * Here and below we use "a[i] = b; i--;" instead
-                     * of "a[i--] = b;" due to performance issue.
+                     * Here bnd below we use "b[i] = b; i--;" instebd
+                     * of "b[i--] = b;" due to performbnce issue.
                      */
-                    a[great] = ak;
-                    --great;
+                    b[grebt] = bk;
+                    --grebt;
                 }
             }
 
-            // Swap pivots into their final positions
-            a[left]  = a[less  - 1]; a[less  - 1] = pivot1;
-            a[right] = a[great + 1]; a[great + 1] = pivot2;
+            // Swbp pivots into their finbl positions
+            b[left]  = b[less  - 1]; b[less  - 1] = pivot1;
+            b[right] = b[grebt + 1]; b[grebt + 1] = pivot2;
 
-            // Sort left and right parts recursively, excluding known pivots
-            sort(a, left, less - 2, leftmost);
-            sort(a, great + 2, right, false);
+            // Sort left bnd right pbrts recursively, excluding known pivots
+            sort(b, left, less - 2, leftmost);
+            sort(b, grebt + 2, right, fblse);
 
             /*
-             * If center part is too large (comprises > 4/7 of the array),
-             * swap internal pivot values to ends.
+             * If center pbrt is too lbrge (comprises > 4/7 of the brrby),
+             * swbp internbl pivot vblues to ends.
              */
-            if (less < e1 && e5 < great) {
+            if (less < e1 && e5 < grebt) {
                 /*
-                 * Skip elements, which are equal to pivot values.
+                 * Skip elements, which bre equbl to pivot vblues.
                  */
-                while (a[less] == pivot1) {
+                while (b[less] == pivot1) {
                     ++less;
                 }
 
-                while (a[great] == pivot2) {
-                    --great;
+                while (b[grebt] == pivot2) {
+                    --grebt;
                 }
 
                 /*
-                 * Partitioning:
+                 * Pbrtitioning:
                  *
-                 *   left part         center part                  right part
+                 *   left pbrt         center pbrt                  right pbrt
                  * +----------------------------------------------------------+
                  * | == pivot1 |  pivot1 < && < pivot2  |    ?    | == pivot2 |
                  * +----------------------------------------------------------+
                  *              ^                        ^       ^
                  *              |                        |       |
-                 *             less                      k     great
+                 *             less                      k     grebt
                  *
-                 * Invariants:
+                 * Invbribnts:
                  *
-                 *              all in (*,  less) == pivot1
-                 *     pivot1 < all in [less,  k)  < pivot2
-                 *              all in (great, *) == pivot2
+                 *              bll in (*,  less) == pivot1
+                 *     pivot1 < bll in [less,  k)  < pivot2
+                 *              bll in (grebt, *) == pivot2
                  *
-                 * Pointer k is the first index of ?-part.
+                 * Pointer k is the first index of ?-pbrt.
                  */
                 outer:
-                for (int k = less - 1; ++k <= great; ) {
-                    int ak = a[k];
-                    if (ak == pivot1) { // Move a[k] to left part
-                        a[k] = a[less];
-                        a[less] = ak;
+                for (int k = less - 1; ++k <= grebt; ) {
+                    int bk = b[k];
+                    if (bk == pivot1) { // Move b[k] to left pbrt
+                        b[k] = b[less];
+                        b[less] = bk;
                         ++less;
-                    } else if (ak == pivot2) { // Move a[k] to right part
-                        while (a[great] == pivot2) {
-                            if (great-- == k) {
-                                break outer;
+                    } else if (bk == pivot2) { // Move b[k] to right pbrt
+                        while (b[grebt] == pivot2) {
+                            if (grebt-- == k) {
+                                brebk outer;
                             }
                         }
-                        if (a[great] == pivot1) { // a[great] < pivot2
-                            a[k] = a[less];
+                        if (b[grebt] == pivot1) { // b[grebt] < pivot2
+                            b[k] = b[less];
                             /*
-                             * Even though a[great] equals to pivot1, the
-                             * assignment a[less] = pivot1 may be incorrect,
-                             * if a[great] and pivot1 are floating-point zeros
-                             * of different signs. Therefore in float and
-                             * double sorting methods we have to use more
-                             * accurate assignment a[less] = a[great].
+                             * Even though b[grebt] equbls to pivot1, the
+                             * bssignment b[less] = pivot1 mby be incorrect,
+                             * if b[grebt] bnd pivot1 bre flobting-point zeros
+                             * of different signs. Therefore in flobt bnd
+                             * double sorting methods we hbve to use more
+                             * bccurbte bssignment b[less] = b[grebt].
                              */
-                            a[less] = pivot1;
+                            b[less] = pivot1;
                             ++less;
-                        } else { // pivot1 < a[great] < pivot2
-                            a[k] = a[great];
+                        } else { // pivot1 < b[grebt] < pivot2
+                            b[k] = b[grebt];
                         }
-                        a[great] = ak;
-                        --great;
+                        b[grebt] = bk;
+                        --grebt;
                     }
                 }
             }
 
-            // Sort center part recursively
-            sort(a, less, great, false);
+            // Sort center pbrt recursively
+            sort(b, less, grebt, fblse);
 
-        } else { // Partitioning with one pivot
+        } else { // Pbrtitioning with one pivot
             /*
-             * Use the third of the five sorted elements as pivot.
-             * This value is inexpensive approximation of the median.
+             * Use the third of the five sorted elements bs pivot.
+             * This vblue is inexpensive bpproximbtion of the medibn.
              */
-            int pivot = a[e3];
+            int pivot = b[e3];
 
             /*
-             * Partitioning degenerates to the traditional 3-way
-             * (or "Dutch National Flag") schema:
+             * Pbrtitioning degenerbtes to the trbditionbl 3-wby
+             * (or "Dutch Nbtionbl Flbg") schemb:
              *
-             *   left part    center part              right part
+             *   left pbrt    center pbrt              right pbrt
              * +-------------------------------------------------+
              * |  < pivot  |   == pivot   |     ?    |  > pivot  |
              * +-------------------------------------------------+
              *              ^              ^        ^
              *              |              |        |
-             *             less            k      great
+             *             less            k      grebt
              *
-             * Invariants:
+             * Invbribnts:
              *
-             *   all in (left, less)   < pivot
-             *   all in [less, k)     == pivot
-             *   all in (great, right) > pivot
+             *   bll in (left, less)   < pivot
+             *   bll in [less, k)     == pivot
+             *   bll in (grebt, right) > pivot
              *
-             * Pointer k is the first index of ?-part.
+             * Pointer k is the first index of ?-pbrt.
              */
-            for (int k = less; k <= great; ++k) {
-                if (a[k] == pivot) {
+            for (int k = less; k <= grebt; ++k) {
+                if (b[k] == pivot) {
                     continue;
                 }
-                int ak = a[k];
-                if (ak < pivot) { // Move a[k] to left part
-                    a[k] = a[less];
-                    a[less] = ak;
+                int bk = b[k];
+                if (bk < pivot) { // Move b[k] to left pbrt
+                    b[k] = b[less];
+                    b[less] = bk;
                     ++less;
-                } else { // a[k] > pivot - Move a[k] to right part
-                    while (a[great] > pivot) {
-                        --great;
+                } else { // b[k] > pivot - Move b[k] to right pbrt
+                    while (b[grebt] > pivot) {
+                        --grebt;
                     }
-                    if (a[great] < pivot) { // a[great] <= pivot
-                        a[k] = a[less];
-                        a[less] = a[great];
+                    if (b[grebt] < pivot) { // b[grebt] <= pivot
+                        b[k] = b[less];
+                        b[less] = b[grebt];
                         ++less;
-                    } else { // a[great] == pivot
+                    } else { // b[grebt] == pivot
                         /*
-                         * Even though a[great] equals to pivot, the
-                         * assignment a[k] = pivot may be incorrect,
-                         * if a[great] and pivot are floating-point
-                         * zeros of different signs. Therefore in float
-                         * and double sorting methods we have to use
-                         * more accurate assignment a[k] = a[great].
+                         * Even though b[grebt] equbls to pivot, the
+                         * bssignment b[k] = pivot mby be incorrect,
+                         * if b[grebt] bnd pivot bre flobting-point
+                         * zeros of different signs. Therefore in flobt
+                         * bnd double sorting methods we hbve to use
+                         * more bccurbte bssignment b[k] = b[grebt].
                          */
-                        a[k] = pivot;
+                        b[k] = pivot;
                     }
-                    a[great] = ak;
-                    --great;
+                    b[grebt] = bk;
+                    --grebt;
                 }
             }
 
             /*
-             * Sort left and right parts recursively.
-             * All elements from center part are equal
-             * and, therefore, already sorted.
+             * Sort left bnd right pbrts recursively.
+             * All elements from center pbrt bre equbl
+             * bnd, therefore, blrebdy sorted.
              */
-            sort(a, left, less - 1, leftmost);
-            sort(a, great + 1, right, false);
+            sort(b, left, less - 1, leftmost);
+            sort(b, grebt + 1, right, fblse);
         }
     }
 
     /**
-     * Sorts the specified range of the array using the given
-     * workspace array slice if possible for merging
+     * Sorts the specified rbnge of the brrby using the given
+     * workspbce brrby slice if possible for merging
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param work a workspace array (slice)
-     * @param workBase origin of usable space in work array
-     * @param workLen usable size of work array
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm work b workspbce brrby (slice)
+     * @pbrbm workBbse origin of usbble spbce in work brrby
+     * @pbrbm workLen usbble size of work brrby
      */
-    static void sort(long[] a, int left, int right,
-                     long[] work, int workBase, int workLen) {
-        // Use Quicksort on small arrays
+    stbtic void sort(long[] b, int left, int right,
+                     long[] work, int workBbse, int workLen) {
+        // Use Quicksort on smbll brrbys
         if (right - left < QUICKSORT_THRESHOLD) {
-            sort(a, left, right, true);
+            sort(b, left, right, true);
             return;
         }
 
         /*
-         * Index run[i] is the start of i-th run
-         * (ascending or descending sequence).
+         * Index run[i] is the stbrt of i-th run
+         * (bscending or descending sequence).
          */
         int[] run = new int[MAX_RUN_COUNT + 1];
         int count = 0; run[0] = left;
 
-        // Check if the array is nearly sorted
+        // Check if the brrby is nebrly sorted
         for (int k = left; k < right; run[count] = k) {
-            if (a[k] < a[k + 1]) { // ascending
-                while (++k <= right && a[k - 1] <= a[k]);
-            } else if (a[k] > a[k + 1]) { // descending
-                while (++k <= right && a[k - 1] >= a[k]);
+            if (b[k] < b[k + 1]) { // bscending
+                while (++k <= right && b[k - 1] <= b[k]);
+            } else if (b[k] > b[k + 1]) { // descending
+                while (++k <= right && b[k - 1] >= b[k]);
                 for (int lo = run[count] - 1, hi = k; ++lo < --hi; ) {
-                    long t = a[lo]; a[lo] = a[hi]; a[hi] = t;
+                    long t = b[lo]; b[lo] = b[hi]; b[hi] = t;
                 }
-            } else { // equal
-                for (int m = MAX_RUN_LENGTH; ++k <= right && a[k - 1] == a[k]; ) {
+            } else { // equbl
+                for (int m = MAX_RUN_LENGTH; ++k <= right && b[k - 1] == b[k]; ) {
                     if (--m == 0) {
-                        sort(a, left, right, true);
+                        sort(b, left, right, true);
                         return;
                     }
                 }
             }
 
             /*
-             * The array is not highly structured,
-             * use Quicksort instead of merge sort.
+             * The brrby is not highly structured,
+             * use Quicksort instebd of merge sort.
              */
             if (++count == MAX_RUN_COUNT) {
-                sort(a, left, right, true);
+                sort(b, left, right, true);
                 return;
             }
         }
 
-        // Check special cases
-        // Implementation note: variable "right" is increased by 1.
-        if (run[count] == right++) { // The last run contains one element
+        // Check specibl cbses
+        // Implementbtion note: vbribble "right" is increbsed by 1.
+        if (run[count] == right++) { // The lbst run contbins one element
             run[++count] = right;
-        } else if (count == 1) { // The array is already sorted
+        } else if (count == 1) { // The brrby is blrebdy sorted
             return;
         }
 
-        // Determine alternation base for merge
+        // Determine blternbtion bbse for merge
         byte odd = 0;
         for (int n = 1; (n <<= 1) < count; odd ^= 1);
 
-        // Use or create temporary array b for merging
-        long[] b;                 // temp array; alternates with a
-        int ao, bo;              // array offsets from 'left'
-        int blen = right - left; // space needed for b
-        if (work == null || workLen < blen || workBase + blen > work.length) {
+        // Use or crebte temporbry brrby b for merging
+        long[] b;                 // temp brrby; blternbtes with b
+        int bo, bo;              // brrby offsets from 'left'
+        int blen = right - left; // spbce needed for b
+        if (work == null || workLen < blen || workBbse + blen > work.length) {
             work = new long[blen];
-            workBase = 0;
+            workBbse = 0;
         }
         if (odd == 0) {
-            System.arraycopy(a, left, work, workBase, blen);
-            b = a;
+            System.brrbycopy(b, left, work, workBbse, blen);
+            b = b;
             bo = 0;
-            a = work;
-            ao = workBase - left;
+            b = work;
+            bo = workBbse - left;
         } else {
             b = work;
-            ao = 0;
-            bo = workBase - left;
+            bo = 0;
+            bo = workBbse - left;
         }
 
         // Merging
-        for (int last; count > 1; count = last) {
-            for (int k = (last = 0) + 2; k <= count; k += 2) {
+        for (int lbst; count > 1; count = lbst) {
+            for (int k = (lbst = 0) + 2; k <= count; k += 2) {
                 int hi = run[k], mi = run[k - 1];
                 for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
-                    if (q >= hi || p < mi && a[p + ao] <= a[q + ao]) {
-                        b[i + bo] = a[p++ + ao];
+                    if (q >= hi || p < mi && b[p + bo] <= b[q + bo]) {
+                        b[i + bo] = b[p++ + bo];
                     } else {
-                        b[i + bo] = a[q++ + ao];
+                        b[i + bo] = b[q++ + bo];
                     }
                 }
-                run[++last] = hi;
+                run[++lbst] = hi;
             }
             if ((count & 1) != 0) {
                 for (int i = right, lo = run[count - 1]; --i >= lo;
-                    b[i + bo] = a[i + ao]
+                    b[i + bo] = b[i + bo]
                 );
-                run[++last] = right;
+                run[++lbst] = right;
             }
-            long[] t = a; a = b; b = t;
-            int o = ao; ao = bo; bo = o;
+            long[] t = b; b = b; b = t;
+            int o = bo; bo = bo; bo = o;
         }
     }
 
     /**
-     * Sorts the specified range of the array by Dual-Pivot Quicksort.
+     * Sorts the specified rbnge of the brrby by Dubl-Pivot Quicksort.
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param leftmost indicates if this part is the leftmost in the range
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm leftmost indicbtes if this pbrt is the leftmost in the rbnge
      */
-    private static void sort(long[] a, int left, int right, boolean leftmost) {
+    privbte stbtic void sort(long[] b, int left, int right, boolebn leftmost) {
         int length = right - left + 1;
 
-        // Use insertion sort on tiny arrays
+        // Use insertion sort on tiny brrbys
         if (length < INSERTION_SORT_THRESHOLD) {
             if (leftmost) {
                 /*
-                 * Traditional (without sentinel) insertion sort,
-                 * optimized for server VM, is used in case of
-                 * the leftmost part.
+                 * Trbditionbl (without sentinel) insertion sort,
+                 * optimized for server VM, is used in cbse of
+                 * the leftmost pbrt.
                  */
                 for (int i = left, j = i; i < right; j = ++i) {
-                    long ai = a[i + 1];
-                    while (ai < a[j]) {
-                        a[j + 1] = a[j];
+                    long bi = b[i + 1];
+                    while (bi < b[j]) {
+                        b[j + 1] = b[j];
                         if (j-- == left) {
-                            break;
+                            brebk;
                         }
                     }
-                    a[j + 1] = ai;
+                    b[j + 1] = bi;
                 }
             } else {
                 /*
-                 * Skip the longest ascending sequence.
+                 * Skip the longest bscending sequence.
                  */
                 do {
                     if (left >= right) {
                         return;
                     }
-                } while (a[++left] >= a[left - 1]);
+                } while (b[++left] >= b[left - 1]);
 
                 /*
-                 * Every element from adjoining part plays the role
-                 * of sentinel, therefore this allows us to avoid the
-                 * left range check on each iteration. Moreover, we use
-                 * the more optimized algorithm, so called pair insertion
-                 * sort, which is faster (in the context of Quicksort)
-                 * than traditional implementation of insertion sort.
+                 * Every element from bdjoining pbrt plbys the role
+                 * of sentinel, therefore this bllows us to bvoid the
+                 * left rbnge check on ebch iterbtion. Moreover, we use
+                 * the more optimized blgorithm, so cblled pbir insertion
+                 * sort, which is fbster (in the context of Quicksort)
+                 * thbn trbditionbl implementbtion of insertion sort.
                  */
                 for (int k = left; ++left <= right; k = ++left) {
-                    long a1 = a[k], a2 = a[left];
+                    long b1 = b[k], b2 = b[left];
 
-                    if (a1 < a2) {
-                        a2 = a1; a1 = a[left];
+                    if (b1 < b2) {
+                        b2 = b1; b1 = b[left];
                     }
-                    while (a1 < a[--k]) {
-                        a[k + 2] = a[k];
+                    while (b1 < b[--k]) {
+                        b[k + 2] = b[k];
                     }
-                    a[++k + 1] = a1;
+                    b[++k + 1] = b1;
 
-                    while (a2 < a[--k]) {
-                        a[k + 1] = a[k];
+                    while (b2 < b[--k]) {
+                        b[k + 1] = b[k];
                     }
-                    a[k + 1] = a2;
+                    b[k + 1] = b2;
                 }
-                long last = a[right];
+                long lbst = b[right];
 
-                while (last < a[--right]) {
-                    a[right + 1] = a[right];
+                while (lbst < b[--right]) {
+                    b[right + 1] = b[right];
                 }
-                a[right + 1] = last;
+                b[right + 1] = lbst;
             }
             return;
         }
 
-        // Inexpensive approximation of length / 7
+        // Inexpensive bpproximbtion of length / 7
         int seventh = (length >> 3) + (length >> 6) + 1;
 
         /*
-         * Sort five evenly spaced elements around (and including) the
-         * center element in the range. These elements will be used for
-         * pivot selection as described below. The choice for spacing
-         * these elements was empirically determined to work well on
-         * a wide variety of inputs.
+         * Sort five evenly spbced elements bround (bnd including) the
+         * center element in the rbnge. These elements will be used for
+         * pivot selection bs described below. The choice for spbcing
+         * these elements wbs empiricblly determined to work well on
+         * b wide vbriety of inputs.
          */
         int e3 = (left + right) >>> 1; // The midpoint
         int e2 = e3 - seventh;
@@ -741,482 +741,482 @@ final class DualPivotQuicksort {
         int e5 = e4 + seventh;
 
         // Sort these elements using insertion sort
-        if (a[e2] < a[e1]) { long t = a[e2]; a[e2] = a[e1]; a[e1] = t; }
+        if (b[e2] < b[e1]) { long t = b[e2]; b[e2] = b[e1]; b[e1] = t; }
 
-        if (a[e3] < a[e2]) { long t = a[e3]; a[e3] = a[e2]; a[e2] = t;
-            if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e3] < b[e2]) { long t = b[e3]; b[e3] = b[e2]; b[e2] = t;
+            if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
         }
-        if (a[e4] < a[e3]) { long t = a[e4]; a[e4] = a[e3]; a[e3] = t;
-            if (t < a[e2]) { a[e3] = a[e2]; a[e2] = t;
-                if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e4] < b[e3]) { long t = b[e4]; b[e4] = b[e3]; b[e3] = t;
+            if (t < b[e2]) { b[e3] = b[e2]; b[e2] = t;
+                if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
             }
         }
-        if (a[e5] < a[e4]) { long t = a[e5]; a[e5] = a[e4]; a[e4] = t;
-            if (t < a[e3]) { a[e4] = a[e3]; a[e3] = t;
-                if (t < a[e2]) { a[e3] = a[e2]; a[e2] = t;
-                    if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e5] < b[e4]) { long t = b[e5]; b[e5] = b[e4]; b[e4] = t;
+            if (t < b[e3]) { b[e4] = b[e3]; b[e3] = t;
+                if (t < b[e2]) { b[e3] = b[e2]; b[e2] = t;
+                    if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
                 }
             }
         }
 
         // Pointers
-        int less  = left;  // The index of the first element of center part
-        int great = right; // The index before the first element of right part
+        int less  = left;  // The index of the first element of center pbrt
+        int grebt = right; // The index before the first element of right pbrt
 
-        if (a[e1] != a[e2] && a[e2] != a[e3] && a[e3] != a[e4] && a[e4] != a[e5]) {
+        if (b[e1] != b[e2] && b[e2] != b[e3] && b[e3] != b[e4] && b[e4] != b[e5]) {
             /*
-             * Use the second and fourth of the five sorted elements as pivots.
-             * These values are inexpensive approximations of the first and
-             * second terciles of the array. Note that pivot1 <= pivot2.
+             * Use the second bnd fourth of the five sorted elements bs pivots.
+             * These vblues bre inexpensive bpproximbtions of the first bnd
+             * second terciles of the brrby. Note thbt pivot1 <= pivot2.
              */
-            long pivot1 = a[e2];
-            long pivot2 = a[e4];
+            long pivot1 = b[e2];
+            long pivot2 = b[e4];
 
             /*
-             * The first and the last elements to be sorted are moved to the
-             * locations formerly occupied by the pivots. When partitioning
-             * is complete, the pivots are swapped back into their final
-             * positions, and excluded from subsequent sorting.
+             * The first bnd the lbst elements to be sorted bre moved to the
+             * locbtions formerly occupied by the pivots. When pbrtitioning
+             * is complete, the pivots bre swbpped bbck into their finbl
+             * positions, bnd excluded from subsequent sorting.
              */
-            a[e2] = a[left];
-            a[e4] = a[right];
+            b[e2] = b[left];
+            b[e4] = b[right];
 
             /*
-             * Skip elements, which are less or greater than pivot values.
+             * Skip elements, which bre less or grebter thbn pivot vblues.
              */
-            while (a[++less] < pivot1);
-            while (a[--great] > pivot2);
+            while (b[++less] < pivot1);
+            while (b[--grebt] > pivot2);
 
             /*
-             * Partitioning:
+             * Pbrtitioning:
              *
-             *   left part           center part                   right part
+             *   left pbrt           center pbrt                   right pbrt
              * +--------------------------------------------------------------+
              * |  < pivot1  |  pivot1 <= && <= pivot2  |    ?    |  > pivot2  |
              * +--------------------------------------------------------------+
              *               ^                          ^       ^
              *               |                          |       |
-             *              less                        k     great
+             *              less                        k     grebt
              *
-             * Invariants:
+             * Invbribnts:
              *
-             *              all in (left, less)   < pivot1
-             *    pivot1 <= all in [less, k)     <= pivot2
-             *              all in (great, right) > pivot2
+             *              bll in (left, less)   < pivot1
+             *    pivot1 <= bll in [less, k)     <= pivot2
+             *              bll in (grebt, right) > pivot2
              *
-             * Pointer k is the first index of ?-part.
+             * Pointer k is the first index of ?-pbrt.
              */
             outer:
-            for (int k = less - 1; ++k <= great; ) {
-                long ak = a[k];
-                if (ak < pivot1) { // Move a[k] to left part
-                    a[k] = a[less];
+            for (int k = less - 1; ++k <= grebt; ) {
+                long bk = b[k];
+                if (bk < pivot1) { // Move b[k] to left pbrt
+                    b[k] = b[less];
                     /*
-                     * Here and below we use "a[i] = b; i++;" instead
-                     * of "a[i++] = b;" due to performance issue.
+                     * Here bnd below we use "b[i] = b; i++;" instebd
+                     * of "b[i++] = b;" due to performbnce issue.
                      */
-                    a[less] = ak;
+                    b[less] = bk;
                     ++less;
-                } else if (ak > pivot2) { // Move a[k] to right part
-                    while (a[great] > pivot2) {
-                        if (great-- == k) {
-                            break outer;
+                } else if (bk > pivot2) { // Move b[k] to right pbrt
+                    while (b[grebt] > pivot2) {
+                        if (grebt-- == k) {
+                            brebk outer;
                         }
                     }
-                    if (a[great] < pivot1) { // a[great] <= pivot2
-                        a[k] = a[less];
-                        a[less] = a[great];
+                    if (b[grebt] < pivot1) { // b[grebt] <= pivot2
+                        b[k] = b[less];
+                        b[less] = b[grebt];
                         ++less;
-                    } else { // pivot1 <= a[great] <= pivot2
-                        a[k] = a[great];
+                    } else { // pivot1 <= b[grebt] <= pivot2
+                        b[k] = b[grebt];
                     }
                     /*
-                     * Here and below we use "a[i] = b; i--;" instead
-                     * of "a[i--] = b;" due to performance issue.
+                     * Here bnd below we use "b[i] = b; i--;" instebd
+                     * of "b[i--] = b;" due to performbnce issue.
                      */
-                    a[great] = ak;
-                    --great;
+                    b[grebt] = bk;
+                    --grebt;
                 }
             }
 
-            // Swap pivots into their final positions
-            a[left]  = a[less  - 1]; a[less  - 1] = pivot1;
-            a[right] = a[great + 1]; a[great + 1] = pivot2;
+            // Swbp pivots into their finbl positions
+            b[left]  = b[less  - 1]; b[less  - 1] = pivot1;
+            b[right] = b[grebt + 1]; b[grebt + 1] = pivot2;
 
-            // Sort left and right parts recursively, excluding known pivots
-            sort(a, left, less - 2, leftmost);
-            sort(a, great + 2, right, false);
+            // Sort left bnd right pbrts recursively, excluding known pivots
+            sort(b, left, less - 2, leftmost);
+            sort(b, grebt + 2, right, fblse);
 
             /*
-             * If center part is too large (comprises > 4/7 of the array),
-             * swap internal pivot values to ends.
+             * If center pbrt is too lbrge (comprises > 4/7 of the brrby),
+             * swbp internbl pivot vblues to ends.
              */
-            if (less < e1 && e5 < great) {
+            if (less < e1 && e5 < grebt) {
                 /*
-                 * Skip elements, which are equal to pivot values.
+                 * Skip elements, which bre equbl to pivot vblues.
                  */
-                while (a[less] == pivot1) {
+                while (b[less] == pivot1) {
                     ++less;
                 }
 
-                while (a[great] == pivot2) {
-                    --great;
+                while (b[grebt] == pivot2) {
+                    --grebt;
                 }
 
                 /*
-                 * Partitioning:
+                 * Pbrtitioning:
                  *
-                 *   left part         center part                  right part
+                 *   left pbrt         center pbrt                  right pbrt
                  * +----------------------------------------------------------+
                  * | == pivot1 |  pivot1 < && < pivot2  |    ?    | == pivot2 |
                  * +----------------------------------------------------------+
                  *              ^                        ^       ^
                  *              |                        |       |
-                 *             less                      k     great
+                 *             less                      k     grebt
                  *
-                 * Invariants:
+                 * Invbribnts:
                  *
-                 *              all in (*,  less) == pivot1
-                 *     pivot1 < all in [less,  k)  < pivot2
-                 *              all in (great, *) == pivot2
+                 *              bll in (*,  less) == pivot1
+                 *     pivot1 < bll in [less,  k)  < pivot2
+                 *              bll in (grebt, *) == pivot2
                  *
-                 * Pointer k is the first index of ?-part.
+                 * Pointer k is the first index of ?-pbrt.
                  */
                 outer:
-                for (int k = less - 1; ++k <= great; ) {
-                    long ak = a[k];
-                    if (ak == pivot1) { // Move a[k] to left part
-                        a[k] = a[less];
-                        a[less] = ak;
+                for (int k = less - 1; ++k <= grebt; ) {
+                    long bk = b[k];
+                    if (bk == pivot1) { // Move b[k] to left pbrt
+                        b[k] = b[less];
+                        b[less] = bk;
                         ++less;
-                    } else if (ak == pivot2) { // Move a[k] to right part
-                        while (a[great] == pivot2) {
-                            if (great-- == k) {
-                                break outer;
+                    } else if (bk == pivot2) { // Move b[k] to right pbrt
+                        while (b[grebt] == pivot2) {
+                            if (grebt-- == k) {
+                                brebk outer;
                             }
                         }
-                        if (a[great] == pivot1) { // a[great] < pivot2
-                            a[k] = a[less];
+                        if (b[grebt] == pivot1) { // b[grebt] < pivot2
+                            b[k] = b[less];
                             /*
-                             * Even though a[great] equals to pivot1, the
-                             * assignment a[less] = pivot1 may be incorrect,
-                             * if a[great] and pivot1 are floating-point zeros
-                             * of different signs. Therefore in float and
-                             * double sorting methods we have to use more
-                             * accurate assignment a[less] = a[great].
+                             * Even though b[grebt] equbls to pivot1, the
+                             * bssignment b[less] = pivot1 mby be incorrect,
+                             * if b[grebt] bnd pivot1 bre flobting-point zeros
+                             * of different signs. Therefore in flobt bnd
+                             * double sorting methods we hbve to use more
+                             * bccurbte bssignment b[less] = b[grebt].
                              */
-                            a[less] = pivot1;
+                            b[less] = pivot1;
                             ++less;
-                        } else { // pivot1 < a[great] < pivot2
-                            a[k] = a[great];
+                        } else { // pivot1 < b[grebt] < pivot2
+                            b[k] = b[grebt];
                         }
-                        a[great] = ak;
-                        --great;
+                        b[grebt] = bk;
+                        --grebt;
                     }
                 }
             }
 
-            // Sort center part recursively
-            sort(a, less, great, false);
+            // Sort center pbrt recursively
+            sort(b, less, grebt, fblse);
 
-        } else { // Partitioning with one pivot
+        } else { // Pbrtitioning with one pivot
             /*
-             * Use the third of the five sorted elements as pivot.
-             * This value is inexpensive approximation of the median.
+             * Use the third of the five sorted elements bs pivot.
+             * This vblue is inexpensive bpproximbtion of the medibn.
              */
-            long pivot = a[e3];
+            long pivot = b[e3];
 
             /*
-             * Partitioning degenerates to the traditional 3-way
-             * (or "Dutch National Flag") schema:
+             * Pbrtitioning degenerbtes to the trbditionbl 3-wby
+             * (or "Dutch Nbtionbl Flbg") schemb:
              *
-             *   left part    center part              right part
+             *   left pbrt    center pbrt              right pbrt
              * +-------------------------------------------------+
              * |  < pivot  |   == pivot   |     ?    |  > pivot  |
              * +-------------------------------------------------+
              *              ^              ^        ^
              *              |              |        |
-             *             less            k      great
+             *             less            k      grebt
              *
-             * Invariants:
+             * Invbribnts:
              *
-             *   all in (left, less)   < pivot
-             *   all in [less, k)     == pivot
-             *   all in (great, right) > pivot
+             *   bll in (left, less)   < pivot
+             *   bll in [less, k)     == pivot
+             *   bll in (grebt, right) > pivot
              *
-             * Pointer k is the first index of ?-part.
+             * Pointer k is the first index of ?-pbrt.
              */
-            for (int k = less; k <= great; ++k) {
-                if (a[k] == pivot) {
+            for (int k = less; k <= grebt; ++k) {
+                if (b[k] == pivot) {
                     continue;
                 }
-                long ak = a[k];
-                if (ak < pivot) { // Move a[k] to left part
-                    a[k] = a[less];
-                    a[less] = ak;
+                long bk = b[k];
+                if (bk < pivot) { // Move b[k] to left pbrt
+                    b[k] = b[less];
+                    b[less] = bk;
                     ++less;
-                } else { // a[k] > pivot - Move a[k] to right part
-                    while (a[great] > pivot) {
-                        --great;
+                } else { // b[k] > pivot - Move b[k] to right pbrt
+                    while (b[grebt] > pivot) {
+                        --grebt;
                     }
-                    if (a[great] < pivot) { // a[great] <= pivot
-                        a[k] = a[less];
-                        a[less] = a[great];
+                    if (b[grebt] < pivot) { // b[grebt] <= pivot
+                        b[k] = b[less];
+                        b[less] = b[grebt];
                         ++less;
-                    } else { // a[great] == pivot
+                    } else { // b[grebt] == pivot
                         /*
-                         * Even though a[great] equals to pivot, the
-                         * assignment a[k] = pivot may be incorrect,
-                         * if a[great] and pivot are floating-point
-                         * zeros of different signs. Therefore in float
-                         * and double sorting methods we have to use
-                         * more accurate assignment a[k] = a[great].
+                         * Even though b[grebt] equbls to pivot, the
+                         * bssignment b[k] = pivot mby be incorrect,
+                         * if b[grebt] bnd pivot bre flobting-point
+                         * zeros of different signs. Therefore in flobt
+                         * bnd double sorting methods we hbve to use
+                         * more bccurbte bssignment b[k] = b[grebt].
                          */
-                        a[k] = pivot;
+                        b[k] = pivot;
                     }
-                    a[great] = ak;
-                    --great;
+                    b[grebt] = bk;
+                    --grebt;
                 }
             }
 
             /*
-             * Sort left and right parts recursively.
-             * All elements from center part are equal
-             * and, therefore, already sorted.
+             * Sort left bnd right pbrts recursively.
+             * All elements from center pbrt bre equbl
+             * bnd, therefore, blrebdy sorted.
              */
-            sort(a, left, less - 1, leftmost);
-            sort(a, great + 1, right, false);
+            sort(b, left, less - 1, leftmost);
+            sort(b, grebt + 1, right, fblse);
         }
     }
 
     /**
-     * Sorts the specified range of the array using the given
-     * workspace array slice if possible for merging
+     * Sorts the specified rbnge of the brrby using the given
+     * workspbce brrby slice if possible for merging
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param work a workspace array (slice)
-     * @param workBase origin of usable space in work array
-     * @param workLen usable size of work array
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm work b workspbce brrby (slice)
+     * @pbrbm workBbse origin of usbble spbce in work brrby
+     * @pbrbm workLen usbble size of work brrby
      */
-    static void sort(short[] a, int left, int right,
-                     short[] work, int workBase, int workLen) {
-        // Use counting sort on large arrays
+    stbtic void sort(short[] b, int left, int right,
+                     short[] work, int workBbse, int workLen) {
+        // Use counting sort on lbrge brrbys
         if (right - left > COUNTING_SORT_THRESHOLD_FOR_SHORT_OR_CHAR) {
             int[] count = new int[NUM_SHORT_VALUES];
 
             for (int i = left - 1; ++i <= right;
-                count[a[i] - Short.MIN_VALUE]++
+                count[b[i] - Short.MIN_VALUE]++
             );
             for (int i = NUM_SHORT_VALUES, k = right + 1; k > left; ) {
                 while (count[--i] == 0);
-                short value = (short) (i + Short.MIN_VALUE);
+                short vblue = (short) (i + Short.MIN_VALUE);
                 int s = count[i];
 
                 do {
-                    a[--k] = value;
+                    b[--k] = vblue;
                 } while (--s > 0);
             }
-        } else { // Use Dual-Pivot Quicksort on small arrays
-            doSort(a, left, right, work, workBase, workLen);
+        } else { // Use Dubl-Pivot Quicksort on smbll brrbys
+            doSort(b, left, right, work, workBbse, workLen);
         }
     }
 
-    /** The number of distinct short values. */
-    private static final int NUM_SHORT_VALUES = 1 << 16;
+    /** The number of distinct short vblues. */
+    privbte stbtic finbl int NUM_SHORT_VALUES = 1 << 16;
 
     /**
-     * Sorts the specified range of the array.
+     * Sorts the specified rbnge of the brrby.
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param work a workspace array (slice)
-     * @param workBase origin of usable space in work array
-     * @param workLen usable size of work array
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm work b workspbce brrby (slice)
+     * @pbrbm workBbse origin of usbble spbce in work brrby
+     * @pbrbm workLen usbble size of work brrby
      */
-    private static void doSort(short[] a, int left, int right,
-                               short[] work, int workBase, int workLen) {
-        // Use Quicksort on small arrays
+    privbte stbtic void doSort(short[] b, int left, int right,
+                               short[] work, int workBbse, int workLen) {
+        // Use Quicksort on smbll brrbys
         if (right - left < QUICKSORT_THRESHOLD) {
-            sort(a, left, right, true);
+            sort(b, left, right, true);
             return;
         }
 
         /*
-         * Index run[i] is the start of i-th run
-         * (ascending or descending sequence).
+         * Index run[i] is the stbrt of i-th run
+         * (bscending or descending sequence).
          */
         int[] run = new int[MAX_RUN_COUNT + 1];
         int count = 0; run[0] = left;
 
-        // Check if the array is nearly sorted
+        // Check if the brrby is nebrly sorted
         for (int k = left; k < right; run[count] = k) {
-            if (a[k] < a[k + 1]) { // ascending
-                while (++k <= right && a[k - 1] <= a[k]);
-            } else if (a[k] > a[k + 1]) { // descending
-                while (++k <= right && a[k - 1] >= a[k]);
+            if (b[k] < b[k + 1]) { // bscending
+                while (++k <= right && b[k - 1] <= b[k]);
+            } else if (b[k] > b[k + 1]) { // descending
+                while (++k <= right && b[k - 1] >= b[k]);
                 for (int lo = run[count] - 1, hi = k; ++lo < --hi; ) {
-                    short t = a[lo]; a[lo] = a[hi]; a[hi] = t;
+                    short t = b[lo]; b[lo] = b[hi]; b[hi] = t;
                 }
-            } else { // equal
-                for (int m = MAX_RUN_LENGTH; ++k <= right && a[k - 1] == a[k]; ) {
+            } else { // equbl
+                for (int m = MAX_RUN_LENGTH; ++k <= right && b[k - 1] == b[k]; ) {
                     if (--m == 0) {
-                        sort(a, left, right, true);
+                        sort(b, left, right, true);
                         return;
                     }
                 }
             }
 
             /*
-             * The array is not highly structured,
-             * use Quicksort instead of merge sort.
+             * The brrby is not highly structured,
+             * use Quicksort instebd of merge sort.
              */
             if (++count == MAX_RUN_COUNT) {
-                sort(a, left, right, true);
+                sort(b, left, right, true);
                 return;
             }
         }
 
-        // Check special cases
-        // Implementation note: variable "right" is increased by 1.
-        if (run[count] == right++) { // The last run contains one element
+        // Check specibl cbses
+        // Implementbtion note: vbribble "right" is increbsed by 1.
+        if (run[count] == right++) { // The lbst run contbins one element
             run[++count] = right;
-        } else if (count == 1) { // The array is already sorted
+        } else if (count == 1) { // The brrby is blrebdy sorted
             return;
         }
 
-        // Determine alternation base for merge
+        // Determine blternbtion bbse for merge
         byte odd = 0;
         for (int n = 1; (n <<= 1) < count; odd ^= 1);
 
-        // Use or create temporary array b for merging
-        short[] b;                 // temp array; alternates with a
-        int ao, bo;              // array offsets from 'left'
-        int blen = right - left; // space needed for b
-        if (work == null || workLen < blen || workBase + blen > work.length) {
+        // Use or crebte temporbry brrby b for merging
+        short[] b;                 // temp brrby; blternbtes with b
+        int bo, bo;              // brrby offsets from 'left'
+        int blen = right - left; // spbce needed for b
+        if (work == null || workLen < blen || workBbse + blen > work.length) {
             work = new short[blen];
-            workBase = 0;
+            workBbse = 0;
         }
         if (odd == 0) {
-            System.arraycopy(a, left, work, workBase, blen);
-            b = a;
+            System.brrbycopy(b, left, work, workBbse, blen);
+            b = b;
             bo = 0;
-            a = work;
-            ao = workBase - left;
+            b = work;
+            bo = workBbse - left;
         } else {
             b = work;
-            ao = 0;
-            bo = workBase - left;
+            bo = 0;
+            bo = workBbse - left;
         }
 
         // Merging
-        for (int last; count > 1; count = last) {
-            for (int k = (last = 0) + 2; k <= count; k += 2) {
+        for (int lbst; count > 1; count = lbst) {
+            for (int k = (lbst = 0) + 2; k <= count; k += 2) {
                 int hi = run[k], mi = run[k - 1];
                 for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
-                    if (q >= hi || p < mi && a[p + ao] <= a[q + ao]) {
-                        b[i + bo] = a[p++ + ao];
+                    if (q >= hi || p < mi && b[p + bo] <= b[q + bo]) {
+                        b[i + bo] = b[p++ + bo];
                     } else {
-                        b[i + bo] = a[q++ + ao];
+                        b[i + bo] = b[q++ + bo];
                     }
                 }
-                run[++last] = hi;
+                run[++lbst] = hi;
             }
             if ((count & 1) != 0) {
                 for (int i = right, lo = run[count - 1]; --i >= lo;
-                    b[i + bo] = a[i + ao]
+                    b[i + bo] = b[i + bo]
                 );
-                run[++last] = right;
+                run[++lbst] = right;
             }
-            short[] t = a; a = b; b = t;
-            int o = ao; ao = bo; bo = o;
+            short[] t = b; b = b; b = t;
+            int o = bo; bo = bo; bo = o;
         }
     }
 
     /**
-     * Sorts the specified range of the array by Dual-Pivot Quicksort.
+     * Sorts the specified rbnge of the brrby by Dubl-Pivot Quicksort.
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param leftmost indicates if this part is the leftmost in the range
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm leftmost indicbtes if this pbrt is the leftmost in the rbnge
      */
-    private static void sort(short[] a, int left, int right, boolean leftmost) {
+    privbte stbtic void sort(short[] b, int left, int right, boolebn leftmost) {
         int length = right - left + 1;
 
-        // Use insertion sort on tiny arrays
+        // Use insertion sort on tiny brrbys
         if (length < INSERTION_SORT_THRESHOLD) {
             if (leftmost) {
                 /*
-                 * Traditional (without sentinel) insertion sort,
-                 * optimized for server VM, is used in case of
-                 * the leftmost part.
+                 * Trbditionbl (without sentinel) insertion sort,
+                 * optimized for server VM, is used in cbse of
+                 * the leftmost pbrt.
                  */
                 for (int i = left, j = i; i < right; j = ++i) {
-                    short ai = a[i + 1];
-                    while (ai < a[j]) {
-                        a[j + 1] = a[j];
+                    short bi = b[i + 1];
+                    while (bi < b[j]) {
+                        b[j + 1] = b[j];
                         if (j-- == left) {
-                            break;
+                            brebk;
                         }
                     }
-                    a[j + 1] = ai;
+                    b[j + 1] = bi;
                 }
             } else {
                 /*
-                 * Skip the longest ascending sequence.
+                 * Skip the longest bscending sequence.
                  */
                 do {
                     if (left >= right) {
                         return;
                     }
-                } while (a[++left] >= a[left - 1]);
+                } while (b[++left] >= b[left - 1]);
 
                 /*
-                 * Every element from adjoining part plays the role
-                 * of sentinel, therefore this allows us to avoid the
-                 * left range check on each iteration. Moreover, we use
-                 * the more optimized algorithm, so called pair insertion
-                 * sort, which is faster (in the context of Quicksort)
-                 * than traditional implementation of insertion sort.
+                 * Every element from bdjoining pbrt plbys the role
+                 * of sentinel, therefore this bllows us to bvoid the
+                 * left rbnge check on ebch iterbtion. Moreover, we use
+                 * the more optimized blgorithm, so cblled pbir insertion
+                 * sort, which is fbster (in the context of Quicksort)
+                 * thbn trbditionbl implementbtion of insertion sort.
                  */
                 for (int k = left; ++left <= right; k = ++left) {
-                    short a1 = a[k], a2 = a[left];
+                    short b1 = b[k], b2 = b[left];
 
-                    if (a1 < a2) {
-                        a2 = a1; a1 = a[left];
+                    if (b1 < b2) {
+                        b2 = b1; b1 = b[left];
                     }
-                    while (a1 < a[--k]) {
-                        a[k + 2] = a[k];
+                    while (b1 < b[--k]) {
+                        b[k + 2] = b[k];
                     }
-                    a[++k + 1] = a1;
+                    b[++k + 1] = b1;
 
-                    while (a2 < a[--k]) {
-                        a[k + 1] = a[k];
+                    while (b2 < b[--k]) {
+                        b[k + 1] = b[k];
                     }
-                    a[k + 1] = a2;
+                    b[k + 1] = b2;
                 }
-                short last = a[right];
+                short lbst = b[right];
 
-                while (last < a[--right]) {
-                    a[right + 1] = a[right];
+                while (lbst < b[--right]) {
+                    b[right + 1] = b[right];
                 }
-                a[right + 1] = last;
+                b[right + 1] = lbst;
             }
             return;
         }
 
-        // Inexpensive approximation of length / 7
+        // Inexpensive bpproximbtion of length / 7
         int seventh = (length >> 3) + (length >> 6) + 1;
 
         /*
-         * Sort five evenly spaced elements around (and including) the
-         * center element in the range. These elements will be used for
-         * pivot selection as described below. The choice for spacing
-         * these elements was empirically determined to work well on
-         * a wide variety of inputs.
+         * Sort five evenly spbced elements bround (bnd including) the
+         * center element in the rbnge. These elements will be used for
+         * pivot selection bs described below. The choice for spbcing
+         * these elements wbs empiricblly determined to work well on
+         * b wide vbriety of inputs.
          */
         int e3 = (left + right) >>> 1; // The midpoint
         int e2 = e3 - seventh;
@@ -1225,482 +1225,482 @@ final class DualPivotQuicksort {
         int e5 = e4 + seventh;
 
         // Sort these elements using insertion sort
-        if (a[e2] < a[e1]) { short t = a[e2]; a[e2] = a[e1]; a[e1] = t; }
+        if (b[e2] < b[e1]) { short t = b[e2]; b[e2] = b[e1]; b[e1] = t; }
 
-        if (a[e3] < a[e2]) { short t = a[e3]; a[e3] = a[e2]; a[e2] = t;
-            if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e3] < b[e2]) { short t = b[e3]; b[e3] = b[e2]; b[e2] = t;
+            if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
         }
-        if (a[e4] < a[e3]) { short t = a[e4]; a[e4] = a[e3]; a[e3] = t;
-            if (t < a[e2]) { a[e3] = a[e2]; a[e2] = t;
-                if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e4] < b[e3]) { short t = b[e4]; b[e4] = b[e3]; b[e3] = t;
+            if (t < b[e2]) { b[e3] = b[e2]; b[e2] = t;
+                if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
             }
         }
-        if (a[e5] < a[e4]) { short t = a[e5]; a[e5] = a[e4]; a[e4] = t;
-            if (t < a[e3]) { a[e4] = a[e3]; a[e3] = t;
-                if (t < a[e2]) { a[e3] = a[e2]; a[e2] = t;
-                    if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e5] < b[e4]) { short t = b[e5]; b[e5] = b[e4]; b[e4] = t;
+            if (t < b[e3]) { b[e4] = b[e3]; b[e3] = t;
+                if (t < b[e2]) { b[e3] = b[e2]; b[e2] = t;
+                    if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
                 }
             }
         }
 
         // Pointers
-        int less  = left;  // The index of the first element of center part
-        int great = right; // The index before the first element of right part
+        int less  = left;  // The index of the first element of center pbrt
+        int grebt = right; // The index before the first element of right pbrt
 
-        if (a[e1] != a[e2] && a[e2] != a[e3] && a[e3] != a[e4] && a[e4] != a[e5]) {
+        if (b[e1] != b[e2] && b[e2] != b[e3] && b[e3] != b[e4] && b[e4] != b[e5]) {
             /*
-             * Use the second and fourth of the five sorted elements as pivots.
-             * These values are inexpensive approximations of the first and
-             * second terciles of the array. Note that pivot1 <= pivot2.
+             * Use the second bnd fourth of the five sorted elements bs pivots.
+             * These vblues bre inexpensive bpproximbtions of the first bnd
+             * second terciles of the brrby. Note thbt pivot1 <= pivot2.
              */
-            short pivot1 = a[e2];
-            short pivot2 = a[e4];
+            short pivot1 = b[e2];
+            short pivot2 = b[e4];
 
             /*
-             * The first and the last elements to be sorted are moved to the
-             * locations formerly occupied by the pivots. When partitioning
-             * is complete, the pivots are swapped back into their final
-             * positions, and excluded from subsequent sorting.
+             * The first bnd the lbst elements to be sorted bre moved to the
+             * locbtions formerly occupied by the pivots. When pbrtitioning
+             * is complete, the pivots bre swbpped bbck into their finbl
+             * positions, bnd excluded from subsequent sorting.
              */
-            a[e2] = a[left];
-            a[e4] = a[right];
+            b[e2] = b[left];
+            b[e4] = b[right];
 
             /*
-             * Skip elements, which are less or greater than pivot values.
+             * Skip elements, which bre less or grebter thbn pivot vblues.
              */
-            while (a[++less] < pivot1);
-            while (a[--great] > pivot2);
+            while (b[++less] < pivot1);
+            while (b[--grebt] > pivot2);
 
             /*
-             * Partitioning:
+             * Pbrtitioning:
              *
-             *   left part           center part                   right part
+             *   left pbrt           center pbrt                   right pbrt
              * +--------------------------------------------------------------+
              * |  < pivot1  |  pivot1 <= && <= pivot2  |    ?    |  > pivot2  |
              * +--------------------------------------------------------------+
              *               ^                          ^       ^
              *               |                          |       |
-             *              less                        k     great
+             *              less                        k     grebt
              *
-             * Invariants:
+             * Invbribnts:
              *
-             *              all in (left, less)   < pivot1
-             *    pivot1 <= all in [less, k)     <= pivot2
-             *              all in (great, right) > pivot2
+             *              bll in (left, less)   < pivot1
+             *    pivot1 <= bll in [less, k)     <= pivot2
+             *              bll in (grebt, right) > pivot2
              *
-             * Pointer k is the first index of ?-part.
+             * Pointer k is the first index of ?-pbrt.
              */
             outer:
-            for (int k = less - 1; ++k <= great; ) {
-                short ak = a[k];
-                if (ak < pivot1) { // Move a[k] to left part
-                    a[k] = a[less];
+            for (int k = less - 1; ++k <= grebt; ) {
+                short bk = b[k];
+                if (bk < pivot1) { // Move b[k] to left pbrt
+                    b[k] = b[less];
                     /*
-                     * Here and below we use "a[i] = b; i++;" instead
-                     * of "a[i++] = b;" due to performance issue.
+                     * Here bnd below we use "b[i] = b; i++;" instebd
+                     * of "b[i++] = b;" due to performbnce issue.
                      */
-                    a[less] = ak;
+                    b[less] = bk;
                     ++less;
-                } else if (ak > pivot2) { // Move a[k] to right part
-                    while (a[great] > pivot2) {
-                        if (great-- == k) {
-                            break outer;
+                } else if (bk > pivot2) { // Move b[k] to right pbrt
+                    while (b[grebt] > pivot2) {
+                        if (grebt-- == k) {
+                            brebk outer;
                         }
                     }
-                    if (a[great] < pivot1) { // a[great] <= pivot2
-                        a[k] = a[less];
-                        a[less] = a[great];
+                    if (b[grebt] < pivot1) { // b[grebt] <= pivot2
+                        b[k] = b[less];
+                        b[less] = b[grebt];
                         ++less;
-                    } else { // pivot1 <= a[great] <= pivot2
-                        a[k] = a[great];
+                    } else { // pivot1 <= b[grebt] <= pivot2
+                        b[k] = b[grebt];
                     }
                     /*
-                     * Here and below we use "a[i] = b; i--;" instead
-                     * of "a[i--] = b;" due to performance issue.
+                     * Here bnd below we use "b[i] = b; i--;" instebd
+                     * of "b[i--] = b;" due to performbnce issue.
                      */
-                    a[great] = ak;
-                    --great;
+                    b[grebt] = bk;
+                    --grebt;
                 }
             }
 
-            // Swap pivots into their final positions
-            a[left]  = a[less  - 1]; a[less  - 1] = pivot1;
-            a[right] = a[great + 1]; a[great + 1] = pivot2;
+            // Swbp pivots into their finbl positions
+            b[left]  = b[less  - 1]; b[less  - 1] = pivot1;
+            b[right] = b[grebt + 1]; b[grebt + 1] = pivot2;
 
-            // Sort left and right parts recursively, excluding known pivots
-            sort(a, left, less - 2, leftmost);
-            sort(a, great + 2, right, false);
+            // Sort left bnd right pbrts recursively, excluding known pivots
+            sort(b, left, less - 2, leftmost);
+            sort(b, grebt + 2, right, fblse);
 
             /*
-             * If center part is too large (comprises > 4/7 of the array),
-             * swap internal pivot values to ends.
+             * If center pbrt is too lbrge (comprises > 4/7 of the brrby),
+             * swbp internbl pivot vblues to ends.
              */
-            if (less < e1 && e5 < great) {
+            if (less < e1 && e5 < grebt) {
                 /*
-                 * Skip elements, which are equal to pivot values.
+                 * Skip elements, which bre equbl to pivot vblues.
                  */
-                while (a[less] == pivot1) {
+                while (b[less] == pivot1) {
                     ++less;
                 }
 
-                while (a[great] == pivot2) {
-                    --great;
+                while (b[grebt] == pivot2) {
+                    --grebt;
                 }
 
                 /*
-                 * Partitioning:
+                 * Pbrtitioning:
                  *
-                 *   left part         center part                  right part
+                 *   left pbrt         center pbrt                  right pbrt
                  * +----------------------------------------------------------+
                  * | == pivot1 |  pivot1 < && < pivot2  |    ?    | == pivot2 |
                  * +----------------------------------------------------------+
                  *              ^                        ^       ^
                  *              |                        |       |
-                 *             less                      k     great
+                 *             less                      k     grebt
                  *
-                 * Invariants:
+                 * Invbribnts:
                  *
-                 *              all in (*,  less) == pivot1
-                 *     pivot1 < all in [less,  k)  < pivot2
-                 *              all in (great, *) == pivot2
+                 *              bll in (*,  less) == pivot1
+                 *     pivot1 < bll in [less,  k)  < pivot2
+                 *              bll in (grebt, *) == pivot2
                  *
-                 * Pointer k is the first index of ?-part.
+                 * Pointer k is the first index of ?-pbrt.
                  */
                 outer:
-                for (int k = less - 1; ++k <= great; ) {
-                    short ak = a[k];
-                    if (ak == pivot1) { // Move a[k] to left part
-                        a[k] = a[less];
-                        a[less] = ak;
+                for (int k = less - 1; ++k <= grebt; ) {
+                    short bk = b[k];
+                    if (bk == pivot1) { // Move b[k] to left pbrt
+                        b[k] = b[less];
+                        b[less] = bk;
                         ++less;
-                    } else if (ak == pivot2) { // Move a[k] to right part
-                        while (a[great] == pivot2) {
-                            if (great-- == k) {
-                                break outer;
+                    } else if (bk == pivot2) { // Move b[k] to right pbrt
+                        while (b[grebt] == pivot2) {
+                            if (grebt-- == k) {
+                                brebk outer;
                             }
                         }
-                        if (a[great] == pivot1) { // a[great] < pivot2
-                            a[k] = a[less];
+                        if (b[grebt] == pivot1) { // b[grebt] < pivot2
+                            b[k] = b[less];
                             /*
-                             * Even though a[great] equals to pivot1, the
-                             * assignment a[less] = pivot1 may be incorrect,
-                             * if a[great] and pivot1 are floating-point zeros
-                             * of different signs. Therefore in float and
-                             * double sorting methods we have to use more
-                             * accurate assignment a[less] = a[great].
+                             * Even though b[grebt] equbls to pivot1, the
+                             * bssignment b[less] = pivot1 mby be incorrect,
+                             * if b[grebt] bnd pivot1 bre flobting-point zeros
+                             * of different signs. Therefore in flobt bnd
+                             * double sorting methods we hbve to use more
+                             * bccurbte bssignment b[less] = b[grebt].
                              */
-                            a[less] = pivot1;
+                            b[less] = pivot1;
                             ++less;
-                        } else { // pivot1 < a[great] < pivot2
-                            a[k] = a[great];
+                        } else { // pivot1 < b[grebt] < pivot2
+                            b[k] = b[grebt];
                         }
-                        a[great] = ak;
-                        --great;
+                        b[grebt] = bk;
+                        --grebt;
                     }
                 }
             }
 
-            // Sort center part recursively
-            sort(a, less, great, false);
+            // Sort center pbrt recursively
+            sort(b, less, grebt, fblse);
 
-        } else { // Partitioning with one pivot
+        } else { // Pbrtitioning with one pivot
             /*
-             * Use the third of the five sorted elements as pivot.
-             * This value is inexpensive approximation of the median.
+             * Use the third of the five sorted elements bs pivot.
+             * This vblue is inexpensive bpproximbtion of the medibn.
              */
-            short pivot = a[e3];
+            short pivot = b[e3];
 
             /*
-             * Partitioning degenerates to the traditional 3-way
-             * (or "Dutch National Flag") schema:
+             * Pbrtitioning degenerbtes to the trbditionbl 3-wby
+             * (or "Dutch Nbtionbl Flbg") schemb:
              *
-             *   left part    center part              right part
+             *   left pbrt    center pbrt              right pbrt
              * +-------------------------------------------------+
              * |  < pivot  |   == pivot   |     ?    |  > pivot  |
              * +-------------------------------------------------+
              *              ^              ^        ^
              *              |              |        |
-             *             less            k      great
+             *             less            k      grebt
              *
-             * Invariants:
+             * Invbribnts:
              *
-             *   all in (left, less)   < pivot
-             *   all in [less, k)     == pivot
-             *   all in (great, right) > pivot
+             *   bll in (left, less)   < pivot
+             *   bll in [less, k)     == pivot
+             *   bll in (grebt, right) > pivot
              *
-             * Pointer k is the first index of ?-part.
+             * Pointer k is the first index of ?-pbrt.
              */
-            for (int k = less; k <= great; ++k) {
-                if (a[k] == pivot) {
+            for (int k = less; k <= grebt; ++k) {
+                if (b[k] == pivot) {
                     continue;
                 }
-                short ak = a[k];
-                if (ak < pivot) { // Move a[k] to left part
-                    a[k] = a[less];
-                    a[less] = ak;
+                short bk = b[k];
+                if (bk < pivot) { // Move b[k] to left pbrt
+                    b[k] = b[less];
+                    b[less] = bk;
                     ++less;
-                } else { // a[k] > pivot - Move a[k] to right part
-                    while (a[great] > pivot) {
-                        --great;
+                } else { // b[k] > pivot - Move b[k] to right pbrt
+                    while (b[grebt] > pivot) {
+                        --grebt;
                     }
-                    if (a[great] < pivot) { // a[great] <= pivot
-                        a[k] = a[less];
-                        a[less] = a[great];
+                    if (b[grebt] < pivot) { // b[grebt] <= pivot
+                        b[k] = b[less];
+                        b[less] = b[grebt];
                         ++less;
-                    } else { // a[great] == pivot
+                    } else { // b[grebt] == pivot
                         /*
-                         * Even though a[great] equals to pivot, the
-                         * assignment a[k] = pivot may be incorrect,
-                         * if a[great] and pivot are floating-point
-                         * zeros of different signs. Therefore in float
-                         * and double sorting methods we have to use
-                         * more accurate assignment a[k] = a[great].
+                         * Even though b[grebt] equbls to pivot, the
+                         * bssignment b[k] = pivot mby be incorrect,
+                         * if b[grebt] bnd pivot bre flobting-point
+                         * zeros of different signs. Therefore in flobt
+                         * bnd double sorting methods we hbve to use
+                         * more bccurbte bssignment b[k] = b[grebt].
                          */
-                        a[k] = pivot;
+                        b[k] = pivot;
                     }
-                    a[great] = ak;
-                    --great;
+                    b[grebt] = bk;
+                    --grebt;
                 }
             }
 
             /*
-             * Sort left and right parts recursively.
-             * All elements from center part are equal
-             * and, therefore, already sorted.
+             * Sort left bnd right pbrts recursively.
+             * All elements from center pbrt bre equbl
+             * bnd, therefore, blrebdy sorted.
              */
-            sort(a, left, less - 1, leftmost);
-            sort(a, great + 1, right, false);
+            sort(b, left, less - 1, leftmost);
+            sort(b, grebt + 1, right, fblse);
         }
     }
 
     /**
-     * Sorts the specified range of the array using the given
-     * workspace array slice if possible for merging
+     * Sorts the specified rbnge of the brrby using the given
+     * workspbce brrby slice if possible for merging
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param work a workspace array (slice)
-     * @param workBase origin of usable space in work array
-     * @param workLen usable size of work array
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm work b workspbce brrby (slice)
+     * @pbrbm workBbse origin of usbble spbce in work brrby
+     * @pbrbm workLen usbble size of work brrby
      */
-    static void sort(char[] a, int left, int right,
-                     char[] work, int workBase, int workLen) {
-        // Use counting sort on large arrays
+    stbtic void sort(chbr[] b, int left, int right,
+                     chbr[] work, int workBbse, int workLen) {
+        // Use counting sort on lbrge brrbys
         if (right - left > COUNTING_SORT_THRESHOLD_FOR_SHORT_OR_CHAR) {
             int[] count = new int[NUM_CHAR_VALUES];
 
             for (int i = left - 1; ++i <= right;
-                count[a[i]]++
+                count[b[i]]++
             );
             for (int i = NUM_CHAR_VALUES, k = right + 1; k > left; ) {
                 while (count[--i] == 0);
-                char value = (char) i;
+                chbr vblue = (chbr) i;
                 int s = count[i];
 
                 do {
-                    a[--k] = value;
+                    b[--k] = vblue;
                 } while (--s > 0);
             }
-        } else { // Use Dual-Pivot Quicksort on small arrays
-            doSort(a, left, right, work, workBase, workLen);
+        } else { // Use Dubl-Pivot Quicksort on smbll brrbys
+            doSort(b, left, right, work, workBbse, workLen);
         }
     }
 
-    /** The number of distinct char values. */
-    private static final int NUM_CHAR_VALUES = 1 << 16;
+    /** The number of distinct chbr vblues. */
+    privbte stbtic finbl int NUM_CHAR_VALUES = 1 << 16;
 
     /**
-     * Sorts the specified range of the array.
+     * Sorts the specified rbnge of the brrby.
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param work a workspace array (slice)
-     * @param workBase origin of usable space in work array
-     * @param workLen usable size of work array
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm work b workspbce brrby (slice)
+     * @pbrbm workBbse origin of usbble spbce in work brrby
+     * @pbrbm workLen usbble size of work brrby
      */
-    private static void doSort(char[] a, int left, int right,
-                               char[] work, int workBase, int workLen) {
-        // Use Quicksort on small arrays
+    privbte stbtic void doSort(chbr[] b, int left, int right,
+                               chbr[] work, int workBbse, int workLen) {
+        // Use Quicksort on smbll brrbys
         if (right - left < QUICKSORT_THRESHOLD) {
-            sort(a, left, right, true);
+            sort(b, left, right, true);
             return;
         }
 
         /*
-         * Index run[i] is the start of i-th run
-         * (ascending or descending sequence).
+         * Index run[i] is the stbrt of i-th run
+         * (bscending or descending sequence).
          */
         int[] run = new int[MAX_RUN_COUNT + 1];
         int count = 0; run[0] = left;
 
-        // Check if the array is nearly sorted
+        // Check if the brrby is nebrly sorted
         for (int k = left; k < right; run[count] = k) {
-            if (a[k] < a[k + 1]) { // ascending
-                while (++k <= right && a[k - 1] <= a[k]);
-            } else if (a[k] > a[k + 1]) { // descending
-                while (++k <= right && a[k - 1] >= a[k]);
+            if (b[k] < b[k + 1]) { // bscending
+                while (++k <= right && b[k - 1] <= b[k]);
+            } else if (b[k] > b[k + 1]) { // descending
+                while (++k <= right && b[k - 1] >= b[k]);
                 for (int lo = run[count] - 1, hi = k; ++lo < --hi; ) {
-                    char t = a[lo]; a[lo] = a[hi]; a[hi] = t;
+                    chbr t = b[lo]; b[lo] = b[hi]; b[hi] = t;
                 }
-            } else { // equal
-                for (int m = MAX_RUN_LENGTH; ++k <= right && a[k - 1] == a[k]; ) {
+            } else { // equbl
+                for (int m = MAX_RUN_LENGTH; ++k <= right && b[k - 1] == b[k]; ) {
                     if (--m == 0) {
-                        sort(a, left, right, true);
+                        sort(b, left, right, true);
                         return;
                     }
                 }
             }
 
             /*
-             * The array is not highly structured,
-             * use Quicksort instead of merge sort.
+             * The brrby is not highly structured,
+             * use Quicksort instebd of merge sort.
              */
             if (++count == MAX_RUN_COUNT) {
-                sort(a, left, right, true);
+                sort(b, left, right, true);
                 return;
             }
         }
 
-        // Check special cases
-        // Implementation note: variable "right" is increased by 1.
-        if (run[count] == right++) { // The last run contains one element
+        // Check specibl cbses
+        // Implementbtion note: vbribble "right" is increbsed by 1.
+        if (run[count] == right++) { // The lbst run contbins one element
             run[++count] = right;
-        } else if (count == 1) { // The array is already sorted
+        } else if (count == 1) { // The brrby is blrebdy sorted
             return;
         }
 
-        // Determine alternation base for merge
+        // Determine blternbtion bbse for merge
         byte odd = 0;
         for (int n = 1; (n <<= 1) < count; odd ^= 1);
 
-        // Use or create temporary array b for merging
-        char[] b;                 // temp array; alternates with a
-        int ao, bo;              // array offsets from 'left'
-        int blen = right - left; // space needed for b
-        if (work == null || workLen < blen || workBase + blen > work.length) {
-            work = new char[blen];
-            workBase = 0;
+        // Use or crebte temporbry brrby b for merging
+        chbr[] b;                 // temp brrby; blternbtes with b
+        int bo, bo;              // brrby offsets from 'left'
+        int blen = right - left; // spbce needed for b
+        if (work == null || workLen < blen || workBbse + blen > work.length) {
+            work = new chbr[blen];
+            workBbse = 0;
         }
         if (odd == 0) {
-            System.arraycopy(a, left, work, workBase, blen);
-            b = a;
+            System.brrbycopy(b, left, work, workBbse, blen);
+            b = b;
             bo = 0;
-            a = work;
-            ao = workBase - left;
+            b = work;
+            bo = workBbse - left;
         } else {
             b = work;
-            ao = 0;
-            bo = workBase - left;
+            bo = 0;
+            bo = workBbse - left;
         }
 
         // Merging
-        for (int last; count > 1; count = last) {
-            for (int k = (last = 0) + 2; k <= count; k += 2) {
+        for (int lbst; count > 1; count = lbst) {
+            for (int k = (lbst = 0) + 2; k <= count; k += 2) {
                 int hi = run[k], mi = run[k - 1];
                 for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
-                    if (q >= hi || p < mi && a[p + ao] <= a[q + ao]) {
-                        b[i + bo] = a[p++ + ao];
+                    if (q >= hi || p < mi && b[p + bo] <= b[q + bo]) {
+                        b[i + bo] = b[p++ + bo];
                     } else {
-                        b[i + bo] = a[q++ + ao];
+                        b[i + bo] = b[q++ + bo];
                     }
                 }
-                run[++last] = hi;
+                run[++lbst] = hi;
             }
             if ((count & 1) != 0) {
                 for (int i = right, lo = run[count - 1]; --i >= lo;
-                    b[i + bo] = a[i + ao]
+                    b[i + bo] = b[i + bo]
                 );
-                run[++last] = right;
+                run[++lbst] = right;
             }
-            char[] t = a; a = b; b = t;
-            int o = ao; ao = bo; bo = o;
+            chbr[] t = b; b = b; b = t;
+            int o = bo; bo = bo; bo = o;
         }
     }
 
     /**
-     * Sorts the specified range of the array by Dual-Pivot Quicksort.
+     * Sorts the specified rbnge of the brrby by Dubl-Pivot Quicksort.
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param leftmost indicates if this part is the leftmost in the range
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm leftmost indicbtes if this pbrt is the leftmost in the rbnge
      */
-    private static void sort(char[] a, int left, int right, boolean leftmost) {
+    privbte stbtic void sort(chbr[] b, int left, int right, boolebn leftmost) {
         int length = right - left + 1;
 
-        // Use insertion sort on tiny arrays
+        // Use insertion sort on tiny brrbys
         if (length < INSERTION_SORT_THRESHOLD) {
             if (leftmost) {
                 /*
-                 * Traditional (without sentinel) insertion sort,
-                 * optimized for server VM, is used in case of
-                 * the leftmost part.
+                 * Trbditionbl (without sentinel) insertion sort,
+                 * optimized for server VM, is used in cbse of
+                 * the leftmost pbrt.
                  */
                 for (int i = left, j = i; i < right; j = ++i) {
-                    char ai = a[i + 1];
-                    while (ai < a[j]) {
-                        a[j + 1] = a[j];
+                    chbr bi = b[i + 1];
+                    while (bi < b[j]) {
+                        b[j + 1] = b[j];
                         if (j-- == left) {
-                            break;
+                            brebk;
                         }
                     }
-                    a[j + 1] = ai;
+                    b[j + 1] = bi;
                 }
             } else {
                 /*
-                 * Skip the longest ascending sequence.
+                 * Skip the longest bscending sequence.
                  */
                 do {
                     if (left >= right) {
                         return;
                     }
-                } while (a[++left] >= a[left - 1]);
+                } while (b[++left] >= b[left - 1]);
 
                 /*
-                 * Every element from adjoining part plays the role
-                 * of sentinel, therefore this allows us to avoid the
-                 * left range check on each iteration. Moreover, we use
-                 * the more optimized algorithm, so called pair insertion
-                 * sort, which is faster (in the context of Quicksort)
-                 * than traditional implementation of insertion sort.
+                 * Every element from bdjoining pbrt plbys the role
+                 * of sentinel, therefore this bllows us to bvoid the
+                 * left rbnge check on ebch iterbtion. Moreover, we use
+                 * the more optimized blgorithm, so cblled pbir insertion
+                 * sort, which is fbster (in the context of Quicksort)
+                 * thbn trbditionbl implementbtion of insertion sort.
                  */
                 for (int k = left; ++left <= right; k = ++left) {
-                    char a1 = a[k], a2 = a[left];
+                    chbr b1 = b[k], b2 = b[left];
 
-                    if (a1 < a2) {
-                        a2 = a1; a1 = a[left];
+                    if (b1 < b2) {
+                        b2 = b1; b1 = b[left];
                     }
-                    while (a1 < a[--k]) {
-                        a[k + 2] = a[k];
+                    while (b1 < b[--k]) {
+                        b[k + 2] = b[k];
                     }
-                    a[++k + 1] = a1;
+                    b[++k + 1] = b1;
 
-                    while (a2 < a[--k]) {
-                        a[k + 1] = a[k];
+                    while (b2 < b[--k]) {
+                        b[k + 1] = b[k];
                     }
-                    a[k + 1] = a2;
+                    b[k + 1] = b2;
                 }
-                char last = a[right];
+                chbr lbst = b[right];
 
-                while (last < a[--right]) {
-                    a[right + 1] = a[right];
+                while (lbst < b[--right]) {
+                    b[right + 1] = b[right];
                 }
-                a[right + 1] = last;
+                b[right + 1] = lbst;
             }
             return;
         }
 
-        // Inexpensive approximation of length / 7
+        // Inexpensive bpproximbtion of length / 7
         int seventh = (length >> 3) + (length >> 6) + 1;
 
         /*
-         * Sort five evenly spaced elements around (and including) the
-         * center element in the range. These elements will be used for
-         * pivot selection as described below. The choice for spacing
-         * these elements was empirically determined to work well on
-         * a wide variety of inputs.
+         * Sort five evenly spbced elements bround (bnd including) the
+         * center element in the rbnge. These elements will be used for
+         * pivot selection bs described below. The choice for spbcing
+         * these elements wbs empiricblly determined to work well on
+         * b wide vbriety of inputs.
          */
         int e3 = (left + right) >>> 1; // The midpoint
         int e2 = e3 - seventh;
@@ -1709,341 +1709,341 @@ final class DualPivotQuicksort {
         int e5 = e4 + seventh;
 
         // Sort these elements using insertion sort
-        if (a[e2] < a[e1]) { char t = a[e2]; a[e2] = a[e1]; a[e1] = t; }
+        if (b[e2] < b[e1]) { chbr t = b[e2]; b[e2] = b[e1]; b[e1] = t; }
 
-        if (a[e3] < a[e2]) { char t = a[e3]; a[e3] = a[e2]; a[e2] = t;
-            if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e3] < b[e2]) { chbr t = b[e3]; b[e3] = b[e2]; b[e2] = t;
+            if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
         }
-        if (a[e4] < a[e3]) { char t = a[e4]; a[e4] = a[e3]; a[e3] = t;
-            if (t < a[e2]) { a[e3] = a[e2]; a[e2] = t;
-                if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e4] < b[e3]) { chbr t = b[e4]; b[e4] = b[e3]; b[e3] = t;
+            if (t < b[e2]) { b[e3] = b[e2]; b[e2] = t;
+                if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
             }
         }
-        if (a[e5] < a[e4]) { char t = a[e5]; a[e5] = a[e4]; a[e4] = t;
-            if (t < a[e3]) { a[e4] = a[e3]; a[e3] = t;
-                if (t < a[e2]) { a[e3] = a[e2]; a[e2] = t;
-                    if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e5] < b[e4]) { chbr t = b[e5]; b[e5] = b[e4]; b[e4] = t;
+            if (t < b[e3]) { b[e4] = b[e3]; b[e3] = t;
+                if (t < b[e2]) { b[e3] = b[e2]; b[e2] = t;
+                    if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
                 }
             }
         }
 
         // Pointers
-        int less  = left;  // The index of the first element of center part
-        int great = right; // The index before the first element of right part
+        int less  = left;  // The index of the first element of center pbrt
+        int grebt = right; // The index before the first element of right pbrt
 
-        if (a[e1] != a[e2] && a[e2] != a[e3] && a[e3] != a[e4] && a[e4] != a[e5]) {
+        if (b[e1] != b[e2] && b[e2] != b[e3] && b[e3] != b[e4] && b[e4] != b[e5]) {
             /*
-             * Use the second and fourth of the five sorted elements as pivots.
-             * These values are inexpensive approximations of the first and
-             * second terciles of the array. Note that pivot1 <= pivot2.
+             * Use the second bnd fourth of the five sorted elements bs pivots.
+             * These vblues bre inexpensive bpproximbtions of the first bnd
+             * second terciles of the brrby. Note thbt pivot1 <= pivot2.
              */
-            char pivot1 = a[e2];
-            char pivot2 = a[e4];
+            chbr pivot1 = b[e2];
+            chbr pivot2 = b[e4];
 
             /*
-             * The first and the last elements to be sorted are moved to the
-             * locations formerly occupied by the pivots. When partitioning
-             * is complete, the pivots are swapped back into their final
-             * positions, and excluded from subsequent sorting.
+             * The first bnd the lbst elements to be sorted bre moved to the
+             * locbtions formerly occupied by the pivots. When pbrtitioning
+             * is complete, the pivots bre swbpped bbck into their finbl
+             * positions, bnd excluded from subsequent sorting.
              */
-            a[e2] = a[left];
-            a[e4] = a[right];
+            b[e2] = b[left];
+            b[e4] = b[right];
 
             /*
-             * Skip elements, which are less or greater than pivot values.
+             * Skip elements, which bre less or grebter thbn pivot vblues.
              */
-            while (a[++less] < pivot1);
-            while (a[--great] > pivot2);
+            while (b[++less] < pivot1);
+            while (b[--grebt] > pivot2);
 
             /*
-             * Partitioning:
+             * Pbrtitioning:
              *
-             *   left part           center part                   right part
+             *   left pbrt           center pbrt                   right pbrt
              * +--------------------------------------------------------------+
              * |  < pivot1  |  pivot1 <= && <= pivot2  |    ?    |  > pivot2  |
              * +--------------------------------------------------------------+
              *               ^                          ^       ^
              *               |                          |       |
-             *              less                        k     great
+             *              less                        k     grebt
              *
-             * Invariants:
+             * Invbribnts:
              *
-             *              all in (left, less)   < pivot1
-             *    pivot1 <= all in [less, k)     <= pivot2
-             *              all in (great, right) > pivot2
+             *              bll in (left, less)   < pivot1
+             *    pivot1 <= bll in [less, k)     <= pivot2
+             *              bll in (grebt, right) > pivot2
              *
-             * Pointer k is the first index of ?-part.
+             * Pointer k is the first index of ?-pbrt.
              */
             outer:
-            for (int k = less - 1; ++k <= great; ) {
-                char ak = a[k];
-                if (ak < pivot1) { // Move a[k] to left part
-                    a[k] = a[less];
+            for (int k = less - 1; ++k <= grebt; ) {
+                chbr bk = b[k];
+                if (bk < pivot1) { // Move b[k] to left pbrt
+                    b[k] = b[less];
                     /*
-                     * Here and below we use "a[i] = b; i++;" instead
-                     * of "a[i++] = b;" due to performance issue.
+                     * Here bnd below we use "b[i] = b; i++;" instebd
+                     * of "b[i++] = b;" due to performbnce issue.
                      */
-                    a[less] = ak;
+                    b[less] = bk;
                     ++less;
-                } else if (ak > pivot2) { // Move a[k] to right part
-                    while (a[great] > pivot2) {
-                        if (great-- == k) {
-                            break outer;
+                } else if (bk > pivot2) { // Move b[k] to right pbrt
+                    while (b[grebt] > pivot2) {
+                        if (grebt-- == k) {
+                            brebk outer;
                         }
                     }
-                    if (a[great] < pivot1) { // a[great] <= pivot2
-                        a[k] = a[less];
-                        a[less] = a[great];
+                    if (b[grebt] < pivot1) { // b[grebt] <= pivot2
+                        b[k] = b[less];
+                        b[less] = b[grebt];
                         ++less;
-                    } else { // pivot1 <= a[great] <= pivot2
-                        a[k] = a[great];
+                    } else { // pivot1 <= b[grebt] <= pivot2
+                        b[k] = b[grebt];
                     }
                     /*
-                     * Here and below we use "a[i] = b; i--;" instead
-                     * of "a[i--] = b;" due to performance issue.
+                     * Here bnd below we use "b[i] = b; i--;" instebd
+                     * of "b[i--] = b;" due to performbnce issue.
                      */
-                    a[great] = ak;
-                    --great;
+                    b[grebt] = bk;
+                    --grebt;
                 }
             }
 
-            // Swap pivots into their final positions
-            a[left]  = a[less  - 1]; a[less  - 1] = pivot1;
-            a[right] = a[great + 1]; a[great + 1] = pivot2;
+            // Swbp pivots into their finbl positions
+            b[left]  = b[less  - 1]; b[less  - 1] = pivot1;
+            b[right] = b[grebt + 1]; b[grebt + 1] = pivot2;
 
-            // Sort left and right parts recursively, excluding known pivots
-            sort(a, left, less - 2, leftmost);
-            sort(a, great + 2, right, false);
+            // Sort left bnd right pbrts recursively, excluding known pivots
+            sort(b, left, less - 2, leftmost);
+            sort(b, grebt + 2, right, fblse);
 
             /*
-             * If center part is too large (comprises > 4/7 of the array),
-             * swap internal pivot values to ends.
+             * If center pbrt is too lbrge (comprises > 4/7 of the brrby),
+             * swbp internbl pivot vblues to ends.
              */
-            if (less < e1 && e5 < great) {
+            if (less < e1 && e5 < grebt) {
                 /*
-                 * Skip elements, which are equal to pivot values.
+                 * Skip elements, which bre equbl to pivot vblues.
                  */
-                while (a[less] == pivot1) {
+                while (b[less] == pivot1) {
                     ++less;
                 }
 
-                while (a[great] == pivot2) {
-                    --great;
+                while (b[grebt] == pivot2) {
+                    --grebt;
                 }
 
                 /*
-                 * Partitioning:
+                 * Pbrtitioning:
                  *
-                 *   left part         center part                  right part
+                 *   left pbrt         center pbrt                  right pbrt
                  * +----------------------------------------------------------+
                  * | == pivot1 |  pivot1 < && < pivot2  |    ?    | == pivot2 |
                  * +----------------------------------------------------------+
                  *              ^                        ^       ^
                  *              |                        |       |
-                 *             less                      k     great
+                 *             less                      k     grebt
                  *
-                 * Invariants:
+                 * Invbribnts:
                  *
-                 *              all in (*,  less) == pivot1
-                 *     pivot1 < all in [less,  k)  < pivot2
-                 *              all in (great, *) == pivot2
+                 *              bll in (*,  less) == pivot1
+                 *     pivot1 < bll in [less,  k)  < pivot2
+                 *              bll in (grebt, *) == pivot2
                  *
-                 * Pointer k is the first index of ?-part.
+                 * Pointer k is the first index of ?-pbrt.
                  */
                 outer:
-                for (int k = less - 1; ++k <= great; ) {
-                    char ak = a[k];
-                    if (ak == pivot1) { // Move a[k] to left part
-                        a[k] = a[less];
-                        a[less] = ak;
+                for (int k = less - 1; ++k <= grebt; ) {
+                    chbr bk = b[k];
+                    if (bk == pivot1) { // Move b[k] to left pbrt
+                        b[k] = b[less];
+                        b[less] = bk;
                         ++less;
-                    } else if (ak == pivot2) { // Move a[k] to right part
-                        while (a[great] == pivot2) {
-                            if (great-- == k) {
-                                break outer;
+                    } else if (bk == pivot2) { // Move b[k] to right pbrt
+                        while (b[grebt] == pivot2) {
+                            if (grebt-- == k) {
+                                brebk outer;
                             }
                         }
-                        if (a[great] == pivot1) { // a[great] < pivot2
-                            a[k] = a[less];
+                        if (b[grebt] == pivot1) { // b[grebt] < pivot2
+                            b[k] = b[less];
                             /*
-                             * Even though a[great] equals to pivot1, the
-                             * assignment a[less] = pivot1 may be incorrect,
-                             * if a[great] and pivot1 are floating-point zeros
-                             * of different signs. Therefore in float and
-                             * double sorting methods we have to use more
-                             * accurate assignment a[less] = a[great].
+                             * Even though b[grebt] equbls to pivot1, the
+                             * bssignment b[less] = pivot1 mby be incorrect,
+                             * if b[grebt] bnd pivot1 bre flobting-point zeros
+                             * of different signs. Therefore in flobt bnd
+                             * double sorting methods we hbve to use more
+                             * bccurbte bssignment b[less] = b[grebt].
                              */
-                            a[less] = pivot1;
+                            b[less] = pivot1;
                             ++less;
-                        } else { // pivot1 < a[great] < pivot2
-                            a[k] = a[great];
+                        } else { // pivot1 < b[grebt] < pivot2
+                            b[k] = b[grebt];
                         }
-                        a[great] = ak;
-                        --great;
+                        b[grebt] = bk;
+                        --grebt;
                     }
                 }
             }
 
-            // Sort center part recursively
-            sort(a, less, great, false);
+            // Sort center pbrt recursively
+            sort(b, less, grebt, fblse);
 
-        } else { // Partitioning with one pivot
+        } else { // Pbrtitioning with one pivot
             /*
-             * Use the third of the five sorted elements as pivot.
-             * This value is inexpensive approximation of the median.
+             * Use the third of the five sorted elements bs pivot.
+             * This vblue is inexpensive bpproximbtion of the medibn.
              */
-            char pivot = a[e3];
+            chbr pivot = b[e3];
 
             /*
-             * Partitioning degenerates to the traditional 3-way
-             * (or "Dutch National Flag") schema:
+             * Pbrtitioning degenerbtes to the trbditionbl 3-wby
+             * (or "Dutch Nbtionbl Flbg") schemb:
              *
-             *   left part    center part              right part
+             *   left pbrt    center pbrt              right pbrt
              * +-------------------------------------------------+
              * |  < pivot  |   == pivot   |     ?    |  > pivot  |
              * +-------------------------------------------------+
              *              ^              ^        ^
              *              |              |        |
-             *             less            k      great
+             *             less            k      grebt
              *
-             * Invariants:
+             * Invbribnts:
              *
-             *   all in (left, less)   < pivot
-             *   all in [less, k)     == pivot
-             *   all in (great, right) > pivot
+             *   bll in (left, less)   < pivot
+             *   bll in [less, k)     == pivot
+             *   bll in (grebt, right) > pivot
              *
-             * Pointer k is the first index of ?-part.
+             * Pointer k is the first index of ?-pbrt.
              */
-            for (int k = less; k <= great; ++k) {
-                if (a[k] == pivot) {
+            for (int k = less; k <= grebt; ++k) {
+                if (b[k] == pivot) {
                     continue;
                 }
-                char ak = a[k];
-                if (ak < pivot) { // Move a[k] to left part
-                    a[k] = a[less];
-                    a[less] = ak;
+                chbr bk = b[k];
+                if (bk < pivot) { // Move b[k] to left pbrt
+                    b[k] = b[less];
+                    b[less] = bk;
                     ++less;
-                } else { // a[k] > pivot - Move a[k] to right part
-                    while (a[great] > pivot) {
-                        --great;
+                } else { // b[k] > pivot - Move b[k] to right pbrt
+                    while (b[grebt] > pivot) {
+                        --grebt;
                     }
-                    if (a[great] < pivot) { // a[great] <= pivot
-                        a[k] = a[less];
-                        a[less] = a[great];
+                    if (b[grebt] < pivot) { // b[grebt] <= pivot
+                        b[k] = b[less];
+                        b[less] = b[grebt];
                         ++less;
-                    } else { // a[great] == pivot
+                    } else { // b[grebt] == pivot
                         /*
-                         * Even though a[great] equals to pivot, the
-                         * assignment a[k] = pivot may be incorrect,
-                         * if a[great] and pivot are floating-point
-                         * zeros of different signs. Therefore in float
-                         * and double sorting methods we have to use
-                         * more accurate assignment a[k] = a[great].
+                         * Even though b[grebt] equbls to pivot, the
+                         * bssignment b[k] = pivot mby be incorrect,
+                         * if b[grebt] bnd pivot bre flobting-point
+                         * zeros of different signs. Therefore in flobt
+                         * bnd double sorting methods we hbve to use
+                         * more bccurbte bssignment b[k] = b[grebt].
                          */
-                        a[k] = pivot;
+                        b[k] = pivot;
                     }
-                    a[great] = ak;
-                    --great;
+                    b[grebt] = bk;
+                    --grebt;
                 }
             }
 
             /*
-             * Sort left and right parts recursively.
-             * All elements from center part are equal
-             * and, therefore, already sorted.
+             * Sort left bnd right pbrts recursively.
+             * All elements from center pbrt bre equbl
+             * bnd, therefore, blrebdy sorted.
              */
-            sort(a, left, less - 1, leftmost);
-            sort(a, great + 1, right, false);
+            sort(b, left, less - 1, leftmost);
+            sort(b, grebt + 1, right, fblse);
         }
     }
 
-    /** The number of distinct byte values. */
-    private static final int NUM_BYTE_VALUES = 1 << 8;
+    /** The number of distinct byte vblues. */
+    privbte stbtic finbl int NUM_BYTE_VALUES = 1 << 8;
 
     /**
-     * Sorts the specified range of the array.
+     * Sorts the specified rbnge of the brrby.
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
      */
-    static void sort(byte[] a, int left, int right) {
-        // Use counting sort on large arrays
+    stbtic void sort(byte[] b, int left, int right) {
+        // Use counting sort on lbrge brrbys
         if (right - left > COUNTING_SORT_THRESHOLD_FOR_BYTE) {
             int[] count = new int[NUM_BYTE_VALUES];
 
             for (int i = left - 1; ++i <= right;
-                count[a[i] - Byte.MIN_VALUE]++
+                count[b[i] - Byte.MIN_VALUE]++
             );
             for (int i = NUM_BYTE_VALUES, k = right + 1; k > left; ) {
                 while (count[--i] == 0);
-                byte value = (byte) (i + Byte.MIN_VALUE);
+                byte vblue = (byte) (i + Byte.MIN_VALUE);
                 int s = count[i];
 
                 do {
-                    a[--k] = value;
+                    b[--k] = vblue;
                 } while (--s > 0);
             }
-        } else { // Use insertion sort on small arrays
+        } else { // Use insertion sort on smbll brrbys
             for (int i = left, j = i; i < right; j = ++i) {
-                byte ai = a[i + 1];
-                while (ai < a[j]) {
-                    a[j + 1] = a[j];
+                byte bi = b[i + 1];
+                while (bi < b[j]) {
+                    b[j + 1] = b[j];
                     if (j-- == left) {
-                        break;
+                        brebk;
                     }
                 }
-                a[j + 1] = ai;
+                b[j + 1] = bi;
             }
         }
     }
 
     /**
-     * Sorts the specified range of the array using the given
-     * workspace array slice if possible for merging
+     * Sorts the specified rbnge of the brrby using the given
+     * workspbce brrby slice if possible for merging
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param work a workspace array (slice)
-     * @param workBase origin of usable space in work array
-     * @param workLen usable size of work array
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm work b workspbce brrby (slice)
+     * @pbrbm workBbse origin of usbble spbce in work brrby
+     * @pbrbm workLen usbble size of work brrby
      */
-    static void sort(float[] a, int left, int right,
-                     float[] work, int workBase, int workLen) {
+    stbtic void sort(flobt[] b, int left, int right,
+                     flobt[] work, int workBbse, int workLen) {
         /*
-         * Phase 1: Move NaNs to the end of the array.
+         * Phbse 1: Move NbNs to the end of the brrby.
          */
-        while (left <= right && Float.isNaN(a[right])) {
+        while (left <= right && Flobt.isNbN(b[right])) {
             --right;
         }
         for (int k = right; --k >= left; ) {
-            float ak = a[k];
-            if (ak != ak) { // a[k] is NaN
-                a[k] = a[right];
-                a[right] = ak;
+            flobt bk = b[k];
+            if (bk != bk) { // b[k] is NbN
+                b[k] = b[right];
+                b[right] = bk;
                 --right;
             }
         }
 
         /*
-         * Phase 2: Sort everything except NaNs (which are already in place).
+         * Phbse 2: Sort everything except NbNs (which bre blrebdy in plbce).
          */
-        doSort(a, left, right, work, workBase, workLen);
+        doSort(b, left, right, work, workBbse, workLen);
 
         /*
-         * Phase 3: Place negative zeros before positive zeros.
+         * Phbse 3: Plbce negbtive zeros before positive zeros.
          */
         int hi = right;
 
         /*
-         * Find the first zero, or first positive, or last negative element.
+         * Find the first zero, or first positive, or lbst negbtive element.
          */
         while (left < hi) {
             int middle = (left + hi) >>> 1;
-            float middleValue = a[middle];
+            flobt middleVblue = b[middle];
 
-            if (middleValue < 0.0f) {
+            if (middleVblue < 0.0f) {
                 left = middle + 1;
             } else {
                 hi = middle;
@@ -2051,16 +2051,16 @@ final class DualPivotQuicksort {
         }
 
         /*
-         * Skip the last negative value (if any) or all leading negative zeros.
+         * Skip the lbst negbtive vblue (if bny) or bll lebding negbtive zeros.
          */
-        while (left <= right && Float.floatToRawIntBits(a[left]) < 0) {
+        while (left <= right && Flobt.flobtToRbwIntBits(b[left]) < 0) {
             ++left;
         }
 
         /*
-         * Move negative zeros to the beginning of the sub-range.
+         * Move negbtive zeros to the beginning of the sub-rbnge.
          *
-         * Partitioning:
+         * Pbrtitioning:
          *
          * +----------------------------------------------------+
          * |   < 0.0   |   -0.0   |   0.0   |   ?  ( >= 0.0 )   |
@@ -2069,218 +2069,218 @@ final class DualPivotQuicksort {
          *              |          |         |
          *             left        p         k
          *
-         * Invariants:
+         * Invbribnts:
          *
-         *   all in (*,  left)  <  0.0
-         *   all in [left,  p) == -0.0
-         *   all in [p,     k) ==  0.0
-         *   all in [k, right] >=  0.0
+         *   bll in (*,  left)  <  0.0
+         *   bll in [left,  p) == -0.0
+         *   bll in [p,     k) ==  0.0
+         *   bll in [k, right] >=  0.0
          *
-         * Pointer k is the first index of ?-part.
+         * Pointer k is the first index of ?-pbrt.
          */
         for (int k = left, p = left - 1; ++k <= right; ) {
-            float ak = a[k];
-            if (ak != 0.0f) {
-                break;
+            flobt bk = b[k];
+            if (bk != 0.0f) {
+                brebk;
             }
-            if (Float.floatToRawIntBits(ak) < 0) { // ak is -0.0f
-                a[k] = 0.0f;
-                a[++p] = -0.0f;
+            if (Flobt.flobtToRbwIntBits(bk) < 0) { // bk is -0.0f
+                b[k] = 0.0f;
+                b[++p] = -0.0f;
             }
         }
     }
 
     /**
-     * Sorts the specified range of the array.
+     * Sorts the specified rbnge of the brrby.
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param work a workspace array (slice)
-     * @param workBase origin of usable space in work array
-     * @param workLen usable size of work array
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm work b workspbce brrby (slice)
+     * @pbrbm workBbse origin of usbble spbce in work brrby
+     * @pbrbm workLen usbble size of work brrby
      */
-    private static void doSort(float[] a, int left, int right,
-                               float[] work, int workBase, int workLen) {
-        // Use Quicksort on small arrays
+    privbte stbtic void doSort(flobt[] b, int left, int right,
+                               flobt[] work, int workBbse, int workLen) {
+        // Use Quicksort on smbll brrbys
         if (right - left < QUICKSORT_THRESHOLD) {
-            sort(a, left, right, true);
+            sort(b, left, right, true);
             return;
         }
 
         /*
-         * Index run[i] is the start of i-th run
-         * (ascending or descending sequence).
+         * Index run[i] is the stbrt of i-th run
+         * (bscending or descending sequence).
          */
         int[] run = new int[MAX_RUN_COUNT + 1];
         int count = 0; run[0] = left;
 
-        // Check if the array is nearly sorted
+        // Check if the brrby is nebrly sorted
         for (int k = left; k < right; run[count] = k) {
-            if (a[k] < a[k + 1]) { // ascending
-                while (++k <= right && a[k - 1] <= a[k]);
-            } else if (a[k] > a[k + 1]) { // descending
-                while (++k <= right && a[k - 1] >= a[k]);
+            if (b[k] < b[k + 1]) { // bscending
+                while (++k <= right && b[k - 1] <= b[k]);
+            } else if (b[k] > b[k + 1]) { // descending
+                while (++k <= right && b[k - 1] >= b[k]);
                 for (int lo = run[count] - 1, hi = k; ++lo < --hi; ) {
-                    float t = a[lo]; a[lo] = a[hi]; a[hi] = t;
+                    flobt t = b[lo]; b[lo] = b[hi]; b[hi] = t;
                 }
-            } else { // equal
-                for (int m = MAX_RUN_LENGTH; ++k <= right && a[k - 1] == a[k]; ) {
+            } else { // equbl
+                for (int m = MAX_RUN_LENGTH; ++k <= right && b[k - 1] == b[k]; ) {
                     if (--m == 0) {
-                        sort(a, left, right, true);
+                        sort(b, left, right, true);
                         return;
                     }
                 }
             }
 
             /*
-             * The array is not highly structured,
-             * use Quicksort instead of merge sort.
+             * The brrby is not highly structured,
+             * use Quicksort instebd of merge sort.
              */
             if (++count == MAX_RUN_COUNT) {
-                sort(a, left, right, true);
+                sort(b, left, right, true);
                 return;
             }
         }
 
-        // Check special cases
-        // Implementation note: variable "right" is increased by 1.
-        if (run[count] == right++) { // The last run contains one element
+        // Check specibl cbses
+        // Implementbtion note: vbribble "right" is increbsed by 1.
+        if (run[count] == right++) { // The lbst run contbins one element
             run[++count] = right;
-        } else if (count == 1) { // The array is already sorted
+        } else if (count == 1) { // The brrby is blrebdy sorted
             return;
         }
 
-        // Determine alternation base for merge
+        // Determine blternbtion bbse for merge
         byte odd = 0;
         for (int n = 1; (n <<= 1) < count; odd ^= 1);
 
-        // Use or create temporary array b for merging
-        float[] b;                 // temp array; alternates with a
-        int ao, bo;              // array offsets from 'left'
-        int blen = right - left; // space needed for b
-        if (work == null || workLen < blen || workBase + blen > work.length) {
-            work = new float[blen];
-            workBase = 0;
+        // Use or crebte temporbry brrby b for merging
+        flobt[] b;                 // temp brrby; blternbtes with b
+        int bo, bo;              // brrby offsets from 'left'
+        int blen = right - left; // spbce needed for b
+        if (work == null || workLen < blen || workBbse + blen > work.length) {
+            work = new flobt[blen];
+            workBbse = 0;
         }
         if (odd == 0) {
-            System.arraycopy(a, left, work, workBase, blen);
-            b = a;
+            System.brrbycopy(b, left, work, workBbse, blen);
+            b = b;
             bo = 0;
-            a = work;
-            ao = workBase - left;
+            b = work;
+            bo = workBbse - left;
         } else {
             b = work;
-            ao = 0;
-            bo = workBase - left;
+            bo = 0;
+            bo = workBbse - left;
         }
 
         // Merging
-        for (int last; count > 1; count = last) {
-            for (int k = (last = 0) + 2; k <= count; k += 2) {
+        for (int lbst; count > 1; count = lbst) {
+            for (int k = (lbst = 0) + 2; k <= count; k += 2) {
                 int hi = run[k], mi = run[k - 1];
                 for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
-                    if (q >= hi || p < mi && a[p + ao] <= a[q + ao]) {
-                        b[i + bo] = a[p++ + ao];
+                    if (q >= hi || p < mi && b[p + bo] <= b[q + bo]) {
+                        b[i + bo] = b[p++ + bo];
                     } else {
-                        b[i + bo] = a[q++ + ao];
+                        b[i + bo] = b[q++ + bo];
                     }
                 }
-                run[++last] = hi;
+                run[++lbst] = hi;
             }
             if ((count & 1) != 0) {
                 for (int i = right, lo = run[count - 1]; --i >= lo;
-                    b[i + bo] = a[i + ao]
+                    b[i + bo] = b[i + bo]
                 );
-                run[++last] = right;
+                run[++lbst] = right;
             }
-            float[] t = a; a = b; b = t;
-            int o = ao; ao = bo; bo = o;
+            flobt[] t = b; b = b; b = t;
+            int o = bo; bo = bo; bo = o;
         }
     }
 
     /**
-     * Sorts the specified range of the array by Dual-Pivot Quicksort.
+     * Sorts the specified rbnge of the brrby by Dubl-Pivot Quicksort.
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param leftmost indicates if this part is the leftmost in the range
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm leftmost indicbtes if this pbrt is the leftmost in the rbnge
      */
-    private static void sort(float[] a, int left, int right, boolean leftmost) {
+    privbte stbtic void sort(flobt[] b, int left, int right, boolebn leftmost) {
         int length = right - left + 1;
 
-        // Use insertion sort on tiny arrays
+        // Use insertion sort on tiny brrbys
         if (length < INSERTION_SORT_THRESHOLD) {
             if (leftmost) {
                 /*
-                 * Traditional (without sentinel) insertion sort,
-                 * optimized for server VM, is used in case of
-                 * the leftmost part.
+                 * Trbditionbl (without sentinel) insertion sort,
+                 * optimized for server VM, is used in cbse of
+                 * the leftmost pbrt.
                  */
                 for (int i = left, j = i; i < right; j = ++i) {
-                    float ai = a[i + 1];
-                    while (ai < a[j]) {
-                        a[j + 1] = a[j];
+                    flobt bi = b[i + 1];
+                    while (bi < b[j]) {
+                        b[j + 1] = b[j];
                         if (j-- == left) {
-                            break;
+                            brebk;
                         }
                     }
-                    a[j + 1] = ai;
+                    b[j + 1] = bi;
                 }
             } else {
                 /*
-                 * Skip the longest ascending sequence.
+                 * Skip the longest bscending sequence.
                  */
                 do {
                     if (left >= right) {
                         return;
                     }
-                } while (a[++left] >= a[left - 1]);
+                } while (b[++left] >= b[left - 1]);
 
                 /*
-                 * Every element from adjoining part plays the role
-                 * of sentinel, therefore this allows us to avoid the
-                 * left range check on each iteration. Moreover, we use
-                 * the more optimized algorithm, so called pair insertion
-                 * sort, which is faster (in the context of Quicksort)
-                 * than traditional implementation of insertion sort.
+                 * Every element from bdjoining pbrt plbys the role
+                 * of sentinel, therefore this bllows us to bvoid the
+                 * left rbnge check on ebch iterbtion. Moreover, we use
+                 * the more optimized blgorithm, so cblled pbir insertion
+                 * sort, which is fbster (in the context of Quicksort)
+                 * thbn trbditionbl implementbtion of insertion sort.
                  */
                 for (int k = left; ++left <= right; k = ++left) {
-                    float a1 = a[k], a2 = a[left];
+                    flobt b1 = b[k], b2 = b[left];
 
-                    if (a1 < a2) {
-                        a2 = a1; a1 = a[left];
+                    if (b1 < b2) {
+                        b2 = b1; b1 = b[left];
                     }
-                    while (a1 < a[--k]) {
-                        a[k + 2] = a[k];
+                    while (b1 < b[--k]) {
+                        b[k + 2] = b[k];
                     }
-                    a[++k + 1] = a1;
+                    b[++k + 1] = b1;
 
-                    while (a2 < a[--k]) {
-                        a[k + 1] = a[k];
+                    while (b2 < b[--k]) {
+                        b[k + 1] = b[k];
                     }
-                    a[k + 1] = a2;
+                    b[k + 1] = b2;
                 }
-                float last = a[right];
+                flobt lbst = b[right];
 
-                while (last < a[--right]) {
-                    a[right + 1] = a[right];
+                while (lbst < b[--right]) {
+                    b[right + 1] = b[right];
                 }
-                a[right + 1] = last;
+                b[right + 1] = lbst;
             }
             return;
         }
 
-        // Inexpensive approximation of length / 7
+        // Inexpensive bpproximbtion of length / 7
         int seventh = (length >> 3) + (length >> 6) + 1;
 
         /*
-         * Sort five evenly spaced elements around (and including) the
-         * center element in the range. These elements will be used for
-         * pivot selection as described below. The choice for spacing
-         * these elements was empirically determined to work well on
-         * a wide variety of inputs.
+         * Sort five evenly spbced elements bround (bnd including) the
+         * center element in the rbnge. These elements will be used for
+         * pivot selection bs described below. The choice for spbcing
+         * these elements wbs empiricblly determined to work well on
+         * b wide vbriety of inputs.
          */
         int e3 = (left + right) >>> 1; // The midpoint
         int e2 = e3 - seventh;
@@ -2289,300 +2289,300 @@ final class DualPivotQuicksort {
         int e5 = e4 + seventh;
 
         // Sort these elements using insertion sort
-        if (a[e2] < a[e1]) { float t = a[e2]; a[e2] = a[e1]; a[e1] = t; }
+        if (b[e2] < b[e1]) { flobt t = b[e2]; b[e2] = b[e1]; b[e1] = t; }
 
-        if (a[e3] < a[e2]) { float t = a[e3]; a[e3] = a[e2]; a[e2] = t;
-            if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e3] < b[e2]) { flobt t = b[e3]; b[e3] = b[e2]; b[e2] = t;
+            if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
         }
-        if (a[e4] < a[e3]) { float t = a[e4]; a[e4] = a[e3]; a[e3] = t;
-            if (t < a[e2]) { a[e3] = a[e2]; a[e2] = t;
-                if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e4] < b[e3]) { flobt t = b[e4]; b[e4] = b[e3]; b[e3] = t;
+            if (t < b[e2]) { b[e3] = b[e2]; b[e2] = t;
+                if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
             }
         }
-        if (a[e5] < a[e4]) { float t = a[e5]; a[e5] = a[e4]; a[e4] = t;
-            if (t < a[e3]) { a[e4] = a[e3]; a[e3] = t;
-                if (t < a[e2]) { a[e3] = a[e2]; a[e2] = t;
-                    if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e5] < b[e4]) { flobt t = b[e5]; b[e5] = b[e4]; b[e4] = t;
+            if (t < b[e3]) { b[e4] = b[e3]; b[e3] = t;
+                if (t < b[e2]) { b[e3] = b[e2]; b[e2] = t;
+                    if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
                 }
             }
         }
 
         // Pointers
-        int less  = left;  // The index of the first element of center part
-        int great = right; // The index before the first element of right part
+        int less  = left;  // The index of the first element of center pbrt
+        int grebt = right; // The index before the first element of right pbrt
 
-        if (a[e1] != a[e2] && a[e2] != a[e3] && a[e3] != a[e4] && a[e4] != a[e5]) {
+        if (b[e1] != b[e2] && b[e2] != b[e3] && b[e3] != b[e4] && b[e4] != b[e5]) {
             /*
-             * Use the second and fourth of the five sorted elements as pivots.
-             * These values are inexpensive approximations of the first and
-             * second terciles of the array. Note that pivot1 <= pivot2.
+             * Use the second bnd fourth of the five sorted elements bs pivots.
+             * These vblues bre inexpensive bpproximbtions of the first bnd
+             * second terciles of the brrby. Note thbt pivot1 <= pivot2.
              */
-            float pivot1 = a[e2];
-            float pivot2 = a[e4];
+            flobt pivot1 = b[e2];
+            flobt pivot2 = b[e4];
 
             /*
-             * The first and the last elements to be sorted are moved to the
-             * locations formerly occupied by the pivots. When partitioning
-             * is complete, the pivots are swapped back into their final
-             * positions, and excluded from subsequent sorting.
+             * The first bnd the lbst elements to be sorted bre moved to the
+             * locbtions formerly occupied by the pivots. When pbrtitioning
+             * is complete, the pivots bre swbpped bbck into their finbl
+             * positions, bnd excluded from subsequent sorting.
              */
-            a[e2] = a[left];
-            a[e4] = a[right];
+            b[e2] = b[left];
+            b[e4] = b[right];
 
             /*
-             * Skip elements, which are less or greater than pivot values.
+             * Skip elements, which bre less or grebter thbn pivot vblues.
              */
-            while (a[++less] < pivot1);
-            while (a[--great] > pivot2);
+            while (b[++less] < pivot1);
+            while (b[--grebt] > pivot2);
 
             /*
-             * Partitioning:
+             * Pbrtitioning:
              *
-             *   left part           center part                   right part
+             *   left pbrt           center pbrt                   right pbrt
              * +--------------------------------------------------------------+
              * |  < pivot1  |  pivot1 <= && <= pivot2  |    ?    |  > pivot2  |
              * +--------------------------------------------------------------+
              *               ^                          ^       ^
              *               |                          |       |
-             *              less                        k     great
+             *              less                        k     grebt
              *
-             * Invariants:
+             * Invbribnts:
              *
-             *              all in (left, less)   < pivot1
-             *    pivot1 <= all in [less, k)     <= pivot2
-             *              all in (great, right) > pivot2
+             *              bll in (left, less)   < pivot1
+             *    pivot1 <= bll in [less, k)     <= pivot2
+             *              bll in (grebt, right) > pivot2
              *
-             * Pointer k is the first index of ?-part.
+             * Pointer k is the first index of ?-pbrt.
              */
             outer:
-            for (int k = less - 1; ++k <= great; ) {
-                float ak = a[k];
-                if (ak < pivot1) { // Move a[k] to left part
-                    a[k] = a[less];
+            for (int k = less - 1; ++k <= grebt; ) {
+                flobt bk = b[k];
+                if (bk < pivot1) { // Move b[k] to left pbrt
+                    b[k] = b[less];
                     /*
-                     * Here and below we use "a[i] = b; i++;" instead
-                     * of "a[i++] = b;" due to performance issue.
+                     * Here bnd below we use "b[i] = b; i++;" instebd
+                     * of "b[i++] = b;" due to performbnce issue.
                      */
-                    a[less] = ak;
+                    b[less] = bk;
                     ++less;
-                } else if (ak > pivot2) { // Move a[k] to right part
-                    while (a[great] > pivot2) {
-                        if (great-- == k) {
-                            break outer;
+                } else if (bk > pivot2) { // Move b[k] to right pbrt
+                    while (b[grebt] > pivot2) {
+                        if (grebt-- == k) {
+                            brebk outer;
                         }
                     }
-                    if (a[great] < pivot1) { // a[great] <= pivot2
-                        a[k] = a[less];
-                        a[less] = a[great];
+                    if (b[grebt] < pivot1) { // b[grebt] <= pivot2
+                        b[k] = b[less];
+                        b[less] = b[grebt];
                         ++less;
-                    } else { // pivot1 <= a[great] <= pivot2
-                        a[k] = a[great];
+                    } else { // pivot1 <= b[grebt] <= pivot2
+                        b[k] = b[grebt];
                     }
                     /*
-                     * Here and below we use "a[i] = b; i--;" instead
-                     * of "a[i--] = b;" due to performance issue.
+                     * Here bnd below we use "b[i] = b; i--;" instebd
+                     * of "b[i--] = b;" due to performbnce issue.
                      */
-                    a[great] = ak;
-                    --great;
+                    b[grebt] = bk;
+                    --grebt;
                 }
             }
 
-            // Swap pivots into their final positions
-            a[left]  = a[less  - 1]; a[less  - 1] = pivot1;
-            a[right] = a[great + 1]; a[great + 1] = pivot2;
+            // Swbp pivots into their finbl positions
+            b[left]  = b[less  - 1]; b[less  - 1] = pivot1;
+            b[right] = b[grebt + 1]; b[grebt + 1] = pivot2;
 
-            // Sort left and right parts recursively, excluding known pivots
-            sort(a, left, less - 2, leftmost);
-            sort(a, great + 2, right, false);
+            // Sort left bnd right pbrts recursively, excluding known pivots
+            sort(b, left, less - 2, leftmost);
+            sort(b, grebt + 2, right, fblse);
 
             /*
-             * If center part is too large (comprises > 4/7 of the array),
-             * swap internal pivot values to ends.
+             * If center pbrt is too lbrge (comprises > 4/7 of the brrby),
+             * swbp internbl pivot vblues to ends.
              */
-            if (less < e1 && e5 < great) {
+            if (less < e1 && e5 < grebt) {
                 /*
-                 * Skip elements, which are equal to pivot values.
+                 * Skip elements, which bre equbl to pivot vblues.
                  */
-                while (a[less] == pivot1) {
+                while (b[less] == pivot1) {
                     ++less;
                 }
 
-                while (a[great] == pivot2) {
-                    --great;
+                while (b[grebt] == pivot2) {
+                    --grebt;
                 }
 
                 /*
-                 * Partitioning:
+                 * Pbrtitioning:
                  *
-                 *   left part         center part                  right part
+                 *   left pbrt         center pbrt                  right pbrt
                  * +----------------------------------------------------------+
                  * | == pivot1 |  pivot1 < && < pivot2  |    ?    | == pivot2 |
                  * +----------------------------------------------------------+
                  *              ^                        ^       ^
                  *              |                        |       |
-                 *             less                      k     great
+                 *             less                      k     grebt
                  *
-                 * Invariants:
+                 * Invbribnts:
                  *
-                 *              all in (*,  less) == pivot1
-                 *     pivot1 < all in [less,  k)  < pivot2
-                 *              all in (great, *) == pivot2
+                 *              bll in (*,  less) == pivot1
+                 *     pivot1 < bll in [less,  k)  < pivot2
+                 *              bll in (grebt, *) == pivot2
                  *
-                 * Pointer k is the first index of ?-part.
+                 * Pointer k is the first index of ?-pbrt.
                  */
                 outer:
-                for (int k = less - 1; ++k <= great; ) {
-                    float ak = a[k];
-                    if (ak == pivot1) { // Move a[k] to left part
-                        a[k] = a[less];
-                        a[less] = ak;
+                for (int k = less - 1; ++k <= grebt; ) {
+                    flobt bk = b[k];
+                    if (bk == pivot1) { // Move b[k] to left pbrt
+                        b[k] = b[less];
+                        b[less] = bk;
                         ++less;
-                    } else if (ak == pivot2) { // Move a[k] to right part
-                        while (a[great] == pivot2) {
-                            if (great-- == k) {
-                                break outer;
+                    } else if (bk == pivot2) { // Move b[k] to right pbrt
+                        while (b[grebt] == pivot2) {
+                            if (grebt-- == k) {
+                                brebk outer;
                             }
                         }
-                        if (a[great] == pivot1) { // a[great] < pivot2
-                            a[k] = a[less];
+                        if (b[grebt] == pivot1) { // b[grebt] < pivot2
+                            b[k] = b[less];
                             /*
-                             * Even though a[great] equals to pivot1, the
-                             * assignment a[less] = pivot1 may be incorrect,
-                             * if a[great] and pivot1 are floating-point zeros
-                             * of different signs. Therefore in float and
-                             * double sorting methods we have to use more
-                             * accurate assignment a[less] = a[great].
+                             * Even though b[grebt] equbls to pivot1, the
+                             * bssignment b[less] = pivot1 mby be incorrect,
+                             * if b[grebt] bnd pivot1 bre flobting-point zeros
+                             * of different signs. Therefore in flobt bnd
+                             * double sorting methods we hbve to use more
+                             * bccurbte bssignment b[less] = b[grebt].
                              */
-                            a[less] = a[great];
+                            b[less] = b[grebt];
                             ++less;
-                        } else { // pivot1 < a[great] < pivot2
-                            a[k] = a[great];
+                        } else { // pivot1 < b[grebt] < pivot2
+                            b[k] = b[grebt];
                         }
-                        a[great] = ak;
-                        --great;
+                        b[grebt] = bk;
+                        --grebt;
                     }
                 }
             }
 
-            // Sort center part recursively
-            sort(a, less, great, false);
+            // Sort center pbrt recursively
+            sort(b, less, grebt, fblse);
 
-        } else { // Partitioning with one pivot
+        } else { // Pbrtitioning with one pivot
             /*
-             * Use the third of the five sorted elements as pivot.
-             * This value is inexpensive approximation of the median.
+             * Use the third of the five sorted elements bs pivot.
+             * This vblue is inexpensive bpproximbtion of the medibn.
              */
-            float pivot = a[e3];
+            flobt pivot = b[e3];
 
             /*
-             * Partitioning degenerates to the traditional 3-way
-             * (or "Dutch National Flag") schema:
+             * Pbrtitioning degenerbtes to the trbditionbl 3-wby
+             * (or "Dutch Nbtionbl Flbg") schemb:
              *
-             *   left part    center part              right part
+             *   left pbrt    center pbrt              right pbrt
              * +-------------------------------------------------+
              * |  < pivot  |   == pivot   |     ?    |  > pivot  |
              * +-------------------------------------------------+
              *              ^              ^        ^
              *              |              |        |
-             *             less            k      great
+             *             less            k      grebt
              *
-             * Invariants:
+             * Invbribnts:
              *
-             *   all in (left, less)   < pivot
-             *   all in [less, k)     == pivot
-             *   all in (great, right) > pivot
+             *   bll in (left, less)   < pivot
+             *   bll in [less, k)     == pivot
+             *   bll in (grebt, right) > pivot
              *
-             * Pointer k is the first index of ?-part.
+             * Pointer k is the first index of ?-pbrt.
              */
-            for (int k = less; k <= great; ++k) {
-                if (a[k] == pivot) {
+            for (int k = less; k <= grebt; ++k) {
+                if (b[k] == pivot) {
                     continue;
                 }
-                float ak = a[k];
-                if (ak < pivot) { // Move a[k] to left part
-                    a[k] = a[less];
-                    a[less] = ak;
+                flobt bk = b[k];
+                if (bk < pivot) { // Move b[k] to left pbrt
+                    b[k] = b[less];
+                    b[less] = bk;
                     ++less;
-                } else { // a[k] > pivot - Move a[k] to right part
-                    while (a[great] > pivot) {
-                        --great;
+                } else { // b[k] > pivot - Move b[k] to right pbrt
+                    while (b[grebt] > pivot) {
+                        --grebt;
                     }
-                    if (a[great] < pivot) { // a[great] <= pivot
-                        a[k] = a[less];
-                        a[less] = a[great];
+                    if (b[grebt] < pivot) { // b[grebt] <= pivot
+                        b[k] = b[less];
+                        b[less] = b[grebt];
                         ++less;
-                    } else { // a[great] == pivot
+                    } else { // b[grebt] == pivot
                         /*
-                         * Even though a[great] equals to pivot, the
-                         * assignment a[k] = pivot may be incorrect,
-                         * if a[great] and pivot are floating-point
-                         * zeros of different signs. Therefore in float
-                         * and double sorting methods we have to use
-                         * more accurate assignment a[k] = a[great].
+                         * Even though b[grebt] equbls to pivot, the
+                         * bssignment b[k] = pivot mby be incorrect,
+                         * if b[grebt] bnd pivot bre flobting-point
+                         * zeros of different signs. Therefore in flobt
+                         * bnd double sorting methods we hbve to use
+                         * more bccurbte bssignment b[k] = b[grebt].
                          */
-                        a[k] = a[great];
+                        b[k] = b[grebt];
                     }
-                    a[great] = ak;
-                    --great;
+                    b[grebt] = bk;
+                    --grebt;
                 }
             }
 
             /*
-             * Sort left and right parts recursively.
-             * All elements from center part are equal
-             * and, therefore, already sorted.
+             * Sort left bnd right pbrts recursively.
+             * All elements from center pbrt bre equbl
+             * bnd, therefore, blrebdy sorted.
              */
-            sort(a, left, less - 1, leftmost);
-            sort(a, great + 1, right, false);
+            sort(b, left, less - 1, leftmost);
+            sort(b, grebt + 1, right, fblse);
         }
     }
 
     /**
-     * Sorts the specified range of the array using the given
-     * workspace array slice if possible for merging
+     * Sorts the specified rbnge of the brrby using the given
+     * workspbce brrby slice if possible for merging
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param work a workspace array (slice)
-     * @param workBase origin of usable space in work array
-     * @param workLen usable size of work array
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm work b workspbce brrby (slice)
+     * @pbrbm workBbse origin of usbble spbce in work brrby
+     * @pbrbm workLen usbble size of work brrby
      */
-    static void sort(double[] a, int left, int right,
-                     double[] work, int workBase, int workLen) {
+    stbtic void sort(double[] b, int left, int right,
+                     double[] work, int workBbse, int workLen) {
         /*
-         * Phase 1: Move NaNs to the end of the array.
+         * Phbse 1: Move NbNs to the end of the brrby.
          */
-        while (left <= right && Double.isNaN(a[right])) {
+        while (left <= right && Double.isNbN(b[right])) {
             --right;
         }
         for (int k = right; --k >= left; ) {
-            double ak = a[k];
-            if (ak != ak) { // a[k] is NaN
-                a[k] = a[right];
-                a[right] = ak;
+            double bk = b[k];
+            if (bk != bk) { // b[k] is NbN
+                b[k] = b[right];
+                b[right] = bk;
                 --right;
             }
         }
 
         /*
-         * Phase 2: Sort everything except NaNs (which are already in place).
+         * Phbse 2: Sort everything except NbNs (which bre blrebdy in plbce).
          */
-        doSort(a, left, right, work, workBase, workLen);
+        doSort(b, left, right, work, workBbse, workLen);
 
         /*
-         * Phase 3: Place negative zeros before positive zeros.
+         * Phbse 3: Plbce negbtive zeros before positive zeros.
          */
         int hi = right;
 
         /*
-         * Find the first zero, or first positive, or last negative element.
+         * Find the first zero, or first positive, or lbst negbtive element.
          */
         while (left < hi) {
             int middle = (left + hi) >>> 1;
-            double middleValue = a[middle];
+            double middleVblue = b[middle];
 
-            if (middleValue < 0.0d) {
+            if (middleVblue < 0.0d) {
                 left = middle + 1;
             } else {
                 hi = middle;
@@ -2590,16 +2590,16 @@ final class DualPivotQuicksort {
         }
 
         /*
-         * Skip the last negative value (if any) or all leading negative zeros.
+         * Skip the lbst negbtive vblue (if bny) or bll lebding negbtive zeros.
          */
-        while (left <= right && Double.doubleToRawLongBits(a[left]) < 0) {
+        while (left <= right && Double.doubleToRbwLongBits(b[left]) < 0) {
             ++left;
         }
 
         /*
-         * Move negative zeros to the beginning of the sub-range.
+         * Move negbtive zeros to the beginning of the sub-rbnge.
          *
-         * Partitioning:
+         * Pbrtitioning:
          *
          * +----------------------------------------------------+
          * |   < 0.0   |   -0.0   |   0.0   |   ?  ( >= 0.0 )   |
@@ -2608,218 +2608,218 @@ final class DualPivotQuicksort {
          *              |          |         |
          *             left        p         k
          *
-         * Invariants:
+         * Invbribnts:
          *
-         *   all in (*,  left)  <  0.0
-         *   all in [left,  p) == -0.0
-         *   all in [p,     k) ==  0.0
-         *   all in [k, right] >=  0.0
+         *   bll in (*,  left)  <  0.0
+         *   bll in [left,  p) == -0.0
+         *   bll in [p,     k) ==  0.0
+         *   bll in [k, right] >=  0.0
          *
-         * Pointer k is the first index of ?-part.
+         * Pointer k is the first index of ?-pbrt.
          */
         for (int k = left, p = left - 1; ++k <= right; ) {
-            double ak = a[k];
-            if (ak != 0.0d) {
-                break;
+            double bk = b[k];
+            if (bk != 0.0d) {
+                brebk;
             }
-            if (Double.doubleToRawLongBits(ak) < 0) { // ak is -0.0d
-                a[k] = 0.0d;
-                a[++p] = -0.0d;
+            if (Double.doubleToRbwLongBits(bk) < 0) { // bk is -0.0d
+                b[k] = 0.0d;
+                b[++p] = -0.0d;
             }
         }
     }
 
     /**
-     * Sorts the specified range of the array.
+     * Sorts the specified rbnge of the brrby.
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param work a workspace array (slice)
-     * @param workBase origin of usable space in work array
-     * @param workLen usable size of work array
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm work b workspbce brrby (slice)
+     * @pbrbm workBbse origin of usbble spbce in work brrby
+     * @pbrbm workLen usbble size of work brrby
      */
-    private static void doSort(double[] a, int left, int right,
-                               double[] work, int workBase, int workLen) {
-        // Use Quicksort on small arrays
+    privbte stbtic void doSort(double[] b, int left, int right,
+                               double[] work, int workBbse, int workLen) {
+        // Use Quicksort on smbll brrbys
         if (right - left < QUICKSORT_THRESHOLD) {
-            sort(a, left, right, true);
+            sort(b, left, right, true);
             return;
         }
 
         /*
-         * Index run[i] is the start of i-th run
-         * (ascending or descending sequence).
+         * Index run[i] is the stbrt of i-th run
+         * (bscending or descending sequence).
          */
         int[] run = new int[MAX_RUN_COUNT + 1];
         int count = 0; run[0] = left;
 
-        // Check if the array is nearly sorted
+        // Check if the brrby is nebrly sorted
         for (int k = left; k < right; run[count] = k) {
-            if (a[k] < a[k + 1]) { // ascending
-                while (++k <= right && a[k - 1] <= a[k]);
-            } else if (a[k] > a[k + 1]) { // descending
-                while (++k <= right && a[k - 1] >= a[k]);
+            if (b[k] < b[k + 1]) { // bscending
+                while (++k <= right && b[k - 1] <= b[k]);
+            } else if (b[k] > b[k + 1]) { // descending
+                while (++k <= right && b[k - 1] >= b[k]);
                 for (int lo = run[count] - 1, hi = k; ++lo < --hi; ) {
-                    double t = a[lo]; a[lo] = a[hi]; a[hi] = t;
+                    double t = b[lo]; b[lo] = b[hi]; b[hi] = t;
                 }
-            } else { // equal
-                for (int m = MAX_RUN_LENGTH; ++k <= right && a[k - 1] == a[k]; ) {
+            } else { // equbl
+                for (int m = MAX_RUN_LENGTH; ++k <= right && b[k - 1] == b[k]; ) {
                     if (--m == 0) {
-                        sort(a, left, right, true);
+                        sort(b, left, right, true);
                         return;
                     }
                 }
             }
 
             /*
-             * The array is not highly structured,
-             * use Quicksort instead of merge sort.
+             * The brrby is not highly structured,
+             * use Quicksort instebd of merge sort.
              */
             if (++count == MAX_RUN_COUNT) {
-                sort(a, left, right, true);
+                sort(b, left, right, true);
                 return;
             }
         }
 
-        // Check special cases
-        // Implementation note: variable "right" is increased by 1.
-        if (run[count] == right++) { // The last run contains one element
+        // Check specibl cbses
+        // Implementbtion note: vbribble "right" is increbsed by 1.
+        if (run[count] == right++) { // The lbst run contbins one element
             run[++count] = right;
-        } else if (count == 1) { // The array is already sorted
+        } else if (count == 1) { // The brrby is blrebdy sorted
             return;
         }
 
-        // Determine alternation base for merge
+        // Determine blternbtion bbse for merge
         byte odd = 0;
         for (int n = 1; (n <<= 1) < count; odd ^= 1);
 
-        // Use or create temporary array b for merging
-        double[] b;                 // temp array; alternates with a
-        int ao, bo;              // array offsets from 'left'
-        int blen = right - left; // space needed for b
-        if (work == null || workLen < blen || workBase + blen > work.length) {
+        // Use or crebte temporbry brrby b for merging
+        double[] b;                 // temp brrby; blternbtes with b
+        int bo, bo;              // brrby offsets from 'left'
+        int blen = right - left; // spbce needed for b
+        if (work == null || workLen < blen || workBbse + blen > work.length) {
             work = new double[blen];
-            workBase = 0;
+            workBbse = 0;
         }
         if (odd == 0) {
-            System.arraycopy(a, left, work, workBase, blen);
-            b = a;
+            System.brrbycopy(b, left, work, workBbse, blen);
+            b = b;
             bo = 0;
-            a = work;
-            ao = workBase - left;
+            b = work;
+            bo = workBbse - left;
         } else {
             b = work;
-            ao = 0;
-            bo = workBase - left;
+            bo = 0;
+            bo = workBbse - left;
         }
 
         // Merging
-        for (int last; count > 1; count = last) {
-            for (int k = (last = 0) + 2; k <= count; k += 2) {
+        for (int lbst; count > 1; count = lbst) {
+            for (int k = (lbst = 0) + 2; k <= count; k += 2) {
                 int hi = run[k], mi = run[k - 1];
                 for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
-                    if (q >= hi || p < mi && a[p + ao] <= a[q + ao]) {
-                        b[i + bo] = a[p++ + ao];
+                    if (q >= hi || p < mi && b[p + bo] <= b[q + bo]) {
+                        b[i + bo] = b[p++ + bo];
                     } else {
-                        b[i + bo] = a[q++ + ao];
+                        b[i + bo] = b[q++ + bo];
                     }
                 }
-                run[++last] = hi;
+                run[++lbst] = hi;
             }
             if ((count & 1) != 0) {
                 for (int i = right, lo = run[count - 1]; --i >= lo;
-                    b[i + bo] = a[i + ao]
+                    b[i + bo] = b[i + bo]
                 );
-                run[++last] = right;
+                run[++lbst] = right;
             }
-            double[] t = a; a = b; b = t;
-            int o = ao; ao = bo; bo = o;
+            double[] t = b; b = b; b = t;
+            int o = bo; bo = bo; bo = o;
         }
     }
 
     /**
-     * Sorts the specified range of the array by Dual-Pivot Quicksort.
+     * Sorts the specified rbnge of the brrby by Dubl-Pivot Quicksort.
      *
-     * @param a the array to be sorted
-     * @param left the index of the first element, inclusive, to be sorted
-     * @param right the index of the last element, inclusive, to be sorted
-     * @param leftmost indicates if this part is the leftmost in the range
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm left the index of the first element, inclusive, to be sorted
+     * @pbrbm right the index of the lbst element, inclusive, to be sorted
+     * @pbrbm leftmost indicbtes if this pbrt is the leftmost in the rbnge
      */
-    private static void sort(double[] a, int left, int right, boolean leftmost) {
+    privbte stbtic void sort(double[] b, int left, int right, boolebn leftmost) {
         int length = right - left + 1;
 
-        // Use insertion sort on tiny arrays
+        // Use insertion sort on tiny brrbys
         if (length < INSERTION_SORT_THRESHOLD) {
             if (leftmost) {
                 /*
-                 * Traditional (without sentinel) insertion sort,
-                 * optimized for server VM, is used in case of
-                 * the leftmost part.
+                 * Trbditionbl (without sentinel) insertion sort,
+                 * optimized for server VM, is used in cbse of
+                 * the leftmost pbrt.
                  */
                 for (int i = left, j = i; i < right; j = ++i) {
-                    double ai = a[i + 1];
-                    while (ai < a[j]) {
-                        a[j + 1] = a[j];
+                    double bi = b[i + 1];
+                    while (bi < b[j]) {
+                        b[j + 1] = b[j];
                         if (j-- == left) {
-                            break;
+                            brebk;
                         }
                     }
-                    a[j + 1] = ai;
+                    b[j + 1] = bi;
                 }
             } else {
                 /*
-                 * Skip the longest ascending sequence.
+                 * Skip the longest bscending sequence.
                  */
                 do {
                     if (left >= right) {
                         return;
                     }
-                } while (a[++left] >= a[left - 1]);
+                } while (b[++left] >= b[left - 1]);
 
                 /*
-                 * Every element from adjoining part plays the role
-                 * of sentinel, therefore this allows us to avoid the
-                 * left range check on each iteration. Moreover, we use
-                 * the more optimized algorithm, so called pair insertion
-                 * sort, which is faster (in the context of Quicksort)
-                 * than traditional implementation of insertion sort.
+                 * Every element from bdjoining pbrt plbys the role
+                 * of sentinel, therefore this bllows us to bvoid the
+                 * left rbnge check on ebch iterbtion. Moreover, we use
+                 * the more optimized blgorithm, so cblled pbir insertion
+                 * sort, which is fbster (in the context of Quicksort)
+                 * thbn trbditionbl implementbtion of insertion sort.
                  */
                 for (int k = left; ++left <= right; k = ++left) {
-                    double a1 = a[k], a2 = a[left];
+                    double b1 = b[k], b2 = b[left];
 
-                    if (a1 < a2) {
-                        a2 = a1; a1 = a[left];
+                    if (b1 < b2) {
+                        b2 = b1; b1 = b[left];
                     }
-                    while (a1 < a[--k]) {
-                        a[k + 2] = a[k];
+                    while (b1 < b[--k]) {
+                        b[k + 2] = b[k];
                     }
-                    a[++k + 1] = a1;
+                    b[++k + 1] = b1;
 
-                    while (a2 < a[--k]) {
-                        a[k + 1] = a[k];
+                    while (b2 < b[--k]) {
+                        b[k + 1] = b[k];
                     }
-                    a[k + 1] = a2;
+                    b[k + 1] = b2;
                 }
-                double last = a[right];
+                double lbst = b[right];
 
-                while (last < a[--right]) {
-                    a[right + 1] = a[right];
+                while (lbst < b[--right]) {
+                    b[right + 1] = b[right];
                 }
-                a[right + 1] = last;
+                b[right + 1] = lbst;
             }
             return;
         }
 
-        // Inexpensive approximation of length / 7
+        // Inexpensive bpproximbtion of length / 7
         int seventh = (length >> 3) + (length >> 6) + 1;
 
         /*
-         * Sort five evenly spaced elements around (and including) the
-         * center element in the range. These elements will be used for
-         * pivot selection as described below. The choice for spacing
-         * these elements was empirically determined to work well on
-         * a wide variety of inputs.
+         * Sort five evenly spbced elements bround (bnd including) the
+         * center element in the rbnge. These elements will be used for
+         * pivot selection bs described below. The choice for spbcing
+         * these elements wbs empiricblly determined to work well on
+         * b wide vbriety of inputs.
          */
         int e3 = (left + right) >>> 1; // The midpoint
         int e2 = e3 - seventh;
@@ -2828,251 +2828,251 @@ final class DualPivotQuicksort {
         int e5 = e4 + seventh;
 
         // Sort these elements using insertion sort
-        if (a[e2] < a[e1]) { double t = a[e2]; a[e2] = a[e1]; a[e1] = t; }
+        if (b[e2] < b[e1]) { double t = b[e2]; b[e2] = b[e1]; b[e1] = t; }
 
-        if (a[e3] < a[e2]) { double t = a[e3]; a[e3] = a[e2]; a[e2] = t;
-            if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e3] < b[e2]) { double t = b[e3]; b[e3] = b[e2]; b[e2] = t;
+            if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
         }
-        if (a[e4] < a[e3]) { double t = a[e4]; a[e4] = a[e3]; a[e3] = t;
-            if (t < a[e2]) { a[e3] = a[e2]; a[e2] = t;
-                if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e4] < b[e3]) { double t = b[e4]; b[e4] = b[e3]; b[e3] = t;
+            if (t < b[e2]) { b[e3] = b[e2]; b[e2] = t;
+                if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
             }
         }
-        if (a[e5] < a[e4]) { double t = a[e5]; a[e5] = a[e4]; a[e4] = t;
-            if (t < a[e3]) { a[e4] = a[e3]; a[e3] = t;
-                if (t < a[e2]) { a[e3] = a[e2]; a[e2] = t;
-                    if (t < a[e1]) { a[e2] = a[e1]; a[e1] = t; }
+        if (b[e5] < b[e4]) { double t = b[e5]; b[e5] = b[e4]; b[e4] = t;
+            if (t < b[e3]) { b[e4] = b[e3]; b[e3] = t;
+                if (t < b[e2]) { b[e3] = b[e2]; b[e2] = t;
+                    if (t < b[e1]) { b[e2] = b[e1]; b[e1] = t; }
                 }
             }
         }
 
         // Pointers
-        int less  = left;  // The index of the first element of center part
-        int great = right; // The index before the first element of right part
+        int less  = left;  // The index of the first element of center pbrt
+        int grebt = right; // The index before the first element of right pbrt
 
-        if (a[e1] != a[e2] && a[e2] != a[e3] && a[e3] != a[e4] && a[e4] != a[e5]) {
+        if (b[e1] != b[e2] && b[e2] != b[e3] && b[e3] != b[e4] && b[e4] != b[e5]) {
             /*
-             * Use the second and fourth of the five sorted elements as pivots.
-             * These values are inexpensive approximations of the first and
-             * second terciles of the array. Note that pivot1 <= pivot2.
+             * Use the second bnd fourth of the five sorted elements bs pivots.
+             * These vblues bre inexpensive bpproximbtions of the first bnd
+             * second terciles of the brrby. Note thbt pivot1 <= pivot2.
              */
-            double pivot1 = a[e2];
-            double pivot2 = a[e4];
+            double pivot1 = b[e2];
+            double pivot2 = b[e4];
 
             /*
-             * The first and the last elements to be sorted are moved to the
-             * locations formerly occupied by the pivots. When partitioning
-             * is complete, the pivots are swapped back into their final
-             * positions, and excluded from subsequent sorting.
+             * The first bnd the lbst elements to be sorted bre moved to the
+             * locbtions formerly occupied by the pivots. When pbrtitioning
+             * is complete, the pivots bre swbpped bbck into their finbl
+             * positions, bnd excluded from subsequent sorting.
              */
-            a[e2] = a[left];
-            a[e4] = a[right];
+            b[e2] = b[left];
+            b[e4] = b[right];
 
             /*
-             * Skip elements, which are less or greater than pivot values.
+             * Skip elements, which bre less or grebter thbn pivot vblues.
              */
-            while (a[++less] < pivot1);
-            while (a[--great] > pivot2);
+            while (b[++less] < pivot1);
+            while (b[--grebt] > pivot2);
 
             /*
-             * Partitioning:
+             * Pbrtitioning:
              *
-             *   left part           center part                   right part
+             *   left pbrt           center pbrt                   right pbrt
              * +--------------------------------------------------------------+
              * |  < pivot1  |  pivot1 <= && <= pivot2  |    ?    |  > pivot2  |
              * +--------------------------------------------------------------+
              *               ^                          ^       ^
              *               |                          |       |
-             *              less                        k     great
+             *              less                        k     grebt
              *
-             * Invariants:
+             * Invbribnts:
              *
-             *              all in (left, less)   < pivot1
-             *    pivot1 <= all in [less, k)     <= pivot2
-             *              all in (great, right) > pivot2
+             *              bll in (left, less)   < pivot1
+             *    pivot1 <= bll in [less, k)     <= pivot2
+             *              bll in (grebt, right) > pivot2
              *
-             * Pointer k is the first index of ?-part.
+             * Pointer k is the first index of ?-pbrt.
              */
             outer:
-            for (int k = less - 1; ++k <= great; ) {
-                double ak = a[k];
-                if (ak < pivot1) { // Move a[k] to left part
-                    a[k] = a[less];
+            for (int k = less - 1; ++k <= grebt; ) {
+                double bk = b[k];
+                if (bk < pivot1) { // Move b[k] to left pbrt
+                    b[k] = b[less];
                     /*
-                     * Here and below we use "a[i] = b; i++;" instead
-                     * of "a[i++] = b;" due to performance issue.
+                     * Here bnd below we use "b[i] = b; i++;" instebd
+                     * of "b[i++] = b;" due to performbnce issue.
                      */
-                    a[less] = ak;
+                    b[less] = bk;
                     ++less;
-                } else if (ak > pivot2) { // Move a[k] to right part
-                    while (a[great] > pivot2) {
-                        if (great-- == k) {
-                            break outer;
+                } else if (bk > pivot2) { // Move b[k] to right pbrt
+                    while (b[grebt] > pivot2) {
+                        if (grebt-- == k) {
+                            brebk outer;
                         }
                     }
-                    if (a[great] < pivot1) { // a[great] <= pivot2
-                        a[k] = a[less];
-                        a[less] = a[great];
+                    if (b[grebt] < pivot1) { // b[grebt] <= pivot2
+                        b[k] = b[less];
+                        b[less] = b[grebt];
                         ++less;
-                    } else { // pivot1 <= a[great] <= pivot2
-                        a[k] = a[great];
+                    } else { // pivot1 <= b[grebt] <= pivot2
+                        b[k] = b[grebt];
                     }
                     /*
-                     * Here and below we use "a[i] = b; i--;" instead
-                     * of "a[i--] = b;" due to performance issue.
+                     * Here bnd below we use "b[i] = b; i--;" instebd
+                     * of "b[i--] = b;" due to performbnce issue.
                      */
-                    a[great] = ak;
-                    --great;
+                    b[grebt] = bk;
+                    --grebt;
                 }
             }
 
-            // Swap pivots into their final positions
-            a[left]  = a[less  - 1]; a[less  - 1] = pivot1;
-            a[right] = a[great + 1]; a[great + 1] = pivot2;
+            // Swbp pivots into their finbl positions
+            b[left]  = b[less  - 1]; b[less  - 1] = pivot1;
+            b[right] = b[grebt + 1]; b[grebt + 1] = pivot2;
 
-            // Sort left and right parts recursively, excluding known pivots
-            sort(a, left, less - 2, leftmost);
-            sort(a, great + 2, right, false);
+            // Sort left bnd right pbrts recursively, excluding known pivots
+            sort(b, left, less - 2, leftmost);
+            sort(b, grebt + 2, right, fblse);
 
             /*
-             * If center part is too large (comprises > 4/7 of the array),
-             * swap internal pivot values to ends.
+             * If center pbrt is too lbrge (comprises > 4/7 of the brrby),
+             * swbp internbl pivot vblues to ends.
              */
-            if (less < e1 && e5 < great) {
+            if (less < e1 && e5 < grebt) {
                 /*
-                 * Skip elements, which are equal to pivot values.
+                 * Skip elements, which bre equbl to pivot vblues.
                  */
-                while (a[less] == pivot1) {
+                while (b[less] == pivot1) {
                     ++less;
                 }
 
-                while (a[great] == pivot2) {
-                    --great;
+                while (b[grebt] == pivot2) {
+                    --grebt;
                 }
 
                 /*
-                 * Partitioning:
+                 * Pbrtitioning:
                  *
-                 *   left part         center part                  right part
+                 *   left pbrt         center pbrt                  right pbrt
                  * +----------------------------------------------------------+
                  * | == pivot1 |  pivot1 < && < pivot2  |    ?    | == pivot2 |
                  * +----------------------------------------------------------+
                  *              ^                        ^       ^
                  *              |                        |       |
-                 *             less                      k     great
+                 *             less                      k     grebt
                  *
-                 * Invariants:
+                 * Invbribnts:
                  *
-                 *              all in (*,  less) == pivot1
-                 *     pivot1 < all in [less,  k)  < pivot2
-                 *              all in (great, *) == pivot2
+                 *              bll in (*,  less) == pivot1
+                 *     pivot1 < bll in [less,  k)  < pivot2
+                 *              bll in (grebt, *) == pivot2
                  *
-                 * Pointer k is the first index of ?-part.
+                 * Pointer k is the first index of ?-pbrt.
                  */
                 outer:
-                for (int k = less - 1; ++k <= great; ) {
-                    double ak = a[k];
-                    if (ak == pivot1) { // Move a[k] to left part
-                        a[k] = a[less];
-                        a[less] = ak;
+                for (int k = less - 1; ++k <= grebt; ) {
+                    double bk = b[k];
+                    if (bk == pivot1) { // Move b[k] to left pbrt
+                        b[k] = b[less];
+                        b[less] = bk;
                         ++less;
-                    } else if (ak == pivot2) { // Move a[k] to right part
-                        while (a[great] == pivot2) {
-                            if (great-- == k) {
-                                break outer;
+                    } else if (bk == pivot2) { // Move b[k] to right pbrt
+                        while (b[grebt] == pivot2) {
+                            if (grebt-- == k) {
+                                brebk outer;
                             }
                         }
-                        if (a[great] == pivot1) { // a[great] < pivot2
-                            a[k] = a[less];
+                        if (b[grebt] == pivot1) { // b[grebt] < pivot2
+                            b[k] = b[less];
                             /*
-                             * Even though a[great] equals to pivot1, the
-                             * assignment a[less] = pivot1 may be incorrect,
-                             * if a[great] and pivot1 are floating-point zeros
-                             * of different signs. Therefore in float and
-                             * double sorting methods we have to use more
-                             * accurate assignment a[less] = a[great].
+                             * Even though b[grebt] equbls to pivot1, the
+                             * bssignment b[less] = pivot1 mby be incorrect,
+                             * if b[grebt] bnd pivot1 bre flobting-point zeros
+                             * of different signs. Therefore in flobt bnd
+                             * double sorting methods we hbve to use more
+                             * bccurbte bssignment b[less] = b[grebt].
                              */
-                            a[less] = a[great];
+                            b[less] = b[grebt];
                             ++less;
-                        } else { // pivot1 < a[great] < pivot2
-                            a[k] = a[great];
+                        } else { // pivot1 < b[grebt] < pivot2
+                            b[k] = b[grebt];
                         }
-                        a[great] = ak;
-                        --great;
+                        b[grebt] = bk;
+                        --grebt;
                     }
                 }
             }
 
-            // Sort center part recursively
-            sort(a, less, great, false);
+            // Sort center pbrt recursively
+            sort(b, less, grebt, fblse);
 
-        } else { // Partitioning with one pivot
+        } else { // Pbrtitioning with one pivot
             /*
-             * Use the third of the five sorted elements as pivot.
-             * This value is inexpensive approximation of the median.
+             * Use the third of the five sorted elements bs pivot.
+             * This vblue is inexpensive bpproximbtion of the medibn.
              */
-            double pivot = a[e3];
+            double pivot = b[e3];
 
             /*
-             * Partitioning degenerates to the traditional 3-way
-             * (or "Dutch National Flag") schema:
+             * Pbrtitioning degenerbtes to the trbditionbl 3-wby
+             * (or "Dutch Nbtionbl Flbg") schemb:
              *
-             *   left part    center part              right part
+             *   left pbrt    center pbrt              right pbrt
              * +-------------------------------------------------+
              * |  < pivot  |   == pivot   |     ?    |  > pivot  |
              * +-------------------------------------------------+
              *              ^              ^        ^
              *              |              |        |
-             *             less            k      great
+             *             less            k      grebt
              *
-             * Invariants:
+             * Invbribnts:
              *
-             *   all in (left, less)   < pivot
-             *   all in [less, k)     == pivot
-             *   all in (great, right) > pivot
+             *   bll in (left, less)   < pivot
+             *   bll in [less, k)     == pivot
+             *   bll in (grebt, right) > pivot
              *
-             * Pointer k is the first index of ?-part.
+             * Pointer k is the first index of ?-pbrt.
              */
-            for (int k = less; k <= great; ++k) {
-                if (a[k] == pivot) {
+            for (int k = less; k <= grebt; ++k) {
+                if (b[k] == pivot) {
                     continue;
                 }
-                double ak = a[k];
-                if (ak < pivot) { // Move a[k] to left part
-                    a[k] = a[less];
-                    a[less] = ak;
+                double bk = b[k];
+                if (bk < pivot) { // Move b[k] to left pbrt
+                    b[k] = b[less];
+                    b[less] = bk;
                     ++less;
-                } else { // a[k] > pivot - Move a[k] to right part
-                    while (a[great] > pivot) {
-                        --great;
+                } else { // b[k] > pivot - Move b[k] to right pbrt
+                    while (b[grebt] > pivot) {
+                        --grebt;
                     }
-                    if (a[great] < pivot) { // a[great] <= pivot
-                        a[k] = a[less];
-                        a[less] = a[great];
+                    if (b[grebt] < pivot) { // b[grebt] <= pivot
+                        b[k] = b[less];
+                        b[less] = b[grebt];
                         ++less;
-                    } else { // a[great] == pivot
+                    } else { // b[grebt] == pivot
                         /*
-                         * Even though a[great] equals to pivot, the
-                         * assignment a[k] = pivot may be incorrect,
-                         * if a[great] and pivot are floating-point
-                         * zeros of different signs. Therefore in float
-                         * and double sorting methods we have to use
-                         * more accurate assignment a[k] = a[great].
+                         * Even though b[grebt] equbls to pivot, the
+                         * bssignment b[k] = pivot mby be incorrect,
+                         * if b[grebt] bnd pivot bre flobting-point
+                         * zeros of different signs. Therefore in flobt
+                         * bnd double sorting methods we hbve to use
+                         * more bccurbte bssignment b[k] = b[grebt].
                          */
-                        a[k] = a[great];
+                        b[k] = b[grebt];
                     }
-                    a[great] = ak;
-                    --great;
+                    b[grebt] = bk;
+                    --grebt;
                 }
             }
 
             /*
-             * Sort left and right parts recursively.
-             * All elements from center part are equal
-             * and, therefore, already sorted.
+             * Sort left bnd right pbrts recursively.
+             * All elements from center pbrt bre equbl
+             * bnd, therefore, blrebdy sorted.
              */
-            sort(a, left, less - 1, leftmost);
-            sort(a, great + 1, right, false);
+            sort(b, left, less - 1, leftmost);
+            sort(b, grebt + 1, right, fblse);
         }
     }
 }

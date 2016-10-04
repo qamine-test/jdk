@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,57 +27,57 @@
  *******************************************************************************
  * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.MissingResourceException;
+import jbvb.io.InputStrebm;
+import jbvb.net.URL;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.MissingResourceException;
 
 /**
- * Provides access to ICU data files as InputStreams.  Implements security checking.
+ * Provides bccess to ICU dbtb files bs InputStrebms.  Implements security checking.
  */
-public final class ICUData {
+public finbl clbss ICUDbtb {
 
-    private static InputStream getStream(final Class<ICUData> root, final String resourceName, boolean required) {
-        InputStream i = null;
+    privbte stbtic InputStrebm getStrebm(finbl Clbss<ICUDbtb> root, finbl String resourceNbme, boolebn required) {
+        InputStrebm i = null;
 
-        if (System.getSecurityManager() != null) {
-            i = AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
-                    public InputStream run() {
-                        return root.getResourceAsStream(resourceName);
+        if (System.getSecurityMbnbger() != null) {
+            i = AccessController.doPrivileged(new PrivilegedAction<InputStrebm>() {
+                    public InputStrebm run() {
+                        return root.getResourceAsStrebm(resourceNbme);
                     }
                 });
         } else {
-            i = root.getResourceAsStream(resourceName);
+            i = root.getResourceAsStrebm(resourceNbme);
         }
 
         if (i == null && required) {
-            throw new MissingResourceException("could not locate data", root.getPackage().getName(), resourceName);
+            throw new MissingResourceException("could not locbte dbtb", root.getPbckbge().getNbme(), resourceNbme);
         }
         return i;
     }
 
     /*
-     * Convenience override that calls getStream(ICUData.class, resourceName, false);
+     * Convenience override thbt cblls getStrebm(ICUDbtb.clbss, resourceNbme, fblse);
      */
-    public static InputStream getStream(String resourceName) {
-        return getStream(ICUData.class, resourceName, false);
+    public stbtic InputStrebm getStrebm(String resourceNbme) {
+        return getStrebm(ICUDbtb.clbss, resourceNbme, fblse);
     }
 
     /*
-     * Convenience method that calls getStream(ICUData.class, resourceName, true).
+     * Convenience method thbt cblls getStrebm(ICUDbtb.clbss, resourceNbme, true).
      */
-    public static InputStream getRequiredStream(String resourceName) {
-        return getStream(ICUData.class, resourceName, true);
+    public stbtic InputStrebm getRequiredStrebm(String resourceNbme) {
+        return getStrebm(ICUDbtb.clbss, resourceNbme, true);
     }
 }

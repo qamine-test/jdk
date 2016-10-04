@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,44 +30,44 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
-package checker;
+pbckbge checker;
 
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
-import javax.lang.model.SourceVersion;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic;
-import javax.xml.bind.JAXBContext;
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import jbvbx.bnnotbtion.processing.ProcessingEnvironment;
+import jbvbx.bnnotbtion.processing.RoundEnvironment;
+import jbvbx.bnnotbtion.processing.SupportedAnnotbtionTypes;
+import jbvbx.bnnotbtion.processing.SupportedSourceVersion;
+import jbvbx.lbng.model.SourceVersion;
+import jbvbx.lbng.model.element.Element;
+import jbvbx.lbng.model.element.TypeElement;
+import jbvbx.tools.Dibgnostic;
+import jbvbx.xml.bind.JAXBContext;
+import jbvb.io.File;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshSet;
+import jbvb.util.Set;
 
-import javax.xml.bind.JAXBException;
+import jbvbx.xml.bind.JAXBException;
 
 /**
- * Reads the device configuration from the XML file specified by -Adevice=device.xml.
- * For each class in a project, checks required modules. If the device doesn't have
- * the required module, then a compilation error will be shown.
+ * Rebds the device configurbtion from the XML file specified by -Adevice=device.xml.
+ * For ebch clbss in b project, checks required modules. If the device doesn't hbve
+ * the required module, then b compilbtion error will be shown.
  */
-@SupportedAnnotationTypes("checker.RequireContainer")
+@SupportedAnnotbtionTypes("checker.RequireContbiner")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class PluginChecker extends javax.annotation.processing.AbstractProcessor {
+public clbss PluginChecker extends jbvbx.bnnotbtion.processing.AbstrbctProcessor {
 
     /**
-     * Name of the option to get the path to the xml with device configuration.
+     * Nbme of the option to get the pbth to the xml with device configurbtion.
      */
-    public static final String DEVICE_OPTION = "device";
-    private Device device;
+    public stbtic finbl String DEVICE_OPTION = "device";
+    privbte Device device;
 
     /**
      * Only the device option is supported.
@@ -76,11 +76,11 @@ public class PluginChecker extends javax.annotation.processing.AbstractProcessor
      */
     @Override
     public Set<String> getSupportedOptions() {
-        return new HashSet<>(Arrays.asList(DEVICE_OPTION));
+        return new HbshSet<>(Arrbys.bsList(DEVICE_OPTION));
     }
 
     /**
-     * Initializes the processor by loading the device configuration.
+     * Initiblizes the processor by lobding the device configurbtion.
      *
      * {@inheritDoc}
      */
@@ -89,57 +89,57 @@ public class PluginChecker extends javax.annotation.processing.AbstractProcessor
         super.init(processingEnv);
         try {
             String deviceOption = processingEnv.getOptions().get(DEVICE_OPTION);
-            device = (Device) JAXBContext.newInstance(Device.class)
-                    .createUnmarshaller().unmarshal(new File(deviceOption));
-        } catch (JAXBException e) {
+            device = (Device) JAXBContext.newInstbnce(Device.clbss)
+                    .crebteUnmbrshbller().unmbrshbl(new File(deviceOption));
+        } cbtch (JAXBException e) {
             throw new RuntimeException(
-                    "Please specify device by -Adevice=device.xml\n"
+                    "Plebse specify device by -Adevice=device.xml\n"
                     + e.toString(), e);
         }
     }
 
     /**
-     * Processes @Require annotations and checks that Device meets requirements.
+     * Processes @Require bnnotbtions bnd checks thbt Device meets requirements.
      *
      * {@inheritDoc}
      */
     @Override
-    public boolean process(Set<? extends TypeElement> annotations,
+    public boolebn process(Set<? extends TypeElement> bnnotbtions,
             RoundEnvironment roundEnv) {
-        for (Element el : roundEnv.getElementsAnnotatedWith(RequireContainer.class)) {
-            for (Require req : el.getAnnotationsByType(Require.class)) {
-                //for every Require annotation checks if device has module of required version.
-                Integer version = device.getSupportedModules().get(req.value());
+        for (Element el : roundEnv.getElementsAnnotbtedWith(RequireContbiner.clbss)) {
+            for (Require req : el.getAnnotbtionsByType(Require.clbss)) {
+                //for every Require bnnotbtion checks if device hbs module of required version.
+                Integer version = device.getSupportedModules().get(req.vblue());
 
                 if (version == null
                         || version < req.minVersion()
-                        || version > req.maxVersion()) {
-                    //if module is optional then show only warning not error
-                    if (req.optional()) {
-                        processingEnv.getMessager()
-                                .printMessage(Diagnostic.Kind.WARNING,
+                        || version > req.mbxVersion()) {
+                    //if module is optionbl then show only wbrning not error
+                    if (req.optionbl()) {
+                        processingEnv.getMessbger()
+                                .printMessbge(Dibgnostic.Kind.WARNING,
                                         "Plugin [" + el + "] requires " + req
                                         + "\n but device " + (version == null
-                                        ? "doesn't have such module."
-                                        + " This module is optional."
+                                        ? "doesn't hbve such module."
+                                        + " This module is optionbl."
                                         + " So plugin will work but miss"
-                                        + " some functionality"
-                                        : "has " + version
-                                        + " version of that module"));
+                                        + " some functionblity"
+                                        : "hbs " + version
+                                        + " version of thbt module"));
                     } else {
-                        processingEnv.getMessager()
-                                .printMessage(Diagnostic.Kind.ERROR,
+                        processingEnv.getMessbger()
+                                .printMessbge(Dibgnostic.Kind.ERROR,
                                         "Plugin [" + el + "] requires " + req
                                         + "\n but device "
                                         + (version == null
-                                        ? "doesn't have such module"
-                                        : "has " + version
-                                        + " version of that module"));
+                                        ? "doesn't hbve such module"
+                                        : "hbs " + version
+                                        + " version of thbt module"));
                     }
                 }
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 }

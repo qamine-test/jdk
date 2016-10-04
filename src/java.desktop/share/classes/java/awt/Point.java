@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.geom.Point2D;
-import java.beans.Transient;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bebns.Trbnsient;
 
 /**
- * A point representing a location in {@code (x,y)} coordinate space,
+ * A point representing b locbtion in {@code (x,y)} coordinbte spbce,
  * specified in integer precision.
  *
- * @author      Sami Shaio
+ * @buthor      Sbmi Shbio
  * @since       1.0
  */
-public class Point extends Point2D implements java.io.Serializable {
+public clbss Point extends Point2D implements jbvb.io.Seriblizbble {
     /**
-     * The X coordinate of this <code>Point</code>.
-     * If no X coordinate is set it will default to 0.
+     * The X coordinbte of this <code>Point</code>.
+     * If no X coordinbte is set it will defbult to 0.
      *
-     * @serial
-     * @see #getLocation()
+     * @seribl
+     * @see #getLocbtion()
      * @see #move(int, int)
      * @since 1.0
      */
     public int x;
 
     /**
-     * The Y coordinate of this <code>Point</code>.
-     * If no Y coordinate is set it will default to 0.
+     * The Y coordinbte of this <code>Point</code>.
+     * If no Y coordinbte is set it will defbult to 0.
      *
-     * @serial
-     * @see #getLocation()
+     * @seribl
+     * @see #getLocbtion()
      * @see #move(int, int)
      * @since 1.0
      */
     public int y;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = -5276940640259749850L;
+    privbte stbtic finbl long seriblVersionUID = -5276940640259749850L;
 
     /**
-     * Constructs and initializes a point at the origin
-     * (0,&nbsp;0) of the coordinate space.
+     * Constructs bnd initiblizes b point bt the origin
+     * (0,&nbsp;0) of the coordinbte spbce.
      * @since       1.1
      */
     public Point() {
@@ -73,9 +73,9 @@ public class Point extends Point2D implements java.io.Serializable {
     }
 
     /**
-     * Constructs and initializes a point with the same location as
+     * Constructs bnd initiblizes b point with the sbme locbtion bs
      * the specified <code>Point</code> object.
-     * @param       p a point
+     * @pbrbm       p b point
      * @since       1.1
      */
     public Point(Point p) {
@@ -83,10 +83,10 @@ public class Point extends Point2D implements java.io.Serializable {
     }
 
     /**
-     * Constructs and initializes a point at the specified
-     * {@code (x,y)} location in the coordinate space.
-     * @param x the X coordinate of the newly constructed <code>Point</code>
-     * @param y the Y coordinate of the newly constructed <code>Point</code>
+     * Constructs bnd initiblizes b point bt the specified
+     * {@code (x,y)} locbtion in the coordinbte spbce.
+     * @pbrbm x the X coordinbte of the newly constructed <code>Point</code>
+     * @pbrbm y the Y coordinbte of the newly constructed <code>Point</code>
      * @since 1.0
      */
     public Point(int x, int y) {
@@ -111,74 +111,74 @@ public class Point extends Point2D implements java.io.Serializable {
     }
 
     /**
-     * Returns the location of this point.
-     * This method is included for completeness, to parallel the
-     * <code>getLocation</code> method of <code>Component</code>.
-     * @return      a copy of this point, at the same location
-     * @see         java.awt.Component#getLocation
-     * @see         java.awt.Point#setLocation(java.awt.Point)
-     * @see         java.awt.Point#setLocation(int, int)
+     * Returns the locbtion of this point.
+     * This method is included for completeness, to pbrbllel the
+     * <code>getLocbtion</code> method of <code>Component</code>.
+     * @return      b copy of this point, bt the sbme locbtion
+     * @see         jbvb.bwt.Component#getLocbtion
+     * @see         jbvb.bwt.Point#setLocbtion(jbvb.bwt.Point)
+     * @see         jbvb.bwt.Point#setLocbtion(int, int)
      * @since       1.1
      */
-    @Transient
-    public Point getLocation() {
+    @Trbnsient
+    public Point getLocbtion() {
         return new Point(x, y);
     }
 
     /**
-     * Sets the location of the point to the specified location.
-     * This method is included for completeness, to parallel the
-     * <code>setLocation</code> method of <code>Component</code>.
-     * @param       p  a point, the new location for this point
-     * @see         java.awt.Component#setLocation(java.awt.Point)
-     * @see         java.awt.Point#getLocation
+     * Sets the locbtion of the point to the specified locbtion.
+     * This method is included for completeness, to pbrbllel the
+     * <code>setLocbtion</code> method of <code>Component</code>.
+     * @pbrbm       p  b point, the new locbtion for this point
+     * @see         jbvb.bwt.Component#setLocbtion(jbvb.bwt.Point)
+     * @see         jbvb.bwt.Point#getLocbtion
      * @since       1.1
      */
-    public void setLocation(Point p) {
-        setLocation(p.x, p.y);
+    public void setLocbtion(Point p) {
+        setLocbtion(p.x, p.y);
     }
 
     /**
-     * Changes the point to have the specified location.
+     * Chbnges the point to hbve the specified locbtion.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>setLocation</code> method of <code>Component</code>.
-     * Its behavior is identical with <code>move(int,&nbsp;int)</code>.
-     * @param       x the X coordinate of the new location
-     * @param       y the Y coordinate of the new location
-     * @see         java.awt.Component#setLocation(int, int)
-     * @see         java.awt.Point#getLocation
-     * @see         java.awt.Point#move(int, int)
+     * This method is included for completeness, to pbrbllel the
+     * <code>setLocbtion</code> method of <code>Component</code>.
+     * Its behbvior is identicbl with <code>move(int,&nbsp;int)</code>.
+     * @pbrbm       x the X coordinbte of the new locbtion
+     * @pbrbm       y the Y coordinbte of the new locbtion
+     * @see         jbvb.bwt.Component#setLocbtion(int, int)
+     * @see         jbvb.bwt.Point#getLocbtion
+     * @see         jbvb.bwt.Point#move(int, int)
      * @since       1.1
      */
-    public void setLocation(int x, int y) {
+    public void setLocbtion(int x, int y) {
         move(x, y);
     }
 
     /**
-     * Sets the location of this point to the specified double coordinates.
-     * The double values will be rounded to integer values.
-     * Any number smaller than <code>Integer.MIN_VALUE</code>
-     * will be reset to <code>MIN_VALUE</code>, and any number
-     * larger than <code>Integer.MAX_VALUE</code> will be
+     * Sets the locbtion of this point to the specified double coordinbtes.
+     * The double vblues will be rounded to integer vblues.
+     * Any number smbller thbn <code>Integer.MIN_VALUE</code>
+     * will be reset to <code>MIN_VALUE</code>, bnd bny number
+     * lbrger thbn <code>Integer.MAX_VALUE</code> will be
      * reset to <code>MAX_VALUE</code>.
      *
-     * @param x the X coordinate of the new location
-     * @param y the Y coordinate of the new location
-     * @see #getLocation
+     * @pbrbm x the X coordinbte of the new locbtion
+     * @pbrbm y the Y coordinbte of the new locbtion
+     * @see #getLocbtion
      */
-    public void setLocation(double x, double y) {
-        this.x = (int) Math.floor(x+0.5);
-        this.y = (int) Math.floor(y+0.5);
+    public void setLocbtion(double x, double y) {
+        this.x = (int) Mbth.floor(x+0.5);
+        this.y = (int) Mbth.floor(y+0.5);
     }
 
     /**
-     * Moves this point to the specified location in the
-     * {@code (x,y)} coordinate plane. This method
-     * is identical with <code>setLocation(int,&nbsp;int)</code>.
-     * @param       x the X coordinate of the new location
-     * @param       y the Y coordinate of the new location
-     * @see         java.awt.Component#setLocation(int, int)
+     * Moves this point to the specified locbtion in the
+     * {@code (x,y)} coordinbte plbne. This method
+     * is identicbl with <code>setLocbtion(int,&nbsp;int)</code>.
+     * @pbrbm       x the X coordinbte of the new locbtion
+     * @pbrbm       y the Y coordinbte of the new locbtion
+     * @see         jbvb.bwt.Component#setLocbtion(int, int)
      */
     public void move(int x, int y) {
         this.x = x;
@@ -186,49 +186,49 @@ public class Point extends Point2D implements java.io.Serializable {
     }
 
     /**
-     * Translates this point, at location {@code (x,y)},
-     * by {@code dx} along the {@code x} axis and {@code dy}
-     * along the {@code y} axis so that it now represents the point
+     * Trbnslbtes this point, bt locbtion {@code (x,y)},
+     * by {@code dx} blong the {@code x} bxis bnd {@code dy}
+     * blong the {@code y} bxis so thbt it now represents the point
      * {@code (x+dx,y+dy)}.
      *
-     * @param       dx   the distance to move this point
-     *                            along the X axis
-     * @param       dy    the distance to move this point
-     *                            along the Y axis
+     * @pbrbm       dx   the distbnce to move this point
+     *                            blong the X bxis
+     * @pbrbm       dy    the distbnce to move this point
+     *                            blong the Y bxis
      */
-    public void translate(int dx, int dy) {
+    public void trbnslbte(int dx, int dy) {
         this.x += dx;
         this.y += dy;
     }
 
     /**
-     * Determines whether or not two points are equal. Two instances of
-     * <code>Point2D</code> are equal if the values of their
-     * <code>x</code> and <code>y</code> member fields, representing
-     * their position in the coordinate space, are the same.
-     * @param obj an object to be compared with this <code>Point2D</code>
-     * @return <code>true</code> if the object to be compared is
-     *         an instance of <code>Point2D</code> and has
-     *         the same values; <code>false</code> otherwise.
+     * Determines whether or not two points bre equbl. Two instbnces of
+     * <code>Point2D</code> bre equbl if the vblues of their
+     * <code>x</code> bnd <code>y</code> member fields, representing
+     * their position in the coordinbte spbce, bre the sbme.
+     * @pbrbm obj bn object to be compbred with this <code>Point2D</code>
+     * @return <code>true</code> if the object to be compbred is
+     *         bn instbnce of <code>Point2D</code> bnd hbs
+     *         the sbme vblues; <code>fblse</code> otherwise.
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Point) {
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof Point) {
             Point pt = (Point)obj;
             return (x == pt.x) && (y == pt.y);
         }
-        return super.equals(obj);
+        return super.equbls(obj);
     }
 
     /**
-     * Returns a string representation of this point and its location
-     * in the {@code (x,y)} coordinate space. This method is
-     * intended to be used only for debugging purposes, and the content
-     * and format of the returned string may vary between implementations.
-     * The returned string may be empty but may not be <code>null</code>.
+     * Returns b string representbtion of this point bnd its locbtion
+     * in the {@code (x,y)} coordinbte spbce. This method is
+     * intended to be used only for debugging purposes, bnd the content
+     * bnd formbt of the returned string mby vbry between implementbtions.
+     * The returned string mby be empty but mby not be <code>null</code>.
      *
-     * @return  a string representation of this point
+     * @return  b string representbtion of this point
      */
     public String toString() {
-        return getClass().getName() + "[x=" + x + ",y=" + y + "]";
+        return getClbss().getNbme() + "[x=" + x + ",y=" + y + "]";
     }
 }

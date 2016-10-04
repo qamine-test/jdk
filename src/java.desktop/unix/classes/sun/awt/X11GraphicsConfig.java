@@ -1,469 +1,469 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.AWTException;
-import java.awt.BufferCapabilities;
-import java.awt.BufferCapabilities.FlipContents;
-import java.awt.Component;
-import java.awt.Toolkit;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.Image;
-import java.awt.ImageCapabilities;
-import java.awt.Transparency;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.color.ColorSpace;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.VolatileImage;
-import java.awt.image.WritableRaster;
-import java.awt.geom.AffineTransform;
-import java.awt.Rectangle;
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.RenderLoops;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.x11.X11SurfaceData;
-import sun.awt.image.OffScreenImage;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.SurfaceManager;
-import sun.awt.X11ComponentPeer;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.BufferCbpbbilities;
+import jbvb.bwt.BufferCbpbbilities.FlipContents;
+import jbvb.bwt.Component;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.ImbgeCbpbbilities;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.imbge.ComponentColorModel;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.VolbtileImbge;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.Rectbngle;
+import sun.jbvb2d.Disposer;
+import sun.jbvb2d.DisposerRecord;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.RenderLoops;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.x11.X11SurfbceDbtb;
+import sun.bwt.imbge.OffScreenImbge;
+import sun.bwt.imbge.SunVolbtileImbge;
+import sun.bwt.imbge.SurfbceMbnbger;
+import sun.bwt.X11ComponentPeer;
 
 /**
- * This is an implementation of a GraphicsConfiguration object for a
- * single X11 visual.
+ * This is bn implementbtion of b GrbphicsConfigurbtion object for b
+ * single X11 visubl.
  *
- * @see GraphicsEnvironment
- * @see GraphicsDevice
+ * @see GrbphicsEnvironment
+ * @see GrbphicsDevice
  */
-public class X11GraphicsConfig extends GraphicsConfiguration
-    implements SurfaceManager.ProxiedGraphicsConfig
+public clbss X11GrbphicsConfig extends GrbphicsConfigurbtion
+    implements SurfbceMbnbger.ProxiedGrbphicsConfig
 {
-    protected X11GraphicsDevice screen;
-    protected int visual;
+    protected X11GrbphicsDevice screen;
+    protected int visubl;
     int depth;
-    int colormap;
+    int colormbp;
     ColorModel colorModel;
-    long aData;
-    boolean doubleBuffer;
-    private Object disposerReferent = new Object();
-    private BufferCapabilities bufferCaps;
-    private static ImageCapabilities imageCaps =
-        new ImageCapabilities(X11SurfaceData.isAccelerationEnabled());
+    long bDbtb;
+    boolebn doubleBuffer;
+    privbte Object disposerReferent = new Object();
+    privbte BufferCbpbbilities bufferCbps;
+    privbte stbtic ImbgeCbpbbilities imbgeCbps =
+        new ImbgeCbpbbilities(X11SurfbceDbtb.isAccelerbtionEnbbled());
 
-    // will be set on native level from init()
+    // will be set on nbtive level from init()
     protected int bitsPerPixel;
 
-    protected SurfaceType surfaceType;
+    protected SurfbceType surfbceType;
 
     public RenderLoops solidloops;
 
-    public static X11GraphicsConfig getConfig(X11GraphicsDevice device,
-                                              int visualnum, int depth,
-                                              int colormap,
-                                              boolean doubleBuffer)
+    public stbtic X11GrbphicsConfig getConfig(X11GrbphicsDevice device,
+                                              int visublnum, int depth,
+                                              int colormbp,
+                                              boolebn doubleBuffer)
     {
-        return new X11GraphicsConfig(device, visualnum, depth, colormap, doubleBuffer);
+        return new X11GrbphicsConfig(device, visublnum, depth, colormbp, doubleBuffer);
     }
 
     /*
-     * Note this method is currently here for backward compatibility
-     * as this was the method used in jdk 1.2 beta4 to create the
-     * X11GraphicsConfig objects. Java3D code had called this method
-     * explicitly so without this, if a user tries to use JDK1.2 fcs
-     * with Java3D beta1, a NoSuchMethod execption is thrown and
-     * the program exits. REMOVE this method after Java3D fcs is
-     * released!
+     * Note this method is currently here for bbckwbrd compbtibility
+     * bs this wbs the method used in jdk 1.2 betb4 to crebte the
+     * X11GrbphicsConfig objects. Jbvb3D code hbd cblled this method
+     * explicitly so without this, if b user tries to use JDK1.2 fcs
+     * with Jbvb3D betb1, b NoSuchMethod execption is thrown bnd
+     * the progrbm exits. REMOVE this method bfter Jbvb3D fcs is
+     * relebsed!
      */
-    public static X11GraphicsConfig getConfig(X11GraphicsDevice device,
-                                              int visualnum, int depth,
-                                              int colormap, int type)
+    public stbtic X11GrbphicsConfig getConfig(X11GrbphicsDevice device,
+                                              int visublnum, int depth,
+                                              int colormbp, int type)
     {
-        return new X11GraphicsConfig(device, visualnum, depth, colormap, false);
+        return new X11GrbphicsConfig(device, visublnum, depth, colormbp, fblse);
     }
 
-    private native int getNumColors();
-    private native void init(int visualNum, int screen);
-    private native ColorModel makeColorModel();
+    privbte nbtive int getNumColors();
+    privbte nbtive void init(int visublNum, int screen);
+    privbte nbtive ColorModel mbkeColorModel();
 
-    protected X11GraphicsConfig(X11GraphicsDevice device,
-                                int visualnum, int depth,
-                                int colormap, boolean doubleBuffer)
+    protected X11GrbphicsConfig(X11GrbphicsDevice device,
+                                int visublnum, int depth,
+                                int colormbp, boolebn doubleBuffer)
     {
         this.screen = device;
-        this.visual = visualnum;
+        this.visubl = visublnum;
         this.doubleBuffer = doubleBuffer;
         this.depth = depth;
-        this.colormap = colormap;
-        init (visualnum, screen.getScreen());
+        this.colormbp = colormbp;
+        init (visublnum, screen.getScreen());
 
-        // add a record to the Disposer so that we destroy the native
-        // AwtGraphicsConfigData when this object goes away (i.e. after a
-        // display change event)
-        long x11CfgData = getAData();
-        Disposer.addRecord(disposerReferent,
-                           new X11GCDisposerRecord(x11CfgData));
+        // bdd b record to the Disposer so thbt we destroy the nbtive
+        // AwtGrbphicsConfigDbtb when this object goes bwby (i.e. bfter b
+        // displby chbnge event)
+        long x11CfgDbtb = getADbtb();
+        Disposer.bddRecord(disposerReferent,
+                           new X11GCDisposerRecord(x11CfgDbtb));
     }
 
     /**
-     * Return the graphics device associated with this configuration.
+     * Return the grbphics device bssocibted with this configurbtion.
      */
-    public GraphicsDevice getDevice() {
+    public GrbphicsDevice getDevice() {
         return screen;
     }
 
     /**
-     * Returns the visual id associated with this configuration.
+     * Returns the visubl id bssocibted with this configurbtion.
      */
-    public int getVisual () {
-        return visual;
+    public int getVisubl () {
+        return visubl;
     }
 
 
     /**
-     * Returns the depth associated with this configuration.
+     * Returns the depth bssocibted with this configurbtion.
      */
     public int getDepth () {
         return depth;
     }
 
     /**
-     * Returns the colormap associated with this configuration.
+     * Returns the colormbp bssocibted with this configurbtion.
      */
-    public int getColormap () {
-        return colormap;
+    public int getColormbp () {
+        return colormbp;
     }
 
     /**
-     * Returns a number of bits allocated per pixel
+     * Returns b number of bits bllocbted per pixel
      * (might be different from depth)
      */
     public int getBitsPerPixel() {
         return bitsPerPixel;
     }
 
-    public synchronized SurfaceType getSurfaceType() {
-        if (surfaceType != null) {
-            return surfaceType;
+    public synchronized SurfbceType getSurfbceType() {
+        if (surfbceType != null) {
+            return surfbceType;
         }
 
-        surfaceType = X11SurfaceData.getSurfaceType(this, Transparency.OPAQUE);
-        return surfaceType;
+        surfbceType = X11SurfbceDbtb.getSurfbceType(this, Trbnspbrency.OPAQUE);
+        return surfbceType;
     }
 
     public Object getProxyKey() {
-        return screen.getProxyKeyFor(getSurfaceType());
+        return screen.getProxyKeyFor(getSurfbceType());
     }
 
     /**
-     * Return the RenderLoops this type of destination uses for
-     * solid fills and strokes.
+     * Return the RenderLoops this type of destinbtion uses for
+     * solid fills bnd strokes.
      */
-    public synchronized RenderLoops getSolidLoops(SurfaceType stype) {
+    public synchronized RenderLoops getSolidLoops(SurfbceType stype) {
         if (solidloops == null) {
-            solidloops = SurfaceData.makeRenderLoops(SurfaceType.OpaqueColor,
-                                                     CompositeType.SrcNoEa,
+            solidloops = SurfbceDbtb.mbkeRenderLoops(SurfbceType.OpbqueColor,
+                                                     CompositeType.SrcNoEb,
                                                      stype);
         }
         return solidloops;
     }
 
     /**
-     * Returns the color model associated with this configuration.
+     * Returns the color model bssocibted with this configurbtion.
      */
     public synchronized ColorModel getColorModel() {
         if (colorModel == null)  {
-            // Force SystemColors to be resolved before we create the CM
-            java.awt.SystemColor.window.getRGB();
-            // This method, makeColorModel(), can return null if the
-            // toolkit is not initialized yet.
-            // The toolkit will then call back to this routine after it
-            // is initialized and makeColorModel() should return a non-null
+            // Force SystemColors to be resolved before we crebte the CM
+            jbvb.bwt.SystemColor.window.getRGB();
+            // This method, mbkeColorModel(), cbn return null if the
+            // toolkit is not initiblized yet.
+            // The toolkit will then cbll bbck to this routine bfter it
+            // is initiblized bnd mbkeColorModel() should return b non-null
             // colorModel.
-            colorModel = makeColorModel();
+            colorModel = mbkeColorModel();
             if (colorModel == null)
-                colorModel = Toolkit.getDefaultToolkit ().getColorModel ();
+                colorModel = Toolkit.getDefbultToolkit ().getColorModel ();
         }
 
         return colorModel;
     }
 
     /**
-     * Returns the color model associated with this configuration that
-     * supports the specified transparency.
+     * Returns the color model bssocibted with this configurbtion thbt
+     * supports the specified trbnspbrency.
      */
-    public ColorModel getColorModel(int transparency) {
-        switch (transparency) {
-        case Transparency.OPAQUE:
+    public ColorModel getColorModel(int trbnspbrency) {
+        switch (trbnspbrency) {
+        cbse Trbnspbrency.OPAQUE:
             return getColorModel();
-        case Transparency.BITMASK:
+        cbse Trbnspbrency.BITMASK:
             return new DirectColorModel(25, 0xff0000, 0xff00, 0xff, 0x1000000);
-        case Transparency.TRANSLUCENT:
-            return ColorModel.getRGBdefault();
-        default:
+        cbse Trbnspbrency.TRANSLUCENT:
+            return ColorModel.getRGBdefbult();
+        defbult:
             return null;
         }
     }
 
-    public static DirectColorModel createDCM32(int rMask, int gMask, int bMask,
-                                               int aMask, boolean aPre) {
+    public stbtic DirectColorModel crebteDCM32(int rMbsk, int gMbsk, int bMbsk,
+                                               int bMbsk, boolebn bPre) {
         return new DirectColorModel(
-            ColorSpace.getInstance(ColorSpace.CS_sRGB),
-            32, rMask, gMask, bMask, aMask, aPre, DataBuffer.TYPE_INT);
+            ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB),
+            32, rMbsk, gMbsk, bMbsk, bMbsk, bPre, DbtbBuffer.TYPE_INT);
     }
 
-    public static ComponentColorModel createABGRCCM() {
-        ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+    public stbtic ComponentColorModel crebteABGRCCM() {
+        ColorSpbce cs = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
         int[] nBits = {8, 8, 8, 8};
         int[] bOffs = {3, 2, 1, 0};
         return new ComponentColorModel(cs, nBits, true, true,
-                                       Transparency.TRANSLUCENT,
-                                       DataBuffer.TYPE_BYTE);
+                                       Trbnspbrency.TRANSLUCENT,
+                                       DbtbBuffer.TYPE_BYTE);
     }
 
     /**
-     * Returns the default Transform for this configuration.  This
-     * Transform is typically the Identity transform for most normal
-     * screens.  Device coordinates for screen and printer devices will
-     * have the origin in the upper left-hand corner of the target region of
-     * the device, with X coordinates
-     * increasing to the right and Y coordinates increasing downwards.
-     * For image buffers, this Transform will be the Identity transform.
+     * Returns the defbult Trbnsform for this configurbtion.  This
+     * Trbnsform is typicblly the Identity trbnsform for most normbl
+     * screens.  Device coordinbtes for screen bnd printer devices will
+     * hbve the origin in the upper left-hbnd corner of the tbrget region of
+     * the device, with X coordinbtes
+     * increbsing to the right bnd Y coordinbtes increbsing downwbrds.
+     * For imbge buffers, this Trbnsform will be the Identity trbnsform.
      */
-    public AffineTransform getDefaultTransform() {
-        return new AffineTransform();
+    public AffineTrbnsform getDefbultTrbnsform() {
+        return new AffineTrbnsform();
     }
 
     /**
      *
-     * Returns a Transform that can be composed with the default Transform
-     * of a Graphics2D so that 72 units in user space will equal 1 inch
-     * in device space.
-     * Given a Graphics2D, g, one can reset the transformation to create
-     * such a mapping by using the following pseudocode:
+     * Returns b Trbnsform thbt cbn be composed with the defbult Trbnsform
+     * of b Grbphics2D so thbt 72 units in user spbce will equbl 1 inch
+     * in device spbce.
+     * Given b Grbphics2D, g, one cbn reset the trbnsformbtion to crebte
+     * such b mbpping by using the following pseudocode:
      * <pre>
-     *      GraphicsConfiguration gc = g.getGraphicsConfiguration();
+     *      GrbphicsConfigurbtion gc = g.getGrbphicsConfigurbtion();
      *
-     *      g.setTransform(gc.getDefaultTransform());
-     *      g.transform(gc.getNormalizingTransform());
+     *      g.setTrbnsform(gc.getDefbultTrbnsform());
+     *      g.trbnsform(gc.getNormblizingTrbnsform());
      * </pre>
-     * Note that sometimes this Transform will be identity (e.g. for
-     * printers or metafile output) and that this Transform is only
-     * as accurate as the information supplied by the underlying system.
-     * For image buffers, this Transform will be the Identity transform,
-     * since there is no valid distance measurement.
+     * Note thbt sometimes this Trbnsform will be identity (e.g. for
+     * printers or metbfile output) bnd thbt this Trbnsform is only
+     * bs bccurbte bs the informbtion supplied by the underlying system.
+     * For imbge buffers, this Trbnsform will be the Identity trbnsform,
+     * since there is no vblid distbnce mebsurement.
      */
-    public AffineTransform getNormalizingTransform() {
-        double xscale = getXResolution(screen.getScreen()) / 72.0;
-        double yscale = getYResolution(screen.getScreen()) / 72.0;
-        return new AffineTransform(xscale, 0.0, 0.0, yscale, 0.0, 0.0);
+    public AffineTrbnsform getNormblizingTrbnsform() {
+        double xscble = getXResolution(screen.getScreen()) / 72.0;
+        double yscble = getYResolution(screen.getScreen()) / 72.0;
+        return new AffineTrbnsform(xscble, 0.0, 0.0, yscble, 0.0, 0.0);
     }
 
-    private native double getXResolution(int screen);
-    private native double getYResolution(int screen);
+    privbte nbtive double getXResolution(int screen);
+    privbte nbtive double getYResolution(int screen);
 
-    public long getAData() {
-        return aData;
+    public long getADbtb() {
+        return bDbtb;
     }
 
     public String toString() {
-        return ("X11GraphicsConfig[dev="+screen+
-                ",vis=0x"+Integer.toHexString(visual)+
+        return ("X11GrbphicsConfig[dev="+screen+
+                ",vis=0x"+Integer.toHexString(visubl)+
                 "]");
     }
 
     /*
-     * Initialize JNI field and method IDs for fields that may be
-     *  accessed from C.
+     * Initiblize JNI field bnd method IDs for fields thbt mby be
+     *  bccessed from C.
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static {
+    stbtic {
         initIDs ();
     }
 
-    public Rectangle getBounds() {
+    public Rectbngle getBounds() {
         return pGetBounds(screen.getScreen());
     }
 
-    public native Rectangle pGetBounds(int screenNum);
+    public nbtive Rectbngle pGetBounds(int screenNum);
 
-    private static class XDBECapabilities extends BufferCapabilities {
-        public XDBECapabilities() {
-            super(imageCaps, imageCaps, FlipContents.UNDEFINED);
+    privbte stbtic clbss XDBECbpbbilities extends BufferCbpbbilities {
+        public XDBECbpbbilities() {
+            super(imbgeCbps, imbgeCbps, FlipContents.UNDEFINED);
         }
     }
 
-    public BufferCapabilities getBufferCapabilities() {
-        if (bufferCaps == null) {
+    public BufferCbpbbilities getBufferCbpbbilities() {
+        if (bufferCbps == null) {
             if (doubleBuffer) {
-                bufferCaps = new XDBECapabilities();
+                bufferCbps = new XDBECbpbbilities();
             } else {
-                bufferCaps = super.getBufferCapabilities();
+                bufferCbps = super.getBufferCbpbbilities();
             }
         }
-        return bufferCaps;
+        return bufferCbps;
     }
 
-    public ImageCapabilities getImageCapabilities() {
-        return imageCaps;
+    public ImbgeCbpbbilities getImbgeCbpbbilities() {
+        return imbgeCbps;
     }
 
-    public boolean isDoubleBuffered() {
+    public boolebn isDoubleBuffered() {
         return doubleBuffer;
     }
 
-    private static native void dispose(long x11ConfigData);
+    privbte stbtic nbtive void dispose(long x11ConfigDbtb);
 
-    private static class X11GCDisposerRecord implements DisposerRecord {
-        private long x11ConfigData;
-        public X11GCDisposerRecord(long x11CfgData) {
-            this.x11ConfigData = x11CfgData;
+    privbte stbtic clbss X11GCDisposerRecord implements DisposerRecord {
+        privbte long x11ConfigDbtb;
+        public X11GCDisposerRecord(long x11CfgDbtb) {
+            this.x11ConfigDbtb = x11CfgDbtb;
         }
         public synchronized void dispose() {
-            if (x11ConfigData != 0L) {
-                X11GraphicsConfig.dispose(x11ConfigData);
-                x11ConfigData = 0L;
+            if (x11ConfigDbtb != 0L) {
+                X11GrbphicsConfig.dispose(x11ConfigDbtb);
+                x11ConfigDbtb = 0L;
             }
         }
     }
 
     /**
-     * The following methods are invoked from {M,X}Toolkit.java and
-     * X11ComponentPeer.java rather than having the X11-dependent
-     * implementations hardcoded in those classes.  This way the appropriate
-     * actions are taken based on the peer's GraphicsConfig, whether it is
-     * an X11GraphicsConfig or a GLXGraphicsConfig.
+     * The following methods bre invoked from {M,X}Toolkit.jbvb bnd
+     * X11ComponentPeer.jbvb rbther thbn hbving the X11-dependent
+     * implementbtions hbrdcoded in those clbsses.  This wby the bppropribte
+     * bctions bre tbken bbsed on the peer's GrbphicsConfig, whether it is
+     * bn X11GrbphicsConfig or b GLXGrbphicsConfig.
      */
 
     /**
-     * Creates a new SurfaceData that will be associated with the given
+     * Crebtes b new SurfbceDbtb thbt will be bssocibted with the given
      * X11ComponentPeer.
      */
-    public SurfaceData createSurfaceData(X11ComponentPeer peer) {
-        return X11SurfaceData.createData(peer);
+    public SurfbceDbtb crebteSurfbceDbtb(X11ComponentPeer peer) {
+        return X11SurfbceDbtb.crebteDbtb(peer);
     }
 
     /**
-     * Creates a new hidden-acceleration image of the given width and height
-     * that is associated with the target Component.
+     * Crebtes b new hidden-bccelerbtion imbge of the given width bnd height
+     * thbt is bssocibted with the tbrget Component.
      */
-    public Image createAcceleratedImage(Component target,
+    public Imbge crebteAccelerbtedImbge(Component tbrget,
                                         int width, int height)
     {
-        // As of 1.7 we no longer create pmoffscreens here...
-        ColorModel model = getColorModel(Transparency.OPAQUE);
-        WritableRaster wr =
-            model.createCompatibleWritableRaster(width, height);
-        return new OffScreenImage(target, model, wr,
-                                  model.isAlphaPremultiplied());
+        // As of 1.7 we no longer crebte pmoffscreens here...
+        ColorModel model = getColorModel(Trbnspbrency.OPAQUE);
+        WritbbleRbster wr =
+            model.crebteCompbtibleWritbbleRbster(width, height);
+        return new OffScreenImbge(tbrget, model, wr,
+                                  model.isAlphbPremultiplied());
     }
 
     /**
      * The following methods correspond to the multibuffering methods in
-     * X11ComponentPeer.java...
+     * X11ComponentPeer.jbvb...
      */
 
-    private native long createBackBuffer(long window, int swapAction);
-    private native void swapBuffers(long window, int swapAction);
+    privbte nbtive long crebteBbckBuffer(long window, int swbpAction);
+    privbte nbtive void swbpBuffers(long window, int swbpAction);
 
     /**
-     * Attempts to create an XDBE-based backbuffer for the given peer.  If
-     * the requested configuration is not natively supported, an AWTException
-     * is thrown.  Otherwise, if the backbuffer creation is successful, a
-     * handle to the native backbuffer is returned.
+     * Attempts to crebte bn XDBE-bbsed bbckbuffer for the given peer.  If
+     * the requested configurbtion is not nbtively supported, bn AWTException
+     * is thrown.  Otherwise, if the bbckbuffer crebtion is successful, b
+     * hbndle to the nbtive bbckbuffer is returned.
      */
-    public long createBackBuffer(X11ComponentPeer peer,
-                                 int numBuffers, BufferCapabilities caps)
+    public long crebteBbckBuffer(X11ComponentPeer peer,
+                                 int numBuffers, BufferCbpbbilities cbps)
         throws AWTException
     {
-        if (!X11GraphicsDevice.isDBESupported()) {
-            throw new AWTException("Page flipping is not supported");
+        if (!X11GrbphicsDevice.isDBESupported()) {
+            throw new AWTException("Pbge flipping is not supported");
         }
         if (numBuffers > 2) {
             throw new AWTException(
                 "Only double or single buffering is supported");
         }
-        BufferCapabilities configCaps = getBufferCapabilities();
-        if (!configCaps.isPageFlipping()) {
-            throw new AWTException("Page flipping is not supported");
+        BufferCbpbbilities configCbps = getBufferCbpbbilities();
+        if (!configCbps.isPbgeFlipping()) {
+            throw new AWTException("Pbge flipping is not supported");
         }
 
         long window = peer.getContentWindow();
-        int swapAction = getSwapAction(caps.getFlipContents());
+        int swbpAction = getSwbpAction(cbps.getFlipContents());
 
-        return createBackBuffer(window, swapAction);
+        return crebteBbckBuffer(window, swbpAction);
     }
 
     /**
-     * Destroys the backbuffer object represented by the given handle value.
+     * Destroys the bbckbuffer object represented by the given hbndle vblue.
      */
-    public native void destroyBackBuffer(long backBuffer);
+    public nbtive void destroyBbckBuffer(long bbckBuffer);
 
     /**
-     * Creates a VolatileImage that essentially wraps the target Component's
-     * backbuffer, using the provided backbuffer handle.
+     * Crebtes b VolbtileImbge thbt essentiblly wrbps the tbrget Component's
+     * bbckbuffer, using the provided bbckbuffer hbndle.
      */
-    public VolatileImage createBackBufferImage(Component target,
-                                               long backBuffer)
+    public VolbtileImbge crebteBbckBufferImbge(Component tbrget,
+                                               long bbckBuffer)
     {
-        return new SunVolatileImage(target,
-                                    target.getWidth(), target.getHeight(),
-                                    Long.valueOf(backBuffer));
+        return new SunVolbtileImbge(tbrget,
+                                    tbrget.getWidth(), tbrget.getHeight(),
+                                    Long.vblueOf(bbckBuffer));
     }
 
     /**
-     * Performs the native XDBE flip operation for the given target Component.
+     * Performs the nbtive XDBE flip operbtion for the given tbrget Component.
      */
     public void flip(X11ComponentPeer peer,
-                     Component target, VolatileImage xBackBuffer,
+                     Component tbrget, VolbtileImbge xBbckBuffer,
                      int x1, int y1, int x2, int y2,
-                     BufferCapabilities.FlipContents flipAction)
+                     BufferCbpbbilities.FlipContents flipAction)
     {
         long window = peer.getContentWindow();
-        int swapAction = getSwapAction(flipAction);
-        swapBuffers(window, swapAction);
+        int swbpAction = getSwbpAction(flipAction);
+        swbpBuffers(window, swbpAction);
     }
 
     /**
-     * Maps the given FlipContents constant to the associated XDBE swap
-     * action constant.
+     * Mbps the given FlipContents constbnt to the bssocibted XDBE swbp
+     * bction constbnt.
      */
-    private static int getSwapAction(
-        BufferCapabilities.FlipContents flipAction) {
-        if (flipAction == BufferCapabilities.FlipContents.BACKGROUND) {
+    privbte stbtic int getSwbpAction(
+        BufferCbpbbilities.FlipContents flipAction) {
+        if (flipAction == BufferCbpbbilities.FlipContents.BACKGROUND) {
             return 0x01;
-        } else if (flipAction == BufferCapabilities.FlipContents.PRIOR) {
+        } else if (flipAction == BufferCbpbbilities.FlipContents.PRIOR) {
             return 0x02;
-        } else if (flipAction == BufferCapabilities.FlipContents.COPIED) {
+        } else if (flipAction == BufferCbpbbilities.FlipContents.COPIED) {
             return 0x03;
         } else {
             return 0x00; // UNDEFINED
@@ -471,9 +471,9 @@ public class X11GraphicsConfig extends GraphicsConfiguration
     }
 
     @Override
-    public boolean isTranslucencyCapable() {
-        return isTranslucencyCapable(getAData());
+    public boolebn isTrbnslucencyCbpbble() {
+        return isTrbnslucencyCbpbble(getADbtb());
     }
 
-    private native boolean isTranslucencyCapable(long x11ConfigData);
+    privbte nbtive boolebn isTrbnslucencyCbpbble(long x11ConfigDbtb);
 }

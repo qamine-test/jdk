@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1994, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import sun.tools.asm.TryData;
-import sun.tools.asm.CatchData;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.Lbbel;
+import sun.tools.bsm.TryDbtb;
+import sun.tools.bsm.CbtchDbtb;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class SynchronizedStatement extends Statement {
+clbss SynchronizedStbtement extends Stbtement {
     Expression expr;
-    Statement body;
-    boolean needReturnSlot;   // set by inner return statement
+    Stbtement body;
+    boolebn needReturnSlot;   // set by inner return stbtement
 
     /**
      * Constructor
      */
-    public SynchronizedStatement(long where, Expression expr, Statement body) {
+    public SynchronizedStbtement(long where, Expression expr, Stbtement body) {
         super(SYNCHRONIZED, where);
         this.expr = expr;
         this.body = body;
     }
 
     /**
-     * Check statement
+     * Check stbtement
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        checkLabel(env, ctx);
+    Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        checkLbbel(env, ctx);
         CheckContext newctx = new CheckContext(ctx, this);
-        vset = reach(env, vset);
-        vset = expr.checkValue(env, newctx, vset, exp);
-        if (expr.type.equals(Type.tNull)) {
+        vset = rebch(env, vset);
+        vset = expr.checkVblue(env, newctx, vset, exp);
+        if (expr.type.equbls(Type.tNull)) {
             env.error(expr.where, "synchronized.null");
         }
-        expr = convert(env, newctx, Type.tClass(idJavaLangObject), expr);
+        expr = convert(env, newctx, Type.tClbss(idJbvbLbngObject), expr);
         vset = body.check(env, newctx, vset, exp);
-        return ctx.removeAdditionalVars(vset.join(newctx.vsBreak));
+        return ctx.removeAdditionblVbrs(vset.join(newctx.vsBrebk));
     }
 
     /**
      * Inline
      */
-    public Statement inline(Environment env, Context ctx) {
+    public Stbtement inline(Environment env, Context ctx) {
         if (body != null) {
             body = body.inline(env, ctx);
         }
-        expr = expr.inlineValue(env, ctx);
+        expr = expr.inlineVblue(env, ctx);
         return this;
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crebte b copy of the stbtement for method inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        SynchronizedStatement s = (SynchronizedStatement)clone();
+    public Stbtement copyInline(Context ctx, boolebn vblNeeded) {
+        SynchronizedStbtement s = (SynchronizedStbtement)clone();
         s.expr = expr.copyInline(ctx);
         if (body != null) {
-            s.body = body.copyInline(ctx, valNeeded);
+            s.body = body.copyInline(ctx, vblNeeded);
         }
         return s;
     }
 
     /**
-     * Compute cost of inlining this statement
+     * Compute cost of inlining this stbtement
      */
     public int costInline(int thresh, Environment env, Context ctx){
         int cost = 1;
@@ -110,71 +110,71 @@ class SynchronizedStatement extends Statement {
     /**
      * Code
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        ClassDefinition clazz = ctx.field.getClassDefinition();
-        expr.codeValue(env, ctx, asm);
+    public void code(Environment env, Context ctx, Assembler bsm) {
+        ClbssDefinition clbzz = ctx.field.getClbssDefinition();
+        expr.codeVblue(env, ctx, bsm);
         ctx = new Context(ctx);
 
         if (needReturnSlot) {
             Type returnType = ctx.field.getType().getReturnType();
-            LocalMember localfield = new LocalMember(0, clazz, 0, returnType,
-                                                   idFinallyReturnValue);
-            ctx.declare(env, localfield);
-            Environment.debugOutput("Assigning return slot to " + localfield.number);
+            LocblMember locblfield = new LocblMember(0, clbzz, 0, returnType,
+                                                   idFinbllyReturnVblue);
+            ctx.declbre(env, locblfield);
+            Environment.debugOutput("Assigning return slot to " + locblfield.number);
         }
 
-        LocalMember f1 = new LocalMember(where, clazz, 0, Type.tObject, null);
-        LocalMember f2 = new LocalMember(where, clazz, 0, Type.tInt, null);
-        Integer num1 = ctx.declare(env, f1);
-        Integer num2 = ctx.declare(env, f2);
+        LocblMember f1 = new LocblMember(where, clbzz, 0, Type.tObject, null);
+        LocblMember f2 = new LocblMember(where, clbzz, 0, Type.tInt, null);
+        Integer num1 = ctx.declbre(env, f1);
+        Integer num2 = ctx.declbre(env, f2);
 
-        Label endLabel = new Label();
+        Lbbel endLbbel = new Lbbel();
 
-        TryData td = new TryData();
-        td.add(null);
+        TryDbtb td = new TryDbtb();
+        td.bdd(null);
 
         // lock the object
-        asm.add(where, opc_astore, num1);
-        asm.add(where, opc_aload, num1);
-        asm.add(where, opc_monitorenter);
+        bsm.bdd(where, opc_bstore, num1);
+        bsm.bdd(where, opc_blobd, num1);
+        bsm.bdd(where, opc_monitorenter);
 
-        // Main body
+        // Mbin body
         CodeContext bodyctx = new CodeContext(ctx, this);
-        asm.add(where, opc_try, td);
+        bsm.bdd(where, opc_try, td);
         if (body != null) {
-            body.code(env, bodyctx, asm);
+            body.code(env, bodyctx, bsm);
         } else {
-            asm.add(where, opc_nop);
+            bsm.bdd(where, opc_nop);
         }
-        asm.add(bodyctx.breakLabel);
-        asm.add(td.getEndLabel());
+        bsm.bdd(bodyctx.brebkLbbel);
+        bsm.bdd(td.getEndLbbel());
 
-        // Cleanup afer body
-        asm.add(where, opc_aload, num1);
-        asm.add(where, opc_monitorexit);
-        asm.add(where, opc_goto, endLabel);
+        // Clebnup bfer body
+        bsm.bdd(where, opc_blobd, num1);
+        bsm.bdd(where, opc_monitorexit);
+        bsm.bdd(where, opc_goto, endLbbel);
 
-        // Catch code
-        CatchData cd = td.getCatch(0);
-        asm.add(cd.getLabel());
-        asm.add(where, opc_aload, num1);
-        asm.add(where, opc_monitorexit);
-        asm.add(where, opc_athrow);
+        // Cbtch code
+        CbtchDbtb cd = td.getCbtch(0);
+        bsm.bdd(cd.getLbbel());
+        bsm.bdd(where, opc_blobd, num1);
+        bsm.bdd(where, opc_monitorexit);
+        bsm.bdd(where, opc_bthrow);
 
-        // Final body
-        asm.add(bodyctx.contLabel);
-        asm.add(where, opc_astore, num2);
-        asm.add(where, opc_aload, num1);
-        asm.add(where, opc_monitorexit);
-        asm.add(where, opc_ret, num2);
+        // Finbl body
+        bsm.bdd(bodyctx.contLbbel);
+        bsm.bdd(where, opc_bstore, num2);
+        bsm.bdd(where, opc_blobd, num1);
+        bsm.bdd(where, opc_monitorexit);
+        bsm.bdd(where, opc_ret, num2);
 
-        asm.add(endLabel);
+        bsm.bdd(endLbbel);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
+    public void print(PrintStrebm out, int indent) {
         super.print(out, indent);
         out.print("synchronized ");
         expr.print(out);

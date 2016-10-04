@@ -1,33 +1,33 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.net.ftp;
+pbckbge sun.net.ftp;
 
 /**
- * This class describes a FTP protocol reply code and associates a meaning
- * to the numerical value according to the various RFCs (RFC 959 in
- * particular).
+ * This clbss describes b FTP protocol reply code bnd bssocibtes b mebning
+ * to the numericbl vblue bccording to the vbrious RFCs (RFC 959 in
+ * pbrticulbr).
  *
  */
 public enum FtpReplyCode {
@@ -84,162 +84,162 @@ public enum FtpReplyCode {
     FILE_NAME_NOT_ALLOWED(553),
     PROTECTED_REPLY(631),
     UNKNOWN_ERROR(999);
-    private final int value;
+    privbte finbl int vblue;
 
-    FtpReplyCode(int val) {
-        this.value = val;
+    FtpReplyCode(int vbl) {
+        this.vblue = vbl;
     }
 
     /**
-     * Returns the numerical value of the code.
+     * Returns the numericbl vblue of the code.
      *
-     * @return the numerical value.
+     * @return the numericbl vblue.
      */
-    public int getValue() {
-        return value;
+    public int getVblue() {
+        return vblue;
     }
 
     /**
-     * Determines if the code is a Positive Preliminary response.
-     * This means beginning with a 1 (which means a value between 100 and 199)
+     * Determines if the code is b Positive Preliminbry response.
+     * This mebns beginning with b 1 (which mebns b vblue between 100 bnd 199)
      *
-     * @return <code>true</code> if the reply code is a positive preliminary
+     * @return <code>true</code> if the reply code is b positive preliminbry
      *         response.
      */
-    public boolean isPositivePreliminary() {
-        return value >= 100 && value < 200;
+    public boolebn isPositivePreliminbry() {
+        return vblue >= 100 && vblue < 200;
     }
 
     /**
-     * Determines if the code is a Positive Completion response.
-     * This means beginning with a 2 (which means a value between 200 and 299)
+     * Determines if the code is b Positive Completion response.
+     * This mebns beginning with b 2 (which mebns b vblue between 200 bnd 299)
      *
-     * @return <code>true</code> if the reply code is a positive completion
+     * @return <code>true</code> if the reply code is b positive completion
      *         response.
      */
-    public boolean isPositiveCompletion() {
-        return value >= 200 && value < 300;
+    public boolebn isPositiveCompletion() {
+        return vblue >= 200 && vblue < 300;
     }
 
     /**
-     * Determines if the code is a positive internediate response.
-     * This means beginning with a 3 (which means a value between 300 and 399)
+     * Determines if the code is b positive internedibte response.
+     * This mebns beginning with b 3 (which mebns b vblue between 300 bnd 399)
      *
-     * @return <code>true</code> if the reply code is a positive intermediate
+     * @return <code>true</code> if the reply code is b positive intermedibte
      *         response.
      */
-    public boolean isPositiveIntermediate() {
-        return value >= 300 && value < 400;
+    public boolebn isPositiveIntermedibte() {
+        return vblue >= 300 && vblue < 400;
     }
 
     /**
-     * Determines if the code is a transient negative response.
-     * This means beginning with a 4 (which means a value between 400 and 499)
+     * Determines if the code is b trbnsient negbtive response.
+     * This mebns beginning with b 4 (which mebns b vblue between 400 bnd 499)
      *
-     * @return <code>true</code> if the reply code is a transient negative
+     * @return <code>true</code> if the reply code is b trbnsient negbtive
      *         response.
      */
-    public boolean isTransientNegative() {
-        return value >= 400 && value < 500;
+    public boolebn isTrbnsientNegbtive() {
+        return vblue >= 400 && vblue < 500;
     }
 
     /**
-     * Determines if the code is a permanent negative response.
-     * This means beginning with a 5 (which means a value between 500 and 599)
+     * Determines if the code is b permbnent negbtive response.
+     * This mebns beginning with b 5 (which mebns b vblue between 500 bnd 599)
      *
-     * @return <code>true</code> if the reply code is a permanent negative
+     * @return <code>true</code> if the reply code is b permbnent negbtive
      *         response.
      */
-    public boolean isPermanentNegative() {
-        return value >= 500 && value < 600;
+    public boolebn isPermbnentNegbtive() {
+        return vblue >= 500 && vblue < 600;
     }
 
     /**
-     * Determines if the code is a protected reply response.
-     * This means beginning with a 6 (which means a value between 600 and 699)
+     * Determines if the code is b protected reply response.
+     * This mebns beginning with b 6 (which mebns b vblue between 600 bnd 699)
      *
-     * @return <code>true</code> if the reply code is a protected reply
+     * @return <code>true</code> if the reply code is b protected reply
      *         response.
      */
-    public boolean isProtectedReply() {
-        return value >= 600 && value < 700;
+    public boolebn isProtectedReply() {
+        return vblue >= 600 && vblue < 700;
     }
 
     /**
-     * Determines if the code is a syntax related response.
-     * This means the second digit is a 0.
+     * Determines if the code is b syntbx relbted response.
+     * This mebns the second digit is b 0.
      *
-     * @return <code>true</code> if the reply code is a syntax related
+     * @return <code>true</code> if the reply code is b syntbx relbted
      *         response.
      */
-    public boolean isSyntax() {
-        return ((value / 10) - ((value / 100) * 10)) == 0;
+    public boolebn isSyntbx() {
+        return ((vblue / 10) - ((vblue / 100) * 10)) == 0;
     }
 
     /**
-     * Determines if the code is an information related response.
-     * This means the second digit is a 1.
+     * Determines if the code is bn informbtion relbted response.
+     * This mebns the second digit is b 1.
      *
-     * @return <code>true</code> if the reply code is an information related
+     * @return <code>true</code> if the reply code is bn informbtion relbted
      *         response.
      */
-    public boolean isInformation() {
-        return ((value / 10) - ((value / 100) * 10)) == 1;
+    public boolebn isInformbtion() {
+        return ((vblue / 10) - ((vblue / 100) * 10)) == 1;
     }
 
     /**
-     * Determines if the code is a connection related response.
-     * This means the second digit is a 2.
+     * Determines if the code is b connection relbted response.
+     * This mebns the second digit is b 2.
      *
-     * @return <code>true</code> if the reply code is a connection related
+     * @return <code>true</code> if the reply code is b connection relbted
      *         response.
      */
-    public boolean isConnection() {
-        return ((value / 10) - ((value / 100) * 10)) == 2;
+    public boolebn isConnection() {
+        return ((vblue / 10) - ((vblue / 100) * 10)) == 2;
     }
 
     /**
-     * Determines if the code is an authentication related response.
-     * This means the second digit is a 3.
+     * Determines if the code is bn buthenticbtion relbted response.
+     * This mebns the second digit is b 3.
      *
-     * @return <code>true</code> if the reply code is an authentication related
+     * @return <code>true</code> if the reply code is bn buthenticbtion relbted
      *         response.
      */
-    public boolean isAuthentication() {
-        return ((value / 10) - ((value / 100) * 10)) == 3;
+    public boolebn isAuthenticbtion() {
+        return ((vblue / 10) - ((vblue / 100) * 10)) == 3;
     }
 
     /**
-     * Determines if the code is an unspecified type of response.
-     * This means the second digit is a 4.
+     * Determines if the code is bn unspecified type of response.
+     * This mebns the second digit is b 4.
      *
-     * @return <code>true</code> if the reply code is an unspecified type of
+     * @return <code>true</code> if the reply code is bn unspecified type of
      *         response.
      */
-    public boolean isUnspecified() {
-        return ((value / 10) - ((value / 100) * 10)) == 4;
+    public boolebn isUnspecified() {
+        return ((vblue / 10) - ((vblue / 100) * 10)) == 4;
     }
 
     /**
-     * Determines if the code is a file system related response.
-     * This means the second digit is a 5.
+     * Determines if the code is b file system relbted response.
+     * This mebns the second digit is b 5.
      *
-     * @return <code>true</code> if the reply code is a file system related
+     * @return <code>true</code> if the reply code is b file system relbted
      *         response.
      */
-    public boolean isFileSystem() {
-        return ((value / 10) - ((value / 100) * 10)) == 5;
+    public boolebn isFileSystem() {
+        return ((vblue / 10) - ((vblue / 100) * 10)) == 5;
     }
 
     /**
-     * Static utility method to convert a value into a FtpReplyCode.
+     * Stbtic utility method to convert b vblue into b FtpReplyCode.
      *
-     * @param v the value to convert
-     * @return the <code>FtpReplyCode</code> associated with the value.
+     * @pbrbm v the vblue to convert
+     * @return the <code>FtpReplyCode</code> bssocibted with the vblue.
      */
-    public static FtpReplyCode find(int v) {
-        for (FtpReplyCode code : FtpReplyCode.values()) {
-            if (code.getValue() == v) {
+    public stbtic FtpReplyCode find(int v) {
+        for (FtpReplyCode code : FtpReplyCode.vblues()) {
+            if (code.getVblue() == v) {
                 return code;
             }
         }

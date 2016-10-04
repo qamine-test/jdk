@@ -1,31 +1,31 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Maintains a list of currently loaded DLLs (Dynamic Link Libraries)
- * and their associated handles. Library names are case-insensitive.
+ * Mbintbins b list of currently lobded DLLs (Dynbmic Link Librbries)
+ * bnd their bssocibted hbndles. Librbry nbmes bre cbse-insensitive.
  */
 
 #include <windows.h>
@@ -37,47 +37,47 @@
 
 #include "sys.h"
 
-#include "path_md.h"
+#include "pbth_md.h"
 
-static void dll_build_name(char* buffer, size_t buflen,
-                           const char* paths, const char* fname) {
-    char *path, *paths_copy, *next_token;
+stbtic void dll_build_nbme(chbr* buffer, size_t buflen,
+                           const chbr* pbths, const chbr* fnbme) {
+    chbr *pbth, *pbths_copy, *next_token;
 
-    paths_copy = strdup(paths);
-    if (paths_copy == NULL) {
+    pbths_copy = strdup(pbths);
+    if (pbths_copy == NULL) {
         return;
     }
 
     next_token = NULL;
-    path = strtok_s(paths_copy, PATH_SEPARATOR, &next_token);
+    pbth = strtok_s(pbths_copy, PATH_SEPARATOR, &next_token);
 
-    while (path != NULL) {
-        _snprintf(buffer, buflen, "%s\\%s.dll", path, fname);
-        if (_access(buffer, 0) == 0) {
-            break;
+    while (pbth != NULL) {
+        _snprintf(buffer, buflen, "%s\\%s.dll", pbth, fnbme);
+        if (_bccess(buffer, 0) == 0) {
+            brebk;
         }
         *buffer = '\0';
-        path = strtok_s(NULL, PATH_SEPARATOR, &next_token);
+        pbth = strtok_s(NULL, PATH_SEPARATOR, &next_token);
     }
 
-    free(paths_copy);
+    free(pbths_copy);
 }
 
 /*
  * From system_md.c v1.54
  */
 int
-dbgsysGetLastErrorString(char *buf, int len)
+dbgsysGetLbstErrorString(chbr *buf, int len)
 {
-    long errval;
+    long errvbl;
 
-    if ((errval = GetLastError()) != 0) {
+    if ((errvbl = GetLbstError()) != 0) {
         /* DOS error */
-        int n = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
-                              NULL, errval,
+        int n = FormbtMessbge(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
+                              NULL, errvbl,
                               0, buf, len, NULL);
         if (n > 3) {
-            /* Drop final '.', CR, LF */
+            /* Drop finbl '.', CR, LF */
             if (buf[n - 1] == '\n') n--;
             if (buf[n - 1] == '\r') n--;
             if (buf[n - 1] == '.') n--;
@@ -87,8 +87,8 @@ dbgsysGetLastErrorString(char *buf, int len)
     }
 
     if (errno != 0) {
-        /* C runtime error that has no corresponding DOS error code */
-        const char *s = strerror(errno);
+        /* C runtime error thbt hbs no corresponding DOS error code */
+        const chbr *s = strerror(errno);
         int n = (int)strlen(s);
         if (n >= len) n = len - 1;
         strncpy(buf, s, n);
@@ -100,49 +100,49 @@ dbgsysGetLastErrorString(char *buf, int len)
 }
 
 /*
- * Build a machine dependent library name out of a path and file name.
+ * Build b mbchine dependent librbry nbme out of b pbth bnd file nbme.
  */
 void
-dbgsysBuildLibName(char *holder, int holderlen, const char *pname, const char *fname)
+dbgsysBuildLibNbme(chbr *holder, int holderlen, const chbr *pnbme, const chbr *fnbme)
 {
-    const int pnamelen = pname ? (int)strlen(pname) : 0;
+    const int pnbmelen = pnbme ? (int)strlen(pnbme) : 0;
 
     *holder = '\0';
-    /* Quietly truncates on buffer overflow. Should be an error. */
-    if (pnamelen + (int)strlen(fname) + 10 > holderlen) {
+    /* Quietly truncbtes on buffer overflow. Should be bn error. */
+    if (pnbmelen + (int)strlen(fnbme) + 10 > holderlen) {
         return;
     }
 
-    if (pnamelen == 0) {
-        sprintf(holder, "%s.dll", fname);
+    if (pnbmelen == 0) {
+        sprintf(holder, "%s.dll", fnbme);
     } else {
-      dll_build_name(holder, holderlen, pname, fname);
+      dll_build_nbme(holder, holderlen, pnbme, fnbme);
     }
 }
 
 void *
-dbgsysLoadLibrary(const char * name, char *err_buf, int err_buflen)
+dbgsysLobdLibrbry(const chbr * nbme, chbr *err_buf, int err_buflen)
 {
-    void *result = LoadLibrary(name);
+    void *result = LobdLibrbry(nbme);
     if (result == NULL) {
-        /* Error message is pretty lame, try to make a better guess. */
-        long errcode = GetLastError();
+        /* Error messbge is pretty lbme, try to mbke b better guess. */
+        long errcode = GetLbstError();
         if (errcode == ERROR_MOD_NOT_FOUND) {
-            strncpy(err_buf, "Can't find dependent libraries", err_buflen-2);
+            strncpy(err_buf, "Cbn't find dependent librbries", err_buflen-2);
             err_buf[err_buflen-1] = '\0';
         } else {
-            dbgsysGetLastErrorString(err_buf, err_buflen);
+            dbgsysGetLbstErrorString(err_buf, err_buflen);
         }
     }
     return result;
 }
 
-void dbgsysUnloadLibrary(void *handle)
+void dbgsysUnlobdLibrbry(void *hbndle)
 {
-    FreeLibrary(handle);
+    FreeLibrbry(hbndle);
 }
 
-void * dbgsysFindLibraryEntry(void *handle, const char *name)
+void * dbgsysFindLibrbryEntry(void *hbndle, const chbr *nbme)
 {
-    return GetProcAddress(handle, name);
+    return GetProcAddress(hbndle, nbme);
 }

@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tracing;
+pbckbge sun.trbcing;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Set;
 
-import com.sun.tracing.ProviderFactory;
-import com.sun.tracing.Provider;
-import com.sun.tracing.Probe;
+import com.sun.trbcing.ProviderFbctory;
+import com.sun.trbcing.Provider;
+import com.sun.trbcing.Probe;
 
 /**
- * Factory class to create tracing Providers.
+ * Fbctory clbss to crebte trbcing Providers.
  *
- * This factory creates a "multiplex provider", which is a provider that
- * encapsulates a list of providers and whose probes trigger a corresponding
- * trigger in each of the encapsulated providers' probes.
+ * This fbctory crebtes b "multiplex provider", which is b provider thbt
+ * encbpsulbtes b list of providers bnd whose probes trigger b corresponding
+ * trigger in ebch of the encbpsulbted providers' probes.
  *
- * This is used when there are multiple tracing frameworks activated at once.
- * A user-defined provider gets implementation for each of the activated
- * frameworks and this multiplex framework is what is ultimately passed
- * back to the user.  All probe triggers are multiplexed to each
- * active framework.
+ * This is used when there bre multiple trbcing frbmeworks bctivbted bt once.
+ * A user-defined provider gets implementbtion for ebch of the bctivbted
+ * frbmeworks bnd this multiplex frbmework is whbt is ultimbtely pbssed
+ * bbck to the user.  All probe triggers bre multiplexed to ebch
+ * bctive frbmework.
  *
  * @since 1.7
  */
-public class MultiplexProviderFactory extends ProviderFactory {
+public clbss MultiplexProviderFbctory extends ProviderFbctory {
 
-    private Set<ProviderFactory> factories;
+    privbte Set<ProviderFbctory> fbctories;
 
-    public MultiplexProviderFactory(Set<ProviderFactory> factories) {
-        this.factories = factories;
+    public MultiplexProviderFbctory(Set<ProviderFbctory> fbctories) {
+        this.fbctories = fbctories;
     }
 
-    public <T extends Provider> T createProvider(Class<T> cls) {
-        HashSet<Provider> providers = new HashSet<Provider>();
-        for (ProviderFactory factory : factories) {
-            providers.add(factory.createProvider(cls));
+    public <T extends Provider> T crebteProvider(Clbss<T> cls) {
+        HbshSet<Provider> providers = new HbshSet<Provider>();
+        for (ProviderFbctory fbctory : fbctories) {
+            providers.bdd(fbctory.crebteProvider(cls));
         }
         MultiplexProvider provider = new MultiplexProvider(cls, providers);
         provider.init();
-        return provider.newProxyInstance();
+        return provider.newProxyInstbnce();
     }
 }
 
-class MultiplexProvider extends ProviderSkeleton {
+clbss MultiplexProvider extends ProviderSkeleton {
 
-    private Set<Provider> providers;
+    privbte Set<Provider> providers;
 
-    protected ProbeSkeleton createProbe(Method m) {
+    protected ProbeSkeleton crebteProbe(Method m) {
         return new MultiplexProbe(m, providers);
     }
 
-    MultiplexProvider(Class<? extends Provider> type, Set<Provider> providers) {
+    MultiplexProvider(Clbss<? extends Provider> type, Set<Provider> providers) {
         super(type);
         this.providers = providers;
     }
@@ -90,45 +90,45 @@ class MultiplexProvider extends ProviderSkeleton {
     }
 }
 
-class MultiplexProbe extends ProbeSkeleton {
+clbss MultiplexProbe extends ProbeSkeleton {
 
-    private Set<Probe> probes;
+    privbte Set<Probe> probes;
 
     MultiplexProbe(Method m, Set<Provider> providers) {
-        super(m.getParameterTypes());
-        probes = new HashSet<Probe>();
+        super(m.getPbrbmeterTypes());
+        probes = new HbshSet<Probe>();
         for (Provider p : providers) {
             Probe probe = p.getProbe(m);
             if (probe != null) {
-                probes.add(probe);
+                probes.bdd(probe);
             }
         }
     }
 
-    public boolean isEnabled() {
+    public boolebn isEnbbled() {
         for (Probe p : probes) {
-            if (p.isEnabled()) {
+            if (p.isEnbbled()) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public void uncheckedTrigger(Object[] args) {
+    public void uncheckedTrigger(Object[] brgs) {
         for (Probe p : probes) {
             try {
-                // try the fast path
+                // try the fbst pbth
                 ProbeSkeleton ps = (ProbeSkeleton)p;
-                ps.uncheckedTrigger(args);
-            } catch (ClassCastException e) {
-                // Probe.trigger takes an "Object ..." varargs parameter,
-                // so we can't call it directly.
+                ps.uncheckedTrigger(brgs);
+            } cbtch (ClbssCbstException e) {
+                // Probe.trigger tbkes bn "Object ..." vbrbrgs pbrbmeter,
+                // so we cbn't cbll it directly.
                 try {
-                    Method m = Probe.class.getMethod(
-                        "trigger", Class.forName("[java.lang.Object"));
-                    m.invoke(p, args);
-                } catch (Exception e1) {
-                    assert false; // This shouldn't happen
+                    Method m = Probe.clbss.getMethod(
+                        "trigger", Clbss.forNbme("[jbvb.lbng.Object"));
+                    m.invoke(p, brgs);
+                } cbtch (Exception e1) {
+                    bssert fblse; // This shouldn't hbppen
                 }
             }
         }

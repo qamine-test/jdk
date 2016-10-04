@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.timestamp;
+pbckbge sun.security.timestbmp;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Extension;
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.cert.X509Extension;
+import sun.security.util.DerVblue;
+import sun.security.util.DerOutputStrebm;
 import sun.security.util.ObjectIdentifier;
 import sun.security.x509.AlgorithmId;
 
 /**
- * This class provides a timestamp request, as defined in
- * <a href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</a>.
+ * This clbss provides b timestbmp request, bs defined in
+ * <b href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</b>.
  *
- * The TimeStampReq ASN.1 type has the following definition:
+ * The TimeStbmpReq ASN.1 type hbs the following definition:
  * <pre>
  *
- *     TimeStampReq ::= SEQUENCE {
+ *     TimeStbmpReq ::= SEQUENCE {
  *         version           INTEGER { v1(1) },
- *         messageImprint    MessageImprint
- *           -- a hash algorithm OID and the hash value of the data to be
- *           -- time-stamped.
+ *         messbgeImprint    MessbgeImprint
+ *           -- b hbsh blgorithm OID bnd the hbsh vblue of the dbtb to be
+ *           -- time-stbmped.
  *         reqPolicy         TSAPolicyId    OPTIONAL,
  *         nonce             INTEGER        OPTIONAL,
  *         certReq           BOOLEAN        DEFAULT FALSE,
  *         extensions        [0] IMPLICIT Extensions OPTIONAL }
  *
- *     MessageImprint ::= SEQUENCE {
- *         hashAlgorithm     AlgorithmIdentifier,
- *         hashedMessage     OCTET STRING }
+ *     MessbgeImprint ::= SEQUENCE {
+ *         hbshAlgorithm     AlgorithmIdentifier,
+ *         hbshedMessbge     OCTET STRING }
  *
  *     TSAPolicyId ::= OBJECT IDENTIFIER
  *
  * </pre>
  *
  * @since 1.5
- * @author Vincent Ryan
- * @see Timestamper
+ * @buthor Vincent Rybn
+ * @see Timestbmper
  */
 
-public class TSRequest {
+public clbss TSRequest {
 
-    private int version = 1;
+    privbte int version = 1;
 
-    private AlgorithmId hashAlgorithmId = null;
+    privbte AlgorithmId hbshAlgorithmId = null;
 
-    private byte[] hashValue;
+    privbte byte[] hbshVblue;
 
-    private String policyId = null;
+    privbte String policyId = null;
 
-    private BigInteger nonce = null;
+    privbte BigInteger nonce = null;
 
-    private boolean returnCertificate = false;
+    privbte boolebn returnCertificbte = fblse;
 
-    private X509Extension[] extensions = null;
+    privbte X509Extension[] extensions = null;
 
     /**
-     * Constructs a timestamp request for the supplied data.
+     * Constructs b timestbmp request for the supplied dbtb.
      *
-     * @param toBeTimeStamped  The data to be timestamped.
-     * @param messageDigest The MessageDigest of the hash algorithm to use.
-     * @throws NoSuchAlgorithmException if the hash algorithm is not supported
+     * @pbrbm toBeTimeStbmped  The dbtb to be timestbmped.
+     * @pbrbm messbgeDigest The MessbgeDigest of the hbsh blgorithm to use.
+     * @throws NoSuchAlgorithmException if the hbsh blgorithm is not supported
      */
-    public TSRequest(String tSAPolicyID, byte[] toBeTimeStamped, MessageDigest messageDigest)
+    public TSRequest(String tSAPolicyID, byte[] toBeTimeStbmped, MessbgeDigest messbgeDigest)
         throws NoSuchAlgorithmException {
 
         this.policyId = tSAPolicyID;
-        this.hashAlgorithmId = AlgorithmId.get(messageDigest.getAlgorithm());
-        this.hashValue = messageDigest.digest(toBeTimeStamped);
+        this.hbshAlgorithmId = AlgorithmId.get(messbgeDigest.getAlgorithm());
+        this.hbshVblue = messbgeDigest.digest(toBeTimeStbmped);
     }
 
-    public byte[] getHashedMessage() {
-        return hashValue.clone();
+    public byte[] getHbshedMessbge() {
+        return hbshVblue.clone();
     }
 
     /**
-     * Sets the Time-Stamp Protocol version.
+     * Sets the Time-Stbmp Protocol version.
      *
-     * @param version The TSP version.
+     * @pbrbm version The TSP version.
      */
     public void setVersion(int version) {
         this.version = version;
     }
 
     /**
-     * Sets an object identifier for the Time-Stamp Protocol policy.
+     * Sets bn object identifier for the Time-Stbmp Protocol policy.
      *
-     * @param version The policy object identifier.
+     * @pbrbm version The policy object identifier.
      */
     public void setPolicyId(String policyId) {
         this.policyId = policyId;
     }
 
     /**
-     * Sets a nonce.
-     * A nonce is a single-use random number.
+     * Sets b nonce.
+     * A nonce is b single-use rbndom number.
      *
-     * @param nonce The nonce value.
+     * @pbrbm nonce The nonce vblue.
      */
     public void setNonce(BigInteger nonce) {
         this.nonce = nonce;
     }
 
     /**
-     * Request that the TSA include its signing certificate in the response.
+     * Request thbt the TSA include its signing certificbte in the response.
      *
-     * @param returnCertificate True if the TSA should return its signing
-     *                          certificate. By default it is not returned.
+     * @pbrbm returnCertificbte True if the TSA should return its signing
+     *                          certificbte. By defbult it is not returned.
      */
-    public void requestCertificate(boolean returnCertificate) {
-        this.returnCertificate = returnCertificate;
+    public void requestCertificbte(boolebn returnCertificbte) {
+        this.returnCertificbte = returnCertificbte;
     }
 
     /**
-     * Sets the Time-Stamp Protocol extensions.
+     * Sets the Time-Stbmp Protocol extensions.
      *
-     * @param extensions The protocol extensions.
+     * @pbrbm extensions The protocol extensions.
      */
     public void setExtensions(X509Extension[] extensions) {
         this.extensions = extensions;
@@ -149,18 +149,18 @@ public class TSRequest {
 
     public byte[] encode() throws IOException {
 
-        DerOutputStream request = new DerOutputStream();
+        DerOutputStrebm request = new DerOutputStrebm();
 
         // encode version
         request.putInteger(version);
 
-        // encode messageImprint
-        DerOutputStream messageImprint = new DerOutputStream();
-        hashAlgorithmId.encode(messageImprint);
-        messageImprint.putOctetString(hashValue);
-        request.write(DerValue.tag_Sequence, messageImprint);
+        // encode messbgeImprint
+        DerOutputStrebm messbgeImprint = new DerOutputStrebm();
+        hbshAlgorithmId.encode(messbgeImprint);
+        messbgeImprint.putOctetString(hbshVblue);
+        request.write(DerVblue.tbg_Sequence, messbgeImprint);
 
-        // encode optional elements
+        // encode optionbl elements
 
         if (policyId != null) {
             request.putOID(new ObjectIdentifier(policyId));
@@ -168,12 +168,12 @@ public class TSRequest {
         if (nonce != null) {
             request.putInteger(nonce);
         }
-        if (returnCertificate) {
-            request.putBoolean(true);
+        if (returnCertificbte) {
+            request.putBoolebn(true);
         }
 
-        DerOutputStream out = new DerOutputStream();
-        out.write(DerValue.tag_Sequence, request);
-        return out.toByteArray();
+        DerOutputStrebm out = new DerOutputStrebm();
+        out.write(DerVblue.tbg_Sequence, request);
+        return out.toByteArrby();
     }
 }

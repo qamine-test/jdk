@@ -3,91 +3,91 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.c14n.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
 
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 
 /**
- * A stack based Symbol Table.
- *<br>For speed reasons all the symbols are introduced in the same map,
- * and at the same time in a list so it can be removed when the frame is pop back.
- * @author Raul Benito
+ * A stbck bbsed Symbol Tbble.
+ *<br>For speed rebsons bll the symbols bre introduced in the sbme mbp,
+ * bnd bt the sbme time in b list so it cbn be removed when the frbme is pop bbck.
+ * @buthor Rbul Benito
  */
-public class NameSpaceSymbTable {
+public clbss NbmeSpbceSymbTbble {
 
-    private static final String XMLNS = "xmlns";
-    private static final SymbMap initialMap = new SymbMap();
+    privbte stbtic finbl String XMLNS = "xmlns";
+    privbte stbtic finbl SymbMbp initiblMbp = new SymbMbp();
 
-    static {
-        NameSpaceSymbEntry ne = new NameSpaceSymbEntry("", null, true, XMLNS);
-        ne.lastrendered = "";
-        initialMap.put(XMLNS, ne);
+    stbtic {
+        NbmeSpbceSymbEntry ne = new NbmeSpbceSymbEntry("", null, true, XMLNS);
+        ne.lbstrendered = "";
+        initiblMbp.put(XMLNS, ne);
     }
 
-    /**The map betwen prefix-> entry table. */
-    private SymbMap symb;
+    /**The mbp betwen prefix-> entry tbble. */
+    privbte SymbMbp symb;
 
-    /**The stacks for removing the definitions when doing pop.*/
-    private List<SymbMap> level;
-    private boolean cloned = true;
+    /**The stbcks for removing the definitions when doing pop.*/
+    privbte List<SymbMbp> level;
+    privbte boolebn cloned = true;
 
     /**
-     * Default constractor
+     * Defbult constrbctor
      **/
-    public NameSpaceSymbTable() {
-        level = new ArrayList<SymbMap>();
-        //Insert the default binding for xmlns.
-        symb = (SymbMap) initialMap.clone();
+    public NbmeSpbceSymbTbble() {
+        level = new ArrbyList<SymbMbp>();
+        //Insert the defbult binding for xmlns.
+        symb = (SymbMbp) initiblMbp.clone();
     }
 
     /**
-     * Get all the unrendered nodes in the name space.
+     * Get bll the unrendered nodes in the nbme spbce.
      * For Inclusive rendering
-     * @param result the list where to fill the unrendered xmlns definitions.
+     * @pbrbm result the list where to fill the unrendered xmlns definitions.
      **/
     public void getUnrenderedNodes(Collection<Attr> result) {
-        Iterator<NameSpaceSymbEntry> it = symb.entrySet().iterator();
-        while (it.hasNext()) {
-            NameSpaceSymbEntry n = it.next();
+        Iterbtor<NbmeSpbceSymbEntry> it = symb.entrySet().iterbtor();
+        while (it.hbsNext()) {
+            NbmeSpbceSymbEntry n = it.next();
             //put them rendered?
             if ((!n.rendered) && (n.n != null)) {
-                n = (NameSpaceSymbEntry) n.clone();
+                n = (NbmeSpbceSymbEntry) n.clone();
                 needsClone();
                 symb.put(n.prefix, n);
-                n.lastrendered = n.uri;
+                n.lbstrendered = n.uri;
                 n.rendered = true;
 
-                result.add(n.n);
+                result.bdd(n.n);
             }
         }
     }
 
     /**
-     * Push a frame for visible namespace.
+     * Push b frbme for visible nbmespbce.
      * For Inclusive rendering.
      **/
     public void outputNodePush() {
@@ -95,84 +95,84 @@ public class NameSpaceSymbTable {
     }
 
     /**
-     * Pop a frame for visible namespace.
+     * Pop b frbme for visible nbmespbce.
      **/
     public void outputNodePop() {
         pop();
     }
 
     /**
-     * Push a frame for a node.
+     * Push b frbme for b node.
      * Inclusive or Exclusive.
      **/
     public void push() {
-        //Put the number of namespace definitions in the stack.
-        level.add(null);
-        cloned = false;
+        //Put the number of nbmespbce definitions in the stbck.
+        level.bdd(null);
+        cloned = fblse;
     }
 
     /**
-     * Pop a frame.
+     * Pop b frbme.
      * Inclusive or Exclusive.
      **/
     public void pop() {
         int size = level.size() - 1;
         Object ob = level.remove(size);
         if (ob != null) {
-            symb = (SymbMap)ob;
+            symb = (SymbMbp)ob;
             if (size == 0) {
-                cloned = false;
+                cloned = fblse;
             } else {
                 cloned = (level.get(size - 1) != symb);
             }
         } else {
-            cloned = false;
+            cloned = fblse;
         }
     }
 
-    final void needsClone() {
+    finbl void needsClone() {
         if (!cloned) {
             level.set(level.size() - 1, symb);
-            symb = (SymbMap) symb.clone();
+            symb = (SymbMbp) symb.clone();
             cloned = true;
         }
     }
 
 
     /**
-     * Gets the attribute node that defines the binding for the prefix.
-     * @param prefix the prefix to obtain the attribute.
+     * Gets the bttribute node thbt defines the binding for the prefix.
+     * @pbrbm prefix the prefix to obtbin the bttribute.
      * @return null if there is no need to render the prefix. Otherwise the node of
      * definition.
      **/
-    public Attr getMapping(String prefix) {
-        NameSpaceSymbEntry entry = symb.get(prefix);
+    public Attr getMbpping(String prefix) {
+        NbmeSpbceSymbEntry entry = symb.get(prefix);
         if (entry == null) {
-            //There is no definition for the prefix(a bug?).
+            //There is no definition for the prefix(b bug?).
             return null;
         }
         if (entry.rendered) {
-            //No need to render an entry already rendered.
+            //No need to render bn entry blrebdy rendered.
             return null;
         }
-        // Mark this entry as render.
-        entry = (NameSpaceSymbEntry) entry.clone();
+        // Mbrk this entry bs render.
+        entry = (NbmeSpbceSymbEntry) entry.clone();
         needsClone();
         symb.put(prefix, entry);
         entry.rendered = true;
-        entry.lastrendered = entry.uri;
+        entry.lbstrendered = entry.uri;
         // Return the node for outputing.
         return entry.n;
     }
 
     /**
-     * Gets a definition without mark it as render.
-     * For render in exclusive c14n the namespaces in the include prefixes.
-     * @param prefix The prefix whose definition is neaded.
-     * @return the attr to render, null if there is no need to render
+     * Gets b definition without mbrk it bs render.
+     * For render in exclusive c14n the nbmespbces in the include prefixes.
+     * @pbrbm prefix The prefix whose definition is nebded.
+     * @return the bttr to render, null if there is no need to render
      **/
-    public Attr getMappingWithoutRendered(String prefix) {
-        NameSpaceSymbEntry entry = symb.get(prefix);
+    public Attr getMbppingWithoutRendered(String prefix) {
+        NbmeSpbceSymbEntry entry = symb.get(prefix);
         if (entry == null) {
             return null;
         }
@@ -183,28 +183,28 @@ public class NameSpaceSymbTable {
     }
 
     /**
-     * Adds the mapping for a prefix.
-     * @param prefix the prefix of definition
-     * @param uri the Uri of the definition
-     * @param n the attribute that have the definition
-     * @return true if there is already defined.
+     * Adds the mbpping for b prefix.
+     * @pbrbm prefix the prefix of definition
+     * @pbrbm uri the Uri of the definition
+     * @pbrbm n the bttribute thbt hbve the definition
+     * @return true if there is blrebdy defined.
      **/
-    public boolean addMapping(String prefix, String uri, Attr n) {
-        NameSpaceSymbEntry ob = symb.get(prefix);
-        if ((ob != null) && uri.equals(ob.uri)) {
-            //If we have it previously defined. Don't keep working.
-            return false;
+    public boolebn bddMbpping(String prefix, String uri, Attr n) {
+        NbmeSpbceSymbEntry ob = symb.get(prefix);
+        if ((ob != null) && uri.equbls(ob.uri)) {
+            //If we hbve it previously defined. Don't keep working.
+            return fblse;
         }
-        //Creates and entry in the table for this new definition.
-        NameSpaceSymbEntry ne = new NameSpaceSymbEntry(uri, n, false, prefix);
+        //Crebtes bnd entry in the tbble for this new definition.
+        NbmeSpbceSymbEntry ne = new NbmeSpbceSymbEntry(uri, n, fblse, prefix);
         needsClone();
         symb.put(prefix, ne);
         if (ob != null) {
-            //We have a previous definition store it for the pop.
-            //Check if a previous definition(not the inmidiatly one) has been rendered.
-            ne.lastrendered = ob.lastrendered;
-            if ((ob.lastrendered != null) && (ob.lastrendered.equals(uri))) {
-                //Yes it is. Mark as rendered.
+            //We hbve b previous definition store it for the pop.
+            //Check if b previous definition(not the inmidibtly one) hbs been rendered.
+            ne.lbstrendered = ob.lbstrendered;
+            if ((ob.lbstrendered != null) && (ob.lbstrendered.equbls(uri))) {
+                //Yes it is. Mbrk bs rendered.
                 ne.rendered = true;
             }
         }
@@ -212,33 +212,33 @@ public class NameSpaceSymbTable {
     }
 
     /**
-     * Adds a definition and mark it as render.
+     * Adds b definition bnd mbrk it bs render.
      * For inclusive c14n.
-     * @param prefix the prefix of definition
-     * @param uri the Uri of the definition
-     * @param n the attribute that have the definition
-     * @return the attr to render, null if there is no need to render
+     * @pbrbm prefix the prefix of definition
+     * @pbrbm uri the Uri of the definition
+     * @pbrbm n the bttribute thbt hbve the definition
+     * @return the bttr to render, null if there is no need to render
      **/
-    public Node addMappingAndRender(String prefix, String uri, Attr n) {
-        NameSpaceSymbEntry ob = symb.get(prefix);
+    public Node bddMbppingAndRender(String prefix, String uri, Attr n) {
+        NbmeSpbceSymbEntry ob = symb.get(prefix);
 
-        if ((ob != null) && uri.equals(ob.uri)) {
+        if ((ob != null) && uri.equbls(ob.uri)) {
             if (!ob.rendered) {
-                ob = (NameSpaceSymbEntry) ob.clone();
+                ob = (NbmeSpbceSymbEntry) ob.clone();
                 needsClone();
                 symb.put(prefix, ob);
-                ob.lastrendered = uri;
+                ob.lbstrendered = uri;
                 ob.rendered = true;
                 return ob.n;
             }
             return null;
         }
 
-        NameSpaceSymbEntry ne = new NameSpaceSymbEntry(uri,n,true,prefix);
-        ne.lastrendered = uri;
+        NbmeSpbceSymbEntry ne = new NbmeSpbceSymbEntry(uri,n,true,prefix);
+        ne.lbstrendered = uri;
         needsClone();
         symb.put(prefix, ne);
-        if ((ob != null) && (ob.lastrendered != null) && (ob.lastrendered.equals(uri))) {
+        if ((ob != null) && (ob.lbstrendered != null) && (ob.lbstrendered.equbls(uri))) {
             ne.rendered = true;
             return null;
         }
@@ -249,8 +249,8 @@ public class NameSpaceSymbTable {
         return level.size();
     }
 
-    public void removeMapping(String prefix) {
-        NameSpaceSymbEntry ob = symb.get(prefix);
+    public void removeMbpping(String prefix) {
+        NbmeSpbceSymbEntry ob = symb.get(prefix);
 
         if (ob != null) {
             needsClone();
@@ -258,8 +258,8 @@ public class NameSpaceSymbTable {
         }
     }
 
-    public void removeMappingIfNotRender(String prefix) {
-        NameSpaceSymbEntry ob = symb.get(prefix);
+    public void removeMbppingIfNotRender(String prefix) {
+        NbmeSpbceSymbEntry ob = symb.get(prefix);
 
         if (ob != null && !ob.rendered) {
             needsClone();
@@ -267,38 +267,38 @@ public class NameSpaceSymbTable {
         }
     }
 
-    public boolean removeMappingIfRender(String prefix) {
-        NameSpaceSymbEntry ob = symb.get(prefix);
+    public boolebn removeMbppingIfRender(String prefix) {
+        NbmeSpbceSymbEntry ob = symb.get(prefix);
 
         if (ob != null && ob.rendered) {
             needsClone();
             symb.put(prefix, null);
         }
-        return false;
+        return fblse;
     }
 }
 
 /**
- * The internal structure of NameSpaceSymbTable.
+ * The internbl structure of NbmeSpbceSymbTbble.
  **/
-class NameSpaceSymbEntry implements Cloneable {
+clbss NbmeSpbceSymbEntry implements Clonebble {
 
     String prefix;
 
-    /**The URI that the prefix defines */
+    /**The URI thbt the prefix defines */
     String uri;
 
-    /**The last output in the URI for this prefix (This for speed reason).*/
-    String lastrendered = null;
+    /**The lbst output in the URI for this prefix (This for speed rebson).*/
+    String lbstrendered = null;
 
-    /**This prefix-URI has been already render or not.*/
-    boolean rendered = false;
+    /**This prefix-URI hbs been blrebdy render or not.*/
+    boolebn rendered = fblse;
 
-    /**The attribute to include.*/
+    /**The bttribute to include.*/
     Attr n;
 
-    NameSpaceSymbEntry(String name, Attr n, boolean rendered, String prefix) {
-        this.uri = name;
+    NbmeSpbceSymbEntry(String nbme, Attr n, boolebn rendered, String prefix) {
+        this.uri = nbme;
         this.rendered = rendered;
         this.n = n;
         this.prefix = prefix;
@@ -308,100 +308,100 @@ class NameSpaceSymbEntry implements Cloneable {
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
+        } cbtch (CloneNotSupportedException e) {
             return null;
         }
     }
 };
 
-class SymbMap implements Cloneable {
+clbss SymbMbp implements Clonebble {
     int free = 23;
-    NameSpaceSymbEntry[] entries;
+    NbmeSpbceSymbEntry[] entries;
     String[] keys;
 
-    SymbMap() {
-        entries = new NameSpaceSymbEntry[free];
+    SymbMbp() {
+        entries = new NbmeSpbceSymbEntry[free];
         keys = new String[free];
     }
 
-    void put(String key, NameSpaceSymbEntry value) {
+    void put(String key, NbmeSpbceSymbEntry vblue) {
         int index = index(key);
         Object oldKey = keys[index];
         keys[index] = key;
-        entries[index] = value;
-        if ((oldKey == null || !oldKey.equals(key)) && (--free == 0)) {
+        entries[index] = vblue;
+        if ((oldKey == null || !oldKey.equbls(key)) && (--free == 0)) {
             free = entries.length;
-            int newCapacity = free << 2;
-            rehash(newCapacity);
+            int newCbpbcity = free << 2;
+            rehbsh(newCbpbcity);
         }
     }
 
-    List<NameSpaceSymbEntry> entrySet() {
-        List<NameSpaceSymbEntry> a = new ArrayList<NameSpaceSymbEntry>();
+    List<NbmeSpbceSymbEntry> entrySet() {
+        List<NbmeSpbceSymbEntry> b = new ArrbyList<NbmeSpbceSymbEntry>();
         for (int i = 0;i < entries.length;i++) {
-            if ((entries[i] != null) && !("".equals(entries[i].uri))) {
-                a.add(entries[i]);
+            if ((entries[i] != null) && !("".equbls(entries[i].uri))) {
+                b.bdd(entries[i]);
             }
         }
-        return a;
+        return b;
     }
 
     protected int index(Object obj) {
         Object[] set = keys;
         int length = set.length;
-        //abs of index
-        int index = (obj.hashCode() & 0x7fffffff) % length;
+        //bbs of index
+        int index = (obj.hbshCode() & 0x7fffffff) % length;
         Object cur = set[index];
 
-        if (cur == null || (cur.equals(obj))) {
+        if (cur == null || (cur.equbls(obj))) {
             return index;
         }
         length--;
         do {
             index = index == length ? 0 : ++index;
             cur = set[index];
-        } while (cur != null && (!cur.equals(obj)));
+        } while (cur != null && (!cur.equbls(obj)));
         return index;
     }
 
     /**
-     * rehashes the map to the new capacity.
+     * rehbshes the mbp to the new cbpbcity.
      *
-     * @param newCapacity an <code>int</code> value
+     * @pbrbm newCbpbcity bn <code>int</code> vblue
      */
-    protected void rehash(int newCapacity) {
-        int oldCapacity = keys.length;
+    protected void rehbsh(int newCbpbcity) {
+        int oldCbpbcity = keys.length;
         String oldKeys[] = keys;
-        NameSpaceSymbEntry oldVals[] = entries;
+        NbmeSpbceSymbEntry oldVbls[] = entries;
 
-        keys = new String[newCapacity];
-        entries = new NameSpaceSymbEntry[newCapacity];
+        keys = new String[newCbpbcity];
+        entries = new NbmeSpbceSymbEntry[newCbpbcity];
 
-        for (int i = oldCapacity; i-- > 0;) {
+        for (int i = oldCbpbcity; i-- > 0;) {
             if (oldKeys[i] != null) {
                 String o = oldKeys[i];
                 int index = index(o);
                 keys[index] = o;
-                entries[index] = oldVals[i];
+                entries[index] = oldVbls[i];
             }
         }
     }
 
-    NameSpaceSymbEntry get(String key) {
+    NbmeSpbceSymbEntry get(String key) {
         return entries[index(key)];
     }
 
     protected Object clone()  {
         try {
-            SymbMap copy = (SymbMap) super.clone();
-            copy.entries = new NameSpaceSymbEntry[entries.length];
-            System.arraycopy(entries, 0, copy.entries, 0, entries.length);
+            SymbMbp copy = (SymbMbp) super.clone();
+            copy.entries = new NbmeSpbceSymbEntry[entries.length];
+            System.brrbycopy(entries, 0, copy.entries, 0, entries.length);
             copy.keys = new String[keys.length];
-            System.arraycopy(keys, 0, copy.keys, 0, keys.length);
+            System.brrbycopy(keys, 0, copy.keys, 0, keys.length);
 
             return copy;
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+        } cbtch (CloneNotSupportedException e) {
+            e.printStbckTrbce();
         }
         return null;
     }

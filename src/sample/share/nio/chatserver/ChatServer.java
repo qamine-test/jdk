@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2011 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011 Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,129 +30,129 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.net.StandardSocketOptions;
-import java.nio.channels.*;
-import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import jbvb.io.IOException;
+import jbvb.net.InetSocketAddress;
+import jbvb.net.SocketAddress;
+import jbvb.net.StbndbrdSocketOptions;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.Executors;
+import jbvb.util.concurrent.TimeUnit;
 
 /**
- * Implements a chat server, this class holds the list of {@code clients} connected to the server.
- * It sets up a server socket using AsynchronousServerSocketChannel listening to a specified port.
+ * Implements b chbt server, this clbss holds the list of {@code clients} connected to the server.
+ * It sets up b server socket using AsynchronousServerSocketChbnnel listening to b specified port.
  */
-public class ChatServer implements Runnable {
-    private final List<Client> connections = Collections.synchronizedList(new ArrayList<Client>());
-    private int port;
-    private final AsynchronousServerSocketChannel listener;
-    private final AsynchronousChannelGroup channelGroup;
+public clbss ChbtServer implements Runnbble {
+    privbte finbl List<Client> connections = Collections.synchronizedList(new ArrbyList<Client>());
+    privbte int port;
+    privbte finbl AsynchronousServerSocketChbnnel listener;
+    privbte finbl AsynchronousChbnnelGroup chbnnelGroup;
 
     /**
      *
-     * @param port to listen to
-     * @throws java.io.IOException when failing to start the server
+     * @pbrbm port to listen to
+     * @throws jbvb.io.IOException when fbiling to stbrt the server
      */
-    public ChatServer(int port) throws IOException {
-        channelGroup = AsynchronousChannelGroup.withFixedThreadPool(Runtime.getRuntime().availableProcessors(),
-                Executors.defaultThreadFactory());
+    public ChbtServer(int port) throws IOException {
+        chbnnelGroup = AsynchronousChbnnelGroup.withFixedThrebdPool(Runtime.getRuntime().bvbilbbleProcessors(),
+                Executors.defbultThrebdFbctory());
         this.port = port;
-        listener = createListener(channelGroup);
+        listener = crebteListener(chbnnelGroup);
     }
 
     /**
      *
-     * @return The socket address that the server is bound to
-     * @throws java.io.IOException if an I/O error occurs
+     * @return The socket bddress thbt the server is bound to
+     * @throws jbvb.io.IOException if bn I/O error occurs
      */
     public SocketAddress getSocketAddress() throws IOException {
-        return listener.getLocalAddress();
+        return listener.getLocblAddress();
     }
 
     /**
-     * Start accepting connections
+     * Stbrt bccepting connections
      */
     public void run() {
 
-        // call accept to wait for connections, tell it to call our CompletionHandler when there
-        // is a new incoming connection
-        listener.accept(null, new CompletionHandler<AsynchronousSocketChannel, Void>() {
+        // cbll bccept to wbit for connections, tell it to cbll our CompletionHbndler when there
+        // is b new incoming connection
+        listener.bccept(null, new CompletionHbndler<AsynchronousSocketChbnnel, Void>() {
             @Override
-            public void completed(AsynchronousSocketChannel result, Void attachment) {
-                // request a new accept and handle the incoming connection
-                listener.accept(null, this);
-                handleNewConnection(result);
+            public void completed(AsynchronousSocketChbnnel result, Void bttbchment) {
+                // request b new bccept bnd hbndle the incoming connection
+                listener.bccept(null, this);
+                hbndleNewConnection(result);
             }
 
             @Override
-            public void failed(Throwable exc, Void attachment) {
+            public void fbiled(Throwbble exc, Void bttbchment) {
             }
         });
     }
 
     /**
      * Shuts down the server
-     * @throws InterruptedException if terminated while waiting for shutdown
-     * @throws IOException if failing to shutdown the channel group
+     * @throws InterruptedException if terminbted while wbiting for shutdown
+     * @throws IOException if fbiling to shutdown the chbnnel group
      */
     public void shutdown() throws InterruptedException, IOException {
-        channelGroup.shutdownNow();
-        channelGroup.awaitTermination(1, TimeUnit.SECONDS);
+        chbnnelGroup.shutdownNow();
+        chbnnelGroup.bwbitTerminbtion(1, TimeUnit.SECONDS);
     }
 
     /*
-    * Creates a listener and starts accepting connections
+    * Crebtes b listener bnd stbrts bccepting connections
     */
-    private AsynchronousServerSocketChannel createListener(AsynchronousChannelGroup channelGroup) throws IOException {
-        final AsynchronousServerSocketChannel listener = openChannel(channelGroup);
-        listener.setOption(StandardSocketOptions.SO_REUSEADDR, true);
+    privbte AsynchronousServerSocketChbnnel crebteListener(AsynchronousChbnnelGroup chbnnelGroup) throws IOException {
+        finbl AsynchronousServerSocketChbnnel listener = openChbnnel(chbnnelGroup);
+        listener.setOption(StbndbrdSocketOptions.SO_REUSEADDR, true);
         listener.bind(new InetSocketAddress(port));
         return listener;
     }
 
-    private AsynchronousServerSocketChannel openChannel(AsynchronousChannelGroup channelGroup) throws IOException {
-        return AsynchronousServerSocketChannel.open(channelGroup);
+    privbte AsynchronousServerSocketChbnnel openChbnnel(AsynchronousChbnnelGroup chbnnelGroup) throws IOException {
+        return AsynchronousServerSocketChbnnel.open(chbnnelGroup);
     }
 
     /**
-     * Creates a new client and adds it to the list of connections.
-     * Sets the clients handler to the initial state of NameReader
+     * Crebtes b new client bnd bdds it to the list of connections.
+     * Sets the clients hbndler to the initibl stbte of NbmeRebder
      *
-     * @param channel the newly accepted channel
+     * @pbrbm chbnnel the newly bccepted chbnnel
      */
-    private void handleNewConnection(AsynchronousSocketChannel channel) {
-        Client client = new Client(channel, new ClientReader(this, new NameReader(this)));
+    privbte void hbndleNewConnection(AsynchronousSocketChbnnel chbnnel) {
+        Client client = new Client(chbnnel, new ClientRebder(this, new NbmeRebder(this)));
         try {
-            channel.setOption(StandardSocketOptions.TCP_NODELAY, true);
-        } catch (IOException e) {
+            chbnnel.setOption(StbndbrdSocketOptions.TCP_NODELAY, true);
+        } cbtch (IOException e) {
             // ignore
         }
-        connections.add(client);
+        connections.bdd(client);
         client.run();
     }
 
     /**
-     * Sends a message to all clients except the source.
-     * The method is synchronized as it is desired that messages are sent to
-     * all clients in the same order as received.
+     * Sends b messbge to bll clients except the source.
+     * The method is synchronized bs it is desired thbt messbges bre sent to
+     * bll clients in the sbme order bs received.
      *
-     * @param client the message source
-     * @param message the message to be sent
+     * @pbrbm client the messbge source
+     * @pbrbm messbge the messbge to be sent
      */
-    public void writeMessageToClients(Client client, String message) {
+    public void writeMessbgeToClients(Client client, String messbge) {
         synchronized (connections) {
             for (Client clientConnection : connections) {
                 if (clientConnection != client) {
-                    clientConnection.writeMessageFrom(client, message);
+                    clientConnection.writeMessbgeFrom(client, messbge);
                 }
             }
         }
@@ -162,27 +162,27 @@ public class ChatServer implements Runnable {
         connections.remove(client);
     }
 
-    private static void usage() {
-        System.err.println("ChatServer [-port <port number>]");
+    privbte stbtic void usbge() {
+        System.err.println("ChbtServer [-port <port number>]");
         System.exit(1);
     }
 
-    public static void main(String[] args) throws IOException {
+    public stbtic void mbin(String[] brgs) throws IOException {
         int port = 5000;
-        if (args.length != 0 && args.length != 2) {
-            usage();
-        } else if (args.length == 2) {
+        if (brgs.length != 0 && brgs.length != 2) {
+            usbge();
+        } else if (brgs.length == 2) {
             try {
-                if (args[0].equals("-port")) {
-                    port = Integer.parseInt(args[1]);
+                if (brgs[0].equbls("-port")) {
+                    port = Integer.pbrseInt(brgs[1]);
                 } else {
-                    usage();
+                    usbge();
                 }
-            } catch (NumberFormatException e) {
-                usage();
+            } cbtch (NumberFormbtException e) {
+                usbge();
             }
         }
         System.out.println("Running on port " + port);
-        new ChatServer(port).run();
+        new ChbtServer(port).run();
     }
 }

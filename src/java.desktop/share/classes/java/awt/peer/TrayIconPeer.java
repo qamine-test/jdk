@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2005, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.peer;
+pbckbge jbvb.bwt.peer;
 
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
+import jbvb.bwt.SystemTrby;
+import jbvb.bwt.TrbyIcon;
 
 /**
- * The peer interface for the {@link TrayIcon}. This doesn't need to be
- * implemented if {@link SystemTray#isSupported()} returns false.
+ * The peer interfbce for the {@link TrbyIcon}. This doesn't need to be
+ * implemented if {@link SystemTrby#isSupported()} returns fblse.
  */
-public interface TrayIconPeer {
+public interfbce TrbyIconPeer {
 
     /**
-     * Disposes the tray icon and releases and resources held by it.
+     * Disposes the trby icon bnd relebses bnd resources held by it.
      *
-     * @see TrayIcon#removeNotify()
+     * @see TrbyIcon#removeNotify()
      */
     void dispose();
 
     /**
-     * Sets the tool tip for the tray icon.
+     * Sets the tool tip for the trby icon.
      *
-     * @param tooltip the tooltip to set
+     * @pbrbm tooltip the tooltip to set
      *
-     * @see TrayIcon#setToolTip(String)
+     * @see TrbyIcon#setToolTip(String)
      */
     void setToolTip(String tooltip);
 
     /**
-     * Updates the icon image. This is supposed to display the current icon
-     * from the TrayIcon component in the actual tray icon.
+     * Updbtes the icon imbge. This is supposed to displby the current icon
+     * from the TrbyIcon component in the bctubl trby icon.
      *
-     * @see TrayIcon#setImage(java.awt.Image)
-     * @see TrayIcon#setImageAutoSize(boolean)
+     * @see TrbyIcon#setImbge(jbvb.bwt.Imbge)
+     * @see TrbyIcon#setImbgeAutoSize(boolebn)
      */
-    void updateImage();
+    void updbteImbge();
 
     /**
-     * Displays a message at the tray icon.
+     * Displbys b messbge bt the trby icon.
      *
-     * @param caption the message caption
-     * @param text the actual message text
-     * @param messageType the message type
+     * @pbrbm cbption the messbge cbption
+     * @pbrbm text the bctubl messbge text
+     * @pbrbm messbgeType the messbge type
      *
-     * @see TrayIcon#displayMessage(String, String, java.awt.TrayIcon.MessageType)
+     * @see TrbyIcon#displbyMessbge(String, String, jbvb.bwt.TrbyIcon.MessbgeType)
      */
-    void displayMessage(String caption, String text, String messageType);
+    void displbyMessbge(String cbption, String text, String messbgeType);
 
     /**
-     * Shows the popup menu of this tray icon at the specified position.
+     * Shows the popup menu of this trby icon bt the specified position.
      *
-     * @param x the X location for the popup menu
-     * @param y the Y location for the popup menu
+     * @pbrbm x the X locbtion for the popup menu
+     * @pbrbm y the Y locbtion for the popup menu
      */
     void showPopupMenu(int x, int y);
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,172 +30,172 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import javax.swing.JComponent;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Insets;
+import jbvb.bwt.LbyoutMbnbger;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JInternblFrbme;
+import jbvbx.swing.JLbbel;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.JScrollPbne;
+import jbvbx.swing.JTextAreb;
+import jbvbx.swing.JTextField;
+import jbvbx.swing.border.EmptyBorder;
 
 
 /**
- * This is a subclass of JInternalFrame which displays documents.
+ * This is b subclbss of JInternblFrbme which displbys documents.
  *
- * @author Steve Wilson
+ * @buthor Steve Wilson
  */
-@SuppressWarnings("serial")
-public class MetalworksDocumentFrame extends JInternalFrame {
+@SuppressWbrnings("seribl")
+public clbss MetblworksDocumentFrbme extends JInternblFrbme {
 
-    static int openFrameCount = 0;
-    static final int offset = 30;
+    stbtic int openFrbmeCount = 0;
+    stbtic finbl int offset = 30;
 
-    public MetalworksDocumentFrame() {
+    public MetblworksDocumentFrbme() {
         super("", true, true, true, true);
-        openFrameCount++;
-        setTitle("Untitled Message " + openFrameCount);
+        openFrbmeCount++;
+        setTitle("Untitled Messbge " + openFrbmeCount);
 
-        JPanel top = new JPanel();
+        JPbnel top = new JPbnel();
         top.setBorder(new EmptyBorder(10, 10, 10, 10));
-        top.setLayout(new BorderLayout());
-        top.add(buildAddressPanel(), BorderLayout.NORTH);
+        top.setLbyout(new BorderLbyout());
+        top.bdd(buildAddressPbnel(), BorderLbyout.NORTH);
 
-        JTextArea content = new JTextArea(15, 30);
+        JTextAreb content = new JTextAreb(15, 30);
         content.setBorder(new EmptyBorder(0, 5, 0, 5));
-        content.setLineWrap(true);
+        content.setLineWrbp(true);
 
 
 
-        JScrollPane textScroller = new JScrollPane(content,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        top.add(textScroller, BorderLayout.CENTER);
+        JScrollPbne textScroller = new JScrollPbne(content,
+                JScrollPbne.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPbne.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        top.bdd(textScroller, BorderLbyout.CENTER);
 
 
-        setContentPane(top);
-        pack();
-        setLocation(offset * openFrameCount, offset * openFrameCount);
+        setContentPbne(top);
+        pbck();
+        setLocbtion(offset * openFrbmeCount, offset * openFrbmeCount);
 
     }
 
-    private JPanel buildAddressPanel() {
-        JPanel p = new JPanel();
-        p.setLayout(new LabeledPairLayout());
+    privbte JPbnel buildAddressPbnel() {
+        JPbnel p = new JPbnel();
+        p.setLbyout(new LbbeledPbirLbyout());
 
 
-        JLabel toLabel = new JLabel("To: ", JLabel.RIGHT);
+        JLbbel toLbbel = new JLbbel("To: ", JLbbel.RIGHT);
         JTextField toField = new JTextField(25);
-        p.add(toLabel, "label");
-        p.add(toField, "field");
+        p.bdd(toLbbel, "lbbel");
+        p.bdd(toField, "field");
 
 
-        JLabel subLabel = new JLabel("Subj: ", JLabel.RIGHT);
+        JLbbel subLbbel = new JLbbel("Subj: ", JLbbel.RIGHT);
         JTextField subField = new JTextField(25);
-        p.add(subLabel, "label");
-        p.add(subField, "field");
+        p.bdd(subLbbel, "lbbel");
+        p.bdd(subField, "field");
 
 
-        JLabel ccLabel = new JLabel("cc: ", JLabel.RIGHT);
+        JLbbel ccLbbel = new JLbbel("cc: ", JLbbel.RIGHT);
         JTextField ccField = new JTextField(25);
-        p.add(ccLabel, "label");
-        p.add(ccField, "field");
+        p.bdd(ccLbbel, "lbbel");
+        p.bdd(ccField, "field");
 
         return p;
 
     }
 
 
-    class LabeledPairLayout implements LayoutManager {
+    clbss LbbeledPbirLbyout implements LbyoutMbnbger {
 
-        List<Component> labels = new ArrayList<Component>();
-        List<Component> fields = new ArrayList<Component>();
-        int yGap = 2;
-        int xGap = 2;
+        List<Component> lbbels = new ArrbyList<Component>();
+        List<Component> fields = new ArrbyList<Component>();
+        int yGbp = 2;
+        int xGbp = 2;
 
-        public void addLayoutComponent(String s, Component c) {
-            if (s.equals("label")) {
-                labels.add(c);
+        public void bddLbyoutComponent(String s, Component c) {
+            if (s.equbls("lbbel")) {
+                lbbels.bdd(c);
             } else {
-                fields.add(c);
+                fields.bdd(c);
             }
         }
 
-        public void layoutContainer(Container c) {
+        public void lbyoutContbiner(Contbiner c) {
             Insets insets = c.getInsets();
 
-            int labelWidth = 0;
-            for (Component comp : labels) {
-                labelWidth = Math.max(labelWidth, comp.getPreferredSize().width);
+            int lbbelWidth = 0;
+            for (Component comp : lbbels) {
+                lbbelWidth = Mbth.mbx(lbbelWidth, comp.getPreferredSize().width);
             }
 
             int yPos = insets.top;
 
-            Iterator<Component> fieldIter = fields.listIterator();
-            Iterator<Component> labelIter = labels.listIterator();
-            while (labelIter.hasNext() && fieldIter.hasNext()) {
-                JComponent label = (JComponent) labelIter.next();
+            Iterbtor<Component> fieldIter = fields.listIterbtor();
+            Iterbtor<Component> lbbelIter = lbbels.listIterbtor();
+            while (lbbelIter.hbsNext() && fieldIter.hbsNext()) {
+                JComponent lbbel = (JComponent) lbbelIter.next();
                 JComponent field = (JComponent) fieldIter.next();
-                int height = Math.max(label.getPreferredSize().height, field.
+                int height = Mbth.mbx(lbbel.getPreferredSize().height, field.
                         getPreferredSize().height);
-                label.setBounds(insets.left, yPos, labelWidth, height);
-                field.setBounds(insets.left + labelWidth + xGap,
+                lbbel.setBounds(insets.left, yPos, lbbelWidth, height);
+                field.setBounds(insets.left + lbbelWidth + xGbp,
                         yPos,
-                        c.getSize().width - (labelWidth + xGap + insets.left
+                        c.getSize().width - (lbbelWidth + xGbp + insets.left
                         + insets.right),
                         height);
-                yPos += (height + yGap);
+                yPos += (height + yGbp);
             }
 
         }
 
-        public Dimension minimumLayoutSize(Container c) {
+        public Dimension minimumLbyoutSize(Contbiner c) {
             Insets insets = c.getInsets();
 
-            int labelWidth = 0;
-            for (Component comp : labels) {
-                labelWidth = Math.max(labelWidth, comp.getPreferredSize().width);
+            int lbbelWidth = 0;
+            for (Component comp : lbbels) {
+                lbbelWidth = Mbth.mbx(lbbelWidth, comp.getPreferredSize().width);
             }
 
             int yPos = insets.top;
 
-            Iterator<Component> labelIter = labels.listIterator();
-            Iterator<Component> fieldIter = fields.listIterator();
-            while (labelIter.hasNext() && fieldIter.hasNext()) {
-                Component label = labelIter.next();
+            Iterbtor<Component> lbbelIter = lbbels.listIterbtor();
+            Iterbtor<Component> fieldIter = fields.listIterbtor();
+            while (lbbelIter.hbsNext() && fieldIter.hbsNext()) {
+                Component lbbel = lbbelIter.next();
                 Component field = fieldIter.next();
-                int height = Math.max(label.getPreferredSize().height, field.
+                int height = Mbth.mbx(lbbel.getPreferredSize().height, field.
                         getPreferredSize().height);
-                yPos += (height + yGap);
+                yPos += (height + yGbp);
             }
-            return new Dimension(labelWidth * 3, yPos);
+            return new Dimension(lbbelWidth * 3, yPos);
         }
 
-        public Dimension preferredLayoutSize(Container c) {
-            Dimension d = minimumLayoutSize(c);
+        public Dimension preferredLbyoutSize(Contbiner c) {
+            Dimension d = minimumLbyoutSize(c);
             d.width *= 2;
             return d;
         }
 
-        public void removeLayoutComponent(Component c) {
+        public void removeLbyoutComponent(Component c) {
         }
     }
 }

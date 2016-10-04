@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -35,7 +35,7 @@
 
 
 ssize_t
-restartableWrite(int fd, const void *buf, size_t count)
+restbrtbbleWrite(int fd, const void *buf, size_t count)
 {
     ssize_t result;
     RESTARTABLE(write(fd, buf, count), result);
@@ -43,7 +43,7 @@ restartableWrite(int fd, const void *buf, size_t count)
 }
 
 int
-restartableDup2(int fd_from, int fd_to)
+restbrtbbleDup2(int fd_from, int fd_to)
 {
     int err;
     RESTARTABLE(dup2(fd_from, fd_to), err);
@@ -51,13 +51,13 @@ restartableDup2(int fd_from, int fd_to)
 }
 
 int
-closeSafely(int fd)
+closeSbfely(int fd)
 {
     return (fd == -1) ? 0 : close(fd);
 }
 
 int
-isAsciiDigit(char c)
+isAsciiDigit(chbr c)
 {
   return c >= '0' && c <= '9';
 }
@@ -65,10 +65,10 @@ isAsciiDigit(char c)
 #ifdef _ALLBSD_SOURCE
 #define FD_DIR "/dev/fd"
 #define dirent64 dirent
-#define readdir64 readdir
+#define rebddir64 rebddir
 #elif defined(_AIX)
-/* AIX does not understand '/proc/self' - it requires the real process ID */
-#define FD_DIR aix_fd_dir
+/* AIX does not understbnd '/proc/self' - it requires the rebl process ID */
+#define FD_DIR bix_fd_dir
 #else
 #define FD_DIR "/proc/self/fd"
 #endif
@@ -80,32 +80,32 @@ closeDescriptors(void)
     struct dirent64 *dirp;
     int from_fd = FAIL_FILENO + 1;
 
-    /* We're trying to close all file descriptors, but opendir() might
-     * itself be implemented using a file descriptor, and we certainly
-     * don't want to close that while it's in use.  We assume that if
-     * opendir() is implemented using a file descriptor, then it uses
+    /* We're trying to close bll file descriptors, but opendir() might
+     * itself be implemented using b file descriptor, bnd we certbinly
+     * don't wbnt to close thbt while it's in use.  We bssume thbt if
+     * opendir() is implemented using b file descriptor, then it uses
      * the lowest numbered file descriptor, just like open().  So we
-     * close a couple explicitly.  */
+     * close b couple explicitly.  */
 
     close(from_fd);          /* for possible use by opendir() */
-    close(from_fd + 1);      /* another one for good luck */
+    close(from_fd + 1);      /* bnother one for good luck */
 
 #if defined(_AIX)
-    /* AIX does not understand '/proc/self' - it requires the real process ID */
-    char aix_fd_dir[32];     /* the pid has at most 19 digits */
-    snprintf(aix_fd_dir, 32, "/proc/%d/fd", getpid());
+    /* AIX does not understbnd '/proc/self' - it requires the rebl process ID */
+    chbr bix_fd_dir[32];     /* the pid hbs bt most 19 digits */
+    snprintf(bix_fd_dir, 32, "/proc/%d/fd", getpid());
 #endif
 
     if ((dp = opendir(FD_DIR)) == NULL)
         return 0;
 
-    /* We use readdir64 instead of readdir to work around Solaris bug
-     * 6395699: /proc/self/fd fails to report file descriptors >= 1024 on Solaris 9
+    /* We use rebddir64 instebd of rebddir to work bround Solbris bug
+     * 6395699: /proc/self/fd fbils to report file descriptors >= 1024 on Solbris 9
      */
-    while ((dirp = readdir64(dp)) != NULL) {
+    while ((dirp = rebddir64(dp)) != NULL) {
         int fd;
-        if (isAsciiDigit(dirp->d_name[0]) &&
-            (fd = strtol(dirp->d_name, NULL, 10)) >= from_fd + 2)
+        if (isAsciiDigit(dirp->d_nbme[0]) &&
+            (fd = strtol(dirp->d_nbme, NULL, 10)) >= from_fd + 2)
             close(fd);
     }
 
@@ -118,7 +118,7 @@ int
 moveDescriptor(int fd_from, int fd_to)
 {
     if (fd_from != fd_to) {
-        if ((restartableDup2(fd_from, fd_to) == -1) ||
+        if ((restbrtbbleDup2(fd_from, fd_to) == -1) ||
             (close(fd_from) == -1))
             return -1;
     }
@@ -126,35 +126,35 @@ moveDescriptor(int fd_from, int fd_to)
 }
 
 int
-magicNumber() {
+mbgicNumber() {
     return 43110;
 }
 
 /*
- * Reads nbyte bytes from file descriptor fd into buf,
- * The read operation is retried in case of EINTR or partial reads.
+ * Rebds nbyte bytes from file descriptor fd into buf,
+ * The rebd operbtion is retried in cbse of EINTR or pbrtibl rebds.
  *
- * Returns number of bytes read (normally nbyte, but may be less in
- * case of EOF).  In case of read errors, returns -1 and sets errno.
+ * Returns number of bytes rebd (normblly nbyte, but mby be less in
+ * cbse of EOF).  In cbse of rebd errors, returns -1 bnd sets errno.
  */
 ssize_t
-readFully(int fd, void *buf, size_t nbyte)
+rebdFully(int fd, void *buf, size_t nbyte)
 {
-    ssize_t remaining = nbyte;
+    ssize_t rembining = nbyte;
     for (;;) {
-        ssize_t n = read(fd, buf, remaining);
+        ssize_t n = rebd(fd, buf, rembining);
         if (n == 0) {
-            return nbyte - remaining;
+            return nbyte - rembining;
         } else if (n > 0) {
-            remaining -= n;
-            if (remaining <= 0)
+            rembining -= n;
+            if (rembining <= 0)
                 return nbyte;
-            /* We were interrupted in the middle of reading the bytes.
+            /* We were interrupted in the middle of rebding the bytes.
              * Unlikely, but possible. */
-            buf = (void *) (((char *)buf) + n);
+            buf = (void *) (((chbr *)buf) + n);
         } else if (errno == EINTR) {
-            /* Strange signals like SIGJVM1 are possible at any time.
-             * See http://www.dreamsongs.com/WorseIsBetter.html */
+            /* Strbnge signbls like SIGJVM1 bre possible bt bny time.
+             * See http://www.drebmsongs.com/WorseIsBetter.html */
         } else {
             return -1;
         }
@@ -162,12 +162,12 @@ readFully(int fd, void *buf, size_t nbyte)
 }
 
 void
-initVectorFromBlock(const char**vector, const char* block, int count)
+initVectorFromBlock(const chbr**vector, const chbr* block, int count)
 {
     int i;
-    const char *p;
+    const chbr *p;
     for (i = 0, p = block; i < count; i++) {
-        /* Invariant: p always points to the start of a C string. */
+        /* Invbribnt: p blwbys points to the stbrt of b C string. */
         vector[i] = p;
         while (*(p++));
     }
@@ -175,65 +175,65 @@ initVectorFromBlock(const char**vector, const char* block, int count)
 }
 
 /**
- * Exec FILE as a traditional Bourne shell script (i.e. one without #!).
- * If we could do it over again, we would probably not support such an ancient
- * misfeature, but compatibility wins over sanity.  The original support for
- * this was imported accidentally from execvp().
+ * Exec FILE bs b trbditionbl Bourne shell script (i.e. one without #!).
+ * If we could do it over bgbin, we would probbbly not support such bn bncient
+ * misfebture, but compbtibility wins over sbnity.  The originbl support for
+ * this wbs imported bccidentblly from execvp().
  */
 void
-execve_as_traditional_shell_script(const char *file,
-                                   const char *argv[],
-                                   const char *const envp[])
+execve_bs_trbditionbl_shell_script(const chbr *file,
+                                   const chbr *brgv[],
+                                   const chbr *const envp[])
 {
-    /* Use the extra word of space provided for us in argv by caller. */
-    const char *argv0 = argv[0];
-    const char *const *end = argv;
+    /* Use the extrb word of spbce provided for us in brgv by cbller. */
+    const chbr *brgv0 = brgv[0];
+    const chbr *const *end = brgv;
     while (*end != NULL)
         ++end;
-    memmove(argv+2, argv+1, (end-argv) * sizeof(*end));
-    argv[0] = "/bin/sh";
-    argv[1] = file;
-    execve(argv[0], (char **) argv, (char **) envp);
-    /* Can't even exec /bin/sh?  Big trouble, but let's soldier on... */
-    memmove(argv+1, argv+2, (end-argv) * sizeof(*end));
-    argv[0] = argv0;
+    memmove(brgv+2, brgv+1, (end-brgv) * sizeof(*end));
+    brgv[0] = "/bin/sh";
+    brgv[1] = file;
+    execve(brgv[0], (chbr **) brgv, (chbr **) envp);
+    /* Cbn't even exec /bin/sh?  Big trouble, but let's soldier on... */
+    memmove(brgv+1, brgv+2, (end-brgv) * sizeof(*end));
+    brgv[0] = brgv0;
 }
 
 /**
- * Like execve(2), except that in case of ENOEXEC, FILE is assumed to
- * be a shell script and the system default shell is invoked to run it.
+ * Like execve(2), except thbt in cbse of ENOEXEC, FILE is bssumed to
+ * be b shell script bnd the system defbult shell is invoked to run it.
  */
 void
-execve_with_shell_fallback(int mode, const char *file,
-                           const char *argv[],
-                           const char *const envp[])
+execve_with_shell_fbllbbck(int mode, const chbr *file,
+                           const chbr *brgv[],
+                           const chbr *const envp[])
 {
     if (mode == MODE_CLONE || mode == MODE_VFORK) {
-        /* shared address space; be very careful. */
-        execve(file, (char **) argv, (char **) envp);
+        /* shbred bddress spbce; be very cbreful. */
+        execve(file, (chbr **) brgv, (chbr **) envp);
         if (errno == ENOEXEC)
-            execve_as_traditional_shell_script(file, argv, envp);
+            execve_bs_trbditionbl_shell_script(file, brgv, envp);
     } else {
-        /* unshared address space; we can mutate environ. */
-        environ = (char **) envp;
-        execvp(file, (char **) argv);
+        /* unshbred bddress spbce; we cbn mutbte environ. */
+        environ = (chbr **) envp;
+        execvp(file, (chbr **) brgv);
     }
 }
 
 /**
- * 'execvpe' should have been included in the Unix standards,
- * and is a GNU extension in glibc 2.10.
+ * 'execvpe' should hbve been included in the Unix stbndbrds,
+ * bnd is b GNU extension in glibc 2.10.
  *
- * JDK_execvpe is identical to execvp, except that the child environment is
- * specified via the 3rd argument instead of being inherited from environ.
+ * JDK_execvpe is identicbl to execvp, except thbt the child environment is
+ * specified vib the 3rd brgument instebd of being inherited from environ.
  */
 void
-JDK_execvpe(int mode, const char *file,
-            const char *argv[],
-            const char *const envp[])
+JDK_execvpe(int mode, const chbr *file,
+            const chbr *brgv[],
+            const chbr *const envp[])
 {
-    if (envp == NULL || (char **) envp == environ) {
-        execvp(file, (char **) argv);
+    if (envp == NULL || (chbr **) envp == environ) {
+        execvp(file, (chbr **) brgv);
         return;
     }
 
@@ -243,58 +243,58 @@ JDK_execvpe(int mode, const char *file,
     }
 
     if (strchr(file, '/') != NULL) {
-        execve_with_shell_fallback(mode, file, argv, envp);
+        execve_with_shell_fbllbbck(mode, file, brgv, envp);
     } else {
-        /* We must search PATH (parent's, not child's) */
-        char expanded_file[PATH_MAX];
+        /* We must sebrch PATH (pbrent's, not child's) */
+        chbr expbnded_file[PATH_MAX];
         int filelen = strlen(file);
         int sticky_errno = 0;
-        const char * const * dirs;
-        for (dirs = parentPathv; *dirs; dirs++) {
-            const char * dir = *dirs;
+        const chbr * const * dirs;
+        for (dirs = pbrentPbthv; *dirs; dirs++) {
+            const chbr * dir = *dirs;
             int dirlen = strlen(dir);
             if (filelen + dirlen + 2 >= PATH_MAX) {
                 errno = ENAMETOOLONG;
                 continue;
             }
-            memcpy(expanded_file, dir, dirlen);
-            if (expanded_file[dirlen - 1] != '/')
-                expanded_file[dirlen++] = '/';
-            memcpy(expanded_file + dirlen, file, filelen);
-            expanded_file[dirlen + filelen] = '\0';
-            execve_with_shell_fallback(mode, expanded_file, argv, envp);
-            /* There are 3 responses to various classes of errno:
-             * return immediately, continue (especially for ENOENT),
+            memcpy(expbnded_file, dir, dirlen);
+            if (expbnded_file[dirlen - 1] != '/')
+                expbnded_file[dirlen++] = '/';
+            memcpy(expbnded_file + dirlen, file, filelen);
+            expbnded_file[dirlen + filelen] = '\0';
+            execve_with_shell_fbllbbck(mode, expbnded_file, brgv, envp);
+            /* There bre 3 responses to vbrious clbsses of errno:
+             * return immedibtely, continue (especiblly for ENOENT),
              * or continue with "sticky" errno.
              *
              * From exec(3):
              *
-             * If permission is denied for a file (the attempted
+             * If permission is denied for b file (the bttempted
              * execve returned EACCES), these functions will continue
-             * searching the rest of the search path.  If no other
+             * sebrching the rest of the sebrch pbth.  If no other
              * file is found, however, they will return with the
-             * global variable errno set to EACCES.
+             * globbl vbribble errno set to EACCES.
              */
             switch (errno) {
-            case EACCES:
+            cbse EACCES:
                 sticky_errno = errno;
                 /* FALLTHRU */
-            case ENOENT:
-            case ENOTDIR:
+            cbse ENOENT:
+            cbse ENOTDIR:
 #ifdef ELOOP
-            case ELOOP:
+            cbse ELOOP:
 #endif
 #ifdef ESTALE
-            case ESTALE:
+            cbse ESTALE:
 #endif
 #ifdef ENODEV
-            case ENODEV:
+            cbse ENODEV:
 #endif
 #ifdef ETIMEDOUT
-            case ETIMEDOUT:
+            cbse ETIMEDOUT:
 #endif
-                break; /* Try other directories in PATH */
-            default:
+                brebk; /* Try other directories in PATH */
+            defbult:
                 return;
             }
         }
@@ -304,26 +304,26 @@ JDK_execvpe(int mode, const char *file,
 }
 
 /**
- * Child process after a successful fork() or clone().
- * This function must not return, and must be prepared for either all
- * of its address space to be shared with its parent, or to be a copy.
- * It must not modify global variables such as "environ".
+ * Child process bfter b successful fork() or clone().
+ * This function must not return, bnd must be prepbred for either bll
+ * of its bddress spbce to be shbred with its pbrent, or to be b copy.
+ * It must not modify globbl vbribbles such bs "environ".
  */
 int
-childProcess(void *arg)
+childProcess(void *brg)
 {
-    const ChildStuff* p = (const ChildStuff*) arg;
+    const ChildStuff* p = (const ChildStuff*) brg;
 
-    /* Close the parent sides of the pipes.
-       Closing pipe fds here is redundant, since closeDescriptors()
-       would do it anyways, but a little paranoia is a good thing. */
-    if ((closeSafely(p->in[1])   == -1) ||
-        (closeSafely(p->out[0])  == -1) ||
-        (closeSafely(p->err[0])  == -1) ||
-        (closeSafely(p->childenv[0])  == -1) ||
-        (closeSafely(p->childenv[1])  == -1) ||
-        (closeSafely(p->fail[0]) == -1))
-        goto WhyCantJohnnyExec;
+    /* Close the pbrent sides of the pipes.
+       Closing pipe fds here is redundbnt, since closeDescriptors()
+       would do it bnywbys, but b little pbrbnoib is b good thing. */
+    if ((closeSbfely(p->in[1])   == -1) ||
+        (closeSbfely(p->out[0])  == -1) ||
+        (closeSbfely(p->err[0])  == -1) ||
+        (closeSbfely(p->childenv[0])  == -1) ||
+        (closeSbfely(p->childenv[1])  == -1) ||
+        (closeSbfely(p->fbil[0]) == -1))
+        goto WhyCbntJohnnyExec;
 
     /* Give the child sides of the pipes the right fileno's. */
     /* Note: it is possible for in[0] == 0 */
@@ -331,55 +331,55 @@ childProcess(void *arg)
                         STDIN_FILENO) == -1) ||
         (moveDescriptor(p->out[1]!= -1 ? p->out[1] : p->fds[1],
                         STDOUT_FILENO) == -1))
-        goto WhyCantJohnnyExec;
+        goto WhyCbntJohnnyExec;
 
-    if (p->redirectErrorStream) {
-        if ((closeSafely(p->err[1]) == -1) ||
-            (restartableDup2(STDOUT_FILENO, STDERR_FILENO) == -1))
-            goto WhyCantJohnnyExec;
+    if (p->redirectErrorStrebm) {
+        if ((closeSbfely(p->err[1]) == -1) ||
+            (restbrtbbleDup2(STDOUT_FILENO, STDERR_FILENO) == -1))
+            goto WhyCbntJohnnyExec;
     } else {
         if (moveDescriptor(p->err[1] != -1 ? p->err[1] : p->fds[2],
                            STDERR_FILENO) == -1)
-            goto WhyCantJohnnyExec;
+            goto WhyCbntJohnnyExec;
     }
 
-    if (moveDescriptor(p->fail[1], FAIL_FILENO) == -1)
-        goto WhyCantJohnnyExec;
+    if (moveDescriptor(p->fbil[1], FAIL_FILENO) == -1)
+        goto WhyCbntJohnnyExec;
 
     /* close everything */
-    if (closeDescriptors() == 0) { /* failed,  close the old way */
-        int max_fd = (int)sysconf(_SC_OPEN_MAX);
+    if (closeDescriptors() == 0) { /* fbiled,  close the old wby */
+        int mbx_fd = (int)sysconf(_SC_OPEN_MAX);
         int fd;
-        for (fd = FAIL_FILENO + 1; fd < max_fd; fd++)
+        for (fd = FAIL_FILENO + 1; fd < mbx_fd; fd++)
             if (close(fd) == -1 && errno != EBADF)
-                goto WhyCantJohnnyExec;
+                goto WhyCbntJohnnyExec;
     }
 
-    /* change to the new working directory */
+    /* chbnge to the new working directory */
     if (p->pdir != NULL && chdir(p->pdir) < 0)
-        goto WhyCantJohnnyExec;
+        goto WhyCbntJohnnyExec;
 
     if (fcntl(FAIL_FILENO, F_SETFD, FD_CLOEXEC) == -1)
-        goto WhyCantJohnnyExec;
+        goto WhyCbntJohnnyExec;
 
-    JDK_execvpe(p->mode, p->argv[0], p->argv, p->envv);
+    JDK_execvpe(p->mode, p->brgv[0], p->brgv, p->envv);
 
- WhyCantJohnnyExec:
-    /* We used to go to an awful lot of trouble to predict whether the
-     * child would fail, but there is no reliable way to predict the
-     * success of an operation without *trying* it, and there's no way
-     * to try a chdir or exec in the parent.  Instead, all we need is a
-     * way to communicate any failure back to the parent.  Easy; we just
-     * send the errno back to the parent over a pipe in case of failure.
-     * The tricky thing is, how do we communicate the *success* of exec?
-     * We use FD_CLOEXEC together with the fact that a read() on a pipe
-     * yields EOF when the write ends (we have two of them!) are closed.
+ WhyCbntJohnnyExec:
+    /* We used to go to bn bwful lot of trouble to predict whether the
+     * child would fbil, but there is no relibble wby to predict the
+     * success of bn operbtion without *trying* it, bnd there's no wby
+     * to try b chdir or exec in the pbrent.  Instebd, bll we need is b
+     * wby to communicbte bny fbilure bbck to the pbrent.  Ebsy; we just
+     * send the errno bbck to the pbrent over b pipe in cbse of fbilure.
+     * The tricky thing is, how do we communicbte the *success* of exec?
+     * We use FD_CLOEXEC together with the fbct thbt b rebd() on b pipe
+     * yields EOF when the write ends (we hbve two of them!) bre closed.
      */
     {
         int errnum = errno;
-        restartableWrite(FAIL_FILENO, &errnum, sizeof(errnum));
+        restbrtbbleWrite(FAIL_FILENO, &errnum, sizeof(errnum));
     }
     close(FAIL_FILENO);
     _exit(-1);
-    return 0;  /* Suppress warning "no return value from function" */
+    return 0;  /* Suppress wbrning "no return vblue from function" */
 }

@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text.html.parser;
+pbckbge jbvbx.swing.text.html.pbrser;
 
-import java.util.Hashtable;
-import java.util.BitSet;
-import java.io.*;
-import sun.awt.AppContext;
+import jbvb.util.Hbshtbble;
+import jbvb.util.BitSet;
+import jbvb.io.*;
+import sun.bwt.AppContext;
 
 /**
- * An element as described in a DTD using the ELEMENT construct.
- * This is essential the description of a tag. It describes the
- * type, content model, attributes, attribute types etc. It is used
- * to correctly parse a document by the Parser.
+ * An element bs described in b DTD using the ELEMENT construct.
+ * This is essentibl the description of b tbg. It describes the
+ * type, content model, bttributes, bttribute types etc. It is used
+ * to correctly pbrse b document by the Pbrser.
  *
  * @see DTD
  * @see AttributeList
- * @author Arthur van Hoff
+ * @buthor Arthur vbn Hoff
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public final
-class Element implements DTDConstants, Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public finbl
+clbss Element implements DTDConstbnts, Seriblizbble {
 
     /**
      * The element index
@@ -50,27 +50,27 @@ class Element implements DTDConstants, Serializable {
     public int index;
 
     /**
-     * The name of the element
+     * The nbme of the element
      */
-    public String name;
+    public String nbme;
 
     /**
-     * {@code true} if the start tag can be omitted
+     * {@code true} if the stbrt tbg cbn be omitted
      */
-    public boolean oStart;
+    public boolebn oStbrt;
 
     /**
-     * {@code true} if the end tag can be omitted
+     * {@code true} if the end tbg cbn be omitted
      */
-    public boolean oEnd;
+    public boolebn oEnd;
 
     /**
-     * The set of elements that can occur inside the element
+     * The set of elements thbt cbn occur inside the element
      */
     public BitSet inclusions;
 
     /**
-     * The set of elements that must not occur inside the element
+     * The set of elements thbt must not occur inside the element
      */
     public BitSet exclusions;
 
@@ -85,66 +85,66 @@ class Element implements DTDConstants, Serializable {
     public ContentModel content;
 
     /**
-     * The attributes
+     * The bttributes
      */
-    public AttributeList atts;
+    public AttributeList btts;
 
     /**
-     * A field to store user data. Mostly used to store
+     * A field to store user dbtb. Mostly used to store
      * style sheets.
      */
-    public Object data;
+    public Object dbtb;
 
     Element() {
     }
 
     /**
-     * Create a new element.
+     * Crebte b new element.
      *
-     * @param name   the name of the element
-     * @param index  the index
+     * @pbrbm nbme   the nbme of the element
+     * @pbrbm index  the index
      */
-    Element(String name, int index) {
-        this.name = name;
+    Element(String nbme, int index) {
+        this.nbme = nbme;
         this.index = index;
-        if (index > getMaxIndex()) {
+        if (index > getMbxIndex()) {
             AppContext.getAppContext().put(MAX_INDEX_KEY, index);
         }
     }
 
-    private static final Object MAX_INDEX_KEY = new Object();
+    privbte stbtic finbl Object MAX_INDEX_KEY = new Object();
 
-    static int getMaxIndex() {
-        Integer value = (Integer) AppContext.getAppContext().get(MAX_INDEX_KEY);
-        return (value != null)
-                ? value.intValue()
+    stbtic int getMbxIndex() {
+        Integer vblue = (Integer) AppContext.getAppContext().get(MAX_INDEX_KEY);
+        return (vblue != null)
+                ? vblue.intVblue()
                 : 0;
     }
 
     /**
-     * Get the name of the element.
+     * Get the nbme of the element.
      *
-     * @return  the name of the element
+     * @return  the nbme of the element
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Return true if the start tag can be omitted.
+     * Return true if the stbrt tbg cbn be omitted.
      *
-     * @return  {@code true} if the start tag can be omitted
+     * @return  {@code true} if the stbrt tbg cbn be omitted
      */
-    public boolean omitStart() {
-        return oStart;
+    public boolebn omitStbrt() {
+        return oStbrt;
     }
 
     /**
-     * Return true if the end tag can be omitted.
+     * Return true if the end tbg cbn be omitted.
      *
-     * @return  {@code true} if the end tag can be omitted
+     * @return  {@code true} if the end tbg cbn be omitted
      */
-    public boolean omitEnd() {
+    public boolebn omitEnd() {
         return oEnd;
     }
 
@@ -167,12 +167,12 @@ class Element implements DTDConstants, Serializable {
     }
 
     /**
-     * Get the attributes.
+     * Get the bttributes.
      *
      * @return  the {@code AttributeList} specifying the element
      */
     public AttributeList getAttributes() {
-        return atts;
+        return btts;
     }
 
     /**
@@ -189,71 +189,71 @@ class Element implements DTDConstants, Serializable {
      *
      * @return  true if the current element is empty
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return type == EMPTY;
     }
 
     /**
-     * Convert to a string.
+     * Convert to b string.
      *
-     * @return  a string representation for the given {@code Element} instance
+     * @return  b string representbtion for the given {@code Element} instbnce
      */
     public String toString() {
-        return name;
+        return nbme;
     }
 
     /**
-     * Get an attribute by name.
+     * Get bn bttribute by nbme.
      *
-     * @param name  the attribute name
+     * @pbrbm nbme  the bttribute nbme
      *
-     * @return the {@code AttributeList} for the given {@code name}
+     * @return the {@code AttributeList} for the given {@code nbme}
      */
-    public AttributeList getAttribute(String name) {
-        for (AttributeList a = atts ; a != null ; a = a.next) {
-            if (a.name.equals(name)) {
-                return a;
+    public AttributeList getAttribute(String nbme) {
+        for (AttributeList b = btts ; b != null ; b = b.next) {
+            if (b.nbme.equbls(nbme)) {
+                return b;
             }
         }
         return null;
     }
 
     /**
-     * Get an attribute by value.
+     * Get bn bttribute by vblue.
      *
-     * @param value  the string representation of value
+     * @pbrbm vblue  the string representbtion of vblue
      *
-     * @return  the {@code AttributeList} for the given {@code value}
+     * @return  the {@code AttributeList} for the given {@code vblue}
      */
-    public AttributeList getAttributeByValue(String value) {
-        for (AttributeList a = atts ; a != null ; a = a.next) {
-            if ((a.values != null) && a.values.contains(value)) {
-                return a;
+    public AttributeList getAttributeByVblue(String vblue) {
+        for (AttributeList b = btts ; b != null ; b = b.next) {
+            if ((b.vblues != null) && b.vblues.contbins(vblue)) {
+                return b;
             }
         }
         return null;
     }
 
 
-    static Hashtable<String, Integer> contentTypes = new Hashtable<String, Integer>();
+    stbtic Hbshtbble<String, Integer> contentTypes = new Hbshtbble<String, Integer>();
 
-    static {
-        contentTypes.put("CDATA", Integer.valueOf(CDATA));
-        contentTypes.put("RCDATA", Integer.valueOf(RCDATA));
-        contentTypes.put("EMPTY", Integer.valueOf(EMPTY));
-        contentTypes.put("ANY", Integer.valueOf(ANY));
+    stbtic {
+        contentTypes.put("CDATA", Integer.vblueOf(CDATA));
+        contentTypes.put("RCDATA", Integer.vblueOf(RCDATA));
+        contentTypes.put("EMPTY", Integer.vblueOf(EMPTY));
+        contentTypes.put("ANY", Integer.vblueOf(ANY));
     }
 
     /**
-     * Converts {@code nm} to type. Returns appropriate DTDConstants
-     * if the {@code nm} is equal to CDATA, RCDATA, EMPTY or ANY, 0 otherwise.
+     * Converts {@code nm} to type. Returns bppropribte DTDConstbnts
+     * if the {@code nm} is equbl to CDATA, RCDATA, EMPTY or ANY, 0 otherwise.
      *
-     * @param nm a name
-     * @return appropriate DTDConstants if the {@code nm} is equal to
+     * @pbrbm nm b nbme
+     * @return bppropribte DTDConstbnts if the {@code nm} is equbl to
      * CDATA, RCDATA, EMPTY or ANY, 0 otherwise.
      */
-    public static int name2type(String nm) {
-        Integer val = contentTypes.get(nm);
-        return (val != null) ? val.intValue() : 0;
+    public stbtic int nbme2type(String nm) {
+        Integer vbl = contentTypes.get(nm);
+        return (vbl != null) ? vbl.intVblue() : 0;
     }
 }

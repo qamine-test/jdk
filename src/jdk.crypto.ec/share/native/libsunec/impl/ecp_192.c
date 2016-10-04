@@ -1,37 +1,37 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library for prime field curves.
+ * The Originbl Code is the elliptic curve mbth librbry for prime field curves.
  *
- * The Initial Developer of the Original Code is
+ * The Initibl Developer of the Originbl Code is
  * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 2003
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Douglbs Stebilb <douglbs@stebilb.cb>, Sun Microsystems Lbborbtories
  *
  *********************************************************************** */
 
@@ -45,231 +45,231 @@
 
 #define ECP192_DIGITS ECL_CURVE_DIGITS(192)
 
-/* Fast modular reduction for p192 = 2^192 - 2^64 - 1.  a can be r. Uses
- * algorithm 7 from Brown, Hankerson, Lopez, Menezes. Software
- * Implementation of the NIST Elliptic Curves over Prime Fields. */
+/* Fbst modulbr reduction for p192 = 2^192 - 2^64 - 1.  b cbn be r. Uses
+ * blgorithm 7 from Brown, Hbnkerson, Lopez, Menezes. Softwbre
+ * Implementbtion of the NIST Elliptic Curves over Prime Fields. */
 mp_err
-ec_GFp_nistp192_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
+ec_GFp_nistp192_mod(const mp_int *b, mp_int *r, const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
-        mp_size a_used = MP_USED(a);
+        mp_size b_used = MP_USED(b);
         mp_digit r3;
 #ifndef MPI_AMD64_ADD
-        mp_digit carry;
+        mp_digit cbrry;
 #endif
 #ifdef ECL_THIRTY_TWO_BIT
-        mp_digit a5a = 0, a5b = 0, a4a = 0, a4b = 0, a3a = 0, a3b = 0;
-        mp_digit r0a, r0b, r1a, r1b, r2a, r2b;
+        mp_digit b5b = 0, b5b = 0, b4b = 0, b4b = 0, b3b = 0, b3b = 0;
+        mp_digit r0b, r0b, r1b, r1b, r2b, r2b;
 #else
-        mp_digit a5 = 0, a4 = 0, a3 = 0;
+        mp_digit b5 = 0, b4 = 0, b3 = 0;
         mp_digit r0, r1, r2;
 #endif
 
-        /* reduction not needed if a is not larger than field size */
-        if (a_used < ECP192_DIGITS) {
-                if (a == r) {
+        /* reduction not needed if b is not lbrger thbn field size */
+        if (b_used < ECP192_DIGITS) {
+                if (b == r) {
                         return MP_OKAY;
                 }
-                return mp_copy(a, r);
+                return mp_copy(b, r);
         }
 
-        /* for polynomials larger than twice the field size, use regular
+        /* for polynomibls lbrger thbn twice the field size, use regulbr
          * reduction */
-        if (a_used > ECP192_DIGITS*2) {
-                MP_CHECKOK(mp_mod(a, &meth->irr, r));
+        if (b_used > ECP192_DIGITS*2) {
+                MP_CHECKOK(mp_mod(b, &meth->irr, r));
         } else {
-                /* copy out upper words of a */
+                /* copy out upper words of b */
 
 #ifdef ECL_THIRTY_TWO_BIT
 
-                /* in all the math below,
-                 * nXb is most signifiant, nXa is least significant */
-                switch (a_used) {
-                case 12:
-                        a5b = MP_DIGIT(a, 11);
-                case 11:
-                        a5a = MP_DIGIT(a, 10);
-                case 10:
-                        a4b = MP_DIGIT(a, 9);
-                case 9:
-                        a4a = MP_DIGIT(a, 8);
-                case 8:
-                        a3b = MP_DIGIT(a, 7);
-                case 7:
-                        a3a = MP_DIGIT(a, 6);
+                /* in bll the mbth below,
+                 * nXb is most signifibnt, nXb is lebst significbnt */
+                switch (b_used) {
+                cbse 12:
+                        b5b = MP_DIGIT(b, 11);
+                cbse 11:
+                        b5b = MP_DIGIT(b, 10);
+                cbse 10:
+                        b4b = MP_DIGIT(b, 9);
+                cbse 9:
+                        b4b = MP_DIGIT(b, 8);
+                cbse 8:
+                        b3b = MP_DIGIT(b, 7);
+                cbse 7:
+                        b3b = MP_DIGIT(b, 6);
                 }
 
 
-                r2b= MP_DIGIT(a, 5);
-                r2a= MP_DIGIT(a, 4);
-                r1b = MP_DIGIT(a, 3);
-                r1a = MP_DIGIT(a, 2);
-                r0b = MP_DIGIT(a, 1);
-                r0a = MP_DIGIT(a, 0);
+                r2b= MP_DIGIT(b, 5);
+                r2b= MP_DIGIT(b, 4);
+                r1b = MP_DIGIT(b, 3);
+                r1b = MP_DIGIT(b, 2);
+                r0b = MP_DIGIT(b, 1);
+                r0b = MP_DIGIT(b, 0);
 
-                /* implement r = (a2,a1,a0)+(a5,a5,a5)+(a4,a4,0)+(0,a3,a3) */
-                MP_ADD_CARRY(r0a, a3a, r0a, 0,    carry);
-                MP_ADD_CARRY(r0b, a3b, r0b, carry, carry);
-                MP_ADD_CARRY(r1a, a3a, r1a, carry, carry);
-                MP_ADD_CARRY(r1b, a3b, r1b, carry, carry);
-                MP_ADD_CARRY(r2a, a4a, r2a, carry, carry);
-                MP_ADD_CARRY(r2b, a4b, r2b, carry, carry);
-                r3 = carry; carry = 0;
-                MP_ADD_CARRY(r0a, a5a, r0a, 0,     carry);
-                MP_ADD_CARRY(r0b, a5b, r0b, carry, carry);
-                MP_ADD_CARRY(r1a, a5a, r1a, carry, carry);
-                MP_ADD_CARRY(r1b, a5b, r1b, carry, carry);
-                MP_ADD_CARRY(r2a, a5a, r2a, carry, carry);
-                MP_ADD_CARRY(r2b, a5b, r2b, carry, carry);
-                r3 += carry;
-                MP_ADD_CARRY(r1a, a4a, r1a, 0,     carry);
-                MP_ADD_CARRY(r1b, a4b, r1b, carry, carry);
-                MP_ADD_CARRY(r2a,   0, r2a, carry, carry);
-                MP_ADD_CARRY(r2b,   0, r2b, carry, carry);
-                r3 += carry;
+                /* implement r = (b2,b1,b0)+(b5,b5,b5)+(b4,b4,0)+(0,b3,b3) */
+                MP_ADD_CARRY(r0b, b3b, r0b, 0,    cbrry);
+                MP_ADD_CARRY(r0b, b3b, r0b, cbrry, cbrry);
+                MP_ADD_CARRY(r1b, b3b, r1b, cbrry, cbrry);
+                MP_ADD_CARRY(r1b, b3b, r1b, cbrry, cbrry);
+                MP_ADD_CARRY(r2b, b4b, r2b, cbrry, cbrry);
+                MP_ADD_CARRY(r2b, b4b, r2b, cbrry, cbrry);
+                r3 = cbrry; cbrry = 0;
+                MP_ADD_CARRY(r0b, b5b, r0b, 0,     cbrry);
+                MP_ADD_CARRY(r0b, b5b, r0b, cbrry, cbrry);
+                MP_ADD_CARRY(r1b, b5b, r1b, cbrry, cbrry);
+                MP_ADD_CARRY(r1b, b5b, r1b, cbrry, cbrry);
+                MP_ADD_CARRY(r2b, b5b, r2b, cbrry, cbrry);
+                MP_ADD_CARRY(r2b, b5b, r2b, cbrry, cbrry);
+                r3 += cbrry;
+                MP_ADD_CARRY(r1b, b4b, r1b, 0,     cbrry);
+                MP_ADD_CARRY(r1b, b4b, r1b, cbrry, cbrry);
+                MP_ADD_CARRY(r2b,   0, r2b, cbrry, cbrry);
+                MP_ADD_CARRY(r2b,   0, r2b, cbrry, cbrry);
+                r3 += cbrry;
 
-                /* reduce out the carry */
+                /* reduce out the cbrry */
                 while (r3) {
-                        MP_ADD_CARRY(r0a, r3, r0a, 0,     carry);
-                        MP_ADD_CARRY(r0b,  0, r0b, carry, carry);
-                        MP_ADD_CARRY(r1a, r3, r1a, carry, carry);
-                        MP_ADD_CARRY(r1b,  0, r1b, carry, carry);
-                        MP_ADD_CARRY(r2a,  0, r2a, carry, carry);
-                        MP_ADD_CARRY(r2b,  0, r2b, carry, carry);
-                        r3 = carry;
+                        MP_ADD_CARRY(r0b, r3, r0b, 0,     cbrry);
+                        MP_ADD_CARRY(r0b,  0, r0b, cbrry, cbrry);
+                        MP_ADD_CARRY(r1b, r3, r1b, cbrry, cbrry);
+                        MP_ADD_CARRY(r1b,  0, r1b, cbrry, cbrry);
+                        MP_ADD_CARRY(r2b,  0, r2b, cbrry, cbrry);
+                        MP_ADD_CARRY(r2b,  0, r2b, cbrry, cbrry);
+                        r3 = cbrry;
                 }
 
-                /* check for final reduction */
+                /* check for finbl reduction */
                 /*
                  * our field is 0xffffffffffffffff, 0xfffffffffffffffe,
-                 * 0xffffffffffffffff. That means we can only be over and need
+                 * 0xffffffffffffffff. Thbt mebns we cbn only be over bnd need
                  * one more reduction
-                 *  if r2 == 0xffffffffffffffffff (same as r2+1 == 0)
-                 *     and
+                 *  if r2 == 0xffffffffffffffffff (sbme bs r2+1 == 0)
+                 *     bnd
                  *     r1 == 0xffffffffffffffffff   or
-                 *     r1 == 0xfffffffffffffffffe and r0 = 0xfffffffffffffffff
-                 * In all cases, we subtract the field (or add the 2's
-                 * complement value (1,1,0)).  (r0, r1, r2)
+                 *     r1 == 0xfffffffffffffffffe bnd r0 = 0xfffffffffffffffff
+                 * In bll cbses, we subtrbct the field (or bdd the 2's
+                 * complement vblue (1,1,0)).  (r0, r1, r2)
                  */
-                if (((r2b == 0xffffffff) && (r2a == 0xffffffff)
+                if (((r2b == 0xffffffff) && (r2b == 0xffffffff)
                         && (r1b == 0xffffffff) ) &&
-                           ((r1a == 0xffffffff) ||
-                            (r1a == 0xfffffffe) && (r0a == 0xffffffff) &&
+                           ((r1b == 0xffffffff) ||
+                            (r1b == 0xfffffffe) && (r0b == 0xffffffff) &&
                                         (r0b == 0xffffffff)) ) {
-                        /* do a quick subtract */
-                        MP_ADD_CARRY(r0a, 1, r0a, 0, carry);
-                        r0b += carry;
-                        r1a = r1b = r2a = r2b = 0;
+                        /* do b quick subtrbct */
+                        MP_ADD_CARRY(r0b, 1, r0b, 0, cbrry);
+                        r0b += cbrry;
+                        r1b = r1b = r2b = r2b = 0;
                 }
 
                 /* set the lower words of r */
-                if (a != r) {
-                        MP_CHECKOK(s_mp_pad(r, 6));
+                if (b != r) {
+                        MP_CHECKOK(s_mp_pbd(r, 6));
                 }
                 MP_DIGIT(r, 5) = r2b;
-                MP_DIGIT(r, 4) = r2a;
+                MP_DIGIT(r, 4) = r2b;
                 MP_DIGIT(r, 3) = r1b;
-                MP_DIGIT(r, 2) = r1a;
+                MP_DIGIT(r, 2) = r1b;
                 MP_DIGIT(r, 1) = r0b;
-                MP_DIGIT(r, 0) = r0a;
+                MP_DIGIT(r, 0) = r0b;
                 MP_USED(r) = 6;
 #else
-                switch (a_used) {
-                case 6:
-                        a5 = MP_DIGIT(a, 5);
-                case 5:
-                        a4 = MP_DIGIT(a, 4);
-                case 4:
-                        a3 = MP_DIGIT(a, 3);
+                switch (b_used) {
+                cbse 6:
+                        b5 = MP_DIGIT(b, 5);
+                cbse 5:
+                        b4 = MP_DIGIT(b, 4);
+                cbse 4:
+                        b3 = MP_DIGIT(b, 3);
                 }
 
-                r2 = MP_DIGIT(a, 2);
-                r1 = MP_DIGIT(a, 1);
-                r0 = MP_DIGIT(a, 0);
+                r2 = MP_DIGIT(b, 2);
+                r1 = MP_DIGIT(b, 1);
+                r0 = MP_DIGIT(b, 0);
 
-                /* implement r = (a2,a1,a0)+(a5,a5,a5)+(a4,a4,0)+(0,a3,a3) */
+                /* implement r = (b2,b1,b0)+(b5,b5,b5)+(b4,b4,0)+(0,b3,b3) */
 #ifndef MPI_AMD64_ADD
-                MP_ADD_CARRY_ZERO(r0, a3, r0, carry);
-                MP_ADD_CARRY(r1, a3, r1, carry, carry);
-                MP_ADD_CARRY(r2, a4, r2, carry, carry);
-                r3 = carry;
-                MP_ADD_CARRY_ZERO(r0, a5, r0, carry);
-                MP_ADD_CARRY(r1, a5, r1, carry, carry);
-                MP_ADD_CARRY(r2, a5, r2, carry, carry);
-                r3 += carry;
-                MP_ADD_CARRY_ZERO(r1, a4, r1, carry);
-                MP_ADD_CARRY(r2,  0, r2, carry, carry);
-                r3 += carry;
+                MP_ADD_CARRY_ZERO(r0, b3, r0, cbrry);
+                MP_ADD_CARRY(r1, b3, r1, cbrry, cbrry);
+                MP_ADD_CARRY(r2, b4, r2, cbrry, cbrry);
+                r3 = cbrry;
+                MP_ADD_CARRY_ZERO(r0, b5, r0, cbrry);
+                MP_ADD_CARRY(r1, b5, r1, cbrry, cbrry);
+                MP_ADD_CARRY(r2, b5, r2, cbrry, cbrry);
+                r3 += cbrry;
+                MP_ADD_CARRY_ZERO(r1, b4, r1, cbrry);
+                MP_ADD_CARRY(r2,  0, r2, cbrry, cbrry);
+                r3 += cbrry;
 
 #else
-                r2 = MP_DIGIT(a, 2);
-                r1 = MP_DIGIT(a, 1);
-                r0 = MP_DIGIT(a, 0);
+                r2 = MP_DIGIT(b, 2);
+                r1 = MP_DIGIT(b, 1);
+                r0 = MP_DIGIT(b, 0);
 
                 /* set the lower words of r */
-                __asm__ (
+                __bsm__ (
                 "xorq   %3,%3           \n\t"
-                "addq   %4,%0           \n\t"
-                "adcq   %4,%1           \n\t"
-                "adcq   %5,%2           \n\t"
-                "adcq   $0,%3           \n\t"
-                "addq   %6,%0           \n\t"
-                "adcq   %6,%1           \n\t"
-                "adcq   %6,%2           \n\t"
-                "adcq   $0,%3           \n\t"
-                "addq   %5,%1           \n\t"
-                "adcq   $0,%2           \n\t"
-                "adcq   $0,%3           \n\t"
-                : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(r3), "=r"(a3),
-                  "=r"(a4), "=r"(a5)
+                "bddq   %4,%0           \n\t"
+                "bdcq   %4,%1           \n\t"
+                "bdcq   %5,%2           \n\t"
+                "bdcq   $0,%3           \n\t"
+                "bddq   %6,%0           \n\t"
+                "bdcq   %6,%1           \n\t"
+                "bdcq   %6,%2           \n\t"
+                "bdcq   $0,%3           \n\t"
+                "bddq   %5,%1           \n\t"
+                "bdcq   $0,%2           \n\t"
+                "bdcq   $0,%3           \n\t"
+                : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(r3), "=r"(b3),
+                  "=r"(b4), "=r"(b5)
                 : "0" (r0), "1" (r1), "2" (r2), "3" (r3),
-                  "4" (a3), "5" (a4), "6"(a5)
+                  "4" (b3), "5" (b4), "6"(b5)
                 : "%cc" );
 #endif
 
-                /* reduce out the carry */
+                /* reduce out the cbrry */
                 while (r3) {
 #ifndef MPI_AMD64_ADD
-                        MP_ADD_CARRY_ZERO(r0, r3, r0, carry);
-                        MP_ADD_CARRY(r1, r3, r1, carry, carry);
-                        MP_ADD_CARRY(r2,  0, r2, carry, carry);
-                        r3 = carry;
+                        MP_ADD_CARRY_ZERO(r0, r3, r0, cbrry);
+                        MP_ADD_CARRY(r1, r3, r1, cbrry, cbrry);
+                        MP_ADD_CARRY(r2,  0, r2, cbrry, cbrry);
+                        r3 = cbrry;
 #else
-                        a3=r3;
-                        __asm__ (
+                        b3=r3;
+                        __bsm__ (
                         "xorq   %3,%3           \n\t"
-                        "addq   %4,%0           \n\t"
-                        "adcq   %4,%1           \n\t"
-                        "adcq   $0,%2           \n\t"
-                        "adcq   $0,%3           \n\t"
-                        : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(r3), "=r"(a3)
-                        : "0" (r0), "1" (r1), "2" (r2), "3" (r3), "4"(a3)
+                        "bddq   %4,%0           \n\t"
+                        "bdcq   %4,%1           \n\t"
+                        "bdcq   $0,%2           \n\t"
+                        "bdcq   $0,%3           \n\t"
+                        : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(r3), "=r"(b3)
+                        : "0" (r0), "1" (r1), "2" (r2), "3" (r3), "4"(b3)
                         : "%cc" );
 #endif
                 }
 
-                /* check for final reduction */
+                /* check for finbl reduction */
                 /*
                  * our field is 0xffffffffffffffff, 0xfffffffffffffffe,
-                 * 0xffffffffffffffff. That means we can only be over and need
+                 * 0xffffffffffffffff. Thbt mebns we cbn only be over bnd need
                  * one more reduction
-                 *  if r2 == 0xffffffffffffffffff (same as r2+1 == 0)
-                 *     and
+                 *  if r2 == 0xffffffffffffffffff (sbme bs r2+1 == 0)
+                 *     bnd
                  *     r1 == 0xffffffffffffffffff   or
-                 *     r1 == 0xfffffffffffffffffe and r0 = 0xfffffffffffffffff
-                 * In all cases, we subtract the field (or add the 2's
-                 * complement value (1,1,0)).  (r0, r1, r2)
+                 *     r1 == 0xfffffffffffffffffe bnd r0 = 0xfffffffffffffffff
+                 * In bll cbses, we subtrbct the field (or bdd the 2's
+                 * complement vblue (1,1,0)).  (r0, r1, r2)
                  */
                 if (r3 || ((r2 == MP_DIGIT_MAX) &&
                       ((r1 == MP_DIGIT_MAX) ||
                         ((r1 == (MP_DIGIT_MAX-1)) && (r0 == MP_DIGIT_MAX))))) {
-                        /* do a quick subtract */
+                        /* do b quick subtrbct */
                         r0++;
                         r1 = r2 = 0;
                 }
                 /* set the lower words of r */
-                if (a != r) {
-                        MP_CHECKOK(s_mp_pad(r, 3));
+                if (b != r) {
+                        MP_CHECKOK(s_mp_pbd(r, 3));
                 }
                 MP_DIGIT(r, 2) = r2;
                 MP_DIGIT(r, 1) = r1;
@@ -284,66 +284,66 @@ ec_GFp_nistp192_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
 
 #ifndef ECL_THIRTY_TWO_BIT
 /* Compute the sum of 192 bit curves. Do the work in-line since the
- * number of words are so small, we don't want to overhead of mp function
- * calls.  Uses optimized modular reduction for p192.
+ * number of words bre so smbll, we don't wbnt to overhebd of mp function
+ * cblls.  Uses optimized modulbr reduction for p192.
  */
 mp_err
-ec_GFp_nistp192_add(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_nistp192_bdd(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
-        mp_digit a0 = 0, a1 = 0, a2 = 0;
+        mp_digit b0 = 0, b1 = 0, b2 = 0;
         mp_digit r0 = 0, r1 = 0, r2 = 0;
-        mp_digit carry;
+        mp_digit cbrry;
 
-        switch(MP_USED(a)) {
-        case 3:
-                a2 = MP_DIGIT(a,2);
-        case 2:
-                a1 = MP_DIGIT(a,1);
-        case 1:
-                a0 = MP_DIGIT(a,0);
+        switch(MP_USED(b)) {
+        cbse 3:
+                b2 = MP_DIGIT(b,2);
+        cbse 2:
+                b1 = MP_DIGIT(b,1);
+        cbse 1:
+                b0 = MP_DIGIT(b,0);
         }
         switch(MP_USED(b)) {
-        case 3:
+        cbse 3:
                 r2 = MP_DIGIT(b,2);
-        case 2:
+        cbse 2:
                 r1 = MP_DIGIT(b,1);
-        case 1:
+        cbse 1:
                 r0 = MP_DIGIT(b,0);
         }
 
 #ifndef MPI_AMD64_ADD
-        MP_ADD_CARRY_ZERO(a0, r0, r0, carry);
-        MP_ADD_CARRY(a1, r1, r1, carry, carry);
-        MP_ADD_CARRY(a2, r2, r2, carry, carry);
+        MP_ADD_CARRY_ZERO(b0, r0, r0, cbrry);
+        MP_ADD_CARRY(b1, r1, r1, cbrry, cbrry);
+        MP_ADD_CARRY(b2, r2, r2, cbrry, cbrry);
 #else
-        __asm__ (
+        __bsm__ (
                 "xorq   %3,%3           \n\t"
-                "addq   %4,%0           \n\t"
-                "adcq   %5,%1           \n\t"
-                "adcq   %6,%2           \n\t"
-                "adcq   $0,%3           \n\t"
-                : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(carry)
-                : "r" (a0), "r" (a1), "r" (a2), "0" (r0),
+                "bddq   %4,%0           \n\t"
+                "bdcq   %5,%1           \n\t"
+                "bdcq   %6,%2           \n\t"
+                "bdcq   $0,%3           \n\t"
+                : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(cbrry)
+                : "r" (b0), "r" (b1), "r" (b2), "0" (r0),
                   "1" (r1), "2" (r2)
                 : "%cc" );
 #endif
 
-        /* Do quick 'subract' if we've gone over
-         * (add the 2's complement of the curve field) */
-        if (carry || ((r2 == MP_DIGIT_MAX) &&
+        /* Do quick 'subrbct' if we've gone over
+         * (bdd the 2's complement of the curve field) */
+        if (cbrry || ((r2 == MP_DIGIT_MAX) &&
                       ((r1 == MP_DIGIT_MAX) ||
                         ((r1 == (MP_DIGIT_MAX-1)) && (r0 == MP_DIGIT_MAX))))) {
 #ifndef MPI_AMD64_ADD
-                MP_ADD_CARRY_ZERO(r0, 1, r0, carry);
-                MP_ADD_CARRY(r1, 1, r1, carry, carry);
-                MP_ADD_CARRY(r2, 0, r2, carry, carry);
+                MP_ADD_CARRY_ZERO(r0, 1, r0, cbrry);
+                MP_ADD_CARRY(r1, 1, r1, cbrry, cbrry);
+                MP_ADD_CARRY(r2, 0, r2, cbrry, cbrry);
 #else
-                __asm__ (
-                        "addq   $1,%0           \n\t"
-                        "adcq   $1,%1           \n\t"
-                        "adcq   $0,%2           \n\t"
+                __bsm__ (
+                        "bddq   $1,%0           \n\t"
+                        "bdcq   $1,%1           \n\t"
+                        "bdcq   $0,%2           \n\t"
                         : "=r"(r0), "=r"(r1), "=r"(r2)
                         : "0" (r0), "1" (r1), "2" (r2)
                         : "%cc" );
@@ -351,13 +351,13 @@ ec_GFp_nistp192_add(const mp_int *a, const mp_int *b, mp_int *r,
         }
 
 
-        MP_CHECKOK(s_mp_pad(r, 3));
+        MP_CHECKOK(s_mp_pbd(r, 3));
         MP_DIGIT(r, 2) = r2;
         MP_DIGIT(r, 1) = r1;
         MP_DIGIT(r, 0) = r0;
         MP_SIGN(r) = MP_ZPOS;
         MP_USED(r) = 3;
-        s_mp_clamp(r);
+        s_mp_clbmp(r);
 
 
   CLEANUP:
@@ -365,11 +365,11 @@ ec_GFp_nistp192_add(const mp_int *a, const mp_int *b, mp_int *r,
 }
 
 /* Compute the diff of 192 bit curves. Do the work in-line since the
- * number of words are so small, we don't want to overhead of mp function
- * calls.  Uses optimized modular reduction for p192.
+ * number of words bre so smbll, we don't wbnt to overhebd of mp function
+ * cblls.  Uses optimized modulbr reduction for p192.
  */
 mp_err
-ec_GFp_nistp192_sub(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_nistp192_sub(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
@@ -377,21 +377,21 @@ ec_GFp_nistp192_sub(const mp_int *a, const mp_int *b, mp_int *r,
         mp_digit r0 = 0, r1 = 0, r2 = 0;
         mp_digit borrow;
 
-        switch(MP_USED(a)) {
-        case 3:
-                r2 = MP_DIGIT(a,2);
-        case 2:
-                r1 = MP_DIGIT(a,1);
-        case 1:
-                r0 = MP_DIGIT(a,0);
+        switch(MP_USED(b)) {
+        cbse 3:
+                r2 = MP_DIGIT(b,2);
+        cbse 2:
+                r1 = MP_DIGIT(b,1);
+        cbse 1:
+                r0 = MP_DIGIT(b,0);
         }
 
         switch(MP_USED(b)) {
-        case 3:
+        cbse 3:
                 b2 = MP_DIGIT(b,2);
-        case 2:
+        cbse 2:
                 b1 = MP_DIGIT(b,1);
-        case 1:
+        cbse 1:
                 b0 = MP_DIGIT(b,0);
         }
 
@@ -400,27 +400,27 @@ ec_GFp_nistp192_sub(const mp_int *a, const mp_int *b, mp_int *r,
         MP_SUB_BORROW(r1, b1, r1, borrow, borrow);
         MP_SUB_BORROW(r2, b2, r2, borrow, borrow);
 #else
-        __asm__ (
+        __bsm__ (
                 "xorq   %3,%3           \n\t"
                 "subq   %4,%0           \n\t"
                 "sbbq   %5,%1           \n\t"
                 "sbbq   %6,%2           \n\t"
-                "adcq   $0,%3           \n\t"
+                "bdcq   $0,%3           \n\t"
                 : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(borrow)
                 : "r" (b0), "r" (b1), "r" (b2), "0" (r0),
                   "1" (r1), "2" (r2)
                 : "%cc" );
 #endif
 
-        /* Do quick 'add' if we've gone under 0
-         * (subtract the 2's complement of the curve field) */
+        /* Do quick 'bdd' if we've gone under 0
+         * (subtrbct the 2's complement of the curve field) */
         if (borrow) {
 #ifndef MPI_AMD64_ADD
                 MP_SUB_BORROW(r0, 1, r0, 0,     borrow);
                 MP_SUB_BORROW(r1, 1, r1, borrow, borrow);
                 MP_SUB_BORROW(r2,  0, r2, borrow, borrow);
 #else
-                __asm__ (
+                __bsm__ (
                         "subq   $1,%0           \n\t"
                         "sbbq   $1,%1           \n\t"
                         "sbbq   $0,%2           \n\t"
@@ -430,13 +430,13 @@ ec_GFp_nistp192_sub(const mp_int *a, const mp_int *b, mp_int *r,
 #endif
         }
 
-        MP_CHECKOK(s_mp_pad(r, 3));
+        MP_CHECKOK(s_mp_pbd(r, 3));
         MP_DIGIT(r, 2) = r2;
         MP_DIGIT(r, 1) = r1;
         MP_DIGIT(r, 0) = r0;
         MP_SIGN(r) = MP_ZPOS;
         MP_USED(r) = 3;
-        s_mp_clamp(r);
+        s_mp_clbmp(r);
 
   CLEANUP:
         return res;
@@ -444,72 +444,72 @@ ec_GFp_nistp192_sub(const mp_int *a, const mp_int *b, mp_int *r,
 
 #endif
 
-/* Compute the square of polynomial a, reduce modulo p192. Store the
- * result in r.  r could be a.  Uses optimized modular reduction for p192.
+/* Compute the squbre of polynomibl b, reduce modulo p192. Store the
+ * result in r.  r could be b.  Uses optimized modulbr reduction for p192.
  */
 mp_err
-ec_GFp_nistp192_sqr(const mp_int *a, mp_int *r, const GFMethod *meth)
+ec_GFp_nistp192_sqr(const mp_int *b, mp_int *r, const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
 
-        MP_CHECKOK(mp_sqr(a, r));
+        MP_CHECKOK(mp_sqr(b, r));
         MP_CHECKOK(ec_GFp_nistp192_mod(r, r, meth));
   CLEANUP:
         return res;
 }
 
-/* Compute the product of two polynomials a and b, reduce modulo p192.
- * Store the result in r.  r could be a or b; a could be b.  Uses
- * optimized modular reduction for p192. */
+/* Compute the product of two polynomibls b bnd b, reduce modulo p192.
+ * Store the result in r.  r could be b or b; b could be b.  Uses
+ * optimized modulbr reduction for p192. */
 mp_err
-ec_GFp_nistp192_mul(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_nistp192_mul(const mp_int *b, const mp_int *b, mp_int *r,
                                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
 
-        MP_CHECKOK(mp_mul(a, b, r));
+        MP_CHECKOK(mp_mul(b, b, r));
         MP_CHECKOK(ec_GFp_nistp192_mod(r, r, meth));
   CLEANUP:
         return res;
 }
 
-/* Divides two field elements. If a is NULL, then returns the inverse of
+/* Divides two field elements. If b is NULL, then returns the inverse of
  * b. */
 mp_err
-ec_GFp_nistp192_div(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_nistp192_div(const mp_int *b, const mp_int *b, mp_int *r,
                    const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
         mp_int t;
 
-        /* If a is NULL, then return the inverse of b, otherwise return a/b. */
-        if (a == NULL) {
+        /* If b is NULL, then return the inverse of b, otherwise return b/b. */
+        if (b == NULL) {
                 return  mp_invmod(b, &meth->irr, r);
         } else {
-                /* MPI doesn't support divmod, so we implement it using invmod and
+                /* MPI doesn't support divmod, so we implement it using invmod bnd
                  * mulmod. */
                 MP_CHECKOK(mp_init(&t, FLAG(b)));
                 MP_CHECKOK(mp_invmod(b, &meth->irr, &t));
-                MP_CHECKOK(mp_mul(a, &t, r));
+                MP_CHECKOK(mp_mul(b, &t, r));
                 MP_CHECKOK(ec_GFp_nistp192_mod(r, r, meth));
           CLEANUP:
-                mp_clear(&t);
+                mp_clebr(&t);
                 return res;
         }
 }
 
-/* Wire in fast field arithmetic and precomputation of base point for
- * named curves. */
+/* Wire in fbst field brithmetic bnd precomputbtion of bbse point for
+ * nbmed curves. */
 mp_err
-ec_group_set_gfp192(ECGroup *group, ECCurveName name)
+ec_group_set_gfp192(ECGroup *group, ECCurveNbme nbme)
 {
-        if (name == ECCurve_NIST_P192) {
+        if (nbme == ECCurve_NIST_P192) {
                 group->meth->field_mod = &ec_GFp_nistp192_mod;
                 group->meth->field_mul = &ec_GFp_nistp192_mul;
                 group->meth->field_sqr = &ec_GFp_nistp192_sqr;
                 group->meth->field_div = &ec_GFp_nistp192_div;
 #ifndef ECL_THIRTY_TWO_BIT
-                group->meth->field_add = &ec_GFp_nistp192_add;
+                group->meth->field_bdd = &ec_GFp_nistp192_bdd;
                 group->meth->field_sub = &ec_GFp_nistp192_sub;
 #endif
         }

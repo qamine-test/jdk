@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import com.sun.jmx.mbeanserver.Util;
-import java.io.Serializable;
-import java.lang.management.RuntimeMXBean;
-import java.lang.management.ManagementFactory;
-import java.util.List;
-import java.util.Map;
+import com.sun.jmx.mbebnserver.Util;
+import jbvb.io.Seriblizbble;
+import jbvb.lbng.mbnbgement.RuntimeMXBebn;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
+import jbvbx.mbnbgement.MBebnServer;
 import com.sun.jmx.snmp.SnmpString;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
+import com.sun.jmx.snmp.bgent.SnmpMib;
 
-import sun.management.snmp.jvmmib.JvmRuntimeMBean;
-import sun.management.snmp.jvmmib.EnumJvmRTBootClassPathSupport;
-import sun.management.snmp.util.JvmContextFactory;
+import sun.mbnbgement.snmp.jvmmib.JvmRuntimeMBebn;
+import sun.mbnbgement.snmp.jvmmib.EnumJvmRTBootClbssPbthSupport;
+import sun.mbnbgement.snmp.util.JvmContextFbctory;
 
 /**
- * The class is used for implementing the "JvmRuntime" group.
+ * The clbss is used for implementing the "JvmRuntime" group.
  */
-public class JvmRuntimeImpl implements JvmRuntimeMBean {
+public clbss JvmRuntimeImpl implements JvmRuntimeMBebn {
 
     /**
-     * Variable for storing the value of "JvmRTBootClassPathSupport".
+     * Vbribble for storing the vblue of "JvmRTBootClbssPbthSupport".
      *
-     * "Indicates whether the Java virtual machine supports the
-     * boot class path mechanism used by the system class loader
-     * to search for class files.
+     * "Indicbtes whether the Jbvb virtubl mbchine supports the
+     * boot clbss pbth mechbnism used by the system clbss lobder
+     * to sebrch for clbss files.
      *
-     * See java.management.RuntimeMXBean.isBootClassPathSupported()
+     * See jbvb.mbnbgement.RuntimeMXBebn.isBootClbssPbthSupported()
      * "
      *
      */
-    static final EnumJvmRTBootClassPathSupport
-        JvmRTBootClassPathSupportSupported =
-        new EnumJvmRTBootClassPathSupport("supported");
-    static final EnumJvmRTBootClassPathSupport
-        JvmRTBootClassPathSupportUnSupported =
-        new EnumJvmRTBootClassPathSupport("unsupported");
+    stbtic finbl EnumJvmRTBootClbssPbthSupport
+        JvmRTBootClbssPbthSupportSupported =
+        new EnumJvmRTBootClbssPbthSupport("supported");
+    stbtic finbl EnumJvmRTBootClbssPbthSupport
+        JvmRTBootClbssPbthSupportUnSupported =
+        new EnumJvmRTBootClbssPbthSupport("unsupported");
 
     /**
      * Constructor for the "JvmRuntime" group.
-     * If the group contains a table, the entries created through an SNMP SET
-     * will not be registered in Java DMK.
+     * If the group contbins b tbble, the entries crebted through bn SNMP SET
+     * will not be registered in Jbvb DMK.
      */
     public JvmRuntimeImpl(SnmpMib myMib) {
 
@@ -82,205 +82,205 @@ public class JvmRuntimeImpl implements JvmRuntimeMBean {
 
     /**
      * Constructor for the "JvmRuntime" group.
-     * If the group contains a table, the entries created through an SNMP SET
-     * will be AUTOMATICALLY REGISTERED in Java DMK.
+     * If the group contbins b tbble, the entries crebted through bn SNMP SET
+     * will be AUTOMATICALLY REGISTERED in Jbvb DMK.
      */
-    public JvmRuntimeImpl(SnmpMib myMib, MBeanServer server) {
+    public JvmRuntimeImpl(SnmpMib myMib, MBebnServer server) {
 
     }
 
-    static RuntimeMXBean getRuntimeMXBean() {
-        return ManagementFactory.getRuntimeMXBean();
+    stbtic RuntimeMXBebn getRuntimeMXBebn() {
+        return MbnbgementFbctory.getRuntimeMXBebn();
     }
 
-    private static String validDisplayStringTC(String str) {
-        return JVM_MANAGEMENT_MIB_IMPL.validDisplayStringTC(str);
+    privbte stbtic String vblidDisplbyStringTC(String str) {
+        return JVM_MANAGEMENT_MIB_IMPL.vblidDisplbyStringTC(str);
     }
 
-    private static String validPathElementTC(String str) {
-        return JVM_MANAGEMENT_MIB_IMPL.validPathElementTC(str);
+    privbte stbtic String vblidPbthElementTC(String str) {
+        return JVM_MANAGEMENT_MIB_IMPL.vblidPbthElementTC(str);
     }
 
-    private static String validJavaObjectNameTC(String str) {
-        return JVM_MANAGEMENT_MIB_IMPL.validJavaObjectNameTC(str);
+    privbte stbtic String vblidJbvbObjectNbmeTC(String str) {
+        return JVM_MANAGEMENT_MIB_IMPL.vblidJbvbObjectNbmeTC(str);
     }
 
 
-    static String[] splitPath(String path) {
-        final String[] items = path.split(java.io.File.pathSeparator);
+    stbtic String[] splitPbth(String pbth) {
+        finbl String[] items = pbth.split(jbvb.io.File.pbthSepbrbtor);
         // for (int i=0;i<items.length;i++) {
-        //    items[i]=validPathElementTC(items[i]);
+        //    items[i]=vblidPbthElementTC(items[i]);
         // }
         return items;
     }
 
-    static String[] getClassPath(Object userData) {
-        final Map<Object, Object> m =
-                Util.cast((userData instanceof Map)?userData:null);
-        final String tag = "JvmRuntime.getClassPath";
+    stbtic String[] getClbssPbth(Object userDbtb) {
+        finbl Mbp<Object, Object> m =
+                Util.cbst((userDbtb instbnceof Mbp)?userDbtb:null);
+        finbl String tbg = "JvmRuntime.getClbssPbth";
 
-        // If the list is in the cache, simply return it.
+        // If the list is in the cbche, simply return it.
         //
         if (m != null) {
-            final String[] cached = (String[])m.get(tag);
-            if (cached != null) return cached;
+            finbl String[] cbched = (String[])m.get(tbg);
+            if (cbched != null) return cbched;
         }
 
-        final String[] args = splitPath(getRuntimeMXBean().getClassPath());
+        finbl String[] brgs = splitPbth(getRuntimeMXBebn().getClbssPbth());
 
-        if (m != null) m.put(tag,args);
-        return args;
+        if (m != null) m.put(tbg,brgs);
+        return brgs;
     }
 
-    static String[] getBootClassPath(Object userData) {
-        if (!getRuntimeMXBean().isBootClassPathSupported())
+    stbtic String[] getBootClbssPbth(Object userDbtb) {
+        if (!getRuntimeMXBebn().isBootClbssPbthSupported())
         return new String[0];
 
-        final Map<Object, Object> m =
-                Util.cast((userData instanceof Map)?userData:null);
-        final String tag = "JvmRuntime.getBootClassPath";
+        finbl Mbp<Object, Object> m =
+                Util.cbst((userDbtb instbnceof Mbp)?userDbtb:null);
+        finbl String tbg = "JvmRuntime.getBootClbssPbth";
 
-        // If the list is in the cache, simply return it.
+        // If the list is in the cbche, simply return it.
         //
         if (m != null) {
-            final String[] cached = (String[])m.get(tag);
-            if (cached != null) return cached;
+            finbl String[] cbched = (String[])m.get(tbg);
+            if (cbched != null) return cbched;
         }
 
-        final String[] args = splitPath(getRuntimeMXBean().getBootClassPath());
+        finbl String[] brgs = splitPbth(getRuntimeMXBebn().getBootClbssPbth());
 
-        if (m != null) m.put(tag,args);
-        return args;
+        if (m != null) m.put(tbg,brgs);
+        return brgs;
     }
 
-    static String[] getLibraryPath(Object userData) {
-        final Map<Object, Object> m =
-                Util.cast((userData instanceof Map)?userData:null);
-        final String tag = "JvmRuntime.getLibraryPath";
+    stbtic String[] getLibrbryPbth(Object userDbtb) {
+        finbl Mbp<Object, Object> m =
+                Util.cbst((userDbtb instbnceof Mbp)?userDbtb:null);
+        finbl String tbg = "JvmRuntime.getLibrbryPbth";
 
-        // If the list is in the cache, simply return it.
+        // If the list is in the cbche, simply return it.
         //
         if (m != null) {
-            final String[] cached = (String[])m.get(tag);
-            if (cached != null) return cached;
+            finbl String[] cbched = (String[])m.get(tbg);
+            if (cbched != null) return cbched;
         }
 
-        final String[] args = splitPath(getRuntimeMXBean().getLibraryPath());
+        finbl String[] brgs = splitPbth(getRuntimeMXBebn().getLibrbryPbth());
 
-        if (m != null) m.put(tag,args);
-        return args;
+        if (m != null) m.put(tbg,brgs);
+        return brgs;
     }
 
-    static String[] getInputArguments(Object userData) {
-        final Map<Object, Object> m =
-                Util.cast((userData instanceof Map)?userData:null);
-        final String tag = "JvmRuntime.getInputArguments";
+    stbtic String[] getInputArguments(Object userDbtb) {
+        finbl Mbp<Object, Object> m =
+                Util.cbst((userDbtb instbnceof Mbp)?userDbtb:null);
+        finbl String tbg = "JvmRuntime.getInputArguments";
 
-        // If the list is in the cache, simply return it.
+        // If the list is in the cbche, simply return it.
         //
         if (m != null) {
-            final String[] cached = (String[])m.get(tag);
-            if (cached != null) return cached;
+            finbl String[] cbched = (String[])m.get(tbg);
+            if (cbched != null) return cbched;
         }
 
-        final List<String> l = getRuntimeMXBean().getInputArguments();
-        final String[] args = l.toArray(new String[0]);
+        finbl List<String> l = getRuntimeMXBebn().getInputArguments();
+        finbl String[] brgs = l.toArrby(new String[0]);
 
-        if (m != null) m.put(tag,args);
-        return args;
+        if (m != null) m.put(tbg,brgs);
+        return brgs;
     }
 
     /**
-     * Getter for the "JvmRTSpecVendor" variable.
+     * Getter for the "JvmRTSpecVendor" vbribble.
      */
-    public String getJvmRTSpecVendor() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().getSpecVendor());
+    public String getJvmRTSpecVendor() throws SnmpStbtusException {
+        return vblidDisplbyStringTC(getRuntimeMXBebn().getSpecVendor());
     }
 
     /**
-     * Getter for the "JvmRTSpecName" variable.
+     * Getter for the "JvmRTSpecNbme" vbribble.
      */
-    public String getJvmRTSpecName() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().getSpecName());
+    public String getJvmRTSpecNbme() throws SnmpStbtusException {
+        return vblidDisplbyStringTC(getRuntimeMXBebn().getSpecNbme());
     }
 
     /**
-     * Getter for the "JvmRTVersion" variable.
+     * Getter for the "JvmRTVersion" vbribble.
      */
-    public String getJvmRTVMVersion() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().getVmVersion());
+    public String getJvmRTVMVersion() throws SnmpStbtusException {
+        return vblidDisplbyStringTC(getRuntimeMXBebn().getVmVersion());
     }
 
     /**
-     * Getter for the "JvmRTVendor" variable.
+     * Getter for the "JvmRTVendor" vbribble.
      */
-    public String getJvmRTVMVendor() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().getVmVendor());
+    public String getJvmRTVMVendor() throws SnmpStbtusException {
+        return vblidDisplbyStringTC(getRuntimeMXBebn().getVmVendor());
     }
 
     /**
-     * Getter for the "JvmRTManagementSpecVersion" variable.
+     * Getter for the "JvmRTMbnbgementSpecVersion" vbribble.
      */
-    public String getJvmRTManagementSpecVersion() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().
-                                    getManagementSpecVersion());
+    public String getJvmRTMbnbgementSpecVersion() throws SnmpStbtusException {
+        return vblidDisplbyStringTC(getRuntimeMXBebn().
+                                    getMbnbgementSpecVersion());
     }
 
     /**
-     * Getter for the "JvmRTVMName" variable.
+     * Getter for the "JvmRTVMNbme" vbribble.
      */
-    public String getJvmRTVMName() throws SnmpStatusException {
-        return validJavaObjectNameTC(getRuntimeMXBean().getVmName());
+    public String getJvmRTVMNbme() throws SnmpStbtusException {
+        return vblidJbvbObjectNbmeTC(getRuntimeMXBebn().getVmNbme());
     }
 
 
     /**
-     * Getter for the "JvmRTInputArgsCount" variable.
+     * Getter for the "JvmRTInputArgsCount" vbribble.
      */
-    public Integer getJvmRTInputArgsCount() throws SnmpStatusException {
+    public Integer getJvmRTInputArgsCount() throws SnmpStbtusException {
 
-        final String[] args = getInputArguments(JvmContextFactory.
-                                                getUserData());
-        return args.length;
+        finbl String[] brgs = getInputArguments(JvmContextFbctory.
+                                                getUserDbtb());
+        return brgs.length;
     }
 
     /**
-     * Getter for the "JvmRTBootClassPathSupport" variable.
+     * Getter for the "JvmRTBootClbssPbthSupport" vbribble.
      */
-    public EnumJvmRTBootClassPathSupport getJvmRTBootClassPathSupport()
-        throws SnmpStatusException {
-        if(getRuntimeMXBean().isBootClassPathSupported())
-            return JvmRTBootClassPathSupportSupported;
+    public EnumJvmRTBootClbssPbthSupport getJvmRTBootClbssPbthSupport()
+        throws SnmpStbtusException {
+        if(getRuntimeMXBebn().isBootClbssPbthSupported())
+            return JvmRTBootClbssPbthSupportSupported;
         else
-            return JvmRTBootClassPathSupportUnSupported;
+            return JvmRTBootClbssPbthSupportUnSupported;
     }
 
     /**
-     * Getter for the "JvmRTUptimeMs" variable.
+     * Getter for the "JvmRTUptimeMs" vbribble.
      */
-    public Long getJvmRTUptimeMs() throws SnmpStatusException {
-        return getRuntimeMXBean().getUptime();
+    public Long getJvmRTUptimeMs() throws SnmpStbtusException {
+        return getRuntimeMXBebn().getUptime();
     }
 
     /**
-     * Getter for the "JvmRTStartTimeMs" variable.
+     * Getter for the "JvmRTStbrtTimeMs" vbribble.
      */
-    public Long getJvmRTStartTimeMs() throws SnmpStatusException {
-        return getRuntimeMXBean().getStartTime();
+    public Long getJvmRTStbrtTimeMs() throws SnmpStbtusException {
+        return getRuntimeMXBebn().getStbrtTime();
     }
 
     /**
-     * Getter for the "JvmRTSpecVersion" variable.
+     * Getter for the "JvmRTSpecVersion" vbribble.
      */
-    public String getJvmRTSpecVersion() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().getSpecVersion());
+    public String getJvmRTSpecVersion() throws SnmpStbtusException {
+        return vblidDisplbyStringTC(getRuntimeMXBebn().getSpecVersion());
     }
 
     /**
-     * Getter for the "JvmRTName" variable.
+     * Getter for the "JvmRTNbme" vbribble.
      */
-    public String getJvmRTName() throws SnmpStatusException {
-        return validDisplayStringTC(getRuntimeMXBean().getName());
+    public String getJvmRTNbme() throws SnmpStbtusException {
+        return vblidDisplbyStringTC(getRuntimeMXBebn().getNbme());
     }
 
 }

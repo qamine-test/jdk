@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.Point;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Point;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.concurrent.locks.Lock;
+import jbvb.util.concurrent.locks.RebdWriteLock;
+import jbvb.util.concurrent.locks.ReentrbntRebdWriteLock;
 
 /* !!!! WARNING !!!!
- * This class has to be in sync with
- * src/solaris/classes/sun/awt/windows/ThemeReader.java
- * while we continue to build WinL&F on solaris
+ * This clbss hbs to be in sync with
+ * src/solbris/clbsses/sun/bwt/windows/ThemeRebder.jbvb
+ * while we continue to build WinL&F on solbris
  */
 
 
 /**
  * Implements Theme Support for Windows XP.
  *
- * @author Sergey Salishev
- * @author Bino George
- * @author Igor Kushnirskiy
+ * @buthor Sergey Sblishev
+ * @buthor Bino George
+ * @buthor Igor Kushnirskiy
  */
-public final class ThemeReader {
+public finbl clbss ThemeRebder {
 
-    private static final Map<String, Long> widgetToTheme = new HashMap<>();
+    privbte stbtic finbl Mbp<String, Long> widgetToTheme = new HbshMbp<>();
 
-    // lock for the cache
-    // reading should be done with readLock
+    // lock for the cbche
+    // rebding should be done with rebdLock
     // writing with writeLock
-    private static final ReadWriteLock readWriteLock =
-        new ReentrantReadWriteLock();
-    private static final Lock readLock = readWriteLock.readLock();
-    private static final Lock writeLock = readWriteLock.writeLock();
-    private static volatile boolean valid = false;
+    privbte stbtic finbl RebdWriteLock rebdWriteLock =
+        new ReentrbntRebdWriteLock();
+    privbte stbtic finbl Lock rebdLock = rebdWriteLock.rebdLock();
+    privbte stbtic finbl Lock writeLock = rebdWriteLock.writeLock();
+    privbte stbtic volbtile boolebn vblid = fblse;
 
-    static volatile boolean xpStyleEnabled;
+    stbtic volbtile boolebn xpStyleEnbbled;
 
-    static void flush() {
-        // Could be called on Toolkit thread, so do not try to acquire locks
-        // to avoid deadlock with theme initialization
-        valid = false;
+    stbtic void flush() {
+        // Could be cblled on Toolkit threbd, so do not try to bcquire locks
+        // to bvoid debdlock with theme initiblizbtion
+        vblid = fblse;
     }
 
-    public static native boolean isThemed();
+    public stbtic nbtive boolebn isThemed();
 
-    public static boolean isXPStyleEnabled() {
-        return xpStyleEnabled;
+    public stbtic boolebn isXPStyleEnbbled() {
+        return xpStyleEnbbled;
     }
 
-    // this should be called only with writeLock held
-    private static Long getThemeImpl(String widget) {
+    // this should be cblled only with writeLock held
+    privbte stbtic Long getThemeImpl(String widget) {
         Long theme = widgetToTheme.get(widget);
         if (theme == null) {
             int i = widget.indexOf("::");
             if (i > 0) {
-                // We're using the syntax "subAppName::controlName" here, as used by msstyles.
-                // See documentation for SetWindowTheme on MSDN.
+                // We're using the syntbx "subAppNbme::controlNbme" here, bs used by msstyles.
+                // See documentbtion for SetWindowTheme on MSDN.
                 setWindowTheme(widget.substring(0, i));
                 theme = openTheme(widget.substring(i+2));
                 setWindowTheme(null);
@@ -95,209 +95,209 @@ public final class ThemeReader {
         return theme;
     }
 
-    // returns theme value
-    // this method should be invoked with readLock locked
-    private static Long getTheme(String widget) {
-        if (!valid) {
-            readLock.unlock();
+    // returns theme vblue
+    // this method should be invoked with rebdLock locked
+    privbte stbtic Long getTheme(String widget) {
+        if (!vblid) {
+            rebdLock.unlock();
             writeLock.lock();
             try {
-                if (!valid) {
+                if (!vblid) {
                     // Close old themes.
-                    for (Long value : widgetToTheme.values()) {
-                        closeTheme(value);
+                    for (Long vblue : widgetToTheme.vblues()) {
+                        closeTheme(vblue);
                     }
-                    widgetToTheme.clear();
-                    valid = true;
+                    widgetToTheme.clebr();
+                    vblid = true;
                 }
-            } finally {
-                readLock.lock();
+            } finblly {
+                rebdLock.lock();
                 writeLock.unlock();
             }
         }
 
-        // mostly copied from the javadoc for ReentrantReadWriteLock
+        // mostly copied from the jbvbdoc for ReentrbntRebdWriteLock
         Long theme = widgetToTheme.get(widget);
         if (theme == null) {
-            readLock.unlock();
+            rebdLock.unlock();
             writeLock.lock();
             try {
                 theme = getThemeImpl(widget);
-            } finally {
-                readLock.lock();
-                writeLock.unlock();// Unlock write, still hold read
+            } finblly {
+                rebdLock.lock();
+                writeLock.unlock();// Unlock write, still hold rebd
             }
         }
         return theme;
     }
 
-    private static native void paintBackground(int[] buffer, long theme,
-                                               int part, int state, int x,
+    privbte stbtic nbtive void pbintBbckground(int[] buffer, long theme,
+                                               int pbrt, int stbte, int x,
                                                int y, int w, int h, int stride);
 
-    public static void paintBackground(int[] buffer, String widget,
-           int part, int state, int x, int y, int w, int h, int stride) {
-        readLock.lock();
+    public stbtic void pbintBbckground(int[] buffer, String widget,
+           int pbrt, int stbte, int x, int y, int w, int h, int stride) {
+        rebdLock.lock();
         try {
-            paintBackground(buffer, getTheme(widget), part, state, x, y, w, h, stride);
-        } finally {
-            readLock.unlock();
+            pbintBbckground(buffer, getTheme(widget), pbrt, stbte, x, y, w, h, stride);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 
-    private static native Insets getThemeMargins(long theme, int part,
-                                                 int state, int marginType);
+    privbte stbtic nbtive Insets getThemeMbrgins(long theme, int pbrt,
+                                                 int stbte, int mbrginType);
 
-    public static Insets getThemeMargins(String widget, int part, int state, int marginType) {
-        readLock.lock();
+    public stbtic Insets getThemeMbrgins(String widget, int pbrt, int stbte, int mbrginType) {
+        rebdLock.lock();
         try {
-            return getThemeMargins(getTheme(widget), part, state, marginType);
-        } finally {
-            readLock.unlock();
+            return getThemeMbrgins(getTheme(widget), pbrt, stbte, mbrginType);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 
-    private static native boolean isThemePartDefined(long theme, int part, int state);
+    privbte stbtic nbtive boolebn isThemePbrtDefined(long theme, int pbrt, int stbte);
 
-    public static boolean isThemePartDefined(String widget, int part, int state) {
-        readLock.lock();
+    public stbtic boolebn isThemePbrtDefined(String widget, int pbrt, int stbte) {
+        rebdLock.lock();
         try {
-            return isThemePartDefined(getTheme(widget), part, state);
-        } finally {
-            readLock.unlock();
+            return isThemePbrtDefined(getTheme(widget), pbrt, stbte);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 
-    private static native Color getColor(long theme, int part, int state,
+    privbte stbtic nbtive Color getColor(long theme, int pbrt, int stbte,
                                          int property);
 
-    public static Color getColor(String widget, int part, int state, int property) {
-        readLock.lock();
+    public stbtic Color getColor(String widget, int pbrt, int stbte, int property) {
+        rebdLock.lock();
         try {
-            return getColor(getTheme(widget), part, state, property);
-        } finally {
-            readLock.unlock();
+            return getColor(getTheme(widget), pbrt, stbte, property);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 
-    private static native int getInt(long theme, int part, int state,
+    privbte stbtic nbtive int getInt(long theme, int pbrt, int stbte,
                                      int property);
 
-    public static int getInt(String widget, int part, int state, int property) {
-        readLock.lock();
+    public stbtic int getInt(String widget, int pbrt, int stbte, int property) {
+        rebdLock.lock();
         try {
-            return getInt(getTheme(widget), part, state, property);
-        } finally {
-            readLock.unlock();
+            return getInt(getTheme(widget), pbrt, stbte, property);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 
-    private static native int getEnum(long theme, int part, int state,
+    privbte stbtic nbtive int getEnum(long theme, int pbrt, int stbte,
                                       int property);
 
-    public static int getEnum(String widget, int part, int state, int property) {
-        readLock.lock();
+    public stbtic int getEnum(String widget, int pbrt, int stbte, int property) {
+        rebdLock.lock();
         try {
-            return getEnum(getTheme(widget), part, state, property);
-        } finally {
-            readLock.unlock();
+            return getEnum(getTheme(widget), pbrt, stbte, property);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 
-    private static native boolean getBoolean(long theme, int part, int state,
+    privbte stbtic nbtive boolebn getBoolebn(long theme, int pbrt, int stbte,
                                              int property);
 
-    public static boolean getBoolean(String widget, int part, int state,
+    public stbtic boolebn getBoolebn(String widget, int pbrt, int stbte,
                                      int property) {
-        readLock.lock();
+        rebdLock.lock();
         try {
-            return getBoolean(getTheme(widget), part, state, property);
-        } finally {
-            readLock.unlock();
+            return getBoolebn(getTheme(widget), pbrt, stbte, property);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 
-    private static native boolean getSysBoolean(long theme, int property);
+    privbte stbtic nbtive boolebn getSysBoolebn(long theme, int property);
 
-    public static boolean getSysBoolean(String widget, int property) {
-        readLock.lock();
+    public stbtic boolebn getSysBoolebn(String widget, int property) {
+        rebdLock.lock();
         try {
-            return getSysBoolean(getTheme(widget), property);
-        } finally {
-            readLock.unlock();
+            return getSysBoolebn(getTheme(widget), property);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 
-    private static native Point getPoint(long theme, int part, int state,
+    privbte stbtic nbtive Point getPoint(long theme, int pbrt, int stbte,
                                          int property);
 
-    public static Point getPoint(String widget, int part, int state, int property) {
-        readLock.lock();
+    public stbtic Point getPoint(String widget, int pbrt, int stbte, int property) {
+        rebdLock.lock();
         try {
-            return getPoint(getTheme(widget), part, state, property);
-        } finally {
-            readLock.unlock();
+            return getPoint(getTheme(widget), pbrt, stbte, property);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 
-    private static native Dimension getPosition(long theme, int part, int state,
+    privbte stbtic nbtive Dimension getPosition(long theme, int pbrt, int stbte,
                                                 int property);
 
-    public static Dimension getPosition(String widget, int part, int state,
+    public stbtic Dimension getPosition(String widget, int pbrt, int stbte,
                                         int property) {
-        readLock.lock();
+        rebdLock.lock();
         try {
-            return getPosition(getTheme(widget), part,state,property);
-        } finally {
-            readLock.unlock();
+            return getPosition(getTheme(widget), pbrt,stbte,property);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 
-    private static native Dimension getPartSize(long theme, int part,
-                                                int state);
+    privbte stbtic nbtive Dimension getPbrtSize(long theme, int pbrt,
+                                                int stbte);
 
-    public static Dimension getPartSize(String widget, int part, int state) {
-        readLock.lock();
+    public stbtic Dimension getPbrtSize(String widget, int pbrt, int stbte) {
+        rebdLock.lock();
         try {
-            return getPartSize(getTheme(widget), part, state);
-        } finally {
-            readLock.unlock();
+            return getPbrtSize(getTheme(widget), pbrt, stbte);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 
-    private static native long openTheme(String widget);
+    privbte stbtic nbtive long openTheme(String widget);
 
-    private static native void closeTheme(long theme);
+    privbte stbtic nbtive void closeTheme(long theme);
 
-    private static native void setWindowTheme(String subAppName);
+    privbte stbtic nbtive void setWindowTheme(String subAppNbme);
 
-    private static native long getThemeTransitionDuration(long theme, int part,
-                                        int stateFrom, int stateTo, int propId);
+    privbte stbtic nbtive long getThemeTrbnsitionDurbtion(long theme, int pbrt,
+                                        int stbteFrom, int stbteTo, int propId);
 
-    public static long getThemeTransitionDuration(String widget, int part,
-                                       int stateFrom, int stateTo, int propId) {
-        readLock.lock();
+    public stbtic long getThemeTrbnsitionDurbtion(String widget, int pbrt,
+                                       int stbteFrom, int stbteTo, int propId) {
+        rebdLock.lock();
         try {
-            return getThemeTransitionDuration(getTheme(widget),
-                                              part, stateFrom, stateTo, propId);
-        } finally {
-            readLock.unlock();
+            return getThemeTrbnsitionDurbtion(getTheme(widget),
+                                              pbrt, stbteFrom, stbteTo, propId);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 
-    public static native boolean isGetThemeTransitionDurationDefined();
+    public stbtic nbtive boolebn isGetThemeTrbnsitionDurbtionDefined();
 
-    private static native Insets getThemeBackgroundContentMargins(long theme,
-                     int part, int state, int boundingWidth, int boundingHeight);
+    privbte stbtic nbtive Insets getThemeBbckgroundContentMbrgins(long theme,
+                     int pbrt, int stbte, int boundingWidth, int boundingHeight);
 
-    public static Insets getThemeBackgroundContentMargins(String widget,
-                    int part, int state, int boundingWidth, int boundingHeight) {
-        readLock.lock();
+    public stbtic Insets getThemeBbckgroundContentMbrgins(String widget,
+                    int pbrt, int stbte, int boundingWidth, int boundingHeight) {
+        rebdLock.lock();
         try {
-            return getThemeBackgroundContentMargins(getTheme(widget),
-                                    part, state, boundingWidth, boundingHeight);
-        } finally {
-            readLock.unlock();
+            return getThemeBbckgroundContentMbrgins(getTheme(widget),
+                                    pbrt, stbte, boundingWidth, boundingHeight);
+        } finblly {
+            rebdLock.unlock();
         }
     }
 }

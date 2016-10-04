@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryPoolMXBean;
-import java.lang.management.MemoryUsage;
-import java.lang.management.MemoryType;
-import java.lang.management.MemoryManagerMXBean;
-import javax.management.openmbean.CompositeData;
-import javax.management.ObjectName;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.lbng.mbnbgement.MemoryPoolMXBebn;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import jbvb.lbng.mbnbgement.MemoryType;
+import jbvb.lbng.mbnbgement.MemoryMbnbgerMXBebn;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.ObjectNbme;
 
-import static java.lang.management.MemoryNotificationInfo.*;
+import stbtic jbvb.lbng.mbnbgement.MemoryNotificbtionInfo.*;
 
 /**
- * Implementation class for a memory pool.
- * Standard and committed hotspot-specific metrics if any.
+ * Implementbtion clbss for b memory pool.
+ * Stbndbrd bnd committed hotspot-specific metrics if bny.
  *
- * ManagementFactory.getMemoryPoolMXBeans() returns a list of
- * instances of this class.
+ * MbnbgementFbctory.getMemoryPoolMXBebns() returns b list of
+ * instbnces of this clbss.
  */
-class MemoryPoolImpl implements MemoryPoolMXBean {
+clbss MemoryPoolImpl implements MemoryPoolMXBebn {
 
-    private final String  name;
-    private final boolean isHeap;
-    private final boolean isValid;
-    private final boolean collectionThresholdSupported;
-    private final boolean usageThresholdSupported;
+    privbte finbl String  nbme;
+    privbte finbl boolebn isHebp;
+    privbte finbl boolebn isVblid;
+    privbte finbl boolebn collectionThresholdSupported;
+    privbte finbl boolebn usbgeThresholdSupported;
 
-    private MemoryManagerMXBean[] managers;
+    privbte MemoryMbnbgerMXBebn[] mbnbgers;
 
-    private long  usageThreshold;
-    private long  collectionThreshold;
+    privbte long  usbgeThreshold;
+    privbte long  collectionThreshold;
 
-    private boolean usageSensorRegistered;
-    private boolean gcSensorRegistered;
-    private Sensor  usageSensor;
-    private Sensor  gcSensor;
+    privbte boolebn usbgeSensorRegistered;
+    privbte boolebn gcSensorRegistered;
+    privbte Sensor  usbgeSensor;
+    privbte Sensor  gcSensor;
 
-    MemoryPoolImpl(String name, boolean isHeap, long usageThreshold,
+    MemoryPoolImpl(String nbme, boolebn isHebp, long usbgeThreshold,
                    long gcThreshold) {
-        this.name = name;
-        this.isHeap = isHeap;
-        this.isValid = true;
-        this.managers = null;
-        this.usageThreshold = usageThreshold;
+        this.nbme = nbme;
+        this.isHebp = isHebp;
+        this.isVblid = true;
+        this.mbnbgers = null;
+        this.usbgeThreshold = usbgeThreshold;
         this.collectionThreshold = gcThreshold;
-        this.usageThresholdSupported = (usageThreshold >= 0);
+        this.usbgeThresholdSupported = (usbgeThreshold >= 0);
         this.collectionThresholdSupported = (gcThreshold >= 0);
-        this.usageSensor = new PoolSensor(this, name + " usage sensor");
-        this.gcSensor = new CollectionSensor(this, name + " collection sensor");
-        this.usageSensorRegistered = false;
-        this.gcSensorRegistered = false;
+        this.usbgeSensor = new PoolSensor(this, nbme + " usbge sensor");
+        this.gcSensor = new CollectionSensor(this, nbme + " collection sensor");
+        this.usbgeSensorRegistered = fblse;
+        this.gcSensorRegistered = fblse;
     }
 
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
-    public boolean isValid() {
-        return isValid;
+    public boolebn isVblid() {
+        return isVblid;
     }
 
     public MemoryType getType() {
-        if (isHeap) {
+        if (isHebp) {
             return MemoryType.HEAP;
         } else {
             return MemoryType.NON_HEAP;
         }
     }
 
-    public MemoryUsage getUsage() {
-        return getUsage0();
+    public MemoryUsbge getUsbge() {
+        return getUsbge0();
     }
 
-    public synchronized MemoryUsage getPeakUsage() {
-        // synchronized since resetPeakUsage may be resetting the peak usage
-        return getPeakUsage0();
+    public synchronized MemoryUsbge getPebkUsbge() {
+        // synchronized since resetPebkUsbge mby be resetting the pebk usbge
+        return getPebkUsbge0();
     }
 
-    public synchronized long getUsageThreshold() {
-        if (!isUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "Usage threshold is not supported");
+    public synchronized long getUsbgeThreshold() {
+        if (!isUsbgeThresholdSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Usbge threshold is not supported");
         }
-        return usageThreshold;
+        return usbgeThreshold;
     }
 
-    public void setUsageThreshold(long newThreshold) {
-        if (!isUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "Usage threshold is not supported");
+    public void setUsbgeThreshold(long newThreshold) {
+        if (!isUsbgeThresholdSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Usbge threshold is not supported");
         }
 
         Util.checkControlAccess();
 
-        MemoryUsage usage = getUsage0();
+        MemoryUsbge usbge = getUsbge0();
         if (newThreshold < 0) {
-            throw new IllegalArgumentException(
-                "Invalid threshold: " + newThreshold);
+            throw new IllegblArgumentException(
+                "Invblid threshold: " + newThreshold);
         }
 
-        if (usage.getMax() != -1 && newThreshold > usage.getMax()) {
-            throw new IllegalArgumentException(
-                "Invalid threshold: " + newThreshold +
-                " must be <= maxSize." +
-                " Committed = " + usage.getCommitted() +
-                " Max = " + usage.getMax());
+        if (usbge.getMbx() != -1 && newThreshold > usbge.getMbx()) {
+            throw new IllegblArgumentException(
+                "Invblid threshold: " + newThreshold +
+                " must be <= mbxSize." +
+                " Committed = " + usbge.getCommitted() +
+                " Mbx = " + usbge.getMbx());
         }
 
         synchronized (this) {
-            if (!usageSensorRegistered) {
-                // pass the sensor to VM to begin monitoring
-                usageSensorRegistered = true;
-                setPoolUsageSensor(usageSensor);
+            if (!usbgeSensorRegistered) {
+                // pbss the sensor to VM to begin monitoring
+                usbgeSensorRegistered = true;
+                setPoolUsbgeSensor(usbgeSensor);
             }
-            setUsageThreshold0(usageThreshold, newThreshold);
-            this.usageThreshold = newThreshold;
+            setUsbgeThreshold0(usbgeThreshold, newThreshold);
+            this.usbgeThreshold = newThreshold;
         }
     }
 
-    private synchronized MemoryManagerMXBean[] getMemoryManagers() {
-        if (managers == null) {
-            managers = getMemoryManagers0();
+    privbte synchronized MemoryMbnbgerMXBebn[] getMemoryMbnbgers() {
+        if (mbnbgers == null) {
+            mbnbgers = getMemoryMbnbgers0();
         }
-        return managers;
+        return mbnbgers;
     }
 
-    public String[] getMemoryManagerNames() {
-        MemoryManagerMXBean[] mgrs = getMemoryManagers();
+    public String[] getMemoryMbnbgerNbmes() {
+        MemoryMbnbgerMXBebn[] mgrs = getMemoryMbnbgers();
 
-        String[] names = new String[mgrs.length];
+        String[] nbmes = new String[mgrs.length];
         for (int i = 0; i < mgrs.length; i++) {
-            names[i] = mgrs[i].getName();
+            nbmes[i] = mgrs[i].getNbme();
         }
-        return names;
+        return nbmes;
     }
 
-    public void resetPeakUsage() {
+    public void resetPebkUsbge() {
         Util.checkControlAccess();
 
         synchronized (this) {
-            // synchronized since getPeakUsage may be called concurrently
-            resetPeakUsage0();
+            // synchronized since getPebkUsbge mby be cblled concurrently
+            resetPebkUsbge0();
         }
     }
 
-    public boolean isUsageThresholdExceeded() {
-        if (!isUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "Usage threshold is not supported");
+    public boolebn isUsbgeThresholdExceeded() {
+        if (!isUsbgeThresholdSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Usbge threshold is not supported");
         }
 
-        // return false if usage threshold crossing checking is disabled
-        if (usageThreshold == 0) {
-            return false;
+        // return fblse if usbge threshold crossing checking is disbbled
+        if (usbgeThreshold == 0) {
+            return fblse;
         }
 
-        MemoryUsage u = getUsage0();
-        return (u.getUsed() >= usageThreshold ||
-                usageSensor.isOn());
+        MemoryUsbge u = getUsbge0();
+        return (u.getUsed() >= usbgeThreshold ||
+                usbgeSensor.isOn());
     }
 
-    public long getUsageThresholdCount() {
-        if (!isUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "Usage threshold is not supported");
+    public long getUsbgeThresholdCount() {
+        if (!isUsbgeThresholdSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Usbge threshold is not supported");
         }
 
-        return usageSensor.getCount();
+        return usbgeSensor.getCount();
     }
 
-    public boolean isUsageThresholdSupported() {
-        return usageThresholdSupported;
+    public boolebn isUsbgeThresholdSupported() {
+        return usbgeThresholdSupported;
     }
 
-    public synchronized long getCollectionUsageThreshold() {
-        if (!isCollectionUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "CollectionUsage threshold is not supported");
+    public synchronized long getCollectionUsbgeThreshold() {
+        if (!isCollectionUsbgeThresholdSupported()) {
+            throw new UnsupportedOperbtionException(
+                "CollectionUsbge threshold is not supported");
         }
 
         return collectionThreshold;
     }
 
-    public void setCollectionUsageThreshold(long newThreshold) {
-        if (!isCollectionUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "CollectionUsage threshold is not supported");
+    public void setCollectionUsbgeThreshold(long newThreshold) {
+        if (!isCollectionUsbgeThresholdSupported()) {
+            throw new UnsupportedOperbtionException(
+                "CollectionUsbge threshold is not supported");
         }
 
         Util.checkControlAccess();
 
-        MemoryUsage usage = getUsage0();
+        MemoryUsbge usbge = getUsbge0();
         if (newThreshold < 0) {
-            throw new IllegalArgumentException(
-                "Invalid threshold: " + newThreshold);
+            throw new IllegblArgumentException(
+                "Invblid threshold: " + newThreshold);
         }
 
-        if (usage.getMax() != -1 && newThreshold > usage.getMax()) {
-            throw new IllegalArgumentException(
-                "Invalid threshold: " + newThreshold +
-                     " > max (" + usage.getMax() + ").");
+        if (usbge.getMbx() != -1 && newThreshold > usbge.getMbx()) {
+            throw new IllegblArgumentException(
+                "Invblid threshold: " + newThreshold +
+                     " > mbx (" + usbge.getMbx() + ").");
         }
 
         synchronized (this) {
             if (!gcSensorRegistered) {
-                // pass the sensor to VM to begin monitoring
+                // pbss the sensor to VM to begin monitoring
                 gcSensorRegistered = true;
                 setPoolCollectionSensor(gcSensor);
             }
@@ -237,111 +237,111 @@ class MemoryPoolImpl implements MemoryPoolMXBean {
         }
     }
 
-    public boolean isCollectionUsageThresholdExceeded() {
-        if (!isCollectionUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "CollectionUsage threshold is not supported");
+    public boolebn isCollectionUsbgeThresholdExceeded() {
+        if (!isCollectionUsbgeThresholdSupported()) {
+            throw new UnsupportedOperbtionException(
+                "CollectionUsbge threshold is not supported");
         }
 
-        // return false if usage threshold crossing checking is disabled
+        // return fblse if usbge threshold crossing checking is disbbled
         if (collectionThreshold == 0) {
-            return false;
+            return fblse;
         }
 
-        MemoryUsage u = getCollectionUsage0();
+        MemoryUsbge u = getCollectionUsbge0();
         return (gcSensor.isOn() ||
                 (u != null && u.getUsed() >= collectionThreshold));
     }
 
-    public long getCollectionUsageThresholdCount() {
-        if (!isCollectionUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "CollectionUsage threshold is not supported");
+    public long getCollectionUsbgeThresholdCount() {
+        if (!isCollectionUsbgeThresholdSupported()) {
+            throw new UnsupportedOperbtionException(
+                "CollectionUsbge threshold is not supported");
         }
 
         return gcSensor.getCount();
     }
 
-    public MemoryUsage getCollectionUsage() {
-        return getCollectionUsage0();
+    public MemoryUsbge getCollectionUsbge() {
+        return getCollectionUsbge0();
     }
 
-    public boolean isCollectionUsageThresholdSupported() {
+    public boolebn isCollectionUsbgeThresholdSupported() {
         return collectionThresholdSupported;
     }
 
-    // Native VM support
-    private native MemoryUsage getUsage0();
-    private native MemoryUsage getPeakUsage0();
-    private native MemoryUsage getCollectionUsage0();
-    private native void setUsageThreshold0(long current, long newThreshold);
-    private native void setCollectionThreshold0(long current, long newThreshold);
-    private native void resetPeakUsage0();
-    private native MemoryManagerMXBean[] getMemoryManagers0();
-    private native void setPoolUsageSensor(Sensor s);
-    private native void setPoolCollectionSensor(Sensor s);
+    // Nbtive VM support
+    privbte nbtive MemoryUsbge getUsbge0();
+    privbte nbtive MemoryUsbge getPebkUsbge0();
+    privbte nbtive MemoryUsbge getCollectionUsbge0();
+    privbte nbtive void setUsbgeThreshold0(long current, long newThreshold);
+    privbte nbtive void setCollectionThreshold0(long current, long newThreshold);
+    privbte nbtive void resetPebkUsbge0();
+    privbte nbtive MemoryMbnbgerMXBebn[] getMemoryMbnbgers0();
+    privbte nbtive void setPoolUsbgeSensor(Sensor s);
+    privbte nbtive void setPoolCollectionSensor(Sensor s);
 
-    // package private
+    // pbckbge privbte
 
     /**
      * PoolSensor will be triggered by the VM when the memory
-     * usage of a memory pool is crossing the usage threshold.
+     * usbge of b memory pool is crossing the usbge threshold.
      * The VM will not trigger this sensor in subsequent crossing
-     * unless the memory usage has returned below the threshold.
+     * unless the memory usbge hbs returned below the threshold.
      */
-    class PoolSensor extends Sensor {
+    clbss PoolSensor extends Sensor {
         MemoryPoolImpl pool;
 
-        PoolSensor(MemoryPoolImpl pool, String name) {
-            super(name);
+        PoolSensor(MemoryPoolImpl pool, String nbme) {
+            super(nbme);
             this.pool = pool;
         }
-        void triggerAction(MemoryUsage usage) {
-            // create and send notification
-            MemoryImpl.createNotification(MEMORY_THRESHOLD_EXCEEDED,
-                                          pool.getName(),
-                                          usage,
+        void triggerAction(MemoryUsbge usbge) {
+            // crebte bnd send notificbtion
+            MemoryImpl.crebteNotificbtion(MEMORY_THRESHOLD_EXCEEDED,
+                                          pool.getNbme(),
+                                          usbge,
                                           getCount());
         }
         void triggerAction() {
-            // Should not reach here
-            throw new AssertionError("Should not reach here");
+            // Should not rebch here
+            throw new AssertionError("Should not rebch here");
         }
-        void clearAction() {
+        void clebrAction() {
             // do nothing
         }
     }
 
     /**
-     * CollectionSensor will be triggered and cleared by the VM
-     * when the memory usage of a memory pool after GC is crossing
+     * CollectionSensor will be triggered bnd clebred by the VM
+     * when the memory usbge of b memory pool bfter GC is crossing
      * the collection threshold.
      * The VM will trigger this sensor in subsequent crossing
-     * regardless if the memory usage has changed siince the previous GC.
+     * regbrdless if the memory usbge hbs chbnged siince the previous GC.
      */
-    class CollectionSensor extends Sensor {
+    clbss CollectionSensor extends Sensor {
         MemoryPoolImpl pool;
-        CollectionSensor(MemoryPoolImpl pool, String name) {
-            super(name);
+        CollectionSensor(MemoryPoolImpl pool, String nbme) {
+            super(nbme);
             this.pool = pool;
         }
-        void triggerAction(MemoryUsage usage) {
-            MemoryImpl.createNotification(MEMORY_COLLECTION_THRESHOLD_EXCEEDED,
-                                          pool.getName(),
-                                          usage,
+        void triggerAction(MemoryUsbge usbge) {
+            MemoryImpl.crebteNotificbtion(MEMORY_COLLECTION_THRESHOLD_EXCEEDED,
+                                          pool.getNbme(),
+                                          usbge,
                                           gcSensor.getCount());
         }
         void triggerAction() {
-            // Should not reach here
-            throw new AssertionError("Should not reach here");
+            // Should not rebch here
+            throw new AssertionError("Should not rebch here");
         }
-        void clearAction() {
+        void clebrAction() {
             // do nothing
         }
     }
 
-    public ObjectName getObjectName() {
-        return Util.newObjectName(ManagementFactory.MEMORY_POOL_MXBEAN_DOMAIN_TYPE, getName());
+    public ObjectNbme getObjectNbme() {
+        return Util.newObjectNbme(MbnbgementFbctory.MEMORY_POOL_MXBEAN_DOMAIN_TYPE, getNbme());
     }
 
 }

@@ -1,39 +1,39 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <jni.h>
 #include "jni_util.h"
 #define IMGEXTERN
-#include "imageInitIDs.h"
+#include "imbgeInitIDs.h"
 
 JNIEXPORT void JNICALL
-Java_java_awt_image_BufferedImage_initIDs(JNIEnv *env, jclass cls) {
-    CHECK_NULL(g_BImgRasterID = (*env)->GetFieldID(env, cls, "raster",
-                                        "Ljava/awt/image/WritableRaster;"));
-    CHECK_NULL(g_BImgTypeID = (*env)->GetFieldID(env, cls, "imageType", "I"));
+Jbvb_jbvb_bwt_imbge_BufferedImbge_initIDs(JNIEnv *env, jclbss cls) {
+    CHECK_NULL(g_BImgRbsterID = (*env)->GetFieldID(env, cls, "rbster",
+                                        "Ljbvb/bwt/imbge/WritbbleRbster;"));
+    CHECK_NULL(g_BImgTypeID = (*env)->GetFieldID(env, cls, "imbgeType", "I"));
     CHECK_NULL(g_BImgCMID = (*env)->GetFieldID(env, cls, "colorModel",
-                                        "Ljava/awt/image/ColorModel;"));
+                                        "Ljbvb/bwt/imbge/ColorModel;"));
     CHECK_NULL(g_BImgGetRGBMID = (*env)->GetMethodID(env, cls, "getRGB",
                                         "(IIII[III)[I"));
     CHECK_NULL(g_BImgSetRGBMID = (*env)->GetMethodID(env, cls, "setRGB",
@@ -41,127 +41,127 @@ Java_java_awt_image_BufferedImage_initIDs(JNIEnv *env, jclass cls) {
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_image_Raster_initIDs(JNIEnv *env, jclass cls) {
-    CHECK_NULL(g_RasterWidthID    = (*env)->GetFieldID(env, cls, "width", "I"));
-    CHECK_NULL(g_RasterHeightID   = (*env)->GetFieldID(env, cls, "height", "I"));
-    CHECK_NULL(g_RasterNumBandsID = (*env)->GetFieldID(env, cls, "numBands", "I"));
-    CHECK_NULL(g_RasterGetDataMID = (*env)->GetMethodID(env, cls, "getDataElements",
-                                        "(IIIILjava/lang/Object;)Ljava/lang/Object;"));
-    CHECK_NULL(g_RasterMinXID  = (*env)->GetFieldID(env, cls, "minX", "I"));
-    CHECK_NULL(g_RasterMinYID  = (*env)->GetFieldID(env, cls, "minY", "I"));
-    CHECK_NULL(g_RasterBaseOriginXID  = (*env)->GetFieldID(env, cls,
-                                        "sampleModelTranslateX", "I"));
-    CHECK_NULL(g_RasterBaseOriginYID  = (*env)->GetFieldID(env, cls,
-                                        "sampleModelTranslateY", "I"));
-    CHECK_NULL(g_RasterSampleModelID = (*env)->GetFieldID(env, cls,
-                                        "sampleModel","Ljava/awt/image/SampleModel;"));
-    CHECK_NULL(g_RasterNumDataElementsID = (*env)->GetFieldID(env, cls,
-                                        "numDataElements", "I"));
-    CHECK_NULL(g_RasterNumBandsID = (*env)->GetFieldID(env, cls, "numBands", "I"));
-    CHECK_NULL(g_RasterDataBufferID = (*env)->GetFieldID(env, cls, "dataBuffer",
-                                        "Ljava/awt/image/DataBuffer;"));
+Jbvb_jbvb_bwt_imbge_Rbster_initIDs(JNIEnv *env, jclbss cls) {
+    CHECK_NULL(g_RbsterWidthID    = (*env)->GetFieldID(env, cls, "width", "I"));
+    CHECK_NULL(g_RbsterHeightID   = (*env)->GetFieldID(env, cls, "height", "I"));
+    CHECK_NULL(g_RbsterNumBbndsID = (*env)->GetFieldID(env, cls, "numBbnds", "I"));
+    CHECK_NULL(g_RbsterGetDbtbMID = (*env)->GetMethodID(env, cls, "getDbtbElements",
+                                        "(IIIILjbvb/lbng/Object;)Ljbvb/lbng/Object;"));
+    CHECK_NULL(g_RbsterMinXID  = (*env)->GetFieldID(env, cls, "minX", "I"));
+    CHECK_NULL(g_RbsterMinYID  = (*env)->GetFieldID(env, cls, "minY", "I"));
+    CHECK_NULL(g_RbsterBbseOriginXID  = (*env)->GetFieldID(env, cls,
+                                        "sbmpleModelTrbnslbteX", "I"));
+    CHECK_NULL(g_RbsterBbseOriginYID  = (*env)->GetFieldID(env, cls,
+                                        "sbmpleModelTrbnslbteY", "I"));
+    CHECK_NULL(g_RbsterSbmpleModelID = (*env)->GetFieldID(env, cls,
+                                        "sbmpleModel","Ljbvb/bwt/imbge/SbmpleModel;"));
+    CHECK_NULL(g_RbsterNumDbtbElementsID = (*env)->GetFieldID(env, cls,
+                                        "numDbtbElements", "I"));
+    CHECK_NULL(g_RbsterNumBbndsID = (*env)->GetFieldID(env, cls, "numBbnds", "I"));
+    CHECK_NULL(g_RbsterDbtbBufferID = (*env)->GetFieldID(env, cls, "dbtbBuffer",
+                                        "Ljbvb/bwt/imbge/DbtbBuffer;"));
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_image_ByteComponentRaster_initIDs(JNIEnv *env, jclass cls) {
-    CHECK_NULL(g_BCRdataID = (*env)->GetFieldID(env, cls, "data", "[B"));
-    CHECK_NULL(g_BCRscanstrID = (*env)->GetFieldID(env, cls, "scanlineStride", "I"));
+Jbvb_sun_bwt_imbge_ByteComponentRbster_initIDs(JNIEnv *env, jclbss cls) {
+    CHECK_NULL(g_BCRdbtbID = (*env)->GetFieldID(env, cls, "dbtb", "[B"));
+    CHECK_NULL(g_BCRscbnstrID = (*env)->GetFieldID(env, cls, "scbnlineStride", "I"));
     CHECK_NULL(g_BCRpixstrID = (*env)->GetFieldID(env, cls, "pixelStride", "I"));
-    CHECK_NULL(g_BCRbandoffsID = (*env)->GetFieldID(env, cls, "bandOffset", "I"));
-    CHECK_NULL(g_BCRdataOffsetsID = (*env)->GetFieldID(env, cls, "dataOffsets", "[I"));
+    CHECK_NULL(g_BCRbbndoffsID = (*env)->GetFieldID(env, cls, "bbndOffset", "I"));
+    CHECK_NULL(g_BCRdbtbOffsetsID = (*env)->GetFieldID(env, cls, "dbtbOffsets", "[I"));
     CHECK_NULL(g_BCRtypeID = (*env)->GetFieldID(env, cls, "type", "I"));
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_image_BytePackedRaster_initIDs(JNIEnv *env, jclass cls) {
-    CHECK_NULL(g_BPRdataID = (*env)->GetFieldID(env, cls, "data", "[B"));
-    CHECK_NULL(g_BPRscanstrID = (*env)->GetFieldID(env, cls, "scanlineStride", "I"));
+Jbvb_sun_bwt_imbge_BytePbckedRbster_initIDs(JNIEnv *env, jclbss cls) {
+    CHECK_NULL(g_BPRdbtbID = (*env)->GetFieldID(env, cls, "dbtb", "[B"));
+    CHECK_NULL(g_BPRscbnstrID = (*env)->GetFieldID(env, cls, "scbnlineStride", "I"));
     CHECK_NULL(g_BPRpixstrID = (*env)->GetFieldID(env, cls, "pixelBitStride", "I"));
     CHECK_NULL(g_BPRtypeID = (*env)->GetFieldID(env, cls, "type", "I"));
-    CHECK_NULL(g_BPRdataBitOffsetID = (*env)->GetFieldID(env, cls, "dataBitOffset", "I"));
+    CHECK_NULL(g_BPRdbtbBitOffsetID = (*env)->GetFieldID(env, cls, "dbtbBitOffset", "I"));
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_image_ShortComponentRaster_initIDs(JNIEnv *env, jclass cls) {
-    CHECK_NULL(g_SCRdataID = (*env)->GetFieldID(env, cls, "data", "[S"));
-    CHECK_NULL(g_SCRscanstrID = (*env)->GetFieldID(env, cls, "scanlineStride", "I"));
+Jbvb_sun_bwt_imbge_ShortComponentRbster_initIDs(JNIEnv *env, jclbss cls) {
+    CHECK_NULL(g_SCRdbtbID = (*env)->GetFieldID(env, cls, "dbtb", "[S"));
+    CHECK_NULL(g_SCRscbnstrID = (*env)->GetFieldID(env, cls, "scbnlineStride", "I"));
     CHECK_NULL(g_SCRpixstrID = (*env)->GetFieldID(env, cls, "pixelStride", "I"));
-    CHECK_NULL(g_SCRbandoffsID = (*env)->GetFieldID(env, cls, "bandOffset", "I"));
-    CHECK_NULL(g_SCRdataOffsetsID = (*env)->GetFieldID(env, cls, "dataOffsets", "[I"));
+    CHECK_NULL(g_SCRbbndoffsID = (*env)->GetFieldID(env, cls, "bbndOffset", "I"));
+    CHECK_NULL(g_SCRdbtbOffsetsID = (*env)->GetFieldID(env, cls, "dbtbOffsets", "[I"));
     CHECK_NULL(g_SCRtypeID = (*env)->GetFieldID(env, cls, "type", "I"));
 }
 JNIEXPORT void JNICALL
-Java_sun_awt_image_IntegerComponentRaster_initIDs(JNIEnv *env, jclass cls) {
-    CHECK_NULL(g_ICRdataID = (*env)->GetFieldID(env, cls, "data", "[I"));
-    CHECK_NULL(g_ICRscanstrID = (*env)->GetFieldID(env, cls, "scanlineStride", "I"));
+Jbvb_sun_bwt_imbge_IntegerComponentRbster_initIDs(JNIEnv *env, jclbss cls) {
+    CHECK_NULL(g_ICRdbtbID = (*env)->GetFieldID(env, cls, "dbtb", "[I"));
+    CHECK_NULL(g_ICRscbnstrID = (*env)->GetFieldID(env, cls, "scbnlineStride", "I"));
     CHECK_NULL(g_ICRpixstrID = (*env)->GetFieldID(env, cls, "pixelStride", "I"));
-    CHECK_NULL(g_ICRdataOffsetsID = (*env)->GetFieldID(env, cls, "dataOffsets", "[I"));
-    CHECK_NULL(g_ICRbandoffsID = (*env)->GetFieldID(env, cls, "bandOffset", "I"));
-    CHECK_NULL(g_ICRputDataMID  = (*env)->GetMethodID(env, cls, "setDataElements",
-                                     "(IIIILjava/lang/Object;)V"));
+    CHECK_NULL(g_ICRdbtbOffsetsID = (*env)->GetFieldID(env, cls, "dbtbOffsets", "[I"));
+    CHECK_NULL(g_ICRbbndoffsID = (*env)->GetFieldID(env, cls, "bbndOffset", "I"));
+    CHECK_NULL(g_ICRputDbtbMID  = (*env)->GetMethodID(env, cls, "setDbtbElements",
+                                     "(IIIILjbvb/lbng/Object;)V"));
     CHECK_NULL(g_ICRtypeID = (*env)->GetFieldID(env, cls, "type", "I"));
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_image_SinglePixelPackedSampleModel_initIDs(JNIEnv *env, jclass cls) {
-    CHECK_NULL(g_SPPSMmaskArrID = (*env)->GetFieldID(env, cls, "bitMasks", "[I"));
-    CHECK_NULL(g_SPPSMmaskOffID = (*env)->GetFieldID(env, cls, "bitOffsets", "[I"));
+Jbvb_jbvb_bwt_imbge_SinglePixelPbckedSbmpleModel_initIDs(JNIEnv *env, jclbss cls) {
+    CHECK_NULL(g_SPPSMmbskArrID = (*env)->GetFieldID(env, cls, "bitMbsks", "[I"));
+    CHECK_NULL(g_SPPSMmbskOffID = (*env)->GetFieldID(env, cls, "bitOffsets", "[I"));
     CHECK_NULL(g_SPPSMnBitsID   = (*env)->GetFieldID(env, cls, "bitSizes", "[I"));
-    CHECK_NULL(g_SPPSMmaxBitID  = (*env)->GetFieldID(env, cls, "maxBitSize", "I"));
+    CHECK_NULL(g_SPPSMmbxBitID  = (*env)->GetFieldID(env, cls, "mbxBitSize", "I"));
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_image_ColorModel_initIDs(JNIEnv *env, jclass cls) {
-    CHECK_NULL(g_CMpDataID = (*env)->GetFieldID (env, cls, "pData", "J"));
+Jbvb_jbvb_bwt_imbge_ColorModel_initIDs(JNIEnv *env, jclbss cls) {
+    CHECK_NULL(g_CMpDbtbID = (*env)->GetFieldID (env, cls, "pDbtb", "J"));
     CHECK_NULL(g_CMnBitsID  = (*env)->GetFieldID(env, cls, "nBits", "[I"));
-    CHECK_NULL(g_CMcspaceID = (*env)->GetFieldID(env, cls, "colorSpace",
-                                    "Ljava/awt/color/ColorSpace;"));
+    CHECK_NULL(g_CMcspbceID = (*env)->GetFieldID(env, cls, "colorSpbce",
+                                    "Ljbvb/bwt/color/ColorSpbce;"));
     CHECK_NULL(g_CMnumComponentsID = (*env)->GetFieldID(env, cls, "numComponents", "I"));
-    CHECK_NULL(g_CMsuppAlphaID  = (*env)->GetFieldID(env, cls, "supportsAlpha", "Z"));
-    CHECK_NULL(g_CMisAlphaPreID = (*env)->GetFieldID(env, cls, "isAlphaPremultiplied",
+    CHECK_NULL(g_CMsuppAlphbID  = (*env)->GetFieldID(env, cls, "supportsAlphb", "Z"));
+    CHECK_NULL(g_CMisAlphbPreID = (*env)->GetFieldID(env, cls, "isAlphbPremultiplied",
                                           "Z"));
-    CHECK_NULL(g_CMtransparencyID = (*env)->GetFieldID(env, cls, "transparency", "I"));
+    CHECK_NULL(g_CMtrbnspbrencyID = (*env)->GetFieldID(env, cls, "trbnspbrency", "I"));
     CHECK_NULL(g_CMgetRGBMID      = (*env)->GetMethodID(env, cls, "getRGB",
-                                             "(Ljava/lang/Object;)I"));
-    CHECK_NULL(g_CMcsTypeID       = (*env)->GetFieldID(env, cls, "colorSpaceType", "I"));
+                                             "(Ljbvb/lbng/Object;)I"));
+    CHECK_NULL(g_CMcsTypeID       = (*env)->GetFieldID(env, cls, "colorSpbceType", "I"));
     CHECK_NULL(g_CMis_sRGBID      = (*env)->GetFieldID(env, cls, "is_sRGB", "Z"));
-    CHECK_NULL(g_CMgetRGBdefaultMID   = (*env)->GetStaticMethodID(env, cls,
-                                                       "getRGBdefault",
-                                             "()Ljava/awt/image/ColorModel;"));
+    CHECK_NULL(g_CMgetRGBdefbultMID   = (*env)->GetStbticMethodID(env, cls,
+                                                       "getRGBdefbult",
+                                             "()Ljbvb/bwt/imbge/ColorModel;"));
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_image_IndexColorModel_initIDs(JNIEnv *env, jclass cls) {
-    CHECK_NULL(g_ICMtransIdxID = (*env)->GetFieldID(env, cls, "transparent_index", "I"));
-    CHECK_NULL(g_ICMmapSizeID  = (*env)->GetFieldID(env, cls, "map_size", "I"));
+Jbvb_jbvb_bwt_imbge_IndexColorModel_initIDs(JNIEnv *env, jclbss cls) {
+    CHECK_NULL(g_ICMtrbnsIdxID = (*env)->GetFieldID(env, cls, "trbnspbrent_index", "I"));
+    CHECK_NULL(g_ICMmbpSizeID  = (*env)->GetFieldID(env, cls, "mbp_size", "I"));
     CHECK_NULL(g_ICMrgbID      = (*env)->GetFieldID(env, cls, "rgb", "[I"));
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_image_SampleModel_initIDs(JNIEnv *env, jclass cls) {
+Jbvb_jbvb_bwt_imbge_SbmpleModel_initIDs(JNIEnv *env, jclbss cls) {
     CHECK_NULL(g_SMWidthID = (*env)->GetFieldID(env, cls, "width","I"));
     CHECK_NULL(g_SMHeightID = (*env)->GetFieldID(env, cls, "height","I"));
     CHECK_NULL(g_SMGetPixelsMID = (*env)->GetMethodID(env, cls, "getPixels",
-                                      "(IIII[ILjava/awt/image/DataBuffer;)[I"));
+                                      "(IIII[ILjbvb/bwt/imbge/DbtbBuffer;)[I"));
     CHECK_NULL(g_SMSetPixelsMID = (*env)->GetMethodID(env, cls, "setPixels",
-                                      "(IIII[ILjava/awt/image/DataBuffer;)V"));
+                                      "(IIII[ILjbvb/bwt/imbge/DbtbBuffer;)V"));
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_image_ComponentSampleModel_initIDs(JNIEnv *env, jclass cls) {
+Jbvb_jbvb_bwt_imbge_ComponentSbmpleModel_initIDs(JNIEnv *env, jclbss cls) {
     CHECK_NULL(g_CSMPixStrideID = (*env)->GetFieldID(env, cls, "pixelStride", "I"));
-    CHECK_NULL(g_CSMScanStrideID = (*env)->GetFieldID(env, cls, "scanlineStride", "I"));
-    CHECK_NULL(g_CSMBandOffsetsID = (*env)->GetFieldID(env, cls, "bandOffsets", "[I"));
+    CHECK_NULL(g_CSMScbnStrideID = (*env)->GetFieldID(env, cls, "scbnlineStride", "I"));
+    CHECK_NULL(g_CSMBbndOffsetsID = (*env)->GetFieldID(env, cls, "bbndOffsets", "[I"));
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_image_Kernel_initIDs(JNIEnv *env, jclass cls) {
+Jbvb_jbvb_bwt_imbge_Kernel_initIDs(JNIEnv *env, jclbss cls) {
     CHECK_NULL(g_KernelWidthID   = (*env)->GetFieldID(env, cls, "width", "I"));
     CHECK_NULL(g_KernelHeightID  = (*env)->GetFieldID(env, cls, "height", "I"));
-    CHECK_NULL(g_KernelDataID    = (*env)->GetFieldID(env, cls, "data", "[F"));
+    CHECK_NULL(g_KernelDbtbID    = (*env)->GetFieldID(env, cls, "dbtb", "[F"));
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_image_DataBufferInt_initIDs(JNIEnv *env, jclass cls) {
-    CHECK_NULL(g_DataBufferIntPdataID = (*env)->GetFieldID(env, cls, "pData", "J"));
+Jbvb_jbvb_bwt_imbge_DbtbBufferInt_initIDs(JNIEnv *env, jclbss cls) {
+    CHECK_NULL(g_DbtbBufferIntPdbtbID = (*env)->GetFieldID(env, cls, "pDbtb", "J"));
 }

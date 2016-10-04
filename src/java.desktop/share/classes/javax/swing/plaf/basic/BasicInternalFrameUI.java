@@ -1,700 +1,700 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.event.*;
-import java.beans.*;
-import sun.swing.DefaultLookup;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.event.*;
+import jbvb.bebns.*;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
 
 /**
- * A basic L&amp;F implementation of JInternalFrame.
+ * A bbsic L&bmp;F implementbtion of JInternblFrbme.
  *
- * @author David Kloba
- * @author Rich Schiavi
+ * @buthor Dbvid Klobb
+ * @buthor Rich Schibvi
  */
-public class BasicInternalFrameUI extends InternalFrameUI
+public clbss BbsicInternblFrbmeUI extends InternblFrbmeUI
 {
 
-    protected JInternalFrame frame;
+    protected JInternblFrbme frbme;
 
-    private Handler handler;
-    protected MouseInputAdapter          borderListener;
-    protected PropertyChangeListener     propertyChangeListener;
-    protected LayoutManager              internalFrameLayout;
+    privbte Hbndler hbndler;
+    protected MouseInputAdbpter          borderListener;
+    protected PropertyChbngeListener     propertyChbngeListener;
+    protected LbyoutMbnbger              internblFrbmeLbyout;
     protected ComponentListener          componentListener;
-    protected MouseInputListener         glassPaneDispatcher;
-    private InternalFrameListener        internalFrameListener;
+    protected MouseInputListener         glbssPbneDispbtcher;
+    privbte InternblFrbmeListener        internblFrbmeListener;
 
-    protected JComponent northPane;
-    protected JComponent southPane;
-    protected JComponent westPane;
-    protected JComponent eastPane;
+    protected JComponent northPbne;
+    protected JComponent southPbne;
+    protected JComponent westPbne;
+    protected JComponent ebstPbne;
 
-    protected BasicInternalFrameTitlePane titlePane; // access needs this
+    protected BbsicInternblFrbmeTitlePbne titlePbne; // bccess needs this
 
-    private static DesktopManager sharedDesktopManager;
-    private boolean componentListenerAdded = false;
+    privbte stbtic DesktopMbnbger shbredDesktopMbnbger;
+    privbte boolebn componentListenerAdded = fblse;
 
-    private Rectangle parentBounds;
+    privbte Rectbngle pbrentBounds;
 
-    private boolean dragging = false;
-    private boolean resizing = false;
+    privbte boolebn drbgging = fblse;
+    privbte boolebn resizing = fblse;
 
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
+     * As of Jbvb 2 plbtform v1.3 this previously undocumented field is no
      * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * Key bindings bre now defined by the LookAndFeel, plebse refer to
+     * the key bindings specificbtion for further detbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @deprecbted As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
+    @Deprecbted
     protected KeyStroke openMenuKey;
 
-    private boolean keyBindingRegistered = false;
-    private boolean keyBindingActive = false;
+    privbte boolebn keyBindingRegistered = fblse;
+    privbte boolebn keyBindingActive = fblse;
 
 /////////////////////////////////////////////////////////////////////////////
-// ComponentUI Interface Implementation methods
+// ComponentUI Interfbce Implementbtion methods
 /////////////////////////////////////////////////////////////////////////////
-    public static ComponentUI createUI(JComponent b)    {
-        return new BasicInternalFrameUI((JInternalFrame)b);
+    public stbtic ComponentUI crebteUI(JComponent b)    {
+        return new BbsicInternblFrbmeUI((JInternblFrbme)b);
     }
 
-    public BasicInternalFrameUI(JInternalFrame b)   {
-        LookAndFeel laf = UIManager.getLookAndFeel();
-        if (laf instanceof BasicLookAndFeel) {
-            ((BasicLookAndFeel)laf).installAWTEventListener();
+    public BbsicInternblFrbmeUI(JInternblFrbme b)   {
+        LookAndFeel lbf = UIMbnbger.getLookAndFeel();
+        if (lbf instbnceof BbsicLookAndFeel) {
+            ((BbsicLookAndFeel)lbf).instbllAWTEventListener();
         }
     }
 
-    public void installUI(JComponent c)   {
+    public void instbllUI(JComponent c)   {
 
-        frame = (JInternalFrame)c;
+        frbme = (JInternblFrbme)c;
 
-        installDefaults();
-        installListeners();
-        installComponents();
-        installKeyboardActions();
+        instbllDefbults();
+        instbllListeners();
+        instbllComponents();
+        instbllKeybobrdActions();
 
-        LookAndFeel.installProperty(frame, "opaque", Boolean.TRUE);
+        LookAndFeel.instbllProperty(frbme, "opbque", Boolebn.TRUE);
     }
 
-    public void uninstallUI(JComponent c) {
-        if(c != frame)
-            throw new IllegalComponentStateException(
-                this + " was asked to deinstall() "
-                + c + " when it only knows about "
-                + frame + ".");
+    public void uninstbllUI(JComponent c) {
+        if(c != frbme)
+            throw new IllegblComponentStbteException(
+                this + " wbs bsked to deinstbll() "
+                + c + " when it only knows bbout "
+                + frbme + ".");
 
-        uninstallKeyboardActions();
-        uninstallComponents();
-        uninstallListeners();
-        uninstallDefaults();
-        updateFrameCursor();
-        handler = null;
-        frame = null;
+        uninstbllKeybobrdActions();
+        uninstbllComponents();
+        uninstbllListeners();
+        uninstbllDefbults();
+        updbteFrbmeCursor();
+        hbndler = null;
+        frbme = null;
     }
 
-    protected void installDefaults(){
-        Icon frameIcon = frame.getFrameIcon();
-        if (frameIcon == null || frameIcon instanceof UIResource) {
-            frame.setFrameIcon(UIManager.getIcon("InternalFrame.icon"));
+    protected void instbllDefbults(){
+        Icon frbmeIcon = frbme.getFrbmeIcon();
+        if (frbmeIcon == null || frbmeIcon instbnceof UIResource) {
+            frbme.setFrbmeIcon(UIMbnbger.getIcon("InternblFrbme.icon"));
         }
 
-        // Enable the content pane to inherit background color from its
-        // parent by setting its background color to null.
-        Container contentPane = frame.getContentPane();
-        if (contentPane != null) {
-          Color bg = contentPane.getBackground();
-          if (bg instanceof UIResource)
-            contentPane.setBackground(null);
+        // Enbble the content pbne to inherit bbckground color from its
+        // pbrent by setting its bbckground color to null.
+        Contbiner contentPbne = frbme.getContentPbne();
+        if (contentPbne != null) {
+          Color bg = contentPbne.getBbckground();
+          if (bg instbnceof UIResource)
+            contentPbne.setBbckground(null);
         }
-        frame.setLayout(internalFrameLayout = createLayoutManager());
-        frame.setBackground(UIManager.getLookAndFeelDefaults().getColor("control"));
+        frbme.setLbyout(internblFrbmeLbyout = crebteLbyoutMbnbger());
+        frbme.setBbckground(UIMbnbger.getLookAndFeelDefbults().getColor("control"));
 
-        LookAndFeel.installBorder(frame, "InternalFrame.border");
+        LookAndFeel.instbllBorder(frbme, "InternblFrbme.border");
 
     }
-    protected void installKeyboardActions(){
-        createInternalFrameListener();
-        if (internalFrameListener != null) {
-            frame.addInternalFrameListener(internalFrameListener);
+    protected void instbllKeybobrdActions(){
+        crebteInternblFrbmeListener();
+        if (internblFrbmeListener != null) {
+            frbme.bddInternblFrbmeListener(internblFrbmeListener);
         }
 
-        LazyActionMap.installLazyActionMap(frame, BasicInternalFrameUI.class,
-            "InternalFrame.actionMap");
+        LbzyActionMbp.instbllLbzyActionMbp(frbme, BbsicInternblFrbmeUI.clbss,
+            "InternblFrbme.bctionMbp");
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new UIAction("showSystemMenu") {
-            public void actionPerformed(ActionEvent evt) {
-                JInternalFrame iFrame = (JInternalFrame)evt.getSource();
-                if (iFrame.getUI() instanceof BasicInternalFrameUI) {
-                    JComponent comp = ((BasicInternalFrameUI)
-                        iFrame.getUI()).getNorthPane();
-                    if (comp instanceof BasicInternalFrameTitlePane) {
-                        ((BasicInternalFrameTitlePane)comp).
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        mbp.put(new UIAction("showSystemMenu") {
+            public void bctionPerformed(ActionEvent evt) {
+                JInternblFrbme iFrbme = (JInternblFrbme)evt.getSource();
+                if (iFrbme.getUI() instbnceof BbsicInternblFrbmeUI) {
+                    JComponent comp = ((BbsicInternblFrbmeUI)
+                        iFrbme.getUI()).getNorthPbne();
+                    if (comp instbnceof BbsicInternblFrbmeTitlePbne) {
+                        ((BbsicInternblFrbmeTitlePbne)comp).
                             showSystemMenu();
                     }
                 }
             }
 
-            public boolean isEnabled(Object sender){
-                if (sender instanceof JInternalFrame) {
-                    JInternalFrame iFrame = (JInternalFrame)sender;
-                    if (iFrame.getUI() instanceof BasicInternalFrameUI) {
-                        return ((BasicInternalFrameUI)iFrame.getUI()).
+            public boolebn isEnbbled(Object sender){
+                if (sender instbnceof JInternblFrbme) {
+                    JInternblFrbme iFrbme = (JInternblFrbme)sender;
+                    if (iFrbme.getUI() instbnceof BbsicInternblFrbmeUI) {
+                        return ((BbsicInternblFrbmeUI)iFrbme.getUI()).
                             isKeyBindingActive();
                     }
                 }
-                return false;
+                return fblse;
             }
         });
 
-        // Set the ActionMap's parent to the Auditory Feedback Action Map
-        BasicLookAndFeel.installAudioActionMap(map);
+        // Set the ActionMbp's pbrent to the Auditory Feedbbck Action Mbp
+        BbsicLookAndFeel.instbllAudioActionMbp(mbp);
     }
 
-    protected void installComponents(){
-        setNorthPane(createNorthPane(frame));
-        setSouthPane(createSouthPane(frame));
-        setEastPane(createEastPane(frame));
-        setWestPane(createWestPane(frame));
+    protected void instbllComponents(){
+        setNorthPbne(crebteNorthPbne(frbme));
+        setSouthPbne(crebteSouthPbne(frbme));
+        setEbstPbne(crebteEbstPbne(frbme));
+        setWestPbne(crebteWestPbne(frbme));
     }
 
     /**
      * @since 1.3
      */
-    protected void installListeners() {
-        borderListener = createBorderListener(frame);
-        propertyChangeListener = createPropertyChangeListener();
-        frame.addPropertyChangeListener(propertyChangeListener);
-        installMouseHandlers(frame);
-        glassPaneDispatcher = createGlassPaneDispatcher();
-        if (glassPaneDispatcher != null) {
-            frame.getGlassPane().addMouseListener(glassPaneDispatcher);
-            frame.getGlassPane().addMouseMotionListener(glassPaneDispatcher);
+    protected void instbllListeners() {
+        borderListener = crebteBorderListener(frbme);
+        propertyChbngeListener = crebtePropertyChbngeListener();
+        frbme.bddPropertyChbngeListener(propertyChbngeListener);
+        instbllMouseHbndlers(frbme);
+        glbssPbneDispbtcher = crebteGlbssPbneDispbtcher();
+        if (glbssPbneDispbtcher != null) {
+            frbme.getGlbssPbne().bddMouseListener(glbssPbneDispbtcher);
+            frbme.getGlbssPbne().bddMouseMotionListener(glbssPbneDispbtcher);
         }
-        componentListener =  createComponentListener();
-        if (frame.getParent() != null) {
-          parentBounds = frame.getParent().getBounds();
+        componentListener =  crebteComponentListener();
+        if (frbme.getPbrent() != null) {
+          pbrentBounds = frbme.getPbrent().getBounds();
         }
-        if ((frame.getParent() != null) && !componentListenerAdded) {
-            frame.getParent().addComponentListener(componentListener);
+        if ((frbme.getPbrent() != null) && !componentListenerAdded) {
+            frbme.getPbrent().bddComponentListener(componentListener);
             componentListenerAdded = true;
         }
     }
 
-    // Provide a FocusListener to listen for a WINDOW_LOST_FOCUS event,
-    // so that a resize can be cancelled if the focus is lost while resizing
-    // when an Alt-Tab, modal dialog popup, iconify, dispose, or remove
-    // of the internal frame occurs.
-    private WindowFocusListener getWindowFocusListener(){
-        return getHandler();
+    // Provide b FocusListener to listen for b WINDOW_LOST_FOCUS event,
+    // so thbt b resize cbn be cbncelled if the focus is lost while resizing
+    // when bn Alt-Tbb, modbl diblog popup, iconify, dispose, or remove
+    // of the internbl frbme occurs.
+    privbte WindowFocusListener getWindowFocusListener(){
+        return getHbndler();
     }
 
-    // Cancel a resize in progress by calling finishMouseReleased().
-    private void cancelResize() {
+    // Cbncel b resize in progress by cblling finishMouseRelebsed().
+    privbte void cbncelResize() {
         if (resizing) {
-            if (borderListener instanceof BorderListener) {
-                ((BorderListener)borderListener).finishMouseReleased();
+            if (borderListener instbnceof BorderListener) {
+                ((BorderListener)borderListener).finishMouseRelebsed();
             }
         }
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbte Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
-    InputMap getInputMap(int condition) {
+    InputMbp getInputMbp(int condition) {
         if (condition == JComponent.WHEN_IN_FOCUSED_WINDOW) {
-            return createInputMap(condition);
+            return crebteInputMbp(condition);
         }
         return null;
     }
 
-    InputMap createInputMap(int condition) {
+    InputMbp crebteInputMbp(int condition) {
         if (condition == JComponent.WHEN_IN_FOCUSED_WINDOW) {
-            Object[] bindings = (Object[])DefaultLookup.get(
-                    frame, this, "InternalFrame.windowBindings");
+            Object[] bindings = (Object[])DefbultLookup.get(
+                    frbme, this, "InternblFrbme.windowBindings");
 
             if (bindings != null) {
-                return LookAndFeel.makeComponentInputMap(frame, bindings);
+                return LookAndFeel.mbkeComponentInputMbp(frbme, bindings);
             }
         }
         return null;
     }
 
-    protected void uninstallDefaults() {
-        Icon frameIcon = frame.getFrameIcon();
-        if (frameIcon instanceof UIResource) {
-            frame.setFrameIcon(null);
+    protected void uninstbllDefbults() {
+        Icon frbmeIcon = frbme.getFrbmeIcon();
+        if (frbmeIcon instbnceof UIResource) {
+            frbme.setFrbmeIcon(null);
         }
-        internalFrameLayout = null;
-        frame.setLayout(null);
-        LookAndFeel.uninstallBorder(frame);
+        internblFrbmeLbyout = null;
+        frbme.setLbyout(null);
+        LookAndFeel.uninstbllBorder(frbme);
     }
 
-    protected void uninstallComponents(){
-        setNorthPane(null);
-        setSouthPane(null);
-        setEastPane(null);
-        setWestPane(null);
-        if(titlePane != null) {
-            titlePane.uninstallDefaults();
+    protected void uninstbllComponents(){
+        setNorthPbne(null);
+        setSouthPbne(null);
+        setEbstPbne(null);
+        setWestPbne(null);
+        if(titlePbne != null) {
+            titlePbne.uninstbllDefbults();
         }
-        titlePane = null;
+        titlePbne = null;
     }
 
     /**
      * @since 1.3
      */
-    protected void uninstallListeners() {
-        if ((frame.getParent() != null) && componentListenerAdded) {
-            frame.getParent().removeComponentListener(componentListener);
-            componentListenerAdded = false;
+    protected void uninstbllListeners() {
+        if ((frbme.getPbrent() != null) && componentListenerAdded) {
+            frbme.getPbrent().removeComponentListener(componentListener);
+            componentListenerAdded = fblse;
         }
         componentListener = null;
-      if (glassPaneDispatcher != null) {
-          frame.getGlassPane().removeMouseListener(glassPaneDispatcher);
-          frame.getGlassPane().removeMouseMotionListener(glassPaneDispatcher);
-          glassPaneDispatcher = null;
+      if (glbssPbneDispbtcher != null) {
+          frbme.getGlbssPbne().removeMouseListener(glbssPbneDispbtcher);
+          frbme.getGlbssPbne().removeMouseMotionListener(glbssPbneDispbtcher);
+          glbssPbneDispbtcher = null;
       }
-      deinstallMouseHandlers(frame);
-      frame.removePropertyChangeListener(propertyChangeListener);
-      propertyChangeListener = null;
+      deinstbllMouseHbndlers(frbme);
+      frbme.removePropertyChbngeListener(propertyChbngeListener);
+      propertyChbngeListener = null;
       borderListener = null;
     }
 
-    protected void uninstallKeyboardActions(){
-        if (internalFrameListener != null) {
-            frame.removeInternalFrameListener(internalFrameListener);
+    protected void uninstbllKeybobrdActions(){
+        if (internblFrbmeListener != null) {
+            frbme.removeInternblFrbmeListener(internblFrbmeListener);
         }
-        internalFrameListener = null;
+        internblFrbmeListener = null;
 
-        SwingUtilities.replaceUIInputMap(frame, JComponent.
+        SwingUtilities.replbceUIInputMbp(frbme, JComponent.
                                          WHEN_IN_FOCUSED_WINDOW, null);
-        SwingUtilities.replaceUIActionMap(frame, null);
+        SwingUtilities.replbceUIActionMbp(frbme, null);
 
     }
 
-    void updateFrameCursor() {
+    void updbteFrbmeCursor() {
         if (resizing) {
             return;
         }
-        Cursor s = frame.getLastCursor();
+        Cursor s = frbme.getLbstCursor();
         if (s == null) {
             s = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
         }
-        frame.setCursor(s);
+        frbme.setCursor(s);
     }
 
-    protected LayoutManager createLayoutManager(){
-        return getHandler();
+    protected LbyoutMbnbger crebteLbyoutMbnbger(){
+        return getHbndler();
     }
 
-    protected PropertyChangeListener createPropertyChangeListener(){
-        return getHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener(){
+        return getHbndler();
     }
 
 
 
     public Dimension getPreferredSize(JComponent x)    {
-        if(frame == x)
-            return frame.getLayout().preferredLayoutSize(x);
+        if(frbme == x)
+            return frbme.getLbyout().preferredLbyoutSize(x);
         return new Dimension(100, 100);
     }
 
     public Dimension getMinimumSize(JComponent x)  {
-        if(frame == x) {
-            return frame.getLayout().minimumLayoutSize(x);
+        if(frbme == x) {
+            return frbme.getLbyout().minimumLbyoutSize(x);
         }
         return new Dimension(0, 0);
     }
 
-    public Dimension getMaximumSize(JComponent x) {
+    public Dimension getMbximumSize(JComponent x) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
 
 
     /**
-      * Installs necessary mouse handlers on <code>newPane</code>
-      * and adds it to the frame.
-      * Reverse process for the <code>currentPane</code>.
+      * Instblls necessbry mouse hbndlers on <code>newPbne</code>
+      * bnd bdds it to the frbme.
+      * Reverse process for the <code>currentPbne</code>.
       */
-    protected void replacePane(JComponent currentPane, JComponent newPane) {
-        if(currentPane != null) {
-            deinstallMouseHandlers(currentPane);
-            frame.remove(currentPane);
+    protected void replbcePbne(JComponent currentPbne, JComponent newPbne) {
+        if(currentPbne != null) {
+            deinstbllMouseHbndlers(currentPbne);
+            frbme.remove(currentPbne);
         }
-        if(newPane != null) {
-           frame.add(newPane);
-           installMouseHandlers(newPane);
+        if(newPbne != null) {
+           frbme.bdd(newPbne);
+           instbllMouseHbndlers(newPbne);
         }
     }
 
-    protected void deinstallMouseHandlers(JComponent c) {
+    protected void deinstbllMouseHbndlers(JComponent c) {
       c.removeMouseListener(borderListener);
       c.removeMouseMotionListener(borderListener);
     }
 
-    protected void installMouseHandlers(JComponent c) {
-      c.addMouseListener(borderListener);
-      c.addMouseMotionListener(borderListener);
+    protected void instbllMouseHbndlers(JComponent c) {
+      c.bddMouseListener(borderListener);
+      c.bddMouseMotionListener(borderListener);
     }
 
-    protected JComponent createNorthPane(JInternalFrame w) {
-      titlePane = new BasicInternalFrameTitlePane(w);
-      return titlePane;
+    protected JComponent crebteNorthPbne(JInternblFrbme w) {
+      titlePbne = new BbsicInternblFrbmeTitlePbne(w);
+      return titlePbne;
     }
 
 
-    protected JComponent createSouthPane(JInternalFrame w) {
+    protected JComponent crebteSouthPbne(JInternblFrbme w) {
         return null;
     }
 
-    protected JComponent createWestPane(JInternalFrame w) {
+    protected JComponent crebteWestPbne(JInternblFrbme w) {
         return null;
     }
 
-    protected JComponent createEastPane(JInternalFrame w) {
+    protected JComponent crebteEbstPbne(JInternblFrbme w) {
         return null;
     }
 
 
-    protected MouseInputAdapter createBorderListener(JInternalFrame w) {
+    protected MouseInputAdbpter crebteBorderListener(JInternblFrbme w) {
         return new BorderListener();
     }
 
-    protected void createInternalFrameListener(){
-        internalFrameListener = getHandler();
+    protected void crebteInternblFrbmeListener(){
+        internblFrbmeListener = getHbndler();
     }
 
-    protected final boolean isKeyBindingRegistered(){
+    protected finbl boolebn isKeyBindingRegistered(){
       return keyBindingRegistered;
     }
 
-    protected final void setKeyBindingRegistered(boolean b){
+    protected finbl void setKeyBindingRegistered(boolebn b){
       keyBindingRegistered = b;
     }
 
-    public final boolean isKeyBindingActive(){
+    public finbl boolebn isKeyBindingActive(){
       return keyBindingActive;
     }
 
-    protected final void setKeyBindingActive(boolean b){
+    protected finbl void setKeyBindingActive(boolebn b){
       keyBindingActive = b;
     }
 
 
     protected void setupMenuOpenKey(){
-        // PENDING(hania): Why are these WHEN_IN_FOCUSED_WINDOWs? Shouldn't
+        // PENDING(hbnib): Why bre these WHEN_IN_FOCUSED_WINDOWs? Shouldn't
         // they be WHEN_ANCESTOR_OF_FOCUSED_COMPONENT?
         // Also, no longer registering on the desktopicon, the previous
-        // action did nothing.
-        InputMap map = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        SwingUtilities.replaceUIInputMap(frame,
-                                      JComponent.WHEN_IN_FOCUSED_WINDOW, map);
-        //ActionMap actionMap = getActionMap();
-        //SwingUtilities.replaceUIActionMap(frame, actionMap);
+        // bction did nothing.
+        InputMbp mbp = getInputMbp(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        SwingUtilities.replbceUIInputMbp(frbme,
+                                      JComponent.WHEN_IN_FOCUSED_WINDOW, mbp);
+        //ActionMbp bctionMbp = getActionMbp();
+        //SwingUtilities.replbceUIActionMbp(frbme, bctionMbp);
     }
 
     protected void setupMenuCloseKey(){
     }
 
-    public JComponent getNorthPane() {
-        return northPane;
+    public JComponent getNorthPbne() {
+        return northPbne;
     }
 
-    public void setNorthPane(JComponent c) {
-        if (northPane != null &&
-                northPane instanceof BasicInternalFrameTitlePane) {
-            ((BasicInternalFrameTitlePane)northPane).uninstallListeners();
+    public void setNorthPbne(JComponent c) {
+        if (northPbne != null &&
+                northPbne instbnceof BbsicInternblFrbmeTitlePbne) {
+            ((BbsicInternblFrbmeTitlePbne)northPbne).uninstbllListeners();
         }
-        replacePane(northPane, c);
-        northPane = c;
-        if (c instanceof BasicInternalFrameTitlePane) {
-          titlePane = (BasicInternalFrameTitlePane)c;
+        replbcePbne(northPbne, c);
+        northPbne = c;
+        if (c instbnceof BbsicInternblFrbmeTitlePbne) {
+          titlePbne = (BbsicInternblFrbmeTitlePbne)c;
         }
     }
 
-    public JComponent getSouthPane() {
-        return southPane;
+    public JComponent getSouthPbne() {
+        return southPbne;
     }
 
-    public void setSouthPane(JComponent c) {
-        southPane = c;
+    public void setSouthPbne(JComponent c) {
+        southPbne = c;
     }
 
-    public JComponent getWestPane() {
-        return westPane;
+    public JComponent getWestPbne() {
+        return westPbne;
     }
 
-    public void setWestPane(JComponent c) {
-        westPane = c;
+    public void setWestPbne(JComponent c) {
+        westPbne = c;
     }
 
-    public JComponent getEastPane() {
-        return eastPane;
+    public JComponent getEbstPbne() {
+        return ebstPbne;
     }
 
-    public void setEastPane(JComponent c) {
-        eastPane = c;
+    public void setEbstPbne(JComponent c) {
+        ebstPbne = c;
     }
 
-    public class InternalFramePropertyChangeListener implements
-        PropertyChangeListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+    public clbss InternblFrbmePropertyChbngeListener implements
+        PropertyChbngeListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
         /**
-         * Detects changes in state from the JInternalFrame and handles
-         * actions.
+         * Detects chbnges in stbte from the JInternblFrbme bnd hbndles
+         * bctions.
          */
-        public void propertyChange(PropertyChangeEvent evt) {
-            getHandler().propertyChange(evt);
+        public void propertyChbnge(PropertyChbngeEvent evt) {
+            getHbndler().propertyChbnge(evt);
         }
     }
 
-  public class InternalFrameLayout implements LayoutManager {
-    // NOTE: This class exists only for backward compatibility. All
-    // its functionality has been moved into Handler. If you need to add
-    // new functionality add it to the Handler, but make sure this
-    // class calls into the Handler.
-    public void addLayoutComponent(String name, Component c) {
-        getHandler().addLayoutComponent(name, c);
+  public clbss InternblFrbmeLbyout implements LbyoutMbnbger {
+    // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+    // its functionblity hbs been moved into Hbndler. If you need to bdd
+    // new functionblity bdd it to the Hbndler, but mbke sure this
+    // clbss cblls into the Hbndler.
+    public void bddLbyoutComponent(String nbme, Component c) {
+        getHbndler().bddLbyoutComponent(nbme, c);
     }
 
-    public void removeLayoutComponent(Component c) {
-        getHandler().removeLayoutComponent(c);
+    public void removeLbyoutComponent(Component c) {
+        getHbndler().removeLbyoutComponent(c);
     }
 
-    public Dimension preferredLayoutSize(Container c)  {
-        return getHandler().preferredLayoutSize(c);
+    public Dimension preferredLbyoutSize(Contbiner c)  {
+        return getHbndler().preferredLbyoutSize(c);
     }
 
-    public Dimension minimumLayoutSize(Container c) {
-        return getHandler().minimumLayoutSize(c);
+    public Dimension minimumLbyoutSize(Contbiner c) {
+        return getHbndler().minimumLbyoutSize(c);
     }
 
-    public void layoutContainer(Container c) {
-        getHandler().layoutContainer(c);
+    public void lbyoutContbiner(Contbiner c) {
+        getHbndler().lbyoutContbiner(c);
     }
   }
 
-/// DesktopManager methods
-    /** Returns the proper DesktopManager. Calls getDesktopPane() to
-      * find the JDesktop component and returns the desktopManager from
-      * it. If this fails, it will return a default DesktopManager that
-      * should work in arbitrary parents.
+/// DesktopMbnbger methods
+    /** Returns the proper DesktopMbnbger. Cblls getDesktopPbne() to
+      * find the JDesktop component bnd returns the desktopMbnbger from
+      * it. If this fbils, it will return b defbult DesktopMbnbger thbt
+      * should work in brbitrbry pbrents.
       */
-    protected DesktopManager getDesktopManager() {
-        if(frame.getDesktopPane() != null
-           && frame.getDesktopPane().getDesktopManager() != null)
-            return frame.getDesktopPane().getDesktopManager();
-        if(sharedDesktopManager == null)
-          sharedDesktopManager = createDesktopManager();
-        return sharedDesktopManager;
+    protected DesktopMbnbger getDesktopMbnbger() {
+        if(frbme.getDesktopPbne() != null
+           && frbme.getDesktopPbne().getDesktopMbnbger() != null)
+            return frbme.getDesktopPbne().getDesktopMbnbger();
+        if(shbredDesktopMbnbger == null)
+          shbredDesktopMbnbger = crebteDesktopMbnbger();
+        return shbredDesktopMbnbger;
     }
 
-    protected DesktopManager createDesktopManager(){
-      return new DefaultDesktopManager();
-    }
-
-    /**
-     * This method is called when the user wants to close the frame.
-     * The <code>playCloseSound</code> Action is fired.
-     * This action is delegated to the desktopManager.
-     */
-    protected void closeFrame(JInternalFrame f) {
-        // Internal Frame Auditory Cue Activation
-        BasicLookAndFeel.playSound(frame,"InternalFrame.closeSound");
-        // delegate to desktop manager
-        getDesktopManager().closeFrame(f);
+    protected DesktopMbnbger crebteDesktopMbnbger(){
+      return new DefbultDesktopMbnbger();
     }
 
     /**
-     * This method is called when the user wants to maximize the frame.
-     * The <code>playMaximizeSound</code> Action is fired.
-     * This action is delegated to the desktopManager.
+     * This method is cblled when the user wbnts to close the frbme.
+     * The <code>plbyCloseSound</code> Action is fired.
+     * This bction is delegbted to the desktopMbnbger.
      */
-    protected void maximizeFrame(JInternalFrame f) {
-        // Internal Frame Auditory Cue Activation
-        BasicLookAndFeel.playSound(frame,"InternalFrame.maximizeSound");
-        // delegate to desktop manager
-        getDesktopManager().maximizeFrame(f);
+    protected void closeFrbme(JInternblFrbme f) {
+        // Internbl Frbme Auditory Cue Activbtion
+        BbsicLookAndFeel.plbySound(frbme,"InternblFrbme.closeSound");
+        // delegbte to desktop mbnbger
+        getDesktopMbnbger().closeFrbme(f);
     }
 
     /**
-     * This method is called when the user wants to minimize the frame.
-     * The <code>playRestoreDownSound</code> Action is fired.
-     * This action is delegated to the desktopManager.
+     * This method is cblled when the user wbnts to mbximize the frbme.
+     * The <code>plbyMbximizeSound</code> Action is fired.
+     * This bction is delegbted to the desktopMbnbger.
      */
-    protected void minimizeFrame(JInternalFrame f) {
-        // Internal Frame Auditory Cue Activation
+    protected void mbximizeFrbme(JInternblFrbme f) {
+        // Internbl Frbme Auditory Cue Activbtion
+        BbsicLookAndFeel.plbySound(frbme,"InternblFrbme.mbximizeSound");
+        // delegbte to desktop mbnbger
+        getDesktopMbnbger().mbximizeFrbme(f);
+    }
+
+    /**
+     * This method is cblled when the user wbnts to minimize the frbme.
+     * The <code>plbyRestoreDownSound</code> Action is fired.
+     * This bction is delegbted to the desktopMbnbger.
+     */
+    protected void minimizeFrbme(JInternblFrbme f) {
+        // Internbl Frbme Auditory Cue Activbtion
         if ( ! f.isIcon() ) {
-            // This method seems to regularly get called after an
-            // internal frame is iconified. Don't play this sound then.
-            BasicLookAndFeel.playSound(frame,"InternalFrame.restoreDownSound");
+            // This method seems to regulbrly get cblled bfter bn
+            // internbl frbme is iconified. Don't plby this sound then.
+            BbsicLookAndFeel.plbySound(frbme,"InternblFrbme.restoreDownSound");
         }
-        // delegate to desktop manager
-        getDesktopManager().minimizeFrame(f);
+        // delegbte to desktop mbnbger
+        getDesktopMbnbger().minimizeFrbme(f);
     }
 
     /**
-     * This method is called when the user wants to iconify the frame.
-     * The <code>playMinimizeSound</code> Action is fired.
-     * This action is delegated to the desktopManager.
+     * This method is cblled when the user wbnts to iconify the frbme.
+     * The <code>plbyMinimizeSound</code> Action is fired.
+     * This bction is delegbted to the desktopMbnbger.
      */
-    protected void iconifyFrame(JInternalFrame f) {
-        // Internal Frame Auditory Cue Activation
-        BasicLookAndFeel.playSound(frame, "InternalFrame.minimizeSound");
-        // delegate to desktop manager
-        getDesktopManager().iconifyFrame(f);
+    protected void iconifyFrbme(JInternblFrbme f) {
+        // Internbl Frbme Auditory Cue Activbtion
+        BbsicLookAndFeel.plbySound(frbme, "InternblFrbme.minimizeSound");
+        // delegbte to desktop mbnbger
+        getDesktopMbnbger().iconifyFrbme(f);
     }
 
     /**
-     * This method is called when the user wants to deiconify the frame.
-     * The <code>playRestoreUpSound</code> Action is fired.
-     * This action is delegated to the desktopManager.
+     * This method is cblled when the user wbnts to deiconify the frbme.
+     * The <code>plbyRestoreUpSound</code> Action is fired.
+     * This bction is delegbted to the desktopMbnbger.
      */
-    protected void deiconifyFrame(JInternalFrame f) {
-        // Internal Frame Auditory Cue Activation
-        if ( ! f.isMaximum() ) {
-            // This method seems to regularly get called after an
-            // internal frame is maximized. Don't play this sound then.
-            BasicLookAndFeel.playSound(frame, "InternalFrame.restoreUpSound");
+    protected void deiconifyFrbme(JInternblFrbme f) {
+        // Internbl Frbme Auditory Cue Activbtion
+        if ( ! f.isMbximum() ) {
+            // This method seems to regulbrly get cblled bfter bn
+            // internbl frbme is mbximized. Don't plby this sound then.
+            BbsicLookAndFeel.plbySound(frbme, "InternblFrbme.restoreUpSound");
         }
-        // delegate to desktop manager
-        getDesktopManager().deiconifyFrame(f);
+        // delegbte to desktop mbnbger
+        getDesktopMbnbger().deiconifyFrbme(f);
     }
 
-    /** This method is called when the frame becomes selected.
-      * This action is delegated to the desktopManager.
+    /** This method is cblled when the frbme becomes selected.
+      * This bction is delegbted to the desktopMbnbger.
       */
-    protected void activateFrame(JInternalFrame f) {
-        getDesktopManager().activateFrame(f);
+    protected void bctivbteFrbme(JInternblFrbme f) {
+        getDesktopMbnbger().bctivbteFrbme(f);
     }
-    /** This method is called when the frame is no longer selected.
-      * This action is delegated to the desktopManager.
+    /** This method is cblled when the frbme is no longer selected.
+      * This bction is delegbted to the desktopMbnbger.
       */
-    protected void deactivateFrame(JInternalFrame f) {
-        getDesktopManager().deactivateFrame(f);
+    protected void debctivbteFrbme(JInternblFrbme f) {
+        getDesktopMbnbger().debctivbteFrbme(f);
     }
 
     /////////////////////////////////////////////////////////////////////////
-    /// Border Listener Class
+    /// Border Listener Clbss
     /////////////////////////////////////////////////////////////////////////
     /**
-     * Listens for border adjustments.
+     * Listens for border bdjustments.
      */
-    protected class BorderListener extends MouseInputAdapter implements SwingConstants
+    protected clbss BorderListener extends MouseInputAdbpter implements SwingConstbnts
     {
-        // _x & _y are the mousePressed location in absolute coordinate system
+        // _x & _y bre the mousePressed locbtion in bbsolute coordinbte system
         int _x, _y;
-        // __x & __y are the mousePressed location in source view's coordinate system
+        // __x & __y bre the mousePressed locbtion in source view's coordinbte system
         int __x, __y;
-        Rectangle startingBounds;
+        Rectbngle stbrtingBounds;
         int resizeDir;
 
 
-        protected final int RESIZE_NONE  = 0;
-        private boolean discardRelease = false;
+        protected finbl int RESIZE_NONE  = 0;
+        privbte boolebn discbrdRelebse = fblse;
 
         int resizeCornerSize = 16;
 
         public void mouseClicked(MouseEvent e) {
-            if(e.getClickCount() > 1 && e.getSource() == getNorthPane()) {
-                if(frame.isIconifiable() && frame.isIcon()) {
-                    try { frame.setIcon(false); } catch (PropertyVetoException e2) { }
-                } else if(frame.isMaximizable()) {
-                    if(!frame.isMaximum())
-                        try { frame.setMaximum(true); } catch (PropertyVetoException e2) { }
+            if(e.getClickCount() > 1 && e.getSource() == getNorthPbne()) {
+                if(frbme.isIconifibble() && frbme.isIcon()) {
+                    try { frbme.setIcon(fblse); } cbtch (PropertyVetoException e2) { }
+                } else if(frbme.isMbximizbble()) {
+                    if(!frbme.isMbximum())
+                        try { frbme.setMbximum(true); } cbtch (PropertyVetoException e2) { }
                     else
-                        try { frame.setMaximum(false); } catch (PropertyVetoException e3) { }
+                        try { frbme.setMbximum(fblse); } cbtch (PropertyVetoException e3) { }
                 }
             }
         }
 
-        // Factor out finishMouseReleased() from mouseReleased(), so that
-        // it can be called by cancelResize() without passing it a null
+        // Fbctor out finishMouseRelebsed() from mouseRelebsed(), so thbt
+        // it cbn be cblled by cbncelResize() without pbssing it b null
         // MouseEvent.
-        void finishMouseReleased() {
-           if (discardRelease) {
-             discardRelease = false;
+        void finishMouseRelebsed() {
+           if (discbrdRelebse) {
+             discbrdRelebse = fblse;
              return;
           }
             if (resizeDir == RESIZE_NONE) {
-                getDesktopManager().endDraggingFrame(frame);
-                dragging = false;
+                getDesktopMbnbger().endDrbggingFrbme(frbme);
+                drbgging = fblse;
             } else {
-                // Remove the WindowFocusListener for handling a
-                // WINDOW_LOST_FOCUS event with a cancelResize().
+                // Remove the WindowFocusListener for hbndling b
+                // WINDOW_LOST_FOCUS event with b cbncelResize().
                 Window windowAncestor =
-                    SwingUtilities.getWindowAncestor(frame);
+                    SwingUtilities.getWindowAncestor(frbme);
                 if (windowAncestor != null) {
                     windowAncestor.removeWindowFocusListener(
                         getWindowFocusListener());
                 }
-                Container c = frame.getTopLevelAncestor();
-                if (c instanceof RootPaneContainer) {
-                    Component glassPane = ((RootPaneContainer)c).getGlassPane();
-                    glassPane.setCursor(Cursor.getPredefinedCursor(
+                Contbiner c = frbme.getTopLevelAncestor();
+                if (c instbnceof RootPbneContbiner) {
+                    Component glbssPbne = ((RootPbneContbiner)c).getGlbssPbne();
+                    glbssPbne.setCursor(Cursor.getPredefinedCursor(
                         Cursor.DEFAULT_CURSOR));
-                    glassPane.setVisible(false);
+                    glbssPbne.setVisible(fblse);
                 }
-                getDesktopManager().endResizingFrame(frame);
-                resizing = false;
-                updateFrameCursor();
+                getDesktopMbnbger().endResizingFrbme(frbme);
+                resizing = fblse;
+                updbteFrbmeCursor();
             }
             _x = 0;
             _y = 0;
             __x = 0;
             __y = 0;
-            startingBounds = null;
+            stbrtingBounds = null;
             resizeDir = RESIZE_NONE;
-            // Set discardRelease to true, so that only a mousePressed()
-            // which sets it to false, will allow entry to the above code
-            // for finishing a resize.
-            discardRelease = true;
+            // Set discbrdRelebse to true, so thbt only b mousePressed()
+            // which sets it to fblse, will bllow entry to the bbove code
+            // for finishing b resize.
+            discbrdRelebse = true;
         }
 
-        public void mouseReleased(MouseEvent e) {
-            finishMouseReleased();
+        public void mouseRelebsed(MouseEvent e) {
+            finishMouseRelebsed();
         }
 
         public void mousePressed(MouseEvent e) {
@@ -704,47 +704,47 @@ public class BasicInternalFrameUI extends InternalFrameUI
             __y = e.getY();
             _x = p.x;
             _y = p.y;
-            startingBounds = frame.getBounds();
+            stbrtingBounds = frbme.getBounds();
             resizeDir = RESIZE_NONE;
-            discardRelease = false;
+            discbrdRelebse = fblse;
 
-            try { frame.setSelected(true); }
-            catch (PropertyVetoException e1) { }
+            try { frbme.setSelected(true); }
+            cbtch (PropertyVetoException e1) { }
 
-            Insets i = frame.getInsets();
+            Insets i = frbme.getInsets();
 
             Point ep = new Point(__x, __y);
-            if (e.getSource() == getNorthPane()) {
-                Point np = getNorthPane().getLocation();
+            if (e.getSource() == getNorthPbne()) {
+                Point np = getNorthPbne().getLocbtion();
                 ep.x += np.x;
                 ep.y += np.y;
             }
 
-            if (e.getSource() == getNorthPane()) {
-                if (ep.x > i.left && ep.y > i.top && ep.x < frame.getWidth() - i.right) {
-                    getDesktopManager().beginDraggingFrame(frame);
-                    dragging = true;
+            if (e.getSource() == getNorthPbne()) {
+                if (ep.x > i.left && ep.y > i.top && ep.x < frbme.getWidth() - i.right) {
+                    getDesktopMbnbger().beginDrbggingFrbme(frbme);
+                    drbgging = true;
                     return;
                 }
             }
-            if (!frame.isResizable()) {
+            if (!frbme.isResizbble()) {
               return;
             }
 
-            if (e.getSource() == frame || e.getSource() == getNorthPane()) {
+            if (e.getSource() == frbme || e.getSource() == getNorthPbne()) {
                 if (ep.x <= i.left) {
                     if (ep.y < resizeCornerSize + i.top) {
                         resizeDir = NORTH_WEST;
-                    } else if (ep.y > frame.getHeight()
+                    } else if (ep.y > frbme.getHeight()
                               - resizeCornerSize - i.bottom) {
                         resizeDir = SOUTH_WEST;
                     } else {
                         resizeDir = WEST;
 }
-                } else if (ep.x >= frame.getWidth() - i.right) {
+                } else if (ep.x >= frbme.getWidth() - i.right) {
                     if (ep.y < resizeCornerSize + i.top) {
                         resizeDir = NORTH_EAST;
-                    } else if (ep.y > frame.getHeight()
+                    } else if (ep.y > frbme.getHeight()
                               - resizeCornerSize - i.bottom) {
                         resizeDir = SOUTH_EAST;
                     } else {
@@ -753,108 +753,108 @@ public class BasicInternalFrameUI extends InternalFrameUI
                 } else if (ep.y <= i.top) {
                     if (ep.x < resizeCornerSize + i.left) {
                         resizeDir = NORTH_WEST;
-                    } else if (ep.x > frame.getWidth()
+                    } else if (ep.x > frbme.getWidth()
                               - resizeCornerSize - i.right) {
                         resizeDir = NORTH_EAST;
                     } else {
                         resizeDir = NORTH;
                     }
-                } else if (ep.y >= frame.getHeight() - i.bottom) {
+                } else if (ep.y >= frbme.getHeight() - i.bottom) {
                     if (ep.x < resizeCornerSize + i.left) {
                         resizeDir = SOUTH_WEST;
-                    } else if (ep.x > frame.getWidth()
+                    } else if (ep.x > frbme.getWidth()
                               - resizeCornerSize - i.right) {
                         resizeDir = SOUTH_EAST;
                     } else {
                       resizeDir = SOUTH;
                     }
                 } else {
-                  /* the mouse press happened inside the frame, not in the
+                  /* the mouse press hbppened inside the frbme, not in the
                      border */
-                  discardRelease = true;
+                  discbrdRelebse = true;
                   return;
                 }
                 Cursor s = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
                 switch (resizeDir) {
-                case SOUTH:
+                cbse SOUTH:
                   s = Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
-                  break;
-                case NORTH:
+                  brebk;
+                cbse NORTH:
                   s = Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
-                  break;
-                case WEST:
+                  brebk;
+                cbse WEST:
                   s = Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR);
-                  break;
-                case EAST:
+                  brebk;
+                cbse EAST:
                   s = Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
-                  break;
-                case SOUTH_EAST:
+                  brebk;
+                cbse SOUTH_EAST:
                   s = Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR);
-                  break;
-                case SOUTH_WEST:
+                  brebk;
+                cbse SOUTH_WEST:
                   s = Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR);
-                  break;
-                case NORTH_WEST:
+                  brebk;
+                cbse NORTH_WEST:
                   s = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR);
-                  break;
-                case NORTH_EAST:
+                  brebk;
+                cbse NORTH_EAST:
                   s = Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR);
-                  break;
+                  brebk;
                 }
-                Container c = frame.getTopLevelAncestor();
-                if (c instanceof RootPaneContainer) {
-                    Component glassPane = ((RootPaneContainer)c).getGlassPane();
-                    glassPane.setVisible(true);
-                    glassPane.setCursor(s);
+                Contbiner c = frbme.getTopLevelAncestor();
+                if (c instbnceof RootPbneContbiner) {
+                    Component glbssPbne = ((RootPbneContbiner)c).getGlbssPbne();
+                    glbssPbne.setVisible(true);
+                    glbssPbne.setCursor(s);
                 }
-                getDesktopManager().beginResizingFrame(frame, resizeDir);
+                getDesktopMbnbger().beginResizingFrbme(frbme, resizeDir);
                 resizing = true;
-                // Add the WindowFocusListener for handling a
-                // WINDOW_LOST_FOCUS event with a cancelResize().
-                Window windowAncestor = SwingUtilities.getWindowAncestor(frame);
+                // Add the WindowFocusListener for hbndling b
+                // WINDOW_LOST_FOCUS event with b cbncelResize().
+                Window windowAncestor = SwingUtilities.getWindowAncestor(frbme);
                 if (windowAncestor != null) {
-                    windowAncestor.addWindowFocusListener(
+                    windowAncestor.bddWindowFocusListener(
                         getWindowFocusListener());
                 }
                 return;
             }
         }
 
-        public void mouseDragged(MouseEvent e) {
+        public void mouseDrbgged(MouseEvent e) {
 
-            if ( startingBounds == null ) {
-              // (STEVE) Yucky work around for bug ID 4106552
+            if ( stbrtingBounds == null ) {
+              // (STEVE) Yucky work bround for bug ID 4106552
                  return;
             }
 
             Point p = SwingUtilities.convertPoint((Component)e.getSource(),
                     e.getX(), e.getY(), null);
-            int deltaX = _x - p.x;
-            int deltaY = _y - p.y;
-            Dimension min = frame.getMinimumSize();
-            Dimension max = frame.getMaximumSize();
+            int deltbX = _x - p.x;
+            int deltbY = _y - p.y;
+            Dimension min = frbme.getMinimumSize();
+            Dimension mbx = frbme.getMbximumSize();
             int newX, newY, newW, newH;
-            Insets i = frame.getInsets();
+            Insets i = frbme.getInsets();
 
-            // Handle a MOVE
-            if (dragging) {
-                if (frame.isMaximum() || ((e.getModifiers() &
+            // Hbndle b MOVE
+            if (drbgging) {
+                if (frbme.isMbximum() || ((e.getModifiers() &
                         InputEvent.BUTTON1_MASK) !=
                         InputEvent.BUTTON1_MASK)) {
-                    // don't allow moving of frames if maximixed or left mouse
-                    // button was not used.
+                    // don't bllow moving of frbmes if mbximixed or left mouse
+                    // button wbs not used.
                     return;
                 }
                 int pWidth, pHeight;
-                Dimension s = frame.getParent().getSize();
+                Dimension s = frbme.getPbrent().getSize();
                 pWidth = s.width;
                 pHeight = s.height;
 
 
-                newX = startingBounds.x - deltaX;
-                newY = startingBounds.y - deltaY;
+                newX = stbrtingBounds.x - deltbX;
+                newY = stbrtingBounds.y - deltbY;
 
-                // Make sure we stay in-bounds
+                // Mbke sure we stby in-bounds
                 if(newX + i.left <= -__x)
                     newX = -__x - i.left + 1;
                 if(newY + i.top <= -__y)
@@ -864,382 +864,382 @@ public class BasicInternalFrameUI extends InternalFrameUI
                 if(newY + __y + i.bottom >= pHeight)
                     newY =  pHeight - __y - i.bottom - 1;
 
-                getDesktopManager().dragFrame(frame, newX, newY);
+                getDesktopMbnbger().drbgFrbme(frbme, newX, newY);
                 return;
             }
 
-            if(!frame.isResizable()) {
+            if(!frbme.isResizbble()) {
                 return;
             }
 
-            newX = frame.getX();
-            newY = frame.getY();
-            newW = frame.getWidth();
-            newH = frame.getHeight();
+            newX = frbme.getX();
+            newY = frbme.getY();
+            newW = frbme.getWidth();
+            newH = frbme.getHeight();
 
-            parentBounds = frame.getParent().getBounds();
+            pbrentBounds = frbme.getPbrent().getBounds();
 
             switch(resizeDir) {
-            case RESIZE_NONE:
+            cbse RESIZE_NONE:
                 return;
-            case NORTH:
-                if(startingBounds.height + deltaY < min.height)
-                    deltaY = -(startingBounds.height - min.height);
-                else if(startingBounds.height + deltaY > max.height)
-                    deltaY = max.height - startingBounds.height;
-                if (startingBounds.y - deltaY < 0) {deltaY = startingBounds.y;}
+            cbse NORTH:
+                if(stbrtingBounds.height + deltbY < min.height)
+                    deltbY = -(stbrtingBounds.height - min.height);
+                else if(stbrtingBounds.height + deltbY > mbx.height)
+                    deltbY = mbx.height - stbrtingBounds.height;
+                if (stbrtingBounds.y - deltbY < 0) {deltbY = stbrtingBounds.y;}
 
-                newX = startingBounds.x;
-                newY = startingBounds.y - deltaY;
-                newW = startingBounds.width;
-                newH = startingBounds.height + deltaY;
-                break;
-            case NORTH_EAST:
-                if(startingBounds.height + deltaY < min.height)
-                    deltaY = -(startingBounds.height - min.height);
-                else if(startingBounds.height + deltaY > max.height)
-                    deltaY = max.height - startingBounds.height;
-                if (startingBounds.y - deltaY < 0) {deltaY = startingBounds.y;}
+                newX = stbrtingBounds.x;
+                newY = stbrtingBounds.y - deltbY;
+                newW = stbrtingBounds.width;
+                newH = stbrtingBounds.height + deltbY;
+                brebk;
+            cbse NORTH_EAST:
+                if(stbrtingBounds.height + deltbY < min.height)
+                    deltbY = -(stbrtingBounds.height - min.height);
+                else if(stbrtingBounds.height + deltbY > mbx.height)
+                    deltbY = mbx.height - stbrtingBounds.height;
+                if (stbrtingBounds.y - deltbY < 0) {deltbY = stbrtingBounds.y;}
 
-                if(startingBounds.width - deltaX < min.width)
-                    deltaX = startingBounds.width - min.width;
-                else if(startingBounds.width - deltaX > max.width)
-                    deltaX = -(max.width - startingBounds.width);
-                if (startingBounds.x + startingBounds.width - deltaX >
-                    parentBounds.width) {
-                  deltaX = startingBounds.x + startingBounds.width -
-                    parentBounds.width;
+                if(stbrtingBounds.width - deltbX < min.width)
+                    deltbX = stbrtingBounds.width - min.width;
+                else if(stbrtingBounds.width - deltbX > mbx.width)
+                    deltbX = -(mbx.width - stbrtingBounds.width);
+                if (stbrtingBounds.x + stbrtingBounds.width - deltbX >
+                    pbrentBounds.width) {
+                  deltbX = stbrtingBounds.x + stbrtingBounds.width -
+                    pbrentBounds.width;
                 }
 
-                newX = startingBounds.x;
-                newY = startingBounds.y - deltaY;
-                newW = startingBounds.width - deltaX;
-                newH = startingBounds.height + deltaY;
-                break;
-            case EAST:
-                if(startingBounds.width - deltaX < min.width)
-                    deltaX = startingBounds.width - min.width;
-                else if(startingBounds.width - deltaX > max.width)
-                    deltaX = -(max.width - startingBounds.width);
-                if (startingBounds.x + startingBounds.width - deltaX >
-                    parentBounds.width) {
-                  deltaX = startingBounds.x + startingBounds.width -
-                    parentBounds.width;
+                newX = stbrtingBounds.x;
+                newY = stbrtingBounds.y - deltbY;
+                newW = stbrtingBounds.width - deltbX;
+                newH = stbrtingBounds.height + deltbY;
+                brebk;
+            cbse EAST:
+                if(stbrtingBounds.width - deltbX < min.width)
+                    deltbX = stbrtingBounds.width - min.width;
+                else if(stbrtingBounds.width - deltbX > mbx.width)
+                    deltbX = -(mbx.width - stbrtingBounds.width);
+                if (stbrtingBounds.x + stbrtingBounds.width - deltbX >
+                    pbrentBounds.width) {
+                  deltbX = stbrtingBounds.x + stbrtingBounds.width -
+                    pbrentBounds.width;
                 }
 
-                newW = startingBounds.width - deltaX;
-                newH = startingBounds.height;
-                break;
-            case SOUTH_EAST:
-                if(startingBounds.width - deltaX < min.width)
-                    deltaX = startingBounds.width - min.width;
-                else if(startingBounds.width - deltaX > max.width)
-                    deltaX = -(max.width - startingBounds.width);
-                if (startingBounds.x + startingBounds.width - deltaX >
-                    parentBounds.width) {
-                  deltaX = startingBounds.x + startingBounds.width -
-                    parentBounds.width;
+                newW = stbrtingBounds.width - deltbX;
+                newH = stbrtingBounds.height;
+                brebk;
+            cbse SOUTH_EAST:
+                if(stbrtingBounds.width - deltbX < min.width)
+                    deltbX = stbrtingBounds.width - min.width;
+                else if(stbrtingBounds.width - deltbX > mbx.width)
+                    deltbX = -(mbx.width - stbrtingBounds.width);
+                if (stbrtingBounds.x + stbrtingBounds.width - deltbX >
+                    pbrentBounds.width) {
+                  deltbX = stbrtingBounds.x + stbrtingBounds.width -
+                    pbrentBounds.width;
                 }
 
-                if(startingBounds.height - deltaY < min.height)
-                    deltaY = startingBounds.height - min.height;
-                else if(startingBounds.height - deltaY > max.height)
-                    deltaY = -(max.height - startingBounds.height);
-                if (startingBounds.y + startingBounds.height - deltaY >
-                     parentBounds.height) {
-                  deltaY = startingBounds.y + startingBounds.height -
-                    parentBounds.height ;
+                if(stbrtingBounds.height - deltbY < min.height)
+                    deltbY = stbrtingBounds.height - min.height;
+                else if(stbrtingBounds.height - deltbY > mbx.height)
+                    deltbY = -(mbx.height - stbrtingBounds.height);
+                if (stbrtingBounds.y + stbrtingBounds.height - deltbY >
+                     pbrentBounds.height) {
+                  deltbY = stbrtingBounds.y + stbrtingBounds.height -
+                    pbrentBounds.height ;
                 }
 
-                newW = startingBounds.width - deltaX;
-                newH = startingBounds.height - deltaY;
-                break;
-            case SOUTH:
-                if(startingBounds.height - deltaY < min.height)
-                    deltaY = startingBounds.height - min.height;
-                else if(startingBounds.height - deltaY > max.height)
-                    deltaY = -(max.height - startingBounds.height);
-                if (startingBounds.y + startingBounds.height - deltaY >
-                     parentBounds.height) {
-                  deltaY = startingBounds.y + startingBounds.height -
-                    parentBounds.height ;
+                newW = stbrtingBounds.width - deltbX;
+                newH = stbrtingBounds.height - deltbY;
+                brebk;
+            cbse SOUTH:
+                if(stbrtingBounds.height - deltbY < min.height)
+                    deltbY = stbrtingBounds.height - min.height;
+                else if(stbrtingBounds.height - deltbY > mbx.height)
+                    deltbY = -(mbx.height - stbrtingBounds.height);
+                if (stbrtingBounds.y + stbrtingBounds.height - deltbY >
+                     pbrentBounds.height) {
+                  deltbY = stbrtingBounds.y + stbrtingBounds.height -
+                    pbrentBounds.height ;
                 }
 
-                newW = startingBounds.width;
-                newH = startingBounds.height - deltaY;
-                break;
-            case SOUTH_WEST:
-                if(startingBounds.height - deltaY < min.height)
-                    deltaY = startingBounds.height - min.height;
-                else if(startingBounds.height - deltaY > max.height)
-                    deltaY = -(max.height - startingBounds.height);
-                if (startingBounds.y + startingBounds.height - deltaY >
-                     parentBounds.height) {
-                  deltaY = startingBounds.y + startingBounds.height -
-                    parentBounds.height ;
+                newW = stbrtingBounds.width;
+                newH = stbrtingBounds.height - deltbY;
+                brebk;
+            cbse SOUTH_WEST:
+                if(stbrtingBounds.height - deltbY < min.height)
+                    deltbY = stbrtingBounds.height - min.height;
+                else if(stbrtingBounds.height - deltbY > mbx.height)
+                    deltbY = -(mbx.height - stbrtingBounds.height);
+                if (stbrtingBounds.y + stbrtingBounds.height - deltbY >
+                     pbrentBounds.height) {
+                  deltbY = stbrtingBounds.y + stbrtingBounds.height -
+                    pbrentBounds.height ;
                 }
 
-                if(startingBounds.width + deltaX < min.width)
-                    deltaX = -(startingBounds.width - min.width);
-                else if(startingBounds.width + deltaX > max.width)
-                    deltaX = max.width - startingBounds.width;
-                if (startingBounds.x - deltaX < 0) {
-                  deltaX = startingBounds.x;
+                if(stbrtingBounds.width + deltbX < min.width)
+                    deltbX = -(stbrtingBounds.width - min.width);
+                else if(stbrtingBounds.width + deltbX > mbx.width)
+                    deltbX = mbx.width - stbrtingBounds.width;
+                if (stbrtingBounds.x - deltbX < 0) {
+                  deltbX = stbrtingBounds.x;
                 }
 
-                newX = startingBounds.x - deltaX;
-                newY = startingBounds.y;
-                newW = startingBounds.width + deltaX;
-                newH = startingBounds.height - deltaY;
-                break;
-            case WEST:
-                if(startingBounds.width + deltaX < min.width)
-                    deltaX = -(startingBounds.width - min.width);
-                else if(startingBounds.width + deltaX > max.width)
-                    deltaX = max.width - startingBounds.width;
-                if (startingBounds.x - deltaX < 0) {
-                  deltaX = startingBounds.x;
+                newX = stbrtingBounds.x - deltbX;
+                newY = stbrtingBounds.y;
+                newW = stbrtingBounds.width + deltbX;
+                newH = stbrtingBounds.height - deltbY;
+                brebk;
+            cbse WEST:
+                if(stbrtingBounds.width + deltbX < min.width)
+                    deltbX = -(stbrtingBounds.width - min.width);
+                else if(stbrtingBounds.width + deltbX > mbx.width)
+                    deltbX = mbx.width - stbrtingBounds.width;
+                if (stbrtingBounds.x - deltbX < 0) {
+                  deltbX = stbrtingBounds.x;
                 }
 
-                newX = startingBounds.x - deltaX;
-                newY = startingBounds.y;
-                newW = startingBounds.width + deltaX;
-                newH = startingBounds.height;
-                break;
-            case NORTH_WEST:
-                if(startingBounds.width + deltaX < min.width)
-                    deltaX = -(startingBounds.width - min.width);
-                else if(startingBounds.width + deltaX > max.width)
-                    deltaX = max.width - startingBounds.width;
-                if (startingBounds.x - deltaX < 0) {
-                  deltaX = startingBounds.x;
+                newX = stbrtingBounds.x - deltbX;
+                newY = stbrtingBounds.y;
+                newW = stbrtingBounds.width + deltbX;
+                newH = stbrtingBounds.height;
+                brebk;
+            cbse NORTH_WEST:
+                if(stbrtingBounds.width + deltbX < min.width)
+                    deltbX = -(stbrtingBounds.width - min.width);
+                else if(stbrtingBounds.width + deltbX > mbx.width)
+                    deltbX = mbx.width - stbrtingBounds.width;
+                if (stbrtingBounds.x - deltbX < 0) {
+                  deltbX = stbrtingBounds.x;
                 }
 
-                if(startingBounds.height + deltaY < min.height)
-                    deltaY = -(startingBounds.height - min.height);
-                else if(startingBounds.height + deltaY > max.height)
-                    deltaY = max.height - startingBounds.height;
-                if (startingBounds.y - deltaY < 0) {deltaY = startingBounds.y;}
+                if(stbrtingBounds.height + deltbY < min.height)
+                    deltbY = -(stbrtingBounds.height - min.height);
+                else if(stbrtingBounds.height + deltbY > mbx.height)
+                    deltbY = mbx.height - stbrtingBounds.height;
+                if (stbrtingBounds.y - deltbY < 0) {deltbY = stbrtingBounds.y;}
 
-                newX = startingBounds.x - deltaX;
-                newY = startingBounds.y - deltaY;
-                newW = startingBounds.width + deltaX;
-                newH = startingBounds.height + deltaY;
-                break;
-            default:
+                newX = stbrtingBounds.x - deltbX;
+                newY = stbrtingBounds.y - deltbY;
+                newW = stbrtingBounds.width + deltbX;
+                newH = stbrtingBounds.height + deltbY;
+                brebk;
+            defbult:
                 return;
             }
-            getDesktopManager().resizeFrame(frame, newX, newY, newW, newH);
+            getDesktopMbnbger().resizeFrbme(frbme, newX, newY, newW, newH);
         }
 
         public void mouseMoved(MouseEvent e)    {
 
-            if(!frame.isResizable())
+            if(!frbme.isResizbble())
                 return;
 
-            if (e.getSource() == frame || e.getSource() == getNorthPane()) {
-                Insets i = frame.getInsets();
+            if (e.getSource() == frbme || e.getSource() == getNorthPbne()) {
+                Insets i = frbme.getInsets();
                 Point ep = new Point(e.getX(), e.getY());
-                if (e.getSource() == getNorthPane()) {
-                    Point np = getNorthPane().getLocation();
+                if (e.getSource() == getNorthPbne()) {
+                    Point np = getNorthPbne().getLocbtion();
                     ep.x += np.x;
                     ep.y += np.y;
                 }
                 if(ep.x <= i.left) {
                     if(ep.y < resizeCornerSize + i.top)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
-                    else if(ep.y > frame.getHeight() - resizeCornerSize - i.bottom)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
+                        frbme.setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
+                    else if(ep.y > frbme.getHeight() - resizeCornerSize - i.bottom)
+                        frbme.setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
                     else
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
-                } else if(ep.x >= frame.getWidth() - i.right) {
+                        frbme.setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
+                } else if(ep.x >= frbme.getWidth() - i.right) {
                     if(e.getY() < resizeCornerSize + i.top)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
-                    else if(ep.y > frame.getHeight() - resizeCornerSize - i.bottom)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
+                        frbme.setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
+                    else if(ep.y > frbme.getHeight() - resizeCornerSize - i.bottom)
+                        frbme.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
                     else
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+                        frbme.setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
                 } else if(ep.y <= i.top) {
                     if(ep.x < resizeCornerSize + i.left)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
-                    else if(ep.x > frame.getWidth() - resizeCornerSize - i.right)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
+                        frbme.setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
+                    else if(ep.x > frbme.getWidth() - resizeCornerSize - i.right)
+                        frbme.setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
                     else
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
-                } else if(ep.y >= frame.getHeight() - i.bottom) {
+                        frbme.setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
+                } else if(ep.y >= frbme.getHeight() - i.bottom) {
                     if(ep.x < resizeCornerSize + i.left)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
-                    else if(ep.x > frame.getWidth() - resizeCornerSize - i.right)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
+                        frbme.setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
+                    else if(ep.x > frbme.getWidth() - resizeCornerSize - i.right)
+                        frbme.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
                     else
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
+                        frbme.setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
                 }
                 else
-                    updateFrameCursor();
+                    updbteFrbmeCursor();
                 return;
             }
 
-            updateFrameCursor();
+            updbteFrbmeCursor();
         }
 
         public void mouseEntered(MouseEvent e)    {
-            updateFrameCursor();
+            updbteFrbmeCursor();
         }
 
         public void mouseExited(MouseEvent e)    {
-            updateFrameCursor();
+            updbteFrbmeCursor();
         }
 
-    }    /// End BorderListener Class
+    }    /// End BorderListener Clbss
 
-    protected class ComponentHandler implements ComponentListener {
-      // NOTE: This class exists only for backward compatibility. All
-      // its functionality has been moved into Handler. If you need to add
-      // new functionality add it to the Handler, but make sure this
-      // class calls into the Handler.
-      /** Invoked when a JInternalFrame's parent's size changes. */
+    protected clbss ComponentHbndler implements ComponentListener {
+      // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+      // its functionblity hbs been moved into Hbndler. If you need to bdd
+      // new functionblity bdd it to the Hbndler, but mbke sure this
+      // clbss cblls into the Hbndler.
+      /** Invoked when b JInternblFrbme's pbrent's size chbnges. */
       public void componentResized(ComponentEvent e) {
-          getHandler().componentResized(e);
+          getHbndler().componentResized(e);
       }
 
       public void componentMoved(ComponentEvent e) {
-          getHandler().componentMoved(e);
+          getHbndler().componentMoved(e);
       }
       public void componentShown(ComponentEvent e) {
-          getHandler().componentShown(e);
+          getHbndler().componentShown(e);
       }
       public void componentHidden(ComponentEvent e) {
-          getHandler().componentHidden(e);
+          getHbndler().componentHidden(e);
       }
     }
 
-    protected ComponentListener createComponentListener() {
-      return getHandler();
+    protected ComponentListener crebteComponentListener() {
+      return getHbndler();
     }
 
 
-    protected class GlassPaneDispatcher implements MouseInputListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+    protected clbss GlbssPbneDispbtcher implements MouseInputListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
         public void mousePressed(MouseEvent e) {
-            getHandler().mousePressed(e);
+            getHbndler().mousePressed(e);
         }
 
         public void mouseEntered(MouseEvent e) {
-            getHandler().mouseEntered(e);
+            getHbndler().mouseEntered(e);
         }
 
         public void mouseMoved(MouseEvent e) {
-            getHandler().mouseMoved(e);
+            getHbndler().mouseMoved(e);
         }
 
         public void mouseExited(MouseEvent e) {
-            getHandler().mouseExited(e);
+            getHbndler().mouseExited(e);
         }
 
         public void mouseClicked(MouseEvent e) {
-            getHandler().mouseClicked(e);
+            getHbndler().mouseClicked(e);
         }
 
-        public void mouseReleased(MouseEvent e) {
-            getHandler().mouseReleased(e);
+        public void mouseRelebsed(MouseEvent e) {
+            getHbndler().mouseRelebsed(e);
         }
 
-        public void mouseDragged(MouseEvent e) {
-            getHandler().mouseDragged(e);
+        public void mouseDrbgged(MouseEvent e) {
+            getHbndler().mouseDrbgged(e);
         }
     }
 
-    protected MouseInputListener createGlassPaneDispatcher() {
+    protected MouseInputListener crebteGlbssPbneDispbtcher() {
         return null;
     }
 
 
-    protected class BasicInternalFrameListener implements InternalFrameListener
+    protected clbss BbsicInternblFrbmeListener implements InternblFrbmeListener
     {
-      // NOTE: This class exists only for backward compatibility. All
-      // its functionality has been moved into Handler. If you need to add
-      // new functionality add it to the Handler, but make sure this
-      // class calls into the Handler.
-      public void internalFrameClosing(InternalFrameEvent e) {
-          getHandler().internalFrameClosing(e);
+      // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+      // its functionblity hbs been moved into Hbndler. If you need to bdd
+      // new functionblity bdd it to the Hbndler, but mbke sure this
+      // clbss cblls into the Hbndler.
+      public void internblFrbmeClosing(InternblFrbmeEvent e) {
+          getHbndler().internblFrbmeClosing(e);
       }
 
-      public void internalFrameClosed(InternalFrameEvent e) {
-          getHandler().internalFrameClosed(e);
+      public void internblFrbmeClosed(InternblFrbmeEvent e) {
+          getHbndler().internblFrbmeClosed(e);
       }
 
-      public void internalFrameOpened(InternalFrameEvent e) {
-          getHandler().internalFrameOpened(e);
+      public void internblFrbmeOpened(InternblFrbmeEvent e) {
+          getHbndler().internblFrbmeOpened(e);
       }
 
-      public void internalFrameIconified(InternalFrameEvent e) {
-          getHandler().internalFrameIconified(e);
+      public void internblFrbmeIconified(InternblFrbmeEvent e) {
+          getHbndler().internblFrbmeIconified(e);
       }
 
-      public void internalFrameDeiconified(InternalFrameEvent e) {
-          getHandler().internalFrameDeiconified(e);
+      public void internblFrbmeDeiconified(InternblFrbmeEvent e) {
+          getHbndler().internblFrbmeDeiconified(e);
       }
 
-      public void internalFrameActivated(InternalFrameEvent e) {
-          getHandler().internalFrameActivated(e);
+      public void internblFrbmeActivbted(InternblFrbmeEvent e) {
+          getHbndler().internblFrbmeActivbted(e);
       }
 
 
-      public void internalFrameDeactivated(InternalFrameEvent e) {
-          getHandler().internalFrameDeactivated(e);
+      public void internblFrbmeDebctivbted(InternblFrbmeEvent e) {
+          getHbndler().internblFrbmeDebctivbted(e);
       }
     }
 
-    private class Handler implements ComponentListener, InternalFrameListener,
-            LayoutManager, MouseInputListener, PropertyChangeListener,
-            WindowFocusListener, SwingConstants {
+    privbte clbss Hbndler implements ComponentListener, InternblFrbmeListener,
+            LbyoutMbnbger, MouseInputListener, PropertyChbngeListener,
+            WindowFocusListener, SwingConstbnts {
 
-        public void windowGainedFocus(WindowEvent e) {
+        public void windowGbinedFocus(WindowEvent e) {
         }
 
         public void windowLostFocus(WindowEvent e) {
-            // Cancel a resize which may be in progress, when a
-            // WINDOW_LOST_FOCUS event occurs, which may be
-            // caused by an Alt-Tab or a modal dialog popup.
-            cancelResize();
+            // Cbncel b resize which mby be in progress, when b
+            // WINDOW_LOST_FOCUS event occurs, which mby be
+            // cbused by bn Alt-Tbb or b modbl diblog popup.
+            cbncelResize();
         }
 
-        // ComponentHandler methods
-        /** Invoked when a JInternalFrame's parent's size changes. */
+        // ComponentHbndler methods
+        /** Invoked when b JInternblFrbme's pbrent's size chbnges. */
         public void componentResized(ComponentEvent e) {
-            // Get the JInternalFrame's parent container size
-            Rectangle parentNewBounds = ((Component) e.getSource()).getBounds();
-            JInternalFrame.JDesktopIcon icon = null;
+            // Get the JInternblFrbme's pbrent contbiner size
+            Rectbngle pbrentNewBounds = ((Component) e.getSource()).getBounds();
+            JInternblFrbme.JDesktopIcon icon = null;
 
-            if (frame != null) {
-                icon = frame.getDesktopIcon();
-                // Resize the internal frame if it is maximized and relocate
-                // the associated icon as well.
-                if (frame.isMaximum()) {
-                    frame.setBounds(0, 0, parentNewBounds.width,
-                        parentNewBounds.height);
+            if (frbme != null) {
+                icon = frbme.getDesktopIcon();
+                // Resize the internbl frbme if it is mbximized bnd relocbte
+                // the bssocibted icon bs well.
+                if (frbme.isMbximum()) {
+                    frbme.setBounds(0, 0, pbrentNewBounds.width,
+                        pbrentNewBounds.height);
                 }
             }
 
-            // Relocate the icon base on the new parent bounds.
+            // Relocbte the icon bbse on the new pbrent bounds.
             if (icon != null) {
-                Rectangle iconBounds = icon.getBounds();
+                Rectbngle iconBounds = icon.getBounds();
                 int y = iconBounds.y +
-                        (parentNewBounds.height - parentBounds.height);
+                        (pbrentNewBounds.height - pbrentBounds.height);
                 icon.setBounds(iconBounds.x, y,
                         iconBounds.width, iconBounds.height);
             }
 
-            // Update the new parent bounds for next resize.
-            if (!parentBounds.equals(parentNewBounds)) {
-                parentBounds = parentNewBounds;
+            // Updbte the new pbrent bounds for next resize.
+            if (!pbrentBounds.equbls(pbrentNewBounds)) {
+                pbrentBounds = pbrentNewBounds;
             }
 
-            // Validate the component tree for this container.
-            if (frame != null) frame.validate();
+            // Vblidbte the component tree for this contbiner.
+            if (frbme != null) frbme.vblidbte();
         }
 
         public void componentMoved(ComponentEvent e) {}
@@ -1247,12 +1247,12 @@ public class BasicInternalFrameUI extends InternalFrameUI
         public void componentHidden(ComponentEvent e) {}
 
 
-        // InternalFrameListener
-        public void internalFrameClosed(InternalFrameEvent e) {
-            frame.removeInternalFrameListener(getHandler());
+        // InternblFrbmeListener
+        public void internblFrbmeClosed(InternblFrbmeEvent e) {
+            frbme.removeInternblFrbmeListener(getHbndler());
         }
 
-        public void internalFrameActivated(InternalFrameEvent e) {
+        public void internblFrbmeActivbted(InternblFrbmeEvent e) {
             if (!isKeyBindingRegistered()){
                 setKeyBindingRegistered(true);
                 setupMenuOpenKey();
@@ -1262,117 +1262,117 @@ public class BasicInternalFrameUI extends InternalFrameUI
                 setKeyBindingActive(true);
         }
 
-        public void internalFrameDeactivated(InternalFrameEvent e) {
-            setKeyBindingActive(false);
+        public void internblFrbmeDebctivbted(InternblFrbmeEvent e) {
+            setKeyBindingActive(fblse);
         }
 
-        public void internalFrameClosing(InternalFrameEvent e) { }
-        public void internalFrameOpened(InternalFrameEvent e) { }
-        public void internalFrameIconified(InternalFrameEvent e) { }
-        public void internalFrameDeiconified(InternalFrameEvent e) { }
+        public void internblFrbmeClosing(InternblFrbmeEvent e) { }
+        public void internblFrbmeOpened(InternblFrbmeEvent e) { }
+        public void internblFrbmeIconified(InternblFrbmeEvent e) { }
+        public void internblFrbmeDeiconified(InternblFrbmeEvent e) { }
 
 
-        // LayoutManager
-        public void addLayoutComponent(String name, Component c) {}
-        public void removeLayoutComponent(Component c) {}
-        public Dimension preferredLayoutSize(Container c)  {
+        // LbyoutMbnbger
+        public void bddLbyoutComponent(String nbme, Component c) {}
+        public void removeLbyoutComponent(Component c) {}
+        public Dimension preferredLbyoutSize(Contbiner c)  {
             Dimension result;
-            Insets i = frame.getInsets();
+            Insets i = frbme.getInsets();
 
-            result = new Dimension(frame.getRootPane().getPreferredSize());
+            result = new Dimension(frbme.getRootPbne().getPreferredSize());
             result.width += i.left + i.right;
             result.height += i.top + i.bottom;
 
-            if(getNorthPane() != null) {
-                Dimension d = getNorthPane().getPreferredSize();
-                result.width = Math.max(d.width, result.width);
+            if(getNorthPbne() != null) {
+                Dimension d = getNorthPbne().getPreferredSize();
+                result.width = Mbth.mbx(d.width, result.width);
                 result.height += d.height;
             }
 
-            if(getSouthPane() != null) {
-                Dimension d = getSouthPane().getPreferredSize();
-                result.width = Math.max(d.width, result.width);
+            if(getSouthPbne() != null) {
+                Dimension d = getSouthPbne().getPreferredSize();
+                result.width = Mbth.mbx(d.width, result.width);
                 result.height += d.height;
             }
 
-            if(getEastPane() != null) {
-                Dimension d = getEastPane().getPreferredSize();
+            if(getEbstPbne() != null) {
+                Dimension d = getEbstPbne().getPreferredSize();
                 result.width += d.width;
-                result.height = Math.max(d.height, result.height);
+                result.height = Mbth.mbx(d.height, result.height);
             }
 
-            if(getWestPane() != null) {
-                Dimension d = getWestPane().getPreferredSize();
+            if(getWestPbne() != null) {
+                Dimension d = getWestPbne().getPreferredSize();
                 result.width += d.width;
-                result.height = Math.max(d.height, result.height);
+                result.height = Mbth.mbx(d.height, result.height);
             }
             return result;
         }
 
-        public Dimension minimumLayoutSize(Container c) {
-            // The minimum size of the internal frame only takes into
-            // account the title pane since you are allowed to resize
-            // the frames to the point where just the title pane is visible.
+        public Dimension minimumLbyoutSize(Contbiner c) {
+            // The minimum size of the internbl frbme only tbkes into
+            // bccount the title pbne since you bre bllowed to resize
+            // the frbmes to the point where just the title pbne is visible.
             Dimension result = new Dimension();
-            if (getNorthPane() != null &&
-                getNorthPane() instanceof BasicInternalFrameTitlePane) {
-                  result = new Dimension(getNorthPane().getMinimumSize());
+            if (getNorthPbne() != null &&
+                getNorthPbne() instbnceof BbsicInternblFrbmeTitlePbne) {
+                  result = new Dimension(getNorthPbne().getMinimumSize());
             }
-            Insets i = frame.getInsets();
+            Insets i = frbme.getInsets();
             result.width += i.left + i.right;
             result.height += i.top + i.bottom;
 
             return result;
         }
 
-        public void layoutContainer(Container c) {
-            Insets i = frame.getInsets();
+        public void lbyoutContbiner(Contbiner c) {
+            Insets i = frbme.getInsets();
             int cx, cy, cw, ch;
 
             cx = i.left;
             cy = i.top;
-            cw = frame.getWidth() - i.left - i.right;
-            ch = frame.getHeight() - i.top - i.bottom;
+            cw = frbme.getWidth() - i.left - i.right;
+            ch = frbme.getHeight() - i.top - i.bottom;
 
-            if(getNorthPane() != null) {
-                Dimension size = getNorthPane().getPreferredSize();
-                if (DefaultLookup.getBoolean(frame, BasicInternalFrameUI.this,
-                          "InternalFrame.layoutTitlePaneAtOrigin", false)) {
+            if(getNorthPbne() != null) {
+                Dimension size = getNorthPbne().getPreferredSize();
+                if (DefbultLookup.getBoolebn(frbme, BbsicInternblFrbmeUI.this,
+                          "InternblFrbme.lbyoutTitlePbneAtOrigin", fblse)) {
                     cy = 0;
                     ch += i.top;
-                    getNorthPane().setBounds(0, 0, frame.getWidth(),
+                    getNorthPbne().setBounds(0, 0, frbme.getWidth(),
                                              size.height);
                 }
                 else {
-                    getNorthPane().setBounds(cx, cy, cw, size.height);
+                    getNorthPbne().setBounds(cx, cy, cw, size.height);
                 }
                 cy += size.height;
                 ch -= size.height;
             }
 
-            if(getSouthPane() != null) {
-                Dimension size = getSouthPane().getPreferredSize();
-                getSouthPane().setBounds(cx, frame.getHeight()
+            if(getSouthPbne() != null) {
+                Dimension size = getSouthPbne().getPreferredSize();
+                getSouthPbne().setBounds(cx, frbme.getHeight()
                                                     - i.bottom - size.height,
                                                     cw, size.height);
                 ch -= size.height;
             }
 
-            if(getWestPane() != null) {
-                Dimension size = getWestPane().getPreferredSize();
-                getWestPane().setBounds(cx, cy, size.width, ch);
+            if(getWestPbne() != null) {
+                Dimension size = getWestPbne().getPreferredSize();
+                getWestPbne().setBounds(cx, cy, size.width, ch);
                 cw -= size.width;
                 cx += size.width;
             }
 
-            if(getEastPane() != null) {
-                Dimension size = getEastPane().getPreferredSize();
-                getEastPane().setBounds(cw - size.width, cy, size.width, ch);
+            if(getEbstPbne() != null) {
+                Dimension size = getEbstPbne().getPreferredSize();
+                getEbstPbne().setBounds(cw - size.width, cy, size.width, ch);
                 cw -= size.width;
             }
 
-            if(frame.getRootPane() != null) {
-                frame.getRootPane().setBounds(cx, cy, cw, ch);
+            if(frbme.getRootPbne() != null) {
+                frbme.getRootPbne().setBounds(cx, cy, cw, ch);
             }
         }
 
@@ -1388,68 +1388,68 @@ public class BasicInternalFrameUI extends InternalFrameUI
 
         public void mouseClicked(MouseEvent e) { }
 
-        public void mouseReleased(MouseEvent e) { }
+        public void mouseRelebsed(MouseEvent e) { }
 
-        public void mouseDragged(MouseEvent e) { }
+        public void mouseDrbgged(MouseEvent e) { }
 
-        // PropertyChangeListener
-        public void propertyChange(PropertyChangeEvent evt) {
-            String prop = evt.getPropertyName();
-            JInternalFrame f = (JInternalFrame)evt.getSource();
-            Object newValue = evt.getNewValue();
-            Object oldValue = evt.getOldValue();
+        // PropertyChbngeListener
+        public void propertyChbnge(PropertyChbngeEvent evt) {
+            String prop = evt.getPropertyNbme();
+            JInternblFrbme f = (JInternblFrbme)evt.getSource();
+            Object newVblue = evt.getNewVblue();
+            Object oldVblue = evt.getOldVblue();
 
-            if (JInternalFrame.IS_CLOSED_PROPERTY == prop) {
-                if (newValue == Boolean.TRUE) {
-                    // Cancel a resize in progress if the internal frame
-                    // gets a setClosed(true) or dispose().
-                    cancelResize();
-                    if ((frame.getParent() != null) && componentListenerAdded) {
-                        frame.getParent().removeComponentListener(componentListener);
+            if (JInternblFrbme.IS_CLOSED_PROPERTY == prop) {
+                if (newVblue == Boolebn.TRUE) {
+                    // Cbncel b resize in progress if the internbl frbme
+                    // gets b setClosed(true) or dispose().
+                    cbncelResize();
+                    if ((frbme.getPbrent() != null) && componentListenerAdded) {
+                        frbme.getPbrent().removeComponentListener(componentListener);
                     }
-                    closeFrame(f);
+                    closeFrbme(f);
                 }
-            } else if (JInternalFrame.IS_MAXIMUM_PROPERTY == prop) {
-                if(newValue == Boolean.TRUE) {
-                    maximizeFrame(f);
+            } else if (JInternblFrbme.IS_MAXIMUM_PROPERTY == prop) {
+                if(newVblue == Boolebn.TRUE) {
+                    mbximizeFrbme(f);
                 } else {
-                    minimizeFrame(f);
+                    minimizeFrbme(f);
                 }
-            } else if(JInternalFrame.IS_ICON_PROPERTY == prop) {
-                if (newValue == Boolean.TRUE) {
-                    iconifyFrame(f);
+            } else if(JInternblFrbme.IS_ICON_PROPERTY == prop) {
+                if (newVblue == Boolebn.TRUE) {
+                    iconifyFrbme(f);
                 } else {
-                    deiconifyFrame(f);
+                    deiconifyFrbme(f);
                 }
-            } else if (JInternalFrame.IS_SELECTED_PROPERTY == prop) {
-                if (newValue == Boolean.TRUE && oldValue == Boolean.FALSE) {
-                    activateFrame(f);
-                } else if (newValue == Boolean.FALSE &&
-                           oldValue == Boolean.TRUE) {
-                    deactivateFrame(f);
+            } else if (JInternblFrbme.IS_SELECTED_PROPERTY == prop) {
+                if (newVblue == Boolebn.TRUE && oldVblue == Boolebn.FALSE) {
+                    bctivbteFrbme(f);
+                } else if (newVblue == Boolebn.FALSE &&
+                           oldVblue == Boolebn.TRUE) {
+                    debctivbteFrbme(f);
                 }
-            } else if (prop == "ancestor") {
-                if (newValue == null) {
-                    // Cancel a resize in progress, if the internal frame
-                    // gets a remove(), removeNotify() or setIcon(true).
-                    cancelResize();
+            } else if (prop == "bncestor") {
+                if (newVblue == null) {
+                    // Cbncel b resize in progress, if the internbl frbme
+                    // gets b remove(), removeNotify() or setIcon(true).
+                    cbncelResize();
                 }
-                if (frame.getParent() != null) {
-                    parentBounds = f.getParent().getBounds();
+                if (frbme.getPbrent() != null) {
+                    pbrentBounds = f.getPbrent().getBounds();
                 } else {
-                    parentBounds = null;
+                    pbrentBounds = null;
                 }
-                if ((frame.getParent() != null) && !componentListenerAdded) {
-                    f.getParent().addComponentListener(componentListener);
+                if ((frbme.getPbrent() != null) && !componentListenerAdded) {
+                    f.getPbrent().bddComponentListener(componentListener);
                     componentListenerAdded = true;
                 }
-            } else if (JInternalFrame.TITLE_PROPERTY == prop ||
-                    prop == "closable" || prop == "iconable" ||
-                    prop == "maximizable") {
-                Dimension dim = frame.getMinimumSize();
-                Dimension frame_dim = frame.getSize();
-                if (dim.width > frame_dim.width) {
-                    frame.setSize(dim.width, frame_dim.height);
+            } else if (JInternblFrbme.TITLE_PROPERTY == prop ||
+                    prop == "closbble" || prop == "iconbble" ||
+                    prop == "mbximizbble") {
+                Dimension dim = frbme.getMinimumSize();
+                Dimension frbme_dim = frbme.getSize();
+                if (dim.width > frbme_dim.width) {
+                    frbme.setSize(dim.width, frbme_dim.height);
                 }
             }
         }

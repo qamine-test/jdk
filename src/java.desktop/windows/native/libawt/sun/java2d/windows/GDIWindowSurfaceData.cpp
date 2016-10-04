@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "sun_java2d_windows_GDIWindowSurfaceData.h"
+#include "sun_jbvb2d_windows_GDIWindowSurfbceDbtb.h"
 
-#include "GDIWindowSurfaceData.h"
-#include "GraphicsPrimitiveMgr.h"
+#include "GDIWindowSurfbceDbtb.h"
+#include "GrbphicsPrimitiveMgr.h"
 #include "Region.h"
 #include "Disposer.h"
-#include "WindowsFlags.h"
-#include "awt_Component.h"
-#include "awt_Palette.h"
-#include "awt_Win32GraphicsDevice.h"
+#include "WindowsFlbgs.h"
+#include "bwt_Component.h"
+#include "bwt_Pblette.h"
+#include "bwt_Win32GrbphicsDevice.h"
 #include "gdefs.h"
-#include "Trace.h"
+#include "Trbce.h"
 #include "Devices.h"
 
 #include "jni_util.h"
 
-static LockFunc GDIWinSD_Lock;
-static GetRasInfoFunc GDIWinSD_GetRasInfo;
-static UnlockFunc GDIWinSD_Unlock;
-static DisposeFunc GDIWinSD_Dispose;
-static SetupFunc GDIWinSD_Setup;
-static GetDCFunc GDIWinSD_GetDC;
-static ReleaseDCFunc GDIWinSD_ReleaseDC;
-static InvalidateSDFunc GDIWinSD_InvalidateSD;
+stbtic LockFunc GDIWinSD_Lock;
+stbtic GetRbsInfoFunc GDIWinSD_GetRbsInfo;
+stbtic UnlockFunc GDIWinSD_Unlock;
+stbtic DisposeFunc GDIWinSD_Dispose;
+stbtic SetupFunc GDIWinSD_Setup;
+stbtic GetDCFunc GDIWinSD_GetDC;
+stbtic RelebseDCFunc GDIWinSD_RelebseDC;
+stbtic InvblidbteSDFunc GDIWinSD_InvblidbteSD;
 
-static HBRUSH   nullbrush;
-static HPEN     nullpen;
+stbtic HBRUSH   nullbrush;
+stbtic HPEN     nullpen;
 
-static jclass xorCompClass;
+stbtic jclbss xorCompClbss;
 
-static jboolean beingShutdown = JNI_FALSE;
-static volatile LONG timeStamp = 0;
-extern CriticalSection windowMoveLock;
+stbtic jboolebn beingShutdown = JNI_FALSE;
+stbtic volbtile LONG timeStbmp = 0;
+extern CriticblSection windowMoveLock;
 
 extern "C"
 {
-GeneralDisposeFunc DisposeThreadGraphicsInfo;
-jobject JNI_GetCurrentThread(JNIEnv *env);
-int threadInfoIndex = TLS_OUT_OF_INDEXES;
+GenerblDisposeFunc DisposeThrebdGrbphicsInfo;
+jobject JNI_GetCurrentThrebd(JNIEnv *env);
+int threbdInfoIndex = TLS_OUT_OF_INDEXES;
 
-static jclass threadClass = NULL;
-static jmethodID currentThreadMethodID = NULL;
+stbtic jclbss threbdClbss = NULL;
+stbtic jmethodID currentThrebdMethodID = NULL;
 
-void SetupThreadGraphicsInfo(JNIEnv *env, GDIWinSDOps *wsdo) {
-    J2dTraceLn(J2D_TRACE_INFO, "SetupThreadGraphicsInfo");
+void SetupThrebdGrbphicsInfo(JNIEnv *env, GDIWinSDOps *wsdo) {
+    J2dTrbceLn(J2D_TRACE_INFO, "SetupThrebdGrbphicsInfo");
 
-    // REMIND: handle error when creation fails
-    ThreadGraphicsInfo *info =
-        (ThreadGraphicsInfo*)TlsGetValue(threadInfoIndex);
+    // REMIND: hbndle error when crebtion fbils
+    ThrebdGrbphicsInfo *info =
+        (ThrebdGrbphicsInfo*)TlsGetVblue(threbdInfoIndex);
     if (info == NULL) {
-        info = new ThreadGraphicsInfo;
-        ZeroMemory(info, sizeof(ThreadGraphicsInfo));
-        TlsSetValue(threadInfoIndex, (LPVOID)info);
-        J2dTraceLn2(J2D_TRACE_VERBOSE,
-                    "  current batch limit for for thread 0x%x is %d",
-                     GetCurrentThreadId(), ::GdiGetBatchLimit());
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  setting to the limit to 1");
+        info = new ThrebdGrbphicsInfo;
+        ZeroMemory(info, sizeof(ThrebdGrbphicsInfo));
+        TlsSetVblue(threbdInfoIndex, (LPVOID)info);
+        J2dTrbceLn2(J2D_TRACE_VERBOSE,
+                    "  current bbtch limit for for threbd 0x%x is %d",
+                     GetCurrentThrebdId(), ::GdiGetBbtchLimit());
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  setting to the limit to 1");
         // Fix for bug 4374079
-        ::GdiSetBatchLimit(1);
+        ::GdiSetBbtchLimit(1);
 
-        Disposer_AddRecord(env, JNI_GetCurrentThread(env),
-                           DisposeThreadGraphicsInfo,
+        Disposer_AddRecord(env, JNI_GetCurrentThrebd(env),
+                           DisposeThrebdGrbphicsInfo,
                            ptr_to_jlong(info));
     }
 
     HDC oldhDC = info->hDC;
-    // the hDC is NULL for offscreen surfaces - we don't store it
-    // in TLS as it must be created new every time.
+    // the hDC is NULL for offscreen surfbces - we don't store it
+    // in TLS bs it must be crebted new every time.
 
     if( ((oldhDC == NULL) && wsdo->window != NULL) ||
          (info->wsdo != wsdo) ||
-         (info->wsdoTimeStamp != wsdo->timeStamp) )
+         (info->wsdoTimeStbmp != wsdo->timeStbmp) )
     {
 
-        // Init graphics state, either because this is our first time
-        // using it in this thread or because this thread is now
-        // dealing with a different window than it was last time.
+        // Init grbphics stbte, either becbuse this is our first time
+        // using it in this threbd or becbuse this threbd is now
+        // debling with b different window thbn it wbs lbst time.
 
-        //check extra condition:
-        //(info->wsdoTimeStamp != wsdo->timeStamp).
-        //Checking memory addresses (info->wsdo != wsdo) will not detect
-        //that wsdo points to a newly allocated structure in case
-        //that structure just got allocated at a "recycled" memory location
-        //which previously was pointed by info->wsdo
+        //check extrb condition:
+        //(info->wsdoTimeStbmp != wsdo->timeStbmp).
+        //Checking memory bddresses (info->wsdo != wsdo) will not detect
+        //thbt wsdo points to b newly bllocbted structure in cbse
+        //thbt structure just got bllocbted bt b "recycled" memory locbtion
+        //which previously wbs pointed by info->wsdo
         //see bug# 6859086
 
-        // Release cached DC. We use deferred DC releasing mechanism because
-        // the DC is associated with cached wsdo and component peer,
-        // which may've been disposed by this time, and we have
-        // no means of checking against it.
+        // Relebse cbched DC. We use deferred DC relebsing mechbnism becbuse
+        // the DC is bssocibted with cbched wsdo bnd component peer,
+        // which mby've been disposed by this time, bnd we hbve
+        // no mebns of checking bgbinst it.
         if (oldhDC != NULL) {
-            MoveDCToPassiveList(oldhDC);
+            MoveDCToPbssiveList(oldhDC);
             info->hDC = NULL;
         }
 
         if (wsdo->window != NULL){
             HDC hDC;
-            // This is a window surface
+            // This is b window surfbce
             // First, init the HDC object
-            AwtComponent *comp = GDIWindowSurfaceData_GetComp(env, wsdo);
+            AwtComponent *comp = GDIWindowSurfbceDbtb_GetComp(env, wsdo);
             if (comp == NULL) {
                 return;
             }
@@ -132,76 +132,76 @@ void SetupThreadGraphicsInfo(JNIEnv *env, GDIWinSDOps *wsdo) {
                 ::SelectObject(hDC, nullpen);
                 ::SelectClipRgn(hDC, (HRGN) NULL);
                 ::SetROP2(hDC, R2_COPYPEN);
-                wsdo->device->SelectPalette(hDC);
-                // Note that on NT4 we don't need to do a realize here: the
-                // palette-sharing takes care of color issues for us.  But
-                // on win98 if we don't realize a DC's palette, that
-                // palette does not appear to have correct access to the
-                // logical->system mapping.
-                wsdo->device->RealizePalette(hDC);
+                wsdo->device->SelectPblette(hDC);
+                // Note thbt on NT4 we don't need to do b reblize here: the
+                // pblette-shbring tbkes cbre of color issues for us.  But
+                // on win98 if we don't reblize b DC's pblette, thbt
+                // pblette does not bppebr to hbve correct bccess to the
+                // logicbl->system mbpping.
+                wsdo->device->ReblizePblette(hDC);
 
-                // Second, init the rest of the graphics state
+                // Second, init the rest of the grbphics stbte
                 ::GetClientRect(wsdo->window, &info->bounds);
-                // Make window-relative from client-relative
+                // Mbke window-relbtive from client-relbtive
                 ::OffsetRect(&info->bounds, wsdo->insets.left, wsdo->insets.top);
-                //Likewise, translate GDI calls from client-relative to window-relative
+                //Likewise, trbnslbte GDI cblls from client-relbtive to window-relbtive
                 ::OffsetViewportOrgEx(hDC, -wsdo->insets.left, -wsdo->insets.top, NULL);
             }
 
-            // Finally, set these new values in the info for this thread
+            // Finblly, set these new vblues in the info for this threbd
             info->hDC = hDC;
         }
 
-        // cached brush and pen are not associated with any DC, and can be
-        // reused, but have to set type to 0 to indicate that no pen/brush
+        // cbched brush bnd pen bre not bssocibted with bny DC, bnd cbn be
+        // reused, but hbve to set type to 0 to indicbte thbt no pen/brush
         // were set to the new hdc
         info->type = 0;
 
         if (info->clip != NULL) {
-            env->DeleteWeakGlobalRef(info->clip);
+            env->DeleteWebkGlobblRef(info->clip);
         }
         info->clip = NULL;
 
         if (info->comp != NULL) {
-            env->DeleteWeakGlobalRef(info->comp);
+            env->DeleteWebkGlobblRef(info->comp);
         }
         info->comp = NULL;
 
         info->xorcolor = 0;
-        info->patrop = PATCOPY;
+        info->pbtrop = PATCOPY;
 
-        //store the address and time stamp of newly allocated GDIWinSDOps structure
+        //store the bddress bnd time stbmp of newly bllocbted GDIWinSDOps structure
         info->wsdo = wsdo;
-        info->wsdoTimeStamp = wsdo->timeStamp;
+        info->wsdoTimeStbmp = wsdo->timeStbmp;
     }
 }
 
 /**
- * Releases native data stored in Thread local storage.
- * Called by the Disposer when the associated thread dies.
+ * Relebses nbtive dbtb stored in Threbd locbl storbge.
+ * Cblled by the Disposer when the bssocibted threbd dies.
  */
-void DisposeThreadGraphicsInfo(JNIEnv *env, jlong tgi) {
-    J2dTraceLn(J2D_TRACE_INFO, "DisposeThreadGraphicsInfo");
-    ThreadGraphicsInfo *info = (ThreadGraphicsInfo*)jlong_to_ptr(tgi);
+void DisposeThrebdGrbphicsInfo(JNIEnv *env, jlong tgi) {
+    J2dTrbceLn(J2D_TRACE_INFO, "DisposeThrebdGrbphicsInfo");
+    ThrebdGrbphicsInfo *info = (ThrebdGrbphicsInfo*)jlong_to_ptr(tgi);
     if (info != NULL) {
         if (info->hDC != NULL) {
-            // move the DC from the active dcs list to
-            // the passive dc list to be released later
-            MoveDCToPassiveList(info->hDC);
+            // move the DC from the bctive dcs list to
+            // the pbssive dc list to be relebsed lbter
+            MoveDCToPbssiveList(info->hDC);
         }
 
         if (info->clip != NULL) {
-            env->DeleteWeakGlobalRef(info->clip);
+            env->DeleteWebkGlobblRef(info->clip);
         }
         if (info->comp != NULL) {
-            env->DeleteWeakGlobalRef(info->comp);
+            env->DeleteWebkGlobblRef(info->comp);
         }
 
         if (info->brush != NULL) {
-            info->brush->Release();
+            info->brush->Relebse();
         }
         if (info->pen != NULL) {
-            info->pen->Release();
+            info->pen->Relebse();
         }
 
         delete info;
@@ -209,29 +209,29 @@ void DisposeThreadGraphicsInfo(JNIEnv *env, jlong tgi) {
 }
 
 /**
- * Returns current Thread object.
+ * Returns current Threbd object.
  */
 jobject
-JNI_GetCurrentThread(JNIEnv *env) {
-    return env->CallStaticObjectMethod(threadClass, currentThreadMethodID);
-} /* JNI_GetCurrentThread() */
+JNI_GetCurrentThrebd(JNIEnv *env) {
+    return env->CbllStbticObjectMethod(threbdClbss, currentThrebdMethodID);
+} /* JNI_GetCurrentThrebd() */
 
 /**
- * Return the data associated with this thread.
- * NOTE: This function assumes that the SetupThreadGraphicsInfo()
- * function has already been called for this situation (thread,
- * window, etc.), so we can assume that the thread info contains
- * a valid hDC.  This should usually be the case since GDIWinSD_Setup
- * is called as part of the GetOps() process.
+ * Return the dbtb bssocibted with this threbd.
+ * NOTE: This function bssumes thbt the SetupThrebdGrbphicsInfo()
+ * function hbs blrebdy been cblled for this situbtion (threbd,
+ * window, etc.), so we cbn bssume thbt the threbd info contbins
+ * b vblid hDC.  This should usublly be the cbse since GDIWinSD_Setup
+ * is cblled bs pbrt of the GetOps() process.
  */
-ThreadGraphicsInfo *GetThreadGraphicsInfo(JNIEnv *env,
+ThrebdGrbphicsInfo *GetThrebdGrbphicsInfo(JNIEnv *env,
                                           GDIWinSDOps *wsdo) {
-    return (ThreadGraphicsInfo*)TlsGetValue(threadInfoIndex);
+    return (ThrebdGrbphicsInfo*)TlsGetVblue(threbdInfoIndex);
 }
 
-__inline HDC GetThreadDC(JNIEnv *env, GDIWinSDOps *wsdo) {
-    ThreadGraphicsInfo *info =
-        (ThreadGraphicsInfo *)GetThreadGraphicsInfo(env, wsdo);
+__inline HDC GetThrebdDC(JNIEnv *env, GDIWinSDOps *wsdo) {
+    ThrebdGrbphicsInfo *info =
+        (ThrebdGrbphicsInfo *)GetThrebdGrbphicsInfo(env, wsdo);
     if (!info) {
         return (HDC) NULL;
     }
@@ -241,22 +241,22 @@ __inline HDC GetThreadDC(JNIEnv *env, GDIWinSDOps *wsdo) {
 } // extern "C"
 
 /**
- * This source file contains support code for loops using the
- * SurfaceData interface to talk to a Win32 drawable from native
+ * This source file contbins support code for loops using the
+ * SurfbceDbtb interfbce to tblk to b Win32 drbwbble from nbtive
  * code.
  */
 
-static BOOL GDIWinSD_CheckMonitorArea(GDIWinSDOps *wsdo,
-                                     SurfaceDataBounds *bounds,
+stbtic BOOL GDIWinSD_CheckMonitorAreb(GDIWinSDOps *wsdo,
+                                     SurfbceDbtbBounds *bounds,
                                      HDC hDC)
 {
     HWND hW = wsdo->window;
     BOOL retCode = TRUE;
 
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWinSD_CheckMonitorArea");
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWinSD_CheckMonitorAreb");
     int numScreens;
     {
-        Devices::InstanceAccess devices;
+        Devices::InstbnceAccess devices;
         numScreens = devices->GetNumDevices();
     }
     if( numScreens > 1 ) {
@@ -276,7 +276,7 @@ static BOOL GDIWinSD_CheckMonitorArea(GDIWinSDOps *wsdo,
         ::IntersectRect(&rSect,&rView,&(miInfo->rcMonitor));
 
         if( FALSE == ::IsRectEmpty(&rSect) ) {
-            if( TRUE == ::EqualRect(&rSect,&rView) ) {
+            if( TRUE == ::EqublRect(&rSect,&rView) ) {
                 retCode = TRUE;
             }
         }
@@ -287,49 +287,49 @@ static BOOL GDIWinSD_CheckMonitorArea(GDIWinSDOps *wsdo,
 extern "C" {
 
 void
-initThreadInfoIndex()
+initThrebdInfoIndex()
 {
-    if (threadInfoIndex == TLS_OUT_OF_INDEXES) {
-        threadInfoIndex = TlsAlloc();
+    if (threbdInfoIndex == TLS_OUT_OF_INDEXES) {
+        threbdInfoIndex = TlsAlloc();
     }
 }
 
 
 /**
- * Utility function to make sure that native and java-level
- * surface depths are matched.  They can be mismatched when display-depths
- * change, either between the creation of the Java surfaceData structure
- * and the native ddraw surface, or later when a surface is automatically
- * adjusted to be the new display depth (even if it was created in a different
+ * Utility function to mbke sure thbt nbtive bnd jbvb-level
+ * surfbce depths bre mbtched.  They cbn be mismbtched when displby-depths
+ * chbnge, either between the crebtion of the Jbvb surfbceDbtb structure
+ * bnd the nbtive ddrbw surfbce, or lbter when b surfbce is butombticblly
+ * bdjusted to be the new displby depth (even if it wbs crebted in b different
  * depth to begin with)
  */
-BOOL SurfaceDepthsCompatible(int javaDepth, int nativeDepth)
+BOOL SurfbceDepthsCompbtible(int jbvbDepth, int nbtiveDepth)
 {
-    if (nativeDepth != javaDepth) {
-        switch (nativeDepth) {
-        case 0: // Error condition: something is wrong with the surface
-        case 8:
-        case 24:
-            // Java and native surface depths should match exactly for
-            // these cases
+    if (nbtiveDepth != jbvbDepth) {
+        switch (nbtiveDepth) {
+        cbse 0: // Error condition: something is wrong with the surfbce
+        cbse 8:
+        cbse 24:
+            // Jbvb bnd nbtive surfbce depths should mbtch exbctly for
+            // these cbses
             return FALSE;
-            break;
-        case 16:
-            // Java surfaceData should be 15 or 16 bits
-            if (javaDepth < 15 || javaDepth > 16) {
+            brebk;
+        cbse 16:
+            // Jbvb surfbceDbtb should be 15 or 16 bits
+            if (jbvbDepth < 15 || jbvbDepth > 16) {
                 return FALSE;
             }
-            break;
-        case 32:
-            // Could have this native depth for either 24- or 32-bit
-            // Java surfaceData
-            if (javaDepth != 24 && javaDepth != 32) {
+            brebk;
+        cbse 32:
+            // Could hbve this nbtive depth for either 24- or 32-bit
+            // Jbvb surfbceDbtb
+            if (jbvbDepth != 24 && jbvbDepth != 32) {
                 return FALSE;
             }
-            break;
-        default:
+            brebk;
+        defbult:
             // should not get here, but if we do something is odd, so
-            // just register a failure
+            // just register b fbilure
             return FALSE;
         }
     }
@@ -338,202 +338,202 @@ BOOL SurfaceDepthsCompatible(int javaDepth, int nativeDepth)
 
 
 /*
- * Class:     sun_java2d_windows_GDIWindowSurfaceData
+ * Clbss:     sun_jbvb2d_windows_GDIWindowSurfbceDbtb
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_windows_GDIWindowSurfaceData_initIDs(JNIEnv *env, jclass wsd,
-                                                 jclass XORComp)
+Jbvb_sun_jbvb2d_windows_GDIWindowSurfbceDbtb_initIDs(JNIEnv *env, jclbss wsd,
+                                                 jclbss XORComp)
 {
-    jclass tc;
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWindowSurfaceData_initIDs");
+    jclbss tc;
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWindowSurfbceDbtb_initIDs");
     nullbrush = (HBRUSH) ::GetStockObject(NULL_BRUSH);
     nullpen = (HPEN) ::GetStockObject(NULL_PEN);
 
-    initThreadInfoIndex();
+    initThrebdInfoIndex();
 
-    xorCompClass = (jclass)env->NewGlobalRef(XORComp);
+    xorCompClbss = (jclbss)env->NewGlobblRef(XORComp);
     if (env->ExceptionCheck()) {
         return;
     }
 
-    tc = env->FindClass("java/lang/Thread");
+    tc = env->FindClbss("jbvb/lbng/Threbd");
     DASSERT(tc != NULL);
     CHECK_NULL(tc);
 
-    threadClass = (jclass)env->NewGlobalRef(tc);
-    DASSERT(threadClass != NULL);
-    CHECK_NULL(threadClass);
+    threbdClbss = (jclbss)env->NewGlobblRef(tc);
+    DASSERT(threbdClbss != NULL);
+    CHECK_NULL(threbdClbss);
 
-    currentThreadMethodID =
-        env->GetStaticMethodID(threadClass,
-                               "currentThread",  "()Ljava/lang/Thread;");
-    DASSERT(currentThreadMethodID != NULL);
+    currentThrebdMethodID =
+        env->GetStbticMethodID(threbdClbss,
+                               "currentThrebd",  "()Ljbvb/lbng/Threbd;");
+    DASSERT(currentThrebdMethodID != NULL);
 }
 
 #undef ExceptionOccurred
 
 /*
- * Class:     sun_java2d_windows_GDIWindowSurfaceData
+ * Clbss:     sun_jbvb2d_windows_GDIWindowSurfbceDbtb
  * Method:    initOps
- * Signature: (Ljava/lang/Object;IIIIII)V
+ * Signbture: (Ljbvb/lbng/Object;IIIIII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_windows_GDIWindowSurfaceData_initOps(JNIEnv *env, jobject wsd,
+Jbvb_sun_jbvb2d_windows_GDIWindowSurfbceDbtb_initOps(JNIEnv *env, jobject wsd,
                                                  jobject peer, jint depth,
-                                                 jint redMask, jint greenMask,
-                                                 jint blueMask, jint screen)
+                                                 jint redMbsk, jint greenMbsk,
+                                                 jint blueMbsk, jint screen)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWindowSurfaceData_initOps");
-    GDIWinSDOps *wsdo = (GDIWinSDOps *)SurfaceData_InitOps(env, wsd, sizeof(GDIWinSDOps));
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWindowSurfbceDbtb_initOps");
+    GDIWinSDOps *wsdo = (GDIWinSDOps *)SurfbceDbtb_InitOps(env, wsd, sizeof(GDIWinSDOps));
     if (wsdo == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "Initialization of SurfaceData failed.");
+        JNU_ThrowOutOfMemoryError(env, "Initiblizbtion of SurfbceDbtb fbiled.");
         return;
     }
-    wsdo->timeStamp = InterlockedIncrement(&timeStamp); //creation time stamp
+    wsdo->timeStbmp = InterlockedIncrement(&timeStbmp); //crebtion time stbmp
     wsdo->sdOps.Lock = GDIWinSD_Lock;
-    wsdo->sdOps.GetRasInfo = GDIWinSD_GetRasInfo;
+    wsdo->sdOps.GetRbsInfo = GDIWinSD_GetRbsInfo;
     wsdo->sdOps.Unlock = GDIWinSD_Unlock;
     wsdo->sdOps.Dispose = GDIWinSD_Dispose;
     wsdo->sdOps.Setup = GDIWinSD_Setup;
     wsdo->GetDC = GDIWinSD_GetDC;
-    wsdo->ReleaseDC = GDIWinSD_ReleaseDC;
-    wsdo->InvalidateSD = GDIWinSD_InvalidateSD;
-    wsdo->invalid = JNI_FALSE;
+    wsdo->RelebseDC = GDIWinSD_RelebseDC;
+    wsdo->InvblidbteSD = GDIWinSD_InvblidbteSD;
+    wsdo->invblid = JNI_FALSE;
     wsdo->lockType = WIN32SD_LOCK_UNLOCKED;
-    wsdo->peer = env->NewWeakGlobalRef(peer);
+    wsdo->peer = env->NewWebkGlobblRef(peer);
     if (env->ExceptionOccurred()) {
         return;
     }
     wsdo->depth = depth;
-    wsdo->pixelMasks[0] = redMask;
-    wsdo->pixelMasks[1] = greenMask;
-    wsdo->pixelMasks[2] = blueMask;
-    // Init the DIB pixelStride and pixel masks according to
-    // the pixel depth. In the 8-bit case, there are no
-    // masks as a palette DIB is used instead. Likewise
-    // in the 24-bit case, Windows doesn't expect the masks
+    wsdo->pixelMbsks[0] = redMbsk;
+    wsdo->pixelMbsks[1] = greenMbsk;
+    wsdo->pixelMbsks[2] = blueMbsk;
+    // Init the DIB pixelStride bnd pixel mbsks bccording to
+    // the pixel depth. In the 8-bit cbse, there bre no
+    // mbsks bs b pblette DIB is used instebd. Likewise
+    // in the 24-bit cbse, Windows doesn't expect the mbsks
     switch (depth) {
-        case 8:
+        cbse 8:
             wsdo->pixelStride = 1;
-            break;
-        case 15: //555
+            brebk;
+        cbse 15: //555
             wsdo->pixelStride = 2;
-            break;
-        case 16: //565
+            brebk;
+        cbse 16: //565
             wsdo->pixelStride = 2;
-            break;
-        case 24:
+            brebk;
+        cbse 24:
             wsdo->pixelStride = 3;
-            break;
-        case 32: //888
+            brebk;
+        cbse 32: //888
             wsdo->pixelStride = 4;
-            break;
+            brebk;
     }
-    // GDIWindowSurfaceData_GetWindow will throw NullPointerException
+    // GDIWindowSurfbceDbtb_GetWindow will throw NullPointerException
     // if wsdo->window is NULL
-    wsdo->window = GDIWindowSurfaceData_GetWindow(env, wsdo);
-    J2dTraceLn2(J2D_TRACE_VERBOSE, "  wsdo=0x%x wsdo->window=0x%x",
+    wsdo->window = GDIWindowSurfbceDbtb_GetWindow(env, wsdo);
+    J2dTrbceLn2(J2D_TRACE_VERBOSE, "  wsdo=0x%x wsdo->window=0x%x",
                 wsdo, wsdo->window);
 
     {
-        Devices::InstanceAccess devices;
+        Devices::InstbnceAccess devices;
         wsdo->device = devices->GetDeviceReference(screen, FALSE);
     }
     if (wsdo->device == NULL ||
-        !SurfaceDepthsCompatible(depth, wsdo->device->GetBitDepth()))
+        !SurfbceDepthsCompbtible(depth, wsdo->device->GetBitDepth()))
     {
         if (wsdo->device != NULL) {
-            J2dTraceLn2(J2D_TRACE_WARNING,
-                        "GDIWindowSurfaceData_initOps: Surface depth mismatch: "\
-                        "wsdo->depth=%d device depth=%d. Surface invalidated.",
+            J2dTrbceLn2(J2D_TRACE_WARNING,
+                        "GDIWindowSurfbceDbtb_initOps: Surfbce depth mismbtch: "\
+                        "wsdo->depth=%d device depth=%d. Surfbce invblidbted.",
                         wsdo->depth, wsdo->device->GetBitDepth());
         } else {
-            J2dTraceLn1(J2D_TRACE_WARNING,
-                        "GDIWindowSurfaceData_initOps: Incorrect "\
-                        "screen number (screen=%d). Surface invalidated.",
+            J2dTrbceLn1(J2D_TRACE_WARNING,
+                        "GDIWindowSurfbceDbtb_initOps: Incorrect "\
+                        "screen number (screen=%d). Surfbce invblidbted.",
                         screen);
         }
 
-        wsdo->invalid = JNI_TRUE;
+        wsdo->invblid = JNI_TRUE;
     }
-    wsdo->surfaceLock = new CriticalSection();
-    wsdo->bitmap = NULL;
+    wsdo->surfbceLock = new CriticblSection();
+    wsdo->bitmbp = NULL;
     wsdo->bmdc = NULL;
     wsdo->bmCopyToScreen = FALSE;
 }
 
 JNIEXPORT GDIWinSDOps * JNICALL
-GDIWindowSurfaceData_GetOps(JNIEnv *env, jobject sData)
+GDIWindowSurfbceDbtb_GetOps(JNIEnv *env, jobject sDbtb)
 {
-    SurfaceDataOps *ops = SurfaceData_GetOps(env, sData);
-    // REMIND: There was originally a condition check here to make sure
-    // that we were really dealing with a GDIWindowSurfaceData object, but
-    // it did not allow for the existence of other win32-accelerated
-    // surface data objects (e.g., Win32OffScreenSurfaceData).  I've
-    // removed the check for now, but we should replace it with another,
-    // more general check against Win32-related surfaces.
+    SurfbceDbtbOps *ops = SurfbceDbtb_GetOps(env, sDbtb);
+    // REMIND: There wbs originblly b condition check here to mbke sure
+    // thbt we were reblly debling with b GDIWindowSurfbceDbtb object, but
+    // it did not bllow for the existence of other win32-bccelerbted
+    // surfbce dbtb objects (e.g., Win32OffScreenSurfbceDbtb).  I've
+    // removed the check for now, but we should replbce it with bnother,
+    // more generbl check bgbinst Win32-relbted surfbces.
     return (GDIWinSDOps *) ops;
 }
 
 JNIEXPORT GDIWinSDOps * JNICALL
-GDIWindowSurfaceData_GetOpsNoSetup(JNIEnv *env, jobject sData)
+GDIWindowSurfbceDbtb_GetOpsNoSetup(JNIEnv *env, jobject sDbtb)
 {
     // use the 'no setup' version of GetOps
-    SurfaceDataOps *ops = SurfaceData_GetOpsNoSetup(env, sData);
+    SurfbceDbtbOps *ops = SurfbceDbtb_GetOpsNoSetup(env, sDbtb);
     return (GDIWinSDOps *) ops;
 }
 
 JNIEXPORT AwtComponent * JNICALL
-GDIWindowSurfaceData_GetComp(JNIEnv *env, GDIWinSDOps *wsdo)
+GDIWindowSurfbceDbtb_GetComp(JNIEnv *env, GDIWinSDOps *wsdo)
 {
-    PDATA pData;
-    jobject localObj = env->NewLocalRef(wsdo->peer);
+    PDATA pDbtb;
+    jobject locblObj = env->NewLocblRef(wsdo->peer);
 
-    if (localObj == NULL || (pData = JNI_GET_PDATA(localObj)) == NULL) {
-        J2dTraceLn1(J2D_TRACE_WARNING,
-                    "GDIWindowSurfaceData_GetComp: Null pData? pData=0x%x",
-                    pData);
+    if (locblObj == NULL || (pDbtb = JNI_GET_PDATA(locblObj)) == NULL) {
+        J2dTrbceLn1(J2D_TRACE_WARNING,
+                    "GDIWindowSurfbceDbtb_GetComp: Null pDbtb? pDbtb=0x%x",
+                    pDbtb);
         if (beingShutdown == JNI_TRUE) {
-            wsdo->invalid = JNI_TRUE;
+            wsdo->invblid = JNI_TRUE;
             return (AwtComponent *) NULL;
         }
         try {
-            AwtToolkit::GetInstance().VerifyActive();
-        } catch (awt_toolkit_shutdown&) {
+            AwtToolkit::GetInstbnce().VerifyActive();
+        } cbtch (bwt_toolkit_shutdown&) {
             beingShutdown = JNI_TRUE;
-            wsdo->invalid = JNI_TRUE;
+            wsdo->invblid = JNI_TRUE;
             return (AwtComponent *) NULL;
         }
-        if (wsdo->invalid == JNI_TRUE) {
-            SurfaceData_ThrowInvalidPipeException(env,
-                "GDIWindowSurfaceData: bounds changed");
+        if (wsdo->invblid == JNI_TRUE) {
+            SurfbceDbtb_ThrowInvblidPipeException(env,
+                "GDIWindowSurfbceDbtb: bounds chbnged");
         } else {
-            JNU_ThrowNullPointerException(env, "component argument pData");
+            JNU_ThrowNullPointerException(env, "component brgument pDbtb");
         }
         return (AwtComponent *) NULL;
     }
-    return static_cast<AwtComponent*>(pData);
+    return stbtic_cbst<AwtComponent*>(pDbtb);
 }
 
 JNIEXPORT HWND JNICALL
-GDIWindowSurfaceData_GetWindow(JNIEnv *env, GDIWinSDOps *wsdo)
+GDIWindowSurfbceDbtb_GetWindow(JNIEnv *env, GDIWinSDOps *wsdo)
 {
     HWND window = wsdo->window;
 
     if (window == (HWND) NULL) {
-        AwtComponent *comp = GDIWindowSurfaceData_GetComp(env, wsdo);
+        AwtComponent *comp = GDIWindowSurfbceDbtb_GetComp(env, wsdo);
         if (comp == NULL) {
-            J2dTraceLn(J2D_TRACE_WARNING,
-                   "GDIWindowSurfaceData_GetWindow: null component");
+            J2dTrbceLn(J2D_TRACE_WARNING,
+                   "GDIWindowSurfbceDbtb_GetWindow: null component");
             return (HWND) NULL;
         }
         comp->GetInsets(&wsdo->insets);
         window = comp->GetHWnd();
         if (::IsWindow(window) == FALSE) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                          "GDIWindowSurfaceData_GetWindow: disposed component");
+            J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                          "GDIWindowSurfbceDbtb_GetWindow: disposed component");
             JNU_ThrowNullPointerException(env, "disposed component");
             return (HWND) NULL;
         }
@@ -545,13 +545,13 @@ GDIWindowSurfaceData_GetWindow(JNIEnv *env, GDIWinSDOps *wsdo)
 
 } /* extern "C" */
 
-static jboolean GDIWinSD_SimpleClip(JNIEnv *env, GDIWinSDOps *wsdo,
-                                   SurfaceDataBounds *bounds,
+stbtic jboolebn GDIWinSD_SimpleClip(JNIEnv *env, GDIWinSDOps *wsdo,
+                                   SurfbceDbtbBounds *bounds,
                                    HDC hDC)
 {
     RECT rClip;
 
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWinSD_SimpleClip");
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWinSD_SimpleClip");
     if (hDC == NULL) {
         return JNI_FALSE;
     }
@@ -559,58 +559,58 @@ static jboolean GDIWinSD_SimpleClip(JNIEnv *env, GDIWinSDOps *wsdo,
     int nComplexity = ::GetClipBox(hDC, &rClip);
 
     switch (nComplexity) {
-    case COMPLEXREGION:
+    cbse COMPLEXREGION:
         {
-            J2dTraceLn(J2D_TRACE_VERBOSE,
+            J2dTrbceLn(J2D_TRACE_VERBOSE,
                        "  complex clipping region");
-            // if complex user/system clip, more detailed testing required
-            // check to see if the view itself has a complex clip.
-            // ::GetClipBox is only API which returns overlapped window status
-            // so we set the rView as our clip, and then see if resulting
+            // if complex user/system clip, more detbiled testing required
+            // check to see if the view itself hbs b complex clip.
+            // ::GetClipBox is only API which returns overlbpped window stbtus
+            // so we set the rView bs our clip, bnd then see if resulting
             // clip is complex.
-            // Only other way to figure this out would be to walk the
-            // overlapping windows (no API to get the actual visible clip
-            // list).  Then we'd still have to merge that info with the
+            // Only other wby to figure this out would be to wblk the
+            // overlbpping windows (no API to get the bctubl visible clip
+            // list).  Then we'd still hbve to merge thbt info with the
             // clip region for the dc (if it exists).
-            // REMIND: we can cache the CreateRectRgnIndirect result,
-            // and only override with ::SetRectRgn
+            // REMIND: we cbn cbche the CrebteRectRgnIndirect result,
+            // bnd only override with ::SetRectRgn
 
-            // First, create a region handle (need existing HRGN for
-            // the following call).
-            HRGN rgnSave = ::CreateRectRgn(0, 0, 0, 0);
-            int  clipStatus = ::GetClipRgn(hDC, rgnSave);
-            if (-1 == clipStatus) {
-                J2dTraceLn(J2D_TRACE_WARNING,
-                           "GDIWinSD_SimpleClip: failed due to clip status");
-                ::DeleteObject(rgnSave);
+            // First, crebte b region hbndle (need existing HRGN for
+            // the following cbll).
+            HRGN rgnSbve = ::CrebteRectRgn(0, 0, 0, 0);
+            int  clipStbtus = ::GetClipRgn(hDC, rgnSbve);
+            if (-1 == clipStbtus) {
+                J2dTrbceLn(J2D_TRACE_WARNING,
+                           "GDIWinSD_SimpleClip: fbiled due to clip stbtus");
+                ::DeleteObject(rgnSbve);
                 return JNI_FALSE;
             }
-            HRGN rgnBounds = ::CreateRectRgn(
+            HRGN rgnBounds = ::CrebteRectRgn(
                 bounds->x1 - wsdo->insets.left,
                 bounds->y1 - wsdo->insets.top,
                 bounds->x2 - wsdo->insets.left,
                 bounds->y2 - wsdo->insets.top);
             ::SelectClipRgn(hDC, rgnBounds);
             nComplexity = ::GetClipBox(hDC, &rClip);
-            ::SelectClipRgn(hDC, clipStatus? rgnSave: NULL);
-            ::DeleteObject(rgnSave);
+            ::SelectClipRgn(hDC, clipStbtus? rgnSbve: NULL);
+            ::DeleteObject(rgnSbve);
             ::DeleteObject(rgnBounds);
 
-            // Now, test the new clip box.  If it's still not a
-            // SIMPLE region, then our bounds must intersect part of
-            // the clipping article
+            // Now, test the new clip box.  If it's still not b
+            // SIMPLE region, then our bounds must intersect pbrt of
+            // the clipping brticle
             if (SIMPLEREGION != nComplexity) {
-                J2dTraceLn(J2D_TRACE_WARNING,
-                           "GDIWinSD_SimpleClip: failed due to complexity");
+                J2dTrbceLn(J2D_TRACE_WARNING,
+                           "GDIWinSD_SimpleClip: fbiled due to complexity");
                 return JNI_FALSE;
             }
         }
-        // NOTE: No break here - we want to fall through into the
-        // SIMPLE case, adjust our bounds by the new rClip rect
-        // and make sure that our locking bounds are not empty.
-    case SIMPLEREGION:
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  simple clipping region");
-        // Constrain the bounds to the given clip box
+        // NOTE: No brebk here - we wbnt to fbll through into the
+        // SIMPLE cbse, bdjust our bounds by the new rClip rect
+        // bnd mbke sure thbt our locking bounds bre not empty.
+    cbse SIMPLEREGION:
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  simple clipping region");
+        // Constrbin the bounds to the given clip box
         if (bounds->x1 < rClip.left) {
             bounds->x1 = rClip.left;
         }
@@ -623,26 +623,26 @@ static jboolean GDIWinSD_SimpleClip(JNIEnv *env, GDIWinSDOps *wsdo,
         if (bounds->y2 > rClip.bottom) {
             bounds->y2 = rClip.bottom;
         }
-        // If the bounds are 0 or negative, then the bounds have
+        // If the bounds bre 0 or negbtive, then the bounds hbve
         // been obscured by the clip box, so return FALSE
         if ((bounds->x2 <= bounds->x1) ||
             (bounds->y2 <= bounds->y1)) {
-            // REMIND: We should probably do something different here
-            // instead of simply returning FALSE.  Since the bounds are
-            // empty we won't end up drawing anything, so why spend the
-            // effort of returning false and having GDI do a LOCK_BY_DIB?
-            // Perhaps we need a new lock code that will indicate that we
-            // shouldn't bother drawing?
-            J2dTraceLn(J2D_TRACE_WARNING,
-                       "GDIWinSD_SimpleClip: failed due to empty bounds");
+            // REMIND: We should probbbly do something different here
+            // instebd of simply returning FALSE.  Since the bounds bre
+            // empty we won't end up drbwing bnything, so why spend the
+            // effort of returning fblse bnd hbving GDI do b LOCK_BY_DIB?
+            // Perhbps we need b new lock code thbt will indicbte thbt we
+            // shouldn't bother drbwing?
+            J2dTrbceLn(J2D_TRACE_WARNING,
+                       "GDIWinSD_SimpleClip: fbiled due to empty bounds");
             return JNI_FALSE;
         }
-        break;
-    case NULLREGION:
-    case ERROR:
-    default:
-        J2dTraceLn1(J2D_TRACE_ERROR,
-                   "GDIWinSD_SimpleClip: failed due to incorrect complexity=%d",
+        brebk;
+    cbse NULLREGION:
+    cbse ERROR:
+    defbult:
+        J2dTrbceLn1(J2D_TRACE_ERROR,
+                   "GDIWinSD_SimpleClip: fbiled due to incorrect complexity=%d",
                     nComplexity);
         return JNI_FALSE;
     }
@@ -650,70 +650,70 @@ static jboolean GDIWinSD_SimpleClip(JNIEnv *env, GDIWinSDOps *wsdo,
     return JNI_TRUE;
 }
 
-static jint GDIWinSD_Lock(JNIEnv *env,
-                         SurfaceDataOps *ops,
-                         SurfaceDataRasInfo *pRasInfo,
-                         jint lockflags)
+stbtic jint GDIWinSD_Lock(JNIEnv *env,
+                         SurfbceDbtbOps *ops,
+                         SurfbceDbtbRbsInfo *pRbsInfo,
+                         jint lockflbgs)
 {
     GDIWinSDOps *wsdo = (GDIWinSDOps *) ops;
     int ret = SD_SUCCESS;
     HDC hDC;
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWinSD_Lock");
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWinSD_Lock");
 
-    /* This surfaceLock replaces an earlier implementation which used a
-    monitor associated with the peer.  That implementation was prone
-    to deadlock problems, so it was replaced by a lock that does not
-    have dependencies outside of this thread or object.
-    However, this lock doesn't necessarily do all that we want.
-    For example, a user may issue a call which results in a DIB lock
-    and another call which results in a DDraw Blt.  We can't guarantee
-    what order these operations happen in (they are driver and
-    video-card dependent), so locking around the issue of either of
-    those calls won't necessarily guarantee a particular result.
-    The real solution might be to move away from mixing our
-    rendering API's.  That is, if we only used DDraw, then we could
-    guarantee that all rendering operations would happen in a given
-    order.  Similarly for GDI.  But by mixing them, we leave our
-    code at the mercy of driver bugs.*/
-    wsdo->surfaceLock->Enter();
-    if (wsdo->invalid == JNI_TRUE) {
-        J2dTraceLn(J2D_TRACE_WARNING, "GDIWinSD_Lock: surface is invalid");
-        wsdo->surfaceLock->Leave();
+    /* This surfbceLock replbces bn ebrlier implementbtion which used b
+    monitor bssocibted with the peer.  Thbt implementbtion wbs prone
+    to debdlock problems, so it wbs replbced by b lock thbt does not
+    hbve dependencies outside of this threbd or object.
+    However, this lock doesn't necessbrily do bll thbt we wbnt.
+    For exbmple, b user mby issue b cbll which results in b DIB lock
+    bnd bnother cbll which results in b DDrbw Blt.  We cbn't gubrbntee
+    whbt order these operbtions hbppen in (they bre driver bnd
+    video-cbrd dependent), so locking bround the issue of either of
+    those cblls won't necessbrily gubrbntee b pbrticulbr result.
+    The rebl solution might be to move bwby from mixing our
+    rendering API's.  Thbt is, if we only used DDrbw, then we could
+    gubrbntee thbt bll rendering operbtions would hbppen in b given
+    order.  Similbrly for GDI.  But by mixing them, we lebve our
+    code bt the mercy of driver bugs.*/
+    wsdo->surfbceLock->Enter();
+    if (wsdo->invblid == JNI_TRUE) {
+        J2dTrbceLn(J2D_TRACE_WARNING, "GDIWinSD_Lock: surfbce is invblid");
+        wsdo->surfbceLock->Lebve();
         if (beingShutdown != JNI_TRUE) {
-            SurfaceData_ThrowInvalidPipeException(env,
-                "GDIWindowSurfaceData: bounds changed");
+            SurfbceDbtb_ThrowInvblidPipeException(env,
+                "GDIWindowSurfbceDbtb: bounds chbnged");
         }
         return SD_FAILURE;
     }
     if (wsdo->lockType != WIN32SD_LOCK_UNLOCKED) {
-        wsdo->surfaceLock->Leave();
-        if (!safe_ExceptionOccurred(env)) {
-            JNU_ThrowInternalError(env, "Win32 LockRasData cannot nest locks");
+        wsdo->surfbceLock->Lebve();
+        if (!sbfe_ExceptionOccurred(env)) {
+            JNU_ThrowInternblError(env, "Win32 LockRbsDbtb cbnnot nest locks");
         }
         return SD_FAILURE;
     }
 
     hDC = wsdo->GetDC(env, wsdo, 0, NULL, NULL, NULL, 0);
     if (hDC == NULL) {
-        wsdo->surfaceLock->Leave();
+        wsdo->surfbceLock->Lebve();
         if (beingShutdown != JNI_TRUE) {
             JNU_ThrowNullPointerException(env, "HDC for component");
         }
         return SD_FAILURE;
     }
 
-    if (lockflags & SD_LOCK_RD_WR) {
-        // Do an initial clip to the client region of the window
+    if (lockflbgs & SD_LOCK_RD_WR) {
+        // Do bn initibl clip to the client region of the window
         RECT crect;
         ::GetClientRect(wsdo->window, &crect);
 
-        // Translate to window coords
+        // Trbnslbte to window coords
         crect.left += wsdo->insets.left;
         crect.top += wsdo->insets.top;
         crect.right += wsdo->insets.left;
         crect.bottom += wsdo->insets.top;
 
-        SurfaceDataBounds *bounds = &pRasInfo->bounds;
+        SurfbceDbtbBounds *bounds = &pRbsInfo->bounds;
 
         if (bounds->x1 < crect.left) {
             bounds->x1 = crect.left;
@@ -730,133 +730,133 @@ static jint GDIWinSD_Lock(JNIEnv *env,
 
         if (bounds->x2 > bounds->x1 && bounds->y2 > bounds->y1) {
             wsdo->lockType = WIN32SD_LOCK_BY_DIB;
-            if (lockflags & SD_LOCK_FASTEST) {
+            if (lockflbgs & SD_LOCK_FASTEST) {
                 ret = SD_SLOWLOCK;
             }
-            J2dTraceLn(J2D_TRACE_VERBOSE, " locked by DIB");
+            J2dTrbceLn(J2D_TRACE_VERBOSE, " locked by DIB");
         } else {
-            wsdo->ReleaseDC(env, wsdo, hDC);
+            wsdo->RelebseDC(env, wsdo, hDC);
             wsdo->lockType = WIN32SD_LOCK_UNLOCKED;
-            wsdo->surfaceLock->Leave();
+            wsdo->surfbceLock->Lebve();
             ret = SD_FAILURE;
-            J2dTraceLn(J2D_TRACE_ERROR,
+            J2dTrbceLn(J2D_TRACE_ERROR,
                        "GDIWinSD_Lock: error locking by DIB");
         }
     } else {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "GDIWinSD_Lock: surface wasn't locked");
-        /* They didn't lock for anything - we won't give them anything */
-        wsdo->ReleaseDC(env, wsdo, hDC);
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "GDIWinSD_Lock: surfbce wbsn't locked");
+        /* They didn't lock for bnything - we won't give them bnything */
+        wsdo->RelebseDC(env, wsdo, hDC);
         wsdo->lockType = WIN32SD_LOCK_UNLOCKED;
-        wsdo->surfaceLock->Leave();
+        wsdo->surfbceLock->Lebve();
         ret = SD_FAILURE;
     }
 
-    wsdo->lockFlags = lockflags;
+    wsdo->lockFlbgs = lockflbgs;
     return ret;
 }
 
-static void GDIWinSD_GetRasInfo(JNIEnv *env,
-                               SurfaceDataOps *ops,
-                               SurfaceDataRasInfo *pRasInfo)
+stbtic void GDIWinSD_GetRbsInfo(JNIEnv *env,
+                               SurfbceDbtbOps *ops,
+                               SurfbceDbtbRbsInfo *pRbsInfo)
 {
     GDIWinSDOps *wsdo = (GDIWinSDOps *) ops;
-    jint lockflags = wsdo->lockFlags;
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWinSD_GetRasInfo");
-    HDC hDC = GetThreadDC(env, wsdo);
+    jint lockflbgs = wsdo->lockFlbgs;
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWinSD_GetRbsInfo");
+    HDC hDC = GetThrebdDC(env, wsdo);
 
     if (wsdo->lockType == WIN32SD_LOCK_UNLOCKED) {
-        memset(pRasInfo, 0, sizeof(*pRasInfo));
+        memset(pRbsInfo, 0, sizeof(*pRbsInfo));
         return;
     }
 
     if (wsdo->lockType == WIN32SD_LOCK_BY_DIB) {
         int x, y, w, h;
         int pixelStride = wsdo->pixelStride;
-        // do not subtract insets from x,y as we take care of it in SD_GetDC
-        x = pRasInfo->bounds.x1;
-        y = pRasInfo->bounds.y1;
-        w = pRasInfo->bounds.x2 - x;
-        h = pRasInfo->bounds.y2 - y;
+        // do not subtrbct insets from x,y bs we tbke cbre of it in SD_GetDC
+        x = pRbsInfo->bounds.x1;
+        y = pRbsInfo->bounds.y1;
+        w = pRbsInfo->bounds.x2 - x;
+        h = pRbsInfo->bounds.y2 - y;
 
-        struct tagBitmapheader  {
-            BITMAPINFOHEADER bmiHeader;
+        struct tbgBitmbphebder  {
+            BITMAPINFOHEADER bmiHebder;
             union {
-                DWORD           dwMasks[3];
-                RGBQUAD         palette[256];
+                DWORD           dwMbsks[3];
+                RGBQUAD         pblette[256];
             } colors;
         } bmi;
 
-        // Need to create bitmap if we don't have one already or
-        // if the existing one is not large enough for this operation
-        // or if we are in 8 bpp display mode (because we need to
-        // make sure that the latest palette info gets loaded into
-        // the bitmap)
-        // REMIND: we should find some way to dynamically force bitmap
-        // recreation only when the palette changes
-        if (pixelStride == 1 || !wsdo->bitmap || (w > wsdo->bmWidth) ||
+        // Need to crebte bitmbp if we don't hbve one blrebdy or
+        // if the existing one is not lbrge enough for this operbtion
+        // or if we bre in 8 bpp displby mode (becbuse we need to
+        // mbke sure thbt the lbtest pblette info gets lobded into
+        // the bitmbp)
+        // REMIND: we should find some wby to dynbmicblly force bitmbp
+        // recrebtion only when the pblette chbnges
+        if (pixelStride == 1 || !wsdo->bitmbp || (w > wsdo->bmWidth) ||
             (h > wsdo->bmHeight))
         {
-            if (wsdo->bitmap) {
+            if (wsdo->bitmbp) {
                 // delete old objects
-                J2dTraceLn(J2D_TRACE_VERBOSE,
-                           "GDIWinSD_GetRasInfo: recreating GDI bitmap");
+                J2dTrbceLn(J2D_TRACE_VERBOSE,
+                           "GDIWinSD_GetRbsInfo: recrebting GDI bitmbp");
                 if (wsdo->bmdc) {   // should not be null
-                    ::SelectObject(wsdo->bmdc, wsdo->oldmap);
+                    ::SelectObject(wsdo->bmdc, wsdo->oldmbp);
                     ::DeleteDC(wsdo->bmdc);
                     wsdo->bmdc = 0;
                 }
-                ::DeleteObject(wsdo->bitmap);
-                wsdo->bitmap = 0;
+                ::DeleteObject(wsdo->bitmbp);
+                wsdo->bitmbp = 0;
             }
-            bmi.bmiHeader.biSize = sizeof(bmi.bmiHeader);
-            bmi.bmiHeader.biWidth = w;
-            bmi.bmiHeader.biHeight = -h;
+            bmi.bmiHebder.biSize = sizeof(bmi.bmiHebder);
+            bmi.bmiHebder.biWidth = w;
+            bmi.bmiHebder.biHeight = -h;
             wsdo->bmWidth = w;
             wsdo->bmHeight = h;
-            bmi.bmiHeader.biPlanes = 1;
-            bmi.bmiHeader.biBitCount = pixelStride * 8;
+            bmi.bmiHebder.biPlbnes = 1;
+            bmi.bmiHebder.biBitCount = pixelStride * 8;
             // 1,3 byte use BI_RGB, 2,4 byte use BI_BITFIELD...
-            bmi.bmiHeader.biCompression =
+            bmi.bmiHebder.biCompression =
                 (pixelStride & 1)
                     ? BI_RGB
                     : BI_BITFIELDS;
-            bmi.bmiHeader.biSizeImage = 0;
-            bmi.bmiHeader.biXPelsPerMeter = 0;
-            bmi.bmiHeader.biYPelsPerMeter = 0;
-            bmi.bmiHeader.biClrUsed = 0;
-            bmi.bmiHeader.biClrImportant = 0;
+            bmi.bmiHebder.biSizeImbge = 0;
+            bmi.bmiHebder.biXPelsPerMeter = 0;
+            bmi.bmiHebder.biYPelsPerMeter = 0;
+            bmi.bmiHebder.biClrUsed = 0;
+            bmi.bmiHebder.biClrImportbnt = 0;
             if (pixelStride == 1) {
-                // we can use systemEntries here because
-                // RGBQUAD is xRGB and systemEntries are stored as xRGB
-                memcpy(bmi.colors.palette, wsdo->device->GetSystemPaletteEntries(),
-                       sizeof(bmi.colors.palette));
+                // we cbn use systemEntries here becbuse
+                // RGBQUAD is xRGB bnd systemEntries bre stored bs xRGB
+                memcpy(bmi.colors.pblette, wsdo->device->GetSystemPbletteEntries(),
+                       sizeof(bmi.colors.pblette));
             } else {
-                // For non-index cases, init the masks for the pixel depth
+                // For non-index cbses, init the mbsks for the pixel depth
                 for (int i = 0; i < 3; i++) {
-                    bmi.colors.dwMasks[i] = wsdo->pixelMasks[i];
+                    bmi.colors.dwMbsks[i] = wsdo->pixelMbsks[i];
                 }
             }
 
             // REMIND: This would be better if moved to the Lock function
-            // so that errors could be dealt with.
-            wsdo->bitmap = ::CreateDIBSection(hDC, (BITMAPINFO *) &bmi,
+            // so thbt errors could be deblt with.
+            wsdo->bitmbp = ::CrebteDIBSection(hDC, (BITMAPINFO *) &bmi,
                                               DIB_RGB_COLORS, &wsdo->bmBuffer, NULL, 0);
-            if (wsdo->bitmap != 0) {
-                // scanStride is cached along with reuseable bitmap
-                // Round up to the next DWORD boundary
-                wsdo->bmScanStride = (wsdo->bmWidth * pixelStride + 3) & ~3;
-                wsdo->bmdc = ::CreateCompatibleDC(hDC);
+            if (wsdo->bitmbp != 0) {
+                // scbnStride is cbched blong with reusebble bitmbp
+                // Round up to the next DWORD boundbry
+                wsdo->bmScbnStride = (wsdo->bmWidth * pixelStride + 3) & ~3;
+                wsdo->bmdc = ::CrebteCompbtibleDC(hDC);
                 if (wsdo->bmdc == 0) {
-                    ::DeleteObject(wsdo->bitmap);
-                    wsdo->bitmap = 0;
+                    ::DeleteObject(wsdo->bitmbp);
+                    wsdo->bitmbp = 0;
                 } else {
-                    wsdo->oldmap = (HBITMAP) ::SelectObject(wsdo->bmdc,
-                                                            wsdo->bitmap);
+                    wsdo->oldmbp = (HBITMAP) ::SelectObject(wsdo->bmdc,
+                                                            wsdo->bitmbp);
                 }
             }
         }
-        if (wsdo->bitmap != 0) {
-            if (lockflags & SD_LOCK_NEED_PIXELS) {
+        if (wsdo->bitmbp != 0) {
+            if (lockflbgs & SD_LOCK_NEED_PIXELS) {
                 int ret = ::BitBlt(wsdo->bmdc, 0, 0, w, h,
                                    hDC, x, y, SRCCOPY);
                 ::GdiFlush();
@@ -865,94 +865,94 @@ static void GDIWinSD_GetRasInfo(JNIEnv *env,
             wsdo->y = y;
             wsdo->w = w;
             wsdo->h = h;
-            pRasInfo->rasBase = (char *)wsdo->bmBuffer - (x*pixelStride +
-                                y*wsdo->bmScanStride);
-            pRasInfo->pixelStride = pixelStride;
-            pRasInfo->pixelBitOffset = 0;
-            pRasInfo->scanStride = wsdo->bmScanStride;
-            if (lockflags & SD_LOCK_WRITE) {
-                // If the user writes to the bitmap then we should
-                // copy the bitmap to the screen during Unlock
+            pRbsInfo->rbsBbse = (chbr *)wsdo->bmBuffer - (x*pixelStride +
+                                y*wsdo->bmScbnStride);
+            pRbsInfo->pixelStride = pixelStride;
+            pRbsInfo->pixelBitOffset = 0;
+            pRbsInfo->scbnStride = wsdo->bmScbnStride;
+            if (lockflbgs & SD_LOCK_WRITE) {
+                // If the user writes to the bitmbp then we should
+                // copy the bitmbp to the screen during Unlock
                 wsdo->bmCopyToScreen = TRUE;
             }
         } else {
-            pRasInfo->rasBase = NULL;
-            pRasInfo->pixelStride = 0;
-            pRasInfo->pixelBitOffset = 0;
-            pRasInfo->scanStride = 0;
+            pRbsInfo->rbsBbse = NULL;
+            pRbsInfo->pixelStride = 0;
+            pRbsInfo->pixelBitOffset = 0;
+            pRbsInfo->scbnStride = 0;
         }
     } else {
-        /* They didn't lock for anything - we won't give them anything */
-        pRasInfo->rasBase = NULL;
-        pRasInfo->pixelStride = 0;
-        pRasInfo->pixelBitOffset = 0;
-        pRasInfo->scanStride = 0;
+        /* They didn't lock for bnything - we won't give them bnything */
+        pRbsInfo->rbsBbse = NULL;
+        pRbsInfo->pixelStride = 0;
+        pRbsInfo->pixelBitOffset = 0;
+        pRbsInfo->scbnStride = 0;
     }
-    if (wsdo->lockFlags & SD_LOCK_LUT) {
-        pRasInfo->lutBase =
-            (long *) wsdo->device->GetSystemPaletteEntries();
-        pRasInfo->lutSize = 256;
+    if (wsdo->lockFlbgs & SD_LOCK_LUT) {
+        pRbsInfo->lutBbse =
+            (long *) wsdo->device->GetSystemPbletteEntries();
+        pRbsInfo->lutSize = 256;
     } else {
-        pRasInfo->lutBase = NULL;
-        pRasInfo->lutSize = 0;
+        pRbsInfo->lutBbse = NULL;
+        pRbsInfo->lutSize = 0;
     }
-    if (wsdo->lockFlags & SD_LOCK_INVCOLOR) {
-        pRasInfo->invColorTable = wsdo->device->GetSystemInverseLUT();
-        ColorData *cData = wsdo->device->GetColorData();
-        pRasInfo->redErrTable = cData->img_oda_red;
-        pRasInfo->grnErrTable = cData->img_oda_green;
-        pRasInfo->bluErrTable = cData->img_oda_blue;
+    if (wsdo->lockFlbgs & SD_LOCK_INVCOLOR) {
+        pRbsInfo->invColorTbble = wsdo->device->GetSystemInverseLUT();
+        ColorDbtb *cDbtb = wsdo->device->GetColorDbtb();
+        pRbsInfo->redErrTbble = cDbtb->img_odb_red;
+        pRbsInfo->grnErrTbble = cDbtb->img_odb_green;
+        pRbsInfo->bluErrTbble = cDbtb->img_odb_blue;
     } else {
-        pRasInfo->invColorTable = NULL;
-        pRasInfo->redErrTable = NULL;
-        pRasInfo->grnErrTable = NULL;
-        pRasInfo->bluErrTable = NULL;
+        pRbsInfo->invColorTbble = NULL;
+        pRbsInfo->redErrTbble = NULL;
+        pRbsInfo->grnErrTbble = NULL;
+        pRbsInfo->bluErrTbble = NULL;
     }
-    if (wsdo->lockFlags & SD_LOCK_INVGRAY) {
-        pRasInfo->invGrayTable =
-            wsdo->device->GetColorData()->pGrayInverseLutData;
+    if (wsdo->lockFlbgs & SD_LOCK_INVGRAY) {
+        pRbsInfo->invGrbyTbble =
+            wsdo->device->GetColorDbtb()->pGrbyInverseLutDbtb;
     } else {
-        pRasInfo->invGrayTable = NULL;
+        pRbsInfo->invGrbyTbble = NULL;
     }
 }
 
-static void GDIWinSD_Setup(JNIEnv *env,
-                          SurfaceDataOps *ops)
+stbtic void GDIWinSD_Setup(JNIEnv *env,
+                          SurfbceDbtbOps *ops)
 {
-    // Call SetupTGI to ensure that this thread already has a DC that is
-    // compatible with this window.  This means that we won't be calling
-    // ::SendMessage(GETDC) in the middle of a lock procedure, which creates
-    // a potential deadlock situation.
-    // Note that calling SetupTGI here means that anybody needing a DC
-    // later in this rendering process need only call GetTGI, which
-    // assumes that the TGI structure is valid for this thread/window.
-    SetupThreadGraphicsInfo(env, (GDIWinSDOps*)ops);
+    // Cbll SetupTGI to ensure thbt this threbd blrebdy hbs b DC thbt is
+    // compbtible with this window.  This mebns thbt we won't be cblling
+    // ::SendMessbge(GETDC) in the middle of b lock procedure, which crebtes
+    // b potentibl debdlock situbtion.
+    // Note thbt cblling SetupTGI here mebns thbt bnybody needing b DC
+    // lbter in this rendering process need only cbll GetTGI, which
+    // bssumes thbt the TGI structure is vblid for this threbd/window.
+    SetupThrebdGrbphicsInfo(env, (GDIWinSDOps*)ops);
 }
 
 
-static void GDIWinSD_Unlock(JNIEnv *env,
-                           SurfaceDataOps *ops,
-                           SurfaceDataRasInfo *pRasInfo)
+stbtic void GDIWinSD_Unlock(JNIEnv *env,
+                           SurfbceDbtbOps *ops,
+                           SurfbceDbtbRbsInfo *pRbsInfo)
 {
     GDIWinSDOps *wsdo = (GDIWinSDOps *) ops;
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWinSD_Unlock");
-    HDC hDC = GetThreadDC(env, wsdo);
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWinSD_Unlock");
+    HDC hDC = GetThrebdDC(env, wsdo);
 
     if (wsdo->lockType == WIN32SD_LOCK_UNLOCKED) {
-        if (!safe_ExceptionOccurred(env)) {
-            JNU_ThrowInternalError(env,
-                                   "Unmatched unlock on Win32 SurfaceData");
+        if (!sbfe_ExceptionOccurred(env)) {
+            JNU_ThrowInternblError(env,
+                                   "Unmbtched unlock on Win32 SurfbceDbtb");
         }
         return;
     }
 
     if (wsdo->lockType == WIN32SD_LOCK_BY_DIB) {
-        if (wsdo->lockFlags & SD_LOCK_WRITE) {
-            J2dTraceLn(J2D_TRACE_VERBOSE,
-                       "GDIWinSD_Unlock: do Blt of the bitmap");
+        if (wsdo->lockFlbgs & SD_LOCK_WRITE) {
+            J2dTrbceLn(J2D_TRACE_VERBOSE,
+                       "GDIWinSD_Unlock: do Blt of the bitmbp");
             if (wsdo->bmCopyToScreen && ::IsWindowVisible(wsdo->window)) {
-                // Don't bother copying to screen if our window has gone away
-                // or if the bitmap was not actually written to during this
+                // Don't bother copying to screen if our window hbs gone bwby
+                // or if the bitmbp wbs not bctublly written to during this
                 // Lock/Unlock procedure.
                 ::BitBlt(hDC, wsdo->x, wsdo->y, wsdo->w, wsdo->h,
                     wsdo->bmdc, 0, 0, SRCCOPY);
@@ -961,31 +961,31 @@ static void GDIWinSD_Unlock(JNIEnv *env,
             wsdo->bmCopyToScreen = FALSE;
         }
         wsdo->lockType = WIN32SD_LOCK_UNLOCKED;
-        wsdo->ReleaseDC(env, wsdo, hDC);
+        wsdo->RelebseDC(env, wsdo, hDC);
     }
-    wsdo->surfaceLock->Leave();
+    wsdo->surfbceLock->Lebve();
 }
 
 /*
- * REMIND: This mechanism is just a prototype of a way to manage a
- * small cache of DC objects.  It is incomplete in the following ways:
+ * REMIND: This mechbnism is just b prototype of b wby to mbnbge b
+ * smbll cbche of DC objects.  It is incomplete in the following wbys:
  *
- * - It is not thread-safe!  It needs appropriate locking and release calls
- *   (perhaps the AutoDC mechanisms from Kestrel)
- * - It does hardly any error checking (What if GetDCEx returns NULL?)
- * - It cannot handle printer DCs and their resolution
- * - It should probably "live" in the native SurfaceData object to allow
- *   alternate implementations for printing and embedding
- * - It doesn't handle XOR
- * - It caches the client bounds to determine if clipping is really needed
- *   (no way to invalidate the cached bounds and there is probably a better
- *    way to manage clip validation in any case)
+ * - It is not threbd-sbfe!  It needs bppropribte locking bnd relebse cblls
+ *   (perhbps the AutoDC mechbnisms from Kestrel)
+ * - It does hbrdly bny error checking (Whbt if GetDCEx returns NULL?)
+ * - It cbnnot hbndle printer DCs bnd their resolution
+ * - It should probbbly "live" in the nbtive SurfbceDbtb object to bllow
+ *   blternbte implementbtions for printing bnd embedding
+ * - It doesn't hbndle XOR
+ * - It cbches the client bounds to determine if clipping is reblly needed
+ *   (no wby to invblidbte the cbched bounds bnd there is probbbly b better
+ *    wby to mbnbge clip vblidbtion in bny cbse)
  */
 
 #define COLORFOR(c)     (PALETTERGB(((c)>>16)&0xff,((c)>>8)&0xff,((c)&0xff)))
 
-COLORREF CheckGrayColor(GDIWinSDOps *wsdo, int c) {
-    if (wsdo->device->GetGrayness() != GS_NOTGRAY) {
+COLORREF CheckGrbyColor(GDIWinSDOps *wsdo, int c) {
+    if (wsdo->device->GetGrbyness() != GS_NOTGRAY) {
         int g = (77 *(c & 0xFF) +
                  150*((c >> 8) & 0xFF) +
                  29 *((c >> 16) & 0xFF) + 128) / 256;
@@ -994,30 +994,30 @@ COLORREF CheckGrayColor(GDIWinSDOps *wsdo, int c) {
     return COLORFOR(c);
 }
 
-static HDC GDIWinSD_GetDC(JNIEnv *env, GDIWinSDOps *wsdo,
-                         jint type, jint *patrop,
+stbtic HDC GDIWinSD_GetDC(JNIEnv *env, GDIWinSDOps *wsdo,
+                         jint type, jint *pbtrop,
                          jobject clip, jobject comp, jint color)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWinSD_GetDC");
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWinSD_GetDC");
 
-    if (wsdo->invalid == JNI_TRUE) {
+    if (wsdo->invblid == JNI_TRUE) {
         if (beingShutdown != JNI_TRUE) {
-            SurfaceData_ThrowInvalidPipeException(env, "bounds changed");
+            SurfbceDbtb_ThrowInvblidPipeException(env, "bounds chbnged");
         }
         return (HDC) NULL;
     }
 
-    ThreadGraphicsInfo *info = GetThreadGraphicsInfo(env, wsdo);
-    GDIWinSD_InitDC(env, wsdo, info, type, patrop, clip, comp, color);
+    ThrebdGrbphicsInfo *info = GetThrebdGrbphicsInfo(env, wsdo);
+    GDIWinSD_InitDC(env, wsdo, info, type, pbtrop, clip, comp, color);
     return env->ExceptionCheck() ? (HDC)NULL : info->hDC;
 }
 
 JNIEXPORT void JNICALL
-GDIWinSD_InitDC(JNIEnv *env, GDIWinSDOps *wsdo, ThreadGraphicsInfo *info,
-               jint type, jint *patrop,
+GDIWinSD_InitDC(JNIEnv *env, GDIWinSDOps *wsdo, ThrebdGrbphicsInfo *info,
+               jint type, jint *pbtrop,
                jobject clip, jobject comp, jint color)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWinSD_InitDC");
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWinSD_InitDC");
 
     // init clip
     if (clip == NULL) {
@@ -1026,22 +1026,22 @@ GDIWinSD_InitDC(JNIEnv *env, GDIWinSDOps *wsdo, ThreadGraphicsInfo *info,
             info->type ^= CLIP;
         }
         if (info->clip != NULL) {
-            env->DeleteWeakGlobalRef(info->clip);
+            env->DeleteWebkGlobblRef(info->clip);
             info->clip = NULL;
         }
-    } else if (!env->IsSameObject(clip, info->clip)) {
-        SurfaceDataBounds span;
-        RegionData clipInfo;
+    } else if (!env->IsSbmeObject(clip, info->clip)) {
+        SurfbceDbtbBounds spbn;
+        RegionDbtb clipInfo;
         if (Region_GetInfo(env, clip, &clipInfo)) {
-            // return; // REMIND: What to do here?
+            // return; // REMIND: Whbt to do here?
         }
 
         if (Region_IsEmpty(&clipInfo)) {
-            HRGN hrgn = ::CreateRectRgn(0, 0, 0, 0);
+            HRGN hrgn = ::CrebteRectRgn(0, 0, 0, 0);
             ::SelectClipRgn(info->hDC, hrgn);
             ::DeleteObject(hrgn);
             info->type |= CLIP;
-        } else if (Region_IsRectangular(&clipInfo)) {
+        } else if (Region_IsRectbngulbr(&clipInfo)) {
             if (clipInfo.bounds.x1 <= info->bounds.left &&
                 clipInfo.bounds.y1 <= info->bounds.top &&
                 clipInfo.bounds.x2 >= info->bounds.right &&
@@ -1052,10 +1052,10 @@ GDIWinSD_InitDC(JNIEnv *env, GDIWinSDOps *wsdo, ThreadGraphicsInfo *info,
                     info->type ^= CLIP;
                 }
             } else {
-                // Make the window-relative rect a client-relative
+                // Mbke the window-relbtive rect b client-relbtive
                 // one for Windows
                 HRGN hrgn =
-                    ::CreateRectRgn(clipInfo.bounds.x1 - wsdo->insets.left,
+                    ::CrebteRectRgn(clipInfo.bounds.x1 - wsdo->insets.left,
                                     clipInfo.bounds.y1 - wsdo->insets.top,
                                     clipInfo.bounds.x2 - wsdo->insets.left,
                                     clipInfo.bounds.y2 - wsdo->insets.top);
@@ -1066,75 +1066,75 @@ GDIWinSD_InitDC(JNIEnv *env, GDIWinSDOps *wsdo, ThreadGraphicsInfo *info,
         } else {
             int leftInset = wsdo->insets.left;
             int topInset = wsdo->insets.top;
-            Region_StartIteration(env, &clipInfo);
-            jint numrects = Region_CountIterationRects(&clipInfo);
-            RGNDATA *lpRgnData;
+            Region_StbrtIterbtion(env, &clipInfo);
+            jint numrects = Region_CountIterbtionRects(&clipInfo);
+            RGNDATA *lpRgnDbtb;
             try {
-                lpRgnData = (RGNDATA *) SAFE_SIZE_STRUCT_ALLOC(safe_Malloc,
+                lpRgnDbtb = (RGNDATA *) SAFE_SIZE_STRUCT_ALLOC(sbfe_Mblloc,
                     sizeof(RGNDATAHEADER), numrects, sizeof(RECT));
-            } catch (std::bad_alloc&) {
-                JNU_ThrowOutOfMemoryError(env, "Initialization of surface region data failed.");
+            } cbtch (std::bbd_blloc&) {
+                JNU_ThrowOutOfMemoryError(env, "Initiblizbtion of surfbce region dbtb fbiled.");
                 return;
             }
             const DWORD nCount = sizeof(RGNDATAHEADER) + numrects * sizeof(RECT);
-            lpRgnData->rdh.dwSize = sizeof(RGNDATAHEADER);
-            lpRgnData->rdh.iType = RDH_RECTANGLES;
-            lpRgnData->rdh.nCount = numrects;
-            lpRgnData->rdh.nRgnSize = 0;
-            lpRgnData->rdh.rcBound.left = clipInfo.bounds.x1 - leftInset;
-            lpRgnData->rdh.rcBound.top = clipInfo.bounds.y1 - topInset;
-            lpRgnData->rdh.rcBound.right = clipInfo.bounds.x2 - leftInset;
-            lpRgnData->rdh.rcBound.bottom = clipInfo.bounds.y2 - topInset;
-            RECT *pRect = (RECT *) &(((RGNDATA *)lpRgnData)->Buffer);
-            while (Region_NextIteration(&clipInfo, &span)) {
-                pRect->left = span.x1 - leftInset;
-                pRect->top = span.y1 - topInset;
-                pRect->right = span.x2 - leftInset;
-                pRect->bottom = span.y2 - topInset;
+            lpRgnDbtb->rdh.dwSize = sizeof(RGNDATAHEADER);
+            lpRgnDbtb->rdh.iType = RDH_RECTANGLES;
+            lpRgnDbtb->rdh.nCount = numrects;
+            lpRgnDbtb->rdh.nRgnSize = 0;
+            lpRgnDbtb->rdh.rcBound.left = clipInfo.bounds.x1 - leftInset;
+            lpRgnDbtb->rdh.rcBound.top = clipInfo.bounds.y1 - topInset;
+            lpRgnDbtb->rdh.rcBound.right = clipInfo.bounds.x2 - leftInset;
+            lpRgnDbtb->rdh.rcBound.bottom = clipInfo.bounds.y2 - topInset;
+            RECT *pRect = (RECT *) &(((RGNDATA *)lpRgnDbtb)->Buffer);
+            while (Region_NextIterbtion(&clipInfo, &spbn)) {
+                pRect->left = spbn.x1 - leftInset;
+                pRect->top = spbn.y1 - topInset;
+                pRect->right = spbn.x2 - leftInset;
+                pRect->bottom = spbn.y2 - topInset;
                 pRect++;
             }
-            Region_EndIteration(env, &clipInfo);
-            HRGN hrgn = ::ExtCreateRegion(NULL, nCount, lpRgnData);
-            free(lpRgnData);
+            Region_EndIterbtion(env, &clipInfo);
+            HRGN hrgn = ::ExtCrebteRegion(NULL, nCount, lpRgnDbtb);
+            free(lpRgnDbtb);
             ::SelectClipRgn(info->hDC, hrgn);
             ::DeleteObject(hrgn);
             info->type |= CLIP;
         }
         if (info->clip != NULL) {
-            env->DeleteWeakGlobalRef(info->clip);
+            env->DeleteWebkGlobblRef(info->clip);
         }
-        info->clip = env->NewWeakGlobalRef(clip);
+        info->clip = env->NewWebkGlobblRef(clip);
         if (env->ExceptionCheck()) {
             return;
         }
     }
 
     // init composite
-    if ((comp == NULL) || !env->IsInstanceOf(comp, xorCompClass)) {
+    if ((comp == NULL) || !env->IsInstbnceOf(comp, xorCompClbss)) {
         if (info->comp != NULL) {
-            env->DeleteWeakGlobalRef(info->comp);
+            env->DeleteWebkGlobblRef(info->comp);
             info->comp = NULL;
-            info->patrop = PATCOPY;
+            info->pbtrop = PATCOPY;
             ::SetROP2(info->hDC, R2_COPYPEN);
         }
     } else {
-        if (!env->IsSameObject(comp, info->comp)) {
+        if (!env->IsSbmeObject(comp, info->comp)) {
             info->xorcolor = GrPrim_CompGetXorColor(env, comp);
             if (info->comp != NULL) {
-                env->DeleteWeakGlobalRef(info->comp);
+                env->DeleteWebkGlobblRef(info->comp);
             }
-            info->comp = env->NewWeakGlobalRef(comp);
-            info->patrop = PATINVERT;
+            info->comp = env->NewWebkGlobblRef(comp);
+            info->pbtrop = PATINVERT;
             ::SetROP2(info->hDC, R2_XORPEN);
         }
         color ^= info->xorcolor;
     }
 
-    if (patrop != NULL) {
-        *patrop = info->patrop;
+    if (pbtrop != NULL) {
+        *pbtrop = info->pbtrop;
     }
 
-    // init brush and pen
+    // init brush bnd pen
     if (type & BRUSH) {
         if (info->brushclr != color || (info->brush == NULL)) {
             if (info->type & BRUSH) {
@@ -1142,13 +1142,13 @@ GDIWinSD_InitDC(JNIEnv *env, GDIWinSDOps *wsdo, ThreadGraphicsInfo *info,
                 info->type ^= BRUSH;
             }
             if (info->brush != NULL) {
-                info->brush->Release();
+                info->brush->Relebse();
             }
-            info->brush = AwtBrush::Get(CheckGrayColor(wsdo, color));
+            info->brush = AwtBrush::Get(CheckGrbyColor(wsdo, color));
             info->brushclr = color;
         }
         if ((info->type & BRUSH) == 0) {
-            ::SelectObject(info->hDC, info->brush->GetHandle());
+            ::SelectObject(info->hDC, info->brush->GetHbndle());
             info->type ^= BRUSH;
         }
     } else if (type & NOBRUSH) {
@@ -1164,13 +1164,13 @@ GDIWinSD_InitDC(JNIEnv *env, GDIWinSDOps *wsdo, ThreadGraphicsInfo *info,
                 info->type ^= PEN;
             }
             if (info->pen != NULL) {
-                info->pen->Release();
+                info->pen->Relebse();
             }
-            info->pen = AwtPen::Get(CheckGrayColor(wsdo, color));
+            info->pen = AwtPen::Get(CheckGrbyColor(wsdo, color));
             info->penclr = color;
         }
         if ((info->type & PEN) == 0) {
-            ::SelectObject(info->hDC, info->pen->GetHandle());
+            ::SelectObject(info->hDC, info->pen->GetHbndle());
             info->type ^= PEN;
         }
     } else if (type & NOPEN) {
@@ -1181,22 +1181,22 @@ GDIWinSD_InitDC(JNIEnv *env, GDIWinSDOps *wsdo, ThreadGraphicsInfo *info,
     }
 }
 
-static void GDIWinSD_ReleaseDC(JNIEnv *env, GDIWinSDOps *wsdo, HDC hDC)
+stbtic void GDIWinSD_RelebseDC(JNIEnv *env, GDIWinSDOps *wsdo, HDC hDC)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWinSD_ReleaseDC");
-    // Don't actually do anything here: every thread holds its own
-    // wsdo-specific DC until the thread goes away or the wsdo
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWinSD_RelebseDC");
+    // Don't bctublly do bnything here: every threbd holds its own
+    // wsdo-specific DC until the threbd goes bwby or the wsdo
     // is disposed.
 }
 
 
-static void GDIWinSD_InvalidateSD(JNIEnv *env, GDIWinSDOps *wsdo)
+stbtic void GDIWinSD_InvblidbteSD(JNIEnv *env, GDIWinSDOps *wsdo)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWinSD_InvalidateSD");
-    J2dTraceLn2(J2D_TRACE_VERBOSE, "  wsdo=0x%x wsdo->window=0x%x",
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWinSD_InvblidbteSD");
+    J2dTrbceLn2(J2D_TRACE_VERBOSE, "  wsdo=0x%x wsdo->window=0x%x",
                 wsdo, wsdo->window);
 
-    wsdo->invalid = JNI_TRUE;
+    wsdo->invblid = JNI_TRUE;
 }
 
 
@@ -1204,43 +1204,43 @@ static void GDIWinSD_InvalidateSD(JNIEnv *env, GDIWinSDOps *wsdo)
 /*
  * Method:    GDIWinSD_Dispose
  */
-static void
-GDIWinSD_Dispose(JNIEnv *env, SurfaceDataOps *ops)
+stbtic void
+GDIWinSD_Dispose(JNIEnv *env, SurfbceDbtbOps *ops)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWinSD_Dispose");
-    // ops is assumed non-null as it is checked in SurfaceData_DisposeOps
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWinSD_Dispose");
+    // ops is bssumed non-null bs it is checked in SurfbceDbtb_DisposeOps
     GDIWinSDOps *wsdo = (GDIWinSDOps*)ops;
-    if (wsdo->bitmap) {
+    if (wsdo->bitmbp) {
         // delete old objects
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  disposing the GDI bitmap");
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  disposing the GDI bitmbp");
         if (wsdo->bmdc) {   // should not be null
-            ::SelectObject(wsdo->bmdc, wsdo->oldmap);
+            ::SelectObject(wsdo->bmdc, wsdo->oldmbp);
             ::DeleteDC(wsdo->bmdc);
             wsdo->bmdc = 0;
         }
-        ::DeleteObject(wsdo->bitmap);
-        wsdo->bitmap = 0;
+        ::DeleteObject(wsdo->bitmbp);
+        wsdo->bitmbp = 0;
     }
-    env->DeleteWeakGlobalRef(wsdo->peer);
+    env->DeleteWebkGlobblRef(wsdo->peer);
     if (wsdo->device != NULL) {
-        wsdo->device->Release();
+        wsdo->device->Relebse();
         wsdo->device = NULL;
     }
-    delete wsdo->surfaceLock;
+    delete wsdo->surfbceLock;
 }
 
 
 /*
- * Class:     sun_java2d_windows_GDIWindowSurfaceData
- * Method:    invalidateSD
- * Signature: ()V
+ * Clbss:     sun_jbvb2d_windows_GDIWindowSurfbceDbtb
+ * Method:    invblidbteSD
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_windows_GDIWindowSurfaceData_invalidateSD(JNIEnv *env, jobject wsd)
+Jbvb_sun_jbvb2d_windows_GDIWindowSurfbceDbtb_invblidbteSD(JNIEnv *env, jobject wsd)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "GDIWindowSurfaceData_invalidateSD");
-    GDIWinSDOps *wsdo = GDIWindowSurfaceData_GetOpsNoSetup(env, wsd);
+    J2dTrbceLn(J2D_TRACE_INFO, "GDIWindowSurfbceDbtb_invblidbteSD");
+    GDIWinSDOps *wsdo = GDIWindowSurfbceDbtb_GetOpsNoSetup(env, wsd);
     if (wsdo != NULL) {
-        wsdo->InvalidateSD(env, wsdo);
+        wsdo->InvblidbteSD(env, wsdo);
     }
 }

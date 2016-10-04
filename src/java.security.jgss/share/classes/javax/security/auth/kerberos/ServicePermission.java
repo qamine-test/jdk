@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.kerberos;
+pbckbge jbvbx.security.buth.kerberos;
 
-import java.util.*;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.util.*;
+import jbvb.security.Permission;
+import jbvb.security.PermissionCollection;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 /**
- * This class is used to protect Kerberos services and the
- * credentials necessary to access those services. There is a one to
- * one mapping of a service principal and the credentials necessary
- * to access the service. Therefore granting access to a service
- * principal implicitly grants access to the credential necessary to
- * establish a security context with the service principal. This
- * applies regardless of whether the credentials are in a cache
- * or acquired via an exchange with the KDC. The credential can
- * be either a ticket granting ticket, a service ticket or a secret
- * key from a key table.
+ * This clbss is used to protect Kerberos services bnd the
+ * credentibls necessbry to bccess those services. There is b one to
+ * one mbpping of b service principbl bnd the credentibls necessbry
+ * to bccess the service. Therefore grbnting bccess to b service
+ * principbl implicitly grbnts bccess to the credentibl necessbry to
+ * estbblish b security context with the service principbl. This
+ * bpplies regbrdless of whether the credentibls bre in b cbche
+ * or bcquired vib bn exchbnge with the KDC. The credentibl cbn
+ * be either b ticket grbnting ticket, b service ticket or b secret
+ * key from b key tbble.
  * <p>
- * A ServicePermission contains a service principal name and
- * a list of actions which specify the context the credential can be
+ * A ServicePermission contbins b service principbl nbme bnd
+ * b list of bctions which specify the context the credentibl cbn be
  * used within.
  * <p>
- * The service principal name is the canonical name of the
- * {@code KereberosPrincipal} supplying the service, that is
- * the KerberosPrincipal represents a Kerberos service
- * principal. This name is treated in a case sensitive manner.
- * An asterisk may appear by itself, to signify any service principal.
+ * The service principbl nbme is the cbnonicbl nbme of the
+ * {@code KereberosPrincipbl} supplying the service, thbt is
+ * the KerberosPrincipbl represents b Kerberos service
+ * principbl. This nbme is trebted in b cbse sensitive mbnner.
+ * An bsterisk mby bppebr by itself, to signify bny service principbl.
  * <p>
- * Granting this permission implies that the caller can use a cached
- * credential (TGT, service ticket or secret key) within the context
- * designated by the action. In the case of the TGT, granting this
- * permission also implies that the TGT can be obtained by an
- * Authentication Service exchange.
+ * Grbnting this permission implies thbt the cbller cbn use b cbched
+ * credentibl (TGT, service ticket or secret key) within the context
+ * designbted by the bction. In the cbse of the TGT, grbnting this
+ * permission blso implies thbt the TGT cbn be obtbined by bn
+ * Authenticbtion Service exchbnge.
  * <p>
- * The possible actions are:
+ * The possible bctions bre:
  *
  * <pre>
- *    initiate -              allow the caller to use the credential to
- *                            initiate a security context with a service
- *                            principal.
+ *    initibte -              bllow the cbller to use the credentibl to
+ *                            initibte b security context with b service
+ *                            principbl.
  *
- *    accept -                allow the caller to use the credential to
- *                            accept security context as a particular
- *                            principal.
+ *    bccept -                bllow the cbller to use the credentibl to
+ *                            bccept security context bs b pbrticulbr
+ *                            principbl.
  * </pre>
  *
- * For example, to specify the permission to access to the TGT to
- * initiate a security context the permission is constructed as follows:
+ * For exbmple, to specify the permission to bccess to the TGT to
+ * initibte b security context the permission is constructed bs follows:
  *
  * <pre>
- *     ServicePermission("krbtgt/EXAMPLE.COM@EXAMPLE.COM", "initiate");
+ *     ServicePermission("krbtgt/EXAMPLE.COM@EXAMPLE.COM", "initibte");
  * </pre>
  * <p>
- * To obtain a service ticket to initiate a context with the "host"
- * service the permission is constructed as follows:
+ * To obtbin b service ticket to initibte b context with the "host"
+ * service the permission is constructed bs follows:
  * <pre>
- *     ServicePermission("host/foo.example.com@EXAMPLE.COM", "initiate");
+ *     ServicePermission("host/foo.exbmple.com@EXAMPLE.COM", "initibte");
  * </pre>
  * <p>
- * For a Kerberized server the action is "accept". For example, the permission
- * necessary to access and use the secret key of the  Kerberized "host"
- * service (telnet and the likes)  would be constructed as follows:
+ * For b Kerberized server the bction is "bccept". For exbmple, the permission
+ * necessbry to bccess bnd use the secret key of the  Kerberized "host"
+ * service (telnet bnd the likes)  would be constructed bs follows:
  *
  * <pre>
- *     ServicePermission("host/foo.example.com@EXAMPLE.COM", "accept");
+ *     ServicePermission("host/foo.exbmple.com@EXAMPLE.COM", "bccept");
  * </pre>
  *
  * @since 1.4
  */
 
-public final class ServicePermission extends Permission
-    implements java.io.Serializable {
+public finbl clbss ServicePermission extends Permission
+    implements jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = -1227585031618624935L;
+    privbte stbtic finbl long seriblVersionUID = -1227585031618624935L;
 
     /**
-     * Initiate a security context to the specified service
+     * Initibte b security context to the specified service
      */
-    private final static int INITIATE   = 0x1;
+    privbte finbl stbtic int INITIATE   = 0x1;
 
     /**
-     * Accept a security context
+     * Accept b security context
      */
-    private final static int ACCEPT     = 0x2;
+    privbte finbl stbtic int ACCEPT     = 0x2;
 
     /**
-     * All actions
+     * All bctions
      */
-    private final static int ALL        = INITIATE|ACCEPT;
+    privbte finbl stbtic int ALL        = INITIATE|ACCEPT;
 
     /**
-     * No actions.
+     * No bctions.
      */
-    private final static int NONE    = 0x0;
+    privbte finbl stbtic int NONE    = 0x0;
 
-    // the actions mask
-    private transient int mask;
+    // the bctions mbsk
+    privbte trbnsient int mbsk;
 
     /**
-     * the actions string.
+     * the bctions string.
      *
-     * @serial
+     * @seribl
      */
 
-    private String actions; // Left null as long as possible, then
-                            // created and re-used in the getAction function.
+    privbte String bctions; // Left null bs long bs possible, then
+                            // crebted bnd re-used in the getAction function.
 
     /**
-     * Create a new {@code ServicePermission}
-     * with the specified {@code servicePrincipal}
-     * and {@code action}.
+     * Crebte b new {@code ServicePermission}
+     * with the specified {@code servicePrincipbl}
+     * bnd {@code bction}.
      *
-     * @param servicePrincipal the name of the service principal.
-     * An asterisk may appear by itself, to signify any service principal.
+     * @pbrbm servicePrincipbl the nbme of the service principbl.
+     * An bsterisk mby bppebr by itself, to signify bny service principbl.
      * <p>
-     * @param action the action string
+     * @pbrbm bction the bction string
      */
-    public ServicePermission(String servicePrincipal, String action) {
-        super(servicePrincipal);
-        init(servicePrincipal, getMask(action));
+    public ServicePermission(String servicePrincipbl, String bction) {
+        super(servicePrincipbl);
+        init(servicePrincipbl, getMbsk(bction));
     }
 
 
     /**
-     * Initialize the ServicePermission object.
+     * Initiblize the ServicePermission object.
      */
-    private void init(String servicePrincipal, int mask) {
+    privbte void init(String servicePrincipbl, int mbsk) {
 
-        if (servicePrincipal == null)
-                throw new NullPointerException("service principal can't be null");
+        if (servicePrincipbl == null)
+                throw new NullPointerException("service principbl cbn't be null");
 
-        if ((mask & ALL) != mask)
-            throw new IllegalArgumentException("invalid actions mask");
+        if ((mbsk & ALL) != mbsk)
+            throw new IllegblArgumentException("invblid bctions mbsk");
 
-        this.mask = mask;
+        this.mbsk = mbsk;
     }
 
 
@@ -169,114 +169,114 @@ public final class ServicePermission extends Permission
      * Checks if this Kerberos service permission object "implies" the
      * specified permission.
      * <P>
-     * If none of the above are true, {@code implies} returns false.
-     * @param p the permission to check against.
+     * If none of the bbove bre true, {@code implies} returns fblse.
+     * @pbrbm p the permission to check bgbinst.
      *
      * @return true if the specified permission is implied by this object,
-     * false if not.
+     * fblse if not.
      */
-    public boolean implies(Permission p) {
-        if (!(p instanceof ServicePermission))
-            return false;
+    public boolebn implies(Permission p) {
+        if (!(p instbnceof ServicePermission))
+            return fblse;
 
-        ServicePermission that = (ServicePermission) p;
+        ServicePermission thbt = (ServicePermission) p;
 
-        return ((this.mask & that.mask) == that.mask) &&
-            impliesIgnoreMask(that);
+        return ((this.mbsk & thbt.mbsk) == thbt.mbsk) &&
+            impliesIgnoreMbsk(thbt);
     }
 
 
-    boolean impliesIgnoreMask(ServicePermission p) {
-        return ((this.getName().equals("*")) ||
-                this.getName().equals(p.getName()));
+    boolebn impliesIgnoreMbsk(ServicePermission p) {
+        return ((this.getNbme().equbls("*")) ||
+                this.getNbme().equbls(p.getNbme()));
     }
 
     /**
-     * Checks two ServicePermission objects for equality.
+     * Checks two ServicePermission objects for equblity.
      * <P>
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj the object to test for equblity with this object.
      *
-     * @return true if <i>obj</i> is a ServicePermission, and has the
-     *  same service principal, and actions as this
+     * @return true if <i>obj</i> is b ServicePermission, bnd hbs the
+     *  sbme service principbl, bnd bctions bs this
      * ServicePermission object.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if (! (obj instanceof ServicePermission))
-            return false;
+        if (! (obj instbnceof ServicePermission))
+            return fblse;
 
-        ServicePermission that = (ServicePermission) obj;
-        return ((this.mask & that.mask) == that.mask) &&
-            this.getName().equals(that.getName());
+        ServicePermission thbt = (ServicePermission) obj;
+        return ((this.mbsk & thbt.mbsk) == thbt.mbsk) &&
+            this.getNbme().equbls(thbt.getNbme());
 
 
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Returns the hbsh code vblue for this object.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
 
-    public int hashCode() {
-        return (getName().hashCode() ^ mask);
+    public int hbshCode() {
+        return (getNbme().hbshCode() ^ mbsk);
     }
 
 
     /**
-     * Returns the "canonical string representation" of the actions in the
-     * specified mask.
-     * Always returns present actions in the following order:
-     * initiate, accept.
+     * Returns the "cbnonicbl string representbtion" of the bctions in the
+     * specified mbsk.
+     * Alwbys returns present bctions in the following order:
+     * initibte, bccept.
      *
-     * @param mask a specific integer action mask to translate into a string
-     * @return the canonical string representation of the actions
+     * @pbrbm mbsk b specific integer bction mbsk to trbnslbte into b string
+     * @return the cbnonicbl string representbtion of the bctions
      */
-    private static String getActions(int mask)
+    privbte stbtic String getActions(int mbsk)
     {
         StringBuilder sb = new StringBuilder();
-        boolean comma = false;
+        boolebn commb = fblse;
 
-        if ((mask & INITIATE) == INITIATE) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("initiate");
+        if ((mbsk & INITIATE) == INITIATE) {
+            if (commb) sb.bppend(',');
+            else commb = true;
+            sb.bppend("initibte");
         }
 
-        if ((mask & ACCEPT) == ACCEPT) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("accept");
+        if ((mbsk & ACCEPT) == ACCEPT) {
+            if (commb) sb.bppend(',');
+            else commb = true;
+            sb.bppend("bccept");
         }
 
         return sb.toString();
     }
 
     /**
-     * Returns the canonical string representation of the actions.
-     * Always returns present actions in the following order:
-     * initiate, accept.
+     * Returns the cbnonicbl string representbtion of the bctions.
+     * Alwbys returns present bctions in the following order:
+     * initibte, bccept.
      */
     public String getActions() {
-        if (actions == null)
-            actions = getActions(this.mask);
+        if (bctions == null)
+            bctions = getActions(this.mbsk);
 
-        return actions;
+        return bctions;
     }
 
 
     /**
-     * Returns a PermissionCollection object for storing
+     * Returns b PermissionCollection object for storing
      * ServicePermission objects.
      * <br>
-     * ServicePermission objects must be stored in a manner that
-     * allows them to be inserted into the collection in any order, but
-     * that also enables the PermissionCollection implies method to
-     * be implemented in an efficient (and consistent) manner.
+     * ServicePermission objects must be stored in b mbnner thbt
+     * bllows them to be inserted into the collection in bny order, but
+     * thbt blso enbbles the PermissionCollection implies method to
+     * be implemented in bn efficient (bnd consistent) mbnner.
      *
-     * @return a new PermissionCollection object suitable for storing
+     * @return b new PermissionCollection object suitbble for storing
      * ServicePermissions.
      */
     public PermissionCollection newPermissionCollection() {
@@ -284,43 +284,43 @@ public final class ServicePermission extends Permission
     }
 
     /**
-     * Return the current action mask.
+     * Return the current bction mbsk.
      *
-     * @return the actions mask.
+     * @return the bctions mbsk.
      */
-    int getMask() {
-        return mask;
+    int getMbsk() {
+        return mbsk;
     }
 
     /**
-     * Convert an action string to an integer actions mask.
+     * Convert bn bction string to bn integer bctions mbsk.
      *
-     * @param action the action string
-     * @return the action mask
+     * @pbrbm bction the bction string
+     * @return the bction mbsk
      */
-    private static int getMask(String action) {
+    privbte stbtic int getMbsk(String bction) {
 
-        if (action == null) {
-            throw new NullPointerException("action can't be null");
+        if (bction == null) {
+            throw new NullPointerException("bction cbn't be null");
         }
 
-        if (action.equals("")) {
-            throw new IllegalArgumentException("action can't be empty");
+        if (bction.equbls("")) {
+            throw new IllegblArgumentException("bction cbn't be empty");
         }
 
-        int mask = NONE;
+        int mbsk = NONE;
 
-        char[] a = action.toCharArray();
+        chbr[] b = bction.toChbrArrby();
 
-        int i = a.length - 1;
+        int i = b.length - 1;
         if (i < 0)
-            return mask;
+            return mbsk;
 
         while (i != -1) {
-            char c;
+            chbr c;
 
-            // skip whitespace
-            while ((i!=-1) && ((c = a[i]) == ' ' ||
+            // skip whitespbce
+            while ((i!=-1) && ((c = b[i]) == ' ' ||
                                c == '\r' ||
                                c == '\n' ||
                                c == '\f' ||
@@ -328,117 +328,117 @@ public final class ServicePermission extends Permission
                 i--;
 
             // check for the known strings
-            int matchlen;
+            int mbtchlen;
 
-            if (i >= 7 && (a[i-7] == 'i' || a[i-7] == 'I') &&
-                          (a[i-6] == 'n' || a[i-6] == 'N') &&
-                          (a[i-5] == 'i' || a[i-5] == 'I') &&
-                          (a[i-4] == 't' || a[i-4] == 'T') &&
-                          (a[i-3] == 'i' || a[i-3] == 'I') &&
-                          (a[i-2] == 'a' || a[i-2] == 'A') &&
-                          (a[i-1] == 't' || a[i-1] == 'T') &&
-                          (a[i] == 'e' || a[i] == 'E'))
+            if (i >= 7 && (b[i-7] == 'i' || b[i-7] == 'I') &&
+                          (b[i-6] == 'n' || b[i-6] == 'N') &&
+                          (b[i-5] == 'i' || b[i-5] == 'I') &&
+                          (b[i-4] == 't' || b[i-4] == 'T') &&
+                          (b[i-3] == 'i' || b[i-3] == 'I') &&
+                          (b[i-2] == 'b' || b[i-2] == 'A') &&
+                          (b[i-1] == 't' || b[i-1] == 'T') &&
+                          (b[i] == 'e' || b[i] == 'E'))
             {
-                matchlen = 8;
-                mask |= INITIATE;
+                mbtchlen = 8;
+                mbsk |= INITIATE;
 
-            } else if (i >= 5 && (a[i-5] == 'a' || a[i-5] == 'A') &&
-                                 (a[i-4] == 'c' || a[i-4] == 'C') &&
-                                 (a[i-3] == 'c' || a[i-3] == 'C') &&
-                                 (a[i-2] == 'e' || a[i-2] == 'E') &&
-                                 (a[i-1] == 'p' || a[i-1] == 'P') &&
-                                 (a[i] == 't' || a[i] == 'T'))
+            } else if (i >= 5 && (b[i-5] == 'b' || b[i-5] == 'A') &&
+                                 (b[i-4] == 'c' || b[i-4] == 'C') &&
+                                 (b[i-3] == 'c' || b[i-3] == 'C') &&
+                                 (b[i-2] == 'e' || b[i-2] == 'E') &&
+                                 (b[i-1] == 'p' || b[i-1] == 'P') &&
+                                 (b[i] == 't' || b[i] == 'T'))
             {
-                matchlen = 6;
-                mask |= ACCEPT;
+                mbtchlen = 6;
+                mbsk |= ACCEPT;
 
             } else {
-                // parse error
-                throw new IllegalArgumentException(
-                        "invalid permission: " + action);
+                // pbrse error
+                throw new IllegblArgumentException(
+                        "invblid permission: " + bction);
             }
 
-            // make sure we didn't just match the tail of a word
-            // like "ackbarfaccept".  Also, skip to the comma.
-            boolean seencomma = false;
-            while (i >= matchlen && !seencomma) {
-                switch(a[i-matchlen]) {
-                case ',':
-                    seencomma = true;
-                    break;
-                case ' ': case '\r': case '\n':
-                case '\f': case '\t':
-                    break;
-                default:
-                    throw new IllegalArgumentException(
-                            "invalid permission: " + action);
+            // mbke sure we didn't just mbtch the tbil of b word
+            // like "bckbbrfbccept".  Also, skip to the commb.
+            boolebn seencommb = fblse;
+            while (i >= mbtchlen && !seencommb) {
+                switch(b[i-mbtchlen]) {
+                cbse ',':
+                    seencommb = true;
+                    brebk;
+                cbse ' ': cbse '\r': cbse '\n':
+                cbse '\f': cbse '\t':
+                    brebk;
+                defbult:
+                    throw new IllegblArgumentException(
+                            "invblid permission: " + bction);
                 }
                 i--;
             }
 
-            // point i at the location of the comma minus one (or -1).
-            i -= matchlen;
+            // point i bt the locbtion of the commb minus one (or -1).
+            i -= mbtchlen;
         }
 
-        return mask;
+        return mbsk;
     }
 
 
     /**
-     * WriteObject is called to save the state of the ServicePermission
-     * to a stream. The actions are serialized, and the superclass
-     * takes care of the name.
+     * WriteObject is cblled to sbve the stbte of the ServicePermission
+     * to b strebm. The bctions bre seriblized, bnd the superclbss
+     * tbkes cbre of the nbme.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
         throws IOException
     {
-        // Write out the actions. The superclass takes care of the name
-        // call getActions to make sure actions field is initialized
-        if (actions == null)
+        // Write out the bctions. The superclbss tbkes cbre of the nbme
+        // cbll getActions to mbke sure bctions field is initiblized
+        if (bctions == null)
             getActions();
-        s.defaultWriteObject();
+        s.defbultWriteObject();
     }
 
     /**
-     * readObject is called to restore the state of the
-     * ServicePermission from a stream.
+     * rebdObject is cblled to restore the stbte of the
+     * ServicePermission from b strebm.
      */
-    private void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException
     {
-        // Read in the action, then initialize the rest
-        s.defaultReadObject();
-        init(getName(),getMask(actions));
+        // Rebd in the bction, then initiblize the rest
+        s.defbultRebdObject();
+        init(getNbme(),getMbsk(bctions));
     }
 
 
     /*
-      public static void main(String args[]) throws Exception {
+      public stbtic void mbin(String brgs[]) throws Exception {
       ServicePermission this_ =
-      new ServicePermission(args[0], "accept");
-      ServicePermission that_ =
-      new ServicePermission(args[1], "accept,initiate");
+      new ServicePermission(brgs[0], "bccept");
+      ServicePermission thbt_ =
+      new ServicePermission(brgs[1], "bccept,initibte");
       System.out.println("-----\n");
-      System.out.println("this.implies(that) = " + this_.implies(that_));
+      System.out.println("this.implies(thbt) = " + this_.implies(thbt_));
       System.out.println("-----\n");
       System.out.println("this = "+this_);
       System.out.println("-----\n");
-      System.out.println("that = "+that_);
+      System.out.println("thbt = "+thbt_);
       System.out.println("-----\n");
 
       KrbServicePermissionCollection nps =
       new KrbServicePermissionCollection();
-      nps.add(this_);
-      nps.add(new ServicePermission("nfs/example.com@EXAMPLE.COM",
-      "accept"));
-      nps.add(new ServicePermission("host/example.com@EXAMPLE.COM",
-      "initiate"));
-      System.out.println("nps.implies(that) = " + nps.implies(that_));
+      nps.bdd(this_);
+      nps.bdd(new ServicePermission("nfs/exbmple.com@EXAMPLE.COM",
+      "bccept"));
+      nps.bdd(new ServicePermission("host/exbmple.com@EXAMPLE.COM",
+      "initibte"));
+      System.out.println("nps.implies(thbt) = " + nps.implies(thbt_));
       System.out.println("-----\n");
 
-      Enumeration e = nps.elements();
+      Enumerbtion e = nps.elements();
 
-      while (e.hasMoreElements()) {
+      while (e.hbsMoreElements()) {
       ServicePermission x =
       (ServicePermission) e.nextElement();
       System.out.println("nps.e = " + x);
@@ -450,146 +450,146 @@ public final class ServicePermission extends Permission
 }
 
 
-final class KrbServicePermissionCollection extends PermissionCollection
-    implements java.io.Serializable {
+finbl clbss KrbServicePermissionCollection extends PermissionCollection
+    implements jbvb.io.Seriblizbble {
 
-    // Not serialized; see serialization section at end of class
-    private transient List<Permission> perms;
+    // Not seriblized; see seriblizbtion section bt end of clbss
+    privbte trbnsient List<Permission> perms;
 
     public KrbServicePermissionCollection() {
-        perms = new ArrayList<Permission>();
+        perms = new ArrbyList<Permission>();
     }
 
     /**
-     * Check and see if this collection of permissions implies the permissions
+     * Check bnd see if this collection of permissions implies the permissions
      * expressed in "permission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm permission the Permission object to compbre
      *
-     * @return true if "permission" is a proper subset of a permission in
-     * the collection, false if not.
+     * @return true if "permission" is b proper subset of b permission in
+     * the collection, fblse if not.
      */
-    public boolean implies(Permission permission) {
-        if (! (permission instanceof ServicePermission))
-                return false;
+    public boolebn implies(Permission permission) {
+        if (! (permission instbnceof ServicePermission))
+                return fblse;
 
         ServicePermission np = (ServicePermission) permission;
-        int desired = np.getMask();
+        int desired = np.getMbsk();
         int effective = 0;
         int needed = desired;
 
         synchronized (this) {
             int len = perms.size();
 
-            // need to deal with the case where the needed permission has
-            // more than one action and the collection has individual permissions
-            // that sum up to the needed.
+            // need to debl with the cbse where the needed permission hbs
+            // more thbn one bction bnd the collection hbs individubl permissions
+            // thbt sum up to the needed.
 
             for (int i = 0; i < len; i++) {
                 ServicePermission x = (ServicePermission) perms.get(i);
 
                 //System.out.println("  trying "+x);
-                if (((needed & x.getMask()) != 0) && x.impliesIgnoreMask(np)) {
-                    effective |=  x.getMask();
+                if (((needed & x.getMbsk()) != 0) && x.impliesIgnoreMbsk(np)) {
+                    effective |=  x.getMbsk();
                     if ((effective & desired) == desired)
                         return true;
                     needed = (desired ^ effective);
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Adds a permission to the ServicePermissions. The key for
-     * the hash is the name.
+     * Adds b permission to the ServicePermissions. The key for
+     * the hbsh is the nbme.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      *
-     * @exception IllegalArgumentException - if the permission is not a
+     * @exception IllegblArgumentException - if the permission is not b
      *                                       ServicePermission
      *
      * @exception SecurityException - if this PermissionCollection object
-     *                                has been marked readonly
+     *                                hbs been mbrked rebdonly
      */
-    public void add(Permission permission) {
-        if (! (permission instanceof ServicePermission))
-            throw new IllegalArgumentException("invalid permission: "+
+    public void bdd(Permission permission) {
+        if (! (permission instbnceof ServicePermission))
+            throw new IllegblArgumentException("invblid permission: "+
                                                permission);
-        if (isReadOnly())
-            throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+        if (isRebdOnly())
+            throw new SecurityException("bttempt to bdd b Permission to b rebdonly PermissionCollection");
 
         synchronized (this) {
-            perms.add(0, permission);
+            perms.bdd(0, permission);
         }
     }
 
     /**
-     * Returns an enumeration of all the ServicePermission objects
-     * in the container.
+     * Returns bn enumerbtion of bll the ServicePermission objects
+     * in the contbiner.
      *
-     * @return an enumeration of all the ServicePermission objects.
+     * @return bn enumerbtion of bll the ServicePermission objects.
      */
 
-    public Enumeration<Permission> elements() {
-        // Convert Iterator into Enumeration
+    public Enumerbtion<Permission> elements() {
+        // Convert Iterbtor into Enumerbtion
         synchronized (this) {
-            return Collections.enumeration(perms);
+            return Collections.enumerbtion(perms);
         }
     }
 
-    private static final long serialVersionUID = -4118834211490102011L;
+    privbte stbtic finbl long seriblVersionUID = -4118834211490102011L;
 
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
-    // private Vector permissions;
+    // Need to mbintbin seriblizbtion interoperbbility with ebrlier relebses,
+    // which hbd the seriblizbble field:
+    // privbte Vector permissions;
 
     /**
-     * @serialField permissions java.util.Vector
+     * @seriblField permissions jbvb.util.Vector
      *     A list of ServicePermission objects.
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("permissions", Vector.class),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("permissions", Vector.clbss),
     };
 
     /**
-     * @serialData "permissions" field (a Vector containing the ServicePermissions).
+     * @seriblDbtb "permissions" field (b Vector contbining the ServicePermissions).
      */
     /*
-     * Writes the contents of the perms field out as a Vector for
-     * serialization compatibility with earlier releases.
+     * Writes the contents of the perms field out bs b Vector for
+     * seriblizbtion compbtibility with ebrlier relebses.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        // Don't cbll out.defbultWriteObject()
 
         // Write out Vector
         Vector<Permission> permissions = new Vector<>(perms.size());
 
         synchronized (this) {
-            permissions.addAll(perms);
+            permissions.bddAll(perms);
         }
 
-        ObjectOutputStream.PutField pfields = out.putFields();
+        ObjectOutputStrebm.PutField pfields = out.putFields();
         pfields.put("permissions", permissions);
         out.writeFields();
     }
 
     /*
-     * Reads in a Vector of ServicePermissions and saves them in the perms field.
+     * Rebds in b Vector of ServicePermissions bnd sbves them in the perms field.
      */
-    @SuppressWarnings("unchecked")
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    @SuppressWbrnings("unchecked")
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException
     {
-        // Don't call defaultReadObject()
+        // Don't cbll defbultRebdObject()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rebd in seriblized fields
+        ObjectInputStrebm.GetField gfields = in.rebdFields();
 
-        // Get the one we want
+        // Get the one we wbnt
         Vector<Permission> permissions =
                 (Vector<Permission>)gfields.get("permissions", null);
-        perms = new ArrayList<Permission>(permissions.size());
-        perms.addAll(permissions);
+        perms = new ArrbyList<Permission>(permissions.size());
+        perms.bddAll(permissions);
     }
 }

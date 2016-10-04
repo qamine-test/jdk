@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1995, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import javax.accessibility.*;
+import jbvbx.bccessibility.*;
 
 /**
- * <code>Panel</code> is the simplest container class. A panel
- * provides space in which an application can attach any other
- * component, including other panels.
+ * <code>Pbnel</code> is the simplest contbiner clbss. A pbnel
+ * provides spbce in which bn bpplicbtion cbn bttbch bny other
+ * component, including other pbnels.
  * <p>
- * The default layout manager for a panel is the
- * <code>FlowLayout</code> layout manager.
+ * The defbult lbyout mbnbger for b pbnel is the
+ * <code>FlowLbyout</code> lbyout mbnbger.
  *
- * @author      Sami Shaio
- * @see     java.awt.FlowLayout
+ * @buthor      Sbmi Shbio
+ * @see     jbvb.bwt.FlowLbyout
  * @since   1.0
  */
-public class Panel extends Container implements Accessible {
-    private static final String base = "panel";
-    private static int nameCounter = 0;
+public clbss Pbnel extends Contbiner implements Accessible {
+    privbte stbtic finbl String bbse = "pbnel";
+    privbte stbtic int nbmeCounter = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = -2728009084054400034L;
+     privbte stbtic finbl long seriblVersionUID = -2728009084054400034L;
 
     /**
-     * Creates a new panel using the default layout manager.
-     * The default layout manager for all panels is the
-     * <code>FlowLayout</code> class.
+     * Crebtes b new pbnel using the defbult lbyout mbnbger.
+     * The defbult lbyout mbnbger for bll pbnels is the
+     * <code>FlowLbyout</code> clbss.
      */
-    public Panel() {
-        this(new FlowLayout());
+    public Pbnel() {
+        this(new FlowLbyout());
     }
 
     /**
-     * Creates a new panel with the specified layout manager.
-     * @param layout the layout manager for this panel.
+     * Crebtes b new pbnel with the specified lbyout mbnbger.
+     * @pbrbm lbyout the lbyout mbnbger for this pbnel.
      * @since 1.1
      */
-    public Panel(LayoutManager layout) {
-        setLayout(layout);
+    public Pbnel(LbyoutMbnbger lbyout) {
+        setLbyout(lbyout);
     }
 
     /**
-     * Construct a name for this component.  Called by getName() when the
-     * name is null.
+     * Construct b nbme for this component.  Cblled by getNbme() when the
+     * nbme is null.
      */
-    String constructComponentName() {
-        synchronized (Panel.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (Pbnel.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Creates the Panel's peer.  The peer allows you to modify the
-     * appearance of the panel without changing its functionality.
+     * Crebtes the Pbnel's peer.  The peer bllows you to modify the
+     * bppebrbnce of the pbnel without chbnging its functionblity.
      */
 
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
             if (peer == null)
-                peer = getToolkit().createPanel(this);
-            super.addNotify();
+                peer = getToolkit().crebtePbnel(this);
+            super.bddNotify();
         }
     }
 
@@ -93,36 +93,36 @@ public class Panel extends Container implements Accessible {
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this Panel.
-     * For panels, the AccessibleContext takes the form of an
-     * AccessibleAWTPanel.
-     * A new AccessibleAWTPanel instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this Pbnel.
+     * For pbnels, the AccessibleContext tbkes the form of bn
+     * AccessibleAWTPbnel.
+     * A new AccessibleAWTPbnel instbnce is crebted if necessbry.
      *
-     * @return an AccessibleAWTPanel that serves as the
-     *         AccessibleContext of this Panel
+     * @return bn AccessibleAWTPbnel thbt serves bs the
+     *         AccessibleContext of this Pbnel
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTPanel();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTPbnel();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Panel</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to panel user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>Pbnel</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to pbnel user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleAWTPanel extends AccessibleAWTContainer {
+    protected clbss AccessibleAWTPbnel extends AccessibleAWTContbiner {
 
-        private static final long serialVersionUID = -6409552226660031050L;
+        privbte stbtic finbl long seriblVersionUID = -6409552226660031050L;
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          */
         public AccessibleRole getAccessibleRole() {

@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print.attribute;
+pbckbge jbvbx.print.bttribute;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
- * Interface Attribute is the base interface implemented by any and every
- * printing attribute class to indicate that the class represents a
- * printing attribute. All printing attributes are serializable.
+ * Interfbce Attribute is the bbse interfbce implemented by bny bnd every
+ * printing bttribute clbss to indicbte thbt the clbss represents b
+ * printing bttribute. All printing bttributes bre seriblizbble.
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @buthor  Dbvid Mendenhbll
+ * @buthor  Albn Kbminsky
  */
-public interface Attribute extends Serializable {
+public interfbce Attribute extends Seriblizbble {
 
   /**
-   * Get the printing attribute class which is to be used as the "category"
-   * for this printing attribute value when it is added to an attribute set.
+   * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+   * for this printing bttribute vblue when it is bdded to bn bttribute set.
    *
-   * @return  Printing attribute class (category), an instance of class
-   *          {@link java.lang.Class java.lang.Class}.
+   * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+   *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
    */
-  public Class<? extends Attribute> getCategory();
+  public Clbss<? extends Attribute> getCbtegory();
 
   /**
-   * Get the name of the category of which this attribute value is an
-   * instance.
+   * Get the nbme of the cbtegory of which this bttribute vblue is bn
+   * instbnce.
    * <P>
-   * <I>Note:</I> This method is intended to provide a default, nonlocalized
-   * string for the attribute's category. If two attribute objects return the
-   * same category from the <CODE>getCategory()</CODE> method, they should
-   * return the same name from the <CODE>getName()</CODE> method.
+   * <I>Note:</I> This method is intended to provide b defbult, nonlocblized
+   * string for the bttribute's cbtegory. If two bttribute objects return the
+   * sbme cbtegory from the <CODE>getCbtegory()</CODE> method, they should
+   * return the sbme nbme from the <CODE>getNbme()</CODE> method.
    *
-   * @return  Attribute category name.
+   * @return  Attribute cbtegory nbme.
    */
-  public String getName();
+  public String getNbme();
 
 }

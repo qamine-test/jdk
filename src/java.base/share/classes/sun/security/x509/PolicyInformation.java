@@ -1,284 +1,284 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.security.cert.PolicyQualifierInfo;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.security.cert.PolicyQublifierInfo;
+import jbvb.util.Collections;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Iterbtor;
+import jbvb.util.LinkedHbshSet;
+import jbvb.util.Set;
 
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
+import sun.security.util.DerVblue;
+import sun.security.util.DerOutputStrebm;
 /**
- * PolicyInformation is the class that contains a specific certificate policy
- * that is part of the CertificatePoliciesExtension. A
- * CertificatePolicyExtension value consists of a vector of these objects.
+ * PolicyInformbtion is the clbss thbt contbins b specific certificbte policy
+ * thbt is pbrt of the CertificbtePoliciesExtension. A
+ * CertificbtePolicyExtension vblue consists of b vector of these objects.
  * <p>
- * The ASN.1 syntax for PolicyInformation (IMPLICIT tagging is defined in the
+ * The ASN.1 syntbx for PolicyInformbtion (IMPLICIT tbgging is defined in the
  * module definition):
  * <pre>
  *
- * PolicyInformation ::= SEQUENCE {
+ * PolicyInformbtion ::= SEQUENCE {
  *      policyIdentifier   CertPolicyId,
- *      policyQualifiers   SEQUENCE SIZE (1..MAX) OF
- *                              PolicyQualifierInfo OPTIONAL }
+ *      policyQublifiers   SEQUENCE SIZE (1..MAX) OF
+ *                              PolicyQublifierInfo OPTIONAL }
  *
  * CertPolicyId ::= OBJECT IDENTIFIER
  *
- * PolicyQualifierInfo ::= SEQUENCE {
- *      policyQualifierId  PolicyQualifierId,
- *      qualifier          ANY DEFINED BY policyQualifierId }
+ * PolicyQublifierInfo ::= SEQUENCE {
+ *      policyQublifierId  PolicyQublifierId,
+ *      qublifier          ANY DEFINED BY policyQublifierId }
  * </pre>
  *
- * @author Sean Mullan
- * @author Anne Anderson
+ * @buthor Sebn Mullbn
+ * @buthor Anne Anderson
  * @since       1.4
  */
-public class PolicyInformation {
+public clbss PolicyInformbtion {
 
-    // Attribute names
-    public static final String NAME       = "PolicyInformation";
-    public static final String ID         = "id";
-    public static final String QUALIFIERS = "qualifiers";
+    // Attribute nbmes
+    public stbtic finbl String NAME       = "PolicyInformbtion";
+    public stbtic finbl String ID         = "id";
+    public stbtic finbl String QUALIFIERS = "qublifiers";
 
     /* The policy OID */
-    private CertificatePolicyId policyIdentifier;
+    privbte CertificbtePolicyId policyIdentifier;
 
-    /* A Set of java.security.cert.PolicyQualifierInfo objects */
-    private Set<PolicyQualifierInfo> policyQualifiers;
+    /* A Set of jbvb.security.cert.PolicyQublifierInfo objects */
+    privbte Set<PolicyQublifierInfo> policyQublifiers;
 
     /**
-     * Create an instance of PolicyInformation
+     * Crebte bn instbnce of PolicyInformbtion
      *
-     * @param policyIdentifier the policyIdentifier as a
-     *          CertificatePolicyId
-     * @param policyQualifiers a Set of PolicyQualifierInfo objects.
-     *          Must not be NULL. Specify an empty Set for no qualifiers.
+     * @pbrbm policyIdentifier the policyIdentifier bs b
+     *          CertificbtePolicyId
+     * @pbrbm policyQublifiers b Set of PolicyQublifierInfo objects.
+     *          Must not be NULL. Specify bn empty Set for no qublifiers.
      * @exception IOException on decoding errors.
      */
-    public PolicyInformation(CertificatePolicyId policyIdentifier,
-            Set<PolicyQualifierInfo> policyQualifiers) throws IOException {
-        if (policyQualifiers == null) {
-            throw new NullPointerException("policyQualifiers is null");
+    public PolicyInformbtion(CertificbtePolicyId policyIdentifier,
+            Set<PolicyQublifierInfo> policyQublifiers) throws IOException {
+        if (policyQublifiers == null) {
+            throw new NullPointerException("policyQublifiers is null");
         }
-        this.policyQualifiers =
-            new LinkedHashSet<PolicyQualifierInfo>(policyQualifiers);
+        this.policyQublifiers =
+            new LinkedHbshSet<PolicyQublifierInfo>(policyQublifiers);
         this.policyIdentifier = policyIdentifier;
     }
 
     /**
-     * Create an instance of PolicyInformation, decoding from
-     * the passed DerValue.
+     * Crebte bn instbnce of PolicyInformbtion, decoding from
+     * the pbssed DerVblue.
      *
-     * @param val the DerValue to construct the PolicyInformation from.
+     * @pbrbm vbl the DerVblue to construct the PolicyInformbtion from.
      * @exception IOException on decoding errors.
      */
-    public PolicyInformation(DerValue val) throws IOException {
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding of PolicyInformation");
+    public PolicyInformbtion(DerVblue vbl) throws IOException {
+        if (vbl.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Invblid encoding of PolicyInformbtion");
         }
-        policyIdentifier = new CertificatePolicyId(val.data.getDerValue());
-        if (val.data.available() != 0) {
-            policyQualifiers = new LinkedHashSet<PolicyQualifierInfo>();
-            DerValue opt = val.data.getDerValue();
-            if (opt.tag != DerValue.tag_Sequence)
-                throw new IOException("Invalid encoding of PolicyInformation");
-            if (opt.data.available() == 0)
-                throw new IOException("No data available in policyQualifiers");
-            while (opt.data.available() != 0)
-                policyQualifiers.add(new PolicyQualifierInfo
-                        (opt.data.getDerValue().toByteArray()));
+        policyIdentifier = new CertificbtePolicyId(vbl.dbtb.getDerVblue());
+        if (vbl.dbtb.bvbilbble() != 0) {
+            policyQublifiers = new LinkedHbshSet<PolicyQublifierInfo>();
+            DerVblue opt = vbl.dbtb.getDerVblue();
+            if (opt.tbg != DerVblue.tbg_Sequence)
+                throw new IOException("Invblid encoding of PolicyInformbtion");
+            if (opt.dbtb.bvbilbble() == 0)
+                throw new IOException("No dbtb bvbilbble in policyQublifiers");
+            while (opt.dbtb.bvbilbble() != 0)
+                policyQublifiers.bdd(new PolicyQublifierInfo
+                        (opt.dbtb.getDerVblue().toByteArrby()));
         } else {
-            policyQualifiers = Collections.emptySet();
+            policyQublifiers = Collections.emptySet();
         }
     }
 
     /**
-     * Compare this PolicyInformation with another object for equality
+     * Compbre this PolicyInformbtion with bnother object for equblity
      *
-     * @param other object to be compared with this
-     * @return true iff the PolicyInformation objects match
+     * @pbrbm other object to be compbred with this
+     * @return true iff the PolicyInformbtion objects mbtch
      */
-    public boolean equals(Object other) {
-        if (!(other instanceof PolicyInformation))
-            return false;
-        PolicyInformation piOther = (PolicyInformation)other;
+    public boolebn equbls(Object other) {
+        if (!(other instbnceof PolicyInformbtion))
+            return fblse;
+        PolicyInformbtion piOther = (PolicyInformbtion)other;
 
-        if (!policyIdentifier.equals(piOther.getPolicyIdentifier()))
-            return false;
+        if (!policyIdentifier.equbls(piOther.getPolicyIdentifier()))
+            return fblse;
 
-        return policyQualifiers.equals(piOther.getPolicyQualifiers());
+        return policyQublifiers.equbls(piOther.getPolicyQublifiers());
     }
 
     /**
-     * Returns the hash code for this PolicyInformation.
+     * Returns the hbsh code for this PolicyInformbtion.
      *
-     * @return a hash code value.
+     * @return b hbsh code vblue.
      */
-    public int hashCode() {
-        int myhash = 37 + policyIdentifier.hashCode();
-        myhash = 37 * myhash + policyQualifiers.hashCode();
-        return myhash;
+    public int hbshCode() {
+        int myhbsh = 37 + policyIdentifier.hbshCode();
+        myhbsh = 37 * myhbsh + policyQublifiers.hbshCode();
+        return myhbsh;
     }
 
     /**
-     * Return the policyIdentifier value
+     * Return the policyIdentifier vblue
      *
-     * @return The CertificatePolicyId object containing
-     *     the policyIdentifier (not a copy).
+     * @return The CertificbtePolicyId object contbining
+     *     the policyIdentifier (not b copy).
      */
-    public CertificatePolicyId getPolicyIdentifier() {
+    public CertificbtePolicyId getPolicyIdentifier() {
         return policyIdentifier;
     }
 
     /**
-     * Return the policyQualifiers value
+     * Return the policyQublifiers vblue
      *
-     * @return a Set of PolicyQualifierInfo objects associated
-     *    with this certificate policy (not a copy).
-     *    Returns an empty Set if there are no qualifiers.
+     * @return b Set of PolicyQublifierInfo objects bssocibted
+     *    with this certificbte policy (not b copy).
+     *    Returns bn empty Set if there bre no qublifiers.
      *    Never returns null.
      */
-    public Set<PolicyQualifierInfo> getPolicyQualifiers() {
-        return policyQualifiers;
+    public Set<PolicyQublifierInfo> getPolicyQublifiers() {
+        return policyQublifiers;
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public Object get(String name) throws IOException {
-        if (name.equalsIgnoreCase(ID)) {
+    public Object get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(ID)) {
             return policyIdentifier;
-        } else if (name.equalsIgnoreCase(QUALIFIERS)) {
-            return policyQualifiers;
+        } else if (nbme.equblsIgnoreCbse(QUALIFIERS)) {
+            return policyQublifiers;
         } else {
-            throw new IOException("Attribute name [" + name +
-                "] not recognized by PolicyInformation.");
+            throw new IOException("Attribute nbme [" + nbme +
+                "] not recognized by PolicyInformbtion.");
         }
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    @SuppressWarnings("unchecked") // Checked with instanceof
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(ID)) {
-            if (obj instanceof CertificatePolicyId)
-                policyIdentifier = (CertificatePolicyId)obj;
+    @SuppressWbrnings("unchecked") // Checked with instbnceof
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(ID)) {
+            if (obj instbnceof CertificbtePolicyId)
+                policyIdentifier = (CertificbtePolicyId)obj;
             else
-                throw new IOException("Attribute value must be instance " +
-                    "of CertificatePolicyId.");
-        } else if (name.equalsIgnoreCase(QUALIFIERS)) {
+                throw new IOException("Attribute vblue must be instbnce " +
+                    "of CertificbtePolicyId.");
+        } else if (nbme.equblsIgnoreCbse(QUALIFIERS)) {
             if (policyIdentifier == null) {
-                throw new IOException("Attribute must have a " +
-                    "CertificatePolicyIdentifier value before " +
-                    "PolicyQualifierInfo can be set.");
+                throw new IOException("Attribute must hbve b " +
+                    "CertificbtePolicyIdentifier vblue before " +
+                    "PolicyQublifierInfo cbn be set.");
             }
-            if (obj instanceof Set) {
-                Iterator<?> i = ((Set<?>)obj).iterator();
-                while (i.hasNext()) {
+            if (obj instbnceof Set) {
+                Iterbtor<?> i = ((Set<?>)obj).iterbtor();
+                while (i.hbsNext()) {
                     Object obj1 = i.next();
-                    if (!(obj1 instanceof PolicyQualifierInfo)) {
-                        throw new IOException("Attribute value must be a" +
-                                    "Set of PolicyQualifierInfo objects.");
+                    if (!(obj1 instbnceof PolicyQublifierInfo)) {
+                        throw new IOException("Attribute vblue must be b" +
+                                    "Set of PolicyQublifierInfo objects.");
                     }
                 }
-                policyQualifiers = (Set<PolicyQualifierInfo>) obj;
+                policyQublifiers = (Set<PolicyQublifierInfo>) obj;
             } else {
-                throw new IOException("Attribute value must be of type Set.");
+                throw new IOException("Attribute vblue must be of type Set.");
             }
         } else {
-            throw new IOException("Attribute name [" + name +
-                "] not recognized by PolicyInformation");
+            throw new IOException("Attribute nbme [" + nbme +
+                "] not recognized by PolicyInformbtion");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(QUALIFIERS)) {
-            policyQualifiers = Collections.emptySet();
-        } else if (name.equalsIgnoreCase(ID)) {
-            throw new IOException("Attribute ID may not be deleted from " +
-                "PolicyInformation.");
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(QUALIFIERS)) {
+            policyQublifiers = Collections.emptySet();
+        } else if (nbme.equblsIgnoreCbse(ID)) {
+            throw new IOException("Attribute ID mby not be deleted from " +
+                "PolicyInformbtion.");
         } else {
-            //ID may not be deleted
-            throw new IOException("Attribute name [" + name +
-                "] not recognized by PolicyInformation.");
+            //ID mby not be deleted
+            throw new IOException("Attribute nbme [" + nbme +
+                "] not recognized by PolicyInformbtion.");
         }
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(ID);
-        elements.addElement(QUALIFIERS);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(ID);
+        elements.bddElement(QUALIFIERS);
 
         return elements.elements();
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return NAME;
     }
 
     /**
-     * Return a printable representation of the PolicyInformation.
+     * Return b printbble representbtion of the PolicyInformbtion.
      */
     public String toString() {
         StringBuilder s = new StringBuilder("  [" + policyIdentifier.toString());
-        s.append(policyQualifiers + "  ]\n");
+        s.bppend(policyQublifiers + "  ]\n");
         return s.toString();
     }
 
     /**
-     * Write the PolicyInformation to the DerOutputStream.
+     * Write the PolicyInformbtion to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
+    public void encode(DerOutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
         policyIdentifier.encode(tmp);
-        if (!policyQualifiers.isEmpty()) {
-            DerOutputStream tmp2 = new DerOutputStream();
-            for (PolicyQualifierInfo pq : policyQualifiers) {
+        if (!policyQublifiers.isEmpty()) {
+            DerOutputStrebm tmp2 = new DerOutputStrebm();
+            for (PolicyQublifierInfo pq : policyQublifiers) {
                 tmp2.write(pq.getEncoded());
             }
-            tmp.write(DerValue.tag_Sequence, tmp2);
+            tmp.write(DerVblue.tbg_Sequence, tmp2);
         }
-        out.write(DerValue.tag_Sequence, tmp);
+        out.write(DerVblue.tbg_Sequence, tmp);
     }
 }

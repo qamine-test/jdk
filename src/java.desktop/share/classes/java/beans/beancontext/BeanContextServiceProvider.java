@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans.beancontext;
+pbckbge jbvb.bebns.bebncontext;
 
-import java.util.Iterator;
+import jbvb.util.Iterbtor;
 
 /**
  * <p>
- * One of the primary functions of a BeanContext is to act a as rendezvous
- * between JavaBeans, and BeanContextServiceProviders.
+ * One of the primbry functions of b BebnContext is to bct b bs rendezvous
+ * between JbvbBebns, bnd BebnContextServiceProviders.
  * </p>
  * <p>
- * A JavaBean nested within a BeanContext, may ask that BeanContext to
- * provide an instance of a "service", based upon a reference to a Java
- * Class object that represents that service.
+ * A JbvbBebn nested within b BebnContext, mby bsk thbt BebnContext to
+ * provide bn instbnce of b "service", bbsed upon b reference to b Jbvb
+ * Clbss object thbt represents thbt service.
  * </p>
  * <p>
- * If such a service has been registered with the context, or one of its
- * nesting context's, in the case where a context delegate to its context
- * to satisfy a service request, then the BeanContextServiceProvider associated with
- * the service is asked to provide an instance of that service.
+ * If such b service hbs been registered with the context, or one of its
+ * nesting context's, in the cbse where b context delegbte to its context
+ * to sbtisfy b service request, then the BebnContextServiceProvider bssocibted with
+ * the service is bsked to provide bn instbnce of thbt service.
  * </p>
  * <p>
- * The ServcieProvider may always return the same instance, or it may
- * construct a new instance for each request.
+ * The ServcieProvider mby blwbys return the sbme instbnce, or it mby
+ * construct b new instbnce for ebch request.
  * </p>
  */
 
-public interface BeanContextServiceProvider {
+public interfbce BebnContextServiceProvider {
 
    /**
-    * Invoked by <code>BeanContextServices</code>, this method
-    * requests an instance of a
-    * service from this <code>BeanContextServiceProvider</code>.
+    * Invoked by <code>BebnContextServices</code>, this method
+    * requests bn instbnce of b
+    * service from this <code>BebnContextServiceProvider</code>.
     *
-    * @param bcs The <code>BeanContextServices</code> associated with this
-    * particular request. This parameter enables the
-    * <code>BeanContextServiceProvider</code> to distinguish service
+    * @pbrbm bcs The <code>BebnContextServices</code> bssocibted with this
+    * pbrticulbr request. This pbrbmeter enbbles the
+    * <code>BebnContextServiceProvider</code> to distinguish service
     * requests from multiple sources.
     *
-    * @param requestor          The object requesting the service
+    * @pbrbm requestor          The object requesting the service
     *
-    * @param serviceClass       The service requested
+    * @pbrbm serviceClbss       The service requested
     *
-    * @param serviceSelector the service dependent parameter
-    * for a particular service, or <code>null</code> if not applicable.
+    * @pbrbm serviceSelector the service dependent pbrbmeter
+    * for b pbrticulbr service, or <code>null</code> if not bpplicbble.
     *
-    * @return a reference to the requested service
+    * @return b reference to the requested service
     */
-    Object getService(BeanContextServices bcs, Object requestor, Class<?> serviceClass, Object serviceSelector);
+    Object getService(BebnContextServices bcs, Object requestor, Clbss<?> serviceClbss, Object serviceSelector);
 
     /**
-     * Invoked by <code>BeanContextServices</code>,
-     * this method releases a nested <code>BeanContextChild</code>'s
-     * (or any arbitrary object associated with a
-     * <code>BeanContextChild</code>) reference to the specified service.
+     * Invoked by <code>BebnContextServices</code>,
+     * this method relebses b nested <code>BebnContextChild</code>'s
+     * (or bny brbitrbry object bssocibted with b
+     * <code>BebnContextChild</code>) reference to the specified service.
      *
-     * @param bcs the <code>BeanContextServices</code> associated with this
-     * particular release request
+     * @pbrbm bcs the <code>BebnContextServices</code> bssocibted with this
+     * pbrticulbr relebse request
      *
-     * @param requestor the object requesting the service to be released
+     * @pbrbm requestor the object requesting the service to be relebsed
      *
-     * @param service the service that is to be released
+     * @pbrbm service the service thbt is to be relebsed
      */
-    public void releaseService(BeanContextServices bcs, Object requestor, Object service);
+    public void relebseService(BebnContextServices bcs, Object requestor, Object service);
 
     /**
-     * Invoked by <code>BeanContextServices</code>, this method
+     * Invoked by <code>BebnContextServices</code>, this method
      * gets the current service selectors for the specified service.
-     * A service selector is a service specific parameter,
-     * typical examples of which could include: a
-     * parameter to a constructor for the service implementation class,
-     * a value for a particular service's property, or a key into a
-     * map of existing implementations.
+     * A service selector is b service specific pbrbmeter,
+     * typicbl exbmples of which could include: b
+     * pbrbmeter to b constructor for the service implementbtion clbss,
+     * b vblue for b pbrticulbr service's property, or b key into b
+     * mbp of existing implementbtions.
      *
-     * @param bcs           the <code>BeanContextServices</code> for this request
-     * @param serviceClass  the specified service
-     * @return   the current service selectors for the specified serviceClass
+     * @pbrbm bcs           the <code>BebnContextServices</code> for this request
+     * @pbrbm serviceClbss  the specified service
+     * @return   the current service selectors for the specified serviceClbss
      */
-    Iterator<?> getCurrentServiceSelectors(BeanContextServices bcs, Class<?> serviceClass);
+    Iterbtor<?> getCurrentServiceSelectors(BebnContextServices bcs, Clbss<?> serviceClbss);
 }

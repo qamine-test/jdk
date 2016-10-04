@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /**
- * A Java API for Stream Control Transport Protocol.
+ * A Jbvb API for Strebm Control Trbnsport Protocol.
  *
- * <P> The Stream Control Transport Protocol (SCTP) is a reliable,
- * message-oriented, transport protocol existing at an equivalent level with UDP
- * (User Datagram Protocol) and TCP (Transmission Control Protocol). SCTP is
- * session oriented and an association between the endpoints must be established
- * before any data can be transmitted.
+ * <P> The Strebm Control Trbnsport Protocol (SCTP) is b relibble,
+ * messbge-oriented, trbnsport protocol existing bt bn equivblent level with UDP
+ * (User Dbtbgrbm Protocol) bnd TCP (Trbnsmission Control Protocol). SCTP is
+ * session oriented bnd bn bssocibtion between the endpoints must be estbblished
+ * before bny dbtb cbn be trbnsmitted.
  *
- * <P> SCTP has direct support for multi-homing, meaning than an endpoint may be
- * represented by more than one address and each address may be used for sending
- * and receiving data, thus providing network redundancy. The connection between
- * two endpoints is referred to as an association between those endpoints.
- * Endpoints can exchange a list of addresses during association setup. One
- * address is designated as the primary address, this is the default address that
- * the peer will use for sending data. A single port number is used across the
- * entire address list at an endpoint for a specific session.
+ * <P> SCTP hbs direct support for multi-homing, mebning thbn bn endpoint mby be
+ * represented by more thbn one bddress bnd ebch bddress mby be used for sending
+ * bnd receiving dbtb, thus providing network redundbncy. The connection between
+ * two endpoints is referred to bs bn bssocibtion between those endpoints.
+ * Endpoints cbn exchbnge b list of bddresses during bssocibtion setup. One
+ * bddress is designbted bs the primbry bddress, this is the defbult bddress thbt
+ * the peer will use for sending dbtb. A single port number is used bcross the
+ * entire bddress list bt bn endpoint for b specific session.
  *
- * <P> SCTP is message based. I/O operations operate upon messages and message
- * boundaries are preserved. Each association may support multiple independant
- * logical streams. Each stream represents a sequence of messages within a single
- * association and streams are independant of one another, meaning that stream
- * identifiers and sequence numbers are included in the data packet to allow
- * sequencing of messages on a per-stream basis.
+ * <P> SCTP is messbge bbsed. I/O operbtions operbte upon messbges bnd messbge
+ * boundbries bre preserved. Ebch bssocibtion mby support multiple independbnt
+ * logicbl strebms. Ebch strebm represents b sequence of messbges within b single
+ * bssocibtion bnd strebms bre independbnt of one bnother, mebning thbt strebm
+ * identifiers bnd sequence numbers bre included in the dbtb pbcket to bllow
+ * sequencing of messbges on b per-strebm bbsis.
  *
- * <P> This package provides two programming model styles. The one-to-one style
- * supported by {@link com.sun.nio.sctp.SctpChannel} and {@link
- * com.sun.nio.sctp.SctpServerChannel}, and the one-to-many
- * style supported by {@link com.sun.nio.sctp.SctpMultiChannel}.
- * The semantics of the one-to-one style interface are very similar to TCP.
- * An {@code SctpChannel} can only control one SCTP association. The
- * semantics of the one-to-many style interface are very similar to UDP. An
- * {@code SctpMutliChannel} can control multiple SCTP associations.
+ * <P> This pbckbge provides two progrbmming model styles. The one-to-one style
+ * supported by {@link com.sun.nio.sctp.SctpChbnnel} bnd {@link
+ * com.sun.nio.sctp.SctpServerChbnnel}, bnd the one-to-mbny
+ * style supported by {@link com.sun.nio.sctp.SctpMultiChbnnel}.
+ * The sembntics of the one-to-one style interfbce bre very similbr to TCP.
+ * An {@code SctpChbnnel} cbn only control one SCTP bssocibtion. The
+ * sembntics of the one-to-mbny style interfbce bre very similbr to UDP. An
+ * {@code SctpMutliChbnnel} cbn control multiple SCTP bssocibtions.
  *
- * <P> Applications can send and receive per-message ancillary information through
- * {@link com.sun.nio.sctp.MessageInfo}. For example, the stream number that
- * the message it is to be sent or received from. The SCTP stack is event driven
- * and applications can receive notifications of certain SCTP events by invoking
- * the {@code receive} method of the SCTP channel with an appropriate {@link
- * com.sun.nio.sctp.NotificationHandler notification handler}.
+ * <P> Applicbtions cbn send bnd receive per-messbge bncillbry informbtion through
+ * {@link com.sun.nio.sctp.MessbgeInfo}. For exbmple, the strebm number thbt
+ * the messbge it is to be sent or received from. The SCTP stbck is event driven
+ * bnd bpplicbtions cbn receive notificbtions of certbin SCTP events by invoking
+ * the {@code receive} method of the SCTP chbnnel with bn bppropribte {@link
+ * com.sun.nio.sctp.NotificbtionHbndler notificbtion hbndler}.
  *
  * <P> The SCTP protocol is defined by
- * <A HREF="http://tools.ietf.org/html/rfc4960">RFC4960</A>, and the optional
- * extension for <I>Dynamic Address Reconfiguration</I> is defined by
+ * <A HREF="http://tools.ietf.org/html/rfc4960">RFC4960</A>, bnd the optionbl
+ * extension for <I>Dynbmic Address Reconfigurbtion</I> is defined by
  * <A HREF="http://tools.ietf.org/html/rfc5061">RFC5061</A>.
  *
  * @since 1.7
  */
 
 @jdk.Exported
-package com.sun.nio.sctp;
+pbckbge com.sun.nio.sctp;

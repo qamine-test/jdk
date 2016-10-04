@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,110 +30,110 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
 /**
- * A quick sort demonstration algorithm
- * SortAlgorithm.java
+ * A quick sort demonstrbtion blgorithm
+ * SortAlgorithm.jbvb
  *
- * @author James Gosling
- * @author Kevin A. Smith
+ * @buthor Jbmes Gosling
+ * @buthor Kevin A. Smith
  */
-public class QSortAlgorithm extends SortAlgorithm {
+public clbss QSortAlgorithm extends SortAlgorithm {
 
     /**
-     * A version of pause() that makes it easier to ensure that we pause
-     * exactly the right number of times.
+     * A version of pbuse() thbt mbkes it ebsier to ensure thbt we pbuse
+     * exbctly the right number of times.
      */
-    private boolean pauseTrue(int lo, int hi) throws Exception {
-        super.pause(lo, hi);
+    privbte boolebn pbuseTrue(int lo, int hi) throws Exception {
+        super.pbuse(lo, hi);
         return true;
     }
 
-    /** This is a generic version of C.A.R Hoare's Quick Sort
-     * algorithm.  This will handle arrays that are already
-     * sorted, and arrays with duplicate keys.<BR>
+    /** This is b generic version of C.A.R Hobre's Quick Sort
+     * blgorithm.  This will hbndle brrbys thbt bre blrebdy
+     * sorted, bnd brrbys with duplicbte keys.<BR>
      *
-     * If you think of a one dimensional array as going from
+     * If you think of b one dimensionbl brrby bs going from
      * the lowest index on the left to the highest index on the right
-     * then the parameters to this function are lowest index or
-     * left and highest index or right.  The first time you call
-     * this function it will be with the parameters 0, a.length - 1.
+     * then the pbrbmeters to this function bre lowest index or
+     * left bnd highest index or right.  The first time you cbll
+     * this function it will be with the pbrbmeters 0, b.length - 1.
      *
-     * @param a       an integer array
-     * @param lo0     left boundary of array partition
-     * @param hi0     right boundary of array partition
+     * @pbrbm b       bn integer brrby
+     * @pbrbm lo0     left boundbry of brrby pbrtition
+     * @pbrbm hi0     right boundbry of brrby pbrtition
      */
-    void QuickSort(int a[], int lo0, int hi0) throws Exception {
+    void QuickSort(int b[], int lo0, int hi0) throws Exception {
         int lo = lo0;
         int hi = hi0;
         int mid;
 
         if (hi0 > lo0) {
 
-            /* Arbitrarily establishing partition element as the midpoint of
-             * the array.
+            /* Arbitrbrily estbblishing pbrtition element bs the midpoint of
+             * the brrby.
              */
-            mid = a[(lo0 + hi0) / 2];
+            mid = b[(lo0 + hi0) / 2];
 
-            // loop through the array until indices cross
+            // loop through the brrby until indices cross
             while (lo <= hi) {
-                /* find the first element that is greater than or equal to
-                 * the partition element starting from the left Index.
+                /* find the first element thbt is grebter thbn or equbl to
+                 * the pbrtition element stbrting from the left Index.
                  */
-                while ((lo < hi0) && pauseTrue(lo0, hi0) && (a[lo] < mid)) {
+                while ((lo < hi0) && pbuseTrue(lo0, hi0) && (b[lo] < mid)) {
                     ++lo;
                 }
 
-                /* find an element that is smaller than or equal to
-                 * the partition element starting from the right Index.
+                /* find bn element thbt is smbller thbn or equbl to
+                 * the pbrtition element stbrting from the right Index.
                  */
-                while ((hi > lo0) && pauseTrue(lo0, hi0) && (a[hi] > mid)) {
+                while ((hi > lo0) && pbuseTrue(lo0, hi0) && (b[hi] > mid)) {
                     --hi;
                 }
 
-                // if the indexes have not crossed, swap
+                // if the indexes hbve not crossed, swbp
                 if (lo <= hi) {
-                    swap(a, lo, hi);
+                    swbp(b, lo, hi);
                     ++lo;
                     --hi;
                 }
             }
 
-            /* If the right index has not reached the left side of array
-             * must now sort the left partition.
+            /* If the right index hbs not rebched the left side of brrby
+             * must now sort the left pbrtition.
              */
             if (lo0 < hi) {
-                QuickSort(a, lo0, hi);
+                QuickSort(b, lo0, hi);
             }
 
-            /* If the left index has not reached the right side of array
-             * must now sort the right partition.
+            /* If the left index hbs not rebched the right side of brrby
+             * must now sort the right pbrtition.
              */
             if (lo < hi0) {
-                QuickSort(a, lo, hi0);
+                QuickSort(b, lo, hi0);
             }
 
         }
     }
 
-    private void swap(int a[], int i, int j) {
+    privbte void swbp(int b[], int i, int j) {
         int T;
-        T = a[i];
-        a[i] = a[j];
-        a[j] = T;
+        T = b[i];
+        b[i] = b[j];
+        b[j] = T;
 
     }
 
     @Override
-    public void sort(int a[]) throws Exception {
-        QuickSort(a, 0, a.length - 1);
+    public void sort(int b[]) throws Exception {
+        QuickSort(b, 0, b.length - 1);
     }
 }

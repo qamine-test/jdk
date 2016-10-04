@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.finder;
+pbckbge com.sun.bebns.finder;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
 /**
- * This utility class associates
- * name of primitive type with appropriate wrapper.
+ * This utility clbss bssocibtes
+ * nbme of primitive type with bppropribte wrbpper.
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-public final class PrimitiveWrapperMap {
+public finbl clbss PrimitiveWrbpperMbp {
 
     /**
-     * Replaces all primitive types in specified array with wrappers.
+     * Replbces bll primitive types in specified brrby with wrbppers.
      *
-     * @param types  array of classes where all primitive types
-     *               will be replaced by appropriate wrappers
+     * @pbrbm types  brrby of clbsses where bll primitive types
+     *               will be replbced by bppropribte wrbppers
      */
-    static void replacePrimitivesWithWrappers(Class<?>[] types) {
+    stbtic void replbcePrimitivesWithWrbppers(Clbss<?>[] types) {
         for (int i = 0; i < types.length; i++) {
             if (types[i] != null) {
                 if (types[i].isPrimitive()) {
-                    types[i] = getType(types[i].getName());
+                    types[i] = getType(types[i].getNbme());
                 }
             }
         }
     }
 
     /**
-     * Returns wrapper for primitive type by its name.
+     * Returns wrbpper for primitive type by its nbme.
      *
-     * @param name  the name of primitive type
-     * @return found wrapper for primitive type,
+     * @pbrbm nbme  the nbme of primitive type
+     * @return found wrbpper for primitive type,
      *         or {@code null} if not found
      */
-    public static Class<?> getType(String name) {
-        return map.get(name);
+    public stbtic Clbss<?> getType(String nbme) {
+        return mbp.get(nbme);
     }
 
-    private static final Map<String, Class<?>> map = new HashMap<String, Class<?>>(9);
+    privbte stbtic finbl Mbp<String, Clbss<?>> mbp = new HbshMbp<String, Clbss<?>>(9);
 
-    static {
-        map.put(Boolean.TYPE.getName(), Boolean.class);
-        map.put(Character.TYPE.getName(), Character.class);
-        map.put(Byte.TYPE.getName(), Byte.class);
-        map.put(Short.TYPE.getName(), Short.class);
-        map.put(Integer.TYPE.getName(), Integer.class);
-        map.put(Long.TYPE.getName(), Long.class);
-        map.put(Float.TYPE.getName(), Float.class);
-        map.put(Double.TYPE.getName(), Double.class);
-        map.put(Void.TYPE.getName(), Void.class);
+    stbtic {
+        mbp.put(Boolebn.TYPE.getNbme(), Boolebn.clbss);
+        mbp.put(Chbrbcter.TYPE.getNbme(), Chbrbcter.clbss);
+        mbp.put(Byte.TYPE.getNbme(), Byte.clbss);
+        mbp.put(Short.TYPE.getNbme(), Short.clbss);
+        mbp.put(Integer.TYPE.getNbme(), Integer.clbss);
+        mbp.put(Long.TYPE.getNbme(), Long.clbss);
+        mbp.put(Flobt.TYPE.getNbme(), Flobt.clbss);
+        mbp.put(Double.TYPE.getNbme(), Double.clbss);
+        mbp.put(Void.TYPE.getNbme(), Void.clbss);
     }
 
     /**
-     * Disable instantiation.
+     * Disbble instbntibtion.
      */
-    private PrimitiveWrapperMap() {
+    privbte PrimitiveWrbpperMbp() {
     }
 }

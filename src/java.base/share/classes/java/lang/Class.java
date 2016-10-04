@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 1994, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Array;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.GenericDeclaration;
-import java.lang.reflect.Member;
-import java.lang.reflect.Field;
-import java.lang.reflect.Executable;
-import java.lang.reflect.Method;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.AnnotatedType;
-import java.lang.ref.SoftReference;
-import java.io.InputStream;
-import java.io.ObjectStreamField;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Objects;
-import sun.misc.Unsafe;
-import sun.reflect.CallerSensitive;
-import sun.reflect.ConstantPool;
+import jbvb.lbng.reflect.AnnotbtedElement;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.lbng.reflect.GenericArrbyType;
+import jbvb.lbng.reflect.GenericDeclbrbtion;
+import jbvb.lbng.reflect.Member;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.Executbble;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.lbng.reflect.Type;
+import jbvb.lbng.reflect.TypeVbribble;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.AnnotbtedType;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.io.InputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collection;
+import jbvb.util.HbshSet;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.List;
+import jbvb.util.Set;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Objects;
+import sun.misc.Unsbfe;
+import sun.reflect.CbllerSensitive;
+import sun.reflect.ConstbntPool;
 import sun.reflect.Reflection;
-import sun.reflect.ReflectionFactory;
-import sun.reflect.generics.factory.CoreReflectionFactory;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.repository.ClassRepository;
+import sun.reflect.ReflectionFbctory;
+import sun.reflect.generics.fbctory.CoreReflectionFbctory;
+import sun.reflect.generics.fbctory.GenericsFbctory;
+import sun.reflect.generics.repository.ClbssRepository;
 import sun.reflect.generics.repository.MethodRepository;
 import sun.reflect.generics.repository.ConstructorRepository;
-import sun.reflect.generics.scope.ClassScope;
-import sun.security.util.SecurityConstants;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Proxy;
-import sun.reflect.annotation.*;
+import sun.reflect.generics.scope.ClbssScope;
+import sun.security.util.SecurityConstbnts;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.reflect.Proxy;
+import sun.reflect.bnnotbtion.*;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * Instances of the class {@code Class} represent classes and
- * interfaces in a running Java application.  An enum is a kind of
- * class and an annotation is a kind of interface.  Every array also
- * belongs to a class that is reflected as a {@code Class} object
- * that is shared by all arrays with the same element type and number
- * of dimensions.  The primitive Java types ({@code boolean},
- * {@code byte}, {@code char}, {@code short},
- * {@code int}, {@code long}, {@code float}, and
- * {@code double}), and the keyword {@code void} are also
- * represented as {@code Class} objects.
+ * Instbnces of the clbss {@code Clbss} represent clbsses bnd
+ * interfbces in b running Jbvb bpplicbtion.  An enum is b kind of
+ * clbss bnd bn bnnotbtion is b kind of interfbce.  Every brrby blso
+ * belongs to b clbss thbt is reflected bs b {@code Clbss} object
+ * thbt is shbred by bll brrbys with the sbme element type bnd number
+ * of dimensions.  The primitive Jbvb types ({@code boolebn},
+ * {@code byte}, {@code chbr}, {@code short},
+ * {@code int}, {@code long}, {@code flobt}, bnd
+ * {@code double}), bnd the keyword {@code void} bre blso
+ * represented bs {@code Clbss} objects.
  *
- * <p> {@code Class} has no public constructor. Instead {@code Class}
- * objects are constructed automatically by the Java Virtual Machine as classes
- * are loaded and by calls to the {@code defineClass} method in the class
- * loader.
+ * <p> {@code Clbss} hbs no public constructor. Instebd {@code Clbss}
+ * objects bre constructed butombticblly by the Jbvb Virtubl Mbchine bs clbsses
+ * bre lobded bnd by cblls to the {@code defineClbss} method in the clbss
+ * lobder.
  *
- * <p> The following example uses a {@code Class} object to print the
- * class name of an object:
+ * <p> The following exbmple uses b {@code Clbss} object to print the
+ * clbss nbme of bn object:
  *
  * <blockquote><pre>
- *     void printClassName(Object obj) {
- *         System.out.println("The class of " + obj +
- *                            " is " + obj.getClass().getName());
+ *     void printClbssNbme(Object obj) {
+ *         System.out.println("The clbss of " + obj +
+ *                            " is " + obj.getClbss().getNbme());
  *     }
  * </pre></blockquote>
  *
- * <p> It is also possible to get the {@code Class} object for a named
- * type (or for void) using a class literal.  See Section 15.8.2 of
- * <cite>The Java&trade; Language Specification</cite>.
- * For example:
+ * <p> It is blso possible to get the {@code Clbss} object for b nbmed
+ * type (or for void) using b clbss literbl.  See Section 15.8.2 of
+ * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
+ * For exbmple:
  *
  * <blockquote>
- *     {@code System.out.println("The name of class Foo is: "+Foo.class.getName());}
+ *     {@code System.out.println("The nbme of clbss Foo is: "+Foo.clbss.getNbme());}
  * </blockquote>
  *
- * @param <T> the type of the class modeled by this {@code Class}
- * object.  For example, the type of {@code String.class} is {@code
- * Class<String>}.  Use {@code Class<?>} if the class being modeled is
+ * @pbrbm <T> the type of the clbss modeled by this {@code Clbss}
+ * object.  For exbmple, the type of {@code String.clbss} is {@code
+ * Clbss<String>}.  Use {@code Clbss<?>} if the clbss being modeled is
  * unknown.
  *
- * @author  unascribed
- * @see     java.lang.ClassLoader#defineClass(byte[], int, int)
+ * @buthor  unbscribed
+ * @see     jbvb.lbng.ClbssLobder#defineClbss(byte[], int, int)
  * @since   1.0
  */
-public final class Class<T> implements java.io.Serializable,
-                              GenericDeclaration,
+public finbl clbss Clbss<T> implements jbvb.io.Seriblizbble,
+                              GenericDeclbrbtion,
                               Type,
-                              AnnotatedElement {
-    private static final int ANNOTATION= 0x00002000;
-    private static final int ENUM      = 0x00004000;
-    private static final int SYNTHETIC = 0x00001000;
+                              AnnotbtedElement {
+    privbte stbtic finbl int ANNOTATION= 0x00002000;
+    privbte stbtic finbl int ENUM      = 0x00004000;
+    privbte stbtic finbl int SYNTHETIC = 0x00001000;
 
-    private static native void registerNatives();
-    static {
-        registerNatives();
+    privbte stbtic nbtive void registerNbtives();
+    stbtic {
+        registerNbtives();
     }
 
     /*
-     * Private constructor. Only the Java Virtual Machine creates Class objects.
-     * This constructor is not used and prevents the default constructor being
-     * generated.
+     * Privbte constructor. Only the Jbvb Virtubl Mbchine crebtes Clbss objects.
+     * This constructor is not used bnd prevents the defbult constructor being
+     * generbted.
      */
-    private Class(ClassLoader loader, Class<?> arrayComponentType) {
-        // Initialize final field for classLoader.  The initialization value of non-null
-        // prevents future JIT optimizations from assuming this final field is null.
-        classLoader = loader;
-        componentType = arrayComponentType;
+    privbte Clbss(ClbssLobder lobder, Clbss<?> brrbyComponentType) {
+        // Initiblize finbl field for clbssLobder.  The initiblizbtion vblue of non-null
+        // prevents future JIT optimizbtions from bssuming this finbl field is null.
+        clbssLobder = lobder;
+        componentType = brrbyComponentType;
     }
 
     /**
-     * Converts the object to a string. The string representation is the
-     * string "class" or "interface", followed by a space, and then by the
-     * fully qualified name of the class in the format returned by
-     * {@code getName}.  If this {@code Class} object represents a
-     * primitive type, this method returns the name of the primitive type.  If
-     * this {@code Class} object represents void this method returns
+     * Converts the object to b string. The string representbtion is the
+     * string "clbss" or "interfbce", followed by b spbce, bnd then by the
+     * fully qublified nbme of the clbss in the formbt returned by
+     * {@code getNbme}.  If this {@code Clbss} object represents b
+     * primitive type, this method returns the nbme of the primitive type.  If
+     * this {@code Clbss} object represents void this method returns
      * "void".
      *
-     * @return a string representation of this class object.
+     * @return b string representbtion of this clbss object.
      */
     public String toString() {
-        return (isInterface() ? "interface " : (isPrimitive() ? "" : "class "))
-            + getName();
+        return (isInterfbce() ? "interfbce " : (isPrimitive() ? "" : "clbss "))
+            + getNbme();
     }
 
     /**
-     * Returns a string describing this {@code Class}, including
-     * information about modifiers and type parameters.
+     * Returns b string describing this {@code Clbss}, including
+     * informbtion bbout modifiers bnd type pbrbmeters.
      *
-     * The string is formatted as a list of type modifiers, if any,
+     * The string is formbtted bs b list of type modifiers, if bny,
      * followed by the kind of type (empty string for primitive types
-     * and {@code class}, {@code enum}, {@code interface}, or
-     * <code>&#64;</code>{@code interface}, as appropriate), followed
-     * by the type's name, followed by an angle-bracketed
-     * comma-separated list of the type's type parameters, if any.
+     * bnd {@code clbss}, {@code enum}, {@code interfbce}, or
+     * <code>&#64;</code>{@code interfbce}, bs bppropribte), followed
+     * by the type's nbme, followed by bn bngle-brbcketed
+     * commb-sepbrbted list of the type's type pbrbmeters, if bny.
      *
-     * A space is used to separate modifiers from one another and to
-     * separate any modifiers from the kind of type. The modifiers
-     * occur in canonical order. If there are no type parameters, the
-     * type parameter list is elided.
+     * A spbce is used to sepbrbte modifiers from one bnother bnd to
+     * sepbrbte bny modifiers from the kind of type. The modifiers
+     * occur in cbnonicbl order. If there bre no type pbrbmeters, the
+     * type pbrbmeter list is elided.
      *
-     * <p>Note that since information about the runtime representation
-     * of a type is being generated, modifiers not present on the
-     * originating source code or illegal on the originating source
-     * code may be present.
+     * <p>Note thbt since informbtion bbout the runtime representbtion
+     * of b type is being generbted, modifiers not present on the
+     * originbting source code or illegbl on the originbting source
+     * code mby be present.
      *
-     * @return a string describing this {@code Class}, including
-     * information about modifiers and type parameters
+     * @return b string describing this {@code Clbss}, including
+     * informbtion bbout modifiers bnd type pbrbmeters
      *
      * @since 1.8
      */
@@ -189,38 +189,38 @@ public final class Class<T> implements java.io.Serializable,
         } else {
             StringBuilder sb = new StringBuilder();
 
-            // Class modifiers are a superset of interface modifiers
-            int modifiers = getModifiers() & Modifier.classModifiers();
+            // Clbss modifiers bre b superset of interfbce modifiers
+            int modifiers = getModifiers() & Modifier.clbssModifiers();
             if (modifiers != 0) {
-                sb.append(Modifier.toString(modifiers));
-                sb.append(' ');
+                sb.bppend(Modifier.toString(modifiers));
+                sb.bppend(' ');
             }
 
-            if (isAnnotation()) {
-                sb.append('@');
+            if (isAnnotbtion()) {
+                sb.bppend('@');
             }
-            if (isInterface()) { // Note: all annotation types are interfaces
-                sb.append("interface");
+            if (isInterfbce()) { // Note: bll bnnotbtion types bre interfbces
+                sb.bppend("interfbce");
             } else {
                 if (isEnum())
-                    sb.append("enum");
+                    sb.bppend("enum");
                 else
-                    sb.append("class");
+                    sb.bppend("clbss");
             }
-            sb.append(' ');
-            sb.append(getName());
+            sb.bppend(' ');
+            sb.bppend(getNbme());
 
-            TypeVariable<?>[] typeparms = getTypeParameters();
-            if (typeparms.length > 0) {
-                boolean first = true;
-                sb.append('<');
-                for(TypeVariable<?> typeparm: typeparms) {
+            TypeVbribble<?>[] typepbrms = getTypePbrbmeters();
+            if (typepbrms.length > 0) {
+                boolebn first = true;
+                sb.bppend('<');
+                for(TypeVbribble<?> typepbrm: typepbrms) {
                     if (!first)
-                        sb.append(',');
-                    sb.append(typeparm.getTypeName());
-                    first = false;
+                        sb.bppend(',');
+                    sb.bppend(typepbrm.getTypeNbme());
+                    first = fblse;
                 }
-                sb.append('>');
+                sb.bppend('>');
             }
 
             return sb.toString();
@@ -228,792 +228,792 @@ public final class Class<T> implements java.io.Serializable,
     }
 
     /**
-     * Returns the {@code Class} object associated with the class or
-     * interface with the given string name.  Invoking this method is
-     * equivalent to:
+     * Returns the {@code Clbss} object bssocibted with the clbss or
+     * interfbce with the given string nbme.  Invoking this method is
+     * equivblent to:
      *
      * <blockquote>
-     *  {@code Class.forName(className, true, currentLoader)}
+     *  {@code Clbss.forNbme(clbssNbme, true, currentLobder)}
      * </blockquote>
      *
-     * where {@code currentLoader} denotes the defining class loader of
-     * the current class.
+     * where {@code currentLobder} denotes the defining clbss lobder of
+     * the current clbss.
      *
-     * <p> For example, the following code fragment returns the
-     * runtime {@code Class} descriptor for the class named
-     * {@code java.lang.Thread}:
+     * <p> For exbmple, the following code frbgment returns the
+     * runtime {@code Clbss} descriptor for the clbss nbmed
+     * {@code jbvb.lbng.Threbd}:
      *
      * <blockquote>
-     *   {@code Class t = Class.forName("java.lang.Thread")}
+     *   {@code Clbss t = Clbss.forNbme("jbvb.lbng.Threbd")}
      * </blockquote>
      * <p>
-     * A call to {@code forName("X")} causes the class named
-     * {@code X} to be initialized.
+     * A cbll to {@code forNbme("X")} cbuses the clbss nbmed
+     * {@code X} to be initiblized.
      *
-     * @param      className   the fully qualified name of the desired class.
-     * @return     the {@code Class} object for the class with the
-     *             specified name.
-     * @exception LinkageError if the linkage fails
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *            by this method fails
-     * @exception ClassNotFoundException if the class cannot be located
+     * @pbrbm      clbssNbme   the fully qublified nbme of the desired clbss.
+     * @return     the {@code Clbss} object for the clbss with the
+     *             specified nbme.
+     * @exception LinkbgeError if the linkbge fbils
+     * @exception ExceptionInInitiblizerError if the initiblizbtion provoked
+     *            by this method fbils
+     * @exception ClbssNotFoundException if the clbss cbnnot be locbted
      */
-    @CallerSensitive
-    public static Class<?> forName(String className)
-                throws ClassNotFoundException {
-        return forName0(className, true,
-                        ClassLoader.getClassLoader(Reflection.getCallerClass()));
+    @CbllerSensitive
+    public stbtic Clbss<?> forNbme(String clbssNbme)
+                throws ClbssNotFoundException {
+        return forNbme0(clbssNbme, true,
+                        ClbssLobder.getClbssLobder(Reflection.getCbllerClbss()));
     }
 
 
     /**
-     * Returns the {@code Class} object associated with the class or
-     * interface with the given string name, using the given class loader.
-     * Given the fully qualified name for a class or interface (in the same
-     * format returned by {@code getName}) this method attempts to
-     * locate, load, and link the class or interface.  The specified class
-     * loader is used to load the class or interface.  If the parameter
-     * {@code loader} is null, the class is loaded through the bootstrap
-     * class loader.  The class is initialized only if the
-     * {@code initialize} parameter is {@code true} and if it has
-     * not been initialized earlier.
+     * Returns the {@code Clbss} object bssocibted with the clbss or
+     * interfbce with the given string nbme, using the given clbss lobder.
+     * Given the fully qublified nbme for b clbss or interfbce (in the sbme
+     * formbt returned by {@code getNbme}) this method bttempts to
+     * locbte, lobd, bnd link the clbss or interfbce.  The specified clbss
+     * lobder is used to lobd the clbss or interfbce.  If the pbrbmeter
+     * {@code lobder} is null, the clbss is lobded through the bootstrbp
+     * clbss lobder.  The clbss is initiblized only if the
+     * {@code initiblize} pbrbmeter is {@code true} bnd if it hbs
+     * not been initiblized ebrlier.
      *
-     * <p> If {@code name} denotes a primitive type or void, an attempt
-     * will be made to locate a user-defined class in the unnamed package whose
-     * name is {@code name}. Therefore, this method cannot be used to
-     * obtain any of the {@code Class} objects representing primitive
+     * <p> If {@code nbme} denotes b primitive type or void, bn bttempt
+     * will be mbde to locbte b user-defined clbss in the unnbmed pbckbge whose
+     * nbme is {@code nbme}. Therefore, this method cbnnot be used to
+     * obtbin bny of the {@code Clbss} objects representing primitive
      * types or void.
      *
-     * <p> If {@code name} denotes an array class, the component type of
-     * the array class is loaded but not initialized.
+     * <p> If {@code nbme} denotes bn brrby clbss, the component type of
+     * the brrby clbss is lobded but not initiblized.
      *
-     * <p> For example, in an instance method the expression:
-     *
-     * <blockquote>
-     *  {@code Class.forName("Foo")}
-     * </blockquote>
-     *
-     * is equivalent to:
+     * <p> For exbmple, in bn instbnce method the expression:
      *
      * <blockquote>
-     *  {@code Class.forName("Foo", true, this.getClass().getClassLoader())}
+     *  {@code Clbss.forNbme("Foo")}
      * </blockquote>
      *
-     * Note that this method throws errors related to loading, linking or
-     * initializing as specified in Sections 12.2, 12.3 and 12.4 of <em>The
-     * Java Language Specification</em>.
-     * Note that this method does not check whether the requested class
-     * is accessible to its caller.
+     * is equivblent to:
      *
-     * <p> If the {@code loader} is {@code null}, and a security
-     * manager is present, and the caller's class loader is not null, then this
-     * method calls the security manager's {@code checkPermission} method
-     * with a {@code RuntimePermission("getClassLoader")} permission to
-     * ensure it's ok to access the bootstrap class loader.
+     * <blockquote>
+     *  {@code Clbss.forNbme("Foo", true, this.getClbss().getClbssLobder())}
+     * </blockquote>
      *
-     * @param name       fully qualified name of the desired class
-     * @param initialize if {@code true} the class will be initialized.
-     *                   See Section 12.4 of <em>The Java Language Specification</em>.
-     * @param loader     class loader from which the class must be loaded
-     * @return           class object representing the desired class
+     * Note thbt this method throws errors relbted to lobding, linking or
+     * initiblizing bs specified in Sections 12.2, 12.3 bnd 12.4 of <em>The
+     * Jbvb Lbngubge Specificbtion</em>.
+     * Note thbt this method does not check whether the requested clbss
+     * is bccessible to its cbller.
      *
-     * @exception LinkageError if the linkage fails
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *            by this method fails
-     * @exception ClassNotFoundException if the class cannot be located by
-     *            the specified class loader
+     * <p> If the {@code lobder} is {@code null}, bnd b security
+     * mbnbger is present, bnd the cbller's clbss lobder is not null, then this
+     * method cblls the security mbnbger's {@code checkPermission} method
+     * with b {@code RuntimePermission("getClbssLobder")} permission to
+     * ensure it's ok to bccess the bootstrbp clbss lobder.
      *
-     * @see       java.lang.Class#forName(String)
-     * @see       java.lang.ClassLoader
+     * @pbrbm nbme       fully qublified nbme of the desired clbss
+     * @pbrbm initiblize if {@code true} the clbss will be initiblized.
+     *                   See Section 12.4 of <em>The Jbvb Lbngubge Specificbtion</em>.
+     * @pbrbm lobder     clbss lobder from which the clbss must be lobded
+     * @return           clbss object representing the desired clbss
+     *
+     * @exception LinkbgeError if the linkbge fbils
+     * @exception ExceptionInInitiblizerError if the initiblizbtion provoked
+     *            by this method fbils
+     * @exception ClbssNotFoundException if the clbss cbnnot be locbted by
+     *            the specified clbss lobder
+     *
+     * @see       jbvb.lbng.Clbss#forNbme(String)
+     * @see       jbvb.lbng.ClbssLobder
      * @since     1.2
      */
-    @CallerSensitive
-    public static Class<?> forName(String name, boolean initialize,
-                                   ClassLoader loader)
-        throws ClassNotFoundException
+    @CbllerSensitive
+    public stbtic Clbss<?> forNbme(String nbme, boolebn initiblize,
+                                   ClbssLobder lobder)
+        throws ClbssNotFoundException
     {
-        if (sun.misc.VM.isSystemDomainLoader(loader)) {
-            SecurityManager sm = System.getSecurityManager();
+        if (sun.misc.VM.isSystemDombinLobder(lobder)) {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
-                ClassLoader ccl = ClassLoader.getClassLoader(Reflection.getCallerClass());
-                if (!sun.misc.VM.isSystemDomainLoader(ccl)) {
+                ClbssLobder ccl = ClbssLobder.getClbssLobder(Reflection.getCbllerClbss());
+                if (!sun.misc.VM.isSystemDombinLobder(ccl)) {
                     sm.checkPermission(
-                        SecurityConstants.GET_CLASSLOADER_PERMISSION);
+                        SecurityConstbnts.GET_CLASSLOADER_PERMISSION);
                 }
             }
         }
-        return forName0(name, initialize, loader);
+        return forNbme0(nbme, initiblize, lobder);
     }
 
-    /** Called after security checks have been made. */
-    private static native Class<?> forName0(String name, boolean initialize,
-                                            ClassLoader loader)
-        throws ClassNotFoundException;
+    /** Cblled bfter security checks hbve been mbde. */
+    privbte stbtic nbtive Clbss<?> forNbme0(String nbme, boolebn initiblize,
+                                            ClbssLobder lobder)
+        throws ClbssNotFoundException;
 
     /**
-     * Creates a new instance of the class represented by this {@code Class}
-     * object.  The class is instantiated as if by a {@code new}
-     * expression with an empty argument list.  The class is initialized if it
-     * has not already been initialized.
+     * Crebtes b new instbnce of the clbss represented by this {@code Clbss}
+     * object.  The clbss is instbntibted bs if by b {@code new}
+     * expression with bn empty brgument list.  The clbss is initiblized if it
+     * hbs not blrebdy been initiblized.
      *
-     * <p>Note that this method propagates any exception thrown by the
-     * nullary constructor, including a checked exception.  Use of
-     * this method effectively bypasses the compile-time exception
-     * checking that would otherwise be performed by the compiler.
+     * <p>Note thbt this method propbgbtes bny exception thrown by the
+     * nullbry constructor, including b checked exception.  Use of
+     * this method effectively bypbsses the compile-time exception
+     * checking thbt would otherwise be performed by the compiler.
      * The {@link
-     * java.lang.reflect.Constructor#newInstance(java.lang.Object...)
-     * Constructor.newInstance} method avoids this problem by wrapping
-     * any exception thrown by the constructor in a (checked) {@link
-     * java.lang.reflect.InvocationTargetException}.
+     * jbvb.lbng.reflect.Constructor#newInstbnce(jbvb.lbng.Object...)
+     * Constructor.newInstbnce} method bvoids this problem by wrbpping
+     * bny exception thrown by the constructor in b (checked) {@link
+     * jbvb.lbng.reflect.InvocbtionTbrgetException}.
      *
-     * @return  a newly allocated instance of the class represented by this
+     * @return  b newly bllocbted instbnce of the clbss represented by this
      *          object.
-     * @throws  IllegalAccessException  if the class or its nullary
-     *          constructor is not accessible.
-     * @throws  InstantiationException
-     *          if this {@code Class} represents an abstract class,
-     *          an interface, an array class, a primitive type, or void;
-     *          or if the class has no nullary constructor;
-     *          or if the instantiation fails for some other reason.
-     * @throws  ExceptionInInitializerError if the initialization
-     *          provoked by this method fails.
+     * @throws  IllegblAccessException  if the clbss or its nullbry
+     *          constructor is not bccessible.
+     * @throws  InstbntibtionException
+     *          if this {@code Clbss} represents bn bbstrbct clbss,
+     *          bn interfbce, bn brrby clbss, b primitive type, or void;
+     *          or if the clbss hbs no nullbry constructor;
+     *          or if the instbntibtion fbils for some other rebson.
+     * @throws  ExceptionInInitiblizerError if the initiblizbtion
+     *          provoked by this method fbils.
      * @throws  SecurityException
-     *          If a security manager, <i>s</i>, is present and
-     *          the caller's class loader is not the same as or an
-     *          ancestor of the class loader for the current class and
-     *          invocation of {@link SecurityManager#checkPackageAccess
-     *          s.checkPackageAccess()} denies access to the package
-     *          of this class.
+     *          If b security mbnbger, <i>s</i>, is present bnd
+     *          the cbller's clbss lobder is not the sbme bs or bn
+     *          bncestor of the clbss lobder for the current clbss bnd
+     *          invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *          s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *          of this clbss.
      */
-    @CallerSensitive
-    public T newInstance()
-        throws InstantiationException, IllegalAccessException
+    @CbllerSensitive
+    public T newInstbnce()
+        throws InstbntibtionException, IllegblAccessException
     {
-        if (System.getSecurityManager() != null) {
-            checkMemberAccess(Member.PUBLIC, Reflection.getCallerClass(), false);
+        if (System.getSecurityMbnbger() != null) {
+            checkMemberAccess(Member.PUBLIC, Reflection.getCbllerClbss(), fblse);
         }
 
-        // NOTE: the following code may not be strictly correct under
-        // the current Java memory model.
+        // NOTE: the following code mby not be strictly correct under
+        // the current Jbvb memory model.
 
         // Constructor lookup
-        if (cachedConstructor == null) {
-            if (this == Class.class) {
-                throw new IllegalAccessException(
-                    "Can not call newInstance() on the Class for java.lang.Class"
+        if (cbchedConstructor == null) {
+            if (this == Clbss.clbss) {
+                throw new IllegblAccessException(
+                    "Cbn not cbll newInstbnce() on the Clbss for jbvb.lbng.Clbss"
                 );
             }
             try {
-                Class<?>[] empty = {};
-                final Constructor<T> c = getConstructor0(empty, Member.DECLARED);
-                // Disable accessibility checks on the constructor
-                // since we have to do the security check here anyway
-                // (the stack depth is wrong for the Constructor's
+                Clbss<?>[] empty = {};
+                finbl Constructor<T> c = getConstructor0(empty, Member.DECLARED);
+                // Disbble bccessibility checks on the constructor
+                // since we hbve to do the security check here bnywby
+                // (the stbck depth is wrong for the Constructor's
                 // security check to work)
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Void>() {
+                jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Void>() {
                         public Void run() {
                                 c.setAccessible(true);
                                 return null;
                             }
                         });
-                cachedConstructor = c;
-            } catch (NoSuchMethodException e) {
-                throw (InstantiationException)
-                    new InstantiationException(getName()).initCause(e);
+                cbchedConstructor = c;
+            } cbtch (NoSuchMethodException e) {
+                throw (InstbntibtionException)
+                    new InstbntibtionException(getNbme()).initCbuse(e);
             }
         }
-        Constructor<T> tmpConstructor = cachedConstructor;
-        // Security check (same as in java.lang.reflect.Constructor)
+        Constructor<T> tmpConstructor = cbchedConstructor;
+        // Security check (sbme bs in jbvb.lbng.reflect.Constructor)
         int modifiers = tmpConstructor.getModifiers();
         if (!Reflection.quickCheckMemberAccess(this, modifiers)) {
-            Class<?> caller = Reflection.getCallerClass();
-            if (newInstanceCallerCache != caller) {
-                Reflection.ensureMemberAccess(caller, this, null, modifiers);
-                newInstanceCallerCache = caller;
+            Clbss<?> cbller = Reflection.getCbllerClbss();
+            if (newInstbnceCbllerCbche != cbller) {
+                Reflection.ensureMemberAccess(cbller, this, null, modifiers);
+                newInstbnceCbllerCbche = cbller;
             }
         }
         // Run constructor
         try {
-            return tmpConstructor.newInstance((Object[])null);
-        } catch (InvocationTargetException e) {
-            Unsafe.getUnsafe().throwException(e.getTargetException());
-            // Not reached
+            return tmpConstructor.newInstbnce((Object[])null);
+        } cbtch (InvocbtionTbrgetException e) {
+            Unsbfe.getUnsbfe().throwException(e.getTbrgetException());
+            // Not rebched
             return null;
         }
     }
-    private volatile transient Constructor<T> cachedConstructor;
-    private volatile transient Class<?>       newInstanceCallerCache;
+    privbte volbtile trbnsient Constructor<T> cbchedConstructor;
+    privbte volbtile trbnsient Clbss<?>       newInstbnceCbllerCbche;
 
 
     /**
-     * Determines if the specified {@code Object} is assignment-compatible
-     * with the object represented by this {@code Class}.  This method is
-     * the dynamic equivalent of the Java language {@code instanceof}
-     * operator. The method returns {@code true} if the specified
-     * {@code Object} argument is non-null and can be cast to the
-     * reference type represented by this {@code Class} object without
-     * raising a {@code ClassCastException.} It returns {@code false}
+     * Determines if the specified {@code Object} is bssignment-compbtible
+     * with the object represented by this {@code Clbss}.  This method is
+     * the dynbmic equivblent of the Jbvb lbngubge {@code instbnceof}
+     * operbtor. The method returns {@code true} if the specified
+     * {@code Object} brgument is non-null bnd cbn be cbst to the
+     * reference type represented by this {@code Clbss} object without
+     * rbising b {@code ClbssCbstException.} It returns {@code fblse}
      * otherwise.
      *
-     * <p> Specifically, if this {@code Class} object represents a
-     * declared class, this method returns {@code true} if the specified
-     * {@code Object} argument is an instance of the represented class (or
-     * of any of its subclasses); it returns {@code false} otherwise. If
-     * this {@code Class} object represents an array class, this method
-     * returns {@code true} if the specified {@code Object} argument
-     * can be converted to an object of the array class by an identity
-     * conversion or by a widening reference conversion; it returns
-     * {@code false} otherwise. If this {@code Class} object
-     * represents an interface, this method returns {@code true} if the
-     * class or any superclass of the specified {@code Object} argument
-     * implements this interface; it returns {@code false} otherwise. If
-     * this {@code Class} object represents a primitive type, this method
-     * returns {@code false}.
+     * <p> Specificblly, if this {@code Clbss} object represents b
+     * declbred clbss, this method returns {@code true} if the specified
+     * {@code Object} brgument is bn instbnce of the represented clbss (or
+     * of bny of its subclbsses); it returns {@code fblse} otherwise. If
+     * this {@code Clbss} object represents bn brrby clbss, this method
+     * returns {@code true} if the specified {@code Object} brgument
+     * cbn be converted to bn object of the brrby clbss by bn identity
+     * conversion or by b widening reference conversion; it returns
+     * {@code fblse} otherwise. If this {@code Clbss} object
+     * represents bn interfbce, this method returns {@code true} if the
+     * clbss or bny superclbss of the specified {@code Object} brgument
+     * implements this interfbce; it returns {@code fblse} otherwise. If
+     * this {@code Clbss} object represents b primitive type, this method
+     * returns {@code fblse}.
      *
-     * @param   obj the object to check
-     * @return  true if {@code obj} is an instance of this class
+     * @pbrbm   obj the object to check
+     * @return  true if {@code obj} is bn instbnce of this clbss
      *
      * @since 1.1
      */
-    public native boolean isInstance(Object obj);
+    public nbtive boolebn isInstbnce(Object obj);
 
 
     /**
-     * Determines if the class or interface represented by this
-     * {@code Class} object is either the same as, or is a superclass or
-     * superinterface of, the class or interface represented by the specified
-     * {@code Class} parameter. It returns {@code true} if so;
-     * otherwise it returns {@code false}. If this {@code Class}
-     * object represents a primitive type, this method returns
-     * {@code true} if the specified {@code Class} parameter is
-     * exactly this {@code Class} object; otherwise it returns
-     * {@code false}.
+     * Determines if the clbss or interfbce represented by this
+     * {@code Clbss} object is either the sbme bs, or is b superclbss or
+     * superinterfbce of, the clbss or interfbce represented by the specified
+     * {@code Clbss} pbrbmeter. It returns {@code true} if so;
+     * otherwise it returns {@code fblse}. If this {@code Clbss}
+     * object represents b primitive type, this method returns
+     * {@code true} if the specified {@code Clbss} pbrbmeter is
+     * exbctly this {@code Clbss} object; otherwise it returns
+     * {@code fblse}.
      *
-     * <p> Specifically, this method tests whether the type represented by the
-     * specified {@code Class} parameter can be converted to the type
-     * represented by this {@code Class} object via an identity conversion
-     * or via a widening reference conversion. See <em>The Java Language
-     * Specification</em>, sections 5.1.1 and 5.1.4 , for details.
+     * <p> Specificblly, this method tests whether the type represented by the
+     * specified {@code Clbss} pbrbmeter cbn be converted to the type
+     * represented by this {@code Clbss} object vib bn identity conversion
+     * or vib b widening reference conversion. See <em>The Jbvb Lbngubge
+     * Specificbtion</em>, sections 5.1.1 bnd 5.1.4 , for detbils.
      *
-     * @param cls the {@code Class} object to be checked
-     * @return the {@code boolean} value indicating whether objects of the
-     * type {@code cls} can be assigned to objects of this class
-     * @exception NullPointerException if the specified Class parameter is
+     * @pbrbm cls the {@code Clbss} object to be checked
+     * @return the {@code boolebn} vblue indicbting whether objects of the
+     * type {@code cls} cbn be bssigned to objects of this clbss
+     * @exception NullPointerException if the specified Clbss pbrbmeter is
      *            null.
      * @since 1.1
      */
-    public native boolean isAssignableFrom(Class<?> cls);
+    public nbtive boolebn isAssignbbleFrom(Clbss<?> cls);
 
 
     /**
-     * Determines if the specified {@code Class} object represents an
-     * interface type.
+     * Determines if the specified {@code Clbss} object represents bn
+     * interfbce type.
      *
-     * @return  {@code true} if this object represents an interface;
-     *          {@code false} otherwise.
+     * @return  {@code true} if this object represents bn interfbce;
+     *          {@code fblse} otherwise.
      */
-    public native boolean isInterface();
+    public nbtive boolebn isInterfbce();
 
 
     /**
-     * Determines if this {@code Class} object represents an array class.
+     * Determines if this {@code Clbss} object represents bn brrby clbss.
      *
-     * @return  {@code true} if this object represents an array class;
-     *          {@code false} otherwise.
+     * @return  {@code true} if this object represents bn brrby clbss;
+     *          {@code fblse} otherwise.
      * @since   1.1
      */
-    public native boolean isArray();
+    public nbtive boolebn isArrby();
 
 
     /**
-     * Determines if the specified {@code Class} object represents a
+     * Determines if the specified {@code Clbss} object represents b
      * primitive type.
      *
-     * <p> There are nine predefined {@code Class} objects to represent
-     * the eight primitive types and void.  These are created by the Java
-     * Virtual Machine, and have the same names as the primitive types that
-     * they represent, namely {@code boolean}, {@code byte},
-     * {@code char}, {@code short}, {@code int},
-     * {@code long}, {@code float}, and {@code double}.
+     * <p> There bre nine predefined {@code Clbss} objects to represent
+     * the eight primitive types bnd void.  These bre crebted by the Jbvb
+     * Virtubl Mbchine, bnd hbve the sbme nbmes bs the primitive types thbt
+     * they represent, nbmely {@code boolebn}, {@code byte},
+     * {@code chbr}, {@code short}, {@code int},
+     * {@code long}, {@code flobt}, bnd {@code double}.
      *
-     * <p> These objects may only be accessed via the following public static
-     * final variables, and are the only {@code Class} objects for which
+     * <p> These objects mby only be bccessed vib the following public stbtic
+     * finbl vbribbles, bnd bre the only {@code Clbss} objects for which
      * this method returns {@code true}.
      *
-     * @return true if and only if this class represents a primitive type
+     * @return true if bnd only if this clbss represents b primitive type
      *
-     * @see     java.lang.Boolean#TYPE
-     * @see     java.lang.Character#TYPE
-     * @see     java.lang.Byte#TYPE
-     * @see     java.lang.Short#TYPE
-     * @see     java.lang.Integer#TYPE
-     * @see     java.lang.Long#TYPE
-     * @see     java.lang.Float#TYPE
-     * @see     java.lang.Double#TYPE
-     * @see     java.lang.Void#TYPE
+     * @see     jbvb.lbng.Boolebn#TYPE
+     * @see     jbvb.lbng.Chbrbcter#TYPE
+     * @see     jbvb.lbng.Byte#TYPE
+     * @see     jbvb.lbng.Short#TYPE
+     * @see     jbvb.lbng.Integer#TYPE
+     * @see     jbvb.lbng.Long#TYPE
+     * @see     jbvb.lbng.Flobt#TYPE
+     * @see     jbvb.lbng.Double#TYPE
+     * @see     jbvb.lbng.Void#TYPE
      * @since 1.1
      */
-    public native boolean isPrimitive();
+    public nbtive boolebn isPrimitive();
 
     /**
-     * Returns true if this {@code Class} object represents an annotation
-     * type.  Note that if this method returns true, {@link #isInterface()}
-     * would also return true, as all annotation types are also interfaces.
+     * Returns true if this {@code Clbss} object represents bn bnnotbtion
+     * type.  Note thbt if this method returns true, {@link #isInterfbce()}
+     * would blso return true, bs bll bnnotbtion types bre blso interfbces.
      *
-     * @return {@code true} if this class object represents an annotation
-     *      type; {@code false} otherwise
+     * @return {@code true} if this clbss object represents bn bnnotbtion
+     *      type; {@code fblse} otherwise
      * @since 1.5
      */
-    public boolean isAnnotation() {
+    public boolebn isAnnotbtion() {
         return (getModifiers() & ANNOTATION) != 0;
     }
 
     /**
-     * Returns {@code true} if this class is a synthetic class;
-     * returns {@code false} otherwise.
-     * @return {@code true} if and only if this class is a synthetic class as
-     *         defined by the Java Language Specification.
-     * @jls 13.1 The Form of a Binary
+     * Returns {@code true} if this clbss is b synthetic clbss;
+     * returns {@code fblse} otherwise.
+     * @return {@code true} if bnd only if this clbss is b synthetic clbss bs
+     *         defined by the Jbvb Lbngubge Specificbtion.
+     * @jls 13.1 The Form of b Binbry
      * @since 1.5
      */
-    public boolean isSynthetic() {
+    public boolebn isSynthetic() {
         return (getModifiers() & SYNTHETIC) != 0;
     }
 
     /**
-     * Returns the  name of the entity (class, interface, array class,
-     * primitive type, or void) represented by this {@code Class} object,
-     * as a {@code String}.
+     * Returns the  nbme of the entity (clbss, interfbce, brrby clbss,
+     * primitive type, or void) represented by this {@code Clbss} object,
+     * bs b {@code String}.
      *
-     * <p> If this class object represents a reference type that is not an
-     * array type then the binary name of the class is returned, as specified
+     * <p> If this clbss object represents b reference type thbt is not bn
+     * brrby type then the binbry nbme of the clbss is returned, bs specified
      * by
-     * <cite>The Java&trade; Language Specification</cite>.
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      *
-     * <p> If this class object represents a primitive type or void, then the
-     * name returned is a {@code String} equal to the Java language
+     * <p> If this clbss object represents b primitive type or void, then the
+     * nbme returned is b {@code String} equbl to the Jbvb lbngubge
      * keyword corresponding to the primitive type or void.
      *
-     * <p> If this class object represents a class of arrays, then the internal
-     * form of the name consists of the name of the element type preceded by
-     * one or more '{@code [}' characters representing the depth of the array
-     * nesting.  The encoding of element type names is as follows:
+     * <p> If this clbss object represents b clbss of brrbys, then the internbl
+     * form of the nbme consists of the nbme of the element type preceded by
+     * one or more '{@code [}' chbrbcters representing the depth of the brrby
+     * nesting.  The encoding of element type nbmes is bs follows:
      *
-     * <blockquote><table summary="Element types and encodings">
+     * <blockquote><tbble summbry="Element types bnd encodings">
      * <tr><th> Element Type <th> &nbsp;&nbsp;&nbsp; <th> Encoding
-     * <tr><td> boolean      <td> &nbsp;&nbsp;&nbsp; <td align=center> Z
-     * <tr><td> byte         <td> &nbsp;&nbsp;&nbsp; <td align=center> B
-     * <tr><td> char         <td> &nbsp;&nbsp;&nbsp; <td align=center> C
-     * <tr><td> class or interface
-     *                       <td> &nbsp;&nbsp;&nbsp; <td align=center> L<i>classname</i>;
-     * <tr><td> double       <td> &nbsp;&nbsp;&nbsp; <td align=center> D
-     * <tr><td> float        <td> &nbsp;&nbsp;&nbsp; <td align=center> F
-     * <tr><td> int          <td> &nbsp;&nbsp;&nbsp; <td align=center> I
-     * <tr><td> long         <td> &nbsp;&nbsp;&nbsp; <td align=center> J
-     * <tr><td> short        <td> &nbsp;&nbsp;&nbsp; <td align=center> S
-     * </table></blockquote>
+     * <tr><td> boolebn      <td> &nbsp;&nbsp;&nbsp; <td blign=center> Z
+     * <tr><td> byte         <td> &nbsp;&nbsp;&nbsp; <td blign=center> B
+     * <tr><td> chbr         <td> &nbsp;&nbsp;&nbsp; <td blign=center> C
+     * <tr><td> clbss or interfbce
+     *                       <td> &nbsp;&nbsp;&nbsp; <td blign=center> L<i>clbssnbme</i>;
+     * <tr><td> double       <td> &nbsp;&nbsp;&nbsp; <td blign=center> D
+     * <tr><td> flobt        <td> &nbsp;&nbsp;&nbsp; <td blign=center> F
+     * <tr><td> int          <td> &nbsp;&nbsp;&nbsp; <td blign=center> I
+     * <tr><td> long         <td> &nbsp;&nbsp;&nbsp; <td blign=center> J
+     * <tr><td> short        <td> &nbsp;&nbsp;&nbsp; <td blign=center> S
+     * </tbble></blockquote>
      *
-     * <p> The class or interface name <i>classname</i> is the binary name of
-     * the class specified above.
+     * <p> The clbss or interfbce nbme <i>clbssnbme</i> is the binbry nbme of
+     * the clbss specified bbove.
      *
-     * <p> Examples:
+     * <p> Exbmples:
      * <blockquote><pre>
-     * String.class.getName()
-     *     returns "java.lang.String"
-     * byte.class.getName()
+     * String.clbss.getNbme()
+     *     returns "jbvb.lbng.String"
+     * byte.clbss.getNbme()
      *     returns "byte"
-     * (new Object[3]).getClass().getName()
-     *     returns "[Ljava.lang.Object;"
-     * (new int[3][4][5][6][7][8][9]).getClass().getName()
+     * (new Object[3]).getClbss().getNbme()
+     *     returns "[Ljbvb.lbng.Object;"
+     * (new int[3][4][5][6][7][8][9]).getClbss().getNbme()
      *     returns "[[[[[[[I"
      * </pre></blockquote>
      *
-     * @return  the name of the class or interface
+     * @return  the nbme of the clbss or interfbce
      *          represented by this object.
      */
-    public String getName() {
-        String name = this.name;
-        if (name == null)
-            this.name = name = getName0();
-        return name;
+    public String getNbme() {
+        String nbme = this.nbme;
+        if (nbme == null)
+            this.nbme = nbme = getNbme0();
+        return nbme;
     }
 
-    // cache the name to reduce the number of calls into the VM
-    private transient String name;
-    private native String getName0();
+    // cbche the nbme to reduce the number of cblls into the VM
+    privbte trbnsient String nbme;
+    privbte nbtive String getNbme0();
 
     /**
-     * Returns the class loader for the class.  Some implementations may use
-     * null to represent the bootstrap class loader. This method will return
-     * null in such implementations if this class was loaded by the bootstrap
-     * class loader.
+     * Returns the clbss lobder for the clbss.  Some implementbtions mby use
+     * null to represent the bootstrbp clbss lobder. This method will return
+     * null in such implementbtions if this clbss wbs lobded by the bootstrbp
+     * clbss lobder.
      *
-     * <p> If a security manager is present, and the caller's class loader is
-     * not null and the caller's class loader is not the same as or an ancestor of
-     * the class loader for the class whose class loader is requested, then
-     * this method calls the security manager's {@code checkPermission}
-     * method with a {@code RuntimePermission("getClassLoader")}
-     * permission to ensure it's ok to access the class loader for the class.
+     * <p> If b security mbnbger is present, bnd the cbller's clbss lobder is
+     * not null bnd the cbller's clbss lobder is not the sbme bs or bn bncestor of
+     * the clbss lobder for the clbss whose clbss lobder is requested, then
+     * this method cblls the security mbnbger's {@code checkPermission}
+     * method with b {@code RuntimePermission("getClbssLobder")}
+     * permission to ensure it's ok to bccess the clbss lobder for the clbss.
      *
      * <p>If this object
-     * represents a primitive type or void, null is returned.
+     * represents b primitive type or void, null is returned.
      *
-     * @return  the class loader that loaded the class or interface
+     * @return  the clbss lobder thbt lobded the clbss or interfbce
      *          represented by this object.
      * @throws SecurityException
-     *    if a security manager exists and its
+     *    if b security mbnbger exists bnd its
      *    {@code checkPermission} method denies
-     *    access to the class loader for the class.
-     * @see java.lang.ClassLoader
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     *    bccess to the clbss lobder for the clbss.
+     * @see jbvb.lbng.ClbssLobder
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.lbng.RuntimePermission
      */
-    @CallerSensitive
-    public ClassLoader getClassLoader() {
-        ClassLoader cl = getClassLoader0();
+    @CbllerSensitive
+    public ClbssLobder getClbssLobder() {
+        ClbssLobder cl = getClbssLobder0();
         if (cl == null)
             return null;
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            ClassLoader.checkClassLoaderPermission(cl, Reflection.getCallerClass());
+            ClbssLobder.checkClbssLobderPermission(cl, Reflection.getCbllerClbss());
         }
         return cl;
     }
 
-    // Package-private to allow ClassLoader access
-    ClassLoader getClassLoader0() { return classLoader; }
+    // Pbckbge-privbte to bllow ClbssLobder bccess
+    ClbssLobder getClbssLobder0() { return clbssLobder; }
 
-    // Initialized in JVM not by private constructor
-    private final ClassLoader classLoader;
+    // Initiblized in JVM not by privbte constructor
+    privbte finbl ClbssLobder clbssLobder;
 
     /**
-     * Returns an array of {@code TypeVariable} objects that represent the
-     * type variables declared by the generic declaration represented by this
-     * {@code GenericDeclaration} object, in declaration order.  Returns an
-     * array of length 0 if the underlying generic declaration declares no type
-     * variables.
+     * Returns bn brrby of {@code TypeVbribble} objects thbt represent the
+     * type vbribbles declbred by the generic declbrbtion represented by this
+     * {@code GenericDeclbrbtion} object, in declbrbtion order.  Returns bn
+     * brrby of length 0 if the underlying generic declbrbtion declbres no type
+     * vbribbles.
      *
-     * @return an array of {@code TypeVariable} objects that represent
-     *     the type variables declared by this generic declaration
-     * @throws java.lang.reflect.GenericSignatureFormatError if the generic
-     *     signature of this generic declaration does not conform to
-     *     the format specified in
-     *     <cite>The Java&trade; Virtual Machine Specification</cite>
+     * @return bn brrby of {@code TypeVbribble} objects thbt represent
+     *     the type vbribbles declbred by this generic declbrbtion
+     * @throws jbvb.lbng.reflect.GenericSignbtureFormbtError if the generic
+     *     signbture of this generic declbrbtion does not conform to
+     *     the formbt specified in
+     *     <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>
      * @since 1.5
      */
-    @SuppressWarnings("unchecked")
-    public TypeVariable<Class<T>>[] getTypeParameters() {
-        ClassRepository info = getGenericInfo();
+    @SuppressWbrnings("unchecked")
+    public TypeVbribble<Clbss<T>>[] getTypePbrbmeters() {
+        ClbssRepository info = getGenericInfo();
         if (info != null)
-            return (TypeVariable<Class<T>>[])info.getTypeParameters();
+            return (TypeVbribble<Clbss<T>>[])info.getTypePbrbmeters();
         else
-            return (TypeVariable<Class<T>>[])new TypeVariable<?>[0];
+            return (TypeVbribble<Clbss<T>>[])new TypeVbribble<?>[0];
     }
 
 
     /**
-     * Returns the {@code Class} representing the superclass of the entity
-     * (class, interface, primitive type or void) represented by this
-     * {@code Class}.  If this {@code Class} represents either the
-     * {@code Object} class, an interface, a primitive type, or void, then
-     * null is returned.  If this object represents an array class then the
-     * {@code Class} object representing the {@code Object} class is
+     * Returns the {@code Clbss} representing the superclbss of the entity
+     * (clbss, interfbce, primitive type or void) represented by this
+     * {@code Clbss}.  If this {@code Clbss} represents either the
+     * {@code Object} clbss, bn interfbce, b primitive type, or void, then
+     * null is returned.  If this object represents bn brrby clbss then the
+     * {@code Clbss} object representing the {@code Object} clbss is
      * returned.
      *
-     * @return the superclass of the class represented by this object.
+     * @return the superclbss of the clbss represented by this object.
      */
-    public native Class<? super T> getSuperclass();
+    public nbtive Clbss<? super T> getSuperclbss();
 
 
     /**
-     * Returns the {@code Type} representing the direct superclass of
-     * the entity (class, interface, primitive type or void) represented by
-     * this {@code Class}.
+     * Returns the {@code Type} representing the direct superclbss of
+     * the entity (clbss, interfbce, primitive type or void) represented by
+     * this {@code Clbss}.
      *
-     * <p>If the superclass is a parameterized type, the {@code Type}
-     * object returned must accurately reflect the actual type
-     * parameters used in the source code. The parameterized type
-     * representing the superclass is created if it had not been
-     * created before. See the declaration of {@link
-     * java.lang.reflect.ParameterizedType ParameterizedType} for the
-     * semantics of the creation process for parameterized types.  If
-     * this {@code Class} represents either the {@code Object}
-     * class, an interface, a primitive type, or void, then null is
-     * returned.  If this object represents an array class then the
-     * {@code Class} object representing the {@code Object} class is
+     * <p>If the superclbss is b pbrbmeterized type, the {@code Type}
+     * object returned must bccurbtely reflect the bctubl type
+     * pbrbmeters used in the source code. The pbrbmeterized type
+     * representing the superclbss is crebted if it hbd not been
+     * crebted before. See the declbrbtion of {@link
+     * jbvb.lbng.reflect.PbrbmeterizedType PbrbmeterizedType} for the
+     * sembntics of the crebtion process for pbrbmeterized types.  If
+     * this {@code Clbss} represents either the {@code Object}
+     * clbss, bn interfbce, b primitive type, or void, then null is
+     * returned.  If this object represents bn brrby clbss then the
+     * {@code Clbss} object representing the {@code Object} clbss is
      * returned.
      *
-     * @throws java.lang.reflect.GenericSignatureFormatError if the generic
-     *     class signature does not conform to the format specified in
-     *     <cite>The Java&trade; Virtual Machine Specification</cite>
-     * @throws TypeNotPresentException if the generic superclass
-     *     refers to a non-existent type declaration
-     * @throws java.lang.reflect.MalformedParameterizedTypeException if the
-     *     generic superclass refers to a parameterized type that cannot be
-     *     instantiated  for any reason
-     * @return the superclass of the class represented by this object
+     * @throws jbvb.lbng.reflect.GenericSignbtureFormbtError if the generic
+     *     clbss signbture does not conform to the formbt specified in
+     *     <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>
+     * @throws TypeNotPresentException if the generic superclbss
+     *     refers to b non-existent type declbrbtion
+     * @throws jbvb.lbng.reflect.MblformedPbrbmeterizedTypeException if the
+     *     generic superclbss refers to b pbrbmeterized type thbt cbnnot be
+     *     instbntibted  for bny rebson
+     * @return the superclbss of the clbss represented by this object
      * @since 1.5
      */
-    public Type getGenericSuperclass() {
-        ClassRepository info = getGenericInfo();
+    public Type getGenericSuperclbss() {
+        ClbssRepository info = getGenericInfo();
         if (info == null) {
-            return getSuperclass();
+            return getSuperclbss();
         }
 
-        // Historical irregularity:
-        // Generic signature marks interfaces with superclass = Object
-        // but this API returns null for interfaces
-        if (isInterface()) {
+        // Historicbl irregulbrity:
+        // Generic signbture mbrks interfbces with superclbss = Object
+        // but this API returns null for interfbces
+        if (isInterfbce()) {
             return null;
         }
 
-        return info.getSuperclass();
+        return info.getSuperclbss();
     }
 
     /**
-     * Gets the package for this class.  The class loader of this class is used
-     * to find the package.  If the class was loaded by the bootstrap class
-     * loader the set of packages loaded from CLASSPATH is searched to find the
-     * package of the class. Null is returned if no package object was created
-     * by the class loader of this class.
+     * Gets the pbckbge for this clbss.  The clbss lobder of this clbss is used
+     * to find the pbckbge.  If the clbss wbs lobded by the bootstrbp clbss
+     * lobder the set of pbckbges lobded from CLASSPATH is sebrched to find the
+     * pbckbge of the clbss. Null is returned if no pbckbge object wbs crebted
+     * by the clbss lobder of this clbss.
      *
-     * <p> Packages have attributes for versions and specifications only if the
-     * information was defined in the manifests that accompany the classes, and
-     * if the class loader created the package instance with the attributes
-     * from the manifest.
+     * <p> Pbckbges hbve bttributes for versions bnd specificbtions only if the
+     * informbtion wbs defined in the mbnifests thbt bccompbny the clbsses, bnd
+     * if the clbss lobder crebted the pbckbge instbnce with the bttributes
+     * from the mbnifest.
      *
-     * @return the package of the class, or null if no package
-     *         information is available from the archive or codebase.
+     * @return the pbckbge of the clbss, or null if no pbckbge
+     *         informbtion is bvbilbble from the brchive or codebbse.
      */
-    public Package getPackage() {
-        return Package.getPackage(this);
+    public Pbckbge getPbckbge() {
+        return Pbckbge.getPbckbge(this);
     }
 
 
     /**
-     * Determines the interfaces implemented by the class or interface
+     * Determines the interfbces implemented by the clbss or interfbce
      * represented by this object.
      *
-     * <p> If this object represents a class, the return value is an array
-     * containing objects representing all interfaces implemented by the
-     * class. The order of the interface objects in the array corresponds to
-     * the order of the interface names in the {@code implements} clause
-     * of the declaration of the class represented by this object. For
-     * example, given the declaration:
+     * <p> If this object represents b clbss, the return vblue is bn brrby
+     * contbining objects representing bll interfbces implemented by the
+     * clbss. The order of the interfbce objects in the brrby corresponds to
+     * the order of the interfbce nbmes in the {@code implements} clbuse
+     * of the declbrbtion of the clbss represented by this object. For
+     * exbmple, given the declbrbtion:
      * <blockquote>
-     * {@code class Shimmer implements FloorWax, DessertTopping { ... }}
+     * {@code clbss Shimmer implements FloorWbx, DessertTopping { ... }}
      * </blockquote>
-     * suppose the value of {@code s} is an instance of
-     * {@code Shimmer}; the value of the expression:
+     * suppose the vblue of {@code s} is bn instbnce of
+     * {@code Shimmer}; the vblue of the expression:
      * <blockquote>
-     * {@code s.getClass().getInterfaces()[0]}
+     * {@code s.getClbss().getInterfbces()[0]}
      * </blockquote>
-     * is the {@code Class} object that represents interface
-     * {@code FloorWax}; and the value of:
+     * is the {@code Clbss} object thbt represents interfbce
+     * {@code FloorWbx}; bnd the vblue of:
      * <blockquote>
-     * {@code s.getClass().getInterfaces()[1]}
+     * {@code s.getClbss().getInterfbces()[1]}
      * </blockquote>
-     * is the {@code Class} object that represents interface
+     * is the {@code Clbss} object thbt represents interfbce
      * {@code DessertTopping}.
      *
-     * <p> If this object represents an interface, the array contains objects
-     * representing all interfaces extended by the interface. The order of the
-     * interface objects in the array corresponds to the order of the interface
-     * names in the {@code extends} clause of the declaration of the
-     * interface represented by this object.
+     * <p> If this object represents bn interfbce, the brrby contbins objects
+     * representing bll interfbces extended by the interfbce. The order of the
+     * interfbce objects in the brrby corresponds to the order of the interfbce
+     * nbmes in the {@code extends} clbuse of the declbrbtion of the
+     * interfbce represented by this object.
      *
-     * <p> If this object represents a class or interface that implements no
-     * interfaces, the method returns an array of length 0.
+     * <p> If this object represents b clbss or interfbce thbt implements no
+     * interfbces, the method returns bn brrby of length 0.
      *
-     * <p> If this object represents a primitive type or void, the method
-     * returns an array of length 0.
+     * <p> If this object represents b primitive type or void, the method
+     * returns bn brrby of length 0.
      *
-     * <p> If this {@code Class} object represents an array type, the
-     * interfaces {@code Cloneable} and {@code java.io.Serializable} are
-     * returned in that order.
+     * <p> If this {@code Clbss} object represents bn brrby type, the
+     * interfbces {@code Clonebble} bnd {@code jbvb.io.Seriblizbble} bre
+     * returned in thbt order.
      *
-     * @return an array of interfaces implemented by this class.
+     * @return bn brrby of interfbces implemented by this clbss.
      */
-    public Class<?>[] getInterfaces() {
-        ReflectionData<T> rd = reflectionData();
+    public Clbss<?>[] getInterfbces() {
+        ReflectionDbtb<T> rd = reflectionDbtb();
         if (rd == null) {
             // no cloning required
-            return getInterfaces0();
+            return getInterfbces0();
         } else {
-            Class<?>[] interfaces = rd.interfaces;
-            if (interfaces == null) {
-                interfaces = getInterfaces0();
-                rd.interfaces = interfaces;
+            Clbss<?>[] interfbces = rd.interfbces;
+            if (interfbces == null) {
+                interfbces = getInterfbces0();
+                rd.interfbces = interfbces;
             }
-            // defensively copy before handing over to user code
-            return interfaces.clone();
+            // defensively copy before hbnding over to user code
+            return interfbces.clone();
         }
     }
 
-    private native Class<?>[] getInterfaces0();
+    privbte nbtive Clbss<?>[] getInterfbces0();
 
     /**
-     * Returns the {@code Type}s representing the interfaces
-     * directly implemented by the class or interface represented by
+     * Returns the {@code Type}s representing the interfbces
+     * directly implemented by the clbss or interfbce represented by
      * this object.
      *
-     * <p>If a superinterface is a parameterized type, the
-     * {@code Type} object returned for it must accurately reflect
-     * the actual type parameters used in the source code. The
-     * parameterized type representing each superinterface is created
-     * if it had not been created before. See the declaration of
-     * {@link java.lang.reflect.ParameterizedType ParameterizedType}
-     * for the semantics of the creation process for parameterized
+     * <p>If b superinterfbce is b pbrbmeterized type, the
+     * {@code Type} object returned for it must bccurbtely reflect
+     * the bctubl type pbrbmeters used in the source code. The
+     * pbrbmeterized type representing ebch superinterfbce is crebted
+     * if it hbd not been crebted before. See the declbrbtion of
+     * {@link jbvb.lbng.reflect.PbrbmeterizedType PbrbmeterizedType}
+     * for the sembntics of the crebtion process for pbrbmeterized
      * types.
      *
-     * <p> If this object represents a class, the return value is an
-     * array containing objects representing all interfaces
-     * implemented by the class. The order of the interface objects in
-     * the array corresponds to the order of the interface names in
-     * the {@code implements} clause of the declaration of the class
-     * represented by this object.  In the case of an array class, the
-     * interfaces {@code Cloneable} and {@code Serializable} are
-     * returned in that order.
+     * <p> If this object represents b clbss, the return vblue is bn
+     * brrby contbining objects representing bll interfbces
+     * implemented by the clbss. The order of the interfbce objects in
+     * the brrby corresponds to the order of the interfbce nbmes in
+     * the {@code implements} clbuse of the declbrbtion of the clbss
+     * represented by this object.  In the cbse of bn brrby clbss, the
+     * interfbces {@code Clonebble} bnd {@code Seriblizbble} bre
+     * returned in thbt order.
      *
-     * <p>If this object represents an interface, the array contains
-     * objects representing all interfaces directly extended by the
-     * interface.  The order of the interface objects in the array
-     * corresponds to the order of the interface names in the
-     * {@code extends} clause of the declaration of the interface
+     * <p>If this object represents bn interfbce, the brrby contbins
+     * objects representing bll interfbces directly extended by the
+     * interfbce.  The order of the interfbce objects in the brrby
+     * corresponds to the order of the interfbce nbmes in the
+     * {@code extends} clbuse of the declbrbtion of the interfbce
      * represented by this object.
      *
-     * <p>If this object represents a class or interface that
-     * implements no interfaces, the method returns an array of length
+     * <p>If this object represents b clbss or interfbce thbt
+     * implements no interfbces, the method returns bn brrby of length
      * 0.
      *
-     * <p>If this object represents a primitive type or void, the
-     * method returns an array of length 0.
+     * <p>If this object represents b primitive type or void, the
+     * method returns bn brrby of length 0.
      *
-     * @throws java.lang.reflect.GenericSignatureFormatError
-     *     if the generic class signature does not conform to the format
+     * @throws jbvb.lbng.reflect.GenericSignbtureFormbtError
+     *     if the generic clbss signbture does not conform to the formbt
      *     specified in
-     *     <cite>The Java&trade; Virtual Machine Specification</cite>
-     * @throws TypeNotPresentException if any of the generic
-     *     superinterfaces refers to a non-existent type declaration
-     * @throws java.lang.reflect.MalformedParameterizedTypeException
-     *     if any of the generic superinterfaces refer to a parameterized
-     *     type that cannot be instantiated for any reason
-     * @return an array of interfaces implemented by this class
+     *     <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>
+     * @throws TypeNotPresentException if bny of the generic
+     *     superinterfbces refers to b non-existent type declbrbtion
+     * @throws jbvb.lbng.reflect.MblformedPbrbmeterizedTypeException
+     *     if bny of the generic superinterfbces refer to b pbrbmeterized
+     *     type thbt cbnnot be instbntibted for bny rebson
+     * @return bn brrby of interfbces implemented by this clbss
      * @since 1.5
      */
-    public Type[] getGenericInterfaces() {
-        ClassRepository info = getGenericInfo();
-        return (info == null) ?  getInterfaces() : info.getSuperInterfaces();
+    public Type[] getGenericInterfbces() {
+        ClbssRepository info = getGenericInfo();
+        return (info == null) ?  getInterfbces() : info.getSuperInterfbces();
     }
 
 
     /**
-     * Returns the {@code Class} representing the component type of an
-     * array.  If this class does not represent an array class this method
+     * Returns the {@code Clbss} representing the component type of bn
+     * brrby.  If this clbss does not represent bn brrby clbss this method
      * returns null.
      *
-     * @return the {@code Class} representing the component type of this
-     * class if this class is an array
-     * @see     java.lang.reflect.Array
+     * @return the {@code Clbss} representing the component type of this
+     * clbss if this clbss is bn brrby
+     * @see     jbvb.lbng.reflect.Arrby
      * @since 1.1
      */
-    public Class<?> getComponentType() {
-        // Only return for array types. Storage may be reused for Class for instance types.
-        if (isArray()) {
+    public Clbss<?> getComponentType() {
+        // Only return for brrby types. Storbge mby be reused for Clbss for instbnce types.
+        if (isArrby()) {
             return componentType;
         } else {
             return null;
         }
     }
 
-    private final Class<?> componentType;
+    privbte finbl Clbss<?> componentType;
 
 
     /**
-     * Returns the Java language modifiers for this class or interface, encoded
-     * in an integer. The modifiers consist of the Java Virtual Machine's
-     * constants for {@code public}, {@code protected},
-     * {@code private}, {@code final}, {@code static},
-     * {@code abstract} and {@code interface}; they should be decoded
-     * using the methods of class {@code Modifier}.
+     * Returns the Jbvb lbngubge modifiers for this clbss or interfbce, encoded
+     * in bn integer. The modifiers consist of the Jbvb Virtubl Mbchine's
+     * constbnts for {@code public}, {@code protected},
+     * {@code privbte}, {@code finbl}, {@code stbtic},
+     * {@code bbstrbct} bnd {@code interfbce}; they should be decoded
+     * using the methods of clbss {@code Modifier}.
      *
-     * <p> If the underlying class is an array class, then its
-     * {@code public}, {@code private} and {@code protected}
-     * modifiers are the same as those of its component type.  If this
-     * {@code Class} represents a primitive type or void, its
-     * {@code public} modifier is always {@code true}, and its
-     * {@code protected} and {@code private} modifiers are always
-     * {@code false}. If this object represents an array class, a
-     * primitive type or void, then its {@code final} modifier is always
-     * {@code true} and its interface modifier is always
-     * {@code false}. The values of its other modifiers are not determined
-     * by this specification.
+     * <p> If the underlying clbss is bn brrby clbss, then its
+     * {@code public}, {@code privbte} bnd {@code protected}
+     * modifiers bre the sbme bs those of its component type.  If this
+     * {@code Clbss} represents b primitive type or void, its
+     * {@code public} modifier is blwbys {@code true}, bnd its
+     * {@code protected} bnd {@code privbte} modifiers bre blwbys
+     * {@code fblse}. If this object represents bn brrby clbss, b
+     * primitive type or void, then its {@code finbl} modifier is blwbys
+     * {@code true} bnd its interfbce modifier is blwbys
+     * {@code fblse}. The vblues of its other modifiers bre not determined
+     * by this specificbtion.
      *
-     * <p> The modifier encodings are defined in <em>The Java Virtual Machine
-     * Specification</em>, table 4.1.
+     * <p> The modifier encodings bre defined in <em>The Jbvb Virtubl Mbchine
+     * Specificbtion</em>, tbble 4.1.
      *
-     * @return the {@code int} representing the modifiers for this class
-     * @see     java.lang.reflect.Modifier
+     * @return the {@code int} representing the modifiers for this clbss
+     * @see     jbvb.lbng.reflect.Modifier
      * @since 1.1
      */
-    public native int getModifiers();
+    public nbtive int getModifiers();
 
 
     /**
-     * Gets the signers of this class.
+     * Gets the signers of this clbss.
      *
-     * @return  the signers of this class, or null if there are no signers.  In
-     *          particular, this method returns null if this object represents
-     *          a primitive type or void.
+     * @return  the signers of this clbss, or null if there bre no signers.  In
+     *          pbrticulbr, this method returns null if this object represents
+     *          b primitive type or void.
      * @since   1.1
      */
-    public native Object[] getSigners();
+    public nbtive Object[] getSigners();
 
 
     /**
-     * Set the signers of this class.
+     * Set the signers of this clbss.
      */
-    native void setSigners(Object[] signers);
+    nbtive void setSigners(Object[] signers);
 
 
     /**
-     * If this {@code Class} object represents a local or anonymous
-     * class within a method, returns a {@link
-     * java.lang.reflect.Method Method} object representing the
-     * immediately enclosing method of the underlying class. Returns
+     * If this {@code Clbss} object represents b locbl or bnonymous
+     * clbss within b method, returns b {@link
+     * jbvb.lbng.reflect.Method Method} object representing the
+     * immedibtely enclosing method of the underlying clbss. Returns
      * {@code null} otherwise.
      *
-     * In particular, this method returns {@code null} if the underlying
-     * class is a local or anonymous class immediately enclosed by a type
-     * declaration, instance initializer or static initializer.
+     * In pbrticulbr, this method returns {@code null} if the underlying
+     * clbss is b locbl or bnonymous clbss immedibtely enclosed by b type
+     * declbrbtion, instbnce initiblizer or stbtic initiblizer.
      *
-     * @return the immediately enclosing method of the underlying class, if
-     *     that class is a local or anonymous class; otherwise {@code null}.
+     * @return the immedibtely enclosing method of the underlying clbss, if
+     *     thbt clbss is b locbl or bnonymous clbss; otherwise {@code null}.
      *
      * @throws SecurityException
-     *         If a security manager, <i>s</i>, is present and any of the
+     *         If b security mbnbger, <i>s</i>, is present bnd bny of the
      *         following conditions is met:
      *
      *         <ul>
      *
-     *         <li> the caller's class loader is not the same as the
-     *         class loader of the enclosing class and invocation of
-     *         {@link SecurityManager#checkPermission
+     *         <li> the cbller's clbss lobder is not the sbme bs the
+     *         clbss lobder of the enclosing clbss bnd invocbtion of
+     *         {@link SecurityMbnbger#checkPermission
      *         s.checkPermission} method with
-     *         {@code RuntimePermission("accessDeclaredMembers")}
-     *         denies access to the methods within the enclosing class
+     *         {@code RuntimePermission("bccessDeclbredMembers")}
+     *         denies bccess to the methods within the enclosing clbss
      *
-     *         <li> the caller's class loader is not the same as or an
-     *         ancestor of the class loader for the enclosing class and
-     *         invocation of {@link SecurityManager#checkPackageAccess
-     *         s.checkPackageAccess()} denies access to the package
-     *         of the enclosing class
+     *         <li> the cbller's clbss lobder is not the sbme bs or bn
+     *         bncestor of the clbss lobder for the enclosing clbss bnd
+     *         invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *         s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *         of the enclosing clbss
      *
      *         </ul>
      * @since 1.5
      */
-    @CallerSensitive
+    @CbllerSensitive
     public Method getEnclosingMethod() throws SecurityException {
         EnclosingMethodInfo enclosingInfo = getEnclosingMethodInfo();
 
@@ -1023,55 +1023,55 @@ public final class Class<T> implements java.io.Serializable,
             if (!enclosingInfo.isMethod())
                 return null;
 
-            MethodRepository typeInfo = MethodRepository.make(enclosingInfo.getDescriptor(),
-                                                              getFactory());
-            Class<?>   returnType       = toClass(typeInfo.getReturnType());
-            Type []    parameterTypes   = typeInfo.getParameterTypes();
-            Class<?>[] parameterClasses = new Class<?>[parameterTypes.length];
+            MethodRepository typeInfo = MethodRepository.mbke(enclosingInfo.getDescriptor(),
+                                                              getFbctory());
+            Clbss<?>   returnType       = toClbss(typeInfo.getReturnType());
+            Type []    pbrbmeterTypes   = typeInfo.getPbrbmeterTypes();
+            Clbss<?>[] pbrbmeterClbsses = new Clbss<?>[pbrbmeterTypes.length];
 
-            // Convert Types to Classes; returned types *should*
-            // be class objects since the methodDescriptor's used
-            // don't have generics information
-            for(int i = 0; i < parameterClasses.length; i++)
-                parameterClasses[i] = toClass(parameterTypes[i]);
+            // Convert Types to Clbsses; returned types *should*
+            // be clbss objects since the methodDescriptor's used
+            // don't hbve generics informbtion
+            for(int i = 0; i < pbrbmeterClbsses.length; i++)
+                pbrbmeterClbsses[i] = toClbss(pbrbmeterTypes[i]);
 
-            // Perform access check
-            Class<?> enclosingCandidate = enclosingInfo.getEnclosingClass();
-            enclosingCandidate.checkMemberAccess(Member.DECLARED,
-                                                 Reflection.getCallerClass(), true);
+            // Perform bccess check
+            Clbss<?> enclosingCbndidbte = enclosingInfo.getEnclosingClbss();
+            enclosingCbndidbte.checkMemberAccess(Member.DECLARED,
+                                                 Reflection.getCbllerClbss(), true);
             /*
-             * Loop over all declared methods; match method name,
-             * number of and type of parameters, *and* return
-             * type.  Matching return type is also necessary
-             * because of covariant returns, etc.
+             * Loop over bll declbred methods; mbtch method nbme,
+             * number of bnd type of pbrbmeters, *bnd* return
+             * type.  Mbtching return type is blso necessbry
+             * becbuse of covbribnt returns, etc.
              */
-            for(Method m: enclosingCandidate.getDeclaredMethods()) {
-                if (m.getName().equals(enclosingInfo.getName()) ) {
-                    Class<?>[] candidateParamClasses = m.getParameterTypes();
-                    if (candidateParamClasses.length == parameterClasses.length) {
-                        boolean matches = true;
-                        for(int i = 0; i < candidateParamClasses.length; i++) {
-                            if (!candidateParamClasses[i].equals(parameterClasses[i])) {
-                                matches = false;
-                                break;
+            for(Method m: enclosingCbndidbte.getDeclbredMethods()) {
+                if (m.getNbme().equbls(enclosingInfo.getNbme()) ) {
+                    Clbss<?>[] cbndidbtePbrbmClbsses = m.getPbrbmeterTypes();
+                    if (cbndidbtePbrbmClbsses.length == pbrbmeterClbsses.length) {
+                        boolebn mbtches = true;
+                        for(int i = 0; i < cbndidbtePbrbmClbsses.length; i++) {
+                            if (!cbndidbtePbrbmClbsses[i].equbls(pbrbmeterClbsses[i])) {
+                                mbtches = fblse;
+                                brebk;
                             }
                         }
 
-                        if (matches) { // finally, check return type
-                            if (m.getReturnType().equals(returnType) )
+                        if (mbtches) { // finblly, check return type
+                            if (m.getReturnType().equbls(returnType) )
                                 return m;
                         }
                     }
                 }
             }
 
-            throw new InternalError("Enclosing method not found");
+            throw new InternblError("Enclosing method not found");
         }
     }
 
-    private native Object[] getEnclosingMethod0();
+    privbte nbtive Object[] getEnclosingMethod0();
 
-    private EnclosingMethodInfo getEnclosingMethodInfo() {
+    privbte EnclosingMethodInfo getEnclosingMethodInfo() {
         Object[] enclosingInfo = getEnclosingMethod0();
         if (enclosingInfo == null)
             return null;
@@ -1080,93 +1080,93 @@ public final class Class<T> implements java.io.Serializable,
         }
     }
 
-    private final static class EnclosingMethodInfo {
-        private Class<?> enclosingClass;
-        private String name;
-        private String descriptor;
+    privbte finbl stbtic clbss EnclosingMethodInfo {
+        privbte Clbss<?> enclosingClbss;
+        privbte String nbme;
+        privbte String descriptor;
 
-        private EnclosingMethodInfo(Object[] enclosingInfo) {
+        privbte EnclosingMethodInfo(Object[] enclosingInfo) {
             if (enclosingInfo.length != 3)
-                throw new InternalError("Malformed enclosing method information");
+                throw new InternblError("Mblformed enclosing method informbtion");
             try {
-                // The array is expected to have three elements:
+                // The brrby is expected to hbve three elements:
 
-                // the immediately enclosing class
-                enclosingClass = (Class<?>) enclosingInfo[0];
-                assert(enclosingClass != null);
+                // the immedibtely enclosing clbss
+                enclosingClbss = (Clbss<?>) enclosingInfo[0];
+                bssert(enclosingClbss != null);
 
-                // the immediately enclosing method or constructor's
-                // name (can be null).
-                name            = (String)   enclosingInfo[1];
+                // the immedibtely enclosing method or constructor's
+                // nbme (cbn be null).
+                nbme            = (String)   enclosingInfo[1];
 
-                // the immediately enclosing method or constructor's
-                // descriptor (null iff name is).
+                // the immedibtely enclosing method or constructor's
+                // descriptor (null iff nbme is).
                 descriptor      = (String)   enclosingInfo[2];
-                assert((name != null && descriptor != null) || name == descriptor);
-            } catch (ClassCastException cce) {
-                throw new InternalError("Invalid type in enclosing method information", cce);
+                bssert((nbme != null && descriptor != null) || nbme == descriptor);
+            } cbtch (ClbssCbstException cce) {
+                throw new InternblError("Invblid type in enclosing method informbtion", cce);
             }
         }
 
-        boolean isPartial() {
-            return enclosingClass == null || name == null || descriptor == null;
+        boolebn isPbrtibl() {
+            return enclosingClbss == null || nbme == null || descriptor == null;
         }
 
-        boolean isConstructor() { return !isPartial() && "<init>".equals(name); }
+        boolebn isConstructor() { return !isPbrtibl() && "<init>".equbls(nbme); }
 
-        boolean isMethod() { return !isPartial() && !isConstructor() && !"<clinit>".equals(name); }
+        boolebn isMethod() { return !isPbrtibl() && !isConstructor() && !"<clinit>".equbls(nbme); }
 
-        Class<?> getEnclosingClass() { return enclosingClass; }
+        Clbss<?> getEnclosingClbss() { return enclosingClbss; }
 
-        String getName() { return name; }
+        String getNbme() { return nbme; }
 
         String getDescriptor() { return descriptor; }
 
     }
 
-    private static Class<?> toClass(Type o) {
-        if (o instanceof GenericArrayType)
-            return Array.newInstance(toClass(((GenericArrayType)o).getGenericComponentType()),
+    privbte stbtic Clbss<?> toClbss(Type o) {
+        if (o instbnceof GenericArrbyType)
+            return Arrby.newInstbnce(toClbss(((GenericArrbyType)o).getGenericComponentType()),
                                      0)
-                .getClass();
-        return (Class<?>)o;
+                .getClbss();
+        return (Clbss<?>)o;
      }
 
     /**
-     * If this {@code Class} object represents a local or anonymous
-     * class within a constructor, returns a {@link
-     * java.lang.reflect.Constructor Constructor} object representing
-     * the immediately enclosing constructor of the underlying
-     * class. Returns {@code null} otherwise.  In particular, this
-     * method returns {@code null} if the underlying class is a local
-     * or anonymous class immediately enclosed by a type declaration,
-     * instance initializer or static initializer.
+     * If this {@code Clbss} object represents b locbl or bnonymous
+     * clbss within b constructor, returns b {@link
+     * jbvb.lbng.reflect.Constructor Constructor} object representing
+     * the immedibtely enclosing constructor of the underlying
+     * clbss. Returns {@code null} otherwise.  In pbrticulbr, this
+     * method returns {@code null} if the underlying clbss is b locbl
+     * or bnonymous clbss immedibtely enclosed by b type declbrbtion,
+     * instbnce initiblizer or stbtic initiblizer.
      *
-     * @return the immediately enclosing constructor of the underlying class, if
-     *     that class is a local or anonymous class; otherwise {@code null}.
+     * @return the immedibtely enclosing constructor of the underlying clbss, if
+     *     thbt clbss is b locbl or bnonymous clbss; otherwise {@code null}.
      * @throws SecurityException
-     *         If a security manager, <i>s</i>, is present and any of the
+     *         If b security mbnbger, <i>s</i>, is present bnd bny of the
      *         following conditions is met:
      *
      *         <ul>
      *
-     *         <li> the caller's class loader is not the same as the
-     *         class loader of the enclosing class and invocation of
-     *         {@link SecurityManager#checkPermission
+     *         <li> the cbller's clbss lobder is not the sbme bs the
+     *         clbss lobder of the enclosing clbss bnd invocbtion of
+     *         {@link SecurityMbnbger#checkPermission
      *         s.checkPermission} method with
-     *         {@code RuntimePermission("accessDeclaredMembers")}
-     *         denies access to the constructors within the enclosing class
+     *         {@code RuntimePermission("bccessDeclbredMembers")}
+     *         denies bccess to the constructors within the enclosing clbss
      *
-     *         <li> the caller's class loader is not the same as or an
-     *         ancestor of the class loader for the enclosing class and
-     *         invocation of {@link SecurityManager#checkPackageAccess
-     *         s.checkPackageAccess()} denies access to the package
-     *         of the enclosing class
+     *         <li> the cbller's clbss lobder is not the sbme bs or bn
+     *         bncestor of the clbss lobder for the enclosing clbss bnd
+     *         invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *         s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *         of the enclosing clbss
      *
      *         </ul>
      * @since 1.5
      */
-    @CallerSensitive
+    @CbllerSensitive
     public Constructor<?> getEnclosingConstructor() throws SecurityException {
         EnclosingMethodInfo enclosingInfo = getEnclosingMethodInfo();
 
@@ -1176,1282 +1176,1282 @@ public final class Class<T> implements java.io.Serializable,
             if (!enclosingInfo.isConstructor())
                 return null;
 
-            ConstructorRepository typeInfo = ConstructorRepository.make(enclosingInfo.getDescriptor(),
-                                                                        getFactory());
-            Type []    parameterTypes   = typeInfo.getParameterTypes();
-            Class<?>[] parameterClasses = new Class<?>[parameterTypes.length];
+            ConstructorRepository typeInfo = ConstructorRepository.mbke(enclosingInfo.getDescriptor(),
+                                                                        getFbctory());
+            Type []    pbrbmeterTypes   = typeInfo.getPbrbmeterTypes();
+            Clbss<?>[] pbrbmeterClbsses = new Clbss<?>[pbrbmeterTypes.length];
 
-            // Convert Types to Classes; returned types *should*
-            // be class objects since the methodDescriptor's used
-            // don't have generics information
-            for(int i = 0; i < parameterClasses.length; i++)
-                parameterClasses[i] = toClass(parameterTypes[i]);
+            // Convert Types to Clbsses; returned types *should*
+            // be clbss objects since the methodDescriptor's used
+            // don't hbve generics informbtion
+            for(int i = 0; i < pbrbmeterClbsses.length; i++)
+                pbrbmeterClbsses[i] = toClbss(pbrbmeterTypes[i]);
 
-            // Perform access check
-            Class<?> enclosingCandidate = enclosingInfo.getEnclosingClass();
-            enclosingCandidate.checkMemberAccess(Member.DECLARED,
-                                                 Reflection.getCallerClass(), true);
+            // Perform bccess check
+            Clbss<?> enclosingCbndidbte = enclosingInfo.getEnclosingClbss();
+            enclosingCbndidbte.checkMemberAccess(Member.DECLARED,
+                                                 Reflection.getCbllerClbss(), true);
             /*
-             * Loop over all declared constructors; match number
-             * of and type of parameters.
+             * Loop over bll declbred constructors; mbtch number
+             * of bnd type of pbrbmeters.
              */
-            for(Constructor<?> c: enclosingCandidate.getDeclaredConstructors()) {
-                Class<?>[] candidateParamClasses = c.getParameterTypes();
-                if (candidateParamClasses.length == parameterClasses.length) {
-                    boolean matches = true;
-                    for(int i = 0; i < candidateParamClasses.length; i++) {
-                        if (!candidateParamClasses[i].equals(parameterClasses[i])) {
-                            matches = false;
-                            break;
+            for(Constructor<?> c: enclosingCbndidbte.getDeclbredConstructors()) {
+                Clbss<?>[] cbndidbtePbrbmClbsses = c.getPbrbmeterTypes();
+                if (cbndidbtePbrbmClbsses.length == pbrbmeterClbsses.length) {
+                    boolebn mbtches = true;
+                    for(int i = 0; i < cbndidbtePbrbmClbsses.length; i++) {
+                        if (!cbndidbtePbrbmClbsses[i].equbls(pbrbmeterClbsses[i])) {
+                            mbtches = fblse;
+                            brebk;
                         }
                     }
 
-                    if (matches)
+                    if (mbtches)
                         return c;
                 }
             }
 
-            throw new InternalError("Enclosing constructor not found");
+            throw new InternblError("Enclosing constructor not found");
         }
     }
 
 
     /**
-     * If the class or interface represented by this {@code Class} object
-     * is a member of another class, returns the {@code Class} object
-     * representing the class in which it was declared.  This method returns
-     * null if this class or interface is not a member of any other class.  If
-     * this {@code Class} object represents an array class, a primitive
+     * If the clbss or interfbce represented by this {@code Clbss} object
+     * is b member of bnother clbss, returns the {@code Clbss} object
+     * representing the clbss in which it wbs declbred.  This method returns
+     * null if this clbss or interfbce is not b member of bny other clbss.  If
+     * this {@code Clbss} object represents bn brrby clbss, b primitive
      * type, or void,then this method returns null.
      *
-     * @return the declaring class for this class
+     * @return the declbring clbss for this clbss
      * @throws SecurityException
-     *         If a security manager, <i>s</i>, is present and the caller's
-     *         class loader is not the same as or an ancestor of the class
-     *         loader for the declaring class and invocation of {@link
-     *         SecurityManager#checkPackageAccess s.checkPackageAccess()}
-     *         denies access to the package of the declaring class
+     *         If b security mbnbger, <i>s</i>, is present bnd the cbller's
+     *         clbss lobder is not the sbme bs or bn bncestor of the clbss
+     *         lobder for the declbring clbss bnd invocbtion of {@link
+     *         SecurityMbnbger#checkPbckbgeAccess s.checkPbckbgeAccess()}
+     *         denies bccess to the pbckbge of the declbring clbss
      * @since 1.1
      */
-    @CallerSensitive
-    public Class<?> getDeclaringClass() throws SecurityException {
-        final Class<?> candidate = getDeclaringClass0();
+    @CbllerSensitive
+    public Clbss<?> getDeclbringClbss() throws SecurityException {
+        finbl Clbss<?> cbndidbte = getDeclbringClbss0();
 
-        if (candidate != null)
-            candidate.checkPackageAccess(
-                    ClassLoader.getClassLoader(Reflection.getCallerClass()), true);
-        return candidate;
+        if (cbndidbte != null)
+            cbndidbte.checkPbckbgeAccess(
+                    ClbssLobder.getClbssLobder(Reflection.getCbllerClbss()), true);
+        return cbndidbte;
     }
 
-    private native Class<?> getDeclaringClass0();
+    privbte nbtive Clbss<?> getDeclbringClbss0();
 
 
     /**
-     * Returns the immediately enclosing class of the underlying
-     * class.  If the underlying class is a top level class this
+     * Returns the immedibtely enclosing clbss of the underlying
+     * clbss.  If the underlying clbss is b top level clbss this
      * method returns {@code null}.
-     * @return the immediately enclosing class of the underlying class
+     * @return the immedibtely enclosing clbss of the underlying clbss
      * @exception  SecurityException
-     *             If a security manager, <i>s</i>, is present and the caller's
-     *             class loader is not the same as or an ancestor of the class
-     *             loader for the enclosing class and invocation of {@link
-     *             SecurityManager#checkPackageAccess s.checkPackageAccess()}
-     *             denies access to the package of the enclosing class
+     *             If b security mbnbger, <i>s</i>, is present bnd the cbller's
+     *             clbss lobder is not the sbme bs or bn bncestor of the clbss
+     *             lobder for the enclosing clbss bnd invocbtion of {@link
+     *             SecurityMbnbger#checkPbckbgeAccess s.checkPbckbgeAccess()}
+     *             denies bccess to the pbckbge of the enclosing clbss
      * @since 1.5
      */
-    @CallerSensitive
-    public Class<?> getEnclosingClass() throws SecurityException {
-        // There are five kinds of classes (or interfaces):
-        // a) Top level classes
-        // b) Nested classes (static member classes)
-        // c) Inner classes (non-static member classes)
-        // d) Local classes (named classes declared within a method)
-        // e) Anonymous classes
+    @CbllerSensitive
+    public Clbss<?> getEnclosingClbss() throws SecurityException {
+        // There bre five kinds of clbsses (or interfbces):
+        // b) Top level clbsses
+        // b) Nested clbsses (stbtic member clbsses)
+        // c) Inner clbsses (non-stbtic member clbsses)
+        // d) Locbl clbsses (nbmed clbsses declbred within b method)
+        // e) Anonymous clbsses
 
 
-        // JVM Spec 4.8.6: A class must have an EnclosingMethod
-        // attribute if and only if it is a local class or an
-        // anonymous class.
+        // JVM Spec 4.8.6: A clbss must hbve bn EnclosingMethod
+        // bttribute if bnd only if it is b locbl clbss or bn
+        // bnonymous clbss.
         EnclosingMethodInfo enclosingInfo = getEnclosingMethodInfo();
-        Class<?> enclosingCandidate;
+        Clbss<?> enclosingCbndidbte;
 
         if (enclosingInfo == null) {
-            // This is a top level or a nested class or an inner class (a, b, or c)
-            enclosingCandidate = getDeclaringClass();
+            // This is b top level or b nested clbss or bn inner clbss (b, b, or c)
+            enclosingCbndidbte = getDeclbringClbss();
         } else {
-            Class<?> enclosingClass = enclosingInfo.getEnclosingClass();
-            // This is a local class or an anonymous class (d or e)
-            if (enclosingClass == this || enclosingClass == null)
-                throw new InternalError("Malformed enclosing method information");
+            Clbss<?> enclosingClbss = enclosingInfo.getEnclosingClbss();
+            // This is b locbl clbss or bn bnonymous clbss (d or e)
+            if (enclosingClbss == this || enclosingClbss == null)
+                throw new InternblError("Mblformed enclosing method informbtion");
             else
-                enclosingCandidate = enclosingClass;
+                enclosingCbndidbte = enclosingClbss;
         }
 
-        if (enclosingCandidate != null)
-            enclosingCandidate.checkPackageAccess(
-                    ClassLoader.getClassLoader(Reflection.getCallerClass()), true);
-        return enclosingCandidate;
+        if (enclosingCbndidbte != null)
+            enclosingCbndidbte.checkPbckbgeAccess(
+                    ClbssLobder.getClbssLobder(Reflection.getCbllerClbss()), true);
+        return enclosingCbndidbte;
     }
 
     /**
-     * Returns the simple name of the underlying class as given in the
-     * source code. Returns an empty string if the underlying class is
-     * anonymous.
+     * Returns the simple nbme of the underlying clbss bs given in the
+     * source code. Returns bn empty string if the underlying clbss is
+     * bnonymous.
      *
-     * <p>The simple name of an array is the simple name of the
-     * component type with "[]" appended.  In particular the simple
-     * name of an array whose component type is anonymous is "[]".
+     * <p>The simple nbme of bn brrby is the simple nbme of the
+     * component type with "[]" bppended.  In pbrticulbr the simple
+     * nbme of bn brrby whose component type is bnonymous is "[]".
      *
-     * @return the simple name of the underlying class
+     * @return the simple nbme of the underlying clbss
      * @since 1.5
      */
-    public String getSimpleName() {
-        if (isArray())
-            return getComponentType().getSimpleName()+"[]";
+    public String getSimpleNbme() {
+        if (isArrby())
+            return getComponentType().getSimpleNbme()+"[]";
 
-        String simpleName = getSimpleBinaryName();
-        if (simpleName == null) { // top level class
-            simpleName = getName();
-            return simpleName.substring(simpleName.lastIndexOf('.')+1); // strip the package name
+        String simpleNbme = getSimpleBinbryNbme();
+        if (simpleNbme == null) { // top level clbss
+            simpleNbme = getNbme();
+            return simpleNbme.substring(simpleNbme.lbstIndexOf('.')+1); // strip the pbckbge nbme
         }
-        // According to JLS3 "Binary Compatibility" (13.1) the binary
-        // name of non-package classes (not top level) is the binary
-        // name of the immediately enclosing class followed by a '$' followed by:
-        // (for nested and inner classes): the simple name.
-        // (for local classes): 1 or more digits followed by the simple name.
-        // (for anonymous classes): 1 or more digits.
+        // According to JLS3 "Binbry Compbtibility" (13.1) the binbry
+        // nbme of non-pbckbge clbsses (not top level) is the binbry
+        // nbme of the immedibtely enclosing clbss followed by b '$' followed by:
+        // (for nested bnd inner clbsses): the simple nbme.
+        // (for locbl clbsses): 1 or more digits followed by the simple nbme.
+        // (for bnonymous clbsses): 1 or more digits.
 
-        // Since getSimpleBinaryName() will strip the binary name of
-        // the immediatly enclosing class, we are now looking at a
-        // string that matches the regular expression "\$[0-9]*"
-        // followed by a simple name (considering the simple of an
-        // anonymous class to be the empty string).
+        // Since getSimpleBinbryNbme() will strip the binbry nbme of
+        // the immedibtly enclosing clbss, we bre now looking bt b
+        // string thbt mbtches the regulbr expression "\$[0-9]*"
+        // followed by b simple nbme (considering the simple of bn
+        // bnonymous clbss to be the empty string).
 
-        // Remove leading "\$[0-9]*" from the name
-        int length = simpleName.length();
-        if (length < 1 || simpleName.charAt(0) != '$')
-            throw new InternalError("Malformed class name");
+        // Remove lebding "\$[0-9]*" from the nbme
+        int length = simpleNbme.length();
+        if (length < 1 || simpleNbme.chbrAt(0) != '$')
+            throw new InternblError("Mblformed clbss nbme");
         int index = 1;
-        while (index < length && isAsciiDigit(simpleName.charAt(index)))
+        while (index < length && isAsciiDigit(simpleNbme.chbrAt(index)))
             index++;
-        // Eventually, this is the empty string iff this is an anonymous class
-        return simpleName.substring(index);
+        // Eventublly, this is the empty string iff this is bn bnonymous clbss
+        return simpleNbme.substring(index);
     }
 
     /**
-     * Return an informative string for the name of this type.
+     * Return bn informbtive string for the nbme of this type.
      *
-     * @return an informative string for the name of this type
+     * @return bn informbtive string for the nbme of this type
      * @since 1.8
      */
-    public String getTypeName() {
-        if (isArray()) {
+    public String getTypeNbme() {
+        if (isArrby()) {
             try {
-                Class<?> cl = this;
+                Clbss<?> cl = this;
                 int dimensions = 0;
-                while (cl.isArray()) {
+                while (cl.isArrby()) {
                     dimensions++;
                     cl = cl.getComponentType();
                 }
                 StringBuilder sb = new StringBuilder();
-                sb.append(cl.getName());
+                sb.bppend(cl.getNbme());
                 for (int i = 0; i < dimensions; i++) {
-                    sb.append("[]");
+                    sb.bppend("[]");
                 }
                 return sb.toString();
-            } catch (Throwable e) { /*FALLTHRU*/ }
+            } cbtch (Throwbble e) { /*FALLTHRU*/ }
         }
-        return getName();
+        return getNbme();
     }
 
     /**
-     * Character.isDigit answers {@code true} to some non-ascii
+     * Chbrbcter.isDigit bnswers {@code true} to some non-bscii
      * digits.  This one does not.
      */
-    private static boolean isAsciiDigit(char c) {
+    privbte stbtic boolebn isAsciiDigit(chbr c) {
         return '0' <= c && c <= '9';
     }
 
     /**
-     * Returns the canonical name of the underlying class as
-     * defined by the Java Language Specification.  Returns null if
-     * the underlying class does not have a canonical name (i.e., if
-     * it is a local or anonymous class or an array whose component
-     * type does not have a canonical name).
-     * @return the canonical name of the underlying class if it exists, and
+     * Returns the cbnonicbl nbme of the underlying clbss bs
+     * defined by the Jbvb Lbngubge Specificbtion.  Returns null if
+     * the underlying clbss does not hbve b cbnonicbl nbme (i.e., if
+     * it is b locbl or bnonymous clbss or bn brrby whose component
+     * type does not hbve b cbnonicbl nbme).
+     * @return the cbnonicbl nbme of the underlying clbss if it exists, bnd
      * {@code null} otherwise.
      * @since 1.5
      */
-    public String getCanonicalName() {
-        if (isArray()) {
-            String canonicalName = getComponentType().getCanonicalName();
-            if (canonicalName != null)
-                return canonicalName + "[]";
+    public String getCbnonicblNbme() {
+        if (isArrby()) {
+            String cbnonicblNbme = getComponentType().getCbnonicblNbme();
+            if (cbnonicblNbme != null)
+                return cbnonicblNbme + "[]";
             else
                 return null;
         }
-        if (isLocalOrAnonymousClass())
+        if (isLocblOrAnonymousClbss())
             return null;
-        Class<?> enclosingClass = getEnclosingClass();
-        if (enclosingClass == null) { // top level class
-            return getName();
+        Clbss<?> enclosingClbss = getEnclosingClbss();
+        if (enclosingClbss == null) { // top level clbss
+            return getNbme();
         } else {
-            String enclosingName = enclosingClass.getCanonicalName();
-            if (enclosingName == null)
+            String enclosingNbme = enclosingClbss.getCbnonicblNbme();
+            if (enclosingNbme == null)
                 return null;
-            return enclosingName + "." + getSimpleName();
+            return enclosingNbme + "." + getSimpleNbme();
         }
     }
 
     /**
-     * Returns {@code true} if and only if the underlying class
-     * is an anonymous class.
+     * Returns {@code true} if bnd only if the underlying clbss
+     * is bn bnonymous clbss.
      *
-     * @return {@code true} if and only if this class is an anonymous class.
+     * @return {@code true} if bnd only if this clbss is bn bnonymous clbss.
      * @since 1.5
      */
-    public boolean isAnonymousClass() {
-        return "".equals(getSimpleName());
+    public boolebn isAnonymousClbss() {
+        return "".equbls(getSimpleNbme());
     }
 
     /**
-     * Returns {@code true} if and only if the underlying class
-     * is a local class.
+     * Returns {@code true} if bnd only if the underlying clbss
+     * is b locbl clbss.
      *
-     * @return {@code true} if and only if this class is a local class.
+     * @return {@code true} if bnd only if this clbss is b locbl clbss.
      * @since 1.5
      */
-    public boolean isLocalClass() {
-        return isLocalOrAnonymousClass() && !isAnonymousClass();
+    public boolebn isLocblClbss() {
+        return isLocblOrAnonymousClbss() && !isAnonymousClbss();
     }
 
     /**
-     * Returns {@code true} if and only if the underlying class
-     * is a member class.
+     * Returns {@code true} if bnd only if the underlying clbss
+     * is b member clbss.
      *
-     * @return {@code true} if and only if this class is a member class.
+     * @return {@code true} if bnd only if this clbss is b member clbss.
      * @since 1.5
      */
-    public boolean isMemberClass() {
-        return getSimpleBinaryName() != null && !isLocalOrAnonymousClass();
+    public boolebn isMemberClbss() {
+        return getSimpleBinbryNbme() != null && !isLocblOrAnonymousClbss();
     }
 
     /**
-     * Returns the "simple binary name" of the underlying class, i.e.,
-     * the binary name without the leading enclosing class name.
-     * Returns {@code null} if the underlying class is a top level
-     * class.
+     * Returns the "simple binbry nbme" of the underlying clbss, i.e.,
+     * the binbry nbme without the lebding enclosing clbss nbme.
+     * Returns {@code null} if the underlying clbss is b top level
+     * clbss.
      */
-    private String getSimpleBinaryName() {
-        Class<?> enclosingClass = getEnclosingClass();
-        if (enclosingClass == null) // top level class
+    privbte String getSimpleBinbryNbme() {
+        Clbss<?> enclosingClbss = getEnclosingClbss();
+        if (enclosingClbss == null) // top level clbss
             return null;
-        // Otherwise, strip the enclosing class' name
+        // Otherwise, strip the enclosing clbss' nbme
         try {
-            return getName().substring(enclosingClass.getName().length());
-        } catch (IndexOutOfBoundsException ex) {
-            throw new InternalError("Malformed class name", ex);
+            return getNbme().substring(enclosingClbss.getNbme().length());
+        } cbtch (IndexOutOfBoundsException ex) {
+            throw new InternblError("Mblformed clbss nbme", ex);
         }
     }
 
     /**
-     * Returns {@code true} if this is a local class or an anonymous
-     * class.  Returns {@code false} otherwise.
+     * Returns {@code true} if this is b locbl clbss or bn bnonymous
+     * clbss.  Returns {@code fblse} otherwise.
      */
-    private boolean isLocalOrAnonymousClass() {
-        // JVM Spec 4.8.6: A class must have an EnclosingMethod
-        // attribute if and only if it is a local class or an
-        // anonymous class.
+    privbte boolebn isLocblOrAnonymousClbss() {
+        // JVM Spec 4.8.6: A clbss must hbve bn EnclosingMethod
+        // bttribute if bnd only if it is b locbl clbss or bn
+        // bnonymous clbss.
         return getEnclosingMethodInfo() != null;
     }
 
     /**
-     * Returns an array containing {@code Class} objects representing all
-     * the public classes and interfaces that are members of the class
-     * represented by this {@code Class} object.  This includes public
-     * class and interface members inherited from superclasses and public class
-     * and interface members declared by the class.  This method returns an
-     * array of length 0 if this {@code Class} object has no public member
-     * classes or interfaces.  This method also returns an array of length 0 if
-     * this {@code Class} object represents a primitive type, an array
-     * class, or void.
+     * Returns bn brrby contbining {@code Clbss} objects representing bll
+     * the public clbsses bnd interfbces thbt bre members of the clbss
+     * represented by this {@code Clbss} object.  This includes public
+     * clbss bnd interfbce members inherited from superclbsses bnd public clbss
+     * bnd interfbce members declbred by the clbss.  This method returns bn
+     * brrby of length 0 if this {@code Clbss} object hbs no public member
+     * clbsses or interfbces.  This method blso returns bn brrby of length 0 if
+     * this {@code Clbss} object represents b primitive type, bn brrby
+     * clbss, or void.
      *
-     * @return the array of {@code Class} objects representing the public
-     *         members of this class
+     * @return the brrby of {@code Clbss} objects representing the public
+     *         members of this clbss
      * @throws SecurityException
-     *         If a security manager, <i>s</i>, is present and
-     *         the caller's class loader is not the same as or an
-     *         ancestor of the class loader for the current class and
-     *         invocation of {@link SecurityManager#checkPackageAccess
-     *         s.checkPackageAccess()} denies access to the package
-     *         of this class.
+     *         If b security mbnbger, <i>s</i>, is present bnd
+     *         the cbller's clbss lobder is not the sbme bs or bn
+     *         bncestor of the clbss lobder for the current clbss bnd
+     *         invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *         s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *         of this clbss.
      *
      * @since 1.1
      */
-    @CallerSensitive
-    public Class<?>[] getClasses() {
-        checkMemberAccess(Member.PUBLIC, Reflection.getCallerClass(), false);
+    @CbllerSensitive
+    public Clbss<?>[] getClbsses() {
+        checkMemberAccess(Member.PUBLIC, Reflection.getCbllerClbss(), fblse);
 
-        // Privileged so this implementation can look at DECLARED classes,
-        // something the caller might not have privilege to do.  The code here
-        // is allowed to look at DECLARED classes because (1) it does not hand
-        // out anything other than public members and (2) public member access
-        // has already been ok'd by the SecurityManager.
+        // Privileged so this implementbtion cbn look bt DECLARED clbsses,
+        // something the cbller might not hbve privilege to do.  The code here
+        // is bllowed to look bt DECLARED clbsses becbuse (1) it does not hbnd
+        // out bnything other thbn public members bnd (2) public member bccess
+        // hbs blrebdy been ok'd by the SecurityMbnbger.
 
-        return java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Class<?>[]>() {
-                public Class<?>[] run() {
-                    List<Class<?>> list = new ArrayList<>();
-                    Class<?> currentClass = Class.this;
-                    while (currentClass != null) {
-                        for (Class<?> m : currentClass.getDeclaredClasses()) {
+        return jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Clbss<?>[]>() {
+                public Clbss<?>[] run() {
+                    List<Clbss<?>> list = new ArrbyList<>();
+                    Clbss<?> currentClbss = Clbss.this;
+                    while (currentClbss != null) {
+                        for (Clbss<?> m : currentClbss.getDeclbredClbsses()) {
                             if (Modifier.isPublic(m.getModifiers())) {
-                                list.add(m);
+                                list.bdd(m);
                             }
                         }
-                        currentClass = currentClass.getSuperclass();
+                        currentClbss = currentClbss.getSuperclbss();
                     }
-                    return list.toArray(new Class<?>[0]);
+                    return list.toArrby(new Clbss<?>[0]);
                 }
             });
     }
 
 
     /**
-     * Returns an array containing {@code Field} objects reflecting all
-     * the accessible public fields of the class or interface represented by
-     * this {@code Class} object.
+     * Returns bn brrby contbining {@code Field} objects reflecting bll
+     * the bccessible public fields of the clbss or interfbce represented by
+     * this {@code Clbss} object.
      *
-     * <p> If this {@code Class} object represents a class or interface with no
-     * no accessible public fields, then this method returns an array of length
+     * <p> If this {@code Clbss} object represents b clbss or interfbce with no
+     * no bccessible public fields, then this method returns bn brrby of length
      * 0.
      *
-     * <p> If this {@code Class} object represents a class, then this method
-     * returns the public fields of the class and of all its superclasses.
+     * <p> If this {@code Clbss} object represents b clbss, then this method
+     * returns the public fields of the clbss bnd of bll its superclbsses.
      *
-     * <p> If this {@code Class} object represents an interface, then this
-     * method returns the fields of the interface and of all its
-     * superinterfaces.
+     * <p> If this {@code Clbss} object represents bn interfbce, then this
+     * method returns the fields of the interfbce bnd of bll its
+     * superinterfbces.
      *
-     * <p> If this {@code Class} object represents an array type, a primitive
-     * type, or void, then this method returns an array of length 0.
+     * <p> If this {@code Clbss} object represents bn brrby type, b primitive
+     * type, or void, then this method returns bn brrby of length 0.
      *
-     * <p> The elements in the returned array are not sorted and are not in any
-     * particular order.
+     * <p> The elements in the returned brrby bre not sorted bnd bre not in bny
+     * pbrticulbr order.
      *
-     * @return the array of {@code Field} objects representing the
+     * @return the brrby of {@code Field} objects representing the
      *         public fields
      * @throws SecurityException
-     *         If a security manager, <i>s</i>, is present and
-     *         the caller's class loader is not the same as or an
-     *         ancestor of the class loader for the current class and
-     *         invocation of {@link SecurityManager#checkPackageAccess
-     *         s.checkPackageAccess()} denies access to the package
-     *         of this class.
+     *         If b security mbnbger, <i>s</i>, is present bnd
+     *         the cbller's clbss lobder is not the sbme bs or bn
+     *         bncestor of the clbss lobder for the current clbss bnd
+     *         invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *         s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *         of this clbss.
      *
      * @since 1.1
-     * @jls 8.2 Class Members
-     * @jls 8.3 Field Declarations
+     * @jls 8.2 Clbss Members
+     * @jls 8.3 Field Declbrbtions
      */
-    @CallerSensitive
+    @CbllerSensitive
     public Field[] getFields() throws SecurityException {
-        checkMemberAccess(Member.PUBLIC, Reflection.getCallerClass(), true);
-        return copyFields(privateGetPublicFields(null));
+        checkMemberAccess(Member.PUBLIC, Reflection.getCbllerClbss(), true);
+        return copyFields(privbteGetPublicFields(null));
     }
 
 
     /**
-     * Returns an array containing {@code Method} objects reflecting all the
-     * public methods of the class or interface represented by this {@code
-     * Class} object, including those declared by the class or interface and
-     * those inherited from superclasses and superinterfaces.
+     * Returns bn brrby contbining {@code Method} objects reflecting bll the
+     * public methods of the clbss or interfbce represented by this {@code
+     * Clbss} object, including those declbred by the clbss or interfbce bnd
+     * those inherited from superclbsses bnd superinterfbces.
      *
-     * <p> If this {@code Class} object represents a type that has multiple
-     * public methods with the same name and parameter types, but different
-     * return types, then the returned array has a {@code Method} object for
-     * each such method.
+     * <p> If this {@code Clbss} object represents b type thbt hbs multiple
+     * public methods with the sbme nbme bnd pbrbmeter types, but different
+     * return types, then the returned brrby hbs b {@code Method} object for
+     * ebch such method.
      *
-     * <p> If this {@code Class} object represents a type with a class
-     * initialization method {@code <clinit>}, then the returned array does
-     * <em>not</em> have a corresponding {@code Method} object.
+     * <p> If this {@code Clbss} object represents b type with b clbss
+     * initiblizbtion method {@code <clinit>}, then the returned brrby does
+     * <em>not</em> hbve b corresponding {@code Method} object.
      *
-     * <p> If this {@code Class} object represents an array type, then the
-     * returned array has a {@code Method} object for each of the public
-     * methods inherited by the array type from {@code Object}. It does not
-     * contain a {@code Method} object for {@code clone()}.
+     * <p> If this {@code Clbss} object represents bn brrby type, then the
+     * returned brrby hbs b {@code Method} object for ebch of the public
+     * methods inherited by the brrby type from {@code Object}. It does not
+     * contbin b {@code Method} object for {@code clone()}.
      *
-     * <p> If this {@code Class} object represents an interface then the
-     * returned array does not contain any implicitly declared methods from
-     * {@code Object}. Therefore, if no methods are explicitly declared in
-     * this interface or any of its superinterfaces then the returned array
-     * has length 0. (Note that a {@code Class} object which represents a class
-     * always has public methods, inherited from {@code Object}.)
+     * <p> If this {@code Clbss} object represents bn interfbce then the
+     * returned brrby does not contbin bny implicitly declbred methods from
+     * {@code Object}. Therefore, if no methods bre explicitly declbred in
+     * this interfbce or bny of its superinterfbces then the returned brrby
+     * hbs length 0. (Note thbt b {@code Clbss} object which represents b clbss
+     * blwbys hbs public methods, inherited from {@code Object}.)
      *
-     * <p> If this {@code Class} object represents a primitive type or void,
-     * then the returned array has length 0.
+     * <p> If this {@code Clbss} object represents b primitive type or void,
+     * then the returned brrby hbs length 0.
      *
-     * <p> Static methods declared in superinterfaces of the class or interface
-     * represented by this {@code Class} object are not considered members of
-     * the class or interface.
+     * <p> Stbtic methods declbred in superinterfbces of the clbss or interfbce
+     * represented by this {@code Clbss} object bre not considered members of
+     * the clbss or interfbce.
      *
-     * <p> The elements in the returned array are not sorted and are not in any
-     * particular order.
+     * <p> The elements in the returned brrby bre not sorted bnd bre not in bny
+     * pbrticulbr order.
      *
-     * @return the array of {@code Method} objects representing the
-     *         public methods of this class
+     * @return the brrby of {@code Method} objects representing the
+     *         public methods of this clbss
      * @throws SecurityException
-     *         If a security manager, <i>s</i>, is present and
-     *         the caller's class loader is not the same as or an
-     *         ancestor of the class loader for the current class and
-     *         invocation of {@link SecurityManager#checkPackageAccess
-     *         s.checkPackageAccess()} denies access to the package
-     *         of this class.
+     *         If b security mbnbger, <i>s</i>, is present bnd
+     *         the cbller's clbss lobder is not the sbme bs or bn
+     *         bncestor of the clbss lobder for the current clbss bnd
+     *         invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *         s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *         of this clbss.
      *
-     * @jls 8.2 Class Members
-     * @jls 8.4 Method Declarations
+     * @jls 8.2 Clbss Members
+     * @jls 8.4 Method Declbrbtions
      * @since 1.1
      */
-    @CallerSensitive
+    @CbllerSensitive
     public Method[] getMethods() throws SecurityException {
-        checkMemberAccess(Member.PUBLIC, Reflection.getCallerClass(), true);
-        return copyMethods(privateGetPublicMethods());
+        checkMemberAccess(Member.PUBLIC, Reflection.getCbllerClbss(), true);
+        return copyMethods(privbteGetPublicMethods());
     }
 
 
     /**
-     * Returns an array containing {@code Constructor} objects reflecting
-     * all the public constructors of the class represented by this
-     * {@code Class} object.  An array of length 0 is returned if the
-     * class has no public constructors, or if the class is an array class, or
-     * if the class reflects a primitive type or void.
+     * Returns bn brrby contbining {@code Constructor} objects reflecting
+     * bll the public constructors of the clbss represented by this
+     * {@code Clbss} object.  An brrby of length 0 is returned if the
+     * clbss hbs no public constructors, or if the clbss is bn brrby clbss, or
+     * if the clbss reflects b primitive type or void.
      *
-     * Note that while this method returns an array of {@code
-     * Constructor<T>} objects (that is an array of constructors from
-     * this class), the return type of this method is {@code
-     * Constructor<?>[]} and <em>not</em> {@code Constructor<T>[]} as
-     * might be expected.  This less informative return type is
-     * necessary since after being returned from this method, the
-     * array could be modified to hold {@code Constructor} objects for
-     * different classes, which would violate the type guarantees of
+     * Note thbt while this method returns bn brrby of {@code
+     * Constructor<T>} objects (thbt is bn brrby of constructors from
+     * this clbss), the return type of this method is {@code
+     * Constructor<?>[]} bnd <em>not</em> {@code Constructor<T>[]} bs
+     * might be expected.  This less informbtive return type is
+     * necessbry since bfter being returned from this method, the
+     * brrby could be modified to hold {@code Constructor} objects for
+     * different clbsses, which would violbte the type gubrbntees of
      * {@code Constructor<T>[]}.
      *
-     * @return the array of {@code Constructor} objects representing the
-     *         public constructors of this class
+     * @return the brrby of {@code Constructor} objects representing the
+     *         public constructors of this clbss
      * @throws SecurityException
-     *         If a security manager, <i>s</i>, is present and
-     *         the caller's class loader is not the same as or an
-     *         ancestor of the class loader for the current class and
-     *         invocation of {@link SecurityManager#checkPackageAccess
-     *         s.checkPackageAccess()} denies access to the package
-     *         of this class.
+     *         If b security mbnbger, <i>s</i>, is present bnd
+     *         the cbller's clbss lobder is not the sbme bs or bn
+     *         bncestor of the clbss lobder for the current clbss bnd
+     *         invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *         s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *         of this clbss.
      *
      * @since 1.1
      */
-    @CallerSensitive
+    @CbllerSensitive
     public Constructor<?>[] getConstructors() throws SecurityException {
-        checkMemberAccess(Member.PUBLIC, Reflection.getCallerClass(), true);
-        return copyConstructors(privateGetDeclaredConstructors(true));
+        checkMemberAccess(Member.PUBLIC, Reflection.getCbllerClbss(), true);
+        return copyConstructors(privbteGetDeclbredConstructors(true));
     }
 
 
     /**
-     * Returns a {@code Field} object that reflects the specified public member
-     * field of the class or interface represented by this {@code Class}
-     * object. The {@code name} parameter is a {@code String} specifying the
-     * simple name of the desired field.
+     * Returns b {@code Field} object thbt reflects the specified public member
+     * field of the clbss or interfbce represented by this {@code Clbss}
+     * object. The {@code nbme} pbrbmeter is b {@code String} specifying the
+     * simple nbme of the desired field.
      *
-     * <p> The field to be reflected is determined by the algorithm that
-     * follows.  Let C be the class or interface represented by this object:
+     * <p> The field to be reflected is determined by the blgorithm thbt
+     * follows.  Let C be the clbss or interfbce represented by this object:
      *
      * <OL>
-     * <LI> If C declares a public field with the name specified, that is the
+     * <LI> If C declbres b public field with the nbme specified, thbt is the
      *      field to be reflected.</LI>
-     * <LI> If no field was found in step 1 above, this algorithm is applied
-     *      recursively to each direct superinterface of C. The direct
-     *      superinterfaces are searched in the order they were declared.</LI>
-     * <LI> If no field was found in steps 1 and 2 above, and C has a
-     *      superclass S, then this algorithm is invoked recursively upon S.
-     *      If C has no superclass, then a {@code NoSuchFieldException}
+     * <LI> If no field wbs found in step 1 bbove, this blgorithm is bpplied
+     *      recursively to ebch direct superinterfbce of C. The direct
+     *      superinterfbces bre sebrched in the order they were declbred.</LI>
+     * <LI> If no field wbs found in steps 1 bnd 2 bbove, bnd C hbs b
+     *      superclbss S, then this blgorithm is invoked recursively upon S.
+     *      If C hbs no superclbss, then b {@code NoSuchFieldException}
      *      is thrown.</LI>
      * </OL>
      *
-     * <p> If this {@code Class} object represents an array type, then this
-     * method does not find the {@code length} field of the array type.
+     * <p> If this {@code Clbss} object represents bn brrby type, then this
+     * method does not find the {@code length} field of the brrby type.
      *
-     * @param name the field name
-     * @return the {@code Field} object of this class specified by
-     *         {@code name}
-     * @throws NoSuchFieldException if a field with the specified name is
+     * @pbrbm nbme the field nbme
+     * @return the {@code Field} object of this clbss specified by
+     *         {@code nbme}
+     * @throws NoSuchFieldException if b field with the specified nbme is
      *         not found.
-     * @throws NullPointerException if {@code name} is {@code null}
+     * @throws NullPointerException if {@code nbme} is {@code null}
      * @throws SecurityException
-     *         If a security manager, <i>s</i>, is present and
-     *         the caller's class loader is not the same as or an
-     *         ancestor of the class loader for the current class and
-     *         invocation of {@link SecurityManager#checkPackageAccess
-     *         s.checkPackageAccess()} denies access to the package
-     *         of this class.
+     *         If b security mbnbger, <i>s</i>, is present bnd
+     *         the cbller's clbss lobder is not the sbme bs or bn
+     *         bncestor of the clbss lobder for the current clbss bnd
+     *         invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *         s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *         of this clbss.
      *
      * @since 1.1
-     * @jls 8.2 Class Members
-     * @jls 8.3 Field Declarations
+     * @jls 8.2 Clbss Members
+     * @jls 8.3 Field Declbrbtions
      */
-    @CallerSensitive
-    public Field getField(String name)
+    @CbllerSensitive
+    public Field getField(String nbme)
         throws NoSuchFieldException, SecurityException {
-        checkMemberAccess(Member.PUBLIC, Reflection.getCallerClass(), true);
-        Field field = getField0(name);
+        checkMemberAccess(Member.PUBLIC, Reflection.getCbllerClbss(), true);
+        Field field = getField0(nbme);
         if (field == null) {
-            throw new NoSuchFieldException(name);
+            throw new NoSuchFieldException(nbme);
         }
         return field;
     }
 
 
     /**
-     * Returns a {@code Method} object that reflects the specified public
-     * member method of the class or interface represented by this
-     * {@code Class} object. The {@code name} parameter is a
-     * {@code String} specifying the simple name of the desired method. The
-     * {@code parameterTypes} parameter is an array of {@code Class}
-     * objects that identify the method's formal parameter types, in declared
-     * order. If {@code parameterTypes} is {@code null}, it is
-     * treated as if it were an empty array.
+     * Returns b {@code Method} object thbt reflects the specified public
+     * member method of the clbss or interfbce represented by this
+     * {@code Clbss} object. The {@code nbme} pbrbmeter is b
+     * {@code String} specifying the simple nbme of the desired method. The
+     * {@code pbrbmeterTypes} pbrbmeter is bn brrby of {@code Clbss}
+     * objects thbt identify the method's formbl pbrbmeter types, in declbred
+     * order. If {@code pbrbmeterTypes} is {@code null}, it is
+     * trebted bs if it were bn empty brrby.
      *
-     * <p> If the {@code name} is "{@code <init>}" or "{@code <clinit>}" a
-     * {@code NoSuchMethodException} is raised. Otherwise, the method to
-     * be reflected is determined by the algorithm that follows.  Let C be the
-     * class or interface represented by this object:
+     * <p> If the {@code nbme} is "{@code <init>}" or "{@code <clinit>}" b
+     * {@code NoSuchMethodException} is rbised. Otherwise, the method to
+     * be reflected is determined by the blgorithm thbt follows.  Let C be the
+     * clbss or interfbce represented by this object:
      * <OL>
-     * <LI> C is searched for a <I>matching method</I>, as defined below. If a
-     *      matching method is found, it is reflected.</LI>
-     * <LI> If no matching method is found by step 1 then:
-     *   <OL TYPE="a">
-     *   <LI> If C is a class other than {@code Object}, then this algorithm is
-     *        invoked recursively on the superclass of C.</LI>
-     *   <LI> If C is the class {@code Object}, or if C is an interface, then
-     *        the superinterfaces of C (if any) are searched for a matching
-     *        method. If any such method is found, it is reflected.</LI>
+     * <LI> C is sebrched for b <I>mbtching method</I>, bs defined below. If b
+     *      mbtching method is found, it is reflected.</LI>
+     * <LI> If no mbtching method is found by step 1 then:
+     *   <OL TYPE="b">
+     *   <LI> If C is b clbss other thbn {@code Object}, then this blgorithm is
+     *        invoked recursively on the superclbss of C.</LI>
+     *   <LI> If C is the clbss {@code Object}, or if C is bn interfbce, then
+     *        the superinterfbces of C (if bny) bre sebrched for b mbtching
+     *        method. If bny such method is found, it is reflected.</LI>
      *   </OL></LI>
      * </OL>
      *
-     * <p> To find a matching method in a class or interface C:&nbsp; If C
-     * declares exactly one public method with the specified name and exactly
-     * the same formal parameter types, that is the method reflected. If more
-     * than one such method is found in C, and one of these methods has a
-     * return type that is more specific than any of the others, that method is
-     * reflected; otherwise one of the methods is chosen arbitrarily.
+     * <p> To find b mbtching method in b clbss or interfbce C:&nbsp; If C
+     * declbres exbctly one public method with the specified nbme bnd exbctly
+     * the sbme formbl pbrbmeter types, thbt is the method reflected. If more
+     * thbn one such method is found in C, bnd one of these methods hbs b
+     * return type thbt is more specific thbn bny of the others, thbt method is
+     * reflected; otherwise one of the methods is chosen brbitrbrily.
      *
-     * <p>Note that there may be more than one matching method in a
-     * class because while the Java language forbids a class to
-     * declare multiple methods with the same signature but different
-     * return types, the Java virtual machine does not.  This
-     * increased flexibility in the virtual machine can be used to
-     * implement various language features.  For example, covariant
-     * returns can be implemented with {@linkplain
-     * java.lang.reflect.Method#isBridge bridge methods}; the bridge
-     * method and the method being overridden would have the same
-     * signature but different return types.
+     * <p>Note thbt there mby be more thbn one mbtching method in b
+     * clbss becbuse while the Jbvb lbngubge forbids b clbss to
+     * declbre multiple methods with the sbme signbture but different
+     * return types, the Jbvb virtubl mbchine does not.  This
+     * increbsed flexibility in the virtubl mbchine cbn be used to
+     * implement vbrious lbngubge febtures.  For exbmple, covbribnt
+     * returns cbn be implemented with {@linkplbin
+     * jbvb.lbng.reflect.Method#isBridge bridge methods}; the bridge
+     * method bnd the method being overridden would hbve the sbme
+     * signbture but different return types.
      *
-     * <p> If this {@code Class} object represents an array type, then this
+     * <p> If this {@code Clbss} object represents bn brrby type, then this
      * method does not find the {@code clone()} method.
      *
-     * <p> Static methods declared in superinterfaces of the class or interface
-     * represented by this {@code Class} object are not considered members of
-     * the class or interface.
+     * <p> Stbtic methods declbred in superinterfbces of the clbss or interfbce
+     * represented by this {@code Clbss} object bre not considered members of
+     * the clbss or interfbce.
      *
-     * @param name the name of the method
-     * @param parameterTypes the list of parameters
-     * @return the {@code Method} object that matches the specified
-     *         {@code name} and {@code parameterTypes}
-     * @throws NoSuchMethodException if a matching method is not found
-     *         or if the name is "&lt;init&gt;"or "&lt;clinit&gt;".
-     * @throws NullPointerException if {@code name} is {@code null}
+     * @pbrbm nbme the nbme of the method
+     * @pbrbm pbrbmeterTypes the list of pbrbmeters
+     * @return the {@code Method} object thbt mbtches the specified
+     *         {@code nbme} bnd {@code pbrbmeterTypes}
+     * @throws NoSuchMethodException if b mbtching method is not found
+     *         or if the nbme is "&lt;init&gt;"or "&lt;clinit&gt;".
+     * @throws NullPointerException if {@code nbme} is {@code null}
      * @throws SecurityException
-     *         If a security manager, <i>s</i>, is present and
-     *         the caller's class loader is not the same as or an
-     *         ancestor of the class loader for the current class and
-     *         invocation of {@link SecurityManager#checkPackageAccess
-     *         s.checkPackageAccess()} denies access to the package
-     *         of this class.
+     *         If b security mbnbger, <i>s</i>, is present bnd
+     *         the cbller's clbss lobder is not the sbme bs or bn
+     *         bncestor of the clbss lobder for the current clbss bnd
+     *         invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *         s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *         of this clbss.
      *
-     * @jls 8.2 Class Members
-     * @jls 8.4 Method Declarations
+     * @jls 8.2 Clbss Members
+     * @jls 8.4 Method Declbrbtions
      * @since 1.1
      */
-    @CallerSensitive
-    public Method getMethod(String name, Class<?>... parameterTypes)
+    @CbllerSensitive
+    public Method getMethod(String nbme, Clbss<?>... pbrbmeterTypes)
         throws NoSuchMethodException, SecurityException {
-        checkMemberAccess(Member.PUBLIC, Reflection.getCallerClass(), true);
-        Method method = getMethod0(name, parameterTypes, true);
+        checkMemberAccess(Member.PUBLIC, Reflection.getCbllerClbss(), true);
+        Method method = getMethod0(nbme, pbrbmeterTypes, true);
         if (method == null) {
-            throw new NoSuchMethodException(getName() + "." + name + argumentTypesToString(parameterTypes));
+            throw new NoSuchMethodException(getNbme() + "." + nbme + brgumentTypesToString(pbrbmeterTypes));
         }
         return method;
     }
 
 
     /**
-     * Returns a {@code Constructor} object that reflects the specified
-     * public constructor of the class represented by this {@code Class}
-     * object. The {@code parameterTypes} parameter is an array of
-     * {@code Class} objects that identify the constructor's formal
-     * parameter types, in declared order.
+     * Returns b {@code Constructor} object thbt reflects the specified
+     * public constructor of the clbss represented by this {@code Clbss}
+     * object. The {@code pbrbmeterTypes} pbrbmeter is bn brrby of
+     * {@code Clbss} objects thbt identify the constructor's formbl
+     * pbrbmeter types, in declbred order.
      *
-     * If this {@code Class} object represents an inner class
-     * declared in a non-static context, the formal parameter types
-     * include the explicit enclosing instance as the first parameter.
+     * If this {@code Clbss} object represents bn inner clbss
+     * declbred in b non-stbtic context, the formbl pbrbmeter types
+     * include the explicit enclosing instbnce bs the first pbrbmeter.
      *
-     * <p> The constructor to reflect is the public constructor of the class
-     * represented by this {@code Class} object whose formal parameter
-     * types match those specified by {@code parameterTypes}.
+     * <p> The constructor to reflect is the public constructor of the clbss
+     * represented by this {@code Clbss} object whose formbl pbrbmeter
+     * types mbtch those specified by {@code pbrbmeterTypes}.
      *
-     * @param parameterTypes the parameter array
-     * @return the {@code Constructor} object of the public constructor that
-     *         matches the specified {@code parameterTypes}
-     * @throws NoSuchMethodException if a matching method is not found.
+     * @pbrbm pbrbmeterTypes the pbrbmeter brrby
+     * @return the {@code Constructor} object of the public constructor thbt
+     *         mbtches the specified {@code pbrbmeterTypes}
+     * @throws NoSuchMethodException if b mbtching method is not found.
      * @throws SecurityException
-     *         If a security manager, <i>s</i>, is present and
-     *         the caller's class loader is not the same as or an
-     *         ancestor of the class loader for the current class and
-     *         invocation of {@link SecurityManager#checkPackageAccess
-     *         s.checkPackageAccess()} denies access to the package
-     *         of this class.
+     *         If b security mbnbger, <i>s</i>, is present bnd
+     *         the cbller's clbss lobder is not the sbme bs or bn
+     *         bncestor of the clbss lobder for the current clbss bnd
+     *         invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *         s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *         of this clbss.
      *
      * @since 1.1
      */
-    @CallerSensitive
-    public Constructor<T> getConstructor(Class<?>... parameterTypes)
+    @CbllerSensitive
+    public Constructor<T> getConstructor(Clbss<?>... pbrbmeterTypes)
         throws NoSuchMethodException, SecurityException {
-        checkMemberAccess(Member.PUBLIC, Reflection.getCallerClass(), true);
-        return getConstructor0(parameterTypes, Member.PUBLIC);
+        checkMemberAccess(Member.PUBLIC, Reflection.getCbllerClbss(), true);
+        return getConstructor0(pbrbmeterTypes, Member.PUBLIC);
     }
 
 
     /**
-     * Returns an array of {@code Class} objects reflecting all the
-     * classes and interfaces declared as members of the class represented by
-     * this {@code Class} object. This includes public, protected, default
-     * (package) access, and private classes and interfaces declared by the
-     * class, but excludes inherited classes and interfaces.  This method
-     * returns an array of length 0 if the class declares no classes or
-     * interfaces as members, or if this {@code Class} object represents a
-     * primitive type, an array class, or void.
+     * Returns bn brrby of {@code Clbss} objects reflecting bll the
+     * clbsses bnd interfbces declbred bs members of the clbss represented by
+     * this {@code Clbss} object. This includes public, protected, defbult
+     * (pbckbge) bccess, bnd privbte clbsses bnd interfbces declbred by the
+     * clbss, but excludes inherited clbsses bnd interfbces.  This method
+     * returns bn brrby of length 0 if the clbss declbres no clbsses or
+     * interfbces bs members, or if this {@code Clbss} object represents b
+     * primitive type, bn brrby clbss, or void.
      *
-     * @return the array of {@code Class} objects representing all the
-     *         declared members of this class
+     * @return the brrby of {@code Clbss} objects representing bll the
+     *         declbred members of this clbss
      * @throws SecurityException
-     *         If a security manager, <i>s</i>, is present and any of the
+     *         If b security mbnbger, <i>s</i>, is present bnd bny of the
      *         following conditions is met:
      *
      *         <ul>
      *
-     *         <li> the caller's class loader is not the same as the
-     *         class loader of this class and invocation of
-     *         {@link SecurityManager#checkPermission
+     *         <li> the cbller's clbss lobder is not the sbme bs the
+     *         clbss lobder of this clbss bnd invocbtion of
+     *         {@link SecurityMbnbger#checkPermission
      *         s.checkPermission} method with
-     *         {@code RuntimePermission("accessDeclaredMembers")}
-     *         denies access to the declared classes within this class
+     *         {@code RuntimePermission("bccessDeclbredMembers")}
+     *         denies bccess to the declbred clbsses within this clbss
      *
-     *         <li> the caller's class loader is not the same as or an
-     *         ancestor of the class loader for the current class and
-     *         invocation of {@link SecurityManager#checkPackageAccess
-     *         s.checkPackageAccess()} denies access to the package
-     *         of this class
+     *         <li> the cbller's clbss lobder is not the sbme bs or bn
+     *         bncestor of the clbss lobder for the current clbss bnd
+     *         invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *         s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *         of this clbss
      *
      *         </ul>
      *
      * @since 1.1
      */
-    @CallerSensitive
-    public Class<?>[] getDeclaredClasses() throws SecurityException {
-        checkMemberAccess(Member.DECLARED, Reflection.getCallerClass(), false);
-        return getDeclaredClasses0();
+    @CbllerSensitive
+    public Clbss<?>[] getDeclbredClbsses() throws SecurityException {
+        checkMemberAccess(Member.DECLARED, Reflection.getCbllerClbss(), fblse);
+        return getDeclbredClbsses0();
     }
 
 
     /**
-     * Returns an array of {@code Field} objects reflecting all the fields
-     * declared by the class or interface represented by this
-     * {@code Class} object. This includes public, protected, default
-     * (package) access, and private fields, but excludes inherited fields.
+     * Returns bn brrby of {@code Field} objects reflecting bll the fields
+     * declbred by the clbss or interfbce represented by this
+     * {@code Clbss} object. This includes public, protected, defbult
+     * (pbckbge) bccess, bnd privbte fields, but excludes inherited fields.
      *
-     * <p> If this {@code Class} object represents a class or interface with no
-     * declared fields, then this method returns an array of length 0.
+     * <p> If this {@code Clbss} object represents b clbss or interfbce with no
+     * declbred fields, then this method returns bn brrby of length 0.
      *
-     * <p> If this {@code Class} object represents an array type, a primitive
-     * type, or void, then this method returns an array of length 0.
+     * <p> If this {@code Clbss} object represents bn brrby type, b primitive
+     * type, or void, then this method returns bn brrby of length 0.
      *
-     * <p> The elements in the returned array are not sorted and are not in any
-     * particular order.
+     * <p> The elements in the returned brrby bre not sorted bnd bre not in bny
+     * pbrticulbr order.
      *
-     * @return  the array of {@code Field} objects representing all the
-     *          declared fields of this class
+     * @return  the brrby of {@code Field} objects representing bll the
+     *          declbred fields of this clbss
      * @throws  SecurityException
-     *          If a security manager, <i>s</i>, is present and any of the
+     *          If b security mbnbger, <i>s</i>, is present bnd bny of the
      *          following conditions is met:
      *
      *          <ul>
      *
-     *          <li> the caller's class loader is not the same as the
-     *          class loader of this class and invocation of
-     *          {@link SecurityManager#checkPermission
+     *          <li> the cbller's clbss lobder is not the sbme bs the
+     *          clbss lobder of this clbss bnd invocbtion of
+     *          {@link SecurityMbnbger#checkPermission
      *          s.checkPermission} method with
-     *          {@code RuntimePermission("accessDeclaredMembers")}
-     *          denies access to the declared fields within this class
+     *          {@code RuntimePermission("bccessDeclbredMembers")}
+     *          denies bccess to the declbred fields within this clbss
      *
-     *          <li> the caller's class loader is not the same as or an
-     *          ancestor of the class loader for the current class and
-     *          invocation of {@link SecurityManager#checkPackageAccess
-     *          s.checkPackageAccess()} denies access to the package
-     *          of this class
+     *          <li> the cbller's clbss lobder is not the sbme bs or bn
+     *          bncestor of the clbss lobder for the current clbss bnd
+     *          invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *          s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *          of this clbss
      *
      *          </ul>
      *
      * @since 1.1
-     * @jls 8.2 Class Members
-     * @jls 8.3 Field Declarations
+     * @jls 8.2 Clbss Members
+     * @jls 8.3 Field Declbrbtions
      */
-    @CallerSensitive
-    public Field[] getDeclaredFields() throws SecurityException {
-        checkMemberAccess(Member.DECLARED, Reflection.getCallerClass(), true);
-        return copyFields(privateGetDeclaredFields(false));
+    @CbllerSensitive
+    public Field[] getDeclbredFields() throws SecurityException {
+        checkMemberAccess(Member.DECLARED, Reflection.getCbllerClbss(), true);
+        return copyFields(privbteGetDeclbredFields(fblse));
     }
 
 
     /**
      *
-     * Returns an array containing {@code Method} objects reflecting all the
-     * declared methods of the class or interface represented by this {@code
-     * Class} object, including public, protected, default (package)
-     * access, and private methods, but excluding inherited methods.
+     * Returns bn brrby contbining {@code Method} objects reflecting bll the
+     * declbred methods of the clbss or interfbce represented by this {@code
+     * Clbss} object, including public, protected, defbult (pbckbge)
+     * bccess, bnd privbte methods, but excluding inherited methods.
      *
-     * <p> If this {@code Class} object represents a type that has multiple
-     * declared methods with the same name and parameter types, but different
-     * return types, then the returned array has a {@code Method} object for
-     * each such method.
+     * <p> If this {@code Clbss} object represents b type thbt hbs multiple
+     * declbred methods with the sbme nbme bnd pbrbmeter types, but different
+     * return types, then the returned brrby hbs b {@code Method} object for
+     * ebch such method.
      *
-     * <p> If this {@code Class} object represents a type that has a class
-     * initialization method {@code <clinit>}, then the returned array does
-     * <em>not</em> have a corresponding {@code Method} object.
+     * <p> If this {@code Clbss} object represents b type thbt hbs b clbss
+     * initiblizbtion method {@code <clinit>}, then the returned brrby does
+     * <em>not</em> hbve b corresponding {@code Method} object.
      *
-     * <p> If this {@code Class} object represents a class or interface with no
-     * declared methods, then the returned array has length 0.
+     * <p> If this {@code Clbss} object represents b clbss or interfbce with no
+     * declbred methods, then the returned brrby hbs length 0.
      *
-     * <p> If this {@code Class} object represents an array type, a primitive
-     * type, or void, then the returned array has length 0.
+     * <p> If this {@code Clbss} object represents bn brrby type, b primitive
+     * type, or void, then the returned brrby hbs length 0.
      *
-     * <p> The elements in the returned array are not sorted and are not in any
-     * particular order.
+     * <p> The elements in the returned brrby bre not sorted bnd bre not in bny
+     * pbrticulbr order.
      *
-     * @return  the array of {@code Method} objects representing all the
-     *          declared methods of this class
+     * @return  the brrby of {@code Method} objects representing bll the
+     *          declbred methods of this clbss
      * @throws  SecurityException
-     *          If a security manager, <i>s</i>, is present and any of the
+     *          If b security mbnbger, <i>s</i>, is present bnd bny of the
      *          following conditions is met:
      *
      *          <ul>
      *
-     *          <li> the caller's class loader is not the same as the
-     *          class loader of this class and invocation of
-     *          {@link SecurityManager#checkPermission
+     *          <li> the cbller's clbss lobder is not the sbme bs the
+     *          clbss lobder of this clbss bnd invocbtion of
+     *          {@link SecurityMbnbger#checkPermission
      *          s.checkPermission} method with
-     *          {@code RuntimePermission("accessDeclaredMembers")}
-     *          denies access to the declared methods within this class
+     *          {@code RuntimePermission("bccessDeclbredMembers")}
+     *          denies bccess to the declbred methods within this clbss
      *
-     *          <li> the caller's class loader is not the same as or an
-     *          ancestor of the class loader for the current class and
-     *          invocation of {@link SecurityManager#checkPackageAccess
-     *          s.checkPackageAccess()} denies access to the package
-     *          of this class
+     *          <li> the cbller's clbss lobder is not the sbme bs or bn
+     *          bncestor of the clbss lobder for the current clbss bnd
+     *          invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *          s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *          of this clbss
      *
      *          </ul>
      *
-     * @jls 8.2 Class Members
-     * @jls 8.4 Method Declarations
+     * @jls 8.2 Clbss Members
+     * @jls 8.4 Method Declbrbtions
      * @since 1.1
      */
-    @CallerSensitive
-    public Method[] getDeclaredMethods() throws SecurityException {
-        checkMemberAccess(Member.DECLARED, Reflection.getCallerClass(), true);
-        return copyMethods(privateGetDeclaredMethods(false));
+    @CbllerSensitive
+    public Method[] getDeclbredMethods() throws SecurityException {
+        checkMemberAccess(Member.DECLARED, Reflection.getCbllerClbss(), true);
+        return copyMethods(privbteGetDeclbredMethods(fblse));
     }
 
 
     /**
-     * Returns an array of {@code Constructor} objects reflecting all the
-     * constructors declared by the class represented by this
-     * {@code Class} object. These are public, protected, default
-     * (package) access, and private constructors.  The elements in the array
-     * returned are not sorted and are not in any particular order.  If the
-     * class has a default constructor, it is included in the returned array.
-     * This method returns an array of length 0 if this {@code Class}
-     * object represents an interface, a primitive type, an array class, or
+     * Returns bn brrby of {@code Constructor} objects reflecting bll the
+     * constructors declbred by the clbss represented by this
+     * {@code Clbss} object. These bre public, protected, defbult
+     * (pbckbge) bccess, bnd privbte constructors.  The elements in the brrby
+     * returned bre not sorted bnd bre not in bny pbrticulbr order.  If the
+     * clbss hbs b defbult constructor, it is included in the returned brrby.
+     * This method returns bn brrby of length 0 if this {@code Clbss}
+     * object represents bn interfbce, b primitive type, bn brrby clbss, or
      * void.
      *
-     * <p> See <em>The Java Language Specification</em>, section 8.2.
+     * <p> See <em>The Jbvb Lbngubge Specificbtion</em>, section 8.2.
      *
-     * @return  the array of {@code Constructor} objects representing all the
-     *          declared constructors of this class
+     * @return  the brrby of {@code Constructor} objects representing bll the
+     *          declbred constructors of this clbss
      * @throws  SecurityException
-     *          If a security manager, <i>s</i>, is present and any of the
+     *          If b security mbnbger, <i>s</i>, is present bnd bny of the
      *          following conditions is met:
      *
      *          <ul>
      *
-     *          <li> the caller's class loader is not the same as the
-     *          class loader of this class and invocation of
-     *          {@link SecurityManager#checkPermission
+     *          <li> the cbller's clbss lobder is not the sbme bs the
+     *          clbss lobder of this clbss bnd invocbtion of
+     *          {@link SecurityMbnbger#checkPermission
      *          s.checkPermission} method with
-     *          {@code RuntimePermission("accessDeclaredMembers")}
-     *          denies access to the declared constructors within this class
+     *          {@code RuntimePermission("bccessDeclbredMembers")}
+     *          denies bccess to the declbred constructors within this clbss
      *
-     *          <li> the caller's class loader is not the same as or an
-     *          ancestor of the class loader for the current class and
-     *          invocation of {@link SecurityManager#checkPackageAccess
-     *          s.checkPackageAccess()} denies access to the package
-     *          of this class
+     *          <li> the cbller's clbss lobder is not the sbme bs or bn
+     *          bncestor of the clbss lobder for the current clbss bnd
+     *          invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *          s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *          of this clbss
      *
      *          </ul>
      *
      * @since 1.1
      */
-    @CallerSensitive
-    public Constructor<?>[] getDeclaredConstructors() throws SecurityException {
-        checkMemberAccess(Member.DECLARED, Reflection.getCallerClass(), true);
-        return copyConstructors(privateGetDeclaredConstructors(false));
+    @CbllerSensitive
+    public Constructor<?>[] getDeclbredConstructors() throws SecurityException {
+        checkMemberAccess(Member.DECLARED, Reflection.getCbllerClbss(), true);
+        return copyConstructors(privbteGetDeclbredConstructors(fblse));
     }
 
 
     /**
-     * Returns a {@code Field} object that reflects the specified declared
-     * field of the class or interface represented by this {@code Class}
-     * object. The {@code name} parameter is a {@code String} that specifies
-     * the simple name of the desired field.
+     * Returns b {@code Field} object thbt reflects the specified declbred
+     * field of the clbss or interfbce represented by this {@code Clbss}
+     * object. The {@code nbme} pbrbmeter is b {@code String} thbt specifies
+     * the simple nbme of the desired field.
      *
-     * <p> If this {@code Class} object represents an array type, then this
-     * method does not find the {@code length} field of the array type.
+     * <p> If this {@code Clbss} object represents bn brrby type, then this
+     * method does not find the {@code length} field of the brrby type.
      *
-     * @param name the name of the field
+     * @pbrbm nbme the nbme of the field
      * @return  the {@code Field} object for the specified field in this
-     *          class
-     * @throws  NoSuchFieldException if a field with the specified name is
+     *          clbss
+     * @throws  NoSuchFieldException if b field with the specified nbme is
      *          not found.
-     * @throws  NullPointerException if {@code name} is {@code null}
+     * @throws  NullPointerException if {@code nbme} is {@code null}
      * @throws  SecurityException
-     *          If a security manager, <i>s</i>, is present and any of the
+     *          If b security mbnbger, <i>s</i>, is present bnd bny of the
      *          following conditions is met:
      *
      *          <ul>
      *
-     *          <li> the caller's class loader is not the same as the
-     *          class loader of this class and invocation of
-     *          {@link SecurityManager#checkPermission
+     *          <li> the cbller's clbss lobder is not the sbme bs the
+     *          clbss lobder of this clbss bnd invocbtion of
+     *          {@link SecurityMbnbger#checkPermission
      *          s.checkPermission} method with
-     *          {@code RuntimePermission("accessDeclaredMembers")}
-     *          denies access to the declared field
+     *          {@code RuntimePermission("bccessDeclbredMembers")}
+     *          denies bccess to the declbred field
      *
-     *          <li> the caller's class loader is not the same as or an
-     *          ancestor of the class loader for the current class and
-     *          invocation of {@link SecurityManager#checkPackageAccess
-     *          s.checkPackageAccess()} denies access to the package
-     *          of this class
+     *          <li> the cbller's clbss lobder is not the sbme bs or bn
+     *          bncestor of the clbss lobder for the current clbss bnd
+     *          invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *          s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *          of this clbss
      *
      *          </ul>
      *
      * @since 1.1
-     * @jls 8.2 Class Members
-     * @jls 8.3 Field Declarations
+     * @jls 8.2 Clbss Members
+     * @jls 8.3 Field Declbrbtions
      */
-    @CallerSensitive
-    public Field getDeclaredField(String name)
+    @CbllerSensitive
+    public Field getDeclbredField(String nbme)
         throws NoSuchFieldException, SecurityException {
-        checkMemberAccess(Member.DECLARED, Reflection.getCallerClass(), true);
-        Field field = searchFields(privateGetDeclaredFields(false), name);
+        checkMemberAccess(Member.DECLARED, Reflection.getCbllerClbss(), true);
+        Field field = sebrchFields(privbteGetDeclbredFields(fblse), nbme);
         if (field == null) {
-            throw new NoSuchFieldException(name);
+            throw new NoSuchFieldException(nbme);
         }
         return field;
     }
 
 
     /**
-     * Returns a {@code Method} object that reflects the specified
-     * declared method of the class or interface represented by this
-     * {@code Class} object. The {@code name} parameter is a
-     * {@code String} that specifies the simple name of the desired
-     * method, and the {@code parameterTypes} parameter is an array of
-     * {@code Class} objects that identify the method's formal parameter
-     * types, in declared order.  If more than one method with the same
-     * parameter types is declared in a class, and one of these methods has a
-     * return type that is more specific than any of the others, that method is
-     * returned; otherwise one of the methods is chosen arbitrarily.  If the
-     * name is "&lt;init&gt;"or "&lt;clinit&gt;" a {@code NoSuchMethodException}
-     * is raised.
+     * Returns b {@code Method} object thbt reflects the specified
+     * declbred method of the clbss or interfbce represented by this
+     * {@code Clbss} object. The {@code nbme} pbrbmeter is b
+     * {@code String} thbt specifies the simple nbme of the desired
+     * method, bnd the {@code pbrbmeterTypes} pbrbmeter is bn brrby of
+     * {@code Clbss} objects thbt identify the method's formbl pbrbmeter
+     * types, in declbred order.  If more thbn one method with the sbme
+     * pbrbmeter types is declbred in b clbss, bnd one of these methods hbs b
+     * return type thbt is more specific thbn bny of the others, thbt method is
+     * returned; otherwise one of the methods is chosen brbitrbrily.  If the
+     * nbme is "&lt;init&gt;"or "&lt;clinit&gt;" b {@code NoSuchMethodException}
+     * is rbised.
      *
-     * <p> If this {@code Class} object represents an array type, then this
+     * <p> If this {@code Clbss} object represents bn brrby type, then this
      * method does not find the {@code clone()} method.
      *
-     * @param name the name of the method
-     * @param parameterTypes the parameter array
-     * @return  the {@code Method} object for the method of this class
-     *          matching the specified name and parameters
-     * @throws  NoSuchMethodException if a matching method is not found.
-     * @throws  NullPointerException if {@code name} is {@code null}
+     * @pbrbm nbme the nbme of the method
+     * @pbrbm pbrbmeterTypes the pbrbmeter brrby
+     * @return  the {@code Method} object for the method of this clbss
+     *          mbtching the specified nbme bnd pbrbmeters
+     * @throws  NoSuchMethodException if b mbtching method is not found.
+     * @throws  NullPointerException if {@code nbme} is {@code null}
      * @throws  SecurityException
-     *          If a security manager, <i>s</i>, is present and any of the
+     *          If b security mbnbger, <i>s</i>, is present bnd bny of the
      *          following conditions is met:
      *
      *          <ul>
      *
-     *          <li> the caller's class loader is not the same as the
-     *          class loader of this class and invocation of
-     *          {@link SecurityManager#checkPermission
+     *          <li> the cbller's clbss lobder is not the sbme bs the
+     *          clbss lobder of this clbss bnd invocbtion of
+     *          {@link SecurityMbnbger#checkPermission
      *          s.checkPermission} method with
-     *          {@code RuntimePermission("accessDeclaredMembers")}
-     *          denies access to the declared method
+     *          {@code RuntimePermission("bccessDeclbredMembers")}
+     *          denies bccess to the declbred method
      *
-     *          <li> the caller's class loader is not the same as or an
-     *          ancestor of the class loader for the current class and
-     *          invocation of {@link SecurityManager#checkPackageAccess
-     *          s.checkPackageAccess()} denies access to the package
-     *          of this class
+     *          <li> the cbller's clbss lobder is not the sbme bs or bn
+     *          bncestor of the clbss lobder for the current clbss bnd
+     *          invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *          s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *          of this clbss
      *
      *          </ul>
      *
-     * @jls 8.2 Class Members
-     * @jls 8.4 Method Declarations
+     * @jls 8.2 Clbss Members
+     * @jls 8.4 Method Declbrbtions
      * @since 1.1
      */
-    @CallerSensitive
-    public Method getDeclaredMethod(String name, Class<?>... parameterTypes)
+    @CbllerSensitive
+    public Method getDeclbredMethod(String nbme, Clbss<?>... pbrbmeterTypes)
         throws NoSuchMethodException, SecurityException {
-        checkMemberAccess(Member.DECLARED, Reflection.getCallerClass(), true);
-        Method method = searchMethods(privateGetDeclaredMethods(false), name, parameterTypes);
+        checkMemberAccess(Member.DECLARED, Reflection.getCbllerClbss(), true);
+        Method method = sebrchMethods(privbteGetDeclbredMethods(fblse), nbme, pbrbmeterTypes);
         if (method == null) {
-            throw new NoSuchMethodException(getName() + "." + name + argumentTypesToString(parameterTypes));
+            throw new NoSuchMethodException(getNbme() + "." + nbme + brgumentTypesToString(pbrbmeterTypes));
         }
         return method;
     }
 
 
     /**
-     * Returns a {@code Constructor} object that reflects the specified
-     * constructor of the class or interface represented by this
-     * {@code Class} object.  The {@code parameterTypes} parameter is
-     * an array of {@code Class} objects that identify the constructor's
-     * formal parameter types, in declared order.
+     * Returns b {@code Constructor} object thbt reflects the specified
+     * constructor of the clbss or interfbce represented by this
+     * {@code Clbss} object.  The {@code pbrbmeterTypes} pbrbmeter is
+     * bn brrby of {@code Clbss} objects thbt identify the constructor's
+     * formbl pbrbmeter types, in declbred order.
      *
-     * If this {@code Class} object represents an inner class
-     * declared in a non-static context, the formal parameter types
-     * include the explicit enclosing instance as the first parameter.
+     * If this {@code Clbss} object represents bn inner clbss
+     * declbred in b non-stbtic context, the formbl pbrbmeter types
+     * include the explicit enclosing instbnce bs the first pbrbmeter.
      *
-     * @param parameterTypes the parameter array
+     * @pbrbm pbrbmeterTypes the pbrbmeter brrby
      * @return  The {@code Constructor} object for the constructor with the
-     *          specified parameter list
-     * @throws  NoSuchMethodException if a matching method is not found.
+     *          specified pbrbmeter list
+     * @throws  NoSuchMethodException if b mbtching method is not found.
      * @throws  SecurityException
-     *          If a security manager, <i>s</i>, is present and any of the
+     *          If b security mbnbger, <i>s</i>, is present bnd bny of the
      *          following conditions is met:
      *
      *          <ul>
      *
-     *          <li> the caller's class loader is not the same as the
-     *          class loader of this class and invocation of
-     *          {@link SecurityManager#checkPermission
+     *          <li> the cbller's clbss lobder is not the sbme bs the
+     *          clbss lobder of this clbss bnd invocbtion of
+     *          {@link SecurityMbnbger#checkPermission
      *          s.checkPermission} method with
-     *          {@code RuntimePermission("accessDeclaredMembers")}
-     *          denies access to the declared constructor
+     *          {@code RuntimePermission("bccessDeclbredMembers")}
+     *          denies bccess to the declbred constructor
      *
-     *          <li> the caller's class loader is not the same as or an
-     *          ancestor of the class loader for the current class and
-     *          invocation of {@link SecurityManager#checkPackageAccess
-     *          s.checkPackageAccess()} denies access to the package
-     *          of this class
+     *          <li> the cbller's clbss lobder is not the sbme bs or bn
+     *          bncestor of the clbss lobder for the current clbss bnd
+     *          invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     *          s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     *          of this clbss
      *
      *          </ul>
      *
      * @since 1.1
      */
-    @CallerSensitive
-    public Constructor<T> getDeclaredConstructor(Class<?>... parameterTypes)
+    @CbllerSensitive
+    public Constructor<T> getDeclbredConstructor(Clbss<?>... pbrbmeterTypes)
         throws NoSuchMethodException, SecurityException {
-        checkMemberAccess(Member.DECLARED, Reflection.getCallerClass(), true);
-        return getConstructor0(parameterTypes, Member.DECLARED);
+        checkMemberAccess(Member.DECLARED, Reflection.getCbllerClbss(), true);
+        return getConstructor0(pbrbmeterTypes, Member.DECLARED);
     }
 
     /**
-     * Finds a resource with a given name.  The rules for searching resources
-     * associated with a given class are implemented by the defining
-     * {@linkplain ClassLoader class loader} of the class.  This method
-     * delegates to this object's class loader.  If this object was loaded by
-     * the bootstrap class loader, the method delegates to {@link
-     * ClassLoader#getSystemResourceAsStream}.
+     * Finds b resource with b given nbme.  The rules for sebrching resources
+     * bssocibted with b given clbss bre implemented by the defining
+     * {@linkplbin ClbssLobder clbss lobder} of the clbss.  This method
+     * delegbtes to this object's clbss lobder.  If this object wbs lobded by
+     * the bootstrbp clbss lobder, the method delegbtes to {@link
+     * ClbssLobder#getSystemResourceAsStrebm}.
      *
-     * <p> Before delegation, an absolute resource name is constructed from the
-     * given resource name using this algorithm:
+     * <p> Before delegbtion, bn bbsolute resource nbme is constructed from the
+     * given resource nbme using this blgorithm:
      *
      * <ul>
      *
-     * <li> If the {@code name} begins with a {@code '/'}
-     * (<tt>'&#92;u002f'</tt>), then the absolute name of the resource is the
-     * portion of the {@code name} following the {@code '/'}.
+     * <li> If the {@code nbme} begins with b {@code '/'}
+     * (<tt>'&#92;u002f'</tt>), then the bbsolute nbme of the resource is the
+     * portion of the {@code nbme} following the {@code '/'}.
      *
-     * <li> Otherwise, the absolute name is of the following form:
+     * <li> Otherwise, the bbsolute nbme is of the following form:
      *
      * <blockquote>
-     *   {@code modified_package_name/name}
+     *   {@code modified_pbckbge_nbme/nbme}
      * </blockquote>
      *
-     * <p> Where the {@code modified_package_name} is the package name of this
+     * <p> Where the {@code modified_pbckbge_nbme} is the pbckbge nbme of this
      * object with {@code '/'} substituted for {@code '.'}
      * (<tt>'&#92;u002e'</tt>).
      *
      * </ul>
      *
-     * @param  name name of the desired resource
-     * @return      A {@link java.io.InputStream} object or {@code null} if
-     *              no resource with this name is found
-     * @throws  NullPointerException If {@code name} is {@code null}
+     * @pbrbm  nbme nbme of the desired resource
+     * @return      A {@link jbvb.io.InputStrebm} object or {@code null} if
+     *              no resource with this nbme is found
+     * @throws  NullPointerException If {@code nbme} is {@code null}
      * @since  1.1
      */
-     public InputStream getResourceAsStream(String name) {
-        name = resolveName(name);
-        ClassLoader cl = getClassLoader0();
+     public InputStrebm getResourceAsStrebm(String nbme) {
+        nbme = resolveNbme(nbme);
+        ClbssLobder cl = getClbssLobder0();
         if (cl==null) {
-            // A system class.
-            return ClassLoader.getSystemResourceAsStream(name);
+            // A system clbss.
+            return ClbssLobder.getSystemResourceAsStrebm(nbme);
         }
-        return cl.getResourceAsStream(name);
+        return cl.getResourceAsStrebm(nbme);
     }
 
     /**
-     * Finds a resource with a given name.  The rules for searching resources
-     * associated with a given class are implemented by the defining
-     * {@linkplain ClassLoader class loader} of the class.  This method
-     * delegates to this object's class loader.  If this object was loaded by
-     * the bootstrap class loader, the method delegates to {@link
-     * ClassLoader#getSystemResource}.
+     * Finds b resource with b given nbme.  The rules for sebrching resources
+     * bssocibted with b given clbss bre implemented by the defining
+     * {@linkplbin ClbssLobder clbss lobder} of the clbss.  This method
+     * delegbtes to this object's clbss lobder.  If this object wbs lobded by
+     * the bootstrbp clbss lobder, the method delegbtes to {@link
+     * ClbssLobder#getSystemResource}.
      *
-     * <p> Before delegation, an absolute resource name is constructed from the
-     * given resource name using this algorithm:
+     * <p> Before delegbtion, bn bbsolute resource nbme is constructed from the
+     * given resource nbme using this blgorithm:
      *
      * <ul>
      *
-     * <li> If the {@code name} begins with a {@code '/'}
-     * (<tt>'&#92;u002f'</tt>), then the absolute name of the resource is the
-     * portion of the {@code name} following the {@code '/'}.
+     * <li> If the {@code nbme} begins with b {@code '/'}
+     * (<tt>'&#92;u002f'</tt>), then the bbsolute nbme of the resource is the
+     * portion of the {@code nbme} following the {@code '/'}.
      *
-     * <li> Otherwise, the absolute name is of the following form:
+     * <li> Otherwise, the bbsolute nbme is of the following form:
      *
      * <blockquote>
-     *   {@code modified_package_name/name}
+     *   {@code modified_pbckbge_nbme/nbme}
      * </blockquote>
      *
-     * <p> Where the {@code modified_package_name} is the package name of this
+     * <p> Where the {@code modified_pbckbge_nbme} is the pbckbge nbme of this
      * object with {@code '/'} substituted for {@code '.'}
      * (<tt>'&#92;u002e'</tt>).
      *
      * </ul>
      *
-     * @param  name name of the desired resource
-     * @return      A  {@link java.net.URL} object or {@code null} if no
-     *              resource with this name is found
+     * @pbrbm  nbme nbme of the desired resource
+     * @return      A  {@link jbvb.net.URL} object or {@code null} if no
+     *              resource with this nbme is found
      * @since  1.1
      */
-    public java.net.URL getResource(String name) {
-        name = resolveName(name);
-        ClassLoader cl = getClassLoader0();
+    public jbvb.net.URL getResource(String nbme) {
+        nbme = resolveNbme(nbme);
+        ClbssLobder cl = getClbssLobder0();
         if (cl==null) {
-            // A system class.
-            return ClassLoader.getSystemResource(name);
+            // A system clbss.
+            return ClbssLobder.getSystemResource(nbme);
         }
-        return cl.getResource(name);
+        return cl.getResource(nbme);
     }
 
 
 
-    /** protection domain returned when the internal domain is null */
-    private static java.security.ProtectionDomain allPermDomain;
+    /** protection dombin returned when the internbl dombin is null */
+    privbte stbtic jbvb.security.ProtectionDombin bllPermDombin;
 
 
     /**
-     * Returns the {@code ProtectionDomain} of this class.  If there is a
-     * security manager installed, this method first calls the security
-     * manager's {@code checkPermission} method with a
-     * {@code RuntimePermission("getProtectionDomain")} permission to
+     * Returns the {@code ProtectionDombin} of this clbss.  If there is b
+     * security mbnbger instblled, this method first cblls the security
+     * mbnbger's {@code checkPermission} method with b
+     * {@code RuntimePermission("getProtectionDombin")} permission to
      * ensure it's ok to get the
-     * {@code ProtectionDomain}.
+     * {@code ProtectionDombin}.
      *
-     * @return the ProtectionDomain of this class
+     * @return the ProtectionDombin of this clbss
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
-     *        getting the ProtectionDomain.
+     *        if b security mbnbger exists bnd its
+     *        {@code checkPermission} method doesn't bllow
+     *        getting the ProtectionDombin.
      *
-     * @see java.security.ProtectionDomain
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @see jbvb.security.ProtectionDombin
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.lbng.RuntimePermission
      * @since 1.2
      */
-    public java.security.ProtectionDomain getProtectionDomain() {
-        SecurityManager sm = System.getSecurityManager();
+    public jbvb.security.ProtectionDombin getProtectionDombin() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.GET_PD_PERMISSION);
+            sm.checkPermission(SecurityConstbnts.GET_PD_PERMISSION);
         }
-        java.security.ProtectionDomain pd = getProtectionDomain0();
+        jbvb.security.ProtectionDombin pd = getProtectionDombin0();
         if (pd == null) {
-            if (allPermDomain == null) {
-                java.security.Permissions perms =
-                    new java.security.Permissions();
-                perms.add(SecurityConstants.ALL_PERMISSION);
-                allPermDomain =
-                    new java.security.ProtectionDomain(null, perms);
+            if (bllPermDombin == null) {
+                jbvb.security.Permissions perms =
+                    new jbvb.security.Permissions();
+                perms.bdd(SecurityConstbnts.ALL_PERMISSION);
+                bllPermDombin =
+                    new jbvb.security.ProtectionDombin(null, perms);
             }
-            pd = allPermDomain;
+            pd = bllPermDombin;
         }
         return pd;
     }
 
 
     /**
-     * Returns the ProtectionDomain of this class.
+     * Returns the ProtectionDombin of this clbss.
      */
-    private native java.security.ProtectionDomain getProtectionDomain0();
+    privbte nbtive jbvb.security.ProtectionDombin getProtectionDombin0();
 
     /*
-     * Return the Virtual Machine's Class object for the named
+     * Return the Virtubl Mbchine's Clbss object for the nbmed
      * primitive type.
      */
-    static native Class<?> getPrimitiveClass(String name);
+    stbtic nbtive Clbss<?> getPrimitiveClbss(String nbme);
 
     /*
-     * Check if client is allowed to access members.  If access is denied,
-     * throw a SecurityException.
+     * Check if client is bllowed to bccess members.  If bccess is denied,
+     * throw b SecurityException.
      *
-     * This method also enforces package access.
+     * This method blso enforces pbckbge bccess.
      *
-     * <p> Default policy: allow all clients access with normal Java access
+     * <p> Defbult policy: bllow bll clients bccess with normbl Jbvb bccess
      * control.
      */
-    private void checkMemberAccess(int which, Class<?> caller, boolean checkProxyInterfaces) {
-        final SecurityManager s = System.getSecurityManager();
+    privbte void checkMemberAccess(int which, Clbss<?> cbller, boolebn checkProxyInterfbces) {
+        finbl SecurityMbnbger s = System.getSecurityMbnbger();
         if (s != null) {
-            /* Default policy allows access to all {@link Member#PUBLIC} members,
-             * as well as access to classes that have the same class loader as the caller.
-             * In all other cases, it requires RuntimePermission("accessDeclaredMembers")
+            /* Defbult policy bllows bccess to bll {@link Member#PUBLIC} members,
+             * bs well bs bccess to clbsses thbt hbve the sbme clbss lobder bs the cbller.
+             * In bll other cbses, it requires RuntimePermission("bccessDeclbredMembers")
              * permission.
              */
-            final ClassLoader ccl = ClassLoader.getClassLoader(caller);
-            final ClassLoader cl = getClassLoader0();
+            finbl ClbssLobder ccl = ClbssLobder.getClbssLobder(cbller);
+            finbl ClbssLobder cl = getClbssLobder0();
             if (which != Member.PUBLIC) {
                 if (ccl != cl) {
-                    s.checkPermission(SecurityConstants.CHECK_MEMBER_ACCESS_PERMISSION);
+                    s.checkPermission(SecurityConstbnts.CHECK_MEMBER_ACCESS_PERMISSION);
                 }
             }
-            this.checkPackageAccess(ccl, checkProxyInterfaces);
+            this.checkPbckbgeAccess(ccl, checkProxyInterfbces);
         }
     }
 
     /*
-     * Checks if a client loaded in ClassLoader ccl is allowed to access this
-     * class under the current package access policy. If access is denied,
-     * throw a SecurityException.
+     * Checks if b client lobded in ClbssLobder ccl is bllowed to bccess this
+     * clbss under the current pbckbge bccess policy. If bccess is denied,
+     * throw b SecurityException.
      */
-    private void checkPackageAccess(final ClassLoader ccl, boolean checkProxyInterfaces) {
-        final SecurityManager s = System.getSecurityManager();
+    privbte void checkPbckbgeAccess(finbl ClbssLobder ccl, boolebn checkProxyInterfbces) {
+        finbl SecurityMbnbger s = System.getSecurityMbnbger();
         if (s != null) {
-            final ClassLoader cl = getClassLoader0();
+            finbl ClbssLobder cl = getClbssLobder0();
 
-            if (ReflectUtil.needsPackageAccessCheck(ccl, cl)) {
-                String name = this.getName();
-                int i = name.lastIndexOf('.');
+            if (ReflectUtil.needsPbckbgeAccessCheck(ccl, cl)) {
+                String nbme = this.getNbme();
+                int i = nbme.lbstIndexOf('.');
                 if (i != -1) {
-                    // skip the package access check on a proxy class in default proxy package
-                    String pkg = name.substring(0, i);
-                    if (!Proxy.isProxyClass(this) || ReflectUtil.isNonPublicProxyClass(this)) {
-                        s.checkPackageAccess(pkg);
+                    // skip the pbckbge bccess check on b proxy clbss in defbult proxy pbckbge
+                    String pkg = nbme.substring(0, i);
+                    if (!Proxy.isProxyClbss(this) || ReflectUtil.isNonPublicProxyClbss(this)) {
+                        s.checkPbckbgeAccess(pkg);
                     }
                 }
             }
-            // check package access on the proxy interfaces
-            if (checkProxyInterfaces && Proxy.isProxyClass(this)) {
-                ReflectUtil.checkProxyPackageAccess(ccl, this.getInterfaces());
+            // check pbckbge bccess on the proxy interfbces
+            if (checkProxyInterfbces && Proxy.isProxyClbss(this)) {
+                ReflectUtil.checkProxyPbckbgeAccess(ccl, this.getInterfbces());
             }
         }
     }
 
     /**
-     * Add a package name prefix if the name is not absolute Remove leading "/"
-     * if name is absolute
+     * Add b pbckbge nbme prefix if the nbme is not bbsolute Remove lebding "/"
+     * if nbme is bbsolute
      */
-    private String resolveName(String name) {
-        if (name == null) {
-            return name;
+    privbte String resolveNbme(String nbme) {
+        if (nbme == null) {
+            return nbme;
         }
-        if (!name.startsWith("/")) {
-            Class<?> c = this;
-            while (c.isArray()) {
+        if (!nbme.stbrtsWith("/")) {
+            Clbss<?> c = this;
+            while (c.isArrby()) {
                 c = c.getComponentType();
             }
-            String baseName = c.getName();
-            int index = baseName.lastIndexOf('.');
+            String bbseNbme = c.getNbme();
+            int index = bbseNbme.lbstIndexOf('.');
             if (index != -1) {
-                name = baseName.substring(0, index).replace('.', '/')
-                    +"/"+name;
+                nbme = bbseNbme.substring(0, index).replbce('.', '/')
+                    +"/"+nbme;
             }
         } else {
-            name = name.substring(1);
+            nbme = nbme.substring(1);
         }
-        return name;
+        return nbme;
     }
 
     /**
-     * Atomic operations support.
+     * Atomic operbtions support.
      */
-    private static class Atomic {
-        // initialize Unsafe machinery here, since we need to call Class.class instance method
-        // and have to avoid calling it in the static initializer of the Class class...
-        private static final Unsafe unsafe = Unsafe.getUnsafe();
-        // offset of Class.reflectionData instance field
-        private static final long reflectionDataOffset;
-        // offset of Class.annotationType instance field
-        private static final long annotationTypeOffset;
-        // offset of Class.annotationData instance field
-        private static final long annotationDataOffset;
+    privbte stbtic clbss Atomic {
+        // initiblize Unsbfe mbchinery here, since we need to cbll Clbss.clbss instbnce method
+        // bnd hbve to bvoid cblling it in the stbtic initiblizer of the Clbss clbss...
+        privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+        // offset of Clbss.reflectionDbtb instbnce field
+        privbte stbtic finbl long reflectionDbtbOffset;
+        // offset of Clbss.bnnotbtionType instbnce field
+        privbte stbtic finbl long bnnotbtionTypeOffset;
+        // offset of Clbss.bnnotbtionDbtb instbnce field
+        privbte stbtic finbl long bnnotbtionDbtbOffset;
 
-        static {
-            Field[] fields = Class.class.getDeclaredFields0(false); // bypass caches
-            reflectionDataOffset = objectFieldOffset(fields, "reflectionData");
-            annotationTypeOffset = objectFieldOffset(fields, "annotationType");
-            annotationDataOffset = objectFieldOffset(fields, "annotationData");
+        stbtic {
+            Field[] fields = Clbss.clbss.getDeclbredFields0(fblse); // bypbss cbches
+            reflectionDbtbOffset = objectFieldOffset(fields, "reflectionDbtb");
+            bnnotbtionTypeOffset = objectFieldOffset(fields, "bnnotbtionType");
+            bnnotbtionDbtbOffset = objectFieldOffset(fields, "bnnotbtionDbtb");
         }
 
-        private static long objectFieldOffset(Field[] fields, String fieldName) {
-            Field field = searchFields(fields, fieldName);
+        privbte stbtic long objectFieldOffset(Field[] fields, String fieldNbme) {
+            Field field = sebrchFields(fields, fieldNbme);
             if (field == null) {
-                throw new Error("No " + fieldName + " field found in java.lang.Class");
+                throw new Error("No " + fieldNbme + " field found in jbvb.lbng.Clbss");
             }
-            return unsafe.objectFieldOffset(field);
+            return unsbfe.objectFieldOffset(field);
         }
 
-        static <T> boolean casReflectionData(Class<?> clazz,
-                                             SoftReference<ReflectionData<T>> oldData,
-                                             SoftReference<ReflectionData<T>> newData) {
-            return unsafe.compareAndSwapObject(clazz, reflectionDataOffset, oldData, newData);
+        stbtic <T> boolebn cbsReflectionDbtb(Clbss<?> clbzz,
+                                             SoftReference<ReflectionDbtb<T>> oldDbtb,
+                                             SoftReference<ReflectionDbtb<T>> newDbtb) {
+            return unsbfe.compbreAndSwbpObject(clbzz, reflectionDbtbOffset, oldDbtb, newDbtb);
         }
 
-        static <T> boolean casAnnotationType(Class<?> clazz,
-                                             AnnotationType oldType,
-                                             AnnotationType newType) {
-            return unsafe.compareAndSwapObject(clazz, annotationTypeOffset, oldType, newType);
+        stbtic <T> boolebn cbsAnnotbtionType(Clbss<?> clbzz,
+                                             AnnotbtionType oldType,
+                                             AnnotbtionType newType) {
+            return unsbfe.compbreAndSwbpObject(clbzz, bnnotbtionTypeOffset, oldType, newType);
         }
 
-        static <T> boolean casAnnotationData(Class<?> clazz,
-                                             AnnotationData oldData,
-                                             AnnotationData newData) {
-            return unsafe.compareAndSwapObject(clazz, annotationDataOffset, oldData, newData);
+        stbtic <T> boolebn cbsAnnotbtionDbtb(Clbss<?> clbzz,
+                                             AnnotbtionDbtb oldDbtb,
+                                             AnnotbtionDbtb newDbtb) {
+            return unsbfe.compbreAndSwbpObject(clbzz, bnnotbtionDbtbOffset, oldDbtb, newDbtb);
         }
     }
 
@@ -2459,224 +2459,224 @@ public final class Class<T> implements java.io.Serializable,
      * Reflection support.
      */
 
-    // Caches for certain reflective results
-    private static boolean useCaches = true;
+    // Cbches for certbin reflective results
+    privbte stbtic boolebn useCbches = true;
 
-    // reflection data that might get invalidated when JVM TI RedefineClasses() is called
-    private static class ReflectionData<T> {
-        volatile Field[] declaredFields;
-        volatile Field[] publicFields;
-        volatile Method[] declaredMethods;
-        volatile Method[] publicMethods;
-        volatile Constructor<T>[] declaredConstructors;
-        volatile Constructor<T>[] publicConstructors;
-        // Intermediate results for getFields and getMethods
-        volatile Field[] declaredPublicFields;
-        volatile Method[] declaredPublicMethods;
-        volatile Class<?>[] interfaces;
+    // reflection dbtb thbt might get invblidbted when JVM TI RedefineClbsses() is cblled
+    privbte stbtic clbss ReflectionDbtb<T> {
+        volbtile Field[] declbredFields;
+        volbtile Field[] publicFields;
+        volbtile Method[] declbredMethods;
+        volbtile Method[] publicMethods;
+        volbtile Constructor<T>[] declbredConstructors;
+        volbtile Constructor<T>[] publicConstructors;
+        // Intermedibte results for getFields bnd getMethods
+        volbtile Field[] declbredPublicFields;
+        volbtile Method[] declbredPublicMethods;
+        volbtile Clbss<?>[] interfbces;
 
-        // Value of classRedefinedCount when we created this ReflectionData instance
-        final int redefinedCount;
+        // Vblue of clbssRedefinedCount when we crebted this ReflectionDbtb instbnce
+        finbl int redefinedCount;
 
-        ReflectionData(int redefinedCount) {
+        ReflectionDbtb(int redefinedCount) {
             this.redefinedCount = redefinedCount;
         }
     }
 
-    private volatile transient SoftReference<ReflectionData<T>> reflectionData;
+    privbte volbtile trbnsient SoftReference<ReflectionDbtb<T>> reflectionDbtb;
 
-    // Incremented by the VM on each call to JVM TI RedefineClasses()
-    // that redefines this class or a superclass.
-    private volatile transient int classRedefinedCount = 0;
+    // Incremented by the VM on ebch cbll to JVM TI RedefineClbsses()
+    // thbt redefines this clbss or b superclbss.
+    privbte volbtile trbnsient int clbssRedefinedCount = 0;
 
-    // Lazily create and cache ReflectionData
-    private ReflectionData<T> reflectionData() {
-        SoftReference<ReflectionData<T>> reflectionData = this.reflectionData;
-        int classRedefinedCount = this.classRedefinedCount;
-        ReflectionData<T> rd;
-        if (useCaches &&
-            reflectionData != null &&
-            (rd = reflectionData.get()) != null &&
-            rd.redefinedCount == classRedefinedCount) {
+    // Lbzily crebte bnd cbche ReflectionDbtb
+    privbte ReflectionDbtb<T> reflectionDbtb() {
+        SoftReference<ReflectionDbtb<T>> reflectionDbtb = this.reflectionDbtb;
+        int clbssRedefinedCount = this.clbssRedefinedCount;
+        ReflectionDbtb<T> rd;
+        if (useCbches &&
+            reflectionDbtb != null &&
+            (rd = reflectionDbtb.get()) != null &&
+            rd.redefinedCount == clbssRedefinedCount) {
             return rd;
         }
-        // else no SoftReference or cleared SoftReference or stale ReflectionData
-        // -> create and replace new instance
-        return newReflectionData(reflectionData, classRedefinedCount);
+        // else no SoftReference or clebred SoftReference or stble ReflectionDbtb
+        // -> crebte bnd replbce new instbnce
+        return newReflectionDbtb(reflectionDbtb, clbssRedefinedCount);
     }
 
-    private ReflectionData<T> newReflectionData(SoftReference<ReflectionData<T>> oldReflectionData,
-                                                int classRedefinedCount) {
-        if (!useCaches) return null;
+    privbte ReflectionDbtb<T> newReflectionDbtb(SoftReference<ReflectionDbtb<T>> oldReflectionDbtb,
+                                                int clbssRedefinedCount) {
+        if (!useCbches) return null;
 
         while (true) {
-            ReflectionData<T> rd = new ReflectionData<>(classRedefinedCount);
+            ReflectionDbtb<T> rd = new ReflectionDbtb<>(clbssRedefinedCount);
             // try to CAS it...
-            if (Atomic.casReflectionData(this, oldReflectionData, new SoftReference<>(rd))) {
+            if (Atomic.cbsReflectionDbtb(this, oldReflectionDbtb, new SoftReference<>(rd))) {
                 return rd;
             }
             // else retry
-            oldReflectionData = this.reflectionData;
-            classRedefinedCount = this.classRedefinedCount;
-            if (oldReflectionData != null &&
-                (rd = oldReflectionData.get()) != null &&
-                rd.redefinedCount == classRedefinedCount) {
+            oldReflectionDbtb = this.reflectionDbtb;
+            clbssRedefinedCount = this.clbssRedefinedCount;
+            if (oldReflectionDbtb != null &&
+                (rd = oldReflectionDbtb.get()) != null &&
+                rd.redefinedCount == clbssRedefinedCount) {
                 return rd;
             }
         }
     }
 
-    // Generic signature handling
-    private native String getGenericSignature0();
+    // Generic signbture hbndling
+    privbte nbtive String getGenericSignbture0();
 
-    // Generic info repository; lazily initialized
-    private volatile transient ClassRepository genericInfo;
+    // Generic info repository; lbzily initiblized
+    privbte volbtile trbnsient ClbssRepository genericInfo;
 
-    // accessor for factory
-    private GenericsFactory getFactory() {
-        // create scope and factory
-        return CoreReflectionFactory.make(this, ClassScope.make(this));
+    // bccessor for fbctory
+    privbte GenericsFbctory getFbctory() {
+        // crebte scope bnd fbctory
+        return CoreReflectionFbctory.mbke(this, ClbssScope.mbke(this));
     }
 
-    // accessor for generic info repository;
-    // generic info is lazily initialized
-    private ClassRepository getGenericInfo() {
-        ClassRepository genericInfo = this.genericInfo;
+    // bccessor for generic info repository;
+    // generic info is lbzily initiblized
+    privbte ClbssRepository getGenericInfo() {
+        ClbssRepository genericInfo = this.genericInfo;
         if (genericInfo == null) {
-            String signature = getGenericSignature0();
-            if (signature == null) {
-                genericInfo = ClassRepository.NONE;
+            String signbture = getGenericSignbture0();
+            if (signbture == null) {
+                genericInfo = ClbssRepository.NONE;
             } else {
-                genericInfo = ClassRepository.make(signature, getFactory());
+                genericInfo = ClbssRepository.mbke(signbture, getFbctory());
             }
             this.genericInfo = genericInfo;
         }
-        return (genericInfo != ClassRepository.NONE) ? genericInfo : null;
+        return (genericInfo != ClbssRepository.NONE) ? genericInfo : null;
     }
 
-    // Annotations handling
-    native byte[] getRawAnnotations();
+    // Annotbtions hbndling
+    nbtive byte[] getRbwAnnotbtions();
     // Since 1.8
-    native byte[] getRawTypeAnnotations();
-    static byte[] getExecutableTypeAnnotationBytes(Executable ex) {
-        return getReflectionFactory().getExecutableTypeAnnotationBytes(ex);
+    nbtive byte[] getRbwTypeAnnotbtions();
+    stbtic byte[] getExecutbbleTypeAnnotbtionBytes(Executbble ex) {
+        return getReflectionFbctory().getExecutbbleTypeAnnotbtionBytes(ex);
     }
 
-    native ConstantPool getConstantPool();
+    nbtive ConstbntPool getConstbntPool();
 
     //
     //
-    // java.lang.reflect.Field handling
+    // jbvb.lbng.reflect.Field hbndling
     //
     //
 
-    // Returns an array of "root" fields. These Field objects must NOT
-    // be propagated to the outside world, but must instead be copied
-    // via ReflectionFactory.copyField.
-    private Field[] privateGetDeclaredFields(boolean publicOnly) {
+    // Returns bn brrby of "root" fields. These Field objects must NOT
+    // be propbgbted to the outside world, but must instebd be copied
+    // vib ReflectionFbctory.copyField.
+    privbte Field[] privbteGetDeclbredFields(boolebn publicOnly) {
         checkInitted();
         Field[] res;
-        ReflectionData<T> rd = reflectionData();
+        ReflectionDbtb<T> rd = reflectionDbtb();
         if (rd != null) {
-            res = publicOnly ? rd.declaredPublicFields : rd.declaredFields;
+            res = publicOnly ? rd.declbredPublicFields : rd.declbredFields;
             if (res != null) return res;
         }
-        // No cached value available; request value from VM
-        res = Reflection.filterFields(this, getDeclaredFields0(publicOnly));
+        // No cbched vblue bvbilbble; request vblue from VM
+        res = Reflection.filterFields(this, getDeclbredFields0(publicOnly));
         if (rd != null) {
             if (publicOnly) {
-                rd.declaredPublicFields = res;
+                rd.declbredPublicFields = res;
             } else {
-                rd.declaredFields = res;
+                rd.declbredFields = res;
             }
         }
         return res;
     }
 
-    // Returns an array of "root" fields. These Field objects must NOT
-    // be propagated to the outside world, but must instead be copied
-    // via ReflectionFactory.copyField.
-    private Field[] privateGetPublicFields(Set<Class<?>> traversedInterfaces) {
+    // Returns bn brrby of "root" fields. These Field objects must NOT
+    // be propbgbted to the outside world, but must instebd be copied
+    // vib ReflectionFbctory.copyField.
+    privbte Field[] privbteGetPublicFields(Set<Clbss<?>> trbversedInterfbces) {
         checkInitted();
         Field[] res;
-        ReflectionData<T> rd = reflectionData();
+        ReflectionDbtb<T> rd = reflectionDbtb();
         if (rd != null) {
             res = rd.publicFields;
             if (res != null) return res;
         }
 
-        // No cached value available; compute value recursively.
-        // Traverse in correct order for getField().
-        List<Field> fields = new ArrayList<>();
-        if (traversedInterfaces == null) {
-            traversedInterfaces = new HashSet<>();
+        // No cbched vblue bvbilbble; compute vblue recursively.
+        // Trbverse in correct order for getField().
+        List<Field> fields = new ArrbyList<>();
+        if (trbversedInterfbces == null) {
+            trbversedInterfbces = new HbshSet<>();
         }
 
-        // Local fields
-        Field[] tmp = privateGetDeclaredFields(true);
-        addAll(fields, tmp);
+        // Locbl fields
+        Field[] tmp = privbteGetDeclbredFields(true);
+        bddAll(fields, tmp);
 
-        // Direct superinterfaces, recursively
-        for (Class<?> c : getInterfaces()) {
-            if (!traversedInterfaces.contains(c)) {
-                traversedInterfaces.add(c);
-                addAll(fields, c.privateGetPublicFields(traversedInterfaces));
+        // Direct superinterfbces, recursively
+        for (Clbss<?> c : getInterfbces()) {
+            if (!trbversedInterfbces.contbins(c)) {
+                trbversedInterfbces.bdd(c);
+                bddAll(fields, c.privbteGetPublicFields(trbversedInterfbces));
             }
         }
 
-        // Direct superclass, recursively
-        if (!isInterface()) {
-            Class<?> c = getSuperclass();
+        // Direct superclbss, recursively
+        if (!isInterfbce()) {
+            Clbss<?> c = getSuperclbss();
             if (c != null) {
-                addAll(fields, c.privateGetPublicFields(traversedInterfaces));
+                bddAll(fields, c.privbteGetPublicFields(trbversedInterfbces));
             }
         }
 
         res = new Field[fields.size()];
-        fields.toArray(res);
+        fields.toArrby(res);
         if (rd != null) {
             rd.publicFields = res;
         }
         return res;
     }
 
-    private static void addAll(Collection<Field> c, Field[] o) {
+    privbte stbtic void bddAll(Collection<Field> c, Field[] o) {
         for (Field f : o) {
-            c.add(f);
+            c.bdd(f);
         }
     }
 
 
     //
     //
-    // java.lang.reflect.Constructor handling
+    // jbvb.lbng.reflect.Constructor hbndling
     //
     //
 
-    // Returns an array of "root" constructors. These Constructor
-    // objects must NOT be propagated to the outside world, but must
-    // instead be copied via ReflectionFactory.copyConstructor.
-    private Constructor<T>[] privateGetDeclaredConstructors(boolean publicOnly) {
+    // Returns bn brrby of "root" constructors. These Constructor
+    // objects must NOT be propbgbted to the outside world, but must
+    // instebd be copied vib ReflectionFbctory.copyConstructor.
+    privbte Constructor<T>[] privbteGetDeclbredConstructors(boolebn publicOnly) {
         checkInitted();
         Constructor<T>[] res;
-        ReflectionData<T> rd = reflectionData();
+        ReflectionDbtb<T> rd = reflectionDbtb();
         if (rd != null) {
-            res = publicOnly ? rd.publicConstructors : rd.declaredConstructors;
+            res = publicOnly ? rd.publicConstructors : rd.declbredConstructors;
             if (res != null) return res;
         }
-        // No cached value available; request value from VM
-        if (isInterface()) {
-            @SuppressWarnings("unchecked")
-            Constructor<T>[] temporaryRes = (Constructor<T>[]) new Constructor<?>[0];
-            res = temporaryRes;
+        // No cbched vblue bvbilbble; request vblue from VM
+        if (isInterfbce()) {
+            @SuppressWbrnings("unchecked")
+            Constructor<T>[] temporbryRes = (Constructor<T>[]) new Constructor<?>[0];
+            res = temporbryRes;
         } else {
-            res = getDeclaredConstructors0(publicOnly);
+            res = getDeclbredConstructors0(publicOnly);
         }
         if (rd != null) {
             if (publicOnly) {
                 rd.publicConstructors = res;
             } else {
-                rd.declaredConstructors = res;
+                rd.declbredConstructors = res;
             }
         }
         return res;
@@ -2684,104 +2684,104 @@ public final class Class<T> implements java.io.Serializable,
 
     //
     //
-    // java.lang.reflect.Method handling
+    // jbvb.lbng.reflect.Method hbndling
     //
     //
 
-    // Returns an array of "root" methods. These Method objects must NOT
-    // be propagated to the outside world, but must instead be copied
-    // via ReflectionFactory.copyMethod.
-    private Method[] privateGetDeclaredMethods(boolean publicOnly) {
+    // Returns bn brrby of "root" methods. These Method objects must NOT
+    // be propbgbted to the outside world, but must instebd be copied
+    // vib ReflectionFbctory.copyMethod.
+    privbte Method[] privbteGetDeclbredMethods(boolebn publicOnly) {
         checkInitted();
         Method[] res;
-        ReflectionData<T> rd = reflectionData();
+        ReflectionDbtb<T> rd = reflectionDbtb();
         if (rd != null) {
-            res = publicOnly ? rd.declaredPublicMethods : rd.declaredMethods;
+            res = publicOnly ? rd.declbredPublicMethods : rd.declbredMethods;
             if (res != null) return res;
         }
-        // No cached value available; request value from VM
-        res = Reflection.filterMethods(this, getDeclaredMethods0(publicOnly));
+        // No cbched vblue bvbilbble; request vblue from VM
+        res = Reflection.filterMethods(this, getDeclbredMethods0(publicOnly));
         if (rd != null) {
             if (publicOnly) {
-                rd.declaredPublicMethods = res;
+                rd.declbredPublicMethods = res;
             } else {
-                rd.declaredMethods = res;
+                rd.declbredMethods = res;
             }
         }
         return res;
     }
 
-    static class MethodArray {
-        // Don't add or remove methods except by add() or remove() calls.
-        private Method[] methods;
-        private int length;
-        private int defaults;
+    stbtic clbss MethodArrby {
+        // Don't bdd or remove methods except by bdd() or remove() cblls.
+        privbte Method[] methods;
+        privbte int length;
+        privbte int defbults;
 
-        MethodArray() {
+        MethodArrby() {
             this(20);
         }
 
-        MethodArray(int initialSize) {
-            if (initialSize < 2)
-                throw new IllegalArgumentException("Size should be 2 or more");
+        MethodArrby(int initiblSize) {
+            if (initiblSize < 2)
+                throw new IllegblArgumentException("Size should be 2 or more");
 
-            methods = new Method[initialSize];
+            methods = new Method[initiblSize];
             length = 0;
-            defaults = 0;
+            defbults = 0;
         }
 
-        boolean hasDefaults() {
-            return defaults != 0;
+        boolebn hbsDefbults() {
+            return defbults != 0;
         }
 
-        void add(Method m) {
+        void bdd(Method m) {
             if (length == methods.length) {
-                methods = Arrays.copyOf(methods, 2 * methods.length);
+                methods = Arrbys.copyOf(methods, 2 * methods.length);
             }
             methods[length++] = m;
 
-            if (m != null && m.isDefault())
-                defaults++;
+            if (m != null && m.isDefbult())
+                defbults++;
         }
 
-        void addAll(Method[] ma) {
-            for (Method m : ma) {
-                add(m);
+        void bddAll(Method[] mb) {
+            for (Method m : mb) {
+                bdd(m);
             }
         }
 
-        void addAll(MethodArray ma) {
-            for (int i = 0; i < ma.length(); i++) {
-                add(ma.get(i));
+        void bddAll(MethodArrby mb) {
+            for (int i = 0; i < mb.length(); i++) {
+                bdd(mb.get(i));
             }
         }
 
-        void addIfNotPresent(Method newMethod) {
+        void bddIfNotPresent(Method newMethod) {
             for (int i = 0; i < length; i++) {
                 Method m = methods[i];
-                if (m == newMethod || (m != null && m.equals(newMethod))) {
+                if (m == newMethod || (m != null && m.equbls(newMethod))) {
                     return;
                 }
             }
-            add(newMethod);
+            bdd(newMethod);
         }
 
-        void addAllIfNotPresent(MethodArray newMethods) {
+        void bddAllIfNotPresent(MethodArrby newMethods) {
             for (int i = 0; i < newMethods.length(); i++) {
                 Method m = newMethods.get(i);
                 if (m != null) {
-                    addIfNotPresent(m);
+                    bddIfNotPresent(m);
                 }
             }
         }
 
-        /* Add Methods declared in an interface to this MethodArray.
-         * Static methods declared in interfaces are not inherited.
+        /* Add Methods declbred in bn interfbce to this MethodArrby.
+         * Stbtic methods declbred in interfbces bre not inherited.
          */
-        void addInterfaceMethods(Method[] methods) {
-            for (Method candidate : methods) {
-                if (!Modifier.isStatic(candidate.getModifiers())) {
-                    add(candidate);
+        void bddInterfbceMethods(Method[] methods) {
+            for (Method cbndidbte : methods) {
+                if (!Modifier.isStbtic(cbndidbte.getModifiers())) {
+                    bdd(cbndidbte);
                 }
             }
         }
@@ -2801,29 +2801,29 @@ public final class Class<T> implements java.io.Serializable,
             return null;
         }
 
-        void removeByNameAndDescriptor(Method toRemove) {
+        void removeByNbmeAndDescriptor(Method toRemove) {
             for (int i = 0; i < length; i++) {
                 Method m = methods[i];
-                if (m != null && matchesNameAndDescriptor(m, toRemove)) {
+                if (m != null && mbtchesNbmeAndDescriptor(m, toRemove)) {
                     remove(i);
                 }
             }
         }
 
-        private void remove(int i) {
-            if (methods[i] != null && methods[i].isDefault())
-                defaults--;
+        privbte void remove(int i) {
+            if (methods[i] != null && methods[i].isDefbult())
+                defbults--;
             methods[i] = null;
         }
 
-        private boolean matchesNameAndDescriptor(Method m1, Method m2) {
+        privbte boolebn mbtchesNbmeAndDescriptor(Method m1, Method m2) {
             return m1.getReturnType() == m2.getReturnType() &&
-                   m1.getName() == m2.getName() && // name is guaranteed to be interned
-                   arrayContentsEq(m1.getParameterTypes(),
-                           m2.getParameterTypes());
+                   m1.getNbme() == m2.getNbme() && // nbme is gubrbnteed to be interned
+                   brrbyContentsEq(m1.getPbrbmeterTypes(),
+                           m2.getPbrbmeterTypes());
         }
 
-        void compactAndTrim() {
+        void compbctAndTrim() {
             int newPos = 0;
             // Get rid of null slots
             for (int pos = 0; pos < length; pos++) {
@@ -2836,113 +2836,113 @@ public final class Class<T> implements java.io.Serializable,
                 }
             }
             if (newPos != methods.length) {
-                methods = Arrays.copyOf(methods, newPos);
+                methods = Arrbys.copyOf(methods, newPos);
             }
         }
 
-        /* Removes all Methods from this MethodArray that have a more specific
-         * default Method in this MethodArray.
+        /* Removes bll Methods from this MethodArrby thbt hbve b more specific
+         * defbult Method in this MethodArrby.
          *
-         * Users of MethodArray are responsible for pruning Methods that have
-         * a more specific <em>concrete</em> Method.
+         * Users of MethodArrby bre responsible for pruning Methods thbt hbve
+         * b more specific <em>concrete</em> Method.
          */
         void removeLessSpecifics() {
-            if (!hasDefaults())
+            if (!hbsDefbults())
                 return;
 
             for (int i = 0; i < length; i++) {
                 Method m = get(i);
-                if  (m == null || !m.isDefault())
+                if  (m == null || !m.isDefbult())
                     continue;
 
                 for (int j  = 0; j < length; j++) {
                     if (i == j)
                         continue;
 
-                    Method candidate = get(j);
-                    if (candidate == null)
+                    Method cbndidbte = get(j);
+                    if (cbndidbte == null)
                         continue;
 
-                    if (!matchesNameAndDescriptor(m, candidate))
+                    if (!mbtchesNbmeAndDescriptor(m, cbndidbte))
                         continue;
 
-                    if (hasMoreSpecificClass(m, candidate))
+                    if (hbsMoreSpecificClbss(m, cbndidbte))
                         remove(j);
                 }
             }
         }
 
-        Method[] getArray() {
+        Method[] getArrby() {
             return methods;
         }
 
-        // Returns true if m1 is more specific than m2
-        static boolean hasMoreSpecificClass(Method m1, Method m2) {
-            Class<?> m1Class = m1.getDeclaringClass();
-            Class<?> m2Class = m2.getDeclaringClass();
-            return m1Class != m2Class && m2Class.isAssignableFrom(m1Class);
+        // Returns true if m1 is more specific thbn m2
+        stbtic boolebn hbsMoreSpecificClbss(Method m1, Method m2) {
+            Clbss<?> m1Clbss = m1.getDeclbringClbss();
+            Clbss<?> m2Clbss = m2.getDeclbringClbss();
+            return m1Clbss != m2Clbss && m2Clbss.isAssignbbleFrom(m1Clbss);
         }
     }
 
 
-    // Returns an array of "root" methods. These Method objects must NOT
-    // be propagated to the outside world, but must instead be copied
-    // via ReflectionFactory.copyMethod.
-    private Method[] privateGetPublicMethods() {
+    // Returns bn brrby of "root" methods. These Method objects must NOT
+    // be propbgbted to the outside world, but must instebd be copied
+    // vib ReflectionFbctory.copyMethod.
+    privbte Method[] privbteGetPublicMethods() {
         checkInitted();
         Method[] res;
-        ReflectionData<T> rd = reflectionData();
+        ReflectionDbtb<T> rd = reflectionDbtb();
         if (rd != null) {
             res = rd.publicMethods;
             if (res != null) return res;
         }
 
-        // No cached value available; compute value recursively.
-        // Start by fetching public declared methods
-        MethodArray methods = new MethodArray();
+        // No cbched vblue bvbilbble; compute vblue recursively.
+        // Stbrt by fetching public declbred methods
+        MethodArrby methods = new MethodArrby();
         {
-            Method[] tmp = privateGetDeclaredMethods(true);
-            methods.addAll(tmp);
+            Method[] tmp = privbteGetDeclbredMethods(true);
+            methods.bddAll(tmp);
         }
-        // Now recur over superclass and direct superinterfaces.
-        // Go over superinterfaces first so we can more easily filter
-        // out concrete implementations inherited from superclasses at
+        // Now recur over superclbss bnd direct superinterfbces.
+        // Go over superinterfbces first so we cbn more ebsily filter
+        // out concrete implementbtions inherited from superclbsses bt
         // the end.
-        MethodArray inheritedMethods = new MethodArray();
-        for (Class<?> i : getInterfaces()) {
-            inheritedMethods.addInterfaceMethods(i.privateGetPublicMethods());
+        MethodArrby inheritedMethods = new MethodArrby();
+        for (Clbss<?> i : getInterfbces()) {
+            inheritedMethods.bddInterfbceMethods(i.privbteGetPublicMethods());
         }
-        if (!isInterface()) {
-            Class<?> c = getSuperclass();
+        if (!isInterfbce()) {
+            Clbss<?> c = getSuperclbss();
             if (c != null) {
-                MethodArray supers = new MethodArray();
-                supers.addAll(c.privateGetPublicMethods());
-                // Filter out concrete implementations of any
-                // interface methods
+                MethodArrby supers = new MethodArrby();
+                supers.bddAll(c.privbteGetPublicMethods());
+                // Filter out concrete implementbtions of bny
+                // interfbce methods
                 for (int i = 0; i < supers.length(); i++) {
                     Method m = supers.get(i);
                     if (m != null &&
-                            !Modifier.isAbstract(m.getModifiers()) &&
-                            !m.isDefault()) {
-                        inheritedMethods.removeByNameAndDescriptor(m);
+                            !Modifier.isAbstrbct(m.getModifiers()) &&
+                            !m.isDefbult()) {
+                        inheritedMethods.removeByNbmeAndDescriptor(m);
                     }
                 }
-                // Insert superclass's inherited methods before
-                // superinterfaces' to satisfy getMethod's search
+                // Insert superclbss's inherited methods before
+                // superinterfbces' to sbtisfy getMethod's sebrch
                 // order
-                supers.addAll(inheritedMethods);
+                supers.bddAll(inheritedMethods);
                 inheritedMethods = supers;
             }
         }
-        // Filter out all local methods from inherited ones
+        // Filter out bll locbl methods from inherited ones
         for (int i = 0; i < methods.length(); i++) {
             Method m = methods.get(i);
-            inheritedMethods.removeByNameAndDescriptor(m);
+            inheritedMethods.removeByNbmeAndDescriptor(m);
         }
-        methods.addAllIfNotPresent(inheritedMethods);
+        methods.bddAllIfNotPresent(inheritedMethods);
         methods.removeLessSpecifics();
-        methods.compactAndTrim();
-        res = methods.getArray();
+        methods.compbctAndTrim();
+        res = methods.getArrby();
         if (rd != null) {
             rd.publicMethods = res;
         }
@@ -2954,41 +2954,41 @@ public final class Class<T> implements java.io.Serializable,
     // Helpers for fetchers of one field, method, or constructor
     //
 
-    private static Field searchFields(Field[] fields, String name) {
-        String internedName = name.intern();
+    privbte stbtic Field sebrchFields(Field[] fields, String nbme) {
+        String internedNbme = nbme.intern();
         for (Field field : fields) {
-            if (field.getName() == internedName) {
-                return getReflectionFactory().copyField(field);
+            if (field.getNbme() == internedNbme) {
+                return getReflectionFbctory().copyField(field);
             }
         }
         return null;
     }
 
-    private Field getField0(String name) throws NoSuchFieldException {
-        // Note: the intent is that the search algorithm this routine
-        // uses be equivalent to the ordering imposed by
-        // privateGetPublicFields(). It fetches only the declared
-        // public fields for each class, however, to reduce the number
-        // of Field objects which have to be created for the common
-        // case where the field being requested is declared in the
-        // class which is being queried.
+    privbte Field getField0(String nbme) throws NoSuchFieldException {
+        // Note: the intent is thbt the sebrch blgorithm this routine
+        // uses be equivblent to the ordering imposed by
+        // privbteGetPublicFields(). It fetches only the declbred
+        // public fields for ebch clbss, however, to reduce the number
+        // of Field objects which hbve to be crebted for the common
+        // cbse where the field being requested is declbred in the
+        // clbss which is being queried.
         Field res;
-        // Search declared public fields
-        if ((res = searchFields(privateGetDeclaredFields(true), name)) != null) {
+        // Sebrch declbred public fields
+        if ((res = sebrchFields(privbteGetDeclbredFields(true), nbme)) != null) {
             return res;
         }
-        // Direct superinterfaces, recursively
-        Class<?>[] interfaces = getInterfaces();
-        for (Class<?> c : interfaces) {
-            if ((res = c.getField0(name)) != null) {
+        // Direct superinterfbces, recursively
+        Clbss<?>[] interfbces = getInterfbces();
+        for (Clbss<?> c : interfbces) {
+            if ((res = c.getField0(nbme)) != null) {
                 return res;
             }
         }
-        // Direct superclass, recursively
-        if (!isInterface()) {
-            Class<?> c = getSuperclass();
+        // Direct superclbss, recursively
+        if (!isInterfbce()) {
+            Clbss<?> c = getSuperclbss();
             if (c != null) {
-                if ((res = c.getField0(name)) != null) {
+                if ((res = c.getField0(nbme)) != null) {
                     return res;
                 }
             }
@@ -2996,285 +2996,285 @@ public final class Class<T> implements java.io.Serializable,
         return null;
     }
 
-    private static Method searchMethods(Method[] methods,
-                                        String name,
-                                        Class<?>[] parameterTypes)
+    privbte stbtic Method sebrchMethods(Method[] methods,
+                                        String nbme,
+                                        Clbss<?>[] pbrbmeterTypes)
     {
         Method res = null;
-        String internedName = name.intern();
+        String internedNbme = nbme.intern();
         for (Method m : methods) {
-            if (m.getName() == internedName
-                && arrayContentsEq(parameterTypes, m.getParameterTypes())
+            if (m.getNbme() == internedNbme
+                && brrbyContentsEq(pbrbmeterTypes, m.getPbrbmeterTypes())
                 && (res == null
-                    || res.getReturnType().isAssignableFrom(m.getReturnType())))
+                    || res.getReturnType().isAssignbbleFrom(m.getReturnType())))
                 res = m;
         }
 
-        return (res == null ? res : getReflectionFactory().copyMethod(res));
+        return (res == null ? res : getReflectionFbctory().copyMethod(res));
     }
 
-    private Method getMethod0(String name, Class<?>[] parameterTypes, boolean includeStaticMethods) {
-        MethodArray interfaceCandidates = new MethodArray(2);
-        Method res =  privateGetMethodRecursive(name, parameterTypes, includeStaticMethods, interfaceCandidates);
+    privbte Method getMethod0(String nbme, Clbss<?>[] pbrbmeterTypes, boolebn includeStbticMethods) {
+        MethodArrby interfbceCbndidbtes = new MethodArrby(2);
+        Method res =  privbteGetMethodRecursive(nbme, pbrbmeterTypes, includeStbticMethods, interfbceCbndidbtes);
         if (res != null)
             return res;
 
-        // Not found on class or superclass directly
-        interfaceCandidates.removeLessSpecifics();
-        return interfaceCandidates.getFirst(); // may be null
+        // Not found on clbss or superclbss directly
+        interfbceCbndidbtes.removeLessSpecifics();
+        return interfbceCbndidbtes.getFirst(); // mby be null
     }
 
-    private Method privateGetMethodRecursive(String name,
-            Class<?>[] parameterTypes,
-            boolean includeStaticMethods,
-            MethodArray allInterfaceCandidates) {
-        // Note: the intent is that the search algorithm this routine
-        // uses be equivalent to the ordering imposed by
-        // privateGetPublicMethods(). It fetches only the declared
-        // public methods for each class, however, to reduce the
-        // number of Method objects which have to be created for the
-        // common case where the method being requested is declared in
-        // the class which is being queried.
+    privbte Method privbteGetMethodRecursive(String nbme,
+            Clbss<?>[] pbrbmeterTypes,
+            boolebn includeStbticMethods,
+            MethodArrby bllInterfbceCbndidbtes) {
+        // Note: the intent is thbt the sebrch blgorithm this routine
+        // uses be equivblent to the ordering imposed by
+        // privbteGetPublicMethods(). It fetches only the declbred
+        // public methods for ebch clbss, however, to reduce the
+        // number of Method objects which hbve to be crebted for the
+        // common cbse where the method being requested is declbred in
+        // the clbss which is being queried.
         //
-        // Due to default methods, unless a method is found on a superclass,
-        // methods declared in any superinterface needs to be considered.
-        // Collect all candidates declared in superinterfaces in {@code
-        // allInterfaceCandidates} and select the most specific if no match on
-        // a superclass is found.
+        // Due to defbult methods, unless b method is found on b superclbss,
+        // methods declbred in bny superinterfbce needs to be considered.
+        // Collect bll cbndidbtes declbred in superinterfbces in {@code
+        // bllInterfbceCbndidbtes} bnd select the most specific if no mbtch on
+        // b superclbss is found.
 
         // Must _not_ return root methods
         Method res;
-        // Search declared public methods
-        if ((res = searchMethods(privateGetDeclaredMethods(true),
-                                 name,
-                                 parameterTypes)) != null) {
-            if (includeStaticMethods || !Modifier.isStatic(res.getModifiers()))
+        // Sebrch declbred public methods
+        if ((res = sebrchMethods(privbteGetDeclbredMethods(true),
+                                 nbme,
+                                 pbrbmeterTypes)) != null) {
+            if (includeStbticMethods || !Modifier.isStbtic(res.getModifiers()))
                 return res;
         }
-        // Search superclass's methods
-        if (!isInterface()) {
-            Class<? super T> c = getSuperclass();
+        // Sebrch superclbss's methods
+        if (!isInterfbce()) {
+            Clbss<? super T> c = getSuperclbss();
             if (c != null) {
-                if ((res = c.getMethod0(name, parameterTypes, true)) != null) {
+                if ((res = c.getMethod0(nbme, pbrbmeterTypes, true)) != null) {
                     return res;
                 }
             }
         }
-        // Search superinterfaces' methods
-        Class<?>[] interfaces = getInterfaces();
-        for (Class<?> c : interfaces)
-            if ((res = c.getMethod0(name, parameterTypes, false)) != null)
-                allInterfaceCandidates.add(res);
+        // Sebrch superinterfbces' methods
+        Clbss<?>[] interfbces = getInterfbces();
+        for (Clbss<?> c : interfbces)
+            if ((res = c.getMethod0(nbme, pbrbmeterTypes, fblse)) != null)
+                bllInterfbceCbndidbtes.bdd(res);
         // Not found
         return null;
     }
 
-    private Constructor<T> getConstructor0(Class<?>[] parameterTypes,
+    privbte Constructor<T> getConstructor0(Clbss<?>[] pbrbmeterTypes,
                                         int which) throws NoSuchMethodException
     {
-        Constructor<T>[] constructors = privateGetDeclaredConstructors((which == Member.PUBLIC));
+        Constructor<T>[] constructors = privbteGetDeclbredConstructors((which == Member.PUBLIC));
         for (Constructor<T> constructor : constructors) {
-            if (arrayContentsEq(parameterTypes,
-                                constructor.getParameterTypes())) {
-                return getReflectionFactory().copyConstructor(constructor);
+            if (brrbyContentsEq(pbrbmeterTypes,
+                                constructor.getPbrbmeterTypes())) {
+                return getReflectionFbctory().copyConstructor(constructor);
             }
         }
-        throw new NoSuchMethodException(getName() + ".<init>" + argumentTypesToString(parameterTypes));
+        throw new NoSuchMethodException(getNbme() + ".<init>" + brgumentTypesToString(pbrbmeterTypes));
     }
 
     //
-    // Other helpers and base implementation
+    // Other helpers bnd bbse implementbtion
     //
 
-    private static boolean arrayContentsEq(Object[] a1, Object[] a2) {
-        if (a1 == null) {
-            return a2 == null || a2.length == 0;
+    privbte stbtic boolebn brrbyContentsEq(Object[] b1, Object[] b2) {
+        if (b1 == null) {
+            return b2 == null || b2.length == 0;
         }
 
-        if (a2 == null) {
-            return a1.length == 0;
+        if (b2 == null) {
+            return b1.length == 0;
         }
 
-        if (a1.length != a2.length) {
-            return false;
+        if (b1.length != b2.length) {
+            return fblse;
         }
 
-        for (int i = 0; i < a1.length; i++) {
-            if (a1[i] != a2[i]) {
-                return false;
+        for (int i = 0; i < b1.length; i++) {
+            if (b1[i] != b2[i]) {
+                return fblse;
             }
         }
 
         return true;
     }
 
-    private static Field[] copyFields(Field[] arg) {
-        Field[] out = new Field[arg.length];
-        ReflectionFactory fact = getReflectionFactory();
-        for (int i = 0; i < arg.length; i++) {
-            out[i] = fact.copyField(arg[i]);
+    privbte stbtic Field[] copyFields(Field[] brg) {
+        Field[] out = new Field[brg.length];
+        ReflectionFbctory fbct = getReflectionFbctory();
+        for (int i = 0; i < brg.length; i++) {
+            out[i] = fbct.copyField(brg[i]);
         }
         return out;
     }
 
-    private static Method[] copyMethods(Method[] arg) {
-        Method[] out = new Method[arg.length];
-        ReflectionFactory fact = getReflectionFactory();
-        for (int i = 0; i < arg.length; i++) {
-            out[i] = fact.copyMethod(arg[i]);
+    privbte stbtic Method[] copyMethods(Method[] brg) {
+        Method[] out = new Method[brg.length];
+        ReflectionFbctory fbct = getReflectionFbctory();
+        for (int i = 0; i < brg.length; i++) {
+            out[i] = fbct.copyMethod(brg[i]);
         }
         return out;
     }
 
-    private static <U> Constructor<U>[] copyConstructors(Constructor<U>[] arg) {
-        Constructor<U>[] out = arg.clone();
-        ReflectionFactory fact = getReflectionFactory();
+    privbte stbtic <U> Constructor<U>[] copyConstructors(Constructor<U>[] brg) {
+        Constructor<U>[] out = brg.clone();
+        ReflectionFbctory fbct = getReflectionFbctory();
         for (int i = 0; i < out.length; i++) {
-            out[i] = fact.copyConstructor(out[i]);
+            out[i] = fbct.copyConstructor(out[i]);
         }
         return out;
     }
 
-    private native Field[]       getDeclaredFields0(boolean publicOnly);
-    private native Method[]      getDeclaredMethods0(boolean publicOnly);
-    private native Constructor<T>[] getDeclaredConstructors0(boolean publicOnly);
-    private native Class<?>[]   getDeclaredClasses0();
+    privbte nbtive Field[]       getDeclbredFields0(boolebn publicOnly);
+    privbte nbtive Method[]      getDeclbredMethods0(boolebn publicOnly);
+    privbte nbtive Constructor<T>[] getDeclbredConstructors0(boolebn publicOnly);
+    privbte nbtive Clbss<?>[]   getDeclbredClbsses0();
 
-    private static String        argumentTypesToString(Class<?>[] argTypes) {
+    privbte stbtic String        brgumentTypesToString(Clbss<?>[] brgTypes) {
         StringBuilder buf = new StringBuilder();
-        buf.append("(");
-        if (argTypes != null) {
-            for (int i = 0; i < argTypes.length; i++) {
+        buf.bppend("(");
+        if (brgTypes != null) {
+            for (int i = 0; i < brgTypes.length; i++) {
                 if (i > 0) {
-                    buf.append(", ");
+                    buf.bppend(", ");
                 }
-                Class<?> c = argTypes[i];
-                buf.append((c == null) ? "null" : c.getName());
+                Clbss<?> c = brgTypes[i];
+                buf.bppend((c == null) ? "null" : c.getNbme());
             }
         }
-        buf.append(")");
+        buf.bppend(")");
         return buf.toString();
     }
 
-    /** use serialVersionUID from JDK 1.1 for interoperability */
-    private static final long serialVersionUID = 3206093459760846163L;
+    /** use seriblVersionUID from JDK 1.1 for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = 3206093459760846163L;
 
 
     /**
-     * Class Class is special cased within the Serialization Stream Protocol.
+     * Clbss Clbss is specibl cbsed within the Seriblizbtion Strebm Protocol.
      *
-     * A Class instance is written initially into an ObjectOutputStream in the
-     * following format:
+     * A Clbss instbnce is written initiblly into bn ObjectOutputStrebm in the
+     * following formbt:
      * <pre>
-     *      {@code TC_CLASS} ClassDescriptor
-     *      A ClassDescriptor is a special cased serialization of
-     *      a {@code java.io.ObjectStreamClass} instance.
+     *      {@code TC_CLASS} ClbssDescriptor
+     *      A ClbssDescriptor is b specibl cbsed seriblizbtion of
+     *      b {@code jbvb.io.ObjectStrebmClbss} instbnce.
      * </pre>
-     * A new handle is generated for the initial time the class descriptor
-     * is written into the stream. Future references to the class descriptor
-     * are written as references to the initial class descriptor instance.
+     * A new hbndle is generbted for the initibl time the clbss descriptor
+     * is written into the strebm. Future references to the clbss descriptor
+     * bre written bs references to the initibl clbss descriptor instbnce.
      *
-     * @see java.io.ObjectStreamClass
+     * @see jbvb.io.ObjectStrebmClbss
      */
-    private static final ObjectStreamField[] serialPersistentFields =
-        new ObjectStreamField[0];
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields =
+        new ObjectStrebmField[0];
 
 
     /**
-     * Returns the assertion status that would be assigned to this
-     * class if it were to be initialized at the time this method is invoked.
-     * If this class has had its assertion status set, the most recent
-     * setting will be returned; otherwise, if any package default assertion
-     * status pertains to this class, the most recent setting for the most
-     * specific pertinent package default assertion status is returned;
-     * otherwise, if this class is not a system class (i.e., it has a
-     * class loader) its class loader's default assertion status is returned;
-     * otherwise, the system class default assertion status is returned.
+     * Returns the bssertion stbtus thbt would be bssigned to this
+     * clbss if it were to be initiblized bt the time this method is invoked.
+     * If this clbss hbs hbd its bssertion stbtus set, the most recent
+     * setting will be returned; otherwise, if bny pbckbge defbult bssertion
+     * stbtus pertbins to this clbss, the most recent setting for the most
+     * specific pertinent pbckbge defbult bssertion stbtus is returned;
+     * otherwise, if this clbss is not b system clbss (i.e., it hbs b
+     * clbss lobder) its clbss lobder's defbult bssertion stbtus is returned;
+     * otherwise, the system clbss defbult bssertion stbtus is returned.
      * <p>
-     * Few programmers will have any need for this method; it is provided
-     * for the benefit of the JRE itself.  (It allows a class to determine at
-     * the time that it is initialized whether assertions should be enabled.)
-     * Note that this method is not guaranteed to return the actual
-     * assertion status that was (or will be) associated with the specified
-     * class when it was (or will be) initialized.
+     * Few progrbmmers will hbve bny need for this method; it is provided
+     * for the benefit of the JRE itself.  (It bllows b clbss to determine bt
+     * the time thbt it is initiblized whether bssertions should be enbbled.)
+     * Note thbt this method is not gubrbnteed to return the bctubl
+     * bssertion stbtus thbt wbs (or will be) bssocibted with the specified
+     * clbss when it wbs (or will be) initiblized.
      *
-     * @return the desired assertion status of the specified class.
-     * @see    java.lang.ClassLoader#setClassAssertionStatus
-     * @see    java.lang.ClassLoader#setPackageAssertionStatus
-     * @see    java.lang.ClassLoader#setDefaultAssertionStatus
+     * @return the desired bssertion stbtus of the specified clbss.
+     * @see    jbvb.lbng.ClbssLobder#setClbssAssertionStbtus
+     * @see    jbvb.lbng.ClbssLobder#setPbckbgeAssertionStbtus
+     * @see    jbvb.lbng.ClbssLobder#setDefbultAssertionStbtus
      * @since  1.4
      */
-    public boolean desiredAssertionStatus() {
-        ClassLoader loader = getClassLoader();
-        // If the loader is null this is a system class, so ask the VM
-        if (loader == null)
-            return desiredAssertionStatus0(this);
+    public boolebn desiredAssertionStbtus() {
+        ClbssLobder lobder = getClbssLobder();
+        // If the lobder is null this is b system clbss, so bsk the VM
+        if (lobder == null)
+            return desiredAssertionStbtus0(this);
 
-        // If the classloader has been initialized with the assertion
-        // directives, ask it. Otherwise, ask the VM.
-        synchronized(loader.assertionLock) {
-            if (loader.classAssertionStatus != null) {
-                return loader.desiredAssertionStatus(getName());
+        // If the clbsslobder hbs been initiblized with the bssertion
+        // directives, bsk it. Otherwise, bsk the VM.
+        synchronized(lobder.bssertionLock) {
+            if (lobder.clbssAssertionStbtus != null) {
+                return lobder.desiredAssertionStbtus(getNbme());
             }
         }
-        return desiredAssertionStatus0(this);
+        return desiredAssertionStbtus0(this);
     }
 
-    // Retrieves the desired assertion status of this class from the VM
-    private static native boolean desiredAssertionStatus0(Class<?> clazz);
+    // Retrieves the desired bssertion stbtus of this clbss from the VM
+    privbte stbtic nbtive boolebn desiredAssertionStbtus0(Clbss<?> clbzz);
 
     /**
-     * Returns true if and only if this class was declared as an enum in the
+     * Returns true if bnd only if this clbss wbs declbred bs bn enum in the
      * source code.
      *
-     * @return true if and only if this class was declared as an enum in the
+     * @return true if bnd only if this clbss wbs declbred bs bn enum in the
      *     source code
      * @since 1.5
      */
-    public boolean isEnum() {
-        // An enum must both directly extend java.lang.Enum and have
-        // the ENUM bit set; classes for specialized enum constants
+    public boolebn isEnum() {
+        // An enum must both directly extend jbvb.lbng.Enum bnd hbve
+        // the ENUM bit set; clbsses for speciblized enum constbnts
         // don't do the former.
         return (this.getModifiers() & ENUM) != 0 &&
-        this.getSuperclass() == java.lang.Enum.class;
+        this.getSuperclbss() == jbvb.lbng.Enum.clbss;
     }
 
-    // Fetches the factory for reflective objects
-    private static ReflectionFactory getReflectionFactory() {
-        if (reflectionFactory == null) {
-            reflectionFactory =
-                java.security.AccessController.doPrivileged
-                    (new sun.reflect.ReflectionFactory.GetReflectionFactoryAction());
+    // Fetches the fbctory for reflective objects
+    privbte stbtic ReflectionFbctory getReflectionFbctory() {
+        if (reflectionFbctory == null) {
+            reflectionFbctory =
+                jbvb.security.AccessController.doPrivileged
+                    (new sun.reflect.ReflectionFbctory.GetReflectionFbctoryAction());
         }
-        return reflectionFactory;
+        return reflectionFbctory;
     }
-    private static ReflectionFactory reflectionFactory;
+    privbte stbtic ReflectionFbctory reflectionFbctory;
 
-    // To be able to query system properties as soon as they're available
-    private static boolean initted = false;
-    private static void checkInitted() {
+    // To be bble to query system properties bs soon bs they're bvbilbble
+    privbte stbtic boolebn initted = fblse;
+    privbte stbtic void checkInitted() {
         if (initted) return;
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 public Void run() {
-                    // Tests to ensure the system properties table is fully
-                    // initialized. This is needed because reflection code is
-                    // called very early in the initialization process (before
-                    // command-line arguments have been parsed and therefore
-                    // these user-settable properties installed.) We assume that
-                    // if System.out is non-null then the System class has been
-                    // fully initialized and that the bulk of the startup code
-                    // has been run.
+                    // Tests to ensure the system properties tbble is fully
+                    // initiblized. This is needed becbuse reflection code is
+                    // cblled very ebrly in the initiblizbtion process (before
+                    // commbnd-line brguments hbve been pbrsed bnd therefore
+                    // these user-settbble properties instblled.) We bssume thbt
+                    // if System.out is non-null then the System clbss hbs been
+                    // fully initiblized bnd thbt the bulk of the stbrtup code
+                    // hbs been run.
 
                     if (System.out == null) {
-                        // java.lang.System not yet fully initialized
+                        // jbvb.lbng.System not yet fully initiblized
                         return null;
                     }
 
-                    // Doesn't use Boolean.getBoolean to avoid class init.
-                    String val =
-                        System.getProperty("sun.reflect.noCaches");
-                    if (val != null && val.equals("true")) {
-                        useCaches = false;
+                    // Doesn't use Boolebn.getBoolebn to bvoid clbss init.
+                    String vbl =
+                        System.getProperty("sun.reflect.noCbches");
+                    if (vbl != null && vbl.equbls("true")) {
+                        useCbches = fblse;
                     }
 
                     initted = true;
@@ -3284,135 +3284,135 @@ public final class Class<T> implements java.io.Serializable,
     }
 
     /**
-     * Returns the elements of this enum class or null if this
-     * Class object does not represent an enum type.
+     * Returns the elements of this enum clbss or null if this
+     * Clbss object does not represent bn enum type.
      *
-     * @return an array containing the values comprising the enum class
-     *     represented by this Class object in the order they're
-     *     declared, or null if this Class object does not
-     *     represent an enum type
+     * @return bn brrby contbining the vblues comprising the enum clbss
+     *     represented by this Clbss object in the order they're
+     *     declbred, or null if this Clbss object does not
+     *     represent bn enum type
      * @since 1.5
      */
-    public T[] getEnumConstants() {
-        T[] values = getEnumConstantsShared();
-        return (values != null) ? values.clone() : null;
+    public T[] getEnumConstbnts() {
+        T[] vblues = getEnumConstbntsShbred();
+        return (vblues != null) ? vblues.clone() : null;
     }
 
     /**
-     * Returns the elements of this enum class or null if this
-     * Class object does not represent an enum type;
-     * identical to getEnumConstants except that the result is
-     * uncloned, cached, and shared by all callers.
+     * Returns the elements of this enum clbss or null if this
+     * Clbss object does not represent bn enum type;
+     * identicbl to getEnumConstbnts except thbt the result is
+     * uncloned, cbched, bnd shbred by bll cbllers.
      */
-    T[] getEnumConstantsShared() {
-        if (enumConstants == null) {
+    T[] getEnumConstbntsShbred() {
+        if (enumConstbnts == null) {
             if (!isEnum()) return null;
             try {
-                final Method values = getMethod("values");
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Void>() {
+                finbl Method vblues = getMethod("vblues");
+                jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Void>() {
                         public Void run() {
-                                values.setAccessible(true);
+                                vblues.setAccessible(true);
                                 return null;
                             }
                         });
-                @SuppressWarnings("unchecked")
-                T[] temporaryConstants = (T[])values.invoke(null);
-                enumConstants = temporaryConstants;
+                @SuppressWbrnings("unchecked")
+                T[] temporbryConstbnts = (T[])vblues.invoke(null);
+                enumConstbnts = temporbryConstbnts;
             }
-            // These can happen when users concoct enum-like classes
-            // that don't comply with the enum spec.
-            catch (InvocationTargetException | NoSuchMethodException |
-                   IllegalAccessException ex) { return null; }
+            // These cbn hbppen when users concoct enum-like clbsses
+            // thbt don't comply with the enum spec.
+            cbtch (InvocbtionTbrgetException | NoSuchMethodException |
+                   IllegblAccessException ex) { return null; }
         }
-        return enumConstants;
+        return enumConstbnts;
     }
-    private volatile transient T[] enumConstants = null;
+    privbte volbtile trbnsient T[] enumConstbnts = null;
 
     /**
-     * Returns a map from simple name to enum constant.  This package-private
-     * method is used internally by Enum to implement
-     * {@code public static <T extends Enum<T>> T valueOf(Class<T>, String)}
-     * efficiently.  Note that the map is returned by this method is
-     * created lazily on first use.  Typically it won't ever get created.
+     * Returns b mbp from simple nbme to enum constbnt.  This pbckbge-privbte
+     * method is used internblly by Enum to implement
+     * {@code public stbtic <T extends Enum<T>> T vblueOf(Clbss<T>, String)}
+     * efficiently.  Note thbt the mbp is returned by this method is
+     * crebted lbzily on first use.  Typicblly it won't ever get crebted.
      */
-    Map<String, T> enumConstantDirectory() {
-        if (enumConstantDirectory == null) {
-            T[] universe = getEnumConstantsShared();
+    Mbp<String, T> enumConstbntDirectory() {
+        if (enumConstbntDirectory == null) {
+            T[] universe = getEnumConstbntsShbred();
             if (universe == null)
-                throw new IllegalArgumentException(
-                    getName() + " is not an enum type");
-            Map<String, T> m = new HashMap<>(2 * universe.length);
-            for (T constant : universe)
-                m.put(((Enum<?>)constant).name(), constant);
-            enumConstantDirectory = m;
+                throw new IllegblArgumentException(
+                    getNbme() + " is not bn enum type");
+            Mbp<String, T> m = new HbshMbp<>(2 * universe.length);
+            for (T constbnt : universe)
+                m.put(((Enum<?>)constbnt).nbme(), constbnt);
+            enumConstbntDirectory = m;
         }
-        return enumConstantDirectory;
+        return enumConstbntDirectory;
     }
-    private volatile transient Map<String, T> enumConstantDirectory = null;
+    privbte volbtile trbnsient Mbp<String, T> enumConstbntDirectory = null;
 
     /**
-     * Casts an object to the class or interface represented
-     * by this {@code Class} object.
+     * Cbsts bn object to the clbss or interfbce represented
+     * by this {@code Clbss} object.
      *
-     * @param obj the object to be cast
-     * @return the object after casting, or null if obj is null
+     * @pbrbm obj the object to be cbst
+     * @return the object bfter cbsting, or null if obj is null
      *
-     * @throws ClassCastException if the object is not
-     * null and is not assignable to the type T.
+     * @throws ClbssCbstException if the object is not
+     * null bnd is not bssignbble to the type T.
      *
      * @since 1.5
      */
-    @SuppressWarnings("unchecked")
-    public T cast(Object obj) {
-        if (obj != null && !isInstance(obj))
-            throw new ClassCastException(cannotCastMsg(obj));
+    @SuppressWbrnings("unchecked")
+    public T cbst(Object obj) {
+        if (obj != null && !isInstbnce(obj))
+            throw new ClbssCbstException(cbnnotCbstMsg(obj));
         return (T) obj;
     }
 
-    private String cannotCastMsg(Object obj) {
-        return "Cannot cast " + obj.getClass().getName() + " to " + getName();
+    privbte String cbnnotCbstMsg(Object obj) {
+        return "Cbnnot cbst " + obj.getClbss().getNbme() + " to " + getNbme();
     }
 
     /**
-     * Casts this {@code Class} object to represent a subclass of the class
-     * represented by the specified class object.  Checks that the cast
-     * is valid, and throws a {@code ClassCastException} if it is not.  If
-     * this method succeeds, it always returns a reference to this class object.
+     * Cbsts this {@code Clbss} object to represent b subclbss of the clbss
+     * represented by the specified clbss object.  Checks thbt the cbst
+     * is vblid, bnd throws b {@code ClbssCbstException} if it is not.  If
+     * this method succeeds, it blwbys returns b reference to this clbss object.
      *
-     * <p>This method is useful when a client needs to "narrow" the type of
-     * a {@code Class} object to pass it to an API that restricts the
-     * {@code Class} objects that it is willing to accept.  A cast would
-     * generate a compile-time warning, as the correctness of the cast
-     * could not be checked at runtime (because generic types are implemented
-     * by erasure).
+     * <p>This method is useful when b client needs to "nbrrow" the type of
+     * b {@code Clbss} object to pbss it to bn API thbt restricts the
+     * {@code Clbss} objects thbt it is willing to bccept.  A cbst would
+     * generbte b compile-time wbrning, bs the correctness of the cbst
+     * could not be checked bt runtime (becbuse generic types bre implemented
+     * by erbsure).
      *
-     * @param <U> the type to cast this class object to
-     * @param clazz the class of the type to cast this class object to
-     * @return this {@code Class} object, cast to represent a subclass of
-     *    the specified class object.
-     * @throws ClassCastException if this {@code Class} object does not
-     *    represent a subclass of the specified class (here "subclass" includes
-     *    the class itself).
+     * @pbrbm <U> the type to cbst this clbss object to
+     * @pbrbm clbzz the clbss of the type to cbst this clbss object to
+     * @return this {@code Clbss} object, cbst to represent b subclbss of
+     *    the specified clbss object.
+     * @throws ClbssCbstException if this {@code Clbss} object does not
+     *    represent b subclbss of the specified clbss (here "subclbss" includes
+     *    the clbss itself).
      * @since 1.5
      */
-    @SuppressWarnings("unchecked")
-    public <U> Class<? extends U> asSubclass(Class<U> clazz) {
-        if (clazz.isAssignableFrom(this))
-            return (Class<? extends U>) this;
+    @SuppressWbrnings("unchecked")
+    public <U> Clbss<? extends U> bsSubclbss(Clbss<U> clbzz) {
+        if (clbzz.isAssignbbleFrom(this))
+            return (Clbss<? extends U>) this;
         else
-            throw new ClassCastException(this.toString());
+            throw new ClbssCbstException(this.toString());
     }
 
     /**
      * @throws NullPointerException {@inheritDoc}
      * @since 1.5
      */
-    @SuppressWarnings("unchecked")
-    public <A extends Annotation> A getAnnotation(Class<A> annotationClass) {
-        Objects.requireNonNull(annotationClass);
+    @SuppressWbrnings("unchecked")
+    public <A extends Annotbtion> A getAnnotbtion(Clbss<A> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
 
-        return (A) annotationData().annotations.get(annotationClass);
+        return (A) bnnotbtionDbtb().bnnotbtions.get(bnnotbtionClbss);
     }
 
     /**
@@ -3421,8 +3421,8 @@ public final class Class<T> implements java.io.Serializable,
      * @since 1.5
      */
     @Override
-    public boolean isAnnotationPresent(Class<? extends Annotation> annotationClass) {
-        return GenericDeclaration.super.isAnnotationPresent(annotationClass);
+    public boolebn isAnnotbtionPresent(Clbss<? extends Annotbtion> bnnotbtionClbss) {
+        return GenericDeclbrbtion.super.isAnnotbtionPresent(bnnotbtionClbss);
     }
 
     /**
@@ -3430,20 +3430,20 @@ public final class Class<T> implements java.io.Serializable,
      * @since 1.8
      */
     @Override
-    public <A extends Annotation> A[] getAnnotationsByType(Class<A> annotationClass) {
-        Objects.requireNonNull(annotationClass);
+    public <A extends Annotbtion> A[] getAnnotbtionsByType(Clbss<A> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
 
-        AnnotationData annotationData = annotationData();
-        return AnnotationSupport.getAssociatedAnnotations(annotationData.declaredAnnotations,
+        AnnotbtionDbtb bnnotbtionDbtb = bnnotbtionDbtb();
+        return AnnotbtionSupport.getAssocibtedAnnotbtions(bnnotbtionDbtb.declbredAnnotbtions,
                                                           this,
-                                                          annotationClass);
+                                                          bnnotbtionClbss);
     }
 
     /**
      * @since 1.5
      */
-    public Annotation[] getAnnotations() {
-        return AnnotationParser.toArray(annotationData().annotations);
+    public Annotbtion[] getAnnotbtions() {
+        return AnnotbtionPbrser.toArrby(bnnotbtionDbtb().bnnotbtions);
     }
 
     /**
@@ -3451,11 +3451,11 @@ public final class Class<T> implements java.io.Serializable,
      * @since 1.8
      */
     @Override
-    @SuppressWarnings("unchecked")
-    public <A extends Annotation> A getDeclaredAnnotation(Class<A> annotationClass) {
-        Objects.requireNonNull(annotationClass);
+    @SuppressWbrnings("unchecked")
+    public <A extends Annotbtion> A getDeclbredAnnotbtion(Clbss<A> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
 
-        return (A) annotationData().declaredAnnotations.get(annotationClass);
+        return (A) bnnotbtionDbtb().declbredAnnotbtions.get(bnnotbtionClbss);
     }
 
     /**
@@ -3463,176 +3463,176 @@ public final class Class<T> implements java.io.Serializable,
      * @since 1.8
      */
     @Override
-    public <A extends Annotation> A[] getDeclaredAnnotationsByType(Class<A> annotationClass) {
-        Objects.requireNonNull(annotationClass);
+    public <A extends Annotbtion> A[] getDeclbredAnnotbtionsByType(Clbss<A> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
 
-        return AnnotationSupport.getDirectlyAndIndirectlyPresent(annotationData().declaredAnnotations,
-                                                                 annotationClass);
+        return AnnotbtionSupport.getDirectlyAndIndirectlyPresent(bnnotbtionDbtb().declbredAnnotbtions,
+                                                                 bnnotbtionClbss);
     }
 
     /**
      * @since 1.5
      */
-    public Annotation[] getDeclaredAnnotations()  {
-        return AnnotationParser.toArray(annotationData().declaredAnnotations);
+    public Annotbtion[] getDeclbredAnnotbtions()  {
+        return AnnotbtionPbrser.toArrby(bnnotbtionDbtb().declbredAnnotbtions);
     }
 
-    // annotation data that might get invalidated when JVM TI RedefineClasses() is called
-    private static class AnnotationData {
-        final Map<Class<? extends Annotation>, Annotation> annotations;
-        final Map<Class<? extends Annotation>, Annotation> declaredAnnotations;
+    // bnnotbtion dbtb thbt might get invblidbted when JVM TI RedefineClbsses() is cblled
+    privbte stbtic clbss AnnotbtionDbtb {
+        finbl Mbp<Clbss<? extends Annotbtion>, Annotbtion> bnnotbtions;
+        finbl Mbp<Clbss<? extends Annotbtion>, Annotbtion> declbredAnnotbtions;
 
-        // Value of classRedefinedCount when we created this AnnotationData instance
-        final int redefinedCount;
+        // Vblue of clbssRedefinedCount when we crebted this AnnotbtionDbtb instbnce
+        finbl int redefinedCount;
 
-        AnnotationData(Map<Class<? extends Annotation>, Annotation> annotations,
-                       Map<Class<? extends Annotation>, Annotation> declaredAnnotations,
+        AnnotbtionDbtb(Mbp<Clbss<? extends Annotbtion>, Annotbtion> bnnotbtions,
+                       Mbp<Clbss<? extends Annotbtion>, Annotbtion> declbredAnnotbtions,
                        int redefinedCount) {
-            this.annotations = annotations;
-            this.declaredAnnotations = declaredAnnotations;
+            this.bnnotbtions = bnnotbtions;
+            this.declbredAnnotbtions = declbredAnnotbtions;
             this.redefinedCount = redefinedCount;
         }
     }
 
-    // Annotations cache
-    @SuppressWarnings("UnusedDeclaration")
-    private volatile transient AnnotationData annotationData;
+    // Annotbtions cbche
+    @SuppressWbrnings("UnusedDeclbrbtion")
+    privbte volbtile trbnsient AnnotbtionDbtb bnnotbtionDbtb;
 
-    private AnnotationData annotationData() {
+    privbte AnnotbtionDbtb bnnotbtionDbtb() {
         while (true) { // retry loop
-            AnnotationData annotationData = this.annotationData;
-            int classRedefinedCount = this.classRedefinedCount;
-            if (annotationData != null &&
-                annotationData.redefinedCount == classRedefinedCount) {
-                return annotationData;
+            AnnotbtionDbtb bnnotbtionDbtb = this.bnnotbtionDbtb;
+            int clbssRedefinedCount = this.clbssRedefinedCount;
+            if (bnnotbtionDbtb != null &&
+                bnnotbtionDbtb.redefinedCount == clbssRedefinedCount) {
+                return bnnotbtionDbtb;
             }
-            // null or stale annotationData -> optimistically create new instance
-            AnnotationData newAnnotationData = createAnnotationData(classRedefinedCount);
-            // try to install it
-            if (Atomic.casAnnotationData(this, annotationData, newAnnotationData)) {
-                // successfully installed new AnnotationData
-                return newAnnotationData;
+            // null or stble bnnotbtionDbtb -> optimisticblly crebte new instbnce
+            AnnotbtionDbtb newAnnotbtionDbtb = crebteAnnotbtionDbtb(clbssRedefinedCount);
+            // try to instbll it
+            if (Atomic.cbsAnnotbtionDbtb(this, bnnotbtionDbtb, newAnnotbtionDbtb)) {
+                // successfully instblled new AnnotbtionDbtb
+                return newAnnotbtionDbtb;
             }
         }
     }
 
-    private AnnotationData createAnnotationData(int classRedefinedCount) {
-        Map<Class<? extends Annotation>, Annotation> declaredAnnotations =
-            AnnotationParser.parseAnnotations(getRawAnnotations(), getConstantPool(), this);
-        Class<?> superClass = getSuperclass();
-        Map<Class<? extends Annotation>, Annotation> annotations = null;
-        if (superClass != null) {
-            Map<Class<? extends Annotation>, Annotation> superAnnotations =
-                superClass.annotationData().annotations;
-            for (Map.Entry<Class<? extends Annotation>, Annotation> e : superAnnotations.entrySet()) {
-                Class<? extends Annotation> annotationClass = e.getKey();
-                if (AnnotationType.getInstance(annotationClass).isInherited()) {
-                    if (annotations == null) { // lazy construction
-                        annotations = new LinkedHashMap<>((Math.max(
-                                declaredAnnotations.size(),
-                                Math.min(12, declaredAnnotations.size() + superAnnotations.size())
+    privbte AnnotbtionDbtb crebteAnnotbtionDbtb(int clbssRedefinedCount) {
+        Mbp<Clbss<? extends Annotbtion>, Annotbtion> declbredAnnotbtions =
+            AnnotbtionPbrser.pbrseAnnotbtions(getRbwAnnotbtions(), getConstbntPool(), this);
+        Clbss<?> superClbss = getSuperclbss();
+        Mbp<Clbss<? extends Annotbtion>, Annotbtion> bnnotbtions = null;
+        if (superClbss != null) {
+            Mbp<Clbss<? extends Annotbtion>, Annotbtion> superAnnotbtions =
+                superClbss.bnnotbtionDbtb().bnnotbtions;
+            for (Mbp.Entry<Clbss<? extends Annotbtion>, Annotbtion> e : superAnnotbtions.entrySet()) {
+                Clbss<? extends Annotbtion> bnnotbtionClbss = e.getKey();
+                if (AnnotbtionType.getInstbnce(bnnotbtionClbss).isInherited()) {
+                    if (bnnotbtions == null) { // lbzy construction
+                        bnnotbtions = new LinkedHbshMbp<>((Mbth.mbx(
+                                declbredAnnotbtions.size(),
+                                Mbth.min(12, declbredAnnotbtions.size() + superAnnotbtions.size())
                             ) * 4 + 2) / 3
                         );
                     }
-                    annotations.put(annotationClass, e.getValue());
+                    bnnotbtions.put(bnnotbtionClbss, e.getVblue());
                 }
             }
         }
-        if (annotations == null) {
-            // no inherited annotations -> share the Map with declaredAnnotations
-            annotations = declaredAnnotations;
+        if (bnnotbtions == null) {
+            // no inherited bnnotbtions -> shbre the Mbp with declbredAnnotbtions
+            bnnotbtions = declbredAnnotbtions;
         } else {
-            // at least one inherited annotation -> declared may override inherited
-            annotations.putAll(declaredAnnotations);
+            // bt lebst one inherited bnnotbtion -> declbred mby override inherited
+            bnnotbtions.putAll(declbredAnnotbtions);
         }
-        return new AnnotationData(annotations, declaredAnnotations, classRedefinedCount);
+        return new AnnotbtionDbtb(bnnotbtions, declbredAnnotbtions, clbssRedefinedCount);
     }
 
-    // Annotation types cache their internal (AnnotationType) form
+    // Annotbtion types cbche their internbl (AnnotbtionType) form
 
-    @SuppressWarnings("UnusedDeclaration")
-    private volatile transient AnnotationType annotationType;
+    @SuppressWbrnings("UnusedDeclbrbtion")
+    privbte volbtile trbnsient AnnotbtionType bnnotbtionType;
 
-    boolean casAnnotationType(AnnotationType oldType, AnnotationType newType) {
-        return Atomic.casAnnotationType(this, oldType, newType);
+    boolebn cbsAnnotbtionType(AnnotbtionType oldType, AnnotbtionType newType) {
+        return Atomic.cbsAnnotbtionType(this, oldType, newType);
     }
 
-    AnnotationType getAnnotationType() {
-        return annotationType;
+    AnnotbtionType getAnnotbtionType() {
+        return bnnotbtionType;
     }
 
-    Map<Class<? extends Annotation>, Annotation> getDeclaredAnnotationMap() {
-        return annotationData().declaredAnnotations;
+    Mbp<Clbss<? extends Annotbtion>, Annotbtion> getDeclbredAnnotbtionMbp() {
+        return bnnotbtionDbtb().declbredAnnotbtions;
     }
 
-    /* Backing store of user-defined values pertaining to this class.
-     * Maintained by the ClassValue class.
+    /* Bbcking store of user-defined vblues pertbining to this clbss.
+     * Mbintbined by the ClbssVblue clbss.
      */
-    transient ClassValue.ClassValueMap classValueMap;
+    trbnsient ClbssVblue.ClbssVblueMbp clbssVblueMbp;
 
     /**
-     * Returns an {@code AnnotatedType} object that represents the use of a
-     * type to specify the superclass of the entity represented by this {@code
-     * Class} object. (The <em>use</em> of type Foo to specify the superclass
-     * in '...  extends Foo' is distinct from the <em>declaration</em> of type
+     * Returns bn {@code AnnotbtedType} object thbt represents the use of b
+     * type to specify the superclbss of the entity represented by this {@code
+     * Clbss} object. (The <em>use</em> of type Foo to specify the superclbss
+     * in '...  extends Foo' is distinct from the <em>declbrbtion</em> of type
      * Foo.)
      *
-     * <p> If this {@code Class} object represents a type whose declaration
-     * does not explicitly indicate an annotated superclass, then the return
-     * value is an {@code AnnotatedType} object representing an element with no
-     * annotations.
+     * <p> If this {@code Clbss} object represents b type whose declbrbtion
+     * does not explicitly indicbte bn bnnotbted superclbss, then the return
+     * vblue is bn {@code AnnotbtedType} object representing bn element with no
+     * bnnotbtions.
      *
-     * <p> If this {@code Class} represents either the {@code Object} class, an
-     * interface type, an array type, a primitive type, or void, the return
-     * value is {@code null}.
+     * <p> If this {@code Clbss} represents either the {@code Object} clbss, bn
+     * interfbce type, bn brrby type, b primitive type, or void, the return
+     * vblue is {@code null}.
      *
-     * @return an object representing the superclass
+     * @return bn object representing the superclbss
      * @since 1.8
      */
-    public AnnotatedType getAnnotatedSuperclass() {
-        if (this == Object.class ||
-                isInterface() ||
-                isArray() ||
+    public AnnotbtedType getAnnotbtedSuperclbss() {
+        if (this == Object.clbss ||
+                isInterfbce() ||
+                isArrby() ||
                 isPrimitive() ||
                 this == Void.TYPE) {
             return null;
         }
 
-        return TypeAnnotationParser.buildAnnotatedSuperclass(getRawTypeAnnotations(), getConstantPool(), this);
+        return TypeAnnotbtionPbrser.buildAnnotbtedSuperclbss(getRbwTypeAnnotbtions(), getConstbntPool(), this);
     }
 
     /**
-     * Returns an array of {@code AnnotatedType} objects that represent the use
-     * of types to specify superinterfaces of the entity represented by this
-     * {@code Class} object. (The <em>use</em> of type Foo to specify a
-     * superinterface in '... implements Foo' is distinct from the
-     * <em>declaration</em> of type Foo.)
+     * Returns bn brrby of {@code AnnotbtedType} objects thbt represent the use
+     * of types to specify superinterfbces of the entity represented by this
+     * {@code Clbss} object. (The <em>use</em> of type Foo to specify b
+     * superinterfbce in '... implements Foo' is distinct from the
+     * <em>declbrbtion</em> of type Foo.)
      *
-     * <p> If this {@code Class} object represents a class, the return value is
-     * an array containing objects representing the uses of interface types to
-     * specify interfaces implemented by the class. The order of the objects in
-     * the array corresponds to the order of the interface types used in the
-     * 'implements' clause of the declaration of this {@code Class} object.
+     * <p> If this {@code Clbss} object represents b clbss, the return vblue is
+     * bn brrby contbining objects representing the uses of interfbce types to
+     * specify interfbces implemented by the clbss. The order of the objects in
+     * the brrby corresponds to the order of the interfbce types used in the
+     * 'implements' clbuse of the declbrbtion of this {@code Clbss} object.
      *
-     * <p> If this {@code Class} object represents an interface, the return
-     * value is an array containing objects representing the uses of interface
-     * types to specify interfaces directly extended by the interface. The
-     * order of the objects in the array corresponds to the order of the
-     * interface types used in the 'extends' clause of the declaration of this
-     * {@code Class} object.
+     * <p> If this {@code Clbss} object represents bn interfbce, the return
+     * vblue is bn brrby contbining objects representing the uses of interfbce
+     * types to specify interfbces directly extended by the interfbce. The
+     * order of the objects in the brrby corresponds to the order of the
+     * interfbce types used in the 'extends' clbuse of the declbrbtion of this
+     * {@code Clbss} object.
      *
-     * <p> If this {@code Class} object represents a class or interface whose
-     * declaration does not explicitly indicate any annotated superinterfaces,
-     * the return value is an array of length 0.
+     * <p> If this {@code Clbss} object represents b clbss or interfbce whose
+     * declbrbtion does not explicitly indicbte bny bnnotbted superinterfbces,
+     * the return vblue is bn brrby of length 0.
      *
-     * <p> If this {@code Class} object represents either the {@code Object}
-     * class, an array type, a primitive type, or void, the return value is an
-     * array of length 0.
+     * <p> If this {@code Clbss} object represents either the {@code Object}
+     * clbss, bn brrby type, b primitive type, or void, the return vblue is bn
+     * brrby of length 0.
      *
-     * @return an array representing the superinterfaces
+     * @return bn brrby representing the superinterfbces
      * @since 1.8
      */
-    public AnnotatedType[] getAnnotatedInterfaces() {
-         return TypeAnnotationParser.buildAnnotatedInterfaces(getRawTypeAnnotations(), getConstantPool(), this);
+    public AnnotbtedType[] getAnnotbtedInterfbces() {
+         return TypeAnnotbtionPbrser.buildAnnotbtedInterfbces(getRbwTypeAnnotbtions(), getConstbntPool(), this);
     }
 }

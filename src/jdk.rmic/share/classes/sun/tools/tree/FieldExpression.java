@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.*;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.*;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class FieldExpression extends UnaryExpression {
+clbss FieldExpression extends UnbryExpression {
     Identifier id;
     MemberDefinition field;
-    Expression implementation;
+    Expression implementbtion;
 
-    // The class from which the field is select ed.
-    ClassDefinition clazz;
+    // The clbss from which the field is select ed.
+    ClbssDefinition clbzz;
 
-    // For an expression of the form '<class>.super', then
-    // this is <class>, else null.
-    private ClassDefinition superBase;
+    // For bn expression of the form '<clbss>.super', then
+    // this is <clbss>, else null.
+    privbte ClbssDefinition superBbse;
 
     /**
      * constructor
@@ -57,32 +57,32 @@ class FieldExpression extends UnaryExpression {
     }
     public FieldExpression(long where, Expression right, MemberDefinition field) {
         super(FIELD, where, field.getType(), right);
-        this.id = field.getName();
+        this.id = field.getNbme();
         this.field = field;
     }
 
-    public Expression getImplementation() {
-        if (implementation != null)
-            return implementation;
+    public Expression getImplementbtion() {
+        if (implementbtion != null)
+            return implementbtion;
         return this;
     }
 
     /**
      * Return true if the field is being selected from
-     * a qualified 'super'.
+     * b qublified 'super'.
      */
-    private boolean isQualSuper() {
-        return superBase != null;
+    privbte boolebn isQublSuper() {
+        return superBbse != null;
     }
 
     /**
-     * Convert an '.' expression to a qualified identifier
+     * Convert bn '.' expression to b qublified identifier
      */
-    static public Identifier toIdentifier(Expression e) {
+    stbtic public Identifier toIdentifier(Expression e) {
         StringBuilder sb = new StringBuilder();
         while (e.op == FIELD) {
             FieldExpression fe = (FieldExpression)e;
-            if (fe.id == idThis || fe.id == idClass) {
+            if (fe.id == idThis || fe.id == idClbss) {
                 return null;
             }
             sb.insert(0, fe.id);
@@ -97,104 +97,104 @@ class FieldExpression extends UnaryExpression {
     }
 
     /**
-     * Convert a qualified name into a type.
-     * Performs a careful check of each inner-class component,
-     * including the JLS 6.6.1 access checks that were omitted
+     * Convert b qublified nbme into b type.
+     * Performs b cbreful check of ebch inner-clbss component,
+     * including the JLS 6.6.1 bccess checks thbt were omitted
      * in 'FieldExpression.toType'.
      * <p>
-     * This code is similar to 'checkCommon', which could be cleaned
-     * up a bit long the lines we have done here.
+     * This code is similbr to 'checkCommon', which could be clebned
+     * up b bit long the lines we hbve done here.
      */
     /*-------------------------------------------------------*
-    Type toQualifiedType(Environment env, Context ctx) {
-        ClassDefinition ctxClass = ctx.field.getClassDefinition();
-        Type rty = right.toQualifiedType(env, ctx);
-        if (rty == Type.tPackage) {
-            // Is this field expression a non-inner type?
+    Type toQublifiedType(Environment env, Context ctx) {
+        ClbssDefinition ctxClbss = ctx.field.getClbssDefinition();
+        Type rty = right.toQublifiedType(env, ctx);
+        if (rty == Type.tPbckbge) {
+            // Is this field expression b non-inner type?
             Identifier nm = toIdentifier(this);
-            if ((nm != null) && env.classExists(nm)) {
-                Type t = Type.tClass(nm);
-                if (env.resolve(where, ctxClass, t)) {
+            if ((nm != null) && env.clbssExists(nm)) {
+                Type t = Type.tClbss(nm);
+                if (env.resolve(where, ctxClbss, t)) {
                     return t;
                 } else {
                     return null;
                 }
             }
-            // Not a type.  Must be a package prefix.
-            return Type.tPackage;
+            // Not b type.  Must be b pbckbge prefix.
+            return Type.tPbckbge;
         }
         if (rty == null) {
-            // An error was already reported, so quit.
+            // An error wbs blrebdy reported, so quit.
             return null;
         }
 
-        // Check inner-class qualification while unwinding from recursion.
+        // Check inner-clbss qublificbtion while unwinding from recursion.
         try {
-            ClassDefinition rightClass = env.getClassDefinition(rty);
+            ClbssDefinition rightClbss = env.getClbssDefinition(rty);
 
-            // Local variables, which cannot be inner classes,
-            // are ignored here, and thus will not hide inner
-            // classes.  Is this correct?
-            MemberDefinition field = rightClass.getInnerClass(env, id);
+            // Locbl vbribbles, which cbnnot be inner clbsses,
+            // bre ignored here, bnd thus will not hide inner
+            // clbsses.  Is this correct?
+            MemberDefinition field = rightClbss.getInnerClbss(env, id);
             if (field == null) {
-                env.error(where, "inner.class.expected", id, rightClass);
+                env.error(where, "inner.clbss.expected", id, rightClbss);
                 return Type.tError;
             }
 
-            ClassDefinition innerClass = field.getInnerClass();
-            Type t = innerClass.getType();
+            ClbssDefinition innerClbss = field.getInnerClbss();
+            Type t = innerClbss.getType();
 
-            if (!ctxClass.canAccess(env, field)) {
-                env.error(where, "no.type.access", id, rightClass, ctxClass);
+            if (!ctxClbss.cbnAccess(env, field)) {
+                env.error(where, "no.type.bccess", id, rightClbss, ctxClbss);
                 return t;
             }
             if (field.isProtected()
-                && !ctxClass.protectedAccess(env, field, rty)) {
-                env.error(where, "invalid.protected.type.use", id, ctxClass, rty);
+                && !ctxClbss.protectedAccess(env, field, rty)) {
+                env.error(where, "invblid.protected.type.use", id, ctxClbss, rty);
                 return t;
             }
 
-            // These were omitted earlier in calls to 'toType', but I can't
-            // see any reason for that.  I think it was an oversight.  See
-            // 'checkCommon' and 'checkInnerClass'.
-            innerClass.noteUsedBy(ctxClass, where, env);
-            ctxClass.addDependency(field.getClassDeclaration());
+            // These were omitted ebrlier in cblls to 'toType', but I cbn't
+            // see bny rebson for thbt.  I think it wbs bn oversight.  See
+            // 'checkCommon' bnd 'checkInnerClbss'.
+            innerClbss.noteUsedBy(ctxClbss, where, env);
+            ctxClbss.bddDependency(field.getClbssDeclbrbtion());
 
             return t;
 
-        } catch (ClassNotFound e) {
-            env.error(where, "class.not.found", e.name, ctx.field);
+        } cbtch (ClbssNotFound e) {
+            env.error(where, "clbss.not.found", e.nbme, ctx.field);
         }
 
-        // Class not found.
+        // Clbss not found.
         return null;
     }
     *-------------------------------------------------------*/
 
     /**
-     * Convert an '.' expression to a type
+     * Convert bn '.' expression to b type
      */
 
-    // This is a rewrite to treat qualified names in a
-    // context in which a type name is expected in the
-    // same way that they are handled for an ambiguous
+    // This is b rewrite to trebt qublified nbmes in b
+    // context in which b type nbme is expected in the
+    // sbme wby thbt they bre hbndled for bn bmbiguous
     // or expression-expected context in 'checkCommon'
-    // below.  The new code is cleaner and allows better
-    // localization of errors.  Unfortunately, most
-    // qualified names appearing in types are actually
-    // handled by 'Environment.resolve'.  There isn't
-    // much point, then, in breaking out 'toType' as a
-    // special case until the other cases can be cleaned
-    // up as well.  For the time being, we will leave this
-    // code disabled, thus reducing the testing requirements.
+    // below.  The new code is clebner bnd bllows better
+    // locblizbtion of errors.  Unfortunbtely, most
+    // qublified nbmes bppebring in types bre bctublly
+    // hbndled by 'Environment.resolve'.  There isn't
+    // much point, then, in brebking out 'toType' bs b
+    // specibl cbse until the other cbses cbn be clebned
+    // up bs well.  For the time being, we will lebve this
+    // code disbbled, thus reducing the testing requirements.
     /*-------------------------------------------------------*
     Type toType(Environment env, Context ctx) {
-        Type t = toQualifiedType(env, ctx);
+        Type t = toQublifiedType(env, ctx);
         if (t == null) {
             return Type.tError;
         }
-        if (t == Type.tPackage) {
-            FieldExpression.reportFailedPackagePrefix(env, right, true);
+        if (t == Type.tPbckbge) {
+            FieldExpression.reportFbiledPbckbgePrefix(env, right, true);
             return Type.tError;
         }
         return t;
@@ -204,137 +204,137 @@ class FieldExpression extends UnaryExpression {
     Type toType(Environment env, Context ctx) {
         Identifier id = toIdentifier(this);
         if (id == null) {
-            env.error(where, "invalid.type.expr");
+            env.error(where, "invblid.type.expr");
             return Type.tError;
         }
-        Type t = Type.tClass(ctx.resolveName(env, id));
-        if (env.resolve(where, ctx.field.getClassDefinition(), t)) {
+        Type t = Type.tClbss(ctx.resolveNbme(env, id));
+        if (env.resolve(where, ctx.field.getClbssDefinition(), t)) {
             return t;
         }
         return Type.tError;
     }
 
     /**
-     * Check if the present name is part of a scoping prefix.
+     * Check if the present nbme is pbrt of b scoping prefix.
      */
 
-    public Vset checkAmbigName(Environment env, Context ctx,
-                               Vset vset, Hashtable<Object, Object> exp,
-                               UnaryExpression loc) {
-        if (id == idThis || id == idClass) {
-            loc = null;         // this cannot be a type or package
+    public Vset checkAmbigNbme(Environment env, Context ctx,
+                               Vset vset, Hbshtbble<Object, Object> exp,
+                               UnbryExpression loc) {
+        if (id == idThis || id == idClbss) {
+            loc = null;         // this cbnnot be b type or pbckbge
         }
-        return checkCommon(env, ctx, vset, exp, loc, false);
+        return checkCommon(env, ctx, vset, exp, loc, fblse);
     }
 
     /**
      * Check the expression
      */
 
-    public Vset checkValue(Environment env, Context ctx,
-                           Vset vset, Hashtable<Object, Object> exp) {
-        vset = checkCommon(env, ctx, vset, exp, null, false);
+    public Vset checkVblue(Environment env, Context ctx,
+                           Vset vset, Hbshtbble<Object, Object> exp) {
+        vset = checkCommon(env, ctx, vset, exp, null, fblse);
         if (id == idSuper && type != Type.tError) {
-            // "super" is not allowed in this context.
-            // It must always qualify another name.
-            env.error(where, "undef.var.super", idSuper);
+            // "super" is not bllowed in this context.
+            // It must blwbys qublify bnother nbme.
+            env.error(where, "undef.vbr.super", idSuper);
         }
         return vset;
     }
 
     /**
-     * If 'checkAmbiguousName' returns 'Package.tPackage', then it was
-     * unable to resolve any prefix of the qualified name.  This method
-     * attempts to diagnose the problem.
+     * If 'checkAmbiguousNbme' returns 'Pbckbge.tPbckbge', then it wbs
+     * unbble to resolve bny prefix of the qublified nbme.  This method
+     * bttempts to dibgnose the problem.
      */
 
-    static void reportFailedPackagePrefix(Environment env, Expression right) {
-        reportFailedPackagePrefix(env, right, false);
+    stbtic void reportFbiledPbckbgePrefix(Environment env, Expression right) {
+        reportFbiledPbckbgePrefix(env, right, fblse);
     }
 
-    static void reportFailedPackagePrefix(Environment env,
+    stbtic void reportFbiledPbckbgePrefix(Environment env,
                                           Expression right,
-                                          boolean mustBeType) {
-        // Find the leftmost component, and put the blame on it.
+                                          boolebn mustBeType) {
+        // Find the leftmost component, bnd put the blbme on it.
         Expression idp = right;
-        while (idp instanceof UnaryExpression)
-            idp = ((UnaryExpression)idp).right;
+        while (idp instbnceof UnbryExpression)
+            idp = ((UnbryExpression)idp).right;
         IdentifierExpression ie = (IdentifierExpression)idp;
 
-        // It may be that 'ie' refers to an ambiguous class.  Check this
-        // with a call to env.resolve(). Part of solution for 4059855.
+        // It mby be thbt 'ie' refers to bn bmbiguous clbss.  Check this
+        // with b cbll to env.resolve(). Pbrt of solution for 4059855.
         try {
             env.resolve(ie.id);
-        } catch (AmbiguousClass e) {
-            env.error(right.where, "ambig.class", e.name1, e.name2);
+        } cbtch (AmbiguousClbss e) {
+            env.error(right.where, "bmbig.clbss", e.nbme1, e.nbme2);
             return;
-        } catch (ClassNotFound e) {
+        } cbtch (ClbssNotFound e) {
         }
 
         if (idp == right) {
             if (mustBeType) {
-                env.error(ie.where, "undef.class", ie.id);
+                env.error(ie.where, "undef.clbss", ie.id);
             } else {
-                env.error(ie.where, "undef.var.or.class", ie.id);
+                env.error(ie.where, "undef.vbr.or.clbss", ie.id);
             }
         } else {
             if (mustBeType) {
-                env.error(ie.where, "undef.class.or.package", ie.id);
+                env.error(ie.where, "undef.clbss.or.pbckbge", ie.id);
             } else {
-                env.error(ie.where, "undef.var.class.or.package", ie.id);
+                env.error(ie.where, "undef.vbr.clbss.or.pbckbge", ie.id);
             }
         }
     }
 
     /**
-     * Rewrite accesses to private fields of another class.
+     * Rewrite bccesses to privbte fields of bnother clbss.
      */
 
-    private Expression
-    implementFieldAccess(Environment env, Context ctx, Expression base, boolean isLHS) {
-        ClassDefinition abase = accessBase(env, ctx);
-        if (abase != null) {
+    privbte Expression
+    implementFieldAccess(Environment env, Context ctx, Expression bbse, boolebn isLHS) {
+        ClbssDefinition bbbse = bccessBbse(env, ctx);
+        if (bbbse != null) {
 
-            // If the field is final and its initializer is a constant expression,
-            // then just rewrite to the constant expression. This is not just an
-            // optimization, but is required for correctness.  If an expression is
-            // rewritten to use an access method, then its status as a constant
-            // expression is lost.  This was the cause of bug 4098737.  Note that
-            // a call to 'getValue(env)' below would not be correct, as it attempts
-            // to simplify the initial value expression, which must not occur until
-            // after the checking phase, for example, after definite assignment checks.
-            if (field.isFinal()) {
-                Expression e = (Expression)field.getValue();
-                // Must not be LHS here.  Test as a precaution,
-                // as we may not be careful to avoid this when
-                // compiling an erroneous program.
-                if ((e != null) && e.isConstant() && !isLHS) {
+            // If the field is finbl bnd its initiblizer is b constbnt expression,
+            // then just rewrite to the constbnt expression. This is not just bn
+            // optimizbtion, but is required for correctness.  If bn expression is
+            // rewritten to use bn bccess method, then its stbtus bs b constbnt
+            // expression is lost.  This wbs the cbuse of bug 4098737.  Note thbt
+            // b cbll to 'getVblue(env)' below would not be correct, bs it bttempts
+            // to simplify the initibl vblue expression, which must not occur until
+            // bfter the checking phbse, for exbmple, bfter definite bssignment checks.
+            if (field.isFinbl()) {
+                Expression e = (Expression)field.getVblue();
+                // Must not be LHS here.  Test bs b precbution,
+                // bs we mby not be cbreful to bvoid this when
+                // compiling bn erroneous progrbm.
+                if ((e != null) && e.isConstbnt() && !isLHS) {
                     return e.copyInline(ctx);
                 }
             }
 
-            //System.out.println("Finding access method for " + field);
-            MemberDefinition af = abase.getAccessMember(env, ctx, field, isQualSuper());
-            //System.out.println("Using access method " + af);
+            //System.out.println("Finding bccess method for " + field);
+            MemberDefinition bf = bbbse.getAccessMember(env, ctx, field, isQublSuper());
+            //System.out.println("Using bccess method " + bf);
 
             if (!isLHS) {
-                //System.out.println("Reading " + field +
-                //                              " via access method " + af);
-                // If referencing the value of the field, then replace
-                // with a call to the access method.  If assigning to
-                // the field, a call to the update method will be
-                // generated later. It is important that
-                // 'implementation' not be set to non-null if the
-                // expression is a valid assignment target.
+                //System.out.println("Rebding " + field +
+                //                              " vib bccess method " + bf);
+                // If referencing the vblue of the field, then replbce
+                // with b cbll to the bccess method.  If bssigning to
+                // the field, b cbll to the updbte method will be
+                // generbted lbter. It is importbnt thbt
+                // 'implementbtion' not be set to non-null if the
+                // expression is b vblid bssignment tbrget.
                 // (See 'checkLHS'.)
-                if (field.isStatic()) {
-                    Expression args[] = { };
-                    Expression call =
-                        new MethodExpression(where, null, af, args);
-                    return new CommaExpression(where, base, call);
+                if (field.isStbtic()) {
+                    Expression brgs[] = { };
+                    Expression cbll =
+                        new MethodExpression(where, null, bf, brgs);
+                    return new CommbExpression(where, bbse, cbll);
                 } else {
-                    Expression args[] = { base };
-                    return new MethodExpression(where, null, af, args);
+                    Expression brgs[] = { bbse };
+                    return new MethodExpression(where, null, bf, brgs);
                 }
             }
         }
@@ -343,853 +343,853 @@ class FieldExpression extends UnaryExpression {
     }
 
     /**
-     * Determine if an access method is required, and, if so, return
-     * the class in which it should appear, else return null.
+     * Determine if bn bccess method is required, bnd, if so, return
+     * the clbss in which it should bppebr, else return null.
      */
-    private ClassDefinition accessBase(Environment env, Context ctx) {
-        if (field.isPrivate()) {
-            ClassDefinition cdef = field.getClassDefinition();
-            ClassDefinition ctxClass = ctx.field.getClassDefinition();
-            if (cdef == ctxClass){
-                // If access from same class as field, then no access
+    privbte ClbssDefinition bccessBbse(Environment env, Context ctx) {
+        if (field.isPrivbte()) {
+            ClbssDefinition cdef = field.getClbssDefinition();
+            ClbssDefinition ctxClbss = ctx.field.getClbssDefinition();
+            if (cdef == ctxClbss){
+                // If bccess from sbme clbss bs field, then no bccess
                 // method is needed.
                 return null;
             }
-            // An access method is needed in the class containing the field.
+            // An bccess method is needed in the clbss contbining the field.
             return cdef;
         } else if (field.isProtected()) {
-            if (superBase == null) {
-                // If access is not via qualified super, then it is either
-                // OK without an access method, or it is an illegal access
-                // for which an error message should have been issued.
-                // Legal accesses include unqualified 'super.foo'.
+            if (superBbse == null) {
+                // If bccess is not vib qublified super, then it is either
+                // OK without bn bccess method, or it is bn illegbl bccess
+                // for which bn error messbge should hbve been issued.
+                // Legbl bccesses include unqublified 'super.foo'.
                 return null;
             }
-            ClassDefinition cdef = field.getClassDefinition();
-            ClassDefinition ctxClass = ctx.field.getClassDefinition();
-            if (cdef.inSamePackage(ctxClass)) {
-                // Access to protected member in same package always allowed.
+            ClbssDefinition cdef = field.getClbssDefinition();
+            ClbssDefinition ctxClbss = ctx.field.getClbssDefinition();
+            if (cdef.inSbmePbckbge(ctxClbss)) {
+                // Access to protected member in sbme pbckbge blwbys bllowed.
                 return null;
             }
-            // Access via qualified super.
-            // An access method is needed in the qualifying class, an
-            // immediate subclass of the class containing the selected
-            // field.  NOTE: The fact that the returned class is 'superBase'
-            // carries the additional bit of information (that a special
-            // superclass access method is being created) which is provided
-            // to 'getAccessMember' via its 'isSuper' argument.
-            return superBase;
+            // Access vib qublified super.
+            // An bccess method is needed in the qublifying clbss, bn
+            // immedibte subclbss of the clbss contbining the selected
+            // field.  NOTE: The fbct thbt the returned clbss is 'superBbse'
+            // cbrries the bdditionbl bit of informbtion (thbt b specibl
+            // superclbss bccess method is being crebted) which is provided
+            // to 'getAccessMember' vib its 'isSuper' brgument.
+            return superBbse;
         } else {
-            // No access method needed.
+            // No bccess method needed.
             return null;
         }
     }
 
     /**
-     * Determine if a type is accessible from a given class.
+     * Determine if b type is bccessible from b given clbss.
      */
-    static boolean isTypeAccessible(long where,
+    stbtic boolebn isTypeAccessible(long where,
                                     Environment env,
                                     Type t,
-                                    ClassDefinition c) {
+                                    ClbssDefinition c) {
         switch (t.getTypeCode()) {
-          case TC_CLASS:
+          cbse TC_CLASS:
             try {
-                Identifier nm = t.getClassName();
-                // Why not just use 'Environment.getClassDeclaration' here?
-                // But 'Environment.getClassDeclation' has special treatment
-                // for local classes that is probably necessary.  This code
-                // was adapted from 'Environment.resolve'.
-                ClassDefinition def = env.getClassDefinition(t);
-                return c.canAccess(env, def.getClassDeclaration());
-            } catch (ClassNotFound e) {}  // Ignore -- reported elsewhere.
+                Identifier nm = t.getClbssNbme();
+                // Why not just use 'Environment.getClbssDeclbrbtion' here?
+                // But 'Environment.getClbssDeclbtion' hbs specibl trebtment
+                // for locbl clbsses thbt is probbbly necessbry.  This code
+                // wbs bdbpted from 'Environment.resolve'.
+                ClbssDefinition def = env.getClbssDefinition(t);
+                return c.cbnAccess(env, def.getClbssDeclbrbtion());
+            } cbtch (ClbssNotFound e) {}  // Ignore -- reported elsewhere.
             return true;
-          case TC_ARRAY:
+          cbse TC_ARRAY:
             return isTypeAccessible(where, env, t.getElementType(), c);
-          default:
+          defbult:
             return true;
         }
     }
 
     /**
-     * Common code for checkValue and checkAmbigName
+     * Common code for checkVblue bnd checkAmbigNbme
      */
 
-    private Vset checkCommon(Environment env, Context ctx,
-                             Vset vset, Hashtable<Object, Object> exp,
-                             UnaryExpression loc, boolean isLHS) {
+    privbte Vset checkCommon(Environment env, Context ctx,
+                             Vset vset, Hbshtbble<Object, Object> exp,
+                             UnbryExpression loc, boolebn isLHS) {
 
-        // Handle class literal, e.g., 'x.class'.
-        if (id == idClass) {
+        // Hbndle clbss literbl, e.g., 'x.clbss'.
+        if (id == idClbss) {
 
-            // In 'x.class', 'x' must be a type name, possibly qualified.
+            // In 'x.clbss', 'x' must be b type nbme, possibly qublified.
             Type t = right.toType(env, ctx);
 
             if (!t.isType(TC_CLASS) && !t.isType(TC_ARRAY)) {
                 if (t.isType(TC_ERROR)) {
-                    type = Type.tClassDesc;
+                    type = Type.tClbssDesc;
                     return vset;
                 }
                 String wrc = null;
                 switch (t.getTypeCode()) {
-                  case TC_VOID: wrc = "Void"; break;
-                  case TC_BOOLEAN: wrc = "Boolean"; break;
-                  case TC_BYTE: wrc = "Byte"; break;
-                  case TC_CHAR: wrc = "Character"; break;
-                  case TC_SHORT: wrc = "Short"; break;
-                  case TC_INT: wrc = "Integer"; break;
-                  case TC_FLOAT: wrc = "Float"; break;
-                  case TC_LONG: wrc = "Long"; break;
-                  case TC_DOUBLE: wrc = "Double"; break;
-                  default:
-                      env.error(right.where, "invalid.type.expr");
+                  cbse TC_VOID: wrc = "Void"; brebk;
+                  cbse TC_BOOLEAN: wrc = "Boolebn"; brebk;
+                  cbse TC_BYTE: wrc = "Byte"; brebk;
+                  cbse TC_CHAR: wrc = "Chbrbcter"; brebk;
+                  cbse TC_SHORT: wrc = "Short"; brebk;
+                  cbse TC_INT: wrc = "Integer"; brebk;
+                  cbse TC_FLOAT: wrc = "Flobt"; brebk;
+                  cbse TC_LONG: wrc = "Long"; brebk;
+                  cbse TC_DOUBLE: wrc = "Double"; brebk;
+                  defbult:
+                      env.error(right.where, "invblid.type.expr");
                       return vset;
                 }
-                Identifier wid = Identifier.lookup(idJavaLang+"."+wrc);
-                Expression wcls = new TypeExpression(where, Type.tClass(wid));
-                implementation = new FieldExpression(where, wcls, idTYPE);
-                vset = implementation.checkValue(env, ctx, vset, exp);
-                type = implementation.type; // java.lang.Class
+                Identifier wid = Identifier.lookup(idJbvbLbng+"."+wrc);
+                Expression wcls = new TypeExpression(where, Type.tClbss(wid));
+                implementbtion = new FieldExpression(where, wcls, idTYPE);
+                vset = implementbtion.checkVblue(env, ctx, vset, exp);
+                type = implementbtion.type; // jbvb.lbng.Clbss
                 return vset;
             }
 
-            // Check for the bogus type `array of void'
-            if (t.isVoidArray()) {
-                type = Type.tClassDesc;
-                env.error(right.where, "void.array");
+            // Check for the bogus type `brrby of void'
+            if (t.isVoidArrby()) {
+                type = Type.tClbssDesc;
+                env.error(right.where, "void.brrby");
                 return vset;
             }
 
-            // it is a class or array
+            // it is b clbss or brrby
             long fwhere = ctx.field.getWhere();
-            ClassDefinition fcls = ctx.field.getClassDefinition();
-            MemberDefinition lookup = fcls.getClassLiteralLookup(fwhere);
+            ClbssDefinition fcls = ctx.field.getClbssDefinition();
+            MemberDefinition lookup = fcls.getClbssLiterblLookup(fwhere);
 
-            String sig = t.getTypeSignature();
-            String className;
+            String sig = t.getTypeSignbture();
+            String clbssNbme;
             if (t.isType(TC_CLASS)) {
-                // sig is like "Lfoo/bar;", name is like "foo.bar".
-                // We assume SIG_CLASS and SIG_ENDCLASS are 1 char each.
-                className = sig.substring(1, sig.length()-1)
-                    .replace(SIGC_PACKAGE, '.');
+                // sig is like "Lfoo/bbr;", nbme is like "foo.bbr".
+                // We bssume SIG_CLASS bnd SIG_ENDCLASS bre 1 chbr ebch.
+                clbssNbme = sig.substring(1, sig.length()-1)
+                    .replbce(SIGC_PACKAGE, '.');
             } else {
-                // sig is like "[Lfoo/bar;" or "[I";
-                // name is like "[Lfoo.bar" or (again) "[I".
-                className = sig.replace(SIGC_PACKAGE, '.');
+                // sig is like "[Lfoo/bbr;" or "[I";
+                // nbme is like "[Lfoo.bbr" or (bgbin) "[I".
+                clbssNbme = sig.replbce(SIGC_PACKAGE, '.');
             }
 
-            if (fcls.isInterface()) {
-                // The immediately-enclosing type is an interface.
-                // The class literal can only appear in an initialization
-                // expression, so don't bother caching it.  (This could
-                // lose if many initializations use the same class literal,
-                // but saves time and code space otherwise.)
-                implementation =
-                    makeClassLiteralInlineRef(env, ctx, lookup, className);
+            if (fcls.isInterfbce()) {
+                // The immedibtely-enclosing type is bn interfbce.
+                // The clbss literbl cbn only bppebr in bn initiblizbtion
+                // expression, so don't bother cbching it.  (This could
+                // lose if mbny initiblizbtions use the sbme clbss literbl,
+                // but sbves time bnd code spbce otherwise.)
+                implementbtion =
+                    mbkeClbssLiterblInlineRef(env, ctx, lookup, clbssNbme);
             } else {
-                // Cache the call to the helper, as it may be executed
-                // many times (e.g., if the class literal is inside a loop).
-                ClassDefinition inClass = lookup.getClassDefinition();
+                // Cbche the cbll to the helper, bs it mby be executed
+                // mbny times (e.g., if the clbss literbl is inside b loop).
+                ClbssDefinition inClbss = lookup.getClbssDefinition();
                 MemberDefinition cfld =
-                    getClassLiteralCache(env, ctx, className, inClass);
-                implementation =
-                    makeClassLiteralCacheRef(env, ctx, lookup, cfld, className);
+                    getClbssLiterblCbche(env, ctx, clbssNbme, inClbss);
+                implementbtion =
+                    mbkeClbssLiterblCbcheRef(env, ctx, lookup, cfld, clbssNbme);
             }
 
-            vset = implementation.checkValue(env, ctx, vset, exp);
-            type = implementation.type; // java.lang.Class
+            vset = implementbtion.checkVblue(env, ctx, vset, exp);
+            type = implementbtion.type; // jbvb.lbng.Clbss
             return vset;
         }
 
-        // Arrive here if not a class literal.
+        // Arrive here if not b clbss literbl.
 
         if (field != null) {
 
-            // The field as been pre-set, e.g., as the result of transforming
-            // an 'IdentifierExpression'. Most error-checking has already been
-            // performed at this point.
+            // The field bs been pre-set, e.g., bs the result of trbnsforming
+            // bn 'IdentifierExpression'. Most error-checking hbs blrebdy been
+            // performed bt this point.
             // QUERY: Why don't we further unify checking of identifier
-            // expressions and field expressions that denote instance and
-            // class variables?
+            // expressions bnd field expressions thbt denote instbnce bnd
+            // clbss vbribbles?
 
-            implementation = implementFieldAccess(env, ctx, right, isLHS);
+            implementbtion = implementFieldAccess(env, ctx, right, isLHS);
             return (right == null) ?
-                vset : right.checkAmbigName(env, ctx, vset, exp, this);
+                vset : right.checkAmbigNbme(env, ctx, vset, exp, this);
         }
 
-        // Does the qualifier have a meaning of its own?
-        vset = right.checkAmbigName(env, ctx, vset, exp, this);
-        if (right.type == Type.tPackage) {
+        // Does the qublifier hbve b mebning of its own?
+        vset = right.checkAmbigNbme(env, ctx, vset, exp, this);
+        if (right.type == Type.tPbckbge) {
             // Are we out of options?
             if (loc == null) {
-                FieldExpression.reportFailedPackagePrefix(env, right);
+                FieldExpression.reportFbiledPbckbgePrefix(env, right);
                 return vset;
             }
 
             // ASSERT(loc.right == this)
 
-            // Nope.  Is this field expression a type?
+            // Nope.  Is this field expression b type?
             Identifier nm = toIdentifier(this);
-            if ((nm != null) && env.classExists(nm)) {
-                loc.right = new TypeExpression(where, Type.tClass(nm));
-                // Check access. (Cf. IdentifierExpression.toResolvedType.)
-                ClassDefinition ctxClass = ctx.field.getClassDefinition();
-                env.resolve(where, ctxClass, loc.right.type);
+            if ((nm != null) && env.clbssExists(nm)) {
+                loc.right = new TypeExpression(where, Type.tClbss(nm));
+                // Check bccess. (Cf. IdentifierExpression.toResolvedType.)
+                ClbssDefinition ctxClbss = ctx.field.getClbssDefinition();
+                env.resolve(where, ctxClbss, loc.right.type);
                 return vset;
             }
 
-            // Let the caller make sense of it, then.
-            type = Type.tPackage;
+            // Let the cbller mbke sense of it, then.
+            type = Type.tPbckbge;
             return vset;
         }
 
-        // Good; we have a well-defined qualifier type.
+        // Good; we hbve b well-defined qublifier type.
 
-        ClassDefinition ctxClass = ctx.field.getClassDefinition();
-        boolean staticRef = (right instanceof TypeExpression);
+        ClbssDefinition ctxClbss = ctx.field.getClbssDefinition();
+        boolebn stbticRef = (right instbnceof TypeExpression);
 
         try {
 
-            // Handle array 'length' field, e.g., 'x.length'.
+            // Hbndle brrby 'length' field, e.g., 'x.length'.
 
             if (!right.type.isType(TC_CLASS)) {
-                if (right.type.isType(TC_ARRAY) && id.equals(idLength)) {
-                    // Verify that the type of the base expression is accessible.
+                if (right.type.isType(TC_ARRAY) && id.equbls(idLength)) {
+                    // Verify thbt the type of the bbse expression is bccessible.
                     // Required by JLS 6.6.1.  Fixes 4094658.
-                    if (!FieldExpression.isTypeAccessible(where, env, right.type, ctxClass)) {
-                        ClassDeclaration cdecl = ctxClass.getClassDeclaration();
-                        if (staticRef) {
-                            env.error(where, "no.type.access",
+                    if (!FieldExpression.isTypeAccessible(where, env, right.type, ctxClbss)) {
+                        ClbssDeclbrbtion cdecl = ctxClbss.getClbssDeclbrbtion();
+                        if (stbticRef) {
+                            env.error(where, "no.type.bccess",
                                       id, right.type.toString(), cdecl);
                         } else {
-                            env.error(where, "cant.access.member.type",
+                            env.error(where, "cbnt.bccess.member.type",
                                       id, right.type.toString(), cdecl);
                         }
                     }
                     type = Type.tInt;
-                    implementation = new LengthExpression(where, right);
+                    implementbtion = new LengthExpression(where, right);
                     return vset;
                 }
                 if (!right.type.isType(TC_ERROR)) {
-                    env.error(where, "invalid.field.reference", id, right.type);
+                    env.error(where, "invblid.field.reference", id, right.type);
                 }
                 return vset;
             }
 
-            // At this point, we know that 'right.type' is a class type.
+            // At this point, we know thbt 'right.type' is b clbss type.
 
-            // Note that '<expr>.super(...)' and '<expr>.this(...)' cases never
-            // reach here.  Instead, '<expr>' is stored as the 'outerArg' field
-            // of a 'SuperExpression' or 'ThisExpression' node.
+            // Note thbt '<expr>.super(...)' bnd '<expr>.this(...)' cbses never
+            // rebch here.  Instebd, '<expr>' is stored bs the 'outerArg' field
+            // of b 'SuperExpression' or 'ThisExpression' node.
 
-            // If our prefix is of the form '<class>.super', then we are
-            // about to do a field selection '<class>.super.<field>'.
-            // Save the qualifying class in 'superBase', which is non-null
-            // only if the current FieldExpression is a qualified 'super' form.
-            // Also, set 'sourceClass' to the "effective accessing class" relative
-            // to which access checks will be performed.  Normally, this is the
-            // immediately enclosing class.  For '<class>.this' and '<class>.super',
-            // however, we use <class>.
+            // If our prefix is of the form '<clbss>.super', then we bre
+            // bbout to do b field selection '<clbss>.super.<field>'.
+            // Sbve the qublifying clbss in 'superBbse', which is non-null
+            // only if the current FieldExpression is b qublified 'super' form.
+            // Also, set 'sourceClbss' to the "effective bccessing clbss" relbtive
+            // to which bccess checks will be performed.  Normblly, this is the
+            // immedibtely enclosing clbss.  For '<clbss>.this' bnd '<clbss>.super',
+            // however, we use <clbss>.
 
-            ClassDefinition sourceClass = ctxClass;
-            if (right instanceof FieldExpression) {
+            ClbssDefinition sourceClbss = ctxClbss;
+            if (right instbnceof FieldExpression) {
                 Identifier id = ((FieldExpression)right).id;
                 if (id == idThis) {
-                    sourceClass = ((FieldExpression)right).clazz;
+                    sourceClbss = ((FieldExpression)right).clbzz;
                 } else if (id == idSuper) {
-                    sourceClass = ((FieldExpression)right).clazz;
-                    superBase = sourceClass;
+                    sourceClbss = ((FieldExpression)right).clbzz;
+                    superBbse = sourceClbss;
                 }
             }
 
-            // Handle 'class.this' and 'class.super'.
+            // Hbndle 'clbss.this' bnd 'clbss.super'.
             //
-            // Suppose 'super.name' appears within a class C with immediate
-            // superclass S. According to JLS 15.10.2, 'super.name' in this
-            // case is equivalent to '((S)this).name'.  Analogously, we interpret
-            // 'class.super.name' as '((S)(class.this)).name', where S is the
-            // immediate superclass of (enclosing) class 'class'.
-            // Note that 'super' may not stand alone as an expression, but must
-            // occur as the qualifying expression of a field access or a method
-            // invocation.  This is enforced in 'SuperExpression.checkValue' and
-            // 'FieldExpression.checkValue', and need not concern us here.
+            // Suppose 'super.nbme' bppebrs within b clbss C with immedibte
+            // superclbss S. According to JLS 15.10.2, 'super.nbme' in this
+            // cbse is equivblent to '((S)this).nbme'.  Anblogously, we interpret
+            // 'clbss.super.nbme' bs '((S)(clbss.this)).nbme', where S is the
+            // immedibte superclbss of (enclosing) clbss 'clbss'.
+            // Note thbt 'super' mby not stbnd blone bs bn expression, but must
+            // occur bs the qublifying expression of b field bccess or b method
+            // invocbtion.  This is enforced in 'SuperExpression.checkVblue' bnd
+            // 'FieldExpression.checkVblue', bnd need not concern us here.
 
-            //ClassDefinition clazz = env.getClassDefinition(right.type);
-            clazz = env.getClassDefinition(right.type);
+            //ClbssDefinition clbzz = env.getClbssDefinition(right.type);
+            clbzz = env.getClbssDefinition(right.type);
             if (id == idThis || id == idSuper) {
-                if (!staticRef) {
-                    env.error(right.where, "invalid.type.expr");
+                if (!stbticRef) {
+                    env.error(right.where, "invblid.type.expr");
                 }
 
-                // We used to check that 'right.type' is accessible here,
-                // per JLS 6.6.1.  As a result of the fix for 4102393, however,
-                // the qualifying class name must exactly match an enclosing
-                // outer class, which is necessarily accessible.
+                // We used to check thbt 'right.type' is bccessible here,
+                // per JLS 6.6.1.  As b result of the fix for 4102393, however,
+                // the qublifying clbss nbme must exbctly mbtch bn enclosing
+                // outer clbss, which is necessbrily bccessible.
 
-                /*** Temporary assertion check ***/
+                /*** Temporbry bssertion check ***/
                 if (ctx.field.isSynthetic())
-                    throw new CompilerError("synthetic qualified this");
+                    throw new CompilerError("synthetic qublified this");
                 /*********************************/
 
-                // A.this means we're inside an A and we want its self ptr.
-                // C.this is always the same as this when C is innermost.
-                // Another A.this means we skip out to get a "hidden" this,
-                // just as ASuper.foo skips out to get a hidden variable.
-                // Last argument 'true' means we want an exact class match,
-                // not a subclass of the specified class ('clazz').
-                implementation = ctx.findOuterLink(env, where, clazz, null, true);
-                vset = implementation.checkValue(env, ctx, vset, exp);
+                // A.this mebns we're inside bn A bnd we wbnt its self ptr.
+                // C.this is blwbys the sbme bs this when C is innermost.
+                // Another A.this mebns we skip out to get b "hidden" this,
+                // just bs ASuper.foo skips out to get b hidden vbribble.
+                // Lbst brgument 'true' mebns we wbnt bn exbct clbss mbtch,
+                // not b subclbss of the specified clbss ('clbzz').
+                implementbtion = ctx.findOuterLink(env, where, clbzz, null, true);
+                vset = implementbtion.checkVblue(env, ctx, vset, exp);
                 if (id == idSuper) {
-                    type = clazz.getSuperClass().getType();
+                    type = clbzz.getSuperClbss().getType();
                 } else {
-                    type = clazz.getType();
+                    type = clbzz.getType();
                 }
                 return vset;
             }
 
-            // Field should be an instance variable or class variable.
-            field = clazz.getVariable(env, id, sourceClass);
+            // Field should be bn instbnce vbribble or clbss vbribble.
+            field = clbzz.getVbribble(env, id, sourceClbss);
 
-            if (field == null && staticRef && loc != null) {
-                // Is this field expression an inner type?
-                // Search the class and its supers (but not its outers).
-                // QUERY: We may need to get the inner class from a
-                // superclass of 'clazz'.  This call is prepared to
-                // resolve the superclass if necessary.  Can we arrange
-                // to assure that it is always previously resolved?
-                // This is one of a small number of problematic calls that
-                // requires 'getSuperClass' to resolve superclasses on demand.
-                // See 'ClassDefinition.getInnerClass(env, nm)'.
-                field = clazz.getInnerClass(env, id);
+            if (field == null && stbticRef && loc != null) {
+                // Is this field expression bn inner type?
+                // Sebrch the clbss bnd its supers (but not its outers).
+                // QUERY: We mby need to get the inner clbss from b
+                // superclbss of 'clbzz'.  This cbll is prepbred to
+                // resolve the superclbss if necessbry.  Cbn we brrbnge
+                // to bssure thbt it is blwbys previously resolved?
+                // This is one of b smbll number of problembtic cblls thbt
+                // requires 'getSuperClbss' to resolve superclbsses on dembnd.
+                // See 'ClbssDefinition.getInnerClbss(env, nm)'.
+                field = clbzz.getInnerClbss(env, id);
                 if (field != null) {
-                    return checkInnerClass(env, ctx, vset, exp, loc);
+                    return checkInnerClbss(env, ctx, vset, exp, loc);
                 }
             }
 
-            // If not a variable reference, diagnose error if name is
-            // that of a method.
+            // If not b vbribble reference, dibgnose error if nbme is
+            // thbt of b method.
 
             if (field == null) {
-                if ((field = clazz.findAnyMethod(env, id)) != null) {
-                    env.error(where, "invalid.field",
-                              id, field.getClassDeclaration());
+                if ((field = clbzz.findAnyMethod(env, id)) != null) {
+                    env.error(where, "invblid.field",
+                              id, field.getClbssDeclbrbtion());
                 } else {
-                    env.error(where, "no.such.field", id, clazz);
+                    env.error(where, "no.such.field", id, clbzz);
                 }
                 return vset;
             }
 
-            // At this point, we have identified a valid field.
+            // At this point, we hbve identified b vblid field.
 
             // Required by JLS 6.6.1.  Fixes 4094658.
-            if (!FieldExpression.isTypeAccessible(where, env, right.type, sourceClass)) {
-                ClassDeclaration cdecl = sourceClass.getClassDeclaration();
-                if (staticRef) {
-                    env.error(where, "no.type.access",
+            if (!FieldExpression.isTypeAccessible(where, env, right.type, sourceClbss)) {
+                ClbssDeclbrbtion cdecl = sourceClbss.getClbssDeclbrbtion();
+                if (stbticRef) {
+                    env.error(where, "no.type.bccess",
                               id, right.type.toString(), cdecl);
                 } else {
-                    env.error(where, "cant.access.member.type",
+                    env.error(where, "cbnt.bccess.member.type",
                               id, right.type.toString(), cdecl);
                 }
             }
 
             type = field.getType();
 
-            if (!sourceClass.canAccess(env, field)) {
-                env.error(where, "no.field.access",
-                          id, clazz, sourceClass.getClassDeclaration());
+            if (!sourceClbss.cbnAccess(env, field)) {
+                env.error(where, "no.field.bccess",
+                          id, clbzz, sourceClbss.getClbssDeclbrbtion());
                 return vset;
             }
 
-            if (staticRef && !field.isStatic()) {
-                // 'Class.field' is not legal when field is not static;
-                // see JLS 15.13.1.  This case was permitted by javac
-                // prior to 1.2; static refs were silently changed to
-                // be dynamic access of the form 'this.field'.
-                env.error(where, "no.static.field.access", id, clazz);
+            if (stbticRef && !field.isStbtic()) {
+                // 'Clbss.field' is not legbl when field is not stbtic;
+                // see JLS 15.13.1.  This cbse wbs permitted by jbvbc
+                // prior to 1.2; stbtic refs were silently chbnged to
+                // be dynbmic bccess of the form 'this.field'.
+                env.error(where, "no.stbtic.field.bccess", id, clbzz);
                 return vset;
             } else {
-                // Rewrite access to use an access method if necessary.
-                implementation = implementFieldAccess(env, ctx, right, isLHS);
+                // Rewrite bccess to use bn bccess method if necessbry.
+                implementbtion = implementFieldAccess(env, ctx, right, isLHS);
             }
 
-            // Check for invalid access to protected field.
+            // Check for invblid bccess to protected field.
             if (field.isProtected()
-                && !(right instanceof SuperExpression
-                     // Extension of JLS 6.6.2 for qualified 'super'.
-                     || (right instanceof FieldExpression &&
+                && !(right instbnceof SuperExpression
+                     // Extension of JLS 6.6.2 for qublified 'super'.
+                     || (right instbnceof FieldExpression &&
                          ((FieldExpression)right).id == idSuper))
-                && !sourceClass.protectedAccess(env, field, right.type)) {
-                env.error(where, "invalid.protected.field.use",
-                          field.getName(), field.getClassDeclaration(),
+                && !sourceClbss.protectedAccess(env, field, right.type)) {
+                env.error(where, "invblid.protected.field.use",
+                          field.getNbme(), field.getClbssDeclbrbtion(),
                           right.type);
                 return vset;
             }
 
-            if ((!field.isStatic()) &&
-                (right.op == THIS) && !vset.testVar(ctx.getThisNumber())) {
-                env.error(where, "access.inst.before.super", id);
+            if ((!field.isStbtic()) &&
+                (right.op == THIS) && !vset.testVbr(ctx.getThisNumber())) {
+                env.error(where, "bccess.inst.before.super", id);
             }
 
-            if (field.reportDeprecated(env)) {
-                env.error(where, "warn."+"field.is.deprecated",
-                          id, field.getClassDefinition());
+            if (field.reportDeprecbted(env)) {
+                env.error(where, "wbrn."+"field.is.deprecbted",
+                          id, field.getClbssDefinition());
             }
 
-            // When a package-private class defines public or protected
-            // members, those members may sometimes be accessed from
-            // outside of the package in public subclasses.  In these
-            // cases, we need to massage the getField to refer to
-            // to an accessible subclass rather than the package-private
-            // parent class.  Part of fix for 4135692.
+            // When b pbckbge-privbte clbss defines public or protected
+            // members, those members mby sometimes be bccessed from
+            // outside of the pbckbge in public subclbsses.  In these
+            // cbses, we need to mbssbge the getField to refer to
+            // to bn bccessible subclbss rbther thbn the pbckbge-privbte
+            // pbrent clbss.  Pbrt of fix for 4135692.
 
-            // Find out if the class which contains this field
-            // reference has access to the class which declares the
+            // Find out if the clbss which contbins this field
+            // reference hbs bccess to the clbss which declbres the
             // public or protected field.
-            if (sourceClass == ctxClass) {
-                ClassDefinition declarer = field.getClassDefinition();
-                if (declarer.isPackagePrivate() &&
-                    !declarer.getName().getQualifier()
-                    .equals(sourceClass.getName().getQualifier())) {
+            if (sourceClbss == ctxClbss) {
+                ClbssDefinition declbrer = field.getClbssDefinition();
+                if (declbrer.isPbckbgePrivbte() &&
+                    !declbrer.getNbme().getQublifier()
+                    .equbls(sourceClbss.getNbme().getQublifier())) {
 
-                    //System.out.println("The access of member " +
-                    //             field + " declared in class " +
-                    //             declarer +
-                    //             " is not allowed by the VM from class  " +
-                    //             ctxClass +
-                    //             ".  Replacing with an access of class " +
-                    //             clazz);
+                    //System.out.println("The bccess of member " +
+                    //             field + " declbred in clbss " +
+                    //             declbrer +
+                    //             " is not bllowed by the VM from clbss  " +
+                    //             ctxClbss +
+                    //             ".  Replbcing with bn bccess of clbss " +
+                    //             clbzz);
 
-                    // We cannot make this access at the VM level.
-                    // Construct a member which will stand for this
-                    // field in ctxClass and set `field' to refer to it.
+                    // We cbnnot mbke this bccess bt the VM level.
+                    // Construct b member which will stbnd for this
+                    // field in ctxClbss bnd set `field' to refer to it.
                     field =
-                        MemberDefinition.makeProxyMember(field, clazz, env);
+                        MemberDefinition.mbkeProxyMember(field, clbzz, env);
                 }
             }
 
-            sourceClass.addDependency(field.getClassDeclaration());
+            sourceClbss.bddDependency(field.getClbssDeclbrbtion());
 
-        } catch (ClassNotFound e) {
-            env.error(where, "class.not.found", e.name, ctx.field);
+        } cbtch (ClbssNotFound e) {
+            env.error(where, "clbss.not.found", e.nbme, ctx.field);
 
-        } catch (AmbiguousMember e) {
-            env.error(where, "ambig.field",
-                      id, e.field1.getClassDeclaration(), e.field2.getClassDeclaration());
+        } cbtch (AmbiguousMember e) {
+            env.error(where, "bmbig.field",
+                      id, e.field1.getClbssDeclbrbtion(), e.field2.getClbssDeclbrbtion());
         }
         return vset;
     }
 
     /**
-     * Return a <code>FieldUpdater</code> object to be used in updating the
-     * value of the location denoted by <code>this</code>, which must be an
-     * expression suitable for the left-hand side of an assignment.
-     * This is used for implementing assignments to private fields for which
-     * an access method is required.  Returns null if no access method is
-     * needed, in which case the assignment is handled in the usual way, by
-     * direct access.  Only simple assignment expressions are handled here
-     * Assignment operators and pre/post increment/decrement operators are
-     * are handled by 'getUpdater' below.
+     * Return b <code>FieldUpdbter</code> object to be used in updbting the
+     * vblue of the locbtion denoted by <code>this</code>, which must be bn
+     * expression suitbble for the left-hbnd side of bn bssignment.
+     * This is used for implementing bssignments to privbte fields for which
+     * bn bccess method is required.  Returns null if no bccess method is
+     * needed, in which cbse the bssignment is hbndled in the usubl wby, by
+     * direct bccess.  Only simple bssignment expressions bre hbndled here
+     * Assignment operbtors bnd pre/post increment/decrement operbtors bre
+     * bre hbndled by 'getUpdbter' below.
      * <p>
-     * Must be called after 'checkValue', else 'right' will be invalid.
+     * Must be cblled bfter 'checkVblue', else 'right' will be invblid.
      */
 
 
-    public FieldUpdater getAssigner(Environment env, Context ctx) {
+    public FieldUpdbter getAssigner(Environment env, Context ctx) {
         if (field == null) {
-            // Field can legitimately be null if the field name was
-            // undefined, in which case an error was reported, but
-            // no value for 'field' is available.
+            // Field cbn legitimbtely be null if the field nbme wbs
+            // undefined, in which cbse bn error wbs reported, but
+            // no vblue for 'field' is bvbilbble.
             //   throw new CompilerError("getAssigner");
             return null;
         }
-        ClassDefinition abase = accessBase(env, ctx);
-        if (abase != null) {
-            MemberDefinition setter = abase.getUpdateMember(env, ctx, field, isQualSuper());
-            // It may not be necessary to copy 'right' here.
-            Expression base = (right == null) ? null : right.copyInline(ctx);
-            // Created 'FieldUpdater' has no getter method.
-            return new FieldUpdater(where, field, base, null, setter);
+        ClbssDefinition bbbse = bccessBbse(env, ctx);
+        if (bbbse != null) {
+            MemberDefinition setter = bbbse.getUpdbteMember(env, ctx, field, isQublSuper());
+            // It mby not be necessbry to copy 'right' here.
+            Expression bbse = (right == null) ? null : right.copyInline(ctx);
+            // Crebted 'FieldUpdbter' hbs no getter method.
+            return new FieldUpdbter(where, field, bbse, null, setter);
         }
         return null;
     }
 
     /**
-     * Return a <code>FieldUpdater</code> object to be used in updating the
-     * value of the location denoted by <code>this</code>, which must be an
-     * expression suitable for the left-hand side of an assignment.  This is
-     * used for implementing the assignment operators and the increment and
-     * decrement operators on private fields that are accessed from another
-     * class, e.g, uplevel from an inner class. Returns null if no access
+     * Return b <code>FieldUpdbter</code> object to be used in updbting the
+     * vblue of the locbtion denoted by <code>this</code>, which must be bn
+     * expression suitbble for the left-hbnd side of bn bssignment.  This is
+     * used for implementing the bssignment operbtors bnd the increment bnd
+     * decrement operbtors on privbte fields thbt bre bccessed from bnother
+     * clbss, e.g, uplevel from bn inner clbss. Returns null if no bccess
      * method is needed.
      * <p>
-     * Must be called after 'checkValue', else 'right' will be invalid.
+     * Must be cblled bfter 'checkVblue', else 'right' will be invblid.
      */
 
-    public FieldUpdater getUpdater(Environment env, Context ctx) {
+    public FieldUpdbter getUpdbter(Environment env, Context ctx) {
         if (field == null) {
-            // Field can legitimately be null if the field name was
-            // undefined, in which case an error was reported, but
-            // no value for 'field' is available.
-            //   throw new CompilerError("getUpdater");
+            // Field cbn legitimbtely be null if the field nbme wbs
+            // undefined, in which cbse bn error wbs reported, but
+            // no vblue for 'field' is bvbilbble.
+            //   throw new CompilerError("getUpdbter");
             return null;
         }
-        ClassDefinition abase = accessBase(env, ctx);
-        if (abase != null) {
-            MemberDefinition getter = abase.getAccessMember(env, ctx, field, isQualSuper());
-            MemberDefinition setter = abase.getUpdateMember(env, ctx, field, isQualSuper());
-            // It may not be necessary to copy 'right' here.
-            Expression base = (right == null) ? null : right.copyInline(ctx);
-            return new FieldUpdater(where, field, base, getter, setter);
+        ClbssDefinition bbbse = bccessBbse(env, ctx);
+        if (bbbse != null) {
+            MemberDefinition getter = bbbse.getAccessMember(env, ctx, field, isQublSuper());
+            MemberDefinition setter = bbbse.getUpdbteMember(env, ctx, field, isQublSuper());
+            // It mby not be necessbry to copy 'right' here.
+            Expression bbse = (right == null) ? null : right.copyInline(ctx);
+            return new FieldUpdbter(where, field, bbse, getter, setter);
         }
         return null;
     }
 
     /**
-     * This field expression is an inner class reference.
+     * This field expression is bn inner clbss reference.
      * Finish checking it.
      */
-    private Vset checkInnerClass(Environment env, Context ctx,
-                                 Vset vset, Hashtable<Object, Object> exp,
-                                 UnaryExpression loc) {
-        ClassDefinition inner = field.getInnerClass();
+    privbte Vset checkInnerClbss(Environment env, Context ctx,
+                                 Vset vset, Hbshtbble<Object, Object> exp,
+                                 UnbryExpression loc) {
+        ClbssDefinition inner = field.getInnerClbss();
         type = inner.getType();
 
         if (!inner.isTopLevel()) {
-            env.error(where, "inner.static.ref", inner.getName());
+            env.error(where, "inner.stbtic.ref", inner.getNbme());
         }
 
         Expression te = new TypeExpression(where, type);
 
-        // check access
-        ClassDefinition ctxClass = ctx.field.getClassDefinition();
+        // check bccess
+        ClbssDefinition ctxClbss = ctx.field.getClbssDefinition();
         try {
-            if (!ctxClass.canAccess(env, field)) {
-                ClassDefinition clazz = env.getClassDefinition(right.type);
-                //env.error(where, "no.type.access",
-                //          id, clazz, ctx.field.getClassDeclaration());
-                env.error(where, "no.type.access",
-                          id, clazz, ctxClass.getClassDeclaration());
+            if (!ctxClbss.cbnAccess(env, field)) {
+                ClbssDefinition clbzz = env.getClbssDefinition(right.type);
+                //env.error(where, "no.type.bccess",
+                //          id, clbzz, ctx.field.getClbssDeclbrbtion());
+                env.error(where, "no.type.bccess",
+                          id, clbzz, ctxClbss.getClbssDeclbrbtion());
                 return vset;
             }
 
             if (field.isProtected()
-                && !(right instanceof SuperExpression
-                     // Extension of JLS 6.6.2 for qualified 'super'.
-                     || (right instanceof FieldExpression &&
+                && !(right instbnceof SuperExpression
+                     // Extension of JLS 6.6.2 for qublified 'super'.
+                     || (right instbnceof FieldExpression &&
                          ((FieldExpression)right).id == idSuper))
-                && !ctxClass.protectedAccess(env, field, right.type)){
-                env.error(where, "invalid.protected.field.use",
-                          field.getName(), field.getClassDeclaration(),
+                && !ctxClbss.protectedAccess(env, field, right.type)){
+                env.error(where, "invblid.protected.field.use",
+                          field.getNbme(), field.getClbssDeclbrbtion(),
                           right.type);
                 return vset;
             }
 
-            inner.noteUsedBy(ctxClass, where, env);
+            inner.noteUsedBy(ctxClbss, where, env);
 
-        } catch (ClassNotFound e) {
-            env.error(where, "class.not.found", e.name, ctx.field);
+        } cbtch (ClbssNotFound e) {
+            env.error(where, "clbss.not.found", e.nbme, ctx.field);
         }
 
-        ctxClass.addDependency(field.getClassDeclaration());
+        ctxClbss.bddDependency(field.getClbssDeclbrbtion());
         if (loc == null)
-            // Complain about a free-floating type name.
-            return te.checkValue(env, ctx, vset, exp);
+            // Complbin bbout b free-flobting type nbme.
+            return te.checkVblue(env, ctx, vset, exp);
         loc.right = te;
         return vset;
     }
 
     /**
-     * Check the expression if it appears on the LHS of an assignment
+     * Check the expression if it bppebrs on the LHS of bn bssignment
      */
     public Vset checkLHS(Environment env, Context ctx,
-                         Vset vset, Hashtable<Object, Object> exp) {
-        boolean hadField = (field != null);
+                         Vset vset, Hbshtbble<Object, Object> exp) {
+        boolebn hbdField = (field != null);
 
-        //checkValue(env, ctx, vset, exp);
+        //checkVblue(env, ctx, vset, exp);
         checkCommon(env, ctx, vset, exp, null, true);
 
-        // If 'implementation' is set to a non-null value, then the
-        // field expression does not denote an assignable location,
-        // e.g., the 'length' field of an array.
-        if (implementation != null) {
-            // This just reports an error and recovers.
+        // If 'implementbtion' is set to b non-null vblue, then the
+        // field expression does not denote bn bssignbble locbtion,
+        // e.g., the 'length' field of bn brrby.
+        if (implementbtion != null) {
+            // This just reports bn error bnd recovers.
             return super.checkLHS(env, ctx, vset, exp);
         }
 
-        if (field != null && field.isFinal() && !hadField) {
-            if (field.isBlankFinal()) {
-                if (field.isStatic()) {
+        if (field != null && field.isFinbl() && !hbdField) {
+            if (field.isBlbnkFinbl()) {
+                if (field.isStbtic()) {
                     if (right != null) {
-                        env.error(where, "qualified.static.final.assign");
+                        env.error(where, "qublified.stbtic.finbl.bssign");
                     }
-                    // Continue with checking anyhow.
-                    // In fact, it would be easy to allow this case.
+                    // Continue with checking bnyhow.
+                    // In fbct, it would be ebsy to bllow this cbse.
                 } else {
                     if ((right != null) && (right.op != THIS)) {
-                        env.error(where, "bad.qualified.final.assign", field.getName());
-                        // The actual instance could be anywhere, so don't
-                        // continue with checking the definite assignment status.
+                        env.error(where, "bbd.qublified.finbl.bssign", field.getNbme());
+                        // The bctubl instbnce could be bnywhere, so don't
+                        // continue with checking the definite bssignment stbtus.
                         return vset;
                     }
                 }
-                vset = checkFinalAssign(env, ctx, vset, where, field);
+                vset = checkFinblAssign(env, ctx, vset, where, field);
             } else {
-                env.error(where, "assign.to.final", id);
+                env.error(where, "bssign.to.finbl", id);
             }
         }
         return vset;
     }
 
     /**
-     * Check the expression if it appears on the LHS of an op= expression
+     * Check the expression if it bppebrs on the LHS of bn op= expression
      */
     public Vset checkAssignOp(Environment env, Context ctx,
-                              Vset vset, Hashtable<Object, Object> exp, Expression outside) {
+                              Vset vset, Hbshtbble<Object, Object> exp, Expression outside) {
 
-        //checkValue(env, ctx, vset, exp);
+        //checkVblue(env, ctx, vset, exp);
         checkCommon(env, ctx, vset, exp, null, true);
 
-        // If 'implementation' is set to a non-null value, then the
-        // field expression does not denote an assignable location,
-        // e.g., the 'length' field of an array.
-        if (implementation != null) {
+        // If 'implementbtion' is set to b non-null vblue, then the
+        // field expression does not denote bn bssignbble locbtion,
+        // e.g., the 'length' field of bn brrby.
+        if (implementbtion != null) {
             return super.checkLHS(env, ctx, vset, exp);
         }
-        if (field != null && field.isFinal()) {
-            env.error(where, "assign.to.final", id);
+        if (field != null && field.isFinbl()) {
+            env.error(where, "bssign.to.finbl", id);
         }
         return vset;
     }
 
     /**
-     * There is a simple assignment being made to the given final field.
-     * The field was named either by a simple name or by an almost-simple
+     * There is b simple bssignment being mbde to the given finbl field.
+     * The field wbs nbmed either by b simple nbme or by bn blmost-simple
      * expression of the form "this.v".
-     * Check if this is a legal assignment.
+     * Check if this is b legbl bssignment.
      * <p>
-     * Blank final variables can be set in initializers or constructor
-     * bodies.  In all cases there must be definite single assignment.
-     * (All instance and instance variable initializers and each
-     * constructor body are treated as if concatenated for the purposes
-     * of this check.  Assignment to "this.x" is treated as a definite
-     * assignment to the simple name "x" which names the instance variable.)
+     * Blbnk finbl vbribbles cbn be set in initiblizers or constructor
+     * bodies.  In bll cbses there must be definite single bssignment.
+     * (All instbnce bnd instbnce vbribble initiblizers bnd ebch
+     * constructor body bre trebted bs if concbtenbted for the purposes
+     * of this check.  Assignment to "this.x" is trebted bs b definite
+     * bssignment to the simple nbme "x" which nbmes the instbnce vbribble.)
      */
 
-    public static Vset checkFinalAssign(Environment env, Context ctx,
+    public stbtic Vset checkFinblAssign(Environment env, Context ctx,
                                         Vset vset, long where,
                                         MemberDefinition field) {
-        if (field.isBlankFinal()
-            && field.getClassDefinition() == ctx.field.getClassDefinition()) {
+        if (field.isBlbnkFinbl()
+            && field.getClbssDefinition() == ctx.field.getClbssDefinition()) {
             int number = ctx.getFieldNumber(field);
-            if (number >= 0 && vset.testVarUnassigned(number)) {
-                // definite single assignment
-                vset = vset.addVar(number);
+            if (number >= 0 && vset.testVbrUnbssigned(number)) {
+                // definite single bssignment
+                vset = vset.bddVbr(number);
             } else {
-                // it is a blank final in this class, but not assignable
-                Identifier id = field.getName();
-                env.error(where, "assign.to.blank.final", id);
+                // it is b blbnk finbl in this clbss, but not bssignbble
+                Identifier id = field.getNbme();
+                env.error(where, "bssign.to.blbnk.finbl", id);
             }
         } else {
-            // give the generic error message
-            Identifier id = field.getName();
-            env.error(where, "assign.to.final", id);
+            // give the generic error messbge
+            Identifier id = field.getNbme();
+            env.error(where, "bssign.to.finbl", id);
         }
         return vset;
     }
 
-    private static MemberDefinition getClassLiteralCache(Environment env,
+    privbte stbtic MemberDefinition getClbssLiterblCbche(Environment env,
                                                          Context ctx,
-                                                         String className,
-                                                         ClassDefinition c) {
-        // Given a class name, look for a static field to cache it.
-        //      className       lname
-        //      pkg.Foo         class$pkg$Foo
-        //      [Lpkg.Foo;      array$Lpkg$Foo
-        //      [[Lpkg.Foo;     array$$Lpkg$Foo
-        //      [I              array$I
-        //      [[I             array$$I
-        String lname;
-        if (!className.startsWith(SIG_ARRAY)) {
-            lname = prefixClass + className.replace('.', '$');
+                                                         String clbssNbme,
+                                                         ClbssDefinition c) {
+        // Given b clbss nbme, look for b stbtic field to cbche it.
+        //      clbssNbme       lnbme
+        //      pkg.Foo         clbss$pkg$Foo
+        //      [Lpkg.Foo;      brrby$Lpkg$Foo
+        //      [[Lpkg.Foo;     brrby$$Lpkg$Foo
+        //      [I              brrby$I
+        //      [[I             brrby$$I
+        String lnbme;
+        if (!clbssNbme.stbrtsWith(SIG_ARRAY)) {
+            lnbme = prefixClbss + clbssNbme.replbce('.', '$');
         } else {
-            lname = prefixArray + className.substring(1);
-            lname = lname.replace(SIGC_ARRAY, '$'); // [[[I => array$$$I
-            if (className.endsWith(SIG_ENDCLASS)) {
-                // [Lpkg.Foo; => array$Lpkg$Foo
-                lname = lname.substring(0, lname.length() - 1);
-                lname = lname.replace('.', '$');
+            lnbme = prefixArrby + clbssNbme.substring(1);
+            lnbme = lnbme.replbce(SIGC_ARRAY, '$'); // [[[I => brrby$$$I
+            if (clbssNbme.endsWith(SIG_ENDCLASS)) {
+                // [Lpkg.Foo; => brrby$Lpkg$Foo
+                lnbme = lnbme.substring(0, lnbme.length() - 1);
+                lnbme = lnbme.replbce('.', '$');
             }
-            // else [I => array$I or some such; lname is already OK
+            // else [I => brrby$I or some such; lnbme is blrebdy OK
         }
-        Identifier fname = Identifier.lookup(lname);
+        Identifier fnbme = Identifier.lookup(lnbme);
 
-        // The class to put the cache in is now given as an argument.
+        // The clbss to put the cbche in is now given bs bn brgument.
         //
-        // ClassDefinition c = ctx.field.getClassDefinition();
-        // while (c.isInnerClass()) {
-        //     c = c.getOuterClass();
+        // ClbssDefinition c = ctx.field.getClbssDefinition();
+        // while (c.isInnerClbss()) {
+        //     c = c.getOuterClbss();
 
         MemberDefinition cfld;
         try {
-            cfld = c.getVariable(env, fname, c);
-        } catch (ClassNotFound ee) {
+            cfld = c.getVbribble(env, fnbme, c);
+        } cbtch (ClbssNotFound ee) {
             return null;
-        } catch (AmbiguousMember ee) {
+        } cbtch (AmbiguousMember ee) {
             return null;
         }
 
-        // Ignore inherited field.  Each top-level class
-        // containing a given class literal must have its own copy,
-        // both for reasons of binary compatibility and to prevent
-        // access violations should the superclass be in another
-        // package.  Part of fix 4106051.
-        if (cfld != null && cfld.getClassDefinition() == c) {
+        // Ignore inherited field.  Ebch top-level clbss
+        // contbining b given clbss literbl must hbve its own copy,
+        // both for rebsons of binbry compbtibility bnd to prevent
+        // bccess violbtions should the superclbss be in bnother
+        // pbckbge.  Pbrt of fix 4106051.
+        if (cfld != null && cfld.getClbssDefinition() == c) {
             return cfld;
         }
 
-        // Since each class now has its own copy, we might as well
-        // tighten up the access to private (previously default).
-        // Part of fix for 4106051.
-        // ** Temporarily retract this, as it tickles 4098316.
-        return env.makeMemberDefinition(env, c.getWhere(),
+        // Since ebch clbss now hbs its own copy, we might bs well
+        // tighten up the bccess to privbte (previously defbult).
+        // Pbrt of fix for 4106051.
+        // ** Temporbrily retrbct this, bs it tickles 4098316.
+        return env.mbkeMemberDefinition(env, c.getWhere(),
                                         c, null,
                                         M_STATIC | M_SYNTHETIC, // M_PRIVATE,
-                                        Type.tClassDesc, fname,
+                                        Type.tClbssDesc, fnbme,
                                         null, null, null);
     }
 
-    private Expression makeClassLiteralCacheRef(Environment env, Context ctx,
+    privbte Expression mbkeClbssLiterblCbcheRef(Environment env, Context ctx,
                                                 MemberDefinition lookup,
                                                 MemberDefinition cfld,
-                                                String className) {
+                                                String clbssNbme) {
         Expression ccls = new TypeExpression(where,
-                                             cfld.getClassDefinition()
+                                             cfld.getClbssDefinition()
                                              .getType());
-        Expression cache = new FieldExpression(where, ccls, cfld);
-        Expression cacheOK =
-            new NotEqualExpression(where, cache.copyInline(ctx),
+        Expression cbche = new FieldExpression(where, ccls, cfld);
+        Expression cbcheOK =
+            new NotEqublExpression(where, cbche.copyInline(ctx),
                                    new NullExpression(where));
         Expression lcls =
-            new TypeExpression(where, lookup.getClassDefinition() .getType());
-        Expression name = new StringExpression(where, className);
-        Expression namearg[] = { name };
-        Expression setCache = new MethodExpression(where, lcls,
-                                                   lookup, namearg);
-        setCache = new AssignExpression(where, cache.copyInline(ctx),
-                                        setCache);
-        return new ConditionalExpression(where, cacheOK, cache, setCache);
+            new TypeExpression(where, lookup.getClbssDefinition() .getType());
+        Expression nbme = new StringExpression(where, clbssNbme);
+        Expression nbmebrg[] = { nbme };
+        Expression setCbche = new MethodExpression(where, lcls,
+                                                   lookup, nbmebrg);
+        setCbche = new AssignExpression(where, cbche.copyInline(ctx),
+                                        setCbche);
+        return new ConditionblExpression(where, cbcheOK, cbche, setCbche);
     }
 
-    private Expression makeClassLiteralInlineRef(Environment env, Context ctx,
+    privbte Expression mbkeClbssLiterblInlineRef(Environment env, Context ctx,
                                                  MemberDefinition lookup,
-                                                 String className) {
+                                                 String clbssNbme) {
         Expression lcls =
-            new TypeExpression(where, lookup.getClassDefinition().getType());
-        Expression name = new StringExpression(where, className);
-        Expression namearg[] = { name };
-        Expression getClass = new MethodExpression(where, lcls,
-                                                   lookup, namearg);
-        return getClass;
+            new TypeExpression(where, lookup.getClbssDefinition().getType());
+        Expression nbme = new StringExpression(where, clbssNbme);
+        Expression nbmebrg[] = { nbme };
+        Expression getClbss = new MethodExpression(where, lcls,
+                                                   lookup, nbmebrg);
+        return getClbss;
     }
 
 
     /**
-     * Check if constant:  Will it inline away?
+     * Check if constbnt:  Will it inline bwby?
      */
-    public boolean isConstant() {
-        if (implementation != null)
-            return implementation.isConstant();
+    public boolebn isConstbnt() {
+        if (implementbtion != null)
+            return implementbtion.isConstbnt();
         if ((field != null)
-            && (right == null || right instanceof TypeExpression
+            && (right == null || right instbnceof TypeExpression
                 || (right.op == THIS && right.where == where))) {
-            return field.isConstant();
+            return field.isConstbnt();
         }
-        return false;
+        return fblse;
     }
 
     /**
      * Inline
      */
     public Expression inline(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.inline(env, ctx);
-        // A field expression may have the side effect of causing
-        // a NullPointerException, so evaluate it even though
-        // the value is not needed.  Similarly, static field dereferences
-        // may cause class initialization, so they mustn't be omitted
+        if (implementbtion != null)
+            return implementbtion.inline(env, ctx);
+        // A field expression mby hbve the side effect of cbusing
+        // b NullPointerException, so evblubte it even though
+        // the vblue is not needed.  Similbrly, stbtic field dereferences
+        // mby cbuse clbss initiblizbtion, so they mustn't be omitted
         // either.
         //
-        // However, NullPointerException can't happen and initialization must
-        // already have occurred if you are dotting into 'this'.  So
-        // allow fields of 'this' to be eliminated as a special case.
-        Expression e = inlineValue(env, ctx);
-        if (e instanceof FieldExpression) {
+        // However, NullPointerException cbn't hbppen bnd initiblizbtion must
+        // blrebdy hbve occurred if you bre dotting into 'this'.  So
+        // bllow fields of 'this' to be eliminbted bs b specibl cbse.
+        Expression e = inlineVblue(env, ctx);
+        if (e instbnceof FieldExpression) {
             FieldExpression fe = (FieldExpression) e;
             if ((fe.right != null) && (fe.right.op==THIS))
                 return null;
             // It should be possible to split this into two checks: one using
-            // isNonNull() for non-statics and a different check for statics.
-            // That would make the inlining slightly less conservative by
-            // allowing, for example, dotting into String constants.
+            // isNonNull() for non-stbtics bnd b different check for stbtics.
+            // Thbt would mbke the inlining slightly less conservbtive by
+            // bllowing, for exbmple, dotting into String constbnts.
             }
         return e;
     }
-    public Expression inlineValue(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.inlineValue(env, ctx);
+    public Expression inlineVblue(Environment env, Context ctx) {
+        if (implementbtion != null)
+            return implementbtion.inlineVblue(env, ctx);
         try {
             if (field == null) {
                 return this;
             }
 
-            if (field.isFinal()) {
-                Expression e = (Expression)field.getValue(env);
-                if ((e != null) && e.isConstant()) {
+            if (field.isFinbl()) {
+                Expression e = (Expression)field.getVblue(env);
+                if ((e != null) && e.isConstbnt()) {
                     // remove bogus line-number info
                     e = e.copyInline(ctx);
                     e.where = where;
-                    return new CommaExpression(where, right, e).inlineValue(env, ctx);
+                    return new CommbExpression(where, right, e).inlineVblue(env, ctx);
                 }
             }
 
             if (right != null) {
-                if (field.isStatic()) {
+                if (field.isStbtic()) {
                     Expression e = right.inline(env, ctx);
                     right = null;
                     if (e != null) {
-                        return new CommaExpression(where, e, this);
+                        return new CommbExpression(where, e, this);
                     }
                 } else {
-                    right = right.inlineValue(env, ctx);
+                    right = right.inlineVblue(env, ctx);
                 }
             }
             return this;
 
-        } catch (ClassNotFound e) {
+        } cbtch (ClbssNotFound e) {
             throw new CompilerError(e);
         }
     }
     public Expression inlineLHS(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.inlineLHS(env, ctx);
+        if (implementbtion != null)
+            return implementbtion.inlineLHS(env, ctx);
         if (right != null) {
-            if (field.isStatic()) {
+            if (field.isStbtic()) {
                 Expression e = right.inline(env, ctx);
                 right = null;
                 if (e != null) {
-                    return new CommaExpression(where, e, this);
+                    return new CommbExpression(where, e, this);
                 }
             } else {
-                right = right.inlineValue(env, ctx);
+                right = right.inlineVblue(env, ctx);
             }
         }
         return this;
     }
 
     public Expression copyInline(Context ctx) {
-        if (implementation != null)
-            return implementation.copyInline(ctx);
+        if (implementbtion != null)
+            return implementbtion.copyInline(ctx);
         return super.copyInline(ctx);
     }
 
@@ -1197,29 +1197,29 @@ class FieldExpression extends UnaryExpression {
      * The cost of inlining this expression
      */
     public int costInline(int thresh, Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.costInline(thresh, env, ctx);
+        if (implementbtion != null)
+            return implementbtion.costInline(thresh, env, ctx);
         if (ctx == null) {
             return 3 + ((right == null) ? 0
                                         : right.costInline(thresh, env, ctx));
         }
-        // ctxClass is the current class trying to inline this method
-        ClassDefinition ctxClass = ctx.field.getClassDefinition();
+        // ctxClbss is the current clbss trying to inline this method
+        ClbssDefinition ctxClbss = ctx.field.getClbssDefinition();
         try {
-            // We only allow the inlining if the current class can access
-            // the field, the field's class, and right's declared type.
-            if (    ctxClass.permitInlinedAccess(env, field.getClassDeclaration())
-                 && ctxClass.permitInlinedAccess(env, field)) {
+            // We only bllow the inlining if the current clbss cbn bccess
+            // the field, the field's clbss, bnd right's declbred type.
+            if (    ctxClbss.permitInlinedAccess(env, field.getClbssDeclbrbtion())
+                 && ctxClbss.permitInlinedAccess(env, field)) {
                 if (right == null) {
                     return 3;
                 } else {
-                    ClassDeclaration rt = env.getClassDeclaration(right.type);
-                    if (ctxClass.permitInlinedAccess(env, rt)) {
+                    ClbssDeclbrbtion rt = env.getClbssDeclbrbtion(right.type);
+                    if (ctxClbss.permitInlinedAccess(env, rt)) {
                         return 3 + right.costInline(thresh, env, ctx);
                     }
                 }
             }
-        } catch (ClassNotFound e) {
+        } cbtch (ClbssNotFound e) {
         }
         return thresh;
     }
@@ -1227,46 +1227,46 @@ class FieldExpression extends UnaryExpression {
     /**
      * Code
      */
-    int codeLValue(Environment env, Context ctx, Assembler asm) {
-        if (implementation != null)
-            throw new CompilerError("codeLValue");
-        if (field.isStatic()) {
+    int codeLVblue(Environment env, Context ctx, Assembler bsm) {
+        if (implementbtion != null)
+            throw new CompilerError("codeLVblue");
+        if (field.isStbtic()) {
             if (right != null) {
-                right.code(env, ctx, asm);
+                right.code(env, ctx, bsm);
                 return 1;
             }
             return 0;
         }
-        right.codeValue(env, ctx, asm);
+        right.codeVblue(env, ctx, bsm);
         return 1;
     }
-    void codeLoad(Environment env, Context ctx, Assembler asm) {
+    void codeLobd(Environment env, Context ctx, Assembler bsm) {
         if (field == null) {
             throw new CompilerError("should not be null");
         }
-        if (field.isStatic()) {
-            asm.add(where, opc_getstatic, field);
+        if (field.isStbtic()) {
+            bsm.bdd(where, opc_getstbtic, field);
         } else {
-            asm.add(where, opc_getfield, field);
+            bsm.bdd(where, opc_getfield, field);
         }
     }
-    void codeStore(Environment env, Context ctx, Assembler asm) {
-        if (field.isStatic()) {
-            asm.add(where, opc_putstatic, field);
+    void codeStore(Environment env, Context ctx, Assembler bsm) {
+        if (field.isStbtic()) {
+            bsm.bdd(where, opc_putstbtic, field);
         } else {
-            asm.add(where, opc_putfield, field);
+            bsm.bdd(where, opc_putfield, field);
         }
     }
 
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        codeLValue(env, ctx, asm);
-        codeLoad(env, ctx, asm);
+    public void codeVblue(Environment env, Context ctx, Assembler bsm) {
+        codeLVblue(env, ctx, bsm);
+        codeLobd(env, ctx, bsm);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
+    public void print(PrintStrebm out) {
         out.print("(");
         if (right != null) {
             right.print(out);
@@ -1274,9 +1274,9 @@ class FieldExpression extends UnaryExpression {
             out.print("<empty>");
         }
         out.print("." + id + ")");
-        if (implementation != null) {
+        if (implementbtion != null) {
             out.print("/IMPL=");
-            implementation.print(out);
+            implementbtion.print(out);
         }
     }
 }

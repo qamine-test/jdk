@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -31,89 +31,89 @@
 
 
 #include "LETypes.h"
-#include "LayoutTables.h"
-#include "MorphTables.h"
-#include "SubtableProcessor.h"
-#include "IndicRearrangementProcessor.h"
-#include "ContextualGlyphSubstProc.h"
-#include "LigatureSubstProc.h"
-#include "NonContextualGlyphSubstProc.h"
-//#include "ContextualGlyphInsertionProcessor.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
+#include "LbyoutTbbles.h"
+#include "MorphTbbles.h"
+#include "SubtbbleProcessor.h"
+#include "IndicRebrrbngementProcessor.h"
+#include "ContextublGlyphSubstProc.h"
+#include "LigbtureSubstProc.h"
+#include "NonContextublGlyphSubstProc.h"
+//#include "ContextublGlyphInsertionProcessor.h"
+#include "LEGlyphStorbge.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-void MorphTableHeader::process(const LETableReference &base, LEGlyphStorage &glyphStorage, LEErrorCode &success) const
+void MorphTbbleHebder::process(const LETbbleReference &bbse, LEGlyphStorbge &glyphStorbge, LEErrorCode &success) const
 {
-  le_uint32 chainCount = SWAPL(this->nChains);
-  LEReferenceTo<ChainHeader> chainHeader(base, success, chains); // moving header
-    LEReferenceToArrayOf<ChainHeader> chainHeaderArray(base, success, chains, chainCount);
-    le_uint32 chain;
+  le_uint32 chbinCount = SWAPL(this->nChbins);
+  LEReferenceTo<ChbinHebder> chbinHebder(bbse, success, chbins); // moving hebder
+    LEReferenceToArrbyOf<ChbinHebder> chbinHebderArrby(bbse, success, chbins, chbinCount);
+    le_uint32 chbin;
 
-    for (chain = 0; LE_SUCCESS(success) && (chain < chainCount); chain += 1) {
-        FeatureFlags defaultFlags = SWAPL(chainHeader->defaultFlags);
-        le_uint32 chainLength = SWAPL(chainHeader->chainLength);
-        le_int16 nFeatureEntries = SWAPW(chainHeader->nFeatureEntries);
-        le_int16 nSubtables = SWAPW(chainHeader->nSubtables);
-        LEReferenceTo<MorphSubtableHeader> subtableHeader =
-          LEReferenceTo<MorphSubtableHeader>(chainHeader,success, &(chainHeader->featureTable[nFeatureEntries]));
-        le_int16 subtable;
+    for (chbin = 0; LE_SUCCESS(success) && (chbin < chbinCount); chbin += 1) {
+        FebtureFlbgs defbultFlbgs = SWAPL(chbinHebder->defbultFlbgs);
+        le_uint32 chbinLength = SWAPL(chbinHebder->chbinLength);
+        le_int16 nFebtureEntries = SWAPW(chbinHebder->nFebtureEntries);
+        le_int16 nSubtbbles = SWAPW(chbinHebder->nSubtbbles);
+        LEReferenceTo<MorphSubtbbleHebder> subtbbleHebder =
+          LEReferenceTo<MorphSubtbbleHebder>(chbinHebder,success, &(chbinHebder->febtureTbble[nFebtureEntries]));
+        le_int16 subtbble;
 
-        for (subtable = 0; LE_SUCCESS(success) && (subtable < nSubtables); subtable += 1) {
-            le_int16 length = SWAPW(subtableHeader->length);
-            SubtableCoverage coverage = SWAPW(subtableHeader->coverage);
-            FeatureFlags subtableFeatures = SWAPL(subtableHeader->subtableFeatures);
+        for (subtbble = 0; LE_SUCCESS(success) && (subtbble < nSubtbbles); subtbble += 1) {
+            le_int16 length = SWAPW(subtbbleHebder->length);
+            SubtbbleCoverbge coverbge = SWAPW(subtbbleHebder->coverbge);
+            FebtureFlbgs subtbbleFebtures = SWAPL(subtbbleHebder->subtbbleFebtures);
 
-            // should check coverage more carefully...
-            if ((coverage & scfVertical) == 0 && (subtableFeatures & defaultFlags) != 0  && LE_SUCCESS(success)) {
-              subtableHeader->process(subtableHeader, glyphStorage, success);
+            // should check coverbge more cbrefully...
+            if ((coverbge & scfVerticbl) == 0 && (subtbbleFebtures & defbultFlbgs) != 0  && LE_SUCCESS(success)) {
+              subtbbleHebder->process(subtbbleHebder, glyphStorbge, success);
             }
 
-            subtableHeader.addOffset(length, success);
+            subtbbleHebder.bddOffset(length, success);
         }
-        chainHeader.addOffset(chainLength, success);
+        chbinHebder.bddOffset(chbinLength, success);
     }
 }
 
-void MorphSubtableHeader::process(const LEReferenceTo<MorphSubtableHeader> &base, LEGlyphStorage &glyphStorage, LEErrorCode &success) const
+void MorphSubtbbleHebder::process(const LEReferenceTo<MorphSubtbbleHebder> &bbse, LEGlyphStorbge &glyphStorbge, LEErrorCode &success) const
 {
-    SubtableProcessor *processor = NULL;
+    SubtbbleProcessor *processor = NULL;
 
-    switch (SWAPW(coverage) & scfTypeMask)
+    switch (SWAPW(coverbge) & scfTypeMbsk)
     {
-    case mstIndicRearrangement:
-      processor = new IndicRearrangementProcessor(base, success);
-        break;
+    cbse mstIndicRebrrbngement:
+      processor = new IndicRebrrbngementProcessor(bbse, success);
+        brebk;
 
-    case mstContextualGlyphSubstitution:
-      processor = new ContextualGlyphSubstitutionProcessor(base, success);
-        break;
+    cbse mstContextublGlyphSubstitution:
+      processor = new ContextublGlyphSubstitutionProcessor(bbse, success);
+        brebk;
 
-    case mstLigatureSubstitution:
-      processor = new LigatureSubstitutionProcessor(base, success);
-        break;
+    cbse mstLigbtureSubstitution:
+      processor = new LigbtureSubstitutionProcessor(bbse, success);
+        brebk;
 
-    case mstReservedUnused:
-        break;
+    cbse mstReservedUnused:
+        brebk;
 
-    case mstNonContextualGlyphSubstitution:
-      processor = NonContextualGlyphSubstitutionProcessor::createInstance(base, success);
-        break;
+    cbse mstNonContextublGlyphSubstitution:
+      processor = NonContextublGlyphSubstitutionProcessor::crebteInstbnce(bbse, success);
+        brebk;
 
     /*
-    case mstContextualGlyphInsertion:
-        processor = new ContextualGlyphInsertionProcessor(this);
-        break;
+    cbse mstContextublGlyphInsertion:
+        processor = new ContextublGlyphInsertionProcessor(this);
+        brebk;
     */
 
-    default:
-        break;
+    defbult:
+        brebk;
     }
 
     if (processor != NULL) {
       if(LE_SUCCESS(success)) {
-        processor->process(glyphStorage, success);
+        processor->process(glyphStorbge, success);
       }
       delete processor;
     }

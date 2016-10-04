@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.event;
+pbckbge jbvb.bwt.event;
 
 /**
- * An abstract adapter class for receiving ancestor moved and resized events.
- * The methods in this class are empty. This class exists as a
- * convenience for creating listener objects.
+ * An bbstrbct bdbpter clbss for receiving bncestor moved bnd resized events.
+ * The methods in this clbss bre empty. This clbss exists bs b
+ * convenience for crebting listener objects.
  * <p>
- * Extend this class and override the method for the event of interest. (If
- * you implement the <code>HierarchyBoundsListener</code> interface, you have
- * to define both methods in it. This abstract class defines null methods for
- * them both, so you only have to define the method for the event you care
- * about.)
+ * Extend this clbss bnd override the method for the event of interest. (If
+ * you implement the <code>HierbrchyBoundsListener</code> interfbce, you hbve
+ * to define both methods in it. This bbstrbct clbss defines null methods for
+ * them both, so you only hbve to define the method for the event you cbre
+ * bbout.)
  * <p>
- * Create a listener object using your class and then register it with a
- * Component using the Component's <code>addHierarchyBoundsListener</code>
- * method. When the hierarchy to which the Component belongs changes by
- * resize or movement of an ancestor, the relevant method in the listener
- * object is invoked, and the <code>HierarchyEvent</code> is passed to it.
+ * Crebte b listener object using your clbss bnd then register it with b
+ * Component using the Component's <code>bddHierbrchyBoundsListener</code>
+ * method. When the hierbrchy to which the Component belongs chbnges by
+ * resize or movement of bn bncestor, the relevbnt method in the listener
+ * object is invoked, bnd the <code>HierbrchyEvent</code> is pbssed to it.
  *
- * @author      David Mendenhall
- * @see         HierarchyBoundsListener
- * @see         HierarchyEvent
+ * @buthor      Dbvid Mendenhbll
+ * @see         HierbrchyBoundsListener
+ * @see         HierbrchyEvent
  * @since       1.3
  */
-public abstract class HierarchyBoundsAdapter implements HierarchyBoundsListener
+public bbstrbct clbss HierbrchyBoundsAdbpter implements HierbrchyBoundsListener
 {
     /**
-     * Called when an ancestor of the source is moved.
+     * Cblled when bn bncestor of the source is moved.
      */
-    public void ancestorMoved(HierarchyEvent e) {}
+    public void bncestorMoved(HierbrchyEvent e) {}
 
     /**
-     * Called when an ancestor of the source is resized.
+     * Cblled when bn bncestor of the source is resized.
      */
-    public void ancestorResized(HierarchyEvent e) {}
+    public void bncestorResized(HierbrchyEvent e) {}
 }

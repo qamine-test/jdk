@@ -1,137 +1,137 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
 /**
- * A recursive resultless {@link ForkJoinTask}.  This class
- * establishes conventions to parameterize resultless actions as
- * {@code Void} {@code ForkJoinTask}s. Because {@code null} is the
- * only valid value of type {@code Void}, methods such as {@code join}
- * always return {@code null} upon completion.
+ * A recursive resultless {@link ForkJoinTbsk}.  This clbss
+ * estbblishes conventions to pbrbmeterize resultless bctions bs
+ * {@code Void} {@code ForkJoinTbsk}s. Becbuse {@code null} is the
+ * only vblid vblue of type {@code Void}, methods such bs {@code join}
+ * blwbys return {@code null} upon completion.
  *
- * <p><b>Sample Usages.</b> Here is a simple but complete ForkJoin
- * sort that sorts a given {@code long[]} array:
+ * <p><b>Sbmple Usbges.</b> Here is b simple but complete ForkJoin
+ * sort thbt sorts b given {@code long[]} brrby:
  *
  *  <pre> {@code
- * static class SortTask extends RecursiveAction {
- *   final long[] array; final int lo, hi;
- *   SortTask(long[] array, int lo, int hi) {
- *     this.array = array; this.lo = lo; this.hi = hi;
+ * stbtic clbss SortTbsk extends RecursiveAction {
+ *   finbl long[] brrby; finbl int lo, hi;
+ *   SortTbsk(long[] brrby, int lo, int hi) {
+ *     this.brrby = brrby; this.lo = lo; this.hi = hi;
  *   }
- *   SortTask(long[] array) { this(array, 0, array.length); }
+ *   SortTbsk(long[] brrby) { this(brrby, 0, brrby.length); }
  *   protected void compute() {
  *     if (hi - lo < THRESHOLD)
- *       sortSequentially(lo, hi);
+ *       sortSequentiblly(lo, hi);
  *     else {
  *       int mid = (lo + hi) >>> 1;
- *       invokeAll(new SortTask(array, lo, mid),
- *                 new SortTask(array, mid, hi));
+ *       invokeAll(new SortTbsk(brrby, lo, mid),
+ *                 new SortTbsk(brrby, mid, hi));
  *       merge(lo, mid, hi);
  *     }
  *   }
- *   // implementation details follow:
- *   static final int THRESHOLD = 1000;
- *   void sortSequentially(int lo, int hi) {
- *     Arrays.sort(array, lo, hi);
+ *   // implementbtion detbils follow:
+ *   stbtic finbl int THRESHOLD = 1000;
+ *   void sortSequentiblly(int lo, int hi) {
+ *     Arrbys.sort(brrby, lo, hi);
  *   }
  *   void merge(int lo, int mid, int hi) {
- *     long[] buf = Arrays.copyOfRange(array, lo, mid);
+ *     long[] buf = Arrbys.copyOfRbnge(brrby, lo, mid);
  *     for (int i = 0, j = lo, k = mid; i < buf.length; j++)
- *       array[j] = (k == hi || buf[i] < array[k]) ?
- *         buf[i++] : array[k++];
+ *       brrby[j] = (k == hi || buf[i] < brrby[k]) ?
+ *         buf[i++] : brrby[k++];
  *   }
  * }}</pre>
  *
- * You could then sort {@code anArray} by creating {@code new
- * SortTask(anArray)} and invoking it in a ForkJoinPool.  As a more
- * concrete simple example, the following task increments each element
- * of an array:
+ * You could then sort {@code bnArrby} by crebting {@code new
+ * SortTbsk(bnArrby)} bnd invoking it in b ForkJoinPool.  As b more
+ * concrete simple exbmple, the following tbsk increments ebch element
+ * of bn brrby:
  *  <pre> {@code
- * class IncrementTask extends RecursiveAction {
- *   final long[] array; final int lo, hi;
- *   IncrementTask(long[] array, int lo, int hi) {
- *     this.array = array; this.lo = lo; this.hi = hi;
+ * clbss IncrementTbsk extends RecursiveAction {
+ *   finbl long[] brrby; finbl int lo, hi;
+ *   IncrementTbsk(long[] brrby, int lo, int hi) {
+ *     this.brrby = brrby; this.lo = lo; this.hi = hi;
  *   }
  *   protected void compute() {
  *     if (hi - lo < THRESHOLD) {
  *       for (int i = lo; i < hi; ++i)
- *         array[i]++;
+ *         brrby[i]++;
  *     }
  *     else {
  *       int mid = (lo + hi) >>> 1;
- *       invokeAll(new IncrementTask(array, lo, mid),
- *                 new IncrementTask(array, mid, hi));
+ *       invokeAll(new IncrementTbsk(brrby, lo, mid),
+ *                 new IncrementTbsk(brrby, mid, hi));
  *     }
  *   }
  * }}</pre>
  *
- * <p>The following example illustrates some refinements and idioms
- * that may lead to better performance: RecursiveActions need not be
- * fully recursive, so long as they maintain the basic
- * divide-and-conquer approach. Here is a class that sums the squares
- * of each element of a double array, by subdividing out only the
- * right-hand-sides of repeated divisions by two, and keeping track of
- * them with a chain of {@code next} references. It uses a dynamic
- * threshold based on method {@code getSurplusQueuedTaskCount}, but
- * counterbalances potential excess partitioning by directly
- * performing leaf actions on unstolen tasks rather than further
+ * <p>The following exbmple illustrbtes some refinements bnd idioms
+ * thbt mby lebd to better performbnce: RecursiveActions need not be
+ * fully recursive, so long bs they mbintbin the bbsic
+ * divide-bnd-conquer bpprobch. Here is b clbss thbt sums the squbres
+ * of ebch element of b double brrby, by subdividing out only the
+ * right-hbnd-sides of repebted divisions by two, bnd keeping trbck of
+ * them with b chbin of {@code next} references. It uses b dynbmic
+ * threshold bbsed on method {@code getSurplusQueuedTbskCount}, but
+ * counterbblbnces potentibl excess pbrtitioning by directly
+ * performing lebf bctions on unstolen tbsks rbther thbn further
  * subdividing.
  *
  *  <pre> {@code
- * double sumOfSquares(ForkJoinPool pool, double[] array) {
- *   int n = array.length;
- *   Applyer a = new Applyer(array, 0, n, null);
- *   pool.invoke(a);
- *   return a.result;
+ * double sumOfSqubres(ForkJoinPool pool, double[] brrby) {
+ *   int n = brrby.length;
+ *   Applyer b = new Applyer(brrby, 0, n, null);
+ *   pool.invoke(b);
+ *   return b.result;
  * }
  *
- * class Applyer extends RecursiveAction {
- *   final double[] array;
- *   final int lo, hi;
+ * clbss Applyer extends RecursiveAction {
+ *   finbl double[] brrby;
+ *   finbl int lo, hi;
  *   double result;
- *   Applyer next; // keeps track of right-hand-side tasks
- *   Applyer(double[] array, int lo, int hi, Applyer next) {
- *     this.array = array; this.lo = lo; this.hi = hi;
+ *   Applyer next; // keeps trbck of right-hbnd-side tbsks
+ *   Applyer(double[] brrby, int lo, int hi, Applyer next) {
+ *     this.brrby = brrby; this.lo = lo; this.hi = hi;
  *     this.next = next;
  *   }
  *
- *   double atLeaf(int l, int h) {
+ *   double btLebf(int l, int h) {
  *     double sum = 0;
- *     for (int i = l; i < h; ++i) // perform leftmost base step
- *       sum += array[i] * array[i];
+ *     for (int i = l; i < h; ++i) // perform leftmost bbse step
+ *       sum += brrby[i] * brrby[i];
  *     return sum;
  *   }
  *
@@ -139,16 +139,16 @@ package java.util.concurrent;
  *     int l = lo;
  *     int h = hi;
  *     Applyer right = null;
- *     while (h - l > 1 && getSurplusQueuedTaskCount() <= 3) {
+ *     while (h - l > 1 && getSurplusQueuedTbskCount() <= 3) {
  *       int mid = (l + h) >>> 1;
- *       right = new Applyer(array, mid, h, right);
+ *       right = new Applyer(brrby, mid, h, right);
  *       right.fork();
  *       h = mid;
  *     }
- *     double sum = atLeaf(l, h);
+ *     double sum = btLebf(l, h);
  *     while (right != null) {
- *       if (right.tryUnfork()) // directly calculate if not stolen
- *         sum += right.atLeaf(right.lo, right.hi);
+ *       if (right.tryUnfork()) // directly cblculbte if not stolen
+ *         sum += right.btLebf(right.lo, right.hi);
  *       else {
  *         right.join();
  *         sum += right.result;
@@ -160,32 +160,32 @@ package java.util.concurrent;
  * }}</pre>
  *
  * @since 1.7
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public abstract class RecursiveAction extends ForkJoinTask<Void> {
-    private static final long serialVersionUID = 5232453952276485070L;
+public bbstrbct clbss RecursiveAction extends ForkJoinTbsk<Void> {
+    privbte stbtic finbl long seriblVersionUID = 5232453952276485070L;
 
     /**
-     * The main computation performed by this task.
+     * The mbin computbtion performed by this tbsk.
      */
-    protected abstract void compute();
+    protected bbstrbct void compute();
 
     /**
-     * Always returns {@code null}.
+     * Alwbys returns {@code null}.
      *
-     * @return {@code null} always
+     * @return {@code null} blwbys
      */
-    public final Void getRawResult() { return null; }
+    public finbl Void getRbwResult() { return null; }
 
     /**
-     * Requires null completion value.
+     * Requires null completion vblue.
      */
-    protected final void setRawResult(Void mustBeNull) { }
+    protected finbl void setRbwResult(Void mustBeNull) { }
 
     /**
      * Implements execution conventions for RecursiveActions.
      */
-    protected final boolean exec() {
+    protected finbl boolebn exec() {
         compute();
         return true;
     }

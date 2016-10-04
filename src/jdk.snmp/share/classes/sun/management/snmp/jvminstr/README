@@ -1,244 +1,244 @@
 #==============================================================================
-#          JVM Management MIB - Instrumentation Classes
+#          JVM Mbnbgement MIB - Instrumentbtion Clbsses
 #==============================================================================
 
 In this directory:
 ------------------
 
 README:              this file
-commands.env:        a file containing some ksh variables & functions
-                     that I have used to generate & compile all the 
-                     stuff. Probably only valid in my own environment.
-logging.properties:  logging.properties file that can be used to obtain
-                     trace information.
-*.java:              utility and custom classes for the JVM Management MIB.
-                     These classes show how to provide instrumentation for
-                     a mibgen generated MIB, how to simulate virtual tables,
-		     and how to make use of the SnmpUserDataFactory.
-		     Only the jvmMemory group and its tables are instrumented.
+commbnds.env:        b file contbining some ksh vbribbles & functions
+                     thbt I hbve used to generbte & compile bll the 
+                     stuff. Probbbly only vblid in my own environment.
+logging.properties:  logging.properties file thbt cbn be used to obtbin
+                     trbce informbtion.
+*.jbvb:              utility bnd custom clbsses for the JVM Mbnbgement MIB.
+                     These clbsses show how to provide instrumentbtion for
+                     b mibgen generbted MIB, how to simulbte virtubl tbbles,
+		     bnd how to mbke use of the SnmpUserDbtbFbctory.
+		     Only the jvmMemory group bnd its tbbles bre instrumented.
 
 Dependency
 ----------
 
-    jvmManagementMib.txt : the JVM Management MIB module in compilable form.
-    Tiger SNMP Runtime   : SNMP Runtime classes for Tiger. We assume these
-                           classes could be part of the JMX delivery
-                           (classes in com.sun.jmx.snmp.*)
-    JDMK 5.1 : The jdmktk.jar contains the com.sun.jdmk.tools.MibGen class
-               used to compile the MIB. JDMK also has a mibgen.sh script
-               to start mibgen. By default mibgen generates code that can
-               integrate with JDMK SNMP runtime. In order to generate
-               code that integrate with Tiger SNMP runtime, you need to
-	       start mibgen with a non-default resource file. 
-               JDMK 5.1 workspace contains a mibgen resource file
+    jvmMbnbgementMib.txt : the JVM Mbnbgement MIB module in compilbble form.
+    Tiger SNMP Runtime   : SNMP Runtime clbsses for Tiger. We bssume these
+                           clbsses could be pbrt of the JMX delivery
+                           (clbsses in com.sun.jmx.snmp.*)
+    JDMK 5.1 : The jdmktk.jbr contbins the com.sun.jdmk.tools.MibGen clbss
+               used to compile the MIB. JDMK blso hbs b mibgen.sh script
+               to stbrt mibgen. By defbult mibgen generbtes code thbt cbn
+               integrbte with JDMK SNMP runtime. In order to generbte
+               code thbt integrbte with Tiger SNMP runtime, you need to
+	       stbrt mibgen with b non-defbult resource file. 
+               JDMK 5.1 workspbce contbins b mibgen resource file
                specific for tiger: mibgen.property.tiger 
-    Custom Instrumentation Code: the files in this directory.
+    Custom Instrumentbtion Code: the files in this directory.
 
 How to proceed:
 ---------------
 
-Get mibgen from JDMK 5.1. Start mibgen with mibgen resource file for
-tiger (add -Dcom.sun.jdmk.tools.mibgen.config.file=<mibgen.properties.tiger>)
-on the Java command line.
+Get mibgen from JDMK 5.1. Stbrt mibgen with mibgen resource file for
+tiger (bdd -Dcom.sun.jdmk.tools.mibgen.config.file=<mibgen.properties.tiger>)
+on the Jbvb commbnd line.
 
-Use mibgen to generate code for the jvmManagementMib.txt file. Note that
-the custom classes provided in this directory are all in the 
-sun.management.snmp.jvminstr package, and expect the generated classes to
-be in another sun.management.snmp.jvmmib package (use mibgen option 
--tp sun.management.snmp.jvmmib)
+Use mibgen to generbte code for the jvmMbnbgementMib.txt file. Note thbt
+the custom clbsses provided in this directory bre bll in the 
+sun.mbnbgement.snmp.jvminstr pbckbge, bnd expect the generbted clbsses to
+be in bnother sun.mbnbgement.snmp.jvmmib pbckbge (use mibgen option 
+-tp sun.mbnbgement.snmp.jvmmib)
 
-If this package name does not suit you, simply change it to something else,
-both in the custom classes below (you might use 'sed' or do it manually) 
-and in the -tp option that you will pass to mibgen.
+If this pbckbge nbme does not suit you, simply chbnge it to something else,
+both in the custom clbsses below (you might use 'sed' or do it mbnublly) 
+bnd in the -tp option thbt you will pbss to mibgen.
 
-It is recommended to generate all classes in a different directory (if
-you read command.env you will see that I have put the custom classes
-in a "custom" directory, and the generated classes in a "parsed" 
-directory. This makes it easier to cleanup the mib. You can safely
-do a rm -rf <parsed> and call mibgen again.
+It is recommended to generbte bll clbsses in b different directory (if
+you rebd commbnd.env you will see thbt I hbve put the custom clbsses
+in b "custom" directory, bnd the generbted clbsses in b "pbrsed" 
+directory. This mbkes it ebsier to clebnup the mib. You cbn sbfely
+do b rm -rf <pbrsed> bnd cbll mibgen bgbin.
 
-Then compile the generated classes - you will need JMX and Tiger SNMP
-runtime classes in your classpath - if you compile with a tiger build that
-already have them then you don't need to specify anything special.
+Then compile the generbted clbsses - you will need JMX bnd Tiger SNMP
+runtime clbsses in your clbsspbth - if you compile with b tiger build thbt
+blrebdy hbve them then you don't need to specify bnything specibl.
 
-Then make your classpath point to the compiled generated classes, and
+Then mbke your clbsspbth point to the compiled generbted clbsses, bnd
 compile the custom code in this directory.
 
-Then you can use the SnmpDaemonTest class to start a JVM with the
-intsrumented MIB, and you can use e.g. the easymanager contrib of
+Then you cbn use the SnmpDbemonTest clbss to stbrt b JVM with the
+intsrumented MIB, bnd you cbn use e.g. the ebsymbnbger contrib of
 JDMK to view the MIB through SNMP. 
 
 #==============================================================================
-#  Classes Details
+#  Clbsses Detbils
 #==============================================================================
 
-Utility Classes developped for the JVM Management MIB:
+Utility Clbsses developped for the JVM Mbnbgement MIB:
 ------------------------------------------------------
-JvmContextFactory.java        : The context factory allocates a Map that
-                                serves as request contextual cache.
-                                Values obtained from JSR 163 API can be
-                                cached in this object.
-                                A request contextual cache is allocated
-                                each time a request is being processed,
-                                and is released at the end of processing.
-				Object: 1) preserve atomicity
-                                        2) minimize API calls
+JvmContextFbctory.jbvb        : The context fbctory bllocbtes b Mbp thbt
+                                serves bs request contextubl cbche.
+                                Vblues obtbined from JSR 163 API cbn be
+                                cbched in this object.
+                                A request contextubl cbche is bllocbted
+                                ebch time b request is being processed,
+                                bnd is relebsed bt the end of processing.
+				Object: 1) preserve btomicity
+                                        2) minimize API cblls
 					3) ensure consistency of the
-					   various pieces of data returned.
+					   vbrious pieces of dbtb returned.
 
-MibLogger.java                : Send traces to java.util.logging
+MibLogger.jbvb                : Send trbces to jbvb.util.logging
 
-SnmpTableHandler.java         : an interface used to access table data.
+SnmpTbbleHbndler.jbvb         : bn interfbce used to bccess tbble dbtb.
 
-SnmpCachedData.java           : This object can be use to cache a snapshot
-                                of the data contained in a table. 
+SnmpCbchedDbtb.jbvb           : This object cbn be use to cbche b snbpshot
+                                of the dbtb contbined in b tbble. 
 
-SnmpTableCache.java           : A weak cache for table data. The data is
-                                computed on demand and cached in a 
-                                weakreference. Makes it possible to specify
-                                a validity period for the cache data.
+SnmpTbbleCbche.jbvb           : A webk cbche for tbble dbtb. The dbtb is
+                                computed on dembnd bnd cbched in b 
+                                webkreference. Mbkes it possible to specify
+                                b vblidity period for the cbche dbtb.
 
-SnmpListTableCache.java       : Extends SnmpTableCache - for tables whose
-                                data is returned in a List object.
+SnmpListTbbleCbche.jbvb       : Extends SnmpTbbleCbche - for tbbles whose
+                                dbtb is returned in b List object.
 
-SnmpNamedListTableCache.java  : Extends SnmpListTableCache - for tables whose
-                                elements can be named by a unique string.
+SnmpNbmedListTbbleCbche.jbvb  : Extends SnmpListTbbleCbche - for tbbles whose
+                                elements cbn be nbmed by b unique string.
 
-SnmpDaemonTest.java           : A dummy standalone SNMP agent that registers
-                                the JVM Managemnt MIB in Tiger's SNMP
-                                adaptor.  This is the "main". Note that
-                                this not the class that will be used to
-			        start the adaptor in the final Tiger - it is
-                                just a dummy test main.
+SnmpDbemonTest.jbvb           : A dummy stbndblone SNMP bgent thbt registers
+                                the JVM Mbnbgemnt MIB in Tiger's SNMP
+                                bdbptor.  This is the "mbin". Note thbt
+                                this not the clbss thbt will be used to
+			        stbrt the bdbptor in the finbl Tiger - it is
+                                just b dummy test mbin.
 
-JVM Management MIB
+JVM Mbnbgement MIB
 ------------------
 
-JVM_MANAGEMENT_MIB_IMPL.java  : subclasses the generated JVM_MANAGEMENT_MIB
-                                class. 
-				Object: overriding factory method in order
-                                        to instantiate custom code instead
-				        of generated code.
+JVM_MANAGEMENT_MIB_IMPL.jbvb  : subclbsses the generbted JVM_MANAGEMENT_MIB
+                                clbss. 
+				Object: overriding fbctory method in order
+                                        to instbntibte custom code instebd
+				        of generbted code.
 
 
 JVM Memory Group
 ----------------
 
-JvmMemoryImpl.java            : Provides instrumentation for the jvmMemory
-                                group. Replaces the generated JvmMemory class,
-                                which is not used and can be thrown away.
-                                Implements the generated JvmMemoryMBean 
-                                interface (which was also implemented by
-                                the generated JvmMemory skeleton class)
-                                Use  the request contextual cache
+JvmMemoryImpl.jbvb            : Provides instrumentbtion for the jvmMemory
+                                group. Replbces the generbted JvmMemory clbss,
+                                which is not used bnd cbn be thrown bwby.
+                                Implements the generbted JvmMemoryMBebn 
+                                interfbce (which wbs blso implemented by
+                                the generbted JvmMemory skeleton clbss)
+                                Use  the request contextubl cbche
 				in order to ensure consistency when
-				returning MemoryUsage datas. Note that all
-                                tables in this group have been implemented
-                                as virtual tables. As a consequence, the
-                                generated TableJvmMemXXXXXTable.java classes
-                                are not needed.
+				returning MemoryUsbge dbtbs. Note thbt bll
+                                tbbles in this group hbve been implemented
+                                bs virtubl tbbles. As b consequence, the
+                                generbted TbbleJvmMemXXXXXTbble.jbvb clbsses
+                                bre not needed.
 
-JvmMemoryMetaImpl.java        : Custom MetaData class for the jvmMemory group.
-			        Subclasses the generated JvmMemoryMeta class.
-                                Object: overrides the factory methods in order
-                                        to instantiate custom meta data classes
-                                        for the jvmMemManagerTable,
-						jvmMemGCTable,
-						jvmMemPoolTable,
-						jvmMemMgrPoolRelTable.
+JvmMemoryMetbImpl.jbvb        : Custom MetbDbtb clbss for the jvmMemory group.
+			        Subclbsses the generbted JvmMemoryMetb clbss.
+                                Object: overrides the fbctory methods in order
+                                        to instbntibte custom metb dbtb clbsses
+                                        for the jvmMemMbnbgerTbble,
+						jvmMemGCTbble,
+						jvmMemPoolTbble,
+						jvmMemMgrPoolRelTbble.
 
-JVM Memory Manager Table
+JVM Memory Mbnbger Tbble
 ------------------------
 
-JvmMemManagerTableMetaImpl.java : Custom MetaData class for the 
-                                  jvmMemManagerTable. This MetaData traps
-				  all the SNMP Runtime calls made to the 
-                                  table - in order to make the Memory Manager
-				  table virtual: i.e. the table does not have
-				  to be maintained permanently in memory.
-				  Instead, the table is computed "on demand",
-                                  and the data is cached in a weak cache
-                                  (see SnmpNamedListTableCache) which remains
-				  valid for a few ms. If the data is found
-				  to be obsolete, or was garbage collected,
-				  the table is recomputed.
+JvmMemMbnbgerTbbleMetbImpl.jbvb : Custom MetbDbtb clbss for the 
+                                  jvmMemMbnbgerTbble. This MetbDbtb trbps
+				  bll the SNMP Runtime cblls mbde to the 
+                                  tbble - in order to mbke the Memory Mbnbger
+				  tbble virtubl: i.e. the tbble does not hbve
+				  to be mbintbined permbnently in memory.
+				  Instebd, the tbble is computed "on dembnd",
+                                  bnd the dbtb is cbched in b webk cbche
+                                  (see SnmpNbmedListTbbleCbche) which rembins
+				  vblid for b few ms. If the dbtb is found
+				  to be obsolete, or wbs gbrbbge collected,
+				  the tbble is recomputed.
 
-JvmMemManagerEntryImpl.java     : Custom Entry class for jvmMemManagerTable.
-				  Entries are created on the fly when it
-				  becomes necessary to get data from a 
-				  Memory Managers. They are temporary objects
-				  that wrap the MemoryManager just for the
-			          call duration - and are released just after. 
+JvmMemMbnbgerEntryImpl.jbvb     : Custom Entry clbss for jvmMemMbnbgerTbble.
+				  Entries bre crebted on the fly when it
+				  becomes necessbry to get dbtb from b 
+				  Memory Mbnbgers. They bre temporbry objects
+				  thbt wrbp the MemoryMbnbger just for the
+			          cbll durbtion - bnd bre relebsed just bfter. 
 
-JVM Memory GC Table
+JVM Memory GC Tbble
 -------------------
 
-JvmMemGCTableMetaImpl.java     : Custom MetaData class for the 
-                                 jvmMemGCTable. This MetaData traps
-				 all the SNMP Runtime calls made to the 
-                                 table - in order to make the GC
-				 table virtual: the GC table reuses the
-			         cached data computed for the 
-                                 jvmMemManagerTable - simply acting as a 
-                                 filter that only shows those elements that
-                                 are instance of GarbageCollectorMetrics. 
-                                 In other words it implements a fitered view
-                                 of the jvmMemManagerTable.
+JvmMemGCTbbleMetbImpl.jbvb     : Custom MetbDbtb clbss for the 
+                                 jvmMemGCTbble. This MetbDbtb trbps
+				 bll the SNMP Runtime cblls mbde to the 
+                                 tbble - in order to mbke the GC
+				 tbble virtubl: the GC tbble reuses the
+			         cbched dbtb computed for the 
+                                 jvmMemMbnbgerTbble - simply bcting bs b 
+                                 filter thbt only shows those elements thbt
+                                 bre instbnce of GbrbbgeCollectorMetrics. 
+                                 In other words it implements b fitered view
+                                 of the jvmMemMbnbgerTbble.
 
-JvmMemGCEntryImpl.java         : Provide access to the data specific to
-				 GarbageCollectorMetrics objects. Objects
-				 of this classes are created on the fly,
-				 when data needs to be returned from a 
-				 GarbageCollectorMetrics object, and are
-                                 released just after. They are not kept in
+JvmMemGCEntryImpl.jbvb         : Provide bccess to the dbtb specific to
+				 GbrbbgeCollectorMetrics objects. Objects
+				 of this clbsses bre crebted on the fly,
+				 when dbtb needs to be returned from b 
+				 GbrbbgeCollectorMetrics object, bnd bre
+                                 relebsed just bfter. They bre not kept in
 				 memory.
 
-JVM Memory Pool Table
+JVM Memory Pool Tbble
 ---------------------
 
-JvmMemPoolTableMetaImpl.java   : Custom MetaData class for the jvmMemPoolTable.
-			         This is quite similar to what was done for
-                                 the jvmMemManagerTable in 
-                                 JvmMemManagerTableMetaImpl. Most of the code
-                                 here was obtain by cut&paste-ing from
-                                 JvmMemManagerTableMetaImpl and replacing
-                                 "Manager" with "Pool".
+JvmMemPoolTbbleMetbImpl.jbvb   : Custom MetbDbtb clbss for the jvmMemPoolTbble.
+			         This is quite similbr to whbt wbs done for
+                                 the jvmMemMbnbgerTbble in 
+                                 JvmMemMbnbgerTbbleMetbImpl. Most of the code
+                                 here wbs obtbin by cut&pbste-ing from
+                                 JvmMemMbnbgerTbbleMetbImpl bnd replbcing
+                                 "Mbnbger" with "Pool".
 
-JvmMemPoolEntryImpl.java       : Provide access to the data specific to
+JvmMemPoolEntryImpl.jbvb       : Provide bccess to the dbtb specific to
 				 MemoryPoolMetrics objects. Objects
-				 of this classes are created on the fly,
-				 when data needs to be returned from a 
-				 MemoryPoolMetrics object, and are
-                                 released just after. They are not kept in
-				 memory. Use  the request contextual cache
+				 of this clbsses bre crebted on the fly,
+				 when dbtb needs to be returned from b 
+				 MemoryPoolMetrics object, bnd bre
+                                 relebsed just bfter. They bre not kept in
+				 memory. Use  the request contextubl cbche
 				 in order to ensure consistency when
-				 returning MemoryUsage datas. 
+				 returning MemoryUsbge dbtbs. 
 
-JVM Memory Manager / Memory Pool Relation  Table
+JVM Memory Mbnbger / Memory Pool Relbtion  Tbble
 ------------------------------------------------
 
 
-JvmMemMgrPoolRelTableMetaImpl.java : Custom MetaData class for the 
-                                 jvmMemMgrPoolRelTable. This meta data
-			         uses the JvmMemManagerTableMetaImpl and
-                                 JvmMemPoolTableMetaImpl in order to 
+JvmMemMgrPoolRelTbbleMetbImpl.jbvb : Custom MetbDbtb clbss for the 
+                                 jvmMemMgrPoolRelTbble. This metb dbtb
+			         uses the JvmMemMbnbgerTbbleMetbImpl bnd
+                                 JvmMemPoolTbbleMetbImpl in order to 
                                  find out the content of the 
-			         jvmMemManagerTable and the mapping between 
-				 Memory Pool Name and Memory Pool Index.
-				 For each element of the jvmMemManagerTable
-                                 it calls the JSR 163 APIs to find the
-				 related Memory Pool, then finds out their
-				 index, and then creates the corresponding
-				 row in the jvmMemMgrPoolRelTable cached data.
-				 Like all the other tables, this table is
-				 virtual: the data is kept on a weak cache
-				 and recomputed on demand, if its validity
-				 as expired or if it has been gc'ed.
+			         jvmMemMbnbgerTbble bnd the mbpping between 
+				 Memory Pool Nbme bnd Memory Pool Index.
+				 For ebch element of the jvmMemMbnbgerTbble
+                                 it cblls the JSR 163 APIs to find the
+				 relbted Memory Pool, then finds out their
+				 index, bnd then crebtes the corresponding
+				 row in the jvmMemMgrPoolRelTbble cbched dbtb.
+				 Like bll the other tbbles, this tbble is
+				 virtubl: the dbtb is kept on b webk cbche
+				 bnd recomputed on dembnd, if its vblidity
+				 bs expired or if it hbs been gc'ed.
 
-JvmMemMgrPoolRelEntryImpl.java : A simple couple MemoryManager/MemoryPool.
-                                 Models a row in the jvmMemMgrPoolRelTable.
-				 Objects of this type are cached in the
-				 jvmMemMgrPoolRelTable cached data.
+JvmMemMgrPoolRelEntryImpl.jbvb : A simple couple MemoryMbnbger/MemoryPool.
+                                 Models b row in the jvmMemMgrPoolRelTbble.
+				 Objects of this type bre cbched in the
+				 jvmMemMgrPoolRelTbble cbched dbtb.
 
 #==============================================================================
 #==============================================================================

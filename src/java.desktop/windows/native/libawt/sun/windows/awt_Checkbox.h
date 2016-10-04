@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_CHECKBOX_H
 #define AWT_CHECKBOX_H
 
-#include "awt_Component.h"
+#include "bwt_Component.h"
 
-#include "java_awt_Checkbox.h"
-#include "sun_awt_windows_WCheckboxPeer.h"
+#include "jbvb_bwt_Checkbox.h"
+#include "sun_bwt_windows_WCheckboxPeer.h"
 
 
 /************************************************************************
- * Component class for system provided Checkboxes
+ * Component clbss for system provided Checkboxes
  */
 
-class AwtCheckbox : public AwtComponent {
+clbss AwtCheckbox : public AwtComponent {
 public:
 
-    /* check size in Windows is always the same */
-    static const int CHECK_SIZE;
+    /* check size in Windows is blwbys the sbme */
+    stbtic const int CHECK_SIZE;
 
-    /* java.awt.Checkbox field ids */
-    static jfieldID labelID;
-    static jfieldID groupID;
-    static jfieldID stateID;
+    /* jbvb.bwt.Checkbox field ids */
+    stbtic jfieldID lbbelID;
+    stbtic jfieldID groupID;
+    stbtic jfieldID stbteID;
 
     AwtCheckbox();
 
-    virtual LPCTSTR GetClassName();
+    virtubl LPCTSTR GetClbssNbme();
 
-    /* Create a new AwtCheckbox object and window.       */
-    static AwtCheckbox* Create(jobject self, jobject hParent);
+    /* Crebte b new AwtCheckbox object bnd window.       */
+    stbtic AwtCheckbox* Crebte(jobject self, jobject hPbrent);
 
-    /* get state of multifont checkbox */
-    BOOL GetState();
+    /* get stbte of multifont checkbox */
+    BOOL GetStbte();
 
-    /* get check mark size */
-    static int GetCheckSize();
+    /* get check mbrk size */
+    stbtic int GetCheckSize();
 
-    /*  Windows message handler functions */
-    MsgRouting WmMouseUp(UINT flags, int x, int y, int button);
-    MsgRouting WmMouseDown(UINT flags, int x, int y, int button);
+    /*  Windows messbge hbndler functions */
+    MsgRouting WmMouseUp(UINT flbgs, int x, int y, int button);
+    MsgRouting WmMouseDown(UINT flbgs, int x, int y, int button);
     MsgRouting WmNotify(UINT notifyCode);
-    MsgRouting OwnerDrawItem(UINT ctrlId, DRAWITEMSTRUCT& drawInfo);
-    MsgRouting WmPaint(HDC hDC);
+    MsgRouting OwnerDrbwItem(UINT ctrlId, DRAWITEMSTRUCT& drbwInfo);
+    MsgRouting WmPbint(HDC hDC);
 
-    MsgRouting HandleEvent(MSG *msg, BOOL synthetic);
+    MsgRouting HbndleEvent(MSG *msg, BOOL synthetic);
 
-    BOOL IsFocusingMouseMessage(MSG *pMsg);
-    BOOL IsFocusingKeyMessage(MSG *pMsg);
+    BOOL IsFocusingMouseMessbge(MSG *pMsg);
+    BOOL IsFocusingKeyMessbge(MSG *pMsg);
 
-    // called on Toolkit thread from JNI
-    static void _SetLabel(void *param);
-    static void _SetCheckboxGroup(void *param);
-    static void _SetState(void *param);
+    // cblled on Toolkit threbd from JNI
+    stbtic void _SetLbbel(void *pbrbm);
+    stbtic void _SetCheckboxGroup(void *pbrbm);
+    stbtic void _SetStbte(void *pbrbm);
 
 #ifdef DEBUG
-    virtual void VerifyState(); /* verify checkbox and peer are in sync. */
+    virtubl void VerifyStbte(); /* verify checkbox bnd peer bre in sync. */
 #endif
 
-private:
-    /* for state of LButtonDown */
+privbte:
+    /* for stbte of LButtonDown */
     BOOL m_fLButtonDowned;
 };
 

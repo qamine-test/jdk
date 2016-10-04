@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.action;
+pbckbge sun.security.bction;
 
 /**
- * A convenience class for retrieving the integer value of a system property
- * as a privileged action.
+ * A convenience clbss for retrieving the integer vblue of b system property
+ * bs b privileged bction.
  *
- * <p>An instance of this class can be used as the argument of
+ * <p>An instbnce of this clbss cbn be used bs the brgument of
  * <code>AccessController.doPrivileged</code>.
  *
- * <p>The following code retrieves the integer value of the system
- * property named <code>"prop"</code> as a privileged action. Since it does
- * not pass a default value to be used in case the property
- * <code>"prop"</code> is not defined, it has to check the result for
+ * <p>The following code retrieves the integer vblue of the system
+ * property nbmed <code>"prop"</code> bs b privileged bction. Since it does
+ * not pbss b defbult vblue to be used in cbse the property
+ * <code>"prop"</code> is not defined, it hbs to check the result for
  * <code>null</code>: <p>
  *
  * <pre>
- * Integer tmp = java.security.AccessController.doPrivileged
- *     (new sun.security.action.GetIntegerAction("prop"));
+ * Integer tmp = jbvb.security.AccessController.doPrivileged
+ *     (new sun.security.bction.GetIntegerAction("prop"));
  * int i;
  * if (tmp != null) {
- *     i = tmp.intValue();
+ *     i = tmp.intVblue();
  * }
  * </pre>
  *
- * <p>The following code retrieves the integer value of the system
- * property named <code>"prop"</code> as a privileged action, and also passes
- * a default value to be used in case the property <code>"prop"</code> is not
+ * <p>The following code retrieves the integer vblue of the system
+ * property nbmed <code>"prop"</code> bs b privileged bction, bnd blso pbsses
+ * b defbult vblue to be used in cbse the property <code>"prop"</code> is not
  * defined: <p>
  *
  * <pre>
- * int i = ((Integer)java.security.AccessController.doPrivileged(
- *                         new GetIntegerAction("prop", 3))).intValue();
+ * int i = ((Integer)jbvb.security.AccessController.doPrivileged(
+ *                         new GetIntegerAction("prop", 3))).intVblue();
  * </pre>
  *
- * @author Roland Schemers
- * @see java.security.PrivilegedAction
- * @see java.security.AccessController
+ * @buthor Rolbnd Schemers
+ * @see jbvb.security.PrivilegedAction
+ * @see jbvb.security.AccessController
  * @since 1.2
  */
 
-public class GetIntegerAction
-        implements java.security.PrivilegedAction<Integer> {
-    private String theProp;
-    private int defaultVal;
-    private boolean defaultSet = false;
+public clbss GetIntegerAction
+        implements jbvb.security.PrivilegedAction<Integer> {
+    privbte String theProp;
+    privbte int defbultVbl;
+    privbte boolebn defbultSet = fblse;
 
     /**
-     * Constructor that takes the name of the system property whose integer
-     * value needs to be determined.
+     * Constructor thbt tbkes the nbme of the system property whose integer
+     * vblue needs to be determined.
      *
-     * @param theProp the name of the system property.
+     * @pbrbm theProp the nbme of the system property.
      */
     public GetIntegerAction(String theProp) {
         this.theProp = theProp;
     }
 
     /**
-     * Constructor that takes the name of the system property and the default
-     * value of that property.
+     * Constructor thbt tbkes the nbme of the system property bnd the defbult
+     * vblue of thbt property.
      *
-     * @param theProp the name of the system property.
-     * @param defaulVal the default value.
+     * @pbrbm theProp the nbme of the system property.
+     * @pbrbm defbulVbl the defbult vblue.
      */
-    public GetIntegerAction(String theProp, int defaultVal) {
+    public GetIntegerAction(String theProp, int defbultVbl) {
         this.theProp = theProp;
-        this.defaultVal = defaultVal;
-        this.defaultSet = true;
+        this.defbultVbl = defbultVbl;
+        this.defbultSet = true;
     }
 
     /**
-     * Determines the integer value of the system property whose name was
+     * Determines the integer vblue of the system property whose nbme wbs
      * specified in the constructor.
      *
-     * <p>If there is no property of the specified name, or if the property
-     * does not have the correct numeric format, then an <code>Integer</code>
-     * object representing the default value that was specified in the
-     * constructor is returned, or <code>null</code> if no default value was
+     * <p>If there is no property of the specified nbme, or if the property
+     * does not hbve the correct numeric formbt, then bn <code>Integer</code>
+     * object representing the defbult vblue thbt wbs specified in the
+     * constructor is returned, or <code>null</code> if no defbult vblue wbs
      * specified.
      *
-     * @return the <code>Integer</code> value of the property.
+     * @return the <code>Integer</code> vblue of the property.
      */
     public Integer run() {
-        Integer value = Integer.getInteger(theProp);
-        if ((value == null) && defaultSet)
-            return defaultVal;
-        return value;
+        Integer vblue = Integer.getInteger(theProp);
+        if ((vblue == null) && defbultSet)
+            return defbultVbl;
+        return vblue;
     }
 }

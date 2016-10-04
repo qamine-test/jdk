@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.swing.plaf.synth;
+pbckbge sun.swing.plbf.synth;
 
-import javax.swing.plaf.synth.*;
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
+import jbvbx.swing.plbf.synth.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.*;
 
 /**
- * Default implementation of SynthStyle. Has setters for the various
- * SynthStyle methods. Many of the properties can be specified for all states,
- * using SynthStyle directly, or a specific state using one of the StateInfo
+ * Defbult implementbtion of SynthStyle. Hbs setters for the vbrious
+ * SynthStyle methods. Mbny of the properties cbn be specified for bll stbtes,
+ * using SynthStyle directly, or b specific stbte using one of the StbteInfo
  * methods.
  * <p>
- * Beyond the constructor a subclass should override the <code>addTo</code>
- * and <code>clone</code> methods, these are used when the Styles are being
- * merged into a resulting style.
+ * Beyond the constructor b subclbss should override the <code>bddTo</code>
+ * bnd <code>clone</code> methods, these bre used when the Styles bre being
+ * merged into b resulting style.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-public class DefaultSynthStyle extends SynthStyle implements Cloneable {
-    private static final String PENDING = "Pending";
+public clbss DefbultSynthStyle extends SynthStyle implements Clonebble {
+    privbte stbtic finbl String PENDING = "Pending";
 
     /**
-     * Should the component be opaque?
+     * Should the component be opbque?
      */
-    private boolean opaque;
+    privbte boolebn opbque;
     /**
      * Insets.
      */
-    private Insets insets;
+    privbte Insets insets;
     /**
-     * Information specific to ComponentState.
+     * Informbtion specific to ComponentStbte.
      */
-    private StateInfo[] states;
+    privbte StbteInfo[] stbtes;
     /**
-     * User specific data.
+     * User specific dbtb.
      */
-    private Map<Object, Object> data;
+    privbte Mbp<Object, Object> dbtb;
 
     /**
-     * Font to use if there is no matching StateInfo, or the StateInfo doesn't
+     * Font to use if there is no mbtching StbteInfo, or the StbteInfo doesn't
      * define one.
      */
-    private Font font;
+    privbte Font font;
 
     /**
-     * SynthGraphics, may be null.
+     * SynthGrbphics, mby be null.
      */
-    private SynthGraphicsUtils synthGraphics;
+    privbte SynthGrbphicsUtils synthGrbphics;
 
     /**
-     * Painter to use if the StateInfo doesn't have one.
+     * Pbinter to use if the StbteInfo doesn't hbve one.
      */
-    private SynthPainter painter;
+    privbte SynthPbinter pbinter;
 
 
     /**
-     * Nullary constructor, intended for subclassers.
+     * Nullbry constructor, intended for subclbssers.
      */
-    public DefaultSynthStyle() {
+    public DefbultSynthStyle() {
     }
 
     /**
-     * Creates a new DefaultSynthStyle that is a copy of the passed in
-     * style. Any StateInfo's of the passed in style are clonsed as well.
+     * Crebtes b new DefbultSynthStyle thbt is b copy of the pbssed in
+     * style. Any StbteInfo's of the pbssed in style bre clonsed bs well.
      *
-     * @param style Style to duplicate
+     * @pbrbm style Style to duplicbte
      */
-    public DefaultSynthStyle(DefaultSynthStyle style) {
-        opaque = style.opaque;
+    public DefbultSynthStyle(DefbultSynthStyle style) {
+        opbque = style.opbque;
         if (style.insets != null) {
             insets = new Insets(style.insets.top, style.insets.left,
                                 style.insets.bottom, style.insets.right);
         }
-        if (style.states != null) {
-            states = new StateInfo[style.states.length];
-            for (int counter = style.states.length - 1; counter >= 0;
+        if (style.stbtes != null) {
+            stbtes = new StbteInfo[style.stbtes.length];
+            for (int counter = style.stbtes.length - 1; counter >= 0;
                      counter--) {
-                states[counter] = (StateInfo)style.states[counter].clone();
+                stbtes[counter] = (StbteInfo)style.stbtes[counter].clone();
             }
         }
-        if (style.data != null) {
-            data = new HashMap<>();
-            data.putAll(style.data);
+        if (style.dbtb != null) {
+            dbtb = new HbshMbp<>();
+            dbtb.putAll(style.dbtb);
         }
         font = style.font;
-        synthGraphics = style.synthGraphics;
-        painter = style.painter;
+        synthGrbphics = style.synthGrbphics;
+        pbinter = style.pbinter;
     }
 
     /**
-     * Creates a new DefaultSynthStyle.
+     * Crebtes b new DefbultSynthStyle.
      *
-     * @param insets Insets for the Style
-     * @param opaque Whether or not the background is completely painted in
-     *        an opaque color
-     * @param states StateInfos describing properties per state
-     * @param data Style specific data.
+     * @pbrbm insets Insets for the Style
+     * @pbrbm opbque Whether or not the bbckground is completely pbinted in
+     *        bn opbque color
+     * @pbrbm stbtes StbteInfos describing properties per stbte
+     * @pbrbm dbtb Style specific dbtb.
      */
-    public DefaultSynthStyle(Insets insets, boolean opaque,
-                             StateInfo[] states, Map<Object, Object> data) {
+    public DefbultSynthStyle(Insets insets, boolebn opbque,
+                             StbteInfo[] stbtes, Mbp<Object, Object> dbtb) {
         this.insets = insets;
-        this.opaque = opaque;
-        this.states = states;
-        this.data = data;
+        this.opbque = opbque;
+        this.stbtes = stbtes;
+        this.dbtb = dbtb;
     }
 
     public Color getColor(SynthContext context, ColorType type) {
         return getColor(context.getComponent(), context.getRegion(),
-                        context.getComponentState(), type);
+                        context.getComponentStbte(), type);
     }
 
-    public Color getColor(JComponent c, Region id, int state,
+    public Color getColor(JComponent c, Region id, int stbte,
                           ColorType type) {
-        // For the enabled state, prefer the widget's colors
-        if (!id.isSubregion() && state == SynthConstants.ENABLED) {
+        // For the enbbled stbte, prefer the widget's colors
+        if (!id.isSubregion() && stbte == SynthConstbnts.ENABLED) {
             if (type == ColorType.BACKGROUND) {
-                return c.getBackground();
+                return c.getBbckground();
             }
             else if (type == ColorType.FOREGROUND) {
                 return c.getForeground();
             }
             else if (type == ColorType.TEXT_FOREGROUND) {
-                // If getForeground returns a non-UIResource it means the
-                // developer has explicitly set the foreground, use it over
-                // that of TEXT_FOREGROUND as that is typically the expected
-                // behavior.
+                // If getForeground returns b non-UIResource it mebns the
+                // developer hbs explicitly set the foreground, use it over
+                // thbt of TEXT_FOREGROUND bs thbt is typicblly the expected
+                // behbvior.
                 Color color = c.getForeground();
-                if (!(color instanceof UIResource)) {
+                if (!(color instbnceof UIResource)) {
                     return color;
                 }
             }
         }
-        // Then use what we've locally defined
-        Color color = getColorForState(c, id, state, type);
+        // Then use whbt we've locblly defined
+        Color color = getColorForStbte(c, id, stbte, type);
         if (color == null) {
-            // No color, fallback to that of the widget.
+            // No color, fbllbbck to thbt of the widget.
             if (type == ColorType.BACKGROUND ||
                         type == ColorType.TEXT_BACKGROUND) {
-                return c.getBackground();
+                return c.getBbckground();
             }
             else if (type == ColorType.FOREGROUND ||
                      type == ColorType.TEXT_FOREGROUND) {
@@ -173,30 +173,30 @@ public class DefaultSynthStyle extends SynthStyle implements Cloneable {
         return color;
     }
 
-    protected Color getColorForState(SynthContext context, ColorType type) {
-        return getColorForState(context.getComponent(), context.getRegion(),
-                                context.getComponentState(), type);
+    protected Color getColorForStbte(SynthContext context, ColorType type) {
+        return getColorForStbte(context.getComponent(), context.getRegion(),
+                                context.getComponentStbte(), type);
     }
 
     /**
-     * Returns the color for the specified state.
+     * Returns the color for the specified stbte.
      *
-     * @param c JComponent the style is associated with
-     * @param id Region identifier
-     * @param state State of the region.
-     * @param type Type of color being requested.
+     * @pbrbm c JComponent the style is bssocibted with
+     * @pbrbm id Region identifier
+     * @pbrbm stbte Stbte of the region.
+     * @pbrbm type Type of color being requested.
      * @return Color to render with
      */
-    protected Color getColorForState(JComponent c, Region id, int state,
+    protected Color getColorForStbte(JComponent c, Region id, int stbte,
                                      ColorType type) {
-        // Use the best state.
-        StateInfo si = getStateInfo(state);
+        // Use the best stbte.
+        StbteInfo si = getStbteInfo(stbte);
         Color color;
         if (si != null && (color = si.getColor(type)) != null) {
             return color;
         }
-        if (si == null || si.getComponentState() != 0) {
-            si = getStateInfo(0);
+        if (si == null || si.getComponentStbte() != 0) {
+            si = getStbteInfo(0);
             if (si != null) {
                 return si.getColor(type);
             }
@@ -205,91 +205,91 @@ public class DefaultSynthStyle extends SynthStyle implements Cloneable {
     }
 
     /**
-     * Sets the font that is used if there is no matching StateInfo, or
-     * it does not define a font.
+     * Sets the font thbt is used if there is no mbtching StbteInfo, or
+     * it does not define b font.
      *
-     * @param font Font to use for rendering
+     * @pbrbm font Font to use for rendering
      */
     public void setFont(Font font) {
         this.font = font;
     }
 
-    public Font getFont(SynthContext state) {
-        return getFont(state.getComponent(), state.getRegion(),
-                       state.getComponentState());
+    public Font getFont(SynthContext stbte) {
+        return getFont(stbte.getComponent(), stbte.getRegion(),
+                       stbte.getComponentStbte());
     }
 
-    public Font getFont(JComponent c, Region id, int state) {
-        if (!id.isSubregion() && state == SynthConstants.ENABLED) {
+    public Font getFont(JComponent c, Region id, int stbte) {
+        if (!id.isSubregion() && stbte == SynthConstbnts.ENABLED) {
             return c.getFont();
         }
         Font cFont = c.getFont();
-        if (cFont != null && !(cFont instanceof UIResource)) {
+        if (cFont != null && !(cFont instbnceof UIResource)) {
             return cFont;
         }
-        return getFontForState(c, id, state);
+        return getFontForStbte(c, id, stbte);
     }
 
     /**
-     * Returns the font for the specified state. This should NOT callback
+     * Returns the font for the specified stbte. This should NOT cbllbbck
      * to the JComponent.
      *
-     * @param c JComponent the style is associated with
-     * @param id Region identifier
-     * @param state State of the region.
+     * @pbrbm c JComponent the style is bssocibted with
+     * @pbrbm id Region identifier
+     * @pbrbm stbte Stbte of the region.
      * @return Font to render with
      */
-    protected Font getFontForState(JComponent c, Region id, int state) {
+    protected Font getFontForStbte(JComponent c, Region id, int stbte) {
         if (c == null) {
             return this.font;
         }
-        // First pass, look for the best match
-        StateInfo si = getStateInfo(state);
+        // First pbss, look for the best mbtch
+        StbteInfo si = getStbteInfo(stbte);
         Font font;
         if (si != null && (font = si.getFont()) != null) {
             return font;
         }
-        if (si == null || si.getComponentState() != 0) {
-            si = getStateInfo(0);
+        if (si == null || si.getComponentStbte() != 0) {
+            si = getStbteInfo(0);
             if (si != null && (font = si.getFont()) != null) {
                 return font;
             }
         }
-        // Fallback font.
+        // Fbllbbck font.
         return this.font;
     }
 
-    protected Font getFontForState(SynthContext context) {
-        return getFontForState(context.getComponent(), context.getRegion(),
-                               context.getComponentState());
+    protected Font getFontForStbte(SynthContext context) {
+        return getFontForStbte(context.getComponent(), context.getRegion(),
+                               context.getComponentStbte());
     }
 
     /**
-     * Sets the SynthGraphicsUtils that will be used for rendering.
+     * Sets the SynthGrbphicsUtils thbt will be used for rendering.
      *
-     * @param graphics SynthGraphics
+     * @pbrbm grbphics SynthGrbphics
      */
-    public void setGraphicsUtils(SynthGraphicsUtils graphics) {
-        this.synthGraphics = graphics;
+    public void setGrbphicsUtils(SynthGrbphicsUtils grbphics) {
+        this.synthGrbphics = grbphics;
     }
 
     /**
-     * Returns a SynthGraphicsUtils.
+     * Returns b SynthGrbphicsUtils.
      *
-     * @param context SynthContext identifying requestor
-     * @return SynthGraphicsUtils
+     * @pbrbm context SynthContext identifying requestor
+     * @return SynthGrbphicsUtils
      */
-    public SynthGraphicsUtils getGraphicsUtils(SynthContext context) {
-        if (synthGraphics == null) {
-            return super.getGraphicsUtils(context);
+    public SynthGrbphicsUtils getGrbphicsUtils(SynthContext context) {
+        if (synthGrbphics == null) {
+            return super.getGrbphicsUtils(context);
         }
-        return synthGraphics;
+        return synthGrbphics;
     }
 
     /**
      * Sets the insets.
      *
-     * @param Insets.
+     * @pbrbm Insets.
      */
     public void setInsets(Insets insets) {
         this.insets = insets;
@@ -297,14 +297,14 @@ public class DefaultSynthStyle extends SynthStyle implements Cloneable {
 
     /**
      * Returns the Insets. If <code>to</code> is non-null the resulting
-     * insets will be placed in it, otherwise a new Insets object will be
-     * created and returned.
+     * insets will be plbced in it, otherwise b new Insets object will be
+     * crebted bnd returned.
      *
-     * @param context SynthContext identifying requestor
-     * @param to Where to place Insets
+     * @pbrbm context SynthContext identifying requestor
+     * @pbrbm to Where to plbce Insets
      * @return Insets.
      */
-    public Insets getInsets(SynthContext state, Insets to) {
+    public Insets getInsets(SynthContext stbte, Insets to) {
         if (to == null) {
             to = new Insets(0, 0, 0, 0);
         }
@@ -321,216 +321,216 @@ public class DefaultSynthStyle extends SynthStyle implements Cloneable {
     }
 
     /**
-     * Sets the Painter to use for the border.
+     * Sets the Pbinter to use for the border.
      *
-     * @param painter Painter for the Border.
+     * @pbrbm pbinter Pbinter for the Border.
      */
-    public void setPainter(SynthPainter painter) {
-        this.painter = painter;
+    public void setPbinter(SynthPbinter pbinter) {
+        this.pbinter = pbinter;
     }
 
     /**
-     * Returns the Painter for the passed in Component. This may return null.
+     * Returns the Pbinter for the pbssed in Component. This mby return null.
      *
-     * @param ss SynthContext identifying requestor
-     * @return Painter for the border
+     * @pbrbm ss SynthContext identifying requestor
+     * @return Pbinter for the border
      */
-    public SynthPainter getPainter(SynthContext ss) {
-        return painter;
+    public SynthPbinter getPbinter(SynthContext ss) {
+        return pbinter;
     }
 
     /**
-     * Sets whether or not the JComponent should be opaque.
+     * Sets whether or not the JComponent should be opbque.
      *
-     * @param opaque Whether or not the JComponent should be opaque.
+     * @pbrbm opbque Whether or not the JComponent should be opbque.
      */
-    public void setOpaque(boolean opaque) {
-        this.opaque = opaque;
+    public void setOpbque(boolebn opbque) {
+        this.opbque = opbque;
     }
 
     /**
-     * Returns the value to initialize the opacity property of the Component
-     * to. A Style should NOT assume the opacity will remain this value, the
-     * developer may reset it or override it.
+     * Returns the vblue to initiblize the opbcity property of the Component
+     * to. A Style should NOT bssume the opbcity will rembin this vblue, the
+     * developer mby reset it or override it.
      *
-     * @param ss SynthContext identifying requestor
-     * @return opaque Whether or not the JComponent is opaque.
+     * @pbrbm ss SynthContext identifying requestor
+     * @return opbque Whether or not the JComponent is opbque.
      */
-    public boolean isOpaque(SynthContext ss) {
-        return opaque;
+    public boolebn isOpbque(SynthContext ss) {
+        return opbque;
     }
 
     /**
-     * Sets style specific values. This does NOT copy the data, it
-     * assigns it directly to this Style.
+     * Sets style specific vblues. This does NOT copy the dbtb, it
+     * bssigns it directly to this Style.
      *
-     * @param data Style specific values
+     * @pbrbm dbtb Style specific vblues
      */
-    public void setData(Map<Object, Object> data) {
-        this.data = data;
+    public void setDbtb(Mbp<Object, Object> dbtb) {
+        this.dbtb = dbtb;
     }
 
     /**
-     * Returns the style specific data.
+     * Returns the style specific dbtb.
      *
-     * @return Style specific data.
+     * @return Style specific dbtb.
      */
-    public Map<Object, Object> getData() {
-        return data;
+    public Mbp<Object, Object> getDbtb() {
+        return dbtb;
     }
 
     /**
-     * Getter for a region specific style property.
+     * Getter for b region specific style property.
      *
-     * @param state SynthContext identifying requestor
-     * @param key Property being requested.
-     * @return Value of the named property
+     * @pbrbm stbte SynthContext identifying requestor
+     * @pbrbm key Property being requested.
+     * @return Vblue of the nbmed property
      */
-    public Object get(SynthContext state, Object key) {
-        // Look for the best match
-        StateInfo si = getStateInfo(state.getComponentState());
-        if (si != null && si.getData() != null && getKeyFromData(si.getData(), key) != null) {
-            return getKeyFromData(si.getData(), key);
+    public Object get(SynthContext stbte, Object key) {
+        // Look for the best mbtch
+        StbteInfo si = getStbteInfo(stbte.getComponentStbte());
+        if (si != null && si.getDbtb() != null && getKeyFromDbtb(si.getDbtb(), key) != null) {
+            return getKeyFromDbtb(si.getDbtb(), key);
         }
-        si = getStateInfo(0);
-        if (si != null && si.getData() != null && getKeyFromData(si.getData(), key) != null) {
-            return getKeyFromData(si.getData(), key);
+        si = getStbteInfo(0);
+        if (si != null && si.getDbtb() != null && getKeyFromDbtb(si.getDbtb(), key) != null) {
+            return getKeyFromDbtb(si.getDbtb(), key);
         }
-        if(getKeyFromData(data, key) != null)
-          return getKeyFromData(data, key);
-        return getDefaultValue(state, key);
+        if(getKeyFromDbtb(dbtb, key) != null)
+          return getKeyFromDbtb(dbtb, key);
+        return getDefbultVblue(stbte, key);
     }
 
 
-    private Object getKeyFromData(Map<Object, Object> stateData, Object key) {
-          Object value = null;
-          if (stateData != null) {
+    privbte Object getKeyFromDbtb(Mbp<Object, Object> stbteDbtb, Object key) {
+          Object vblue = null;
+          if (stbteDbtb != null) {
 
-            synchronized(stateData) {
-                value = stateData.get(key);
+            synchronized(stbteDbtb) {
+                vblue = stbteDbtb.get(key);
             }
-            while (value == PENDING) {
-                synchronized(stateData) {
+            while (vblue == PENDING) {
+                synchronized(stbteDbtb) {
                     try {
-                        stateData.wait();
-                    } catch (InterruptedException ie) {}
-                    value = stateData.get(key);
+                        stbteDbtb.wbit();
+                    } cbtch (InterruptedException ie) {}
+                    vblue = stbteDbtb.get(key);
                 }
             }
-            if (value instanceof UIDefaults.LazyValue) {
-                synchronized(stateData) {
-                    stateData.put(key, PENDING);
+            if (vblue instbnceof UIDefbults.LbzyVblue) {
+                synchronized(stbteDbtb) {
+                    stbteDbtb.put(key, PENDING);
                 }
-                value = ((UIDefaults.LazyValue)value).createValue(null);
-                synchronized(stateData) {
-                    stateData.put(key, value);
-                    stateData.notifyAll();
+                vblue = ((UIDefbults.LbzyVblue)vblue).crebteVblue(null);
+                synchronized(stbteDbtb) {
+                    stbteDbtb.put(key, vblue);
+                    stbteDbtb.notifyAll();
                 }
             }
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Returns the default value for a particular property.  This is only
-     * invoked if this style doesn't define a property for <code>key</code>.
+     * Returns the defbult vblue for b pbrticulbr property.  This is only
+     * invoked if this style doesn't define b property for <code>key</code>.
      *
-     * @param state SynthContext identifying requestor
-     * @param key Property being requested.
-     * @return Value of the named property
+     * @pbrbm stbte SynthContext identifying requestor
+     * @pbrbm key Property being requested.
+     * @return Vblue of the nbmed property
      */
-    public Object getDefaultValue(SynthContext context, Object key) {
+    public Object getDefbultVblue(SynthContext context, Object key) {
         return super.get(context, key);
     }
 
     /**
-     * Creates a clone of this style.
+     * Crebtes b clone of this style.
      *
      * @return Clone of this style
      */
     public Object clone() {
-        DefaultSynthStyle style;
+        DefbultSynthStyle style;
         try {
-            style = (DefaultSynthStyle)super.clone();
-        } catch (CloneNotSupportedException cnse) {
+            style = (DefbultSynthStyle)super.clone();
+        } cbtch (CloneNotSupportedException cnse) {
             return null;
         }
-        if (states != null) {
-            style.states = new StateInfo[states.length];
-            for (int counter = states.length - 1; counter >= 0; counter--) {
-                style.states[counter] = (StateInfo)states[counter].clone();
+        if (stbtes != null) {
+            style.stbtes = new StbteInfo[stbtes.length];
+            for (int counter = stbtes.length - 1; counter >= 0; counter--) {
+                style.stbtes[counter] = (StbteInfo)stbtes[counter].clone();
             }
         }
-        if (data != null) {
-            style.data = new HashMap<>();
-            style.data.putAll(data);
+        if (dbtb != null) {
+            style.dbtb = new HbshMbp<>();
+            style.dbtb.putAll(dbtb);
         }
         return style;
     }
 
     /**
-     * Merges the contents of this Style with that of the passed in Style,
+     * Merges the contents of this Style with thbt of the pbssed in Style,
      * returning the resulting merged syle. Properties of this
-     * <code>DefaultSynthStyle</code> will take precedence over those of the
-     * passed in <code>DefaultSynthStyle</code>. For example, if this
-     * style specifics a non-null font, the returned style will have its
-     * font so to that regardless of the <code>style</code>'s font.
+     * <code>DefbultSynthStyle</code> will tbke precedence over those of the
+     * pbssed in <code>DefbultSynthStyle</code>. For exbmple, if this
+     * style specifics b non-null font, the returned style will hbve its
+     * font so to thbt regbrdless of the <code>style</code>'s font.
      *
-     * @param style Style to add our styles to
+     * @pbrbm style Style to bdd our styles to
      * @return Merged style.
      */
-    public DefaultSynthStyle addTo(DefaultSynthStyle style) {
+    public DefbultSynthStyle bddTo(DefbultSynthStyle style) {
         if (insets != null) {
             style.insets = this.insets;
         }
         if (font != null) {
             style.font = this.font;
         }
-        if (painter != null) {
-            style.painter = this.painter;
+        if (pbinter != null) {
+            style.pbinter = this.pbinter;
         }
-        if (synthGraphics != null) {
-            style.synthGraphics = this.synthGraphics;
+        if (synthGrbphics != null) {
+            style.synthGrbphics = this.synthGrbphics;
         }
-        style.opaque = opaque;
-        if (states != null) {
-            if (style.states == null) {
-                style.states = new StateInfo[states.length];
-                for (int counter = states.length - 1; counter >= 0; counter--){
-                    if (states[counter] != null) {
-                        style.states[counter] = (StateInfo)states[counter].
+        style.opbque = opbque;
+        if (stbtes != null) {
+            if (style.stbtes == null) {
+                style.stbtes = new StbteInfo[stbtes.length];
+                for (int counter = stbtes.length - 1; counter >= 0; counter--){
+                    if (stbtes[counter] != null) {
+                        style.stbtes[counter] = (StbteInfo)stbtes[counter].
                                                 clone();
                     }
                 }
             }
             else {
-                // Find the number of new states in unique, merging any
-                // matching states as we go. Also, move any merge styles
+                // Find the number of new stbtes in unique, merging bny
+                // mbtching stbtes bs we go. Also, move bny merge styles
                 // to the end to give them precedence.
                 int unique = 0;
-                // Number of StateInfos that match.
-                int matchCount = 0;
-                int maxOStyles = style.states.length;
-                for (int thisCounter = states.length - 1; thisCounter >= 0;
+                // Number of StbteInfos thbt mbtch.
+                int mbtchCount = 0;
+                int mbxOStyles = style.stbtes.length;
+                for (int thisCounter = stbtes.length - 1; thisCounter >= 0;
                          thisCounter--) {
-                    int state = states[thisCounter].getComponentState();
-                    boolean found = false;
+                    int stbte = stbtes[thisCounter].getComponentStbte();
+                    boolebn found = fblse;
 
-                    for (int oCounter = maxOStyles - 1 - matchCount;
+                    for (int oCounter = mbxOStyles - 1 - mbtchCount;
                              oCounter >= 0; oCounter--) {
-                        if (state == style.states[oCounter].
-                                           getComponentState()) {
-                            style.states[oCounter] = states[thisCounter].
-                                        addTo(style.states[oCounter]);
-                            // Move StateInfo to end, giving it precedence.
-                            StateInfo tmp = style.states[maxOStyles - 1 -
-                                                         matchCount];
-                            style.states[maxOStyles - 1 - matchCount] =
-                                  style.states[oCounter];
-                            style.states[oCounter] = tmp;
-                            matchCount++;
+                        if (stbte == style.stbtes[oCounter].
+                                           getComponentStbte()) {
+                            style.stbtes[oCounter] = stbtes[thisCounter].
+                                        bddTo(style.stbtes[oCounter]);
+                            // Move StbteInfo to end, giving it precedence.
+                            StbteInfo tmp = style.stbtes[mbxOStyles - 1 -
+                                                         mbtchCount];
+                            style.stbtes[mbxOStyles - 1 - mbtchCount] =
+                                  style.stbtes[oCounter];
+                            style.stbtes[oCounter] = tmp;
+                            mbtchCount++;
                             found = true;
-                            break;
+                            brebk;
                         }
                     }
                     if (!found) {
@@ -538,117 +538,117 @@ public class DefaultSynthStyle extends SynthStyle implements Cloneable {
                     }
                 }
                 if (unique != 0) {
-                    // There are states that exist in this Style that
-                    // don't exist in the other style, recreate the array
-                    // and add them.
-                    StateInfo[] newStates = new StateInfo[
-                                   unique + maxOStyles];
-                    int newIndex = maxOStyles;
+                    // There bre stbtes thbt exist in this Style thbt
+                    // don't exist in the other style, recrebte the brrby
+                    // bnd bdd them.
+                    StbteInfo[] newStbtes = new StbteInfo[
+                                   unique + mbxOStyles];
+                    int newIndex = mbxOStyles;
 
-                    System.arraycopy(style.states, 0, newStates, 0,maxOStyles);
-                    for (int thisCounter = states.length - 1; thisCounter >= 0;
+                    System.brrbycopy(style.stbtes, 0, newStbtes, 0,mbxOStyles);
+                    for (int thisCounter = stbtes.length - 1; thisCounter >= 0;
                              thisCounter--) {
-                        int state = states[thisCounter].getComponentState();
-                        boolean found = false;
+                        int stbte = stbtes[thisCounter].getComponentStbte();
+                        boolebn found = fblse;
 
-                        for (int oCounter = maxOStyles - 1; oCounter >= 0;
+                        for (int oCounter = mbxOStyles - 1; oCounter >= 0;
                                  oCounter--) {
-                            if (state == style.states[oCounter].
-                                               getComponentState()) {
+                            if (stbte == style.stbtes[oCounter].
+                                               getComponentStbte()) {
                                 found = true;
-                                break;
+                                brebk;
                             }
                         }
                         if (!found) {
-                            newStates[newIndex++] = (StateInfo)states[
+                            newStbtes[newIndex++] = (StbteInfo)stbtes[
                                       thisCounter].clone();
                         }
                     }
-                    style.states = newStates;
+                    style.stbtes = newStbtes;
                 }
             }
         }
-        if (data != null) {
-            if (style.data == null) {
-                style.data = new HashMap<>();
+        if (dbtb != null) {
+            if (style.dbtb == null) {
+                style.dbtb = new HbshMbp<>();
             }
-            style.data.putAll(data);
+            style.dbtb.putAll(dbtb);
         }
         return style;
     }
 
     /**
-     * Sets the array of StateInfo's which are used to specify properties
-     * specific to a particular style.
+     * Sets the brrby of StbteInfo's which bre used to specify properties
+     * specific to b pbrticulbr style.
      *
-     * @param states StateInfos
+     * @pbrbm stbtes StbteInfos
      */
-    public void setStateInfo(StateInfo[] states) {
-        this.states = states;
+    public void setStbteInfo(StbteInfo[] stbtes) {
+        this.stbtes = stbtes;
     }
 
     /**
-     * Returns the array of StateInfo's that that are used to specify
-     * properties specific to a particular style.
+     * Returns the brrby of StbteInfo's thbt thbt bre used to specify
+     * properties specific to b pbrticulbr style.
      *
-     * @return Array of StateInfos.
+     * @return Arrby of StbteInfos.
      */
-    public StateInfo[] getStateInfo() {
-        return states;
+    public StbteInfo[] getStbteInfo() {
+        return stbtes;
     }
 
     /**
-     * Returns the best matching StateInfo for a particular state.
+     * Returns the best mbtching StbteInfo for b pbrticulbr stbte.
      *
-     * @param state Component state.
-     * @return Best matching StateInfo, or null
+     * @pbrbm stbte Component stbte.
+     * @return Best mbtching StbteInfo, or null
      */
-    public StateInfo getStateInfo(int state) {
-        // Use the StateInfo with the most bits that matches that of state.
-        // If there is none, than fallback to
-        // the StateInfo with a state of 0, indicating it'll match anything.
+    public StbteInfo getStbteInfo(int stbte) {
+        // Use the StbteInfo with the most bits thbt mbtches thbt of stbte.
+        // If there is none, thbn fbllbbck to
+        // the StbteInfo with b stbte of 0, indicbting it'll mbtch bnything.
 
-        // Consider if we have 3 StateInfos a, b and c with states:
+        // Consider if we hbve 3 StbteInfos b, b bnd c with stbtes:
         // SELECTED, SELECTED | ENABLED, 0
         //
-        // Input                          Return Value
+        // Input                          Return Vblue
         // -----                          ------------
-        // SELECTED                       a
+        // SELECTED                       b
         // SELECTED | ENABLED             b
         // MOUSE_OVER                     c
         // SELECTED | ENABLED | FOCUSED   b
         // ENABLED                        c
 
-        if (states != null) {
+        if (stbtes != null) {
             int bestCount = 0;
             int bestIndex = -1;
             int wildIndex = -1;
 
-            if (state == 0) {
-                for (int counter = states.length - 1; counter >= 0;counter--) {
-                    if (states[counter].getComponentState() == 0) {
-                        return states[counter];
+            if (stbte == 0) {
+                for (int counter = stbtes.length - 1; counter >= 0;counter--) {
+                    if (stbtes[counter].getComponentStbte() == 0) {
+                        return stbtes[counter];
                     }
                 }
                 return null;
             }
-            for (int counter = states.length - 1; counter >= 0; counter--) {
-                int oState = states[counter].getComponentState();
+            for (int counter = stbtes.length - 1; counter >= 0; counter--) {
+                int oStbte = stbtes[counter].getComponentStbte();
 
-                if (oState == 0) {
+                if (oStbte == 0) {
                     if (wildIndex == -1) {
                         wildIndex = counter;
                     }
                 }
-                else if ((state & oState) == oState) {
-                    // This is key, we need to make sure all bits of the
-                    // StateInfo match, otherwise a StateInfo with
-                    // SELECTED | ENABLED would match ENABLED, which we
-                    // don't want.
+                else if ((stbte & oStbte) == oStbte) {
+                    // This is key, we need to mbke sure bll bits of the
+                    // StbteInfo mbtch, otherwise b StbteInfo with
+                    // SELECTED | ENABLED would mbtch ENABLED, which we
+                    // don't wbnt.
 
                     // This comes from BigInteger.bitCnt
-                    int bitCount = oState;
-                    bitCount -= (0xaaaaaaaa & bitCount) >>> 1;
+                    int bitCount = oStbte;
+                    bitCount -= (0xbbbbbbbb & bitCount) >>> 1;
                     bitCount = (bitCount & 0x33333333) + ((bitCount >>> 2) &
                                                       0x33333333);
                     bitCount = bitCount + (bitCount >>> 4) & 0x0f0f0f0f;
@@ -662,10 +662,10 @@ public class DefaultSynthStyle extends SynthStyle implements Cloneable {
                 }
             }
             if (bestIndex != -1) {
-                return states[bestIndex];
+                return stbtes[bestIndex];
             }
             if (wildIndex != -1) {
-                return states[wildIndex];
+                return stbtes[wildIndex];
             }
           }
           return null;
@@ -675,128 +675,128 @@ public class DefaultSynthStyle extends SynthStyle implements Cloneable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(super.toString()).append(',');
+        sb.bppend(super.toString()).bppend(',');
 
-        sb.append("data=").append(data).append(',');
+        sb.bppend("dbtb=").bppend(dbtb).bppend(',');
 
-        sb.append("font=").append(font).append(',');
+        sb.bppend("font=").bppend(font).bppend(',');
 
-        sb.append("insets=").append(insets).append(',');
+        sb.bppend("insets=").bppend(insets).bppend(',');
 
-        sb.append("synthGraphics=").append(synthGraphics).append(',');
+        sb.bppend("synthGrbphics=").bppend(synthGrbphics).bppend(',');
 
-        sb.append("painter=").append(painter).append(',');
+        sb.bppend("pbinter=").bppend(pbinter).bppend(',');
 
-        StateInfo[] states = getStateInfo();
-        if (states != null) {
-            sb.append("states[");
-            for (StateInfo state : states) {
-                sb.append(state.toString()).append(',');
+        StbteInfo[] stbtes = getStbteInfo();
+        if (stbtes != null) {
+            sb.bppend("stbtes[");
+            for (StbteInfo stbte : stbtes) {
+                sb.bppend(stbte.toString()).bppend(',');
             }
-            sb.append(']').append(',');
+            sb.bppend(']').bppend(',');
         }
 
-        // remove last newline
-        sb.deleteCharAt(sb.length() - 1);
+        // remove lbst newline
+        sb.deleteChbrAt(sb.length() - 1);
 
         return sb.toString();
     }
 
 
     /**
-     * StateInfo represents Style information specific to the state of
-     * a component.
+     * StbteInfo represents Style informbtion specific to the stbte of
+     * b component.
      */
-    public static class StateInfo {
-        private Map<Object, Object> data;
-        private Font font;
-        private Color[] colors;
-        private int state;
+    public stbtic clbss StbteInfo {
+        privbte Mbp<Object, Object> dbtb;
+        privbte Font font;
+        privbte Color[] colors;
+        privbte int stbte;
 
         /**
-         * Creates a new StateInfo.
+         * Crebtes b new StbteInfo.
          */
-        public StateInfo() {
+        public StbteInfo() {
         }
 
         /**
-         * Creates a new StateInfo with the specified properties
+         * Crebtes b new StbteInfo with the specified properties
          *
-         * @param state Component state(s) that this StateInfo should be used
+         * @pbrbm stbte Component stbte(s) thbt this StbteInfo should be used
          * for
-         * @param painter Painter responsible for rendering
-         * @param bgPainter Painter responsible for rendering the background
-         * @param font Font for this state
-         * @param colors Colors for this state
+         * @pbrbm pbinter Pbinter responsible for rendering
+         * @pbrbm bgPbinter Pbinter responsible for rendering the bbckground
+         * @pbrbm font Font for this stbte
+         * @pbrbm colors Colors for this stbte
          */
-        public StateInfo(int state, Font font, Color[] colors) {
-            this.state = state;
+        public StbteInfo(int stbte, Font font, Color[] colors) {
+            this.stbte = stbte;
             this.font = font;
             this.colors = colors;
         }
 
         /**
-         * Creates a new StateInfo that is a copy of the passed in
-         * StateInfo.
+         * Crebtes b new StbteInfo thbt is b copy of the pbssed in
+         * StbteInfo.
          *
-         * @param info StateInfo to copy.
+         * @pbrbm info StbteInfo to copy.
          */
-        public StateInfo(StateInfo info) {
-            this.state = info.state;
+        public StbteInfo(StbteInfo info) {
+            this.stbte = info.stbte;
             this.font = info.font;
-            if(info.data != null) {
-               if(data == null) {
-                  data = new HashMap<>();
+            if(info.dbtb != null) {
+               if(dbtb == null) {
+                  dbtb = new HbshMbp<>();
                }
-               data.putAll(info.data);
+               dbtb.putAll(info.dbtb);
             }
             if (info.colors != null) {
                 this.colors = new Color[info.colors.length];
-                System.arraycopy(info.colors, 0, colors, 0,info.colors.length);
+                System.brrbycopy(info.colors, 0, colors, 0,info.colors.length);
             }
         }
 
-        public Map<Object, Object> getData() {
-            return data;
+        public Mbp<Object, Object> getDbtb() {
+            return dbtb;
         }
 
-        public void setData(Map<Object, Object> data) {
-            this.data = data;
+        public void setDbtb(Mbp<Object, Object> dbtb) {
+            this.dbtb = dbtb;
         }
 
         /**
-         * Sets the font for this state.
+         * Sets the font for this stbte.
          *
-         * @param font Font to use for rendering
+         * @pbrbm font Font to use for rendering
          */
         public void setFont(Font font) {
             this.font = font;
         }
 
         /**
-         * Returns the font for this state.
+         * Returns the font for this stbte.
          *
-         * @return Returns the font to use for rendering this state
+         * @return Returns the font to use for rendering this stbte
          */
         public Font getFont() {
             return font;
         }
 
         /**
-         * Sets the array of colors to use for rendering this state. This
+         * Sets the brrby of colors to use for rendering this stbte. This
          * is indexed by <code>ColorType.getID()</code>.
          *
-         * @param colors Array of colors
+         * @pbrbm colors Arrby of colors
          */
         public void setColors(Color[] colors) {
             this.colors = colors;
         }
 
         /**
-         * Returns the array of colors to use for rendering this state. This
+         * Returns the brrby of colors to use for rendering this stbte. This
          * is indexed by <code>ColorType.getID()</code>.
          *
-         * @return Array of colors
+         * @return Arrby of colors
          */
         public Color[] getColors() {
             return colors;
@@ -819,31 +819,31 @@ public class DefaultSynthStyle extends SynthStyle implements Cloneable {
         }
 
         /**
-         * Merges the contents of this StateInfo with that of the passed in
-         * StateInfo, returning the resulting merged StateInfo. Properties of
-         * this <code>StateInfo</code> will take precedence over those of the
-         * passed in <code>StateInfo</code>. For example, if this
-         * StateInfo specifics a non-null font, the returned StateInfo will
-         * have its font so to that regardless of the <code>StateInfo</code>'s
+         * Merges the contents of this StbteInfo with thbt of the pbssed in
+         * StbteInfo, returning the resulting merged StbteInfo. Properties of
+         * this <code>StbteInfo</code> will tbke precedence over those of the
+         * pbssed in <code>StbteInfo</code>. For exbmple, if this
+         * StbteInfo specifics b non-null font, the returned StbteInfo will
+         * hbve its font so to thbt regbrdless of the <code>StbteInfo</code>'s
          * font.
          *
-         * @param info StateInfo to add our styles to
-         * @return Merged StateInfo.
+         * @pbrbm info StbteInfo to bdd our styles to
+         * @return Merged StbteInfo.
          */
-        public StateInfo addTo(StateInfo info) {
+        public StbteInfo bddTo(StbteInfo info) {
             if (font != null) {
                 info.font = font;
             }
-            if(data != null) {
-                if(info.data == null) {
-                    info.data = new HashMap<>();
+            if(dbtb != null) {
+                if(info.dbtb == null) {
+                    info.dbtb = new HbshMbp<>();
                 }
-                info.data.putAll(data);
+                info.dbtb.putAll(dbtb);
             }
             if (colors != null) {
                 if (info.colors == null) {
                     info.colors = new Color[colors.length];
-                    System.arraycopy(colors, 0, info.colors, 0,
+                    System.brrbycopy(colors, 0, info.colors, 0,
                                      colors.length);
                 }
                 else {
@@ -851,7 +851,7 @@ public class DefaultSynthStyle extends SynthStyle implements Cloneable {
                         Color[] old = info.colors;
 
                         info.colors = new Color[colors.length];
-                        System.arraycopy(old, 0, info.colors, 0, old.length);
+                        System.brrbycopy(old, 0, info.colors, 0, old.length);
                     }
                     for (int counter = colors.length - 1; counter >= 0;
                              counter--) {
@@ -865,61 +865,61 @@ public class DefaultSynthStyle extends SynthStyle implements Cloneable {
         }
 
         /**
-         * Sets the state this StateInfo corresponds to.
+         * Sets the stbte this StbteInfo corresponds to.
          *
-         * @see SynthConstants
-         * @param state info.
+         * @see SynthConstbnts
+         * @pbrbm stbte info.
          */
-        public void setComponentState(int state) {
-            this.state = state;
+        public void setComponentStbte(int stbte) {
+            this.stbte = stbte;
         }
 
         /**
-         * Returns the state this StateInfo corresponds to.
+         * Returns the stbte this StbteInfo corresponds to.
          *
-         * @see SynthConstants
-         * @return state info.
+         * @see SynthConstbnts
+         * @return stbte info.
          */
-        public int getComponentState() {
-            return state;
+        public int getComponentStbte() {
+            return stbte;
         }
 
         /**
-         * Returns the number of states that are similar between the
-         * ComponentState this StateInfo represents and val.
+         * Returns the number of stbtes thbt bre similbr between the
+         * ComponentStbte this StbteInfo represents bnd vbl.
          */
-        private int getMatchCount(int val) {
+        privbte int getMbtchCount(int vbl) {
             // This comes from BigInteger.bitCnt
-            val &= state;
-            val -= (0xaaaaaaaa & val) >>> 1;
-            val = (val & 0x33333333) + ((val >>> 2) & 0x33333333);
-            val = val + (val >>> 4) & 0x0f0f0f0f;
-            val += val >>> 8;
-            val += val >>> 16;
-            return val & 0xff;
+            vbl &= stbte;
+            vbl -= (0xbbbbbbbb & vbl) >>> 1;
+            vbl = (vbl & 0x33333333) + ((vbl >>> 2) & 0x33333333);
+            vbl = vbl + (vbl >>> 4) & 0x0f0f0f0f;
+            vbl += vbl >>> 8;
+            vbl += vbl >>> 16;
+            return vbl & 0xff;
         }
 
         /**
-         * Creates and returns a copy of this StateInfo.
+         * Crebtes bnd returns b copy of this StbteInfo.
          *
-         * @return Copy of this StateInfo.
+         * @return Copy of this StbteInfo.
          */
         public Object clone() {
-            return new StateInfo(this);
+            return new StbteInfo(this);
         }
 
         public String toString() {
             StringBuilder sb = new StringBuilder();
 
-            sb.append(super.toString()).append(',');
+            sb.bppend(super.toString()).bppend(',');
 
-            sb.append("state=").append(Integer.toString(state)).append(',');
+            sb.bppend("stbte=").bppend(Integer.toString(stbte)).bppend(',');
 
-            sb.append("font=").append(font).append(',');
+            sb.bppend("font=").bppend(font).bppend(',');
 
             if (colors != null) {
-                sb.append("colors=").append(Arrays.asList(colors)).
-                    append(',');
+                sb.bppend("colors=").bppend(Arrbys.bsList(colors)).
+                    bppend(',');
             }
             return sb.toString();
         }

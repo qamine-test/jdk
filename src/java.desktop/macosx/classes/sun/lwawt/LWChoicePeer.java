@@ -1,193 +1,193 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.lwawt;
+pbckbge sun.lwbwt;
 
-import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.peer.ChoicePeer;
+import jbvb.bwt.*;
+import jbvb.bwt.event.ItemEvent;
+import jbvb.bwt.event.ItemListener;
+import jbvb.bwt.peer.ChoicePeer;
 
-import javax.accessibility.Accessible;
-import javax.swing.*;
+import jbvbx.bccessibility.Accessible;
+import jbvbx.swing.*;
 
 /**
- * Lightweight implementation of {@link ChoicePeer}. Delegates most of the work
+ * Lightweight implementbtion of {@link ChoicePeer}. Delegbtes most of the work
  * to the {@link JComboBox}.
  */
-final class LWChoicePeer extends LWComponentPeer<Choice, JComboBox<String>>
+finbl clbss LWChoicePeer extends LWComponentPeer<Choice, JComboBox<String>>
         implements ChoicePeer, ItemListener {
 
     /**
-     * According to Choice specification item events are sent in response to
-     * user input, but not in response to calls to select(). But JComboBox are
-     * sent item events in both cases. Should be used under delegateLock.
+     * According to Choice specificbtion item events bre sent in response to
+     * user input, but not in response to cblls to select(). But JComboBox bre
+     * sent item events in both cbses. Should be used under delegbteLock.
      */
-    private boolean skipPostMessage;
+    privbte boolebn skipPostMessbge;
 
-    LWChoicePeer(final Choice target,
-                 final PlatformComponent platformComponent) {
-        super(target, platformComponent);
+    LWChoicePeer(finbl Choice tbrget,
+                 finbl PlbtformComponent plbtformComponent) {
+        super(tbrget, plbtformComponent);
     }
 
     @Override
-    JComboBox<String> createDelegate() {
-        return new JComboBoxDelegate();
+    JComboBox<String> crebteDelegbte() {
+        return new JComboBoxDelegbte();
     }
 
     @Override
-    void initializeImpl() {
-        super.initializeImpl();
-        final Choice choice = getTarget();
-        final JComboBox<String> combo = getDelegate();
-        synchronized (getDelegateLock()) {
-            final int count = choice.getItemCount();
+    void initiblizeImpl() {
+        super.initiblizeImpl();
+        finbl Choice choice = getTbrget();
+        finbl JComboBox<String> combo = getDelegbte();
+        synchronized (getDelegbteLock()) {
+            finbl int count = choice.getItemCount();
             for (int i = 0; i < count; ++i) {
-                combo.addItem(choice.getItem(i));
+                combo.bddItem(choice.getItem(i));
             }
             select(choice.getSelectedIndex());
 
-            // NOTE: the listener must be added at the very end, otherwise it
-            // fires events upon initialization of the combo box.
-            combo.addItemListener(this);
+            // NOTE: the listener must be bdded bt the very end, otherwise it
+            // fires events upon initiblizbtion of the combo box.
+            combo.bddItemListener(this);
         }
     }
 
     @Override
-    public void itemStateChanged(final ItemEvent e) {
-        // AWT Choice sends SELECTED event only whereas JComboBox
-        // sends both SELECTED and DESELECTED.
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-            synchronized (getDelegateLock()) {
-                if (skipPostMessage) {
+    public void itemStbteChbnged(finbl ItemEvent e) {
+        // AWT Choice sends SELECTED event only wherebs JComboBox
+        // sends both SELECTED bnd DESELECTED.
+        if (e.getStbteChbnge() == ItemEvent.SELECTED) {
+            synchronized (getDelegbteLock()) {
+                if (skipPostMessbge) {
                     return;
                 }
-                getTarget().select(getDelegate().getSelectedIndex());
+                getTbrget().select(getDelegbte().getSelectedIndex());
             }
-            postEvent(new ItemEvent(getTarget(), ItemEvent.ITEM_STATE_CHANGED,
+            postEvent(new ItemEvent(getTbrget(), ItemEvent.ITEM_STATE_CHANGED,
                                     e.getItem(), ItemEvent.SELECTED));
         }
     }
 
     @Override
-    public void add(final String item, final int index) {
-        synchronized (getDelegateLock()) {
-            getDelegate().insertItemAt(item, index);
+    public void bdd(finbl String item, finbl int index) {
+        synchronized (getDelegbteLock()) {
+            getDelegbte().insertItemAt(item, index);
         }
     }
 
     @Override
-    public void remove(final int index) {
-        synchronized (getDelegateLock()) {
-            // We shouldn't post event, if selected item was removed.
-            skipPostMessage = true;
-            getDelegate().removeItemAt(index);
-            skipPostMessage = false;
+    public void remove(finbl int index) {
+        synchronized (getDelegbteLock()) {
+            // We shouldn't post event, if selected item wbs removed.
+            skipPostMessbge = true;
+            getDelegbte().removeItemAt(index);
+            skipPostMessbge = fblse;
         }
     }
 
     @Override
     public void removeAll() {
-        synchronized (getDelegateLock()) {
-            getDelegate().removeAllItems();
+        synchronized (getDelegbteLock()) {
+            getDelegbte().removeAllItems();
         }
     }
 
     @Override
-    public void select(final int index) {
-        synchronized (getDelegateLock()) {
-            if (index != getDelegate().getSelectedIndex()) {
-                skipPostMessage = true;
-                getDelegate().setSelectedIndex(index);
-                skipPostMessage = false;
+    public void select(finbl int index) {
+        synchronized (getDelegbteLock()) {
+            if (index != getDelegbte().getSelectedIndex()) {
+                skipPostMessbge = true;
+                getDelegbte().setSelectedIndex(index);
+                skipPostMessbge = fblse;
             }
         }
     }
 
     @Override
-    public boolean isFocusable() {
+    public boolebn isFocusbble() {
         return true;
     }
 
-    @SuppressWarnings("serial")// Safe: outer class is non-serializable.
-    private final class JComboBoxDelegate extends JComboBox<String> {
+    @SuppressWbrnings("seribl")// Sbfe: outer clbss is non-seriblizbble.
+    privbte finbl clbss JComboBoxDelegbte extends JComboBox<String> {
 
-        // Empty non private constructor was added because access to this
-        // class shouldn't be emulated by a synthetic accessor method.
-        JComboBoxDelegate() {
+        // Empty non privbte constructor wbs bdded becbuse bccess to this
+        // clbss shouldn't be emulbted by b synthetic bccessor method.
+        JComboBoxDelegbte() {
             super();
         }
 
         @Override
-        public boolean hasFocus() {
-            return getTarget().hasFocus();
+        public boolebn hbsFocus() {
+            return getTbrget().hbsFocus();
         }
 
-        //Needed for proper popup menu location
+        //Needed for proper popup menu locbtion
         @Override
-        public Point getLocationOnScreen() {
-            return LWChoicePeer.this.getLocationOnScreen();
+        public Point getLocbtionOnScreen() {
+            return LWChoicePeer.this.getLocbtionOnScreen();
         }
 
         /**
-         * We should post ITEM_STATE_CHANGED event when the same element is
+         * We should post ITEM_STATE_CHANGED event when the sbme element is
          * reselected.
          */
         @Override
-        public void setSelectedItem(final Object anObject) {
-            final Object oldSelection = selectedItemReminder;
-            if (oldSelection != null && oldSelection.equals(anObject)) {
-                selectedItemChanged();
+        public void setSelectedItem(finbl Object bnObject) {
+            finbl Object oldSelection = selectedItemReminder;
+            if (oldSelection != null && oldSelection.equbls(bnObject)) {
+                selectedItemChbnged();
             }
-            super.setSelectedItem(anObject);
+            super.setSelectedItem(bnObject);
         }
 
         @Override
         public void firePopupMenuWillBecomeVisible() {
             super.firePopupMenuWillBecomeVisible();
-            SwingUtilities.invokeLater(() -> {
+            SwingUtilities.invokeLbter(() -> {
                 JPopupMenu popupMenu = getPopupMenu();
-                // Need to override the invoker for proper grab handling
+                // Need to override the invoker for proper grbb hbndling
                 if (popupMenu != null
                         && popupMenu.isShowing()
-                        && popupMenu.getInvoker() != getTarget()) {
-                    // The popup is now visible with correct location
-                    // Save it and restore after toggling visibility and changing invoker
-                    Point loc = popupMenu.getLocationOnScreen();
+                        && popupMenu.getInvoker() != getTbrget()) {
+                    // The popup is now visible with correct locbtion
+                    // Sbve it bnd restore bfter toggling visibility bnd chbnging invoker
+                    Point loc = popupMenu.getLocbtionOnScreen();
                     SwingUtilities.convertPointFromScreen(loc, this);
-                    popupMenu.setVisible(false);
-                    popupMenu.show(getTarget(), loc.x, loc.y);
+                    popupMenu.setVisible(fblse);
+                    popupMenu.show(getTbrget(), loc.x, loc.y);
                 }
             });
         }
 
-        private JPopupMenu getPopupMenu() {
+        privbte JPopupMenu getPopupMenu() {
             for (int i = 0; i < getAccessibleContext().getAccessibleChildrenCount(); i++) {
                 Accessible child = getAccessibleContext().getAccessibleChild(i);
-                if (child instanceof JPopupMenu) {
+                if (child instbnceof JPopupMenu) {
                     return  (JPopupMenu) child;
                 }
             }

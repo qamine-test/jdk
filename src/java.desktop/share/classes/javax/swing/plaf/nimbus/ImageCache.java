@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.nimbus;
+pbckbge jbvbx.swing.plbf.nimbus;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.SoftReference;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Imbge;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.util.Arrbys;
+import jbvb.util.Iterbtor;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.concurrent.locks.RebdWriteLock;
+import jbvb.util.concurrent.locks.ReentrbntRebdWriteLock;
 
 /**
- * ImageCache - A fixed pixel count sized cache of Images keyed by arbitrary set of arguments. All images are held with
- * SoftReferences so they will be dropped by the GC if heap memory gets tight. When our size hits max pixel count least
- * recently requested images are removed first.
+ * ImbgeCbche - A fixed pixel count sized cbche of Imbges keyed by brbitrbry set of brguments. All imbges bre held with
+ * SoftReferences so they will be dropped by the GC if hebp memory gets tight. When our size hits mbx pixel count lebst
+ * recently requested imbges bre removed first.
  *
- * @author Created by Jasper Potts (Aug 7, 2007)
+ * @buthor Crebted by Jbsper Potts (Aug 7, 2007)
  */
-class ImageCache {
-    // Ordered Map keyed by args hash, ordered by most recent accessed entry.
-    private final LinkedHashMap<Integer, PixelCountSoftReference> map =
-            new LinkedHashMap<Integer, PixelCountSoftReference>(16, 0.75f, true);
-    // Maximum number of pixels to cache, this is used if maxCount
-    private final int maxPixelCount;
-    // Maximum cached image size in pxiels
-    private final int maxSingleImagePixelSize;
-    // The current number of pixels stored in the cache
-    private int currentPixelCount = 0;
-    // Lock for concurrent access to map
-    private ReadWriteLock lock = new ReentrantReadWriteLock();
-    // Reference queue for tracking lost softreferences to images in the cache
-    private ReferenceQueue<Image> referenceQueue = new ReferenceQueue<Image>();
-    // Singleton Instance
-    private static final ImageCache instance = new ImageCache();
+clbss ImbgeCbche {
+    // Ordered Mbp keyed by brgs hbsh, ordered by most recent bccessed entry.
+    privbte finbl LinkedHbshMbp<Integer, PixelCountSoftReference> mbp =
+            new LinkedHbshMbp<Integer, PixelCountSoftReference>(16, 0.75f, true);
+    // Mbximum number of pixels to cbche, this is used if mbxCount
+    privbte finbl int mbxPixelCount;
+    // Mbximum cbched imbge size in pxiels
+    privbte finbl int mbxSingleImbgePixelSize;
+    // The current number of pixels stored in the cbche
+    privbte int currentPixelCount = 0;
+    // Lock for concurrent bccess to mbp
+    privbte RebdWriteLock lock = new ReentrbntRebdWriteLock();
+    // Reference queue for trbcking lost softreferences to imbges in the cbche
+    privbte ReferenceQueue<Imbge> referenceQueue = new ReferenceQueue<Imbge>();
+    // Singleton Instbnce
+    privbte stbtic finbl ImbgeCbche instbnce = new ImbgeCbche();
 
 
-    /** Get static singleton instance */
-    static ImageCache getInstance() {
-        return instance;
+    /** Get stbtic singleton instbnce */
+    stbtic ImbgeCbche getInstbnce() {
+        return instbnce;
     }
 
-    public ImageCache() {
-        this.maxPixelCount = (8 * 1024 * 1024) / 4; // 8Mb of pixels
-        this.maxSingleImagePixelSize = 300 * 300;
+    public ImbgeCbche() {
+        this.mbxPixelCount = (8 * 1024 * 1024) / 4; // 8Mb of pixels
+        this.mbxSingleImbgePixelSize = 300 * 300;
     }
 
-    public ImageCache(int maxPixelCount, int maxSingleImagePixelSize) {
-        this.maxPixelCount = maxPixelCount;
-        this.maxSingleImagePixelSize = maxSingleImagePixelSize;
+    public ImbgeCbche(int mbxPixelCount, int mbxSingleImbgePixelSize) {
+        this.mbxPixelCount = mbxPixelCount;
+        this.mbxSingleImbgePixelSize = mbxSingleImbgePixelSize;
     }
 
-    /** Clear the cache */
+    /** Clebr the cbche */
     public void flush() {
-        lock.readLock().lock();
+        lock.rebdLock().lock();
         try {
-            map.clear();
-        } finally {
-            lock.readLock().unlock();
+            mbp.clebr();
+        } finblly {
+            lock.rebdLock().unlock();
         }
     }
 
     /**
-     * Check if the image size is to big to be stored in the cache
+     * Check if the imbge size is to big to be stored in the cbche
      *
-     * @param w The image width
-     * @param h The image height
-     * @return True if the image size is less than max
+     * @pbrbm w The imbge width
+     * @pbrbm h The imbge height
+     * @return True if the imbge size is less thbn mbx
      */
-    public boolean isImageCachable(int w, int h) {
-        return (w * h) < maxSingleImagePixelSize;
+    public boolebn isImbgeCbchbble(int w, int h) {
+        return (w * h) < mbxSingleImbgePixelSize;
     }
 
     /**
-     * Get the cached image for given keys
+     * Get the cbched imbge for given keys
      *
-     * @param config The graphics configuration, needed if cached image is a Volatile Image. Used as part of cache key
-     * @param w      The image width, used as part of cache key
-     * @param h      The image height, used as part of cache key
-     * @param args   Other arguments to use as part of the cache key
-     * @return Returns the cached Image, or null there is no cached image for key
+     * @pbrbm config The grbphics configurbtion, needed if cbched imbge is b Volbtile Imbge. Used bs pbrt of cbche key
+     * @pbrbm w      The imbge width, used bs pbrt of cbche key
+     * @pbrbm h      The imbge height, used bs pbrt of cbche key
+     * @pbrbm brgs   Other brguments to use bs pbrt of the cbche key
+     * @return Returns the cbched Imbge, or null there is no cbched imbge for key
      */
-    public Image getImage(GraphicsConfiguration config, int w, int h, Object... args) {
-        lock.readLock().lock();
+    public Imbge getImbge(GrbphicsConfigurbtion config, int w, int h, Object... brgs) {
+        lock.rebdLock().lock();
         try {
-            PixelCountSoftReference ref = map.get(hash(config, w, h, args));
-            // check reference has not been lost and the key truly matches, in case of false positive hash match
-            if (ref != null && ref.equals(config,w, h, args)) {
+            PixelCountSoftReference ref = mbp.get(hbsh(config, w, h, brgs));
+            // check reference hbs not been lost bnd the key truly mbtches, in cbse of fblse positive hbsh mbtch
+            if (ref != null && ref.equbls(config,w, h, brgs)) {
                 return ref.get();
             } else {
                 return null;
             }
-        } finally {
-            lock.readLock().unlock();
+        } finblly {
+            lock.rebdLock().unlock();
         }
     }
 
     /**
-     * Sets the cached image for the specified constraints.
+     * Sets the cbched imbge for the specified constrbints.
      *
-     * @param image  The image to store in cache
-     * @param config The graphics configuration, needed if cached image is a Volatile Image. Used as part of cache key
-     * @param w      The image width, used as part of cache key
-     * @param h      The image height, used as part of cache key
-     * @param args   Other arguments to use as part of the cache key
-     * @return true if the image could be cached or false if the image is too big
+     * @pbrbm imbge  The imbge to store in cbche
+     * @pbrbm config The grbphics configurbtion, needed if cbched imbge is b Volbtile Imbge. Used bs pbrt of cbche key
+     * @pbrbm w      The imbge width, used bs pbrt of cbche key
+     * @pbrbm h      The imbge height, used bs pbrt of cbche key
+     * @pbrbm brgs   Other brguments to use bs pbrt of the cbche key
+     * @return true if the imbge could be cbched or fblse if the imbge is too big
      */
-    public boolean setImage(Image image, GraphicsConfiguration config, int w, int h, Object... args) {
-        if (!isImageCachable(w, h)) return false;
-        int hash = hash(config, w, h, args);
+    public boolebn setImbge(Imbge imbge, GrbphicsConfigurbtion config, int w, int h, Object... brgs) {
+        if (!isImbgeCbchbble(w, h)) return fblse;
+        int hbsh = hbsh(config, w, h, brgs);
         lock.writeLock().lock();
         try {
-            PixelCountSoftReference ref = map.get(hash);
-            // check if currently in map
-            if (ref != null && ref.get() == image) {
+            PixelCountSoftReference ref = mbp.get(hbsh);
+            // check if currently in mbp
+            if (ref != null && ref.get() == imbge) {
                 return true;
             }
-            // clear out old
+            // clebr out old
             if (ref != null) {
                 currentPixelCount -= ref.pixelCount;
-                map.remove(hash);
+                mbp.remove(hbsh);
             }
-            // add new image to pixel count
-            int newPixelCount = image.getWidth(null) * image.getHeight(null);
+            // bdd new imbge to pixel count
+            int newPixelCount = imbge.getWidth(null) * imbge.getHeight(null);
             currentPixelCount += newPixelCount;
-            // clean out lost references if not enough space
-            if (currentPixelCount > maxPixelCount) {
+            // clebn out lost references if not enough spbce
+            if (currentPixelCount > mbxPixelCount) {
                 while ((ref = (PixelCountSoftReference)referenceQueue.poll()) != null){
                     //reference lost
-                    map.remove(ref.hash);
+                    mbp.remove(ref.hbsh);
                     currentPixelCount -= ref.pixelCount;
                 }
             }
-            // remove old items till there is enough free space
-            if (currentPixelCount > maxPixelCount) {
-                Iterator<Map.Entry<Integer, PixelCountSoftReference>> mapIter = map.entrySet().iterator();
-                while ((currentPixelCount > maxPixelCount) && mapIter.hasNext()) {
-                    Map.Entry<Integer, PixelCountSoftReference> entry = mapIter.next();
-                    mapIter.remove();
-                    Image img = entry.getValue().get();
+            // remove old items till there is enough free spbce
+            if (currentPixelCount > mbxPixelCount) {
+                Iterbtor<Mbp.Entry<Integer, PixelCountSoftReference>> mbpIter = mbp.entrySet().iterbtor();
+                while ((currentPixelCount > mbxPixelCount) && mbpIter.hbsNext()) {
+                    Mbp.Entry<Integer, PixelCountSoftReference> entry = mbpIter.next();
+                    mbpIter.remove();
+                    Imbge img = entry.getVblue().get();
                     if (img != null) img.flush();
-                    currentPixelCount -= entry.getValue().pixelCount;
+                    currentPixelCount -= entry.getVblue().pixelCount;
                 }
             }
-            // finaly put new in map
-            map.put(hash, new PixelCountSoftReference(image, referenceQueue, newPixelCount,hash, config, w, h, args));
+            // finbly put new in mbp
+            mbp.put(hbsh, new PixelCountSoftReference(imbge, referenceQueue, newPixelCount,hbsh, config, w, h, brgs));
             return true;
-        } finally {
+        } finblly {
             lock.writeLock().unlock();
         }
     }
 
-    /** Create a unique hash from all the input */
-    private int hash(GraphicsConfiguration config, int w, int h, Object ... args) {
-        int hash;
-        hash = (config != null ? config.hashCode() : 0);
-        hash = 31 * hash + w;
-        hash = 31 * hash + h;
-        hash = 31 * hash + Arrays.deepHashCode(args);
-        return hash;
+    /** Crebte b unique hbsh from bll the input */
+    privbte int hbsh(GrbphicsConfigurbtion config, int w, int h, Object ... brgs) {
+        int hbsh;
+        hbsh = (config != null ? config.hbshCode() : 0);
+        hbsh = 31 * hbsh + w;
+        hbsh = 31 * hbsh + h;
+        hbsh = 31 * hbsh + Arrbys.deepHbshCode(brgs);
+        return hbsh;
     }
 
 
-    /** Extended SoftReference that stores the pixel count even after the image is lost */
-    private static class PixelCountSoftReference extends SoftReference<Image> {
-        private final int pixelCount;
-        private final int hash;
-        // key parts
-        private final GraphicsConfiguration config;
-        private final int w;
-        private final int h;
-        private final Object[] args;
+    /** Extended SoftReference thbt stores the pixel count even bfter the imbge is lost */
+    privbte stbtic clbss PixelCountSoftReference extends SoftReference<Imbge> {
+        privbte finbl int pixelCount;
+        privbte finbl int hbsh;
+        // key pbrts
+        privbte finbl GrbphicsConfigurbtion config;
+        privbte finbl int w;
+        privbte finbl int h;
+        privbte finbl Object[] brgs;
 
-        public PixelCountSoftReference(Image referent, ReferenceQueue<? super Image> q, int pixelCount, int hash,
-                                       GraphicsConfiguration config, int w, int h, Object[] args) {
+        public PixelCountSoftReference(Imbge referent, ReferenceQueue<? super Imbge> q, int pixelCount, int hbsh,
+                                       GrbphicsConfigurbtion config, int w, int h, Object[] brgs) {
             super(referent, q);
             this.pixelCount = pixelCount;
-            this.hash = hash;
+            this.hbsh = hbsh;
             this.config = config;
             this.w = w;
             this.h = h;
-            this.args = args;
+            this.brgs = brgs;
         }
 
-        public boolean equals (GraphicsConfiguration config, int w, int h, Object[] args){
+        public boolebn equbls (GrbphicsConfigurbtion config, int w, int h, Object[] brgs){
             return config == this.config &&
                             w == this.w &&
                             h == this.h &&
-                            Arrays.equals(args, this.args);
+                            Arrbys.equbls(brgs, this.brgs);
         }
     }
 }

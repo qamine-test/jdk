@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.server;
-import java.rmi.*;
-import java.io.ObjectOutput;
-import java.io.ObjectInput;
-import java.io.StreamCorruptedException;
-import java.io.IOException;
+pbckbge jbvb.rmi.server;
+import jbvb.rmi.*;
+import jbvb.io.ObjectOutput;
+import jbvb.io.ObjectInput;
+import jbvb.io.StrebmCorruptedException;
+import jbvb.io.IOException;
 
 /**
- * <code>RemoteCall</code> is an abstraction used solely by the RMI runtime
- * (in conjunction with stubs and skeletons of remote objects) to carry out a
- * call to a remote object.  The <code>RemoteCall</code> interface is
- * deprecated because it is only used by deprecated methods of
- * <code>java.rmi.server.RemoteRef</code>.
+ * <code>RemoteCbll</code> is bn bbstrbction used solely by the RMI runtime
+ * (in conjunction with stubs bnd skeletons of remote objects) to cbrry out b
+ * cbll to b remote object.  The <code>RemoteCbll</code> interfbce is
+ * deprecbted becbuse it is only used by deprecbted methods of
+ * <code>jbvb.rmi.server.RemoteRef</code>.
  *
  * @since   1.1
- * @author  Ann Wollrath
- * @author  Roger Riggs
- * @see     java.rmi.server.RemoteRef
- * @deprecated no replacement.
+ * @buthor  Ann Wollrbth
+ * @buthor  Roger Riggs
+ * @see     jbvb.rmi.server.RemoteRef
+ * @deprecbted no replbcement.
  */
-@Deprecated
-public interface RemoteCall {
+@Deprecbted
+public interfbce RemoteCbll {
 
     /**
-     * Return the output stream the stub/skeleton should put arguments/results
+     * Return the output strebm the stub/skeleton should put brguments/results
      * into.
      *
-     * @return output stream for arguments/results
-     * @exception java.io.IOException if an I/O error occurs.
+     * @return output strebm for brguments/results
+     * @exception jbvb.io.IOException if bn I/O error occurs.
      * @since 1.1
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      */
-    @Deprecated
-    ObjectOutput getOutputStream()  throws IOException;
+    @Deprecbted
+    ObjectOutput getOutputStrebm()  throws IOException;
 
     /**
-     * Release the output stream; in some transports this would release
-     * the stream.
+     * Relebse the output strebm; in some trbnsports this would relebse
+     * the strebm.
      *
-     * @exception java.io.IOException if an I/O error occurs.
+     * @exception jbvb.io.IOException if bn I/O error occurs.
      * @since 1.1
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      */
-    @Deprecated
-    void releaseOutputStream()  throws IOException;
+    @Deprecbted
+    void relebseOutputStrebm()  throws IOException;
 
     /**
-     * Get the InputStream that the stub/skeleton should get
-     * results/arguments from.
+     * Get the InputStrebm thbt the stub/skeleton should get
+     * results/brguments from.
      *
-     * @return input stream for reading arguments/results
-     * @exception java.io.IOException if an I/O error occurs.
+     * @return input strebm for rebding brguments/results
+     * @exception jbvb.io.IOException if bn I/O error occurs.
      * @since 1.1
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      */
-    @Deprecated
-    ObjectInput getInputStream()  throws IOException;
+    @Deprecbted
+    ObjectInput getInputStrebm()  throws IOException;
 
 
     /**
-     * Release the input stream. This would allow some transports to release
-     * the channel early.
+     * Relebse the input strebm. This would bllow some trbnsports to relebse
+     * the chbnnel ebrly.
      *
-     * @exception java.io.IOException if an I/O error occurs.
+     * @exception jbvb.io.IOException if bn I/O error occurs.
      * @since 1.1
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      */
-    @Deprecated
-    void releaseInputStream() throws IOException;
+    @Deprecbted
+    void relebseInputStrebm() throws IOException;
 
     /**
-     * Returns an output stream (may put out header information
-     * relating to the success of the call). Should only succeed
-     * once per remote call.
+     * Returns bn output strebm (mby put out hebder informbtion
+     * relbting to the success of the cbll). Should only succeed
+     * once per remote cbll.
      *
-     * @param success If true, indicates normal return, else indicates
-     * exceptional return.
-     * @return output stream for writing call result
-     * @exception java.io.IOException              if an I/O error occurs.
-     * @exception java.io.StreamCorruptedException If already been called.
+     * @pbrbm success If true, indicbtes normbl return, else indicbtes
+     * exceptionbl return.
+     * @return output strebm for writing cbll result
+     * @exception jbvb.io.IOException              if bn I/O error occurs.
+     * @exception jbvb.io.StrebmCorruptedException If blrebdy been cblled.
      * @since 1.1
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      */
-    @Deprecated
-    ObjectOutput getResultStream(boolean success) throws IOException,
-        StreamCorruptedException;
+    @Deprecbted
+    ObjectOutput getResultStrebm(boolebn success) throws IOException,
+        StrebmCorruptedException;
 
     /**
-     * Do whatever it takes to execute the call.
+     * Do whbtever it tbkes to execute the cbll.
      *
-     * @exception java.lang.Exception if a general exception occurs.
+     * @exception jbvb.lbng.Exception if b generbl exception occurs.
      * @since 1.1
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      */
-    @Deprecated
-    void executeCall() throws Exception;
+    @Deprecbted
+    void executeCbll() throws Exception;
 
     /**
-     * Allow cleanup after the remote call has completed.
+     * Allow clebnup bfter the remote cbll hbs completed.
      *
-     * @exception java.io.IOException if an I/O error occurs.
+     * @exception jbvb.io.IOException if bn I/O error occurs.
      * @since 1.1
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      */
-    @Deprecated
+    @Deprecbted
     void done() throws IOException;
 }

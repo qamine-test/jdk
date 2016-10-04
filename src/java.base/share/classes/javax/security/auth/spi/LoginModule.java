@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.spi;
+pbckbge jbvbx.security.buth.spi;
 
-import javax.security.auth.Subject;
-import javax.security.auth.AuthPermission;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.*;
-import java.util.Map;
+import jbvbx.security.buth.Subject;
+import jbvbx.security.buth.AuthPermission;
+import jbvbx.security.buth.cbllbbck.*;
+import jbvbx.security.buth.login.*;
+import jbvb.util.Mbp;
 
 /**
- * <p> {@code LoginModule} describes the interface
- * implemented by authentication technology providers.  LoginModules
- * are plugged in under applications to provide a particular type of
- * authentication.
+ * <p> {@code LoginModule} describes the interfbce
+ * implemented by buthenticbtion technology providers.  LoginModules
+ * bre plugged in under bpplicbtions to provide b pbrticulbr type of
+ * buthenticbtion.
  *
- * <p> While applications write to the {@code LoginContext} API,
- * authentication technology providers implement the
- * {@code LoginModule} interface.
- * A {@code Configuration} specifies the LoginModule(s)
- * to be used with a particular login application.  Therefore different
- * LoginModules can be plugged in under the application without
- * requiring any modifications to the application itself.
+ * <p> While bpplicbtions write to the {@code LoginContext} API,
+ * buthenticbtion technology providers implement the
+ * {@code LoginModule} interfbce.
+ * A {@code Configurbtion} specifies the LoginModule(s)
+ * to be used with b pbrticulbr login bpplicbtion.  Therefore different
+ * LoginModules cbn be plugged in under the bpplicbtion without
+ * requiring bny modificbtions to the bpplicbtion itself.
  *
- * <p> The {@code LoginContext} is responsible for reading the
- * {@code Configuration} and instantiating the appropriate
- * LoginModules.  Each {@code LoginModule} is initialized with
- * a {@code Subject}, a {@code CallbackHandler}, shared
- * {@code LoginModule} state, and LoginModule-specific options.
+ * <p> The {@code LoginContext} is responsible for rebding the
+ * {@code Configurbtion} bnd instbntibting the bppropribte
+ * LoginModules.  Ebch {@code LoginModule} is initiblized with
+ * b {@code Subject}, b {@code CbllbbckHbndler}, shbred
+ * {@code LoginModule} stbte, bnd LoginModule-specific options.
  *
  * The {@code Subject} represents the
- * {@code Subject} currently being authenticated and is updated
- * with relevant Credentials if authentication succeeds.
- * LoginModules use the {@code CallbackHandler} to
- * communicate with users.  The {@code CallbackHandler} may be
- * used to prompt for usernames and passwords, for example.
- * Note that the {@code CallbackHandler} may be null.  LoginModules
- * which absolutely require a {@code CallbackHandler} to authenticate
- * the {@code Subject} may throw a {@code LoginException}.
- * LoginModules optionally use the shared state to share information
- * or data among themselves.
+ * {@code Subject} currently being buthenticbted bnd is updbted
+ * with relevbnt Credentibls if buthenticbtion succeeds.
+ * LoginModules use the {@code CbllbbckHbndler} to
+ * communicbte with users.  The {@code CbllbbckHbndler} mby be
+ * used to prompt for usernbmes bnd pbsswords, for exbmple.
+ * Note thbt the {@code CbllbbckHbndler} mby be null.  LoginModules
+ * which bbsolutely require b {@code CbllbbckHbndler} to buthenticbte
+ * the {@code Subject} mby throw b {@code LoginException}.
+ * LoginModules optionblly use the shbred stbte to shbre informbtion
+ * or dbtb bmong themselves.
  *
  * <p> The LoginModule-specific options represent the options
- * configured for this {@code LoginModule} by an administrator or user
- * in the login {@code Configuration}.
- * The options are defined by the {@code LoginModule} itself
- * and control the behavior within it.  For example, a
- * {@code LoginModule} may define options to support debugging/testing
- * capabilities.  Options are defined using a key-value syntax,
- * such as <i>debug=true</i>.  The {@code LoginModule}
- * stores the options as a {@code Map} so that the values may
- * be retrieved using the key.  Note that there is no limit to the number
- * of options a {@code LoginModule} chooses to define.
+ * configured for this {@code LoginModule} by bn bdministrbtor or user
+ * in the login {@code Configurbtion}.
+ * The options bre defined by the {@code LoginModule} itself
+ * bnd control the behbvior within it.  For exbmple, b
+ * {@code LoginModule} mby define options to support debugging/testing
+ * cbpbbilities.  Options bre defined using b key-vblue syntbx,
+ * such bs <i>debug=true</i>.  The {@code LoginModule}
+ * stores the options bs b {@code Mbp} so thbt the vblues mby
+ * be retrieved using the key.  Note thbt there is no limit to the number
+ * of options b {@code LoginModule} chooses to define.
  *
- * <p> The calling application sees the authentication process as a single
- * operation.  However, the authentication process within the
- * {@code LoginModule} proceeds in two distinct phases.
- * In the first phase, the LoginModule's
+ * <p> The cblling bpplicbtion sees the buthenticbtion process bs b single
+ * operbtion.  However, the buthenticbtion process within the
+ * {@code LoginModule} proceeds in two distinct phbses.
+ * In the first phbse, the LoginModule's
  * {@code login} method gets invoked by the LoginContext's
  * {@code login} method.  The {@code login}
  * method for the {@code LoginModule} then performs
- * the actual authentication (prompt for and verify a password for example)
- * and saves its authentication status as private state
- * information.  Once finished, the LoginModule's {@code login}
+ * the bctubl buthenticbtion (prompt for bnd verify b pbssword for exbmple)
+ * bnd sbves its buthenticbtion stbtus bs privbte stbte
+ * informbtion.  Once finished, the LoginModule's {@code login}
  * method either returns {@code true} (if it succeeded) or
- * {@code false} (if it should be ignored), or throws a
- * {@code LoginException} to specify a failure.
- * In the failure case, the {@code LoginModule} must not retry the
- * authentication or introduce delays.  The responsibility of such tasks
- * belongs to the application.  If the application attempts to retry
- * the authentication, the LoginModule's {@code login} method will be
- * called again.
+ * {@code fblse} (if it should be ignored), or throws b
+ * {@code LoginException} to specify b fbilure.
+ * In the fbilure cbse, the {@code LoginModule} must not retry the
+ * buthenticbtion or introduce delbys.  The responsibility of such tbsks
+ * belongs to the bpplicbtion.  If the bpplicbtion bttempts to retry
+ * the buthenticbtion, the LoginModule's {@code login} method will be
+ * cblled bgbin.
  *
- * <p> In the second phase, if the LoginContext's overall authentication
- * succeeded (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL
+ * <p> In the second phbse, if the LoginContext's overbll buthenticbtion
+ * succeeded (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
  * LoginModules succeeded), then the {@code commit}
  * method for the {@code LoginModule} gets invoked.
- * The {@code commit} method for a {@code LoginModule} checks its
- * privately saved state to see if its own authentication succeeded.
- * If the overall {@code LoginContext} authentication succeeded
- * and the LoginModule's own authentication succeeded, then the
- * {@code commit} method associates the relevant
- * Principals (authenticated identities) and Credentials (authentication data
- * such as cryptographic keys) with the {@code Subject}
- * located within the {@code LoginModule}.
+ * The {@code commit} method for b {@code LoginModule} checks its
+ * privbtely sbved stbte to see if its own buthenticbtion succeeded.
+ * If the overbll {@code LoginContext} buthenticbtion succeeded
+ * bnd the LoginModule's own buthenticbtion succeeded, then the
+ * {@code commit} method bssocibtes the relevbnt
+ * Principbls (buthenticbted identities) bnd Credentibls (buthenticbtion dbtb
+ * such bs cryptogrbphic keys) with the {@code Subject}
+ * locbted within the {@code LoginModule}.
  *
- * <p> If the LoginContext's overall authentication failed (the relevant
- * REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules did not succeed),
- * then the {@code abort} method for each {@code LoginModule}
- * gets invoked.  In this case, the {@code LoginModule} removes/destroys
- * any authentication state originally saved.
+ * <p> If the LoginContext's overbll buthenticbtion fbiled (the relevbnt
+ * REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules did not succeed),
+ * then the {@code bbort} method for ebch {@code LoginModule}
+ * gets invoked.  In this cbse, the {@code LoginModule} removes/destroys
+ * bny buthenticbtion stbte originblly sbved.
  *
- * <p> Logging out a {@code Subject} involves only one phase.
+ * <p> Logging out b {@code Subject} involves only one phbse.
  * The {@code LoginContext} invokes the LoginModule's {@code logout}
  * method.  The {@code logout} method for the {@code LoginModule}
- * then performs the logout procedures, such as removing Principals or
- * Credentials from the {@code Subject} or logging session information.
+ * then performs the logout procedures, such bs removing Principbls or
+ * Credentibls from the {@code Subject} or logging session informbtion.
  *
- * <p> A {@code LoginModule} implementation must have a constructor with
- * no arguments.  This allows classes which load the {@code LoginModule}
- * to instantiate it.
+ * <p> A {@code LoginModule} implementbtion must hbve b constructor with
+ * no brguments.  This bllows clbsses which lobd the {@code LoginModule}
+ * to instbntibte it.
  *
- * @see javax.security.auth.login.LoginContext
- * @see javax.security.auth.login.Configuration
+ * @see jbvbx.security.buth.login.LoginContext
+ * @see jbvbx.security.buth.login.Configurbtion
  */
-public interface LoginModule {
+public interfbce LoginModule {
 
     /**
-     * Initialize this LoginModule.
+     * Initiblize this LoginModule.
      *
-     * <p> This method is called by the {@code LoginContext}
-     * after this {@code LoginModule} has been instantiated.
-     * The purpose of this method is to initialize this
-     * {@code LoginModule} with the relevant information.
-     * If this {@code LoginModule} does not understand
-     * any of the data stored in {@code sharedState} or
-     * {@code options} parameters, they can be ignored.
+     * <p> This method is cblled by the {@code LoginContext}
+     * bfter this {@code LoginModule} hbs been instbntibted.
+     * The purpose of this method is to initiblize this
+     * {@code LoginModule} with the relevbnt informbtion.
+     * If this {@code LoginModule} does not understbnd
+     * bny of the dbtb stored in {@code shbredStbte} or
+     * {@code options} pbrbmeters, they cbn be ignored.
      *
      * <p>
      *
-     * @param subject the {@code Subject} to be authenticated. <p>
+     * @pbrbm subject the {@code Subject} to be buthenticbted. <p>
      *
-     * @param callbackHandler a {@code CallbackHandler} for communicating
-     *                  with the end user (prompting for usernames and
-     *                  passwords, for example). <p>
+     * @pbrbm cbllbbckHbndler b {@code CbllbbckHbndler} for communicbting
+     *                  with the end user (prompting for usernbmes bnd
+     *                  pbsswords, for exbmple). <p>
      *
-     * @param sharedState state shared with other configured LoginModules. <p>
+     * @pbrbm shbredStbte stbte shbred with other configured LoginModules. <p>
      *
-     * @param options options specified in the login
-     *                  {@code Configuration} for this particular
+     * @pbrbm options options specified in the login
+     *                  {@code Configurbtion} for this pbrticulbr
      *                  {@code LoginModule}.
      */
-    void initialize(Subject subject, CallbackHandler callbackHandler,
-                    Map<String,?> sharedState,
-                    Map<String,?> options);
+    void initiblize(Subject subject, CbllbbckHbndler cbllbbckHbndler,
+                    Mbp<String,?> shbredStbte,
+                    Mbp<String,?> options);
 
     /**
-     * Method to authenticate a {@code Subject} (phase 1).
+     * Method to buthenticbte b {@code Subject} (phbse 1).
      *
-     * <p> The implementation of this method authenticates
-     * a {@code Subject}.  For example, it may prompt for
-     * {@code Subject} information such
-     * as a username and password and then attempt to verify the password.
-     * This method saves the result of the authentication attempt
-     * as private state within the LoginModule.
+     * <p> The implementbtion of this method buthenticbtes
+     * b {@code Subject}.  For exbmple, it mby prompt for
+     * {@code Subject} informbtion such
+     * bs b usernbme bnd pbssword bnd then bttempt to verify the pbssword.
+     * This method sbves the result of the buthenticbtion bttempt
+     * bs privbte stbte within the LoginModule.
      *
      * <p>
      *
-     * @exception LoginException if the authentication fails
+     * @exception LoginException if the buthenticbtion fbils
      *
-     * @return true if the authentication succeeded, or false if this
+     * @return true if the buthenticbtion succeeded, or fblse if this
      *                  {@code LoginModule} should be ignored.
      */
-    boolean login() throws LoginException;
+    boolebn login() throws LoginException;
 
     /**
-     * Method to commit the authentication process (phase 2).
+     * Method to commit the buthenticbtion process (phbse 2).
      *
-     * <p> This method is called if the LoginContext's
-     * overall authentication succeeded
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion succeeded
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules
      * succeeded).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * {@code login} method), then this method associates relevant
-     * Principals and Credentials with the {@code Subject} located in the
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * {@code login} method), then this method bssocibtes relevbnt
+     * Principbls bnd Credentibls with the {@code Subject} locbted in the
      * {@code LoginModule}.  If this LoginModule's own
-     * authentication attempted failed, then this method removes/destroys
-     * any state that was originally saved.
+     * buthenticbtion bttempted fbiled, then this method removes/destroys
+     * bny stbte thbt wbs originblly sbved.
      *
      * <p>
      *
-     * @exception LoginException if the commit fails
+     * @exception LoginException if the commit fbils
      *
-     * @return true if this method succeeded, or false if this
+     * @return true if this method succeeded, or fblse if this
      *                  {@code LoginModule} should be ignored.
      */
-    boolean commit() throws LoginException;
+    boolebn commit() throws LoginException;
 
     /**
-     * Method to abort the authentication process (phase 2).
+     * Method to bbort the buthenticbtion process (phbse 2).
      *
-     * <p> This method is called if the LoginContext's
-     * overall authentication failed.
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion fbiled.
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules
      * did not succeed).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * {@code login} method), then this method cleans up any state
-     * that was originally saved.
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * {@code login} method), then this method clebns up bny stbte
+     * thbt wbs originblly sbved.
      *
      * <p>
      *
-     * @exception LoginException if the abort fails
+     * @exception LoginException if the bbort fbils
      *
-     * @return true if this method succeeded, or false if this
+     * @return true if this method succeeded, or fblse if this
      *                  {@code LoginModule} should be ignored.
      */
-    boolean abort() throws LoginException;
+    boolebn bbort() throws LoginException;
 
     /**
-     * Method which logs out a {@code Subject}.
+     * Method which logs out b {@code Subject}.
      *
-     * <p>An implementation of this method might remove/destroy a Subject's
-     * Principals and Credentials.
+     * <p>An implementbtion of this method might remove/destroy b Subject's
+     * Principbls bnd Credentibls.
      *
      * <p>
      *
-     * @exception LoginException if the logout fails
+     * @exception LoginException if the logout fbils
      *
-     * @return true if this method succeeded, or false if this
+     * @return true if this method succeeded, or fblse if this
      *                  {@code LoginModule} should be ignored.
      */
-    boolean logout() throws LoginException;
+    boolebn logout() throws LoginException;
 }

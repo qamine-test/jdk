@@ -3,189 +3,189 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="my"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="my"/>
 	</identity>
-	<localeDisplayNames>
-		<localeDisplayPattern>
-			<localeSeparator>၊</localeSeparator>
-		</localeDisplayPattern>
-		<languages>
-			<language type="ang">အင်္ဂလိပ်စာဟောင်း</language>
-			<language type="ar">အာရေဗီ</language>
-			<language type="art">အယောင်ဆောင် ဘာသာစကား</language>
-			<language type="ban">ဘာလီ</language>
-			<language type="bas">ဘာဆာ</language>
-			<language type="bat">ဘော်လတစ် ဘာသာစကား</language>
-			<language type="be">ဘီလာရု</language>
-			<language type="bg">ဘူဂေးရီးယား</language>
-			<language type="bn">ဘင်္ဂါလီ</language>
-			<language type="bo">တိဘက်</language>
-			<language type="bs">ဘော့စ်နီးယား</language>
-			<language type="cai" draft="unconfirmed">အလယ်ပိုင်း အမေရိကန် အိန္ဒြိယ ဘာသာစကား</language>
-			<language type="cau">ကောက်ကေးရှပ် ဘာသာစကား</language>
-			<language type="ce">ချေချင်း</language>
-			<language type="chr">ချာရိုကီ</language>
-			<language type="cpp">ပေါ်တူဂီ အခြေခံ အနောက်အိန္ဒြိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</language>
-			<language type="cr">ခရီး</language>
-			<language type="crp" draft="unconfirmed">အနောက်အိန္ဒြိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</language>
-			<language type="cs">ချက်</language>
-			<language type="cy">ဝေလ</language>
-			<language type="da">ဒိန်းမတ်</language>
-			<language type="dak">ဒါကိုတာ</language>
-			<language type="de">ဂျာမန်</language>
-			<language type="de_AT">ဩစတြီးယ ဂျာမန်</language>
-			<language type="de_CH">ဆွစ် အမြင့် ဂျာမန်</language>
-			<language type="del">ဒီလာဝဲ</language>
-			<language type="dum">အလယ်ပိုင်း ဒတ်ချ်</language>
-			<language type="dz">ဒွန်ကာ</language>
-			<language type="egy">ရှေးဟောင်း အီဂျစ်</language>
-			<language type="el">ဂရိ</language>
-			<language type="en">အင်္ဂလိပ်</language>
-			<language type="en_AU">ဩစတြေးလျှ အင်္ဂလိပ်</language>
-			<language type="en_CA">ကနေဒါ အင်္ဂလိပ်</language>
-			<language type="en_GB">ဗြိတိသျှ အင်္ဂလိပ်</language>
-			<language type="en_US">အမေရိကန် အင်္ဂလိပ်</language>
-			<language type="enm">အလယ်ပိုင်း အင်္ဂလိပ်</language>
-			<language type="es">စပိန်</language>
-			<language type="es_419">လက်တင်အမေရိက စပိန်</language>
-			<language type="et">အက်စ်တိုးနီးရန်း</language>
-			<language type="fa">ပါရှန်</language>
-			<language type="fi">ဖင်နစ်ရှ်</language>
-			<language type="fil">ဖိလစ်ပီနို</language>
-			<language type="fj">ဖီဂျီ</language>
-			<language type="fr">ပြင်သစ်</language>
-			<language type="fr_CA">ကနေဒါ ပြင်သစ်</language>
-			<language type="fr_CH">ဆွစ် ပြင်သစ်</language>
-			<language type="frm">အလယ်ပိုင်းပြင်သစ်</language>
-			<language type="fro">ပြင်သစ်ဟောင်း</language>
-			<language type="frr">မြောက်ပိုင်း ဖရီစီရန်</language>
-			<language type="frs">အရှေ့ပိုင်း ဖရီစီရန်</language>
-			<language type="fy">အနောက်ပိုင်း ဖရီစီရန်</language>
-			<language type="ga">အိုင်းရစ်</language>
-			<language type="gem">ဂျာမန် အခြေခံဘာသာစကား</language>
-			<language type="gmh">အလယ်ပိုင်းအမြင့်ဂျာမန်</language>
-			<language type="grc">ရှေးဟောင်း ဂရိ</language>
-			<language type="gsw">ဆွစ် ဂျာမန်</language>
-			<language type="gu">ဂူဂျာရသီ</language>
-			<language type="haw">ဟာဝေယံ</language>
-			<language type="he">ဟီးဘရူး</language>
-			<language type="hi">ဟိန္ဒီ</language>
-			<language type="hr">ခရိုအေရှန်</language>
-			<language type="hu">ဟန်ဂေရီ</language>
-			<language type="id">အင်ဒိုနီးရှား</language>
-			<language type="ii">စီချွမ် ရီ</language>
-			<language type="ine">အင်ဒို ဥရောပ ဘာသာစကား</language>
-			<language type="ira">အီရန် အခြေခံ ဘာသာစကား</language>
-			<language type="it">အီတလီ</language>
-			<language type="ja">ဂျပန်</language>
-			<language type="jpr">ဂျူဒီယို-ပါရှန်</language>
-			<language type="jrb">ဂျူဒီယို-အာရေဗျ</language>
-			<language type="jv">ဂျာဗားနီးစ်</language>
-			<language type="ka">ဂျော်ဂျီယန်</language>
-			<language type="kac">ကချင်</language>
-			<language type="kar">ကရင်</language>
-			<language type="kg">ကွန်ဂို</language>
-			<language type="kha">ခါစီ</language>
-			<language type="km">ခမာ</language>
-			<language type="kn">ကန်နာဒါ</language>
-			<language type="ko">ကိုးရီးယား</language>
-			<language type="ku">ကဒ်</language>
-			<language type="la">လက်တင်</language>
-			<language type="lo">လာအို</language>
-			<language type="mga">အလယ်ပိုင်း အိုင်းရစ်</language>
-			<language type="mis">အမျိုးမျိုးသော ဘာသာစကား</language>
-			<language type="mkh">မွန်-ခမာ ဘာသာစကား</language>
-			<language type="ml">မလေးရာလမ်</language>
-			<language type="mn">မွန်ဂိုလီးယန်း</language>
-			<language type="mnc">မန်ချူး</language>
-			<language type="mni" draft="unconfirmed">မနိပူရီ</language>
-			<language type="mno">မနိုဘို ဘာသာစကား</language>
-			<language type="mr">မာရသီ</language>
-			<language type="ms">မလေး</language>
-			<language type="mul">အကြိမ်များစွာ ဘာသာစကားများ</language>
-			<language type="my">ဗမာ</language>
-			<language type="nds">အနိမ့် ဂျာမန်</language>
-			<language type="ne">နီပေါလ်</language>
-			<language type="nl">ဒတ်ချ်</language>
-			<language type="no">နော်ဝေး</language>
-			<language type="pa">ပန်ဂျာပီ</language>
-			<language type="paa">ပါပူရန် ဘာသာစကား</language>
-			<language type="peo">ပါရှန် အဟောင်း</language>
-			<language type="phi">ဖိလစ်ပိုင် ဘာသာစကား</language>
-			<language type="pi">ပါဠိ</language>
-			<language type="pl">ပိုလန်</language>
-			<language type="pt">ပေါ်တူဂီ</language>
-			<language type="pt_BR">ဘရာဇီး ပေါ်တူဂီ</language>
-			<language type="ro">ရိုမေနီယား</language>
-			<language type="root">မူလရင်းမြစ်</language>
-			<language type="ru">ရုရှ</language>
-			<language type="sa">သင်္သကရိုက်</language>
-			<language type="sai">တောင် အမေရိကန် အိန္ဒြိယ ဘာသာစကား</language>
-			<language type="sco">စကော့</language>
-			<language type="sd">စင်ဒီ</language>
-			<language type="sga">အိုင်းရစ် ဟောင်း</language>
-			<language type="sgn">အချက်ပြ ဘာသာစကား</language>
-			<language type="shn">ရှမ်း</language>
-			<language type="si">ဆင်ဟာလ</language>
-			<language type="sit">တရုတ်-တိဘက် ဘာသာစကား</language>
-			<language type="sk">စလိုဗက်</language>
-			<language type="sl">စလိုဗေးနီးယမ်း</language>
-			<language type="sla">စလိုဗစ် ဘာသာစကား</language>
-			<language type="sma">တောင်ပိုင်း ဆာမိ</language>
-			<language type="smi">ဆာမိ ဘာသာစကား</language>
-			<language type="so">ဆိုမာလီ</language>
-			<language type="sq">အယ်လ်ဘေးနီးယန်း</language>
-			<language type="sr">ဆားဗီးယန်း</language>
-			<language type="su">ဆူဒန်</language>
-			<language type="sv">ဆွီဒင်</language>
-			<language type="ta">တမီးလ်</language>
-			<language type="tai">တိုင် ဘာသာစကား</language>
-			<language type="th">ထိုင်း</language>
-			<language type="tup">တူပီ ဘာသာစကား</language>
-			<language type="uk">ယူကရိန်း</language>
-			<language type="und">မသိ သို့မဟုတ် မရှိ သော ဘာသာစကား</language>
-			<language type="vi">ဗီယက်နမ်</language>
-			<language type="zh">တရုတ်</language>
-			<language type="zh_Hans">ရိုးရှင်းသော တရုတ်</language>
-			<language type="zh_Hant">ရှေးရိုးစဉ်လာ တရုတ်</language>
-			<language type="zu">ဇူလူ</language>
-			<language type="zxx">ဘာသာစကား နှင့် ပတ်သက် သောအရာမရှိ</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<locbleDisplbyPbttern>
+			<locbleSepbrbtor>၊</locbleSepbrbtor>
+		</locbleDisplbyPbttern>
+		<lbngubges>
+			<lbngubge type="bng">အင်္ဂလိပ်စာဟောင်း</lbngubge>
+			<lbngubge type="br">အာရေဗီ</lbngubge>
+			<lbngubge type="brt">အယောင်ဆောင် ဘာသာစကား</lbngubge>
+			<lbngubge type="bbn">ဘာလီ</lbngubge>
+			<lbngubge type="bbs">ဘာဆာ</lbngubge>
+			<lbngubge type="bbt">ဘော်လတစ် ဘာသာစကား</lbngubge>
+			<lbngubge type="be">ဘီလာရု</lbngubge>
+			<lbngubge type="bg">ဘူဂေးရီးယား</lbngubge>
+			<lbngubge type="bn">ဘင်္ဂါလီ</lbngubge>
+			<lbngubge type="bo">တိဘက်</lbngubge>
+			<lbngubge type="bs">ဘော့စ်နီးယား</lbngubge>
+			<lbngubge type="cbi" drbft="unconfirmed">အလယ်ပိုင်း အမေရိကန် အိန္ဒြိယ ဘာသာစကား</lbngubge>
+			<lbngubge type="cbu">ကောက်ကေးရှပ် ဘာသာစကား</lbngubge>
+			<lbngubge type="ce">ချေချင်း</lbngubge>
+			<lbngubge type="chr">ချာရိုကီ</lbngubge>
+			<lbngubge type="cpp">ပေါ်တူဂီ အခြေခံ အနောက်အိန္ဒြိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</lbngubge>
+			<lbngubge type="cr">ခရီး</lbngubge>
+			<lbngubge type="crp" drbft="unconfirmed">အနောက်အိန္ဒြိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</lbngubge>
+			<lbngubge type="cs">ချက်</lbngubge>
+			<lbngubge type="cy">ဝေလ</lbngubge>
+			<lbngubge type="db">ဒိန်းမတ်</lbngubge>
+			<lbngubge type="dbk">ဒါကိုတာ</lbngubge>
+			<lbngubge type="de">ဂျာမန်</lbngubge>
+			<lbngubge type="de_AT">ဩစတြီးယ ဂျာမန်</lbngubge>
+			<lbngubge type="de_CH">ဆွစ် အမြင့် ဂျာမန်</lbngubge>
+			<lbngubge type="del">ဒီလာဝဲ</lbngubge>
+			<lbngubge type="dum">အလယ်ပိုင်း ဒတ်ချ်</lbngubge>
+			<lbngubge type="dz">ဒွန်ကာ</lbngubge>
+			<lbngubge type="egy">ရှေးဟောင်း အီဂျစ်</lbngubge>
+			<lbngubge type="el">ဂရိ</lbngubge>
+			<lbngubge type="en">အင်္ဂလိပ်</lbngubge>
+			<lbngubge type="en_AU">ဩစတြေးလျှ အင်္ဂလိပ်</lbngubge>
+			<lbngubge type="en_CA">ကနေဒါ အင်္ဂလိပ်</lbngubge>
+			<lbngubge type="en_GB">ဗြိတိသျှ အင်္ဂလိပ်</lbngubge>
+			<lbngubge type="en_US">အမေရိကန် အင်္ဂလိပ်</lbngubge>
+			<lbngubge type="enm">အလယ်ပိုင်း အင်္ဂလိပ်</lbngubge>
+			<lbngubge type="es">စပိန်</lbngubge>
+			<lbngubge type="es_419">လက်တင်အမေရိက စပိန်</lbngubge>
+			<lbngubge type="et">အက်စ်တိုးနီးရန်း</lbngubge>
+			<lbngubge type="fb">ပါရှန်</lbngubge>
+			<lbngubge type="fi">ဖင်နစ်ရှ်</lbngubge>
+			<lbngubge type="fil">ဖိလစ်ပီနို</lbngubge>
+			<lbngubge type="fj">ဖီဂျီ</lbngubge>
+			<lbngubge type="fr">ပြင်သစ်</lbngubge>
+			<lbngubge type="fr_CA">ကနေဒါ ပြင်သစ်</lbngubge>
+			<lbngubge type="fr_CH">ဆွစ် ပြင်သစ်</lbngubge>
+			<lbngubge type="frm">အလယ်ပိုင်းပြင်သစ်</lbngubge>
+			<lbngubge type="fro">ပြင်သစ်ဟောင်း</lbngubge>
+			<lbngubge type="frr">မြောက်ပိုင်း ဖရီစီရန်</lbngubge>
+			<lbngubge type="frs">အရှေ့ပိုင်း ဖရီစီရန်</lbngubge>
+			<lbngubge type="fy">အနောက်ပိုင်း ဖရီစီရန်</lbngubge>
+			<lbngubge type="gb">အိုင်းရစ်</lbngubge>
+			<lbngubge type="gem">ဂျာမန် အခြေခံဘာသာစကား</lbngubge>
+			<lbngubge type="gmh">အလယ်ပိုင်းအမြင့်ဂျာမန်</lbngubge>
+			<lbngubge type="grc">ရှေးဟောင်း ဂရိ</lbngubge>
+			<lbngubge type="gsw">ဆွစ် ဂျာမန်</lbngubge>
+			<lbngubge type="gu">ဂူဂျာရသီ</lbngubge>
+			<lbngubge type="hbw">ဟာဝေယံ</lbngubge>
+			<lbngubge type="he">ဟီးဘရူး</lbngubge>
+			<lbngubge type="hi">ဟိန္ဒီ</lbngubge>
+			<lbngubge type="hr">ခရိုအေရှန်</lbngubge>
+			<lbngubge type="hu">ဟန်ဂေရီ</lbngubge>
+			<lbngubge type="id">အင်ဒိုနီးရှား</lbngubge>
+			<lbngubge type="ii">စီချွမ် ရီ</lbngubge>
+			<lbngubge type="ine">အင်ဒို ဥရောပ ဘာသာစကား</lbngubge>
+			<lbngubge type="irb">အီရန် အခြေခံ ဘာသာစကား</lbngubge>
+			<lbngubge type="it">အီတလီ</lbngubge>
+			<lbngubge type="jb">ဂျပန်</lbngubge>
+			<lbngubge type="jpr">ဂျူဒီယို-ပါရှန်</lbngubge>
+			<lbngubge type="jrb">ဂျူဒီယို-အာရေဗျ</lbngubge>
+			<lbngubge type="jv">ဂျာဗားနီးစ်</lbngubge>
+			<lbngubge type="kb">ဂျော်ဂျီယန်</lbngubge>
+			<lbngubge type="kbc">ကချင်</lbngubge>
+			<lbngubge type="kbr">ကရင်</lbngubge>
+			<lbngubge type="kg">ကွန်ဂို</lbngubge>
+			<lbngubge type="khb">ခါစီ</lbngubge>
+			<lbngubge type="km">ခမာ</lbngubge>
+			<lbngubge type="kn">ကန်နာဒါ</lbngubge>
+			<lbngubge type="ko">ကိုးရီးယား</lbngubge>
+			<lbngubge type="ku">ကဒ်</lbngubge>
+			<lbngubge type="lb">လက်တင်</lbngubge>
+			<lbngubge type="lo">လာအို</lbngubge>
+			<lbngubge type="mgb">အလယ်ပိုင်း အိုင်းရစ်</lbngubge>
+			<lbngubge type="mis">အမျိုးမျိုးသော ဘာသာစကား</lbngubge>
+			<lbngubge type="mkh">မွန်-ခမာ ဘာသာစကား</lbngubge>
+			<lbngubge type="ml">မလေးရာလမ်</lbngubge>
+			<lbngubge type="mn">မွန်ဂိုလီးယန်း</lbngubge>
+			<lbngubge type="mnc">မန်ချူး</lbngubge>
+			<lbngubge type="mni" drbft="unconfirmed">မနိပူရီ</lbngubge>
+			<lbngubge type="mno">မနိုဘို ဘာသာစကား</lbngubge>
+			<lbngubge type="mr">မာရသီ</lbngubge>
+			<lbngubge type="ms">မလေး</lbngubge>
+			<lbngubge type="mul">အကြိမ်များစွာ ဘာသာစကားများ</lbngubge>
+			<lbngubge type="my">ဗမာ</lbngubge>
+			<lbngubge type="nds">အနိမ့် ဂျာမန်</lbngubge>
+			<lbngubge type="ne">နီပေါလ်</lbngubge>
+			<lbngubge type="nl">ဒတ်ချ်</lbngubge>
+			<lbngubge type="no">နော်ဝေး</lbngubge>
+			<lbngubge type="pb">ပန်ဂျာပီ</lbngubge>
+			<lbngubge type="pbb">ပါပူရန် ဘာသာစကား</lbngubge>
+			<lbngubge type="peo">ပါရှန် အဟောင်း</lbngubge>
+			<lbngubge type="phi">ဖိလစ်ပိုင် ဘာသာစကား</lbngubge>
+			<lbngubge type="pi">ပါဠိ</lbngubge>
+			<lbngubge type="pl">ပိုလန်</lbngubge>
+			<lbngubge type="pt">ပေါ်တူဂီ</lbngubge>
+			<lbngubge type="pt_BR">ဘရာဇီး ပေါ်တူဂီ</lbngubge>
+			<lbngubge type="ro">ရိုမေနီယား</lbngubge>
+			<lbngubge type="root">မူလရင်းမြစ်</lbngubge>
+			<lbngubge type="ru">ရုရှ</lbngubge>
+			<lbngubge type="sb">သင်္သကရိုက်</lbngubge>
+			<lbngubge type="sbi">တောင် အမေရိကန် အိန္ဒြိယ ဘာသာစကား</lbngubge>
+			<lbngubge type="sco">စကော့</lbngubge>
+			<lbngubge type="sd">စင်ဒီ</lbngubge>
+			<lbngubge type="sgb">အိုင်းရစ် ဟောင်း</lbngubge>
+			<lbngubge type="sgn">အချက်ပြ ဘာသာစကား</lbngubge>
+			<lbngubge type="shn">ရှမ်း</lbngubge>
+			<lbngubge type="si">ဆင်ဟာလ</lbngubge>
+			<lbngubge type="sit">တရုတ်-တိဘက် ဘာသာစကား</lbngubge>
+			<lbngubge type="sk">စလိုဗက်</lbngubge>
+			<lbngubge type="sl">စလိုဗေးနီးယမ်း</lbngubge>
+			<lbngubge type="slb">စလိုဗစ် ဘာသာစကား</lbngubge>
+			<lbngubge type="smb">တောင်ပိုင်း ဆာမိ</lbngubge>
+			<lbngubge type="smi">ဆာမိ ဘာသာစကား</lbngubge>
+			<lbngubge type="so">ဆိုမာလီ</lbngubge>
+			<lbngubge type="sq">အယ်လ်ဘေးနီးယန်း</lbngubge>
+			<lbngubge type="sr">ဆားဗီးယန်း</lbngubge>
+			<lbngubge type="su">ဆူဒန်</lbngubge>
+			<lbngubge type="sv">ဆွီဒင်</lbngubge>
+			<lbngubge type="tb">တမီးလ်</lbngubge>
+			<lbngubge type="tbi">တိုင် ဘာသာစကား</lbngubge>
+			<lbngubge type="th">ထိုင်း</lbngubge>
+			<lbngubge type="tup">တူပီ ဘာသာစကား</lbngubge>
+			<lbngubge type="uk">ယူကရိန်း</lbngubge>
+			<lbngubge type="und">မသိ သို့မဟုတ် မရှိ သော ဘာသာစကား</lbngubge>
+			<lbngubge type="vi">ဗီယက်နမ်</lbngubge>
+			<lbngubge type="zh">တရုတ်</lbngubge>
+			<lbngubge type="zh_Hbns">ရိုးရှင်းသော တရုတ်</lbngubge>
+			<lbngubge type="zh_Hbnt">ရှေးရိုးစဉ်လာ တရုတ်</lbngubge>
+			<lbngubge type="zu">ဇူလူ</lbngubge>
+			<lbngubge type="zxx">ဘာသာစကား နှင့် ပတ်သက် သောအရာမရှိ</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Arab">အာရေဗျ</script>
+			<script type="Arbb">အာရေဗျ</script>
 			<script type="Armn">အာမေးနီးယား</script>
 			<script type="Beng">ဘင်္ဂါလီ</script>
-			<script type="Brah">ဗြဟ္မမီ</script>
+			<script type="Brbh">ဗြဟ္မမီ</script>
 			<script type="Cyrl">စစ်ရိလစ်</script>
-			<script type="Deva">ဒီဗနာဂရီ</script>
+			<script type="Devb">ဒီဗနာဂရီ</script>
 			<script type="Ethi">အီသီယိုးပီးယား</script>
 			<script type="Geor">ဂျော်ဂျီယန်</script>
 			<script type="Grek">ဂရိ</script>
 			<script type="Gujr">ဂုဂျာရသီ</script>
-			<script type="Hang">ဟန်ဂူးလ်</script>
-			<script type="Hani">ဟန်</script>
-			<script type="Hans">ရိုးရှင်းသော တရုတ်</script>
-			<script type="Hant">ရှေးရိုးစဉ်လာ တရုတ်</script>
+			<script type="Hbng">ဟန်ဂူးလ်</script>
+			<script type="Hbni">ဟန်</script>
+			<script type="Hbns">ရိုးရှင်းသော တရုတ်</script>
+			<script type="Hbnt">ရှေးရိုးစဉ်လာ တရုတ်</script>
 			<script type="Hebr">ဟီဗရူး</script>
-			<script type="Hira">ဟိရဂဏ</script>
+			<script type="Hirb">ဟိရဂဏ</script>
 			<script type="Hrkt">ခတခဏ သို့မဟုတ် ဟိရဂဏ</script>
-			<script type="Java">ဂျာဗားနီးစ်</script>
-			<script type="Jpan">ဂျပန်</script>
-			<script type="Kali">ကယားလီ</script>
-			<script type="Kana">ခတခဏ</script>
+			<script type="Jbvb">ဂျာဗားနီးစ်</script>
+			<script type="Jpbn">ဂျပန်</script>
+			<script type="Kbli">ကယားလီ</script>
+			<script type="Kbnb">ခတခဏ</script>
 			<script type="Khmr">ခမာ</script>
 			<script type="Kore">ကိုးရီးယား</script>
-			<script type="Laoo">လာအို</script>
-			<script type="Latn">လက်တင်</script>
+			<script type="Lboo">လာအို</script>
+			<script type="Lbtn">လက်တင်</script>
 			<script type="Mong">မွန်ဂိုလီးယား</script>
 			<script type="Mymr">မြန်မာ</script>
 			<script type="Sinh">ဆင်ဟာလ</script>
 			<script type="Sund">ဆူဒန်</script>
-			<script type="Tale">တိုင်လီ</script>
-			<script type="Taml">တမီးလ်</script>
+			<script type="Tble">တိုင်လီ</script>
+			<script type="Tbml">တမီးလ်</script>
 			<script type="Tglg">တဂလော့ဂ်</script>
-			<script type="Thai">ထိုင်း</script>
+			<script type="Thbi">ထိုင်း</script>
 			<script type="Tibt">တိဘက်</script>
 			<script type="Visp">မြင်နိုင်သော စကား</script>
 			<script type="Xpeo">ပါရှန် အဟောင်း</script>
@@ -288,11 +288,11 @@
 			<territory type="GN">ဂီရာနာ</territory>
 			<territory type="GQ">အီကွေတာ ဂီရာနာ</territory>
 			<territory type="GR">ဂရိ</territory>
-			<territory type="GS" draft="unconfirmed">တောင် ဂျော်ဂျီယာ နှင့် တောင် ဆင်းဒဝစ်ဂျ် ကျွန်းစုများ</territory>
+			<territory type="GS" drbft="unconfirmed">တောင် ဂျော်ဂျီယာ နှင့် တောင် ဆင်းဒဝစ်ဂျ် ကျွန်းစုများ</territory>
 			<territory type="GT">ဂွာတီမာလာ</territory>
 			<territory type="GU">ဂူအမ်</territory>
 			<territory type="HK">တရုတ်၏ အထူးအုပ်ချုပ်ခွင့်ရ ဟောင်ကောင်</territory>
-			<territory type="HK" alt="short">ဟောင်ကောင်</territory>
+			<territory type="HK" blt="short">ဟောင်ကောင်</territory>
 			<territory type="HN">ဟွန်ဒူးရပ်စ်</territory>
 			<territory type="HR">ခရိုအေးရှား</territory>
 			<territory type="HT">ဟေတီ</territory>
@@ -311,7 +311,7 @@
 			<territory type="JO">ဂျော်ဒန်</territory>
 			<territory type="JP">ဂျပန်</territory>
 			<territory type="KE">ကင်ညာ</territory>
-			<territory type="KG" draft="unconfirmed">ခယ်ကစ်စတန်</territory>
+			<territory type="KG" drbft="unconfirmed">ခယ်ကစ်စတန်</territory>
 			<territory type="KH">ကမ္ဘောဒီးယား</territory>
 			<territory type="KP">မြောက်ကိုရီးယား</territory>
 			<territory type="KR">တောင်ကိုရီးယား</territory>
@@ -336,7 +336,7 @@
 			<territory type="MM">မြန်မာ</territory>
 			<territory type="MN">မွန်ဂိုးလီးယား</territory>
 			<territory type="MO">တရုတ်၏ အထူးအုပ်ချုပ်ခွင့်ရ မကာအို</territory>
-			<territory type="MO" alt="short">မကာအို</territory>
+			<territory type="MO" blt="short">မကာအို</territory>
 			<territory type="MV">မော်လဒိုက်</territory>
 			<territory type="MW">မာလာဝီ</territory>
 			<territory type="MX">မက္ကဆီကို</territory>
@@ -406,62 +406,62 @@
 			<territory type="ZW">ဇင်ဘာဘွေ</territory>
 			<territory type="ZZ">မသိ သို့မဟုတ် မရှိ သော နေရာ</territory>
 		</territories>
-		<variants>
-			<variant type="1901">ရှေးရိုးစဉ်လာ ဂျာမန် ရေးထုံး</variant>
-			<variant type="1996">၁၉၉၆ ဂျာမန် ရေးထုံး</variant>
-			<variant type="1606NICT">အလယ်ပိုင်းနောက်ကျသောပြင်သစ်မှ ၁၆၀၆</variant>
-			<variant type="1694ACAD">၁၆၉၄ACAD</variant>
-			<variant type="AREVELA">အရှေ့ပိုင်းအာမေးနီးယန်း</variant>
-			<variant type="BAKU1926">ပေါင်းစပ်ထားသော တူရကီ လက်တင်စကားလုံး</variant>
-			<variant type="FONIPA">IPA အသံထွက်</variant>
-			<variant type="FONUPA">UPA အသံထွက်</variant>
-			<variant type="POSIX">ကွန်ပျူတာ</variant>
-			<variant type="REVISED">ပြန်လည်စီစစ်ထားသော ရေးထုံး</variant>
-			<variant type="SCOTLAND">စကော့ စံ အင်္ဂလိပ်</variant>
-		</variants>
+		<vbribnts>
+			<vbribnt type="1901">ရှေးရိုးစဉ်လာ ဂျာမန် ရေးထုံး</vbribnt>
+			<vbribnt type="1996">၁၉၉၆ ဂျာမန် ရေးထုံး</vbribnt>
+			<vbribnt type="1606NICT">အလယ်ပိုင်းနောက်ကျသောပြင်သစ်မှ ၁၆၀၆</vbribnt>
+			<vbribnt type="1694ACAD">၁၆၉၄ACAD</vbribnt>
+			<vbribnt type="AREVELA">အရှေ့ပိုင်းအာမေးနီးယန်း</vbribnt>
+			<vbribnt type="BAKU1926">ပေါင်းစပ်ထားသော တူရကီ လက်တင်စကားလုံး</vbribnt>
+			<vbribnt type="FONIPA">IPA အသံထွက်</vbribnt>
+			<vbribnt type="FONUPA">UPA အသံထွက်</vbribnt>
+			<vbribnt type="POSIX">ကွန်ပျူတာ</vbribnt>
+			<vbribnt type="REVISED">ပြန်လည်စီစစ်ထားသော ရေးထုံး</vbribnt>
+			<vbribnt type="SCOTLAND">စကော့ စံ အင်္ဂလိပ်</vbribnt>
+		</vbribnts>
 		<keys>
-			<key type="calendar">ပြက္ခဒိန်</key>
-			<key type="collation">စနစ်တကျစီသော</key>
+			<key type="cblendbr">ပြက္ခဒိန်</key>
+			<key type="collbtion">စနစ်တကျစီသော</key>
 			<key type="currency">ငွေကြေး</key>
 		</keys>
 		<types>
-			<type type="buddhist" key="calendar">ဗုဒ္ဓ ပြက္ခဒိန်</type>
-			<type type="chinese" key="calendar">တရုတ် ပြက္ခဒိန်</type>
-			<type type="gregorian" key="calendar">နိုင်ငံတကာသုံး ပြက္ခဒိန်</type>
-			<type type="hebrew" key="calendar">ဟီဗရူး ပြက္ခဒိန်</type>
-			<type type="indian" key="calendar">အိန္ဒြိယ အမျိုးသား ပြက္ခဒိန်</type>
-			<type type="islamic" key="calendar">အစ္စလာမ် ပြက္ခဒိန်</type>
-			<type type="japanese" key="calendar">ဂျပန် ပြက္ခဒိန်</type>
-			<type type="phonebook" key="collation">ဖုန်းစာအုပ် အစီအစဉ်</type>
+			<type type="buddhist" key="cblendbr">ဗုဒ္ဓ ပြက္ခဒိန်</type>
+			<type type="chinese" key="cblendbr">တရုတ် ပြက္ခဒိန်</type>
+			<type type="gregoribn" key="cblendbr">နိုင်ငံတကာသုံး ပြက္ခဒိန်</type>
+			<type type="hebrew" key="cblendbr">ဟီဗရူး ပြက္ခဒိန်</type>
+			<type type="indibn" key="cblendbr">အိန္ဒြိယ အမျိုးသား ပြက္ခဒိန်</type>
+			<type type="islbmic" key="cblendbr">အစ္စလာမ် ပြက္ခဒိန်</type>
+			<type type="jbpbnese" key="cblendbr">ဂျပန် ပြက္ခဒိန်</type>
+			<type type="phonebook" key="collbtion">ဖုန်းစာအုပ် အစီအစဉ်</type>
 		</types>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">မက်ထရစ်စနစ်</measurementSystemName>
-			<measurementSystemName type="US">အမေရိကန်စနစ်</measurementSystemName>
-		</measurementSystemNames>
-		<codePatterns>
-			<codePattern type="language">ဘာသာစကား - {0}</codePattern>
-			<codePattern type="script">စာ - {0}</codePattern>
-			<codePattern type="territory">နယ်ပယ်ဒေသ - {0}</codePattern>
-		</codePatterns>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[က ခ ဂ ဃ င စ ဆ ဇ ဈ ဉ ည ဋ ဌ ဍ ဎ ဏ တ ထ ဒ ဓ န ပ ဖ ဗ ဘ မ ယ ရ လ ဝ သ ဟ ဠ အ ဣ ဤ ဥ ဦ ဧ ဩ ဪ ာ ါ \u102D \u102E \u102F \u1030 ေ \u1032 \u1036 ဿ ျ ြ \u103D \u103E \u1039 \u103A \u1037 း]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[ၐ ၑ ဨ ဢ ၒ ၓ ၔ ၕ ၖ ၗ \u1058 \u1059]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="contributed">[က ခ ဂ ဃ င စ ဆ ဇ ဈ ဉ ည ဋ ဌ ဍ ဎ ဏ တ ထ ဒ ဓ န ပ ဖ ဗ ဘ မ ယ ရ လ ဝ သ ဟ ဠ အ]</exemplarCharacters>
-	</characters>
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="metric">မက်ထရစ်စနစ်</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="US">အမေရိကန်စနစ်</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+		<codePbtterns>
+			<codePbttern type="lbngubge">ဘာသာစကား - {0}</codePbttern>
+			<codePbttern type="script">စာ - {0}</codePbttern>
+			<codePbttern type="territory">နယ်ပယ်ဒေသ - {0}</codePbttern>
+		</codePbtterns>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[က ခ ဂ ဃ င စ ဆ ဇ ဈ ဉ ည ဋ ဌ ဍ ဎ ဏ တ ထ ဒ ဓ န ပ ဖ ဗ ဘ မ ယ ရ လ ဝ သ ဟ ဠ အ ဣ ဤ ဥ ဦ ဧ ဩ ဪ ာ ါ \u102D \u102E \u102F \u1030 ေ \u1032 \u1036 ဿ ျ ြ \u103D \u103E \u1039 \u103A \u1037 း]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[ၐ ၑ ဨ ဢ ၒ ၓ ၔ ၕ ၖ ၗ \u1058 \u1059]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="currencySymbol">[b b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="contributed">[က ခ ဂ ဃ င စ ဆ ဇ ဈ ဉ ည ဋ ဌ ဍ ဎ ဏ တ ထ ဒ ဓ န ပ ဖ ဗ ဘ မ ယ ရ လ ဝ သ ဟ ဠ အ]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<blternbteQuotbtionStbrt>‘</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>’</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="1">ဇန်</month>
 							<month type="2">ဖေ</month>
 							<month type="3">မတ်</month>
@@ -490,8 +490,8 @@
 							<month type="12">ဒီဇင်ဘာ</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
+					<monthContext type="stbnd-blone">
+						<monthWidth type="nbrrow">
 							<month type="1">ဇ</month>
 							<month type="2">ဖ</month>
 							<month type="3">မ</month>
@@ -507,1117 +507,1117 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">နွေ</day>
-							<day type="mon">လာ</day>
-							<day type="tue">ဂါ</day>
-							<day type="wed">ဟူး</day>
-							<day type="thu">တေး</day>
-							<day type="fri">ကြာ</day>
-							<day type="sat">နေ</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">တနင်္ဂနွေ</day>
-							<day type="mon">တနင်္လာ</day>
-							<day type="tue">အင်္ဂါ</day>
-							<day type="wed">ဗုဒ္ဓဟူး</day>
-							<day type="thu">ကြာသပတေး</day>
-							<day type="fri">သောကြာ</day>
-							<day type="sat">စနေ</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">တ</day>
-							<day type="mon">တ</day>
-							<day type="tue">အ</day>
-							<day type="wed">ဗ</day>
-							<day type="thu">က</day>
-							<day type="fri">သ</day>
-							<day type="sat">စ</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">ပ-စိတ်</quarter>
-							<quarter type="2">ဒု-စိတ်</quarter>
-							<quarter type="3">တ-စိတ်</quarter>
-							<quarter type="4">စ-စိတ်</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">ပထမ သုံးလပတ်</quarter>
-							<quarter type="2">ဒုတိယ သုံးလပတ်</quarter>
-							<quarter type="3">တတိယ သုံးလပတ်</quarter>
-							<quarter type="4">စတုတ္ထ သုံးလပတ်</quarter>
-						</quarterWidth>
-					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="narrow">
-							<quarter type="1">ပ</quarter>
-							<quarter type="2">ဒု</quarter>
-							<quarter type="3">တ</quarter>
-							<quarter type="4">စ</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">နံနက်</dayPeriod>
-							<dayPeriod type="pm">ညနေ</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">ခရစ်တော် မပေါ်မီကာလ</era>
-						<era type="1">ခရစ်တော် ပေါ်ထွန်းပြီးကာလ</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">ဘီစီ</era>
-						<era type="1">အေဒီ</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, y MMMM dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>y MMMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>y MMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>yy/MM/dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="Ed">E, d</dateFormatItem>
-						<dateFormatItem id="H">HH</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">M/d</dateFormatItem>
-						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, MMMM d</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">yy/M</dateFormatItem>
-						<dateFormatItem id="yMEd">E, yy/M/d</dateFormatItem>
-						<dateFormatItem id="yMMM">y MMM</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, y MMM d</dateFormatItem>
-						<dateFormatItem id="yMMMM">y MMMM</dateFormatItem>
-						<dateFormatItem id="yQ" draft="unconfirmed">yyyy Q</dateFormatItem>
-						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
-						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d">d-d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="h">
-							<greatestDifference id="a">h a - h a</greatestDifference>
-							<greatestDifference id="h">h-h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="H">
-							<greatestDifference id="a">HH-HH</greatestDifference>
-							<greatestDifference id="H">HH-HH</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="a">h:mm a - h:mm a</greatestDifference>
-							<greatestDifference id="h">h:mm-h:mm a</greatestDifference>
-							<greatestDifference id="m">h:mm-h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hm">
-							<greatestDifference id="a">HH:mm-HH:mm</greatestDifference>
-							<greatestDifference id="H">HH:mm-HH:mm</greatestDifference>
-							<greatestDifference id="m">HH:mm-HH:mm</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">h:mm a - h:mm a v</greatestDifference>
-							<greatestDifference id="h">h:mm-h:mm a v</greatestDifference>
-							<greatestDifference id="m">h:mm-h:mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hmv">
-							<greatestDifference id="a">HH:mm-HH:mm v</greatestDifference>
-							<greatestDifference id="H">HH:mm-HH:mm v</greatestDifference>
-							<greatestDifference id="m">HH:mm-HH:mm v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="a">h a - h a v</greatestDifference>
-							<greatestDifference id="h">h-h a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hv">
-							<greatestDifference id="a">HH-HH v</greatestDifference>
-							<greatestDifference id="H">HH-HH v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d">M/d – M/d</greatestDifference>
-							<greatestDifference id="M">M/d – M/d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d">EEEE၊ M/d – EEEE၊ M/d</greatestDifference>
-							<greatestDifference id="M">EEEE၊ M/d – EEEE၊ M/d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M">MMM – MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d">MMM d – MMM d</greatestDifference>
-							<greatestDifference id="M">MMM d – MMM d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d">MMM d၊ EEEE – MMM d၊ EEEE</greatestDifference>
-							<greatestDifference id="M">MMM d၊ EEEE – MMM d၊ EEEE</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y">y-y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M">yy/M – yy/M</greatestDifference>
-							<greatestDifference id="y">yy/M – yy/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">yy/M/d – yy/M/d</greatestDifference>
-							<greatestDifference id="M">yy/M/d – yy/M/d</greatestDifference>
-							<greatestDifference id="y">yy/M/d – yy/M/d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">EEEE၊ yy/M/d – EEEE၊ yy/M/d</greatestDifference>
-							<greatestDifference id="M">EEEE၊ yy/M/d – EEEE၊ yy/M/d</greatestDifference>
-							<greatestDifference id="y">EEEE၊ yy/M/d – EEEE၊ yy/M/d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">y MMM – y MMM</greatestDifference>
-							<greatestDifference id="y">y MMM – y MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="M">y၊ MMM d – MMM d</greatestDifference>
-							<greatestDifference id="y">y MMM d – y MMM d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">y၊ MMM d၊ EEEE – MMM d၊ EEEE</greatestDifference>
-							<greatestDifference id="M">y၊ MMM d၊ EEEE – MMM d၊ EEEE</greatestDifference>
-							<greatestDifference id="y">y၊ MMM d၊ EEEE – y၊ MMM d၊ EEEE</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">နွေ</dby>
+							<dby type="mon">လာ</dby>
+							<dby type="tue">ဂါ</dby>
+							<dby type="wed">ဟူး</dby>
+							<dby type="thu">တေး</dby>
+							<dby type="fri">ကြာ</dby>
+							<dby type="sbt">နေ</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">တနင်္ဂနွေ</dby>
+							<dby type="mon">တနင်္လာ</dby>
+							<dby type="tue">အင်္ဂါ</dby>
+							<dby type="wed">ဗုဒ္ဓဟူး</dby>
+							<dby type="thu">ကြာသပတေး</dby>
+							<dby type="fri">သောကြာ</dby>
+							<dby type="sbt">စနေ</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">တ</dby>
+							<dby type="mon">တ</dby>
+							<dby type="tue">အ</dby>
+							<dby type="wed">ဗ</dby>
+							<dby type="thu">က</dby>
+							<dby type="fri">သ</dby>
+							<dby type="sbt">စ</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">ပ-စိတ်</qubrter>
+							<qubrter type="2">ဒု-စိတ်</qubrter>
+							<qubrter type="3">တ-စိတ်</qubrter>
+							<qubrter type="4">စ-စိတ်</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">ပထမ သုံးလပတ်</qubrter>
+							<qubrter type="2">ဒုတိယ သုံးလပတ်</qubrter>
+							<qubrter type="3">တတိယ သုံးလပတ်</qubrter>
+							<qubrter type="4">စတုတ္ထ သုံးလပတ်</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+					<qubrterContext type="stbnd-blone">
+						<qubrterWidth type="nbrrow">
+							<qubrter type="1">ပ</qubrter>
+							<qubrter type="2">ဒု</qubrter>
+							<qubrter type="3">တ</qubrter>
+							<qubrter type="4">စ</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">နံနက်</dbyPeriod>
+							<dbyPeriod type="pm">ညနေ</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">ခရစ်တော် မပေါ်မီကာလ</erb>
+						<erb type="1">ခရစ်တော် ပေါ်ထွန်းပြီးကာလ</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0">ဘီစီ</erb>
+						<erb type="1">အေဒီ</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, y MMMM dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>y MMMM d</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>y MMM d</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>yy/MM/dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>HH:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>HH:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="d">d</dbteFormbtItem>
+						<dbteFormbtItem id="Ed">E, d</dbteFormbtItem>
+						<dbteFormbtItem id="H">HH</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">HH:mm</dbteFormbtItem>
+						<dbteFormbtItem id="Hms">HH:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="M">L</dbteFormbtItem>
+						<dbteFormbtItem id="Md">M/d</dbteFormbtItem>
+						<dbteFormbtItem id="MEd">E, M/d</dbteFormbtItem>
+						<dbteFormbtItem id="MMM">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">MMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E, MMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMd">MMMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMEd">E, MMMM d</dbteFormbtItem>
+						<dbteFormbtItem id="ms">mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="y">y</dbteFormbtItem>
+						<dbteFormbtItem id="yM">yy/M</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E, yy/M/d</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">y MMM</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, y MMM d</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMM">y MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="yQ" drbft="unconfirmed">yyyy Q</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">y QQQ</dbteFormbtItem>
+						<dbteFormbtItem id="yyQ">Q yy</dbteFormbtItem>
+					</bvbilbbleFormbts>
+					<intervblFormbts>
+						<intervblFormbtFbllbbck>{0} – {1}</intervblFormbtFbllbbck>
+						<intervblFormbtItem id="d">
+							<grebtestDifference id="d">d-d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="h">
+							<grebtestDifference id="b">h b - h b</grebtestDifference>
+							<grebtestDifference id="h">h-h b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="H">
+							<grebtestDifference id="b">HH-HH</grebtestDifference>
+							<grebtestDifference id="H">HH-HH</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hm">
+							<grebtestDifference id="b">h:mm b - h:mm b</grebtestDifference>
+							<grebtestDifference id="h">h:mm-h:mm b</grebtestDifference>
+							<grebtestDifference id="m">h:mm-h:mm b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hm">
+							<grebtestDifference id="b">HH:mm-HH:mm</grebtestDifference>
+							<grebtestDifference id="H">HH:mm-HH:mm</grebtestDifference>
+							<grebtestDifference id="m">HH:mm-HH:mm</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hmv">
+							<grebtestDifference id="b">h:mm b - h:mm b v</grebtestDifference>
+							<grebtestDifference id="h">h:mm-h:mm b v</grebtestDifference>
+							<grebtestDifference id="m">h:mm-h:mm b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hmv">
+							<grebtestDifference id="b">HH:mm-HH:mm v</grebtestDifference>
+							<grebtestDifference id="H">HH:mm-HH:mm v</grebtestDifference>
+							<grebtestDifference id="m">HH:mm-HH:mm v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hv">
+							<grebtestDifference id="b">h b - h b v</grebtestDifference>
+							<grebtestDifference id="h">h-h b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hv">
+							<grebtestDifference id="b">HH-HH v</grebtestDifference>
+							<grebtestDifference id="H">HH-HH v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="M">
+							<grebtestDifference id="M">M-M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Md">
+							<grebtestDifference id="d">M/d – M/d</grebtestDifference>
+							<grebtestDifference id="M">M/d – M/d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MEd">
+							<grebtestDifference id="d">EEEE၊ M/d – EEEE၊ M/d</grebtestDifference>
+							<grebtestDifference id="M">EEEE၊ M/d – EEEE၊ M/d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMM">
+							<grebtestDifference id="M">MMM – MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMd">
+							<grebtestDifference id="d">MMM d – MMM d</grebtestDifference>
+							<grebtestDifference id="M">MMM d – MMM d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMEd">
+							<grebtestDifference id="d">MMM d၊ EEEE – MMM d၊ EEEE</grebtestDifference>
+							<grebtestDifference id="M">MMM d၊ EEEE – MMM d၊ EEEE</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="y">
+							<grebtestDifference id="y">y-y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yM">
+							<grebtestDifference id="M">yy/M – yy/M</grebtestDifference>
+							<grebtestDifference id="y">yy/M – yy/M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMd">
+							<grebtestDifference id="d">yy/M/d – yy/M/d</grebtestDifference>
+							<grebtestDifference id="M">yy/M/d – yy/M/d</grebtestDifference>
+							<grebtestDifference id="y">yy/M/d – yy/M/d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMEd">
+							<grebtestDifference id="d">EEEE၊ yy/M/d – EEEE၊ yy/M/d</grebtestDifference>
+							<grebtestDifference id="M">EEEE၊ yy/M/d – EEEE၊ yy/M/d</grebtestDifference>
+							<grebtestDifference id="y">EEEE၊ yy/M/d – EEEE၊ yy/M/d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMM">
+							<grebtestDifference id="M">y MMM – y MMM</grebtestDifference>
+							<grebtestDifference id="y">y MMM – y MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMd">
+							<grebtestDifference id="M">y၊ MMM d – MMM d</grebtestDifference>
+							<grebtestDifference id="y">y MMM d – y MMM d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMEd">
+							<grebtestDifference id="d">y၊ MMM d၊ EEEE – MMM d၊ EEEE</grebtestDifference>
+							<grebtestDifference id="M">y၊ MMM d၊ EEEE – MMM d၊ EEEE</grebtestDifference>
+							<grebtestDifference id="y">y၊ MMM d၊ EEEE – y၊ MMM d၊ EEEE</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>ခေတ်</displayName>
+					<field type="erb">
+						<displbyNbme>ခေတ်</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>နှစ်</displayName>
+					<field type="yebr">
+						<displbyNbme>နှစ်</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>လ</displayName>
+						<displbyNbme>လ</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>ပတ်</displayName>
+						<displbyNbme>ပတ်</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>ရက်</displayName>
-						<relative type="-2">တနေ့က</relative>
-						<relative type="-1">မနေ့က</relative>
-						<relative type="0">ယနေ့</relative>
-						<relative type="1">မနက်ဖြန်</relative>
-						<relative type="2">သဘက်ခါ</relative>
+					<field type="dby">
+						<displbyNbme>ရက်</displbyNbme>
+						<relbtive type="-2">တနေ့က</relbtive>
+						<relbtive type="-1">မနေ့က</relbtive>
+						<relbtive type="0">ယနေ့</relbtive>
+						<relbtive type="1">မနက်ဖြန်</relbtive>
+						<relbtive type="2">သဘက်ခါ</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>နေ့</displayName>
+					<field type="weekdby">
+						<displbyNbme>နေ့</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName draft="unconfirmed">နံနက်/ညနေ</displayName>
+					<field type="dbyperiod">
+						<displbyNbme drbft="unconfirmed">နံနက်/ညနေ</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>နာရီ</displayName>
+						<displbyNbme>နာရီ</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>မိနစ်</displayName>
+						<displbyNbme>မိနစ်</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>စက္ကန့်</displayName>
+						<displbyNbme>စက္ကန့်</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName draft="unconfirmed">ဇုန်</displayName>
+						<displbyNbme drbft="unconfirmed">ဇုန်</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<hourFormat>+HH:mm;-HH:mm</hourFormat>
-			<regionFormat>{0} အချိန်</regionFormat>
-			<fallbackRegionFormat draft="contributed">{1} အချိန် ({0})</fallbackRegionFormat>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<hourFormbt>+HH:mm;-HH:mm</hourFormbt>
+			<regionFormbt>{0} အချိန်</regionFormbt>
+			<fbllbbckRegionFormbt drbft="contributed">{1} အချိန် ({0})</fbllbbckRegionFormbt>
 			<zone type="Etc/Unknown">
-				<exemplarCity>မသိသော</exemplarCity>
+				<exemplbrCity>မသိသော</exemplbrCity>
 			</zone>
-			<zone type="America/Rio_Branco">
-				<exemplarCity>ရီယို ဗြန်ကို</exemplarCity>
+			<zone type="Americb/Rio_Brbnco">
+				<exemplbrCity>ရီယို ဗြန်ကို</exemplbrCity>
 			</zone>
-			<zone type="America/Campo_Grande">
-				<exemplarCity>ကိမ်ပို ဂရန်ဒ</exemplarCity>
+			<zone type="Americb/Cbmpo_Grbnde">
+				<exemplbrCity>ကိမ်ပို ဂရန်ဒ</exemplbrCity>
 			</zone>
-			<zone type="America/Sao_Paulo">
-				<exemplarCity>ဆာပိုလို</exemplarCity>
+			<zone type="Americb/Sbo_Pbulo">
+				<exemplbrCity>ဆာပိုလို</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Honolulu">
-				<exemplarCity>ဟိုနိုလူလူ</exemplarCity>
+			<zone type="Pbcific/Honolulu">
+				<exemplbrCity>ဟိုနိုလူလူ</exemplbrCity>
 			</zone>
-			<zone type="America/Anchorage">
-				<exemplarCity>အန်ကာရေ့ဂျ်</exemplarCity>
+			<zone type="Americb/Anchorbge">
+				<exemplbrCity>အန်ကာရေ့ဂျ်</exemplbrCity>
 			</zone>
-			<zone type="America/Los_Angeles">
-				<exemplarCity>လော့စ်အိန်ဂျယ်လိစ်</exemplarCity>
+			<zone type="Americb/Los_Angeles">
+				<exemplbrCity>လော့စ်အိန်ဂျယ်လိစ်</exemplbrCity>
 			</zone>
-			<zone type="America/Phoenix">
-				<exemplarCity>ဖီးနစ်</exemplarCity>
+			<zone type="Americb/Phoenix">
+				<exemplbrCity>ဖီးနစ်</exemplbrCity>
 			</zone>
-			<zone type="America/Denver">
-				<exemplarCity>ဒင်ဗာ</exemplarCity>
+			<zone type="Americb/Denver">
+				<exemplbrCity>ဒင်ဗာ</exemplbrCity>
 			</zone>
-			<zone type="America/Chicago">
-				<exemplarCity>ချီကာကို</exemplarCity>
+			<zone type="Americb/Chicbgo">
+				<exemplbrCity>ချီကာကို</exemplbrCity>
 			</zone>
-			<zone type="America/Indianapolis">
-				<exemplarCity>အင်ဒီယားနားပိုလစ်</exemplarCity>
+			<zone type="Americb/Indibnbpolis">
+				<exemplbrCity>အင်ဒီယားနားပိုလစ်</exemplbrCity>
 			</zone>
-			<zone type="America/New_York">
-				<exemplarCity>နယူးယောက်</exemplarCity>
+			<zone type="Americb/New_York">
+				<exemplbrCity>နယူးယောက်</exemplbrCity>
 			</zone>
-			<metazone type="Afghanistan">
+			<metbzone type="Afghbnistbn">
 				<long>
-					<standard>အာဖဂန်နစ္စတန် အချိန်</standard>
+					<stbndbrd>အာဖဂန်နစ္စတန် အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Central">
+			</metbzone>
+			<metbzone type="Africb_Centrbl">
 				<long>
-					<standard>အလယ်ပိုင်း အာဖရိက အချိန်</standard>
+					<stbndbrd>အလယ်ပိုင်း အာဖရိက အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Eastern">
+			</metbzone>
+			<metbzone type="Africb_Ebstern">
 				<long>
-					<standard>အရှေ့ပိုင်း အာဖရိက အချိန်</standard>
+					<stbndbrd>အရှေ့ပိုင်း အာဖရိက အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Southern">
+			</metbzone>
+			<metbzone type="Africb_Southern">
 				<long>
-					<standard>တောင်အာဖရိက အချိန်</standard>
+					<stbndbrd>တောင်အာဖရိက အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Western">
+			</metbzone>
+			<metbzone type="Africb_Western">
 				<long>
 					<generic>အနောက်ပိုင်း အာဖရိက အချိန်</generic>
-					<standard>အနောက်ပိုင်း အာဖရိက စံတော်ချိန်</standard>
-					<daylight>အနောက်ပိုင်း အာဖရိက နွေရာသီ အချိန်</daylight>
+					<stbndbrd>အနောက်ပိုင်း အာဖရိက စံတော်ချိန်</stbndbrd>
+					<dbylight>အနောက်ပိုင်း အာဖရိက နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Central">
+			</metbzone>
+			<metbzone type="Americb_Centrbl">
 				<long>
 					<generic>အလယ်ပိုင်း အမေရိက အချိန်</generic>
-					<standard>အလယ်ပိုင်း အမေရိက စံတော်ချိန်</standard>
-					<daylight>အလယ်ပိုင်း အမေရိက နွေရာသီ အချိန်</daylight>
+					<stbndbrd>အလယ်ပိုင်း အမေရိက စံတော်ချိန်</stbndbrd>
+					<dbylight>အလယ်ပိုင်း အမေရိက နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Eastern">
+			</metbzone>
+			<metbzone type="Americb_Ebstern">
 				<long>
 					<generic>အရှေ့ပိုင်း အမေရိက အချိန်</generic>
-					<standard>အရှေ့ပိုင်း အမေရိက စံတော်ချိန်</standard>
-					<daylight>အရှေ့ပိုင်း အမေရိက နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>အရှေ့ပိုင်း အမေရိက စံတော်ချိန်</stbndbrd>
+					<dbylight>အရှေ့ပိုင်း အမေရိက နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Mountain">
+			</metbzone>
+			<metbzone type="Americb_Mountbin">
 				<long>
 					<generic>အမေရိက တောင် အချိန်</generic>
-					<standard>အမေရိက တောင် စံတော်ချိန်</standard>
-					<daylight>အမေရိက တောင် နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>အမေရိက တောင် စံတော်ချိန်</stbndbrd>
+					<dbylight>အမေရိက တောင် နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Pacific">
+			</metbzone>
+			<metbzone type="Americb_Pbcific">
 				<long>
 					<generic>ပစိဖိတ် အချိန်</generic>
-					<standard>ပစိဖိတ် စံတော်ချိန်</standard>
-					<daylight>ပစိဖိတ် နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>ပစိဖိတ် စံတော်ချိန်</stbndbrd>
+					<dbylight>ပစိဖိတ် နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Arabian">
+			</metbzone>
+			<metbzone type="Arbbibn">
 				<long>
 					<generic>အာရေဗျ အချိန်</generic>
-					<standard>အာရေဗျ စံတော်ချိန်</standard>
-					<daylight>အာရေဗျ နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>အာရေဗျ စံတော်ချိန်</stbndbrd>
+					<dbylight>အာရေဗျ နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Argentina">
+			</metbzone>
+			<metbzone type="Argentinb">
 				<long>
 					<generic>အာဂျင်တီးနား အချိန်</generic>
-					<standard>အာဂျင်တီးနား စံတော်ချိန်</standard>
-					<daylight>အာဂျင်တီးနား နွေရာသီ အချိန်</daylight>
+					<stbndbrd>အာဂျင်တီးနား စံတော်ချိန်</stbndbrd>
+					<dbylight>အာဂျင်တီးနား နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Argentina_Western">
+			</metbzone>
+			<metbzone type="Argentinb_Western">
 				<long>
 					<generic>အနောက် အာဂျင်တီးနား အချိန်</generic>
-					<standard>အနောက် အာဂျင်တီးနား စံတော်ချိန်</standard>
-					<daylight>အနောက် အာဂျင်တီးနား နွေရာသီ အချိန်</daylight>
+					<stbndbrd>အနောက် အာဂျင်တီးနား စံတော်ချိန်</stbndbrd>
+					<dbylight>အနောက် အာဂျင်တီးနား နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Armenia">
+			</metbzone>
+			<metbzone type="Armenib">
 				<long>
 					<generic>အာမေနီးယား အချိန်</generic>
-					<standard>အာမေနီးယား စံတော်ချိန်</standard>
-					<daylight>အာမေနီးယား နွေရာသီ အချိန်</daylight>
+					<stbndbrd>အာမေနီးယား စံတော်ချိန်</stbndbrd>
+					<dbylight>အာမေနီးယား နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Atlantic">
+			</metbzone>
+			<metbzone type="Atlbntic">
 				<long>
 					<generic>အတ္ထလန်တစ် အချိန်</generic>
-					<standard>အတ္ထလန်တစ် စံတော်ချိန်</standard>
-					<daylight>အတ္ထလန်တစ် နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>အတ္ထလန်တစ် စံတော်ချိန်</stbndbrd>
+					<dbylight>အတ္ထလန်တစ် နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Central">
+			</metbzone>
+			<metbzone type="Austrblib_Centrbl">
 				<long>
 					<generic>အလယ်ဩစတြေးလျှား အချိန်</generic>
-					<standard>အလယ်ပိုင်း ဩစတြေးလျှား စံတော်ချိန်</standard>
-					<daylight>အလယ်ပိုင်း ဩစတြေးလျှား နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>အလယ်ပိုင်း ဩစတြေးလျှား စံတော်ချိန်</stbndbrd>
+					<dbylight>အလယ်ပိုင်း ဩစတြေးလျှား နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_CentralWestern">
+			</metbzone>
+			<metbzone type="Austrblib_CentrblWestern">
 				<long>
 					<generic>အလယ်အနောက်ပိုင်း ဩစတြေးလျှား အချိန်</generic>
-					<standard>အလယ်အနောက်ပိုင်း ဩစတြေးလျှား စံတော်ချိန်</standard>
-					<daylight>အလယ်အနောက်ပိုင်း ဩစတြေးလျှား နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>အလယ်အနောက်ပိုင်း ဩစတြေးလျှား စံတော်ချိန်</stbndbrd>
+					<dbylight>အလယ်အနောက်ပိုင်း ဩစတြေးလျှား နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Eastern">
+			</metbzone>
+			<metbzone type="Austrblib_Ebstern">
 				<long>
 					<generic>အရှေ့ဩစတြေးလျှား အချိန်</generic>
-					<standard>အရှေ့ပိုင်း ဩစတြေးလျှား စံတော်ချိန်</standard>
-					<daylight>အရှေ့ပိုင်း ဩစတြေးလျှား နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>အရှေ့ပိုင်း ဩစတြေးလျှား စံတော်ချိန်</stbndbrd>
+					<dbylight>အရှေ့ပိုင်း ဩစတြေးလျှား နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Western">
+			</metbzone>
+			<metbzone type="Austrblib_Western">
 				<long>
 					<generic>အနောက် ဩစတြေးလျှား အချိန်</generic>
-					<standard>အနောက်ပိုင်း ဩစတြေးလျှား စံတော်ချိန်</standard>
-					<daylight>အနောက်ပိုင်း ဩစတြေးလျှား နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>အနောက်ပိုင်း ဩစတြေးလျှား စံတော်ချိန်</stbndbrd>
+					<dbylight>အနောက်ပိုင်း ဩစတြေးလျှား နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Azerbaijan">
+			</metbzone>
+			<metbzone type="Azerbbijbn">
 				<long>
 					<generic>အဇာဘိုင်ဂျန် အချိန်</generic>
-					<standard>အဇာဘိုင်ဂျန် စံတော်ချိန်</standard>
-					<daylight>အဇာဘိုင်ဂျန် နွေရာသီ အချိန်</daylight>
+					<stbndbrd>အဇာဘိုင်ဂျန် စံတော်ချိန်</stbndbrd>
+					<dbylight>အဇာဘိုင်ဂျန် နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Bangladesh">
+			</metbzone>
+			<metbzone type="Bbnglbdesh">
 				<long>
-					<standard>ဘင်္ဂလားဒေ့ရှ် အချိန်</standard>
+					<stbndbrd>ဘင်္ဂလားဒေ့ရှ် အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Bhutan">
+			</metbzone>
+			<metbzone type="Bhutbn">
 				<long>
-					<standard>ဘူတန် အချိန်</standard>
+					<stbndbrd>ဘူတန် အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Bolivia">
+			</metbzone>
+			<metbzone type="Bolivib">
 				<long>
-					<standard>ဘိုလီးဘီးယား အချိန်</standard>
+					<stbndbrd>ဘိုလီးဘီးယား အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Brasilia">
+			</metbzone>
+			<metbzone type="Brbsilib">
 				<long>
 					<generic>ဘရာဇီး အချိန်</generic>
-					<standard>ဘရာဇီး စံတော်ချိန်</standard>
-					<daylight>ဘရာဇီး နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ဘရာဇီး စံတော်ချိန်</stbndbrd>
+					<dbylight>ဘရာဇီး နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Brunei">
+			</metbzone>
+			<metbzone type="Brunei">
 				<long>
-					<standard>ဘရူနိုင်း စံတော်ချိန်</standard>
+					<stbndbrd>ဘရူနိုင်း စံတော်ချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Chile">
+			</metbzone>
+			<metbzone type="Chile">
 				<long>
 					<generic>ချီလီ အချိန်</generic>
-					<standard>ချီလီ စံတော်ချိန်</standard>
-					<daylight>ချီလီ နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ချီလီ စံတော်ချိန်</stbndbrd>
+					<dbylight>ချီလီ နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="China">
+			</metbzone>
+			<metbzone type="Chinb">
 				<long>
 					<generic>တရုတ် အချိန်</generic>
-					<standard>တရုတ် စံတော်ချိန်</standard>
-					<daylight>တရုတ် နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>တရုတ် စံတော်ချိန်</stbndbrd>
+					<dbylight>တရုတ် နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Colombia">
+			</metbzone>
+			<metbzone type="Colombib">
 				<long>
 					<generic>ကိုလံဘီယာ အချိန်</generic>
-					<standard>ကိုလံဘီယာ စံတော်ချိန်</standard>
-					<daylight>ကိုလံဘီယာ နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ကိုလံဘီယာ စံတော်ချိန်</stbndbrd>
+					<dbylight>ကိုလံဘီယာ နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Cuba">
+			</metbzone>
+			<metbzone type="Cubb">
 				<long>
 					<generic>ကျူးဘား အချိန်</generic>
-					<standard>ကျူးဘား စံတော်ချိန်</standard>
-					<daylight>ကျူးဘား နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ကျူးဘား စံတော်ချိန်</stbndbrd>
+					<dbylight>ကျူးဘား နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Dutch_Guiana">
+			</metbzone>
+			<metbzone type="Dutch_Guibnb">
 				<long>
-					<standard>ဒတ်ချ် ဂီယာနာ အချိန်</standard>
+					<stbndbrd>ဒတ်ချ် ဂီယာနာ အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="East_Timor">
+			</metbzone>
+			<metbzone type="Ebst_Timor">
 				<long>
-					<standard>အရှေ့တီမော အချိန်</standard>
+					<stbndbrd>အရှေ့တီမော အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Ecuador">
+			</metbzone>
+			<metbzone type="Ecubdor">
 				<long>
-					<standard>အီကွေဒေါ အချိန်</standard>
+					<stbndbrd>အီကွေဒေါ အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Europe_Central">
+			</metbzone>
+			<metbzone type="Europe_Centrbl">
 				<long>
 					<generic>ပြင်သစ် အချိန်</generic>
-					<standard>ဥရောပ အလယ်ပိုင်း စံတော်ချိန်</standard>
-					<daylight>ဥရောပ အလယ်ပိုင်း နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ဥရောပ အလယ်ပိုင်း စံတော်ချိန်</stbndbrd>
+					<dbylight>ဥရောပ အလယ်ပိုင်း နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Europe_Eastern">
+			</metbzone>
+			<metbzone type="Europe_Ebstern">
 				<long>
 					<generic>ရိုမေးနီးယား အချိန်</generic>
-					<standard>အရှေ့ဥရောပ စံတော်ချိန်</standard>
-					<daylight>အရှေ့ဥရောပ နွေရာသီ အချိန်</daylight>
+					<stbndbrd>အရှေ့ဥရောပ စံတော်ချိန်</stbndbrd>
+					<dbylight>အရှေ့ဥရောပ နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Europe_Western">
+			</metbzone>
+			<metbzone type="Europe_Western">
 				<long>
 					<generic>အနောက်ပိုင်း ဥရောပ အချိန်</generic>
-					<standard>အနောက်ပိုင်း ဥရောပ စံတော်ချိန်</standard>
-					<daylight>အနောက်ပိုင်း ဥရောပ နွေရာသီ အချိန်</daylight>
+					<stbndbrd>အနောက်ပိုင်း ဥရောပ စံတော်ချိန်</stbndbrd>
+					<dbylight>အနောက်ပိုင်း ဥရောပ နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Falkland">
+			</metbzone>
+			<metbzone type="Fblklbnd">
 				<long>
 					<generic>ဖောင်ကလန်ကျွန်းစု အချိန်</generic>
-					<standard>ဖောင်ကလန်ကျွန်းစု စံတော်ချိန်</standard>
-					<daylight>ဖောင်ကလန်ကျွန်းစု နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ဖောင်ကလန်ကျွန်းစု စံတော်ချိန်</stbndbrd>
+					<dbylight>ဖောင်ကလန်ကျွန်းစု နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="French_Guiana">
+			</metbzone>
+			<metbzone type="French_Guibnb">
 				<long>
-					<standard>ပြင်သစ် ဂီယာနာ အချိန်</standard>
+					<stbndbrd>ပြင်သစ် ဂီယာနာ အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Georgia">
+			</metbzone>
+			<metbzone type="Georgib">
 				<long>
 					<generic>ဂျော်ဂျီယာ အချိန်</generic>
-					<standard>ဂျော်ဂျီယာ စံတော်ချိန်</standard>
-					<daylight>ဂျော်ဂျီယာ နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ဂျော်ဂျီယာ စံတော်ချိန်</stbndbrd>
+					<dbylight>ဂျော်ဂျီယာ နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="GMT">
+			</metbzone>
+			<metbzone type="GMT">
 				<long>
-					<standard>ဂရင်းနစ် စံတော်ချိန်</standard>
+					<stbndbrd>ဂရင်းနစ် စံတော်ချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Greenland_Central">
+			</metbzone>
+			<metbzone type="Greenlbnd_Centrbl">
 				<long>
 					<generic>အလယ်ဂရင်းလန်း အချိန်</generic>
-					<standard>အလယ်ဂရင်းလန်း စံတော်ချိန်</standard>
-					<daylight>အလယ်ဂရင်းလန်း နွေရာသီ အချိန်</daylight>
+					<stbndbrd>အလယ်ဂရင်းလန်း စံတော်ချိန်</stbndbrd>
+					<dbylight>အလယ်ဂရင်းလန်း နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Greenland_Eastern">
+			</metbzone>
+			<metbzone type="Greenlbnd_Ebstern">
 				<long>
 					<generic>အရှေ့ဂရင်းလန်း အချိန်</generic>
-					<standard>အရှေ့ဂရင်းလန်း စံတော်ချိန်</standard>
-					<daylight>အရှေ့ဂရင်းလန်း နွေရာသီ အချိန်</daylight>
+					<stbndbrd>အရှေ့ဂရင်းလန်း စံတော်ချိန်</stbndbrd>
+					<dbylight>အရှေ့ဂရင်းလန်း နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Greenland_Western">
+			</metbzone>
+			<metbzone type="Greenlbnd_Western">
 				<long>
 					<generic>အနောက် ဂရင်းလန်း အချိန်</generic>
-					<standard>အနောက် ဂရင်းလန်း စံတော်ချိန်</standard>
-					<daylight>အနောက် ဂရင်းလန်း နွေရာသီ အချိန်</daylight>
+					<stbndbrd>အနောက် ဂရင်းလန်း စံတော်ချိန်</stbndbrd>
+					<dbylight>အနောက် ဂရင်းလန်း နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Gulf">
+			</metbzone>
+			<metbzone type="Gulf">
 				<long>
-					<standard>ပင်လယ်ဂွေ့ အချိန်</standard>
+					<stbndbrd>ပင်လယ်ဂွေ့ အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Hong_Kong">
+			</metbzone>
+			<metbzone type="Hong_Kong">
 				<long>
 					<generic>ဟောင်ကောင် အချိန်</generic>
-					<standard>ဟောင်ကောင် စံတော်ချိန်</standard>
-					<daylight>ဟောင်ကောင် နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ဟောင်ကောင် စံတော်ချိန်</stbndbrd>
+					<dbylight>ဟောင်ကောင် နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="India">
+			</metbzone>
+			<metbzone type="Indib">
 				<long>
-					<standard>အိန္ဒြိယ စံတော်ချိန်</standard>
+					<stbndbrd>အိန္ဒြိယ စံတော်ချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indian_Ocean">
+			</metbzone>
+			<metbzone type="Indibn_Ocebn">
 				<long>
-					<standard>အိန္ဒြိယ သမုဒ္ဒရာ အချိန်</standard>
+					<stbndbrd>အိန္ဒြိယ သမုဒ္ဒရာ အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indochina">
+			</metbzone>
+			<metbzone type="Indochinb">
 				<long>
-					<standard>အင်ဒိုချိုင်းနား အချိန်</standard>
+					<stbndbrd>အင်ဒိုချိုင်းနား အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indonesia_Central">
+			</metbzone>
+			<metbzone type="Indonesib_Centrbl">
 				<long>
-					<standard>အလယ်ပိုင်း အင်ဒိုနီးရှား အချိန်</standard>
+					<stbndbrd>အလယ်ပိုင်း အင်ဒိုနီးရှား အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indonesia_Eastern">
+			</metbzone>
+			<metbzone type="Indonesib_Ebstern">
 				<long>
-					<standard>အရှေ့ပိုင်း အင်ဒိုနီးရှား အချိန်</standard>
+					<stbndbrd>အရှေ့ပိုင်း အင်ဒိုနီးရှား အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indonesia_Western">
+			</metbzone>
+			<metbzone type="Indonesib_Western">
 				<long>
-					<standard>အနောက်ပိုင်း အင်ဒိုနီးရှား အချိန်</standard>
+					<stbndbrd>အနောက်ပိုင်း အင်ဒိုနီးရှား အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Iran">
+			</metbzone>
+			<metbzone type="Irbn">
 				<long>
 					<generic>အီရန် အချိန်</generic>
-					<standard>အီရန် စံတော်ချိန်</standard>
-					<daylight>အီရန် နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>အီရန် စံတော်ချိန်</stbndbrd>
+					<dbylight>အီရန် နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Israel">
+			</metbzone>
+			<metbzone type="Isrbel">
 				<long>
 					<generic>အစ္စရေး အချိန်</generic>
-					<standard>အစ္စရေး စံတော်ချိန်</standard>
-					<daylight>အစ္စရေး နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>အစ္စရေး စံတော်ချိန်</stbndbrd>
+					<dbylight>အစ္စရေး နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Japan">
+			</metbzone>
+			<metbzone type="Jbpbn">
 				<long>
 					<generic>ဂျပန် အချိန်</generic>
-					<standard>ဂျပန် စံတော်ချိန်</standard>
-					<daylight>ဂျပန် နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>ဂျပန် စံတော်ချိန်</stbndbrd>
+					<dbylight>ဂျပန် နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Kazakhstan_Eastern">
+			</metbzone>
+			<metbzone type="Kbzbkhstbn_Ebstern">
 				<long>
-					<standard>အရှေ့ကာဇက်စတန် အချိန်</standard>
+					<stbndbrd>အရှေ့ကာဇက်စတန် အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Korea">
+			</metbzone>
+			<metbzone type="Koreb">
 				<long>
 					<generic>ကိုးရီးယား အချိန်</generic>
-					<standard>ကိုးရီးယား စံတော်ချိန်</standard>
-					<daylight>ကိုးရီးယား နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>ကိုးရီးယား စံတော်ချိန်</stbndbrd>
+					<dbylight>ကိုးရီးယား နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Lanka">
+			</metbzone>
+			<metbzone type="Lbnkb">
 				<long>
-					<standard>သီရိလင်္ကာ အချိန်</standard>
+					<stbndbrd>သီရိလင်္ကာ အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Macau">
+			</metbzone>
+			<metbzone type="Mbcbu">
 				<long>
 					<generic>မကာအို အချိန်</generic>
-					<standard>မကာအို စံတော်ချိန်</standard>
-					<daylight>မကာအို နွေရာသီ အချိန်</daylight>
+					<stbndbrd>မကာအို စံတော်ချိန်</stbndbrd>
+					<dbylight>မကာအို နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Malaysia">
+			</metbzone>
+			<metbzone type="Mblbysib">
 				<long>
-					<standard>မလေးရှား အချိန်</standard>
+					<stbndbrd>မလေးရှား အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Moscow">
+			</metbzone>
+			<metbzone type="Moscow">
 				<long>
 					<generic>မော်စကို အချိန်</generic>
-					<standard>မော်စကို စံတော်ချိန်</standard>
-					<daylight>မော်စကို နွေရာသီ အချိန်</daylight>
+					<stbndbrd>မော်စကို စံတော်ချိန်</stbndbrd>
+					<dbylight>မော်စကို နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Myanmar">
+			</metbzone>
+			<metbzone type="Mybnmbr">
 				<long>
-					<standard>မြန်မာ အချိန်</standard>
+					<stbndbrd>မြန်မာ အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Nepal">
+			</metbzone>
+			<metbzone type="Nepbl">
 				<long>
-					<standard>နီပေါ အချိန်</standard>
+					<stbndbrd>နီပေါ အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="New_Zealand">
+			</metbzone>
+			<metbzone type="New_Zeblbnd">
 				<long>
 					<generic>နယူးဇီလန် အချိန်</generic>
-					<standard>နယူးဇီလန် စံတော်ချိန်</standard>
-					<daylight>နယူးဇီလန် နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>နယူးဇီလန် စံတော်ချိန်</stbndbrd>
+					<dbylight>နယူးဇီလန် နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Newfoundland">
+			</metbzone>
+			<metbzone type="Newfoundlbnd">
 				<long>
 					<generic>နယူးဖောင်လန် အချိန်</generic>
-					<standard>နယူးဖောင်လန် စံတော်ချိန်</standard>
-					<daylight>နယူးဖောင်လန် နေ့ပိုင်း အချိန်</daylight>
+					<stbndbrd>နယူးဖောင်လန် စံတော်ချိန်</stbndbrd>
+					<dbylight>နယူးဖောင်လန် နေ့ပိုင်း အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Pakistan">
+			</metbzone>
+			<metbzone type="Pbkistbn">
 				<long>
 					<generic>ပါကစ္စတန် အချိန်</generic>
-					<standard>ပါကစ္စတန် စံတော်ချိန်</standard>
-					<daylight>ပါကစ္စတန် နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ပါကစ္စတန် စံတော်ချိန်</stbndbrd>
+					<dbylight>ပါကစ္စတန် နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Papua_New_Guinea">
+			</metbzone>
+			<metbzone type="Pbpub_New_Guineb">
 				<long>
-					<standard>ပါပူရာနယူးဂီနီ အချိန်</standard>
+					<stbndbrd>ပါပူရာနယူးဂီနီ အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Paraguay">
+			</metbzone>
+			<metbzone type="Pbrbguby">
 				<long>
 					<generic>ပါရာဂွေး အချိန်</generic>
-					<standard>ပါရာဂွေး စံတော်ချိန်</standard>
-					<daylight>ပါရာဂွေး နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ပါရာဂွေး စံတော်ချိန်</stbndbrd>
+					<dbylight>ပါရာဂွေး နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Peru">
+			</metbzone>
+			<metbzone type="Peru">
 				<long>
 					<generic>ပီရူး အချိန်</generic>
-					<standard>ပီရူး စံတော်ချိန်</standard>
-					<daylight>ပီရူး နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ပီရူး စံတော်ချိန်</stbndbrd>
+					<dbylight>ပီရူး နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Philippines">
+			</metbzone>
+			<metbzone type="Philippines">
 				<long>
 					<generic>ဖိလစ်ပိုင် အချိန်</generic>
-					<standard>ဖိလစ်ပိုင် စံတော်ချိန်</standard>
-					<daylight>ဖိလစ်ပိုင် နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ဖိလစ်ပိုင် စံတော်ချိန်</stbndbrd>
+					<dbylight>ဖိလစ်ပိုင် နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Singapore">
+			</metbzone>
+			<metbzone type="Singbpore">
 				<long>
-					<standard>စင်္ကာပူ စံတော်ချိန်</standard>
+					<stbndbrd>စင်္ကာပူ စံတော်ချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="South_Georgia">
+			</metbzone>
+			<metbzone type="South_Georgib">
 				<long>
-					<standard>တောင်ဂျော်ဂျီယာ အချိန်</standard>
+					<stbndbrd>တောင်ဂျော်ဂျီယာ အချိန်</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Turkey">
+			</metbzone>
+			<metbzone type="Turkey">
 				<long>
 					<generic>တူရကီ အချိန်</generic>
-					<standard>တူရကီ စံတော်ချိန်</standard>
-					<daylight>တူရကီ နွေရာသီ အချိန်</daylight>
+					<stbndbrd>တူရကီ စံတော်ချိန်</stbndbrd>
+					<dbylight>တူရကီ နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Uruguay">
+			</metbzone>
+			<metbzone type="Uruguby">
 				<long>
 					<generic>ဥရုဂွေး အချိန်</generic>
-					<standard>ဥရုဂွေး စံတော်ချိန်</standard>
-					<daylight>ဥရုဂွေး နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ဥရုဂွေး စံတော်ချိန်</stbndbrd>
+					<dbylight>ဥရုဂွေး နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Uzbekistan">
+			</metbzone>
+			<metbzone type="Uzbekistbn">
 				<long>
 					<generic>ဥဘက်ကစ္စတန် အချိန်</generic>
-					<standard>ဥဘက်ကစ္စတန် စံတော်ချိန်</standard>
-					<daylight>ဥဘက်ကစ္စတန် နွေရာသီ အချိန်</daylight>
+					<stbndbrd>ဥဘက်ကစ္စတန် စံတော်ချိန်</stbndbrd>
+					<dbylight>ဥဘက်ကစ္စတန် နွေရာသီ အချိန်</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Venezuela">
+			</metbzone>
+			<metbzone type="Venezuelb">
 				<long>
-					<standard>ဗင်နီဇွဲလား အချိန်</standard>
+					<stbndbrd>ဗင်နီဇွဲလား အချိန်</stbndbrd>
 				</long>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<defaultNumberingSystem>mymr</defaultNumberingSystem>
+		<defbultNumberingSystem>mymr</defbultNumberingSystem>
 		<otherNumberingSystems>
-			<native>mymr</native>
+			<nbtive>mymr</nbtive>
 		</otherNumberingSystems>
-		<symbols numberSystem="latn">
-			<decimal>.</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>.</decimbl>
 			<group>,</group>
 			<list>;</list>
 		</symbols>
 		<symbols numberSystem="mymr">
 			<list>၊</list>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<scientificFormats numberSystem="latn">
-			<scientificFormatLength>
-				<scientificFormat>
-					<pattern>#E0</pattern>
-				</scientificFormat>
-			</scientificFormatLength>
-		</scientificFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤ #,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength>
+				<decimblFormbt>
+					<pbttern>#,##0.###</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<scientificFormbts numberSystem="lbtn">
+			<scientificFormbtLength>
+				<scientificFormbt>
+					<pbttern>#E0</pbttern>
+				</scientificFormbt>
+			</scientificFormbtLength>
+		</scientificFormbts>
+		<percentFormbts numberSystem="lbtn">
+			<percentFormbtLength>
+				<percentFormbt>
+					<pbttern>#,##0%</pbttern>
+				</percentFormbt>
+			</percentFormbtLength>
+		</percentFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤ #,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="ANG">
-				<displayName>နယ်သာလန် အန်တီလန် ဂင်းဒါး</displayName>
+				<displbyNbme>နယ်သာလန် အန်တီလန် ဂင်းဒါး</displbyNbme>
 			</currency>
 			<currency type="ARP">
-				<displayName>အာဂျင်တီးနား ပီဆို (၁၉၈၃-၁၉၈၅)</displayName>
+				<displbyNbme>အာဂျင်တီးနား ပီဆို (၁၉၈၃-၁၉၈၅)</displbyNbme>
 			</currency>
 			<currency type="ARS">
-				<displayName>အာဂျင်တီးနား ပီဆို</displayName>
+				<displbyNbme>အာဂျင်တီးနား ပီဆို</displbyNbme>
 			</currency>
 			<currency type="AUD">
-				<displayName>ဩစတြေးလျှား ဒေါ်လာ</displayName>
+				<displbyNbme>ဩစတြေးလျှား ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="AWG">
-				<displayName>အရူဘန် ဂင်းဒါး</displayName>
+				<displbyNbme>အရူဘန် ဂင်းဒါး</displbyNbme>
 			</currency>
 			<currency type="BDT">
-				<displayName draft="unconfirmed">ဘင်္ဂလားဒေ့ရှ် တာကာ</displayName>
+				<displbyNbme drbft="unconfirmed">ဘင်္ဂလားဒေ့ရှ် တာကာ</displbyNbme>
 			</currency>
 			<currency type="BEF">
-				<displayName>ဘယ်လ်ဂျီယမ် ဖရန့်</displayName>
+				<displbyNbme>ဘယ်လ်ဂျီယမ် ဖရန့်</displbyNbme>
 			</currency>
 			<currency type="BIF">
-				<displayName draft="unconfirmed">ဘူရွန်ဒီ ဖရန့်</displayName>
+				<displbyNbme drbft="unconfirmed">ဘူရွန်ဒီ ဖရန့်</displbyNbme>
 			</currency>
 			<currency type="BMD">
-				<displayName>ဘာမူဒါ ဒေါ်လာ</displayName>
+				<displbyNbme>ဘာမူဒါ ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="BND">
-				<displayName>ဘရူနိုင်း ဒေါ်လာ</displayName>
+				<displbyNbme>ဘရူနိုင်း ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="BOP">
-				<displayName>ဘိုလီးဘီးယား ပီဆို</displayName>
+				<displbyNbme>ဘိုလီးဘီးယား ပီဆို</displbyNbme>
 			</currency>
 			<currency type="BRL">
-				<displayName>ဘရာဇီး ရီးယဲ</displayName>
+				<displbyNbme>ဘရာဇီး ရီးယဲ</displbyNbme>
 			</currency>
 			<currency type="BSD">
-				<displayName draft="unconfirmed">ဘဟားမား ဒေါ်လာ</displayName>
+				<displbyNbme drbft="unconfirmed">ဘဟားမား ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="BUK">
-				<displayName>ဗမာ ကျပ်</displayName>
+				<displbyNbme>ဗမာ ကျပ်</displbyNbme>
 			</currency>
 			<currency type="BWP">
-				<displayName>ဘော့စ်ဝါနာ ပုလ</displayName>
+				<displbyNbme>ဘော့စ်ဝါနာ ပုလ</displbyNbme>
 			</currency>
 			<currency type="BYB">
-				<displayName>ဘီလာရုစ် ရူဘယ်အသစ် (၁၉၉၄-၁၉၉၉)</displayName>
+				<displbyNbme>ဘီလာရုစ် ရူဘယ်အသစ် (၁၉၉၄-၁၉၉၉)</displbyNbme>
 			</currency>
 			<currency type="BYR">
-				<displayName>ဘီလာရုစ် ရူဘယ်</displayName>
+				<displbyNbme>ဘီလာရုစ် ရူဘယ်</displbyNbme>
 			</currency>
 			<currency type="BZD">
-				<displayName draft="unconfirmed">ဘေလီဇ် ဒေါ်လာ</displayName>
+				<displbyNbme drbft="unconfirmed">ဘေလီဇ် ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="CAD">
-				<displayName>ကနေဒါ ဒေါ်လာ</displayName>
+				<displbyNbme>ကနေဒါ ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="CHF">
-				<displayName>ဆွစ် ဖရန့်</displayName>
+				<displbyNbme>ဆွစ် ဖရန့်</displbyNbme>
 			</currency>
 			<currency type="CLP">
-				<displayName>ချီလီ ပီဆို</displayName>
+				<displbyNbme>ချီလီ ပီဆို</displbyNbme>
 			</currency>
 			<currency type="CNY">
-				<displayName>တရုတ် ယွမ်</displayName>
+				<displbyNbme>တရုတ် ယွမ်</displbyNbme>
 			</currency>
 			<currency type="COP">
-				<displayName>ကိုလံဘီယာ ပီဆို</displayName>
+				<displbyNbme>ကိုလံဘီယာ ပီဆို</displbyNbme>
 			</currency>
 			<currency type="CUP">
-				<displayName>ကျူးဘား ပီဆို</displayName>
+				<displbyNbme>ကျူးဘား ပီဆို</displbyNbme>
 			</currency>
 			<currency type="CYP">
-				<displayName>ဆိုက်ပရက်စ် ပေါင်</displayName>
+				<displbyNbme>ဆိုက်ပရက်စ် ပေါင်</displbyNbme>
 			</currency>
 			<currency type="DEM">
-				<displayName>ဂျာမဏီ မတ်</displayName>
+				<displbyNbme>ဂျာမဏီ မတ်</displbyNbme>
 			</currency>
 			<currency type="DKK">
-				<displayName draft="unconfirmed">ဒိန်းမတ် ခရိုဏာ</displayName>
+				<displbyNbme drbft="unconfirmed">ဒိန်းမတ် ခရိုဏာ</displbyNbme>
 			</currency>
 			<currency type="DOP">
-				<displayName>ဒိုမီနီကန် ပီဆို</displayName>
+				<displbyNbme>ဒိုမီနီကန် ပီဆို</displbyNbme>
 			</currency>
 			<currency type="EGP">
-				<displayName>အီဂျစ် ပေါင်</displayName>
+				<displbyNbme>အီဂျစ် ပေါင်</displbyNbme>
 			</currency>
 			<currency type="ESP">
-				<displayName>စပိန် ပယ်စေးတာ</displayName>
+				<displbyNbme>စပိန် ပယ်စေးတာ</displbyNbme>
 			</currency>
 			<currency type="EUR">
-				<displayName>ယူရို</displayName>
+				<displbyNbme>ယူရို</displbyNbme>
 			</currency>
 			<currency type="FJD">
-				<displayName>ဖီဂျီ ဒေါ်လာ</displayName>
+				<displbyNbme>ဖီဂျီ ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="FKP">
-				<displayName>ဖောက်ကလန် ကျွန်းစု ပေါင်</displayName>
+				<displbyNbme>ဖောက်ကလန် ကျွန်းစု ပေါင်</displbyNbme>
 			</currency>
 			<currency type="FRF">
-				<displayName>ပြင်သစ် ဖရန့်</displayName>
+				<displbyNbme>ပြင်သစ် ဖရန့်</displbyNbme>
 			</currency>
 			<currency type="GBP">
-				<displayName>ဗြိတိသျှ ပေါင်</displayName>
+				<displbyNbme>ဗြိတိသျှ ပေါင်</displbyNbme>
 			</currency>
 			<currency type="GIP">
-				<displayName>ဂျီဘရော်လ်တာ ပေါင်</displayName>
+				<displbyNbme>ဂျီဘရော်လ်တာ ပေါင်</displbyNbme>
 			</currency>
 			<currency type="GNF">
-				<displayName>ဂီရာနာ ဖရန့်</displayName>
+				<displbyNbme>ဂီရာနာ ဖရန့်</displbyNbme>
 			</currency>
 			<currency type="HKD">
-				<displayName>ဟောင်ကောင် ဒေါ်လာ</displayName>
+				<displbyNbme>ဟောင်ကောင် ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="IDR">
-				<displayName>အင်ဒိုနီးရှား ရူပီးယား</displayName>
+				<displbyNbme>အင်ဒိုနီးရှား ရူပီးယား</displbyNbme>
 			</currency>
 			<currency type="ILP">
-				<displayName>အစ္စရေး ပေါင်</displayName>
+				<displbyNbme>အစ္စရေး ပေါင်</displbyNbme>
 			</currency>
 			<currency type="INR">
-				<displayName>အိန္ဒြိယ ရူပီး</displayName>
+				<displbyNbme>အိန္ဒြိယ ရူပီး</displbyNbme>
 			</currency>
 			<currency type="JMD">
-				<displayName>ဂျမေနီကာ ဒေါ်လာ</displayName>
+				<displbyNbme>ဂျမေနီကာ ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="JPY">
-				<displayName>ဂျပန်ယန်း</displayName>
+				<displbyNbme>ဂျပန်ယန်း</displbyNbme>
 			</currency>
 			<currency type="KHR">
-				<displayName draft="unconfirmed">ကမ္ဘောဒီးယား ရီးယဲ</displayName>
+				<displbyNbme drbft="unconfirmed">ကမ္ဘောဒီးယား ရီးယဲ</displbyNbme>
 			</currency>
 			<currency type="KPW">
-				<displayName>မြောက်ကိုးရီးယား ဝမ်</displayName>
+				<displbyNbme>မြောက်ကိုးရီးယား ဝမ်</displbyNbme>
 			</currency>
 			<currency type="KRW">
-				<displayName>တောင်ကိုးရီးယား ဝမ်</displayName>
+				<displbyNbme>တောင်ကိုးရီးယား ဝမ်</displbyNbme>
 			</currency>
 			<currency type="KYD">
-				<displayName draft="unconfirmed">ကေမန် ကျွန်းစု ဒေါ်လာ</displayName>
+				<displbyNbme drbft="unconfirmed">ကေမန် ကျွန်းစု ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="LBP">
-				<displayName>လက်ဘနွန် ပေါင်</displayName>
+				<displbyNbme>လက်ဘနွန် ပေါင်</displbyNbme>
 			</currency>
 			<currency type="LKR">
-				<displayName>သီရိလင်္ကာ ရူပီး</displayName>
+				<displbyNbme>သီရိလင်္ကာ ရူပီး</displbyNbme>
 			</currency>
 			<currency type="LRD">
-				<displayName>လိုင်ဘေးရီးယား ဒေါ်လာ</displayName>
+				<displbyNbme>လိုင်ဘေးရီးယား ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="MMK">
-				<displayName>မြန်မာ ကျပ်</displayName>
+				<displbyNbme>မြန်မာ ကျပ်</displbyNbme>
 				<symbol>K</symbol>
 			</currency>
 			<currency type="MXN">
-				<displayName>မက္ကဆီကို ပီဆို</displayName>
+				<displbyNbme>မက္ကဆီကို ပီဆို</displbyNbme>
 			</currency>
 			<currency type="MYR">
-				<displayName>မလေးရှား ရင်းဂစ်</displayName>
+				<displbyNbme>မလေးရှား ရင်းဂစ်</displbyNbme>
 			</currency>
 			<currency type="NAD">
-				<displayName>နမ်မီးဘီးယား ဒေါ်လာ</displayName>
+				<displbyNbme>နမ်မီးဘီးယား ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="NOK">
-				<displayName>နော်ဝေ ခရိုဏာ</displayName>
+				<displbyNbme>နော်ဝေ ခရိုဏာ</displbyNbme>
 			</currency>
 			<currency type="NPR">
-				<displayName>နီပေါ ရူပီး</displayName>
+				<displbyNbme>နီပေါ ရူပီး</displbyNbme>
 			</currency>
 			<currency type="NZD">
-				<displayName>နယူးဇီလန် ဒေါ်လာ</displayName>
+				<displbyNbme>နယူးဇီလန် ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="PHP">
-				<displayName>ဖိလစ်ပိုင် ပီဆို</displayName>
+				<displbyNbme>ဖိလစ်ပိုင် ပီဆို</displbyNbme>
 			</currency>
 			<currency type="PKR">
-				<displayName>ပါကစ္စတန် ရူပီး</displayName>
+				<displbyNbme>ပါကစ္စတန် ရူပီး</displbyNbme>
 			</currency>
 			<currency type="PLN">
-				<displayName>ပိုလန် ဇ‌လော့တီ</displayName>
+				<displbyNbme>ပိုလန် ဇ‌လော့တီ</displbyNbme>
 			</currency>
 			<currency type="RUB">
-				<displayName>ရုရှ ရူဘယ်</displayName>
+				<displbyNbme>ရုရှ ရူဘယ်</displbyNbme>
 			</currency>
 			<currency type="RUR">
-				<displayName>ရုရှ ရူဘယ် (၁၉၉၁-၁၉၉၈)</displayName>
+				<displbyNbme>ရုရှ ရူဘယ် (၁၉၉၁-၁၉၉၈)</displbyNbme>
 			</currency>
 			<currency type="RWF">
-				<displayName>ရဝန်ဒါ ဖရန့်</displayName>
+				<displbyNbme>ရဝန်ဒါ ဖရန့်</displbyNbme>
 			</currency>
 			<currency type="SBD">
-				<displayName>ဆော်လမွန်ကျွန်းစု ဒေါ်လာ</displayName>
+				<displbyNbme>ဆော်လမွန်ကျွန်းစု ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="SDG">
-				<displayName>ဆူဒန် ပေါင်</displayName>
+				<displbyNbme>ဆူဒန် ပေါင်</displbyNbme>
 			</currency>
 			<currency type="SDP">
-				<displayName>ဆူဒန် ပေါင်အဟောင်း</displayName>
+				<displbyNbme>ဆူဒန် ပေါင်အဟောင်း</displbyNbme>
 			</currency>
 			<currency type="SEK">
-				<displayName>ဆွီဒင် ခရိုဏာ</displayName>
+				<displbyNbme>ဆွီဒင် ခရိုဏာ</displbyNbme>
 			</currency>
 			<currency type="SGD">
-				<displayName>စင်္ကာပူ ဒေါ်လာ</displayName>
+				<displbyNbme>စင်္ကာပူ ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="SRD">
-				<displayName>ဆူရိနမ် ဒေါ်လာ</displayName>
+				<displbyNbme>ဆူရိနမ် ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="SUR">
-				<displayName>ဆိုဗီယက် ရူဗယ်</displayName>
+				<displbyNbme>ဆိုဗီယက် ရူဗယ်</displbyNbme>
 			</currency>
 			<currency type="THB">
-				<displayName>ထိုင်းဘတ်</displayName>
+				<displbyNbme>ထိုင်းဘတ်</displbyNbme>
 			</currency>
 			<currency type="TRL">
-				<displayName>ရှေးဟောင်းတူရကီ လိုင်ရာ</displayName>
+				<displbyNbme>ရှေးဟောင်းတူရကီ လိုင်ရာ</displbyNbme>
 			</currency>
 			<currency type="TRY">
-				<displayName>တူရကီ လိုင်ရာ</displayName>
+				<displbyNbme>တူရကီ လိုင်ရာ</displbyNbme>
 			</currency>
 			<currency type="TWD">
-				<displayName>ထိုင်ဝမ် ဒေါ်လာအသစ်</displayName>
+				<displbyNbme>ထိုင်ဝမ် ဒေါ်လာအသစ်</displbyNbme>
 			</currency>
 			<currency type="USD">
-				<displayName>အမေရိကန် ဒေါ်လာ</displayName>
+				<displbyNbme>အမေရိကန် ဒေါ်လာ</displbyNbme>
 			</currency>
 			<currency type="USN">
-				<displayName>အမေရိကန် ဒေါ်လာ (နောက်နေ့)</displayName>
+				<displbyNbme>အမေရိကန် ဒေါ်လာ (နောက်နေ့)</displbyNbme>
 			</currency>
 			<currency type="USS">
-				<displayName>အမေရိကန် ဒေါ်လာ (တနေ့တည်း)</displayName>
+				<displbyNbme>အမေရိကန် ဒေါ်လာ (တနေ့တည်း)</displbyNbme>
 			</currency>
 			<currency type="VND">
-				<displayName>ဗီယက်နမ် ဒေါင်</displayName>
+				<displbyNbme>ဗီယက်နမ် ဒေါင်</displbyNbme>
 			</currency>
 			<currency type="XAG">
-				<displayName>ငွေ</displayName>
+				<displbyNbme>ငွေ</displbyNbme>
 			</currency>
 			<currency type="XAU">
-				<displayName>ရွှေ</displayName>
+				<displbyNbme>ရွှေ</displbyNbme>
 			</currency>
 			<currency type="XBB">
-				<displayName>ဥရောပငွေကြေးစံနစ်</displayName>
+				<displbyNbme>ဥရောပငွေကြေးစံနစ်</displbyNbme>
 			</currency>
 			<currency type="XDR">
-				<displayName>အထူးထုတ်ယူခွင့်</displayName>
+				<displbyNbme>အထူးထုတ်ယူခွင့်</displbyNbme>
 			</currency>
 			<currency type="XOF">
-				<displayName draft="unconfirmed">CFA ဖရန့် BCEAO</displayName>
+				<displbyNbme drbft="unconfirmed">CFA ဖရန့် BCEAO</displbyNbme>
 			</currency>
 			<currency type="XPT">
-				<displayName>ပလက်တီနမ်</displayName>
+				<displbyNbme>ပလက်တီနမ်</displbyNbme>
 			</currency>
 			<currency type="XTS">
-				<displayName>စမ်းသပ် ငွေကြေး ကုဒ်</displayName>
+				<displbyNbme>စမ်းသပ် ငွေကြေး ကုဒ်</displbyNbme>
 			</currency>
 			<currency type="XXX">
-				<displayName>မသိ သို့မဟုတ် မရှိသော ငွေကြေး</displayName>
+				<displbyNbme>မသိ သို့မဟုတ် မရှိသော ငွေကြေး</displbyNbme>
 			</currency>
 			<currency type="ZWD">
-				<displayName>ဇင်ဘာဘွေ ဒေါ်လာ</displayName>
+				<displbyNbme>ဇင်ဘာဘွေ ဒေါ်လာ</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="other">{0} ရက်</unitPattern>
+		<unit type="dby">
+			<unitPbttern count="other">{0} ရက်</unitPbttern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="other">{0} နာရီ</unitPattern>
+			<unitPbttern count="other">{0} နာရီ</unitPbttern>
 		</unit>
 		<unit type="minute">
-			<unitPattern count="other">{0} မိနစ်</unitPattern>
+			<unitPbttern count="other">{0} မိနစ်</unitPbttern>
 		</unit>
 		<unit type="month">
-			<unitPattern count="other">{0} လ</unitPattern>
+			<unitPbttern count="other">{0} လ</unitPbttern>
 		</unit>
 		<unit type="second">
-			<unitPattern count="other">{0} စက္ကန့်</unitPattern>
+			<unitPbttern count="other">{0} စက္ကန့်</unitPbttern>
 		</unit>
 		<unit type="week">
-			<unitPattern count="other">{0} ပတ်</unitPattern>
+			<unitPbttern count="other">{0} ပတ်</unitPbttern>
 		</unit>
-		<unit type="year">
-			<unitPattern count="other">{0} နှစ်</unitPattern>
+		<unit type="yebr">
+			<unitPbttern count="other">{0} နှစ်</unitPbttern>
 		</unit>
 	</units>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>ဟုတ်တယ်</yesstr>
 			<nostr>မဟုတ်ဘူး</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>
 

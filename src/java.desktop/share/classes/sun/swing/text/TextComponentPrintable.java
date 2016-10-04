@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.swing.text;
+pbckbge sun.swing.text;
 
-import java.awt.ComponentOrientation;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.font.FontRenderContext;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.atomic.AtomicReference;
+import jbvb.bwt.ComponentOrientbtion;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.print.PbgeFormbt;
+import jbvb.bwt.print.Printbble;
+import jbvb.bwt.print.PrinterException;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.concurrent.Cbllbble;
+import jbvb.util.concurrent.ExecutionException;
+import jbvb.util.concurrent.FutureTbsk;
+import jbvb.util.concurrent.btomic.AtomicReference;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.Document;
-import javax.swing.text.EditorKit;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTML;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.border.TitledBorder;
+import jbvbx.swing.text.BbdLocbtionException;
+import jbvbx.swing.text.JTextComponent;
+import jbvbx.swing.text.Document;
+import jbvbx.swing.text.EditorKit;
+import jbvbx.swing.text.AbstrbctDocument;
+import jbvbx.swing.text.html.HTMLDocument;
+import jbvbx.swing.text.html.HTML;
 
 import sun.font.FontDesignMetrics;
 
-import sun.swing.text.html.FrameEditorPaneTag;
+import sun.swing.text.html.FrbmeEditorPbneTbg;
 
 /**
- * An implementation of {@code Printable} to print {@code JTextComponent} with
- * the header and footer.
+ * An implementbtion of {@code Printbble} to print {@code JTextComponent} with
+ * the hebder bnd footer.
  *
  * <h1>
- * WARNING: this class is to be used in
- * javax.swing.text.JTextComponent only.
+ * WARNING: this clbss is to be used in
+ * jbvbx.swing.text.JTextComponent only.
  * </h1>
  *
  * <p>
- * The implementation creates a new {@code JTextComponent} ({@code printShell})
- * to print the content using the {@code Document}, {@code EditorKit} and
- * rendering-affecting properties from the original {@code JTextComponent}.
+ * The implementbtion crebtes b new {@code JTextComponent} ({@code printShell})
+ * to print the content using the {@code Document}, {@code EditorKit} bnd
+ * rendering-bffecting properties from the originbl {@code JTextComponent}.
  *
  * <p>
- * {@code printShell} is laid out on the first {@code print} invocation.
+ * {@code printShell} is lbid out on the first {@code print} invocbtion.
  *
  * <p>
- * This class can be used on any thread. Part of the implementation is executed
+ * This clbss cbn be used on bny threbd. Pbrt of the implementbtion is executed
  * on the EDT though.
  *
- * @author Igor Kushnirskiy
+ * @buthor Igor Kushnirskiy
  *
  * @since 1.6
  */
-public class TextComponentPrintable implements CountingPrintable {
+public clbss TextComponentPrintbble implements CountingPrintbble {
 
 
-    private static final int LIST_SIZE = 1000;
+    privbte stbtic finbl int LIST_SIZE = 1000;
 
-    private boolean isLayouted = false;
+    privbte boolebn isLbyouted = fblse;
 
     /*
      * The text component to print.
      */
-    private final JTextComponent textComponentToPrint;
+    privbte finbl JTextComponent textComponentToPrint;
 
     /*
-     * The FontRenderContext to layout and print with
+     * The FontRenderContext to lbyout bnd print with
      */
-    private final AtomicReference<FontRenderContext> frc =
+    privbte finbl AtomicReference<FontRenderContext> frc =
         new AtomicReference<FontRenderContext>(null);
 
     /**
-     * Special text component used to print to the printer.
+     * Specibl text component used to print to the printer.
      */
-    private final JTextComponent printShell;
+    privbte finbl JTextComponent printShell;
 
-    private final MessageFormat headerFormat;
-    private final MessageFormat footerFormat;
+    privbte finbl MessbgeFormbt hebderFormbt;
+    privbte finbl MessbgeFormbt footerFormbt;
 
-    private static final float HEADER_FONT_SIZE = 18.0f;
-    private static final float FOOTER_FONT_SIZE = 12.0f;
+    privbte stbtic finbl flobt HEADER_FONT_SIZE = 18.0f;
+    privbte stbtic finbl flobt FOOTER_FONT_SIZE = 12.0f;
 
-    private final Font headerFont;
-    private final Font footerFont;
+    privbte finbl Font hebderFont;
+    privbte finbl Font footerFont;
 
     /**
-     * stores metrics for the unhandled rows. The only metrics we need are
-     * yStart and yEnd when row is handled by updatePagesMetrics it is removed
-     * from the list. Thus the head of the list is the fist row to handle.
+     * stores metrics for the unhbndled rows. The only metrics we need bre
+     * yStbrt bnd yEnd when row is hbndled by updbtePbgesMetrics it is removed
+     * from the list. Thus the hebd of the list is the fist row to hbndle.
      *
      * sorted
      */
-    private final List<IntegerSegment> rowsMetrics;
+    privbte finbl List<IntegerSegment> rowsMetrics;
 
     /**
-     * thread-safe list for storing pages metrics. The only metrics we need are
-     * yStart and yEnd.
-     * It has to be thread-safe since metrics are calculated on
-     * the printing thread and accessed on the EDT thread.
+     * threbd-sbfe list for storing pbges metrics. The only metrics we need bre
+     * yStbrt bnd yEnd.
+     * It hbs to be threbd-sbfe since metrics bre cblculbted on
+     * the printing threbd bnd bccessed on the EDT threbd.
      *
      * sorted
      */
-    private final List<IntegerSegment> pagesMetrics;
+    privbte finbl List<IntegerSegment> pbgesMetrics;
 
     /**
-     * Returns {@code TextComponentPrintable} to print {@code textComponent}.
+     * Returns {@code TextComponentPrintbble} to print {@code textComponent}.
      *
-     * @param textComponent {@code JTextComponent} to print
-     * @param headerFormat the page header, or {@code null} for none
-     * @param footerFormat the page footer, or {@code null} for none
-     * @return {@code TextComponentPrintable} to print {@code textComponent}
+     * @pbrbm textComponent {@code JTextComponent} to print
+     * @pbrbm hebderFormbt the pbge hebder, or {@code null} for none
+     * @pbrbm footerFormbt the pbge footer, or {@code null} for none
+     * @return {@code TextComponentPrintbble} to print {@code textComponent}
      */
-    public static Printable getPrintable(final JTextComponent textComponent,
-            final MessageFormat headerFormat,
-            final MessageFormat footerFormat) {
+    public stbtic Printbble getPrintbble(finbl JTextComponent textComponent,
+            finbl MessbgeFormbt hebderFormbt,
+            finbl MessbgeFormbt footerFormbt) {
 
-        if (textComponent instanceof JEditorPane
-                && isFrameSetDocument(textComponent.getDocument())) {
-            //for document with frames we create one printable per
-            //frame and merge them with the CompoundPrintable.
-            List<JEditorPane> frames = getFrames((JEditorPane) textComponent);
-            List<CountingPrintable> printables =
-                new ArrayList<CountingPrintable>();
-            for (JEditorPane frame : frames) {
-                printables.add((CountingPrintable)
-                               getPrintable(frame, headerFormat, footerFormat));
+        if (textComponent instbnceof JEditorPbne
+                && isFrbmeSetDocument(textComponent.getDocument())) {
+            //for document with frbmes we crebte one printbble per
+            //frbme bnd merge them with the CompoundPrintbble.
+            List<JEditorPbne> frbmes = getFrbmes((JEditorPbne) textComponent);
+            List<CountingPrintbble> printbbles =
+                new ArrbyList<CountingPrintbble>();
+            for (JEditorPbne frbme : frbmes) {
+                printbbles.bdd((CountingPrintbble)
+                               getPrintbble(frbme, hebderFormbt, footerFormbt));
             }
-            return new CompoundPrintable(printables);
+            return new CompoundPrintbble(printbbles);
         } else {
-            return new TextComponentPrintable(textComponent,
-               headerFormat, footerFormat);
+            return new TextComponentPrintbble(textComponent,
+               hebderFormbt, footerFormbt);
         }
     }
 
     /**
-     * Checks whether the document has frames. Only HTMLDocument might
-     * have frames.
+     * Checks whether the document hbs frbmes. Only HTMLDocument might
+     * hbve frbmes.
      *
-     * @param document the {@code Document} to check
-     * @return {@code true} if the {@code document} has frames
+     * @pbrbm document the {@code Document} to check
+     * @return {@code true} if the {@code document} hbs frbmes
      */
-    private static boolean isFrameSetDocument(final Document document) {
-        boolean ret = false;
-        if (document instanceof HTMLDocument) {
+    privbte stbtic boolebn isFrbmeSetDocument(finbl Document document) {
+        boolebn ret = fblse;
+        if (document instbnceof HTMLDocument) {
             HTMLDocument htmlDocument = (HTMLDocument)document;
-            if (htmlDocument.getIterator(HTML.Tag.FRAME).isValid()) {
+            if (htmlDocument.getIterbtor(HTML.Tbg.FRAME).isVblid()) {
                 ret = true;
             }
         }
@@ -188,71 +188,71 @@ public class TextComponentPrintable implements CountingPrintable {
 
 
     /**
-     * Returns frames under the {@code editor}.
-     * The frames are created if necessary.
+     * Returns frbmes under the {@code editor}.
+     * The frbmes bre crebted if necessbry.
      *
-     * @param editor the {@JEditorPane} to find the frames for
-     * @return list of all frames
+     * @pbrbm editor the {@JEditorPbne} to find the frbmes for
+     * @return list of bll frbmes
      */
-    private static List<JEditorPane> getFrames(final JEditorPane editor) {
-        List<JEditorPane> list = new ArrayList<JEditorPane>();
-        getFrames(editor, list);
+    privbte stbtic List<JEditorPbne> getFrbmes(finbl JEditorPbne editor) {
+        List<JEditorPbne> list = new ArrbyList<JEditorPbne>();
+        getFrbmes(editor, list);
         if (list.size() == 0) {
-            //the frames have not been created yet.
-            //let's trigger the frames creation.
-            createFrames(editor);
-            getFrames(editor, list);
+            //the frbmes hbve not been crebted yet.
+            //let's trigger the frbmes crebtion.
+            crebteFrbmes(editor);
+            getFrbmes(editor, list);
         }
         return list;
     }
 
     /**
-     * Adds all {@code JEditorPanes} under {@code container} tagged by {@code
-     * FrameEditorPaneTag} to the {@code list}. It adds only top
-     * level {@code JEditorPanes}.  For instance if there is a frame
-     * inside the frame it will return the top frame only.
+     * Adds bll {@code JEditorPbnes} under {@code contbiner} tbgged by {@code
+     * FrbmeEditorPbneTbg} to the {@code list}. It bdds only top
+     * level {@code JEditorPbnes}.  For instbnce if there is b frbme
+     * inside the frbme it will return the top frbme only.
      *
-     * @param c the container to find all frames under
-     * @param list {@code List} to append the results too
+     * @pbrbm c the contbiner to find bll frbmes under
+     * @pbrbm list {@code List} to bppend the results too
      */
-    private static void getFrames(final Container container, List<JEditorPane> list) {
-        for (Component c : container.getComponents()) {
-            if (c instanceof FrameEditorPaneTag
-                && c instanceof JEditorPane ) { //it should be always JEditorPane
-                list.add((JEditorPane) c);
+    privbte stbtic void getFrbmes(finbl Contbiner contbiner, List<JEditorPbne> list) {
+        for (Component c : contbiner.getComponents()) {
+            if (c instbnceof FrbmeEditorPbneTbg
+                && c instbnceof JEditorPbne ) { //it should be blwbys JEditorPbne
+                list.bdd((JEditorPbne) c);
             } else {
-                if (c instanceof Container) {
-                    getFrames((Container) c, list);
+                if (c instbnceof Contbiner) {
+                    getFrbmes((Contbiner) c, list);
                 }
             }
         }
     }
 
     /**
-     * Triggers the frames creation for {@code JEditorPane}
+     * Triggers the frbmes crebtion for {@code JEditorPbne}
      *
-     * @param editor the {@code JEditorPane} to create frames for
+     * @pbrbm editor the {@code JEditorPbne} to crebte frbmes for
      */
-    private static void createFrames(final JEditorPane editor) {
-        Runnable doCreateFrames =
-            new Runnable() {
+    privbte stbtic void crebteFrbmes(finbl JEditorPbne editor) {
+        Runnbble doCrebteFrbmes =
+            new Runnbble() {
                 public void run() {
-                    final int WIDTH = 500;
-                    final int HEIGHT = 500;
-                    CellRendererPane rendererPane = new CellRendererPane();
-                    rendererPane.add(editor);
-                    //the values do not matter
-                    //we only need to get frames created
-                    rendererPane.setSize(WIDTH, HEIGHT);
+                    finbl int WIDTH = 500;
+                    finbl int HEIGHT = 500;
+                    CellRendererPbne rendererPbne = new CellRendererPbne();
+                    rendererPbne.bdd(editor);
+                    //the vblues do not mbtter
+                    //we only need to get frbmes crebted
+                    rendererPbne.setSize(WIDTH, HEIGHT);
                 };
             };
-        if (SwingUtilities.isEventDispatchThread()) {
-            doCreateFrames.run();
+        if (SwingUtilities.isEventDispbtchThrebd()) {
+            doCrebteFrbmes.run();
         } else {
             try {
-                SwingUtilities.invokeAndWait(doCreateFrames);
-            } catch (Exception e) {
-                if (e instanceof RuntimeException) {
+                SwingUtilities.invokeAndWbit(doCrebteFrbmes);
+            } cbtch (Exception e) {
+                if (e instbnceof RuntimeException) {
                     throw (RuntimeException) e;
                 } else {
                     throw new RuntimeException(e);
@@ -262,80 +262,80 @@ public class TextComponentPrintable implements CountingPrintable {
     }
 
     /**
-     * Constructs  {@code TextComponentPrintable} to print {@code JTextComponent}
-     * {@code textComponent} with {@code headerFormat} and {@code footerFormat}.
+     * Constructs  {@code TextComponentPrintbble} to print {@code JTextComponent}
+     * {@code textComponent} with {@code hebderFormbt} bnd {@code footerFormbt}.
      *
-     * @param textComponent {@code JTextComponent} to print
-     * @param headerFormat the page header or {@code null} for none
-     * @param footerFormat the page footer or {@code null} for none
+     * @pbrbm textComponent {@code JTextComponent} to print
+     * @pbrbm hebderFormbt the pbge hebder or {@code null} for none
+     * @pbrbm footerFormbt the pbge footer or {@code null} for none
      */
-    private TextComponentPrintable(JTextComponent textComponent,
-            MessageFormat headerFormat,
-            MessageFormat footerFormat) {
+    privbte TextComponentPrintbble(JTextComponent textComponent,
+            MessbgeFormbt hebderFormbt,
+            MessbgeFormbt footerFormbt) {
         this.textComponentToPrint = textComponent;
-        this.headerFormat = headerFormat;
-        this.footerFormat = footerFormat;
-        headerFont = textComponent.getFont().deriveFont(Font.BOLD,
+        this.hebderFormbt = hebderFormbt;
+        this.footerFormbt = footerFormbt;
+        hebderFont = textComponent.getFont().deriveFont(Font.BOLD,
             HEADER_FONT_SIZE);
         footerFont = textComponent.getFont().deriveFont(Font.PLAIN,
             FOOTER_FONT_SIZE);
-        this.pagesMetrics =
-            Collections.synchronizedList(new ArrayList<IntegerSegment>());
-        this.rowsMetrics = new ArrayList<IntegerSegment>(LIST_SIZE);
-        this.printShell = createPrintShell(textComponent);
+        this.pbgesMetrics =
+            Collections.synchronizedList(new ArrbyList<IntegerSegment>());
+        this.rowsMetrics = new ArrbyList<IntegerSegment>(LIST_SIZE);
+        this.printShell = crebtePrintShell(textComponent);
     }
 
 
     /**
-     * creates a printShell.
-     * It creates closest text component to {@code textComponent}
-     * which uses {@code frc} from the {@code TextComponentPrintable}
+     * crebtes b printShell.
+     * It crebtes closest text component to {@code textComponent}
+     * which uses {@code frc} from the {@code TextComponentPrintbble}
      * for the {@code getFontMetrics} method.
      *
-     * @param textComponent {@code JTextComponent} to create a
+     * @pbrbm textComponent {@code JTextComponent} to crebte b
      *        printShell for
      * @return the print shell
      */
-    private JTextComponent createPrintShell(final JTextComponent textComponent) {
-        if (SwingUtilities.isEventDispatchThread()) {
-            return createPrintShellOnEDT(textComponent);
+    privbte JTextComponent crebtePrintShell(finbl JTextComponent textComponent) {
+        if (SwingUtilities.isEventDispbtchThrebd()) {
+            return crebtePrintShellOnEDT(textComponent);
         } else {
-            FutureTask<JTextComponent> futureCreateShell =
-                new FutureTask<JTextComponent>(
-                    new Callable<JTextComponent>() {
-                        public JTextComponent call() throws Exception {
-                            return createPrintShellOnEDT(textComponent);
+            FutureTbsk<JTextComponent> futureCrebteShell =
+                new FutureTbsk<JTextComponent>(
+                    new Cbllbble<JTextComponent>() {
+                        public JTextComponent cbll() throws Exception {
+                            return crebtePrintShellOnEDT(textComponent);
                         }
                     });
-            SwingUtilities.invokeLater(futureCreateShell);
+            SwingUtilities.invokeLbter(futureCrebteShell);
             try {
-                return futureCreateShell.get();
-            } catch (InterruptedException e) {
+                return futureCrebteShell.get();
+            } cbtch (InterruptedException e) {
                 throw new RuntimeException(e);
-            } catch (ExecutionException e) {
-                Throwable cause = e.getCause();
-                if (cause instanceof Error) {
-                    throw (Error) cause;
+            } cbtch (ExecutionException e) {
+                Throwbble cbuse = e.getCbuse();
+                if (cbuse instbnceof Error) {
+                    throw (Error) cbuse;
                 }
-                if (cause instanceof RuntimeException) {
-                    throw (RuntimeException) cause;
+                if (cbuse instbnceof RuntimeException) {
+                    throw (RuntimeException) cbuse;
                 }
-                throw new AssertionError(cause);
+                throw new AssertionError(cbuse);
             }
         }
     }
-    @SuppressWarnings("serial") // anonymous class inside
-    private JTextComponent createPrintShellOnEDT(final JTextComponent textComponent) {
-        assert SwingUtilities.isEventDispatchThread();
+    @SuppressWbrnings("seribl") // bnonymous clbss inside
+    privbte JTextComponent crebtePrintShellOnEDT(finbl JTextComponent textComponent) {
+        bssert SwingUtilities.isEventDispbtchThrebd();
 
         JTextComponent ret = null;
-        if (textComponent instanceof JPasswordField) {
+        if (textComponent instbnceof JPbsswordField) {
             ret =
-                new JPasswordField() {
+                new JPbsswordField() {
                     {
-                        setEchoChar(((JPasswordField) textComponent).getEchoChar());
-                        setHorizontalAlignment(
-                            ((JTextField) textComponent).getHorizontalAlignment());
+                        setEchoChbr(((JPbsswordField) textComponent).getEchoChbr());
+                        setHorizontblAlignment(
+                            ((JTextField) textComponent).getHorizontblAlignment());
                     }
                     @Override
                     public FontMetrics getFontMetrics(Font font) {
@@ -344,12 +344,12 @@ public class TextComponentPrintable implements CountingPrintable {
                             : FontDesignMetrics.getMetrics(font, frc.get());
                     }
                 };
-        } else if (textComponent instanceof JTextField) {
+        } else if (textComponent instbnceof JTextField) {
             ret =
                 new JTextField() {
                     {
-                        setHorizontalAlignment(
-                            ((JTextField) textComponent).getHorizontalAlignment());
+                        setHorizontblAlignment(
+                            ((JTextField) textComponent).getHorizontblAlignment());
                     }
                     @Override
                     public FontMetrics getFontMetrics(Font font) {
@@ -358,14 +358,14 @@ public class TextComponentPrintable implements CountingPrintable {
                             : FontDesignMetrics.getMetrics(font, frc.get());
                     }
                 };
-        } else if (textComponent instanceof JTextArea) {
+        } else if (textComponent instbnceof JTextAreb) {
             ret =
-                new JTextArea() {
+                new JTextAreb() {
                     {
-                        JTextArea textArea = (JTextArea) textComponent;
-                        setLineWrap(textArea.getLineWrap());
-                        setWrapStyleWord(textArea.getWrapStyleWord());
-                        setTabSize(textArea.getTabSize());
+                        JTextAreb textAreb = (JTextAreb) textComponent;
+                        setLineWrbp(textAreb.getLineWrbp());
+                        setWrbpStyleWord(textAreb.getWrbpStyleWord());
+                        setTbbSize(textAreb.getTbbSize());
                     }
                     @Override
                     public FontMetrics getFontMetrics(Font font) {
@@ -374,9 +374,9 @@ public class TextComponentPrintable implements CountingPrintable {
                             : FontDesignMetrics.getMetrics(font, frc.get());
                     }
                 };
-        } else if (textComponent instanceof JTextPane) {
+        } else if (textComponent instbnceof JTextPbne) {
             ret =
-                new JTextPane() {
+                new JTextPbne() {
                     @Override
                     public FontMetrics getFontMetrics(Font font) {
                         return (frc.get() == null)
@@ -386,15 +386,15 @@ public class TextComponentPrintable implements CountingPrintable {
                     @Override
                     public EditorKit getEditorKit() {
                         if (getDocument() == textComponent.getDocument()) {
-                            return ((JTextPane) textComponent).getEditorKit();
+                            return ((JTextPbne) textComponent).getEditorKit();
                         } else {
                             return super.getEditorKit();
                         }
                     }
                 };
-        } else if (textComponent instanceof JEditorPane) {
+        } else if (textComponent instbnceof JEditorPbne) {
             ret =
-                new JEditorPane() {
+                new JEditorPbne() {
                     @Override
                     public FontMetrics getFontMetrics(Font font) {
                         return (frc.get() == null)
@@ -404,34 +404,34 @@ public class TextComponentPrintable implements CountingPrintable {
                     @Override
                     public EditorKit getEditorKit() {
                         if (getDocument() == textComponent.getDocument()) {
-                            return ((JEditorPane) textComponent).getEditorKit();
+                            return ((JEditorPbne) textComponent).getEditorKit();
                         } else {
                             return super.getEditorKit();
                         }
                     }
                 };
         }
-        //want to occupy the whole width and height by text
+        //wbnt to occupy the whole width bnd height by text
         ret.setBorder(null);
 
         //set properties from the component to print
-        ret.setOpaque(textComponent.isOpaque());
-        ret.setEditable(textComponent.isEditable());
-        ret.setEnabled(textComponent.isEnabled());
+        ret.setOpbque(textComponent.isOpbque());
+        ret.setEditbble(textComponent.isEditbble());
+        ret.setEnbbled(textComponent.isEnbbled());
         ret.setFont(textComponent.getFont());
-        ret.setBackground(textComponent.getBackground());
+        ret.setBbckground(textComponent.getBbckground());
         ret.setForeground(textComponent.getForeground());
-        ret.setComponentOrientation(
-            textComponent.getComponentOrientation());
+        ret.setComponentOrientbtion(
+            textComponent.getComponentOrientbtion());
 
-        if (ret instanceof JEditorPane) {
-            ret.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES,
+        if (ret instbnceof JEditorPbne) {
+            ret.putClientProperty(JEditorPbne.HONOR_DISPLAY_PROPERTIES,
                 textComponent.getClientProperty(
-                JEditorPane.HONOR_DISPLAY_PROPERTIES));
-            ret.putClientProperty(JEditorPane.W3C_LENGTH_UNITS,
-                textComponent.getClientProperty(JEditorPane.W3C_LENGTH_UNITS));
-            ret.putClientProperty("charset",
-                textComponent.getClientProperty("charset"));
+                JEditorPbne.HONOR_DISPLAY_PROPERTIES));
+            ret.putClientProperty(JEditorPbne.W3C_LENGTH_UNITS,
+                textComponent.getClientProperty(JEditorPbne.W3C_LENGTH_UNITS));
+            ret.putClientProperty("chbrset",
+                textComponent.getClientProperty("chbrset"));
         }
         ret.setDocument(textComponent.getDocument());
         return ret;
@@ -441,302 +441,302 @@ public class TextComponentPrintable implements CountingPrintable {
 
 
     /**
-     * Returns the number of pages in this printable.
+     * Returns the number of pbges in this printbble.
      * <p>
-     * This number is defined only after {@code print} returns NO_SUCH_PAGE.
+     * This number is defined only bfter {@code print} returns NO_SUCH_PAGE.
      *
-     * @return the number of pages.
+     * @return the number of pbges.
      */
-    public int getNumberOfPages() {
-        return pagesMetrics.size();
+    public int getNumberOfPbges() {
+        return pbgesMetrics.size();
     }
 
     /**
-     * See Printable.print for the API description.
+     * See Printbble.print for the API description.
      *
-     * There are two parts in the implementation.
-     * First part (print) is to be called on the printing thread.
-     * Second part (printOnEDT) is to be called on the EDT only.
+     * There bre two pbrts in the implementbtion.
+     * First pbrt (print) is to be cblled on the printing threbd.
+     * Second pbrt (printOnEDT) is to be cblled on the EDT only.
      *
      * print triggers printOnEDT
      */
-    public int print(final Graphics graphics,
-            final PageFormat pf,
-            final int pageIndex) throws PrinterException {
-        if (!isLayouted) {
-            if (graphics instanceof Graphics2D) {
-                frc.set(((Graphics2D)graphics).getFontRenderContext());
+    public int print(finbl Grbphics grbphics,
+            finbl PbgeFormbt pf,
+            finbl int pbgeIndex) throws PrinterException {
+        if (!isLbyouted) {
+            if (grbphics instbnceof Grbphics2D) {
+                frc.set(((Grbphics2D)grbphics).getFontRenderContext());
             }
-            layout((int)Math.floor(pf.getImageableWidth()));
-            calculateRowsMetrics();
+            lbyout((int)Mbth.floor(pf.getImbgebbleWidth()));
+            cblculbteRowsMetrics();
         }
         int ret;
-        if (!SwingUtilities.isEventDispatchThread()) {
-            Callable<Integer> doPrintOnEDT = new Callable<Integer>() {
-                public Integer call() throws Exception {
-                    return printOnEDT(graphics, pf, pageIndex);
+        if (!SwingUtilities.isEventDispbtchThrebd()) {
+            Cbllbble<Integer> doPrintOnEDT = new Cbllbble<Integer>() {
+                public Integer cbll() throws Exception {
+                    return printOnEDT(grbphics, pf, pbgeIndex);
                 }
             };
-            FutureTask<Integer> futurePrintOnEDT =
-                new FutureTask<Integer>(doPrintOnEDT);
-            SwingUtilities.invokeLater(futurePrintOnEDT);
+            FutureTbsk<Integer> futurePrintOnEDT =
+                new FutureTbsk<Integer>(doPrintOnEDT);
+            SwingUtilities.invokeLbter(futurePrintOnEDT);
             try {
                 ret = futurePrintOnEDT.get();
-            } catch (InterruptedException e) {
+            } cbtch (InterruptedException e) {
                 throw new RuntimeException(e);
-            } catch (ExecutionException e) {
-                Throwable cause = e.getCause();
-                if (cause instanceof PrinterException) {
-                    throw (PrinterException)cause;
-                } else if (cause instanceof RuntimeException) {
-                    throw (RuntimeException) cause;
-                } else if (cause instanceof Error) {
-                    throw (Error) cause;
+            } cbtch (ExecutionException e) {
+                Throwbble cbuse = e.getCbuse();
+                if (cbuse instbnceof PrinterException) {
+                    throw (PrinterException)cbuse;
+                } else if (cbuse instbnceof RuntimeException) {
+                    throw (RuntimeException) cbuse;
+                } else if (cbuse instbnceof Error) {
+                    throw (Error) cbuse;
                 } else {
-                    throw new RuntimeException(cause);
+                    throw new RuntimeException(cbuse);
                 }
             }
         } else {
-            ret = printOnEDT(graphics, pf, pageIndex);
+            ret = printOnEDT(grbphics, pf, pbgeIndex);
         }
         return ret;
     }
 
 
     /**
-     * The EDT part of the print method.
+     * The EDT pbrt of the print method.
      *
-     * This method is to be called on the EDT only. Layout should be done before
-     * calling this method.
+     * This method is to be cblled on the EDT only. Lbyout should be done before
+     * cblling this method.
      */
-    private int printOnEDT(final Graphics graphics,
-            final PageFormat pf,
-            final int pageIndex) throws PrinterException {
-        assert SwingUtilities.isEventDispatchThread();
-        Border border = BorderFactory.createEmptyBorder();
-        //handle header and footer
-        if (headerFormat != null || footerFormat != null) {
-            //Printable page enumeration is 0 base. We need 1 based.
-            Object[] formatArg = new Object[]{Integer.valueOf(pageIndex + 1)};
-            if (headerFormat != null) {
+    privbte int printOnEDT(finbl Grbphics grbphics,
+            finbl PbgeFormbt pf,
+            finbl int pbgeIndex) throws PrinterException {
+        bssert SwingUtilities.isEventDispbtchThrebd();
+        Border border = BorderFbctory.crebteEmptyBorder();
+        //hbndle hebder bnd footer
+        if (hebderFormbt != null || footerFormbt != null) {
+            //Printbble pbge enumerbtion is 0 bbse. We need 1 bbsed.
+            Object[] formbtArg = new Object[]{Integer.vblueOf(pbgeIndex + 1)};
+            if (hebderFormbt != null) {
                 border = new TitledBorder(border,
-                    headerFormat.format(formatArg),
+                    hebderFormbt.formbt(formbtArg),
                     TitledBorder.CENTER, TitledBorder.ABOVE_TOP,
-                    headerFont, printShell.getForeground());
+                    hebderFont, printShell.getForeground());
             }
-            if (footerFormat != null) {
+            if (footerFormbt != null) {
                 border = new TitledBorder(border,
-                    footerFormat.format(formatArg),
+                    footerFormbt.formbt(formbtArg),
                     TitledBorder.CENTER, TitledBorder.BELOW_BOTTOM,
                     footerFont, printShell.getForeground());
             }
         }
         Insets borderInsets = border.getBorderInsets(printShell);
-        updatePagesMetrics(pageIndex,
-            (int)Math.floor(pf.getImageableHeight()) - borderInsets.top
+        updbtePbgesMetrics(pbgeIndex,
+            (int)Mbth.floor(pf.getImbgebbleHeight()) - borderInsets.top
                            - borderInsets.bottom);
 
-        if (pagesMetrics.size() <= pageIndex) {
+        if (pbgesMetrics.size() <= pbgeIndex) {
             return NO_SUCH_PAGE;
         }
 
-        Graphics2D g2d = (Graphics2D)graphics.create();
+        Grbphics2D g2d = (Grbphics2D)grbphics.crebte();
 
-        g2d.translate(pf.getImageableX(), pf.getImageableY());
-        border.paintBorder(printShell, g2d, 0, 0,
-            (int)Math.floor(pf.getImageableWidth()),
-            (int)Math.floor(pf.getImageableHeight()));
+        g2d.trbnslbte(pf.getImbgebbleX(), pf.getImbgebbleY());
+        border.pbintBorder(printShell, g2d, 0, 0,
+            (int)Mbth.floor(pf.getImbgebbleWidth()),
+            (int)Mbth.floor(pf.getImbgebbleHeight()));
 
-        g2d.translate(0, borderInsets.top);
-        //want to clip only vertically
-        Rectangle clip = new Rectangle(0, 0,
+        g2d.trbnslbte(0, borderInsets.top);
+        //wbnt to clip only verticblly
+        Rectbngle clip = new Rectbngle(0, 0,
             (int) pf.getWidth(),
-            pagesMetrics.get(pageIndex).end
-                - pagesMetrics.get(pageIndex).start + 1);
+            pbgesMetrics.get(pbgeIndex).end
+                - pbgesMetrics.get(pbgeIndex).stbrt + 1);
 
         g2d.clip(clip);
-        int xStart = 0;
-        if (ComponentOrientation.RIGHT_TO_LEFT ==
-                printShell.getComponentOrientation()) {
-            xStart = (int) pf.getImageableWidth() - printShell.getWidth();
+        int xStbrt = 0;
+        if (ComponentOrientbtion.RIGHT_TO_LEFT ==
+                printShell.getComponentOrientbtion()) {
+            xStbrt = (int) pf.getImbgebbleWidth() - printShell.getWidth();
         }
-        g2d.translate(xStart, - pagesMetrics.get(pageIndex).start);
+        g2d.trbnslbte(xStbrt, - pbgesMetrics.get(pbgeIndex).stbrt);
         printShell.print(g2d);
 
         g2d.dispose();
 
-        return Printable.PAGE_EXISTS;
+        return Printbble.PAGE_EXISTS;
     }
 
 
-    private boolean needReadLock = false;
+    privbte boolebn needRebdLock = fblse;
 
     /**
-     * Tries to release document's readlock
+     * Tries to relebse document's rebdlock
      *
-     * Note: Not to be called on the EDT.
+     * Note: Not to be cblled on the EDT.
      */
-    private void releaseReadLock() {
-        assert ! SwingUtilities.isEventDispatchThread();
+    privbte void relebseRebdLock() {
+        bssert ! SwingUtilities.isEventDispbtchThrebd();
         Document document = textComponentToPrint.getDocument();
-        if (document instanceof AbstractDocument) {
+        if (document instbnceof AbstrbctDocument) {
             try {
-                ((AbstractDocument) document).readUnlock();
-                needReadLock = true;
-            } catch (Error ignore) {
-                // readUnlock() might throw StateInvariantError
+                ((AbstrbctDocument) document).rebdUnlock();
+                needRebdLock = true;
+            } cbtch (Error ignore) {
+                // rebdUnlock() might throw StbteInvbribntError
             }
         }
     }
 
 
     /**
-     * Tries to acquire document's readLock if it was released
-     * in releaseReadLock() method.
+     * Tries to bcquire document's rebdLock if it wbs relebsed
+     * in relebseRebdLock() method.
      *
-     * Note: Not to be called on the EDT.
+     * Note: Not to be cblled on the EDT.
      */
-    private void acquireReadLock() {
-        assert ! SwingUtilities.isEventDispatchThread();
-        if (needReadLock) {
+    privbte void bcquireRebdLock() {
+        bssert ! SwingUtilities.isEventDispbtchThrebd();
+        if (needRebdLock) {
             try {
                 /*
-                 * wait until all the EDT events are processed
-                 * some of the document changes are asynchronous
-                 * we need to make sure we get the lock after those changes
+                 * wbit until bll the EDT events bre processed
+                 * some of the document chbnges bre bsynchronous
+                 * we need to mbke sure we get the lock bfter those chbnges
                  */
-                SwingUtilities.invokeAndWait(
-                    new Runnable() {
+                SwingUtilities.invokeAndWbit(
+                    new Runnbble() {
                         public void run() {
                         }
                     });
-            } catch (InterruptedException ignore) {
-            } catch (java.lang.reflect.InvocationTargetException ignore) {
+            } cbtch (InterruptedException ignore) {
+            } cbtch (jbvb.lbng.reflect.InvocbtionTbrgetException ignore) {
             }
             Document document = textComponentToPrint.getDocument();
-            ((AbstractDocument) document).readLock();
-            needReadLock = false;
+            ((AbstrbctDocument) document).rebdLock();
+            needRebdLock = fblse;
         }
     }
 
     /**
-     * Prepares {@code printShell} for printing.
+     * Prepbres {@code printShell} for printing.
      *
      * Sets properties from the component to print.
-     * Sets width and FontRenderContext.
+     * Sets width bnd FontRenderContext.
      *
-     * Triggers Views creation for the printShell.
+     * Triggers Views crebtion for the printShell.
      *
-     * There are two parts in the implementation.
-     * First part (layout) is to be called on the printing thread.
-     * Second part (layoutOnEDT) is to be called on the EDT only.
+     * There bre two pbrts in the implementbtion.
+     * First pbrt (lbyout) is to be cblled on the printing threbd.
+     * Second pbrt (lbyoutOnEDT) is to be cblled on the EDT only.
      *
-     * {@code layout} triggers {@code layoutOnEDT}.
+     * {@code lbyout} triggers {@code lbyoutOnEDT}.
      *
-     * @param width width to layout the text for
+     * @pbrbm width width to lbyout the text for
      */
-    private void layout(final int width) {
-        if (!SwingUtilities.isEventDispatchThread()) {
-            Callable<Object> doLayoutOnEDT = new Callable<Object>() {
-                public Object call() throws Exception {
-                    layoutOnEDT(width);
+    privbte void lbyout(finbl int width) {
+        if (!SwingUtilities.isEventDispbtchThrebd()) {
+            Cbllbble<Object> doLbyoutOnEDT = new Cbllbble<Object>() {
+                public Object cbll() throws Exception {
+                    lbyoutOnEDT(width);
                     return null;
                 }
             };
-            FutureTask<Object> futureLayoutOnEDT = new FutureTask<Object>(
-                doLayoutOnEDT);
+            FutureTbsk<Object> futureLbyoutOnEDT = new FutureTbsk<Object>(
+                doLbyoutOnEDT);
 
             /*
-             * We need to release document's readlock while printShell is
-             * initializing
+             * We need to relebse document's rebdlock while printShell is
+             * initiblizing
              */
-            releaseReadLock();
-            SwingUtilities.invokeLater(futureLayoutOnEDT);
+            relebseRebdLock();
+            SwingUtilities.invokeLbter(futureLbyoutOnEDT);
             try {
-                futureLayoutOnEDT.get();
-            } catch (InterruptedException e) {
+                futureLbyoutOnEDT.get();
+            } cbtch (InterruptedException e) {
                 throw new RuntimeException(e);
-            } catch (ExecutionException e) {
-                Throwable cause = e.getCause();
-                if (cause instanceof RuntimeException) {
-                    throw (RuntimeException) cause;
-                } else if (cause instanceof Error) {
-                    throw (Error) cause;
+            } cbtch (ExecutionException e) {
+                Throwbble cbuse = e.getCbuse();
+                if (cbuse instbnceof RuntimeException) {
+                    throw (RuntimeException) cbuse;
+                } else if (cbuse instbnceof Error) {
+                    throw (Error) cbuse;
                 } else {
-                    throw new RuntimeException(cause);
+                    throw new RuntimeException(cbuse);
                 }
-            } finally {
-                acquireReadLock();
+            } finblly {
+                bcquireRebdLock();
             }
         } else {
-            layoutOnEDT(width);
+            lbyoutOnEDT(width);
         }
 
-        isLayouted = true;
+        isLbyouted = true;
     }
 
     /**
-     * The EDT part of layout method.
+     * The EDT pbrt of lbyout method.
      *
-     * This method is to be called on the EDT only.
+     * This method is to be cblled on the EDT only.
      */
-    private void layoutOnEDT(final int width) {
-        assert SwingUtilities.isEventDispatchThread();
-        //need to have big value but smaller than MAX_VALUE otherwise
+    privbte void lbyoutOnEDT(finbl int width) {
+        bssert SwingUtilities.isEventDispbtchThrebd();
+        //need to hbve big vblue but smbller thbn MAX_VALUE otherwise
         //printing goes south due to overflow somewhere
-        final int HUGE_INTEGER = Integer.MAX_VALUE - 1000;
+        finbl int HUGE_INTEGER = Integer.MAX_VALUE - 1000;
 
-        CellRendererPane rendererPane = new CellRendererPane();
+        CellRendererPbne rendererPbne = new CellRendererPbne();
 
-        //need to use JViewport since text is layouted to the viewPort width
-        //otherwise it will be layouted to the maximum text width
+        //need to use JViewport since text is lbyouted to the viewPort width
+        //otherwise it will be lbyouted to the mbximum text width
         JViewport viewport = new JViewport();
         viewport.setBorder(null);
         Dimension size = new Dimension(width, HUGE_INTEGER);
 
-        //JTextField is a special case
-        //it layouts text in the middle by Y
-        if (printShell instanceof JTextField) {
+        //JTextField is b specibl cbse
+        //it lbyouts text in the middle by Y
+        if (printShell instbnceof JTextField) {
             size =
                 new Dimension(size.width, printShell.getPreferredSize().height);
         }
         printShell.setSize(size);
-        viewport.setComponentOrientation(printShell.getComponentOrientation());
+        viewport.setComponentOrientbtion(printShell.getComponentOrientbtion());
         viewport.setSize(size);
-        viewport.add(printShell);
-        rendererPane.add(viewport);
+        viewport.bdd(printShell);
+        rendererPbne.bdd(viewport);
     }
 
     /**
-     * Calculates pageMetrics for the pages up to the {@code pageIndex} using
+     * Cblculbtes pbgeMetrics for the pbges up to the {@code pbgeIndex} using
      * {@code rowsMetrics}.
-     * Metrics are stored in the {@code pagesMetrics}.
+     * Metrics bre stored in the {@code pbgesMetrics}.
      *
-     * @param pageIndex the page to update the metrics for
-     * @param pageHeight the page height
+     * @pbrbm pbgeIndex the pbge to updbte the metrics for
+     * @pbrbm pbgeHeight the pbge height
      */
-    private void updatePagesMetrics(final int pageIndex, final int pageHeight) {
-        while (pageIndex >= pagesMetrics.size() && !rowsMetrics.isEmpty()) {
-            // add one page to the pageMetrics
-            int lastPage = pagesMetrics.size() - 1;
-            int pageStart = (lastPage >= 0)
-               ? pagesMetrics.get(lastPage).end + 1
+    privbte void updbtePbgesMetrics(finbl int pbgeIndex, finbl int pbgeHeight) {
+        while (pbgeIndex >= pbgesMetrics.size() && !rowsMetrics.isEmpty()) {
+            // bdd one pbge to the pbgeMetrics
+            int lbstPbge = pbgesMetrics.size() - 1;
+            int pbgeStbrt = (lbstPbge >= 0)
+               ? pbgesMetrics.get(lbstPbge).end + 1
                : 0;
             int rowIndex;
             for (rowIndex = 0;
                    rowIndex < rowsMetrics.size()
-                   && (rowsMetrics.get(rowIndex).end - pageStart + 1)
-                     <= pageHeight;
+                   && (rowsMetrics.get(rowIndex).end - pbgeStbrt + 1)
+                     <= pbgeHeight;
                    rowIndex++) {
             }
             if (rowIndex == 0) {
-                // can not fit a single row
+                // cbn not fit b single row
                 // need to split
-                pagesMetrics.add(
-                    new IntegerSegment(pageStart, pageStart + pageHeight - 1));
+                pbgesMetrics.bdd(
+                    new IntegerSegment(pbgeStbrt, pbgeStbrt + pbgeHeight - 1));
             } else {
                 rowIndex--;
-                pagesMetrics.add(new IntegerSegment(pageStart,
+                pbgesMetrics.bdd(new IntegerSegment(pbgeStbrt,
                     rowsMetrics.get(rowIndex).end));
                 for (int i = 0; i <= rowIndex; i++) {
                     rowsMetrics.remove(0);
@@ -746,17 +746,17 @@ public class TextComponentPrintable implements CountingPrintable {
     }
 
     /**
-     * Calculates rowsMetrics for the document. The result is stored
+     * Cblculbtes rowsMetrics for the document. The result is stored
      * in the {@code rowsMetrics}.
      *
      * Two steps process.
-     * First step is to find yStart and yEnd for the every document position.
-     * Second step is to merge all intersected segments ( [yStart, yEnd] ).
+     * First step is to find yStbrt bnd yEnd for the every document position.
+     * Second step is to merge bll intersected segments ( [yStbrt, yEnd] ).
      */
-    private void calculateRowsMetrics() {
-        final int documentLength = printShell.getDocument().getLength();
-        List<IntegerSegment> documentMetrics = new ArrayList<IntegerSegment>(LIST_SIZE);
-        Rectangle rect;
+    privbte void cblculbteRowsMetrics() {
+        finbl int documentLength = printShell.getDocument().getLength();
+        List<IntegerSegment> documentMetrics = new ArrbyList<IntegerSegment>(LIST_SIZE);
+        Rectbngle rect;
         for (int i = 0, previousY = -1, previousHeight = -1; i < documentLength;
                  i++) {
             try {
@@ -767,81 +767,81 @@ public class TextComponentPrintable implements CountingPrintable {
                     if (height != 0
                             && (y != previousY || height != previousHeight)) {
                         /*
-                         * we do not store the same value as previous. in our
-                         * documents it is often for consequent positons to have
-                         * the same modelToView y and height.
+                         * we do not store the sbme vblue bs previous. in our
+                         * documents it is often for consequent positons to hbve
+                         * the sbme modelToView y bnd height.
                          */
                         previousY = y;
                         previousHeight = height;
-                        documentMetrics.add(new IntegerSegment(y, y + height - 1));
+                        documentMetrics.bdd(new IntegerSegment(y, y + height - 1));
                     }
                 }
-            } catch (BadLocationException e) {
-                assert false;
+            } cbtch (BbdLocbtionException e) {
+                bssert fblse;
             }
         }
         /*
-         * Merge all intersected segments.
+         * Merge bll intersected segments.
          */
         Collections.sort(documentMetrics);
-        int yStart = Integer.MIN_VALUE;
+        int yStbrt = Integer.MIN_VALUE;
         int yEnd = Integer.MIN_VALUE;
         for (IntegerSegment segment : documentMetrics) {
-            if (yEnd < segment.start) {
+            if (yEnd < segment.stbrt) {
                 if (yEnd != Integer.MIN_VALUE) {
-                    rowsMetrics.add(new IntegerSegment(yStart, yEnd));
+                    rowsMetrics.bdd(new IntegerSegment(yStbrt, yEnd));
                 }
-                yStart = segment.start;
+                yStbrt = segment.stbrt;
                 yEnd = segment.end;
             } else {
                 yEnd = segment.end;
             }
         }
         if (yEnd != Integer.MIN_VALUE) {
-            rowsMetrics.add(new IntegerSegment(yStart, yEnd));
+            rowsMetrics.bdd(new IntegerSegment(yStbrt, yEnd));
         }
     }
 
     /**
-     *  Class to represent segment of integers.
-     *  we do not call it Segment to avoid confusion with
-     *  javax.swing.text.Segment
+     *  Clbss to represent segment of integers.
+     *  we do not cbll it Segment to bvoid confusion with
+     *  jbvbx.swing.text.Segment
      */
-    private static class IntegerSegment implements Comparable<IntegerSegment> {
-        final int start;
-        final int end;
+    privbte stbtic clbss IntegerSegment implements Compbrbble<IntegerSegment> {
+        finbl int stbrt;
+        finbl int end;
 
-        IntegerSegment(int start, int end) {
-            this.start = start;
+        IntegerSegment(int stbrt, int end) {
+            this.stbrt = stbrt;
             this.end = end;
         }
 
-        public int compareTo(IntegerSegment object) {
-            int startsDelta = start - object.start;
-            return (startsDelta != 0) ? startsDelta : end - object.end;
+        public int compbreTo(IntegerSegment object) {
+            int stbrtsDeltb = stbrt - object.stbrt;
+            return (stbrtsDeltb != 0) ? stbrtsDeltb : end - object.end;
         }
 
         @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof IntegerSegment) {
-                return compareTo((IntegerSegment) obj) == 0;
+        public boolebn equbls(Object obj) {
+            if (obj instbnceof IntegerSegment) {
+                return compbreTo((IntegerSegment) obj) == 0;
             } else {
-                return false;
+                return fblse;
             }
         }
 
         @Override
-        public int hashCode() {
-            // from the "Effective Java: Programming Language Guide"
+        public int hbshCode() {
+            // from the "Effective Jbvb: Progrbmming Lbngubge Guide"
             int result = 17;
-            result = 37 * result + start;
+            result = 37 * result + stbrt;
             result = 37 * result + end;
             return result;
         }
 
         @Override
         public String toString() {
-            return "IntegerSegment [" + start + ", " + end + "]";
+            return "IntegerSegment [" + stbrt + ", " + end + "]";
         }
     }
 }

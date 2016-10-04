@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,662 +57,662 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm.commons;
+pbckbge jdk.internbl.org.objectweb.bsm.commons;
 
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
+import jdk.internbl.org.objectweb.bsm.Hbndle;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Type;
 
 /**
- * A {@link MethodVisitor} providing a more detailed API to generate and
- * transform instructions.
+ * A {@link MethodVisitor} providing b more detbiled API to generbte bnd
+ * trbnsform instructions.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class InstructionAdapter extends MethodVisitor {
+public clbss InstructionAdbpter extends MethodVisitor {
 
-    public final static Type OBJECT_TYPE = Type.getType("Ljava/lang/Object;");
+    public finbl stbtic Type OBJECT_TYPE = Type.getType("Ljbvb/lbng/Object;");
 
     /**
-     * Creates a new {@link InstructionAdapter}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #InstructionAdapter(int, MethodVisitor)} version.
+     * Crebtes b new {@link InstructionAdbpter}. <i>Subclbsses must not use this
+     * constructor</i>. Instebd, they must use the
+     * {@link #InstructionAdbpter(int, MethodVisitor)} version.
      *
-     * @param mv
-     *            the method visitor to which this adapter delegates calls.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter delegbtes cblls.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public InstructionAdapter(final MethodVisitor mv) {
+    public InstructionAdbpter(finbl MethodVisitor mv) {
         this(Opcodes.ASM5, mv);
-        if (getClass() != InstructionAdapter.class) {
-            throw new IllegalStateException();
+        if (getClbss() != InstructionAdbpter.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Creates a new {@link InstructionAdapter}.
+     * Crebtes b new {@link InstructionAdbpter}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param mv
-     *            the method visitor to which this adapter delegates calls.
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter delegbtes cblls.
      */
-    protected InstructionAdapter(final int api, final MethodVisitor mv) {
-        super(api, mv);
+    protected InstructionAdbpter(finbl int bpi, finbl MethodVisitor mv) {
+        super(bpi, mv);
     }
 
     @Override
-    public void visitInsn(final int opcode) {
+    public void visitInsn(finbl int opcode) {
         switch (opcode) {
-        case Opcodes.NOP:
+        cbse Opcodes.NOP:
             nop();
-            break;
-        case Opcodes.ACONST_NULL:
-            aconst(null);
-            break;
-        case Opcodes.ICONST_M1:
-        case Opcodes.ICONST_0:
-        case Opcodes.ICONST_1:
-        case Opcodes.ICONST_2:
-        case Opcodes.ICONST_3:
-        case Opcodes.ICONST_4:
-        case Opcodes.ICONST_5:
+            brebk;
+        cbse Opcodes.ACONST_NULL:
+            bconst(null);
+            brebk;
+        cbse Opcodes.ICONST_M1:
+        cbse Opcodes.ICONST_0:
+        cbse Opcodes.ICONST_1:
+        cbse Opcodes.ICONST_2:
+        cbse Opcodes.ICONST_3:
+        cbse Opcodes.ICONST_4:
+        cbse Opcodes.ICONST_5:
             iconst(opcode - Opcodes.ICONST_0);
-            break;
-        case Opcodes.LCONST_0:
-        case Opcodes.LCONST_1:
+            brebk;
+        cbse Opcodes.LCONST_0:
+        cbse Opcodes.LCONST_1:
             lconst(opcode - Opcodes.LCONST_0);
-            break;
-        case Opcodes.FCONST_0:
-        case Opcodes.FCONST_1:
-        case Opcodes.FCONST_2:
+            brebk;
+        cbse Opcodes.FCONST_0:
+        cbse Opcodes.FCONST_1:
+        cbse Opcodes.FCONST_2:
             fconst(opcode - Opcodes.FCONST_0);
-            break;
-        case Opcodes.DCONST_0:
-        case Opcodes.DCONST_1:
+            brebk;
+        cbse Opcodes.DCONST_0:
+        cbse Opcodes.DCONST_1:
             dconst(opcode - Opcodes.DCONST_0);
-            break;
-        case Opcodes.IALOAD:
-            aload(Type.INT_TYPE);
-            break;
-        case Opcodes.LALOAD:
-            aload(Type.LONG_TYPE);
-            break;
-        case Opcodes.FALOAD:
-            aload(Type.FLOAT_TYPE);
-            break;
-        case Opcodes.DALOAD:
-            aload(Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.AALOAD:
-            aload(OBJECT_TYPE);
-            break;
-        case Opcodes.BALOAD:
-            aload(Type.BYTE_TYPE);
-            break;
-        case Opcodes.CALOAD:
-            aload(Type.CHAR_TYPE);
-            break;
-        case Opcodes.SALOAD:
-            aload(Type.SHORT_TYPE);
-            break;
-        case Opcodes.IASTORE:
-            astore(Type.INT_TYPE);
-            break;
-        case Opcodes.LASTORE:
-            astore(Type.LONG_TYPE);
-            break;
-        case Opcodes.FASTORE:
-            astore(Type.FLOAT_TYPE);
-            break;
-        case Opcodes.DASTORE:
-            astore(Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.AASTORE:
-            astore(OBJECT_TYPE);
-            break;
-        case Opcodes.BASTORE:
-            astore(Type.BYTE_TYPE);
-            break;
-        case Opcodes.CASTORE:
-            astore(Type.CHAR_TYPE);
-            break;
-        case Opcodes.SASTORE:
-            astore(Type.SHORT_TYPE);
-            break;
-        case Opcodes.POP:
+            brebk;
+        cbse Opcodes.IALOAD:
+            blobd(Type.INT_TYPE);
+            brebk;
+        cbse Opcodes.LALOAD:
+            blobd(Type.LONG_TYPE);
+            brebk;
+        cbse Opcodes.FALOAD:
+            blobd(Type.FLOAT_TYPE);
+            brebk;
+        cbse Opcodes.DALOAD:
+            blobd(Type.DOUBLE_TYPE);
+            brebk;
+        cbse Opcodes.AALOAD:
+            blobd(OBJECT_TYPE);
+            brebk;
+        cbse Opcodes.BALOAD:
+            blobd(Type.BYTE_TYPE);
+            brebk;
+        cbse Opcodes.CALOAD:
+            blobd(Type.CHAR_TYPE);
+            brebk;
+        cbse Opcodes.SALOAD:
+            blobd(Type.SHORT_TYPE);
+            brebk;
+        cbse Opcodes.IASTORE:
+            bstore(Type.INT_TYPE);
+            brebk;
+        cbse Opcodes.LASTORE:
+            bstore(Type.LONG_TYPE);
+            brebk;
+        cbse Opcodes.FASTORE:
+            bstore(Type.FLOAT_TYPE);
+            brebk;
+        cbse Opcodes.DASTORE:
+            bstore(Type.DOUBLE_TYPE);
+            brebk;
+        cbse Opcodes.AASTORE:
+            bstore(OBJECT_TYPE);
+            brebk;
+        cbse Opcodes.BASTORE:
+            bstore(Type.BYTE_TYPE);
+            brebk;
+        cbse Opcodes.CASTORE:
+            bstore(Type.CHAR_TYPE);
+            brebk;
+        cbse Opcodes.SASTORE:
+            bstore(Type.SHORT_TYPE);
+            brebk;
+        cbse Opcodes.POP:
             pop();
-            break;
-        case Opcodes.POP2:
+            brebk;
+        cbse Opcodes.POP2:
             pop2();
-            break;
-        case Opcodes.DUP:
+            brebk;
+        cbse Opcodes.DUP:
             dup();
-            break;
-        case Opcodes.DUP_X1:
+            brebk;
+        cbse Opcodes.DUP_X1:
             dupX1();
-            break;
-        case Opcodes.DUP_X2:
+            brebk;
+        cbse Opcodes.DUP_X2:
             dupX2();
-            break;
-        case Opcodes.DUP2:
+            brebk;
+        cbse Opcodes.DUP2:
             dup2();
-            break;
-        case Opcodes.DUP2_X1:
+            brebk;
+        cbse Opcodes.DUP2_X1:
             dup2X1();
-            break;
-        case Opcodes.DUP2_X2:
+            brebk;
+        cbse Opcodes.DUP2_X2:
             dup2X2();
-            break;
-        case Opcodes.SWAP:
-            swap();
-            break;
-        case Opcodes.IADD:
-            add(Type.INT_TYPE);
-            break;
-        case Opcodes.LADD:
-            add(Type.LONG_TYPE);
-            break;
-        case Opcodes.FADD:
-            add(Type.FLOAT_TYPE);
-            break;
-        case Opcodes.DADD:
-            add(Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.ISUB:
+            brebk;
+        cbse Opcodes.SWAP:
+            swbp();
+            brebk;
+        cbse Opcodes.IADD:
+            bdd(Type.INT_TYPE);
+            brebk;
+        cbse Opcodes.LADD:
+            bdd(Type.LONG_TYPE);
+            brebk;
+        cbse Opcodes.FADD:
+            bdd(Type.FLOAT_TYPE);
+            brebk;
+        cbse Opcodes.DADD:
+            bdd(Type.DOUBLE_TYPE);
+            brebk;
+        cbse Opcodes.ISUB:
             sub(Type.INT_TYPE);
-            break;
-        case Opcodes.LSUB:
+            brebk;
+        cbse Opcodes.LSUB:
             sub(Type.LONG_TYPE);
-            break;
-        case Opcodes.FSUB:
+            brebk;
+        cbse Opcodes.FSUB:
             sub(Type.FLOAT_TYPE);
-            break;
-        case Opcodes.DSUB:
+            brebk;
+        cbse Opcodes.DSUB:
             sub(Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.IMUL:
+            brebk;
+        cbse Opcodes.IMUL:
             mul(Type.INT_TYPE);
-            break;
-        case Opcodes.LMUL:
+            brebk;
+        cbse Opcodes.LMUL:
             mul(Type.LONG_TYPE);
-            break;
-        case Opcodes.FMUL:
+            brebk;
+        cbse Opcodes.FMUL:
             mul(Type.FLOAT_TYPE);
-            break;
-        case Opcodes.DMUL:
+            brebk;
+        cbse Opcodes.DMUL:
             mul(Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.IDIV:
+            brebk;
+        cbse Opcodes.IDIV:
             div(Type.INT_TYPE);
-            break;
-        case Opcodes.LDIV:
+            brebk;
+        cbse Opcodes.LDIV:
             div(Type.LONG_TYPE);
-            break;
-        case Opcodes.FDIV:
+            brebk;
+        cbse Opcodes.FDIV:
             div(Type.FLOAT_TYPE);
-            break;
-        case Opcodes.DDIV:
+            brebk;
+        cbse Opcodes.DDIV:
             div(Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.IREM:
+            brebk;
+        cbse Opcodes.IREM:
             rem(Type.INT_TYPE);
-            break;
-        case Opcodes.LREM:
+            brebk;
+        cbse Opcodes.LREM:
             rem(Type.LONG_TYPE);
-            break;
-        case Opcodes.FREM:
+            brebk;
+        cbse Opcodes.FREM:
             rem(Type.FLOAT_TYPE);
-            break;
-        case Opcodes.DREM:
+            brebk;
+        cbse Opcodes.DREM:
             rem(Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.INEG:
+            brebk;
+        cbse Opcodes.INEG:
             neg(Type.INT_TYPE);
-            break;
-        case Opcodes.LNEG:
+            brebk;
+        cbse Opcodes.LNEG:
             neg(Type.LONG_TYPE);
-            break;
-        case Opcodes.FNEG:
+            brebk;
+        cbse Opcodes.FNEG:
             neg(Type.FLOAT_TYPE);
-            break;
-        case Opcodes.DNEG:
+            brebk;
+        cbse Opcodes.DNEG:
             neg(Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.ISHL:
+            brebk;
+        cbse Opcodes.ISHL:
             shl(Type.INT_TYPE);
-            break;
-        case Opcodes.LSHL:
+            brebk;
+        cbse Opcodes.LSHL:
             shl(Type.LONG_TYPE);
-            break;
-        case Opcodes.ISHR:
+            brebk;
+        cbse Opcodes.ISHR:
             shr(Type.INT_TYPE);
-            break;
-        case Opcodes.LSHR:
+            brebk;
+        cbse Opcodes.LSHR:
             shr(Type.LONG_TYPE);
-            break;
-        case Opcodes.IUSHR:
+            brebk;
+        cbse Opcodes.IUSHR:
             ushr(Type.INT_TYPE);
-            break;
-        case Opcodes.LUSHR:
+            brebk;
+        cbse Opcodes.LUSHR:
             ushr(Type.LONG_TYPE);
-            break;
-        case Opcodes.IAND:
-            and(Type.INT_TYPE);
-            break;
-        case Opcodes.LAND:
-            and(Type.LONG_TYPE);
-            break;
-        case Opcodes.IOR:
+            brebk;
+        cbse Opcodes.IAND:
+            bnd(Type.INT_TYPE);
+            brebk;
+        cbse Opcodes.LAND:
+            bnd(Type.LONG_TYPE);
+            brebk;
+        cbse Opcodes.IOR:
             or(Type.INT_TYPE);
-            break;
-        case Opcodes.LOR:
+            brebk;
+        cbse Opcodes.LOR:
             or(Type.LONG_TYPE);
-            break;
-        case Opcodes.IXOR:
+            brebk;
+        cbse Opcodes.IXOR:
             xor(Type.INT_TYPE);
-            break;
-        case Opcodes.LXOR:
+            brebk;
+        cbse Opcodes.LXOR:
             xor(Type.LONG_TYPE);
-            break;
-        case Opcodes.I2L:
-            cast(Type.INT_TYPE, Type.LONG_TYPE);
-            break;
-        case Opcodes.I2F:
-            cast(Type.INT_TYPE, Type.FLOAT_TYPE);
-            break;
-        case Opcodes.I2D:
-            cast(Type.INT_TYPE, Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.L2I:
-            cast(Type.LONG_TYPE, Type.INT_TYPE);
-            break;
-        case Opcodes.L2F:
-            cast(Type.LONG_TYPE, Type.FLOAT_TYPE);
-            break;
-        case Opcodes.L2D:
-            cast(Type.LONG_TYPE, Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.F2I:
-            cast(Type.FLOAT_TYPE, Type.INT_TYPE);
-            break;
-        case Opcodes.F2L:
-            cast(Type.FLOAT_TYPE, Type.LONG_TYPE);
-            break;
-        case Opcodes.F2D:
-            cast(Type.FLOAT_TYPE, Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.D2I:
-            cast(Type.DOUBLE_TYPE, Type.INT_TYPE);
-            break;
-        case Opcodes.D2L:
-            cast(Type.DOUBLE_TYPE, Type.LONG_TYPE);
-            break;
-        case Opcodes.D2F:
-            cast(Type.DOUBLE_TYPE, Type.FLOAT_TYPE);
-            break;
-        case Opcodes.I2B:
-            cast(Type.INT_TYPE, Type.BYTE_TYPE);
-            break;
-        case Opcodes.I2C:
-            cast(Type.INT_TYPE, Type.CHAR_TYPE);
-            break;
-        case Opcodes.I2S:
-            cast(Type.INT_TYPE, Type.SHORT_TYPE);
-            break;
-        case Opcodes.LCMP:
+            brebk;
+        cbse Opcodes.I2L:
+            cbst(Type.INT_TYPE, Type.LONG_TYPE);
+            brebk;
+        cbse Opcodes.I2F:
+            cbst(Type.INT_TYPE, Type.FLOAT_TYPE);
+            brebk;
+        cbse Opcodes.I2D:
+            cbst(Type.INT_TYPE, Type.DOUBLE_TYPE);
+            brebk;
+        cbse Opcodes.L2I:
+            cbst(Type.LONG_TYPE, Type.INT_TYPE);
+            brebk;
+        cbse Opcodes.L2F:
+            cbst(Type.LONG_TYPE, Type.FLOAT_TYPE);
+            brebk;
+        cbse Opcodes.L2D:
+            cbst(Type.LONG_TYPE, Type.DOUBLE_TYPE);
+            brebk;
+        cbse Opcodes.F2I:
+            cbst(Type.FLOAT_TYPE, Type.INT_TYPE);
+            brebk;
+        cbse Opcodes.F2L:
+            cbst(Type.FLOAT_TYPE, Type.LONG_TYPE);
+            brebk;
+        cbse Opcodes.F2D:
+            cbst(Type.FLOAT_TYPE, Type.DOUBLE_TYPE);
+            brebk;
+        cbse Opcodes.D2I:
+            cbst(Type.DOUBLE_TYPE, Type.INT_TYPE);
+            brebk;
+        cbse Opcodes.D2L:
+            cbst(Type.DOUBLE_TYPE, Type.LONG_TYPE);
+            brebk;
+        cbse Opcodes.D2F:
+            cbst(Type.DOUBLE_TYPE, Type.FLOAT_TYPE);
+            brebk;
+        cbse Opcodes.I2B:
+            cbst(Type.INT_TYPE, Type.BYTE_TYPE);
+            brebk;
+        cbse Opcodes.I2C:
+            cbst(Type.INT_TYPE, Type.CHAR_TYPE);
+            brebk;
+        cbse Opcodes.I2S:
+            cbst(Type.INT_TYPE, Type.SHORT_TYPE);
+            brebk;
+        cbse Opcodes.LCMP:
             lcmp();
-            break;
-        case Opcodes.FCMPL:
+            brebk;
+        cbse Opcodes.FCMPL:
             cmpl(Type.FLOAT_TYPE);
-            break;
-        case Opcodes.FCMPG:
+            brebk;
+        cbse Opcodes.FCMPG:
             cmpg(Type.FLOAT_TYPE);
-            break;
-        case Opcodes.DCMPL:
+            brebk;
+        cbse Opcodes.DCMPL:
             cmpl(Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.DCMPG:
+            brebk;
+        cbse Opcodes.DCMPG:
             cmpg(Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.IRETURN:
-            areturn(Type.INT_TYPE);
-            break;
-        case Opcodes.LRETURN:
-            areturn(Type.LONG_TYPE);
-            break;
-        case Opcodes.FRETURN:
-            areturn(Type.FLOAT_TYPE);
-            break;
-        case Opcodes.DRETURN:
-            areturn(Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.ARETURN:
-            areturn(OBJECT_TYPE);
-            break;
-        case Opcodes.RETURN:
-            areturn(Type.VOID_TYPE);
-            break;
-        case Opcodes.ARRAYLENGTH:
-            arraylength();
-            break;
-        case Opcodes.ATHROW:
-            athrow();
-            break;
-        case Opcodes.MONITORENTER:
+            brebk;
+        cbse Opcodes.IRETURN:
+            breturn(Type.INT_TYPE);
+            brebk;
+        cbse Opcodes.LRETURN:
+            breturn(Type.LONG_TYPE);
+            brebk;
+        cbse Opcodes.FRETURN:
+            breturn(Type.FLOAT_TYPE);
+            brebk;
+        cbse Opcodes.DRETURN:
+            breturn(Type.DOUBLE_TYPE);
+            brebk;
+        cbse Opcodes.ARETURN:
+            breturn(OBJECT_TYPE);
+            brebk;
+        cbse Opcodes.RETURN:
+            breturn(Type.VOID_TYPE);
+            brebk;
+        cbse Opcodes.ARRAYLENGTH:
+            brrbylength();
+            brebk;
+        cbse Opcodes.ATHROW:
+            bthrow();
+            brebk;
+        cbse Opcodes.MONITORENTER:
             monitorenter();
-            break;
-        case Opcodes.MONITOREXIT:
+            brebk;
+        cbse Opcodes.MONITOREXIT:
             monitorexit();
-            break;
-        default:
-            throw new IllegalArgumentException();
+            brebk;
+        defbult:
+            throw new IllegblArgumentException();
         }
     }
 
     @Override
-    public void visitIntInsn(final int opcode, final int operand) {
+    public void visitIntInsn(finbl int opcode, finbl int operbnd) {
         switch (opcode) {
-        case Opcodes.BIPUSH:
-            iconst(operand);
-            break;
-        case Opcodes.SIPUSH:
-            iconst(operand);
-            break;
-        case Opcodes.NEWARRAY:
-            switch (operand) {
-            case Opcodes.T_BOOLEAN:
-                newarray(Type.BOOLEAN_TYPE);
-                break;
-            case Opcodes.T_CHAR:
-                newarray(Type.CHAR_TYPE);
-                break;
-            case Opcodes.T_BYTE:
-                newarray(Type.BYTE_TYPE);
-                break;
-            case Opcodes.T_SHORT:
-                newarray(Type.SHORT_TYPE);
-                break;
-            case Opcodes.T_INT:
-                newarray(Type.INT_TYPE);
-                break;
-            case Opcodes.T_FLOAT:
-                newarray(Type.FLOAT_TYPE);
-                break;
-            case Opcodes.T_LONG:
-                newarray(Type.LONG_TYPE);
-                break;
-            case Opcodes.T_DOUBLE:
-                newarray(Type.DOUBLE_TYPE);
-                break;
-            default:
-                throw new IllegalArgumentException();
+        cbse Opcodes.BIPUSH:
+            iconst(operbnd);
+            brebk;
+        cbse Opcodes.SIPUSH:
+            iconst(operbnd);
+            brebk;
+        cbse Opcodes.NEWARRAY:
+            switch (operbnd) {
+            cbse Opcodes.T_BOOLEAN:
+                newbrrby(Type.BOOLEAN_TYPE);
+                brebk;
+            cbse Opcodes.T_CHAR:
+                newbrrby(Type.CHAR_TYPE);
+                brebk;
+            cbse Opcodes.T_BYTE:
+                newbrrby(Type.BYTE_TYPE);
+                brebk;
+            cbse Opcodes.T_SHORT:
+                newbrrby(Type.SHORT_TYPE);
+                brebk;
+            cbse Opcodes.T_INT:
+                newbrrby(Type.INT_TYPE);
+                brebk;
+            cbse Opcodes.T_FLOAT:
+                newbrrby(Type.FLOAT_TYPE);
+                brebk;
+            cbse Opcodes.T_LONG:
+                newbrrby(Type.LONG_TYPE);
+                brebk;
+            cbse Opcodes.T_DOUBLE:
+                newbrrby(Type.DOUBLE_TYPE);
+                brebk;
+            defbult:
+                throw new IllegblArgumentException();
             }
-            break;
-        default:
-            throw new IllegalArgumentException();
+            brebk;
+        defbult:
+            throw new IllegblArgumentException();
         }
     }
 
     @Override
-    public void visitVarInsn(final int opcode, final int var) {
+    public void visitVbrInsn(finbl int opcode, finbl int vbr) {
         switch (opcode) {
-        case Opcodes.ILOAD:
-            load(var, Type.INT_TYPE);
-            break;
-        case Opcodes.LLOAD:
-            load(var, Type.LONG_TYPE);
-            break;
-        case Opcodes.FLOAD:
-            load(var, Type.FLOAT_TYPE);
-            break;
-        case Opcodes.DLOAD:
-            load(var, Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.ALOAD:
-            load(var, OBJECT_TYPE);
-            break;
-        case Opcodes.ISTORE:
-            store(var, Type.INT_TYPE);
-            break;
-        case Opcodes.LSTORE:
-            store(var, Type.LONG_TYPE);
-            break;
-        case Opcodes.FSTORE:
-            store(var, Type.FLOAT_TYPE);
-            break;
-        case Opcodes.DSTORE:
-            store(var, Type.DOUBLE_TYPE);
-            break;
-        case Opcodes.ASTORE:
-            store(var, OBJECT_TYPE);
-            break;
-        case Opcodes.RET:
-            ret(var);
-            break;
-        default:
-            throw new IllegalArgumentException();
+        cbse Opcodes.ILOAD:
+            lobd(vbr, Type.INT_TYPE);
+            brebk;
+        cbse Opcodes.LLOAD:
+            lobd(vbr, Type.LONG_TYPE);
+            brebk;
+        cbse Opcodes.FLOAD:
+            lobd(vbr, Type.FLOAT_TYPE);
+            brebk;
+        cbse Opcodes.DLOAD:
+            lobd(vbr, Type.DOUBLE_TYPE);
+            brebk;
+        cbse Opcodes.ALOAD:
+            lobd(vbr, OBJECT_TYPE);
+            brebk;
+        cbse Opcodes.ISTORE:
+            store(vbr, Type.INT_TYPE);
+            brebk;
+        cbse Opcodes.LSTORE:
+            store(vbr, Type.LONG_TYPE);
+            brebk;
+        cbse Opcodes.FSTORE:
+            store(vbr, Type.FLOAT_TYPE);
+            brebk;
+        cbse Opcodes.DSTORE:
+            store(vbr, Type.DOUBLE_TYPE);
+            brebk;
+        cbse Opcodes.ASTORE:
+            store(vbr, OBJECT_TYPE);
+            brebk;
+        cbse Opcodes.RET:
+            ret(vbr);
+            brebk;
+        defbult:
+            throw new IllegblArgumentException();
         }
     }
 
     @Override
-    public void visitTypeInsn(final int opcode, final String type) {
+    public void visitTypeInsn(finbl int opcode, finbl String type) {
         Type t = Type.getObjectType(type);
         switch (opcode) {
-        case Opcodes.NEW:
-            anew(t);
-            break;
-        case Opcodes.ANEWARRAY:
-            newarray(t);
-            break;
-        case Opcodes.CHECKCAST:
-            checkcast(t);
-            break;
-        case Opcodes.INSTANCEOF:
-            instanceOf(t);
-            break;
-        default:
-            throw new IllegalArgumentException();
+        cbse Opcodes.NEW:
+            bnew(t);
+            brebk;
+        cbse Opcodes.ANEWARRAY:
+            newbrrby(t);
+            brebk;
+        cbse Opcodes.CHECKCAST:
+            checkcbst(t);
+            brebk;
+        cbse Opcodes.INSTANCEOF:
+            instbnceOf(t);
+            brebk;
+        defbult:
+            throw new IllegblArgumentException();
         }
     }
 
     @Override
-    public void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc) {
+    public void visitFieldInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc) {
         switch (opcode) {
-        case Opcodes.GETSTATIC:
-            getstatic(owner, name, desc);
-            break;
-        case Opcodes.PUTSTATIC:
-            putstatic(owner, name, desc);
-            break;
-        case Opcodes.GETFIELD:
-            getfield(owner, name, desc);
-            break;
-        case Opcodes.PUTFIELD:
-            putfield(owner, name, desc);
-            break;
-        default:
-            throw new IllegalArgumentException();
+        cbse Opcodes.GETSTATIC:
+            getstbtic(owner, nbme, desc);
+            brebk;
+        cbse Opcodes.PUTSTATIC:
+            putstbtic(owner, nbme, desc);
+            brebk;
+        cbse Opcodes.GETFIELD:
+            getfield(owner, nbme, desc);
+            brebk;
+        cbse Opcodes.PUTFIELD:
+            putfield(owner, nbme, desc);
+            brebk;
+        defbult:
+            throw new IllegblArgumentException();
         }
     }
 
-    @Deprecated
+    @Deprecbted
     @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
+    public void visitMethodInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc) {
+        if (bpi >= Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc);
             return;
         }
-        doVisitMethodInsn(opcode, owner, name, desc,
+        doVisitMethodInsn(opcode, owner, nbme, desc,
                 opcode == Opcodes.INVOKEINTERFACE);
     }
 
     @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
+    public void visitMethodInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc, finbl boolebn itf) {
+        if (bpi < Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc, itf);
             return;
         }
-        doVisitMethodInsn(opcode, owner, name, desc, itf);
+        doVisitMethodInsn(opcode, owner, nbme, desc, itf);
     }
 
-    private void doVisitMethodInsn(int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
+    privbte void doVisitMethodInsn(int opcode, finbl String owner,
+            finbl String nbme, finbl String desc, finbl boolebn itf) {
         switch (opcode) {
-        case Opcodes.INVOKESPECIAL:
-            invokespecial(owner, name, desc, itf);
-            break;
-        case Opcodes.INVOKEVIRTUAL:
-            invokevirtual(owner, name, desc, itf);
-            break;
-        case Opcodes.INVOKESTATIC:
-            invokestatic(owner, name, desc, itf);
-            break;
-        case Opcodes.INVOKEINTERFACE:
-            invokeinterface(owner, name, desc);
-            break;
-        default:
-            throw new IllegalArgumentException();
+        cbse Opcodes.INVOKESPECIAL:
+            invokespecibl(owner, nbme, desc, itf);
+            brebk;
+        cbse Opcodes.INVOKEVIRTUAL:
+            invokevirtubl(owner, nbme, desc, itf);
+            brebk;
+        cbse Opcodes.INVOKESTATIC:
+            invokestbtic(owner, nbme, desc, itf);
+            brebk;
+        cbse Opcodes.INVOKEINTERFACE:
+            invokeinterfbce(owner, nbme, desc);
+            brebk;
+        defbult:
+            throw new IllegblArgumentException();
         }
     }
 
     @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
+    public void visitInvokeDynbmicInsn(String nbme, String desc, Hbndle bsm,
             Object... bsmArgs) {
-        invokedynamic(name, desc, bsm, bsmArgs);
+        invokedynbmic(nbme, desc, bsm, bsmArgs);
     }
 
     @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
+    public void visitJumpInsn(finbl int opcode, finbl Lbbel lbbel) {
         switch (opcode) {
-        case Opcodes.IFEQ:
-            ifeq(label);
-            break;
-        case Opcodes.IFNE:
-            ifne(label);
-            break;
-        case Opcodes.IFLT:
-            iflt(label);
-            break;
-        case Opcodes.IFGE:
-            ifge(label);
-            break;
-        case Opcodes.IFGT:
-            ifgt(label);
-            break;
-        case Opcodes.IFLE:
-            ifle(label);
-            break;
-        case Opcodes.IF_ICMPEQ:
-            ificmpeq(label);
-            break;
-        case Opcodes.IF_ICMPNE:
-            ificmpne(label);
-            break;
-        case Opcodes.IF_ICMPLT:
-            ificmplt(label);
-            break;
-        case Opcodes.IF_ICMPGE:
-            ificmpge(label);
-            break;
-        case Opcodes.IF_ICMPGT:
-            ificmpgt(label);
-            break;
-        case Opcodes.IF_ICMPLE:
-            ificmple(label);
-            break;
-        case Opcodes.IF_ACMPEQ:
-            ifacmpeq(label);
-            break;
-        case Opcodes.IF_ACMPNE:
-            ifacmpne(label);
-            break;
-        case Opcodes.GOTO:
-            goTo(label);
-            break;
-        case Opcodes.JSR:
-            jsr(label);
-            break;
-        case Opcodes.IFNULL:
-            ifnull(label);
-            break;
-        case Opcodes.IFNONNULL:
-            ifnonnull(label);
-            break;
-        default:
-            throw new IllegalArgumentException();
+        cbse Opcodes.IFEQ:
+            ifeq(lbbel);
+            brebk;
+        cbse Opcodes.IFNE:
+            ifne(lbbel);
+            brebk;
+        cbse Opcodes.IFLT:
+            iflt(lbbel);
+            brebk;
+        cbse Opcodes.IFGE:
+            ifge(lbbel);
+            brebk;
+        cbse Opcodes.IFGT:
+            ifgt(lbbel);
+            brebk;
+        cbse Opcodes.IFLE:
+            ifle(lbbel);
+            brebk;
+        cbse Opcodes.IF_ICMPEQ:
+            ificmpeq(lbbel);
+            brebk;
+        cbse Opcodes.IF_ICMPNE:
+            ificmpne(lbbel);
+            brebk;
+        cbse Opcodes.IF_ICMPLT:
+            ificmplt(lbbel);
+            brebk;
+        cbse Opcodes.IF_ICMPGE:
+            ificmpge(lbbel);
+            brebk;
+        cbse Opcodes.IF_ICMPGT:
+            ificmpgt(lbbel);
+            brebk;
+        cbse Opcodes.IF_ICMPLE:
+            ificmple(lbbel);
+            brebk;
+        cbse Opcodes.IF_ACMPEQ:
+            ifbcmpeq(lbbel);
+            brebk;
+        cbse Opcodes.IF_ACMPNE:
+            ifbcmpne(lbbel);
+            brebk;
+        cbse Opcodes.GOTO:
+            goTo(lbbel);
+            brebk;
+        cbse Opcodes.JSR:
+            jsr(lbbel);
+            brebk;
+        cbse Opcodes.IFNULL:
+            ifnull(lbbel);
+            brebk;
+        cbse Opcodes.IFNONNULL:
+            ifnonnull(lbbel);
+            brebk;
+        defbult:
+            throw new IllegblArgumentException();
         }
     }
 
     @Override
-    public void visitLabel(final Label label) {
-        mark(label);
+    public void visitLbbel(finbl Lbbel lbbel) {
+        mbrk(lbbel);
     }
 
     @Override
-    public void visitLdcInsn(final Object cst) {
-        if (cst instanceof Integer) {
-            int val = ((Integer) cst).intValue();
-            iconst(val);
-        } else if (cst instanceof Byte) {
-            int val = ((Byte) cst).intValue();
-            iconst(val);
-        } else if (cst instanceof Character) {
-            int val = ((Character) cst).charValue();
-            iconst(val);
-        } else if (cst instanceof Short) {
-            int val = ((Short) cst).intValue();
-            iconst(val);
-        } else if (cst instanceof Boolean) {
-            int val = ((Boolean) cst).booleanValue() ? 1 : 0;
-            iconst(val);
-        } else if (cst instanceof Float) {
-            float val = ((Float) cst).floatValue();
-            fconst(val);
-        } else if (cst instanceof Long) {
-            long val = ((Long) cst).longValue();
-            lconst(val);
-        } else if (cst instanceof Double) {
-            double val = ((Double) cst).doubleValue();
-            dconst(val);
-        } else if (cst instanceof String) {
-            aconst(cst);
-        } else if (cst instanceof Type) {
+    public void visitLdcInsn(finbl Object cst) {
+        if (cst instbnceof Integer) {
+            int vbl = ((Integer) cst).intVblue();
+            iconst(vbl);
+        } else if (cst instbnceof Byte) {
+            int vbl = ((Byte) cst).intVblue();
+            iconst(vbl);
+        } else if (cst instbnceof Chbrbcter) {
+            int vbl = ((Chbrbcter) cst).chbrVblue();
+            iconst(vbl);
+        } else if (cst instbnceof Short) {
+            int vbl = ((Short) cst).intVblue();
+            iconst(vbl);
+        } else if (cst instbnceof Boolebn) {
+            int vbl = ((Boolebn) cst).boolebnVblue() ? 1 : 0;
+            iconst(vbl);
+        } else if (cst instbnceof Flobt) {
+            flobt vbl = ((Flobt) cst).flobtVblue();
+            fconst(vbl);
+        } else if (cst instbnceof Long) {
+            long vbl = ((Long) cst).longVblue();
+            lconst(vbl);
+        } else if (cst instbnceof Double) {
+            double vbl = ((Double) cst).doubleVblue();
+            dconst(vbl);
+        } else if (cst instbnceof String) {
+            bconst(cst);
+        } else if (cst instbnceof Type) {
             tconst((Type) cst);
-        } else if (cst instanceof Handle) {
-            hconst((Handle) cst);
+        } else if (cst instbnceof Hbndle) {
+            hconst((Hbndle) cst);
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
     }
 
     @Override
-    public void visitIincInsn(final int var, final int increment) {
-        iinc(var, increment);
+    public void visitIincInsn(finbl int vbr, finbl int increment) {
+        iinc(vbr, increment);
     }
 
     @Override
-    public void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels) {
-        tableswitch(min, max, dflt, labels);
+    public void visitTbbleSwitchInsn(finbl int min, finbl int mbx,
+            finbl Lbbel dflt, finbl Lbbel... lbbels) {
+        tbbleswitch(min, mbx, dflt, lbbels);
     }
 
     @Override
-    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
-            final Label[] labels) {
-        lookupswitch(dflt, keys, labels);
+    public void visitLookupSwitchInsn(finbl Lbbel dflt, finbl int[] keys,
+            finbl Lbbel[] lbbels) {
+        lookupswitch(dflt, keys, lbbels);
     }
 
     @Override
-    public void visitMultiANewArrayInsn(final String desc, final int dims) {
-        multianewarray(desc, dims);
+    public void visitMultiANewArrbyInsn(finbl String desc, finbl int dims) {
+        multibnewbrrby(desc, dims);
     }
 
     // -----------------------------------------------------------------------
@@ -721,7 +721,7 @@ public class InstructionAdapter extends MethodVisitor {
         mv.visitInsn(Opcodes.NOP);
     }
 
-    public void aconst(final Object cst) {
+    public void bconst(finbl Object cst) {
         if (cst == null) {
             mv.visitInsn(Opcodes.ACONST_NULL);
         } else {
@@ -729,7 +729,7 @@ public class InstructionAdapter extends MethodVisitor {
         }
     }
 
-    public void iconst(final int cst) {
+    public void iconst(finbl int cst) {
         if (cst >= -1 && cst <= 5) {
             mv.visitInsn(Opcodes.ICONST_0 + cst);
         } else if (cst >= Byte.MIN_VALUE && cst <= Byte.MAX_VALUE) {
@@ -741,7 +741,7 @@ public class InstructionAdapter extends MethodVisitor {
         }
     }
 
-    public void lconst(final long cst) {
+    public void lconst(finbl long cst) {
         if (cst == 0L || cst == 1L) {
             mv.visitInsn(Opcodes.LCONST_0 + (int) cst);
         } else {
@@ -749,45 +749,45 @@ public class InstructionAdapter extends MethodVisitor {
         }
     }
 
-    public void fconst(final float cst) {
-        int bits = Float.floatToIntBits(cst);
+    public void fconst(finbl flobt cst) {
+        int bits = Flobt.flobtToIntBits(cst);
         if (bits == 0L || bits == 0x3f800000 || bits == 0x40000000) { // 0..2
             mv.visitInsn(Opcodes.FCONST_0 + (int) cst);
         } else {
-            mv.visitLdcInsn(new Float(cst));
+            mv.visitLdcInsn(new Flobt(cst));
         }
     }
 
-    public void dconst(final double cst) {
+    public void dconst(finbl double cst) {
         long bits = Double.doubleToLongBits(cst);
-        if (bits == 0L || bits == 0x3ff0000000000000L) { // +0.0d and 1.0d
+        if (bits == 0L || bits == 0x3ff0000000000000L) { // +0.0d bnd 1.0d
             mv.visitInsn(Opcodes.DCONST_0 + (int) cst);
         } else {
             mv.visitLdcInsn(new Double(cst));
         }
     }
 
-    public void tconst(final Type type) {
+    public void tconst(finbl Type type) {
         mv.visitLdcInsn(type);
     }
 
-    public void hconst(final Handle handle) {
-        mv.visitLdcInsn(handle);
+    public void hconst(finbl Hbndle hbndle) {
+        mv.visitLdcInsn(hbndle);
     }
 
-    public void load(final int var, final Type type) {
-        mv.visitVarInsn(type.getOpcode(Opcodes.ILOAD), var);
+    public void lobd(finbl int vbr, finbl Type type) {
+        mv.visitVbrInsn(type.getOpcode(Opcodes.ILOAD), vbr);
     }
 
-    public void aload(final Type type) {
+    public void blobd(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.IALOAD));
     }
 
-    public void store(final int var, final Type type) {
-        mv.visitVarInsn(type.getOpcode(Opcodes.ISTORE), var);
+    public void store(finbl int vbr, finbl Type type) {
+        mv.visitVbrInsn(type.getOpcode(Opcodes.ISTORE), vbr);
     }
 
-    public void astore(final Type type) {
+    public void bstore(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.IASTORE));
     }
 
@@ -823,63 +823,63 @@ public class InstructionAdapter extends MethodVisitor {
         mv.visitInsn(Opcodes.DUP2_X2);
     }
 
-    public void swap() {
+    public void swbp() {
         mv.visitInsn(Opcodes.SWAP);
     }
 
-    public void add(final Type type) {
+    public void bdd(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.IADD));
     }
 
-    public void sub(final Type type) {
+    public void sub(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.ISUB));
     }
 
-    public void mul(final Type type) {
+    public void mul(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.IMUL));
     }
 
-    public void div(final Type type) {
+    public void div(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.IDIV));
     }
 
-    public void rem(final Type type) {
+    public void rem(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.IREM));
     }
 
-    public void neg(final Type type) {
+    public void neg(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.INEG));
     }
 
-    public void shl(final Type type) {
+    public void shl(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.ISHL));
     }
 
-    public void shr(final Type type) {
+    public void shr(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.ISHR));
     }
 
-    public void ushr(final Type type) {
+    public void ushr(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.IUSHR));
     }
 
-    public void and(final Type type) {
+    public void bnd(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.IAND));
     }
 
-    public void or(final Type type) {
+    public void or(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.IOR));
     }
 
-    public void xor(final Type type) {
+    public void xor(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.IXOR));
     }
 
-    public void iinc(final int var, final int increment) {
-        mv.visitIincInsn(var, increment);
+    public void iinc(finbl int vbr, finbl int increment) {
+        mv.visitIincInsn(vbr, increment);
     }
 
-    public void cast(final Type from, final Type to) {
+    public void cbst(finbl Type from, finbl Type to) {
         if (from != to) {
             if (from == Type.DOUBLE_TYPE) {
                 if (to == Type.FLOAT_TYPE) {
@@ -888,7 +888,7 @@ public class InstructionAdapter extends MethodVisitor {
                     mv.visitInsn(Opcodes.D2L);
                 } else {
                     mv.visitInsn(Opcodes.D2I);
-                    cast(Type.INT_TYPE, to);
+                    cbst(Type.INT_TYPE, to);
                 }
             } else if (from == Type.FLOAT_TYPE) {
                 if (to == Type.DOUBLE_TYPE) {
@@ -897,7 +897,7 @@ public class InstructionAdapter extends MethodVisitor {
                     mv.visitInsn(Opcodes.F2L);
                 } else {
                     mv.visitInsn(Opcodes.F2I);
-                    cast(Type.INT_TYPE, to);
+                    cbst(Type.INT_TYPE, to);
                 }
             } else if (from == Type.LONG_TYPE) {
                 if (to == Type.DOUBLE_TYPE) {
@@ -906,7 +906,7 @@ public class InstructionAdapter extends MethodVisitor {
                     mv.visitInsn(Opcodes.L2F);
                 } else {
                     mv.visitInsn(Opcodes.L2I);
-                    cast(Type.INT_TYPE, to);
+                    cbst(Type.INT_TYPE, to);
                 }
             } else {
                 if (to == Type.BYTE_TYPE) {
@@ -930,247 +930,247 @@ public class InstructionAdapter extends MethodVisitor {
         mv.visitInsn(Opcodes.LCMP);
     }
 
-    public void cmpl(final Type type) {
+    public void cmpl(finbl Type type) {
         mv.visitInsn(type == Type.FLOAT_TYPE ? Opcodes.FCMPL : Opcodes.DCMPL);
     }
 
-    public void cmpg(final Type type) {
+    public void cmpg(finbl Type type) {
         mv.visitInsn(type == Type.FLOAT_TYPE ? Opcodes.FCMPG : Opcodes.DCMPG);
     }
 
-    public void ifeq(final Label label) {
-        mv.visitJumpInsn(Opcodes.IFEQ, label);
+    public void ifeq(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IFEQ, lbbel);
     }
 
-    public void ifne(final Label label) {
-        mv.visitJumpInsn(Opcodes.IFNE, label);
+    public void ifne(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IFNE, lbbel);
     }
 
-    public void iflt(final Label label) {
-        mv.visitJumpInsn(Opcodes.IFLT, label);
+    public void iflt(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IFLT, lbbel);
     }
 
-    public void ifge(final Label label) {
-        mv.visitJumpInsn(Opcodes.IFGE, label);
+    public void ifge(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IFGE, lbbel);
     }
 
-    public void ifgt(final Label label) {
-        mv.visitJumpInsn(Opcodes.IFGT, label);
+    public void ifgt(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IFGT, lbbel);
     }
 
-    public void ifle(final Label label) {
-        mv.visitJumpInsn(Opcodes.IFLE, label);
+    public void ifle(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IFLE, lbbel);
     }
 
-    public void ificmpeq(final Label label) {
-        mv.visitJumpInsn(Opcodes.IF_ICMPEQ, label);
+    public void ificmpeq(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IF_ICMPEQ, lbbel);
     }
 
-    public void ificmpne(final Label label) {
-        mv.visitJumpInsn(Opcodes.IF_ICMPNE, label);
+    public void ificmpne(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IF_ICMPNE, lbbel);
     }
 
-    public void ificmplt(final Label label) {
-        mv.visitJumpInsn(Opcodes.IF_ICMPLT, label);
+    public void ificmplt(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IF_ICMPLT, lbbel);
     }
 
-    public void ificmpge(final Label label) {
-        mv.visitJumpInsn(Opcodes.IF_ICMPGE, label);
+    public void ificmpge(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IF_ICMPGE, lbbel);
     }
 
-    public void ificmpgt(final Label label) {
-        mv.visitJumpInsn(Opcodes.IF_ICMPGT, label);
+    public void ificmpgt(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IF_ICMPGT, lbbel);
     }
 
-    public void ificmple(final Label label) {
-        mv.visitJumpInsn(Opcodes.IF_ICMPLE, label);
+    public void ificmple(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IF_ICMPLE, lbbel);
     }
 
-    public void ifacmpeq(final Label label) {
-        mv.visitJumpInsn(Opcodes.IF_ACMPEQ, label);
+    public void ifbcmpeq(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IF_ACMPEQ, lbbel);
     }
 
-    public void ifacmpne(final Label label) {
-        mv.visitJumpInsn(Opcodes.IF_ACMPNE, label);
+    public void ifbcmpne(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IF_ACMPNE, lbbel);
     }
 
-    public void goTo(final Label label) {
-        mv.visitJumpInsn(Opcodes.GOTO, label);
+    public void goTo(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.GOTO, lbbel);
     }
 
-    public void jsr(final Label label) {
-        mv.visitJumpInsn(Opcodes.JSR, label);
+    public void jsr(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.JSR, lbbel);
     }
 
-    public void ret(final int var) {
-        mv.visitVarInsn(Opcodes.RET, var);
+    public void ret(finbl int vbr) {
+        mv.visitVbrInsn(Opcodes.RET, vbr);
     }
 
-    public void tableswitch(final int min, final int max, final Label dflt,
-            final Label... labels) {
-        mv.visitTableSwitchInsn(min, max, dflt, labels);
+    public void tbbleswitch(finbl int min, finbl int mbx, finbl Lbbel dflt,
+            finbl Lbbel... lbbels) {
+        mv.visitTbbleSwitchInsn(min, mbx, dflt, lbbels);
     }
 
-    public void lookupswitch(final Label dflt, final int[] keys,
-            final Label[] labels) {
-        mv.visitLookupSwitchInsn(dflt, keys, labels);
+    public void lookupswitch(finbl Lbbel dflt, finbl int[] keys,
+            finbl Lbbel[] lbbels) {
+        mv.visitLookupSwitchInsn(dflt, keys, lbbels);
     }
 
-    public void areturn(final Type t) {
+    public void breturn(finbl Type t) {
         mv.visitInsn(t.getOpcode(Opcodes.IRETURN));
     }
 
-    public void getstatic(final String owner, final String name,
-            final String desc) {
-        mv.visitFieldInsn(Opcodes.GETSTATIC, owner, name, desc);
+    public void getstbtic(finbl String owner, finbl String nbme,
+            finbl String desc) {
+        mv.visitFieldInsn(Opcodes.GETSTATIC, owner, nbme, desc);
     }
 
-    public void putstatic(final String owner, final String name,
-            final String desc) {
-        mv.visitFieldInsn(Opcodes.PUTSTATIC, owner, name, desc);
+    public void putstbtic(finbl String owner, finbl String nbme,
+            finbl String desc) {
+        mv.visitFieldInsn(Opcodes.PUTSTATIC, owner, nbme, desc);
     }
 
-    public void getfield(final String owner, final String name,
-            final String desc) {
-        mv.visitFieldInsn(Opcodes.GETFIELD, owner, name, desc);
+    public void getfield(finbl String owner, finbl String nbme,
+            finbl String desc) {
+        mv.visitFieldInsn(Opcodes.GETFIELD, owner, nbme, desc);
     }
 
-    public void putfield(final String owner, final String name,
-            final String desc) {
-        mv.visitFieldInsn(Opcodes.PUTFIELD, owner, name, desc);
+    public void putfield(finbl String owner, finbl String nbme,
+            finbl String desc) {
+        mv.visitFieldInsn(Opcodes.PUTFIELD, owner, nbme, desc);
     }
 
-    @Deprecated
-    public void invokevirtual(final String owner, final String name,
-            final String desc) {
-        if (api >= Opcodes.ASM5) {
-            invokevirtual(owner, name, desc, false);
+    @Deprecbted
+    public void invokevirtubl(finbl String owner, finbl String nbme,
+            finbl String desc) {
+        if (bpi >= Opcodes.ASM5) {
+            invokevirtubl(owner, nbme, desc, fblse);
             return;
         }
-        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, owner, name, desc);
+        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, owner, nbme, desc);
     }
 
-    public void invokevirtual(final String owner, final String name,
-            final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
+    public void invokevirtubl(finbl String owner, finbl String nbme,
+            finbl String desc, finbl boolebn itf) {
+        if (bpi < Opcodes.ASM5) {
             if (itf) {
-                throw new IllegalArgumentException(
-                        "INVOKEVIRTUAL on interfaces require ASM 5");
+                throw new IllegblArgumentException(
+                        "INVOKEVIRTUAL on interfbces require ASM 5");
             }
-            invokevirtual(owner, name, desc);
+            invokevirtubl(owner, nbme, desc);
             return;
         }
-        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, owner, name, desc, itf);
+        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, owner, nbme, desc, itf);
     }
 
-    @Deprecated
-    public void invokespecial(final String owner, final String name,
-            final String desc) {
-        if (api >= Opcodes.ASM5) {
-            invokespecial(owner, name, desc, false);
+    @Deprecbted
+    public void invokespecibl(finbl String owner, finbl String nbme,
+            finbl String desc) {
+        if (bpi >= Opcodes.ASM5) {
+            invokespecibl(owner, nbme, desc, fblse);
             return;
         }
-        mv.visitMethodInsn(Opcodes.INVOKESPECIAL, owner, name, desc, false);
+        mv.visitMethodInsn(Opcodes.INVOKESPECIAL, owner, nbme, desc, fblse);
     }
 
-    public void invokespecial(final String owner, final String name,
-            final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
+    public void invokespecibl(finbl String owner, finbl String nbme,
+            finbl String desc, finbl boolebn itf) {
+        if (bpi < Opcodes.ASM5) {
             if (itf) {
-                throw new IllegalArgumentException(
-                        "INVOKESPECIAL on interfaces require ASM 5");
+                throw new IllegblArgumentException(
+                        "INVOKESPECIAL on interfbces require ASM 5");
             }
-            invokespecial(owner, name, desc);
+            invokespecibl(owner, nbme, desc);
             return;
         }
-        mv.visitMethodInsn(Opcodes.INVOKESPECIAL, owner, name, desc, itf);
+        mv.visitMethodInsn(Opcodes.INVOKESPECIAL, owner, nbme, desc, itf);
     }
 
-    @Deprecated
-    public void invokestatic(final String owner, final String name,
-            final String desc) {
-        if (api >= Opcodes.ASM5) {
-            invokestatic(owner, name, desc, false);
+    @Deprecbted
+    public void invokestbtic(finbl String owner, finbl String nbme,
+            finbl String desc) {
+        if (bpi >= Opcodes.ASM5) {
+            invokestbtic(owner, nbme, desc, fblse);
             return;
         }
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, owner, name, desc, false);
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, owner, nbme, desc, fblse);
     }
 
-    public void invokestatic(final String owner, final String name,
-            final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
+    public void invokestbtic(finbl String owner, finbl String nbme,
+            finbl String desc, finbl boolebn itf) {
+        if (bpi < Opcodes.ASM5) {
             if (itf) {
-                throw new IllegalArgumentException(
-                        "INVOKESTATIC on interfaces require ASM 5");
+                throw new IllegblArgumentException(
+                        "INVOKESTATIC on interfbces require ASM 5");
             }
-            invokestatic(owner, name, desc);
+            invokestbtic(owner, nbme, desc);
             return;
         }
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, owner, name, desc, itf);
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, owner, nbme, desc, itf);
     }
 
-    public void invokeinterface(final String owner, final String name,
-            final String desc) {
-        mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, owner, name, desc, true);
+    public void invokeinterfbce(finbl String owner, finbl String nbme,
+            finbl String desc) {
+        mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, owner, nbme, desc, true);
     }
 
-    public void invokedynamic(String name, String desc, Handle bsm,
+    public void invokedynbmic(String nbme, String desc, Hbndle bsm,
             Object[] bsmArgs) {
-        mv.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
+        mv.visitInvokeDynbmicInsn(nbme, desc, bsm, bsmArgs);
     }
 
-    public void anew(final Type type) {
-        mv.visitTypeInsn(Opcodes.NEW, type.getInternalName());
+    public void bnew(finbl Type type) {
+        mv.visitTypeInsn(Opcodes.NEW, type.getInternblNbme());
     }
 
-    public void newarray(final Type type) {
+    public void newbrrby(finbl Type type) {
         int typ;
         switch (type.getSort()) {
-        case Type.BOOLEAN:
+        cbse Type.BOOLEAN:
             typ = Opcodes.T_BOOLEAN;
-            break;
-        case Type.CHAR:
+            brebk;
+        cbse Type.CHAR:
             typ = Opcodes.T_CHAR;
-            break;
-        case Type.BYTE:
+            brebk;
+        cbse Type.BYTE:
             typ = Opcodes.T_BYTE;
-            break;
-        case Type.SHORT:
+            brebk;
+        cbse Type.SHORT:
             typ = Opcodes.T_SHORT;
-            break;
-        case Type.INT:
+            brebk;
+        cbse Type.INT:
             typ = Opcodes.T_INT;
-            break;
-        case Type.FLOAT:
+            brebk;
+        cbse Type.FLOAT:
             typ = Opcodes.T_FLOAT;
-            break;
-        case Type.LONG:
+            brebk;
+        cbse Type.LONG:
             typ = Opcodes.T_LONG;
-            break;
-        case Type.DOUBLE:
+            brebk;
+        cbse Type.DOUBLE:
             typ = Opcodes.T_DOUBLE;
-            break;
-        default:
-            mv.visitTypeInsn(Opcodes.ANEWARRAY, type.getInternalName());
+            brebk;
+        defbult:
+            mv.visitTypeInsn(Opcodes.ANEWARRAY, type.getInternblNbme());
             return;
         }
         mv.visitIntInsn(Opcodes.NEWARRAY, typ);
     }
 
-    public void arraylength() {
+    public void brrbylength() {
         mv.visitInsn(Opcodes.ARRAYLENGTH);
     }
 
-    public void athrow() {
+    public void bthrow() {
         mv.visitInsn(Opcodes.ATHROW);
     }
 
-    public void checkcast(final Type type) {
-        mv.visitTypeInsn(Opcodes.CHECKCAST, type.getInternalName());
+    public void checkcbst(finbl Type type) {
+        mv.visitTypeInsn(Opcodes.CHECKCAST, type.getInternblNbme());
     }
 
-    public void instanceOf(final Type type) {
-        mv.visitTypeInsn(Opcodes.INSTANCEOF, type.getInternalName());
+    public void instbnceOf(finbl Type type) {
+        mv.visitTypeInsn(Opcodes.INSTANCEOF, type.getInternblNbme());
     }
 
     public void monitorenter() {
@@ -1181,19 +1181,19 @@ public class InstructionAdapter extends MethodVisitor {
         mv.visitInsn(Opcodes.MONITOREXIT);
     }
 
-    public void multianewarray(final String desc, final int dims) {
-        mv.visitMultiANewArrayInsn(desc, dims);
+    public void multibnewbrrby(finbl String desc, finbl int dims) {
+        mv.visitMultiANewArrbyInsn(desc, dims);
     }
 
-    public void ifnull(final Label label) {
-        mv.visitJumpInsn(Opcodes.IFNULL, label);
+    public void ifnull(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IFNULL, lbbel);
     }
 
-    public void ifnonnull(final Label label) {
-        mv.visitJumpInsn(Opcodes.IFNONNULL, label);
+    public void ifnonnull(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IFNONNULL, lbbel);
     }
 
-    public void mark(final Label label) {
-        mv.visitLabel(label);
+    public void mbrk(finbl Lbbel lbbel) {
+        mv.visitLbbel(lbbel);
     }
 }

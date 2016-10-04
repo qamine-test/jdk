@@ -1,334 +1,334 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.spi;
+pbckbge jbvbx.imbgeio.spi;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Iterator;
-import javax.imageio.ImageReader;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.io.IOException;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.Arrbys;
+import jbvb.util.Iterbtor;
+import jbvbx.imbgeio.ImbgeRebder;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbt;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbtImpl;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
 
 /**
- * A superclass containing instance variables and methods common to
- * <code>ImageReaderSpi</code> and <code>ImageWriterSpi</code>.
+ * A superclbss contbining instbnce vbribbles bnd methods common to
+ * <code>ImbgeRebderSpi</code> bnd <code>ImbgeWriterSpi</code>.
  *
  * @see IIORegistry
- * @see ImageReaderSpi
- * @see ImageWriterSpi
+ * @see ImbgeRebderSpi
+ * @see ImbgeWriterSpi
  *
  */
-public abstract class ImageReaderWriterSpi extends IIOServiceProvider {
+public bbstrbct clbss ImbgeRebderWriterSpi extends IIOServiceProvider {
 
     /**
-     * An array of strings to be returned from
-     * <code>getFormatNames</code>, initially <code>null</code>.
-     * Constructors should set this to a non-<code>null</code> value.
+     * An brrby of strings to be returned from
+     * <code>getFormbtNbmes</code>, initiblly <code>null</code>.
+     * Constructors should set this to b non-<code>null</code> vblue.
      */
-    protected String[] names = null;
+    protected String[] nbmes = null;
 
     /**
-     * An array of strings to be returned from
-     * <code>getFileSuffixes</code>, initially <code>null</code>.
+     * An brrby of strings to be returned from
+     * <code>getFileSuffixes</code>, initiblly <code>null</code>.
      */
     protected String[] suffixes = null;
 
     /**
-     * An array of strings to be returned from
-     * <code>getMIMETypes</code>, initially <code>null</code>.
+     * An brrby of strings to be returned from
+     * <code>getMIMETypes</code>, initiblly <code>null</code>.
      */
     protected String[] MIMETypes = null;
 
     /**
-     * A <code>String</code> containing the name of the associated
-     * plug-in class, initially <code>null</code>.
+     * A <code>String</code> contbining the nbme of the bssocibted
+     * plug-in clbss, initiblly <code>null</code>.
      */
-    protected String pluginClassName = null;
+    protected String pluginClbssNbme = null;
 
     /**
-     * A boolean indicating whether this plug-in supports the
-     * standard metadata format for stream metadata, initially
-     * <code>false</code>.
+     * A boolebn indicbting whether this plug-in supports the
+     * stbndbrd metbdbtb formbt for strebm metbdbtb, initiblly
+     * <code>fblse</code>.
      */
-    protected boolean supportsStandardStreamMetadataFormat = false;
+    protected boolebn supportsStbndbrdStrebmMetbdbtbFormbt = fblse;
 
     /**
-     * A <code>String</code> containing the name of the native stream
-     * metadata format supported by this plug-in, initially
+     * A <code>String</code> contbining the nbme of the nbtive strebm
+     * metbdbtb formbt supported by this plug-in, initiblly
      * <code>null</code>.
      */
-    protected String nativeStreamMetadataFormatName = null;
+    protected String nbtiveStrebmMetbdbtbFormbtNbme = null;
 
     /**
-     * A <code>String</code> containing the class name of the native
-     * stream metadata format supported by this plug-in, initially
+     * A <code>String</code> contbining the clbss nbme of the nbtive
+     * strebm metbdbtb formbt supported by this plug-in, initiblly
      * <code>null</code>.
      */
-    protected String nativeStreamMetadataFormatClassName = null;
+    protected String nbtiveStrebmMetbdbtbFormbtClbssNbme = null;
 
     /**
-     * An array of <code>String</code>s containing the names of any
-     * additional stream metadata formats supported by this plug-in,
-     * initially <code>null</code>.
+     * An brrby of <code>String</code>s contbining the nbmes of bny
+     * bdditionbl strebm metbdbtb formbts supported by this plug-in,
+     * initiblly <code>null</code>.
      */
-    protected String[] extraStreamMetadataFormatNames = null;
+    protected String[] extrbStrebmMetbdbtbFormbtNbmes = null;
 
     /**
-     * An array of <code>String</code>s containing the class names of
-     * any additional stream metadata formats supported by this plug-in,
-     * initially <code>null</code>.
+     * An brrby of <code>String</code>s contbining the clbss nbmes of
+     * bny bdditionbl strebm metbdbtb formbts supported by this plug-in,
+     * initiblly <code>null</code>.
      */
-    protected String[] extraStreamMetadataFormatClassNames = null;
+    protected String[] extrbStrebmMetbdbtbFormbtClbssNbmes = null;
 
     /**
-     * A boolean indicating whether this plug-in supports the
-     * standard metadata format for image metadata, initially
-     * <code>false</code>.
+     * A boolebn indicbting whether this plug-in supports the
+     * stbndbrd metbdbtb formbt for imbge metbdbtb, initiblly
+     * <code>fblse</code>.
      */
-    protected boolean supportsStandardImageMetadataFormat = false;
+    protected boolebn supportsStbndbrdImbgeMetbdbtbFormbt = fblse;
 
     /**
-     * A <code>String</code> containing the name of the
-     * native stream metadata format supported by this plug-in,
-     * initially <code>null</code>.
+     * A <code>String</code> contbining the nbme of the
+     * nbtive strebm metbdbtb formbt supported by this plug-in,
+     * initiblly <code>null</code>.
      */
-    protected String nativeImageMetadataFormatName = null;
+    protected String nbtiveImbgeMetbdbtbFormbtNbme = null;
 
     /**
-     * A <code>String</code> containing the class name of the
-     * native stream metadata format supported by this plug-in,
-     * initially <code>null</code>.
+     * A <code>String</code> contbining the clbss nbme of the
+     * nbtive strebm metbdbtb formbt supported by this plug-in,
+     * initiblly <code>null</code>.
      */
-    protected String nativeImageMetadataFormatClassName = null;
+    protected String nbtiveImbgeMetbdbtbFormbtClbssNbme = null;
 
     /**
-     * An array of <code>String</code>s containing the names of any
-     * additional image metadata formats supported by this plug-in,
-     * initially <code>null</code>.
+     * An brrby of <code>String</code>s contbining the nbmes of bny
+     * bdditionbl imbge metbdbtb formbts supported by this plug-in,
+     * initiblly <code>null</code>.
      */
-    protected String[] extraImageMetadataFormatNames = null;
+    protected String[] extrbImbgeMetbdbtbFormbtNbmes = null;
 
     /**
-     * An array of <code>String</code>s containing the class names of
-     * any additional image metadata formats supported by this
-     * plug-in, initially <code>null</code>.
+     * An brrby of <code>String</code>s contbining the clbss nbmes of
+     * bny bdditionbl imbge metbdbtb formbts supported by this
+     * plug-in, initiblly <code>null</code>.
      */
-    protected String[] extraImageMetadataFormatClassNames = null;
+    protected String[] extrbImbgeMetbdbtbFormbtClbssNbmes = null;
 
     /**
-     * Constructs an <code>ImageReaderWriterSpi</code> with a given
-     * set of values.
+     * Constructs bn <code>ImbgeRebderWriterSpi</code> with b given
+     * set of vblues.
      *
-     * @param vendorName the vendor name, as a non-<code>null</code>
+     * @pbrbm vendorNbme the vendor nbme, bs b non-<code>null</code>
      * <code>String</code>.
-     * @param version a version identifier, as a non-<code>null</code>
+     * @pbrbm version b version identifier, bs b non-<code>null</code>
      * <code>String</code>.
-     * @param names a non-<code>null</code> array of
-     * <code>String</code>s indicating the format names.  At least one
+     * @pbrbm nbmes b non-<code>null</code> brrby of
+     * <code>String</code>s indicbting the formbt nbmes.  At lebst one
      * entry must be present.
-     * @param suffixes an array of <code>String</code>s indicating the
-     * common file suffixes.  If no suffixes are defined,
-     * <code>null</code> should be supplied.  An array of length 0
-     * will be normalized to <code>null</code>.
-     * @param MIMETypes an array of <code>String</code>s indicating
-     * the format's MIME types.  If no MIME types are defined,
-     * <code>null</code> should be supplied.  An array of length 0
-     * will be normalized to <code>null</code>.
-     * @param pluginClassName the fully-qualified name of the
-     * associated <code>ImageReader</code> or <code>ImageWriter</code>
-     * class, as a non-<code>null</code> <code>String</code>.
-     * @param supportsStandardStreamMetadataFormat a
-     * <code>boolean</code> that indicates whether a stream metadata
-     * object can use trees described by the standard metadata format.
-     * @param nativeStreamMetadataFormatName a
+     * @pbrbm suffixes bn brrby of <code>String</code>s indicbting the
+     * common file suffixes.  If no suffixes bre defined,
+     * <code>null</code> should be supplied.  An brrby of length 0
+     * will be normblized to <code>null</code>.
+     * @pbrbm MIMETypes bn brrby of <code>String</code>s indicbting
+     * the formbt's MIME types.  If no MIME types bre defined,
+     * <code>null</code> should be supplied.  An brrby of length 0
+     * will be normblized to <code>null</code>.
+     * @pbrbm pluginClbssNbme the fully-qublified nbme of the
+     * bssocibted <code>ImbgeRebder</code> or <code>ImbgeWriter</code>
+     * clbss, bs b non-<code>null</code> <code>String</code>.
+     * @pbrbm supportsStbndbrdStrebmMetbdbtbFormbt b
+     * <code>boolebn</code> thbt indicbtes whether b strebm metbdbtb
+     * object cbn use trees described by the stbndbrd metbdbtb formbt.
+     * @pbrbm nbtiveStrebmMetbdbtbFormbtNbme b
      * <code>String</code>, or <code>null</code>, to be returned from
-     * <code>getNativeStreamMetadataFormatName</code>.
-     * @param nativeStreamMetadataFormatClassName a
-     * <code>String</code>, or <code>null</code>, to be used to instantiate
-     * a metadata format object to be returned from
-     * <code>getNativeStreamMetadataFormat</code>.
-     * @param extraStreamMetadataFormatNames an array of
+     * <code>getNbtiveStrebmMetbdbtbFormbtNbme</code>.
+     * @pbrbm nbtiveStrebmMetbdbtbFormbtClbssNbme b
+     * <code>String</code>, or <code>null</code>, to be used to instbntibte
+     * b metbdbtb formbt object to be returned from
+     * <code>getNbtiveStrebmMetbdbtbFormbt</code>.
+     * @pbrbm extrbStrebmMetbdbtbFormbtNbmes bn brrby of
      * <code>String</code>s, or <code>null</code>, to be returned from
-     * <code>getExtraStreamMetadataFormatNames</code>.  An array of length
-     * 0 is normalized to <code>null</code>.
-     * @param extraStreamMetadataFormatClassNames an array of
-     * <code>String</code>s, or <code>null</code>, to be used to instantiate
-     * a metadata format object to be returned from
-     * <code>getStreamMetadataFormat</code>.  An array of length
-     * 0 is normalized to <code>null</code>.
-     * @param supportsStandardImageMetadataFormat a
-     * <code>boolean</code> that indicates whether an image metadata
-     * object can use trees described by the standard metadata format.
-     * @param nativeImageMetadataFormatName a
+     * <code>getExtrbStrebmMetbdbtbFormbtNbmes</code>.  An brrby of length
+     * 0 is normblized to <code>null</code>.
+     * @pbrbm extrbStrebmMetbdbtbFormbtClbssNbmes bn brrby of
+     * <code>String</code>s, or <code>null</code>, to be used to instbntibte
+     * b metbdbtb formbt object to be returned from
+     * <code>getStrebmMetbdbtbFormbt</code>.  An brrby of length
+     * 0 is normblized to <code>null</code>.
+     * @pbrbm supportsStbndbrdImbgeMetbdbtbFormbt b
+     * <code>boolebn</code> thbt indicbtes whether bn imbge metbdbtb
+     * object cbn use trees described by the stbndbrd metbdbtb formbt.
+     * @pbrbm nbtiveImbgeMetbdbtbFormbtNbme b
      * <code>String</code>, or <code>null</code>, to be returned from
-     * <code>getNativeImageMetadataFormatName</code>.
-     * @param nativeImageMetadataFormatClassName a
-     * <code>String</code>, or <code>null</code>, to be used to instantiate
-     * a metadata format object to be returned from
-     * <code>getNativeImageMetadataFormat</code>.
-     * @param extraImageMetadataFormatNames an array of
+     * <code>getNbtiveImbgeMetbdbtbFormbtNbme</code>.
+     * @pbrbm nbtiveImbgeMetbdbtbFormbtClbssNbme b
+     * <code>String</code>, or <code>null</code>, to be used to instbntibte
+     * b metbdbtb formbt object to be returned from
+     * <code>getNbtiveImbgeMetbdbtbFormbt</code>.
+     * @pbrbm extrbImbgeMetbdbtbFormbtNbmes bn brrby of
      * <code>String</code>s to be returned from
-     * <code>getExtraImageMetadataFormatNames</code>.  An array of length 0
-     * is normalized to <code>null</code>.
-     * @param extraImageMetadataFormatClassNames an array of
-     * <code>String</code>s, or <code>null</code>, to be used to instantiate
-     * a metadata format object to be returned from
-     * <code>getImageMetadataFormat</code>.  An array of length
-     * 0 is normalized to <code>null</code>.
+     * <code>getExtrbImbgeMetbdbtbFormbtNbmes</code>.  An brrby of length 0
+     * is normblized to <code>null</code>.
+     * @pbrbm extrbImbgeMetbdbtbFormbtClbssNbmes bn brrby of
+     * <code>String</code>s, or <code>null</code>, to be used to instbntibte
+     * b metbdbtb formbt object to be returned from
+     * <code>getImbgeMetbdbtbFormbt</code>.  An brrby of length
+     * 0 is normblized to <code>null</code>.
      *
-     * @exception IllegalArgumentException if <code>vendorName</code>
+     * @exception IllegblArgumentException if <code>vendorNbme</code>
      * is <code>null</code>.
-     * @exception IllegalArgumentException if <code>version</code>
+     * @exception IllegblArgumentException if <code>version</code>
      * is <code>null</code>.
-     * @exception IllegalArgumentException if <code>names</code>
-     * is <code>null</code> or has length 0.
-     * @exception IllegalArgumentException if <code>pluginClassName</code>
+     * @exception IllegblArgumentException if <code>nbmes</code>
+     * is <code>null</code> or hbs length 0.
+     * @exception IllegblArgumentException if <code>pluginClbssNbme</code>
      * is <code>null</code>.
      */
-    public ImageReaderWriterSpi(String vendorName,
+    public ImbgeRebderWriterSpi(String vendorNbme,
                                 String version,
-                                String[] names,
+                                String[] nbmes,
                                 String[] suffixes,
                                 String[] MIMETypes,
-                                String pluginClassName,
-                                boolean supportsStandardStreamMetadataFormat,
-                                String nativeStreamMetadataFormatName,
-                                String nativeStreamMetadataFormatClassName,
-                                String[] extraStreamMetadataFormatNames,
-                                String[] extraStreamMetadataFormatClassNames,
-                                boolean supportsStandardImageMetadataFormat,
-                                String nativeImageMetadataFormatName,
-                                String nativeImageMetadataFormatClassName,
-                                String[] extraImageMetadataFormatNames,
-                                String[] extraImageMetadataFormatClassNames) {
-        super(vendorName, version);
-        if (names == null) {
-            throw new IllegalArgumentException("names == null!");
+                                String pluginClbssNbme,
+                                boolebn supportsStbndbrdStrebmMetbdbtbFormbt,
+                                String nbtiveStrebmMetbdbtbFormbtNbme,
+                                String nbtiveStrebmMetbdbtbFormbtClbssNbme,
+                                String[] extrbStrebmMetbdbtbFormbtNbmes,
+                                String[] extrbStrebmMetbdbtbFormbtClbssNbmes,
+                                boolebn supportsStbndbrdImbgeMetbdbtbFormbt,
+                                String nbtiveImbgeMetbdbtbFormbtNbme,
+                                String nbtiveImbgeMetbdbtbFormbtClbssNbme,
+                                String[] extrbImbgeMetbdbtbFormbtNbmes,
+                                String[] extrbImbgeMetbdbtbFormbtClbssNbmes) {
+        super(vendorNbme, version);
+        if (nbmes == null) {
+            throw new IllegblArgumentException("nbmes == null!");
         }
-        if (names.length == 0) {
-            throw new IllegalArgumentException("names.length == 0!");
+        if (nbmes.length == 0) {
+            throw new IllegblArgumentException("nbmes.length == 0!");
         }
-        if (pluginClassName == null) {
-            throw new IllegalArgumentException("pluginClassName == null!");
+        if (pluginClbssNbme == null) {
+            throw new IllegblArgumentException("pluginClbssNbme == null!");
         }
 
-        this.names = names.clone();
-        // If length == 0, leave it null
+        this.nbmes = nbmes.clone();
+        // If length == 0, lebve it null
         if (suffixes != null && suffixes.length > 0) {
             this.suffixes = suffixes.clone();
         }
-        // If length == 0, leave it null
+        // If length == 0, lebve it null
         if (MIMETypes != null && MIMETypes.length > 0) {
             this.MIMETypes = MIMETypes.clone();
         }
-        this.pluginClassName = pluginClassName;
+        this.pluginClbssNbme = pluginClbssNbme;
 
-        this.supportsStandardStreamMetadataFormat =
-            supportsStandardStreamMetadataFormat;
-        this.nativeStreamMetadataFormatName = nativeStreamMetadataFormatName;
-        this.nativeStreamMetadataFormatClassName =
-            nativeStreamMetadataFormatClassName;
-        // If length == 0, leave it null
-        if (extraStreamMetadataFormatNames != null &&
-            extraStreamMetadataFormatNames.length > 0) {
-            this.extraStreamMetadataFormatNames =
-                extraStreamMetadataFormatNames.clone();
+        this.supportsStbndbrdStrebmMetbdbtbFormbt =
+            supportsStbndbrdStrebmMetbdbtbFormbt;
+        this.nbtiveStrebmMetbdbtbFormbtNbme = nbtiveStrebmMetbdbtbFormbtNbme;
+        this.nbtiveStrebmMetbdbtbFormbtClbssNbme =
+            nbtiveStrebmMetbdbtbFormbtClbssNbme;
+        // If length == 0, lebve it null
+        if (extrbStrebmMetbdbtbFormbtNbmes != null &&
+            extrbStrebmMetbdbtbFormbtNbmes.length > 0) {
+            this.extrbStrebmMetbdbtbFormbtNbmes =
+                extrbStrebmMetbdbtbFormbtNbmes.clone();
         }
-        // If length == 0, leave it null
-        if (extraStreamMetadataFormatClassNames != null &&
-            extraStreamMetadataFormatClassNames.length > 0) {
-            this.extraStreamMetadataFormatClassNames =
-                extraStreamMetadataFormatClassNames.clone();
+        // If length == 0, lebve it null
+        if (extrbStrebmMetbdbtbFormbtClbssNbmes != null &&
+            extrbStrebmMetbdbtbFormbtClbssNbmes.length > 0) {
+            this.extrbStrebmMetbdbtbFormbtClbssNbmes =
+                extrbStrebmMetbdbtbFormbtClbssNbmes.clone();
         }
-        this.supportsStandardImageMetadataFormat =
-            supportsStandardImageMetadataFormat;
-        this.nativeImageMetadataFormatName = nativeImageMetadataFormatName;
-        this.nativeImageMetadataFormatClassName =
-            nativeImageMetadataFormatClassName;
-        // If length == 0, leave it null
-        if (extraImageMetadataFormatNames != null &&
-            extraImageMetadataFormatNames.length > 0) {
-            this.extraImageMetadataFormatNames =
-                extraImageMetadataFormatNames.clone();
+        this.supportsStbndbrdImbgeMetbdbtbFormbt =
+            supportsStbndbrdImbgeMetbdbtbFormbt;
+        this.nbtiveImbgeMetbdbtbFormbtNbme = nbtiveImbgeMetbdbtbFormbtNbme;
+        this.nbtiveImbgeMetbdbtbFormbtClbssNbme =
+            nbtiveImbgeMetbdbtbFormbtClbssNbme;
+        // If length == 0, lebve it null
+        if (extrbImbgeMetbdbtbFormbtNbmes != null &&
+            extrbImbgeMetbdbtbFormbtNbmes.length > 0) {
+            this.extrbImbgeMetbdbtbFormbtNbmes =
+                extrbImbgeMetbdbtbFormbtNbmes.clone();
         }
-        // If length == 0, leave it null
-        if (extraImageMetadataFormatClassNames != null &&
-            extraImageMetadataFormatClassNames.length > 0) {
-            this.extraImageMetadataFormatClassNames =
-                extraImageMetadataFormatClassNames.clone();
+        // If length == 0, lebve it null
+        if (extrbImbgeMetbdbtbFormbtClbssNbmes != null &&
+            extrbImbgeMetbdbtbFormbtClbssNbmes.length > 0) {
+            this.extrbImbgeMetbdbtbFormbtClbssNbmes =
+                extrbImbgeMetbdbtbFormbtClbssNbmes.clone();
         }
     }
 
     /**
-     * Constructs a blank <code>ImageReaderWriterSpi</code>.  It is up
-     * to the subclass to initialize instance variables and/or
-     * override method implementations in order to provide working
-     * versions of all methods.
+     * Constructs b blbnk <code>ImbgeRebderWriterSpi</code>.  It is up
+     * to the subclbss to initiblize instbnce vbribbles bnd/or
+     * override method implementbtions in order to provide working
+     * versions of bll methods.
      */
-    public ImageReaderWriterSpi() {
+    public ImbgeRebderWriterSpi() {
     }
 
     /**
-     * Returns an array of <code>String</code>s containing
-     * human-readable names for the formats that are generally usable
-     * by the <code>ImageReader</code> or <code>ImageWriter</code>
-     * implementation associated with this service provider.  For
-     * example, a single <code>ImageReader</code> might be able to
-     * process both PBM and PNM files.
+     * Returns bn brrby of <code>String</code>s contbining
+     * humbn-rebdbble nbmes for the formbts thbt bre generblly usbble
+     * by the <code>ImbgeRebder</code> or <code>ImbgeWriter</code>
+     * implementbtion bssocibted with this service provider.  For
+     * exbmple, b single <code>ImbgeRebder</code> might be bble to
+     * process both PBM bnd PNM files.
      *
-     * @return a non-<code>null</code> array of <code>String</code>s
-     * or length at least 1 containing informal format names
-     * associated with this reader or writer.
+     * @return b non-<code>null</code> brrby of <code>String</code>s
+     * or length bt lebst 1 contbining informbl formbt nbmes
+     * bssocibted with this rebder or writer.
      */
-    public String[] getFormatNames() {
-        return names.clone();
+    public String[] getFormbtNbmes() {
+        return nbmes.clone();
     }
 
     /**
-     * Returns an array of <code>String</code>s containing a list of
-     * file suffixes associated with the formats that are generally
-     * usable by the <code>ImageReader</code> or
-     * <code>ImageWriter</code> implementation associated with this
-     * service provider.  For example, a single
-     * <code>ImageReader</code> might be able to process files with
-     * '.pbm' and '.pnm' suffixes, or both '.jpg' and '.jpeg'
-     * suffixes.  If there are no known file suffixes,
+     * Returns bn brrby of <code>String</code>s contbining b list of
+     * file suffixes bssocibted with the formbts thbt bre generblly
+     * usbble by the <code>ImbgeRebder</code> or
+     * <code>ImbgeWriter</code> implementbtion bssocibted with this
+     * service provider.  For exbmple, b single
+     * <code>ImbgeRebder</code> might be bble to process files with
+     * '.pbm' bnd '.pnm' suffixes, or both '.jpg' bnd '.jpeg'
+     * suffixes.  If there bre no known file suffixes,
      * <code>null</code> will be returned.
      *
-     * <p> Returning a particular suffix does not guarantee that files
-     * with that suffix can be processed; it merely indicates that it
-     * may be worthwhile attempting to decode or encode such files
+     * <p> Returning b pbrticulbr suffix does not gubrbntee thbt files
+     * with thbt suffix cbn be processed; it merely indicbtes thbt it
+     * mby be worthwhile bttempting to decode or encode such files
      * using this service provider.
      *
-     * @return an array of <code>String</code>s or length at least 1
-     * containing common file suffixes associated with this reader or
+     * @return bn brrby of <code>String</code>s or length bt lebst 1
+     * contbining common file suffixes bssocibted with this rebder or
      * writer, or <code>null</code>.
      */
     public String[] getFileSuffixes() {
@@ -336,34 +336,34 @@ public abstract class ImageReaderWriterSpi extends IIOServiceProvider {
     }
 
     /**
-     * Returns an array of <code>String</code>s containing a list of
-     * MIME types associated with the formats that are generally
-     * usable by the <code>ImageReader</code> or
-     * <code>ImageWriter</code> implementation associated with this
+     * Returns bn brrby of <code>String</code>s contbining b list of
+     * MIME types bssocibted with the formbts thbt bre generblly
+     * usbble by the <code>ImbgeRebder</code> or
+     * <code>ImbgeWriter</code> implementbtion bssocibted with this
      * service provider.
      *
-     * <p> Ideally, only a single MIME type would be required in order
-     * to describe a particular format.  However, for several reasons
-     * it is necessary to associate a list of types with each service
-     * provider.  First, many common image file formats do not have
-     * standard MIME types, so a list of commonly used unofficial
-     * names will be required, such as <code>image/x-pbm</code> and
-     * <code>image/x-portable-bitmap</code>.  Some file formats have
-     * official MIME types but may sometimes be referred to using
-     * their previous unofficial designations, such as
-     * <code>image/x-png</code> instead of the official
-     * <code>image/png</code>.  Finally, a single service provider may
-     * be capable of parsing multiple distinct types from the MIME
-     * point of view, for example <code>image/x-xbitmap</code> and
-     * <code>image/x-xpixmap</code>.
+     * <p> Ideblly, only b single MIME type would be required in order
+     * to describe b pbrticulbr formbt.  However, for severbl rebsons
+     * it is necessbry to bssocibte b list of types with ebch service
+     * provider.  First, mbny common imbge file formbts do not hbve
+     * stbndbrd MIME types, so b list of commonly used unofficibl
+     * nbmes will be required, such bs <code>imbge/x-pbm</code> bnd
+     * <code>imbge/x-portbble-bitmbp</code>.  Some file formbts hbve
+     * officibl MIME types but mby sometimes be referred to using
+     * their previous unofficibl designbtions, such bs
+     * <code>imbge/x-png</code> instebd of the officibl
+     * <code>imbge/png</code>.  Finblly, b single service provider mby
+     * be cbpbble of pbrsing multiple distinct types from the MIME
+     * point of view, for exbmple <code>imbge/x-xbitmbp</code> bnd
+     * <code>imbge/x-xpixmbp</code>.
      *
-     * <p> Returning a particular MIME type does not guarantee that
-     * files claiming to be of that type can be processed; it merely
-     * indicates that it may be worthwhile attempting to decode or
+     * <p> Returning b pbrticulbr MIME type does not gubrbntee thbt
+     * files clbiming to be of thbt type cbn be processed; it merely
+     * indicbtes thbt it mby be worthwhile bttempting to decode or
      * encode such files using this service provider.
      *
-     * @return an array of <code>String</code>s or length at least 1
-     * containing MIME types associated with this reader or writer, or
+     * @return bn brrby of <code>String</code>s or length bt lebst 1
+     * contbining MIME types bssocibted with this rebder or writer, or
      * <code>null</code>.
      */
     public String[] getMIMETypes() {
@@ -371,230 +371,230 @@ public abstract class ImageReaderWriterSpi extends IIOServiceProvider {
     }
 
     /**
-     * Returns the fully-qualified class name of the
-     * <code>ImageReader</code> or <code>ImageWriter</code> plug-in
-     * associated with this service provider.
+     * Returns the fully-qublified clbss nbme of the
+     * <code>ImbgeRebder</code> or <code>ImbgeWriter</code> plug-in
+     * bssocibted with this service provider.
      *
-     * @return the class name, as a non-<code>null</code>
+     * @return the clbss nbme, bs b non-<code>null</code>
      * <code>String</code>.
      */
-    public String getPluginClassName() {
-        return pluginClassName;
+    public String getPluginClbssNbme() {
+        return pluginClbssNbme;
     }
 
     /**
-     * Returns <code>true</code> if the standard metadata format is
-     * among the document formats recognized by the
-     * <code>getAsTree</code> and <code>setFromTree</code> methods on
-     * the stream metadata objects produced or consumed by this
+     * Returns <code>true</code> if the stbndbrd metbdbtb formbt is
+     * bmong the document formbts recognized by the
+     * <code>getAsTree</code> bnd <code>setFromTree</code> methods on
+     * the strebm metbdbtb objects produced or consumed by this
      * plug-in.
      *
-     * @return <code>true</code> if the standard format is supported
-     * for stream metadata.
+     * @return <code>true</code> if the stbndbrd formbt is supported
+     * for strebm metbdbtb.
      */
-    public boolean isStandardStreamMetadataFormatSupported() {
-        return supportsStandardStreamMetadataFormat;
+    public boolebn isStbndbrdStrebmMetbdbtbFormbtSupported() {
+        return supportsStbndbrdStrebmMetbdbtbFormbt;
     }
 
     /**
-     * Returns the name of the "native" stream metadata format for
-     * this plug-in, which typically allows for lossless encoding and
-     * transmission of the stream metadata stored in the format handled by
-     * this plug-in.  If no such format is supported,
+     * Returns the nbme of the "nbtive" strebm metbdbtb formbt for
+     * this plug-in, which typicblly bllows for lossless encoding bnd
+     * trbnsmission of the strebm metbdbtb stored in the formbt hbndled by
+     * this plug-in.  If no such formbt is supported,
      * <code>null</code>will be returned.
      *
-     * <p> The default implementation returns the
-     * <code>nativeStreamMetadataFormatName</code> instance variable,
-     * which is typically set by the constructor.
+     * <p> The defbult implementbtion returns the
+     * <code>nbtiveStrebmMetbdbtbFormbtNbme</code> instbnce vbribble,
+     * which is typicblly set by the constructor.
      *
-     * @return the name of the native stream metadata format, or
+     * @return the nbme of the nbtive strebm metbdbtb formbt, or
      * <code>null</code>.
      *
      */
-    public String getNativeStreamMetadataFormatName() {
-        return nativeStreamMetadataFormatName;
+    public String getNbtiveStrebmMetbdbtbFormbtNbme() {
+        return nbtiveStrebmMetbdbtbFormbtNbme;
     }
 
     /**
-     * Returns an array of <code>String</code>s containing the names
-     * of additional document formats, other than the native and
-     * standard formats, recognized by the
-     * <code>getAsTree</code> and <code>setFromTree</code> methods on
-     * the stream metadata objects produced or consumed by this
+     * Returns bn brrby of <code>String</code>s contbining the nbmes
+     * of bdditionbl document formbts, other thbn the nbtive bnd
+     * stbndbrd formbts, recognized by the
+     * <code>getAsTree</code> bnd <code>setFromTree</code> methods on
+     * the strebm metbdbtb objects produced or consumed by this
      * plug-in.
      *
-     * <p> If the plug-in does not handle metadata, null should be
+     * <p> If the plug-in does not hbndle metbdbtb, null should be
      * returned.
      *
-     * <p> The set of formats may differ according to the particular
-     * images being read or written; this method should indicate all
-     * the additional formats supported by the plug-in under any
-     * circumstances.
+     * <p> The set of formbts mby differ bccording to the pbrticulbr
+     * imbges being rebd or written; this method should indicbte bll
+     * the bdditionbl formbts supported by the plug-in under bny
+     * circumstbnces.
      *
-     * <p> The default implementation returns a clone of the
-     * <code>extraStreamMetadataFormatNames</code> instance variable,
-     * which is typically set by the constructor.
+     * <p> The defbult implementbtion returns b clone of the
+     * <code>extrbStrebmMetbdbtbFormbtNbmes</code> instbnce vbribble,
+     * which is typicblly set by the constructor.
      *
-     * @return an array of <code>String</code>s, or null.
+     * @return bn brrby of <code>String</code>s, or null.
      *
-     * @see IIOMetadata#getMetadataFormatNames
-     * @see #getExtraImageMetadataFormatNames
-     * @see #getNativeStreamMetadataFormatName
+     * @see IIOMetbdbtb#getMetbdbtbFormbtNbmes
+     * @see #getExtrbImbgeMetbdbtbFormbtNbmes
+     * @see #getNbtiveStrebmMetbdbtbFormbtNbme
      */
-    public String[] getExtraStreamMetadataFormatNames() {
-        return extraStreamMetadataFormatNames == null ?
-            null : extraStreamMetadataFormatNames.clone();
+    public String[] getExtrbStrebmMetbdbtbFormbtNbmes() {
+        return extrbStrebmMetbdbtbFormbtNbmes == null ?
+            null : extrbStrebmMetbdbtbFormbtNbmes.clone();
     }
 
     /**
-     * Returns <code>true</code> if the standard metadata format is
-     * among the document formats recognized by the
-     * <code>getAsTree</code> and <code>setFromTree</code> methods on
-     * the image metadata objects produced or consumed by this
+     * Returns <code>true</code> if the stbndbrd metbdbtb formbt is
+     * bmong the document formbts recognized by the
+     * <code>getAsTree</code> bnd <code>setFromTree</code> methods on
+     * the imbge metbdbtb objects produced or consumed by this
      * plug-in.
      *
-     * @return <code>true</code> if the standard format is supported
-     * for image metadata.
+     * @return <code>true</code> if the stbndbrd formbt is supported
+     * for imbge metbdbtb.
      */
-    public boolean isStandardImageMetadataFormatSupported() {
-        return supportsStandardImageMetadataFormat;
+    public boolebn isStbndbrdImbgeMetbdbtbFormbtSupported() {
+        return supportsStbndbrdImbgeMetbdbtbFormbt;
     }
 
     /**
-     * Returns the name of the "native" image metadata format for
-     * this plug-in, which typically allows for lossless encoding and
-     * transmission of the image metadata stored in the format handled by
-     * this plug-in.  If no such format is supported,
+     * Returns the nbme of the "nbtive" imbge metbdbtb formbt for
+     * this plug-in, which typicblly bllows for lossless encoding bnd
+     * trbnsmission of the imbge metbdbtb stored in the formbt hbndled by
+     * this plug-in.  If no such formbt is supported,
      * <code>null</code>will be returned.
      *
-     * <p> The default implementation returns the
-     * <code>nativeImageMetadataFormatName</code> instance variable,
-     * which is typically set by the constructor.
+     * <p> The defbult implementbtion returns the
+     * <code>nbtiveImbgeMetbdbtbFormbtNbme</code> instbnce vbribble,
+     * which is typicblly set by the constructor.
      *
-     * @return the name of the native image metadata format, or
+     * @return the nbme of the nbtive imbge metbdbtb formbt, or
      * <code>null</code>.
      *
-     * @see #getExtraImageMetadataFormatNames
+     * @see #getExtrbImbgeMetbdbtbFormbtNbmes
      */
-    public String getNativeImageMetadataFormatName() {
-        return nativeImageMetadataFormatName;
+    public String getNbtiveImbgeMetbdbtbFormbtNbme() {
+        return nbtiveImbgeMetbdbtbFormbtNbme;
     }
 
     /**
-     * Returns an array of <code>String</code>s containing the names
-     * of additional document formats, other than the native and
-     * standard formats, recognized by the
-     * <code>getAsTree</code> and <code>setFromTree</code> methods on
-     * the image metadata objects produced or consumed by this
+     * Returns bn brrby of <code>String</code>s contbining the nbmes
+     * of bdditionbl document formbts, other thbn the nbtive bnd
+     * stbndbrd formbts, recognized by the
+     * <code>getAsTree</code> bnd <code>setFromTree</code> methods on
+     * the imbge metbdbtb objects produced or consumed by this
      * plug-in.
      *
-     * <p> If the plug-in does not handle image metadata, null should
+     * <p> If the plug-in does not hbndle imbge metbdbtb, null should
      * be returned.
      *
-     * <p> The set of formats may differ according to the particular
-     * images being read or written; this method should indicate all
-     * the additional formats supported by the plug-in under any circumstances.
+     * <p> The set of formbts mby differ bccording to the pbrticulbr
+     * imbges being rebd or written; this method should indicbte bll
+     * the bdditionbl formbts supported by the plug-in under bny circumstbnces.
      *
-     * <p> The default implementation returns a clone of the
-     * <code>extraImageMetadataFormatNames</code> instance variable,
-     * which is typically set by the constructor.
+     * <p> The defbult implementbtion returns b clone of the
+     * <code>extrbImbgeMetbdbtbFormbtNbmes</code> instbnce vbribble,
+     * which is typicblly set by the constructor.
      *
-     * @return an array of <code>String</code>s, or null.
+     * @return bn brrby of <code>String</code>s, or null.
      *
-     * @see IIOMetadata#getMetadataFormatNames
-     * @see #getExtraStreamMetadataFormatNames
-     * @see #getNativeImageMetadataFormatName
+     * @see IIOMetbdbtb#getMetbdbtbFormbtNbmes
+     * @see #getExtrbStrebmMetbdbtbFormbtNbmes
+     * @see #getNbtiveImbgeMetbdbtbFormbtNbme
      */
-    public String[] getExtraImageMetadataFormatNames() {
-        return extraImageMetadataFormatNames == null ?
-            null : extraImageMetadataFormatNames.clone();
+    public String[] getExtrbImbgeMetbdbtbFormbtNbmes() {
+        return extrbImbgeMetbdbtbFormbtNbmes == null ?
+            null : extrbImbgeMetbdbtbFormbtNbmes.clone();
     }
 
     /**
-     * Returns an <code>IIOMetadataFormat</code> object describing the
-     * given stream metadata format, or <code>null</code> if no
-     * description is available.  The supplied name must be the native
-     * stream metadata format name, the standard metadata format name,
+     * Returns bn <code>IIOMetbdbtbFormbt</code> object describing the
+     * given strebm metbdbtb formbt, or <code>null</code> if no
+     * description is bvbilbble.  The supplied nbme must be the nbtive
+     * strebm metbdbtb formbt nbme, the stbndbrd metbdbtb formbt nbme,
      * or one of those returned by
-     * <code>getExtraStreamMetadataFormatNames</code>.
+     * <code>getExtrbStrebmMetbdbtbFormbtNbmes</code>.
      *
-     * @param formatName the desired stream metadata format.
+     * @pbrbm formbtNbme the desired strebm metbdbtb formbt.
      *
-     * @return an <code>IIOMetadataFormat</code> object.
+     * @return bn <code>IIOMetbdbtbFormbt</code> object.
      *
-     * @exception IllegalArgumentException if <code>formatName</code>
-     * is <code>null</code> or is not a supported name.
+     * @exception IllegblArgumentException if <code>formbtNbme</code>
+     * is <code>null</code> or is not b supported nbme.
      */
-    public IIOMetadataFormat getStreamMetadataFormat(String formatName) {
-        return getMetadataFormat(formatName,
-                                 supportsStandardStreamMetadataFormat,
-                                 nativeStreamMetadataFormatName,
-                                 nativeStreamMetadataFormatClassName,
-                                 extraStreamMetadataFormatNames,
-                                 extraStreamMetadataFormatClassNames);
+    public IIOMetbdbtbFormbt getStrebmMetbdbtbFormbt(String formbtNbme) {
+        return getMetbdbtbFormbt(formbtNbme,
+                                 supportsStbndbrdStrebmMetbdbtbFormbt,
+                                 nbtiveStrebmMetbdbtbFormbtNbme,
+                                 nbtiveStrebmMetbdbtbFormbtClbssNbme,
+                                 extrbStrebmMetbdbtbFormbtNbmes,
+                                 extrbStrebmMetbdbtbFormbtClbssNbmes);
     }
 
     /**
-     * Returns an <code>IIOMetadataFormat</code> object describing the
-     * given image metadata format, or <code>null</code> if no
-     * description is available.  The supplied name must be the native
-     * image metadata format name, the standard metadata format name,
+     * Returns bn <code>IIOMetbdbtbFormbt</code> object describing the
+     * given imbge metbdbtb formbt, or <code>null</code> if no
+     * description is bvbilbble.  The supplied nbme must be the nbtive
+     * imbge metbdbtb formbt nbme, the stbndbrd metbdbtb formbt nbme,
      * or one of those returned by
-     * <code>getExtraImageMetadataFormatNames</code>.
+     * <code>getExtrbImbgeMetbdbtbFormbtNbmes</code>.
      *
-     * @param formatName the desired image metadata format.
+     * @pbrbm formbtNbme the desired imbge metbdbtb formbt.
      *
-     * @return an <code>IIOMetadataFormat</code> object.
+     * @return bn <code>IIOMetbdbtbFormbt</code> object.
      *
-     * @exception IllegalArgumentException if <code>formatName</code>
-     * is <code>null</code> or is not a supported name.
+     * @exception IllegblArgumentException if <code>formbtNbme</code>
+     * is <code>null</code> or is not b supported nbme.
      */
-    public IIOMetadataFormat getImageMetadataFormat(String formatName) {
-        return getMetadataFormat(formatName,
-                                 supportsStandardImageMetadataFormat,
-                                 nativeImageMetadataFormatName,
-                                 nativeImageMetadataFormatClassName,
-                                 extraImageMetadataFormatNames,
-                                 extraImageMetadataFormatClassNames);
+    public IIOMetbdbtbFormbt getImbgeMetbdbtbFormbt(String formbtNbme) {
+        return getMetbdbtbFormbt(formbtNbme,
+                                 supportsStbndbrdImbgeMetbdbtbFormbt,
+                                 nbtiveImbgeMetbdbtbFormbtNbme,
+                                 nbtiveImbgeMetbdbtbFormbtClbssNbme,
+                                 extrbImbgeMetbdbtbFormbtNbmes,
+                                 extrbImbgeMetbdbtbFormbtClbssNbmes);
     }
 
-    private IIOMetadataFormat getMetadataFormat(String formatName,
-                                                boolean supportsStandard,
-                                                String nativeName,
-                                                String nativeClassName,
-                                                String [] extraNames,
-                                                String [] extraClassNames) {
-        if (formatName == null) {
-            throw new IllegalArgumentException("formatName == null!");
+    privbte IIOMetbdbtbFormbt getMetbdbtbFormbt(String formbtNbme,
+                                                boolebn supportsStbndbrd,
+                                                String nbtiveNbme,
+                                                String nbtiveClbssNbme,
+                                                String [] extrbNbmes,
+                                                String [] extrbClbssNbmes) {
+        if (formbtNbme == null) {
+            throw new IllegblArgumentException("formbtNbme == null!");
         }
-        if (supportsStandard && formatName.equals
-                (IIOMetadataFormatImpl.standardMetadataFormatName)) {
+        if (supportsStbndbrd && formbtNbme.equbls
+                (IIOMetbdbtbFormbtImpl.stbndbrdMetbdbtbFormbtNbme)) {
 
-            return IIOMetadataFormatImpl.getStandardFormatInstance();
+            return IIOMetbdbtbFormbtImpl.getStbndbrdFormbtInstbnce();
         }
-        String formatClassName = null;
-        if (formatName.equals(nativeName)) {
-            formatClassName = nativeClassName;
-        } else if (extraNames != null) {
-            for (int i = 0; i < extraNames.length; i++) {
-                if (formatName.equals(extraNames[i])) {
-                    formatClassName = extraClassNames[i];
-                    break;  // out of for
+        String formbtClbssNbme = null;
+        if (formbtNbme.equbls(nbtiveNbme)) {
+            formbtClbssNbme = nbtiveClbssNbme;
+        } else if (extrbNbmes != null) {
+            for (int i = 0; i < extrbNbmes.length; i++) {
+                if (formbtNbme.equbls(extrbNbmes[i])) {
+                    formbtClbssNbme = extrbClbssNbmes[i];
+                    brebk;  // out of for
                 }
             }
         }
-        if (formatClassName == null) {
-            throw new IllegalArgumentException("Unsupported format name");
+        if (formbtClbssNbme == null) {
+            throw new IllegblArgumentException("Unsupported formbt nbme");
         }
         try {
-            Class<?> cls = Class.forName(formatClassName, true,
-                                      ClassLoader.getSystemClassLoader());
-            Method meth = cls.getMethod("getInstance");
-            return (IIOMetadataFormat) meth.invoke(null);
-        } catch (Exception e) {
+            Clbss<?> cls = Clbss.forNbme(formbtClbssNbme, true,
+                                      ClbssLobder.getSystemClbssLobder());
+            Method meth = cls.getMethod("getInstbnce");
+            return (IIOMetbdbtbFormbt) meth.invoke(null);
+        } cbtch (Exception e) {
             RuntimeException ex =
-                new IllegalStateException ("Can't obtain format");
-            ex.initCause(e);
+                new IllegblStbteException ("Cbn't obtbin formbt");
+            ex.initCbuse(e);
             throw ex;
         }
     }

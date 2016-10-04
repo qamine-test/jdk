@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -37,501 +37,501 @@
 
 /**
  * \file
- * \brief C++ API: Virtual base class for complex text layout.
+ * \brief C++ API: Virtubl bbse clbss for complex text lbyout.
  */
 
 U_NAMESPACE_BEGIN
 
-class LEFontInstance;
-class LEGlyphFilter;
-class LEGlyphStorage;
+clbss LEFontInstbnce;
+clbss LEGlyphFilter;
+clbss LEGlyphStorbge;
 
 /**
- * This is a virtual base class used to do complex text layout. The text must all
- * be in a single font, script, and language. An instance of a LayoutEngine can be
- * created by calling the layoutEngineFactory method. Fonts are identified by
- * instances of the LEFontInstance class. Script and language codes are identified
- * by integer codes, which are defined in ScriptAndLanuageTags.h.
+ * This is b virtubl bbse clbss used to do complex text lbyout. The text must bll
+ * be in b single font, script, bnd lbngubge. An instbnce of b LbyoutEngine cbn be
+ * crebted by cblling the lbyoutEngineFbctory method. Fonts bre identified by
+ * instbnces of the LEFontInstbnce clbss. Script bnd lbngubge codes bre identified
+ * by integer codes, which bre defined in ScriptAndLbnubgeTbgs.h.
  *
- * Note that this class is not public API. It is declared public so that it can be
- * exported from the library that it is a part of.
+ * Note thbt this clbss is not public API. It is declbred public so thbt it cbn be
+ * exported from the librbry thbt it is b pbrt of.
  *
- * The input to the layout process is an array of characters in logical order,
- * and a starting X, Y position for the text. The output is an array of glyph indices,
- * an array of character indices for the glyphs, and an array of glyph positions.
- * These arrays are protected members of LayoutEngine which can be retreived by a
- * public method. The reset method can be called to free these arrays so that the
- * LayoutEngine can be reused.
+ * The input to the lbyout process is bn brrby of chbrbcters in logicbl order,
+ * bnd b stbrting X, Y position for the text. The output is bn brrby of glyph indices,
+ * bn brrby of chbrbcter indices for the glyphs, bnd bn brrby of glyph positions.
+ * These brrbys bre protected members of LbyoutEngine which cbn be retreived by b
+ * public method. The reset method cbn be cblled to free these brrbys so thbt the
+ * LbyoutEngine cbn be reused.
  *
- * The layout process is done in three steps. There is a protected virtual method
- * for each step. These methods have a default implementation which only does
- * character to glyph mapping and default positioning using the glyph's advance
- * widths. Subclasses can override these methods for more advanced layout.
- * There is a public method which invokes the steps in the correct order.
+ * The lbyout process is done in three steps. There is b protected virtubl method
+ * for ebch step. These methods hbve b defbult implementbtion which only does
+ * chbrbcter to glyph mbpping bnd defbult positioning using the glyph's bdvbnce
+ * widths. Subclbsses cbn override these methods for more bdvbnced lbyout.
+ * There is b public method which invokes the steps in the correct order.
  *
- * The steps are:
+ * The steps bre:
  *
- * 1) Glyph processing - character to glyph mapping and any other glyph processing
- *    such as ligature substitution and contextual forms.
+ * 1) Glyph processing - chbrbcter to glyph mbpping bnd bny other glyph processing
+ *    such bs ligbture substitution bnd contextubl forms.
  *
- * 2) Glyph positioning - position the glyphs based on their advance widths.
+ * 2) Glyph positioning - position the glyphs bbsed on their bdvbnce widths.
  *
- * 3) Glyph position adjustments - adjustment of glyph positions for kerning,
- *    accent placement, etc.
+ * 3) Glyph position bdjustments - bdjustment of glyph positions for kerning,
+ *    bccent plbcement, etc.
  *
- * NOTE: in all methods below, output parameters are references to pointers so
- * the method can allocate and free the storage as needed. All storage allocated
- * in this way is owned by the object which created it, and will be freed when it
+ * NOTE: in bll methods below, output pbrbmeters bre references to pointers so
+ * the method cbn bllocbte bnd free the storbge bs needed. All storbge bllocbted
+ * in this wby is owned by the object which crebted it, bnd will be freed when it
  * is no longer needed, or when the object's destructor is invoked.
  *
- * @see LEFontInstance
- * @see ScriptAndLanguageTags.h
+ * @see LEFontInstbnce
+ * @see ScriptAndLbngubgeTbgs.h
  *
- * @stable ICU 2.8
+ * @stbble ICU 2.8
  */
-class U_LAYOUT_API LayoutEngine : public UObject {
+clbss U_LAYOUT_API LbyoutEngine : public UObject {
 public:
 #ifndef U_HIDE_INTERNAL_API
-    /** @internal Flag to request kerning. Use LE_Kerning_FEATURE_FLAG instead. */
-    static const le_int32 kTypoFlagKern;
-    /** @internal Flag to request ligatures. Use LE_Ligatures_FEATURE_FLAG instead. */
-    static const le_int32 kTypoFlagLiga;
+    /** @internbl Flbg to request kerning. Use LE_Kerning_FEATURE_FLAG instebd. */
+    stbtic const le_int32 kTypoFlbgKern;
+    /** @internbl Flbg to request ligbtures. Use LE_Ligbtures_FEATURE_FLAG instebd. */
+    stbtic const le_int32 kTypoFlbgLigb;
 #endif  /* U_HIDE_INTERNAL_API */
 
 protected:
     /**
-     * The object which holds the glyph storage
+     * The object which holds the glyph storbge
      *
-     * @internal
+     * @internbl
      */
-    LEGlyphStorage *fGlyphStorage;
+    LEGlyphStorbge *fGlyphStorbge;
 
     /**
-     * The font instance for the text font.
+     * The font instbnce for the text font.
      *
-     * @see LEFontInstance
+     * @see LEFontInstbnce
      *
-     * @internal
+     * @internbl
      */
-    const LEFontInstance *fFontInstance;
+    const LEFontInstbnce *fFontInstbnce;
 
     /**
      * The script code for the text
      *
-     * @see ScriptAndLanguageTags.h for script codes.
+     * @see ScriptAndLbngubgeTbgs.h for script codes.
      *
-     * @internal
+     * @internbl
      */
     le_int32 fScriptCode;
 
     /**
-     * The langauge code for the text
+     * The lbngbuge code for the text
      *
-     * @see ScriptAndLanguageTags.h for language codes.
+     * @see ScriptAndLbngubgeTbgs.h for lbngubge codes.
      *
-     * @internal
+     * @internbl
      */
-    le_int32 fLanguageCode;
+    le_int32 fLbngubgeCode;
 
     /**
-     * The typographic control flags
+     * The typogrbphic control flbgs
      *
-     * @internal
+     * @internbl
      */
-    le_int32 fTypoFlags;
+    le_int32 fTypoFlbgs;
 
     /**
-     * <code>TRUE</code> if <code>mapCharsToGlyphs</code> should replace ZWJ / ZWNJ with a glyph
+     * <code>TRUE</code> if <code>mbpChbrsToGlyphs</code> should replbce ZWJ / ZWNJ with b glyph
      * with no contours.
      *
-     * @internal
+     * @internbl
      */
     le_bool fFilterZeroWidth;
 
 #ifndef U_HIDE_INTERNAL_API
     /**
-     * This constructs an instance for a given font, script and language. Subclass constructors
-     * must call this constructor.
+     * This constructs bn instbnce for b given font, script bnd lbngubge. Subclbss constructors
+     * must cbll this constructor.
      *
-     * @param fontInstance - the font for the text
-     * @param scriptCode - the script for the text
-     * @param languageCode - the language for the text
-     * @param typoFlags - the typographic control flags for the text (a bitfield).  Use kTypoFlagKern
-     * if kerning is desired, kTypoFlagLiga if ligature formation is desired.  Others are reserved.
-     * @param success - set to an error code if the operation fails
+     * @pbrbm fontInstbnce - the font for the text
+     * @pbrbm scriptCode - the script for the text
+     * @pbrbm lbngubgeCode - the lbngubge for the text
+     * @pbrbm typoFlbgs - the typogrbphic control flbgs for the text (b bitfield).  Use kTypoFlbgKern
+     * if kerning is desired, kTypoFlbgLigb if ligbture formbtion is desired.  Others bre reserved.
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @see LEFontInstance
-     * @see ScriptAndLanguageTags.h
+     * @see LEFontInstbnce
+     * @see ScriptAndLbngubgeTbgs.h
      *
-     * @internal
+     * @internbl
      */
-    LayoutEngine(const LEFontInstance *fontInstance,
+    LbyoutEngine(const LEFontInstbnce *fontInstbnce,
                  le_int32 scriptCode,
-                 le_int32 languageCode,
-                 le_int32 typoFlags,
+                 le_int32 lbngubgeCode,
+                 le_int32 typoFlbgs,
                  LEErrorCode &success);
 #endif  /* U_HIDE_INTERNAL_API */
 
-    // Do not enclose the protected default constructor with #ifndef U_HIDE_INTERNAL_API
-    // or else the compiler will create a public default constructor.
+    // Do not enclose the protected defbult constructor with #ifndef U_HIDE_INTERNAL_API
+    // or else the compiler will crebte b public defbult constructor.
     /**
-     * This overrides the default no argument constructor to make it
-     * difficult for clients to call it. Clients are expected to call
-     * layoutEngineFactory.
+     * This overrides the defbult no brgument constructor to mbke it
+     * difficult for clients to cbll it. Clients bre expected to cbll
+     * lbyoutEngineFbctory.
      *
-     * @internal
+     * @internbl
      */
-    LayoutEngine();
+    LbyoutEngine();
 
     /**
-     * This method does any required pre-processing to the input characters. It
-     * may generate output characters that differ from the input charcters due to
-     * insertions, deletions, or reorderings. In such cases, it will also generate an
-     * output character index array reflecting these changes.
+     * This method does bny required pre-processing to the input chbrbcters. It
+     * mby generbte output chbrbcters thbt differ from the input chbrcters due to
+     * insertions, deletions, or reorderings. In such cbses, it will blso generbte bn
+     * output chbrbcter index brrby reflecting these chbnges.
      *
-     * Subclasses must override this method.
+     * Subclbsses must override this method.
      *
-     * Input parameters:
-     * @param chars - the input character context
-     * @param offset - the index of the first character to process
-     * @param count - the number of characters to process
-     * @param max - the number of characters in the input context
-     * @param rightToLeft - TRUE if the characters are in a right to left directional run
-     * @param outChars - the output character array, if different from the input
-     * @param glyphStorage - the object that holds the per-glyph storage. The character index array may be set.
-     * @param success - set to an error code if the operation fails
+     * Input pbrbmeters:
+     * @pbrbm chbrs - the input chbrbcter context
+     * @pbrbm offset - the index of the first chbrbcter to process
+     * @pbrbm count - the number of chbrbcters to process
+     * @pbrbm mbx - the number of chbrbcters in the input context
+     * @pbrbm rightToLeft - TRUE if the chbrbcters bre in b right to left directionbl run
+     * @pbrbm outChbrs - the output chbrbcter brrby, if different from the input
+     * @pbrbm glyphStorbge - the object thbt holds the per-glyph storbge. The chbrbcter index brrby mby be set.
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @return the output character count (input character count if no change)
+     * @return the output chbrbcter count (input chbrbcter count if no chbnge)
      *
-     * @internal
+     * @internbl
      */
-    virtual le_int32 characterProcessing(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-            LEUnicode *&outChars, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl le_int32 chbrbcterProcessing(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft,
+            LEUnicode *&outChbrs, LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
     /**
-     * This method does the glyph processing. It converts an array of characters
-     * into an array of glyph indices and character indices. The characters to be
-     * processed are passed in a surrounding context. The context is specified as
-     * a starting address and a maximum character count. An offset and a count are
-     * used to specify the characters to be processed.
+     * This method does the glyph processing. It converts bn brrby of chbrbcters
+     * into bn brrby of glyph indices bnd chbrbcter indices. The chbrbcters to be
+     * processed bre pbssed in b surrounding context. The context is specified bs
+     * b stbrting bddress bnd b mbximum chbrbcter count. An offset bnd b count bre
+     * used to specify the chbrbcters to be processed.
      *
-     * The default implementation of this method only does character to glyph mapping.
-     * Subclasses needing more elaborate glyph processing must override this method.
+     * The defbult implementbtion of this method only does chbrbcter to glyph mbpping.
+     * Subclbsses needing more elbborbte glyph processing must override this method.
      *
-     * Input parameters:
-     * @param chars - the character context
-     * @param offset - the offset of the first character to process
-     * @param count - the number of characters to process
-     * @param max - the number of characters in the context.
-     * @param rightToLeft - TRUE if the text is in a right to left directional run
-     * @param glyphStorage - the object which holds the per-glyph storage. The glyph and char indices arrays
+     * Input pbrbmeters:
+     * @pbrbm chbrs - the chbrbcter context
+     * @pbrbm offset - the offset of the first chbrbcter to process
+     * @pbrbm count - the number of chbrbcters to process
+     * @pbrbm mbx - the number of chbrbcters in the context.
+     * @pbrbm rightToLeft - TRUE if the text is in b right to left directionbl run
+     * @pbrbm glyphStorbge - the object which holds the per-glyph storbge. The glyph bnd chbr indices brrbys
      *                       will be set.
      *
-     * Output parameters:
-     * @param success - set to an error code if the operation fails
+     * Output pbrbmeters:
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @return the number of glyphs in the glyph index array
+     * @return the number of glyphs in the glyph index brrby
      *
-     * @internal
+     * @internbl
      */
-    virtual le_int32 computeGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl le_int32 computeGlyphs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft, LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
     /**
-     * This method does basic glyph positioning. The default implementation positions
-     * the glyphs based on their advance widths. This is sufficient for most uses. It
-     * is not expected that many subclasses will override this method.
+     * This method does bbsic glyph positioning. The defbult implementbtion positions
+     * the glyphs bbsed on their bdvbnce widths. This is sufficient for most uses. It
+     * is not expected thbt mbny subclbsses will override this method.
      *
-     * Input parameters:
-     * @param glyphStorage - the object which holds the per-glyph storage. The glyph position array will be set.
-     * @param x - the starting X position
-     * @param y - the starting Y position
-     * @param success - set to an error code if the operation fails
+     * Input pbrbmeters:
+     * @pbrbm glyphStorbge - the object which holds the per-glyph storbge. The glyph position brrby will be set.
+     * @pbrbm x - the stbrting X position
+     * @pbrbm y - the stbrting Y position
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @internal
+     * @internbl
      */
-    virtual void positionGlyphs(LEGlyphStorage &glyphStorage, float x, float y, LEErrorCode &success);
+    virtubl void positionGlyphs(LEGlyphStorbge &glyphStorbge, flobt x, flobt y, LEErrorCode &success);
 
     /**
-     * This method does positioning adjustments like accent positioning and
-     * kerning. The default implementation does nothing. Subclasses needing
-     * position adjustments must override this method.
+     * This method does positioning bdjustments like bccent positioning bnd
+     * kerning. The defbult implementbtion does nothing. Subclbsses needing
+     * position bdjustments must override this method.
      *
-     * Note that this method has both characters and glyphs as input so that
-     * it can use the character codes to determine glyph types if that information
-     * isn't directly available. (e.g. Some Arabic OpenType fonts don't have a GDEF
-     * table)
+     * Note thbt this method hbs both chbrbcters bnd glyphs bs input so thbt
+     * it cbn use the chbrbcter codes to determine glyph types if thbt informbtion
+     * isn't directly bvbilbble. (e.g. Some Arbbic OpenType fonts don't hbve b GDEF
+     * tbble)
      *
-     * @param chars - the input character context
-     * @param offset - the offset of the first character to process
-     * @param count - the number of characters to process
-     * @param reverse - <code>TRUE</code> if the glyphs in the glyph array have been reordered
-     * @param glyphStorage - the object which holds the per-glyph storage. The glyph positions will be
-     *                       adjusted as needed.
-     * @param success - output parameter set to an error code if the operation fails
+     * @pbrbm chbrs - the input chbrbcter context
+     * @pbrbm offset - the offset of the first chbrbcter to process
+     * @pbrbm count - the number of chbrbcters to process
+     * @pbrbm reverse - <code>TRUE</code> if the glyphs in the glyph brrby hbve been reordered
+     * @pbrbm glyphStorbge - the object which holds the per-glyph storbge. The glyph positions will be
+     *                       bdjusted bs needed.
+     * @pbrbm success - output pbrbmeter set to bn error code if the operbtion fbils
      *
-     * @internal
+     * @internbl
      */
-    virtual void adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl void bdjustGlyphPositions(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse, LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
     /**
-     * This method gets a table from the font associated with
-     * the text. The default implementation gets the table from
-     * the font instance. Subclasses which need to get the tables
-     * some other way must override this method.
+     * This method gets b tbble from the font bssocibted with
+     * the text. The defbult implementbtion gets the tbble from
+     * the font instbnce. Subclbsses which need to get the tbbles
+     * some other wby must override this method.
      *
-     * @param tableTag - the four byte table tag.
-     * @param length - length to use
+     * @pbrbm tbbleTbg - the four byte tbble tbg.
+     * @pbrbm length - length to use
      *
-     * @return the address of the table.
+     * @return the bddress of the tbble.
      *
-     * @internal
+     * @internbl
      */
-    virtual const void *getFontTable(LETag tableTag, size_t &length) const;
+    virtubl const void *getFontTbble(LETbg tbbleTbg, size_t &length) const;
 
     /**
-     * @deprecated
+     * @deprecbted
      */
-    virtual const void *getFontTable(LETag tableTag) const { size_t ignored; return getFontTable(tableTag, ignored); }
+    virtubl const void *getFontTbble(LETbg tbbleTbg) const { size_t ignored; return getFontTbble(tbbleTbg, ignored); }
 
     /**
-     * This method does character to glyph mapping. The default implementation
-     * uses the font instance to do the mapping. It will allocate the glyph and
-     * character index arrays if they're not already allocated. If it allocates the
-     * character index array, it will fill it it.
+     * This method does chbrbcter to glyph mbpping. The defbult implementbtion
+     * uses the font instbnce to do the mbpping. It will bllocbte the glyph bnd
+     * chbrbcter index brrbys if they're not blrebdy bllocbted. If it bllocbtes the
+     * chbrbcter index brrby, it will fill it it.
      *
      * This method supports right to left
-     * text with the ability to store the glyphs in reverse order, and by supporting
-     * character mirroring, which will replace a character which has a left and right
-     * form, such as parens, with the opposite form before mapping it to a glyph index.
+     * text with the bbility to store the glyphs in reverse order, bnd by supporting
+     * chbrbcter mirroring, which will replbce b chbrbcter which hbs b left bnd right
+     * form, such bs pbrens, with the opposite form before mbpping it to b glyph index.
      *
-     * Input parameters:
-     * @param chars - the input character context
-     * @param offset - the offset of the first character to be mapped
-     * @param count - the number of characters to be mapped
-     * @param reverse - if <code>TRUE</code>, the output will be in reverse order
-     * @param mirror - if <code>TRUE</code>, do character mirroring
-     * @param glyphStorage - the object which holds the per-glyph storage. The glyph and char
-     *                       indices arrays will be filled in.
-     * @param success - set to an error code if the operation fails
+     * Input pbrbmeters:
+     * @pbrbm chbrs - the input chbrbcter context
+     * @pbrbm offset - the offset of the first chbrbcter to be mbpped
+     * @pbrbm count - the number of chbrbcters to be mbpped
+     * @pbrbm reverse - if <code>TRUE</code>, the output will be in reverse order
+     * @pbrbm mirror - if <code>TRUE</code>, do chbrbcter mirroring
+     * @pbrbm glyphStorbge - the object which holds the per-glyph storbge. The glyph bnd chbr
+     *                       indices brrbys will be filled in.
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @see LEFontInstance
+     * @see LEFontInstbnce
      *
-     * @internal
+     * @internbl
      */
-    virtual void mapCharsToGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, le_bool mirror, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl void mbpChbrsToGlyphs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse, le_bool mirror, LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
 #ifndef U_HIDE_INTERNAL_API
     /**
-     * This is a convenience method that forces the advance width of mark
-     * glyphs to be zero, which is required for proper selection and highlighting.
+     * This is b convenience method thbt forces the bdvbnce width of mbrk
+     * glyphs to be zero, which is required for proper selection bnd highlighting.
      *
-     * @param glyphStorage - the object containing the per-glyph storage. The positions array will be modified.
-     * @param markFilter - used to identify mark glyphs
-     * @param success - output parameter set to an error code if the operation fails
+     * @pbrbm glyphStorbge - the object contbining the per-glyph storbge. The positions brrby will be modified.
+     * @pbrbm mbrkFilter - used to identify mbrk glyphs
+     * @pbrbm success - output pbrbmeter set to bn error code if the operbtion fbils
      *
      * @see LEGlyphFilter
      *
-     * @internal
+     * @internbl
      */
-    static void adjustMarkGlyphs(LEGlyphStorage &glyphStorage, LEGlyphFilter *markFilter, LEErrorCode &success);
+    stbtic void bdjustMbrkGlyphs(LEGlyphStorbge &glyphStorbge, LEGlyphFilter *mbrkFilter, LEErrorCode &success);
 
 
     /**
-     * This is a convenience method that forces the advance width of mark
-     * glyphs to be zero, which is required for proper selection and highlighting.
-     * This method uses the input characters to identify marks. This is required in
-     * cases where the font does not contain enough information to identify them based
+     * This is b convenience method thbt forces the bdvbnce width of mbrk
+     * glyphs to be zero, which is required for proper selection bnd highlighting.
+     * This method uses the input chbrbcters to identify mbrks. This is required in
+     * cbses where the font does not contbin enough informbtion to identify them bbsed
      * on the glyph IDs.
      *
-     * @param chars - the array of input characters
-     * @param charCount - the number of input characers
-     * @param glyphStorage - the object containing the per-glyph storage. The positions array will be modified.
-     * @param reverse - <code>TRUE</code> if the glyph array has been reordered
-     * @param markFilter - used to identify mark glyphs
-     * @param success - output parameter set to an error code if the operation fails
+     * @pbrbm chbrs - the brrby of input chbrbcters
+     * @pbrbm chbrCount - the number of input chbrbcers
+     * @pbrbm glyphStorbge - the object contbining the per-glyph storbge. The positions brrby will be modified.
+     * @pbrbm reverse - <code>TRUE</code> if the glyph brrby hbs been reordered
+     * @pbrbm mbrkFilter - used to identify mbrk glyphs
+     * @pbrbm success - output pbrbmeter set to bn error code if the operbtion fbils
      *
      * @see LEGlyphFilter
      *
-     * @internal
+     * @internbl
      */
-    static void adjustMarkGlyphs(const LEUnicode chars[], le_int32 charCount, le_bool reverse, LEGlyphStorage &glyphStorage, LEGlyphFilter *markFilter, LEErrorCode &success);
+    stbtic void bdjustMbrkGlyphs(const LEUnicode chbrs[], le_int32 chbrCount, le_bool reverse, LEGlyphStorbge &glyphStorbge, LEGlyphFilter *mbrkFilter, LEErrorCode &success);
 #endif  /* U_HIDE_INTERNAL_API */
 
 public:
     /**
-     * The destructor. It will free any storage allocated for the
-     * glyph, character index and position arrays by calling the reset
-     * method. It is declared virtual so that it will be invoked by the
-     * subclass destructors.
+     * The destructor. It will free bny storbge bllocbted for the
+     * glyph, chbrbcter index bnd position brrbys by cblling the reset
+     * method. It is declbred virtubl so thbt it will be invoked by the
+     * subclbss destructors.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual ~LayoutEngine();
+    virtubl ~LbyoutEngine();
 
     /**
-     * This method will invoke the layout steps in their correct order by calling
-     * the computeGlyphs, positionGlyphs and adjustGlyphPosition methods. It will
-     * compute the glyph, character index and position arrays.
+     * This method will invoke the lbyout steps in their correct order by cblling
+     * the computeGlyphs, positionGlyphs bnd bdjustGlyphPosition methods. It will
+     * compute the glyph, chbrbcter index bnd position brrbys.
      *
-     * @param chars - the input character context
-     * @param offset - the offset of the first character to process
-     * @param count - the number of characters to process
-     * @param max - the number of characters in the input context
-     * @param rightToLeft - TRUE if the characers are in a right to left directional run
-     * @param x - the initial X position
-     * @param y - the initial Y position
-     * @param success - output parameter set to an error code if the operation fails
+     * @pbrbm chbrs - the input chbrbcter context
+     * @pbrbm offset - the offset of the first chbrbcter to process
+     * @pbrbm count - the number of chbrbcters to process
+     * @pbrbm mbx - the number of chbrbcters in the input context
+     * @pbrbm rightToLeft - TRUE if the chbrbcers bre in b right to left directionbl run
+     * @pbrbm x - the initibl X position
+     * @pbrbm y - the initibl Y position
+     * @pbrbm success - output pbrbmeter set to bn error code if the operbtion fbils
      *
-     * @return the number of glyphs in the glyph array
+     * @return the number of glyphs in the glyph brrby
      *
-     * Note: The glyph, character index and position array can be accessed
+     * Note: The glyph, chbrbcter index bnd position brrby cbn be bccessed
      * using the getter methods below.
      *
-     * Note: If you call this method more than once, you must call the reset()
-     * method first to free the glyph, character index and position arrays
-     * allocated by the previous call.
+     * Note: If you cbll this method more thbn once, you must cbll the reset()
+     * method first to free the glyph, chbrbcter index bnd position brrbys
+     * bllocbted by the previous cbll.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual le_int32 layoutChars(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft, float x, float y, LEErrorCode &success);
+    virtubl le_int32 lbyoutChbrs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft, flobt x, flobt y, LEErrorCode &success);
 
     /**
-     * This method returns the number of glyphs in the glyph array. Note
-     * that the number of glyphs will be greater than or equal to the number
-     * of characters used to create the LayoutEngine.
+     * This method returns the number of glyphs in the glyph brrby. Note
+     * thbt the number of glyphs will be grebter thbn or equbl to the number
+     * of chbrbcters used to crebte the LbyoutEngine.
      *
-     * @return the number of glyphs in the glyph array
+     * @return the number of glyphs in the glyph brrby
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
     le_int32 getGlyphCount() const;
 
     /**
-     * This method copies the glyph array into a caller supplied array.
-     * The caller must ensure that the array is large enough to hold all
+     * This method copies the glyph brrby into b cbller supplied brrby.
+     * The cbller must ensure thbt the brrby is lbrge enough to hold bll
      * the glyphs.
      *
-     * @param glyphs - the destiniation glyph array
-     * @param success - set to an error code if the operation fails
+     * @pbrbm glyphs - the destinibtion glyph brrby
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
     void getGlyphs(LEGlyphID glyphs[], LEErrorCode &success) const;
 
     /**
-     * This method copies the glyph array into a caller supplied array,
-     * ORing in extra bits. (This functionality is needed by the JDK,
+     * This method copies the glyph brrby into b cbller supplied brrby,
+     * ORing in extrb bits. (This functionblity is needed by the JDK,
      * which uses 32 bits pre glyph idex, with the high 16 bits encoding
      * the composite font slot number)
      *
-     * @param glyphs - the destination (32 bit) glyph array
-     * @param extraBits - this value will be ORed with each glyph index
-     * @param success - set to an error code if the operation fails
+     * @pbrbm glyphs - the destinbtion (32 bit) glyph brrby
+     * @pbrbm extrbBits - this vblue will be ORed with ebch glyph index
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual void getGlyphs(le_uint32 glyphs[], le_uint32 extraBits, LEErrorCode &success) const;
+    virtubl void getGlyphs(le_uint32 glyphs[], le_uint32 extrbBits, LEErrorCode &success) const;
 
     /**
-     * This method copies the character index array into a caller supplied array.
-     * The caller must ensure that the array is large enough to hold a
-     * character index for each glyph.
+     * This method copies the chbrbcter index brrby into b cbller supplied brrby.
+     * The cbller must ensure thbt the brrby is lbrge enough to hold b
+     * chbrbcter index for ebch glyph.
      *
-     * @param charIndices - the destiniation character index array
-     * @param success - set to an error code if the operation fails
+     * @pbrbm chbrIndices - the destinibtion chbrbcter index brrby
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    void getCharIndices(le_int32 charIndices[], LEErrorCode &success) const;
+    void getChbrIndices(le_int32 chbrIndices[], LEErrorCode &success) const;
 
     /**
-     * This method copies the character index array into a caller supplied array.
-     * The caller must ensure that the array is large enough to hold a
-     * character index for each glyph.
+     * This method copies the chbrbcter index brrby into b cbller supplied brrby.
+     * The cbller must ensure thbt the brrby is lbrge enough to hold b
+     * chbrbcter index for ebch glyph.
      *
-     * @param charIndices - the destiniation character index array
-     * @param indexBase - an offset which will be added to each index
-     * @param success - set to an error code if the operation fails
+     * @pbrbm chbrIndices - the destinibtion chbrbcter index brrby
+     * @pbrbm indexBbse - bn offset which will be bdded to ebch index
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    void getCharIndices(le_int32 charIndices[], le_int32 indexBase, LEErrorCode &success) const;
+    void getChbrIndices(le_int32 chbrIndices[], le_int32 indexBbse, LEErrorCode &success) const;
 
     /**
-     * This method copies the position array into a caller supplied array.
-     * The caller must ensure that the array is large enough to hold an
-     * X and Y position for each glyph, plus an extra X and Y for the
-     * advance of the last glyph.
+     * This method copies the position brrby into b cbller supplied brrby.
+     * The cbller must ensure thbt the brrby is lbrge enough to hold bn
+     * X bnd Y position for ebch glyph, plus bn extrb X bnd Y for the
+     * bdvbnce of the lbst glyph.
      *
-     * @param positions - the destiniation position array
-     * @param success - set to an error code if the operation fails
+     * @pbrbm positions - the destinibtion position brrby
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    void getGlyphPositions(float positions[], LEErrorCode &success) const;
+    void getGlyphPositions(flobt positions[], LEErrorCode &success) const;
 
     /**
-     * This method returns the X and Y position of the glyph at
+     * This method returns the X bnd Y position of the glyph bt
      * the given index.
      *
-     * Input parameters:
-     * @param glyphIndex - the index of the glyph
+     * Input pbrbmeters:
+     * @pbrbm glyphIndex - the index of the glyph
      *
-     * Output parameters:
-     * @param x - the glyph's X position
-     * @param y - the glyph's Y position
-     * @param success - set to an error code if the operation fails
+     * Output pbrbmeters:
+     * @pbrbm x - the glyph's X position
+     * @pbrbm y - the glyph's Y position
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    void getGlyphPosition(le_int32 glyphIndex, float &x, float &y, LEErrorCode &success) const;
+    void getGlyphPosition(le_int32 glyphIndex, flobt &x, flobt &y, LEErrorCode &success) const;
 
     /**
-     * This method frees the glyph, character index and position arrays
-     * so that the LayoutEngine can be reused to layout a different
-     * characer array. (This method is also called by the destructor)
+     * This method frees the glyph, chbrbcter index bnd position brrbys
+     * so thbt the LbyoutEngine cbn be reused to lbyout b different
+     * chbrbcer brrby. (This method is blso cblled by the destructor)
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual void reset();
+    virtubl void reset();
 
     /**
-     * This method returns a LayoutEngine capable of laying out text
-     * in the given font, script and langauge. Note that the LayoutEngine
-     * returned may be a subclass of LayoutEngine.
+     * This method returns b LbyoutEngine cbpbble of lbying out text
+     * in the given font, script bnd lbngbuge. Note thbt the LbyoutEngine
+     * returned mby be b subclbss of LbyoutEngine.
      *
-     * @param fontInstance - the font of the text
-     * @param scriptCode - the script of the text
-     * @param languageCode - the language of the text
-     * @param success - output parameter set to an error code if the operation fails
+     * @pbrbm fontInstbnce - the font of the text
+     * @pbrbm scriptCode - the script of the text
+     * @pbrbm lbngubgeCode - the lbngubge of the text
+     * @pbrbm success - output pbrbmeter set to bn error code if the operbtion fbils
      *
-     * @return a LayoutEngine which can layout text in the given font.
+     * @return b LbyoutEngine which cbn lbyout text in the given font.
      *
-     * @see LEFontInstance
+     * @see LEFontInstbnce
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    static LayoutEngine *layoutEngineFactory(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode, LEErrorCode &success);
+    stbtic LbyoutEngine *lbyoutEngineFbctory(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode, LEErrorCode &success);
 
     /**
-     * Override of existing call that provides flags to control typography.
-     * @stable ICU 3.4
+     * Override of existing cbll thbt provides flbgs to control typogrbphy.
+     * @stbble ICU 3.4
      */
-    static LayoutEngine *layoutEngineFactory(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode, le_int32 typo_flags, LEErrorCode &success);
+    stbtic LbyoutEngine *lbyoutEngineFbctory(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode, le_int32 typo_flbgs, LEErrorCode &success);
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for the actual class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for the bctubl clbss.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual UClassID getDynamicClassID() const;
+    virtubl UClbssID getDynbmicClbssID() const;
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for this class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for this clbss.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    static UClassID getStaticClassID();
+    stbtic UClbssID getStbticClbssID();
 
 };
 

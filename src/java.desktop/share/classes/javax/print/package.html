@@ -1,146 +1,146 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <html>
-<head>
-<title>javax.print package</title>
+<hebd>
+<title>jbvbx.print pbckbge</title>
 <!--
-Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
-</head>
+</hebd>
 <body bgcolor="white">
-Provides the principal classes and interfaces for the 
-Java<sup><font size="-2">TM</font></sup> Print Service API.
-The Java Print Service API enables client and server applications to:
+Provides the principbl clbsses bnd interfbces for the 
+Jbvb<sup><font size="-2">TM</font></sup> Print Service API.
+The Jbvb Print Service API enbbles client bnd server bpplicbtions to:
 <ul>
-<li>Discover and select print services based on their capabilities 
-<li>Specify the format of print data
-<li>Submit print jobs to services that support the document type to 
+<li>Discover bnd select print services bbsed on their cbpbbilities 
+<li>Specify the formbt of print dbtb
+<li>Submit print jobs to services thbt support the document type to 
 be printed.
 </ul>
 
 
 <h3>Print Service Discovery</h3>
 <p>
-An application invokes the static methods of the abstract class 
-{@link javax.print.PrintServiceLookup PrintServiceLookup} to locate print 
-services that have the capabilities to satisfy the application's print 
-request.  For example, to print a double-sided document, the application 
-first needs to find printers that have the double-sided printing capability.
+An bpplicbtion invokes the stbtic methods of the bbstrbct clbss 
+{@link jbvbx.print.PrintServiceLookup PrintServiceLookup} to locbte print 
+services thbt hbve the cbpbbilities to sbtisfy the bpplicbtion's print 
+request.  For exbmple, to print b double-sided document, the bpplicbtion 
+first needs to find printers thbt hbve the double-sided printing cbpbbility.
 <p>
-The JDK includes <code>PrintServiceLookup</code> implementations that
-can locate the standard platform printers.  To locate other types of printers,
-such as IPP printers or JINI printers, a print-service provider can write 
-implementations of <code>PrintServiceLookup</code>.  The print-service provider 
-can dynamically install these <code>PrintServiceLookup</code> implementations 
+The JDK includes <code>PrintServiceLookup</code> implementbtions thbt
+cbn locbte the stbndbrd plbtform printers.  To locbte other types of printers,
+such bs IPP printers or JINI printers, b print-service provider cbn write 
+implementbtions of <code>PrintServiceLookup</code>.  The print-service provider 
+cbn dynbmicblly instbll these <code>PrintServiceLookup</code> implementbtions 
 using the 
-<a href="../../../technotes/guides/jar/jar.html#Service%20Provider">
-SPI JAR file specification</a>.
+<b href="../../../technotes/guides/jbr/jbr.html#Service%20Provider">
+SPI JAR file specificbtion</b>.
 
 <h3>Attribute Definitions</h3>
 
-The {@link javax.print.attribute} and {@link javax.print.attribute.standard} 
-packages define print attributes, which describe the capabilities of a print 
-service, specify the requirements of a print job, and track the progress of 
-a print job.
+The {@link jbvbx.print.bttribute} bnd {@link jbvbx.print.bttribute.stbndbrd} 
+pbckbges define print bttributes, which describe the cbpbbilities of b print 
+service, specify the requirements of b print job, bnd trbck the progress of 
+b print job.
 <p>
-The <code>javax.print.attribute</code> package describes the types of attributes and
-how they can be collected into sets.  The <code>javax.print.attribute.standard</code>
-package enumerates all of the standard attributes supported by the API, most
-of which are implementations of attributes specified in the IETF Specification, 
-<a href="http://www.ietf.org/rfc/rfc2911.txt">
-RFC 2911 Internet Printing Protocol, 1.1: Model and Semantics</a>, dated 
-September 2000.  The attributes specified in <code>javax.print.attribute.standard</code>
-include common capabilities, such as: resolution, copies, media sizes, 
-job priority, and page ranges.
+The <code>jbvbx.print.bttribute</code> pbckbge describes the types of bttributes bnd
+how they cbn be collected into sets.  The <code>jbvbx.print.bttribute.stbndbrd</code>
+pbckbge enumerbtes bll of the stbndbrd bttributes supported by the API, most
+of which bre implementbtions of bttributes specified in the IETF Specificbtion, 
+<b href="http://www.ietf.org/rfc/rfc2911.txt">
+RFC 2911 Internet Printing Protocol, 1.1: Model bnd Sembntics</b>, dbted 
+September 2000.  The bttributes specified in <code>jbvbx.print.bttribute.stbndbrd</code>
+include common cbpbbilities, such bs: resolution, copies, medib sizes, 
+job priority, bnd pbge rbnges.
 
-<h3>Document Type Specification</h3>
+<h3>Document Type Specificbtion</h3>
 
-The {@link javax.print.DocFlavor DocFlavor} class represents the print data 
-format, such as JPEG or PostScript.  A <code>DocFlavor</code> object 
-consists of a MIME type, which describes the format, and a document 
-representation class name that indicates how the document is delivered 
-to the printer or output stream.  An application uses the 
-<code>DocFlavor</code> and an attribute set to find printers that can 
-print the document type specified by the <code>DocFlavor</code> and have 
-the capabilities specified by the attribute set.  
+The {@link jbvbx.print.DocFlbvor DocFlbvor} clbss represents the print dbtb 
+formbt, such bs JPEG or PostScript.  A <code>DocFlbvor</code> object 
+consists of b MIME type, which describes the formbt, bnd b document 
+representbtion clbss nbme thbt indicbtes how the document is delivered 
+to the printer or output strebm.  An bpplicbtion uses the 
+<code>DocFlbvor</code> bnd bn bttribute set to find printers thbt cbn 
+print the document type specified by the <code>DocFlbvor</code> bnd hbve 
+the cbpbbilities specified by the bttribute set.  
 
 <h3>Using the API</h3>
 
-A typical application using the Java Print Service API performs these steps
-to process a print request:
+A typicbl bpplicbtion using the Jbvb Print Service API performs these steps
+to process b print request:
 <ol>
-<li>Chooses a <code>DocFlavor</code>.</li>
-<li>Creates a set of attributes.</li>
-<li>Locates a print service that can handle the print request as specified
-by the <code>DocFlavor</code> and the attribute set.</li>
-<li>Creates a {@link javax.print.Doc Doc} object encapsulating the 
-<code>DocFlavor</code>
-and the actual print data, which can take many forms including: a Postscript 
-file, a JPEG image, a URL, or plain text.</li>
-<li>Gets a print job, represented by {@link javax.print.DocPrintJob DocPrintJob},
+<li>Chooses b <code>DocFlbvor</code>.</li>
+<li>Crebtes b set of bttributes.</li>
+<li>Locbtes b print service thbt cbn hbndle the print request bs specified
+by the <code>DocFlbvor</code> bnd the bttribute set.</li>
+<li>Crebtes b {@link jbvbx.print.Doc Doc} object encbpsulbting the 
+<code>DocFlbvor</code>
+bnd the bctubl print dbtb, which cbn tbke mbny forms including: b Postscript 
+file, b JPEG imbge, b URL, or plbin text.</li>
+<li>Gets b print job, represented by {@link jbvbx.print.DocPrintJob DocPrintJob},
  from the print service.</li>
-<li>Calls the print method of the print job.</li>
+<li>Cblls the print method of the print job.</li>
 </ol>
-The following code sample demonstrates a typical use of the Java Print 
-Service API: locating printers that can print five double-sided copies
-of a Postscript document on size A4 paper, creating a print job from 
-one of the returned print services, and calling print.
+The following code sbmple demonstrbtes b typicbl use of the Jbvb Print 
+Service API: locbting printers thbt cbn print five double-sided copies
+of b Postscript document on size A4 pbper, crebting b print job from 
+one of the returned print services, bnd cblling print.
 
 <blockquote>
 <pre>
-FileInputStream psStream;
+FileInputStrebm psStrebm;
 try {
-   psStream = new FileInputStream("file.ps");
-} catch (FileNotFoundException ffne) {
+   psStrebm = new FileInputStrebm("file.ps");
+} cbtch (FileNotFoundException ffne) {
 }
-if (psStream == null) {
+if (psStrebm == null) {
     return;
 }
 
-DocFlavor psInFormat = DocFlavor.INPUT_STREAM.POSTSCRIPT;
-Doc myDoc = new SimpleDoc(psStream, psInFormat, null);  
-PrintRequestAttributeSet aset = 
-	new HashPrintRequestAttributeSet();
-aset.add(new Copies(5));
-aset.add(MediaSize.A4);
-aset.add(Sides.DUPLEX);
+DocFlbvor psInFormbt = DocFlbvor.INPUT_STREAM.POSTSCRIPT;
+Doc myDoc = new SimpleDoc(psStrebm, psInFormbt, null);  
+PrintRequestAttributeSet bset = 
+	new HbshPrintRequestAttributeSet();
+bset.bdd(new Copies(5));
+bset.bdd(MedibSize.A4);
+bset.bdd(Sides.DUPLEX);
 PrintService[] services = 
-  PrintServiceLookup.lookupPrintServices(psInFormat, aset);
+  PrintServiceLookup.lookupPrintServices(psInFormbt, bset);
 if (services.length > 0) {
-   DocPrintJob job = services[0].createPrintJob();
+   DocPrintJob job = services[0].crebtePrintJob();
    try {
-	job.print(myDoc, aset);
-   } catch (PrintException pe) {}
+	job.print(myDoc, bset);
+   } cbtch (PrintException pe) {}
 }
 </pre>
 </blockquote>
 <P>
-Please note: In the javax.print APIs, a null reference parameter to methods 
-is incorrect unless explicitly documented on the method as having a meaningful
-interpretation. Usage to the contrary is incorrect coding and may result
-in a run time exception either immediately or at some later time.
-IllegalArgumentException and NullPointerException are examples of
-typical and acceptable run time exceptions for such cases.
+Plebse note: In the jbvbx.print APIs, b null reference pbrbmeter to methods 
+is incorrect unless explicitly documented on the method bs hbving b mebningful
+interpretbtion. Usbge to the contrbry is incorrect coding bnd mby result
+in b run time exception either immedibtely or bt some lbter time.
+IllegblArgumentException bnd NullPointerException bre exbmples of
+typicbl bnd bcceptbble run time exceptions for such cbses.
 
 @since 1.4
 </body>

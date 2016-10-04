@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <stdio.h>
@@ -27,51 +27,51 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <locale.h>
-#include <langinfo.h>
+#include <locble.h>
+#include <lbnginfo.h>
 #include <iconv.h>
 
-/* Routines to convert back and forth between Platform Encoding and UTF-8 */
+/* Routines to convert bbck bnd forth between Plbtform Encoding bnd UTF-8 */
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__
 #endif
 
-/* Error and assert macros */
+/* Error bnd bssert mbcros */
 #define UTF_ERROR(m) utfError(THIS_FILE, __LINE__,  m)
 #define UTF_ASSERT(x) ( (x)==0 ? UTF_ERROR("ASSERT ERROR " #x) : (void)0 )
 #define UTF_DEBUG(x)
 
-/* Global variables */
-static iconv_t iconvToPlatform          = (iconv_t)-1;
-static iconv_t iconvFromPlatform        = (iconv_t)-1;
+/* Globbl vbribbles */
+stbtic iconv_t iconvToPlbtform          = (iconv_t)-1;
+stbtic iconv_t iconvFromPlbtform        = (iconv_t)-1;
 
 /*
- * Error handler
+ * Error hbndler
  */
-static void
-utfError(char *file, int line, char *message)
+stbtic void
+utfError(chbr *file, int line, chbr *messbge)
 {
-    (void)fprintf(stderr, "UTF ERROR [\"%s\":%d]: %s\n", file, line, message);
-    abort();
+    (void)fprintf(stderr, "UTF ERROR [\"%s\":%d]: %s\n", file, line, messbge);
+    bbort();
 }
 
 /*
- * Initialize all utf processing.
+ * Initiblize bll utf processing.
  */
-static void
-utfInitialize(void)
+stbtic void
+utfInitiblize(void)
 {
-    char *codeset;
+    chbr *codeset;
 
-    /* Set the locale from the environment */
-    (void)setlocale(LC_ALL, "");
+    /* Set the locble from the environment */
+    (void)setlocble(LC_ALL, "");
 
-    /* Get the codeset name */
-    codeset = (char*)nl_langinfo(CODESET);
+    /* Get the codeset nbme */
+    codeset = (chbr*)nl_lbnginfo(CODESET);
     if ( codeset == NULL || codeset[0] == 0 ) {
-        UTF_DEBUG(("NO codeset returned by nl_langinfo(CODESET)\n"));
+        UTF_DEBUG(("NO codeset returned by nl_lbnginfo(CODESET)\n"));
         return;
     }
 
@@ -79,73 +79,73 @@ utfInitialize(void)
 
     /* If we don't need this, skip it */
     if (strcmp(codeset, "UTF-8") == 0 || strcmp(codeset, "utf8") == 0 ) {
-        UTF_DEBUG(("NO iconv() being used because it is not needed\n"));
+        UTF_DEBUG(("NO iconv() being used becbuse it is not needed\n"));
         return;
     }
 
     /* Open conversion descriptors */
-    iconvToPlatform   = iconv_open(codeset, "UTF-8");
-    if ( iconvToPlatform == (iconv_t)-1 ) {
-        UTF_ERROR("Failed to complete iconv_open() setup");
+    iconvToPlbtform   = iconv_open(codeset, "UTF-8");
+    if ( iconvToPlbtform == (iconv_t)-1 ) {
+        UTF_ERROR("Fbiled to complete iconv_open() setup");
     }
-    iconvFromPlatform = iconv_open("UTF-8", codeset);
-    if ( iconvFromPlatform == (iconv_t)-1 ) {
-        UTF_ERROR("Failed to complete iconv_open() setup");
+    iconvFromPlbtform = iconv_open("UTF-8", codeset);
+    if ( iconvFromPlbtform == (iconv_t)-1 ) {
+        UTF_ERROR("Fbiled to complete iconv_open() setup");
     }
 }
 
 /*
- * Terminate all utf processing
+ * Terminbte bll utf processing
  */
-static void
-utfTerminate(void)
+stbtic void
+utfTerminbte(void)
 {
-    if ( iconvFromPlatform!=(iconv_t)-1 ) {
-        (void)iconv_close(iconvFromPlatform);
+    if ( iconvFromPlbtform!=(iconv_t)-1 ) {
+        (void)iconv_close(iconvFromPlbtform);
     }
-    if ( iconvToPlatform!=(iconv_t)-1 ) {
-        (void)iconv_close(iconvToPlatform);
+    if ( iconvToPlbtform!=(iconv_t)-1 ) {
+        (void)iconv_close(iconvToPlbtform);
     }
-    iconvToPlatform   = (iconv_t)-1;
-    iconvFromPlatform = (iconv_t)-1;
+    iconvToPlbtform   = (iconv_t)-1;
+    iconvFromPlbtform = (iconv_t)-1;
 }
 
 /*
  * Do iconv() conversion.
  *    Returns length or -1 if output overflows.
  */
-static int
-iconvConvert(iconv_t ic, char *bytes, int len, char *output, int outputMaxLen)
+stbtic int
+iconvConvert(iconv_t ic, chbr *bytes, int len, chbr *output, int outputMbxLen)
 {
     int outputLen = 0;
 
     UTF_ASSERT(bytes);
     UTF_ASSERT(len>=0);
     UTF_ASSERT(output);
-    UTF_ASSERT(outputMaxLen>len);
+    UTF_ASSERT(outputMbxLen>len);
 
     output[0] = 0;
     outputLen = 0;
 
     if ( ic != (iconv_t)-1 ) {
-        int          returnValue;
+        int          returnVblue;
         size_t       inLeft;
         size_t       outLeft;
-        char        *inbuf;
-        char        *outbuf;
+        chbr        *inbuf;
+        chbr        *outbuf;
 
         inbuf        = bytes;
         outbuf       = output;
         inLeft       = len;
-        outLeft      = outputMaxLen;
-        returnValue  = iconv(ic, (void*)&inbuf, &inLeft, &outbuf, &outLeft);
-        if ( returnValue >= 0 && inLeft==0 ) {
-            outputLen = outputMaxLen-outLeft;
+        outLeft      = outputMbxLen;
+        returnVblue  = iconv(ic, (void*)&inbuf, &inLeft, &outbuf, &outLeft);
+        if ( returnVblue >= 0 && inLeft==0 ) {
+            outputLen = outputMbxLen-outLeft;
             output[outputLen] = 0;
             return outputLen;
         }
 
-        /* Failed to do the conversion */
+        /* Fbiled to do the conversion */
         return -1;
     }
 
@@ -157,29 +157,29 @@ iconvConvert(iconv_t ic, char *bytes, int len, char *output, int outputMaxLen)
 }
 
 /*
- * Convert UTF-8 to Platform Encoding.
+ * Convert UTF-8 to Plbtform Encoding.
  *    Returns length or -1 if output overflows.
  */
-static int
-utf8ToPlatform(char *utf8, int len, char *output, int outputMaxLen)
+stbtic int
+utf8ToPlbtform(chbr *utf8, int len, chbr *output, int outputMbxLen)
 {
-    return iconvConvert(iconvToPlatform, utf8, len, output, outputMaxLen);
+    return iconvConvert(iconvToPlbtform, utf8, len, output, outputMbxLen);
 }
 
 /*
- * Convert Platform Encoding to UTF-8.
+ * Convert Plbtform Encoding to UTF-8.
  *    Returns length or -1 if output overflows.
  */
-static int
-platformToUtf8(char *str, int len, char *output, int outputMaxLen)
+stbtic int
+plbtformToUtf8(chbr *str, int len, chbr *output, int outputMbxLen)
 {
-    return iconvConvert(iconvFromPlatform, str, len, output, outputMaxLen);
+    return iconvConvert(iconvFromPlbtform, str, len, output, outputMbxLen);
 }
 
 int
-convertUft8ToPlatformString(char* utf8_str, int utf8_len, char* platform_str, int platform_len) {
-    if (iconvToPlatform ==  (iconv_t)-1) {
-        utfInitialize();
+convertUft8ToPlbtformString(chbr* utf8_str, int utf8_len, chbr* plbtform_str, int plbtform_len) {
+    if (iconvToPlbtform ==  (iconv_t)-1) {
+        utfInitiblize();
     }
-    return utf8ToPlatform(utf8_str, utf8_len, platform_str, platform_len);
+    return utf8ToPlbtform(utf8_str, utf8_len, plbtform_str, plbtform_len);
 }

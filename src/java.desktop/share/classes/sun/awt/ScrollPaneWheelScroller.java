@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.ScrollPane;
-import java.awt.Insets;
-import java.awt.Adjustable;
-import java.awt.event.MouseWheelEvent;
+import jbvb.bwt.ScrollPbne;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Adjustbble;
+import jbvb.bwt.event.MouseWheelEvent;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
 /*
- * ScrollPaneWheelScroller is a helper class for implmenenting mouse wheel
- * scrolling on a java.awt.ScrollPane.  It contains only static methods.
- * No objects of this class may be instantiated, thus it is declared abstract.
+ * ScrollPbneWheelScroller is b helper clbss for implmenenting mouse wheel
+ * scrolling on b jbvb.bwt.ScrollPbne.  It contbins only stbtic methods.
+ * No objects of this clbss mby be instbntibted, thus it is declbred bbstrbct.
  */
-public abstract class ScrollPaneWheelScroller {
+public bbstrbct clbss ScrollPbneWheelScroller {
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.ScrollPaneWheelScroller");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.ScrollPbneWheelScroller");
 
-    private ScrollPaneWheelScroller() {}
+    privbte ScrollPbneWheelScroller() {}
 
     /*
-     * Called from ScrollPane.processMouseWheelEvent()
+     * Cblled from ScrollPbne.processMouseWheelEvent()
      */
-    public static void handleWheelScrolling(ScrollPane sp, MouseWheelEvent e) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
+    public stbtic void hbndleWheelScrolling(ScrollPbne sp, MouseWheelEvent e) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
             log.finer("x = " + e.getX() + ", y = " + e.getY() + ", src is " + e.getSource());
         }
         int increment = 0;
 
         if (sp != null && e.getScrollAmount() != 0) {
-            Adjustable adj = getAdjustableToScroll(sp);
-            if (adj != null) {
-                increment = getIncrementFromAdjustable(adj, e);
-                if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                    log.finer("increment from adjustable(" + adj.getClass() + ") : " + increment);
+            Adjustbble bdj = getAdjustbbleToScroll(sp);
+            if (bdj != null) {
+                increment = getIncrementFromAdjustbble(bdj, e);
+                if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    log.finer("increment from bdjustbble(" + bdj.getClbss() + ") : " + increment);
                 }
-                scrollAdjustable(adj, increment);
+                scrollAdjustbble(bdj, increment);
             }
         }
     }
 
     /*
-     * Given a ScrollPane, determine which Scrollbar should be scrolled by the
-     * mouse wheel, if any.
+     * Given b ScrollPbne, determine which Scrollbbr should be scrolled by the
+     * mouse wheel, if bny.
      */
-    public static Adjustable getAdjustableToScroll(ScrollPane sp) {
-        int policy = sp.getScrollbarDisplayPolicy();
+    public stbtic Adjustbble getAdjustbbleToScroll(ScrollPbne sp) {
+        int policy = sp.getScrollbbrDisplbyPolicy();
 
-        // if policy is display always or never, use vert
-        if (policy == ScrollPane.SCROLLBARS_ALWAYS ||
-            policy == ScrollPane.SCROLLBARS_NEVER) {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("using vertical scrolling due to scrollbar policy");
+        // if policy is displby blwbys or never, use vert
+        if (policy == ScrollPbne.SCROLLBARS_ALWAYS ||
+            policy == ScrollPbne.SCROLLBARS_NEVER) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                log.finer("using verticbl scrolling due to scrollbbr policy");
             }
-            return sp.getVAdjustable();
+            return sp.getVAdjustbble();
 
         }
         else {
 
             Insets ins = sp.getInsets();
-            int vertScrollWidth = sp.getVScrollbarWidth();
+            int vertScrollWidth = sp.getVScrollbbrWidth();
 
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
                 log.finer("insets: l = " + ins.left + ", r = " + ins.right +
                  ", t = " + ins.top + ", b = " + ins.bottom);
                 log.finer("vertScrollWidth = " + vertScrollWidth);
             }
 
-            // Check if scrollbar is showing by examining insets of the
-            // ScrollPane
+            // Check if scrollbbr is showing by exbmining insets of the
+            // ScrollPbne
             if (ins.right >= vertScrollWidth) {
-                if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                    log.finer("using vertical scrolling because scrollbar is present");
+                if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    log.finer("using verticbl scrolling becbuse scrollbbr is present");
                 }
-                return sp.getVAdjustable();
+                return sp.getVAdjustbble();
             }
             else {
-                int horizScrollHeight = sp.getHScrollbarHeight();
+                int horizScrollHeight = sp.getHScrollbbrHeight();
                 if (ins.bottom >= horizScrollHeight) {
-                    if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                        log.finer("using horiz scrolling because scrollbar is present");
+                    if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                        log.finer("using horiz scrolling becbuse scrollbbr is present");
                     }
-                    return sp.getHAdjustable();
+                    return sp.getHAdjustbble();
                 }
                 else {
-                    if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                        log.finer("using NO scrollbar becsause neither is present");
+                    if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                        log.finer("using NO scrollbbr becsbuse neither is present");
                     }
                     return null;
                 }
@@ -118,68 +118,68 @@ public abstract class ScrollPaneWheelScroller {
     }
 
     /*
-     * Given the info in a MouseWheelEvent and an Adjustable to scroll, return
-     * the amount by which the Adjustable should be adjusted.  This value may
-     * be positive or negative.
+     * Given the info in b MouseWheelEvent bnd bn Adjustbble to scroll, return
+     * the bmount by which the Adjustbble should be bdjusted.  This vblue mby
+     * be positive or negbtive.
      */
-    public static int getIncrementFromAdjustable(Adjustable adj,
+    public stbtic int getIncrementFromAdjustbble(Adjustbble bdj,
                                                  MouseWheelEvent e) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            if (adj == null) {
-                log.fine("Assertion (adj != null) failed");
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            if (bdj == null) {
+                log.fine("Assertion (bdj != null) fbiled");
             }
         }
 
         int increment = 0;
 
         if (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
-            increment = e.getUnitsToScroll() * adj.getUnitIncrement();
+            increment = e.getUnitsToScroll() * bdj.getUnitIncrement();
         }
         else if (e.getScrollType() == MouseWheelEvent.WHEEL_BLOCK_SCROLL) {
-            increment = adj.getBlockIncrement() * e.getWheelRotation();
+            increment = bdj.getBlockIncrement() * e.getWheelRotbtion();
         }
         return increment;
     }
 
     /*
-     * Scroll the given Adjustable by the given amount.  Checks the Adjustable's
-     * bounds and sets the new value to the Adjustable.
+     * Scroll the given Adjustbble by the given bmount.  Checks the Adjustbble's
+     * bounds bnd sets the new vblue to the Adjustbble.
      */
-    public static void scrollAdjustable(Adjustable adj, int amount) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            if (adj == null) {
-                log.fine("Assertion (adj != null) failed");
+    public stbtic void scrollAdjustbble(Adjustbble bdj, int bmount) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            if (bdj == null) {
+                log.fine("Assertion (bdj != null) fbiled");
             }
-            if (amount == 0) {
-                log.fine("Assertion (amount != 0) failed");
+            if (bmount == 0) {
+                log.fine("Assertion (bmount != 0) fbiled");
             }
         }
 
-        int current = adj.getValue();
-        int upperLimit = adj.getMaximum() - adj.getVisibleAmount();
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("doScrolling by " + amount);
+        int current = bdj.getVblue();
+        int upperLimit = bdj.getMbximum() - bdj.getVisibleAmount();
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("doScrolling by " + bmount);
         }
 
-        if (amount > 0 && current < upperLimit) { // still some room to scroll
+        if (bmount > 0 && current < upperLimit) { // still some room to scroll
                                                   // down
-            if (current + amount < upperLimit) {
-                adj.setValue(current + amount);
+            if (current + bmount < upperLimit) {
+                bdj.setVblue(current + bmount);
                 return;
             }
             else {
-                adj.setValue(upperLimit);
+                bdj.setVblue(upperLimit);
                 return;
             }
         }
-        else if (amount < 0 && current > adj.getMinimum()) { // still some room
+        else if (bmount < 0 && current > bdj.getMinimum()) { // still some room
                                                              // to scroll up
-            if (current + amount > adj.getMinimum()) {
-                adj.setValue(current + amount);
+            if (current + bmount > bdj.getMinimum()) {
+                bdj.setVblue(current + bmount);
                 return;
             }
             else {
-                adj.setValue(adj.getMinimum());
+                bdj.setVblue(bdj.getMinimum());
                 return;
             }
         }

@@ -1,341 +1,341 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.io.ByteArrayInputStream;
-import java.io.NotSerializableException;
-import java.io.ObjectStreamException;
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.NotSeriblizbbleException;
+import jbvb.io.ObjectStrebmException;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
 
 /**
- * An immutable sequence of certificates (a certification path).
+ * An immutbble sequence of certificbtes (b certificbtion pbth).
  * <p>
- * This is an abstract class that defines the methods common to all
- * {@code CertPath}s. Subclasses can handle different kinds of
- * certificates (X.509, PGP, etc.).
+ * This is bn bbstrbct clbss thbt defines the methods common to bll
+ * {@code CertPbth}s. Subclbsses cbn hbndle different kinds of
+ * certificbtes (X.509, PGP, etc.).
  * <p>
- * All {@code CertPath} objects have a type, a list of
- * {@code Certificate}s, and one or more supported encodings. Because the
- * {@code CertPath} class is immutable, a {@code CertPath} cannot
- * change in any externally visible way after being constructed. This
- * stipulation applies to all public fields and methods of this class and any
- * added or overridden by subclasses.
+ * All {@code CertPbth} objects hbve b type, b list of
+ * {@code Certificbte}s, bnd one or more supported encodings. Becbuse the
+ * {@code CertPbth} clbss is immutbble, b {@code CertPbth} cbnnot
+ * chbnge in bny externblly visible wby bfter being constructed. This
+ * stipulbtion bpplies to bll public fields bnd methods of this clbss bnd bny
+ * bdded or overridden by subclbsses.
  * <p>
- * The type is a {@code String} that identifies the type of
- * {@code Certificate}s in the certification path. For each
- * certificate {@code cert} in a certification path {@code certPath},
- * {@code cert.getType().equals(certPath.getType())} must be
+ * The type is b {@code String} thbt identifies the type of
+ * {@code Certificbte}s in the certificbtion pbth. For ebch
+ * certificbte {@code cert} in b certificbtion pbth {@code certPbth},
+ * {@code cert.getType().equbls(certPbth.getType())} must be
  * {@code true}.
  * <p>
- * The list of {@code Certificate}s is an ordered {@code List} of
- * zero or more {@code Certificate}s. This {@code List} and all
- * of the {@code Certificate}s contained in it must be immutable.
+ * The list of {@code Certificbte}s is bn ordered {@code List} of
+ * zero or more {@code Certificbte}s. This {@code List} bnd bll
+ * of the {@code Certificbte}s contbined in it must be immutbble.
  * <p>
- * Each {@code CertPath} object must support one or more encodings
- * so that the object can be translated into a byte array for storage or
- * transmission to other parties. Preferably, these encodings should be
- * well-documented standards (such as PKCS#7). One of the encodings supported
- * by a {@code CertPath} is considered the default encoding. This
+ * Ebch {@code CertPbth} object must support one or more encodings
+ * so thbt the object cbn be trbnslbted into b byte brrby for storbge or
+ * trbnsmission to other pbrties. Preferbbly, these encodings should be
+ * well-documented stbndbrds (such bs PKCS#7). One of the encodings supported
+ * by b {@code CertPbth} is considered the defbult encoding. This
  * encoding is used if no encoding is explicitly requested (for the
- * {@link #getEncoded() getEncoded()} method, for instance).
+ * {@link #getEncoded() getEncoded()} method, for instbnce).
  * <p>
- * All {@code CertPath} objects are also {@code Serializable}.
- * {@code CertPath} objects are resolved into an alternate
- * {@link CertPathRep CertPathRep} object during serialization. This allows
- * a {@code CertPath} object to be serialized into an equivalent
- * representation regardless of its underlying implementation.
+ * All {@code CertPbth} objects bre blso {@code Seriblizbble}.
+ * {@code CertPbth} objects bre resolved into bn blternbte
+ * {@link CertPbthRep CertPbthRep} object during seriblizbtion. This bllows
+ * b {@code CertPbth} object to be seriblized into bn equivblent
+ * representbtion regbrdless of its underlying implementbtion.
  * <p>
- * {@code CertPath} objects can be created with a
- * {@code CertificateFactory} or they can be returned by other classes,
- * such as a {@code CertPathBuilder}.
+ * {@code CertPbth} objects cbn be crebted with b
+ * {@code CertificbteFbctory} or they cbn be returned by other clbsses,
+ * such bs b {@code CertPbthBuilder}.
  * <p>
- * By convention, X.509 {@code CertPath}s (consisting of
- * {@code X509Certificate}s), are ordered starting with the target
- * certificate and ending with a certificate issued by the trust anchor. That
- * is, the issuer of one certificate is the subject of the following one. The
- * certificate representing the {@link TrustAnchor TrustAnchor} should not be
- * included in the certification path. Unvalidated X.509 {@code CertPath}s
- * may not follow these conventions. PKIX {@code CertPathValidator}s will
- * detect any departure from these conventions that cause the certification
- * path to be invalid and throw a {@code CertPathValidatorException}.
+ * By convention, X.509 {@code CertPbth}s (consisting of
+ * {@code X509Certificbte}s), bre ordered stbrting with the tbrget
+ * certificbte bnd ending with b certificbte issued by the trust bnchor. Thbt
+ * is, the issuer of one certificbte is the subject of the following one. The
+ * certificbte representing the {@link TrustAnchor TrustAnchor} should not be
+ * included in the certificbtion pbth. Unvblidbted X.509 {@code CertPbth}s
+ * mby not follow these conventions. PKIX {@code CertPbthVblidbtor}s will
+ * detect bny depbrture from these conventions thbt cbuse the certificbtion
+ * pbth to be invblid bnd throw b {@code CertPbthVblidbtorException}.
  *
- * <p> Every implementation of the Java platform is required to support the
- * following standard {@code CertPath} encodings:
+ * <p> Every implementbtion of the Jbvb plbtform is required to support the
+ * following stbndbrd {@code CertPbth} encodings:
  * <ul>
  * <li>{@code PKCS7}</li>
- * <li>{@code PkiPath}</li>
+ * <li>{@code PkiPbth}</li>
  * </ul>
- * These encodings are described in the <a href=
- * "{@docRoot}/../technotes/guides/security/StandardNames.html#CertPathEncodings">
- * CertPath Encodings section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other encodings are supported.
+ * These encodings bre described in the <b href=
+ * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#CertPbthEncodings">
+ * CertPbth Encodings section</b> of the
+ * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion.
+ * Consult the relebse documentbtion for your implementbtion to see if bny
+ * other encodings bre supported.
  * <p>
  * <b>Concurrent Access</b>
  * <p>
- * All {@code CertPath} objects must be thread-safe. That is, multiple
- * threads may concurrently invoke the methods defined in this class on a
- * single {@code CertPath} object (or more than one) with no
- * ill effects. This is also true for the {@code List} returned by
- * {@code CertPath.getCertificates}.
+ * All {@code CertPbth} objects must be threbd-sbfe. Thbt is, multiple
+ * threbds mby concurrently invoke the methods defined in this clbss on b
+ * single {@code CertPbth} object (or more thbn one) with no
+ * ill effects. This is blso true for the {@code List} returned by
+ * {@code CertPbth.getCertificbtes}.
  * <p>
- * Requiring {@code CertPath} objects to be immutable and thread-safe
- * allows them to be passed around to various pieces of code without worrying
- * about coordinating access.  Providing this thread-safety is
- * generally not difficult, since the {@code CertPath} and
- * {@code List} objects in question are immutable.
+ * Requiring {@code CertPbth} objects to be immutbble bnd threbd-sbfe
+ * bllows them to be pbssed bround to vbrious pieces of code without worrying
+ * bbout coordinbting bccess.  Providing this threbd-sbfety is
+ * generblly not difficult, since the {@code CertPbth} bnd
+ * {@code List} objects in question bre immutbble.
  *
- * @see CertificateFactory
- * @see CertPathBuilder
+ * @see CertificbteFbctory
+ * @see CertPbthBuilder
  *
- * @author      Yassir Elley
+ * @buthor      Ybssir Elley
  * @since       1.4
  */
-public abstract class CertPath implements Serializable {
+public bbstrbct clbss CertPbth implements Seriblizbble {
 
-    private static final long serialVersionUID = 6068470306649138683L;
+    privbte stbtic finbl long seriblVersionUID = 6068470306649138683L;
 
-    private String type;        // the type of certificates in this chain
+    privbte String type;        // the type of certificbtes in this chbin
 
     /**
-     * Creates a {@code CertPath} of the specified type.
+     * Crebtes b {@code CertPbth} of the specified type.
      * <p>
-     * This constructor is protected because most users should use a
-     * {@code CertificateFactory} to create {@code CertPath}s.
+     * This constructor is protected becbuse most users should use b
+     * {@code CertificbteFbctory} to crebte {@code CertPbth}s.
      *
-     * @param type the standard name of the type of
-     * {@code Certificate}s in this path
+     * @pbrbm type the stbndbrd nbme of the type of
+     * {@code Certificbte}s in this pbth
      */
-    protected CertPath(String type) {
+    protected CertPbth(String type) {
         this.type = type;
     }
 
     /**
-     * Returns the type of {@code Certificate}s in this certification
-     * path. This is the same string that would be returned by
-     * {@link java.security.cert.Certificate#getType() cert.getType()}
-     * for all {@code Certificate}s in the certification path.
+     * Returns the type of {@code Certificbte}s in this certificbtion
+     * pbth. This is the sbme string thbt would be returned by
+     * {@link jbvb.security.cert.Certificbte#getType() cert.getType()}
+     * for bll {@code Certificbte}s in the certificbtion pbth.
      *
-     * @return the type of {@code Certificate}s in this certification
-     * path (never null)
+     * @return the type of {@code Certificbte}s in this certificbtion
+     * pbth (never null)
      */
     public String getType() {
         return type;
     }
 
     /**
-     * Returns an iteration of the encodings supported by this certification
-     * path, with the default encoding first. Attempts to modify the returned
-     * {@code Iterator} via its {@code remove} method result in an
-     * {@code UnsupportedOperationException}.
+     * Returns bn iterbtion of the encodings supported by this certificbtion
+     * pbth, with the defbult encoding first. Attempts to modify the returned
+     * {@code Iterbtor} vib its {@code remove} method result in bn
+     * {@code UnsupportedOperbtionException}.
      *
-     * @return an {@code Iterator} over the names of the supported
-     *         encodings (as Strings)
+     * @return bn {@code Iterbtor} over the nbmes of the supported
+     *         encodings (bs Strings)
      */
-    public abstract Iterator<String> getEncodings();
+    public bbstrbct Iterbtor<String> getEncodings();
 
     /**
-     * Compares this certification path for equality with the specified
-     * object. Two {@code CertPath}s are equal if and only if their
-     * types are equal and their certificate {@code List}s (and by
-     * implication the {@code Certificate}s in those {@code List}s)
-     * are equal. A {@code CertPath} is never equal to an object that is
-     * not a {@code CertPath}.
+     * Compbres this certificbtion pbth for equblity with the specified
+     * object. Two {@code CertPbth}s bre equbl if bnd only if their
+     * types bre equbl bnd their certificbte {@code List}s (bnd by
+     * implicbtion the {@code Certificbte}s in those {@code List}s)
+     * bre equbl. A {@code CertPbth} is never equbl to bn object thbt is
+     * not b {@code CertPbth}.
      * <p>
-     * This algorithm is implemented by this method. If it is overridden,
-     * the behavior specified here must be maintained.
+     * This blgorithm is implemented by this method. If it is overridden,
+     * the behbvior specified here must be mbintbined.
      *
-     * @param other the object to test for equality with this certification path
-     * @return true if the specified object is equal to this certification path,
-     * false otherwise
+     * @pbrbm other the object to test for equblity with this certificbtion pbth
+     * @return true if the specified object is equbl to this certificbtion pbth,
+     * fblse otherwise
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other)
             return true;
 
-        if (! (other instanceof CertPath))
-            return false;
+        if (! (other instbnceof CertPbth))
+            return fblse;
 
-        CertPath otherCP = (CertPath) other;
-        if (! otherCP.getType().equals(type))
-            return false;
+        CertPbth otherCP = (CertPbth) other;
+        if (! otherCP.getType().equbls(type))
+            return fblse;
 
-        List<? extends Certificate> thisCertList = this.getCertificates();
-        List<? extends Certificate> otherCertList = otherCP.getCertificates();
-        return(thisCertList.equals(otherCertList));
+        List<? extends Certificbte> thisCertList = this.getCertificbtes();
+        List<? extends Certificbte> otherCertList = otherCP.getCertificbtes();
+        return(thisCertList.equbls(otherCertList));
     }
 
     /**
-     * Returns the hashcode for this certification path. The hash code of
-     * a certification path is defined to be the result of the following
-     * calculation:
+     * Returns the hbshcode for this certificbtion pbth. The hbsh code of
+     * b certificbtion pbth is defined to be the result of the following
+     * cblculbtion:
      * <pre>{@code
-     *  hashCode = path.getType().hashCode();
-     *  hashCode = 31*hashCode + path.getCertificates().hashCode();
+     *  hbshCode = pbth.getType().hbshCode();
+     *  hbshCode = 31*hbshCode + pbth.getCertificbtes().hbshCode();
      * }</pre>
-     * This ensures that {@code path1.equals(path2)} implies that
-     * {@code path1.hashCode()==path2.hashCode()} for any two certification
-     * paths, {@code path1} and {@code path2}, as required by the
-     * general contract of {@code Object.hashCode}.
+     * This ensures thbt {@code pbth1.equbls(pbth2)} implies thbt
+     * {@code pbth1.hbshCode()==pbth2.hbshCode()} for bny two certificbtion
+     * pbths, {@code pbth1} bnd {@code pbth2}, bs required by the
+     * generbl contrbct of {@code Object.hbshCode}.
      *
-     * @return the hashcode value for this certification path
+     * @return the hbshcode vblue for this certificbtion pbth
      */
-    public int hashCode() {
-        int hashCode = type.hashCode();
-        hashCode = 31*hashCode + getCertificates().hashCode();
-        return hashCode;
+    public int hbshCode() {
+        int hbshCode = type.hbshCode();
+        hbshCode = 31*hbshCode + getCertificbtes().hbshCode();
+        return hbshCode;
     }
 
     /**
-     * Returns a string representation of this certification path.
-     * This calls the {@code toString} method on each of the
-     * {@code Certificate}s in the path.
+     * Returns b string representbtion of this certificbtion pbth.
+     * This cblls the {@code toString} method on ebch of the
+     * {@code Certificbte}s in the pbth.
      *
-     * @return a string representation of this certification path
+     * @return b string representbtion of this certificbtion pbth
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        Iterator<? extends Certificate> stringIterator =
-                                        getCertificates().iterator();
+        Iterbtor<? extends Certificbte> stringIterbtor =
+                                        getCertificbtes().iterbtor();
 
-        sb.append("\n" + type + " Cert Path: length = "
-            + getCertificates().size() + ".\n");
-        sb.append("[\n");
+        sb.bppend("\n" + type + " Cert Pbth: length = "
+            + getCertificbtes().size() + ".\n");
+        sb.bppend("[\n");
         int i = 1;
-        while (stringIterator.hasNext()) {
-            sb.append("=========================================="
-                + "===============Certificate " + i + " start.\n");
-            Certificate stringCert = stringIterator.next();
-            sb.append(stringCert.toString());
-            sb.append("\n========================================"
-                + "=================Certificate " + i + " end.\n\n\n");
+        while (stringIterbtor.hbsNext()) {
+            sb.bppend("=========================================="
+                + "===============Certificbte " + i + " stbrt.\n");
+            Certificbte stringCert = stringIterbtor.next();
+            sb.bppend(stringCert.toString());
+            sb.bppend("\n========================================"
+                + "=================Certificbte " + i + " end.\n\n\n");
             i++;
         }
 
-        sb.append("\n]");
+        sb.bppend("\n]");
         return sb.toString();
     }
 
     /**
-     * Returns the encoded form of this certification path, using the default
+     * Returns the encoded form of this certificbtion pbth, using the defbult
      * encoding.
      *
      * @return the encoded bytes
-     * @exception CertificateEncodingException if an encoding error occurs
+     * @exception CertificbteEncodingException if bn encoding error occurs
      */
-    public abstract byte[] getEncoded()
-        throws CertificateEncodingException;
+    public bbstrbct byte[] getEncoded()
+        throws CertificbteEncodingException;
 
     /**
-     * Returns the encoded form of this certification path, using the
+     * Returns the encoded form of this certificbtion pbth, using the
      * specified encoding.
      *
-     * @param encoding the name of the encoding to use
+     * @pbrbm encoding the nbme of the encoding to use
      * @return the encoded bytes
-     * @exception CertificateEncodingException if an encoding error occurs or
+     * @exception CertificbteEncodingException if bn encoding error occurs or
      *   the encoding requested is not supported
      */
-    public abstract byte[] getEncoded(String encoding)
-        throws CertificateEncodingException;
+    public bbstrbct byte[] getEncoded(String encoding)
+        throws CertificbteEncodingException;
 
     /**
-     * Returns the list of certificates in this certification path.
-     * The {@code List} returned must be immutable and thread-safe.
+     * Returns the list of certificbtes in this certificbtion pbth.
+     * The {@code List} returned must be immutbble bnd threbd-sbfe.
      *
-     * @return an immutable {@code List} of {@code Certificate}s
-     *         (may be empty, but not null)
+     * @return bn immutbble {@code List} of {@code Certificbte}s
+     *         (mby be empty, but not null)
      */
-    public abstract List<? extends Certificate> getCertificates();
+    public bbstrbct List<? extends Certificbte> getCertificbtes();
 
     /**
-     * Replaces the {@code CertPath} to be serialized with a
-     * {@code CertPathRep} object.
+     * Replbces the {@code CertPbth} to be seriblized with b
+     * {@code CertPbthRep} object.
      *
-     * @return the {@code CertPathRep} to be serialized
+     * @return the {@code CertPbthRep} to be seriblized
      *
-     * @throws ObjectStreamException if a {@code CertPathRep} object
-     * representing this certification path could not be created
+     * @throws ObjectStrebmException if b {@code CertPbthRep} object
+     * representing this certificbtion pbth could not be crebted
      */
-    protected Object writeReplace() throws ObjectStreamException {
+    protected Object writeReplbce() throws ObjectStrebmException {
         try {
-            return new CertPathRep(type, getEncoded());
-        } catch (CertificateException ce) {
-            NotSerializableException nse =
-                new NotSerializableException
-                    ("java.security.cert.CertPath: " + type);
-            nse.initCause(ce);
+            return new CertPbthRep(type, getEncoded());
+        } cbtch (CertificbteException ce) {
+            NotSeriblizbbleException nse =
+                new NotSeriblizbbleException
+                    ("jbvb.security.cert.CertPbth: " + type);
+            nse.initCbuse(ce);
             throw nse;
         }
     }
 
     /**
-     * Alternate {@code CertPath} class for serialization.
+     * Alternbte {@code CertPbth} clbss for seriblizbtion.
      * @since 1.4
      */
-    protected static class CertPathRep implements Serializable {
+    protected stbtic clbss CertPbthRep implements Seriblizbble {
 
-        private static final long serialVersionUID = 3015633072427920915L;
+        privbte stbtic finbl long seriblVersionUID = 3015633072427920915L;
 
-        /** The Certificate type */
-        private String type;
-        /** The encoded form of the cert path */
-        private byte[] data;
+        /** The Certificbte type */
+        privbte String type;
+        /** The encoded form of the cert pbth */
+        privbte byte[] dbtb;
 
         /**
-         * Creates a {@code CertPathRep} with the specified
-         * type and encoded form of a certification path.
+         * Crebtes b {@code CertPbthRep} with the specified
+         * type bnd encoded form of b certificbtion pbth.
          *
-         * @param type the standard name of a {@code CertPath} type
-         * @param data the encoded form of the certification path
+         * @pbrbm type the stbndbrd nbme of b {@code CertPbth} type
+         * @pbrbm dbtb the encoded form of the certificbtion pbth
          */
-        protected CertPathRep(String type, byte[] data) {
+        protected CertPbthRep(String type, byte[] dbtb) {
             this.type = type;
-            this.data = data;
+            this.dbtb = dbtb;
         }
 
         /**
-         * Returns a {@code CertPath} constructed from the type and data.
+         * Returns b {@code CertPbth} constructed from the type bnd dbtb.
          *
-         * @return the resolved {@code CertPath} object
+         * @return the resolved {@code CertPbth} object
          *
-         * @throws ObjectStreamException if a {@code CertPath} could not
+         * @throws ObjectStrebmException if b {@code CertPbth} could not
          * be constructed
          */
-        protected Object readResolve() throws ObjectStreamException {
+        protected Object rebdResolve() throws ObjectStrebmException {
             try {
-                CertificateFactory cf = CertificateFactory.getInstance(type);
-                return cf.generateCertPath(new ByteArrayInputStream(data));
-            } catch (CertificateException ce) {
-                NotSerializableException nse =
-                    new NotSerializableException
-                        ("java.security.cert.CertPath: " + type);
-                nse.initCause(ce);
+                CertificbteFbctory cf = CertificbteFbctory.getInstbnce(type);
+                return cf.generbteCertPbth(new ByteArrbyInputStrebm(dbtb));
+            } cbtch (CertificbteException ce) {
+                NotSeriblizbbleException nse =
+                    new NotSeriblizbbleException
+                        ("jbvb.security.cert.CertPbth: " + type);
+                nse.initCbuse(ce);
                 throw nse;
             }
         }

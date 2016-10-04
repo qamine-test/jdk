@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.http.spnego;
+pbckbge sun.net.www.protocol.http.spnego;
 
 import com.sun.security.jgss.ExtendedGSSContext;
-import java.io.IOException;
+import jbvb.io.IOException;
 
 import org.ietf.jgss.GSSContext;
 import org.ietf.jgss.GSSException;
-import org.ietf.jgss.GSSName;
+import org.ietf.jgss.GSSNbme;
 import org.ietf.jgss.Oid;
 
-import sun.net.www.protocol.http.HttpCallerInfo;
-import sun.net.www.protocol.http.Negotiator;
-import sun.security.jgss.GSSManagerImpl;
+import sun.net.www.protocol.http.HttpCbllerInfo;
+import sun.net.www.protocol.http.Negotibtor;
+import sun.security.jgss.GSSMbnbgerImpl;
 import sun.security.jgss.GSSUtil;
-import sun.security.jgss.HttpCaller;
+import sun.security.jgss.HttpCbller;
 
 /**
- * This class encapsulates all JAAS and JGSS API calls in a separate class
- * outside NegotiateAuthentication.java so that J2SE build can go smoothly
+ * This clbss encbpsulbtes bll JAAS bnd JGSS API cblls in b sepbrbte clbss
+ * outside NegotibteAuthenticbtion.jbvb so thbt J2SE build cbn go smoothly
  * without the presence of it.
  *
- * @author weijun.wang@sun.com
+ * @buthor weijun.wbng@sun.com
  * @since 1.6
  */
-public class NegotiatorImpl extends Negotiator {
+public clbss NegotibtorImpl extends Negotibtor {
 
-    private static final boolean DEBUG =
-        java.security.AccessController.doPrivileged(
-              new sun.security.action.GetBooleanAction("sun.security.krb5.debug"));
+    privbte stbtic finbl boolebn DEBUG =
+        jbvb.security.AccessController.doPrivileged(
+              new sun.security.bction.GetBoolebnAction("sun.security.krb5.debug"));
 
-    private GSSContext context;
-    private byte[] oneToken;
+    privbte GSSContext context;
+    privbte byte[] oneToken;
 
     /**
-     * Initialize the object, which includes:<ul>
-     * <li>Find out what GSS mechanism to use from the system property
-     * <code>http.negotiate.mechanism.oid</code>, defaults SPNEGO
-     * <li>Creating the GSSName for the target host, "HTTP/"+hostname
-     * <li>Creating GSSContext
-     * <li>A first call to initSecContext</ul>
+     * Initiblize the object, which includes:<ul>
+     * <li>Find out whbt GSS mechbnism to use from the system property
+     * <code>http.negotibte.mechbnism.oid</code>, defbults SPNEGO
+     * <li>Crebting the GSSNbme for the tbrget host, "HTTP/"+hostnbme
+     * <li>Crebting GSSContext
+     * <li>A first cbll to initSecContext</ul>
      */
-    private void init(HttpCallerInfo hci) throws GSSException {
-        final Oid oid;
+    privbte void init(HttpCbllerInfo hci) throws GSSException {
+        finbl Oid oid;
 
-        if (hci.scheme.equalsIgnoreCase("Kerberos")) {
-            // we can only use Kerberos mech when the scheme is kerberos
+        if (hci.scheme.equblsIgnoreCbse("Kerberos")) {
+            // we cbn only use Kerberos mech when the scheme is kerberos
             oid = GSSUtil.GSS_KRB5_MECH_OID;
         } else {
-            String pref = java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<String>() {
+            String pref = jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<String>() {
                         public String run() {
                             return System.getProperty(
-                                "http.auth.preference",
+                                "http.buth.preference",
                                 "spnego");
                         }
                     });
-            if (pref.equalsIgnoreCase("kerberos")) {
+            if (pref.equblsIgnoreCbse("kerberos")) {
                 oid = GSSUtil.GSS_KRB5_MECH_OID;
             } else {
-                // currently there is no 3rd mech we can use
+                // currently there is no 3rd mech we cbn use
                 oid = GSSUtil.GSS_SPNEGO_MECH_OID;
             }
         }
 
-        GSSManagerImpl manager = new GSSManagerImpl(
-                new HttpCaller(hci));
+        GSSMbnbgerImpl mbnbger = new GSSMbnbgerImpl(
+                new HttpCbller(hci));
 
-        // RFC 4559 4.1 uses uppercase service name "HTTP".
-        // RFC 4120 6.2.1 demands the host be lowercase
-        String peerName = "HTTP@" + hci.host.toLowerCase();
+        // RFC 4559 4.1 uses uppercbse service nbme "HTTP".
+        // RFC 4120 6.2.1 dembnds the host be lowercbse
+        String peerNbme = "HTTP@" + hci.host.toLowerCbse();
 
-        GSSName serverName = manager.createName(peerName,
-                GSSName.NT_HOSTBASED_SERVICE);
-        context = manager.createContext(serverName,
+        GSSNbme serverNbme = mbnbger.crebteNbme(peerNbme,
+                GSSNbme.NT_HOSTBASED_SERVICE);
+        context = mbnbger.crebteContext(serverNbme,
                                         oid,
                                         null,
                                         GSSContext.DEFAULT_LIFETIME);
 
-        // Always respect delegation policy in HTTP/SPNEGO.
-        if (context instanceof ExtendedGSSContext) {
+        // Alwbys respect delegbtion policy in HTTP/SPNEGO.
+        if (context instbnceof ExtendedGSSContext) {
             ((ExtendedGSSContext)context).requestDelegPolicy(true);
         }
         oneToken = context.initSecContext(new byte[0], 0, 0);
@@ -110,25 +110,25 @@ public class NegotiatorImpl extends Negotiator {
 
     /**
      * Constructor
-     * @throws java.io.IOException If negotiator cannot be constructed
+     * @throws jbvb.io.IOException If negotibtor cbnnot be constructed
      */
-    public NegotiatorImpl(HttpCallerInfo hci) throws IOException {
+    public NegotibtorImpl(HttpCbllerInfo hci) throws IOException {
         try {
             init(hci);
-        } catch (GSSException e) {
+        } cbtch (GSSException e) {
             if (DEBUG) {
-                System.out.println("Negotiate support not initiated, will " +
-                        "fallback to other scheme if allowed. Reason:");
-                e.printStackTrace();
+                System.out.println("Negotibte support not initibted, will " +
+                        "fbllbbck to other scheme if bllowed. Rebson:");
+                e.printStbckTrbce();
             }
-            IOException ioe = new IOException("Negotiate support not initiated");
-            ioe.initCause(e);
+            IOException ioe = new IOException("Negotibte support not initibted");
+            ioe.initCbuse(e);
             throw ioe;
         }
     }
 
     /**
-     * Return the first token of GSS, in SPNEGO, it's called NegTokenInit
+     * Return the first token of GSS, in SPNEGO, it's cblled NegTokenInit
      * @return the first token
      */
     @Override
@@ -137,22 +137,22 @@ public class NegotiatorImpl extends Negotiator {
     }
 
     /**
-     * Return the rest tokens of GSS, in SPNEGO, it's called NegTokenTarg
-     * @param token the token received from server
+     * Return the rest tokens of GSS, in SPNEGO, it's cblled NegTokenTbrg
+     * @pbrbm token the token received from server
      * @return the next token
-     * @throws java.io.IOException if the token cannot be created successfully
+     * @throws jbvb.io.IOException if the token cbnnot be crebted successfully
      */
     @Override
     public byte[] nextToken(byte[] token) throws IOException {
         try {
             return context.initSecContext(token, 0, token.length);
-        } catch (GSSException e) {
+        } cbtch (GSSException e) {
             if (DEBUG) {
-                System.out.println("Negotiate support cannot continue. Reason:");
-                e.printStackTrace();
+                System.out.println("Negotibte support cbnnot continue. Rebson:");
+                e.printStbckTrbce();
             }
-            IOException ioe = new IOException("Negotiate support cannot continue");
-            ioe.initCause(e);
+            IOException ioe = new IOException("Negotibte support cbnnot continue");
+            ioe.initCbuse(e);
             throw ioe;
         }
     }

@@ -3,25 +3,25 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
  * ===========================================================================
@@ -31,249 +31,249 @@
  * ===========================================================================
  */
 /*
- * $Id: DOMReference.java 1334007 2012-05-04 14:59:46Z coheigea $
+ * $Id: DOMReference.jbvb 1334007 2012-05-04 14:59:46Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dom.DOMURIReference;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dom.DOMURIReference;
 
-import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.net.URI;
+import jbvb.net.URISyntbxException;
+import jbvb.security.*;
+import jbvb.util.*;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import org.jcp.xml.dsig.internal.DigesterOutputStream;
-import com.sun.org.apache.xml.internal.security.algorithms.MessageDigestAlgorithm;
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import com.sun.org.apache.xml.internal.security.utils.UnsyncBufferedOutputStream;
+import org.jcp.xml.dsig.internbl.DigesterOutputStrebm;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.MessbgeDigestAlgorithm;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.Bbse64DecodingException;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.utils.Bbse64;
+import com.sun.org.bpbche.xml.internbl.security.utils.UnsyncBufferedOutputStrebm;
 
 /**
- * DOM-based implementation of Reference.
+ * DOM-bbsed implementbtion of Reference.
  *
- * @author Sean Mullan
- * @author Joyce Leung
+ * @buthor Sebn Mullbn
+ * @buthor Joyce Leung
  */
-public final class DOMReference extends DOMStructure
+public finbl clbss DOMReference extends DOMStructure
     implements Reference, DOMURIReference {
 
    /**
-    * The maximum number of transforms per reference, if secure validation is enabled.
+    * The mbximum number of trbnsforms per reference, if secure vblidbtion is enbbled.
     */
-   public static final int MAXIMUM_TRANSFORM_COUNT = 5;
+   public stbtic finbl int MAXIMUM_TRANSFORM_COUNT = 5;
 
    /**
-    * Look up useC14N11 system property. If true, an explicit C14N11 transform
-    * will be added if necessary when generating the signature. See section
-    * 3.1.1 of http://www.w3.org/2007/xmlsec/Drafts/xmldsig-core/ for more info.
+    * Look up useC14N11 system property. If true, bn explicit C14N11 trbnsform
+    * will be bdded if necessbry when generbting the signbture. See section
+    * 3.1.1 of http://www.w3.org/2007/xmlsec/Drbfts/xmldsig-core/ for more info.
     *
-    * If true, overrides the same property if set in the XMLSignContext.
+    * If true, overrides the sbme property if set in the XMLSignContext.
     */
-    private static boolean useC14N11 =
-        AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-            public Boolean run() {
-                return Boolean.valueOf(Boolean.getBoolean
-                    ("com.sun.org.apache.xml.internal.security.useC14N11"));
+    privbte stbtic boolebn useC14N11 =
+        AccessController.doPrivileged(new PrivilegedAction<Boolebn>() {
+            public Boolebn run() {
+                return Boolebn.vblueOf(Boolebn.getBoolebn
+                    ("com.sun.org.bpbche.xml.internbl.security.useC14N11"));
             }
         });
 
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger("org.jcp.xml.dsig.internal.dom");
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger("org.jcp.xml.dsig.internbl.dom");
 
-    private final DigestMethod digestMethod;
-    private final String id;
-    private final List<Transform> transforms;
-    private List<Transform> allTransforms;
-    private final Data appliedTransformData;
-    private Attr here;
-    private final String uri;
-    private final String type;
-    private byte[] digestValue;
-    private byte[] calcDigestValue;
-    private Element refElem;
-    private boolean digested = false;
-    private boolean validated = false;
-    private boolean validationStatus;
-    private Data derefData;
-    private InputStream dis;
-    private MessageDigest md;
-    private Provider provider;
+    privbte finbl DigestMethod digestMethod;
+    privbte finbl String id;
+    privbte finbl List<Trbnsform> trbnsforms;
+    privbte List<Trbnsform> bllTrbnsforms;
+    privbte finbl Dbtb bppliedTrbnsformDbtb;
+    privbte Attr here;
+    privbte finbl String uri;
+    privbte finbl String type;
+    privbte byte[] digestVblue;
+    privbte byte[] cblcDigestVblue;
+    privbte Element refElem;
+    privbte boolebn digested = fblse;
+    privbte boolebn vblidbted = fblse;
+    privbte boolebn vblidbtionStbtus;
+    privbte Dbtb derefDbtb;
+    privbte InputStrebm dis;
+    privbte MessbgeDigest md;
+    privbte Provider provider;
 
     /**
-     * Creates a <code>Reference</code> from the specified parameters.
+     * Crebtes b <code>Reference</code> from the specified pbrbmeters.
      *
-     * @param uri the URI (may be null)
-     * @param type the type (may be null)
-     * @param dm the digest method
-     * @param transforms a list of {@link Transform}s. The list
-     *    is defensively copied to protect against subsequent modification.
-     *    May be <code>null</code> or empty.
-     * @param id the reference ID (may be <code>null</code>)
-     * @return a <code>Reference</code>
+     * @pbrbm uri the URI (mby be null)
+     * @pbrbm type the type (mby be null)
+     * @pbrbm dm the digest method
+     * @pbrbm trbnsforms b list of {@link Trbnsform}s. The list
+     *    is defensively copied to protect bgbinst subsequent modificbtion.
+     *    Mby be <code>null</code> or empty.
+     * @pbrbm id the reference ID (mby be <code>null</code>)
+     * @return b <code>Reference</code>
      * @throws NullPointerException if <code>dm</code> is <code>null</code>
-     * @throws ClassCastException if any of the <code>transforms</code> are
-     *    not of type <code>Transform</code>
+     * @throws ClbssCbstException if bny of the <code>trbnsforms</code> bre
+     *    not of type <code>Trbnsform</code>
      */
     public DOMReference(String uri, String type, DigestMethod dm,
-                        List<? extends Transform> transforms, String id,
+                        List<? extends Trbnsform> trbnsforms, String id,
                         Provider provider)
     {
-        this(uri, type, dm, null, null, transforms, id, null, provider);
+        this(uri, type, dm, null, null, trbnsforms, id, null, provider);
     }
 
     public DOMReference(String uri, String type, DigestMethod dm,
-                        List<? extends Transform> appliedTransforms,
-                        Data result, List<? extends Transform> transforms,
+                        List<? extends Trbnsform> bppliedTrbnsforms,
+                        Dbtb result, List<? extends Trbnsform> trbnsforms,
                         String id, Provider provider)
     {
-        this(uri, type, dm, appliedTransforms,
-             result, transforms, id, null, provider);
+        this(uri, type, dm, bppliedTrbnsforms,
+             result, trbnsforms, id, null, provider);
     }
 
     public DOMReference(String uri, String type, DigestMethod dm,
-                        List<? extends Transform> appliedTransforms,
-                        Data result, List<? extends Transform> transforms,
-                        String id, byte[] digestValue, Provider provider)
+                        List<? extends Trbnsform> bppliedTrbnsforms,
+                        Dbtb result, List<? extends Trbnsform> trbnsforms,
+                        String id, byte[] digestVblue, Provider provider)
     {
         if (dm == null) {
             throw new NullPointerException("DigestMethod must be non-null");
         }
-        if (appliedTransforms == null) {
-            this.allTransforms = new ArrayList<Transform>();
+        if (bppliedTrbnsforms == null) {
+            this.bllTrbnsforms = new ArrbyList<Trbnsform>();
         } else {
-            this.allTransforms = new ArrayList<Transform>(appliedTransforms);
-            for (int i = 0, size = this.allTransforms.size(); i < size; i++) {
-                if (!(this.allTransforms.get(i) instanceof Transform)) {
-                    throw new ClassCastException
-                        ("appliedTransforms["+i+"] is not a valid type");
+            this.bllTrbnsforms = new ArrbyList<Trbnsform>(bppliedTrbnsforms);
+            for (int i = 0, size = this.bllTrbnsforms.size(); i < size; i++) {
+                if (!(this.bllTrbnsforms.get(i) instbnceof Trbnsform)) {
+                    throw new ClbssCbstException
+                        ("bppliedTrbnsforms["+i+"] is not b vblid type");
                 }
             }
         }
-        if (transforms == null) {
-            this.transforms = Collections.emptyList();
+        if (trbnsforms == null) {
+            this.trbnsforms = Collections.emptyList();
         } else {
-            this.transforms = new ArrayList<Transform>(transforms);
-            for (int i = 0, size = this.transforms.size(); i < size; i++) {
-                if (!(this.transforms.get(i) instanceof Transform)) {
-                    throw new ClassCastException
-                        ("transforms["+i+"] is not a valid type");
+            this.trbnsforms = new ArrbyList<Trbnsform>(trbnsforms);
+            for (int i = 0, size = this.trbnsforms.size(); i < size; i++) {
+                if (!(this.trbnsforms.get(i) instbnceof Trbnsform)) {
+                    throw new ClbssCbstException
+                        ("trbnsforms["+i+"] is not b vblid type");
                 }
             }
-            this.allTransforms.addAll(this.transforms);
+            this.bllTrbnsforms.bddAll(this.trbnsforms);
         }
         this.digestMethod = dm;
         this.uri = uri;
-        if ((uri != null) && (!uri.equals(""))) {
+        if ((uri != null) && (!uri.equbls(""))) {
             try {
                 new URI(uri);
-            } catch (URISyntaxException e) {
-                throw new IllegalArgumentException(e.getMessage());
+            } cbtch (URISyntbxException e) {
+                throw new IllegblArgumentException(e.getMessbge());
             }
         }
         this.type = type;
         this.id = id;
-        if (digestValue != null) {
-            this.digestValue = digestValue.clone();
+        if (digestVblue != null) {
+            this.digestVblue = digestVblue.clone();
             this.digested = true;
         }
-        this.appliedTransformData = result;
+        this.bppliedTrbnsformDbtb = result;
         this.provider = provider;
     }
 
     /**
-     * Creates a <code>DOMReference</code> from an element.
+     * Crebtes b <code>DOMReference</code> from bn element.
      *
-     * @param refElem a Reference element
+     * @pbrbm refElem b Reference element
      */
     public DOMReference(Element refElem, XMLCryptoContext context,
                         Provider provider)
-        throws MarshalException
+        throws MbrshblException
     {
-        boolean secVal = Utils.secureValidation(context);
+        boolebn secVbl = Utils.secureVblidbtion(context);
 
-        // unmarshal Transforms, if specified
+        // unmbrshbl Trbnsforms, if specified
         Element nextSibling = DOMUtils.getFirstChildElement(refElem);
-        List<Transform> transforms = new ArrayList<Transform>(5);
-        if (nextSibling.getLocalName().equals("Transforms")) {
-            Element transformElem = DOMUtils.getFirstChildElement(nextSibling,
-                                                                  "Transform");
-            transforms.add(new DOMTransform(transformElem, context, provider));
-            transformElem = DOMUtils.getNextSiblingElement(transformElem);
-            while (transformElem != null) {
-                String localName = transformElem.getLocalName();
-                if (!localName.equals("Transform")) {
-                    throw new MarshalException(
-                        "Invalid element name: " + localName +
-                        ", expected Transform");
+        List<Trbnsform> trbnsforms = new ArrbyList<Trbnsform>(5);
+        if (nextSibling.getLocblNbme().equbls("Trbnsforms")) {
+            Element trbnsformElem = DOMUtils.getFirstChildElement(nextSibling,
+                                                                  "Trbnsform");
+            trbnsforms.bdd(new DOMTrbnsform(trbnsformElem, context, provider));
+            trbnsformElem = DOMUtils.getNextSiblingElement(trbnsformElem);
+            while (trbnsformElem != null) {
+                String locblNbme = trbnsformElem.getLocblNbme();
+                if (!locblNbme.equbls("Trbnsform")) {
+                    throw new MbrshblException(
+                        "Invblid element nbme: " + locblNbme +
+                        ", expected Trbnsform");
                 }
-                transforms.add
-                    (new DOMTransform(transformElem, context, provider));
-                if (secVal && (transforms.size() > MAXIMUM_TRANSFORM_COUNT)) {
-                    String error = "A maxiumum of " + MAXIMUM_TRANSFORM_COUNT + " "
-                        + "transforms per Reference are allowed with secure validation";
-                    throw new MarshalException(error);
+                trbnsforms.bdd
+                    (new DOMTrbnsform(trbnsformElem, context, provider));
+                if (secVbl && (trbnsforms.size() > MAXIMUM_TRANSFORM_COUNT)) {
+                    String error = "A mbxiumum of " + MAXIMUM_TRANSFORM_COUNT + " "
+                        + "trbnsforms per Reference bre bllowed with secure vblidbtion";
+                    throw new MbrshblException(error);
                 }
-                transformElem = DOMUtils.getNextSiblingElement(transformElem);
+                trbnsformElem = DOMUtils.getNextSiblingElement(trbnsformElem);
             }
             nextSibling = DOMUtils.getNextSiblingElement(nextSibling);
         }
-        if (!nextSibling.getLocalName().equals("DigestMethod")) {
-            throw new MarshalException("Invalid element name: " +
-                                       nextSibling.getLocalName() +
+        if (!nextSibling.getLocblNbme().equbls("DigestMethod")) {
+            throw new MbrshblException("Invblid element nbme: " +
+                                       nextSibling.getLocblNbme() +
                                        ", expected DigestMethod");
         }
 
-        // unmarshal DigestMethod
+        // unmbrshbl DigestMethod
         Element dmElem = nextSibling;
-        this.digestMethod = DOMDigestMethod.unmarshal(dmElem);
+        this.digestMethod = DOMDigestMethod.unmbrshbl(dmElem);
         String digestMethodAlgorithm = this.digestMethod.getAlgorithm();
-        if (secVal
-            && MessageDigestAlgorithm.ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5.equals(digestMethodAlgorithm)) {
-            throw new MarshalException(
-                "It is forbidden to use algorithm " + digestMethod + " when secure validation is enabled"
+        if (secVbl
+            && MessbgeDigestAlgorithm.ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5.equbls(digestMethodAlgorithm)) {
+            throw new MbrshblException(
+                "It is forbidden to use blgorithm " + digestMethod + " when secure vblidbtion is enbbled"
             );
         }
 
-        // unmarshal DigestValue
-        Element dvElem = DOMUtils.getNextSiblingElement(dmElem, "DigestValue");
+        // unmbrshbl DigestVblue
+        Element dvElem = DOMUtils.getNextSiblingElement(dmElem, "DigestVblue");
         try {
-            this.digestValue = Base64.decode(dvElem);
-        } catch (Base64DecodingException bde) {
-            throw new MarshalException(bde);
+            this.digestVblue = Bbse64.decode(dvElem);
+        } cbtch (Bbse64DecodingException bde) {
+            throw new MbrshblException(bde);
         }
 
-        // check for extra elements
+        // check for extrb elements
         if (DOMUtils.getNextSiblingElement(dvElem) != null) {
-            throw new MarshalException(
-                "Unexpected element after DigestValue element");
+            throw new MbrshblException(
+                "Unexpected element bfter DigestVblue element");
         }
 
-        // unmarshal attributes
-        this.uri = DOMUtils.getAttributeValue(refElem, "URI");
+        // unmbrshbl bttributes
+        this.uri = DOMUtils.getAttributeVblue(refElem, "URI");
 
-        Attr attr = refElem.getAttributeNodeNS(null, "Id");
-        if (attr != null) {
-            this.id = attr.getValue();
-            refElem.setIdAttributeNode(attr, true);
+        Attr bttr = refElem.getAttributeNodeNS(null, "Id");
+        if (bttr != null) {
+            this.id = bttr.getVblue();
+            refElem.setIdAttributeNode(bttr, true);
         } else {
             this.id = null;
         }
 
-        this.type = DOMUtils.getAttributeValue(refElem, "Type");
+        this.type = DOMUtils.getAttributeVblue(refElem, "Type");
         this.here = refElem.getAttributeNodeNS(null, "URI");
         this.refElem = refElem;
-        this.transforms = transforms;
-        this.allTransforms = transforms;
-        this.appliedTransformData = null;
+        this.trbnsforms = trbnsforms;
+        this.bllTrbnsforms = trbnsforms;
+        this.bppliedTrbnsformDbtb = null;
         this.provider = provider;
     }
 
@@ -293,133 +293,133 @@ public final class DOMReference extends DOMStructure
         return type;
     }
 
-    public List<Transform> getTransforms() {
-        return Collections.unmodifiableList(allTransforms);
+    public List<Trbnsform> getTrbnsforms() {
+        return Collections.unmodifibbleList(bllTrbnsforms);
     }
 
-    public byte[] getDigestValue() {
-        return (digestValue == null ? null : digestValue.clone());
+    public byte[] getDigestVblue() {
+        return (digestVblue == null ? null : digestVblue.clone());
     }
 
-    public byte[] getCalculatedDigestValue() {
-        return (calcDigestValue == null ? null
-                                        : calcDigestValue.clone());
+    public byte[] getCblculbtedDigestVblue() {
+        return (cblcDigestVblue == null ? null
+                                        : cblcDigestVblue.clone());
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    public void mbrshbl(Node pbrent, String dsPrefix, DOMCryptoContext context)
+        throws MbrshblException
     {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Marshalling Reference");
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Mbrshblling Reference");
         }
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
+        Document ownerDoc = DOMUtils.getOwnerDocument(pbrent);
 
-        refElem = DOMUtils.createElement(ownerDoc, "Reference",
-                                         XMLSignature.XMLNS, dsPrefix);
+        refElem = DOMUtils.crebteElement(ownerDoc, "Reference",
+                                         XMLSignbture.XMLNS, dsPrefix);
 
-        // set attributes
+        // set bttributes
         DOMUtils.setAttributeID(refElem, "Id", id);
         DOMUtils.setAttribute(refElem, "URI", uri);
         DOMUtils.setAttribute(refElem, "Type", type);
 
-        // create and append Transforms element
-        if (!allTransforms.isEmpty()) {
-            Element transformsElem = DOMUtils.createElement(ownerDoc,
-                                                            "Transforms",
-                                                            XMLSignature.XMLNS,
+        // crebte bnd bppend Trbnsforms element
+        if (!bllTrbnsforms.isEmpty()) {
+            Element trbnsformsElem = DOMUtils.crebteElement(ownerDoc,
+                                                            "Trbnsforms",
+                                                            XMLSignbture.XMLNS,
                                                             dsPrefix);
-            refElem.appendChild(transformsElem);
-            for (Transform transform : allTransforms) {
-                ((DOMStructure)transform).marshal(transformsElem,
+            refElem.bppendChild(trbnsformsElem);
+            for (Trbnsform trbnsform : bllTrbnsforms) {
+                ((DOMStructure)trbnsform).mbrshbl(trbnsformsElem,
                                                   dsPrefix, context);
             }
         }
 
-        // create and append DigestMethod element
-        ((DOMDigestMethod)digestMethod).marshal(refElem, dsPrefix, context);
+        // crebte bnd bppend DigestMethod element
+        ((DOMDigestMethod)digestMethod).mbrshbl(refElem, dsPrefix, context);
 
-        // create and append DigestValue element
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Adding digestValueElem");
+        // crebte bnd bppend DigestVblue element
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Adding digestVblueElem");
         }
-        Element digestValueElem = DOMUtils.createElement(ownerDoc,
-                                                         "DigestValue",
-                                                         XMLSignature.XMLNS,
+        Element digestVblueElem = DOMUtils.crebteElement(ownerDoc,
+                                                         "DigestVblue",
+                                                         XMLSignbture.XMLNS,
                                                          dsPrefix);
-        if (digestValue != null) {
-            digestValueElem.appendChild
-                (ownerDoc.createTextNode(Base64.encode(digestValue)));
+        if (digestVblue != null) {
+            digestVblueElem.bppendChild
+                (ownerDoc.crebteTextNode(Bbse64.encode(digestVblue)));
         }
-        refElem.appendChild(digestValueElem);
+        refElem.bppendChild(digestVblueElem);
 
-        parent.appendChild(refElem);
+        pbrent.bppendChild(refElem);
         here = refElem.getAttributeNodeNS(null, "URI");
     }
 
     public void digest(XMLSignContext signContext)
-        throws XMLSignatureException
+        throws XMLSignbtureException
     {
-        Data data = null;
-        if (appliedTransformData == null) {
-            data = dereference(signContext);
+        Dbtb dbtb = null;
+        if (bppliedTrbnsformDbtb == null) {
+            dbtb = dereference(signContext);
         } else {
-            data = appliedTransformData;
+            dbtb = bppliedTrbnsformDbtb;
         }
-        digestValue = transform(data, signContext);
+        digestVblue = trbnsform(dbtb, signContext);
 
-        // insert digestValue into DigestValue element
-        String encodedDV = Base64.encode(digestValue);
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Reference object uri = " + uri);
+        // insert digestVblue into DigestVblue element
+        String encodedDV = Bbse64.encode(digestVblue);
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Reference object uri = " + uri);
         }
-        Element digestElem = DOMUtils.getLastChildElement(refElem);
+        Element digestElem = DOMUtils.getLbstChildElement(refElem);
         if (digestElem == null) {
-            throw new XMLSignatureException("DigestValue element expected");
+            throw new XMLSignbtureException("DigestVblue element expected");
         }
         DOMUtils.removeAllChildren(digestElem);
-        digestElem.appendChild
-            (refElem.getOwnerDocument().createTextNode(encodedDV));
+        digestElem.bppendChild
+            (refElem.getOwnerDocument().crebteTextNode(encodedDV));
 
         digested = true;
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Reference digesting completed");
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Reference digesting completed");
         }
     }
 
-    public boolean validate(XMLValidateContext validateContext)
-        throws XMLSignatureException
+    public boolebn vblidbte(XMLVblidbteContext vblidbteContext)
+        throws XMLSignbtureException
     {
-        if (validateContext == null) {
-            throw new NullPointerException("validateContext cannot be null");
+        if (vblidbteContext == null) {
+            throw new NullPointerException("vblidbteContext cbnnot be null");
         }
-        if (validated) {
-            return validationStatus;
+        if (vblidbted) {
+            return vblidbtionStbtus;
         }
-        Data data = dereference(validateContext);
-        calcDigestValue = transform(data, validateContext);
+        Dbtb dbtb = dereference(vblidbteContext);
+        cblcDigestVblue = trbnsform(dbtb, vblidbteContext);
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Expected digest: " + Base64.encode(digestValue));
-            log.log(java.util.logging.Level.FINE, "Actual digest: " + Base64.encode(calcDigestValue));
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Expected digest: " + Bbse64.encode(digestVblue));
+            log.log(jbvb.util.logging.Level.FINE, "Actubl digest: " + Bbse64.encode(cblcDigestVblue));
         }
 
-        validationStatus = Arrays.equals(digestValue, calcDigestValue);
-        validated = true;
-        return validationStatus;
+        vblidbtionStbtus = Arrbys.equbls(digestVblue, cblcDigestVblue);
+        vblidbted = true;
+        return vblidbtionStbtus;
     }
 
-    public Data getDereferencedData() {
-        return derefData;
+    public Dbtb getDereferencedDbtb() {
+        return derefDbtb;
     }
 
-    public InputStream getDigestInputStream() {
+    public InputStrebm getDigestInputStrebm() {
         return dis;
     }
 
-    private Data dereference(XMLCryptoContext context)
-        throws XMLSignatureException
+    privbte Dbtb dereference(XMLCryptoContext context)
+        throws XMLSignbtureException
     {
-        Data data = null;
+        Dbtb dbtb = null;
 
         // use user-specified URIDereferencer if specified; otherwise use deflt
         URIDereferencer deref = context.getURIDereferencer();
@@ -427,154 +427,154 @@ public final class DOMReference extends DOMStructure
             deref = DOMURIDereferencer.INSTANCE;
         }
         try {
-            data = deref.dereference(this, context);
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "URIDereferencer class name: " + deref.getClass().getName());
-                log.log(java.util.logging.Level.FINE, "Data class name: " + data.getClass().getName());
+            dbtb = deref.dereference(this, context);
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "URIDereferencer clbss nbme: " + deref.getClbss().getNbme());
+                log.log(jbvb.util.logging.Level.FINE, "Dbtb clbss nbme: " + dbtb.getClbss().getNbme());
             }
-        } catch (URIReferenceException ure) {
-            throw new XMLSignatureException(ure);
+        } cbtch (URIReferenceException ure) {
+            throw new XMLSignbtureException(ure);
         }
 
-        return data;
+        return dbtb;
     }
 
-    private byte[] transform(Data dereferencedData,
+    privbte byte[] trbnsform(Dbtb dereferencedDbtb,
                              XMLCryptoContext context)
-        throws XMLSignatureException
+        throws XMLSignbtureException
     {
         if (md == null) {
             try {
-                md = MessageDigest.getInstance
-                    (((DOMDigestMethod)digestMethod).getMessageDigestAlgorithm());
-            } catch (NoSuchAlgorithmException nsae) {
-                throw new XMLSignatureException(nsae);
+                md = MessbgeDigest.getInstbnce
+                    (((DOMDigestMethod)digestMethod).getMessbgeDigestAlgorithm());
+            } cbtch (NoSuchAlgorithmException nsbe) {
+                throw new XMLSignbtureException(nsbe);
             }
         }
         md.reset();
-        DigesterOutputStream dos;
-        Boolean cache = (Boolean)
-            context.getProperty("javax.xml.crypto.dsig.cacheReference");
-        if (cache != null && cache.booleanValue()) {
-            this.derefData = copyDerefData(dereferencedData);
-            dos = new DigesterOutputStream(md, true);
+        DigesterOutputStrebm dos;
+        Boolebn cbche = (Boolebn)
+            context.getProperty("jbvbx.xml.crypto.dsig.cbcheReference");
+        if (cbche != null && cbche.boolebnVblue()) {
+            this.derefDbtb = copyDerefDbtb(dereferencedDbtb);
+            dos = new DigesterOutputStrebm(md, true);
         } else {
-            dos = new DigesterOutputStream(md);
+            dos = new DigesterOutputStrebm(md);
         }
-        OutputStream os = null;
-        Data data = dereferencedData;
+        OutputStrebm os = null;
+        Dbtb dbtb = dereferencedDbtb;
         try {
-            os = new UnsyncBufferedOutputStream(dos);
-            for (int i = 0, size = transforms.size(); i < size; i++) {
-                DOMTransform transform = (DOMTransform)transforms.get(i);
+            os = new UnsyncBufferedOutputStrebm(dos);
+            for (int i = 0, size = trbnsforms.size(); i < size; i++) {
+                DOMTrbnsform trbnsform = (DOMTrbnsform)trbnsforms.get(i);
                 if (i < size - 1) {
-                    data = transform.transform(data, context);
+                    dbtb = trbnsform.trbnsform(dbtb, context);
                 } else {
-                    data = transform.transform(data, context, os);
+                    dbtb = trbnsform.trbnsform(dbtb, context, os);
                 }
             }
 
-            if (data != null) {
-                XMLSignatureInput xi;
-                // explicitly use C14N 1.1 when generating signature
+            if (dbtb != null) {
+                XMLSignbtureInput xi;
+                // explicitly use C14N 1.1 when generbting signbture
                 // first check system property, then context property
-                boolean c14n11 = useC14N11;
-                String c14nalg = CanonicalizationMethod.INCLUSIVE;
-                if (context instanceof XMLSignContext) {
+                boolebn c14n11 = useC14N11;
+                String c14nblg = CbnonicblizbtionMethod.INCLUSIVE;
+                if (context instbnceof XMLSignContext) {
                     if (!c14n11) {
-                        Boolean prop = (Boolean)context.getProperty
-                            ("com.sun.org.apache.xml.internal.security.useC14N11");
-                        c14n11 = (prop != null && prop.booleanValue());
+                        Boolebn prop = (Boolebn)context.getProperty
+                            ("com.sun.org.bpbche.xml.internbl.security.useC14N11");
+                        c14n11 = (prop != null && prop.boolebnVblue());
                         if (c14n11) {
-                            c14nalg = "http://www.w3.org/2006/12/xml-c14n11";
+                            c14nblg = "http://www.w3.org/2006/12/xml-c14n11";
                         }
                     } else {
-                        c14nalg = "http://www.w3.org/2006/12/xml-c14n11";
+                        c14nblg = "http://www.w3.org/2006/12/xml-c14n11";
                     }
                 }
-                if (data instanceof ApacheData) {
-                    xi = ((ApacheData)data).getXMLSignatureInput();
-                } else if (data instanceof OctetStreamData) {
-                    xi = new XMLSignatureInput
-                        (((OctetStreamData)data).getOctetStream());
-                } else if (data instanceof NodeSetData) {
-                    TransformService spi = null;
+                if (dbtb instbnceof ApbcheDbtb) {
+                    xi = ((ApbcheDbtb)dbtb).getXMLSignbtureInput();
+                } else if (dbtb instbnceof OctetStrebmDbtb) {
+                    xi = new XMLSignbtureInput
+                        (((OctetStrebmDbtb)dbtb).getOctetStrebm());
+                } else if (dbtb instbnceof NodeSetDbtb) {
+                    TrbnsformService spi = null;
                     if (provider == null) {
-                        spi = TransformService.getInstance(c14nalg, "DOM");
+                        spi = TrbnsformService.getInstbnce(c14nblg, "DOM");
                     } else {
                         try {
-                            spi = TransformService.getInstance(c14nalg, "DOM", provider);
-                        } catch (NoSuchAlgorithmException nsae) {
-                            spi = TransformService.getInstance(c14nalg, "DOM");
+                            spi = TrbnsformService.getInstbnce(c14nblg, "DOM", provider);
+                        } cbtch (NoSuchAlgorithmException nsbe) {
+                            spi = TrbnsformService.getInstbnce(c14nblg, "DOM");
                         }
                     }
-                    data = spi.transform(data, context);
-                    xi = new XMLSignatureInput
-                        (((OctetStreamData)data).getOctetStream());
+                    dbtb = spi.trbnsform(dbtb, context);
+                    xi = new XMLSignbtureInput
+                        (((OctetStrebmDbtb)dbtb).getOctetStrebm());
                 } else {
-                    throw new XMLSignatureException("unrecognized Data type");
+                    throw new XMLSignbtureException("unrecognized Dbtb type");
                 }
-                if (context instanceof XMLSignContext && c14n11
-                    && !xi.isOctetStream() && !xi.isOutputStreamSet()) {
-                    TransformService spi = null;
+                if (context instbnceof XMLSignContext && c14n11
+                    && !xi.isOctetStrebm() && !xi.isOutputStrebmSet()) {
+                    TrbnsformService spi = null;
                     if (provider == null) {
-                        spi = TransformService.getInstance(c14nalg, "DOM");
+                        spi = TrbnsformService.getInstbnce(c14nblg, "DOM");
                     } else {
                         try {
-                            spi = TransformService.getInstance(c14nalg, "DOM", provider);
-                        } catch (NoSuchAlgorithmException nsae) {
-                            spi = TransformService.getInstance(c14nalg, "DOM");
+                            spi = TrbnsformService.getInstbnce(c14nblg, "DOM", provider);
+                        } cbtch (NoSuchAlgorithmException nsbe) {
+                            spi = TrbnsformService.getInstbnce(c14nblg, "DOM");
                         }
                     }
 
-                    DOMTransform t = new DOMTransform(spi);
-                    Element transformsElem = null;
-                    String dsPrefix = DOMUtils.getSignaturePrefix(context);
-                    if (allTransforms.isEmpty()) {
-                        transformsElem = DOMUtils.createElement(
+                    DOMTrbnsform t = new DOMTrbnsform(spi);
+                    Element trbnsformsElem = null;
+                    String dsPrefix = DOMUtils.getSignbturePrefix(context);
+                    if (bllTrbnsforms.isEmpty()) {
+                        trbnsformsElem = DOMUtils.crebteElement(
                             refElem.getOwnerDocument(),
-                            "Transforms", XMLSignature.XMLNS, dsPrefix);
-                        refElem.insertBefore(transformsElem,
+                            "Trbnsforms", XMLSignbture.XMLNS, dsPrefix);
+                        refElem.insertBefore(trbnsformsElem,
                             DOMUtils.getFirstChildElement(refElem));
                     } else {
-                        transformsElem = DOMUtils.getFirstChildElement(refElem);
+                        trbnsformsElem = DOMUtils.getFirstChildElement(refElem);
                     }
-                    t.marshal(transformsElem, dsPrefix,
+                    t.mbrshbl(trbnsformsElem, dsPrefix,
                               (DOMCryptoContext)context);
-                    allTransforms.add(t);
-                    xi.updateOutputStream(os, true);
+                    bllTrbnsforms.bdd(t);
+                    xi.updbteOutputStrebm(os, true);
                 } else {
-                    xi.updateOutputStream(os);
+                    xi.updbteOutputStrebm(os);
                 }
             }
             os.flush();
-            if (cache != null && cache.booleanValue()) {
-                this.dis = dos.getInputStream();
+            if (cbche != null && cbche.boolebnVblue()) {
+                this.dis = dos.getInputStrebm();
             }
-            return dos.getDigestValue();
-        } catch (NoSuchAlgorithmException e) {
-            throw new XMLSignatureException(e);
-        } catch (TransformException e) {
-            throw new XMLSignatureException(e);
-        } catch (MarshalException e) {
-            throw new XMLSignatureException(e);
-        } catch (IOException e) {
-            throw new XMLSignatureException(e);
-        } catch (com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException e) {
-            throw new XMLSignatureException(e);
-        } finally {
+            return dos.getDigestVblue();
+        } cbtch (NoSuchAlgorithmException e) {
+            throw new XMLSignbtureException(e);
+        } cbtch (TrbnsformException e) {
+            throw new XMLSignbtureException(e);
+        } cbtch (MbrshblException e) {
+            throw new XMLSignbtureException(e);
+        } cbtch (IOException e) {
+            throw new XMLSignbtureException(e);
+        } cbtch (com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException e) {
+            throw new XMLSignbtureException(e);
+        } finblly {
             if (os != null) {
                 try {
                     os.close();
-                } catch (IOException e) {
-                    throw new XMLSignatureException(e);
+                } cbtch (IOException e) {
+                    throw new XMLSignbtureException(e);
                 }
             }
             if (dos != null) {
                 try {
                     dos.close();
-                } catch (IOException e) {
-                    throw new XMLSignatureException(e);
+                } cbtch (IOException e) {
+                    throw new XMLSignbtureException(e);
                 }
             }
         }
@@ -585,86 +585,86 @@ public final class DOMReference extends DOMStructure
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o) {
             return true;
         }
 
-        if (!(o instanceof Reference)) {
-            return false;
+        if (!(o instbnceof Reference)) {
+            return fblse;
         }
         Reference oref = (Reference)o;
 
-        boolean idsEqual = (id == null ? oref.getId() == null
-                                       : id.equals(oref.getId()));
-        boolean urisEqual = (uri == null ? oref.getURI() == null
-                                         : uri.equals(oref.getURI()));
-        boolean typesEqual = (type == null ? oref.getType() == null
-                                           : type.equals(oref.getType()));
-        boolean digestValuesEqual =
-            Arrays.equals(digestValue, oref.getDigestValue());
+        boolebn idsEqubl = (id == null ? oref.getId() == null
+                                       : id.equbls(oref.getId()));
+        boolebn urisEqubl = (uri == null ? oref.getURI() == null
+                                         : uri.equbls(oref.getURI()));
+        boolebn typesEqubl = (type == null ? oref.getType() == null
+                                           : type.equbls(oref.getType()));
+        boolebn digestVbluesEqubl =
+            Arrbys.equbls(digestVblue, oref.getDigestVblue());
 
-        return digestMethod.equals(oref.getDigestMethod()) && idsEqual &&
-            urisEqual && typesEqual &&
-            allTransforms.equals(oref.getTransforms()) && digestValuesEqual;
+        return digestMethod.equbls(oref.getDigestMethod()) && idsEqubl &&
+            urisEqubl && typesEqubl &&
+            bllTrbnsforms.equbls(oref.getTrbnsforms()) && digestVbluesEqubl;
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
         if (id != null) {
-            result = 31 * result + id.hashCode();
+            result = 31 * result + id.hbshCode();
         }
         if (uri != null) {
-            result = 31 * result + uri.hashCode();
+            result = 31 * result + uri.hbshCode();
         }
         if (type != null) {
-            result = 31 * result + type.hashCode();
+            result = 31 * result + type.hbshCode();
         }
-        if (digestValue != null) {
-            result = 31 * result + Arrays.hashCode(digestValue);
+        if (digestVblue != null) {
+            result = 31 * result + Arrbys.hbshCode(digestVblue);
         }
-        result = 31 * result + digestMethod.hashCode();
-        result = 31 * result + allTransforms.hashCode();
+        result = 31 * result + digestMethod.hbshCode();
+        result = 31 * result + bllTrbnsforms.hbshCode();
 
         return result;
     }
 
-    boolean isDigested() {
+    boolebn isDigested() {
         return digested;
     }
 
-    private static Data copyDerefData(Data dereferencedData) {
-        if (dereferencedData instanceof ApacheData) {
-            // need to make a copy of the Data
-            ApacheData ad = (ApacheData)dereferencedData;
-            XMLSignatureInput xsi = ad.getXMLSignatureInput();
+    privbte stbtic Dbtb copyDerefDbtb(Dbtb dereferencedDbtb) {
+        if (dereferencedDbtb instbnceof ApbcheDbtb) {
+            // need to mbke b copy of the Dbtb
+            ApbcheDbtb bd = (ApbcheDbtb)dereferencedDbtb;
+            XMLSignbtureInput xsi = bd.getXMLSignbtureInput();
             if (xsi.isNodeSet()) {
                 try {
-                    final Set<Node> s = xsi.getNodeSet();
-                    return new NodeSetData() {
-                        public Iterator<Node> iterator() { return s.iterator(); }
+                    finbl Set<Node> s = xsi.getNodeSet();
+                    return new NodeSetDbtb() {
+                        public Iterbtor<Node> iterbtor() { return s.iterbtor(); }
                     };
-                } catch (Exception e) {
-                    // log a warning
-                    log.log(java.util.logging.Level.WARNING, "cannot cache dereferenced data: " + e);
+                } cbtch (Exception e) {
+                    // log b wbrning
+                    log.log(jbvb.util.logging.Level.WARNING, "cbnnot cbche dereferenced dbtb: " + e);
                     return null;
                 }
             } else if (xsi.isElement()) {
-                return new DOMSubTreeData
+                return new DOMSubTreeDbtb
                     (xsi.getSubNode(), xsi.isExcludeComments());
-            } else if (xsi.isOctetStream() || xsi.isByteArray()) {
+            } else if (xsi.isOctetStrebm() || xsi.isByteArrby()) {
                 try {
-                    return new OctetStreamData
-                        (xsi.getOctetStream(), xsi.getSourceURI(),
+                    return new OctetStrebmDbtb
+                        (xsi.getOctetStrebm(), xsi.getSourceURI(),
                          xsi.getMIMEType());
-                } catch (IOException ioe) {
-                    // log a warning
-                    log.log(java.util.logging.Level.WARNING, "cannot cache dereferenced data: " + ioe);
+                } cbtch (IOException ioe) {
+                    // log b wbrning
+                    log.log(jbvb.util.logging.Level.WARNING, "cbnnot cbche dereferenced dbtb: " + ioe);
                     return null;
                 }
             }
         }
-        return dereferencedData;
+        return dereferencedDbtb;
     }
 }

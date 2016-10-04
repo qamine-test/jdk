@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingWorker;
+import jbvbx.swing.JOptionPbne;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.SwingWorker;
 
 import com.sun.tools.jconsole.JConsolePlugin;
 
 /**
- * Proxy that shields GUI from plug-in exceptions.
+ * Proxy thbt shields GUI from plug-in exceptions.
  *
  */
-final class ExceptionSafePlugin extends JConsolePlugin {
+finbl clbss ExceptionSbfePlugin extends JConsolePlugin {
 
-    private static boolean ignoreExceptions;
-    private final JConsolePlugin plugin;
+    privbte stbtic boolebn ignoreExceptions;
+    privbte finbl JConsolePlugin plugin;
 
-    public ExceptionSafePlugin(JConsolePlugin plugin) {
+    public ExceptionSbfePlugin(JConsolePlugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
-    public Map<String, JPanel> getTabs() {
+    public Mbp<String, JPbnel> getTbbs() {
         try {
-            return plugin.getTabs();
-        } catch (RuntimeException e) {
-            handleException(e);
+            return plugin.getTbbs();
+        } cbtch (RuntimeException e) {
+            hbndleException(e);
         }
-        return new HashMap<>();
+        return new HbshMbp<>();
     }
 
     @Override
     public SwingWorker<?, ?> newSwingWorker() {
         try {
             return plugin.newSwingWorker();
-        } catch (RuntimeException e) {
-            handleException(e);
+        } cbtch (RuntimeException e) {
+            hbndleException(e);
         }
         return null;
     }
@@ -70,49 +70,49 @@ final class ExceptionSafePlugin extends JConsolePlugin {
     public void dispose() {
         try {
             plugin.dispose();
-        } catch (RuntimeException e) {
-            handleException(e);
+        } cbtch (RuntimeException e) {
+            hbndleException(e);
         }
     }
 
     public void executeSwingWorker(SwingWorker<?, ?> sw) {
         try {
             sw.execute();
-        } catch (RuntimeException e) {
-            handleException(e);
+        } cbtch (RuntimeException e) {
+            hbndleException(e);
         }
     }
 
-    private void handleException(Exception e) {
+    privbte void hbndleException(Exception e) {
         if (JConsole.isDebug()) {
             System.err.println("Plug-in exception:");
-            e.printStackTrace();
+            e.printStbckTrbce();
         } else {
             if (!ignoreExceptions) {
-                showExceptionDialog(e);
+                showExceptionDiblog(e);
             }
         }
     }
 
-    private void showExceptionDialog(Exception e) {
+    privbte void showExceptionDiblog(Exception e) {
         Object[] buttonTexts = {
-            Messages.PLUGIN_EXCEPTION_DIALOG_BUTTON_OK,
-            Messages.PLUGIN_EXCEPTION_DIALOG_BUTTON_EXIT,
-            Messages.PLUGIN_EXCEPTION_DIALOG_BUTTON_IGNORE
+            Messbges.PLUGIN_EXCEPTION_DIALOG_BUTTON_OK,
+            Messbges.PLUGIN_EXCEPTION_DIALOG_BUTTON_EXIT,
+            Messbges.PLUGIN_EXCEPTION_DIALOG_BUTTON_IGNORE
         };
 
-        String message = String.format(
-            Messages.PLUGIN_EXCEPTION_DIALOG_MESSAGE,
-            plugin.getClass().getSimpleName(),
-            String.valueOf(e.getMessage())
+        String messbge = String.formbt(
+            Messbges.PLUGIN_EXCEPTION_DIALOG_MESSAGE,
+            plugin.getClbss().getSimpleNbme(),
+            String.vblueOf(e.getMessbge())
         );
 
-        int buttonIndex = JOptionPane.showOptionDialog(
+        int buttonIndex = JOptionPbne.showOptionDiblog(
             null,
-            message,
-            Messages.PLUGIN_EXCEPTION_DIALOG_TITLE,
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.ERROR_MESSAGE,
+            messbge,
+            Messbges.PLUGIN_EXCEPTION_DIALOG_TITLE,
+            JOptionPbne.YES_NO_CANCEL_OPTION,
+            JOptionPbne.ERROR_MESSAGE,
             null,
             buttonTexts,
             buttonTexts[0]

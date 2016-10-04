@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import sun.awt.SunToolkit;
-import sun.lwawt.LWToolkit;
+import sun.bwt.SunToolkit;
+import sun.lwbwt.LWToolkit;
 
-import java.awt.MenuContainer;
-import java.awt.MenuItem;
-import java.awt.MenuShortcut;
-import java.awt.event.*;
-import java.awt.peer.MenuItemPeer;
-import java.util.concurrent.atomic.AtomicBoolean;
+import jbvb.bwt.MenuContbiner;
+import jbvb.bwt.MenuItem;
+import jbvb.bwt.MenuShortcut;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.MenuItemPeer;
+import jbvb.util.concurrent.btomic.AtomicBoolebn;
 
-public class CMenuItem extends CMenuComponent implements MenuItemPeer {
+public clbss CMenuItem extends CMenuComponent implements MenuItemPeer {
 
-    private final AtomicBoolean enabled = new AtomicBoolean(true);
+    privbte finbl AtomicBoolebn enbbled = new AtomicBoolebn(true);
 
-    public CMenuItem(MenuItem target) {
-        super(target);
-        initialize(target);
+    public CMenuItem(MenuItem tbrget) {
+        super(tbrget);
+        initiblize(tbrget);
     }
 
-    // This way we avoiding invocation of the setters twice
-    protected void initialize(MenuItem target) {
-        if (!isSeparator()) {
-            setLabel(target.getLabel());
-            setEnabled(target.isEnabled());
+    // This wby we bvoiding invocbtion of the setters twice
+    protected void initiblize(MenuItem tbrget) {
+        if (!isSepbrbtor()) {
+            setLbbel(tbrget.getLbbel());
+            setEnbbled(tbrget.isEnbbled());
         }
     }
 
-    private boolean isSeparator() {
-        String label = ((MenuItem)getTarget()).getLabel();
-        return (label != null && label.equals("-"));
+    privbte boolebn isSepbrbtor() {
+        String lbbel = ((MenuItem)getTbrget()).getLbbel();
+        return (lbbel != null && lbbel.equbls("-"));
     }
 
     @Override
-    protected long createModel() {
-        CMenuComponent parent = (CMenuComponent)LWToolkit.targetToPeer(getTarget().getParent());
-        return nativeCreate(parent.getModel(), isSeparator());
+    protected long crebteModel() {
+        CMenuComponent pbrent = (CMenuComponent)LWToolkit.tbrgetToPeer(getTbrget().getPbrent());
+        return nbtiveCrebte(pbrent.getModel(), isSepbrbtor());
     }
 
-    public void setLabel(String label, char keyChar, int keyCode, int modifiers) {
-        int keyMask = modifiers;
+    public void setLbbel(String lbbel, chbr keyChbr, int keyCode, int modifiers) {
+        int keyMbsk = modifiers;
         if (keyCode == KeyEvent.VK_UNDEFINED) {
-            MenuShortcut shortcut = ((MenuItem)getTarget()).getShortcut();
+            MenuShortcut shortcut = ((MenuItem)getTbrget()).getShortcut();
 
             if (shortcut != null) {
                 keyCode = shortcut.getKey();
-                keyMask |= InputEvent.META_MASK;
+                keyMbsk |= InputEvent.META_MASK;
 
                 if (shortcut.usesShiftModifier()) {
-                    keyMask |= InputEvent.SHIFT_MASK;
+                    keyMbsk |= InputEvent.SHIFT_MASK;
                 }
             }
         }
 
-        if (label == null) {
-            label = "";
+        if (lbbel == null) {
+            lbbel = "";
         }
 
-        // <rdar://problem/3654824>
-        // Native code uses a keyChar of 0 to indicate that the
-        // keyCode should be used to generate the shortcut.  Translate
+        // <rdbr://problem/3654824>
+        // Nbtive code uses b keyChbr of 0 to indicbte thbt the
+        // keyCode should be used to generbte the shortcut.  Trbnslbte
         // CHAR_UNDEFINED into 0.
-        if (keyChar == KeyEvent.CHAR_UNDEFINED) {
-            keyChar = 0;
+        if (keyChbr == KeyEvent.CHAR_UNDEFINED) {
+            keyChbr = 0;
         }
 
-        nativeSetLabel(getModel(), label, keyChar, keyCode, keyMask);
+        nbtiveSetLbbel(getModel(), lbbel, keyChbr, keyCode, keyMbsk);
     }
 
     @Override
-    public void setLabel(String label) {
-        setLabel(label, (char)0, KeyEvent.VK_UNDEFINED, 0);
+    public void setLbbel(String lbbel) {
+        setLbbel(lbbel, (chbr)0, KeyEvent.VK_UNDEFINED, 0);
     }
 
     /**
-     * This is new API that we've added to AWT menu items
-     * because AWT menu items are used for Swing screen menu bars
-     * and we want to support the NSMenuItem image apis.
-     * There isn't a need to expose this except in a instanceof because
-     * it isn't defined in the peer api.
+     * This is new API thbt we've bdded to AWT menu items
+     * becbuse AWT menu items bre used for Swing screen menu bbrs
+     * bnd we wbnt to support the NSMenuItem imbge bpis.
+     * There isn't b need to expose this except in b instbnceof becbuse
+     * it isn't defined in the peer bpi.
      */
-    public void setImage(java.awt.Image img) {
-        CImage cimg = CImage.getCreator().createFromImage(img);
-        nativeSetImage(getModel(), cimg == null ? 0L : cimg.ptr);
+    public void setImbge(jbvb.bwt.Imbge img) {
+        CImbge cimg = CImbge.getCrebtor().crebteFromImbge(img);
+        nbtiveSetImbge(getModel(), cimg == null ? 0L : cimg.ptr);
     }
 
     /**
      * New API for tooltips
      */
     public void setToolTipText(String text) {
-        nativeSetTooltip(getModel(), text);
+        nbtiveSetTooltip(getModel(), text);
     }
 
 //    @Override
-    public void enable() {
-        setEnabled(true);
+    public void enbble() {
+        setEnbbled(true);
     }
 
 //    @Override
-    public void disable() {
-        setEnabled(false);
+    public void disbble() {
+        setEnbbled(fblse);
     }
 
-    public final boolean isEnabled() {
-        return enabled.get();
+    public finbl boolebn isEnbbled() {
+        return enbbled.get();
     }
 
     @Override
-    public void setEnabled(boolean b) {
-        final Object parent = LWToolkit.targetToPeer(getTarget().getParent());
-        if (parent instanceof CMenuItem) {
-            b &= ((CMenuItem) parent).isEnabled();
+    public void setEnbbled(boolebn b) {
+        finbl Object pbrent = LWToolkit.tbrgetToPeer(getTbrget().getPbrent());
+        if (pbrent instbnceof CMenuItem) {
+            b &= ((CMenuItem) pbrent).isEnbbled();
         }
-        if (enabled.compareAndSet(!b, b)) {
-            nativeSetEnabled(getModel(), b);
+        if (enbbled.compbreAndSet(!b, b)) {
+            nbtiveSetEnbbled(getModel(), b);
         }
     }
 
-    private native long nativeCreate(long parentMenu, boolean isSeparator);
-    private native void nativeSetLabel(long modelPtr, String label, char keyChar, int keyCode, int modifiers);
-    private native void nativeSetImage(long modelPtr, long image);
-    private native void nativeSetTooltip(long modelPtr, String text);
-    private native void nativeSetEnabled(long modelPtr, boolean b);
+    privbte nbtive long nbtiveCrebte(long pbrentMenu, boolebn isSepbrbtor);
+    privbte nbtive void nbtiveSetLbbel(long modelPtr, String lbbel, chbr keyChbr, int keyCode, int modifiers);
+    privbte nbtive void nbtiveSetImbge(long modelPtr, long imbge);
+    privbte nbtive void nbtiveSetTooltip(long modelPtr, String text);
+    privbte nbtive void nbtiveSetEnbbled(long modelPtr, boolebn b);
 
-    // native callbacks
-    void handleAction(final long when, final int modifiers) {
-        SunToolkit.executeOnEventHandlerThread(getTarget(), new Runnable() {
+    // nbtive cbllbbcks
+    void hbndleAction(finbl long when, finbl int modifiers) {
+        SunToolkit.executeOnEventHbndlerThrebd(getTbrget(), new Runnbble() {
             public void run() {
-                final String cmd = ((MenuItem)getTarget()).getActionCommand();
-                final ActionEvent event = new ActionEvent(getTarget(), ActionEvent.ACTION_PERFORMED, cmd, when, modifiers);
-                SunToolkit.postEvent(SunToolkit.targetToAppContext(getTarget()), event);
+                finbl String cmd = ((MenuItem)getTbrget()).getActionCommbnd();
+                finbl ActionEvent event = new ActionEvent(getTbrget(), ActionEvent.ACTION_PERFORMED, cmd, when, modifiers);
+                SunToolkit.postEvent(SunToolkit.tbrgetToAppContext(getTbrget()), event);
             }
         });
     }

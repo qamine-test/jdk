@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.peer.*;
-import java.io.*;
-import java.util.Locale;
-import java.util.Arrays;
-import com.sun.java.swing.plaf.motif.*;
-import javax.swing.plaf.ComponentUI;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.util.logging.PlatformLogger;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.*;
+import jbvb.io.*;
+import jbvb.util.Locble;
+import jbvb.util.Arrbys;
+import com.sun.jbvb.swing.plbf.motif.*;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.util.logging.PlbtformLogger;
+import sun.bwt.AWTAccessor;
 
-class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListener, ItemListener, KeyEventDispatcher, XChoicePeerListener {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XFileDialogPeer");
+clbss XFileDiblogPeer extends XDiblogPeer implements FileDiblogPeer, ActionListener, ItemListener, KeyEventDispbtcher, XChoicePeerListener {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XFileDiblogPeer");
 
-    FileDialog  target;
+    FileDiblog  tbrget;
 
-    // This variable holds value exactly the same as value of the 'target.file' variable except:
-    // 1) is changed to null after quit (see handleQuitButton())
-    // 2) keep the same value if 'target.file' is incorrect (see setFile())
-    // It's not clear HOW we used it
-    // We should think about existence of this variable
+    // This vbribble holds vblue exbctly the sbme bs vblue of the 'tbrget.file' vbribble except:
+    // 1) is chbnged to null bfter quit (see hbndleQuitButton())
+    // 2) keep the sbme vblue if 'tbrget.file' is incorrect (see setFile())
+    // It's not clebr HOW we used it
+    // We should think bbout existence of this vbribble
     String      file;
 
     String      dir;
 
     String      title;
     int         mode;
-    FilenameFilter  filter;
+    FilenbmeFilter  filter;
 
-    private static final int PATH_CHOICE_WIDTH = 20;
+    privbte stbtic finbl int PATH_CHOICE_WIDTH = 20;
 
-    // Seems that the purpose of this variable is cashing of 'target.file' variable in order to help method show()
-    // We should think about using 'target.file' instead of 'savedFile'
-    // Perhaps, 'target.file' just more correct (see target.setFile())
-    String      savedFile;
+    // Seems thbt the purpose of this vbribble is cbshing of 'tbrget.file' vbribble in order to help method show()
+    // We should think bbout using 'tbrget.file' instebd of 'sbvedFile'
+    // Perhbps, 'tbrget.file' just more correct (see tbrget.setFile())
+    String      sbvedFile;
 
-    // Holds value of the directory which was chosen before
+    // Holds vblue of the directory which wbs chosen before
     // We use it in order to restore previously selected directory
-    // at the time of the next showing of the file dialog
-    String      savedDir;
-    // Holds value of the system property 'user.dir'
+    // bt the time of the next showing of the file diblog
+    String      sbvedDir;
+    // Holds vblue of the system property 'user.dir'
     // in order to init current directory
     String      userDir;
 
-    Dialog      fileDialog;
+    Diblog      fileDiblog;
 
-    GridBagLayout       gbl;
-    GridBagLayout       gblButtons;
-    GridBagConstraints  gbc;
+    GridBbgLbyout       gbl;
+    GridBbgLbyout       gblButtons;
+    GridBbgConstrbints  gbc;
 
-    // ************** Components in the fileDialogWindow ***************
+    // ************** Components in the fileDiblogWindow ***************
 
     TextField   filterField;
 
-    // This variable holds the current text of the file which user select through the navigation
-    // It's important that updating of this variable must be correct
-    // since this value is used at the time of the file dialog closing
-    // Namely, we invoke target.setFile() and then user can get this value
-    // We update this field in cases:
-    // - ITEM_STATE_CHANGED was triggered on the file list component: set to the current selected item
-    // - at the time of the 'show': set to savedFile
-    // - at the time of the programmatically setting: set to new value
+    // This vbribble holds the current text of the file which user select through the nbvigbtion
+    // It's importbnt thbt updbting of this vbribble must be correct
+    // since this vblue is used bt the time of the file diblog closing
+    // Nbmely, we invoke tbrget.setFile() bnd then user cbn get this vblue
+    // We updbte this field in cbses:
+    // - ITEM_STATE_CHANGED wbs triggered on the file list component: set to the current selected item
+    // - bt the time of the 'show': set to sbvedFile
+    // - bt the time of the progrbmmbticblly setting: set to new vblue
     TextField   selectionField;
 
     List        directoryList;
@@ -97,55 +97,55 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
     // This is the list component which is used for the showing of the file list of the current directory
     List        fileList;
 
-    Panel       buttons;
+    Pbnel       buttons;
     Button      openButton;
     Button      filterButton;
-    Button      cancelButton;
-    Choice      pathChoice;
-    TextField   pathField;
-    Panel       pathPanel;
+    Button      cbncelButton;
+    Choice      pbthChoice;
+    TextField   pbthField;
+    Pbnel       pbthPbnel;
 
-    String cancelButtonText = null;
-    String enterFileNameLabelText = null;
-    String filesLabelText= null;
-    String foldersLabelText= null;
-    String pathLabelText= null;
-    String filterLabelText= null;
+    String cbncelButtonText = null;
+    String enterFileNbmeLbbelText = null;
+    String filesLbbelText= null;
+    String foldersLbbelText= null;
+    String pbthLbbelText= null;
+    String filterLbbelText= null;
     String openButtonText= null;
-    String saveButtonText= null;
-    String actionButtonText= null;
+    String sbveButtonText= null;
+    String bctionButtonText= null;
 
 
-    void installStrings() {
-        Locale l = target.getLocale();
-        UIDefaults uid = XToolkit.getUIDefaults();
-        cancelButtonText = uid.getString("FileChooser.cancelButtonText",l);
-        enterFileNameLabelText = uid.getString("FileChooser.enterFileNameLabelText",l);
-        filesLabelText = uid.getString("FileChooser.filesLabelText",l);
-        foldersLabelText = uid.getString("FileChooser.foldersLabelText",l);
-        pathLabelText = uid.getString("FileChooser.pathLabelText",l);
-        filterLabelText = uid.getString("FileChooser.filterLabelText",l);
+    void instbllStrings() {
+        Locble l = tbrget.getLocble();
+        UIDefbults uid = XToolkit.getUIDefbults();
+        cbncelButtonText = uid.getString("FileChooser.cbncelButtonText",l);
+        enterFileNbmeLbbelText = uid.getString("FileChooser.enterFileNbmeLbbelText",l);
+        filesLbbelText = uid.getString("FileChooser.filesLbbelText",l);
+        foldersLbbelText = uid.getString("FileChooser.foldersLbbelText",l);
+        pbthLbbelText = uid.getString("FileChooser.pbthLbbelText",l);
+        filterLbbelText = uid.getString("FileChooser.filterLbbelText",l);
         openButtonText = uid.getString("FileChooser.openButtonText",l);
-        saveButtonText  = uid.getString("FileChooser.saveButtonText",l);
+        sbveButtonText  = uid.getString("FileChooser.sbveButtonText",l);
 
     }
 
-    XFileDialogPeer(FileDialog target) {
-        super((Dialog)target);
-        this.target = target;
+    XFileDiblogPeer(FileDiblog tbrget) {
+        super((Diblog)tbrget);
+        this.tbrget = tbrget;
     }
 
-    private void init(FileDialog target) {
-        fileDialog = target; //new Dialog(target, target.getTitle(), false);
-        this.title = target.getTitle();
-        this.mode = target.getMode();
-        this.target = target;
-        this.filter = target.getFilenameFilter();
+    privbte void init(FileDiblog tbrget) {
+        fileDiblog = tbrget; //new Diblog(tbrget, tbrget.getTitle(), fblse);
+        this.title = tbrget.getTitle();
+        this.mode = tbrget.getMode();
+        this.tbrget = tbrget;
+        this.filter = tbrget.getFilenbmeFilter();
 
-        savedFile = target.getFile();
-        savedDir = target.getDirectory();
-        // Shouldn't save 'user.dir' to 'savedDir'
-        // since getDirectory() will be incorrect after handleCancel
+        sbvedFile = tbrget.getFile();
+        sbvedDir = tbrget.getDirectory();
+        // Shouldn't sbve 'user.dir' to 'sbvedDir'
+        // since getDirectory() will be incorrect bfter hbndleCbncel
         userDir = AccessController.doPrivileged(
             new PrivilegedAction<String>() {
                 public String run() {
@@ -153,207 +153,207 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
                 }
             });
 
-        installStrings();
-        gbl = new GridBagLayout();
-        gblButtons = new GridBagLayout();
-        gbc = new GridBagConstraints();
-        fileDialog.setLayout(gbl);
+        instbllStrings();
+        gbl = new GridBbgLbyout();
+        gblButtons = new GridBbgLbyout();
+        gbc = new GridBbgConstrbints();
+        fileDiblog.setLbyout(gbl);
 
-        // create components
-        buttons = new Panel();
-        buttons.setLayout(gblButtons);
-        actionButtonText = (target.getMode() == FileDialog.SAVE) ? saveButtonText : openButtonText;
-        openButton = new Button(actionButtonText);
+        // crebte components
+        buttons = new Pbnel();
+        buttons.setLbyout(gblButtons);
+        bctionButtonText = (tbrget.getMode() == FileDiblog.SAVE) ? sbveButtonText : openButtonText;
+        openButton = new Button(bctionButtonText);
 
-        filterButton = new Button(filterLabelText);
-        cancelButton = new Button(cancelButtonText);
+        filterButton = new Button(filterLbbelText);
+        cbncelButton = new Button(cbncelButtonText);
         directoryList = new List();
         fileList = new List();
         filterField = new TextField();
         selectionField = new TextField();
 
-        boolean isMultipleMode =
-            AWTAccessor.getFileDialogAccessor().isMultipleMode(target);
+        boolebn isMultipleMode =
+            AWTAccessor.getFileDiblogAccessor().isMultipleMode(tbrget);
         fileList.setMultipleMode(isMultipleMode);
 
-        // the insets used by the components in the fileDialog
+        // the insets used by the components in the fileDiblog
         Insets noInset = new Insets(0, 0, 0, 0);
         Insets textFieldInset = new Insets(0, 8, 0, 8);
         Insets leftListInset = new Insets(0, 8, 0, 4);
         Insets rightListInset = new Insets(0, 4, 0, 8);
-        Insets separatorInset = new Insets(8, 0, 0, 0);
-        Insets labelInset = new Insets(0, 8, 0, 0);
+        Insets sepbrbtorInset = new Insets(8, 0, 0, 0);
+        Insets lbbelInset = new Insets(0, 8, 0, 0);
         Insets buttonsInset = new Insets(10, 8, 10, 8);
 
-        // add components to GridBagLayout "gbl"
+        // bdd components to GridBbgLbyout "gbl"
 
         Font f = new Font(Font.DIALOG, Font.PLAIN, 12);
 
-        Label label = new Label(pathLabelText);
-        label.setFont(f);
-        addComponent(label, gbl, gbc, 0, 0, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.NONE, labelInset);
+        Lbbel lbbel = new Lbbel(pbthLbbelText);
+        lbbel.setFont(f);
+        bddComponent(lbbel, gbl, gbc, 0, 0, 1,
+                     GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+                     1, 0, GridBbgConstrbints.NONE, lbbelInset);
 
-        // Fixed 6260650: FileDialog.getDirectory() does not return null when file dialog is cancelled
-        // After showing we should display 'user.dir' as current directory
-        // if user didn't set directory programatically
-        pathField = new TextField(savedDir != null ? savedDir : userDir);
-        @SuppressWarnings("serial") // Anonymous class
+        // Fixed 6260650: FileDiblog.getDirectory() does not return null when file diblog is cbncelled
+        // After showing we should displby 'user.dir' bs current directory
+        // if user didn't set directory progrbmbticblly
+        pbthField = new TextField(sbvedDir != null ? sbvedDir : userDir);
+        @SuppressWbrnings("seribl") // Anonymous clbss
         Choice tmp = new Choice() {
                 public Dimension getPreferredSize() {
-                    return new Dimension(PATH_CHOICE_WIDTH, pathField.getPreferredSize().height);
+                    return new Dimension(PATH_CHOICE_WIDTH, pbthField.getPreferredSize().height);
                 }
             };
-        pathChoice = tmp;
-        pathPanel = new Panel();
-        pathPanel.setLayout(new BorderLayout());
+        pbthChoice = tmp;
+        pbthPbnel = new Pbnel();
+        pbthPbnel.setLbyout(new BorderLbyout());
 
-        pathPanel.add(pathField,BorderLayout.CENTER);
-        pathPanel.add(pathChoice,BorderLayout.EAST);
-        //addComponent(pathField, gbl, gbc, 0, 1, 2,
-        //             GridBagConstraints.WEST, (Container)fileDialog,
-        //             1, 0, GridBagConstraints.HORIZONTAL, textFieldInset);
-        //addComponent(pathChoice, gbl, gbc, 1, 1, GridBagConstraints.RELATIVE,
-         //            GridBagConstraints.WEST, (Container)fileDialog,
-          //           1, 0, GridBagConstraints.HORIZONTAL, textFieldInset);
-        addComponent(pathPanel, gbl, gbc, 0, 1, 2,
-                    GridBagConstraints.WEST, (Container)fileDialog,
-                   1, 0, GridBagConstraints.HORIZONTAL, textFieldInset);
+        pbthPbnel.bdd(pbthField,BorderLbyout.CENTER);
+        pbthPbnel.bdd(pbthChoice,BorderLbyout.EAST);
+        //bddComponent(pbthField, gbl, gbc, 0, 1, 2,
+        //             GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+        //             1, 0, GridBbgConstrbints.HORIZONTAL, textFieldInset);
+        //bddComponent(pbthChoice, gbl, gbc, 1, 1, GridBbgConstrbints.RELATIVE,
+         //            GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+          //           1, 0, GridBbgConstrbints.HORIZONTAL, textFieldInset);
+        bddComponent(pbthPbnel, gbl, gbc, 0, 1, 2,
+                    GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+                   1, 0, GridBbgConstrbints.HORIZONTAL, textFieldInset);
 
 
 
-        label = new Label(filterLabelText);
+        lbbel = new Lbbel(filterLbbelText);
 
-        label.setFont(f);
-        addComponent(label, gbl, gbc, 0, 2, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.NONE, labelInset);
-        addComponent(filterField, gbl, gbc, 0, 3, 2,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.HORIZONTAL, textFieldInset);
+        lbbel.setFont(f);
+        bddComponent(lbbel, gbl, gbc, 0, 2, 1,
+                     GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+                     1, 0, GridBbgConstrbints.NONE, lbbelInset);
+        bddComponent(filterField, gbl, gbc, 0, 3, 2,
+                     GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+                     1, 0, GridBbgConstrbints.HORIZONTAL, textFieldInset);
 
-        label = new Label(foldersLabelText);
+        lbbel = new Lbbel(foldersLbbelText);
 
-        label.setFont(f);
-        addComponent(label, gbl, gbc, 0, 4, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.NONE, labelInset);
+        lbbel.setFont(f);
+        bddComponent(lbbel, gbl, gbc, 0, 4, 1,
+                     GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+                     1, 0, GridBbgConstrbints.NONE, lbbelInset);
 
-        label = new Label(filesLabelText);
+        lbbel = new Lbbel(filesLbbelText);
 
-        label.setFont(f);
-        addComponent(label, gbl, gbc, 1, 4, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.NONE, labelInset);
-        addComponent(directoryList, gbl, gbc, 0, 5, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 1, GridBagConstraints.BOTH, leftListInset);
-        addComponent(fileList, gbl, gbc, 1, 5, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 1, GridBagConstraints.BOTH, rightListInset);
+        lbbel.setFont(f);
+        bddComponent(lbbel, gbl, gbc, 1, 4, 1,
+                     GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+                     1, 0, GridBbgConstrbints.NONE, lbbelInset);
+        bddComponent(directoryList, gbl, gbc, 0, 5, 1,
+                     GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+                     1, 1, GridBbgConstrbints.BOTH, leftListInset);
+        bddComponent(fileList, gbl, gbc, 1, 5, 1,
+                     GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+                     1, 1, GridBbgConstrbints.BOTH, rightListInset);
 
-        label = new Label(enterFileNameLabelText);
+        lbbel = new Lbbel(enterFileNbmeLbbelText);
 
-        label.setFont(f);
-        addComponent(label, gbl, gbc, 0, 6, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.NONE, labelInset);
-        addComponent(selectionField, gbl, gbc, 0, 7, 2,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.HORIZONTAL, textFieldInset);
-        addComponent(new Separator(fileDialog.size().width, 2, Separator.HORIZONTAL), gbl, gbc, 0, 8, 15,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.HORIZONTAL, separatorInset);
+        lbbel.setFont(f);
+        bddComponent(lbbel, gbl, gbc, 0, 6, 1,
+                     GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+                     1, 0, GridBbgConstrbints.NONE, lbbelInset);
+        bddComponent(selectionField, gbl, gbc, 0, 7, 2,
+                     GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+                     1, 0, GridBbgConstrbints.HORIZONTAL, textFieldInset);
+        bddComponent(new Sepbrbtor(fileDiblog.size().width, 2, Sepbrbtor.HORIZONTAL), gbl, gbc, 0, 8, 15,
+                     GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+                     1, 0, GridBbgConstrbints.HORIZONTAL, sepbrbtorInset);
 
-        // add buttons to GridBagLayout Buttons
-        addComponent(openButton, gblButtons, gbc, 0, 0, 1,
-                     GridBagConstraints.WEST, (Container)buttons,
-                     1, 0, GridBagConstraints.NONE, noInset);
-        addComponent(filterButton, gblButtons, gbc, 1, 0, 1,
-                     GridBagConstraints.CENTER, (Container)buttons,
-                     1, 0, GridBagConstraints.NONE, noInset);
-        addComponent(cancelButton, gblButtons, gbc, 2, 0, 1,
-                     GridBagConstraints.EAST, (Container)buttons,
-                     1, 0, GridBagConstraints.NONE, noInset);
+        // bdd buttons to GridBbgLbyout Buttons
+        bddComponent(openButton, gblButtons, gbc, 0, 0, 1,
+                     GridBbgConstrbints.WEST, (Contbiner)buttons,
+                     1, 0, GridBbgConstrbints.NONE, noInset);
+        bddComponent(filterButton, gblButtons, gbc, 1, 0, 1,
+                     GridBbgConstrbints.CENTER, (Contbiner)buttons,
+                     1, 0, GridBbgConstrbints.NONE, noInset);
+        bddComponent(cbncelButton, gblButtons, gbc, 2, 0, 1,
+                     GridBbgConstrbints.EAST, (Contbiner)buttons,
+                     1, 0, GridBbgConstrbints.NONE, noInset);
 
-        // add ButtonPanel to the GridBagLayout of this class
-        addComponent(buttons, gbl, gbc, 0, 9, 2,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.HORIZONTAL, buttonsInset);
+        // bdd ButtonPbnel to the GridBbgLbyout of this clbss
+        bddComponent(buttons, gbl, gbc, 0, 9, 2,
+                     GridBbgConstrbints.WEST, (Contbiner)fileDiblog,
+                     1, 0, GridBbgConstrbints.HORIZONTAL, buttonsInset);
 
-        fileDialog.setSize(400, 400);
+        fileDiblog.setSize(400, 400);
 
-        // Update choice's popup width
-        XChoicePeer choicePeer = (XChoicePeer)pathChoice.getPeer();
-        choicePeer.setDrawSelectedItem(false);
-        choicePeer.setAlignUnder(pathField);
+        // Updbte choice's popup width
+        XChoicePeer choicePeer = (XChoicePeer)pbthChoice.getPeer();
+        choicePeer.setDrbwSelectedItem(fblse);
+        choicePeer.setAlignUnder(pbthField);
 
-        filterField.addActionListener(this);
-        selectionField.addActionListener(this);
-        directoryList.addActionListener(this);
-        directoryList.addItemListener(this);
-        fileList.addItemListener(this);
-        fileList.addActionListener(this);
-        openButton.addActionListener(this);
-        filterButton.addActionListener(this);
-        cancelButton.addActionListener(this);
-        pathChoice.addItemListener(this);
-        pathField.addActionListener(this);
+        filterField.bddActionListener(this);
+        selectionField.bddActionListener(this);
+        directoryList.bddActionListener(this);
+        directoryList.bddItemListener(this);
+        fileList.bddItemListener(this);
+        fileList.bddActionListener(this);
+        openButton.bddActionListener(this);
+        filterButton.bddActionListener(this);
+        cbncelButton.bddActionListener(this);
+        pbthChoice.bddItemListener(this);
+        pbthField.bddActionListener(this);
 
-        // b6227750 FileDialog is not disposed when clicking the 'close' (X) button on the top right corner, XToolkit
-        target.addWindowListener(
-            new WindowAdapter(){
+        // b6227750 FileDiblog is not disposed when clicking the 'close' (X) button on the top right corner, XToolkit
+        tbrget.bddWindowListener(
+            new WindowAdbpter(){
                 public void windowClosing(WindowEvent e){
-                    handleCancel();
+                    hbndleCbncel();
                 }
             }
         );
 
-        // 6259434 PIT: Choice in FileDialog is not responding to keyboard interactions, XToolkit
-        pathChoice.addItemListener(this);
+        // 6259434 PIT: Choice in FileDiblog is not responding to keybobrd interbctions, XToolkit
+        pbthChoice.bddItemListener(this);
 
     }
 
-    public void updateMinimumSize() {
+    public void updbteMinimumSize() {
     }
 
-    public void updateIconImages() {
+    public void updbteIconImbges() {
         if (winAttr.icons == null){
-            winAttr.iconsInherited = false;
-            winAttr.icons = getDefaultIconInfo();
+            winAttr.iconsInherited = fblse;
+            winAttr.icons = getDefbultIconInfo();
             setIconHints(winAttr.icons);
         }
     }
 
     /**
-     * add Component comp to the container cont.
-     * add the component to the correct GridBagLayout
+     * bdd Component comp to the contbiner cont.
+     * bdd the component to the correct GridBbgLbyout
      */
-    void addComponent(Component comp, GridBagLayout gb, GridBagConstraints c, int gridx,
-                      int gridy, int gridwidth, int anchor, Container cont, int weightx, int weighty,
+    void bddComponent(Component comp, GridBbgLbyout gb, GridBbgConstrbints c, int gridx,
+                      int gridy, int gridwidth, int bnchor, Contbiner cont, int weightx, int weighty,
                       int fill, Insets in) {
         c.gridx = gridx;
         c.gridy = gridy;
         c.gridwidth = gridwidth;
-        c.anchor = anchor;
+        c.bnchor = bnchor;
         c.weightx = weightx;
         c.weighty = weighty;
         c.fill = fill;
         c.insets = in;
-        gb.setConstraints(comp, c);
-        cont.add(comp);
+        gb.setConstrbints(comp, c);
+        cont.bdd(comp);
     }
 
     /**
-     * get fileName
+     * get fileNbme
      */
-    String getFileName(String str) {
+    String getFileNbme(String str) {
         if (str == null) {
             return "";
         }
 
-        int index = str.lastIndexOf('/');
+        int index = str.lbstIndexOf('/');
 
         if (index == -1) {
             return str;
@@ -362,18 +362,18 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
         }
     }
 
-    /** handleFilter
+    /** hbndleFilter
      *
      */
-    void handleFilter(String f) {
+    void hbndleFilter(String f) {
 
         if (f == null) {
             return;
         }
         setFilterEntry(dir,f);
 
-        // Fixed within 6259434: PIT: Choice in FileDialog is not responding to keyboard interactions, XToolkit
-        // Here we restoring Motif behaviour
+        // Fixed within 6259434: PIT: Choice in FileDiblog is not responding to keybobrd interbctions, XToolkit
+        // Here we restoring Motif behbviour
         directoryList.select(0);
         if (fileList.getItemCount() != 0) {
             fileList.requestFocus();
@@ -383,62 +383,62 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
     }
 
     /**
-     * handle the selection event
+     * hbndle the selection event
      */
-    void handleSelection(String file) {
+    void hbndleSelection(String file) {
 
-        int index = file.lastIndexOf(java.io.File.separatorChar);
+        int index = file.lbstIndexOf(jbvb.io.File.sepbrbtorChbr);
 
         if (index == -1) {
-            savedDir = this.dir;
-            savedFile = file;
+            sbvedDir = this.dir;
+            sbvedFile = file;
         } else {
-            savedDir = file.substring(0, index+1);
-            savedFile = file.substring(index+1);
+            sbvedDir = file.substring(0, index+1);
+            sbvedFile = file.substring(index+1);
         }
 
-        String[] fileNames = fileList.getSelectedItems();
-        int filesNumber = (fileNames != null) ? fileNames.length : 0;
+        String[] fileNbmes = fileList.getSelectedItems();
+        int filesNumber = (fileNbmes != null) ? fileNbmes.length : 0;
         File[] files = new File[filesNumber];
         for (int i = 0; i < filesNumber; i++) {
-            files[i] = new File(savedDir, fileNames[i]);
+            files[i] = new File(sbvedDir, fileNbmes[i]);
         }
 
-        AWTAccessor.FileDialogAccessor fileDialogAccessor = AWTAccessor.getFileDialogAccessor();
+        AWTAccessor.FileDiblogAccessor fileDiblogAccessor = AWTAccessor.getFileDiblogAccessor();
 
-        fileDialogAccessor.setDirectory(target, savedDir);
-        fileDialogAccessor.setFile(target, savedFile);
-        fileDialogAccessor.setFiles(target, files);
+        fileDiblogAccessor.setDirectory(tbrget, sbvedDir);
+        fileDiblogAccessor.setFile(tbrget, sbvedFile);
+        fileDiblogAccessor.setFiles(tbrget, files);
     }
 
     /**
-     * handle the cancel event
+     * hbndle the cbncel event
      */
-    void handleCancel() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager()
-            .removeKeyEventDispatcher(this);
+    void hbndleCbncel() {
+        KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger()
+            .removeKeyEventDispbtcher(this);
 
         setSelectionField(null);
         setFilterField(null);
-        directoryList.clear();
-        fileList.clear();
+        directoryList.clebr();
+        fileList.clebr();
 
-        AWTAccessor.FileDialogAccessor fileDialogAccessor = AWTAccessor.getFileDialogAccessor();
+        AWTAccessor.FileDiblogAccessor fileDiblogAccessor = AWTAccessor.getFileDiblogAccessor();
 
-        fileDialogAccessor.setDirectory(target, null);
-        fileDialogAccessor.setFile(target, null);
-        fileDialogAccessor.setFiles(target, null);
+        fileDiblogAccessor.setDirectory(tbrget, null);
+        fileDiblogAccessor.setFile(tbrget, null);
+        fileDiblogAccessor.setFiles(tbrget, null);
 
-        handleQuitButton();
+        hbndleQuitButton();
     }
 
     /**
-     * handle the quit event
+     * hbndle the quit event
      */
-    void handleQuitButton() {
+    void hbndleQuitButton() {
         dir = null;
         file = null;
-        target.hide();
+        tbrget.hide();
     }
 
     /**
@@ -447,12 +447,12 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
     void setFilterEntry(String d, String f) {
         File fe = new File(d);
 
-        if (fe.isDirectory() && fe.canRead()) {
-            // Fixed 6260659: File Name set programmatically in FileDialog is overridden during navigation, XToolkit
-            // Here we restoring Motif behaviour
-            setSelectionField(target.getFile());
+        if (fe.isDirectory() && fe.cbnRebd()) {
+            // Fixed 6260659: File Nbme set progrbmmbticblly in FileDiblog is overridden during nbvigbtion, XToolkit
+            // Here we restoring Motif behbviour
+            setSelectionField(tbrget.getFile());
 
-            if (f.equals("")) {
+            if (f.equbls("")) {
                 f = "*";
                 setFilterField(f);
             } else {
@@ -460,44 +460,44 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
             }
             String l[];
 
-            if (f.equals("*")) {
+            if (f.equbls("*")) {
                 l = fe.list();
             } else {
-                // REMIND: fileDialogFilter is not implemented yet
-                FileDialogFilter ff = new FileDialogFilter(f);
+                // REMIND: fileDiblogFilter is not implemented yet
+                FileDiblogFilter ff = new FileDiblogFilter(f);
                 l = fe.list(ff);
             }
-            // Fixed 6358953: handling was added in case of I/O error happens
+            // Fixed 6358953: hbndling wbs bdded in cbse of I/O error hbppens
             if (l == null) {
-                this.dir = getParentDirectory();
+                this.dir = getPbrentDirectory();
                 return;
             }
-            directoryList.clear();
-            fileList.clear();
-            directoryList.setVisible(false);
-            fileList.setVisible(false);
+            directoryList.clebr();
+            fileList.clebr();
+            directoryList.setVisible(fblse);
+            fileList.setVisible(fblse);
 
-            directoryList.addItem("..");
-            Arrays.sort(l);
+            directoryList.bddItem("..");
+            Arrbys.sort(l);
             for (int i = 0 ; i < l.length ; i++) {
                 File file = new File(d + l[i]);
                 if (file.isDirectory()) {
-                    directoryList.addItem(l[i] + "/");
+                    directoryList.bddItem(l[i] + "/");
                 } else {
                     if (filter != null) {
-                        if (filter.accept(new File(l[i]),l[i]))  fileList.addItem(l[i]);
+                        if (filter.bccept(new File(l[i]),l[i]))  fileList.bddItem(l[i]);
                     }
-                    else fileList.addItem(l[i]);
+                    else fileList.bddItem(l[i]);
                 }
             }
             this.dir = d;
 
-            pathField.setText(dir);
+            pbthField.setText(dir);
 
-            // Some code was removed
-            // Now we do updating of the pathChoice at the time of the choice opening
+            // Some code wbs removed
+            // Now we do updbting of the pbthChoice bt the time of the choice opening
 
-            target.setDirectory(this.dir);
+            tbrget.setDirectory(this.dir);
             directoryList.setVisible(true);
             fileList.setVisible(true);
         }
@@ -507,21 +507,21 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
     String[] getDirList(String dir) {
         if (!dir.endsWith("/"))
             dir = dir + "/";
-        char[] charr = dir.toCharArray();
-        int numSlashes = 0;
-        for (int i=0;i<charr.length;i++) {
-           if (charr[i] == '/')
-               numSlashes++;
+        chbr[] chbrr = dir.toChbrArrby();
+        int numSlbshes = 0;
+        for (int i=0;i<chbrr.length;i++) {
+           if (chbrr[i] == '/')
+               numSlbshes++;
         }
-        String[] starr =  new String[numSlashes];
+        String[] stbrr =  new String[numSlbshes];
         int j=0;
-        for (int i=charr.length-1;i>=0;i--) {
-            if (charr[i] == '/')
+        for (int i=chbrr.length-1;i>=0;i--) {
+            if (chbrr[i] == '/')
             {
-                starr[j++] = new String(charr,0,i+1);
+                stbrr[j++] = new String(chbrr,0,i+1);
             }
         }
-        return starr;
+        return stbrr;
     }
 
     /**
@@ -540,27 +540,27 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
 
     /**
      *
-     * @see java.awt.event.ItemEvent
+     * @see jbvb.bwt.event.ItemEvent
      * ItemEvent.ITEM_STATE_CHANGED
      */
-    public void itemStateChanged(ItemEvent itemEvent){
+    public void itemStbteChbnged(ItemEvent itemEvent){
         if (itemEvent.getID() != ItemEvent.ITEM_STATE_CHANGED ||
-            itemEvent.getStateChange() == ItemEvent.DESELECTED) {
+            itemEvent.getStbteChbnge() == ItemEvent.DESELECTED) {
             return;
         }
 
         Object source = itemEvent.getSource();
 
-        if (source == pathChoice) {
+        if (source == pbthChoice) {
             /*
-             * Update the selection ('folder name' text field) after
-             * the current item changing in the unfurled choice by the arrow keys.
-             * See 6259434, 6240074 for more information
+             * Updbte the selection ('folder nbme' text field) bfter
+             * the current item chbnging in the unfurled choice by the brrow keys.
+             * See 6259434, 6240074 for more informbtion
              */
-            String dir = pathChoice.getSelectedItem();
-            pathField.setText(dir);
+            String dir = pbthChoice.getSelectedItem();
+            pbthField.setText(dir);
         } else if (directoryList == source) {
-            setFilterField(getFileName(filterField.getText()));
+            setFilterField(getFileNbme(filterField.getText()));
         } else if (fileList == source) {
             String file = fileList.getItem((Integer)itemEvent.getItem());
             setSelectionField(file);
@@ -568,102 +568,102 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
     }
 
     /*
-     * Updates the current directory only if directoryList-specific
-     * action occurred. Returns false if the forward directory is inaccessible
+     * Updbtes the current directory only if directoryList-specific
+     * bction occurred. Returns fblse if the forwbrd directory is inbccessible
      */
-    boolean updateDirectoryByUserAction(String str) {
+    boolebn updbteDirectoryByUserAction(String str) {
 
         String dir;
-        if (str.equals("..")) {
-            dir = getParentDirectory();
+        if (str.equbls("..")) {
+            dir = getPbrentDirectory();
         }
         else {
             dir = this.dir + str;
         }
 
         File fe = new File(dir);
-        if (fe.canRead()) {
+        if (fe.cbnRebd()) {
             this.dir = dir;
             return true;
         }else {
-            return false;
+            return fblse;
         }
     }
 
-    String getParentDirectory(){
-        String parent = this.dir;
-        if (!this.dir.equals("/"))   // If the current directory is "/" leave it alone.
+    String getPbrentDirectory(){
+        String pbrent = this.dir;
+        if (!this.dir.equbls("/"))   // If the current directory is "/" lebve it blone.
         {
             if (dir.endsWith("/"))
-                parent = parent.substring(0,parent.lastIndexOf("/"));
+                pbrent = pbrent.substring(0,pbrent.lbstIndexOf("/"));
 
-            parent = parent.substring(0,parent.lastIndexOf("/")+1);
+            pbrent = pbrent.substring(0,pbrent.lbstIndexOf("/")+1);
         }
-        return parent;
+        return pbrent;
     }
 
-    public void actionPerformed( ActionEvent actionEvent ) {
-        String actionCommand = actionEvent.getActionCommand();
-        Object source = actionEvent.getSource();
+    public void bctionPerformed( ActionEvent bctionEvent ) {
+        String bctionCommbnd = bctionEvent.getActionCommbnd();
+        Object source = bctionEvent.getSource();
 
-        if (actionCommand.equals(actionButtonText)) {
-            handleSelection( selectionField.getText() );
-            handleQuitButton();
-        } else if (actionCommand.equals(filterLabelText)) {
-            handleFilter( filterField.getText() );
-        } else if (actionCommand.equals(cancelButtonText)) {
-            handleCancel();
-        } else if ( source instanceof TextField ) {
+        if (bctionCommbnd.equbls(bctionButtonText)) {
+            hbndleSelection( selectionField.getText() );
+            hbndleQuitButton();
+        } else if (bctionCommbnd.equbls(filterLbbelText)) {
+            hbndleFilter( filterField.getText() );
+        } else if (bctionCommbnd.equbls(cbncelButtonText)) {
+            hbndleCbncel();
+        } else if ( source instbnceof TextField ) {
             if ( selectionField == ((TextField)source) ) {
-                // Fixed within 6259434: PIT: Choice in FileDialog is not responding to keyboard interactions, XToolkit
-                // We should handle the action based on the selection field
-                // Looks like mistake
-                handleSelection(selectionField.getText());
-                handleQuitButton();
+                // Fixed within 6259434: PIT: Choice in FileDiblog is not responding to keybobrd interbctions, XToolkit
+                // We should hbndle the bction bbsed on the selection field
+                // Looks like mistbke
+                hbndleSelection(selectionField.getText());
+                hbndleQuitButton();
             } else if (filterField == ((TextField)source)) {
-                handleFilter(filterField.getText());
-            } else if (pathField == ((TextField)source)) {
-                target.setDirectory(pathField.getText());
+                hbndleFilter(filterField.getText());
+            } else if (pbthField == ((TextField)source)) {
+                tbrget.setDirectory(pbthField.getText());
             }
-        } else if (source instanceof List) {
+        } else if (source instbnceof List) {
             if (directoryList == ((List)source)) {
-                //handleFilter( actionCommand + getFileName( filterField.getText() ) );
-                if (updateDirectoryByUserAction(actionCommand)){
-                    handleFilter( getFileName( filterField.getText() ) );
+                //hbndleFilter( bctionCommbnd + getFileNbme( filterField.getText() ) );
+                if (updbteDirectoryByUserAction(bctionCommbnd)){
+                    hbndleFilter( getFileNbme( filterField.getText() ) );
                 }
             } else if (fileList == ((List)source)) {
-                handleSelection( actionCommand );
-                handleQuitButton();
+                hbndleSelection( bctionCommbnd );
+                hbndleQuitButton();
             }
         }
     }
 
-    public boolean dispatchKeyEvent(KeyEvent keyEvent) {
+    public boolebn dispbtchKeyEvent(KeyEvent keyEvent) {
         int id = keyEvent.getID();
         int keyCode = keyEvent.getKeyCode();
 
         if (id == KeyEvent.KEY_PRESSED && keyCode == KeyEvent.VK_ESCAPE) {
-            synchronized (target.getTreeLock()) {
+            synchronized (tbrget.getTreeLock()) {
                 Component comp = (Component) keyEvent.getSource();
                 while (comp != null) {
-                    // Fix for 6240084 Disposing a file dialog when the drop-down is active does not dispose the dropdown menu, on Xtoolkit
-                    // See also 6259493
-                    if (comp == pathChoice) {
-                        XChoicePeer choicePeer = (XChoicePeer)pathChoice.getPeer();
+                    // Fix for 6240084 Disposing b file diblog when the drop-down is bctive does not dispose the dropdown menu, on Xtoolkit
+                    // See blso 6259493
+                    if (comp == pbthChoice) {
+                        XChoicePeer choicePeer = (XChoicePeer)pbthChoice.getPeer();
                         if (choicePeer.isUnfurled()){
-                            return false;
+                            return fblse;
                         }
                     }
                     if (comp.getPeer() == this) {
-                        handleCancel();
+                        hbndleCbncel();
                         return true;
                     }
-                    comp = comp.getParent();
+                    comp = comp.getPbrent();
                 }
             }
         }
 
-        return false;
+        return fblse;
     }
 
 
@@ -697,11 +697,11 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
 
     /**
      * set the directory
-     * FIXME: we should update 'savedDir' after programmatically 'setDirectory'
-     * Otherwise, SavedDir will be not null before second showing
-     * So the current directory of the file dialog will be incorrect after second showing
+     * FIXME: we should updbte 'sbvedDir' bfter progrbmmbticblly 'setDirectory'
+     * Otherwise, SbvedDir will be not null before second showing
+     * So the current directory of the file diblog will be incorrect bfter second showing
      * since 'setDirectory' will be ignored
-     * We cann't update savedDir here now since it used very often
+     * We cbnn't updbte sbvedDir here now since it used very often
      */
     public void setDirectory(String dir) {
 
@@ -710,7 +710,7 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
             return;
         }
 
-        if (dir.equals(this.dir)) {
+        if (dir.equbls(this.dir)) {
             return;
         }
 
@@ -721,7 +721,7 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
         }
 
         File fe = new File(dir).getAbsoluteFile();
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("Current directory : " + fe);
         }
 
@@ -734,127 +734,127 @@ class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListe
             }
         }
         try {
-            dir = this.dir = fe.getCanonicalPath();
-        } catch (java.io.IOException ie) {
-            dir = this.dir = fe.getAbsolutePath();
+            dir = this.dir = fe.getCbnonicblPbth();
+        } cbtch (jbvb.io.IOException ie) {
+            dir = this.dir = fe.getAbsolutePbth();
         }
-        pathField.setText(this.dir);
+        pbthField.setText(this.dir);
 
 
         if (dir.endsWith("/")) {
             this.dir = dir;
-            handleFilter("");
+            hbndleFilter("");
         } else {
             this.dir = dir + "/";
-            handleFilter("");
+            hbndleFilter("");
         }
 
-        // Some code was removed
-        // Now we do updating of the pathChoice at the time of the choice opening
+        // Some code wbs removed
+        // Now we do updbting of the pbthChoice bt the time of the choice opening
         // Fixed problem:
-        // The exception java.awt.IllegalComponentStateException will be thrown
-        // if the user invoke setDirectory after the closing of the file dialog
+        // The exception jbvb.bwt.IllegblComponentStbteException will be thrown
+        // if the user invoke setDirectory bfter the closing of the file diblog
     }
 
     /**
-     * set filenameFilter
+     * set filenbmeFilter
      *
      */
-    public void setFilenameFilter(FilenameFilter filter) {
+    public void setFilenbmeFilter(FilenbmeFilter filter) {
         this.filter = filter;
     }
 
 
     public void dispose() {
-        FileDialog fd = (FileDialog)fileDialog;
+        FileDiblog fd = (FileDiblog)fileDiblog;
         if (fd != null) {
             fd.removeAll();
         }
         super.dispose();
     }
 
-    // 03/02/2005 b5097243 Pressing 'ESC' on a file dlg does not dispose the dlg on Xtoolkit
-    public void setVisible(boolean b){
-        if (fileDialog == null) {
-            init(target);
+    // 03/02/2005 b5097243 Pressing 'ESC' on b file dlg does not dispose the dlg on Xtoolkit
+    public void setVisible(boolebn b){
+        if (fileDiblog == null) {
+            init(tbrget);
         }
 
-        if (savedDir != null || userDir != null) {
-            setDirectory(savedDir != null ? savedDir : userDir);
+        if (sbvedDir != null || userDir != null) {
+            setDirectory(sbvedDir != null ? sbvedDir : userDir);
         }
 
-        if (savedFile != null) {
-            // Actually in Motif implementation lost file value which was saved after prevously showing
-            // Seems we shouldn't restore Motif behaviour in this case
-            setFile(savedFile);
+        if (sbvedFile != null) {
+            // Actublly in Motif implementbtion lost file vblue which wbs sbved bfter prevously showing
+            // Seems we shouldn't restore Motif behbviour in this cbse
+            setFile(sbvedFile);
         }
 
         super.setVisible(b);
         if (b == true){
-            // See 6240074 for more information
-            XChoicePeer choicePeer = (XChoicePeer)pathChoice.getPeer();
-            choicePeer.addXChoicePeerListener(this);
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
+            // See 6240074 for more informbtion
+            XChoicePeer choicePeer = (XChoicePeer)pbthChoice.getPeer();
+            choicePeer.bddXChoicePeerListener(this);
+            KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().bddKeyEventDispbtcher(this);
         }else{
-            // See 6240074 for more information
-            XChoicePeer choicePeer = (XChoicePeer)pathChoice.getPeer();
+            // See 6240074 for more informbtion
+            XChoicePeer choicePeer = (XChoicePeer)pbthChoice.getPeer();
             choicePeer.removeXChoicePeerListener();
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
+            KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().removeKeyEventDispbtcher(this);
         }
 
         selectionField.requestFocusInWindow();
     }
 
     /*
-     * Adding items to the path choice based on the text string
-     * See 6240074 for more information
+     * Adding items to the pbth choice bbsed on the text string
+     * See 6240074 for more informbtion
      */
-    public void addItemsToPathChoice(String text){
+    public void bddItemsToPbthChoice(String text){
         String dirList[] = getDirList(text);
-        for (int i = 0; i < dirList.length; i++) pathChoice.addItem(dirList[i]);
+        for (int i = 0; i < dirList.length; i++) pbthChoice.bddItem(dirList[i]);
     }
 
     /*
-     * Refresh the unfurled choice at the time of the opening choice according to the text of the path field
-     * See 6240074 for more information
+     * Refresh the unfurled choice bt the time of the opening choice bccording to the text of the pbth field
+     * See 6240074 for more informbtion
      */
     public void unfurledChoiceOpening(ListHelper choiceHelper){
 
-        // When the unfurled choice is opening the first time, we need only to add elements, otherwise we've got exception
+        // When the unfurled choice is opening the first time, we need only to bdd elements, otherwise we've got exception
         if (choiceHelper.getItemCount() == 0){
-            addItemsToPathChoice(pathField.getText());
+            bddItemsToPbthChoice(pbthField.getText());
             return;
         }
 
-        // If the set of the directories the exactly same as the used to be then dummy
-        if (pathChoice.getItem(0).equals(pathField.getText()))
+        // If the set of the directories the exbctly sbme bs the used to be then dummy
+        if (pbthChoice.getItem(0).equbls(pbthField.getText()))
             return;
 
-        pathChoice.removeAll();
-        addItemsToPathChoice(pathField.getText());
+        pbthChoice.removeAll();
+        bddItemsToPbthChoice(pbthField.getText());
     }
 
     /*
-     * Refresh the file dialog at the time of the closing choice according to the selected item of the choice
-     * See 6240074 for more information
+     * Refresh the file diblog bt the time of the closing choice bccording to the selected item of the choice
+     * See 6240074 for more informbtion
      */
     public void unfurledChoiceClosing(){
-          // This is the exactly same code as invoking later at the time of the itemStateChanged
-          // Here is we restore Windows behaviour: change current directory if user press 'ESC'
-          String dir = pathChoice.getSelectedItem();
-          target.setDirectory(dir);
+          // This is the exbctly sbme code bs invoking lbter bt the time of the itemStbteChbnged
+          // Here is we restore Windows behbviour: chbnge current directory if user press 'ESC'
+          String dir = pbthChoice.getSelectedItem();
+          tbrget.setDirectory(dir);
     }
 }
 
-@SuppressWarnings("serial") // JDK-implementation class
-class Separator extends Canvas {
-    public final static int HORIZONTAL = 0;
-    public final static int VERTICAL = 1;
-    int orientation;
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+clbss Sepbrbtor extends Cbnvbs {
+    public finbl stbtic int HORIZONTAL = 0;
+    public finbl stbtic int VERTICAL = 1;
+    int orientbtion;
 
-    public Separator(int length, int thickness, int orient) {
+    public Sepbrbtor(int length, int thickness, int orient) {
         super();
-        orientation = orient;
+        orientbtion = orient;
         if (orient == HORIZONTAL) {
             resize(length, thickness);
         } else {
@@ -863,14 +863,14 @@ class Separator extends Canvas {
         }
     }
 
-    public void paint(Graphics g) {
+    public void pbint(Grbphics g) {
         int x1, y1, x2, y2;
-        Rectangle bbox = bounds();
-        Color c = getBackground();
+        Rectbngle bbox = bounds();
+        Color c = getBbckground();
         Color brighter = c.brighter();
-        Color darker = c.darker();
+        Color dbrker = c.dbrker();
 
-        if (orientation == HORIZONTAL) {
+        if (orientbtion == HORIZONTAL) {
             x1 = 0;
             x2 = bbox.width - 1;
             y1 = y2 = bbox.height/2 - 1;
@@ -881,59 +881,59 @@ class Separator extends Canvas {
             y1 = 0;
             y2 = bbox.height - 1;
         }
-        g.setColor(darker);
-        g.drawLine(x1, y2, x2, y2);
+        g.setColor(dbrker);
+        g.drbwLine(x1, y2, x2, y2);
         g.setColor(brighter);
-        if (orientation == HORIZONTAL)
-            g.drawLine(x1, y2+1, x2, y2+1);
+        if (orientbtion == HORIZONTAL)
+            g.drbwLine(x1, y2+1, x2, y2+1);
         else
-            g.drawLine(x1+1, y2, x2+1, y2);
+            g.drbwLine(x1+1, y2, x2+1, y2);
     }
 }
 
 /*
- * Motif file dialogs let the user specify a filter that controls the files that
- * are displayed in the dialog. This filter is generally specified as a regular
- * expression. The class is used to implement Motif-like filtering.
+ * Motif file diblogs let the user specify b filter thbt controls the files thbt
+ * bre displbyed in the diblog. This filter is generblly specified bs b regulbr
+ * expression. The clbss is used to implement Motif-like filtering.
  */
-class FileDialogFilter implements FilenameFilter {
+clbss FileDiblogFilter implements FilenbmeFilter {
 
     String filter;
 
-    public FileDialogFilter(String f) {
+    public FileDiblogFilter(String f) {
         filter = f;
     }
 
     /*
-     * Tells whether or not the specified file should be included in a file list
+     * Tells whether or not the specified file should be included in b file list
      */
-    public boolean accept(File dir, String fileName) {
+    public boolebn bccept(File dir, String fileNbme) {
 
-        File f = new File(dir, fileName);
+        File f = new File(dir, fileNbme);
 
         if (f.isDirectory()) {
             return true;
         } else {
-            return matches(fileName, filter);
+            return mbtches(fileNbme, filter);
         }
     }
 
     /*
-     * Tells whether or not the input string matches the given filter
+     * Tells whether or not the input string mbtches the given filter
      */
-    private boolean matches(String input, String filter) {
+    privbte boolebn mbtches(String input, String filter) {
         String regex = convert(filter);
-        return input.matches(regex);
+        return input.mbtches(regex);
     }
 
     /*
-     * Converts the filter into the form which is acceptable by Java's regexps
+     * Converts the filter into the form which is bcceptbble by Jbvb's regexps
      */
-    private String convert(String filter) {
+    privbte String convert(String filter) {
         String regex = "^" + filter + "$";
-        regex = regex.replaceAll("\\.", "\\\\.");
-        regex = regex.replaceAll("\\?", ".");
-        regex = regex.replaceAll("\\*", ".*");
+        regex = regex.replbceAll("\\.", "\\\\.");
+        regex = regex.replbceAll("\\?", ".");
+        regex = regex.replbceAll("\\*", ".*");
         return regex;
     }
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -34,10 +34,10 @@
 #include "nio_util.h"
 #include "net_util.h"
 
-#include "sun_nio_ch_WindowsAsynchronousSocketChannelImpl.h"
+#include "sun_nio_ch_WindowsAsynchronousSocketChbnnelImpl.h"
 
 #ifndef WSAID_CONNECTEX
-#define WSAID_CONNECTEX {0x25a207b9,0xddf3,0x4660,{0x8e,0xe9,0x76,0xe5,0x8c,0x74,0x06,0x3e}}
+#define WSAID_CONNECTEX {0x25b207b9,0xddf3,0x4660,{0x8e,0xe9,0x76,0xe5,0x8c,0x74,0x06,0x3e}}
 #endif
 
 #ifndef SO_UPDATE_CONNECT_CONTEXT
@@ -47,19 +47,19 @@
 typedef BOOL (PASCAL *ConnectEx_t)
 (
     SOCKET s,
-    const struct sockaddr* name,
-    int namelen,
+    const struct sockbddr* nbme,
+    int nbmelen,
     PVOID lpSendBuffer,
-    DWORD dwSendDataLength,
+    DWORD dwSendDbtbLength,
     LPDWORD lpdwBytesSent,
-    LPOVERLAPPED lpOverlapped
+    LPOVERLAPPED lpOverlbpped
 );
 
-static ConnectEx_t ConnectEx_func;
+stbtic ConnectEx_t ConnectEx_func;
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_WindowsAsynchronousSocketChannelImpl_initIDs(JNIEnv* env, jclass this) {
+Jbvb_sun_nio_ch_WindowsAsynchronousSocketChbnnelImpl_initIDs(JNIEnv* env, jclbss this) {
     GUID GuidConnectEx = WSAID_CONNECTEX;
     SOCKET s;
     int rv;
@@ -67,7 +67,7 @@ Java_sun_nio_ch_WindowsAsynchronousSocketChannelImpl_initIDs(JNIEnv* env, jclass
 
     s = socket(AF_INET, SOCK_STREAM, 0);
     if (s == INVALID_SOCKET) {
-        JNU_ThrowIOExceptionWithLastError(env, "socket failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "socket fbiled");
         return;
     }
     rv = WSAIoctl(s,
@@ -80,47 +80,47 @@ Java_sun_nio_ch_WindowsAsynchronousSocketChannelImpl_initIDs(JNIEnv* env, jclass
                   NULL,
                   NULL);
     if (rv != 0)
-        JNU_ThrowIOExceptionWithLastError(env, "WSAIoctl failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "WSAIoctl fbiled");
     closesocket(s);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_WindowsAsynchronousSocketChannelImpl_connect0(JNIEnv* env, jclass this,
-    jlong socket, jboolean preferIPv6, jobject iao, jint port, jlong ov)
+Jbvb_sun_nio_ch_WindowsAsynchronousSocketChbnnelImpl_connect0(JNIEnv* env, jclbss this,
+    jlong socket, jboolebn preferIPv6, jobject ibo, jint port, jlong ov)
 {
     SOCKET s = (SOCKET) jlong_to_ptr(socket);
-    OVERLAPPED* lpOverlapped = (OVERLAPPED*) jlong_to_ptr(ov);
+    OVERLAPPED* lpOverlbpped = (OVERLAPPED*) jlong_to_ptr(ov);
 
-    SOCKETADDRESS sa;
-    int sa_len;
+    SOCKETADDRESS sb;
+    int sb_len;
     BOOL res;
 
-    if (NET_InetAddressToSockaddr(env, iao, port, (struct sockaddr *)&sa, &sa_len, preferIPv6) != 0) {
+    if (NET_InetAddressToSockbddr(env, ibo, port, (struct sockbddr *)&sb, &sb_len, preferIPv6) != 0) {
         return IOS_THROWN;
     }
 
-    ZeroMemory((PVOID)lpOverlapped, sizeof(OVERLAPPED));
+    ZeroMemory((PVOID)lpOverlbpped, sizeof(OVERLAPPED));
 
     res = (*ConnectEx_func)(s,
-                            (struct sockaddr *)&sa,
-                            sa_len,
+                            (struct sockbddr *)&sb,
+                            sb_len,
                             NULL,
                             0,
                             NULL,
-                            lpOverlapped);
+                            lpOverlbpped);
     if (res == 0) {
-        int error = GetLastError();
+        int error = GetLbstError();
         if (error == ERROR_IO_PENDING) {
             return IOS_UNAVAILABLE;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "ConnectEx failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "ConnectEx fbiled");
         return IOS_THROWN;
     }
     return 0;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_WindowsAsynchronousSocketChannelImpl_updateConnectContext(JNIEnv* env, jclass this,
+Jbvb_sun_nio_ch_WindowsAsynchronousSocketChbnnelImpl_updbteConnectContext(JNIEnv* env, jclbss this,
     jlong socket)
 {
     SOCKET s = (SOCKET)jlong_to_ptr(socket);
@@ -129,86 +129,86 @@ Java_sun_nio_ch_WindowsAsynchronousSocketChannelImpl_updateConnectContext(JNIEnv
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_WindowsAsynchronousSocketChannelImpl_shutdown0(JNIEnv *env, jclass cl,
+Jbvb_sun_nio_ch_WindowsAsynchronousSocketChbnnelImpl_shutdown0(JNIEnv *env, jclbss cl,
     jlong socket, jint how)
 {
     SOCKET s =(SOCKET) jlong_to_ptr(socket);
     if (shutdown(s, how) == SOCKET_ERROR) {
-        JNU_ThrowIOExceptionWithLastError(env, "shutdown failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "shutdown fbiled");
     }
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_WindowsAsynchronousSocketChannelImpl_closesocket0(JNIEnv* env, jclass this,
+Jbvb_sun_nio_ch_WindowsAsynchronousSocketChbnnelImpl_closesocket0(JNIEnv* env, jclbss this,
     jlong socket)
 {
     SOCKET s = (SOCKET)jlong_to_ptr(socket);
     if (closesocket(s) == SOCKET_ERROR)
-        JNU_ThrowIOExceptionWithLastError(env, "closesocket failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "closesocket fbiled");
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_WindowsAsynchronousSocketChannelImpl_read0(JNIEnv* env, jclass this,
-    jlong socket, jint count, jlong address, jlong ov)
+Jbvb_sun_nio_ch_WindowsAsynchronousSocketChbnnelImpl_rebd0(JNIEnv* env, jclbss this,
+    jlong socket, jint count, jlong bddress, jlong ov)
 {
     SOCKET s = (SOCKET) jlong_to_ptr(socket);
-    WSABUF* lpWsaBuf = (WSABUF*) jlong_to_ptr(address);
-    OVERLAPPED* lpOverlapped = (OVERLAPPED*) jlong_to_ptr(ov);
+    WSABUF* lpWsbBuf = (WSABUF*) jlong_to_ptr(bddress);
+    OVERLAPPED* lpOverlbpped = (OVERLAPPED*) jlong_to_ptr(ov);
     BOOL res;
-    DWORD flags = 0;
+    DWORD flbgs = 0;
 
-    ZeroMemory((PVOID)lpOverlapped, sizeof(OVERLAPPED));
+    ZeroMemory((PVOID)lpOverlbpped, sizeof(OVERLAPPED));
     res = WSARecv(s,
-                  lpWsaBuf,
+                  lpWsbBuf,
                   (DWORD)count,
                   NULL,
-                  &flags,
-                  lpOverlapped,
+                  &flbgs,
+                  lpOverlbpped,
                   NULL);
 
     if (res == SOCKET_ERROR) {
-        int error = WSAGetLastError();
+        int error = WSAGetLbstError();
         if (error == WSA_IO_PENDING) {
             return IOS_UNAVAILABLE;
         }
         if (error == WSAESHUTDOWN) {
             return IOS_EOF;       // input shutdown
         }
-        JNU_ThrowIOExceptionWithLastError(env, "WSARecv failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "WSARecv fbiled");
         return IOS_THROWN;
     }
     return IOS_UNAVAILABLE;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_WindowsAsynchronousSocketChannelImpl_write0(JNIEnv* env, jclass this,
-    jlong socket, jint count, jlong address, jlong ov)
+Jbvb_sun_nio_ch_WindowsAsynchronousSocketChbnnelImpl_write0(JNIEnv* env, jclbss this,
+    jlong socket, jint count, jlong bddress, jlong ov)
 {
     SOCKET s = (SOCKET) jlong_to_ptr(socket);
-    WSABUF* lpWsaBuf = (WSABUF*) jlong_to_ptr(address);
-    OVERLAPPED* lpOverlapped = (OVERLAPPED*) jlong_to_ptr(ov);
+    WSABUF* lpWsbBuf = (WSABUF*) jlong_to_ptr(bddress);
+    OVERLAPPED* lpOverlbpped = (OVERLAPPED*) jlong_to_ptr(ov);
     BOOL res;
 
-    ZeroMemory((PVOID)lpOverlapped, sizeof(OVERLAPPED));
+    ZeroMemory((PVOID)lpOverlbpped, sizeof(OVERLAPPED));
     res = WSASend(s,
-                  lpWsaBuf,
+                  lpWsbBuf,
                   (DWORD)count,
                   NULL,
                   0,
-                  lpOverlapped,
+                  lpOverlbpped,
                   NULL);
 
     if (res == SOCKET_ERROR) {
-        int error = WSAGetLastError();
+        int error = WSAGetLbstError();
         if (error == WSA_IO_PENDING) {
             return IOS_UNAVAILABLE;
         }
         if (error == WSAESHUTDOWN) {
             return IOS_EOF;     // output shutdown
         }
-        JNU_ThrowIOExceptionWithLastError(env, "WSASend failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "WSASend fbiled");
         return IOS_THROWN;
     }
     return IOS_UNAVAILABLE;

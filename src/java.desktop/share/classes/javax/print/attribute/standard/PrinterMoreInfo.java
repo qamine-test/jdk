@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import java.net.URI;
+import jbvb.net.URI;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.URISyntax;
-import javax.print.attribute.PrintServiceAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.URISyntbx;
+import jbvbx.print.bttribute.PrintServiceAttribute;
 
 /**
- * Class PrinterMoreInfo is a printing attribute class, a URI, that is used to
- * obtain more information about this specific printer. For example, this
- * could be an HTTP type URI referencing an HTML page accessible to a web
- * browser. The information obtained from this URI is intended for end user
- * consumption. Features outside the scope of the Print Service API can be
- * accessed from this URI.
- * The information is intended to be specific to this printer instance and
+ * Clbss PrinterMoreInfo is b printing bttribute clbss, b URI, thbt is used to
+ * obtbin more informbtion bbout this specific printer. For exbmple, this
+ * could be bn HTTP type URI referencing bn HTML pbge bccessible to b web
+ * browser. The informbtion obtbined from this URI is intended for end user
+ * consumption. Febtures outside the scope of the Print Service API cbn be
+ * bccessed from this URI.
+ * The informbtion is intended to be specific to this printer instbnce bnd
  * site specific services (e.g. job pricing, services offered, end user
- * assistance).
+ * bssistbnce).
  * <P>
- * In contrast, the {@link PrinterMoreInfoManufacturer
- * PrinterMoreInfoManufacturer} attribute is used to find out more information
- * about this general kind of printer rather than this specific printer.
+ * In contrbst, the {@link PrinterMoreInfoMbnufbcturer
+ * PrinterMoreInfoMbnufbcturer} bttribute is used to find out more informbtion
+ * bbout this generbl kind of printer rbther thbn this specific printer.
  * <P>
- * <B>IPP Compatibility:</B> The string form returned by
- * <CODE>toString()</CODE>  gives the IPP uri value.
- * The category name returned by <CODE>getName()</CODE>
- * gives the IPP attribute name.
+ * <B>IPP Compbtibility:</B> The string form returned by
+ * <CODE>toString()</CODE>  gives the IPP uri vblue.
+ * The cbtegory nbme returned by <CODE>getNbme()</CODE>
+ * gives the IPP bttribute nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class PrinterMoreInfo extends URISyntax
+public finbl clbss PrinterMoreInfo extends URISyntbx
         implements PrintServiceAttribute {
 
-    private static final long serialVersionUID = 4555850007675338574L;
+    privbte stbtic finbl long seriblVersionUID = 4555850007675338574L;
 
     /**
-     * Constructs a new printer more info attribute with the specified URI.
+     * Constructs b new printer more info bttribute with the specified URI.
      *
-     * @param  uri  URI.
+     * @pbrbm  uri  URI.
      *
      * @exception  NullPointerException
      *     (unchecked exception) Thrown if <CODE>uri</CODE> is null.
@@ -70,52 +70,52 @@ public final class PrinterMoreInfo extends URISyntax
     }
 
     /**
-     * Returns whether this printer more info attribute is equivalent to the
-     * passed in object. To be equivalent, all of the following conditions
+     * Returns whether this printer more info bttribute is equivblent to the
+     * pbssed in object. To be equivblent, bll of the following conditions
      * must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class PrinterMoreInfo.
+     * <CODE>object</CODE> is bn instbnce of clbss PrinterMoreInfo.
      * <LI>
-     * This printer more info attribute's URI and <CODE>object</CODE>'s URI
-     * are equal.
+     * This printer more info bttribute's URI bnd <CODE>object</CODE>'s URI
+     * bre equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this printer
-     *          more info attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this printer
+     *          more info bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return (super.equals(object) &&
-                object instanceof PrinterMoreInfo);
+    public boolebn equbls(Object object) {
+        return (super.equbls(object) &&
+                object instbnceof PrinterMoreInfo);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class PrinterMoreInfo, the category is class PrinterMoreInfo itself.
+     * For clbss PrinterMoreInfo, the cbtegory is clbss PrinterMoreInfo itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PrinterMoreInfo.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return PrinterMoreInfo.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class PrinterMoreInfo, the
-     * category name is <CODE>"printer-more-info"</CODE>.
+     * For clbss PrinterMoreInfo, the
+     * cbtegory nbme is <CODE>"printer-more-info"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "printer-more-info";
     }
 

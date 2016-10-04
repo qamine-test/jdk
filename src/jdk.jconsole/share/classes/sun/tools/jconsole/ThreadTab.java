@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.lang.management.*;
-import java.lang.reflect.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.io.*;
+import jbvb.lbng.mbnbgement.*;
+import jbvb.lbng.reflect.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-
-
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.List;
-
-import static sun.tools.jconsole.Utilities.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.*;
 
 
-@SuppressWarnings("serial")
-class ThreadTab extends Tab implements ActionListener, DocumentListener, ListSelectionListener {
-    PlotterPanel threadMeter;
+import jbvb.util.*;
+import jbvb.util.concurrent.*;
+import jbvb.util.List;
+
+import stbtic sun.tools.jconsole.Utilities.*;
+
+
+@SuppressWbrnings("seribl")
+clbss ThrebdTbb extends Tbb implements ActionListener, DocumentListener, ListSelectionListener {
+    PlotterPbnel threbdMeter;
     TimeComboBox timeComboBox;
-    JTabbedPane threadListTabbedPane;
-    DefaultListModel<Long> listModel;
+    JTbbbedPbne threbdListTbbbedPbne;
+    DefbultListModel<Long> listModel;
     JTextField filterTF;
-    JLabel messageLabel;
-    JSplitPane threadsSplitPane;
-    HashMap<Long, String> nameCache = new HashMap<Long, String>();
+    JLbbel messbgeLbbel;
+    JSplitPbne threbdsSplitPbne;
+    HbshMbp<Long, String> nbmeCbche = new HbshMbp<Long, String>();
 
-    private ThreadOverviewPanel overviewPanel;
-    private boolean plotterListening = false;
+    privbte ThrebdOverviewPbnel overviewPbnel;
+    privbte boolebn plotterListening = fblse;
 
 
-    private static final String threadCountKey   = "threadCount";
-    private static final String peakKey          = "peak";
+    privbte stbtic finbl String threbdCountKey   = "threbdCount";
+    privbte stbtic finbl String pebkKey          = "pebk";
 
-    private static final Color  threadCountColor = Plotter.defaultColor;
-    private static final Color  peakColor        = Color.red;
+    privbte stbtic finbl Color  threbdCountColor = Plotter.defbultColor;
+    privbte stbtic finbl Color  pebkColor        = Color.red;
 
-    private static final Border thinEmptyBorder  = new EmptyBorder(2, 2, 2, 2);
+    privbte stbtic finbl Border thinEmptyBorder  = new EmptyBorder(2, 2, 2, 2);
 
     /*
-      Hierarchy of panels and layouts for this tab:
+      Hierbrchy of pbnels bnd lbyouts for this tbb:
 
-        ThreadTab (BorderLayout)
+        ThrebdTbb (BorderLbyout)
 
-            North:  topPanel (BorderLayout)
+            North:  topPbnel (BorderLbyout)
 
-                        Center: controlPanel (FlowLayout)
+                        Center: controlPbnel (FlowLbyout)
                                     timeComboBox
 
-            Center: plotterPanel (BorderLayout)
+            Center: plotterPbnel (BorderLbyout)
 
                         Center: plotter
 
     */
 
 
-    public static String getTabName() {
-        return Messages.THREADS;
+    public stbtic String getTbbNbme() {
+        return Messbges.THREADS;
     }
 
-    public ThreadTab(VMPanel vmPanel) {
-        super(vmPanel, getTabName());
+    public ThrebdTbb(VMPbnel vmPbnel) {
+        super(vmPbnel, getTbbNbme());
 
-        setLayout(new BorderLayout(0, 0));
+        setLbyout(new BorderLbyout(0, 0));
         setBorder(new EmptyBorder(4, 4, 3, 4));
 
-        JPanel topPanel     = new JPanel(new BorderLayout());
-        JPanel plotterPanel = new JPanel(new VariableGridLayout(0, 1, 4, 4, true, true));
+        JPbnel topPbnel     = new JPbnel(new BorderLbyout());
+        JPbnel plotterPbnel = new JPbnel(new VbribbleGridLbyout(0, 1, 4, 4, true, true));
 
-        add(topPanel, BorderLayout.NORTH);
-        add(plotterPanel,  BorderLayout.CENTER);
+        bdd(topPbnel, BorderLbyout.NORTH);
+        bdd(plotterPbnel,  BorderLbyout.CENTER);
 
-        JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
-        topPanel.add(controlPanel, BorderLayout.CENTER);
+        JPbnel controlPbnel = new JPbnel(new FlowLbyout(FlowLbyout.CENTER, 20, 5));
+        topPbnel.bdd(controlPbnel, BorderLbyout.CENTER);
 
-        threadMeter = new PlotterPanel(Messages.NUMBER_OF_THREADS,
+        threbdMeter = new PlotterPbnel(Messbges.NUMBER_OF_THREADS,
                                        Plotter.Unit.NONE, true);
-        threadMeter.plotter.createSequence(threadCountKey, Messages.LIVE_THREADS,  threadCountColor, true);
-        threadMeter.plotter.createSequence(peakKey,        Messages.PEAK,         peakColor,        true);
-        setAccessibleName(threadMeter.plotter,
-                          Messages.THREAD_TAB_THREAD_PLOTTER_ACCESSIBLE_NAME);
+        threbdMeter.plotter.crebteSequence(threbdCountKey, Messbges.LIVE_THREADS,  threbdCountColor, true);
+        threbdMeter.plotter.crebteSequence(pebkKey,        Messbges.PEAK,         pebkColor,        true);
+        setAccessibleNbme(threbdMeter.plotter,
+                          Messbges.THREAD_TAB_THREAD_PLOTTER_ACCESSIBLE_NAME);
 
-        plotterPanel.add(threadMeter);
+        plotterPbnel.bdd(threbdMeter);
 
-        timeComboBox = new TimeComboBox(threadMeter.plotter);
-        controlPanel.add(new LabeledComponent(Messages.TIME_RANGE_COLON,
-                                              Resources.getMnemonicInt(Messages.TIME_RANGE_COLON),
+        timeComboBox = new TimeComboBox(threbdMeter.plotter);
+        controlPbnel.bdd(new LbbeledComponent(Messbges.TIME_RANGE_COLON,
+                                              Resources.getMnemonicInt(Messbges.TIME_RANGE_COLON),
                                               timeComboBox));
 
-        listModel = new DefaultListModel<Long>();
+        listModel = new DefbultListModel<Long>();
 
-        JTextArea textArea = new JTextArea();
-        textArea.setBorder(thinEmptyBorder);
-        textArea.setEditable(false);
-        setAccessibleName(textArea,
-                          Messages.THREAD_TAB_THREAD_INFO_ACCESSIBLE_NAME);
-        ThreadJList list = new ThreadJList(listModel, textArea);
+        JTextAreb textAreb = new JTextAreb();
+        textAreb.setBorder(thinEmptyBorder);
+        textAreb.setEditbble(fblse);
+        setAccessibleNbme(textAreb,
+                          Messbges.THREAD_TAB_THREAD_INFO_ACCESSIBLE_NAME);
+        ThrebdJList list = new ThrebdJList(listModel, textAreb);
 
         Dimension di = new Dimension(super.getPreferredSize());
-        di.width = Math.min(di.width, 200);
+        di.width = Mbth.min(di.width, 200);
 
-        JScrollPane threadlistSP = new JScrollPane(list);
-        threadlistSP.setPreferredSize(di);
-        threadlistSP.setBorder(null);
+        JScrollPbne threbdlistSP = new JScrollPbne(list);
+        threbdlistSP.setPreferredSize(di);
+        threbdlistSP.setBorder(null);
 
-        JScrollPane textAreaSP = new JScrollPane(textArea);
-        textAreaSP.setBorder(null);
+        JScrollPbne textArebSP = new JScrollPbne(textAreb);
+        textArebSP.setBorder(null);
 
-        threadListTabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        threadsSplitPane  = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                                           threadlistSP, textAreaSP);
-        threadsSplitPane.setOneTouchExpandable(true);
-        threadsSplitPane.setBorder(null);
+        threbdListTbbbedPbne = new JTbbbedPbne(JTbbbedPbne.TOP);
+        threbdsSplitPbne  = new JSplitPbne(JSplitPbne.HORIZONTAL_SPLIT,
+                                           threbdlistSP, textArebSP);
+        threbdsSplitPbne.setOneTouchExpbndbble(true);
+        threbdsSplitPbne.setBorder(null);
 
-        JPanel firstTabPanel = new JPanel(new BorderLayout());
-        firstTabPanel.setOpaque(false);
+        JPbnel firstTbbPbnel = new JPbnel(new BorderLbyout());
+        firstTbbPbnel.setOpbque(fblse);
 
-        JPanel firstTabToolPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 2));
-        firstTabToolPanel.setOpaque(false);
+        JPbnel firstTbbToolPbnel = new JPbnel(new FlowLbyout(FlowLbyout.LEFT, 5, 2));
+        firstTbbToolPbnel.setOpbque(fblse);
 
         filterTF = new PromptingTextField("Filter", 20);
-        filterTF.getDocument().addDocumentListener(this);
-        firstTabToolPanel.add(filterTF);
+        filterTF.getDocument().bddDocumentListener(this);
+        firstTbbToolPbnel.bdd(filterTF);
 
-        JSeparator separator = new JSeparator(JSeparator.VERTICAL);
-        separator.setPreferredSize(new Dimension(separator.getPreferredSize().width,
+        JSepbrbtor sepbrbtor = new JSepbrbtor(JSepbrbtor.VERTICAL);
+        sepbrbtor.setPreferredSize(new Dimension(sepbrbtor.getPreferredSize().width,
                                                  filterTF.getPreferredSize().height));
-        firstTabToolPanel.add(separator);
+        firstTbbToolPbnel.bdd(sepbrbtor);
 
-        JButton detectDeadlockButton = new JButton(Messages.DETECT_DEADLOCK);
-        detectDeadlockButton.setMnemonic(Resources.getMnemonicInt(Messages.DETECT_DEADLOCK));
-        detectDeadlockButton.setActionCommand("detectDeadlock");
-        detectDeadlockButton.addActionListener(this);
-        detectDeadlockButton.setToolTipText(Messages.DETECT_DEADLOCK_TOOLTIP);
-        firstTabToolPanel.add(detectDeadlockButton);
+        JButton detectDebdlockButton = new JButton(Messbges.DETECT_DEADLOCK);
+        detectDebdlockButton.setMnemonic(Resources.getMnemonicInt(Messbges.DETECT_DEADLOCK));
+        detectDebdlockButton.setActionCommbnd("detectDebdlock");
+        detectDebdlockButton.bddActionListener(this);
+        detectDebdlockButton.setToolTipText(Messbges.DETECT_DEADLOCK_TOOLTIP);
+        firstTbbToolPbnel.bdd(detectDebdlockButton);
 
-        messageLabel = new JLabel();
-        firstTabToolPanel.add(messageLabel);
+        messbgeLbbel = new JLbbel();
+        firstTbbToolPbnel.bdd(messbgeLbbel);
 
-        firstTabPanel.add(threadsSplitPane, BorderLayout.CENTER);
-        firstTabPanel.add(firstTabToolPanel, BorderLayout.SOUTH);
-        threadListTabbedPane.addTab(Messages.THREADS, firstTabPanel);
+        firstTbbPbnel.bdd(threbdsSplitPbne, BorderLbyout.CENTER);
+        firstTbbPbnel.bdd(firstTbbToolPbnel, BorderLbyout.SOUTH);
+        threbdListTbbbedPbne.bddTbb(Messbges.THREADS, firstTbbPbnel);
 
-        plotterPanel.add(threadListTabbedPane);
+        plotterPbnel.bdd(threbdListTbbbedPbne);
     }
 
-    private long oldThreads[] = new long[0];
+    privbte long oldThrebds[] = new long[0];
 
     public SwingWorker<?, ?> newSwingWorker() {
-        final ProxyClient proxyClient = vmPanel.getProxyClient();
+        finbl ProxyClient proxyClient = vmPbnel.getProxyClient();
 
         if (!plotterListening) {
-            proxyClient.addWeakPropertyChangeListener(threadMeter.plotter);
+            proxyClient.bddWebkPropertyChbngeListener(threbdMeter.plotter);
             plotterListening = true;
         }
 
-        return new SwingWorker<Boolean, Object>() {
-            private int tlCount;
-            private int tpCount;
-            private long ttCount;
-            private long[] threads;
-            private long timeStamp;
+        return new SwingWorker<Boolebn, Object>() {
+            privbte int tlCount;
+            privbte int tpCount;
+            privbte long ttCount;
+            privbte long[] threbds;
+            privbte long timeStbmp;
 
-            public Boolean doInBackground() {
+            public Boolebn doInBbckground() {
                 try {
-                    ThreadMXBean threadMBean = proxyClient.getThreadMXBean();
+                    ThrebdMXBebn threbdMBebn = proxyClient.getThrebdMXBebn();
 
-                    tlCount = threadMBean.getThreadCount();
-                    tpCount = threadMBean.getPeakThreadCount();
-                    if (overviewPanel != null) {
-                        ttCount = threadMBean.getTotalStartedThreadCount();
+                    tlCount = threbdMBebn.getThrebdCount();
+                    tpCount = threbdMBebn.getPebkThrebdCount();
+                    if (overviewPbnel != null) {
+                        ttCount = threbdMBebn.getTotblStbrtedThrebdCount();
                     } else {
                         ttCount = 0L;
                     }
 
-                    threads = threadMBean.getAllThreadIds();
-                    for (long newThread : threads) {
-                        if (nameCache.get(newThread) == null) {
-                            ThreadInfo ti = threadMBean.getThreadInfo(newThread);
+                    threbds = threbdMBebn.getAllThrebdIds();
+                    for (long newThrebd : threbds) {
+                        if (nbmeCbche.get(newThrebd) == null) {
+                            ThrebdInfo ti = threbdMBebn.getThrebdInfo(newThrebd);
                             if (ti != null) {
-                                String name = ti.getThreadName();
-                                if (name != null) {
-                                    nameCache.put(newThread, name);
+                                String nbme = ti.getThrebdNbme();
+                                if (nbme != null) {
+                                    nbmeCbche.put(newThrebd, nbme);
                                 }
                             }
                         }
                     }
-                    timeStamp = System.currentTimeMillis();
+                    timeStbmp = System.currentTimeMillis();
                     return true;
-                } catch (IOException e) {
-                    return false;
-                } catch (UndeclaredThrowableException e) {
-                    return false;
+                } cbtch (IOException e) {
+                    return fblse;
+                } cbtch (UndeclbredThrowbbleException e) {
+                    return fblse;
                 }
             }
 
@@ -228,167 +228,167 @@ class ThreadTab extends Tab implements ActionListener, DocumentListener, ListSel
                     if (!get()) {
                         return;
                     }
-                } catch (InterruptedException ex) {
+                } cbtch (InterruptedException ex) {
                     return;
-                } catch (ExecutionException ex) {
+                } cbtch (ExecutionException ex) {
                     if (JConsole.isDebug()) {
-                        ex.printStackTrace();
+                        ex.printStbckTrbce();
                     }
                     return;
                 }
 
-                threadMeter.plotter.addValues(timeStamp, tlCount, tpCount);
-                threadMeter.setValueLabel(tlCount+"");
+                threbdMeter.plotter.bddVblues(timeStbmp, tlCount, tpCount);
+                threbdMeter.setVblueLbbel(tlCount+"");
 
-                if (overviewPanel != null) {
-                    overviewPanel.updateThreadsInfo(tlCount, tpCount, ttCount, timeStamp);
+                if (overviewPbnel != null) {
+                    overviewPbnel.updbteThrebdsInfo(tlCount, tpCount, ttCount, timeStbmp);
                 }
 
-                String filter = filterTF.getText().toLowerCase(Locale.ENGLISH);
-                boolean doFilter = (filter.length() > 0);
+                String filter = filterTF.getText().toLowerCbse(Locble.ENGLISH);
+                boolebn doFilter = (filter.length() > 0);
 
-                ArrayList<Long> l = new ArrayList<Long>();
-                for (long t : threads) {
-                    l.add(t);
+                ArrbyList<Long> l = new ArrbyList<Long>();
+                for (long t : threbds) {
+                    l.bdd(t);
                 }
-                Iterator<Long> iterator = l.iterator();
-                while (iterator.hasNext()) {
-                    long newThread = iterator.next();
-                    String name = nameCache.get(newThread);
-                    if (doFilter && name != null &&
-                        name.toLowerCase(Locale.ENGLISH).indexOf(filter) < 0) {
+                Iterbtor<Long> iterbtor = l.iterbtor();
+                while (iterbtor.hbsNext()) {
+                    long newThrebd = iterbtor.next();
+                    String nbme = nbmeCbche.get(newThrebd);
+                    if (doFilter && nbme != null &&
+                        nbme.toLowerCbse(Locble.ENGLISH).indexOf(filter) < 0) {
 
-                        iterator.remove();
+                        iterbtor.remove();
                     }
                 }
-                long[] newThreads = threads;
-                if (l.size() < threads.length) {
-                    newThreads = new long[l.size()];
-                    for (int i = 0; i < newThreads.length; i++) {
-                        newThreads[i] = l.get(i);
+                long[] newThrebds = threbds;
+                if (l.size() < threbds.length) {
+                    newThrebds = new long[l.size()];
+                    for (int i = 0; i < newThrebds.length; i++) {
+                        newThrebds[i] = l.get(i);
                     }
                 }
 
 
-                for (long oldThread : oldThreads) {
-                    boolean found = false;
-                    for (long newThread : newThreads) {
-                        if (newThread == oldThread) {
+                for (long oldThrebd : oldThrebds) {
+                    boolebn found = fblse;
+                    for (long newThrebd : newThrebds) {
+                        if (newThrebd == oldThrebd) {
                             found = true;
-                            break;
+                            brebk;
                         }
                     }
                     if (!found) {
-                        listModel.removeElement(oldThread);
+                        listModel.removeElement(oldThrebd);
                         if (!doFilter) {
-                            nameCache.remove(oldThread);
+                            nbmeCbche.remove(oldThrebd);
                         }
                     }
                 }
 
-                // Threads are in reverse chronological order
-                for (int i = newThreads.length - 1; i >= 0; i--) {
-                    long newThread = newThreads[i];
-                    boolean found = false;
-                    for (long oldThread : oldThreads) {
-                        if (newThread == oldThread) {
+                // Threbds bre in reverse chronologicbl order
+                for (int i = newThrebds.length - 1; i >= 0; i--) {
+                    long newThrebd = newThrebds[i];
+                    boolebn found = fblse;
+                    for (long oldThrebd : oldThrebds) {
+                        if (newThrebd == oldThrebd) {
                             found = true;
-                            break;
+                            brebk;
                         }
                     }
                     if (!found) {
-                        listModel.addElement(newThread);
+                        listModel.bddElement(newThrebd);
                     }
                 }
-                oldThreads = newThreads;
+                oldThrebds = newThrebds;
             }
         };
     }
 
-    long lastSelected = -1;
+    long lbstSelected = -1;
 
-    public void valueChanged(ListSelectionEvent ev) {
-        ThreadJList list = (ThreadJList)ev.getSource();
-        final JTextArea textArea = list.textArea;
+    public void vblueChbnged(ListSelectionEvent ev) {
+        ThrebdJList list = (ThrebdJList)ev.getSource();
+        finbl JTextAreb textAreb = list.textAreb;
 
-        Long selected = list.getSelectedValue();
+        Long selected = list.getSelectedVblue();
         if (selected == null) {
-            if (lastSelected != -1) {
-                selected = lastSelected;
+            if (lbstSelected != -1) {
+                selected = lbstSelected;
             }
         } else {
-            lastSelected = selected;
+            lbstSelected = selected;
         }
-        textArea.setText("");
+        textAreb.setText("");
         if (selected != null) {
-            final long threadID = selected;
-            workerAdd(new Runnable() {
+            finbl long threbdID = selected;
+            workerAdd(new Runnbble() {
                 public void run() {
-                    ProxyClient proxyClient = vmPanel.getProxyClient();
+                    ProxyClient proxyClient = vmPbnel.getProxyClient();
                     StringBuilder sb = new StringBuilder();
                     try {
-                        ThreadMXBean threadMBean = proxyClient.getThreadMXBean();
-                        ThreadInfo ti = null;
+                        ThrebdMXBebn threbdMBebn = proxyClient.getThrebdMXBebn();
+                        ThrebdInfo ti = null;
                         MonitorInfo[] monitors = null;
-                        if (proxyClient.isLockUsageSupported() &&
-                              threadMBean.isObjectMonitorUsageSupported()) {
-                            // VMs that support the monitor usage monitoring
-                            ThreadInfo[] infos = threadMBean.dumpAllThreads(true, false);
-                            for (ThreadInfo info : infos) {
-                                if (info.getThreadId() == threadID) {
+                        if (proxyClient.isLockUsbgeSupported() &&
+                              threbdMBebn.isObjectMonitorUsbgeSupported()) {
+                            // VMs thbt support the monitor usbge monitoring
+                            ThrebdInfo[] infos = threbdMBebn.dumpAllThrebds(true, fblse);
+                            for (ThrebdInfo info : infos) {
+                                if (info.getThrebdId() == threbdID) {
                                     ti = info;
                                     monitors = info.getLockedMonitors();
-                                    break;
+                                    brebk;
                                 }
                             }
                         } else {
-                            // VM doesn't support monitor usage monitoring
-                            ti = threadMBean.getThreadInfo(threadID, Integer.MAX_VALUE);
+                            // VM doesn't support monitor usbge monitoring
+                            ti = threbdMBebn.getThrebdInfo(threbdID, Integer.MAX_VALUE);
                         }
                         if (ti != null) {
-                            if (ti.getLockName() == null) {
-                                sb.append(Resources.format(Messages.NAME_STATE,
-                                              ti.getThreadName(),
-                                              ti.getThreadState().toString()));
-                            } else if (ti.getLockOwnerName() == null) {
-                                sb.append(Resources.format(Messages.NAME_STATE_LOCK_NAME,
-                                              ti.getThreadName(),
-                                              ti.getThreadState().toString(),
-                                              ti.getLockName()));
+                            if (ti.getLockNbme() == null) {
+                                sb.bppend(Resources.formbt(Messbges.NAME_STATE,
+                                              ti.getThrebdNbme(),
+                                              ti.getThrebdStbte().toString()));
+                            } else if (ti.getLockOwnerNbme() == null) {
+                                sb.bppend(Resources.formbt(Messbges.NAME_STATE_LOCK_NAME,
+                                              ti.getThrebdNbme(),
+                                              ti.getThrebdStbte().toString(),
+                                              ti.getLockNbme()));
                             } else {
-                                sb.append(Resources.format(Messages.NAME_STATE_LOCK_NAME_LOCK_OWNER,
-                                              ti.getThreadName(),
-                                              ti.getThreadState().toString(),
-                                              ti.getLockName(),
-                                              ti.getLockOwnerName()));
+                                sb.bppend(Resources.formbt(Messbges.NAME_STATE_LOCK_NAME_LOCK_OWNER,
+                                              ti.getThrebdNbme(),
+                                              ti.getThrebdStbte().toString(),
+                                              ti.getLockNbme(),
+                                              ti.getLockOwnerNbme()));
                             }
-                            sb.append(Resources.format(Messages.BLOCKED_COUNT_WAITED_COUNT,
+                            sb.bppend(Resources.formbt(Messbges.BLOCKED_COUNT_WAITED_COUNT,
                                               ti.getBlockedCount(),
-                                              ti.getWaitedCount()));
-                            sb.append(Messages.STACK_TRACE);
+                                              ti.getWbitedCount()));
+                            sb.bppend(Messbges.STACK_TRACE);
                             int index = 0;
-                            for (StackTraceElement e : ti.getStackTrace()) {
-                                sb.append(e.toString()+"\n");
+                            for (StbckTrbceElement e : ti.getStbckTrbce()) {
+                                sb.bppend(e.toString()+"\n");
                                 if (monitors != null) {
                                     for (MonitorInfo mi : monitors) {
-                                        if (mi.getLockedStackDepth() == index) {
-                                            sb.append(Resources.format(Messages.MONITOR_LOCKED, mi.toString()));
+                                        if (mi.getLockedStbckDepth() == index) {
+                                            sb.bppend(Resources.formbt(Messbges.MONITOR_LOCKED, mi.toString()));
                                         }
                                     }
                                 }
                                 index++;
                             }
                         }
-                    } catch (IOException ex) {
+                    } cbtch (IOException ex) {
                         // Ignore
-                    } catch (UndeclaredThrowableException e) {
-                        proxyClient.markAsDead();
+                    } cbtch (UndeclbredThrowbbleException e) {
+                        proxyClient.mbrkAsDebd();
                     }
-                    final String text = sb.toString();
-                    SwingUtilities.invokeLater(new Runnable() {
+                    finbl String text = sb.toString();
+                    SwingUtilities.invokeLbter(new Runnbble() {
                         public void run() {
-                            textArea.setText(text);
-                            textArea.setCaretPosition(0);
+                            textAreb.setText(text);
+                            textAreb.setCbretPosition(0);
                         }
                     });
                 }
@@ -396,216 +396,216 @@ class ThreadTab extends Tab implements ActionListener, DocumentListener, ListSel
         }
     }
 
-    private void doUpdate() {
-        workerAdd(new Runnable() {
+    privbte void doUpdbte() {
+        workerAdd(new Runnbble() {
             public void run() {
-                update();
+                updbte();
             }
         });
     }
 
 
-    private void detectDeadlock() {
-        workerAdd(new Runnable() {
+    privbte void detectDebdlock() {
+        workerAdd(new Runnbble() {
             public void run() {
                 try {
-                    final Long[][] deadlockedThreads = getDeadlockedThreadIds();
+                    finbl Long[][] debdlockedThrebds = getDebdlockedThrebdIds();
 
-                    if (deadlockedThreads == null || deadlockedThreads.length == 0) {
-                        // Display message for 30 seconds. Do it on a separate thread so
+                    if (debdlockedThrebds == null || debdlockedThrebds.length == 0) {
+                        // Displby messbge for 30 seconds. Do it on b sepbrbte threbd so
                         // the sleep won't hold up the worker queue.
-                        // This will be replaced later by separate statusbar logic.
-                        new Thread() {
+                        // This will be replbced lbter by sepbrbte stbtusbbr logic.
+                        new Threbd() {
                             public void run() {
                                 try {
-                                    SwingUtilities.invokeAndWait(new Runnable() {
+                                    SwingUtilities.invokeAndWbit(new Runnbble() {
                                         public void run() {
-                                            String msg = Messages.NO_DEADLOCK_DETECTED;
-                                            messageLabel.setText(msg);
-                                            threadListTabbedPane.revalidate();
+                                            String msg = Messbges.NO_DEADLOCK_DETECTED;
+                                            messbgeLbbel.setText(msg);
+                                            threbdListTbbbedPbne.revblidbte();
                                         }
                                     });
                                     sleep(30 * 1000);
-                                } catch (InterruptedException ex) {
+                                } cbtch (InterruptedException ex) {
                                     // Ignore
-                                } catch (InvocationTargetException ex) {
+                                } cbtch (InvocbtionTbrgetException ex) {
                                     // Ignore
                                 }
-                                SwingUtilities.invokeLater(new Runnable() {
+                                SwingUtilities.invokeLbter(new Runnbble() {
                                     public void run() {
-                                        messageLabel.setText("");
+                                        messbgeLbbel.setText("");
                                     }
                                 });
                             }
-                        }.start();
+                        }.stbrt();
                         return;
                     }
 
-                    SwingUtilities.invokeLater(new Runnable() {
+                    SwingUtilities.invokeLbter(new Runnbble() {
                         public void run() {
-                            // Remove old deadlock tabs
-                            while (threadListTabbedPane.getTabCount() > 1) {
-                                threadListTabbedPane.removeTabAt(1);
+                            // Remove old debdlock tbbs
+                            while (threbdListTbbbedPbne.getTbbCount() > 1) {
+                                threbdListTbbbedPbne.removeTbbAt(1);
                             }
 
-                            if (deadlockedThreads != null) {
-                                for (int i = 0; i < deadlockedThreads.length; i++) {
-                                    DefaultListModel<Long> listModel = new DefaultListModel<Long>();
-                                    JTextArea textArea = new JTextArea();
-                                    textArea.setBorder(thinEmptyBorder);
-                                    textArea.setEditable(false);
-                                    setAccessibleName(textArea,
-                                                      Messages.THREAD_TAB_THREAD_INFO_ACCESSIBLE_NAME);
-                                    ThreadJList list = new ThreadJList(listModel, textArea);
-                                    JScrollPane threadlistSP = new JScrollPane(list);
-                                    JScrollPane textAreaSP = new JScrollPane(textArea);
-                                    threadlistSP.setBorder(null);
-                                    textAreaSP.setBorder(null);
-                                    JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                                                                                 threadlistSP, textAreaSP);
-                                    splitPane.setOneTouchExpandable(true);
-                                    splitPane.setBorder(null);
-                                    splitPane.setDividerLocation(threadsSplitPane.getDividerLocation());
-                                    String tabName;
-                                    if (deadlockedThreads.length > 1) {
-                                        tabName = Resources.format(Messages.DEADLOCK_TAB_N, i+1);
+                            if (debdlockedThrebds != null) {
+                                for (int i = 0; i < debdlockedThrebds.length; i++) {
+                                    DefbultListModel<Long> listModel = new DefbultListModel<Long>();
+                                    JTextAreb textAreb = new JTextAreb();
+                                    textAreb.setBorder(thinEmptyBorder);
+                                    textAreb.setEditbble(fblse);
+                                    setAccessibleNbme(textAreb,
+                                                      Messbges.THREAD_TAB_THREAD_INFO_ACCESSIBLE_NAME);
+                                    ThrebdJList list = new ThrebdJList(listModel, textAreb);
+                                    JScrollPbne threbdlistSP = new JScrollPbne(list);
+                                    JScrollPbne textArebSP = new JScrollPbne(textAreb);
+                                    threbdlistSP.setBorder(null);
+                                    textArebSP.setBorder(null);
+                                    JSplitPbne splitPbne = new JSplitPbne(JSplitPbne.HORIZONTAL_SPLIT,
+                                                                                 threbdlistSP, textArebSP);
+                                    splitPbne.setOneTouchExpbndbble(true);
+                                    splitPbne.setBorder(null);
+                                    splitPbne.setDividerLocbtion(threbdsSplitPbne.getDividerLocbtion());
+                                    String tbbNbme;
+                                    if (debdlockedThrebds.length > 1) {
+                                        tbbNbme = Resources.formbt(Messbges.DEADLOCK_TAB_N, i+1);
                                     } else {
-                                        tabName = Messages.DEADLOCK_TAB;
+                                        tbbNbme = Messbges.DEADLOCK_TAB;
                                     }
-                                    threadListTabbedPane.addTab(tabName, splitPane);
+                                    threbdListTbbbedPbne.bddTbb(tbbNbme, splitPbne);
 
-                                    for (long t : deadlockedThreads[i]) {
-                                        listModel.addElement(t);
+                                    for (long t : debdlockedThrebds[i]) {
+                                        listModel.bddElement(t);
                                     }
                                 }
-                                threadListTabbedPane.setSelectedIndex(1);
+                                threbdListTbbbedPbne.setSelectedIndex(1);
                             }
                         }
                     });
-                } catch (IOException e) {
+                } cbtch (IOException e) {
                     // Ignore
-                } catch (UndeclaredThrowableException e) {
-                    vmPanel.getProxyClient().markAsDead();
+                } cbtch (UndeclbredThrowbbleException e) {
+                    vmPbnel.getProxyClient().mbrkAsDebd();
                 }
             }
         });
     }
 
 
-    // Return deadlocked threads or null
-    public Long[][] getDeadlockedThreadIds() throws IOException {
-        ProxyClient proxyClient = vmPanel.getProxyClient();
-        ThreadMXBean threadMBean = proxyClient.getThreadMXBean();
+    // Return debdlocked threbds or null
+    public Long[][] getDebdlockedThrebdIds() throws IOException {
+        ProxyClient proxyClient = vmPbnel.getProxyClient();
+        ThrebdMXBebn threbdMBebn = proxyClient.getThrebdMXBebn();
 
-        long[] ids = proxyClient.findDeadlockedThreads();
+        long[] ids = proxyClient.findDebdlockedThrebds();
         if (ids == null) {
             return null;
         }
-        ThreadInfo[] infos = threadMBean.getThreadInfo(ids, Integer.MAX_VALUE);
+        ThrebdInfo[] infos = threbdMBebn.getThrebdInfo(ids, Integer.MAX_VALUE);
 
-        List<Long[]> dcycles = new ArrayList<Long[]>();
-        List<Long> cycle = new ArrayList<Long>();
+        List<Long[]> dcycles = new ArrbyList<Long[]>();
+        List<Long> cycle = new ArrbyList<Long>();
 
-        // keep track of which thread is visited
-        // one thread can only be in one cycle
-        boolean[] visited = new boolean[ids.length];
+        // keep trbck of which threbd is visited
+        // one threbd cbn only be in one cycle
+        boolebn[] visited = new boolebn[ids.length];
 
-        int deadlockedThread = -1; // Index into arrays
+        int debdlockedThrebd = -1; // Index into brrbys
         while (true) {
-            if (deadlockedThread < 0) {
+            if (debdlockedThrebd < 0) {
                 if (cycle.size() > 0) {
-                    // a cycle found
-                    dcycles.add(cycle.toArray(new Long[0]));
-                    cycle = new ArrayList<Long>();
+                    // b cycle found
+                    dcycles.bdd(cycle.toArrby(new Long[0]));
+                    cycle = new ArrbyList<Long>();
                 }
-                // start a new cycle from a non-visited thread
+                // stbrt b new cycle from b non-visited threbd
                 for (int j = 0; j < ids.length; j++) {
                     if (!visited[j]) {
-                        deadlockedThread = j;
+                        debdlockedThrebd = j;
                         visited[j] = true;
-                        break;
+                        brebk;
                     }
                 }
-                if (deadlockedThread < 0) {
+                if (debdlockedThrebd < 0) {
                     // done
-                    break;
+                    brebk;
                 }
             }
 
-            cycle.add(ids[deadlockedThread]);
-            long nextThreadId = infos[deadlockedThread].getLockOwnerId();
+            cycle.bdd(ids[debdlockedThrebd]);
+            long nextThrebdId = infos[debdlockedThrebd].getLockOwnerId();
             for (int j = 0; j < ids.length; j++) {
-                ThreadInfo ti = infos[j];
-                if (ti.getThreadId() == nextThreadId) {
+                ThrebdInfo ti = infos[j];
+                if (ti.getThrebdId() == nextThrebdId) {
                      if (visited[j]) {
-                         deadlockedThread = -1;
+                         debdlockedThrebd = -1;
                      } else {
-                         deadlockedThread = j;
+                         debdlockedThrebd = j;
                          visited[j] = true;
                      }
-                     break;
+                     brebk;
                 }
             }
         }
-        return dcycles.toArray(new Long[0][0]);
+        return dcycles.toArrby(new Long[0][0]);
     }
 
 
 
 
 
-    // ActionListener interface
-    public void actionPerformed(ActionEvent evt) {
-        String cmd = ((AbstractButton)evt.getSource()).getActionCommand();
+    // ActionListener interfbce
+    public void bctionPerformed(ActionEvent evt) {
+        String cmd = ((AbstrbctButton)evt.getSource()).getActionCommbnd();
 
-        if (cmd == "detectDeadlock") {
-            messageLabel.setText("");
-            detectDeadlock();
+        if (cmd == "detectDebdlock") {
+            messbgeLbbel.setText("");
+            detectDebdlock();
         }
     }
 
 
 
-    // DocumentListener interface
+    // DocumentListener interfbce
 
-    public void insertUpdate(DocumentEvent e) {
-        doUpdate();
+    public void insertUpdbte(DocumentEvent e) {
+        doUpdbte();
     }
 
-    public void removeUpdate(DocumentEvent e) {
-        doUpdate();
+    public void removeUpdbte(DocumentEvent e) {
+        doUpdbte();
     }
 
-    public void changedUpdate(DocumentEvent e) {
-        doUpdate();
+    public void chbngedUpdbte(DocumentEvent e) {
+        doUpdbte();
     }
 
 
 
-    private class ThreadJList extends JList<Long> {
-        private JTextArea textArea;
+    privbte clbss ThrebdJList extends JList<Long> {
+        privbte JTextAreb textAreb;
 
-        ThreadJList(DefaultListModel<Long> listModel, JTextArea textArea) {
+        ThrebdJList(DefbultListModel<Long> listModel, JTextAreb textAreb) {
             super(listModel);
 
-            this.textArea = textArea;
+            this.textAreb = textAreb;
 
             setBorder(thinEmptyBorder);
 
             setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            textArea.setText(Messages.THREAD_TAB_INITIAL_STACK_TRACE_MESSAGE);
-            addListSelectionListener(ThreadTab.this);
-            setCellRenderer(new DefaultListCellRenderer() {
-                public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                                                              boolean isSelected, boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            textAreb.setText(Messbges.THREAD_TAB_INITIAL_STACK_TRACE_MESSAGE);
+            bddListSelectionListener(ThrebdTbb.this);
+            setCellRenderer(new DefbultListCellRenderer() {
+                public Component getListCellRendererComponent(JList<?> list, Object vblue, int index,
+                                                              boolebn isSelected, boolebn cellHbsFocus) {
+                    super.getListCellRendererComponent(list, vblue, index, isSelected, cellHbsFocus);
 
-                    if (value != null) {
-                        String name = nameCache.get(value);
-                        if (name == null) {
-                            name = value.toString();
+                    if (vblue != null) {
+                        String nbme = nbmeCbche.get(vblue);
+                        if (nbme == null) {
+                            nbme = vblue.toString();
                         }
-                        setText(name);
+                        setText(nbme);
                     }
                     return this;
                 }
@@ -614,37 +614,37 @@ class ThreadTab extends Tab implements ActionListener, DocumentListener, ListSel
 
         public Dimension getPreferredSize() {
             Dimension d = super.getPreferredSize();
-            d.width = Math.max(d.width, 100);
+            d.width = Mbth.mbx(d.width, 100);
             return d;
         }
     }
 
-    private class PromptingTextField extends JTextField implements FocusListener {
-        private String prompt;
-        boolean promptRemoved = false;
+    privbte clbss PromptingTextField extends JTextField implements FocusListener {
+        privbte String prompt;
+        boolebn promptRemoved = fblse;
         Color fg;
 
         public PromptingTextField(String prompt, int columns) {
             super(prompt, columns);
 
             this.prompt = prompt;
-            updateForeground();
-            addFocusListener(this);
-            setAccessibleName(this, prompt);
+            updbteForeground();
+            bddFocusListener(this);
+            setAccessibleNbme(this, prompt);
         }
 
         @Override
-        public void revalidate() {
-            super.revalidate();
-            updateForeground();
+        public void revblidbte() {
+            super.revblidbte();
+            updbteForeground();
         }
 
-        private void updateForeground() {
-            this.fg = UIManager.getColor("TextField.foreground");
+        privbte void updbteForeground() {
+            this.fg = UIMbnbger.getColor("TextField.foreground");
             if (promptRemoved) {
                 setForeground(fg);
             } else {
-                setForeground(Color.gray);
+                setForeground(Color.grby);
             }
         }
 
@@ -656,7 +656,7 @@ class ThreadTab extends Tab implements ActionListener, DocumentListener, ListSel
             }
         }
 
-        public void focusGained(FocusEvent e) {
+        public void focusGbined(FocusEvent e) {
             if (!promptRemoved) {
                 setText("");
                 setForeground(fg);
@@ -665,31 +665,31 @@ class ThreadTab extends Tab implements ActionListener, DocumentListener, ListSel
         }
 
         public void focusLost(FocusEvent e) {
-            if (promptRemoved && getText().equals("")) {
+            if (promptRemoved && getText().equbls("")) {
                 setText(prompt);
-                setForeground(Color.gray);
-                promptRemoved = false;
+                setForeground(Color.grby);
+                promptRemoved = fblse;
             }
         }
 
     }
 
-    OverviewPanel[] getOverviewPanels() {
-        if (overviewPanel == null) {
-            overviewPanel = new ThreadOverviewPanel();
+    OverviewPbnel[] getOverviewPbnels() {
+        if (overviewPbnel == null) {
+            overviewPbnel = new ThrebdOverviewPbnel();
         }
-        return new OverviewPanel[] { overviewPanel };
+        return new OverviewPbnel[] { overviewPbnel };
     }
 
 
-    private static class ThreadOverviewPanel extends OverviewPanel {
-        ThreadOverviewPanel() {
-            super(Messages.THREADS, threadCountKey,  Messages.LIVE_THREADS, null);
+    privbte stbtic clbss ThrebdOverviewPbnel extends OverviewPbnel {
+        ThrebdOverviewPbnel() {
+            super(Messbges.THREADS, threbdCountKey,  Messbges.LIVE_THREADS, null);
         }
 
-        private void updateThreadsInfo(long tlCount, long tpCount, long ttCount, long timeStamp) {
-            getPlotter().addValues(timeStamp, tlCount);
-            getInfoLabel().setText(Resources.format(Messages.THREAD_TAB_INFO_LABEL_FORMAT, tlCount, tpCount, ttCount));
+        privbte void updbteThrebdsInfo(long tlCount, long tpCount, long ttCount, long timeStbmp) {
+            getPlotter().bddVblues(timeStbmp, tlCount);
+            getInfoLbbel().setText(Resources.formbt(Messbges.THREAD_TAB_INFO_LABEL_FORMAT, tlCount, tpCount, ttCount));
         }
     }
 }

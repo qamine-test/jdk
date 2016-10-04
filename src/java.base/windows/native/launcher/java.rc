@@ -6,10 +6,10 @@
 //
 // Icon
 //
-IDI_ICON           ICON    DISCARDABLE     "awt.ico"
+IDI_ICON           ICON    DISCARDABLE     "bwt.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // RT_MANIFEST
 //
-1                  RT_MANIFEST             "java.manifest"
+1                  RT_MANIFEST             "jbvb.mbnifest"

@@ -1,75 +1,75 @@
 '\" t
-.\"  Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 10 May 2011
+.\"     Softwbre: JDK 8
+.\"     Dbte: 10 Mby 2011
 .\"     SectDesc: Monitoring Tools
-.\"     Title: jstat.1
+.\"     Title: jstbt.1
 .\"
 .if n .pl 99999
-.TH jstat 1 "10 May 2011" "JDK 8" "Monitoring Tools"
+.TH jstbt 1 "10 Mby 2011" "JDK 8" "Monitoring Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jstat \- Monitors Java Virtual Machine (JVM) statistics\&. This command is experimental and unsupported\&.
+jstbt \- Monitors Jbvb Virtubl Mbchine (JVM) stbtistics\&. This commbnd is experimentbl bnd unsupported\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjstat\fR [ \fIgeneralOption\fR | \fIoutputOptions vmid\fR [ \fIinterval\fR[s|ms] [ \fIcount \fR] ]
+\fBjstbt\fR [ \fIgenerblOption\fR | \fIoutputOptions vmid\fR [ \fIintervbl\fR[s|ms] [ \fIcount \fR] ]
 .fi     
 .sp     
 .TP     
-\fIgeneralOption\fR
-A single general command-line option \f3-help\fR or \f3-options\fR\&. See General Options\&.
+\fIgenerblOption\fR
+A single generbl commbnd-line option \f3-help\fR or \f3-options\fR\&. See Generbl Options\&.
 .TP     
 \fIoutputOptions\fR
-One or more output options that consist of a single \f3statOption\fR, plus any of the \f3-t\fR, \f3-h\fR, and \f3-J\fR options\&. See Output Options\&.
+One or more output options thbt consist of b single \f3stbtOption\fR, plus bny of the \f3-t\fR, \f3-h\fR, bnd \f3-J\fR options\&. See Output Options\&.
 .TP     
 \fIvmid\fR
-Virtual machine identifier, which is a string that indicates the target JVM\&. The general syntax is the following:
+Virtubl mbchine identifier, which is b string thbt indicbtes the tbrget JVM\&. The generbl syntbx is the following:
 .sp     
 .nf     
-\f3[protocol:][//]lvmid[@hostname[:port]/servername]\fP
+\f3[protocol:][//]lvmid[@hostnbme[:port]/servernbme]\fP
 .fi     
 .nf     
 \f3\fP
@@ -77,20 +77,20 @@ Virtual machine identifier, which is a string that indicates the target JVM\&. T
 .sp     
 
 
-The syntax of the \f3vmid\fR string corresponds to the syntax of a URI\&. The \f3vmid\fR string can vary from a simple integer that represents a local JVM to a more complex construction that specifies a communications protocol, port number, and other implementation-specific values\&. See Virtual Machine Identifier\&.
+The syntbx of the \f3vmid\fR string corresponds to the syntbx of b URI\&. The \f3vmid\fR string cbn vbry from b simple integer thbt represents b locbl JVM to b more complex construction thbt specifies b communicbtions protocol, port number, bnd other implementbtion-specific vblues\&. See Virtubl Mbchine Identifier\&.
 .TP     
-\fIinterval\fR [s|ms]
-Sampling interval in the specified units, seconds (s) or milliseconds (ms)\&. Default units are milliseconds\&. Must be a positive integer\&. When specified, the \f3jstat\fR command produces its output at each interval\&.
+\fIintervbl\fR [s|ms]
+Sbmpling intervbl in the specified units, seconds (s) or milliseconds (ms)\&. Defbult units bre milliseconds\&. Must be b positive integer\&. When specified, the \f3jstbt\fR commbnd produces its output bt ebch intervbl\&.
 .TP     
 \fIcount\fR
-Number of samples to display\&. The default value is infinity which causes the \f3jstat\fR command to display statistics until the target JVM terminates or the \f3jstat\fR command is terminated\&. This value must be a positive integer\&.
+Number of sbmples to displby\&. The defbult vblue is infinity which cbuses the \f3jstbt\fR commbnd to displby stbtistics until the tbrget JVM terminbtes or the \f3jstbt\fR commbnd is terminbted\&. This vblue must be b positive integer\&.
 .SH DESCRIPTION    
-The \f3jstat\fR command displays performance statistics for an instrumented Java HotSpot VM\&. The target JVM is identified by its virtual machine identifier, or \f3vmid\fR option\&.
+The \f3jstbt\fR commbnd displbys performbnce stbtistics for bn instrumented Jbvb HotSpot VM\&. The tbrget JVM is identified by its virtubl mbchine identifier, or \f3vmid\fR option\&.
 .SH VIRTUAL\ MACHINE\ IDENTIFIER    
-The syntax of the \f3vmid\fR string corresponds to the syntax of a URI:
+The syntbx of the \f3vmid\fR string corresponds to the syntbx of b URI:
 .sp     
 .nf     
-\f3[protocol:][//]lvmid[@hostname[:port]/servername]\fP
+\f3[protocol:][//]lvmid[@hostnbme[:port]/servernbme]\fP
 .fi     
 .nf     
 \f3\fP
@@ -98,348 +98,348 @@ The syntax of the \f3vmid\fR string corresponds to the syntax of a URI:
 .sp     
 .TP     
 \fIprotocol\fR
-The communications protocol\&. If the \fIprotocol\fR value is omitted and a host name is not specified, then the default protocol is a platform-specific optimized local protocol\&. If the \fIprotocol\fR value is omitted and a host name is specified, then the default protocol is \f3rmi\fR\&.
+The communicbtions protocol\&. If the \fIprotocol\fR vblue is omitted bnd b host nbme is not specified, then the defbult protocol is b plbtform-specific optimized locbl protocol\&. If the \fIprotocol\fR vblue is omitted bnd b host nbme is specified, then the defbult protocol is \f3rmi\fR\&.
 .TP     
 \fIlvmid\fR
-The local virtual machine identifier for the target JVM\&. The \f3lvmid\fR is a platform-specific value that uniquely identifies a JVM on a system\&. The \f3lvmid\fR is the only required component of a virtual machine identifier\&. The \f3lvmid\fR is typically, but not necessarily, the operating system\&'s process identifier for the target JVM process\&. You can use the \f3jps\fR command to determine the \f3lvmid\fR\&. Also, you can determine the \f3lvmid\fR on UNIX platforms with the \f3ps\fR command, and on Windows with the Windows Task Manager\&.
+The locbl virtubl mbchine identifier for the tbrget JVM\&. The \f3lvmid\fR is b plbtform-specific vblue thbt uniquely identifies b JVM on b system\&. The \f3lvmid\fR is the only required component of b virtubl mbchine identifier\&. The \f3lvmid\fR is typicblly, but not necessbrily, the operbting system\&'s process identifier for the tbrget JVM process\&. You cbn use the \f3jps\fR commbnd to determine the \f3lvmid\fR\&. Also, you cbn determine the \f3lvmid\fR on UNIX plbtforms with the \f3ps\fR commbnd, bnd on Windows with the Windows Tbsk Mbnbger\&.
 .TP     
-\fIhostname\fR
-A hostname or IP address that indicates the target host\&. If the \fIhostname\fR value is omitted, then the target host is the local host\&.
+\fIhostnbme\fR
+A hostnbme or IP bddress thbt indicbtes the tbrget host\&. If the \fIhostnbme\fR vblue is omitted, then the tbrget host is the locbl host\&.
 .TP     
 \fIport\fR
-The default port for communicating with the remote server\&. If the \fIhostname\fR value is omitted or the \fIprotocol\fR value specifies an optimized, local protocol, then the \fIport\fR value is ignored\&. Otherwise, treatment of the \f3port\fR parameter is implementation-specific\&. For the default \f3rmi\fR protocol, the port value indicates the port number for the rmiregistry on the remote host\&. If the \fIport\fR value is omitted and the \fIprotocol\fR value indicates \f3rmi\fR, then the default rmiregistry port (1099) is used\&.
+The defbult port for communicbting with the remote server\&. If the \fIhostnbme\fR vblue is omitted or the \fIprotocol\fR vblue specifies bn optimized, locbl protocol, then the \fIport\fR vblue is ignored\&. Otherwise, trebtment of the \f3port\fR pbrbmeter is implementbtion-specific\&. For the defbult \f3rmi\fR protocol, the port vblue indicbtes the port number for the rmiregistry on the remote host\&. If the \fIport\fR vblue is omitted bnd the \fIprotocol\fR vblue indicbtes \f3rmi\fR, then the defbult rmiregistry port (1099) is used\&.
 .TP     
-\fIservername\fR
-The treatment of the \f3servername\fR parameter depends on implementation\&. For the optimized local protocol, this field is ignored\&. For the \f3rmi\fR protocol, it represents the name of the RMI remote object on the remote host\&.
+\fIservernbme\fR
+The trebtment of the \f3servernbme\fR pbrbmeter depends on implementbtion\&. For the optimized locbl protocol, this field is ignored\&. For the \f3rmi\fR protocol, it represents the nbme of the RMI remote object on the remote host\&.
 .SH OPTIONS    
-The \f3jstat\fR command supports two types of options, general options and output options\&. General options cause the \f3jstat\fR command to display simple usage and version information\&. Output options determine the content and format of the statistical output\&.
+The \f3jstbt\fR commbnd supports two types of options, generbl options bnd output options\&. Generbl options cbuse the \f3jstbt\fR commbnd to displby simple usbge bnd version informbtion\&. Output options determine the content bnd formbt of the stbtisticbl output\&.
 .PP
-All options and their functionality are subject to change or removal in future releases\&.
+All options bnd their functionblity bre subject to chbnge or removbl in future relebses\&.
 .SS GENERAL\ OPTIONS    
-If you specify one of the general options, then you cannot specify any other option or parameter\&.
+If you specify one of the generbl options, then you cbnnot specify bny other option or pbrbmeter\&.
 .TP
 -help
 .br
-Displays a help message\&.
+Displbys b help messbge\&.
 .TP
 -options
 .br
-Displays a list of static options\&. See Output Options\&.
+Displbys b list of stbtic options\&. See Output Options\&.
 .SS OUTPUT\ OPTIONS    
-If you do not specify a general option, then you can specify output options\&. Output options determine the content and format of the \f3jstat\fR command\&'s output, and consist of a single \f3statOption\fR, plus any of the other output options (\f3-h\fR, \f3-t\fR, and \f3-J\fR)\&. The \f3statOption\fR must come first\&.
+If you do not specify b generbl option, then you cbn specify output options\&. Output options determine the content bnd formbt of the \f3jstbt\fR commbnd\&'s output, bnd consist of b single \f3stbtOption\fR, plus bny of the other output options (\f3-h\fR, \f3-t\fR, bnd \f3-J\fR)\&. The \f3stbtOption\fR must come first\&.
 .PP
-Output is formatted as a table, with columns that are separated by spaces\&. A header row with titles describes the columns\&. Use the \f3-h\fR option to set the frequency at which the header is displayed\&. Column header names are consistent among the different options\&. In general, if two options provide a column with the same name, then the data source for the two columns is the same\&.
+Output is formbtted bs b tbble, with columns thbt bre sepbrbted by spbces\&. A hebder row with titles describes the columns\&. Use the \f3-h\fR option to set the frequency bt which the hebder is displbyed\&. Column hebder nbmes bre consistent bmong the different options\&. In generbl, if two options provide b column with the sbme nbme, then the dbtb source for the two columns is the sbme\&.
 .PP
-Use the \f3-t\fR option to display a time stamp column, labeled Timestamp as the first column of output\&. The Timestamp column contains the elapsed time, in seconds, since the target JVM started\&. The resolution of the time stamp is dependent on various factors and is subject to variation due to delayed thread scheduling on heavily loaded systems\&.
+Use the \f3-t\fR option to displby b time stbmp column, lbbeled Timestbmp bs the first column of output\&. The Timestbmp column contbins the elbpsed time, in seconds, since the tbrget JVM stbrted\&. The resolution of the time stbmp is dependent on vbrious fbctors bnd is subject to vbribtion due to delbyed threbd scheduling on hebvily lobded systems\&.
 .PP
-Use the interval and count parameters to determine how frequently and how many times, respectively, the \f3jstat\fR command displays its output\&.
+Use the intervbl bnd count pbrbmeters to determine how frequently bnd how mbny times, respectively, the \f3jstbt\fR commbnd displbys its output\&.
 .PP
-\fINote:\fR Do not to write scripts to parse the \f3jstat\fR command\&'s output because the format might change in future releases\&. If you write scripts that parse \f3jstat\fR command output, then expect to modify them for future releases of this tool\&.
+\fINote:\fR Do not to write scripts to pbrse the \f3jstbt\fR commbnd\&'s output becbuse the formbt might chbnge in future relebses\&. If you write scripts thbt pbrse \f3jstbt\fR commbnd output, then expect to modify them for future relebses of this tool\&.
 .TP
--\fIstatOption\fR
+-\fIstbtOption\fR
 .br
-Determines the statistics information the \f3jstat\fR command displays\&. The following lists the available options\&. Use the \f3-options\fR general option to display the list of options for a particular platform installation\&. See Stat Options and Output\&.
+Determines the stbtistics informbtion the \f3jstbt\fR commbnd displbys\&. The following lists the bvbilbble options\&. Use the \f3-options\fR generbl option to displby the list of options for b pbrticulbr plbtform instbllbtion\&. See Stbt Options bnd Output\&.
 
-\f3class\fR: Displays statistics about the behavior of the class loader\&.
+\f3clbss\fR: Displbys stbtistics bbout the behbvior of the clbss lobder\&.
 
-\f3compiler\fR: Displays statistics about the behavior of the Java HotSpot VM Just-in-Time compiler\&.
+\f3compiler\fR: Displbys stbtistics bbout the behbvior of the Jbvb HotSpot VM Just-in-Time compiler\&.
 
-\f3gc\fR: Displays statistics about the behavior of the garbage collected heap\&.
+\f3gc\fR: Displbys stbtistics bbout the behbvior of the gbrbbge collected hebp\&.
 
-\f3gccapacity\fR: Displays statistics about the capacities of the generations and their corresponding spaces\&.
+\f3gccbpbcity\fR: Displbys stbtistics bbout the cbpbcities of the generbtions bnd their corresponding spbces\&.
 
-\f3gccause\fR: Displays a summary about garbage collection statistics (same as \f3-gcutil\fR), with the cause of the last and current (when applicable) garbage collection events\&.
+\f3gccbuse\fR: Displbys b summbry bbout gbrbbge collection stbtistics (sbme bs \f3-gcutil\fR), with the cbuse of the lbst bnd current (when bpplicbble) gbrbbge collection events\&.
 
-\f3gcnew\fR: Displays statistics of the behavior of the new generation\&.
+\f3gcnew\fR: Displbys stbtistics of the behbvior of the new generbtion\&.
 
-\f3gcnewcapacity\fR: Displays statistics about the sizes of the new generations and its corresponding spaces\&.
+\f3gcnewcbpbcity\fR: Displbys stbtistics bbout the sizes of the new generbtions bnd its corresponding spbces\&.
 
-\f3gcold\fR: Displays statistics about the behavior of the old generation and Metaspace Statistics\&.
+\f3gcold\fR: Displbys stbtistics bbout the behbvior of the old generbtion bnd Metbspbce Stbtistics\&.
 
-\f3gcoldcapacity\fR: Displays statistics about the sizes of the old generation\&.
+\f3gcoldcbpbcity\fR: Displbys stbtistics bbout the sizes of the old generbtion\&.
 
-\f3gcmetacapacity\fR: Displays statistics about the sizes of the metaspace\&.
+\f3gcmetbcbpbcity\fR: Displbys stbtistics bbout the sizes of the metbspbce\&.
 
-\f3gcutil\fR: Displays a summary about garbage collection statistics\&.
+\f3gcutil\fR: Displbys b summbry bbout gbrbbge collection stbtistics\&.
 
-\f3printcompilation\fR: Displays Java HotSpot VM compilation method statistics\&.
+\f3printcompilbtion\fR: Displbys Jbvb HotSpot VM compilbtion method stbtistics\&.
 .TP
 -h \fIn\fR
 .br
-Displays a column header every \fIn\fR samples (output rows), where \fIn\fR is a positive integer\&. Default value is 0, which displays the column header the first row of data\&.
+Displbys b column hebder every \fIn\fR sbmples (output rows), where \fIn\fR is b positive integer\&. Defbult vblue is 0, which displbys the column hebder the first row of dbtb\&.
 .TP
 -t
 .br
-Display sa timestamp column as the first column of output\&. The time stamp is the time since the start time of the target JVM\&.
+Displby sb timestbmp column bs the first column of output\&. The time stbmp is the time since the stbrt time of the tbrget JVM\&.
 .TP
--J\fIjavaOption\fR
+-J\fIjbvbOption\fR
 .br
-Passes \f3javaOption\fR to the Java application launcher\&. For example, \f3-J-Xms48m\fR sets the startup memory to 48 MB\&. For a complete list of options, see java(1)\&.
+Pbsses \f3jbvbOption\fR to the Jbvb bpplicbtion lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. For b complete list of options, see jbvb(1)\&.
 .SS STAT\ OPTIONS\ AND\ OUTPUT    
-The following information summarizes the columns that the \f3jstat\fR command outputs for each \fIstatOption\fR\&.
+The following informbtion summbrizes the columns thbt the \f3jstbt\fR commbnd outputs for ebch \fIstbtOption\fR\&.
 .TP
--class \fIoption\fR
+-clbss \fIoption\fR
 .br
-Class loader statistics\&.
+Clbss lobder stbtistics\&.
 
-\f3Loaded\fR: Number of classes loaded\&.
+\f3Lobded\fR: Number of clbsses lobded\&.
 
-\f3Bytes\fR: Number of KBs loaded\&.
+\f3Bytes\fR: Number of KBs lobded\&.
 
-\f3Unloaded\fR: Number of classes unloaded\&.
+\f3Unlobded\fR: Number of clbsses unlobded\&.
 
-\f3Bytes\fR: Number of Kbytes unloaded\&.
+\f3Bytes\fR: Number of Kbytes unlobded\&.
 
-\f3Time\fR: Time spent performing class loading and unloading operations\&.
+\f3Time\fR: Time spent performing clbss lobding bnd unlobding operbtions\&.
 .TP
 -compiler \fIoption\fR
 .br
-Java HotSpot VM Just-in-Time compiler statistics\&.
+Jbvb HotSpot VM Just-in-Time compiler stbtistics\&.
 
-\f3Compiled\fR: Number of compilation tasks performed\&.
+\f3Compiled\fR: Number of compilbtion tbsks performed\&.
 
-\f3Failed\fR: Number of compilations tasks failed\&.
+\f3Fbiled\fR: Number of compilbtions tbsks fbiled\&.
 
-\f3Invalid\fR: Number of compilation tasks that were invalidated\&.
+\f3Invblid\fR: Number of compilbtion tbsks thbt were invblidbted\&.
 
-\f3Time\fR: Time spent performing compilation tasks\&.
+\f3Time\fR: Time spent performing compilbtion tbsks\&.
 
-\f3FailedType\fR: Compile type of the last failed compilation\&.
+\f3FbiledType\fR: Compile type of the lbst fbiled compilbtion\&.
 
-\f3FailedMethod\fR: Class name and method of the last failed compilation\&.
+\f3FbiledMethod\fR: Clbss nbme bnd method of the lbst fbiled compilbtion\&.
 .TP
 -gc \fIoption\fR
 .br
-Garbage-collected heap statistics\&.
+Gbrbbge-collected hebp stbtistics\&.
 
-\f3S0C\fR: Current survivor space 0 capacity (KB)\&.
+\f3S0C\fR: Current survivor spbce 0 cbpbcity (KB)\&.
 
-\f3S1C\fR: Current survivor space 1 capacity (KB)\&.
+\f3S1C\fR: Current survivor spbce 1 cbpbcity (KB)\&.
 
-\f3S0U\fR: Survivor space 0 utilization (KB)\&.
+\f3S0U\fR: Survivor spbce 0 utilizbtion (KB)\&.
 
-\f3S1U\fR: Survivor space 1 utilization (KB)\&.
+\f3S1U\fR: Survivor spbce 1 utilizbtion (KB)\&.
 
-\f3EC\fR: Current eden space capacity (KB)\&.
+\f3EC\fR: Current eden spbce cbpbcity (KB)\&.
 
-\f3EU\fR: Eden space utilization (KB)\&.
+\f3EU\fR: Eden spbce utilizbtion (KB)\&.
 
-\f3OC\fR: Current old space capacity (KB)\&.
+\f3OC\fR: Current old spbce cbpbcity (KB)\&.
 
-\f3OU\fR: Old space utilization (KB)\&.
+\f3OU\fR: Old spbce utilizbtion (KB)\&.
 
-\f3MC\fR: Metaspace capacity (KB)\&.
+\f3MC\fR: Metbspbce cbpbcity (KB)\&.
 
-\f3MU\fR: Metacspace utilization (KB)\&.
+\f3MU\fR: Metbcspbce utilizbtion (KB)\&.
 
-\f3YGC\fR: Number of young generation garbage collection events\&.
+\f3YGC\fR: Number of young generbtion gbrbbge collection events\&.
 
-\f3YGCT\fR: Young generation garbage collection time\&.
+\f3YGCT\fR: Young generbtion gbrbbge collection time\&.
 
 \f3FGC\fR: Number of full GC events\&.
 
-\f3FGCT\fR: Full garbage collection time\&.
+\f3FGCT\fR: Full gbrbbge collection time\&.
 
-\f3GCT\fR: Total garbage collection time\&.
+\f3GCT\fR: Totbl gbrbbge collection time\&.
 .TP
--gccapacity \fIoption\fR
+-gccbpbcity \fIoption\fR
 .br
-Memory pool generation and space capacities\&.
+Memory pool generbtion bnd spbce cbpbcities\&.
 
-\f3NGCMN\fR: Minimum new generation capacity (KB)\&.
+\f3NGCMN\fR: Minimum new generbtion cbpbcity (KB)\&.
 
-\f3NGCMX\fR: Maximum new generation capacity (KB)\&.
+\f3NGCMX\fR: Mbximum new generbtion cbpbcity (KB)\&.
 
-\f3NGC\fR: Current new generation capacity (KB)\&.
+\f3NGC\fR: Current new generbtion cbpbcity (KB)\&.
 
-\f3S0C\fR: Current survivor space 0 capacity (KB)\&.
+\f3S0C\fR: Current survivor spbce 0 cbpbcity (KB)\&.
 
-\f3S1C\fR: Current survivor space 1 capacity (KB)\&.
+\f3S1C\fR: Current survivor spbce 1 cbpbcity (KB)\&.
 
-\f3EC\fR: Current eden space capacity (KB)\&.
+\f3EC\fR: Current eden spbce cbpbcity (KB)\&.
 
-\f3OGCMN\fR: Minimum old generation capacity (KB)\&.
+\f3OGCMN\fR: Minimum old generbtion cbpbcity (KB)\&.
 
-\f3OGCMX\fR: Maximum old generation capacity (KB)\&.
+\f3OGCMX\fR: Mbximum old generbtion cbpbcity (KB)\&.
 
-\f3OGC\fR: Current old generation capacity (KB)\&.
+\f3OGC\fR: Current old generbtion cbpbcity (KB)\&.
 
-\f3OC\fR: Current old space capacity (KB)\&.
+\f3OC\fR: Current old spbce cbpbcity (KB)\&.
 
-\f3MCMN\fR: Minimum metaspace capacity (KB)\&.
+\f3MCMN\fR: Minimum metbspbce cbpbcity (KB)\&.
 
-\f3MCMX\fR: Maximum metaspace capacity (KB)\&.
+\f3MCMX\fR: Mbximum metbspbce cbpbcity (KB)\&.
 
-\f3MC\fR: Metaspace capacity (KB)\&.
+\f3MC\fR: Metbspbce cbpbcity (KB)\&.
 
-\f3YGC\fR: Number of Young generation GC Events\&.
+\f3YGC\fR: Number of Young generbtion GC Events\&.
 
 \f3FGC\fR: Number of Full GC Events\&.
 .TP
--gccause \fIoption\fR
+-gccbuse \fIoption\fR
 .br
-This option displays the same summary of garbage collection statistics as the \f3-gcutil\fR option, but includes the causes of the last garbage collection event and (when applicable) the current garbage collection event\&. In addition to the columns listed for \f3-gcutil\fR, this option adds the following columns\&.
+This option displbys the sbme summbry of gbrbbge collection stbtistics bs the \f3-gcutil\fR option, but includes the cbuses of the lbst gbrbbge collection event bnd (when bpplicbble) the current gbrbbge collection event\&. In bddition to the columns listed for \f3-gcutil\fR, this option bdds the following columns\&.
 
-Garbage collection statistics, including garbage collection Events\&.
+Gbrbbge collection stbtistics, including gbrbbge collection Events\&.
 
-\f3LGCC\fR: Cause of last garbage collection\&.
+\f3LGCC\fR: Cbuse of lbst gbrbbge collection\&.
 
-\f3GCC\fR: Cause of current garbage collection\&.
+\f3GCC\fR: Cbuse of current gbrbbge collection\&.
 .TP
 -gcnew \fIoption\fR
 .br
-New generation statistics\&.
+New generbtion stbtistics\&.
 
-\f3S0C\fR: Current survivor space 0 capacity (KB)\&.
+\f3S0C\fR: Current survivor spbce 0 cbpbcity (KB)\&.
 
-\f3S1C\fR: Current survivor space 1 capacity (KB)\&.
+\f3S1C\fR: Current survivor spbce 1 cbpbcity (KB)\&.
 
-\f3S0U\fR: Survivor space 0 utilization (KB)\&.
+\f3S0U\fR: Survivor spbce 0 utilizbtion (KB)\&.
 
-\f3S1U\fR: Survivor space 1 utilization (KB)\&.
+\f3S1U\fR: Survivor spbce 1 utilizbtion (KB)\&.
 
 \f3TT\fR: Tenuring threshold\&.
 
-\f3MTT\fR: Maximum tenuring threshold\&.
+\f3MTT\fR: Mbximum tenuring threshold\&.
 
 \f3DSS\fR: Desired survivor size (KB)\&.
 
-\f3EC\fR: Current eden space capacity (KB)\&.
+\f3EC\fR: Current eden spbce cbpbcity (KB)\&.
 
-\f3EU\fR: Eden space utilization (KB)\&.
+\f3EU\fR: Eden spbce utilizbtion (KB)\&.
 
-\f3YGC\fR: Number of young generation GC events\&.
+\f3YGC\fR: Number of young generbtion GC events\&.
 
-\f3YGCT\fR: Young generation garbage collection time\&.
+\f3YGCT\fR: Young generbtion gbrbbge collection time\&.
 .TP
--gcnewcapacity \fIoption\fR
+-gcnewcbpbcity \fIoption\fR
 .br
-New generation space size statistics\&.
+New generbtion spbce size stbtistics\&.
 
-NGCMN: Minimum new generation capacity (KB)\&.
+NGCMN: Minimum new generbtion cbpbcity (KB)\&.
 
-\f3NGCMX\fR: Maximum new generation capacity (KB)\&.
+\f3NGCMX\fR: Mbximum new generbtion cbpbcity (KB)\&.
 
-\f3NGC\fR: Current new generation capacity (KB)\&.
+\f3NGC\fR: Current new generbtion cbpbcity (KB)\&.
 
-\f3S0CMX\fR: Maximum survivor space 0 capacity (KB)\&.
+\f3S0CMX\fR: Mbximum survivor spbce 0 cbpbcity (KB)\&.
 
-\f3S0C\fR: Current survivor space 0 capacity (KB)\&.
+\f3S0C\fR: Current survivor spbce 0 cbpbcity (KB)\&.
 
-\f3S1CMX\fR: Maximum survivor space 1 capacity (KB)\&.
+\f3S1CMX\fR: Mbximum survivor spbce 1 cbpbcity (KB)\&.
 
-\f3S1C\fR: Current survivor space 1 capacity (KB)\&.
+\f3S1C\fR: Current survivor spbce 1 cbpbcity (KB)\&.
 
-\f3ECMX\fR: Maximum eden space capacity (KB)\&.
+\f3ECMX\fR: Mbximum eden spbce cbpbcity (KB)\&.
 
-\f3EC\fR: Current eden space capacity (KB)\&.
+\f3EC\fR: Current eden spbce cbpbcity (KB)\&.
 
-\f3YGC\fR: Number of young generation GC events\&.
+\f3YGC\fR: Number of young generbtion GC events\&.
 
 \f3FGC\fR: Number of Full GC Events\&.
 .TP
 -gcold \fIoption\fR
 .br
-old and permanent generation statistics\&.
+old bnd permbnent generbtion stbtistics\&.
 
-\f3MC\fR: Metaspace capacity (KB)\&.
+\f3MC\fR: Metbspbce cbpbcity (KB)\&.
 
-\f3MU\fR: Metaspace utilization (KB)\&.
+\f3MU\fR: Metbspbce utilizbtion (KB)\&.
 
-\f3OC\fR: Current old space capacity (KB)\&.
+\f3OC\fR: Current old spbce cbpbcity (KB)\&.
 
-\f3OU\fR: old space utilization (KB)\&.
+\f3OU\fR: old spbce utilizbtion (KB)\&.
 
-\f3YGC\fR: Number of young generation GC events\&.
+\f3YGC\fR: Number of young generbtion GC events\&.
 
 \f3FGC\fR: Number of full GC events\&.
 
-\f3FGCT\fR: Full garbage collection time\&.
+\f3FGCT\fR: Full gbrbbge collection time\&.
 
-\f3GCT\fR: Total garbage collection time\&.
+\f3GCT\fR: Totbl gbrbbge collection time\&.
 .TP
--gcoldcapacity \fIoption\fR
+-gcoldcbpbcity \fIoption\fR
 .br
-Old generation statistics\&.
+Old generbtion stbtistics\&.
 
-\f3OGCMN\fR: Minimum old generation capacity (KB)\&.
+\f3OGCMN\fR: Minimum old generbtion cbpbcity (KB)\&.
 
-\f3OGCMX\fR: Maximum old generation capacity (KB)\&.
+\f3OGCMX\fR: Mbximum old generbtion cbpbcity (KB)\&.
 
-\f3OGC\fR: Current old generation capacity (KB)\&.
+\f3OGC\fR: Current old generbtion cbpbcity (KB)\&.
 
-\f3OC\fR: Current old space capacity (KB)\&.
+\f3OC\fR: Current old spbce cbpbcity (KB)\&.
 
-\f3YGC\fR: Number of young generation GC events\&.
+\f3YGC\fR: Number of young generbtion GC events\&.
 
 \f3FGC\fR: Number of full GC events\&.
 
-\f3FGCT\fR: Full garbage collection time\&.
+\f3FGCT\fR: Full gbrbbge collection time\&.
 
-\f3GCT\fR: Total garbage collection time\&.
+\f3GCT\fR: Totbl gbrbbge collection time\&.
 .TP
--gcmetacapacity \fIoption\fR
+-gcmetbcbpbcity \fIoption\fR
 .br
-Permanent generation statistics\&.
+Permbnent generbtion stbtistics\&.
 
-\f3MCMN\fR: Minimum metaspace capacity (KB)\&.
+\f3MCMN\fR: Minimum metbspbce cbpbcity (KB)\&.
 
-\f3MCMX\fR: Maximum metaspace capacity (KB)\&.
+\f3MCMX\fR: Mbximum metbspbce cbpbcity (KB)\&.
 
-\f3MC\fR: Metaspace capacity (KB)\&.
+\f3MC\fR: Metbspbce cbpbcity (KB)\&.
 
-\f3YGC\fR: Number of young generation GC events\&.
+\f3YGC\fR: Number of young generbtion GC events\&.
 
 \f3FGC\fR: Number of full GC events\&.
 
-\f3FGCT\fR: Full garbage collection time\&.
+\f3FGCT\fR: Full gbrbbge collection time\&.
 
-\f3GCT\fR: Total garbage collection time\&.
+\f3GCT\fR: Totbl gbrbbge collection time\&.
 .TP
 -gcutil \fIoption\fR
 .br
-Summary of garbage collection statistics\&.
+Summbry of gbrbbge collection stbtistics\&.
 
-\f3S0\fR: Survivor space 0 utilization as a percentage of the space\&'s current capacity\&.
+\f3S0\fR: Survivor spbce 0 utilizbtion bs b percentbge of the spbce\&'s current cbpbcity\&.
 
-\f3S1\fR: Survivor space 1 utilization as a percentage of the space\&'s current capacity\&.
+\f3S1\fR: Survivor spbce 1 utilizbtion bs b percentbge of the spbce\&'s current cbpbcity\&.
 
-\f3E\fR: Eden space utilization as a percentage of the space\&'s current capacity\&.
+\f3E\fR: Eden spbce utilizbtion bs b percentbge of the spbce\&'s current cbpbcity\&.
 
-\f3O\fR: Old space utilization as a percentage of the space\&'s current capacity\&.
+\f3O\fR: Old spbce utilizbtion bs b percentbge of the spbce\&'s current cbpbcity\&.
 
-\f3M\fR: Metaspace utilization as a percentage of the space\&'s current capacity\&.
+\f3M\fR: Metbspbce utilizbtion bs b percentbge of the spbce\&'s current cbpbcity\&.
 
-\f3YGC\fR: Number of young generation GC events\&.
+\f3YGC\fR: Number of young generbtion GC events\&.
 
-\f3YGCT\fR: Young generation garbage collection time\&.
+\f3YGCT\fR: Young generbtion gbrbbge collection time\&.
 
 \f3FGC\fR: Number of full GC events\&.
 
-\f3FGCT\fR: Full garbage collection time\&.
+\f3FGCT\fR: Full gbrbbge collection time\&.
 
-\f3GCT\fR: Total garbage collection time\&.
+\f3GCT\fR: Totbl gbrbbge collection time\&.
 .TP
--printcompilation \fIoption\fR
+-printcompilbtion \fIoption\fR
 .br
-Java HotSpot VM compiler method statistics\&.
+Jbvb HotSpot VM compiler method stbtistics\&.
 
-\f3Compiled\fR: Number of compilation tasks performed by the most recently compiled method\&.
+\f3Compiled\fR: Number of compilbtion tbsks performed by the most recently compiled method\&.
 
 \f3Size\fR: Number of bytes of byte code of the most recently compiled method\&.
 
-\f3Type\fR: Compilation type of the most recently compiled method\&.
+\f3Type\fR: Compilbtion type of the most recently compiled method\&.
 
-\f3Method\fR: Class name and method name identifying the most recently compiled method\&. Class name uses slash (/) instead of dot (\&.) as a name space separator\&. Method name is the method within the specified class\&. The format for these two fields is consistent with the HotSpot \f3-XX:+PrintComplation\fR option\&.
+\f3Method\fR: Clbss nbme bnd method nbme identifying the most recently compiled method\&. Clbss nbme uses slbsh (/) instebd of dot (\&.) bs b nbme spbce sepbrbtor\&. Method nbme is the method within the specified clbss\&. The formbt for these two fields is consistent with the HotSpot \f3-XX:+PrintComplbtion\fR option\&.
 .SH EXAMPLES    
-This section presents some examples of monitoring a local JVM with an \fIlvmid\fR of 21891\&.
+This section presents some exbmples of monitoring b locbl JVM with bn \fIlvmid\fR of 21891\&.
 .SS THE\ GCUTIL\ OPTION    
-This example attaches to lvmid 21891 and takes 7 samples at 250 millisecond intervals and displays the output as specified by the -\f3gcutil\fR option\&.
+This exbmple bttbches to lvmid 21891 bnd tbkes 7 sbmples bt 250 millisecond intervbls bnd displbys the output bs specified by the -\f3gcutil\fR option\&.
 .PP
-The output of this example shows that a young generation collection occurred between the third and fourth sample\&. The collection took 0\&.001 seconds and promoted objects from the eden space (E) to the old space (O), resulting in an increase of old space utilization from 9\&.49% to 9\&.51%\&. Before the collection, the survivor space was 12\&.44% utilized, but after this collection it is only 7\&.74% utilized\&.
+The output of this exbmple shows thbt b young generbtion collection occurred between the third bnd fourth sbmple\&. The collection took 0\&.001 seconds bnd promoted objects from the eden spbce (E) to the old spbce (O), resulting in bn increbse of old spbce utilizbtion from 9\&.49% to 9\&.51%\&. Before the collection, the survivor spbce wbs 12\&.44% utilized, but bfter this collection it is only 7\&.74% utilized\&.
 .sp     
 .nf     
-\f3jstat \-gcutil 21891 250 7\fP
+\f3jstbt \-gcutil 21891 250 7\fP
 .fi     
 .nf     
 \f3  S0     S1     E      O      M       YGC    YGCT    FGC    FGCT     GCT\fP
@@ -470,14 +470,14 @@ The output of this example shows that a young generation collection occurred bet
 .fi     
 .sp     
 .SS REPEAT\ THE\ COLUMN\ HEADER\ STRING    
-This example attaches to lvmid 21891 and takes samples at 250 millisecond intervals and displays the output as specified by \f3-gcutil\fR option\&. In addition, it uses the \f3-h3\fR option to output the column header after every 3 lines of data\&.
+This exbmple bttbches to lvmid 21891 bnd tbkes sbmples bt 250 millisecond intervbls bnd displbys the output bs specified by \f3-gcutil\fR option\&. In bddition, it uses the \f3-h3\fR option to output the column hebder bfter every 3 lines of dbtb\&.
 .PP
-In addition to showing the repeating header string, this example shows that between the second and third samples, a young GC occurred\&. Its duration was 0\&.001 seconds\&. The collection found enough active data that the survivor space 0 utilization (S0U) would have exceeded the desired survivor Size (DSS)\&. As a result, objects were promoted to the old generation (not visible in this output), and the tenuring threshold (TT) was lowered from 31 to 2\&.
+In bddition to showing the repebting hebder string, this exbmple shows thbt between the second bnd third sbmples, b young GC occurred\&. Its durbtion wbs 0\&.001 seconds\&. The collection found enough bctive dbtb thbt the survivor spbce 0 utilizbtion (S0U) would hbve exceeded the desired survivor Size (DSS)\&. As b result, objects were promoted to the old generbtion (not visible in this output), bnd the tenuring threshold (TT) wbs lowered from 31 to 2\&.
 .PP
-Another collection occurs between the fifth and sixth samples\&. This collection found very few survivors and returned the tenuring threshold to 31\&.
+Another collection occurs between the fifth bnd sixth sbmples\&. This collection found very few survivors bnd returned the tenuring threshold to 31\&.
 .sp     
 .nf     
-\f3jstat \-gcnew \-h3 21891 250\fP
+\f3jstbt \-gcnew \-h3 21891 250\fP
 .fi     
 .nf     
 \f3 S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT\fP
@@ -514,12 +514,12 @@ Another collection occurs between the fifth and sixth samples\&. This collection
 .fi     
 .sp     
 .SS INCLUDE\ A\ TIME\ STAMP\ FOR\ EACH\ SAMPLE    
-This example attaches to lvmid 21891 and takes 3 samples at 250 millisecond intervals\&. The \f3-t\fR option is used to generate a time stamp for each sample in the first column\&.
+This exbmple bttbches to lvmid 21891 bnd tbkes 3 sbmples bt 250 millisecond intervbls\&. The \f3-t\fR option is used to generbte b time stbmp for ebch sbmple in the first column\&.
 .PP
-The Timestamp column reports the elapsed time in seconds since the start of the target JVM\&. In addition, the \f3-gcoldcapacity\fR output shows the old generation capacity (OGC) and the old space capacity (OC) increasing as the heap expands to meet allocation or promotion demands\&. The old generation capacity (OGC) has grown to from 11,696 KB to 13820 KB after the eighty-first full garbage collection (FGC)\&. The maximum capacity of the generation (and space) is 60,544 KB (OGCMX), so it still has room to expand\&.
+The Timestbmp column reports the elbpsed time in seconds since the stbrt of the tbrget JVM\&. In bddition, the \f3-gcoldcbpbcity\fR output shows the old generbtion cbpbcity (OGC) bnd the old spbce cbpbcity (OC) increbsing bs the hebp expbnds to meet bllocbtion or promotion dembnds\&. The old generbtion cbpbcity (OGC) hbs grown to from 11,696 KB to 13820 KB bfter the eighty-first full gbrbbge collection (FGC)\&. The mbximum cbpbcity of the generbtion (bnd spbce) is 60,544 KB (OGCMX), so it still hbs room to expbnd\&.
 .sp     
 .nf     
-\f3Timestamp      OGCMN    OGCMX     OGC       OC       YGC   FGC    FGCT    GCT\fP
+\f3Timestbmp      OGCMN    OGCMX     OGC       OC       YGC   FGC    FGCT    GCT\fP
 .fi     
 .nf     
 \f3          150\&.1   1408\&.0  60544\&.0  11696\&.0  11696\&.0   194    80    2\&.874   3\&.799\fP
@@ -535,12 +535,12 @@ The Timestamp column reports the elapsed time in seconds since the start of the 
 .fi     
 .sp     
 .SS MONITOR\ INSTRUMENTATION\ FOR\ A\ REMOTE\ JVM    
-This example attaches to lvmid 40496 on the system named remote\&.domain using the \f3-gcutil\fR option, with samples taken every second indefinitely\&.
+This exbmple bttbches to lvmid 40496 on the system nbmed remote\&.dombin using the \f3-gcutil\fR option, with sbmples tbken every second indefinitely\&.
 .PP
-The lvmid is combined with the name of the remote host to construct a \fIvmid\fR of \f340496@remote\&.domain\fR\&. This vmid results in the use of the \f3rmi\fR protocol to communicate to the default \f3jstatd\fR server on the remote host\&. The \f3jstatd\fR server is located using the rmiregistry on \f3remote\&.domain\fR that is bound to the default rmiregistry port (port 1099)\&.
+The lvmid is combined with the nbme of the remote host to construct b \fIvmid\fR of \f340496@remote\&.dombin\fR\&. This vmid results in the use of the \f3rmi\fR protocol to communicbte to the defbult \f3jstbtd\fR server on the remote host\&. The \f3jstbtd\fR server is locbted using the rmiregistry on \f3remote\&.dombin\fR thbt is bound to the defbult rmiregistry port (port 1099)\&.
 .sp     
 .nf     
-\f3jstat \-gcutil 40496@remote\&.domain 1000\fP
+\f3jstbt \-gcutil 40496@remote\&.dombin 1000\fP
 .fi     
 .nf     
 \f3\fI\&.\&.\&. output omitted\fR\fP
@@ -552,13 +552,13 @@ The lvmid is combined with the name of the remote host to construct a \fIvmid\fR
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-java(1)
+jbvb(1)
 .TP 0.2i    
 \(bu
 jps(1)
 .TP 0.2i    
 \(bu
-jstatd(1)
+jstbtd(1)
 .TP 0.2i    
 \(bu
 rmiregistry(1)

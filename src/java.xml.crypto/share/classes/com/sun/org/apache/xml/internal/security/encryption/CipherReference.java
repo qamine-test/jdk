@@ -3,93 +3,93 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
 import org.w3c.dom.Attr;
 
 /**
- * <code>CipherReference</code> identifies a source which, when processed,
+ * <code>CipherReference</code> identifies b source which, when processed,
  * yields the encrypted octet sequence.
  * <p>
- * The actual value is obtained as follows. The <code>CipherReference URI</code>
- * contains an identifier that is dereferenced. Should the
- * Transforms, the data resulting from dereferencing the <code>URI</code> is
- * transformed as specified so as to yield the intended cipher value. For
- * example, if the value is base64 encoded within an XML document; the
- * transforms could specify an XPath expression followed by a base64 decoding so
- * as to extract the octets.
+ * The bctubl vblue is obtbined bs follows. The <code>CipherReference URI</code>
+ * contbins bn identifier thbt is dereferenced. Should the
+ * Trbnsforms, the dbtb resulting from dereferencing the <code>URI</code> is
+ * trbnsformed bs specified so bs to yield the intended cipher vblue. For
+ * exbmple, if the vblue is bbse64 encoded within bn XML document; the
+ * trbnsforms could specify bn XPbth expression followed by b bbse64 decoding so
+ * bs to extrbct the octets.
  * <p>
- * The syntax of the <code>URI</code> and Transforms is similar to that of
- * [XML-DSIG]. However, there is a difference between signature and encryption
- * processing. In [XML-DSIG] both generation and validation processing start
- * with the same source data and perform that transform in the same order. In
- * encryption, the decryptor has only the cipher data and the specified
- * transforms are enumerated for the decryptor, in the order necessary to obtain
- * the octets. Consequently, because it has different semantics Transforms is in
- * the &xenc; namespace.
+ * The syntbx of the <code>URI</code> bnd Trbnsforms is similbr to thbt of
+ * [XML-DSIG]. However, there is b difference between signbture bnd encryption
+ * processing. In [XML-DSIG] both generbtion bnd vblidbtion processing stbrt
+ * with the sbme source dbtb bnd perform thbt trbnsform in the sbme order. In
+ * encryption, the decryptor hbs only the cipher dbtb bnd the specified
+ * trbnsforms bre enumerbted for the decryptor, in the order necessbry to obtbin
+ * the octets. Consequently, becbuse it hbs different sembntics Trbnsforms is in
+ * the &xenc; nbmespbce.
  * <p>
- * The schema definition is as follows:
+ * The schemb definition is bs follows:
  * <xmp>
- * <element name='CipherReference' type='xenc:CipherReferenceType'/>
- * <complexType name='CipherReferenceType'>
+ * <element nbme='CipherReference' type='xenc:CipherReferenceType'/>
+ * <complexType nbme='CipherReferenceType'>
  *     <sequence>
- *         <element name='Transforms' type='xenc:TransformsType' minOccurs='0'/>
+ *         <element nbme='Trbnsforms' type='xenc:TrbnsformsType' minOccurs='0'/>
  *     </sequence>
- *     <attribute name='URI' type='anyURI' use='required'/>
+ *     <bttribute nbme='URI' type='bnyURI' use='required'/>
  * </complexType>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @buthor Axl Mbttheus
  */
-public interface CipherReference {
+public interfbce CipherReference {
     /**
-     * Returns an <code>URI</code> that contains an identifier that should be
+     * Returns bn <code>URI</code> thbt contbins bn identifier thbt should be
      * dereferenced.
-     * @return an <code>URI</code> that contains an identifier that should be
+     * @return bn <code>URI</code> thbt contbins bn identifier thbt should be
      * dereferenced.
      */
     String getURI();
 
     /**
-     * Gets the URI as an Attribute node.  Used to meld the CipherReference
-     * with the XMLSignature ResourceResolvers
-     * @return the URI as an Attribute node
+     * Gets the URI bs bn Attribute node.  Used to meld the CipherReference
+     * with the XMLSignbture ResourceResolvers
+     * @return the URI bs bn Attribute node
      */
     Attr getURIAsAttr();
 
     /**
-     * Returns the <code>Transforms</code> that specifies how to transform the
-     * <code>URI</code> to yield the appropriate cipher value.
+     * Returns the <code>Trbnsforms</code> thbt specifies how to trbnsform the
+     * <code>URI</code> to yield the bppropribte cipher vblue.
      *
-     * @return the transform that specifies how to transform the reference to
-     *   yield the intended cipher value.
+     * @return the trbnsform thbt specifies how to trbnsform the reference to
+     *   yield the intended cipher vblue.
      */
-    Transforms getTransforms();
+    Trbnsforms getTrbnsforms();
 
     /**
-     * Sets the <code>Transforms</code> that specifies how to transform the
-     * <code>URI</code> to yield the appropriate cipher value.
+     * Sets the <code>Trbnsforms</code> thbt specifies how to trbnsform the
+     * <code>URI</code> to yield the bppropribte cipher vblue.
      *
-     * @param transforms the set of <code>Transforms</code> that specifies how
-     *   to transform the reference to yield the intended cipher value.
+     * @pbrbm trbnsforms the set of <code>Trbnsforms</code> thbt specifies how
+     *   to trbnsform the reference to yield the intended cipher vblue.
      */
-    void setTransforms(Transforms transforms);
+    void setTrbnsforms(Trbnsforms trbnsforms);
 }
 

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,76 +30,76 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench.tests;
+pbckbge j2dbench.tests;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
 
 import j2dbench.Group;
 import j2dbench.Option;
 import j2dbench.TestEnvironment;
 
-public abstract class MiscTests extends GraphicsTests {
-    static Group miscroot;
-    static Group copytestroot;
+public bbstrbct clbss MiscTests extends GrbphicsTests {
+    stbtic Group miscroot;
+    stbtic Group copytestroot;
 
-    public MiscTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    public MiscTests(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
     }
 
-    public static void init() {
-        miscroot = new Group(graphicsroot, "misc",
-                             "Misc Benchmarks");
+    public stbtic void init() {
+        miscroot = new Group(grbphicsroot, "misc",
+                             "Misc Benchmbrks");
         copytestroot = new Group(miscroot, "copytests",
-                                 "copyArea() Tests");
+                                 "copyAreb() Tests");
 
-        new CopyArea("copyAreaVert", "Vertical copyArea()", 0, 1);
-        new CopyArea("copyAreaHoriz", "Horizontal copyArea()", 1, 0);
-        new CopyArea("copyAreaDiag", "Diagonal copyArea()", 1, 1);
+        new CopyAreb("copyArebVert", "Verticbl copyAreb()", 0, 1);
+        new CopyAreb("copyArebHoriz", "Horizontbl copyAreb()", 1, 0);
+        new CopyAreb("copyArebDibg", "Dibgonbl copyAreb()", 1, 1);
     }
 
-    private static class CopyArea extends MiscTests {
-        private int dx, dy;
+    privbte stbtic clbss CopyAreb extends MiscTests {
+        privbte int dx, dy;
 
-        CopyArea(String nodeName, String desc, int dx, int dy) {
-            super(copytestroot, nodeName, desc);
+        CopyAreb(String nodeNbme, String desc, int dx, int dy) {
+            super(copytestroot, nodeNbme, desc);
             this.dx = dx;
             this.dy = dy;
         }
 
         public Dimension getOutputSize(int w, int h) {
-            // we add one to each dimension to avoid copying outside the
-            // bounds of the destination when "bounce" is enabled
+            // we bdd one to ebch dimension to bvoid copying outside the
+            // bounds of the destinbtion when "bounce" is enbbled
             return new Dimension(w+1, h+1);
         }
 
         public void runTest(Object ctx, int numReps) {
-            GraphicsTests.Context gctx = (GraphicsTests.Context)ctx;
+            GrbphicsTests.Context gctx = (GrbphicsTests.Context)ctx;
             int size = gctx.size;
             int x = gctx.initX;
             int y = gctx.initY;
-            Graphics g = gctx.graphics;
-            g.translate(gctx.orgX, gctx.orgY);
-            if (gctx.animate) {
+            Grbphics g = gctx.grbphics;
+            g.trbnslbte(gctx.orgX, gctx.orgY);
+            if (gctx.bnimbte) {
                 do {
-                    g.copyArea(x, y, size, size, dx, dy);
-                    if ((x -= 3) < 0) x += gctx.maxX;
-                    if ((y -= 1) < 0) y += gctx.maxY;
+                    g.copyAreb(x, y, size, size, dx, dy);
+                    if ((x -= 3) < 0) x += gctx.mbxX;
+                    if ((y -= 1) < 0) y += gctx.mbxY;
                 } while (--numReps > 0);
             } else {
                 do {
-                    g.copyArea(x, y, size, size, dx, dy);
+                    g.copyAreb(x, y, size, size, dx, dy);
                 } while (--numReps > 0);
             }
-            g.translate(-gctx.orgX, -gctx.orgY);
+            g.trbnslbte(-gctx.orgX, -gctx.orgY);
         }
     }
 }

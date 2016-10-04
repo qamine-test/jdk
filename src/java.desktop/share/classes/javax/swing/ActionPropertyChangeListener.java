@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.*;
-import java.lang.ref.WeakReference;
-import java.lang.ref.ReferenceQueue;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.io.*;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.ref.ReferenceQueue;
 
 /**
- * A package-private PropertyChangeListener which listens for
- * property changes on an Action and updates the properties
- * of an ActionEvent source.
+ * A pbckbge-privbte PropertyChbngeListener which listens for
+ * property chbnges on bn Action bnd updbtes the properties
+ * of bn ActionEvent source.
  * <p>
- * Subclasses must override the actionPropertyChanged method,
- * which is invoked from the propertyChange method as long as
- * the target is still valid.
+ * Subclbsses must override the bctionPropertyChbnged method,
+ * which is invoked from the propertyChbnge method bs long bs
+ * the tbrget is still vblid.
  * </p>
  * <p>
  * WARNING WARNING WARNING WARNING WARNING WARNING:<br>
- * Do NOT create an annonymous inner class that extends this!  If you do
- * a strong reference will be held to the containing class, which in most
- * cases defeats the purpose of this class.
+ * Do NOT crebte bn bnnonymous inner clbss thbt extends this!  If you do
+ * b strong reference will be held to the contbining clbss, which in most
+ * cbses defebts the purpose of this clbss.
  *
- * @param T the type of JComponent the underlying Action is attached to
+ * @pbrbm T the type of JComponent the underlying Action is bttbched to
  *
- * @author Georges Saab
- * @see AbstractButton
+ * @buthor Georges Sbbb
+ * @see AbstrbctButton
  */
-@SuppressWarnings("serial") // Bound of type variable  is not serializable across versions
-abstract class ActionPropertyChangeListener<T extends JComponent>
-        implements PropertyChangeListener, Serializable {
-    private static ReferenceQueue<JComponent> queue;
+@SuppressWbrnings("seribl") // Bound of type vbribble  is not seriblizbble bcross versions
+bbstrbct clbss ActionPropertyChbngeListener<T extends JComponent>
+        implements PropertyChbngeListener, Seriblizbble {
+    privbte stbtic ReferenceQueue<JComponent> queue;
 
-    // WeakReference's aren't serializable.
-    private transient OwnedWeakReference<T> target;
-    // The Component's that reference an Action do so through a strong
-    // reference, so that there is no need to check for serialized.
-    private Action action;
+    // WebkReference's bren't seriblizbble.
+    privbte trbnsient OwnedWebkReference<T> tbrget;
+    // The Component's thbt reference bn Action do so through b strong
+    // reference, so thbt there is no need to check for seriblized.
+    privbte Action bction;
 
-    private static ReferenceQueue<JComponent> getQueue() {
-        synchronized(ActionPropertyChangeListener.class) {
+    privbte stbtic ReferenceQueue<JComponent> getQueue() {
+        synchronized(ActionPropertyChbngeListener.clbss) {
             if (queue == null) {
                 queue = new ReferenceQueue<JComponent>();
             }
@@ -70,88 +70,88 @@ abstract class ActionPropertyChangeListener<T extends JComponent>
         return queue;
     }
 
-    public ActionPropertyChangeListener(T c, Action a) {
+    public ActionPropertyChbngeListener(T c, Action b) {
         super();
-        setTarget(c);
-        this.action = a;
+        setTbrget(c);
+        this.bction = b;
     }
 
     /**
-     * PropertyChangeListener method.  If the target has been gc'ed this
-     * will remove the <code>PropertyChangeListener</code> from the Action,
-     * otherwise this will invoke actionPropertyChanged.
+     * PropertyChbngeListener method.  If the tbrget hbs been gc'ed this
+     * will remove the <code>PropertyChbngeListener</code> from the Action,
+     * otherwise this will invoke bctionPropertyChbnged.
      */
-    public final void propertyChange(PropertyChangeEvent e) {
-        T target = getTarget();
-        if (target == null) {
-            getAction().removePropertyChangeListener(this);
+    public finbl void propertyChbnge(PropertyChbngeEvent e) {
+        T tbrget = getTbrget();
+        if (tbrget == null) {
+            getAction().removePropertyChbngeListener(this);
         } else {
-            actionPropertyChanged(target, getAction(), e);
+            bctionPropertyChbnged(tbrget, getAction(), e);
         }
     }
 
     /**
-     * Invoked when a property changes on the Action and the target
+     * Invoked when b property chbnges on the Action bnd the tbrget
      * still exists.
      */
-    protected abstract void actionPropertyChanged(T target, Action action,
-                                                  PropertyChangeEvent e);
+    protected bbstrbct void bctionPropertyChbnged(T tbrget, Action bction,
+                                                  PropertyChbngeEvent e);
 
-    private void setTarget(T c) {
+    privbte void setTbrget(T c) {
         ReferenceQueue<JComponent> queue = getQueue();
-        // Check to see whether any old buttons have
+        // Check to see whether bny old buttons hbve
         // been enqueued for GC.  If so, look up their
-        // PCL instance and remove it from its Action.
-        OwnedWeakReference<?> r;
-        while ((r = (OwnedWeakReference)queue.poll()) != null) {
-            ActionPropertyChangeListener<?> oldPCL = r.getOwner();
+        // PCL instbnce bnd remove it from its Action.
+        OwnedWebkReference<?> r;
+        while ((r = (OwnedWebkReference)queue.poll()) != null) {
+            ActionPropertyChbngeListener<?> oldPCL = r.getOwner();
             Action oldAction = oldPCL.getAction();
             if (oldAction!=null) {
-                oldAction.removePropertyChangeListener(oldPCL);
+                oldAction.removePropertyChbngeListener(oldPCL);
             }
         }
-        this.target = new OwnedWeakReference<T>(c, queue, this);
+        this.tbrget = new OwnedWebkReference<T>(c, queue, this);
     }
 
-    public T getTarget() {
-        if (target == null) {
-            // Will only happen if serialized and real target was null
+    public T getTbrget() {
+        if (tbrget == null) {
+            // Will only hbppen if seriblized bnd rebl tbrget wbs null
             return null;
         }
-        return this.target.get();
+        return this.tbrget.get();
     }
 
     public Action getAction() {
-          return action;
+          return bction;
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        s.writeObject(getTarget());
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        s.writeObject(getTbrget());
     }
 
-    @SuppressWarnings("unchecked")
-    private void readObject(ObjectInputStream s)
-                     throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        T target = (T)s.readObject();
-        if (target != null) {
-            setTarget(target);
+    @SuppressWbrnings("unchecked")
+    privbte void rebdObject(ObjectInputStrebm s)
+                     throws IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
+        T tbrget = (T)s.rebdObject();
+        if (tbrget != null) {
+            setTbrget(tbrget);
         }
     }
 
 
-    private static class OwnedWeakReference<U extends JComponent> extends
-                              WeakReference<U> {
-        private ActionPropertyChangeListener<?> owner;
+    privbte stbtic clbss OwnedWebkReference<U extends JComponent> extends
+                              WebkReference<U> {
+        privbte ActionPropertyChbngeListener<?> owner;
 
-        OwnedWeakReference(U target, ReferenceQueue<? super U> queue,
-                           ActionPropertyChangeListener<?> owner) {
-            super(target, queue);
+        OwnedWebkReference(U tbrget, ReferenceQueue<? super U> queue,
+                           ActionPropertyChbngeListener<?> owner) {
+            super(tbrget, queue);
             this.owner = owner;
         }
 
-        public ActionPropertyChangeListener<?> getOwner() {
+        public ActionPropertyChbngeListener<?> getOwner() {
             return owner;
         }
     }

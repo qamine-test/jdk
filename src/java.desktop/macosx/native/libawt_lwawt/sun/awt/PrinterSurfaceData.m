@@ -1,31 +1,31 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-#import "PrinterSurfaceData.h"
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import "PrinterSurfbceDbtb.h"
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 
 //#define DEBUG 1
@@ -35,15 +35,15 @@
     #define PRINT(msg) {}
 #endif
 
-static LockFunc PrintSD_Lock;
-static UnlockFunc PrintSD_Unlock;
-static GetRasInfoFunc PrintSD_GetRasInfo;
-static ReleaseFunc PrintSD_ReleaseRasInfo;
-static void flush(JNIEnv *env, QuartzSDOps *qsdo);
+stbtic LockFunc PrintSD_Lock;
+stbtic UnlockFunc PrintSD_Unlock;
+stbtic GetRbsInfoFunc PrintSD_GetRbsInfo;
+stbtic RelebseFunc PrintSD_RelebseRbsInfo;
+stbtic void flush(JNIEnv *env, QubrtzSDOps *qsdo);
 
-static void PrintSD_startCGContext(JNIEnv *env, QuartzSDOps *qsdo, SDRenderType renderType)
+stbtic void PrintSD_stbrtCGContext(JNIEnv *env, QubrtzSDOps *qsdo, SDRenderType renderType)
 {
-PRINT(" PrintSD_startCGContext")
+PRINT(" PrintSD_stbrtCGContext")
 
     if (qsdo->cgRef != NULL)
     {
@@ -53,7 +53,7 @@ PRINT(" PrintSD_startCGContext")
     }
 }
 
-static void PrintSD_finishCGContext(JNIEnv *env, QuartzSDOps *qsdo)
+stbtic void PrintSD_finishCGContext(JNIEnv *env, QubrtzSDOps *qsdo)
 {
 PRINT("    PrintSD_finishCGContext")
 
@@ -63,105 +63,105 @@ PRINT("    PrintSD_finishCGContext")
     }
 }
 
-static void PrintSD_dispose(JNIEnv *env, SurfaceDataOps *sdo)
+stbtic void PrintSD_dispose(JNIEnv *env, SurfbceDbtbOps *sdo)
 {
 PRINT(" PrintSD_dispose")
-    QuartzSDOps *qsdo = (QuartzSDOps *)sdo;
+    QubrtzSDOps *qsdo = (QubrtzSDOps *)sdo;
 
-    (*env)->DeleteGlobalRef(env, qsdo->javaGraphicsStatesObjects);
+    (*env)->DeleteGlobblRef(env, qsdo->jbvbGrbphicsStbtesObjects);
 
-    if (qsdo->graphicsStateInfo.batchedLines != NULL)
+    if (qsdo->grbphicsStbteInfo.bbtchedLines != NULL)
     {
-        free(qsdo->graphicsStateInfo.batchedLines);
-        qsdo->graphicsStateInfo.batchedLines = NULL;
+        free(qsdo->grbphicsStbteInfo.bbtchedLines);
+        qsdo->grbphicsStbteInfo.bbtchedLines = NULL;
     }
 
-    qsdo->BeginSurface            = NULL;
-    qsdo->FinishSurface            = NULL;
+    qsdo->BeginSurfbce            = NULL;
+    qsdo->FinishSurfbce            = NULL;
 }
 
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CPrinterSurfaceData_initOps(JNIEnv *env, jobject jthis, jlong nsRef, jobject jGraphicsState, jobjectArray jGraphicsStateObject, jint width, jint height)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CPrinterSurfbceDbtb_initOps(JNIEnv *env, jobject jthis, jlong nsRef, jobject jGrbphicsStbte, jobjectArrby jGrbphicsStbteObject, jint width, jint height)
 {
 JNF_COCOA_ENTER(env);
 
-PRINT("Java_sun_lwawt_macosx_CPrinterSurfaceData_initOps")
+PRINT("Jbvb_sun_lwbwt_mbcosx_CPrinterSurfbceDbtb_initOps")
 
-    PrintSDOps *psdo = (PrintSDOps*)SurfaceData_InitOps(env, jthis, sizeof(PrintSDOps));
-    psdo->nsRef            = (NSGraphicsContext*)jlong_to_ptr(nsRef);
+    PrintSDOps *psdo = (PrintSDOps*)SurfbceDbtb_InitOps(env, jthis, sizeof(PrintSDOps));
+    psdo->nsRef            = (NSGrbphicsContext*)jlong_to_ptr(nsRef);
     psdo->width            = width;
     psdo->height        = height;
 
-    QuartzSDOps *qsdo = (QuartzSDOps*)psdo;
-    qsdo->BeginSurface            = PrintSD_startCGContext;
-    qsdo->FinishSurface            = PrintSD_finishCGContext;
-    qsdo->cgRef                    = [psdo->nsRef graphicsPort];
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)psdo;
+    qsdo->BeginSurfbce            = PrintSD_stbrtCGContext;
+    qsdo->FinishSurfbce            = PrintSD_finishCGContext;
+    qsdo->cgRef                    = [psdo->nsRef grbphicsPort];
 
-    qsdo->javaGraphicsStates            = (jint*)((*env)->GetDirectBufferAddress(env, jGraphicsState));
-    qsdo->javaGraphicsStatesObjects        = (*env)->NewGlobalRef(env, jGraphicsStateObject);
+    qsdo->jbvbGrbphicsStbtes            = (jint*)((*env)->GetDirectBufferAddress(env, jGrbphicsStbte));
+    qsdo->jbvbGrbphicsStbtesObjects        = (*env)->NewGlobblRef(env, jGrbphicsStbteObject);
 
-    qsdo->graphicsStateInfo.batchedLines        = NULL;
-    qsdo->graphicsStateInfo.batchedLinesCount    = 0;
+    qsdo->grbphicsStbteInfo.bbtchedLines        = NULL;
+    qsdo->grbphicsStbteInfo.bbtchedLinesCount    = 0;
 
-    SurfaceDataOps *sdo = (SurfaceDataOps*)qsdo;
+    SurfbceDbtbOps *sdo = (SurfbceDbtbOps*)qsdo;
     sdo->Lock        = PrintSD_Lock;
     sdo->Unlock        = PrintSD_Unlock;
-    sdo->GetRasInfo    = PrintSD_GetRasInfo;
-    sdo->Release    = PrintSD_ReleaseRasInfo;
+    sdo->GetRbsInfo    = PrintSD_GetRbsInfo;
+    sdo->Relebse    = PrintSD_RelebseRbsInfo;
     sdo->Setup        = NULL;
     sdo->Dispose    = PrintSD_dispose;
 
 JNF_COCOA_EXIT(env);
 }
 
-static jint PrintSD_Lock(JNIEnv *env, SurfaceDataOps *sdo, SurfaceDataRasInfo *pRasInfo, jint lockflags)
+stbtic jint PrintSD_Lock(JNIEnv *env, SurfbceDbtbOps *sdo, SurfbceDbtbRbsInfo *pRbsInfo, jint lockflbgs)
 {
 PRINT(" PrintSD_Lock")
-    jint status = SD_FAILURE;
+    jint stbtus = SD_FAILURE;
 
-    //QuartzSDOps *qsdo = (QuartzSDOps*)sdo;
-    //PrintSD_startCGContext(env, qsdo, SD_Image);
+    //QubrtzSDOps *qsdo = (QubrtzSDOps*)sdo;
+    //PrintSD_stbrtCGContext(env, qsdo, SD_Imbge);
 
-    status = SD_SUCCESS;
+    stbtus = SD_SUCCESS;
 
-    return status;
+    return stbtus;
 }
-static void PrintSD_Unlock(JNIEnv *env, SurfaceDataOps *sdo, SurfaceDataRasInfo *pRasInfo)
+stbtic void PrintSD_Unlock(JNIEnv *env, SurfbceDbtbOps *sdo, SurfbceDbtbRbsInfo *pRbsInfo)
 {
 PRINT(" PrintSD_Unlock")
 
-    //QuartzSDOps *qsdo = (QuartzSDOps*)sdo;
+    //QubrtzSDOps *qsdo = (QubrtzSDOps*)sdo;
     //PrintSD_finishCGContext(env, qsdo);
 }
-static void PrintSD_GetRasInfo(JNIEnv *env, SurfaceDataOps *sdo, SurfaceDataRasInfo *pRasInfo)
+stbtic void PrintSD_GetRbsInfo(JNIEnv *env, SurfbceDbtbOps *sdo, SurfbceDbtbRbsInfo *pRbsInfo)
 {
-PRINT(" PrintSD_GetRasInfo")
+PRINT(" PrintSD_GetRbsInfo")
     PrintSDOps *psdo = (PrintSDOps*)sdo;
 
-    pRasInfo->pixelStride = 4; // ARGB
-    pRasInfo->scanStride = psdo->width * pRasInfo->pixelStride;
+    pRbsInfo->pixelStride = 4; // ARGB
+    pRbsInfo->scbnStride = psdo->width * pRbsInfo->pixelStride;
 
-    pRasInfo->rasBase = NULL; //psdo->dataForSun2D;
+    pRbsInfo->rbsBbse = NULL; //psdo->dbtbForSun2D;
 }
-static void PrintSD_ReleaseRasInfo(JNIEnv *env, SurfaceDataOps *sdo, SurfaceDataRasInfo *pRasInfo)
+stbtic void PrintSD_RelebseRbsInfo(JNIEnv *env, SurfbceDbtbOps *sdo, SurfbceDbtbRbsInfo *pRbsInfo)
 {
-PRINT(" PrintSD_ReleaseRasInfo")
+PRINT(" PrintSD_RelebseRbsInfo")
 
-    pRasInfo->pixelStride = 0;
-    pRasInfo->scanStride = 0;
-    pRasInfo->rasBase = NULL;
+    pRbsInfo->pixelStride = 0;
+    pRbsInfo->scbnStride = 0;
+    pRbsInfo->rbsBbse = NULL;
 }
 
-static void dataProvider_FreeSun2DPixels(void *info, const void *data, size_t size)
+stbtic void dbtbProvider_FreeSun2DPixels(void *info, const void *dbtb, size_t size)
 {
-PRINT("dataProvider_FreeSun2DPixels")
-   // CGBitmapFreeData(info);
+PRINT("dbtbProvider_FreeSun2DPixels")
+   // CGBitmbpFreeDbtb(info);
     free(info);
 }
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CPrinterSurfaceData__1flush
-  (JNIEnv *env, jobject jsurfacedata)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CPrinterSurfbceDbtb__1flush
+  (JNIEnv *env, jobject jsurfbcedbtb)
 {
-    flush(env, (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata));
+    flush(env, (QubrtzSDOps*)SurfbceDbtb_GetOps(env, jsurfbcedbtb));
 }
-static void flush(JNIEnv *env, QuartzSDOps *qsdo)
+stbtic void flush(JNIEnv *env, QubrtzSDOps *qsdo)
 {
 }

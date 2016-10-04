@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.util.logging;
+pbckbge jbvb.util.logging;
 
-import java.io.*;
-import java.util.*;
-import java.security.*;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
-import sun.misc.JavaAWTAccess;
-import sun.misc.SharedSecrets;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.security.*;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.WebkReference;
+import sun.misc.JbvbAWTAccess;
+import sun.misc.ShbredSecrets;
 
 /**
- * There is a single global LogManager object that is used to
- * maintain a set of shared state about Loggers and log services.
+ * There is b single globbl LogMbnbger object thbt is used to
+ * mbintbin b set of shbred stbte bbout Loggers bnd log services.
  * <p>
- * This LogManager object:
+ * This LogMbnbger object:
  * <ul>
- * <li> Manages a hierarchical namespace of Logger objects.  All
- *      named Loggers are stored in this namespace.
- * <li> Manages a set of logging control properties.  These are
- *      simple key-value pairs that can be used by Handlers and
+ * <li> Mbnbges b hierbrchicbl nbmespbce of Logger objects.  All
+ *      nbmed Loggers bre stored in this nbmespbce.
+ * <li> Mbnbges b set of logging control properties.  These bre
+ *      simple key-vblue pbirs thbt cbn be used by Hbndlers bnd
  *      other logging objects to configure themselves.
  * </ul>
  * <p>
- * The global LogManager object can be retrieved using LogManager.getLogManager().
- * The LogManager object is created during class initialization and
- * cannot subsequently be changed.
+ * The globbl LogMbnbger object cbn be retrieved using LogMbnbger.getLogMbnbger().
+ * The LogMbnbger object is crebted during clbss initiblizbtion bnd
+ * cbnnot subsequently be chbnged.
  * <p>
- * At startup the LogManager class is located using the
- * java.util.logging.manager system property.
+ * At stbrtup the LogMbnbger clbss is locbted using the
+ * jbvb.util.logging.mbnbger system property.
  * <p>
- * The LogManager defines two optional system properties that allow control over
- * the initial configuration:
+ * The LogMbnbger defines two optionbl system properties thbt bllow control over
+ * the initibl configurbtion:
  * <ul>
- * <li>"java.util.logging.config.class"
- * <li>"java.util.logging.config.file"
+ * <li>"jbvb.util.logging.config.clbss"
+ * <li>"jbvb.util.logging.config.file"
  * </ul>
- * These two properties may be specified on the command line to the "java"
- * command, or as system property definitions passed to JNI_CreateJavaVM.
+ * These two properties mby be specified on the commbnd line to the "jbvb"
+ * commbnd, or bs system property definitions pbssed to JNI_CrebteJbvbVM.
  * <p>
- * If the "java.util.logging.config.class" property is set, then the
- * property value is treated as a class name.  The given class will be
- * loaded, an object will be instantiated, and that object's constructor
- * is responsible for reading in the initial configuration.  (That object
- * may use other system properties to control its configuration.)  The
- * alternate configuration class can use <tt>readConfiguration(InputStream)</tt>
- * to define properties in the LogManager.
+ * If the "jbvb.util.logging.config.clbss" property is set, then the
+ * property vblue is trebted bs b clbss nbme.  The given clbss will be
+ * lobded, bn object will be instbntibted, bnd thbt object's constructor
+ * is responsible for rebding in the initibl configurbtion.  (Thbt object
+ * mby use other system properties to control its configurbtion.)  The
+ * blternbte configurbtion clbss cbn use <tt>rebdConfigurbtion(InputStrebm)</tt>
+ * to define properties in the LogMbnbger.
  * <p>
- * If "java.util.logging.config.class" property is <b>not</b> set,
- * then the "java.util.logging.config.file" system property can be used
- * to specify a properties file (in java.util.Properties format). The
- * initial logging configuration will be read from this file.
+ * If "jbvb.util.logging.config.clbss" property is <b>not</b> set,
+ * then the "jbvb.util.logging.config.file" system property cbn be used
+ * to specify b properties file (in jbvb.util.Properties formbt). The
+ * initibl logging configurbtion will be rebd from this file.
  * <p>
- * If neither of these properties is defined then the LogManager uses its
- * default configuration. The default configuration is typically loaded from the
- * properties file "{@code lib/logging.properties}" in the Java installation
+ * If neither of these properties is defined then the LogMbnbger uses its
+ * defbult configurbtion. The defbult configurbtion is typicblly lobded from the
+ * properties file "{@code lib/logging.properties}" in the Jbvb instbllbtion
  * directory.
  * <p>
- * The properties for loggers and Handlers will have names starting
- * with the dot-separated name for the handler or logger.
+ * The properties for loggers bnd Hbndlers will hbve nbmes stbrting
+ * with the dot-sepbrbted nbme for the hbndler or logger.
  * <p>
- * The global logging properties may include:
+ * The globbl logging properties mby include:
  * <ul>
- * <li>A property "handlers".  This defines a whitespace or comma separated
- * list of class names for handler classes to load and register as
- * handlers on the root Logger (the Logger named "").  Each class
- * name must be for a Handler class which has a default constructor.
- * Note that these Handlers may be created lazily, when they are
+ * <li>A property "hbndlers".  This defines b whitespbce or commb sepbrbted
+ * list of clbss nbmes for hbndler clbsses to lobd bnd register bs
+ * hbndlers on the root Logger (the Logger nbmed "").  Ebch clbss
+ * nbme must be for b Hbndler clbss which hbs b defbult constructor.
+ * Note thbt these Hbndlers mby be crebted lbzily, when they bre
  * first used.
  *
- * <li>A property "&lt;logger&gt;.handlers". This defines a whitespace or
- * comma separated list of class names for handlers classes to
- * load and register as handlers to the specified logger. Each class
- * name must be for a Handler class which has a default constructor.
- * Note that these Handlers may be created lazily, when they are
+ * <li>A property "&lt;logger&gt;.hbndlers". This defines b whitespbce or
+ * commb sepbrbted list of clbss nbmes for hbndlers clbsses to
+ * lobd bnd register bs hbndlers to the specified logger. Ebch clbss
+ * nbme must be for b Hbndler clbss which hbs b defbult constructor.
+ * Note thbt these Hbndlers mby be crebted lbzily, when they bre
  * first used.
  *
- * <li>A property "&lt;logger&gt;.useParentHandlers". This defines a boolean
- * value. By default every logger calls its parent in addition to
- * handling the logging message itself, this often result in messages
- * being handled by the root logger as well. When setting this property
- * to false a Handler needs to be configured for this logger otherwise
- * no logging messages are delivered.
+ * <li>A property "&lt;logger&gt;.usePbrentHbndlers". This defines b boolebn
+ * vblue. By defbult every logger cblls its pbrent in bddition to
+ * hbndling the logging messbge itself, this often result in messbges
+ * being hbndled by the root logger bs well. When setting this property
+ * to fblse b Hbndler needs to be configured for this logger otherwise
+ * no logging messbges bre delivered.
  *
- * <li>A property "config".  This property is intended to allow
- * arbitrary configuration code to be run.  The property defines a
- * whitespace or comma separated list of class names.  A new instance will be
- * created for each named class.  The default constructor of each class
- * may execute arbitrary code to update the logging configuration, such as
- * setting logger levels, adding handlers, adding filters, etc.
+ * <li>A property "config".  This property is intended to bllow
+ * brbitrbry configurbtion code to be run.  The property defines b
+ * whitespbce or commb sepbrbted list of clbss nbmes.  A new instbnce will be
+ * crebted for ebch nbmed clbss.  The defbult constructor of ebch clbss
+ * mby execute brbitrbry code to updbte the logging configurbtion, such bs
+ * setting logger levels, bdding hbndlers, bdding filters, etc.
  * </ul>
  * <p>
- * Note that all classes loaded during LogManager configuration are
- * first searched on the system class path before any user class path.
- * That includes the LogManager class, any config classes, and any
- * handler classes.
+ * Note thbt bll clbsses lobded during LogMbnbger configurbtion bre
+ * first sebrched on the system clbss pbth before bny user clbss pbth.
+ * Thbt includes the LogMbnbger clbss, bny config clbsses, bnd bny
+ * hbndler clbsses.
  * <p>
- * Loggers are organized into a naming hierarchy based on their
- * dot separated names.  Thus "a.b.c" is a child of "a.b", but
- * "a.b1" and a.b2" are peers.
+ * Loggers bre orgbnized into b nbming hierbrchy bbsed on their
+ * dot sepbrbted nbmes.  Thus "b.b.c" is b child of "b.b", but
+ * "b.b1" bnd b.b2" bre peers.
  * <p>
- * All properties whose names end with ".level" are assumed to define
- * log levels for Loggers.  Thus "foo.level" defines a log level for
- * the logger called "foo" and (recursively) for any of its children
- * in the naming hierarchy.  Log Levels are applied in the order they
- * are defined in the properties file.  Thus level settings for child
- * nodes in the tree should come after settings for their parents.
- * The property name ".level" can be used to set the level for the
+ * All properties whose nbmes end with ".level" bre bssumed to define
+ * log levels for Loggers.  Thus "foo.level" defines b log level for
+ * the logger cblled "foo" bnd (recursively) for bny of its children
+ * in the nbming hierbrchy.  Log Levels bre bpplied in the order they
+ * bre defined in the properties file.  Thus level settings for child
+ * nodes in the tree should come bfter settings for their pbrents.
+ * The property nbme ".level" cbn be used to set the level for the
  * root of the tree.
  * <p>
- * All methods on the LogManager object are multi-thread safe.
+ * All methods on the LogMbnbger object bre multi-threbd sbfe.
  *
  * @since 1.4
 */
 
-public class LogManager {
-    // The global LogManager object
-    private static final LogManager manager;
+public clbss LogMbnbger {
+    // The globbl LogMbnbger object
+    privbte stbtic finbl LogMbnbger mbnbger;
 
-    // 'props' is assigned within a lock but accessed without it.
-    // Declaring it volatile makes sure that another thread will not
-    // be able to see a partially constructed 'props' object.
-    // (seeing a partially constructed 'props' object can result in
-    // NPE being thrown in Hashtable.get(), because it leaves the door
-    // open for props.getProperties() to be called before the construcor
-    // of Hashtable is actually completed).
-    private volatile Properties props = new Properties();
-    private final static Level defaultLevel = Level.INFO;
+    // 'props' is bssigned within b lock but bccessed without it.
+    // Declbring it volbtile mbkes sure thbt bnother threbd will not
+    // be bble to see b pbrtiblly constructed 'props' object.
+    // (seeing b pbrtiblly constructed 'props' object cbn result in
+    // NPE being thrown in Hbshtbble.get(), becbuse it lebves the door
+    // open for props.getProperties() to be cblled before the construcor
+    // of Hbshtbble is bctublly completed).
+    privbte volbtile Properties props = new Properties();
+    privbte finbl stbtic Level defbultLevel = Level.INFO;
 
-    // LoggerContext for system loggers and user loggers
-    private final LoggerContext systemContext = new SystemLoggerContext();
-    private final LoggerContext userContext = new LoggerContext();
-    // non final field - make it volatile to make sure that other threads
-    // will see the new value once ensureLogManagerInitialized() has finished
+    // LoggerContext for system loggers bnd user loggers
+    privbte finbl LoggerContext systemContext = new SystemLoggerContext();
+    privbte finbl LoggerContext userContext = new LoggerContext();
+    // non finbl field - mbke it volbtile to mbke sure thbt other threbds
+    // will see the new vblue once ensureLogMbnbgerInitiblized() hbs finished
     // executing.
-    private volatile Logger rootLogger;
-    // Have we done the primordial reading of the configuration file?
-    // (Must be done after a suitable amount of java.lang.System
-    // initialization has been done)
-    private volatile boolean readPrimordialConfiguration;
-    // Have we initialized global (root) handlers yet?
-    // This gets set to false in readConfiguration
-    private boolean initializedGlobalHandlers = true;
-    // True if JVM death is imminent and the exit hook has been called.
-    private boolean deathImminent;
+    privbte volbtile Logger rootLogger;
+    // Hbve we done the primordibl rebding of the configurbtion file?
+    // (Must be done bfter b suitbble bmount of jbvb.lbng.System
+    // initiblizbtion hbs been done)
+    privbte volbtile boolebn rebdPrimordiblConfigurbtion;
+    // Hbve we initiblized globbl (root) hbndlers yet?
+    // This gets set to fblse in rebdConfigurbtion
+    privbte boolebn initiblizedGlobblHbndlers = true;
+    // True if JVM debth is imminent bnd the exit hook hbs been cblled.
+    privbte boolebn debthImminent;
 
-    static {
-        manager = AccessController.doPrivileged(new PrivilegedAction<LogManager>() {
+    stbtic {
+        mbnbger = AccessController.doPrivileged(new PrivilegedAction<LogMbnbger>() {
             @Override
-            public LogManager run() {
-                LogManager mgr = null;
-                String cname = null;
+            public LogMbnbger run() {
+                LogMbnbger mgr = null;
+                String cnbme = null;
                 try {
-                    cname = System.getProperty("java.util.logging.manager");
-                    if (cname != null) {
+                    cnbme = System.getProperty("jbvb.util.logging.mbnbger");
+                    if (cnbme != null) {
                         try {
-                            Class<?> clz = ClassLoader.getSystemClassLoader()
-                                    .loadClass(cname);
-                            mgr = (LogManager) clz.newInstance();
-                        } catch (ClassNotFoundException ex) {
-                            Class<?> clz = Thread.currentThread()
-                                    .getContextClassLoader().loadClass(cname);
-                            mgr = (LogManager) clz.newInstance();
+                            Clbss<?> clz = ClbssLobder.getSystemClbssLobder()
+                                    .lobdClbss(cnbme);
+                            mgr = (LogMbnbger) clz.newInstbnce();
+                        } cbtch (ClbssNotFoundException ex) {
+                            Clbss<?> clz = Threbd.currentThrebd()
+                                    .getContextClbssLobder().lobdClbss(cnbme);
+                            mgr = (LogMbnbger) clz.newInstbnce();
                         }
                     }
-                } catch (Exception ex) {
-                    System.err.println("Could not load Logmanager \"" + cname + "\"");
-                    ex.printStackTrace();
+                } cbtch (Exception ex) {
+                    System.err.println("Could not lobd Logmbnbger \"" + cnbme + "\"");
+                    ex.printStbckTrbce();
                 }
                 if (mgr == null) {
-                    mgr = new LogManager();
+                    mgr = new LogMbnbger();
                 }
                 return mgr;
 
@@ -202,323 +202,323 @@ public class LogManager {
     }
 
 
-    // This private class is used as a shutdown hook.
-    // It does a "reset" to close all open handlers.
-    private class Cleaner extends Thread {
+    // This privbte clbss is used bs b shutdown hook.
+    // It does b "reset" to close bll open hbndlers.
+    privbte clbss Clebner extends Threbd {
 
-        private Cleaner() {
-            /* Set context class loader to null in order to avoid
-             * keeping a strong reference to an application classloader.
+        privbte Clebner() {
+            /* Set context clbss lobder to null in order to bvoid
+             * keeping b strong reference to bn bpplicbtion clbsslobder.
              */
-            this.setContextClassLoader(null);
+            this.setContextClbssLobder(null);
         }
 
         @Override
         public void run() {
-            // This is to ensure the LogManager.<clinit> is completed
-            // before synchronized block. Otherwise deadlocks are possible.
-            LogManager mgr = manager;
+            // This is to ensure the LogMbnbger.<clinit> is completed
+            // before synchronized block. Otherwise debdlocks bre possible.
+            LogMbnbger mgr = mbnbger;
 
-            // If the global handlers haven't been initialized yet, we
-            // don't want to initialize them just so we can close them!
-            synchronized (LogManager.this) {
-                // Note that death is imminent.
-                deathImminent = true;
-                initializedGlobalHandlers = true;
+            // If the globbl hbndlers hbven't been initiblized yet, we
+            // don't wbnt to initiblize them just so we cbn close them!
+            synchronized (LogMbnbger.this) {
+                // Note thbt debth is imminent.
+                debthImminent = true;
+                initiblizedGlobblHbndlers = true;
             }
 
-            // Do a reset to close all active handlers.
+            // Do b reset to close bll bctive hbndlers.
             reset();
         }
     }
 
 
     /**
-     * Protected constructor.  This is protected so that container applications
-     * (such as J2EE containers) can subclass the object.  It is non-public as
-     * it is intended that there only be one LogManager object, whose value is
-     * retrieved by calling LogManager.getLogManager.
+     * Protected constructor.  This is protected so thbt contbiner bpplicbtions
+     * (such bs J2EE contbiners) cbn subclbss the object.  It is non-public bs
+     * it is intended thbt there only be one LogMbnbger object, whose vblue is
+     * retrieved by cblling LogMbnbger.getLogMbnbger.
      */
-    protected LogManager() {
-        this(checkSubclassPermissions());
+    protected LogMbnbger() {
+        this(checkSubclbssPermissions());
     }
 
-    private LogManager(Void checked) {
+    privbte LogMbnbger(Void checked) {
 
-        // Add a shutdown hook to close the global handlers.
+        // Add b shutdown hook to close the globbl hbndlers.
         try {
-            Runtime.getRuntime().addShutdownHook(new Cleaner());
-        } catch (IllegalStateException e) {
-            // If the VM is already shutting down,
+            Runtime.getRuntime().bddShutdownHook(new Clebner());
+        } cbtch (IllegblStbteException e) {
+            // If the VM is blrebdy shutting down,
             // We do not need to register shutdownHook.
         }
     }
 
-    private static Void checkSubclassPermissions() {
-        final SecurityManager sm = System.getSecurityManager();
+    privbte stbtic Void checkSubclbssPermissions() {
+        finbl SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            // These permission will be checked in the LogManager constructor,
-            // in order to register the Cleaner() thread as a shutdown hook.
-            // Check them here to avoid the penalty of constructing the object
+            // These permission will be checked in the LogMbnbger constructor,
+            // in order to register the Clebner() threbd bs b shutdown hook.
+            // Check them here to bvoid the penblty of constructing the object
             // etc...
             sm.checkPermission(new RuntimePermission("shutdownHooks"));
-            sm.checkPermission(new RuntimePermission("setContextClassLoader"));
+            sm.checkPermission(new RuntimePermission("setContextClbssLobder"));
         }
         return null;
     }
 
     /**
-     * Lazy initialization: if this instance of manager is the global
-     * manager then this method will read the initial configuration and
-     * add the root logger and global logger by calling addLogger().
+     * Lbzy initiblizbtion: if this instbnce of mbnbger is the globbl
+     * mbnbger then this method will rebd the initibl configurbtion bnd
+     * bdd the root logger bnd globbl logger by cblling bddLogger().
      *
-     * Note that it is subtly different from what we do in LoggerContext.
-     * In LoggerContext we're patching up the logger context tree in order to add
-     * the root and global logger *to the context tree*.
+     * Note thbt it is subtly different from whbt we do in LoggerContext.
+     * In LoggerContext we're pbtching up the logger context tree in order to bdd
+     * the root bnd globbl logger *to the context tree*.
      *
-     * For this to work, addLogger() must have already have been called
-     * once on the LogManager instance for the default logger being
-     * added.
+     * For this to work, bddLogger() must hbve blrebdy hbve been cblled
+     * once on the LogMbnbger instbnce for the defbult logger being
+     * bdded.
      *
-     * This is why ensureLogManagerInitialized() needs to be called before
-     * any logger is added to any logger context.
+     * This is why ensureLogMbnbgerInitiblized() needs to be cblled before
+     * bny logger is bdded to bny logger context.
      *
      */
-    private boolean initializedCalled = false;
-    private volatile boolean initializationDone = false;
-    final void ensureLogManagerInitialized() {
-        final LogManager owner = this;
-        if (initializationDone || owner != manager) {
-            // we don't want to do this twice, and we don't want to do
-            // this on private manager instances.
+    privbte boolebn initiblizedCblled = fblse;
+    privbte volbtile boolebn initiblizbtionDone = fblse;
+    finbl void ensureLogMbnbgerInitiblized() {
+        finbl LogMbnbger owner = this;
+        if (initiblizbtionDone || owner != mbnbger) {
+            // we don't wbnt to do this twice, bnd we don't wbnt to do
+            // this on privbte mbnbger instbnces.
             return;
         }
 
-        // Maybe another thread has called ensureLogManagerInitialized()
-        // before us and is still executing it. If so we will block until
-        // the log manager has finished initialized, then acquire the monitor,
-        // notice that initializationDone is now true and return.
-        // Otherwise - we have come here first! We will acquire the monitor,
-        // see that initializationDone is still false, and perform the
-        // initialization.
+        // Mbybe bnother threbd hbs cblled ensureLogMbnbgerInitiblized()
+        // before us bnd is still executing it. If so we will block until
+        // the log mbnbger hbs finished initiblized, then bcquire the monitor,
+        // notice thbt initiblizbtionDone is now true bnd return.
+        // Otherwise - we hbve come here first! We will bcquire the monitor,
+        // see thbt initiblizbtionDone is still fblse, bnd perform the
+        // initiblizbtion.
         //
         synchronized(this) {
-            // If initializedCalled is true it means that we're already in
-            // the process of initializing the LogManager in this thread.
-            // There has been a recursive call to ensureLogManagerInitialized().
-            final boolean isRecursiveInitialization = (initializedCalled == true);
+            // If initiblizedCblled is true it mebns thbt we're blrebdy in
+            // the process of initiblizing the LogMbnbger in this threbd.
+            // There hbs been b recursive cbll to ensureLogMbnbgerInitiblized().
+            finbl boolebn isRecursiveInitiblizbtion = (initiblizedCblled == true);
 
-            assert initializedCalled || !initializationDone
-                    : "Initialization can't be done if initialized has not been called!";
+            bssert initiblizedCblled || !initiblizbtionDone
+                    : "Initiblizbtion cbn't be done if initiblized hbs not been cblled!";
 
-            if (isRecursiveInitialization || initializationDone) {
-                // If isRecursiveInitialization is true it means that we're
-                // already in the process of initializing the LogManager in
-                // this thread. There has been a recursive call to
-                // ensureLogManagerInitialized(). We should not proceed as
-                // it would lead to infinite recursion.
+            if (isRecursiveInitiblizbtion || initiblizbtionDone) {
+                // If isRecursiveInitiblizbtion is true it mebns thbt we're
+                // blrebdy in the process of initiblizing the LogMbnbger in
+                // this threbd. There hbs been b recursive cbll to
+                // ensureLogMbnbgerInitiblized(). We should not proceed bs
+                // it would lebd to infinite recursion.
                 //
-                // If initializationDone is true then it means the manager
-                // has finished initializing; just return: we're done.
+                // If initiblizbtionDone is true then it mebns the mbnbger
+                // hbs finished initiblizing; just return: we're done.
                 return;
             }
-            // Calling addLogger below will in turn call requiresDefaultLogger()
-            // which will call ensureLogManagerInitialized().
-            // We use initializedCalled to break the recursion.
-            initializedCalled = true;
+            // Cblling bddLogger below will in turn cbll requiresDefbultLogger()
+            // which will cbll ensureLogMbnbgerInitiblized().
+            // We use initiblizedCblled to brebk the recursion.
+            initiblizedCblled = true;
             try {
                 AccessController.doPrivileged(new PrivilegedAction<Object>() {
                     @Override
                     public Object run() {
-                        assert rootLogger == null;
-                        assert initializedCalled && !initializationDone;
+                        bssert rootLogger == null;
+                        bssert initiblizedCblled && !initiblizbtionDone;
 
-                        // Read configuration.
-                        owner.readPrimordialConfiguration();
+                        // Rebd configurbtion.
+                        owner.rebdPrimordiblConfigurbtion();
 
-                        // Create and retain Logger for the root of the namespace.
+                        // Crebte bnd retbin Logger for the root of the nbmespbce.
                         owner.rootLogger = owner.new RootLogger();
-                        owner.addLogger(owner.rootLogger);
-                        if (!owner.rootLogger.isLevelInitialized()) {
-                            owner.rootLogger.setLevel(defaultLevel);
+                        owner.bddLogger(owner.rootLogger);
+                        if (!owner.rootLogger.isLevelInitiblized()) {
+                            owner.rootLogger.setLevel(defbultLevel);
                         }
 
-                        // Adding the global Logger.
-                        // Do not call Logger.getGlobal() here as this might trigger
+                        // Adding the globbl Logger.
+                        // Do not cbll Logger.getGlobbl() here bs this might trigger
                         // subtle inter-dependency issues.
-                        @SuppressWarnings("deprecation")
-                        final Logger global = Logger.global;
+                        @SuppressWbrnings("deprecbtion")
+                        finbl Logger globbl = Logger.globbl;
 
-                        // Make sure the global logger will be registered in the
-                        // global manager
-                        owner.addLogger(global);
+                        // Mbke sure the globbl logger will be registered in the
+                        // globbl mbnbger
+                        owner.bddLogger(globbl);
                         return null;
                     }
                 });
-            } finally {
-                initializationDone = true;
+            } finblly {
+                initiblizbtionDone = true;
             }
         }
     }
 
     /**
-     * Returns the global LogManager object.
-     * @return the global LogManager object
+     * Returns the globbl LogMbnbger object.
+     * @return the globbl LogMbnbger object
      */
-    public static LogManager getLogManager() {
-        if (manager != null) {
-            manager.ensureLogManagerInitialized();
+    public stbtic LogMbnbger getLogMbnbger() {
+        if (mbnbger != null) {
+            mbnbger.ensureLogMbnbgerInitiblized();
         }
-        return manager;
+        return mbnbger;
     }
 
-    private void readPrimordialConfiguration() {
-        if (!readPrimordialConfiguration) {
+    privbte void rebdPrimordiblConfigurbtion() {
+        if (!rebdPrimordiblConfigurbtion) {
             synchronized (this) {
-                if (!readPrimordialConfiguration) {
-                    // If System.in/out/err are null, it's a good
-                    // indication that we're still in the
-                    // bootstrapping phase
+                if (!rebdPrimordiblConfigurbtion) {
+                    // If System.in/out/err bre null, it's b good
+                    // indicbtion thbt we're still in the
+                    // bootstrbpping phbse
                     if (System.out == null) {
                         return;
                     }
-                    readPrimordialConfiguration = true;
+                    rebdPrimordiblConfigurbtion = true;
 
                     try {
                         AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
                                 @Override
                                 public Void run() throws Exception {
-                                    readConfiguration();
+                                    rebdConfigurbtion();
 
-                                    // Platform loggers begin to delegate to java.util.logging.Logger
-                                    sun.util.logging.PlatformLogger.redirectPlatformLoggers();
+                                    // Plbtform loggers begin to delegbte to jbvb.util.logging.Logger
+                                    sun.util.logging.PlbtformLogger.redirectPlbtformLoggers();
                                     return null;
                                 }
                             });
-                    } catch (Exception ex) {
-                        assert false : "Exception raised while reading logging configuration: " + ex;
+                    } cbtch (Exception ex) {
+                        bssert fblse : "Exception rbised while rebding logging configurbtion: " + ex;
                     }
                 }
             }
         }
     }
 
-    // LoggerContext maps from AppContext
-    private WeakHashMap<Object, LoggerContext> contextsMap = null;
+    // LoggerContext mbps from AppContext
+    privbte WebkHbshMbp<Object, LoggerContext> contextsMbp = null;
 
-    // Returns the LoggerContext for the user code (i.e. application or AppContext).
-    // Loggers are isolated from each AppContext.
-    private LoggerContext getUserContext() {
+    // Returns the LoggerContext for the user code (i.e. bpplicbtion or AppContext).
+    // Loggers bre isolbted from ebch AppContext.
+    privbte LoggerContext getUserContext() {
         LoggerContext context = null;
 
-        SecurityManager sm = System.getSecurityManager();
-        JavaAWTAccess javaAwtAccess = SharedSecrets.getJavaAWTAccess();
-        if (sm != null && javaAwtAccess != null) {
-            // for each applet, it has its own LoggerContext isolated from others
-            synchronized (javaAwtAccess) {
-                // find the AppContext of the applet code
-                // will be null if we are in the main app context.
-                final Object ecx = javaAwtAccess.getAppletContext();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
+        JbvbAWTAccess jbvbAwtAccess = ShbredSecrets.getJbvbAWTAccess();
+        if (sm != null && jbvbAwtAccess != null) {
+            // for ebch bpplet, it hbs its own LoggerContext isolbted from others
+            synchronized (jbvbAwtAccess) {
+                // find the AppContext of the bpplet code
+                // will be null if we bre in the mbin bpp context.
+                finbl Object ecx = jbvbAwtAccess.getAppletContext();
                 if (ecx != null) {
-                    if (contextsMap == null) {
-                        contextsMap = new WeakHashMap<>();
+                    if (contextsMbp == null) {
+                        contextsMbp = new WebkHbshMbp<>();
                     }
-                    context = contextsMap.get(ecx);
+                    context = contextsMbp.get(ecx);
                     if (context == null) {
-                        // Create a new LoggerContext for the applet.
+                        // Crebte b new LoggerContext for the bpplet.
                         context = new LoggerContext();
-                        contextsMap.put(ecx, context);
+                        contextsMbp.put(ecx, context);
                     }
                 }
             }
         }
-        // for standalone app, return userContext
+        // for stbndblone bpp, return userContext
         return context != null ? context : userContext;
     }
 
     // The system context.
-    final LoggerContext getSystemContext() {
+    finbl LoggerContext getSystemContext() {
         return systemContext;
     }
 
-    private List<LoggerContext> contexts() {
-        List<LoggerContext> cxs = new ArrayList<>();
-        cxs.add(getSystemContext());
-        cxs.add(getUserContext());
+    privbte List<LoggerContext> contexts() {
+        List<LoggerContext> cxs = new ArrbyList<>();
+        cxs.bdd(getSystemContext());
+        cxs.bdd(getUserContext());
         return cxs;
     }
 
-    // Find or create a specified logger instance. If a logger has
-    // already been created with the given name it is returned.
-    // Otherwise a new logger instance is created and registered
-    // in the LogManager global namespace.
-    // This method will always return a non-null Logger object.
-    // Synchronization is not required here. All synchronization for
-    // adding a new Logger object is handled by addLogger().
+    // Find or crebte b specified logger instbnce. If b logger hbs
+    // blrebdy been crebted with the given nbme it is returned.
+    // Otherwise b new logger instbnce is crebted bnd registered
+    // in the LogMbnbger globbl nbmespbce.
+    // This method will blwbys return b non-null Logger object.
+    // Synchronizbtion is not required here. All synchronizbtion for
+    // bdding b new Logger object is hbndled by bddLogger().
     //
-    // This method must delegate to the LogManager implementation to
-    // add a new Logger or return the one that has been added previously
-    // as a LogManager subclass may override the addLogger, getLogger,
-    // readConfiguration, and other methods.
-    Logger demandLogger(String name, String resourceBundleName, Class<?> caller) {
-        Logger result = getLogger(name);
+    // This method must delegbte to the LogMbnbger implementbtion to
+    // bdd b new Logger or return the one thbt hbs been bdded previously
+    // bs b LogMbnbger subclbss mby override the bddLogger, getLogger,
+    // rebdConfigurbtion, bnd other methods.
+    Logger dembndLogger(String nbme, String resourceBundleNbme, Clbss<?> cbller) {
+        Logger result = getLogger(nbme);
         if (result == null) {
-            // only allocate the new logger once
-            Logger newLogger = new Logger(name, resourceBundleName, caller, this, false);
+            // only bllocbte the new logger once
+            Logger newLogger = new Logger(nbme, resourceBundleNbme, cbller, this, fblse);
             do {
-                if (addLogger(newLogger)) {
-                    // We successfully added the new Logger that we
-                    // created above so return it without refetching.
+                if (bddLogger(newLogger)) {
+                    // We successfully bdded the new Logger thbt we
+                    // crebted bbove so return it without refetching.
                     return newLogger;
                 }
 
-                // We didn't add the new Logger that we created above
-                // because another thread added a Logger with the same
-                // name after our null check above and before our call
-                // to addLogger(). We have to refetch the Logger because
-                // addLogger() returns a boolean instead of the Logger
-                // reference itself. However, if the thread that created
-                // the other Logger is not holding a strong reference to
+                // We didn't bdd the new Logger thbt we crebted bbove
+                // becbuse bnother threbd bdded b Logger with the sbme
+                // nbme bfter our null check bbove bnd before our cbll
+                // to bddLogger(). We hbve to refetch the Logger becbuse
+                // bddLogger() returns b boolebn instebd of the Logger
+                // reference itself. However, if the threbd thbt crebted
+                // the other Logger is not holding b strong reference to
                 // the other Logger, then it is possible for the other
-                // Logger to be GC'ed after we saw it in addLogger() and
-                // before we can refetch it. If it has been GC'ed then
-                // we'll just loop around and try again.
-                result = getLogger(name);
+                // Logger to be GC'ed bfter we sbw it in bddLogger() bnd
+                // before we cbn refetch it. If it hbs been GC'ed then
+                // we'll just loop bround bnd try bgbin.
+                result = getLogger(nbme);
             } while (result == null);
         }
         return result;
     }
 
-    Logger demandSystemLogger(String name, String resourceBundleName) {
-        // Add a system logger in the system context's namespace
-        final Logger sysLogger = getSystemContext().demandLogger(name, resourceBundleName);
+    Logger dembndSystemLogger(String nbme, String resourceBundleNbme) {
+        // Add b system logger in the system context's nbmespbce
+        finbl Logger sysLogger = getSystemContext().dembndLogger(nbme, resourceBundleNbme);
 
-        // Add the system logger to the LogManager's namespace if not exist
-        // so that there is only one single logger of the given name.
-        // System loggers are visible to applications unless a logger of
-        // the same name has been added.
+        // Add the system logger to the LogMbnbger's nbmespbce if not exist
+        // so thbt there is only one single logger of the given nbme.
+        // System loggers bre visible to bpplicbtions unless b logger of
+        // the sbme nbme hbs been bdded.
         Logger logger;
         do {
-            // First attempt to call addLogger instead of getLogger
-            // This would avoid potential bug in custom LogManager.getLogger
-            // implementation that adds a logger if does not exist
-            if (addLogger(sysLogger)) {
-                // successfully added the new system logger
+            // First bttempt to cbll bddLogger instebd of getLogger
+            // This would bvoid potentibl bug in custom LogMbnbger.getLogger
+            // implementbtion thbt bdds b logger if does not exist
+            if (bddLogger(sysLogger)) {
+                // successfully bdded the new system logger
                 logger = sysLogger;
             } else {
-                logger = getLogger(name);
+                logger = getLogger(nbme);
             }
         } while (logger == null);
 
-        // LogManager will set the sysLogger's handlers via LogManager.addLogger method.
-        if (logger != sysLogger && sysLogger.accessCheckedHandlers().length == 0) {
-            // if logger already exists but handlers not set
-            final Logger l = logger;
+        // LogMbnbger will set the sysLogger's hbndlers vib LogMbnbger.bddLogger method.
+        if (logger != sysLogger && sysLogger.bccessCheckedHbndlers().length == 0) {
+            // if logger blrebdy exists but hbndlers not set
+            finbl Logger l = logger;
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 @Override
                 public Void run() {
-                    for (Handler hdl : l.accessCheckedHandlers()) {
-                        sysLogger.addHandler(hdl);
+                    for (Hbndler hdl : l.bccessCheckedHbndlers()) {
+                        sysLogger.bddHbndler(hdl);
                     }
                     return null;
                 }
@@ -527,250 +527,250 @@ public class LogManager {
         return sysLogger;
     }
 
-    // LoggerContext maintains the logger namespace per context.
-    // The default LogManager implementation has one system context and user
-    // context.  The system context is used to maintain the namespace for
-    // all system loggers and is queried by the system code.  If a system logger
-    // doesn't exist in the user context, it'll also be added to the user context.
-    // The user context is queried by the user code and all other loggers are
-    // added in the user context.
-    class LoggerContext {
-        // Table of named Loggers that maps names to Loggers.
-        private final Hashtable<String,LoggerWeakRef> namedLoggers = new Hashtable<>();
-        // Tree of named Loggers
-        private final LogNode root;
-        private LoggerContext() {
+    // LoggerContext mbintbins the logger nbmespbce per context.
+    // The defbult LogMbnbger implementbtion hbs one system context bnd user
+    // context.  The system context is used to mbintbin the nbmespbce for
+    // bll system loggers bnd is queried by the system code.  If b system logger
+    // doesn't exist in the user context, it'll blso be bdded to the user context.
+    // The user context is queried by the user code bnd bll other loggers bre
+    // bdded in the user context.
+    clbss LoggerContext {
+        // Tbble of nbmed Loggers thbt mbps nbmes to Loggers.
+        privbte finbl Hbshtbble<String,LoggerWebkRef> nbmedLoggers = new Hbshtbble<>();
+        // Tree of nbmed Loggers
+        privbte finbl LogNode root;
+        privbte LoggerContext() {
             this.root = new LogNode(null, this);
         }
 
 
-        // Tells whether default loggers are required in this context.
-        // If true, the default loggers will be lazily added.
-        final boolean requiresDefaultLoggers() {
-            final boolean requiresDefaultLoggers = (getOwner() == manager);
-            if (requiresDefaultLoggers) {
-                getOwner().ensureLogManagerInitialized();
+        // Tells whether defbult loggers bre required in this context.
+        // If true, the defbult loggers will be lbzily bdded.
+        finbl boolebn requiresDefbultLoggers() {
+            finbl boolebn requiresDefbultLoggers = (getOwner() == mbnbger);
+            if (requiresDefbultLoggers) {
+                getOwner().ensureLogMbnbgerInitiblized();
             }
-            return requiresDefaultLoggers;
+            return requiresDefbultLoggers;
         }
 
-        // This context's LogManager.
-        final LogManager getOwner() {
-            return LogManager.this;
+        // This context's LogMbnbger.
+        finbl LogMbnbger getOwner() {
+            return LogMbnbger.this;
         }
 
-        // This context owner's root logger, which if not null, and if
-        // the context requires default loggers, will be added to the context
+        // This context owner's root logger, which if not null, bnd if
+        // the context requires defbult loggers, will be bdded to the context
         // logger's tree.
-        final Logger getRootLogger() {
+        finbl Logger getRootLogger() {
             return getOwner().rootLogger;
         }
 
-        // The global logger, which if not null, and if
-        // the context requires default loggers, will be added to the context
+        // The globbl logger, which if not null, bnd if
+        // the context requires defbult loggers, will be bdded to the context
         // logger's tree.
-        final Logger getGlobalLogger() {
-            @SuppressWarnings("deprecation") // avoids initialization cycles.
-            final Logger global = Logger.global;
-            return global;
+        finbl Logger getGlobblLogger() {
+            @SuppressWbrnings("deprecbtion") // bvoids initiblizbtion cycles.
+            finbl Logger globbl = Logger.globbl;
+            return globbl;
         }
 
-        Logger demandLogger(String name, String resourceBundleName) {
-            // a LogManager subclass may have its own implementation to add and
-            // get a Logger.  So delegate to the LogManager to do the work.
-            final LogManager owner = getOwner();
-            return owner.demandLogger(name, resourceBundleName, null);
+        Logger dembndLogger(String nbme, String resourceBundleNbme) {
+            // b LogMbnbger subclbss mby hbve its own implementbtion to bdd bnd
+            // get b Logger.  So delegbte to the LogMbnbger to do the work.
+            finbl LogMbnbger owner = getOwner();
+            return owner.dembndLogger(nbme, resourceBundleNbme, null);
         }
 
 
-        // Due to subtle deadlock issues getUserContext() no longer
-        // calls addLocalLogger(rootLogger);
-        // Therefore - we need to add the default loggers later on.
-        // Checks that the context is properly initialized
-        // This is necessary before calling e.g. find(name)
-        // or getLoggerNames()
+        // Due to subtle debdlock issues getUserContext() no longer
+        // cblls bddLocblLogger(rootLogger);
+        // Therefore - we need to bdd the defbult loggers lbter on.
+        // Checks thbt the context is properly initiblized
+        // This is necessbry before cblling e.g. find(nbme)
+        // or getLoggerNbmes()
         //
-        private void ensureInitialized() {
-            if (requiresDefaultLoggers()) {
-                // Ensure that the root and global loggers are set.
-                ensureDefaultLogger(getRootLogger());
-                ensureDefaultLogger(getGlobalLogger());
+        privbte void ensureInitiblized() {
+            if (requiresDefbultLoggers()) {
+                // Ensure thbt the root bnd globbl loggers bre set.
+                ensureDefbultLogger(getRootLogger());
+                ensureDefbultLogger(getGlobblLogger());
             }
         }
 
 
-        synchronized Logger findLogger(String name) {
-            // ensure that this context is properly initialized before
+        synchronized Logger findLogger(String nbme) {
+            // ensure thbt this context is properly initiblized before
             // looking for loggers.
-            ensureInitialized();
-            LoggerWeakRef ref = namedLoggers.get(name);
+            ensureInitiblized();
+            LoggerWebkRef ref = nbmedLoggers.get(nbme);
             if (ref == null) {
                 return null;
             }
             Logger logger = ref.get();
             if (logger == null) {
-                // Hashtable holds stale weak reference
-                // to a logger which has been GC-ed.
+                // Hbshtbble holds stble webk reference
+                // to b logger which hbs been GC-ed.
                 ref.dispose();
             }
             return logger;
         }
 
-        // This method is called before adding a logger to the
+        // This method is cblled before bdding b logger to the
         // context.
-        // 'logger' is the context that will be added.
-        // This method will ensure that the defaults loggers are added
-        // before adding 'logger'.
+        // 'logger' is the context thbt will be bdded.
+        // This method will ensure thbt the defbults loggers bre bdded
+        // before bdding 'logger'.
         //
-        private void ensureAllDefaultLoggers(Logger logger) {
-            if (requiresDefaultLoggers()) {
-                final String name = logger.getName();
-                if (!name.isEmpty()) {
-                    ensureDefaultLogger(getRootLogger());
-                    if (!Logger.GLOBAL_LOGGER_NAME.equals(name)) {
-                        ensureDefaultLogger(getGlobalLogger());
+        privbte void ensureAllDefbultLoggers(Logger logger) {
+            if (requiresDefbultLoggers()) {
+                finbl String nbme = logger.getNbme();
+                if (!nbme.isEmpty()) {
+                    ensureDefbultLogger(getRootLogger());
+                    if (!Logger.GLOBAL_LOGGER_NAME.equbls(nbme)) {
+                        ensureDefbultLogger(getGlobblLogger());
                     }
                 }
             }
         }
 
-        private void ensureDefaultLogger(Logger logger) {
-            // Used for lazy addition of root logger and global logger
-            // to a LoggerContext.
+        privbte void ensureDefbultLogger(Logger logger) {
+            // Used for lbzy bddition of root logger bnd globbl logger
+            // to b LoggerContext.
 
-            // This check is simple sanity: we do not want that this
-            // method be called for anything else than Logger.global
+            // This check is simple sbnity: we do not wbnt thbt this
+            // method be cblled for bnything else thbn Logger.globbl
             // or owner.rootLogger.
-            if (!requiresDefaultLoggers() || logger == null
-                    || logger != getGlobalLogger() && logger != LogManager.this.rootLogger ) {
+            if (!requiresDefbultLoggers() || logger == null
+                    || logger != getGlobblLogger() && logger != LogMbnbger.this.rootLogger ) {
 
-                // the case where we have a non null logger which is neither
-                // Logger.global nor manager.rootLogger indicates a serious
-                // issue - as ensureDefaultLogger should never be called
-                // with any other loggers than one of these two (or null - if
-                // e.g manager.rootLogger is not yet initialized)...
-                assert logger == null;
+                // the cbse where we hbve b non null logger which is neither
+                // Logger.globbl nor mbnbger.rootLogger indicbtes b serious
+                // issue - bs ensureDefbultLogger should never be cblled
+                // with bny other loggers thbn one of these two (or null - if
+                // e.g mbnbger.rootLogger is not yet initiblized)...
+                bssert logger == null;
 
                 return;
             }
 
-            // Adds the logger if it's not already there.
-            if (!namedLoggers.containsKey(logger.getName())) {
-                // It is important to prevent addLocalLogger to
-                // call ensureAllDefaultLoggers when we're in the process
-                // off adding one of those default loggers - as this would
-                // immediately cause a stack overflow.
-                // Therefore we must pass addDefaultLoggersIfNeeded=false,
-                // even if requiresDefaultLoggers is true.
-                addLocalLogger(logger, false);
+            // Adds the logger if it's not blrebdy there.
+            if (!nbmedLoggers.contbinsKey(logger.getNbme())) {
+                // It is importbnt to prevent bddLocblLogger to
+                // cbll ensureAllDefbultLoggers when we're in the process
+                // off bdding one of those defbult loggers - bs this would
+                // immedibtely cbuse b stbck overflow.
+                // Therefore we must pbss bddDefbultLoggersIfNeeded=fblse,
+                // even if requiresDefbultLoggers is true.
+                bddLocblLogger(logger, fblse);
             }
         }
 
-        boolean addLocalLogger(Logger logger) {
-            // no need to add default loggers if it's not required
-            return addLocalLogger(logger, requiresDefaultLoggers());
+        boolebn bddLocblLogger(Logger logger) {
+            // no need to bdd defbult loggers if it's not required
+            return bddLocblLogger(logger, requiresDefbultLoggers());
         }
 
-        // Add a logger to this context.  This method will only set its level
-        // and process parent loggers.  It doesn't set its handlers.
-        synchronized boolean addLocalLogger(Logger logger, boolean addDefaultLoggersIfNeeded) {
-            // addDefaultLoggersIfNeeded serves to break recursion when adding
-            // default loggers. If we're adding one of the default loggers
-            // (we're being called from ensureDefaultLogger()) then
-            // addDefaultLoggersIfNeeded will be false: we don't want to
-            // call ensureAllDefaultLoggers again.
+        // Add b logger to this context.  This method will only set its level
+        // bnd process pbrent loggers.  It doesn't set its hbndlers.
+        synchronized boolebn bddLocblLogger(Logger logger, boolebn bddDefbultLoggersIfNeeded) {
+            // bddDefbultLoggersIfNeeded serves to brebk recursion when bdding
+            // defbult loggers. If we're bdding one of the defbult loggers
+            // (we're being cblled from ensureDefbultLogger()) then
+            // bddDefbultLoggersIfNeeded will be fblse: we don't wbnt to
+            // cbll ensureAllDefbultLoggers bgbin.
             //
-            // Note: addDefaultLoggersIfNeeded can also be false when
-            //       requiresDefaultLoggers is false - since calling
-            //       ensureAllDefaultLoggers would have no effect in this case.
-            if (addDefaultLoggersIfNeeded) {
-                ensureAllDefaultLoggers(logger);
+            // Note: bddDefbultLoggersIfNeeded cbn blso be fblse when
+            //       requiresDefbultLoggers is fblse - since cblling
+            //       ensureAllDefbultLoggers would hbve no effect in this cbse.
+            if (bddDefbultLoggersIfNeeded) {
+                ensureAllDefbultLoggers(logger);
             }
 
-            final String name = logger.getName();
-            if (name == null) {
+            finbl String nbme = logger.getNbme();
+            if (nbme == null) {
                 throw new NullPointerException();
             }
-            LoggerWeakRef ref = namedLoggers.get(name);
+            LoggerWebkRef ref = nbmedLoggers.get(nbme);
             if (ref != null) {
                 if (ref.get() == null) {
-                    // It's possible that the Logger was GC'ed after a
-                    // drainLoggerRefQueueBounded() call above so allow
-                    // a new one to be registered.
+                    // It's possible thbt the Logger wbs GC'ed bfter b
+                    // drbinLoggerRefQueueBounded() cbll bbove so bllow
+                    // b new one to be registered.
                     ref.dispose();
                 } else {
-                    // We already have a registered logger with the given name.
-                    return false;
+                    // We blrebdy hbve b registered logger with the given nbme.
+                    return fblse;
                 }
             }
 
-            // We're adding a new logger.
-            // Note that we are creating a weak reference here.
-            final LogManager owner = getOwner();
-            logger.setLogManager(owner);
-            ref = owner.new LoggerWeakRef(logger);
-            namedLoggers.put(name, ref);
+            // We're bdding b new logger.
+            // Note thbt we bre crebting b webk reference here.
+            finbl LogMbnbger owner = getOwner();
+            logger.setLogMbnbger(owner);
+            ref = owner.new LoggerWebkRef(logger);
+            nbmedLoggers.put(nbme, ref);
 
-            // Apply any initial level defined for the new logger, unless
-            // the logger's level is already initialized
-            Level level = owner.getLevelProperty(name + ".level", null);
-            if (level != null && !logger.isLevelInitialized()) {
+            // Apply bny initibl level defined for the new logger, unless
+            // the logger's level is blrebdy initiblized
+            Level level = owner.getLevelProperty(nbme + ".level", null);
+            if (level != null && !logger.isLevelInitiblized()) {
                 doSetLevel(logger, level);
             }
 
-            // instantiation of the handler is done in the LogManager.addLogger
-            // implementation as a handler class may be only visible to LogManager
-            // subclass for the custom log manager case
-            processParentHandlers(logger, name);
+            // instbntibtion of the hbndler is done in the LogMbnbger.bddLogger
+            // implementbtion bs b hbndler clbss mby be only visible to LogMbnbger
+            // subclbss for the custom log mbnbger cbse
+            processPbrentHbndlers(logger, nbme);
 
-            // Find the new node and its parent.
-            LogNode node = getNode(name);
+            // Find the new node bnd its pbrent.
+            LogNode node = getNode(nbme);
             node.loggerRef = ref;
-            Logger parent = null;
-            LogNode nodep = node.parent;
+            Logger pbrent = null;
+            LogNode nodep = node.pbrent;
             while (nodep != null) {
-                LoggerWeakRef nodeRef = nodep.loggerRef;
+                LoggerWebkRef nodeRef = nodep.loggerRef;
                 if (nodeRef != null) {
-                    parent = nodeRef.get();
-                    if (parent != null) {
-                        break;
+                    pbrent = nodeRef.get();
+                    if (pbrent != null) {
+                        brebk;
                     }
                 }
-                nodep = nodep.parent;
+                nodep = nodep.pbrent;
             }
 
-            if (parent != null) {
-                doSetParent(logger, parent);
+            if (pbrent != null) {
+                doSetPbrent(logger, pbrent);
             }
-            // Walk over the children and tell them we are their new parent.
-            node.walkAndSetParent(logger);
-            // new LogNode is ready so tell the LoggerWeakRef about it
+            // Wblk over the children bnd tell them we bre their new pbrent.
+            node.wblkAndSetPbrent(logger);
+            // new LogNode is rebdy so tell the LoggerWebkRef bbout it
             ref.setNode(node);
             return true;
         }
 
-        synchronized void removeLoggerRef(String name, LoggerWeakRef ref) {
-            namedLoggers.remove(name, ref);
+        synchronized void removeLoggerRef(String nbme, LoggerWebkRef ref) {
+            nbmedLoggers.remove(nbme, ref);
         }
 
-        synchronized Enumeration<String> getLoggerNames() {
-            // ensure that this context is properly initialized before
-            // returning logger names.
-            ensureInitialized();
-            return namedLoggers.keys();
+        synchronized Enumerbtion<String> getLoggerNbmes() {
+            // ensure thbt this context is properly initiblized before
+            // returning logger nbmes.
+            ensureInitiblized();
+            return nbmedLoggers.keys();
         }
 
-        // If logger.getUseParentHandlers() returns 'true' and any of the logger's
-        // parents have levels or handlers defined, make sure they are instantiated.
-        private void processParentHandlers(final Logger logger, final String name) {
-            final LogManager owner = getOwner();
+        // If logger.getUsePbrentHbndlers() returns 'true' bnd bny of the logger's
+        // pbrents hbve levels or hbndlers defined, mbke sure they bre instbntibted.
+        privbte void processPbrentHbndlers(finbl Logger logger, finbl String nbme) {
+            finbl LogMbnbger owner = getOwner();
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 @Override
                 public Void run() {
                     if (logger != owner.rootLogger) {
-                        boolean useParent = owner.getBooleanProperty(name + ".useParentHandlers", true);
-                        if (!useParent) {
-                            logger.setUseParentHandlers(false);
+                        boolebn usePbrent = owner.getBoolebnProperty(nbme + ".usePbrentHbndlers", true);
+                        if (!usePbrent) {
+                            logger.setUsePbrentHbndlers(fblse);
                         }
                     }
                     return null;
@@ -779,45 +779,45 @@ public class LogManager {
 
             int ix = 1;
             for (;;) {
-                int ix2 = name.indexOf('.', ix);
+                int ix2 = nbme.indexOf('.', ix);
                 if (ix2 < 0) {
-                    break;
+                    brebk;
                 }
-                String pname = name.substring(0, ix2);
-                if (owner.getProperty(pname + ".level") != null ||
-                    owner.getProperty(pname + ".handlers") != null) {
-                    // This pname has a level/handlers definition.
-                    // Make sure it exists.
-                    demandLogger(pname, null);
+                String pnbme = nbme.substring(0, ix2);
+                if (owner.getProperty(pnbme + ".level") != null ||
+                    owner.getProperty(pnbme + ".hbndlers") != null) {
+                    // This pnbme hbs b level/hbndlers definition.
+                    // Mbke sure it exists.
+                    dembndLogger(pnbme, null);
                 }
                 ix = ix2+1;
             }
         }
 
-        // Gets a node in our tree of logger nodes.
-        // If necessary, create it.
-        LogNode getNode(String name) {
-            if (name == null || name.equals("")) {
+        // Gets b node in our tree of logger nodes.
+        // If necessbry, crebte it.
+        LogNode getNode(String nbme) {
+            if (nbme == null || nbme.equbls("")) {
                 return root;
             }
             LogNode node = root;
-            while (name.length() > 0) {
-                int ix = name.indexOf('.');
-                String head;
+            while (nbme.length() > 0) {
+                int ix = nbme.indexOf('.');
+                String hebd;
                 if (ix > 0) {
-                    head = name.substring(0, ix);
-                    name = name.substring(ix + 1);
+                    hebd = nbme.substring(0, ix);
+                    nbme = nbme.substring(ix + 1);
                 } else {
-                    head = name;
-                    name = "";
+                    hebd = nbme;
+                    nbme = "";
                 }
                 if (node.children == null) {
-                    node.children = new HashMap<>();
+                    node.children = new HbshMbp<>();
                 }
-                LogNode child = node.children.get(head);
+                LogNode child = node.children.get(hebd);
                 if (child == null) {
                     child = new LogNode(node, this);
-                    node.children.put(head, child);
+                    node.children.put(hebd, child);
                 }
                 node = child;
             }
@@ -825,35 +825,35 @@ public class LogManager {
         }
     }
 
-    final class SystemLoggerContext extends LoggerContext {
-        // Add a system logger in the system context's namespace as well as
-        // in the LogManager's namespace if not exist so that there is only
-        // one single logger of the given name.  System loggers are visible
-        // to applications unless a logger of the same name has been added.
+    finbl clbss SystemLoggerContext extends LoggerContext {
+        // Add b system logger in the system context's nbmespbce bs well bs
+        // in the LogMbnbger's nbmespbce if not exist so thbt there is only
+        // one single logger of the given nbme.  System loggers bre visible
+        // to bpplicbtions unless b logger of the sbme nbme hbs been bdded.
         @Override
-        Logger demandLogger(String name, String resourceBundleName) {
-            Logger result = findLogger(name);
+        Logger dembndLogger(String nbme, String resourceBundleNbme) {
+            Logger result = findLogger(nbme);
             if (result == null) {
-                // only allocate the new system logger once
-                Logger newLogger = new Logger(name, resourceBundleName, null, getOwner(), true);
+                // only bllocbte the new system logger once
+                Logger newLogger = new Logger(nbme, resourceBundleNbme, null, getOwner(), true);
                 do {
-                    if (addLocalLogger(newLogger)) {
-                        // We successfully added the new Logger that we
-                        // created above so return it without refetching.
+                    if (bddLocblLogger(newLogger)) {
+                        // We successfully bdded the new Logger thbt we
+                        // crebted bbove so return it without refetching.
                         result = newLogger;
                     } else {
-                        // We didn't add the new Logger that we created above
-                        // because another thread added a Logger with the same
-                        // name after our null check above and before our call
-                        // to addLogger(). We have to refetch the Logger because
-                        // addLogger() returns a boolean instead of the Logger
-                        // reference itself. However, if the thread that created
-                        // the other Logger is not holding a strong reference to
+                        // We didn't bdd the new Logger thbt we crebted bbove
+                        // becbuse bnother threbd bdded b Logger with the sbme
+                        // nbme bfter our null check bbove bnd before our cbll
+                        // to bddLogger(). We hbve to refetch the Logger becbuse
+                        // bddLogger() returns b boolebn instebd of the Logger
+                        // reference itself. However, if the threbd thbt crebted
+                        // the other Logger is not holding b strong reference to
                         // the other Logger, then it is possible for the other
-                        // Logger to be GC'ed after we saw it in addLogger() and
-                        // before we can refetch it. If it has been GC'ed then
-                        // we'll just loop around and try again.
-                        result = findLogger(name);
+                        // Logger to be GC'ed bfter we sbw it in bddLogger() bnd
+                        // before we cbn refetch it. If it hbs been GC'ed then
+                        // we'll just loop bround bnd try bgbin.
+                        result = findLogger(nbme);
                     }
                 } while (result == null);
             }
@@ -861,39 +861,39 @@ public class LogManager {
         }
     }
 
-    // Add new per logger handlers.
-    // We need to raise privilege here. All our decisions will
-    // be made based on the logging configuration, which can
+    // Add new per logger hbndlers.
+    // We need to rbise privilege here. All our decisions will
+    // be mbde bbsed on the logging configurbtion, which cbn
     // only be modified by trusted code.
-    private void loadLoggerHandlers(final Logger logger, final String name,
-                                    final String handlersPropertyName)
+    privbte void lobdLoggerHbndlers(finbl Logger logger, finbl String nbme,
+                                    finbl String hbndlersPropertyNbme)
     {
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
             public Object run() {
-                String names[] = parseClassNames(handlersPropertyName);
-                for (String word : names) {
+                String nbmes[] = pbrseClbssNbmes(hbndlersPropertyNbme);
+                for (String word : nbmes) {
                     try {
-                        Class<?> clz = ClassLoader.getSystemClassLoader().loadClass(word);
-                        Handler hdl = (Handler) clz.newInstance();
-                        // Check if there is a property defining the
-                        // this handler's level.
+                        Clbss<?> clz = ClbssLobder.getSystemClbssLobder().lobdClbss(word);
+                        Hbndler hdl = (Hbndler) clz.newInstbnce();
+                        // Check if there is b property defining the
+                        // this hbndler's level.
                         String levs = getProperty(word + ".level");
                         if (levs != null) {
                             Level l = Level.findLevel(levs);
                             if (l != null) {
                                 hdl.setLevel(l);
                             } else {
-                                // Probably a bad level. Drop through.
-                                System.err.println("Can't set level for " + word);
+                                // Probbbly b bbd level. Drop through.
+                                System.err.println("Cbn't set level for " + word);
                             }
                         }
-                        // Add this Handler to the logger
-                        logger.addHandler(hdl);
-                    } catch (Exception ex) {
-                        System.err.println("Can't load log handler \"" + word + "\"");
+                        // Add this Hbndler to the logger
+                        logger.bddHbndler(hdl);
+                    } cbtch (Exception ex) {
+                        System.err.println("Cbn't lobd log hbndler \"" + word + "\"");
                         System.err.println("" + ex);
-                        ex.printStackTrace();
+                        ex.printStbckTrbce();
                     }
                 }
                 return null;
@@ -902,196 +902,196 @@ public class LogManager {
     }
 
 
-    // loggerRefQueue holds LoggerWeakRef objects for Logger objects
-    // that have been GC'ed.
-    private final ReferenceQueue<Logger> loggerRefQueue
+    // loggerRefQueue holds LoggerWebkRef objects for Logger objects
+    // thbt hbve been GC'ed.
+    privbte finbl ReferenceQueue<Logger> loggerRefQueue
         = new ReferenceQueue<>();
 
-    // Package-level inner class.
-    // Helper class for managing WeakReferences to Logger objects.
+    // Pbckbge-level inner clbss.
+    // Helper clbss for mbnbging WebkReferences to Logger objects.
     //
-    // LogManager.namedLoggers
-    //     - has weak references to all named Loggers
-    //     - namedLoggers keeps the LoggerWeakRef objects for the named
-    //       Loggers around until we can deal with the book keeping for
-    //       the named Logger that is being GC'ed.
-    // LogManager.LogNode.loggerRef
-    //     - has a weak reference to a named Logger
-    //     - the LogNode will also keep the LoggerWeakRef objects for
-    //       the named Loggers around; currently LogNodes never go away.
+    // LogMbnbger.nbmedLoggers
+    //     - hbs webk references to bll nbmed Loggers
+    //     - nbmedLoggers keeps the LoggerWebkRef objects for the nbmed
+    //       Loggers bround until we cbn debl with the book keeping for
+    //       the nbmed Logger thbt is being GC'ed.
+    // LogMbnbger.LogNode.loggerRef
+    //     - hbs b webk reference to b nbmed Logger
+    //     - the LogNode will blso keep the LoggerWebkRef objects for
+    //       the nbmed Loggers bround; currently LogNodes never go bwby.
     // Logger.kids
-    //     - has a weak reference to each direct child Logger; this
-    //       includes anonymous and named Loggers
-    //     - anonymous Loggers are always children of the rootLogger
-    //       which is a strong reference; rootLogger.kids keeps the
-    //       LoggerWeakRef objects for the anonymous Loggers around
-    //       until we can deal with the book keeping.
+    //     - hbs b webk reference to ebch direct child Logger; this
+    //       includes bnonymous bnd nbmed Loggers
+    //     - bnonymous Loggers bre blwbys children of the rootLogger
+    //       which is b strong reference; rootLogger.kids keeps the
+    //       LoggerWebkRef objects for the bnonymous Loggers bround
+    //       until we cbn debl with the book keeping.
     //
-    final class LoggerWeakRef extends WeakReference<Logger> {
-        private String                name;       // for namedLoggers cleanup
-        private LogNode               node;       // for loggerRef cleanup
-        private WeakReference<Logger> parentRef;  // for kids cleanup
-        private boolean disposed = false;         // avoid calling dispose twice
+    finbl clbss LoggerWebkRef extends WebkReference<Logger> {
+        privbte String                nbme;       // for nbmedLoggers clebnup
+        privbte LogNode               node;       // for loggerRef clebnup
+        privbte WebkReference<Logger> pbrentRef;  // for kids clebnup
+        privbte boolebn disposed = fblse;         // bvoid cblling dispose twice
 
-        LoggerWeakRef(Logger logger) {
+        LoggerWebkRef(Logger logger) {
             super(logger, loggerRefQueue);
 
-            name = logger.getName();  // save for namedLoggers cleanup
+            nbme = logger.getNbme();  // sbve for nbmedLoggers clebnup
         }
 
-        // dispose of this LoggerWeakRef object
+        // dispose of this LoggerWebkRef object
         void dispose() {
-            // Avoid calling dispose twice. When a Logger is gc'ed, its
-            // LoggerWeakRef will be enqueued.
-            // However, a new logger of the same name may be added (or looked
-            // up) before the queue is drained. When that happens, dispose()
-            // will be called by addLocalLogger() or findLogger().
-            // Later when the queue is drained, dispose() will be called again
-            // for the same LoggerWeakRef. Marking LoggerWeakRef as disposed
-            // avoids processing the data twice (even though the code should
-            // now be reentrant).
+            // Avoid cblling dispose twice. When b Logger is gc'ed, its
+            // LoggerWebkRef will be enqueued.
+            // However, b new logger of the sbme nbme mby be bdded (or looked
+            // up) before the queue is drbined. When thbt hbppens, dispose()
+            // will be cblled by bddLocblLogger() or findLogger().
+            // Lbter when the queue is drbined, dispose() will be cblled bgbin
+            // for the sbme LoggerWebkRef. Mbrking LoggerWebkRef bs disposed
+            // bvoids processing the dbtb twice (even though the code should
+            // now be reentrbnt).
             synchronized(this) {
-                // Note to maintainers:
-                // Be careful not to call any method that tries to acquire
-                // another lock from within this block - as this would surely
-                // lead to deadlocks, given that dispose() can be called by
-                // multiple threads, and from within different synchronized
+                // Note to mbintbiners:
+                // Be cbreful not to cbll bny method thbt tries to bcquire
+                // bnother lock from within this block - bs this would surely
+                // lebd to debdlocks, given thbt dispose() cbn be cblled by
+                // multiple threbds, bnd from within different synchronized
                 // methods/blocks.
                 if (disposed) return;
                 disposed = true;
             }
 
-            final LogNode n = node;
+            finbl LogNode n = node;
             if (n != null) {
-                // n.loggerRef can only be safely modified from within
-                // a lock on LoggerContext. removeLoggerRef is already
-                // synchronized on LoggerContext so calling
-                // n.context.removeLoggerRef from within this lock is safe.
+                // n.loggerRef cbn only be sbfely modified from within
+                // b lock on LoggerContext. removeLoggerRef is blrebdy
+                // synchronized on LoggerContext so cblling
+                // n.context.removeLoggerRef from within this lock is sbfe.
                 synchronized (n.context) {
-                    // if we have a LogNode, then we were a named Logger
-                    // so clear namedLoggers weak ref to us
-                    n.context.removeLoggerRef(name, this);
-                    name = null;  // clear our ref to the Logger's name
+                    // if we hbve b LogNode, then we were b nbmed Logger
+                    // so clebr nbmedLoggers webk ref to us
+                    n.context.removeLoggerRef(nbme, this);
+                    nbme = null;  // clebr our ref to the Logger's nbme
 
-                    // LogNode may have been reused - so only clear
+                    // LogNode mby hbve been reused - so only clebr
                     // LogNode.loggerRef if LogNode.loggerRef == this
                     if (n.loggerRef == this) {
-                        n.loggerRef = null;  // clear LogNode's weak ref to us
+                        n.loggerRef = null;  // clebr LogNode's webk ref to us
                     }
-                    node = null;            // clear our ref to LogNode
+                    node = null;            // clebr our ref to LogNode
                 }
             }
 
-            if (parentRef != null) {
-                // this LoggerWeakRef has or had a parent Logger
-                Logger parent = parentRef.get();
-                if (parent != null) {
-                    // the parent Logger is still there so clear the
-                    // parent Logger's weak ref to us
-                    parent.removeChildLogger(this);
+            if (pbrentRef != null) {
+                // this LoggerWebkRef hbs or hbd b pbrent Logger
+                Logger pbrent = pbrentRef.get();
+                if (pbrent != null) {
+                    // the pbrent Logger is still there so clebr the
+                    // pbrent Logger's webk ref to us
+                    pbrent.removeChildLogger(this);
                 }
-                parentRef = null;  // clear our weak ref to the parent Logger
+                pbrentRef = null;  // clebr our webk ref to the pbrent Logger
             }
         }
 
-        // set the node field to the specified value
+        // set the node field to the specified vblue
         void setNode(LogNode node) {
             this.node = node;
         }
 
-        // set the parentRef field to the specified value
-        void setParentRef(WeakReference<Logger> parentRef) {
-            this.parentRef = parentRef;
+        // set the pbrentRef field to the specified vblue
+        void setPbrentRef(WebkReference<Logger> pbrentRef) {
+            this.pbrentRef = pbrentRef;
         }
     }
 
-    // Package-level method.
-    // Drain some Logger objects that have been GC'ed.
+    // Pbckbge-level method.
+    // Drbin some Logger objects thbt hbve been GC'ed.
     //
-    // drainLoggerRefQueueBounded() is called by addLogger() below
-    // and by Logger.getAnonymousLogger(String) so we'll drain up to
-    // MAX_ITERATIONS GC'ed Loggers for every Logger we add.
+    // drbinLoggerRefQueueBounded() is cblled by bddLogger() below
+    // bnd by Logger.getAnonymousLogger(String) so we'll drbin up to
+    // MAX_ITERATIONS GC'ed Loggers for every Logger we bdd.
     //
-    // On a WinXP VMware client, a MAX_ITERATIONS value of 400 gives
-    // us about a 50/50 mix in increased weak ref counts versus
-    // decreased weak ref counts in the AnonLoggerWeakRefLeak test.
-    // Here are stats for cleaning up sets of 400 anonymous Loggers:
-    //   - test duration 1 minute
-    //   - sample size of 125 sets of 400
-    //   - average: 1.99 ms
+    // On b WinXP VMwbre client, b MAX_ITERATIONS vblue of 400 gives
+    // us bbout b 50/50 mix in increbsed webk ref counts versus
+    // decrebsed webk ref counts in the AnonLoggerWebkRefLebk test.
+    // Here bre stbts for clebning up sets of 400 bnonymous Loggers:
+    //   - test durbtion 1 minute
+    //   - sbmple size of 125 sets of 400
+    //   - bverbge: 1.99 ms
     //   - minimum: 0.57 ms
-    //   - maximum: 25.3 ms
+    //   - mbximum: 25.3 ms
     //
-    // The same config gives us a better decreased weak ref count
-    // than increased weak ref count in the LoggerWeakRefLeak test.
-    // Here are stats for cleaning up sets of 400 named Loggers:
-    //   - test duration 2 minutes
-    //   - sample size of 506 sets of 400
-    //   - average: 0.57 ms
+    // The sbme config gives us b better decrebsed webk ref count
+    // thbn increbsed webk ref count in the LoggerWebkRefLebk test.
+    // Here bre stbts for clebning up sets of 400 nbmed Loggers:
+    //   - test durbtion 2 minutes
+    //   - sbmple size of 506 sets of 400
+    //   - bverbge: 0.57 ms
     //   - minimum: 0.02 ms
-    //   - maximum: 10.9 ms
+    //   - mbximum: 10.9 ms
     //
-    private final static int MAX_ITERATIONS = 400;
-    final void drainLoggerRefQueueBounded() {
+    privbte finbl stbtic int MAX_ITERATIONS = 400;
+    finbl void drbinLoggerRefQueueBounded() {
         for (int i = 0; i < MAX_ITERATIONS; i++) {
             if (loggerRefQueue == null) {
-                // haven't finished loading LogManager yet
-                break;
+                // hbven't finished lobding LogMbnbger yet
+                brebk;
             }
 
-            LoggerWeakRef ref = (LoggerWeakRef) loggerRefQueue.poll();
+            LoggerWebkRef ref = (LoggerWebkRef) loggerRefQueue.poll();
             if (ref == null) {
-                break;
+                brebk;
             }
-            // a Logger object has been GC'ed so clean it up
+            // b Logger object hbs been GC'ed so clebn it up
             ref.dispose();
         }
     }
 
     /**
-     * Add a named logger.  This does nothing and returns false if a logger
-     * with the same name is already registered.
+     * Add b nbmed logger.  This does nothing bnd returns fblse if b logger
+     * with the sbme nbme is blrebdy registered.
      * <p>
-     * The Logger factory methods call this method to register each
-     * newly created Logger.
+     * The Logger fbctory methods cbll this method to register ebch
+     * newly crebted Logger.
      * <p>
-     * The application should retain its own reference to the Logger
-     * object to avoid it being garbage collected.  The LogManager
-     * may only retain a weak reference.
+     * The bpplicbtion should retbin its own reference to the Logger
+     * object to bvoid it being gbrbbge collected.  The LogMbnbger
+     * mby only retbin b webk reference.
      *
-     * @param   logger the new logger.
-     * @return  true if the argument logger was registered successfully,
-     *          false if a logger of that name already exists.
-     * @exception NullPointerException if the logger name is null.
+     * @pbrbm   logger the new logger.
+     * @return  true if the brgument logger wbs registered successfully,
+     *          fblse if b logger of thbt nbme blrebdy exists.
+     * @exception NullPointerException if the logger nbme is null.
      */
-    public boolean addLogger(Logger logger) {
-        final String name = logger.getName();
-        if (name == null) {
+    public boolebn bddLogger(Logger logger) {
+        finbl String nbme = logger.getNbme();
+        if (nbme == null) {
             throw new NullPointerException();
         }
-        drainLoggerRefQueueBounded();
+        drbinLoggerRefQueueBounded();
         LoggerContext cx = getUserContext();
-        if (cx.addLocalLogger(logger)) {
-            // Do we have a per logger handler too?
-            // Note: this will add a 200ms penalty
-            loadLoggerHandlers(logger, name, name + ".handlers");
+        if (cx.bddLocblLogger(logger)) {
+            // Do we hbve b per logger hbndler too?
+            // Note: this will bdd b 200ms penblty
+            lobdLoggerHbndlers(logger, nbme, nbme + ".hbndlers");
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    // Private method to set a level on a logger.
-    // If necessary, we raise privilege before doing the call.
-    private static void doSetLevel(final Logger logger, final Level level) {
-        SecurityManager sm = System.getSecurityManager();
+    // Privbte method to set b level on b logger.
+    // If necessbry, we rbise privilege before doing the cbll.
+    privbte stbtic void doSetLevel(finbl Logger logger, finbl Level level) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null) {
-            // There is no security manager, so things are easy.
+            // There is no security mbnbger, so things bre ebsy.
             logger.setLevel(level);
             return;
         }
-        // There is a security manager.  Raise privilege before
-        // calling setLevel.
+        // There is b security mbnbger.  Rbise privilege before
+        // cblling setLevel.
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
             public Object run() {
@@ -1100,146 +1100,146 @@ public class LogManager {
             }});
     }
 
-    // Private method to set a parent on a logger.
-    // If necessary, we raise privilege before doing the setParent call.
-    private static void doSetParent(final Logger logger, final Logger parent) {
-        SecurityManager sm = System.getSecurityManager();
+    // Privbte method to set b pbrent on b logger.
+    // If necessbry, we rbise privilege before doing the setPbrent cbll.
+    privbte stbtic void doSetPbrent(finbl Logger logger, finbl Logger pbrent) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null) {
-            // There is no security manager, so things are easy.
-            logger.setParent(parent);
+            // There is no security mbnbger, so things bre ebsy.
+            logger.setPbrent(pbrent);
             return;
         }
-        // There is a security manager.  Raise privilege before
-        // calling setParent.
+        // There is b security mbnbger.  Rbise privilege before
+        // cblling setPbrent.
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
             public Object run() {
-                logger.setParent(parent);
+                logger.setPbrent(pbrent);
                 return null;
             }});
     }
 
     /**
-     * Method to find a named logger.
+     * Method to find b nbmed logger.
      * <p>
-     * Note that since untrusted code may create loggers with
-     * arbitrary names this method should not be relied on to
+     * Note thbt since untrusted code mby crebte loggers with
+     * brbitrbry nbmes this method should not be relied on to
      * find Loggers for security sensitive logging.
-     * It is also important to note that the Logger associated with the
-     * String {@code name} may be garbage collected at any time if there
-     * is no strong reference to the Logger. The caller of this method
-     * must check the return value for null in order to properly handle
-     * the case where the Logger has been garbage collected.
+     * It is blso importbnt to note thbt the Logger bssocibted with the
+     * String {@code nbme} mby be gbrbbge collected bt bny time if there
+     * is no strong reference to the Logger. The cbller of this method
+     * must check the return vblue for null in order to properly hbndle
+     * the cbse where the Logger hbs been gbrbbge collected.
      *
-     * @param name name of the logger
-     * @return  matching logger or null if none is found
+     * @pbrbm nbme nbme of the logger
+     * @return  mbtching logger or null if none is found
      */
-    public Logger getLogger(String name) {
-        return getUserContext().findLogger(name);
+    public Logger getLogger(String nbme) {
+        return getUserContext().findLogger(nbme);
     }
 
     /**
-     * Get an enumeration of known logger names.
+     * Get bn enumerbtion of known logger nbmes.
      * <p>
-     * Note:  Loggers may be added dynamically as new classes are loaded.
-     * This method only reports on the loggers that are currently registered.
-     * It is also important to note that this method only returns the name
-     * of a Logger, not a strong reference to the Logger itself.
+     * Note:  Loggers mby be bdded dynbmicblly bs new clbsses bre lobded.
+     * This method only reports on the loggers thbt bre currently registered.
+     * It is blso importbnt to note thbt this method only returns the nbme
+     * of b Logger, not b strong reference to the Logger itself.
      * The returned String does nothing to prevent the Logger from being
-     * garbage collected. In particular, if the returned name is passed
-     * to {@code LogManager.getLogger()}, then the caller must check the
-     * return value from {@code LogManager.getLogger()} for null to properly
-     * handle the case where the Logger has been garbage collected in the
-     * time since its name was returned by this method.
+     * gbrbbge collected. In pbrticulbr, if the returned nbme is pbssed
+     * to {@code LogMbnbger.getLogger()}, then the cbller must check the
+     * return vblue from {@code LogMbnbger.getLogger()} for null to properly
+     * hbndle the cbse where the Logger hbs been gbrbbge collected in the
+     * time since its nbme wbs returned by this method.
      *
-     * @return  enumeration of logger name strings
+     * @return  enumerbtion of logger nbme strings
      */
-    public Enumeration<String> getLoggerNames() {
-        return getUserContext().getLoggerNames();
+    public Enumerbtion<String> getLoggerNbmes() {
+        return getUserContext().getLoggerNbmes();
     }
 
     /**
-     * Reinitialize the logging properties and reread the logging configuration.
+     * Reinitiblize the logging properties bnd rerebd the logging configurbtion.
      * <p>
-     * The same rules are used for locating the configuration properties
-     * as are used at startup.  So normally the logging properties will
-     * be re-read from the same file that was used at startup.
+     * The sbme rules bre used for locbting the configurbtion properties
+     * bs bre used bt stbrtup.  So normblly the logging properties will
+     * be re-rebd from the sbme file thbt wbs used bt stbrtup.
      * <P>
-     * Any log level definitions in the new configuration file will be
-     * applied using Logger.setLevel(), if the target Logger exists.
+     * Any log level definitions in the new configurbtion file will be
+     * bpplied using Logger.setLevel(), if the tbrget Logger exists.
      * <p>
-     * A PropertyChangeEvent will be fired after the properties are read.
+     * A PropertyChbngeEvent will be fired bfter the properties bre rebd.
      *
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have LoggingPermission("control").
-     * @exception  IOException if there are IO problems reading the configuration.
+     * @exception  SecurityException  if b security mbnbger exists bnd if
+     *             the cbller does not hbve LoggingPermission("control").
+     * @exception  IOException if there bre IO problems rebding the configurbtion.
      */
-    public void readConfiguration() throws IOException, SecurityException {
+    public void rebdConfigurbtion() throws IOException, SecurityException {
         checkPermission();
 
-        // if a configuration class is specified, load it and use it.
-        String cname = System.getProperty("java.util.logging.config.class");
-        if (cname != null) {
+        // if b configurbtion clbss is specified, lobd it bnd use it.
+        String cnbme = System.getProperty("jbvb.util.logging.config.clbss");
+        if (cnbme != null) {
             try {
-                // Instantiate the named class.  It is its constructor's
-                // responsibility to initialize the logging configuration, by
-                // calling readConfiguration(InputStream) with a suitable stream.
+                // Instbntibte the nbmed clbss.  It is its constructor's
+                // responsibility to initiblize the logging configurbtion, by
+                // cblling rebdConfigurbtion(InputStrebm) with b suitbble strebm.
                 try {
-                    Class<?> clz = ClassLoader.getSystemClassLoader().loadClass(cname);
-                    clz.newInstance();
+                    Clbss<?> clz = ClbssLobder.getSystemClbssLobder().lobdClbss(cnbme);
+                    clz.newInstbnce();
                     return;
-                } catch (ClassNotFoundException ex) {
-                    Class<?> clz = Thread.currentThread().getContextClassLoader().loadClass(cname);
-                    clz.newInstance();
+                } cbtch (ClbssNotFoundException ex) {
+                    Clbss<?> clz = Threbd.currentThrebd().getContextClbssLobder().lobdClbss(cnbme);
+                    clz.newInstbnce();
                     return;
                 }
-            } catch (Exception ex) {
-                System.err.println("Logging configuration class \"" + cname + "\" failed");
+            } cbtch (Exception ex) {
+                System.err.println("Logging configurbtion clbss \"" + cnbme + "\" fbiled");
                 System.err.println("" + ex);
-                // keep going and useful config file.
+                // keep going bnd useful config file.
             }
         }
 
-        String fname = System.getProperty("java.util.logging.config.file");
-        if (fname == null) {
-            fname = System.getProperty("java.home");
-            if (fname == null) {
-                throw new Error("Can't find java.home ??");
+        String fnbme = System.getProperty("jbvb.util.logging.config.file");
+        if (fnbme == null) {
+            fnbme = System.getProperty("jbvb.home");
+            if (fnbme == null) {
+                throw new Error("Cbn't find jbvb.home ??");
             }
-            File f = new File(fname, "lib");
+            File f = new File(fnbme, "lib");
             f = new File(f, "logging.properties");
-            fname = f.getCanonicalPath();
+            fnbme = f.getCbnonicblPbth();
         }
-        try (final InputStream in = new FileInputStream(fname)) {
-            final BufferedInputStream bin = new BufferedInputStream(in);
-            readConfiguration(bin);
+        try (finbl InputStrebm in = new FileInputStrebm(fnbme)) {
+            finbl BufferedInputStrebm bin = new BufferedInputStrebm(in);
+            rebdConfigurbtion(bin);
         }
     }
 
     /**
-     * Reset the logging configuration.
+     * Reset the logging configurbtion.
      * <p>
-     * For all named loggers, the reset operation removes and closes
-     * all Handlers and (except for the root logger) sets the level
+     * For bll nbmed loggers, the reset operbtion removes bnd closes
+     * bll Hbndlers bnd (except for the root logger) sets the level
      * to null.  The root logger's level is set to Level.INFO.
      *
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have LoggingPermission("control").
+     * @exception  SecurityException  if b security mbnbger exists bnd if
+     *             the cbller does not hbve LoggingPermission("control").
      */
 
     public void reset() throws SecurityException {
         checkPermission();
         synchronized (this) {
             props = new Properties();
-            // Since we are doing a reset we no longer want to initialize
-            // the global handlers, if they haven't been initialized yet.
-            initializedGlobalHandlers = true;
+            // Since we bre doing b reset we no longer wbnt to initiblize
+            // the globbl hbndlers, if they hbven't been initiblized yet.
+            initiblizedGlobblHbndlers = true;
         }
         for (LoggerContext cx : contexts()) {
-            Enumeration<String> enum_ = cx.getLoggerNames();
-            while (enum_.hasMoreElements()) {
-                String name = enum_.nextElement();
-                Logger logger = cx.findLogger(name);
+            Enumerbtion<String> enum_ = cx.getLoggerNbmes();
+            while (enum_.hbsMoreElements()) {
+                String nbme = enum_.nextElement();
+                Logger logger = cx.findLogger(nbme);
                 if (logger != null) {
                     resetLogger(logger);
                 }
@@ -1247,335 +1247,335 @@ public class LogManager {
         }
     }
 
-    // Private method to reset an individual target logger.
-    private void resetLogger(Logger logger) {
-        // Close all the Logger's handlers.
-        Handler[] targets = logger.getHandlers();
-        for (Handler h : targets) {
-            logger.removeHandler(h);
+    // Privbte method to reset bn individubl tbrget logger.
+    privbte void resetLogger(Logger logger) {
+        // Close bll the Logger's hbndlers.
+        Hbndler[] tbrgets = logger.getHbndlers();
+        for (Hbndler h : tbrgets) {
+            logger.removeHbndler(h);
             try {
                 h.close();
-            } catch (Exception ex) {
-                // Problems closing a handler?  Keep going...
+            } cbtch (Exception ex) {
+                // Problems closing b hbndler?  Keep going...
             }
         }
-        String name = logger.getName();
-        if (name != null && name.equals("")) {
+        String nbme = logger.getNbme();
+        if (nbme != null && nbme.equbls("")) {
             // This is the root logger.
-            logger.setLevel(defaultLevel);
+            logger.setLevel(defbultLevel);
         } else {
             logger.setLevel(null);
         }
     }
 
-    // get a list of whitespace separated classnames from a property.
-    private String[] parseClassNames(String propertyName) {
-        String hands = getProperty(propertyName);
-        if (hands == null) {
+    // get b list of whitespbce sepbrbted clbssnbmes from b property.
+    privbte String[] pbrseClbssNbmes(String propertyNbme) {
+        String hbnds = getProperty(propertyNbme);
+        if (hbnds == null) {
             return new String[0];
         }
-        hands = hands.trim();
+        hbnds = hbnds.trim();
         int ix = 0;
-        final List<String> result = new ArrayList<>();
-        while (ix < hands.length()) {
+        finbl List<String> result = new ArrbyList<>();
+        while (ix < hbnds.length()) {
             int end = ix;
-            while (end < hands.length()) {
-                if (Character.isWhitespace(hands.charAt(end))) {
-                    break;
+            while (end < hbnds.length()) {
+                if (Chbrbcter.isWhitespbce(hbnds.chbrAt(end))) {
+                    brebk;
                 }
-                if (hands.charAt(end) == ',') {
-                    break;
+                if (hbnds.chbrAt(end) == ',') {
+                    brebk;
                 }
                 end++;
             }
-            String word = hands.substring(ix, end);
+            String word = hbnds.substring(ix, end);
             ix = end+1;
             word = word.trim();
             if (word.length() == 0) {
                 continue;
             }
-            result.add(word);
+            result.bdd(word);
         }
-        return result.toArray(new String[result.size()]);
+        return result.toArrby(new String[result.size()]);
     }
 
     /**
-     * Reinitialize the logging properties and reread the logging configuration
-     * from the given stream, which should be in java.util.Properties format.
-     * A PropertyChangeEvent will be fired after the properties are read.
+     * Reinitiblize the logging properties bnd rerebd the logging configurbtion
+     * from the given strebm, which should be in jbvb.util.Properties formbt.
+     * A PropertyChbngeEvent will be fired bfter the properties bre rebd.
      * <p>
-     * Any log level definitions in the new configuration file will be
-     * applied using Logger.setLevel(), if the target Logger exists.
+     * Any log level definitions in the new configurbtion file will be
+     * bpplied using Logger.setLevel(), if the tbrget Logger exists.
      *
-     * @param ins       stream to read properties from
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have LoggingPermission("control").
-     * @exception  IOException if there are problems reading from the stream.
+     * @pbrbm ins       strebm to rebd properties from
+     * @exception  SecurityException  if b security mbnbger exists bnd if
+     *             the cbller does not hbve LoggingPermission("control").
+     * @exception  IOException if there bre problems rebding from the strebm.
      */
-    public void readConfiguration(InputStream ins) throws IOException, SecurityException {
+    public void rebdConfigurbtion(InputStrebm ins) throws IOException, SecurityException {
         checkPermission();
         reset();
 
-        // Load the properties
-        props.load(ins);
-        // Instantiate new configuration objects.
-        String names[] = parseClassNames("config");
+        // Lobd the properties
+        props.lobd(ins);
+        // Instbntibte new configurbtion objects.
+        String nbmes[] = pbrseClbssNbmes("config");
 
-        for (String word : names) {
+        for (String word : nbmes) {
             try {
-                Class<?> clz = ClassLoader.getSystemClassLoader().loadClass(word);
-                clz.newInstance();
-            } catch (Exception ex) {
-                System.err.println("Can't load config class \"" + word + "\"");
+                Clbss<?> clz = ClbssLobder.getSystemClbssLobder().lobdClbss(word);
+                clz.newInstbnce();
+            } cbtch (Exception ex) {
+                System.err.println("Cbn't lobd config clbss \"" + word + "\"");
                 System.err.println("" + ex);
-                // ex.printStackTrace();
+                // ex.printStbckTrbce();
             }
         }
 
-        // Set levels on any pre-existing loggers, based on the new properties.
+        // Set levels on bny pre-existing loggers, bbsed on the new properties.
         setLevelsOnExistingLoggers();
 
-        // Note that we need to reinitialize global handles when
-        // they are first referenced.
+        // Note thbt we need to reinitiblize globbl hbndles when
+        // they bre first referenced.
         synchronized (this) {
-            initializedGlobalHandlers = false;
+            initiblizedGlobblHbndlers = fblse;
         }
     }
 
     /**
-     * Get the value of a logging property.
+     * Get the vblue of b logging property.
      * The method returns null if the property is not found.
-     * @param name      property name
-     * @return          property value
+     * @pbrbm nbme      property nbme
+     * @return          property vblue
      */
-    public String getProperty(String name) {
-        return props.getProperty(name);
+    public String getProperty(String nbme) {
+        return props.getProperty(nbme);
     }
 
-    // Package private method to get a String property.
+    // Pbckbge privbte method to get b String property.
     // If the property is not defined we return the given
-    // default value.
-    String getStringProperty(String name, String defaultValue) {
-        String val = getProperty(name);
-        if (val == null) {
-            return defaultValue;
+    // defbult vblue.
+    String getStringProperty(String nbme, String defbultVblue) {
+        String vbl = getProperty(nbme);
+        if (vbl == null) {
+            return defbultVblue;
         }
-        return val.trim();
+        return vbl.trim();
     }
 
-    // Package private method to get an integer property.
-    // If the property is not defined or cannot be parsed
-    // we return the given default value.
-    int getIntProperty(String name, int defaultValue) {
-        String val = getProperty(name);
-        if (val == null) {
-            return defaultValue;
+    // Pbckbge privbte method to get bn integer property.
+    // If the property is not defined or cbnnot be pbrsed
+    // we return the given defbult vblue.
+    int getIntProperty(String nbme, int defbultVblue) {
+        String vbl = getProperty(nbme);
+        if (vbl == null) {
+            return defbultVblue;
         }
         try {
-            return Integer.parseInt(val.trim());
-        } catch (Exception ex) {
-            return defaultValue;
+            return Integer.pbrseInt(vbl.trim());
+        } cbtch (Exception ex) {
+            return defbultVblue;
         }
     }
 
-    // Package private method to get a boolean property.
-    // If the property is not defined or cannot be parsed
-    // we return the given default value.
-    boolean getBooleanProperty(String name, boolean defaultValue) {
-        String val = getProperty(name);
-        if (val == null) {
-            return defaultValue;
+    // Pbckbge privbte method to get b boolebn property.
+    // If the property is not defined or cbnnot be pbrsed
+    // we return the given defbult vblue.
+    boolebn getBoolebnProperty(String nbme, boolebn defbultVblue) {
+        String vbl = getProperty(nbme);
+        if (vbl == null) {
+            return defbultVblue;
         }
-        val = val.toLowerCase();
-        if (val.equals("true") || val.equals("1")) {
+        vbl = vbl.toLowerCbse();
+        if (vbl.equbls("true") || vbl.equbls("1")) {
             return true;
-        } else if (val.equals("false") || val.equals("0")) {
-            return false;
+        } else if (vbl.equbls("fblse") || vbl.equbls("0")) {
+            return fblse;
         }
-        return defaultValue;
+        return defbultVblue;
     }
 
-    // Package private method to get a Level property.
-    // If the property is not defined or cannot be parsed
-    // we return the given default value.
-    Level getLevelProperty(String name, Level defaultValue) {
-        String val = getProperty(name);
-        if (val == null) {
-            return defaultValue;
+    // Pbckbge privbte method to get b Level property.
+    // If the property is not defined or cbnnot be pbrsed
+    // we return the given defbult vblue.
+    Level getLevelProperty(String nbme, Level defbultVblue) {
+        String vbl = getProperty(nbme);
+        if (vbl == null) {
+            return defbultVblue;
         }
-        Level l = Level.findLevel(val.trim());
-        return l != null ? l : defaultValue;
+        Level l = Level.findLevel(vbl.trim());
+        return l != null ? l : defbultVblue;
     }
 
-    // Package private method to get a filter property.
-    // We return an instance of the class named by the "name"
-    // property. If the property is not defined or has problems
-    // we return the defaultValue.
-    Filter getFilterProperty(String name, Filter defaultValue) {
-        String val = getProperty(name);
+    // Pbckbge privbte method to get b filter property.
+    // We return bn instbnce of the clbss nbmed by the "nbme"
+    // property. If the property is not defined or hbs problems
+    // we return the defbultVblue.
+    Filter getFilterProperty(String nbme, Filter defbultVblue) {
+        String vbl = getProperty(nbme);
         try {
-            if (val != null) {
-                Class<?> clz = ClassLoader.getSystemClassLoader().loadClass(val);
-                return (Filter) clz.newInstance();
+            if (vbl != null) {
+                Clbss<?> clz = ClbssLobder.getSystemClbssLobder().lobdClbss(vbl);
+                return (Filter) clz.newInstbnce();
             }
-        } catch (Exception ex) {
-            // We got one of a variety of exceptions in creating the
-            // class or creating an instance.
+        } cbtch (Exception ex) {
+            // We got one of b vbriety of exceptions in crebting the
+            // clbss or crebting bn instbnce.
             // Drop through.
         }
-        // We got an exception.  Return the defaultValue.
-        return defaultValue;
+        // We got bn exception.  Return the defbultVblue.
+        return defbultVblue;
     }
 
 
-    // Package private method to get a formatter property.
-    // We return an instance of the class named by the "name"
-    // property. If the property is not defined or has problems
-    // we return the defaultValue.
-    Formatter getFormatterProperty(String name, Formatter defaultValue) {
-        String val = getProperty(name);
+    // Pbckbge privbte method to get b formbtter property.
+    // We return bn instbnce of the clbss nbmed by the "nbme"
+    // property. If the property is not defined or hbs problems
+    // we return the defbultVblue.
+    Formbtter getFormbtterProperty(String nbme, Formbtter defbultVblue) {
+        String vbl = getProperty(nbme);
         try {
-            if (val != null) {
-                Class<?> clz = ClassLoader.getSystemClassLoader().loadClass(val);
-                return (Formatter) clz.newInstance();
+            if (vbl != null) {
+                Clbss<?> clz = ClbssLobder.getSystemClbssLobder().lobdClbss(vbl);
+                return (Formbtter) clz.newInstbnce();
             }
-        } catch (Exception ex) {
-            // We got one of a variety of exceptions in creating the
-            // class or creating an instance.
+        } cbtch (Exception ex) {
+            // We got one of b vbriety of exceptions in crebting the
+            // clbss or crebting bn instbnce.
             // Drop through.
         }
-        // We got an exception.  Return the defaultValue.
-        return defaultValue;
+        // We got bn exception.  Return the defbultVblue.
+        return defbultVblue;
     }
 
-    // Private method to load the global handlers.
-    // We do the real work lazily, when the global handlers
-    // are first used.
-    private synchronized void initializeGlobalHandlers() {
-        if (initializedGlobalHandlers) {
+    // Privbte method to lobd the globbl hbndlers.
+    // We do the rebl work lbzily, when the globbl hbndlers
+    // bre first used.
+    privbte synchronized void initiblizeGlobblHbndlers() {
+        if (initiblizedGlobblHbndlers) {
             return;
         }
 
-        initializedGlobalHandlers = true;
+        initiblizedGlobblHbndlers = true;
 
-        if (deathImminent) {
-            // Aaargh...
-            // The VM is shutting down and our exit hook has been called.
-            // Avoid allocating global handlers.
+        if (debthImminent) {
+            // Abbrgh...
+            // The VM is shutting down bnd our exit hook hbs been cblled.
+            // Avoid bllocbting globbl hbndlers.
             return;
         }
-        loadLoggerHandlers(rootLogger, null, "handlers");
+        lobdLoggerHbndlers(rootLogger, null, "hbndlers");
     }
 
-    static final Permission controlPermission = new LoggingPermission("control", null);
+    stbtic finbl Permission controlPermission = new LoggingPermission("control", null);
 
     void checkPermission() {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
             sm.checkPermission(controlPermission);
     }
 
     /**
-     * Check that the current context is trusted to modify the logging
-     * configuration.  This requires LoggingPermission("control").
+     * Check thbt the current context is trusted to modify the logging
+     * configurbtion.  This requires LoggingPermission("control").
      * <p>
-     * If the check fails we throw a SecurityException, otherwise
-     * we return normally.
+     * If the check fbils we throw b SecurityException, otherwise
+     * we return normblly.
      *
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have LoggingPermission("control").
+     * @exception  SecurityException  if b security mbnbger exists bnd if
+     *             the cbller does not hbve LoggingPermission("control").
      */
     public void checkAccess() throws SecurityException {
         checkPermission();
     }
 
-    // Nested class to represent a node in our tree of named loggers.
-    private static class LogNode {
-        HashMap<String,LogNode> children;
-        LoggerWeakRef loggerRef;
-        LogNode parent;
-        final LoggerContext context;
+    // Nested clbss to represent b node in our tree of nbmed loggers.
+    privbte stbtic clbss LogNode {
+        HbshMbp<String,LogNode> children;
+        LoggerWebkRef loggerRef;
+        LogNode pbrent;
+        finbl LoggerContext context;
 
-        LogNode(LogNode parent, LoggerContext context) {
-            this.parent = parent;
+        LogNode(LogNode pbrent, LoggerContext context) {
+            this.pbrent = pbrent;
             this.context = context;
         }
 
-        // Recursive method to walk the tree below a node and set
-        // a new parent logger.
-        void walkAndSetParent(Logger parent) {
+        // Recursive method to wblk the tree below b node bnd set
+        // b new pbrent logger.
+        void wblkAndSetPbrent(Logger pbrent) {
             if (children == null) {
                 return;
             }
-            for (LogNode node : children.values()) {
-                LoggerWeakRef ref = node.loggerRef;
+            for (LogNode node : children.vblues()) {
+                LoggerWebkRef ref = node.loggerRef;
                 Logger logger = (ref == null) ? null : ref.get();
                 if (logger == null) {
-                    node.walkAndSetParent(parent);
+                    node.wblkAndSetPbrent(pbrent);
                 } else {
-                    doSetParent(logger, parent);
+                    doSetPbrent(logger, pbrent);
                 }
             }
         }
     }
 
-    // We use a subclass of Logger for the root logger, so
-    // that we only instantiate the global handlers when they
-    // are first needed.
-    private final class RootLogger extends Logger {
-        private RootLogger() {
-            // We do not call the protected Logger two args constructor here,
-            // to avoid calling LogManager.getLogManager() from within the
+    // We use b subclbss of Logger for the root logger, so
+    // thbt we only instbntibte the globbl hbndlers when they
+    // bre first needed.
+    privbte finbl clbss RootLogger extends Logger {
+        privbte RootLogger() {
+            // We do not cbll the protected Logger two brgs constructor here,
+            // to bvoid cblling LogMbnbger.getLogMbnbger() from within the
             // RootLogger constructor.
-            super("", null, null, LogManager.this, true);
+            super("", null, null, LogMbnbger.this, true);
         }
 
         @Override
         public void log(LogRecord record) {
-            // Make sure that the global handlers have been instantiated.
-            initializeGlobalHandlers();
+            // Mbke sure thbt the globbl hbndlers hbve been instbntibted.
+            initiblizeGlobblHbndlers();
             super.log(record);
         }
 
         @Override
-        public void addHandler(Handler h) {
-            initializeGlobalHandlers();
-            super.addHandler(h);
+        public void bddHbndler(Hbndler h) {
+            initiblizeGlobblHbndlers();
+            super.bddHbndler(h);
         }
 
         @Override
-        public void removeHandler(Handler h) {
-            initializeGlobalHandlers();
-            super.removeHandler(h);
+        public void removeHbndler(Hbndler h) {
+            initiblizeGlobblHbndlers();
+            super.removeHbndler(h);
         }
 
         @Override
-        Handler[] accessCheckedHandlers() {
-            initializeGlobalHandlers();
-            return super.accessCheckedHandlers();
+        Hbndler[] bccessCheckedHbndlers() {
+            initiblizeGlobblHbndlers();
+            return super.bccessCheckedHbndlers();
         }
     }
 
 
-    // Private method to be called when the configuration has
-    // changed to apply any level settings to any pre-existing loggers.
-    synchronized private void setLevelsOnExistingLoggers() {
-        Enumeration<?> enum_ = props.propertyNames();
-        while (enum_.hasMoreElements()) {
+    // Privbte method to be cblled when the configurbtion hbs
+    // chbnged to bpply bny level settings to bny pre-existing loggers.
+    synchronized privbte void setLevelsOnExistingLoggers() {
+        Enumerbtion<?> enum_ = props.propertyNbmes();
+        while (enum_.hbsMoreElements()) {
             String key = (String)enum_.nextElement();
             if (!key.endsWith(".level")) {
-                // Not a level definition.
+                // Not b level definition.
                 continue;
             }
             int ix = key.length() - 6;
-            String name = key.substring(0, ix);
+            String nbme = key.substring(0, ix);
             Level level = getLevelProperty(key, null);
             if (level == null) {
-                System.err.println("Bad level value for property: " + key);
+                System.err.println("Bbd level vblue for property: " + key);
                 continue;
             }
             for (LoggerContext cx : contexts()) {
-                Logger l = cx.findLogger(name);
+                Logger l = cx.findLogger(nbme);
                 if (l == null) {
                     continue;
                 }
@@ -1584,40 +1584,40 @@ public class LogManager {
         }
     }
 
-    // Management Support
-    private static LoggingMXBean loggingMXBean = null;
+    // Mbnbgement Support
+    privbte stbtic LoggingMXBebn loggingMXBebn = null;
     /**
-     * String representation of the
-     * {@link javax.management.ObjectName} for the management interface
-     * for the logging facility.
+     * String representbtion of the
+     * {@link jbvbx.mbnbgement.ObjectNbme} for the mbnbgement interfbce
+     * for the logging fbcility.
      *
-     * @see java.lang.management.PlatformLoggingMXBean
-     * @see java.util.logging.LoggingMXBean
+     * @see jbvb.lbng.mbnbgement.PlbtformLoggingMXBebn
+     * @see jbvb.util.logging.LoggingMXBebn
      *
      * @since 1.5
      */
-    public final static String LOGGING_MXBEAN_NAME
-        = "java.util.logging:type=Logging";
+    public finbl stbtic String LOGGING_MXBEAN_NAME
+        = "jbvb.util.logging:type=Logging";
 
     /**
-     * Returns <tt>LoggingMXBean</tt> for managing loggers.
-     * An alternative way to manage loggers is through the
-     * {@link java.lang.management.PlatformLoggingMXBean} interface
-     * that can be obtained by calling:
+     * Returns <tt>LoggingMXBebn</tt> for mbnbging loggers.
+     * An blternbtive wby to mbnbge loggers is through the
+     * {@link jbvb.lbng.mbnbgement.PlbtformLoggingMXBebn} interfbce
+     * thbt cbn be obtbined by cblling:
      * <pre>
-     *     PlatformLoggingMXBean logging = {@link java.lang.management.ManagementFactory#getPlatformMXBean(Class)
-     *         ManagementFactory.getPlatformMXBean}(PlatformLoggingMXBean.class);
+     *     PlbtformLoggingMXBebn logging = {@link jbvb.lbng.mbnbgement.MbnbgementFbctory#getPlbtformMXBebn(Clbss)
+     *         MbnbgementFbctory.getPlbtformMXBebn}(PlbtformLoggingMXBebn.clbss);
      * </pre>
      *
-     * @return a {@link LoggingMXBean} object.
+     * @return b {@link LoggingMXBebn} object.
      *
-     * @see java.lang.management.PlatformLoggingMXBean
+     * @see jbvb.lbng.mbnbgement.PlbtformLoggingMXBebn
      * @since 1.5
      */
-    public static synchronized LoggingMXBean getLoggingMXBean() {
-        if (loggingMXBean == null) {
-            loggingMXBean =  new Logging();
+    public stbtic synchronized LoggingMXBebn getLoggingMXBebn() {
+        if (loggingMXBebn == null) {
+            loggingMXBebn =  new Logging();
         }
-        return loggingMXBean;
+        return loggingMXBebn;
     }
 }

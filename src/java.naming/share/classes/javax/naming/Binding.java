@@ -1,166 +1,166 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
 /**
-  * This class represents a name-to-object binding found in a context.
+  * This clbss represents b nbme-to-object binding found in b context.
   *<p>
-  * A context consists of name-to-object bindings.
-  * The Binding class represents such a binding.  It consists
-  * of a name and an object. The <code>Context.listBindings()</code>
-  * method returns an enumeration of Binding.
+  * A context consists of nbme-to-object bindings.
+  * The Binding clbss represents such b binding.  It consists
+  * of b nbme bnd bn object. The <code>Context.listBindings()</code>
+  * method returns bn enumerbtion of Binding.
   *<p>
-  * Use subclassing for naming systems that generate contents of
-  * a binding dynamically.
+  * Use subclbssing for nbming systems thbt generbte contents of
+  * b binding dynbmicblly.
   *<p>
-  * A Binding instance is not synchronized against concurrent access by multiple
-  * threads. Threads that need to access a Binding concurrently should
-  * synchronize amongst themselves and provide the necessary locking.
+  * A Binding instbnce is not synchronized bgbinst concurrent bccess by multiple
+  * threbds. Threbds thbt need to bccess b Binding concurrently should
+  * synchronize bmongst themselves bnd provide the necessbry locking.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   * @since 1.3
   */
 
-public class Binding extends NameClassPair {
+public clbss Binding extends NbmeClbssPbir {
     /**
-     * Contains this binding's object.
-     * It is initialized by the constructor and can be updated using
+     * Contbins this binding's object.
+     * It is initiblized by the constructor bnd cbn be updbted using
      * <tt>setObject</tt>.
-     * @serial
+     * @seribl
      * @see #getObject
      * @see #setObject
      */
-    private Object boundObj;
+    privbte Object boundObj;
 
     /**
-      * Constructs an instance of a Binding given its name and object.
+      * Constructs bn instbnce of b Binding given its nbme bnd object.
       *<p>
-      * <tt>getClassName()</tt> will return
-      * the class name of <tt>obj</tt> (or null if <tt>obj</tt> is null)
-      * unless the class name has been explicitly set using <tt>setClassName()</tt>
+      * <tt>getClbssNbme()</tt> will return
+      * the clbss nbme of <tt>obj</tt> (or null if <tt>obj</tt> is null)
+      * unless the clbss nbme hbs been explicitly set using <tt>setClbssNbme()</tt>
       *
-      * @param  name    The non-null name of the object. It is relative
-      *             to the <em>target context</em> (which is
-      * named by the first parameter of the <code>listBindings()</code> method)
-      * @param  obj     The possibly null object bound to name.
-      * @see NameClassPair#setClassName
+      * @pbrbm  nbme    The non-null nbme of the object. It is relbtive
+      *             to the <em>tbrget context</em> (which is
+      * nbmed by the first pbrbmeter of the <code>listBindings()</code> method)
+      * @pbrbm  obj     The possibly null object bound to nbme.
+      * @see NbmeClbssPbir#setClbssNbme
       */
-    public Binding(String name, Object obj) {
-        super(name, null);
+    public Binding(String nbme, Object obj) {
+        super(nbme, null);
         this.boundObj = obj;
     }
 
     /**
-      * Constructs an instance of a Binding given its name, object, and whether
-      * the name is relative.
+      * Constructs bn instbnce of b Binding given its nbme, object, bnd whether
+      * the nbme is relbtive.
       *<p>
-      * <tt>getClassName()</tt> will return the class name of <tt>obj</tt>
-      * (or null if <tt>obj</tt> is null) unless the class name has been
-      * explicitly set using <tt>setClassName()</tt>
+      * <tt>getClbssNbme()</tt> will return the clbss nbme of <tt>obj</tt>
+      * (or null if <tt>obj</tt> is null) unless the clbss nbme hbs been
+      * explicitly set using <tt>setClbssNbme()</tt>
       *
-      * @param  name    The non-null string name of the object.
-      * @param  obj     The possibly null object bound to name.
-      * @param isRelative true if <code>name</code> is a name relative
-      *         to the target context (which is named by
-      *         the first parameter of the <code>listBindings()</code> method);
-      *         false if <code>name</code> is a URL string.
-      * @see NameClassPair#isRelative
-      * @see NameClassPair#setRelative
-      * @see NameClassPair#setClassName
+      * @pbrbm  nbme    The non-null string nbme of the object.
+      * @pbrbm  obj     The possibly null object bound to nbme.
+      * @pbrbm isRelbtive true if <code>nbme</code> is b nbme relbtive
+      *         to the tbrget context (which is nbmed by
+      *         the first pbrbmeter of the <code>listBindings()</code> method);
+      *         fblse if <code>nbme</code> is b URL string.
+      * @see NbmeClbssPbir#isRelbtive
+      * @see NbmeClbssPbir#setRelbtive
+      * @see NbmeClbssPbir#setClbssNbme
       */
-    public Binding(String name, Object obj, boolean isRelative) {
-        super(name, null, isRelative);
+    public Binding(String nbme, Object obj, boolebn isRelbtive) {
+        super(nbme, null, isRelbtive);
         this.boundObj = obj;
     }
 
     /**
-      * Constructs an instance of a Binding given its name, class name, and object.
+      * Constructs bn instbnce of b Binding given its nbme, clbss nbme, bnd object.
       *
-      * @param  name    The non-null name of the object. It is relative
-      *             to the <em>target context</em> (which is
-      * named by the first parameter of the <code>listBindings()</code> method)
-      * @param  className       The possibly null class name of the object
-      *         bound to <tt>name</tt>. If null, the class name of <tt>obj</tt> is
-      *         returned by <tt>getClassName()</tt>. If <tt>obj</tt> is also
-      *         null, <tt>getClassName()</tt> will return null.
-      * @param  obj     The possibly null object bound to name.
-      * @see NameClassPair#setClassName
+      * @pbrbm  nbme    The non-null nbme of the object. It is relbtive
+      *             to the <em>tbrget context</em> (which is
+      * nbmed by the first pbrbmeter of the <code>listBindings()</code> method)
+      * @pbrbm  clbssNbme       The possibly null clbss nbme of the object
+      *         bound to <tt>nbme</tt>. If null, the clbss nbme of <tt>obj</tt> is
+      *         returned by <tt>getClbssNbme()</tt>. If <tt>obj</tt> is blso
+      *         null, <tt>getClbssNbme()</tt> will return null.
+      * @pbrbm  obj     The possibly null object bound to nbme.
+      * @see NbmeClbssPbir#setClbssNbme
       */
-    public Binding(String name, String className, Object obj) {
-        super(name, className);
+    public Binding(String nbme, String clbssNbme, Object obj) {
+        super(nbme, clbssNbme);
         this.boundObj = obj;
     }
 
     /**
-      * Constructs an instance of a Binding given its
-      * name, class name, object, and whether the name is relative.
+      * Constructs bn instbnce of b Binding given its
+      * nbme, clbss nbme, object, bnd whether the nbme is relbtive.
       *
-      * @param  name    The non-null string name of the object.
-      * @param  className       The possibly null class name of the object
-      *         bound to <tt>name</tt>. If null, the class name of <tt>obj</tt> is
-      *         returned by <tt>getClassName()</tt>. If <tt>obj</tt> is also
-      *         null, <tt>getClassName()</tt> will return null.
-      * @param  obj     The possibly null object bound to name.
-      * @param isRelative true if <code>name</code> is a name relative
-      *         to the target context (which is named by
-      *         the first parameter of the <code>listBindings()</code> method);
-      *         false if <code>name</code> is a URL string.
-      * @see NameClassPair#isRelative
-      * @see NameClassPair#setRelative
-      * @see NameClassPair#setClassName
+      * @pbrbm  nbme    The non-null string nbme of the object.
+      * @pbrbm  clbssNbme       The possibly null clbss nbme of the object
+      *         bound to <tt>nbme</tt>. If null, the clbss nbme of <tt>obj</tt> is
+      *         returned by <tt>getClbssNbme()</tt>. If <tt>obj</tt> is blso
+      *         null, <tt>getClbssNbme()</tt> will return null.
+      * @pbrbm  obj     The possibly null object bound to nbme.
+      * @pbrbm isRelbtive true if <code>nbme</code> is b nbme relbtive
+      *         to the tbrget context (which is nbmed by
+      *         the first pbrbmeter of the <code>listBindings()</code> method);
+      *         fblse if <code>nbme</code> is b URL string.
+      * @see NbmeClbssPbir#isRelbtive
+      * @see NbmeClbssPbir#setRelbtive
+      * @see NbmeClbssPbir#setClbssNbme
       */
-    public Binding(String name, String className, Object obj, boolean isRelative) {
-        super(name, className, isRelative);
+    public Binding(String nbme, String clbssNbme, Object obj, boolebn isRelbtive) {
+        super(nbme, clbssNbme, isRelbtive);
         this.boundObj = obj;
     }
 
     /**
-      * Retrieves the class name of the object bound to the name of this binding.
-      * If the class name has been set explicitly, return it.
-      * Otherwise, if this binding contains a non-null object,
-      * that object's class name is used. Otherwise, null is returned.
+      * Retrieves the clbss nbme of the object bound to the nbme of this binding.
+      * If the clbss nbme hbs been set explicitly, return it.
+      * Otherwise, if this binding contbins b non-null object,
+      * thbt object's clbss nbme is used. Otherwise, null is returned.
       *
-      * @return A possibly null string containing class name of object bound.
+      * @return A possibly null string contbining clbss nbme of object bound.
       */
-    public String getClassName() {
-        String cname = super.getClassName();
-        if (cname != null) {
-            return cname;
+    public String getClbssNbme() {
+        String cnbme = super.getClbssNbme();
+        if (cnbme != null) {
+            return cnbme;
         }
         if (boundObj != null)
-            return boundObj.getClass().getName();
+            return boundObj.getClbss().getNbme();
         else
             return null;
     }
 
     /**
-      * Retrieves the object bound to the name of this binding.
+      * Retrieves the object bound to the nbme of this binding.
       *
-      * @return The object bound; null if this binding does not contain an object.
+      * @return The object bound; null if this binding does not contbin bn object.
       * @see #setObject
       */
 
@@ -169,8 +169,8 @@ public class Binding extends NameClassPair {
     }
 
     /**
-     * Sets the object associated with this binding.
-     * @param obj The possibly null object to use.
+     * Sets the object bssocibted with this binding.
+     * @pbrbm obj The possibly null object to use.
      * @see #getObject
      */
     public void setObject(Object obj) {
@@ -178,14 +178,14 @@ public class Binding extends NameClassPair {
     }
 
     /**
-      * Generates the string representation of this binding.
-      * The string representation consists of the string representation
-      * of the name/class pair and the string representation of
-      * this binding's object, separated by ':'.
+      * Generbtes the string representbtion of this binding.
+      * The string representbtion consists of the string representbtion
+      * of the nbme/clbss pbir bnd the string representbtion of
+      * this binding's object, sepbrbted by ':'.
       * The contents of this string is useful
-      * for debugging and is not meant to be interpreted programmatically.
+      * for debugging bnd is not mebnt to be interpreted progrbmmbticblly.
       *
-      * @return The non-null string representation of this binding.
+      * @return The non-null string representbtion of this binding.
       */
 
     public String toString() {
@@ -193,7 +193,7 @@ public class Binding extends NameClassPair {
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = 8839217842691845890L;
+    privbte stbtic finbl long seriblVersionUID = 8839217842691845890L;
 };

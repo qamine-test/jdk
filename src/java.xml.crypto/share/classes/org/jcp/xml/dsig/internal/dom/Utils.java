@@ -3,83 +3,83 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: Utils.java 1197150 2011-11-03 14:34:57Z coheigea $
+ * $Id: Utils.jbvb 1197150 2011-11-03 14:34:57Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.*;
-import javax.xml.crypto.XMLCryptoContext;
-import org.w3c.dom.NamedNodeMap;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.*;
+import jbvbx.xml.crypto.XMLCryptoContext;
+import org.w3c.dom.NbmedNodeMbp;
 import org.w3c.dom.Node;
 
 /**
- * Miscellaneous static utility methods for use in JSR 105 RI.
+ * Miscellbneous stbtic utility methods for use in JSR 105 RI.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public final class Utils {
+public finbl clbss Utils {
 
-    private Utils() {}
+    privbte Utils() {}
 
-    public static byte[] readBytesFromStream(InputStream is)
+    public stbtic byte[] rebdBytesFromStrebm(InputStrebm is)
         throws IOException
     {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
         byte[] buf = new byte[1024];
         while (true) {
-            int read = is.read(buf);
-            if (read == -1) { // EOF
-                break;
+            int rebd = is.rebd(buf);
+            if (rebd == -1) { // EOF
+                brebk;
             }
-            baos.write(buf, 0, read);
-            if (read < 1024) {
-                break;
+            bbos.write(buf, 0, rebd);
+            if (rebd < 1024) {
+                brebk;
             }
         }
-        return baos.toByteArray();
+        return bbos.toByteArrby();
     }
 
     /**
-     * Converts an Iterator to a Set of Nodes, according to the XPath
-     * Data Model.
+     * Converts bn Iterbtor to b Set of Nodes, bccording to the XPbth
+     * Dbtb Model.
      *
-     * @param i the Iterator
+     * @pbrbm i the Iterbtor
      * @return the Set of Nodes
      */
-    static Set<Node> toNodeSet(Iterator<Node> i) {
-        Set<Node> nodeSet = new HashSet<Node>();
-        while (i.hasNext()) {
+    stbtic Set<Node> toNodeSet(Iterbtor<Node> i) {
+        Set<Node> nodeSet = new HbshSet<Node>();
+        while (i.hbsNext()) {
             Node n = i.next();
-            nodeSet.add(n);
-            // insert attributes nodes to comply with XPath
+            nodeSet.bdd(n);
+            // insert bttributes nodes to comply with XPbth
             if (n.getNodeType() == Node.ELEMENT_NODE) {
-                NamedNodeMap nnm = n.getAttributes();
+                NbmedNodeMbp nnm = n.getAttributes();
                 for (int j = 0, length = nnm.getLength(); j < length; j++) {
-                    nodeSet.add(nnm.item(j));
+                    nodeSet.bdd(nnm.item(j));
                 }
             }
         }
@@ -87,14 +87,14 @@ public final class Utils {
     }
 
     /**
-     * Returns the ID from a same-document URI (ex: "#id")
+     * Returns the ID from b sbme-document URI (ex: "#id")
      */
-    public static String parseIdFromSameDocumentURI(String uri) {
+    public stbtic String pbrseIdFromSbmeDocumentURI(String uri) {
         if (uri.length() == 0) {
             return null;
         }
         String id = uri.substring(1);
-        if (id != null && id.startsWith("xpointer(id(")) {
+        if (id != null && id.stbrtsWith("xpointer(id(")) {
             int i1 = id.indexOf('\'');
             int i2 = id.indexOf('\'', i1+1);
             id = id.substring(i1+1, i2);
@@ -103,21 +103,21 @@ public final class Utils {
     }
 
     /**
-     * Returns true if uri is a same-document URI, false otherwise.
+     * Returns true if uri is b sbme-document URI, fblse otherwise.
      */
-    public static boolean sameDocumentURI(String uri) {
-        return (uri != null && (uri.length() == 0 || uri.charAt(0) == '#'));
+    public stbtic boolebn sbmeDocumentURI(String uri) {
+        return (uri != null && (uri.length() == 0 || uri.chbrAt(0) == '#'));
     }
 
-    static boolean secureValidation(XMLCryptoContext xc) {
+    stbtic boolebn secureVblidbtion(XMLCryptoContext xc) {
         if (xc == null) {
-            return false;
+            return fblse;
         }
-        return getBoolean(xc, "org.jcp.xml.dsig.secureValidation");
+        return getBoolebn(xc, "org.jcp.xml.dsig.secureVblidbtion");
     }
 
-    private static boolean getBoolean(XMLCryptoContext xc, String name) {
-        Boolean value = (Boolean)xc.getProperty(name);
-        return (value != null && value.booleanValue());
+    privbte stbtic boolebn getBoolebn(XMLCryptoContext xc, String nbme) {
+        Boolebn vblue = (Boolebn)xc.getProperty(nbme);
+        return (vblue != null && vblue.boolebnVblue());
     }
 }

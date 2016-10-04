@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.LocalVariable;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.LocblVbribble;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class VarDeclarationStatement extends Statement {
-    LocalMember field;
+clbss VbrDeclbrbtionStbtement extends Stbtement {
+    LocblMember field;
     Expression expr;
 
     /**
      * Constructor
      */
-    public VarDeclarationStatement(long where, Expression expr) {
+    public VbrDeclbrbtionStbtement(long where, Expression expr) {
         super(VARDECLARATION, where);
         this.expr = expr;
     }
-    public VarDeclarationStatement(long where, LocalMember field, Expression expr) {
+    public VbrDeclbrbtionStbtement(long where, LocblMember field, Expression expr) {
         super(VARDECLARATION, where);
         this.field = field;
         this.expr = expr;
     }
 
     /**
-     * Check statement
+     * Check stbtement
      */
-    Vset checkDeclaration(Environment env, Context ctx, Vset vset, int mod, Type t, Hashtable<Object, Object> exp) {
-        if (labels != null) {
-            env.error(where, "declaration.with.label", labels[0]);
+    Vset checkDeclbrbtion(Environment env, Context ctx, Vset vset, int mod, Type t, Hbshtbble<Object, Object> exp) {
+        if (lbbels != null) {
+            env.error(where, "declbrbtion.with.lbbel", lbbels[0]);
         }
         if (field != null) {
-            if (ctx.getLocalClass(field.getName()) != null
-                && field.isInnerClass()) {
-                env.error(where, "local.class.redefined", field.getName());
+            if (ctx.getLocblClbss(field.getNbme()) != null
+                && field.isInnerClbss()) {
+                env.error(where, "locbl.clbss.redefined", field.getNbme());
             }
 
-            ctx.declare(env, field);
-            if (field.isInnerClass()) {
-                ClassDefinition body = field.getInnerClass();
+            ctx.declbre(env, field);
+            if (field.isInnerClbss()) {
+                ClbssDefinition body = field.getInnerClbss();
                 try {
-                    vset = body.checkLocalClass(env, ctx, vset,
+                    vset = body.checkLocblClbss(env, ctx, vset,
                                                 null, null, null);
-                } catch (ClassNotFound ee) {
-                    env.error(where, "class.not.found", ee.name, opNames[op]);
+                } cbtch (ClbssNotFound ee) {
+                    env.error(where, "clbss.not.found", ee.nbme, opNbmes[op]);
                 }
                 return vset;
             }
-            vset.addVar(field.number);
-            return (expr != null) ? expr.checkValue(env, ctx, vset, exp) : vset;
+            vset.bddVbr(field.number);
+            return (expr != null) ? expr.checkVblue(env, ctx, vset, exp) : vset;
         }
 
-        // Argument 'expr' is either an IdentifierExpression for a declaration of
-        // the form 'type x' or an AssignmentExpression for a declaration of the
-        // form 'type x = initvalue'.  Note that these expressions are treated
-        // specially in this context, and don't have much connection to their ordinary
-        // meaning.
+        // Argument 'expr' is either bn IdentifierExpression for b declbrbtion of
+        // the form 'type x' or bn AssignmentExpression for b declbrbtion of the
+        // form 'type x = initvblue'.  Note thbt these expressions bre trebted
+        // speciblly in this context, bnd don't hbve much connection to their ordinbry
+        // mebning.
 
         Expression e = expr;
 
@@ -97,105 +97,105 @@ class VarDeclarationStatement extends Statement {
             expr = null;
         }
 
-        boolean declError = t.isType(TC_ERROR);
+        boolebn declError = t.isType(TC_ERROR);
         while (e.op == ARRAYACCESS) {
-            ArrayAccessExpression array = (ArrayAccessExpression)e;
-            if (array.index != null) {
-                env.error(array.index.where, "array.dim.in.type");
+            ArrbyAccessExpression brrby = (ArrbyAccessExpression)e;
+            if (brrby.index != null) {
+                env.error(brrby.index.where, "brrby.dim.in.type");
                 declError = true;
             }
-            e = array.right;
-            t = Type.tArray(t);
+            e = brrby.right;
+            t = Type.tArrby(t);
         }
         if (e.op == IDENT) {
             Identifier id = ((IdentifierExpression)e).id;
-            if (ctx.getLocalField(id) != null) {
-                env.error(where, "local.redefined", id);
+            if (ctx.getLocblField(id) != null) {
+                env.error(where, "locbl.redefined", id);
             }
 
-            field = new LocalMember(e.where, ctx.field.getClassDefinition(), mod, t, id);
-            ctx.declare(env, field);
+            field = new LocblMember(e.where, ctx.field.getClbssDefinition(), mod, t, id);
+            ctx.declbre(env, field);
 
             if (expr != null) {
-                vset = expr.checkInitializer(env, ctx, vset, t, exp);
+                vset = expr.checkInitiblizer(env, ctx, vset, t, exp);
                 expr = convert(env, ctx, t, expr);
-                field.setValue(expr); // for the sake of non-blank finals
-                if (field.isConstant()) {
-                    // Keep in mind that isConstant() only means expressions
-                    // that are constant according to the JLS.  They might
-                    // not be either constants or evaluable (eg. 1/0).
-                    field.addModifiers(M_INLINEABLE);
+                field.setVblue(expr); // for the sbke of non-blbnk finbls
+                if (field.isConstbnt()) {
+                    // Keep in mind thbt isConstbnt() only mebns expressions
+                    // thbt bre constbnt bccording to the JLS.  They might
+                    // not be either constbnts or evblubble (eg. 1/0).
+                    field.bddModifiers(M_INLINEABLE);
                 }
-                vset.addVar(field.number);
+                vset.bddVbr(field.number);
             } else if (declError) {
-                vset.addVar(field.number);
+                vset.bddVbr(field.number);
             } else {
-                vset.addVarUnassigned(field.number);
+                vset.bddVbrUnbssigned(field.number);
             }
             return vset;
         }
-        env.error(e.where, "invalid.decl");
+        env.error(e.where, "invblid.decl");
         return vset;
     }
 
     /**
      * Inline
      */
-    public Statement inline(Environment env, Context ctx) {
-        if (field.isInnerClass()) {
-            ClassDefinition body = field.getInnerClass();
-            body.inlineLocalClass(env);
+    public Stbtement inline(Environment env, Context ctx) {
+        if (field.isInnerClbss()) {
+            ClbssDefinition body = field.getInnerClbss();
+            body.inlineLocblClbss(env);
             return null;
         }
 
-        // Don't generate code for variable if unused and
-        // optimization is on, whether or not debugging is on
+        // Don't generbte code for vbribble if unused bnd
+        // optimizbtion is on, whether or not debugging is on
         if (env.opt() && !field.isUsed()) {
-            return new ExpressionStatement(where, expr).inline(env, ctx);
+            return new ExpressionStbtement(where, expr).inline(env, ctx);
         }
 
-        ctx.declare(env, field);
+        ctx.declbre(env, field);
 
         if (expr != null) {
-            expr = expr.inlineValue(env, ctx);
-            field.setValue(expr); // for the sake of non-blank finals
+            expr = expr.inlineVblue(env, ctx);
+            field.setVblue(expr); // for the sbke of non-blbnk finbls
             if (env.opt() && (field.writecount == 0)) {
                 if (expr.op == IDENT) {
 
-                    // This code looks like it tests whether a final variable
-                    // is being initialized by an identifier expression.
-                    // Then if the identifier is a local of the same method
-                    // it makes the final variable eligible to be inlined.
-                    // BUT: why isn't the local also checked to make sure
-                    // it is itself final?  Unknown.
+                    // This code looks like it tests whether b finbl vbribble
+                    // is being initiblized by bn identifier expression.
+                    // Then if the identifier is b locbl of the sbme method
+                    // it mbkes the finbl vbribble eligible to be inlined.
+                    // BUT: why isn't the locbl blso checked to mbke sure
+                    // it is itself finbl?  Unknown.
 
                     IdentifierExpression e = (IdentifierExpression)expr;
-                    if (e.field.isLocal() && ((ctx = ctx.getInlineContext()) != null) &&
-                        (((LocalMember)e.field).number < ctx.varNumber)) {
+                    if (e.field.isLocbl() && ((ctx = ctx.getInlineContext()) != null) &&
+                        (((LocblMember)e.field).number < ctx.vbrNumber)) {
                         //System.out.println("FINAL IDENT = " + field + " in " + ctx.field);
-                        field.setValue(expr);
-                        field.addModifiers(M_INLINEABLE);
+                        field.setVblue(expr);
+                        field.bddModifiers(M_INLINEABLE);
 
-                        // The two lines below used to elide the declaration
-                        // of inlineable variables, on the theory that there
-                        // wouldn't be any references.  But this breaks the
-                        // translation of nested classes, which might refer to
-                        // the variable.
+                        // The two lines below used to elide the declbrbtion
+                        // of inlinebble vbribbles, on the theory thbt there
+                        // wouldn't be bny references.  But this brebks the
+                        // trbnslbtion of nested clbsses, which might refer to
+                        // the vbribble.
 
                         //expr = null;
                         //return null;
                     }
                 }
-                if (expr.isConstant() || (expr.op == THIS) || (expr.op == SUPER)) {
+                if (expr.isConstbnt() || (expr.op == THIS) || (expr.op == SUPER)) {
                     //System.out.println("FINAL = " + field + " in " + ctx.field);
-                    field.setValue(expr);
-                    field.addModifiers(M_INLINEABLE);
+                    field.setVblue(expr);
+                    field.bddModifiers(M_INLINEABLE);
 
-                    // The two lines below used to elide the declaration
-                    // of inlineable variables, on the theory that there
-                    // wouldn't be any references.  But this breaks the
-                    // translation of nested classes, which might refer to
-                    // the variable.  Fix for 4073244.
+                    // The two lines below used to elide the declbrbtion
+                    // of inlinebble vbribbles, on the theory thbt there
+                    // wouldn't be bny references.  But this brebks the
+                    // trbnslbtion of nested clbsses, which might refer to
+                    // the vbribble.  Fix for 4073244.
 
                     //expr = null;
                     //return null;
@@ -206,10 +206,10 @@ class VarDeclarationStatement extends Statement {
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crebte b copy of the stbtement for method inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        VarDeclarationStatement s = (VarDeclarationStatement)clone();
+    public Stbtement copyInline(Context ctx, boolebn vblNeeded) {
+        VbrDeclbrbtionStbtement s = (VbrDeclbrbtionStbtement)clone();
         if (expr != null) {
             s.expr = expr.copyInline(ctx);
         }
@@ -217,11 +217,11 @@ class VarDeclarationStatement extends Statement {
     }
 
     /**
-     * The cost of inlining this statement
+     * The cost of inlining this stbtement
      */
     public int costInline(int thresh, Environment env, Context ctx) {
-        if (field != null && field.isInnerClass()) {
-            return thresh;      // don't copy classes...
+        if (field != null && field.isInnerClbss()) {
+            return thresh;      // don't copy clbsses...
         }
         return (expr != null) ? expr.costInline(thresh, env, ctx) : 0;
     }
@@ -229,31 +229,31 @@ class VarDeclarationStatement extends Statement {
     /**
      * Code
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
+    public void code(Environment env, Context ctx, Assembler bsm) {
         if (expr != null && !expr.type.isType(TC_VOID)) {
             // The two lines of code directly following this comment used
-            // to be in the opposite order.  They were switched so that
+            // to be in the opposite order.  They were switched so thbt
             // lines like the following:
             //
             //     int j = (j = 4);
             //
-            // will compile correctly.  (Constructions like the above are
-            // legal.  JLS 14.3.2 says that the scope of a local variable
-            // includes its own initializer.)  It is important that we
-            // declare `field' before we code `expr', because otherwise
-            // situations can arise where `field' thinks it is assigned
-            // a local variable slot that is, in actuality, assigned to
-            // an entirely different variable.  (Bug id 4076729)
-            ctx.declare(env, field);
-            expr.codeValue(env, ctx, asm);
+            // will compile correctly.  (Constructions like the bbove bre
+            // legbl.  JLS 14.3.2 sbys thbt the scope of b locbl vbribble
+            // includes its own initiblizer.)  It is importbnt thbt we
+            // declbre `field' before we code `expr', becbuse otherwise
+            // situbtions cbn brise where `field' thinks it is bssigned
+            // b locbl vbribble slot thbt is, in bctublity, bssigned to
+            // bn entirely different vbribble.  (Bug id 4076729)
+            ctx.declbre(env, field);
+            expr.codeVblue(env, ctx, bsm);
 
-            asm.add(where, opc_istore + field.getType().getTypeCodeOffset(),
-                    new LocalVariable(field, field.number));
+            bsm.bdd(where, opc_istore + field.getType().getTypeCodeOffset(),
+                    new LocblVbribble(field, field.number));
         } else {
-            ctx.declare(env, field);
+            ctx.declbre(env, field);
             if (expr != null) {
-                // an initial side effect, rather than an initial value
-                expr.code(env, ctx, asm);
+                // bn initibl side effect, rbther thbn bn initibl vblue
+                expr.code(env, ctx, bsm);
             }
         }
     }
@@ -261,10 +261,10 @@ class VarDeclarationStatement extends Statement {
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
-        out.print("local ");
+    public void print(PrintStrebm out, int indent) {
+        out.print("locbl ");
         if (field != null) {
-            out.print(field + "#" + field.hashCode());
+            out.print(field + "#" + field.hbshCode());
             if (expr != null) {
                 out.print(" = ");
                 expr.print(out);

@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <windows.h>
 #include <stdlib.h>
 #include <string.h>
-#include <Psapi.h>
+#include <Psbpi.h>
 
 #include "jni.h"
 #include "jni_util.h"
 
-#include "sun_tools_attach_WindowsAttachProvider.h"
+#include "sun_tools_bttbch_WindowsAttbchProvider.h"
 
 /*
- * Class:     sun_tools_attach_WindowsAttachProvider
- * Method:    tempPath
- * Signature: ()Ljava/lang/String;
+ * Clbss:     sun_tools_bttbch_WindowsAttbchProvider
+ * Method:    tempPbth
+ * Signbture: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_sun_tools_attach_WindowsAttachProvider_tempPath(JNIEnv *env, jclass cls)
+Jbvb_sun_tools_bttbch_WindowsAttbchProvider_tempPbth(JNIEnv *env, jclbss cls)
 {
-    char buf[256];
-    DWORD bufLen, actualLen;
+    chbr buf[256];
+    DWORD bufLen, bctublLen;
     jstring result = NULL;
 
-    bufLen = sizeof(buf) / sizeof(char);
-    actualLen = GetTempPath(bufLen, buf);
-    if (actualLen > 0) {
-        char* bufP = buf;
-        if (actualLen > bufLen) {
-            actualLen += sizeof(char);
-            bufP = (char*)malloc(actualLen * sizeof(char));
-            actualLen = GetTempPath(actualLen, bufP);
+    bufLen = sizeof(buf) / sizeof(chbr);
+    bctublLen = GetTempPbth(bufLen, buf);
+    if (bctublLen > 0) {
+        chbr* bufP = buf;
+        if (bctublLen > bufLen) {
+            bctublLen += sizeof(chbr);
+            bufP = (chbr*)mblloc(bctublLen * sizeof(chbr));
+            bctublLen = GetTempPbth(bctublLen, bufP);
         }
-        if (actualLen > 0) {
-            result = JNU_NewStringPlatform(env, bufP);
+        if (bctublLen > 0) {
+            result = JNU_NewStringPlbtform(env, bufP);
         }
         if (bufP != buf) {
             free((void*)bufP);
@@ -64,33 +64,33 @@ Java_sun_tools_attach_WindowsAttachProvider_tempPath(JNIEnv *env, jclass cls)
 }
 
 /*
- * Class:     sun_tools_attach_WindowsAttachProvider
- * Method:    volumeFlags
- * Signature: ()J
+ * Clbss:     sun_tools_bttbch_WindowsAttbchProvider
+ * Method:    volumeFlbgs
+ * Signbture: ()J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_tools_attach_WindowsAttachProvider_volumeFlags(JNIEnv *env, jclass cls, jstring str)
+Jbvb_sun_tools_bttbch_WindowsAttbchProvider_volumeFlbgs(JNIEnv *env, jclbss cls, jstring str)
 {
-    jboolean isCopy;
-    const char* volume;
+    jboolebn isCopy;
+    const chbr* volume;
     DWORD result = 0;
 
-    volume = JNU_GetStringPlatformChars(env, str, &isCopy);
+    volume = JNU_GetStringPlbtformChbrs(env, str, &isCopy);
     if (volume != NULL) {
-        DWORD componentLen, flags;
-        BOOL res = GetVolumeInformation(volume,
+        DWORD componentLen, flbgs;
+        BOOL res = GetVolumeInformbtion(volume,
                                         NULL,
                                         0,
                                         NULL,
                                         &componentLen,
-                                        &flags,
+                                        &flbgs,
                                         NULL,
                                         0);
        if (res != 0) {
-           result = flags;
+           result = flbgs;
        }
        if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, str, volume);
+            JNU_RelebseStringPlbtformChbrs(env, str, volume);
        }
     }
     return result;
@@ -98,25 +98,25 @@ Java_sun_tools_attach_WindowsAttachProvider_volumeFlags(JNIEnv *env, jclass cls,
 
 
 /*
- * Class:     sun_tools_attach_WindowsAttachProvider
+ * Clbss:     sun_tools_bttbch_WindowsAttbchProvider
  * Method:    enumProcesses
- * Signature: ([JI)I
+ * Signbture: ([JI)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_tools_attach_WindowsAttachProvider_enumProcesses(JNIEnv *env, jclass cls,
-                                                          jintArray arr, jint max)
+Jbvb_sun_tools_bttbch_WindowsAttbchProvider_enumProcesses(JNIEnv *env, jclbss cls,
+                                                          jintArrby brr, jint mbx)
 {
     DWORD size, bytesReturned;
     DWORD* ptr;
     jint result = 0;
 
-    size = max * sizeof(DWORD);
-    ptr = (DWORD*)malloc(size);
+    size = mbx * sizeof(DWORD);
+    ptr = (DWORD*)mblloc(size);
     if (ptr != NULL) {
         BOOL res = EnumProcesses(ptr, size, &bytesReturned);
         if (res != 0) {
             result = (jint)(bytesReturned / sizeof(DWORD));
-            (*env)->SetIntArrayRegion(env, arr, 0, (jsize)result, (jint*)ptr);
+            (*env)->SetIntArrbyRegion(env, brr, 0, (jsize)result, (jint*)ptr);
         }
         free((void*)ptr);
     }
@@ -124,20 +124,20 @@ Java_sun_tools_attach_WindowsAttachProvider_enumProcesses(JNIEnv *env, jclass cl
 }
 
 /*
- * Class:     sun_tools_attach_WindowsAttachProvider
- * Method:    isLibraryLoadedByProcess
- * Signature: (I[Ljava/lang/String;)Z
+ * Clbss:     sun_tools_bttbch_WindowsAttbchProvider
+ * Method:    isLibrbryLobdedByProcess
+ * Signbture: (I[Ljbvb/lbng/String;)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_tools_attach_WindowsAttachProvider_isLibraryLoadedByProcess(JNIEnv *env, jclass cls,
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_tools_bttbch_WindowsAttbchProvider_isLibrbryLobdedByProcess(JNIEnv *env, jclbss cls,
                                                                      jstring str, jint processId)
 {
     HANDLE hProcess;
-    jboolean isCopy;
-    const char* lib;
+    jboolebn isCopy;
+    const chbr* lib;
     DWORD size, bytesReturned;
     HMODULE* ptr;
-    jboolean result = JNI_FALSE;
+    jboolebn result = JNI_FALSE;
 
     hProcess = OpenProcess(PROCESS_QUERY_INFORMATION |
                            PROCESS_VM_READ,
@@ -145,30 +145,30 @@ Java_sun_tools_attach_WindowsAttachProvider_isLibraryLoadedByProcess(JNIEnv *env
     if (hProcess == NULL) {
         return JNI_FALSE;
     }
-    lib = JNU_GetStringPlatformChars(env, str, &isCopy);
+    lib = JNU_GetStringPlbtformChbrs(env, str, &isCopy);
     if (lib == NULL) {
-        CloseHandle(hProcess);
+        CloseHbndle(hProcess);
         return JNI_FALSE;
     }
 
     /*
-     * Enumerate the modules that the process has opened and see if we have a
-     * match.
+     * Enumerbte the modules thbt the process hbs opened bnd see if we hbve b
+     * mbtch.
      */
     size = 1024 * sizeof(HMODULE);
-    ptr = (HMODULE*)malloc(size);
+    ptr = (HMODULE*)mblloc(size);
     if (ptr != NULL) {
         BOOL res = EnumProcessModules(hProcess, ptr, size, &bytesReturned);
         if (res != 0) {
             int count = bytesReturned / sizeof(HMODULE);
             int i = 0;
             while (i < count) {
-                char base[256];
-                BOOL res = GetModuleBaseName(hProcess, ptr[i], base, sizeof(base));
+                chbr bbse[256];
+                BOOL res = GetModuleBbseNbme(hProcess, ptr[i], bbse, sizeof(bbse));
                 if (res != 0) {
-                    if (strcmp(base, lib) == 0) {
+                    if (strcmp(bbse, lib) == 0) {
                       result = JNI_TRUE;
-                      break;
+                      brebk;
                     }
                 }
                 i++;
@@ -177,9 +177,9 @@ Java_sun_tools_attach_WindowsAttachProvider_isLibraryLoadedByProcess(JNIEnv *env
         free((void*)ptr);
     }
     if (isCopy) {
-        JNU_ReleaseStringPlatformChars(env, str, lib);
+        JNU_RelebseStringPlbtformChbrs(env, str, lib);
     }
-    CloseHandle(hProcess);
+    CloseHbndle(hProcess);
 
     return result;
 }

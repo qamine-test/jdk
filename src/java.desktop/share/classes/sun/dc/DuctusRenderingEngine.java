@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.dc;
+pbckbge sun.dc;
 
-import java.awt.Shape;
-import java.awt.BasicStroke;
-import java.awt.geom.Path2D;
-import java.awt.geom.PathIterator;
-import java.awt.geom.AffineTransform;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.BbsicStroke;
+import jbvb.bwt.geom.Pbth2D;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.geom.AffineTrbnsform;
 
-import sun.awt.geom.PathConsumer2D;
-import sun.java2d.pipe.Region;
-import sun.java2d.pipe.AATileGenerator;
-import sun.java2d.pipe.RenderingEngine;
+import sun.bwt.geom.PbthConsumer2D;
+import sun.jbvb2d.pipe.Region;
+import sun.jbvb2d.pipe.AATileGenerbtor;
+import sun.jbvb2d.pipe.RenderingEngine;
 
-import sun.dc.pr.Rasterizer;
-import sun.dc.pr.PathStroker;
-import sun.dc.pr.PathDasher;
+import sun.dc.pr.Rbsterizer;
+import sun.dc.pr.PbthStroker;
+import sun.dc.pr.PbthDbsher;
 import sun.dc.pr.PRException;
-import sun.dc.path.PathConsumer;
-import sun.dc.path.PathException;
-import sun.dc.path.FastPathProducer;
+import sun.dc.pbth.PbthConsumer;
+import sun.dc.pbth.PbthException;
+import sun.dc.pbth.FbstPbthProducer;
 
-public class DuctusRenderingEngine extends RenderingEngine {
-    static final float PenUnits = 0.01f;
-    static final int MinPenUnits = 100;
-    static final int MinPenUnitsAA = 20;
-    static final float MinPenSizeAA = PenUnits * MinPenUnitsAA;
+public clbss DuctusRenderingEngine extends RenderingEngine {
+    stbtic finbl flobt PenUnits = 0.01f;
+    stbtic finbl int MinPenUnits = 100;
+    stbtic finbl int MinPenUnitsAA = 20;
+    stbtic finbl flobt MinPenSizeAA = PenUnits * MinPenUnitsAA;
 
-    static final float UPPER_BND = Float.MAX_VALUE / 2.0f;
-    static final float LOWER_BND = -UPPER_BND;
+    stbtic finbl flobt UPPER_BND = Flobt.MAX_VALUE / 2.0f;
+    stbtic finbl flobt LOWER_BND = -UPPER_BND;
 
-    private static final int RasterizerCaps[] = {
-        Rasterizer.BUTT, Rasterizer.ROUND, Rasterizer.SQUARE
+    privbte stbtic finbl int RbsterizerCbps[] = {
+        Rbsterizer.BUTT, Rbsterizer.ROUND, Rbsterizer.SQUARE
     };
 
-    private static final int RasterizerCorners[] = {
-        Rasterizer.MITER, Rasterizer.ROUND, Rasterizer.BEVEL
+    privbte stbtic finbl int RbsterizerCorners[] = {
+        Rbsterizer.MITER, Rbsterizer.ROUND, Rbsterizer.BEVEL
     };
 
-    static float[] getTransformMatrix(AffineTransform transform) {
-        float matrix[] = new float[4];
-        double dmatrix[] = new double[6];
-        transform.getMatrix(dmatrix);
+    stbtic flobt[] getTrbnsformMbtrix(AffineTrbnsform trbnsform) {
+        flobt mbtrix[] = new flobt[4];
+        double dmbtrix[] = new double[6];
+        trbnsform.getMbtrix(dmbtrix);
         for (int i = 0; i < 4; i++) {
-            matrix[i] = (float) dmatrix[i];
+            mbtrix[i] = (flobt) dmbtrix[i];
         }
-        return matrix;
+        return mbtrix;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Shape createStrokedShape(Shape src,
-                                    float width,
-                                    int caps,
+    public Shbpe crebteStrokedShbpe(Shbpe src,
+                                    flobt width,
+                                    int cbps,
                                     int join,
-                                    float miterlimit,
-                                    float dashes[],
-                                    float dashphase)
+                                    flobt miterlimit,
+                                    flobt dbshes[],
+                                    flobt dbshphbse)
     {
-        FillAdapter filler = new FillAdapter();
-        PathStroker stroker = new PathStroker(filler);
-        PathDasher dasher = null;
+        FillAdbpter filler = new FillAdbpter();
+        PbthStroker stroker = new PbthStroker(filler);
+        PbthDbsher dbsher = null;
 
         try {
-            PathConsumer consumer;
+            PbthConsumer consumer;
 
-            stroker.setPenDiameter(width);
+            stroker.setPenDibmeter(width);
             stroker.setPenT4(null);
-            stroker.setCaps(RasterizerCaps[caps]);
-            stroker.setCorners(RasterizerCorners[join], miterlimit);
-            if (dashes != null) {
-                dasher = new PathDasher(stroker);
-                dasher.setDash(dashes, dashphase);
-                dasher.setDashT4(null);
-                consumer = dasher;
+            stroker.setCbps(RbsterizerCbps[cbps]);
+            stroker.setCorners(RbsterizerCorners[join], miterlimit);
+            if (dbshes != null) {
+                dbsher = new PbthDbsher(stroker);
+                dbsher.setDbsh(dbshes, dbshphbse);
+                dbsher.setDbshT4(null);
+                consumer = dbsher;
             } else {
                 consumer = stroker;
             }
 
-            feedConsumer(consumer, src.getPathIterator(null));
-        } finally {
+            feedConsumer(consumer, src.getPbthIterbtor(null));
+        } finblly {
             stroker.dispose();
-            if (dasher != null) {
-                dasher.dispose();
+            if (dbsher != null) {
+                dbsher.dispose();
             }
         }
 
-        return filler.getShape();
+        return filler.getShbpe();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void strokeTo(Shape src,
-                         AffineTransform transform,
-                         BasicStroke bs,
-                         boolean thin,
-                         boolean normalize,
-                         boolean antialias,
-                         PathConsumer2D sr)
+    public void strokeTo(Shbpe src,
+                         AffineTrbnsform trbnsform,
+                         BbsicStroke bs,
+                         boolebn thin,
+                         boolebn normblize,
+                         boolebn bntiblibs,
+                         PbthConsumer2D sr)
     {
-        PathStroker stroker = new PathStroker(sr);
-        PathConsumer consumer = stroker;
+        PbthStroker stroker = new PbthStroker(sr);
+        PbthConsumer consumer = stroker;
 
-        float matrix[] = null;
+        flobt mbtrix[] = null;
         if (!thin) {
-            stroker.setPenDiameter(bs.getLineWidth());
-            if (transform != null) {
-                matrix = getTransformMatrix(transform);
+            stroker.setPenDibmeter(bs.getLineWidth());
+            if (trbnsform != null) {
+                mbtrix = getTrbnsformMbtrix(trbnsform);
             }
-            stroker.setPenT4(matrix);
+            stroker.setPenT4(mbtrix);
             stroker.setPenFitting(PenUnits, MinPenUnits);
         }
-        stroker.setCaps(RasterizerCaps[bs.getEndCap()]);
-        stroker.setCorners(RasterizerCorners[bs.getLineJoin()],
+        stroker.setCbps(RbsterizerCbps[bs.getEndCbp()]);
+        stroker.setCorners(RbsterizerCorners[bs.getLineJoin()],
                            bs.getMiterLimit());
-        float[] dashes = bs.getDashArray();
-        if (dashes != null) {
-            PathDasher dasher = new PathDasher(stroker);
-            dasher.setDash(dashes, bs.getDashPhase());
-            if (transform != null && matrix == null) {
-                matrix = getTransformMatrix(transform);
+        flobt[] dbshes = bs.getDbshArrby();
+        if (dbshes != null) {
+            PbthDbsher dbsher = new PbthDbsher(stroker);
+            dbsher.setDbsh(dbshes, bs.getDbshPhbse());
+            if (trbnsform != null && mbtrix == null) {
+                mbtrix = getTrbnsformMbtrix(trbnsform);
             }
-            dasher.setDashT4(matrix);
-            consumer = dasher;
+            dbsher.setDbshT4(mbtrix);
+            consumer = dbsher;
         }
 
         try {
-            PathIterator pi = src.getPathIterator(transform);
+            PbthIterbtor pi = src.getPbthIterbtor(trbnsform);
 
-            feedConsumer(pi, consumer, normalize, 0.25f);
-        } catch (PathException e) {
-            throw new InternalError("Unable to Stroke shape ("+
-                                    e.getMessage()+")", e);
-        } finally {
+            feedConsumer(pi, consumer, normblize, 0.25f);
+        } cbtch (PbthException e) {
+            throw new InternblError("Unbble to Stroke shbpe ("+
+                                    e.getMessbge()+")", e);
+        } finblly {
             while (consumer != null && consumer != sr) {
-                PathConsumer next = consumer.getConsumer();
+                PbthConsumer next = consumer.getConsumer();
                 consumer.dispose();
                 consumer = next;
             }
@@ -169,216 +169,216 @@ public class DuctusRenderingEngine extends RenderingEngine {
     }
 
     /*
-     * Feed a path from a PathIterator to a Ductus PathConsumer.
+     * Feed b pbth from b PbthIterbtor to b Ductus PbthConsumer.
      */
-    public static void feedConsumer(PathIterator pi, PathConsumer consumer,
-                                    boolean normalize, float norm)
-        throws PathException
+    public stbtic void feedConsumer(PbthIterbtor pi, PbthConsumer consumer,
+                                    boolebn normblize, flobt norm)
+        throws PbthException
     {
-        consumer.beginPath();
-        boolean pathClosed = false;
-        boolean skip = false;
-        boolean subpathStarted = false;
-        float mx = 0.0f;
-        float my = 0.0f;
-        float point[]  = new float[6];
-        float rnd = (0.5f - norm);
-        float ax = 0.0f;
-        float ay = 0.0f;
+        consumer.beginPbth();
+        boolebn pbthClosed = fblse;
+        boolebn skip = fblse;
+        boolebn subpbthStbrted = fblse;
+        flobt mx = 0.0f;
+        flobt my = 0.0f;
+        flobt point[]  = new flobt[6];
+        flobt rnd = (0.5f - norm);
+        flobt bx = 0.0f;
+        flobt by = 0.0f;
 
         while (!pi.isDone()) {
             int type = pi.currentSegment(point);
-            if (pathClosed == true) {
-                pathClosed = false;
-                if (type != PathIterator.SEG_MOVETO) {
-                    // Force current point back to last moveto point
-                    consumer.beginSubpath(mx, my);
-                    subpathStarted = true;
+            if (pbthClosed == true) {
+                pbthClosed = fblse;
+                if (type != PbthIterbtor.SEG_MOVETO) {
+                    // Force current point bbck to lbst moveto point
+                    consumer.beginSubpbth(mx, my);
+                    subpbthStbrted = true;
                 }
             }
-            if (normalize) {
+            if (normblize) {
                 int index;
                 switch (type) {
-                case PathIterator.SEG_CUBICTO:
+                cbse PbthIterbtor.SEG_CUBICTO:
                     index = 4;
-                    break;
-                case PathIterator.SEG_QUADTO:
+                    brebk;
+                cbse PbthIterbtor.SEG_QUADTO:
                     index = 2;
-                    break;
-                case PathIterator.SEG_MOVETO:
-                case PathIterator.SEG_LINETO:
+                    brebk;
+                cbse PbthIterbtor.SEG_MOVETO:
+                cbse PbthIterbtor.SEG_LINETO:
                     index = 0;
-                    break;
-                case PathIterator.SEG_CLOSE:
-                default:
+                    brebk;
+                cbse PbthIterbtor.SEG_CLOSE:
+                defbult:
                     index = -1;
-                    break;
+                    brebk;
                 }
                 if (index >= 0) {
-                    float ox = point[index];
-                    float oy = point[index+1];
-                    float newax = (float) Math.floor(ox + rnd) + norm;
-                    float neway = (float) Math.floor(oy + rnd) + norm;
-                    point[index] = newax;
-                    point[index+1] = neway;
-                    newax -= ox;
-                    neway -= oy;
+                    flobt ox = point[index];
+                    flobt oy = point[index+1];
+                    flobt newbx = (flobt) Mbth.floor(ox + rnd) + norm;
+                    flobt newby = (flobt) Mbth.floor(oy + rnd) + norm;
+                    point[index] = newbx;
+                    point[index+1] = newby;
+                    newbx -= ox;
+                    newby -= oy;
                     switch (type) {
-                    case PathIterator.SEG_CUBICTO:
-                        point[0] += ax;
-                        point[1] += ay;
-                        point[2] += newax;
-                        point[3] += neway;
-                        break;
-                    case PathIterator.SEG_QUADTO:
-                        point[0] += (newax + ax) / 2;
-                        point[1] += (neway + ay) / 2;
-                        break;
-                    case PathIterator.SEG_MOVETO:
-                    case PathIterator.SEG_LINETO:
-                    case PathIterator.SEG_CLOSE:
-                        break;
+                    cbse PbthIterbtor.SEG_CUBICTO:
+                        point[0] += bx;
+                        point[1] += by;
+                        point[2] += newbx;
+                        point[3] += newby;
+                        brebk;
+                    cbse PbthIterbtor.SEG_QUADTO:
+                        point[0] += (newbx + bx) / 2;
+                        point[1] += (newby + by) / 2;
+                        brebk;
+                    cbse PbthIterbtor.SEG_MOVETO:
+                    cbse PbthIterbtor.SEG_LINETO:
+                    cbse PbthIterbtor.SEG_CLOSE:
+                        brebk;
                     }
-                    ax = newax;
-                    ay = neway;
+                    bx = newbx;
+                    by = newby;
                 }
             }
             switch (type) {
-            case PathIterator.SEG_MOVETO:
+            cbse PbthIterbtor.SEG_MOVETO:
 
-                /* Checking SEG_MOVETO coordinates if they are out of the
-                 * [LOWER_BND, UPPER_BND] range. This check also handles NaN
-                 * and Infinity values. Skipping next path segment in case of
-                 * invalid data.
+                /* Checking SEG_MOVETO coordinbtes if they bre out of the
+                 * [LOWER_BND, UPPER_BND] rbnge. This check blso hbndles NbN
+                 * bnd Infinity vblues. Skipping next pbth segment in cbse of
+                 * invblid dbtb.
                  */
                 if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                     point[1] < UPPER_BND && point[1] > LOWER_BND)
                 {
                     mx = point[0];
                     my = point[1];
-                    consumer.beginSubpath(mx, my);
-                    subpathStarted = true;
-                    skip = false;
+                    consumer.beginSubpbth(mx, my);
+                    subpbthStbrted = true;
+                    skip = fblse;
                 } else {
                     skip = true;
                 }
-                break;
-            case PathIterator.SEG_LINETO:
-                /* Checking SEG_LINETO coordinates if they are out of the
-                 * [LOWER_BND, UPPER_BND] range. This check also handles NaN
-                 * and Infinity values. Ignoring current path segment in case
-                 * of invalid data. If segment is skipped its endpoint
-                 * (if valid) is used to begin new subpath.
+                brebk;
+            cbse PbthIterbtor.SEG_LINETO:
+                /* Checking SEG_LINETO coordinbtes if they bre out of the
+                 * [LOWER_BND, UPPER_BND] rbnge. This check blso hbndles NbN
+                 * bnd Infinity vblues. Ignoring current pbth segment in cbse
+                 * of invblid dbtb. If segment is skipped its endpoint
+                 * (if vblid) is used to begin new subpbth.
                  */
                 if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                     point[1] < UPPER_BND && point[1] > LOWER_BND)
                 {
                     if (skip) {
-                        consumer.beginSubpath(point[0], point[1]);
-                        subpathStarted = true;
-                        skip = false;
+                        consumer.beginSubpbth(point[0], point[1]);
+                        subpbthStbrted = true;
+                        skip = fblse;
                     } else {
-                        consumer.appendLine(point[0], point[1]);
+                        consumer.bppendLine(point[0], point[1]);
                     }
                 }
-                break;
-            case PathIterator.SEG_QUADTO:
-                // Quadratic curves take two points
+                brebk;
+            cbse PbthIterbtor.SEG_QUADTO:
+                // Qubdrbtic curves tbke two points
 
-                /* Checking SEG_QUADTO coordinates if they are out of the
-                 * [LOWER_BND, UPPER_BND] range. This check also handles NaN
-                 * and Infinity values. Ignoring current path segment in case
-                 * of invalid endpoints's data. Equivalent to the SEG_LINETO
-                 * if endpoint coordinates are valid but there are invalid data
-                 * among other coordinates
+                /* Checking SEG_QUADTO coordinbtes if they bre out of the
+                 * [LOWER_BND, UPPER_BND] rbnge. This check blso hbndles NbN
+                 * bnd Infinity vblues. Ignoring current pbth segment in cbse
+                 * of invblid endpoints's dbtb. Equivblent to the SEG_LINETO
+                 * if endpoint coordinbtes bre vblid but there bre invblid dbtb
+                 * bmong other coordinbtes
                  */
                 if (point[2] < UPPER_BND && point[2] > LOWER_BND &&
                     point[3] < UPPER_BND && point[3] > LOWER_BND)
                 {
                     if (skip) {
-                        consumer.beginSubpath(point[2], point[3]);
-                        subpathStarted = true;
-                        skip = false;
+                        consumer.beginSubpbth(point[2], point[3]);
+                        subpbthStbrted = true;
+                        skip = fblse;
                     } else {
                         if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                             point[1] < UPPER_BND && point[1] > LOWER_BND)
                         {
-                            consumer.appendQuadratic(point[0], point[1],
+                            consumer.bppendQubdrbtic(point[0], point[1],
                                                      point[2], point[3]);
                         } else {
-                            consumer.appendLine(point[2], point[3]);
+                            consumer.bppendLine(point[2], point[3]);
                         }
                     }
                 }
-                break;
-            case PathIterator.SEG_CUBICTO:
-                // Cubic curves take three points
+                brebk;
+            cbse PbthIterbtor.SEG_CUBICTO:
+                // Cubic curves tbke three points
 
-                /* Checking SEG_CUBICTO coordinates if they are out of the
-                 * [LOWER_BND, UPPER_BND] range. This check also handles NaN
-                 * and Infinity values. Ignoring current path segment in case
-                 * of invalid endpoints's data. Equivalent to the SEG_LINETO
-                 * if endpoint coordinates are valid but there are invalid data
-                 * among other coordinates
+                /* Checking SEG_CUBICTO coordinbtes if they bre out of the
+                 * [LOWER_BND, UPPER_BND] rbnge. This check blso hbndles NbN
+                 * bnd Infinity vblues. Ignoring current pbth segment in cbse
+                 * of invblid endpoints's dbtb. Equivblent to the SEG_LINETO
+                 * if endpoint coordinbtes bre vblid but there bre invblid dbtb
+                 * bmong other coordinbtes
                  */
                 if (point[4] < UPPER_BND && point[4] > LOWER_BND &&
                     point[5] < UPPER_BND && point[5] > LOWER_BND)
                 {
                     if (skip) {
-                        consumer.beginSubpath(point[4], point[5]);
-                        subpathStarted = true;
-                        skip = false;
+                        consumer.beginSubpbth(point[4], point[5]);
+                        subpbthStbrted = true;
+                        skip = fblse;
                     } else {
                         if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                             point[1] < UPPER_BND && point[1] > LOWER_BND &&
                             point[2] < UPPER_BND && point[2] > LOWER_BND &&
                             point[3] < UPPER_BND && point[3] > LOWER_BND)
                         {
-                            consumer.appendCubic(point[0], point[1],
+                            consumer.bppendCubic(point[0], point[1],
                                                  point[2], point[3],
                                                  point[4], point[5]);
                         } else {
-                            consumer.appendLine(point[4], point[5]);
+                            consumer.bppendLine(point[4], point[5]);
                         }
                     }
                 }
-                break;
-            case PathIterator.SEG_CLOSE:
-                if (subpathStarted) {
-                    consumer.closedSubpath();
-                    subpathStarted = false;
-                    pathClosed = true;
+                brebk;
+            cbse PbthIterbtor.SEG_CLOSE:
+                if (subpbthStbrted) {
+                    consumer.closedSubpbth();
+                    subpbthStbrted = fblse;
+                    pbthClosed = true;
                 }
-                break;
+                brebk;
             }
             pi.next();
         }
 
-        consumer.endPath();
+        consumer.endPbth();
     }
 
-    private static Rasterizer theRasterizer;
+    privbte stbtic Rbsterizer theRbsterizer;
 
-    public synchronized static Rasterizer getRasterizer() {
-        Rasterizer r = theRasterizer;
+    public synchronized stbtic Rbsterizer getRbsterizer() {
+        Rbsterizer r = theRbsterizer;
         if (r == null) {
-            r = new Rasterizer();
+            r = new Rbsterizer();
         } else {
-            theRasterizer = null;
+            theRbsterizer = null;
         }
         return r;
     }
 
-    public synchronized static void dropRasterizer(Rasterizer r) {
+    public synchronized stbtic void dropRbsterizer(Rbsterizer r) {
         r.reset();
-        theRasterizer = r;
+        theRbsterizer = r;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public float getMinimumAAPenSize() {
+    public flobt getMinimumAAPenSize() {
         return MinPenSizeAA;
     }
 
@@ -386,122 +386,122 @@ public class DuctusRenderingEngine extends RenderingEngine {
      * {@inheritDoc}
      */
     @Override
-    public AATileGenerator getAATileGenerator(Shape s,
-                                              AffineTransform at,
+    public AATileGenerbtor getAATileGenerbtor(Shbpe s,
+                                              AffineTrbnsform bt,
                                               Region clip,
-                                              BasicStroke bs,
-                                              boolean thin,
-                                              boolean normalize,
+                                              BbsicStroke bs,
+                                              boolebn thin,
+                                              boolebn normblize,
                                               int bbox[])
     {
-        Rasterizer r = getRasterizer();
-        PathIterator pi = s.getPathIterator(at);
+        Rbsterizer r = getRbsterizer();
+        PbthIterbtor pi = s.getPbthIterbtor(bt);
 
         if (bs != null) {
-            float matrix[] = null;
-            r.setUsage(Rasterizer.STROKE);
+            flobt mbtrix[] = null;
+            r.setUsbge(Rbsterizer.STROKE);
             if (thin) {
-                r.setPenDiameter(MinPenSizeAA);
+                r.setPenDibmeter(MinPenSizeAA);
             } else {
-                r.setPenDiameter(bs.getLineWidth());
-                if (at != null) {
-                    matrix = getTransformMatrix(at);
-                    r.setPenT4(matrix);
+                r.setPenDibmeter(bs.getLineWidth());
+                if (bt != null) {
+                    mbtrix = getTrbnsformMbtrix(bt);
+                    r.setPenT4(mbtrix);
                 }
                 r.setPenFitting(PenUnits, MinPenUnitsAA);
             }
-            r.setCaps(RasterizerCaps[bs.getEndCap()]);
-            r.setCorners(RasterizerCorners[bs.getLineJoin()],
+            r.setCbps(RbsterizerCbps[bs.getEndCbp()]);
+            r.setCorners(RbsterizerCorners[bs.getLineJoin()],
                          bs.getMiterLimit());
-            float[] dashes = bs.getDashArray();
-            if (dashes != null) {
-                r.setDash(dashes, bs.getDashPhase());
-                if (at != null && matrix == null) {
-                    matrix = getTransformMatrix(at);
+            flobt[] dbshes = bs.getDbshArrby();
+            if (dbshes != null) {
+                r.setDbsh(dbshes, bs.getDbshPhbse());
+                if (bt != null && mbtrix == null) {
+                    mbtrix = getTrbnsformMbtrix(bt);
                 }
-                r.setDashT4(matrix);
+                r.setDbshT4(mbtrix);
             }
         } else {
-            r.setUsage(pi.getWindingRule() == PathIterator.WIND_EVEN_ODD
-                       ? Rasterizer.EOFILL
-                       : Rasterizer.NZFILL);
+            r.setUsbge(pi.getWindingRule() == PbthIterbtor.WIND_EVEN_ODD
+                       ? Rbsterizer.EOFILL
+                       : Rbsterizer.NZFILL);
         }
 
-        r.beginPath();
+        r.beginPbth();
         {
-            boolean pathClosed = false;
-            boolean skip = false;
-            boolean subpathStarted = false;
-            float mx = 0.0f;
-            float my = 0.0f;
-            float point[]  = new float[6];
-            float ax = 0.0f;
-            float ay = 0.0f;
+            boolebn pbthClosed = fblse;
+            boolebn skip = fblse;
+            boolebn subpbthStbrted = fblse;
+            flobt mx = 0.0f;
+            flobt my = 0.0f;
+            flobt point[]  = new flobt[6];
+            flobt bx = 0.0f;
+            flobt by = 0.0f;
 
             while (!pi.isDone()) {
                 int type = pi.currentSegment(point);
-                if (pathClosed == true) {
-                    pathClosed = false;
-                    if (type != PathIterator.SEG_MOVETO) {
-                        // Force current point back to last moveto point
-                        r.beginSubpath(mx, my);
-                        subpathStarted = true;
+                if (pbthClosed == true) {
+                    pbthClosed = fblse;
+                    if (type != PbthIterbtor.SEG_MOVETO) {
+                        // Force current point bbck to lbst moveto point
+                        r.beginSubpbth(mx, my);
+                        subpbthStbrted = true;
                     }
                 }
-                if (normalize) {
+                if (normblize) {
                     int index;
                     switch (type) {
-                    case PathIterator.SEG_CUBICTO:
+                    cbse PbthIterbtor.SEG_CUBICTO:
                         index = 4;
-                        break;
-                    case PathIterator.SEG_QUADTO:
+                        brebk;
+                    cbse PbthIterbtor.SEG_QUADTO:
                         index = 2;
-                        break;
-                    case PathIterator.SEG_MOVETO:
-                    case PathIterator.SEG_LINETO:
+                        brebk;
+                    cbse PbthIterbtor.SEG_MOVETO:
+                    cbse PbthIterbtor.SEG_LINETO:
                         index = 0;
-                        break;
-                    case PathIterator.SEG_CLOSE:
-                    default:
+                        brebk;
+                    cbse PbthIterbtor.SEG_CLOSE:
+                    defbult:
                         index = -1;
-                        break;
+                        brebk;
                     }
                     if (index >= 0) {
-                        float ox = point[index];
-                        float oy = point[index+1];
-                        float newax = (float) Math.floor(ox) + 0.5f;
-                        float neway = (float) Math.floor(oy) + 0.5f;
-                        point[index] = newax;
-                        point[index+1] = neway;
-                        newax -= ox;
-                        neway -= oy;
+                        flobt ox = point[index];
+                        flobt oy = point[index+1];
+                        flobt newbx = (flobt) Mbth.floor(ox) + 0.5f;
+                        flobt newby = (flobt) Mbth.floor(oy) + 0.5f;
+                        point[index] = newbx;
+                        point[index+1] = newby;
+                        newbx -= ox;
+                        newby -= oy;
                         switch (type) {
-                        case PathIterator.SEG_CUBICTO:
-                            point[0] += ax;
-                            point[1] += ay;
-                            point[2] += newax;
-                            point[3] += neway;
-                            break;
-                        case PathIterator.SEG_QUADTO:
-                            point[0] += (newax + ax) / 2;
-                            point[1] += (neway + ay) / 2;
-                            break;
-                        case PathIterator.SEG_MOVETO:
-                        case PathIterator.SEG_LINETO:
-                        case PathIterator.SEG_CLOSE:
-                            break;
+                        cbse PbthIterbtor.SEG_CUBICTO:
+                            point[0] += bx;
+                            point[1] += by;
+                            point[2] += newbx;
+                            point[3] += newby;
+                            brebk;
+                        cbse PbthIterbtor.SEG_QUADTO:
+                            point[0] += (newbx + bx) / 2;
+                            point[1] += (newby + by) / 2;
+                            brebk;
+                        cbse PbthIterbtor.SEG_MOVETO:
+                        cbse PbthIterbtor.SEG_LINETO:
+                        cbse PbthIterbtor.SEG_CLOSE:
+                            brebk;
                         }
-                        ax = newax;
-                        ay = neway;
+                        bx = newbx;
+                        by = newby;
                     }
                 }
                 switch (type) {
-                case PathIterator.SEG_MOVETO:
+                cbse PbthIterbtor.SEG_MOVETO:
 
-                   /* Checking SEG_MOVETO coordinates if they are out of the
-                    * [LOWER_BND, UPPER_BND] range. This check also handles NaN
-                    * and Infinity values. Skipping next path segment in case
-                    * of invalid data.
+                   /* Checking SEG_MOVETO coordinbtes if they bre out of the
+                    * [LOWER_BND, UPPER_BND] rbnge. This check blso hbndles NbN
+                    * bnd Infinity vblues. Skipping next pbth segment in cbse
+                    * of invblid dbtb.
                     */
 
                     if (point[0] < UPPER_BND &&  point[0] > LOWER_BND &&
@@ -509,127 +509,127 @@ public class DuctusRenderingEngine extends RenderingEngine {
                     {
                         mx = point[0];
                         my = point[1];
-                        r.beginSubpath(mx, my);
-                        subpathStarted = true;
-                        skip = false;
+                        r.beginSubpbth(mx, my);
+                        subpbthStbrted = true;
+                        skip = fblse;
                     } else {
                         skip = true;
                     }
-                    break;
+                    brebk;
 
-                case PathIterator.SEG_LINETO:
-                    /* Checking SEG_LINETO coordinates if they are out of the
-                     * [LOWER_BND, UPPER_BND] range. This check also handles
-                     * NaN and Infinity values. Ignoring current path segment
-                     * in case of invalid data. If segment is skipped its
-                     * endpoint (if valid) is used to begin new subpath.
+                cbse PbthIterbtor.SEG_LINETO:
+                    /* Checking SEG_LINETO coordinbtes if they bre out of the
+                     * [LOWER_BND, UPPER_BND] rbnge. This check blso hbndles
+                     * NbN bnd Infinity vblues. Ignoring current pbth segment
+                     * in cbse of invblid dbtb. If segment is skipped its
+                     * endpoint (if vblid) is used to begin new subpbth.
                      */
                     if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                         point[1] < UPPER_BND && point[1] > LOWER_BND)
                     {
                         if (skip) {
-                            r.beginSubpath(point[0], point[1]);
-                            subpathStarted = true;
-                            skip = false;
+                            r.beginSubpbth(point[0], point[1]);
+                            subpbthStbrted = true;
+                            skip = fblse;
                         } else {
-                            r.appendLine(point[0], point[1]);
+                            r.bppendLine(point[0], point[1]);
                         }
                     }
-                    break;
+                    brebk;
 
-                case PathIterator.SEG_QUADTO:
-                    // Quadratic curves take two points
+                cbse PbthIterbtor.SEG_QUADTO:
+                    // Qubdrbtic curves tbke two points
 
-                    /* Checking SEG_QUADTO coordinates if they are out of the
-                     * [LOWER_BND, UPPER_BND] range. This check also handles
-                     * NaN and Infinity values. Ignoring current path segment
-                     * in case of invalid endpoints's data. Equivalent to the
-                     * SEG_LINETO if endpoint coordinates are valid but there
-                     * are invalid data among other coordinates
+                    /* Checking SEG_QUADTO coordinbtes if they bre out of the
+                     * [LOWER_BND, UPPER_BND] rbnge. This check blso hbndles
+                     * NbN bnd Infinity vblues. Ignoring current pbth segment
+                     * in cbse of invblid endpoints's dbtb. Equivblent to the
+                     * SEG_LINETO if endpoint coordinbtes bre vblid but there
+                     * bre invblid dbtb bmong other coordinbtes
                      */
                     if (point[2] < UPPER_BND && point[2] > LOWER_BND &&
                         point[3] < UPPER_BND && point[3] > LOWER_BND)
                     {
                         if (skip) {
-                            r.beginSubpath(point[2], point[3]);
-                            subpathStarted = true;
-                            skip = false;
+                            r.beginSubpbth(point[2], point[3]);
+                            subpbthStbrted = true;
+                            skip = fblse;
                         } else {
                             if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                                 point[1] < UPPER_BND && point[1] > LOWER_BND)
                             {
-                                r.appendQuadratic(point[0], point[1],
+                                r.bppendQubdrbtic(point[0], point[1],
                                                   point[2], point[3]);
                             } else {
-                                r.appendLine(point[2], point[3]);
+                                r.bppendLine(point[2], point[3]);
                             }
                         }
                     }
-                    break;
-                case PathIterator.SEG_CUBICTO:
-                    // Cubic curves take three points
+                    brebk;
+                cbse PbthIterbtor.SEG_CUBICTO:
+                    // Cubic curves tbke three points
 
-                    /* Checking SEG_CUBICTO coordinates if they are out of the
-                     * [LOWER_BND, UPPER_BND] range. This check also handles
-                     * NaN and Infinity values. Ignoring  current path segment
-                     * in case of invalid endpoints's data. Equivalent to the
-                     * SEG_LINETO if endpoint coordinates are valid but there
-                     * are invalid data among other coordinates
+                    /* Checking SEG_CUBICTO coordinbtes if they bre out of the
+                     * [LOWER_BND, UPPER_BND] rbnge. This check blso hbndles
+                     * NbN bnd Infinity vblues. Ignoring  current pbth segment
+                     * in cbse of invblid endpoints's dbtb. Equivblent to the
+                     * SEG_LINETO if endpoint coordinbtes bre vblid but there
+                     * bre invblid dbtb bmong other coordinbtes
                      */
 
                     if (point[4] < UPPER_BND && point[4] > LOWER_BND &&
                         point[5] < UPPER_BND && point[5] > LOWER_BND)
                     {
                         if (skip) {
-                            r.beginSubpath(point[4], point[5]);
-                            subpathStarted = true;
-                            skip = false;
+                            r.beginSubpbth(point[4], point[5]);
+                            subpbthStbrted = true;
+                            skip = fblse;
                         } else {
                             if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
                                 point[1] < UPPER_BND && point[1] > LOWER_BND &&
                                 point[2] < UPPER_BND && point[2] > LOWER_BND &&
                                 point[3] < UPPER_BND && point[3] > LOWER_BND)
                             {
-                                r.appendCubic(point[0], point[1],
+                                r.bppendCubic(point[0], point[1],
                                               point[2], point[3],
                                               point[4], point[5]);
                             } else {
-                                r.appendLine(point[4], point[5]);
+                                r.bppendLine(point[4], point[5]);
                             }
                         }
                     }
-                    break;
-                case PathIterator.SEG_CLOSE:
-                    if (subpathStarted) {
-                        r.closedSubpath();
-                        subpathStarted = false;
-                        pathClosed = true;
+                    brebk;
+                cbse PbthIterbtor.SEG_CLOSE:
+                    if (subpbthStbrted) {
+                        r.closedSubpbth();
+                        subpbthStbrted = fblse;
+                        pbthClosed = true;
                     }
-                    break;
+                    brebk;
                 }
                 pi.next();
             }
         }
 
         try {
-            r.endPath();
-            r.getAlphaBox(bbox);
+            r.endPbth();
+            r.getAlphbBox(bbox);
             clip.clipBoxToBounds(bbox);
             if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) {
-                dropRasterizer(r);
+                dropRbsterizer(r);
                 return null;
             }
-            r.setOutputArea(bbox[0], bbox[1],
+            r.setOutputAreb(bbox[0], bbox[1],
                             bbox[2] - bbox[0],
                             bbox[3] - bbox[1]);
-        } catch (PRException e) {
+        } cbtch (PRException e) {
             /*
-             * This exeption is thrown from the native part of the Ductus
-             * (only in case of a debug build) to indicate that some
-             * segments of the path have very large coordinates.
+             * This exeption is thrown from the nbtive pbrt of the Ductus
+             * (only in cbse of b debug build) to indicbte thbt some
+             * segments of the pbth hbve very lbrge coordinbtes.
              * See 4485298 for more info.
              */
-            System.err.println("DuctusRenderingEngine.getAATileGenerator: "+e);
+            System.err.println("DuctusRenderingEngine.getAATileGenerbtor: "+e);
         }
 
         return r;
@@ -639,18 +639,18 @@ public class DuctusRenderingEngine extends RenderingEngine {
      * {@inheritDoc}
      */
     @Override
-    public AATileGenerator getAATileGenerator(double x, double y,
+    public AATileGenerbtor getAATileGenerbtor(double x, double y,
                                               double dx1, double dy1,
                                               double dx2, double dy2,
                                               double lw1, double lw2,
                                               Region clip,
                                               int bbox[])
     {
-        // REMIND: Deal with large coordinates!
+        // REMIND: Debl with lbrge coordinbtes!
         double ldx1, ldy1, ldx2, ldy2;
-        boolean innerpgram = (lw1 > 0 && lw2 > 0);
+        boolebn innerpgrbm = (lw1 > 0 && lw2 > 0);
 
-        if (innerpgram) {
+        if (innerpgrbm) {
             ldx1 = dx1 * lw1;
             ldy1 = dy1 * lw1;
             ldx2 = dx2 * lw2;
@@ -662,174 +662,174 @@ public class DuctusRenderingEngine extends RenderingEngine {
             dx2 += ldx2;
             dy2 += ldy2;
             if (lw1 > 1 && lw2 > 1) {
-                // Inner parallelogram was entirely consumed by stroke...
-                innerpgram = false;
+                // Inner pbrbllelogrbm wbs entirely consumed by stroke...
+                innerpgrbm = fblse;
             }
         } else {
             ldx1 = ldy1 = ldx2 = ldy2 = 0;
         }
 
-        Rasterizer r = getRasterizer();
+        Rbsterizer r = getRbsterizer();
 
-        r.setUsage(Rasterizer.EOFILL);
+        r.setUsbge(Rbsterizer.EOFILL);
 
-        r.beginPath();
-        r.beginSubpath((float) x, (float) y);
-        r.appendLine((float) (x+dx1), (float) (y+dy1));
-        r.appendLine((float) (x+dx1+dx2), (float) (y+dy1+dy2));
-        r.appendLine((float) (x+dx2), (float) (y+dy2));
-        r.closedSubpath();
-        if (innerpgram) {
+        r.beginPbth();
+        r.beginSubpbth((flobt) x, (flobt) y);
+        r.bppendLine((flobt) (x+dx1), (flobt) (y+dy1));
+        r.bppendLine((flobt) (x+dx1+dx2), (flobt) (y+dy1+dy2));
+        r.bppendLine((flobt) (x+dx2), (flobt) (y+dy2));
+        r.closedSubpbth();
+        if (innerpgrbm) {
             x += ldx1 + ldx2;
             y += ldy1 + ldy2;
             dx1 -= 2.0 * ldx1;
             dy1 -= 2.0 * ldy1;
             dx2 -= 2.0 * ldx2;
             dy2 -= 2.0 * ldy2;
-            r.beginSubpath((float) x, (float) y);
-            r.appendLine((float) (x+dx1), (float) (y+dy1));
-            r.appendLine((float) (x+dx1+dx2), (float) (y+dy1+dy2));
-            r.appendLine((float) (x+dx2), (float) (y+dy2));
-            r.closedSubpath();
+            r.beginSubpbth((flobt) x, (flobt) y);
+            r.bppendLine((flobt) (x+dx1), (flobt) (y+dy1));
+            r.bppendLine((flobt) (x+dx1+dx2), (flobt) (y+dy1+dy2));
+            r.bppendLine((flobt) (x+dx2), (flobt) (y+dy2));
+            r.closedSubpbth();
         }
 
         try {
-            r.endPath();
-            r.getAlphaBox(bbox);
+            r.endPbth();
+            r.getAlphbBox(bbox);
             clip.clipBoxToBounds(bbox);
             if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) {
-                dropRasterizer(r);
+                dropRbsterizer(r);
                 return null;
             }
-            r.setOutputArea(bbox[0], bbox[1],
+            r.setOutputAreb(bbox[0], bbox[1],
                             bbox[2] - bbox[0],
                             bbox[3] - bbox[1]);
-        } catch (PRException e) {
+        } cbtch (PRException e) {
             /*
-             * This exeption is thrown from the native part of the Ductus
-             * (only in case of a debug build) to indicate that some
-             * segments of the path have very large coordinates.
+             * This exeption is thrown from the nbtive pbrt of the Ductus
+             * (only in cbse of b debug build) to indicbte thbt some
+             * segments of the pbth hbve very lbrge coordinbtes.
              * See 4485298 for more info.
              */
-            System.err.println("DuctusRenderingEngine.getAATileGenerator: "+e);
+            System.err.println("DuctusRenderingEngine.getAATileGenerbtor: "+e);
         }
 
         return r;
     }
 
-    private void feedConsumer(PathConsumer consumer, PathIterator pi) {
+    privbte void feedConsumer(PbthConsumer consumer, PbthIterbtor pi) {
         try {
-            consumer.beginPath();
-            boolean pathClosed = false;
-            float mx = 0.0f;
-            float my = 0.0f;
-            float point[]  = new float[6];
+            consumer.beginPbth();
+            boolebn pbthClosed = fblse;
+            flobt mx = 0.0f;
+            flobt my = 0.0f;
+            flobt point[]  = new flobt[6];
 
             while (!pi.isDone()) {
                 int type = pi.currentSegment(point);
-                if (pathClosed == true) {
-                    pathClosed = false;
-                    if (type != PathIterator.SEG_MOVETO) {
-                        // Force current point back to last moveto point
-                        consumer.beginSubpath(mx, my);
+                if (pbthClosed == true) {
+                    pbthClosed = fblse;
+                    if (type != PbthIterbtor.SEG_MOVETO) {
+                        // Force current point bbck to lbst moveto point
+                        consumer.beginSubpbth(mx, my);
                     }
                 }
                 switch (type) {
-                case PathIterator.SEG_MOVETO:
+                cbse PbthIterbtor.SEG_MOVETO:
                     mx = point[0];
                     my = point[1];
-                    consumer.beginSubpath(point[0], point[1]);
-                    break;
-                case PathIterator.SEG_LINETO:
-                    consumer.appendLine(point[0], point[1]);
-                    break;
-                case PathIterator.SEG_QUADTO:
-                    consumer.appendQuadratic(point[0], point[1],
+                    consumer.beginSubpbth(point[0], point[1]);
+                    brebk;
+                cbse PbthIterbtor.SEG_LINETO:
+                    consumer.bppendLine(point[0], point[1]);
+                    brebk;
+                cbse PbthIterbtor.SEG_QUADTO:
+                    consumer.bppendQubdrbtic(point[0], point[1],
                                              point[2], point[3]);
-                    break;
-                case PathIterator.SEG_CUBICTO:
-                    consumer.appendCubic(point[0], point[1],
+                    brebk;
+                cbse PbthIterbtor.SEG_CUBICTO:
+                    consumer.bppendCubic(point[0], point[1],
                                          point[2], point[3],
                                          point[4], point[5]);
-                    break;
-                case PathIterator.SEG_CLOSE:
-                    consumer.closedSubpath();
-                    pathClosed = true;
-                    break;
+                    brebk;
+                cbse PbthIterbtor.SEG_CLOSE:
+                    consumer.closedSubpbth();
+                    pbthClosed = true;
+                    brebk;
                 }
                 pi.next();
             }
 
-            consumer.endPath();
-        } catch (PathException e) {
-            throw new InternalError("Unable to Stroke shape ("+
-                                    e.getMessage()+")", e);
+            consumer.endPbth();
+        } cbtch (PbthException e) {
+            throw new InternblError("Unbble to Stroke shbpe ("+
+                                    e.getMessbge()+")", e);
         }
     }
 
-    private class FillAdapter implements PathConsumer {
-        boolean closed;
-        Path2D.Float path;
+    privbte clbss FillAdbpter implements PbthConsumer {
+        boolebn closed;
+        Pbth2D.Flobt pbth;
 
-        public FillAdapter() {
-            // Ductus only supplies float coordinates so
-            // Path2D.Double is not necessary here.
-            path = new Path2D.Float(Path2D.WIND_NON_ZERO);
+        public FillAdbpter() {
+            // Ductus only supplies flobt coordinbtes so
+            // Pbth2D.Double is not necessbry here.
+            pbth = new Pbth2D.Flobt(Pbth2D.WIND_NON_ZERO);
         }
 
-        public Shape getShape() {
-            return path;
+        public Shbpe getShbpe() {
+            return pbth;
         }
 
         public void dispose() {
         }
 
-        public PathConsumer getConsumer() {
+        public PbthConsumer getConsumer() {
             return null;
         }
 
-        public void beginPath() {}
+        public void beginPbth() {}
 
-        public void beginSubpath(float x0, float y0) {
+        public void beginSubpbth(flobt x0, flobt y0) {
             if (closed) {
-                path.closePath();
-                closed = false;
+                pbth.closePbth();
+                closed = fblse;
             }
-            path.moveTo(x0, y0);
+            pbth.moveTo(x0, y0);
         }
 
-        public void appendLine(float x1, float y1) {
-            path.lineTo(x1, y1);
+        public void bppendLine(flobt x1, flobt y1) {
+            pbth.lineTo(x1, y1);
         }
 
-        public void appendQuadratic(float xm, float ym, float x1, float y1) {
-            path.quadTo(xm, ym, x1, y1);
+        public void bppendQubdrbtic(flobt xm, flobt ym, flobt x1, flobt y1) {
+            pbth.qubdTo(xm, ym, x1, y1);
         }
 
-        public void appendCubic(float xm, float ym,
-                                float xn, float yn,
-                                float x1, float y1) {
-            path.curveTo(xm, ym, xn, yn, x1, y1);
+        public void bppendCubic(flobt xm, flobt ym,
+                                flobt xn, flobt yn,
+                                flobt x1, flobt y1) {
+            pbth.curveTo(xm, ym, xn, yn, x1, y1);
         }
 
-        public void closedSubpath() {
+        public void closedSubpbth() {
             closed = true;
         }
 
-        public void endPath() {
+        public void endPbth() {
             if (closed) {
-                path.closePath();
-                closed = false;
+                pbth.closePbth();
+                closed = fblse;
             }
         }
 
-        public void useProxy(FastPathProducer proxy)
-            throws PathException
+        public void useProxy(FbstPbthProducer proxy)
+            throws PbthException
         {
             proxy.sendTo(this);
         }
 
-        public long getCPathConsumer() {
+        public long getCPbthConsumer() {
             return 0;
         }
     }

@@ -1,239 +1,239 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
- * This class defines the version of the X509 Certificate.
+ * This clbss defines the version of the X509 Certificbte.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  * @see CertAttrSet
  */
-public class CertificateVersion implements CertAttrSet<String> {
+public clbss CertificbteVersion implements CertAttrSet<String> {
     /**
-     * X509Certificate Version 1
+     * X509Certificbte Version 1
      */
-    public static final int     V1 = 0;
+    public stbtic finbl int     V1 = 0;
     /**
-     * X509Certificate Version 2
+     * X509Certificbte Version 2
      */
-    public static final int     V2 = 1;
+    public stbtic finbl int     V2 = 1;
     /**
-     * X509Certificate Version 3
+     * X509Certificbte Version 3
      */
-    public static final int     V3 = 2;
+    public stbtic finbl int     V3 = 2;
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.version";
+    public stbtic finbl String IDENT = "x509.info.version";
     /**
-     * Sub attributes name for this CertAttrSet.
+     * Sub bttributes nbme for this CertAttrSet.
      */
-    public static final String NAME = "version";
-    public static final String VERSION = "number";
+    public stbtic finbl String NAME = "version";
+    public stbtic finbl String VERSION = "number";
 
-    // Private data members
+    // Privbte dbtb members
     int version = V1;
 
     // Returns the version number.
-    private int getVersion() {
+    privbte int getVersion() {
         return(version);
     }
 
-    // Construct the class from the passed DerValue
-    private void construct(DerValue derVal) throws IOException {
-        if (derVal.isConstructed() && derVal.isContextSpecific()) {
-            derVal = derVal.data.getDerValue();
-            version = derVal.getInteger();
-            if (derVal.data.available() != 0) {
-                throw new IOException("X.509 version, bad format");
+    // Construct the clbss from the pbssed DerVblue
+    privbte void construct(DerVblue derVbl) throws IOException {
+        if (derVbl.isConstructed() && derVbl.isContextSpecific()) {
+            derVbl = derVbl.dbtb.getDerVblue();
+            version = derVbl.getInteger();
+            if (derVbl.dbtb.bvbilbble() != 0) {
+                throw new IOException("X.509 version, bbd formbt");
             }
         }
     }
 
     /**
-     * The default constructor for this class,
+     * The defbult constructor for this clbss,
      *  sets the version to 0 (i.e. X.509 version 1).
      */
-    public CertificateVersion() {
+    public CertificbteVersion() {
         version = V1;
     }
 
     /**
-     * The constructor for this class for the required version.
+     * The constructor for this clbss for the required version.
      *
-     * @param version the version for the certificate.
-     * @exception IOException if the version is not valid.
+     * @pbrbm version the version for the certificbte.
+     * @exception IOException if the version is not vblid.
      */
-    public CertificateVersion(int version) throws IOException {
+    public CertificbteVersion(int version) throws IOException {
 
-        // check that it is a valid version
+        // check thbt it is b vblid version
         if (version == V1 || version == V2 || version == V3)
             this.version = version;
         else {
-            throw new IOException("X.509 Certificate version " +
+            throw new IOException("X.509 Certificbte version " +
                                    version + " not supported.\n");
         }
     }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crebte the object, decoding the vblues from the pbssed DER strebm.
      *
-     * @param in the DerInputStream to read the CertificateVersion from.
+     * @pbrbm in the DerInputStrebm to rebd the CertificbteVersion from.
      * @exception IOException on decoding errors.
      */
-    public CertificateVersion(DerInputStream in) throws IOException {
+    public CertificbteVersion(DerInputStrebm in) throws IOException {
         version = V1;
-        DerValue derVal = in.getDerValue();
+        DerVblue derVbl = in.getDerVblue();
 
-        construct(derVal);
+        construct(derVbl);
     }
 
     /**
-     * Create the object, decoding the values from the passed stream.
+     * Crebte the object, decoding the vblues from the pbssed strebm.
      *
-     * @param in the InputStream to read the CertificateVersion from.
+     * @pbrbm in the InputStrebm to rebd the CertificbteVersion from.
      * @exception IOException on decoding errors.
      */
-    public CertificateVersion(InputStream in) throws IOException {
+    public CertificbteVersion(InputStrebm in) throws IOException {
         version = V1;
-        DerValue derVal = new DerValue(in);
+        DerVblue derVbl = new DerVblue(in);
 
-        construct(derVal);
+        construct(derVbl);
     }
 
     /**
-     * Create the object, decoding the values from the passed DerValue.
+     * Crebte the object, decoding the vblues from the pbssed DerVblue.
      *
-     * @param val the Der encoded value.
+     * @pbrbm vbl the Der encoded vblue.
      * @exception IOException on decoding errors.
      */
-    public CertificateVersion(DerValue val) throws IOException {
+    public CertificbteVersion(DerVblue vbl) throws IOException {
         version = V1;
 
-        construct(val);
+        construct(vbl);
     }
 
     /**
-     * Return the version number of the certificate.
+     * Return the version number of the certificbte.
      */
     public String toString() {
         return("Version: V" + (version+1));
     }
 
     /**
-     * Encode the CertificateVersion period in DER form to the stream.
+     * Encode the CertificbteVersion period in DER form to the strebm.
      *
-     * @param out the OutputStream to marshal the contents to.
+     * @pbrbm out the OutputStrebm to mbrshbl the contents to.
      * @exception IOException on errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        // Nothing for default
+    public void encode(OutputStrebm out) throws IOException {
+        // Nothing for defbult
         if (version == V1) {
             return;
         }
-        DerOutputStream tmp = new DerOutputStream();
+        DerOutputStrebm tmp = new DerOutputStrebm();
         tmp.putInteger(version);
 
-        DerOutputStream seq = new DerOutputStream();
-        seq.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0),
+        DerOutputStrebm seq = new DerOutputStrebm();
+        seq.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0),
                   tmp);
 
-        out.write(seq.toByteArray());
+        out.write(seq.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Integer)) {
+    public void set(String nbme, Object obj) throws IOException {
+        if (!(obj instbnceof Integer)) {
             throw new IOException("Attribute must be of type Integer.");
         }
-        if (name.equalsIgnoreCase(VERSION)) {
-            version = ((Integer)obj).intValue();
+        if (nbme.equblsIgnoreCbse(VERSION)) {
+            version = ((Integer)obj).intVblue();
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                                  "CertAttrSet: CertificateVersion.");
+            throw new IOException("Attribute nbme not recognized by " +
+                                  "CertAttrSet: CertificbteVersion.");
         }
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public Integer get(String name) throws IOException {
-        if (name.equalsIgnoreCase(VERSION)) {
+    public Integer get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(VERSION)) {
             return(getVersion());
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                                  "CertAttrSet: CertificateVersion.");
+            throw new IOException("Attribute nbme not recognized by " +
+                                  "CertAttrSet: CertificbteVersion.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(VERSION)) {
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(VERSION)) {
             version = V1;
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                                  "CertAttrSet: CertificateVersion.");
+            throw new IOException("Attribute nbme not recognized by " +
+                                  "CertAttrSet: CertificbteVersion.");
         }
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(VERSION);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(VERSION);
 
         return (elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return(NAME);
     }
 
     /**
-     * Compare versions.
+     * Compbre versions.
      */
-    public int compare(int vers) {
+    public int compbre(int vers) {
         return(version - vers);
     }
 }

@@ -1,288 +1,288 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.MenuBar;
-import java.awt.Rectangle;
-import java.awt.peer.FramePeer;
-import sun.util.logging.PlatformLogger;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.MenuBbr;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.peer.FrbmePeer;
+import sun.util.logging.PlbtformLogger;
+import sun.bwt.AWTAccessor;
 
-class XFramePeer extends XDecoratedPeer implements FramePeer {
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XFramePeer");
-    private static PlatformLogger stateLog = PlatformLogger.getLogger("sun.awt.X11.states");
-    private static PlatformLogger insLog = PlatformLogger.getLogger("sun.awt.X11.insets.XFramePeer");
+clbss XFrbmePeer extends XDecorbtedPeer implements FrbmePeer {
+    privbte stbtic PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XFrbmePeer");
+    privbte stbtic PlbtformLogger stbteLog = PlbtformLogger.getLogger("sun.bwt.X11.stbtes");
+    privbte stbtic PlbtformLogger insLog = PlbtformLogger.getLogger("sun.bwt.X11.insets.XFrbmePeer");
 
-    XMenuBarPeer menubarPeer;
-    MenuBar menubar;
-    int state;
-    private Boolean undecorated;
+    XMenuBbrPeer menubbrPeer;
+    MenuBbr menubbr;
+    int stbte;
+    privbte Boolebn undecorbted;
 
-    private static final int MENUBAR_HEIGHT_IF_NO_MENUBAR = 0;
-    private int lastAppliedMenubarHeight = MENUBAR_HEIGHT_IF_NO_MENUBAR;
+    privbte stbtic finbl int MENUBAR_HEIGHT_IF_NO_MENUBAR = 0;
+    privbte int lbstAppliedMenubbrHeight = MENUBAR_HEIGHT_IF_NO_MENUBAR;
 
-    XFramePeer(Frame target) {
-        super(target);
+    XFrbmePeer(Frbme tbrget) {
+        super(tbrget);
     }
 
-    XFramePeer(XCreateWindowParams params) {
-        super(params);
+    XFrbmePeer(XCrebteWindowPbrbms pbrbms) {
+        super(pbrbms);
     }
 
-    void preInit(XCreateWindowParams params) {
-        super.preInit(params);
-        Frame target = (Frame)(this.target);
-        // set the window attributes for this Frame
-        winAttr.initialState = target.getExtendedState();
-        state = 0;
-        undecorated = Boolean.valueOf(target.isUndecorated());
-        winAttr.nativeDecor = !target.isUndecorated();
-        if (winAttr.nativeDecor) {
-            winAttr.decorations = XWindowAttributesData.AWT_DECOR_ALL;
+    void preInit(XCrebteWindowPbrbms pbrbms) {
+        super.preInit(pbrbms);
+        Frbme tbrget = (Frbme)(this.tbrget);
+        // set the window bttributes for this Frbme
+        winAttr.initiblStbte = tbrget.getExtendedStbte();
+        stbte = 0;
+        undecorbted = Boolebn.vblueOf(tbrget.isUndecorbted());
+        winAttr.nbtiveDecor = !tbrget.isUndecorbted();
+        if (winAttr.nbtiveDecor) {
+            winAttr.decorbtions = XWindowAttributesDbtb.AWT_DECOR_ALL;
         } else {
-            winAttr.decorations = XWindowAttributesData.AWT_DECOR_NONE;
+            winAttr.decorbtions = XWindowAttributesDbtb.AWT_DECOR_NONE;
         }
-        winAttr.functions = MWMConstants.MWM_FUNC_ALL;
-        winAttr.isResizable = true; // target.isResizable();
-        winAttr.title = target.getTitle();
-        winAttr.initialResizability = target.isResizable();
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Frame''s initial attributes: decor {0}, resizable {1}, undecorated {2}, initial state {3}",
-                     Integer.valueOf(winAttr.decorations), Boolean.valueOf(winAttr.initialResizability),
-                     Boolean.valueOf(!winAttr.nativeDecor), Integer.valueOf(winAttr.initialState));
+        winAttr.functions = MWMConstbnts.MWM_FUNC_ALL;
+        winAttr.isResizbble = true; // tbrget.isResizbble();
+        winAttr.title = tbrget.getTitle();
+        winAttr.initiblResizbbility = tbrget.isResizbble();
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Frbme''s initibl bttributes: decor {0}, resizbble {1}, undecorbted {2}, initibl stbte {3}",
+                     Integer.vblueOf(winAttr.decorbtions), Boolebn.vblueOf(winAttr.initiblResizbbility),
+                     Boolebn.vblueOf(!winAttr.nbtiveDecor), Integer.vblueOf(winAttr.initiblStbte));
         }
     }
 
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
-        setupState(true);
+    void postInit(XCrebteWindowPbrbms pbrbms) {
+        super.postInit(pbrbms);
+        setupStbte(true);
     }
 
     @Override
-    boolean isTargetUndecorated() {
-        if (undecorated != null) {
-            return undecorated.booleanValue();
+    boolebn isTbrgetUndecorbted() {
+        if (undecorbted != null) {
+            return undecorbted.boolebnVblue();
         } else {
-            return ((Frame)target).isUndecorated();
+            return ((Frbme)tbrget).isUndecorbted();
         }
     }
 
-    void setupState(boolean onInit) {
+    void setupStbte(boolebn onInit) {
         if (onInit) {
-            state = winAttr.initialState;
+            stbte = winAttr.initiblStbte;
         }
-        if ((state & Frame.ICONIFIED) != 0) {
-            setInitialState(XUtilConstants.IconicState);
+        if ((stbte & Frbme.ICONIFIED) != 0) {
+            setInitiblStbte(XUtilConstbnts.IconicStbte);
         } else {
-            setInitialState(XUtilConstants.NormalState);
+            setInitiblStbte(XUtilConstbnts.NormblStbte);
         }
-        setExtendedState(state);
+        setExtendedStbte(stbte);
     }
 
-    public void setMenuBar(MenuBar mb) {
-        // state_lock should always be the second after awt_lock
-        XToolkit.awtLock();
+    public void setMenuBbr(MenuBbr mb) {
+        // stbte_lock should blwbys be the second bfter bwt_lock
+        XToolkit.bwtLock();
         try {
-            synchronized(getStateLock()) {
-                if (mb == menubar) return;
+            synchronized(getStbteLock()) {
+                if (mb == menubbr) return;
                 if (mb == null) {
-                    if (menubar != null) {
-                        menubarPeer.xSetVisible(false);
-                        menubar = null;
-                        menubarPeer.dispose();
-                        menubarPeer = null;
+                    if (menubbr != null) {
+                        menubbrPeer.xSetVisible(fblse);
+                        menubbr = null;
+                        menubbrPeer.dispose();
+                        menubbrPeer = null;
                     }
                 } else {
-                    menubar = mb;
-                    menubarPeer = (XMenuBarPeer) mb.getPeer();
-                    if (menubarPeer != null) {
-                        menubarPeer.init((Frame)target);
+                    menubbr = mb;
+                    menubbrPeer = (XMenuBbrPeer) mb.getPeer();
+                    if (menubbrPeer != null) {
+                        menubbrPeer.init((Frbme)tbrget);
                     }
                 }
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
 
-        reshapeMenubarPeer();
+        reshbpeMenubbrPeer();
     }
 
-    XMenuBarPeer getMenubarPeer() {
-        return menubarPeer;
+    XMenuBbrPeer getMenubbrPeer() {
+        return menubbrPeer;
     }
 
-    int getMenuBarHeight() {
-        if (menubarPeer != null) {
-            return menubarPeer.getDesiredHeight();
+    int getMenuBbrHeight() {
+        if (menubbrPeer != null) {
+            return menubbrPeer.getDesiredHeight();
         } else {
             return MENUBAR_HEIGHT_IF_NO_MENUBAR;
         }
     }
 
-    void updateChildrenSizes() {
-        super.updateChildrenSizes();
-        int height = getMenuBarHeight();
+    void updbteChildrenSizes() {
+        super.updbteChildrenSizes();
+        int height = getMenuBbrHeight();
 
-        // XWindow.reshape calls XBaseWindow.xSetBounds, which acquires
-        // the AWT lock, so we have to acquire the AWT lock here
-        // before getStateLock() to avoid a deadlock with the Toolkit thread
-        // when this method is called on the EDT.
-        XToolkit.awtLock();
+        // XWindow.reshbpe cblls XBbseWindow.xSetBounds, which bcquires
+        // the AWT lock, so we hbve to bcquire the AWT lock here
+        // before getStbteLock() to bvoid b debdlock with the Toolkit threbd
+        // when this method is cblled on the EDT.
+        XToolkit.bwtLock();
         try {
-            synchronized(getStateLock()) {
+            synchronized(getStbteLock()) {
                 int width = dimensions.getClientSize().width;
-                if (menubarPeer != null) {
-                    menubarPeer.reshape(0, 0, width, height);
+                if (menubbrPeer != null) {
+                    menubbrPeer.reshbpe(0, 0, width, height);
                 }
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
-     * In addition to reshaping menubarPeer (by using 'updateChildrenSizes')
-     * this method also performs some frame reaction on this (i.e. layouts
-     * other frame children, if required)
+     * In bddition to reshbping menubbrPeer (by using 'updbteChildrenSizes')
+     * this method blso performs some frbme rebction on this (i.e. lbyouts
+     * other frbme children, if required)
      */
-    final void reshapeMenubarPeer() {
-        XToolkit.executeOnEventHandlerThread(
-            target,
-            new Runnable() {
+    finbl void reshbpeMenubbrPeer() {
+        XToolkit.executeOnEventHbndlerThrebd(
+            tbrget,
+            new Runnbble() {
                 public void run() {
-                    updateChildrenSizes();
-                    boolean heightChanged = false;
+                    updbteChildrenSizes();
+                    boolebn heightChbnged = fblse;
 
-                    int height = getMenuBarHeight();
-                        // Neither 'XToolkit.awtLock()' nor 'getStateLock()'
-                        // is acquired under this call, and it looks to run
-                        // thread-safely. I currently see no reason to move
-                        // it under following 'synchronized' clause.
+                    int height = getMenuBbrHeight();
+                        // Neither 'XToolkit.bwtLock()' nor 'getStbteLock()'
+                        // is bcquired under this cbll, bnd it looks to run
+                        // threbd-sbfely. I currently see no rebson to move
+                        // it under following 'synchronized' clbuse.
 
-                    synchronized(getStateLock()) {
-                        if (height != lastAppliedMenubarHeight) {
-                            lastAppliedMenubarHeight = height;
-                            heightChanged = true;
+                    synchronized(getStbteLock()) {
+                        if (height != lbstAppliedMenubbrHeight) {
+                            lbstAppliedMenubbrHeight = height;
+                            heightChbnged = true;
                         }
                     }
-                    if (heightChanged) {
-                        // To make frame contents be re-layout (copied from
-                        // 'XDecoratedPeer.revalidate()'). These are not
-                        // 'synchronized', because can recursively call client
-                        // methods, which are not supposed to be called with locks
-                        // acquired.
-                        target.invalidate();
-                        target.validate();
+                    if (heightChbnged) {
+                        // To mbke frbme contents be re-lbyout (copied from
+                        // 'XDecorbtedPeer.revblidbte()'). These bre not
+                        // 'synchronized', becbuse cbn recursively cbll client
+                        // methods, which bre not supposed to be cblled with locks
+                        // bcquired.
+                        tbrget.invblidbte();
+                        tbrget.vblidbte();
                     }
                 }
             }
         );
     }
 
-    public void setMaximizedBounds(Rectangle b) {
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
-            insLog.fine("Setting maximized bounds to " + b);
+    public void setMbximizedBounds(Rectbngle b) {
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+            insLog.fine("Setting mbximized bounds to " + b);
         }
         if (b == null) return;
-        maxBounds = new Rectangle(b);
-        XToolkit.awtLock();
+        mbxBounds = new Rectbngle(b);
+        XToolkit.bwtLock();
         try {
             XSizeHints hints = getHints();
-            hints.set_flags(hints.get_flags() | (int)XUtilConstants.PMaxSize);
+            hints.set_flbgs(hints.get_flbgs() | (int)XUtilConstbnts.PMbxSize);
             if (b.width != Integer.MAX_VALUE) {
-                hints.set_max_width(b.width);
+                hints.set_mbx_width(b.width);
             } else {
-                hints.set_max_width((int)XlibWrapper.DisplayWidth(XToolkit.getDisplay(), XlibWrapper.DefaultScreen(XToolkit.getDisplay())));
+                hints.set_mbx_width((int)XlibWrbpper.DisplbyWidth(XToolkit.getDisplby(), XlibWrbpper.DefbultScreen(XToolkit.getDisplby())));
             }
             if (b.height != Integer.MAX_VALUE) {
-                hints.set_max_height(b.height);
+                hints.set_mbx_height(b.height);
             } else {
-                hints.set_max_height((int)XlibWrapper.DisplayHeight(XToolkit.getDisplay(), XlibWrapper.DefaultScreen(XToolkit.getDisplay())));
+                hints.set_mbx_height((int)XlibWrbpper.DisplbyHeight(XToolkit.getDisplby(), XlibWrbpper.DefbultScreen(XToolkit.getDisplby())));
             }
-            if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-                insLog.finer("Setting hints, flags " + XlibWrapper.hintsToString(hints.get_flags()));
+            if (insLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                insLog.finer("Setting hints, flbgs " + XlibWrbpper.hintsToString(hints.get_flbgs()));
             }
-            XlibWrapper.XSetWMNormalHints(XToolkit.getDisplay(), window, hints.pData);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XSetWMNormblHints(XToolkit.getDisplby(), window, hints.pDbtb);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    public int getState() {
-        synchronized(getStateLock()) {
-            return state;
+    public int getStbte() {
+        synchronized(getStbteLock()) {
+            return stbte;
         }
     }
 
-    public void setState(int newState) {
-        synchronized(getStateLock()) {
+    public void setStbte(int newStbte) {
+        synchronized(getStbteLock()) {
             if (!isShowing()) {
-                stateLog.finer("Frame is not showing");
-                state = newState;
+                stbteLog.finer("Frbme is not showing");
+                stbte = newStbte;
                 return;
             }
         }
-        changeState(newState);
+        chbngeStbte(newStbte);
     }
 
-    void changeState(int newState) {
-        int changed = state ^ newState;
-        int changeIconic = changed & Frame.ICONIFIED;
-        boolean iconic = (newState & Frame.ICONIFIED) != 0;
-        if (stateLog.isLoggable(PlatformLogger.Level.FINER)) {
-            stateLog.finer("Changing state, old state {0}, new state {1}(iconic {2})",
-                       Integer.valueOf(state), Integer.valueOf(newState), Boolean.valueOf(iconic));
+    void chbngeStbte(int newStbte) {
+        int chbnged = stbte ^ newStbte;
+        int chbngeIconic = chbnged & Frbme.ICONIFIED;
+        boolebn iconic = (newStbte & Frbme.ICONIFIED) != 0;
+        if (stbteLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+            stbteLog.finer("Chbnging stbte, old stbte {0}, new stbte {1}(iconic {2})",
+                       Integer.vblueOf(stbte), Integer.vblueOf(newStbte), Boolebn.vblueOf(iconic));
         }
-        if (changeIconic != 0 && iconic) {
-            if (stateLog.isLoggable(PlatformLogger.Level.FINER)) {
-                stateLog.finer("Iconifying shell " + getShell() + ", this " + this + ", screen " + getScreenNumber());
+        if (chbngeIconic != 0 && iconic) {
+            if (stbteLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                stbteLog.finer("Iconifying shell " + getShell() + ", this " + this + ", screen " + getScreenNumber());
             }
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                int res = XlibWrapper.XIconifyWindow(XToolkit.getDisplay(), getShell(), getScreenNumber());
-                if (stateLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    stateLog.finer("XIconifyWindow returned " + res);
+                int res = XlibWrbpper.XIconifyWindow(XToolkit.getDisplby(), getShell(), getScreenNumber());
+                if (stbteLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    stbteLog.finer("XIconifyWindow returned " + res);
                 }
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlock();
             }
         }
-        if ((changed & ~Frame.ICONIFIED) != 0) {
-            setExtendedState(newState);
+        if ((chbnged & ~Frbme.ICONIFIED) != 0) {
+            setExtendedStbte(newStbte);
         }
-        if (changeIconic != 0 && !iconic) {
-            if (stateLog.isLoggable(PlatformLogger.Level.FINER)) {
-                stateLog.finer("DeIconifying " + this);
+        if (chbngeIconic != 0 && !iconic) {
+            if (stbteLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                stbteLog.finer("DeIconifying " + this);
             }
 
             XNETProtocol net_protocol = XWM.getWM().getNETProtocol();
@@ -293,224 +293,224 @@ class XFramePeer extends XDecoratedPeer implements FramePeer {
         }
     }
 
-    void setExtendedState(int newState) {
-        XWM.getWM().setExtendedState(this, newState);
+    void setExtendedStbte(int newStbte) {
+        XWM.getWM().setExtendedStbte(this, newStbte);
     }
 
-    public void handlePropertyNotify(XEvent xev) {
-        super.handlePropertyNotify(xev);
+    public void hbndlePropertyNotify(XEvent xev) {
+        super.hbndlePropertyNotify(xev);
         XPropertyEvent ev = xev.get_xproperty();
 
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("Property change {0}", ev);
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("Property chbnge {0}", ev);
         }
         /*
-         * Let's see if this is a window state protocol message, and
-         * if it is - decode a new state in terms of java constants.
+         * Let's see if this is b window stbte protocol messbge, bnd
+         * if it is - decode b new stbte in terms of jbvb constbnts.
          */
-        if (!XWM.getWM().isStateChange(this, ev)) {
-            stateLog.finer("either not a state atom or state has not been changed");
+        if (!XWM.getWM().isStbteChbnge(this, ev)) {
+            stbteLog.finer("either not b stbte btom or stbte hbs not been chbnged");
             return;
         }
 
-        final int newState = XWM.getWM().getState(this);
-        int changed = state ^ newState;
-        if (changed == 0) {
-            if (stateLog.isLoggable(PlatformLogger.Level.FINER)) {
-                stateLog.finer("State is the same: " + state);
+        finbl int newStbte = XWM.getWM().getStbte(this);
+        int chbnged = stbte ^ newStbte;
+        if (chbnged == 0) {
+            if (stbteLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                stbteLog.finer("Stbte is the sbme: " + stbte);
             }
             return;
         }
 
-        int old_state = state;
-        state = newState;
+        int old_stbte = stbte;
+        stbte = newStbte;
 
-        // sync target with peer
-        AWTAccessor.getFrameAccessor().setExtendedState((Frame)target, state);
+        // sync tbrget with peer
+        AWTAccessor.getFrbmeAccessor().setExtendedStbte((Frbme)tbrget, stbte);
 
-        if ((changed & Frame.ICONIFIED) != 0) {
-            if ((state & Frame.ICONIFIED) != 0) {
-                stateLog.finer("Iconified");
-                handleIconify();
+        if ((chbnged & Frbme.ICONIFIED) != 0) {
+            if ((stbte & Frbme.ICONIFIED) != 0) {
+                stbteLog.finer("Iconified");
+                hbndleIconify();
             } else {
-                stateLog.finer("DeIconified");
+                stbteLog.finer("DeIconified");
                 content.purgeIconifiedExposeEvents();
-                handleDeiconify();
+                hbndleDeiconify();
             }
         }
-        handleStateChange(old_state, state);
+        hbndleStbteChbnge(old_stbte, stbte);
     }
 
-    // NOTE: This method may be called by privileged threads.
+    // NOTE: This method mby be cblled by privileged threbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void handleStateChange(int oldState, int newState) {
-        super.handleStateChange(oldState, newState);
-        for (ToplevelStateListener topLevelListenerTmp : toplevelStateListeners) {
-            topLevelListenerTmp.stateChangedJava(oldState, newState);
+    public void hbndleStbteChbnge(int oldStbte, int newStbte) {
+        super.hbndleStbteChbnge(oldStbte, newStbte);
+        for (ToplevelStbteListener topLevelListenerTmp : toplevelStbteListeners) {
+            topLevelListenerTmp.stbteChbngedJbvb(oldStbte, newStbte);
         }
     }
 
-    public void setVisible(boolean vis) {
+    public void setVisible(boolebn vis) {
         if (vis) {
-            setupState(false);
+            setupStbte(fblse);
         } else {
-            if ((state & Frame.MAXIMIZED_BOTH) != 0) {
-                XWM.getWM().setExtendedState(this, state & ~Frame.MAXIMIZED_BOTH);
+            if ((stbte & Frbme.MAXIMIZED_BOTH) != 0) {
+                XWM.getWM().setExtendedStbte(this, stbte & ~Frbme.MAXIMIZED_BOTH);
             }
         }
         super.setVisible(vis);
-        if (vis && maxBounds != null) {
-            setMaximizedBounds(maxBounds);
+        if (vis && mbxBounds != null) {
+            setMbximizedBounds(mbxBounds);
         }
     }
 
-    void setInitialState(int wm_state) {
-        XToolkit.awtLock();
+    void setInitiblStbte(int wm_stbte) {
+        XToolkit.bwtLock();
         try {
             XWMHints hints = getWMHints();
-            hints.set_flags((int)XUtilConstants.StateHint | hints.get_flags());
-            hints.set_initial_state(wm_state);
-            if (stateLog.isLoggable(PlatformLogger.Level.FINE)) {
-                stateLog.fine("Setting initial WM state on " + this + " to " + wm_state);
+            hints.set_flbgs((int)XUtilConstbnts.StbteHint | hints.get_flbgs());
+            hints.set_initibl_stbte(wm_stbte);
+            if (stbteLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+                stbteLog.fine("Setting initibl WM stbte on " + this + " to " + wm_stbte);
             }
-            XlibWrapper.XSetWMHints(XToolkit.getDisplay(), getWindow(), hints.pData);
+            XlibWrbpper.XSetWMHints(XToolkit.getDisplby(), getWindow(), hints.pDbtb);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     public void dispose() {
-        if (menubarPeer != null) {
-            menubarPeer.dispose();
+        if (menubbrPeer != null) {
+            menubbrPeer.dispose();
         }
         super.dispose();
     }
 
-    boolean isMaximized() {
-        return (state & (Frame.MAXIMIZED_VERT  | Frame.MAXIMIZED_HORIZ)) != 0;
+    boolebn isMbximized() {
+        return (stbte & (Frbme.MAXIMIZED_VERT  | Frbme.MAXIMIZED_HORIZ)) != 0;
     }
 
 
 
 
-    static final int CROSSHAIR_INSET = 5;
+    stbtic finbl int CROSSHAIR_INSET = 5;
 
-    static final int BUTTON_Y = CROSSHAIR_INSET + 1;
-    static final int BUTTON_W = 17;
-    static final int BUTTON_H = 17;
+    stbtic finbl int BUTTON_Y = CROSSHAIR_INSET + 1;
+    stbtic finbl int BUTTON_W = 17;
+    stbtic finbl int BUTTON_H = 17;
 
-    static final int SYS_MENU_X = CROSSHAIR_INSET + 1;
-    static final int SYS_MENU_CONTAINED_X = SYS_MENU_X + 5;
-    static final int SYS_MENU_CONTAINED_Y = BUTTON_Y + 7;
-    static final int SYS_MENU_CONTAINED_W = 8;
-    static final int SYS_MENU_CONTAINED_H = 3;
+    stbtic finbl int SYS_MENU_X = CROSSHAIR_INSET + 1;
+    stbtic finbl int SYS_MENU_CONTAINED_X = SYS_MENU_X + 5;
+    stbtic finbl int SYS_MENU_CONTAINED_Y = BUTTON_Y + 7;
+    stbtic finbl int SYS_MENU_CONTAINED_W = 8;
+    stbtic finbl int SYS_MENU_CONTAINED_H = 3;
 
-    static final int MAXIMIZE_X_DIFF = CROSSHAIR_INSET + BUTTON_W;
-    static final int MAXIMIZE_CONTAINED_X_DIFF = MAXIMIZE_X_DIFF - 5;
-    static final int MAXIMIZE_CONTAINED_Y = BUTTON_Y + 5;
-    static final int MAXIMIZE_CONTAINED_W = 8;
-    static final int MAXIMIZE_CONTAINED_H = 8;
+    stbtic finbl int MAXIMIZE_X_DIFF = CROSSHAIR_INSET + BUTTON_W;
+    stbtic finbl int MAXIMIZE_CONTAINED_X_DIFF = MAXIMIZE_X_DIFF - 5;
+    stbtic finbl int MAXIMIZE_CONTAINED_Y = BUTTON_Y + 5;
+    stbtic finbl int MAXIMIZE_CONTAINED_W = 8;
+    stbtic finbl int MAXIMIZE_CONTAINED_H = 8;
 
-    static final int MINIMIZE_X_DIFF = MAXIMIZE_X_DIFF + BUTTON_W;
-    static final int MINIMIZE_CONTAINED_X_DIFF = MINIMIZE_X_DIFF - 7;
-    static final int MINIMIZE_CONTAINED_Y = BUTTON_Y + 7;
-    static final int MINIMIZE_CONTAINED_W = 3;
-    static final int MINIMIZE_CONTAINED_H = 3;
+    stbtic finbl int MINIMIZE_X_DIFF = MAXIMIZE_X_DIFF + BUTTON_W;
+    stbtic finbl int MINIMIZE_CONTAINED_X_DIFF = MINIMIZE_X_DIFF - 7;
+    stbtic finbl int MINIMIZE_CONTAINED_Y = BUTTON_Y + 7;
+    stbtic finbl int MINIMIZE_CONTAINED_W = 3;
+    stbtic finbl int MINIMIZE_CONTAINED_H = 3;
 
-    static final int TITLE_X = SYS_MENU_X + BUTTON_W;
-    static final int TITLE_W_DIFF = BUTTON_W * 3 + CROSSHAIR_INSET * 2 - 1;
-    static final int TITLE_MID_Y = BUTTON_Y + (BUTTON_H / 2);
+    stbtic finbl int TITLE_X = SYS_MENU_X + BUTTON_W;
+    stbtic finbl int TITLE_W_DIFF = BUTTON_W * 3 + CROSSHAIR_INSET * 2 - 1;
+    stbtic finbl int TITLE_MID_Y = BUTTON_Y + (BUTTON_H / 2);
 
-    static final int MENUBAR_X = CROSSHAIR_INSET + 1;
-    static final int MENUBAR_Y = BUTTON_Y + BUTTON_H;
+    stbtic finbl int MENUBAR_X = CROSSHAIR_INSET + 1;
+    stbtic finbl int MENUBAR_Y = BUTTON_Y + BUTTON_H;
 
-    static final int HORIZ_RESIZE_INSET = CROSSHAIR_INSET + BUTTON_H;
-    static final int VERT_RESIZE_INSET = CROSSHAIR_INSET + BUTTON_W;
+    stbtic finbl int HORIZ_RESIZE_INSET = CROSSHAIR_INSET + BUTTON_H;
+    stbtic finbl int VERT_RESIZE_INSET = CROSSHAIR_INSET + BUTTON_W;
 
 
     /*
-     * Print the native component by rendering the Motif look ourselves.
-     * We also explicitly print the MenuBar since a MenuBar isn't a subclass
-     * of Component (and thus it has no "print" method which gets called by
-     * default).
+     * Print the nbtive component by rendering the Motif look ourselves.
+     * We blso explicitly print the MenuBbr since b MenuBbr isn't b subclbss
+     * of Component (bnd thus it hbs no "print" method which gets cblled by
+     * defbult).
      */
-    public void print(Graphics g) {
+    public void print(Grbphics g) {
         super.print(g);
 
-        Frame f = (Frame)target;
+        Frbme f = (Frbme)tbrget;
         Insets finsets = f.getInsets();
         Dimension fsize = f.getSize();
 
-        Color bg = f.getBackground();
+        Color bg = f.getBbckground();
         Color fg = f.getForeground();
         Color highlight = bg.brighter();
-        Color shadow = bg.darker();
+        Color shbdow = bg.dbrker();
 
-        // Well, we could query for the currently running window manager
-        // and base the look on that, or we could just always do dtwm.
-        // aim, tball, and levenson all agree we'll just do dtwm.
+        // Well, we could query for the currently running window mbnbger
+        // bnd bbse the look on thbt, or we could just blwbys do dtwm.
+        // bim, tbbll, bnd levenson bll bgree we'll just do dtwm.
 
-        if (hasDecorations(XWindowAttributesData.AWT_DECOR_BORDER)) {
+        if (hbsDecorbtions(XWindowAttributesDbtb.AWT_DECOR_BORDER)) {
 
-            // top outer -- because we'll most likely be drawing on white paper,
-            // for aesthetic reasons, don't make any part of the outer border
+            // top outer -- becbuse we'll most likely be drbwing on white pbper,
+            // for besthetic rebsons, don't mbke bny pbrt of the outer border
             // pure white
-            if (highlight.equals(Color.white)) {
+            if (highlight.equbls(Color.white)) {
                 g.setColor(new Color(230, 230, 230));
             }
             else {
                 g.setColor(highlight);
             }
-            g.drawLine(0, 0, fsize.width, 0);
-            g.drawLine(0, 1, fsize.width - 1, 1);
+            g.drbwLine(0, 0, fsize.width, 0);
+            g.drbwLine(0, 1, fsize.width - 1, 1);
 
             // left outer
-            // if (highlight.equals(Color.white)) {
+            // if (highlight.equbls(Color.white)) {
             //     g.setColor(new Color(230, 230, 230));
             // }
             // else {
             //     g.setColor(highlight);
             // }
-            g.drawLine(0, 0, 0, fsize.height);
-            g.drawLine(1, 0, 1, fsize.height - 1);
+            g.drbwLine(0, 0, 0, fsize.height);
+            g.drbwLine(1, 0, 1, fsize.height - 1);
 
-            // bottom cross-hair
+            // bottom cross-hbir
             g.setColor(highlight);
-            g.drawLine(CROSSHAIR_INSET + 1, fsize.height - CROSSHAIR_INSET,
+            g.drbwLine(CROSSHAIR_INSET + 1, fsize.height - CROSSHAIR_INSET,
                        fsize.width - CROSSHAIR_INSET,
                        fsize.height - CROSSHAIR_INSET);
 
-            // right cross-hair
+            // right cross-hbir
             // g.setColor(highlight);
-            g.drawLine(fsize.width - CROSSHAIR_INSET, CROSSHAIR_INSET + 1,
+            g.drbwLine(fsize.width - CROSSHAIR_INSET, CROSSHAIR_INSET + 1,
                        fsize.width - CROSSHAIR_INSET,
                        fsize.height - CROSSHAIR_INSET);
 
             // bottom outer
-            g.setColor(shadow);
-            g.drawLine(1, fsize.height, fsize.width, fsize.height);
-            g.drawLine(2, fsize.height - 1, fsize.width, fsize.height - 1);
+            g.setColor(shbdow);
+            g.drbwLine(1, fsize.height, fsize.width, fsize.height);
+            g.drbwLine(2, fsize.height - 1, fsize.width, fsize.height - 1);
 
             // right outer
-            // g.setColor(shadow);
-            g.drawLine(fsize.width, 1, fsize.width, fsize.height);
-            g.drawLine(fsize.width - 1, 2, fsize.width - 1, fsize.height);
+            // g.setColor(shbdow);
+            g.drbwLine(fsize.width, 1, fsize.width, fsize.height);
+            g.drbwLine(fsize.width - 1, 2, fsize.width - 1, fsize.height);
 
-            // top cross-hair
-            // g.setColor(shadow);
-            g.drawLine(CROSSHAIR_INSET, CROSSHAIR_INSET,
+            // top cross-hbir
+            // g.setColor(shbdow);
+            g.drbwLine(CROSSHAIR_INSET, CROSSHAIR_INSET,
                        fsize.width - CROSSHAIR_INSET, CROSSHAIR_INSET);
 
-            // left cross-hair
-            // g.setColor(shadow);
-            g.drawLine(CROSSHAIR_INSET, CROSSHAIR_INSET, CROSSHAIR_INSET,
+            // left cross-hbir
+            // g.setColor(shbdow);
+            g.drbwLine(CROSSHAIR_INSET, CROSSHAIR_INSET, CROSSHAIR_INSET,
                        fsize.height - CROSSHAIR_INSET);
         }
 
-        if (hasDecorations(XWindowAttributesData.AWT_DECOR_TITLE)) {
+        if (hbsDecorbtions(XWindowAttributesDbtb.AWT_DECOR_TITLE)) {
 
-            if (hasDecorations(XWindowAttributesData.AWT_DECOR_MENU)) {
+            if (hbsDecorbtions(XWindowAttributesDbtb.AWT_DECOR_MENU)) {
 
                 // system menu
                 g.setColor(bg);
@@ -519,12 +519,12 @@ class XFramePeer extends XDecoratedPeer implements FramePeer {
                              SYS_MENU_CONTAINED_W, SYS_MENU_CONTAINED_H, true);
             }
 
-            // title bar
+            // title bbr
             // g.setColor(bg);
             g.fill3DRect(TITLE_X, BUTTON_Y, fsize.width - TITLE_W_DIFF, BUTTON_H,
                          true);
 
-            if (hasDecorations(XWindowAttributesData.AWT_DECOR_MINIMIZE)) {
+            if (hbsDecorbtions(XWindowAttributesDbtb.AWT_DECOR_MINIMIZE)) {
 
                 // minimize button
                 // g.setColor(bg);
@@ -535,9 +535,9 @@ class XFramePeer extends XDecoratedPeer implements FramePeer {
                              MINIMIZE_CONTAINED_H, true);
             }
 
-            if (hasDecorations(XWindowAttributesData.AWT_DECOR_MAXIMIZE)) {
+            if (hbsDecorbtions(XWindowAttributesDbtb.AWT_DECOR_MAXIMIZE)) {
 
-                // maximize button
+                // mbximize button
                 // g.setColor(bg);
                 g.fill3DRect(fsize.width - MAXIMIZE_X_DIFF, BUTTON_Y, BUTTON_W,
                              BUTTON_H, true);
@@ -546,130 +546,130 @@ class XFramePeer extends XDecoratedPeer implements FramePeer {
                              MAXIMIZE_CONTAINED_H, true);
             }
 
-            // title bar text
+            // title bbr text
             g.setColor(fg);
             Font sysfont = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
             g.setFont(sysfont);
             FontMetrics sysfm = g.getFontMetrics();
             String ftitle = f.getTitle();
-            g.drawString(ftitle,
+            g.drbwString(ftitle,
                          ((TITLE_X + TITLE_X + fsize.width - TITLE_W_DIFF) / 2) -
                          (sysfm.stringWidth(ftitle) / 2),
-                         TITLE_MID_Y + sysfm.getMaxDescent());
+                         TITLE_MID_Y + sysfm.getMbxDescent());
         }
 
-        if (f.isResizable() &&
-            hasDecorations(XWindowAttributesData.AWT_DECOR_RESIZEH)) {
+        if (f.isResizbble() &&
+            hbsDecorbtions(XWindowAttributesDbtb.AWT_DECOR_RESIZEH)) {
 
-            // add resize cross hairs
+            // bdd resize cross hbirs
 
-            // upper-left horiz (shadow)
-            g.setColor(shadow);
-            g.drawLine(1, HORIZ_RESIZE_INSET, CROSSHAIR_INSET,
+            // upper-left horiz (shbdow)
+            g.setColor(shbdow);
+            g.drbwLine(1, HORIZ_RESIZE_INSET, CROSSHAIR_INSET,
                        HORIZ_RESIZE_INSET);
-            // upper-left vert (shadow)
-            // g.setColor(shadow);
-            g.drawLine(VERT_RESIZE_INSET, 1, VERT_RESIZE_INSET, CROSSHAIR_INSET);
-            // upper-right horiz (shadow)
-            // g.setColor(shadow);
-            g.drawLine(fsize.width - CROSSHAIR_INSET + 1, HORIZ_RESIZE_INSET,
+            // upper-left vert (shbdow)
+            // g.setColor(shbdow);
+            g.drbwLine(VERT_RESIZE_INSET, 1, VERT_RESIZE_INSET, CROSSHAIR_INSET);
+            // upper-right horiz (shbdow)
+            // g.setColor(shbdow);
+            g.drbwLine(fsize.width - CROSSHAIR_INSET + 1, HORIZ_RESIZE_INSET,
                        fsize.width, HORIZ_RESIZE_INSET);
-            // upper-right vert (shadow)
-            // g.setColor(shadow);
-            g.drawLine(fsize.width - VERT_RESIZE_INSET - 1, 2,
+            // upper-right vert (shbdow)
+            // g.setColor(shbdow);
+            g.drbwLine(fsize.width - VERT_RESIZE_INSET - 1, 2,
                        fsize.width - VERT_RESIZE_INSET - 1, CROSSHAIR_INSET + 1);
-            // lower-left horiz (shadow)
-            // g.setColor(shadow);
-            g.drawLine(1, fsize.height - HORIZ_RESIZE_INSET - 1,
+            // lower-left horiz (shbdow)
+            // g.setColor(shbdow);
+            g.drbwLine(1, fsize.height - HORIZ_RESIZE_INSET - 1,
                        CROSSHAIR_INSET, fsize.height - HORIZ_RESIZE_INSET - 1);
-            // lower-left vert (shadow)
-            // g.setColor(shadow);
-            g.drawLine(VERT_RESIZE_INSET, fsize.height - CROSSHAIR_INSET + 1,
+            // lower-left vert (shbdow)
+            // g.setColor(shbdow);
+            g.drbwLine(VERT_RESIZE_INSET, fsize.height - CROSSHAIR_INSET + 1,
                        VERT_RESIZE_INSET, fsize.height);
-            // lower-right horiz (shadow)
-            // g.setColor(shadow);
-            g.drawLine(fsize.width - CROSSHAIR_INSET + 1,
+            // lower-right horiz (shbdow)
+            // g.setColor(shbdow);
+            g.drbwLine(fsize.width - CROSSHAIR_INSET + 1,
                        fsize.height - HORIZ_RESIZE_INSET - 1, fsize.width,
                        fsize.height - HORIZ_RESIZE_INSET - 1);
-            // lower-right vert (shadow)
-            // g.setColor(shadow);
-            g.drawLine(fsize.width - VERT_RESIZE_INSET - 1,
+            // lower-right vert (shbdow)
+            // g.setColor(shbdow);
+            g.drbwLine(fsize.width - VERT_RESIZE_INSET - 1,
                        fsize.height - CROSSHAIR_INSET + 1,
                        fsize.width - VERT_RESIZE_INSET - 1, fsize.height);
 
             // upper-left horiz (highlight)
             g.setColor(highlight);
-            g.drawLine(2, HORIZ_RESIZE_INSET + 1, CROSSHAIR_INSET,
+            g.drbwLine(2, HORIZ_RESIZE_INSET + 1, CROSSHAIR_INSET,
                        HORIZ_RESIZE_INSET + 1);
             // upper-left vert (highlight)
             // g.setColor(highlight);
-            g.drawLine(VERT_RESIZE_INSET + 1, 2, VERT_RESIZE_INSET + 1,
+            g.drbwLine(VERT_RESIZE_INSET + 1, 2, VERT_RESIZE_INSET + 1,
                        CROSSHAIR_INSET);
             // upper-right horiz (highlight)
             // g.setColor(highlight);
-            g.drawLine(fsize.width - CROSSHAIR_INSET + 1,
+            g.drbwLine(fsize.width - CROSSHAIR_INSET + 1,
                        HORIZ_RESIZE_INSET + 1, fsize.width - 1,
                        HORIZ_RESIZE_INSET + 1);
             // upper-right vert (highlight)
             // g.setColor(highlight);
-            g.drawLine(fsize.width - VERT_RESIZE_INSET, 2,
+            g.drbwLine(fsize.width - VERT_RESIZE_INSET, 2,
                        fsize.width - VERT_RESIZE_INSET, CROSSHAIR_INSET);
             // lower-left horiz (highlight)
             // g.setColor(highlight);
-            g.drawLine(2, fsize.height - HORIZ_RESIZE_INSET, CROSSHAIR_INSET,
+            g.drbwLine(2, fsize.height - HORIZ_RESIZE_INSET, CROSSHAIR_INSET,
                        fsize.height - HORIZ_RESIZE_INSET);
             // lower-left vert (highlight)
             // g.setColor(highlight);
-            g.drawLine(VERT_RESIZE_INSET + 1,
+            g.drbwLine(VERT_RESIZE_INSET + 1,
                        fsize.height - CROSSHAIR_INSET + 1,
                        VERT_RESIZE_INSET + 1, fsize.height - 1);
             // lower-right horiz (highlight)
             // g.setColor(highlight);
-            g.drawLine(fsize.width - CROSSHAIR_INSET + 1,
+            g.drbwLine(fsize.width - CROSSHAIR_INSET + 1,
                        fsize.height - HORIZ_RESIZE_INSET, fsize.width - 1,
                        fsize.height - HORIZ_RESIZE_INSET);
             // lower-right vert (highlight)
             // g.setColor(highlight);
-            g.drawLine(fsize.width - VERT_RESIZE_INSET,
+            g.drbwLine(fsize.width - VERT_RESIZE_INSET,
                        fsize.height - CROSSHAIR_INSET + 1,
                        fsize.width - VERT_RESIZE_INSET, fsize.height - 1);
         }
 
-        XMenuBarPeer peer = menubarPeer;
+        XMenuBbrPeer peer = menubbrPeer;
         if (peer != null) {
             Insets insets = getInsets();
-            Graphics ng = g.create();
-            int menubarX = 0;
-            int menubarY = 0;
-            if (hasDecorations(XWindowAttributesData.AWT_DECOR_BORDER)) {
-                menubarX += CROSSHAIR_INSET + 1;
-                    menubarY += CROSSHAIR_INSET + 1;
+            Grbphics ng = g.crebte();
+            int menubbrX = 0;
+            int menubbrY = 0;
+            if (hbsDecorbtions(XWindowAttributesDbtb.AWT_DECOR_BORDER)) {
+                menubbrX += CROSSHAIR_INSET + 1;
+                    menubbrY += CROSSHAIR_INSET + 1;
             }
-            if (hasDecorations(XWindowAttributesData.AWT_DECOR_TITLE)) {
-                menubarY += BUTTON_H;
+            if (hbsDecorbtions(XWindowAttributesDbtb.AWT_DECOR_TITLE)) {
+                menubbrY += BUTTON_H;
             }
             try {
-                ng.translate(menubarX, menubarY);
+                ng.trbnslbte(menubbrX, menubbrY);
                 peer.print(ng);
-            } finally {
+            } finblly {
                 ng.dispose();
             }
         }
     }
 
-    public void setBoundsPrivate(int x, int y, int width, int height) {
+    public void setBoundsPrivbte(int x, int y, int width, int height) {
         setBounds(x, y, width, height, SET_BOUNDS);
     }
 
-    public Rectangle getBoundsPrivate() {
+    public Rectbngle getBoundsPrivbte() {
         return getBounds();
     }
 
-    public void emulateActivation(boolean doActivate) {
-        if (doActivate) {
-            handleWindowFocusIn(0);
+    public void emulbteActivbtion(boolebn doActivbte) {
+        if (doActivbte) {
+            hbndleWindowFocusIn(0);
         } else {
-            handleWindowFocusOut(null, 0);
+            hbndleWindowFocusOut(null, 0);
         }
     }
 }

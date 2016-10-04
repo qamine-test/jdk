@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
 /**
- * A class or instance variable in the target VM.
+ * A clbss or instbnce vbribble in the tbrget VM.
  * See {@link TypeComponent}
- * for general information about Field and Method mirrors.
+ * for generbl informbtion bbout Field bnd Method mirrors.
  *
  * @see ObjectReference
  * @see ReferenceType
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
+ * @buthor Robert Field
+ * @buthor Gordon Hirsch
+ * @buthor Jbmes McIlree
  * @since  1.3
  */
 @jdk.Exported
-public interface Field extends TypeComponent, Comparable<Field> {
+public interfbce Field extends TypeComponent, Compbrbble<Field> {
 
     /**
-     * Returns a text representation of the type
+     * Returns b text representbtion of the type
      * of this field.
-     * Where the type is the type specified in the declaration
+     * Where the type is the type specified in the declbrbtion
      * of this field.
      * <P>
-     * This type name is always available even if
-     * the type has not yet been created or loaded.
+     * This type nbme is blwbys bvbilbble even if
+     * the type hbs not yet been crebted or lobded.
      *
-     * @return a String representing the
+     * @return b String representing the
      * type of this field.
      */
-    String typeName();
+    String typeNbme();
 
     /**
      * Returns the type of this field.
-     * Where the type is the type specified in the declaration
+     * Where the type is the type specified in the declbrbtion
      * of this field.
      * <P>
-     * For example, if a target class defines:
+     * For exbmple, if b tbrget clbss defines:
      * <PRE>
      *    short s;
-     *    Date d;
-     *    byte[] ba;</PRE>
+     *    Dbte d;
+     *    byte[] bb;</PRE>
      * And the JDI client defines these <CODE>Field</CODE> objects:
      * <PRE>
-     *    Field sField = targetClass.fieldByName("s");
-     *    Field dField = targetClass.fieldByName("d");
-     *    Field baField = targetClass.fieldByName("ba");</PRE>
+     *    Field sField = tbrgetClbss.fieldByNbme("s");
+     *    Field dField = tbrgetClbss.fieldByNbme("d");
+     *    Field bbField = tbrgetClbss.fieldByNbme("bb");</PRE>
      * to mirror the corresponding fields, then <CODE>sField.type()</CODE>
-     * is a {@link ShortType}, <CODE>dField.type()</CODE> is the
-     * {@link ReferenceType} for <CODE>java.util.Date</CODE> and
-     * <CODE>((ArrayType)(baField.type())).componentType()</CODE> is a
+     * is b {@link ShortType}, <CODE>dField.type()</CODE> is the
+     * {@link ReferenceType} for <CODE>jbvb.util.Dbte</CODE> bnd
+     * <CODE>((ArrbyType)(bbField.type())).componentType()</CODE> is b
      * {@link ByteType}.
      * <P>
-     * Note: if the type of this field is a reference type (class,
-     * interface, or array) and it has not been created or loaded
-     * by the declaring type's class loader - that is,
-     * {@link TypeComponent#declaringType <CODE>declaringType()</CODE>}
-     * <CODE>.classLoader()</CODE>,
-     * then ClassNotLoadedException will be thrown.
-     * Also, a reference type may have been loaded but not yet prepared,
-     * in which case the type will be returned
-     * but attempts to perform some operations on the returned type
+     * Note: if the type of this field is b reference type (clbss,
+     * interfbce, or brrby) bnd it hbs not been crebted or lobded
+     * by the declbring type's clbss lobder - thbt is,
+     * {@link TypeComponent#declbringType <CODE>declbringType()</CODE>}
+     * <CODE>.clbssLobder()</CODE>,
+     * then ClbssNotLobdedException will be thrown.
+     * Also, b reference type mby hbve been lobded but not yet prepbred,
+     * in which cbse the type will be returned
+     * but bttempts to perform some operbtions on the returned type
      * (e.g. {@link ReferenceType#fields() fields()}) will throw
-     * a {@link ClassNotPreparedException}.
-     * Use {@link ReferenceType#isPrepared()} to determine if
-     * a reference type is prepared.
+     * b {@link ClbssNotPrepbredException}.
+     * Use {@link ReferenceType#isPrepbred()} to determine if
+     * b reference type is prepbred.
      *
      * @see Type
      * @return the {@link Type} of this field.
-     * @throws ClassNotLoadedException if the type has not yet been loaded
-     * or created through the appropriate class loader.
+     * @throws ClbssNotLobdedException if the type hbs not yet been lobded
+     * or crebted through the bppropribte clbss lobder.
      */
-    Type type() throws ClassNotLoadedException;
+    Type type() throws ClbssNotLobdedException;
 
     /**
-     * Determine if this is a transient field.
+     * Determine if this is b trbnsient field.
      *
-     * @return <code>true</code> if this field is transient; false otherwise.
+     * @return <code>true</code> if this field is trbnsient; fblse otherwise.
      */
-    boolean isTransient();
+    boolebn isTrbnsient();
 
     /**
-     * Determine if this is a volatile field.
+     * Determine if this is b volbtile field.
      *
-     * @return <code>true</code> if this field is volatile; false otherwise.
+     * @return <code>true</code> if this field is volbtile; fblse otherwise.
      */
-    boolean isVolatile();
+    boolebn isVolbtile();
 
     /**
-     * Determine if this is a field that represents an enum constant.
-     * @return <code>true</code> if this field represents an enum constant;
-     * false otherwise.
+     * Determine if this is b field thbt represents bn enum constbnt.
+     * @return <code>true</code> if this field represents bn enum constbnt;
+     * fblse otherwise.
      */
-    boolean isEnumConstant();
+    boolebn isEnumConstbnt();
 
     /**
-     * Compares the specified Object with this field for equality.
+     * Compbres the specified Object with this field for equblity.
      *
-     * @return true if the Object is a Field and if both
-     * mirror the same field (declared in the same class or interface, in
-     * the same VM).
+     * @return true if the Object is b Field bnd if both
+     * mirror the sbme field (declbred in the sbme clbss or interfbce, in
+     * the sbme VM).
      */
-    boolean equals(Object obj);
+    boolebn equbls(Object obj);
 
     /**
-     * Returns the hash code value for this Field.
+     * Returns the hbsh code vblue for this Field.
      *
-     * @return the integer hash code
+     * @return the integer hbsh code
      */
-    int hashCode();
+    int hbshCode();
 }

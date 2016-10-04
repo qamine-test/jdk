@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "GraphicsPrimitiveMgr.h"
+#include "GrbphicsPrimitiveMgr.h"
 #include "LineUtils.h"
 
-#include "sun_java2d_loops_DrawRect.h"
+#include "sun_jbvb2d_loops_DrbwRect.h"
 
 /*
- * Class:     sun_java2d_loops_DrawRect
- * Method:    DrawRect
- * Signature: (Lsun/java2d/SunGraphics2D;Lsun/java2d/SurfaceData;IIII)V
+ * Clbss:     sun_jbvb2d_loops_DrbwRect
+ * Method:    DrbwRect
+ * Signbture: (Lsun/jbvb2d/SunGrbphics2D;Lsun/jbvb2d/SurfbceDbtb;IIII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_DrawRect_DrawRect
+Jbvb_sun_jbvb2d_loops_DrbwRect_DrbwRect
     (JNIEnv *env, jobject self,
-     jobject sg2d, jobject sData,
+     jobject sg2d, jobject sDbtb,
      jint x, jint y, jint w, jint h)
 {
-    SurfaceDataOps *sdOps;
-    SurfaceDataRasInfo rasInfo;
-    NativePrimitive *pPrim;
+    SurfbceDbtbOps *sdOps;
+    SurfbceDbtbRbsInfo rbsInfo;
+    NbtivePrimitive *pPrim;
     CompositeInfo compInfo;
     jint lox, loy, hix, hiy;
     jint pixel = GrPrim_Sg2dGetPixel(env, sg2d);
@@ -50,7 +50,7 @@ Java_sun_java2d_loops_DrawRect_DrawRect
         return;
     }
 
-    pPrim = GetNativePrim(env, self);
+    pPrim = GetNbtivePrim(env, self);
     if (pPrim == NULL) {
         return;
     }
@@ -58,7 +58,7 @@ Java_sun_java2d_loops_DrawRect_DrawRect
         GrPrim_Sg2dGetCompInfo(env, sg2d, pPrim, &compInfo);
     }
 
-    sdOps = SurfaceData_GetOps(env, sData);
+    sdOps = SurfbceDbtb_GetOps(env, sDbtb);
     if (sdOps == 0) {
         return;
     }
@@ -74,64 +74,64 @@ Java_sun_java2d_loops_DrawRect_DrawRect
         hiy = 0x7fffffff;
     }
 
-    GrPrim_Sg2dGetClip(env, sg2d, &rasInfo.bounds);
-    if (rasInfo.bounds.x1 < lox) rasInfo.bounds.x1 = lox;
-    if (rasInfo.bounds.y1 < loy) rasInfo.bounds.y1 = loy;
-    if (rasInfo.bounds.x2 > hix) rasInfo.bounds.x2 = hix;
-    if (rasInfo.bounds.y2 > hiy) rasInfo.bounds.y2 = hiy;
-    if (sdOps->Lock(env, sdOps, &rasInfo, pPrim->dstflags) != SD_SUCCESS) {
+    GrPrim_Sg2dGetClip(env, sg2d, &rbsInfo.bounds);
+    if (rbsInfo.bounds.x1 < lox) rbsInfo.bounds.x1 = lox;
+    if (rbsInfo.bounds.y1 < loy) rbsInfo.bounds.y1 = loy;
+    if (rbsInfo.bounds.x2 > hix) rbsInfo.bounds.x2 = hix;
+    if (rbsInfo.bounds.y2 > hiy) rbsInfo.bounds.y2 = hiy;
+    if (sdOps->Lock(env, sdOps, &rbsInfo, pPrim->dstflbgs) != SD_SUCCESS) {
         return;
     }
 
-    if (rasInfo.bounds.x2 > rasInfo.bounds.x1 &&
-        rasInfo.bounds.y2 > rasInfo.bounds.y1)
+    if (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+        rbsInfo.bounds.y2 > rbsInfo.bounds.y1)
     {
-        sdOps->GetRasInfo(env, sdOps, &rasInfo);
-        if (rasInfo.rasBase) {
-            DrawLineFunc *pLine = pPrim->funcs.drawline;
-            int loyin = (loy == rasInfo.bounds.y1);
-            int hiyin = (hiy == rasInfo.bounds.y2);
-            int xsize = (rasInfo.bounds.x2 - rasInfo.bounds.x1);
-            int ysize = (rasInfo.bounds.y2 - rasInfo.bounds.y1 - loyin - hiyin);
+        sdOps->GetRbsInfo(env, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbse) {
+            DrbwLineFunc *pLine = pPrim->funcs.drbwline;
+            int loyin = (loy == rbsInfo.bounds.y1);
+            int hiyin = (hiy == rbsInfo.bounds.y2);
+            int xsize = (rbsInfo.bounds.x2 - rbsInfo.bounds.x1);
+            int ysize = (rbsInfo.bounds.y2 - rbsInfo.bounds.y1 - loyin - hiyin);
             /*
-             * To avoid drawing the corners twice (both for performance
-             * and because XOR erases them otherwise) and to maximize the
-             * number of pixels we draw in the horizontal portions
-             * which are more cache-friendly, we include the corner
-             * pixels only in the top and bottom segments.
-             * We also protect against degenerate rectangles where we
-             * would draw the same line for top & bottom or left & right.
+             * To bvoid drbwing the corners twice (both for performbnce
+             * bnd becbuse XOR erbses them otherwise) bnd to mbximize the
+             * number of pixels we drbw in the horizontbl portions
+             * which bre more cbche-friendly, we include the corner
+             * pixels only in the top bnd bottom segments.
+             * We blso protect bgbinst degenerbte rectbngles where we
+             * would drbw the sbme line for top & bottom or left & right.
              */
             if (loyin) {
-                /* Line across the top */
-                (*pLine)(&rasInfo,
-                         rasInfo.bounds.x1, rasInfo.bounds.y1,
+                /* Line bcross the top */
+                (*pLine)(&rbsInfo,
+                         rbsInfo.bounds.x1, rbsInfo.bounds.y1,
                          pixel, xsize, 0,
                          BUMP_POS_PIXEL, 0, BUMP_NOOP, 0, pPrim, &compInfo);
             }
-            if (lox == rasInfo.bounds.x1 && ysize > 0) {
+            if (lox == rbsInfo.bounds.x1 && ysize > 0) {
                 /* Line down the left side */
-                (*pLine)(&rasInfo,
-                         rasInfo.bounds.x1, rasInfo.bounds.y1 + loyin,
+                (*pLine)(&rbsInfo,
+                         rbsInfo.bounds.x1, rbsInfo.bounds.y1 + loyin,
                          pixel, ysize, 0,
                          BUMP_POS_SCAN, 0, BUMP_NOOP, 0, pPrim, &compInfo);
             }
-            if (hix == rasInfo.bounds.x2 && ysize > 0 && lox != hix - 1) {
+            if (hix == rbsInfo.bounds.x2 && ysize > 0 && lox != hix - 1) {
                 /* Line down the right side */
-                (*pLine)(&rasInfo,
-                         rasInfo.bounds.x2 - 1, rasInfo.bounds.y1 + loyin,
+                (*pLine)(&rbsInfo,
+                         rbsInfo.bounds.x2 - 1, rbsInfo.bounds.y1 + loyin,
                          pixel, ysize, 0,
                          BUMP_POS_SCAN, 0, BUMP_NOOP, 0, pPrim, &compInfo);
             }
             if (hiyin && loy != hiy - 1) {
-                /* Line across the bottom */
-                (*pLine)(&rasInfo,
-                         rasInfo.bounds.x1, rasInfo.bounds.y2 - 1,
+                /* Line bcross the bottom */
+                (*pLine)(&rbsInfo,
+                         rbsInfo.bounds.x1, rbsInfo.bounds.y2 - 1,
                          pixel, xsize, 0,
                          BUMP_POS_PIXEL, 0, BUMP_NOOP, 0, pPrim, &compInfo);
             }
         }
-        SurfaceData_InvokeRelease(env, sdOps, &rasInfo);
+        SurfbceDbtb_InvokeRelebse(env, sdOps, &rbsInfo);
     }
-    SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+    SurfbceDbtb_InvokeUnlock(env, sdOps, &rbsInfo);
 }

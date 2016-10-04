@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbckbge com.sun.jmx.snmp.bgent;
 
 
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.ArrayList;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Dbte;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
 // jmx imports
 //
-import javax.management.Notification;
-import javax.management.ObjectName;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.NotificationBroadcaster;
-import javax.management.MBeanNotificationInfo;
-import javax.management.ListenerNotFoundException;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.NotificbtionBrobdcbster;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.ListenerNotFoundException;
 import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpValue;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpVblue;
+import com.sun.jmx.snmp.SnmpVbrBind;
+import com.sun.jmx.snmp.SnmpStbtusException;
 
 /**
- * This class is an abstraction for an SNMP table.
- * It is the base class for implementing SNMP tables in the
- * MBean world.
+ * This clbss is bn bbstrbction for bn SNMP tbble.
+ * It is the bbse clbss for implementing SNMP tbbles in the
+ * MBebn world.
  *
  * <p>
- * Its responsibility is to synchronize the MBean view of the table
- * (Table of entries) with the MIB view (array of OID indexes). Each
- * object of this class will be bound to the Metadata object which
- * manages the same SNMP Table within the MIB.
+ * Its responsibility is to synchronize the MBebn view of the tbble
+ * (Tbble of entries) with the MIB view (brrby of OID indexes). Ebch
+ * object of this clbss will be bound to the Metbdbtb object which
+ * mbnbges the sbme SNMP Tbble within the MIB.
  * </p>
  *
  * <p>
- * For each table defined in a MIB, mibgen will generate a specific
- * class called Table<i>TableName</i> that will subclass this class, and
- * a corresponding <i>TableName</i>Meta class extending SnmpMibTable
- * and corresponding to the MIB view of the same table.
+ * For ebch tbble defined in b MIB, mibgen will generbte b specific
+ * clbss cblled Tbble<i>TbbleNbme</i> thbt will subclbss this clbss, bnd
+ * b corresponding <i>TbbleNbme</i>Metb clbss extending SnmpMibTbble
+ * bnd corresponding to the MIB view of the sbme tbble.
  * </p>
  *
  * <p>
- * Objects of this class are instantiated by MBeans representing
- * the SNMP Group to which the table belong.
+ * Objects of this clbss bre instbntibted by MBebns representing
+ * the SNMP Group to which the tbble belong.
  * </p>
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @see com.sun.jmx.snmp.agent.SnmpTableEntryFactory
- * @see com.sun.jmx.snmp.agent.SnmpMibTable
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
+ * @see com.sun.jmx.snmp.bgent.SnmpTbbleEntryFbctory
+ * @see com.sun.jmx.snmp.bgent.SnmpMibTbble
  *
  */
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class SnmpTableSupport implements SnmpTableEntryFactory,
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public bbstrbct clbss SnmpTbbleSupport implements SnmpTbbleEntryFbctory,
 // NPCTE fix for bugId 4499265, esc 0, MR 04 sept 2001
-//  SnmpTableCallbackHandler {
-    SnmpTableCallbackHandler, Serializable {
+//  SnmpTbbleCbllbbckHbndler {
+    SnmpTbbleCbllbbckHbndler, Seriblizbble {
 // end of NPCTE fix for bugId 4499265
 
     //-----------------------------------------------------------------
     //
-    //  Protected Variables
+    //  Protected Vbribbles
     //
     //-----------------------------------------------------------------
 
@@ -99,26 +99,26 @@ public abstract class SnmpTableSupport implements SnmpTableEntryFactory,
     protected List<Object> entries;
 
     /**
-     * The associated metadata object
+     * The bssocibted metbdbtb object
      **/
-    protected SnmpMibTable meta;
+    protected SnmpMibTbble metb;
 
     /**
-     * The MIB to which this table belongs
+     * The MIB to which this tbble belongs
      **/
     protected SnmpMib      theMib;
 
     //-----------------------------------------------------------------
     //
-    //  Private Variables
+    //  Privbte Vbribbles
     //
     //-----------------------------------------------------------------
 
     /**
-     * This variable is initialized while binding this object to its
-     * corresponding meta object.
+     * This vbribble is initiblized while binding this object to its
+     * corresponding metb object.
      **/
-    private boolean registrationRequired = false;
+    privbte boolebn registrbtionRequired = fblse;
 
 
 
@@ -129,47 +129,47 @@ public abstract class SnmpTableSupport implements SnmpTableEntryFactory,
     //-----------------------------------------------------------------
 
     /**
-     * Initializes the table.
-     * The steps are these:
-     * <ul><li> allocate an array for storing entry object,</li>
-     *     <li> retrieve the corresponding metadata object
+     * Initiblizes the tbble.
+     * The steps bre these:
+     * <ul><li> bllocbte bn brrby for storing entry object,</li>
+     *     <li> retrieve the corresponding metbdbtb object
      *          from the MIB,
-     *     <li> bind this object to the corresponding metadata object
+     *     <li> bind this object to the corresponding metbdbtb object
      *          from the MIB.</li>
      * </ul>
      *
-     * @param mib The MIB to which this table belong.
+     * @pbrbm mib The MIB to which this tbble belong.
      *
      **/
-    protected SnmpTableSupport(SnmpMib mib) {
+    protected SnmpTbbleSupport(SnmpMib mib) {
         theMib  = mib;
-        meta    = getRegisteredTableMeta(mib);
-        bindWithTableMeta();
-        entries = allocateTable();
+        metb    = getRegisteredTbbleMetb(mib);
+        bindWithTbbleMetb();
+        entries = bllocbteTbble();
     }
 
 
     //-----------------------------------------------------------------
     //
-    //  Implementation of the SnmpTableEntryFactory interface
+    //  Implementbtion of the SnmpTbbleEntryFbctory interfbce
     //
     //-----------------------------------------------------------------
 
     /**
-     * Creates a new entry in the table.
+     * Crebtes b new entry in the tbble.
      *
-     * This factory method is generated by mibgen and used internally.
-     * It is part of the
-     * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} interface.
-     * You may subclass this method to implement any specific behaviour
-     * your application requires.
+     * This fbctory method is generbted by mibgen bnd used internblly.
+     * It is pbrt of the
+     * {@link com.sun.jmx.snmp.bgent.SnmpTbbleEntryFbctory} interfbce.
+     * You mby subclbss this method to implement bny specific behbviour
+     * your bpplicbtion requires.
      *
-     * @exception SnmpStatusException if the entry cannot be created.
+     * @exception SnmpStbtusException if the entry cbnnot be crebted.
      **/
-    public abstract void createNewEntry(SnmpMibSubRequest request,
+    public bbstrbct void crebteNewEntry(SnmpMibSubRequest request,
                                         SnmpOid rowOid, int depth,
-                                        SnmpMibTable meta)
-        throws SnmpStatusException;
+                                        SnmpMibTbble metb)
+        throws SnmpStbtusException;
 
 
     //-----------------------------------------------------------------
@@ -179,10 +179,10 @@ public abstract class SnmpTableSupport implements SnmpTableEntryFactory,
     //-----------------------------------------------------------------
 
     /**
-     * Returns the entry located at the given position in the table.
+     * Returns the entry locbted bt the given position in the tbble.
      *
-     * @return The entry located at the given position, <code>null</code>
-     *         if no entry can be found at this position.
+     * @return The entry locbted bt the given position, <code>null</code>
+     *         if no entry cbn be found bt this position.
      **/
     // XXXX xxxx zzz ZZZZ => public? or protected?
     public Object getEntry(int pos) {
@@ -191,262 +191,262 @@ public abstract class SnmpTableSupport implements SnmpTableEntryFactory,
     }
 
     /**
-     * Returns the number of entries registered in the table.
+     * Returns the number of entries registered in the tbble.
      *
-     * @return The number of entries registered in the table.
+     * @return The number of entries registered in the tbble.
      **/
     public int getSize() {
-        return meta.getSize();
+        return metb.getSize();
     }
 
     /**
-     * This method lets you dynamically switch the creation policy.
+     * This method lets you dynbmicblly switch the crebtion policy.
      *
-     * <CODE>setCreationEnabled()</CODE> will switch the policy of
-     *      remote entry creation via SET operations, by calling
-     *      <code>setCreationEnabled()</code> on the metadata object
-     *      associated with this table.
-     * <BR> By default remote entry creation via SET operation is disabled.
+     * <CODE>setCrebtionEnbbled()</CODE> will switch the policy of
+     *      remote entry crebtion vib SET operbtions, by cblling
+     *      <code>setCrebtionEnbbled()</code> on the metbdbtb object
+     *      bssocibted with this tbble.
+     * <BR> By defbult remote entry crebtion vib SET operbtion is disbbled.
      *
-     * @param remoteCreationFlag Tells whether remote entry creation must
-     *        be enabled or disabled.
+     * @pbrbm remoteCrebtionFlbg Tells whether remote entry crebtion must
+     *        be enbbled or disbbled.
      * <li>
-     * <CODE>setCreationEnabled(true)</CODE> will enable remote entry
-     *      creation via SET operations.</li>
+     * <CODE>setCrebtionEnbbled(true)</CODE> will enbble remote entry
+     *      crebtion vib SET operbtions.</li>
      * <li>
-     * <CODE>setCreationEnabled(false)</CODE> will disable remote entry
-     *      creation via SET operations.</li>
-     * <p> By default remote entry creation via SET operation is disabled.
+     * <CODE>setCrebtionEnbbled(fblse)</CODE> will disbble remote entry
+     *      crebtion vib SET operbtions.</li>
+     * <p> By defbult remote entry crebtion vib SET operbtion is disbbled.
      * </p>
      *
-     * @see com.sun.jmx.snmp.agent.SnmpMibTable
+     * @see com.sun.jmx.snmp.bgent.SnmpMibTbble
      *
      **/
-    public void setCreationEnabled(boolean remoteCreationFlag) {
-        meta.setCreationEnabled(remoteCreationFlag);
+    public void setCrebtionEnbbled(boolebn remoteCrebtionFlbg) {
+        metb.setCrebtionEnbbled(remoteCrebtionFlbg);
     }
 
     /**
-     * Tells whether a new entry should be created when a SET operation
-     * is received for an entry that does not exist yet.
-     * This method calls <code>isCreationEnabled()</code> on the metadata
-     * object associated with this table.
+     * Tells whether b new entry should be crebted when b SET operbtion
+     * is received for bn entry thbt does not exist yet.
+     * This method cblls <code>isCrebtionEnbbled()</code> on the metbdbtb
+     * object bssocibted with this tbble.
      *
-     * @return true if a new entry must be created, false otherwise.<br>
-     *         [default: returns <CODE>false</CODE>]
+     * @return true if b new entry must be crebted, fblse otherwise.<br>
+     *         [defbult: returns <CODE>fblse</CODE>]
      *
-     * @see com.sun.jmx.snmp.agent.SnmpMibTable
+     * @see com.sun.jmx.snmp.bgent.SnmpMibTbble
      **/
-    public boolean isCreationEnabled() {
-        return meta.isCreationEnabled();
+    public boolebn isCrebtionEnbbled() {
+        return metb.isCrebtionEnbbled();
     }
 
     /**
-     * Tells whether the metadata object to which this table is linked
-     * requires entries to be registered. In this case passing an
-     * ObjectName when registering entries will be mandatory.
+     * Tells whether the metbdbtb object to which this tbble is linked
+     * requires entries to be registered. In this cbse pbssing bn
+     * ObjectNbme when registering entries will be mbndbtory.
      *
-     * @return <code>true</code> if the associated metadata requires entries
-     *         to be registered (mibgen generated generic metadata).
+     * @return <code>true</code> if the bssocibted metbdbtb requires entries
+     *         to be registered (mibgen generbted generic metbdbtb).
      **/
-    public boolean isRegistrationRequired() {
-        return registrationRequired;
+    public boolebn isRegistrbtionRequired() {
+        return registrbtionRequired;
     }
 
     /**
-     * Builds an entry SnmpIndex from its row OID.
+     * Builds bn entry SnmpIndex from its row OID.
      *
-     * This method is generated by mibgen and used internally.
+     * This method is generbted by mibgen bnd used internblly.
      *
-     * @param rowOid The SnmpOid object identifying a table entry.
+     * @pbrbm rowOid The SnmpOid object identifying b tbble entry.
      *
      * @return The SnmpIndex of the entry identified by <code>rowOid</code>.
      *
-     * @exception SnmpStatusException if the index cannot be built from the
+     * @exception SnmpStbtusException if the index cbnnot be built from the
      *            given OID.
      **/
     public SnmpIndex buildSnmpIndex(SnmpOid rowOid)
-        throws SnmpStatusException {
-        return buildSnmpIndex(rowOid.longValue(false), 0);
+        throws SnmpStbtusException {
+        return buildSnmpIndex(rowOid.longVblue(fblse), 0);
     }
 
     /**
-     * Builds an SnmpOid from an SnmpIndex object.
+     * Builds bn SnmpOid from bn SnmpIndex object.
      *
-     * This method is generated by mibgen and used internally.
+     * This method is generbted by mibgen bnd used internblly.
      *
-     * @param index An SnmpIndex object identifying a table entry.
+     * @pbrbm index An SnmpIndex object identifying b tbble entry.
      *
      * @return The SnmpOid form of the given entry index.
      *
-     * @exception SnmpStatusException if the given index is not valid.
+     * @exception SnmpStbtusException if the given index is not vblid.
      **/
-    public abstract SnmpOid buildOidFromIndex(SnmpIndex index)
-        throws SnmpStatusException;
+    public bbstrbct SnmpOid buildOidFromIndex(SnmpIndex index)
+        throws SnmpStbtusException;
 
     /**
-     * Builds the default ObjectName of an entry from the SnmpIndex
-     * identifying this entry. No access is made on the entry itself.
+     * Builds the defbult ObjectNbme of bn entry from the SnmpIndex
+     * identifying this entry. No bccess is mbde on the entry itself.
      *
-     * This method is generated by mibgen and used internally.
-     * You can subclass this method if you want to change the default
-     * ObjectName policy. This is only meaningfull when entries
-     * are registered MBeans.
+     * This method is generbted by mibgen bnd used internblly.
+     * You cbn subclbss this method if you wbnt to chbnge the defbult
+     * ObjectNbme policy. This is only mebningfull when entries
+     * bre registered MBebns.
      *
-     * @param index The SnmpIndex identifying the entry from which we
-     *              want to build the default ObjectName.
+     * @pbrbm index The SnmpIndex identifying the entry from which we
+     *              wbnt to build the defbult ObjectNbme.
      *
-     * @return The default ObjectName for the entry identified by
+     * @return The defbult ObjectNbme for the entry identified by
      *         the given index.
      *
-     * @exception SnmpStatusException if the given index is not valid.
+     * @exception SnmpStbtusException if the given index is not vblid.
      **/
-    public abstract ObjectName buildNameFromIndex(SnmpIndex index)
-        throws SnmpStatusException;
+    public bbstrbct ObjectNbme buildNbmeFromIndex(SnmpIndex index)
+        throws SnmpStbtusException;
 
 
     //-----------------------------------------------------------------
     //
-    //  Implementation of the SnmpTableEntryFactory interface
+    //  Implementbtion of the SnmpTbbleEntryFbctory interfbce
     //
     //-----------------------------------------------------------------
 
     /**
-     * This callback is called by  the associated metadata object
-     * when a new table entry has been registered in the
-     * table metadata.
+     * This cbllbbck is cblled by  the bssocibted metbdbtb object
+     * when b new tbble entry hbs been registered in the
+     * tbble metbdbtb.
      *
-     * This method will update the <code>entries</code> list.
+     * This method will updbte the <code>entries</code> list.
      *
-     * @param pos   The position at which the new entry was inserted
-     *              in the table.
-     * @param row   The row OID of the new entry
-     * @param name  The ObjectName of the new entry (as specified by the
-     *              factory)
-     * @param entry The new entry (as returned by the factory)
-     * @param meta  The table metadata object.
+     * @pbrbm pos   The position bt which the new entry wbs inserted
+     *              in the tbble.
+     * @pbrbm row   The row OID of the new entry
+     * @pbrbm nbme  The ObjectNbme of the new entry (bs specified by the
+     *              fbctory)
+     * @pbrbm entry The new entry (bs returned by the fbctory)
+     * @pbrbm metb  The tbble metbdbtb object.
      *
      **/
-    public void addEntryCb(int pos, SnmpOid row, ObjectName name,
-                           Object entry, SnmpMibTable meta)
-        throws SnmpStatusException {
+    public void bddEntryCb(int pos, SnmpOid row, ObjectNbme nbme,
+                           Object entry, SnmpMibTbble metb)
+        throws SnmpStbtusException {
         try {
-            if (entries != null) entries.add(pos,entry);
-        } catch (Exception e) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName);
+            if (entries != null) entries.bdd(pos,entry);
+        } cbtch (Exception e) {
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme);
         }
     }
 
     /**
-     * This callback is called by  the associated metadata object
-     * when a new table entry has been removed from the
-     * table metadata.
+     * This cbllbbck is cblled by  the bssocibted metbdbtb object
+     * when b new tbble entry hbs been removed from the
+     * tbble metbdbtb.
      *
-     * This method will update the <code>entries</code> list.
+     * This method will updbte the <code>entries</code> list.
      *
-     * @param pos   The position from which the entry was deleted
-     * @param row   The row OID of the deleted entry
-     * @param name  The ObjectName of the deleted entry (may be null if
-     *              ObjectName's were not required)
-     * @param entry The deleted entry (may be null if only ObjectName's
+     * @pbrbm pos   The position from which the entry wbs deleted
+     * @pbrbm row   The row OID of the deleted entry
+     * @pbrbm nbme  The ObjectNbme of the deleted entry (mby be null if
+     *              ObjectNbme's were not required)
+     * @pbrbm entry The deleted entry (mby be null if only ObjectNbme's
      *              were required)
-     * @param meta  The table metadata object.
+     * @pbrbm metb  The tbble metbdbtb object.
      *
      **/
-    public void removeEntryCb(int pos, SnmpOid row, ObjectName name,
-                              Object entry, SnmpMibTable meta)
-        throws SnmpStatusException {
+    public void removeEntryCb(int pos, SnmpOid row, ObjectNbme nbme,
+                              Object entry, SnmpMibTbble metb)
+        throws SnmpStbtusException {
         try {
             if (entries != null) entries.remove(pos);
-        } catch (Exception e) {
+        } cbtch (Exception e) {
         }
     }
 
 
 
     /**
-     * Enables to add an SNMP entry listener to this
-     * <CODE>SnmpMibTable</CODE>.
+     * Enbbles to bdd bn SNMP entry listener to this
+     * <CODE>SnmpMibTbble</CODE>.
      *
-     * @param listener The listener object which will handle the
-     *    notifications emitted by the registered MBean.
+     * @pbrbm listener The listener object which will hbndle the
+     *    notificbtions emitted by the registered MBebn.
      *
-     * @param filter The filter object. If filter is null, no filtering
-     *    will be performed before handling notifications.
+     * @pbrbm filter The filter object. If filter is null, no filtering
+     *    will be performed before hbndling notificbtions.
      *
-     * @param handback The context to be sent to the listener when a
-     *    notification is emitted.
+     * @pbrbm hbndbbck The context to be sent to the listener when b
+     *    notificbtion is emitted.
      *
-     * @exception IllegalArgumentException Listener parameter is null.
+     * @exception IllegblArgumentException Listener pbrbmeter is null.
      */
     public void
-        addNotificationListener(NotificationListener listener,
-                                NotificationFilter filter, Object handback) {
-        meta.addNotificationListener(listener,filter,handback);
+        bddNotificbtionListener(NotificbtionListener listener,
+                                NotificbtionFilter filter, Object hbndbbck) {
+        metb.bddNotificbtionListener(listener,filter,hbndbbck);
     }
 
     /**
-     * Enables to remove an SNMP entry listener from this
-     * <CODE>SnmpMibTable</CODE>.
+     * Enbbles to remove bn SNMP entry listener from this
+     * <CODE>SnmpMibTbble</CODE>.
      *
-     * @param listener The listener object which will handle the
-     *    notifications emitted by the registered MBean.
-     *    This method will remove all the information related to this
+     * @pbrbm listener The listener object which will hbndle the
+     *    notificbtions emitted by the registered MBebn.
+     *    This method will remove bll the informbtion relbted to this
      *    listener.
      *
      * @exception ListenerNotFoundException The listener is not registered
-     *    in the MBean.
+     *    in the MBebn.
      */
     public synchronized void
-        removeNotificationListener(NotificationListener listener)
+        removeNotificbtionListener(NotificbtionListener listener)
         throws ListenerNotFoundException {
-        meta.removeNotificationListener(listener);
+        metb.removeNotificbtionListener(listener);
     }
 
     /**
-     * Returns a <CODE>NotificationInfo</CODE> object containing the
-     * notification class and the notification type sent by the
-     * <CODE>SnmpMibTable</CODE>.
+     * Returns b <CODE>NotificbtionInfo</CODE> object contbining the
+     * notificbtion clbss bnd the notificbtion type sent by the
+     * <CODE>SnmpMibTbble</CODE>.
      */
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        return meta.getNotificationInfo();
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
+        return metb.getNotificbtionInfo();
     }
 
     //-----------------------------------------------------------------
     //
-    //  Protected Abstract methods
+    //  Protected Abstrbct methods
     //
     //-----------------------------------------------------------------
 
     /**
-     * Builds an SnmpIndex object from the index part of an OID.
+     * Builds bn SnmpIndex object from the index pbrt of bn OID.
      *
-     * This method is generated by mibgen and used internally.
+     * This method is generbted by mibgen bnd used internblly.
      *
-     * @param oid The OID from which to build the index, represented
-     *        as an array of long.
-     * @param start The position where to start from in the OID array.
+     * @pbrbm oid The OID from which to build the index, represented
+     *        bs bn brrby of long.
+     * @pbrbm stbrt The position where to stbrt from in the OID brrby.
      *
      * @return The SnmpOid form of the given entry index.
      *
-     * @exception SnmpStatusException if the given index is not valid.
+     * @exception SnmpStbtusException if the given index is not vblid.
      **/
-    protected abstract SnmpIndex buildSnmpIndex(long oid[], int start )
-        throws SnmpStatusException;
+    protected bbstrbct SnmpIndex buildSnmpIndex(long oid[], int stbrt )
+        throws SnmpStbtusException;
 
     /**
-     * Returns the metadata object associated with this table.
+     * Returns the metbdbtb object bssocibted with this tbble.
      *
-     * This method is generated by mibgen and used internally.
+     * This method is generbted by mibgen bnd used internblly.
      *
-     * @param mib The SnmpMib object holding the Metadata corresponding
-     *            to this table.
+     * @pbrbm mib The SnmpMib object holding the Metbdbtb corresponding
+     *            to this tbble.
      *
-     * @return The metadata object associated with this table.
-     *         Returns <code>null</code> if this implementation of the
-     *         MIB doesn't support this table.
+     * @return The metbdbtb object bssocibted with this tbble.
+     *         Returns <code>null</code> if this implementbtion of the
+     *         MIB doesn't support this tbble.
      **/
-    protected abstract SnmpMibTable getRegisteredTableMeta(SnmpMib mib);
+    protected bbstrbct SnmpMibTbble getRegisteredTbbleMetb(SnmpMib mib);
 
 
     //-----------------------------------------------------------------
@@ -456,117 +456,117 @@ public abstract class SnmpTableSupport implements SnmpTableEntryFactory,
     //-----------------------------------------------------------------
 
     /**
-     * Allocates an ArrayList for storing table entries.
+     * Allocbtes bn ArrbyList for storing tbble entries.
      *
-     * This method is called within the constructor at object creation.
-     * Any object implementing the {@link java.util.List} interface can
+     * This method is cblled within the constructor bt object crebtion.
+     * Any object implementing the {@link jbvb.util.List} interfbce cbn
      * be used.
      *
      * @return A new list in which to store entries. If <code>null</code>
      *         is returned then no entry will be stored in the list
-     *         and getEntry() will always return null.
+     *         bnd getEntry() will blwbys return null.
      **/
-    protected List<Object> allocateTable() {
-        return new ArrayList<Object>();
+    protected List<Object> bllocbteTbble() {
+        return new ArrbyList<Object>();
     }
 
     /**
-     * Add an entry in this table.
+     * Add bn entry in this tbble.
      *
-     * This method registers an entry in the table and perform
-     * synchronization with the associated table metadata object.
+     * This method registers bn entry in the tbble bnd perform
+     * synchronizbtion with the bssocibted tbble metbdbtb object.
      *
-     * This method assumes that the given entry will not be registered,
-     * or will be registered with its default ObjectName built from the
-     * associated  SnmpIndex.
+     * This method bssumes thbt the given entry will not be registered,
+     * or will be registered with its defbult ObjectNbme built from the
+     * bssocibted  SnmpIndex.
      * <p>
      * If the entry is going to be registered, then
-     * {@link com.sun.jmx.snmp.agent.SnmpTableSupport#addEntry(SnmpIndex, ObjectName, Object)} should be preferred.
-     * <br> This function is mainly provided for backward compatibility.
+     * {@link com.sun.jmx.snmp.bgent.SnmpTbbleSupport#bddEntry(SnmpIndex, ObjectNbme, Object)} should be preferred.
+     * <br> This function is mbinly provided for bbckwbrd compbtibility.
      *
-     * @param index The SnmpIndex built from the given entry.
-     * @param entry The entry that should be added in the table.
+     * @pbrbm index The SnmpIndex built from the given entry.
+     * @pbrbm entry The entry thbt should be bdded in the tbble.
      *
-     * @exception SnmpStatusException if the entry cannot be registered with
+     * @exception SnmpStbtusException if the entry cbnnot be registered with
      *            the given index.
      **/
-    protected void addEntry(SnmpIndex index, Object entry)
-        throws SnmpStatusException {
+    protected void bddEntry(SnmpIndex index, Object entry)
+        throws SnmpStbtusException {
         SnmpOid oid = buildOidFromIndex(index);
-        ObjectName name = null;
-        if (isRegistrationRequired()) {
-            name = buildNameFromIndex(index);
+        ObjectNbme nbme = null;
+        if (isRegistrbtionRequired()) {
+            nbme = buildNbmeFromIndex(index);
         }
-        meta.addEntry(oid,name,entry);
+        metb.bddEntry(oid,nbme,entry);
     }
 
     /**
-     * Add an entry in this table.
+     * Add bn entry in this tbble.
      *
-     * This method registers an entry in the table and performs
-     * synchronization with the associated table metadata object.
+     * This method registers bn entry in the tbble bnd performs
+     * synchronizbtion with the bssocibted tbble metbdbtb object.
      *
-     * @param index The SnmpIndex built from the given entry.
-     * @param name  The ObjectName with which this entry will be registered.
-     * @param entry The entry that should be added in the table.
+     * @pbrbm index The SnmpIndex built from the given entry.
+     * @pbrbm nbme  The ObjectNbme with which this entry will be registered.
+     * @pbrbm entry The entry thbt should be bdded in the tbble.
      *
-     * @exception SnmpStatusException if the entry cannot be registered with
+     * @exception SnmpStbtusException if the entry cbnnot be registered with
      *            the given index.
      **/
-    protected void addEntry(SnmpIndex index, ObjectName name, Object entry)
-        throws SnmpStatusException {
+    protected void bddEntry(SnmpIndex index, ObjectNbme nbme, Object entry)
+        throws SnmpStbtusException {
         SnmpOid oid = buildOidFromIndex(index);
-        meta.addEntry(oid,name,entry);
+        metb.bddEntry(oid,nbme,entry);
     }
 
     /**
-     * Remove an entry from this table.
+     * Remove bn entry from this tbble.
      *
-     * This method unregisters an entry from the table and performs
-     * synchronization with the associated table metadata object.
+     * This method unregisters bn entry from the tbble bnd performs
+     * synchronizbtion with the bssocibted tbble metbdbtb object.
      *
-     * @param index The SnmpIndex identifying the entry.
-     * @param entry The entry that should be removed in the table. This
-     *              parameter is optional and can be omitted if it doesn't
-     *              need to be passed along to the
-     *              <code>removeEntryCb()</code> callback defined in the
-     *              {@link com.sun.jmx.snmp.agent.SnmpTableCallbackHandler}
-     *              interface.
+     * @pbrbm index The SnmpIndex identifying the entry.
+     * @pbrbm entry The entry thbt should be removed in the tbble. This
+     *              pbrbmeter is optionbl bnd cbn be omitted if it doesn't
+     *              need to be pbssed blong to the
+     *              <code>removeEntryCb()</code> cbllbbck defined in the
+     *              {@link com.sun.jmx.snmp.bgent.SnmpTbbleCbllbbckHbndler}
+     *              interfbce.
      *
-     * @exception SnmpStatusException if the entry cannot be unregistered.
+     * @exception SnmpStbtusException if the entry cbnnot be unregistered.
      **/
     protected void removeEntry(SnmpIndex index, Object entry)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
         SnmpOid oid = buildOidFromIndex(index);
-        meta.removeEntry(oid,entry);
+        metb.removeEntry(oid,entry);
     }
 
-    // protected void removeEntry(ObjectName name, Object entry)
-    //  throws SnmpStatusException {
-    //  meta.removeEntry(name,entry);
+    // protected void removeEntry(ObjectNbme nbme, Object entry)
+    //  throws SnmpStbtusException {
+    //  metb.removeEntry(nbme,entry);
     // }
 
     /**
-     * Returns the entries in the table.
+     * Returns the entries in the tbble.
      *
-     * @return An Object[] array containing the entries registered in the
-     *         table.
+     * @return An Object[] brrby contbining the entries registered in the
+     *         tbble.
      **/
-    protected Object[] getBasicEntries() {
+    protected Object[] getBbsicEntries() {
         if (entries == null) return null;
-        Object[] array= new Object[entries.size()];
-        entries.toArray(array);
-        return array;
+        Object[] brrby= new Object[entries.size()];
+        entries.toArrby(brrby);
+        return brrby;
     }
 
     /**
-     * Binds this table with its associated metadata, registering itself
-     * as an SnmpTableEntryFactory.
+     * Binds this tbble with its bssocibted metbdbtb, registering itself
+     * bs bn SnmpTbbleEntryFbctory.
      **/
-    protected void bindWithTableMeta() {
-        if (meta == null) return;
-        registrationRequired = meta.isRegistrationRequired();
-        meta.registerEntryFactory(this);
+    protected void bindWithTbbleMetb() {
+        if (metb == null) return;
+        registrbtionRequired = metb.isRegistrbtionRequired();
+        metb.registerEntryFbctory(this);
     }
 
 }

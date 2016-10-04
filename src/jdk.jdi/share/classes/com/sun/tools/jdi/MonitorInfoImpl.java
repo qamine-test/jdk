@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-public class MonitorInfoImpl extends MirrorImpl
-    implements MonitorInfo, ThreadListener {
+public clbss MonitorInfoImpl extends MirrorImpl
+    implements MonitorInfo, ThrebdListener {
 
-    /* Once false, monitorInfo should not be used.
-     * access synchronized on (vm.state())
+    /* Once fblse, monitorInfo should not be used.
+     * bccess synchronized on (vm.stbte())
      */
-    private boolean isValid = true;
+    privbte boolebn isVblid = true;
 
     ObjectReference monitor;
-    ThreadReference thread;
-    int  stack_depth;
+    ThrebdReference threbd;
+    int  stbck_depth;
 
-    MonitorInfoImpl(VirtualMachine vm, ObjectReference mon,
-                    ThreadReferenceImpl thread, int dpth) {
+    MonitorInfoImpl(VirtublMbchine vm, ObjectReference mon,
+                    ThrebdReferenceImpl threbd, int dpth) {
         super(vm);
         this.monitor = mon;
-        this.thread = thread;
-        this.stack_depth = dpth;
-        thread.addListener(this);
+        this.threbd = threbd;
+        this.stbck_depth = dpth;
+        threbd.bddListener(this);
     }
 
 
     /*
-     * ThreadListener implementation
-     * Must be synchronized since we must protect against
-     * sending defunct (isValid == false) stack ids to the back-end.
+     * ThrebdListener implementbtion
+     * Must be synchronized since we must protect bgbinst
+     * sending defunct (isVblid == fblse) stbck ids to the bbck-end.
      */
-    public boolean threadResumable(ThreadAction action) {
-        synchronized (vm.state()) {
-            if (isValid) {
-                isValid = false;
-                return false;   /* remove this stack frame as a listener */
+    public boolebn threbdResumbble(ThrebdAction bction) {
+        synchronized (vm.stbte()) {
+            if (isVblid) {
+                isVblid = fblse;
+                return fblse;   /* remove this stbck frbme bs b listener */
             } else {
-                throw new InternalException(
-                                  "Invalid stack frame thread listener");
+                throw new InternblException(
+                                  "Invblid stbck frbme threbd listener");
             }
         }
     }
 
-    private void validateMonitorInfo() {
-        if (!isValid) {
-            throw new InvalidStackFrameException("Thread has been resumed");
+    privbte void vblidbteMonitorInfo() {
+        if (!isVblid) {
+            throw new InvblidStbckFrbmeException("Threbd hbs been resumed");
         }
     }
 
     public ObjectReference monitor() {
-        validateMonitorInfo();
+        vblidbteMonitorInfo();
         return monitor;
     }
 
-    public int stackDepth() {
-        validateMonitorInfo();
-        return stack_depth;
+    public int stbckDepth() {
+        vblidbteMonitorInfo();
+        return stbck_depth;
     }
 
-    public ThreadReference thread() {
-        validateMonitorInfo();
-        return thread;
+    public ThrebdReference threbd() {
+        vblidbteMonitorInfo();
+        return threbd;
     }
 }

@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import java.util.*;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tree.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
 import com.sun.jdi.*;
-import com.sun.tools.example.debug.event.*;
-import com.sun.tools.example.debug.bdi.*;
+import com.sun.tools.exbmple.debug.event.*;
+import com.sun.tools.exbmple.debug.bdi.*;
 
-public class ClassTreeTool extends JPanel {
+public clbss ClbssTreeTool extends JPbnel {
 
-    private static final long serialVersionUID = 526178912591739259L;
+    privbte stbtic finbl long seriblVersionUID = 526178912591739259L;
 
-    private Environment env;
+    privbte Environment env;
 
-    private ExecutionManager runtime;
-    private SourceManager sourceManager;
-    private ClassManager classManager;
+    privbte ExecutionMbnbger runtime;
+    privbte SourceMbnbger sourceMbnbger;
+    privbte ClbssMbnbger clbssMbnbger;
 
-    private JTree tree;
-    private DefaultTreeModel treeModel;
-    private ClassTreeNode root;
-//    private SearchPath sourcePath;
+    privbte JTree tree;
+    privbte DefbultTreeModel treeModel;
+    privbte ClbssTreeNode root;
+//    privbte SebrchPbth sourcePbth;
 
-    private CommandInterpreter interpreter;
+    privbte CommbndInterpreter interpreter;
 
-    private static String HEADING = "CLASSES";
+    privbte stbtic String HEADING = "CLASSES";
 
-    public ClassTreeTool(Environment env) {
+    public ClbssTreeTool(Environment env) {
 
-        super(new BorderLayout());
+        super(new BorderLbyout());
 
         this.env = env;
-        this.runtime = env.getExecutionManager();
-        this.sourceManager = env.getSourceManager();
+        this.runtime = env.getExecutionMbnbger();
+        this.sourceMbnbger = env.getSourceMbnbger();
 
-        this.interpreter = new CommandInterpreter(env);
+        this.interpreter = new CommbndInterpreter(env);
 
-        root = createClassTree(HEADING);
-        treeModel = new DefaultTreeModel(root);
+        root = crebteClbssTree(HEADING);
+        treeModel = new DefbultTreeModel(root);
 
-        // Create a tree that allows one selection at a time.
+        // Crebte b tree thbt bllows one selection bt b time.
 
         tree = new JTree(treeModel);
-        tree.setSelectionModel(new SingleLeafTreeSelectionModel());
+        tree.setSelectionModel(new SingleLebfTreeSelectionModel());
 
         /******
-        // Listen for when the selection changes.
-        tree.addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e) {
-                ClassTreeNode node = (ClassTreeNode)
-                    (e.getPath().getLastPathComponent());
+        // Listen for when the selection chbnges.
+        tree.bddTreeSelectionListener(new TreeSelectionListener() {
+            public void vblueChbnged(TreeSelectionEvent e) {
+                ClbssTreeNode node = (ClbssTreeNode)
+                    (e.getPbth().getLbstPbthComponent());
                 if (node != null) {
-                    interpreter.executeCommand("view " + node.getReferenceTypeName());
+                    interpreter.executeCommbnd("view " + node.getReferenceTypeNbme());
                 }
             }
         });
         ******/
 
-        MouseListener ml = new MouseAdapter() {
+        MouseListener ml = new MouseAdbpter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int selRow = tree.getRowForLocation(e.getX(), e.getY());
-                TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+                int selRow = tree.getRowForLocbtion(e.getX(), e.getY());
+                TreePbth selPbth = tree.getPbthForLocbtion(e.getX(), e.getY());
                 if(selRow != -1) {
                     if(e.getClickCount() == 1) {
-                        ClassTreeNode node =
-                            (ClassTreeNode)selPath.getLastPathComponent();
-                        // If user clicks on leaf, select it, and issue 'view' command.
-                        if (node.isLeaf()) {
-                            tree.setSelectionPath(selPath);
-                            interpreter.executeCommand("view " + node.getReferenceTypeName());
+                        ClbssTreeNode node =
+                            (ClbssTreeNode)selPbth.getLbstPbthComponent();
+                        // If user clicks on lebf, select it, bnd issue 'view' commbnd.
+                        if (node.isLebf()) {
+                            tree.setSelectionPbth(selPbth);
+                            interpreter.executeCommbnd("view " + node.getReferenceTypeNbme());
                         }
                     }
                 }
             }
         };
-        tree.addMouseListener(ml);
+        tree.bddMouseListener(ml);
 
-        JScrollPane treeView = new JScrollPane(tree);
-        add(treeView);
+        JScrollPbne treeView = new JScrollPbne(tree);
+        bdd(treeView);
 
-        // Create listener.
-        ClassTreeToolListener listener = new ClassTreeToolListener();
-        runtime.addJDIListener(listener);
-        runtime.addSessionListener(listener);
+        // Crebte listener.
+        ClbssTreeToolListener listener = new ClbssTreeToolListener();
+        runtime.bddJDIListener(listener);
+        runtime.bddSessionListener(listener);
 
         //### remove listeners on exit!
     }
 
-    private class ClassTreeToolListener extends JDIAdapter
+    privbte clbss ClbssTreeToolListener extends JDIAdbpter
                        implements JDIListener, SessionListener {
 
         // SessionListener
 
         @Override
-        public void sessionStart(EventObject e) {
-            // Get system classes and any others loaded before attaching.
+        public void sessionStbrt(EventObject e) {
+            // Get system clbsses bnd bny others lobded before bttbching.
             try {
-                for (ReferenceType type : runtime.allClasses()) {
-                    root.addClass(type);
+                for (ReferenceType type : runtime.bllClbsses()) {
+                    root.bddClbss(type);
                 }
-            } catch (VMDisconnectedException ee) {
-                // VM terminated unexpectedly.
-            } catch (NoSessionException ee) {
-                // Ignore.  Should not happen.
+            } cbtch (VMDisconnectedException ee) {
+                // VM terminbted unexpectedly.
+            } cbtch (NoSessionException ee) {
+                // Ignore.  Should not hbppen.
             }
         }
 
@@ -153,129 +153,129 @@ public class ClassTreeTool extends JPanel {
         // JDIListener
 
         @Override
-        public void classPrepare(ClassPrepareEventSet e) {
-            root.addClass(e.getReferenceType());
+        public void clbssPrepbre(ClbssPrepbreEventSet e) {
+            root.bddClbss(e.getReferenceType());
         }
 
         @Override
-        public void classUnload(ClassUnloadEventSet e) {
-            root.removeClass(e.getClassName());
+        public void clbssUnlobd(ClbssUnlobdEventSet e) {
+            root.removeClbss(e.getClbssNbme());
         }
 
         @Override
         public void vmDisconnect(VMDisconnectEventSet e) {
-            // Clear contents of this view.
-            root = createClassTree(HEADING);
-            treeModel = new DefaultTreeModel(root);
+            // Clebr contents of this view.
+            root = crebteClbssTree(HEADING);
+            treeModel = new DefbultTreeModel(root);
             tree.setModel(treeModel);
         }
     }
 
-    ClassTreeNode createClassTree(String label) {
-        return new ClassTreeNode(label, null);
+    ClbssTreeNode crebteClbssTree(String lbbel) {
+        return new ClbssTreeNode(lbbel, null);
     }
 
-    class ClassTreeNode extends DefaultMutableTreeNode {
+    clbss ClbssTreeNode extends DefbultMutbbleTreeNode {
 
-        private String name;
-        private ReferenceType refTy;  // null for package
+        privbte String nbme;
+        privbte ReferenceType refTy;  // null for pbckbge
 
-        ClassTreeNode(String name, ReferenceType refTy) {
-            this.name = name;
+        ClbssTreeNode(String nbme, ReferenceType refTy) {
+            this.nbme = nbme;
             this.refTy = refTy;
         }
 
         @Override
         public String toString() {
-            return name;
+            return nbme;
         }
 
         public ReferenceType getReferenceType() {
             return refTy;
         }
 
-        public String getReferenceTypeName() {
-            return refTy.name();
+        public String getReferenceTypeNbme() {
+            return refTy.nbme();
         }
 
-        private boolean isPackage() {
+        privbte boolebn isPbckbge() {
             return (refTy == null);
         }
 
         @Override
-        public boolean isLeaf() {
-            return !isPackage();
+        public boolebn isLebf() {
+            return !isPbckbge();
         }
 
-        public void addClass(ReferenceType refTy) {
-            addClass(refTy.name(), refTy);
+        public void bddClbss(ReferenceType refTy) {
+            bddClbss(refTy.nbme(), refTy);
         }
 
-        private void addClass(String className, ReferenceType refTy) {
-            if (className.equals("")) {
+        privbte void bddClbss(String clbssNbme, ReferenceType refTy) {
+            if (clbssNbme.equbls("")) {
                 return;
             }
-            int pos = className.indexOf('.');
+            int pos = clbssNbme.indexOf('.');
             if (pos < 0) {
-                insertNode(className, refTy);
+                insertNode(clbssNbme, refTy);
             } else {
-                String head = className.substring(0, pos);
-                String tail = className.substring(pos + 1);
-                ClassTreeNode child = insertNode(head, null);
-                child.addClass(tail, refTy);
+                String hebd = clbssNbme.substring(0, pos);
+                String tbil = clbssNbme.substring(pos + 1);
+                ClbssTreeNode child = insertNode(hebd, null);
+                child.bddClbss(tbil, refTy);
             }
         }
 
-        private ClassTreeNode insertNode(String name, ReferenceType refTy) {
+        privbte ClbssTreeNode insertNode(String nbme, ReferenceType refTy) {
             for (int i = 0; i < getChildCount(); i++) {
-                ClassTreeNode child = (ClassTreeNode)getChildAt(i);
-                int cmp = name.compareTo(child.toString());
+                ClbssTreeNode child = (ClbssTreeNode)getChildAt(i);
+                int cmp = nbme.compbreTo(child.toString());
                 if (cmp == 0) {
-                    // like-named node already exists
+                    // like-nbmed node blrebdy exists
                     return child;
                 } else if (cmp < 0) {
                     // insert new node before the child
-                    ClassTreeNode newChild = new ClassTreeNode(name, refTy);
+                    ClbssTreeNode newChild = new ClbssTreeNode(nbme, refTy);
                     treeModel.insertNodeInto(newChild, this, i);
                     return newChild;
                 }
             }
-            // insert new node after last child
-            ClassTreeNode newChild = new ClassTreeNode(name, refTy);
+            // insert new node bfter lbst child
+            ClbssTreeNode newChild = new ClbssTreeNode(nbme, refTy);
             treeModel.insertNodeInto(newChild, this, getChildCount());
             return newChild;
         }
 
-        public void removeClass(String className) {
-            if (className.equals("")) {
+        public void removeClbss(String clbssNbme) {
+            if (clbssNbme.equbls("")) {
                 return;
             }
-            int pos = className.indexOf('.');
+            int pos = clbssNbme.indexOf('.');
             if (pos < 0) {
-                ClassTreeNode child = findNode(className);
-                if (!isPackage()) {
-                    treeModel.removeNodeFromParent(child);
+                ClbssTreeNode child = findNode(clbssNbme);
+                if (!isPbckbge()) {
+                    treeModel.removeNodeFromPbrent(child);
                 }
             } else {
-                String head = className.substring(0, pos);
-                String tail = className.substring(pos + 1);
-                ClassTreeNode child = findNode(head);
-                child.removeClass(tail);
-                if (isPackage() && child.getChildCount() < 1) {
-                    // Prune non-leaf nodes with no children.
-                    treeModel.removeNodeFromParent(child);
+                String hebd = clbssNbme.substring(0, pos);
+                String tbil = clbssNbme.substring(pos + 1);
+                ClbssTreeNode child = findNode(hebd);
+                child.removeClbss(tbil);
+                if (isPbckbge() && child.getChildCount() < 1) {
+                    // Prune non-lebf nodes with no children.
+                    treeModel.removeNodeFromPbrent(child);
                 }
             }
         }
 
-        private ClassTreeNode findNode(String name) {
+        privbte ClbssTreeNode findNode(String nbme) {
             for (int i = 0; i < getChildCount(); i++) {
-                ClassTreeNode child = (ClassTreeNode)getChildAt(i);
-                int cmp = name.compareTo(child.toString());
+                ClbssTreeNode child = (ClbssTreeNode)getChildAt(i);
+                int cmp = nbme.compbreTo(child.toString());
                 if (cmp == 0) {
                     return child;
                 } else if (cmp > 0) {
-                    // not found, since children are sorted
+                    // not found, since children bre sorted
                     return null;
                 }
             }

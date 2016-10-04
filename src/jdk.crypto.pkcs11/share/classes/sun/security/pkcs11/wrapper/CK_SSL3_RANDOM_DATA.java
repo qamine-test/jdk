@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,80 +45,80 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
 
 
 /**
- * class CK_SSL3_RANDOM_DATA provides information about the random data of a
- * client and a server in an SSL context. This class is used by both the
- * CKM_SSL3_MASTER_KEY_DERIVE and the CKM_SSL3_KEY_AND_MAC_DERIVE mechanisms.
+ * clbss CK_SSL3_RANDOM_DATA provides informbtion bbout the rbndom dbtb of b
+ * client bnd b server in bn SSL context. This clbss is used by both the
+ * CKM_SSL3_MASTER_KEY_DERIVE bnd the CKM_SSL3_KEY_AND_MAC_DERIVE mechbnisms.
  * <p>
  * <B>PKCS#11 structure:</B>
  * <PRE>
  * typedef struct CK_SSL3_RANDOM_DATA {
- *   CK_BYTE_PTR pClientRandom;
- *   CK_ULONG ulClientRandomLen;
- *   CK_BYTE_PTR pServerRandom;
- *   CK_ULONG ulServerRandomLen;
+ *   CK_BYTE_PTR pClientRbndom;
+ *   CK_ULONG ulClientRbndomLen;
+ *   CK_BYTE_PTR pServerRbndom;
+ *   CK_ULONG ulServerRbndomLen;
  * } CK_SSL3_RANDOM_DATA;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
+ * @buthor Mbrtin Schlbeffer <schlbeff@sbox.tugrbz.bt>
  */
-public class CK_SSL3_RANDOM_DATA {
+public clbss CK_SSL3_RANDOM_DATA {
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_BYTE_PTR pClientRandom;
-     *   CK_ULONG ulClientRandomLen;
+     *   CK_BYTE_PTR pClientRbndom;
+     *   CK_ULONG ulClientRbndomLen;
      * </PRE>
      */
-    public byte[] pClientRandom;
+    public byte[] pClientRbndom;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_BYTE_PTR pServerRandom;
-     *   CK_ULONG ulServerRandomLen;
+     *   CK_BYTE_PTR pServerRbndom;
+     *   CK_ULONG ulServerRbndomLen;
      * </PRE>
      */
-    public byte[] pServerRandom;
+    public byte[] pServerRbndom;
 
-    public CK_SSL3_RANDOM_DATA(byte[] clientRandom, byte[] serverRandom) {
-        pClientRandom = clientRandom;
-        pServerRandom = serverRandom;
+    public CK_SSL3_RANDOM_DATA(byte[] clientRbndom, byte[] serverRbndom) {
+        pClientRbndom = clientRbndom;
+        pServerRbndom = serverRbndom;
     }
 
     /**
-     * Returns the string representation of CK_SSL3_RANDOM_DATA.
+     * Returns the string representbtion of CK_SSL3_RANDOM_DATA.
      *
-     * @return the string representation of CK_SSL3_RANDOM_DATA
+     * @return the string representbtion of CK_SSL3_RANDOM_DATA
      */
     public String toString() {
         StringBuilder buffer = new StringBuilder();
 
-        buffer.append(Constants.INDENT);
-        buffer.append("pClientRandom: ");
-        buffer.append(Functions.toHexString(pClientRandom));
-        buffer.append(Constants.NEWLINE);
+        buffer.bppend(Constbnts.INDENT);
+        buffer.bppend("pClientRbndom: ");
+        buffer.bppend(Functions.toHexString(pClientRbndom));
+        buffer.bppend(Constbnts.NEWLINE);
 
-        buffer.append(Constants.INDENT);
-        buffer.append("ulClientRandomLen: ");
-        buffer.append(pClientRandom.length);
-        buffer.append(Constants.NEWLINE);
+        buffer.bppend(Constbnts.INDENT);
+        buffer.bppend("ulClientRbndomLen: ");
+        buffer.bppend(pClientRbndom.length);
+        buffer.bppend(Constbnts.NEWLINE);
 
-        buffer.append(Constants.INDENT);
-        buffer.append("pServerRandom: ");
-        buffer.append(Functions.toHexString(pServerRandom));
-        buffer.append(Constants.NEWLINE);
+        buffer.bppend(Constbnts.INDENT);
+        buffer.bppend("pServerRbndom: ");
+        buffer.bppend(Functions.toHexString(pServerRbndom));
+        buffer.bppend(Constbnts.NEWLINE);
 
-        buffer.append(Constants.INDENT);
-        buffer.append("ulServerRandomLen: ");
-        buffer.append(pServerRandom.length);
-        //buffer.append(Constants.NEWLINE);
+        buffer.bppend(Constbnts.INDENT);
+        buffer.bppend("ulServerRbndomLen: ");
+        buffer.bppend(pServerRbndom.length);
+        //buffer.bppend(Constbnts.NEWLINE);
 
         return buffer.toString();
     }

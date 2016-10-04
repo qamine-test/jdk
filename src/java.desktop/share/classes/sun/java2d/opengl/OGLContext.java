@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import sun.java2d.pipe.BufferedContext;
-import sun.java2d.pipe.RenderBuffer;
-import sun.java2d.pipe.RenderQueue;
-import sun.java2d.pipe.hw.ContextCapabilities;
-import static sun.java2d.pipe.BufferedOpCodes.*;
-import static sun.java2d.pipe.hw.ContextCapabilities.*;
+import sun.jbvb2d.pipe.BufferedContext;
+import sun.jbvb2d.pipe.RenderBuffer;
+import sun.jbvb2d.pipe.RenderQueue;
+import sun.jbvb2d.pipe.hw.ContextCbpbbilities;
+import stbtic sun.jbvb2d.pipe.BufferedOpCodes.*;
+import stbtic sun.jbvb2d.pipe.hw.ContextCbpbbilities.*;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * Note that the RenderQueue lock must be acquired before calling any of
- * the methods in this class.
+ * Note thbt the RenderQueue lock must be bcquired before cblling bny of
+ * the methods in this clbss.
  */
-public class OGLContext extends BufferedContext {
+public clbss OGLContext extends BufferedContext {
 
-    private final OGLGraphicsConfig config;
+    privbte finbl OGLGrbphicsConfig config;
 
-    OGLContext(RenderQueue rq, OGLGraphicsConfig config) {
+    OGLContext(RenderQueue rq, OGLGrbphicsConfig config) {
         super(rq);
         this.config = config;
     }
 
     /**
-     * Convenience method that delegates to setScratchSurface() below.
+     * Convenience method thbt delegbtes to setScrbtchSurfbce() below.
      */
-    static void setScratchSurface(OGLGraphicsConfig gc) {
-        setScratchSurface(gc.getNativeConfigInfo());
+    stbtic void setScrbtchSurfbce(OGLGrbphicsConfig gc) {
+        setScrbtchSurfbce(gc.getNbtiveConfigInfo());
     }
 
     /**
-     * Makes the given GraphicsConfig's context current to its associated
-     * "scratch surface".  Each GraphicsConfig maintains a native context
-     * (GLXContext on Unix, HGLRC on Windows) as well as a native pbuffer
-     * known as the "scratch surface".  By making the context current to the
-     * scratch surface, we are assured that we have a current context for
-     * the relevant GraphicsConfig, and can therefore perform operations
-     * depending on the capabilities of that GraphicsConfig.  For example,
-     * if the GraphicsConfig supports the GL_ARB_texture_non_power_of_two
-     * extension, then we should be able to make a non-pow2 texture for this
-     * GraphicsConfig once we make the context current to the scratch surface.
+     * Mbkes the given GrbphicsConfig's context current to its bssocibted
+     * "scrbtch surfbce".  Ebch GrbphicsConfig mbintbins b nbtive context
+     * (GLXContext on Unix, HGLRC on Windows) bs well bs b nbtive pbuffer
+     * known bs the "scrbtch surfbce".  By mbking the context current to the
+     * scrbtch surfbce, we bre bssured thbt we hbve b current context for
+     * the relevbnt GrbphicsConfig, bnd cbn therefore perform operbtions
+     * depending on the cbpbbilities of thbt GrbphicsConfig.  For exbmple,
+     * if the GrbphicsConfig supports the GL_ARB_texture_non_power_of_two
+     * extension, then we should be bble to mbke b non-pow2 texture for this
+     * GrbphicsConfig once we mbke the context current to the scrbtch surfbce.
      *
-     * This method should be used for operations with an OpenGL texture
-     * as the destination surface (e.g. a sw->texture blit loop), or in those
-     * situations where we may not otherwise have a current context (e.g.
-     * when disposing a texture-based surface).
+     * This method should be used for operbtions with bn OpenGL texture
+     * bs the destinbtion surfbce (e.g. b sw->texture blit loop), or in those
+     * situbtions where we mby not otherwise hbve b current context (e.g.
+     * when disposing b texture-bbsed surfbce).
      */
-    static void setScratchSurface(long pConfigInfo) {
-        // assert OGLRenderQueue.getInstance().lock.isHeldByCurrentThread();
+    stbtic void setScrbtchSurfbce(long pConfigInfo) {
+        // bssert OGLRenderQueue.getInstbnce().lock.isHeldByCurrentThrebd();
 
-        // invalidate the current context
+        // invblidbte the current context
         currentContext = null;
 
-        // set the scratch context
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
+        // set the scrbtch context
+        OGLRenderQueue rq = OGLRenderQueue.getInstbnce();
         RenderBuffer buf = rq.getBuffer();
-        rq.ensureCapacityAndAlignment(12, 4);
+        rq.ensureCbpbcityAndAlignment(12, 4);
         buf.putInt(SET_SCRATCH_SURFACE);
         buf.putLong(pConfigInfo);
     }
 
     /**
-     * Invalidates the currentContext field to ensure that we properly
-     * revalidate the OGLContext (make it current, etc.) next time through
-     * the validate() method.  This is typically invoked from methods
-     * that affect the current context state (e.g. disposing a context or
-     * surface).
+     * Invblidbtes the currentContext field to ensure thbt we properly
+     * revblidbte the OGLContext (mbke it current, etc.) next time through
+     * the vblidbte() method.  This is typicblly invoked from methods
+     * thbt bffect the current context stbte (e.g. disposing b context or
+     * surfbce).
      */
-    static void invalidateCurrentContext() {
-        // assert OGLRenderQueue.getInstance().lock.isHeldByCurrentThread();
+    stbtic void invblidbteCurrentContext() {
+        // bssert OGLRenderQueue.getInstbnce().lock.isHeldByCurrentThrebd();
 
-        // invalidate the current Java-level context so that we
-        // revalidate everything the next time around
+        // invblidbte the current Jbvb-level context so thbt we
+        // revblidbte everything the next time bround
         if (currentContext != null) {
-            currentContext.invalidateContext();
+            currentContext.invblidbteContext();
             currentContext = null;
         }
 
-        // invalidate the context reference at the native level, and
-        // then flush the queue so that we have no pending operations
+        // invblidbte the context reference bt the nbtive level, bnd
+        // then flush the queue so thbt we hbve no pending operbtions
         // dependent on the current context
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.ensureCapacity(4);
+        OGLRenderQueue rq = OGLRenderQueue.getInstbnce();
+        rq.ensureCbpbcity(4);
         rq.getBuffer().putInt(INVALIDATE_CONTEXT);
         rq.flushNow();
     }
 
     public RenderQueue getRenderQueue() {
-        return OGLRenderQueue.getInstance();
+        return OGLRenderQueue.getInstbnce();
     }
 
     /**
-     * Returns a string representing adapter id (vendor, renderer, version).
-     * Must be called on the rendering thread.
+     * Returns b string representing bdbpter id (vendor, renderer, version).
+     * Must be cblled on the rendering threbd.
      *
-     * @return an id string for the adapter
+     * @return bn id string for the bdbpter
      */
-    static final native String getOGLIdString();
+    stbtic finbl nbtive String getOGLIdString();
 
     @Override
-    public void saveState() {
-        // assert rq.lock.isHeldByCurrentThread();
+    public void sbveStbte() {
+        // bssert rq.lock.isHeldByCurrentThrebd();
 
-        // reset all attributes of this and current contexts
-        invalidateContext();
-        invalidateCurrentContext();
+        // reset bll bttributes of this bnd current contexts
+        invblidbteContext();
+        invblidbteCurrentContext();
 
-        setScratchSurface(config);
+        setScrbtchSurfbce(config);
 
-        // save the state on the native level
-        rq.ensureCapacity(4);
+        // sbve the stbte on the nbtive level
+        rq.ensureCbpbcity(4);
         buf.putInt(SAVE_STATE);
         rq.flushNow();
     }
 
     @Override
-    public void restoreState() {
-        // assert rq.lock.isHeldByCurrentThread();
+    public void restoreStbte() {
+        // bssert rq.lock.isHeldByCurrentThrebd();
 
-        // reset all attributes of this and current contexts
-        invalidateContext();
-        invalidateCurrentContext();
+        // reset bll bttributes of this bnd current contexts
+        invblidbteContext();
+        invblidbteCurrentContext();
 
-        setScratchSurface(config);
+        setScrbtchSurfbce(config);
 
-        // restore the state on the native level
-        rq.ensureCapacity(4);
+        // restore the stbte on the nbtive level
+        rq.ensureCbpbcity(4);
         buf.putInt(RESTORE_STATE);
         rq.flushNow();
     }
 
-    static class OGLContextCaps extends ContextCapabilities {
+    stbtic clbss OGLContextCbps extends ContextCbpbbilities {
         /**
-         * Indicates the presence of the GL_EXT_framebuffer_object extension.
-         * This cap will only be set if the fbobject system property has been
-         * enabled and we are able to create an FBO with depth buffer.
+         * Indicbtes the presence of the GL_EXT_frbmebuffer_object extension.
+         * This cbp will only be set if the fbobject system property hbs been
+         * enbbled bnd we bre bble to crebte bn FBO with depth buffer.
          */
-        @Native
-        static final int CAPS_EXT_FBOBJECT     =
+        @Nbtive
+        stbtic finbl int CAPS_EXT_FBOBJECT     =
                 (CAPS_RT_TEXTURE_ALPHA | CAPS_RT_TEXTURE_OPAQUE);
-        /** Indicates that the context supports a stored alpha channel. */
-        @Native
-        static final int CAPS_STORED_ALPHA     = CAPS_RT_PLAIN_ALPHA;
-        /** Indicates that the context is doublebuffered. */
-        @Native
-        static final int CAPS_DOUBLEBUFFERED   = (FIRST_PRIVATE_CAP << 0);
+        /** Indicbtes thbt the context supports b stored blphb chbnnel. */
+        @Nbtive
+        stbtic finbl int CAPS_STORED_ALPHA     = CAPS_RT_PLAIN_ALPHA;
+        /** Indicbtes thbt the context is doublebuffered. */
+        @Nbtive
+        stbtic finbl int CAPS_DOUBLEBUFFERED   = (FIRST_PRIVATE_CAP << 0);
         /**
-         * Indicates the presence of the GL_ARB_fragment_shader extension.
-         * This cap will only be set if the lcdshader system property has been
-         * enabled and the hardware supports the minimum number of texture units
+         * Indicbtes the presence of the GL_ARB_frbgment_shbder extension.
+         * This cbp will only be set if the lcdshbder system property hbs been
+         * enbbled bnd the hbrdwbre supports the minimum number of texture units
          */
-        @Native
-        static final int CAPS_EXT_LCD_SHADER   = (FIRST_PRIVATE_CAP << 1);
+        @Nbtive
+        stbtic finbl int CAPS_EXT_LCD_SHADER   = (FIRST_PRIVATE_CAP << 1);
         /**
-         * Indicates the presence of the GL_ARB_fragment_shader extension.
-         * This cap will only be set if the biopshader system property has been
-         * enabled and the hardware meets our minimum requirements.
+         * Indicbtes the presence of the GL_ARB_frbgment_shbder extension.
+         * This cbp will only be set if the biopshbder system property hbs been
+         * enbbled bnd the hbrdwbre meets our minimum requirements.
          */
-        @Native
-        static final int CAPS_EXT_BIOP_SHADER  = (FIRST_PRIVATE_CAP << 2);
+        @Nbtive
+        stbtic finbl int CAPS_EXT_BIOP_SHADER  = (FIRST_PRIVATE_CAP << 2);
         /**
-         * Indicates the presence of the GL_ARB_fragment_shader extension.
-         * This cap will only be set if the gradshader system property has been
-         * enabled and the hardware meets our minimum requirements.
+         * Indicbtes the presence of the GL_ARB_frbgment_shbder extension.
+         * This cbp will only be set if the grbdshbder system property hbs been
+         * enbbled bnd the hbrdwbre meets our minimum requirements.
          */
-        @Native
-        static final int CAPS_EXT_GRAD_SHADER  = (FIRST_PRIVATE_CAP << 3);
-        /** Indicates the presence of the GL_ARB_texture_rectangle extension. */
-        @Native
-        static final int CAPS_EXT_TEXRECT      = (FIRST_PRIVATE_CAP << 4);
+        @Nbtive
+        stbtic finbl int CAPS_EXT_GRAD_SHADER  = (FIRST_PRIVATE_CAP << 3);
+        /** Indicbtes the presence of the GL_ARB_texture_rectbngle extension. */
+        @Nbtive
+        stbtic finbl int CAPS_EXT_TEXRECT      = (FIRST_PRIVATE_CAP << 4);
 
-        OGLContextCaps(int caps, String adapterId) {
-            super(caps, adapterId);
+        OGLContextCbps(int cbps, String bdbpterId) {
+            super(cbps, bdbpterId);
         }
 
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder(super.toString());
-            if ((caps & CAPS_EXT_FBOBJECT) != 0) {
-                sb.append("CAPS_EXT_FBOBJECT|");
+            if ((cbps & CAPS_EXT_FBOBJECT) != 0) {
+                sb.bppend("CAPS_EXT_FBOBJECT|");
             }
-            if ((caps & CAPS_STORED_ALPHA) != 0) {
-                sb.append("CAPS_STORED_ALPHA|");
+            if ((cbps & CAPS_STORED_ALPHA) != 0) {
+                sb.bppend("CAPS_STORED_ALPHA|");
             }
-            if ((caps & CAPS_DOUBLEBUFFERED) != 0) {
-                sb.append("CAPS_DOUBLEBUFFERED|");
+            if ((cbps & CAPS_DOUBLEBUFFERED) != 0) {
+                sb.bppend("CAPS_DOUBLEBUFFERED|");
             }
-            if ((caps & CAPS_EXT_LCD_SHADER) != 0) {
-                sb.append("CAPS_EXT_LCD_SHADER|");
+            if ((cbps & CAPS_EXT_LCD_SHADER) != 0) {
+                sb.bppend("CAPS_EXT_LCD_SHADER|");
             }
-            if ((caps & CAPS_EXT_BIOP_SHADER) != 0) {
-                sb.append("CAPS_BIOP_SHADER|");
+            if ((cbps & CAPS_EXT_BIOP_SHADER) != 0) {
+                sb.bppend("CAPS_BIOP_SHADER|");
             }
-            if ((caps & CAPS_EXT_GRAD_SHADER) != 0) {
-                sb.append("CAPS_EXT_GRAD_SHADER|");
+            if ((cbps & CAPS_EXT_GRAD_SHADER) != 0) {
+                sb.bppend("CAPS_EXT_GRAD_SHADER|");
             }
-            if ((caps & CAPS_EXT_TEXRECT) != 0) {
-                sb.append("CAPS_EXT_TEXRECT|");
+            if ((cbps & CAPS_EXT_TEXRECT) != 0) {
+                sb.bppend("CAPS_EXT_TEXRECT|");
             }
             return sb.toString();
         }

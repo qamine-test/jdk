@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.rmic.newrmic.jrmp;
+pbckbge sun.rmi.rmic.newrmic.jrmp;
 
-import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.MethodDoc;
-import com.sun.javadoc.Type;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import sun.rmi.rmic.newrmic.BatchEnvironment;
+import com.sun.jbvbdoc.ClbssDoc;
+import com.sun.jbvbdoc.MethodDoc;
+import com.sun.jbvbdoc.Type;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import sun.rmi.rmic.newrmic.BbtchEnvironment;
 import sun.rmi.rmic.newrmic.IndentingWriter;
 
-import static sun.rmi.rmic.newrmic.Constants.*;
-import static sun.rmi.rmic.newrmic.jrmp.Constants.*;
+import stbtic sun.rmi.rmic.newrmic.Constbnts.*;
+import stbtic sun.rmi.rmic.newrmic.jrmp.Constbnts.*;
 
 /**
- * Writes the source code for the stub class and (optionally) skeleton
- * class for a particular remote implementation class.
+ * Writes the source code for the stub clbss bnd (optionblly) skeleton
+ * clbss for b pbrticulbr remote implementbtion clbss.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author Peter Jones
+ * @buthor Peter Jones
  **/
-class StubSkeletonWriter {
+clbss StubSkeletonWriter {
 
     /** rmic environment for this object */
-    private final BatchEnvironment env;
+    privbte finbl BbtchEnvironment env;
 
-    /** the remote implementation class to generate code for */
-    private final RemoteClass remoteClass;
+    /** the remote implementbtion clbss to generbte code for */
+    privbte finbl RemoteClbss remoteClbss;
 
-    /** version of the JRMP stub protocol to generate code for */
-    private final StubVersion version;
+    /** version of the JRMP stub protocol to generbte code for */
+    privbte finbl StubVersion version;
 
     /*
-     * binary names of the stub and skeleton classes to generate for
-     * the remote class
+     * binbry nbmes of the stub bnd skeleton clbsses to generbte for
+     * the remote clbss
      */
-    private final String stubClassName;
-    private final String skeletonClassName;
+    privbte finbl String stubClbssNbme;
+    privbte finbl String skeletonClbssNbme;
 
-    /* package name and simple names of the stub and skeleton classes */
-    private final String packageName;
-    private final String stubClassSimpleName;
-    private final String skeletonClassSimpleName;
+    /* pbckbge nbme bnd simple nbmes of the stub bnd skeleton clbsses */
+    privbte finbl String pbckbgeNbme;
+    privbte finbl String stubClbssSimpleNbme;
+    privbte finbl String skeletonClbssSimpleNbme;
 
-    /** remote methods of class, indexed by operation number */
-    private final RemoteClass.Method[] remoteMethods;
+    /** remote methods of clbss, indexed by operbtion number */
+    privbte finbl RemoteClbss.Method[] remoteMethods;
 
     /**
-     * Names to use for the java.lang.reflect.Method static fields in
-     * the generated stub class corresponding to each remote method.
+     * Nbmes to use for the jbvb.lbng.reflect.Method stbtic fields in
+     * the generbted stub clbss corresponding to ebch remote method.
      **/
-    private final String[] methodFieldNames;
+    privbte finbl String[] methodFieldNbmes;
 
     /**
-     * Creates a StubSkeletonWriter instance for the specified remote
-     * implementation class.  The generated code will implement the
+     * Crebtes b StubSkeletonWriter instbnce for the specified remote
+     * implementbtion clbss.  The generbted code will implement the
      * specified JRMP stub protocol version.
      **/
-    StubSkeletonWriter(BatchEnvironment env,
-                       RemoteClass remoteClass,
+    StubSkeletonWriter(BbtchEnvironment env,
+                       RemoteClbss remoteClbss,
                        StubVersion version)
     {
         this.env = env;
-        this.remoteClass = remoteClass;
+        this.remoteClbss = remoteClbss;
         this.version = version;
 
-        stubClassName = Util.binaryNameOf(remoteClass.classDoc()) + "_Stub";
-        skeletonClassName =
-            Util.binaryNameOf(remoteClass.classDoc()) + "_Skel";
+        stubClbssNbme = Util.binbryNbmeOf(remoteClbss.clbssDoc()) + "_Stub";
+        skeletonClbssNbme =
+            Util.binbryNbmeOf(remoteClbss.clbssDoc()) + "_Skel";
 
-        int i = stubClassName.lastIndexOf('.');
-        packageName = (i != -1 ? stubClassName.substring(0, i) : "");
-        stubClassSimpleName = stubClassName.substring(i + 1);
-        skeletonClassSimpleName = skeletonClassName.substring(i + 1);
+        int i = stubClbssNbme.lbstIndexOf('.');
+        pbckbgeNbme = (i != -1 ? stubClbssNbme.substring(0, i) : "");
+        stubClbssSimpleNbme = stubClbssNbme.substring(i + 1);
+        skeletonClbssSimpleNbme = skeletonClbssNbme.substring(i + 1);
 
-        remoteMethods = remoteClass.remoteMethods();
-        methodFieldNames = nameMethodFields(remoteMethods);
+        remoteMethods = remoteClbss.remoteMethods();
+        methodFieldNbmes = nbmeMethodFields(remoteMethods);
     }
 
     /**
-     * Returns the binary name of the stub class to generate for the
-     * remote implementation class.
+     * Returns the binbry nbme of the stub clbss to generbte for the
+     * remote implementbtion clbss.
      **/
-    String stubClassName() {
-        return stubClassName;
+    String stubClbssNbme() {
+        return stubClbssNbme;
     }
 
     /**
-     * Returns the binary name of the skeleton class to generate for
-     * the remote implementation class.
+     * Returns the binbry nbme of the skeleton clbss to generbte for
+     * the remote implementbtion clbss.
      **/
-    String skeletonClassName() {
-        return skeletonClassName;
+    String skeletonClbssNbme() {
+        return skeletonClbssNbme;
     }
 
     /**
-     * Writes the stub class for the remote class to a stream.
+     * Writes the stub clbss for the remote clbss to b strebm.
      **/
     void writeStub(IndentingWriter p) throws IOException {
 
         /*
-         * Write boiler plate comment.
+         * Write boiler plbte comment.
          */
-        p.pln("// Stub class generated by rmic, do not edit.");
-        p.pln("// Contents subject to change without notice.");
+        p.pln("// Stub clbss generbted by rmic, do not edit.");
+        p.pln("// Contents subject to chbnge without notice.");
         p.pln();
 
         /*
-         * If remote implementation class was in a particular package,
-         * declare the stub class to be in the same package.
+         * If remote implementbtion clbss wbs in b pbrticulbr pbckbge,
+         * declbre the stub clbss to be in the sbme pbckbge.
          */
-        if (!packageName.equals("")) {
-            p.pln("package " + packageName + ";");
+        if (!pbckbgeNbme.equbls("")) {
+            p.pln("pbckbge " + pbckbgeNbme + ";");
             p.pln();
         }
 
         /*
-         * Declare the stub class; implement all remote interfaces.
+         * Declbre the stub clbss; implement bll remote interfbces.
          */
-        p.plnI("public final class " + stubClassSimpleName);
+        p.plnI("public finbl clbss " + stubClbssSimpleNbme);
         p.pln("extends " + REMOTE_STUB);
-        ClassDoc[] remoteInterfaces = remoteClass.remoteInterfaces();
-        if (remoteInterfaces.length > 0) {
+        ClbssDoc[] remoteInterfbces = remoteClbss.remoteInterfbces();
+        if (remoteInterfbces.length > 0) {
             p.p("implements ");
-            for (int i = 0; i < remoteInterfaces.length; i++) {
+            for (int i = 0; i < remoteInterfbces.length; i++) {
                 if (i > 0) {
                     p.p(", ");
                 }
-                p.p(remoteInterfaces[i].qualifiedName());
+                p.p(remoteInterfbces[i].qublifiedNbme());
             }
             p.pln();
         }
@@ -164,70 +164,70 @@ class StubSkeletonWriter {
         if (version == StubVersion.V1_1 ||
             version == StubVersion.VCOMPAT)
         {
-            writeOperationsArray(p);
+            writeOperbtionsArrby(p);
             p.pln();
-            writeInterfaceHash(p);
+            writeInterfbceHbsh(p);
             p.pln();
         }
 
         if (version == StubVersion.VCOMPAT ||
             version == StubVersion.V1_2)
         {
-            p.pln("private static final long serialVersionUID = " +
+            p.pln("privbte stbtic finbl long seriblVersionUID = " +
                 STUB_SERIAL_VERSION_UID + ";");
             p.pln();
 
             /*
-             * We only need to declare and initialize the static fields of
-             * Method objects for each remote method if there are any remote
-             * methods; otherwise, skip this code entirely, to avoid generating
-             * a try/catch block for a checked exception that cannot occur
+             * We only need to declbre bnd initiblize the stbtic fields of
+             * Method objects for ebch remote method if there bre bny remote
+             * methods; otherwise, skip this code entirely, to bvoid generbting
+             * b try/cbtch block for b checked exception thbt cbnnot occur
              * (see bugid 4125181).
              */
-            if (methodFieldNames.length > 0) {
+            if (methodFieldNbmes.length > 0) {
                 if (version == StubVersion.VCOMPAT) {
-                    p.pln("private static boolean useNewInvoke;");
+                    p.pln("privbte stbtic boolebn useNewInvoke;");
                 }
-                writeMethodFieldDeclarations(p);
+                writeMethodFieldDeclbrbtions(p);
                 p.pln();
 
                 /*
-                 * Initialize java.lang.reflect.Method fields for each remote
-                 * method in a static initializer.
+                 * Initiblize jbvb.lbng.reflect.Method fields for ebch remote
+                 * method in b stbtic initiblizer.
                  */
-                p.plnI("static {");
+                p.plnI("stbtic {");
                 p.plnI("try {");
                 if (version == StubVersion.VCOMPAT) {
                     /*
-                     * Fat stubs must determine whether the API required for
+                     * Fbt stubs must determine whether the API required for
                      * the JDK 1.2 stub protocol is supported in the current
-                     * runtime, so that it can use it if supported.  This is
+                     * runtime, so thbt it cbn use it if supported.  This is
                      * determined by using the Reflection API to test if the
-                     * new invoke method on RemoteRef exists, and setting the
-                     * static boolean "useNewInvoke" to true if it does, or
-                     * to false if a NoSuchMethodException is thrown.
+                     * new invoke method on RemoteRef exists, bnd setting the
+                     * stbtic boolebn "useNewInvoke" to true if it does, or
+                     * to fblse if b NoSuchMethodException is thrown.
                      */
-                    p.plnI(REMOTE_REF + ".class.getMethod(\"invoke\",");
-                    p.plnI("new java.lang.Class[] {");
-                    p.pln(REMOTE + ".class,");
-                    p.pln("java.lang.reflect.Method.class,");
-                    p.pln("java.lang.Object[].class,");
-                    p.pln("long.class");
+                    p.plnI(REMOTE_REF + ".clbss.getMethod(\"invoke\",");
+                    p.plnI("new jbvb.lbng.Clbss[] {");
+                    p.pln(REMOTE + ".clbss,");
+                    p.pln("jbvb.lbng.reflect.Method.clbss,");
+                    p.pln("jbvb.lbng.Object[].clbss,");
+                    p.pln("long.clbss");
                     p.pOln("});");
                     p.pO();
                     p.pln("useNewInvoke = true;");
                 }
-                writeMethodFieldInitializers(p);
-                p.pOlnI("} catch (java.lang.NoSuchMethodException e) {");
+                writeMethodFieldInitiblizers(p);
+                p.pOlnI("} cbtch (jbvb.lbng.NoSuchMethodException e) {");
                 if (version == StubVersion.VCOMPAT) {
-                    p.pln("useNewInvoke = false;");
+                    p.pln("useNewInvoke = fblse;");
                 } else {
-                    p.plnI("throw new java.lang.NoSuchMethodError(");
-                    p.pln("\"stub class initialization failed\");");
+                    p.plnI("throw new jbvb.lbng.NoSuchMethodError(");
+                    p.pln("\"stub clbss initiblizbtion fbiled\");");
                     p.pO();
                 }
-                p.pOln("}");            // end try/catch block
-                p.pOln("}");            // end static initializer
+                p.pOln("}");            // end try/cbtch block
+                p.pOln("}");            // end stbtic initiblizer
                 p.pln();
             }
         }
@@ -236,72 +236,72 @@ class StubSkeletonWriter {
         p.pln();
 
         /*
-         * Write each stub method.
+         * Write ebch stub method.
          */
         if (remoteMethods.length > 0) {
-            p.pln("// methods from remote interfaces");
+            p.pln("// methods from remote interfbces");
             for (int i = 0; i < remoteMethods.length; ++i) {
                 p.pln();
                 writeStubMethod(p, i);
             }
         }
 
-        p.pOln("}");                    // end stub class
+        p.pOln("}");                    // end stub clbss
     }
 
     /**
-     * Writes the constructors for the stub class.
+     * Writes the constructors for the stub clbss.
      **/
-    private void writeStubConstructors(IndentingWriter p)
+    privbte void writeStubConstructors(IndentingWriter p)
         throws IOException
     {
         p.pln("// constructors");
 
         /*
-         * Only stubs compatible with the JDK 1.1 stub protocol need
-         * a no-arg constructor; later versions use reflection to find
-         * the constructor that directly takes a RemoteRef argument.
+         * Only stubs compbtible with the JDK 1.1 stub protocol need
+         * b no-brg constructor; lbter versions use reflection to find
+         * the constructor thbt directly tbkes b RemoteRef brgument.
          */
         if (version == StubVersion.V1_1 ||
             version == StubVersion.VCOMPAT)
         {
-            p.plnI("public " + stubClassSimpleName + "() {");
+            p.plnI("public " + stubClbssSimpleNbme + "() {");
             p.pln("super();");
             p.pOln("}");
         }
 
-        p.plnI("public " + stubClassSimpleName + "(" + REMOTE_REF + " ref) {");
+        p.plnI("public " + stubClbssSimpleNbme + "(" + REMOTE_REF + " ref) {");
         p.pln("super(ref);");
         p.pOln("}");
     }
 
     /**
      * Writes the stub method for the remote method with the given
-     * operation number.
+     * operbtion number.
      **/
-    private void writeStubMethod(IndentingWriter p, int opnum)
+    privbte void writeStubMethod(IndentingWriter p, int opnum)
         throws IOException
     {
-        RemoteClass.Method method = remoteMethods[opnum];
+        RemoteClbss.Method method = remoteMethods[opnum];
         MethodDoc methodDoc = method.methodDoc();
-        String methodName = methodDoc.name();
-        Type[] paramTypes = method.parameterTypes();
-        String paramNames[] = nameParameters(paramTypes);
+        String methodNbme = methodDoc.nbme();
+        Type[] pbrbmTypes = method.pbrbmeterTypes();
+        String pbrbmNbmes[] = nbmePbrbmeters(pbrbmTypes);
         Type returnType = methodDoc.returnType();
-        ClassDoc[] exceptions = method.exceptionTypes();
+        ClbssDoc[] exceptions = method.exceptionTypes();
 
         /*
-         * Declare stub method; throw exceptions declared in remote
-         * interface(s).
+         * Declbre stub method; throw exceptions declbred in remote
+         * interfbce(s).
          */
-        p.pln("// implementation of " +
-              Util.getFriendlyUnqualifiedSignature(methodDoc));
-        p.p("public " + returnType.toString() + " " + methodName + "(");
-        for (int i = 0; i < paramTypes.length; i++) {
+        p.pln("// implementbtion of " +
+              Util.getFriendlyUnqublifiedSignbture(methodDoc));
+        p.p("public " + returnType.toString() + " " + methodNbme + "(");
+        for (int i = 0; i < pbrbmTypes.length; i++) {
             if (i > 0) {
                 p.p(", ");
             }
-            p.p(paramTypes[i].toString() + " " + paramNames[i]);
+            p.p(pbrbmTypes[i].toString() + " " + pbrbmNbmes[i]);
         }
         p.plnI(")");
         if (exceptions.length > 0) {
@@ -310,7 +310,7 @@ class StubSkeletonWriter {
                 if (i > 0) {
                     p.p(", ");
                 }
-                p.p(exceptions[i].qualifiedName());
+                p.p(exceptions[i].qublifiedNbme());
             }
             p.pln();
         }
@@ -318,31 +318,31 @@ class StubSkeletonWriter {
 
         /*
          * The RemoteRef.invoke methods throw Exception, but unless
-         * this stub method throws Exception as well, we must catch
-         * Exceptions thrown from the invocation.  So we must catch
-         * Exception and rethrow something we can throw:
-         * UnexpectedException, which is a subclass of
-         * RemoteException.  But for any subclasses of Exception that
-         * we can throw, like RemoteException, RuntimeException, and
-         * any of the exceptions declared by this stub method, we want
-         * them to pass through unmodified, so first we must catch any
-         * such exceptions and rethrow them directly.
+         * this stub method throws Exception bs well, we must cbtch
+         * Exceptions thrown from the invocbtion.  So we must cbtch
+         * Exception bnd rethrow something we cbn throw:
+         * UnexpectedException, which is b subclbss of
+         * RemoteException.  But for bny subclbsses of Exception thbt
+         * we cbn throw, like RemoteException, RuntimeException, bnd
+         * bny of the exceptions declbred by this stub method, we wbnt
+         * them to pbss through unmodified, so first we must cbtch bny
+         * such exceptions bnd rethrow them directly.
          *
-         * We have to be careful generating the rethrowing catch
-         * blocks here, because javac will flag an error if there are
-         * any unreachable catch blocks, i.e. if the catch of an
-         * exception class follows a previous catch of it or of one of
-         * its superclasses.  The following method invocation takes
-         * care of these details.
+         * We hbve to be cbreful generbting the rethrowing cbtch
+         * blocks here, becbuse jbvbc will flbg bn error if there bre
+         * bny unrebchbble cbtch blocks, i.e. if the cbtch of bn
+         * exception clbss follows b previous cbtch of it or of one of
+         * its superclbsses.  The following method invocbtion tbkes
+         * cbre of these detbils.
          */
-        List<ClassDoc> catchList = computeUniqueCatchList(exceptions);
+        List<ClbssDoc> cbtchList = computeUniqueCbtchList(exceptions);
 
         /*
-         * If we need to catch any particular exceptions (i.e. this method
-         * does not declare java.lang.Exception), put the entire stub
-         * method in a try block.
+         * If we need to cbtch bny pbrticulbr exceptions (i.e. this method
+         * does not declbre jbvb.lbng.Exception), put the entire stub
+         * method in b try block.
          */
-        if (catchList.size() > 0) {
+        if (cbtchList.size() > 0) {
             p.plnI("try {");
         }
 
@@ -355,22 +355,22 @@ class StubSkeletonWriter {
             if (!Util.isVoid(returnType)) {
                 p.p("Object $result = ");               // REMIND: why $?
             }
-            p.p("ref.invoke(this, " + methodFieldNames[opnum] + ", ");
-            if (paramTypes.length > 0) {
-                p.p("new java.lang.Object[] {");
-                for (int i = 0; i < paramTypes.length; i++) {
+            p.p("ref.invoke(this, " + methodFieldNbmes[opnum] + ", ");
+            if (pbrbmTypes.length > 0) {
+                p.p("new jbvb.lbng.Object[] {");
+                for (int i = 0; i < pbrbmTypes.length; i++) {
                     if (i > 0)
                         p.p(", ");
-                    p.p(wrapArgumentCode(paramTypes[i], paramNames[i]));
+                    p.p(wrbpArgumentCode(pbrbmTypes[i], pbrbmNbmes[i]));
                 }
                 p.p("}");
             } else {
                 p.p("null");
             }
-            p.pln(", " + method.methodHash() + "L);");
+            p.pln(", " + method.methodHbsh() + "L);");
             if (!Util.isVoid(returnType)) {
                 p.pln("return " +
-                    unwrapArgumentCode(returnType, "$result") + ";");
+                    unwrbpArgumentCode(returnType, "$result") + ";");
             }
         }
         if (version == StubVersion.VCOMPAT) {
@@ -379,45 +379,45 @@ class StubSkeletonWriter {
         if (version == StubVersion.V1_1 ||
             version == StubVersion.VCOMPAT)
         {
-            p.pln(REMOTE_CALL + " call = ref.newCall((" + REMOTE_OBJECT +
-                ") this, operations, " + opnum + ", interfaceHash);");
+            p.pln(REMOTE_CALL + " cbll = ref.newCbll((" + REMOTE_OBJECT +
+                ") this, operbtions, " + opnum + ", interfbceHbsh);");
 
-            if (paramTypes.length > 0) {
+            if (pbrbmTypes.length > 0) {
                 p.plnI("try {");
-                p.pln("java.io.ObjectOutput out = call.getOutputStream();");
-                writeMarshalArguments(p, "out", paramTypes, paramNames);
-                p.pOlnI("} catch (java.io.IOException e) {");
+                p.pln("jbvb.io.ObjectOutput out = cbll.getOutputStrebm();");
+                writeMbrshblArguments(p, "out", pbrbmTypes, pbrbmNbmes);
+                p.pOlnI("} cbtch (jbvb.io.IOException e) {");
                 p.pln("throw new " + MARSHAL_EXCEPTION +
-                    "(\"error marshalling arguments\", e);");
+                    "(\"error mbrshblling brguments\", e);");
                 p.pOln("}");
             }
 
-            p.pln("ref.invoke(call);");
+            p.pln("ref.invoke(cbll);");
 
             if (Util.isVoid(returnType)) {
-                p.pln("ref.done(call);");
+                p.pln("ref.done(cbll);");
             } else {
                 p.pln(returnType.toString() + " $result;");
                                                         // REMIND: why $?
                 p.plnI("try {");
-                p.pln("java.io.ObjectInput in = call.getInputStream();");
-                boolean objectRead =
-                    writeUnmarshalArgument(p, "in", returnType, "$result");
+                p.pln("jbvb.io.ObjectInput in = cbll.getInputStrebm();");
+                boolebn objectRebd =
+                    writeUnmbrshblArgument(p, "in", returnType, "$result");
                 p.pln(";");
-                p.pOlnI("} catch (java.io.IOException e) {");
+                p.pOlnI("} cbtch (jbvb.io.IOException e) {");
                 p.pln("throw new " + UNMARSHAL_EXCEPTION +
-                    "(\"error unmarshalling return\", e);");
+                    "(\"error unmbrshblling return\", e);");
                 /*
-                 * If any only if readObject has been invoked, we must catch
-                 * ClassNotFoundException as well as IOException.
+                 * If bny only if rebdObject hbs been invoked, we must cbtch
+                 * ClbssNotFoundException bs well bs IOException.
                  */
-                if (objectRead) {
-                    p.pOlnI("} catch (java.lang.ClassNotFoundException e) {");
+                if (objectRebd) {
+                    p.pOlnI("} cbtch (jbvb.lbng.ClbssNotFoundException e) {");
                     p.pln("throw new " + UNMARSHAL_EXCEPTION +
-                        "(\"error unmarshalling return\", e);");
+                        "(\"error unmbrshblling return\", e);");
                 }
-                p.pOlnI("} finally {");
-                p.pln("ref.done(call);");
+                p.pOlnI("} finblly {");
+                p.pln("ref.done(cbll);");
                 p.pOln("}");
                 p.pln("return $result;");
             }
@@ -427,146 +427,146 @@ class StubSkeletonWriter {
         }
 
         /*
-         * If we need to catch any particular exceptions, finally write
-         * the catch blocks for them, rethrow any other Exceptions with an
-         * UnexpectedException, and end the try block.
+         * If we need to cbtch bny pbrticulbr exceptions, finblly write
+         * the cbtch blocks for them, rethrow bny other Exceptions with bn
+         * UnexpectedException, bnd end the try block.
          */
-        if (catchList.size() > 0) {
-            for (ClassDoc catchClass : catchList) {
-                p.pOlnI("} catch (" + catchClass.qualifiedName() + " e) {");
+        if (cbtchList.size() > 0) {
+            for (ClbssDoc cbtchClbss : cbtchList) {
+                p.pOlnI("} cbtch (" + cbtchClbss.qublifiedNbme() + " e) {");
                 p.pln("throw e;");
             }
-            p.pOlnI("} catch (java.lang.Exception e) {");
+            p.pOlnI("} cbtch (jbvb.lbng.Exception e) {");
             p.pln("throw new " + UNEXPECTED_EXCEPTION +
-                "(\"undeclared checked exception\", e);");
-            p.pOln("}");                // end try/catch block
+                "(\"undeclbred checked exception\", e);");
+            p.pOln("}");                // end try/cbtch block
         }
 
         p.pOln("}");                    // end stub method
     }
 
     /**
-     * Computes the exceptions that need to be caught and rethrown in
-     * a stub method before wrapping Exceptions in
-     * UnexpectedExceptions, given the exceptions declared in the
-     * throws clause of the method.  Returns a list containing the
-     * exception to catch.  Each exception is guaranteed to be unique,
-     * i.e. not a subclass of any of the other exceptions in the list,
-     * so the catch blocks for these exceptions may be generated in
-     * any order relative to each other.
+     * Computes the exceptions thbt need to be cbught bnd rethrown in
+     * b stub method before wrbpping Exceptions in
+     * UnexpectedExceptions, given the exceptions declbred in the
+     * throws clbuse of the method.  Returns b list contbining the
+     * exception to cbtch.  Ebch exception is gubrbnteed to be unique,
+     * i.e. not b subclbss of bny of the other exceptions in the list,
+     * so the cbtch blocks for these exceptions mby be generbted in
+     * bny order relbtive to ebch other.
      *
-     * RemoteException and RuntimeException are each automatically
-     * placed in the returned list (unless any of their superclasses
-     * are already present), since those exceptions should always be
-     * directly rethrown by a stub method.
+     * RemoteException bnd RuntimeException bre ebch butombticblly
+     * plbced in the returned list (unless bny of their superclbsses
+     * bre blrebdy present), since those exceptions should blwbys be
+     * directly rethrown by b stub method.
      *
-     * The returned list will be empty if java.lang.Exception or one
-     * of its superclasses is in the throws clause of the method,
-     * indicating that no exceptions need to be caught.
+     * The returned list will be empty if jbvb.lbng.Exception or one
+     * of its superclbsses is in the throws clbuse of the method,
+     * indicbting thbt no exceptions need to be cbught.
      **/
-    private List<ClassDoc> computeUniqueCatchList(ClassDoc[] exceptions) {
-        List<ClassDoc> uniqueList = new ArrayList<ClassDoc>();
+    privbte List<ClbssDoc> computeUniqueCbtchList(ClbssDoc[] exceptions) {
+        List<ClbssDoc> uniqueList = new ArrbyList<ClbssDoc>();
 
-        uniqueList.add(env.docRuntimeException());
-        uniqueList.add(env.docRemoteException()); // always catch/rethrow these
+        uniqueList.bdd(env.docRuntimeException());
+        uniqueList.bdd(env.docRemoteException()); // blwbys cbtch/rethrow these
 
-        /* For each exception declared by the stub method's throws clause: */
+        /* For ebch exception declbred by the stub method's throws clbuse: */
     nextException:
-        for (ClassDoc ex : exceptions) {
-            if (env.docException().subclassOf(ex)) {
+        for (ClbssDoc ex : exceptions) {
+            if (env.docException().subclbssOf(ex)) {
                 /*
-                 * If java.lang.Exception (or a superclass) was declared
-                 * in the throws clause of this stub method, then we don't
-                 * have to bother catching anything; clear the list and
+                 * If jbvb.lbng.Exception (or b superclbss) wbs declbred
+                 * in the throws clbuse of this stub method, then we don't
+                 * hbve to bother cbtching bnything; clebr the list bnd
                  * return.
                  */
-                uniqueList.clear();
-                break;
-            } else if (!ex.subclassOf(env.docException())) {
+                uniqueList.clebr();
+                brebk;
+            } else if (!ex.subclbssOf(env.docException())) {
                 /*
-                 * Ignore other Throwables that do not extend Exception,
-                 * because they cannot be thrown by the invoke methods.
+                 * Ignore other Throwbbles thbt do not extend Exception,
+                 * becbuse they cbnnot be thrown by the invoke methods.
                  */
                 continue;
             }
             /*
-             * Compare this exception against the current list of
-             * exceptions that need to be caught:
+             * Compbre this exception bgbinst the current list of
+             * exceptions thbt need to be cbught:
              */
-            for (Iterator<ClassDoc> i = uniqueList.iterator(); i.hasNext();) {
-                ClassDoc ex2 = i.next();
-                if (ex.subclassOf(ex2)) {
+            for (Iterbtor<ClbssDoc> i = uniqueList.iterbtor(); i.hbsNext();) {
+                ClbssDoc ex2 = i.next();
+                if (ex.subclbssOf(ex2)) {
                     /*
-                     * If a superclass of this exception is already on
-                     * the list to catch, then ignore this one and continue;
+                     * If b superclbss of this exception is blrebdy on
+                     * the list to cbtch, then ignore this one bnd continue;
                      */
                     continue nextException;
-                } else if (ex2.subclassOf(ex)) {
+                } else if (ex2.subclbssOf(ex)) {
                     /*
-                     * If a subclass of this exception is on the list
-                     * to catch, then remove it;
+                     * If b subclbss of this exception is on the list
+                     * to cbtch, then remove it;
                      */
                     i.remove();
                 }
             }
-            /* This exception is unique: add it to the list to catch. */
-            uniqueList.add(ex);
+            /* This exception is unique: bdd it to the list to cbtch. */
+            uniqueList.bdd(ex);
         }
         return uniqueList;
     }
 
     /**
-     * Writes the skeleton for the remote class to a stream.
+     * Writes the skeleton for the remote clbss to b strebm.
      **/
     void writeSkeleton(IndentingWriter p) throws IOException {
         if (version == StubVersion.V1_2) {
             throw new AssertionError(
-                "should not generate skeleton for version " + version);
+                "should not generbte skeleton for version " + version);
         }
 
         /*
-         * Write boiler plate comment.
+         * Write boiler plbte comment.
          */
-        p.pln("// Skeleton class generated by rmic, do not edit.");
-        p.pln("// Contents subject to change without notice.");
+        p.pln("// Skeleton clbss generbted by rmic, do not edit.");
+        p.pln("// Contents subject to chbnge without notice.");
         p.pln();
 
         /*
-         * If remote implementation class was in a particular package,
-         * declare the skeleton class to be in the same package.
+         * If remote implementbtion clbss wbs in b pbrticulbr pbckbge,
+         * declbre the skeleton clbss to be in the sbme pbckbge.
          */
-        if (!packageName.equals("")) {
-            p.pln("package " + packageName + ";");
+        if (!pbckbgeNbme.equbls("")) {
+            p.pln("pbckbge " + pbckbgeNbme + ";");
             p.pln();
         }
 
         /*
-         * Declare the skeleton class.
+         * Declbre the skeleton clbss.
          */
-        p.plnI("public final class " + skeletonClassSimpleName);
+        p.plnI("public finbl clbss " + skeletonClbssSimpleNbme);
         p.pln("implements " + SKELETON);
         p.pOlnI("{");
 
-        writeOperationsArray(p);
+        writeOperbtionsArrby(p);
         p.pln();
 
-        writeInterfaceHash(p);
+        writeInterfbceHbsh(p);
         p.pln();
 
         /*
-         * Define the getOperations() method.
+         * Define the getOperbtions() method.
          */
-        p.plnI("public " + OPERATION + "[] getOperations() {");
-        p.pln("return (" + OPERATION + "[]) operations.clone();");
+        p.plnI("public " + OPERATION + "[] getOperbtions() {");
+        p.pln("return (" + OPERATION + "[]) operbtions.clone();");
         p.pOln("}");
         p.pln();
 
         /*
-         * Define the dispatch() method.
+         * Define the dispbtch() method.
          */
-        p.plnI("public void dispatch(" + REMOTE + " obj, " +
-            REMOTE_CALL + " call, int opnum, long hash)");
-        p.pln("throws java.lang.Exception");
+        p.plnI("public void dispbtch(" + REMOTE + " obj, " +
+            REMOTE_CALL + " cbll, int opnum, long hbsh)");
+        p.pln("throws jbvb.lbng.Exception");
         p.pOlnI("{");
 
         if (version == StubVersion.VCOMPAT) {
@@ -575,33 +575,33 @@ class StubSkeletonWriter {
                 for (int opnum = 0; opnum < remoteMethods.length; opnum++) {
                     if (opnum > 0)
                         p.pO("} else ");
-                    p.plnI("if (hash == " +
-                        remoteMethods[opnum].methodHash() + "L) {");
+                    p.plnI("if (hbsh == " +
+                        remoteMethods[opnum].methodHbsh() + "L) {");
                     p.pln("opnum = " + opnum + ";");
                 }
                 p.pOlnI("} else {");
             }
             /*
-             * Skeleton throws UnmarshalException if it does not recognize
-             * the method hash; this is what UnicastServerRef.dispatch()
+             * Skeleton throws UnmbrshblException if it does not recognize
+             * the method hbsh; this is whbt UnicbstServerRef.dispbtch()
              * would do.
              */
             p.pln("throw new " +
-                UNMARSHAL_EXCEPTION + "(\"invalid method hash\");");
+                UNMARSHAL_EXCEPTION + "(\"invblid method hbsh\");");
             if (remoteMethods.length > 0) {
                 p.pOln("}");
             }
             /*
-             * Ignore the validation of the interface hash if the
-             * operation number was negative, since it is really a
-             * method hash instead.
+             * Ignore the vblidbtion of the interfbce hbsh if the
+             * operbtion number wbs negbtive, since it is reblly b
+             * method hbsh instebd.
              */
             p.pOlnI("} else {");
         }
 
-        p.plnI("if (hash != interfaceHash)");
+        p.plnI("if (hbsh != interfbceHbsh)");
         p.pln("throw new " +
-            SKELETON_MISMATCH_EXCEPTION + "(\"interface hash mismatch\");");
+            SKELETON_MISMATCH_EXCEPTION + "(\"interfbce hbsh mismbtch\");");
         p.pO();
 
         if (version == StubVersion.VCOMPAT) {
@@ -610,102 +610,102 @@ class StubSkeletonWriter {
         p.pln();
 
         /*
-         * Cast remote object reference to the remote implementation
-         * class, if it's not private.  We don't use the binary name
-         * of the class like previous implementations did because that
-         * would not compile with javac (since 1.4.1).  If the remote
-         * implementation class is private, then we can't cast to it
-         * like previous implementations did because that also would
-         * not compile with javac-- so instead, we'll have to try to
-         * cast to the remote interface for each remote method.
+         * Cbst remote object reference to the remote implementbtion
+         * clbss, if it's not privbte.  We don't use the binbry nbme
+         * of the clbss like previous implementbtions did becbuse thbt
+         * would not compile with jbvbc (since 1.4.1).  If the remote
+         * implementbtion clbss is privbte, then we cbn't cbst to it
+         * like previous implementbtions did becbuse thbt blso would
+         * not compile with jbvbc-- so instebd, we'll hbve to try to
+         * cbst to the remote interfbce for ebch remote method.
          */
-        if (!remoteClass.classDoc().isPrivate()) {
-            p.pln(remoteClass.classDoc().qualifiedName() + " server = (" +
-                  remoteClass.classDoc().qualifiedName() + ") obj;");
+        if (!remoteClbss.clbssDoc().isPrivbte()) {
+            p.pln(remoteClbss.clbssDoc().qublifiedNbme() + " server = (" +
+                  remoteClbss.clbssDoc().qublifiedNbme() + ") obj;");
         }
 
         /*
-         * Process call according to the operation number.
+         * Process cbll bccording to the operbtion number.
          */
         p.plnI("switch (opnum) {");
         for (int opnum = 0; opnum < remoteMethods.length; opnum++) {
-            writeSkeletonDispatchCase(p, opnum);
+            writeSkeletonDispbtchCbse(p, opnum);
         }
-        p.pOlnI("default:");
+        p.pOlnI("defbult:");
         /*
-         * Skeleton throws UnmarshalException if it does not recognize
-         * the operation number; this is consistent with the case of an
-         * unrecognized method hash.
+         * Skeleton throws UnmbrshblException if it does not recognize
+         * the operbtion number; this is consistent with the cbse of bn
+         * unrecognized method hbsh.
          */
         p.pln("throw new " + UNMARSHAL_EXCEPTION +
-            "(\"invalid method number\");");
-        p.pOln("}");                    // end switch statement
+            "(\"invblid method number\");");
+        p.pOln("}");                    // end switch stbtement
 
-        p.pOln("}");                    // end dispatch() method
+        p.pOln("}");                    // end dispbtch() method
 
-        p.pOln("}");                    // end skeleton class
+        p.pOln("}");                    // end skeleton clbss
     }
 
     /**
-     * Writes the case block for the skeleton's dispatch method for
+     * Writes the cbse block for the skeleton's dispbtch method for
      * the remote method with the given "opnum".
      **/
-    private void writeSkeletonDispatchCase(IndentingWriter p, int opnum)
+    privbte void writeSkeletonDispbtchCbse(IndentingWriter p, int opnum)
         throws IOException
     {
-        RemoteClass.Method method = remoteMethods[opnum];
+        RemoteClbss.Method method = remoteMethods[opnum];
         MethodDoc methodDoc = method.methodDoc();
-        String methodName = methodDoc.name();
-        Type paramTypes[] = method.parameterTypes();
-        String paramNames[] = nameParameters(paramTypes);
+        String methodNbme = methodDoc.nbme();
+        Type pbrbmTypes[] = method.pbrbmeterTypes();
+        String pbrbmNbmes[] = nbmePbrbmeters(pbrbmTypes);
         Type returnType = methodDoc.returnType();
 
-        p.pOlnI("case " + opnum + ": // " +
-            Util.getFriendlyUnqualifiedSignature(methodDoc));
+        p.pOlnI("cbse " + opnum + ": // " +
+            Util.getFriendlyUnqublifiedSignbture(methodDoc));
         /*
-         * Use nested block statement inside case to provide an independent
-         * namespace for local variables used to unmarshal parameters for
+         * Use nested block stbtement inside cbse to provide bn independent
+         * nbmespbce for locbl vbribbles used to unmbrshbl pbrbmeters for
          * this remote method.
          */
         p.pOlnI("{");
 
-        if (paramTypes.length > 0) {
+        if (pbrbmTypes.length > 0) {
             /*
-             * Declare local variables to hold arguments.
+             * Declbre locbl vbribbles to hold brguments.
              */
-            for (int i = 0; i < paramTypes.length; i++) {
-                p.pln(paramTypes[i].toString() + " " + paramNames[i] + ";");
+            for (int i = 0; i < pbrbmTypes.length; i++) {
+                p.pln(pbrbmTypes[i].toString() + " " + pbrbmNbmes[i] + ";");
             }
 
             /*
-             * Unmarshal arguments from call stream.
+             * Unmbrshbl brguments from cbll strebm.
              */
             p.plnI("try {");
-            p.pln("java.io.ObjectInput in = call.getInputStream();");
-            boolean objectsRead = writeUnmarshalArguments(p, "in",
-                paramTypes, paramNames);
-            p.pOlnI("} catch (java.io.IOException e) {");
+            p.pln("jbvb.io.ObjectInput in = cbll.getInputStrebm();");
+            boolebn objectsRebd = writeUnmbrshblArguments(p, "in",
+                pbrbmTypes, pbrbmNbmes);
+            p.pOlnI("} cbtch (jbvb.io.IOException e) {");
             p.pln("throw new " + UNMARSHAL_EXCEPTION +
-                "(\"error unmarshalling arguments\", e);");
+                "(\"error unmbrshblling brguments\", e);");
             /*
-             * If any only if readObject has been invoked, we must catch
-             * ClassNotFoundException as well as IOException.
+             * If bny only if rebdObject hbs been invoked, we must cbtch
+             * ClbssNotFoundException bs well bs IOException.
              */
-            if (objectsRead) {
-                p.pOlnI("} catch (java.lang.ClassNotFoundException e) {");
+            if (objectsRebd) {
+                p.pOlnI("} cbtch (jbvb.lbng.ClbssNotFoundException e) {");
                 p.pln("throw new " + UNMARSHAL_EXCEPTION +
-                    "(\"error unmarshalling arguments\", e);");
+                    "(\"error unmbrshblling brguments\", e);");
             }
-            p.pOlnI("} finally {");
-            p.pln("call.releaseInputStream();");
+            p.pOlnI("} finblly {");
+            p.pln("cbll.relebseInputStrebm();");
             p.pOln("}");
         } else {
-            p.pln("call.releaseInputStream();");
+            p.pln("cbll.relebseInputStrebm();");
         }
 
         if (!Util.isVoid(returnType)) {
             /*
-             * Declare variable to hold return type, if not void.
+             * Declbre vbribble to hold return type, if not void.
              */
             p.p(returnType.toString() + " $result = ");
                                                         // REMIND: why $?
@@ -713,110 +713,110 @@ class StubSkeletonWriter {
 
         /*
          * Invoke the method on the server object.  If the remote
-         * implementation class is private, then we don't have a
-         * reference cast to it, and so we try to cast to the remote
-         * object reference to the method's declaring interface here.
+         * implementbtion clbss is privbte, then we don't hbve b
+         * reference cbst to it, bnd so we try to cbst to the remote
+         * object reference to the method's declbring interfbce here.
          */
-        String target = remoteClass.classDoc().isPrivate() ?
-            "((" + methodDoc.containingClass().qualifiedName() + ") obj)" :
+        String tbrget = remoteClbss.clbssDoc().isPrivbte() ?
+            "((" + methodDoc.contbiningClbss().qublifiedNbme() + ") obj)" :
             "server";
-        p.p(target + "." + methodName + "(");
-        for (int i = 0; i < paramNames.length; i++) {
+        p.p(tbrget + "." + methodNbme + "(");
+        for (int i = 0; i < pbrbmNbmes.length; i++) {
             if (i > 0)
                 p.p(", ");
-            p.p(paramNames[i]);
+            p.p(pbrbmNbmes[i]);
         }
         p.pln(");");
 
         /*
-         * Always invoke getResultStream(true) on the call object to send
-         * the indication of a successful invocation to the caller.  If
-         * the return type is not void, keep the result stream and marshal
-         * the return value.
+         * Alwbys invoke getResultStrebm(true) on the cbll object to send
+         * the indicbtion of b successful invocbtion to the cbller.  If
+         * the return type is not void, keep the result strebm bnd mbrshbl
+         * the return vblue.
          */
         p.plnI("try {");
         if (!Util.isVoid(returnType)) {
-            p.p("java.io.ObjectOutput out = ");
+            p.p("jbvb.io.ObjectOutput out = ");
         }
-        p.pln("call.getResultStream(true);");
+        p.pln("cbll.getResultStrebm(true);");
         if (!Util.isVoid(returnType)) {
-            writeMarshalArgument(p, "out", returnType, "$result");
+            writeMbrshblArgument(p, "out", returnType, "$result");
             p.pln(";");
         }
-        p.pOlnI("} catch (java.io.IOException e) {");
+        p.pOlnI("} cbtch (jbvb.io.IOException e) {");
         p.pln("throw new " +
-            MARSHAL_EXCEPTION + "(\"error marshalling return\", e);");
+            MARSHAL_EXCEPTION + "(\"error mbrshblling return\", e);");
         p.pOln("}");
 
-        p.pln("break;");                // break from switch statement
+        p.pln("brebk;");                // brebk from switch stbtement
 
-        p.pOlnI("}");                   // end nested block statement
+        p.pOlnI("}");                   // end nested block stbtement
         p.pln();
     }
 
     /**
-     * Writes declaration and initializer for "operations" static array.
+     * Writes declbrbtion bnd initiblizer for "operbtions" stbtic brrby.
      **/
-    private void writeOperationsArray(IndentingWriter p)
+    privbte void writeOperbtionsArrby(IndentingWriter p)
         throws IOException
     {
-        p.plnI("private static final " + OPERATION + "[] operations = {");
+        p.plnI("privbte stbtic finbl " + OPERATION + "[] operbtions = {");
         for (int i = 0; i < remoteMethods.length; i++) {
             if (i > 0)
                 p.pln(",");
             p.p("new " + OPERATION + "(\"" +
-                remoteMethods[i].operationString() + "\")");
+                remoteMethods[i].operbtionString() + "\")");
         }
         p.pln();
         p.pOln("};");
     }
 
     /**
-     * Writes declaration and initializer for "interfaceHash" static field.
+     * Writes declbrbtion bnd initiblizer for "interfbceHbsh" stbtic field.
      **/
-    private void writeInterfaceHash(IndentingWriter p)
+    privbte void writeInterfbceHbsh(IndentingWriter p)
         throws IOException
     {
-        p.pln("private static final long interfaceHash = " +
-            remoteClass.interfaceHash() + "L;");
+        p.pln("privbte stbtic finbl long interfbceHbsh = " +
+            remoteClbss.interfbceHbsh() + "L;");
     }
 
     /**
-     * Writes declaration for java.lang.reflect.Method static fields
-     * corresponding to each remote method in a stub.
+     * Writes declbrbtion for jbvb.lbng.reflect.Method stbtic fields
+     * corresponding to ebch remote method in b stub.
      **/
-    private void writeMethodFieldDeclarations(IndentingWriter p)
+    privbte void writeMethodFieldDeclbrbtions(IndentingWriter p)
         throws IOException
     {
-        for (String name : methodFieldNames) {
-            p.pln("private static java.lang.reflect.Method " + name + ";");
+        for (String nbme : methodFieldNbmes) {
+            p.pln("privbte stbtic jbvb.lbng.reflect.Method " + nbme + ";");
         }
     }
 
     /**
-     * Writes code to initialize the static fields for each method
-     * using the Java Reflection API.
+     * Writes code to initiblize the stbtic fields for ebch method
+     * using the Jbvb Reflection API.
      **/
-    private void writeMethodFieldInitializers(IndentingWriter p)
+    privbte void writeMethodFieldInitiblizers(IndentingWriter p)
         throws IOException
     {
-        for (int i = 0; i < methodFieldNames.length; i++) {
-            p.p(methodFieldNames[i] + " = ");
+        for (int i = 0; i < methodFieldNbmes.length; i++) {
+            p.p(methodFieldNbmes[i] + " = ");
             /*
-             * Look up the Method object in the somewhat arbitrary
-             * interface that we find in the Method object.
+             * Look up the Method object in the somewhbt brbitrbry
+             * interfbce thbt we find in the Method object.
              */
-            RemoteClass.Method method = remoteMethods[i];
+            RemoteClbss.Method method = remoteMethods[i];
             MethodDoc methodDoc = method.methodDoc();
-            String methodName = methodDoc.name();
-            Type paramTypes[] = method.parameterTypes();
+            String methodNbme = methodDoc.nbme();
+            Type pbrbmTypes[] = method.pbrbmeterTypes();
 
-            p.p(methodDoc.containingClass().qualifiedName() + ".class.getMethod(\"" +
-                methodName + "\", new java.lang.Class[] {");
-            for (int j = 0; j < paramTypes.length; j++) {
+            p.p(methodDoc.contbiningClbss().qublifiedNbme() + ".clbss.getMethod(\"" +
+                methodNbme + "\", new jbvb.lbng.Clbss[] {");
+            for (int j = 0; j < pbrbmTypes.length; j++) {
                 if (j > 0)
                     p.p(", ");
-                p.p(paramTypes[j].toString() + ".class");
+                p.p(pbrbmTypes[j].toString() + ".clbss");
             }
             p.pln("});");
         }
@@ -824,254 +824,254 @@ class StubSkeletonWriter {
 
 
     /*
-     * Following are a series of static utility methods useful during
-     * the code generation process:
+     * Following bre b series of stbtic utility methods useful during
+     * the code generbtion process:
      */
 
     /**
-     * Generates an array of names for fields correspondins to the
-     * given array of remote methods.  Each name in the returned array
-     * is guaranteed to be unique.
+     * Generbtes bn brrby of nbmes for fields correspondins to the
+     * given brrby of remote methods.  Ebch nbme in the returned brrby
+     * is gubrbnteed to be unique.
      *
-     * The name of a method is included in its corresponding field
-     * name to enhance readability of the generated code.
+     * The nbme of b method is included in its corresponding field
+     * nbme to enhbnce rebdbbility of the generbted code.
      **/
-    private static String[] nameMethodFields(RemoteClass.Method[] methods) {
-        String[] names = new String[methods.length];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = "$method_" + methods[i].methodDoc().name() + "_" + i;
+    privbte stbtic String[] nbmeMethodFields(RemoteClbss.Method[] methods) {
+        String[] nbmes = new String[methods.length];
+        for (int i = 0; i < nbmes.length; i++) {
+            nbmes[i] = "$method_" + methods[i].methodDoc().nbme() + "_" + i;
         }
-        return names;
+        return nbmes;
     }
 
     /**
-     * Generates an array of names for parameters corresponding to the
-     * given array of types for the parameters.  Each name in the
-     * returned array is guaranteed to be unique.
+     * Generbtes bn brrby of nbmes for pbrbmeters corresponding to the
+     * given brrby of types for the pbrbmeters.  Ebch nbme in the
+     * returned brrby is gubrbnteed to be unique.
      *
-     * A representation of the type of a parameter is included in its
-     * corresponding parameter name to enhance the readability of the
-     * generated code.
+     * A representbtion of the type of b pbrbmeter is included in its
+     * corresponding pbrbmeter nbme to enhbnce the rebdbbility of the
+     * generbted code.
      **/
-    private static String[] nameParameters(Type[] types) {
-        String[] names = new String[types.length];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = "$param_" +
-                generateNameFromType(types[i]) + "_" + (i + 1);
+    privbte stbtic String[] nbmePbrbmeters(Type[] types) {
+        String[] nbmes = new String[types.length];
+        for (int i = 0; i < nbmes.length; i++) {
+            nbmes[i] = "$pbrbm_" +
+                generbteNbmeFromType(types[i]) + "_" + (i + 1);
         }
-        return names;
+        return nbmes;
     }
 
     /**
-     * Generates a readable string representing the given type
-     * suitable for embedding within a Java identifier.
+     * Generbtes b rebdbble string representing the given type
+     * suitbble for embedding within b Jbvb identifier.
      **/
-    private static String generateNameFromType(Type type) {
-        String name = type.typeName().replace('.', '$');
+    privbte stbtic String generbteNbmeFromType(Type type) {
+        String nbme = type.typeNbme().replbce('.', '$');
         int dimensions = type.dimension().length() / 2;
         for (int i = 0; i < dimensions; i++) {
-            name = "arrayOf_" + name;
+            nbme = "brrbyOf_" + nbme;
         }
-        return name;
+        return nbme;
     }
 
     /**
-     * Writes a snippet of Java code to marshal a value named "name"
-     * of type "type" to the java.io.ObjectOutput stream named
-     * "stream".
+     * Writes b snippet of Jbvb code to mbrshbl b vblue nbmed "nbme"
+     * of type "type" to the jbvb.io.ObjectOutput strebm nbmed
+     * "strebm".
      *
-     * Primitive types are marshalled with their corresponding methods
-     * in the java.io.DataOutput interface, and objects (including
-     * arrays) are marshalled using the writeObject method.
+     * Primitive types bre mbrshblled with their corresponding methods
+     * in the jbvb.io.DbtbOutput interfbce, bnd objects (including
+     * brrbys) bre mbrshblled using the writeObject method.
      **/
-    private static void writeMarshalArgument(IndentingWriter p,
-                                             String streamName,
-                                             Type type, String name)
+    privbte stbtic void writeMbrshblArgument(IndentingWriter p,
+                                             String strebmNbme,
+                                             Type type, String nbme)
         throws IOException
     {
-        if (type.dimension().length() > 0 || type.asClassDoc() != null) {
-            p.p(streamName + ".writeObject(" + name + ")");
-        } else if (type.typeName().equals("boolean")) {
-            p.p(streamName + ".writeBoolean(" + name + ")");
-        } else if (type.typeName().equals("byte")) {
-            p.p(streamName + ".writeByte(" + name + ")");
-        } else if (type.typeName().equals("char")) {
-            p.p(streamName + ".writeChar(" + name + ")");
-        } else if (type.typeName().equals("short")) {
-            p.p(streamName + ".writeShort(" + name + ")");
-        } else if (type.typeName().equals("int")) {
-            p.p(streamName + ".writeInt(" + name + ")");
-        } else if (type.typeName().equals("long")) {
-            p.p(streamName + ".writeLong(" + name + ")");
-        } else if (type.typeName().equals("float")) {
-            p.p(streamName + ".writeFloat(" + name + ")");
-        } else if (type.typeName().equals("double")) {
-            p.p(streamName + ".writeDouble(" + name + ")");
+        if (type.dimension().length() > 0 || type.bsClbssDoc() != null) {
+            p.p(strebmNbme + ".writeObject(" + nbme + ")");
+        } else if (type.typeNbme().equbls("boolebn")) {
+            p.p(strebmNbme + ".writeBoolebn(" + nbme + ")");
+        } else if (type.typeNbme().equbls("byte")) {
+            p.p(strebmNbme + ".writeByte(" + nbme + ")");
+        } else if (type.typeNbme().equbls("chbr")) {
+            p.p(strebmNbme + ".writeChbr(" + nbme + ")");
+        } else if (type.typeNbme().equbls("short")) {
+            p.p(strebmNbme + ".writeShort(" + nbme + ")");
+        } else if (type.typeNbme().equbls("int")) {
+            p.p(strebmNbme + ".writeInt(" + nbme + ")");
+        } else if (type.typeNbme().equbls("long")) {
+            p.p(strebmNbme + ".writeLong(" + nbme + ")");
+        } else if (type.typeNbme().equbls("flobt")) {
+            p.p(strebmNbme + ".writeFlobt(" + nbme + ")");
+        } else if (type.typeNbme().equbls("double")) {
+            p.p(strebmNbme + ".writeDouble(" + nbme + ")");
         } else {
             throw new AssertionError(type);
         }
     }
 
     /**
-     * Writes Java statements to marshal a series of values in order
-     * as named in the "names" array, with types as specified in the
-     * "types" array, to the java.io.ObjectOutput stream named
-     * "stream".
+     * Writes Jbvb stbtements to mbrshbl b series of vblues in order
+     * bs nbmed in the "nbmes" brrby, with types bs specified in the
+     * "types" brrby, to the jbvb.io.ObjectOutput strebm nbmed
+     * "strebm".
      **/
-    private static void writeMarshalArguments(IndentingWriter p,
-                                              String streamName,
-                                              Type[] types, String[] names)
+    privbte stbtic void writeMbrshblArguments(IndentingWriter p,
+                                              String strebmNbme,
+                                              Type[] types, String[] nbmes)
         throws IOException
     {
-        assert types.length == names.length;
+        bssert types.length == nbmes.length;
 
         for (int i = 0; i < types.length; i++) {
-            writeMarshalArgument(p, streamName, types[i], names[i]);
+            writeMbrshblArgument(p, strebmNbme, types[i], nbmes[i]);
             p.pln(";");
         }
     }
 
     /**
-     * Writes a snippet of Java code to unmarshal a value of type
-     * "type" from the java.io.ObjectInput stream named "stream" into
-     * a variable named "name" (if "name" is null, the value is
-     * unmarshalled and discarded).
+     * Writes b snippet of Jbvb code to unmbrshbl b vblue of type
+     * "type" from the jbvb.io.ObjectInput strebm nbmed "strebm" into
+     * b vbribble nbmed "nbme" (if "nbme" is null, the vblue is
+     * unmbrshblled bnd discbrded).
      *
-     * Primitive types are unmarshalled with their corresponding
-     * methods in the java.io.DataInput interface, and objects
-     * (including arrays) are unmarshalled using the readObject
+     * Primitive types bre unmbrshblled with their corresponding
+     * methods in the jbvb.io.DbtbInput interfbce, bnd objects
+     * (including brrbys) bre unmbrshblled using the rebdObject
      * method.
      *
-     * Returns true if code to invoke readObject was written, and
-     * false otherwise.
+     * Returns true if code to invoke rebdObject wbs written, bnd
+     * fblse otherwise.
      **/
-    private static boolean writeUnmarshalArgument(IndentingWriter p,
-                                                  String streamName,
-                                                  Type type, String name)
+    privbte stbtic boolebn writeUnmbrshblArgument(IndentingWriter p,
+                                                  String strebmNbme,
+                                                  Type type, String nbme)
         throws IOException
     {
-        boolean readObject = false;
+        boolebn rebdObject = fblse;
 
-        if (name != null) {
-            p.p(name + " = ");
+        if (nbme != null) {
+            p.p(nbme + " = ");
         }
 
-        if (type.dimension().length() > 0 || type.asClassDoc() != null) {
-            p.p("(" + type.toString() + ") " + streamName + ".readObject()");
-            readObject = true;
-        } else if (type.typeName().equals("boolean")) {
-            p.p(streamName + ".readBoolean()");
-        } else if (type.typeName().equals("byte")) {
-            p.p(streamName + ".readByte()");
-        } else if (type.typeName().equals("char")) {
-            p.p(streamName + ".readChar()");
-        } else if (type.typeName().equals("short")) {
-            p.p(streamName + ".readShort()");
-        } else if (type.typeName().equals("int")) {
-            p.p(streamName + ".readInt()");
-        } else if (type.typeName().equals("long")) {
-            p.p(streamName + ".readLong()");
-        } else if (type.typeName().equals("float")) {
-            p.p(streamName + ".readFloat()");
-        } else if (type.typeName().equals("double")) {
-            p.p(streamName + ".readDouble()");
+        if (type.dimension().length() > 0 || type.bsClbssDoc() != null) {
+            p.p("(" + type.toString() + ") " + strebmNbme + ".rebdObject()");
+            rebdObject = true;
+        } else if (type.typeNbme().equbls("boolebn")) {
+            p.p(strebmNbme + ".rebdBoolebn()");
+        } else if (type.typeNbme().equbls("byte")) {
+            p.p(strebmNbme + ".rebdByte()");
+        } else if (type.typeNbme().equbls("chbr")) {
+            p.p(strebmNbme + ".rebdChbr()");
+        } else if (type.typeNbme().equbls("short")) {
+            p.p(strebmNbme + ".rebdShort()");
+        } else if (type.typeNbme().equbls("int")) {
+            p.p(strebmNbme + ".rebdInt()");
+        } else if (type.typeNbme().equbls("long")) {
+            p.p(strebmNbme + ".rebdLong()");
+        } else if (type.typeNbme().equbls("flobt")) {
+            p.p(strebmNbme + ".rebdFlobt()");
+        } else if (type.typeNbme().equbls("double")) {
+            p.p(strebmNbme + ".rebdDouble()");
         } else {
             throw new AssertionError(type);
         }
 
-        return readObject;
+        return rebdObject;
     }
 
     /**
-     * Writes Java statements to unmarshal a series of values in order
-     * of types as in the "types" array from the java.io.ObjectInput
-     * stream named "stream" into variables as named in "names" (for
-     * any element of "names" that is null, the corresponding value is
-     * unmarshalled and discarded).
+     * Writes Jbvb stbtements to unmbrshbl b series of vblues in order
+     * of types bs in the "types" brrby from the jbvb.io.ObjectInput
+     * strebm nbmed "strebm" into vbribbles bs nbmed in "nbmes" (for
+     * bny element of "nbmes" thbt is null, the corresponding vblue is
+     * unmbrshblled bnd discbrded).
      **/
-    private static boolean writeUnmarshalArguments(IndentingWriter p,
-                                                   String streamName,
+    privbte stbtic boolebn writeUnmbrshblArguments(IndentingWriter p,
+                                                   String strebmNbme,
                                                    Type[] types,
-                                                   String[] names)
+                                                   String[] nbmes)
         throws IOException
     {
-        assert types.length == names.length;
+        bssert types.length == nbmes.length;
 
-        boolean readObject = false;
+        boolebn rebdObject = fblse;
         for (int i = 0; i < types.length; i++) {
-            if (writeUnmarshalArgument(p, streamName, types[i], names[i])) {
-                readObject = true;
+            if (writeUnmbrshblArgument(p, strebmNbme, types[i], nbmes[i])) {
+                rebdObject = true;
             }
             p.pln(";");
         }
-        return readObject;
+        return rebdObject;
     }
 
     /**
-     * Returns a snippet of Java code to wrap a value named "name" of
-     * type "type" into an object as appropriate for use by the Java
+     * Returns b snippet of Jbvb code to wrbp b vblue nbmed "nbme" of
+     * type "type" into bn object bs bppropribte for use by the Jbvb
      * Reflection API.
      *
-     * For primitive types, an appropriate wrapper class is
-     * instantiated with the primitive value.  For object types
-     * (including arrays), no wrapping is necessary, so the value is
-     * named directly.
+     * For primitive types, bn bppropribte wrbpper clbss is
+     * instbntibted with the primitive vblue.  For object types
+     * (including brrbys), no wrbpping is necessbry, so the vblue is
+     * nbmed directly.
      **/
-    private static String wrapArgumentCode(Type type, String name) {
-        if (type.dimension().length() > 0 || type.asClassDoc() != null) {
-            return name;
-        } else if (type.typeName().equals("boolean")) {
-            return ("(" + name +
-                    " ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE)");
-        } else if (type.typeName().equals("byte")) {
-            return "new java.lang.Byte(" + name + ")";
-        } else if (type.typeName().equals("char")) {
-            return "new java.lang.Character(" + name + ")";
-        } else if (type.typeName().equals("short")) {
-            return "new java.lang.Short(" + name + ")";
-        } else if (type.typeName().equals("int")) {
-            return "new java.lang.Integer(" + name + ")";
-        } else if (type.typeName().equals("long")) {
-            return "new java.lang.Long(" + name + ")";
-        } else if (type.typeName().equals("float")) {
-            return "new java.lang.Float(" + name + ")";
-        } else if (type.typeName().equals("double")) {
-            return "new java.lang.Double(" + name + ")";
+    privbte stbtic String wrbpArgumentCode(Type type, String nbme) {
+        if (type.dimension().length() > 0 || type.bsClbssDoc() != null) {
+            return nbme;
+        } else if (type.typeNbme().equbls("boolebn")) {
+            return ("(" + nbme +
+                    " ? jbvb.lbng.Boolebn.TRUE : jbvb.lbng.Boolebn.FALSE)");
+        } else if (type.typeNbme().equbls("byte")) {
+            return "new jbvb.lbng.Byte(" + nbme + ")";
+        } else if (type.typeNbme().equbls("chbr")) {
+            return "new jbvb.lbng.Chbrbcter(" + nbme + ")";
+        } else if (type.typeNbme().equbls("short")) {
+            return "new jbvb.lbng.Short(" + nbme + ")";
+        } else if (type.typeNbme().equbls("int")) {
+            return "new jbvb.lbng.Integer(" + nbme + ")";
+        } else if (type.typeNbme().equbls("long")) {
+            return "new jbvb.lbng.Long(" + nbme + ")";
+        } else if (type.typeNbme().equbls("flobt")) {
+            return "new jbvb.lbng.Flobt(" + nbme + ")";
+        } else if (type.typeNbme().equbls("double")) {
+            return "new jbvb.lbng.Double(" + nbme + ")";
         } else {
             throw new AssertionError(type);
         }
     }
 
     /**
-     * Returns a snippet of Java code to unwrap a value named "name"
-     * into a value of type "type", as appropriate for the Java
+     * Returns b snippet of Jbvb code to unwrbp b vblue nbmed "nbme"
+     * into b vblue of type "type", bs bppropribte for the Jbvb
      * Reflection API.
      *
-     * For primitive types, the value is assumed to be of the
-     * corresponding wrapper class, and a method is called on the
-     * wrapper to retrieve the primitive value.  For object types
-     * (include arrays), no unwrapping is necessary; the value is
-     * simply cast to the expected real object type.
+     * For primitive types, the vblue is bssumed to be of the
+     * corresponding wrbpper clbss, bnd b method is cblled on the
+     * wrbpper to retrieve the primitive vblue.  For object types
+     * (include brrbys), no unwrbpping is necessbry; the vblue is
+     * simply cbst to the expected rebl object type.
      **/
-    private static String unwrapArgumentCode(Type type, String name) {
-        if (type.dimension().length() > 0 || type.asClassDoc() != null) {
-            return "((" + type.toString() + ") " + name + ")";
-        } else if (type.typeName().equals("boolean")) {
-            return "((java.lang.Boolean) " + name + ").booleanValue()";
-        } else if (type.typeName().equals("byte")) {
-            return "((java.lang.Byte) " + name + ").byteValue()";
-        } else if (type.typeName().equals("char")) {
-            return "((java.lang.Character) " + name + ").charValue()";
-        } else if (type.typeName().equals("short")) {
-            return "((java.lang.Short) " + name + ").shortValue()";
-        } else if (type.typeName().equals("int")) {
-            return "((java.lang.Integer) " + name + ").intValue()";
-        } else if (type.typeName().equals("long")) {
-            return "((java.lang.Long) " + name + ").longValue()";
-        } else if (type.typeName().equals("float")) {
-            return "((java.lang.Float) " + name + ").floatValue()";
-        } else if (type.typeName().equals("double")) {
-            return "((java.lang.Double) " + name + ").doubleValue()";
+    privbte stbtic String unwrbpArgumentCode(Type type, String nbme) {
+        if (type.dimension().length() > 0 || type.bsClbssDoc() != null) {
+            return "((" + type.toString() + ") " + nbme + ")";
+        } else if (type.typeNbme().equbls("boolebn")) {
+            return "((jbvb.lbng.Boolebn) " + nbme + ").boolebnVblue()";
+        } else if (type.typeNbme().equbls("byte")) {
+            return "((jbvb.lbng.Byte) " + nbme + ").byteVblue()";
+        } else if (type.typeNbme().equbls("chbr")) {
+            return "((jbvb.lbng.Chbrbcter) " + nbme + ").chbrVblue()";
+        } else if (type.typeNbme().equbls("short")) {
+            return "((jbvb.lbng.Short) " + nbme + ").shortVblue()";
+        } else if (type.typeNbme().equbls("int")) {
+            return "((jbvb.lbng.Integer) " + nbme + ").intVblue()";
+        } else if (type.typeNbme().equbls("long")) {
+            return "((jbvb.lbng.Long) " + nbme + ").longVblue()";
+        } else if (type.typeNbme().equbls("flobt")) {
+            return "((jbvb.lbng.Flobt) " + nbme + ").flobtVblue()";
+        } else if (type.typeNbme().equbls("double")) {
+            return "((jbvb.lbng.Double) " + nbme + ").doubleVblue()";
         } else {
             throw new AssertionError(type);
         }

@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.RasterFormatException;
-import java.awt.image.SampleModel;
-import java.awt.image.SinglePixelPackedSampleModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferInt;
-import java.awt.Rectangle;
-import java.awt.Point;
+pbckbge sun.bwt.imbge;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.imbge.RbsterFormbtException;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.bwt.imbge.SinglePixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DbtbBufferInt;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Point;
 
 /**
- * This class defines a Raster with pixels consisting of one or more 32-bit
- * data elements stored in close proximity to each other in a integer array.
- * The bit precision per data element is that
- * of the data type (that is, the bit precision for this raster is 32).
- * There is only one pixel stride and one scanline stride for all
- * bands.  For a given pixel, all samples fit in N data elements and these
- * N data elements hold samples for only one pixel.  This type of Raster
- * can be used with a PackedColorModel.
+ * This clbss defines b Rbster with pixels consisting of one or more 32-bit
+ * dbtb elements stored in close proximity to ebch other in b integer brrby.
+ * The bit precision per dbtb element is thbt
+ * of the dbtb type (thbt is, the bit precision for this rbster is 32).
+ * There is only one pixel stride bnd one scbnline stride for bll
+ * bbnds.  For b given pixel, bll sbmples fit in N dbtb elements bnd these
+ * N dbtb elements hold sbmples for only one pixel.  This type of Rbster
+ * cbn be used with b PbckedColorModel.
  * <p>
- * For example, if there is only one data element per pixel, a
- * SinglePixelPackedSampleModel can be used to represent multiple
- * bands with a PackedColorModel (including a DirectColorModel) for
- * color interpretation.
+ * For exbmple, if there is only one dbtb element per pixel, b
+ * SinglePixelPbckedSbmpleModel cbn be used to represent multiple
+ * bbnds with b PbckedColorModel (including b DirectColorModel) for
+ * color interpretbtion.
  *
  */
-public class IntegerComponentRaster extends SunWritableRaster {
+public clbss IntegerComponentRbster extends SunWritbbleRbster {
 
-    static final int TYPE_CUSTOM                = 0;
-    static final int TYPE_BYTE_SAMPLES          = 1;
-    static final int TYPE_USHORT_SAMPLES        = 2;
-    static final int TYPE_INT_SAMPLES           = 3;
-    static final int TYPE_BYTE_BANDED_SAMPLES   = 4;
-    static final int TYPE_USHORT_BANDED_SAMPLES = 5;
-    static final int TYPE_INT_BANDED_SAMPLES    = 6;
-    static final int TYPE_BYTE_PACKED_SAMPLES   = 7;
-    static final int TYPE_USHORT_PACKED_SAMPLES = 8;
-    static final int TYPE_INT_PACKED_SAMPLES    = 9;
-    static final int TYPE_INT_8BIT_SAMPLES      = 10;
-    static final int TYPE_BYTE_BINARY_SAMPLES   = 11;
+    stbtic finbl int TYPE_CUSTOM                = 0;
+    stbtic finbl int TYPE_BYTE_SAMPLES          = 1;
+    stbtic finbl int TYPE_USHORT_SAMPLES        = 2;
+    stbtic finbl int TYPE_INT_SAMPLES           = 3;
+    stbtic finbl int TYPE_BYTE_BANDED_SAMPLES   = 4;
+    stbtic finbl int TYPE_USHORT_BANDED_SAMPLES = 5;
+    stbtic finbl int TYPE_INT_BANDED_SAMPLES    = 6;
+    stbtic finbl int TYPE_BYTE_PACKED_SAMPLES   = 7;
+    stbtic finbl int TYPE_USHORT_PACKED_SAMPLES = 8;
+    stbtic finbl int TYPE_INT_PACKED_SAMPLES    = 9;
+    stbtic finbl int TYPE_INT_8BIT_SAMPLES      = 10;
+    stbtic finbl int TYPE_BYTE_BINARY_SAMPLES   = 11;
 
-    /** private band offset for use by native code */
-    protected int bandOffset;
+    /** privbte bbnd offset for use by nbtive code */
+    protected int bbndOffset;
 
-    /** Data offsets for each band of image data. */
-    protected int[]         dataOffsets;
+    /** Dbtb offsets for ebch bbnd of imbge dbtb. */
+    protected int[]         dbtbOffsets;
 
-    /** Scanline stride of the image data contained in this Raster. */
-    protected int           scanlineStride;
+    /** Scbnline stride of the imbge dbtb contbined in this Rbster. */
+    protected int           scbnlineStride;
 
-    /** Pixel stride of the image data contained in this Raster. */
+    /** Pixel stride of the imbge dbtb contbined in this Rbster. */
     protected int           pixelStride;
 
-    /** The image data array. */
-    protected int[]         data;
+    /** The imbge dbtb brrby. */
+    protected int[]         dbtb;
 
-    /** The number of data elements required to store a pixel. */
-    protected int           numDataElems;
+    /** The number of dbtb elements required to store b pixel. */
+    protected int           numDbtbElems;
 
     int type;
 
-    /** A cached copy of minX + width for use in bounds checks. */
-    private int maxX;
+    /** A cbched copy of minX + width for use in bounds checks. */
+    privbte int mbxX;
 
-    /** A cached copy of minY + height for use in bounds checks. */
-    private int maxY;
+    /** A cbched copy of minY + height for use in bounds checks. */
+    privbte int mbxY;
 
-    static private native void initIDs();
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        NativeLibLoader.loadLibraries();
+    stbtic privbte nbtive void initIDs();
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        NbtiveLibLobder.lobdLibrbries();
         initIDs();
     }
 
     /**
-     *  Constructs a IntegerComponentRaster with the given SampleModel.
-     *  The Raster's upper left corner is origin and it is the same
-     *  size as the SampleModel.  A DataBuffer large enough to describe the
-     *  Raster is automatically created.  SampleModel must be of type
-     *  SinglePixelPackedSampleModel.
-     *  @param sampleModel     The SampleModel that specifies the layout.
-     *  @param origin          The Point that specified the origin.
+     *  Constructs b IntegerComponentRbster with the given SbmpleModel.
+     *  The Rbster's upper left corner is origin bnd it is the sbme
+     *  size bs the SbmpleModel.  A DbtbBuffer lbrge enough to describe the
+     *  Rbster is butombticblly crebted.  SbmpleModel must be of type
+     *  SinglePixelPbckedSbmpleModel.
+     *  @pbrbm sbmpleModel     The SbmpleModel thbt specifies the lbyout.
+     *  @pbrbm origin          The Point thbt specified the origin.
      */
-    public IntegerComponentRaster(SampleModel sampleModel,
+    public IntegerComponentRbster(SbmpleModel sbmpleModel,
                                      Point origin) {
-        this(sampleModel,
-             sampleModel.createDataBuffer(),
-             new Rectangle(origin.x,
+        this(sbmpleModel,
+             sbmpleModel.crebteDbtbBuffer(),
+             new Rectbngle(origin.x,
                            origin.y,
-                           sampleModel.getWidth(),
-                           sampleModel.getHeight()),
+                           sbmpleModel.getWidth(),
+                           sbmpleModel.getHeight()),
              origin,
              null);
     }
 
     /**
-     * Constructs a IntegerComponentRaster with the given SampleModel
-     * and DataBuffer.  The Raster's upper left corner is origin and
-     * it is the same sizes the SampleModel.  The DataBuffer is not
-     * initialized and must be a DataBufferInt compatible with SampleModel.
-     * SampleModel must be of type SinglePixelPackedSampleModel.
-     * @param sampleModel     The SampleModel that specifies the layout.
-     * @param dataBuffer      The DataBufferInt that contains the image data.
-     * @param origin          The Point that specifies the origin.
+     * Constructs b IntegerComponentRbster with the given SbmpleModel
+     * bnd DbtbBuffer.  The Rbster's upper left corner is origin bnd
+     * it is the sbme sizes the SbmpleModel.  The DbtbBuffer is not
+     * initiblized bnd must be b DbtbBufferInt compbtible with SbmpleModel.
+     * SbmpleModel must be of type SinglePixelPbckedSbmpleModel.
+     * @pbrbm sbmpleModel     The SbmpleModel thbt specifies the lbyout.
+     * @pbrbm dbtbBuffer      The DbtbBufferInt thbt contbins the imbge dbtb.
+     * @pbrbm origin          The Point thbt specifies the origin.
      */
-    public IntegerComponentRaster(SampleModel sampleModel,
-                                     DataBuffer dataBuffer,
+    public IntegerComponentRbster(SbmpleModel sbmpleModel,
+                                     DbtbBuffer dbtbBuffer,
                                      Point origin) {
-        this(sampleModel,
-             dataBuffer,
-             new Rectangle(origin.x,
+        this(sbmpleModel,
+             dbtbBuffer,
+             new Rectbngle(origin.x,
                            origin.y,
-                           sampleModel.getWidth(),
-                           sampleModel.getHeight()),
+                           sbmpleModel.getWidth(),
+                           sbmpleModel.getHeight()),
              origin,
              null);
     }
 
    /**
-     * Constructs a IntegerComponentRaster with the given SampleModel,
-     * DataBuffer, and parent.  DataBuffer must be a DataBufferInt and
-     * SampleModel must be of type SinglePixelPackedSampleModel.
-     * When translated into the base Raster's
-     * coordinate system, aRegion must be contained by the base Raster.
-     * Origin is the coodinate in the new Raster's coordinate system of
-     * the origin of the base Raster.  (The base Raster is the Raster's
-     * ancestor which has no parent.)
+     * Constructs b IntegerComponentRbster with the given SbmpleModel,
+     * DbtbBuffer, bnd pbrent.  DbtbBuffer must be b DbtbBufferInt bnd
+     * SbmpleModel must be of type SinglePixelPbckedSbmpleModel.
+     * When trbnslbted into the bbse Rbster's
+     * coordinbte system, bRegion must be contbined by the bbse Rbster.
+     * Origin is the coodinbte in the new Rbster's coordinbte system of
+     * the origin of the bbse Rbster.  (The bbse Rbster is the Rbster's
+     * bncestor which hbs no pbrent.)
      *
-     * Note that this constructor should generally be called by other
-     * constructors or create methods, it should not be used directly.
-     * @param sampleModel     The SampleModel that specifies the layout.
-     * @param dataBuffer      The DataBufferInt that contains the image data.
-     * @param aRegion         The Rectangle that specifies the image area.
-     * @param origin          The Point that specifies the origin.
-     * @param parent          The parent (if any) of this raster.
+     * Note thbt this constructor should generblly be cblled by other
+     * constructors or crebte methods, it should not be used directly.
+     * @pbrbm sbmpleModel     The SbmpleModel thbt specifies the lbyout.
+     * @pbrbm dbtbBuffer      The DbtbBufferInt thbt contbins the imbge dbtb.
+     * @pbrbm bRegion         The Rectbngle thbt specifies the imbge breb.
+     * @pbrbm origin          The Point thbt specifies the origin.
+     * @pbrbm pbrent          The pbrent (if bny) of this rbster.
      */
-    public IntegerComponentRaster(SampleModel sampleModel,
-                                     DataBuffer dataBuffer,
-                                     Rectangle aRegion,
+    public IntegerComponentRbster(SbmpleModel sbmpleModel,
+                                     DbtbBuffer dbtbBuffer,
+                                     Rectbngle bRegion,
                                      Point origin,
-                                     IntegerComponentRaster parent){
-        super(sampleModel,dataBuffer,aRegion,origin,parent);
-        this.maxX = minX + width;
-        this.maxY = minY + height;
-        if (!(dataBuffer instanceof DataBufferInt)) {
-           throw new RasterFormatException("IntegerComponentRasters must have" +
-                "integer DataBuffers");
+                                     IntegerComponentRbster pbrent){
+        super(sbmpleModel,dbtbBuffer,bRegion,origin,pbrent);
+        this.mbxX = minX + width;
+        this.mbxY = minY + height;
+        if (!(dbtbBuffer instbnceof DbtbBufferInt)) {
+           throw new RbsterFormbtException("IntegerComponentRbsters must hbve" +
+                "integer DbtbBuffers");
         }
-        DataBufferInt dbi = (DataBufferInt)dataBuffer;
-        if (dbi.getNumBanks() != 1) {
+        DbtbBufferInt dbi = (DbtbBufferInt)dbtbBuffer;
+        if (dbi.getNumBbnks() != 1) {
             throw new
-                RasterFormatException("DataBuffer for IntegerComponentRasters"+
-                                      " must only have 1 bank.");
+                RbsterFormbtException("DbtbBuffer for IntegerComponentRbsters"+
+                                      " must only hbve 1 bbnk.");
         }
-        this.data = stealData(dbi, 0);
+        this.dbtb = steblDbtb(dbi, 0);
 
-        if (sampleModel instanceof SinglePixelPackedSampleModel) {
-            SinglePixelPackedSampleModel sppsm =
-                    (SinglePixelPackedSampleModel)sampleModel;
+        if (sbmpleModel instbnceof SinglePixelPbckedSbmpleModel) {
+            SinglePixelPbckedSbmpleModel sppsm =
+                    (SinglePixelPbckedSbmpleModel)sbmpleModel;
             int[] boffsets = sppsm.getBitOffsets();
-            boolean notByteBoundary = false;
+            boolebn notByteBoundbry = fblse;
             for (int i=1; i < boffsets.length; i++) {
                 if ((boffsets[i]%8) != 0) {
-                    notByteBoundary = true;
+                    notByteBoundbry = true;
                 }
             }
-            this.type = (notByteBoundary
-                         ? IntegerComponentRaster.TYPE_INT_PACKED_SAMPLES
-                         : IntegerComponentRaster.TYPE_INT_8BIT_SAMPLES);
+            this.type = (notByteBoundbry
+                         ? IntegerComponentRbster.TYPE_INT_PACKED_SAMPLES
+                         : IntegerComponentRbster.TYPE_INT_8BIT_SAMPLES);
 
-            this.scanlineStride = sppsm.getScanlineStride();
+            this.scbnlineStride = sppsm.getScbnlineStride();
             this.pixelStride    = 1;
-            this.dataOffsets = new int[1];
-            this.dataOffsets[0] = dbi.getOffset();
-            this.bandOffset = this.dataOffsets[0];
-            int xOffset = aRegion.x - origin.x;
-            int yOffset = aRegion.y - origin.y;
-            dataOffsets[0] += xOffset+yOffset*scanlineStride;
-            this.numDataElems = sppsm.getNumDataElements();
+            this.dbtbOffsets = new int[1];
+            this.dbtbOffsets[0] = dbi.getOffset();
+            this.bbndOffset = this.dbtbOffsets[0];
+            int xOffset = bRegion.x - origin.x;
+            int yOffset = bRegion.y - origin.y;
+            dbtbOffsets[0] += xOffset+yOffset*scbnlineStride;
+            this.numDbtbElems = sppsm.getNumDbtbElements();
         } else {
-            throw new RasterFormatException("IntegerComponentRasters must have"+
-                                            " SinglePixelPackedSampleModel");
+            throw new RbsterFormbtException("IntegerComponentRbsters must hbve"+
+                                            " SinglePixelPbckedSbmpleModel");
         }
 
         verify();
@@ -213,533 +213,533 @@ public class IntegerComponentRaster extends SunWritableRaster {
 
 
     /**
-     * Returns a copy of the data offsets array. For each band the data offset
-     * is the index into the band's data array, of the first sample of the
-     * band.
+     * Returns b copy of the dbtb offsets brrby. For ebch bbnd the dbtb offset
+     * is the index into the bbnd's dbtb brrby, of the first sbmple of the
+     * bbnd.
      */
-    public int[] getDataOffsets() {
-        return dataOffsets.clone();
+    public int[] getDbtbOffsets() {
+        return dbtbOffsets.clone();
     }
 
     /**
-     * Returns data offset for the specified band.  The data offset
-     * is the index into the data array in which the first sample
-     * of the first scanline is stored.
+     * Returns dbtb offset for the specified bbnd.  The dbtb offset
+     * is the index into the dbtb brrby in which the first sbmple
+     * of the first scbnline is stored.
      */
-    public int getDataOffset(int band) {
-        return dataOffsets[band];
+    public int getDbtbOffset(int bbnd) {
+        return dbtbOffsets[bbnd];
     }
 
 
     /**
-     * Returns the scanline stride -- the number of data array elements between
-     * a given sample and the sample in the same column of the next row.
+     * Returns the scbnline stride -- the number of dbtb brrby elements between
+     * b given sbmple bnd the sbmple in the sbme column of the next row.
      */
-    public int getScanlineStride() {
-        return scanlineStride;
+    public int getScbnlineStride() {
+        return scbnlineStride;
     }
 
     /**
-     * Returns pixel stride -- the number of data array elements  between two
-     * samples for the same band on the same scanline.
+     * Returns pixel stride -- the number of dbtb brrby elements  between two
+     * sbmples for the sbme bbnd on the sbme scbnline.
      */
     public int getPixelStride() {
         return pixelStride;
     }
 
     /**
-     * Returns a reference to the data array.
+     * Returns b reference to the dbtb brrby.
      */
-    public int[] getDataStorage() {
-        return data;
+    public int[] getDbtbStorbge() {
+        return dbtb;
     }
 
     /**
-     * Returns the data elements for all bands at the specified
-     * location.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinate is out of bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of transferType.
-     * @param x        The X coordinate of the pixel location.
-     * @param y        The Y coordinate of the pixel location.
-     * @param outData  An object reference to an array of type defined by
-     *                 getTransferType() and length getNumDataElements().
-     *                 If null an array of appropriate type and size will be
-     *                 allocated.
-     * @return         An object reference to an array of type defined by
-     *                 getTransferType() with the request pixel data.
+     * Returns the dbtb elements for bll bbnds bt the specified
+     * locbtion.
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbte is out of bounds.
+     * A ClbssCbstException will be thrown if the input object is non null
+     * bnd references bnything other thbn bn brrby of trbnsferType.
+     * @pbrbm x        The X coordinbte of the pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the pixel locbtion.
+     * @pbrbm outDbtb  An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() bnd length getNumDbtbElements().
+     *                 If null bn brrby of bppropribte type bnd size will be
+     *                 bllocbted.
+     * @return         An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() with the request pixel dbtb.
      */
-    public Object getDataElements(int x, int y, Object obj) {
+    public Object getDbtbElements(int x, int y, Object obj) {
         if ((x < this.minX) || (y < this.minY) ||
-            (x >= this.maxX) || (y >= this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (x >= this.mbxX) || (y >= this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        int outData[];
+        int outDbtb[];
         if (obj == null) {
-            outData = new int[numDataElements];
+            outDbtb = new int[numDbtbElements];
         } else {
-            outData = (int[])obj;
+            outDbtb = (int[])obj;
         }
-        int off = (y-minY)*scanlineStride +
+        int off = (y-minY)*scbnlineStride +
                   (x-minX)*pixelStride;
-        for (int band = 0; band < numDataElements; band++) {
-            outData[band] = data[dataOffsets[band] + off];
+        for (int bbnd = 0; bbnd < numDbtbElements; bbnd++) {
+            outDbtb[bbnd] = dbtb[dbtbOffsets[bbnd] + off];
         }
 
-        return outData;
+        return outDbtb;
     }
 
 
     /**
-     * Returns an array  of data elements from the specified rectangular
+     * Returns bn brrby  of dbtb elements from the specified rectbngulbr
      * region.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of transferType.
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbtes bre out of bounds.
+     * A ClbssCbstException will be thrown if the input object is non null
+     * bnd references bnything other thbn bn brrby of trbnsferType.
      <pre>
-     *       int[] bandData = (int[])raster.getDataElements(x, y, w, h, null);
-     *       int numDataElements = raster.getNumDataElements();
-     *       int[] pixel = new int[numDataElements];
-     *       // To find a data element at location (x2, y2)
-     *       System.arraycopy(bandData, ((y2-y)*w + (x2-x))*numDataElements,
-     *                        pixel, 0, numDataElements);
+     *       int[] bbndDbtb = (int[])rbster.getDbtbElements(x, y, w, h, null);
+     *       int numDbtbElements = rbster.getNumDbtbElements();
+     *       int[] pixel = new int[numDbtbElements];
+     *       // To find b dbtb element bt locbtion (x2, y2)
+     *       System.brrbycopy(bbndDbtb, ((y2-y)*w + (x2-x))*numDbtbElements,
+     *                        pixel, 0, numDbtbElements);
      * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param width    Width of the pixel rectangle.
-     * @param height   Height of the pixel rectangle.
-     * @param outData  An object reference to an array of type defined by
-     *                 getTransferType() and length w*h*getNumDataElements().
-     *                 If null an array of appropriate type and size will be
-     *                 allocated.
-     * @return         An object reference to an array of type defined by
-     *                 getTransferType() with the request pixel data.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm width    Width of the pixel rectbngle.
+     * @pbrbm height   Height of the pixel rectbngle.
+     * @pbrbm outDbtb  An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() bnd length w*h*getNumDbtbElements().
+     *                 If null bn brrby of bppropribte type bnd size will be
+     *                 bllocbted.
+     * @return         An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() with the request pixel dbtb.
      */
-    public Object getDataElements(int x, int y, int w, int h, Object obj) {
+    public Object getDbtbElements(int x, int y, int w, int h, Object obj) {
         if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        int outData[];
-        if (obj instanceof int[]) {
-            outData = (int[])obj;
+        int outDbtb[];
+        if (obj instbnceof int[]) {
+            outDbtb = (int[])obj;
         } else {
-            outData = new int[numDataElements*w*h];
+            outDbtb = new int[numDbtbElements*w*h];
         }
-        int yoff = (y-minY)*scanlineStride +
+        int yoff = (y-minY)*scbnlineStride +
                    (x-minX)*pixelStride;
         int xoff;
         int off = 0;
-        int xstart;
-        int ystart;
+        int xstbrt;
+        int ystbrt;
 
-        for (ystart=0; ystart < h; ystart++, yoff += scanlineStride) {
+        for (ystbrt=0; ystbrt < h; ystbrt++, yoff += scbnlineStride) {
             xoff = yoff;
-            for (xstart=0; xstart < w; xstart++, xoff += pixelStride) {
-                for (int c = 0; c < numDataElements; c++) {
-                    outData[off++] = data[dataOffsets[c] + xoff];
+            for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixelStride) {
+                for (int c = 0; c < numDbtbElements; c++) {
+                    outDbtb[off++] = dbtb[dbtbOffsets[c] + xoff];
                 }
             }
         }
 
-        return outData;
+        return outDbtb;
     }
 
 
     /**
-     * Stores the data elements for all bands at the specified location.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinate is out of bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of transferType.
-     * @param x        The X coordinate of the pixel location.
-     * @param y        The Y coordinate of the pixel location.
-     * @param inData   An object reference to an array of type defined by
-     *                 getTransferType() and length getNumDataElements()
-     *                 containing the pixel data to place at x,y.
+     * Stores the dbtb elements for bll bbnds bt the specified locbtion.
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbte is out of bounds.
+     * A ClbssCbstException will be thrown if the input object is non null
+     * bnd references bnything other thbn bn brrby of trbnsferType.
+     * @pbrbm x        The X coordinbte of the pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the pixel locbtion.
+     * @pbrbm inDbtb   An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() bnd length getNumDbtbElements()
+     *                 contbining the pixel dbtb to plbce bt x,y.
      */
-    public void setDataElements(int x, int y, Object obj) {
+    public void setDbtbElements(int x, int y, Object obj) {
         if ((x < this.minX) || (y < this.minY) ||
-            (x >= this.maxX) || (y >= this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (x >= this.mbxX) || (y >= this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        int inData[] = (int[])obj;
+        int inDbtb[] = (int[])obj;
 
-        int off = (y-minY)*scanlineStride +
+        int off = (y-minY)*scbnlineStride +
                   (x-minX)*pixelStride;
 
-        for (int i = 0; i < numDataElements; i++) {
-            data[dataOffsets[i] + off] = inData[i];
+        for (int i = 0; i < numDbtbElements; i++) {
+            dbtb[dbtbOffsets[i] + off] = inDbtb[i];
         }
 
-        markDirty();
+        mbrkDirty();
     }
 
 
     /**
-     * Stores the Raster data at the specified location.
-     * The transferType of the inputRaster must match this raster.
-     * An ArrayIndexOutOfBoundsException will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * @param x          The X coordinate of the pixel location.
-     * @param y          The Y coordinate of the pixel location.
-     * @param inRaster   Raster of data to place at x,y location.
+     * Stores the Rbster dbtb bt the specified locbtion.
+     * The trbnsferType of the inputRbster must mbtch this rbster.
+     * An ArrbyIndexOutOfBoundsException will be thrown bt runtime
+     * if the pixel coordinbtes bre out of bounds.
+     * @pbrbm x          The X coordinbte of the pixel locbtion.
+     * @pbrbm y          The Y coordinbte of the pixel locbtion.
+     * @pbrbm inRbster   Rbster of dbtb to plbce bt x,y locbtion.
      */
-    public void setDataElements(int x, int y, Raster inRaster) {
-        int dstOffX = x + inRaster.getMinX();
-        int dstOffY = y + inRaster.getMinY();
-        int width  = inRaster.getWidth();
-        int height = inRaster.getHeight();
+    public void setDbtbElements(int x, int y, Rbster inRbster) {
+        int dstOffX = x + inRbster.getMinX();
+        int dstOffY = y + inRbster.getMinY();
+        int width  = inRbster.getWidth();
+        int height = inRbster.getHeight();
         if ((dstOffX < this.minX) || (dstOffY < this.minY) ||
-            (dstOffX + width > this.maxX) || (dstOffY + height > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (dstOffX + width > this.mbxX) || (dstOffY + height > this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        setDataElements(dstOffX, dstOffY, width, height, inRaster);
+        setDbtbElements(dstOffX, dstOffY, width, height, inRbster);
     }
 
     /**
-     * Stores the Raster data at the specified location.
-     * @param dstX The absolute X coordinate of the destination pixel
-     * that will receive a copy of the upper-left pixel of the
-     * inRaster
-     * @param dstY The absolute Y coordinate of the destination pixel
-     * that will receive a copy of the upper-left pixel of the
-     * inRaster
-     * @param width      The number of pixels to store horizontally
-     * @param height     The number of pixels to store vertically
-     * @param inRaster   Raster of data to place at x,y location.
+     * Stores the Rbster dbtb bt the specified locbtion.
+     * @pbrbm dstX The bbsolute X coordinbte of the destinbtion pixel
+     * thbt will receive b copy of the upper-left pixel of the
+     * inRbster
+     * @pbrbm dstY The bbsolute Y coordinbte of the destinbtion pixel
+     * thbt will receive b copy of the upper-left pixel of the
+     * inRbster
+     * @pbrbm width      The number of pixels to store horizontblly
+     * @pbrbm height     The number of pixels to store verticblly
+     * @pbrbm inRbster   Rbster of dbtb to plbce bt x,y locbtion.
      */
-    private void setDataElements(int dstX, int dstY,
+    privbte void setDbtbElements(int dstX, int dstY,
                                  int width, int height,
-                                 Raster inRaster) {
-        // Assume bounds checking has been performed previously
+                                 Rbster inRbster) {
+        // Assume bounds checking hbs been performed previously
         if (width <= 0 || height <= 0) {
             return;
         }
 
-        // Write inRaster (minX, minY) to (dstX, dstY)
+        // Write inRbster (minX, minY) to (dstX, dstY)
 
-        int srcOffX = inRaster.getMinX();
-        int srcOffY = inRaster.getMinY();
-        int tdata[] = null;
+        int srcOffX = inRbster.getMinX();
+        int srcOffY = inRbster.getMinY();
+        int tdbtb[] = null;
 
-        if (inRaster instanceof IntegerComponentRaster &&
-            (pixelStride == 1) && (numDataElements == 1)) {
-            IntegerComponentRaster ict = (IntegerComponentRaster) inRaster;
-            if (ict.getNumDataElements() != 1) {
-                throw new ArrayIndexOutOfBoundsException("Number of bands"+
-                                                         " does not match");
+        if (inRbster instbnceof IntegerComponentRbster &&
+            (pixelStride == 1) && (numDbtbElements == 1)) {
+            IntegerComponentRbster ict = (IntegerComponentRbster) inRbster;
+            if (ict.getNumDbtbElements() != 1) {
+                throw new ArrbyIndexOutOfBoundsException("Number of bbnds"+
+                                                         " does not mbtch");
             }
 
-            // Extract the raster parameters
-            tdata    = ict.getDataStorage();
-            int tss  = ict.getScanlineStride();
-            int toff = ict.getDataOffset(0);
+            // Extrbct the rbster pbrbmeters
+            tdbtb    = ict.getDbtbStorbge();
+            int tss  = ict.getScbnlineStride();
+            int toff = ict.getDbtbOffset(0);
 
             int srcOffset = toff;
 
-            int dstOffset = dataOffsets[0]+(dstY-minY)*scanlineStride+
+            int dstOffset = dbtbOffsets[0]+(dstY-minY)*scbnlineStride+
                                            (dstX-minX);
 
 
-            // Fastest case.  We can copy scanlines
+            // Fbstest cbse.  We cbn copy scbnlines
             if (ict.getPixelStride() == pixelStride) {
                 width *= pixelStride;
 
-                // Loop through all of the scanlines and copy the data
-                for (int startY=0; startY < height; startY++) {
-                    System.arraycopy(tdata, srcOffset, data, dstOffset, width);
+                // Loop through bll of the scbnlines bnd copy the dbtb
+                for (int stbrtY=0; stbrtY < height; stbrtY++) {
+                    System.brrbycopy(tdbtb, srcOffset, dbtb, dstOffset, width);
                     srcOffset += tss;
-                    dstOffset += scanlineStride;
+                    dstOffset += scbnlineStride;
                 }
-                markDirty();
+                mbrkDirty();
                 return;
             }
         }
 
-        Object odata = null;
-        for (int startY=0; startY < height; startY++) {
-            odata = inRaster.getDataElements(srcOffX, srcOffY+startY,
-                                             width, 1, odata);
-            setDataElements(dstX, dstY+startY,
-                            width, 1, odata);
+        Object odbtb = null;
+        for (int stbrtY=0; stbrtY < height; stbrtY++) {
+            odbtb = inRbster.getDbtbElements(srcOffX, srcOffY+stbrtY,
+                                             width, 1, odbtb);
+            setDbtbElements(dstX, dstY+stbrtY,
+                            width, 1, odbtb);
         }
     }
 
     /**
-     * Stores an array of data elements into the specified rectangular
+     * Stores bn brrby of dbtb elements into the specified rectbngulbr
      * region.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of transferType.
-     * The data elements in the
-     * data array are assumed to be packed.  That is, a data element
-     * for the nth band at location (x2, y2) would be found at:
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbtes bre out of bounds.
+     * A ClbssCbstException will be thrown if the input object is non null
+     * bnd references bnything other thbn bn brrby of trbnsferType.
+     * The dbtb elements in the
+     * dbtb brrby bre bssumed to be pbcked.  Thbt is, b dbtb element
+     * for the nth bbnd bt locbtion (x2, y2) would be found bt:
      * <pre>
-     *      inData[((y2-y)*w + (x2-x))*numDataElements + n]
+     *      inDbtb[((y2-y)*w + (x2-x))*numDbtbElements + n]
      * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param inData   An object reference to an array of type defined by
-     *                 getTransferType() and length w*h*getNumDataElements()
-     *                 containing the pixel data to place between x,y and
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm inDbtb   An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() bnd length w*h*getNumDbtbElements()
+     *                 contbining the pixel dbtb to plbce between x,y bnd
      *                 x+h, y+h.
      */
-    public void setDataElements(int x, int y, int w, int h, Object obj) {
+    public void setDbtbElements(int x, int y, int w, int h, Object obj) {
         if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        int inData[] = (int[])obj;
+        int inDbtb[] = (int[])obj;
 
-        int yoff = (y-minY)*scanlineStride +
+        int yoff = (y-minY)*scbnlineStride +
                    (x-minX)*pixelStride;
         int xoff;
         int off = 0;
-        int xstart;
-        int ystart;
+        int xstbrt;
+        int ystbrt;
 
-        for (ystart=0; ystart < h; ystart++, yoff += scanlineStride) {
+        for (ystbrt=0; ystbrt < h; ystbrt++, yoff += scbnlineStride) {
             xoff = yoff;
-            for (xstart=0; xstart < w; xstart++, xoff += pixelStride) {
-                for (int c = 0; c < numDataElements; c++) {
-                    data[dataOffsets[c] + xoff] = inData[off++];
+            for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixelStride) {
+                for (int c = 0; c < numDbtbElements; c++) {
+                    dbtb[dbtbOffsets[c] + xoff] = inDbtb[off++];
                 }
             }
         }
 
-        markDirty();
+        mbrkDirty();
     }
 
 
     /**
-     * Creates a subraster given a region of the raster.  The x and y
-     * coordinates specify the horizontal and vertical offsets
-     * from the upper-left corner of this raster to the upper-left corner
-     * of the subraster.  A subset of the bands of the parent Raster may
-     * be specified.  If this is null, then all the bands are present in the
-     * subRaster. A translation to the subRaster may also be specified.
-     * Note that the subraster will reference the same
-     * DataBuffer as the parent raster, but using different offsets.
-     * @param x               X offset.
-     * @param y               Y offset.
-     * @param width           Width (in pixels) of the subraster.
-     * @param height          Height (in pixels) of the subraster.
-     * @param x0              Translated X origin of the subraster.
-     * @param y0              Translated Y origin of the subraster.
-     * @param bandList        Array of band indices.
-     * @exception RasterFormatException
-     *            if the specified bounding box is outside of the parent raster.
+     * Crebtes b subrbster given b region of the rbster.  The x bnd y
+     * coordinbtes specify the horizontbl bnd verticbl offsets
+     * from the upper-left corner of this rbster to the upper-left corner
+     * of the subrbster.  A subset of the bbnds of the pbrent Rbster mby
+     * be specified.  If this is null, then bll the bbnds bre present in the
+     * subRbster. A trbnslbtion to the subRbster mby blso be specified.
+     * Note thbt the subrbster will reference the sbme
+     * DbtbBuffer bs the pbrent rbster, but using different offsets.
+     * @pbrbm x               X offset.
+     * @pbrbm y               Y offset.
+     * @pbrbm width           Width (in pixels) of the subrbster.
+     * @pbrbm height          Height (in pixels) of the subrbster.
+     * @pbrbm x0              Trbnslbted X origin of the subrbster.
+     * @pbrbm y0              Trbnslbted Y origin of the subrbster.
+     * @pbrbm bbndList        Arrby of bbnd indices.
+     * @exception RbsterFormbtException
+     *            if the specified bounding box is outside of the pbrent rbster.
      */
-    public WritableRaster createWritableChild (int x, int y,
+    public WritbbleRbster crebteWritbbleChild (int x, int y,
                                                int width, int height,
                                                int x0, int y0,
-                                               int bandList[]) {
+                                               int bbndList[]) {
         if (x < this.minX) {
-            throw new RasterFormatException("x lies outside raster");
+            throw new RbsterFormbtException("x lies outside rbster");
         }
         if (y < this.minY) {
-            throw new RasterFormatException("y lies outside raster");
+            throw new RbsterFormbtException("y lies outside rbster");
         }
         if ((x+width < x) || (x+width > this.minX + this.width)) {
-            throw new RasterFormatException("(x + width) is outside raster");
+            throw new RbsterFormbtException("(x + width) is outside rbster");
         }
         if ((y+height < y) || (y+height > this.minY + this.height)) {
-            throw new RasterFormatException("(y + height) is outside raster");
+            throw new RbsterFormbtException("(y + height) is outside rbster");
         }
 
-        SampleModel sm;
+        SbmpleModel sm;
 
-        if (bandList != null)
-            sm = sampleModel.createSubsetSampleModel(bandList);
+        if (bbndList != null)
+            sm = sbmpleModel.crebteSubsetSbmpleModel(bbndList);
         else
-            sm = sampleModel;
+            sm = sbmpleModel;
 
-        int deltaX = x0 - x;
-        int deltaY = y0 - y;
+        int deltbX = x0 - x;
+        int deltbY = y0 - y;
 
-        return new IntegerComponentRaster(sm,
-                                          dataBuffer,
-                                          new Rectangle(x0,y0,width,height),
-                                          new Point(sampleModelTranslateX+deltaX,
-                                                    sampleModelTranslateY+deltaY),
+        return new IntegerComponentRbster(sm,
+                                          dbtbBuffer,
+                                          new Rectbngle(x0,y0,width,height),
+                                          new Point(sbmpleModelTrbnslbteX+deltbX,
+                                                    sbmpleModelTrbnslbteY+deltbY),
                                           this);
     }
 
 
     /**
-     * Creates a subraster given a region of the raster.  The x and y
-     * coordinates specify the horizontal and vertical offsets
-     * from the upper-left corner of this raster to the upper-left corner
-     * of the subraster.  A subset of the bands of the parent raster may
-     * be specified. If this is null, then all the bands are present in the
-     * subRaster. Note that the subraster will reference the same
-     * DataBuffer as the parent raster, but using different offsets.
-     * @param x               X offset.
-     * @param y               Y offset.
-     * @param width           Width (in pixels) of the subraster.
-     * @param height          Height (in pixels) of the subraster.
-     * @param x0              Translated X origin of the subRaster.
-     * @param y0              Translated Y origin of the subRaster.
-     * @param bandList        Array of band indices.
-     * @exception RasterFormatException
-     *            if the specified bounding box is outside of the parent raster.
+     * Crebtes b subrbster given b region of the rbster.  The x bnd y
+     * coordinbtes specify the horizontbl bnd verticbl offsets
+     * from the upper-left corner of this rbster to the upper-left corner
+     * of the subrbster.  A subset of the bbnds of the pbrent rbster mby
+     * be specified. If this is null, then bll the bbnds bre present in the
+     * subRbster. Note thbt the subrbster will reference the sbme
+     * DbtbBuffer bs the pbrent rbster, but using different offsets.
+     * @pbrbm x               X offset.
+     * @pbrbm y               Y offset.
+     * @pbrbm width           Width (in pixels) of the subrbster.
+     * @pbrbm height          Height (in pixels) of the subrbster.
+     * @pbrbm x0              Trbnslbted X origin of the subRbster.
+     * @pbrbm y0              Trbnslbted Y origin of the subRbster.
+     * @pbrbm bbndList        Arrby of bbnd indices.
+     * @exception RbsterFormbtException
+     *            if the specified bounding box is outside of the pbrent rbster.
      */
-    public Raster createChild (int x, int y,
+    public Rbster crebteChild (int x, int y,
                                int width, int height,
                                int x0, int y0,
-                               int bandList[]) {
-        return createWritableChild(x, y, width, height, x0, y0, bandList);
+                               int bbndList[]) {
+        return crebteWritbbleChild(x, y, width, height, x0, y0, bbndList);
     }
 
 
     /**
-     * Creates a raster with the same band layout but using a different
-     * width and height, and with new zeroed data arrays.
+     * Crebtes b rbster with the sbme bbnd lbyout but using b different
+     * width bnd height, bnd with new zeroed dbtb brrbys.
      */
-    public WritableRaster createCompatibleWritableRaster(int w, int h) {
+    public WritbbleRbster crebteCompbtibleWritbbleRbster(int w, int h) {
         if (w <= 0 || h <=0) {
-            throw new RasterFormatException("negative "+
+            throw new RbsterFormbtException("negbtive "+
                                           ((w <= 0) ? "width" : "height"));
         }
 
-        SampleModel sm = sampleModel.createCompatibleSampleModel(w,h);
+        SbmpleModel sm = sbmpleModel.crebteCompbtibleSbmpleModel(w,h);
 
-        return new IntegerComponentRaster(sm, new Point(0,0));
+        return new IntegerComponentRbster(sm, new Point(0,0));
     }
 
     /**
-     * Creates a raster with the same data layout and the same
-     * width and height, and with new zeroed data arrays.  If
-     * the raster is a subraster, this will call
-     * createCompatibleRaster(width, height).
+     * Crebtes b rbster with the sbme dbtb lbyout bnd the sbme
+     * width bnd height, bnd with new zeroed dbtb brrbys.  If
+     * the rbster is b subrbster, this will cbll
+     * crebteCompbtibleRbster(width, height).
      */
-    public WritableRaster createCompatibleWritableRaster() {
-        return createCompatibleWritableRaster(width,height);
+    public WritbbleRbster crebteCompbtibleWritbbleRbster() {
+        return crebteCompbtibleWritbbleRbster(width,height);
     }
 
     /**
-     * Verify that the layout parameters are consistent with the data.
+     * Verify thbt the lbyout pbrbmeters bre consistent with the dbtb.
      *
-     * The method verifies whether scanline stride and pixel stride do not
-     * cause an integer overflow during calculation of a position of the pixel
-     * in data buffer. It also verifies whether the data buffer has enough data
-     *  to correspond the raster layout attributes.
+     * The method verifies whether scbnline stride bnd pixel stride do not
+     * cbuse bn integer overflow during cblculbtion of b position of the pixel
+     * in dbtb buffer. It blso verifies whether the dbtb buffer hbs enough dbtb
+     *  to correspond the rbster lbyout bttributes.
      *
-     * @throws RasterFormatException if an integer overflow is detected,
-     * or if data buffer has not enough capacity.
+     * @throws RbsterFormbtException if bn integer overflow is detected,
+     * or if dbtb buffer hbs not enough cbpbcity.
      */
-    protected final void verify() {
-        /* Need to re-verify the dimensions since a sample model may be
+    protected finbl void verify() {
+        /* Need to re-verify the dimensions since b sbmple model mby be
          * specified to the constructor
          */
         if (width <= 0 || height <= 0 ||
             height > (Integer.MAX_VALUE / width))
         {
-            throw new RasterFormatException("Invalid raster dimension");
+            throw new RbsterFormbtException("Invblid rbster dimension");
         }
 
-        if (dataOffsets[0] < 0) {
-            throw new RasterFormatException("Data offset ("+dataOffsets[0]+
+        if (dbtbOffsets[0] < 0) {
+            throw new RbsterFormbtException("Dbtb offset ("+dbtbOffsets[0]+
                                             ") must be >= 0");
         }
 
-        if ((long)minX - sampleModelTranslateX < 0 ||
-            (long)minY - sampleModelTranslateY < 0) {
+        if ((long)minX - sbmpleModelTrbnslbteX < 0 ||
+            (long)minY - sbmpleModelTrbnslbteY < 0) {
 
-            throw new RasterFormatException("Incorrect origin/translate: (" +
+            throw new RbsterFormbtException("Incorrect origin/trbnslbte: (" +
                     minX + ", " + minY + ") / (" +
-                    sampleModelTranslateX + ", " + sampleModelTranslateY + ")");
+                    sbmpleModelTrbnslbteX + ", " + sbmpleModelTrbnslbteY + ")");
         }
 
-        // we can be sure that width and height are greater than 0
-        if (scanlineStride < 0 ||
-            scanlineStride > (Integer.MAX_VALUE / height))
+        // we cbn be sure thbt width bnd height bre grebter thbn 0
+        if (scbnlineStride < 0 ||
+            scbnlineStride > (Integer.MAX_VALUE / height))
         {
             // integer overflow
-            throw new RasterFormatException("Incorrect scanline stride: "
-                    + scanlineStride);
+            throw new RbsterFormbtException("Incorrect scbnline stride: "
+                    + scbnlineStride);
         }
 
-        if (height > 1 || minY - sampleModelTranslateY > 0) {
-            // buffer should contain at least one scanline
-            if (scanlineStride > data.length) {
-                throw new RasterFormatException("Incorrect scanline stride: "
-                        + scanlineStride);
+        if (height > 1 || minY - sbmpleModelTrbnslbteY > 0) {
+            // buffer should contbin bt lebst one scbnline
+            if (scbnlineStride > dbtb.length) {
+                throw new RbsterFormbtException("Incorrect scbnline stride: "
+                        + scbnlineStride);
             }
         }
 
-        int lastScanOffset = (height - 1) * scanlineStride;
+        int lbstScbnOffset = (height - 1) * scbnlineStride;
 
         if (pixelStride < 0 ||
             pixelStride > (Integer.MAX_VALUE / width) ||
-            pixelStride > data.length)
+            pixelStride > dbtb.length)
         {
             // integer overflow
-            throw new RasterFormatException("Incorrect pixel stride: "
+            throw new RbsterFormbtException("Incorrect pixel stride: "
                     + pixelStride);
         }
-        int lastPixelOffset = (width - 1) * pixelStride;
+        int lbstPixelOffset = (width - 1) * pixelStride;
 
-        if (lastPixelOffset > (Integer.MAX_VALUE - lastScanOffset)) {
+        if (lbstPixelOffset > (Integer.MAX_VALUE - lbstScbnOffset)) {
             // integer overflow
-            throw new RasterFormatException("Incorrect raster attributes");
+            throw new RbsterFormbtException("Incorrect rbster bttributes");
         }
-        lastPixelOffset += lastScanOffset;
+        lbstPixelOffset += lbstScbnOffset;
 
         int index;
-        int maxIndex = 0;
-        for (int i = 0; i < numDataElements; i++) {
-            if (dataOffsets[i] > (Integer.MAX_VALUE - lastPixelOffset)) {
-                throw new RasterFormatException("Incorrect band offset: "
-                            + dataOffsets[i]);
+        int mbxIndex = 0;
+        for (int i = 0; i < numDbtbElements; i++) {
+            if (dbtbOffsets[i] > (Integer.MAX_VALUE - lbstPixelOffset)) {
+                throw new RbsterFormbtException("Incorrect bbnd offset: "
+                            + dbtbOffsets[i]);
             }
 
-            index = lastPixelOffset + dataOffsets[i];
+            index = lbstPixelOffset + dbtbOffsets[i];
 
-            if (index > maxIndex) {
-                maxIndex = index;
+            if (index > mbxIndex) {
+                mbxIndex = index;
             }
         }
-        if (data.length <= maxIndex) {
-            throw new RasterFormatException("Data array too small (should be > "
-                    + maxIndex + " )");
+        if (dbtb.length <= mbxIndex) {
+            throw new RbsterFormbtException("Dbtb brrby too smbll (should be > "
+                    + mbxIndex + " )");
         }
     }
 
     public String toString() {
-        return new String ("IntegerComponentRaster: width = "+width
+        return new String ("IntegerComponentRbster: width = "+width
                            +" height = " + height
-                           +" #Bands = " + numBands
-                           +" #DataElements "+numDataElements
-                           +" xOff = "+sampleModelTranslateX
-                           +" yOff = "+sampleModelTranslateY
-                           +" dataOffset[0] "+dataOffsets[0]);
+                           +" #Bbnds = " + numBbnds
+                           +" #DbtbElements "+numDbtbElements
+                           +" xOff = "+sbmpleModelTrbnslbteX
+                           +" yOff = "+sbmpleModelTrbnslbteY
+                           +" dbtbOffset[0] "+dbtbOffsets[0]);
     }
 
 //    /**
-//     * For debugging...  prints a region of a one-band IntegerComponentRaster
+//     * For debugging...  prints b region of b one-bbnd IntegerComponentRbster
 //     */
 //    public void print(int x, int y, int w, int h) {
-//        // REMIND:  Only works for 1 band!
+//        // REMIND:  Only works for 1 bbnd!
 //        System.out.println(this);
-//        int offset = dataOffsets[0] + y*scanlineStride + x*pixelStride;
+//        int offset = dbtbOffsets[0] + y*scbnlineStride + x*pixelStride;
 //        int off;
-//        for (int yoff=0; yoff < h; yoff++, offset += scanlineStride) {
+//        for (int yoff=0; yoff < h; yoff++, offset += scbnlineStride) {
 //            off = offset;
-//            System.out.print("Line "+(sampleModelTranslateY+y+yoff)+": ");
+//            System.out.print("Line "+(sbmpleModelTrbnslbteY+y+yoff)+": ");
 //            for (int xoff = 0; xoff < w; xoff++, off+= pixelStride) {
-//                System.out.print(Integer.toHexString(data[off])+" ");
+//                System.out.print(Integer.toHexString(dbtb[off])+" ");
 //            }
 //            System.out.println("");
 //        }

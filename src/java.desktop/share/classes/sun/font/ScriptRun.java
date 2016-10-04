@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -26,111 +26,111 @@
 /*
  *******************************************************************************
  *
- *   Copyright (C) 1999-2003, International Business Machines
- *   Corporation and others.  All Rights Reserved.
+ *   Copyright (C) 1999-2003, Internbtionbl Business Mbchines
+ *   Corporbtion bnd others.  All Rights Reserved.
  *
  *******************************************************************************
  */
 
-package sun.font;
+pbckbge sun.font;
 
 /**
- * <code>ScriptRun</code> is used to find runs of characters in
- * the same script, as defined in the <code>Script</code> class.
- * It implements a simple iterator over an array of characters.
- * The iterator will assign <code>COMMON</code> and <code>INHERITED</code>
- * characters to the same script as the preceding characters. If the
- * COMMON and INHERITED characters are first, they will be assigned to
- * the same script as the following characters.
+ * <code>ScriptRun</code> is used to find runs of chbrbcters in
+ * the sbme script, bs defined in the <code>Script</code> clbss.
+ * It implements b simple iterbtor over bn brrby of chbrbcters.
+ * The iterbtor will bssign <code>COMMON</code> bnd <code>INHERITED</code>
+ * chbrbcters to the sbme script bs the preceding chbrbcters. If the
+ * COMMON bnd INHERITED chbrbcters bre first, they will be bssigned to
+ * the sbme script bs the following chbrbcters.
  *
- * The iterator will try to match paired punctuation. If it sees an
- * opening punctuation character, it will remember the script that
- * was assigned to that character, and assign the same script to the
- * matching closing punctuation.
+ * The iterbtor will try to mbtch pbired punctubtion. If it sees bn
+ * opening punctubtion chbrbcter, it will remember the script thbt
+ * wbs bssigned to thbt chbrbcter, bnd bssign the sbme script to the
+ * mbtching closing punctubtion.
  *
- * No attempt is made to combine related scripts into a single run. In
- * particular, Hiragana, Katakana, and Han characters will appear in seperate
+ * No bttempt is mbde to combine relbted scripts into b single run. In
+ * pbrticulbr, Hirbgbnb, Kbtbkbnb, bnd Hbn chbrbcters will bppebr in seperbte
  * runs.
 
- * Here is an example of how to iterate over script runs:
+ * Here is bn exbmple of how to iterbte over script runs:
  * <pre>
- * void printScriptRuns(char[] text)
+ * void printScriptRuns(chbr[] text)
  * {
  *     ScriptRun scriptRun = new ScriptRun(text, 0, text.length);
  *
  *     while (scriptRun.next()) {
- *         int start  = scriptRun.getScriptStart();
+ *         int stbrt  = scriptRun.getScriptStbrt();
  *         int limit  = scriptRun.getScriptLimit();
  *         int script = scriptRun.getScriptCode();
  *
- *         System.out.println("Script \"" + Script.getName(script) + "\" from " +
- *                            start + " to " + limit + ".");
+ *         System.out.println("Script \"" + Script.getNbme(script) + "\" from " +
+ *                            stbrt + " to " + limit + ".");
  *     }
  *  }
  * </pre>
  *
  */
-public final class ScriptRun
+public finbl clbss ScriptRun
 {
-    private char[] text;   // fixed once set by constructor
-    private int textStart;
-    private int textLimit;
+    privbte chbr[] text;   // fixed once set by constructor
+    privbte int textStbrt;
+    privbte int textLimit;
 
-    private int scriptStart;     // change during iteration
-    private int scriptLimit;
-    private int scriptCode;
+    privbte int scriptStbrt;     // chbnge during iterbtion
+    privbte int scriptLimit;
+    privbte int scriptCode;
 
-    private int stack[];         // stack used to handle paired punctuation if encountered
-    private int parenSP;
+    privbte int stbck[];         // stbck used to hbndle pbired punctubtion if encountered
+    privbte int pbrenSP;
 
     public ScriptRun() {
-        // must call init later or we die.
+        // must cbll init lbter or we die.
     }
 
     /**
-     * Construct a <code>ScriptRun</code> object which iterates over a subrange
-     * of the given characetrs.
+     * Construct b <code>ScriptRun</code> object which iterbtes over b subrbnge
+     * of the given chbrbcetrs.
      *
-     * @param chars the array of characters over which to iterate.
-     * @param start the index of the first character over which to iterate
-     * @param count the number of characters over which to iterate
+     * @pbrbm chbrs the brrby of chbrbcters over which to iterbte.
+     * @pbrbm stbrt the index of the first chbrbcter over which to iterbte
+     * @pbrbm count the number of chbrbcters over which to iterbte
      */
-    public ScriptRun(char[] chars, int start, int count)
+    public ScriptRun(chbr[] chbrs, int stbrt, int count)
     {
-        init(chars, start, count);
+        init(chbrs, stbrt, count);
     }
 
-    public void init(char[] chars, int start, int count)
+    public void init(chbr[] chbrs, int stbrt, int count)
     {
-        if (chars == null || start < 0 || count < 0 || count > chars.length - start) {
-            throw new IllegalArgumentException();
+        if (chbrs == null || stbrt < 0 || count < 0 || count > chbrs.length - stbrt) {
+            throw new IllegblArgumentException();
         }
 
-        text = chars;
-        textStart = start;
-        textLimit = start + count;
+        text = chbrs;
+        textStbrt = stbrt;
+        textLimit = stbrt + count;
 
-        scriptStart = textStart;
-        scriptLimit = textStart;
+        scriptStbrt = textStbrt;
+        scriptLimit = textStbrt;
         scriptCode = Script.INVALID_CODE;
-        parenSP = 0;
+        pbrenSP = 0;
     }
 
     /**
-     * Get the starting index of the current script run.
+     * Get the stbrting index of the current script run.
      *
-     * @return the index of the first character in the current script run.
+     * @return the index of the first chbrbcter in the current script run.
      */
-    public final int getScriptStart() {
-        return scriptStart;
+    public finbl int getScriptStbrt() {
+        return scriptStbrt;
     }
 
     /**
-     * Get the index of the first character after the current script run.
+     * Get the index of the first chbrbcter bfter the current script run.
      *
-     * @return the index of the first character after the current script run.
+     * @return the index of the first chbrbcter bfter the current script run.
      */
-    public final int getScriptLimit() {
+    public finbl int getScriptLimit() {
         return scriptLimit;
     }
 
@@ -140,109 +140,109 @@ public final class ScriptRun
      * @return the script code for the script of the current script run.
      * @see #Script
      */
-    public final int getScriptCode() {
+    public finbl int getScriptCode() {
         return scriptCode;
     }
 
     /**
-     * Find the next script run. Returns <code>false</code> if there
-     * isn't another run, returns <code>true</code> if there is.
+     * Find the next script run. Returns <code>fblse</code> if there
+     * isn't bnother run, returns <code>true</code> if there is.
      *
-     * @return <code>false</code> if there isn't another run, <code>true</code> if there is.
+     * @return <code>fblse</code> if there isn't bnother run, <code>true</code> if there is.
      */
-    public final boolean next() {
-        int startSP  = parenSP;  // used to find the first new open character
+    public finbl boolebn next() {
+        int stbrtSP  = pbrenSP;  // used to find the first new open chbrbcter
 
-        // if we've fallen off the end of the text, we're done
+        // if we've fbllen off the end of the text, we're done
         if (scriptLimit >= textLimit) {
-            return false;
+            return fblse;
         }
 
         scriptCode  = Script.COMMON;
-        scriptStart = scriptLimit;
+        scriptStbrt = scriptLimit;
 
         int ch;
 
         while ((ch = nextCodePoint()) != DONE) {
-            int sc = ScriptRunData.getScript(ch);
-            int pairIndex = sc == Script.COMMON ? getPairIndex(ch) : -1;
+            int sc = ScriptRunDbtb.getScript(ch);
+            int pbirIndex = sc == Script.COMMON ? getPbirIndex(ch) : -1;
 
-            // Paired character handling:
+            // Pbired chbrbcter hbndling:
             //
-            // if it's an open character, push it onto the stack.
-            // if it's a close character, find the matching open on the
-            // stack, and use that script code. Any non-matching open
-            // characters above it on the stack will be popped.
-            if (pairIndex >= 0) {
-                if ((pairIndex & 1) == 0) {
-                    if (stack == null) {
-                        stack = new int[32];
-                    } else if (parenSP == stack.length) {
-                        int[] newstack = new int[stack.length + 32];
-                        System.arraycopy(stack, 0, newstack, 0, stack.length);
-                        stack = newstack;
+            // if it's bn open chbrbcter, push it onto the stbck.
+            // if it's b close chbrbcter, find the mbtching open on the
+            // stbck, bnd use thbt script code. Any non-mbtching open
+            // chbrbcters bbove it on the stbck will be popped.
+            if (pbirIndex >= 0) {
+                if ((pbirIndex & 1) == 0) {
+                    if (stbck == null) {
+                        stbck = new int[32];
+                    } else if (pbrenSP == stbck.length) {
+                        int[] newstbck = new int[stbck.length + 32];
+                        System.brrbycopy(stbck, 0, newstbck, 0, stbck.length);
+                        stbck = newstbck;
                     }
 
-                    stack[parenSP++] = pairIndex;
-                    stack[parenSP++] = scriptCode;
-                } else if (parenSP > 0) {
-                    int pi = pairIndex & ~1;
+                    stbck[pbrenSP++] = pbirIndex;
+                    stbck[pbrenSP++] = scriptCode;
+                } else if (pbrenSP > 0) {
+                    int pi = pbirIndex & ~1;
 
-                    while ((parenSP -= 2) >= 0 && stack[parenSP] != pi);
+                    while ((pbrenSP -= 2) >= 0 && stbck[pbrenSP] != pi);
 
-                    if (parenSP >= 0) {
-                        sc = stack[parenSP+1];
+                    if (pbrenSP >= 0) {
+                        sc = stbck[pbrenSP+1];
                     } else {
-                      parenSP = 0;
+                      pbrenSP = 0;
                     }
-                    if (parenSP < startSP) {
-                        startSP = parenSP;
+                    if (pbrenSP < stbrtSP) {
+                        stbrtSP = pbrenSP;
                     }
                }
             }
 
-            if (sameScript(scriptCode, sc)) {
+            if (sbmeScript(scriptCode, sc)) {
                 if (scriptCode <= Script.INHERITED && sc > Script.INHERITED) {
                     scriptCode = sc;
 
-                    // now that we have a final script code, fix any open
-                    // characters we pushed before we knew the script code.
-                    while (startSP < parenSP) {
-                        stack[startSP+1] = scriptCode;
-                        startSP += 2;
+                    // now thbt we hbve b finbl script code, fix bny open
+                    // chbrbcters we pushed before we knew the script code.
+                    while (stbrtSP < pbrenSP) {
+                        stbck[stbrtSP+1] = scriptCode;
+                        stbrtSP += 2;
                     }
                 }
 
-                // if this character is a close paired character,
-                // pop it from the stack
-                if (pairIndex > 0 && (pairIndex & 1) != 0 && parenSP > 0) {
-                    parenSP -= 2;
+                // if this chbrbcter is b close pbired chbrbcter,
+                // pop it from the stbck
+                if (pbirIndex > 0 && (pbirIndex & 1) != 0 && pbrenSP > 0) {
+                    pbrenSP -= 2;
                 }
             } else {
-                // We've just seen the first character of
-                // the next run. Back over it so we'll see
-                // it again the next time.
-                pushback(ch);
+                // We've just seen the first chbrbcter of
+                // the next run. Bbck over it so we'll see
+                // it bgbin the next time.
+                pushbbck(ch);
 
-                // we're outta here
-                break;
+                // we're outtb here
+                brebk;
             }
         }
 
         return true;
     }
 
-    static final int SURROGATE_START = 0x10000;
-    static final int LEAD_START = 0xd800;
-    static final int LEAD_LIMIT = 0xdc00;
-    static final int TAIL_START = 0xdc00;
-    static final int TAIL_LIMIT = 0xe000;
-    static final int LEAD_SURROGATE_SHIFT = 10;
-    static final int SURROGATE_OFFSET = SURROGATE_START - (LEAD_START << LEAD_SURROGATE_SHIFT) - TAIL_START;
+    stbtic finbl int SURROGATE_START = 0x10000;
+    stbtic finbl int LEAD_START = 0xd800;
+    stbtic finbl int LEAD_LIMIT = 0xdc00;
+    stbtic finbl int TAIL_START = 0xdc00;
+    stbtic finbl int TAIL_LIMIT = 0xe000;
+    stbtic finbl int LEAD_SURROGATE_SHIFT = 10;
+    stbtic finbl int SURROGATE_OFFSET = SURROGATE_START - (LEAD_START << LEAD_SURROGATE_SHIFT) - TAIL_START;
 
-    static final int DONE = -1;
+    stbtic finbl int DONE = -1;
 
-    private final int nextCodePoint() {
+    privbte finbl int nextCodePoint() {
         if (scriptLimit >= textLimit) {
             return DONE;
         }
@@ -257,7 +257,7 @@ public final class ScriptRun
         return ch;
     }
 
-    private final void pushback(int ch) {
+    privbte finbl void pushbbck(int ch) {
         if (ch >= 0) {
             if (ch >= 0x10000) {
                 scriptLimit -= 2;
@@ -268,26 +268,26 @@ public final class ScriptRun
     }
 
     /**
-     * Compare two script codes to see if they are in the same script. If one script is
-     * a strong script, and the other is INHERITED or COMMON, it will compare equal.
+     * Compbre two script codes to see if they bre in the sbme script. If one script is
+     * b strong script, bnd the other is INHERITED or COMMON, it will compbre equbl.
      *
-     * @param scriptOne one of the script codes.
-     * @param scriptTwo the other script code.
-     * @return <code>true</code> if the two scripts are the same.
-     * @see com.ibm.icu.lang.Script
+     * @pbrbm scriptOne one of the script codes.
+     * @pbrbm scriptTwo the other script code.
+     * @return <code>true</code> if the two scripts bre the sbme.
+     * @see com.ibm.icu.lbng.Script
      */
-    private static boolean sameScript(int scriptOne, int scriptTwo) {
+    privbte stbtic boolebn sbmeScript(int scriptOne, int scriptTwo) {
         return scriptOne == scriptTwo || scriptOne <= Script.INHERITED || scriptTwo <= Script.INHERITED;
     }
 
     /**
-     * Find the highest bit that's set in a word. Uses a binary search through
+     * Find the highest bit thbt's set in b word. Uses b binbry sebrch through
      * the bits.
      *
-     * @param n the word in which to find the highest bit that's set.
+     * @pbrbm n the word in which to find the highest bit thbt's set.
      * @return the bit number (counting from the low order bit) of the highest bit.
      */
-    private static final byte highBit(int n)
+    privbte stbtic finbl byte highBit(int n)
     {
         if (n <= 0) {
             return -32;
@@ -324,57 +324,57 @@ public final class ScriptRun
     }
 
     /**
-     * Search the pairedChars array for the given character.
+     * Sebrch the pbiredChbrs brrby for the given chbrbcter.
      *
-     * @param ch the character for which to search.
-     * @return the index of the character in the table, or -1 if it's not there.
+     * @pbrbm ch the chbrbcter for which to sebrch.
+     * @return the index of the chbrbcter in the tbble, or -1 if it's not there.
      */
-    private static int getPairIndex(int ch)
+    privbte stbtic int getPbirIndex(int ch)
     {
-        int probe = pairedCharPower;
+        int probe = pbiredChbrPower;
         int index = 0;
 
-        if (ch >= pairedChars[pairedCharExtra]) {
-            index = pairedCharExtra;
+        if (ch >= pbiredChbrs[pbiredChbrExtrb]) {
+            index = pbiredChbrExtrb;
         }
 
         while (probe > (1 << 0)) {
             probe >>= 1;
 
-            if (ch >= pairedChars[index + probe]) {
+            if (ch >= pbiredChbrs[index + probe]) {
                 index += probe;
             }
         }
 
-        if (pairedChars[index] != ch) {
+        if (pbiredChbrs[index] != ch) {
             index = -1;
         }
 
         return index;
     }
 
-    // all common
-    private static int pairedChars[] = {
-        0x0028, 0x0029, // ascii paired punctuation  // common
+    // bll common
+    privbte stbtic int pbiredChbrs[] = {
+        0x0028, 0x0029, // bscii pbired punctubtion  // common
         0x003c, 0x003e, // common
         0x005b, 0x005d, // common
         0x007b, 0x007d, // common
-        0x00ab, 0x00bb, // guillemets // common
-        0x2018, 0x2019, // general punctuation // common
+        0x00bb, 0x00bb, // guillemets // common
+        0x2018, 0x2019, // generbl punctubtion // common
         0x201c, 0x201d, // common
-        0x2039, 0x203a, // common
-        0x3008, 0x3009, // chinese paired punctuation // common
-        0x300a, 0x300b,
+        0x2039, 0x203b, // common
+        0x3008, 0x3009, // chinese pbired punctubtion // common
+        0x300b, 0x300b,
         0x300c, 0x300d,
         0x300e, 0x300f,
         0x3010, 0x3011,
         0x3014, 0x3015,
         0x3016, 0x3017,
         0x3018, 0x3019,
-        0x301a, 0x301b
+        0x301b, 0x301b
     };
 
-    private static final int pairedCharPower = 1 << highBit(pairedChars.length);
-    private static final int pairedCharExtra = pairedChars.length - pairedCharPower;
+    privbte stbtic finbl int pbiredChbrPower = 1 << highBit(pbiredChbrs.length);
+    privbte stbtic finbl int pbiredChbrExtrb = pbiredChbrs.length - pbiredChbrPower;
 
 }

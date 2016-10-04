@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.nio.ByteBuffer;
-import java.net.*;
-import java.util.concurrent.*;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.security.AccessController;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.net.*;
+import jbvb.util.concurrent.*;
+import jbvb.io.IOException;
+import jbvb.io.FileDescriptor;
+import jbvb.security.AccessController;
 import sun.net.NetHooks;
-import sun.security.action.GetPropertyAction;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * Unix implementation of AsynchronousSocketChannel
+ * Unix implementbtion of AsynchronousSocketChbnnel
  */
 
-class UnixAsynchronousSocketChannelImpl
-    extends AsynchronousSocketChannelImpl implements Port.PollableChannel
+clbss UnixAsynchronousSocketChbnnelImpl
+    extends AsynchronousSocketChbnnelImpl implements Port.PollbbleChbnnel
 {
-    private final static NativeDispatcher nd = new SocketDispatcher();
-    private static enum OpType { CONNECT, READ, WRITE };
+    privbte finbl stbtic NbtiveDispbtcher nd = new SocketDispbtcher();
+    privbte stbtic enum OpType { CONNECT, READ, WRITE };
 
-    private static final boolean disableSynchronousRead;
-    static {
-        String propValue = AccessController.doPrivileged(
-            new GetPropertyAction("sun.nio.ch.disableSynchronousRead", "false"));
-        disableSynchronousRead = (propValue.length() == 0) ?
-            true : Boolean.valueOf(propValue);
+    privbte stbtic finbl boolebn disbbleSynchronousRebd;
+    stbtic {
+        String propVblue = AccessController.doPrivileged(
+            new GetPropertyAction("sun.nio.ch.disbbleSynchronousRebd", "fblse"));
+        disbbleSynchronousRebd = (propVblue.length() == 0) ?
+            true : Boolebn.vblueOf(propVblue);
     }
 
-    private final Port port;
-    private final int fdVal;
+    privbte finbl Port port;
+    privbte finbl int fdVbl;
 
-    // used to ensure that the context for I/O operations that complete
-    // ascynrhonously is visible to the pooled threads handling I/O events.
-    private final Object updateLock = new Object();
+    // used to ensure thbt the context for I/O operbtions thbt complete
+    // bscynrhonously is visible to the pooled threbds hbndling I/O events.
+    privbte finbl Object updbteLock = new Object();
 
-    // pending connect (updateLock)
-    private boolean connectPending;
-    private CompletionHandler<Void,Object> connectHandler;
-    private Object connectAttachment;
-    private PendingFuture<Void,Object> connectFuture;
+    // pending connect (updbteLock)
+    privbte boolebn connectPending;
+    privbte CompletionHbndler<Void,Object> connectHbndler;
+    privbte Object connectAttbchment;
+    privbte PendingFuture<Void,Object> connectFuture;
 
-    // pending remote address (stateLock)
-    private SocketAddress pendingRemote;
+    // pending remote bddress (stbteLock)
+    privbte SocketAddress pendingRemote;
 
-    // pending read (updateLock)
-    private boolean readPending;
-    private boolean isScatteringRead;
-    private ByteBuffer readBuffer;
-    private ByteBuffer[] readBuffers;
-    private CompletionHandler<Number,Object> readHandler;
-    private Object readAttachment;
-    private PendingFuture<Number,Object> readFuture;
-    private Future<?> readTimer;
+    // pending rebd (updbteLock)
+    privbte boolebn rebdPending;
+    privbte boolebn isScbtteringRebd;
+    privbte ByteBuffer rebdBuffer;
+    privbte ByteBuffer[] rebdBuffers;
+    privbte CompletionHbndler<Number,Object> rebdHbndler;
+    privbte Object rebdAttbchment;
+    privbte PendingFuture<Number,Object> rebdFuture;
+    privbte Future<?> rebdTimer;
 
-    // pending write (updateLock)
-    private boolean writePending;
-    private boolean isGatheringWrite;
-    private ByteBuffer writeBuffer;
-    private ByteBuffer[] writeBuffers;
-    private CompletionHandler<Number,Object> writeHandler;
-    private Object writeAttachment;
-    private PendingFuture<Number,Object> writeFuture;
-    private Future<?> writeTimer;
+    // pending write (updbteLock)
+    privbte boolebn writePending;
+    privbte boolebn isGbtheringWrite;
+    privbte ByteBuffer writeBuffer;
+    privbte ByteBuffer[] writeBuffers;
+    privbte CompletionHbndler<Number,Object> writeHbndler;
+    privbte Object writeAttbchment;
+    privbte PendingFuture<Number,Object> writeFuture;
+    privbte Future<?> writeTimer;
 
 
-    UnixAsynchronousSocketChannelImpl(Port port)
+    UnixAsynchronousSocketChbnnelImpl(Port port)
         throws IOException
     {
         super(port);
 
         // set non-blocking
         try {
-            IOUtil.configureBlocking(fd, false);
-        } catch (IOException x) {
+            IOUtil.configureBlocking(fd, fblse);
+        } cbtch (IOException x) {
             nd.close(fd);
             throw x;
         }
 
         this.port = port;
-        this.fdVal = IOUtil.fdVal(fd);
+        this.fdVbl = IOUtil.fdVbl(fd);
 
-        // add mapping from file descriptor to this channel
-        port.register(fdVal, this);
+        // bdd mbpping from file descriptor to this chbnnel
+        port.register(fdVbl, this);
     }
 
-    // Constructor for sockets created by UnixAsynchronousServerSocketChannelImpl
-    UnixAsynchronousSocketChannelImpl(Port port,
+    // Constructor for sockets crebted by UnixAsynchronousServerSocketChbnnelImpl
+    UnixAsynchronousSocketChbnnelImpl(Port port,
                                       FileDescriptor fd,
                                       InetSocketAddress remote)
         throws IOException
     {
         super(port, fd, remote);
 
-        this.fdVal = IOUtil.fdVal(fd);
-        IOUtil.configureBlocking(fd, false);
+        this.fdVbl = IOUtil.fdVbl(fd);
+        IOUtil.configureBlocking(fd, fblse);
 
         try {
-            port.register(fdVal, this);
-        } catch (ShutdownChannelGroupException x) {
-            // ShutdownChannelGroupException thrown if we attempt to register a
-            // new channel after the group is shutdown
+            port.register(fdVbl, this);
+        } cbtch (ShutdownChbnnelGroupException x) {
+            // ShutdownChbnnelGroupException thrown if we bttempt to register b
+            // new chbnnel bfter the group is shutdown
             throw new IOException(x);
         }
 
@@ -133,426 +133,426 @@ class UnixAsynchronousSocketChannelImpl
     }
 
     @Override
-    public AsynchronousChannelGroupImpl group() {
+    public AsynchronousChbnnelGroupImpl group() {
         return port;
     }
 
-    // register events for outstanding I/O operations, caller already owns updateLock
-    private void updateEvents() {
-        assert Thread.holdsLock(updateLock);
+    // register events for outstbnding I/O operbtions, cbller blrebdy owns updbteLock
+    privbte void updbteEvents() {
+        bssert Threbd.holdsLock(updbteLock);
         int events = 0;
-        if (readPending)
+        if (rebdPending)
             events |= Net.POLLIN;
         if (connectPending || writePending)
             events |= Net.POLLOUT;
         if (events != 0)
-            port.startPoll(fdVal, events);
+            port.stbrtPoll(fdVbl, events);
     }
 
-    // register events for outstanding I/O operations
-    private void lockAndUpdateEvents() {
-        synchronized (updateLock) {
-            updateEvents();
+    // register events for outstbnding I/O operbtions
+    privbte void lockAndUpdbteEvents() {
+        synchronized (updbteLock) {
+            updbteEvents();
         }
     }
 
-    // invoke to finish read and/or write operations
-    private void finish(boolean mayInvokeDirect,
-                        boolean readable,
-                        boolean writable)
+    // invoke to finish rebd bnd/or write operbtions
+    privbte void finish(boolebn mbyInvokeDirect,
+                        boolebn rebdbble,
+                        boolebn writbble)
     {
-        boolean finishRead = false;
-        boolean finishWrite = false;
-        boolean finishConnect = false;
+        boolebn finishRebd = fblse;
+        boolebn finishWrite = fblse;
+        boolebn finishConnect = fblse;
 
-        // map event to pending result
-        synchronized (updateLock) {
-            if (readable && this.readPending) {
-                this.readPending = false;
-                finishRead = true;
+        // mbp event to pending result
+        synchronized (updbteLock) {
+            if (rebdbble && this.rebdPending) {
+                this.rebdPending = fblse;
+                finishRebd = true;
             }
-            if (writable) {
+            if (writbble) {
                 if (this.writePending) {
-                    this.writePending = false;
+                    this.writePending = fblse;
                     finishWrite = true;
                 } else if (this.connectPending) {
-                    this.connectPending = false;
+                    this.connectPending = fblse;
                     finishConnect = true;
                 }
             }
         }
 
-        // complete the I/O operation. Special case for when channel is
-        // ready for both reading and writing. In that case, submit task to
-        // complete write if write operation has a completion handler.
-        if (finishRead) {
+        // complete the I/O operbtion. Specibl cbse for when chbnnel is
+        // rebdy for both rebding bnd writing. In thbt cbse, submit tbsk to
+        // complete write if write operbtion hbs b completion hbndler.
+        if (finishRebd) {
             if (finishWrite)
-                finishWrite(false);
-            finishRead(mayInvokeDirect);
+                finishWrite(fblse);
+            finishRebd(mbyInvokeDirect);
             return;
         }
         if (finishWrite) {
-            finishWrite(mayInvokeDirect);
+            finishWrite(mbyInvokeDirect);
         }
         if (finishConnect) {
-            finishConnect(mayInvokeDirect);
+            finishConnect(mbyInvokeDirect);
         }
     }
 
     /**
-     * Invoked by event handler thread when file descriptor is polled
+     * Invoked by event hbndler threbd when file descriptor is polled
      */
     @Override
-    public void onEvent(int events, boolean mayInvokeDirect) {
-        boolean readable = (events & Net.POLLIN) > 0;
-        boolean writable = (events & Net.POLLOUT) > 0;
+    public void onEvent(int events, boolebn mbyInvokeDirect) {
+        boolebn rebdbble = (events & Net.POLLIN) > 0;
+        boolebn writbble = (events & Net.POLLOUT) > 0;
         if ((events & (Net.POLLERR | Net.POLLHUP)) > 0) {
-            readable = true;
-            writable = true;
+            rebdbble = true;
+            writbble = true;
         }
-        finish(mayInvokeDirect, readable, writable);
+        finish(mbyInvokeDirect, rebdbble, writbble);
     }
 
     @Override
     void implClose() throws IOException {
-        // remove the mapping
-        port.unregister(fdVal);
+        // remove the mbpping
+        port.unregister(fdVbl);
 
         // close file descriptor
         nd.close(fd);
 
-        // All outstanding I/O operations are required to fail
-        finish(false, true, true);
+        // All outstbnding I/O operbtions bre required to fbil
+        finish(fblse, true, true);
     }
 
     @Override
-    public void onCancel(PendingFuture<?,?> task) {
-        if (task.getContext() == OpType.CONNECT)
+    public void onCbncel(PendingFuture<?,?> tbsk) {
+        if (tbsk.getContext() == OpType.CONNECT)
             killConnect();
-        if (task.getContext() == OpType.READ)
-            killReading();
-        if (task.getContext() == OpType.WRITE)
+        if (tbsk.getContext() == OpType.READ)
+            killRebding();
+        if (tbsk.getContext() == OpType.WRITE)
             killWriting();
     }
 
     // -- connect --
 
-    private void setConnected() throws IOException {
-        synchronized (stateLock) {
-            state = ST_CONNECTED;
-            localAddress = Net.localAddress(fd);
+    privbte void setConnected() throws IOException {
+        synchronized (stbteLock) {
+            stbte = ST_CONNECTED;
+            locblAddress = Net.locblAddress(fd);
             remoteAddress = (InetSocketAddress)pendingRemote;
         }
     }
 
-    private void finishConnect(boolean mayInvokeDirect) {
-        Throwable e = null;
+    privbte void finishConnect(boolebn mbyInvokeDirect) {
+        Throwbble e = null;
         try {
             begin();
-            checkConnect(fdVal);
+            checkConnect(fdVbl);
             setConnected();
-        } catch (Throwable x) {
-            if (x instanceof ClosedChannelException)
+        } cbtch (Throwbble x) {
+            if (x instbnceof ClosedChbnnelException)
                 x = new AsynchronousCloseException();
             e = x;
-        } finally {
+        } finblly {
             end();
         }
         if (e != null) {
-            // close channel if connection cannot be established
+            // close chbnnel if connection cbnnot be estbblished
             try {
                 close();
-            } catch (Throwable suppressed) {
-                e.addSuppressed(suppressed);
+            } cbtch (Throwbble suppressed) {
+                e.bddSuppressed(suppressed);
             }
         }
 
-        // invoke handler and set result
-        CompletionHandler<Void,Object> handler = connectHandler;
-        Object att = connectAttachment;
+        // invoke hbndler bnd set result
+        CompletionHbndler<Void,Object> hbndler = connectHbndler;
+        Object btt = connectAttbchment;
         PendingFuture<Void,Object> future = connectFuture;
-        if (handler == null) {
+        if (hbndler == null) {
             future.setResult(null, e);
         } else {
-            if (mayInvokeDirect) {
-                Invoker.invokeUnchecked(handler, att, null, e);
+            if (mbyInvokeDirect) {
+                Invoker.invokeUnchecked(hbndler, btt, null, e);
             } else {
-                Invoker.invokeIndirectly(this, handler, att, null, e);
+                Invoker.invokeIndirectly(this, hbndler, btt, null, e);
             }
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     <A> Future<Void> implConnect(SocketAddress remote,
-                                 A attachment,
-                                 CompletionHandler<Void,? super A> handler)
+                                 A bttbchment,
+                                 CompletionHbndler<Void,? super A> hbndler)
     {
         if (!isOpen()) {
-            Throwable e = new ClosedChannelException();
-            if (handler == null) {
-                return CompletedFuture.withFailure(e);
+            Throwbble e = new ClosedChbnnelException();
+            if (hbndler == null) {
+                return CompletedFuture.withFbilure(e);
             } else {
-                Invoker.invoke(this, handler, attachment, null, e);
+                Invoker.invoke(this, hbndler, bttbchment, null, e);
                 return null;
             }
         }
 
-        InetSocketAddress isa = Net.checkAddress(remote);
+        InetSocketAddress isb = Net.checkAddress(remote);
 
         // permission check
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkConnect(isa.getAddress().getHostAddress(), isa.getPort());
+            sm.checkConnect(isb.getAddress().getHostAddress(), isb.getPort());
 
-        // check and set state
-        boolean notifyBeforeTcpConnect;
-        synchronized (stateLock) {
-            if (state == ST_CONNECTED)
-                throw new AlreadyConnectedException();
-            if (state == ST_PENDING)
+        // check bnd set stbte
+        boolebn notifyBeforeTcpConnect;
+        synchronized (stbteLock) {
+            if (stbte == ST_CONNECTED)
+                throw new AlrebdyConnectedException();
+            if (stbte == ST_PENDING)
                 throw new ConnectionPendingException();
-            state = ST_PENDING;
+            stbte = ST_PENDING;
             pendingRemote = remote;
-            notifyBeforeTcpConnect = (localAddress == null);
+            notifyBeforeTcpConnect = (locblAddress == null);
         }
 
-        Throwable e = null;
+        Throwbble e = null;
         try {
             begin();
             // notify hook if unbound
             if (notifyBeforeTcpConnect)
-                NetHooks.beforeTcpConnect(fd, isa.getAddress(), isa.getPort());
-            int n = Net.connect(fd, isa.getAddress(), isa.getPort());
-            if (n == IOStatus.UNAVAILABLE) {
-                // connection could not be established immediately
+                NetHooks.beforeTcpConnect(fd, isb.getAddress(), isb.getPort());
+            int n = Net.connect(fd, isb.getAddress(), isb.getPort());
+            if (n == IOStbtus.UNAVAILABLE) {
+                // connection could not be estbblished immedibtely
                 PendingFuture<Void,A> result = null;
-                synchronized (updateLock) {
-                    if (handler == null) {
+                synchronized (updbteLock) {
+                    if (hbndler == null) {
                         result = new PendingFuture<Void,A>(this, OpType.CONNECT);
                         this.connectFuture = (PendingFuture<Void,Object>)result;
                     } else {
-                        this.connectHandler = (CompletionHandler<Void,Object>)handler;
-                        this.connectAttachment = attachment;
+                        this.connectHbndler = (CompletionHbndler<Void,Object>)hbndler;
+                        this.connectAttbchment = bttbchment;
                     }
                     this.connectPending = true;
-                    updateEvents();
+                    updbteEvents();
                 }
                 return result;
             }
             setConnected();
-        } catch (Throwable x) {
-            if (x instanceof ClosedChannelException)
+        } cbtch (Throwbble x) {
+            if (x instbnceof ClosedChbnnelException)
                 x = new AsynchronousCloseException();
             e = x;
-        } finally {
+        } finblly {
             end();
         }
 
-        // close channel if connect fails
+        // close chbnnel if connect fbils
         if (e != null) {
             try {
                 close();
-            } catch (Throwable suppressed) {
-                e.addSuppressed(suppressed);
+            } cbtch (Throwbble suppressed) {
+                e.bddSuppressed(suppressed);
             }
         }
-        if (handler == null) {
+        if (hbndler == null) {
             return CompletedFuture.withResult(null, e);
         } else {
-            Invoker.invoke(this, handler, attachment, null, e);
+            Invoker.invoke(this, hbndler, bttbchment, null, e);
             return null;
         }
     }
 
-    // -- read --
+    // -- rebd --
 
-    private void finishRead(boolean mayInvokeDirect) {
+    privbte void finishRebd(boolebn mbyInvokeDirect) {
         int n = -1;
-        Throwable exc = null;
+        Throwbble exc = null;
 
-        // copy fields as we can't access them after reading is re-enabled.
-        boolean scattering = isScatteringRead;
-        CompletionHandler<Number,Object> handler = readHandler;
-        Object att = readAttachment;
-        PendingFuture<Number,Object> future = readFuture;
-        Future<?> timeout = readTimer;
+        // copy fields bs we cbn't bccess them bfter rebding is re-enbbled.
+        boolebn scbttering = isScbtteringRebd;
+        CompletionHbndler<Number,Object> hbndler = rebdHbndler;
+        Object btt = rebdAttbchment;
+        PendingFuture<Number,Object> future = rebdFuture;
+        Future<?> timeout = rebdTimer;
 
         try {
             begin();
 
-            if (scattering) {
-                n = (int)IOUtil.read(fd, readBuffers, nd);
+            if (scbttering) {
+                n = (int)IOUtil.rebd(fd, rebdBuffers, nd);
             } else {
-                n = IOUtil.read(fd, readBuffer, -1, nd);
+                n = IOUtil.rebd(fd, rebdBuffer, -1, nd);
             }
-            if (n == IOStatus.UNAVAILABLE) {
-                // spurious wakeup, is this possible?
-                synchronized (updateLock) {
-                    readPending = true;
+            if (n == IOStbtus.UNAVAILABLE) {
+                // spurious wbkeup, is this possible?
+                synchronized (updbteLock) {
+                    rebdPending = true;
                 }
                 return;
             }
 
-            // allow objects to be GC'ed.
-            this.readBuffer = null;
-            this.readBuffers = null;
-            this.readAttachment = null;
+            // bllow objects to be GC'ed.
+            this.rebdBuffer = null;
+            this.rebdBuffers = null;
+            this.rebdAttbchment = null;
 
-            // allow another read to be initiated
-            enableReading();
+            // bllow bnother rebd to be initibted
+            enbbleRebding();
 
-        } catch (Throwable x) {
-            enableReading();
-            if (x instanceof ClosedChannelException)
+        } cbtch (Throwbble x) {
+            enbbleRebding();
+            if (x instbnceof ClosedChbnnelException)
                 x = new AsynchronousCloseException();
             exc = x;
-        } finally {
-            // restart poll in case of concurrent write
-            if (!(exc instanceof AsynchronousCloseException))
-                lockAndUpdateEvents();
+        } finblly {
+            // restbrt poll in cbse of concurrent write
+            if (!(exc instbnceof AsynchronousCloseException))
+                lockAndUpdbteEvents();
             end();
         }
 
-        // cancel the associated timer
+        // cbncel the bssocibted timer
         if (timeout != null)
-            timeout.cancel(false);
+            timeout.cbncel(fblse);
 
-        // create result
-        Number result = (exc != null) ? null : (scattering) ?
-            (Number)Long.valueOf(n) : (Number)Integer.valueOf(n);
+        // crebte result
+        Number result = (exc != null) ? null : (scbttering) ?
+            (Number)Long.vblueOf(n) : (Number)Integer.vblueOf(n);
 
-        // invoke handler or set result
-        if (handler == null) {
+        // invoke hbndler or set result
+        if (hbndler == null) {
             future.setResult(result, exc);
         } else {
-            if (mayInvokeDirect) {
-                Invoker.invokeUnchecked(handler, att, result, exc);
+            if (mbyInvokeDirect) {
+                Invoker.invokeUnchecked(hbndler, btt, result, exc);
             } else {
-                Invoker.invokeIndirectly(this, handler, att, result, exc);
+                Invoker.invokeIndirectly(this, hbndler, btt, result, exc);
             }
         }
     }
 
-    private Runnable readTimeoutTask = new Runnable() {
+    privbte Runnbble rebdTimeoutTbsk = new Runnbble() {
         public void run() {
-            CompletionHandler<Number,Object> handler = null;
-            Object att = null;
+            CompletionHbndler<Number,Object> hbndler = null;
+            Object btt = null;
             PendingFuture<Number,Object> future = null;
 
-            synchronized (updateLock) {
-                if (!readPending)
+            synchronized (updbteLock) {
+                if (!rebdPending)
                     return;
-                readPending = false;
-                handler = readHandler;
-                att = readAttachment;
-                future = readFuture;
+                rebdPending = fblse;
+                hbndler = rebdHbndler;
+                btt = rebdAttbchment;
+                future = rebdFuture;
             }
 
-            // kill further reading before releasing waiters
-            enableReading(true);
+            // kill further rebding before relebsing wbiters
+            enbbleRebding(true);
 
-            // invoke handler or set result
+            // invoke hbndler or set result
             Exception exc = new InterruptedByTimeoutException();
-            if (handler == null) {
-                future.setFailure(exc);
+            if (hbndler == null) {
+                future.setFbilure(exc);
             } else {
-                AsynchronousChannel ch = UnixAsynchronousSocketChannelImpl.this;
-                Invoker.invokeIndirectly(ch, handler, att, null, exc);
+                AsynchronousChbnnel ch = UnixAsynchronousSocketChbnnelImpl.this;
+                Invoker.invokeIndirectly(ch, hbndler, btt, null, exc);
             }
         }
     };
 
     /**
-     * Initiates a read or scattering read operation
+     * Initibtes b rebd or scbttering rebd operbtion
      */
     @Override
-    @SuppressWarnings("unchecked")
-    <V extends Number,A> Future<V> implRead(boolean isScatteringRead,
+    @SuppressWbrnings("unchecked")
+    <V extends Number,A> Future<V> implRebd(boolebn isScbtteringRebd,
                                             ByteBuffer dst,
                                             ByteBuffer[] dsts,
                                             long timeout,
                                             TimeUnit unit,
-                                            A attachment,
-                                            CompletionHandler<V,? super A> handler)
+                                            A bttbchment,
+                                            CompletionHbndler<V,? super A> hbndler)
     {
-        // A synchronous read is not attempted if disallowed by system property
-        // or, we are using a fixed thread pool and the completion handler may
-        // not be invoked directly (because the thread is not a pooled thread or
-        // there are too many handlers on the stack).
+        // A synchronous rebd is not bttempted if disbllowed by system property
+        // or, we bre using b fixed threbd pool bnd the completion hbndler mby
+        // not be invoked directly (becbuse the threbd is not b pooled threbd or
+        // there bre too mbny hbndlers on the stbck).
         Invoker.GroupAndInvokeCount myGroupAndInvokeCount = null;
-        boolean invokeDirect = false;
-        boolean attemptRead = false;
-        if (!disableSynchronousRead) {
-            if (handler == null) {
-                attemptRead = true;
+        boolebn invokeDirect = fblse;
+        boolebn bttemptRebd = fblse;
+        if (!disbbleSynchronousRebd) {
+            if (hbndler == null) {
+                bttemptRebd = true;
             } else {
                 myGroupAndInvokeCount = Invoker.getGroupAndInvokeCount();
-                invokeDirect = Invoker.mayInvokeDirect(myGroupAndInvokeCount, port);
-                // okay to attempt read with user thread pool
-                attemptRead = invokeDirect || !port.isFixedThreadPool();
+                invokeDirect = Invoker.mbyInvokeDirect(myGroupAndInvokeCount, port);
+                // okby to bttempt rebd with user threbd pool
+                bttemptRebd = invokeDirect || !port.isFixedThrebdPool();
             }
         }
 
-        int n = IOStatus.UNAVAILABLE;
-        Throwable exc = null;
-        boolean pending = false;
+        int n = IOStbtus.UNAVAILABLE;
+        Throwbble exc = null;
+        boolebn pending = fblse;
 
         try {
             begin();
 
-            if (attemptRead) {
-                if (isScatteringRead) {
-                    n = (int)IOUtil.read(fd, dsts, nd);
+            if (bttemptRebd) {
+                if (isScbtteringRebd) {
+                    n = (int)IOUtil.rebd(fd, dsts, nd);
                 } else {
-                    n = IOUtil.read(fd, dst, -1, nd);
+                    n = IOUtil.rebd(fd, dst, -1, nd);
                 }
             }
 
-            if (n == IOStatus.UNAVAILABLE) {
+            if (n == IOStbtus.UNAVAILABLE) {
                 PendingFuture<V,A> result = null;
-                synchronized (updateLock) {
-                    this.isScatteringRead = isScatteringRead;
-                    this.readBuffer = dst;
-                    this.readBuffers = dsts;
-                    if (handler == null) {
-                        this.readHandler = null;
+                synchronized (updbteLock) {
+                    this.isScbtteringRebd = isScbtteringRebd;
+                    this.rebdBuffer = dst;
+                    this.rebdBuffers = dsts;
+                    if (hbndler == null) {
+                        this.rebdHbndler = null;
                         result = new PendingFuture<V,A>(this, OpType.READ);
-                        this.readFuture = (PendingFuture<Number,Object>)result;
-                        this.readAttachment = null;
+                        this.rebdFuture = (PendingFuture<Number,Object>)result;
+                        this.rebdAttbchment = null;
                     } else {
-                        this.readHandler = (CompletionHandler<Number,Object>)handler;
-                        this.readAttachment = attachment;
-                        this.readFuture = null;
+                        this.rebdHbndler = (CompletionHbndler<Number,Object>)hbndler;
+                        this.rebdAttbchment = bttbchment;
+                        this.rebdFuture = null;
                     }
                     if (timeout > 0L) {
-                        this.readTimer = port.schedule(readTimeoutTask, timeout, unit);
+                        this.rebdTimer = port.schedule(rebdTimeoutTbsk, timeout, unit);
                     }
-                    this.readPending = true;
-                    updateEvents();
+                    this.rebdPending = true;
+                    updbteEvents();
                 }
                 pending = true;
                 return result;
             }
-        } catch (Throwable x) {
-            if (x instanceof ClosedChannelException)
+        } cbtch (Throwbble x) {
+            if (x instbnceof ClosedChbnnelException)
                 x = new AsynchronousCloseException();
             exc = x;
-        } finally {
+        } finblly {
             if (!pending)
-                enableReading();
+                enbbleRebding();
             end();
         }
 
-        Number result = (exc != null) ? null : (isScatteringRead) ?
-            (Number)Long.valueOf(n) : (Number)Integer.valueOf(n);
+        Number result = (exc != null) ? null : (isScbtteringRebd) ?
+            (Number)Long.vblueOf(n) : (Number)Integer.vblueOf(n);
 
-        // read completed immediately
-        if (handler != null) {
+        // rebd completed immedibtely
+        if (hbndler != null) {
             if (invokeDirect) {
-                Invoker.invokeDirect(myGroupAndInvokeCount, handler, attachment, (V)result, exc);
+                Invoker.invokeDirect(myGroupAndInvokeCount, hbndler, bttbchment, (V)result, exc);
             } else {
-                Invoker.invokeIndirectly(this, handler, attachment, (V)result, exc);
+                Invoker.invokeIndirectly(this, hbndler, bttbchment, (V)result, exc);
             }
             return null;
         } else {
@@ -562,180 +562,180 @@ class UnixAsynchronousSocketChannelImpl
 
     // -- write --
 
-    private void finishWrite(boolean mayInvokeDirect) {
+    privbte void finishWrite(boolebn mbyInvokeDirect) {
         int n = -1;
-        Throwable exc = null;
+        Throwbble exc = null;
 
-        // copy fields as we can't access them after reading is re-enabled.
-        boolean gathering = this.isGatheringWrite;
-        CompletionHandler<Number,Object> handler = this.writeHandler;
-        Object att = this.writeAttachment;
+        // copy fields bs we cbn't bccess them bfter rebding is re-enbbled.
+        boolebn gbthering = this.isGbtheringWrite;
+        CompletionHbndler<Number,Object> hbndler = this.writeHbndler;
+        Object btt = this.writeAttbchment;
         PendingFuture<Number,Object> future = this.writeFuture;
         Future<?> timer = this.writeTimer;
 
         try {
             begin();
 
-            if (gathering) {
+            if (gbthering) {
                 n = (int)IOUtil.write(fd, writeBuffers, nd);
             } else {
                 n = IOUtil.write(fd, writeBuffer, -1, nd);
             }
-            if (n == IOStatus.UNAVAILABLE) {
-                // spurious wakeup, is this possible?
-                synchronized (updateLock) {
+            if (n == IOStbtus.UNAVAILABLE) {
+                // spurious wbkeup, is this possible?
+                synchronized (updbteLock) {
                     writePending = true;
                 }
                 return;
             }
 
-            // allow objects to be GC'ed.
+            // bllow objects to be GC'ed.
             this.writeBuffer = null;
             this.writeBuffers = null;
-            this.writeAttachment = null;
+            this.writeAttbchment = null;
 
-            // allow another write to be initiated
-            enableWriting();
+            // bllow bnother write to be initibted
+            enbbleWriting();
 
-        } catch (Throwable x) {
-            enableWriting();
-            if (x instanceof ClosedChannelException)
+        } cbtch (Throwbble x) {
+            enbbleWriting();
+            if (x instbnceof ClosedChbnnelException)
                 x = new AsynchronousCloseException();
             exc = x;
-        } finally {
-            // restart poll in case of concurrent write
-            if (!(exc instanceof AsynchronousCloseException))
-                lockAndUpdateEvents();
+        } finblly {
+            // restbrt poll in cbse of concurrent write
+            if (!(exc instbnceof AsynchronousCloseException))
+                lockAndUpdbteEvents();
             end();
         }
 
-        // cancel the associated timer
+        // cbncel the bssocibted timer
         if (timer != null)
-            timer.cancel(false);
+            timer.cbncel(fblse);
 
-        // create result
-        Number result = (exc != null) ? null : (gathering) ?
-            (Number)Long.valueOf(n) : (Number)Integer.valueOf(n);
+        // crebte result
+        Number result = (exc != null) ? null : (gbthering) ?
+            (Number)Long.vblueOf(n) : (Number)Integer.vblueOf(n);
 
-        // invoke handler or set result
-        if (handler == null) {
+        // invoke hbndler or set result
+        if (hbndler == null) {
             future.setResult(result, exc);
         } else {
-            if (mayInvokeDirect) {
-                Invoker.invokeUnchecked(handler, att, result, exc);
+            if (mbyInvokeDirect) {
+                Invoker.invokeUnchecked(hbndler, btt, result, exc);
             } else {
-                Invoker.invokeIndirectly(this, handler, att, result, exc);
+                Invoker.invokeIndirectly(this, hbndler, btt, result, exc);
             }
         }
     }
 
-    private Runnable writeTimeoutTask = new Runnable() {
+    privbte Runnbble writeTimeoutTbsk = new Runnbble() {
         public void run() {
-            CompletionHandler<Number,Object> handler = null;
-            Object att = null;
+            CompletionHbndler<Number,Object> hbndler = null;
+            Object btt = null;
             PendingFuture<Number,Object> future = null;
 
-            synchronized (updateLock) {
+            synchronized (updbteLock) {
                 if (!writePending)
                     return;
-                writePending = false;
-                handler = writeHandler;
-                att = writeAttachment;
+                writePending = fblse;
+                hbndler = writeHbndler;
+                btt = writeAttbchment;
                 future = writeFuture;
             }
 
-            // kill further writing before releasing waiters
-            enableWriting(true);
+            // kill further writing before relebsing wbiters
+            enbbleWriting(true);
 
-            // invoke handler or set result
+            // invoke hbndler or set result
             Exception exc = new InterruptedByTimeoutException();
-            if (handler != null) {
-                Invoker.invokeIndirectly(UnixAsynchronousSocketChannelImpl.this,
-                    handler, att, null, exc);
+            if (hbndler != null) {
+                Invoker.invokeIndirectly(UnixAsynchronousSocketChbnnelImpl.this,
+                    hbndler, btt, null, exc);
             } else {
-                future.setFailure(exc);
+                future.setFbilure(exc);
             }
         }
     };
 
     /**
-     * Initiates a read or scattering read operation
+     * Initibtes b rebd or scbttering rebd operbtion
      */
     @Override
-    @SuppressWarnings("unchecked")
-    <V extends Number,A> Future<V> implWrite(boolean isGatheringWrite,
+    @SuppressWbrnings("unchecked")
+    <V extends Number,A> Future<V> implWrite(boolebn isGbtheringWrite,
                                              ByteBuffer src,
                                              ByteBuffer[] srcs,
                                              long timeout,
                                              TimeUnit unit,
-                                             A attachment,
-                                             CompletionHandler<V,? super A> handler)
+                                             A bttbchment,
+                                             CompletionHbndler<V,? super A> hbndler)
     {
         Invoker.GroupAndInvokeCount myGroupAndInvokeCount =
             Invoker.getGroupAndInvokeCount();
-        boolean invokeDirect = Invoker.mayInvokeDirect(myGroupAndInvokeCount, port);
-        boolean attemptWrite = (handler == null) || invokeDirect ||
-            !port.isFixedThreadPool();  // okay to attempt write with user thread pool
+        boolebn invokeDirect = Invoker.mbyInvokeDirect(myGroupAndInvokeCount, port);
+        boolebn bttemptWrite = (hbndler == null) || invokeDirect ||
+            !port.isFixedThrebdPool();  // okby to bttempt write with user threbd pool
 
-        int n = IOStatus.UNAVAILABLE;
-        Throwable exc = null;
-        boolean pending = false;
+        int n = IOStbtus.UNAVAILABLE;
+        Throwbble exc = null;
+        boolebn pending = fblse;
 
         try {
             begin();
 
-            if (attemptWrite) {
-                if (isGatheringWrite) {
+            if (bttemptWrite) {
+                if (isGbtheringWrite) {
                     n = (int)IOUtil.write(fd, srcs, nd);
                 } else {
                     n = IOUtil.write(fd, src, -1, nd);
                 }
             }
 
-            if (n == IOStatus.UNAVAILABLE) {
+            if (n == IOStbtus.UNAVAILABLE) {
                 PendingFuture<V,A> result = null;
-                synchronized (updateLock) {
-                    this.isGatheringWrite = isGatheringWrite;
+                synchronized (updbteLock) {
+                    this.isGbtheringWrite = isGbtheringWrite;
                     this.writeBuffer = src;
                     this.writeBuffers = srcs;
-                    if (handler == null) {
-                        this.writeHandler = null;
+                    if (hbndler == null) {
+                        this.writeHbndler = null;
                         result = new PendingFuture<V,A>(this, OpType.WRITE);
                         this.writeFuture = (PendingFuture<Number,Object>)result;
-                        this.writeAttachment = null;
+                        this.writeAttbchment = null;
                     } else {
-                        this.writeHandler = (CompletionHandler<Number,Object>)handler;
-                        this.writeAttachment = attachment;
+                        this.writeHbndler = (CompletionHbndler<Number,Object>)hbndler;
+                        this.writeAttbchment = bttbchment;
                         this.writeFuture = null;
                     }
                     if (timeout > 0L) {
-                        this.writeTimer = port.schedule(writeTimeoutTask, timeout, unit);
+                        this.writeTimer = port.schedule(writeTimeoutTbsk, timeout, unit);
                     }
                     this.writePending = true;
-                    updateEvents();
+                    updbteEvents();
                 }
                 pending = true;
                 return result;
             }
-        } catch (Throwable x) {
-            if (x instanceof ClosedChannelException)
+        } cbtch (Throwbble x) {
+            if (x instbnceof ClosedChbnnelException)
                 x = new AsynchronousCloseException();
             exc = x;
-        } finally {
+        } finblly {
             if (!pending)
-                enableWriting();
+                enbbleWriting();
             end();
         }
 
-        Number result = (exc != null) ? null : (isGatheringWrite) ?
-            (Number)Long.valueOf(n) : (Number)Integer.valueOf(n);
+        Number result = (exc != null) ? null : (isGbtheringWrite) ?
+            (Number)Long.vblueOf(n) : (Number)Integer.vblueOf(n);
 
-        // write completed immediately
-        if (handler != null) {
+        // write completed immedibtely
+        if (hbndler != null) {
             if (invokeDirect) {
-                Invoker.invokeDirect(myGroupAndInvokeCount, handler, attachment, (V)result, exc);
+                Invoker.invokeDirect(myGroupAndInvokeCount, hbndler, bttbchment, (V)result, exc);
             } else {
-                Invoker.invokeIndirectly(this, handler, attachment, (V)result, exc);
+                Invoker.invokeIndirectly(this, hbndler, bttbchment, (V)result, exc);
             }
             return null;
         } else {
@@ -743,11 +743,11 @@ class UnixAsynchronousSocketChannelImpl
         }
     }
 
-    // -- Native methods --
+    // -- Nbtive methods --
 
-    private static native void checkConnect(int fdVal) throws IOException;
+    privbte stbtic nbtive void checkConnect(int fdVbl) throws IOException;
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
     }
 }

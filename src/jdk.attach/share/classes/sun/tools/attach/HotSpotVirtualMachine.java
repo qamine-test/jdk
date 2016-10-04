@@ -1,347 +1,347 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.attach;
+pbckbge sun.tools.bttbch;
 
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.AgentLoadException;
-import com.sun.tools.attach.AgentInitializationException;
-import com.sun.tools.attach.spi.AttachProvider;
+import com.sun.tools.bttbch.VirtublMbchine;
+import com.sun.tools.bttbch.AgentLobdException;
+import com.sun.tools.bttbch.AgentInitiblizbtionException;
+import com.sun.tools.bttbch.spi.AttbchProvider;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.stream.Collectors;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.Properties;
+import jbvb.util.strebm.Collectors;
 
 /*
- * The HotSpot implementation of com.sun.tools.attach.VirtualMachine.
+ * The HotSpot implementbtion of com.sun.tools.bttbch.VirtublMbchine.
  */
 
-public abstract class HotSpotVirtualMachine extends VirtualMachine {
+public bbstrbct clbss HotSpotVirtublMbchine extends VirtublMbchine {
 
-    HotSpotVirtualMachine(AttachProvider provider, String id) {
+    HotSpotVirtublMbchine(AttbchProvider provider, String id) {
         super(provider, id);
     }
 
     /*
-     * Load agent library
-     * If isAbsolute is true then the agent library is the absolute path
-     * to the library and thus will not be expanded in the target VM.
-     * if isAbsolute is false then the agent library is just a library
-     * name and it will be expended in the target VM.
+     * Lobd bgent librbry
+     * If isAbsolute is true then the bgent librbry is the bbsolute pbth
+     * to the librbry bnd thus will not be expbnded in the tbrget VM.
+     * if isAbsolute is fblse then the bgent librbry is just b librbry
+     * nbme bnd it will be expended in the tbrget VM.
      */
-    private void loadAgentLibrary(String agentLibrary, boolean isAbsolute, String options)
-        throws AgentLoadException, AgentInitializationException, IOException
+    privbte void lobdAgentLibrbry(String bgentLibrbry, boolebn isAbsolute, String options)
+        throws AgentLobdException, AgentInitiblizbtionException, IOException
     {
-        InputStream in = execute("load",
-                                 agentLibrary,
-                                 isAbsolute ? "true" : "false",
+        InputStrebm in = execute("lobd",
+                                 bgentLibrbry,
+                                 isAbsolute ? "true" : "fblse",
                                  options);
         try {
-            int result = readInt(in);
+            int result = rebdInt(in);
             if (result != 0) {
-                throw new AgentInitializationException("Agent_OnAttach failed", result);
+                throw new AgentInitiblizbtionException("Agent_OnAttbch fbiled", result);
             }
-        } finally {
+        } finblly {
             in.close();
 
         }
     }
 
     /*
-     * Load agent library - library name will be expanded in target VM
+     * Lobd bgent librbry - librbry nbme will be expbnded in tbrget VM
      */
-    public void loadAgentLibrary(String agentLibrary, String options)
-        throws AgentLoadException, AgentInitializationException, IOException
+    public void lobdAgentLibrbry(String bgentLibrbry, String options)
+        throws AgentLobdException, AgentInitiblizbtionException, IOException
     {
-        loadAgentLibrary(agentLibrary, false, options);
+        lobdAgentLibrbry(bgentLibrbry, fblse, options);
     }
 
     /*
-     * Load agent - absolute path of library provided to target VM
+     * Lobd bgent - bbsolute pbth of librbry provided to tbrget VM
      */
-    public void loadAgentPath(String agentLibrary, String options)
-        throws AgentLoadException, AgentInitializationException, IOException
+    public void lobdAgentPbth(String bgentLibrbry, String options)
+        throws AgentLobdException, AgentInitiblizbtionException, IOException
     {
-        loadAgentLibrary(agentLibrary, true, options);
+        lobdAgentLibrbry(bgentLibrbry, true, options);
     }
 
     /*
-     * Load JPLIS agent which will load the agent JAR file and invoke
-     * the agentmain method.
+     * Lobd JPLIS bgent which will lobd the bgent JAR file bnd invoke
+     * the bgentmbin method.
      */
-    public void loadAgent(String agent, String options)
-        throws AgentLoadException, AgentInitializationException, IOException
+    public void lobdAgent(String bgent, String options)
+        throws AgentLobdException, AgentInitiblizbtionException, IOException
     {
-        String args = agent;
+        String brgs = bgent;
         if (options != null) {
-            args = args + "=" + options;
+            brgs = brgs + "=" + options;
         }
         try {
-            loadAgentLibrary("instrument", args);
-        } catch (AgentLoadException x) {
-            throw new InternalError("instrument library is missing in target VM", x);
-        } catch (AgentInitializationException x) {
+            lobdAgentLibrbry("instrument", brgs);
+        } cbtch (AgentLobdException x) {
+            throw new InternblError("instrument librbry is missing in tbrget VM", x);
+        } cbtch (AgentInitiblizbtionException x) {
             /*
-             * Translate interesting errors into the right exception and
-             * message (FIXME: create a better interface to the instrument
-             * implementation so this isn't necessary)
+             * Trbnslbte interesting errors into the right exception bnd
+             * messbge (FIXME: crebte b better interfbce to the instrument
+             * implementbtion so this isn't necessbry)
              */
-            int rc = x.returnValue();
+            int rc = x.returnVblue();
             switch (rc) {
-                case JNI_ENOMEM:
-                    throw new AgentLoadException("Insuffient memory");
-                case ATTACH_ERROR_BADJAR:
-                    throw new AgentLoadException("Agent JAR not found or no Agent-Class attribute");
-                case ATTACH_ERROR_NOTONCP:
-                    throw new AgentLoadException("Unable to add JAR file to system class path");
-                case ATTACH_ERROR_STARTFAIL:
-                    throw new AgentInitializationException("Agent JAR loaded but agent failed to initialize");
-                default :
-                    throw new AgentLoadException("Failed to load agent - unknown reason: " + rc);
+                cbse JNI_ENOMEM:
+                    throw new AgentLobdException("Insuffient memory");
+                cbse ATTACH_ERROR_BADJAR:
+                    throw new AgentLobdException("Agent JAR not found or no Agent-Clbss bttribute");
+                cbse ATTACH_ERROR_NOTONCP:
+                    throw new AgentLobdException("Unbble to bdd JAR file to system clbss pbth");
+                cbse ATTACH_ERROR_STARTFAIL:
+                    throw new AgentInitiblizbtionException("Agent JAR lobded but bgent fbiled to initiblize");
+                defbult :
+                    throw new AgentLobdException("Fbiled to lobd bgent - unknown rebson: " + rc);
             }
         }
     }
 
     /*
-     * The possible errors returned by JPLIS's agentmain
+     * The possible errors returned by JPLIS's bgentmbin
      */
-    private static final int JNI_ENOMEM                 = -4;
-    private static final int ATTACH_ERROR_BADJAR        = 100;
-    private static final int ATTACH_ERROR_NOTONCP       = 101;
-    private static final int ATTACH_ERROR_STARTFAIL     = 102;
+    privbte stbtic finbl int JNI_ENOMEM                 = -4;
+    privbte stbtic finbl int ATTACH_ERROR_BADJAR        = 100;
+    privbte stbtic finbl int ATTACH_ERROR_NOTONCP       = 101;
+    privbte stbtic finbl int ATTACH_ERROR_STARTFAIL     = 102;
 
 
     /*
-     * Send "properties" command to target VM
+     * Send "properties" commbnd to tbrget VM
      */
     public Properties getSystemProperties() throws IOException {
-        InputStream in = null;
+        InputStrebm in = null;
         Properties props = new Properties();
         try {
-            in = executeCommand("properties");
-            props.load(in);
-        } finally {
+            in = executeCommbnd("properties");
+            props.lobd(in);
+        } finblly {
             if (in != null) in.close();
         }
         return props;
     }
 
     public Properties getAgentProperties() throws IOException {
-        InputStream in = null;
+        InputStrebm in = null;
         Properties props = new Properties();
         try {
-            in = executeCommand("agentProperties");
-            props.load(in);
-        } finally {
+            in = executeCommbnd("bgentProperties");
+            props.lobd(in);
+        } finblly {
             if (in != null) in.close();
         }
         return props;
     }
 
-    private static final String MANAGMENT_PREFIX = "com.sun.management.";
+    privbte stbtic finbl String MANAGMENT_PREFIX = "com.sun.mbnbgement.";
 
-    private static boolean checkedKeyName(Object key) {
-        if (!(key instanceof String)) {
-            throw new IllegalArgumentException("Invalid option (not a String): "+key);
+    privbte stbtic boolebn checkedKeyNbme(Object key) {
+        if (!(key instbnceof String)) {
+            throw new IllegblArgumentException("Invblid option (not b String): "+key);
         }
-        if (!((String)key).startsWith(MANAGMENT_PREFIX)) {
-            throw new IllegalArgumentException("Invalid option: "+key);
+        if (!((String)key).stbrtsWith(MANAGMENT_PREFIX)) {
+            throw new IllegblArgumentException("Invblid option: "+key);
         }
         return true;
     }
 
-    private static String stripKeyName(Object key) {
+    privbte stbtic String stripKeyNbme(Object key) {
         return ((String)key).substring(MANAGMENT_PREFIX.length());
     }
 
     @Override
-    public void startManagementAgent(Properties agentProperties) throws IOException {
-        if (agentProperties == null) {
-            throw new NullPointerException("agentProperties cannot be null");
+    public void stbrtMbnbgementAgent(Properties bgentProperties) throws IOException {
+        if (bgentProperties == null) {
+            throw new NullPointerException("bgentProperties cbnnot be null");
         }
-        // Convert the arguments into arguments suitable for the Diagnostic Command:
-        // "ManagementAgent.start jmxremote.port=5555 jmxremote.authenticate=false"
-        String args = agentProperties.entrySet().stream()
-            .filter(entry -> checkedKeyName(entry.getKey()))
-            .map(entry -> stripKeyName(entry.getKey()) + "=" + escape(entry.getValue()))
+        // Convert the brguments into brguments suitbble for the Dibgnostic Commbnd:
+        // "MbnbgementAgent.stbrt jmxremote.port=5555 jmxremote.buthenticbte=fblse"
+        String brgs = bgentProperties.entrySet().strebm()
+            .filter(entry -> checkedKeyNbme(entry.getKey()))
+            .mbp(entry -> stripKeyNbme(entry.getKey()) + "=" + escbpe(entry.getVblue()))
             .collect(Collectors.joining(" "));
-        executeJCmd("ManagementAgent.start " + args);
+        executeJCmd("MbnbgementAgent.stbrt " + brgs);
     }
 
-    private String escape(Object arg) {
-        String value = arg.toString();
-        if (value.contains(" ")) {
-            return "'" + value + "'";
+    privbte String escbpe(Object brg) {
+        String vblue = brg.toString();
+        if (vblue.contbins(" ")) {
+            return "'" + vblue + "'";
         }
-        return value;
+        return vblue;
     }
 
     @Override
-    public String startLocalManagementAgent() throws IOException {
-        executeJCmd("ManagementAgent.start_local");
-        return getAgentProperties().getProperty("com.sun.management.jmxremote.localConnectorAddress");
+    public String stbrtLocblMbnbgementAgent() throws IOException {
+        executeJCmd("MbnbgementAgent.stbrt_locbl");
+        return getAgentProperties().getProperty("com.sun.mbnbgement.jmxremote.locblConnectorAddress");
     }
 
     // --- HotSpot specific methods ---
 
-    // same as SIGQUIT
-    public void localDataDump() throws IOException {
-        executeCommand("datadump").close();
+    // sbme bs SIGQUIT
+    public void locblDbtbDump() throws IOException {
+        executeCommbnd("dbtbdump").close();
     }
 
-    // Remote ctrl-break. The output of the ctrl-break actions can
-    // be read from the input stream.
-    public InputStream remoteDataDump(Object ... args) throws IOException {
-        return executeCommand("threaddump", args);
+    // Remote ctrl-brebk. The output of the ctrl-brebk bctions cbn
+    // be rebd from the input strebm.
+    public InputStrebm remoteDbtbDump(Object ... brgs) throws IOException {
+        return executeCommbnd("threbddump", brgs);
     }
 
-    // Remote heap dump. The output (error message) can be read from the
-    // returned input stream.
-    public InputStream dumpHeap(Object ... args) throws IOException {
-        return executeCommand("dumpheap", args);
+    // Remote hebp dump. The output (error messbge) cbn be rebd from the
+    // returned input strebm.
+    public InputStrebm dumpHebp(Object ... brgs) throws IOException {
+        return executeCommbnd("dumphebp", brgs);
     }
 
-    // Heap histogram (heap inspection in HotSpot)
-    public InputStream heapHisto(Object ... args) throws IOException {
-        return executeCommand("inspectheap", args);
+    // Hebp histogrbm (hebp inspection in HotSpot)
+    public InputStrebm hebpHisto(Object ... brgs) throws IOException {
+        return executeCommbnd("inspecthebp", brgs);
     }
 
-    // set JVM command line flag
-    public InputStream setFlag(String name, String value) throws IOException {
-        return executeCommand("setflag", name, value);
+    // set JVM commbnd line flbg
+    public InputStrebm setFlbg(String nbme, String vblue) throws IOException {
+        return executeCommbnd("setflbg", nbme, vblue);
     }
 
-    // print command line flag
-    public InputStream printFlag(String name) throws IOException {
-        return executeCommand("printflag", name);
+    // print commbnd line flbg
+    public InputStrebm printFlbg(String nbme) throws IOException {
+        return executeCommbnd("printflbg", nbme);
     }
 
-    public InputStream executeJCmd(String command) throws IOException {
-        return executeCommand("jcmd", command);
+    public InputStrebm executeJCmd(String commbnd) throws IOException {
+        return executeCommbnd("jcmd", commbnd);
     }
 
     // -- Supporting methods
 
 
     /*
-     * Execute the given command in the target VM - specific platform
-     * implementation must implement this.
+     * Execute the given commbnd in the tbrget VM - specific plbtform
+     * implementbtion must implement this.
      */
-    abstract InputStream execute(String cmd, Object ... args)
-        throws AgentLoadException, IOException;
+    bbstrbct InputStrebm execute(String cmd, Object ... brgs)
+        throws AgentLobdException, IOException;
 
     /*
-     * Convenience method for simple commands
+     * Convenience method for simple commbnds
      */
-    private InputStream executeCommand(String cmd, Object ... args) throws IOException {
+    privbte InputStrebm executeCommbnd(String cmd, Object ... brgs) throws IOException {
         try {
-            return execute(cmd, args);
-        } catch (AgentLoadException x) {
-            throw new InternalError("Should not get here", x);
+            return execute(cmd, brgs);
+        } cbtch (AgentLobdException x) {
+            throw new InternblError("Should not get here", x);
         }
     }
 
 
     /*
-     * Utility method to read an 'int' from the input stream. Ideally
-     * we should be using java.util.Scanner here but this implementation
-     * guarantees not to read ahead.
+     * Utility method to rebd bn 'int' from the input strebm. Ideblly
+     * we should be using jbvb.util.Scbnner here but this implementbtion
+     * gubrbntees not to rebd bhebd.
      */
-    int readInt(InputStream in) throws IOException {
+    int rebdInt(InputStrebm in) throws IOException {
         StringBuilder sb = new StringBuilder();
 
-        // read to \n or EOF
+        // rebd to \n or EOF
         int n;
         byte buf[] = new byte[1];
         do {
-            n = in.read(buf, 0, 1);
+            n = in.rebd(buf, 0, 1);
             if (n > 0) {
-                char c = (char)buf[0];
+                chbr c = (chbr)buf[0];
                 if (c == '\n') {
-                    break;                  // EOL found
+                    brebk;                  // EOL found
                 } else {
-                    sb.append(c);
+                    sb.bppend(c);
                 }
             }
         } while (n > 0);
 
         if (sb.length() == 0) {
-            throw new IOException("Premature EOF");
+            throw new IOException("Prembture EOF");
         }
 
-        int value;
+        int vblue;
         try {
-            value = Integer.parseInt(sb.toString());
-        } catch (NumberFormatException x) {
-            throw new IOException("Non-numeric value found - int expected");
+            vblue = Integer.pbrseInt(sb.toString());
+        } cbtch (NumberFormbtException x) {
+            throw new IOException("Non-numeric vblue found - int expected");
         }
-        return value;
+        return vblue;
     }
 
     /*
-     * Utility method to read data into a String.
+     * Utility method to rebd dbtb into b String.
      */
-    String readErrorMessage(InputStream sis) throws IOException {
+    String rebdErrorMessbge(InputStrebm sis) throws IOException {
         byte b[] = new byte[1024];
         int n;
-        StringBuffer message = new StringBuffer();
-        while ((n = sis.read(b)) != -1) {
-            message.append(new String(b, 0, n, "UTF-8"));
+        StringBuffer messbge = new StringBuffer();
+        while ((n = sis.rebd(b)) != -1) {
+            messbge.bppend(new String(b, 0, n, "UTF-8"));
         }
-        return message.toString();
+        return messbge.toString();
     }
 
 
-    // -- attach timeout support
+    // -- bttbch timeout support
 
-    private static long defaultAttachTimeout = 5000;
-    private volatile long attachTimeout;
+    privbte stbtic long defbultAttbchTimeout = 5000;
+    privbte volbtile long bttbchTimeout;
 
     /*
-     * Return attach timeout based on the value of the sun.tools.attach.attachTimeout
-     * property, or the default timeout if the property is not set to a positive
-     * value.
+     * Return bttbch timeout bbsed on the vblue of the sun.tools.bttbch.bttbchTimeout
+     * property, or the defbult timeout if the property is not set to b positive
+     * vblue.
      */
-    long attachTimeout() {
-        if (attachTimeout == 0) {
+    long bttbchTimeout() {
+        if (bttbchTimeout == 0) {
             synchronized(this) {
-                if (attachTimeout == 0) {
+                if (bttbchTimeout == 0) {
                     try {
                         String s =
-                            System.getProperty("sun.tools.attach.attachTimeout");
-                        attachTimeout = Long.parseLong(s);
-                    } catch (SecurityException se) {
-                    } catch (NumberFormatException ne) {
+                            System.getProperty("sun.tools.bttbch.bttbchTimeout");
+                        bttbchTimeout = Long.pbrseLong(s);
+                    } cbtch (SecurityException se) {
+                    } cbtch (NumberFormbtException ne) {
                     }
-                    if (attachTimeout <= 0) {
-                       attachTimeout = defaultAttachTimeout;
+                    if (bttbchTimeout <= 0) {
+                       bttbchTimeout = defbultAttbchTimeout;
                     }
                 }
             }
         }
-        return attachTimeout;
+        return bttbchTimeout;
     }
 }

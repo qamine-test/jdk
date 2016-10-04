@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.monitor;
+pbckbge sun.jvmstbt.monitor;
 
-import java.net.*;
+import jbvb.net.*;
 
 /**
- * An abstraction that identifies a target Java Virtual Machine.
- * The VmIdentifier, or vmid, provides a convenient string representation
- * of the information needed to locate and communicate with a target
- * Java Virtual Machine. The string, based on a {@link URI}, may specify
- * the communications protocol, host name, local vm identifier, and protocol
- * specific information for a target Java Virtual Machine. The format for
- * a VmIdentifier string is:
+ * An bbstrbction thbt identifies b tbrget Jbvb Virtubl Mbchine.
+ * The VmIdentifier, or vmid, provides b convenient string representbtion
+ * of the informbtion needed to locbte bnd communicbte with b tbrget
+ * Jbvb Virtubl Mbchine. The string, bbsed on b {@link URI}, mby specify
+ * the communicbtions protocol, host nbme, locbl vm identifier, bnd protocol
+ * specific informbtion for b tbrget Jbvb Virtubl Mbchine. The formbt for
+ * b VmIdentifier string is:
  * <pre>
- *      [<I>protocol</I>:][<I>//</I>]<I><B>lvmid</B></I>[<I>@hostname</I>][<I>:port</I>][<I>/servername</I>]
+ *      [<I>protocol</I>:][<I>//</I>]<I><B>lvmid</B></I>[<I>@hostnbme</I>][<I>:port</I>][<I>/servernbme</I>]
  * </pre>
- * The only required component of this string is the Local Virtual Machine
- * Identifier, or <tt>lvmid</tt>, which uniquely identifies the target
- * Java Virtual Machine on a host. The optional components of the VmIdentifier
+ * The only required component of this string is the Locbl Virtubl Mbchine
+ * Identifier, or <tt>lvmid</tt>, which uniquely identifies the tbrget
+ * Jbvb Virtubl Mbchine on b host. The optionbl components of the VmIdentifier
  * include:
  * <ul>
- *   <li><p><tt>protocol</tt> - The communications protocol. A VmIdentifier
- *          omitting the protocol must be resolved against a HostIdentifier
+ *   <li><p><tt>protocol</tt> - The communicbtions protocol. A VmIdentifier
+ *          omitting the protocol must be resolved bgbinst b HostIdentifier
  *          using {@link HostIdentifier#resolve}.
  *       </p></li>
- *   <li><p><tt>hostname</tt> - A hostname or IP address indicating the target
+ *   <li><p><tt>hostnbme</tt> - A hostnbme or IP bddress indicbting the tbrget
  *          host. A VmIdentifier omitting the protocol must be resolved
- *          against a HostIdentifier using {@link HostIdentifier#resolve}.
+ *          bgbinst b HostIdentifier using {@link HostIdentifier#resolve}.
  *       </p></li>
- *   <li><p><tt>port</tt> - The port for the communications protocol.
- *          Treatment of the <tt>port</tt> parameter is implementation
+ *   <li><p><tt>port</tt> - The port for the communicbtions protocol.
+ *          Trebtment of the <tt>port</tt> pbrbmeter is implementbtion
  *          (protocol) specific. A VmIdentifier omitting the protocol should
- *          be resolved against a HostIdentifier using
+ *          be resolved bgbinst b HostIdentifier using
  *          {@link HostIdentifier#resolve}.
  *       </p></li>
- *   <li><p><tt>servername</tt> - The treatment of the Path, Query, and
- *          Fragment components of the VmIdentifier are implementation
+ *   <li><p><tt>servernbme</tt> - The trebtment of the Pbth, Query, bnd
+ *          Frbgment components of the VmIdentifier bre implementbtion
  *          (protocol) dependent. A VmIdentifier omitting the protocol should
- *          be resolved against a HostIdentifier using
+ *          be resolved bgbinst b HostIdentifier using
  *          {@link HostIdentifier#resolve}.
  *       </p></li>
  * </ul>
  * <p>
- * All VmIdentifier instances are constructed as absolute, hierarchical URIs.
- * The constructors will accept relative (and even some malformed,
- * though convenient) URI strings. Such strings are transformed into
- * legitimate, absolute URI strings.
+ * All VmIdentifier instbnces bre constructed bs bbsolute, hierbrchicbl URIs.
+ * The constructors will bccept relbtive (bnd even some mblformed,
+ * though convenient) URI strings. Such strings bre trbnsformed into
+ * legitimbte, bbsolute URI strings.
  * </p>
  * <p>
- * With the exception of <em>file:</em> based VmIdentifier strings, all
- * VmIdentifier strings must include a <tt>lvmid</tt>. Attempting to construct
- * a non-file based VmIdentifier that doesn't include a <tt>lvmid</tt>
- * component will result in a <tt>MonitorException</tt>.
+ * With the exception of <em>file:</em> bbsed VmIdentifier strings, bll
+ * VmIdentifier strings must include b <tt>lvmid</tt>. Attempting to construct
+ * b non-file bbsed VmIdentifier thbt doesn't include b <tt>lvmid</tt>
+ * component will result in b <tt>MonitorException</tt>.
  * </p>
  * <p>
- * Here are some examples of VmIdentifier strings.
+ * Here bre some exbmples of VmIdentifier strings.
  * <ul>
- *    <li><p>Relative URIs</p></li>
+ *    <li><p>Relbtive URIs</p></li>
  *      <ul>
- *         <li><p><em>1234</em> - Specifies the Java Virtual Machine
- *                identified by lvmid <em>1234</em> on an unnamed host.
- *                This string is transformed into the absolute form
- *                <em>//1234</em>, which must be resolved against a
+ *         <li><p><em>1234</em> - Specifies the Jbvb Virtubl Mbchine
+ *                identified by lvmid <em>1234</em> on bn unnbmed host.
+ *                This string is trbnsformed into the bbsolute form
+ *                <em>//1234</em>, which must be resolved bgbinst b
  *                HostIdentifier.
  *         </p></li>
- *         <li><p><em>1234@hostname</em> - Specifies the Java Virtual
- *                Machine identified by lvmid <em>1234</em> on host
- *                <em>hostname</em> with an unnamed protocol.
- *                This string is transformed into the absolute form
- *                <em>//1234@hostname</em>, which must be resolved against
- *                a HostIdentifier.
+ *         <li><p><em>1234@hostnbme</em> - Specifies the Jbvb Virtubl
+ *                Mbchine identified by lvmid <em>1234</em> on host
+ *                <em>hostnbme</em> with bn unnbmed protocol.
+ *                This string is trbnsformed into the bbsolute form
+ *                <em>//1234@hostnbme</em>, which must be resolved bgbinst
+ *                b HostIdentifier.
  *         </p></li>
- *         <li><p><em>1234@hostname:2099</em> - Specifies the Java Virtual
- *                Machine identified by lvmid <em>1234</em> on host
- *                <em>hostname</em> with an unnamed protocol, but with
- *                port <em>2099</em>. This string is transformed into
- *                the absolute form <em>//1234@hostname:2099</em>, which
- *                must be resolved against a HostIdentifier.
+ *         <li><p><em>1234@hostnbme:2099</em> - Specifies the Jbvb Virtubl
+ *                Mbchine identified by lvmid <em>1234</em> on host
+ *                <em>hostnbme</em> with bn unnbmed protocol, but with
+ *                port <em>2099</em>. This string is trbnsformed into
+ *                the bbsolute form <em>//1234@hostnbme:2099</em>, which
+ *                must be resolved bgbinst b HostIdentifier.
  *         </p></li>
  *      </ul>
  *    <li><p>Absolute URIs</p></li>
  *      <ul>
- *         <li><p><em>rmi://1234@hostname:2099/remoteobjectname</em> -
- *                Specifies the Java Virtual Machine identified by lvmid
- *                <em>1234</em> on host <em>hostname</em> accessed
+ *         <li><p><em>rmi://1234@hostnbme:2099/remoteobjectnbme</em> -
+ *                Specifies the Jbvb Virtubl Mbchine identified by lvmid
+ *                <em>1234</em> on host <em>hostnbme</em> bccessed
  *                using the <em>rmi:</em> protocol through the rmi remote
- *                object named <em>remoteobjectname</em> as registered with
+ *                object nbmed <em>remoteobjectnbme</em> bs registered with
  *                the <em>rmiserver</em> on port <em>2099</em> on host
- *                <em>hostname</em>.
+ *                <em>hostnbme</em>.
  *         </p></li>
- *         <li><p><em>file:/path/file</em> - Identifies a Java Virtual Machine
- *                through accessing a special file based protocol to use as
- *                the communications mechanism.
+ *         <li><p><em>file:/pbth/file</em> - Identifies b Jbvb Virtubl Mbchine
+ *                through bccessing b specibl file bbsed protocol to use bs
+ *                the communicbtions mechbnism.
  *         </p></li>
  *      </ul>
  * </ul>
@@ -122,46 +122,46 @@ import java.net.*;
  *
  * @see URI
  * @see HostIdentifier
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class VmIdentifier {
-    private URI uri;
+public clbss VmIdentifier {
+    privbte URI uri;
 
     /**
-     * creates a canonical representation of the uriString. This method
-     * performs certain translations depending on the type of URI generated
+     * crebtes b cbnonicbl representbtion of the uriString. This method
+     * performs certbin trbnslbtions depending on the type of URI generbted
      * by the string.
      */
-    private URI canonicalize(String uriString) throws URISyntaxException {
+    privbte URI cbnonicblize(String uriString) throws URISyntbxException {
         if (uriString == null) {
-            uriString = "local://0@localhost";
+            uriString = "locbl://0@locblhost";
             return new URI(uriString);
         }
 
         URI u = new URI(uriString);
 
         if (u.isAbsolute()) {
-            if (u.isOpaque()) {
+            if (u.isOpbque()) {
                 /*
-                 * rmi:1234@hostname/path#fragment converted to
-                 * rmi://1234@hostname/path#fragment
+                 * rmi:1234@hostnbme/pbth#frbgment converted to
+                 * rmi://1234@hostnbme/pbth#frbgment
                  */
-                u = new URI(u.getScheme(), "//" + u.getSchemeSpecificPart(),
-                            u.getFragment());
+                u = new URI(u.getScheme(), "//" + u.getSchemeSpecificPbrt(),
+                            u.getFrbgment());
             }
         } else {
             /*
-             * make the uri absolute, if possible. A relative URI doesn't
-             * specify the scheme part, so it's safe to prepend a "//" and
-             * try again.
+             * mbke the uri bbsolute, if possible. A relbtive URI doesn't
+             * specify the scheme pbrt, so it's sbfe to prepend b "//" bnd
+             * try bgbin.
              */
-            if (!uriString.startsWith("//")) {
-                if (u.getFragment() == null) {
-                    u = new URI("//" + u.getSchemeSpecificPart());
+            if (!uriString.stbrtsWith("//")) {
+                if (u.getFrbgment() == null) {
+                    u = new URI("//" + u.getSchemeSpecificPbrt());
                 } else {
-                    u = new URI("//" + u.getSchemeSpecificPart() + "#"
-                                + u.getFragment());
+                    u = new URI("//" + u.getSchemeSpecificPbrt() + "#"
+                                + u.getFrbgment());
                 }
             }
         }
@@ -169,102 +169,102 @@ public class VmIdentifier {
     }
 
     /**
-     * check that the VmIdentifier includes a unique numerical identifier
-     * for the target JVM.
+     * check thbt the VmIdentifier includes b unique numericbl identifier
+     * for the tbrget JVM.
      */
-    private void validate() throws URISyntaxException {
-        // file:// uri, which is a special case where the lvmid is not required.
+    privbte void vblidbte() throws URISyntbxException {
+        // file:// uri, which is b specibl cbse where the lvmid is not required.
         String s = getScheme();
-        if ((s != null) && (s.compareTo("file") == 0)) {
+        if ((s != null) && (s.compbreTo("file") == 0)) {
             return;
         }
-        if (getLocalVmId() == -1) {
-            throw new URISyntaxException(uri.toString(), "Local vmid required");
+        if (getLocblVmId() == -1) {
+            throw new URISyntbxException(uri.toString(), "Locbl vmid required");
         }
     }
 
     /**
-     * Create a VmIdentifier instance from a string value.
+     * Crebte b VmIdentifier instbnce from b string vblue.
      *
-     * @param uriString a string representing a target Java Virtual Machine.
-     *                  The syntax of the string must conforms to the rules
-     *                  specified in the class documentation.
-     * @throws URISyntaxException Thrown when the uriString or its canonical
+     * @pbrbm uriString b string representing b tbrget Jbvb Virtubl Mbchine.
+     *                  The syntbx of the string must conforms to the rules
+     *                  specified in the clbss documentbtion.
+     * @throws URISyntbxException Thrown when the uriString or its cbnonicbl
      *                            form is poorly formed.
      */
-    public VmIdentifier(String uriString) throws URISyntaxException {
+    public VmIdentifier(String uriString) throws URISyntbxException {
         URI u;
         try {
-            u = canonicalize(uriString);
-        } catch (URISyntaxException e) {
+            u = cbnonicblize(uriString);
+        } cbtch (URISyntbxException e) {
             /*
-             * a vmid of the form 1234@hostname:1098 causes an exception,
-             * so try again with a leading "//"
+             * b vmid of the form 1234@hostnbme:1098 cbuses bn exception,
+             * so try bgbin with b lebding "//"
              */
-            if (uriString.startsWith("//")) {
+            if (uriString.stbrtsWith("//")) {
                 throw e;
             }
-            u = canonicalize("//"+uriString);
+            u = cbnonicblize("//"+uriString);
         }
 
         uri = u;
 
-        // verify that we have a valid lvmid
-        validate();
+        // verify thbt we hbve b vblid lvmid
+        vblidbte();
     }
 
     /**
-     * Create a VmIdentifier instance from a URI object.
+     * Crebte b VmIdentifier instbnce from b URI object.
      *
-     * @param uri a well formed, absolute URI indicating the
-     *            target Java Virtual Machine.
-     * @throws URISyntaxException Thrown if the URI is missing some
+     * @pbrbm uri b well formed, bbsolute URI indicbting the
+     *            tbrget Jbvb Virtubl Mbchine.
+     * @throws URISyntbxException Thrown if the URI is missing some
      *                            required component.
      */
-    public VmIdentifier(URI uri) throws URISyntaxException {
+    public VmIdentifier(URI uri) throws URISyntbxException {
         this.uri = uri;
-        validate();
+        vblidbte();
     }
 
     /**
      * Return the corresponding HostIdentifier for this VmIdentifier.
      * <p>
-     * This method constructs a HostIdentifier object from the VmIdentifier.
-     * If the VmIdentifier is not specific about the protocol or other
+     * This method constructs b HostIdentifier object from the VmIdentifier.
+     * If the VmIdentifier is not specific bbout the protocol or other
      * components of the URI, then the resulting HostIdentifier will
-     * be constructed based on this missing information. Typically, the
-     * missing components will have result in the HostIdentifier assigning
-     * assumed defaults that allow the VmIdentifier to be resolved according
-     * to those defaults.
+     * be constructed bbsed on this missing informbtion. Typicblly, the
+     * missing components will hbve result in the HostIdentifier bssigning
+     * bssumed defbults thbt bllow the VmIdentifier to be resolved bccording
+     * to those defbults.
      * </p>
      * <p>
-     * For example, a VmIdentifier that specifies only a <tt>lvmid</tt>
-     * will result in a HostIdentifier for <em>localhost</em> utilizing
-     * the default local protocol, <em>local:</em>. A VmIdentifier that
-     * specifies both a <tt>vmid</tt> and a <tt>hostname</tt> will result
-     * in a HostIdentifier for the specified host with the default remote
-     * protocol, <em>rmi:</em>, using the protocol defaults for the
-     * <tt>port</tt> and <tt>servername</tt> components.
+     * For exbmple, b VmIdentifier thbt specifies only b <tt>lvmid</tt>
+     * will result in b HostIdentifier for <em>locblhost</em> utilizing
+     * the defbult locbl protocol, <em>locbl:</em>. A VmIdentifier thbt
+     * specifies both b <tt>vmid</tt> bnd b <tt>hostnbme</tt> will result
+     * in b HostIdentifier for the specified host with the defbult remote
+     * protocol, <em>rmi:</em>, using the protocol defbults for the
+     * <tt>port</tt> bnd <tt>servernbme</tt> components.
      * </p>
      *
-     * @return HostIdentifier - the host identifier for the host containing
-     *                          the Java Virtual Machine represented by this
+     * @return HostIdentifier - the host identifier for the host contbining
+     *                          the Jbvb Virtubl Mbchine represented by this
      *                          VmIdentifier.
-     * @throws URISyntaxException Thrown if a bad host URI is constructed.
-     *                            This exception may get encapsulated into
-     *                            a MonitorException in a future version.
+     * @throws URISyntbxException Thrown if b bbd host URI is constructed.
+     *                            This exception mby get encbpsulbted into
+     *                            b MonitorException in b future version.
      */
-    public HostIdentifier getHostIdentifier() throws URISyntaxException {
+    public HostIdentifier getHostIdentifier() throws URISyntbxException {
         StringBuilder sb = new StringBuilder();
         if (getScheme() != null) {
-            sb.append(getScheme()).append(":");
+            sb.bppend(getScheme()).bppend(":");
         }
-        sb.append("//").append(getHost());
+        sb.bppend("//").bppend(getHost());
         if (getPort() != -1) {
-            sb.append(":").append(getPort());
+            sb.bppend(":").bppend(getPort());
         }
-        if (getPath() != null) {
-            sb.append(getPath());
+        if (getPbth() != null) {
+            sb.bppend(getPbth());
         }
         return new HostIdentifier(sb.toString());
     }
@@ -280,19 +280,19 @@ public class VmIdentifier {
     }
 
     /**
-     * Return the Scheme Specific Part of this VmIdentifier.
+     * Return the Scheme Specific Pbrt of this VmIdentifier.
      *
-     * @return String - the Scheme Specific Part for this VmIdentifier.
-     * @see URI#getSchemeSpecificPart()
+     * @return String - the Scheme Specific Pbrt for this VmIdentifier.
+     * @see URI#getSchemeSpecificPbrt()
      */
-    public String getSchemeSpecificPart() {
-        return uri.getSchemeSpecificPart();
+    public String getSchemeSpecificPbrt() {
+        return uri.getSchemeSpecificPbrt();
     }
 
     /**
-     * Return the UserInfo part of this VmIdentifier.
+     * Return the UserInfo pbrt of this VmIdentifier.
      *
-     * @return String - the UserInfo part for this VmIdentifier.
+     * @return String - the UserInfo pbrt for this VmIdentifier.
      * @see URI#getUserInfo()
      */
     public String getUserInfo() {
@@ -300,9 +300,9 @@ public class VmIdentifier {
     }
 
     /**
-     * Return the Host part of this VmIdentifier.
+     * Return the Host pbrt of this VmIdentifier.
      *
-     * @return String - the Host part for this VmIdentifier.
+     * @return String - the Host pbrt for this VmIdentifier.
      * @see URI#getHost()
      */
     public String getHost() {
@@ -310,9 +310,9 @@ public class VmIdentifier {
     }
 
     /**
-     * Return the Port part of this VmIdentifier.
+     * Return the Port pbrt of this VmIdentifier.
      *
-     * @return int - the Port part for this VmIdentifier.
+     * @return int - the Port pbrt for this VmIdentifier.
      * @see URI#getPort()
      */
     public int getPort() {
@@ -320,9 +320,9 @@ public class VmIdentifier {
     }
 
     /**
-     * Return the Authority part of this VmIdentifier.
+     * Return the Authority pbrt of this VmIdentifier.
      *
-     * @return String - the Authority part for this VmIdentifier.
+     * @return String - the Authority pbrt for this VmIdentifier.
      * @see URI#getAuthority()
      */
     public String getAuthority() {
@@ -330,19 +330,19 @@ public class VmIdentifier {
     }
 
     /**
-     * Return the Path part of this VmIdentifier.
+     * Return the Pbth pbrt of this VmIdentifier.
      *
-     * @return String - the Path part for this VmIdentifier.
-     * @see URI#getPath()
+     * @return String - the Pbth pbrt for this VmIdentifier.
+     * @see URI#getPbth()
      */
-    public String getPath() {
-        return uri.getPath();
+    public String getPbth() {
+        return uri.getPbth();
     }
 
     /**
-     * Return the Query part of this VmIdentifier.
+     * Return the Query pbrt of this VmIdentifier.
      *
-     * @return String - the Query part for this VmIdentifier.
+     * @return String - the Query pbrt for this VmIdentifier.
      * @see URI#getQuery()
      */
     public String getQuery() {
@@ -350,36 +350,36 @@ public class VmIdentifier {
     }
 
     /**
-     * Return the Fragment part of this VmIdentifier.
+     * Return the Frbgment pbrt of this VmIdentifier.
      *
-     * @return String - the Fragment part for this VmIdentifier.
-     * @see URI#getFragment()
+     * @return String - the Frbgment pbrt for this VmIdentifier.
+     * @see URI#getFrbgment()
      */
-    public String getFragment() {
-        return uri.getFragment();
+    public String getFrbgment() {
+        return uri.getFrbgment();
     }
 
     /**
-     * Return the Local Virtual Machine Identifier for this VmIdentifier.
-     * The Local Virtual Machine Identifier is also known as the
+     * Return the Locbl Virtubl Mbchine Identifier for this VmIdentifier.
+     * The Locbl Virtubl Mbchine Identifier is blso known bs the
      * <em>lvmid</em>.
      *
      * @return int - the lvmid for this VmIdentifier.
      */
-    public int getLocalVmId() {
+    public int getLocblVmId() {
         int result = -1;
         try {
             if (uri.getUserInfo() == null) {
-                result = Integer.parseInt(uri.getAuthority());
+                result = Integer.pbrseInt(uri.getAuthority());
             } else {
-                result = Integer.parseInt(uri.getUserInfo());
+                result = Integer.pbrseInt(uri.getUserInfo());
             }
-        } catch (NumberFormatException e) { }
+        } cbtch (NumberFormbtException e) { }
         return result;
     }
 
     /**
-     * Return the mode indicated in this VmIdentifier.
+     * Return the mode indicbted in this VmIdentifier.
      *
      * @return String - the mode string. If no mode is specified, then "r"
      *                  is returned. otherwise, the specified mode is returned.
@@ -389,7 +389,7 @@ public class VmIdentifier {
         if (query != null) {
             String[] queryArgs = query.split("\\+");
             for (int i = 0; i < queryArgs.length; i++) {
-                if (queryArgs[i].startsWith("mode=")) {
+                if (queryArgs[i].stbrtsWith("mode=")) {
                     int index = queryArgs[i].indexOf('=');
                     return queryArgs[i].substring(index+1);
                 }
@@ -399,7 +399,7 @@ public class VmIdentifier {
     }
 
     /**
-     * Return the URI associated with the VmIdentifier.
+     * Return the URI bssocibted with the VmIdentifier.
      *
      * @return URI - the URI.
      * @see URI
@@ -409,41 +409,41 @@ public class VmIdentifier {
     }
 
     /**
-     * Return the hash code for this VmIdentifier. The hash code is
-     * identical to the hash code for the contained URI.
+     * Return the hbsh code for this VmIdentifier. The hbsh code is
+     * identicbl to the hbsh code for the contbined URI.
      *
-     * @return int - the hashcode.
-     * @see URI#hashCode()
+     * @return int - the hbshcode.
+     * @see URI#hbshCode()
      */
-    public int hashCode() {
-        return uri.hashCode();
+    public int hbshCode() {
+        return uri.hbshCode();
     }
 
     /**
-     * Test for quality with other objects.
+     * Test for qublity with other objects.
      *
-     * @param object the object to be test for equality.
-     * @return boolean - returns true if the given object is of type
-     *                   VmIdentifier and its URI field is equal to
-     *                   this object's URI field. Otherwise, return false.
+     * @pbrbm object the object to be test for equblity.
+     * @return boolebn - returns true if the given object is of type
+     *                   VmIdentifier bnd its URI field is equbl to
+     *                   this object's URI field. Otherwise, return fblse.
      *
-     * @see URI#equals(Object)
+     * @see URI#equbls(Object)
      */
-    public boolean equals(Object object) {
+    public boolebn equbls(Object object) {
         if (object == this) {
             return true;
         }
-        if (!(object instanceof VmIdentifier)) {
-            return false;
+        if (!(object instbnceof VmIdentifier)) {
+            return fblse;
         }
-        return uri.equals(((VmIdentifier)object).uri);
+        return uri.equbls(((VmIdentifier)object).uri);
     }
 
     /**
-     * Convert to a string representation. Conversion is identical to
-     * calling getURI().toString(). This may change in a future release.
+     * Convert to b string representbtion. Conversion is identicbl to
+     * cblling getURI().toString(). This mby chbnge in b future relebse.
      *
-     * @return String - a String representation of the VmIdentifier.
+     * @return String - b String representbtion of the VmIdentifier.
      *
      * @see URI#toString()
      */

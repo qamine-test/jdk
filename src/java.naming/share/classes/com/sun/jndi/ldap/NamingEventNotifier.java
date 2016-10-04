@@ -1,287 +1,287 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.event.*;
-import javax.naming.ldap.*;
-import javax.naming.ldap.LdapName;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.event.*;
+import jbvbx.nbming.ldbp.*;
+import jbvbx.nbming.ldbp.LdbpNbme;
 
-import java.util.Vector;
-import com.sun.jndi.toolkit.ctx.Continuation;
+import jbvb.util.Vector;
+import com.sun.jndi.toolkit.ctx.Continubtion;
 
 /**
-  * Gathers information to generate events by using the Persistent Search
+  * Gbthers informbtion to generbte events by using the Persistent Sebrch
   * control.
   *<p>
-  * This class maintains a list of listeners all interested in the same
-  * "search" request. It creates a thread that does the persistent search
-  * and blocks, collecting the results of the search.
-  * For each result that it receives from the search, it fires the
-  * corresponding event to its listeners. If an exception is encountered,
-  * it fires a NamingExceptionEvent.
+  * This clbss mbintbins b list of listeners bll interested in the sbme
+  * "sebrch" request. It crebtes b threbd thbt does the persistent sebrch
+  * bnd blocks, collecting the results of the sebrch.
+  * For ebch result thbt it receives from the sebrch, it fires the
+  * corresponding event to its listeners. If bn exception is encountered,
+  * it fires b NbmingExceptionEvent.
   *
-  * @author Rosanna Lee
+  * @buthor Rosbnnb Lee
   */
-final class NamingEventNotifier implements Runnable {
-    private final static boolean debug = false;
+finbl clbss NbmingEventNotifier implements Runnbble {
+    privbte finbl stbtic boolebn debug = fblse;
 
-    private Vector<NamingListener> namingListeners;
-    private Thread worker;
-    private LdapCtx context;
-    private EventContext eventSrc;
-    private EventSupport support;
-    private NamingEnumeration<SearchResult> results;
+    privbte Vector<NbmingListener> nbmingListeners;
+    privbte Threbd worker;
+    privbte LdbpCtx context;
+    privbte EventContext eventSrc;
+    privbte EventSupport support;
+    privbte NbmingEnumerbtion<SebrchResult> results;
 
-    // package private; used by EventSupport to remove it
+    // pbckbge privbte; used by EventSupport to remove it
     NotifierArgs info;
 
-    NamingEventNotifier(EventSupport support, LdapCtx ctx, NotifierArgs info,
-        NamingListener firstListener) throws NamingException {
+    NbmingEventNotifier(EventSupport support, LdbpCtx ctx, NotifierArgs info,
+        NbmingListener firstListener) throws NbmingException {
         this.info = info;
         this.support = support;
 
-        Control psearch;
+        Control psebrch;
         try {
-            psearch = new PersistentSearchControl(
-                info.mask,
-                true /* no info about original entry(s) */,
-                true /* additional info about changes */,
+            psebrch = new PersistentSebrchControl(
+                info.mbsk,
+                true /* no info bbout originbl entry(s) */,
+                true /* bdditionbl info bbout chbnges */,
                 Control.CRITICAL);
-        } catch (java.io.IOException e) {
-            NamingException ne = new NamingException(
-                "Problem creating persistent search control");
-            ne.setRootCause(e);
+        } cbtch (jbvb.io.IOException e) {
+            NbmingException ne = new NbmingException(
+                "Problem crebting persistent sebrch control");
+            ne.setRootCbuse(e);
             throw ne;
         }
 
-        // Add psearch control to existing list
-        context = (LdapCtx)ctx.newInstance(new Control[]{psearch});
+        // Add psebrch control to existing list
+        context = (LdbpCtx)ctx.newInstbnce(new Control[]{psebrch});
         eventSrc = ctx;
 
-        namingListeners = new Vector<>();
-        namingListeners.addElement(firstListener);
+        nbmingListeners = new Vector<>();
+        nbmingListeners.bddElement(firstListener);
 
-        worker = Obj.helper.createThread(this);
-        worker.setDaemon(true);  // not a user thread
-        worker.start();
+        worker = Obj.helper.crebteThrebd(this);
+        worker.setDbemon(true);  // not b user threbd
+        worker.stbrt();
     }
 
-    // package private; used by EventSupport; namingListener already synchronized
-    void addNamingListener(NamingListener l) {
-        namingListeners.addElement(l);
+    // pbckbge privbte; used by EventSupport; nbmingListener blrebdy synchronized
+    void bddNbmingListener(NbmingListener l) {
+        nbmingListeners.bddElement(l);
     }
 
-    // package private; used by EventSupport; namingListener already synchronized
-    void removeNamingListener(NamingListener l) {
-        namingListeners.removeElement(l);
+    // pbckbge privbte; used by EventSupport; nbmingListener blrebdy synchronized
+    void removeNbmingListener(NbmingListener l) {
+        nbmingListeners.removeElement(l);
     }
 
-    // package private; used by EventSupport; namingListener already synchronized
-    boolean hasNamingListeners() {
-        return namingListeners.size() > 0;
+    // pbckbge privbte; used by EventSupport; nbmingListener blrebdy synchronized
+    boolebn hbsNbmingListeners() {
+        return nbmingListeners.size() > 0;
     }
 
     /**
-     * Execute "persistent search".
-     * For each result, create the appropriate NamingEvent and
-     * queue to be dispatched to listeners.
+     * Execute "persistent sebrch".
+     * For ebch result, crebte the bppropribte NbmingEvent bnd
+     * queue to be dispbtched to listeners.
      */
     public void run() {
         try {
-            Continuation cont = new Continuation();
-            cont.setError(this, info.name);
-            Name nm = (info.name == null || info.name.equals("")) ?
-                new CompositeName() : new CompositeName().add(info.name);
+            Continubtion cont = new Continubtion();
+            cont.setError(this, info.nbme);
+            Nbme nm = (info.nbme == null || info.nbme.equbls("")) ?
+                new CompositeNbme() : new CompositeNbme().bdd(info.nbme);
 
-            results = context.searchAux(nm, info.filter, info.controls,
-                true, false, cont);
+            results = context.sebrchAux(nm, info.filter, info.controls,
+                true, fblse, cont);
 
-            // Change root of search results so that it will generate
-            // names relative to the event context instead of that
-            // named by nm
-            ((LdapSearchEnumeration)(NamingEnumeration)results)
-                    .setStartName(context.currentParsedDN);
+            // Chbnge root of sebrch results so thbt it will generbte
+            // nbmes relbtive to the event context instebd of thbt
+            // nbmed by nm
+            ((LdbpSebrchEnumerbtion)(NbmingEnumerbtion)results)
+                    .setStbrtNbme(context.currentPbrsedDN);
 
-            SearchResult si;
+            SebrchResult si;
             Control[] respctls;
-            EntryChangeResponseControl ec;
-            long changeNum;
+            EntryChbngeResponseControl ec;
+            long chbngeNum;
 
-            while (results.hasMore()) {
+            while (results.hbsMore()) {
                 si = results.next();
-                respctls = (si instanceof HasControls) ?
-                    ((HasControls) si).getControls() : null;
+                respctls = (si instbnceof HbsControls) ?
+                    ((HbsControls) si).getControls() : null;
 
                 if (debug) {
                     System.err.println("notifier: " + si);
                     System.err.println("respCtls: " + respctls);
                 }
 
-                // Just process ECs; ignore all the rest
+                // Just process ECs; ignore bll the rest
                 if (respctls != null) {
                     for (int i = 0; i < respctls.length; i++) {
-                        // %%% Should be checking OID instead of class
-                        // %%% in case using someone else's  EC ctl
-                        if (respctls[i] instanceof EntryChangeResponseControl) {
-                            ec = (EntryChangeResponseControl)respctls[i];
-                            changeNum = ec.getChangeNumber();
-                            switch (ec.getChangeType()) {
-                            case EntryChangeResponseControl.ADD:
-                                fireObjectAdded(si, changeNum);
-                                break;
-                            case EntryChangeResponseControl.DELETE:
-                                fireObjectRemoved(si, changeNum);
-                                break;
-                            case EntryChangeResponseControl.MODIFY:
-                                fireObjectChanged(si, changeNum);
-                                break;
-                            case EntryChangeResponseControl.RENAME:
-                                fireObjectRenamed(si, ec.getPreviousDN(),
-                                    changeNum);
-                                break;
+                        // %%% Should be checking OID instebd of clbss
+                        // %%% in cbse using someone else's  EC ctl
+                        if (respctls[i] instbnceof EntryChbngeResponseControl) {
+                            ec = (EntryChbngeResponseControl)respctls[i];
+                            chbngeNum = ec.getChbngeNumber();
+                            switch (ec.getChbngeType()) {
+                            cbse EntryChbngeResponseControl.ADD:
+                                fireObjectAdded(si, chbngeNum);
+                                brebk;
+                            cbse EntryChbngeResponseControl.DELETE:
+                                fireObjectRemoved(si, chbngeNum);
+                                brebk;
+                            cbse EntryChbngeResponseControl.MODIFY:
+                                fireObjectChbnged(si, chbngeNum);
+                                brebk;
+                            cbse EntryChbngeResponseControl.RENAME:
+                                fireObjectRenbmed(si, ec.getPreviousDN(),
+                                    chbngeNum);
+                                brebk;
                             }
                         }
-                        break;
+                        brebk;
                     }
                 }
             }
-        } catch (InterruptedNamingException e) {
-            if (debug) System.err.println("NamingEventNotifier Interrupted");
-        } catch (NamingException e) {
-            // Fire event to notify NamingExceptionEvent listeners
-            fireNamingException(e);
+        } cbtch (InterruptedNbmingException e) {
+            if (debug) System.err.println("NbmingEventNotifier Interrupted");
+        } cbtch (NbmingException e) {
+            // Fire event to notify NbmingExceptionEvent listeners
+            fireNbmingException(e);
 
-            // This notifier is no longer valid
-            support.removeDeadNotifier(info);
-        } finally {
-            cleanup();
+            // This notifier is no longer vblid
+            support.removeDebdNotifier(info);
+        } finblly {
+            clebnup();
         }
-        if (debug) System.err.println("NamingEventNotifier finished");
+        if (debug) System.err.println("NbmingEventNotifier finished");
     }
 
-    private void cleanup() {
-        if (debug) System.err.println("NamingEventNotifier cleanup");
+    privbte void clebnup() {
+        if (debug) System.err.println("NbmingEventNotifier clebnup");
 
         try {
             if (results != null) {
-                if (debug) System.err.println("NamingEventNotifier enum closing");
-                results.close(); // this will abandon the search
+                if (debug) System.err.println("NbmingEventNotifier enum closing");
+                results.close(); // this will bbbndon the sebrch
                 results = null;
             }
             if (context != null) {
-                if (debug) System.err.println("NamingEventNotifier ctx closing");
+                if (debug) System.err.println("NbmingEventNotifier ctx closing");
                 context.close();
                 context = null;
             }
-        } catch (NamingException e) {}
+        } cbtch (NbmingException e) {}
     }
 
     /**
-     * Stop the dispatcher so we can be destroyed.
-     * package private; used by EventSupport
+     * Stop the dispbtcher so we cbn be destroyed.
+     * pbckbge privbte; used by EventSupport
      */
     void stop() {
-        if (debug) System.err.println("NamingEventNotifier being stopping");
+        if (debug) System.err.println("NbmingEventNotifier being stopping");
         if (worker != null) {
-            worker.interrupt(); // kill our thread
+            worker.interrupt(); // kill our threbd
             worker = null;
         }
     }
 
     /**
-     * Fire an "object added" event to registered NamingListeners.
+     * Fire bn "object bdded" event to registered NbmingListeners.
      */
-    private void fireObjectAdded(Binding newBd, long changeID) {
-        if (namingListeners == null || namingListeners.size() == 0)
+    privbte void fireObjectAdded(Binding newBd, long chbngeID) {
+        if (nbmingListeners == null || nbmingListeners.size() == 0)
             return;
 
-        NamingEvent e = new NamingEvent(eventSrc, NamingEvent.OBJECT_ADDED,
-            newBd, null, changeID);
-        support.queueEvent(e, namingListeners);
+        NbmingEvent e = new NbmingEvent(eventSrc, NbmingEvent.OBJECT_ADDED,
+            newBd, null, chbngeID);
+        support.queueEvent(e, nbmingListeners);
     }
 
     /**
-     * Fire an "object removed" event to registered NamingListeners.
+     * Fire bn "object removed" event to registered NbmingListeners.
      */
-    private void fireObjectRemoved(Binding oldBd, long changeID) {
-        if (namingListeners == null || namingListeners.size() == 0)
+    privbte void fireObjectRemoved(Binding oldBd, long chbngeID) {
+        if (nbmingListeners == null || nbmingListeners.size() == 0)
             return;
 
-        NamingEvent e = new NamingEvent(eventSrc, NamingEvent.OBJECT_REMOVED,
-            null, oldBd, changeID);
-        support.queueEvent(e, namingListeners);
+        NbmingEvent e = new NbmingEvent(eventSrc, NbmingEvent.OBJECT_REMOVED,
+            null, oldBd, chbngeID);
+        support.queueEvent(e, nbmingListeners);
     }
 
     /**
-     * Fires an "object changed" event to registered NamingListeners.
+     * Fires bn "object chbnged" event to registered NbmingListeners.
      */
-    private void fireObjectChanged(Binding newBd, long changeID) {
-        if (namingListeners == null || namingListeners.size() == 0)
+    privbte void fireObjectChbnged(Binding newBd, long chbngeID) {
+        if (nbmingListeners == null || nbmingListeners.size() == 0)
             return;
 
-        // Name hasn't changed; construct old binding using name from new binding
-        Binding oldBd = new Binding(newBd.getName(), null, newBd.isRelative());
+        // Nbme hbsn't chbnged; construct old binding using nbme from new binding
+        Binding oldBd = new Binding(newBd.getNbme(), null, newBd.isRelbtive());
 
-        NamingEvent e = new NamingEvent(
-            eventSrc, NamingEvent.OBJECT_CHANGED, newBd, oldBd, changeID);
-        support.queueEvent(e, namingListeners);
+        NbmingEvent e = new NbmingEvent(
+            eventSrc, NbmingEvent.OBJECT_CHANGED, newBd, oldBd, chbngeID);
+        support.queueEvent(e, nbmingListeners);
     }
 
     /**
-     * Fires an "object renamed" to registered NamingListeners.
+     * Fires bn "object renbmed" to registered NbmingListeners.
      */
-    private void fireObjectRenamed(Binding newBd, String oldDN, long changeID) {
-        if (namingListeners == null || namingListeners.size() == 0)
+    privbte void fireObjectRenbmed(Binding newBd, String oldDN, long chbngeID) {
+        if (nbmingListeners == null || nbmingListeners.size() == 0)
             return;
 
         Binding oldBd = null;
         try {
-            LdapName dn = new LdapName(oldDN);
-            if (dn.startsWith(context.currentParsedDN)) {
-                String relDN = dn.getSuffix(context.currentParsedDN.size()).toString();
+            LdbpNbme dn = new LdbpNbme(oldDN);
+            if (dn.stbrtsWith(context.currentPbrsedDN)) {
+                String relDN = dn.getSuffix(context.currentPbrsedDN.size()).toString();
                 oldBd = new Binding(relDN, null);
             }
-        } catch (NamingException e) {}
+        } cbtch (NbmingException e) {}
 
         if (oldBd == null) {
-            oldBd = new Binding(oldDN, null, false /* not relative name */);
+            oldBd = new Binding(oldDN, null, fblse /* not relbtive nbme */);
         }
 
-        NamingEvent e = new NamingEvent(
-            eventSrc, NamingEvent.OBJECT_RENAMED, newBd, oldBd, changeID);
-        support.queueEvent(e, namingListeners);
+        NbmingEvent e = new NbmingEvent(
+            eventSrc, NbmingEvent.OBJECT_RENAMED, newBd, oldBd, chbngeID);
+        support.queueEvent(e, nbmingListeners);
     }
 
-    private void fireNamingException(NamingException e) {
-        if (namingListeners == null || namingListeners.size() == 0)
+    privbte void fireNbmingException(NbmingException e) {
+        if (nbmingListeners == null || nbmingListeners.size() == 0)
             return;
 
-        NamingExceptionEvent evt = new NamingExceptionEvent(eventSrc, e);
-        support.queueEvent(evt, namingListeners);
+        NbmingExceptionEvent evt = new NbmingExceptionEvent(eventSrc, e);
+        support.queueEvent(evt, nbmingListeners);
     }
 }

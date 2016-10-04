@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.ArrayData;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.ArrbyDbtb;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class NewArrayExpression extends NaryExpression {
+clbss NewArrbyExpression extends NbryExpression {
     Expression init;
 
     /**
      * Constructor
      */
-    public NewArrayExpression(long where, Expression right, Expression args[]) {
-        super(NEWARRAY, where, Type.tError, right, args);
+    public NewArrbyExpression(long where, Expression right, Expression brgs[]) {
+        super(NEWARRAY, where, Type.tError, right, brgs);
     }
 
-    public NewArrayExpression(long where, Expression right, Expression args[], Expression init) {
-        this(where, right, args);
+    public NewArrbyExpression(long where, Expression right, Expression brgs[], Expression init) {
+        this(where, right, brgs);
         this.init = init;
     }
 
     /**
      * Check
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
+    public Vset checkVblue(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
         type = right.toType(env, ctx);
 
-        boolean flag = (init != null);  // flag says that dims are forbidden
-        for (int i = 0 ; i < args.length ; i++) {
-            Expression dim = args[i];
+        boolebn flbg = (init != null);  // flbg sbys thbt dims bre forbidden
+        for (int i = 0 ; i < brgs.length ; i++) {
+            Expression dim = brgs[i];
             if (dim == null) {
-                if (i == 0 && !flag) {
-                    env.error(where, "array.dim.missing");
+                if (i == 0 && !flbg) {
+                    env.error(where, "brrby.dim.missing");
                 }
-                flag = true;
+                flbg = true;
             } else {
-                if (flag) {
-                    env.error(dim.where, "invalid.array.dim");
+                if (flbg) {
+                    env.error(dim.where, "invblid.brrby.dim");
                 }
-                vset = dim.checkValue(env, ctx, vset, exp);
-                args[i] = convert(env, ctx, Type.tInt, dim);
+                vset = dim.checkVblue(env, ctx, vset, exp);
+                brgs[i] = convert(env, ctx, Type.tInt, dim);
             }
-            type = Type.tArray(type);
+            type = Type.tArrby(type);
         }
         if (init != null) {
-            vset = init.checkInitializer(env, ctx, vset, type, exp);
+            vset = init.checkInitiblizer(env, ctx, vset, type, exp);
             init = convert(env, ctx, type, init);
         }
         return vset;
     }
 
     public Expression copyInline(Context ctx) {
-        NewArrayExpression e = (NewArrayExpression)super.copyInline(ctx);
+        NewArrbyExpression e = (NewArrbyExpression)super.copyInline(ctx);
         if (init != null) {
             e.init = init.copyInline(ctx);
         }
@@ -95,21 +95,21 @@ class NewArrayExpression extends NaryExpression {
      */
     public Expression inline(Environment env, Context ctx) {
         Expression e = null;
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                e = (e != null) ? new CommaExpression(where, e, args[i]) : args[i];
+        for (int i = 0 ; i < brgs.length ; i++) {
+            if (brgs[i] != null) {
+                e = (e != null) ? new CommbExpression(where, e, brgs[i]) : brgs[i];
             }
         }
         if (init != null)
-            e = (e != null) ? new CommaExpression(where, e, init) : init;
+            e = (e != null) ? new CommbExpression(where, e, init) : init;
         return (e != null) ? e.inline(env, ctx) : null;
     }
-    public Expression inlineValue(Environment env, Context ctx) {
+    public Expression inlineVblue(Environment env, Context ctx) {
         if (init != null)
-            return init.inlineValue(env, ctx); // args are all null
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                args[i] = args[i].inlineValue(env, ctx);
+            return init.inlineVblue(env, ctx); // brgs bre bll null
+        for (int i = 0 ; i < brgs.length ; i++) {
+            if (brgs[i] != null) {
+                brgs[i] = brgs[i].inlineVblue(env, ctx);
             }
         }
         return this;
@@ -118,44 +118,44 @@ class NewArrayExpression extends NaryExpression {
     /**
      * Code
      */
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
+    public void codeVblue(Environment env, Context ctx, Assembler bsm) {
         int t = 0;
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                args[i].codeValue(env, ctx, asm);
+        for (int i = 0 ; i < brgs.length ; i++) {
+            if (brgs[i] != null) {
+                brgs[i].codeVblue(env, ctx, bsm);
                 t++;
             }
         }
-        if (args.length > 1) {
-            asm.add(where, opc_multianewarray, new ArrayData(type, t));
+        if (brgs.length > 1) {
+            bsm.bdd(where, opc_multibnewbrrby, new ArrbyDbtb(type, t));
             return;
         }
 
         switch (type.getElementType().getTypeCode()) {
-            case TC_BOOLEAN:
-                asm.add(where, opc_newarray, T_BOOLEAN);   break;
-            case TC_BYTE:
-                asm.add(where, opc_newarray, T_BYTE);      break;
-            case TC_SHORT:
-                asm.add(where, opc_newarray, T_SHORT);     break;
-            case TC_CHAR:
-                asm.add(where, opc_newarray, T_CHAR);      break;
-            case TC_INT:
-                asm.add(where, opc_newarray, T_INT);       break;
-            case TC_LONG:
-                asm.add(where, opc_newarray, T_LONG);      break;
-            case TC_FLOAT:
-                asm.add(where, opc_newarray, T_FLOAT);     break;
-            case TC_DOUBLE:
-                asm.add(where, opc_newarray, T_DOUBLE);    break;
-            case TC_ARRAY:
-                asm.add(where, opc_anewarray, type.getElementType());   break;
-            case TC_CLASS:
-                asm.add(where, opc_anewarray,
-                        env.getClassDeclaration(type.getElementType()));
-                break;
-            default:
-                throw new CompilerError("codeValue");
+            cbse TC_BOOLEAN:
+                bsm.bdd(where, opc_newbrrby, T_BOOLEAN);   brebk;
+            cbse TC_BYTE:
+                bsm.bdd(where, opc_newbrrby, T_BYTE);      brebk;
+            cbse TC_SHORT:
+                bsm.bdd(where, opc_newbrrby, T_SHORT);     brebk;
+            cbse TC_CHAR:
+                bsm.bdd(where, opc_newbrrby, T_CHAR);      brebk;
+            cbse TC_INT:
+                bsm.bdd(where, opc_newbrrby, T_INT);       brebk;
+            cbse TC_LONG:
+                bsm.bdd(where, opc_newbrrby, T_LONG);      brebk;
+            cbse TC_FLOAT:
+                bsm.bdd(where, opc_newbrrby, T_FLOAT);     brebk;
+            cbse TC_DOUBLE:
+                bsm.bdd(where, opc_newbrrby, T_DOUBLE);    brebk;
+            cbse TC_ARRAY:
+                bsm.bdd(where, opc_bnewbrrby, type.getElementType());   brebk;
+            cbse TC_CLASS:
+                bsm.bdd(where, opc_bnewbrrby,
+                        env.getClbssDeclbrbtion(type.getElementType()));
+                brebk;
+            defbult:
+                throw new CompilerError("codeVblue");
         }
     }
 }

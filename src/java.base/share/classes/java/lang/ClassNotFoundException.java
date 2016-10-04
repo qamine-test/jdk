@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * Thrown when an application tries to load in a class through its
- * string name using:
+ * Thrown when bn bpplicbtion tries to lobd in b clbss through its
+ * string nbme using:
  * <ul>
- * <li>The <code>forName</code> method in class <code>Class</code>.
- * <li>The <code>findSystemClass</code> method in class
- *     <code>ClassLoader</code> .
- * <li>The <code>loadClass</code> method in class <code>ClassLoader</code>.
+ * <li>The <code>forNbme</code> method in clbss <code>Clbss</code>.
+ * <li>The <code>findSystemClbss</code> method in clbss
+ *     <code>ClbssLobder</code> .
+ * <li>The <code>lobdClbss</code> method in clbss <code>ClbssLobder</code>.
  * </ul>
  * <p>
- * but no definition for the class with the specified name could be found.
+ * but no definition for the clbss with the specified nbme could be found.
  *
- * <p>As of release 1.4, this exception has been retrofitted to conform to
- * the general purpose exception-chaining mechanism.  The "optional exception
- * that was raised while loading the class" that may be provided at
- * construction time and accessed via the {@link #getException()} method is
- * now known as the <i>cause</i>, and may be accessed via the {@link
- * Throwable#getCause()} method, as well as the aforementioned "legacy method."
+ * <p>As of relebse 1.4, this exception hbs been retrofitted to conform to
+ * the generbl purpose exception-chbining mechbnism.  The "optionbl exception
+ * thbt wbs rbised while lobding the clbss" thbt mby be provided bt
+ * construction time bnd bccessed vib the {@link #getException()} method is
+ * now known bs the <i>cbuse</i>, bnd mby be bccessed vib the {@link
+ * Throwbble#getCbuse()} method, bs well bs the bforementioned "legbcy method."
  *
- * @author  unascribed
- * @see     java.lang.Class#forName(java.lang.String)
- * @see     java.lang.ClassLoader#findSystemClass(java.lang.String)
- * @see     java.lang.ClassLoader#loadClass(java.lang.String, boolean)
+ * @buthor  unbscribed
+ * @see     jbvb.lbng.Clbss#forNbme(jbvb.lbng.String)
+ * @see     jbvb.lbng.ClbssLobder#findSystemClbss(jbvb.lbng.String)
+ * @see     jbvb.lbng.ClbssLobder#lobdClbss(jbvb.lbng.String, boolebn)
  * @since   1.0
  */
-public class ClassNotFoundException extends ReflectiveOperationException {
+public clbss ClbssNotFoundException extends ReflectiveOperbtionException {
     /**
-     * use serialVersionUID from JDK 1.1.X for interoperability
+     * use seriblVersionUID from JDK 1.1.X for interoperbbility
      */
-     private static final long serialVersionUID = 9176873029745254542L;
+     privbte stbtic finbl long seriblVersionUID = 9176873029745254542L;
 
     /**
      * This field holds the exception ex if the
-     * ClassNotFoundException(String s, Throwable ex) constructor was
-     * used to instantiate the object
-     * @serial
+     * ClbssNotFoundException(String s, Throwbble ex) constructor wbs
+     * used to instbntibte the object
+     * @seribl
      * @since 1.2
      */
-    private Throwable ex;
+    privbte Throwbble ex;
 
     /**
-     * Constructs a <code>ClassNotFoundException</code> with no detail message.
+     * Constructs b <code>ClbssNotFoundException</code> with no detbil messbge.
      */
-    public ClassNotFoundException() {
-        super((Throwable)null);  // Disallow initCause
+    public ClbssNotFoundException() {
+        super((Throwbble)null);  // Disbllow initCbuse
     }
 
     /**
-     * Constructs a <code>ClassNotFoundException</code> with the
-     * specified detail message.
+     * Constructs b <code>ClbssNotFoundException</code> with the
+     * specified detbil messbge.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   the detbil messbge.
      */
-    public ClassNotFoundException(String s) {
-        super(s, null);  //  Disallow initCause
+    public ClbssNotFoundException(String s) {
+        super(s, null);  //  Disbllow initCbuse
     }
 
     /**
-     * Constructs a <code>ClassNotFoundException</code> with the
-     * specified detail message and optional exception that was
-     * raised while loading the class.
+     * Constructs b <code>ClbssNotFoundException</code> with the
+     * specified detbil messbge bnd optionbl exception thbt wbs
+     * rbised while lobding the clbss.
      *
-     * @param s the detail message
-     * @param ex the exception that was raised while loading the class
+     * @pbrbm s the detbil messbge
+     * @pbrbm ex the exception thbt wbs rbised while lobding the clbss
      * @since 1.2
      */
-    public ClassNotFoundException(String s, Throwable ex) {
-        super(s, null);  //  Disallow initCause
+    public ClbssNotFoundException(String s, Throwbble ex) {
+        super(s, null);  //  Disbllow initCbuse
         this.ex = ex;
     }
 
     /**
-     * Returns the exception that was raised if an error occurred while
-     * attempting to load the class. Otherwise, returns <tt>null</tt>.
+     * Returns the exception thbt wbs rbised if bn error occurred while
+     * bttempting to lobd the clbss. Otherwise, returns <tt>null</tt>.
      *
-     * <p>This method predates the general-purpose exception chaining facility.
-     * The {@link Throwable#getCause()} method is now the preferred means of
-     * obtaining this information.
+     * <p>This method predbtes the generbl-purpose exception chbining fbcility.
+     * The {@link Throwbble#getCbuse()} method is now the preferred mebns of
+     * obtbining this informbtion.
      *
-     * @return the <code>Exception</code> that was raised while loading a class
+     * @return the <code>Exception</code> thbt wbs rbised while lobding b clbss
      * @since 1.2
      */
-    public Throwable getException() {
+    public Throwbble getException() {
         return ex;
     }
 
     /**
-     * Returns the cause of this exception (the exception that was raised
-     * if an error occurred while attempting to load the class; otherwise
+     * Returns the cbuse of this exception (the exception thbt wbs rbised
+     * if bn error occurred while bttempting to lobd the clbss; otherwise
      * <tt>null</tt>).
      *
-     * @return  the cause of this exception.
+     * @return  the cbuse of this exception.
      * @since   1.4
      */
-    public Throwable getCause() {
+    public Throwbble getCbuse() {
         return ex;
     }
 }

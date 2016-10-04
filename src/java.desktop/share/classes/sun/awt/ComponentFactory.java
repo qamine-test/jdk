@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.*;
-import java.awt.dnd.*;
-import java.awt.dnd.peer.DragSourceContextPeer;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.*;
+import jbvb.bwt.dnd.peer.DrbgSourceContextPeer;
+import jbvb.bwt.peer.*;
 
 /**
- * Interface for component creation support in toolkits
+ * Interfbce for component crebtion support in toolkits
  */
-public interface ComponentFactory {
+public interfbce ComponentFbctory {
 
-    CanvasPeer createCanvas(Canvas target) throws HeadlessException;
+    CbnvbsPeer crebteCbnvbs(Cbnvbs tbrget) throws HebdlessException;
 
-    PanelPeer createPanel(Panel target) throws HeadlessException;
+    PbnelPeer crebtePbnel(Pbnel tbrget) throws HebdlessException;
 
-    WindowPeer createWindow(Window target) throws HeadlessException;
+    WindowPeer crebteWindow(Window tbrget) throws HebdlessException;
 
-    FramePeer createFrame(Frame target) throws HeadlessException;
+    FrbmePeer crebteFrbme(Frbme tbrget) throws HebdlessException;
 
-    DialogPeer createDialog(Dialog target) throws HeadlessException;
+    DiblogPeer crebteDiblog(Diblog tbrget) throws HebdlessException;
 
-    ButtonPeer createButton(Button target) throws HeadlessException;
+    ButtonPeer crebteButton(Button tbrget) throws HebdlessException;
 
-    TextFieldPeer createTextField(TextField target)
-        throws HeadlessException;
+    TextFieldPeer crebteTextField(TextField tbrget)
+        throws HebdlessException;
 
-    ChoicePeer createChoice(Choice target) throws HeadlessException;
+    ChoicePeer crebteChoice(Choice tbrget) throws HebdlessException;
 
-    LabelPeer createLabel(Label target) throws HeadlessException;
+    LbbelPeer crebteLbbel(Lbbel tbrget) throws HebdlessException;
 
-    ListPeer createList(List target) throws HeadlessException;
+    ListPeer crebteList(List tbrget) throws HebdlessException;
 
-    CheckboxPeer createCheckbox(Checkbox target)
-        throws HeadlessException;
+    CheckboxPeer crebteCheckbox(Checkbox tbrget)
+        throws HebdlessException;
 
-    ScrollbarPeer createScrollbar(Scrollbar target)
-        throws HeadlessException;
+    ScrollbbrPeer crebteScrollbbr(Scrollbbr tbrget)
+        throws HebdlessException;
 
-    ScrollPanePeer createScrollPane(ScrollPane target)
-        throws HeadlessException;
+    ScrollPbnePeer crebteScrollPbne(ScrollPbne tbrget)
+        throws HebdlessException;
 
-    TextAreaPeer createTextArea(TextArea target)
-        throws HeadlessException;
+    TextArebPeer crebteTextAreb(TextAreb tbrget)
+        throws HebdlessException;
 
-    FileDialogPeer createFileDialog(FileDialog target)
-        throws HeadlessException;
+    FileDiblogPeer crebteFileDiblog(FileDiblog tbrget)
+        throws HebdlessException;
 
-    MenuBarPeer createMenuBar(MenuBar target) throws HeadlessException;
+    MenuBbrPeer crebteMenuBbr(MenuBbr tbrget) throws HebdlessException;
 
-    MenuPeer createMenu(Menu target) throws HeadlessException;
+    MenuPeer crebteMenu(Menu tbrget) throws HebdlessException;
 
-    PopupMenuPeer createPopupMenu(PopupMenu target)
-        throws HeadlessException;
+    PopupMenuPeer crebtePopupMenu(PopupMenu tbrget)
+        throws HebdlessException;
 
-    MenuItemPeer createMenuItem(MenuItem target)
-        throws HeadlessException;
+    MenuItemPeer crebteMenuItem(MenuItem tbrget)
+        throws HebdlessException;
 
-    CheckboxMenuItemPeer createCheckboxMenuItem(CheckboxMenuItem target)
-        throws HeadlessException;
+    CheckboxMenuItemPeer crebteCheckboxMenuItem(CheckboxMenuItem tbrget)
+        throws HebdlessException;
 
-    DragSourceContextPeer createDragSourceContextPeer(
-        DragGestureEvent dge)
-        throws InvalidDnDOperationException, HeadlessException;
+    DrbgSourceContextPeer crebteDrbgSourceContextPeer(
+        DrbgGestureEvent dge)
+        throws InvblidDnDOperbtionException, HebdlessException;
 
-    FontPeer getFontPeer(String name, int style);
+    FontPeer getFontPeer(String nbme, int style);
 
-    RobotPeer createRobot(Robot target, GraphicsDevice screen)
-        throws AWTException, HeadlessException;
+    RobotPeer crebteRobot(Robot tbrget, GrbphicsDevice screen)
+        throws AWTException, HebdlessException;
 
 }

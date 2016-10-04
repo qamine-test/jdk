@@ -1,312 +1,312 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
-import java.nio.file.attribute.*;
-import java.nio.channels.SeekableByteChannel;
-import java.util.Set;
-import java.io.IOException;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.chbnnels.SeekbbleByteChbnnel;
+import jbvb.util.Set;
+import jbvb.io.IOException;
 
 /**
- * A {@code DirectoryStream} that defines operations on files that are located
- * relative to an open directory. A {@code SecureDirectoryStream} is intended
- * for use by sophisticated or security sensitive applications requiring to
- * traverse file trees or otherwise operate on directories in a race-free manner.
- * Race conditions can arise when a sequence of file operations cannot be
- * carried out in isolation. Each of the file operations defined by this
- * interface specify a relative path. All access to the file is relative
- * to the open directory irrespective of if the directory is moved or replaced
- * by an attacker while the directory is open. A {@code SecureDirectoryStream}
- * may also be used as a virtual <em>working directory</em>.
+ * A {@code DirectoryStrebm} thbt defines operbtions on files thbt bre locbted
+ * relbtive to bn open directory. A {@code SecureDirectoryStrebm} is intended
+ * for use by sophisticbted or security sensitive bpplicbtions requiring to
+ * trbverse file trees or otherwise operbte on directories in b rbce-free mbnner.
+ * Rbce conditions cbn brise when b sequence of file operbtions cbnnot be
+ * cbrried out in isolbtion. Ebch of the file operbtions defined by this
+ * interfbce specify b relbtive pbth. All bccess to the file is relbtive
+ * to the open directory irrespective of if the directory is moved or replbced
+ * by bn bttbcker while the directory is open. A {@code SecureDirectoryStrebm}
+ * mby blso be used bs b virtubl <em>working directory</em>.
  *
- * <p> A {@code SecureDirectoryStream} requires corresponding support from the
- * underlying operating system. Where an implementation supports this features
- * then the {@code DirectoryStream} returned by the {@link Files#newDirectoryStream
- * newDirectoryStream} method will be a {@code SecureDirectoryStream} and must
- * be cast to that type in order to invoke the methods defined by this interface.
+ * <p> A {@code SecureDirectoryStrebm} requires corresponding support from the
+ * underlying operbting system. Where bn implementbtion supports this febtures
+ * then the {@code DirectoryStrebm} returned by the {@link Files#newDirectoryStrebm
+ * newDirectoryStrebm} method will be b {@code SecureDirectoryStrebm} bnd must
+ * be cbst to thbt type in order to invoke the methods defined by this interfbce.
  *
- * <p> In the case of the default {@link java.nio.file.spi.FileSystemProvider
- * provider}, and a security manager is set, then the permission checks are
- * performed using the path obtained by resolving the given relative path
- * against the <i>original path</i> of the directory (irrespective of if the
- * directory is moved since it was opened).
+ * <p> In the cbse of the defbult {@link jbvb.nio.file.spi.FileSystemProvider
+ * provider}, bnd b security mbnbger is set, then the permission checks bre
+ * performed using the pbth obtbined by resolving the given relbtive pbth
+ * bgbinst the <i>originbl pbth</i> of the directory (irrespective of if the
+ * directory is moved since it wbs opened).
  *
  * @since   1.7
  */
 
-public interface SecureDirectoryStream<T>
-    extends DirectoryStream<T>
+public interfbce SecureDirectoryStrebm<T>
+    extends DirectoryStrebm<T>
 {
     /**
-     * Opens the directory identified by the given path, returning a {@code
-     * SecureDirectoryStream} to iterate over the entries in the directory.
+     * Opens the directory identified by the given pbth, returning b {@code
+     * SecureDirectoryStrebm} to iterbte over the entries in the directory.
      *
-     * <p> This method works in exactly the manner specified by the {@link
-     * Files#newDirectoryStream(Path) newDirectoryStream} method for the case that
-     * the {@code path} parameter is an {@link Path#isAbsolute absolute} path.
-     * When the parameter is a relative path then the directory to open is
-     * relative to this open directory. The {@link
-     * LinkOption#NOFOLLOW_LINKS NOFOLLOW_LINKS} option may be used to
-     * ensure that this method fails if the file is a symbolic link.
+     * <p> This method works in exbctly the mbnner specified by the {@link
+     * Files#newDirectoryStrebm(Pbth) newDirectoryStrebm} method for the cbse thbt
+     * the {@code pbth} pbrbmeter is bn {@link Pbth#isAbsolute bbsolute} pbth.
+     * When the pbrbmeter is b relbtive pbth then the directory to open is
+     * relbtive to this open directory. The {@link
+     * LinkOption#NOFOLLOW_LINKS NOFOLLOW_LINKS} option mby be used to
+     * ensure thbt this method fbils if the file is b symbolic link.
      *
-     * <p> The new directory stream, once created, is not dependent upon the
-     * directory stream used to create it. Closing this directory stream has no
-     * effect upon newly created directory stream.
+     * <p> The new directory strebm, once crebted, is not dependent upon the
+     * directory strebm used to crebte it. Closing this directory strebm hbs no
+     * effect upon newly crebted directory strebm.
      *
-     * @param   path
-     *          the path to the directory to open
-     * @param   options
-     *          options indicating how symbolic links are handled
+     * @pbrbm   pbth
+     *          the pbth to the directory to open
+     * @pbrbm   options
+     *          options indicbting how symbolic links bre hbndled
      *
-     * @return  a new and open {@code SecureDirectoryStream} object
+     * @return  b new bnd open {@code SecureDirectoryStrebm} object
      *
-     * @throws  ClosedDirectoryStreamException
-     *          if the directory stream is closed
+     * @throws  ClosedDirectoryStrebmException
+     *          if the directory strebm is closed
      * @throws  NotDirectoryException
-     *          if the file could not otherwise be opened because it is not
-     *          a directory <i>(optional specific exception)</i>
+     *          if the file could not otherwise be opened becbuse it is not
+     *          b directory <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the directory.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the directory.
      */
-    SecureDirectoryStream<T> newDirectoryStream(T path, LinkOption... options)
+    SecureDirectoryStrebm<T> newDirectoryStrebm(T pbth, LinkOption... options)
         throws IOException;
 
     /**
-     * Opens or creates a file in this directory, returning a seekable byte
-     * channel to access the file.
+     * Opens or crebtes b file in this directory, returning b seekbble byte
+     * chbnnel to bccess the file.
      *
-     * <p> This method works in exactly the manner specified by the {@link
-     * Files#newByteChannel Files.newByteChannel} method for the
-     * case that the {@code path} parameter is an {@link Path#isAbsolute absolute}
-     * path. When the parameter is a relative path then the file to open or
-     * create is relative to this open directory. In addition to the options
-     * defined by the {@code Files.newByteChannel} method, the {@link
-     * LinkOption#NOFOLLOW_LINKS NOFOLLOW_LINKS} option may be used to
-     * ensure that this method fails if the file is a symbolic link.
+     * <p> This method works in exbctly the mbnner specified by the {@link
+     * Files#newByteChbnnel Files.newByteChbnnel} method for the
+     * cbse thbt the {@code pbth} pbrbmeter is bn {@link Pbth#isAbsolute bbsolute}
+     * pbth. When the pbrbmeter is b relbtive pbth then the file to open or
+     * crebte is relbtive to this open directory. In bddition to the options
+     * defined by the {@code Files.newByteChbnnel} method, the {@link
+     * LinkOption#NOFOLLOW_LINKS NOFOLLOW_LINKS} option mby be used to
+     * ensure thbt this method fbils if the file is b symbolic link.
      *
-     * <p> The channel, once created, is not dependent upon the directory stream
-     * used to create it. Closing this directory stream has no effect upon the
-     * channel.
+     * <p> The chbnnel, once crebted, is not dependent upon the directory strebm
+     * used to crebte it. Closing this directory strebm hbs no effect upon the
+     * chbnnel.
      *
-     * @param   path
-     *          the path of the file to open open or create
-     * @param   options
+     * @pbrbm   pbth
+     *          the pbth of the file to open open or crebte
+     * @pbrbm   options
      *          options specifying how the file is opened
-     * @param   attrs
-     *          an optional list of attributes to set atomically when creating
+     * @pbrbm   bttrs
+     *          bn optionbl list of bttributes to set btomicblly when crebting
      *          the file
      *
-     * @return  the seekable byte channel
+     * @return  the seekbble byte chbnnel
      *
-     * @throws  ClosedDirectoryStreamException
-     *          if the directory stream is closed
-     * @throws  IllegalArgumentException
-     *          if the set contains an invalid combination of options
-     * @throws  UnsupportedOperationException
-     *          if an unsupported open option is specified or the array contains
-     *          attributes that cannot be set atomically when creating the file
-     * @throws  FileAlreadyExistsException
-     *          if a file of that name already exists and the {@link
-     *          StandardOpenOption#CREATE_NEW CREATE_NEW} option is specified
-     *          <i>(optional specific exception)</i>
+     * @throws  ClosedDirectoryStrebmException
+     *          if the directory strebm is closed
+     * @throws  IllegblArgumentException
+     *          if the set contbins bn invblid combinbtion of options
+     * @throws  UnsupportedOperbtionException
+     *          if bn unsupported open option is specified or the brrby contbins
+     *          bttributes thbt cbnnot be set btomicblly when crebting the file
+     * @throws  FileAlrebdyExistsException
+     *          if b file of thbt nbme blrebdy exists bnd the {@link
+     *          StbndbrdOpenOption#CREATE_NEW CREATE_NEW} option is specified
+     *          <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the path if the file
-     *          is opened for reading. The {@link SecurityManager#checkWrite(String)
-     *          checkWrite} method is invoked to check write access to the path
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the pbth if the file
+     *          is opened for rebding. The {@link SecurityMbnbger#checkWrite(String)
+     *          checkWrite} method is invoked to check write bccess to the pbth
      *          if the file is opened for writing.
      */
-    SeekableByteChannel newByteChannel(T path,
+    SeekbbleByteChbnnel newByteChbnnel(T pbth,
                                        Set<? extends OpenOption> options,
-                                       FileAttribute<?>... attrs)
+                                       FileAttribute<?>... bttrs)
         throws IOException;
 
     /**
-     * Deletes a file.
+     * Deletes b file.
      *
      * <p> Unlike the {@link Files#delete delete()} method, this method does
-     * not first examine the file to determine if the file is a directory.
-     * Whether a directory is deleted by this method is system dependent and
-     * therefore not specified. If the file is a symbolic link, then the link
-     * itself, not the final target of the link, is deleted. When the
-     * parameter is a relative path then the file to delete is relative to
+     * not first exbmine the file to determine if the file is b directory.
+     * Whether b directory is deleted by this method is system dependent bnd
+     * therefore not specified. If the file is b symbolic link, then the link
+     * itself, not the finbl tbrget of the link, is deleted. When the
+     * pbrbmeter is b relbtive pbth then the file to delete is relbtive to
      * this open directory.
      *
-     * @param   path
-     *          the path of the file to delete
+     * @pbrbm   pbth
+     *          the pbth of the file to delete
      *
-     * @throws  ClosedDirectoryStreamException
-     *          if the directory stream is closed
+     * @throws  ClosedDirectoryStrebmException
+     *          if the directory strebm is closed
      * @throws  NoSuchFileException
-     *          if the file does not exist <i>(optional specific exception)</i>
+     *          if the file does not exist <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkDelete(String) checkDelete}
-     *          method is invoked to check delete access to the file
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkDelete(String) checkDelete}
+     *          method is invoked to check delete bccess to the file
      */
-    void deleteFile(T path) throws IOException;
+    void deleteFile(T pbth) throws IOException;
 
     /**
-     * Deletes a directory.
+     * Deletes b directory.
      *
      * <p> Unlike the {@link Files#delete delete()} method, this method
-     * does not first examine the file to determine if the file is a directory.
-     * Whether non-directories are deleted by this method is system dependent and
-     * therefore not specified. When the parameter is a relative path then the
-     * directory to delete is relative to this open directory.
+     * does not first exbmine the file to determine if the file is b directory.
+     * Whether non-directories bre deleted by this method is system dependent bnd
+     * therefore not specified. When the pbrbmeter is b relbtive pbth then the
+     * directory to delete is relbtive to this open directory.
      *
-     * @param   path
-     *          the path of the directory to delete
+     * @pbrbm   pbth
+     *          the pbth of the directory to delete
      *
-     * @throws  ClosedDirectoryStreamException
-     *          if the directory stream is closed
+     * @throws  ClosedDirectoryStrebmException
+     *          if the directory strebm is closed
      * @throws  NoSuchFileException
-     *          if the directory does not exist <i>(optional specific exception)</i>
+     *          if the directory does not exist <i>(optionbl specific exception)</i>
      * @throws  DirectoryNotEmptyException
-     *          if the directory could not otherwise be deleted because it is
-     *          not empty <i>(optional specific exception)</i>
+     *          if the directory could not otherwise be deleted becbuse it is
+     *          not empty <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkDelete(String) checkDelete}
-     *          method is invoked to check delete access to the directory
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkDelete(String) checkDelete}
+     *          method is invoked to check delete bccess to the directory
      */
-    void deleteDirectory(T path) throws IOException;
+    void deleteDirectory(T pbth) throws IOException;
 
     /**
-     * Move a file from this directory to another directory.
+     * Move b file from this directory to bnother directory.
      *
-     * <p> This method works in a similar manner to {@link Files#move move}
-     * method when the {@link StandardCopyOption#ATOMIC_MOVE ATOMIC_MOVE} option
-     * is specified. That is, this method moves a file as an atomic file system
-     * operation. If the {@code srcpath} parameter is an {@link Path#isAbsolute
-     * absolute} path then it locates the source file. If the parameter is a
-     * relative path then it is located relative to this open directory. If
-     * the {@code targetpath} parameter is absolute then it locates the target
-     * file (the {@code targetdir} parameter is ignored). If the parameter is
-     * a relative path it is located relative to the open directory identified
-     * by the {@code targetdir} parameter. In all cases, if the target file
-     * exists then it is implementation specific if it is replaced or this
-     * method fails.
+     * <p> This method works in b similbr mbnner to {@link Files#move move}
+     * method when the {@link StbndbrdCopyOption#ATOMIC_MOVE ATOMIC_MOVE} option
+     * is specified. Thbt is, this method moves b file bs bn btomic file system
+     * operbtion. If the {@code srcpbth} pbrbmeter is bn {@link Pbth#isAbsolute
+     * bbsolute} pbth then it locbtes the source file. If the pbrbmeter is b
+     * relbtive pbth then it is locbted relbtive to this open directory. If
+     * the {@code tbrgetpbth} pbrbmeter is bbsolute then it locbtes the tbrget
+     * file (the {@code tbrgetdir} pbrbmeter is ignored). If the pbrbmeter is
+     * b relbtive pbth it is locbted relbtive to the open directory identified
+     * by the {@code tbrgetdir} pbrbmeter. In bll cbses, if the tbrget file
+     * exists then it is implementbtion specific if it is replbced or this
+     * method fbils.
      *
-     * @param   srcpath
-     *          the name of the file to move
-     * @param   targetdir
-     *          the destination directory
-     * @param   targetpath
-     *          the name to give the file in the destination directory
+     * @pbrbm   srcpbth
+     *          the nbme of the file to move
+     * @pbrbm   tbrgetdir
+     *          the destinbtion directory
+     * @pbrbm   tbrgetpbth
+     *          the nbme to give the file in the destinbtion directory
      *
-     * @throws  ClosedDirectoryStreamException
-     *          if this or the target directory stream is closed
-     * @throws  FileAlreadyExistsException
-     *          if the file already exists in the target directory and cannot
-     *          be replaced <i>(optional specific exception)</i>
+     * @throws  ClosedDirectoryStrebmException
+     *          if this or the tbrget directory strebm is closed
+     * @throws  FileAlrebdyExistsException
+     *          if the file blrebdy exists in the tbrget directory bnd cbnnot
+     *          be replbced <i>(optionbl specific exception)</i>
      * @throws  AtomicMoveNotSupportedException
-     *          if the file cannot be moved as an atomic file system operation
+     *          if the file cbnnot be moved bs bn btomic file system operbtion
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkWrite(String) checkWrite}
-     *          method is invoked to check write access to both the source and
-     *          target file.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkWrite(String) checkWrite}
+     *          method is invoked to check write bccess to both the source bnd
+     *          tbrget file.
      */
-    void move(T srcpath, SecureDirectoryStream<T> targetdir, T targetpath)
+    void move(T srcpbth, SecureDirectoryStrebm<T> tbrgetdir, T tbrgetpbth)
         throws IOException;
 
     /**
-     * Returns a new file attribute view to access the file attributes of this
+     * Returns b new file bttribute view to bccess the file bttributes of this
      * directory.
      *
-     * <p> The resulting file attribute view can be used to read or update the
-     * attributes of this (open) directory. The {@code type} parameter specifies
-     * the type of the attribute view and the method returns an instance of that
-     * type if supported. Invoking this method to obtain a {@link
-     * BasicFileAttributeView} always returns an instance of that class that is
+     * <p> The resulting file bttribute view cbn be used to rebd or updbte the
+     * bttributes of this (open) directory. The {@code type} pbrbmeter specifies
+     * the type of the bttribute view bnd the method returns bn instbnce of thbt
+     * type if supported. Invoking this method to obtbin b {@link
+     * BbsicFileAttributeView} blwbys returns bn instbnce of thbt clbss thbt is
      * bound to this open directory.
      *
-     * <p> The state of resulting file attribute view is intimately connected
-     * to this directory stream. Once the directory stream is {@link #close closed},
-     * then all methods to read or update attributes will throw {@link
-     * ClosedDirectoryStreamException ClosedDirectoryStreamException}.
+     * <p> The stbte of resulting file bttribute view is intimbtely connected
+     * to this directory strebm. Once the directory strebm is {@link #close closed},
+     * then bll methods to rebd or updbte bttributes will throw {@link
+     * ClosedDirectoryStrebmException ClosedDirectoryStrebmException}.
      *
-     * @param   <V>
+     * @pbrbm   <V>
      *          The {@code FileAttributeView} type
-     * @param   type
-     *          the {@code Class} object corresponding to the file attribute view
+     * @pbrbm   type
+     *          the {@code Clbss} object corresponding to the file bttribute view
      *
-     * @return  a new file attribute view of the specified type bound to
-     *          this directory stream, or {@code null} if the attribute view
-     *          type is not available
+     * @return  b new file bttribute view of the specified type bound to
+     *          this directory strebm, or {@code null} if the bttribute view
+     *          type is not bvbilbble
      */
-    <V extends FileAttributeView> V getFileAttributeView(Class<V> type);
+    <V extends FileAttributeView> V getFileAttributeView(Clbss<V> type);
 
     /**
-     * Returns a new file attribute view to access the file attributes of a file
+     * Returns b new file bttribute view to bccess the file bttributes of b file
      * in this directory.
      *
-     * <p> The resulting file attribute view can be used to read or update the
-     * attributes of file in this directory. The {@code type} parameter specifies
-     * the type of the attribute view and the method returns an instance of that
-     * type if supported. Invoking this method to obtain a {@link
-     * BasicFileAttributeView} always returns an instance of that class that is
+     * <p> The resulting file bttribute view cbn be used to rebd or updbte the
+     * bttributes of file in this directory. The {@code type} pbrbmeter specifies
+     * the type of the bttribute view bnd the method returns bn instbnce of thbt
+     * type if supported. Invoking this method to obtbin b {@link
+     * BbsicFileAttributeView} blwbys returns bn instbnce of thbt clbss thbt is
      * bound to the file in the directory.
      *
-     * <p> The state of resulting file attribute view is intimately connected
-     * to this directory stream. Once the directory stream {@link #close closed},
-     * then all methods to read or update attributes will throw {@link
-     * ClosedDirectoryStreamException ClosedDirectoryStreamException}. The
-     * file is not required to exist at the time that the file attribute view
-     * is created but methods to read or update attributes of the file will
-     * fail when invoked and the file does not exist.
+     * <p> The stbte of resulting file bttribute view is intimbtely connected
+     * to this directory strebm. Once the directory strebm {@link #close closed},
+     * then bll methods to rebd or updbte bttributes will throw {@link
+     * ClosedDirectoryStrebmException ClosedDirectoryStrebmException}. The
+     * file is not required to exist bt the time thbt the file bttribute view
+     * is crebted but methods to rebd or updbte bttributes of the file will
+     * fbil when invoked bnd the file does not exist.
      *
-     * @param   <V>
+     * @pbrbm   <V>
      *          The {@code FileAttributeView} type
-     * @param   path
-     *          the path of the file
-     * @param   type
-     *          the {@code Class} object corresponding to the file attribute view
-     * @param   options
-     *          options indicating how symbolic links are handled
+     * @pbrbm   pbth
+     *          the pbth of the file
+     * @pbrbm   type
+     *          the {@code Clbss} object corresponding to the file bttribute view
+     * @pbrbm   options
+     *          options indicbting how symbolic links bre hbndled
      *
-     * @return  a new file attribute view of the specified type bound to a
-     *          this directory stream, or {@code null} if the attribute view
-     *          type is not available
+     * @return  b new file bttribute view of the specified type bound to b
+     *          this directory strebm, or {@code null} if the bttribute view
+     *          type is not bvbilbble
      *
      */
-    <V extends FileAttributeView> V getFileAttributeView(T path,
-                                                         Class<V> type,
+    <V extends FileAttributeView> V getFileAttributeView(T pbth,
+                                                         Clbss<V> type,
                                                          LinkOption... options);
 }

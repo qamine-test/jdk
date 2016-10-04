@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * A <code>PushbackInputStream</code> adds
- * functionality to another input stream, namely
- * the  ability to "push back" or "unread"
- * one byte. This is useful in situations where
- * it is  convenient for a fragment of code
- * to read an indefinite number of data bytes
- * that  are delimited by a particular byte
- * value; after reading the terminating byte,
- * the  code fragment can "unread" it, so that
- * the next read operation on the input stream
- * will reread the byte that was pushed back.
- * For example, bytes representing the  characters
- * constituting an identifier might be terminated
- * by a byte representing an  operator character;
- * a method whose job is to read just an identifier
- * can read until it  sees the operator and
- * then push the operator back to be re-read.
+ * A <code>PushbbckInputStrebm</code> bdds
+ * functionblity to bnother input strebm, nbmely
+ * the  bbility to "push bbck" or "unrebd"
+ * one byte. This is useful in situbtions where
+ * it is  convenient for b frbgment of code
+ * to rebd bn indefinite number of dbtb bytes
+ * thbt  bre delimited by b pbrticulbr byte
+ * vblue; bfter rebding the terminbting byte,
+ * the  code frbgment cbn "unrebd" it, so thbt
+ * the next rebd operbtion on the input strebm
+ * will rerebd the byte thbt wbs pushed bbck.
+ * For exbmple, bytes representing the  chbrbcters
+ * constituting bn identifier might be terminbted
+ * by b byte representing bn  operbtor chbrbcter;
+ * b method whose job is to rebd just bn identifier
+ * cbn rebd until it  sees the operbtor bnd
+ * then push the operbtor bbck to be re-rebd.
  *
- * @author  David Connelly
- * @author  Jonathan Payne
+ * @buthor  Dbvid Connelly
+ * @buthor  Jonbthbn Pbyne
  * @since   1.0
  */
 public
-class PushbackInputStream extends FilterInputStream {
+clbss PushbbckInputStrebm extends FilterInputStrebm {
     /**
-     * The pushback buffer.
+     * The pushbbck buffer.
      * @since   1.1
      */
     protected byte[] buf;
 
     /**
-     * The position within the pushback buffer from which the next byte will
-     * be read.  When the buffer is empty, <code>pos</code> is equal to
+     * The position within the pushbbck buffer from which the next byte will
+     * be rebd.  When the buffer is empty, <code>pos</code> is equbl to
      * <code>buf.length</code>; when the buffer is full, <code>pos</code> is
-     * equal to zero.
+     * equbl to zero.
      *
      * @since   1.1
      */
     protected int pos;
 
     /**
-     * Check to make sure that this stream has not been closed
+     * Check to mbke sure thbt this strebm hbs not been closed
      */
-    private void ensureOpen() throws IOException {
+    privbte void ensureOpen() throws IOException {
         if (in == null)
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
     }
 
     /**
-     * Creates a <code>PushbackInputStream</code>
-     * with a pushback buffer of the specified <code>size</code>,
-     * and saves its  argument, the input stream
-     * <code>in</code>, for later use. Initially,
-     * there is no pushed-back byte  (the field
-     * <code>pushBack</code> is initialized to
+     * Crebtes b <code>PushbbckInputStrebm</code>
+     * with b pushbbck buffer of the specified <code>size</code>,
+     * bnd sbves its  brgument, the input strebm
+     * <code>in</code>, for lbter use. Initiblly,
+     * there is no pushed-bbck byte  (the field
+     * <code>pushBbck</code> is initiblized to
      * <code>-1</code>).
      *
-     * @param  in    the input stream from which bytes will be read.
-     * @param  size  the size of the pushback buffer.
-     * @exception IllegalArgumentException if {@code size <= 0}
+     * @pbrbm  in    the input strebm from which bytes will be rebd.
+     * @pbrbm  size  the size of the pushbbck buffer.
+     * @exception IllegblArgumentException if {@code size <= 0}
      * @since  1.1
      */
-    public PushbackInputStream(InputStream in, int size) {
+    public PushbbckInputStrebm(InputStrebm in, int size) {
         super(in);
         if (size <= 0) {
-            throw new IllegalArgumentException("size <= 0");
+            throw new IllegblArgumentException("size <= 0");
         }
         this.buf = new byte[size];
         this.pos = size;
     }
 
     /**
-     * Creates a <code>PushbackInputStream</code>
-     * and saves its  argument, the input stream
-     * <code>in</code>, for later use. Initially,
-     * there is no pushed-back byte  (the field
-     * <code>pushBack</code> is initialized to
+     * Crebtes b <code>PushbbckInputStrebm</code>
+     * bnd sbves its  brgument, the input strebm
+     * <code>in</code>, for lbter use. Initiblly,
+     * there is no pushed-bbck byte  (the field
+     * <code>pushBbck</code> is initiblized to
      * <code>-1</code>).
      *
-     * @param   in   the input stream from which bytes will be read.
+     * @pbrbm   in   the input strebm from which bytes will be rebd.
      */
-    public PushbackInputStream(InputStream in) {
+    public PushbbckInputStrebm(InputStrebm in) {
         this(in, 1);
     }
 
     /**
-     * Reads the next byte of data from this input stream. The value
-     * byte is returned as an <code>int</code> in the range
-     * <code>0</code> to <code>255</code>. If no byte is available
-     * because the end of the stream has been reached, the value
-     * <code>-1</code> is returned. This method blocks until input data
-     * is available, the end of the stream is detected, or an exception
+     * Rebds the next byte of dbtb from this input strebm. The vblue
+     * byte is returned bs bn <code>int</code> in the rbnge
+     * <code>0</code> to <code>255</code>. If no byte is bvbilbble
+     * becbuse the end of the strebm hbs been rebched, the vblue
+     * <code>-1</code> is returned. This method blocks until input dbtb
+     * is bvbilbble, the end of the strebm is detected, or bn exception
      * is thrown.
      *
-     * <p> This method returns the most recently pushed-back byte, if there is
-     * one, and otherwise calls the <code>read</code> method of its underlying
-     * input stream and returns whatever value that method returns.
+     * <p> This method returns the most recently pushed-bbck byte, if there is
+     * one, bnd otherwise cblls the <code>rebd</code> method of its underlying
+     * input strebm bnd returns whbtever vblue thbt method returns.
      *
-     * @return     the next byte of data, or <code>-1</code> if the end of the
-     *             stream has been reached.
-     * @exception  IOException  if this input stream has been closed by
+     * @return     the next byte of dbtb, or <code>-1</code> if the end of the
+     *             strebm hbs been rebched.
+     * @exception  IOException  if this input strebm hbs been closed by
      *             invoking its {@link #close()} method,
-     *             or an I/O error occurs.
-     * @see        java.io.InputStream#read()
+     *             or bn I/O error occurs.
+     * @see        jbvb.io.InputStrebm#rebd()
      */
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         ensureOpen();
         if (pos < buf.length) {
             return buf[pos++] & 0xff;
         }
-        return super.read();
+        return super.rebd();
     }
 
     /**
-     * Reads up to <code>len</code> bytes of data from this input stream into
-     * an array of bytes.  This method first reads any pushed-back bytes; after
-     * that, if fewer than <code>len</code> bytes have been read then it
-     * reads from the underlying input stream. If <code>len</code> is not zero, the method
-     * blocks until at least 1 byte of input is available; otherwise, no
-     * bytes are read and <code>0</code> is returned.
+     * Rebds up to <code>len</code> bytes of dbtb from this input strebm into
+     * bn brrby of bytes.  This method first rebds bny pushed-bbck bytes; bfter
+     * thbt, if fewer thbn <code>len</code> bytes hbve been rebd then it
+     * rebds from the underlying input strebm. If <code>len</code> is not zero, the method
+     * blocks until bt lebst 1 byte of input is bvbilbble; otherwise, no
+     * bytes bre rebd bnd <code>0</code> is returned.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param      off   the start offset in the destination array <code>b</code>
-     * @param      len   the maximum number of bytes read.
-     * @return     the total number of bytes read into the buffer, or
-     *             <code>-1</code> if there is no more data because the end of
-     *             the stream has been reached.
+     * @pbrbm      b     the buffer into which the dbtb is rebd.
+     * @pbrbm      off   the stbrt offset in the destinbtion brrby <code>b</code>
+     * @pbrbm      len   the mbximum number of bytes rebd.
+     * @return     the totbl number of bytes rebd into the buffer, or
+     *             <code>-1</code> if there is no more dbtb becbuse the end of
+     *             the strebm hbs been rebched.
      * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
+     * @exception  IndexOutOfBoundsException If <code>off</code> is negbtive,
+     * <code>len</code> is negbtive, or <code>len</code> is grebter thbn
      * <code>b.length - off</code>
-     * @exception  IOException  if this input stream has been closed by
+     * @exception  IOException  if this input strebm hbs been closed by
      *             invoking its {@link #close()} method,
-     *             or an I/O error occurs.
-     * @see        java.io.InputStream#read(byte[], int, int)
+     *             or bn I/O error occurs.
+     * @see        jbvb.io.InputStrebm#rebd(byte[], int, int)
      */
-    public int read(byte[] b, int off, int len) throws IOException {
+    public int rebd(byte[] b, int off, int len) throws IOException {
         ensureOpen();
         if (b == null) {
             throw new NullPointerException();
@@ -172,134 +172,134 @@ class PushbackInputStream extends FilterInputStream {
             return 0;
         }
 
-        int avail = buf.length - pos;
-        if (avail > 0) {
-            if (len < avail) {
-                avail = len;
+        int bvbil = buf.length - pos;
+        if (bvbil > 0) {
+            if (len < bvbil) {
+                bvbil = len;
             }
-            System.arraycopy(buf, pos, b, off, avail);
-            pos += avail;
-            off += avail;
-            len -= avail;
+            System.brrbycopy(buf, pos, b, off, bvbil);
+            pos += bvbil;
+            off += bvbil;
+            len -= bvbil;
         }
         if (len > 0) {
-            len = super.read(b, off, len);
+            len = super.rebd(b, off, len);
             if (len == -1) {
-                return avail == 0 ? -1 : avail;
+                return bvbil == 0 ? -1 : bvbil;
             }
-            return avail + len;
+            return bvbil + len;
         }
-        return avail;
+        return bvbil;
     }
 
     /**
-     * Pushes back a byte by copying it to the front of the pushback buffer.
-     * After this method returns, the next byte to be read will have the value
+     * Pushes bbck b byte by copying it to the front of the pushbbck buffer.
+     * After this method returns, the next byte to be rebd will hbve the vblue
      * <code>(byte)b</code>.
      *
-     * @param      b   the <code>int</code> value whose low-order
-     *                  byte is to be pushed back.
-     * @exception IOException If there is not enough room in the pushback
-     *            buffer for the byte, or this input stream has been closed by
+     * @pbrbm      b   the <code>int</code> vblue whose low-order
+     *                  byte is to be pushed bbck.
+     * @exception IOException If there is not enough room in the pushbbck
+     *            buffer for the byte, or this input strebm hbs been closed by
      *            invoking its {@link #close()} method.
      */
-    public void unread(int b) throws IOException {
+    public void unrebd(int b) throws IOException {
         ensureOpen();
         if (pos == 0) {
-            throw new IOException("Push back buffer is full");
+            throw new IOException("Push bbck buffer is full");
         }
         buf[--pos] = (byte)b;
     }
 
     /**
-     * Pushes back a portion of an array of bytes by copying it to the front
-     * of the pushback buffer.  After this method returns, the next byte to be
-     * read will have the value <code>b[off]</code>, the byte after that will
-     * have the value <code>b[off+1]</code>, and so forth.
+     * Pushes bbck b portion of bn brrby of bytes by copying it to the front
+     * of the pushbbck buffer.  After this method returns, the next byte to be
+     * rebd will hbve the vblue <code>b[off]</code>, the byte bfter thbt will
+     * hbve the vblue <code>b[off+1]</code>, bnd so forth.
      *
-     * @param b the byte array to push back.
-     * @param off the start offset of the data.
-     * @param len the number of bytes to push back.
-     * @exception IOException If there is not enough room in the pushback
+     * @pbrbm b the byte brrby to push bbck.
+     * @pbrbm off the stbrt offset of the dbtb.
+     * @pbrbm len the number of bytes to push bbck.
+     * @exception IOException If there is not enough room in the pushbbck
      *            buffer for the specified number of bytes,
-     *            or this input stream has been closed by
+     *            or this input strebm hbs been closed by
      *            invoking its {@link #close()} method.
      * @since     1.1
      */
-    public void unread(byte[] b, int off, int len) throws IOException {
+    public void unrebd(byte[] b, int off, int len) throws IOException {
         ensureOpen();
         if (len > pos) {
-            throw new IOException("Push back buffer is full");
+            throw new IOException("Push bbck buffer is full");
         }
         pos -= len;
-        System.arraycopy(b, off, buf, pos, len);
+        System.brrbycopy(b, off, buf, pos, len);
     }
 
     /**
-     * Pushes back an array of bytes by copying it to the front of the
-     * pushback buffer.  After this method returns, the next byte to be read
-     * will have the value <code>b[0]</code>, the byte after that will have the
-     * value <code>b[1]</code>, and so forth.
+     * Pushes bbck bn brrby of bytes by copying it to the front of the
+     * pushbbck buffer.  After this method returns, the next byte to be rebd
+     * will hbve the vblue <code>b[0]</code>, the byte bfter thbt will hbve the
+     * vblue <code>b[1]</code>, bnd so forth.
      *
-     * @param b the byte array to push back
-     * @exception IOException If there is not enough room in the pushback
+     * @pbrbm b the byte brrby to push bbck
+     * @exception IOException If there is not enough room in the pushbbck
      *            buffer for the specified number of bytes,
-     *            or this input stream has been closed by
+     *            or this input strebm hbs been closed by
      *            invoking its {@link #close()} method.
      * @since     1.1
      */
-    public void unread(byte[] b) throws IOException {
-        unread(b, 0, b.length);
+    public void unrebd(byte[] b) throws IOException {
+        unrebd(b, 0, b.length);
     }
 
     /**
-     * Returns an estimate of the number of bytes that can be read (or
-     * skipped over) from this input stream without blocking by the next
-     * invocation of a method for this input stream. The next invocation might be
-     * the same thread or another thread.  A single read or skip of this
-     * many bytes will not block, but may read or skip fewer bytes.
+     * Returns bn estimbte of the number of bytes thbt cbn be rebd (or
+     * skipped over) from this input strebm without blocking by the next
+     * invocbtion of b method for this input strebm. The next invocbtion might be
+     * the sbme threbd or bnother threbd.  A single rebd or skip of this
+     * mbny bytes will not block, but mby rebd or skip fewer bytes.
      *
-     * <p> The method returns the sum of the number of bytes that have been
-     * pushed back and the value returned by {@link
-     * java.io.FilterInputStream#available available}.
+     * <p> The method returns the sum of the number of bytes thbt hbve been
+     * pushed bbck bnd the vblue returned by {@link
+     * jbvb.io.FilterInputStrebm#bvbilbble bvbilbble}.
      *
-     * @return     the number of bytes that can be read (or skipped over) from
-     *             the input stream without blocking.
-     * @exception  IOException  if this input stream has been closed by
+     * @return     the number of bytes thbt cbn be rebd (or skipped over) from
+     *             the input strebm without blocking.
+     * @exception  IOException  if this input strebm hbs been closed by
      *             invoking its {@link #close()} method,
-     *             or an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
-     * @see        java.io.InputStream#available()
+     *             or bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
+     * @see        jbvb.io.InputStrebm#bvbilbble()
      */
-    public int available() throws IOException {
+    public int bvbilbble() throws IOException {
         ensureOpen();
         int n = buf.length - pos;
-        int avail = super.available();
-        return n > (Integer.MAX_VALUE - avail)
+        int bvbil = super.bvbilbble();
+        return n > (Integer.MAX_VALUE - bvbil)
                     ? Integer.MAX_VALUE
-                    : n + avail;
+                    : n + bvbil;
     }
 
     /**
-     * Skips over and discards <code>n</code> bytes of data from this
-     * input stream. The <code>skip</code> method may, for a variety of
-     * reasons, end up skipping over some smaller number of bytes,
-     * possibly zero.  If <code>n</code> is negative, no bytes are skipped.
+     * Skips over bnd discbrds <code>n</code> bytes of dbtb from this
+     * input strebm. The <code>skip</code> method mby, for b vbriety of
+     * rebsons, end up skipping over some smbller number of bytes,
+     * possibly zero.  If <code>n</code> is negbtive, no bytes bre skipped.
      *
-     * <p> The <code>skip</code> method of <code>PushbackInputStream</code>
-     * first skips over the bytes in the pushback buffer, if any.  It then
-     * calls the <code>skip</code> method of the underlying input stream if
-     * more bytes need to be skipped.  The actual number of bytes skipped
+     * <p> The <code>skip</code> method of <code>PushbbckInputStrebm</code>
+     * first skips over the bytes in the pushbbck buffer, if bny.  It then
+     * cblls the <code>skip</code> method of the underlying input strebm if
+     * more bytes need to be skipped.  The bctubl number of bytes skipped
      * is returned.
      *
-     * @param      n  {@inheritDoc}
+     * @pbrbm      n  {@inheritDoc}
      * @return     {@inheritDoc}
-     * @exception  IOException  if the stream does not support seek,
-     *            or the stream has been closed by
+     * @exception  IOException  if the strebm does not support seek,
+     *            or the strebm hbs been closed by
      *            invoking its {@link #close()} method,
-     *            or an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
-     * @see        java.io.InputStream#skip(long n)
+     *            or bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
+     * @see        jbvb.io.InputStrebm#skip(long n)
      * @since      1.2
      */
     public long skip(long n) throws IOException {
@@ -323,55 +323,55 @@ class PushbackInputStream extends FilterInputStream {
     }
 
     /**
-     * Tests if this input stream supports the <code>mark</code> and
+     * Tests if this input strebm supports the <code>mbrk</code> bnd
      * <code>reset</code> methods, which it does not.
      *
-     * @return   <code>false</code>, since this class does not support the
-     *           <code>mark</code> and <code>reset</code> methods.
-     * @see     java.io.InputStream#mark(int)
-     * @see     java.io.InputStream#reset()
+     * @return   <code>fblse</code>, since this clbss does not support the
+     *           <code>mbrk</code> bnd <code>reset</code> methods.
+     * @see     jbvb.io.InputStrebm#mbrk(int)
+     * @see     jbvb.io.InputStrebm#reset()
      */
-    public boolean markSupported() {
-        return false;
+    public boolebn mbrkSupported() {
+        return fblse;
     }
 
     /**
-     * Marks the current position in this input stream.
+     * Mbrks the current position in this input strebm.
      *
-     * <p> The <code>mark</code> method of <code>PushbackInputStream</code>
+     * <p> The <code>mbrk</code> method of <code>PushbbckInputStrebm</code>
      * does nothing.
      *
-     * @param   readlimit   the maximum limit of bytes that can be read before
-     *                      the mark position becomes invalid.
-     * @see     java.io.InputStream#reset()
+     * @pbrbm   rebdlimit   the mbximum limit of bytes thbt cbn be rebd before
+     *                      the mbrk position becomes invblid.
+     * @see     jbvb.io.InputStrebm#reset()
      */
-    public synchronized void mark(int readlimit) {
+    public synchronized void mbrk(int rebdlimit) {
     }
 
     /**
-     * Repositions this stream to the position at the time the
-     * <code>mark</code> method was last called on this input stream.
+     * Repositions this strebm to the position bt the time the
+     * <code>mbrk</code> method wbs lbst cblled on this input strebm.
      *
-     * <p> The method <code>reset</code> for class
-     * <code>PushbackInputStream</code> does nothing except throw an
+     * <p> The method <code>reset</code> for clbss
+     * <code>PushbbckInputStrebm</code> does nothing except throw bn
      * <code>IOException</code>.
      *
      * @exception  IOException  if this method is invoked.
-     * @see     java.io.InputStream#mark(int)
-     * @see     java.io.IOException
+     * @see     jbvb.io.InputStrebm#mbrk(int)
+     * @see     jbvb.io.IOException
      */
     public synchronized void reset() throws IOException {
-        throw new IOException("mark/reset not supported");
+        throw new IOException("mbrk/reset not supported");
     }
 
     /**
-     * Closes this input stream and releases any system resources
-     * associated with the stream.
-     * Once the stream has been closed, further read(), unread(),
-     * available(), reset(), or skip() invocations will throw an IOException.
-     * Closing a previously closed stream has no effect.
+     * Closes this input strebm bnd relebses bny system resources
+     * bssocibted with the strebm.
+     * Once the strebm hbs been closed, further rebd(), unrebd(),
+     * bvbilbble(), reset(), or skip() invocbtions will throw bn IOException.
+     * Closing b previously closed strebm hbs no effect.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public synchronized void close() throws IOException {
         if (in == null)

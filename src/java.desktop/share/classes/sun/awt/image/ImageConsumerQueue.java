@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.image.ImageConsumer;
+import jbvb.bwt.imbge.ImbgeConsumer;
 
-class ImageConsumerQueue {
-    ImageConsumerQueue next;
+clbss ImbgeConsumerQueue {
+    ImbgeConsumerQueue next;
 
-    ImageConsumer consumer;
-    boolean interested;
+    ImbgeConsumer consumer;
+    boolebn interested;
 
     Object securityContext;
-    boolean secure;
+    boolebn secure;
 
-    static ImageConsumerQueue removeConsumer(ImageConsumerQueue cqbase,
-                                             ImageConsumer ic,
-                                             boolean stillinterested)
+    stbtic ImbgeConsumerQueue removeConsumer(ImbgeConsumerQueue cqbbse,
+                                             ImbgeConsumer ic,
+                                             boolebn stillinterested)
     {
-        ImageConsumerQueue cqprev = null;
-        for (ImageConsumerQueue cq = cqbase; cq != null; cq = cq.next) {
+        ImbgeConsumerQueue cqprev = null;
+        for (ImbgeConsumerQueue cq = cqbbse; cq != null; cq = cq.next) {
             if (cq.consumer == ic) {
                 if (cqprev == null) {
-                    cqbase = cq.next;
+                    cqbbse = cq.next;
                 } else {
                     cqprev.next = cq.next;
                 }
                 cq.interested = stillinterested;
-                break;
+                brebk;
             }
             cqprev = cq;
         }
-        return cqbase;
+        return cqbbse;
     }
 
-    static boolean isConsumer(ImageConsumerQueue cqbase, ImageConsumer ic) {
-        for (ImageConsumerQueue cq = cqbase; cq != null; cq = cq.next) {
+    stbtic boolebn isConsumer(ImbgeConsumerQueue cqbbse, ImbgeConsumer ic) {
+        for (ImbgeConsumerQueue cq = cqbbse; cq != null; cq = cq.next) {
             if (cq.consumer == ic) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    ImageConsumerQueue(InputStreamImageSource src, ImageConsumer ic) {
+    ImbgeConsumerQueue(InputStrebmImbgeSource src, ImbgeConsumer ic) {
         consumer = ic;
         interested = true;
-        // ImageReps do their own security at access time.
-        if (ic instanceof ImageRepresentation) {
-            ImageRepresentation ir = (ImageRepresentation) ic;
-            if (ir.image.source != src) {
-                throw new SecurityException("ImageRep added to wrong image source");
+        // ImbgeReps do their own security bt bccess time.
+        if (ic instbnceof ImbgeRepresentbtion) {
+            ImbgeRepresentbtion ir = (ImbgeRepresentbtion) ic;
+            if (ir.imbge.source != src) {
+                throw new SecurityException("ImbgeRep bdded to wrong imbge source");
             }
             secure = true;
         } else {
-            SecurityManager security = System.getSecurityManager();
+            SecurityMbnbger security = System.getSecurityMbnbger();
             if (security != null) {
                 securityContext = security.getSecurityContext();
             } else {

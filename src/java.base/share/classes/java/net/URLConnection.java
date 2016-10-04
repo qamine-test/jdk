@@ -1,383 +1,383 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Hashtable;
-import java.util.Date;
-import java.util.StringTokenizer;
-import java.util.Collections;
-import java.util.Map;
-import java.util.List;
-import java.security.Permission;
-import java.security.AccessController;
-import sun.security.util.SecurityConstants;
-import sun.net.www.MessageHeader;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Dbte;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Collections;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.security.Permission;
+import jbvb.security.AccessController;
+import sun.security.util.SecurityConstbnts;
+import sun.net.www.MessbgeHebder;
 
 /**
- * The abstract class {@code URLConnection} is the superclass
- * of all classes that represent a communications link between the
- * application and a URL. Instances of this class can be used both to
- * read from and to write to the resource referenced by the URL. In
- * general, creating a connection to a URL is a multistep process:
+ * The bbstrbct clbss {@code URLConnection} is the superclbss
+ * of bll clbsses thbt represent b communicbtions link between the
+ * bpplicbtion bnd b URL. Instbnces of this clbss cbn be used both to
+ * rebd from bnd to write to the resource referenced by the URL. In
+ * generbl, crebting b connection to b URL is b multistep process:
  *
- * <center><table border=2 summary="Describes the process of creating a connection to a URL: openConnection() and connect() over time.">
+ * <center><tbble border=2 summbry="Describes the process of crebting b connection to b URL: openConnection() bnd connect() over time.">
  * <tr><th>{@code openConnection()}</th>
  *     <th>{@code connect()}</th></tr>
- * <tr><td>Manipulate parameters that affect the connection to the remote
+ * <tr><td>Mbnipulbte pbrbmeters thbt bffect the connection to the remote
  *         resource.</td>
- *     <td>Interact with the resource; query header fields and
+ *     <td>Interbct with the resource; query hebder fields bnd
  *         contents.</td></tr>
- * </table>
+ * </tbble>
  * ----------------------------&gt;
  * <br>time</center>
  *
  * <ol>
- * <li>The connection object is created by invoking the
- *     {@code openConnection} method on a URL.
- * <li>The setup parameters and general request properties are manipulated.
- * <li>The actual connection to the remote object is made, using the
+ * <li>The connection object is crebted by invoking the
+ *     {@code openConnection} method on b URL.
+ * <li>The setup pbrbmeters bnd generbl request properties bre mbnipulbted.
+ * <li>The bctubl connection to the remote object is mbde, using the
  *    {@code connect} method.
- * <li>The remote object becomes available. The header fields and the contents
- *     of the remote object can be accessed.
+ * <li>The remote object becomes bvbilbble. The hebder fields bnd the contents
+ *     of the remote object cbn be bccessed.
  * </ol>
  * <p>
- * The setup parameters are modified using the following methods:
+ * The setup pbrbmeters bre modified using the following methods:
  * <ul>
- *   <li>{@code setAllowUserInteraction}
+ *   <li>{@code setAllowUserInterbction}
  *   <li>{@code setDoInput}
  *   <li>{@code setDoOutput}
  *   <li>{@code setIfModifiedSince}
- *   <li>{@code setUseCaches}
+ *   <li>{@code setUseCbches}
  * </ul>
  * <p>
- * and the general request properties are modified using the method:
+ * bnd the generbl request properties bre modified using the method:
  * <ul>
  *   <li>{@code setRequestProperty}
  * </ul>
  * <p>
- * Default values for the {@code AllowUserInteraction} and
- * {@code UseCaches} parameters can be set using the methods
- * {@code setDefaultAllowUserInteraction} and
- * {@code setDefaultUseCaches}.
+ * Defbult vblues for the {@code AllowUserInterbction} bnd
+ * {@code UseCbches} pbrbmeters cbn be set using the methods
+ * {@code setDefbultAllowUserInterbction} bnd
+ * {@code setDefbultUseCbches}.
  * <p>
- * Each of the above {@code set} methods has a corresponding
- * {@code get} method to retrieve the value of the parameter or
- * general request property. The specific parameters and general
- * request properties that are applicable are protocol specific.
+ * Ebch of the bbove {@code set} methods hbs b corresponding
+ * {@code get} method to retrieve the vblue of the pbrbmeter or
+ * generbl request property. The specific pbrbmeters bnd generbl
+ * request properties thbt bre bpplicbble bre protocol specific.
  * <p>
- * The following methods are used to access the header fields and
- * the contents after the connection is made to the remote object:
+ * The following methods bre used to bccess the hebder fields bnd
+ * the contents bfter the connection is mbde to the remote object:
  * <ul>
  *   <li>{@code getContent}
- *   <li>{@code getHeaderField}
- *   <li>{@code getInputStream}
- *   <li>{@code getOutputStream}
+ *   <li>{@code getHebderField}
+ *   <li>{@code getInputStrebm}
+ *   <li>{@code getOutputStrebm}
  * </ul>
  * <p>
- * Certain header fields are accessed frequently. The methods:
+ * Certbin hebder fields bre bccessed frequently. The methods:
  * <ul>
  *   <li>{@code getContentEncoding}
  *   <li>{@code getContentLength}
  *   <li>{@code getContentType}
- *   <li>{@code getDate}
- *   <li>{@code getExpiration}
- *   <li>{@code getLastModifed}
+ *   <li>{@code getDbte}
+ *   <li>{@code getExpirbtion}
+ *   <li>{@code getLbstModifed}
  * </ul>
  * <p>
- * provide convenient access to these fields. The
+ * provide convenient bccess to these fields. The
  * {@code getContentType} method is used by the
  * {@code getContent} method to determine the type of the remote
- * object; subclasses may find it convenient to override the
+ * object; subclbsses mby find it convenient to override the
  * {@code getContentType} method.
  * <p>
- * In the common case, all of the pre-connection parameters and
- * general request properties can be ignored: the pre-connection
- * parameters and request properties default to sensible values. For
- * most clients of this interface, there are only two interesting
- * methods: {@code getInputStream} and {@code getContent},
- * which are mirrored in the {@code URL} class by convenience methods.
+ * In the common cbse, bll of the pre-connection pbrbmeters bnd
+ * generbl request properties cbn be ignored: the pre-connection
+ * pbrbmeters bnd request properties defbult to sensible vblues. For
+ * most clients of this interfbce, there bre only two interesting
+ * methods: {@code getInputStrebm} bnd {@code getContent},
+ * which bre mirrored in the {@code URL} clbss by convenience methods.
  * <p>
- * More information on the request properties and header fields of
- * an {@code http} connection can be found at:
+ * More informbtion on the request properties bnd hebder fields of
+ * bn {@code http} connection cbn be found bt:
  * <blockquote><pre>
- * <a href="http://www.ietf.org/rfc/rfc2616.txt">http://www.ietf.org/rfc/rfc2616.txt</a>
+ * <b href="http://www.ietf.org/rfc/rfc2616.txt">http://www.ietf.org/rfc/rfc2616.txt</b>
  * </pre></blockquote>
  *
- * Invoking the {@code close()} methods on the {@code InputStream} or {@code OutputStream} of an
- * {@code URLConnection} after a request may free network resources associated with this
- * instance, unless particular protocol specifications specify different behaviours
+ * Invoking the {@code close()} methods on the {@code InputStrebm} or {@code OutputStrebm} of bn
+ * {@code URLConnection} bfter b request mby free network resources bssocibted with this
+ * instbnce, unless pbrticulbr protocol specificbtions specify different behbviours
  * for it.
  *
- * @author  James Gosling
- * @see     java.net.URL#openConnection()
- * @see     java.net.URLConnection#connect()
- * @see     java.net.URLConnection#getContent()
- * @see     java.net.URLConnection#getContentEncoding()
- * @see     java.net.URLConnection#getContentLength()
- * @see     java.net.URLConnection#getContentType()
- * @see     java.net.URLConnection#getDate()
- * @see     java.net.URLConnection#getExpiration()
- * @see     java.net.URLConnection#getHeaderField(int)
- * @see     java.net.URLConnection#getHeaderField(java.lang.String)
- * @see     java.net.URLConnection#getInputStream()
- * @see     java.net.URLConnection#getLastModified()
- * @see     java.net.URLConnection#getOutputStream()
- * @see     java.net.URLConnection#setAllowUserInteraction(boolean)
- * @see     java.net.URLConnection#setDefaultUseCaches(boolean)
- * @see     java.net.URLConnection#setDoInput(boolean)
- * @see     java.net.URLConnection#setDoOutput(boolean)
- * @see     java.net.URLConnection#setIfModifiedSince(long)
- * @see     java.net.URLConnection#setRequestProperty(java.lang.String, java.lang.String)
- * @see     java.net.URLConnection#setUseCaches(boolean)
+ * @buthor  Jbmes Gosling
+ * @see     jbvb.net.URL#openConnection()
+ * @see     jbvb.net.URLConnection#connect()
+ * @see     jbvb.net.URLConnection#getContent()
+ * @see     jbvb.net.URLConnection#getContentEncoding()
+ * @see     jbvb.net.URLConnection#getContentLength()
+ * @see     jbvb.net.URLConnection#getContentType()
+ * @see     jbvb.net.URLConnection#getDbte()
+ * @see     jbvb.net.URLConnection#getExpirbtion()
+ * @see     jbvb.net.URLConnection#getHebderField(int)
+ * @see     jbvb.net.URLConnection#getHebderField(jbvb.lbng.String)
+ * @see     jbvb.net.URLConnection#getInputStrebm()
+ * @see     jbvb.net.URLConnection#getLbstModified()
+ * @see     jbvb.net.URLConnection#getOutputStrebm()
+ * @see     jbvb.net.URLConnection#setAllowUserInterbction(boolebn)
+ * @see     jbvb.net.URLConnection#setDefbultUseCbches(boolebn)
+ * @see     jbvb.net.URLConnection#setDoInput(boolebn)
+ * @see     jbvb.net.URLConnection#setDoOutput(boolebn)
+ * @see     jbvb.net.URLConnection#setIfModifiedSince(long)
+ * @see     jbvb.net.URLConnection#setRequestProperty(jbvb.lbng.String, jbvb.lbng.String)
+ * @see     jbvb.net.URLConnection#setUseCbches(boolebn)
  * @since   1.0
  */
-public abstract class URLConnection {
+public bbstrbct clbss URLConnection {
 
    /**
      * The URL represents the remote object on the World Wide Web to
      * which this connection is opened.
      * <p>
-     * The value of this field can be accessed by the
+     * The vblue of this field cbn be bccessed by the
      * {@code getURL} method.
      * <p>
-     * The default value of this variable is the value of the URL
-     * argument in the {@code URLConnection} constructor.
+     * The defbult vblue of this vbribble is the vblue of the URL
+     * brgument in the {@code URLConnection} constructor.
      *
-     * @see     java.net.URLConnection#getURL()
-     * @see     java.net.URLConnection#url
+     * @see     jbvb.net.URLConnection#getURL()
+     * @see     jbvb.net.URLConnection#url
      */
     protected URL url;
 
    /**
-     * This variable is set by the {@code setDoInput} method. Its
-     * value is returned by the {@code getDoInput} method.
+     * This vbribble is set by the {@code setDoInput} method. Its
+     * vblue is returned by the {@code getDoInput} method.
      * <p>
-     * A URL connection can be used for input and/or output. Setting the
-     * {@code doInput} flag to {@code true} indicates that
-     * the application intends to read data from the URL connection.
+     * A URL connection cbn be used for input bnd/or output. Setting the
+     * {@code doInput} flbg to {@code true} indicbtes thbt
+     * the bpplicbtion intends to rebd dbtb from the URL connection.
      * <p>
-     * The default value of this field is {@code true}.
+     * The defbult vblue of this field is {@code true}.
      *
-     * @see     java.net.URLConnection#getDoInput()
-     * @see     java.net.URLConnection#setDoInput(boolean)
+     * @see     jbvb.net.URLConnection#getDoInput()
+     * @see     jbvb.net.URLConnection#setDoInput(boolebn)
      */
-    protected boolean doInput = true;
+    protected boolebn doInput = true;
 
    /**
-     * This variable is set by the {@code setDoOutput} method. Its
-     * value is returned by the {@code getDoOutput} method.
+     * This vbribble is set by the {@code setDoOutput} method. Its
+     * vblue is returned by the {@code getDoOutput} method.
      * <p>
-     * A URL connection can be used for input and/or output. Setting the
-     * {@code doOutput} flag to {@code true} indicates
-     * that the application intends to write data to the URL connection.
+     * A URL connection cbn be used for input bnd/or output. Setting the
+     * {@code doOutput} flbg to {@code true} indicbtes
+     * thbt the bpplicbtion intends to write dbtb to the URL connection.
      * <p>
-     * The default value of this field is {@code false}.
+     * The defbult vblue of this field is {@code fblse}.
      *
-     * @see     java.net.URLConnection#getDoOutput()
-     * @see     java.net.URLConnection#setDoOutput(boolean)
+     * @see     jbvb.net.URLConnection#getDoOutput()
+     * @see     jbvb.net.URLConnection#setDoOutput(boolebn)
      */
-    protected boolean doOutput = false;
+    protected boolebn doOutput = fblse;
 
-    private static boolean defaultAllowUserInteraction = false;
+    privbte stbtic boolebn defbultAllowUserInterbction = fblse;
 
    /**
-     * If {@code true}, this {@code URL} is being examined in
-     * a context in which it makes sense to allow user interactions such
-     * as popping up an authentication dialog. If {@code false},
-     * then no user interaction is allowed.
+     * If {@code true}, this {@code URL} is being exbmined in
+     * b context in which it mbkes sense to bllow user interbctions such
+     * bs popping up bn buthenticbtion diblog. If {@code fblse},
+     * then no user interbction is bllowed.
      * <p>
-     * The value of this field can be set by the
-     * {@code setAllowUserInteraction} method.
-     * Its value is returned by the
-     * {@code getAllowUserInteraction} method.
-     * Its default value is the value of the argument in the last invocation
-     * of the {@code setDefaultAllowUserInteraction} method.
+     * The vblue of this field cbn be set by the
+     * {@code setAllowUserInterbction} method.
+     * Its vblue is returned by the
+     * {@code getAllowUserInterbction} method.
+     * Its defbult vblue is the vblue of the brgument in the lbst invocbtion
+     * of the {@code setDefbultAllowUserInterbction} method.
      *
-     * @see     java.net.URLConnection#getAllowUserInteraction()
-     * @see     java.net.URLConnection#setAllowUserInteraction(boolean)
-     * @see     java.net.URLConnection#setDefaultAllowUserInteraction(boolean)
+     * @see     jbvb.net.URLConnection#getAllowUserInterbction()
+     * @see     jbvb.net.URLConnection#setAllowUserInterbction(boolebn)
+     * @see     jbvb.net.URLConnection#setDefbultAllowUserInterbction(boolebn)
      */
-    protected boolean allowUserInteraction = defaultAllowUserInteraction;
+    protected boolebn bllowUserInterbction = defbultAllowUserInterbction;
 
-    private static boolean defaultUseCaches = true;
+    privbte stbtic boolebn defbultUseCbches = true;
 
    /**
-     * If {@code true}, the protocol is allowed to use caching
-     * whenever it can. If {@code false}, the protocol must always
-     * try to get a fresh copy of the object.
+     * If {@code true}, the protocol is bllowed to use cbching
+     * whenever it cbn. If {@code fblse}, the protocol must blwbys
+     * try to get b fresh copy of the object.
      * <p>
-     * This field is set by the {@code setUseCaches} method. Its
-     * value is returned by the {@code getUseCaches} method.
+     * This field is set by the {@code setUseCbches} method. Its
+     * vblue is returned by the {@code getUseCbches} method.
      * <p>
-     * Its default value is the value given in the last invocation of the
-     * {@code setDefaultUseCaches} method.
+     * Its defbult vblue is the vblue given in the lbst invocbtion of the
+     * {@code setDefbultUseCbches} method.
      *
-     * @see     java.net.URLConnection#setUseCaches(boolean)
-     * @see     java.net.URLConnection#getUseCaches()
-     * @see     java.net.URLConnection#setDefaultUseCaches(boolean)
+     * @see     jbvb.net.URLConnection#setUseCbches(boolebn)
+     * @see     jbvb.net.URLConnection#getUseCbches()
+     * @see     jbvb.net.URLConnection#setDefbultUseCbches(boolebn)
      */
-    protected boolean useCaches = defaultUseCaches;
+    protected boolebn useCbches = defbultUseCbches;
 
    /**
      * Some protocols support skipping the fetching of the object unless
-     * the object has been modified more recently than a certain time.
+     * the object hbs been modified more recently thbn b certbin time.
      * <p>
-     * A nonzero value gives a time as the number of milliseconds since
-     * January 1, 1970, GMT. The object is fetched only if it has been
-     * modified more recently than that time.
+     * A nonzero vblue gives b time bs the number of milliseconds since
+     * Jbnubry 1, 1970, GMT. The object is fetched only if it hbs been
+     * modified more recently thbn thbt time.
      * <p>
-     * This variable is set by the {@code setIfModifiedSince}
-     * method. Its value is returned by the
+     * This vbribble is set by the {@code setIfModifiedSince}
+     * method. Its vblue is returned by the
      * {@code getIfModifiedSince} method.
      * <p>
-     * The default value of this field is {@code 0}, indicating
-     * that the fetching must always occur.
+     * The defbult vblue of this field is {@code 0}, indicbting
+     * thbt the fetching must blwbys occur.
      *
-     * @see     java.net.URLConnection#getIfModifiedSince()
-     * @see     java.net.URLConnection#setIfModifiedSince(long)
+     * @see     jbvb.net.URLConnection#getIfModifiedSince()
+     * @see     jbvb.net.URLConnection#setIfModifiedSince(long)
      */
     protected long ifModifiedSince = 0;
 
    /**
-     * If {@code false}, this connection object has not created a
-     * communications link to the specified URL. If {@code true},
-     * the communications link has been established.
+     * If {@code fblse}, this connection object hbs not crebted b
+     * communicbtions link to the specified URL. If {@code true},
+     * the communicbtions link hbs been estbblished.
      */
-    protected boolean connected = false;
+    protected boolebn connected = fblse;
 
     /**
      * @since 1.5
      */
-    private int connectTimeout;
-    private int readTimeout;
+    privbte int connectTimeout;
+    privbte int rebdTimeout;
 
     /**
      * @since 1.6
      */
-    private MessageHeader requests;
+    privbte MessbgeHebder requests;
 
    /**
     * @since   1.1
     */
-    private static FileNameMap fileNameMap;
+    privbte stbtic FileNbmeMbp fileNbmeMbp;
 
     /**
      * @since 1.2.2
      */
-    private static boolean fileNameMapLoaded = false;
+    privbte stbtic boolebn fileNbmeMbpLobded = fblse;
 
     /**
-     * Loads filename map (a mimetable) from a data file. It will
-     * first try to load the user-specific table, defined
-     * by &quot;content.types.user.table&quot; property. If that fails,
-     * it tries to load the default built-in table.
+     * Lobds filenbme mbp (b mimetbble) from b dbtb file. It will
+     * first try to lobd the user-specific tbble, defined
+     * by &quot;content.types.user.tbble&quot; property. If thbt fbils,
+     * it tries to lobd the defbult built-in tbble.
      *
-     * @return the FileNameMap
+     * @return the FileNbmeMbp
      * @since 1.2
-     * @see #setFileNameMap(java.net.FileNameMap)
+     * @see #setFileNbmeMbp(jbvb.net.FileNbmeMbp)
      */
-    public static synchronized FileNameMap getFileNameMap() {
-        if ((fileNameMap == null) && !fileNameMapLoaded) {
-            fileNameMap = sun.net.www.MimeTable.loadTable();
-            fileNameMapLoaded = true;
+    public stbtic synchronized FileNbmeMbp getFileNbmeMbp() {
+        if ((fileNbmeMbp == null) && !fileNbmeMbpLobded) {
+            fileNbmeMbp = sun.net.www.MimeTbble.lobdTbble();
+            fileNbmeMbpLobded = true;
         }
 
-        return new FileNameMap() {
-            private FileNameMap map = fileNameMap;
-            public String getContentTypeFor(String fileName) {
-                return map.getContentTypeFor(fileName);
+        return new FileNbmeMbp() {
+            privbte FileNbmeMbp mbp = fileNbmeMbp;
+            public String getContentTypeFor(String fileNbme) {
+                return mbp.getContentTypeFor(fileNbme);
             }
         };
     }
 
     /**
-     * Sets the FileNameMap.
+     * Sets the FileNbmeMbp.
      * <p>
-     * If there is a security manager, this method first calls
-     * the security manager's {@code checkSetFactory} method
-     * to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * If there is b security mbnbger, this method first cblls
+     * the security mbnbger's {@code checkSetFbctory} method
+     * to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      *
-     * @param map the FileNameMap to be set
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkSetFactory} method doesn't allow the operation.
-     * @see        SecurityManager#checkSetFactory
-     * @see #getFileNameMap()
+     * @pbrbm mbp the FileNbmeMbp to be set
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkSetFbctory} method doesn't bllow the operbtion.
+     * @see        SecurityMbnbger#checkSetFbctory
+     * @see #getFileNbmeMbp()
      * @since 1.2
      */
-    public static void setFileNameMap(FileNameMap map) {
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkSetFactory();
-        fileNameMap = map;
+    public stbtic void setFileNbmeMbp(FileNbmeMbp mbp) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
+        if (sm != null) sm.checkSetFbctory();
+        fileNbmeMbp = mbp;
     }
 
     /**
-     * Opens a communications link to the resource referenced by this
-     * URL, if such a connection has not already been established.
+     * Opens b communicbtions link to the resource referenced by this
+     * URL, if such b connection hbs not blrebdy been estbblished.
      * <p>
-     * If the {@code connect} method is called when the connection
-     * has already been opened (indicated by the {@code connected}
-     * field having the value {@code true}), the call is ignored.
+     * If the {@code connect} method is cblled when the connection
+     * hbs blrebdy been opened (indicbted by the {@code connected}
+     * field hbving the vblue {@code true}), the cbll is ignored.
      * <p>
-     * URLConnection objects go through two phases: first they are
-     * created, then they are connected.  After being created, and
-     * before being connected, various options can be specified
-     * (e.g., doInput and UseCaches).  After connecting, it is an
-     * error to try to set them.  Operations that depend on being
+     * URLConnection objects go through two phbses: first they bre
+     * crebted, then they bre connected.  After being crebted, bnd
+     * before being connected, vbrious options cbn be specified
+     * (e.g., doInput bnd UseCbches).  After connecting, it is bn
+     * error to try to set them.  Operbtions thbt depend on being
      * connected, like getContentLength, will implicitly perform the
-     * connection, if necessary.
+     * connection, if necessbry.
      *
      * @throws SocketTimeoutException if the timeout expires before
-     *               the connection can be established
-     * @exception  IOException  if an I/O error occurs while opening the
+     *               the connection cbn be estbblished
+     * @exception  IOException  if bn I/O error occurs while opening the
      *               connection.
-     * @see java.net.URLConnection#connected
+     * @see jbvb.net.URLConnection#connected
      * @see #getConnectTimeout()
      * @see #setConnectTimeout(int)
      */
-    abstract public void connect() throws IOException;
+    bbstrbct public void connect() throws IOException;
 
     /**
-     * Sets a specified timeout value, in milliseconds, to be used
-     * when opening a communications link to the resource referenced
+     * Sets b specified timeout vblue, in milliseconds, to be used
+     * when opening b communicbtions link to the resource referenced
      * by this URLConnection.  If the timeout expires before the
-     * connection can be established, a
-     * java.net.SocketTimeoutException is raised. A timeout of zero is
-     * interpreted as an infinite timeout.
+     * connection cbn be estbblished, b
+     * jbvb.net.SocketTimeoutException is rbised. A timeout of zero is
+     * interpreted bs bn infinite timeout.
 
-     * <p> Some non-standard implementation of this method may ignore
-     * the specified timeout. To see the connect timeout set, please
-     * call getConnectTimeout().
+     * <p> Some non-stbndbrd implementbtion of this method mby ignore
+     * the specified timeout. To see the connect timeout set, plebse
+     * cbll getConnectTimeout().
      *
-     * @param timeout an {@code int} that specifies the connect
-     *               timeout value in milliseconds
-     * @throws IllegalArgumentException if the timeout parameter is negative
+     * @pbrbm timeout bn {@code int} thbt specifies the connect
+     *               timeout vblue in milliseconds
+     * @throws IllegblArgumentException if the timeout pbrbmeter is negbtive
      *
      * @see #getConnectTimeout()
      * @see #connect()
@@ -385,7 +385,7 @@ public abstract class URLConnection {
      */
     public void setConnectTimeout(int timeout) {
         if (timeout < 0) {
-            throw new IllegalArgumentException("timeout can not be negative");
+            throw new IllegblArgumentException("timeout cbn not be negbtive");
         }
         connectTimeout = timeout;
     }
@@ -393,11 +393,11 @@ public abstract class URLConnection {
     /**
      * Returns setting for connect timeout.
      * <p>
-     * 0 return implies that the option is disabled
+     * 0 return implies thbt the option is disbbled
      * (i.e., timeout of infinity).
      *
-     * @return an {@code int} that indicates the connect timeout
-     *         value in milliseconds
+     * @return bn {@code int} thbt indicbtes the connect timeout
+     *         vblue in milliseconds
      * @see #setConnectTimeout(int)
      * @see #connect()
      * @since 1.5
@@ -407,79 +407,79 @@ public abstract class URLConnection {
     }
 
     /**
-     * Sets the read timeout to a specified timeout, in
-     * milliseconds. A non-zero value specifies the timeout when
-     * reading from Input stream when a connection is established to a
-     * resource. If the timeout expires before there is data available
-     * for read, a java.net.SocketTimeoutException is raised. A
-     * timeout of zero is interpreted as an infinite timeout.
+     * Sets the rebd timeout to b specified timeout, in
+     * milliseconds. A non-zero vblue specifies the timeout when
+     * rebding from Input strebm when b connection is estbblished to b
+     * resource. If the timeout expires before there is dbtb bvbilbble
+     * for rebd, b jbvb.net.SocketTimeoutException is rbised. A
+     * timeout of zero is interpreted bs bn infinite timeout.
      *
-     *<p> Some non-standard implementation of this method ignores the
-     * specified timeout. To see the read timeout set, please call
-     * getReadTimeout().
+     *<p> Some non-stbndbrd implementbtion of this method ignores the
+     * specified timeout. To see the rebd timeout set, plebse cbll
+     * getRebdTimeout().
      *
-     * @param timeout an {@code int} that specifies the timeout
-     * value to be used in milliseconds
-     * @throws IllegalArgumentException if the timeout parameter is negative
+     * @pbrbm timeout bn {@code int} thbt specifies the timeout
+     * vblue to be used in milliseconds
+     * @throws IllegblArgumentException if the timeout pbrbmeter is negbtive
      *
-     * @see #getReadTimeout()
-     * @see InputStream#read()
+     * @see #getRebdTimeout()
+     * @see InputStrebm#rebd()
      * @since 1.5
      */
-    public void setReadTimeout(int timeout) {
+    public void setRebdTimeout(int timeout) {
         if (timeout < 0) {
-            throw new IllegalArgumentException("timeout can not be negative");
+            throw new IllegblArgumentException("timeout cbn not be negbtive");
         }
-        readTimeout = timeout;
+        rebdTimeout = timeout;
     }
 
     /**
-     * Returns setting for read timeout. 0 return implies that the
-     * option is disabled (i.e., timeout of infinity).
+     * Returns setting for rebd timeout. 0 return implies thbt the
+     * option is disbbled (i.e., timeout of infinity).
      *
-     * @return an {@code int} that indicates the read timeout
-     *         value in milliseconds
+     * @return bn {@code int} thbt indicbtes the rebd timeout
+     *         vblue in milliseconds
      *
-     * @see #setReadTimeout(int)
-     * @see InputStream#read()
+     * @see #setRebdTimeout(int)
+     * @see InputStrebm#rebd()
      * @since 1.5
      */
-    public int getReadTimeout() {
-        return readTimeout;
+    public int getRebdTimeout() {
+        return rebdTimeout;
     }
 
     /**
-     * Constructs a URL connection to the specified URL. A connection to
-     * the object referenced by the URL is not created.
+     * Constructs b URL connection to the specified URL. A connection to
+     * the object referenced by the URL is not crebted.
      *
-     * @param   url   the specified URL.
+     * @pbrbm   url   the specified URL.
      */
     protected URLConnection(URL url) {
         this.url = url;
     }
 
     /**
-     * Returns the value of this {@code URLConnection}'s {@code URL}
+     * Returns the vblue of this {@code URLConnection}'s {@code URL}
      * field.
      *
-     * @return  the value of this {@code URLConnection}'s {@code URL}
+     * @return  the vblue of this {@code URLConnection}'s {@code URL}
      *          field.
-     * @see     java.net.URLConnection#url
+     * @see     jbvb.net.URLConnection#url
      */
     public URL getURL() {
         return url;
     }
 
     /**
-     * Returns the value of the {@code content-length} header field.
+     * Returns the vblue of the {@code content-length} hebder field.
      * <P>
      * <B>Note</B>: {@link #getContentLengthLong() getContentLengthLong()}
-     * should be preferred over this method, since it returns a {@code long}
-     * instead and is therefore more portable.</P>
+     * should be preferred over this method, since it returns b {@code long}
+     * instebd bnd is therefore more portbble.</P>
      *
-     * @return  the content length of the resource that this connection's URL
+     * @return  the content length of the resource thbt this connection's URL
      *          references, {@code -1} if the content length is not known,
-     *          or if the content length is greater than Integer.MAX_VALUE.
+     *          or if the content length is grebter thbn Integer.MAX_VALUE.
      */
     public int getContentLength() {
         long l = getContentLengthLong();
@@ -489,203 +489,203 @@ public abstract class URLConnection {
     }
 
     /**
-     * Returns the value of the {@code content-length} header field as a
+     * Returns the vblue of the {@code content-length} hebder field bs b
      * long.
      *
-     * @return  the content length of the resource that this connection's URL
+     * @return  the content length of the resource thbt this connection's URL
      *          references, or {@code -1} if the content length is
      *          not known.
      * @since 1.7
      */
     public long getContentLengthLong() {
-        return getHeaderFieldLong("content-length", -1);
+        return getHebderFieldLong("content-length", -1);
     }
 
     /**
-     * Returns the value of the {@code content-type} header field.
+     * Returns the vblue of the {@code content-type} hebder field.
      *
-     * @return  the content type of the resource that the URL references,
+     * @return  the content type of the resource thbt the URL references,
      *          or {@code null} if not known.
-     * @see     java.net.URLConnection#getHeaderField(java.lang.String)
+     * @see     jbvb.net.URLConnection#getHebderField(jbvb.lbng.String)
      */
     public String getContentType() {
-        return getHeaderField("content-type");
+        return getHebderField("content-type");
     }
 
     /**
-     * Returns the value of the {@code content-encoding} header field.
+     * Returns the vblue of the {@code content-encoding} hebder field.
      *
-     * @return  the content encoding of the resource that the URL references,
+     * @return  the content encoding of the resource thbt the URL references,
      *          or {@code null} if not known.
-     * @see     java.net.URLConnection#getHeaderField(java.lang.String)
+     * @see     jbvb.net.URLConnection#getHebderField(jbvb.lbng.String)
      */
     public String getContentEncoding() {
-        return getHeaderField("content-encoding");
+        return getHebderField("content-encoding");
     }
 
     /**
-     * Returns the value of the {@code expires} header field.
+     * Returns the vblue of the {@code expires} hebder field.
      *
-     * @return  the expiration date of the resource that this URL references,
-     *          or 0 if not known. The value is the number of milliseconds since
-     *          January 1, 1970 GMT.
-     * @see     java.net.URLConnection#getHeaderField(java.lang.String)
+     * @return  the expirbtion dbte of the resource thbt this URL references,
+     *          or 0 if not known. The vblue is the number of milliseconds since
+     *          Jbnubry 1, 1970 GMT.
+     * @see     jbvb.net.URLConnection#getHebderField(jbvb.lbng.String)
      */
-    public long getExpiration() {
-        return getHeaderFieldDate("expires", 0);
+    public long getExpirbtion() {
+        return getHebderFieldDbte("expires", 0);
     }
 
     /**
-     * Returns the value of the {@code date} header field.
+     * Returns the vblue of the {@code dbte} hebder field.
      *
-     * @return  the sending date of the resource that the URL references,
-     *          or {@code 0} if not known. The value returned is the
-     *          number of milliseconds since January 1, 1970 GMT.
-     * @see     java.net.URLConnection#getHeaderField(java.lang.String)
+     * @return  the sending dbte of the resource thbt the URL references,
+     *          or {@code 0} if not known. The vblue returned is the
+     *          number of milliseconds since Jbnubry 1, 1970 GMT.
+     * @see     jbvb.net.URLConnection#getHebderField(jbvb.lbng.String)
      */
-    public long getDate() {
-        return getHeaderFieldDate("date", 0);
+    public long getDbte() {
+        return getHebderFieldDbte("dbte", 0);
     }
 
     /**
-     * Returns the value of the {@code last-modified} header field.
-     * The result is the number of milliseconds since January 1, 1970 GMT.
+     * Returns the vblue of the {@code lbst-modified} hebder field.
+     * The result is the number of milliseconds since Jbnubry 1, 1970 GMT.
      *
-     * @return  the date the resource referenced by this
-     *          {@code URLConnection} was last modified, or 0 if not known.
-     * @see     java.net.URLConnection#getHeaderField(java.lang.String)
+     * @return  the dbte the resource referenced by this
+     *          {@code URLConnection} wbs lbst modified, or 0 if not known.
+     * @see     jbvb.net.URLConnection#getHebderField(jbvb.lbng.String)
      */
-    public long getLastModified() {
-        return getHeaderFieldDate("last-modified", 0);
+    public long getLbstModified() {
+        return getHebderFieldDbte("lbst-modified", 0);
     }
 
     /**
-     * Returns the value of the named header field.
+     * Returns the vblue of the nbmed hebder field.
      * <p>
-     * If called on a connection that sets the same header multiple times
-     * with possibly different values, only the last value is returned.
+     * If cblled on b connection thbt sets the sbme hebder multiple times
+     * with possibly different vblues, only the lbst vblue is returned.
      *
      *
-     * @param   name   the name of a header field.
-     * @return  the value of the named header field, or {@code null}
-     *          if there is no such field in the header.
+     * @pbrbm   nbme   the nbme of b hebder field.
+     * @return  the vblue of the nbmed hebder field, or {@code null}
+     *          if there is no such field in the hebder.
      */
-    public String getHeaderField(String name) {
+    public String getHebderField(String nbme) {
         return null;
     }
 
     /**
-     * Returns an unmodifiable Map of the header fields.
-     * The Map keys are Strings that represent the
-     * response-header field names. Each Map value is an
-     * unmodifiable List of Strings that represents
-     * the corresponding field values.
+     * Returns bn unmodifibble Mbp of the hebder fields.
+     * The Mbp keys bre Strings thbt represent the
+     * response-hebder field nbmes. Ebch Mbp vblue is bn
+     * unmodifibble List of Strings thbt represents
+     * the corresponding field vblues.
      *
-     * @return a Map of header fields
+     * @return b Mbp of hebder fields
      * @since 1.4
      */
-    public Map<String,List<String>> getHeaderFields() {
-        return Collections.emptyMap();
+    public Mbp<String,List<String>> getHebderFields() {
+        return Collections.emptyMbp();
     }
 
     /**
-     * Returns the value of the named field parsed as a number.
+     * Returns the vblue of the nbmed field pbrsed bs b number.
      * <p>
-     * This form of {@code getHeaderField} exists because some
-     * connection types (e.g., {@code http-ng}) have pre-parsed
-     * headers. Classes for that connection type can override this method
-     * and short-circuit the parsing.
+     * This form of {@code getHebderField} exists becbuse some
+     * connection types (e.g., {@code http-ng}) hbve pre-pbrsed
+     * hebders. Clbsses for thbt connection type cbn override this method
+     * bnd short-circuit the pbrsing.
      *
-     * @param   name      the name of the header field.
-     * @param   Default   the default value.
-     * @return  the value of the named field, parsed as an integer. The
-     *          {@code Default} value is returned if the field is
-     *          missing or malformed.
+     * @pbrbm   nbme      the nbme of the hebder field.
+     * @pbrbm   Defbult   the defbult vblue.
+     * @return  the vblue of the nbmed field, pbrsed bs bn integer. The
+     *          {@code Defbult} vblue is returned if the field is
+     *          missing or mblformed.
      */
-    public int getHeaderFieldInt(String name, int Default) {
-        String value = getHeaderField(name);
+    public int getHebderFieldInt(String nbme, int Defbult) {
+        String vblue = getHebderField(nbme);
         try {
-            return Integer.parseInt(value);
-        } catch (Exception e) { }
-        return Default;
+            return Integer.pbrseInt(vblue);
+        } cbtch (Exception e) { }
+        return Defbult;
     }
 
     /**
-     * Returns the value of the named field parsed as a number.
+     * Returns the vblue of the nbmed field pbrsed bs b number.
      * <p>
-     * This form of {@code getHeaderField} exists because some
-     * connection types (e.g., {@code http-ng}) have pre-parsed
-     * headers. Classes for that connection type can override this method
-     * and short-circuit the parsing.
+     * This form of {@code getHebderField} exists becbuse some
+     * connection types (e.g., {@code http-ng}) hbve pre-pbrsed
+     * hebders. Clbsses for thbt connection type cbn override this method
+     * bnd short-circuit the pbrsing.
      *
-     * @param   name      the name of the header field.
-     * @param   Default   the default value.
-     * @return  the value of the named field, parsed as a long. The
-     *          {@code Default} value is returned if the field is
-     *          missing or malformed.
+     * @pbrbm   nbme      the nbme of the hebder field.
+     * @pbrbm   Defbult   the defbult vblue.
+     * @return  the vblue of the nbmed field, pbrsed bs b long. The
+     *          {@code Defbult} vblue is returned if the field is
+     *          missing or mblformed.
      * @since 1.7
      */
-    public long getHeaderFieldLong(String name, long Default) {
-        String value = getHeaderField(name);
+    public long getHebderFieldLong(String nbme, long Defbult) {
+        String vblue = getHebderField(nbme);
         try {
-            return Long.parseLong(value);
-        } catch (Exception e) { }
-        return Default;
+            return Long.pbrseLong(vblue);
+        } cbtch (Exception e) { }
+        return Defbult;
     }
 
     /**
-     * Returns the value of the named field parsed as date.
-     * The result is the number of milliseconds since January 1, 1970 GMT
-     * represented by the named field.
+     * Returns the vblue of the nbmed field pbrsed bs dbte.
+     * The result is the number of milliseconds since Jbnubry 1, 1970 GMT
+     * represented by the nbmed field.
      * <p>
-     * This form of {@code getHeaderField} exists because some
-     * connection types (e.g., {@code http-ng}) have pre-parsed
-     * headers. Classes for that connection type can override this method
-     * and short-circuit the parsing.
+     * This form of {@code getHebderField} exists becbuse some
+     * connection types (e.g., {@code http-ng}) hbve pre-pbrsed
+     * hebders. Clbsses for thbt connection type cbn override this method
+     * bnd short-circuit the pbrsing.
      *
-     * @param   name     the name of the header field.
-     * @param   Default   a default value.
-     * @return  the value of the field, parsed as a date. The value of the
-     *          {@code Default} argument is returned if the field is
-     *          missing or malformed.
+     * @pbrbm   nbme     the nbme of the hebder field.
+     * @pbrbm   Defbult   b defbult vblue.
+     * @return  the vblue of the field, pbrsed bs b dbte. The vblue of the
+     *          {@code Defbult} brgument is returned if the field is
+     *          missing or mblformed.
      */
-    @SuppressWarnings("deprecation")
-    public long getHeaderFieldDate(String name, long Default) {
-        String value = getHeaderField(name);
+    @SuppressWbrnings("deprecbtion")
+    public long getHebderFieldDbte(String nbme, long Defbult) {
+        String vblue = getHebderField(nbme);
         try {
-            return Date.parse(value);
-        } catch (Exception e) { }
-        return Default;
+            return Dbte.pbrse(vblue);
+        } cbtch (Exception e) { }
+        return Defbult;
     }
 
     /**
-     * Returns the key for the {@code n}<sup>th</sup> header field.
-     * It returns {@code null} if there are fewer than {@code n+1} fields.
+     * Returns the key for the {@code n}<sup>th</sup> hebder field.
+     * It returns {@code null} if there bre fewer thbn {@code n+1} fields.
      *
-     * @param   n   an index, where {@code n>=0}
-     * @return  the key for the {@code n}<sup>th</sup> header field,
-     *          or {@code null} if there are fewer than {@code n+1}
+     * @pbrbm   n   bn index, where {@code n>=0}
+     * @return  the key for the {@code n}<sup>th</sup> hebder field,
+     *          or {@code null} if there bre fewer thbn {@code n+1}
      *          fields.
      */
-    public String getHeaderFieldKey(int n) {
+    public String getHebderFieldKey(int n) {
         return null;
     }
 
     /**
-     * Returns the value for the {@code n}<sup>th</sup> header field.
-     * It returns {@code null} if there are fewer than
+     * Returns the vblue for the {@code n}<sup>th</sup> hebder field.
+     * It returns {@code null} if there bre fewer thbn
      * {@code n+1}fields.
      * <p>
-     * This method can be used in conjunction with the
-     * {@link #getHeaderFieldKey(int) getHeaderFieldKey} method to iterate through all
-     * the headers in the message.
+     * This method cbn be used in conjunction with the
+     * {@link #getHebderFieldKey(int) getHebderFieldKey} method to iterbte through bll
+     * the hebders in the messbge.
      *
-     * @param   n   an index, where {@code n>=0}
-     * @return  the value of the {@code n}<sup>th</sup> header field
-     *          or {@code null} if there are fewer than {@code n+1} fields
-     * @see     java.net.URLConnection#getHeaderFieldKey(int)
+     * @pbrbm   n   bn index, where {@code n>=0}
+     * @return  the vblue of the {@code n}<sup>th</sup> hebder field
+     *          or {@code null} if there bre fewer thbn {@code n+1} fields
+     * @see     jbvb.net.URLConnection#getHebderFieldKey(int)
      */
-    public String getHeaderField(int n) {
+    public String getHebderField(int n) {
         return null;
     }
 
@@ -693,322 +693,322 @@ public abstract class URLConnection {
      * Retrieves the contents of this URL connection.
      * <p>
      * This method first determines the content type of the object by
-     * calling the {@code getContentType} method. If this is
-     * the first time that the application has seen that specific content
-     * type, a content handler for that content type is created:
+     * cblling the {@code getContentType} method. If this is
+     * the first time thbt the bpplicbtion hbs seen thbt specific content
+     * type, b content hbndler for thbt content type is crebted:
      * <ol>
-     * <li>If the application has set up a content handler factory instance
-     *     using the {@code setContentHandlerFactory} method, the
-     *     {@code createContentHandler} method of that instance is called
-     *     with the content type as an argument; the result is a content
-     *     handler for that content type.
-     * <li>If no content handler factory has yet been set up, or if the
-     *     factory's {@code createContentHandler} method returns
-     *     {@code null}, then this method tries to load a content handler
-     *     class as defined by {@link java.net.ContentHandler ContentHandler}.
-     *     If the class does not exist, or is not a subclass of {@code
-     *     ContentHandler}, then an {@code UnknownServiceException} is thrown.
+     * <li>If the bpplicbtion hbs set up b content hbndler fbctory instbnce
+     *     using the {@code setContentHbndlerFbctory} method, the
+     *     {@code crebteContentHbndler} method of thbt instbnce is cblled
+     *     with the content type bs bn brgument; the result is b content
+     *     hbndler for thbt content type.
+     * <li>If no content hbndler fbctory hbs yet been set up, or if the
+     *     fbctory's {@code crebteContentHbndler} method returns
+     *     {@code null}, then this method tries to lobd b content hbndler
+     *     clbss bs defined by {@link jbvb.net.ContentHbndler ContentHbndler}.
+     *     If the clbss does not exist, or is not b subclbss of {@code
+     *     ContentHbndler}, then bn {@code UnknownServiceException} is thrown.
      * </ol>
      *
-     * @return     the object fetched. The {@code instanceof} operator
+     * @return     the object fetched. The {@code instbnceof} operbtor
      *               should be used to determine the specific kind of object
      *               returned.
-     * @exception  IOException              if an I/O error occurs while
+     * @exception  IOException              if bn I/O error occurs while
      *               getting the content.
      * @exception  UnknownServiceException  if the protocol does not support
      *               the content type.
-     * @see        java.net.ContentHandlerFactory#createContentHandler(java.lang.String)
-     * @see        java.net.URLConnection#getContentType()
-     * @see        java.net.URLConnection#setContentHandlerFactory(java.net.ContentHandlerFactory)
+     * @see        jbvb.net.ContentHbndlerFbctory#crebteContentHbndler(jbvb.lbng.String)
+     * @see        jbvb.net.URLConnection#getContentType()
+     * @see        jbvb.net.URLConnection#setContentHbndlerFbctory(jbvb.net.ContentHbndlerFbctory)
      */
     public Object getContent() throws IOException {
-        // Must call getInputStream before GetHeaderField gets called
-        // so that FileNotFoundException has a chance to be thrown up
-        // from here without being caught.
-        getInputStream();
-        return getContentHandler().getContent(this);
+        // Must cbll getInputStrebm before GetHebderField gets cblled
+        // so thbt FileNotFoundException hbs b chbnce to be thrown up
+        // from here without being cbught.
+        getInputStrebm();
+        return getContentHbndler().getContent(this);
     }
 
     /**
      * Retrieves the contents of this URL connection.
      *
-     * @param classes the {@code Class} array
-     * indicating the requested types
-     * @return     the object fetched that is the first match of the type
-     *               specified in the classes array. null if none of
-     *               the requested types are supported.
-     *               The {@code instanceof} operator should be used to
+     * @pbrbm clbsses the {@code Clbss} brrby
+     * indicbting the requested types
+     * @return     the object fetched thbt is the first mbtch of the type
+     *               specified in the clbsses brrby. null if none of
+     *               the requested types bre supported.
+     *               The {@code instbnceof} operbtor should be used to
      *               determine the specific kind of object returned.
-     * @exception  IOException              if an I/O error occurs while
+     * @exception  IOException              if bn I/O error occurs while
      *               getting the content.
      * @exception  UnknownServiceException  if the protocol does not support
      *               the content type.
-     * @see        java.net.URLConnection#getContent()
-     * @see        java.net.ContentHandlerFactory#createContentHandler(java.lang.String)
-     * @see        java.net.URLConnection#getContent(java.lang.Class[])
-     * @see        java.net.URLConnection#setContentHandlerFactory(java.net.ContentHandlerFactory)
+     * @see        jbvb.net.URLConnection#getContent()
+     * @see        jbvb.net.ContentHbndlerFbctory#crebteContentHbndler(jbvb.lbng.String)
+     * @see        jbvb.net.URLConnection#getContent(jbvb.lbng.Clbss[])
+     * @see        jbvb.net.URLConnection#setContentHbndlerFbctory(jbvb.net.ContentHbndlerFbctory)
      * @since 1.3
      */
-    public Object getContent(Class<?>[] classes) throws IOException {
-        // Must call getInputStream before GetHeaderField gets called
-        // so that FileNotFoundException has a chance to be thrown up
-        // from here without being caught.
-        getInputStream();
-        return getContentHandler().getContent(this, classes);
+    public Object getContent(Clbss<?>[] clbsses) throws IOException {
+        // Must cbll getInputStrebm before GetHebderField gets cblled
+        // so thbt FileNotFoundException hbs b chbnce to be thrown up
+        // from here without being cbught.
+        getInputStrebm();
+        return getContentHbndler().getContent(this, clbsses);
     }
 
     /**
-     * Returns a permission object representing the permission
-     * necessary to make the connection represented by this
+     * Returns b permission object representing the permission
+     * necessbry to mbke the connection represented by this
      * object. This method returns null if no permission is
-     * required to make the connection. By default, this method
-     * returns {@code java.security.AllPermission}. Subclasses
-     * should override this method and return the permission
-     * that best represents the permission required to make a
-     * a connection to the URL. For example, a {@code URLConnection}
-     * representing a {@code file:} URL would return a
-     * {@code java.io.FilePermission} object.
+     * required to mbke the connection. By defbult, this method
+     * returns {@code jbvb.security.AllPermission}. Subclbsses
+     * should override this method bnd return the permission
+     * thbt best represents the permission required to mbke b
+     * b connection to the URL. For exbmple, b {@code URLConnection}
+     * representing b {@code file:} URL would return b
+     * {@code jbvb.io.FilePermission} object.
      *
-     * <p>The permission returned may dependent upon the state of the
-     * connection. For example, the permission before connecting may be
-     * different from that after connecting. For example, an HTTP
-     * sever, say foo.com, may redirect the connection to a different
-     * host, say bar.com. Before connecting the permission returned by
+     * <p>The permission returned mby dependent upon the stbte of the
+     * connection. For exbmple, the permission before connecting mby be
+     * different from thbt bfter connecting. For exbmple, bn HTTP
+     * sever, sby foo.com, mby redirect the connection to b different
+     * host, sby bbr.com. Before connecting the permission returned by
      * the connection will represent the permission needed to connect
-     * to foo.com, while the permission returned after connecting will
-     * be to bar.com.
+     * to foo.com, while the permission returned bfter connecting will
+     * be to bbr.com.
      *
-     * <p>Permissions are generally used for two purposes: to protect
-     * caches of objects obtained through URLConnections, and to check
-     * the right of a recipient to learn about a particular URL. In
-     * the first case, the permission should be obtained
-     * <em>after</em> the object has been obtained. For example, in an
+     * <p>Permissions bre generblly used for two purposes: to protect
+     * cbches of objects obtbined through URLConnections, bnd to check
+     * the right of b recipient to lebrn bbout b pbrticulbr URL. In
+     * the first cbse, the permission should be obtbined
+     * <em>bfter</em> the object hbs been obtbined. For exbmple, in bn
      * HTTP connection, this will represent the permission to connect
-     * to the host from which the data was ultimately fetched. In the
-     * second case, the permission should be obtained and tested
+     * to the host from which the dbtb wbs ultimbtely fetched. In the
+     * second cbse, the permission should be obtbined bnd tested
      * <em>before</em> connecting.
      *
      * @return the permission object representing the permission
-     * necessary to make the connection represented by this
+     * necessbry to mbke the connection represented by this
      * URLConnection.
      *
-     * @exception IOException if the computation of the permission
-     * requires network or file I/O and an exception occurs while
+     * @exception IOException if the computbtion of the permission
+     * requires network or file I/O bnd bn exception occurs while
      * computing it.
      */
     public Permission getPermission() throws IOException {
-        return SecurityConstants.ALL_PERMISSION;
+        return SecurityConstbnts.ALL_PERMISSION;
     }
 
     /**
-     * Returns an input stream that reads from this open connection.
+     * Returns bn input strebm thbt rebds from this open connection.
      *
-     * A SocketTimeoutException can be thrown when reading from the
-     * returned input stream if the read timeout expires before data
-     * is available for read.
+     * A SocketTimeoutException cbn be thrown when rebding from the
+     * returned input strebm if the rebd timeout expires before dbtb
+     * is bvbilbble for rebd.
      *
-     * @return     an input stream that reads from this open connection.
-     * @exception  IOException              if an I/O error occurs while
-     *               creating the input stream.
+     * @return     bn input strebm thbt rebds from this open connection.
+     * @exception  IOException              if bn I/O error occurs while
+     *               crebting the input strebm.
      * @exception  UnknownServiceException  if the protocol does not support
      *               input.
-     * @see #setReadTimeout(int)
-     * @see #getReadTimeout()
+     * @see #setRebdTimeout(int)
+     * @see #getRebdTimeout()
      */
-    public InputStream getInputStream() throws IOException {
+    public InputStrebm getInputStrebm() throws IOException {
         throw new UnknownServiceException("protocol doesn't support input");
     }
 
     /**
-     * Returns an output stream that writes to this connection.
+     * Returns bn output strebm thbt writes to this connection.
      *
-     * @return     an output stream that writes to this connection.
-     * @exception  IOException              if an I/O error occurs while
-     *               creating the output stream.
+     * @return     bn output strebm thbt writes to this connection.
+     * @exception  IOException              if bn I/O error occurs while
+     *               crebting the output strebm.
      * @exception  UnknownServiceException  if the protocol does not support
      *               output.
      */
-    public OutputStream getOutputStream() throws IOException {
+    public OutputStrebm getOutputStrebm() throws IOException {
         throw new UnknownServiceException("protocol doesn't support output");
     }
 
     /**
-     * Returns a {@code String} representation of this URL connection.
+     * Returns b {@code String} representbtion of this URL connection.
      *
-     * @return  a string representation of this {@code URLConnection}.
+     * @return  b string representbtion of this {@code URLConnection}.
      */
     public String toString() {
-        return this.getClass().getName() + ":" + url;
+        return this.getClbss().getNbme() + ":" + url;
     }
 
     /**
-     * Sets the value of the {@code doInput} field for this
-     * {@code URLConnection} to the specified value.
+     * Sets the vblue of the {@code doInput} field for this
+     * {@code URLConnection} to the specified vblue.
      * <p>
-     * A URL connection can be used for input and/or output.  Set the DoInput
-     * flag to true if you intend to use the URL connection for input,
-     * false if not.  The default is true.
+     * A URL connection cbn be used for input bnd/or output.  Set the DoInput
+     * flbg to true if you intend to use the URL connection for input,
+     * fblse if not.  The defbult is true.
      *
-     * @param   doinput   the new value.
-     * @throws IllegalStateException if already connected
-     * @see     java.net.URLConnection#doInput
+     * @pbrbm   doinput   the new vblue.
+     * @throws IllegblStbteException if blrebdy connected
+     * @see     jbvb.net.URLConnection#doInput
      * @see #getDoInput()
      */
-    public void setDoInput(boolean doinput) {
+    public void setDoInput(boolebn doinput) {
         if (connected)
-            throw new IllegalStateException("Already connected");
+            throw new IllegblStbteException("Alrebdy connected");
         doInput = doinput;
     }
 
     /**
-     * Returns the value of this {@code URLConnection}'s
-     * {@code doInput} flag.
+     * Returns the vblue of this {@code URLConnection}'s
+     * {@code doInput} flbg.
      *
-     * @return  the value of this {@code URLConnection}'s
-     *          {@code doInput} flag.
-     * @see     #setDoInput(boolean)
+     * @return  the vblue of this {@code URLConnection}'s
+     *          {@code doInput} flbg.
+     * @see     #setDoInput(boolebn)
      */
-    public boolean getDoInput() {
+    public boolebn getDoInput() {
         return doInput;
     }
 
     /**
-     * Sets the value of the {@code doOutput} field for this
-     * {@code URLConnection} to the specified value.
+     * Sets the vblue of the {@code doOutput} field for this
+     * {@code URLConnection} to the specified vblue.
      * <p>
-     * A URL connection can be used for input and/or output.  Set the DoOutput
-     * flag to true if you intend to use the URL connection for output,
-     * false if not.  The default is false.
+     * A URL connection cbn be used for input bnd/or output.  Set the DoOutput
+     * flbg to true if you intend to use the URL connection for output,
+     * fblse if not.  The defbult is fblse.
      *
-     * @param   dooutput   the new value.
-     * @throws IllegalStateException if already connected
+     * @pbrbm   dooutput   the new vblue.
+     * @throws IllegblStbteException if blrebdy connected
      * @see #getDoOutput()
      */
-    public void setDoOutput(boolean dooutput) {
+    public void setDoOutput(boolebn dooutput) {
         if (connected)
-            throw new IllegalStateException("Already connected");
+            throw new IllegblStbteException("Alrebdy connected");
         doOutput = dooutput;
     }
 
     /**
-     * Returns the value of this {@code URLConnection}'s
-     * {@code doOutput} flag.
+     * Returns the vblue of this {@code URLConnection}'s
+     * {@code doOutput} flbg.
      *
-     * @return  the value of this {@code URLConnection}'s
-     *          {@code doOutput} flag.
-     * @see     #setDoOutput(boolean)
+     * @return  the vblue of this {@code URLConnection}'s
+     *          {@code doOutput} flbg.
+     * @see     #setDoOutput(boolebn)
      */
-    public boolean getDoOutput() {
+    public boolebn getDoOutput() {
         return doOutput;
     }
 
     /**
-     * Set the value of the {@code allowUserInteraction} field of
+     * Set the vblue of the {@code bllowUserInterbction} field of
      * this {@code URLConnection}.
      *
-     * @param   allowuserinteraction   the new value.
-     * @throws IllegalStateException if already connected
-     * @see     #getAllowUserInteraction()
+     * @pbrbm   bllowuserinterbction   the new vblue.
+     * @throws IllegblStbteException if blrebdy connected
+     * @see     #getAllowUserInterbction()
      */
-    public void setAllowUserInteraction(boolean allowuserinteraction) {
+    public void setAllowUserInterbction(boolebn bllowuserinterbction) {
         if (connected)
-            throw new IllegalStateException("Already connected");
-        allowUserInteraction = allowuserinteraction;
+            throw new IllegblStbteException("Alrebdy connected");
+        bllowUserInterbction = bllowuserinterbction;
     }
 
     /**
-     * Returns the value of the {@code allowUserInteraction} field for
+     * Returns the vblue of the {@code bllowUserInterbction} field for
      * this object.
      *
-     * @return  the value of the {@code allowUserInteraction} field for
+     * @return  the vblue of the {@code bllowUserInterbction} field for
      *          this object.
-     * @see     #setAllowUserInteraction(boolean)
+     * @see     #setAllowUserInterbction(boolebn)
      */
-    public boolean getAllowUserInteraction() {
-        return allowUserInteraction;
+    public boolebn getAllowUserInterbction() {
+        return bllowUserInterbction;
     }
 
     /**
-     * Sets the default value of the
-     * {@code allowUserInteraction} field for all future
-     * {@code URLConnection} objects to the specified value.
+     * Sets the defbult vblue of the
+     * {@code bllowUserInterbction} field for bll future
+     * {@code URLConnection} objects to the specified vblue.
      *
-     * @param   defaultallowuserinteraction   the new value.
-     * @see     #getDefaultAllowUserInteraction()
+     * @pbrbm   defbultbllowuserinterbction   the new vblue.
+     * @see     #getDefbultAllowUserInterbction()
      */
-    public static void setDefaultAllowUserInteraction(boolean defaultallowuserinteraction) {
-        defaultAllowUserInteraction = defaultallowuserinteraction;
+    public stbtic void setDefbultAllowUserInterbction(boolebn defbultbllowuserinterbction) {
+        defbultAllowUserInterbction = defbultbllowuserinterbction;
     }
 
     /**
-     * Returns the default value of the {@code allowUserInteraction}
+     * Returns the defbult vblue of the {@code bllowUserInterbction}
      * field.
      * <p>
-     * Ths default is "sticky", being a part of the static state of all
-     * URLConnections.  This flag applies to the next, and all following
-     * URLConnections that are created.
+     * Ths defbult is "sticky", being b pbrt of the stbtic stbte of bll
+     * URLConnections.  This flbg bpplies to the next, bnd bll following
+     * URLConnections thbt bre crebted.
      *
-     * @return  the default value of the {@code allowUserInteraction}
+     * @return  the defbult vblue of the {@code bllowUserInterbction}
      *          field.
-     * @see     #setDefaultAllowUserInteraction(boolean)
+     * @see     #setDefbultAllowUserInterbction(boolebn)
      */
-    public static boolean getDefaultAllowUserInteraction() {
-        return defaultAllowUserInteraction;
+    public stbtic boolebn getDefbultAllowUserInterbction() {
+        return defbultAllowUserInterbction;
     }
 
     /**
-     * Sets the value of the {@code useCaches} field of this
-     * {@code URLConnection} to the specified value.
+     * Sets the vblue of the {@code useCbches} field of this
+     * {@code URLConnection} to the specified vblue.
      * <p>
-     * Some protocols do caching of documents.  Occasionally, it is important
-     * to be able to "tunnel through" and ignore the caches (e.g., the
-     * "reload" button in a browser).  If the UseCaches flag on a connection
-     * is true, the connection is allowed to use whatever caches it can.
-     *  If false, caches are to be ignored.
-     *  The default value comes from DefaultUseCaches, which defaults to
+     * Some protocols do cbching of documents.  Occbsionblly, it is importbnt
+     * to be bble to "tunnel through" bnd ignore the cbches (e.g., the
+     * "relobd" button in b browser).  If the UseCbches flbg on b connection
+     * is true, the connection is bllowed to use whbtever cbches it cbn.
+     *  If fblse, cbches bre to be ignored.
+     *  The defbult vblue comes from DefbultUseCbches, which defbults to
      * true.
      *
-     * @param usecaches a {@code boolean} indicating whether
-     * or not to allow caching
-     * @throws IllegalStateException if already connected
-     * @see #getUseCaches()
+     * @pbrbm usecbches b {@code boolebn} indicbting whether
+     * or not to bllow cbching
+     * @throws IllegblStbteException if blrebdy connected
+     * @see #getUseCbches()
      */
-    public void setUseCaches(boolean usecaches) {
+    public void setUseCbches(boolebn usecbches) {
         if (connected)
-            throw new IllegalStateException("Already connected");
-        useCaches = usecaches;
+            throw new IllegblStbteException("Alrebdy connected");
+        useCbches = usecbches;
     }
 
     /**
-     * Returns the value of this {@code URLConnection}'s
-     * {@code useCaches} field.
+     * Returns the vblue of this {@code URLConnection}'s
+     * {@code useCbches} field.
      *
-     * @return  the value of this {@code URLConnection}'s
-     *          {@code useCaches} field.
-     * @see #setUseCaches(boolean)
+     * @return  the vblue of this {@code URLConnection}'s
+     *          {@code useCbches} field.
+     * @see #setUseCbches(boolebn)
      */
-    public boolean getUseCaches() {
-        return useCaches;
+    public boolebn getUseCbches() {
+        return useCbches;
     }
 
     /**
-     * Sets the value of the {@code ifModifiedSince} field of
-     * this {@code URLConnection} to the specified value.
+     * Sets the vblue of the {@code ifModifiedSince} field of
+     * this {@code URLConnection} to the specified vblue.
      *
-     * @param   ifmodifiedsince   the new value.
-     * @throws IllegalStateException if already connected
+     * @pbrbm   ifmodifiedsince   the new vblue.
+     * @throws IllegblStbteException if blrebdy connected
      * @see     #getIfModifiedSince()
      */
     public void setIfModifiedSince(long ifmodifiedsince) {
         if (connected)
-            throw new IllegalStateException("Already connected");
+            throw new IllegblStbteException("Alrebdy connected");
         ifModifiedSince = ifmodifiedsince;
     }
 
     /**
-     * Returns the value of this object's {@code ifModifiedSince} field.
+     * Returns the vblue of this object's {@code ifModifiedSince} field.
      *
-     * @return  the value of this object's {@code ifModifiedSince} field.
+     * @return  the vblue of this object's {@code ifModifiedSince} field.
      * @see #setIfModifiedSince(long)
      */
     public long getIfModifiedSince() {
@@ -1016,245 +1016,245 @@ public abstract class URLConnection {
     }
 
    /**
-     * Returns the default value of a {@code URLConnection}'s
-     * {@code useCaches} flag.
+     * Returns the defbult vblue of b {@code URLConnection}'s
+     * {@code useCbches} flbg.
      * <p>
-     * Ths default is "sticky", being a part of the static state of all
-     * URLConnections.  This flag applies to the next, and all following
-     * URLConnections that are created.
+     * Ths defbult is "sticky", being b pbrt of the stbtic stbte of bll
+     * URLConnections.  This flbg bpplies to the next, bnd bll following
+     * URLConnections thbt bre crebted.
      *
-     * @return  the default value of a {@code URLConnection}'s
-     *          {@code useCaches} flag.
-     * @see     #setDefaultUseCaches(boolean)
+     * @return  the defbult vblue of b {@code URLConnection}'s
+     *          {@code useCbches} flbg.
+     * @see     #setDefbultUseCbches(boolebn)
      */
-    public boolean getDefaultUseCaches() {
-        return defaultUseCaches;
+    public boolebn getDefbultUseCbches() {
+        return defbultUseCbches;
     }
 
    /**
-     * Sets the default value of the {@code useCaches} field to the
-     * specified value.
+     * Sets the defbult vblue of the {@code useCbches} field to the
+     * specified vblue.
      *
-     * @param   defaultusecaches   the new value.
-     * @see     #getDefaultUseCaches()
+     * @pbrbm   defbultusecbches   the new vblue.
+     * @see     #getDefbultUseCbches()
      */
-    public void setDefaultUseCaches(boolean defaultusecaches) {
-        defaultUseCaches = defaultusecaches;
+    public void setDefbultUseCbches(boolebn defbultusecbches) {
+        defbultUseCbches = defbultusecbches;
     }
 
     /**
-     * Sets the general request property. If a property with the key already
-     * exists, overwrite its value with the new value.
+     * Sets the generbl request property. If b property with the key blrebdy
+     * exists, overwrite its vblue with the new vblue.
      *
-     * <p> NOTE: HTTP requires all request properties which can
-     * legally have multiple instances with the same key
-     * to use a comma-separated list syntax which enables multiple
-     * properties to be appended into a single property.
+     * <p> NOTE: HTTP requires bll request properties which cbn
+     * legblly hbve multiple instbnces with the sbme key
+     * to use b commb-sepbrbted list syntbx which enbbles multiple
+     * properties to be bppended into b single property.
      *
-     * @param   key     the keyword by which the request is known
+     * @pbrbm   key     the keyword by which the request is known
      *                  (e.g., "{@code Accept}").
-     * @param   value   the value associated with it.
-     * @throws IllegalStateException if already connected
+     * @pbrbm   vblue   the vblue bssocibted with it.
+     * @throws IllegblStbteException if blrebdy connected
      * @throws NullPointerException if key is <CODE>null</CODE>
-     * @see #getRequestProperty(java.lang.String)
+     * @see #getRequestProperty(jbvb.lbng.String)
      */
-    public void setRequestProperty(String key, String value) {
+    public void setRequestProperty(String key, String vblue) {
         if (connected)
-            throw new IllegalStateException("Already connected");
+            throw new IllegblStbteException("Alrebdy connected");
         if (key == null)
             throw new NullPointerException ("key is null");
 
         if (requests == null)
-            requests = new MessageHeader();
+            requests = new MessbgeHebder();
 
-        requests.set(key, value);
+        requests.set(key, vblue);
     }
 
     /**
-     * Adds a general request property specified by a
-     * key-value pair.  This method will not overwrite
-     * existing values associated with the same key.
+     * Adds b generbl request property specified by b
+     * key-vblue pbir.  This method will not overwrite
+     * existing vblues bssocibted with the sbme key.
      *
-     * @param   key     the keyword by which the request is known
+     * @pbrbm   key     the keyword by which the request is known
      *                  (e.g., "{@code Accept}").
-     * @param   value  the value associated with it.
-     * @throws IllegalStateException if already connected
+     * @pbrbm   vblue  the vblue bssocibted with it.
+     * @throws IllegblStbteException if blrebdy connected
      * @throws NullPointerException if key is null
      * @see #getRequestProperties()
      * @since 1.4
      */
-    public void addRequestProperty(String key, String value) {
+    public void bddRequestProperty(String key, String vblue) {
         if (connected)
-            throw new IllegalStateException("Already connected");
+            throw new IllegblStbteException("Alrebdy connected");
         if (key == null)
             throw new NullPointerException ("key is null");
 
         if (requests == null)
-            requests = new MessageHeader();
+            requests = new MessbgeHebder();
 
-        requests.add(key, value);
+        requests.bdd(key, vblue);
     }
 
 
     /**
-     * Returns the value of the named general request property for this
+     * Returns the vblue of the nbmed generbl request property for this
      * connection.
      *
-     * @param key the keyword by which the request is known (e.g., "Accept").
-     * @return  the value of the named general request property for this
+     * @pbrbm key the keyword by which the request is known (e.g., "Accept").
+     * @return  the vblue of the nbmed generbl request property for this
      *           connection. If key is null, then null is returned.
-     * @throws IllegalStateException if already connected
-     * @see #setRequestProperty(java.lang.String, java.lang.String)
+     * @throws IllegblStbteException if blrebdy connected
+     * @see #setRequestProperty(jbvb.lbng.String, jbvb.lbng.String)
      */
     public String getRequestProperty(String key) {
         if (connected)
-            throw new IllegalStateException("Already connected");
+            throw new IllegblStbteException("Alrebdy connected");
 
         if (requests == null)
             return null;
 
-        return requests.findValue(key);
+        return requests.findVblue(key);
     }
 
     /**
-     * Returns an unmodifiable Map of general request
-     * properties for this connection. The Map keys
-     * are Strings that represent the request-header
-     * field names. Each Map value is a unmodifiable List
-     * of Strings that represents the corresponding
-     * field values.
+     * Returns bn unmodifibble Mbp of generbl request
+     * properties for this connection. The Mbp keys
+     * bre Strings thbt represent the request-hebder
+     * field nbmes. Ebch Mbp vblue is b unmodifibble List
+     * of Strings thbt represents the corresponding
+     * field vblues.
      *
-     * @return  a Map of the general request properties for this connection.
-     * @throws IllegalStateException if already connected
+     * @return  b Mbp of the generbl request properties for this connection.
+     * @throws IllegblStbteException if blrebdy connected
      * @since 1.4
      */
-    public Map<String,List<String>> getRequestProperties() {
+    public Mbp<String,List<String>> getRequestProperties() {
         if (connected)
-            throw new IllegalStateException("Already connected");
+            throw new IllegblStbteException("Alrebdy connected");
 
         if (requests == null)
-            return Collections.emptyMap();
+            return Collections.emptyMbp();
 
-        return requests.getHeaders(null);
+        return requests.getHebders(null);
     }
 
     /**
-     * Sets the default value of a general request property. When a
-     * {@code URLConnection} is created, it is initialized with
+     * Sets the defbult vblue of b generbl request property. When b
+     * {@code URLConnection} is crebted, it is initiblized with
      * these properties.
      *
-     * @param   key     the keyword by which the request is known
+     * @pbrbm   key     the keyword by which the request is known
      *                  (e.g., "{@code Accept}").
-     * @param   value   the value associated with the key.
+     * @pbrbm   vblue   the vblue bssocibted with the key.
      *
-     * @see java.net.URLConnection#setRequestProperty(java.lang.String,java.lang.String)
+     * @see jbvb.net.URLConnection#setRequestProperty(jbvb.lbng.String,jbvb.lbng.String)
      *
-     * @deprecated The instance specific setRequestProperty method
-     * should be used after an appropriate instance of URLConnection
-     * is obtained. Invoking this method will have no effect.
+     * @deprecbted The instbnce specific setRequestProperty method
+     * should be used bfter bn bppropribte instbnce of URLConnection
+     * is obtbined. Invoking this method will hbve no effect.
      *
-     * @see #getDefaultRequestProperty(java.lang.String)
+     * @see #getDefbultRequestProperty(jbvb.lbng.String)
      */
-    @Deprecated
-    public static void setDefaultRequestProperty(String key, String value) {
+    @Deprecbted
+    public stbtic void setDefbultRequestProperty(String key, String vblue) {
     }
 
     /**
-     * Returns the value of the default request property. Default request
-     * properties are set for every connection.
+     * Returns the vblue of the defbult request property. Defbult request
+     * properties bre set for every connection.
      *
-     * @param key the keyword by which the request is known (e.g., "Accept").
-     * @return  the value of the default request property
+     * @pbrbm key the keyword by which the request is known (e.g., "Accept").
+     * @return  the vblue of the defbult request property
      * for the specified key.
      *
-     * @see java.net.URLConnection#getRequestProperty(java.lang.String)
+     * @see jbvb.net.URLConnection#getRequestProperty(jbvb.lbng.String)
      *
-     * @deprecated The instance specific getRequestProperty method
-     * should be used after an appropriate instance of URLConnection
-     * is obtained.
+     * @deprecbted The instbnce specific getRequestProperty method
+     * should be used bfter bn bppropribte instbnce of URLConnection
+     * is obtbined.
      *
-     * @see #setDefaultRequestProperty(java.lang.String, java.lang.String)
+     * @see #setDefbultRequestProperty(jbvb.lbng.String, jbvb.lbng.String)
      */
-    @Deprecated
-    public static String getDefaultRequestProperty(String key) {
+    @Deprecbted
+    public stbtic String getDefbultRequestProperty(String key) {
         return null;
     }
 
     /**
-     * The ContentHandler factory.
+     * The ContentHbndler fbctory.
      */
-    static ContentHandlerFactory factory;
+    stbtic ContentHbndlerFbctory fbctory;
 
     /**
-     * Sets the {@code ContentHandlerFactory} of an
-     * application. It can be called at most once by an application.
+     * Sets the {@code ContentHbndlerFbctory} of bn
+     * bpplicbtion. It cbn be cblled bt most once by bn bpplicbtion.
      * <p>
-     * The {@code ContentHandlerFactory} instance is used to
-     * construct a content handler from a content type
+     * The {@code ContentHbndlerFbctory} instbnce is used to
+     * construct b content hbndler from b content type
      * <p>
-     * If there is a security manager, this method first calls
-     * the security manager's {@code checkSetFactory} method
-     * to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * If there is b security mbnbger, this method first cblls
+     * the security mbnbger's {@code checkSetFbctory} method
+     * to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      *
-     * @param      fac   the desired factory.
-     * @exception  Error  if the factory has already been defined.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkSetFactory} method doesn't allow the operation.
-     * @see        java.net.ContentHandlerFactory
-     * @see        java.net.URLConnection#getContent()
-     * @see        SecurityManager#checkSetFactory
+     * @pbrbm      fbc   the desired fbctory.
+     * @exception  Error  if the fbctory hbs blrebdy been defined.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkSetFbctory} method doesn't bllow the operbtion.
+     * @see        jbvb.net.ContentHbndlerFbctory
+     * @see        jbvb.net.URLConnection#getContent()
+     * @see        SecurityMbnbger#checkSetFbctory
      */
-    public static synchronized void setContentHandlerFactory(ContentHandlerFactory fac) {
-        if (factory != null) {
-            throw new Error("factory already defined");
+    public stbtic synchronized void setContentHbndlerFbctory(ContentHbndlerFbctory fbc) {
+        if (fbctory != null) {
+            throw new Error("fbctory blrebdy defined");
         }
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkSetFactory();
+            security.checkSetFbctory();
         }
-        factory = fac;
+        fbctory = fbc;
     }
 
-    private static Hashtable<String, ContentHandler> handlers = new Hashtable<>();
+    privbte stbtic Hbshtbble<String, ContentHbndler> hbndlers = new Hbshtbble<>();
 
     /**
-     * Gets the Content Handler appropriate for this connection.
+     * Gets the Content Hbndler bppropribte for this connection.
      */
-    synchronized ContentHandler getContentHandler()
+    synchronized ContentHbndler getContentHbndler()
         throws UnknownServiceException
     {
-        String contentType = stripOffParameters(getContentType());
-        ContentHandler handler = null;
+        String contentType = stripOffPbrbmeters(getContentType());
+        ContentHbndler hbndler = null;
         if (contentType == null)
             throw new UnknownServiceException("no content-type");
         try {
-            handler = handlers.get(contentType);
-            if (handler != null)
-                return handler;
-        } catch(Exception e) {
+            hbndler = hbndlers.get(contentType);
+            if (hbndler != null)
+                return hbndler;
+        } cbtch(Exception e) {
         }
 
-        if (factory != null)
-            handler = factory.createContentHandler(contentType);
-        if (handler == null) {
+        if (fbctory != null)
+            hbndler = fbctory.crebteContentHbndler(contentType);
+        if (hbndler == null) {
             try {
-                handler = lookupContentHandlerClassFor(contentType);
-            } catch(Exception e) {
-                e.printStackTrace();
-                handler = UnknownContentHandler.INSTANCE;
+                hbndler = lookupContentHbndlerClbssFor(contentType);
+            } cbtch(Exception e) {
+                e.printStbckTrbce();
+                hbndler = UnknownContentHbndler.INSTANCE;
             }
-            handlers.put(contentType, handler);
+            hbndlers.put(contentType, hbndler);
         }
-        return handler;
+        return hbndler;
     }
 
     /*
-     * Media types are in the format: type/subtype*(; parameter).
-     * For looking up the content handler, we should ignore those
-     * parameters.
+     * Medib types bre in the formbt: type/subtype*(; pbrbmeter).
+     * For looking up the content hbndler, we should ignore those
+     * pbrbmeters.
      */
-    private String stripOffParameters(String contentType)
+    privbte String stripOffPbrbmeters(String contentType)
     {
         if (contentType == null)
             return null;
@@ -1266,73 +1266,73 @@ public abstract class URLConnection {
             return contentType;
     }
 
-    private static final String contentClassPrefix = "sun.net.www.content";
-    private static final String contentPathProp = "java.content.handler.pkgs";
+    privbte stbtic finbl String contentClbssPrefix = "sun.net.www.content";
+    privbte stbtic finbl String contentPbthProp = "jbvb.content.hbndler.pkgs";
 
     /**
-     * Looks for a content handler in a user-defineable set of places.
-     * By default it looks in sun.net.www.content, but users can define a
-     * vertical-bar delimited set of class prefixes to search through in
-     * addition by defining the java.content.handler.pkgs property.
-     * The class name must be of the form:
+     * Looks for b content hbndler in b user-definebble set of plbces.
+     * By defbult it looks in sun.net.www.content, but users cbn define b
+     * verticbl-bbr delimited set of clbss prefixes to sebrch through in
+     * bddition by defining the jbvb.content.hbndler.pkgs property.
+     * The clbss nbme must be of the form:
      * <pre>
-     *     {package-prefix}.{major}.{minor}
+     *     {pbckbge-prefix}.{mbjor}.{minor}
      * e.g.
-     *     YoyoDyne.experimental.text.plain
+     *     YoyoDyne.experimentbl.text.plbin
      * </pre>
      */
-    private ContentHandler lookupContentHandlerClassFor(String contentType)
-        throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        String contentHandlerClassName = typeToPackageName(contentType);
+    privbte ContentHbndler lookupContentHbndlerClbssFor(String contentType)
+        throws InstbntibtionException, IllegblAccessException, ClbssNotFoundException {
+        String contentHbndlerClbssNbme = typeToPbckbgeNbme(contentType);
 
-        String contentHandlerPkgPrefixes =getContentHandlerPkgPrefixes();
+        String contentHbndlerPkgPrefixes =getContentHbndlerPkgPrefixes();
 
-        StringTokenizer packagePrefixIter =
-            new StringTokenizer(contentHandlerPkgPrefixes, "|");
+        StringTokenizer pbckbgePrefixIter =
+            new StringTokenizer(contentHbndlerPkgPrefixes, "|");
 
-        while (packagePrefixIter.hasMoreTokens()) {
-            String packagePrefix = packagePrefixIter.nextToken().trim();
+        while (pbckbgePrefixIter.hbsMoreTokens()) {
+            String pbckbgePrefix = pbckbgePrefixIter.nextToken().trim();
 
             try {
-                String clsName = packagePrefix + "." + contentHandlerClassName;
-                Class<?> cls = null;
+                String clsNbme = pbckbgePrefix + "." + contentHbndlerClbssNbme;
+                Clbss<?> cls = null;
                 try {
-                    cls = Class.forName(clsName);
-                } catch (ClassNotFoundException e) {
-                    ClassLoader cl = ClassLoader.getSystemClassLoader();
+                    cls = Clbss.forNbme(clsNbme);
+                } cbtch (ClbssNotFoundException e) {
+                    ClbssLobder cl = ClbssLobder.getSystemClbssLobder();
                     if (cl != null) {
-                        cls = cl.loadClass(clsName);
+                        cls = cl.lobdClbss(clsNbme);
                     }
                 }
                 if (cls != null) {
-                    ContentHandler handler =
-                        (ContentHandler)cls.newInstance();
-                    return handler;
+                    ContentHbndler hbndler =
+                        (ContentHbndler)cls.newInstbnce();
+                    return hbndler;
                 }
-            } catch(Exception e) {
+            } cbtch(Exception e) {
             }
         }
 
-        return UnknownContentHandler.INSTANCE;
+        return UnknownContentHbndler.INSTANCE;
     }
 
     /**
-     * Utility function to map a MIME content type into an equivalent
-     * pair of class name components.  For example: "text/html" would
-     * be returned as "text.html"
+     * Utility function to mbp b MIME content type into bn equivblent
+     * pbir of clbss nbme components.  For exbmple: "text/html" would
+     * be returned bs "text.html"
      */
-    private String typeToPackageName(String contentType) {
-        // make sure we canonicalize the class name: all lower case
-        contentType = contentType.toLowerCase();
+    privbte String typeToPbckbgeNbme(String contentType) {
+        // mbke sure we cbnonicblize the clbss nbme: bll lower cbse
+        contentType = contentType.toLowerCbse();
         int len = contentType.length();
-        char nm[] = new char[len];
-        contentType.getChars(0, len, nm, 0);
+        chbr nm[] = new chbr[len];
+        contentType.getChbrs(0, len, nm, 0);
         for (int i = 0; i < len; i++) {
-            char c = nm[i];
+            chbr c = nm[i];
             if (c == '/') {
                 nm[i] = '.';
             } else if (!('A' <= c && c <= 'Z' ||
-                       'a' <= c && c <= 'z' ||
+                       'b' <= c && c <= 'z' ||
                        '0' <= c && c <= '9')) {
                 nm[i] = '_';
             }
@@ -1342,97 +1342,97 @@ public abstract class URLConnection {
 
 
     /**
-     * Returns a vertical bar separated list of package prefixes for potential
-     * content handlers.  Tries to get the java.content.handler.pkgs property
-     * to use as a set of package prefixes to search.  Whether or not
-     * that property has been defined, the sun.net.www.content is always
-     * the last one on the returned package list.
+     * Returns b verticbl bbr sepbrbted list of pbckbge prefixes for potentibl
+     * content hbndlers.  Tries to get the jbvb.content.hbndler.pkgs property
+     * to use bs b set of pbckbge prefixes to sebrch.  Whether or not
+     * thbt property hbs been defined, the sun.net.www.content is blwbys
+     * the lbst one on the returned pbckbge list.
      */
-    private String getContentHandlerPkgPrefixes() {
-        String packagePrefixList = AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction(contentPathProp, ""));
+    privbte String getContentHbndlerPkgPrefixes() {
+        String pbckbgePrefixList = AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction(contentPbthProp, ""));
 
-        if (packagePrefixList != "") {
-            packagePrefixList += "|";
+        if (pbckbgePrefixList != "") {
+            pbckbgePrefixList += "|";
         }
 
-        return packagePrefixList + contentClassPrefix;
+        return pbckbgePrefixList + contentClbssPrefix;
     }
 
     /**
-     * Tries to determine the content type of an object, based
-     * on the specified "file" component of a URL.
-     * This is a convenience method that can be used by
-     * subclasses that override the {@code getContentType} method.
+     * Tries to determine the content type of bn object, bbsed
+     * on the specified "file" component of b URL.
+     * This is b convenience method thbt cbn be used by
+     * subclbsses thbt override the {@code getContentType} method.
      *
-     * @param   fname   a filename.
-     * @return  a guess as to what the content type of the object is,
-     *          based upon its file name.
-     * @see     java.net.URLConnection#getContentType()
+     * @pbrbm   fnbme   b filenbme.
+     * @return  b guess bs to whbt the content type of the object is,
+     *          bbsed upon its file nbme.
+     * @see     jbvb.net.URLConnection#getContentType()
      */
-    public static String guessContentTypeFromName(String fname) {
-        return getFileNameMap().getContentTypeFor(fname);
+    public stbtic String guessContentTypeFromNbme(String fnbme) {
+        return getFileNbmeMbp().getContentTypeFor(fnbme);
     }
 
     /**
-     * Tries to determine the type of an input stream based on the
-     * characters at the beginning of the input stream. This method can
-     * be used by subclasses that override the
+     * Tries to determine the type of bn input strebm bbsed on the
+     * chbrbcters bt the beginning of the input strebm. This method cbn
+     * be used by subclbsses thbt override the
      * {@code getContentType} method.
      * <p>
-     * Ideally, this routine would not be needed. But many
+     * Ideblly, this routine would not be needed. But mbny
      * {@code http} servers return the incorrect content type; in
-     * addition, there are many nonstandard extensions. Direct inspection
-     * of the bytes to determine the content type is often more accurate
-     * than believing the content type claimed by the {@code http} server.
+     * bddition, there bre mbny nonstbndbrd extensions. Direct inspection
+     * of the bytes to determine the content type is often more bccurbte
+     * thbn believing the content type clbimed by the {@code http} server.
      *
-     * @param      is   an input stream that supports marks.
-     * @return     a guess at the content type, or {@code null} if none
-     *             can be determined.
-     * @exception  IOException  if an I/O error occurs while reading the
-     *               input stream.
-     * @see        java.io.InputStream#mark(int)
-     * @see        java.io.InputStream#markSupported()
-     * @see        java.net.URLConnection#getContentType()
+     * @pbrbm      is   bn input strebm thbt supports mbrks.
+     * @return     b guess bt the content type, or {@code null} if none
+     *             cbn be determined.
+     * @exception  IOException  if bn I/O error occurs while rebding the
+     *               input strebm.
+     * @see        jbvb.io.InputStrebm#mbrk(int)
+     * @see        jbvb.io.InputStrebm#mbrkSupported()
+     * @see        jbvb.net.URLConnection#getContentType()
      */
-    static public String guessContentTypeFromStream(InputStream is)
+    stbtic public String guessContentTypeFromStrebm(InputStrebm is)
                         throws IOException {
-        // If we can't read ahead safely, just give up on guessing
-        if (!is.markSupported())
+        // If we cbn't rebd bhebd sbfely, just give up on guessing
+        if (!is.mbrkSupported())
             return null;
 
-        is.mark(16);
-        int c1 = is.read();
-        int c2 = is.read();
-        int c3 = is.read();
-        int c4 = is.read();
-        int c5 = is.read();
-        int c6 = is.read();
-        int c7 = is.read();
-        int c8 = is.read();
-        int c9 = is.read();
-        int c10 = is.read();
-        int c11 = is.read();
-        int c12 = is.read();
-        int c13 = is.read();
-        int c14 = is.read();
-        int c15 = is.read();
-        int c16 = is.read();
+        is.mbrk(16);
+        int c1 = is.rebd();
+        int c2 = is.rebd();
+        int c3 = is.rebd();
+        int c4 = is.rebd();
+        int c5 = is.rebd();
+        int c6 = is.rebd();
+        int c7 = is.rebd();
+        int c8 = is.rebd();
+        int c9 = is.rebd();
+        int c10 = is.rebd();
+        int c11 = is.rebd();
+        int c12 = is.rebd();
+        int c13 = is.rebd();
+        int c14 = is.rebd();
+        int c15 = is.rebd();
+        int c16 = is.rebd();
         is.reset();
 
         if (c1 == 0xCA && c2 == 0xFE && c3 == 0xBA && c4 == 0xBE) {
-            return "application/java-vm";
+            return "bpplicbtion/jbvb-vm";
         }
 
         if (c1 == 0xAC && c2 == 0xED) {
-            // next two bytes are version number, currently 0x00 0x05
-            return "application/x-java-serialized-object";
+            // next two bytes bre version number, currently 0x00 0x05
+            return "bpplicbtion/x-jbvb-seriblized-object";
         }
 
         if (c1 == '<') {
             if (c2 == '!'
                 || ((c2 == 'h' && (c3 == 't' && c4 == 'm' && c5 == 'l' ||
-                                   c3 == 'e' && c4 == 'a' && c5 == 'd') ||
+                                   c3 == 'e' && c4 == 'b' && c5 == 'd') ||
                 (c2 == 'b' && c3 == 'o' && c4 == 'd' && c5 == 'y'))) ||
                 ((c2 == 'H' && (c3 == 'T' && c4 == 'M' && c5 == 'L' ||
                                 c3 == 'E' && c4 == 'A' && c5 == 'D') ||
@@ -1441,38 +1441,38 @@ public abstract class URLConnection {
             }
 
             if (c2 == '?' && c3 == 'x' && c4 == 'm' && c5 == 'l' && c6 == ' ') {
-                return "application/xml";
+                return "bpplicbtion/xml";
             }
         }
 
-        // big and little (identical) endian UTF-8 encodings, with BOM
+        // big bnd little (identicbl) endibn UTF-8 encodings, with BOM
         if (c1 == 0xef &&  c2 == 0xbb &&  c3 == 0xbf) {
             if (c4 == '<' &&  c5 == '?' &&  c6 == 'x') {
-                return "application/xml";
+                return "bpplicbtion/xml";
             }
         }
 
-        // big and little endian UTF-16 encodings, with byte order mark
+        // big bnd little endibn UTF-16 encodings, with byte order mbrk
         if (c1 == 0xfe && c2 == 0xff) {
             if (c3 == 0 && c4 == '<' && c5 == 0 && c6 == '?' &&
                 c7 == 0 && c8 == 'x') {
-                return "application/xml";
+                return "bpplicbtion/xml";
             }
         }
 
         if (c1 == 0xff && c2 == 0xfe) {
             if (c3 == '<' && c4 == 0 && c5 == '?' && c6 == 0 &&
                 c7 == 'x' && c8 == 0) {
-                return "application/xml";
+                return "bpplicbtion/xml";
             }
         }
 
-        // big and little endian UTF-32 encodings, with BOM
+        // big bnd little endibn UTF-32 encodings, with BOM
         if (c1 == 0x00 &&  c2 == 0x00 &&  c3 == 0xfe &&  c4 == 0xff) {
             if (c5  == 0 && c6  == 0 && c7  == 0 && c8  == '<' &&
                 c9  == 0 && c10 == 0 && c11 == 0 && c12 == '?' &&
                 c13 == 0 && c14 == 0 && c15 == 0 && c16 == 'x') {
-                return "application/xml";
+                return "bpplicbtion/xml";
             }
         }
 
@@ -1480,141 +1480,141 @@ public abstract class URLConnection {
             if (c5  == '<' && c6  == 0 && c7  == 0 && c8  == 0 &&
                 c9  == '?' && c10 == 0 && c11 == 0 && c12 == 0 &&
                 c13 == 'x' && c14 == 0 && c15 == 0 && c16 == 0) {
-                return "application/xml";
+                return "bpplicbtion/xml";
             }
         }
 
         if (c1 == 'G' && c2 == 'I' && c3 == 'F' && c4 == '8') {
-            return "image/gif";
+            return "imbge/gif";
         }
 
         if (c1 == '#' && c2 == 'd' && c3 == 'e' && c4 == 'f') {
-            return "image/x-bitmap";
+            return "imbge/x-bitmbp";
         }
 
         if (c1 == '!' && c2 == ' ' && c3 == 'X' && c4 == 'P' &&
                         c5 == 'M' && c6 == '2') {
-            return "image/x-pixmap";
+            return "imbge/x-pixmbp";
         }
 
         if (c1 == 137 && c2 == 80 && c3 == 78 &&
                 c4 == 71 && c5 == 13 && c6 == 10 &&
                 c7 == 26 && c8 == 10) {
-            return "image/png";
+            return "imbge/png";
         }
 
         if (c1 == 0xFF && c2 == 0xD8 && c3 == 0xFF) {
             if (c4 == 0xE0) {
-                return "image/jpeg";
+                return "imbge/jpeg";
             }
 
             /**
-             * File format used by digital cameras to store images.
-             * Exif Format can be read by any application supporting
-             * JPEG. Exif Spec can be found at:
-             * http://www.pima.net/standards/it10/PIMA15740/Exif_2-1.PDF
+             * File formbt used by digitbl cbmerbs to store imbges.
+             * Exif Formbt cbn be rebd by bny bpplicbtion supporting
+             * JPEG. Exif Spec cbn be found bt:
+             * http://www.pimb.net/stbndbrds/it10/PIMA15740/Exif_2-1.PDF
              */
             if ((c4 == 0xE1) &&
                 (c7 == 'E' && c8 == 'x' && c9 == 'i' && c10 =='f' &&
                  c11 == 0)) {
-                return "image/jpeg";
+                return "imbge/jpeg";
             }
 
             if (c4 == 0xEE) {
-                return "image/jpg";
+                return "imbge/jpg";
             }
         }
 
         if (c1 == 0xD0 && c2 == 0xCF && c3 == 0x11 && c4 == 0xE0 &&
             c5 == 0xA1 && c6 == 0xB1 && c7 == 0x1A && c8 == 0xE1) {
 
-            /* Above is signature of Microsoft Structured Storage.
-             * Below this, could have tests for various SS entities.
-             * For now, just test for FlashPix.
+            /* Above is signbture of Microsoft Structured Storbge.
+             * Below this, could hbve tests for vbrious SS entities.
+             * For now, just test for FlbshPix.
              */
             if (checkfpx(is)) {
-                return "image/vnd.fpx";
+                return "imbge/vnd.fpx";
             }
         }
 
         if (c1 == 0x2E && c2 == 0x73 && c3 == 0x6E && c4 == 0x64) {
-            return "audio/basic";  // .au format, big endian
+            return "budio/bbsic";  // .bu formbt, big endibn
         }
 
         if (c1 == 0x64 && c2 == 0x6E && c3 == 0x73 && c4 == 0x2E) {
-            return "audio/basic";  // .au format, little endian
+            return "budio/bbsic";  // .bu formbt, little endibn
         }
 
         if (c1 == 'R' && c2 == 'I' && c3 == 'F' && c4 == 'F') {
-            /* I don't know if this is official but evidence
-             * suggests that .wav files start with "RIFF" - brown
+            /* I don't know if this is officibl but evidence
+             * suggests thbt .wbv files stbrt with "RIFF" - brown
              */
-            return "audio/x-wav";
+            return "budio/x-wbv";
         }
         return null;
     }
 
     /**
-     * Check for FlashPix image data in InputStream is.  Return true if
-     * the stream has FlashPix data, false otherwise.  Before calling this
-     * method, the stream should have already been checked to be sure it
-     * contains Microsoft Structured Storage data.
+     * Check for FlbshPix imbge dbtb in InputStrebm is.  Return true if
+     * the strebm hbs FlbshPix dbtb, fblse otherwise.  Before cblling this
+     * method, the strebm should hbve blrebdy been checked to be sure it
+     * contbins Microsoft Structured Storbge dbtb.
      */
-    static private boolean checkfpx(InputStream is) throws IOException {
+    stbtic privbte boolebn checkfpx(InputStrebm is) throws IOException {
 
-        /* Test for FlashPix image data in Microsoft Structured Storage format.
-         * In general, should do this with calls to an SS implementation.
-         * Lacking that, need to dig via offsets to get to the FlashPix
-         * ClassID.  Details:
+        /* Test for FlbshPix imbge dbtb in Microsoft Structured Storbge formbt.
+         * In generbl, should do this with cblls to bn SS implementbtion.
+         * Lbcking thbt, need to dig vib offsets to get to the FlbshPix
+         * ClbssID.  Detbils:
          *
-         * Offset to Fpx ClsID from beginning of stream should be:
+         * Offset to Fpx ClsID from beginning of strebm should be:
          *
          * FpxClsidOffset = rootEntryOffset + clsidOffset
          *
          * where: clsidOffset = 0x50.
-         *        rootEntryOffset = headerSize + sectorSize*sectDirStart
+         *        rootEntryOffset = hebderSize + sectorSize*sectDirStbrt
          *                          + 128*rootEntryDirectory
          *
-         *        where:  headerSize = 0x200 (always)
-         *                sectorSize = 2 raised to power of uSectorShift,
-         *                             which is found in the header at
+         *        where:  hebderSize = 0x200 (blwbys)
+         *                sectorSize = 2 rbised to power of uSectorShift,
+         *                             which is found in the hebder bt
          *                             offset 0x1E.
-         *                sectDirStart = found in the header at offset 0x30.
-         *                rootEntryDirectory = in general, should search for
-         *                                     directory labelled as root.
-         *                                     We will assume value of 0 (i.e.,
+         *                sectDirStbrt = found in the hebder bt offset 0x30.
+         *                rootEntryDirectory = in generbl, should sebrch for
+         *                                     directory lbbelled bs root.
+         *                                     We will bssume vblue of 0 (i.e.,
          *                                     rootEntry is in first directory)
          */
 
-        // Mark the stream so we can reset it. 0x100 is enough for the first
-        // few reads, but the mark will have to be reset and set again once
-        // the offset to the root directory entry is computed. That offset
-        // can be very large and isn't know until the stream has been read from
-        is.mark(0x100);
+        // Mbrk the strebm so we cbn reset it. 0x100 is enough for the first
+        // few rebds, but the mbrk will hbve to be reset bnd set bgbin once
+        // the offset to the root directory entry is computed. Thbt offset
+        // cbn be very lbrge bnd isn't know until the strebm hbs been rebd from
+        is.mbrk(0x100);
 
-        // Get the byte ordering located at 0x1E. 0xFE is Intel,
+        // Get the byte ordering locbted bt 0x1E. 0xFE is Intel,
         // 0xFF is other
         long toSkip = (long)0x1C;
         long posn;
 
-        if ((posn = skipForward(is, toSkip)) < toSkip) {
+        if ((posn = skipForwbrd(is, toSkip)) < toSkip) {
           is.reset();
-          return false;
+          return fblse;
         }
 
         int c[] = new int[16];
-        if (readBytes(c, 2, is) < 0) {
+        if (rebdBytes(c, 2, is) < 0) {
             is.reset();
-            return false;
+            return fblse;
         }
 
         int byteOrder = c[0];
 
         posn+=2;
         int uSectorShift;
-        if (readBytes(c, 2, is) < 0) {
+        if (rebdBytes(c, 2, is) < 0) {
             is.reset();
-            return false;
+            return fblse;
         }
 
         if(byteOrder == 0xFE) {
@@ -1629,67 +1629,67 @@ public abstract class URLConnection {
         posn += 2;
         toSkip = (long)0x30 - posn;
         long skipped = 0;
-        if ((skipped = skipForward(is, toSkip)) < toSkip) {
+        if ((skipped = skipForwbrd(is, toSkip)) < toSkip) {
           is.reset();
-          return false;
+          return fblse;
         }
         posn += skipped;
 
-        if (readBytes(c, 4, is) < 0) {
+        if (rebdBytes(c, 4, is) < 0) {
             is.reset();
-            return false;
+            return fblse;
         }
 
-        int sectDirStart;
+        int sectDirStbrt;
         if(byteOrder == 0xFE) {
-            sectDirStart = c[0];
-            sectDirStart += c[1] << 8;
-            sectDirStart += c[2] << 16;
-            sectDirStart += c[3] << 24;
+            sectDirStbrt = c[0];
+            sectDirStbrt += c[1] << 8;
+            sectDirStbrt += c[2] << 16;
+            sectDirStbrt += c[3] << 24;
         } else {
-            sectDirStart =  c[0] << 24;
-            sectDirStart += c[1] << 16;
-            sectDirStart += c[2] << 8;
-            sectDirStart += c[3];
+            sectDirStbrt =  c[0] << 24;
+            sectDirStbrt += c[1] << 16;
+            sectDirStbrt += c[2] << 8;
+            sectDirStbrt += c[3];
         }
         posn += 4;
-        is.reset(); // Reset back to the beginning
+        is.reset(); // Reset bbck to the beginning
 
-        toSkip = 0x200L + (long)(1<<uSectorShift)*sectDirStart + 0x50L;
+        toSkip = 0x200L + (long)(1<<uSectorShift)*sectDirStbrt + 0x50L;
 
-        // Sanity check!
+        // Sbnity check!
         if (toSkip < 0) {
-            return false;
+            return fblse;
         }
 
         /*
-         * How far can we skip? Is there any performance problem here?
-         * This skip can be fairly long, at least 0x4c650 in at least
-         * one case. Have to assume that the skip will fit in an int.
-         * Leave room to read whole root dir
+         * How fbr cbn we skip? Is there bny performbnce problem here?
+         * This skip cbn be fbirly long, bt lebst 0x4c650 in bt lebst
+         * one cbse. Hbve to bssume thbt the skip will fit in bn int.
+         * Lebve room to rebd whole root dir
          */
-        is.mark((int)toSkip+0x30);
+        is.mbrk((int)toSkip+0x30);
 
-        if ((skipForward(is, toSkip)) < toSkip) {
+        if ((skipForwbrd(is, toSkip)) < toSkip) {
             is.reset();
-            return false;
+            return fblse;
         }
 
-        /* should be at beginning of ClassID, which is as follows
+        /* should be bt beginning of ClbssID, which is bs follows
          * (in Intel byte order):
          *    00 67 61 56 54 C1 CE 11 85 53 00 AA 00 A1 F9 5B
          *
-         * This is stored from Windows as long,short,short,char[8]
-         * so for byte order changes, the order only changes for
-         * the first 8 bytes in the ClassID.
+         * This is stored from Windows bs long,short,short,chbr[8]
+         * so for byte order chbnges, the order only chbnges for
+         * the first 8 bytes in the ClbssID.
          *
-         * Test against this, ignoring second byte (Intel) since
-         * this could change depending on part of Fpx file we have.
+         * Test bgbinst this, ignoring second byte (Intel) since
+         * this could chbnge depending on pbrt of Fpx file we hbve.
          */
 
-        if (readBytes(c, 16, is) < 0) {
+        if (rebdBytes(c, 16, is) < 0) {
             is.reset();
-            return false;
+            return fblse;
         }
 
         // intel byte order
@@ -1713,23 +1713,23 @@ public abstract class URLConnection {
             return true;
         }
         is.reset();
-        return false;
+        return fblse;
     }
 
     /**
-     * Tries to read the specified number of bytes from the stream
-     * Returns -1, If EOF is reached before len bytes are read, returns 0
+     * Tries to rebd the specified number of bytes from the strebm
+     * Returns -1, If EOF is rebched before len bytes bre rebd, returns 0
      * otherwise
      */
-    static private int readBytes(int c[], int len, InputStream is)
+    stbtic privbte int rebdBytes(int c[], int len, InputStrebm is)
                 throws IOException {
 
         byte buf[] = new byte[len];
-        if (is.read(buf, 0, len) < len) {
+        if (is.rebd(buf, 0, len) < len) {
             return -1;
         }
 
-        // fill the passed in int array
+        // fill the pbssed in int brrby
         for (int i = 0; i < len; i++) {
              c[i] = buf[i] & 0xff;
         }
@@ -1738,28 +1738,28 @@ public abstract class URLConnection {
 
 
     /**
-     * Skips through the specified number of bytes from the stream
-     * until either EOF is reached, or the specified
-     * number of bytes have been skipped
+     * Skips through the specified number of bytes from the strebm
+     * until either EOF is rebched, or the specified
+     * number of bytes hbve been skipped
      */
-    static private long skipForward(InputStream is, long toSkip)
+    stbtic privbte long skipForwbrd(InputStrebm is, long toSkip)
                 throws IOException {
 
-        long eachSkip = 0;
+        long ebchSkip = 0;
         long skipped = 0;
 
         while (skipped != toSkip) {
-            eachSkip = is.skip(toSkip - skipped);
+            ebchSkip = is.skip(toSkip - skipped);
 
-            // check if EOF is reached
-            if (eachSkip <= 0) {
-                if (is.read() == -1) {
+            // check if EOF is rebched
+            if (ebchSkip <= 0) {
+                if (is.rebd() == -1) {
                     return skipped ;
                 } else {
                     skipped++;
                 }
             }
-            skipped += eachSkip;
+            skipped += ebchSkip;
         }
         return skipped;
     }
@@ -1767,10 +1767,10 @@ public abstract class URLConnection {
 }
 
 
-class UnknownContentHandler extends ContentHandler {
-    static final ContentHandler INSTANCE = new UnknownContentHandler();
+clbss UnknownContentHbndler extends ContentHbndler {
+    stbtic finbl ContentHbndler INSTANCE = new UnknownContentHbndler();
 
     public Object getContent(URLConnection uc) throws IOException {
-        return uc.getInputStream();
+        return uc.getInputStrebm();
     }
 }

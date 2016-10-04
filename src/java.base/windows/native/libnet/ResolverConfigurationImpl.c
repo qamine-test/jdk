@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -29,127 +29,127 @@
 #include <stddef.h>
 #include <iprtrmib.h>
 #include <time.h>
-#include <assert.h>
-#include <iphlpapi.h>
+#include <bssert.h>
+#include <iphlpbpi.h>
 
 #include "jni_util.h"
 
 #define MAX_STR_LEN         256
 
-#define STS_NO_CONFIG       0x0             /* no configuration found */
-#define STS_SL_FOUND        0x1             /* search list found */
-#define STS_NS_FOUND        0x2             /* name servers found */
-#define STS_ERROR           -1              /* error return  lodConfig failed memory allccation failure*/
+#define STS_NO_CONFIG       0x0             /* no configurbtion found */
+#define STS_SL_FOUND        0x1             /* sebrch list found */
+#define STS_NS_FOUND        0x2             /* nbme servers found */
+#define STS_ERROR           -1              /* error return  lodConfig fbiled memory bllccbtion fbilure*/
 
 #define IS_SL_FOUND(sts)    (sts & STS_SL_FOUND)
 #define IS_NS_FOUND(sts)    (sts & STS_NS_FOUND)
 
 /* JNI ids */
-static jfieldID searchlistID;
-static jfieldID nameserversID;
+stbtic jfieldID sebrchlistID;
+stbtic jfieldID nbmeserversID;
 
 /*
- * Utility routine to append s2 to s1 with a space delimiter.
- *  strappend(s1="abc", "def")  => "abc def"
- *  strappend(s1="", "def")     => "def
+ * Utility routine to bppend s2 to s1 with b spbce delimiter.
+ *  strbppend(s1="bbc", "def")  => "bbc def"
+ *  strbppend(s1="", "def")     => "def
  */
-void strappend(char *s1, char *s2) {
+void strbppend(chbr *s1, chbr *s2) {
     size_t len;
 
-    if (s2[0] == '\0')                      /* nothing to append */
+    if (s2[0] == '\0')                      /* nothing to bppend */
         return;
 
     len = strlen(s1)+1;
-    if (s1[0] != 0)                         /* needs space character */
+    if (s1[0] != 0)                         /* needs spbce chbrbcter */
         len++;
-    if (len + strlen(s2) > MAX_STR_LEN)     /* insufficient space */
+    if (len + strlen(s2) > MAX_STR_LEN)     /* insufficient spbce */
         return;
 
     if (s1[0] != 0) {
-        strcat(s1, " ");
+        strcbt(s1, " ");
     }
-    strcat(s1, s2);
+    strcbt(s1, s2);
 }
 
 /*
  * Windows 2000/XP
  *
- * Use registry approach based on settings described in Appendix C
- * of "Microsoft Windows 2000 TCP/IP Implementation Details".
+ * Use registry bpprobch bbsed on settings described in Appendix C
+ * of "Microsoft Windows 2000 TCP/IP Implementbtion Detbils".
  *
- * DNS suffix list is obtained from SearchList registry setting. If
- * this is not specified we compile suffix list based on the
- * per-connection domain suffix.
+ * DNS suffix list is obtbined from SebrchList registry setting. If
+ * this is not specified we compile suffix list bbsed on the
+ * per-connection dombin suffix.
  *
- * DNS name servers and domain settings are on a per-connection
- * basic. We therefore enumerate the network adapters to get the
- * names of each adapter and then query the corresponding registry
- * settings to obtain NameServer/DhcpNameServer and Domain/DhcpDomain.
+ * DNS nbme servers bnd dombin settings bre on b per-connection
+ * bbsic. We therefore enumerbte the network bdbpters to get the
+ * nbmes of ebch bdbpter bnd then query the corresponding registry
+ * settings to obtbin NbmeServer/DhcpNbmeServer bnd Dombin/DhcpDombin.
  */
-static int loadConfig(char *sl, char *ns) {
-    IP_ADAPTER_INFO *adapterP;
+stbtic int lobdConfig(chbr *sl, chbr *ns) {
+    IP_ADAPTER_INFO *bdbpterP;
     ULONG size;
     DWORD ret;
     DWORD dwLen;
     ULONG ulType;
-    char result[MAX_STR_LEN];
+    chbr result[MAX_STR_LEN];
     HANDLE hKey;
-    int gotSearchList = 0;
+    int gotSebrchList = 0;
 
     /*
-     * First see if there is a global suffix list specified.
+     * First see if there is b globbl suffix list specified.
      */
     ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                       "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
+                       "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Pbrbmeters",
                        0,
                        KEY_READ,
                        (PHKEY)&hKey);
     if (ret == ERROR_SUCCESS) {
         dwLen = sizeof(result);
-        ret = RegQueryValueEx(hKey, "SearchList", NULL, &ulType,
+        ret = RegQueryVblueEx(hKey, "SebrchList", NULL, &ulType,
                              (LPBYTE)&result, &dwLen);
         if (ret == ERROR_SUCCESS) {
-            assert(ulType == REG_SZ);
+            bssert(ulType == REG_SZ);
             if (strlen(result) > 0) {
-                strappend(sl, result);
-                gotSearchList = 1;
+                strbppend(sl, result);
+                gotSebrchList = 1;
             }
         }
         RegCloseKey(hKey);
     }
 
     /*
-     * Ask the IP Helper library to enumerate the adapters
+     * Ask the IP Helper librbry to enumerbte the bdbpters
      */
     size = sizeof(IP_ADAPTER_INFO);
-    adapterP = (IP_ADAPTER_INFO *)malloc(size);
-    if (adapterP == NULL) {
+    bdbpterP = (IP_ADAPTER_INFO *)mblloc(size);
+    if (bdbpterP == NULL) {
         return STS_ERROR;
     }
-    ret = GetAdaptersInfo(adapterP, &size);
+    ret = GetAdbptersInfo(bdbpterP, &size);
     if (ret == ERROR_BUFFER_OVERFLOW) {
-        IP_ADAPTER_INFO *newAdapterP = (IP_ADAPTER_INFO *)realloc(adapterP, size);
-        if (newAdapterP == NULL) {
-            free(adapterP);
+        IP_ADAPTER_INFO *newAdbpterP = (IP_ADAPTER_INFO *)reblloc(bdbpterP, size);
+        if (newAdbpterP == NULL) {
+            free(bdbpterP);
             return STS_ERROR;
         }
-        adapterP = newAdapterP;
+        bdbpterP = newAdbpterP;
 
-        ret = GetAdaptersInfo(adapterP, &size);
+        ret = GetAdbptersInfo(bdbpterP, &size);
     }
 
     /*
-     * Iterate through the list of adapters as registry settings are
-     * keyed on the adapter name (GUID).
+     * Iterbte through the list of bdbpters bs registry settings bre
+     * keyed on the bdbpter nbme (GUID).
      */
     if (ret == ERROR_SUCCESS) {
-        IP_ADAPTER_INFO *curr = adapterP;
+        IP_ADAPTER_INFO *curr = bdbpterP;
         while (curr != NULL) {
-            char key[MAX_STR_LEN];
+            chbr key[MAX_STR_LEN];
 
             sprintf(key,
-                "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\\Interfaces\\%s",
-                curr->AdapterName);
+                "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Pbrbmeters\\Interfbces\\%s",
+                curr->AdbpterNbme);
 
             ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
                                key,
@@ -157,55 +157,55 @@ static int loadConfig(char *sl, char *ns) {
                                KEY_READ,
                                (PHKEY)&hKey);
             if (ret == ERROR_SUCCESS) {
-                DWORD enableDhcp = 0;
+                DWORD enbbleDhcp = 0;
 
                 /*
-                 * Is DHCP enabled on this interface
+                 * Is DHCP enbbled on this interfbce
                  */
-                dwLen = sizeof(enableDhcp);
-                ret = RegQueryValueEx(hKey, "EnableDhcp", NULL, &ulType,
-                                     (LPBYTE)&enableDhcp, &dwLen);
+                dwLen = sizeof(enbbleDhcp);
+                ret = RegQueryVblueEx(hKey, "EnbbleDhcp", NULL, &ulType,
+                                     (LPBYTE)&enbbleDhcp, &dwLen);
 
                 /*
-                 * If we don't have the suffix list when get the Domain
-                 * or DhcpDomain. If DHCP is enabled then Domain overides
-                 * DhcpDomain
+                 * If we don't hbve the suffix list when get the Dombin
+                 * or DhcpDombin. If DHCP is enbbled then Dombin overides
+                 * DhcpDombin
                  */
-                if (!gotSearchList) {
+                if (!gotSebrchList) {
                     result[0] = '\0';
                     dwLen = sizeof(result);
-                    ret = RegQueryValueEx(hKey, "Domain", NULL, &ulType,
+                    ret = RegQueryVblueEx(hKey, "Dombin", NULL, &ulType,
                                          (LPBYTE)&result, &dwLen);
                     if (((ret != ERROR_SUCCESS) || (strlen(result) == 0)) &&
-                        enableDhcp) {
+                        enbbleDhcp) {
                         dwLen = sizeof(result);
-                        ret = RegQueryValueEx(hKey, "DhcpDomain", NULL, &ulType,
+                        ret = RegQueryVblueEx(hKey, "DhcpDombin", NULL, &ulType,
                                               (LPBYTE)&result, &dwLen);
                     }
                     if (ret == ERROR_SUCCESS) {
-                        assert(ulType == REG_SZ);
-                        strappend(sl, result);
+                        bssert(ulType == REG_SZ);
+                        strbppend(sl, result);
                     }
                 }
 
                 /*
-                 * Get DNS servers based on NameServer or DhcpNameServer
-                 * registry setting. If NameServer is set then it overrides
-                 * DhcpNameServer (even if DHCP is enabled).
+                 * Get DNS servers bbsed on NbmeServer or DhcpNbmeServer
+                 * registry setting. If NbmeServer is set then it overrides
+                 * DhcpNbmeServer (even if DHCP is enbbled).
                  */
                 result[0] = '\0';
                 dwLen = sizeof(result);
-                ret = RegQueryValueEx(hKey, "NameServer", NULL, &ulType,
+                ret = RegQueryVblueEx(hKey, "NbmeServer", NULL, &ulType,
                                      (LPBYTE)&result, &dwLen);
                 if (((ret != ERROR_SUCCESS) || (strlen(result) == 0)) &&
-                    enableDhcp) {
+                    enbbleDhcp) {
                     dwLen = sizeof(result);
-                    ret = RegQueryValueEx(hKey, "DhcpNameServer", NULL, &ulType,
+                    ret = RegQueryVblueEx(hKey, "DhcpNbmeServer", NULL, &ulType,
                                           (LPBYTE)&result, &dwLen);
                 }
                 if (ret == ERROR_SUCCESS) {
-                    assert(ulType == REG_SZ);
-                    strappend(ns, result);
+                    bssert(ulType == REG_SZ);
+                    strbppend(ns, result);
                 }
 
                 /*
@@ -215,17 +215,17 @@ static int loadConfig(char *sl, char *ns) {
             }
 
             /*
-             * Onto the next adapeter
+             * Onto the next bdbpeter
              */
             curr = curr->Next;
         }
     }
 
     /*
-     * Free the adpater structure
+     * Free the bdpbter structure
      */
-    if (adapterP) {
-        free(adapterP);
+    if (bdbpterP) {
+        free(bdbpterP);
     }
 
     return STS_SL_FOUND & STS_NS_FOUND;
@@ -233,69 +233,69 @@ static int loadConfig(char *sl, char *ns) {
 
 
 /*
- * Initialize JNI field IDs.
+ * Initiblize JNI field IDs.
  */
 JNIEXPORT void JNICALL
-Java_sun_net_dns_ResolverConfigurationImpl_init0(JNIEnv *env, jclass cls)
+Jbvb_sun_net_dns_ResolverConfigurbtionImpl_init0(JNIEnv *env, jclbss cls)
 {
-    searchlistID = (*env)->GetStaticFieldID(env, cls, "os_searchlist",
-                                      "Ljava/lang/String;");
-    CHECK_NULL(searchlistID);
-    nameserversID = (*env)->GetStaticFieldID(env, cls, "os_nameservers",
-                                      "Ljava/lang/String;");
+    sebrchlistID = (*env)->GetStbticFieldID(env, cls, "os_sebrchlist",
+                                      "Ljbvb/lbng/String;");
+    CHECK_NULL(sebrchlistID);
+    nbmeserversID = (*env)->GetStbticFieldID(env, cls, "os_nbmeservers",
+                                      "Ljbvb/lbng/String;");
 }
 
 /*
- * Class:     sun_net_dns_ResolverConfgurationImpl
- * Method:    loadConfig0
- * Signature: ()V
+ * Clbss:     sun_net_dns_ResolverConfgurbtionImpl
+ * Method:    lobdConfig0
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_net_dns_ResolverConfigurationImpl_loadDNSconfig0(JNIEnv *env, jclass cls)
+Jbvb_sun_net_dns_ResolverConfigurbtionImpl_lobdDNSconfig0(JNIEnv *env, jclbss cls)
 {
-    char searchlist[MAX_STR_LEN];
-    char nameservers[MAX_STR_LEN];
+    chbr sebrchlist[MAX_STR_LEN];
+    chbr nbmeservers[MAX_STR_LEN];
     jstring obj;
 
-    searchlist[0] = '\0';
-    nameservers[0] = '\0';
+    sebrchlist[0] = '\0';
+    nbmeservers[0] = '\0';
 
-    if (loadConfig(searchlist, nameservers) != STS_ERROR) {
+    if (lobdConfig(sebrchlist, nbmeservers) != STS_ERROR) {
 
         /*
-         * Populate static fields in sun.net.DefaultResolverConfiguration
+         * Populbte stbtic fields in sun.net.DefbultResolverConfigurbtion
          */
-        obj = (*env)->NewStringUTF(env, searchlist);
+        obj = (*env)->NewStringUTF(env, sebrchlist);
         CHECK_NULL(obj);
-        (*env)->SetStaticObjectField(env, cls, searchlistID, obj);
+        (*env)->SetStbticObjectField(env, cls, sebrchlistID, obj);
 
-        obj = (*env)->NewStringUTF(env, nameservers);
+        obj = (*env)->NewStringUTF(env, nbmeservers);
         CHECK_NULL(obj);
-        (*env)->SetStaticObjectField(env, cls, nameserversID, obj);
+        (*env)->SetStbticObjectField(env, cls, nbmeserversID, obj);
     } else {
-        JNU_ThrowOutOfMemoryError(env, "native memory allocation failed");
+        JNU_ThrowOutOfMemoryError(env, "nbtive memory bllocbtion fbiled");
     }
 }
 
 
 /*
- * Class:     sun_net_dns_ResolverConfgurationImpl
- * Method:    notifyAddrChange0
- * Signature: ()I
+ * Clbss:     sun_net_dns_ResolverConfgurbtionImpl
+ * Method:    notifyAddrChbnge0
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_net_dns_ResolverConfigurationImpl_notifyAddrChange0(JNIEnv *env, jclass cls)
+Jbvb_sun_net_dns_ResolverConfigurbtionImpl_notifyAddrChbnge0(JNIEnv *env, jclbss cls)
 {
     OVERLAPPED ol;
     HANDLE h;
     DWORD rc, xfer;
 
     ol.hEvent = (HANDLE)0;
-    rc = NotifyAddrChange(&h, &ol);
+    rc = NotifyAddrChbnge(&h, &ol);
     if (rc == ERROR_IO_PENDING) {
-        rc = GetOverlappedResult(h, &ol, &xfer, TRUE);
+        rc = GetOverlbppedResult(h, &ol, &xfer, TRUE);
         if (rc != 0) {
-            return 0;   /* address changed */
+            return 0;   /* bddress chbnged */
         }
     }
 

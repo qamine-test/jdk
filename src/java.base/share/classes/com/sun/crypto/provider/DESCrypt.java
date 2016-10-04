@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.InvalidKeyException;
+import jbvb.security.InvblidKeyException;
 
 /**
- * This is the internal DES class responsible for encryption and
- * decryption of a byte array of size <code>DES_BLOCK_SIZE</code>.
+ * This is the internbl DES clbss responsible for encryption bnd
+ * decryption of b byte brrby of size <code>DES_BLOCK_SIZE</code>.
  *
- * @author Gigi Ankeny
- * @author Jan Luehe
+ * @buthor Gigi Ankeny
+ * @buthor Jbn Luehe
  *
  *
- * @see DESConstants
+ * @see DESConstbnts
  * @see DESCipher
  */
 
-class DESCrypt extends SymmetricCipher implements DESConstants {
-    private static final int s0p[] = {
+clbss DESCrypt extends SymmetricCipher implements DESConstbnts {
+    privbte stbtic finbl int s0p[] = {
         0x00410100, 0x00010000, 0x40400000, 0x40410100, 0x00400000,
         0x40010100, 0x40010000, 0x40400000, 0x40010100, 0x00410100,
         0x00410000, 0x40000100, 0x40400100, 0x00400000, 0x00000000,
@@ -56,7 +56,7 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         0x40000000, 0x40410000, 0x00000100, 0x40010100,
     };
 
-    private static final int s1p[] = {
+    privbte stbtic finbl int s1p[] = {
         0x08021002, 0x00000000, 0x00021000, 0x08020000, 0x08000002,
         0x00001002, 0x08001000, 0x00021000, 0x00001000, 0x08020002,
         0x00000002, 0x08001000, 0x00020002, 0x08021000, 0x08020000,
@@ -72,7 +72,7 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         0x08001002, 0x00000002, 0x08020000, 0x00021000,
     };
 
-    private static final int s2p[] = {
+    privbte stbtic finbl int s2p[] = {
         0x20800000, 0x00808020, 0x00000020, 0x20800020, 0x20008000,
         0x00800000, 0x20800020, 0x00008020, 0x00800020, 0x00008000,
         0x00808000, 0x20000000, 0x20808020, 0x20000020, 0x20000000,
@@ -88,7 +88,7 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         0x20800000, 0x20008020, 0x00000020, 0x00808000,
     };
 
-    private static final int s3p[] = {
+    privbte stbtic finbl int s3p[] = {
         0x00080201, 0x02000200, 0x00000001, 0x02080201, 0x00000000,
         0x02080000, 0x02000201, 0x00080001, 0x02080200, 0x02000001,
         0x02000000, 0x00000201, 0x02000001, 0x00080201, 0x00080000,
@@ -104,7 +104,7 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         0x00000201, 0x02000000, 0x02000001, 0x02080200,
     };
 
-    private static final int s4p[] = {
+    privbte stbtic finbl int s4p[] = {
         0x01000000, 0x00002000, 0x00000080, 0x01002084, 0x01002004,
         0x01000080, 0x00002084, 0x01002000, 0x00002000, 0x00000004,
         0x01000004, 0x00002080, 0x01000084, 0x01002004, 0x01002080,
@@ -120,7 +120,7 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         0x00000004, 0x00002084, 0x01002000, 0x01000004,
     };
 
-    private static final int s5p[] = {
+    privbte stbtic finbl int s5p[] = {
         0x10000008, 0x00040008, 0x00000000, 0x10040400, 0x00040008,
         0x00000400, 0x10000408, 0x00040000, 0x00000408, 0x10040408,
         0x00040400, 0x10000000, 0x10000400, 0x10000008, 0x10040000,
@@ -136,7 +136,7 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         0x10040000, 0x00000408, 0x00000008, 0x10040008,
     };
 
-    private static final int s6p[] = {
+    privbte stbtic finbl int s6p[] = {
         0x00000800, 0x00000040, 0x00200040, 0x80200000, 0x80200840,
         0x80000800, 0x00000840, 0x00000000, 0x00200000, 0x80200040,
         0x80000040, 0x00200800, 0x80000000, 0x00200840, 0x00200800,
@@ -152,7 +152,7 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         0x80200000, 0x00200840, 0x00200800, 0x80000800,
     };
 
-    private static final int s7p[] = {
+    privbte stbtic finbl int s7p[] = {
         0x04100010, 0x04104000, 0x00004010, 0x00000000, 0x04004000,
         0x00100010, 0x04100000, 0x04104010, 0x00000010, 0x04000000,
         0x00104000, 0x00004010, 0x00104010, 0x04004010, 0x04000010,
@@ -168,112 +168,112 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         0x04000000, 0x04100010, 0x00004000, 0x00104010,
     };
 
-    private static final int permRight0[] = {
+    privbte stbtic finbl int permRight0[] = {
         0x00000000, 0x40000000, 0x00400000, 0x40400000, 0x00004000,
         0x40004000, 0x00404000, 0x40404000, 0x00000040, 0x40000040,
         0x00400040, 0x40400040, 0x00004040, 0x40004040, 0x00404040,
         0x40404040,
     };
 
-    private static final int permLeft1[] = {
+    privbte stbtic finbl int permLeft1[] = {
         0x00000000, 0x40000000, 0x00400000, 0x40400000, 0x00004000,
         0x40004000, 0x00404000, 0x40404000, 0x00000040, 0x40000040,
         0x00400040, 0x40400040, 0x00004040, 0x40004040, 0x00404040,
         0x40404040,
     };
 
-    private static final int permRight2[] = {
+    privbte stbtic finbl int permRight2[] = {
         0x00000000, 0x10000000, 0x00100000, 0x10100000, 0x00001000,
         0x10001000, 0x00101000, 0x10101000, 0x00000010, 0x10000010,
         0x00100010, 0x10100010, 0x00001010, 0x10001010, 0x00101010,
         0x10101010,
     };
 
-    private static final int permLeft3[] = {
+    privbte stbtic finbl int permLeft3[] = {
         0x00000000, 0x10000000, 0x00100000, 0x10100000, 0x00001000,
         0x10001000, 0x00101000, 0x10101000, 0x00000010, 0x10000010,
         0x00100010, 0x10100010, 0x00001010, 0x10001010, 0x00101010,
         0x10101010,
     };
 
-    private static final int permRight4[] = {
+    privbte stbtic finbl int permRight4[] = {
         0x00000000, 0x04000000, 0x00040000, 0x04040000, 0x00000400,
         0x04000400, 0x00040400, 0x04040400, 0x00000004, 0x04000004,
         0x00040004, 0x04040004, 0x00000404, 0x04000404, 0x00040404,
         0x04040404,
     };
 
-    private static final int permLeft5[] = {
+    privbte stbtic finbl int permLeft5[] = {
         0x00000000, 0x04000000, 0x00040000, 0x04040000, 0x00000400,
         0x04000400, 0x00040400, 0x04040400, 0x00000004, 0x04000004,
         0x00040004, 0x04040004, 0x00000404, 0x04000404, 0x00040404,
         0x04040404,
     };
 
-    private static final int permRight6[] = {
+    privbte stbtic finbl int permRight6[] = {
         0x00000000, 0x01000000, 0x00010000, 0x01010000, 0x00000100,
         0x01000100, 0x00010100, 0x01010100, 0x00000001, 0x01000001,
         0x00010001, 0x01010001, 0x00000101, 0x01000101, 0x00010101,
         0x01010101,
     };
 
-    private static final int permLeft7[] = {
+    privbte stbtic finbl int permLeft7[] = {
         0x00000000, 0x01000000, 0x00010000, 0x01010000, 0x00000100,
         0x01000100, 0x00010100, 0x01010100, 0x00000001, 0x01000001,
         0x00010001, 0x01010001, 0x00000101, 0x01000101, 0x00010101,
         0x01010101,
     };
 
-    private static final int permRight8[] = {
+    privbte stbtic finbl int permRight8[] = {
         0x00000000, 0x80000000, 0x00800000, 0x80800000, 0x00008000,
         0x80008000, 0x00808000, 0x80808000, 0x00000080, 0x80000080,
         0x00800080, 0x80800080, 0x00008080, 0x80008080, 0x00808080,
         0x80808080,
     };
 
-    private static final int permLeft9[] = {
+    privbte stbtic finbl int permLeft9[] = {
         0x00000000, 0x80000000, 0x00800000, 0x80800000, 0x00008000,
         0x80008000, 0x00808000, 0x80808000, 0x00000080, 0x80000080,
         0x00800080, 0x80800080, 0x00008080, 0x80008080, 0x00808080,
         0x80808080,
     };
 
-    private static final int permRightA[] = {
+    privbte stbtic finbl int permRightA[] = {
         0x00000000, 0x20000000, 0x00200000, 0x20200000, 0x00002000,
         0x20002000, 0x00202000, 0x20202000, 0x00000020, 0x20000020,
         0x00200020, 0x20200020, 0x00002020, 0x20002020, 0x00202020,
         0x20202020,
     };
 
-    private static final int permLeftB[] = {
+    privbte stbtic finbl int permLeftB[] = {
         0x00000000, 0x20000000, 0x00200000, 0x20200000, 0x00002000,
         0x20002000, 0x00202000, 0x20202000, 0x00000020, 0x20000020,
         0x00200020, 0x20200020, 0x00002020, 0x20002020, 0x00202020,
         0x20202020,
     };
 
-    private static final int permRightC[] = {
+    privbte stbtic finbl int permRightC[] = {
         0x00000000, 0x08000000, 0x00080000, 0x08080000, 0x00000800,
         0x08000800, 0x00080800, 0x08080800, 0x00000008, 0x08000008,
         0x00080008, 0x08080008, 0x00000808, 0x08000808, 0x00080808,
         0x08080808,
     };
 
-    private static final int permLeftD[] = {
+    privbte stbtic finbl int permLeftD[] = {
         0x00000000, 0x08000000, 0x00080000, 0x08080000, 0x00000800,
         0x08000800, 0x00080800, 0x08080800, 0x00000008, 0x08000008,
         0x00080008, 0x08080008, 0x00000808, 0x08000808, 0x00080808,
         0x08080808,
     };
 
-    private static final int permRightE[] = {
+    privbte stbtic finbl int permRightE[] = {
         0x00000000, 0x02000000, 0x00020000, 0x02020000, 0x00000200,
         0x02000200, 0x00020200, 0x02020200, 0x00000002, 0x02000002,
         0x00020002, 0x02020002, 0x00000202, 0x02000202, 0x00020202,
         0x02020202,
     };
 
-    private static final int permLeftF[] = {
+    privbte stbtic finbl int permLeftF[] = {
         0x00000000, 0x02000000, 0x00020000, 0x02020000, 0x00000200,
         0x02000200, 0x00020200, 0x02020200, 0x00000002, 0x02000002,
         0x00020002, 0x02020002, 0x00000202, 0x02000202, 0x00020202,
@@ -281,226 +281,226 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
     };
 
     /*
-     *        Initial Permutation
+     *        Initibl Permutbtion
      */
-    private static final int initPermLeft0[] = {
+    privbte stbtic finbl int initPermLeft0[] = {
        0x00000000, 0x00008000, 0x00000000, 0x00008000, 0x00000080,
        0x00008080, 0x00000080, 0x00008080, 0x00000000, 0x00008000,
        0x00000000, 0x00008000, 0x00000080, 0x00008080, 0x00000080,
        0x00008080,
     };
 
-    private static final int initPermRight0[] = {
+    privbte stbtic finbl int initPermRight0[] = {
        0x00000000, 0x00000000, 0x00008000, 0x00008000, 0x00000000,
        0x00000000, 0x00008000, 0x00008000, 0x00000080, 0x00000080,
        0x00008080, 0x00008080, 0x00000080, 0x00000080, 0x00008080,
        0x00008080,
     };
 
-    private static final int initPermLeft1[] = {
+    privbte stbtic finbl int initPermLeft1[] = {
        0x00000000, 0x80000000, 0x00000000, 0x80000000, 0x00800000,
        0x80800000, 0x00800000, 0x80800000, 0x00000000, 0x80000000,
        0x00000000, 0x80000000, 0x00800000, 0x80800000, 0x00800000,
        0x80800000,
     };
 
-    private static final int initPermRight1[] = {
+    privbte stbtic finbl int initPermRight1[] = {
        0x00000000, 0x00000000, 0x80000000, 0x80000000, 0x00000000,
        0x00000000, 0x80000000, 0x80000000, 0x00800000, 0x00800000,
        0x80800000, 0x80800000, 0x00800000, 0x00800000, 0x80800000,
        0x80800000,
     };
 
-    private static final int initPermLeft2[] = {
+    privbte stbtic finbl int initPermLeft2[] = {
        0x00000000, 0x00004000, 0x00000000, 0x00004000, 0x00000040,
        0x00004040, 0x00000040, 0x00004040, 0x00000000, 0x00004000,
        0x00000000, 0x00004000, 0x00000040, 0x00004040, 0x00000040,
        0x00004040,
     };
 
-    private static final int initPermRight2[] = {
+    privbte stbtic finbl int initPermRight2[] = {
        0x00000000, 0x00000000, 0x00004000, 0x00004000, 0x00000000,
        0x00000000, 0x00004000, 0x00004000, 0x00000040, 0x00000040,
        0x00004040, 0x00004040, 0x00000040, 0x00000040, 0x00004040,
        0x00004040,
     };
 
-    private static final int initPermLeft3[] = {
+    privbte stbtic finbl int initPermLeft3[] = {
        0x00000000, 0x40000000, 0x00000000, 0x40000000, 0x00400000,
        0x40400000, 0x00400000, 0x40400000, 0x00000000, 0x40000000,
        0x00000000, 0x40000000, 0x00400000, 0x40400000, 0x00400000,
        0x40400000,
     };
 
-    private static final int initPermRight3[] = {
+    privbte stbtic finbl int initPermRight3[] = {
        0x00000000, 0x00000000, 0x40000000, 0x40000000, 0x00000000,
        0x00000000, 0x40000000, 0x40000000, 0x00400000, 0x00400000,
        0x40400000, 0x40400000, 0x00400000, 0x00400000, 0x40400000,
        0x40400000,
     };
 
-    private static final int initPermLeft4[] = {
+    privbte stbtic finbl int initPermLeft4[] = {
        0x00000000, 0x00002000, 0x00000000, 0x00002000, 0x00000020,
        0x00002020, 0x00000020, 0x00002020, 0x00000000, 0x00002000,
        0x00000000, 0x00002000, 0x00000020, 0x00002020, 0x00000020,
        0x00002020,
     };
 
-    private static final int initPermRight4[] = {
+    privbte stbtic finbl int initPermRight4[] = {
        0x00000000, 0x00000000, 0x00002000, 0x00002000, 0x00000000,
        0x00000000, 0x00002000, 0x00002000, 0x00000020, 0x00000020,
        0x00002020, 0x00002020, 0x00000020, 0x00000020, 0x00002020,
        0x00002020,
     };
 
-    private static final int initPermLeft5[] = {
+    privbte stbtic finbl int initPermLeft5[] = {
        0x00000000, 0x20000000, 0x00000000, 0x20000000, 0x00200000,
        0x20200000, 0x00200000, 0x20200000, 0x00000000, 0x20000000,
        0x00000000, 0x20000000, 0x00200000, 0x20200000, 0x00200000,
        0x20200000,
     };
 
-    private static final int initPermRight5[] = {
+    privbte stbtic finbl int initPermRight5[] = {
        0x00000000, 0x00000000, 0x20000000, 0x20000000, 0x00000000,
        0x00000000, 0x20000000, 0x20000000, 0x00200000, 0x00200000,
        0x20200000, 0x20200000, 0x00200000, 0x00200000, 0x20200000,
        0x20200000,
     };
 
-    private static final int initPermLeft6[] = {
+    privbte stbtic finbl int initPermLeft6[] = {
        0x00000000, 0x00001000, 0x00000000, 0x00001000, 0x00000010,
        0x00001010, 0x00000010, 0x00001010, 0x00000000, 0x00001000,
        0x00000000, 0x00001000, 0x00000010, 0x00001010, 0x00000010,
        0x00001010,
     };
 
-    private static final int initPermRight6[] = {
+    privbte stbtic finbl int initPermRight6[] = {
        0x00000000, 0x00000000, 0x00001000, 0x00001000, 0x00000000,
        0x00000000, 0x00001000, 0x00001000, 0x00000010, 0x00000010,
        0x00001010, 0x00001010, 0x00000010, 0x00000010, 0x00001010,
        0x00001010,
     };
 
-    private static final int initPermLeft7[] = {
+    privbte stbtic finbl int initPermLeft7[] = {
        0x00000000, 0x10000000, 0x00000000, 0x10000000, 0x00100000,
        0x10100000, 0x00100000, 0x10100000, 0x00000000, 0x10000000,
        0x00000000, 0x10000000, 0x00100000, 0x10100000, 0x00100000,
        0x10100000,
     };
 
-    private static final int initPermRight7[] = {
+    privbte stbtic finbl int initPermRight7[] = {
        0x00000000, 0x00000000, 0x10000000, 0x10000000, 0x00000000,
        0x00000000, 0x10000000, 0x10000000, 0x00100000, 0x00100000,
        0x10100000, 0x10100000, 0x00100000, 0x00100000, 0x10100000,
        0x10100000,
     };
 
-    private static final int initPermLeft8[] = {
+    privbte stbtic finbl int initPermLeft8[] = {
        0x00000000, 0x00000800, 0x00000000, 0x00000800, 0x00000008,
        0x00000808, 0x00000008, 0x00000808, 0x00000000, 0x00000800,
        0x00000000, 0x00000800, 0x00000008, 0x00000808, 0x00000008,
        0x00000808,
     };
 
-    private static final int initPermRight8[] = {
+    privbte stbtic finbl int initPermRight8[] = {
        0x00000000, 0x00000000, 0x00000800, 0x00000800, 0x00000000,
        0x00000000, 0x00000800, 0x00000800, 0x00000008, 0x00000008,
        0x00000808, 0x00000808, 0x00000008, 0x00000008, 0x00000808,
        0x00000808,
     };
 
-    private static final int initPermLeft9[] = {
+    privbte stbtic finbl int initPermLeft9[] = {
        0x00000000, 0x08000000, 0x00000000, 0x08000000, 0x00080000,
        0x08080000, 0x00080000, 0x08080000, 0x00000000, 0x08000000,
        0x00000000, 0x08000000, 0x00080000, 0x08080000, 0x00080000,
        0x08080000,
     };
 
-    private static final int initPermRight9[] = {
+    privbte stbtic finbl int initPermRight9[] = {
        0x00000000, 0x00000000, 0x08000000, 0x08000000, 0x00000000,
        0x00000000, 0x08000000, 0x08000000, 0x00080000, 0x00080000,
        0x08080000, 0x08080000, 0x00080000, 0x00080000, 0x08080000,
        0x08080000,
     };
 
-    private static final int initPermLeftA[] = {
+    privbte stbtic finbl int initPermLeftA[] = {
        0x00000000, 0x00000400, 0x00000000, 0x00000400, 0x00000004,
        0x00000404, 0x00000004, 0x00000404, 0x00000000, 0x00000400,
        0x00000000, 0x00000400, 0x00000004, 0x00000404, 0x00000004,
        0x00000404,
     };
 
-    private static final int initPermRightA[] = {
+    privbte stbtic finbl int initPermRightA[] = {
        0x00000000, 0x00000000, 0x00000400, 0x00000400, 0x00000000,
        0x00000000, 0x00000400, 0x00000400, 0x00000004, 0x00000004,
        0x00000404, 0x00000404, 0x00000004, 0x00000004, 0x00000404,
        0x00000404,
     };
 
-    private static final int initPermLeftB[] = {
+    privbte stbtic finbl int initPermLeftB[] = {
        0x00000000, 0x04000000, 0x00000000, 0x04000000, 0x00040000,
        0x04040000, 0x00040000, 0x04040000, 0x00000000, 0x04000000,
        0x00000000, 0x04000000, 0x00040000, 0x04040000, 0x00040000,
        0x04040000,
     };
 
-    private static final int initPermRightB[] = {
+    privbte stbtic finbl int initPermRightB[] = {
        0x00000000, 0x00000000, 0x04000000, 0x04000000, 0x00000000,
        0x00000000, 0x04000000, 0x04000000, 0x00040000, 0x00040000,
        0x04040000, 0x04040000, 0x00040000, 0x00040000, 0x04040000,
        0x04040000,
     };
 
-    private static final int initPermLeftC[] = {
+    privbte stbtic finbl int initPermLeftC[] = {
        0x00000000, 0x00000200, 0x00000000, 0x00000200, 0x00000002,
        0x00000202, 0x00000002, 0x00000202, 0x00000000, 0x00000200,
        0x00000000, 0x00000200, 0x00000002, 0x00000202, 0x00000002,
        0x00000202,
     };
 
-    private static final int initPermRightC[] = {
+    privbte stbtic finbl int initPermRightC[] = {
        0x00000000, 0x00000000, 0x00000200, 0x00000200, 0x00000000,
        0x00000000, 0x00000200, 0x00000200, 0x00000002, 0x00000002,
        0x00000202, 0x00000202, 0x00000002, 0x00000002, 0x00000202,
        0x00000202,
     };
 
-    private static final int initPermLeftD[] = {
+    privbte stbtic finbl int initPermLeftD[] = {
        0x00000000, 0x02000000, 0x00000000, 0x02000000, 0x00020000,
        0x02020000, 0x00020000, 0x02020000, 0x00000000, 0x02000000,
        0x00000000, 0x02000000, 0x00020000, 0x02020000, 0x00020000,
        0x02020000,
     };
 
-    private static final int initPermRightD[] = {
+    privbte stbtic finbl int initPermRightD[] = {
        0x00000000, 0x00000000, 0x02000000, 0x02000000, 0x00000000,
        0x00000000, 0x02000000, 0x02000000, 0x00020000, 0x00020000,
        0x02020000, 0x02020000, 0x00020000, 0x00020000, 0x02020000,
        0x02020000,
     };
 
-    private static final int initPermLeftE[] = {
+    privbte stbtic finbl int initPermLeftE[] = {
        0x00000000, 0x00000100, 0x00000000, 0x00000100, 0x00000001,
        0x00000101, 0x00000001, 0x00000101, 0x00000000, 0x00000100,
        0x00000000, 0x00000100, 0x00000001, 0x00000101, 0x00000001,
        0x00000101,
     };
 
-    private static final int initPermRightE[] = {
+    privbte stbtic finbl int initPermRightE[] = {
        0x00000000, 0x00000000, 0x00000100, 0x00000100, 0x00000000,
        0x00000000, 0x00000100, 0x00000100, 0x00000001, 0x00000001,
        0x00000101, 0x00000101, 0x00000001, 0x00000001, 0x00000101,
        0x00000101,
     };
 
-    private static final int initPermLeftF[] = {
+    privbte stbtic finbl int initPermLeftF[] = {
        0x00000000, 0x01000000, 0x00000000, 0x01000000, 0x00010000,
        0x01010000, 0x00010000, 0x01010000, 0x00000000, 0x01000000,
        0x00000000, 0x01000000, 0x00010000, 0x01010000, 0x00010000,
        0x01010000,
     };
 
-    private static final int initPermRightF[] = {
+    privbte stbtic finbl int initPermRightF[] = {
        0x00000000, 0x00000000, 0x01000000, 0x01000000, 0x00000000,
        0x00000000, 0x01000000, 0x01000000, 0x00010000, 0x00010000,
        0x01010000, 0x01010000, 0x00010000, 0x00010000, 0x01010000,
@@ -508,14 +508,14 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
     };
 
     /*
-     * the encryption key array after expansion and permutation
+     * the encryption key brrby bfter expbnsion bnd permutbtion
      */
-    byte[] expandedKey = null;
+    byte[] expbndedKey = null;
 
     /*
      * Are we encrypting or decrypting?
      */
-    boolean decrypting = false;
+    boolebn decrypting = fblse;
 
     /**
      * Returns this cipher's block size.
@@ -526,70 +526,70 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         return DES_BLOCK_SIZE;
     }
 
-    void init(boolean decrypting, String algorithm, byte[] rawKey)
-            throws InvalidKeyException {
+    void init(boolebn decrypting, String blgorithm, byte[] rbwKey)
+            throws InvblidKeyException {
         this.decrypting = decrypting;
-        if (!algorithm.equalsIgnoreCase("DES")) {
-            throw new InvalidKeyException("Wrong algorithm: DES required");
+        if (!blgorithm.equblsIgnoreCbse("DES")) {
+            throw new InvblidKeyException("Wrong blgorithm: DES required");
         }
-        if (rawKey.length != DES_BLOCK_SIZE) {
-            throw new InvalidKeyException("Wrong key size");
+        if (rbwKey.length != DES_BLOCK_SIZE) {
+            throw new InvblidKeyException("Wrong key size");
         }
-        expandKey(rawKey);
+        expbndKey(rbwKey);
     }
 
     /**
-     * Performs encryption operation.
+     * Performs encryption operbtion.
      *
-     * <p>The input plain text <code>plain</code>, starting at
-     * <code>plainOffset</code> and ending at
-     * <code>(plainOffset + len - 1)</code>, is encrypted.
-     * The result is stored in <code>cipher</code>, starting at
+     * <p>The input plbin text <code>plbin</code>, stbrting bt
+     * <code>plbinOffset</code> bnd ending bt
+     * <code>(plbinOffset + len - 1)</code>, is encrypted.
+     * The result is stored in <code>cipher</code>, stbrting bt
      * <code>cipherOffset</code>.
      *
-     * <p>The subclass that implements Cipher should ensure that
-     * <code>init</code> has been called before this method is called.
+     * <p>The subclbss thbt implements Cipher should ensure thbt
+     * <code>init</code> hbs been cblled before this method is cblled.
      *
-     * @param plain the buffer with the input data to be encrypted
-     * @param plainOffset the offset in <code>plain</code>
-     * @param plainLen the length of the input data
-     * @param cipher the buffer for the result
-     * @param cipherOffset the offset in <code>cipher</code>
+     * @pbrbm plbin the buffer with the input dbtb to be encrypted
+     * @pbrbm plbinOffset the offset in <code>plbin</code>
+     * @pbrbm plbinLen the length of the input dbtb
+     * @pbrbm cipher the buffer for the result
+     * @pbrbm cipherOffset the offset in <code>cipher</code>
      *
-     * @exception IllegalBlockSizeException if the input length is different
+     * @exception IllegblBlockSizeException if the input length is different
      * from the cipher's block size
      */
-    void encryptBlock(byte[] plain, int plainOffset,
+    void encryptBlock(byte[] plbin, int plbinOffset,
                  byte[] cipher, int cipherOffset)
     {
-        cipherBlock(plain, plainOffset, cipher, cipherOffset);
+        cipherBlock(plbin, plbinOffset, cipher, cipherOffset);
     }
 
     /**
-     * Performs decryption operation.
+     * Performs decryption operbtion.
      *
-     * <p>The input cipher text <code>cipher</code>, starting at
-     * <code>cipherOffset</code> and ending at
+     * <p>The input cipher text <code>cipher</code>, stbrting bt
+     * <code>cipherOffset</code> bnd ending bt
      * <code>(cipherOffset + len - 1)</code>, is decrypted.
-     * The result is stored in <code>plain</code>, starting at
-     * <code>plainOffset</code>.
+     * The result is stored in <code>plbin</code>, stbrting bt
+     * <code>plbinOffset</code>.
      *
-     * <p>The subclass that implements Cipher should ensure that
-     * <code>init</code> has been called before this method is called.
+     * <p>The subclbss thbt implements Cipher should ensure thbt
+     * <code>init</code> hbs been cblled before this method is cblled.
      *
-     * @param cipher the buffer with the input data to be decrypted
-     * @param cipherOffset the offset in <code>cipherOffset</code>
-     * @param cipherLen the length of the input data
-     * @param plain the buffer for the result
-     * @param plainOffset the offset in <code>plain</code>
+     * @pbrbm cipher the buffer with the input dbtb to be decrypted
+     * @pbrbm cipherOffset the offset in <code>cipherOffset</code>
+     * @pbrbm cipherLen the length of the input dbtb
+     * @pbrbm plbin the buffer for the result
+     * @pbrbm plbinOffset the offset in <code>plbin</code>
      *
-     * @exception IllegalBlockSizeException if the input length is different
+     * @exception IllegblBlockSizeException if the input length is different
      * from the cipher's block size
      */
     void decryptBlock(byte[] cipher, int cipherOffset,
-                 byte[] plain, int plainOffset)
+                 byte[] plbin, int plbinOffset)
     {
-        cipherBlock(cipher, cipherOffset, plain, plainOffset);
+        cipherBlock(cipher, cipherOffset, plbin, plbinOffset);
     }
 
 
@@ -600,10 +600,10 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         int offset;
         int left, right;
 
-        left = initialPermutationLeft(in, inOffset);
-        right = initialPermutationRight(in, inOffset);
+        left = initiblPermutbtionLeft(in, inOffset);
+        right = initiblPermutbtionRight(in, inOffset);
 
-        key = expandedKey;
+        key = expbndedKey;
 
         if (decrypting) {
             offset = 16 - DES_BLOCK_SIZE;
@@ -615,11 +615,11 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         }
 
         for (i = 0; i < 16; i++) {
-            // make the first and last bit adjacent
-            // move the first bit to the last
+            // mbke the first bnd lbst bit bdjbcent
+            // move the first bit to the lbst
             temp = (right << 1) | ((right >> 31) & 1);
 
-            // mangler function:
+            // mbngler function:
             // every 6 bit is fed into the sbox, which
             // produces 4-bit output
             left ^= s0p[(temp & 0x3f) ^ key[j+0]]
@@ -630,7 +630,7 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
                 ^ s5p[((temp >> 20) & 0x3f) ^ key[j+5]]
                 ^ s6p[((temp >> 24) & 0x3f) ^ key[j+6]];
 
-            // make the last sbox input the last bit from right[0]
+            // mbke the lbst sbox input the lbst bit from right[0]
             temp = ((right & 1) << 5) | ((right >> 27) & 0x1f);
             left ^= s7p[temp ^ key[j+7]];
             temp = left;
@@ -645,7 +645,7 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         perm(left, right, out, outOffset);
     }
 
-    private static void perm(int left, int right,
+    privbte stbtic void perm(int left, int right,
                              byte out[], int offset) {
         int low, high, temp;
 
@@ -695,7 +695,7 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
 
     }
 
-    private static int initialPermutationLeft(byte block[], int offset) {
+    privbte stbtic int initiblPermutbtionLeft(byte block[], int offset) {
         int l;
 
         l  = initPermLeft1[block[offset] & 0xf];
@@ -717,7 +717,7 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         return l;
     }
 
-    private static int initialPermutationRight(byte block[], int offset) {
+    privbte stbtic int initiblPermutbtionRight(byte block[], int offset) {
         int l;
 
         l  = initPermRight1[block[offset] & 0xf];
@@ -739,7 +739,7 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
         return l;
     }
 
-    void expandKey(byte key[]) {
+    void expbndKey(byte key[]) {
         int octet;
         byte ek[] = new byte[128];
 
@@ -1140,6 +1140,6 @@ class DESCrypt extends SymmetricCipher implements DESConstants {
             ek[117] |=  1; ek[127] |= 16;
         }
 
-        expandedKey = ek;
+        expbndedKey = ek;
     }
 }

@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 // SAX input source.
-// http://www.saxproject.org
-// No warranty; no copyright -- use this as you will.
-// $Id: InputSource.java,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
+// http://www.sbxproject.org
+// No wbrrbnty; no copyright -- use this bs you will.
+// $Id: InputSource.jbvb,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbckbge jdk.internbl.org.xml.sbx;
 
-import java.io.Reader;
-import java.io.InputStream;
+import jbvb.io.Rebder;
+import jbvb.io.InputStrebm;
 
 /**
- * A single input source for an XML entity.
+ * A single input source for bn XML entity.
  *
  * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
+ * <em>This module, both source code bnd documentbtion, is in the
+ * Public Dombin, bnd comes with <strong>NO WARRANTY</strong>.</em>
+ * See <b href='http://www.sbxproject.org'>http://www.sbxproject.org</b>
+ * for further informbtion.
  * </blockquote>
  *
- * <p>This class allows a SAX application to encapsulate information
- * about an input source in a single object, which may include
- * a public identifier, a system identifier, a byte stream (possibly
- * with a specified encoding), and/or a character stream.</p>
+ * <p>This clbss bllows b SAX bpplicbtion to encbpsulbte informbtion
+ * bbout bn input source in b single object, which mby include
+ * b public identifier, b system identifier, b byte strebm (possibly
+ * with b specified encoding), bnd/or b chbrbcter strebm.</p>
  *
- * <p>There are two places that the application can deliver an
- * input source to the parser: as the argument to the Parser.parse
- * method, or as the return value of the EntityResolver.resolveEntity
+ * <p>There bre two plbces thbt the bpplicbtion cbn deliver bn
+ * input source to the pbrser: bs the brgument to the Pbrser.pbrse
+ * method, or bs the return vblue of the EntityResolver.resolveEntity
  * method.</p>
  *
- * <p>The SAX parser will use the InputSource object to determine how
- * to read XML input.  If there is a character stream available, the
- * parser will read that stream directly, disregarding any text
- * encoding declaration found in that stream.
- * If there is no character stream, but there is
- * a byte stream, the parser will use that byte stream, using the
+ * <p>The SAX pbrser will use the InputSource object to determine how
+ * to rebd XML input.  If there is b chbrbcter strebm bvbilbble, the
+ * pbrser will rebd thbt strebm directly, disregbrding bny text
+ * encoding declbrbtion found in thbt strebm.
+ * If there is no chbrbcter strebm, but there is
+ * b byte strebm, the pbrser will use thbt byte strebm, using the
  * encoding specified in the InputSource or else (if no encoding is
- * specified) autodetecting the character encoding using an algorithm
- * such as the one in the XML specification.  If neither a character
- * stream nor a
- * byte stream is available, the parser will attempt to open a URI
+ * specified) butodetecting the chbrbcter encoding using bn blgorithm
+ * such bs the one in the XML specificbtion.  If neither b chbrbcter
+ * strebm nor b
+ * byte strebm is bvbilbble, the pbrser will bttempt to open b URI
  * connection to the resource identified by the system
  * identifier.</p>
  *
- * <p>An InputSource object belongs to the application: the SAX parser
- * shall never modify it in any way (it may modify a copy if
- * necessary).  However, standard processing of both byte and
- * character streams is to close them on as part of end-of-parse cleanup,
- * so applications should not attempt to re-use such streams after they
- * have been handed to a parser.  </p>
+ * <p>An InputSource object belongs to the bpplicbtion: the SAX pbrser
+ * shbll never modify it in bny wby (it mby modify b copy if
+ * necessbry).  However, stbndbrd processing of both byte bnd
+ * chbrbcter strebms is to close them on bs pbrt of end-of-pbrse clebnup,
+ * so bpplicbtions should not bttempt to re-use such strebms bfter they
+ * hbve been hbnded to b pbrser.  </p>
  *
  * @since SAX 1.0
- * @author David Megginson
- * @see org.xml.sax.XMLReader#parse(org.xml.sax.InputSource)
- * @see org.xml.sax.EntityResolver#resolveEntity
- * @see java.io.InputStream
- * @see java.io.Reader
+ * @buthor Dbvid Megginson
+ * @see org.xml.sbx.XMLRebder#pbrse(org.xml.sbx.InputSource)
+ * @see org.xml.sbx.EntityResolver#resolveEntity
+ * @see jbvb.io.InputStrebm
+ * @see jbvb.io.Rebder
  */
-public class InputSource {
+public clbss InputSource {
 
     /**
-     * Zero-argument default constructor.
+     * Zero-brgument defbult constructor.
      *
      * @see #setPublicId
      * @see #setSystemId
-     * @see #setByteStream
-     * @see #setCharacterStream
+     * @see #setByteStrebm
+     * @see #setChbrbcterStrebm
      * @see #setEncoding
      */
     public InputSource ()
@@ -98,21 +98,21 @@ public class InputSource {
 
 
     /**
-     * Create a new input source with a system identifier.
+     * Crebte b new input source with b system identifier.
      *
-     * <p>Applications may use setPublicId to include a
-     * public identifier as well, or setEncoding to specify
-     * the character encoding, if known.</p>
+     * <p>Applicbtions mby use setPublicId to include b
+     * public identifier bs well, or setEncoding to specify
+     * the chbrbcter encoding, if known.</p>
      *
-     * <p>If the system identifier is a URL, it must be fully
-     * resolved (it may not be a relative URL).</p>
+     * <p>If the system identifier is b URL, it must be fully
+     * resolved (it mby not be b relbtive URL).</p>
      *
-     * @param systemId The system identifier (URI).
+     * @pbrbm systemId The system identifier (URI).
      * @see #setPublicId
      * @see #setSystemId
-     * @see #setByteStream
+     * @see #setByteStrebm
      * @see #setEncoding
-     * @see #setCharacterStream
+     * @see #setChbrbcterStrebm
      */
     public InputSource (String systemId)
     {
@@ -121,57 +121,57 @@ public class InputSource {
 
 
     /**
-     * Create a new input source with a byte stream.
+     * Crebte b new input source with b byte strebm.
      *
-     * <p>Application writers should use setSystemId() to provide a base
-     * for resolving relative URIs, may use setPublicId to include a
-     * public identifier, and may use setEncoding to specify the object's
-     * character encoding.</p>
+     * <p>Applicbtion writers should use setSystemId() to provide b bbse
+     * for resolving relbtive URIs, mby use setPublicId to include b
+     * public identifier, bnd mby use setEncoding to specify the object's
+     * chbrbcter encoding.</p>
      *
-     * @param byteStream The raw byte stream containing the document.
+     * @pbrbm byteStrebm The rbw byte strebm contbining the document.
      * @see #setPublicId
      * @see #setSystemId
      * @see #setEncoding
-     * @see #setByteStream
-     * @see #setCharacterStream
+     * @see #setByteStrebm
+     * @see #setChbrbcterStrebm
      */
-    public InputSource (InputStream byteStream)
+    public InputSource (InputStrebm byteStrebm)
     {
-        setByteStream(byteStream);
+        setByteStrebm(byteStrebm);
     }
 
 
     /**
-     * Create a new input source with a character stream.
+     * Crebte b new input source with b chbrbcter strebm.
      *
-     * <p>Application writers should use setSystemId() to provide a base
-     * for resolving relative URIs, and may use setPublicId to include a
+     * <p>Applicbtion writers should use setSystemId() to provide b bbse
+     * for resolving relbtive URIs, bnd mby use setPublicId to include b
      * public identifier.</p>
      *
-     * <p>The character stream shall not include a byte order mark.</p>
+     * <p>The chbrbcter strebm shbll not include b byte order mbrk.</p>
      *
      * @see #setPublicId
      * @see #setSystemId
-     * @see #setByteStream
-     * @see #setCharacterStream
+     * @see #setByteStrebm
+     * @see #setChbrbcterStrebm
      */
-    public InputSource (Reader characterStream)
+    public InputSource (Rebder chbrbcterStrebm)
     {
-        setCharacterStream(characterStream);
+        setChbrbcterStrebm(chbrbcterStrebm);
     }
 
 
     /**
      * Set the public identifier for this input source.
      *
-     * <p>The public identifier is always optional: if the application
-     * writer includes one, it will be provided as part of the
-     * location information.</p>
+     * <p>The public identifier is blwbys optionbl: if the bpplicbtion
+     * writer includes one, it will be provided bs pbrt of the
+     * locbtion informbtion.</p>
      *
-     * @param publicId The public identifier as a string.
+     * @pbrbm publicId The public identifier bs b string.
      * @see #getPublicId
-     * @see org.xml.sax.Locator#getPublicId
-     * @see org.xml.sax.SAXParseException#getPublicId
+     * @see org.xml.sbx.Locbtor#getPublicId
+     * @see org.xml.sbx.SAXPbrseException#getPublicId
      */
     public void setPublicId (String publicId)
     {
@@ -182,7 +182,7 @@ public class InputSource {
     /**
      * Get the public identifier for this input source.
      *
-     * @return The public identifier, or null if none was supplied.
+     * @return The public identifier, or null if none wbs supplied.
      * @see #setPublicId
      */
     public String getPublicId ()
@@ -194,25 +194,25 @@ public class InputSource {
     /**
      * Set the system identifier for this input source.
      *
-     * <p>The system identifier is optional if there is a byte stream
-     * or a character stream, but it is still useful to provide one,
-     * since the application can use it to resolve relative URIs
-     * and can include it in error messages and warnings (the parser
-     * will attempt to open a connection to the URI only if
-     * there is no byte stream or character stream specified).</p>
+     * <p>The system identifier is optionbl if there is b byte strebm
+     * or b chbrbcter strebm, but it is still useful to provide one,
+     * since the bpplicbtion cbn use it to resolve relbtive URIs
+     * bnd cbn include it in error messbges bnd wbrnings (the pbrser
+     * will bttempt to open b connection to the URI only if
+     * there is no byte strebm or chbrbcter strebm specified).</p>
      *
-     * <p>If the application knows the character encoding of the
-     * object pointed to by the system identifier, it can register
+     * <p>If the bpplicbtion knows the chbrbcter encoding of the
+     * object pointed to by the system identifier, it cbn register
      * the encoding using the setEncoding method.</p>
      *
-     * <p>If the system identifier is a URL, it must be fully
-     * resolved (it may not be a relative URL).</p>
+     * <p>If the system identifier is b URL, it must be fully
+     * resolved (it mby not be b relbtive URL).</p>
      *
-     * @param systemId The system identifier as a string.
+     * @pbrbm systemId The system identifier bs b string.
      * @see #setEncoding
      * @see #getSystemId
-     * @see org.xml.sax.Locator#getSystemId
-     * @see org.xml.sax.SAXParseException#getSystemId
+     * @see org.xml.sbx.Locbtor#getSystemId
+     * @see org.xml.sbx.SAXPbrseException#getSystemId
      */
     public void setSystemId (String systemId)
     {
@@ -223,12 +223,12 @@ public class InputSource {
     /**
      * Get the system identifier for this input source.
      *
-     * <p>The getEncoding method will return the character encoding
+     * <p>The getEncoding method will return the chbrbcter encoding
      * of the object pointed to, or null if unknown.</p>
      *
-     * <p>If the system ID is a URL, it will be fully resolved.</p>
+     * <p>If the system ID is b URL, it will be fully resolved.</p>
      *
-     * @return The system identifier, or null if none was supplied.
+     * @return The system identifier, or null if none wbs supplied.
      * @see #setSystemId
      * @see #getEncoding
      */
@@ -239,57 +239,57 @@ public class InputSource {
 
 
     /**
-     * Set the byte stream for this input source.
+     * Set the byte strebm for this input source.
      *
-     * <p>The SAX parser will ignore this if there is also a character
-     * stream specified, but it will use a byte stream in preference
-     * to opening a URI connection itself.</p>
+     * <p>The SAX pbrser will ignore this if there is blso b chbrbcter
+     * strebm specified, but it will use b byte strebm in preference
+     * to opening b URI connection itself.</p>
      *
-     * <p>If the application knows the character encoding of the
-     * byte stream, it should set it with the setEncoding method.</p>
+     * <p>If the bpplicbtion knows the chbrbcter encoding of the
+     * byte strebm, it should set it with the setEncoding method.</p>
      *
-     * @param byteStream A byte stream containing an XML document or
+     * @pbrbm byteStrebm A byte strebm contbining bn XML document or
      *        other entity.
      * @see #setEncoding
-     * @see #getByteStream
+     * @see #getByteStrebm
      * @see #getEncoding
-     * @see java.io.InputStream
+     * @see jbvb.io.InputStrebm
      */
-    public void setByteStream (InputStream byteStream)
+    public void setByteStrebm (InputStrebm byteStrebm)
     {
-        this.byteStream = byteStream;
+        this.byteStrebm = byteStrebm;
     }
 
 
     /**
-     * Get the byte stream for this input source.
+     * Get the byte strebm for this input source.
      *
-     * <p>The getEncoding method will return the character
-     * encoding for this byte stream, or null if unknown.</p>
+     * <p>The getEncoding method will return the chbrbcter
+     * encoding for this byte strebm, or null if unknown.</p>
      *
-     * @return The byte stream, or null if none was supplied.
+     * @return The byte strebm, or null if none wbs supplied.
      * @see #getEncoding
-     * @see #setByteStream
+     * @see #setByteStrebm
      */
-    public InputStream getByteStream ()
+    public InputStrebm getByteStrebm ()
     {
-        return byteStream;
+        return byteStrebm;
     }
 
 
     /**
-     * Set the character encoding, if known.
+     * Set the chbrbcter encoding, if known.
      *
-     * <p>The encoding must be a string acceptable for an
-     * XML encoding declaration (see section 4.3.3 of the XML 1.0
-     * recommendation).</p>
+     * <p>The encoding must be b string bcceptbble for bn
+     * XML encoding declbrbtion (see section 4.3.3 of the XML 1.0
+     * recommendbtion).</p>
      *
-     * <p>This method has no effect when the application provides a
-     * character stream.</p>
+     * <p>This method hbs no effect when the bpplicbtion provides b
+     * chbrbcter strebm.</p>
      *
-     * @param encoding A string describing the character encoding.
+     * @pbrbm encoding A string describing the chbrbcter encoding.
      * @see #setSystemId
-     * @see #setByteStream
+     * @see #setByteStrebm
      * @see #getEncoding
      */
     public void setEncoding (String encoding)
@@ -299,14 +299,14 @@ public class InputSource {
 
 
     /**
-     * Get the character encoding for a byte stream or URI.
-     * This value will be ignored when the application provides a
-     * character stream.
+     * Get the chbrbcter encoding for b byte strebm or URI.
+     * This vblue will be ignored when the bpplicbtion provides b
+     * chbrbcter strebm.
      *
-     * @return The encoding, or null if none was supplied.
-     * @see #setByteStream
+     * @return The encoding, or null if none wbs supplied.
+     * @see #setByteStrebm
      * @see #getSystemId
-     * @see #getByteStream
+     * @see #getByteStrebm
      */
     public String getEncoding ()
     {
@@ -315,46 +315,46 @@ public class InputSource {
 
 
     /**
-     * Set the character stream for this input source.
+     * Set the chbrbcter strebm for this input source.
      *
-     * <p>If there is a character stream specified, the SAX parser
-     * will ignore any byte stream and will not attempt to open
-     * a URI connection to the system identifier.</p>
+     * <p>If there is b chbrbcter strebm specified, the SAX pbrser
+     * will ignore bny byte strebm bnd will not bttempt to open
+     * b URI connection to the system identifier.</p>
      *
-     * @param characterStream The character stream containing the
+     * @pbrbm chbrbcterStrebm The chbrbcter strebm contbining the
      *        XML document or other entity.
-     * @see #getCharacterStream
-     * @see java.io.Reader
+     * @see #getChbrbcterStrebm
+     * @see jbvb.io.Rebder
      */
-    public void setCharacterStream (Reader characterStream)
+    public void setChbrbcterStrebm (Rebder chbrbcterStrebm)
     {
-        this.characterStream = characterStream;
+        this.chbrbcterStrebm = chbrbcterStrebm;
     }
 
 
     /**
-     * Get the character stream for this input source.
+     * Get the chbrbcter strebm for this input source.
      *
-     * @return The character stream, or null if none was supplied.
-     * @see #setCharacterStream
+     * @return The chbrbcter strebm, or null if none wbs supplied.
+     * @see #setChbrbcterStrebm
      */
-    public Reader getCharacterStream ()
+    public Rebder getChbrbcterStrebm ()
     {
-        return characterStream;
+        return chbrbcterStrebm;
     }
 
 
 
     ////////////////////////////////////////////////////////////////////
-    // Internal state.
+    // Internbl stbte.
     ////////////////////////////////////////////////////////////////////
 
-    private String publicId;
-    private String systemId;
-    private InputStream byteStream;
-    private String encoding;
-    private Reader characterStream;
+    privbte String publicId;
+    privbte String systemId;
+    privbte InputStrebm byteStrebm;
+    privbte String encoding;
+    privbte Rebder chbrbcterStrebm;
 
 }
 
-// end of InputSource.java
+// end of InputSource.jbvb

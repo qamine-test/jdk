@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www;
+pbckbge sun.net.www;
 
-import java.util.BitSet;
-import java.io.UnsupportedEncodingException;
-import java.io.File;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.CharacterCodingException;
-import sun.nio.cs.ThreadLocalCoders;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CoderResult;
-import java.nio.charset.CodingErrorAction;
+import jbvb.util.BitSet;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.io.File;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URI;
+import jbvb.net.URISyntbxException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.ChbrbcterCodingException;
+import sun.nio.cs.ThrebdLocblCoders;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.CoderResult;
+import jbvb.nio.chbrset.CodingErrorAction;
 
 /**
- * A class that contains useful routines common to sun.net.www
- * @author  Mike McCloskey
+ * A clbss thbt contbins useful routines common to sun.net.www
+ * @buthor  Mike McCloskey
  */
 
-public class ParseUtil {
-    static BitSet encodedInPath;
+public clbss PbrseUtil {
+    stbtic BitSet encodedInPbth;
 
-    static {
-        encodedInPath = new BitSet(256);
+    stbtic {
+        encodedInPbth = new BitSet(256);
 
-        // Set the bits corresponding to characters that are encoded in the
-        // path component of a URI.
+        // Set the bits corresponding to chbrbcters thbt bre encoded in the
+        // pbth component of b URI.
 
-        // These characters are reserved in the path segment as described in
+        // These chbrbcters bre reserved in the pbth segment bs described in
         // RFC2396 section 3.3.
-        encodedInPath.set('=');
-        encodedInPath.set(';');
-        encodedInPath.set('?');
-        encodedInPath.set('/');
+        encodedInPbth.set('=');
+        encodedInPbth.set(';');
+        encodedInPbth.set('?');
+        encodedInPbth.set('/');
 
-        // These characters are defined as excluded in RFC2396 section 2.4.3
-        // and must be escaped if they occur in the data part of a URI.
-        encodedInPath.set('#');
-        encodedInPath.set(' ');
-        encodedInPath.set('<');
-        encodedInPath.set('>');
-        encodedInPath.set('%');
-        encodedInPath.set('"');
-        encodedInPath.set('{');
-        encodedInPath.set('}');
-        encodedInPath.set('|');
-        encodedInPath.set('\\');
-        encodedInPath.set('^');
-        encodedInPath.set('[');
-        encodedInPath.set(']');
-        encodedInPath.set('`');
+        // These chbrbcters bre defined bs excluded in RFC2396 section 2.4.3
+        // bnd must be escbped if they occur in the dbtb pbrt of b URI.
+        encodedInPbth.set('#');
+        encodedInPbth.set(' ');
+        encodedInPbth.set('<');
+        encodedInPbth.set('>');
+        encodedInPbth.set('%');
+        encodedInPbth.set('"');
+        encodedInPbth.set('{');
+        encodedInPbth.set('}');
+        encodedInPbth.set('|');
+        encodedInPbth.set('\\');
+        encodedInPbth.set('^');
+        encodedInPbth.set('[');
+        encodedInPbth.set(']');
+        encodedInPbth.set('`');
 
-        // US ASCII control characters 00-1F and 7F.
+        // US ASCII control chbrbcters 00-1F bnd 7F.
         for (int i=0; i<32; i++)
-            encodedInPath.set(i);
-        encodedInPath.set(127);
+            encodedInPbth.set(i);
+        encodedInPbth.set(127);
     }
 
     /**
-     * Constructs an encoded version of the specified path string suitable
-     * for use in the construction of a URL.
+     * Constructs bn encoded version of the specified pbth string suitbble
+     * for use in the construction of b URL.
      *
-     * A path separator is replaced by a forward slash. The string is UTF8
-     * encoded. The % escape sequence is used for characters that are above
-     * 0x7F or those defined in RFC2396 as reserved or excluded in the path
-     * component of a URL.
+     * A pbth sepbrbtor is replbced by b forwbrd slbsh. The string is UTF8
+     * encoded. The % escbpe sequence is used for chbrbcters thbt bre bbove
+     * 0x7F or those defined in RFC2396 bs reserved or excluded in the pbth
+     * component of b URL.
      */
-    public static String encodePath(String path) {
-        return encodePath(path, true);
+    public stbtic String encodePbth(String pbth) {
+        return encodePbth(pbth, true);
     }
     /*
-     * flag indicates whether path uses platform dependent
-     * File.separatorChar or not. True indicates path uses platform
-     * dependent File.separatorChar.
+     * flbg indicbtes whether pbth uses plbtform dependent
+     * File.sepbrbtorChbr or not. True indicbtes pbth uses plbtform
+     * dependent File.sepbrbtorChbr.
      */
-    public static String encodePath(String path, boolean flag) {
-        char[] retCC = new char[path.length() * 2 + 16];
+    public stbtic String encodePbth(String pbth, boolebn flbg) {
+        chbr[] retCC = new chbr[pbth.length() * 2 + 16];
         int    retLen = 0;
-        char[] pathCC = path.toCharArray();
+        chbr[] pbthCC = pbth.toChbrArrby();
 
-        int n = path.length();
+        int n = pbth.length();
         for (int i=0; i<n; i++) {
-            char c = pathCC[i];
-            if ((!flag && c == '/') || (flag && c == File.separatorChar))
+            chbr c = pbthCC[i];
+            if ((!flbg && c == '/') || (flbg && c == File.sepbrbtorChbr))
                 retCC[retLen++] = '/';
             else {
                 if (c <= 0x007F) {
-                    if (c >= 'a' && c <= 'z' ||
+                    if (c >= 'b' && c <= 'z' ||
                         c >= 'A' && c <= 'Z' ||
                         c >= '0' && c <= '9') {
                         retCC[retLen++] = c;
                     } else
-                    if (encodedInPath.get(c))
-                        retLen = escape(retCC, c, retLen);
+                    if (encodedInPbth.get(c))
+                        retLen = escbpe(retCC, c, retLen);
                     else
                         retCC[retLen++] = c;
                 } else if (c > 0x07FF) {
-                    retLen = escape(retCC, (char)(0xE0 | ((c >> 12) & 0x0F)), retLen);
-                    retLen = escape(retCC, (char)(0x80 | ((c >>  6) & 0x3F)), retLen);
-                    retLen = escape(retCC, (char)(0x80 | ((c >>  0) & 0x3F)), retLen);
+                    retLen = escbpe(retCC, (chbr)(0xE0 | ((c >> 12) & 0x0F)), retLen);
+                    retLen = escbpe(retCC, (chbr)(0x80 | ((c >>  6) & 0x3F)), retLen);
+                    retLen = escbpe(retCC, (chbr)(0x80 | ((c >>  0) & 0x3F)), retLen);
                 } else {
-                    retLen = escape(retCC, (char)(0xC0 | ((c >>  6) & 0x1F)), retLen);
-                    retLen = escape(retCC, (char)(0x80 | ((c >>  0) & 0x3F)), retLen);
+                    retLen = escbpe(retCC, (chbr)(0xC0 | ((c >>  6) & 0x1F)), retLen);
+                    retLen = escbpe(retCC, (chbr)(0x80 | ((c >>  0) & 0x3F)), retLen);
                 }
             }
-            //worst case scenario for character [0x7ff-] every single
-            //character will be encoded into 9 characters.
+            //worst cbse scenbrio for chbrbcter [0x7ff-] every single
+            //chbrbcter will be encoded into 9 chbrbcters.
             if (retLen + 9 > retCC.length) {
                 int newLen = retCC.length * 2 + 16;
                 if (newLen < 0) {
                     newLen = Integer.MAX_VALUE;
                 }
-                char[] buf = new char[newLen];
-                System.arraycopy(retCC, 0, buf, 0, retLen);
+                chbr[] buf = new chbr[newLen];
+                System.brrbycopy(retCC, 0, buf, 0, retLen);
                 retCC = buf;
             }
         }
@@ -147,92 +147,92 @@ public class ParseUtil {
     }
 
     /**
-     * Appends the URL escape sequence for the specified char to the
+     * Appends the URL escbpe sequence for the specified chbr to the
      * specified StringBuffer.
      */
-    private static int escape(char[] cc, char c, int index) {
+    privbte stbtic int escbpe(chbr[] cc, chbr c, int index) {
         cc[index++] = '%';
-        cc[index++] = Character.forDigit((c >> 4) & 0xF, 16);
-        cc[index++] = Character.forDigit(c & 0xF, 16);
+        cc[index++] = Chbrbcter.forDigit((c >> 4) & 0xF, 16);
+        cc[index++] = Chbrbcter.forDigit(c & 0xF, 16);
         return index;
     }
 
     /**
-     * Un-escape and return the character at position i in string s.
+     * Un-escbpe bnd return the chbrbcter bt position i in string s.
      */
-    private static byte unescape(String s, int i) {
-        return (byte) Integer.parseInt(s.substring(i+1,i+3),16);
+    privbte stbtic byte unescbpe(String s, int i) {
+        return (byte) Integer.pbrseInt(s.substring(i+1,i+3),16);
     }
 
 
     /**
-     * Returns a new String constructed from the specified String by replacing
-     * the URL escape sequences and UTF8 encoding with the characters they
+     * Returns b new String constructed from the specified String by replbcing
+     * the URL escbpe sequences bnd UTF8 encoding with the chbrbcters they
      * represent.
      */
-    public static String decode(String s) {
+    public stbtic String decode(String s) {
         int n = s.length();
         if ((n == 0) || (s.indexOf('%') < 0))
             return s;
 
         StringBuilder sb = new StringBuilder(n);
-        ByteBuffer bb = ByteBuffer.allocate(n);
-        CharBuffer cb = CharBuffer.allocate(n);
-        CharsetDecoder dec = ThreadLocalCoders.decoderFor("UTF-8")
-            .onMalformedInput(CodingErrorAction.REPORT)
-            .onUnmappableCharacter(CodingErrorAction.REPORT);
+        ByteBuffer bb = ByteBuffer.bllocbte(n);
+        ChbrBuffer cb = ChbrBuffer.bllocbte(n);
+        ChbrsetDecoder dec = ThrebdLocblCoders.decoderFor("UTF-8")
+            .onMblformedInput(CodingErrorAction.REPORT)
+            .onUnmbppbbleChbrbcter(CodingErrorAction.REPORT);
 
-        char c = s.charAt(0);
+        chbr c = s.chbrAt(0);
         for (int i = 0; i < n;) {
-            assert c == s.charAt(i);
+            bssert c == s.chbrAt(i);
             if (c != '%') {
-                sb.append(c);
+                sb.bppend(c);
                 if (++i >= n)
-                    break;
-                c = s.charAt(i);
+                    brebk;
+                c = s.chbrAt(i);
                 continue;
             }
-            bb.clear();
+            bb.clebr();
             int ui = i;
             for (;;) {
-                assert (n - i >= 2);
+                bssert (n - i >= 2);
                 try {
-                    bb.put(unescape(s, i));
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException();
+                    bb.put(unescbpe(s, i));
+                } cbtch (NumberFormbtException e) {
+                    throw new IllegblArgumentException();
                 }
                 i += 3;
                 if (i >= n)
-                    break;
-                c = s.charAt(i);
+                    brebk;
+                c = s.chbrAt(i);
                 if (c != '%')
-                    break;
+                    brebk;
             }
             bb.flip();
-            cb.clear();
+            cb.clebr();
             dec.reset();
             CoderResult cr = dec.decode(bb, cb, true);
             if (cr.isError())
-                throw new IllegalArgumentException("Error decoding percent encoded characters");
+                throw new IllegblArgumentException("Error decoding percent encoded chbrbcters");
             cr = dec.flush(cb);
             if (cr.isError())
-                throw new IllegalArgumentException("Error decoding percent encoded characters");
-            sb.append(cb.flip().toString());
+                throw new IllegblArgumentException("Error decoding percent encoded chbrbcters");
+            sb.bppend(cb.flip().toString());
         }
 
         return sb.toString();
     }
 
     /**
-     * Returns a canonical version of the specified string.
+     * Returns b cbnonicbl version of the specified string.
      */
-    public String canonizeString(String file) {
+    public String cbnonizeString(String file) {
         int i = 0;
         int lim = file.length();
 
         // Remove embedded /../
         while ((i = file.indexOf("/../")) >= 0) {
-            if ((lim = file.lastIndexOf('/', i - 1)) >= 0) {
+            if ((lim = file.lbstIndexOf('/', i - 1)) >= 0) {
                 file = file.substring(0, lim) + file.substring(i + 3);
             } else {
                 file = file.substring(i + 3);
@@ -242,344 +242,344 @@ public class ParseUtil {
         while ((i = file.indexOf("/./")) >= 0) {
             file = file.substring(0, i) + file.substring(i + 2);
         }
-        // Remove trailing ..
+        // Remove trbiling ..
         while (file.endsWith("/..")) {
             i = file.indexOf("/..");
-            if ((lim = file.lastIndexOf('/', i - 1)) >= 0) {
+            if ((lim = file.lbstIndexOf('/', i - 1)) >= 0) {
                 file = file.substring(0, lim+1);
             } else {
                 file = file.substring(0, i);
             }
         }
-        // Remove trailing .
+        // Remove trbiling .
         if (file.endsWith("/."))
             file = file.substring(0, file.length() -1);
 
         return file;
     }
 
-    public static URL fileToEncodedURL(File file)
-        throws MalformedURLException
+    public stbtic URL fileToEncodedURL(File file)
+        throws MblformedURLException
     {
-        String path = file.getAbsolutePath();
-        path = ParseUtil.encodePath(path);
-        if (!path.startsWith("/")) {
-            path = "/" + path;
+        String pbth = file.getAbsolutePbth();
+        pbth = PbrseUtil.encodePbth(pbth);
+        if (!pbth.stbrtsWith("/")) {
+            pbth = "/" + pbth;
         }
-        if (!path.endsWith("/") && file.isDirectory()) {
-            path = path + "/";
+        if (!pbth.endsWith("/") && file.isDirectory()) {
+            pbth = pbth + "/";
         }
-        return new URL("file", "", path);
+        return new URL("file", "", pbth);
     }
 
-    public static java.net.URI toURI(URL url) {
+    public stbtic jbvb.net.URI toURI(URL url) {
         String protocol = url.getProtocol();
-        String auth = url.getAuthority();
-        String path = url.getPath();
+        String buth = url.getAuthority();
+        String pbth = url.getPbth();
         String query = url.getQuery();
         String ref = url.getRef();
-        if (path != null && !(path.startsWith("/")))
-            path = "/" + path;
+        if (pbth != null && !(pbth.stbrtsWith("/")))
+            pbth = "/" + pbth;
 
         //
-        // In java.net.URI class, a port number of -1 implies the default
-        // port number. So get it stripped off before creating URI instance.
+        // In jbvb.net.URI clbss, b port number of -1 implies the defbult
+        // port number. So get it stripped off before crebting URI instbnce.
         //
-        if (auth != null && auth.endsWith(":-1"))
-            auth = auth.substring(0, auth.length() - 3);
+        if (buth != null && buth.endsWith(":-1"))
+            buth = buth.substring(0, buth.length() - 3);
 
-        java.net.URI uri;
+        jbvb.net.URI uri;
         try {
-            uri = createURI(protocol, auth, path, query, ref);
-        } catch (java.net.URISyntaxException e) {
+            uri = crebteURI(protocol, buth, pbth, query, ref);
+        } cbtch (jbvb.net.URISyntbxException e) {
             uri = null;
         }
         return uri;
     }
 
     //
-    // createURI() and its auxiliary code are cloned from java.net.URI.
-    // Most of the code are just copy and paste, except that quote()
-    // has been modified to avoid double-escape.
+    // crebteURI() bnd its buxilibry code bre cloned from jbvb.net.URI.
+    // Most of the code bre just copy bnd pbste, except thbt quote()
+    // hbs been modified to bvoid double-escbpe.
     //
-    // Usually it is unacceptable, but we're forced to do it because
-    // otherwise we need to change public API, namely java.net.URI's
-    // multi-argument constructors. It turns out that the changes cause
-    // incompatibilities so can't be done.
+    // Usublly it is unbcceptbble, but we're forced to do it becbuse
+    // otherwise we need to chbnge public API, nbmely jbvb.net.URI's
+    // multi-brgument constructors. It turns out thbt the chbnges cbuse
+    // incompbtibilities so cbn't be done.
     //
-    private static URI createURI(String scheme,
-                                 String authority,
-                                 String path,
+    privbte stbtic URI crebteURI(String scheme,
+                                 String buthority,
+                                 String pbth,
                                  String query,
-                                 String fragment) throws URISyntaxException
+                                 String frbgment) throws URISyntbxException
     {
         String s = toString(scheme, null,
-                            authority, null, null, -1,
-                            path, query, fragment);
-        checkPath(s, scheme, path);
+                            buthority, null, null, -1,
+                            pbth, query, frbgment);
+        checkPbth(s, scheme, pbth);
         return new URI(s);
     }
 
-    private static String toString(String scheme,
-                            String opaquePart,
-                            String authority,
+    privbte stbtic String toString(String scheme,
+                            String opbquePbrt,
+                            String buthority,
                             String userInfo,
                             String host,
                             int port,
-                            String path,
+                            String pbth,
                             String query,
-                            String fragment)
+                            String frbgment)
     {
         StringBuffer sb = new StringBuffer();
         if (scheme != null) {
-            sb.append(scheme);
-            sb.append(':');
+            sb.bppend(scheme);
+            sb.bppend(':');
         }
-        appendSchemeSpecificPart(sb, opaquePart,
-                                 authority, userInfo, host, port,
-                                 path, query);
-        appendFragment(sb, fragment);
+        bppendSchemeSpecificPbrt(sb, opbquePbrt,
+                                 buthority, userInfo, host, port,
+                                 pbth, query);
+        bppendFrbgment(sb, frbgment);
         return sb.toString();
     }
 
-    private static void appendSchemeSpecificPart(StringBuffer sb,
-                                          String opaquePart,
-                                          String authority,
+    privbte stbtic void bppendSchemeSpecificPbrt(StringBuffer sb,
+                                          String opbquePbrt,
+                                          String buthority,
                                           String userInfo,
                                           String host,
                                           int port,
-                                          String path,
+                                          String pbth,
                                           String query)
     {
-        if (opaquePart != null) {
-            /* check if SSP begins with an IPv6 address
-             * because we must not quote a literal IPv6 address
+        if (opbquePbrt != null) {
+            /* check if SSP begins with bn IPv6 bddress
+             * becbuse we must not quote b literbl IPv6 bddress
              */
-            if (opaquePart.startsWith("//[")) {
-                int end =  opaquePart.indexOf(']');
-                if (end != -1 && opaquePart.indexOf(':')!=-1) {
+            if (opbquePbrt.stbrtsWith("//[")) {
+                int end =  opbquePbrt.indexOf(']');
+                if (end != -1 && opbquePbrt.indexOf(':')!=-1) {
                     String doquote, dontquote;
-                    if (end == opaquePart.length()) {
-                        dontquote = opaquePart;
+                    if (end == opbquePbrt.length()) {
+                        dontquote = opbquePbrt;
                         doquote = "";
                     } else {
-                        dontquote = opaquePart.substring(0,end+1);
-                        doquote = opaquePart.substring(end+1);
+                        dontquote = opbquePbrt.substring(0,end+1);
+                        doquote = opbquePbrt.substring(end+1);
                     }
-                    sb.append (dontquote);
-                    sb.append(quote(doquote, L_URIC, H_URIC));
+                    sb.bppend (dontquote);
+                    sb.bppend(quote(doquote, L_URIC, H_URIC));
                 }
             } else {
-                sb.append(quote(opaquePart, L_URIC, H_URIC));
+                sb.bppend(quote(opbquePbrt, L_URIC, H_URIC));
             }
         } else {
-            appendAuthority(sb, authority, userInfo, host, port);
-            if (path != null)
-                sb.append(quote(path, L_PATH, H_PATH));
+            bppendAuthority(sb, buthority, userInfo, host, port);
+            if (pbth != null)
+                sb.bppend(quote(pbth, L_PATH, H_PATH));
             if (query != null) {
-                sb.append('?');
-                sb.append(quote(query, L_URIC, H_URIC));
+                sb.bppend('?');
+                sb.bppend(quote(query, L_URIC, H_URIC));
             }
         }
     }
 
-    private static void appendAuthority(StringBuffer sb,
-                                 String authority,
+    privbte stbtic void bppendAuthority(StringBuffer sb,
+                                 String buthority,
                                  String userInfo,
                                  String host,
                                  int port)
     {
         if (host != null) {
-            sb.append("//");
+            sb.bppend("//");
             if (userInfo != null) {
-                sb.append(quote(userInfo, L_USERINFO, H_USERINFO));
-                sb.append('@');
+                sb.bppend(quote(userInfo, L_USERINFO, H_USERINFO));
+                sb.bppend('@');
             }
-            boolean needBrackets = ((host.indexOf(':') >= 0)
-                                    && !host.startsWith("[")
+            boolebn needBrbckets = ((host.indexOf(':') >= 0)
+                                    && !host.stbrtsWith("[")
                                     && !host.endsWith("]"));
-            if (needBrackets) sb.append('[');
-            sb.append(host);
-            if (needBrackets) sb.append(']');
+            if (needBrbckets) sb.bppend('[');
+            sb.bppend(host);
+            if (needBrbckets) sb.bppend(']');
             if (port != -1) {
-                sb.append(':');
-                sb.append(port);
+                sb.bppend(':');
+                sb.bppend(port);
             }
-        } else if (authority != null) {
-            sb.append("//");
-            if (authority.startsWith("[")) {
-                int end = authority.indexOf(']');
-                if (end != -1 && authority.indexOf(':')!=-1) {
+        } else if (buthority != null) {
+            sb.bppend("//");
+            if (buthority.stbrtsWith("[")) {
+                int end = buthority.indexOf(']');
+                if (end != -1 && buthority.indexOf(':')!=-1) {
                     String doquote, dontquote;
-                    if (end == authority.length()) {
-                        dontquote = authority;
+                    if (end == buthority.length()) {
+                        dontquote = buthority;
                         doquote = "";
                     } else {
-                        dontquote = authority.substring(0,end+1);
-                        doquote = authority.substring(end+1);
+                        dontquote = buthority.substring(0,end+1);
+                        doquote = buthority.substring(end+1);
                     }
-                    sb.append (dontquote);
-                    sb.append(quote(doquote,
+                    sb.bppend (dontquote);
+                    sb.bppend(quote(doquote,
                             L_REG_NAME | L_SERVER,
                             H_REG_NAME | H_SERVER));
                 }
             } else {
-                sb.append(quote(authority,
+                sb.bppend(quote(buthority,
                             L_REG_NAME | L_SERVER,
                             H_REG_NAME | H_SERVER));
             }
         }
     }
 
-    private static void appendFragment(StringBuffer sb, String fragment) {
-        if (fragment != null) {
-            sb.append('#');
-            sb.append(quote(fragment, L_URIC, H_URIC));
+    privbte stbtic void bppendFrbgment(StringBuffer sb, String frbgment) {
+        if (frbgment != null) {
+            sb.bppend('#');
+            sb.bppend(quote(frbgment, L_URIC, H_URIC));
         }
     }
 
-    // Quote any characters in s that are not permitted
-    // by the given mask pair
+    // Quote bny chbrbcters in s thbt bre not permitted
+    // by the given mbsk pbir
     //
-    private static String quote(String s, long lowMask, long highMask) {
+    privbte stbtic String quote(String s, long lowMbsk, long highMbsk) {
         int n = s.length();
         StringBuffer sb = null;
-        boolean allowNonASCII = ((lowMask & L_ESCAPED) != 0);
+        boolebn bllowNonASCII = ((lowMbsk & L_ESCAPED) != 0);
         for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
+            chbr c = s.chbrAt(i);
             if (c < '\u0080') {
-                if (!match(c, lowMask, highMask) && !isEscaped(s, i)) {
+                if (!mbtch(c, lowMbsk, highMbsk) && !isEscbped(s, i)) {
                     if (sb == null) {
                         sb = new StringBuffer();
-                        sb.append(s.substring(0, i));
+                        sb.bppend(s.substring(0, i));
                     }
-                    appendEscape(sb, (byte)c);
+                    bppendEscbpe(sb, (byte)c);
                 } else {
                     if (sb != null)
-                        sb.append(c);
+                        sb.bppend(c);
                 }
-            } else if (allowNonASCII
-                       && (Character.isSpaceChar(c)
-                           || Character.isISOControl(c))) {
+            } else if (bllowNonASCII
+                       && (Chbrbcter.isSpbceChbr(c)
+                           || Chbrbcter.isISOControl(c))) {
                 if (sb == null) {
                     sb = new StringBuffer();
-                    sb.append(s.substring(0, i));
+                    sb.bppend(s.substring(0, i));
                 }
-                appendEncoded(sb, c);
+                bppendEncoded(sb, c);
             } else {
                 if (sb != null)
-                    sb.append(c);
+                    sb.bppend(c);
             }
         }
         return (sb == null) ? s : sb.toString();
     }
 
     //
-    // To check if the given string has an escaped triplet
-    // at the given position
+    // To check if the given string hbs bn escbped triplet
+    // bt the given position
     //
-    private static boolean isEscaped(String s, int pos) {
+    privbte stbtic boolebn isEscbped(String s, int pos) {
         if (s == null || (s.length() <= (pos + 2)))
-            return false;
+            return fblse;
 
-        return s.charAt(pos) == '%'
-               && match(s.charAt(pos + 1), L_HEX, H_HEX)
-               && match(s.charAt(pos + 2), L_HEX, H_HEX);
+        return s.chbrAt(pos) == '%'
+               && mbtch(s.chbrAt(pos + 1), L_HEX, H_HEX)
+               && mbtch(s.chbrAt(pos + 2), L_HEX, H_HEX);
     }
 
-    private static void appendEncoded(StringBuffer sb, char c) {
+    privbte stbtic void bppendEncoded(StringBuffer sb, chbr c) {
         ByteBuffer bb = null;
         try {
-            bb = ThreadLocalCoders.encoderFor("UTF-8")
-                .encode(CharBuffer.wrap("" + c));
-        } catch (CharacterCodingException x) {
-            assert false;
+            bb = ThrebdLocblCoders.encoderFor("UTF-8")
+                .encode(ChbrBuffer.wrbp("" + c));
+        } cbtch (ChbrbcterCodingException x) {
+            bssert fblse;
         }
-        while (bb.hasRemaining()) {
+        while (bb.hbsRembining()) {
             int b = bb.get() & 0xff;
             if (b >= 0x80)
-                appendEscape(sb, (byte)b);
+                bppendEscbpe(sb, (byte)b);
             else
-                sb.append((char)b);
+                sb.bppend((chbr)b);
         }
     }
 
-    private final static char[] hexDigits = {
+    privbte finbl stbtic chbr[] hexDigits = {
         '0', '1', '2', '3', '4', '5', '6', '7',
         '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     };
 
-    private static void appendEscape(StringBuffer sb, byte b) {
-        sb.append('%');
-        sb.append(hexDigits[(b >> 4) & 0x0f]);
-        sb.append(hexDigits[(b >> 0) & 0x0f]);
+    privbte stbtic void bppendEscbpe(StringBuffer sb, byte b) {
+        sb.bppend('%');
+        sb.bppend(hexDigits[(b >> 4) & 0x0f]);
+        sb.bppend(hexDigits[(b >> 0) & 0x0f]);
     }
 
-    // Tell whether the given character is permitted by the given mask pair
-    private static boolean match(char c, long lowMask, long highMask) {
+    // Tell whether the given chbrbcter is permitted by the given mbsk pbir
+    privbte stbtic boolebn mbtch(chbr c, long lowMbsk, long highMbsk) {
         if (c < 64)
-            return ((1L << c) & lowMask) != 0;
+            return ((1L << c) & lowMbsk) != 0;
         if (c < 128)
-            return ((1L << (c - 64)) & highMask) != 0;
-        return false;
+            return ((1L << (c - 64)) & highMbsk) != 0;
+        return fblse;
     }
 
-    // If a scheme is given then the path, if given, must be absolute
+    // If b scheme is given then the pbth, if given, must be bbsolute
     //
-    private static void checkPath(String s, String scheme, String path)
-        throws URISyntaxException
+    privbte stbtic void checkPbth(String s, String scheme, String pbth)
+        throws URISyntbxException
     {
         if (scheme != null) {
-            if ((path != null)
-                && ((path.length() > 0) && (path.charAt(0) != '/')))
-                throw new URISyntaxException(s,
-                                             "Relative path in absolute URI");
+            if ((pbth != null)
+                && ((pbth.length() > 0) && (pbth.chbrAt(0) != '/')))
+                throw new URISyntbxException(s,
+                                             "Relbtive pbth in bbsolute URI");
         }
     }
 
 
-    // -- Character classes for parsing --
+    // -- Chbrbcter clbsses for pbrsing --
 
-    // Compute a low-order mask for the characters
-    // between first and last, inclusive
-    private static long lowMask(char first, char last) {
+    // Compute b low-order mbsk for the chbrbcters
+    // between first bnd lbst, inclusive
+    privbte stbtic long lowMbsk(chbr first, chbr lbst) {
         long m = 0;
-        int f = Math.max(Math.min(first, 63), 0);
-        int l = Math.max(Math.min(last, 63), 0);
+        int f = Mbth.mbx(Mbth.min(first, 63), 0);
+        int l = Mbth.mbx(Mbth.min(lbst, 63), 0);
         for (int i = f; i <= l; i++)
             m |= 1L << i;
         return m;
     }
 
-    // Compute the low-order mask for the characters in the given string
-    private static long lowMask(String chars) {
-        int n = chars.length();
+    // Compute the low-order mbsk for the chbrbcters in the given string
+    privbte stbtic long lowMbsk(String chbrs) {
+        int n = chbrs.length();
         long m = 0;
         for (int i = 0; i < n; i++) {
-            char c = chars.charAt(i);
+            chbr c = chbrs.chbrAt(i);
             if (c < 64)
                 m |= (1L << c);
         }
         return m;
     }
 
-    // Compute a high-order mask for the characters
-    // between first and last, inclusive
-    private static long highMask(char first, char last) {
+    // Compute b high-order mbsk for the chbrbcters
+    // between first bnd lbst, inclusive
+    privbte stbtic long highMbsk(chbr first, chbr lbst) {
         long m = 0;
-        int f = Math.max(Math.min(first, 127), 64) - 64;
-        int l = Math.max(Math.min(last, 127), 64) - 64;
+        int f = Mbth.mbx(Mbth.min(first, 127), 64) - 64;
+        int l = Mbth.mbx(Mbth.min(lbst, 127), 64) - 64;
         for (int i = f; i <= l; i++)
             m |= 1L << i;
         return m;
     }
 
-    // Compute the high-order mask for the characters in the given string
-    private static long highMask(String chars) {
-        int n = chars.length();
+    // Compute the high-order mbsk for the chbrbcters in the given string
+    privbte stbtic long highMbsk(String chbrs) {
+        int n = chbrs.length();
         long m = 0;
         for (int i = 0; i < n; i++) {
-            char c = chars.charAt(i);
+            chbr c = chbrs.chbrAt(i);
             if ((c >= 64) && (c < 128))
                 m |= (1L << (c - 64));
         }
@@ -587,94 +587,94 @@ public class ParseUtil {
     }
 
 
-    // Character-class masks
+    // Chbrbcter-clbss mbsks
 
     // digit    = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" |
     //            "8" | "9"
-    private static final long L_DIGIT = lowMask('0', '9');
-    private static final long H_DIGIT = 0L;
+    privbte stbtic finbl long L_DIGIT = lowMbsk('0', '9');
+    privbte stbtic finbl long H_DIGIT = 0L;
 
     // hex           =  digit | "A" | "B" | "C" | "D" | "E" | "F" |
-    //                          "a" | "b" | "c" | "d" | "e" | "f"
-    private static final long L_HEX = L_DIGIT;
-    private static final long H_HEX = highMask('A', 'F') | highMask('a', 'f');
+    //                          "b" | "b" | "c" | "d" | "e" | "f"
+    privbte stbtic finbl long L_HEX = L_DIGIT;
+    privbte stbtic finbl long H_HEX = highMbsk('A', 'F') | highMbsk('b', 'f');
 
-    // upalpha  = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" |
+    // upblphb  = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" |
     //            "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" |
     //            "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
-    private static final long L_UPALPHA = 0L;
-    private static final long H_UPALPHA = highMask('A', 'Z');
+    privbte stbtic finbl long L_UPALPHA = 0L;
+    privbte stbtic finbl long H_UPALPHA = highMbsk('A', 'Z');
 
-    // lowalpha = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" |
+    // lowblphb = "b" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" |
     //            "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" |
     //            "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
-    private static final long L_LOWALPHA = 0L;
-    private static final long H_LOWALPHA = highMask('a', 'z');
+    privbte stbtic finbl long L_LOWALPHA = 0L;
+    privbte stbtic finbl long H_LOWALPHA = highMbsk('b', 'z');
 
-    // alpha         = lowalpha | upalpha
-    private static final long L_ALPHA = L_LOWALPHA | L_UPALPHA;
-    private static final long H_ALPHA = H_LOWALPHA | H_UPALPHA;
+    // blphb         = lowblphb | upblphb
+    privbte stbtic finbl long L_ALPHA = L_LOWALPHA | L_UPALPHA;
+    privbte stbtic finbl long H_ALPHA = H_LOWALPHA | H_UPALPHA;
 
-    // alphanum      = alpha | digit
-    private static final long L_ALPHANUM = L_DIGIT | L_ALPHA;
-    private static final long H_ALPHANUM = H_DIGIT | H_ALPHA;
+    // blphbnum      = blphb | digit
+    privbte stbtic finbl long L_ALPHANUM = L_DIGIT | L_ALPHA;
+    privbte stbtic finbl long H_ALPHANUM = H_DIGIT | H_ALPHA;
 
-    // mark          = "-" | "_" | "." | "!" | "~" | "*" | "'" |
+    // mbrk          = "-" | "_" | "." | "!" | "~" | "*" | "'" |
     //                 "(" | ")"
-    private static final long L_MARK = lowMask("-_.!~*'()");
-    private static final long H_MARK = highMask("-_.!~*'()");
+    privbte stbtic finbl long L_MARK = lowMbsk("-_.!~*'()");
+    privbte stbtic finbl long H_MARK = highMbsk("-_.!~*'()");
 
-    // unreserved    = alphanum | mark
-    private static final long L_UNRESERVED = L_ALPHANUM | L_MARK;
-    private static final long H_UNRESERVED = H_ALPHANUM | H_MARK;
+    // unreserved    = blphbnum | mbrk
+    privbte stbtic finbl long L_UNRESERVED = L_ALPHANUM | L_MARK;
+    privbte stbtic finbl long H_UNRESERVED = H_ALPHANUM | H_MARK;
 
     // reserved      = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" |
     //                 "$" | "," | "[" | "]"
     // Added per RFC2732: "[", "]"
-    private static final long L_RESERVED = lowMask(";/?:@&=+$,[]");
-    private static final long H_RESERVED = highMask(";/?:@&=+$,[]");
+    privbte stbtic finbl long L_RESERVED = lowMbsk(";/?:@&=+$,[]");
+    privbte stbtic finbl long H_RESERVED = highMbsk(";/?:@&=+$,[]");
 
-    // The zero'th bit is used to indicate that escape pairs and non-US-ASCII
-    // characters are allowed; this is handled by the scanEscape method below.
-    private static final long L_ESCAPED = 1L;
-    private static final long H_ESCAPED = 0L;
+    // The zero'th bit is used to indicbte thbt escbpe pbirs bnd non-US-ASCII
+    // chbrbcters bre bllowed; this is hbndled by the scbnEscbpe method below.
+    privbte stbtic finbl long L_ESCAPED = 1L;
+    privbte stbtic finbl long H_ESCAPED = 0L;
 
-    // Dash, for use in domainlabel and toplabel
-    private static final long L_DASH = lowMask("-");
-    private static final long H_DASH = highMask("-");
+    // Dbsh, for use in dombinlbbel bnd toplbbel
+    privbte stbtic finbl long L_DASH = lowMbsk("-");
+    privbte stbtic finbl long H_DASH = highMbsk("-");
 
-    // uric          = reserved | unreserved | escaped
-    private static final long L_URIC = L_RESERVED | L_UNRESERVED | L_ESCAPED;
-    private static final long H_URIC = H_RESERVED | H_UNRESERVED | H_ESCAPED;
+    // uric          = reserved | unreserved | escbped
+    privbte stbtic finbl long L_URIC = L_RESERVED | L_UNRESERVED | L_ESCAPED;
+    privbte stbtic finbl long H_URIC = H_RESERVED | H_UNRESERVED | H_ESCAPED;
 
-    // pchar         = unreserved | escaped |
+    // pchbr         = unreserved | escbped |
     //                 ":" | "@" | "&" | "=" | "+" | "$" | ","
-    private static final long L_PCHAR
-        = L_UNRESERVED | L_ESCAPED | lowMask(":@&=+$,");
-    private static final long H_PCHAR
-        = H_UNRESERVED | H_ESCAPED | highMask(":@&=+$,");
+    privbte stbtic finbl long L_PCHAR
+        = L_UNRESERVED | L_ESCAPED | lowMbsk(":@&=+$,");
+    privbte stbtic finbl long H_PCHAR
+        = H_UNRESERVED | H_ESCAPED | highMbsk(":@&=+$,");
 
-    // All valid path characters
-    private static final long L_PATH = L_PCHAR | lowMask(";/");
-    private static final long H_PATH = H_PCHAR | highMask(";/");
+    // All vblid pbth chbrbcters
+    privbte stbtic finbl long L_PATH = L_PCHAR | lowMbsk(";/");
+    privbte stbtic finbl long H_PATH = H_PCHAR | highMbsk(";/");
 
-    // userinfo      = *( unreserved | escaped |
+    // userinfo      = *( unreserved | escbped |
     //                    ";" | ":" | "&" | "=" | "+" | "$" | "," )
-    private static final long L_USERINFO
-        = L_UNRESERVED | L_ESCAPED | lowMask(";:&=+$,");
-    private static final long H_USERINFO
-        = H_UNRESERVED | H_ESCAPED | highMask(";:&=+$,");
+    privbte stbtic finbl long L_USERINFO
+        = L_UNRESERVED | L_ESCAPED | lowMbsk(";:&=+$,");
+    privbte stbtic finbl long H_USERINFO
+        = H_UNRESERVED | H_ESCAPED | highMbsk(";:&=+$,");
 
-    // reg_name      = 1*( unreserved | escaped | "$" | "," |
+    // reg_nbme      = 1*( unreserved | escbped | "$" | "," |
     //                     ";" | ":" | "@" | "&" | "=" | "+" )
-    private static final long L_REG_NAME
-        = L_UNRESERVED | L_ESCAPED | lowMask("$,;:@&=+");
-    private static final long H_REG_NAME
-        = H_UNRESERVED | H_ESCAPED | highMask("$,;:@&=+");
+    privbte stbtic finbl long L_REG_NAME
+        = L_UNRESERVED | L_ESCAPED | lowMbsk("$,;:@&=+");
+    privbte stbtic finbl long H_REG_NAME
+        = H_UNRESERVED | H_ESCAPED | highMbsk("$,;:@&=+");
 
-    // All valid characters for server-based authorities
-    private static final long L_SERVER
-        = L_USERINFO | L_ALPHANUM | L_DASH | lowMask(".:@[]");
-    private static final long H_SERVER
-        = H_USERINFO | H_ALPHANUM | H_DASH | highMask(".:@[]");
+    // All vblid chbrbcters for server-bbsed buthorities
+    privbte stbtic finbl long L_SERVER
+        = L_USERINFO | L_ALPHANUM | L_DASH | lowMbsk(".:@[]");
+    privbte stbtic finbl long H_SERVER
+        = H_USERINFO | H_ALPHANUM | H_DASH | highMbsk(".:@[]");
 }

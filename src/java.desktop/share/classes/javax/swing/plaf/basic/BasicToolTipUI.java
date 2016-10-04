@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
 import sun.swing.SwingUtilities2;
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvb.bwt.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
 
-import javax.swing.*;
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
-import javax.swing.plaf.ToolTipUI;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
-import javax.swing.text.View;
+import jbvbx.swing.*;
+import jbvbx.swing.BorderFbctory;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.ToolTipUI;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.text.View;
 
 
 /**
- * Standard tool tip L&amp;F.
+ * Stbndbrd tool tip L&bmp;F.
  *
- * @author Dave Moore
+ * @buthor Dbve Moore
  */
-public class BasicToolTipUI extends ToolTipUI
+public clbss BbsicToolTipUI extends ToolTipUI
 {
-    static BasicToolTipUI sharedInstance = new BasicToolTipUI();
+    stbtic BbsicToolTipUI shbredInstbnce = new BbsicToolTipUI();
     /**
-     * Global <code>PropertyChangeListener</code> that
-     * <code>createPropertyChangeListener</code> returns.
+     * Globbl <code>PropertyChbngeListener</code> thbt
+     * <code>crebtePropertyChbngeListener</code> returns.
      */
-    private static PropertyChangeListener sharedPropertyChangedListener;
+    privbte stbtic PropertyChbngeListener shbredPropertyChbngedListener;
 
-    private PropertyChangeListener propertyChangeListener;
+    privbte PropertyChbngeListener propertyChbngeListener;
 
     /**
-     * Returns the instance of {@code BasicToolTipUI}.
+     * Returns the instbnce of {@code BbsicToolTipUI}.
      *
-     * @param c a component
-     * @return the instance of {@code BasicToolTipUI}
+     * @pbrbm c b component
+     * @return the instbnce of {@code BbsicToolTipUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        return sharedInstance;
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return shbredInstbnce;
     }
 
     /**
-     * Constructs a new instance of {@code BasicToolTipUI}.
+     * Constructs b new instbnce of {@code BbsicToolTipUI}.
      */
-    public BasicToolTipUI() {
+    public BbsicToolTipUI() {
         super();
     }
 
-    public void installUI(JComponent c) {
-        installDefaults(c);
-        installComponents(c);
-        installListeners(c);
+    public void instbllUI(JComponent c) {
+        instbllDefbults(c);
+        instbllComponents(c);
+        instbllListeners(c);
     }
 
-    public void uninstallUI(JComponent c) {
-        // REMIND: this is NOT getting called
-        uninstallDefaults(c);
-        uninstallComponents(c);
-        uninstallListeners(c);
+    public void uninstbllUI(JComponent c) {
+        // REMIND: this is NOT getting cblled
+        uninstbllDefbults(c);
+        uninstbllComponents(c);
+        uninstbllListeners(c);
     }
 
     /**
-     * Installs default properties.
+     * Instblls defbult properties.
      *
-     * @param c a component
+     * @pbrbm c b component
      */
-    protected void installDefaults(JComponent c){
-        LookAndFeel.installColorsAndFont(c, "ToolTip.background",
+    protected void instbllDefbults(JComponent c){
+        LookAndFeel.instbllColorsAndFont(c, "ToolTip.bbckground",
                 "ToolTip.foreground",
                 "ToolTip.font");
-        LookAndFeel.installProperty(c, "opaque", Boolean.TRUE);
-        componentChanged(c);
+        LookAndFeel.instbllProperty(c, "opbque", Boolebn.TRUE);
+        componentChbnged(c);
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls defbult properties.
      *
-     * @param c a component
+     * @pbrbm c b component
      */
-    protected void uninstallDefaults(JComponent c){
-        LookAndFeel.uninstallBorder(c);
+    protected void uninstbllDefbults(JComponent c){
+        LookAndFeel.uninstbllBorder(c);
     }
 
-    /* Unfortunately this has to remain private until we can make API additions.
+    /* Unfortunbtely this hbs to rembin privbte until we cbn mbke API bdditions.
      */
-    private void installComponents(JComponent c){
-        BasicHTML.updateRenderer(c, ((JToolTip) c).getTipText());
+    privbte void instbllComponents(JComponent c){
+        BbsicHTML.updbteRenderer(c, ((JToolTip) c).getTipText());
     }
 
-    /* Unfortunately this has to remain private until we can make API additions.
+    /* Unfortunbtely this hbs to rembin privbte until we cbn mbke API bdditions.
      */
-    private void uninstallComponents(JComponent c){
-        BasicHTML.updateRenderer(c, "");
+    privbte void uninstbllComponents(JComponent c){
+        BbsicHTML.updbteRenderer(c, "");
     }
 
     /**
      * Registers listeners.
      *
-     * @param c a component
+     * @pbrbm c b component
      */
-    protected void installListeners(JComponent c) {
-        propertyChangeListener = createPropertyChangeListener(c);
+    protected void instbllListeners(JComponent c) {
+        propertyChbngeListener = crebtePropertyChbngeListener(c);
 
-        c.addPropertyChangeListener(propertyChangeListener);
+        c.bddPropertyChbngeListener(propertyChbngeListener);
     }
 
     /**
      * Unregisters listeners.
      *
-     * @param c a component
+     * @pbrbm c b component
      */
-    protected void uninstallListeners(JComponent c) {
-        c.removePropertyChangeListener(propertyChangeListener);
+    protected void uninstbllListeners(JComponent c) {
+        c.removePropertyChbngeListener(propertyChbngeListener);
 
-        propertyChangeListener = null;
+        propertyChbngeListener = null;
     }
 
-    /* Unfortunately this has to remain private until we can make API additions.
+    /* Unfortunbtely this hbs to rembin privbte until we cbn mbke API bdditions.
      */
-    private PropertyChangeListener createPropertyChangeListener(JComponent c) {
-        if (sharedPropertyChangedListener == null) {
-            sharedPropertyChangedListener = new PropertyChangeHandler();
+    privbte PropertyChbngeListener crebtePropertyChbngeListener(JComponent c) {
+        if (shbredPropertyChbngedListener == null) {
+            shbredPropertyChbngedListener = new PropertyChbngeHbndler();
         }
-        return sharedPropertyChangedListener;
+        return shbredPropertyChbngedListener;
     }
 
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         Font font = c.getFont();
         FontMetrics metrics = SwingUtilities2.getFontMetrics(c, g, font);
         Dimension size = c.getSize();
@@ -163,18 +163,18 @@ public class BasicToolTipUI extends ToolTipUI
         }
 
         Insets insets = c.getInsets();
-        Rectangle paintTextR = new Rectangle(
+        Rectbngle pbintTextR = new Rectbngle(
             insets.left + 3,
             insets.top,
             size.width - (insets.left + insets.right) - 6,
             size.height - (insets.top + insets.bottom));
-        View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+        View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
         if (v != null) {
-            v.paint(g, paintTextR);
+            v.pbint(g, pbintTextR);
         } else {
             g.setFont(font);
-            SwingUtilities2.drawString(c, g, tipText, paintTextR.x,
-                                  paintTextR.y + metrics.getAscent());
+            SwingUtilities2.drbwString(c, g, tipText, pbintTextR.x,
+                                  pbintTextR.y + metrics.getAscent());
         }
     }
 
@@ -187,14 +187,14 @@ public class BasicToolTipUI extends ToolTipUI
                                            insets.top+insets.bottom);
         String text = ((JToolTip)c).getTipText();
 
-        if ((text == null) || text.equals("")) {
+        if ((text == null) || text.equbls("")) {
             text = "";
         }
         else {
             View v = (c != null) ? (View) c.getClientProperty("html") : null;
             if (v != null) {
-                prefSize.width += (int) v.getPreferredSpan(View.X_AXIS) + 6;
-                prefSize.height += (int) v.getPreferredSpan(View.Y_AXIS);
+                prefSize.width += (int) v.getPreferredSpbn(View.X_AXIS) + 6;
+                prefSize.height += (int) v.getPreferredSpbn(View.Y_AXIS);
             } else {
                 prefSize.width += SwingUtilities2.stringWidth(c,fm,text) + 6;
                 prefSize.height += fm.getHeight();
@@ -205,75 +205,75 @@ public class BasicToolTipUI extends ToolTipUI
 
     public Dimension getMinimumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
-        View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+        View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
         if (v != null) {
-            d.width -= v.getPreferredSpan(View.X_AXIS) - v.getMinimumSpan(View.X_AXIS);
+            d.width -= v.getPreferredSpbn(View.X_AXIS) - v.getMinimumSpbn(View.X_AXIS);
         }
         return d;
     }
 
-    public Dimension getMaximumSize(JComponent c) {
+    public Dimension getMbximumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
-        View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+        View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
         if (v != null) {
-            d.width += v.getMaximumSpan(View.X_AXIS) - v.getPreferredSpan(View.X_AXIS);
+            d.width += v.getMbximumSpbn(View.X_AXIS) - v.getPreferredSpbn(View.X_AXIS);
         }
         return d;
     }
 
     /**
-     * Invoked when the <code>JCompoment</code> associated with the
-     * <code>JToolTip</code> has changed, or at initialization time. This
-     * should update any state dependant upon the <code>JComponent</code>.
+     * Invoked when the <code>JCompoment</code> bssocibted with the
+     * <code>JToolTip</code> hbs chbnged, or bt initiblizbtion time. This
+     * should updbte bny stbte dependbnt upon the <code>JComponent</code>.
      *
-     * @param c the JToolTip the JComponent has changed on.
+     * @pbrbm c the JToolTip the JComponent hbs chbnged on.
      */
-    private void componentChanged(JComponent c) {
+    privbte void componentChbnged(JComponent c) {
         JComponent comp = ((JToolTip)c).getComponent();
 
-        if (comp != null && !(comp.isEnabled())) {
-            // For better backward compatibility, only install inactive
-            // properties if they are defined.
-            if (UIManager.getBorder("ToolTip.borderInactive") != null) {
-                LookAndFeel.installBorder(c, "ToolTip.borderInactive");
+        if (comp != null && !(comp.isEnbbled())) {
+            // For better bbckwbrd compbtibility, only instbll inbctive
+            // properties if they bre defined.
+            if (UIMbnbger.getBorder("ToolTip.borderInbctive") != null) {
+                LookAndFeel.instbllBorder(c, "ToolTip.borderInbctive");
             }
             else {
-                LookAndFeel.installBorder(c, "ToolTip.border");
+                LookAndFeel.instbllBorder(c, "ToolTip.border");
             }
-            if (UIManager.getColor("ToolTip.backgroundInactive") != null) {
-                LookAndFeel.installColors(c,"ToolTip.backgroundInactive",
-                                          "ToolTip.foregroundInactive");
+            if (UIMbnbger.getColor("ToolTip.bbckgroundInbctive") != null) {
+                LookAndFeel.instbllColors(c,"ToolTip.bbckgroundInbctive",
+                                          "ToolTip.foregroundInbctive");
             }
             else {
-                LookAndFeel.installColors(c,"ToolTip.background",
+                LookAndFeel.instbllColors(c,"ToolTip.bbckground",
                                           "ToolTip.foreground");
             }
         } else {
-            LookAndFeel.installBorder(c, "ToolTip.border");
-            LookAndFeel.installColors(c, "ToolTip.background",
+            LookAndFeel.instbllBorder(c, "ToolTip.border");
+            LookAndFeel.instbllColors(c, "ToolTip.bbckground",
                                       "ToolTip.foreground");
         }
     }
 
 
-    private static class PropertyChangeHandler implements
-                                 PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent e) {
-            String name = e.getPropertyName();
-            if (name.equals("tiptext") || "font".equals(name) ||
-                "foreground".equals(name)) {
+    privbte stbtic clbss PropertyChbngeHbndler implements
+                                 PropertyChbngeListener {
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String nbme = e.getPropertyNbme();
+            if (nbme.equbls("tiptext") || "font".equbls(nbme) ||
+                "foreground".equbls(nbme)) {
                 // remove the old html view client property if one
-                // existed, and install a new one if the text installed
-                // into the JLabel is html source.
+                // existed, bnd instbll b new one if the text instblled
+                // into the JLbbel is html source.
                 JToolTip tip = ((JToolTip) e.getSource());
                 String text = tip.getTipText();
-                BasicHTML.updateRenderer(tip, text);
+                BbsicHTML.updbteRenderer(tip, text);
             }
-            else if ("component".equals(name)) {
+            else if ("component".equbls(nbme)) {
                 JToolTip tip = ((JToolTip) e.getSource());
 
-                if (tip.getUI() instanceof BasicToolTipUI) {
-                    ((BasicToolTipUI)tip.getUI()).componentChanged(tip);
+                if (tip.getUI() instbnceof BbsicToolTipUI) {
+                    ((BbsicToolTipUI)tip.getUI()).componentChbnged(tip);
                 }
             }
         }

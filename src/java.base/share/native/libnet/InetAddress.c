@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <string.h>
 
-#include "java_net_InetAddress.h"
+#include "jbvb_net_InetAddress.h"
 #include "net_util.h"
 
 /************************************************************************
  * InetAddress
  */
 
-jclass ia_class;
-jclass iac_class;
-jfieldID ia_holderID;
-jfieldID iac_addressID;
-jfieldID iac_familyID;
-jfieldID iac_hostNameID;
-jfieldID ia_preferIPv6AddressID;
+jclbss ib_clbss;
+jclbss ibc_clbss;
+jfieldID ib_holderID;
+jfieldID ibc_bddressID;
+jfieldID ibc_fbmilyID;
+jfieldID ibc_hostNbmeID;
+jfieldID ib_preferIPv6AddressID;
 
-static int ia_initialized = 0;
+stbtic int ib_initiblized = 0;
 
 /*
- * Class:     java_net_InetAddress
+ * Clbss:     jbvb_net_InetAddress
  * Method:    init
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_net_InetAddress_init(JNIEnv *env, jclass cls) {
-    if (!ia_initialized) {
-        jclass c = (*env)->FindClass(env,"java/net/InetAddress");
+Jbvb_jbvb_net_InetAddress_init(JNIEnv *env, jclbss cls) {
+    if (!ib_initiblized) {
+        jclbss c = (*env)->FindClbss(env,"jbvb/net/InetAddress");
         CHECK_NULL(c);
-        ia_class = (*env)->NewGlobalRef(env, c);
-        CHECK_NULL(ia_class);
-        c = (*env)->FindClass(env,"java/net/InetAddress$InetAddressHolder");
+        ib_clbss = (*env)->NewGlobblRef(env, c);
+        CHECK_NULL(ib_clbss);
+        c = (*env)->FindClbss(env,"jbvb/net/InetAddress$InetAddressHolder");
         CHECK_NULL(c);
-        iac_class = (*env)->NewGlobalRef(env, c);
-        ia_holderID = (*env)->GetFieldID(env, ia_class, "holder", "Ljava/net/InetAddress$InetAddressHolder;");
-        CHECK_NULL(ia_holderID);
-        ia_preferIPv6AddressID = (*env)->GetStaticFieldID(env, ia_class, "preferIPv6Address", "Z");
-        CHECK_NULL(ia_preferIPv6AddressID);
+        ibc_clbss = (*env)->NewGlobblRef(env, c);
+        ib_holderID = (*env)->GetFieldID(env, ib_clbss, "holder", "Ljbvb/net/InetAddress$InetAddressHolder;");
+        CHECK_NULL(ib_holderID);
+        ib_preferIPv6AddressID = (*env)->GetStbticFieldID(env, ib_clbss, "preferIPv6Address", "Z");
+        CHECK_NULL(ib_preferIPv6AddressID);
 
-        iac_addressID = (*env)->GetFieldID(env, iac_class, "address", "I");
-        CHECK_NULL(iac_addressID);
-        iac_familyID = (*env)->GetFieldID(env, iac_class, "family", "I");
-        CHECK_NULL(iac_familyID);
-        iac_hostNameID = (*env)->GetFieldID(env, iac_class, "hostName", "Ljava/lang/String;");
-        CHECK_NULL(iac_hostNameID);
-        ia_initialized = 1;
+        ibc_bddressID = (*env)->GetFieldID(env, ibc_clbss, "bddress", "I");
+        CHECK_NULL(ibc_bddressID);
+        ibc_fbmilyID = (*env)->GetFieldID(env, ibc_clbss, "fbmily", "I");
+        CHECK_NULL(ibc_fbmilyID);
+        ibc_hostNbmeID = (*env)->GetFieldID(env, ibc_clbss, "hostNbme", "Ljbvb/lbng/String;");
+        CHECK_NULL(ibc_hostNbmeID);
+        ib_initiblized = 1;
     }
 }

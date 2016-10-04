@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
 
-import java.io.*;
-import java.awt.BorderLayout;
-import java.awt.Frame;
-import java.awt.Dialog;
-import java.awt.Window;
-import java.awt.Component;
-import java.awt.Container;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.awt.event.WindowListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import jbvb.io.*;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Window;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bwt.event.WindowListener;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.event.WindowEvent;
 
-import java.awt.IllegalComponentStateException;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.text.*;
-import java.util.Locale;
-import javax.accessibility.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
+import jbvb.bwt.IllegblComponentStbteException;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.text.*;
+import jbvb.util.Locble;
+import jbvbx.bccessibility.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.text.*;
 
 
-/** A class to monitor the progress of some operation. If it looks
- * like the operation will take a while, a progress dialog will be popped up.
- * When the ProgressMonitor is created it is given a numeric range and a
- * descriptive string. As the operation progresses, call the setProgress method
- * to indicate how far along the [min,max] range the operation is.
- * Initially, there is no ProgressDialog. After the first millisToDecideToPopup
- * milliseconds (default 500) the progress monitor will predict how long
- * the operation will take.  If it is longer than millisToPopup (default 2000,
- * 2 seconds) a ProgressDialog will be popped up.
+/** A clbss to monitor the progress of some operbtion. If it looks
+ * like the operbtion will tbke b while, b progress diblog will be popped up.
+ * When the ProgressMonitor is crebted it is given b numeric rbnge bnd b
+ * descriptive string. As the operbtion progresses, cbll the setProgress method
+ * to indicbte how fbr blong the [min,mbx] rbnge the operbtion is.
+ * Initiblly, there is no ProgressDiblog. After the first millisToDecideToPopup
+ * milliseconds (defbult 500) the progress monitor will predict how long
+ * the operbtion will tbke.  If it is longer thbn millisToPopup (defbult 2000,
+ * 2 seconds) b ProgressDiblog will be popped up.
  * <p>
- * From time to time, when the Dialog box is visible, the progress bar will
- * be updated when setProgress is called.  setProgress won't always update
- * the progress bar, it will only be done if the amount of progress is
- * visibly significant.
+ * From time to time, when the Diblog box is visible, the progress bbr will
+ * be updbted when setProgress is cblled.  setProgress won't blwbys updbte
+ * the progress bbr, it will only be done if the bmount of progress is
+ * visibly significbnt.
  *
  * <p>
  *
- * For further documentation and examples see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/progress.html">How to Monitor Progress</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For further documentbtion bnd exbmples see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/progress.html">How to Monitor Progress</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  *
- * @see ProgressMonitorInputStream
- * @author James Gosling
- * @author Lynn Monsanto (accessibility)
+ * @see ProgressMonitorInputStrebm
+ * @buthor Jbmes Gosling
+ * @buthor Lynn Monsbnto (bccessibility)
  * @since 1.2
  */
-public class ProgressMonitor implements Accessible
+public clbss ProgressMonitor implements Accessible
 {
-    private ProgressMonitor root;
-    private JDialog         dialog;
-    private JOptionPane     pane;
-    private JProgressBar    myBar;
-    private JLabel          noteLabel;
-    private Component       parentComponent;
-    private String          note;
-    private Object[]        cancelOption = null;
-    private Object          message;
-    private long            T0;
-    private int             millisToDecideToPopup = 500;
-    private int             millisToPopup = 2000;
-    private int             min;
-    private int             max;
+    privbte ProgressMonitor root;
+    privbte JDiblog         diblog;
+    privbte JOptionPbne     pbne;
+    privbte JProgressBbr    myBbr;
+    privbte JLbbel          noteLbbel;
+    privbte Component       pbrentComponent;
+    privbte String          note;
+    privbte Object[]        cbncelOption = null;
+    privbte Object          messbge;
+    privbte long            T0;
+    privbte int             millisToDecideToPopup = 500;
+    privbte int             millisToPopup = 2000;
+    privbte int             min;
+    privbte int             mbx;
 
 
     /**
-     * Constructs a graphic object that shows progress, typically by filling
-     * in a rectangular bar as the process nears completion.
+     * Constructs b grbphic object thbt shows progress, typicblly by filling
+     * in b rectbngulbr bbr bs the process nebrs completion.
      *
-     * @param parentComponent the parent component for the dialog box
-     * @param message a descriptive message that will be shown
-     *        to the user to indicate what operation is being monitored.
-     *        This does not change as the operation progresses.
-     *        See the message parameters to methods in
-     *        {@link JOptionPane#message}
-     *        for the range of values.
-     * @param note a short note describing the state of the
-     *        operation.  As the operation progresses, you can call
-     *        setNote to change the note displayed.  This is used,
-     *        for example, in operations that iterate through a
-     *        list of files to show the name of the file being processes.
-     *        If note is initially null, there will be no note line
-     *        in the dialog box and setNote will be ineffective
-     * @param min the lower bound of the range
-     * @param max the upper bound of the range
-     * @see JDialog
-     * @see JOptionPane
+     * @pbrbm pbrentComponent the pbrent component for the diblog box
+     * @pbrbm messbge b descriptive messbge thbt will be shown
+     *        to the user to indicbte whbt operbtion is being monitored.
+     *        This does not chbnge bs the operbtion progresses.
+     *        See the messbge pbrbmeters to methods in
+     *        {@link JOptionPbne#messbge}
+     *        for the rbnge of vblues.
+     * @pbrbm note b short note describing the stbte of the
+     *        operbtion.  As the operbtion progresses, you cbn cbll
+     *        setNote to chbnge the note displbyed.  This is used,
+     *        for exbmple, in operbtions thbt iterbte through b
+     *        list of files to show the nbme of the file being processes.
+     *        If note is initiblly null, there will be no note line
+     *        in the diblog box bnd setNote will be ineffective
+     * @pbrbm min the lower bound of the rbnge
+     * @pbrbm mbx the upper bound of the rbnge
+     * @see JDiblog
+     * @see JOptionPbne
      */
-    public ProgressMonitor(Component parentComponent,
-                           Object message,
+    public ProgressMonitor(Component pbrentComponent,
+                           Object messbge,
                            String note,
                            int min,
-                           int max) {
-        this(parentComponent, message, note, min, max, null);
+                           int mbx) {
+        this(pbrentComponent, messbge, note, min, mbx, null);
     }
 
 
-    private ProgressMonitor(Component parentComponent,
-                            Object message,
+    privbte ProgressMonitor(Component pbrentComponent,
+                            Object messbge,
                             String note,
                             int min,
-                            int max,
+                            int mbx,
                             ProgressMonitor group) {
         this.min = min;
-        this.max = max;
-        this.parentComponent = parentComponent;
+        this.mbx = mbx;
+        this.pbrentComponent = pbrentComponent;
 
-        cancelOption = new Object[1];
-        cancelOption[0] = UIManager.getString("OptionPane.cancelButtonText");
+        cbncelOption = new Object[1];
+        cbncelOption[0] = UIMbnbger.getString("OptionPbne.cbncelButtonText");
 
-        this.message = message;
+        this.messbge = messbge;
         this.note = note;
         if (group != null) {
             root = (group.root != null) ? group.root : group;
             T0 = root.T0;
-            dialog = root.dialog;
+            diblog = root.diblog;
         }
         else {
             T0 = System.currentTimeMillis();
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class ProgressOptionPane extends JOptionPane
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss ProgressOptionPbne extends JOptionPbne
     {
-        ProgressOptionPane(Object messageList) {
-            super(messageList,
-                  JOptionPane.INFORMATION_MESSAGE,
-                  JOptionPane.DEFAULT_OPTION,
+        ProgressOptionPbne(Object messbgeList) {
+            super(messbgeList,
+                  JOptionPbne.INFORMATION_MESSAGE,
+                  JOptionPbne.DEFAULT_OPTION,
                   null,
-                  ProgressMonitor.this.cancelOption,
+                  ProgressMonitor.this.cbncelOption,
                   null);
         }
 
 
-        public int getMaxCharactersPerLineCount() {
+        public int getMbxChbrbctersPerLineCount() {
             return 60;
         }
 
 
-        // Equivalent to JOptionPane.createDialog,
-        // but create a modeless dialog.
-        // This is necessary because the Solaris implementation doesn't
-        // support Dialog.setModal yet.
-        public JDialog createDialog(Component parentComponent, String title) {
-            final JDialog dialog;
+        // Equivblent to JOptionPbne.crebteDiblog,
+        // but crebte b modeless diblog.
+        // This is necessbry becbuse the Solbris implementbtion doesn't
+        // support Diblog.setModbl yet.
+        public JDiblog crebteDiblog(Component pbrentComponent, String title) {
+            finbl JDiblog diblog;
 
-            Window window = JOptionPane.getWindowForComponent(parentComponent);
-            if (window instanceof Frame) {
-                dialog = new JDialog((Frame)window, title, false);
+            Window window = JOptionPbne.getWindowForComponent(pbrentComponent);
+            if (window instbnceof Frbme) {
+                diblog = new JDiblog((Frbme)window, title, fblse);
             } else {
-                dialog = new JDialog((Dialog)window, title, false);
+                diblog = new JDiblog((Diblog)window, title, fblse);
             }
-            if (window instanceof SwingUtilities.SharedOwnerFrame) {
+            if (window instbnceof SwingUtilities.ShbredOwnerFrbme) {
                 WindowListener ownerShutdownListener =
-                        SwingUtilities.getSharedOwnerFrameShutdownListener();
-                dialog.addWindowListener(ownerShutdownListener);
+                        SwingUtilities.getShbredOwnerFrbmeShutdownListener();
+                diblog.bddWindowListener(ownerShutdownListener);
             }
-            Container contentPane = dialog.getContentPane();
+            Contbiner contentPbne = diblog.getContentPbne();
 
-            contentPane.setLayout(new BorderLayout());
-            contentPane.add(this, BorderLayout.CENTER);
-            dialog.pack();
-            dialog.setLocationRelativeTo(parentComponent);
-            dialog.addWindowListener(new WindowAdapter() {
-                boolean gotFocus = false;
+            contentPbne.setLbyout(new BorderLbyout());
+            contentPbne.bdd(this, BorderLbyout.CENTER);
+            diblog.pbck();
+            diblog.setLocbtionRelbtiveTo(pbrentComponent);
+            diblog.bddWindowListener(new WindowAdbpter() {
+                boolebn gotFocus = fblse;
 
                 public void windowClosing(WindowEvent we) {
-                    setValue(cancelOption[0]);
+                    setVblue(cbncelOption[0]);
                 }
 
-                public void windowActivated(WindowEvent we) {
-                    // Once window gets focus, set initial focus
+                public void windowActivbted(WindowEvent we) {
+                    // Once window gets focus, set initibl focus
                     if (!gotFocus) {
-                        selectInitialValue();
+                        selectInitiblVblue();
                         gotFocus = true;
                     }
                 }
             });
 
-            addPropertyChangeListener(new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent event) {
-                    if(dialog.isVisible() &&
-                       event.getSource() == ProgressOptionPane.this &&
-                       (event.getPropertyName().equals(VALUE_PROPERTY) ||
-                        event.getPropertyName().equals(INPUT_VALUE_PROPERTY))){
-                        dialog.setVisible(false);
-                        dialog.dispose();
+            bddPropertyChbngeListener(new PropertyChbngeListener() {
+                public void propertyChbnge(PropertyChbngeEvent event) {
+                    if(diblog.isVisible() &&
+                       event.getSource() == ProgressOptionPbne.this &&
+                       (event.getPropertyNbme().equbls(VALUE_PROPERTY) ||
+                        event.getPropertyNbme().equbls(INPUT_VALUE_PROPERTY))){
+                        diblog.setVisible(fblse);
+                        diblog.dispose();
                     }
                 }
             });
 
-            return dialog;
+            return diblog;
         }
 
         /////////////////
-        // Accessibility support for ProgressOptionPane
+        // Accessibility support for ProgressOptionPbne
         ////////////////
 
         /**
-         * Gets the AccessibleContext for the ProgressOptionPane
+         * Gets the AccessibleContext for the ProgressOptionPbne
          *
-         * @return the AccessibleContext for the ProgressOptionPane
+         * @return the AccessibleContext for the ProgressOptionPbne
          * @since 1.5
          */
         public AccessibleContext getAccessibleContext() {
@@ -242,31 +242,31 @@ public class ProgressMonitor implements Accessible
         }
 
         /*
-         * Returns the AccessibleJOptionPane
+         * Returns the AccessibleJOptionPbne
          */
-        private AccessibleContext getAccessibleJOptionPane() {
+        privbte AccessibleContext getAccessibleJOptionPbne() {
             return super.getAccessibleContext();
         }
     }
 
 
     /**
-     * Indicate the progress of the operation being monitored.
-     * If the specified value is &gt;= the maximum, the progress
+     * Indicbte the progress of the operbtion being monitored.
+     * If the specified vblue is &gt;= the mbximum, the progress
      * monitor is closed.
-     * @param nv an int specifying the current value, between the
-     *        maximum and minimum specified for this component
+     * @pbrbm nv bn int specifying the current vblue, between the
+     *        mbximum bnd minimum specified for this component
      * @see #setMinimum
-     * @see #setMaximum
+     * @see #setMbximum
      * @see #close
      */
     public void setProgress(int nv) {
-        if (nv >= max) {
+        if (nv >= mbx) {
             close();
         }
         else {
-            if (myBar != null) {
-                myBar.setValue(nv);
+            if (myBbr != null) {
+                myBbr.setVblue(nv);
             }
             else {
                 long T = System.currentTimeMillis();
@@ -275,25 +275,25 @@ public class ProgressMonitor implements Accessible
                     int predictedCompletionTime;
                     if (nv > min) {
                         predictedCompletionTime = (int)(dT *
-                                                        (max - min) /
+                                                        (mbx - min) /
                                                         (nv - min));
                     }
                     else {
                         predictedCompletionTime = millisToPopup;
                     }
                     if (predictedCompletionTime >= millisToPopup) {
-                        myBar = new JProgressBar();
-                        myBar.setMinimum(min);
-                        myBar.setMaximum(max);
-                        myBar.setValue(nv);
-                        if (note != null) noteLabel = new JLabel(note);
-                        pane = new ProgressOptionPane(new Object[] {message,
-                                                                    noteLabel,
-                                                                    myBar});
-                        dialog = pane.createDialog(parentComponent,
-                            UIManager.getString(
+                        myBbr = new JProgressBbr();
+                        myBbr.setMinimum(min);
+                        myBbr.setMbximum(mbx);
+                        myBbr.setVblue(nv);
+                        if (note != null) noteLbbel = new JLbbel(note);
+                        pbne = new ProgressOptionPbne(new Object[] {messbge,
+                                                                    noteLbbel,
+                                                                    myBbr});
+                        diblog = pbne.crebteDiblog(pbrentComponent,
+                            UIMbnbger.getString(
                                 "ProgressMonitor.progressText"));
-                        dialog.show();
+                        diblog.show();
                     }
                 }
             }
@@ -302,25 +302,25 @@ public class ProgressMonitor implements Accessible
 
 
     /**
-     * Indicate that the operation is complete.  This happens automatically
-     * when the value set by setProgress is &gt;= max, but it may be called
-     * earlier if the operation ends early.
+     * Indicbte thbt the operbtion is complete.  This hbppens butombticblly
+     * when the vblue set by setProgress is &gt;= mbx, but it mby be cblled
+     * ebrlier if the operbtion ends ebrly.
      */
     public void close() {
-        if (dialog != null) {
-            dialog.setVisible(false);
-            dialog.dispose();
-            dialog = null;
-            pane = null;
-            myBar = null;
+        if (diblog != null) {
+            diblog.setVisible(fblse);
+            diblog.dispose();
+            diblog = null;
+            pbne = null;
+            myBbr = null;
         }
     }
 
 
     /**
-     * Returns the minimum value -- the lower end of the progress value.
+     * Returns the minimum vblue -- the lower end of the progress vblue.
      *
-     * @return an int representing the minimum value
+     * @return bn int representing the minimum vblue
      * @see #setMinimum
      */
     public int getMinimum() {
@@ -329,63 +329,63 @@ public class ProgressMonitor implements Accessible
 
 
     /**
-     * Specifies the minimum value.
+     * Specifies the minimum vblue.
      *
-     * @param m  an int specifying the minimum value
+     * @pbrbm m  bn int specifying the minimum vblue
      * @see #getMinimum
      */
     public void setMinimum(int m) {
-        if (myBar != null) {
-            myBar.setMinimum(m);
+        if (myBbr != null) {
+            myBbr.setMinimum(m);
         }
         min = m;
     }
 
 
     /**
-     * Returns the maximum value -- the higher end of the progress value.
+     * Returns the mbximum vblue -- the higher end of the progress vblue.
      *
-     * @return an int representing the maximum value
-     * @see #setMaximum
+     * @return bn int representing the mbximum vblue
+     * @see #setMbximum
      */
-    public int getMaximum() {
-        return max;
+    public int getMbximum() {
+        return mbx;
     }
 
 
     /**
-     * Specifies the maximum value.
+     * Specifies the mbximum vblue.
      *
-     * @param m  an int specifying the maximum value
-     * @see #getMaximum
+     * @pbrbm m  bn int specifying the mbximum vblue
+     * @see #getMbximum
      */
-    public void setMaximum(int m) {
-        if (myBar != null) {
-            myBar.setMaximum(m);
+    public void setMbximum(int m) {
+        if (myBbr != null) {
+            myBbr.setMbximum(m);
         }
-        max = m;
+        mbx = m;
     }
 
 
     /**
-     * Returns true if the user hits the Cancel button in the progress dialog.
+     * Returns true if the user hits the Cbncel button in the progress diblog.
      *
-     * @return true if the user hits the Cancel button in the progress dialog
+     * @return true if the user hits the Cbncel button in the progress diblog
      */
-    public boolean isCanceled() {
-        if (pane == null) return false;
-        Object v = pane.getValue();
+    public boolebn isCbnceled() {
+        if (pbne == null) return fblse;
+        Object v = pbne.getVblue();
         return ((v != null) &&
-                (cancelOption.length == 1) &&
-                (v.equals(cancelOption[0])));
+                (cbncelOption.length == 1) &&
+                (v.equbls(cbncelOption[0])));
     }
 
 
     /**
-     * Specifies the amount of time to wait before deciding whether or
-     * not to popup a progress monitor.
+     * Specifies the bmount of time to wbit before deciding whether or
+     * not to popup b progress monitor.
      *
-     * @param millisToDecideToPopup  an int specifying the time to wait,
+     * @pbrbm millisToDecideToPopup  bn int specifying the time to wbit,
      *        in milliseconds
      * @see #getMillisToDecideToPopup
      */
@@ -395,11 +395,11 @@ public class ProgressMonitor implements Accessible
 
 
     /**
-     * Returns the amount of time this object waits before deciding whether
-     * or not to popup a progress monitor.
+     * Returns the bmount of time this object wbits before deciding whether
+     * or not to popup b progress monitor.
      *
-     * @return the amount of time in milliseconds this object waits before
-     *         deciding whether or not to popup a progress monitor
+     * @return the bmount of time in milliseconds this object wbits before
+     *         deciding whether or not to popup b progress monitor
      * @see #setMillisToDecideToPopup
      */
     public int getMillisToDecideToPopup() {
@@ -408,11 +408,11 @@ public class ProgressMonitor implements Accessible
 
 
     /**
-     * Specifies the amount of time it will take for the popup to appear.
-     * (If the predicted time remaining is less than this time, the popup
-     * won't be displayed.)
+     * Specifies the bmount of time it will tbke for the popup to bppebr.
+     * (If the predicted time rembining is less thbn this time, the popup
+     * won't be displbyed.)
      *
-     * @param millisToPopup  an int specifying the time in milliseconds
+     * @pbrbm millisToPopup  bn int specifying the time in milliseconds
      * @see #getMillisToPopup
      */
     public void setMillisToPopup(int millisToPopup) {
@@ -421,10 +421,10 @@ public class ProgressMonitor implements Accessible
 
 
     /**
-     * Returns the amount of time it will take for the popup to appear.
+     * Returns the bmount of time it will tbke for the popup to bppebr.
      *
-     * @return the amont of time in milliseconds it will take for the
-     *         popup to appear
+     * @return the bmont of time in milliseconds it will tbke for the
+     *         popup to bppebr
      * @see #setMillisToPopup
      */
     public int getMillisToPopup() {
@@ -433,26 +433,26 @@ public class ProgressMonitor implements Accessible
 
 
     /**
-     * Specifies the additional note that is displayed along with the
-     * progress message. Used, for example, to show which file the
-     * is currently being copied during a multiple-file copy.
+     * Specifies the bdditionbl note thbt is displbyed blong with the
+     * progress messbge. Used, for exbmple, to show which file the
+     * is currently being copied during b multiple-file copy.
      *
-     * @param note  a String specifying the note to display
+     * @pbrbm note  b String specifying the note to displby
      * @see #getNote
      */
     public void setNote(String note) {
         this.note = note;
-        if (noteLabel != null) {
-            noteLabel.setText(note);
+        if (noteLbbel != null) {
+            noteLbbel.setText(note);
         }
     }
 
 
     /**
-     * Specifies the additional note that is displayed along with the
-     * progress message.
+     * Specifies the bdditionbl note thbt is displbyed blong with the
+     * progress messbge.
      *
-     * @return a String specifying the note to display
+     * @return b String specifying the note to displby
      * @see #setNote
      */
     public String getNote() {
@@ -467,9 +467,9 @@ public class ProgressMonitor implements Accessible
      * The <code>AccessibleContext</code> for the <code>ProgressMonitor</code>
      * @since 1.5
      */
-    protected AccessibleContext accessibleContext = null;
+    protected AccessibleContext bccessibleContext = null;
 
-    private AccessibleContext accessibleJOptionPane = null;
+    privbte AccessibleContext bccessibleJOptionPbne = null;
 
     /**
      * Gets the <code>AccessibleContext</code> for the
@@ -480,58 +480,58 @@ public class ProgressMonitor implements Accessible
      * @since 1.5
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleProgressMonitor();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleProgressMonitor();
         }
-        if (pane != null && accessibleJOptionPane == null) {
-            // Notify the AccessibleProgressMonitor that the
-            // ProgressOptionPane was created. It is necessary
-            // to poll for ProgressOptionPane creation because
-            // the ProgressMonitor does not have a Component
-            // to add a listener to until the ProgressOptionPane
-            // is created.
-            if (accessibleContext instanceof AccessibleProgressMonitor) {
-                ((AccessibleProgressMonitor)accessibleContext).optionPaneCreated();
+        if (pbne != null && bccessibleJOptionPbne == null) {
+            // Notify the AccessibleProgressMonitor thbt the
+            // ProgressOptionPbne wbs crebted. It is necessbry
+            // to poll for ProgressOptionPbne crebtion becbuse
+            // the ProgressMonitor does not hbve b Component
+            // to bdd b listener to until the ProgressOptionPbne
+            // is crebted.
+            if (bccessibleContext instbnceof AccessibleProgressMonitor) {
+                ((AccessibleProgressMonitor)bccessibleContext).optionPbneCrebted();
             }
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * <code>AccessibleProgressMonitor</code> implements accessibility
-     * support for the <code>ProgressMonitor</code> class.
+     * <code>AccessibleProgressMonitor</code> implements bccessibility
+     * support for the <code>ProgressMonitor</code> clbss.
      * @since 1.5
      */
-    protected class AccessibleProgressMonitor extends AccessibleContext
-        implements AccessibleText, ChangeListener, PropertyChangeListener {
+    protected clbss AccessibleProgressMonitor extends AccessibleContext
+        implements AccessibleText, ChbngeListener, PropertyChbngeListener {
 
         /*
-         * The accessibility hierarchy for ProgressMonitor is a flattened
-         * version of the ProgressOptionPane component hierarchy.
+         * The bccessibility hierbrchy for ProgressMonitor is b flbttened
+         * version of the ProgressOptionPbne component hierbrchy.
          *
-         * The ProgressOptionPane component hierarchy is:
-         *   JDialog
-         *     ProgressOptionPane
-         *       JPanel
-         *         JPanel
-         *           JLabel
-         *           JLabel
-         *           JProgressBar
+         * The ProgressOptionPbne component hierbrchy is:
+         *   JDiblog
+         *     ProgressOptionPbne
+         *       JPbnel
+         *         JPbnel
+         *           JLbbel
+         *           JLbbel
+         *           JProgressBbr
          *
-         * The AccessibleProgessMonitor accessibility hierarchy is:
-         *   AccessibleJDialog
+         * The AccessibleProgessMonitor bccessibility hierbrchy is:
+         *   AccessibleJDiblog
          *     AccessibleProgressMonitor
-         *       AccessibleJLabel
-         *       AccessibleJLabel
-         *       AccessibleJProgressBar
+         *       AccessibleJLbbel
+         *       AccessibleJLbbel
+         *       AccessibleJProgressBbr
          *
-         * The abstraction presented to assitive technologies by
-         * the AccessibleProgressMonitor is that a dialog contains a
-         * progress monitor with three children: a message, a note
-         * label and a progress bar.
+         * The bbstrbction presented to bssitive technologies by
+         * the AccessibleProgressMonitor is thbt b diblog contbins b
+         * progress monitor with three children: b messbge, b note
+         * lbbel bnd b progress bbr.
          */
 
-        private Object oldModelValue;
+        privbte Object oldModelVblue;
 
         /**
          * AccessibleProgressMonitor constructor
@@ -540,131 +540,131 @@ public class ProgressMonitor implements Accessible
         }
 
         /*
-         * Initializes the AccessibleContext now that the ProgressOptionPane
-         * has been created. Because the ProgressMonitor is not a Component
-         * implementing the Accessible interface, an AccessibleContext
-         * must be synthesized from the ProgressOptionPane and its children.
+         * Initiblizes the AccessibleContext now thbt the ProgressOptionPbne
+         * hbs been crebted. Becbuse the ProgressMonitor is not b Component
+         * implementing the Accessible interfbce, bn AccessibleContext
+         * must be synthesized from the ProgressOptionPbne bnd its children.
          *
-         * For other AWT and Swing classes, the inner class that implements
-         * accessibility for the class extends the inner class that implements
-         * implements accessibility for the super class. AccessibleProgressMonitor
-         * cannot extend AccessibleJOptionPane and must therefore delegate calls
-         * to the AccessibleJOptionPane.
+         * For other AWT bnd Swing clbsses, the inner clbss thbt implements
+         * bccessibility for the clbss extends the inner clbss thbt implements
+         * implements bccessibility for the super clbss. AccessibleProgressMonitor
+         * cbnnot extend AccessibleJOptionPbne bnd must therefore delegbte cblls
+         * to the AccessibleJOptionPbne.
          */
-        private void optionPaneCreated() {
-            accessibleJOptionPane =
-                ((ProgressOptionPane)pane).getAccessibleJOptionPane();
+        privbte void optionPbneCrebted() {
+            bccessibleJOptionPbne =
+                ((ProgressOptionPbne)pbne).getAccessibleJOptionPbne();
 
-            // add a listener for progress bar ChangeEvents
-            if (myBar != null) {
-                myBar.addChangeListener(this);
+            // bdd b listener for progress bbr ChbngeEvents
+            if (myBbr != null) {
+                myBbr.bddChbngeListener(this);
             }
 
-            // add a listener for note label PropertyChangeEvents
-            if (noteLabel != null) {
-                noteLabel.addPropertyChangeListener(this);
+            // bdd b listener for note lbbel PropertyChbngeEvents
+            if (noteLbbel != null) {
+                noteLbbel.bddPropertyChbngeListener(this);
             }
         }
 
         /**
-         * Invoked when the target of the listener has changed its state.
+         * Invoked when the tbrget of the listener hbs chbnged its stbte.
          *
-         * @param e  a <code>ChangeEvent</code> object. Must not be null.
-         * @throws NullPointerException if the parameter is null.
+         * @pbrbm e  b <code>ChbngeEvent</code> object. Must not be null.
+         * @throws NullPointerException if the pbrbmeter is null.
          */
-        public void stateChanged(ChangeEvent e) {
+        public void stbteChbnged(ChbngeEvent e) {
             if (e == null) {
                 return;
             }
-            if (myBar != null) {
-                // the progress bar value changed
-                Object newModelValue = myBar.getValue();
-                firePropertyChange(ACCESSIBLE_VALUE_PROPERTY,
-                                   oldModelValue,
-                                   newModelValue);
-                oldModelValue = newModelValue;
+            if (myBbr != null) {
+                // the progress bbr vblue chbnged
+                Object newModelVblue = myBbr.getVblue();
+                firePropertyChbnge(ACCESSIBLE_VALUE_PROPERTY,
+                                   oldModelVblue,
+                                   newModelVblue);
+                oldModelVblue = newModelVblue;
             }
         }
 
         /**
-         * This method gets called when a bound property is changed.
+         * This method gets cblled when b bound property is chbnged.
          *
-         * @param e A <code>PropertyChangeEvent</code> object describing
-         * the event source and the property that has changed. Must not be null.
-         * @throws NullPointerException if the parameter is null.
+         * @pbrbm e A <code>PropertyChbngeEvent</code> object describing
+         * the event source bnd the property thbt hbs chbnged. Must not be null.
+         * @throws NullPointerException if the pbrbmeter is null.
          */
-        public void propertyChange(PropertyChangeEvent e) {
-            if (e.getSource() == noteLabel && e.getPropertyName() == "text") {
-                // the note label text changed
-                firePropertyChange(ACCESSIBLE_TEXT_PROPERTY, null, 0);
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            if (e.getSource() == noteLbbel && e.getPropertyNbme() == "text") {
+                // the note lbbel text chbnged
+                firePropertyChbnge(ACCESSIBLE_TEXT_PROPERTY, null, 0);
             }
         }
 
         /* ===== Begin AccessileContext ===== */
 
         /**
-         * Gets the accessibleName property of this object.  The accessibleName
-         * property of an object is a localized String that designates the purpose
-         * of the object.  For example, the accessibleName property of a label
-         * or button might be the text of the label or button itself.  In the
-         * case of an object that doesn't display its name, the accessibleName
-         * should still be set.  For example, in the case of a text field used
-         * to enter the name of a city, the accessibleName for the en_US locale
+         * Gets the bccessibleNbme property of this object.  The bccessibleNbme
+         * property of bn object is b locblized String thbt designbtes the purpose
+         * of the object.  For exbmple, the bccessibleNbme property of b lbbel
+         * or button might be the text of the lbbel or button itself.  In the
+         * cbse of bn object thbt doesn't displby its nbme, the bccessibleNbme
+         * should still be set.  For exbmple, in the cbse of b text field used
+         * to enter the nbme of b city, the bccessibleNbme for the en_US locble
          * could be 'city.'
          *
-         * @return the localized name of the object; null if this
-         * object does not have a name
+         * @return the locblized nbme of the object; null if this
+         * object does not hbve b nbme
          *
-         * @see #setAccessibleName
+         * @see #setAccessibleNbme
          */
-        public String getAccessibleName() {
-            if (accessibleName != null) { // defined in AccessibleContext
-                return accessibleName;
-            } else if (accessibleJOptionPane != null) {
-                // delegate to the AccessibleJOptionPane
-                return accessibleJOptionPane.getAccessibleName();
+        public String getAccessibleNbme() {
+            if (bccessibleNbme != null) { // defined in AccessibleContext
+                return bccessibleNbme;
+            } else if (bccessibleJOptionPbne != null) {
+                // delegbte to the AccessibleJOptionPbne
+                return bccessibleJOptionPbne.getAccessibleNbme();
             }
             return null;
         }
 
         /**
-         * Gets the accessibleDescription property of this object.  The
-         * accessibleDescription property of this object is a short localized
-         * phrase describing the purpose of the object.  For example, in the
-         * case of a 'Cancel' button, the accessibleDescription could be
-         * 'Ignore changes and close dialog box.'
+         * Gets the bccessibleDescription property of this object.  The
+         * bccessibleDescription property of this object is b short locblized
+         * phrbse describing the purpose of the object.  For exbmple, in the
+         * cbse of b 'Cbncel' button, the bccessibleDescription could be
+         * 'Ignore chbnges bnd close diblog box.'
          *
-         * @return the localized description of the object; null if
-         * this object does not have a description
+         * @return the locblized description of the object; null if
+         * this object does not hbve b description
          *
          * @see #setAccessibleDescription
          */
         public String getAccessibleDescription() {
-            if (accessibleDescription != null) { // defined in AccessibleContext
-                return accessibleDescription;
-            } else if (accessibleJOptionPane != null) {
-                // delegate to the AccessibleJOptionPane
-                return accessibleJOptionPane.getAccessibleDescription();
+            if (bccessibleDescription != null) { // defined in AccessibleContext
+                return bccessibleDescription;
+            } else if (bccessibleJOptionPbne != null) {
+                // delegbte to the AccessibleJOptionPbne
+                return bccessibleJOptionPbne.getAccessibleDescription();
             }
             return null;
         }
 
         /**
          * Gets the role of this object.  The role of the object is the generic
-         * purpose or use of the class of this object.  For example, the role
-         * of a push button is AccessibleRole.PUSH_BUTTON.  The roles in
-         * AccessibleRole are provided so component developers can pick from
-         * a set of predefined roles.  This enables assistive technologies to
-         * provide a consistent interface to various tweaked subclasses of
-         * components (e.g., use AccessibleRole.PUSH_BUTTON for all components
-         * that act like a push button) as well as distinguish between subclasses
-         * that behave differently (e.g., AccessibleRole.CHECK_BOX for check boxes
-         * and AccessibleRole.RADIO_BUTTON for radio buttons).
-         * <p>Note that the AccessibleRole class is also extensible, so
-         * custom component developers can define their own AccessibleRole's
-         * if the set of predefined roles is inadequate.
+         * purpose or use of the clbss of this object.  For exbmple, the role
+         * of b push button is AccessibleRole.PUSH_BUTTON.  The roles in
+         * AccessibleRole bre provided so component developers cbn pick from
+         * b set of predefined roles.  This enbbles bssistive technologies to
+         * provide b consistent interfbce to vbrious twebked subclbsses of
+         * components (e.g., use AccessibleRole.PUSH_BUTTON for bll components
+         * thbt bct like b push button) bs well bs distinguish between subclbsses
+         * thbt behbve differently (e.g., AccessibleRole.CHECK_BOX for check boxes
+         * bnd AccessibleRole.RADIO_BUTTON for rbdio buttons).
+         * <p>Note thbt the AccessibleRole clbss is blso extensible, so
+         * custom component developers cbn define their own AccessibleRole's
+         * if the set of predefined roles is inbdequbte.
          *
-         * @return an instance of AccessibleRole describing the role of the object
+         * @return bn instbnce of AccessibleRole describing the role of the object
          * @see AccessibleRole
          */
         public AccessibleRole getAccessibleRole() {
@@ -672,106 +672,106 @@ public class ProgressMonitor implements Accessible
         }
 
         /**
-         * Gets the state set of this object.  The AccessibleStateSet of an object
-         * is composed of a set of unique AccessibleStates.  A change in the
-         * AccessibleStateSet of an object will cause a PropertyChangeEvent to
+         * Gets the stbte set of this object.  The AccessibleStbteSet of bn object
+         * is composed of b set of unique AccessibleStbtes.  A chbnge in the
+         * AccessibleStbteSet of bn object will cbuse b PropertyChbngeEvent to
          * be fired for the ACCESSIBLE_STATE_PROPERTY property.
          *
-         * @return an instance of AccessibleStateSet containing the
-         * current state set of the object
-         * @see AccessibleStateSet
-         * @see AccessibleState
-         * @see #addPropertyChangeListener
+         * @return bn instbnce of AccessibleStbteSet contbining the
+         * current stbte set of the object
+         * @see AccessibleStbteSet
+         * @see AccessibleStbte
+         * @see #bddPropertyChbngeListener
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            if (accessibleJOptionPane != null) {
-                // delegate to the AccessibleJOptionPane
-                return accessibleJOptionPane.getAccessibleStateSet();
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            if (bccessibleJOptionPbne != null) {
+                // delegbte to the AccessibleJOptionPbne
+                return bccessibleJOptionPbne.getAccessibleStbteSet();
             }
             return null;
         }
 
         /**
-         * Gets the Accessible parent of this object.
+         * Gets the Accessible pbrent of this object.
          *
-         * @return the Accessible parent of this object; null if this
-         * object does not have an Accessible parent
+         * @return the Accessible pbrent of this object; null if this
+         * object does not hbve bn Accessible pbrent
          */
-        public Accessible getAccessibleParent() {
-            return dialog;
+        public Accessible getAccessiblePbrent() {
+            return diblog;
         }
 
         /*
-         * Returns the parent AccessibleContext
+         * Returns the pbrent AccessibleContext
          */
-        private AccessibleContext getParentAccessibleContext() {
-            if (dialog != null) {
-                return dialog.getAccessibleContext();
+        privbte AccessibleContext getPbrentAccessibleContext() {
+            if (diblog != null) {
+                return diblog.getAccessibleContext();
             }
             return null;
         }
 
         /**
-         * Gets the 0-based index of this object in its accessible parent.
+         * Gets the 0-bbsed index of this object in its bccessible pbrent.
          *
-         * @return the 0-based index of this object in its parent; -1 if this
-         * object does not have an accessible parent.
+         * @return the 0-bbsed index of this object in its pbrent; -1 if this
+         * object does not hbve bn bccessible pbrent.
          *
-         * @see #getAccessibleParent
+         * @see #getAccessiblePbrent
          * @see #getAccessibleChildrenCount
          * @see #getAccessibleChild
          */
-        public int getAccessibleIndexInParent() {
-            if (accessibleJOptionPane != null) {
-                // delegate to the AccessibleJOptionPane
-                return accessibleJOptionPane.getAccessibleIndexInParent();
+        public int getAccessibleIndexInPbrent() {
+            if (bccessibleJOptionPbne != null) {
+                // delegbte to the AccessibleJOptionPbne
+                return bccessibleJOptionPbne.getAccessibleIndexInPbrent();
             }
             return -1;
         }
 
         /**
-         * Returns the number of accessible children of the object.
+         * Returns the number of bccessible children of the object.
          *
-         * @return the number of accessible children of the object.
+         * @return the number of bccessible children of the object.
          */
         public int getAccessibleChildrenCount() {
-            // return the number of children in the JPanel containing
-            // the message, note label and progress bar
-            AccessibleContext ac = getPanelAccessibleContext();
-            if (ac != null) {
-                return ac.getAccessibleChildrenCount();
+            // return the number of children in the JPbnel contbining
+            // the messbge, note lbbel bnd progress bbr
+            AccessibleContext bc = getPbnelAccessibleContext();
+            if (bc != null) {
+                return bc.getAccessibleChildrenCount();
             }
             return 0;
         }
 
         /**
          * Returns the specified Accessible child of the object.  The Accessible
-         * children of an Accessible object are zero-based, so the first child
-         * of an Accessible child is at index 0, the second child is at index 1,
-         * and so on.
+         * children of bn Accessible object bre zero-bbsed, so the first child
+         * of bn Accessible child is bt index 0, the second child is bt index 1,
+         * bnd so on.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the Accessible child of the object
          * @see #getAccessibleChildrenCount
          */
         public Accessible getAccessibleChild(int i) {
-            // return a child in the JPanel containing the message, note label
-            // and progress bar
-            AccessibleContext ac = getPanelAccessibleContext();
-            if (ac != null) {
-                return ac.getAccessibleChild(i);
+            // return b child in the JPbnel contbining the messbge, note lbbel
+            // bnd progress bbr
+            AccessibleContext bc = getPbnelAccessibleContext();
+            if (bc != null) {
+                return bc.getAccessibleChild(i);
             }
             return null;
         }
 
         /*
-         * Returns the AccessibleContext for the JPanel containing the
-         * message, note label and progress bar
+         * Returns the AccessibleContext for the JPbnel contbining the
+         * messbge, note lbbel bnd progress bbr
          */
-        private AccessibleContext getPanelAccessibleContext() {
-            if (myBar != null) {
-                Component c = myBar.getParent();
-                if (c instanceof Accessible) {
+        privbte AccessibleContext getPbnelAccessibleContext() {
+            if (myBbr != null) {
+                Component c = myBbr.getPbrent();
+                if (c instbnceof Accessible) {
                     return c.getAccessibleContext();
                 }
             }
@@ -779,21 +779,21 @@ public class ProgressMonitor implements Accessible
         }
 
         /**
-         * Gets the locale of the component. If the component does not have a
-         * locale, then the locale of its parent is returned.
+         * Gets the locble of the component. If the component does not hbve b
+         * locble, then the locble of its pbrent is returned.
          *
-         * @return this component's locale.  If this component does not have
-         * a locale, the locale of its parent is returned.
+         * @return this component's locble.  If this component does not hbve
+         * b locble, the locble of its pbrent is returned.
          *
-         * @exception IllegalComponentStateException
-         * If the Component does not have its own locale and has not yet been
-         * added to a containment hierarchy such that the locale can be
-         * determined from the containing parent.
+         * @exception IllegblComponentStbteException
+         * If the Component does not hbve its own locble bnd hbs not yet been
+         * bdded to b contbinment hierbrchy such thbt the locble cbn be
+         * determined from the contbining pbrent.
          */
-        public Locale getLocale() throws IllegalComponentStateException {
-            if (accessibleJOptionPane != null) {
-                // delegate to the AccessibleJOptionPane
-                return accessibleJOptionPane.getLocale();
+        public Locble getLocble() throws IllegblComponentStbteException {
+            if (bccessibleJOptionPbne != null) {
+                // delegbte to the AccessibleJOptionPbne
+                return bccessibleJOptionPbne.getLocble();
             }
             return null;
         }
@@ -801,57 +801,57 @@ public class ProgressMonitor implements Accessible
         /* ===== end AccessibleContext ===== */
 
         /**
-         * Gets the AccessibleComponent associated with this object that has a
-         * graphical representation.
+         * Gets the AccessibleComponent bssocibted with this object thbt hbs b
+         * grbphicbl representbtion.
          *
          * @return AccessibleComponent if supported by object; else return null
          * @see AccessibleComponent
          */
         public AccessibleComponent getAccessibleComponent() {
-            if (accessibleJOptionPane != null) {
-                // delegate to the AccessibleJOptionPane
-                return accessibleJOptionPane.getAccessibleComponent();
+            if (bccessibleJOptionPbne != null) {
+                // delegbte to the AccessibleJOptionPbne
+                return bccessibleJOptionPbne.getAccessibleComponent();
             }
             return null;
         }
 
         /**
-         * Gets the AccessibleValue associated with this object that supports a
-         * Numerical value.
+         * Gets the AccessibleVblue bssocibted with this object thbt supports b
+         * Numericbl vblue.
          *
-         * @return AccessibleValue if supported by object; else return null
-         * @see AccessibleValue
+         * @return AccessibleVblue if supported by object; else return null
+         * @see AccessibleVblue
          */
-        public AccessibleValue getAccessibleValue() {
-            if (myBar != null) {
-                // delegate to the AccessibleJProgressBar
-                return myBar.getAccessibleContext().getAccessibleValue();
+        public AccessibleVblue getAccessibleVblue() {
+            if (myBbr != null) {
+                // delegbte to the AccessibleJProgressBbr
+                return myBbr.getAccessibleContext().getAccessibleVblue();
             }
             return null;
         }
 
         /**
-         * Gets the AccessibleText associated with this object presenting
-         * text on the display.
+         * Gets the AccessibleText bssocibted with this object presenting
+         * text on the displby.
          *
          * @return AccessibleText if supported by object; else return null
          * @see AccessibleText
          */
         public AccessibleText getAccessibleText() {
-            if (getNoteLabelAccessibleText() != null) {
+            if (getNoteLbbelAccessibleText() != null) {
                 return this;
             }
             return null;
         }
 
         /*
-         * Returns the note label AccessibleText
+         * Returns the note lbbel AccessibleText
          */
-        private AccessibleText getNoteLabelAccessibleText() {
-            if (noteLabel != null) {
-                // AccessibleJLabel implements AccessibleText if the
-                // JLabel contains HTML text
-                return noteLabel.getAccessibleContext().getAccessibleText();
+        privbte AccessibleText getNoteLbbelAccessibleText() {
+            if (noteLbbel != null) {
+                // AccessibleJLbbel implements AccessibleText if the
+                // JLbbel contbins HTML text
+                return noteLbbel.getAccessibleContext().getAccessibleText();
             }
             return null;
         }
@@ -859,162 +859,162 @@ public class ProgressMonitor implements Accessible
         /* ===== Begin AccessibleText impl ===== */
 
         /**
-         * Given a point in local coordinates, return the zero-based index
-         * of the character under that Point.  If the point is invalid,
+         * Given b point in locbl coordinbtes, return the zero-bbsed index
+         * of the chbrbcter under thbt Point.  If the point is invblid,
          * this method returns -1.
          *
-         * @param p the Point in local coordinates
-         * @return the zero-based index of the character under Point p; if
-         * Point is invalid return -1.
+         * @pbrbm p the Point in locbl coordinbtes
+         * @return the zero-bbsed index of the chbrbcter under Point p; if
+         * Point is invblid return -1.
          */
         public int getIndexAtPoint(Point p) {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null && sameWindowAncestor(pane, noteLabel)) {
-                // convert point from the option pane bounds
-                // to the note label bounds.
-                Point noteLabelPoint = SwingUtilities.convertPoint(pane,
+            AccessibleText bt = getNoteLbbelAccessibleText();
+            if (bt != null && sbmeWindowAncestor(pbne, noteLbbel)) {
+                // convert point from the option pbne bounds
+                // to the note lbbel bounds.
+                Point noteLbbelPoint = SwingUtilities.convertPoint(pbne,
                                                                    p,
-                                                                   noteLabel);
-                if (noteLabelPoint != null) {
-                    return at.getIndexAtPoint(noteLabelPoint);
+                                                                   noteLbbel);
+                if (noteLbbelPoint != null) {
+                    return bt.getIndexAtPoint(noteLbbelPoint);
                 }
             }
             return -1;
         }
 
         /**
-         * Determines the bounding box of the character at the given
-         * index into the string.  The bounds are returned in local
-         * coordinates.  If the index is invalid an empty rectangle is returned.
+         * Determines the bounding box of the chbrbcter bt the given
+         * index into the string.  The bounds bre returned in locbl
+         * coordinbtes.  If the index is invblid bn empty rectbngle is returned.
          *
-         * @param i the index into the String
-         * @return the screen coordinates of the character's bounding box,
-         * if index is invalid return an empty rectangle.
+         * @pbrbm i the index into the String
+         * @return the screen coordinbtes of the chbrbcter's bounding box,
+         * if index is invblid return bn empty rectbngle.
          */
-        public Rectangle getCharacterBounds(int i) {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null && sameWindowAncestor(pane, noteLabel)) {
-                // return rectangle in the option pane bounds
-                Rectangle noteLabelRect = at.getCharacterBounds(i);
-                if (noteLabelRect != null) {
-                    return SwingUtilities.convertRectangle(noteLabel,
-                                                           noteLabelRect,
-                                                           pane);
+        public Rectbngle getChbrbcterBounds(int i) {
+            AccessibleText bt = getNoteLbbelAccessibleText();
+            if (bt != null && sbmeWindowAncestor(pbne, noteLbbel)) {
+                // return rectbngle in the option pbne bounds
+                Rectbngle noteLbbelRect = bt.getChbrbcterBounds(i);
+                if (noteLbbelRect != null) {
+                    return SwingUtilities.convertRectbngle(noteLbbel,
+                                                           noteLbbelRect,
+                                                           pbne);
                 }
             }
             return null;
         }
 
         /*
-         * Returns whether source and destination components have the
-         * same window ancestor
+         * Returns whether source bnd destinbtion components hbve the
+         * sbme window bncestor
          */
-        private boolean sameWindowAncestor(Component src, Component dest) {
+        privbte boolebn sbmeWindowAncestor(Component src, Component dest) {
             if (src == null || dest == null) {
-                return false;
+                return fblse;
             }
             return SwingUtilities.getWindowAncestor(src) ==
                 SwingUtilities.getWindowAncestor(dest);
         }
 
         /**
-         * Returns the number of characters (valid indicies)
+         * Returns the number of chbrbcters (vblid indicies)
          *
-         * @return the number of characters
+         * @return the number of chbrbcters
          */
-        public int getCharCount() {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getCharCount();
+        public int getChbrCount() {
+            AccessibleText bt = getNoteLbbelAccessibleText();
+            if (bt != null) {   // JLbbel contbins HTML text
+                return bt.getChbrCount();
             }
             return -1;
         }
 
         /**
-         * Returns the zero-based offset of the caret.
+         * Returns the zero-bbsed offset of the cbret.
          *
-         * Note: That to the right of the caret will have the same index
-         * value as the offset (the caret is between two characters).
-         * @return the zero-based offset of the caret.
+         * Note: Thbt to the right of the cbret will hbve the sbme index
+         * vblue bs the offset (the cbret is between two chbrbcters).
+         * @return the zero-bbsed offset of the cbret.
          */
-        public int getCaretPosition() {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getCaretPosition();
+        public int getCbretPosition() {
+            AccessibleText bt = getNoteLbbelAccessibleText();
+            if (bt != null) {   // JLbbel contbins HTML text
+                return bt.getCbretPosition();
             }
             return -1;
         }
 
         /**
-         * Returns the String at a given index.
+         * Returns the String bt b given index.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
+         * @pbrbm pbrt the CHARACTER, WORD, or SENTENCE to retrieve
+         * @pbrbm index bn index within the text
          * @return the letter, word, or sentence
          */
-        public String getAtIndex(int part, int index) {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getAtIndex(part, index);
+        public String getAtIndex(int pbrt, int index) {
+            AccessibleText bt = getNoteLbbelAccessibleText();
+            if (bt != null) {   // JLbbel contbins HTML text
+                return bt.getAtIndex(pbrt, index);
             }
             return null;
         }
 
         /**
-         * Returns the String after a given index.
+         * Returns the String bfter b given index.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
+         * @pbrbm pbrt the CHARACTER, WORD, or SENTENCE to retrieve
+         * @pbrbm index bn index within the text
          * @return the letter, word, or sentence
          */
-        public String getAfterIndex(int part, int index) {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getAfterIndex(part, index);
+        public String getAfterIndex(int pbrt, int index) {
+            AccessibleText bt = getNoteLbbelAccessibleText();
+            if (bt != null) {   // JLbbel contbins HTML text
+                return bt.getAfterIndex(pbrt, index);
             }
             return null;
         }
 
         /**
-         * Returns the String before a given index.
+         * Returns the String before b given index.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
+         * @pbrbm pbrt the CHARACTER, WORD, or SENTENCE to retrieve
+         * @pbrbm index bn index within the text
          * @return the letter, word, or sentence
          */
-        public String getBeforeIndex(int part, int index) {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getBeforeIndex(part, index);
+        public String getBeforeIndex(int pbrt, int index) {
+            AccessibleText bt = getNoteLbbelAccessibleText();
+            if (bt != null) {   // JLbbel contbins HTML text
+                return bt.getBeforeIndex(pbrt, index);
             }
             return null;
         }
 
         /**
-         * Returns the AttributeSet for a given character at a given index
+         * Returns the AttributeSet for b given chbrbcter bt b given index
          *
-         * @param i the zero-based index into the text
-         * @return the AttributeSet of the character
+         * @pbrbm i the zero-bbsed index into the text
+         * @return the AttributeSet of the chbrbcter
          */
-        public AttributeSet getCharacterAttribute(int i) {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getCharacterAttribute(i);
+        public AttributeSet getChbrbcterAttribute(int i) {
+            AccessibleText bt = getNoteLbbelAccessibleText();
+            if (bt != null) {   // JLbbel contbins HTML text
+                return bt.getChbrbcterAttribute(i);
             }
             return null;
         }
 
         /**
-         * Returns the start offset within the selected text.
+         * Returns the stbrt offset within the selected text.
          * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
+         * b cbret, the stbrt bnd end offsets will be the sbme.
          *
-         * @return the index into the text of the start of the selection
+         * @return the index into the text of the stbrt of the selection
          */
-        public int getSelectionStart() {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getSelectionStart();
+        public int getSelectionStbrt() {
+            AccessibleText bt = getNoteLbbelAccessibleText();
+            if (bt != null) {   // JLbbel contbins HTML text
+                return bt.getSelectionStbrt();
             }
             return -1;
         }
@@ -1022,32 +1022,32 @@ public class ProgressMonitor implements Accessible
         /**
          * Returns the end offset within the selected text.
          * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
+         * b cbret, the stbrt bnd end offsets will be the sbme.
          *
          * @return the index into the text of the end of the selection
          */
         public int getSelectionEnd() {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getSelectionEnd();
+            AccessibleText bt = getNoteLbbelAccessibleText();
+            if (bt != null) {   // JLbbel contbins HTML text
+                return bt.getSelectionEnd();
             }
             return -1;
         }
 
         /**
-         * Returns the portion of the text that is selected.
+         * Returns the portion of the text thbt is selected.
          *
-         * @return the String portion of the text that is selected
+         * @return the String portion of the text thbt is selected
          */
         public String getSelectedText() {
-            AccessibleText at = getNoteLabelAccessibleText();
-            if (at != null) {   // JLabel contains HTML text
-                return at.getSelectedText();
+            AccessibleText bt = getNoteLbbelAccessibleText();
+            if (bt != null) {   // JLbbel contbins HTML text
+                return bt.getSelectedText();
             }
             return null;
         }
         /* ===== End AccessibleText impl ===== */
     }
-    // inner class AccessibleProgressMonitor
+    // inner clbss AccessibleProgressMonitor
 
 }

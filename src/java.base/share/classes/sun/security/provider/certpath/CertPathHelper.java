@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.util.Date;
-import java.util.Set;
+import jbvb.util.Dbte;
+import jbvb.util.Set;
 
-import java.security.cert.X509CertSelector;
-import java.security.cert.X509CRLSelector;
+import jbvb.security.cert.X509CertSelector;
+import jbvb.security.cert.X509CRLSelector;
 
-import sun.security.x509.GeneralNameInterface;
+import sun.security.x509.GenerblNbmeInterfbce;
 
 /**
- * Helper class that allows access to Sun specific known-public methods in the
- * java.security.cert package. It relies on a subclass in the
- * java.security.cert packages that is initialized before any of these methods
- * are called (achieved via static initializers).
+ * Helper clbss thbt bllows bccess to Sun specific known-public methods in the
+ * jbvb.security.cert pbckbge. It relies on b subclbss in the
+ * jbvb.security.cert pbckbges thbt is initiblized before bny of these methods
+ * bre cblled (bchieved vib stbtic initiblizers).
  *
- * The methods are made available in this fashion for performance reasons.
+ * The methods bre mbde bvbilbble in this fbshion for performbnce rebsons.
  *
- * @author Andreas Sterbenz
+ * @buthor Andrebs Sterbenz
  */
-public abstract class CertPathHelper {
+public bbstrbct clbss CertPbthHelper {
 
     /**
-     * Object used to tunnel the calls. Initialized by CertPathHelperImpl.
+     * Object used to tunnel the cblls. Initiblized by CertPbthHelperImpl.
      */
-    protected static CertPathHelper instance;
+    protected stbtic CertPbthHelper instbnce;
 
-    protected CertPathHelper() {
+    protected CertPbthHelper() {
         // empty
     }
 
-    protected abstract void implSetPathToNames(X509CertSelector sel,
-            Set<GeneralNameInterface> names);
+    protected bbstrbct void implSetPbthToNbmes(X509CertSelector sel,
+            Set<GenerblNbmeInterfbce> nbmes);
 
-    protected abstract void implSetDateAndTime(X509CRLSelector sel, Date date, long skew);
+    protected bbstrbct void implSetDbteAndTime(X509CRLSelector sel, Dbte dbte, long skew);
 
-    static void setPathToNames(X509CertSelector sel,
-            Set<GeneralNameInterface> names) {
-        instance.implSetPathToNames(sel, names);
+    stbtic void setPbthToNbmes(X509CertSelector sel,
+            Set<GenerblNbmeInterfbce> nbmes) {
+        instbnce.implSetPbthToNbmes(sel, nbmes);
     }
 
-    public static void setDateAndTime(X509CRLSelector sel, Date date, long skew) {
-        instance.implSetDateAndTime(sel, date, skew);
+    public stbtic void setDbteAndTime(X509CRLSelector sel, Dbte dbte, long skew) {
+        instbnce.implSetDbteAndTime(sel, dbte, skew);
     }
 }

@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 1999, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 
 /**
- * Package-private utility class containing data structures and logic
- * governing the virtual-machine shutdown sequence.
+ * Pbckbge-privbte utility clbss contbining dbtb structures bnd logic
+ * governing the virtubl-mbchine shutdown sequence.
  *
- * @author   Mark Reinhold
+ * @buthor   Mbrk Reinhold
  * @since    1.3
  */
 
-class Shutdown {
+clbss Shutdown {
 
-    /* Shutdown state */
-    private static final int RUNNING = 0;
-    private static final int HOOKS = 1;
-    private static final int FINALIZERS = 2;
-    private static int state = RUNNING;
+    /* Shutdown stbte */
+    privbte stbtic finbl int RUNNING = 0;
+    privbte stbtic finbl int HOOKS = 1;
+    privbte stbtic finbl int FINALIZERS = 2;
+    privbte stbtic int stbte = RUNNING;
 
-    /* Should we run all finalizers upon exit? */
-    private static boolean runFinalizersOnExit = false;
+    /* Should we run bll finblizers upon exit? */
+    privbte stbtic boolebn runFinblizersOnExit = fblse;
 
-    // The system shutdown hooks are registered with a predefined slot.
-    // The list of shutdown hooks is as follows:
+    // The system shutdown hooks bre registered with b predefined slot.
+    // The list of shutdown hooks is bs follows:
     // (0) Console restore hook
-    // (1) Application hooks
+    // (1) Applicbtion hooks
     // (2) DeleteOnExit hook
-    private static final int MAX_SYSTEM_HOOKS = 10;
-    private static final Runnable[] hooks = new Runnable[MAX_SYSTEM_HOOKS];
+    privbte stbtic finbl int MAX_SYSTEM_HOOKS = 10;
+    privbte stbtic finbl Runnbble[] hooks = new Runnbble[MAX_SYSTEM_HOOKS];
 
-    // the index of the currently running shutdown hook to the hooks array
-    private static int currentRunningHook = 0;
+    // the index of the currently running shutdown hook to the hooks brrby
+    privbte stbtic int currentRunningHook = 0;
 
-    /* The preceding static fields are protected by this lock */
-    private static class Lock { };
-    private static Object lock = new Lock();
+    /* The preceding stbtic fields bre protected by this lock */
+    privbte stbtic clbss Lock { };
+    privbte stbtic Object lock = new Lock();
 
-    /* Lock object for the native halt method */
-    private static Object haltLock = new Lock();
+    /* Lock object for the nbtive hblt method */
+    privbte stbtic Object hbltLock = new Lock();
 
-    /* Invoked by Runtime.runFinalizersOnExit */
-    static void setRunFinalizersOnExit(boolean run) {
+    /* Invoked by Runtime.runFinblizersOnExit */
+    stbtic void setRunFinblizersOnExit(boolebn run) {
         synchronized (lock) {
-            runFinalizersOnExit = run;
+            runFinblizersOnExit = run;
         }
     }
 
 
     /**
-     * Add a new shutdown hook.  Checks the shutdown state and the hook itself,
-     * but does not do any security checks.
+     * Add b new shutdown hook.  Checks the shutdown stbte bnd the hook itself,
+     * but does not do bny security checks.
      *
-     * The registerShutdownInProgress parameter should be false except
-     * registering the DeleteOnExitHook since the first file may
-     * be added to the delete on exit list by the application shutdown
+     * The registerShutdownInProgress pbrbmeter should be fblse except
+     * registering the DeleteOnExitHook since the first file mby
+     * be bdded to the delete on exit list by the bpplicbtion shutdown
      * hooks.
      *
-     * @params slot  the slot in the shutdown hook array, whose element
+     * @pbrbms slot  the slot in the shutdown hook brrby, whose element
      *               will be invoked in order during shutdown
-     * @params registerShutdownInProgress true to allow the hook
+     * @pbrbms registerShutdownInProgress true to bllow the hook
      *               to be registered even if the shutdown is in progress.
-     * @params hook  the hook to be registered
+     * @pbrbms hook  the hook to be registered
      *
-     * @throw IllegalStateException
-     *        if registerShutdownInProgress is false and shutdown is in progress; or
-     *        if registerShutdownInProgress is true and the shutdown process
-     *           already passes the given slot
+     * @throw IllegblStbteException
+     *        if registerShutdownInProgress is fblse bnd shutdown is in progress; or
+     *        if registerShutdownInProgress is true bnd the shutdown process
+     *           blrebdy pbsses the given slot
      */
-    static void add(int slot, boolean registerShutdownInProgress, Runnable hook) {
+    stbtic void bdd(int slot, boolebn registerShutdownInProgress, Runnbble hook) {
         synchronized (lock) {
             if (hooks[slot] != null)
-                throw new InternalError("Shutdown hook at slot " + slot + " already registered");
+                throw new InternblError("Shutdown hook bt slot " + slot + " blrebdy registered");
 
             if (!registerShutdownInProgress) {
-                if (state > RUNNING)
-                    throw new IllegalStateException("Shutdown in progress");
+                if (stbte > RUNNING)
+                    throw new IllegblStbteException("Shutdown in progress");
             } else {
-                if (state > HOOKS || (state == HOOKS && slot <= currentRunningHook))
-                    throw new IllegalStateException("Shutdown in progress");
+                if (stbte > HOOKS || (stbte == HOOKS && slot <= currentRunningHook))
+                    throw new IllegblStbteException("Shutdown in progress");
             }
 
             hooks[slot] = hook;
         }
     }
 
-    /* Run all registered shutdown hooks
+    /* Run bll registered shutdown hooks
      */
-    private static void runHooks() {
+    privbte stbtic void runHooks() {
         for (int i=0; i < MAX_SYSTEM_HOOKS; i++) {
             try {
-                Runnable hook;
+                Runnbble hook;
                 synchronized (lock) {
-                    // acquire the lock to make sure the hook registered during
+                    // bcquire the lock to mbke sure the hook registered during
                     // shutdown is visible here.
                     currentRunningHook = i;
                     hook = hooks[i];
                 }
                 if (hook != null) hook.run();
-            } catch(Throwable t) {
-                if (t instanceof ThreadDeath) {
-                    ThreadDeath td = (ThreadDeath)t;
+            } cbtch(Throwbble t) {
+                if (t instbnceof ThrebdDebth) {
+                    ThrebdDebth td = (ThrebdDebth)t;
                     throw td;
                 }
             }
         }
     }
 
-    /* The halt method is synchronized on the halt lock
-     * to avoid corruption of the delete-on-shutdown file list.
-     * It invokes the true native halt method.
+    /* The hblt method is synchronized on the hblt lock
+     * to bvoid corruption of the delete-on-shutdown file list.
+     * It invokes the true nbtive hblt method.
      */
-    static void halt(int status) {
-        synchronized (haltLock) {
-            halt0(status);
+    stbtic void hblt(int stbtus) {
+        synchronized (hbltLock) {
+            hblt0(stbtus);
         }
     }
 
-    static native void halt0(int status);
+    stbtic nbtive void hblt0(int stbtus);
 
-    /* Wormhole for invoking java.lang.ref.Finalizer.runAllFinalizers */
-    private static native void runAllFinalizers();
+    /* Wormhole for invoking jbvb.lbng.ref.Finblizer.runAllFinblizers */
+    privbte stbtic nbtive void runAllFinblizers();
 
 
-    /* The actual shutdown sequence is defined here.
+    /* The bctubl shutdown sequence is defined here.
      *
-     * If it weren't for runFinalizersOnExit, this would be simple -- we'd just
-     * run the hooks and then halt.  Instead we need to keep track of whether
-     * we're running hooks or finalizers.  In the latter case a finalizer could
-     * invoke exit(1) to cause immediate termination, while in the former case
-     * any further invocations of exit(n), for any n, simply stall.  Note that
-     * if on-exit finalizers are enabled they're run iff the shutdown is
-     * initiated by an exit(0); they're never run on exit(n) for n != 0 or in
+     * If it weren't for runFinblizersOnExit, this would be simple -- we'd just
+     * run the hooks bnd then hblt.  Instebd we need to keep trbck of whether
+     * we're running hooks or finblizers.  In the lbtter cbse b finblizer could
+     * invoke exit(1) to cbuse immedibte terminbtion, while in the former cbse
+     * bny further invocbtions of exit(n), for bny n, simply stbll.  Note thbt
+     * if on-exit finblizers bre enbbled they're run iff the shutdown is
+     * initibted by bn exit(0); they're never run on exit(n) for n != 0 or in
      * response to SIGINT, SIGTERM, etc.
      */
-    private static void sequence() {
+    privbte stbtic void sequence() {
         synchronized (lock) {
-            /* Guard against the possibility of a daemon thread invoking exit
-             * after DestroyJavaVM initiates the shutdown sequence
+            /* Gubrd bgbinst the possibility of b dbemon threbd invoking exit
+             * bfter DestroyJbvbVM initibtes the shutdown sequence
              */
-            if (state != HOOKS) return;
+            if (stbte != HOOKS) return;
         }
         runHooks();
-        boolean rfoe;
+        boolebn rfoe;
         synchronized (lock) {
-            state = FINALIZERS;
-            rfoe = runFinalizersOnExit;
+            stbte = FINALIZERS;
+            rfoe = runFinblizersOnExit;
         }
-        if (rfoe) runAllFinalizers();
+        if (rfoe) runAllFinblizers();
     }
 
 
-    /* Invoked by Runtime.exit, which does all the security checks.
-     * Also invoked by handlers for system-provided termination events,
-     * which should pass a nonzero status code.
+    /* Invoked by Runtime.exit, which does bll the security checks.
+     * Also invoked by hbndlers for system-provided terminbtion events,
+     * which should pbss b nonzero stbtus code.
      */
-    static void exit(int status) {
-        boolean runMoreFinalizers = false;
+    stbtic void exit(int stbtus) {
+        boolebn runMoreFinblizers = fblse;
         synchronized (lock) {
-            if (status != 0) runFinalizersOnExit = false;
-            switch (state) {
-            case RUNNING:       /* Initiate shutdown */
-                state = HOOKS;
-                break;
-            case HOOKS:         /* Stall and halt */
-                break;
-            case FINALIZERS:
-                if (status != 0) {
-                    /* Halt immediately on nonzero status */
-                    halt(status);
+            if (stbtus != 0) runFinblizersOnExit = fblse;
+            switch (stbte) {
+            cbse RUNNING:       /* Initibte shutdown */
+                stbte = HOOKS;
+                brebk;
+            cbse HOOKS:         /* Stbll bnd hblt */
+                brebk;
+            cbse FINALIZERS:
+                if (stbtus != 0) {
+                    /* Hblt immedibtely on nonzero stbtus */
+                    hblt(stbtus);
                 } else {
-                    /* Compatibility with old behavior:
-                     * Run more finalizers and then halt
+                    /* Compbtibility with old behbvior:
+                     * Run more finblizers bnd then hblt
                      */
-                    runMoreFinalizers = runFinalizersOnExit;
+                    runMoreFinblizers = runFinblizersOnExit;
                 }
-                break;
+                brebk;
             }
         }
-        if (runMoreFinalizers) {
-            runAllFinalizers();
-            halt(status);
+        if (runMoreFinblizers) {
+            runAllFinblizers();
+            hblt(stbtus);
         }
-        synchronized (Shutdown.class) {
-            /* Synchronize on the class object, causing any other thread
-             * that attempts to initiate shutdown to stall indefinitely
+        synchronized (Shutdown.clbss) {
+            /* Synchronize on the clbss object, cbusing bny other threbd
+             * thbt bttempts to initibte shutdown to stbll indefinitely
              */
             sequence();
-            halt(status);
+            hblt(stbtus);
         }
     }
 
 
-    /* Invoked by the JNI DestroyJavaVM procedure when the last non-daemon
-     * thread has finished.  Unlike the exit method, this method does not
-     * actually halt the VM.
+    /* Invoked by the JNI DestroyJbvbVM procedure when the lbst non-dbemon
+     * threbd hbs finished.  Unlike the exit method, this method does not
+     * bctublly hblt the VM.
      */
-    static void shutdown() {
+    stbtic void shutdown() {
         synchronized (lock) {
-            switch (state) {
-            case RUNNING:       /* Initiate shutdown */
-                state = HOOKS;
-                break;
-            case HOOKS:         /* Stall and then return */
-            case FINALIZERS:
-                break;
+            switch (stbte) {
+            cbse RUNNING:       /* Initibte shutdown */
+                stbte = HOOKS;
+                brebk;
+            cbse HOOKS:         /* Stbll bnd then return */
+            cbse FINALIZERS:
+                brebk;
             }
         }
-        synchronized (Shutdown.class) {
+        synchronized (Shutdown.clbss) {
             sequence();
         }
     }

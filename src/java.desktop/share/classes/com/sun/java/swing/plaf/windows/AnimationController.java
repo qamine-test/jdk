@@ -1,431 +1,431 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.security.AccessController;
-import sun.security.action.GetBooleanAction;
+import jbvb.security.AccessController;
+import sun.security.bction.GetBoolebnAction;
 
-import java.util.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import jbvb.util.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
 
 
 
 import sun.swing.UIClientPropertyKey;
-import com.sun.java.swing.plaf.windows.TMSchema.State;
-import static com.sun.java.swing.plaf.windows.TMSchema.State.*;
-import com.sun.java.swing.plaf.windows.TMSchema.Part;
-import com.sun.java.swing.plaf.windows.TMSchema.Prop;
-import com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import com.sun.jbvb.swing.plbf.windows.TMSchemb.Stbte;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.Stbte.*;
+import com.sun.jbvb.swing.plbf.windows.TMSchemb.Pbrt;
+import com.sun.jbvb.swing.plbf.windows.TMSchemb.Prop;
+import com.sun.jbvb.swing.plbf.windows.XPStyle.Skin;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
 /**
- * A class to help mimic Vista theme animations.  The only kind of
- * animation it handles for now is 'transition' animation (this seems
- * to be the only animation which Vista theme can do). This is when
- * one picture fadein over another one in some period of time.
+ * A clbss to help mimic Vistb theme bnimbtions.  The only kind of
+ * bnimbtion it hbndles for now is 'trbnsition' bnimbtion (this seems
+ * to be the only bnimbtion which Vistb theme cbn do). This is when
+ * one picture fbdein over bnother one in some period of time.
  * According to
- * https://connect.microsoft.com/feedback/ViewFeedback.aspx?FeedbackID=86852&SiteID=4
- * The animations are all linear.
+ * https://connect.microsoft.com/feedbbck/ViewFeedbbck.bspx?FeedbbckID=86852&SiteID=4
+ * The bnimbtions bre bll linebr.
  *
- * This class has a number of responsibilities.
+ * This clbss hbs b number of responsibilities.
  * <ul>
- *   <li> It trigger rapaint for the UI components involved in the animation
- *   <li> It tracks the animation state for every UI component involved in the
- *        animation and paints {@code Skin} in new {@code State} over the
- *        {@code Skin} in last {@code State} using
- *        {@code AlphaComposite.SrcOver.derive(alpha)} where {code alpha}
- *        depends on the state of animation
+ *   <li> It trigger rbpbint for the UI components involved in the bnimbtion
+ *   <li> It trbcks the bnimbtion stbte for every UI component involved in the
+ *        bnimbtion bnd pbints {@code Skin} in new {@code Stbte} over the
+ *        {@code Skin} in lbst {@code Stbte} using
+ *        {@code AlphbComposite.SrcOver.derive(blphb)} where {code blphb}
+ *        depends on the stbte of bnimbtion
  * </ul>
  *
- * @author Igor Kushnirskiy
+ * @buthor Igor Kushnirskiy
  */
-class AnimationController implements ActionListener, PropertyChangeListener {
+clbss AnimbtionController implements ActionListener, PropertyChbngeListener {
 
-    private final static boolean VISTA_ANIMATION_DISABLED =
-        AccessController.doPrivileged(new GetBooleanAction("swing.disablevistaanimation"));
+    privbte finbl stbtic boolebn VISTA_ANIMATION_DISABLED =
+        AccessController.doPrivileged(new GetBoolebnAction("swing.disbblevistbbnimbtion"));
 
 
-    private final static Object ANIMATION_CONTROLLER_KEY =
+    privbte finbl stbtic Object ANIMATION_CONTROLLER_KEY =
         new StringBuilder("ANIMATION_CONTROLLER_KEY");
 
-    private final Map<JComponent, Map<Part, AnimationState>> animationStateMap =
-            new WeakHashMap<JComponent, Map<Part, AnimationState>>();
+    privbte finbl Mbp<JComponent, Mbp<Pbrt, AnimbtionStbte>> bnimbtionStbteMbp =
+            new WebkHbshMbp<JComponent, Mbp<Pbrt, AnimbtionStbte>>();
 
-    //this timer is used to cause repaint on animated components
-    //30 repaints per second should give smooth animation affect
-    private final javax.swing.Timer timer =
-        new javax.swing.Timer(1000/30, this);
+    //this timer is used to cbuse repbint on bnimbted components
+    //30 repbints per second should give smooth bnimbtion bffect
+    privbte finbl jbvbx.swing.Timer timer =
+        new jbvbx.swing.Timer(1000/30, this);
 
-    private static synchronized AnimationController getAnimationController() {
-        AppContext appContext = AppContext.getAppContext();
-        Object obj = appContext.get(ANIMATION_CONTROLLER_KEY);
+    privbte stbtic synchronized AnimbtionController getAnimbtionController() {
+        AppContext bppContext = AppContext.getAppContext();
+        Object obj = bppContext.get(ANIMATION_CONTROLLER_KEY);
         if (obj == null) {
-            obj = new AnimationController();
-            appContext.put(ANIMATION_CONTROLLER_KEY, obj);
+            obj = new AnimbtionController();
+            bppContext.put(ANIMATION_CONTROLLER_KEY, obj);
         }
-        return (AnimationController) obj;
+        return (AnimbtionController) obj;
     }
 
-    private AnimationController() {
-        timer.setRepeats(true);
-        timer.setCoalesce(true);
-        //we need to dispose the controller on l&f change
-        UIManager.addPropertyChangeListener(this);
+    privbte AnimbtionController() {
+        timer.setRepebts(true);
+        timer.setCoblesce(true);
+        //we need to dispose the controller on l&f chbnge
+        UIMbnbger.bddPropertyChbngeListener(this);
     }
 
-    private static void triggerAnimation(JComponent c,
-                           Part part, State newState) {
-        if (c instanceof javax.swing.JTabbedPane
-            || part == Part.TP_BUTTON) {
-            //idk: we can not handle tabs animation because
-            //the same (component,part) is used to handle all the tabs
-            //and we can not track the states
-            //Vista theme might have transition duration for toolbar buttons
-            //but native application does not seem to animate them
+    privbte stbtic void triggerAnimbtion(JComponent c,
+                           Pbrt pbrt, Stbte newStbte) {
+        if (c instbnceof jbvbx.swing.JTbbbedPbne
+            || pbrt == Pbrt.TP_BUTTON) {
+            //idk: we cbn not hbndle tbbs bnimbtion becbuse
+            //the sbme (component,pbrt) is used to hbndle bll the tbbs
+            //bnd we cbn not trbck the stbtes
+            //Vistb theme might hbve trbnsition durbtion for toolbbr buttons
+            //but nbtive bpplicbtion does not seem to bnimbte them
             return;
         }
-        AnimationController controller =
-            AnimationController.getAnimationController();
-        State oldState = controller.getState(c, part);
-        if (oldState != newState) {
-            controller.putState(c, part, newState);
-            if (newState == State.DEFAULTED) {
-                // it seems for DEFAULTED button state Vista does animation from
+        AnimbtionController controller =
+            AnimbtionController.getAnimbtionController();
+        Stbte oldStbte = controller.getStbte(c, pbrt);
+        if (oldStbte != newStbte) {
+            controller.putStbte(c, pbrt, newStbte);
+            if (newStbte == Stbte.DEFAULTED) {
+                // it seems for DEFAULTED button stbte Vistb does bnimbtion from
                 // HOT
-                oldState = State.HOT;
+                oldStbte = Stbte.HOT;
             }
-            if (oldState != null) {
-                long duration;
-                if (newState == State.DEFAULTED) {
-                    //Only button might have DEFAULTED state
-                    //idk: do not know how to get the value from Vista
-                    //one second seems plausible value
-                    duration = 1000;
+            if (oldStbte != null) {
+                long durbtion;
+                if (newStbte == Stbte.DEFAULTED) {
+                    //Only button might hbve DEFAULTED stbte
+                    //idk: do not know how to get the vblue from Vistb
+                    //one second seems plbusible vblue
+                    durbtion = 1000;
                 } else {
                     XPStyle xp = XPStyle.getXP();
-                    duration = (xp != null)
-                               ? xp.getThemeTransitionDuration(
-                                       c, part,
-                                       normalizeState(oldState),
-                                       normalizeState(newState),
+                    durbtion = (xp != null)
+                               ? xp.getThemeTrbnsitionDurbtion(
+                                       c, pbrt,
+                                       normblizeStbte(oldStbte),
+                                       normblizeStbte(newStbte),
                                        Prop.TRANSITIONDURATIONS)
                                : 1000;
                 }
-                controller.startAnimation(c, part, oldState, newState, duration);
+                controller.stbrtAnimbtion(c, pbrt, oldStbte, newStbte, durbtion);
             }
         }
     }
 
-    // for scrollbar up, down, left and right button pictures are
-    // defined by states.  It seems that theme has duration defined
-    // only for up button states thus we doing this translation here.
-    private static State normalizeState(State state) {
-        State rv;
-        switch (state) {
-        case DOWNPRESSED:
-            /* falls through */
-        case LEFTPRESSED:
-            /* falls through */
-        case RIGHTPRESSED:
+    // for scrollbbr up, down, left bnd right button pictures bre
+    // defined by stbtes.  It seems thbt theme hbs durbtion defined
+    // only for up button stbtes thus we doing this trbnslbtion here.
+    privbte stbtic Stbte normblizeStbte(Stbte stbte) {
+        Stbte rv;
+        switch (stbte) {
+        cbse DOWNPRESSED:
+            /* fblls through */
+        cbse LEFTPRESSED:
+            /* fblls through */
+        cbse RIGHTPRESSED:
             rv = UPPRESSED;
-            break;
+            brebk;
 
-        case DOWNDISABLED:
-            /* falls through */
-        case LEFTDISABLED:
-            /* falls through */
-        case RIGHTDISABLED:
+        cbse DOWNDISABLED:
+            /* fblls through */
+        cbse LEFTDISABLED:
+            /* fblls through */
+        cbse RIGHTDISABLED:
             rv = UPDISABLED;
-            break;
+            brebk;
 
-        case DOWNHOT:
-            /* falls through */
-        case LEFTHOT:
-            /* falls through */
-        case RIGHTHOT:
+        cbse DOWNHOT:
+            /* fblls through */
+        cbse LEFTHOT:
+            /* fblls through */
+        cbse RIGHTHOT:
             rv = UPHOT;
-            break;
+            brebk;
 
-        case DOWNNORMAL:
-            /* falls through */
-        case LEFTNORMAL:
-            /* falls through */
-        case RIGHTNORMAL:
+        cbse DOWNNORMAL:
+            /* fblls through */
+        cbse LEFTNORMAL:
+            /* fblls through */
+        cbse RIGHTNORMAL:
             rv = UPNORMAL;
-            break;
+            brebk;
 
-        default :
-            rv = state;
-            break;
+        defbult :
+            rv = stbte;
+            brebk;
         }
         return rv;
     }
 
-    private synchronized State getState(JComponent component, Part part) {
-        State rv = null;
+    privbte synchronized Stbte getStbte(JComponent component, Pbrt pbrt) {
+        Stbte rv = null;
         Object tmpObject =
-            component.getClientProperty(PartUIClientPropertyKey.getKey(part));
-        if (tmpObject instanceof State) {
-            rv = (State) tmpObject;
+            component.getClientProperty(PbrtUIClientPropertyKey.getKey(pbrt));
+        if (tmpObject instbnceof Stbte) {
+            rv = (Stbte) tmpObject;
         }
         return rv;
     }
 
-    private synchronized void putState(JComponent component, Part part,
-                                       State state) {
-        component.putClientProperty(PartUIClientPropertyKey.getKey(part),
-                                    state);
+    privbte synchronized void putStbte(JComponent component, Pbrt pbrt,
+                                       Stbte stbte) {
+        component.putClientProperty(PbrtUIClientPropertyKey.getKey(pbrt),
+                                    stbte);
     }
 
-    private synchronized void startAnimation(JComponent component,
-                                     Part part,
-                                     State startState,
-                                     State endState,
+    privbte synchronized void stbrtAnimbtion(JComponent component,
+                                     Pbrt pbrt,
+                                     Stbte stbrtStbte,
+                                     Stbte endStbte,
                                      long millis) {
-        boolean isForwardAndReverse = false;
-        if (endState == State.DEFAULTED) {
-            isForwardAndReverse = true;
+        boolebn isForwbrdAndReverse = fblse;
+        if (endStbte == Stbte.DEFAULTED) {
+            isForwbrdAndReverse = true;
         }
-        Map<Part, AnimationState> map = animationStateMap.get(component);
+        Mbp<Pbrt, AnimbtionStbte> mbp = bnimbtionStbteMbp.get(component);
         if (millis <= 0) {
-            if (map != null) {
-                map.remove(part);
-                if (map.size() == 0) {
-                    animationStateMap.remove(component);
+            if (mbp != null) {
+                mbp.remove(pbrt);
+                if (mbp.size() == 0) {
+                    bnimbtionStbteMbp.remove(component);
                 }
             }
             return;
         }
-        if (map == null) {
-            map = new EnumMap<Part, AnimationState>(Part.class);
-            animationStateMap.put(component, map);
+        if (mbp == null) {
+            mbp = new EnumMbp<Pbrt, AnimbtionStbte>(Pbrt.clbss);
+            bnimbtionStbteMbp.put(component, mbp);
         }
-        map.put(part,
-                new AnimationState(startState, millis, isForwardAndReverse));
+        mbp.put(pbrt,
+                new AnimbtionStbte(stbrtStbte, millis, isForwbrdAndReverse));
         if (! timer.isRunning()) {
-            timer.start();
+            timer.stbrt();
         }
     }
 
-    static void paintSkin(JComponent component, Skin skin,
-                      Graphics g, int dx, int dy, int dw, int dh, State state) {
+    stbtic void pbintSkin(JComponent component, Skin skin,
+                      Grbphics g, int dx, int dy, int dw, int dh, Stbte stbte) {
         if (VISTA_ANIMATION_DISABLED) {
-            skin.paintSkinRaw(g, dx, dy, dw, dh, state);
+            skin.pbintSkinRbw(g, dx, dy, dw, dh, stbte);
             return;
         }
-        triggerAnimation(component, skin.part, state);
-        AnimationController controller = getAnimationController();
+        triggerAnimbtion(component, skin.pbrt, stbte);
+        AnimbtionController controller = getAnimbtionController();
         synchronized (controller) {
-            AnimationState animationState = null;
-            Map<Part, AnimationState> map =
-                controller.animationStateMap.get(component);
-            if (map != null) {
-                animationState = map.get(skin.part);
+            AnimbtionStbte bnimbtionStbte = null;
+            Mbp<Pbrt, AnimbtionStbte> mbp =
+                controller.bnimbtionStbteMbp.get(component);
+            if (mbp != null) {
+                bnimbtionStbte = mbp.get(skin.pbrt);
             }
-            if (animationState != null) {
-                animationState.paintSkin(skin, g, dx, dy, dw, dh, state);
+            if (bnimbtionStbte != null) {
+                bnimbtionStbte.pbintSkin(skin, g, dx, dy, dw, dh, stbte);
             } else {
-                skin.paintSkinRaw(g, dx, dy, dw, dh, state);
+                skin.pbintSkinRbw(g, dx, dy, dw, dh, stbte);
             }
         }
     }
 
-    public synchronized void propertyChange(PropertyChangeEvent e) {
-        if ("lookAndFeel" == e.getPropertyName()
-            && ! (e.getNewValue() instanceof WindowsLookAndFeel) ) {
+    public synchronized void propertyChbnge(PropertyChbngeEvent e) {
+        if ("lookAndFeel" == e.getPropertyNbme()
+            && ! (e.getNewVblue() instbnceof WindowsLookAndFeel) ) {
             dispose();
         }
     }
 
-    public synchronized void actionPerformed(ActionEvent e) {
-        java.util.List<JComponent> componentsToRemove = null;
-        java.util.List<Part> partsToRemove = null;
-        for (JComponent component : animationStateMap.keySet()) {
-            component.repaint();
-            if (partsToRemove != null) {
-                partsToRemove.clear();
+    public synchronized void bctionPerformed(ActionEvent e) {
+        jbvb.util.List<JComponent> componentsToRemove = null;
+        jbvb.util.List<Pbrt> pbrtsToRemove = null;
+        for (JComponent component : bnimbtionStbteMbp.keySet()) {
+            component.repbint();
+            if (pbrtsToRemove != null) {
+                pbrtsToRemove.clebr();
             }
-            Map<Part, AnimationState> map = animationStateMap.get(component);
+            Mbp<Pbrt, AnimbtionStbte> mbp = bnimbtionStbteMbp.get(component);
             if (! component.isShowing()
-                  || map == null
-                  || map.size() == 0) {
+                  || mbp == null
+                  || mbp.size() == 0) {
                 if (componentsToRemove == null) {
-                    componentsToRemove = new ArrayList<JComponent>();
+                    componentsToRemove = new ArrbyList<JComponent>();
                 }
-                componentsToRemove.add(component);
+                componentsToRemove.bdd(component);
                 continue;
             }
-            for (Part part : map.keySet()) {
-                if (map.get(part).isDone()) {
-                    if (partsToRemove == null) {
-                        partsToRemove = new ArrayList<Part>();
+            for (Pbrt pbrt : mbp.keySet()) {
+                if (mbp.get(pbrt).isDone()) {
+                    if (pbrtsToRemove == null) {
+                        pbrtsToRemove = new ArrbyList<Pbrt>();
                     }
-                    partsToRemove.add(part);
+                    pbrtsToRemove.bdd(pbrt);
                 }
             }
-            if (partsToRemove != null) {
-                if (partsToRemove.size() == map.size()) {
-                    //animation is done for the component
+            if (pbrtsToRemove != null) {
+                if (pbrtsToRemove.size() == mbp.size()) {
+                    //bnimbtion is done for the component
                     if (componentsToRemove == null) {
-                        componentsToRemove = new ArrayList<JComponent>();
+                        componentsToRemove = new ArrbyList<JComponent>();
                     }
-                    componentsToRemove.add(component);
+                    componentsToRemove.bdd(component);
                 } else {
-                    for (Part part : partsToRemove) {
-                        map.remove(part);
+                    for (Pbrt pbrt : pbrtsToRemove) {
+                        mbp.remove(pbrt);
                     }
                 }
             }
         }
         if (componentsToRemove != null) {
             for (JComponent component : componentsToRemove) {
-                animationStateMap.remove(component);
+                bnimbtionStbteMbp.remove(component);
             }
         }
-        if (animationStateMap.size() == 0) {
+        if (bnimbtionStbteMbp.size() == 0) {
             timer.stop();
         }
     }
 
-    private synchronized void dispose() {
+    privbte synchronized void dispose() {
         timer.stop();
-        UIManager.removePropertyChangeListener(this);
-        synchronized (AnimationController.class) {
+        UIMbnbger.removePropertyChbngeListener(this);
+        synchronized (AnimbtionController.clbss) {
             AppContext.getAppContext()
                 .put(ANIMATION_CONTROLLER_KEY, null);
         }
     }
 
-    private static class AnimationState {
-        private final State startState;
+    privbte stbtic clbss AnimbtionStbte {
+        privbte finbl Stbte stbrtStbte;
 
-        //animation duration in nanoseconds
-        private final long duration;
+        //bnimbtion durbtion in nbnoseconds
+        privbte finbl long durbtion;
 
-        //animatin start time in nanoseconds
-        private long startTime;
+        //bnimbtin stbrt time in nbnoseconds
+        privbte long stbrtTime;
 
-        //direction the alpha value is changing
-        //forward  - from 0 to 1
-        //!forward - from 1 to 0
-        private boolean isForward = true;
+        //direction the blphb vblue is chbnging
+        //forwbrd  - from 0 to 1
+        //!forwbrd - from 1 to 0
+        privbte boolebn isForwbrd = true;
 
-        //if isForwardAndReverse the animation continually goes
-        //forward and reverse. alpha value is changing from 0 to 1 then
-        //from 1 to 0 and so forth
-        private boolean isForwardAndReverse;
+        //if isForwbrdAndReverse the bnimbtion continublly goes
+        //forwbrd bnd reverse. blphb vblue is chbnging from 0 to 1 then
+        //from 1 to 0 bnd so forth
+        privbte boolebn isForwbrdAndReverse;
 
-        private float progress;
+        privbte flobt progress;
 
-        AnimationState(final State startState,
-                       final long milliseconds,
-                       boolean isForwardAndReverse) {
-            assert startState != null && milliseconds > 0;
-            assert SwingUtilities.isEventDispatchThread();
+        AnimbtionStbte(finbl Stbte stbrtStbte,
+                       finbl long milliseconds,
+                       boolebn isForwbrdAndReverse) {
+            bssert stbrtStbte != null && milliseconds > 0;
+            bssert SwingUtilities.isEventDispbtchThrebd();
 
-            this.startState = startState;
-            this.duration = milliseconds * 1000000;
-            this.startTime = System.nanoTime();
-            this.isForwardAndReverse = isForwardAndReverse;
+            this.stbrtStbte = stbrtStbte;
+            this.durbtion = milliseconds * 1000000;
+            this.stbrtTime = System.nbnoTime();
+            this.isForwbrdAndReverse = isForwbrdAndReverse;
             progress = 0f;
         }
-        private void updateProgress() {
-            assert SwingUtilities.isEventDispatchThread();
+        privbte void updbteProgress() {
+            bssert SwingUtilities.isEventDispbtchThrebd();
 
             if (isDone()) {
                 return;
             }
-            long currentTime = System.nanoTime();
+            long currentTime = System.nbnoTime();
 
-            progress = ((float) (currentTime - startTime))
-                / duration;
-            progress = Math.max(progress, 0); //in case time was reset
+            progress = ((flobt) (currentTime - stbrtTime))
+                / durbtion;
+            progress = Mbth.mbx(progress, 0); //in cbse time wbs reset
             if (progress >= 1) {
                 progress = 1;
-                if (isForwardAndReverse) {
-                    startTime = currentTime;
+                if (isForwbrdAndReverse) {
+                    stbrtTime = currentTime;
                     progress = 0;
-                    isForward = ! isForward;
+                    isForwbrd = ! isForwbrd;
                 }
             }
         }
-        void paintSkin(Skin skin, Graphics _g,
-                       int dx, int dy, int dw, int dh, State state) {
-            assert SwingUtilities.isEventDispatchThread();
+        void pbintSkin(Skin skin, Grbphics _g,
+                       int dx, int dy, int dw, int dh, Stbte stbte) {
+            bssert SwingUtilities.isEventDispbtchThrebd();
 
-            updateProgress();
+            updbteProgress();
             if (! isDone()) {
-                Graphics2D g = (Graphics2D) _g.create();
-                skin.paintSkinRaw(g, dx, dy, dw, dh, startState);
-                float alpha;
-                if (isForward) {
-                    alpha = progress;
+                Grbphics2D g = (Grbphics2D) _g.crebte();
+                skin.pbintSkinRbw(g, dx, dy, dw, dh, stbrtStbte);
+                flobt blphb;
+                if (isForwbrd) {
+                    blphb = progress;
                 } else {
-                    alpha = 1 - progress;
+                    blphb = 1 - progress;
                 }
-                g.setComposite(AlphaComposite.SrcOver.derive(alpha));
-                skin.paintSkinRaw(g, dx, dy, dw, dh, state);
+                g.setComposite(AlphbComposite.SrcOver.derive(blphb));
+                skin.pbintSkinRbw(g, dx, dy, dw, dh, stbte);
                 g.dispose();
             } else {
-                skin.paintSkinRaw(_g, dx, dy, dw, dh, state);
+                skin.pbintSkinRbw(_g, dx, dy, dw, dh, stbte);
             }
         }
-        boolean isDone() {
-            assert SwingUtilities.isEventDispatchThread();
+        boolebn isDone() {
+            bssert SwingUtilities.isEventDispbtchThrebd();
 
             return  progress >= 1;
         }
     }
 
-    private static class PartUIClientPropertyKey
+    privbte stbtic clbss PbrtUIClientPropertyKey
           implements UIClientPropertyKey {
 
-        private static final Map<Part, PartUIClientPropertyKey> map =
-            new EnumMap<Part, PartUIClientPropertyKey>(Part.class);
+        privbte stbtic finbl Mbp<Pbrt, PbrtUIClientPropertyKey> mbp =
+            new EnumMbp<Pbrt, PbrtUIClientPropertyKey>(Pbrt.clbss);
 
-        static synchronized PartUIClientPropertyKey getKey(Part part) {
-            PartUIClientPropertyKey rv = map.get(part);
+        stbtic synchronized PbrtUIClientPropertyKey getKey(Pbrt pbrt) {
+            PbrtUIClientPropertyKey rv = mbp.get(pbrt);
             if (rv == null) {
-                rv = new PartUIClientPropertyKey(part);
-                map.put(part, rv);
+                rv = new PbrtUIClientPropertyKey(pbrt);
+                mbp.put(pbrt, rv);
             }
             return rv;
         }
 
-        private final Part part;
-        private PartUIClientPropertyKey(Part part) {
-            this.part  = part;
+        privbte finbl Pbrt pbrt;
+        privbte PbrtUIClientPropertyKey(Pbrt pbrt) {
+            this.pbrt  = pbrt;
         }
         public String toString() {
-            return part.toString();
+            return pbrt.toString();
         }
     }
 }

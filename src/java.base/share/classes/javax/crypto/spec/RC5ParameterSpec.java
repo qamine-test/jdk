@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto.spec;
+pbckbge jbvbx.crypto.spec;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
 /**
- * This class specifies the parameters used with the
- * <a href="http://www.ietf.org/rfc/rfc2040.txt"><i>RC5</i></a>
- * algorithm.
+ * This clbss specifies the pbrbmeters used with the
+ * <b href="http://www.ietf.org/rfc/rfc2040.txt"><i>RC5</i></b>
+ * blgorithm.
  *
- * <p> The parameters consist of a version number, a rounds count, a word
- * size, and optionally an initialization vector (IV) (only in feedback mode).
+ * <p> The pbrbmeters consist of b version number, b rounds count, b word
+ * size, bnd optionblly bn initiblizbtion vector (IV) (only in feedbbck mode).
  *
- * <p> This class can be used to initialize a <code>Cipher</code> object that
- * implements the <i>RC5</i> algorithm as supplied by
- * <a href="http://www.rsasecurity.com">RSA Security Inc.</a>,
- * or any parties authorized by RSA Security.
+ * <p> This clbss cbn be used to initiblize b <code>Cipher</code> object thbt
+ * implements the <i>RC5</i> blgorithm bs supplied by
+ * <b href="http://www.rsbsecurity.com">RSA Security Inc.</b>,
+ * or bny pbrties buthorized by RSA Security.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @since 1.4
  */
-public class RC5ParameterSpec implements AlgorithmParameterSpec {
+public clbss RC5PbrbmeterSpec implements AlgorithmPbrbmeterSpec {
 
-    private byte[] iv = null;
-    private int version;
-    private int rounds;
-    private int wordSize; // the word size in bits
+    privbte byte[] iv = null;
+    privbte int version;
+    privbte int rounds;
+    privbte int wordSize; // the word size in bits
 
     /**
-     * Constructs a parameter set for RC5 from the given version, number of
-     * rounds and word size (in bits).
+     * Constructs b pbrbmeter set for RC5 from the given version, number of
+     * rounds bnd word size (in bits).
      *
-     * @param version the version.
-     * @param rounds the number of rounds.
-     * @param wordSize the word size in bits.
+     * @pbrbm version the version.
+     * @pbrbm rounds the number of rounds.
+     * @pbrbm wordSize the word size in bits.
      */
-    public RC5ParameterSpec(int version, int rounds, int wordSize) {
+    public RC5PbrbmeterSpec(int version, int rounds, int wordSize) {
         this.version = version;
         this.rounds = rounds;
         this.wordSize = wordSize;
     }
 
     /**
-     * Constructs a parameter set for RC5 from the given version, number of
-     * rounds, word size (in bits), and IV.
+     * Constructs b pbrbmeter set for RC5 from the given version, number of
+     * rounds, word size (in bits), bnd IV.
      *
-     * <p> Note that the size of the IV (block size) must be twice the word
-     * size. The bytes that constitute the IV are those between
-     * <code>iv[0]</code> and <code>iv[2*(wordSize/8)-1]</code> inclusive.
+     * <p> Note thbt the size of the IV (block size) must be twice the word
+     * size. The bytes thbt constitute the IV bre those between
+     * <code>iv[0]</code> bnd <code>iv[2*(wordSize/8)-1]</code> inclusive.
      *
-     * @param version the version.
-     * @param rounds the number of rounds.
-     * @param wordSize the word size in bits.
-     * @param iv the buffer with the IV. The first <code>2*(wordSize/8)
-     * </code> bytes of the buffer are copied to protect against subsequent
-     * modification.
-     * @exception IllegalArgumentException if <code>iv</code> is
+     * @pbrbm version the version.
+     * @pbrbm rounds the number of rounds.
+     * @pbrbm wordSize the word size in bits.
+     * @pbrbm iv the buffer with the IV. The first <code>2*(wordSize/8)
+     * </code> bytes of the buffer bre copied to protect bgbinst subsequent
+     * modificbtion.
+     * @exception IllegblArgumentException if <code>iv</code> is
      * <code>null</code> or {@code (iv.length < 2 * (wordSize / 8))}
      */
-    public RC5ParameterSpec(int version, int rounds, int wordSize, byte[] iv) {
+    public RC5PbrbmeterSpec(int version, int rounds, int wordSize, byte[] iv) {
         this(version, rounds, wordSize, iv, 0);
     }
 
     /**
-     * Constructs a parameter set for RC5 from the given version, number of
-     * rounds, word size (in bits), and IV.
+     * Constructs b pbrbmeter set for RC5 from the given version, number of
+     * rounds, word size (in bits), bnd IV.
      *
-     * <p> The IV is taken from <code>iv</code>, starting at
+     * <p> The IV is tbken from <code>iv</code>, stbrting bt
      * <code>offset</code> inclusive.
-     * Note that the size of the IV (block size), starting at
+     * Note thbt the size of the IV (block size), stbrting bt
      * <code>offset</code> inclusive, must be twice the word size.
-     * The bytes that constitute the IV are those between
-     * <code>iv[offset]</code> and <code>iv[offset+2*(wordSize/8)-1]</code>
+     * The bytes thbt constitute the IV bre those between
+     * <code>iv[offset]</code> bnd <code>iv[offset+2*(wordSize/8)-1]</code>
      * inclusive.
      *
-     * @param version the version.
-     * @param rounds the number of rounds.
-     * @param wordSize the word size in bits.
-     * @param iv the buffer with the IV. The first <code>2*(wordSize/8)
-     * </code> bytes of the buffer beginning at <code>offset</code>
-     * inclusive are copied to protect against subsequent modification.
-     * @param offset the offset in <code>iv</code> where the IV starts.
-     * @exception IllegalArgumentException if <code>iv</code> is
+     * @pbrbm version the version.
+     * @pbrbm rounds the number of rounds.
+     * @pbrbm wordSize the word size in bits.
+     * @pbrbm iv the buffer with the IV. The first <code>2*(wordSize/8)
+     * </code> bytes of the buffer beginning bt <code>offset</code>
+     * inclusive bre copied to protect bgbinst subsequent modificbtion.
+     * @pbrbm offset the offset in <code>iv</code> where the IV stbrts.
+     * @exception IllegblArgumentException if <code>iv</code> is
      * <code>null</code> or
      * {@code (iv.length - offset < 2 * (wordSize / 8))}
      */
-    public RC5ParameterSpec(int version, int rounds, int wordSize,
+    public RC5PbrbmeterSpec(int version, int rounds, int wordSize,
                             byte[] iv, int offset) {
         this.version = version;
         this.rounds = rounds;
         this.wordSize = wordSize;
-        if (iv == null) throw new IllegalArgumentException("IV missing");
+        if (iv == null) throw new IllegblArgumentException("IV missing");
         int blockSize = (wordSize / 8) * 2;
         if (iv.length - offset < blockSize) {
-            throw new IllegalArgumentException("IV too short");
+            throw new IllegblArgumentException("IV too short");
         }
         this.iv = new byte[blockSize];
-        System.arraycopy(iv, offset, this.iv, 0, blockSize);
+        System.brrbycopy(iv, offset, this.iv, 0, blockSize);
     }
 
     /**
@@ -151,53 +151,53 @@ public class RC5ParameterSpec implements AlgorithmParameterSpec {
     }
 
     /**
-     * Returns the IV or null if this parameter set does not contain an IV.
+     * Returns the IV or null if this pbrbmeter set does not contbin bn IV.
      *
-     * @return the IV or null if this parameter set does not contain an IV.
-     * Returns a new array each time this method is called.
+     * @return the IV or null if this pbrbmeter set does not contbin bn IV.
+     * Returns b new brrby ebch time this method is cblled.
      */
     public byte[] getIV() {
         return (iv == null? null:iv.clone());
     }
 
    /**
-     * Tests for equality between the specified object and this
-     * object. Two RC5ParameterSpec objects are considered equal if their
-     * version numbers, number of rounds, word sizes, and IVs are equal.
-     * (Two IV references are considered equal if both are <tt>null</tt>.)
+     * Tests for equblity between the specified object bnd this
+     * object. Two RC5PbrbmeterSpec objects bre considered equbl if their
+     * version numbers, number of rounds, word sizes, bnd IVs bre equbl.
+     * (Two IV references bre considered equbl if both bre <tt>null</tt>.)
      *
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj the object to test for equblity with this object.
      *
-     * @return true if the objects are considered equal, false if
+     * @return true if the objects bre considered equbl, fblse if
      * <code>obj</code> is null or otherwise.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof RC5ParameterSpec)) {
-            return false;
+        if (!(obj instbnceof RC5PbrbmeterSpec)) {
+            return fblse;
         }
-        RC5ParameterSpec other = (RC5ParameterSpec) obj;
+        RC5PbrbmeterSpec other = (RC5PbrbmeterSpec) obj;
 
         return ((version == other.version) &&
                 (rounds == other.rounds) &&
                 (wordSize == other.wordSize) &&
-                java.util.Arrays.equals(iv, other.iv));
+                jbvb.util.Arrbys.equbls(iv, other.iv));
     }
 
     /**
-     * Calculates a hash code value for the object.
-     * Objects that are equal will also have the same hashcode.
+     * Cblculbtes b hbsh code vblue for the object.
+     * Objects thbt bre equbl will blso hbve the sbme hbshcode.
      */
-    public int hashCode() {
-        int retval = 0;
+    public int hbshCode() {
+        int retvbl = 0;
         if (iv != null) {
             for (int i = 1; i < iv.length; i++) {
-                retval += iv[i] * i;
+                retvbl += iv[i] * i;
             }
         }
-        retval += (version + rounds + wordSize);
-        return retval;
+        retvbl += (version + rounds + wordSize);
+        return retvbl;
     }
 }

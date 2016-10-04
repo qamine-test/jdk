@@ -1,333 +1,333 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.beans.ConstructorProperties;
+import jbvb.bebns.ConstructorProperties;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * The <code>BasicStroke</code> class defines a basic set of rendering
- * attributes for the outlines of graphics primitives, which are rendered
- * with a {@link Graphics2D} object that has its Stroke attribute set to
- * this <code>BasicStroke</code>.
- * The rendering attributes defined by <code>BasicStroke</code> describe
- * the shape of the mark made by a pen drawn along the outline of a
- * {@link Shape} and the decorations applied at the ends and joins of
- * path segments of the <code>Shape</code>.
- * These rendering attributes include:
+ * The <code>BbsicStroke</code> clbss defines b bbsic set of rendering
+ * bttributes for the outlines of grbphics primitives, which bre rendered
+ * with b {@link Grbphics2D} object thbt hbs its Stroke bttribute set to
+ * this <code>BbsicStroke</code>.
+ * The rendering bttributes defined by <code>BbsicStroke</code> describe
+ * the shbpe of the mbrk mbde by b pen drbwn blong the outline of b
+ * {@link Shbpe} bnd the decorbtions bpplied bt the ends bnd joins of
+ * pbth segments of the <code>Shbpe</code>.
+ * These rendering bttributes include:
  * <dl>
  * <dt><i>width</i>
- * <dd>The pen width, measured perpendicularly to the pen trajectory.
- * <dt><i>end caps</i>
- * <dd>The decoration applied to the ends of unclosed subpaths and
- * dash segments.  Subpaths that start and end on the same point are
- * still considered unclosed if they do not have a CLOSE segment.
- * See {@link java.awt.geom.PathIterator#SEG_CLOSE SEG_CLOSE}
- * for more information on the CLOSE segment.
- * The three different decorations are: {@link #CAP_BUTT},
- * {@link #CAP_ROUND}, and {@link #CAP_SQUARE}.
+ * <dd>The pen width, mebsured perpendiculbrly to the pen trbjectory.
+ * <dt><i>end cbps</i>
+ * <dd>The decorbtion bpplied to the ends of unclosed subpbths bnd
+ * dbsh segments.  Subpbths thbt stbrt bnd end on the sbme point bre
+ * still considered unclosed if they do not hbve b CLOSE segment.
+ * See {@link jbvb.bwt.geom.PbthIterbtor#SEG_CLOSE SEG_CLOSE}
+ * for more informbtion on the CLOSE segment.
+ * The three different decorbtions bre: {@link #CAP_BUTT},
+ * {@link #CAP_ROUND}, bnd {@link #CAP_SQUARE}.
  * <dt><i>line joins</i>
- * <dd>The decoration applied at the intersection of two path segments
- * and at the intersection of the endpoints of a subpath that is closed
- * using {@link java.awt.geom.PathIterator#SEG_CLOSE SEG_CLOSE}.
- * The three different decorations are: {@link #JOIN_BEVEL},
- * {@link #JOIN_MITER}, and {@link #JOIN_ROUND}.
+ * <dd>The decorbtion bpplied bt the intersection of two pbth segments
+ * bnd bt the intersection of the endpoints of b subpbth thbt is closed
+ * using {@link jbvb.bwt.geom.PbthIterbtor#SEG_CLOSE SEG_CLOSE}.
+ * The three different decorbtions bre: {@link #JOIN_BEVEL},
+ * {@link #JOIN_MITER}, bnd {@link #JOIN_ROUND}.
  * <dt><i>miter limit</i>
- * <dd>The limit to trim a line join that has a JOIN_MITER decoration.
- * A line join is trimmed when the ratio of miter length to stroke
- * width is greater than the miterlimit value.  The miter length is
- * the diagonal length of the miter, which is the distance between
- * the inside corner and the outside corner of the intersection.
- * The smaller the angle formed by two line segments, the longer
- * the miter length and the sharper the angle of intersection.  The
- * default miterlimit value of 10.0f causes all angles less than
+ * <dd>The limit to trim b line join thbt hbs b JOIN_MITER decorbtion.
+ * A line join is trimmed when the rbtio of miter length to stroke
+ * width is grebter thbn the miterlimit vblue.  The miter length is
+ * the dibgonbl length of the miter, which is the distbnce between
+ * the inside corner bnd the outside corner of the intersection.
+ * The smbller the bngle formed by two line segments, the longer
+ * the miter length bnd the shbrper the bngle of intersection.  The
+ * defbult miterlimit vblue of 10.0f cbuses bll bngles less thbn
  * 11 degrees to be trimmed.  Trimming miters converts
- * the decoration of the line join to bevel.
- * <dt><i>dash attributes</i>
- * <dd>The definition of how to make a dash pattern by alternating
- * between opaque and transparent sections.
+ * the decorbtion of the line join to bevel.
+ * <dt><i>dbsh bttributes</i>
+ * <dd>The definition of how to mbke b dbsh pbttern by blternbting
+ * between opbque bnd trbnspbrent sections.
  * </dl>
- * All attributes that specify measurements and distances controlling
- * the shape of the returned outline are measured in the same
- * coordinate system as the original unstroked <code>Shape</code>
- * argument.  When a <code>Graphics2D</code> object uses a
- * <code>Stroke</code> object to redefine a path during the execution
- * of one of its <code>draw</code> methods, the geometry is supplied
- * in its original form before the <code>Graphics2D</code> transform
- * attribute is applied.  Therefore, attributes such as the pen width
- * are interpreted in the user space coordinate system of the
- * <code>Graphics2D</code> object and are subject to the scaling and
- * shearing effects of the user-space-to-device-space transform in that
- * particular <code>Graphics2D</code>.
- * For example, the width of a rendered shape's outline is determined
- * not only by the width attribute of this <code>BasicStroke</code>,
- * but also by the transform attribute of the
- * <code>Graphics2D</code> object.  Consider this code:
+ * All bttributes thbt specify mebsurements bnd distbnces controlling
+ * the shbpe of the returned outline bre mebsured in the sbme
+ * coordinbte system bs the originbl unstroked <code>Shbpe</code>
+ * brgument.  When b <code>Grbphics2D</code> object uses b
+ * <code>Stroke</code> object to redefine b pbth during the execution
+ * of one of its <code>drbw</code> methods, the geometry is supplied
+ * in its originbl form before the <code>Grbphics2D</code> trbnsform
+ * bttribute is bpplied.  Therefore, bttributes such bs the pen width
+ * bre interpreted in the user spbce coordinbte system of the
+ * <code>Grbphics2D</code> object bnd bre subject to the scbling bnd
+ * shebring effects of the user-spbce-to-device-spbce trbnsform in thbt
+ * pbrticulbr <code>Grbphics2D</code>.
+ * For exbmple, the width of b rendered shbpe's outline is determined
+ * not only by the width bttribute of this <code>BbsicStroke</code>,
+ * but blso by the trbnsform bttribute of the
+ * <code>Grbphics2D</code> object.  Consider this code:
  * <blockquote><tt>
- *      // sets the Graphics2D object's Transform attribute
- *      g2d.scale(10, 10);
- *      // sets the Graphics2D object's Stroke attribute
- *      g2d.setStroke(new BasicStroke(1.5f));
+ *      // sets the Grbphics2D object's Trbnsform bttribute
+ *      g2d.scble(10, 10);
+ *      // sets the Grbphics2D object's Stroke bttribute
+ *      g2d.setStroke(new BbsicStroke(1.5f));
  * </tt></blockquote>
- * Assuming there are no other scaling transforms added to the
- * <code>Graphics2D</code> object, the resulting line
- * will be approximately 15 pixels wide.
- * As the example code demonstrates, a floating-point line
- * offers better precision, especially when large transforms are
- * used with a <code>Graphics2D</code> object.
- * When a line is diagonal, the exact width depends on how the
- * rendering pipeline chooses which pixels to fill as it traces the
- * theoretical widened outline.  The choice of which pixels to turn
- * on is affected by the antialiasing attribute because the
- * antialiasing rendering pipeline can choose to color
- * partially-covered pixels.
+ * Assuming there bre no other scbling trbnsforms bdded to the
+ * <code>Grbphics2D</code> object, the resulting line
+ * will be bpproximbtely 15 pixels wide.
+ * As the exbmple code demonstrbtes, b flobting-point line
+ * offers better precision, especiblly when lbrge trbnsforms bre
+ * used with b <code>Grbphics2D</code> object.
+ * When b line is dibgonbl, the exbct width depends on how the
+ * rendering pipeline chooses which pixels to fill bs it trbces the
+ * theoreticbl widened outline.  The choice of which pixels to turn
+ * on is bffected by the bntiblibsing bttribute becbuse the
+ * bntiblibsing rendering pipeline cbn choose to color
+ * pbrtiblly-covered pixels.
  * <p>
- * For more information on the user space coordinate system and the
- * rendering process, see the <code>Graphics2D</code> class comments.
- * @see Graphics2D
- * @author Jim Graham
+ * For more informbtion on the user spbce coordinbte system bnd the
+ * rendering process, see the <code>Grbphics2D</code> clbss comments.
+ * @see Grbphics2D
+ * @buthor Jim Grbhbm
  */
-public class BasicStroke implements Stroke {
+public clbss BbsicStroke implements Stroke {
 
     /**
-     * Joins path segments by extending their outside edges until
+     * Joins pbth segments by extending their outside edges until
      * they meet.
      */
-    @Native public final static int JOIN_MITER = 0;
+    @Nbtive public finbl stbtic int JOIN_MITER = 0;
 
     /**
-     * Joins path segments by rounding off the corner at a radius
-     * of half the line width.
+     * Joins pbth segments by rounding off the corner bt b rbdius
+     * of hblf the line width.
      */
-    @Native public final static int JOIN_ROUND = 1;
+    @Nbtive public finbl stbtic int JOIN_ROUND = 1;
 
     /**
-     * Joins path segments by connecting the outer corners of their
-     * wide outlines with a straight segment.
+     * Joins pbth segments by connecting the outer corners of their
+     * wide outlines with b strbight segment.
      */
-    @Native public final static int JOIN_BEVEL = 2;
+    @Nbtive public finbl stbtic int JOIN_BEVEL = 2;
 
     /**
-     * Ends unclosed subpaths and dash segments with no added
-     * decoration.
+     * Ends unclosed subpbths bnd dbsh segments with no bdded
+     * decorbtion.
      */
-    @Native public final static int CAP_BUTT = 0;
+    @Nbtive public finbl stbtic int CAP_BUTT = 0;
 
     /**
-     * Ends unclosed subpaths and dash segments with a round
-     * decoration that has a radius equal to half of the width
+     * Ends unclosed subpbths bnd dbsh segments with b round
+     * decorbtion thbt hbs b rbdius equbl to hblf of the width
      * of the pen.
      */
-    @Native public final static int CAP_ROUND = 1;
+    @Nbtive public finbl stbtic int CAP_ROUND = 1;
 
     /**
-     * Ends unclosed subpaths and dash segments with a square
-     * projection that extends beyond the end of the segment
-     * to a distance equal to half of the line width.
+     * Ends unclosed subpbths bnd dbsh segments with b squbre
+     * projection thbt extends beyond the end of the segment
+     * to b distbnce equbl to hblf of the line width.
      */
-    @Native public final static int CAP_SQUARE = 2;
+    @Nbtive public finbl stbtic int CAP_SQUARE = 2;
 
-    float width;
+    flobt width;
 
     int join;
-    int cap;
-    float miterlimit;
+    int cbp;
+    flobt miterlimit;
 
-    float dash[];
-    float dash_phase;
+    flobt dbsh[];
+    flobt dbsh_phbse;
 
     /**
-     * Constructs a new <code>BasicStroke</code> with the specified
-     * attributes.
-     * @param width the width of this <code>BasicStroke</code>.  The
-     *         width must be greater than or equal to 0.0f.  If width is
-     *         set to 0.0f, the stroke is rendered as the thinnest
-     *         possible line for the target device and the antialias
+     * Constructs b new <code>BbsicStroke</code> with the specified
+     * bttributes.
+     * @pbrbm width the width of this <code>BbsicStroke</code>.  The
+     *         width must be grebter thbn or equbl to 0.0f.  If width is
+     *         set to 0.0f, the stroke is rendered bs the thinnest
+     *         possible line for the tbrget device bnd the bntiblibs
      *         hint setting.
-     * @param cap the decoration of the ends of a <code>BasicStroke</code>
-     * @param join the decoration applied where path segments meet
-     * @param miterlimit the limit to trim the miter join.  The miterlimit
-     *        must be greater than or equal to 1.0f.
-     * @param dash the array representing the dashing pattern
-     * @param dash_phase the offset to start the dashing pattern
-     * @throws IllegalArgumentException if <code>width</code> is negative
-     * @throws IllegalArgumentException if <code>cap</code> is not either
+     * @pbrbm cbp the decorbtion of the ends of b <code>BbsicStroke</code>
+     * @pbrbm join the decorbtion bpplied where pbth segments meet
+     * @pbrbm miterlimit the limit to trim the miter join.  The miterlimit
+     *        must be grebter thbn or equbl to 1.0f.
+     * @pbrbm dbsh the brrby representing the dbshing pbttern
+     * @pbrbm dbsh_phbse the offset to stbrt the dbshing pbttern
+     * @throws IllegblArgumentException if <code>width</code> is negbtive
+     * @throws IllegblArgumentException if <code>cbp</code> is not either
      *         CAP_BUTT, CAP_ROUND or CAP_SQUARE
-     * @throws IllegalArgumentException if <code>miterlimit</code> is less
-     *         than 1 and <code>join</code> is JOIN_MITER
-     * @throws IllegalArgumentException if <code>join</code> is not
+     * @throws IllegblArgumentException if <code>miterlimit</code> is less
+     *         thbn 1 bnd <code>join</code> is JOIN_MITER
+     * @throws IllegblArgumentException if <code>join</code> is not
      *         either JOIN_ROUND, JOIN_BEVEL, or JOIN_MITER
-     * @throws IllegalArgumentException if <code>dash_phase</code>
-     *         is negative and <code>dash</code> is not <code>null</code>
-     * @throws IllegalArgumentException if the length of
-     *         <code>dash</code> is zero
-     * @throws IllegalArgumentException if dash lengths are all zero.
+     * @throws IllegblArgumentException if <code>dbsh_phbse</code>
+     *         is negbtive bnd <code>dbsh</code> is not <code>null</code>
+     * @throws IllegblArgumentException if the length of
+     *         <code>dbsh</code> is zero
+     * @throws IllegblArgumentException if dbsh lengths bre bll zero.
      */
-    @ConstructorProperties({ "lineWidth", "endCap", "lineJoin", "miterLimit", "dashArray", "dashPhase" })
-    public BasicStroke(float width, int cap, int join, float miterlimit,
-                       float dash[], float dash_phase) {
+    @ConstructorProperties({ "lineWidth", "endCbp", "lineJoin", "miterLimit", "dbshArrby", "dbshPhbse" })
+    public BbsicStroke(flobt width, int cbp, int join, flobt miterlimit,
+                       flobt dbsh[], flobt dbsh_phbse) {
         if (width < 0.0f) {
-            throw new IllegalArgumentException("negative width");
+            throw new IllegblArgumentException("negbtive width");
         }
-        if (cap != CAP_BUTT && cap != CAP_ROUND && cap != CAP_SQUARE) {
-            throw new IllegalArgumentException("illegal end cap value");
+        if (cbp != CAP_BUTT && cbp != CAP_ROUND && cbp != CAP_SQUARE) {
+            throw new IllegblArgumentException("illegbl end cbp vblue");
         }
         if (join == JOIN_MITER) {
             if (miterlimit < 1.0f) {
-                throw new IllegalArgumentException("miter limit < 1");
+                throw new IllegblArgumentException("miter limit < 1");
             }
         } else if (join != JOIN_ROUND && join != JOIN_BEVEL) {
-            throw new IllegalArgumentException("illegal line join value");
+            throw new IllegblArgumentException("illegbl line join vblue");
         }
-        if (dash != null) {
-            if (dash_phase < 0.0f) {
-                throw new IllegalArgumentException("negative dash phase");
+        if (dbsh != null) {
+            if (dbsh_phbse < 0.0f) {
+                throw new IllegblArgumentException("negbtive dbsh phbse");
             }
-            boolean allzero = true;
-            for (int i = 0; i < dash.length; i++) {
-                float d = dash[i];
+            boolebn bllzero = true;
+            for (int i = 0; i < dbsh.length; i++) {
+                flobt d = dbsh[i];
                 if (d > 0.0) {
-                    allzero = false;
+                    bllzero = fblse;
                 } else if (d < 0.0) {
-                    throw new IllegalArgumentException("negative dash length");
+                    throw new IllegblArgumentException("negbtive dbsh length");
                 }
             }
-            if (allzero) {
-                throw new IllegalArgumentException("dash lengths all zero");
+            if (bllzero) {
+                throw new IllegblArgumentException("dbsh lengths bll zero");
             }
         }
         this.width      = width;
-        this.cap        = cap;
+        this.cbp        = cbp;
         this.join       = join;
         this.miterlimit = miterlimit;
-        if (dash != null) {
-            this.dash = dash.clone();
+        if (dbsh != null) {
+            this.dbsh = dbsh.clone();
         }
-        this.dash_phase = dash_phase;
+        this.dbsh_phbse = dbsh_phbse;
     }
 
     /**
-     * Constructs a solid <code>BasicStroke</code> with the specified
-     * attributes.
-     * @param width the width of the <code>BasicStroke</code>
-     * @param cap the decoration of the ends of a <code>BasicStroke</code>
-     * @param join the decoration applied where path segments meet
-     * @param miterlimit the limit to trim the miter join
-     * @throws IllegalArgumentException if <code>width</code> is negative
-     * @throws IllegalArgumentException if <code>cap</code> is not either
+     * Constructs b solid <code>BbsicStroke</code> with the specified
+     * bttributes.
+     * @pbrbm width the width of the <code>BbsicStroke</code>
+     * @pbrbm cbp the decorbtion of the ends of b <code>BbsicStroke</code>
+     * @pbrbm join the decorbtion bpplied where pbth segments meet
+     * @pbrbm miterlimit the limit to trim the miter join
+     * @throws IllegblArgumentException if <code>width</code> is negbtive
+     * @throws IllegblArgumentException if <code>cbp</code> is not either
      *         CAP_BUTT, CAP_ROUND or CAP_SQUARE
-     * @throws IllegalArgumentException if <code>miterlimit</code> is less
-     *         than 1 and <code>join</code> is JOIN_MITER
-     * @throws IllegalArgumentException if <code>join</code> is not
+     * @throws IllegblArgumentException if <code>miterlimit</code> is less
+     *         thbn 1 bnd <code>join</code> is JOIN_MITER
+     * @throws IllegblArgumentException if <code>join</code> is not
      *         either JOIN_ROUND, JOIN_BEVEL, or JOIN_MITER
      */
-    public BasicStroke(float width, int cap, int join, float miterlimit) {
-        this(width, cap, join, miterlimit, null, 0.0f);
+    public BbsicStroke(flobt width, int cbp, int join, flobt miterlimit) {
+        this(width, cbp, join, miterlimit, null, 0.0f);
     }
 
     /**
-     * Constructs a solid <code>BasicStroke</code> with the specified
-     * attributes.  The <code>miterlimit</code> parameter is
-     * unnecessary in cases where the default is allowable or the
-     * line joins are not specified as JOIN_MITER.
-     * @param width the width of the <code>BasicStroke</code>
-     * @param cap the decoration of the ends of a <code>BasicStroke</code>
-     * @param join the decoration applied where path segments meet
-     * @throws IllegalArgumentException if <code>width</code> is negative
-     * @throws IllegalArgumentException if <code>cap</code> is not either
+     * Constructs b solid <code>BbsicStroke</code> with the specified
+     * bttributes.  The <code>miterlimit</code> pbrbmeter is
+     * unnecessbry in cbses where the defbult is bllowbble or the
+     * line joins bre not specified bs JOIN_MITER.
+     * @pbrbm width the width of the <code>BbsicStroke</code>
+     * @pbrbm cbp the decorbtion of the ends of b <code>BbsicStroke</code>
+     * @pbrbm join the decorbtion bpplied where pbth segments meet
+     * @throws IllegblArgumentException if <code>width</code> is negbtive
+     * @throws IllegblArgumentException if <code>cbp</code> is not either
      *         CAP_BUTT, CAP_ROUND or CAP_SQUARE
-     * @throws IllegalArgumentException if <code>join</code> is not
+     * @throws IllegblArgumentException if <code>join</code> is not
      *         either JOIN_ROUND, JOIN_BEVEL, or JOIN_MITER
      */
-    public BasicStroke(float width, int cap, int join) {
-        this(width, cap, join, 10.0f, null, 0.0f);
+    public BbsicStroke(flobt width, int cbp, int join) {
+        this(width, cbp, join, 10.0f, null, 0.0f);
     }
 
     /**
-     * Constructs a solid <code>BasicStroke</code> with the specified
-     * line width and with default values for the cap and join
+     * Constructs b solid <code>BbsicStroke</code> with the specified
+     * line width bnd with defbult vblues for the cbp bnd join
      * styles.
-     * @param width the width of the <code>BasicStroke</code>
-     * @throws IllegalArgumentException if <code>width</code> is negative
+     * @pbrbm width the width of the <code>BbsicStroke</code>
+     * @throws IllegblArgumentException if <code>width</code> is negbtive
      */
-    public BasicStroke(float width) {
+    public BbsicStroke(flobt width) {
         this(width, CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
     }
 
     /**
-     * Constructs a new <code>BasicStroke</code> with defaults for all
-     * attributes.
-     * The default attributes are a solid line of width 1.0, CAP_SQUARE,
-     * JOIN_MITER, a miter limit of 10.0.
+     * Constructs b new <code>BbsicStroke</code> with defbults for bll
+     * bttributes.
+     * The defbult bttributes bre b solid line of width 1.0, CAP_SQUARE,
+     * JOIN_MITER, b miter limit of 10.0.
      */
-    public BasicStroke() {
+    public BbsicStroke() {
         this(1.0f, CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
     }
 
 
     /**
-     * Returns a <code>Shape</code> whose interior defines the
-     * stroked outline of a specified <code>Shape</code>.
-     * @param s the <code>Shape</code> boundary be stroked
-     * @return the <code>Shape</code> of the stroked outline.
+     * Returns b <code>Shbpe</code> whose interior defines the
+     * stroked outline of b specified <code>Shbpe</code>.
+     * @pbrbm s the <code>Shbpe</code> boundbry be stroked
+     * @return the <code>Shbpe</code> of the stroked outline.
      */
-    public Shape createStrokedShape(Shape s) {
-        sun.java2d.pipe.RenderingEngine re =
-            sun.java2d.pipe.RenderingEngine.getInstance();
-        return re.createStrokedShape(s, width, cap, join, miterlimit,
-                                     dash, dash_phase);
+    public Shbpe crebteStrokedShbpe(Shbpe s) {
+        sun.jbvb2d.pipe.RenderingEngine re =
+            sun.jbvb2d.pipe.RenderingEngine.getInstbnce();
+        return re.crebteStrokedShbpe(s, width, cbp, join, miterlimit,
+                                     dbsh, dbsh_phbse);
     }
 
     /**
-     * Returns the line width.  Line width is represented in user space,
-     * which is the default-coordinate space used by Java 2D.  See the
-     * <code>Graphics2D</code> class comments for more information on
-     * the user space coordinate system.
-     * @return the line width of this <code>BasicStroke</code>.
-     * @see Graphics2D
+     * Returns the line width.  Line width is represented in user spbce,
+     * which is the defbult-coordinbte spbce used by Jbvb 2D.  See the
+     * <code>Grbphics2D</code> clbss comments for more informbtion on
+     * the user spbce coordinbte system.
+     * @return the line width of this <code>BbsicStroke</code>.
+     * @see Grbphics2D
      */
-    public float getLineWidth() {
+    public flobt getLineWidth() {
         return width;
     }
 
     /**
-     * Returns the end cap style.
-     * @return the end cap style of this <code>BasicStroke</code> as one
-     * of the static <code>int</code> values that define possible end cap
+     * Returns the end cbp style.
+     * @return the end cbp style of this <code>BbsicStroke</code> bs one
+     * of the stbtic <code>int</code> vblues thbt define possible end cbp
      * styles.
      */
-    public int getEndCap() {
-        return cap;
+    public int getEndCbp() {
+        return cbp;
     }
 
     /**
      * Returns the line join style.
-     * @return the line join style of the <code>BasicStroke</code> as one
-     * of the static <code>int</code> values that define possible line
+     * @return the line join style of the <code>BbsicStroke</code> bs one
+     * of the stbtic <code>int</code> vblues thbt define possible line
      * join styles.
      */
     public int getLineJoin() {
@@ -336,110 +336,110 @@ public class BasicStroke implements Stroke {
 
     /**
      * Returns the limit of miter joins.
-     * @return the limit of miter joins of the <code>BasicStroke</code>.
+     * @return the limit of miter joins of the <code>BbsicStroke</code>.
      */
-    public float getMiterLimit() {
+    public flobt getMiterLimit() {
         return miterlimit;
     }
 
     /**
-     * Returns the array representing the lengths of the dash segments.
-     * Alternate entries in the array represent the user space lengths
-     * of the opaque and transparent segments of the dashes.
-     * As the pen moves along the outline of the <code>Shape</code>
-     * to be stroked, the user space
-     * distance that the pen travels is accumulated.  The distance
-     * value is used to index into the dash array.
-     * The pen is opaque when its current cumulative distance maps
-     * to an even element of the dash array and transparent otherwise.
-     * @return the dash array.
+     * Returns the brrby representing the lengths of the dbsh segments.
+     * Alternbte entries in the brrby represent the user spbce lengths
+     * of the opbque bnd trbnspbrent segments of the dbshes.
+     * As the pen moves blong the outline of the <code>Shbpe</code>
+     * to be stroked, the user spbce
+     * distbnce thbt the pen trbvels is bccumulbted.  The distbnce
+     * vblue is used to index into the dbsh brrby.
+     * The pen is opbque when its current cumulbtive distbnce mbps
+     * to bn even element of the dbsh brrby bnd trbnspbrent otherwise.
+     * @return the dbsh brrby.
      */
-    public float[] getDashArray() {
-        if (dash == null) {
+    public flobt[] getDbshArrby() {
+        if (dbsh == null) {
             return null;
         }
 
-        return dash.clone();
+        return dbsh.clone();
     }
 
     /**
-     * Returns the current dash phase.
-     * The dash phase is a distance specified in user coordinates that
-     * represents an offset into the dashing pattern. In other words, the dash
-     * phase defines the point in the dashing pattern that will correspond to
+     * Returns the current dbsh phbse.
+     * The dbsh phbse is b distbnce specified in user coordinbtes thbt
+     * represents bn offset into the dbshing pbttern. In other words, the dbsh
+     * phbse defines the point in the dbshing pbttern thbt will correspond to
      * the beginning of the stroke.
-     * @return the dash phase as a <code>float</code> value.
+     * @return the dbsh phbse bs b <code>flobt</code> vblue.
      */
-    public float getDashPhase() {
-        return dash_phase;
+    public flobt getDbshPhbse() {
+        return dbsh_phbse;
     }
 
     /**
-     * Returns the hashcode for this stroke.
-     * @return      a hash code for this stroke.
+     * Returns the hbshcode for this stroke.
+     * @return      b hbsh code for this stroke.
      */
-    public int hashCode() {
-        int hash = Float.floatToIntBits(width);
-        hash = hash * 31 + join;
-        hash = hash * 31 + cap;
-        hash = hash * 31 + Float.floatToIntBits(miterlimit);
-        if (dash != null) {
-            hash = hash * 31 + Float.floatToIntBits(dash_phase);
-            for (int i = 0; i < dash.length; i++) {
-                hash = hash * 31 + Float.floatToIntBits(dash[i]);
+    public int hbshCode() {
+        int hbsh = Flobt.flobtToIntBits(width);
+        hbsh = hbsh * 31 + join;
+        hbsh = hbsh * 31 + cbp;
+        hbsh = hbsh * 31 + Flobt.flobtToIntBits(miterlimit);
+        if (dbsh != null) {
+            hbsh = hbsh * 31 + Flobt.flobtToIntBits(dbsh_phbse);
+            for (int i = 0; i < dbsh.length; i++) {
+                hbsh = hbsh * 31 + Flobt.flobtToIntBits(dbsh[i]);
             }
         }
-        return hash;
+        return hbsh;
     }
 
     /**
-     * Returns true if this BasicStroke represents the same
-     * stroking operation as the given argument.
+     * Returns true if this BbsicStroke represents the sbme
+     * stroking operbtion bs the given brgument.
      */
    /**
-    * Tests if a specified object is equal to this <code>BasicStroke</code>
-    * by first testing if it is a <code>BasicStroke</code> and then comparing
-    * its width, join, cap, miter limit, dash, and dash phase attributes with
-    * those of this <code>BasicStroke</code>.
-    * @param  obj the specified object to compare to this
-    *              <code>BasicStroke</code>
-    * @return <code>true</code> if the width, join, cap, miter limit, dash, and
-    *            dash phase are the same for both objects;
-    *            <code>false</code> otherwise.
+    * Tests if b specified object is equbl to this <code>BbsicStroke</code>
+    * by first testing if it is b <code>BbsicStroke</code> bnd then compbring
+    * its width, join, cbp, miter limit, dbsh, bnd dbsh phbse bttributes with
+    * those of this <code>BbsicStroke</code>.
+    * @pbrbm  obj the specified object to compbre to this
+    *              <code>BbsicStroke</code>
+    * @return <code>true</code> if the width, join, cbp, miter limit, dbsh, bnd
+    *            dbsh phbse bre the sbme for both objects;
+    *            <code>fblse</code> otherwise.
     */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof BasicStroke)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof BbsicStroke)) {
+            return fblse;
         }
 
-        BasicStroke bs = (BasicStroke) obj;
+        BbsicStroke bs = (BbsicStroke) obj;
         if (width != bs.width) {
-            return false;
+            return fblse;
         }
 
         if (join != bs.join) {
-            return false;
+            return fblse;
         }
 
-        if (cap != bs.cap) {
-            return false;
+        if (cbp != bs.cbp) {
+            return fblse;
         }
 
         if (miterlimit != bs.miterlimit) {
-            return false;
+            return fblse;
         }
 
-        if (dash != null) {
-            if (dash_phase != bs.dash_phase) {
-                return false;
+        if (dbsh != null) {
+            if (dbsh_phbse != bs.dbsh_phbse) {
+                return fblse;
             }
 
-            if (!java.util.Arrays.equals(dash, bs.dash)) {
-                return false;
+            if (!jbvb.util.Arrbys.equbls(dbsh, bs.dbsh)) {
+                return fblse;
             }
         }
-        else if (bs.dash != null) {
-            return false;
+        else if (bs.dbsh != null) {
+            return fblse;
         }
 
         return true;

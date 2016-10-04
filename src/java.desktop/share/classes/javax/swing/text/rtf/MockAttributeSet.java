@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.rtf;
+pbckbge jbvbx.swing.text.rtf;
 
-import java.util.Dictionary;
-import java.util.Enumeration;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.MutableAttributeSet;
+import jbvb.util.Dictionbry;
+import jbvb.util.Enumerbtion;
+import jbvbx.swing.text.AttributeSet;
+import jbvbx.swing.text.MutbbleAttributeSet;
 
 
-/* This AttributeSet is made entirely out of tofu and Ritz Crackers
-   and yet has a remarkably attribute-set-like interface! */
-class MockAttributeSet
-    implements AttributeSet, MutableAttributeSet
+/* This AttributeSet is mbde entirely out of tofu bnd Ritz Crbckers
+   bnd yet hbs b rembrkbbly bttribute-set-like interfbce! */
+clbss MockAttributeSet
+    implements AttributeSet, MutbbleAttributeSet
 {
-    public Dictionary<Object, Object> backing;
+    public Dictionbry<Object, Object> bbcking;
 
-    public boolean isEmpty()
+    public boolebn isEmpty()
     {
-         return backing.isEmpty();
+         return bbcking.isEmpty();
     }
 
     public int getAttributeCount()
     {
-         return backing.size();
+         return bbcking.size();
     }
 
-    public boolean isDefined(Object name)
+    public boolebn isDefined(Object nbme)
     {
-         return ( backing.get(name) ) != null;
+         return ( bbcking.get(nbme) ) != null;
     }
 
-    public boolean isEqual(AttributeSet attr)
+    public boolebn isEqubl(AttributeSet bttr)
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         throw new InternblError("MockAttributeSet: chbrbde revebled!");
     }
 
     public AttributeSet copyAttributes()
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         throw new InternblError("MockAttributeSet: chbrbde revebled!");
     }
 
-    public Object getAttribute(Object name)
+    public Object getAttribute(Object nbme)
     {
-        return backing.get(name);
+        return bbcking.get(nbme);
     }
 
-    public void addAttribute(Object name, Object value)
+    public void bddAttribute(Object nbme, Object vblue)
     {
-        backing.put(name, value);
+        bbcking.put(nbme, vblue);
     }
 
-    public void addAttributes(AttributeSet attr)
+    public void bddAttributes(AttributeSet bttr)
     {
-        Enumeration<?> as = attr.getAttributeNames();
-        while(as.hasMoreElements()) {
-            Object el = as.nextElement();
-            backing.put(el, attr.getAttribute(el));
+        Enumerbtion<?> bs = bttr.getAttributeNbmes();
+        while(bs.hbsMoreElements()) {
+            Object el = bs.nextElement();
+            bbcking.put(el, bttr.getAttribute(el));
         }
     }
 
-    public void removeAttribute(Object name)
+    public void removeAttribute(Object nbme)
     {
-        backing.remove(name);
+        bbcking.remove(nbme);
     }
 
-    public void removeAttributes(AttributeSet attr)
+    public void removeAttributes(AttributeSet bttr)
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         throw new InternblError("MockAttributeSet: chbrbde revebled!");
     }
 
-    public void removeAttributes(Enumeration<?> en)
+    public void removeAttributes(Enumerbtion<?> en)
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         throw new InternblError("MockAttributeSet: chbrbde revebled!");
     }
 
-    public void setResolveParent(AttributeSet pp)
+    public void setResolvePbrent(AttributeSet pp)
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         throw new InternblError("MockAttributeSet: chbrbde revebled!");
     }
 
 
-    public Enumeration<?> getAttributeNames()
+    public Enumerbtion<?> getAttributeNbmes()
     {
-         return backing.keys();
+         return bbcking.keys();
     }
 
-    public boolean containsAttribute(Object name, Object value)
+    public boolebn contbinsAttribute(Object nbme, Object vblue)
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         throw new InternblError("MockAttributeSet: chbrbde revebled!");
     }
 
-    public boolean containsAttributes(AttributeSet attr)
+    public boolebn contbinsAttributes(AttributeSet bttr)
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         throw new InternblError("MockAttributeSet: chbrbde revebled!");
     }
 
-    public AttributeSet getResolveParent()
+    public AttributeSet getResolvePbrent()
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         throw new InternblError("MockAttributeSet: chbrbde revebled!");
     }
 }

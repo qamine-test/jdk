@@ -1,413 +1,413 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.GridLayout;
-import java.util.*;
-import javax.management.*;
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.*;
-import javax.swing.table.*;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.GridLbyout;
+import jbvb.util.*;
+import jbvbx.mbnbgement.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.TitledBorder;
+import jbvbx.swing.event.*;
+import jbvbx.swing.tbble.*;
 
-import sun.tools.jconsole.Messages;
+import sun.tools.jconsole.Messbges;
 
-import static sun.tools.jconsole.Utilities.*;
+import stbtic sun.tools.jconsole.Utilities.*;
 
-@SuppressWarnings("serial")
-public class XMBeanInfo extends JPanel {
+@SuppressWbrnings("seribl")
+public clbss XMBebnInfo extends JPbnel {
 
-    private static final Color lightYellow = new Color(255, 255, 128);
-     private final int NAME_COLUMN = 0;
-    private final int VALUE_COLUMN = 1;
-    private final String[] columnNames = {
-        Messages.NAME,
-        Messages.VALUE
+    privbte stbtic finbl Color lightYellow = new Color(255, 255, 128);
+     privbte finbl int NAME_COLUMN = 0;
+    privbte finbl int VALUE_COLUMN = 1;
+    privbte finbl String[] columnNbmes = {
+        Messbges.NAME,
+        Messbges.VALUE
     };
-    private JTable infoTable = new JTable();
-    private JTable descTable = new JTable();
-    private JPanel infoBorderPanel = new JPanel(new BorderLayout());
-    private JPanel descBorderPanel = new JPanel(new BorderLayout());
+    privbte JTbble infoTbble = new JTbble();
+    privbte JTbble descTbble = new JTbble();
+    privbte JPbnel infoBorderPbnel = new JPbnel(new BorderLbyout());
+    privbte JPbnel descBorderPbnel = new JPbnel(new BorderLbyout());
 
-    private static class ReadOnlyDefaultTableModel extends DefaultTableModel {
+    privbte stbtic clbss RebdOnlyDefbultTbbleModel extends DefbultTbbleModel {
 
         @Override
-        public void setValueAt(Object value, int row, int col) {
+        public void setVblueAt(Object vblue, int row, int col) {
         }
     }
 
-    private static class TableRowDivider {
+    privbte stbtic clbss TbbleRowDivider {
 
-        private String tableRowDividerText;
+        privbte String tbbleRowDividerText;
 
-        public TableRowDivider(String tableRowDividerText) {
-            this.tableRowDividerText = tableRowDividerText;
+        public TbbleRowDivider(String tbbleRowDividerText) {
+            this.tbbleRowDividerText = tbbleRowDividerText;
         }
 
         @Override
         public String toString() {
-            return tableRowDividerText;
+            return tbbleRowDividerText;
         }
     }
-    private static MBeanInfoTableCellRenderer renderer =
-            new MBeanInfoTableCellRenderer();
+    privbte stbtic MBebnInfoTbbleCellRenderer renderer =
+            new MBebnInfoTbbleCellRenderer();
 
-    private static class MBeanInfoTableCellRenderer
-            extends DefaultTableCellRenderer {
+    privbte stbtic clbss MBebnInfoTbbleCellRenderer
+            extends DefbultTbbleCellRenderer {
 
         @Override
-        public Component getTableCellRendererComponent(
-                JTable table, Object value, boolean isSelected,
-                boolean hasFocus, int row, int column) {
-            Component comp = super.getTableCellRendererComponent(
-                    table, value, isSelected, hasFocus, row, column);
-            if (value instanceof TableRowDivider) {
-                JLabel label = new JLabel(value.toString());
-                label.setBackground(ensureContrast(lightYellow,
-                        label.getForeground()));
-                label.setOpaque(true);
-                return label;
+        public Component getTbbleCellRendererComponent(
+                JTbble tbble, Object vblue, boolebn isSelected,
+                boolebn hbsFocus, int row, int column) {
+            Component comp = super.getTbbleCellRendererComponent(
+                    tbble, vblue, isSelected, hbsFocus, row, column);
+            if (vblue instbnceof TbbleRowDivider) {
+                JLbbel lbbel = new JLbbel(vblue.toString());
+                lbbel.setBbckground(ensureContrbst(lightYellow,
+                        lbbel.getForeground()));
+                lbbel.setOpbque(true);
+                return lbbel;
             }
             return comp;
         }
     }
-    private static TableCellEditor editor =
-            new MBeanInfoTableCellEditor(new JTextField());
+    privbte stbtic TbbleCellEditor editor =
+            new MBebnInfoTbbleCellEditor(new JTextField());
 
-    private static class MBeanInfoTableCellEditor
-            extends Utils.ReadOnlyTableCellEditor {
+    privbte stbtic clbss MBebnInfoTbbleCellEditor
+            extends Utils.RebdOnlyTbbleCellEditor {
 
-        public MBeanInfoTableCellEditor(JTextField tf) {
+        public MBebnInfoTbbleCellEditor(JTextField tf) {
             super(tf);
         }
 
         @Override
-        public Component getTableCellEditorComponent(
-                JTable table, Object value, boolean isSelected,
+        public Component getTbbleCellEditorComponent(
+                JTbble tbble, Object vblue, boolebn isSelected,
                 int row, int column) {
-            Component comp = super.getTableCellEditorComponent(
-                    table, value, isSelected, row, column);
-            if (value instanceof TableRowDivider) {
-                JLabel label = new JLabel(value.toString());
-                label.setBackground(ensureContrast(lightYellow,
-                        label.getForeground()));
-                label.setOpaque(true);
-                return label;
+            Component comp = super.getTbbleCellEditorComponent(
+                    tbble, vblue, isSelected, row, column);
+            if (vblue instbnceof TbbleRowDivider) {
+                JLbbel lbbel = new JLbbel(vblue.toString());
+                lbbel.setBbckground(ensureContrbst(lightYellow,
+                        lbbel.getForeground()));
+                lbbel.setOpbque(true);
+                return lbbel;
             }
             return comp;
         }
     }
 
-    public XMBeanInfo() {
-        // Use the grid layout to display the two tables
+    public XMBebnInfo() {
+        // Use the grid lbyout to displby the two tbbles
         //
-        super(new GridLayout(2, 1));
-        // MBean*Info table
+        super(new GridLbyout(2, 1));
+        // MBebn*Info tbble
         //
-        infoTable.setModel(new ReadOnlyDefaultTableModel());
-        infoTable.setRowSelectionAllowed(false);
-        infoTable.setColumnSelectionAllowed(false);
-        infoTable.getTableHeader().setReorderingAllowed(false);
-        ((DefaultTableModel) infoTable.getModel()).setColumnIdentifiers(columnNames);
-        infoTable.getColumnModel().getColumn(NAME_COLUMN).setPreferredWidth(140);
-        infoTable.getColumnModel().getColumn(NAME_COLUMN).setMaxWidth(140);
-        infoTable.getColumnModel().getColumn(NAME_COLUMN).setCellRenderer(renderer);
-        infoTable.getColumnModel().getColumn(VALUE_COLUMN).setCellRenderer(renderer);
-        infoTable.getColumnModel().getColumn(NAME_COLUMN).setCellEditor(editor);
-        infoTable.getColumnModel().getColumn(VALUE_COLUMN).setCellEditor(editor);
-        infoTable.addKeyListener(new Utils.CopyKeyAdapter());
-        infoTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-        JScrollPane infoTableScrollPane = new JScrollPane(infoTable);
-        infoBorderPanel.setBorder(
-                BorderFactory.createTitledBorder("MBeanInfoPlaceHolder"));
-        infoBorderPanel.add(infoTableScrollPane);
-        // Descriptor table
+        infoTbble.setModel(new RebdOnlyDefbultTbbleModel());
+        infoTbble.setRowSelectionAllowed(fblse);
+        infoTbble.setColumnSelectionAllowed(fblse);
+        infoTbble.getTbbleHebder().setReorderingAllowed(fblse);
+        ((DefbultTbbleModel) infoTbble.getModel()).setColumnIdentifiers(columnNbmes);
+        infoTbble.getColumnModel().getColumn(NAME_COLUMN).setPreferredWidth(140);
+        infoTbble.getColumnModel().getColumn(NAME_COLUMN).setMbxWidth(140);
+        infoTbble.getColumnModel().getColumn(NAME_COLUMN).setCellRenderer(renderer);
+        infoTbble.getColumnModel().getColumn(VALUE_COLUMN).setCellRenderer(renderer);
+        infoTbble.getColumnModel().getColumn(NAME_COLUMN).setCellEditor(editor);
+        infoTbble.getColumnModel().getColumn(VALUE_COLUMN).setCellEditor(editor);
+        infoTbble.bddKeyListener(new Utils.CopyKeyAdbpter());
+        infoTbble.setAutoResizeMode(JTbble.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        JScrollPbne infoTbbleScrollPbne = new JScrollPbne(infoTbble);
+        infoBorderPbnel.setBorder(
+                BorderFbctory.crebteTitledBorder("MBebnInfoPlbceHolder"));
+        infoBorderPbnel.bdd(infoTbbleScrollPbne);
+        // Descriptor tbble
         //
-        descTable.setModel(new ReadOnlyDefaultTableModel());
-        descTable.setRowSelectionAllowed(false);
-        descTable.setColumnSelectionAllowed(false);
-        descTable.getTableHeader().setReorderingAllowed(false);
-        ((DefaultTableModel) descTable.getModel()).setColumnIdentifiers(columnNames);
-        descTable.getColumnModel().getColumn(NAME_COLUMN).setPreferredWidth(140);
-        descTable.getColumnModel().getColumn(NAME_COLUMN).setMaxWidth(140);
-        descTable.getColumnModel().getColumn(NAME_COLUMN).setCellRenderer(renderer);
-        descTable.getColumnModel().getColumn(VALUE_COLUMN).setCellRenderer(renderer);
-        descTable.getColumnModel().getColumn(NAME_COLUMN).setCellEditor(editor);
-        descTable.getColumnModel().getColumn(VALUE_COLUMN).setCellEditor(editor);
-        descTable.addKeyListener(new Utils.CopyKeyAdapter());
-        descTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-        JScrollPane descTableScrollPane = new JScrollPane(descTable);
-        descBorderPanel.setBorder(
-            BorderFactory.createTitledBorder(Messages.DESCRIPTOR));
-        descBorderPanel.add(descTableScrollPane);
-        // Add the two tables to the grid
+        descTbble.setModel(new RebdOnlyDefbultTbbleModel());
+        descTbble.setRowSelectionAllowed(fblse);
+        descTbble.setColumnSelectionAllowed(fblse);
+        descTbble.getTbbleHebder().setReorderingAllowed(fblse);
+        ((DefbultTbbleModel) descTbble.getModel()).setColumnIdentifiers(columnNbmes);
+        descTbble.getColumnModel().getColumn(NAME_COLUMN).setPreferredWidth(140);
+        descTbble.getColumnModel().getColumn(NAME_COLUMN).setMbxWidth(140);
+        descTbble.getColumnModel().getColumn(NAME_COLUMN).setCellRenderer(renderer);
+        descTbble.getColumnModel().getColumn(VALUE_COLUMN).setCellRenderer(renderer);
+        descTbble.getColumnModel().getColumn(NAME_COLUMN).setCellEditor(editor);
+        descTbble.getColumnModel().getColumn(VALUE_COLUMN).setCellEditor(editor);
+        descTbble.bddKeyListener(new Utils.CopyKeyAdbpter());
+        descTbble.setAutoResizeMode(JTbble.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        JScrollPbne descTbbleScrollPbne = new JScrollPbne(descTbble);
+        descBorderPbnel.setBorder(
+            BorderFbctory.crebteTitledBorder(Messbges.DESCRIPTOR));
+        descBorderPbnel.bdd(descTbbleScrollPbne);
+        // Add the two tbbles to the grid
         //
-        add(infoBorderPanel);
-        add(descBorderPanel);
+        bdd(infoBorderPbnel);
+        bdd(descBorderPbnel);
     }
 
-    // Call on EDT
-    public void emptyInfoTable() {
-        DefaultTableModel tableModel = (DefaultTableModel) infoTable.getModel();
-        while (tableModel.getRowCount() > 0) {
-            tableModel.removeRow(0);
+    // Cbll on EDT
+    public void emptyInfoTbble() {
+        DefbultTbbleModel tbbleModel = (DefbultTbbleModel) infoTbble.getModel();
+        while (tbbleModel.getRowCount() > 0) {
+            tbbleModel.removeRow(0);
         }
     }
 
-    // Call on EDT
-    public void emptyDescTable() {
-        DefaultTableModel tableModel = (DefaultTableModel) descTable.getModel();
-        while (tableModel.getRowCount() > 0) {
-            tableModel.removeRow(0);
+    // Cbll on EDT
+    public void emptyDescTbble() {
+        DefbultTbbleModel tbbleModel = (DefbultTbbleModel) descTbble.getModel();
+        while (tbbleModel.getRowCount() > 0) {
+            tbbleModel.removeRow(0);
         }
     }
 
-    // Call on EDT
-    private void addDescriptor(Descriptor desc, String text) {
-        if (desc != null && desc.getFieldNames().length > 0) {
-            DefaultTableModel tableModel = (DefaultTableModel) descTable.getModel();
-            Object rowData[] = new Object[2];
-            rowData[0] = new TableRowDivider(text);
-            rowData[1] = new TableRowDivider("");
-            tableModel.addRow(rowData);
-            for (String fieldName : desc.getFieldNames()) {
-                rowData[0] = fieldName;
-                Object fieldValue = desc.getFieldValue(fieldName);
-                if (fieldValue instanceof boolean[]) {
-                    rowData[1] = Arrays.toString((boolean[]) fieldValue);
-                } else if (fieldValue instanceof byte[]) {
-                    rowData[1] = Arrays.toString((byte[]) fieldValue);
-                } else if (fieldValue instanceof char[]) {
-                    rowData[1] = Arrays.toString((char[]) fieldValue);
-                } else if (fieldValue instanceof double[]) {
-                    rowData[1] = Arrays.toString((double[]) fieldValue);
-                } else if (fieldValue instanceof float[]) {
-                    rowData[1] = Arrays.toString((float[]) fieldValue);
-                } else if (fieldValue instanceof int[]) {
-                    rowData[1] = Arrays.toString((int[]) fieldValue);
-                } else if (fieldValue instanceof long[]) {
-                    rowData[1] = Arrays.toString((long[]) fieldValue);
-                } else if (fieldValue instanceof short[]) {
-                    rowData[1] = Arrays.toString((short[]) fieldValue);
-                } else if (fieldValue instanceof Object[]) {
-                    rowData[1] = Arrays.toString((Object[]) fieldValue);
+    // Cbll on EDT
+    privbte void bddDescriptor(Descriptor desc, String text) {
+        if (desc != null && desc.getFieldNbmes().length > 0) {
+            DefbultTbbleModel tbbleModel = (DefbultTbbleModel) descTbble.getModel();
+            Object rowDbtb[] = new Object[2];
+            rowDbtb[0] = new TbbleRowDivider(text);
+            rowDbtb[1] = new TbbleRowDivider("");
+            tbbleModel.bddRow(rowDbtb);
+            for (String fieldNbme : desc.getFieldNbmes()) {
+                rowDbtb[0] = fieldNbme;
+                Object fieldVblue = desc.getFieldVblue(fieldNbme);
+                if (fieldVblue instbnceof boolebn[]) {
+                    rowDbtb[1] = Arrbys.toString((boolebn[]) fieldVblue);
+                } else if (fieldVblue instbnceof byte[]) {
+                    rowDbtb[1] = Arrbys.toString((byte[]) fieldVblue);
+                } else if (fieldVblue instbnceof chbr[]) {
+                    rowDbtb[1] = Arrbys.toString((chbr[]) fieldVblue);
+                } else if (fieldVblue instbnceof double[]) {
+                    rowDbtb[1] = Arrbys.toString((double[]) fieldVblue);
+                } else if (fieldVblue instbnceof flobt[]) {
+                    rowDbtb[1] = Arrbys.toString((flobt[]) fieldVblue);
+                } else if (fieldVblue instbnceof int[]) {
+                    rowDbtb[1] = Arrbys.toString((int[]) fieldVblue);
+                } else if (fieldVblue instbnceof long[]) {
+                    rowDbtb[1] = Arrbys.toString((long[]) fieldVblue);
+                } else if (fieldVblue instbnceof short[]) {
+                    rowDbtb[1] = Arrbys.toString((short[]) fieldVblue);
+                } else if (fieldVblue instbnceof Object[]) {
+                    rowDbtb[1] = Arrbys.toString((Object[]) fieldVblue);
                 } else {
-                    rowData[1] = fieldValue;
+                    rowDbtb[1] = fieldVblue;
                 }
-                tableModel.addRow(rowData);
+                tbbleModel.bddRow(rowDbtb);
             }
-            tableModel.newDataAvailable(new TableModelEvent(tableModel));
+            tbbleModel.newDbtbAvbilbble(new TbbleModelEvent(tbbleModel));
         }
     }
 
-    // Call on EDT
-    public void addMBeanInfo(XMBean mbean, MBeanInfo mbeanInfo) {
-        emptyInfoTable();
-        emptyDescTable();
-        ((TitledBorder) infoBorderPanel.getBorder()).setTitle(
-                Messages.MBEAN_INFO);
-        String text = Messages.INFO + ":";
-        DefaultTableModel tableModel = (DefaultTableModel) infoTable.getModel();
-        Object rowData[] = new Object[2];
-        rowData[0] = new TableRowDivider(text);
-        rowData[1] = new TableRowDivider("");
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.OBJECT_NAME;
-        rowData[1] = mbean.getObjectName();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.CLASS_NAME;
-        rowData[1] = mbeanInfo.getClassName();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.DESCRIPTION;
-        rowData[1] = mbeanInfo.getDescription();
-        tableModel.addRow(rowData);
-        addDescriptor(mbeanInfo.getDescriptor(), text);
-        // MBeanConstructorInfo
+    // Cbll on EDT
+    public void bddMBebnInfo(XMBebn mbebn, MBebnInfo mbebnInfo) {
+        emptyInfoTbble();
+        emptyDescTbble();
+        ((TitledBorder) infoBorderPbnel.getBorder()).setTitle(
+                Messbges.MBEAN_INFO);
+        String text = Messbges.INFO + ":";
+        DefbultTbbleModel tbbleModel = (DefbultTbbleModel) infoTbble.getModel();
+        Object rowDbtb[] = new Object[2];
+        rowDbtb[0] = new TbbleRowDivider(text);
+        rowDbtb[1] = new TbbleRowDivider("");
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.OBJECT_NAME;
+        rowDbtb[1] = mbebn.getObjectNbme();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.CLASS_NAME;
+        rowDbtb[1] = mbebnInfo.getClbssNbme();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.DESCRIPTION;
+        rowDbtb[1] = mbebnInfo.getDescription();
+        tbbleModel.bddRow(rowDbtb);
+        bddDescriptor(mbebnInfo.getDescriptor(), text);
+        // MBebnConstructorInfo
         //
         int i = 0;
-        for (MBeanConstructorInfo mbci : mbeanInfo.getConstructors()) {
-            addMBeanConstructorInfo(mbci,
-                    Messages.CONSTRUCTOR + "-" + i + ":");
-            // MBeanParameterInfo
+        for (MBebnConstructorInfo mbci : mbebnInfo.getConstructors()) {
+            bddMBebnConstructorInfo(mbci,
+                    Messbges.CONSTRUCTOR + "-" + i + ":");
+            // MBebnPbrbmeterInfo
             //
             int j = 0;
-            for (MBeanParameterInfo mbpi : mbci.getSignature()) {
-                addMBeanParameterInfo(mbpi,
-                        Messages.PARAMETER + "-" + i + "-" + j + ":");
+            for (MBebnPbrbmeterInfo mbpi : mbci.getSignbture()) {
+                bddMBebnPbrbmeterInfo(mbpi,
+                        Messbges.PARAMETER + "-" + i + "-" + j + ":");
                 j++;
             }
             i++;
         }
-        tableModel.newDataAvailable(new TableModelEvent(tableModel));
+        tbbleModel.newDbtbAvbilbble(new TbbleModelEvent(tbbleModel));
     }
 
-    // Call on EDT
-    public void addMBeanAttributeInfo(MBeanAttributeInfo mbai) {
-        emptyInfoTable();
-        emptyDescTable();
-        ((TitledBorder) infoBorderPanel.getBorder()).setTitle(
-                Messages.MBEAN_ATTRIBUTE_INFO);
-        String text = Messages.ATTRIBUTE + ":";
-        DefaultTableModel tableModel = (DefaultTableModel) infoTable.getModel();
-        Object rowData[] = new Object[2];
-        rowData[0] = new TableRowDivider(text);
-        rowData[1] = new TableRowDivider("");
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.NAME;
-        rowData[1] = mbai.getName();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.DESCRIPTION;
-        rowData[1] = mbai.getDescription();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.READABLE;
-        rowData[1] = mbai.isReadable();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.WRITABLE;
-        rowData[1] = mbai.isWritable();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.IS;
-        rowData[1] = mbai.isIs();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.TYPE;
-        rowData[1] = mbai.getType();
-        tableModel.addRow(rowData);
-        addDescriptor(mbai.getDescriptor(), text);
-        tableModel.newDataAvailable(new TableModelEvent(tableModel));
+    // Cbll on EDT
+    public void bddMBebnAttributeInfo(MBebnAttributeInfo mbbi) {
+        emptyInfoTbble();
+        emptyDescTbble();
+        ((TitledBorder) infoBorderPbnel.getBorder()).setTitle(
+                Messbges.MBEAN_ATTRIBUTE_INFO);
+        String text = Messbges.ATTRIBUTE + ":";
+        DefbultTbbleModel tbbleModel = (DefbultTbbleModel) infoTbble.getModel();
+        Object rowDbtb[] = new Object[2];
+        rowDbtb[0] = new TbbleRowDivider(text);
+        rowDbtb[1] = new TbbleRowDivider("");
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.NAME;
+        rowDbtb[1] = mbbi.getNbme();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.DESCRIPTION;
+        rowDbtb[1] = mbbi.getDescription();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.READABLE;
+        rowDbtb[1] = mbbi.isRebdbble();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.WRITABLE;
+        rowDbtb[1] = mbbi.isWritbble();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.IS;
+        rowDbtb[1] = mbbi.isIs();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.TYPE;
+        rowDbtb[1] = mbbi.getType();
+        tbbleModel.bddRow(rowDbtb);
+        bddDescriptor(mbbi.getDescriptor(), text);
+        tbbleModel.newDbtbAvbilbble(new TbbleModelEvent(tbbleModel));
     }
 
-    // Call on EDT
-    public void addMBeanOperationInfo(MBeanOperationInfo mboi) {
-        emptyInfoTable();
-        emptyDescTable();
-        ((TitledBorder) infoBorderPanel.getBorder()).setTitle(
-                Messages.MBEAN_OPERATION_INFO);
-        String text = Messages.OPERATION + ":";
-        DefaultTableModel tableModel = (DefaultTableModel) infoTable.getModel();
-        Object rowData[] = new Object[2];
-        rowData[0] = new TableRowDivider(text);
-        rowData[1] = new TableRowDivider("");
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.NAME;
-        rowData[1] = mboi.getName();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.DESCRIPTION;
-        rowData[1] = mboi.getDescription();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.IMPACT;
-        switch (mboi.getImpact()) {
-            case MBeanOperationInfo.INFO:
-                rowData[1] = Messages.INFO_CAPITALIZED;
-                break;
-            case MBeanOperationInfo.ACTION:
-                rowData[1] = Messages.ACTION_CAPITALIZED;
-                break;
-            case MBeanOperationInfo.ACTION_INFO:
-                rowData[1] = Messages.ACTION_INFO_CAPITALIZED;
-                break;
-            case MBeanOperationInfo.UNKNOWN:
-                rowData[1] = Messages.UNKNOWN_CAPITALIZED;
-                break;
+    // Cbll on EDT
+    public void bddMBebnOperbtionInfo(MBebnOperbtionInfo mboi) {
+        emptyInfoTbble();
+        emptyDescTbble();
+        ((TitledBorder) infoBorderPbnel.getBorder()).setTitle(
+                Messbges.MBEAN_OPERATION_INFO);
+        String text = Messbges.OPERATION + ":";
+        DefbultTbbleModel tbbleModel = (DefbultTbbleModel) infoTbble.getModel();
+        Object rowDbtb[] = new Object[2];
+        rowDbtb[0] = new TbbleRowDivider(text);
+        rowDbtb[1] = new TbbleRowDivider("");
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.NAME;
+        rowDbtb[1] = mboi.getNbme();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.DESCRIPTION;
+        rowDbtb[1] = mboi.getDescription();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.IMPACT;
+        switch (mboi.getImpbct()) {
+            cbse MBebnOperbtionInfo.INFO:
+                rowDbtb[1] = Messbges.INFO_CAPITALIZED;
+                brebk;
+            cbse MBebnOperbtionInfo.ACTION:
+                rowDbtb[1] = Messbges.ACTION_CAPITALIZED;
+                brebk;
+            cbse MBebnOperbtionInfo.ACTION_INFO:
+                rowDbtb[1] = Messbges.ACTION_INFO_CAPITALIZED;
+                brebk;
+            cbse MBebnOperbtionInfo.UNKNOWN:
+                rowDbtb[1] = Messbges.UNKNOWN_CAPITALIZED;
+                brebk;
         }
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.RETURN_TYPE;
-        rowData[1] = mboi.getReturnType();
-        tableModel.addRow(rowData);
-        addDescriptor(mboi.getDescriptor(), text);
-        // MBeanParameterInfo
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.RETURN_TYPE;
+        rowDbtb[1] = mboi.getReturnType();
+        tbbleModel.bddRow(rowDbtb);
+        bddDescriptor(mboi.getDescriptor(), text);
+        // MBebnPbrbmeterInfo
         //
         int i = 0;
-        for (MBeanParameterInfo mbpi : mboi.getSignature()) {
-            addMBeanParameterInfo(mbpi,
-                    Messages.PARAMETER + "-" + i++ + ":");
+        for (MBebnPbrbmeterInfo mbpi : mboi.getSignbture()) {
+            bddMBebnPbrbmeterInfo(mbpi,
+                    Messbges.PARAMETER + "-" + i++ + ":");
         }
-        tableModel.newDataAvailable(new TableModelEvent(tableModel));
+        tbbleModel.newDbtbAvbilbble(new TbbleModelEvent(tbbleModel));
     }
 
-    // Call on EDT
-    public void addMBeanNotificationInfo(MBeanNotificationInfo mbni) {
-        emptyInfoTable();
-        emptyDescTable();
-        ((TitledBorder) infoBorderPanel.getBorder()).setTitle(
-                Messages.MBEAN_NOTIFICATION_INFO);
-        String text = Messages.NOTIFICATION + ":";
-        DefaultTableModel tableModel = (DefaultTableModel) infoTable.getModel();
-        Object rowData[] = new Object[2];
-        rowData[0] = new TableRowDivider(text);
-        rowData[1] = new TableRowDivider("");
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.NAME;
-        rowData[1] = mbni.getName();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.DESCRIPTION;
-        rowData[1] = mbni.getDescription();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.NOTIF_TYPES;
-        rowData[1] = Arrays.toString(mbni.getNotifTypes());
-        tableModel.addRow(rowData);
-        addDescriptor(mbni.getDescriptor(), text);
-        tableModel.newDataAvailable(new TableModelEvent(tableModel));
+    // Cbll on EDT
+    public void bddMBebnNotificbtionInfo(MBebnNotificbtionInfo mbni) {
+        emptyInfoTbble();
+        emptyDescTbble();
+        ((TitledBorder) infoBorderPbnel.getBorder()).setTitle(
+                Messbges.MBEAN_NOTIFICATION_INFO);
+        String text = Messbges.NOTIFICATION + ":";
+        DefbultTbbleModel tbbleModel = (DefbultTbbleModel) infoTbble.getModel();
+        Object rowDbtb[] = new Object[2];
+        rowDbtb[0] = new TbbleRowDivider(text);
+        rowDbtb[1] = new TbbleRowDivider("");
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.NAME;
+        rowDbtb[1] = mbni.getNbme();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.DESCRIPTION;
+        rowDbtb[1] = mbni.getDescription();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.NOTIF_TYPES;
+        rowDbtb[1] = Arrbys.toString(mbni.getNotifTypes());
+        tbbleModel.bddRow(rowDbtb);
+        bddDescriptor(mbni.getDescriptor(), text);
+        tbbleModel.newDbtbAvbilbble(new TbbleModelEvent(tbbleModel));
     }
 
-    // Call on EDT
-    private void addMBeanConstructorInfo(MBeanConstructorInfo mbci, String text) {
-        DefaultTableModel tableModel = (DefaultTableModel) infoTable.getModel();
-        Object rowData[] = new Object[2];
-        rowData[0] = new TableRowDivider(text);
-        rowData[1] = new TableRowDivider("");
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.NAME;
-        rowData[1] = mbci.getName();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.DESCRIPTION;
-        rowData[1] = mbci.getDescription();
-        tableModel.addRow(rowData);
-        addDescriptor(mbci.getDescriptor(), text);
-        tableModel.newDataAvailable(new TableModelEvent(tableModel));
+    // Cbll on EDT
+    privbte void bddMBebnConstructorInfo(MBebnConstructorInfo mbci, String text) {
+        DefbultTbbleModel tbbleModel = (DefbultTbbleModel) infoTbble.getModel();
+        Object rowDbtb[] = new Object[2];
+        rowDbtb[0] = new TbbleRowDivider(text);
+        rowDbtb[1] = new TbbleRowDivider("");
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.NAME;
+        rowDbtb[1] = mbci.getNbme();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.DESCRIPTION;
+        rowDbtb[1] = mbci.getDescription();
+        tbbleModel.bddRow(rowDbtb);
+        bddDescriptor(mbci.getDescriptor(), text);
+        tbbleModel.newDbtbAvbilbble(new TbbleModelEvent(tbbleModel));
     }
 
-    // Call on EDT
-    private void addMBeanParameterInfo(MBeanParameterInfo mbpi, String text) {
-        DefaultTableModel tableModel = (DefaultTableModel) infoTable.getModel();
-        Object rowData[] = new Object[2];
-        rowData[0] = new TableRowDivider(text);
-        rowData[1] = new TableRowDivider("");
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.NAME;
-        rowData[1] = mbpi.getName();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.DESCRIPTION;
-        rowData[1] = mbpi.getDescription();
-        tableModel.addRow(rowData);
-        rowData[0] = Messages.TYPE;
-        rowData[1] = mbpi.getType();
-        tableModel.addRow(rowData);
-        addDescriptor(mbpi.getDescriptor(), text);
-        tableModel.newDataAvailable(new TableModelEvent(tableModel));
+    // Cbll on EDT
+    privbte void bddMBebnPbrbmeterInfo(MBebnPbrbmeterInfo mbpi, String text) {
+        DefbultTbbleModel tbbleModel = (DefbultTbbleModel) infoTbble.getModel();
+        Object rowDbtb[] = new Object[2];
+        rowDbtb[0] = new TbbleRowDivider(text);
+        rowDbtb[1] = new TbbleRowDivider("");
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.NAME;
+        rowDbtb[1] = mbpi.getNbme();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.DESCRIPTION;
+        rowDbtb[1] = mbpi.getDescription();
+        tbbleModel.bddRow(rowDbtb);
+        rowDbtb[0] = Messbges.TYPE;
+        rowDbtb[1] = mbpi.getType();
+        tbbleModel.bddRow(rowDbtb);
+        bddDescriptor(mbpi.getDescriptor(), text);
+        tbbleModel.newDbtbAvbilbble(new TbbleModelEvent(tbbleModel));
     }
 }

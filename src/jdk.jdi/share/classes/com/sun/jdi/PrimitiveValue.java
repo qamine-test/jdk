@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
 /**
- * The value assigned to a field or variable of primitive type in a
- * target VM. Each primitive values is accessed through a subinterface
- * of this interface.
+ * The vblue bssigned to b field or vbribble of primitive type in b
+ * tbrget VM. Ebch primitive vblues is bccessed through b subinterfbce
+ * of this interfbce.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
+ * @buthor Robert Field
+ * @buthor Gordon Hirsch
+ * @buthor Jbmes McIlree
  * @since  1.3
  */
 @jdk.Exported
-public interface PrimitiveValue extends Value {
+public interfbce PrimitiveVblue extends Vblue {
 
     /**
-     * Converts this value to a BooleanValue and returns the result
-     * as a boolean.
+     * Converts this vblue to b BoolebnVblue bnd returns the result
+     * bs b boolebn.
      *
-     * @return <code>true</code> if this value is non-zero (or
-     * <code>true</code> if already a BooleanValue); false otherwise.
+     * @return <code>true</code> if this vblue is non-zero (or
+     * <code>true</code> if blrebdy b BoolebnVblue); fblse otherwise.
      */
-    boolean booleanValue();
+    boolebn boolebnVblue();
 
     /**
-     * Converts this value to a ByteValue and returns the result
-     * as a byte. The value will be narrowed as
-     * necessary, and magnitude or precision information
-     * may be lost (as if the primitive had been cast to a byte).
+     * Converts this vblue to b ByteVblue bnd returns the result
+     * bs b byte. The vblue will be nbrrowed bs
+     * necessbry, bnd mbgnitude or precision informbtion
+     * mby be lost (bs if the primitive hbd been cbst to b byte).
      *
-     * @return the value, converted to byte
+     * @return the vblue, converted to byte
      */
-    byte byteValue();
+    byte byteVblue();
 
     /**
-     * Converts this value to a CharValue and returns the result
-     * as a char. The value will be narrowed or widened as
-     * necessary, and magnitude or precision information
-     * may be lost (as if the primitive had been cast to a char,
-     * in the narrowing case).
+     * Converts this vblue to b ChbrVblue bnd returns the result
+     * bs b chbr. The vblue will be nbrrowed or widened bs
+     * necessbry, bnd mbgnitude or precision informbtion
+     * mby be lost (bs if the primitive hbd been cbst to b chbr,
+     * in the nbrrowing cbse).
      *
-     * @return the value, converted to char
+     * @return the vblue, converted to chbr
      */
-    char charValue();
+    chbr chbrVblue();
 
     /**
-     * Converts this value to a ShortValue and returns the result
-     * as a short. The value will be narrowed or widened as
-     * necessary, and magnitude or precision information
-     * may be lost (as if the primitive had been cast to a short,
-     * in the narrowing case).
+     * Converts this vblue to b ShortVblue bnd returns the result
+     * bs b short. The vblue will be nbrrowed or widened bs
+     * necessbry, bnd mbgnitude or precision informbtion
+     * mby be lost (bs if the primitive hbd been cbst to b short,
+     * in the nbrrowing cbse).
      *
-     * @return the value, converted to short
+     * @return the vblue, converted to short
      */
-    short shortValue();
+    short shortVblue();
 
     /**
-     * Converts this value to an IntegerValue and returns the result
-     * as an int. The value will be narrowed or widened as
-     * necessary, and magnitude or precision information
-     * may be lost (as if the primitive had been cast to an int,
-     * in the narrowing case).
+     * Converts this vblue to bn IntegerVblue bnd returns the result
+     * bs bn int. The vblue will be nbrrowed or widened bs
+     * necessbry, bnd mbgnitude or precision informbtion
+     * mby be lost (bs if the primitive hbd been cbst to bn int,
+     * in the nbrrowing cbse).
      *
-     * @return the value, converted to int
+     * @return the vblue, converted to int
      */
-    int intValue();
+    int intVblue();
 
     /**
-     * Converts this value to a LongValue and returns the result
-     * as a long. The value will be narrowed or widened as
-     * necessary, and magnitude or precision information
-     * may be lost (as if the primitive had been cast to a long,
-     * in the narrowing case).
+     * Converts this vblue to b LongVblue bnd returns the result
+     * bs b long. The vblue will be nbrrowed or widened bs
+     * necessbry, bnd mbgnitude or precision informbtion
+     * mby be lost (bs if the primitive hbd been cbst to b long,
+     * in the nbrrowing cbse).
      *
-     * @return the value, converted to long
+     * @return the vblue, converted to long
      */
-    long longValue();
+    long longVblue();
 
     /**
-     * Converts this value to a FloatValue and returns the result
-     * as a float. The value will be narrowed or widened as
-     * necessary, and magnitude or precision information
-     * may be lost (as if the primitive had been cast to a float,
-     * in the narrowing case).
+     * Converts this vblue to b FlobtVblue bnd returns the result
+     * bs b flobt. The vblue will be nbrrowed or widened bs
+     * necessbry, bnd mbgnitude or precision informbtion
+     * mby be lost (bs if the primitive hbd been cbst to b flobt,
+     * in the nbrrowing cbse).
      *
-     * @return the value, converted to float
+     * @return the vblue, converted to flobt
      */
-    float floatValue();
+    flobt flobtVblue();
 
     /**
-     * Converts this value to a DoubleValue and returns the result
-     * as a double. The value will be widened as
-     * necessary, and precision information
-     * may be lost.
+     * Converts this vblue to b DoubleVblue bnd returns the result
+     * bs b double. The vblue will be widened bs
+     * necessbry, bnd precision informbtion
+     * mby be lost.
      *
-     * @return the value, converted to double
+     * @return the vblue, converted to double
      */
-    double doubleValue();
+    double doubleVblue();
 }

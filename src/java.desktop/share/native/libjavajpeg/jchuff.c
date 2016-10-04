@@ -5,40 +5,40 @@
 /*
  * jchuff.c
  *
- * Copyright (C) 1991-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1991-1997, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains Huffman entropy encoding routines.
+ * This file contbins Huffmbn entropy encoding routines.
  *
- * Much of the complexity here has to do with supporting output suspension.
- * If the data destination module demands suspension, we want to be able to
- * back up to the start of the current MCU.  To do this, we copy state
- * variables into local working storage, and update them back to the
- * permanent JPEG objects only upon successful completion of an MCU.
+ * Much of the complexity here hbs to do with supporting output suspension.
+ * If the dbtb destinbtion module dembnds suspension, we wbnt to be bble to
+ * bbck up to the stbrt of the current MCU.  To do this, we copy stbte
+ * vbribbles into locbl working storbge, bnd updbte them bbck to the
+ * permbnent JPEG objects only upon successful completion of bn MCU.
  */
 
 #define JPEG_INTERNALS
 #include "jinclude.h"
 #include "jpeglib.h"
-#include "jchuff.h"             /* Declarations shared with jcphuff.c */
+#include "jchuff.h"             /* Declbrbtions shbred with jcphuff.c */
 
 
-/* Expanded entropy encoder object for Huffman encoding.
+/* Expbnded entropy encoder object for Huffmbn encoding.
  *
- * The savable_state subrecord contains fields that change within an MCU,
- * but must not be updated permanently until we complete the MCU.
+ * The sbvbble_stbte subrecord contbins fields thbt chbnge within bn MCU,
+ * but must not be updbted permbnently until we complete the MCU.
  */
 
 typedef struct {
-  INT32 put_buffer;             /* current bit-accumulation buffer */
+  INT32 put_buffer;             /* current bit-bccumulbtion buffer */
   int put_bits;                 /* # of bits now in it */
-  int last_dc_val[MAX_COMPS_IN_SCAN]; /* last DC coef for each component */
-} savable_state;
+  int lbst_dc_vbl[MAX_COMPS_IN_SCAN]; /* lbst DC coef for ebch component */
+} sbvbble_stbte;
 
-/* This macro is to work around compilers with missing or broken
- * structure assignment.  You'll need to fix this code if you have
- * such a compiler and you change MAX_COMPS_IN_SCAN.
+/* This mbcro is to work bround compilers with missing or broken
+ * structure bssignment.  You'll need to fix this code if you hbve
+ * such b compiler bnd you chbnge MAX_COMPS_IN_SCAN.
  */
 
 #ifndef NO_STRUCT_ASSIGN
@@ -48,10 +48,10 @@ typedef struct {
 #define ASSIGN_STATE(dest,src)  \
         ((dest).put_buffer = (src).put_buffer, \
          (dest).put_bits = (src).put_bits, \
-         (dest).last_dc_val[0] = (src).last_dc_val[0], \
-         (dest).last_dc_val[1] = (src).last_dc_val[1], \
-         (dest).last_dc_val[2] = (src).last_dc_val[2], \
-         (dest).last_dc_val[3] = (src).last_dc_val[3])
+         (dest).lbst_dc_vbl[0] = (src).lbst_dc_vbl[0], \
+         (dest).lbst_dc_vbl[1] = (src).lbst_dc_vbl[1], \
+         (dest).lbst_dc_vbl[2] = (src).lbst_dc_vbl[2], \
+         (dest).lbst_dc_vbl[3] = (src).lbst_dc_vbl[3])
 #endif
 #endif
 
@@ -59,171 +59,171 @@ typedef struct {
 typedef struct {
   struct jpeg_entropy_encoder pub; /* public fields */
 
-  savable_state saved;          /* Bit buffer & DC state at start of MCU */
+  sbvbble_stbte sbved;          /* Bit buffer & DC stbte bt stbrt of MCU */
 
-  /* These fields are NOT loaded into local working state. */
-  unsigned int restarts_to_go;  /* MCUs left in this restart interval */
-  int next_restart_num;         /* next restart number to write (0-7) */
+  /* These fields bre NOT lobded into locbl working stbte. */
+  unsigned int restbrts_to_go;  /* MCUs left in this restbrt intervbl */
+  int next_restbrt_num;         /* next restbrt number to write (0-7) */
 
-  /* Pointers to derived tables (these workspaces have image lifespan) */
+  /* Pointers to derived tbbles (these workspbces hbve imbge lifespbn) */
   c_derived_tbl * dc_derived_tbls[NUM_HUFF_TBLS];
-  c_derived_tbl * ac_derived_tbls[NUM_HUFF_TBLS];
+  c_derived_tbl * bc_derived_tbls[NUM_HUFF_TBLS];
 
-#ifdef ENTROPY_OPT_SUPPORTED    /* Statistics tables for optimization */
+#ifdef ENTROPY_OPT_SUPPORTED    /* Stbtistics tbbles for optimizbtion */
   long * dc_count_ptrs[NUM_HUFF_TBLS];
-  long * ac_count_ptrs[NUM_HUFF_TBLS];
+  long * bc_count_ptrs[NUM_HUFF_TBLS];
 #endif
 } huff_entropy_encoder;
 
 typedef huff_entropy_encoder * huff_entropy_ptr;
 
-/* Working state while writing an MCU.
- * This struct contains all the fields that are needed by subroutines.
+/* Working stbte while writing bn MCU.
+ * This struct contbins bll the fields thbt bre needed by subroutines.
  */
 
 typedef struct {
   JOCTET * next_output_byte;    /* => next byte to write in buffer */
-  size_t free_in_buffer;        /* # of byte spaces remaining in buffer */
-  savable_state cur;            /* Current bit buffer & DC state */
-  j_compress_ptr cinfo;         /* dump_buffer needs access to this */
-} working_state;
+  size_t free_in_buffer;        /* # of byte spbces rembining in buffer */
+  sbvbble_stbte cur;            /* Current bit buffer & DC stbte */
+  j_compress_ptr cinfo;         /* dump_buffer needs bccess to this */
+} working_stbte;
 
 
-/* Forward declarations */
-METHODDEF(boolean) encode_mcu_huff JPP((j_compress_ptr cinfo,
-                                        JBLOCKROW *MCU_data));
-METHODDEF(void) finish_pass_huff JPP((j_compress_ptr cinfo));
+/* Forwbrd declbrbtions */
+METHODDEF(boolebn) encode_mcu_huff JPP((j_compress_ptr cinfo,
+                                        JBLOCKROW *MCU_dbtb));
+METHODDEF(void) finish_pbss_huff JPP((j_compress_ptr cinfo));
 #ifdef ENTROPY_OPT_SUPPORTED
-METHODDEF(boolean) encode_mcu_gather JPP((j_compress_ptr cinfo,
-                                          JBLOCKROW *MCU_data));
-METHODDEF(void) finish_pass_gather JPP((j_compress_ptr cinfo));
+METHODDEF(boolebn) encode_mcu_gbther JPP((j_compress_ptr cinfo,
+                                          JBLOCKROW *MCU_dbtb));
+METHODDEF(void) finish_pbss_gbther JPP((j_compress_ptr cinfo));
 #endif
 
 
 /*
- * Initialize for a Huffman-compressed scan.
- * If gather_statistics is TRUE, we do not output anything during the scan,
- * just count the Huffman symbols used and generate Huffman code tables.
+ * Initiblize for b Huffmbn-compressed scbn.
+ * If gbther_stbtistics is TRUE, we do not output bnything during the scbn,
+ * just count the Huffmbn symbols used bnd generbte Huffmbn code tbbles.
  */
 
 METHODDEF(void)
-start_pass_huff (j_compress_ptr cinfo, boolean gather_statistics)
+stbrt_pbss_huff (j_compress_ptr cinfo, boolebn gbther_stbtistics)
 {
   huff_entropy_ptr entropy = (huff_entropy_ptr) cinfo->entropy;
-  int ci, dctbl, actbl;
+  int ci, dctbl, bctbl;
   jpeg_component_info * compptr;
 
-  if (gather_statistics) {
+  if (gbther_stbtistics) {
 #ifdef ENTROPY_OPT_SUPPORTED
-    entropy->pub.encode_mcu = encode_mcu_gather;
-    entropy->pub.finish_pass = finish_pass_gather;
+    entropy->pub.encode_mcu = encode_mcu_gbther;
+    entropy->pub.finish_pbss = finish_pbss_gbther;
 #else
     ERREXIT(cinfo, JERR_NOT_COMPILED);
 #endif
   } else {
     entropy->pub.encode_mcu = encode_mcu_huff;
-    entropy->pub.finish_pass = finish_pass_huff;
+    entropy->pub.finish_pbss = finish_pbss_huff;
   }
 
-  for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
+  for (ci = 0; ci < cinfo->comps_in_scbn; ci++) {
     compptr = cinfo->cur_comp_info[ci];
     dctbl = compptr->dc_tbl_no;
-    actbl = compptr->ac_tbl_no;
-    if (gather_statistics) {
+    bctbl = compptr->bc_tbl_no;
+    if (gbther_stbtistics) {
 #ifdef ENTROPY_OPT_SUPPORTED
-      /* Check for invalid table indexes */
-      /* (make_c_derived_tbl does this in the other path) */
+      /* Check for invblid tbble indexes */
+      /* (mbke_c_derived_tbl does this in the other pbth) */
       if (dctbl < 0 || dctbl >= NUM_HUFF_TBLS)
         ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, dctbl);
-      if (actbl < 0 || actbl >= NUM_HUFF_TBLS)
-        ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, actbl);
-      /* Allocate and zero the statistics tables */
-      /* Note that jpeg_gen_optimal_table expects 257 entries in each table! */
+      if (bctbl < 0 || bctbl >= NUM_HUFF_TBLS)
+        ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, bctbl);
+      /* Allocbte bnd zero the stbtistics tbbles */
+      /* Note thbt jpeg_gen_optimbl_tbble expects 257 entries in ebch tbble! */
       if (entropy->dc_count_ptrs[dctbl] == NULL)
         entropy->dc_count_ptrs[dctbl] = (long *)
-          (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+          (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                       257 * SIZEOF(long));
       MEMZERO(entropy->dc_count_ptrs[dctbl], 257 * SIZEOF(long));
-      if (entropy->ac_count_ptrs[actbl] == NULL)
-        entropy->ac_count_ptrs[actbl] = (long *)
-          (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+      if (entropy->bc_count_ptrs[bctbl] == NULL)
+        entropy->bc_count_ptrs[bctbl] = (long *)
+          (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                       257 * SIZEOF(long));
-      MEMZERO(entropy->ac_count_ptrs[actbl], 257 * SIZEOF(long));
+      MEMZERO(entropy->bc_count_ptrs[bctbl], 257 * SIZEOF(long));
 #endif
     } else {
-      /* Compute derived values for Huffman tables */
-      /* We may do this more than once for a table, but it's not expensive */
-      jpeg_make_c_derived_tbl(cinfo, TRUE, dctbl,
+      /* Compute derived vblues for Huffmbn tbbles */
+      /* We mby do this more thbn once for b tbble, but it's not expensive */
+      jpeg_mbke_c_derived_tbl(cinfo, TRUE, dctbl,
                               & entropy->dc_derived_tbls[dctbl]);
-      jpeg_make_c_derived_tbl(cinfo, FALSE, actbl,
-                              & entropy->ac_derived_tbls[actbl]);
+      jpeg_mbke_c_derived_tbl(cinfo, FALSE, bctbl,
+                              & entropy->bc_derived_tbls[bctbl]);
     }
-    /* Initialize DC predictions to 0 */
-    entropy->saved.last_dc_val[ci] = 0;
+    /* Initiblize DC predictions to 0 */
+    entropy->sbved.lbst_dc_vbl[ci] = 0;
   }
 
-  /* Initialize bit buffer to empty */
-  entropy->saved.put_buffer = 0;
-  entropy->saved.put_bits = 0;
+  /* Initiblize bit buffer to empty */
+  entropy->sbved.put_buffer = 0;
+  entropy->sbved.put_bits = 0;
 
-  /* Initialize restart stuff */
-  entropy->restarts_to_go = cinfo->restart_interval;
-  entropy->next_restart_num = 0;
+  /* Initiblize restbrt stuff */
+  entropy->restbrts_to_go = cinfo->restbrt_intervbl;
+  entropy->next_restbrt_num = 0;
 }
 
 
 /*
- * Compute the derived values for a Huffman table.
- * This routine also performs some validation checks on the table.
+ * Compute the derived vblues for b Huffmbn tbble.
+ * This routine blso performs some vblidbtion checks on the tbble.
  *
- * Note this is also used by jcphuff.c.
+ * Note this is blso used by jcphuff.c.
  */
 
 GLOBAL(void)
-jpeg_make_c_derived_tbl (j_compress_ptr cinfo, boolean isDC, int tblno,
+jpeg_mbke_c_derived_tbl (j_compress_ptr cinfo, boolebn isDC, int tblno,
                          c_derived_tbl ** pdtbl)
 {
   JHUFF_TBL *htbl;
   c_derived_tbl *dtbl;
-  int p, i, l, lastp, si, maxsymbol;
-  char huffsize[257];
+  int p, i, l, lbstp, si, mbxsymbol;
+  chbr huffsize[257];
   unsigned int huffcode[257];
   unsigned int code;
 
-  /* Note that huffsize[] and huffcode[] are filled in code-length order,
-   * paralleling the order of the symbols themselves in htbl->huffval[].
+  /* Note thbt huffsize[] bnd huffcode[] bre filled in code-length order,
+   * pbrblleling the order of the symbols themselves in htbl->huffvbl[].
    */
 
-  /* Find the input Huffman table */
+  /* Find the input Huffmbn tbble */
   if (tblno < 0 || tblno >= NUM_HUFF_TBLS)
     ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, tblno);
   htbl =
-    isDC ? cinfo->dc_huff_tbl_ptrs[tblno] : cinfo->ac_huff_tbl_ptrs[tblno];
+    isDC ? cinfo->dc_huff_tbl_ptrs[tblno] : cinfo->bc_huff_tbl_ptrs[tblno];
   if (htbl == NULL)
     ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, tblno);
 
-  /* Allocate a workspace if we haven't already done so. */
+  /* Allocbte b workspbce if we hbven't blrebdy done so. */
   if (*pdtbl == NULL)
     *pdtbl = (c_derived_tbl *)
-      (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+      (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                   SIZEOF(c_derived_tbl));
   dtbl = *pdtbl;
 
-  /* Figure C.1: make table of Huffman code length for each symbol */
+  /* Figure C.1: mbke tbble of Huffmbn code length for ebch symbol */
 
   p = 0;
   for (l = 1; l <= 16; l++) {
     i = (int) htbl->bits[l];
-    if (i < 0 || p + i > 256)   /* protect against table overrun */
+    if (i < 0 || p + i > 256)   /* protect bgbinst tbble overrun */
       ERREXIT(cinfo, JERR_BAD_HUFF_TABLE);
     while (i--)
-      huffsize[p++] = (char) l;
+      huffsize[p++] = (chbr) l;
   }
   huffsize[p] = 0;
-  lastp = p;
+  lbstp = p;
 
-  /* Figure C.2: generate the codes themselves */
-  /* We also validate that the counts represent a legal Huffman code tree. */
+  /* Figure C.2: generbte the codes themselves */
+  /* We blso vblidbte thbt the counts represent b legbl Huffmbn code tree. */
 
   code = 0;
   si = huffsize[0];
@@ -233,8 +233,8 @@ jpeg_make_c_derived_tbl (j_compress_ptr cinfo, boolean isDC, int tblno,
       huffcode[p++] = code;
       code++;
     }
-    /* code is now 1 more than the last code used for codelength si; but
-     * it must still fit in si bits, since no code is allowed to be all ones.
+    /* code is now 1 more thbn the lbst code used for codelength si; but
+     * it must still fit in si bits, since no code is bllowed to be bll ones.
      */
     if (((INT32) code) >= (((INT32) 1) << si))
       ERREXIT(cinfo, JERR_BAD_HUFF_TABLE);
@@ -242,25 +242,25 @@ jpeg_make_c_derived_tbl (j_compress_ptr cinfo, boolean isDC, int tblno,
     si++;
   }
 
-  /* Figure C.3: generate encoding tables */
-  /* These are code and size indexed by symbol value */
+  /* Figure C.3: generbte encoding tbbles */
+  /* These bre code bnd size indexed by symbol vblue */
 
-  /* Set all codeless symbols to have code length 0;
-   * this lets us detect duplicate VAL entries here, and later
-   * allows emit_bits to detect any attempt to emit such symbols.
+  /* Set bll codeless symbols to hbve code length 0;
+   * this lets us detect duplicbte VAL entries here, bnd lbter
+   * bllows emit_bits to detect bny bttempt to emit such symbols.
    */
   MEMZERO(dtbl->ehufsi, SIZEOF(dtbl->ehufsi));
 
-  /* This is also a convenient place to check for out-of-range
-   * and duplicated VAL entries.  We allow 0..255 for AC symbols
-   * but only 0..15 for DC.  (We could constrain them further
-   * based on data depth and mode, but this seems enough.)
+  /* This is blso b convenient plbce to check for out-of-rbnge
+   * bnd duplicbted VAL entries.  We bllow 0..255 for AC symbols
+   * but only 0..15 for DC.  (We could constrbin them further
+   * bbsed on dbtb depth bnd mode, but this seems enough.)
    */
-  maxsymbol = isDC ? 15 : 255;
+  mbxsymbol = isDC ? 15 : 255;
 
-  for (p = 0; p < lastp; p++) {
-    i = htbl->huffval[p];
-    if (i < 0 || i > maxsymbol || dtbl->ehufsi[i])
+  for (p = 0; p < lbstp; p++) {
+    i = htbl->huffvbl[p];
+    if (i < 0 || i > mbxsymbol || dtbl->ehufsi[i])
       ERREXIT(cinfo, JERR_BAD_HUFF_TABLE);
     dtbl->ehufco[i] = huffcode[p];
     dtbl->ehufsi[i] = huffsize[p];
@@ -270,92 +270,92 @@ jpeg_make_c_derived_tbl (j_compress_ptr cinfo, boolean isDC, int tblno,
 
 /* Outputting bytes to the file */
 
-/* Emit a byte, taking 'action' if must suspend. */
-#define emit_byte(state,val,action)  \
-        { *(state)->next_output_byte++ = (JOCTET) (val);  \
-          if (--(state)->free_in_buffer == 0)  \
-            if (! dump_buffer(state))  \
-              { action; } }
+/* Emit b byte, tbking 'bction' if must suspend. */
+#define emit_byte(stbte,vbl,bction)  \
+        { *(stbte)->next_output_byte++ = (JOCTET) (vbl);  \
+          if (--(stbte)->free_in_buffer == 0)  \
+            if (! dump_buffer(stbte))  \
+              { bction; } }
 
 
-LOCAL(boolean)
-dump_buffer (working_state * state)
+LOCAL(boolebn)
+dump_buffer (working_stbte * stbte)
 /* Empty the output buffer; return TRUE if successful, FALSE if must suspend */
 {
-  struct jpeg_destination_mgr * dest = state->cinfo->dest;
+  struct jpeg_destinbtion_mgr * dest = stbte->cinfo->dest;
 
-  if (! (*dest->empty_output_buffer) (state->cinfo))
+  if (! (*dest->empty_output_buffer) (stbte->cinfo))
     return FALSE;
-  /* After a successful buffer dump, must reset buffer pointers */
-  state->next_output_byte = dest->next_output_byte;
-  state->free_in_buffer = dest->free_in_buffer;
+  /* After b successful buffer dump, must reset buffer pointers */
+  stbte->next_output_byte = dest->next_output_byte;
+  stbte->free_in_buffer = dest->free_in_buffer;
   return TRUE;
 }
 
 
 /* Outputting bits to the file */
 
-/* Only the right 24 bits of put_buffer are used; the valid bits are
- * left-justified in this part.  At most 16 bits can be passed to emit_bits
- * in one call, and we never retain more than 7 bits in put_buffer
- * between calls, so 24 bits are sufficient.
+/* Only the right 24 bits of put_buffer bre used; the vblid bits bre
+ * left-justified in this pbrt.  At most 16 bits cbn be pbssed to emit_bits
+ * in one cbll, bnd we never retbin more thbn 7 bits in put_buffer
+ * between cblls, so 24 bits bre sufficient.
  */
 
 INLINE
-LOCAL(boolean)
-emit_bits (working_state * state, unsigned int code, int size)
+LOCAL(boolebn)
+emit_bits (working_stbte * stbte, unsigned int code, int size)
 /* Emit some bits; return TRUE if successful, FALSE if must suspend */
 {
-  /* This routine is heavily used, so it's worth coding tightly. */
+  /* This routine is hebvily used, so it's worth coding tightly. */
   register INT32 put_buffer = (INT32) code;
-  register int put_bits = state->cur.put_bits;
+  register int put_bits = stbte->cur.put_bits;
 
-  /* if size is 0, caller used an invalid Huffman table entry */
+  /* if size is 0, cbller used bn invblid Huffmbn tbble entry */
   if (size == 0)
-    ERREXIT(state->cinfo, JERR_HUFF_MISSING_CODE);
+    ERREXIT(stbte->cinfo, JERR_HUFF_MISSING_CODE);
 
-  put_buffer &= (((INT32) 1)<<size) - 1; /* mask off any extra bits in code */
+  put_buffer &= (((INT32) 1)<<size) - 1; /* mbsk off bny extrb bits in code */
 
   put_bits += size;             /* new number of bits in buffer */
 
-  put_buffer <<= 24 - put_bits; /* align incoming bits */
+  put_buffer <<= 24 - put_bits; /* blign incoming bits */
 
-  put_buffer |= state->cur.put_buffer; /* and merge with old buffer contents */
+  put_buffer |= stbte->cur.put_buffer; /* bnd merge with old buffer contents */
 
   while (put_bits >= 8) {
     int c = (int) ((put_buffer >> 16) & 0xFF);
 
-    emit_byte(state, c, return FALSE);
-    if (c == 0xFF) {            /* need to stuff a zero byte? */
-      emit_byte(state, 0, return FALSE);
+    emit_byte(stbte, c, return FALSE);
+    if (c == 0xFF) {            /* need to stuff b zero byte? */
+      emit_byte(stbte, 0, return FALSE);
     }
     put_buffer <<= 8;
     put_bits -= 8;
   }
 
-  state->cur.put_buffer = put_buffer; /* update state variables */
-  state->cur.put_bits = put_bits;
+  stbte->cur.put_buffer = put_buffer; /* updbte stbte vbribbles */
+  stbte->cur.put_bits = put_bits;
 
   return TRUE;
 }
 
 
-LOCAL(boolean)
-flush_bits (working_state * state)
+LOCAL(boolebn)
+flush_bits (working_stbte * stbte)
 {
-  if (! emit_bits(state, 0x7F, 7)) /* fill any partial byte with ones */
+  if (! emit_bits(stbte, 0x7F, 7)) /* fill bny pbrtibl byte with ones */
     return FALSE;
-  state->cur.put_buffer = 0;    /* and reset bit-buffer to empty */
-  state->cur.put_bits = 0;
+  stbte->cur.put_buffer = 0;    /* bnd reset bit-buffer to empty */
+  stbte->cur.put_bits = 0;
   return TRUE;
 }
 
 
-/* Encode a single block's worth of coefficients */
+/* Encode b single block's worth of coefficients */
 
-LOCAL(boolean)
-encode_one_block (working_state * state, JCOEFPTR block, int last_dc_val,
-                  c_derived_tbl *dctbl, c_derived_tbl *actbl)
+LOCAL(boolebn)
+encode_one_block (working_stbte * stbte, JCOEFPTR block, int lbst_dc_vbl,
+                  c_derived_tbl *dctbl, c_derived_tbl *bctbl)
 {
   register int temp, temp2;
   register int nbits;
@@ -363,35 +363,35 @@ encode_one_block (working_state * state, JCOEFPTR block, int last_dc_val,
 
   /* Encode the DC coefficient difference per section F.1.2.1 */
 
-  temp = temp2 = block[0] - last_dc_val;
+  temp = temp2 = block[0] - lbst_dc_vbl;
 
   if (temp < 0) {
-    temp = -temp;               /* temp is abs value of input */
-    /* For a negative input, want temp2 = bitwise complement of abs(input) */
-    /* This code assumes we are on a two's complement machine */
+    temp = -temp;               /* temp is bbs vblue of input */
+    /* For b negbtive input, wbnt temp2 = bitwise complement of bbs(input) */
+    /* This code bssumes we bre on b two's complement mbchine */
     temp2--;
   }
 
-  /* Find the number of bits needed for the magnitude of the coefficient */
+  /* Find the number of bits needed for the mbgnitude of the coefficient */
   nbits = 0;
   while (temp) {
     nbits++;
     temp >>= 1;
   }
-  /* Check for out-of-range coefficient values.
-   * Since we're encoding a difference, the range limit is twice as much.
+  /* Check for out-of-rbnge coefficient vblues.
+   * Since we're encoding b difference, the rbnge limit is twice bs much.
    */
   if (nbits > MAX_COEF_BITS+1)
-    ERREXIT(state->cinfo, JERR_BAD_DCT_COEF);
+    ERREXIT(stbte->cinfo, JERR_BAD_DCT_COEF);
 
-  /* Emit the Huffman-coded symbol for the number of bits */
-  if (! emit_bits(state, dctbl->ehufco[nbits], dctbl->ehufsi[nbits]))
+  /* Emit the Huffmbn-coded symbol for the number of bits */
+  if (! emit_bits(stbte, dctbl->ehufco[nbits], dctbl->ehufsi[nbits]))
     return FALSE;
 
-  /* Emit that number of bits of the value, if positive, */
-  /* or the complement of its magnitude, if negative. */
-  if (nbits)                    /* emit_bits rejects calls with size 0 */
-    if (! emit_bits(state, (unsigned int) temp2, nbits))
+  /* Emit thbt number of bits of the vblue, if positive, */
+  /* or the complement of its mbgnitude, if negbtive. */
+  if (nbits)                    /* emit_bits rejects cblls with size 0 */
+    if (! emit_bits(stbte, (unsigned int) temp2, nbits))
       return FALSE;
 
   /* Encode the AC coefficients per section F.1.2.2 */
@@ -399,48 +399,48 @@ encode_one_block (working_state * state, JCOEFPTR block, int last_dc_val,
   r = 0;                        /* r = run length of zeros */
 
   for (k = 1; k < DCTSIZE2; k++) {
-    if ((temp = block[jpeg_natural_order[k]]) == 0) {
+    if ((temp = block[jpeg_nbturbl_order[k]]) == 0) {
       r++;
     } else {
-      /* if run length > 15, must emit special run-length-16 codes (0xF0) */
+      /* if run length > 15, must emit specibl run-length-16 codes (0xF0) */
       while (r > 15) {
-        if (! emit_bits(state, actbl->ehufco[0xF0], actbl->ehufsi[0xF0]))
+        if (! emit_bits(stbte, bctbl->ehufco[0xF0], bctbl->ehufsi[0xF0]))
           return FALSE;
         r -= 16;
       }
 
       temp2 = temp;
       if (temp < 0) {
-        temp = -temp;           /* temp is abs value of input */
-        /* This code assumes we are on a two's complement machine */
+        temp = -temp;           /* temp is bbs vblue of input */
+        /* This code bssumes we bre on b two's complement mbchine */
         temp2--;
       }
 
-      /* Find the number of bits needed for the magnitude of the coefficient */
-      nbits = 1;                /* there must be at least one 1 bit */
+      /* Find the number of bits needed for the mbgnitude of the coefficient */
+      nbits = 1;                /* there must be bt lebst one 1 bit */
       while ((temp >>= 1))
         nbits++;
-      /* Check for out-of-range coefficient values */
+      /* Check for out-of-rbnge coefficient vblues */
       if (nbits > MAX_COEF_BITS)
-        ERREXIT(state->cinfo, JERR_BAD_DCT_COEF);
+        ERREXIT(stbte->cinfo, JERR_BAD_DCT_COEF);
 
-      /* Emit Huffman symbol for run length / number of bits */
+      /* Emit Huffmbn symbol for run length / number of bits */
       i = (r << 4) + nbits;
-      if (! emit_bits(state, actbl->ehufco[i], actbl->ehufsi[i]))
+      if (! emit_bits(stbte, bctbl->ehufco[i], bctbl->ehufsi[i]))
         return FALSE;
 
-      /* Emit that number of bits of the value, if positive, */
-      /* or the complement of its magnitude, if negative. */
-      if (! emit_bits(state, (unsigned int) temp2, nbits))
+      /* Emit thbt number of bits of the vblue, if positive, */
+      /* or the complement of its mbgnitude, if negbtive. */
+      if (! emit_bits(stbte, (unsigned int) temp2, nbits))
         return FALSE;
 
       r = 0;
     }
   }
 
-  /* If the last coef(s) were zero, emit an end-of-block code */
+  /* If the lbst coef(s) were zero, emit bn end-of-block code */
   if (r > 0)
-    if (! emit_bits(state, actbl->ehufco[0], actbl->ehufsi[0]))
+    if (! emit_bits(stbte, bctbl->ehufco[0], bctbl->ehufsi[0]))
       return FALSE;
 
   return TRUE;
@@ -448,81 +448,81 @@ encode_one_block (working_state * state, JCOEFPTR block, int last_dc_val,
 
 
 /*
- * Emit a restart marker & resynchronize predictions.
+ * Emit b restbrt mbrker & resynchronize predictions.
  */
 
-LOCAL(boolean)
-emit_restart (working_state * state, int restart_num)
+LOCAL(boolebn)
+emit_restbrt (working_stbte * stbte, int restbrt_num)
 {
   int ci;
 
-  if (! flush_bits(state))
+  if (! flush_bits(stbte))
     return FALSE;
 
-  emit_byte(state, 0xFF, return FALSE);
-  emit_byte(state, JPEG_RST0 + restart_num, return FALSE);
+  emit_byte(stbte, 0xFF, return FALSE);
+  emit_byte(stbte, JPEG_RST0 + restbrt_num, return FALSE);
 
-  /* Re-initialize DC predictions to 0 */
-  for (ci = 0; ci < state->cinfo->comps_in_scan; ci++)
-    state->cur.last_dc_val[ci] = 0;
+  /* Re-initiblize DC predictions to 0 */
+  for (ci = 0; ci < stbte->cinfo->comps_in_scbn; ci++)
+    stbte->cur.lbst_dc_vbl[ci] = 0;
 
-  /* The restart counter is not updated until we successfully write the MCU. */
+  /* The restbrt counter is not updbted until we successfully write the MCU. */
 
   return TRUE;
 }
 
 
 /*
- * Encode and output one MCU's worth of Huffman-compressed coefficients.
+ * Encode bnd output one MCU's worth of Huffmbn-compressed coefficients.
  */
 
-METHODDEF(boolean)
-encode_mcu_huff (j_compress_ptr cinfo, JBLOCKROW *MCU_data)
+METHODDEF(boolebn)
+encode_mcu_huff (j_compress_ptr cinfo, JBLOCKROW *MCU_dbtb)
 {
   huff_entropy_ptr entropy = (huff_entropy_ptr) cinfo->entropy;
-  working_state state;
+  working_stbte stbte;
   int blkn, ci;
   jpeg_component_info * compptr;
 
-  /* Load up working state */
-  state.next_output_byte = cinfo->dest->next_output_byte;
-  state.free_in_buffer = cinfo->dest->free_in_buffer;
-  ASSIGN_STATE(state.cur, entropy->saved);
-  state.cinfo = cinfo;
+  /* Lobd up working stbte */
+  stbte.next_output_byte = cinfo->dest->next_output_byte;
+  stbte.free_in_buffer = cinfo->dest->free_in_buffer;
+  ASSIGN_STATE(stbte.cur, entropy->sbved);
+  stbte.cinfo = cinfo;
 
-  /* Emit restart marker if needed */
-  if (cinfo->restart_interval) {
-    if (entropy->restarts_to_go == 0)
-      if (! emit_restart(&state, entropy->next_restart_num))
+  /* Emit restbrt mbrker if needed */
+  if (cinfo->restbrt_intervbl) {
+    if (entropy->restbrts_to_go == 0)
+      if (! emit_restbrt(&stbte, entropy->next_restbrt_num))
         return FALSE;
   }
 
-  /* Encode the MCU data blocks */
+  /* Encode the MCU dbtb blocks */
   for (blkn = 0; blkn < cinfo->blocks_in_MCU; blkn++) {
     ci = cinfo->MCU_membership[blkn];
     compptr = cinfo->cur_comp_info[ci];
-    if (! encode_one_block(&state,
-                           MCU_data[blkn][0], state.cur.last_dc_val[ci],
+    if (! encode_one_block(&stbte,
+                           MCU_dbtb[blkn][0], stbte.cur.lbst_dc_vbl[ci],
                            entropy->dc_derived_tbls[compptr->dc_tbl_no],
-                           entropy->ac_derived_tbls[compptr->ac_tbl_no]))
+                           entropy->bc_derived_tbls[compptr->bc_tbl_no]))
       return FALSE;
-    /* Update last_dc_val */
-    state.cur.last_dc_val[ci] = MCU_data[blkn][0][0];
+    /* Updbte lbst_dc_vbl */
+    stbte.cur.lbst_dc_vbl[ci] = MCU_dbtb[blkn][0][0];
   }
 
-  /* Completed MCU, so update state */
-  cinfo->dest->next_output_byte = state.next_output_byte;
-  cinfo->dest->free_in_buffer = state.free_in_buffer;
-  ASSIGN_STATE(entropy->saved, state.cur);
+  /* Completed MCU, so updbte stbte */
+  cinfo->dest->next_output_byte = stbte.next_output_byte;
+  cinfo->dest->free_in_buffer = stbte.free_in_buffer;
+  ASSIGN_STATE(entropy->sbved, stbte.cur);
 
-  /* Update restart-interval state too */
-  if (cinfo->restart_interval) {
-    if (entropy->restarts_to_go == 0) {
-      entropy->restarts_to_go = cinfo->restart_interval;
-      entropy->next_restart_num++;
-      entropy->next_restart_num &= 7;
+  /* Updbte restbrt-intervbl stbte too */
+  if (cinfo->restbrt_intervbl) {
+    if (entropy->restbrts_to_go == 0) {
+      entropy->restbrts_to_go = cinfo->restbrt_intervbl;
+      entropy->next_restbrt_num++;
+      entropy->next_restbrt_num &= 7;
     }
-    entropy->restarts_to_go--;
+    entropy->restbrts_to_go--;
   }
 
   return TRUE;
@@ -530,51 +530,51 @@ encode_mcu_huff (j_compress_ptr cinfo, JBLOCKROW *MCU_data)
 
 
 /*
- * Finish up at the end of a Huffman-compressed scan.
+ * Finish up bt the end of b Huffmbn-compressed scbn.
  */
 
 METHODDEF(void)
-finish_pass_huff (j_compress_ptr cinfo)
+finish_pbss_huff (j_compress_ptr cinfo)
 {
   huff_entropy_ptr entropy = (huff_entropy_ptr) cinfo->entropy;
-  working_state state;
+  working_stbte stbte;
 
-  /* Load up working state ... flush_bits needs it */
-  state.next_output_byte = cinfo->dest->next_output_byte;
-  state.free_in_buffer = cinfo->dest->free_in_buffer;
-  ASSIGN_STATE(state.cur, entropy->saved);
-  state.cinfo = cinfo;
+  /* Lobd up working stbte ... flush_bits needs it */
+  stbte.next_output_byte = cinfo->dest->next_output_byte;
+  stbte.free_in_buffer = cinfo->dest->free_in_buffer;
+  ASSIGN_STATE(stbte.cur, entropy->sbved);
+  stbte.cinfo = cinfo;
 
-  /* Flush out the last data */
-  if (! flush_bits(&state))
+  /* Flush out the lbst dbtb */
+  if (! flush_bits(&stbte))
     ERREXIT(cinfo, JERR_CANT_SUSPEND);
 
-  /* Update state */
-  cinfo->dest->next_output_byte = state.next_output_byte;
-  cinfo->dest->free_in_buffer = state.free_in_buffer;
-  ASSIGN_STATE(entropy->saved, state.cur);
+  /* Updbte stbte */
+  cinfo->dest->next_output_byte = stbte.next_output_byte;
+  cinfo->dest->free_in_buffer = stbte.free_in_buffer;
+  ASSIGN_STATE(entropy->sbved, stbte.cur);
 }
 
 
 /*
- * Huffman coding optimization.
+ * Huffmbn coding optimizbtion.
  *
- * We first scan the supplied data and count the number of uses of each symbol
- * that is to be Huffman-coded. (This process MUST agree with the code above.)
- * Then we build a Huffman coding tree for the observed counts.
- * Symbols which are not needed at all for the particular image are not
- * assigned any code, which saves space in the DHT marker as well as in
- * the compressed data.
+ * We first scbn the supplied dbtb bnd count the number of uses of ebch symbol
+ * thbt is to be Huffmbn-coded. (This process MUST bgree with the code bbove.)
+ * Then we build b Huffmbn coding tree for the observed counts.
+ * Symbols which bre not needed bt bll for the pbrticulbr imbge bre not
+ * bssigned bny code, which sbves spbce in the DHT mbrker bs well bs in
+ * the compressed dbtb.
  */
 
 #ifdef ENTROPY_OPT_SUPPORTED
 
 
-/* Process a single block's worth of coefficients */
+/* Process b single block's worth of coefficients */
 
 LOCAL(void)
-htest_one_block (j_compress_ptr cinfo, JCOEFPTR block, int last_dc_val,
-                 long dc_counts[], long ac_counts[])
+htest_one_block (j_compress_ptr cinfo, JCOEFPTR block, int lbst_dc_vbl,
+                 long dc_counts[], long bc_counts[])
 {
   register int temp;
   register int nbits;
@@ -582,23 +582,23 @@ htest_one_block (j_compress_ptr cinfo, JCOEFPTR block, int last_dc_val,
 
   /* Encode the DC coefficient difference per section F.1.2.1 */
 
-  temp = block[0] - last_dc_val;
+  temp = block[0] - lbst_dc_vbl;
   if (temp < 0)
     temp = -temp;
 
-  /* Find the number of bits needed for the magnitude of the coefficient */
+  /* Find the number of bits needed for the mbgnitude of the coefficient */
   nbits = 0;
   while (temp) {
     nbits++;
     temp >>= 1;
   }
-  /* Check for out-of-range coefficient values.
-   * Since we're encoding a difference, the range limit is twice as much.
+  /* Check for out-of-rbnge coefficient vblues.
+   * Since we're encoding b difference, the rbnge limit is twice bs much.
    */
   if (nbits > MAX_COEF_BITS+1)
     ERREXIT(cinfo, JERR_BAD_DCT_COEF);
 
-  /* Count the Huffman symbol for the number of bits */
+  /* Count the Huffmbn symbol for the number of bits */
   dc_counts[nbits]++;
 
   /* Encode the AC coefficients per section F.1.2.2 */
@@ -606,71 +606,71 @@ htest_one_block (j_compress_ptr cinfo, JCOEFPTR block, int last_dc_val,
   r = 0;                        /* r = run length of zeros */
 
   for (k = 1; k < DCTSIZE2; k++) {
-    if ((temp = block[jpeg_natural_order[k]]) == 0) {
+    if ((temp = block[jpeg_nbturbl_order[k]]) == 0) {
       r++;
     } else {
-      /* if run length > 15, must emit special run-length-16 codes (0xF0) */
+      /* if run length > 15, must emit specibl run-length-16 codes (0xF0) */
       while (r > 15) {
-        ac_counts[0xF0]++;
+        bc_counts[0xF0]++;
         r -= 16;
       }
 
-      /* Find the number of bits needed for the magnitude of the coefficient */
+      /* Find the number of bits needed for the mbgnitude of the coefficient */
       if (temp < 0)
         temp = -temp;
 
-      /* Find the number of bits needed for the magnitude of the coefficient */
-      nbits = 1;                /* there must be at least one 1 bit */
+      /* Find the number of bits needed for the mbgnitude of the coefficient */
+      nbits = 1;                /* there must be bt lebst one 1 bit */
       while ((temp >>= 1))
         nbits++;
-      /* Check for out-of-range coefficient values */
+      /* Check for out-of-rbnge coefficient vblues */
       if (nbits > MAX_COEF_BITS)
         ERREXIT(cinfo, JERR_BAD_DCT_COEF);
 
-      /* Count Huffman symbol for run length / number of bits */
-      ac_counts[(r << 4) + nbits]++;
+      /* Count Huffmbn symbol for run length / number of bits */
+      bc_counts[(r << 4) + nbits]++;
 
       r = 0;
     }
   }
 
-  /* If the last coef(s) were zero, emit an end-of-block code */
+  /* If the lbst coef(s) were zero, emit bn end-of-block code */
   if (r > 0)
-    ac_counts[0]++;
+    bc_counts[0]++;
 }
 
 
 /*
- * Trial-encode one MCU's worth of Huffman-compressed coefficients.
- * No data is actually output, so no suspension return is possible.
+ * Tribl-encode one MCU's worth of Huffmbn-compressed coefficients.
+ * No dbtb is bctublly output, so no suspension return is possible.
  */
 
-METHODDEF(boolean)
-encode_mcu_gather (j_compress_ptr cinfo, JBLOCKROW *MCU_data)
+METHODDEF(boolebn)
+encode_mcu_gbther (j_compress_ptr cinfo, JBLOCKROW *MCU_dbtb)
 {
   huff_entropy_ptr entropy = (huff_entropy_ptr) cinfo->entropy;
   int blkn, ci;
   jpeg_component_info * compptr;
 
-  /* Take care of restart intervals if needed */
-  if (cinfo->restart_interval) {
-    if (entropy->restarts_to_go == 0) {
-      /* Re-initialize DC predictions to 0 */
-      for (ci = 0; ci < cinfo->comps_in_scan; ci++)
-        entropy->saved.last_dc_val[ci] = 0;
-      /* Update restart state */
-      entropy->restarts_to_go = cinfo->restart_interval;
+  /* Tbke cbre of restbrt intervbls if needed */
+  if (cinfo->restbrt_intervbl) {
+    if (entropy->restbrts_to_go == 0) {
+      /* Re-initiblize DC predictions to 0 */
+      for (ci = 0; ci < cinfo->comps_in_scbn; ci++)
+        entropy->sbved.lbst_dc_vbl[ci] = 0;
+      /* Updbte restbrt stbte */
+      entropy->restbrts_to_go = cinfo->restbrt_intervbl;
     }
-    entropy->restarts_to_go--;
+    entropy->restbrts_to_go--;
   }
 
   for (blkn = 0; blkn < cinfo->blocks_in_MCU; blkn++) {
     ci = cinfo->MCU_membership[blkn];
     compptr = cinfo->cur_comp_info[ci];
-    htest_one_block(cinfo, MCU_data[blkn][0], entropy->saved.last_dc_val[ci],
+    htest_one_block(cinfo, MCU_dbtb[blkn][0], entropy->sbved.lbst_dc_vbl[ci],
                     entropy->dc_count_ptrs[compptr->dc_tbl_no],
-                    entropy->ac_count_ptrs[compptr->ac_tbl_no]);
-    entropy->saved.last_dc_val[ci] = MCU_data[blkn][0][0];
+                    entropy->bc_count_ptrs[compptr->bc_tbl_no]);
+    entropy->sbved.lbst_dc_vbl[ci] = MCU_dbtb[blkn][0][0];
   }
 
   return TRUE;
@@ -678,62 +678,62 @@ encode_mcu_gather (j_compress_ptr cinfo, JBLOCKROW *MCU_data)
 
 
 /*
- * Generate the best Huffman code table for the given counts, fill htbl.
- * Note this is also used by jcphuff.c.
+ * Generbte the best Huffmbn code tbble for the given counts, fill htbl.
+ * Note this is blso used by jcphuff.c.
  *
- * The JPEG standard requires that no symbol be assigned a codeword of all
- * one bits (so that padding bits added at the end of a compressed segment
- * can't look like a valid code).  Because of the canonical ordering of
- * codewords, this just means that there must be an unused slot in the
- * longest codeword length category.  Section K.2 of the JPEG spec suggests
- * reserving such a slot by pretending that symbol 256 is a valid symbol
- * with count 1.  In theory that's not optimal; giving it count zero but
- * including it in the symbol set anyway should give a better Huffman code.
- * But the theoretically better code actually seems to come out worse in
- * practice, because it produces more all-ones bytes (which incur stuffed
- * zero bytes in the final file).  In any case the difference is tiny.
+ * The JPEG stbndbrd requires thbt no symbol be bssigned b codeword of bll
+ * one bits (so thbt pbdding bits bdded bt the end of b compressed segment
+ * cbn't look like b vblid code).  Becbuse of the cbnonicbl ordering of
+ * codewords, this just mebns thbt there must be bn unused slot in the
+ * longest codeword length cbtegory.  Section K.2 of the JPEG spec suggests
+ * reserving such b slot by pretending thbt symbol 256 is b vblid symbol
+ * with count 1.  In theory thbt's not optimbl; giving it count zero but
+ * including it in the symbol set bnywby should give b better Huffmbn code.
+ * But the theoreticblly better code bctublly seems to come out worse in
+ * prbctice, becbuse it produces more bll-ones bytes (which incur stuffed
+ * zero bytes in the finbl file).  In bny cbse the difference is tiny.
  *
- * The JPEG standard requires Huffman codes to be no more than 16 bits long.
- * If some symbols have a very small but nonzero probability, the Huffman tree
- * must be adjusted to meet the code length restriction.  We currently use
- * the adjustment method suggested in JPEG section K.2.  This method is *not*
- * optimal; it may not choose the best possible limited-length code.  But
- * typically only very-low-frequency symbols will be given less-than-optimal
- * lengths, so the code is almost optimal.  Experimental comparisons against
- * an optimal limited-length-code algorithm indicate that the difference is
- * microscopic --- usually less than a hundredth of a percent of total size.
- * So the extra complexity of an optimal algorithm doesn't seem worthwhile.
+ * The JPEG stbndbrd requires Huffmbn codes to be no more thbn 16 bits long.
+ * If some symbols hbve b very smbll but nonzero probbbility, the Huffmbn tree
+ * must be bdjusted to meet the code length restriction.  We currently use
+ * the bdjustment method suggested in JPEG section K.2.  This method is *not*
+ * optimbl; it mby not choose the best possible limited-length code.  But
+ * typicblly only very-low-frequency symbols will be given less-thbn-optimbl
+ * lengths, so the code is blmost optimbl.  Experimentbl compbrisons bgbinst
+ * bn optimbl limited-length-code blgorithm indicbte thbt the difference is
+ * microscopic --- usublly less thbn b hundredth of b percent of totbl size.
+ * So the extrb complexity of bn optimbl blgorithm doesn't seem worthwhile.
  */
 
 GLOBAL(void)
-jpeg_gen_optimal_table (j_compress_ptr cinfo, JHUFF_TBL * htbl, long freq[])
+jpeg_gen_optimbl_tbble (j_compress_ptr cinfo, JHUFF_TBL * htbl, long freq[])
 {
-#define MAX_CLEN 32             /* assumed maximum initial code length */
+#define MAX_CLEN 32             /* bssumed mbximum initibl code length */
   UINT8 bits[MAX_CLEN+1];       /* bits[k] = # of symbols with code length k */
   int codesize[257];            /* codesize[k] = code length of symbol k */
-  int others[257];              /* next symbol in current branch of tree */
+  int others[257];              /* next symbol in current brbnch of tree */
   int c1, c2;
   int p, i, j;
   long v;
 
-  /* This algorithm is explained in section K.2 of the JPEG standard */
+  /* This blgorithm is explbined in section K.2 of the JPEG stbndbrd */
 
   MEMZERO(bits, SIZEOF(bits));
   MEMZERO(codesize, SIZEOF(codesize));
   for (i = 0; i < 257; i++)
     others[i] = -1;             /* init links to empty */
 
-  freq[256] = 1;                /* make sure 256 has a nonzero count */
-  /* Including the pseudo-symbol 256 in the Huffman procedure guarantees
-   * that no real symbol is given code-value of all ones, because 256
-   * will be placed last in the largest codeword category.
+  freq[256] = 1;                /* mbke sure 256 hbs b nonzero count */
+  /* Including the pseudo-symbol 256 in the Huffmbn procedure gubrbntees
+   * thbt no rebl symbol is given code-vblue of bll ones, becbuse 256
+   * will be plbced lbst in the lbrgest codeword cbtegory.
    */
 
-  /* Huffman's basic algorithm to assign optimal code lengths to symbols */
+  /* Huffmbn's bbsic blgorithm to bssign optimbl code lengths to symbols */
 
   for (;;) {
-    /* Find the smallest nonzero frequency, set c1 = its symbol */
-    /* In case of ties, take the larger symbol number */
+    /* Find the smbllest nonzero frequency, set c1 = its symbol */
+    /* In cbse of ties, tbke the lbrger symbol number */
     c1 = -1;
     v = 1000000000L;
     for (i = 0; i <= 256; i++) {
@@ -743,8 +743,8 @@ jpeg_gen_optimal_table (j_compress_ptr cinfo, JHUFF_TBL * htbl, long freq[])
       }
     }
 
-    /* Find the next smallest nonzero frequency, set c2 = its symbol */
-    /* In case of ties, take the larger symbol number */
+    /* Find the next smbllest nonzero frequency, set c2 = its symbol */
+    /* In cbse of ties, tbke the lbrger symbol number */
     c2 = -1;
     v = 1000000000L;
     for (i = 0; i <= 256; i++) {
@@ -756,22 +756,22 @@ jpeg_gen_optimal_table (j_compress_ptr cinfo, JHUFF_TBL * htbl, long freq[])
 
     /* Done if we've merged everything into one frequency */
     if (c2 < 0)
-      break;
+      brebk;
 
     /* Else merge the two counts/trees */
     freq[c1] += freq[c2];
     freq[c2] = 0;
 
-    /* Increment the codesize of everything in c1's tree branch */
+    /* Increment the codesize of everything in c1's tree brbnch */
     codesize[c1]++;
     while (others[c1] >= 0) {
       c1 = others[c1];
       codesize[c1]++;
     }
 
-    others[c1] = c2;            /* chain c2 onto c1's tree branch */
+    others[c1] = c2;            /* chbin c2 onto c1's tree brbnch */
 
-    /* Increment the codesize of everything in c2's tree branch */
+    /* Increment the codesize of everything in c2's tree brbnch */
     codesize[c2]++;
     while (others[c2] >= 0) {
       c2 = others[c2];
@@ -779,11 +779,11 @@ jpeg_gen_optimal_table (j_compress_ptr cinfo, JHUFF_TBL * htbl, long freq[])
     }
   }
 
-  /* Now count the number of symbols of each code length */
+  /* Now count the number of symbols of ebch code length */
   for (i = 0; i <= 256; i++) {
     if (codesize[i]) {
-      /* The JPEG standard seems to think that this can't happen, */
-      /* but I'm paranoid... */
+      /* The JPEG stbndbrd seems to think thbt this cbn't hbppen, */
+      /* but I'm pbrbnoid... */
       if (codesize[i] > MAX_CLEN)
         ERREXIT(cinfo, JERR_HUFF_CLEN_OVERFLOW);
 
@@ -791,14 +791,14 @@ jpeg_gen_optimal_table (j_compress_ptr cinfo, JHUFF_TBL * htbl, long freq[])
     }
   }
 
-  /* JPEG doesn't allow symbols with code lengths over 16 bits, so if the pure
-   * Huffman procedure assigned any such lengths, we must adjust the coding.
-   * Here is what the JPEG spec says about how this next bit works:
-   * Since symbols are paired for the longest Huffman code, the symbols are
-   * removed from this length category two at a time.  The prefix for the pair
-   * (which is one bit shorter) is allocated to one of the pair; then,
-   * skipping the BITS entry for that prefix length, a code word from the next
-   * shortest nonzero BITS entry is converted into a prefix for two code words
+  /* JPEG doesn't bllow symbols with code lengths over 16 bits, so if the pure
+   * Huffmbn procedure bssigned bny such lengths, we must bdjust the coding.
+   * Here is whbt the JPEG spec sbys bbout how this next bit works:
+   * Since symbols bre pbired for the longest Huffmbn code, the symbols bre
+   * removed from this length cbtegory two bt b time.  The prefix for the pbir
+   * (which is one bit shorter) is bllocbted to one of the pbir; then,
+   * skipping the BITS entry for thbt prefix length, b code word from the next
+   * shortest nonzero BITS entry is converted into b prefix for two code words
    * one bit longer.
    */
 
@@ -811,74 +811,74 @@ jpeg_gen_optimal_table (j_compress_ptr cinfo, JHUFF_TBL * htbl, long freq[])
       bits[i] -= 2;             /* remove two symbols */
       bits[i-1]++;              /* one goes in this length */
       bits[j+1] += 2;           /* two new symbols in this length */
-      bits[j]--;                /* symbol of this length is now a prefix */
+      bits[j]--;                /* symbol of this length is now b prefix */
     }
   }
 
-  /* Remove the count for the pseudo-symbol 256 from the largest codelength */
-  while (bits[i] == 0)          /* find largest codelength still in use */
+  /* Remove the count for the pseudo-symbol 256 from the lbrgest codelength */
+  while (bits[i] == 0)          /* find lbrgest codelength still in use */
     i--;
   bits[i]--;
 
-  /* Return final symbol counts (only for lengths 0..16) */
+  /* Return finbl symbol counts (only for lengths 0..16) */
   MEMCOPY(htbl->bits, bits, SIZEOF(htbl->bits));
 
-  /* Return a list of the symbols sorted by code length */
-  /* It's not real clear to me why we don't need to consider the codelength
-   * changes made above, but the JPEG spec seems to think this works.
+  /* Return b list of the symbols sorted by code length */
+  /* It's not rebl clebr to me why we don't need to consider the codelength
+   * chbnges mbde bbove, but the JPEG spec seems to think this works.
    */
   p = 0;
   for (i = 1; i <= MAX_CLEN; i++) {
     for (j = 0; j <= 255; j++) {
       if (codesize[j] == i) {
-        htbl->huffval[p] = (UINT8) j;
+        htbl->huffvbl[p] = (UINT8) j;
         p++;
       }
     }
   }
 
-  /* Set sent_table FALSE so updated table will be written to JPEG file. */
-  htbl->sent_table = FALSE;
+  /* Set sent_tbble FALSE so updbted tbble will be written to JPEG file. */
+  htbl->sent_tbble = FALSE;
 }
 
 
 /*
- * Finish up a statistics-gathering pass and create the new Huffman tables.
+ * Finish up b stbtistics-gbthering pbss bnd crebte the new Huffmbn tbbles.
  */
 
 METHODDEF(void)
-finish_pass_gather (j_compress_ptr cinfo)
+finish_pbss_gbther (j_compress_ptr cinfo)
 {
   huff_entropy_ptr entropy = (huff_entropy_ptr) cinfo->entropy;
-  int ci, dctbl, actbl;
+  int ci, dctbl, bctbl;
   jpeg_component_info * compptr;
   JHUFF_TBL **htblptr;
-  boolean did_dc[NUM_HUFF_TBLS];
-  boolean did_ac[NUM_HUFF_TBLS];
+  boolebn did_dc[NUM_HUFF_TBLS];
+  boolebn did_bc[NUM_HUFF_TBLS];
 
-  /* It's important not to apply jpeg_gen_optimal_table more than once
-   * per table, because it clobbers the input frequency counts!
+  /* It's importbnt not to bpply jpeg_gen_optimbl_tbble more thbn once
+   * per tbble, becbuse it clobbers the input frequency counts!
    */
   MEMZERO(did_dc, SIZEOF(did_dc));
-  MEMZERO(did_ac, SIZEOF(did_ac));
+  MEMZERO(did_bc, SIZEOF(did_bc));
 
-  for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
+  for (ci = 0; ci < cinfo->comps_in_scbn; ci++) {
     compptr = cinfo->cur_comp_info[ci];
     dctbl = compptr->dc_tbl_no;
-    actbl = compptr->ac_tbl_no;
+    bctbl = compptr->bc_tbl_no;
     if (! did_dc[dctbl]) {
       htblptr = & cinfo->dc_huff_tbl_ptrs[dctbl];
       if (*htblptr == NULL)
-        *htblptr = jpeg_alloc_huff_table((j_common_ptr) cinfo);
-      jpeg_gen_optimal_table(cinfo, *htblptr, entropy->dc_count_ptrs[dctbl]);
+        *htblptr = jpeg_blloc_huff_tbble((j_common_ptr) cinfo);
+      jpeg_gen_optimbl_tbble(cinfo, *htblptr, entropy->dc_count_ptrs[dctbl]);
       did_dc[dctbl] = TRUE;
     }
-    if (! did_ac[actbl]) {
-      htblptr = & cinfo->ac_huff_tbl_ptrs[actbl];
+    if (! did_bc[bctbl]) {
+      htblptr = & cinfo->bc_huff_tbl_ptrs[bctbl];
       if (*htblptr == NULL)
-        *htblptr = jpeg_alloc_huff_table((j_common_ptr) cinfo);
-      jpeg_gen_optimal_table(cinfo, *htblptr, entropy->ac_count_ptrs[actbl]);
-      did_ac[actbl] = TRUE;
+        *htblptr = jpeg_blloc_huff_tbble((j_common_ptr) cinfo);
+      jpeg_gen_optimbl_tbble(cinfo, *htblptr, entropy->bc_count_ptrs[bctbl]);
+      did_bc[bctbl] = TRUE;
     }
   }
 }
@@ -888,7 +888,7 @@ finish_pass_gather (j_compress_ptr cinfo)
 
 
 /*
- * Module initialization routine for Huffman entropy encoding.
+ * Module initiblizbtion routine for Huffmbn entropy encoding.
  */
 
 GLOBAL(void)
@@ -898,16 +898,16 @@ jinit_huff_encoder (j_compress_ptr cinfo)
   int i;
 
   entropy = (huff_entropy_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+    (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                 SIZEOF(huff_entropy_encoder));
   cinfo->entropy = (struct jpeg_entropy_encoder *) entropy;
-  entropy->pub.start_pass = start_pass_huff;
+  entropy->pub.stbrt_pbss = stbrt_pbss_huff;
 
-  /* Mark tables unallocated */
+  /* Mbrk tbbles unbllocbted */
   for (i = 0; i < NUM_HUFF_TBLS; i++) {
-    entropy->dc_derived_tbls[i] = entropy->ac_derived_tbls[i] = NULL;
+    entropy->dc_derived_tbls[i] = entropy->bc_derived_tbls[i] = NULL;
 #ifdef ENTROPY_OPT_SUPPORTED
-    entropy->dc_count_ptrs[i] = entropy->ac_count_ptrs[i] = NULL;
+    entropy->dc_count_ptrs[i] = entropy->bc_count_ptrs[i] = NULL;
 #endif
   }
 }

@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
 /**
- * A <code>SysexMessage</code> object represents a MIDI system exclusive message.
+ * A <code>SysexMessbge</code> object represents b MIDI system exclusive messbge.
  * <p>
- * When a system exclusive message is read from a MIDI file, it always has
- * a defined length.  Data from a system exclusive message from a MIDI file
- * should be stored in the data array of a <code>SysexMessage</code> as
- * follows: the system exclusive message status byte (0xF0 or 0xF7), all
- * message data bytes, and finally the end-of-exclusive flag (0xF7).
- * The length reported by the <code>SysexMessage</code> object is therefore
- * the length of the system exclusive data plus two: one byte for the status
- * byte and one for the end-of-exclusive flag.
+ * When b system exclusive messbge is rebd from b MIDI file, it blwbys hbs
+ * b defined length.  Dbtb from b system exclusive messbge from b MIDI file
+ * should be stored in the dbtb brrby of b <code>SysexMessbge</code> bs
+ * follows: the system exclusive messbge stbtus byte (0xF0 or 0xF7), bll
+ * messbge dbtb bytes, bnd finblly the end-of-exclusive flbg (0xF7).
+ * The length reported by the <code>SysexMessbge</code> object is therefore
+ * the length of the system exclusive dbtb plus two: one byte for the stbtus
+ * byte bnd one for the end-of-exclusive flbg.
  * <p>
- * As dictated by the Standard MIDI Files specification, two status byte values are legal
- * for a <code>SysexMessage</code> read from a MIDI file:
+ * As dictbted by the Stbndbrd MIDI Files specificbtion, two stbtus byte vblues bre legbl
+ * for b <code>SysexMessbge</code> rebd from b MIDI file:
  * <ul>
- * <li>0xF0: System Exclusive message (same as in MIDI wire protocol)</li>
- * <li>0xF7: Special System Exclusive message</li>
+ * <li>0xF0: System Exclusive messbge (sbme bs in MIDI wire protocol)</li>
+ * <li>0xF7: Specibl System Exclusive messbge</li>
  * </ul>
  * <p>
- * When Java Sound is used to handle system exclusive data that is being received
- * using MIDI wire protocol, it should place the data in one or more
- * <code>SysexMessages</code>.  In this case, the length of the system exclusive data
- * is not known in advance; the end of the system exclusive data is marked by an
- * end-of-exclusive flag (0xF7) in the MIDI wire byte stream.
+ * When Jbvb Sound is used to hbndle system exclusive dbtb thbt is being received
+ * using MIDI wire protocol, it should plbce the dbtb in one or more
+ * <code>SysexMessbges</code>.  In this cbse, the length of the system exclusive dbtb
+ * is not known in bdvbnce; the end of the system exclusive dbtb is mbrked by bn
+ * end-of-exclusive flbg (0xF7) in the MIDI wire byte strebm.
  * <ul>
- * <li>0xF0: System Exclusive message (same as in MIDI wire protocol)</li>
+ * <li>0xF0: System Exclusive messbge (sbme bs in MIDI wire protocol)</li>
  * <li>0xF7: End of Exclusive (EOX)</li>
  * </ul>
- * The first <code>SysexMessage</code> object containing data for a particular system
- * exclusive message should have the status value 0xF0.  If this message contains all
- * the system exclusive data
- * for the message, it should end with the status byte 0xF7 (EOX).
- * Otherwise, additional system exclusive data should be sent in one or more
- * <code>SysexMessages</code> with a status value of 0xF7.  The <code>SysexMessage</code>
- * containing the last of the data for the system exclusive message should end with the
- * value 0xF7 (EOX) to mark the end of the system exclusive message.
+ * The first <code>SysexMessbge</code> object contbining dbtb for b pbrticulbr system
+ * exclusive messbge should hbve the stbtus vblue 0xF0.  If this messbge contbins bll
+ * the system exclusive dbtb
+ * for the messbge, it should end with the stbtus byte 0xF7 (EOX).
+ * Otherwise, bdditionbl system exclusive dbtb should be sent in one or more
+ * <code>SysexMessbges</code> with b stbtus vblue of 0xF7.  The <code>SysexMessbge</code>
+ * contbining the lbst of the dbtb for the system exclusive messbge should end with the
+ * vblue 0xF7 (EOX) to mbrk the end of the system exclusive messbge.
  * <p>
- * If system exclusive data from <code>SysexMessages</code> objects is being transmitted
- * using MIDI wire protocol, only the initial 0xF0 status byte, the system exclusive
- * data itself, and the final 0xF7 (EOX) byte should be propagated; any 0xF7 status
- * bytes used to indicate that a <code>SysexMessage</code> contains continuing system
- * exclusive data should not be propagated via MIDI wire protocol.
+ * If system exclusive dbtb from <code>SysexMessbges</code> objects is being trbnsmitted
+ * using MIDI wire protocol, only the initibl 0xF0 stbtus byte, the system exclusive
+ * dbtb itself, bnd the finbl 0xF7 (EOX) byte should be propbgbted; bny 0xF7 stbtus
+ * bytes used to indicbte thbt b <code>SysexMessbge</code> contbins continuing system
+ * exclusive dbtb should not be propbgbted vib MIDI wire protocol.
  *
- * @author David Rivas
- * @author Kara Kytle
- * @author Florian Bomers
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
  */
-public class SysexMessage extends MidiMessage {
+public clbss SysexMessbge extends MidiMessbge {
 
 
-    // Status byte defines
-
-
-    /**
-     * Status byte for System Exclusive message (0xF0, or 240).
-     * @see MidiMessage#getStatus
-     */
-    public static final int SYSTEM_EXCLUSIVE                    = 0xF0; // 240
+    // Stbtus byte defines
 
 
     /**
-     * Status byte for Special System Exclusive message (0xF7, or 247), which is used
-     * in MIDI files.  It has the same value as END_OF_EXCLUSIVE, which
-     * is used in the real-time "MIDI wire" protocol.
-     * @see MidiMessage#getStatus
+     * Stbtus byte for System Exclusive messbge (0xF0, or 240).
+     * @see MidiMessbge#getStbtus
      */
-    public static final int SPECIAL_SYSTEM_EXCLUSIVE    = 0xF7; // 247
+    public stbtic finbl int SYSTEM_EXCLUSIVE                    = 0xF0; // 240
 
 
-    // Instance variables
+    /**
+     * Stbtus byte for Specibl System Exclusive messbge (0xF7, or 247), which is used
+     * in MIDI files.  It hbs the sbme vblue bs END_OF_EXCLUSIVE, which
+     * is used in the rebl-time "MIDI wire" protocol.
+     * @see MidiMessbge#getStbtus
+     */
+    public stbtic finbl int SPECIAL_SYSTEM_EXCLUSIVE    = 0xF7; // 247
+
+
+    // Instbnce vbribbles
 
 
     /*
-     * The data bytes for this system exclusive message.  These are
-     * initialized to <code>null</code> and are set explicitly
-     * by {@link #setMessage(int, byte[], int, long) setMessage}.
+     * The dbtb bytes for this system exclusive messbge.  These bre
+     * initiblized to <code>null</code> bnd bre set explicitly
+     * by {@link #setMessbge(int, byte[], int, long) setMessbge}.
      */
-    //protected byte[] data = null;
+    //protected byte[] dbtb = null;
 
 
     /**
-     * Constructs a new <code>SysexMessage</code>. The
-     * contents of the new message are guaranteed to specify
-     * a valid MIDI message.  Subsequently, you may set the
-     * contents of the message using one of the <code>setMessage</code>
+     * Constructs b new <code>SysexMessbge</code>. The
+     * contents of the new messbge bre gubrbnteed to specify
+     * b vblid MIDI messbge.  Subsequently, you mby set the
+     * contents of the messbge using one of the <code>setMessbge</code>
      * methods.
-     * @see #setMessage
+     * @see #setMessbge
      */
-    public SysexMessage() {
+    public SysexMessbge() {
         this(new byte[2]);
-        // Default sysex message data: SOX followed by EOX
-        data[0] = (byte) (SYSTEM_EXCLUSIVE & 0xFF);
-        data[1] = (byte) (ShortMessage.END_OF_EXCLUSIVE & 0xFF);
+        // Defbult sysex messbge dbtb: SOX followed by EOX
+        dbtb[0] = (byte) (SYSTEM_EXCLUSIVE & 0xFF);
+        dbtb[1] = (byte) (ShortMessbge.END_OF_EXCLUSIVE & 0xFF);
     }
 
     /**
-     * Constructs a new {@code SysexMessage} and sets the data for
-     * the message. The first byte of the data array must be a valid system
-     * exclusive status byte (0xF0 or 0xF7).
-     * The contents of the message can be changed by using one of
-     * the {@code setMessage} methods.
+     * Constructs b new {@code SysexMessbge} bnd sets the dbtb for
+     * the messbge. The first byte of the dbtb brrby must be b vblid system
+     * exclusive stbtus byte (0xF0 or 0xF7).
+     * The contents of the messbge cbn be chbnged by using one of
+     * the {@code setMessbge} methods.
      *
-     * @param data the system exclusive message data including the status byte
-     * @param length the length of the valid message data in the array,
-     *     including the status byte; it should be non-negative and less than
-     *     or equal to {@code data.length}
-     * @throws InvalidMidiDataException if the parameter values
-     *     do not specify a valid MIDI meta message.
-     * @see #setMessage(byte[], int)
-     * @see #setMessage(int, byte[], int)
-     * @see #getData()
+     * @pbrbm dbtb the system exclusive messbge dbtb including the stbtus byte
+     * @pbrbm length the length of the vblid messbge dbtb in the brrby,
+     *     including the stbtus byte; it should be non-negbtive bnd less thbn
+     *     or equbl to {@code dbtb.length}
+     * @throws InvblidMidiDbtbException if the pbrbmeter vblues
+     *     do not specify b vblid MIDI metb messbge.
+     * @see #setMessbge(byte[], int)
+     * @see #setMessbge(int, byte[], int)
+     * @see #getDbtb()
      * @since 1.7
      */
-    public SysexMessage(byte[] data, int length)
-            throws InvalidMidiDataException {
+    public SysexMessbge(byte[] dbtb, int length)
+            throws InvblidMidiDbtbException {
         super(null);
-        setMessage(data, length);
+        setMessbge(dbtb, length);
     }
 
     /**
-     * Constructs a new {@code SysexMessage} and sets the data for the message.
-     * The contents of the message can be changed by using one of
-     * the {@code setMessage} methods.
+     * Constructs b new {@code SysexMessbge} bnd sets the dbtb for the messbge.
+     * The contents of the messbge cbn be chbnged by using one of
+     * the {@code setMessbge} methods.
      *
-     * @param status the status byte for the message; it must be a valid system
-     *     exclusive status byte (0xF0 or 0xF7)
-     * @param data the system exclusive message data (without the status byte)
-     * @param length the length of the valid message data in the array;
-     *     it should be non-negative and less than or equal to
-     *     {@code data.length}
-     * @throws InvalidMidiDataException if the parameter values
-     *     do not specify a valid MIDI meta message.
-     * @see #setMessage(byte[], int)
-     * @see #setMessage(int, byte[], int)
-     * @see #getData()
+     * @pbrbm stbtus the stbtus byte for the messbge; it must be b vblid system
+     *     exclusive stbtus byte (0xF0 or 0xF7)
+     * @pbrbm dbtb the system exclusive messbge dbtb (without the stbtus byte)
+     * @pbrbm length the length of the vblid messbge dbtb in the brrby;
+     *     it should be non-negbtive bnd less thbn or equbl to
+     *     {@code dbtb.length}
+     * @throws InvblidMidiDbtbException if the pbrbmeter vblues
+     *     do not specify b vblid MIDI metb messbge.
+     * @see #setMessbge(byte[], int)
+     * @see #setMessbge(int, byte[], int)
+     * @see #getDbtb()
      * @since 1.7
      */
-    public SysexMessage(int status, byte[] data, int length)
-            throws InvalidMidiDataException {
+    public SysexMessbge(int stbtus, byte[] dbtb, int length)
+            throws InvblidMidiDbtbException {
         super(null);
-        setMessage(status, data, length);
+        setMessbge(stbtus, dbtb, length);
     }
 
 
     /**
-     * Constructs a new <code>SysexMessage</code>.
-     * @param data an array of bytes containing the complete message.
-     * The message data may be changed using the <code>setMessage</code>
+     * Constructs b new <code>SysexMessbge</code>.
+     * @pbrbm dbtb bn brrby of bytes contbining the complete messbge.
+     * The messbge dbtb mby be chbnged using the <code>setMessbge</code>
      * method.
-     * @see #setMessage
+     * @see #setMessbge
      */
-    protected SysexMessage(byte[] data) {
-        super(data);
+    protected SysexMessbge(byte[] dbtb) {
+        super(dbtb);
     }
 
 
     /**
-     * Sets the data for the system exclusive message.   The
-     * first byte of the data array must be a valid system
-     * exclusive status byte (0xF0 or 0xF7).
-     * @param data the system exclusive message data
-     * @param length the length of the valid message data in
-     * the array, including the status byte.
+     * Sets the dbtb for the system exclusive messbge.   The
+     * first byte of the dbtb brrby must be b vblid system
+     * exclusive stbtus byte (0xF0 or 0xF7).
+     * @pbrbm dbtb the system exclusive messbge dbtb
+     * @pbrbm length the length of the vblid messbge dbtb in
+     * the brrby, including the stbtus byte.
      */
-    public void setMessage(byte[] data, int length) throws InvalidMidiDataException {
-        int status = (data[0] & 0xFF);
-        if ((status != 0xF0) && (status != 0xF7)) {
-            throw new InvalidMidiDataException("Invalid status byte for sysex message: 0x" + Integer.toHexString(status));
+    public void setMessbge(byte[] dbtb, int length) throws InvblidMidiDbtbException {
+        int stbtus = (dbtb[0] & 0xFF);
+        if ((stbtus != 0xF0) && (stbtus != 0xF7)) {
+            throw new InvblidMidiDbtbException("Invblid stbtus byte for sysex messbge: 0x" + Integer.toHexString(stbtus));
         }
-        super.setMessage(data, length);
+        super.setMessbge(dbtb, length);
     }
 
 
     /**
-     * Sets the data for the system exclusive message.
-     * @param status the status byte for the message (0xF0 or 0xF7)
-     * @param data the system exclusive message data
-     * @param length the length of the valid message data in
-     * the array
-     * @throws InvalidMidiDataException if the status byte is invalid for a sysex message
+     * Sets the dbtb for the system exclusive messbge.
+     * @pbrbm stbtus the stbtus byte for the messbge (0xF0 or 0xF7)
+     * @pbrbm dbtb the system exclusive messbge dbtb
+     * @pbrbm length the length of the vblid messbge dbtb in
+     * the brrby
+     * @throws InvblidMidiDbtbException if the stbtus byte is invblid for b sysex messbge
      */
-    public void setMessage(int status, byte[] data, int length) throws InvalidMidiDataException {
-        if ( (status != 0xF0) && (status != 0xF7) ) {
-            throw new InvalidMidiDataException("Invalid status byte for sysex message: 0x" + Integer.toHexString(status));
+    public void setMessbge(int stbtus, byte[] dbtb, int length) throws InvblidMidiDbtbException {
+        if ( (stbtus != 0xF0) && (stbtus != 0xF7) ) {
+            throw new InvblidMidiDbtbException("Invblid stbtus byte for sysex messbge: 0x" + Integer.toHexString(stbtus));
         }
-        if (length < 0 || length > data.length) {
+        if (length < 0 || length > dbtb.length) {
             throw new IndexOutOfBoundsException("length out of bounds: "+length);
         }
         this.length = length + 1;
 
-        if (this.data==null || this.data.length < this.length) {
-            this.data = new byte[this.length];
+        if (this.dbtb==null || this.dbtb.length < this.length) {
+            this.dbtb = new byte[this.length];
         }
 
-        this.data[0] = (byte) (status & 0xFF);
+        this.dbtb[0] = (byte) (stbtus & 0xFF);
         if (length > 0) {
-            System.arraycopy(data, 0, this.data, 1, length);
+            System.brrbycopy(dbtb, 0, this.dbtb, 1, length);
         }
     }
 
 
     /**
-     * Obtains a copy of the data for the system exclusive message.
-     * The returned array of bytes does not include the status byte.
-     * @return array containing the system exclusive message data.
+     * Obtbins b copy of the dbtb for the system exclusive messbge.
+     * The returned brrby of bytes does not include the stbtus byte.
+     * @return brrby contbining the system exclusive messbge dbtb.
      */
-    public byte[] getData() {
-        byte[] returnedArray = new byte[length - 1];
-        System.arraycopy(data, 1, returnedArray, 0, (length - 1));
-        return returnedArray;
+    public byte[] getDbtb() {
+        byte[] returnedArrby = new byte[length - 1];
+        System.brrbycopy(dbtb, 1, returnedArrby, 0, (length - 1));
+        return returnedArrby;
     }
 
 
     /**
-     * Creates a new object of the same class and with the same contents
-     * as this object.
-     * @return a clone of this instance
+     * Crebtes b new object of the sbme clbss bnd with the sbme contents
+     * bs this object.
+     * @return b clone of this instbnce
      */
     public Object clone() {
-        byte[] newData = new byte[length];
-        System.arraycopy(data, 0, newData, 0, newData.length);
-        SysexMessage event = new SysexMessage(newData);
+        byte[] newDbtb = new byte[length];
+        System.brrbycopy(dbtb, 0, newDbtb, 0, newDbtb.length);
+        SysexMessbge event = new SysexMessbge(newDbtb);
         return event;
     }
 }

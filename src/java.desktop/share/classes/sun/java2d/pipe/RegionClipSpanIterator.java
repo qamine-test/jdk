@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.geom.PathIterator;
-import java.awt.Rectangle;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.Rectbngle;
 
 /**
- * This class clips a SpanIterator to a Region and outputs the
- * resulting spans as another SpanIterator.
+ * This clbss clips b SpbnIterbtor to b Region bnd outputs the
+ * resulting spbns bs bnother SpbnIterbtor.
  *
- * Spans are output in the usual y/x order, unless the input span
- * iterator doesn't conform to this order, or the iterator's span
- * straddle more than one band of the Region used for clipping.
+ * Spbns bre output in the usubl y/x order, unless the input spbn
+ * iterbtor doesn't conform to this order, or the iterbtor's spbn
+ * strbddle more thbn one bbnd of the Region used for clipping.
  *
- * Principle of operation:
+ * Principle of operbtion:
  *
- * The iterator maintains a several cursors onto the RegionIterator
- * in order to avoid having to buffer spans from the SpanIterator.
- * They are:
- *  resetState    The initial state of the RegionIterator
- *  lwm             Low Water Mark, a running start point for
- *                  processing each band. Usually goes down, but
- *                  can be reset to resetState if a span has a lower
- *                  start coordinate than the previous one.
- *  row             The start of the current band of the RegionIterator
- *  box             The current span of the current row
+ * The iterbtor mbintbins b severbl cursors onto the RegionIterbtor
+ * in order to bvoid hbving to buffer spbns from the SpbnIterbtor.
+ * They bre:
+ *  resetStbte    The initibl stbte of the RegionIterbtor
+ *  lwm             Low Wbter Mbrk, b running stbrt point for
+ *                  processing ebch bbnd. Usublly goes down, but
+ *                  cbn be reset to resetStbte if b spbn hbs b lower
+ *                  stbrt coordinbte thbn the previous one.
+ *  row             The stbrt of the current bbnd of the RegionIterbtor
+ *  box             The current spbn of the current row
  *
- * The main nextSpan() loop implements a coroutine like structure, with
- * three producers to get the next span, row and box calling each other
- * to iterate through the span iterator and region.
+ * The mbin nextSpbn() loop implements b coroutine like structure, with
+ * three producers to get the next spbn, row bnd box cblling ebch other
+ * to iterbte through the spbn iterbtor bnd region.
  *
- * REMIND: Needs a native implementation!
+ * REMIND: Needs b nbtive implementbtion!
  */
-public class RegionClipSpanIterator implements SpanIterator {
+public clbss RegionClipSpbnIterbtor implements SpbnIterbtor {
 
     // The inputs to the filter
     Region rgn;
-    SpanIterator spanIter;
+    SpbnIterbtor spbnIter;
 
-    // The cursors that track the progress through the region
-    RegionIterator resetState;
-    RegionIterator lwm;
-    RegionIterator row;
-    RegionIterator box;
+    // The cursors thbt trbck the progress through the region
+    RegionIterbtor resetStbte;
+    RegionIterbtor lwm;
+    RegionIterbtor row;
+    RegionIterbtor box;
 
-    // The bounds of the current span iterator span
-    int spanlox, spanhix, spanloy, spanhiy;
+    // The bounds of the current spbn iterbtor spbn
+    int spbnlox, spbnhix, spbnloy, spbnhiy;
 
-    // The extent of the region band marking the low water mark
+    // The extent of the region bbnd mbrking the low wbter mbrk
     int lwmloy, lwmhiy;
 
     // The bounds of the current region box
     int rgnlox, rgnloy, rgnhix, rgnhiy;
 
     // The bounding box of the input Region. Used for click
-    // rejection of iterator spans
+    // rejection of iterbtor spbns
     int rgnbndslox, rgnbndsloy, rgnbndshix, rgnbndshiy;
 
-    // The array used to hold coordinates from the region iterator
+    // The brrby used to hold coordinbtes from the region iterbtor
     int rgnbox[] = new int[4];
 
-    // The array used to hold coordinates from the span iterator
-    int spanbox[] = new int[4];
+    // The brrby used to hold coordinbtes from the spbn iterbtor
+    int spbnbox[] = new int[4];
 
-    // True if the next iterator span should be read on the next
-    // iteration of the main nextSpan() loop
-    boolean doNextSpan;
+    // True if the next iterbtor spbn should be rebd on the next
+    // iterbtion of the mbin nextSpbn() loop
+    boolebn doNextSpbn;
 
-    // True if the next region box should be read on the next
-    // iteration of the main nextSpan() loop
-    boolean doNextBox;
+    // True if the next region box should be rebd on the next
+    // iterbtion of the mbin nextSpbn() loop
+    boolebn doNextBox;
 
-    // True if there are no more spans or the Region is empty
-    boolean done = false;
+    // True if there bre no more spbns or the Region is empty
+    boolebn done = fblse;
 
     /*
-     * Creates an instance that filters the spans generated by
-     * spanIter through the region described by rgn.
+     * Crebtes bn instbnce thbt filters the spbns generbted by
+     * spbnIter through the region described by rgn.
      */
-    public RegionClipSpanIterator(Region rgn, SpanIterator spanIter) {
+    public RegionClipSpbnIterbtor(Region rgn, SpbnIterbtor spbnIter) {
 
-        this.spanIter = spanIter;
+        this.spbnIter = spbnIter;
 
-        resetState = rgn.getIterator();
-        lwm = resetState.createCopy();
+        resetStbte = rgn.getIterbtor();
+        lwm = resetStbte.crebteCopy();
 
-        if (!lwm.nextYRange(rgnbox)) {
+        if (!lwm.nextYRbnge(rgnbox)) {
             done = true;
             return;
         }
@@ -130,146 +130,146 @@ public class RegionClipSpanIterator implements SpanIterator {
         this.rgn = rgn;
 
 
-        row = lwm.createCopy();
-        box = row.createCopy();
-        doNextSpan = true;
-        doNextBox = false;
+        row = lwm.crebteCopy();
+        box = row.crebteCopy();
+        doNextSpbn = true;
+        doNextBox = fblse;
     }
 
     /*
-     * Gets the bbox of the available path segments, clipped to the
+     * Gets the bbox of the bvbilbble pbth segments, clipped to the
      * Region.
      */
-    public void getPathBox(int pathbox[]) {
+    public void getPbthBox(int pbthbox[]) {
         int[] rgnbox = new int[4];
         rgn.getBounds(rgnbox);
-        spanIter.getPathBox(pathbox);
+        spbnIter.getPbthBox(pbthbox);
 
-        if (pathbox[0] < rgnbox[0]) {
-            pathbox[0] = rgnbox[0];
+        if (pbthbox[0] < rgnbox[0]) {
+            pbthbox[0] = rgnbox[0];
         }
 
-        if (pathbox[1] < rgnbox[1]) {
-            pathbox[1] = rgnbox[1];
+        if (pbthbox[1] < rgnbox[1]) {
+            pbthbox[1] = rgnbox[1];
         }
 
-        if (pathbox[2] > rgnbox[2]) {
-            pathbox[2] = rgnbox[2];
+        if (pbthbox[2] > rgnbox[2]) {
+            pbthbox[2] = rgnbox[2];
         }
 
-        if (pathbox[3] > rgnbox[3]) {
-            pathbox[3] = rgnbox[3];
+        if (pbthbox[3] > rgnbox[3]) {
+            pbthbox[3] = rgnbox[3];
         }
 }
 
     /*
-     * Intersects the path box with the given bbox.
-     * Returned spans are clipped to this region, or discarded
-     * altogether if they lie outside it.
+     * Intersects the pbth box with the given bbox.
+     * Returned spbns bre clipped to this region, or discbrded
+     * bltogether if they lie outside it.
      */
     public void intersectClipBox(int lox, int loy, int hix, int hiy) {
-        spanIter.intersectClipBox(lox, loy, hix, hiy);
+        spbnIter.intersectClipBox(lox, loy, hix, hiy);
     }
 
 
     /*
-     * Fetches the next span that needs to be operated on.
-     * If the return value is false then there are no more spans.
+     * Fetches the next spbn thbt needs to be operbted on.
+     * If the return vblue is fblse then there bre no more spbns.
      */
-    public boolean nextSpan(int resultbox[]) {
+    public boolebn nextSpbn(int resultbox[]) {
         if (done) {
-            return false;
+            return fblse;
         }
 
         int resultlox, resultloy, resulthix, resulthiy;
-        boolean doNextRow = false;
+        boolebn doNextRow = fblse;
 
-        // REMIND: Cache the coordinate inst vars used in this loop
-        // in locals vars.
+        // REMIND: Cbche the coordinbte inst vbrs used in this loop
+        // in locbls vbrs.
         while (true) {
-            // We've exhausted the current span so get the next one
-            if (doNextSpan) {
-                if (!spanIter.nextSpan(spanbox)) {
+            // We've exhbusted the current spbn so get the next one
+            if (doNextSpbn) {
+                if (!spbnIter.nextSpbn(spbnbox)) {
                     done = true;
-                    return false;
+                    return fblse;
                 } else {
-                    spanlox = spanbox[0];
-                    // Clip out spans that lie outside of the rgn's bounds
-                    if (spanlox >= rgnbndshix) {
+                    spbnlox = spbnbox[0];
+                    // Clip out spbns thbt lie outside of the rgn's bounds
+                    if (spbnlox >= rgnbndshix) {
                         continue;
                     }
 
-                    spanloy = spanbox[1];
-                    if (spanloy >= rgnbndshiy) {
+                    spbnloy = spbnbox[1];
+                    if (spbnloy >= rgnbndshiy) {
                         continue;
                     }
 
-                    spanhix = spanbox[2];
-                    if (spanhix <= rgnbndslox) {
+                    spbnhix = spbnbox[2];
+                    if (spbnhix <= rgnbndslox) {
                         continue;
                     }
 
-                    spanhiy = spanbox[3];
-                    if (spanhiy <= rgnbndsloy) {
+                    spbnhiy = spbnbox[3];
+                    if (spbnhiy <= rgnbndsloy) {
                         continue;
                     }
                 }
-                // If the span starts higher up than the low-water mark,
-                // reset the lwm. This can only happen if spans aren't
+                // If the spbn stbrts higher up thbn the low-wbter mbrk,
+                // reset the lwm. This cbn only hbppen if spbns bren't
                 // returned in strict y/x order, or the first time through.
-                if (lwmloy > spanloy) {
-                    lwm.copyStateFrom(resetState);
-                    lwm.nextYRange(rgnbox);
+                if (lwmloy > spbnloy) {
+                    lwm.copyStbteFrom(resetStbte);
+                    lwm.nextYRbnge(rgnbox);
                     lwmloy = rgnbox[1];
                     lwmhiy = rgnbox[3];
                 }
                 // Skip to the first rgn row whose bottom edge is
-                // below the top of the current span. This will only
-                // execute >0 times when the current span starts in a
-                // lower region row than the previous one, or possibly the
+                // below the top of the current spbn. This will only
+                // execute >0 times when the current spbn stbrts in b
+                // lower region row thbn the previous one, or possibly the
                 // first time through.
-                while (lwmhiy <= spanloy) {
-                    if (!lwm.nextYRange(rgnbox))
-                        break;
+                while (lwmhiy <= spbnloy) {
+                    if (!lwm.nextYRbnge(rgnbox))
+                        brebk;
                     lwmloy = rgnbox[1];
                     lwmhiy = rgnbox[3];
                 }
-                // If the row overlaps the span, process it, otherwise
-                // fetch another span
-                if (lwmhiy > spanloy && lwmloy < spanhiy) {
-                    // Update the current row if it's different from the
+                // If the row overlbps the spbn, process it, otherwise
+                // fetch bnother spbn
+                if (lwmhiy > spbnloy && lwmloy < spbnhiy) {
+                    // Updbte the current row if it's different from the
                     // new lwm
                     if (rgnloy != lwmloy) {
-                        row.copyStateFrom(lwm);
+                        row.copyStbteFrom(lwm);
                         rgnloy = lwmloy;
                         rgnhiy = lwmhiy;
                     }
-                    box.copyStateFrom(row);
+                    box.copyStbteFrom(row);
                     doNextBox = true;
-                    doNextSpan = false;
+                    doNextSpbn = fblse;
                 }
                 continue;
             }
 
-            // The current row's spans are exhausted, do the next one
+            // The current row's spbns bre exhbusted, do the next one
             if (doNextRow) {
-                // Next time we either do the next span or the next box
-                doNextRow = false;
+                // Next time we either do the next spbn or the next box
+                doNextRow = fblse;
                 // Get the next row
-                boolean ok = row.nextYRange(rgnbox);
-                // If there was one, update the bounds
+                boolebn ok = row.nextYRbnge(rgnbox);
+                // If there wbs one, updbte the bounds
                 if (ok) {
                     rgnloy = rgnbox[1];
                     rgnhiy = rgnbox[3];
                 }
-                if (!ok || rgnloy >= spanhiy) {
-                    // If we've exhausted the rows or this one is below the span,
-                    // go onto the next span
-                    doNextSpan = true;
+                if (!ok || rgnloy >= spbnhiy) {
+                    // If we've exhbusted the rows or this one is below the spbn,
+                    // go onto the next spbn
+                    doNextSpbn = true;
                 }
                 else {
                     // Otherwise get the first box on this row
-                    box.copyStateFrom(row);
+                    box.copyStbteFrom(row);
                     doNextBox = true;
                 }
                 continue;
@@ -277,59 +277,59 @@ public class RegionClipSpanIterator implements SpanIterator {
 
             // Process the next box in the current row
             if (doNextBox) {
-                boolean ok = box.nextXBand(rgnbox);
+                boolebn ok = box.nextXBbnd(rgnbox);
                 if (ok) {
                     rgnlox = rgnbox[0];
                     rgnhix = rgnbox[2];
                 }
-                if (!ok || rgnlox >= spanhix) {
-                    // If there was no next rgn span or it's beyond the
-                    // source span, go onto the next row or span
-                    doNextBox = false;
-                    if (rgnhiy >= spanhiy) {
-                        // If the current row totally overlaps the span,
-                        // go onto the next span
-                        doNextSpan = true;
+                if (!ok || rgnlox >= spbnhix) {
+                    // If there wbs no next rgn spbn or it's beyond the
+                    // source spbn, go onto the next row or spbn
+                    doNextBox = fblse;
+                    if (rgnhiy >= spbnhiy) {
+                        // If the current row totblly overlbps the spbn,
+                        // go onto the next spbn
+                        doNextSpbn = true;
                     } else {
                         // otherwise go onto the next rgn row
                         doNextRow = true;
                     }
                 } else {
-                    // Otherwise, if the new rgn span overlaps the
-                    // spanbox, no need to get another box
-                    doNextBox = rgnhix <= spanlox;
+                    // Otherwise, if the new rgn spbn overlbps the
+                    // spbnbox, no need to get bnother box
+                    doNextBox = rgnhix <= spbnlox;
                 }
                 continue;
             }
 
-            // Prepare to do the next box either on this call or
+            // Prepbre to do the next box either on this cbll or
             // or the subsequent one
             doNextBox = true;
 
-            // Clip the current span against the current box
-            if (spanlox > rgnlox) {
-                resultlox = spanlox;
+            // Clip the current spbn bgbinst the current box
+            if (spbnlox > rgnlox) {
+                resultlox = spbnlox;
             }
             else {
                 resultlox = rgnlox;
             }
 
-            if (spanloy > rgnloy) {
-                resultloy = spanloy;
+            if (spbnloy > rgnloy) {
+                resultloy = spbnloy;
             }
             else {
                 resultloy = rgnloy;
             }
 
-            if (spanhix < rgnhix) {
-                resulthix = spanhix;
+            if (spbnhix < rgnhix) {
+                resulthix = spbnhix;
             }
             else {
                 resulthix = rgnhix;
             }
 
-            if (spanhiy < rgnhiy) {
-                resulthiy = spanhiy;
+            if (spbnhiy < rgnhiy) {
+                resulthiy = spbnhiy;
             }
             else {
                 resulthiy = rgnhiy;
@@ -338,13 +338,13 @@ public class RegionClipSpanIterator implements SpanIterator {
             // If the result is empty, try then next box
             // otherwise return the box.
             // REMIND: I think by definition it's non-empty
-            // if we're here. Need to think about this some more.
+            // if we're here. Need to think bbout this some more.
             if (resultlox >= resulthix ||
                 resultloy >= resulthiy) {
                     continue;
             }
             else {
-                    break;
+                    brebk;
             }
         }
 
@@ -358,34 +358,34 @@ public class RegionClipSpanIterator implements SpanIterator {
 
 
     /**
-     * This method tells the iterator that it may skip all spans
-     * whose Y range is completely above the indicated Y coordinate.
+     * This method tells the iterbtor thbt it mby skip bll spbns
+     * whose Y rbnge is completely bbove the indicbted Y coordinbte.
      */
     public void skipDownTo(int y) {
-        spanIter.skipDownTo(y);
+        spbnIter.skipDownTo(y);
     }
 
     /**
-     * This method returns a native pointer to a function block that
-     * can be used by a native method to perform the same iteration
-     * cycle that the above methods provide while avoiding upcalls to
-     * the Java object.
+     * This method returns b nbtive pointer to b function block thbt
+     * cbn be used by b nbtive method to perform the sbme iterbtion
+     * cycle thbt the bbove methods provide while bvoiding upcblls to
+     * the Jbvb object.
      * The definition of the structure whose pointer is returned by
      * this method is defined in:
      * <pre>
-     *     src/share/native/sun/java2d/pipe/SpanIterator.h
+     *     src/shbre/nbtive/sun/jbvb2d/pipe/SpbnIterbtor.h
      * </pre>
      */
-    public long getNativeIterator() {
+    public long getNbtiveIterbtor() {
         return 0;
     }
 
     /*
-     * Cleans out all internal data structures.
+     * Clebns out bll internbl dbtb structures.
      */
-    //public native void dispose();
+    //public nbtive void dispose();
 
-    protected void finalize() {
+    protected void finblize() {
         //dispose();
     }
 

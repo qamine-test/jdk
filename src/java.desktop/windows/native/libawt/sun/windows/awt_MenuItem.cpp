@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt.h"
-#include "awt_MenuItem.h"
-#include "awt_Menu.h"
-#include "awt_MenuBar.h"
-#include "awt_DesktopProperties.h"
-#include <sun_awt_windows_WCheckboxMenuItemPeer.h>
+#include "bwt.h"
+#include "bwt_MenuItem.h"
+#include "bwt_Menu.h"
+#include "bwt_MenuBbr.h"
+#include "bwt_DesktopProperties.h"
+#include <sun_bwt_windows_WCheckboxMenuItemPeer.h>
 
 // Begin -- Win32 SDK include files
-#include <tchar.h>
+#include <tchbr.h>
 #include <imm.h>
 #include <ime.h>
 // End -- Win32 SDK include files
 
-//add for multifont menuitem
-#include <java_awt_CheckboxMenuItem.h>
-#include <java_awt_Toolkit.h>
-#include <java_awt_event_InputEvent.h>
+//bdd for multifont menuitem
+#include <jbvb_bwt_CheckboxMenuItem.h>
+#include <jbvb_bwt_Toolkit.h>
+#include <jbvb_bwt_event_InputEvent.h>
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rebd the README.JNI file for notes on JNI converted AWT code.
  */
 
 /***********************************************************************/
-// struct for _SetLabel() method
-struct SetLabelStruct {
+// struct for _SetLbbel() method
+struct SetLbbelStruct {
     jobject menuitem;
-    jstring label;
+    jstring lbbel;
 };
 /************************************************************************
  * AwtMenuItem fields
@@ -57,32 +57,32 @@ struct SetLabelStruct {
 HBITMAP AwtMenuItem::bmpCheck;
 jobject AwtMenuItem::systemFont;
 
-jfieldID AwtMenuItem::labelID;
-jfieldID AwtMenuItem::enabledID;
+jfieldID AwtMenuItem::lbbelID;
+jfieldID AwtMenuItem::enbbledID;
 jfieldID AwtMenuItem::fontID;
-jfieldID AwtMenuItem::appContextID;
-jfieldID AwtMenuItem::shortcutLabelID;
+jfieldID AwtMenuItem::bppContextID;
+jfieldID AwtMenuItem::shortcutLbbelID;
 jfieldID AwtMenuItem::isCheckboxID;
-jfieldID AwtMenuItem::stateID;
+jfieldID AwtMenuItem::stbteID;
 
-jmethodID AwtMenuItem::getDefaultFontMID;
+jmethodID AwtMenuItem::getDefbultFontMID;
 
-// Added by waleed to initialize the RTL Flags
-LANGID AwtMenuItem::m_idLang = LOWORD(GetKeyboardLayout(0));
-UINT AwtMenuItem::m_CodePage =
-    AwtMenuItem::LangToCodePage(AwtMenuItem::m_idLang);
-BOOL AwtMenuItem::sm_rtl = PRIMARYLANGID(GetInputLanguage()) == LANG_ARABIC ||
-                           PRIMARYLANGID(GetInputLanguage()) == LANG_HEBREW;
-BOOL AwtMenuItem::sm_rtlReadingOrder =
-    PRIMARYLANGID(GetInputLanguage()) == LANG_ARABIC;
+// Added by wbleed to initiblize the RTL Flbgs
+LANGID AwtMenuItem::m_idLbng = LOWORD(GetKeybobrdLbyout(0));
+UINT AwtMenuItem::m_CodePbge =
+    AwtMenuItem::LbngToCodePbge(AwtMenuItem::m_idLbng);
+BOOL AwtMenuItem::sm_rtl = PRIMARYLANGID(GetInputLbngubge()) == LANG_ARABIC ||
+                           PRIMARYLANGID(GetInputLbngubge()) == LANG_HEBREW;
+BOOL AwtMenuItem::sm_rtlRebdingOrder =
+    PRIMARYLANGID(GetInputLbngubge()) == LANG_ARABIC;
 
 /*
- * This constant holds width of the default menu
- * check-mark bitmap for default settings on XP/Vista,
+ * This constbnt holds width of the defbult menu
+ * check-mbrk bitmbp for defbult settings on XP/Vistb,
  * in pixels
  */
-static const int SM_CXMENUCHECK_DEFAULT_ON_XP = 13;
-static const int SM_CXMENUCHECK_DEFAULT_ON_VISTA = 15;
+stbtic const int SM_CXMENUCHECK_DEFAULT_ON_XP = 13;
+stbtic const int SM_CXMENUCHECK_DEFAULT_ON_VISTA = 15;
 
 /************************************************************************
  * AwtMenuItem methods
@@ -90,7 +90,7 @@ static const int SM_CXMENUCHECK_DEFAULT_ON_VISTA = 15;
 
 AwtMenuItem::AwtMenuItem() {
     m_peerObject = NULL;
-    m_menuContainer = NULL;
+    m_menuContbiner = NULL;
     m_Id = (UINT)-1;
     m_freeId = FALSE;
     m_isCheckbox = FALSE;
@@ -103,7 +103,7 @@ AwtMenuItem::~AwtMenuItem()
 void AwtMenuItem::RemoveCmdID()
 {
     if (m_freeId) {
-        AwtToolkit::GetInstance().RemoveCmdID( GetID() );
+        AwtToolkit::GetInstbnce().RemoveCmdID( GetID() );
     }
 }
 void AwtMenuItem::Dispose()
@@ -113,146 +113,146 @@ void AwtMenuItem::Dispose()
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     if (m_peerObject != NULL) {
         JNI_SET_PDATA(m_peerObject, NULL);
-        env->DeleteGlobalRef(m_peerObject);
+        env->DeleteGlobblRef(m_peerObject);
         m_peerObject = NULL;
     }
 
     AwtObject::Dispose();
 }
 
-LPCTSTR AwtMenuItem::GetClassName() {
+LPCTSTR AwtMenuItem::GetClbssNbme() {
   return TEXT("SunAwtMenuItem");
 }
-// Convert Language ID to CodePage
-UINT AwtMenuItem::LangToCodePage(LANGID idLang)
+// Convert Lbngubge ID to CodePbge
+UINT AwtMenuItem::LbngToCodePbge(LANGID idLbng)
 {
-    TCHAR strCodePage[MAX_ACP_STR_LEN];
-    // use the LANGID to create a LCID
-    LCID idLocale = MAKELCID(idLang, SORT_DEFAULT);
-    // get the ANSI code page associated with this locale
-    if (GetLocaleInfo(idLocale, LOCALE_IDEFAULTANSICODEPAGE, strCodePage, sizeof(strCodePage)/sizeof(TCHAR)) > 0 )
-        return _ttoi(strCodePage);
+    TCHAR strCodePbge[MAX_ACP_STR_LEN];
+    // use the LANGID to crebte b LCID
+    LCID idLocble = MAKELCID(idLbng, SORT_DEFAULT);
+    // get the ANSI code pbge bssocibted with this locble
+    if (GetLocbleInfo(idLocble, LOCALE_IDEFAULTANSICODEPAGE, strCodePbge, sizeof(strCodePbge)/sizeof(TCHAR)) > 0 )
+        return _ttoi(strCodePbge);
     else
         return GetACP();
 }
 
-BOOL AwtMenuItem::CheckMenuCreation(JNIEnv *env, jobject self, HMENU hMenu)
+BOOL AwtMenuItem::CheckMenuCrebtion(JNIEnv *env, jobject self, HMENU hMenu)
 {
     // fix for 5088782
-    // check if CreateMenu() returns not null value and if it does -
-    //   create an InternalError or OutOfMemoryError based on GetLastError().
-    //   This error is set to createError field of WObjectPeer and then
-    //   checked and thrown in WMenuPeer or WMenuItemPeer constructor. We
-    //   can't throw an error here because this code is invoked on Toolkit thread
-    // return TRUE if menu is created successfully, FALSE otherwise
+    // check if CrebteMenu() returns not null vblue bnd if it does -
+    //   crebte bn InternblError or OutOfMemoryError bbsed on GetLbstError().
+    //   This error is set to crebteError field of WObjectPeer bnd then
+    //   checked bnd thrown in WMenuPeer or WMenuItemPeer constructor. We
+    //   cbn't throw bn error here becbuse this code is invoked on Toolkit threbd
+    // return TRUE if menu is crebted successfully, FALSE otherwise
     if (hMenu == NULL)
     {
-        DWORD dw = GetLastError();
-        jobject createError = NULL;
+        DWORD dw = GetLbstError();
+        jobject crebteError = NULL;
         if (dw == ERROR_OUTOFMEMORY)
         {
-            jstring errorMsg = JNU_NewStringPlatform(env, L"too many menu handles");
+            jstring errorMsg = JNU_NewStringPlbtform(env, L"too mbny menu hbndles");
             if (errorMsg == NULL) {
-                throw std::bad_alloc();
+                throw std::bbd_blloc();
             }
-            createError = JNU_NewObjectByName(env, "java/lang/OutOfMemoryError",
-                                                   "(Ljava/lang/String;)V",
+            crebteError = JNU_NewObjectByNbme(env, "jbvb/lbng/OutOfMemoryError",
+                                                   "(Ljbvb/lbng/String;)V",
                                                    errorMsg);
-            env->DeleteLocalRef(errorMsg);
+            env->DeleteLocblRef(errorMsg);
         }
         else
         {
             TCHAR *buf;
-            FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+            FormbtMessbge(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
                 NULL, dw, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                 (LPTSTR)&buf, 0, NULL);
-            jstring s = JNU_NewStringPlatform(env, buf);
+            jstring s = JNU_NewStringPlbtform(env, buf);
             if (s == NULL) {
-                throw std::bad_alloc();
+                throw std::bbd_blloc();
             }
-            createError = JNU_NewObjectByName(env, "java/lang/InternalError",
-                                                   "(Ljava/lang/String;)V", s);
-            LocalFree(buf);
-            env->DeleteLocalRef(s);
+            crebteError = JNU_NewObjectByNbme(env, "jbvb/lbng/InternblError",
+                                                   "(Ljbvb/lbng/String;)V", s);
+            LocblFree(buf);
+            env->DeleteLocblRef(s);
         }
-        if (createError == NULL) {
-            throw std::bad_alloc();
+        if (crebteError == NULL) {
+            throw std::bbd_blloc();
         }
-        env->SetObjectField(self, AwtObject::createErrorID, createError);
-        env->DeleteLocalRef(createError);
+        env->SetObjectField(self, AwtObject::crebteErrorID, crebteError);
+        env->DeleteLocblRef(crebteError);
         return FALSE;
     }
     return TRUE;
 }
 
 /*
- * Link the C++, Java peer together
+ * Link the C++, Jbvb peer together
  */
 void AwtMenuItem::LinkObjects(JNIEnv *env, jobject peer)
 {
-    m_peerObject = env->NewGlobalRef(peer);
+    m_peerObject = env->NewGlobblRef(peer);
     JNI_SET_PDATA(peer, this);
 }
 
-AwtMenuItem* AwtMenuItem::Create(jobject peer, jobject menuPeer)
+AwtMenuItem* AwtMenuItem::Crebte(jobject peer, jobject menuPeer)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    jobject target = NULL;
+    jobject tbrget = NULL;
     AwtMenuItem* item = NULL;
 
     try {
-        if (env->EnsureLocalCapacity(1) < 0) {
+        if (env->EnsureLocblCbpbcity(1) < 0) {
             return NULL;
         }
-        PDATA pData;
+        PDATA pDbtb;
         JNI_CHECK_PEER_RETURN_NULL(menuPeer);
 
-        /* target is a java.awt.MenuItem  */
-        target = env->GetObjectField(peer, AwtObject::targetID);
+        /* tbrget is b jbvb.bwt.MenuItem  */
+        tbrget = env->GetObjectField(peer, AwtObject::tbrgetID);
 
-        AwtMenu* menu = (AwtMenu *)pData;
+        AwtMenu* menu = (AwtMenu *)pDbtb;
         item = new AwtMenuItem();
-        jboolean isCheckbox =
-            (jboolean)env->GetBooleanField(peer, AwtMenuItem::isCheckboxID);
+        jboolebn isCheckbox =
+            (jboolebn)env->GetBoolebnField(peer, AwtMenuItem::isCheckboxID);
         if (isCheckbox) {
             item->SetCheckbox();
         }
 
         item->LinkObjects(env, peer);
-        item->SetMenuContainer(menu);
+        item->SetMenuContbiner(menu);
         item->SetNewID();
         menu->AddItem(item);
-    } catch (...) {
-        env->DeleteLocalRef(target);
+    } cbtch (...) {
+        env->DeleteLocblRef(tbrget);
         throw;
     }
 
-    env->DeleteLocalRef(target);
+    env->DeleteLocblRef(tbrget);
     return item;
 }
 
 MsgRouting AwtMenuItem::WmNotify(UINT notifyCode)
 {
-    return mrDoDefault;
+    return mrDoDefbult;
 }
 
-// This function returns a local reference
+// This function returns b locbl reference
 jobject
 AwtMenuItem::GetFont(JNIEnv *env)
 {
     jobject self = GetPeer(env);
-    jobject target = env->GetObjectField(self, AwtObject::targetID);
-    jobject font = JNU_CallMethodByName(env, 0, target, "getFont_NoClientCode", "()Ljava/awt/Font;").l;
-    env->DeleteLocalRef(target);
+    jobject tbrget = env->GetObjectField(self, AwtObject::tbrgetID);
+    jobject font = JNU_CbllMethodByNbme(env, 0, tbrget, "getFont_NoClientCode", "()Ljbvb/bwt/Font;").l;
+    env->DeleteLocblRef(tbrget);
     if (env->ExceptionCheck()) {
-        throw std::bad_alloc();
+        throw std::bbd_blloc();
     }
 
     if (font == NULL) {
-        font = env->NewLocalRef(GetDefaultFont(env));
+        font = env->NewLocblRef(GetDefbultFont(env));
         if (env->ExceptionCheck()) {
-            throw std::bad_alloc();
+            throw std::bbd_blloc();
         }
     }
 
@@ -260,143 +260,143 @@ AwtMenuItem::GetFont(JNIEnv *env)
 }
 
 jobject
-AwtMenuItem::GetDefaultFont(JNIEnv *env) {
+AwtMenuItem::GetDefbultFont(JNIEnv *env) {
     if (AwtMenuItem::systemFont == NULL) {
-        jclass cls = env->FindClass("sun/awt/windows/WMenuItemPeer");
+        jclbss cls = env->FindClbss("sun/bwt/windows/WMenuItemPeer");
         if (cls == NULL) {
-            throw std::bad_alloc();
+            throw std::bbd_blloc();
         }
 
         AwtMenuItem::systemFont =
-            env->CallStaticObjectMethod(cls, AwtMenuItem::getDefaultFontMID);
+            env->CbllStbticObjectMethod(cls, AwtMenuItem::getDefbultFontMID);
         if (env->ExceptionCheck()) {
-            env->DeleteLocalRef(cls);
-            throw std::bad_alloc();
+            env->DeleteLocblRef(cls);
+            throw std::bbd_blloc();
         }
 
-        AwtMenuItem::systemFont = env->NewGlobalRef(AwtMenuItem::systemFont);
+        AwtMenuItem::systemFont = env->NewGlobblRef(AwtMenuItem::systemFont);
         if (systemFont == NULL) {
-            env->DeleteLocalRef(cls);
-            throw std::bad_alloc();
+            env->DeleteLocblRef(cls);
+            throw std::bbd_blloc();
         }
     }
     return AwtMenuItem::systemFont;
 }
 
 void
-AwtMenuItem::DrawSelf(DRAWITEMSTRUCT& drawInfo)
+AwtMenuItem::DrbwSelf(DRAWITEMSTRUCT& drbwInfo)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(4) < 0) {
+    if (env->EnsureLocblCbpbcity(4) < 0) {
         return;
     }
 
-    // self is sun.awt.windows.WMenuItemPeer
+    // self is sun.bwt.windows.WMenuItemPeer
     jobject self = GetPeer(env);
 
-    //  target is java.awt.MenuItem
-    jobject target = env->GetObjectField(self, AwtObject::targetID);
+    //  tbrget is jbvb.bwt.MenuItem
+    jobject tbrget = env->GetObjectField(self, AwtObject::tbrgetID);
 
-    HDC hDC = drawInfo.hDC;
-    RECT rect = drawInfo.rcItem;
+    HDC hDC = drbwInfo.hDC;
+    RECT rect = drbwInfo.rcItem;
     RECT textRect = rect;
     SIZE size;
 
-    DWORD crBack,crText;
-    HBRUSH hbrBack;
+    DWORD crBbck,crText;
+    HBRUSH hbrBbck;
 
     jobject font;
     try {
         font = GetFont(env);
-    } catch (std::bad_alloc&) {
-        env->DeleteLocalRef(target);
+    } cbtch (std::bbd_blloc&) {
+        env->DeleteLocblRef(tbrget);
         throw;
     }
 
-    jstring text = GetJavaString(env);
+    jstring text = GetJbvbString(env);
     if (env->ExceptionCheck()) {
-        env->DeleteLocalRef(target);
-        throw std::bad_alloc();
+        env->DeleteLocblRef(tbrget);
+        throw std::bbd_blloc();
     }
     size = AwtFont::getMFStringSize(hDC, font, text);
 
-    /* 4700350: If the font size is taller than the menubar, change to the
-     * default font.  Otherwise, menu text is painted over the title bar and
-     * client area.  -bchristi
+    /* 4700350: If the font size is tbller thbn the menubbr, chbnge to the
+     * defbult font.  Otherwise, menu text is pbinted over the title bbr bnd
+     * client breb.  -bchristi
      */
     if (IsTopMenu() && size.cy > ::GetSystemMetrics(SM_CYMENU)) {
-        env->DeleteLocalRef(font);
+        env->DeleteLocblRef(font);
         try {
-            font = env->NewLocalRef(GetDefaultFont(env));
-        } catch (std::bad_alloc&) {
-            env->DeleteLocalRef(target);
-            env->DeleteLocalRef(text);
+            font = env->NewLocblRef(GetDefbultFont(env));
+        } cbtch (std::bbd_blloc&) {
+            env->DeleteLocblRef(tbrget);
+            env->DeleteLocblRef(text);
             throw;
         }
         size = AwtFont::getMFStringSize(hDC, font, text);
     }
 
-    /* Fix for bug 4257944 by ssi@sparc.spb.su
-    * check state of the parent
+    /* Fix for bug 4257944 by ssi@spbrc.spb.su
+    * check stbte of the pbrent
     */
-    AwtMenu* menu = GetMenuContainer();
+    AwtMenu* menu = GetMenuContbiner();
     DASSERT(menu != NULL && GetID() >= 0);
 
-    //Check whether the MenuItem is disabled.
-    BOOL bEnabled = (jboolean)env->GetBooleanField(target,
-                                                   AwtMenuItem::enabledID);
+    //Check whether the MenuItem is disbbled.
+    BOOL bEnbbled = (jboolebn)env->GetBoolebnField(tbrget,
+                                                   AwtMenuItem::enbbledID);
     if (menu != NULL) {
-        bEnabled = bEnabled && !menu->IsDisabledAndPopup();
+        bEnbbled = bEnbbled && !menu->IsDisbbledAndPopup();
     }
 
-    if ((drawInfo.itemState) & (ODS_SELECTED)) {
-        // Set background and text colors for selected item
-        crBack = ::GetSysColor (COLOR_HIGHLIGHT);
-        // Disabled text must be drawn in gray.
-        crText = ::GetSysColor(bEnabled? COLOR_HIGHLIGHTTEXT : COLOR_GRAYTEXT);
+    if ((drbwInfo.itemStbte) & (ODS_SELECTED)) {
+        // Set bbckground bnd text colors for selected item
+        crBbck = ::GetSysColor (COLOR_HIGHLIGHT);
+        // Disbbled text must be drbwn in grby.
+        crText = ::GetSysColor(bEnbbled? COLOR_HIGHLIGHTTEXT : COLOR_GRAYTEXT);
     } else {
-        // COLOR_MENUBAR is only defined on WindowsXP. Our binaries are
+        // COLOR_MENUBAR is only defined on WindowsXP. Our binbries bre
         // built on NT, hence the below ifdef.
 
 #ifndef COLOR_MENUBAR
 #define COLOR_MENUBAR 30
 #endif
-        // Set background and text colors for unselected item
+        // Set bbckground bnd text colors for unselected item
         if (IS_WINXP && IsTopMenu() && AwtDesktopProperties::IsXPStyle()) {
-            crBack = ::GetSysColor (COLOR_MENUBAR);
+            crBbck = ::GetSysColor (COLOR_MENUBAR);
         } else {
-            crBack = ::GetSysColor (COLOR_MENU);
+            crBbck = ::GetSysColor (COLOR_MENU);
         }
-        // Disabled text must be drawn in gray.
-        crText = ::GetSysColor (bEnabled ? COLOR_MENUTEXT : COLOR_GRAYTEXT);
+        // Disbbled text must be drbwn in grby.
+        crText = ::GetSysColor (bEnbbled ? COLOR_MENUTEXT : COLOR_GRAYTEXT);
     }
 
-    // Fill item rectangle with background color
-    hbrBack = ::CreateSolidBrush (crBack);
-    DASSERT(hbrBack);
-    VERIFY(::FillRect (hDC, &rect, hbrBack));
-    VERIFY(::DeleteObject (hbrBack));
+    // Fill item rectbngle with bbckground color
+    hbrBbck = ::CrebteSolidBrush (crBbck);
+    DASSERT(hbrBbck);
+    VERIFY(::FillRect (hDC, &rect, hbrBbck));
+    VERIFY(::DeleteObject (hbrBbck));
 
-    // Set current background and text colors
-    ::SetBkColor (hDC, crBack);
+    // Set current bbckground bnd text colors
+    ::SetBkColor (hDC, crBbck);
     ::SetTextColor (hDC, crText);
 
     int nOldBkMode = ::SetBkMode(hDC, OPAQUE);
     DASSERT(nOldBkMode != 0);
 
-    //draw check mark
+    //drbw check mbrk
     int checkWidth = ::GetSystemMetrics(SM_CXMENUCHECK);
-    // Workaround for CR#6401956
+    // Workbround for CR#6401956
     if (IS_WINVISTA) {
         AdjustCheckWidth(checkWidth);
     }
 
     if (IsCheckbox()) {
-        // means that target is a java.awt.CheckboxMenuItem
-        jboolean state =
-            (jboolean)env->GetBooleanField(target, AwtMenuItem::stateID);
-        if (state) {
-            DASSERT(drawInfo.itemState & ODS_CHECKED);
+        // mebns thbt tbrget is b jbvb.bwt.CheckboxMenuItem
+        jboolebn stbte =
+            (jboolebn)env->GetBoolebnField(tbrget, AwtMenuItem::stbteID);
+        if (stbte) {
+            DASSERT(drbwInfo.itemStbte & ODS_CHECKED);
             RECT checkRect;
             ::CopyRect(&checkRect, &textRect);
             if (GetRTL())
@@ -404,13 +404,13 @@ AwtMenuItem::DrawSelf(DRAWITEMSTRUCT& drawInfo)
             else
                 checkRect.right = checkRect.left + checkWidth;
 
-            DrawCheck(hDC, checkRect);
+            DrbwCheck(hDC, checkRect);
         }
     }
 
     ::SetBkMode(hDC, TRANSPARENT);
     int x = 0;
-    //draw string
+    //drbw string
     if (!IsTopMenu()){
         textRect.left += checkWidth;
         x = (GetRTL()) ? textRect.right - checkWidth - size.cx : textRect.left;
@@ -420,28 +420,28 @@ AwtMenuItem::DrawSelf(DRAWITEMSTRUCT& drawInfo)
 
     int y = (textRect.top+textRect.bottom-size.cy)/2;
 
-    // Text must be drawn in emboss if the Menu is disabled and not selected.
-    BOOL bEmboss = !bEnabled && !(drawInfo.itemState & ODS_SELECTED);
+    // Text must be drbwn in emboss if the Menu is disbbled bnd not selected.
+    BOOL bEmboss = !bEnbbled && !(drbwInfo.itemStbte & ODS_SELECTED);
     if (bEmboss) {
         ::SetTextColor(hDC, GetSysColor(COLOR_BTNHILIGHT));
-        AwtFont::drawMFString(hDC, font, text, x + 1, y + 1, GetCodePage());
+        AwtFont::drbwMFString(hDC, font, text, x + 1, y + 1, GetCodePbge());
         ::SetTextColor(hDC, GetSysColor(COLOR_BTNSHADOW));
     }
-    AwtFont::drawMFString(hDC, font, text, x, y, GetCodePage());
+    AwtFont::drbwMFString(hDC, font, text, x, y, GetCodePbge());
 
-    jstring shortcutLabel =
-        (jstring)env->GetObjectField(self, AwtMenuItem::shortcutLabelID);
-    if (!IsTopMenu() && shortcutLabel != NULL) {
+    jstring shortcutLbbel =
+        (jstring)env->GetObjectField(self, AwtMenuItem::shortcutLbbelID);
+    if (!IsTopMenu() && shortcutLbbel != NULL) {
         UINT oldAlign = 0;
         if (GetRTL()){
             oldAlign = ::SetTextAlign(hDC, TA_LEFT);
-            AwtFont::drawMFString(hDC, font, shortcutLabel, textRect.left, y,
-                                  GetCodePage());
+            AwtFont::drbwMFString(hDC, font, shortcutLbbel, textRect.left, y,
+                                  GetCodePbge());
         } else {
             oldAlign = ::SetTextAlign(hDC, TA_RIGHT);
-            AwtFont::drawMFString(hDC, font, shortcutLabel,
+            AwtFont::drbwMFString(hDC, font, shortcutLbbel,
                                   textRect.right - checkWidth, y,
-                                  GetCodePage());
+                                  GetCodePbge());
         }
 
         ::SetTextAlign(hDC, oldAlign);
@@ -449,16 +449,16 @@ AwtMenuItem::DrawSelf(DRAWITEMSTRUCT& drawInfo)
 
     VERIFY(::SetBkMode(hDC,nOldBkMode));
 
-    env->DeleteLocalRef(target);
-    env->DeleteLocalRef(text);
-    env->DeleteLocalRef(font);
-    env->DeleteLocalRef(shortcutLabel);
+    env->DeleteLocblRef(tbrget);
+    env->DeleteLocblRef(text);
+    env->DeleteLocblRef(font);
+    env->DeleteLocblRef(shortcutLbbel);
 }
 
 /*
- * This function helps us to prevent check-mark's
- * distortion appeared due to changing of default
- * settings on Vista
+ * This function helps us to prevent check-mbrk's
+ * distortion bppebred due to chbnging of defbult
+ * settings on Vistb
  */
 void AwtMenuItem::AdjustCheckWidth(int& checkWidth)
 {
@@ -467,155 +467,155 @@ void AwtMenuItem::AdjustCheckWidth(int& checkWidth)
     }
 }
 
-void AwtMenuItem::DrawItem(DRAWITEMSTRUCT& drawInfo)
+void AwtMenuItem::DrbwItem(DRAWITEMSTRUCT& drbwInfo)
 {
-    DASSERT(drawInfo.CtlType == ODT_MENU);
+    DASSERT(drbwInfo.CtlType == ODT_MENU);
 
-    if (drawInfo.itemID != m_Id)
+    if (drbwInfo.itemID != m_Id)
         return;
 
-    DrawSelf(drawInfo);
+    DrbwSelf(drbwInfo);
 }
 
-void AwtMenuItem::MeasureSelf(HDC hDC, MEASUREITEMSTRUCT& measureInfo)
+void AwtMenuItem::MebsureSelf(HDC hDC, MEASUREITEMSTRUCT& mebsureInfo)
 {
     JNIEnv *env =(JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(4) < 0) {
+    if (env->EnsureLocblCbpbcity(4) < 0) {
         return;
     }
 
-    /* self is a sun.awt.windows.WMenuItemPeer */
+    /* self is b sun.bwt.windows.WMenuItemPeer */
     jobject self = GetPeer(env);
 
-    /* font is a java.awt.Font */
+    /* font is b jbvb.bwt.Font */
     jobject font = GetFont(env);
-    jstring text = GetJavaString(env);
+    jstring text = GetJbvbString(env);
     if (env->ExceptionCheck()) {
-        env->DeleteLocalRef(font);
-        throw std::bad_alloc();
+        env->DeleteLocblRef(font);
+        throw std::bbd_blloc();
     }
     SIZE size = AwtFont::getMFStringSize(hDC, font, text);
 
-    /* 4700350: If the font size is taller than the menubar, change to the
-     * default font.  Otherwise, menu text is painted over the title bar and
-     * client area.  -bchristi
+    /* 4700350: If the font size is tbller thbn the menubbr, chbnge to the
+     * defbult font.  Otherwise, menu text is pbinted over the title bbr bnd
+     * client breb.  -bchristi
      */
     if (IsTopMenu() && size.cy > ::GetSystemMetrics(SM_CYMENU)) {
         jobject defFont;
         try {
-            defFont = GetDefaultFont(env);
-        } catch (std::bad_alloc&) {
-            env->DeleteLocalRef(text);
-            env->DeleteLocalRef(font);
+            defFont = GetDefbultFont(env);
+        } cbtch (std::bbd_blloc&) {
+            env->DeleteLocblRef(text);
+            env->DeleteLocblRef(font);
             throw;
         }
-        env->DeleteLocalRef(font);
-        font = env->NewLocalRef(defFont);
+        env->DeleteLocblRef(font);
+        font = env->NewLocblRef(defFont);
         size = AwtFont::getMFStringSize(hDC, font, text);
     }
 
-    jstring fontName =
-        (jstring)JNU_CallMethodByName(env, 0,font, "getName",
-                                      "()Ljava/lang/String;").l;
+    jstring fontNbme =
+        (jstring)JNU_CbllMethodByNbme(env, 0,font, "getNbme",
+                                      "()Ljbvb/lbng/String;").l;
     if (env->ExceptionCheck()) {
-        env->DeleteLocalRef(text);
-        env->DeleteLocalRef(font);
-        throw std::bad_alloc();
+        env->DeleteLocblRef(text);
+        env->DeleteLocblRef(font);
+        throw std::bbd_blloc();
     }
 
-    /* fontMetrics is a Hsun_awt_windows_WFontMetrics */
+    /* fontMetrics is b Hsun_bwt_windows_WFontMetrics */
     jobject fontMetrics =  GetFontMetrics(env, font);
     if (env->ExceptionCheck()) {
-        env->DeleteLocalRef(text);
-        env->DeleteLocalRef(font);
-        env->DeleteLocalRef(fontName);
-        throw std::bad_alloc();
+        env->DeleteLocblRef(text);
+        env->DeleteLocblRef(font);
+        env->DeleteLocblRef(fontNbme);
+        throw std::bbd_blloc();
     }
 
 //     int height = env->GetIntField(fontMetrics, AwtFont::heightID);
-    int height = (jint)JNU_CallMethodByName(env, 0, fontMetrics, "getHeight",
+    int height = (jint)JNU_CbllMethodByNbme(env, 0, fontMetrics, "getHeight",
                                             "()I").i;
     if (env->ExceptionCheck()) {
-        env->DeleteLocalRef(text);
-        env->DeleteLocalRef(font);
-        env->DeleteLocalRef(fontName);
-        env->DeleteLocalRef(fontMetrics);
-        throw std::bad_alloc();
+        env->DeleteLocblRef(text);
+        env->DeleteLocblRef(font);
+        env->DeleteLocblRef(fontNbme);
+        env->DeleteLocblRef(fontMetrics);
+        throw std::bbd_blloc();
     }
 
-    measureInfo.itemHeight = height;
-    measureInfo.itemHeight += measureInfo.itemHeight/3;
-    // 3 is a heuristic number
-    measureInfo.itemWidth = size.cx;
+    mebsureInfo.itemHeight = height;
+    mebsureInfo.itemHeight += mebsureInfo.itemHeight/3;
+    // 3 is b heuristic number
+    mebsureInfo.itemWidth = size.cx;
     if (!IsTopMenu()) {
         int checkWidth = ::GetSystemMetrics(SM_CXMENUCHECK);
-        // Workaround for CR#6401956
+        // Workbround for CR#6401956
         if (IS_WINVISTA) {
             AdjustCheckWidth(checkWidth);
         }
-        measureInfo.itemWidth += checkWidth;
+        mebsureInfo.itemWidth += checkWidth;
 
         // Add in shortcut width, if one exists.
-        jstring shortcutLabel =
-            (jstring)env->GetObjectField(self, AwtMenuItem::shortcutLabelID);
-        if (shortcutLabel != NULL) {
-            size = AwtFont::getMFStringSize(hDC, font, shortcutLabel);
-            measureInfo.itemWidth += size.cx + checkWidth;
-            env->DeleteLocalRef(shortcutLabel);
+        jstring shortcutLbbel =
+            (jstring)env->GetObjectField(self, AwtMenuItem::shortcutLbbelID);
+        if (shortcutLbbel != NULL) {
+            size = AwtFont::getMFStringSize(hDC, font, shortcutLbbel);
+            mebsureInfo.itemWidth += size.cx + checkWidth;
+            env->DeleteLocblRef(shortcutLbbel);
         }
     }
-    env->DeleteLocalRef(text);
-    env->DeleteLocalRef(font);
-    env->DeleteLocalRef(fontName);
-    env->DeleteLocalRef(fontMetrics);
+    env->DeleteLocblRef(text);
+    env->DeleteLocblRef(font);
+    env->DeleteLocblRef(fontNbme);
+    env->DeleteLocblRef(fontMetrics);
 }
 
-void AwtMenuItem::MeasureItem(HDC hDC, MEASUREITEMSTRUCT& measureInfo)
+void AwtMenuItem::MebsureItem(HDC hDC, MEASUREITEMSTRUCT& mebsureInfo)
 {
-    DASSERT(measureInfo.CtlType == ODT_MENU);
+    DASSERT(mebsureInfo.CtlType == ODT_MENU);
 
-    if (measureInfo.itemID != m_Id)
+    if (mebsureInfo.itemID != m_Id)
         return;
 
-    MeasureSelf(hDC, measureInfo);
+    MebsureSelf(hDC, mebsureInfo);
 }
 
 jobject AwtMenuItem::GetFontMetrics(JNIEnv *env, jobject font)
 {
-    static jobject toolkit = NULL;
+    stbtic jobject toolkit = NULL;
     if (toolkit == NULL) {
-        if (env->PushLocalFrame(2) < 0)
+        if (env->PushLocblFrbme(2) < 0)
             return NULL;
-        jclass cls = env->FindClass("java/awt/Toolkit");
+        jclbss cls = env->FindClbss("jbvb/bwt/Toolkit");
         CHECK_NULL_RETURN(cls, NULL);
-        jobject toolkitLocal =
-            env->CallStaticObjectMethod(cls, AwtToolkit::getDefaultToolkitMID);
-        env->DeleteLocalRef(cls);
-        CHECK_NULL_RETURN(toolkitLocal, NULL);
-        toolkit = env->NewGlobalRef(toolkitLocal);
-        env->DeleteLocalRef(toolkitLocal);
+        jobject toolkitLocbl =
+            env->CbllStbticObjectMethod(cls, AwtToolkit::getDefbultToolkitMID);
+        env->DeleteLocblRef(cls);
+        CHECK_NULL_RETURN(toolkitLocbl, NULL);
+        toolkit = env->NewGlobblRef(toolkitLocbl);
+        env->DeleteLocblRef(toolkitLocbl);
         CHECK_NULL_RETURN(toolkit, NULL);
-        env->PopLocalFrame(0);
+        env->PopLocblFrbme(0);
     }
     /*
-    JNU_PrintClass(env, "toolkit", toolkit);
-    JNU_PrintClass(env, "font", font);
+    JNU_PrintClbss(env, "toolkit", toolkit);
+    JNU_PrintClbss(env, "font", font);
 
-    jclass cls = env->FindClass("java/awt/Toolkit");
+    jclbss cls = env->FindClbss("jbvb/bwt/Toolkit");
     jmethodID mid = env->GetMethodID(cls, "getFontMetrics",
-                                     "(Ljava/awt/Font;)Ljava/awt/FontMetrics;");
-    jstring fontName =
-        (jstring)JNU_CallMethodByName(env, 0,font, "getName",
-                                      "()Ljava/lang/String;").l;
-    JNU_PrintString(env, "font name", fontName);
+                                     "(Ljbvb/bwt/Font;)Ljbvb/bwt/FontMetrics;");
+    jstring fontNbme =
+        (jstring)JNU_CbllMethodByNbme(env, 0,font, "getNbme",
+                                      "()Ljbvb/lbng/String;").l;
+    JNU_PrintString(env, "font nbme", fontNbme);
 
     fprintf(stderr, "mid: %x\n", mid);
-    fprintf(stderr, "cached mid: %x\n", AwtToolkit::getFontMetricsMID);
-    DASSERT(!safe_ExceptionOccurred(env));
+    fprintf(stderr, "cbched mid: %x\n", AwtToolkit::getFontMetricsMID);
+    DASSERT(!sbfe_ExceptionOccurred(env));
     */
     jobject fontMetrics =
-      env->CallObjectMethod(toolkit, AwtToolkit::getFontMetricsMID, font);
-    DASSERT(!safe_ExceptionOccurred(env));
+      env->CbllObjectMethod(toolkit, AwtToolkit::getFontMetricsMID, font);
+    DASSERT(!sbfe_ExceptionOccurred(env));
 
     return fontMetrics;
 }
@@ -625,76 +625,76 @@ BOOL AwtMenuItem::IsTopMenu()
     return FALSE;
 }
 
-void AwtMenuItem::DrawCheck(HDC hDC, RECT rect)
+void AwtMenuItem::DrbwCheck(HDC hDC, RECT rect)
 {
     if (bmpCheck == NULL) {
-        bmpCheck = ::LoadBitmap(AwtToolkit::GetInstance().GetModuleHandle(),
+        bmpCheck = ::LobdBitmbp(AwtToolkit::GetInstbnce().GetModuleHbndle(),
                                 TEXT("CHECK_BITMAP"));
         DASSERT(bmpCheck != NULL);
     }
 
-#define BM_SIZE 26  /* height and width of check.bmp */
+#define BM_SIZE 26  /* height bnd width of check.bmp */
 
-    // Square the rectangle, so the check is proportional.
+    // Squbre the rectbngle, so the check is proportionbl.
     int width = rect.right - rect.left;
-    int diff = max(rect.bottom - rect.top - width, 0) ;
+    int diff = mbx(rect.bottom - rect.top - width, 0) ;
     int bottom = diff / 2;
     rect.bottom -= bottom;
     rect.top += diff - bottom;
 
-    HDC hdcBitmap = ::CreateCompatibleDC(hDC);
-    DASSERT(hdcBitmap != NULL);
-    HBITMAP hbmSave = (HBITMAP)::SelectObject(hdcBitmap, bmpCheck);
+    HDC hdcBitmbp = ::CrebteCompbtibleDC(hDC);
+    DASSERT(hdcBitmbp != NULL);
+    HBITMAP hbmSbve = (HBITMAP)::SelectObject(hdcBitmbp, bmpCheck);
     VERIFY(::StretchBlt(hDC, rect.left, rect.top,
                         rect.right - rect.left, rect.bottom - rect.top,
-                        hdcBitmap, 0, 0, BM_SIZE, BM_SIZE, SRCCOPY));
-    ::SelectObject(hdcBitmap, hbmSave);
-    VERIFY(::DeleteDC(hdcBitmap));
+                        hdcBitmbp, 0, 0, BM_SIZE, BM_SIZE, SRCCOPY));
+    ::SelectObject(hdcBitmbp, hbmSbve);
+    VERIFY(::DeleteDC(hdcBitmbp));
 }
 
-void AwtMenuItem::DoCommand()
+void AwtMenuItem::DoCommbnd()
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    // peer is sun.awt.windows.WMenuItemPeer
+    // peer is sun.bwt.windows.WMenuItemPeer
     jobject peer = GetPeer(env);
 
     if (IsCheckbox()) {
-        UINT nState = ::GetMenuState(GetMenuContainer()->GetHMenu(),
+        UINT nStbte = ::GetMenuStbte(GetMenuContbiner()->GetHMenu(),
                                      GetID(), MF_BYCOMMAND);
-        DASSERT(nState != 0xFFFFFFFF);
-        DoCallback("handleAction", "(Z)V", ((nState & MF_CHECKED) == 0));
+        DASSERT(nStbte != 0xFFFFFFFF);
+        DoCbllbbck("hbndleAction", "(Z)V", ((nStbte & MF_CHECKED) == 0));
     } else {
-        DoCallback("handleAction", "(JI)V", TimeHelper::getMessageTimeUTC(),
-                   (jint)AwtComponent::GetJavaModifiers());
+        DoCbllbbck("hbndleAction", "(JI)V", TimeHelper::getMessbgeTimeUTC(),
+                   (jint)AwtComponent::GetJbvbModifiers());
     }
 }
 
-void AwtMenuItem::SetLabel(LPCTSTR sb)
+void AwtMenuItem::SetLbbel(LPCTSTR sb)
 {
-    AwtMenu* menu = GetMenuContainer();
-    /* Fix for bug 4257944 by ssi@sparc.spb.su
-    * check parent
+    AwtMenu* menu = GetMenuContbiner();
+    /* Fix for bug 4257944 by ssi@spbrc.spb.su
+    * check pbrent
     */
     if (menu == NULL) return;
     DASSERT(menu != NULL && GetID() >= 0);
 
 /*
- * SetMenuItemInfo is replaced by this code for fix bug 4261935
+ * SetMenuItemInfo is replbced by this code for fix bug 4261935
  */
     HMENU hMenu = menu->GetHMenu();
     MENUITEMINFO mii, mii1;
 
-    // get full information about menu item
+    // get full informbtion bbout menu item
     memset(&mii, 0, sizeof(MENUITEMINFO));
     mii.cbSize = sizeof(MENUITEMINFO);
-    mii.fMask = MIIM_CHECKMARKS | MIIM_DATA | MIIM_ID
+    mii.fMbsk = MIIM_CHECKMARKS | MIIM_DATA | MIIM_ID
               | MIIM_STATE | MIIM_SUBMENU | MIIM_TYPE;
 
     ::GetMenuItemInfo(hMenu, GetID(), FALSE, &mii);
 
     mii.fType = MFT_OWNERDRAW;
-    mii.dwTypeData = (LPTSTR)(*sb);
+    mii.dwTypeDbtb = (LPTSTR)(*sb);
 
     // find index by menu item id
     int nMenuItemCount = ::GetMenuItemCount(hMenu);
@@ -702,38 +702,38 @@ void AwtMenuItem::SetLabel(LPCTSTR sb)
     for (idx = 0; (idx < nMenuItemCount); idx++) {
         memset(&mii1, 0, sizeof(MENUITEMINFO));
         mii1.cbSize = sizeof mii1;
-        mii1.fMask = MIIM_ID;
+        mii1.fMbsk = MIIM_ID;
         ::GetMenuItemInfo(hMenu, idx, TRUE, &mii1);
-        if (mii.wID == mii1.wID) break;
+        if (mii.wID == mii1.wID) brebk;
     }
 
     ::RemoveMenu(hMenu, idx, MF_BYPOSITION);
     ::InsertMenuItem(hMenu, idx, TRUE, &mii);
 
-    RedrawMenuBar();
+    RedrbwMenuBbr();
 }
 
-void AwtMenuItem::Enable(BOOL isEnabled)
+void AwtMenuItem::Enbble(BOOL isEnbbled)
 {
-    AwtMenu* menu = GetMenuContainer();
-    /* Fix for bug 4257944 by ssi@sparc.spb.su
-    * check state of the parent
+    AwtMenu* menu = GetMenuContbiner();
+    /* Fix for bug 4257944 by ssi@spbrc.spb.su
+    * check stbte of the pbrent
     */
     if (menu == NULL) return;
-    isEnabled = isEnabled && !menu->IsDisabledAndPopup();
+    isEnbbled = isEnbbled && !menu->IsDisbbledAndPopup();
     DASSERT(menu != NULL && GetID() >= 0);
-    VERIFY(::EnableMenuItem(menu->GetHMenu(), GetID(),
-                            MF_BYCOMMAND | (isEnabled ? MF_ENABLED : MF_GRAYED))
+    VERIFY(::EnbbleMenuItem(menu->GetHMenu(), GetID(),
+                            MF_BYCOMMAND | (isEnbbled ? MF_ENABLED : MF_GRAYED))
            != 0xFFFFFFFF);
 
-    RedrawMenuBar();
+    RedrbwMenuBbr();
 }
 
-void AwtMenuItem::SetState(BOOL isChecked)
+void AwtMenuItem::SetStbte(BOOL isChecked)
 {
-    AwtMenu* menu = GetMenuContainer();
-    /* Fix for bug 4257944 by ssi@sparc.spb.su
-    * check parent
+    AwtMenu* menu = GetMenuContbiner();
+    /* Fix for bug 4257944 by ssi@spbrc.spb.su
+    * check pbrent
     */
     if (menu == NULL) return;
     DASSERT(menu != NULL && GetID() >= 0);
@@ -741,188 +741,188 @@ void AwtMenuItem::SetState(BOOL isChecked)
                            MF_BYCOMMAND | (isChecked ? MF_CHECKED : MF_UNCHECKED))
            != 0xFFFFFFFF);
 
-    RedrawMenuBar();
+    RedrbwMenuBbr();
 }
 
 /**
- * If the menu changes after the system has created the window,
- * this function must be called to draw the changed menu bar.
+ * If the menu chbnges bfter the system hbs crebted the window,
+ * this function must be cblled to drbw the chbnged menu bbr.
  */
-void AwtMenuItem::RedrawMenuBar() {
-    AwtMenu* menu = GetMenuContainer();
-    if (menu != NULL && menu->GetMenuBar() == menu){
-        menu->RedrawMenuBar();
+void AwtMenuItem::RedrbwMenuBbr() {
+    AwtMenu* menu = GetMenuContbiner();
+    if (menu != NULL && menu->GetMenuBbr() == menu){
+        menu->RedrbwMenuBbr();
     }
 }
 
-void AwtMenuItem::UpdateContainerLayout() {
-    AwtMenu* menu = GetMenuContainer();
+void AwtMenuItem::UpdbteContbinerLbyout() {
+    AwtMenu* menu = GetMenuContbiner();
     if (menu != NULL) {
         DASSERT(menu != NULL && GetID() >= 0);
-        menu->UpdateLayout();
+        menu->UpdbteLbyout();
     }
 }
 
-LRESULT AwtMenuItem::WinThreadExecProc(ExecuteArgs * args)
+LRESULT AwtMenuItem::WinThrebdExecProc(ExecuteArgs * brgs)
 {
-    switch( args->cmdId ) {
-        case MENUITEM_ENABLE:
+    switch( brgs->cmdId ) {
+        cbse MENUITEM_ENABLE:
         {
-            BOOL        isEnabled = (BOOL)args->param1;
-            this->Enable(isEnabled);
+            BOOL        isEnbbled = (BOOL)brgs->pbrbm1;
+            this->Enbble(isEnbbled);
         }
-        break;
+        brebk;
 
-        case MENUITEM_SETSTATE:
+        cbse MENUITEM_SETSTATE:
         {
-            BOOL        isChecked = (BOOL)args->param1;
-            this->SetState(isChecked);
+            BOOL        isChecked = (BOOL)brgs->pbrbm1;
+            this->SetStbte(isChecked);
         }
-        break;
+        brebk;
 
-        default:
-            AwtObject::WinThreadExecProc(args);
-            break;
+        defbult:
+            AwtObject::WinThrebdExecProc(brgs);
+            brebk;
     }
     return 0L;
 }
 
-void AwtMenuItem::_SetLabel(void *param) {
-    if (AwtToolkit::IsMainThread()) {
+void AwtMenuItem::_SetLbbel(void *pbrbm) {
+    if (AwtToolkit::IsMbinThrebd()) {
         JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-        SetLabelStruct *sls = (SetLabelStruct *)param;
+        SetLbbelStruct *sls = (SetLbbelStruct *)pbrbm;
         jobject self = sls->menuitem;
-        jstring label = sls->label;
+        jstring lbbel = sls->lbbel;
 
-        int badAlloc = 0;
+        int bbdAlloc = 0;
         AwtMenuItem *m = NULL;
 
-        PDATA pData;
+        PDATA pDbtb;
         JNI_CHECK_PEER_GOTO(self, ret);
-        m = (AwtMenuItem *)pData;
+        m = (AwtMenuItem *)pDbtb;
 //    if (::IsWindow(m->GetOwnerHWnd()))
         {
-            // fix for bug 4251036 MenuItem setLabel(null/"") behaves differently
-            // under Win32 and Solaris
+            // fix for bug 4251036 MenuItem setLbbel(null/"") behbves differently
+            // under Win32 bnd Solbris
             jstring empty = NULL;
-            if (JNU_IsNull(env, label))
+            if (JNU_IsNull(env, lbbel))
             {
-                empty = JNU_NewStringPlatform(env, TEXT(""));
+                empty = JNU_NewStringPlbtform(env, TEXT(""));
             }
             if (env->ExceptionCheck()) {
-                badAlloc = 1;
+                bbdAlloc = 1;
                 goto ret;
             }
-            LPCTSTR labelPtr;
+            LPCTSTR lbbelPtr;
             if (empty != NULL)
             {
-                labelPtr = JNU_GetStringPlatformChars(env, empty, 0);
+                lbbelPtr = JNU_GetStringPlbtformChbrs(env, empty, 0);
             }
             else
             {
-                labelPtr = JNU_GetStringPlatformChars(env, label, 0);
+                lbbelPtr = JNU_GetStringPlbtformChbrs(env, lbbel, 0);
             }
-            if (labelPtr == NULL)
+            if (lbbelPtr == NULL)
             {
-                badAlloc = 1;
+                bbdAlloc = 1;
             }
             else
             {
-                DASSERT(!IsBadStringPtr(labelPtr, 20));
-                m->SetLabel(labelPtr);
+                DASSERT(!IsBbdStringPtr(lbbelPtr, 20));
+                m->SetLbbel(lbbelPtr);
                 if (empty != NULL)
                 {
-                    JNU_ReleaseStringPlatformChars(env, empty, labelPtr);
+                    JNU_RelebseStringPlbtformChbrs(env, empty, lbbelPtr);
                 }
                 else
                 {
-                    JNU_ReleaseStringPlatformChars(env, label, labelPtr);
+                    JNU_RelebseStringPlbtformChbrs(env, lbbel, lbbelPtr);
                 }
             }
             if (empty != NULL)
             {
-                env->DeleteLocalRef(empty);
+                env->DeleteLocblRef(empty);
             }
         }
 
 ret:
-        env->DeleteGlobalRef(self);
-        if (label != NULL)
+        env->DeleteGlobblRef(self);
+        if (lbbel != NULL)
         {
-            env->DeleteGlobalRef(label);
+            env->DeleteGlobblRef(lbbel);
         }
 
         delete sls;
 
-        if (badAlloc)
+        if (bbdAlloc)
         {
-            throw std::bad_alloc();
+            throw std::bbd_blloc();
         }
     } else {
-        AwtToolkit::GetInstance().InvokeFunction(AwtMenuItem::_SetLabel, param);
+        AwtToolkit::GetInstbnce().InvokeFunction(AwtMenuItem::_SetLbbel, pbrbm);
     }
 }
 
-void AwtMenuItem::_UpdateLayout(void *param)
+void AwtMenuItem::_UpdbteLbyout(void *pbrbm)
 {
-    if (AwtToolkit::IsMainThread()) {
+    if (AwtToolkit::IsMbinThrebd()) {
         JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-        jobject self = (jobject)param;
+        jobject self = (jobject)pbrbm;
 
         AwtMenuItem *m = NULL;
 
-        PDATA pData;
+        PDATA pDbtb;
         JNI_CHECK_PEER_GOTO(self, ret);
 
-        m = (AwtMenuItem *)pData;
+        m = (AwtMenuItem *)pDbtb;
 
-        m->UpdateContainerLayout();
+        m->UpdbteContbinerLbyout();
 ret:
-        env->DeleteGlobalRef(self);
+        env->DeleteGlobblRef(self);
     } else {
-        AwtToolkit::GetInstance().InvokeFunction(AwtMenuItem::_UpdateLayout, param);
+        AwtToolkit::GetInstbnce().InvokeFunction(AwtMenuItem::_UpdbteLbyout, pbrbm);
     }
 }
 
-BOOL AwtMenuItem::IsSeparator() {
+BOOL AwtMenuItem::IsSepbrbtor() {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(2) < 0) {
+    if (env->EnsureLocblCbpbcity(2) < 0) {
         return FALSE;
     }
-    jobject jitem = GetTarget(env);
-    jstring label  =
-        (jstring)(env)->GetObjectField(jitem, AwtMenuItem::labelID);
-    if (label == NULL) {
-        env->DeleteLocalRef(label);
-        env->DeleteLocalRef(jitem);
-        return FALSE; //separator must has '-' as label.
+    jobject jitem = GetTbrget(env);
+    jstring lbbel  =
+        (jstring)(env)->GetObjectField(jitem, AwtMenuItem::lbbelID);
+    if (lbbel == NULL) {
+        env->DeleteLocblRef(lbbel);
+        env->DeleteLocblRef(jitem);
+        return FALSE; //sepbrbtor must hbs '-' bs lbbel.
     }
-    LPCWSTR labelW = JNU_GetStringPlatformChars(env, label, NULL);
-    BOOL isSeparator = (labelW && (wcscmp(labelW, L"-") == 0));
-    JNU_ReleaseStringPlatformChars(env, label, labelW);
+    LPCWSTR lbbelW = JNU_GetStringPlbtformChbrs(env, lbbel, NULL);
+    BOOL isSepbrbtor = (lbbelW && (wcscmp(lbbelW, L"-") == 0));
+    JNU_RelebseStringPlbtformChbrs(env, lbbel, lbbelW);
 
-    env->DeleteLocalRef(label);
-    env->DeleteLocalRef(jitem);
+    env->DeleteLocblRef(lbbel);
+    env->DeleteLocblRef(jitem);
 
-    return isSeparator;
+    return isSepbrbtor;
 }
 
 /************************************************************************
- * MenuComponent native methods
+ * MenuComponent nbtive methods
  */
 
 extern "C" {
 
 JNIEXPORT void JNICALL
-Java_java_awt_MenuComponent_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_MenuComponent_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtMenuItem::fontID = env->GetFieldID(cls, "font", "Ljava/awt/Font;");
+    AwtMenuItem::fontID = env->GetFieldID(cls, "font", "Ljbvb/bwt/Font;");
     CHECK_NULL(AwtMenuItem::fontID);
-    AwtMenuItem::appContextID = env->GetFieldID(cls, "appContext", "Lsun/awt/AppContext;");
+    AwtMenuItem::bppContextID = env->GetFieldID(cls, "bppContext", "Lsun/bwt/AppContext;");
 
     CATCH_BAD_ALLOC;
 }
@@ -931,19 +931,19 @@ Java_java_awt_MenuComponent_initIDs(JNIEnv *env, jclass cls)
 
 
 /************************************************************************
- * MenuItem native methods
+ * MenuItem nbtive methods
  */
 
 extern "C" {
 
 JNIEXPORT void JNICALL
-Java_java_awt_MenuItem_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_MenuItem_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtMenuItem::labelID = env->GetFieldID(cls, "label", "Ljava/lang/String;");
-    CHECK_NULL(AwtMenuItem::labelID);
-    AwtMenuItem::enabledID = env->GetFieldID(cls, "enabled", "Z");
+    AwtMenuItem::lbbelID = env->GetFieldID(cls, "lbbel", "Ljbvb/lbng/String;");
+    CHECK_NULL(AwtMenuItem::lbbelID);
+    AwtMenuItem::enbbledID = env->GetFieldID(cls, "enbbled", "Z");
 
     CATCH_BAD_ALLOC;
 }
@@ -958,11 +958,11 @@ Java_java_awt_MenuItem_initIDs(JNIEnv *env, jclass cls)
 extern "C" {
 
 JNIEXPORT void JNICALL
-Java_java_awt_CheckboxMenuItem_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_CheckboxMenuItem_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtMenuItem::stateID = env->GetFieldID(cls, "state", "Z");
+    AwtMenuItem::stbteID = env->GetFieldID(cls, "stbte", "Z");
 
     CATCH_BAD_ALLOC;
 }
@@ -971,119 +971,119 @@ Java_java_awt_CheckboxMenuItem_initIDs(JNIEnv *env, jclass cls)
 
 
 /************************************************************************
- * WMenuItemPeer native methods
+ * WMenuItemPeer nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     sun_awt_windows_WMenuItemPeer
+ * Clbss:     sun_bwt_windows_WMenuItemPeer
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuItemPeer_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WMenuItemPeer_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
     AwtMenuItem::isCheckboxID = env->GetFieldID(cls, "isCheckbox", "Z");
     CHECK_NULL(AwtMenuItem::isCheckboxID);
-    AwtMenuItem::shortcutLabelID = env->GetFieldID(cls, "shortcutLabel",
-                                                   "Ljava/lang/String;");
-    CHECK_NULL(AwtMenuItem::shortcutLabelID);
-    AwtMenuItem::getDefaultFontMID =
-        env->GetStaticMethodID(cls, "getDefaultFont", "()Ljava/awt/Font;");
+    AwtMenuItem::shortcutLbbelID = env->GetFieldID(cls, "shortcutLbbel",
+                                                   "Ljbvb/lbng/String;");
+    CHECK_NULL(AwtMenuItem::shortcutLbbelID);
+    AwtMenuItem::getDefbultFontMID =
+        env->GetStbticMethodID(cls, "getDefbultFont", "()Ljbvb/bwt/Font;");
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WMenuItemPeer
- * Method:    _setLabel
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     sun_bwt_windows_WMenuItemPeer
+ * Method:    _setLbbel
+ * Signbture: (Ljbvb/lbng/String;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuItemPeer__1setLabel(JNIEnv *env, jobject self,
-                                              jstring label)
+Jbvb_sun_bwt_windows_WMenuItemPeer__1setLbbel(JNIEnv *env, jobject self,
+                                              jstring lbbel)
 {
     TRY;
 
-    SetLabelStruct *sls = new SetLabelStruct;
-    sls->menuitem = env->NewGlobalRef(self);
-    sls->label = (label == NULL) ? NULL : (jstring)env->NewGlobalRef(label);
+    SetLbbelStruct *sls = new SetLbbelStruct;
+    sls->menuitem = env->NewGlobblRef(self);
+    sls->lbbel = (lbbel == NULL) ? NULL : (jstring)env->NewGlobblRef(lbbel);
 
-    AwtToolkit::GetInstance().SyncCall(AwtMenuItem::_SetLabel, sls);
-    // global refs and sls are deleted in _SetLabel
+    AwtToolkit::GetInstbnce().SyncCbll(AwtMenuItem::_SetLbbel, sls);
+    // globbl refs bnd sls bre deleted in _SetLbbel
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WMenuItemPeer
+ * Clbss:     sun_bwt_windows_WMenuItemPeer
  * Method:    _setFont
- * Signature: (Ljava/awt/Font;)V
+ * Signbture: (Ljbvb/bwt/Font;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuItemPeer__1setFont(JNIEnv *env, jobject self, jobject)
+Jbvb_sun_bwt_windows_WMenuItemPeer__1setFont(JNIEnv *env, jobject self, jobject)
 {
     TRY;
 
-    jobject selfGlobalRef = env->NewGlobalRef(self);
+    jobject selfGlobblRef = env->NewGlobblRef(self);
 
-    // Current implementation of AwtMenuItem get font attribute from the peer
-    // directly, so we ignore it here, but update current menu layout.
-    AwtToolkit::GetInstance().SyncCall(AwtMenuItem::_UpdateLayout, selfGlobalRef);
-    // selfGlobalRef is deleted in _UpdateLayout
+    // Current implementbtion of AwtMenuItem get font bttribute from the peer
+    // directly, so we ignore it here, but updbte current menu lbyout.
+    AwtToolkit::GetInstbnce().SyncCbll(AwtMenuItem::_UpdbteLbyout, selfGlobblRef);
+    // selfGlobblRef is deleted in _UpdbteLbyout
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WMenuItemPeer
- * Method:    create
- * Signature: (Lsun/awt/windows/WMenuPeer;)V
+ * Clbss:     sun_bwt_windows_WMenuItemPeer
+ * Method:    crebte
+ * Signbture: (Lsun/bwt/windows/WMenuPeer;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuItemPeer_create(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WMenuItemPeer_crebte(JNIEnv *env, jobject self,
                                           jobject menu)
 {
     TRY;
 
     JNI_CHECK_NULL_RETURN(menu, "null Menu");
-    AwtToolkit::CreateComponent(self, menu,
-                                (AwtToolkit::ComponentFactory)
-                                AwtMenuItem::Create);
-    PDATA pData;
+    AwtToolkit::CrebteComponent(self, menu,
+                                (AwtToolkit::ComponentFbctory)
+                                AwtMenuItem::Crebte);
+    PDATA pDbtb;
     JNI_CHECK_PEER_CREATION_RETURN(self);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WMenuItemPeer
- * Method:    enable
- * Signature: (Z)V
+ * Clbss:     sun_bwt_windows_WMenuItemPeer
+ * Method:    enbble
+ * Signbture: (Z)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuItemPeer_enable(JNIEnv *env, jobject self,
-                                          jboolean on)
+Jbvb_sun_bwt_windows_WMenuItemPeer_enbble(JNIEnv *env, jobject self,
+                                          jboolebn on)
 {
     TRY;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_RETURN(self);
-    AwtObject::WinThreadExec(self, AwtMenuItem::MENUITEM_ENABLE, (LPARAM)on );
+    AwtObject::WinThrebdExec(self, AwtMenuItem::MENUITEM_ENABLE, (LPARAM)on );
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WMenuItemPeer
+ * Clbss:     sun_bwt_windows_WMenuItemPeer
  * Method:    _dispose
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuItemPeer__1dispose(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WMenuItemPeer__1dispose(JNIEnv *env, jobject self)
 {
     TRY_NO_HANG;
 
@@ -1095,25 +1095,25 @@ Java_sun_awt_windows_WMenuItemPeer__1dispose(JNIEnv *env, jobject self)
 } /* extern "C" */
 
 /************************************************************************
- * WCheckboxMenuItemPeer native methods
+ * WCheckboxMenuItemPeer nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     sun_awt_windows_WCheckboxMenuItemPeer
- * Method:    setState
- * Signature: (Z)V
+ * Clbss:     sun_bwt_windows_WCheckboxMenuItemPeer
+ * Method:    setStbte
+ * Signbture: (Z)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WCheckboxMenuItemPeer_setState(JNIEnv *env, jobject self,
-                                                    jboolean on)
+Jbvb_sun_bwt_windows_WCheckboxMenuItemPeer_setStbte(JNIEnv *env, jobject self,
+                                                    jboolebn on)
 {
     TRY;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_RETURN(self);
-    AwtObject::WinThreadExec(self, AwtMenuItem::MENUITEM_SETSTATE, (LPARAM)on);
+    AwtObject::WinThrebdExec(self, AwtMenuItem::MENUITEM_SETSTATE, (LPARAM)on);
 
     CATCH_BAD_ALLOC;
 }

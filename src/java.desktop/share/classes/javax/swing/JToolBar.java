@@ -1,228 +1,228 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.LayoutManager2;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.ComponentOrientbtion;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.LbyoutMbnbger;
+import jbvb.bwt.LbyoutMbnbger2;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
 
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.util.Hashtable;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.Hbshtbble;
 
 
 /**
- * <code>JToolBar</code> provides a component that is useful for
- * displaying commonly used <code>Action</code>s or controls.
- * For examples and information on using tool bars see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/toolbar.html">How to Use Tool Bars</a>,
- * a section in <em>The Java Tutorial</em>.
+ * <code>JToolBbr</code> provides b component thbt is useful for
+ * displbying commonly used <code>Action</code>s or controls.
+ * For exbmples bnd informbtion on using tool bbrs see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/toolbbr.html">How to Use Tool Bbrs</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  *
  * <p>
- * With most look and feels,
- * the user can drag out a tool bar into a separate window
- * (unless the <code>floatable</code> property is set to <code>false</code>).
- * For drag-out to work correctly, it is recommended that you add
- * <code>JToolBar</code> instances to one of the four "sides" of a
- * container whose layout manager is a <code>BorderLayout</code>,
- * and do not add children to any of the other four "sides".
+ * With most look bnd feels,
+ * the user cbn drbg out b tool bbr into b sepbrbte window
+ * (unless the <code>flobtbble</code> property is set to <code>fblse</code>).
+ * For drbg-out to work correctly, it is recommended thbt you bdd
+ * <code>JToolBbr</code> instbnces to one of the four "sides" of b
+ * contbiner whose lbyout mbnbger is b <code>BorderLbyout</code>,
+ * bnd do not bdd children to bny of the other four "sides".
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *   attribute: isContainer true
- * description: A component which displays commonly used controls or Actions.
+ * @bebninfo
+ *   bttribute: isContbiner true
+ * description: A component which displbys commonly used controls or Actions.
  *
- * @author Georges Saab
- * @author Jeff Shapiro
+ * @buthor Georges Sbbb
+ * @buthor Jeff Shbpiro
  * @see Action
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JToolBar extends JComponent implements SwingConstants, Accessible
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JToolBbr extends JComponent implements SwingConstbnts, Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "ToolBarUI";
+    privbte stbtic finbl String uiClbssID = "ToolBbrUI";
 
-    private    boolean   paintBorder              = true;
-    private    Insets    margin                   = null;
-    private    boolean   floatable                = true;
-    private    int       orientation              = HORIZONTAL;
+    privbte    boolebn   pbintBorder              = true;
+    privbte    Insets    mbrgin                   = null;
+    privbte    boolebn   flobtbble                = true;
+    privbte    int       orientbtion              = HORIZONTAL;
 
     /**
-     * Creates a new tool bar; orientation defaults to <code>HORIZONTAL</code>.
+     * Crebtes b new tool bbr; orientbtion defbults to <code>HORIZONTAL</code>.
      */
-    public JToolBar()
+    public JToolBbr()
     {
         this( HORIZONTAL );
     }
 
     /**
-     * Creates a new tool bar with the specified <code>orientation</code>.
-     * The <code>orientation</code> must be either <code>HORIZONTAL</code>
+     * Crebtes b new tool bbr with the specified <code>orientbtion</code>.
+     * The <code>orientbtion</code> must be either <code>HORIZONTAL</code>
      * or <code>VERTICAL</code>.
      *
-     * @param orientation  the orientation desired
+     * @pbrbm orientbtion  the orientbtion desired
      */
-    public JToolBar( int orientation )
+    public JToolBbr( int orientbtion )
     {
-        this(null, orientation);
+        this(null, orientbtion);
     }
 
     /**
-     * Creates a new tool bar with the specified <code>name</code>.  The
-     * name is used as the title of the undocked tool bar.  The default
-     * orientation is <code>HORIZONTAL</code>.
+     * Crebtes b new tool bbr with the specified <code>nbme</code>.  The
+     * nbme is used bs the title of the undocked tool bbr.  The defbult
+     * orientbtion is <code>HORIZONTAL</code>.
      *
-     * @param name the name of the tool bar
+     * @pbrbm nbme the nbme of the tool bbr
      * @since 1.3
      */
-    public JToolBar( String name ) {
-        this(name, HORIZONTAL);
+    public JToolBbr( String nbme ) {
+        this(nbme, HORIZONTAL);
     }
 
     /**
-     * Creates a new tool bar with a specified <code>name</code> and
-     * <code>orientation</code>.
-     * All other constructors call this constructor.
-     * If <code>orientation</code> is an invalid value, an exception will
+     * Crebtes b new tool bbr with b specified <code>nbme</code> bnd
+     * <code>orientbtion</code>.
+     * All other constructors cbll this constructor.
+     * If <code>orientbtion</code> is bn invblid vblue, bn exception will
      * be thrown.
      *
-     * @param name  the name of the tool bar
-     * @param orientation  the initial orientation -- it must be
+     * @pbrbm nbme  the nbme of the tool bbr
+     * @pbrbm orientbtion  the initibl orientbtion -- it must be
      *          either <code>HORIZONTAL</code> or <code>VERTICAL</code>
-     * @exception IllegalArgumentException if orientation is neither
+     * @exception IllegblArgumentException if orientbtion is neither
      *          <code>HORIZONTAL</code> nor <code>VERTICAL</code>
      * @since 1.3
      */
-    public JToolBar( String name , int orientation) {
-        setName(name);
-        checkOrientation( orientation );
+    public JToolBbr( String nbme , int orientbtion) {
+        setNbme(nbme);
+        checkOrientbtion( orientbtion );
 
-        this.orientation = orientation;
-        DefaultToolBarLayout layout =  new DefaultToolBarLayout( orientation );
-        setLayout( layout );
+        this.orientbtion = orientbtion;
+        DefbultToolBbrLbyout lbyout =  new DefbultToolBbrLbyout( orientbtion );
+        setLbyout( lbyout );
 
-        addPropertyChangeListener( layout );
+        bddPropertyChbngeListener( lbyout );
 
-        updateUI();
+        updbteUI();
     }
 
     /**
-     * Returns the tool bar's current UI.
+     * Returns the tool bbr's current UI.
      *
-     * @return the tool bar's current UI.
+     * @return the tool bbr's current UI.
      * @see #setUI
      */
-    public ToolBarUI getUI() {
-        return (ToolBarUI)ui;
+    public ToolBbrUI getUI() {
+        return (ToolBbrUI)ui;
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sets the L&bmp;F object thbt renders this component.
      *
-     * @param ui  the <code>ToolBarUI</code> L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui  the <code>ToolBbrUI</code> L&bmp;F object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
-    public void setUI(ToolBarUI ui) {
+    public void setUI(ToolBbrUI ui) {
         super.setUI(ui);
     }
 
     /**
-     * Notification from the <code>UIFactory</code> that the L&amp;F has changed.
-     * Called to replace the UI with the latest version from the
-     * <code>UIFactory</code>.
+     * Notificbtion from the <code>UIFbctory</code> thbt the L&bmp;F hbs chbnged.
+     * Cblled to replbce the UI with the lbtest version from the
+     * <code>UIFbctory</code>.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((ToolBarUI)UIManager.getUI(this));
-        // GTKLookAndFeel installs a different LayoutManager, and sets it
-        // to null after changing the look and feel, so, install the default
-        // if the LayoutManager is null.
-        if (getLayout() == null) {
-            setLayout(new DefaultToolBarLayout(getOrientation()));
+    public void updbteUI() {
+        setUI((ToolBbrUI)UIMbnbger.getUI(this));
+        // GTKLookAndFeel instblls b different LbyoutMbnbger, bnd sets it
+        // to null bfter chbnging the look bnd feel, so, instbll the defbult
+        // if the LbyoutMbnbger is null.
+        if (getLbyout() == null) {
+            setLbyout(new DefbultToolBbrLbyout(getOrientbtion()));
         }
-        invalidate();
+        invblidbte();
     }
 
 
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Returns the nbme of the L&bmp;F clbss thbt renders this component.
      *
-     * @return the string "ToolBarUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @return the string "ToolBbrUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
      * Returns the index of the specified component.
-     * (Note: Separators occupy index positions.)
+     * (Note: Sepbrbtors occupy index positions.)
      *
-     * @param c  the <code>Component</code> to find
-     * @return an integer indicating the component's position,
+     * @pbrbm c  the <code>Component</code> to find
+     * @return bn integer indicbting the component's position,
      *          where 0 is first
      */
     public int getComponentIndex(Component c) {
@@ -237,11 +237,11 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
     }
 
     /**
-     * Returns the component at the specified index.
+     * Returns the component bt the specified index.
      *
-     * @param i  the component's position, where 0 is first
-     * @return   the <code>Component</code> at that position,
-     *          or <code>null</code> for an invalid index
+     * @pbrbm i  the component's position, where 0 is first
+     * @return   the <code>Component</code> bt thbt position,
+     *          or <code>null</code> for bn invblid index
      *
      */
     public Component getComponentAtIndex(int i) {
@@ -254,447 +254,447 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
     }
 
      /**
-      * Sets the margin between the tool bar's border and
-      * its buttons. Setting to <code>null</code> causes the tool bar to
-      * use the default margins. The tool bar's default <code>Border</code>
-      * object uses this value to create the proper margin.
-      * However, if a non-default border is set on the tool bar,
-      * it is that <code>Border</code> object's responsibility to create the
-      * appropriate margin space (otherwise this property will
+      * Sets the mbrgin between the tool bbr's border bnd
+      * its buttons. Setting to <code>null</code> cbuses the tool bbr to
+      * use the defbult mbrgins. The tool bbr's defbult <code>Border</code>
+      * object uses this vblue to crebte the proper mbrgin.
+      * However, if b non-defbult border is set on the tool bbr,
+      * it is thbt <code>Border</code> object's responsibility to crebte the
+      * bppropribte mbrgin spbce (otherwise this property will
       * effectively be ignored).
       *
-      * @param m an <code>Insets</code> object that defines the space
-      *         between the border and the buttons
+      * @pbrbm m bn <code>Insets</code> object thbt defines the spbce
+      *         between the border bnd the buttons
       * @see Insets
-      * @beaninfo
-      * description: The margin between the tool bar's border and contents
+      * @bebninfo
+      * description: The mbrgin between the tool bbr's border bnd contents
       *       bound: true
       *      expert: true
       */
-     public void setMargin(Insets m)
+     public void setMbrgin(Insets m)
      {
-         Insets old = margin;
-         margin = m;
-         firePropertyChange("margin", old, m);
-         revalidate();
-         repaint();
+         Insets old = mbrgin;
+         mbrgin = m;
+         firePropertyChbnge("mbrgin", old, m);
+         revblidbte();
+         repbint();
      }
 
      /**
-      * Returns the margin between the tool bar's border and
+      * Returns the mbrgin between the tool bbr's border bnd
       * its buttons.
       *
-      * @return an <code>Insets</code> object containing the margin values
+      * @return bn <code>Insets</code> object contbining the mbrgin vblues
       * @see Insets
       */
-     public Insets getMargin()
+     public Insets getMbrgin()
      {
-         if(margin == null) {
+         if(mbrgin == null) {
              return new Insets(0,0,0,0);
          } else {
-             return margin;
+             return mbrgin;
          }
      }
 
      /**
-      * Gets the <code>borderPainted</code> property.
+      * Gets the <code>borderPbinted</code> property.
       *
-      * @return the value of the <code>borderPainted</code> property
-      * @see #setBorderPainted
+      * @return the vblue of the <code>borderPbinted</code> property
+      * @see #setBorderPbinted
       */
-     public boolean isBorderPainted()
+     public boolebn isBorderPbinted()
      {
-         return paintBorder;
+         return pbintBorder;
      }
 
 
      /**
-      * Sets the <code>borderPainted</code> property, which is
-      * <code>true</code> if the border should be painted.
-      * The default value for this property is <code>true</code>.
-      * Some look and feels might not implement painted borders;
+      * Sets the <code>borderPbinted</code> property, which is
+      * <code>true</code> if the border should be pbinted.
+      * The defbult vblue for this property is <code>true</code>.
+      * Some look bnd feels might not implement pbinted borders;
       * they will ignore this property.
       *
-      * @param b if true, the border is painted
-      * @see #isBorderPainted
-      * @beaninfo
-      * description: Does the tool bar paint its borders?
+      * @pbrbm b if true, the border is pbinted
+      * @see #isBorderPbinted
+      * @bebninfo
+      * description: Does the tool bbr pbint its borders?
       *       bound: true
       *      expert: true
       */
-     public void setBorderPainted(boolean b)
+     public void setBorderPbinted(boolebn b)
      {
-         if ( paintBorder != b )
+         if ( pbintBorder != b )
          {
-             boolean old = paintBorder;
-             paintBorder = b;
-             firePropertyChange("borderPainted", old, b);
-             revalidate();
-             repaint();
+             boolebn old = pbintBorder;
+             pbintBorder = b;
+             firePropertyChbnge("borderPbinted", old, b);
+             revblidbte();
+             repbint();
          }
      }
 
      /**
-      * Paints the tool bar's border if the <code>borderPainted</code> property
+      * Pbints the tool bbr's border if the <code>borderPbinted</code> property
       * is <code>true</code>.
       *
-      * @param g  the <code>Graphics</code> context in which the painting
+      * @pbrbm g  the <code>Grbphics</code> context in which the pbinting
       *         is done
-      * @see JComponent#paint
+      * @see JComponent#pbint
       * @see JComponent#setBorder
       */
-     protected void paintBorder(Graphics g)
+     protected void pbintBorder(Grbphics g)
      {
-         if (isBorderPainted())
+         if (isBorderPbinted())
          {
-             super.paintBorder(g);
+             super.pbintBorder(g);
          }
      }
 
     /**
-     * Gets the <code>floatable</code> property.
+     * Gets the <code>flobtbble</code> property.
      *
-     * @return the value of the <code>floatable</code> property
+     * @return the vblue of the <code>flobtbble</code> property
      *
-     * @see #setFloatable
+     * @see #setFlobtbble
      */
-    public boolean isFloatable()
+    public boolebn isFlobtbble()
     {
-        return floatable;
+        return flobtbble;
     }
 
      /**
-      * Sets the <code>floatable</code> property,
-      * which must be <code>true</code> for the user to move the tool bar.
-      * Typically, a floatable tool bar can be
-      * dragged into a different position within the same container
+      * Sets the <code>flobtbble</code> property,
+      * which must be <code>true</code> for the user to move the tool bbr.
+      * Typicblly, b flobtbble tool bbr cbn be
+      * drbgged into b different position within the sbme contbiner
       * or out into its own window.
-      * The default value of this property is <code>true</code>.
-      * Some look and feels might not implement floatable tool bars;
+      * The defbult vblue of this property is <code>true</code>.
+      * Some look bnd feels might not implement flobtbble tool bbrs;
       * they will ignore this property.
       *
-      * @param b if <code>true</code>, the tool bar can be moved;
-      *          <code>false</code> otherwise
-      * @see #isFloatable
-      * @beaninfo
-      * description: Can the tool bar be made to float by the user?
+      * @pbrbm b if <code>true</code>, the tool bbr cbn be moved;
+      *          <code>fblse</code> otherwise
+      * @see #isFlobtbble
+      * @bebninfo
+      * description: Cbn the tool bbr be mbde to flobt by the user?
       *       bound: true
       *   preferred: true
       */
-    public void setFloatable( boolean b )
+    public void setFlobtbble( boolebn b )
     {
-        if ( floatable != b )
+        if ( flobtbble != b )
         {
-            boolean old = floatable;
-            floatable = b;
+            boolebn old = flobtbble;
+            flobtbble = b;
 
-            firePropertyChange("floatable", old, b);
-            revalidate();
-            repaint();
+            firePropertyChbnge("flobtbble", old, b);
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Returns the current orientation of the tool bar.  The value is either
+     * Returns the current orientbtion of the tool bbr.  The vblue is either
      * <code>HORIZONTAL</code> or <code>VERTICAL</code>.
      *
-     * @return an integer representing the current orientation -- either
+     * @return bn integer representing the current orientbtion -- either
      *          <code>HORIZONTAL</code> or <code>VERTICAL</code>
-     * @see #setOrientation
+     * @see #setOrientbtion
      */
-    public int getOrientation()
+    public int getOrientbtion()
     {
-        return this.orientation;
+        return this.orientbtion;
     }
 
     /**
-     * Sets the orientation of the tool bar.  The orientation must have
-     * either the value <code>HORIZONTAL</code> or <code>VERTICAL</code>.
-     * If <code>orientation</code> is
-     * an invalid value, an exception will be thrown.
+     * Sets the orientbtion of the tool bbr.  The orientbtion must hbve
+     * either the vblue <code>HORIZONTAL</code> or <code>VERTICAL</code>.
+     * If <code>orientbtion</code> is
+     * bn invblid vblue, bn exception will be thrown.
      *
-     * @param o  the new orientation -- either <code>HORIZONTAL</code> or
+     * @pbrbm o  the new orientbtion -- either <code>HORIZONTAL</code> or
      *                  <code>VERTICAL</code>
-     * @exception IllegalArgumentException if orientation is neither
+     * @exception IllegblArgumentException if orientbtion is neither
      *          <code>HORIZONTAL</code> nor <code>VERTICAL</code>
-     * @see #getOrientation
-     * @beaninfo
-     * description: The current orientation of the tool bar
+     * @see #getOrientbtion
+     * @bebninfo
+     * description: The current orientbtion of the tool bbr
      *       bound: true
      *   preferred: true
-     *        enum: HORIZONTAL SwingConstants.HORIZONTAL
-     *              VERTICAL   SwingConstants.VERTICAL
+     *        enum: HORIZONTAL SwingConstbnts.HORIZONTAL
+     *              VERTICAL   SwingConstbnts.VERTICAL
      */
-    public void setOrientation( int o )
+    public void setOrientbtion( int o )
     {
-        checkOrientation( o );
+        checkOrientbtion( o );
 
-        if ( orientation != o )
+        if ( orientbtion != o )
         {
-            int old = orientation;
-            orientation = o;
+            int old = orientbtion;
+            orientbtion = o;
 
-            firePropertyChange("orientation", old, o);
-            revalidate();
-            repaint();
+            firePropertyChbnge("orientbtion", old, o);
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Sets the rollover state of this toolbar. If the rollover state is true
-     * then the border of the toolbar buttons will be drawn only when the
-     * mouse pointer hovers over them. The default value of this property
-     * is false.
+     * Sets the rollover stbte of this toolbbr. If the rollover stbte is true
+     * then the border of the toolbbr buttons will be drbwn only when the
+     * mouse pointer hovers over them. The defbult vblue of this property
+     * is fblse.
      * <p>
-     * The implementation of a look and feel may choose to ignore this
+     * The implementbtion of b look bnd feel mby choose to ignore this
      * property.
      *
-     * @param rollover true for rollover toolbar buttons; otherwise false
+     * @pbrbm rollover true for rollover toolbbr buttons; otherwise fblse
      * @since 1.4
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *    preferred: true
-     *    attribute: visualUpdate true
-     *  description: Will draw rollover button borders in the toolbar.
+     *    bttribute: visublUpdbte true
+     *  description: Will drbw rollover button borders in the toolbbr.
      */
-    public void setRollover(boolean rollover) {
-        putClientProperty("JToolBar.isRollover",
-                          rollover ? Boolean.TRUE : Boolean.FALSE);
+    public void setRollover(boolebn rollover) {
+        putClientProperty("JToolBbr.isRollover",
+                          rollover ? Boolebn.TRUE : Boolebn.FALSE);
     }
 
     /**
-     * Returns the rollover state.
+     * Returns the rollover stbte.
      *
-     * @return true if rollover toolbar buttons are to be drawn; otherwise false
-     * @see #setRollover(boolean)
+     * @return true if rollover toolbbr buttons bre to be drbwn; otherwise fblse
+     * @see #setRollover(boolebn)
      * @since 1.4
      */
-    public boolean isRollover() {
-        Boolean rollover = (Boolean)getClientProperty("JToolBar.isRollover");
+    public boolebn isRollover() {
+        Boolebn rollover = (Boolebn)getClientProperty("JToolBbr.isRollover");
         if (rollover != null) {
-            return rollover.booleanValue();
+            return rollover.boolebnVblue();
         }
-        return false;
+        return fblse;
     }
 
-    private void checkOrientation( int orientation )
+    privbte void checkOrientbtion( int orientbtion )
     {
-        switch ( orientation )
+        switch ( orientbtion )
         {
-            case VERTICAL:
-            case HORIZONTAL:
-                break;
-            default:
-                throw new IllegalArgumentException( "orientation must be one of: VERTICAL, HORIZONTAL" );
+            cbse VERTICAL:
+            cbse HORIZONTAL:
+                brebk;
+            defbult:
+                throw new IllegblArgumentException( "orientbtion must be one of: VERTICAL, HORIZONTAL" );
         }
     }
 
     /**
-     * Appends a separator of default size to the end of the tool bar.
-     * The default size is determined by the current look and feel.
+     * Appends b sepbrbtor of defbult size to the end of the tool bbr.
+     * The defbult size is determined by the current look bnd feel.
      */
-    public void addSeparator()
+    public void bddSepbrbtor()
     {
-        addSeparator(null);
+        bddSepbrbtor(null);
     }
 
     /**
-     * Appends a separator of a specified size to the end
-     * of the tool bar.
+     * Appends b sepbrbtor of b specified size to the end
+     * of the tool bbr.
      *
-     * @param size the <code>Dimension</code> of the separator
+     * @pbrbm size the <code>Dimension</code> of the sepbrbtor
      */
-    public void addSeparator( Dimension size )
+    public void bddSepbrbtor( Dimension size )
     {
-        JToolBar.Separator s = new JToolBar.Separator( size );
-        add(s);
+        JToolBbr.Sepbrbtor s = new JToolBbr.Sepbrbtor( size );
+        bdd(s);
     }
 
     /**
-     * Adds a new <code>JButton</code> which dispatches the action.
+     * Adds b new <code>JButton</code> which dispbtches the bction.
      *
-     * @param a the <code>Action</code> object to add as a new menu item
-     * @return the new button which dispatches the action
+     * @pbrbm b the <code>Action</code> object to bdd bs b new menu item
+     * @return the new button which dispbtches the bction
      */
-    public JButton add(Action a) {
-        JButton b = createActionComponent(a);
-        b.setAction(a);
-        add(b);
+    public JButton bdd(Action b) {
+        JButton b = crebteActionComponent(b);
+        b.setAction(b);
+        bdd(b);
         return b;
     }
 
     /**
-     * Factory method which creates the <code>JButton</code> for
-     * <code>Action</code>s added to the <code>JToolBar</code>.
-     * The default name is empty if a <code>null</code> action is passed.
+     * Fbctory method which crebtes the <code>JButton</code> for
+     * <code>Action</code>s bdded to the <code>JToolBbr</code>.
+     * The defbult nbme is empty if b <code>null</code> bction is pbssed.
      *
-     * @param a the <code>Action</code> for the button to be added
-     * @return the newly created button
+     * @pbrbm b the <code>Action</code> for the button to be bdded
+     * @return the newly crebted button
      * @see Action
      * @since 1.3
      */
-    protected JButton createActionComponent(Action a) {
+    protected JButton crebteActionComponent(Action b) {
         JButton b = new JButton() {
-            protected PropertyChangeListener createActionPropertyChangeListener(Action a) {
-                PropertyChangeListener pcl = createActionChangeListener(this);
+            protected PropertyChbngeListener crebteActionPropertyChbngeListener(Action b) {
+                PropertyChbngeListener pcl = crebteActionChbngeListener(this);
                 if (pcl==null) {
-                    pcl = super.createActionPropertyChangeListener(a);
+                    pcl = super.crebteActionPropertyChbngeListener(b);
                 }
                 return pcl;
             }
         };
-        if (a != null && (a.getValue(Action.SMALL_ICON) != null ||
-                          a.getValue(Action.LARGE_ICON_KEY) != null)) {
+        if (b != null && (b.getVblue(Action.SMALL_ICON) != null ||
+                          b.getVblue(Action.LARGE_ICON_KEY) != null)) {
             b.setHideActionText(true);
         }
-        b.setHorizontalTextPosition(JButton.CENTER);
-        b.setVerticalTextPosition(JButton.BOTTOM);
+        b.setHorizontblTextPosition(JButton.CENTER);
+        b.setVerticblTextPosition(JButton.BOTTOM);
         return b;
     }
 
     /**
-     * Returns a properly configured <code>PropertyChangeListener</code>
-     * which updates the control as changes to the <code>Action</code> occur,
-     * or <code>null</code> if the default
-     * property change listener for the control is desired.
+     * Returns b properly configured <code>PropertyChbngeListener</code>
+     * which updbtes the control bs chbnges to the <code>Action</code> occur,
+     * or <code>null</code> if the defbult
+     * property chbnge listener for the control is desired.
      *
-     * @param b a {@code JButton}
+     * @pbrbm b b {@code JButton}
      * @return {@code null}
      */
-    protected PropertyChangeListener createActionChangeListener(JButton b) {
+    protected PropertyChbngeListener crebteActionChbngeListener(JButton b) {
         return null;
     }
 
     /**
-     * If a <code>JButton</code> is being added, it is initially
-     * set to be disabled.
+     * If b <code>JButton</code> is being bdded, it is initiblly
+     * set to be disbbled.
      *
-     * @param comp  the component to be enhanced
-     * @param constraints  the constraints to be enforced on the component
-     * @param index the index of the component
+     * @pbrbm comp  the component to be enhbnced
+     * @pbrbm constrbints  the constrbints to be enforced on the component
+     * @pbrbm index the index of the component
      *
      */
-    protected void addImpl(Component comp, Object constraints, int index) {
-        if (comp instanceof Separator) {
-            if (getOrientation() == VERTICAL) {
-                ( (Separator)comp ).setOrientation(JSeparator.HORIZONTAL);
+    protected void bddImpl(Component comp, Object constrbints, int index) {
+        if (comp instbnceof Sepbrbtor) {
+            if (getOrientbtion() == VERTICAL) {
+                ( (Sepbrbtor)comp ).setOrientbtion(JSepbrbtor.HORIZONTAL);
             } else {
-                ( (Separator)comp ).setOrientation(JSeparator.VERTICAL);
+                ( (Sepbrbtor)comp ).setOrientbtion(JSepbrbtor.VERTICAL);
             }
         }
-        super.addImpl(comp, constraints, index);
-        if (comp instanceof JButton) {
-            ((JButton)comp).setDefaultCapable(false);
+        super.bddImpl(comp, constrbints, index);
+        if (comp instbnceof JButton) {
+            ((JButton)comp).setDefbultCbpbble(fblse);
         }
     }
 
 
     /**
-     * A toolbar-specific separator. An object with dimension but
-     * no contents used to divide buttons on a tool bar into groups.
+     * A toolbbr-specific sepbrbtor. An object with dimension but
+     * no contents used to divide buttons on b tool bbr into groups.
      */
-    static public class Separator extends JSeparator
+    stbtic public clbss Sepbrbtor extends JSepbrbtor
     {
-        private Dimension separatorSize;
+        privbte Dimension sepbrbtorSize;
 
         /**
-         * Creates a new toolbar separator with the default size
-         * as defined by the current look and feel.
+         * Crebtes b new toolbbr sepbrbtor with the defbult size
+         * bs defined by the current look bnd feel.
          */
-        public Separator()
+        public Sepbrbtor()
         {
-            this( null );  // let the UI define the default size
+            this( null );  // let the UI define the defbult size
         }
 
         /**
-         * Creates a new toolbar separator with the specified size.
+         * Crebtes b new toolbbr sepbrbtor with the specified size.
          *
-         * @param size the <code>Dimension</code> of the separator
+         * @pbrbm size the <code>Dimension</code> of the sepbrbtor
          */
-        public Separator( Dimension size )
+        public Sepbrbtor( Dimension size )
         {
-            super( JSeparator.HORIZONTAL );
-            setSeparatorSize(size);
+            super( JSepbrbtor.HORIZONTAL );
+            setSepbrbtorSize(size);
         }
 
         /**
-         * Returns the name of the L&amp;F class that renders this component.
+         * Returns the nbme of the L&bmp;F clbss thbt renders this component.
          *
-         * @return the string "ToolBarSeparatorUI"
-         * @see JComponent#getUIClassID
-         * @see UIDefaults#getUI
+         * @return the string "ToolBbrSepbrbtorUI"
+         * @see JComponent#getUIClbssID
+         * @see UIDefbults#getUI
          */
-        public String getUIClassID()
+        public String getUIClbssID()
         {
-            return "ToolBarSeparatorUI";
+            return "ToolBbrSepbrbtorUI";
         }
 
         /**
-         * Sets the size of the separator.
+         * Sets the size of the sepbrbtor.
          *
-         * @param size the new <code>Dimension</code> of the separator
+         * @pbrbm size the new <code>Dimension</code> of the sepbrbtor
          */
-        public void setSeparatorSize( Dimension size )
+        public void setSepbrbtorSize( Dimension size )
         {
             if (size != null) {
-                separatorSize = size;
+                sepbrbtorSize = size;
             } else {
-                super.updateUI();
+                super.updbteUI();
             }
-            this.invalidate();
+            this.invblidbte();
         }
 
         /**
-         * Returns the size of the separator
+         * Returns the size of the sepbrbtor
          *
-         * @return the <code>Dimension</code> object containing the separator's
-         *         size (This is a reference, NOT a copy!)
+         * @return the <code>Dimension</code> object contbining the sepbrbtor's
+         *         size (This is b reference, NOT b copy!)
          */
-        public Dimension getSeparatorSize()
+        public Dimension getSepbrbtorSize()
         {
-            return separatorSize;
+            return sepbrbtorSize;
         }
 
         /**
-         * Returns the minimum size for the separator.
+         * Returns the minimum size for the sepbrbtor.
          *
-         * @return the <code>Dimension</code> object containing the separator's
+         * @return the <code>Dimension</code> object contbining the sepbrbtor's
          *         minimum size
          */
         public Dimension getMinimumSize()
         {
-            if (separatorSize != null) {
-                return separatorSize.getSize();
+            if (sepbrbtorSize != null) {
+                return sepbrbtorSize.getSize();
             } else {
                 return super.getMinimumSize();
             }
         }
 
         /**
-         * Returns the maximum size for the separator.
+         * Returns the mbximum size for the sepbrbtor.
          *
-         * @return the <code>Dimension</code> object containing the separator's
-         *         maximum size
+         * @return the <code>Dimension</code> object contbining the sepbrbtor's
+         *         mbximum size
          */
-        public Dimension getMaximumSize()
+        public Dimension getMbximumSize()
         {
-            if (separatorSize != null) {
-                return separatorSize.getSize();
+            if (sepbrbtorSize != null) {
+                return sepbrbtorSize.getSize();
             } else {
-                return super.getMaximumSize();
+                return super.getMbximumSize();
             }
         }
 
         /**
-         * Returns the preferred size for the separator.
+         * Returns the preferred size for the sepbrbtor.
          *
-         * @return the <code>Dimension</code> object containing the separator's
+         * @return the <code>Dimension</code> object contbining the sepbrbtor's
          *         preferred size
          */
         public Dimension getPreferredSize()
         {
-            if (separatorSize != null) {
-                return separatorSize.getSize();
+            if (sepbrbtorSize != null) {
+                return sepbrbtorSize.getSize();
             } else {
                 return super.getPreferredSize();
             }
@@ -703,124 +703,124 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JToolBar</code>.
+     * Returns b string representbtion of this <code>JToolBbr</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JToolBar</code>.
+     * @return  b string representbtion of this <code>JToolBbr</code>.
      */
-    protected String paramString() {
-        String paintBorderString = (paintBorder ?
-                                    "true" : "false");
-        String marginString = (margin != null ?
-                               margin.toString() : "");
-        String floatableString = (floatable ?
-                                  "true" : "false");
-        String orientationString = (orientation == HORIZONTAL ?
+    protected String pbrbmString() {
+        String pbintBorderString = (pbintBorder ?
+                                    "true" : "fblse");
+        String mbrginString = (mbrgin != null ?
+                               mbrgin.toString() : "");
+        String flobtbbleString = (flobtbble ?
+                                  "true" : "fblse");
+        String orientbtionString = (orientbtion == HORIZONTAL ?
                                     "HORIZONTAL" : "VERTICAL");
 
-        return super.paramString() +
-        ",floatable=" + floatableString +
-        ",margin=" + marginString +
-        ",orientation=" + orientationString +
-        ",paintBorder=" + paintBorderString;
+        return super.pbrbmString() +
+        ",flobtbble=" + flobtbbleString +
+        ",mbrgin=" + mbrginString +
+        ",orientbtion=" + orientbtionString +
+        ",pbintBorder=" + pbintBorderString;
     }
 
 
-    private class DefaultToolBarLayout
-        implements LayoutManager2, Serializable, PropertyChangeListener, UIResource {
+    privbte clbss DefbultToolBbrLbyout
+        implements LbyoutMbnbger2, Seriblizbble, PropertyChbngeListener, UIResource {
 
-        BoxLayout lm;
+        BoxLbyout lm;
 
-        DefaultToolBarLayout(int orientation) {
-            if (orientation == JToolBar.VERTICAL) {
-                lm = new BoxLayout(JToolBar.this, BoxLayout.PAGE_AXIS);
+        DefbultToolBbrLbyout(int orientbtion) {
+            if (orientbtion == JToolBbr.VERTICAL) {
+                lm = new BoxLbyout(JToolBbr.this, BoxLbyout.PAGE_AXIS);
             } else {
-                lm = new BoxLayout(JToolBar.this, BoxLayout.LINE_AXIS);
+                lm = new BoxLbyout(JToolBbr.this, BoxLbyout.LINE_AXIS);
             }
         }
 
-        public void addLayoutComponent(String name, Component comp) {
-            lm.addLayoutComponent(name, comp);
+        public void bddLbyoutComponent(String nbme, Component comp) {
+            lm.bddLbyoutComponent(nbme, comp);
         }
 
-        public void addLayoutComponent(Component comp, Object constraints) {
-            lm.addLayoutComponent(comp, constraints);
+        public void bddLbyoutComponent(Component comp, Object constrbints) {
+            lm.bddLbyoutComponent(comp, constrbints);
         }
 
-        public void removeLayoutComponent(Component comp) {
-            lm.removeLayoutComponent(comp);
+        public void removeLbyoutComponent(Component comp) {
+            lm.removeLbyoutComponent(comp);
         }
 
-        public Dimension preferredLayoutSize(Container target) {
-            return lm.preferredLayoutSize(target);
+        public Dimension preferredLbyoutSize(Contbiner tbrget) {
+            return lm.preferredLbyoutSize(tbrget);
         }
 
-        public Dimension minimumLayoutSize(Container target) {
-            return lm.minimumLayoutSize(target);
+        public Dimension minimumLbyoutSize(Contbiner tbrget) {
+            return lm.minimumLbyoutSize(tbrget);
         }
 
-        public Dimension maximumLayoutSize(Container target) {
-            return lm.maximumLayoutSize(target);
+        public Dimension mbximumLbyoutSize(Contbiner tbrget) {
+            return lm.mbximumLbyoutSize(tbrget);
         }
 
-        public void layoutContainer(Container target) {
-            lm.layoutContainer(target);
+        public void lbyoutContbiner(Contbiner tbrget) {
+            lm.lbyoutContbiner(tbrget);
         }
 
-        public float getLayoutAlignmentX(Container target) {
-            return lm.getLayoutAlignmentX(target);
+        public flobt getLbyoutAlignmentX(Contbiner tbrget) {
+            return lm.getLbyoutAlignmentX(tbrget);
         }
 
-        public float getLayoutAlignmentY(Container target) {
-            return lm.getLayoutAlignmentY(target);
+        public flobt getLbyoutAlignmentY(Contbiner tbrget) {
+            return lm.getLbyoutAlignmentY(tbrget);
         }
 
-        public void invalidateLayout(Container target) {
-            lm.invalidateLayout(target);
+        public void invblidbteLbyout(Contbiner tbrget) {
+            lm.invblidbteLbyout(tbrget);
         }
 
-        public void propertyChange(PropertyChangeEvent e) {
-            String name = e.getPropertyName();
-            if( name.equals("orientation") ) {
-                int o = ((Integer)e.getNewValue()).intValue();
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String nbme = e.getPropertyNbme();
+            if( nbme.equbls("orientbtion") ) {
+                int o = ((Integer)e.getNewVblue()).intVblue();
 
-                if (o == JToolBar.VERTICAL)
-                    lm = new BoxLayout(JToolBar.this, BoxLayout.PAGE_AXIS);
+                if (o == JToolBbr.VERTICAL)
+                    lm = new BoxLbyout(JToolBbr.this, BoxLbyout.PAGE_AXIS);
                 else {
-                    lm = new BoxLayout(JToolBar.this, BoxLayout.LINE_AXIS);
+                    lm = new BoxLbyout(JToolBbr.this, BoxLbyout.LINE_AXIS);
                 }
             }
         }
     }
 
 
-    public void setLayout(LayoutManager mgr) {
-        LayoutManager oldMgr = getLayout();
-        if (oldMgr instanceof PropertyChangeListener) {
-            removePropertyChangeListener((PropertyChangeListener)oldMgr);
+    public void setLbyout(LbyoutMbnbger mgr) {
+        LbyoutMbnbger oldMgr = getLbyout();
+        if (oldMgr instbnceof PropertyChbngeListener) {
+            removePropertyChbngeListener((PropertyChbngeListener)oldMgr);
         }
-        super.setLayout(mgr);
+        super.setLbyout(mgr);
     }
 
 /////////////////
@@ -828,49 +828,49 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JToolBar.
-     * For tool bars, the AccessibleContext takes the form of an
-     * AccessibleJToolBar.
-     * A new AccessibleJToolBar instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JToolBbr.
+     * For tool bbrs, the AccessibleContext tbkes the form of bn
+     * AccessibleJToolBbr.
+     * A new AccessibleJToolBbr instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJToolBar that serves as the
-     *         AccessibleContext of this JToolBar
+     * @return bn AccessibleJToolBbr thbt serves bs the
+     *         AccessibleContext of this JToolBbr
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJToolBar();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJToolBbr();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JToolBar</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to toolbar user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>JToolBbr</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to toolbbr user-interfbce elements.
      */
-    protected class AccessibleJToolBar extends AccessibleJComponent {
+    protected clbss AccessibleJToolBbr extends AccessibleJComponent {
 
         /**
-         * Get the state of this object.
+         * Get the stbte of this object.
          *
-         * @return an instance of AccessibleStateSet containing the current
-         * state set of the object
-         * @see AccessibleState
+         * @return bn instbnce of AccessibleStbteSet contbining the current
+         * stbte set of the object
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            // FIXME:  [[[WDW - need to add orientation from BoxLayout]]]
-            // FIXME:  [[[WDW - need to do SELECTABLE if SelectionModel is added]]]
-            return states;
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            // FIXME:  [[[WDW - need to bdd orientbtion from BoxLbyout]]]
+            // FIXME:  [[[WDW - need to do SELECTABLE if SelectionModel is bdded]]]
+            return stbtes;
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the object
+         * @return bn instbnce of AccessibleRole describing the role of the object
          */
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.TOOL_BAR;
         }
-    } // inner class AccessibleJToolBar
+    } // inner clbss AccessibleJToolBbr
 }

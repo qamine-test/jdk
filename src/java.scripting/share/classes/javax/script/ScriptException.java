@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.script;
+pbckbge jbvbx.script;
 
 /**
- * The generic <code>Exception</code> class for the Scripting APIs.  Checked
- * exception types thrown by underlying scripting implementations must be wrapped in instances of
- * <code>ScriptException</code>.  The class has members to store line and column numbers and
- * filenames if this information is available.
+ * The generic <code>Exception</code> clbss for the Scripting APIs.  Checked
+ * exception types thrown by underlying scripting implementbtions must be wrbpped in instbnces of
+ * <code>ScriptException</code>.  The clbss hbs members to store line bnd column numbers bnd
+ * filenbmes if this informbtion is bvbilbble.
  *
- * @author Mike Grogan
+ * @buthor Mike Grogbn
  * @since 1.6
  */
-public class ScriptException extends Exception {
+public clbss ScriptException extends Exception {
 
-    private static final long serialVersionUID = 8265071037049225001L;
+    privbte stbtic finbl long seriblVersionUID = 8265071037049225001L;
 
-    private String fileName;
-    private int lineNumber;
-    private int columnNumber;
+    privbte String fileNbme;
+    privbte int lineNumber;
+    privbte int columnNumber;
 
     /**
-     * Creates a <code>ScriptException</code> with a String to be used in its message.
-     * Filename, and line and column numbers are unspecified.
+     * Crebtes b <code>ScriptException</code> with b String to be used in its messbge.
+     * Filenbme, bnd line bnd column numbers bre unspecified.
      *
-     * @param s The String to use in the message.
+     * @pbrbm s The String to use in the messbge.
      */
     public ScriptException(String s) {
         super(s);
-        fileName = null;
+        fileNbme = null;
         lineNumber = -1;
         columnNumber = -1;
     }
 
     /**
-     * Creates a <code>ScriptException</code> wrapping an <code>Exception</code> thrown by an underlying
-     * interpreter.  Line and column numbers and filename are unspecified.
+     * Crebtes b <code>ScriptException</code> wrbpping bn <code>Exception</code> thrown by bn underlying
+     * interpreter.  Line bnd column numbers bnd filenbme bre unspecified.
      *
-     * @param e The wrapped <code>Exception</code>.
+     * @pbrbm e The wrbpped <code>Exception</code>.
      */
     public ScriptException(Exception e) {
         super(e);
-        fileName = null;
+        fileNbme = null;
         lineNumber = -1;
         columnNumber = -1;
     }
 
     /**
-     * Creates a <code>ScriptException</code> with message, filename and linenumber to
-     * be used in error messages.
+     * Crebtes b <code>ScriptException</code> with messbge, filenbme bnd linenumber to
+     * be used in error messbges.
      *
-     * @param message The string to use in the message
+     * @pbrbm messbge The string to use in the messbge
      *
-     * @param fileName The file or resource name describing the location of a script error
-     * causing the <code>ScriptException</code> to be thrown.
+     * @pbrbm fileNbme The file or resource nbme describing the locbtion of b script error
+     * cbusing the <code>ScriptException</code> to be thrown.
      *
-     * @param lineNumber A line number describing the location of a script error causing
+     * @pbrbm lineNumber A line number describing the locbtion of b script error cbusing
      * the <code>ScriptException</code> to be thrown.
      */
-    public ScriptException(String message, String fileName, int lineNumber) {
-        super(message);
-        this.fileName = fileName;
+    public ScriptException(String messbge, String fileNbme, int lineNumber) {
+        super(messbge);
+        this.fileNbme = fileNbme;
         this.lineNumber = lineNumber;
         this.columnNumber = -1;
     }
 
     /**
-     * <code>ScriptException</code> constructor specifying message, filename, line number
-     * and column number.
-     * @param message The message.
-     * @param fileName The filename
-     * @param lineNumber the line number.
-     * @param columnNumber the column number.
+     * <code>ScriptException</code> constructor specifying messbge, filenbme, line number
+     * bnd column number.
+     * @pbrbm messbge The messbge.
+     * @pbrbm fileNbme The filenbme
+     * @pbrbm lineNumber the line number.
+     * @pbrbm columnNumber the column number.
      */
-    public ScriptException(String message,
-            String fileName,
+    public ScriptException(String messbge,
+            String fileNbme,
             int lineNumber,
             int columnNumber) {
-        super(message);
-        this.fileName = fileName;
+        super(messbge);
+        this.fileNbme = fileNbme;
         this.lineNumber = lineNumber;
         this.columnNumber = columnNumber;
     }
 
     /**
-     * Returns a message containing the String passed to a constructor as well as
-     * line and column numbers and filename if any of these are known.
-     * @return The error message.
+     * Returns b messbge contbining the String pbssed to b constructor bs well bs
+     * line bnd column numbers bnd filenbme if bny of these bre known.
+     * @return The error messbge.
      */
-    public String getMessage() {
-        String ret = super.getMessage();
-        if (fileName != null) {
-            ret += (" in " + fileName);
+    public String getMessbge() {
+        String ret = super.getMessbge();
+        if (fileNbme != null) {
+            ret += (" in " + fileNbme);
             if (lineNumber != -1) {
-                ret += " at line number " + lineNumber;
+                ret += " bt line number " + lineNumber;
             }
 
             if (columnNumber != -1) {
-                ret += " at column number " + columnNumber;
+                ret += " bt column number " + columnNumber;
             }
         }
 
@@ -127,28 +127,28 @@ public class ScriptException extends Exception {
     }
 
     /**
-     * Get the line number on which an error occurred.
-     * @return The line number.  Returns -1 if a line number is unavailable.
+     * Get the line number on which bn error occurred.
+     * @return The line number.  Returns -1 if b line number is unbvbilbble.
      */
     public int getLineNumber() {
         return lineNumber;
     }
 
     /**
-     * Get the column number on which an error occurred.
-     * @return The column number.  Returns -1 if a column number is unavailable.
+     * Get the column number on which bn error occurred.
+     * @return The column number.  Returns -1 if b column number is unbvbilbble.
      */
     public int getColumnNumber() {
         return columnNumber;
     }
 
     /**
-     * Get the source of the script causing the error.
-     * @return The file name of the script or some other string describing the script
-     * source.  May return some implementation-defined string such as <i>&lt;unknown&gt;</i>
-     * if a description of the source is unavailable.
+     * Get the source of the script cbusing the error.
+     * @return The file nbme of the script or some other string describing the script
+     * source.  Mby return some implementbtion-defined string such bs <i>&lt;unknown&gt;</i>
+     * if b description of the source is unbvbilbble.
      */
-    public String getFileName() {
-        return fileName;
+    public String getFileNbme() {
+        return fileNbme;
     }
 }

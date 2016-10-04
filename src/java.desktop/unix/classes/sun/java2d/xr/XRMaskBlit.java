@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.xr;
+pbckbge sun.jbvb2d.xr;
 
-import static sun.java2d.loops.CompositeType.SrcNoEa;
-import static sun.java2d.loops.CompositeType.SrcOver;
+import stbtic sun.jbvb2d.loops.CompositeType.SrcNoEb;
+import stbtic sun.jbvb2d.loops.CompositeType.SrcOver;
 
-import java.awt.Composite;
+import jbvb.bwt.Composite;
 
-import sun.awt.*;
-import sun.java2d.*;
-import sun.java2d.loops.*;
-import sun.java2d.pipe.Region;
+import sun.bwt.*;
+import sun.jbvb2d.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipe.Region;
 
 /**
- * For XRender there is no "blit", everything is just a fill with Repeat or Not.
- * So basically this just quite the same as MaskFill.
+ * For XRender there is no "blit", everything is just b fill with Repebt or Not.
+ * So bbsicblly this just quite the sbme bs MbskFill.
  *
- * @author Clemens Eisserer
+ * @buthor Clemens Eisserer
  */
-public class XRMaskBlit extends MaskBlit {
-    static void register() {
-        GraphicsPrimitive[] primitives = {
-                new XRMaskBlit(XRSurfaceData.IntArgbPreX11, SrcOver,
-                               XRSurfaceData.IntArgbPreX11),
-                new XRMaskBlit(XRSurfaceData.IntRgbX11, SrcOver,
-                               XRSurfaceData.IntRgbX11),
-                new XRMaskBlit(XRSurfaceData.IntArgbPreX11, SrcNoEa,
-                               XRSurfaceData.IntRgbX11),
-                new XRMaskBlit(XRSurfaceData.IntRgbX11, SrcNoEa,
-                               XRSurfaceData.IntArgbPreX11)
+public clbss XRMbskBlit extends MbskBlit {
+    stbtic void register() {
+        GrbphicsPrimitive[] primitives = {
+                new XRMbskBlit(XRSurfbceDbtb.IntArgbPreX11, SrcOver,
+                               XRSurfbceDbtb.IntArgbPreX11),
+                new XRMbskBlit(XRSurfbceDbtb.IntRgbX11, SrcOver,
+                               XRSurfbceDbtb.IntRgbX11),
+                new XRMbskBlit(XRSurfbceDbtb.IntArgbPreX11, SrcNoEb,
+                               XRSurfbceDbtb.IntRgbX11),
+                new XRMbskBlit(XRSurfbceDbtb.IntRgbX11, SrcNoEb,
+                               XRSurfbceDbtb.IntArgbPreX11)
                 };
-        GraphicsPrimitiveMgr.register(primitives);
+        GrbphicsPrimitiveMgr.register(primitives);
     }
 
-    public XRMaskBlit(SurfaceType srcType, CompositeType compType,
-            SurfaceType dstType) {
-        super(srcType, CompositeType.AnyAlpha, dstType);
+    public XRMbskBlit(SurfbceType srcType, CompositeType compType,
+            SurfbceType dstType) {
+        super(srcType, CompositeType.AnyAlphb, dstType);
     }
 
-    protected native void maskBlit(long srcXsdo, long dstxsdo, int srcx,
-            int srcy, int dstx, int dsty, int w, int h, int maskoff,
-            int maskscan, int masklen, byte[] mask);
+    protected nbtive void mbskBlit(long srcXsdo, long dstxsdo, int srcx,
+            int srcy, int dstx, int dsty, int w, int h, int mbskoff,
+            int mbskscbn, int mbsklen, byte[] mbsk);
 
-    public void MaskBlit(SurfaceData src, SurfaceData dst, Composite comp,
+    public void MbskBlit(SurfbceDbtb src, SurfbceDbtb dst, Composite comp,
             Region clip, int srcx, int srcy, int dstx, int dsty, int width,
-            int height, byte[] mask, int maskoff, int maskscan) {
+            int height, byte[] mbsk, int mbskoff, int mbskscbn) {
         if (width <= 0 || height <= 0) {
             return;
         }
 
         try {
-            SunToolkit.awtLock();
+            SunToolkit.bwtLock();
 
-            XRSurfaceData x11sd = (XRSurfaceData) src;
-            x11sd.validateAsSource(null, XRUtils.RepeatNone, XRUtils.FAST);
+            XRSurfbceDbtb x11sd = (XRSurfbceDbtb) src;
+            x11sd.vblidbteAsSource(null, XRUtils.RepebtNone, XRUtils.FAST);
 
-            XRCompositeManager maskBuffer = x11sd.maskBuffer;
-            XRSurfaceData x11dst = (XRSurfaceData) dst;
-            x11dst.validateAsDestination(null, clip);
+            XRCompositeMbnbger mbskBuffer = x11sd.mbskBuffer;
+            XRSurfbceDbtb x11dst = (XRSurfbceDbtb) dst;
+            x11dst.vblidbteAsDestinbtion(null, clip);
 
-            int maskPict = maskBuffer.getMaskBuffer().
-                         uploadMask(width, height, maskscan, maskoff, mask);
-            maskBuffer.XRComposite(x11sd.getPicture(), maskPict, x11dst.getPicture(),
+            int mbskPict = mbskBuffer.getMbskBuffer().
+                         uplobdMbsk(width, height, mbskscbn, mbskoff, mbsk);
+            mbskBuffer.XRComposite(x11sd.getPicture(), mbskPict, x11dst.getPicture(),
                                   srcx, srcy, 0, 0, dstx, dsty, width, height);
-            maskBuffer.getMaskBuffer().clearUploadMask(maskPict, width, height);
-        } finally {
-            SunToolkit.awtUnlock();
+            mbskBuffer.getMbskBuffer().clebrUplobdMbsk(mbskPict, width, height);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 }

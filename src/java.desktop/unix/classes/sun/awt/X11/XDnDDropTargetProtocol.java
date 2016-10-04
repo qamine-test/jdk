@@ -1,266 +1,266 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.Point;
+import jbvb.bwt.Point;
 
-import java.awt.dnd.DnDConstants;
+import jbvb.bwt.dnd.DnDConstbnts;
 
-import java.awt.event.MouseEvent;
+import jbvb.bwt.event.MouseEvent;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-import sun.misc.Unsafe;
+import sun.misc.Unsbfe;
 
 /**
- * XDropTargetProtocol implementation for XDnD protocol.
+ * XDropTbrgetProtocol implementbtion for XDnD protocol.
  *
  * @since 1.5
  */
-class XDnDDropTargetProtocol extends XDropTargetProtocol {
-    private static final PlatformLogger logger =
-        PlatformLogger.getLogger("sun.awt.X11.xembed.xdnd.XDnDDropTargetProtocol");
+clbss XDnDDropTbrgetProtocol extends XDropTbrgetProtocol {
+    privbte stbtic finbl PlbtformLogger logger =
+        PlbtformLogger.getLogger("sun.bwt.X11.xembed.xdnd.XDnDDropTbrgetProtocol");
 
-    private static final Unsafe unsafe = XlibWrapper.unsafe;
+    privbte stbtic finbl Unsbfe unsbfe = XlibWrbpper.unsbfe;
 
-    private long sourceWindow = 0;
-    private long sourceWindowMask = 0;
-    private int sourceProtocolVersion = 0;
-    private int sourceActions = DnDConstants.ACTION_NONE;
-    private long[] sourceFormats = null;
-    private boolean trackSourceActions = false;
-    private int userAction = DnDConstants.ACTION_NONE;
-    private int sourceX = 0;
-    private int sourceY = 0;
-    private XWindow targetXWindow = null;
+    privbte long sourceWindow = 0;
+    privbte long sourceWindowMbsk = 0;
+    privbte int sourceProtocolVersion = 0;
+    privbte int sourceActions = DnDConstbnts.ACTION_NONE;
+    privbte long[] sourceFormbts = null;
+    privbte boolebn trbckSourceActions = fblse;
+    privbte int userAction = DnDConstbnts.ACTION_NONE;
+    privbte int sourceX = 0;
+    privbte int sourceY = 0;
+    privbte XWindow tbrgetXWindow = null;
 
     // XEmbed stuff.
-    private long prevCtxt = 0;
-    private boolean overXEmbedClient = false;
+    privbte long prevCtxt = 0;
+    privbte boolebn overXEmbedClient = fblse;
 
-    protected XDnDDropTargetProtocol(XDropTargetProtocolListener listener) {
+    protected XDnDDropTbrgetProtocol(XDropTbrgetProtocolListener listener) {
         super(listener);
     }
 
     /**
-     * Creates an instance associated with the specified listener.
+     * Crebtes bn instbnce bssocibted with the specified listener.
      *
      * @throws NullPointerException if listener is <code>null</code>.
      */
-    static XDropTargetProtocol createInstance(XDropTargetProtocolListener listener) {
-        return new XDnDDropTargetProtocol(listener);
+    stbtic XDropTbrgetProtocol crebteInstbnce(XDropTbrgetProtocolListener listener) {
+        return new XDnDDropTbrgetProtocol(listener);
     }
 
-    public String getProtocolName() {
-        return XDragAndDropProtocols.XDnD;
+    public String getProtocolNbme() {
+        return XDrbgAndDropProtocols.XDnD;
     }
 
-    public void registerDropTarget(long window) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    public void registerDropTbrget(long window) {
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
-        long data = Native.allocateLongArray(1);
+        long dbtb = Nbtive.bllocbteLongArrby(1);
 
         try {
-            Native.putLong(data, 0, XDnDConstants.XDND_PROTOCOL_VERSION);
+            Nbtive.putLong(dbtb, 0, XDnDConstbnts.XDND_PROTOCOL_VERSION);
 
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-            XDnDConstants.XA_XdndAware.setAtomData(window, XAtom.XA_ATOM, data, 1);
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.VerifyChbngePropertyHbndler.getInstbnce());
+            XDnDConstbnts.XA_XdndAwbre.setAtomDbtb(window, XAtom.XA_ATOM, dbtb, 1);
+            XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-            if ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                throw new XException("Cannot write XdndAware property");
+            if ((XErrorHbndlerUtil.sbved_error != null) &&
+                (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success)) {
+                throw new XException("Cbnnot write XdndAwbre property");
             }
-        } finally {
-            unsafe.freeMemory(data);
-            data = 0;
+        } finblly {
+            unsbfe.freeMemory(dbtb);
+            dbtb = 0;
         }
     }
 
-    public void unregisterDropTarget(long window) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    public void unregisterDropTbrget(long window) {
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
-        XDnDConstants.XA_XdndAware.DeleteProperty(window);
+        XDnDConstbnts.XA_XdndAwbre.DeleteProperty(window);
     }
 
     public void registerEmbedderDropSite(long embedder) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
-        boolean overriden = false;
+        boolebn overriden = fblse;
         int version = 0;
         long proxy = 0;
-        long newProxy = XDropTargetRegistry.getDnDProxyWindow();
-        int status = 0;
+        long newProxy = XDropTbrgetRegistry.getDnDProxyWindow();
+        int stbtus = 0;
 
         WindowPropertyGetter wpg1 =
-            new WindowPropertyGetter(embedder, XDnDConstants.XA_XdndAware, 0, 1,
-                                     false, XConstants.AnyPropertyType);
+            new WindowPropertyGetter(embedder, XDnDConstbnts.XA_XdndAwbre, 0, 1,
+                                     fblse, XConstbnts.AnyPropertyType);
 
         try {
-            status = wpg1.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+            stbtus = wpg1.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-            if (status == XConstants.Success &&
-                wpg1.getData() != 0 && wpg1.getActualType() == XAtom.XA_ATOM) {
+            if (stbtus == XConstbnts.Success &&
+                wpg1.getDbtb() != 0 && wpg1.getActublType() == XAtom.XA_ATOM) {
 
                 overriden = true;
-                version = (int)Native.getLong(wpg1.getData());
+                version = (int)Nbtive.getLong(wpg1.getDbtb());
             }
-        } finally {
+        } finblly {
             wpg1.dispose();
         }
 
         /* XdndProxy is not supported for prior to XDnD version 4 */
         if (overriden && version >= 4) {
             WindowPropertyGetter wpg2 =
-                new WindowPropertyGetter(embedder, XDnDConstants.XA_XdndProxy,
-                                         0, 1, false, XAtom.XA_WINDOW);
+                new WindowPropertyGetter(embedder, XDnDConstbnts.XA_XdndProxy,
+                                         0, 1, fblse, XAtom.XA_WINDOW);
 
             try {
-                status = wpg2.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                stbtus = wpg2.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-                if (status == XConstants.Success &&
-                    wpg2.getData() != 0 &&
-                    wpg2.getActualType() == XAtom.XA_WINDOW) {
+                if (stbtus == XConstbnts.Success &&
+                    wpg2.getDbtb() != 0 &&
+                    wpg2.getActublType() == XAtom.XA_WINDOW) {
 
-                    proxy = Native.getLong(wpg2.getData());
+                    proxy = Nbtive.getLong(wpg2.getDbtb());
                 }
-            } finally {
+            } finblly {
                 wpg2.dispose();
             }
 
             if (proxy != 0) {
                 WindowPropertyGetter wpg3 =
-                    new WindowPropertyGetter(proxy, XDnDConstants.XA_XdndProxy,
-                                             0, 1, false, XAtom.XA_WINDOW);
+                    new WindowPropertyGetter(proxy, XDnDConstbnts.XA_XdndProxy,
+                                             0, 1, fblse, XAtom.XA_WINDOW);
 
                 try {
-                    status = wpg3.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                    stbtus = wpg3.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-                    if (status != XConstants.Success ||
-                        wpg3.getData() == 0 ||
-                        wpg3.getActualType() != XAtom.XA_WINDOW ||
-                        Native.getLong(wpg3.getData()) != proxy) {
+                    if (stbtus != XConstbnts.Success ||
+                        wpg3.getDbtb() == 0 ||
+                        wpg3.getActublType() != XAtom.XA_WINDOW ||
+                        Nbtive.getLong(wpg3.getDbtb()) != proxy) {
 
                         proxy = 0;
                     } else {
                         WindowPropertyGetter wpg4 =
                             new WindowPropertyGetter(proxy,
-                                                     XDnDConstants.XA_XdndAware,
-                                                     0, 1, false,
-                                                     XConstants.AnyPropertyType);
+                                                     XDnDConstbnts.XA_XdndAwbre,
+                                                     0, 1, fblse,
+                                                     XConstbnts.AnyPropertyType);
 
                         try {
-                            status = wpg4.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                            stbtus = wpg4.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-                            if (status != XConstants.Success ||
-                                wpg4.getData() == 0 ||
-                                wpg4.getActualType() != XAtom.XA_ATOM) {
+                            if (stbtus != XConstbnts.Success ||
+                                wpg4.getDbtb() == 0 ||
+                                wpg4.getActublType() != XAtom.XA_ATOM) {
 
                                 proxy = 0;
                             }
-                        } finally {
+                        } finblly {
                             wpg4.dispose();
                         }
                     }
-                } finally {
+                } finblly {
                     wpg3.dispose();
                 }
             }
         }
 
         if (proxy == newProxy) {
-            // Embedder already registered.
+            // Embedder blrebdy registered.
             return;
         }
 
-        long data = Native.allocateLongArray(1);
+        long dbtb = Nbtive.bllocbteLongArrby(1);
 
         try {
-            Native.putLong(data, 0, XDnDConstants.XDND_PROTOCOL_VERSION);
+            Nbtive.putLong(dbtb, 0, XDnDConstbnts.XDND_PROTOCOL_VERSION);
 
-            /* The proxy window must have the XdndAware set, as XDnD protocol
-               prescribes to check the proxy window for XdndAware. */
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-            XDnDConstants.XA_XdndAware.setAtomData(newProxy, XAtom.XA_ATOM,
-                                                   data, 1);
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            /* The proxy window must hbve the XdndAwbre set, bs XDnD protocol
+               prescribes to check the proxy window for XdndAwbre. */
+            XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.VerifyChbngePropertyHbndler.getInstbnce());
+            XDnDConstbnts.XA_XdndAwbre.setAtomDbtb(newProxy, XAtom.XA_ATOM,
+                                                   dbtb, 1);
+            XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-            if ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                throw new XException("Cannot write XdndAware property");
+            if ((XErrorHbndlerUtil.sbved_error != null) &&
+                (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success)) {
+                throw new XException("Cbnnot write XdndAwbre property");
             }
 
-            Native.putLong(data, 0, newProxy);
+            Nbtive.putLong(dbtb, 0, newProxy);
 
-            /* The proxy window must have the XdndProxy set to point to itself.*/
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-            XDnDConstants.XA_XdndProxy.setAtomData(newProxy, XAtom.XA_WINDOW,
-                                                   data, 1);
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            /* The proxy window must hbve the XdndProxy set to point to itself.*/
+            XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.VerifyChbngePropertyHbndler.getInstbnce());
+            XDnDConstbnts.XA_XdndProxy.setAtomDbtb(newProxy, XAtom.XA_WINDOW,
+                                                   dbtb, 1);
+            XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-            if ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                throw new XException("Cannot write XdndProxy property");
+            if ((XErrorHbndlerUtil.sbved_error != null) &&
+                (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success)) {
+                throw new XException("Cbnnot write XdndProxy property");
             }
 
-            Native.putLong(data, 0, XDnDConstants.XDND_PROTOCOL_VERSION);
+            Nbtive.putLong(dbtb, 0, XDnDConstbnts.XDND_PROTOCOL_VERSION);
 
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-            XDnDConstants.XA_XdndAware.setAtomData(embedder, XAtom.XA_ATOM,
-                                                   data, 1);
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.VerifyChbngePropertyHbndler.getInstbnce());
+            XDnDConstbnts.XA_XdndAwbre.setAtomDbtb(embedder, XAtom.XA_ATOM,
+                                                   dbtb, 1);
+            XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-            if ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                throw new XException("Cannot write XdndAware property");
+            if ((XErrorHbndlerUtil.sbved_error != null) &&
+                (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success)) {
+                throw new XException("Cbnnot write XdndAwbre property");
             }
 
-            Native.putLong(data, 0, newProxy);
+            Nbtive.putLong(dbtb, 0, newProxy);
 
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-            XDnDConstants.XA_XdndProxy.setAtomData(embedder, XAtom.XA_WINDOW,
-                                                   data, 1);
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.VerifyChbngePropertyHbndler.getInstbnce());
+            XDnDConstbnts.XA_XdndProxy.setAtomDbtb(embedder, XAtom.XA_WINDOW,
+                                                   dbtb, 1);
+            XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-            if ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                throw new XException("Cannot write XdndProxy property");
+            if ((XErrorHbndlerUtil.sbved_error != null) &&
+                (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success)) {
+                throw new XException("Cbnnot write XdndProxy property");
             }
-        } finally {
-            unsafe.freeMemory(data);
-            data = 0;
+        } finblly {
+            unsbfe.freeMemory(dbtb);
+            dbtb = 0;
         }
 
         putEmbedderRegistryEntry(embedder, overriden, version, proxy);
     }
 
     public void unregisterEmbedderDropSite(long embedder) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
         EmbedderRegistryEntry entry = getEmbedderRegistryEntry(embedder);
 
@@ -269,126 +269,126 @@ class XDnDDropTargetProtocol extends XDropTargetProtocol {
         }
 
         if (entry.isOverriden()) {
-            long data = Native.allocateLongArray(1);
+            long dbtb = Nbtive.bllocbteLongArrby(1);
 
             try {
-                Native.putLong(data, 0, entry.getVersion());
+                Nbtive.putLong(dbtb, 0, entry.getVersion());
 
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-                XDnDConstants.XA_XdndAware.setAtomData(embedder, XAtom.XA_ATOM,
-                                                       data, 1);
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+                XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.VerifyChbngePropertyHbndler.getInstbnce());
+                XDnDConstbnts.XA_XdndAwbre.setAtomDbtb(embedder, XAtom.XA_ATOM,
+                                                       dbtb, 1);
+                XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-                if ((XErrorHandlerUtil.saved_error != null) &&
-                    (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                    throw new XException("Cannot write XdndAware property");
+                if ((XErrorHbndlerUtil.sbved_error != null) &&
+                    (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success)) {
+                    throw new XException("Cbnnot write XdndAwbre property");
                 }
 
-                Native.putLong(data, 0, (int)entry.getProxy());
+                Nbtive.putLong(dbtb, 0, (int)entry.getProxy());
 
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-                XDnDConstants.XA_XdndProxy.setAtomData(embedder, XAtom.XA_WINDOW,
-                                                       data, 1);
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+                XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.VerifyChbngePropertyHbndler.getInstbnce());
+                XDnDConstbnts.XA_XdndProxy.setAtomDbtb(embedder, XAtom.XA_WINDOW,
+                                                       dbtb, 1);
+                XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-                if ((XErrorHandlerUtil.saved_error != null) &&
-                    (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                    throw new XException("Cannot write XdndProxy property");
+                if ((XErrorHbndlerUtil.sbved_error != null) &&
+                    (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success)) {
+                    throw new XException("Cbnnot write XdndProxy property");
                 }
-            } finally {
-                unsafe.freeMemory(data);
-                data = 0;
+            } finblly {
+                unsbfe.freeMemory(dbtb);
+                dbtb = 0;
             }
         } else {
-            XDnDConstants.XA_XdndAware.DeleteProperty(embedder);
-            XDnDConstants.XA_XdndProxy.DeleteProperty(embedder);
+            XDnDConstbnts.XA_XdndAwbre.DeleteProperty(embedder);
+            XDnDConstbnts.XA_XdndProxy.DeleteProperty(embedder);
         }
     }
 
     /*
-     * Gets and stores in the registry the embedder's XDnD drop site info
+     * Gets bnd stores in the registry the embedder's XDnD drop site info
      * from the embedded.
      */
     public void registerEmbeddedDropSite(long embedded) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
-        boolean overriden = false;
+        boolebn overriden = fblse;
         int version = 0;
         long proxy = 0;
-        long newProxy = XDropTargetRegistry.getDnDProxyWindow();
-        int status = 0;
+        long newProxy = XDropTbrgetRegistry.getDnDProxyWindow();
+        int stbtus = 0;
 
         WindowPropertyGetter wpg1 =
-            new WindowPropertyGetter(embedded, XDnDConstants.XA_XdndAware, 0, 1,
-                                     false, XConstants.AnyPropertyType);
+            new WindowPropertyGetter(embedded, XDnDConstbnts.XA_XdndAwbre, 0, 1,
+                                     fblse, XConstbnts.AnyPropertyType);
 
         try {
-            status = wpg1.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+            stbtus = wpg1.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-            if (status == XConstants.Success &&
-                wpg1.getData() != 0 && wpg1.getActualType() == XAtom.XA_ATOM) {
+            if (stbtus == XConstbnts.Success &&
+                wpg1.getDbtb() != 0 && wpg1.getActublType() == XAtom.XA_ATOM) {
 
                 overriden = true;
-                version = (int)Native.getLong(wpg1.getData());
+                version = (int)Nbtive.getLong(wpg1.getDbtb());
             }
-        } finally {
+        } finblly {
             wpg1.dispose();
         }
 
         /* XdndProxy is not supported for prior to XDnD version 4 */
         if (overriden && version >= 4) {
             WindowPropertyGetter wpg2 =
-                new WindowPropertyGetter(embedded, XDnDConstants.XA_XdndProxy,
-                                         0, 1, false, XAtom.XA_WINDOW);
+                new WindowPropertyGetter(embedded, XDnDConstbnts.XA_XdndProxy,
+                                         0, 1, fblse, XAtom.XA_WINDOW);
 
             try {
-                status = wpg2.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                stbtus = wpg2.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-                if (status == XConstants.Success &&
-                    wpg2.getData() != 0 &&
-                    wpg2.getActualType() == XAtom.XA_WINDOW) {
+                if (stbtus == XConstbnts.Success &&
+                    wpg2.getDbtb() != 0 &&
+                    wpg2.getActublType() == XAtom.XA_WINDOW) {
 
-                    proxy = Native.getLong(wpg2.getData());
+                    proxy = Nbtive.getLong(wpg2.getDbtb());
                 }
-            } finally {
+            } finblly {
                 wpg2.dispose();
             }
 
             if (proxy != 0) {
                 WindowPropertyGetter wpg3 =
-                    new WindowPropertyGetter(proxy, XDnDConstants.XA_XdndProxy,
-                                             0, 1, false, XAtom.XA_WINDOW);
+                    new WindowPropertyGetter(proxy, XDnDConstbnts.XA_XdndProxy,
+                                             0, 1, fblse, XAtom.XA_WINDOW);
 
                 try {
-                    status = wpg3.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                    stbtus = wpg3.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-                    if (status != XConstants.Success ||
-                        wpg3.getData() == 0 ||
-                        wpg3.getActualType() != XAtom.XA_WINDOW ||
-                        Native.getLong(wpg3.getData()) != proxy) {
+                    if (stbtus != XConstbnts.Success ||
+                        wpg3.getDbtb() == 0 ||
+                        wpg3.getActublType() != XAtom.XA_WINDOW ||
+                        Nbtive.getLong(wpg3.getDbtb()) != proxy) {
 
                         proxy = 0;
                     } else {
                         WindowPropertyGetter wpg4 =
                             new WindowPropertyGetter(proxy,
-                                                     XDnDConstants.XA_XdndAware,
-                                                     0, 1, false,
-                                                     XConstants.AnyPropertyType);
+                                                     XDnDConstbnts.XA_XdndAwbre,
+                                                     0, 1, fblse,
+                                                     XConstbnts.AnyPropertyType);
 
                         try {
-                            status = wpg4.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                            stbtus = wpg4.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-                            if (status != XConstants.Success ||
-                                wpg4.getData() == 0 ||
-                                wpg4.getActualType() != XAtom.XA_ATOM) {
+                            if (stbtus != XConstbnts.Success ||
+                                wpg4.getDbtb() == 0 ||
+                                wpg4.getActublType() != XAtom.XA_ATOM) {
 
                                 proxy = 0;
                             }
-                        } finally {
+                        } finblly {
                             wpg4.dispose();
                         }
                     }
-                } finally {
+                } finblly {
                     wpg3.dispose();
                 }
             }
@@ -397,809 +397,809 @@ class XDnDDropTargetProtocol extends XDropTargetProtocol {
         putEmbedderRegistryEntry(embedded, overriden, version, proxy);
     }
 
-    public boolean isProtocolSupported(long window) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    public boolebn isProtocolSupported(long window) {
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
         WindowPropertyGetter wpg1 =
-            new WindowPropertyGetter(window, XDnDConstants.XA_XdndAware, 0, 1,
-                                     false, XConstants.AnyPropertyType);
+            new WindowPropertyGetter(window, XDnDConstbnts.XA_XdndAwbre, 0, 1,
+                                     fblse, XConstbnts.AnyPropertyType);
 
         try {
-            int status = wpg1.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+            int stbtus = wpg1.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-            if (status == XConstants.Success &&
-                wpg1.getData() != 0 && wpg1.getActualType() == XAtom.XA_ATOM) {
+            if (stbtus == XConstbnts.Success &&
+                wpg1.getDbtb() != 0 && wpg1.getActublType() == XAtom.XA_ATOM) {
 
                 return true;
             } else {
-                return false;
+                return fblse;
             }
-        } finally {
+        } finblly {
             wpg1.dispose();
         }
     }
 
-    private boolean processXdndEnter(XClientMessageEvent xclient) {
+    privbte boolebn processXdndEnter(XClientMessbgeEvent xclient) {
         long source_win = 0;
-        long source_win_mask = 0;
+        long source_win_mbsk = 0;
         int protocol_version = 0;
-        int actions = DnDConstants.ACTION_NONE;
-        boolean track = true;
-        long[] formats = null;
+        int bctions = DnDConstbnts.ACTION_NONE;
+        boolebn trbck = true;
+        long[] formbts = null;
 
         if (getSourceWindow() != 0) {
-            return false;
+            return fblse;
         }
 
-        if (!(XToolkit.windowToXWindow(xclient.get_window()) instanceof XWindow)
+        if (!(XToolkit.windowToXWindow(xclient.get_window()) instbnceof XWindow)
             && getEmbedderRegistryEntry(xclient.get_window()) == null) {
-            return false;
+            return fblse;
         }
 
-        if (xclient.get_message_type() != XDnDConstants.XA_XdndEnter.getAtom()){
-            return false;
+        if (xclient.get_messbge_type() != XDnDConstbnts.XA_XdndEnter.getAtom()){
+            return fblse;
         }
 
         protocol_version =
-            (int)((xclient.get_data(1) & XDnDConstants.XDND_PROTOCOL_MASK) >>
-                  XDnDConstants.XDND_PROTOCOL_SHIFT);
+            (int)((xclient.get_dbtb(1) & XDnDConstbnts.XDND_PROTOCOL_MASK) >>
+                  XDnDConstbnts.XDND_PROTOCOL_SHIFT);
 
-        /* XDnD compliance only requires supporting version 3 and up. */
-        if (protocol_version < XDnDConstants.XDND_MIN_PROTOCOL_VERSION) {
-            return false;
+        /* XDnD complibnce only requires supporting version 3 bnd up. */
+        if (protocol_version < XDnDConstbnts.XDND_MIN_PROTOCOL_VERSION) {
+            return fblse;
         }
 
-        /* Ignore the source if the protocol version is higher than we support. */
-        if (protocol_version > XDnDConstants.XDND_PROTOCOL_VERSION) {
-            return false;
+        /* Ignore the source if the protocol version is higher thbn we support. */
+        if (protocol_version > XDnDConstbnts.XDND_PROTOCOL_VERSION) {
+            return fblse;
         }
 
-        source_win = xclient.get_data(0);
+        source_win = xclient.get_dbtb(0);
 
-        /* Extract the list of supported actions. */
+        /* Extrbct the list of supported bctions. */
         if (protocol_version < 2) {
-            /* Prior to XDnD version 2 only COPY action was supported. */
-            actions = DnDConstants.ACTION_COPY;
+            /* Prior to XDnD version 2 only COPY bction wbs supported. */
+            bctions = DnDConstbnts.ACTION_COPY;
         } else {
             WindowPropertyGetter wpg =
                 new WindowPropertyGetter(source_win,
-                                         XDnDConstants.XA_XdndActionList,
-                                         0, 0xFFFF, false,
+                                         XDnDConstbnts.XA_XdndActionList,
+                                         0, 0xFFFF, fblse,
                                          XAtom.XA_ATOM);
             try {
-                wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                wpg.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-                if (wpg.getActualType() == XAtom.XA_ATOM &&
-                    wpg.getActualFormat() == 32) {
-                    long data = wpg.getData();
+                if (wpg.getActublType() == XAtom.XA_ATOM &&
+                    wpg.getActublFormbt() == 32) {
+                    long dbtb = wpg.getDbtb();
 
                     for (int i = 0; i < wpg.getNumberOfItems(); i++) {
-                        actions |=
-                            XDnDConstants.getJavaActionForXDnDAction(Native.getLong(data, i));
+                        bctions |=
+                            XDnDConstbnts.getJbvbActionForXDnDAction(Nbtive.getLong(dbtb, i));
                     }
                 } else {
                     /*
-                     * According to XDnD protocol, XdndActionList is optional.
-                     * If XdndActionList is not set we try to guess which actions are
+                     * According to XDnD protocol, XdndActionList is optionbl.
+                     * If XdndActionList is not set we try to guess which bctions bre
                      * supported.
                      */
-                    actions = DnDConstants.ACTION_COPY;
-                    track = true;
+                    bctions = DnDConstbnts.ACTION_COPY;
+                    trbck = true;
                 }
-            } finally {
+            } finblly {
                 wpg.dispose();
             }
         }
 
-        /* Extract the available data types. */
-        if ((xclient.get_data(1) & XDnDConstants.XDND_DATA_TYPES_BIT) != 0) {
+        /* Extrbct the bvbilbble dbtb types. */
+        if ((xclient.get_dbtb(1) & XDnDConstbnts.XDND_DATA_TYPES_BIT) != 0) {
             WindowPropertyGetter wpg =
                 new WindowPropertyGetter(source_win,
-                                         XDnDConstants.XA_XdndTypeList,
-                                         0, 0xFFFF, false,
+                                         XDnDConstbnts.XA_XdndTypeList,
+                                         0, 0xFFFF, fblse,
                                          XAtom.XA_ATOM);
             try {
-                wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                wpg.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-                if (wpg.getActualType() == XAtom.XA_ATOM &&
-                    wpg.getActualFormat() == 32) {
-                    formats = Native.toLongs(wpg.getData(),
+                if (wpg.getActublType() == XAtom.XA_ATOM &&
+                    wpg.getActublFormbt() == 32) {
+                    formbts = Nbtive.toLongs(wpg.getDbtb(),
                                              wpg.getNumberOfItems());
                 } else {
-                    formats = new long[0];
+                    formbts = new long[0];
                 }
-            } finally {
+            } finblly {
                 wpg.dispose();
             }
         } else {
-            int countFormats = 0;
-            long[] formats3 = new long[3];
+            int countFormbts = 0;
+            long[] formbts3 = new long[3];
 
             for (int i = 0; i < 3; i++) {
                 long j;
-                if ((j = xclient.get_data(2 + i)) != XConstants.None) {
-                    formats3[countFormats++] = j;
+                if ((j = xclient.get_dbtb(2 + i)) != XConstbnts.None) {
+                    formbts3[countFormbts++] = j;
                 }
             }
 
-            formats = new long[countFormats];
+            formbts = new long[countFormbts];
 
-            System.arraycopy(formats3, 0, formats, 0, countFormats);
+            System.brrbycopy(formbts3, 0, formbts, 0, countFormbts);
         }
 
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
         /*
-         * Select for StructureNotifyMask to receive DestroyNotify in case of source
-         * crash.
+         * Select for StructureNotifyMbsk to receive DestroyNotify in cbse of source
+         * crbsh.
          */
-        XWindowAttributes wattr = new XWindowAttributes();
+        XWindowAttributes wbttr = new XWindowAttributes();
         try {
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-            int status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                          source_win, wattr.pData);
+            XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+            int stbtus = XlibWrbpper.XGetWindowAttributes(XToolkit.getDisplby(),
+                                                          source_win, wbttr.pDbtb);
 
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-            if ((status == 0) ||
-                ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success))) {
-                throw new XException("XGetWindowAttributes failed");
+            if ((stbtus == 0) ||
+                ((XErrorHbndlerUtil.sbved_error != null) &&
+                (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success))) {
+                throw new XException("XGetWindowAttributes fbiled");
             }
 
-            source_win_mask = wattr.get_your_event_mask();
-        } finally {
-            wattr.dispose();
+            source_win_mbsk = wbttr.get_your_event_mbsk();
+        } finblly {
+            wbttr.dispose();
         }
 
-        XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-        XlibWrapper.XSelectInput(XToolkit.getDisplay(), source_win,
-                                 source_win_mask |
-                                 XConstants.StructureNotifyMask);
+        XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+        XlibWrbpper.XSelectInput(XToolkit.getDisplby(), source_win,
+                                 source_win_mbsk |
+                                 XConstbnts.StructureNotifyMbsk);
 
-        XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+        XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-        if ((XErrorHandlerUtil.saved_error != null) &&
-            (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-            throw new XException("XSelectInput failed");
+        if ((XErrorHbndlerUtil.sbved_error != null) &&
+            (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success)) {
+            throw new XException("XSelectInput fbiled");
         }
 
         sourceWindow = source_win;
-        sourceWindowMask = source_win_mask;
+        sourceWindowMbsk = source_win_mbsk;
         sourceProtocolVersion = protocol_version;
-        sourceActions = actions;
-        sourceFormats = formats;
-        trackSourceActions = track;
+        sourceActions = bctions;
+        sourceFormbts = formbts;
+        trbckSourceActions = trbck;
 
         return true;
     }
 
-    private boolean processXdndPosition(XClientMessageEvent xclient) {
-        long time_stamp = (int)XConstants.CurrentTime;
-        long xdnd_action = 0;
-        int java_action = DnDConstants.ACTION_NONE;
+    privbte boolebn processXdndPosition(XClientMessbgeEvent xclient) {
+        long time_stbmp = (int)XConstbnts.CurrentTime;
+        long xdnd_bction = 0;
+        int jbvb_bction = DnDConstbnts.ACTION_NONE;
         int x = 0;
         int y = 0;
 
-        /* Ignore XDnD messages from all other windows. */
-        if (sourceWindow != xclient.get_data(0)) {
-            return false;
+        /* Ignore XDnD messbges from bll other windows. */
+        if (sourceWindow != xclient.get_dbtb(0)) {
+            return fblse;
         }
 
         XWindow xwindow = null;
         {
-            XBaseWindow xbasewindow = XToolkit.windowToXWindow(xclient.get_window());
-            if (xbasewindow instanceof XWindow) {
-                xwindow = (XWindow)xbasewindow;
+            XBbseWindow xbbsewindow = XToolkit.windowToXWindow(xclient.get_window());
+            if (xbbsewindow instbnceof XWindow) {
+                xwindow = (XWindow)xbbsewindow;
             }
         }
 
-        x = (int)(xclient.get_data(2) >> 16);
-        y = (int)(xclient.get_data(2) & 0xFFFF);
+        x = (int)(xclient.get_dbtb(2) >> 16);
+        y = (int)(xclient.get_dbtb(2) & 0xFFFF);
 
         if (xwindow == null) {
             long receiver =
-                XDropTargetRegistry.getRegistry().getEmbeddedDropSite(
+                XDropTbrgetRegistry.getRegistry().getEmbeddedDropSite(
                     xclient.get_window(), x, y);
 
             if (receiver != 0) {
-                XBaseWindow xbasewindow = XToolkit.windowToXWindow(receiver);
-                if (xbasewindow instanceof XWindow) {
-                    xwindow = (XWindow)xbasewindow;
+                XBbseWindow xbbsewindow = XToolkit.windowToXWindow(receiver);
+                if (xbbsewindow instbnceof XWindow) {
+                    xwindow = (XWindow)xbbsewindow;
                 }
             }
         }
 
         if (xwindow != null) {
-            /* Translate mouse position from root coordinates
-               to the target window coordinates. */
-            Point p = xwindow.toLocal(x, y);
+            /* Trbnslbte mouse position from root coordinbtes
+               to the tbrget window coordinbtes. */
+            Point p = xwindow.toLocbl(x, y);
             x = p.x;
             y = p.y;
         }
 
-        /* Time stamp - new in XDnD version 1. */
+        /* Time stbmp - new in XDnD version 1. */
         if (sourceProtocolVersion > 0) {
-            time_stamp = xclient.get_data(3);
+            time_stbmp = xclient.get_dbtb(3);
         }
 
-        /* User action - new in XDnD version 2. */
+        /* User bction - new in XDnD version 2. */
         if (sourceProtocolVersion > 1) {
-            xdnd_action = xclient.get_data(4);
+            xdnd_bction = xclient.get_dbtb(4);
         } else {
-            /* The default action is XdndActionCopy */
-            xdnd_action = XDnDConstants.XA_XdndActionCopy.getAtom();
+            /* The defbult bction is XdndActionCopy */
+            xdnd_bction = XDnDConstbnts.XA_XdndActionCopy.getAtom();
         }
 
-        java_action = XDnDConstants.getJavaActionForXDnDAction(xdnd_action);
+        jbvb_bction = XDnDConstbnts.getJbvbActionForXDnDAction(xdnd_bction);
 
-        if (trackSourceActions) {
-            sourceActions |= java_action;
+        if (trbckSourceActions) {
+            sourceActions |= jbvb_bction;
         }
 
         if (xwindow == null) {
-            if (targetXWindow != null) {
-                notifyProtocolListener(targetXWindow, x, y,
-                                       DnDConstants.ACTION_NONE, xclient,
+            if (tbrgetXWindow != null) {
+                notifyProtocolListener(tbrgetXWindow, x, y,
+                                       DnDConstbnts.ACTION_NONE, xclient,
                                        MouseEvent.MOUSE_EXITED);
             }
         } else {
-            int java_event_id = 0;
+            int jbvb_event_id = 0;
 
-            if (targetXWindow == null) {
-                java_event_id = MouseEvent.MOUSE_ENTERED;
+            if (tbrgetXWindow == null) {
+                jbvb_event_id = MouseEvent.MOUSE_ENTERED;
             } else {
-                java_event_id = MouseEvent.MOUSE_DRAGGED;
+                jbvb_event_id = MouseEvent.MOUSE_DRAGGED;
             }
 
-            notifyProtocolListener(xwindow, x, y, java_action, xclient,
-                                   java_event_id);
+            notifyProtocolListener(xwindow, x, y, jbvb_bction, xclient,
+                                   jbvb_event_id);
         }
 
-        userAction = java_action;
+        userAction = jbvb_bction;
         sourceX = x;
         sourceY = y;
-        targetXWindow = xwindow;
+        tbrgetXWindow = xwindow;
 
         return true;
     }
 
-    private boolean processXdndLeave(XClientMessageEvent xclient) {
-        /* Ignore XDnD messages from all other windows. */
-        if (sourceWindow != xclient.get_data(0)) {
-            return false;
+    privbte boolebn processXdndLebve(XClientMessbgeEvent xclient) {
+        /* Ignore XDnD messbges from bll other windows. */
+        if (sourceWindow != xclient.get_dbtb(0)) {
+            return fblse;
         }
 
-        cleanup();
+        clebnup();
 
         return true;
     }
 
-    private boolean processXdndDrop(XClientMessageEvent xclient) {
-        /* Ignore XDnD messages from all other windows. */
-        if (sourceWindow != xclient.get_data(0)) {
-            return false;
+    privbte boolebn processXdndDrop(XClientMessbgeEvent xclient) {
+        /* Ignore XDnD messbges from bll other windows. */
+        if (sourceWindow != xclient.get_dbtb(0)) {
+            return fblse;
         }
 
-        if (targetXWindow != null) {
-            notifyProtocolListener(targetXWindow, sourceX, sourceY, userAction,
+        if (tbrgetXWindow != null) {
+            notifyProtocolListener(tbrgetXWindow, sourceX, sourceY, userAction,
                                    xclient, MouseEvent.MOUSE_RELEASED);
         }
 
         return true;
     }
 
-    public int getMessageType(XClientMessageEvent xclient) {
-        long messageType = xclient.get_message_type();
+    public int getMessbgeType(XClientMessbgeEvent xclient) {
+        long messbgeType = xclient.get_messbge_type();
 
-        if (messageType == XDnDConstants.XA_XdndEnter.getAtom()) {
+        if (messbgeType == XDnDConstbnts.XA_XdndEnter.getAtom()) {
             return ENTER_MESSAGE;
-        } else if (messageType == XDnDConstants.XA_XdndPosition.getAtom()) {
+        } else if (messbgeType == XDnDConstbnts.XA_XdndPosition.getAtom()) {
             return MOTION_MESSAGE;
-        } else if (messageType == XDnDConstants.XA_XdndLeave.getAtom()) {
+        } else if (messbgeType == XDnDConstbnts.XA_XdndLebve.getAtom()) {
             return LEAVE_MESSAGE;
-        } else if (messageType == XDnDConstants.XA_XdndDrop.getAtom()) {
+        } else if (messbgeType == XDnDConstbnts.XA_XdndDrop.getAtom()) {
             return DROP_MESSAGE;
         } else {
             return UNKNOWN_MESSAGE;
         }
     }
 
-    protected boolean processClientMessageImpl(XClientMessageEvent xclient) {
-        long messageType = xclient.get_message_type();
+    protected boolebn processClientMessbgeImpl(XClientMessbgeEvent xclient) {
+        long messbgeType = xclient.get_messbge_type();
 
-        if (messageType == XDnDConstants.XA_XdndEnter.getAtom()) {
+        if (messbgeType == XDnDConstbnts.XA_XdndEnter.getAtom()) {
             return processXdndEnter(xclient);
-        } else if (messageType == XDnDConstants.XA_XdndPosition.getAtom()) {
+        } else if (messbgeType == XDnDConstbnts.XA_XdndPosition.getAtom()) {
             return processXdndPosition(xclient);
-        } else if (messageType == XDnDConstants.XA_XdndLeave.getAtom()) {
-            return processXdndLeave(xclient);
-        } else if (messageType == XDnDConstants.XA_XdndDrop.getAtom()) {
+        } else if (messbgeType == XDnDConstbnts.XA_XdndLebve.getAtom()) {
+            return processXdndLebve(xclient);
+        } else if (messbgeType == XDnDConstbnts.XA_XdndDrop.getAtom()) {
             return processXdndDrop(xclient);
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    protected void sendEnterMessageToToplevel(long toplevel,
-                                              XClientMessageEvent xclient) {
-        /* flags */
-        long data1 = sourceProtocolVersion << XDnDConstants.XDND_PROTOCOL_SHIFT;
-        if (sourceFormats != null && sourceFormats.length > 3) {
-            data1 |= XDnDConstants.XDND_DATA_TYPES_BIT;
+    protected void sendEnterMessbgeToToplevel(long toplevel,
+                                              XClientMessbgeEvent xclient) {
+        /* flbgs */
+        long dbtb1 = sourceProtocolVersion << XDnDConstbnts.XDND_PROTOCOL_SHIFT;
+        if (sourceFormbts != null && sourceFormbts.length > 3) {
+            dbtb1 |= XDnDConstbnts.XDND_DATA_TYPES_BIT;
         }
-        long data2 = sourceFormats.length > 0 ? sourceFormats[0] : 0;
-        long data3 = sourceFormats.length > 1 ? sourceFormats[1] : 0;
-        long data4 = sourceFormats.length > 2 ? sourceFormats[2] : 0;
-        sendEnterMessageToToplevelImpl(toplevel, xclient.get_data(0),
-                                       data1, data2, data3, data4);
+        long dbtb2 = sourceFormbts.length > 0 ? sourceFormbts[0] : 0;
+        long dbtb3 = sourceFormbts.length > 1 ? sourceFormbts[1] : 0;
+        long dbtb4 = sourceFormbts.length > 2 ? sourceFormbts[2] : 0;
+        sendEnterMessbgeToToplevelImpl(toplevel, xclient.get_dbtb(0),
+                                       dbtb1, dbtb2, dbtb3, dbtb4);
 
     }
 
-    private void sendEnterMessageToToplevelImpl(long toplevel,
+    privbte void sendEnterMessbgeToToplevelImpl(long toplevel,
                                                 long sourceWindow,
-                                                long data1, long data2,
-                                                long data3, long data4) {
-        XClientMessageEvent enter = new XClientMessageEvent();
+                                                long dbtb1, long dbtb2,
+                                                long dbtb3, long dbtb4) {
+        XClientMessbgeEvent enter = new XClientMessbgeEvent();
         try {
-            enter.set_type(XConstants.ClientMessage);
+            enter.set_type(XConstbnts.ClientMessbge);
             enter.set_window(toplevel);
-            enter.set_format(32);
-            enter.set_message_type(XDnDConstants.XA_XdndEnter.getAtom());
+            enter.set_formbt(32);
+            enter.set_messbge_type(XDnDConstbnts.XA_XdndEnter.getAtom());
             /* XID of the source window */
-            enter.set_data(0, sourceWindow);
-            enter.set_data(1, data1);
-            enter.set_data(2, data2);
-            enter.set_data(3, data3);
-            enter.set_data(4, data4);
+            enter.set_dbtb(0, sourceWindow);
+            enter.set_dbtb(1, dbtb1);
+            enter.set_dbtb(2, dbtb2);
+            enter.set_dbtb(3, dbtb3);
+            enter.set_dbtb(4, dbtb4);
 
-            forwardClientMessageToToplevel(toplevel, enter);
-        } finally {
+            forwbrdClientMessbgeToToplevel(toplevel, enter);
+        } finblly {
             enter.dispose();
         }
     }
 
-    protected void sendLeaveMessageToToplevel(long toplevel,
-                                              XClientMessageEvent xclient) {
-        sendLeaveMessageToToplevelImpl(toplevel, xclient.get_data(0));
+    protected void sendLebveMessbgeToToplevel(long toplevel,
+                                              XClientMessbgeEvent xclient) {
+        sendLebveMessbgeToToplevelImpl(toplevel, xclient.get_dbtb(0));
     }
 
-    protected void sendLeaveMessageToToplevelImpl(long toplevel,
+    protected void sendLebveMessbgeToToplevelImpl(long toplevel,
                                                   long sourceWindow) {
-        XClientMessageEvent leave = new XClientMessageEvent();
+        XClientMessbgeEvent lebve = new XClientMessbgeEvent();
         try {
-            leave.set_type(XConstants.ClientMessage);
-            leave.set_window(toplevel);
-            leave.set_format(32);
-            leave.set_message_type(XDnDConstants.XA_XdndLeave.getAtom());
+            lebve.set_type(XConstbnts.ClientMessbge);
+            lebve.set_window(toplevel);
+            lebve.set_formbt(32);
+            lebve.set_messbge_type(XDnDConstbnts.XA_XdndLebve.getAtom());
             /* XID of the source window */
-            leave.set_data(0, sourceWindow);
-            /* flags */
-            leave.set_data(1, 0);
+            lebve.set_dbtb(0, sourceWindow);
+            /* flbgs */
+            lebve.set_dbtb(1, 0);
 
-            forwardClientMessageToToplevel(toplevel, leave);
-        } finally {
-            leave.dispose();
+            forwbrdClientMessbgeToToplevel(toplevel, lebve);
+        } finblly {
+            lebve.dispose();
         }
     }
 
-    public boolean sendResponse(long ctxt, int eventID, int action) {
-        XClientMessageEvent xclient = new XClientMessageEvent(ctxt);
+    public boolebn sendResponse(long ctxt, int eventID, int bction) {
+        XClientMessbgeEvent xclient = new XClientMessbgeEvent(ctxt);
 
-        if (xclient.get_message_type() !=
-            XDnDConstants.XA_XdndPosition.getAtom()) {
+        if (xclient.get_messbge_type() !=
+            XDnDConstbnts.XA_XdndPosition.getAtom()) {
 
-            return false;
+            return fblse;
         }
 
         if (eventID == MouseEvent.MOUSE_EXITED) {
-            action = DnDConstants.ACTION_NONE;
+            bction = DnDConstbnts.ACTION_NONE;
         }
 
-        XClientMessageEvent msg = new XClientMessageEvent();
+        XClientMessbgeEvent msg = new XClientMessbgeEvent();
         try {
-            msg.set_type(XConstants.ClientMessage);
-            msg.set_window(xclient.get_data(0));
-            msg.set_format(32);
-            msg.set_message_type(XDnDConstants.XA_XdndStatus.getAtom());
-            /* target window */
-            msg.set_data(0, xclient.get_window());
-            /* flags */
-            long flags = 0;
-            if (action != DnDConstants.ACTION_NONE) {
-                flags |= XDnDConstants.XDND_ACCEPT_DROP_FLAG;
+            msg.set_type(XConstbnts.ClientMessbge);
+            msg.set_window(xclient.get_dbtb(0));
+            msg.set_formbt(32);
+            msg.set_messbge_type(XDnDConstbnts.XA_XdndStbtus.getAtom());
+            /* tbrget window */
+            msg.set_dbtb(0, xclient.get_window());
+            /* flbgs */
+            long flbgs = 0;
+            if (bction != DnDConstbnts.ACTION_NONE) {
+                flbgs |= XDnDConstbnts.XDND_ACCEPT_DROP_FLAG;
             }
-            msg.set_data(1, flags);
-            /* specify an empty rectangle */
-            msg.set_data(2, 0); /* x, y */
-            msg.set_data(3, 0); /* w, h */
-            /* action accepted by the target */
-            msg.set_data(4, XDnDConstants.getXDnDActionForJavaAction(action));
+            msg.set_dbtb(1, flbgs);
+            /* specify bn empty rectbngle */
+            msg.set_dbtb(2, 0); /* x, y */
+            msg.set_dbtb(3, 0); /* w, h */
+            /* bction bccepted by the tbrget */
+            msg.set_dbtb(4, XDnDConstbnts.getXDnDActionForJbvbAction(bction));
 
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(),
-                                       xclient.get_data(0),
-                                       false, XConstants.NoEventMask,
-                                       msg.pData);
-            } finally {
-                XToolkit.awtUnlock();
+                XlibWrbpper.XSendEvent(XToolkit.getDisplby(),
+                                       xclient.get_dbtb(0),
+                                       fblse, XConstbnts.NoEventMbsk,
+                                       msg.pDbtb);
+            } finblly {
+                XToolkit.bwtUnlock();
             }
-        } finally {
+        } finblly {
             msg.dispose();
         }
 
         return true;
     }
 
-    public Object getData(long ctxt, long format)
-      throws IllegalArgumentException, IOException {
-        XClientMessageEvent xclient = new XClientMessageEvent(ctxt);
-        long message_type = xclient.get_message_type();
-        long time_stamp = XConstants.CurrentTime;
+    public Object getDbtb(long ctxt, long formbt)
+      throws IllegblArgumentException, IOException {
+        XClientMessbgeEvent xclient = new XClientMessbgeEvent(ctxt);
+        long messbge_type = xclient.get_messbge_type();
+        long time_stbmp = XConstbnts.CurrentTime;
 
-        // NOTE: we assume that the source supports at least version 1, so we
-        // can use the time stamp
-        if (message_type == XDnDConstants.XA_XdndPosition.getAtom()) {
-            // X server time is an unsigned 32-bit number!
-            time_stamp = xclient.get_data(3) & 0xFFFFFFFFL;
-        } else if (message_type == XDnDConstants.XA_XdndDrop.getAtom()) {
-            // X server time is an unsigned 32-bit number!
-            time_stamp = xclient.get_data(2) & 0xFFFFFFFFL;
+        // NOTE: we bssume thbt the source supports bt lebst version 1, so we
+        // cbn use the time stbmp
+        if (messbge_type == XDnDConstbnts.XA_XdndPosition.getAtom()) {
+            // X server time is bn unsigned 32-bit number!
+            time_stbmp = xclient.get_dbtb(3) & 0xFFFFFFFFL;
+        } else if (messbge_type == XDnDConstbnts.XA_XdndDrop.getAtom()) {
+            // X server time is bn unsigned 32-bit number!
+            time_stbmp = xclient.get_dbtb(2) & 0xFFFFFFFFL;
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
-        return XDnDConstants.XDnDSelection.getData(format, time_stamp);
+        return XDnDConstbnts.XDnDSelection.getDbtb(formbt, time_stbmp);
     }
 
-    public boolean sendDropDone(long ctxt, boolean success, int dropAction) {
-        XClientMessageEvent xclient = new XClientMessageEvent(ctxt);
+    public boolebn sendDropDone(long ctxt, boolebn success, int dropAction) {
+        XClientMessbgeEvent xclient = new XClientMessbgeEvent(ctxt);
 
-        if (xclient.get_message_type() !=
-            XDnDConstants.XA_XdndDrop.getAtom()) {
-            return false;
+        if (xclient.get_messbge_type() !=
+            XDnDConstbnts.XA_XdndDrop.getAtom()) {
+            return fblse;
         }
 
         /*
-         * The XDnD protocol recommends that the target requests the special
-         * target DELETE in case if the drop action is XdndActionMove.
+         * The XDnD protocol recommends thbt the tbrget requests the specibl
+         * tbrget DELETE in cbse if the drop bction is XdndActionMove.
          */
-        if (dropAction == DnDConstants.ACTION_MOVE && success) {
+        if (dropAction == DnDConstbnts.ACTION_MOVE && success) {
 
-            long time_stamp = xclient.get_data(2);
+            long time_stbmp = xclient.get_dbtb(2);
             long xdndSelectionAtom =
-                XDnDConstants.XDnDSelection.getSelectionAtom().getAtom();
+                XDnDConstbnts.XDnDSelection.getSelectionAtom().getAtom();
 
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XConvertSelection(XToolkit.getDisplay(),
+                XlibWrbpper.XConvertSelection(XToolkit.getDisplby(),
                                               xdndSelectionAtom,
                                               XAtom.get("DELETE").getAtom(),
                                               XAtom.get("XAWT_SELECTION").getAtom(),
                                               XWindow.getXAWTRootWindow().getWindow(),
-                                              time_stamp);
-            } finally {
-                XToolkit.awtUnlock();
+                                              time_stbmp);
+            } finblly {
+                XToolkit.bwtUnlock();
             }
         }
 
-        XClientMessageEvent msg = new XClientMessageEvent();
+        XClientMessbgeEvent msg = new XClientMessbgeEvent();
         try {
-            msg.set_type(XConstants.ClientMessage);
-            msg.set_window(xclient.get_data(0));
-            msg.set_format(32);
-            msg.set_message_type(XDnDConstants.XA_XdndFinished.getAtom());
-            msg.set_data(0, xclient.get_window()); /* target window */
-            msg.set_data(1, 0); /* flags */
-            /* specify an empty rectangle */
-            msg.set_data(2, 0);
+            msg.set_type(XConstbnts.ClientMessbge);
+            msg.set_window(xclient.get_dbtb(0));
+            msg.set_formbt(32);
+            msg.set_messbge_type(XDnDConstbnts.XA_XdndFinished.getAtom());
+            msg.set_dbtb(0, xclient.get_window()); /* tbrget window */
+            msg.set_dbtb(1, 0); /* flbgs */
+            /* specify bn empty rectbngle */
+            msg.set_dbtb(2, 0);
             if (sourceProtocolVersion >= 5) {
                 if (success) {
-                    msg.set_data(1, XDnDConstants.XDND_ACCEPT_DROP_FLAG);
+                    msg.set_dbtb(1, XDnDConstbnts.XDND_ACCEPT_DROP_FLAG);
                 }
-                /* action performed by the target */
-                msg.set_data(2, XDnDConstants.getXDnDActionForJavaAction(dropAction));
+                /* bction performed by the tbrget */
+                msg.set_dbtb(2, XDnDConstbnts.getXDnDActionForJbvbAction(dropAction));
             }
-            msg.set_data(3, 0);
-            msg.set_data(4, 0);
+            msg.set_dbtb(3, 0);
+            msg.set_dbtb(4, 0);
 
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(),
-                                       xclient.get_data(0),
-                                       false, XConstants.NoEventMask,
-                                       msg.pData);
-            } finally {
-                XToolkit.awtUnlock();
+                XlibWrbpper.XSendEvent(XToolkit.getDisplby(),
+                                       xclient.get_dbtb(0),
+                                       fblse, XConstbnts.NoEventMbsk,
+                                       msg.pDbtb);
+            } finblly {
+                XToolkit.bwtUnlock();
             }
-        } finally {
+        } finblly {
             msg.dispose();
         }
 
         /*
-         * Flush the buffer to guarantee that the drop completion event is sent
+         * Flush the buffer to gubrbntee thbt the drop completion event is sent
          * to the source before the method returns.
          */
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XFlush(XToolkit.getDisplay());
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XFlush(XToolkit.getDisplby());
+        } finblly {
+            XToolkit.bwtUnlock();
         }
 
-        /* Trick to prevent cleanup() from posting dragExit */
-        targetXWindow = null;
+        /* Trick to prevent clebnup() from posting drbgExit */
+        tbrgetXWindow = null;
 
-        /* Cannot do cleanup before the drop finishes as we may need
-           source protocol version to send drop finished message. */
-        cleanup();
+        /* Cbnnot do clebnup before the drop finishes bs we mby need
+           source protocol version to send drop finished messbge. */
+        clebnup();
         return true;
     }
 
-    public final long getSourceWindow() {
+    public finbl long getSourceWindow() {
         return sourceWindow;
     }
 
     /**
-     * Reset the state of the object.
+     * Reset the stbte of the object.
      */
-    public void cleanup() {
-        // Clear the reference to this protocol.
-        XDropTargetEventProcessor.reset();
+    public void clebnup() {
+        // Clebr the reference to this protocol.
+        XDropTbrgetEventProcessor.reset();
 
-        if (targetXWindow != null) {
-            notifyProtocolListener(targetXWindow, 0, 0,
-                                   DnDConstants.ACTION_NONE, null,
+        if (tbrgetXWindow != null) {
+            notifyProtocolListener(tbrgetXWindow, 0, 0,
+                                   DnDConstbnts.ACTION_NONE, null,
                                    MouseEvent.MOUSE_EXITED);
         }
 
         if (sourceWindow != 0) {
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                XlibWrapper.XSelectInput(XToolkit.getDisplay(), sourceWindow,
-                                         sourceWindowMask);
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
-            } finally {
-                XToolkit.awtUnlock();
+                XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+                XlibWrbpper.XSelectInput(XToolkit.getDisplby(), sourceWindow,
+                                         sourceWindowMbsk);
+                XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
+            } finblly {
+                XToolkit.bwtUnlock();
             }
         }
 
         sourceWindow = 0;
-        sourceWindowMask = 0;
+        sourceWindowMbsk = 0;
         sourceProtocolVersion = 0;
-        sourceActions = DnDConstants.ACTION_NONE;
-        sourceFormats = null;
-        trackSourceActions = false;
-        userAction = DnDConstants.ACTION_NONE;
+        sourceActions = DnDConstbnts.ACTION_NONE;
+        sourceFormbts = null;
+        trbckSourceActions = fblse;
+        userAction = DnDConstbnts.ACTION_NONE;
         sourceX = 0;
         sourceY = 0;
-        targetXWindow = null;
+        tbrgetXWindow = null;
     }
 
-    public boolean isDragOverComponent() {
-        return targetXWindow != null;
+    public boolebn isDrbgOverComponent() {
+        return tbrgetXWindow != null;
     }
 
-    public void adjustEventForForwarding(XClientMessageEvent xclient,
+    public void bdjustEventForForwbrding(XClientMessbgeEvent xclient,
                                          EmbedderRegistryEntry entry) {
-        /* Adjust the event to match the XDnD protocol version. */
+        /* Adjust the event to mbtch the XDnD protocol version. */
         int version = entry.getVersion();
-        if (xclient.get_message_type() == XDnDConstants.XA_XdndEnter.getAtom()) {
+        if (xclient.get_messbge_type() == XDnDConstbnts.XA_XdndEnter.getAtom()) {
             int min_version = sourceProtocolVersion < version ?
                 sourceProtocolVersion : version;
-            long data1 = min_version << XDnDConstants.XDND_PROTOCOL_SHIFT;
-            if (sourceFormats != null && sourceFormats.length > 3) {
-                data1 |= XDnDConstants.XDND_DATA_TYPES_BIT;
+            long dbtb1 = min_version << XDnDConstbnts.XDND_PROTOCOL_SHIFT;
+            if (sourceFormbts != null && sourceFormbts.length > 3) {
+                dbtb1 |= XDnDConstbnts.XDND_DATA_TYPES_BIT;
             }
-            if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
+            if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
                 logger.finest("         "
                               + " entryVersion=" + version
                               + " sourceProtocolVersion=" +
                               sourceProtocolVersion
-                              + " sourceFormats.length=" +
-                              (sourceFormats != null ? sourceFormats.length : 0));
+                              + " sourceFormbts.length=" +
+                              (sourceFormbts != null ? sourceFormbts.length : 0));
             }
-            xclient.set_data(1, data1);
+            xclient.set_dbtb(1, dbtb1);
         }
     }
 
-    @SuppressWarnings("static")
-    private void notifyProtocolListener(XWindow xwindow, int x, int y,
+    @SuppressWbrnings("stbtic")
+    privbte void notifyProtocolListener(XWindow xwindow, int x, int y,
                                         int dropAction,
-                                        XClientMessageEvent xclient,
+                                        XClientMessbgeEvent xclient,
                                         int eventID) {
-        long nativeCtxt = 0;
+        long nbtiveCtxt = 0;
 
-        // Make a copy of the passed XClientMessageEvent structure, since
-        // the original structure can be freed before this
-        // SunDropTargetEvent is dispatched.
+        // Mbke b copy of the pbssed XClientMessbgeEvent structure, since
+        // the originbl structure cbn be freed before this
+        // SunDropTbrgetEvent is dispbtched.
         if (xclient != null) {
-            int size = new XClientMessageEvent(nativeCtxt).getSize();
+            int size = new XClientMessbgeEvent(nbtiveCtxt).getSize();
 
-            nativeCtxt = unsafe.allocateMemory(size + 4 * Native.getLongSize());
+            nbtiveCtxt = unsbfe.bllocbteMemory(size + 4 * Nbtive.getLongSize());
 
-            unsafe.copyMemory(xclient.pData, nativeCtxt, size);
+            unsbfe.copyMemory(xclient.pDbtb, nbtiveCtxt, size);
 
-            long data1 = sourceProtocolVersion << XDnDConstants.XDND_PROTOCOL_SHIFT;
-            if (sourceFormats != null && sourceFormats.length > 3) {
-                data1 |= XDnDConstants.XDND_DATA_TYPES_BIT;
+            long dbtb1 = sourceProtocolVersion << XDnDConstbnts.XDND_PROTOCOL_SHIFT;
+            if (sourceFormbts != null && sourceFormbts.length > 3) {
+                dbtb1 |= XDnDConstbnts.XDND_DATA_TYPES_BIT;
             }
-            // Append information from the latest XdndEnter event.
-            Native.putLong(nativeCtxt + size, data1);
-            Native.putLong(nativeCtxt + size + Native.getLongSize(),
-                           sourceFormats.length > 0 ? sourceFormats[0] : 0);
-            Native.putLong(nativeCtxt + size + 2 * Native.getLongSize(),
-                           sourceFormats.length > 1 ? sourceFormats[1] : 0);
-            Native.putLong(nativeCtxt + size + 3 * Native.getLongSize(),
-                           sourceFormats.length > 2 ? sourceFormats[2] : 0);
+            // Append informbtion from the lbtest XdndEnter event.
+            Nbtive.putLong(nbtiveCtxt + size, dbtb1);
+            Nbtive.putLong(nbtiveCtxt + size + Nbtive.getLongSize(),
+                           sourceFormbts.length > 0 ? sourceFormbts[0] : 0);
+            Nbtive.putLong(nbtiveCtxt + size + 2 * Nbtive.getLongSize(),
+                           sourceFormbts.length > 1 ? sourceFormbts[1] : 0);
+            Nbtive.putLong(nbtiveCtxt + size + 3 * Nbtive.getLongSize(),
+                           sourceFormbts.length > 2 ? sourceFormbts[2] : 0);
         }
 
-        getProtocolListener().handleDropTargetNotification(xwindow, x, y,
+        getProtocolListener().hbndleDropTbrgetNotificbtion(xwindow, x, y,
                                                            dropAction,
                                                            sourceActions,
-                                                           sourceFormats,
-                                                           nativeCtxt,
+                                                           sourceFormbts,
+                                                           nbtiveCtxt,
                                                            eventID);
     }
 
     /*
-     * The methods/fields defined below are executed/accessed only on
-     * the toolkit thread.
-     * The methods/fields defined below are executed/accessed only on the event
-     * dispatch thread.
+     * The methods/fields defined below bre executed/bccessed only on
+     * the toolkit threbd.
+     * The methods/fields defined below bre executed/bccessed only on the event
+     * dispbtch threbd.
      */
 
-    public boolean forwardEventToEmbedded(long embedded, long ctxt,
+    public boolebn forwbrdEventToEmbedded(long embedded, long ctxt,
                                           int eventID) {
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
+        if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
             logger.finest("        ctxt=" + ctxt +
                           " type=" + (ctxt != 0 ?
-                                      getMessageType(new
-                                          XClientMessageEvent(ctxt)) : 0) +
+                                      getMessbgeType(new
+                                          XClientMessbgeEvent(ctxt)) : 0) +
                           " prevCtxt=" + prevCtxt +
                           " prevType=" + (prevCtxt != 0 ?
-                                      getMessageType(new
-                                          XClientMessageEvent(prevCtxt)) : 0));
+                                      getMessbgeType(new
+                                          XClientMessbgeEvent(prevCtxt)) : 0));
         }
         if ((ctxt == 0 ||
-             getMessageType(new XClientMessageEvent(ctxt)) == UNKNOWN_MESSAGE) &&
+             getMessbgeType(new XClientMessbgeEvent(ctxt)) == UNKNOWN_MESSAGE) &&
             (prevCtxt == 0 ||
-             getMessageType(new XClientMessageEvent(prevCtxt)) == UNKNOWN_MESSAGE)) {
-            return false;
+             getMessbgeType(new XClientMessbgeEvent(prevCtxt)) == UNKNOWN_MESSAGE)) {
+            return fblse;
         }
 
-        // The size of XClientMessageEvent structure.
-        int size = XClientMessageEvent.getSize();
+        // The size of XClientMessbgeEvent structure.
+        int size = XClientMessbgeEvent.getSize();
 
         if (ctxt != 0) {
-            XClientMessageEvent xclient = new XClientMessageEvent(ctxt);
+            XClientMessbgeEvent xclient = new XClientMessbgeEvent(ctxt);
             if (!overXEmbedClient) {
-                long data1 = Native.getLong(ctxt + size);
-                long data2 = Native.getLong(ctxt + size + Native.getLongSize());
-                long data3 = Native.getLong(ctxt + size + 2 * Native.getLongSize());
-                long data4 = Native.getLong(ctxt + size + 3 * Native.getLongSize());
+                long dbtb1 = Nbtive.getLong(ctxt + size);
+                long dbtb2 = Nbtive.getLong(ctxt + size + Nbtive.getLongSize());
+                long dbtb3 = Nbtive.getLong(ctxt + size + 2 * Nbtive.getLongSize());
+                long dbtb4 = Nbtive.getLong(ctxt + size + 3 * Nbtive.getLongSize());
 
-                if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
+                if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
                     logger.finest("         1 "
                                   + " embedded=" + embedded
-                                  + " source=" + xclient.get_data(0)
-                                  + " data1=" + data1
-                                  + " data2=" + data2
-                                  + " data3=" + data3
-                                  + " data4=" + data4);
+                                  + " source=" + xclient.get_dbtb(0)
+                                  + " dbtb1=" + dbtb1
+                                  + " dbtb2=" + dbtb2
+                                  + " dbtb3=" + dbtb3
+                                  + " dbtb4=" + dbtb4);
                 }
 
                 // Copy XdndTypeList from source to proxy.
-                if ((data1 & XDnDConstants.XDND_DATA_TYPES_BIT) != 0) {
+                if ((dbtb1 & XDnDConstbnts.XDND_DATA_TYPES_BIT) != 0) {
                     WindowPropertyGetter wpg =
-                        new WindowPropertyGetter(xclient.get_data(0),
-                                                 XDnDConstants.XA_XdndTypeList,
-                                                 0, 0xFFFF, false,
+                        new WindowPropertyGetter(xclient.get_dbtb(0),
+                                                 XDnDConstbnts.XA_XdndTypeList,
+                                                 0, 0xFFFF, fblse,
                                                  XAtom.XA_ATOM);
                     try {
-                        wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                        wpg.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
-                        if (wpg.getActualType() == XAtom.XA_ATOM &&
-                            wpg.getActualFormat() == 32) {
+                        if (wpg.getActublType() == XAtom.XA_ATOM &&
+                            wpg.getActublFormbt() == 32) {
 
-                            XToolkit.awtLock();
+                            XToolkit.bwtLock();
                             try {
-                                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-                                XDnDConstants.XA_XdndTypeList.setAtomData(xclient.get_window(),
+                                XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.VerifyChbngePropertyHbndler.getInstbnce());
+                                XDnDConstbnts.XA_XdndTypeList.setAtomDbtb(xclient.get_window(),
                                                                           XAtom.XA_ATOM,
-                                                                          wpg.getData(),
+                                                                          wpg.getDbtb(),
                                                                           wpg.getNumberOfItems());
-                                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+                                XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-                                if ((XErrorHandlerUtil.saved_error != null) &&
-                                    (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                                    if (logger.isLoggable(PlatformLogger.Level.WARNING)) {
-                                        logger.warning("Cannot set XdndTypeList on the proxy window");
+                                if ((XErrorHbndlerUtil.sbved_error != null) &&
+                                    (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success)) {
+                                    if (logger.isLoggbble(PlbtformLogger.Level.WARNING)) {
+                                        logger.wbrning("Cbnnot set XdndTypeList on the proxy window");
                                     }
                                 }
-                            } finally {
-                                XToolkit.awtUnlock();
+                            } finblly {
+                                XToolkit.bwtUnlock();
                             }
                         } else {
-                            if (logger.isLoggable(PlatformLogger.Level.WARNING)) {
-                                logger.warning("Cannot read XdndTypeList from the source window");
+                            if (logger.isLoggbble(PlbtformLogger.Level.WARNING)) {
+                                logger.wbrning("Cbnnot rebd XdndTypeList from the source window");
                             }
                         }
-                    } finally {
+                    } finblly {
                         wpg.dispose();
                     }
                 }
-                XDragSourceContextPeer.setProxyModeSourceWindow(xclient.get_data(0));
+                XDrbgSourceContextPeer.setProxyModeSourceWindow(xclient.get_dbtb(0));
 
-                sendEnterMessageToToplevelImpl(embedded, xclient.get_window(),
-                                               data1, data2, data3, data4);
+                sendEnterMessbgeToToplevelImpl(embedded, xclient.get_window(),
+                                               dbtb1, dbtb2, dbtb3, dbtb4);
                 overXEmbedClient = true;
             }
 
-            if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
+            if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
                 logger.finest("         2 "
                               + " embedded=" + embedded
                               + " xclient=" + xclient);
             }
 
-            /* Make a copy of the original event, since we are going to modify the
-               event while it still can be referenced from other Java events. */
+            /* Mbke b copy of the originbl event, since we bre going to modify the
+               event while it still cbn be referenced from other Jbvb events. */
             {
-                XClientMessageEvent copy = new XClientMessageEvent();
-                unsafe.copyMemory(xclient.pData, copy.pData, XClientMessageEvent.getSize());
+                XClientMessbgeEvent copy = new XClientMessbgeEvent();
+                unsbfe.copyMemory(xclient.pDbtb, copy.pDbtb, XClientMessbgeEvent.getSize());
 
-                copy.set_data(0, xclient.get_window());
+                copy.set_dbtb(0, xclient.get_window());
 
-                forwardClientMessageToToplevel(embedded, copy);
+                forwbrdClientMessbgeToToplevel(embedded, copy);
             }
         }
 
         if (eventID == MouseEvent.MOUSE_EXITED) {
             if (overXEmbedClient) {
                 if (ctxt != 0 || prevCtxt != 0) {
-                    // Last chance to send XdndLeave to the XEmbed client.
-                    XClientMessageEvent xclient = ctxt != 0 ?
-                        new XClientMessageEvent(ctxt) :
-                        new XClientMessageEvent(prevCtxt);
-                    sendLeaveMessageToToplevelImpl(embedded, xclient.get_window());
+                    // Lbst chbnce to send XdndLebve to the XEmbed client.
+                    XClientMessbgeEvent xclient = ctxt != 0 ?
+                        new XClientMessbgeEvent(ctxt) :
+                        new XClientMessbgeEvent(prevCtxt);
+                    sendLebveMessbgeToToplevelImpl(embedded, xclient.get_window());
                 }
-                overXEmbedClient = false;
-                // We have to clear the proxy mode source window here,
-                // when the drag exits the XEmbedCanvasPeer.
-                // NOTE: at this point the XEmbed client still might have some
-                // drag notifications to process and it will send responses to
-                // us. With the proxy mode source window cleared we won't be
-                // able to forward these responses to the actual source. This is
-                // not a problem if the drag operation was initiated in this
-                // JVM. However, if it was initiated in another processes the
-                // responses will be lost. We bear with it for now, as it seems
-                // there is no other reliable point to clear.
-                XDragSourceContextPeer.setProxyModeSourceWindow(0);
+                overXEmbedClient = fblse;
+                // We hbve to clebr the proxy mode source window here,
+                // when the drbg exits the XEmbedCbnvbsPeer.
+                // NOTE: bt this point the XEmbed client still might hbve some
+                // drbg notificbtions to process bnd it will send responses to
+                // us. With the proxy mode source window clebred we won't be
+                // bble to forwbrd these responses to the bctubl source. This is
+                // not b problem if the drbg operbtion wbs initibted in this
+                // JVM. However, if it wbs initibted in bnother processes the
+                // responses will be lost. We bebr with it for now, bs it seems
+                // there is no other relibble point to clebr.
+                XDrbgSourceContextPeer.setProxyModeSourceWindow(0);
             }
         }
 
         if (eventID == MouseEvent.MOUSE_RELEASED) {
-            overXEmbedClient = false;
-            cleanup();
+            overXEmbedClient = fblse;
+            clebnup();
         }
 
         if (prevCtxt != 0) {
-            unsafe.freeMemory(prevCtxt);
+            unsbfe.freeMemory(prevCtxt);
             prevCtxt = 0;
         }
 
         if (ctxt != 0 && overXEmbedClient) {
-            prevCtxt = unsafe.allocateMemory(size + 4 * Native.getLongSize());
+            prevCtxt = unsbfe.bllocbteMemory(size + 4 * Nbtive.getLongSize());
 
-            unsafe.copyMemory(ctxt, prevCtxt, size + 4 * Native.getLongSize());
+            unsbfe.copyMemory(ctxt, prevCtxt, size + 4 * Nbtive.getLongSize());
         }
 
         return true;
     }
 
-    public boolean isXEmbedSupported() {
+    public boolebn isXEmbedSupported() {
         return true;
     }
 }

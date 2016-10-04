@@ -1,197 +1,197 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport;
+pbckbge sun.rmi.trbnsport;
 
-import java.lang.ref.ReferenceQueue;
-import java.rmi.NoSuchObjectException;
-import java.rmi.Remote;
-import java.rmi.dgc.VMID;
-import java.rmi.server.ExportException;
-import java.rmi.server.ObjID;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.rmi.NoSuchObjectException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.dgc.VMID;
+import jbvb.rmi.server.ExportException;
+import jbvb.rmi.server.ObjID;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 import sun.misc.GC;
 import sun.rmi.runtime.Log;
-import sun.rmi.runtime.NewThreadAction;
+import sun.rmi.runtime.NewThrebdAction;
 
 /**
- * Object table shared by all implementors of the Transport interface.
- * This table maps object ids to remote object targets in this address
- * space.
+ * Object tbble shbred by bll implementors of the Trbnsport interfbce.
+ * This tbble mbps object ids to remote object tbrgets in this bddress
+ * spbce.
  *
- * @author  Ann Wollrath
- * @author  Peter Jones
+ * @buthor  Ann Wollrbth
+ * @buthor  Peter Jones
  */
-public final class ObjectTable {
+public finbl clbss ObjectTbble {
 
-    /** maximum interval between complete garbage collections of local heap */
-    private final static long gcInterval =              // default 1 hour
+    /** mbximum intervbl between complete gbrbbge collections of locbl hebp */
+    privbte finbl stbtic long gcIntervbl =              // defbult 1 hour
         AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("sun.rmi.dgc.server.gcInterval", 3600000));
+            Long.getLong("sun.rmi.dgc.server.gcIntervbl", 3600000));
 
     /**
-     * lock guarding objTable and implTable.
-     * Holders MAY acquire a Target instance's lock or keepAliveLock.
+     * lock gubrding objTbble bnd implTbble.
+     * Holders MAY bcquire b Tbrget instbnce's lock or keepAliveLock.
      */
-    private static final Object tableLock = new Object();
+    privbte stbtic finbl Object tbbleLock = new Object();
 
-    /** tables mapping to Target, keyed from ObjectEndpoint and impl object */
-    private static final Map<ObjectEndpoint,Target> objTable =
-        new HashMap<>();
-    private static final Map<WeakRef,Target> implTable =
-        new HashMap<>();
+    /** tbbles mbpping to Tbrget, keyed from ObjectEndpoint bnd impl object */
+    privbte stbtic finbl Mbp<ObjectEndpoint,Tbrget> objTbble =
+        new HbshMbp<>();
+    privbte stbtic finbl Mbp<WebkRef,Tbrget> implTbble =
+        new HbshMbp<>();
 
     /**
-     * lock guarding keepAliveCount, reaper, and gcLatencyRequest.
-     * Holders may NOT acquire a Target instance's lock or tableLock.
+     * lock gubrding keepAliveCount, rebper, bnd gcLbtencyRequest.
+     * Holders mby NOT bcquire b Tbrget instbnce's lock or tbbleLock.
      */
-    private static final Object keepAliveLock = new Object();
+    privbte stbtic finbl Object keepAliveLock = new Object();
 
-    /** count of non-permanent objects in table or still processing calls */
-    private static int keepAliveCount = 0;
+    /** count of non-permbnent objects in tbble or still processing cblls */
+    privbte stbtic int keepAliveCount = 0;
 
-    /** thread to collect unreferenced objects from table */
-    private static Thread reaper = null;
+    /** threbd to collect unreferenced objects from tbble */
+    privbte stbtic Threbd rebper = null;
 
-    /** queue notified when weak refs in the table are cleared */
-    static final ReferenceQueue<Object> reapQueue = new ReferenceQueue<>();
+    /** queue notified when webk refs in the tbble bre clebred */
+    stbtic finbl ReferenceQueue<Object> rebpQueue = new ReferenceQueue<>();
 
-    /** handle for GC latency request (for future cancellation) */
-    private static GC.LatencyRequest gcLatencyRequest = null;
+    /** hbndle for GC lbtency request (for future cbncellbtion) */
+    privbte stbtic GC.LbtencyRequest gcLbtencyRequest = null;
 
     /*
-     * Disallow anyone from creating one of these.
+     * Disbllow bnyone from crebting one of these.
      */
-    private ObjectTable() {}
+    privbte ObjectTbble() {}
 
     /**
-     * Returns the target associated with the object id.
+     * Returns the tbrget bssocibted with the object id.
      */
-    static Target getTarget(ObjectEndpoint oe) {
-        synchronized (tableLock) {
-            return objTable.get(oe);
+    stbtic Tbrget getTbrget(ObjectEndpoint oe) {
+        synchronized (tbbleLock) {
+            return objTbble.get(oe);
         }
     }
 
     /**
-     * Returns the target associated with the remote object
+     * Returns the tbrget bssocibted with the remote object
      */
-    public static Target getTarget(Remote impl) {
-        synchronized (tableLock) {
-            return implTable.get(new WeakRef(impl));
+    public stbtic Tbrget getTbrget(Remote impl) {
+        synchronized (tbbleLock) {
+            return implTbble.get(new WebkRef(impl));
         }
     }
 
     /**
-     * Returns the stub for the remote object <b>obj</b> passed
-     * as a parameter. This operation is only valid <i>after</i>
-     * the object has been exported.
+     * Returns the stub for the remote object <b>obj</b> pbssed
+     * bs b pbrbmeter. This operbtion is only vblid <i>bfter</i>
+     * the object hbs been exported.
      *
      * @return the stub for the remote object, <b>obj</b>.
      * @exception NoSuchObjectException if the stub for the
      * remote object could not be found.
      */
-    public static Remote getStub(Remote impl)
+    public stbtic Remote getStub(Remote impl)
         throws NoSuchObjectException
     {
-        Target target = getTarget(impl);
-        if (target == null) {
+        Tbrget tbrget = getTbrget(impl);
+        if (tbrget == null) {
             throw new NoSuchObjectException("object not exported");
         } else {
-            return target.getStub();
+            return tbrget.getStub();
         }
     }
 
    /**
     * Remove the remote object, obj, from the RMI runtime. If
-    * successful, the object can no longer accept incoming RMI calls.
-    * If the force parameter is true, the object is forcibly unexported
-    * even if there are pending calls to the remote object or the
-    * remote object still has calls in progress.  If the force
-    * parameter is false, the object is only unexported if there are
-    * no pending or in progress calls to the object.
+    * successful, the object cbn no longer bccept incoming RMI cblls.
+    * If the force pbrbmeter is true, the object is forcibly unexported
+    * even if there bre pending cblls to the remote object or the
+    * remote object still hbs cblls in progress.  If the force
+    * pbrbmeter is fblse, the object is only unexported if there bre
+    * no pending or in progress cblls to the object.
     *
-    * @param obj the remote object to be unexported
-    * @param force if true, unexports the object even if there are
-    * pending or in-progress calls; if false, only unexports the object
-    * if there are no pending or in-progress calls
-    * @return true if operation is successful, false otherwise
+    * @pbrbm obj the remote object to be unexported
+    * @pbrbm force if true, unexports the object even if there bre
+    * pending or in-progress cblls; if fblse, only unexports the object
+    * if there bre no pending or in-progress cblls
+    * @return true if operbtion is successful, fblse otherwise
     * @exception NoSuchObjectException if the remote object is not
     * currently exported
     */
-   public static boolean unexportObject(Remote obj, boolean force)
-        throws java.rmi.NoSuchObjectException
+   public stbtic boolebn unexportObject(Remote obj, boolebn force)
+        throws jbvb.rmi.NoSuchObjectException
     {
-        synchronized (tableLock) {
-            Target target = getTarget(obj);
-            if (target == null) {
+        synchronized (tbbleLock) {
+            Tbrget tbrget = getTbrget(obj);
+            if (tbrget == null) {
                 throw new NoSuchObjectException("object not exported");
             } else {
-                if (target.unexport(force)) {
-                    removeTarget(target);
+                if (tbrget.unexport(force)) {
+                    removeTbrget(tbrget);
                     return true;
                 } else {
-                    return false;
+                    return fblse;
                 }
             }
         }
     }
 
     /**
-     * Add target to object table.  If it is not a permanent entry, then
-     * make sure that reaper thread is running to remove collected entries
-     * and keep VM alive.
+     * Add tbrget to object tbble.  If it is not b permbnent entry, then
+     * mbke sure thbt rebper threbd is running to remove collected entries
+     * bnd keep VM blive.
      */
-    static void putTarget(Target target) throws ExportException {
-        ObjectEndpoint oe = target.getObjectEndpoint();
-        WeakRef weakImpl = target.getWeakImpl();
+    stbtic void putTbrget(Tbrget tbrget) throws ExportException {
+        ObjectEndpoint oe = tbrget.getObjectEndpoint();
+        WebkRef webkImpl = tbrget.getWebkImpl();
 
-        if (DGCImpl.dgcLog.isLoggable(Log.VERBOSE)) {
-            DGCImpl.dgcLog.log(Log.VERBOSE, "add object " + oe);
+        if (DGCImpl.dgcLog.isLoggbble(Log.VERBOSE)) {
+            DGCImpl.dgcLog.log(Log.VERBOSE, "bdd object " + oe);
         }
 
-        synchronized (tableLock) {
+        synchronized (tbbleLock) {
             /**
-             * Do nothing if impl has already been collected (see 6597112). Check while
-             * holding tableLock to ensure that Reaper cannot process weakImpl in between
-             * null check and put/increment effects.
+             * Do nothing if impl hbs blrebdy been collected (see 6597112). Check while
+             * holding tbbleLock to ensure thbt Rebper cbnnot process webkImpl in between
+             * null check bnd put/increment effects.
              */
-            if (target.getImpl() != null) {
-                if (objTable.containsKey(oe)) {
+            if (tbrget.getImpl() != null) {
+                if (objTbble.contbinsKey(oe)) {
                     throw new ExportException(
-                        "internal error: ObjID already in use");
-                } else if (implTable.containsKey(weakImpl)) {
-                    throw new ExportException("object already exported");
+                        "internbl error: ObjID blrebdy in use");
+                } else if (implTbble.contbinsKey(webkImpl)) {
+                    throw new ExportException("object blrebdy exported");
                 }
 
-                objTable.put(oe, target);
-                implTable.put(weakImpl, target);
+                objTbble.put(oe, tbrget);
+                implTbble.put(webkImpl, tbrget);
 
-                if (!target.isPermanent()) {
+                if (!tbrget.isPermbnent()) {
                     incrementKeepAliveCount();
                 }
             }
@@ -199,171 +199,171 @@ public final class ObjectTable {
     }
 
     /**
-     * Remove target from object table.
+     * Remove tbrget from object tbble.
      *
      * NOTE: This method must only be invoked while synchronized on
-     * the "tableLock" object, because it does not do so itself.
+     * the "tbbleLock" object, becbuse it does not do so itself.
      */
-    private static void removeTarget(Target target) {
-        // assert Thread.holdsLock(tableLock);
+    privbte stbtic void removeTbrget(Tbrget tbrget) {
+        // bssert Threbd.holdsLock(tbbleLock);
 
-        ObjectEndpoint oe = target.getObjectEndpoint();
-        WeakRef weakImpl = target.getWeakImpl();
+        ObjectEndpoint oe = tbrget.getObjectEndpoint();
+        WebkRef webkImpl = tbrget.getWebkImpl();
 
-        if (DGCImpl.dgcLog.isLoggable(Log.VERBOSE)) {
+        if (DGCImpl.dgcLog.isLoggbble(Log.VERBOSE)) {
             DGCImpl.dgcLog.log(Log.VERBOSE, "remove object " + oe);
         }
 
-        objTable.remove(oe);
-        implTable.remove(weakImpl);
+        objTbble.remove(oe);
+        implTbble.remove(webkImpl);
 
-        target.markRemoved();   // handles decrementing keep-alive count
+        tbrget.mbrkRemoved();   // hbndles decrementing keep-blive count
     }
 
     /**
-     * Process client VM signalling reference for given ObjID: forward to
-     * corresponding Target entry.  If ObjID is not found in table,
-     * no action is taken.
+     * Process client VM signblling reference for given ObjID: forwbrd to
+     * corresponding Tbrget entry.  If ObjID is not found in tbble,
+     * no bction is tbken.
      */
-    static void referenced(ObjID id, long sequenceNum, VMID vmid) {
-        synchronized (tableLock) {
+    stbtic void referenced(ObjID id, long sequenceNum, VMID vmid) {
+        synchronized (tbbleLock) {
             ObjectEndpoint oe =
-                new ObjectEndpoint(id, Transport.currentTransport());
-            Target target = objTable.get(oe);
-            if (target != null) {
-                target.referenced(sequenceNum, vmid);
+                new ObjectEndpoint(id, Trbnsport.currentTrbnsport());
+            Tbrget tbrget = objTbble.get(oe);
+            if (tbrget != null) {
+                tbrget.referenced(sequenceNum, vmid);
             }
         }
     }
 
     /**
-     * Process client VM dropping reference for given ObjID: forward to
-     * corresponding Target entry.  If ObjID is not found in table,
-     * no action is taken.
+     * Process client VM dropping reference for given ObjID: forwbrd to
+     * corresponding Tbrget entry.  If ObjID is not found in tbble,
+     * no bction is tbken.
      */
-    static void unreferenced(ObjID id, long sequenceNum, VMID vmid,
-                             boolean strong)
+    stbtic void unreferenced(ObjID id, long sequenceNum, VMID vmid,
+                             boolebn strong)
     {
-        synchronized (tableLock) {
+        synchronized (tbbleLock) {
             ObjectEndpoint oe =
-                new ObjectEndpoint(id, Transport.currentTransport());
-            Target target = objTable.get(oe);
-            if (target != null)
-                target.unreferenced(sequenceNum, vmid, strong);
+                new ObjectEndpoint(id, Trbnsport.currentTrbnsport());
+            Tbrget tbrget = objTbble.get(oe);
+            if (tbrget != null)
+                tbrget.unreferenced(sequenceNum, vmid, strong);
         }
     }
 
     /**
-     * Increments the "keep-alive count".
+     * Increments the "keep-blive count".
      *
-     * The "keep-alive count" is the number of non-permanent remote objects
-     * that are either in the object table or still have calls in progress.
-     * Therefore, this method should be invoked exactly once for every
-     * non-permanent remote object exported (a remote object must be
-     * exported before it can have any calls in progress).
+     * The "keep-blive count" is the number of non-permbnent remote objects
+     * thbt bre either in the object tbble or still hbve cblls in progress.
+     * Therefore, this method should be invoked exbctly once for every
+     * non-permbnent remote object exported (b remote object must be
+     * exported before it cbn hbve bny cblls in progress).
      *
-     * The VM is "kept alive" while the keep-alive count is greater than
-     * zero; this is accomplished by keeping a non-daemon thread running.
+     * The VM is "kept blive" while the keep-blive count is grebter thbn
+     * zero; this is bccomplished by keeping b non-dbemon threbd running.
      *
-     * Because non-permanent objects are those that can be garbage
-     * collected while exported, and thus those for which the "reaper"
-     * thread operates, the reaper thread also serves as the non-daemon
-     * VM keep-alive thread; a new reaper thread is created if necessary.
+     * Becbuse non-permbnent objects bre those thbt cbn be gbrbbge
+     * collected while exported, bnd thus those for which the "rebper"
+     * threbd operbtes, the rebper threbd blso serves bs the non-dbemon
+     * VM keep-blive threbd; b new rebper threbd is crebted if necessbry.
      */
-    static void incrementKeepAliveCount() {
+    stbtic void incrementKeepAliveCount() {
         synchronized (keepAliveLock) {
             keepAliveCount++;
 
-            if (reaper == null) {
-                reaper = AccessController.doPrivileged(
-                    new NewThreadAction(new Reaper(), "Reaper", false));
-                reaper.start();
+            if (rebper == null) {
+                rebper = AccessController.doPrivileged(
+                    new NewThrebdAction(new Rebper(), "Rebper", fblse));
+                rebper.stbrt();
             }
 
             /*
-             * While there are non-"permanent" objects in the object table,
-             * request a maximum latency for inspecting the entire heap
-             * from the local garbage collector, to place an upper bound
-             * on the time to discover remote objects that have become
-             * unreachable (and thus can be removed from the table).
+             * While there bre non-"permbnent" objects in the object tbble,
+             * request b mbximum lbtency for inspecting the entire hebp
+             * from the locbl gbrbbge collector, to plbce bn upper bound
+             * on the time to discover remote objects thbt hbve become
+             * unrebchbble (bnd thus cbn be removed from the tbble).
              */
-            if (gcLatencyRequest == null) {
-                gcLatencyRequest = GC.requestLatency(gcInterval);
+            if (gcLbtencyRequest == null) {
+                gcLbtencyRequest = GC.requestLbtency(gcIntervbl);
             }
         }
     }
 
     /**
-     * Decrements the "keep-alive count".
+     * Decrements the "keep-blive count".
      *
-     * The "keep-alive count" is the number of non-permanent remote objects
-     * that are either in the object table or still have calls in progress.
-     * Therefore, this method should be invoked exactly once for every
-     * previously-exported non-permanent remote object that both has been
-     * removed from the object table and has no calls still in progress.
+     * The "keep-blive count" is the number of non-permbnent remote objects
+     * thbt bre either in the object tbble or still hbve cblls in progress.
+     * Therefore, this method should be invoked exbctly once for every
+     * previously-exported non-permbnent remote object thbt both hbs been
+     * removed from the object tbble bnd hbs no cblls still in progress.
      *
-     * If the keep-alive count is decremented to zero, then the current
-     * reaper thread is terminated to cease keeping the VM alive (and
-     * because there are no more non-permanent remote objects to reap).
+     * If the keep-blive count is decremented to zero, then the current
+     * rebper threbd is terminbted to cebse keeping the VM blive (bnd
+     * becbuse there bre no more non-permbnent remote objects to rebp).
      */
-    static void decrementKeepAliveCount() {
+    stbtic void decrementKeepAliveCount() {
         synchronized (keepAliveLock) {
             keepAliveCount--;
 
             if (keepAliveCount == 0) {
-                if (!(reaper != null)) { throw new AssertionError(); }
+                if (!(rebper != null)) { throw new AssertionError(); }
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
                     public Void run() {
-                        reaper.interrupt();
+                        rebper.interrupt();
                         return null;
                     }
                 });
-                reaper = null;
+                rebper = null;
 
                 /*
-                 * If there are no longer any non-permanent objects in the
-                 * object table, we are no longer concerned with the latency
-                 * of local garbage collection here.
+                 * If there bre no longer bny non-permbnent objects in the
+                 * object tbble, we bre no longer concerned with the lbtency
+                 * of locbl gbrbbge collection here.
                  */
-                gcLatencyRequest.cancel();
-                gcLatencyRequest = null;
+                gcLbtencyRequest.cbncel();
+                gcLbtencyRequest = null;
             }
         }
     }
 
     /**
-     * The Reaper thread waits for notifications that weak references in the
-     * object table have been cleared.  When it receives a notification, it
-     * removes the corresponding entry from the table.
+     * The Rebper threbd wbits for notificbtions thbt webk references in the
+     * object tbble hbve been clebred.  When it receives b notificbtion, it
+     * removes the corresponding entry from the tbble.
      *
-     * Since the Reaper is created as a non-daemon thread, it also serves
-     * to keep the VM from exiting while there are objects in the table
-     * (other than permanent entries that should neither be reaped nor
-     * keep the VM alive).
+     * Since the Rebper is crebted bs b non-dbemon threbd, it blso serves
+     * to keep the VM from exiting while there bre objects in the tbble
+     * (other thbn permbnent entries thbt should neither be rebped nor
+     * keep the VM blive).
      */
-    private static class Reaper implements Runnable {
+    privbte stbtic clbss Rebper implements Runnbble {
 
         public void run() {
             try {
                 do {
-                    // wait for next cleared weak reference
-                    WeakRef weakImpl = (WeakRef) reapQueue.remove();
+                    // wbit for next clebred webk reference
+                    WebkRef webkImpl = (WebkRef) rebpQueue.remove();
 
-                    synchronized (tableLock) {
-                        Target target = implTable.get(weakImpl);
-                        if (target != null) {
-                            if (!target.isEmpty()) {
+                    synchronized (tbbleLock) {
+                        Tbrget tbrget = implTbble.get(webkImpl);
+                        if (tbrget != null) {
+                            if (!tbrget.isEmpty()) {
                                 throw new Error(
                                     "object with known references collected");
-                            } else if (target.isPermanent()) {
-                                throw new Error("permanent object collected");
+                            } else if (tbrget.isPermbnent()) {
+                                throw new Error("permbnent object collected");
                             }
-                            removeTarget(target);
+                            removeTbrget(tbrget);
                         }
                     }
-                } while (!Thread.interrupted());
-            } catch (InterruptedException e) {
-                // pass away if interrupted
+                } while (!Threbd.interrupted());
+            } cbtch (InterruptedException e) {
+                // pbss bwby if interrupted
             }
         }
     }

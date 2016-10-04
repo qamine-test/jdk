@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt;
+pbckbge sun.lwbwt;
 
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import java.awt.*;
-import java.awt.event.MouseWheelEvent;
-import java.awt.peer.ScrollPanePeer;
-import java.util.List;
+import jbvbx.swing.*;
+import jbvbx.swing.event.ChbngeListener;
+import jbvbx.swing.event.ChbngeEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.event.MouseWheelEvent;
+import jbvb.bwt.peer.ScrollPbnePeer;
+import jbvb.util.List;
 
 /**
- * Lightweight implementation of {@link ScrollPanePeer}. Delegates most of the
- * work to the {@link JScrollPane}.
+ * Lightweight implementbtion of {@link ScrollPbnePeer}. Delegbtes most of the
+ * work to the {@link JScrollPbne}.
  */
-final class LWScrollPanePeer extends LWContainerPeer<ScrollPane, JScrollPane>
-        implements ScrollPanePeer, ChangeListener {
+finbl clbss LWScrollPbnePeer extends LWContbinerPeer<ScrollPbne, JScrollPbne>
+        implements ScrollPbnePeer, ChbngeListener {
 
-    LWScrollPanePeer(final ScrollPane target,
-                     final PlatformComponent platformComponent) {
-        super(target, platformComponent);
+    LWScrollPbnePeer(finbl ScrollPbne tbrget,
+                     finbl PlbtformComponent plbtformComponent) {
+        super(tbrget, plbtformComponent);
     }
 
     @Override
-    JScrollPane createDelegate() {
-        final JScrollPane sp = new JScrollPane();
-        final JPanel panel = new JPanel();
-        panel.setOpaque(false);
-        panel.setVisible(false);
-        sp.getViewport().setView(panel);
-        sp.setBorder(BorderFactory.createEmptyBorder());
-        sp.getViewport().addChangeListener(this);
+    JScrollPbne crebteDelegbte() {
+        finbl JScrollPbne sp = new JScrollPbne();
+        finbl JPbnel pbnel = new JPbnel();
+        pbnel.setOpbque(fblse);
+        pbnel.setVisible(fblse);
+        sp.getViewport().setView(pbnel);
+        sp.setBorder(BorderFbctory.crebteEmptyBorder());
+        sp.getViewport().bddChbngeListener(this);
         return sp;
     }
 
     @Override
-    public void handleEvent(AWTEvent e) {
-        if (e instanceof MouseWheelEvent) {
+    public void hbndleEvent(AWTEvent e) {
+        if (e instbnceof MouseWheelEvent) {
             MouseWheelEvent wheelEvent = (MouseWheelEvent) e;
-            //java.awt.ScrollPane consumes the event
-            // in case isWheelScrollingEnabled() is true,
-            // forcibly send the consumed event to the delegate
-            if (getTarget().isWheelScrollingEnabled() && wheelEvent.isConsumed()) {
-                sendEventToDelegate(wheelEvent);
+            //jbvb.bwt.ScrollPbne consumes the event
+            // in cbse isWheelScrollingEnbbled() is true,
+            // forcibly send the consumed event to the delegbte
+            if (getTbrget().isWheelScrollingEnbbled() && wheelEvent.isConsumed()) {
+                sendEventToDelegbte(wheelEvent);
             }
         } else {
-            super.handleEvent(e);
+            super.hbndleEvent(e);
         }
     }
 
     @Override
-    public void stateChanged(final ChangeEvent e) {
-        SwingUtilities.invokeLater(new Runnable() {
+    public void stbteChbnged(finbl ChbngeEvent e) {
+        SwingUtilities.invokeLbter(new Runnbble() {
             @Override
             public void run() {
-                final LWComponentPeer<?, ?> viewPeer = getViewPeer();
+                finbl LWComponentPeer<?, ?> viewPeer = getViewPeer();
                 if (viewPeer != null) {
-                    final Rectangle r;
-                    synchronized (getDelegateLock()) {
-                        r = getDelegate().getViewport().getView().getBounds();
+                    finbl Rectbngle r;
+                    synchronized (getDelegbteLock()) {
+                        r = getDelegbte().getViewport().getView().getBounds();
                     }
                     viewPeer.setBounds(r.x, r.y, r.width, r.height, SET_BOUNDS,
                                        true, true);
@@ -91,39 +91,39 @@ final class LWScrollPanePeer extends LWContainerPeer<ScrollPane, JScrollPane>
     }
 
     @Override
-    void initializeImpl() {
-        super.initializeImpl();
-        final int policy = getTarget().getScrollbarDisplayPolicy();
-        synchronized (getDelegateLock()) {
-            getDelegate().getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-            getDelegate().setVerticalScrollBarPolicy(convertVPolicy(policy));
-            getDelegate().setHorizontalScrollBarPolicy(convertHPolicy(policy));
+    void initiblizeImpl() {
+        super.initiblizeImpl();
+        finbl int policy = getTbrget().getScrollbbrDisplbyPolicy();
+        synchronized (getDelegbteLock()) {
+            getDelegbte().getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+            getDelegbte().setVerticblScrollBbrPolicy(convertVPolicy(policy));
+            getDelegbte().setHorizontblScrollBbrPolicy(convertHPolicy(policy));
         }
     }
 
     LWComponentPeer<?, ?> getViewPeer() {
-        final List<LWComponentPeer<?, ?>> peerList = getChildren();
+        finbl List<LWComponentPeer<?, ?>> peerList = getChildren();
         return peerList.isEmpty() ? null : peerList.get(0);
     }
 
     @Override
-    Rectangle getContentSize() {
-        Rectangle viewRect = getDelegate().getViewport().getViewRect();
-        return new Rectangle(viewRect.width, viewRect.height);
+    Rectbngle getContentSize() {
+        Rectbngle viewRect = getDelegbte().getViewport().getViewRect();
+        return new Rectbngle(viewRect.width, viewRect.height);
     }
 
     @Override
-    public void layout() {
-        super.layout();
-        synchronized (getDelegateLock()) {
-            final LWComponentPeer<?, ?> viewPeer = getViewPeer();
+    public void lbyout() {
+        super.lbyout();
+        synchronized (getDelegbteLock()) {
+            finbl LWComponentPeer<?, ?> viewPeer = getViewPeer();
             if (viewPeer != null) {
-                Component view = getDelegate().getViewport().getView();
+                Component view = getDelegbte().getViewport().getView();
                 view.setBounds(viewPeer.getBounds());
                 view.setPreferredSize(viewPeer.getPreferredSize());
                 view.setMinimumSize(viewPeer.getMinimumSize());
-                getDelegate().invalidate();
-                getDelegate().validate();
+                getDelegbte().invblidbte();
+                getDelegbte().vblidbte();
                 viewPeer.setBounds(view.getBounds());
             }
         }
@@ -134,54 +134,54 @@ final class LWScrollPanePeer extends LWContainerPeer<ScrollPane, JScrollPane>
     }
 
     @Override
-    public int getHScrollbarHeight() {
-        synchronized (getDelegateLock()) {
-            return getDelegate().getHorizontalScrollBar().getHeight();
+    public int getHScrollbbrHeight() {
+        synchronized (getDelegbteLock()) {
+            return getDelegbte().getHorizontblScrollBbr().getHeight();
         }
     }
 
     @Override
-    public int getVScrollbarWidth() {
-        synchronized (getDelegateLock()) {
-            return getDelegate().getVerticalScrollBar().getWidth();
+    public int getVScrollbbrWidth() {
+        synchronized (getDelegbteLock()) {
+            return getDelegbte().getVerticblScrollBbr().getWidth();
         }
     }
 
     @Override
     public void childResized(int w, int h) {
-        synchronized (getDelegateLock()) {
-            getDelegate().invalidate();
-            getDelegate().validate();
+        synchronized (getDelegbteLock()) {
+            getDelegbte().invblidbte();
+            getDelegbte().vblidbte();
         }
     }
 
     @Override
-    public void setUnitIncrement(Adjustable adj, int u) {
+    public void setUnitIncrement(Adjustbble bdj, int u) {
     }
 
     @Override
-    public void setValue(Adjustable adj, int v) {
+    public void setVblue(Adjustbble bdj, int v) {
     }
 
-    private static int convertHPolicy(final int policy) {
+    privbte stbtic int convertHPolicy(finbl int policy) {
         switch (policy) {
-            case ScrollPane.SCROLLBARS_NEVER:
-                return ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
-            case ScrollPane.SCROLLBARS_ALWAYS:
-                return ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS;
-            default:
-                return ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED;
+            cbse ScrollPbne.SCROLLBARS_NEVER:
+                return ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_NEVER;
+            cbse ScrollPbne.SCROLLBARS_ALWAYS:
+                return ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_ALWAYS;
+            defbult:
+                return ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED;
         }
     }
 
-    private static int convertVPolicy(final int policy) {
+    privbte stbtic int convertVPolicy(finbl int policy) {
         switch (policy) {
-            case ScrollPane.SCROLLBARS_NEVER:
-                return ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER;
-            case ScrollPane.SCROLLBARS_ALWAYS:
-                return ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
-            default:
-                return ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
+            cbse ScrollPbne.SCROLLBARS_NEVER:
+                return ScrollPbneConstbnts.VERTICAL_SCROLLBAR_NEVER;
+            cbse ScrollPbne.SCROLLBARS_ALWAYS:
+                return ScrollPbneConstbnts.VERTICAL_SCROLLBAR_ALWAYS;
+            defbult:
+                return ScrollPbneConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED;
         }
     }
 }

@@ -1,508 +1,508 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * NOTE: This class lives in the package sun.net.www.protocol.https.
- * There is a copy in com.sun.net.ssl.internal.www.protocol.https for JSSE
- * 1.0.2 compatibility. It is 100% identical except the package and extends
- * lines. Any changes should be made to be class in sun.net.* and then copied
+ * NOTE: This clbss lives in the pbckbge sun.net.www.protocol.https.
+ * There is b copy in com.sun.net.ssl.internbl.www.protocol.https for JSSE
+ * 1.0.2 compbtibility. It is 100% identicbl except the pbckbge bnd extends
+ * lines. Any chbnges should be mbde to be clbss in sun.net.* bnd then copied
  * to com.sun.net.*.
  */
 
-// For both copies of the file, uncomment one line and comment the other
-// package sun.net.www.protocol.https;
-package com.sun.net.ssl.internal.www.protocol.https;
+// For both copies of the file, uncomment one line bnd comment the other
+// pbckbge sun.net.www.protocol.https;
+pbckbge com.sun.net.ssl.internbl.www.protocol.https;
 
-import java.net.URL;
-import java.net.Proxy;
-import java.net.ProtocolException;
-import java.io.*;
-import javax.net.ssl.*;
-import java.security.Permission;
-import java.util.Map;
-import java.util.List;
+import jbvb.net.URL;
+import jbvb.net.Proxy;
+import jbvb.net.ProtocolException;
+import jbvb.io.*;
+import jbvbx.net.ssl.*;
+import jbvb.security.Permission;
+import jbvb.util.Mbp;
+import jbvb.util.List;
 import sun.net.www.http.HttpClient;
 
 /**
- * A class to represent an HTTP connection to a remote object.
+ * A clbss to represent bn HTTP connection to b remote object.
  *
- * Ideally, this class should subclass and inherit the http handler
- * implementation, but it can't do so because that class have the
- * wrong Java Type.  Thus it uses the delegate (aka, the
- * Adapter/Wrapper design pattern) to reuse code from the http
- * handler.
+ * Ideblly, this clbss should subclbss bnd inherit the http hbndler
+ * implementbtion, but it cbn't do so becbuse thbt clbss hbve the
+ * wrong Jbvb Type.  Thus it uses the delegbte (bkb, the
+ * Adbpter/Wrbpper design pbttern) to reuse code from the http
+ * hbndler.
  *
- * Since it would use a delegate to access
- * sun.net.www.protocol.http.HttpURLConnection functionalities, it
- * needs to implement all public methods in it's super class and all
- * the way to Object.
+ * Since it would use b delegbte to bccess
+ * sun.net.www.protocol.http.HttpURLConnection functionblities, it
+ * needs to implement bll public methods in it's super clbss bnd bll
+ * the wby to Object.
  *
  */
 
-// For both copies of the file, uncomment one line and comment the other
-// public class HttpsURLConnectionImpl
-//      extends javax.net.ssl.HttpsURLConnection {
-public class HttpsURLConnectionOldImpl
+// For both copies of the file, uncomment one line bnd comment the other
+// public clbss HttpsURLConnectionImpl
+//      extends jbvbx.net.ssl.HttpsURLConnection {
+public clbss HttpsURLConnectionOldImpl
         extends com.sun.net.ssl.HttpsURLConnection {
 
-    private DelegateHttpsURLConnection delegate;
+    privbte DelegbteHttpsURLConnection delegbte;
 
-// For both copies of the file, uncomment one line and comment the other
-//    HttpsURLConnectionImpl(URL u, Handler handler) throws IOException {
-    HttpsURLConnectionOldImpl(URL u, Handler handler) throws IOException {
-        this(u, null, handler);
+// For both copies of the file, uncomment one line bnd comment the other
+//    HttpsURLConnectionImpl(URL u, Hbndler hbndler) throws IOException {
+    HttpsURLConnectionOldImpl(URL u, Hbndler hbndler) throws IOException {
+        this(u, null, hbndler);
     }
 
-// For both copies of the file, uncomment one line and comment the other
-//    HttpsURLConnectionImpl(URL u, Handler handler) throws IOException {
-    HttpsURLConnectionOldImpl(URL u, Proxy p, Handler handler) throws IOException {
+// For both copies of the file, uncomment one line bnd comment the other
+//    HttpsURLConnectionImpl(URL u, Hbndler hbndler) throws IOException {
+    HttpsURLConnectionOldImpl(URL u, Proxy p, Hbndler hbndler) throws IOException {
         super(u);
-        delegate = new DelegateHttpsURLConnection(url, p, handler, this);
+        delegbte = new DelegbteHttpsURLConnection(url, p, hbndler, this);
     }
 
     /**
-     * Create a new HttpClient object, bypassing the cache of
+     * Crebte b new HttpClient object, bypbssing the cbche of
      * HTTP client objects/connections.
      *
-     * @param url       the URL being accessed
+     * @pbrbm url       the URL being bccessed
      */
     protected void setNewClient(URL url) throws IOException {
-        delegate.setNewClient(url, false);
+        delegbte.setNewClient(url, fblse);
     }
 
     /**
-     * Obtain a HttpClient object. Use the cached copy if specified.
+     * Obtbin b HttpClient object. Use the cbched copy if specified.
      *
-     * @param url       the URL being accessed
-     * @param useCache  whether the cached connection should be used
+     * @pbrbm url       the URL being bccessed
+     * @pbrbm useCbche  whether the cbched connection should be used
      *                  if present
      */
-    protected void setNewClient(URL url, boolean useCache)
+    protected void setNewClient(URL url, boolebn useCbche)
             throws IOException {
-        delegate.setNewClient(url, useCache);
+        delegbte.setNewClient(url, useCbche);
     }
 
     /**
-     * Create a new HttpClient object, set up so that it uses
-     * per-instance proxying to the given HTTP proxy.  This
-     * bypasses the cache of HTTP client objects/connections.
+     * Crebte b new HttpClient object, set up so thbt it uses
+     * per-instbnce proxying to the given HTTP proxy.  This
+     * bypbsses the cbche of HTTP client objects/connections.
      *
-     * @param url       the URL being accessed
-     * @param proxyHost the proxy host to use
-     * @param proxyPort the proxy port to use
+     * @pbrbm url       the URL being bccessed
+     * @pbrbm proxyHost the proxy host to use
+     * @pbrbm proxyPort the proxy port to use
      */
     protected void setProxiedClient(URL url, String proxyHost, int proxyPort)
             throws IOException {
-        delegate.setProxiedClient(url, proxyHost, proxyPort);
+        delegbte.setProxiedClient(url, proxyHost, proxyPort);
     }
 
     /**
-     * Obtain a HttpClient object, set up so that it uses per-instance
-     * proxying to the given HTTP proxy. Use the cached copy of HTTP
+     * Obtbin b HttpClient object, set up so thbt it uses per-instbnce
+     * proxying to the given HTTP proxy. Use the cbched copy of HTTP
      * client objects/connections if specified.
      *
-     * @param url       the URL being accessed
-     * @param proxyHost the proxy host to use
-     * @param proxyPort the proxy port to use
-     * @param useCache  whether the cached connection should be used
+     * @pbrbm url       the URL being bccessed
+     * @pbrbm proxyHost the proxy host to use
+     * @pbrbm proxyPort the proxy port to use
+     * @pbrbm useCbche  whether the cbched connection should be used
      *                  if present
      */
     protected void setProxiedClient(URL url, String proxyHost, int proxyPort,
-            boolean useCache) throws IOException {
-        delegate.setProxiedClient(url, proxyHost, proxyPort, useCache);
+            boolebn useCbche) throws IOException {
+        delegbte.setProxiedClient(url, proxyHost, proxyPort, useCbche);
     }
 
     /**
-     * Implements the HTTP protocol handler's "connect" method,
-     * establishing an SSL connection to the server as necessary.
+     * Implements the HTTP protocol hbndler's "connect" method,
+     * estbblishing bn SSL connection to the server bs necessbry.
      */
     public void connect() throws IOException {
-        delegate.connect();
+        delegbte.connect();
     }
 
     /**
-     * Used by subclass to access "connected" variable.  Since we are
-     * delegating the actual implementation to "delegate", we need to
-     * delegate the access of "connected" as well.
+     * Used by subclbss to bccess "connected" vbribble.  Since we bre
+     * delegbting the bctubl implementbtion to "delegbte", we need to
+     * delegbte the bccess of "connected" bs well.
      */
-    protected boolean isConnected() {
-        return delegate.isConnected();
+    protected boolebn isConnected() {
+        return delegbte.isConnected();
     }
 
     /**
-     * Used by subclass to access "connected" variable.  Since we are
-     * delegating the actual implementation to "delegate", we need to
-     * delegate the access of "connected" as well.
+     * Used by subclbss to bccess "connected" vbribble.  Since we bre
+     * delegbting the bctubl implementbtion to "delegbte", we need to
+     * delegbte the bccess of "connected" bs well.
      */
-    protected void setConnected(boolean conn) {
-        delegate.setConnected(conn);
+    protected void setConnected(boolebn conn) {
+        delegbte.setConnected(conn);
     }
 
     /**
      * Returns the cipher suite in use on this connection.
      */
     public String getCipherSuite() {
-        return delegate.getCipherSuite();
+        return delegbte.getCipherSuite();
     }
 
     /**
-     * Returns the certificate chain the client sent to the
-     * server, or null if the client did not authenticate.
+     * Returns the certificbte chbin the client sent to the
+     * server, or null if the client did not buthenticbte.
      */
-    public java.security.cert.Certificate []
-        getLocalCertificates() {
-        return delegate.getLocalCertificates();
+    public jbvb.security.cert.Certificbte []
+        getLocblCertificbtes() {
+        return delegbte.getLocblCertificbtes();
     }
 
     /**
-     * Returns the server's certificate chain, or throws
+     * Returns the server's certificbte chbin, or throws
      * SSLPeerUnverified Exception if
-     * the server did not authenticate.
+     * the server did not buthenticbte.
      */
-    public java.security.cert.Certificate []
-        getServerCertificates() throws SSLPeerUnverifiedException {
-        return delegate.getServerCertificates();
+    public jbvb.security.cert.Certificbte []
+        getServerCertificbtes() throws SSLPeerUnverifiedException {
+        return delegbte.getServerCertificbtes();
     }
 
     /**
-     * Returns the server's X.509 certificate chain, or null if
-     * the server did not authenticate.
+     * Returns the server's X.509 certificbte chbin, or null if
+     * the server did not buthenticbte.
      *
-     * NOTE: This method is not necessary for the version of this class
-     * implementing javax.net.ssl.HttpsURLConnection, but provided for
-     * compatibility with the com.sun.net.ssl.HttpsURLConnection version.
+     * NOTE: This method is not necessbry for the version of this clbss
+     * implementing jbvbx.net.ssl.HttpsURLConnection, but provided for
+     * compbtibility with the com.sun.net.ssl.HttpsURLConnection version.
      */
-    public javax.security.cert.X509Certificate[] getServerCertificateChain() {
+    public jbvbx.security.cert.X509Certificbte[] getServerCertificbteChbin() {
         try {
-            return delegate.getServerCertificateChain();
-        } catch (SSLPeerUnverifiedException e) {
-            // this method does not throw an exception as declared in
+            return delegbte.getServerCertificbteChbin();
+        } cbtch (SSLPeerUnverifiedException e) {
+            // this method does not throw bn exception bs declbred in
             // com.sun.net.ssl.HttpsURLConnection.
-            // Return null for compatibility.
+            // Return null for compbtibility.
             return null;
         }
     }
 
     /*
-     * Allowable input/output sequences:
-     * [interpreted as POST/PUT]
-     * - get output, [write output,] get input, [read input]
+     * Allowbble input/output sequences:
+     * [interpreted bs POST/PUT]
+     * - get output, [write output,] get input, [rebd input]
      * - get output, [write output]
-     * [interpreted as GET]
-     * - get input, [read input]
-     * Disallowed:
-     * - get input, [read input,] get output, [write output]
+     * [interpreted bs GET]
+     * - get input, [rebd input]
+     * Disbllowed:
+     * - get input, [rebd input,] get output, [write output]
      */
 
-    public synchronized OutputStream getOutputStream() throws IOException {
-        return delegate.getOutputStream();
+    public synchronized OutputStrebm getOutputStrebm() throws IOException {
+        return delegbte.getOutputStrebm();
     }
 
-    public synchronized InputStream getInputStream() throws IOException {
-        return delegate.getInputStream();
+    public synchronized InputStrebm getInputStrebm() throws IOException {
+        return delegbte.getInputStrebm();
     }
 
-    public InputStream getErrorStream() {
-        return delegate.getErrorStream();
+    public InputStrebm getErrorStrebm() {
+        return delegbte.getErrorStrebm();
     }
 
     /**
      * Disconnect from the server.
      */
     public void disconnect() {
-        delegate.disconnect();
+        delegbte.disconnect();
     }
 
-    public boolean usingProxy() {
-        return delegate.usingProxy();
+    public boolebn usingProxy() {
+        return delegbte.usingProxy();
     }
 
     /**
-     * Returns an unmodifiable Map of the header fields.
-     * The Map keys are Strings that represent the
-     * response-header field names. Each Map value is an
-     * unmodifiable List of Strings that represents
-     * the corresponding field values.
+     * Returns bn unmodifibble Mbp of the hebder fields.
+     * The Mbp keys bre Strings thbt represent the
+     * response-hebder field nbmes. Ebch Mbp vblue is bn
+     * unmodifibble List of Strings thbt represents
+     * the corresponding field vblues.
      *
-     * @return a Map of header fields
+     * @return b Mbp of hebder fields
      * @since 1.4
      */
-    public Map<String,List<String>> getHeaderFields() {
-        return delegate.getHeaderFields();
+    public Mbp<String,List<String>> getHebderFields() {
+        return delegbte.getHebderFields();
     }
 
     /**
-     * Gets a header field by name. Returns null if not known.
-     * @param name the name of the header field
+     * Gets b hebder field by nbme. Returns null if not known.
+     * @pbrbm nbme the nbme of the hebder field
      */
-    public String getHeaderField(String name) {
-        return delegate.getHeaderField(name);
+    public String getHebderField(String nbme) {
+        return delegbte.getHebderField(nbme);
     }
 
     /**
-     * Gets a header field by index. Returns null if not known.
-     * @param n the index of the header field
+     * Gets b hebder field by index. Returns null if not known.
+     * @pbrbm n the index of the hebder field
      */
-    public String getHeaderField(int n) {
-        return delegate.getHeaderField(n);
+    public String getHebderField(int n) {
+        return delegbte.getHebderField(n);
     }
 
     /**
-     * Gets a header field by index. Returns null if not known.
-     * @param n the index of the header field
+     * Gets b hebder field by index. Returns null if not known.
+     * @pbrbm n the index of the hebder field
      */
-    public String getHeaderFieldKey(int n) {
-        return delegate.getHeaderFieldKey(n);
+    public String getHebderFieldKey(int n) {
+        return delegbte.getHebderFieldKey(n);
     }
 
     /**
-     * Sets request property. If a property with the key already
-     * exists, overwrite its value with the new value.
-     * @param value the value to be set
+     * Sets request property. If b property with the key blrebdy
+     * exists, overwrite its vblue with the new vblue.
+     * @pbrbm vblue the vblue to be set
      */
-    public void setRequestProperty(String key, String value) {
-        delegate.setRequestProperty(key, value);
+    public void setRequestProperty(String key, String vblue) {
+        delegbte.setRequestProperty(key, vblue);
     }
 
     /**
-     * Adds a general request property specified by a
-     * key-value pair.  This method will not overwrite
-     * existing values associated with the same key.
+     * Adds b generbl request property specified by b
+     * key-vblue pbir.  This method will not overwrite
+     * existing vblues bssocibted with the sbme key.
      *
-     * @param   key     the keyword by which the request is known
-     *                  (e.g., "<code>accept</code>").
-     * @param   value  the value associated with it.
-     * @see #getRequestProperties(java.lang.String)
+     * @pbrbm   key     the keyword by which the request is known
+     *                  (e.g., "<code>bccept</code>").
+     * @pbrbm   vblue  the vblue bssocibted with it.
+     * @see #getRequestProperties(jbvb.lbng.String)
      * @since 1.4
      */
-    public void addRequestProperty(String key, String value) {
-        delegate.addRequestProperty(key, value);
+    public void bddRequestProperty(String key, String vblue) {
+        delegbte.bddRequestProperty(key, vblue);
     }
 
     /**
-     * Overwrite super class method
+     * Overwrite super clbss method
      */
     public int getResponseCode() throws IOException {
-        return delegate.getResponseCode();
+        return delegbte.getResponseCode();
     }
 
     public String getRequestProperty(String key) {
-        return delegate.getRequestProperty(key);
+        return delegbte.getRequestProperty(key);
     }
 
     /**
-     * Returns an unmodifiable Map of general request
-     * properties for this connection. The Map keys
-     * are Strings that represent the request-header
-     * field names. Each Map value is a unmodifiable List
-     * of Strings that represents the corresponding
-     * field values.
+     * Returns bn unmodifibble Mbp of generbl request
+     * properties for this connection. The Mbp keys
+     * bre Strings thbt represent the request-hebder
+     * field nbmes. Ebch Mbp vblue is b unmodifibble List
+     * of Strings thbt represents the corresponding
+     * field vblues.
      *
-     * @return  a Map of the general request properties for this connection.
-     * @throws IllegalStateException if already connected
+     * @return  b Mbp of the generbl request properties for this connection.
+     * @throws IllegblStbteException if blrebdy connected
      * @since 1.4
      */
-    public Map<String,List<String>> getRequestProperties() {
-        return delegate.getRequestProperties();
+    public Mbp<String,List<String>> getRequestProperties() {
+        return delegbte.getRequestProperties();
     }
 
     /*
-     * We support JDK 1.2.x so we can't count on these from JDK 1.3.
-     * We override and supply our own version.
+     * We support JDK 1.2.x so we cbn't count on these from JDK 1.3.
+     * We override bnd supply our own version.
      */
-    public void setInstanceFollowRedirects(boolean shouldFollow) {
-        delegate.setInstanceFollowRedirects(shouldFollow);
+    public void setInstbnceFollowRedirects(boolebn shouldFollow) {
+        delegbte.setInstbnceFollowRedirects(shouldFollow);
     }
 
-    public boolean getInstanceFollowRedirects() {
-        return delegate.getInstanceFollowRedirects();
+    public boolebn getInstbnceFollowRedirects() {
+        return delegbte.getInstbnceFollowRedirects();
     }
 
     public void setRequestMethod(String method) throws ProtocolException {
-        delegate.setRequestMethod(method);
+        delegbte.setRequestMethod(method);
     }
 
     public String getRequestMethod() {
-        return delegate.getRequestMethod();
+        return delegbte.getRequestMethod();
     }
 
-    public String getResponseMessage() throws IOException {
-        return delegate.getResponseMessage();
+    public String getResponseMessbge() throws IOException {
+        return delegbte.getResponseMessbge();
     }
 
-    public long getHeaderFieldDate(String name, long Default) {
-        return delegate.getHeaderFieldDate(name, Default);
+    public long getHebderFieldDbte(String nbme, long Defbult) {
+        return delegbte.getHebderFieldDbte(nbme, Defbult);
     }
 
     public Permission getPermission() throws IOException {
-        return delegate.getPermission();
+        return delegbte.getPermission();
     }
 
     public URL getURL() {
-        return delegate.getURL();
+        return delegbte.getURL();
     }
 
     public int getContentLength() {
-        return delegate.getContentLength();
+        return delegbte.getContentLength();
     }
 
     public long getContentLengthLong() {
-        return delegate.getContentLengthLong();
+        return delegbte.getContentLengthLong();
     }
 
     public String getContentType() {
-        return delegate.getContentType();
+        return delegbte.getContentType();
     }
 
     public String getContentEncoding() {
-        return delegate.getContentEncoding();
+        return delegbte.getContentEncoding();
     }
 
-    public long getExpiration() {
-        return delegate.getExpiration();
+    public long getExpirbtion() {
+        return delegbte.getExpirbtion();
     }
 
-    public long getDate() {
-        return delegate.getDate();
+    public long getDbte() {
+        return delegbte.getDbte();
     }
 
-    public long getLastModified() {
-        return delegate.getLastModified();
+    public long getLbstModified() {
+        return delegbte.getLbstModified();
     }
 
-    public int getHeaderFieldInt(String name, int Default) {
-        return delegate.getHeaderFieldInt(name, Default);
+    public int getHebderFieldInt(String nbme, int Defbult) {
+        return delegbte.getHebderFieldInt(nbme, Defbult);
     }
 
-    public long getHeaderFieldLong(String name, long Default) {
-        return delegate.getHeaderFieldLong(name, Default);
+    public long getHebderFieldLong(String nbme, long Defbult) {
+        return delegbte.getHebderFieldLong(nbme, Defbult);
     }
 
     public Object getContent() throws IOException {
-        return delegate.getContent();
+        return delegbte.getContent();
     }
 
-    @SuppressWarnings("rawtypes")
-    public Object getContent(Class[] classes) throws IOException {
-        return delegate.getContent(classes);
+    @SuppressWbrnings("rbwtypes")
+    public Object getContent(Clbss[] clbsses) throws IOException {
+        return delegbte.getContent(clbsses);
     }
 
     public String toString() {
-        return delegate.toString();
+        return delegbte.toString();
     }
 
-    public void setDoInput(boolean doinput) {
-        delegate.setDoInput(doinput);
+    public void setDoInput(boolebn doinput) {
+        delegbte.setDoInput(doinput);
     }
 
-    public boolean getDoInput() {
-        return delegate.getDoInput();
+    public boolebn getDoInput() {
+        return delegbte.getDoInput();
     }
 
-    public void setDoOutput(boolean dooutput) {
-        delegate.setDoOutput(dooutput);
+    public void setDoOutput(boolebn dooutput) {
+        delegbte.setDoOutput(dooutput);
     }
 
-    public boolean getDoOutput() {
-        return delegate.getDoOutput();
+    public boolebn getDoOutput() {
+        return delegbte.getDoOutput();
     }
 
-    public void setAllowUserInteraction(boolean allowuserinteraction) {
-        delegate.setAllowUserInteraction(allowuserinteraction);
+    public void setAllowUserInterbction(boolebn bllowuserinterbction) {
+        delegbte.setAllowUserInterbction(bllowuserinterbction);
     }
 
-    public boolean getAllowUserInteraction() {
-        return delegate.getAllowUserInteraction();
+    public boolebn getAllowUserInterbction() {
+        return delegbte.getAllowUserInterbction();
     }
 
-    public void setUseCaches(boolean usecaches) {
-        delegate.setUseCaches(usecaches);
+    public void setUseCbches(boolebn usecbches) {
+        delegbte.setUseCbches(usecbches);
     }
 
-    public boolean getUseCaches() {
-        return delegate.getUseCaches();
+    public boolebn getUseCbches() {
+        return delegbte.getUseCbches();
     }
 
     public void setIfModifiedSince(long ifmodifiedsince) {
-        delegate.setIfModifiedSince(ifmodifiedsince);
+        delegbte.setIfModifiedSince(ifmodifiedsince);
     }
 
     public long getIfModifiedSince() {
-        return delegate.getIfModifiedSince();
+        return delegbte.getIfModifiedSince();
     }
 
-    public boolean getDefaultUseCaches() {
-        return delegate.getDefaultUseCaches();
+    public boolebn getDefbultUseCbches() {
+        return delegbte.getDefbultUseCbches();
     }
 
-    public void setDefaultUseCaches(boolean defaultusecaches) {
-        delegate.setDefaultUseCaches(defaultusecaches);
+    public void setDefbultUseCbches(boolebn defbultusecbches) {
+        delegbte.setDefbultUseCbches(defbultusecbches);
     }
 
     /*
-     * finalize (dispose) the delegated object.  Otherwise
-     * sun.net.www.protocol.http.HttpURLConnection's finalize()
-     * would have to be made public.
+     * finblize (dispose) the delegbted object.  Otherwise
+     * sun.net.www.protocol.http.HttpURLConnection's finblize()
+     * would hbve to be mbde public.
      */
-    protected void finalize() throws Throwable {
-        delegate.dispose();
+    protected void finblize() throws Throwbble {
+        delegbte.dispose();
     }
 
-    public boolean equals(Object obj) {
-        return delegate.equals(obj);
+    public boolebn equbls(Object obj) {
+        return delegbte.equbls(obj);
     }
 
-    public int hashCode() {
-        return delegate.hashCode();
+    public int hbshCode() {
+        return delegbte.hbshCode();
     }
 
     public void setConnectTimeout(int timeout) {
-        delegate.setConnectTimeout(timeout);
+        delegbte.setConnectTimeout(timeout);
     }
 
     public int getConnectTimeout() {
-        return delegate.getConnectTimeout();
+        return delegbte.getConnectTimeout();
     }
 
-    public void setReadTimeout(int timeout) {
-        delegate.setReadTimeout(timeout);
+    public void setRebdTimeout(int timeout) {
+        delegbte.setRebdTimeout(timeout);
     }
 
-    public int getReadTimeout() {
-        return delegate.getReadTimeout();
+    public int getRebdTimeout() {
+        return delegbte.getRebdTimeout();
     }
 
-    public void setFixedLengthStreamingMode (int contentLength) {
-        delegate.setFixedLengthStreamingMode(contentLength);
+    public void setFixedLengthStrebmingMode (int contentLength) {
+        delegbte.setFixedLengthStrebmingMode(contentLength);
     }
 
-    public void setFixedLengthStreamingMode(long contentLength) {
-        delegate.setFixedLengthStreamingMode(contentLength);
+    public void setFixedLengthStrebmingMode(long contentLength) {
+        delegbte.setFixedLengthStrebmingMode(contentLength);
     }
 
-    public void setChunkedStreamingMode (int chunklen) {
-        delegate.setChunkedStreamingMode(chunklen);
+    public void setChunkedStrebmingMode (int chunklen) {
+        delegbte.setChunkedStrebmingMode(chunklen);
     }
 }

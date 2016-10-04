@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.cmm.lcms;
+pbckbge sun.jbvb2d.cmm.lcms;
 
-import java.awt.color.CMMException;
-import java.awt.color.ICC_Profile;
-import sun.java2d.cmm.ColorTransform;
-import sun.java2d.cmm.PCMM;
-import sun.java2d.cmm.Profile;
-import sun.java2d.cmm.lcms.LCMSProfile.TagData;
+import jbvb.bwt.color.CMMException;
+import jbvb.bwt.color.ICC_Profile;
+import sun.jbvb2d.cmm.ColorTrbnsform;
+import sun.jbvb2d.cmm.PCMM;
+import sun.jbvb2d.cmm.Profile;
+import sun.jbvb2d.cmm.lcms.LCMSProfile.TbgDbtb;
 
-public class LCMS implements PCMM {
+public clbss LCMS implements PCMM {
 
     /* methods invoked from ICC_Profile */
     @Override
-    public Profile loadProfile(byte[] data) {
-        final Object disposerRef = new Object();
+    public Profile lobdProfile(byte[] dbtb) {
+        finbl Object disposerRef = new Object();
 
-        final long ptr = loadProfileNative(data, disposerRef);
+        finbl long ptr = lobdProfileNbtive(dbtb, disposerRef);
 
         if (ptr != 0L) {
             return new LCMSProfile(ptr, disposerRef);
@@ -47,13 +47,13 @@ public class LCMS implements PCMM {
         return null;
     }
 
-    private native long loadProfileNative(byte[] data, Object ref);
+    privbte nbtive long lobdProfileNbtive(byte[] dbtb, Object ref);
 
-    private LCMSProfile getLcmsProfile(Profile p) {
-        if (p instanceof LCMSProfile) {
+    privbte LCMSProfile getLcmsProfile(Profile p) {
+        if (p instbnceof LCMSProfile) {
             return (LCMSProfile)p;
         }
-        throw new CMMException("Invalid profile: " + p);
+        throw new CMMException("Invblid profile: " + p);
     }
 
 
@@ -63,86 +63,86 @@ public class LCMS implements PCMM {
     }
 
     @Override
-    public int getProfileSize(final Profile p) {
+    public int getProfileSize(finbl Profile p) {
         synchronized (p) {
-            return getProfileSizeNative(getLcmsProfile(p).getLcmsPtr());
+            return getProfileSizeNbtive(getLcmsProfile(p).getLcmsPtr());
         }
     }
 
-    private native int getProfileSizeNative(long ptr);
+    privbte nbtive int getProfileSizeNbtive(long ptr);
 
     @Override
-    public void getProfileData(final Profile p, byte[] data) {
+    public void getProfileDbtb(finbl Profile p, byte[] dbtb) {
         synchronized (p) {
-            getProfileDataNative(getLcmsProfile(p).getLcmsPtr(), data);
+            getProfileDbtbNbtive(getLcmsProfile(p).getLcmsPtr(), dbtb);
         }
     }
 
-    private native void getProfileDataNative(long ptr, byte[] data);
+    privbte nbtive void getProfileDbtbNbtive(long ptr, byte[] dbtb);
 
     @Override
-    public int getTagSize(Profile p, int tagSignature) {
-        final LCMSProfile profile = getLcmsProfile(p);
+    public int getTbgSize(Profile p, int tbgSignbture) {
+        finbl LCMSProfile profile = getLcmsProfile(p);
 
         synchronized (profile) {
-            TagData t = profile.getTag(tagSignature);
+            TbgDbtb t = profile.getTbg(tbgSignbture);
             return t == null ? 0 : t.getSize();
         }
     }
 
-    static native byte[] getTagNative(long profileID, int signature);
+    stbtic nbtive byte[] getTbgNbtive(long profileID, int signbture);
 
     @Override
-    public void getTagData(Profile p, int tagSignature, byte[] data)
+    public void getTbgDbtb(Profile p, int tbgSignbture, byte[] dbtb)
     {
-        final LCMSProfile profile = getLcmsProfile(p);
+        finbl LCMSProfile profile = getLcmsProfile(p);
 
         synchronized (profile) {
-            TagData t = profile.getTag(tagSignature);
+            TbgDbtb t = profile.getTbg(tbgSignbture);
             if (t != null) {
-                t.copyDataTo(data);
+                t.copyDbtbTo(dbtb);
             }
         }
     }
 
     @Override
-    public synchronized void setTagData(Profile p, int tagSignature, byte[] data) {
-        final LCMSProfile profile = getLcmsProfile(p);
+    public synchronized void setTbgDbtb(Profile p, int tbgSignbture, byte[] dbtb) {
+        finbl LCMSProfile profile = getLcmsProfile(p);
 
         synchronized (profile) {
-            profile.clearTagCache();
+            profile.clebrTbgCbche();
 
-            // Now we are going to update the profile with new tag data
-            // In some cases, we may change the pointer to the native
+            // Now we bre going to updbte the profile with new tbg dbtb
+            // In some cbses, we mby chbnge the pointer to the nbtive
             // profile.
             //
-            // If we fail to write tag data for any reason, the old pointer
+            // If we fbil to write tbg dbtb for bny rebson, the old pointer
             // should be used.
-            setTagDataNative(profile.getLcmsPtr(),
-                    tagSignature, data);
+            setTbgDbtbNbtive(profile.getLcmsPtr(),
+                    tbgSignbture, dbtb);
         }
     }
 
     /**
-     * Writes supplied data as a tag into the profile.
-     * Destroys old profile, if new one was successfully
-     * created.
+     * Writes supplied dbtb bs b tbg into the profile.
+     * Destroys old profile, if new one wbs successfully
+     * crebted.
      *
-     * Returns valid pointer to new profile.
+     * Returns vblid pointer to new profile.
      *
-     * Throws CMMException if operation fails, preserve old profile from
+     * Throws CMMException if operbtion fbils, preserve old profile from
      * destruction.
      */
-    private native void setTagDataNative(long ptr, int tagSignature,
-                                               byte[] data);
+    privbte nbtive void setTbgDbtbNbtive(long ptr, int tbgSignbture,
+                                               byte[] dbtb);
 
-    public synchronized static native LCMSProfile getProfileID(ICC_Profile profile);
+    public synchronized stbtic nbtive LCMSProfile getProfileID(ICC_Profile profile);
 
-    /* Helper method used from LCMSColorTransfrom */
-    static long createTransform(
+    /* Helper method used from LCMSColorTrbnsfrom */
+    stbtic long crebteTrbnsform(
         LCMSProfile[] profiles, int renderType,
-        int inFormatter, boolean isInIntPacked,
-        int outFormatter, boolean isOutIntPacked,
+        int inFormbtter, boolebn isInIntPbcked,
+        int outFormbtter, boolebn isOutIntPbcked,
         Object disposerRef)
     {
         long[] ptrs = new long[profiles.length];
@@ -153,66 +153,66 @@ public class LCMS implements PCMM {
             ptrs[i] = profiles[i].getLcmsPtr();
         }
 
-        return createNativeTransform(ptrs, renderType, inFormatter,
-                isInIntPacked, outFormatter, isOutIntPacked, disposerRef);
+        return crebteNbtiveTrbnsform(ptrs, renderType, inFormbtter,
+                isInIntPbcked, outFormbtter, isOutIntPbcked, disposerRef);
     }
 
-    private static native long createNativeTransform(
+    privbte stbtic nbtive long crebteNbtiveTrbnsform(
         long[] profileIDs, int renderType,
-        int inFormatter, boolean isInIntPacked,
-        int outFormatter, boolean isOutIntPacked,
+        int inFormbtter, boolebn isInIntPbcked,
+        int outFormbtter, boolebn isOutIntPbcked,
         Object disposerRef);
 
    /**
-     * Constructs ColorTransform object corresponding to an ICC_profile
+     * Constructs ColorTrbnsform object corresponding to bn ICC_profile
      */
-    public ColorTransform createTransform(ICC_Profile profile,
+    public ColorTrbnsform crebteTrbnsform(ICC_Profile profile,
                                                        int renderType,
-                                                       int transformType)
+                                                       int trbnsformType)
     {
-        return new LCMSTransform(profile, renderType, renderType);
+        return new LCMSTrbnsform(profile, renderType, renderType);
     }
 
     /**
-     * Constructs an ColorTransform object from a list of ColorTransform
+     * Constructs bn ColorTrbnsform object from b list of ColorTrbnsform
      * objects
      */
-    public synchronized ColorTransform createTransform(
-        ColorTransform[] transforms)
+    public synchronized ColorTrbnsform crebteTrbnsform(
+        ColorTrbnsform[] trbnsforms)
     {
-        return new LCMSTransform(transforms);
+        return new LCMSTrbnsform(trbnsforms);
     }
 
-    /* methods invoked from LCMSTransform */
-    public static native void colorConvert(LCMSTransform trans,
-                                           LCMSImageLayout src,
-                                           LCMSImageLayout dest);
-    public static native void freeTransform(long ID);
+    /* methods invoked from LCMSTrbnsform */
+    public stbtic nbtive void colorConvert(LCMSTrbnsform trbns,
+                                           LCMSImbgeLbyout src,
+                                           LCMSImbgeLbyout dest);
+    public stbtic nbtive void freeTrbnsform(long ID);
 
-    public static native void initLCMS(Class<?> Trans, Class<?> IL, Class<?> Pf);
+    public stbtic nbtive void initLCMS(Clbss<?> Trbns, Clbss<?> IL, Clbss<?> Pf);
 
-    private LCMS() {};
+    privbte LCMS() {};
 
-    private static LCMS theLcms = null;
+    privbte stbtic LCMS theLcms = null;
 
-    static synchronized PCMM getModule() {
+    stbtic synchronized PCMM getModule() {
         if (theLcms != null) {
             return theLcms;
         }
 
-        java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Object>() {
+        jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Object>() {
                     public Object run() {
-                        /* We need to load awt here because of usage trace and
-                         * disposer frameworks
+                        /* We need to lobd bwt here becbuse of usbge trbce bnd
+                         * disposer frbmeworks
                          */
-                        System.loadLibrary("awt");
-                        System.loadLibrary("lcms");
+                        System.lobdLibrbry("bwt");
+                        System.lobdLibrbry("lcms");
                         return null;
                     }
                 });
 
-        initLCMS(LCMSTransform.class, LCMSImageLayout.class, ICC_Profile.class);
+        initLCMS(LCMSTrbnsform.clbss, LCMSImbgeLbyout.clbss, ICC_Profile.clbss);
 
         theLcms = new LCMS();
 

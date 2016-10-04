@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt.h"
-#include <sun_awt_Win32GraphicsConfig.h>
-#include "awt_Win32GraphicsConfig.h"
-#include "awt_Canvas.h"
-#include "awt_Win32GraphicsDevice.h"
+#include "bwt.h"
+#include <sun_bwt_Win32GrbphicsConfig.h>
+#include "bwt_Win32GrbphicsConfig.h"
+#include "bwt_Cbnvbs.h"
+#include "bwt_Win32GrbphicsDevice.h"
 #include "Devices.h"
 
-//Info for building a ColorModel
-#include "java_awt_image_DataBuffer.h"
+//Info for building b ColorModel
+#include "jbvb_bwt_imbge_DbtbBuffer.h"
 
 
-//Local utility functions
-static int shiftToMask(int numBits, int shift);
+//Locbl utility functions
+stbtic int shiftToMbsk(int numBits, int shift);
 
 /*
- * AwtWin32GraphicsConfig fields
+ * AwtWin32GrbphicsConfig fields
  */
 
-jfieldID AwtWin32GraphicsConfig::win32GCVisualID;
+jfieldID AwtWin32GrbphicsConfig::win32GCVisublID;
 
 /*
- * Class:     sun_awt_Win32GraphicsConfig
+ * Clbss:     sun_bwt_Win32GrbphicsConfig
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 
 JNIEXPORT void JNICALL
-Java_sun_awt_Win32GraphicsConfig_initIDs
-    (JNIEnv *env, jclass thisCls)
+Jbvb_sun_bwt_Win32GrbphicsConfig_initIDs
+    (JNIEnv *env, jclbss thisCls)
 {
     TRY;
-    AwtWin32GraphicsConfig::win32GCVisualID = env->GetFieldID(thisCls,
-         "visual", "I");
-    DASSERT(AwtWin32GraphicsConfig::win32GCVisualID);
+    AwtWin32GrbphicsConfig::win32GCVisublID = env->GetFieldID(thisCls,
+         "visubl", "I");
+    DASSERT(AwtWin32GrbphicsConfig::win32GCVisublID);
         CATCH_BAD_ALLOC;
 }
 
 /*
- *  shiftToMask:
- *  This function converts between cXXXBits and cXXXShift
- *  fields in the Windows GDI PIXELFORMATDESCRIPTOR and the mask
- *  fields passed to the DirectColorModel constructor.
+ *  shiftToMbsk:
+ *  This function converts between cXXXBits bnd cXXXShift
+ *  fields in the Windows GDI PIXELFORMATDESCRIPTOR bnd the mbsk
+ *  fields pbssed to the DirectColorModel constructor.
  */
-inline int shiftToMask(int numBits, int shift) {
-    int mask = 0xFFFFFFFF;
+inline int shiftToMbsk(int numBits, int shift) {
+    int mbsk = 0xFFFFFFFF;
 
     //Shift in numBits 0s
-    mask = mask << numBits;
-    mask = ~mask;
-    //shift left by value of shift
-    mask = mask << shift;
-    return mask;
+    mbsk = mbsk << numBits;
+    mbsk = ~mbsk;
+    //shift left by vblue of shift
+    mbsk = mbsk << shift;
+    return mbsk;
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsConfig
+ * Clbss:     sun_bwt_Win32GrbphicsConfig
  * Method:    getBounds
- * Signature: ()Ljava/awt/Rectangle
+ * Signbture: ()Ljbvb/bwt/Rectbngle
  */
 JNIEXPORT jobject JNICALL
-    Java_sun_awt_Win32GraphicsConfig_getBounds(JNIEnv *env, jobject thisobj,
+    Jbvb_sun_bwt_Win32GrbphicsConfig_getBounds(JNIEnv *env, jobject thisobj,
                                                jint screen)
 {
-    jclass clazz;
+    jclbss clbzz;
     jmethodID mid;
     jobject bounds = NULL;
 
-    clazz = env->FindClass("java/awt/Rectangle");
-    CHECK_NULL_RETURN(clazz, NULL);
-    mid = env->GetMethodID(clazz, "<init>", "(IIII)V");
+    clbzz = env->FindClbss("jbvb/bwt/Rectbngle");
+    CHECK_NULL_RETURN(clbzz, NULL);
+    mid = env->GetMethodID(clbzz, "<init>", "(IIII)V");
     if (mid != 0) {
         RECT rRW = {0, 0, 0, 0};
-        if (TRUE == MonitorBounds(AwtWin32GraphicsDevice::GetMonitor(screen), &rRW)) {
-            bounds = env->NewObject(clazz, mid,
+        if (TRUE == MonitorBounds(AwtWin32GrbphicsDevice::GetMonitor(screen), &rRW)) {
+            bounds = env->NewObject(clbzz, mid,
                                     rRW.left, rRW.top,
                                     rRW.right - rRW.left,
                                     rRW.bottom - rRW.top);
         }
         else {
-            // 4910760 - don't return a null bounds, return the bounds of the
-            // primary screen
-            bounds = env->NewObject(clazz, mid,
+            // 4910760 - don't return b null bounds, return the bounds of the
+            // primbry screen
+            bounds = env->NewObject(clbzz, mid,
                                     0, 0,
                                     ::GetSystemMetrics(SM_CXSCREEN),
                                     ::GetSystemMetrics(SM_CYSCREEN));
         }
-        if (safe_ExceptionOccurred(env)) {
+        if (sbfe_ExceptionOccurred(env)) {
            return 0;
         }
     }

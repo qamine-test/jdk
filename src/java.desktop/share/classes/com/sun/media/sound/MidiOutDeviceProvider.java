@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.midi.MidiDevice;
+import jbvbx.sound.midi.MidiDevice;
 
 
 /**
  * MIDI output device provider.
  *
- * @author Kara Kytle
- * @author Florian Bomers
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
  */
-public final class MidiOutDeviceProvider extends AbstractMidiDeviceProvider {
+public finbl clbss MidiOutDeviceProvider extends AbstrbctMidiDeviceProvider {
 
-    /** Cache of info objects for all MIDI output devices on the system. */
-    private static Info[] infos = null;
+    /** Cbche of info objects for bll MIDI output devices on the system. */
+    privbte stbtic Info[] infos = null;
 
-    /** Cache of open MIDI output devices on the system. */
-    private static MidiDevice[] devices = null;
+    /** Cbche of open MIDI output devices on the system. */
+    privbte stbtic MidiDevice[] devices = null;
 
-    private final static boolean enabled;
+    privbte finbl stbtic boolebn enbbled;
 
     // STATIC
 
-    static {
-        // initialize
-        Platform.initialize();
-        enabled = Platform.isMidiIOEnabled();
+    stbtic {
+        // initiblize
+        Plbtform.initiblize();
+        enbbled = Plbtform.isMidiIOEnbbled();
     }
 
     // CONSTRUCTOR
 
     /**
-     * Required public no-arg constructor.
+     * Required public no-brg constructor.
      */
     public MidiOutDeviceProvider() {
-        if (Printer.trace) Printer.trace("MidiOutDeviceProvider: constructor");
+        if (Printer.trbce) Printer.trbce("MidiOutDeviceProvider: constructor");
     }
 
-    // implementation of abstract methods in AbstractMidiDeviceProvider
+    // implementbtion of bbstrbct methods in AbstrbctMidiDeviceProvider
 
-    AbstractMidiDeviceProvider.Info createInfo(int index) {
-        if (!enabled) {
+    AbstrbctMidiDeviceProvider.Info crebteInfo(int index) {
+        if (!enbbled) {
             return null;
         }
-        return new MidiOutDeviceInfo(index, MidiOutDeviceProvider.class);
+        return new MidiOutDeviceInfo(index, MidiOutDeviceProvider.clbss);
     }
 
-    MidiDevice createDevice(AbstractMidiDeviceProvider.Info info) {
-        if (enabled && (info instanceof MidiOutDeviceInfo)) {
+    MidiDevice crebteDevice(AbstrbctMidiDeviceProvider.Info info) {
+        if (enbbled && (info instbnceof MidiOutDeviceInfo)) {
             return new MidiOutDevice(info);
         }
         return null;
     }
 
     int getNumDevices() {
-        if (!enabled) {
-            if (Printer.debug)Printer.debug("MidiOutDevice not enabled, returning 0 devices");
+        if (!enbbled) {
+            if (Printer.debug)Printer.debug("MidiOutDevice not enbbled, returning 0 devices");
             return 0;
         }
         return nGetNumDevices();
     }
 
-    MidiDevice[] getDeviceCache() { return devices; }
-    void setDeviceCache(MidiDevice[] devices) { MidiOutDeviceProvider.devices = devices; }
-    Info[] getInfoCache() { return infos; }
-    void setInfoCache(Info[] infos) { MidiOutDeviceProvider.infos = infos; }
+    MidiDevice[] getDeviceCbche() { return devices; }
+    void setDeviceCbche(MidiDevice[] devices) { MidiOutDeviceProvider.devices = devices; }
+    Info[] getInfoCbche() { return infos; }
+    void setInfoCbche(Info[] infos) { MidiOutDeviceProvider.infos = infos; }
 
 
     // INNER CLASSES
 
     /**
-     * Info class for MidiOutDevices.  Adds the
-     * provider's Class to keep the provider class from being
-     * unloaded.  Otherwise, at least on JDK1.1.7 and 1.1.8,
-     * the provider class can be unloaded.  Then, then the provider
-     * is next invoked, the static block is executed again and a new
-     * instance of the device object is created.  Even though the
-     * previous instance may still exist and be open / in use / etc.,
-     * the new instance will not reflect that state...
+     * Info clbss for MidiOutDevices.  Adds the
+     * provider's Clbss to keep the provider clbss from being
+     * unlobded.  Otherwise, bt lebst on JDK1.1.7 bnd 1.1.8,
+     * the provider clbss cbn be unlobded.  Then, then the provider
+     * is next invoked, the stbtic block is executed bgbin bnd b new
+     * instbnce of the device object is crebted.  Even though the
+     * previous instbnce mby still exist bnd be open / in use / etc.,
+     * the new instbnce will not reflect thbt stbte...
      */
-    static final class MidiOutDeviceInfo extends AbstractMidiDeviceProvider.Info {
-        private final Class<?> providerClass;
+    stbtic finbl clbss MidiOutDeviceInfo extends AbstrbctMidiDeviceProvider.Info {
+        privbte finbl Clbss<?> providerClbss;
 
-        private MidiOutDeviceInfo(int index, Class<?> providerClass) {
-            super(nGetName(index), nGetVendor(index), nGetDescription(index), nGetVersion(index), index);
-            this.providerClass = providerClass;
+        privbte MidiOutDeviceInfo(int index, Clbss<?> providerClbss) {
+            super(nGetNbme(index), nGetVendor(index), nGetDescription(index), nGetVersion(index), index);
+            this.providerClbss = providerClbss;
         }
 
-    } // class MidiOutDeviceInfo
+    } // clbss MidiOutDeviceInfo
 
 
     // NATIVE METHODS
 
-    private static native int nGetNumDevices();
-    private static native String nGetName(int index);
-    private static native String nGetVendor(int index);
-    private static native String nGetDescription(int index);
-    private static native String nGetVersion(int index);
+    privbte stbtic nbtive int nGetNumDevices();
+    privbte stbtic nbtive String nGetNbme(int index);
+    privbte stbtic nbtive String nGetVendor(int index);
+    privbte stbtic nbtive String nGetDescription(int index);
+    privbte stbtic nbtive String nGetVersion(int index);
 }

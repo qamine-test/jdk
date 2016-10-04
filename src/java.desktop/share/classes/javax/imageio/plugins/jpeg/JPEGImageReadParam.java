@@ -1,197 +1,197 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.plugins.jpeg;
+pbckbge jbvbx.imbgeio.plugins.jpeg;
 
-import javax.imageio.ImageReadParam;
+import jbvbx.imbgeio.ImbgeRebdPbrbm;
 
 /**
- * This class adds the ability to set JPEG quantization and Huffman
- * tables when using the built-in JPEG reader plug-in.  An instance of
- * this class will be returned from the
- * <code>getDefaultImageReadParam</code> methods of the built-in JPEG
- * <code>ImageReader</code>.
+ * This clbss bdds the bbility to set JPEG qubntizbtion bnd Huffmbn
+ * tbbles when using the built-in JPEG rebder plug-in.  An instbnce of
+ * this clbss will be returned from the
+ * <code>getDefbultImbgeRebdPbrbm</code> methods of the built-in JPEG
+ * <code>ImbgeRebder</code>.
  *
- * <p> The sole purpose of these additions is to allow the
- * specification of tables for use in decoding abbreviated streams.
- * The built-in JPEG reader will also accept an ordinary
- * <code>ImageReadParam</code>, which is sufficient for decoding
- * non-abbreviated streams.
+ * <p> The sole purpose of these bdditions is to bllow the
+ * specificbtion of tbbles for use in decoding bbbrevibted strebms.
+ * The built-in JPEG rebder will blso bccept bn ordinbry
+ * <code>ImbgeRebdPbrbm</code>, which is sufficient for decoding
+ * non-bbbrevibted strebms.
  *
- * <p> While tables for abbreviated streams are often obtained by
- * first reading another abbreviated stream containing only the
- * tables, in some applications the tables are fixed ahead of time.
- * This class allows the tables to be specified directly from client
- * code.  If no tables are specified either in the stream or in a
- * <code>JPEGImageReadParam</code>, then the stream is presumed to use
- * the "standard" visually lossless tables.  See {@link JPEGQTable JPEGQTable}
- * and {@link JPEGHuffmanTable JPEGHuffmanTable} for more information
- *  on the default tables.
+ * <p> While tbbles for bbbrevibted strebms bre often obtbined by
+ * first rebding bnother bbbrevibted strebm contbining only the
+ * tbbles, in some bpplicbtions the tbbles bre fixed bhebd of time.
+ * This clbss bllows the tbbles to be specified directly from client
+ * code.  If no tbbles bre specified either in the strebm or in b
+ * <code>JPEGImbgeRebdPbrbm</code>, then the strebm is presumed to use
+ * the "stbndbrd" visublly lossless tbbles.  See {@link JPEGQTbble JPEGQTbble}
+ * bnd {@link JPEGHuffmbnTbble JPEGHuffmbnTbble} for more informbtion
+ *  on the defbult tbbles.
  *
- * <p> The default <code>JPEGImageReadParam</code> returned by the
- * <code>getDefaultReadParam</code> method of the builtin JPEG reader
- * contains no tables.  Default tables may be obtained from the table
- * classes {@link JPEGQTable JPEGQTable} and
- * {@link JPEGHuffmanTable JPEGHuffmanTable}.
+ * <p> The defbult <code>JPEGImbgeRebdPbrbm</code> returned by the
+ * <code>getDefbultRebdPbrbm</code> method of the builtin JPEG rebder
+ * contbins no tbbles.  Defbult tbbles mby be obtbined from the tbble
+ * clbsses {@link JPEGQTbble JPEGQTbble} bnd
+ * {@link JPEGHuffmbnTbble JPEGHuffmbnTbble}.
  *
- * <p> If a stream does contain tables, the tables given in a
- * <code>JPEGImageReadParam</code> are ignored.  Furthermore, if the
- * first image in a stream does contain tables and subsequent ones do
- * not, then the tables given in the first image are used for all the
- * abbreviated images.  Once tables have been read from a stream, they
- * can be overridden only by tables subsequently read from the same
- * stream.  In order to specify new tables, the {@link
- * javax.imageio.ImageReader#setInput setInput} method of
- * the reader must be called to change the stream.
+ * <p> If b strebm does contbin tbbles, the tbbles given in b
+ * <code>JPEGImbgeRebdPbrbm</code> bre ignored.  Furthermore, if the
+ * first imbge in b strebm does contbin tbbles bnd subsequent ones do
+ * not, then the tbbles given in the first imbge bre used for bll the
+ * bbbrevibted imbges.  Once tbbles hbve been rebd from b strebm, they
+ * cbn be overridden only by tbbles subsequently rebd from the sbme
+ * strebm.  In order to specify new tbbles, the {@link
+ * jbvbx.imbgeio.ImbgeRebder#setInput setInput} method of
+ * the rebder must be cblled to chbnge the strebm.
  *
- * <p> Note that this class does not provide a means for obtaining the
- * tables found in a stream.  These may be extracted from a stream by
- * consulting the IIOMetadata object returned by the reader.
+ * <p> Note thbt this clbss does not provide b mebns for obtbining the
+ * tbbles found in b strebm.  These mby be extrbcted from b strebm by
+ * consulting the IIOMetbdbtb object returned by the rebder.
  *
  * <p>
- * For more information about the operation of the built-in JPEG plug-ins,
- * see the <A HREF="../../metadata/doc-files/jpeg_metadata.html">JPEG
- * metadata format specification and usage notes</A>.
+ * For more informbtion bbout the operbtion of the built-in JPEG plug-ins,
+ * see the <A HREF="../../metbdbtb/doc-files/jpeg_metbdbtb.html">JPEG
+ * metbdbtb formbt specificbtion bnd usbge notes</A>.
  *
  */
-public class JPEGImageReadParam extends ImageReadParam {
+public clbss JPEGImbgeRebdPbrbm extends ImbgeRebdPbrbm {
 
-    private JPEGQTable[] qTables = null;
-    private JPEGHuffmanTable[] DCHuffmanTables = null;
-    private JPEGHuffmanTable[] ACHuffmanTables = null;
+    privbte JPEGQTbble[] qTbbles = null;
+    privbte JPEGHuffmbnTbble[] DCHuffmbnTbbles = null;
+    privbte JPEGHuffmbnTbble[] ACHuffmbnTbbles = null;
 
     /**
-     * Constructs a <code>JPEGImageReadParam</code>.
+     * Constructs b <code>JPEGImbgeRebdPbrbm</code>.
      */
-    public JPEGImageReadParam() {
+    public JPEGImbgeRebdPbrbm() {
         super();
     }
 
     /**
-     * Returns <code>true</code> if tables are currently set.
+     * Returns <code>true</code> if tbbles bre currently set.
      *
-     * @return <code>true</code> if tables are present.
+     * @return <code>true</code> if tbbles bre present.
      */
-    public boolean areTablesSet() {
-        return (qTables != null);
+    public boolebn breTbblesSet() {
+        return (qTbbles != null);
     }
 
     /**
-     * Sets the quantization and Huffman tables to use in decoding
-     * abbreviated streams.  There may be a maximum of 4 tables of
-     * each type.  These tables are ignored once tables are
-     * encountered in the stream.  All arguments must be
-     * non-<code>null</code>.  The two arrays of Huffman tables must
-     * have the same number of elements.  The table specifiers in the
-     * frame and scan headers in the stream are assumed to be
-     * equivalent to indices into these arrays.  The argument arrays
-     * are copied by this method.
+     * Sets the qubntizbtion bnd Huffmbn tbbles to use in decoding
+     * bbbrevibted strebms.  There mby be b mbximum of 4 tbbles of
+     * ebch type.  These tbbles bre ignored once tbbles bre
+     * encountered in the strebm.  All brguments must be
+     * non-<code>null</code>.  The two brrbys of Huffmbn tbbles must
+     * hbve the sbme number of elements.  The tbble specifiers in the
+     * frbme bnd scbn hebders in the strebm bre bssumed to be
+     * equivblent to indices into these brrbys.  The brgument brrbys
+     * bre copied by this method.
      *
-     * @param qTables an array of quantization table objects.
-     * @param DCHuffmanTables an array of Huffman table objects.
-     * @param ACHuffmanTables an array of Huffman table objects.
+     * @pbrbm qTbbles bn brrby of qubntizbtion tbble objects.
+     * @pbrbm DCHuffmbnTbbles bn brrby of Huffmbn tbble objects.
+     * @pbrbm ACHuffmbnTbbles bn brrby of Huffmbn tbble objects.
      *
-     * @exception IllegalArgumentException if any of the arguments
-     * is <code>null</code>, has more than 4 elements, or if the
-     * numbers of DC and AC tables differ.
+     * @exception IllegblArgumentException if bny of the brguments
+     * is <code>null</code>, hbs more thbn 4 elements, or if the
+     * numbers of DC bnd AC tbbles differ.
      *
-     * @see #unsetDecodeTables
+     * @see #unsetDecodeTbbles
      */
-    public void setDecodeTables(JPEGQTable[] qTables,
-                                JPEGHuffmanTable[] DCHuffmanTables,
-                                JPEGHuffmanTable[] ACHuffmanTables) {
-        if ((qTables == null) ||
-            (DCHuffmanTables == null) ||
-            (ACHuffmanTables == null) ||
-            (qTables.length > 4) ||
-            (DCHuffmanTables.length > 4) ||
-            (ACHuffmanTables.length > 4) ||
-            (DCHuffmanTables.length != ACHuffmanTables.length)) {
-                throw new IllegalArgumentException
-                    ("Invalid JPEG table arrays");
+    public void setDecodeTbbles(JPEGQTbble[] qTbbles,
+                                JPEGHuffmbnTbble[] DCHuffmbnTbbles,
+                                JPEGHuffmbnTbble[] ACHuffmbnTbbles) {
+        if ((qTbbles == null) ||
+            (DCHuffmbnTbbles == null) ||
+            (ACHuffmbnTbbles == null) ||
+            (qTbbles.length > 4) ||
+            (DCHuffmbnTbbles.length > 4) ||
+            (ACHuffmbnTbbles.length > 4) ||
+            (DCHuffmbnTbbles.length != ACHuffmbnTbbles.length)) {
+                throw new IllegblArgumentException
+                    ("Invblid JPEG tbble brrbys");
         }
-        this.qTables = qTables.clone();
-        this.DCHuffmanTables = DCHuffmanTables.clone();
-        this.ACHuffmanTables = ACHuffmanTables.clone();
+        this.qTbbles = qTbbles.clone();
+        this.DCHuffmbnTbbles = DCHuffmbnTbbles.clone();
+        this.ACHuffmbnTbbles = ACHuffmbnTbbles.clone();
     }
 
     /**
-     * Removes any quantization and Huffman tables that are currently
+     * Removes bny qubntizbtion bnd Huffmbn tbbles thbt bre currently
      * set.
      *
-     * @see #setDecodeTables
+     * @see #setDecodeTbbles
      */
-    public void unsetDecodeTables() {
-        this.qTables = null;
-        this.DCHuffmanTables = null;
-        this.ACHuffmanTables = null;
+    public void unsetDecodeTbbles() {
+        this.qTbbles = null;
+        this.DCHuffmbnTbbles = null;
+        this.ACHuffmbnTbbles = null;
     }
 
     /**
-     * Returns a copy of the array of quantization tables set on the
-     * most recent call to <code>setDecodeTables</code>, or
-     * <code>null</code> if tables are not currently set.
+     * Returns b copy of the brrby of qubntizbtion tbbles set on the
+     * most recent cbll to <code>setDecodeTbbles</code>, or
+     * <code>null</code> if tbbles bre not currently set.
      *
-     * @return an array of <code>JPEGQTable</code> objects, or
+     * @return bn brrby of <code>JPEGQTbble</code> objects, or
      * <code>null</code>.
      *
-     * @see #setDecodeTables
+     * @see #setDecodeTbbles
      */
-    public JPEGQTable[] getQTables() {
-        return (qTables != null) ? qTables.clone() : null;
+    public JPEGQTbble[] getQTbbles() {
+        return (qTbbles != null) ? qTbbles.clone() : null;
     }
 
     /**
-     * Returns a copy of the array of DC Huffman tables set on the
-     * most recent call to <code>setDecodeTables</code>, or
-     * <code>null</code> if tables are not currently set.
+     * Returns b copy of the brrby of DC Huffmbn tbbles set on the
+     * most recent cbll to <code>setDecodeTbbles</code>, or
+     * <code>null</code> if tbbles bre not currently set.
      *
-     * @return an array of <code>JPEGHuffmanTable</code> objects, or
+     * @return bn brrby of <code>JPEGHuffmbnTbble</code> objects, or
      * <code>null</code>.
      *
-     * @see #setDecodeTables
+     * @see #setDecodeTbbles
      */
-    public JPEGHuffmanTable[] getDCHuffmanTables() {
-        return (DCHuffmanTables != null)
-            ? DCHuffmanTables.clone()
+    public JPEGHuffmbnTbble[] getDCHuffmbnTbbles() {
+        return (DCHuffmbnTbbles != null)
+            ? DCHuffmbnTbbles.clone()
             : null;
     }
 
     /**
-     * Returns a copy of the array of AC Huffman tables set on the
-     * most recent call to <code>setDecodeTables</code>, or
-     * <code>null</code> if tables are not currently set.
+     * Returns b copy of the brrby of AC Huffmbn tbbles set on the
+     * most recent cbll to <code>setDecodeTbbles</code>, or
+     * <code>null</code> if tbbles bre not currently set.
      *
-     * @return an array of <code>JPEGHuffmanTable</code> objects, or
+     * @return bn brrby of <code>JPEGHuffmbnTbble</code> objects, or
      * <code>null</code>.
      *
-     * @see #setDecodeTables
+     * @see #setDecodeTbbles
      */
-    public JPEGHuffmanTable[] getACHuffmanTables() {
-        return (ACHuffmanTables != null)
-            ? ACHuffmanTables.clone()
+    public JPEGHuffmbnTbble[] getACHuffmbnTbbles() {
+        return (ACHuffmbnTbbles != null)
+            ? ACHuffmbnTbbles.clone()
             : null;
     }
 }

@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
 /**
- * A local variable in the target VM. Each variable declared within a
- * {@link Method} has its own LocalVariable object. Variables of the same
- * name declared in different scopes have different LocalVariable objects.
- * LocalVariables can be used alone to retrieve static information
- * about their declaration, or can be used in conjunction with a
- * {@link StackFrame} to set and get values.
+ * A locbl vbribble in the tbrget VM. Ebch vbribble declbred within b
+ * {@link Method} hbs its own LocblVbribble object. Vbribbles of the sbme
+ * nbme declbred in different scopes hbve different LocblVbribble objects.
+ * LocblVbribbles cbn be used blone to retrieve stbtic informbtion
+ * bbout their declbrbtion, or cbn be used in conjunction with b
+ * {@link StbckFrbme} to set bnd get vblues.
  *
- * @see StackFrame
+ * @see StbckFrbme
  * @see Method
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
+ * @buthor Robert Field
+ * @buthor Gordon Hirsch
+ * @buthor Jbmes McIlree
  * @since  1.3
  */
 
 @jdk.Exported
-public interface LocalVariable extends Mirror, Comparable<LocalVariable> {
+public interfbce LocblVbribble extends Mirror, Compbrbble<LocblVbribble> {
 
     /**
-     * Gets the name of the local variable.
+     * Gets the nbme of the locbl vbribble.
      *
-     * @return a string containing the name.
+     * @return b string contbining the nbme.
      */
-    String name();
+    String nbme();
 
     /**
-     * Returns a text representation of the type
-     * of this variable.
-     * Where the type is the type specified in the declaration
-     * of this local variable.
+     * Returns b text representbtion of the type
+     * of this vbribble.
+     * Where the type is the type specified in the declbrbtion
+     * of this locbl vbribble.
      * <P>
-     * This type name is always available even if
-     * the type has not yet been created or loaded.
+     * This type nbme is blwbys bvbilbble even if
+     * the type hbs not yet been crebted or lobded.
      *
-     * @return a String representing the
-     * type of this local variable.
+     * @return b String representing the
+     * type of this locbl vbribble.
 
      */
-    String typeName();
+    String typeNbme();
 
     /**
-     * Returns the type of this variable.
-     * Where the type is the type specified in the declaration
-     * of this local variable.
+     * Returns the type of this vbribble.
+     * Where the type is the type specified in the declbrbtion
+     * of this locbl vbribble.
      * <P>
-     * Note: if the type of this variable is a reference type (class,
-     * interface, or array) and it has not been created or loaded
-     * by the class loader of the enclosing class,
-     * then ClassNotLoadedException will be thrown.
-     * Also, a reference type may have been loaded but not yet prepared,
-     * in which case the type will be returned
-     * but attempts to perform some operations on the returned type
+     * Note: if the type of this vbribble is b reference type (clbss,
+     * interfbce, or brrby) bnd it hbs not been crebted or lobded
+     * by the clbss lobder of the enclosing clbss,
+     * then ClbssNotLobdedException will be thrown.
+     * Also, b reference type mby hbve been lobded but not yet prepbred,
+     * in which cbse the type will be returned
+     * but bttempts to perform some operbtions on the returned type
      * (e.g. {@link ReferenceType#fields() fields()}) will throw
-     * a {@link ClassNotPreparedException}.
-     * Use {@link ReferenceType#isPrepared()} to determine if
-     * a reference type is prepared.
+     * b {@link ClbssNotPrepbredException}.
+     * Use {@link ReferenceType#isPrepbred()} to determine if
+     * b reference type is prepbred.
      *
      * @see Type
-     * @see Field#type() Field.type() - for usage examples
-     * @return the {@link Type} of this local variable.
-     * @throws ClassNotLoadedException if the type has not yet been loaded
-     * through the appropriate class loader.
+     * @see Field#type() Field.type() - for usbge exbmples
+     * @return the {@link Type} of this locbl vbribble.
+     * @throws ClbssNotLobdedException if the type hbs not yet been lobded
+     * through the bppropribte clbss lobder.
      */
-    Type type() throws ClassNotLoadedException;
+    Type type() throws ClbssNotLobdedException;
 
     /**
-     * Gets the JNI signature of the local variable.
+     * Gets the JNI signbture of the locbl vbribble.
      *
-     * @see <a href="doc-files/signature.html">Type Signatures</a>
-     * @return a string containing the signature.
+     * @see <b href="doc-files/signbture.html">Type Signbtures</b>
+     * @return b string contbining the signbture.
      */
-    String signature();
+    String signbture();
 
     /**
-     * Gets the generic signature for this variable if there is one.
-     * Generic signatures are described in the
-     * <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * Gets the generic signbture for this vbribble if there is one.
+     * Generic signbtures bre described in the
+     * <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
      *
-     * @return a string containing the generic signature, or <code>null</code>
-     * if there is no generic signature.
+     * @return b string contbining the generic signbture, or <code>null</code>
+     * if there is no generic signbture.
      *
      * @since 1.5
      */
-    String genericSignature();
+    String genericSignbture();
 
     /**
-     * Determines whether this variable can be accessed from the given
-     * {@link StackFrame}.
+     * Determines whether this vbribble cbn be bccessed from the given
+     * {@link StbckFrbme}.
      *
-     * See {@link StackFrame#visibleVariables} for a complete description
-     * variable visibility in this interface.
+     * See {@link StbckFrbme#visibleVbribbles} for b complete description
+     * vbribble visibility in this interfbce.
      *
-     * @param frame the StackFrame querying visibility
-     * @return <code>true</code> if this variable is visible;
-     * <code>false</code> otherwise.
-     * @throws IllegalArgumentException if the stack frame's method
-     * does not match this variable's method.
+     * @pbrbm frbme the StbckFrbme querying visibility
+     * @return <code>true</code> if this vbribble is visible;
+     * <code>fblse</code> otherwise.
+     * @throws IllegblArgumentException if the stbck frbme's method
+     * does not mbtch this vbribble's method.
      */
-    boolean isVisible(StackFrame frame);
+    boolebn isVisible(StbckFrbme frbme);
 
     /**
-     * Determines if this variable is an argument to its method.
+     * Determines if this vbribble is bn brgument to its method.
      *
-     * @return <code>true</code> if this variable is an argument;
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if this vbribble is bn brgument;
+     * <code>fblse</code> otherwise.
      */
-    boolean isArgument();
+    boolebn isArgument();
 
     /**
-     * Compares the specified Object with this LocalVariable for equality.
+     * Compbres the specified Object with this LocblVbribble for equblity.
      *
-     * @return  true if the Object is a LocalVariable, if both LocalVariables
-     * are contained in the same method (as determined by
-     * {@link Method#equals}), and if both LocalVariables mirror
-     * the same declaration within that method
+     * @return  true if the Object is b LocblVbribble, if both LocblVbribbles
+     * bre contbined in the sbme method (bs determined by
+     * {@link Method#equbls}), bnd if both LocblVbribbles mirror
+     * the sbme declbrbtion within thbt method
      */
-    boolean equals(Object obj);
+    boolebn equbls(Object obj);
 
     /**
-     * Returns the hash code value for this LocalVariable.
+     * Returns the hbsh code vblue for this LocblVbribble.
      *
-     * @return the integer hash code
+     * @return the integer hbsh code
      */
-    int hashCode();
+    int hbshCode();
 }

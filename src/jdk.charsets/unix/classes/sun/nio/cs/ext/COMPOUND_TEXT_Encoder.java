@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.nio.cs.ext;
+pbckbge sun.nio.cs.ext;
 
-import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.*;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-public class COMPOUND_TEXT_Encoder extends CharsetEncoder {
+public clbss COMPOUND_TEXT_Encoder extends ChbrsetEncoder {
 
     /**
-     * NOTE: The following four static variables should be used *only* for
-     * testing whether a encoder can encode a specific character. They
-     * cannot be used for actual encoding because they are shared across all
-     * COMPOUND_TEXT encoders and may be stateful.
+     * NOTE: The following four stbtic vbribbles should be used *only* for
+     * testing whether b encoder cbn encode b specific chbrbcter. They
+     * cbnnot be used for bctubl encoding becbuse they bre shbred bcross bll
+     * COMPOUND_TEXT encoders bnd mby be stbteful.
      */
-    private static final Map<String,CharsetEncoder> encodingToEncoderMap =
-      Collections.synchronizedMap(new HashMap<String,CharsetEncoder>(21, 1.0f));
-    private static final CharsetEncoder latin1Encoder;
-    private static final CharsetEncoder defaultEncoder;
-    private static final boolean defaultEncodingSupported;
+    privbte stbtic finbl Mbp<String,ChbrsetEncoder> encodingToEncoderMbp =
+      Collections.synchronizedMbp(new HbshMbp<String,ChbrsetEncoder>(21, 1.0f));
+    privbte stbtic finbl ChbrsetEncoder lbtin1Encoder;
+    privbte stbtic finbl ChbrsetEncoder defbultEncoder;
+    privbte stbtic finbl boolebn defbultEncodingSupported;
 
-    static {
-        CharsetEncoder encoder = Charset.defaultCharset().newEncoder();
-        String encoding = encoder.charset().name();
-        if ("ISO8859_1".equals(encoding)) {
-            latin1Encoder = encoder;
-            defaultEncoder = encoder;
-            defaultEncodingSupported = true;
+    stbtic {
+        ChbrsetEncoder encoder = Chbrset.defbultChbrset().newEncoder();
+        String encoding = encoder.chbrset().nbme();
+        if ("ISO8859_1".equbls(encoding)) {
+            lbtin1Encoder = encoder;
+            defbultEncoder = encoder;
+            defbultEncodingSupported = true;
         } else {
             try {
-                latin1Encoder =
-                    Charset.forName("ISO8859_1").newEncoder();
-            } catch (IllegalArgumentException e) {
-                throw new ExceptionInInitializerError
+                lbtin1Encoder =
+                    Chbrset.forNbme("ISO8859_1").newEncoder();
+            } cbtch (IllegblArgumentException e) {
+                throw new ExceptionInInitiblizerError
                     ("ISO8859_1 unsupported");
             }
-            defaultEncoder = encoder;
-            defaultEncodingSupported = CompoundTextSupport.getEncodings().
-                contains(defaultEncoder.charset().name());
+            defbultEncoder = encoder;
+            defbultEncodingSupported = CompoundTextSupport.getEncodings().
+                contbins(defbultEncoder.chbrset().nbme());
         }
     }
 
-    private CharsetEncoder encoder;
-    private char[] charBuf = new char[1];
-    private CharBuffer charbuf = CharBuffer.wrap(charBuf);
-    private ByteArrayOutputStream nonStandardCharsetBuffer;
-    private byte[] byteBuf;
-    private ByteBuffer bytebuf;
-    private int numNonStandardChars, nonStandardEncodingLen;
+    privbte ChbrsetEncoder encoder;
+    privbte chbr[] chbrBuf = new chbr[1];
+    privbte ChbrBuffer chbrbuf = ChbrBuffer.wrbp(chbrBuf);
+    privbte ByteArrbyOutputStrebm nonStbndbrdChbrsetBuffer;
+    privbte byte[] byteBuf;
+    privbte ByteBuffer bytebuf;
+    privbte int numNonStbndbrdChbrs, nonStbndbrdEncodingLen;
 
-    public COMPOUND_TEXT_Encoder(Charset cs) {
+    public COMPOUND_TEXT_Encoder(Chbrset cs) {
         super(cs,
-              (float)(CompoundTextSupport.MAX_CONTROL_SEQUENCE_LEN + 2),
-              (float)(CompoundTextSupport.MAX_CONTROL_SEQUENCE_LEN + 2));
+              (flobt)(CompoundTextSupport.MAX_CONTROL_SEQUENCE_LEN + 2),
+              (flobt)(CompoundTextSupport.MAX_CONTROL_SEQUENCE_LEN + 2));
         try {
-            encoder = Charset.forName("ISO8859_1").newEncoder();
-        } catch (IllegalArgumentException cannotHappen) {}
+            encoder = Chbrset.forNbme("ISO8859_1").newEncoder();
+        } cbtch (IllegblArgumentException cbnnotHbppen) {}
         initEncoder(encoder);
     }
 
-    protected CoderResult encodeLoop(CharBuffer src, ByteBuffer des) {
+    protected CoderResult encodeLoop(ChbrBuffer src, ByteBuffer des) {
         CoderResult cr = CoderResult.UNDERFLOW;
-        char[] input = src.array();
-        int inOff = src.arrayOffset() + src.position();
-        int inEnd = src.arrayOffset() + src.limit();
+        chbr[] input = src.brrby();
+        int inOff = src.brrbyOffset() + src.position();
+        int inEnd = src.brrbyOffset() + src.limit();
 
         try {
             while (inOff < inEnd && cr.isUnderflow()) {
-                charBuf[0] = input[inOff];
-                if (charBuf[0] <= '\u0008' ||
-                    (charBuf[0] >= '\u000B' && charBuf[0] <= '\u001F') ||
-                    (charBuf[0] >= '\u0080' && charBuf[0] <= '\u009F')) {
-                    // The compound text specification only permits the octets
-                    // 0x09, 0x0A, 0x1B, and 0x9B in C0 and C1. Of these, 1B and
-                    // 9B must also be removed because they initiate control
+                chbrBuf[0] = input[inOff];
+                if (chbrBuf[0] <= '\u0008' ||
+                    (chbrBuf[0] >= '\u000B' && chbrBuf[0] <= '\u001F') ||
+                    (chbrBuf[0] >= '\u0080' && chbrBuf[0] <= '\u009F')) {
+                    // The compound text specificbtion only permits the octets
+                    // 0x09, 0x0A, 0x1B, bnd 0x9B in C0 bnd C1. Of these, 1B bnd
+                    // 9B must blso be removed becbuse they initibte control
                     // sequences.
-                    charBuf[0] = '?';
+                    chbrBuf[0] = '?';
                 }
 
-                CharsetEncoder enc = getEncoder(charBuf[0]);
-                //System.out.println("char=" + charBuf[0] + ", enc=" + enc);
+                ChbrsetEncoder enc = getEncoder(chbrBuf[0]);
+                //System.out.println("chbr=" + chbrBuf[0] + ", enc=" + enc);
                 if (enc == null) {
-                    if (unmappableCharacterAction()
+                    if (unmbppbbleChbrbcterAction()
                         == CodingErrorAction.REPORT) {
-                        charBuf[0] = '?';
-                        enc = latin1Encoder;
+                        chbrBuf[0] = '?';
+                        enc = lbtin1Encoder;
                     } else {
-                        return CoderResult.unmappableForLength(1);
+                        return CoderResult.unmbppbbleForLength(1);
                     }
                 }
                 if (enc != encoder) {
-                    if (nonStandardCharsetBuffer != null) {
-                        cr = flushNonStandardCharsetBuffer(des);
+                    if (nonStbndbrdChbrsetBuffer != null) {
+                        cr = flushNonStbndbrdChbrsetBuffer(des);
                     } else {
                         //cr= encoder.flush(des);
                         flushEncoder(encoder, des);
@@ -128,14 +128,14 @@ public class COMPOUND_TEXT_Encoder extends CharsetEncoder {
                     if (!cr.isUnderflow())
                         return cr;
                     byte[] escSequence = CompoundTextSupport.
-                        getEscapeSequence(enc.charset().name());
+                        getEscbpeSequence(enc.chbrset().nbme());
                     if (escSequence == null) {
-                        throw new InternalError("Unknown encoding: " +
-                                                enc.charset().name());
+                        throw new InternblError("Unknown encoding: " +
+                                                enc.chbrset().nbme());
                     } else if (escSequence[1] == (byte)0x25 &&
                                escSequence[2] == (byte)0x2F) {
-                        initNonStandardCharsetBuffer(enc, escSequence);
-                    } else if (des.remaining() >= escSequence.length) {
+                        initNonStbndbrdChbrsetBuffer(enc, escSequence);
+                    } else if (des.rembining() >= escSequence.length) {
                         des.put(escSequence, 0, escSequence.length);
                     } else {
                         return CoderResult.OVERFLOW;
@@ -143,206 +143,206 @@ public class COMPOUND_TEXT_Encoder extends CharsetEncoder {
                     encoder = enc;
                     continue;
                 }
-                charbuf.rewind();
-                if (nonStandardCharsetBuffer == null) {
-                    cr = encoder.encode(charbuf, des, false);
+                chbrbuf.rewind();
+                if (nonStbndbrdChbrsetBuffer == null) {
+                    cr = encoder.encode(chbrbuf, des, fblse);
                 } else {
-                    bytebuf.clear();
-                    cr = encoder.encode(charbuf, bytebuf, false);
+                    bytebuf.clebr();
+                    cr = encoder.encode(chbrbuf, bytebuf, fblse);
                     bytebuf.flip();
-                    nonStandardCharsetBuffer.write(byteBuf,
+                    nonStbndbrdChbrsetBuffer.write(byteBuf,
                                                    0, bytebuf.limit());
-                    numNonStandardChars++;
+                    numNonStbndbrdChbrs++;
                 }
                 inOff++;
             }
             return cr;
-        } finally {
-            src.position(inOff - src.arrayOffset());
+        } finblly {
+            src.position(inOff - src.brrbyOffset());
         }
     }
 
     protected CoderResult implFlush(ByteBuffer out) {
-        CoderResult cr = (nonStandardCharsetBuffer != null)
-            ? flushNonStandardCharsetBuffer(out)
+        CoderResult cr = (nonStbndbrdChbrsetBuffer != null)
+            ? flushNonStbndbrdChbrsetBuffer(out)
             //: encoder.flush(out);
             : flushEncoder(encoder, out);
         reset();
         return cr;
     }
 
-    private void initNonStandardCharsetBuffer(CharsetEncoder c,
+    privbte void initNonStbndbrdChbrsetBuffer(ChbrsetEncoder c,
                                               byte[] escSequence)
     {
-        nonStandardCharsetBuffer = new ByteArrayOutputStream();
-        byteBuf = new byte[(int)c.maxBytesPerChar()];
-        bytebuf = ByteBuffer.wrap(byteBuf);
-        nonStandardCharsetBuffer.write(escSequence, 0, escSequence.length);
-        nonStandardCharsetBuffer.write(0); // M placeholder
-        nonStandardCharsetBuffer.write(0); // L placeholder
+        nonStbndbrdChbrsetBuffer = new ByteArrbyOutputStrebm();
+        byteBuf = new byte[(int)c.mbxBytesPerChbr()];
+        bytebuf = ByteBuffer.wrbp(byteBuf);
+        nonStbndbrdChbrsetBuffer.write(escSequence, 0, escSequence.length);
+        nonStbndbrdChbrsetBuffer.write(0); // M plbceholder
+        nonStbndbrdChbrsetBuffer.write(0); // L plbceholder
         byte[] encoding = CompoundTextSupport.
-            getEncoding(c.charset().name());
+            getEncoding(c.chbrset().nbme());
         if (encoding == null) {
-            throw new InternalError
-                ("Unknown encoding: " + encoder.charset().name());
+            throw new InternblError
+                ("Unknown encoding: " + encoder.chbrset().nbme());
         }
-        nonStandardCharsetBuffer.write(encoding, 0, encoding.length);
-        nonStandardCharsetBuffer.write(0x02); // divider
-        nonStandardEncodingLen = encoding.length + 1;
+        nonStbndbrdChbrsetBuffer.write(encoding, 0, encoding.length);
+        nonStbndbrdChbrsetBuffer.write(0x02); // divider
+        nonStbndbrdEncodingLen = encoding.length + 1;
     }
 
-    private CoderResult flushNonStandardCharsetBuffer(ByteBuffer out) {
-        if (numNonStandardChars > 0) {
-            byte[] flushBuf = new byte[(int)encoder.maxBytesPerChar() *
-                                       numNonStandardChars];
-            ByteBuffer bb = ByteBuffer.wrap(flushBuf);
+    privbte CoderResult flushNonStbndbrdChbrsetBuffer(ByteBuffer out) {
+        if (numNonStbndbrdChbrs > 0) {
+            byte[] flushBuf = new byte[(int)encoder.mbxBytesPerChbr() *
+                                       numNonStbndbrdChbrs];
+            ByteBuffer bb = ByteBuffer.wrbp(flushBuf);
             flushEncoder(encoder, bb);
             bb.flip();
-            nonStandardCharsetBuffer.write(flushBuf, 0, bb.limit());
-            numNonStandardChars = 0;
+            nonStbndbrdChbrsetBuffer.write(flushBuf, 0, bb.limit());
+            numNonStbndbrdChbrs = 0;
         }
 
-        int numBytes = nonStandardCharsetBuffer.size();
-        int nonStandardBytesOff = 6 + nonStandardEncodingLen;
+        int numBytes = nonStbndbrdChbrsetBuffer.size();
+        int nonStbndbrdBytesOff = 6 + nonStbndbrdEncodingLen;
 
-        if (out.remaining() < (numBytes - nonStandardBytesOff) +
-            nonStandardBytesOff * (((numBytes - nonStandardBytesOff) /
+        if (out.rembining() < (numBytes - nonStbndbrdBytesOff) +
+            nonStbndbrdBytesOff * (((numBytes - nonStbndbrdBytesOff) /
                                     ((1 << 14) - 1)) + 1))
         {
             return CoderResult.OVERFLOW;
         }
 
-        byte[] nonStandardBytes =
-            nonStandardCharsetBuffer.toByteArray();
+        byte[] nonStbndbrdBytes =
+            nonStbndbrdChbrsetBuffer.toByteArrby();
 
-        // The non-standard charset header only supports 2^14-1 bytes of data.
-        // If we have more than that, we have to repeat the header.
+        // The non-stbndbrd chbrset hebder only supports 2^14-1 bytes of dbtb.
+        // If we hbve more thbn thbt, we hbve to repebt the hebder.
         do {
             out.put((byte)0x1B);
             out.put((byte)0x25);
             out.put((byte)0x2F);
-            out.put(nonStandardBytes[3]);
+            out.put(nonStbndbrdBytes[3]);
 
-            int toWrite = Math.min(numBytes - nonStandardBytesOff,
-                                   (1 << 14) - 1 - nonStandardEncodingLen);
+            int toWrite = Mbth.min(numBytes - nonStbndbrdBytesOff,
+                                   (1 << 14) - 1 - nonStbndbrdEncodingLen);
 
             out.put((byte)
-                (((toWrite + nonStandardEncodingLen) / 0x80) | 0x80)); // M
+                (((toWrite + nonStbndbrdEncodingLen) / 0x80) | 0x80)); // M
             out.put((byte)
-                (((toWrite + nonStandardEncodingLen) % 0x80) | 0x80)); // L
-            out.put(nonStandardBytes, 6, nonStandardEncodingLen);
-            out.put(nonStandardBytes, nonStandardBytesOff, toWrite);
-            nonStandardBytesOff += toWrite;
-        } while (nonStandardBytesOff < numBytes);
+                (((toWrite + nonStbndbrdEncodingLen) % 0x80) | 0x80)); // L
+            out.put(nonStbndbrdBytes, 6, nonStbndbrdEncodingLen);
+            out.put(nonStbndbrdBytes, nonStbndbrdBytesOff, toWrite);
+            nonStbndbrdBytesOff += toWrite;
+        } while (nonStbndbrdBytesOff < numBytes);
 
-        nonStandardCharsetBuffer = null;
+        nonStbndbrdChbrsetBuffer = null;
         byteBuf = null;
-        nonStandardEncodingLen = 0;
+        nonStbndbrdEncodingLen = 0;
         return CoderResult.UNDERFLOW;
     }
 
     /**
      * Resets the encoder.
-     * Call this method to reset the encoder to its initial state
+     * Cbll this method to reset the encoder to its initibl stbte
      */
     protected void implReset() {
-        numNonStandardChars = nonStandardEncodingLen = 0;
-        nonStandardCharsetBuffer = null;
+        numNonStbndbrdChbrs = nonStbndbrdEncodingLen = 0;
+        nonStbndbrdChbrsetBuffer = null;
         byteBuf = null;
         try {
-            encoder = Charset.forName("ISO8859_1").newEncoder();
-        } catch (IllegalArgumentException cannotHappen) {
+            encoder = Chbrset.forNbme("ISO8859_1").newEncoder();
+        } cbtch (IllegblArgumentException cbnnotHbppen) {
         }
         initEncoder(encoder);
     }
 
     /**
-     * Return whether a character is mappable or not
-     * @return true if a character is mappable
+     * Return whether b chbrbcter is mbppbble or not
+     * @return true if b chbrbcter is mbppbble
      */
-    public boolean canEncode(char ch) {
+    public boolebn cbnEncode(chbr ch) {
         return getEncoder(ch) != null;
     }
 
-    protected void implOnMalformedInput(CodingErrorAction newAction) {
-        encoder.onUnmappableCharacter(newAction);
+    protected void implOnMblformedInput(CodingErrorAction newAction) {
+        encoder.onUnmbppbbleChbrbcter(newAction);
     }
 
-    protected void implOnUnmappableCharacter(CodingErrorAction newAction) {
-        encoder.onUnmappableCharacter(newAction);
+    protected void implOnUnmbppbbleChbrbcter(CodingErrorAction newAction) {
+        encoder.onUnmbppbbleChbrbcter(newAction);
     }
 
-    protected void implReplaceWith(byte[] newReplacement) {
+    protected void implReplbceWith(byte[] newReplbcement) {
         if (encoder != null)
-            encoder.replaceWith(newReplacement);
+            encoder.replbceWith(newReplbcement);
     }
 
     /**
-     * Try to figure out which CharsetEncoder to use for conversion
-     * of the specified Unicode character. The target character encoding
-     * of the returned encoder is approved to be used with Compound Text.
+     * Try to figure out which ChbrsetEncoder to use for conversion
+     * of the specified Unicode chbrbcter. The tbrget chbrbcter encoding
+     * of the returned encoder is bpproved to be used with Compound Text.
      *
-     * @param ch Unicode character
-     * @return CharsetEncoder to convert the given character
+     * @pbrbm ch Unicode chbrbcter
+     * @return ChbrsetEncoder to convert the given chbrbcter
      */
-    private CharsetEncoder getEncoder(char ch) {
+    privbte ChbrsetEncoder getEncoder(chbr ch) {
         // 1. Try the current encoder.
-        if (encoder.canEncode(ch)) {
+        if (encoder.cbnEncode(ch)) {
             return encoder;
         }
 
-        // 2. Try the default encoder.
-        if (defaultEncodingSupported && defaultEncoder.canEncode(ch)) {
-            CharsetEncoder retval = null;
+        // 2. Try the defbult encoder.
+        if (defbultEncodingSupported && defbultEncoder.cbnEncode(ch)) {
+            ChbrsetEncoder retvbl = null;
             try {
-                retval = defaultEncoder.charset().newEncoder();
-            } catch (UnsupportedOperationException cannotHappen) {
+                retvbl = defbultEncoder.chbrset().newEncoder();
+            } cbtch (UnsupportedOperbtionException cbnnotHbppen) {
             }
-            initEncoder(retval);
-            return retval;
+            initEncoder(retvbl);
+            return retvbl;
         }
 
         // 3. Try ISO8859-1.
-        if (latin1Encoder.canEncode(ch)) {
-            CharsetEncoder retval = null;
+        if (lbtin1Encoder.cbnEncode(ch)) {
+            ChbrsetEncoder retvbl = null;
             try {
-                retval = latin1Encoder.charset().newEncoder();
-            } catch (UnsupportedOperationException cannotHappen) {}
-            initEncoder(retval);
-            return retval;
+                retvbl = lbtin1Encoder.chbrset().newEncoder();
+            } cbtch (UnsupportedOperbtionException cbnnotHbppen) {}
+            initEncoder(retvbl);
+            return retvbl;
         }
 
-        // 4. Brute force search of all supported encodings.
+        // 4. Brute force sebrch of bll supported encodings.
         for (String encoding : CompoundTextSupport.getEncodings())
         {
-            CharsetEncoder enc = encodingToEncoderMap.get(encoding);
+            ChbrsetEncoder enc = encodingToEncoderMbp.get(encoding);
             if (enc == null) {
                 enc = CompoundTextSupport.getEncoder(encoding);
                 if (enc == null) {
-                    throw new InternalError("Unsupported encoding: " +
+                    throw new InternblError("Unsupported encoding: " +
                                             encoding);
                 }
-                encodingToEncoderMap.put(encoding, enc);
+                encodingToEncoderMbp.put(encoding, enc);
             }
-            if (enc.canEncode(ch)) {
-                CharsetEncoder retval = CompoundTextSupport.getEncoder(encoding);
-                initEncoder(retval);
-                return retval;
+            if (enc.cbnEncode(ch)) {
+                ChbrsetEncoder retvbl = CompoundTextSupport.getEncoder(encoding);
+                initEncoder(retvbl);
+                return retvbl;
             }
         }
 
         return null;
     }
 
-    private void initEncoder(CharsetEncoder enc) {
+    privbte void initEncoder(ChbrsetEncoder enc) {
         try {
-            enc.onUnmappableCharacter(CodingErrorAction.REPLACE)
-                .replaceWith(replacement());
-        } catch (IllegalArgumentException x) {}
+            enc.onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE)
+                .replbceWith(replbcement());
+        } cbtch (IllegblArgumentException x) {}
     }
 
-    private CharBuffer fcb= CharBuffer.allocate(0);
-    private CoderResult flushEncoder(CharsetEncoder enc, ByteBuffer bb) {
+    privbte ChbrBuffer fcb= ChbrBuffer.bllocbte(0);
+    privbte CoderResult flushEncoder(ChbrsetEncoder enc, ByteBuffer bb) {
         enc.encode(fcb, bb, true);
         return enc.flush(bb);
     }

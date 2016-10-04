@@ -1,91 +1,91 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
-<head>
+<hebd>
 <!--
-Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
  
 -->
-</head>
+</hebd>
 <body bgcolor="white">
 
-Provides support for LDAPv3 extended operations and controls.
+Provides support for LDAPv3 extended operbtions bnd controls.
 
 <p>
-This package extends the directory operations of the Java Naming and
-Directory Interface<font size=-2><sup>TM</sup></font> (JNDI). &nbsp;
-JNDI provides naming and directory functionality to applications
-written in the Java programming language.  It is designed to be
-independent of any specific naming or directory service
-implementation.  Thus a variety of services--new, emerging, and
-already deployed ones--can be accessed in a common way.
+This pbckbge extends the directory operbtions of the Jbvb Nbming bnd
+Directory Interfbce<font size=-2><sup>TM</sup></font> (JNDI). &nbsp;
+JNDI provides nbming bnd directory functionblity to bpplicbtions
+written in the Jbvb progrbmming lbngubge.  It is designed to be
+independent of bny specific nbming or directory service
+implementbtion.  Thus b vbriety of services--new, emerging, bnd
+blrebdy deployed ones--cbn be bccessed in b common wby.
 
 <p>
-This package is for applications and service providers that deal with
-LDAPv3 extended operations and controls, as defined by
-<a href=http://www.ietf.org/rfc/rfc2251.txt>RFC 2251</a>.
-The core interface in this package is <tt>LdapContext</tt>, which defines
-methods on a context for performing extended operations and handling
+This pbckbge is for bpplicbtions bnd service providers thbt debl with
+LDAPv3 extended operbtions bnd controls, bs defined by
+<b href=http://www.ietf.org/rfc/rfc2251.txt>RFC 2251</b>.
+The core interfbce in this pbckbge is <tt>LdbpContext</tt>, which defines
+methods on b context for performing extended operbtions bnd hbndling
 controls.
 
-<h4>Extended Operations</h4>
+<h4>Extended Operbtions</h4>
 <p>
-This package defines the interface <tt>ExtendedRequest</tt>
-to represent the argument to an extended operation,
-and the interface <tt>ExtendedResponse</tt> to represent the result
-of the extended operation.
-An extended response is always paired with an extended request
-but not necessarily vice versa. That is, you can have an extended request
-that has no corresponding extended response.
+This pbckbge defines the interfbce <tt>ExtendedRequest</tt>
+to represent the brgument to bn extended operbtion,
+bnd the interfbce <tt>ExtendedResponse</tt> to represent the result
+of the extended operbtion.
+An extended response is blwbys pbired with bn extended request
+but not necessbrily vice versb. Thbt is, you cbn hbve bn extended request
+thbt hbs no corresponding extended response.
 <p>
-An application typically does not deal directly with these interfaces.
-Instead, it deals with classes that <em>implement</em> these
-interfaces.  
-The application gets these classes either as part of a
-repertoire of extended operations standardized through the IETF, or
-from directory vendors for vendor-specific extended operations.
-The request classes should have constructors that accept
-arguments in a type-safe and user-friendly manner, while the
-response classes should have access methods for getting the data
-of the response in a type-safe and user-friendly manner.
-Internally, the request/response classes deal with encoding and decoding
-BER values.
+An bpplicbtion typicblly does not debl directly with these interfbces.
+Instebd, it debls with clbsses thbt <em>implement</em> these
+interfbces.  
+The bpplicbtion gets these clbsses either bs pbrt of b
+repertoire of extended operbtions stbndbrdized through the IETF, or
+from directory vendors for vendor-specific extended operbtions.
+The request clbsses should hbve constructors thbt bccept
+brguments in b type-sbfe bnd user-friendly mbnner, while the
+response clbsses should hbve bccess methods for getting the dbtb
+of the response in b type-sbfe bnd user-friendly mbnner.
+Internblly, the request/response clbsses debl with encoding bnd decoding
+BER vblues.
 <p>
-For example, suppose an LDAP server supports a "get time" extended operation.
-It would supply classes such as
-<tt>GetTimeRequest</tt> and <tt>GetTimeResponse</tt>,
-so that applications can use this feature.
-An application would use these classes as follows:
+For exbmple, suppose bn LDAP server supports b "get time" extended operbtion.
+It would supply clbsses such bs
+<tt>GetTimeRequest</tt> bnd <tt>GetTimeResponse</tt>,
+so thbt bpplicbtions cbn use this febture.
+An bpplicbtion would use these clbsses bs follows:
 <blockquote><pre>
 GetTimeResponse resp =
-    (GetTimeResponse) ectx.extendedOperation(new GetTimeRequest());
+    (GetTimeResponse) ectx.extendedOperbtion(new GetTimeRequest());
 long time = resp.getTime();
 </pre></blockquote>
 <p>
-The <tt>GetTimeRequest</tt> and <tt>GetTimeResponse</tt> classes might
-be defined as follows:
+The <tt>GetTimeRequest</tt> bnd <tt>GetTimeResponse</tt> clbsses might
+be defined bs follows:
 <blockquote><pre>
-public class GetTimeRequest implements ExtendedRequest {
+public clbss GetTimeRequest implements ExtendedRequest {
     // User-friendly constructor 
     public GetTimeRequest() {
     };
@@ -94,30 +94,30 @@ public class GetTimeRequest implements ExtendedRequest {
     public String getID() {
         return GETTIME_REQ_OID;
     }
-    public byte[] getEncodedValue() {
-        return null;  // no value needed for get time request
+    public byte[] getEncodedVblue() {
+        return null;  // no vblue needed for get time request
     }
-    public ExtendedResponse createExtendedResponse(
-        String id, byte[] berValue, int offset, int length) throws NamingException {
-        return new GetTimeResponse(id, berValue, offset, length);
+    public ExtendedResponse crebteExtendedResponse(
+        String id, byte[] berVblue, int offset, int length) throws NbmingException {
+        return new GetTimeResponse(id, berVblue, offset, length);
     }
 }
-public class GetTimeResponse() implements ExtendedResponse {
+public clbss GetTimeResponse() implements ExtendedResponse {
     long time;
-    // called by GetTimeRequest.createExtendedResponse()
-    public GetTimeResponse(String id, byte[] berValue, int offset, int length) 
-        throws NamingException {
-        // check validity of id
-        long time =  ... // decode berValue to get time
+    // cblled by GetTimeRequest.crebteExtendedResponse()
+    public GetTimeResponse(String id, byte[] berVblue, int offset, int length) 
+        throws NbmingException {
+        // check vblidity of id
+        long time =  ... // decode berVblue to get time
     }
 
-    // Type-safe and User-friendly methods
-    public java.util.Date getDate() { return new java.util.Date(time); }
+    // Type-sbfe bnd User-friendly methods
+    public jbvb.util.Dbte getDbte() { return new jbvb.util.Dbte(time); }
     public long getTime() { return time; }
 
     // Low level methods
-    public byte[] getEncodedValue() {
-        return // berValue saved;
+    public byte[] getEncodedVblue() {
+        return // berVblue sbved;
     }
     public String getID() {
         return GETTIME_RESP_OID;
@@ -127,106 +127,106 @@ public class GetTimeResponse() implements ExtendedResponse {
 
 <h4>Controls</h4>
 
-This package defines the interface <tt>Control</tt> to represent an LDAPv3
-control. It can be a control that is sent to an LDAP server
-(<em>request control</em>) or a control returned by an LDAP server
-(<em>response control</em>).  Unlike extended requests and responses,
-there is not necessarily any pairing between request controls and
-response controls.  You can send request controls and expect no
-response controls back, or receive response controls without sending
-any request controls.
+This pbckbge defines the interfbce <tt>Control</tt> to represent bn LDAPv3
+control. It cbn be b control thbt is sent to bn LDAP server
+(<em>request control</em>) or b control returned by bn LDAP server
+(<em>response control</em>).  Unlike extended requests bnd responses,
+there is not necessbrily bny pbiring between request controls bnd
+response controls.  You cbn send request controls bnd expect no
+response controls bbck, or receive response controls without sending
+bny request controls.
 <p>
-An application typically does not deal directly with this interface.
-Instead, it deals with classes that <em>implement</em> this interface.
-The application gets control classes either as part of a repertoire of
-controls standardized through the IETF, or from directory vendors for
-vendor-specific controls.  The request control classes should have
-constructors that accept arguments in a type-safe and user-friendly
-manner, while the response control classes should have access methods
-for getting the data of the response in a type-safe and user-friendly
-manner.  Internally, the request/response control classes deal with
-encoding and decoding BER values.
+An bpplicbtion typicblly does not debl directly with this interfbce.
+Instebd, it debls with clbsses thbt <em>implement</em> this interfbce.
+The bpplicbtion gets control clbsses either bs pbrt of b repertoire of
+controls stbndbrdized through the IETF, or from directory vendors for
+vendor-specific controls.  The request control clbsses should hbve
+constructors thbt bccept brguments in b type-sbfe bnd user-friendly
+mbnner, while the response control clbsses should hbve bccess methods
+for getting the dbtb of the response in b type-sbfe bnd user-friendly
+mbnner.  Internblly, the request/response control clbsses debl with
+encoding bnd decoding BER vblues.
 <p>
-For example, suppose an LDAP server supports a "signed results"
-request control, which when sent with a request, asks the
-server to digitally sign the results of an operation. 
-It would supply a class <tt>SignedResultsControl</tt>  so that applications
-can use this feature.
-An application  would use this class as follows:
+For exbmple, suppose bn LDAP server supports b "signed results"
+request control, which when sent with b request, bsks the
+server to digitblly sign the results of bn operbtion. 
+It would supply b clbss <tt>SignedResultsControl</tt>  so thbt bpplicbtions
+cbn use this febture.
+An bpplicbtion  would use this clbss bs follows:
 <blockquote>
 <pre>
 Control[] reqCtls = new Control[] {new SignedResultsControl(Control.CRITICAL)};
 ectx.setRequestControls(reqCtls);
-NamingEnumeration enum = ectx.search(...);
+NbmingEnumerbtion enum = ectx.sebrch(...);
 </pre>
 </blockquote>
-The <tt>SignedResultsControl</tt> class might be defined as follows:
+The <tt>SignedResultsControl</tt> clbss might be defined bs follows:
 <blockquote><pre>
-public class SignedResultsControl implements Control {
+public clbss SignedResultsControl implements Control {
     // User-friendly constructor 
-    public SignedResultsControl(boolean criticality) {
-	// assemble the components of the request control
+    public SignedResultsControl(boolebn criticblity) {
+	// bssemble the components of the request control
     };
 
     // Methods used by service providers
     public String getID() {
         return // control's object identifier
     }
-    public byte[] getEncodedValue() {
-        return // ASN.1 BER encoded control value
+    public byte[] getEncodedVblue() {
+        return // ASN.1 BER encoded control vblue
     }
     ...
 }
 </pre></blockquote>
 <p>
-When a service provider receives response controls, it uses
-the <tt>ControlFactory</tt> class to produce specific classes 
-that implement the <tt>Control</tt> interface.
+When b service provider receives response controls, it uses
+the <tt>ControlFbctory</tt> clbss to produce specific clbsses 
+thbt implement the <tt>Control</tt> interfbce.
 <p>
-An LDAP server can send back response controls with an LDAP operation
-and also with enumeration results, such as those returned
-by a list or search operation.
-The <tt>LdapContext</tt> provides a method (<tt>getResponseControls()</tt>)
-for getting the response controls sent with an LDAP operation,
-while the <tt>HasControls</tt> interface is used to retrieve
-response controls associated with enumeration results.
+An LDAP server cbn send bbck response controls with bn LDAP operbtion
+bnd blso with enumerbtion results, such bs those returned
+by b list or sebrch operbtion.
+The <tt>LdbpContext</tt> provides b method (<tt>getResponseControls()</tt>)
+for getting the response controls sent with bn LDAP operbtion,
+while the <tt>HbsControls</tt> interfbce is used to retrieve
+response controls bssocibted with enumerbtion results.
 <p>
-For example, suppose an LDAP server sends back a "change ID" control in response
-to a successful modification. It would supply a class <tt>ChangeIDControl</tt>
-so that the application can use this feature.
-An application would perform an update, and then try to get the change ID.
+For exbmple, suppose bn LDAP server sends bbck b "chbnge ID" control in response
+to b successful modificbtion. It would supply b clbss <tt>ChbngeIDControl</tt>
+so thbt the bpplicbtion cbn use this febture.
+An bpplicbtion would perform bn updbte, bnd then try to get the chbnge ID.
 <blockquote><pre>
-// Perform update
-Context ctx = ectx.createSubsubcontext("cn=newobj");
+// Perform updbte
+Context ctx = ectx.crebteSubsubcontext("cn=newobj");
 
 // Get response controls
 Control[] respCtls = ectx.getResponseControls();
 if (respCtls != null) {
-    // Find the one we want
+    // Find the one we wbnt
     for (int i = 0; i < respCtls; i++) {
-        if(respCtls[i] instanceof ChangeIDControl) {
-	    ChangeIDControl cctl = (ChangeIDControl)respCtls[i];
-	    System.out.println(cctl.getChangeID());
+        if(respCtls[i] instbnceof ChbngeIDControl) {
+	    ChbngeIDControl cctl = (ChbngeIDControl)respCtls[i];
+	    System.out.println(cctl.getChbngeID());
         }
     }
 }
 </pre></blockquote>
-The vendor might supply the following <tt>ChangeIDControl</tt> and
-<tt>VendorXControlFactory</tt> classes. The <tt>VendorXControlFactory</tt>
+The vendor might supply the following <tt>ChbngeIDControl</tt> bnd
+<tt>VendorXControlFbctory</tt> clbsses. The <tt>VendorXControlFbctory</tt>
 will be used by the service provider when the provider receives response
 controls from the LDAP server.
 <blockquote><pre>
-public class ChangeIDControl implements Control {
+public clbss ChbngeIDControl implements Control {
     long id;
 
-    // Constructor used by ControlFactory
-    public ChangeIDControl(String OID, byte[] berVal) throws NamingException {
-        // check validity of OID
-        id = // extract change ID from berVal
+    // Constructor used by ControlFbctory
+    public ChbngeIDControl(String OID, byte[] berVbl) throws NbmingException {
+        // check vblidity of OID
+        id = // extrbct chbnge ID from berVbl
     };
 
-    // Type-safe and User-friendly method
-    public long getChangeID() {
+    // Type-sbfe bnd User-friendly method
+    public long getChbngeID() {
         return id;
     }
 
@@ -234,31 +234,31 @@ public class ChangeIDControl implements Control {
     public String getID() {
         return CHANGEID_OID;
     }
-    public byte[] getEncodedValue() {
-        return // original berVal
+    public byte[] getEncodedVblue() {
+        return // originbl berVbl
     }
     ...
 }
-public class VendorXControlFactory extends ControlFactory {
-    public VendorXControlFactory () {
+public clbss VendorXControlFbctory extends ControlFbctory {
+    public VendorXControlFbctory () {
     }
 
-    public Control getControlInstance(Control orig) throws NamingException {
+    public Control getControlInstbnce(Control orig) throws NbmingException {
         if (isOneOfMyControls(orig.getID())) {
 	    ... 
 
-	    // determine which of ours it is and call its constructor
-	    return (new ChangeIDControl(orig.getID(), orig.getEncodedValue()));
+	    // determine which of ours it is bnd cbll its constructor
+	    return (new ChbngeIDControl(orig.getID(), orig.getEncodedVblue()));
 	}
         return null;  // not one of ours
     }
 }
 </pre></blockquote>
 
-<h2>Package Specification</h2>
+<h2>Pbckbge Specificbtion</h2>
 
-The JNDI API Specification and related documents can be found in the
-<a href="../../../../technotes/guides/jndi/index.html">JNDI documentation</a>.
+The JNDI API Specificbtion bnd relbted documents cbn be found in the
+<b href="../../../../technotes/guides/jndi/index.html">JNDI documentbtion</b>.
 
 @since 1.3
 

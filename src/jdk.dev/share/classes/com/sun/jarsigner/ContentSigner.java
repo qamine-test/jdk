@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jarsigner;
+pbckbge com.sun.jbrsigner;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
+import jbvb.io.IOException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.cert.CertificbteException;
 
 /**
- * This class defines a content signing service.
- * Implementations must be instantiable using a zero-argument constructor.
+ * This clbss defines b content signing service.
+ * Implementbtions must be instbntibble using b zero-brgument constructor.
  *
  * @since 1.5
- * @author Vincent Ryan
+ * @buthor Vincent Rybn
  */
 
-public abstract class ContentSigner {
+public bbstrbct clbss ContentSigner {
 
     /**
-     * Generates a PKCS #7 signed data message.
-     * This method is used when the signature has already been generated.
-     * The signature, the signer's details, and optionally a signature
-     * timestamp and the content that was signed, are all packaged into a
-     * signed data message.
+     * Generbtes b PKCS #7 signed dbtb messbge.
+     * This method is used when the signbture hbs blrebdy been generbted.
+     * The signbture, the signer's detbils, bnd optionblly b signbture
+     * timestbmp bnd the content thbt wbs signed, bre bll pbckbged into b
+     * signed dbtb messbge.
      *
-     * @param parameters The non-null input parameters.
-     * @param omitContent true if the content should be omitted from the
-     *         signed data message. Otherwise the content is included.
-     * @param applyTimestamp true if the signature should be timestamped.
-     *         Otherwise timestamping is not performed.
-     * @return A PKCS #7 signed data message.
-     * @throws NoSuchAlgorithmException The exception is thrown if the signature
-     *         algorithm is unrecognised.
-     * @throws CertificateException The exception is thrown if an error occurs
-     *         while processing the signer's certificate or the TSA's
-     *         certificate.
-     * @throws IOException The exception is thrown if an error occurs while
-     *         generating the signature timestamp or while generating the signed
-     *         data message.
-     * @throws NullPointerException The exception is thrown if parameters is
+     * @pbrbm pbrbmeters The non-null input pbrbmeters.
+     * @pbrbm omitContent true if the content should be omitted from the
+     *         signed dbtb messbge. Otherwise the content is included.
+     * @pbrbm bpplyTimestbmp true if the signbture should be timestbmped.
+     *         Otherwise timestbmping is not performed.
+     * @return A PKCS #7 signed dbtb messbge.
+     * @throws NoSuchAlgorithmException The exception is thrown if the signbture
+     *         blgorithm is unrecognised.
+     * @throws CertificbteException The exception is thrown if bn error occurs
+     *         while processing the signer's certificbte or the TSA's
+     *         certificbte.
+     * @throws IOException The exception is thrown if bn error occurs while
+     *         generbting the signbture timestbmp or while generbting the signed
+     *         dbtb messbge.
+     * @throws NullPointerException The exception is thrown if pbrbmeters is
      *         null.
      */
-    public abstract byte[] generateSignedData(
-        ContentSignerParameters parameters, boolean omitContent,
-        boolean applyTimestamp)
-            throws NoSuchAlgorithmException, CertificateException, IOException;
+    public bbstrbct byte[] generbteSignedDbtb(
+        ContentSignerPbrbmeters pbrbmeters, boolebn omitContent,
+        boolebn bpplyTimestbmp)
+            throws NoSuchAlgorithmException, CertificbteException, IOException;
 }

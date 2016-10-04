@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.zip;
+pbckbge jbvb.util.zip;
 
-import java.io.SequenceInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.FilterInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.EOFException;
+import jbvb.io.SequenceInputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.FilterInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.EOFException;
 
 /**
- * This class implements a stream filter for reading compressed data in
- * the GZIP file format.
+ * This clbss implements b strebm filter for rebding compressed dbtb in
+ * the GZIP file formbt.
  *
- * @see         InflaterInputStream
- * @author      David Connelly
+ * @see         InflbterInputStrebm
+ * @buthor      Dbvid Connelly
  *
  */
 public
-class GZIPInputStream extends InflaterInputStream {
+clbss GZIPInputStrebm extends InflbterInputStrebm {
     /**
-     * CRC-32 for uncompressed data.
+     * CRC-32 for uncompressed dbtb.
      */
     protected CRC32 crc = new CRC32();
 
     /**
-     * Indicates end of input stream.
+     * Indicbtes end of input strebm.
      */
-    protected boolean eos;
+    protected boolebn eos;
 
-    private boolean closed = false;
+    privbte boolebn closed = fblse;
 
     /**
-     * Check to make sure that this stream has not been closed
+     * Check to mbke sure thbt this strebm hbs not been closed
      */
-    private void ensureOpen() throws IOException {
+    privbte void ensureOpen() throws IOException {
         if (closed) {
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
         }
     }
 
     /**
-     * Creates a new input stream with the specified buffer size.
-     * @param in the input stream
-     * @param size the input buffer size
+     * Crebtes b new input strebm with the specified buffer size.
+     * @pbrbm in the input strebm
+     * @pbrbm size the input buffer size
      *
-     * @exception ZipException if a GZIP format error has occurred or the
+     * @exception ZipException if b GZIP formbt error hbs occurred or the
      *                         compression method used is unsupported
-     * @exception IOException if an I/O error has occurred
-     * @exception IllegalArgumentException if {@code size <= 0}
+     * @exception IOException if bn I/O error hbs occurred
+     * @exception IllegblArgumentException if {@code size <= 0}
      */
-    public GZIPInputStream(InputStream in, int size) throws IOException {
-        super(in, new Inflater(true), size);
-        usesDefaultInflater = true;
-        readHeader(in);
+    public GZIPInputStrebm(InputStrebm in, int size) throws IOException {
+        super(in, new Inflbter(true), size);
+        usesDefbultInflbter = true;
+        rebdHebder(in);
     }
 
     /**
-     * Creates a new input stream with a default buffer size.
-     * @param in the input stream
+     * Crebtes b new input strebm with b defbult buffer size.
+     * @pbrbm in the input strebm
      *
-     * @exception ZipException if a GZIP format error has occurred or the
+     * @exception ZipException if b GZIP formbt error hbs occurred or the
      *                         compression method used is unsupported
-     * @exception IOException if an I/O error has occurred
+     * @exception IOException if bn I/O error hbs occurred
      */
-    public GZIPInputStream(InputStream in) throws IOException {
+    public GZIPInputStrebm(InputStrebm in) throws IOException {
         this(in, 512);
     }
 
     /**
-     * Reads uncompressed data into an array of bytes. If <code>len</code> is not
-     * zero, the method will block until some input can be decompressed; otherwise,
-     * no bytes are read and <code>0</code> is returned.
-     * @param buf the buffer into which the data is read
-     * @param off the start offset in the destination array <code>b</code>
-     * @param len the maximum number of bytes read
-     * @return  the actual number of bytes read, or -1 if the end of the
-     *          compressed input stream is reached
+     * Rebds uncompressed dbtb into bn brrby of bytes. If <code>len</code> is not
+     * zero, the method will block until some input cbn be decompressed; otherwise,
+     * no bytes bre rebd bnd <code>0</code> is returned.
+     * @pbrbm buf the buffer into which the dbtb is rebd
+     * @pbrbm off the stbrt offset in the destinbtion brrby <code>b</code>
+     * @pbrbm len the mbximum number of bytes rebd
+     * @return  the bctubl number of bytes rebd, or -1 if the end of the
+     *          compressed input strebm is rebched
      *
      * @exception  NullPointerException If <code>buf</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
+     * @exception  IndexOutOfBoundsException If <code>off</code> is negbtive,
+     * <code>len</code> is negbtive, or <code>len</code> is grebter thbn
      * <code>buf.length - off</code>
-     * @exception ZipException if the compressed input data is corrupt.
-     * @exception IOException if an I/O error has occurred.
+     * @exception ZipException if the compressed input dbtb is corrupt.
+     * @exception IOException if bn I/O error hbs occurred.
      *
      */
-    public int read(byte[] buf, int off, int len) throws IOException {
+    public int rebd(byte[] buf, int off, int len) throws IOException {
         ensureOpen();
         if (eos) {
             return -1;
         }
-        int n = super.read(buf, off, len);
+        int n = super.rebd(buf, off, len);
         if (n == -1) {
-            if (readTrailer())
+            if (rebdTrbiler())
                 eos = true;
             else
-                return this.read(buf, off, len);
+                return this.rebd(buf, off, len);
         } else {
-            crc.update(buf, off, n);
+            crc.updbte(buf, off, n);
         }
         return n;
     }
 
     /**
-     * Closes this input stream and releases any system resources associated
-     * with the stream.
-     * @exception IOException if an I/O error has occurred
+     * Closes this input strebm bnd relebses bny system resources bssocibted
+     * with the strebm.
+     * @exception IOException if bn I/O error hbs occurred
      */
     public void close() throws IOException {
         if (!closed) {
@@ -140,62 +140,62 @@ class GZIPInputStream extends InflaterInputStream {
     }
 
     /**
-     * GZIP header magic number.
+     * GZIP hebder mbgic number.
      */
-    public final static int GZIP_MAGIC = 0x8b1f;
+    public finbl stbtic int GZIP_MAGIC = 0x8b1f;
 
     /*
-     * File header flags.
+     * File hebder flbgs.
      */
-    private final static int FTEXT      = 1;    // Extra text
-    private final static int FHCRC      = 2;    // Header CRC
-    private final static int FEXTRA     = 4;    // Extra field
-    private final static int FNAME      = 8;    // File name
-    private final static int FCOMMENT   = 16;   // File comment
+    privbte finbl stbtic int FTEXT      = 1;    // Extrb text
+    privbte finbl stbtic int FHCRC      = 2;    // Hebder CRC
+    privbte finbl stbtic int FEXTRA     = 4;    // Extrb field
+    privbte finbl stbtic int FNAME      = 8;    // File nbme
+    privbte finbl stbtic int FCOMMENT   = 16;   // File comment
 
     /*
-     * Reads GZIP member header and returns the total byte number
-     * of this member header.
+     * Rebds GZIP member hebder bnd returns the totbl byte number
+     * of this member hebder.
      */
-    private int readHeader(InputStream this_in) throws IOException {
-        CheckedInputStream in = new CheckedInputStream(this_in, crc);
+    privbte int rebdHebder(InputStrebm this_in) throws IOException {
+        CheckedInputStrebm in = new CheckedInputStrebm(this_in, crc);
         crc.reset();
-        // Check header magic
-        if (readUShort(in) != GZIP_MAGIC) {
-            throw new ZipException("Not in GZIP format");
+        // Check hebder mbgic
+        if (rebdUShort(in) != GZIP_MAGIC) {
+            throw new ZipException("Not in GZIP formbt");
         }
         // Check compression method
-        if (readUByte(in) != 8) {
+        if (rebdUByte(in) != 8) {
             throw new ZipException("Unsupported compression method");
         }
-        // Read flags
-        int flg = readUByte(in);
-        // Skip MTIME, XFL, and OS fields
+        // Rebd flbgs
+        int flg = rebdUByte(in);
+        // Skip MTIME, XFL, bnd OS fields
         skipBytes(in, 6);
         int n = 2 + 2 + 6;
-        // Skip optional extra field
+        // Skip optionbl extrb field
         if ((flg & FEXTRA) == FEXTRA) {
-            int m = readUShort(in);
+            int m = rebdUShort(in);
             skipBytes(in, m);
             n += m + 2;
         }
-        // Skip optional file name
+        // Skip optionbl file nbme
         if ((flg & FNAME) == FNAME) {
             do {
                 n++;
-            } while (readUByte(in) != 0);
+            } while (rebdUByte(in) != 0);
         }
-        // Skip optional file comment
+        // Skip optionbl file comment
         if ((flg & FCOMMENT) == FCOMMENT) {
             do {
                 n++;
-            } while (readUByte(in) != 0);
+            } while (rebdUByte(in) != 0);
         }
-        // Check optional header CRC
+        // Check optionbl hebder CRC
         if ((flg & FHCRC) == FHCRC) {
-            int v = (int)crc.getValue() & 0xffff;
-            if (readUShort(in) != v) {
-                throw new ZipException("Corrupt GZIP header");
+            int v = (int)crc.getVblue() & 0xffff;
+            if (rebdUShort(in) != v) {
+                throw new ZipException("Corrupt GZIP hebder");
             }
             n += 2;
         }
@@ -204,86 +204,86 @@ class GZIPInputStream extends InflaterInputStream {
     }
 
     /*
-     * Reads GZIP member trailer and returns true if the eos
-     * reached, false if there are more (concatenated gzip
-     * data set)
+     * Rebds GZIP member trbiler bnd returns true if the eos
+     * rebched, fblse if there bre more (concbtenbted gzip
+     * dbtb set)
      */
-    private boolean readTrailer() throws IOException {
-        InputStream in = this.in;
-        int n = inf.getRemaining();
+    privbte boolebn rebdTrbiler() throws IOException {
+        InputStrebm in = this.in;
+        int n = inf.getRembining();
         if (n > 0) {
-            in = new SequenceInputStream(
-                        new ByteArrayInputStream(buf, len - n, n),
-                        new FilterInputStream(in) {
+            in = new SequenceInputStrebm(
+                        new ByteArrbyInputStrebm(buf, len - n, n),
+                        new FilterInputStrebm(in) {
                             public void close() throws IOException {}
                         });
         }
-        // Uses left-to-right evaluation order
-        if ((readUInt(in) != crc.getValue()) ||
+        // Uses left-to-right evblubtion order
+        if ((rebdUInt(in) != crc.getVblue()) ||
             // rfc1952; ISIZE is the input size modulo 2^32
-            (readUInt(in) != (inf.getBytesWritten() & 0xffffffffL)))
-            throw new ZipException("Corrupt GZIP trailer");
+            (rebdUInt(in) != (inf.getBytesWritten() & 0xffffffffL)))
+            throw new ZipException("Corrupt GZIP trbiler");
 
-        // If there are more bytes available in "in" or
+        // If there bre more bytes bvbilbble in "in" or
         // the leftover in the "inf" is > 26 bytes:
-        // this.trailer(8) + next.header.min(10) + next.trailer(8)
-        // try concatenated case
-        if (this.in.available() > 0 || n > 26) {
-            int m = 8;                  // this.trailer
+        // this.trbiler(8) + next.hebder.min(10) + next.trbiler(8)
+        // try concbtenbted cbse
+        if (this.in.bvbilbble() > 0 || n > 26) {
+            int m = 8;                  // this.trbiler
             try {
-                m += readHeader(in);    // next.header
-            } catch (IOException ze) {
-                return true;  // ignore any malformed, do nothing
+                m += rebdHebder(in);    // next.hebder
+            } cbtch (IOException ze) {
+                return true;  // ignore bny mblformed, do nothing
             }
             inf.reset();
             if (n > m)
                 inf.setInput(buf, len - n + m, n - m);
-            return false;
+            return fblse;
         }
         return true;
     }
 
     /*
-     * Reads unsigned integer in Intel byte order.
+     * Rebds unsigned integer in Intel byte order.
      */
-    private long readUInt(InputStream in) throws IOException {
-        long s = readUShort(in);
-        return ((long)readUShort(in) << 16) | s;
+    privbte long rebdUInt(InputStrebm in) throws IOException {
+        long s = rebdUShort(in);
+        return ((long)rebdUShort(in) << 16) | s;
     }
 
     /*
-     * Reads unsigned short in Intel byte order.
+     * Rebds unsigned short in Intel byte order.
      */
-    private int readUShort(InputStream in) throws IOException {
-        int b = readUByte(in);
-        return (readUByte(in) << 8) | b;
+    privbte int rebdUShort(InputStrebm in) throws IOException {
+        int b = rebdUByte(in);
+        return (rebdUByte(in) << 8) | b;
     }
 
     /*
-     * Reads unsigned byte.
+     * Rebds unsigned byte.
      */
-    private int readUByte(InputStream in) throws IOException {
-        int b = in.read();
+    privbte int rebdUByte(InputStrebm in) throws IOException {
+        int b = in.rebd();
         if (b == -1) {
             throw new EOFException();
         }
         if (b < -1 || b > 255) {
-            // Report on this.in, not argument in; see read{Header, Trailer}.
-            throw new IOException(this.in.getClass().getName()
-                + ".read() returned value out of range -1..255: " + b);
+            // Report on this.in, not brgument in; see rebd{Hebder, Trbiler}.
+            throw new IOException(this.in.getClbss().getNbme()
+                + ".rebd() returned vblue out of rbnge -1..255: " + b);
         }
         return b;
     }
 
-    private byte[] tmpbuf = new byte[128];
+    privbte byte[] tmpbuf = new byte[128];
 
     /*
-     * Skips bytes of input data blocking until all bytes are skipped.
-     * Does not assume that the input stream is capable of seeking.
+     * Skips bytes of input dbtb blocking until bll bytes bre skipped.
+     * Does not bssume thbt the input strebm is cbpbble of seeking.
      */
-    private void skipBytes(InputStream in, int n) throws IOException {
+    privbte void skipBytes(InputStrebm in, int n) throws IOException {
         while (n > 0) {
-            int len = in.read(tmpbuf, 0, n < tmpbuf.length ? n : tmpbuf.length);
+            int len = in.rebd(tmpbuf, 0, n < tmpbuf.length ? n : tmpbuf.length);
             if (len == -1) {
                 throw new EOFException();
             }

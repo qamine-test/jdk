@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.relation;
+pbckbge jbvbx.mbnbgement.relbtion;
 
 /**
- * This class describes the various problems which can be encountered when
- * accessing a role.
+ * This clbss describes the vbrious problems which cbn be encountered when
+ * bccessing b role.
  *
  * @since 1.5
  */
-public class RoleStatus {
+public clbss RoleStbtus {
 
     //
     // Possible problems
     //
 
     /**
-     * Problem type when trying to access an unknown role.
+     * Problem type when trying to bccess bn unknown role.
      */
-    public static final int NO_ROLE_WITH_NAME = 1;
+    public stbtic finbl int NO_ROLE_WITH_NAME = 1;
     /**
-     * Problem type when trying to read a non-readable attribute.
+     * Problem type when trying to rebd b non-rebdbble bttribute.
      */
-    public static final int ROLE_NOT_READABLE = 2;
+    public stbtic finbl int ROLE_NOT_READABLE = 2;
     /**
-     * Problem type when trying to update a non-writable attribute.
+     * Problem type when trying to updbte b non-writbble bttribute.
      */
-    public static final int ROLE_NOT_WRITABLE = 3;
+    public stbtic finbl int ROLE_NOT_WRITABLE = 3;
     /**
-     * Problem type when trying to set a role value with less ObjectNames than
-     * the minimum expected cardinality.
+     * Problem type when trying to set b role vblue with less ObjectNbmes thbn
+     * the minimum expected cbrdinblity.
      */
-    public static final int LESS_THAN_MIN_ROLE_DEGREE = 4;
+    public stbtic finbl int LESS_THAN_MIN_ROLE_DEGREE = 4;
     /**
-     * Problem type when trying to set a role value with more ObjectNames than
-     * the maximum expected cardinality.
+     * Problem type when trying to set b role vblue with more ObjectNbmes thbn
+     * the mbximum expected cbrdinblity.
      */
-    public static final int MORE_THAN_MAX_ROLE_DEGREE = 5;
+    public stbtic finbl int MORE_THAN_MAX_ROLE_DEGREE = 5;
     /**
-     * Problem type when trying to set a role value including the ObjectName of
-     * a MBean not of the class expected for that role.
+     * Problem type when trying to set b role vblue including the ObjectNbme of
+     * b MBebn not of the clbss expected for thbt role.
      */
-    public static final int REF_MBEAN_OF_INCORRECT_CLASS = 6;
+    public stbtic finbl int REF_MBEAN_OF_INCORRECT_CLASS = 6;
     /**
-     * Problem type when trying to set a role value including the ObjectName of
-     * a MBean not registered in the MBean Server.
+     * Problem type when trying to set b role vblue including the ObjectNbme of
+     * b MBebn not registered in the MBebn Server.
      */
-    public static final int REF_MBEAN_NOT_REGISTERED = 7;
+    public stbtic finbl int REF_MBEAN_NOT_REGISTERED = 7;
 
     /**
-     * Returns true if given value corresponds to a known role status, false
+     * Returns true if given vblue corresponds to b known role stbtus, fblse
      * otherwise.
      *
-     * @param status a status code.
+     * @pbrbm stbtus b stbtus code.
      *
-     * @return true if this value is a known role status.
+     * @return true if this vblue is b known role stbtus.
      */
-    public static boolean isRoleStatus(int status) {
-        if (status != NO_ROLE_WITH_NAME &&
-            status != ROLE_NOT_READABLE &&
-            status != ROLE_NOT_WRITABLE &&
-            status != LESS_THAN_MIN_ROLE_DEGREE &&
-            status != MORE_THAN_MAX_ROLE_DEGREE &&
-            status != REF_MBEAN_OF_INCORRECT_CLASS &&
-            status != REF_MBEAN_NOT_REGISTERED) {
-            return false;
+    public stbtic boolebn isRoleStbtus(int stbtus) {
+        if (stbtus != NO_ROLE_WITH_NAME &&
+            stbtus != ROLE_NOT_READABLE &&
+            stbtus != ROLE_NOT_WRITABLE &&
+            stbtus != LESS_THAN_MIN_ROLE_DEGREE &&
+            stbtus != MORE_THAN_MAX_ROLE_DEGREE &&
+            stbtus != REF_MBEAN_OF_INCORRECT_CLASS &&
+            stbtus != REF_MBEAN_NOT_REGISTERED) {
+            return fblse;
         }
         return true;
     }

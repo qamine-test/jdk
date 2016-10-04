@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbckbge com.sun.jmx.snmp.bgent;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.logging.Level;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Dbte;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.util.logging.Level;
 
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.Notification;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionBrobdcbster;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.ObjectNbme;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
-import com.sun.jmx.snmp.EnumRowStatus;
+import stbtic com.sun.jmx.defbults.JmxProperties.SNMP_ADAPTOR_LOGGER;
+import com.sun.jmx.snmp.EnumRowStbtus;
 import com.sun.jmx.snmp.SnmpInt;
 import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpValue;
-import com.sun.jmx.snmp.SnmpVarBind;
+import com.sun.jmx.snmp.SnmpStbtusException;
+import com.sun.jmx.snmp.SnmpVblue;
+import com.sun.jmx.snmp.SnmpVbrBind;
 
 /**
- * This class is the base class for SNMP table metadata.
+ * This clbss is the bbse clbss for SNMP tbble metbdbtb.
  * <p>
- * Its responsibility is to manage a sorted array of OID indexes
- * according to the SNMP indexing scheme over the "real" table.
- * Each object of this class can be bound to an
- * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} to which it will
- * forward remote entry creation requests, and invoke callbacks
- * when an entry has been successfully added to / removed from
- * the OID index array.
+ * Its responsibility is to mbnbge b sorted brrby of OID indexes
+ * bccording to the SNMP indexing scheme over the "rebl" tbble.
+ * Ebch object of this clbss cbn be bound to bn
+ * {@link com.sun.jmx.snmp.bgent.SnmpTbbleEntryFbctory} to which it will
+ * forwbrd remote entry crebtion requests, bnd invoke cbllbbcks
+ * when bn entry hbs been successfully bdded to / removed from
+ * the OID index brrby.
  * </p>
  *
  * <p>
- * For each table defined in the MIB, mibgen will generate a specific
- * class called Table<i>TableName</i> that will implement the
- * SnmpTableEntryFactory interface, and a corresponding
- * <i>TableName</i>Meta class that will extend this class. <br>
- * The Table<i>TableName</i> class corresponds to the MBean view of the
- * table while the <i>TableName</i>Meta class corresponds to the
- * MIB metadata view of the same table.
+ * For ebch tbble defined in the MIB, mibgen will generbte b specific
+ * clbss cblled Tbble<i>TbbleNbme</i> thbt will implement the
+ * SnmpTbbleEntryFbctory interfbce, bnd b corresponding
+ * <i>TbbleNbme</i>Metb clbss thbt will extend this clbss. <br>
+ * The Tbble<i>TbbleNbme</i> clbss corresponds to the MBebn view of the
+ * tbble while the <i>TbbleNbme</i>Metb clbss corresponds to the
+ * MIB metbdbtb view of the sbme tbble.
  * </p>
  *
  * <p>
- * Objects of this class are instantiated by the generated
- * whole MIB class extending {@link com.sun.jmx.snmp.agent.SnmpMib}
- * You should never need to instantiate this class directly.
+ * Objects of this clbss bre instbntibted by the generbted
+ * whole MIB clbss extending {@link com.sun.jmx.snmp.bgent.SnmpMib}
+ * You should never need to instbntibte this clbss directly.
  * </p>
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @see com.sun.jmx.snmp.agent.SnmpMib
- * @see com.sun.jmx.snmp.agent.SnmpMibEntry
- * @see com.sun.jmx.snmp.agent.SnmpTableEntryFactory
- * @see com.sun.jmx.snmp.agent.SnmpTableSupport
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
+ * @see com.sun.jmx.snmp.bgent.SnmpMib
+ * @see com.sun.jmx.snmp.bgent.SnmpMibEntry
+ * @see com.sun.jmx.snmp.bgent.SnmpTbbleEntryFbctory
+ * @see com.sun.jmx.snmp.bgent.SnmpTbbleSupport
  *
  */
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class SnmpMibTable extends SnmpMibNode
-    implements NotificationBroadcaster, Serializable {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public bbstrbct clbss SnmpMibTbble extends SnmpMibNode
+    implements NotificbtionBrobdcbster, Seriblizbble {
 
     /**
-     * Create a new <CODE>SnmpMibTable</CODE> metadata node.
+     * Crebte b new <CODE>SnmpMibTbble</CODE> metbdbtb node.
      *
      * <p>
-     * @param mib The SNMP MIB to which the metadata will be linked.
+     * @pbrbm mib The SNMP MIB to which the metbdbtb will be linked.
      */
-    public SnmpMibTable(SnmpMib mib) {
+    public SnmpMibTbble(SnmpMib mib) {
         this.theMib= mib;
-        setCreationEnabled(false);
+        setCrebtionEnbbled(fblse);
     }
 
     // -------------------------------------------------------------------
@@ -104,117 +104,117 @@ public abstract class SnmpMibTable extends SnmpMibNode
     // -------------------------------------------------------------------
 
     /**
-     * This method is invoked when the creation of a new entry is requested
-     * by a remote SNMP manager.
-     * <br>By default, remote entry creation is disabled - and this method
-     * will not be called. You can dynamically switch the entry creation
-     * policy by calling <code>setCreationEnabled(true)</code> and <code>
-     * setCreationEnabled(false)</code> on this object.
+     * This method is invoked when the crebtion of b new entry is requested
+     * by b remote SNMP mbnbger.
+     * <br>By defbult, remote entry crebtion is disbbled - bnd this method
+     * will not be cblled. You cbn dynbmicblly switch the entry crebtion
+     * policy by cblling <code>setCrebtionEnbbled(true)</code> bnd <code>
+     * setCrebtionEnbbled(fblse)</code> on this object.
      * <p><b><i>
-     * This method is called internally by the SNMP runtime and you
-     * should never need to call it directly. </b></i>However you might want
-     * to extend it in order to implement your own specific application
-     * behaviour, should the default behaviour not be at your convenience.
+     * This method is cblled internblly by the SNMP runtime bnd you
+     * should never need to cbll it directly. </b></i>However you might wbnt
+     * to extend it in order to implement your own specific bpplicbtion
+     * behbviour, should the defbult behbviour not be bt your convenience.
      * </p>
      * <p>
-     * @param req   The SNMP  subrequest requesting this creation
-     * @param rowOid  The OID indexing the conceptual row (entry) for which
-     *                the creation was requested.
-     * @param depth The position of the columnar object arc in the OIDs
-     *              from the varbind list.
+     * @pbrbm req   The SNMP  subrequest requesting this crebtion
+     * @pbrbm rowOid  The OID indexing the conceptubl row (entry) for which
+     *                the crebtion wbs requested.
+     * @pbrbm depth The position of the columnbr object brc in the OIDs
+     *              from the vbrbind list.
      *
-     * @exception SnmpStatusException if the entry cannot be created.
+     * @exception SnmpStbtusException if the entry cbnnot be crebted.
      */
-    public abstract void createNewEntry(SnmpMibSubRequest req, SnmpOid rowOid,
+    public bbstrbct void crebteNewEntry(SnmpMibSubRequest req, SnmpOid rowOid,
                                         int depth)
-        throws SnmpStatusException;
+        throws SnmpStbtusException;
 
     /**
-     * Tell whether the specific version of this metadata generated
+     * Tell whether the specific version of this metbdbtb generbted
      * by <code>mibgen</code> requires entries to be registered with
-     * the MBeanServer. In this case an ObjectName will have to be
-     * passed to addEntry() in order for the table to behave correctly
-     * (case of the generic metadata).
+     * the MBebnServer. In this cbse bn ObjectNbme will hbve to be
+     * pbssed to bddEntry() in order for the tbble to behbve correctly
+     * (cbse of the generic metbdbtb).
      * <p>
-     * If that version of the metadata does not require entry to be
-     * registered, then passing an ObjectName becomes optional (null
-     * can be passed instead).
+     * If thbt version of the metbdbtb does not require entry to be
+     * registered, then pbssing bn ObjectNbme becomes optionbl (null
+     * cbn be pbssed instebd).
      *
-     * @return <code>true</code> if registration is required by this
-     *         version of the metadata.
+     * @return <code>true</code> if registrbtion is required by this
+     *         version of the metbdbtb.
      */
-    public abstract boolean isRegistrationRequired();
+    public bbstrbct boolebn isRegistrbtionRequired();
 
     /**
-     * Tell whether a new entry should be created when a SET operation
-     * is received for an entry that does not exist yet.
+     * Tell whether b new entry should be crebted when b SET operbtion
+     * is received for bn entry thbt does not exist yet.
      *
-     * @return true if a new entry must be created, false otherwise.<br>
-     *         [default: returns <CODE>false</CODE>]
+     * @return true if b new entry must be crebted, fblse otherwise.<br>
+     *         [defbult: returns <CODE>fblse</CODE>]
      **/
-    public boolean isCreationEnabled() {
-        return creationEnabled;
+    public boolebn isCrebtionEnbbled() {
+        return crebtionEnbbled;
     }
 
     /**
-     * This method lets you dynamically switch the creation policy.
+     * This method lets you dynbmicblly switch the crebtion policy.
      *
      * <p>
-     * @param remoteCreationFlag Tells whether remote entry creation must
-     *        be enabled or disabled.
+     * @pbrbm remoteCrebtionFlbg Tells whether remote entry crebtion must
+     *        be enbbled or disbbled.
      * <ul><li>
-     * <CODE>setCreationEnabled(true)</CODE> will enable remote entry
-     *      creation via SET operations.</li>
+     * <CODE>setCrebtionEnbbled(true)</CODE> will enbble remote entry
+     *      crebtion vib SET operbtions.</li>
      * <li>
-     * <CODE>setCreationEnabled(false)</CODE> will disable remote entry
-     *      creation via SET operations.</li>
-     * <p> By default remote entry creation via SET operation is disabled.
+     * <CODE>setCrebtionEnbbled(fblse)</CODE> will disbble remote entry
+     *      crebtion vib SET operbtions.</li>
+     * <p> By defbult remote entry crebtion vib SET operbtion is disbbled.
      * </p>
      * </ul>
      **/
-    public void setCreationEnabled(boolean remoteCreationFlag) {
-        creationEnabled = remoteCreationFlag;
+    public void setCrebtionEnbbled(boolebn remoteCrebtionFlbg) {
+        crebtionEnbbled = remoteCrebtionFlbg;
     }
 
     /**
-     * Return <code>true</code> if the conceptual row contains a columnar
-     * object used to control creation/deletion of rows in this table.
+     * Return <code>true</code> if the conceptubl row contbins b columnbr
+     * object used to control crebtion/deletion of rows in this tbble.
      * <p>
-     * This  columnar object can be either a variable with RowStatus
-     * syntax as defined by RFC 2579, or a plain variable whose
-     * semantics is table specific.
+     * This  columnbr object cbn be either b vbribble with RowStbtus
+     * syntbx bs defined by RFC 2579, or b plbin vbribble whose
+     * sembntics is tbble specific.
      * <p>
-     * By default, this function returns <code>false</code>, and it is
-     * assumed that the table has no such control variable.<br>
-     * When <code>mibgen</code> is used over SMIv2 MIBs, it will generate
-     * an <code>hasRowStatus()</code> method returning <code>true</code>
-     * for each table containing an object with RowStatus syntax.
+     * By defbult, this function returns <code>fblse</code>, bnd it is
+     * bssumed thbt the tbble hbs no such control vbribble.<br>
+     * When <code>mibgen</code> is used over SMIv2 MIBs, it will generbte
+     * bn <code>hbsRowStbtus()</code> method returning <code>true</code>
+     * for ebch tbble contbining bn object with RowStbtus syntbx.
      * <p>
-     * When this method returns <code>false</code> the default mechanism
-     * for remote entry creation is used.
-     * Otherwise, creation/deletion is performed as specified
-     * by the control variable (see getRowAction() for more details).
+     * When this method returns <code>fblse</code> the defbult mechbnism
+     * for remote entry crebtion is used.
+     * Otherwise, crebtion/deletion is performed bs specified
+     * by the control vbribble (see getRowAction() for more detbils).
      * <p>
-     * This method is called internally when a SET request involving
-     * this table is processed.
+     * This method is cblled internblly when b SET request involving
+     * this tbble is processed.
      * <p>
-     * If you need to implement a control variable which do not use
-     * the RowStatus convention as defined by RFC 2579, you should
-     * subclass the generated table metadata class in order to redefine
-     * this method and make it returns <code>true</code>.<br>
-     * You will then have to redefine the isRowStatus(), mapRowStatus(),
-     * isRowReady(), and setRowStatus() methods to suit your specific
-     * implementation.
+     * If you need to implement b control vbribble which do not use
+     * the RowStbtus convention bs defined by RFC 2579, you should
+     * subclbss the generbted tbble metbdbtb clbss in order to redefine
+     * this method bnd mbke it returns <code>true</code>.<br>
+     * You will then hbve to redefine the isRowStbtus(), mbpRowStbtus(),
+     * isRowRebdy(), bnd setRowStbtus() methods to suit your specific
+     * implementbtion.
      * <p>
-     * @return <li><code>true</code> if this table contains a control
-     *         variable (eg: a variable with RFC 2579 RowStatus syntax),
+     * @return <li><code>true</code> if this tbble contbins b control
+     *         vbribble (eg: b vbribble with RFC 2579 RowStbtus syntbx),
      *         </li>
-     *         <li><code>false</code> if this table does not contain
-     *         any control variable.</li>
+     *         <li><code>fblse</code> if this tbble does not contbin
+     *         bny control vbribble.</li>
      *
      **/
-    public boolean hasRowStatus() {
-        return false;
+    public boolebn hbsRowStbtus() {
+        return fblse;
     }
 
     // ---------------------------------------------------------------------
@@ -223,70 +223,70 @@ public abstract class SnmpMibTable extends SnmpMibNode
     //
     // ---------------------------------------------------------------------
     /**
-     * Generic handling of the <CODE>get</CODE> operation.
-     * <p> The default implementation of this method is to
+     * Generic hbndling of the <CODE>get</CODE> operbtion.
+     * <p> The defbult implementbtion of this method is to
      * <ul>
-     * <li> check whether the entry exists, and if not register an
-     *      exception for each varbind in the list.
-     * <li> call the generated
+     * <li> check whether the entry exists, bnd if not register bn
+     *      exception for ebch vbrbind in the list.
+     * <li> cbll the generbted
      *      <CODE>get(req,oid,depth+1)</CODE> method. </li>
      * </ul>
      * <p>
      * <pre>
      * public void get(SnmpMibSubRequest req, int depth)
-     *    throws SnmpStatusException {
-     *    boolean         isnew  = req.isNewEntry();
+     *    throws SnmpStbtusException {
+     *    boolebn         isnew  = req.isNewEntry();
      *
-     *    // if the entry does not exists, then registers an error for
-     *    // each varbind involved (nb: this should not happen, since
-     *    // the error should already have been detected earlier)
+     *    // if the entry does not exists, then registers bn error for
+     *    // ebch vbrbind involved (nb: this should not hbppen, since
+     *    // the error should blrebdy hbve been detected ebrlier)
      *    //
      *    if (isnew) {
-     *        SnmpVarBind     var = null;
-     *        for (Enumeration e= req.getElements(); e.hasMoreElements();) {
-     *            var = (SnmpVarBind) e.nextElement();
-     *            req.registerGetException(var,noSuchNameException);
+     *        SnmpVbrBind     vbr = null;
+     *        for (Enumerbtion e= req.getElements(); e.hbsMoreElements();) {
+     *            vbr = (SnmpVbrBind) e.nextElement();
+     *            req.registerGetException(vbr,noSuchNbmeException);
      *        }
      *    }
      *
-     *    final SnmpOid oid = req.getEntryOid();
+     *    finbl SnmpOid oid = req.getEntryOid();
      *    get(req,oid,depth+1);
      * }
      * </pre>
-     * <p> You should not need to override this method in any cases, because
-     * it will eventually call
-     * <CODE>get(SnmpMibSubRequest req, int depth)</CODE> on the generated
-     * derivative of <CODE>SnmpMibEntry</CODE>. If you need to implement
-     * specific policies for minimizing the accesses made to some remote
+     * <p> You should not need to override this method in bny cbses, becbuse
+     * it will eventublly cbll
+     * <CODE>get(SnmpMibSubRequest req, int depth)</CODE> on the generbted
+     * derivbtive of <CODE>SnmpMibEntry</CODE>. If you need to implement
+     * specific policies for minimizing the bccesses mbde to some remote
      * underlying resources, or if you need to implement some consistency
-     * checks between the different values provided in the varbind list,
-     * you should then rather override
-     * <CODE>get(SnmpMibSubRequest req, int depth)</CODE> on the generated
-     * derivative of <CODE>SnmpMibEntry</CODE>.
+     * checks between the different vblues provided in the vbrbind list,
+     * you should then rbther override
+     * <CODE>get(SnmpMibSubRequest req, int depth)</CODE> on the generbted
+     * derivbtive of <CODE>SnmpMibEntry</CODE>.
      * <p>
      *
      */
     @Override
     public void get(SnmpMibSubRequest req, int depth)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
 
-        final boolean         isnew  = req.isNewEntry();
-        final SnmpMibSubRequest  r      = req;
+        finbl boolebn         isnew  = req.isNewEntry();
+        finbl SnmpMibSubRequest  r      = req;
 
-        // if the entry does not exists, then registers an error for
-        // each varbind involved (nb: should not happen, the error
-        // should have been registered earlier)
+        // if the entry does not exists, then registers bn error for
+        // ebch vbrbind involved (nb: should not hbppen, the error
+        // should hbve been registered ebrlier)
         if (isnew) {
-            SnmpVarBind var;
-            for (Enumeration<SnmpVarBind> e= r.getElements(); e.hasMoreElements();) {
-                var = e.nextElement();
-                r.registerGetException(var,new SnmpStatusException(SnmpStatusException.noSuchInstance));
+            SnmpVbrBind vbr;
+            for (Enumerbtion<SnmpVbrBind> e= r.getElements(); e.hbsMoreElements();) {
+                vbr = e.nextElement();
+                r.registerGetException(vbr,new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce));
             }
         }
 
-        final SnmpOid     oid    = r.getEntryOid();
+        finbl SnmpOid     oid    = r.getEntryOid();
 
-        // SnmpIndex   index  = buildSnmpIndex(oid.longValue(false), 0);
+        // SnmpIndex   index  = buildSnmpIndex(oid.longVblue(fblse), 0);
         // get(req,index,depth+1);
         //
         get(req,oid,depth+1);
@@ -298,61 +298,61 @@ public abstract class SnmpMibTable extends SnmpMibNode
     //
     // ---------------------------------------------------------------------
     /**
-     * Generic handling of the <CODE>check</CODE> operation.
-     * <p> The default implementation of this method is to
+     * Generic hbndling of the <CODE>check</CODE> operbtion.
+     * <p> The defbult implementbtion of this method is to
      * <ul>
-     * <li> check whether a new entry must be created, and if remote
-     *      creation of entries is enabled, create it. </li>
-     * <li> call the generated
+     * <li> check whether b new entry must be crebted, bnd if remote
+     *      crebtion of entries is enbbled, crebte it. </li>
+     * <li> cbll the generbted
      *      <CODE>check(req,oid,depth+1)</CODE> method. </li>
      * </ul>
      * <p>
      * <pre>
      * public void check(SnmpMibSubRequest req, int depth)
-     *    throws SnmpStatusException {
-     *    final SnmpOid     oid    = req.getEntryOid();
-     *    final int         action = getRowAction(req,oid,depth+1);
+     *    throws SnmpStbtusException {
+     *    finbl SnmpOid     oid    = req.getEntryOid();
+     *    finbl int         bction = getRowAction(req,oid,depth+1);
      *
-     *    beginRowAction(req,oid,depth+1,action);
+     *    beginRowAction(req,oid,depth+1,bction);
      *    check(req,oid,depth+1);
      * }
      * </pre>
-     * <p> You should not need to override this method in any cases, because
-     * it will eventually call
-     * <CODE>check(SnmpMibSubRequest req, int depth)</CODE> on the generated
-     * derivative of <CODE>SnmpMibEntry</CODE>. If you need to implement
-     * specific policies for minimizing the accesses made to some remote
+     * <p> You should not need to override this method in bny cbses, becbuse
+     * it will eventublly cbll
+     * <CODE>check(SnmpMibSubRequest req, int depth)</CODE> on the generbted
+     * derivbtive of <CODE>SnmpMibEntry</CODE>. If you need to implement
+     * specific policies for minimizing the bccesses mbde to some remote
      * underlying resources, or if you need to implement some consistency
-     * checks between the different values provided in the varbind list,
-     * you should then rather override
-     * <CODE>check(SnmpMibSubRequest req, int depth)</CODE> on the generated
-     * derivative of <CODE>SnmpMibEntry</CODE>.
+     * checks between the different vblues provided in the vbrbind list,
+     * you should then rbther override
+     * <CODE>check(SnmpMibSubRequest req, int depth)</CODE> on the generbted
+     * derivbtive of <CODE>SnmpMibEntry</CODE>.
      * <p>
      *
      */
     @Override
     public void check(SnmpMibSubRequest req, int depth)
-        throws SnmpStatusException {
-        final SnmpOid     oid    = req.getEntryOid();
-        final int         action = getRowAction(req,oid,depth+1);
+        throws SnmpStbtusException {
+        finbl SnmpOid     oid    = req.getEntryOid();
+        finbl int         bction = getRowAction(req,oid,depth+1);
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
-                    "check", "Calling beginRowAction");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTbble.clbss.getNbme(),
+                    "check", "Cblling beginRowAction");
         }
 
-        beginRowAction(req,oid,depth+1,action);
+        beginRowAction(req,oid,depth+1,bction);
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTbble.clbss.getNbme(),
                     "check",
-                    "Calling check for " + req.getSize() + " varbinds");
+                    "Cblling check for " + req.getSize() + " vbrbinds");
         }
 
         check(req,oid,depth+1);
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTbble.clbss.getNbme(),
                     "check", "check finished");
         }
     }
@@ -363,177 +363,177 @@ public abstract class SnmpMibTable extends SnmpMibNode
     //
     // ---------------------------------------------------------------------
     /**
-     * Generic handling of the <CODE>set</CODE> operation.
-     * <p> The default implementation of this method is to
-     * call the generated
+     * Generic hbndling of the <CODE>set</CODE> operbtion.
+     * <p> The defbult implementbtion of this method is to
+     * cbll the generbted
      * <CODE>set(req,oid,depth+1)</CODE> method.
      * <p>
      * <pre>
      * public void set(SnmpMibSubRequest req, int depth)
-     *    throws SnmpStatusException {
-     *    final SnmpOid oid = req.getEntryOid();
-     *    final int  action = getRowAction(req,oid,depth+1);
+     *    throws SnmpStbtusException {
+     *    finbl SnmpOid oid = req.getEntryOid();
+     *    finbl int  bction = getRowAction(req,oid,depth+1);
      *
      *    set(req,oid,depth+1);
-     *    endRowAction(req,oid,depth+1,action);
+     *    endRowAction(req,oid,depth+1,bction);
      * }
      * </pre>
-     * <p> You should not need to override this method in any cases, because
-     * it will eventually call
-     * <CODE>set(SnmpMibSubRequest req, int depth)</CODE> on the generated
-     * derivative of <CODE>SnmpMibEntry</CODE>. If you need to implement
-     * specific policies for minimizing the accesses made to some remote
+     * <p> You should not need to override this method in bny cbses, becbuse
+     * it will eventublly cbll
+     * <CODE>set(SnmpMibSubRequest req, int depth)</CODE> on the generbted
+     * derivbtive of <CODE>SnmpMibEntry</CODE>. If you need to implement
+     * specific policies for minimizing the bccesses mbde to some remote
      * underlying resources, or if you need to implement some consistency
-     * checks between the different values provided in the varbind list,
-     * you should then rather override
-     * <CODE>set(SnmpMibSubRequest req, int depth)</CODE> on the generated
-     * derivative of <CODE>SnmpMibEntry</CODE>.
+     * checks between the different vblues provided in the vbrbind list,
+     * you should then rbther override
+     * <CODE>set(SnmpMibSubRequest req, int depth)</CODE> on the generbted
+     * derivbtive of <CODE>SnmpMibEntry</CODE>.
      * <p>
      *
      */
     @Override
     public void set(SnmpMibSubRequest req, int depth)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
 
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTbble.clbss.getNbme(),
                     "set", "Entering set");
         }
 
-        final SnmpOid     oid    = req.getEntryOid();
-        final int         action = getRowAction(req,oid,depth+1);
+        finbl SnmpOid     oid    = req.getEntryOid();
+        finbl int         bction = getRowAction(req,oid,depth+1);
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
-                    "set", "Calling set for " + req.getSize() + " varbinds");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTbble.clbss.getNbme(),
+                    "set", "Cblling set for " + req.getSize() + " vbrbinds");
         }
 
         set(req,oid,depth+1);
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
-                    "set", "Calling endRowAction");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTbble.clbss.getNbme(),
+                    "set", "Cblling endRowAction");
         }
 
-        endRowAction(req,oid,depth+1,action);
+        endRowAction(req,oid,depth+1,bction);
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTbble.clbss.getNbme(),
                     "set", "RowAction finished");
         }
 
     }
 
     /**
-     * Add a new entry in this <CODE>SnmpMibTable</CODE>.
-     * Also triggers the addEntryCB() callback of the
-     * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} interface
-     * if this node is bound to a factory.
+     * Add b new entry in this <CODE>SnmpMibTbble</CODE>.
+     * Also triggers the bddEntryCB() cbllbbck of the
+     * {@link com.sun.jmx.snmp.bgent.SnmpTbbleEntryFbctory} interfbce
+     * if this node is bound to b fbctory.
      *
-     * This method assumes that the given entry will not be registered.
-     * If the entry is going to be registered, or if ObjectName's are
+     * This method bssumes thbt the given entry will not be registered.
+     * If the entry is going to be registered, or if ObjectNbme's bre
      * required, then
-     * {@link com.sun.jmx.snmp.agent.SnmpMibTable#addEntry(SnmpOid,
-     * ObjectName, Object)} should be preferred.
-     * <br> This function is mainly provided for backward compatibility.
+     * {@link com.sun.jmx.snmp.bgent.SnmpMibTbble#bddEntry(SnmpOid,
+     * ObjectNbme, Object)} should be preferred.
+     * <br> This function is mbinly provided for bbckwbrd compbtibility.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row to be added.
-     * @param entry The entry to add.
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
+     *               row to be bdded.
+     * @pbrbm entry The entry to bdd.
      *
-     * @exception SnmpStatusException The entry couldn't be added
-     *            at the position identified by the given
-     *            <code>rowOid</code>, or this version of the metadata
-     *            requires ObjectName's.
+     * @exception SnmpStbtusException The entry couldn't be bdded
+     *            bt the position identified by the given
+     *            <code>rowOid</code>, or this version of the metbdbtb
+     *            requires ObjectNbme's.
      */
-     // public void addEntry(SnmpIndex index, Object entry)
-     public void addEntry(SnmpOid rowOid, Object entry)
-        throws SnmpStatusException {
+     // public void bddEntry(SnmpIndex index, Object entry)
+     public void bddEntry(SnmpOid rowOid, Object entry)
+        throws SnmpStbtusException {
 
-         addEntry(rowOid, null, entry);
+         bddEntry(rowOid, null, entry);
     }
 
     /**
-     * Add a new entry in this <CODE>SnmpMibTable</CODE>.
-     * Also triggers the addEntryCB() callback of the
-     * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} interface
-     * if this node is bound to a factory.
+     * Add b new entry in this <CODE>SnmpMibTbble</CODE>.
+     * Also triggers the bddEntryCB() cbllbbck of the
+     * {@link com.sun.jmx.snmp.bgent.SnmpTbbleEntryFbctory} interfbce
+     * if this node is bound to b fbctory.
      *
      * <p>
-     * @param oid    The <CODE>SnmpOid</CODE> identifying the table
-     *               row to be added.
+     * @pbrbm oid    The <CODE>SnmpOid</CODE> identifying the tbble
+     *               row to be bdded.
      *
-     * @param name  The ObjectName with which this entry is registered.
-     *              This parameter can be omitted if isRegistrationRequired()
-     *              return false.
+     * @pbrbm nbme  The ObjectNbme with which this entry is registered.
+     *              This pbrbmeter cbn be omitted if isRegistrbtionRequired()
+     *              return fblse.
      *
-     * @param entry The entry to add.
+     * @pbrbm entry The entry to bdd.
      *
-     * @exception SnmpStatusException The entry couldn't be added
-     *            at the position identified by the given
-     *            <code>rowOid</code>, or if this version of the metadata
-     *            requires ObjectName's, and the given name is null.
+     * @exception SnmpStbtusException The entry couldn't be bdded
+     *            bt the position identified by the given
+     *            <code>rowOid</code>, or if this version of the metbdbtb
+     *            requires ObjectNbme's, bnd the given nbme is null.
      */
-    // protected synchronized void addEntry(SnmpIndex index, ObjectName name,
+    // protected synchronized void bddEntry(SnmpIndex index, ObjectNbme nbme,
     //                                      Object entry)
-    public synchronized void addEntry(SnmpOid oid, ObjectName name,
+    public synchronized void bddEntry(SnmpOid oid, ObjectNbme nbme,
                                       Object entry)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
 
-        if (isRegistrationRequired() == true && name == null)
-            throw new SnmpStatusException(SnmpStatusException.badValue);
+        if (isRegistrbtionRequired() == true && nbme == null)
+            throw new SnmpStbtusException(SnmpStbtusException.bbdVblue);
 
         if (size == 0) {
-            //            indexes.addElement(index);
-            // XX oids.addElement(oid);
+            //            indexes.bddElement(index);
+            // XX oids.bddElement(oid);
             insertOid(0,oid);
             if (entries != null)
-                entries.addElement(entry);
-            if (entrynames != null)
-                entrynames.addElement(name);
+                entries.bddElement(entry);
+            if (entrynbmes != null)
+                entrynbmes.bddElement(nbme);
             size++;
 
-            // triggers callbacks on the entry factory
+            // triggers cbllbbcks on the entry fbctory
             //
-            if (factory != null) {
+            if (fbctory != null) {
                 try {
-                    factory.addEntryCb(0,oid,name,entry,this);
-                } catch (SnmpStatusException x) {
+                    fbctory.bddEntryCb(0,oid,nbme,entry,this);
+                } cbtch (SnmpStbtusException x) {
                     removeOid(0);
                     if (entries != null)
                         entries.removeElementAt(0);
-                    if (entrynames != null)
-                        entrynames.removeElementAt(0);
+                    if (entrynbmes != null)
+                        entrynbmes.removeElementAt(0);
                     throw x;
                 }
             }
 
-            // sends the notifications
+            // sends the notificbtions
             //
-            sendNotification(SnmpTableEntryNotification.SNMP_ENTRY_ADDED,
-                             (new Date()).getTime(), entry, name);
+            sendNotificbtion(SnmpTbbleEntryNotificbtion.SNMP_ENTRY_ADDED,
+                             (new Dbte()).getTime(), entry, nbme);
             return;
         }
 
         // Get the insertion position ...
         //
         int pos= 0;
-        // bug jaw.00356.B : use oid rather than index to get the
+        // bug jbw.00356.B : use oid rbther thbn index to get the
         // insertion point.
         //
         pos= getInsertionPoint(oid,true);
         if (pos == size) {
-            // Add a new element in the vectors ...
+            // Add b new element in the vectors ...
             //
-            //            indexes.addElement(index);
-            // XX oids.addElement(oid);
-            insertOid(tablecount,oid);
+            //            indexes.bddElement(index);
+            // XX oids.bddElement(oid);
+            insertOid(tbblecount,oid);
             if (entries != null)
-                entries.addElement(entry);
-            if (entrynames != null)
-                entrynames.addElement(name);
+                entries.bddElement(entry);
+            if (entrynbmes != null)
+                entrynbmes.bddElement(nbme);
             size++;
         } else {
             // Insert new element ...
@@ -544,54 +544,54 @@ public abstract class SnmpMibTable extends SnmpMibNode
                 insertOid(pos,oid);
                 if (entries != null)
                     entries.insertElementAt(entry, pos);
-                if (entrynames != null)
-                    entrynames.insertElementAt(name,pos);
+                if (entrynbmes != null)
+                    entrynbmes.insertElementAt(nbme,pos);
                 size++;
-            } catch(ArrayIndexOutOfBoundsException e) {
+            } cbtch(ArrbyIndexOutOfBoundsException e) {
             }
         }
 
-        // triggers callbacks on the entry factory
+        // triggers cbllbbcks on the entry fbctory
         //
-        if (factory != null) {
+        if (fbctory != null) {
             try {
-                factory.addEntryCb(pos,oid,name,entry,this);
-            } catch (SnmpStatusException x) {
+                fbctory.bddEntryCb(pos,oid,nbme,entry,this);
+            } cbtch (SnmpStbtusException x) {
                 removeOid(pos);
                 if (entries != null)
                     entries.removeElementAt(pos);
-                if (entrynames != null)
-                    entrynames.removeElementAt(pos);
+                if (entrynbmes != null)
+                    entrynbmes.removeElementAt(pos);
                 throw x;
             }
         }
 
-        // sends the notifications
+        // sends the notificbtions
         //
-        sendNotification(SnmpTableEntryNotification.SNMP_ENTRY_ADDED,
-                         (new Date()).getTime(), entry, name);
+        sendNotificbtion(SnmpTbbleEntryNotificbtion.SNMP_ENTRY_ADDED,
+                         (new Dbte()).getTime(), entry, nbme);
     }
 
     /**
-     * Remove the specified entry from the table.
-     * Also triggers the removeEntryCB() callback of the
-     * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} interface
-     * if this node is bound to a factory.
+     * Remove the specified entry from the tbble.
+     * Also triggers the removeEntryCB() cbllbbck of the
+     * {@link com.sun.jmx.snmp.bgent.SnmpTbbleEntryFbctory} interfbce
+     * if this node is bound to b fbctory.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
      *               row to remove.
      *
-     * @param entry The entry to be removed. This parameter is not used
-     *              internally, it is simply passed along to the
-     *              removeEntryCB() callback.
+     * @pbrbm entry The entry to be removed. This pbrbmeter is not used
+     *              internblly, it is simply pbssed blong to the
+     *              removeEntryCB() cbllbbck.
      *
-     * @exception SnmpStatusException if the specified entry couldn't
+     * @exception SnmpStbtusException if the specified entry couldn't
      *            be removed (if the given <code>rowOid</code> is not
-     *            valid for instance).
+     *            vblid for instbnce).
      */
     public synchronized void removeEntry(SnmpOid rowOid, Object entry)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
         int pos = findObject(rowOid);
         if (pos == -1)
             return;
@@ -599,21 +599,21 @@ public abstract class SnmpMibTable extends SnmpMibNode
     }
 
     /**
-     * Remove the specified entry from the table.
-     * Also triggers the removeEntryCB() callback of the
-     * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} interface
-     * if this node is bound to a factory.
+     * Remove the specified entry from the tbble.
+     * Also triggers the removeEntryCB() cbllbbck of the
+     * {@link com.sun.jmx.snmp.bgent.SnmpTbbleEntryFbctory} interfbce
+     * if this node is bound to b fbctory.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
      *               row to remove.
      *
-     * @exception SnmpStatusException if the specified entry couldn't
+     * @exception SnmpStbtusException if the specified entry couldn't
      *            be removed (if the given <code>rowOid</code> is not
-     *            valid for instance).
+     *            vblid for instbnce).
      */
     public void removeEntry(SnmpOid rowOid)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
         int pos = findObject(rowOid);
         if (pos == -1)
             return;
@@ -621,23 +621,23 @@ public abstract class SnmpMibTable extends SnmpMibNode
     }
 
     /**
-     * Remove the specified entry from the table.
-     * Also triggers the removeEntryCB() callback of the
-     * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} interface
-     * if this node is bound to a factory.
+     * Remove the specified entry from the tbble.
+     * Also triggers the removeEntryCB() cbllbbck of the
+     * {@link com.sun.jmx.snmp.bgent.SnmpTbbleEntryFbctory} interfbce
+     * if this node is bound to b fbctory.
      *
      * <p>
-     * @param pos The position of the entry in the table.
+     * @pbrbm pos The position of the entry in the tbble.
      *
-     * @param entry The entry to be removed. This parameter is not used
-     *              internally, it is simply passed along to the
-     *              removeEntryCB() callback.
+     * @pbrbm entry The entry to be removed. This pbrbmeter is not used
+     *              internblly, it is simply pbssed blong to the
+     *              removeEntryCB() cbllbbck.
      *
-     * @exception SnmpStatusException if the specified entry couldn't
+     * @exception SnmpStbtusException if the specified entry couldn't
      *            be removed.
      */
     public synchronized void removeEntry(int pos, Object entry)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
         if (pos == -1)
             return;
         if (pos >= size) return;
@@ -648,92 +648,92 @@ public abstract class SnmpMibTable extends SnmpMibNode
             entries.removeElementAt(pos);
         }
 
-        ObjectName name = null;
-        if (entrynames != null && entrynames.size() > pos) {
-            name = entrynames.elementAt(pos);
-            entrynames.removeElementAt(pos);
+        ObjectNbme nbme = null;
+        if (entrynbmes != null && entrynbmes.size() > pos) {
+            nbme = entrynbmes.elementAt(pos);
+            entrynbmes.removeElementAt(pos);
         }
 
-        final SnmpOid rowOid = tableoids[pos];
+        finbl SnmpOid rowOid = tbbleoids[pos];
         removeOid(pos);
         size --;
 
         if (obj == null) obj = entry;
 
-        if (factory != null)
-            factory.removeEntryCb(pos,rowOid,name,obj,this);
+        if (fbctory != null)
+            fbctory.removeEntryCb(pos,rowOid,nbme,obj,this);
 
-        sendNotification(SnmpTableEntryNotification.SNMP_ENTRY_REMOVED,
-                         (new Date()).getTime(), obj, name);
+        sendNotificbtion(SnmpTbbleEntryNotificbtion.SNMP_ENTRY_REMOVED,
+                         (new Dbte()).getTime(), obj, nbme);
     }
 
     /**
      * Get the entry corresponding to the specified rowOid.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the
      *        row to be retrieved.
      *
      * @return The entry.
      *
-     * @exception SnmpStatusException There is no entry with the specified
-     *      <code>rowOid</code> in the table.
+     * @exception SnmpStbtusException There is no entry with the specified
+     *      <code>rowOid</code> in the tbble.
      */
     public synchronized Object getEntry(SnmpOid rowOid)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
         int pos= findObject(rowOid);
         if (pos == -1)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
         return entries.elementAt(pos);
     }
 
     /**
-     * Get the ObjectName of the entry corresponding to the
+     * Get the ObjectNbme of the entry corresponding to the
      * specified rowOid.
-     * The result of this method is only meaningful if
-     * isRegistrationRequired() yields true.
+     * The result of this method is only mebningful if
+     * isRegistrbtionRequired() yields true.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *        row whose ObjectName we want to retrieve.
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
+     *        row whose ObjectNbme we wbnt to retrieve.
      *
-     * @return The object name of the entry.
+     * @return The object nbme of the entry.
      *
-     * @exception SnmpStatusException There is no entry with the specified
-     *      <code>rowOid</code> in the table.
+     * @exception SnmpStbtusException There is no entry with the specified
+     *      <code>rowOid</code> in the tbble.
      */
-    public synchronized ObjectName getEntryName(SnmpOid rowOid)
-        throws SnmpStatusException {
+    public synchronized ObjectNbme getEntryNbme(SnmpOid rowOid)
+        throws SnmpStbtusException {
         int pos = findObject(rowOid);
-        if (entrynames == null) return null;
-        if (pos == -1 || pos >= entrynames.size())
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
-        return entrynames.elementAt(pos);
+        if (entrynbmes == null) return null;
+        if (pos == -1 || pos >= entrynbmes.size())
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
+        return entrynbmes.elementAt(pos);
     }
 
     /**
-     * Return the entries stored in this table <CODE>SnmpMibTable</CODE>.
+     * Return the entries stored in this tbble <CODE>SnmpMibTbble</CODE>.
      * <p>
-     * If the subclass generated by mibgen uses the generic way to access
-     * the entries (i.e. if it goes through the MBeanServer) then some of
-     * the entries may be <code>null</code>. It all depends whether a non
-     * <code>null</code> entry was passed to addEntry().<br>
-     * Otherwise, if it uses the standard way (access the entry directly
-     * through their standard MBean interface) this array will contain all
+     * If the subclbss generbted by mibgen uses the generic wby to bccess
+     * the entries (i.e. if it goes through the MBebnServer) then some of
+     * the entries mby be <code>null</code>. It bll depends whether b non
+     * <code>null</code> entry wbs pbssed to bddEntry().<br>
+     * Otherwise, if it uses the stbndbrd wby (bccess the entry directly
+     * through their stbndbrd MBebn interfbce) this brrby will contbin bll
      * the entries.
      * <p>
-     * @return The entries array.
+     * @return The entries brrby.
      */
-    public Object[] getBasicEntries() {
-        Object[] array= new Object[size];
-        entries.copyInto(array);
-        return array;
+    public Object[] getBbsicEntries() {
+        Object[] brrby= new Object[size];
+        entries.copyInto(brrby);
+        return brrby;
     }
 
     /**
-     * Get the size of the table.
+     * Get the size of the tbble.
      *
-     * @return The number of entries currently registered in this table.
+     * @return The number of entries currently registered in this tbble.
      */
     public int getSize() {
         return size;
@@ -743,95 +743,95 @@ public abstract class SnmpMibTable extends SnmpMibNode
     //------------
 
     /**
-     * Enable to add an SNMP entry listener to this
-     * <CODE>SnmpMibTable</CODE>.
+     * Enbble to bdd bn SNMP entry listener to this
+     * <CODE>SnmpMibTbble</CODE>.
      *
      * <p>
-     * @param listener The listener object which will handle the
-     *    notifications emitted by the registered MBean.
+     * @pbrbm listener The listener object which will hbndle the
+     *    notificbtions emitted by the registered MBebn.
      *
-     * @param filter The filter object. If filter is null, no filtering
-     *    will be performed before handling notifications.
+     * @pbrbm filter The filter object. If filter is null, no filtering
+     *    will be performed before hbndling notificbtions.
      *
-     * @param handback The context to be sent to the listener when a
-     *    notification is emitted.
+     * @pbrbm hbndbbck The context to be sent to the listener when b
+     *    notificbtion is emitted.
      *
-     * @exception IllegalArgumentException Listener parameter is null.
+     * @exception IllegblArgumentException Listener pbrbmeter is null.
      */
     @Override
     public synchronized void
-        addNotificationListener(NotificationListener listener,
-                                NotificationFilter filter, Object handback)  {
+        bddNotificbtionListener(NotificbtionListener listener,
+                                NotificbtionFilter filter, Object hbndbbck)  {
 
         // Check listener
         //
         if (listener == null) {
-            throw new java.lang.IllegalArgumentException
-                ("Listener can't be null") ;
+            throw new jbvb.lbng.IllegblArgumentException
+                ("Listener cbn't be null") ;
         }
 
-        // looking for listener in handbackTable
+        // looking for listener in hbndbbckTbble
         //
-        Vector<Object> handbackList = handbackTable.get(listener) ;
-        Vector<NotificationFilter> filterList = filterTable.get(listener) ;
-        if ( handbackList == null ) {
-            handbackList = new Vector<>() ;
+        Vector<Object> hbndbbckList = hbndbbckTbble.get(listener) ;
+        Vector<NotificbtionFilter> filterList = filterTbble.get(listener) ;
+        if ( hbndbbckList == null ) {
+            hbndbbckList = new Vector<>() ;
             filterList = new Vector<>() ;
-            handbackTable.put(listener, handbackList) ;
-            filterTable.put(listener, filterList) ;
+            hbndbbckTbble.put(listener, hbndbbckList) ;
+            filterTbble.put(listener, filterList) ;
         }
 
-        // Add the handback and the filter
+        // Add the hbndbbck bnd the filter
         //
-        handbackList.addElement(handback) ;
-        filterList.addElement(filter) ;
+        hbndbbckList.bddElement(hbndbbck) ;
+        filterList.bddElement(filter) ;
     }
 
     /**
-     * Enable to remove an SNMP entry listener from this
-     * <CODE>SnmpMibTable</CODE>.
+     * Enbble to remove bn SNMP entry listener from this
+     * <CODE>SnmpMibTbble</CODE>.
      *
-     * @param listener The listener object which will handle the
-     *    notifications emitted by the registered MBean.
-     *    This method will remove all the information related to this
+     * @pbrbm listener The listener object which will hbndle the
+     *    notificbtions emitted by the registered MBebn.
+     *    This method will remove bll the informbtion relbted to this
      *    listener.
      *
      * @exception ListenerNotFoundException The listener is not registered
-     *    in the MBean.
+     *    in the MBebn.
      */
     @Override
     public synchronized void
-        removeNotificationListener(NotificationListener listener)
+        removeNotificbtionListener(NotificbtionListener listener)
         throws ListenerNotFoundException {
 
-        // looking for listener in handbackTable
+        // looking for listener in hbndbbckTbble
         //
-        java.util.Vector<?> handbackList = handbackTable.get(listener) ;
-        if ( handbackList == null ) {
+        jbvb.util.Vector<?> hbndbbckList = hbndbbckTbble.get(listener) ;
+        if ( hbndbbckList == null ) {
             throw new ListenerNotFoundException("listener");
         }
 
-        // If handback is null, remove the listener entry
+        // If hbndbbck is null, remove the listener entry
         //
-        handbackTable.remove(listener) ;
-        filterTable.remove(listener) ;
+        hbndbbckTbble.remove(listener) ;
+        filterTbble.remove(listener) ;
     }
 
     /**
-     * Return a <CODE>NotificationInfo</CODE> object containing the
-     * notification class and the notification type sent by the
-     * <CODE>SnmpMibTable</CODE>.
+     * Return b <CODE>NotificbtionInfo</CODE> object contbining the
+     * notificbtion clbss bnd the notificbtion type sent by the
+     * <CODE>SnmpMibTbble</CODE>.
      */
     @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
 
-        String[] types = {SnmpTableEntryNotification.SNMP_ENTRY_ADDED,
-                          SnmpTableEntryNotification.SNMP_ENTRY_REMOVED};
+        String[] types = {SnmpTbbleEntryNotificbtion.SNMP_ENTRY_ADDED,
+                          SnmpTbbleEntryNotificbtion.SNMP_ENTRY_REMOVED};
 
-        MBeanNotificationInfo[] notifsInfo = {
-            new MBeanNotificationInfo
-            (types, "com.sun.jmx.snmp.agent.SnmpTableEntryNotification",
-             "Notifications sent by the SnmpMibTable")
+        MBebnNotificbtionInfo[] notifsInfo = {
+            new MBebnNotificbtionInfo
+            (types, "com.sun.jmx.snmp.bgent.SnmpTbbleEntryNotificbtion",
+             "Notificbtions sent by the SnmpMibTbble")
         };
 
         return notifsInfo;
@@ -839,673 +839,673 @@ public abstract class SnmpMibTable extends SnmpMibNode
 
 
     /**
-     * Register the factory through which table entries should
-     * be created when remote entry creation is enabled.
+     * Register the fbctory through which tbble entries should
+     * be crebted when remote entry crebtion is enbbled.
      *
      * <p>
-     * @param factory The
-     *        {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} through
-     *        which entries will be created when a remote SNMP manager
-     *        request the creation of a new entry via an SNMP SET request.
+     * @pbrbm fbctory The
+     *        {@link com.sun.jmx.snmp.bgent.SnmpTbbleEntryFbctory} through
+     *        which entries will be crebted when b remote SNMP mbnbger
+     *        request the crebtion of b new entry vib bn SNMP SET request.
      */
-    public void registerEntryFactory(SnmpTableEntryFactory factory) {
-        this.factory = factory;
+    public void registerEntryFbctory(SnmpTbbleEntryFbctory fbctory) {
+        this.fbctory = fbctory;
     }
 
     // ----------------------------------------------------------------------
-    // PROTECTED METHODS - RowStatus
+    // PROTECTED METHODS - RowStbtus
     // ----------------------------------------------------------------------
 
     /**
-     * Return true if the columnar object identified by <code>var</code>
-     * is used to control the addition/deletion of rows in this table.
+     * Return true if the columnbr object identified by <code>vbr</code>
+     * is used to control the bddition/deletion of rows in this tbble.
      *
      * <p>
-     * By default, this method assumes that there is no control variable
-     * and always return <code>false</code>
+     * By defbult, this method bssumes thbt there is no control vbribble
+     * bnd blwbys return <code>fblse</code>
      * <p>
-     * If this table was defined using SMIv2, and if it contains a
-     * control variable with RowStatus syntax, <code>mibgen</code>
-     * will generate a non default implementation for this method
-     * that will identify the RowStatus control variable.
+     * If this tbble wbs defined using SMIv2, bnd if it contbins b
+     * control vbribble with RowStbtus syntbx, <code>mibgen</code>
+     * will generbte b non defbult implementbtion for this method
+     * thbt will identify the RowStbtus control vbribble.
      * <p>
-     * You will have to redefine this method if you need to implement
-     * control variables that do not conform to RFC 2579 RowStatus
+     * You will hbve to redefine this method if you need to implement
+     * control vbribbles thbt do not conform to RFC 2579 RowStbtus
      * TEXTUAL-CONVENTION.
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
+     *               row involved in the operbtion.
      *
-     * @param var The OID arc identifying the involved columnar object.
+     * @pbrbm vbr The OID brc identifying the involved columnbr object.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
      **/
-    protected boolean isRowStatus(SnmpOid rowOid, long var,
-                                    Object  userData) {
-        return false;
+    protected boolebn isRowStbtus(SnmpOid rowOid, long vbr,
+                                    Object  userDbtb) {
+        return fblse;
     }
 
 
     /**
-     * Return the RowStatus code value specified in this request.
+     * Return the RowStbtus code vblue specified in this request.
      * <p>
-     * The RowStatus code value should be one of the values defined
-     * by {@link com.sun.jmx.snmp.EnumRowStatus}. These codes correspond
-     * to RowStatus codes as defined in RFC 2579, plus the <i>unspecified</i>
-     * value which is SNMP Runtime specific.
+     * The RowStbtus code vblue should be one of the vblues defined
+     * by {@link com.sun.jmx.snmp.EnumRowStbtus}. These codes correspond
+     * to RowStbtus codes bs defined in RFC 2579, plus the <i>unspecified</i>
+     * vblue which is SNMP Runtime specific.
      * <p>
      *
-     * @param req    The sub-request that must be handled by this node.
+     * @pbrbm req    The sub-request thbt must be hbndled by this node.
      *
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
+     *               row involved in the operbtion.
      *
-     * @param depth  The depth reached in the OID tree.
+     * @pbrbm depth  The depth rebched in the OID tree.
      *
-     * @return The RowStatus code specified in this request, if any:
+     * @return The RowStbtus code specified in this request, if bny:
      * <ul>
-     * <li>If the specified row does not exist and this table do
-     *     not use any variable to control creation/deletion of
-     *     rows, then default creation mechanism is assumed and
-     *     <i>createAndGo</i> is returned</li>
-     * <li>Otherwise, if the row exists and this table do not use any
-     *     variable to control creation/deletion of rows,
+     * <li>If the specified row does not exist bnd this tbble do
+     *     not use bny vbribble to control crebtion/deletion of
+     *     rows, then defbult crebtion mechbnism is bssumed bnd
+     *     <i>crebteAndGo</i> is returned</li>
+     * <li>Otherwise, if the row exists bnd this tbble do not use bny
+     *     vbribble to control crebtion/deletion of rows,
      *     <i>unspecified</i> is returned.</li>
-     * <li>Otherwise, if the request does not contain the control variable,
+     * <li>Otherwise, if the request does not contbin the control vbribble,
      *     <i>unspecified</i> is returned.</li>
-     * <li>Otherwise, mapRowStatus() is called to extract the RowStatus
-     *     code from the SnmpVarBind that contains the control variable.</li>
+     * <li>Otherwise, mbpRowStbtus() is cblled to extrbct the RowStbtus
+     *     code from the SnmpVbrBind thbt contbins the control vbribble.</li>
      * </ul>
      *
-     * @exception SnmpStatusException if the value of the control variable
-     *            could not be mapped to a RowStatus code.
+     * @exception SnmpStbtusException if the vblue of the control vbribble
+     *            could not be mbpped to b RowStbtus code.
      *
-     * @see com.sun.jmx.snmp.EnumRowStatus
+     * @see com.sun.jmx.snmp.EnumRowStbtus
      **/
     protected int getRowAction(SnmpMibSubRequest req, SnmpOid rowOid,
                                int depth)
-        throws SnmpStatusException {
-        final boolean     isnew  = req.isNewEntry();
-        final SnmpVarBind vb = req.getRowStatusVarBind();
+        throws SnmpStbtusException {
+        finbl boolebn     isnew  = req.isNewEntry();
+        finbl SnmpVbrBind vb = req.getRowStbtusVbrBind();
         if (vb == null) {
-            if (isnew && ! hasRowStatus())
-                return EnumRowStatus.createAndGo;
-            else return EnumRowStatus.unspecified;
+            if (isnew && ! hbsRowStbtus())
+                return EnumRowStbtus.crebteAndGo;
+            else return EnumRowStbtus.unspecified;
         }
 
         try {
-            return mapRowStatus(rowOid, vb, req.getUserData());
-        } catch( SnmpStatusException x) {
-            checkRowStatusFail(req, x.getStatus());
+            return mbpRowStbtus(rowOid, vb, req.getUserDbtb());
+        } cbtch( SnmpStbtusException x) {
+            checkRowStbtusFbil(req, x.getStbtus());
         }
-        return EnumRowStatus.unspecified;
+        return EnumRowStbtus.unspecified;
     }
 
     /**
-     * Map the value of the <code>vbstatus</code> varbind to the
-     * corresponding RowStatus code defined in
-     * {@link com.sun.jmx.snmp.EnumRowStatus}.
-     * These codes correspond to RowStatus codes as defined in RFC 2579,
-     * plus the <i>unspecified</i> value which is SNMP Runtime specific.
+     * Mbp the vblue of the <code>vbstbtus</code> vbrbind to the
+     * corresponding RowStbtus code defined in
+     * {@link com.sun.jmx.snmp.EnumRowStbtus}.
+     * These codes correspond to RowStbtus codes bs defined in RFC 2579,
+     * plus the <i>unspecified</i> vblue which is SNMP Runtime specific.
      * <p>
-     * By default, this method assumes that the control variable is
-     * an Integer, and it simply returns its value without further
-     * analysis.
+     * By defbult, this method bssumes thbt the control vbribble is
+     * bn Integer, bnd it simply returns its vblue without further
+     * bnblysis.
      * <p>
-     * If this table was defined using SMIv2, and if it contains a
-     * control variable with RowStatus syntax, <code>mibgen</code>
-     * will generate a non default implementation for this method.
+     * If this tbble wbs defined using SMIv2, bnd if it contbins b
+     * control vbribble with RowStbtus syntbx, <code>mibgen</code>
+     * will generbte b non defbult implementbtion for this method.
      * <p>
-     * You will have to redefine this method if you need to implement
-     * control variables that do not conform to RFC 2579 RowStatus
+     * You will hbve to redefine this method if you need to implement
+     * control vbribbles thbt do not conform to RFC 2579 RowStbtus
      * TEXTUAL-CONVENTION.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
+     *               row involved in the operbtion.
      *
-     * @param vbstatus The SnmpVarBind containing the value of the control
-     *           variable, as identified by the isRowStatus() method.
+     * @pbrbm vbstbtus The SnmpVbrBind contbining the vblue of the control
+     *           vbribble, bs identified by the isRowStbtus() method.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
-     * @return The RowStatus code mapped from the value contained
-     *     in <code>vbstatus</code>.
+     * @return The RowStbtus code mbpped from the vblue contbined
+     *     in <code>vbstbtus</code>.
      *
-     * @exception SnmpStatusException if the value of the control variable
-     *            could not be mapped to a RowStatus code.
+     * @exception SnmpStbtusException if the vblue of the control vbribble
+     *            could not be mbpped to b RowStbtus code.
      *
-     * @see com.sun.jmx.snmp.EnumRowStatus
+     * @see com.sun.jmx.snmp.EnumRowStbtus
      **/
-    protected int mapRowStatus(SnmpOid rowOid, SnmpVarBind vbstatus,
-                               Object userData)
-        throws SnmpStatusException {
-        final SnmpValue rsvalue = vbstatus.value;
+    protected int mbpRowStbtus(SnmpOid rowOid, SnmpVbrBind vbstbtus,
+                               Object userDbtb)
+        throws SnmpStbtusException {
+        finbl SnmpVblue rsvblue = vbstbtus.vblue;
 
-        if (rsvalue instanceof SnmpInt)
-            return ((SnmpInt)rsvalue).intValue();
+        if (rsvblue instbnceof SnmpInt)
+            return ((SnmpInt)rsvblue).intVblue();
         else
-            throw new SnmpStatusException(
-                       SnmpStatusException.snmpRspInconsistentValue);
+            throw new SnmpStbtusException(
+                       SnmpStbtusException.snmpRspInconsistentVblue);
     }
 
     /**
-     * Set the control variable to the specified <code>newStatus</code>
-     * value.
+     * Set the control vbribble to the specified <code>newStbtus</code>
+     * vblue.
      *
      * <p>
-     * This method maps the given <code>newStatus</code> to the appropriate
-     * value for the control variable, then sets the control variable in
+     * This method mbps the given <code>newStbtus</code> to the bppropribte
+     * vblue for the control vbribble, then sets the control vbribble in
      * the entry identified by <code>rowOid</code>. It returns the new
-     * value of the control variable.
+     * vblue of the control vbribble.
      * <p>
-     * By default, it is assumed that there is no control variable so this
-     * method does nothing and simply returns <code>null</code>.
+     * By defbult, it is bssumed thbt there is no control vbribble so this
+     * method does nothing bnd simply returns <code>null</code>.
      * <p>
-     * If this table was defined using SMIv2, and if it contains a
-     * control variable with RowStatus syntax, <code>mibgen</code>
-     * will generate a non default implementation for this method.
+     * If this tbble wbs defined using SMIv2, bnd if it contbins b
+     * control vbribble with RowStbtus syntbx, <code>mibgen</code>
+     * will generbte b non defbult implementbtion for this method.
      * <p>
-     * You will have to redefine this method if you need to implement
-     * control variables that do not conform to RFC 2579 RowStatus
+     * You will hbve to redefine this method if you need to implement
+     * control vbribbles thbt do not conform to RFC 2579 RowStbtus
      * TEXTUAL-CONVENTION.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
+     *               row involved in the operbtion.
      *
-     * @param newStatus The new status for the row: one of the
-     *        RowStatus code defined in
-     *        {@link com.sun.jmx.snmp.EnumRowStatus}. These codes
-     *        correspond to RowStatus codes as defined in RFC 2579,
-     *        plus the <i>unspecified</i> value which is SNMP Runtime specific.
+     * @pbrbm newStbtus The new stbtus for the row: one of the
+     *        RowStbtus code defined in
+     *        {@link com.sun.jmx.snmp.EnumRowStbtus}. These codes
+     *        correspond to RowStbtus codes bs defined in RFC 2579,
+     *        plus the <i>unspecified</i> vblue which is SNMP Runtime specific.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
-     * @return The new value of the control variable (usually
-     *         <code>new SnmpInt(newStatus)</code>) or <code>null</code>
-     *         if the table do not have any control variable.
+     * @return The new vblue of the control vbribble (usublly
+     *         <code>new SnmpInt(newStbtus)</code>) or <code>null</code>
+     *         if the tbble do not hbve bny control vbribble.
      *
-     * @exception SnmpStatusException If the given <code>newStatus</code>
+     * @exception SnmpStbtusException If the given <code>newStbtus</code>
      *            could not be set on the specified entry, or if the
-     *            given <code>newStatus</code> is not valid.
+     *            given <code>newStbtus</code> is not vblid.
      *
-     * @see com.sun.jmx.snmp.EnumRowStatus
+     * @see com.sun.jmx.snmp.EnumRowStbtus
      **/
-    protected SnmpValue setRowStatus(SnmpOid rowOid, int newStatus,
-                                     Object userData)
-        throws SnmpStatusException {
+    protected SnmpVblue setRowStbtus(SnmpOid rowOid, int newStbtus,
+                                     Object userDbtb)
+        throws SnmpStbtusException {
         return null;
     }
 
     /**
-     * Tell whether the specified row is ready and can be put in the
-     * <i>notInService</i> state.
+     * Tell whether the specified row is rebdy bnd cbn be put in the
+     * <i>notInService</i> stbte.
      * <p>
-     * This method is called only once, after all the varbind have been
-     * set on a new entry for which <i>createAndWait</i> was specified.
+     * This method is cblled only once, bfter bll the vbrbind hbve been
+     * set on b new entry for which <i>crebteAndWbit</i> wbs specified.
      * <p>
-     * If the entry is not yet ready, this method should return false.
+     * If the entry is not yet rebdy, this method should return fblse.
      * It will then be the responsibility of the entry to switch its
-     * own state to <i>notInService</i> when it becomes ready.
-     * No further call to <code>isRowReady()</code> will be made.
+     * own stbte to <i>notInService</i> when it becomes rebdy.
+     * No further cbll to <code>isRowRebdy()</code> will be mbde.
      * <p>
-     * By default, this method always return true. <br>
-     * <code>mibgen</code> will not generate any specific implementation
-     * for this method - meaning that by default, a row created using
-     * <i>createAndWait</i> will always be placed in <i>notInService</i>
-     * state at the end of the request.
+     * By defbult, this method blwbys return true. <br>
+     * <code>mibgen</code> will not generbte bny specific implementbtion
+     * for this method - mebning thbt by defbult, b row crebted using
+     * <i>crebteAndWbit</i> will blwbys be plbced in <i>notInService</i>
+     * stbte bt the end of the request.
      * <p>
-     * If this table was defined using SMIv2, and if it contains a
-     * control variable with RowStatus syntax, <code>mibgen</code>
-     * will generate an implementation for this method that will
-     * delegate the work to the metadata class modelling the conceptual
-     * row, so that you can override the default behaviour by subclassing
-     * that metadata class.
+     * If this tbble wbs defined using SMIv2, bnd if it contbins b
+     * control vbribble with RowStbtus syntbx, <code>mibgen</code>
+     * will generbte bn implementbtion for this method thbt will
+     * delegbte the work to the metbdbtb clbss modelling the conceptubl
+     * row, so thbt you cbn override the defbult behbviour by subclbssing
+     * thbt metbdbtb clbss.
      * <p>
-     * You will have to redefine this method if this default mechanism
+     * You will hbve to redefine this method if this defbult mechbnism
      * does not suit your needs.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
+     *               row involved in the operbtion.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
-     * @return <code>true</code> if the row can be placed in
-     *         <i>notInService</i> state.
+     * @return <code>true</code> if the row cbn be plbced in
+     *         <i>notInService</i> stbte.
      *
-     * @exception SnmpStatusException An error occurred while trying
-     *            to retrieve the row status, and the operation should
-     *            be aborted.
+     * @exception SnmpStbtusException An error occurred while trying
+     *            to retrieve the row stbtus, bnd the operbtion should
+     *            be bborted.
      *
-     * @see com.sun.jmx.snmp.EnumRowStatus
+     * @see com.sun.jmx.snmp.EnumRowStbtus
      **/
-    protected boolean isRowReady(SnmpOid rowOid, Object userData)
-        throws SnmpStatusException {
+    protected boolebn isRowRebdy(SnmpOid rowOid, Object userDbtb)
+        throws SnmpStbtusException {
         return true;
     }
 
     /**
-     * Check whether the control variable of the given row can be
-     * switched to the new specified <code>newStatus</code>.
+     * Check whether the control vbribble of the given row cbn be
+     * switched to the new specified <code>newStbtus</code>.
      * <p>
-     * This method is called during the <i>check</i> phase of a SET
-     * request when the control variable specifies <i>active</i> or
+     * This method is cblled during the <i>check</i> phbse of b SET
+     * request when the control vbribble specifies <i>bctive</i> or
      * <i>notInService</i>.
      * <p>
-     * By default it is assumed that nothing prevents putting the
-     * row in the requested state, and this method does nothing.
-     * It is simply provided as a hook so that specific checks can
+     * By defbult it is bssumed thbt nothing prevents putting the
+     * row in the requested stbte, bnd this method does nothing.
+     * It is simply provided bs b hook so thbt specific checks cbn
      * be implemented.
      * <p>
-     * Note that if the actual row deletion fails afterward, the
-     * atomicity of the request is no longer guaranteed.
+     * Note thbt if the bctubl row deletion fbils bfterwbrd, the
+     * btomicity of the request is no longer gubrbnteed.
      *
      * <p>
-     * @param req    The sub-request that must be handled by this node.
+     * @pbrbm req    The sub-request thbt must be hbndled by this node.
      *
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
+     *               row involved in the operbtion.
      *
-     * @param depth  The depth reached in the OID tree.
+     * @pbrbm depth  The depth rebched in the OID tree.
      *
-     * @param newStatus The new status for the row: one of the
-     *        RowStatus code defined in
-     *        {@link com.sun.jmx.snmp.EnumRowStatus}. These codes
-     *        correspond to RowStatus codes as defined in RFC 2579,
-     *        plus the <i>unspecified</i> value which is SNMP Runtime specific.
+     * @pbrbm newStbtus The new stbtus for the row: one of the
+     *        RowStbtus code defined in
+     *        {@link com.sun.jmx.snmp.EnumRowStbtus}. These codes
+     *        correspond to RowStbtus codes bs defined in RFC 2579,
+     *        plus the <i>unspecified</i> vblue which is SNMP Runtime specific.
      *
-     * @exception SnmpStatusException if switching to this new state
-     *            would fail.
+     * @exception SnmpStbtusException if switching to this new stbte
+     *            would fbil.
      *
      **/
-    protected void checkRowStatusChange(SnmpMibSubRequest req,
+    protected void checkRowStbtusChbnge(SnmpMibSubRequest req,
                                         SnmpOid rowOid, int depth,
-                                        int newStatus)
-        throws SnmpStatusException {
+                                        int newStbtus)
+        throws SnmpStbtusException {
 
     }
 
     /**
-     * Check whether the specified row can be removed from the table.
+     * Check whether the specified row cbn be removed from the tbble.
      * <p>
-     * This method is called during the <i>check</i> phase of a SET
-     * request when the control variable specifies <i>destroy</i>
+     * This method is cblled during the <i>check</i> phbse of b SET
+     * request when the control vbribble specifies <i>destroy</i>
      * <p>
-     * By default it is assumed that nothing prevents row deletion
-     * and this method does nothing. It is simply provided as a hook
-     * so that specific checks can be implemented.
+     * By defbult it is bssumed thbt nothing prevents row deletion
+     * bnd this method does nothing. It is simply provided bs b hook
+     * so thbt specific checks cbn be implemented.
      * <p>
-     * Note that if the actual row deletion fails afterward, the
-     * atomicity of the request is no longer guaranteed.
+     * Note thbt if the bctubl row deletion fbils bfterwbrd, the
+     * btomicity of the request is no longer gubrbnteed.
      *
      * <p>
-     * @param req    The sub-request that must be handled by this node.
+     * @pbrbm req    The sub-request thbt must be hbndled by this node.
      *
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
+     *               row involved in the operbtion.
      *
-     * @param depth  The depth reached in the OID tree.
+     * @pbrbm depth  The depth rebched in the OID tree.
      *
-     * @exception SnmpStatusException if the row deletion must be
+     * @exception SnmpStbtusException if the row deletion must be
      *            rejected.
      **/
-    protected void checkRemoveTableRow(SnmpMibSubRequest req, SnmpOid rowOid,
+    protected void checkRemoveTbbleRow(SnmpMibSubRequest req, SnmpOid rowOid,
                                        int depth)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
 
     }
 
     /**
-     * Remove a table row upon a remote manager request.
+     * Remove b tbble row upon b remote mbnbger request.
      *
-     * This method is called internally when <code>getRowAction()</code>
-     * yields <i>destroy</i> - i.e.: it is only called when a remote
-     * manager requests the removal of a table row.<br>
-     * You should never need to call this function directly.
+     * This method is cblled internblly when <code>getRowAction()</code>
+     * yields <i>destroy</i> - i.e.: it is only cblled when b remote
+     * mbnbger requests the removbl of b tbble row.<br>
+     * You should never need to cbll this function directly.
      * <p>
-     * By default, this method simply calls <code>removeEntry(rowOid)
+     * By defbult, this method simply cblls <code>removeEntry(rowOid)
      * </code>.
      * <p>
-     * You can redefine this method if you need to implement some
-     * specific behaviour when a remote row deletion is invoked.
+     * You cbn redefine this method if you need to implement some
+     * specific behbviour when b remote row deletion is invoked.
      * <p>
-     * Note that specific checks should not be implemented in this
-     * method, but rather in <code>checkRemoveTableRow()</code>.
-     * If <code>checkRemoveTableRow()</code> succeeds and this method
-     * fails afterward, the atomicity of the original SET request can no
-     * longer be guaranteed.
+     * Note thbt specific checks should not be implemented in this
+     * method, but rbther in <code>checkRemoveTbbleRow()</code>.
+     * If <code>checkRemoveTbbleRow()</code> succeeds bnd this method
+     * fbils bfterwbrd, the btomicity of the originbl SET request cbn no
+     * longer be gubrbnteed.
      * <p>
      *
-     * @param req    The sub-request that must be handled by this node.
+     * @pbrbm req    The sub-request thbt must be hbndled by this node.
      *
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
+     *               row involved in the operbtion.
      *
-     * @param depth  The depth reached in the OID tree.
+     * @pbrbm depth  The depth rebched in the OID tree.
      *
-     * @exception SnmpStatusException if the actual row deletion fails.
-     *            This should not happen since it would break the
-     *            atomicity of the SET request. Specific checks should
-     *            be implemented in <code>checkRemoveTableRow()</code>
+     * @exception SnmpStbtusException if the bctubl row deletion fbils.
+     *            This should not hbppen since it would brebk the
+     *            btomicity of the SET request. Specific checks should
+     *            be implemented in <code>checkRemoveTbbleRow()</code>
      *            if needed. If the entry does not exists, no exception
-     *            is generated and the method simply returns.
+     *            is generbted bnd the method simply returns.
      *
      **/
-    protected void removeTableRow(SnmpMibSubRequest req, SnmpOid rowOid,
+    protected void removeTbbleRow(SnmpMibSubRequest req, SnmpOid rowOid,
                                   int depth)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
 
         removeEntry(rowOid);
     }
 
     /**
-     * This method takes care of initial RowStatus handling during the
-     * check() phase of a SET request.
+     * This method tbkes cbre of initibl RowStbtus hbndling during the
+     * check() phbse of b SET request.
      *
-     * In particular it will:
-     * <ul><li>check that the given <code>rowAction</code> returned by
-     *         <code>getRowAction()</code> is valid.</li>
+     * In pbrticulbr it will:
+     * <ul><li>check thbt the given <code>rowAction</code> returned by
+     *         <code>getRowAction()</code> is vblid.</li>
      * <li>Then depending on the <code>rowAction</code> specified it will:
-     *     <ul><li>either call <code>createNewEntry()</code> (<code>
-     *         rowAction = <i>createAndGo</i> or <i>createAndWait</i>
+     *     <ul><li>either cbll <code>crebteNewEntry()</code> (<code>
+     *         rowAction = <i>crebteAndGo</i> or <i>crebteAndWbit</i>
      *         </code>),</li>
-     *     <li>or call <code>checkRemoveTableRow()</code> (<code>
+     *     <li>or cbll <code>checkRemoveTbbleRow()</code> (<code>
      *         rowAction = <i>destroy</i></code>),</li>
-     *     <li>or call <code>checkRowStatusChange()</code> (<code>
-     *         rowAction = <i>active</i> or <i>notInService</i></code>),</li>
-     *     <li>or generate a SnmpStatusException if the passed <code>
+     *     <li>or cbll <code>checkRowStbtusChbnge()</code> (<code>
+     *         rowAction = <i>bctive</i> or <i>notInService</i></code>),</li>
+     *     <li>or generbte b SnmpStbtusException if the pbssed <code>
      *         rowAction</code> is not correct.</li>
      * </ul></li></ul>
      * <p>
      * In principle, you should not need to redefine this method.
      * <p>
-     * <code>beginRowAction()</code> is called during the check phase
-     * of a SET request, before actual checking on the varbind list
+     * <code>beginRowAction()</code> is cblled during the check phbse
+     * of b SET request, before bctubl checking on the vbrbind list
      * is performed.
      *
      * <p>
-     * @param req    The sub-request that must be handled by this node.
+     * @pbrbm req    The sub-request thbt must be hbndled by this node.
      *
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
+     *               row involved in the operbtion.
      *
-     * @param depth  The depth reached in the OID tree.
+     * @pbrbm depth  The depth rebched in the OID tree.
      *
-     * @param rowAction The requested action as returned by <code>
-     *        getRowAction()</code>: one of the RowStatus codes defined in
-     *        {@link com.sun.jmx.snmp.EnumRowStatus}. These codes
-     *        correspond to RowStatus codes as defined in RFC 2579,
-     *        plus the <i>unspecified</i> value which is SNMP Runtime specific.
+     * @pbrbm rowAction The requested bction bs returned by <code>
+     *        getRowAction()</code>: one of the RowStbtus codes defined in
+     *        {@link com.sun.jmx.snmp.EnumRowStbtus}. These codes
+     *        correspond to RowStbtus codes bs defined in RFC 2579,
+     *        plus the <i>unspecified</i> vblue which is SNMP Runtime specific.
      *
-     * @exception SnmpStatusException if the specified <code>rowAction</code>
-     *            is not valid or cannot be executed.
-     *            This should not happen since it would break the
-     *            atomicity of the SET request. Specific checks should
+     * @exception SnmpStbtusException if the specified <code>rowAction</code>
+     *            is not vblid or cbnnot be executed.
+     *            This should not hbppen since it would brebk the
+     *            btomicity of the SET request. Specific checks should
      *            be implemented in <code>beginRowAction()</code> if needed.
      *
-     * @see com.sun.jmx.snmp.EnumRowStatus
+     * @see com.sun.jmx.snmp.EnumRowStbtus
      **/
     protected synchronized void beginRowAction(SnmpMibSubRequest req,
                               SnmpOid rowOid, int depth, int rowAction)
-        throws SnmpStatusException {
-        final boolean     isnew  = req.isNewEntry();
-        final SnmpOid     oid    = rowOid;
-        final int         action = rowAction;
+        throws SnmpStbtusException {
+        finbl boolebn     isnew  = req.isNewEntry();
+        finbl SnmpOid     oid    = rowOid;
+        finbl int         bction = rowAction;
 
-        switch (action) {
-        case EnumRowStatus.unspecified:
+        switch (bction) {
+        cbse EnumRowStbtus.unspecified:
             if (isnew) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                     SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "beginRowAction", "Failed to create row[" +
-                            rowOid + "] : RowStatus = unspecified");
+                            SnmpMibTbble.clbss.getNbme(),
+                            "beginRowAction", "Fbiled to crebte row[" +
+                            rowOid + "] : RowStbtus = unspecified");
                 }
-                checkRowStatusFail(req,SnmpStatusException.snmpRspNoAccess);
+                checkRowStbtusFbil(req,SnmpStbtusException.snmpRspNoAccess);
             }
-            break;
-        case EnumRowStatus.createAndGo:
-        case EnumRowStatus.createAndWait:
+            brebk;
+        cbse EnumRowStbtus.crebteAndGo:
+        cbse EnumRowStbtus.crebteAndWbit:
             if (isnew) {
-                if (isCreationEnabled()) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+                if (isCrebtionEnbbled()) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                         SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                                SnmpMibTable.class.getName(),
-                                "beginRowAction", "Creating row[" + rowOid +
-                                "] : RowStatus = createAndGo | createAndWait");
+                                SnmpMibTbble.clbss.getNbme(),
+                                "beginRowAction", "Crebting row[" + rowOid +
+                                "] : RowStbtus = crebteAndGo | crebteAndWbit");
                     }
-                    createNewEntry(req,oid,depth);
+                    crebteNewEntry(req,oid,depth);
                 } else {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                         SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                                SnmpMibTable.class.getName(),
-                                "beginRowAction", "Can't create row[" + rowOid +
-                                "] : RowStatus = createAndGo | createAndWait " +
-                                "but creation is disabled");
+                                SnmpMibTbble.clbss.getNbme(),
+                                "beginRowAction", "Cbn't crebte row[" + rowOid +
+                                "] : RowStbtus = crebteAndGo | crebteAndWbit " +
+                                "but crebtion is disbbled");
                     }
-                    checkRowStatusFail(req,
-                       SnmpStatusException.snmpRspNoAccess);
+                    checkRowStbtusFbil(req,
+                       SnmpStbtusException.snmpRspNoAccess);
                 }
             } else {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                     SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "beginRowAction", "Can't create row[" + rowOid +
-                            "] : RowStatus = createAndGo | createAndWait " +
-                            "but row already exists");
+                            SnmpMibTbble.clbss.getNbme(),
+                            "beginRowAction", "Cbn't crebte row[" + rowOid +
+                            "] : RowStbtus = crebteAndGo | crebteAndWbit " +
+                            "but row blrebdy exists");
                 }
-                checkRowStatusFail(req,
-                       SnmpStatusException.snmpRspInconsistentValue);
+                checkRowStbtusFbil(req,
+                       SnmpStbtusException.snmpRspInconsistentVblue);
             }
-            break;
-        case EnumRowStatus.destroy:
+            brebk;
+        cbse EnumRowStbtus.destroy:
             if (isnew) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                     SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
+                            SnmpMibTbble.clbss.getNbme(),
                             "beginRowAction",
-                            "Warning: can't destroy row[" + rowOid +
-                            "] : RowStatus = destroy but row does not exist");
+                            "Wbrning: cbn't destroy row[" + rowOid +
+                            "] : RowStbtus = destroy but row does not exist");
                 }
-            } else if (!isCreationEnabled()) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+            } else if (!isCrebtionEnbbled()) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                     SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
+                            SnmpMibTbble.clbss.getNbme(),
                             "beginRowAction",
-                            "Can't destroy row[" + rowOid + "] : " +
-                            "RowStatus = destroy but creation is disabled");
+                            "Cbn't destroy row[" + rowOid + "] : " +
+                            "RowStbtus = destroy but crebtion is disbbled");
                 }
-                checkRowStatusFail(req,SnmpStatusException.snmpRspNoAccess);
+                checkRowStbtusFbil(req,SnmpStbtusException.snmpRspNoAccess);
             }
-            checkRemoveTableRow(req,rowOid,depth);
-            break;
-        case EnumRowStatus.active:
-        case EnumRowStatus.notInService:
+            checkRemoveTbbleRow(req,rowOid,depth);
+            brebk;
+        cbse EnumRowStbtus.bctive:
+        cbse EnumRowStbtus.notInService:
             if (isnew) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                     SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "beginRowAction", "Can't switch state of row[" +
-                            rowOid + "] : specified RowStatus = active | " +
+                            SnmpMibTbble.clbss.getNbme(),
+                            "beginRowAction", "Cbn't switch stbte of row[" +
+                            rowOid + "] : specified RowStbtus = bctive | " +
                             "notInService but row does not exist");
                 }
-                checkRowStatusFail(req,
-                        SnmpStatusException.snmpRspInconsistentValue);
+                checkRowStbtusFbil(req,
+                        SnmpStbtusException.snmpRspInconsistentVblue);
             }
-            checkRowStatusChange(req,rowOid,depth,action);
-            break;
-        case EnumRowStatus.notReady:
-        default:
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+            checkRowStbtusChbnge(req,rowOid,depth,bction);
+            brebk;
+        cbse EnumRowStbtus.notRebdy:
+        defbult:
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                 SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                        SnmpMibTable.class.getName(),
-                        "beginRowAction", "Invalid RowStatus value for row[" +
-                        rowOid + "] : specified RowStatus = " + action);
+                        SnmpMibTbble.clbss.getNbme(),
+                        "beginRowAction", "Invblid RowStbtus vblue for row[" +
+                        rowOid + "] : specified RowStbtus = " + bction);
             }
-            checkRowStatusFail(req,
-                    SnmpStatusException.snmpRspInconsistentValue);
+            checkRowStbtusFbil(req,
+                    SnmpStbtusException.snmpRspInconsistentVblue);
         }
     }
 
     /**
-     * This method takes care of final RowStatus handling during the
-     * set() phase of a SET request.
+     * This method tbkes cbre of finbl RowStbtus hbndling during the
+     * set() phbse of b SET request.
      *
-     * In particular it will:
-     *     <ul><li>either call <code>setRowStatus(<i>active</i>)</code>
-     *         (<code> rowAction = <i>createAndGo</i> or <i>active</i>
+     * In pbrticulbr it will:
+     *     <ul><li>either cbll <code>setRowStbtus(<i>bctive</i>)</code>
+     *         (<code> rowAction = <i>crebteAndGo</i> or <i>bctive</i>
      *         </code>),</li>
-     *     <li>or call <code>setRowStatus(<i>notInService</i> or <i>
-     *         notReady</i>)</code> depending on the result of <code>
-     *         isRowReady()</code> (<code>rowAction = <i>createAndWait</i>
+     *     <li>or cbll <code>setRowStbtus(<i>notInService</i> or <i>
+     *         notRebdy</i>)</code> depending on the result of <code>
+     *         isRowRebdy()</code> (<code>rowAction = <i>crebteAndWbit</i>
      *         </code>),</li>
-     *     <li>or call <code>setRowStatus(<i>notInService</i>)</code>
+     *     <li>or cbll <code>setRowStbtus(<i>notInService</i>)</code>
      *         (<code> rowAction = <i>notInService</i></code>),
-     *     <li>or call <code>removeTableRow()</code> (<code>
+     *     <li>or cbll <code>removeTbbleRow()</code> (<code>
      *         rowAction = <i>destroy</i></code>),</li>
-     *     <li>or generate a SnmpStatusException if the passed <code>
-     *         rowAction</code> is not correct. This should be avoided
-     *         since it would break SET request atomicity</li>
+     *     <li>or generbte b SnmpStbtusException if the pbssed <code>
+     *         rowAction</code> is not correct. This should be bvoided
+     *         since it would brebk SET request btomicity</li>
      *     </ul>
      * <p>
      * In principle, you should not need to redefine this method.
      * <p>
-     * <code>endRowAction()</code> is called during the set() phase
-     * of a SET request, after the actual set() on the varbind list
-     * has been performed. The varbind containing the control variable
-     * is updated with the value returned by setRowStatus() (if it is
+     * <code>endRowAction()</code> is cblled during the set() phbse
+     * of b SET request, bfter the bctubl set() on the vbrbind list
+     * hbs been performed. The vbrbind contbining the control vbribble
+     * is updbted with the vblue returned by setRowStbtus() (if it is
      * not <code>null</code>).
      *
      * <p>
-     * @param req    The sub-request that must be handled by this node.
+     * @pbrbm req    The sub-request thbt must be hbndled by this node.
      *
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid The <CODE>SnmpOid</CODE> identifying the tbble
+     *               row involved in the operbtion.
      *
-     * @param depth  The depth reached in the OID tree.
+     * @pbrbm depth  The depth rebched in the OID tree.
      *
-     * @param rowAction The requested action as returned by <code>
-     *        getRowAction()</code>: one of the RowStatus codes defined in
-     *        {@link com.sun.jmx.snmp.EnumRowStatus}. These codes
-     *        correspond to RowStatus codes as defined in RFC 2579,
-     *        plus the <i>unspecified</i> value which is SNMP Runtime specific.
+     * @pbrbm rowAction The requested bction bs returned by <code>
+     *        getRowAction()</code>: one of the RowStbtus codes defined in
+     *        {@link com.sun.jmx.snmp.EnumRowStbtus}. These codes
+     *        correspond to RowStbtus codes bs defined in RFC 2579,
+     *        plus the <i>unspecified</i> vblue which is SNMP Runtime specific.
      *
-     * @exception SnmpStatusException if the specified <code>rowAction</code>
-     *            is not valid.
+     * @exception SnmpStbtusException if the specified <code>rowAction</code>
+     *            is not vblid.
      *
-     * @see com.sun.jmx.snmp.EnumRowStatus
+     * @see com.sun.jmx.snmp.EnumRowStbtus
      **/
     protected void endRowAction(SnmpMibSubRequest req, SnmpOid rowOid,
                                int depth, int rowAction)
-        throws SnmpStatusException {
-        final boolean     isnew  = req.isNewEntry();
-        final SnmpOid     oid    = rowOid;
-        final int         action = rowAction;
-        final Object      data   = req.getUserData();
-        SnmpValue         value  = null;
+        throws SnmpStbtusException {
+        finbl boolebn     isnew  = req.isNewEntry();
+        finbl SnmpOid     oid    = rowOid;
+        finbl int         bction = rowAction;
+        finbl Object      dbtb   = req.getUserDbtb();
+        SnmpVblue         vblue  = null;
 
-        switch (action) {
-        case EnumRowStatus.unspecified:
-            break;
-        case EnumRowStatus.createAndGo:
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+        switch (bction) {
+        cbse EnumRowStbtus.unspecified:
+            brebk;
+        cbse EnumRowStbtus.crebteAndGo:
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                 SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                        SnmpMibTable.class.getName(),
-                        "endRowAction", "Setting RowStatus to 'active' " +
-                        "for row[" + rowOid + "] : requested RowStatus = " +
-                        "createAndGo");
+                        SnmpMibTbble.clbss.getNbme(),
+                        "endRowAction", "Setting RowStbtus to 'bctive' " +
+                        "for row[" + rowOid + "] : requested RowStbtus = " +
+                        "crebteAndGo");
             }
-            value = setRowStatus(oid,EnumRowStatus.active,data);
-            break;
-        case EnumRowStatus.createAndWait:
-            if (isRowReady(oid,data)) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+            vblue = setRowStbtus(oid,EnumRowStbtus.bctive,dbtb);
+            brebk;
+        cbse EnumRowStbtus.crebteAndWbit:
+            if (isRowRebdy(oid,dbtb)) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                     SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
+                            SnmpMibTbble.clbss.getNbme(),
                             "endRowAction",
-                            "Setting RowStatus to 'notInService' for row[" +
-                            rowOid + "] : requested RowStatus = createAndWait");
+                            "Setting RowStbtus to 'notInService' for row[" +
+                            rowOid + "] : requested RowStbtus = crebteAndWbit");
                 }
-                value = setRowStatus(oid,EnumRowStatus.notInService,data);
+                vblue = setRowStbtus(oid,EnumRowStbtus.notInService,dbtb);
             } else {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                     SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "endRowAction", "Setting RowStatus to 'notReady' " +
-                            "for row[" + rowOid + "] : requested RowStatus = " +
-                            "createAndWait");
+                            SnmpMibTbble.clbss.getNbme(),
+                            "endRowAction", "Setting RowStbtus to 'notRebdy' " +
+                            "for row[" + rowOid + "] : requested RowStbtus = " +
+                            "crebteAndWbit");
                 }
-                value = setRowStatus(oid,EnumRowStatus.notReady,data);
+                vblue = setRowStbtus(oid,EnumRowStbtus.notRebdy,dbtb);
             }
-            break;
-        case EnumRowStatus.destroy:
+            brebk;
+        cbse EnumRowStbtus.destroy:
             if (isnew) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                     SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
+                            SnmpMibTbble.clbss.getNbme(),
                             "endRowAction",
-                            "Warning: requested RowStatus = destroy, " +
+                            "Wbrning: requested RowStbtus = destroy, " +
                             "but row[" + rowOid + "] does not exist");
                 }
             } else {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                     SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
+                            SnmpMibTbble.clbss.getNbme(),
                             "endRowAction", "Destroying row[" + rowOid +
-                            "] : requested RowStatus = destroy");
+                            "] : requested RowStbtus = destroy");
                 }
             }
-            removeTableRow(req,oid,depth);
-            break;
-        case EnumRowStatus.active:
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+            removeTbbleRow(req,oid,depth);
+            brebk;
+        cbse EnumRowStbtus.bctive:
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                 SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                        SnmpMibTable.class.getName(),
+                        SnmpMibTbble.clbss.getNbme(),
                         "endRowAction",
-                        "Setting RowStatus to 'active' for row[" +
-                        rowOid + "] : requested RowStatus = active");
+                        "Setting RowStbtus to 'bctive' for row[" +
+                        rowOid + "] : requested RowStbtus = bctive");
             }
-            value = setRowStatus(oid,EnumRowStatus.active,data);
-            break;
-        case EnumRowStatus.notInService:
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+            vblue = setRowStbtus(oid,EnumRowStbtus.bctive,dbtb);
+            brebk;
+        cbse EnumRowStbtus.notInService:
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                 SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                        SnmpMibTable.class.getName(),
+                        SnmpMibTbble.clbss.getNbme(),
                         "endRowAction",
-                        "Setting RowStatus to 'notInService' for row[" +
-                        rowOid + "] : requested RowStatus = notInService");
+                        "Setting RowStbtus to 'notInService' for row[" +
+                        rowOid + "] : requested RowStbtus = notInService");
             }
-            value = setRowStatus(oid,EnumRowStatus.notInService,data);
-            break;
-        case EnumRowStatus.notReady:
-        default:
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+            vblue = setRowStbtus(oid,EnumRowStbtus.notInService,dbtb);
+            brebk;
+        cbse EnumRowStbtus.notRebdy:
+        defbult:
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                 SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                        SnmpMibTable.class.getName(),
-                        "endRowAction", "Invalid RowStatus value for row[" +
-                        rowOid + "] : specified RowStatus = " + action);
+                        SnmpMibTbble.clbss.getNbme(),
+                        "endRowAction", "Invblid RowStbtus vblue for row[" +
+                        rowOid + "] : specified RowStbtus = " + bction);
             }
-            setRowStatusFail(req,
-                          SnmpStatusException.snmpRspInconsistentValue);
+            setRowStbtusFbil(req,
+                          SnmpStbtusException.snmpRspInconsistentVblue);
         }
-        if (value != null) {
-            final SnmpVarBind vb = req.getRowStatusVarBind();
-            if (vb != null) vb.value = value;
+        if (vblue != null) {
+            finbl SnmpVbrBind vb = req.getRowStbtusVbrBind();
+            if (vb != null) vb.vblue = vblue;
         }
     }
 
@@ -1514,328 +1514,328 @@ public abstract class SnmpMibTable extends SnmpMibNode
     // -------------------------------------------------------------------
 
     /**
-     * Return the next OID arc corresponding to a readable columnar
+     * Return the next OID brc corresponding to b rebdbble columnbr
      * object in the underlying entry OBJECT-TYPE, possibly skipping over
-     * those objects that must not or cannot be returned.
-     * Calls {@link
-     * #getNextVarEntryId(com.sun.jmx.snmp.SnmpOid,long,java.lang.Object)},
+     * those objects thbt must not or cbnnot be returned.
+     * Cblls {@link
+     * #getNextVbrEntryId(com.sun.jmx.snmp.SnmpOid,long,jbvb.lbng.Object)},
      * until
-     * {@link #skipEntryVariable(com.sun.jmx.snmp.SnmpOid,long,
-     * java.lang.Object,int)} returns false.
+     * {@link #skipEntryVbribble(com.sun.jmx.snmp.SnmpOid,long,
+     * jbvb.lbng.Object,int)} returns fblse.
      *
      *
-     * @param rowOid The OID index of the row involved in the operation.
+     * @pbrbm rowOid The OID index of the row involved in the operbtion.
      *
-     * @param var Id of the variable we start from, looking for the next.
+     * @pbrbm vbr Id of the vbribble we stbrt from, looking for the next.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
-     * @param pduVersion Protocol version of the original request PDU.
+     * @pbrbm pduVersion Protocol version of the originbl request PDU.
      *
-     * @return The next columnar object id which can be returned using
+     * @return The next columnbr object id which cbn be returned using
      *         the given PDU's protocol version.
      *
-     * @exception SnmpStatusException If no id is found after the given id.
+     * @exception SnmpStbtusException If no id is found bfter the given id.
      *
      **/
-    protected long getNextVarEntryId(SnmpOid rowOid,
-                                     long var,
-                                     Object userData,
+    protected long getNextVbrEntryId(SnmpOid rowOid,
+                                     long vbr,
+                                     Object userDbtb,
                                      int pduVersion)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
 
-        long varid=var;
+        long vbrid=vbr;
         do {
-            varid = getNextVarEntryId(rowOid,varid,userData);
-        } while (skipEntryVariable(rowOid,varid,userData,pduVersion));
+            vbrid = getNextVbrEntryId(rowOid,vbrid,userDbtb);
+        } while (skipEntryVbribble(rowOid,vbrid,userDbtb,pduVersion));
 
-        return varid;
+        return vbrid;
     }
 
     /**
-     * Hook for subclasses.
-     * The default implementation of this method is to always return
-     * false. Subclasses should redefine this method so that it returns
+     * Hook for subclbsses.
+     * The defbult implementbtion of this method is to blwbys return
+     * fblse. Subclbsses should redefine this method so thbt it returns
      * true when:
-     * <ul><li>the variable is a leaf that is not instantiated,</li>
-     * <li>or the variable is a leaf whose type cannot be returned by that
-     *     version of the protocol (e.g. an Counter64 with SNMPv1).</li>
+     * <ul><li>the vbribble is b lebf thbt is not instbntibted,</li>
+     * <li>or the vbribble is b lebf whose type cbnnot be returned by thbt
+     *     version of the protocol (e.g. bn Counter64 with SNMPv1).</li>
      * </ul>
      *
-     * @param rowOid The OID index of the row involved in the operation.
+     * @pbrbm rowOid The OID index of the row involved in the operbtion.
      *
-     * @param var Id of the variable we start from, looking for the next.
+     * @pbrbm vbr Id of the vbribble we stbrt from, looking for the next.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
-     * @param pduVersion Protocol version of the original request PDU.
+     * @pbrbm pduVersion Protocol version of the originbl request PDU.
      *
-     * @return true if the variable must be skipped by the get-next
-     *         algorithm.
+     * @return true if the vbribble must be skipped by the get-next
+     *         blgorithm.
      */
-    protected boolean skipEntryVariable(SnmpOid rowOid,
-                                        long var,
-                                        Object userData,
+    protected boolebn skipEntryVbribble(SnmpOid rowOid,
+                                        long vbr,
+                                        Object userDbtb,
                                         int pduVersion) {
-        return false;
+        return fblse;
     }
 
     /**
-     * Get the <CODE>SnmpOid</CODE> index of the row that follows
-     * the given <CODE>oid</CODE> in the table. The given <CODE>
-     * oid</CODE> does not need to be a valid row OID index.
+     * Get the <CODE>SnmpOid</CODE> index of the row thbt follows
+     * the given <CODE>oid</CODE> in the tbble. The given <CODE>
+     * oid</CODE> does not need to be b vblid row OID index.
      *
      * <p>
-     * @param oid The OID from which the search will begin.
+     * @pbrbm oid The OID from which the sebrch will begin.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
      * @return The next <CODE>SnmpOid</CODE> index.
      *
-     * @exception SnmpStatusException There is no index following the
-     *     specified <CODE>oid</CODE> in the table.
+     * @exception SnmpStbtusException There is no index following the
+     *     specified <CODE>oid</CODE> in the tbble.
      */
-    protected SnmpOid getNextOid(SnmpOid oid, Object userData)
-        throws SnmpStatusException {
+    protected SnmpOid getNextOid(SnmpOid oid, Object userDbtb)
+        throws SnmpStbtusException {
 
         if (size == 0) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
         }
 
-        final SnmpOid resOid = oid;
+        finbl SnmpOid resOid = oid;
 
-        // Just a simple check to speed up retrieval of last element ...
+        // Just b simple check to speed up retrievbl of lbst element ...
         //
-        // XX SnmpOid last= (SnmpOid) oids.lastElement();
-        SnmpOid last= tableoids[tablecount-1];
-        if (last.equals(resOid)) {
-            // Last element of the table ...
+        // XX SnmpOid lbst= (SnmpOid) oids.lbstElement();
+        SnmpOid lbst= tbbleoids[tbblecount-1];
+        if (lbst.equbls(resOid)) {
+            // Lbst element of the tbble ...
             //
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
         }
 
-        // First find the oid. This will allow to speed up retrieval process
-        // during smart discovery of table (using the getNext) as the
-        // management station will use the valid index returned during a
+        // First find the oid. This will bllow to speed up retrievbl process
+        // during smbrt discovery of tbble (using the getNext) bs the
+        // mbnbgement stbtion will use the vblid index returned during b
         // previous getNext ...
         //
 
-        // Returns the position following the position at which resOid
-        // is found, or the position at which resOid should be inserted.
+        // Returns the position following the position bt which resOid
+        // is found, or the position bt which resOid should be inserted.
         //
-        final int newPos = getInsertionPoint(resOid,false);
+        finbl int newPos = getInsertionPoint(resOid,fblse);
 
         // If the position returned is not out of bound, we will find
-        // the next element in the array.
+        // the next element in the brrby.
         //
         if (newPos > -1 && newPos < size) {
             try {
-                // XX last = (SnmpOid) oids.elementAt(newPos);
-                last = tableoids[newPos];
-            } catch(ArrayIndexOutOfBoundsException e) {
-                throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+                // XX lbst = (SnmpOid) oids.elementAt(newPos);
+                lbst = tbbleoids[newPos];
+            } cbtch(ArrbyIndexOutOfBoundsException e) {
+                throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
             }
         } else {
-            // We are dealing with the last element of the table ..
+            // We bre debling with the lbst element of the tbble ..
             //
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
         }
 
 
-        return last;
+        return lbst;
     }
 
     /**
-     * Return the first entry OID registered in the table.
+     * Return the first entry OID registered in the tbble.
      *
      * <p>
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
-     * @return The <CODE>SnmpOid</CODE> of the first entry in the table.
+     * @return The <CODE>SnmpOid</CODE> of the first entry in the tbble.
      *
-     * @exception SnmpStatusException If the table is empty.
+     * @exception SnmpStbtusException If the tbble is empty.
      */
-    protected SnmpOid getNextOid(Object userData)
-        throws SnmpStatusException {
+    protected SnmpOid getNextOid(Object userDbtb)
+        throws SnmpStbtusException {
         if (size == 0) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
         }
         // XX return (SnmpOid) oids.firstElement();
-        return tableoids[0];
+        return tbbleoids[0];
     }
 
     // -------------------------------------------------------------------
-    // Abstract Protected Methods
+    // Abstrbct Protected Methods
     // -------------------------------------------------------------------
 
     /**
-     * This method is used internally and is implemented by the
-     * <CODE>SnmpMibTable</CODE> subclasses generated by <CODE>mibgen</CODE>.
+     * This method is used internblly bnd is implemented by the
+     * <CODE>SnmpMibTbble</CODE> subclbsses generbted by <CODE>mibgen</CODE>.
      *
-     * <p> Return the next OID arc corresponding to a readable columnar
+     * <p> Return the next OID brc corresponding to b rebdbble columnbr
      *     object in the underlying entry OBJECT-TYPE.</p>
      *
      * <p>
-     * @param rowOid The OID index of the row involved in the operation.
+     * @pbrbm rowOid The OID index of the row involved in the operbtion.
      *
-     * @param var Id of the variable we start from, looking for the next.
+     * @pbrbm vbr Id of the vbribble we stbrt from, looking for the next.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
-     * @return The next columnar object id.
+     * @return The next columnbr object id.
      *
-     * @exception SnmpStatusException If no id is found after the given id.
+     * @exception SnmpStbtusException If no id is found bfter the given id.
      *
      **/
-    abstract protected long getNextVarEntryId(SnmpOid rowOid, long var,
-                                              Object userData)
-        throws SnmpStatusException;
+    bbstrbct protected long getNextVbrEntryId(SnmpOid rowOid, long vbr,
+                                              Object userDbtb)
+        throws SnmpStbtusException;
 
     /**
-     * This method is used internally and is implemented by the
-     * <CODE>SnmpMibTable</CODE> subclasses generated by <CODE>mibgen</CODE>.
+     * This method is used internblly bnd is implemented by the
+     * <CODE>SnmpMibTbble</CODE> subclbsses generbted by <CODE>mibgen</CODE>.
      *
      * <p>
-     * @param rowOid The OID index of the row involved in the operation.
+     * @pbrbm rowOid The OID index of the row involved in the operbtion.
      *
-     * @param var The var we want to validate.
+     * @pbrbm vbr The vbr we wbnt to vblidbte.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
-     * @exception SnmpStatusException If this id is not valid.
+     * @exception SnmpStbtusException If this id is not vblid.
      *
      */
-    abstract protected void validateVarEntryId(SnmpOid rowOid, long var,
-                                               Object userData)
-        throws SnmpStatusException;
+    bbstrbct protected void vblidbteVbrEntryId(SnmpOid rowOid, long vbr,
+                                               Object userDbtb)
+        throws SnmpStbtusException;
 
     /**
      *
-     * This method is used internally and is implemented by the
-     * <CODE>SnmpMibTable</CODE> subclasses generated by <CODE>mibgen</CODE>.
+     * This method is used internblly bnd is implemented by the
+     * <CODE>SnmpMibTbble</CODE> subclbsses generbted by <CODE>mibgen</CODE>.
      *
      * <p>
-     * @param rowOid The OID index of the row involved in the operation.
+     * @pbrbm rowOid The OID index of the row involved in the operbtion.
      *
-     * @param var The OID arc.
+     * @pbrbm vbr The OID brc.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
-     * @exception SnmpStatusException If this id is not valid.
+     * @exception SnmpStbtusException If this id is not vblid.
      *
      */
-    abstract protected boolean isReadableEntryId(SnmpOid rowOid, long var,
-                                                 Object userData)
-        throws SnmpStatusException;
+    bbstrbct protected boolebn isRebdbbleEntryId(SnmpOid rowOid, long vbr,
+                                                 Object userDbtb)
+        throws SnmpStbtusException;
 
     /**
-     * This method is used internally and is implemented by the
-     * <CODE>SnmpMibTable</CODE> subclasses generated by <CODE>mibgen</CODE>.
+     * This method is used internblly bnd is implemented by the
+     * <CODE>SnmpMibTbble</CODE> subclbsses generbted by <CODE>mibgen</CODE>.
      */
-    abstract protected void get(SnmpMibSubRequest req,
+    bbstrbct protected void get(SnmpMibSubRequest req,
                                 SnmpOid rowOid, int depth)
-        throws SnmpStatusException;
+        throws SnmpStbtusException;
 
     /**
-     * This method is used internally and is implemented by the
-     * <CODE>SnmpMibTable</CODE> subclasses generated by <CODE>mibgen</CODE>.
+     * This method is used internblly bnd is implemented by the
+     * <CODE>SnmpMibTbble</CODE> subclbsses generbted by <CODE>mibgen</CODE>.
      */
-    abstract protected void check(SnmpMibSubRequest req,
+    bbstrbct protected void check(SnmpMibSubRequest req,
                                   SnmpOid rowOid, int depth)
-        throws SnmpStatusException;
+        throws SnmpStbtusException;
 
     /**
-     * This method is used internally and is implemented by the
-     * <CODE>SnmpMibTable</CODE> subclasses generated by <CODE>mibgen</CODE>.
+     * This method is used internblly bnd is implemented by the
+     * <CODE>SnmpMibTbble</CODE> subclbsses generbted by <CODE>mibgen</CODE>.
      */
-    abstract protected void set(SnmpMibSubRequest req,
+    bbstrbct protected void set(SnmpMibSubRequest req,
                                 SnmpOid rowOid, int depth)
-        throws SnmpStatusException;
+        throws SnmpStbtusException;
 
     // ----------------------------------------------------------------------
     // PACKAGE METHODS
     // ----------------------------------------------------------------------
 
     /**
-     * Get the <CODE>SnmpOid</CODE> index of the row that follows the
-     * index extracted from the specified OID array.
-     * Builds the SnmpOid corresponding to the row OID and calls
-     * <code>getNextOid(oid,userData)</code>;
+     * Get the <CODE>SnmpOid</CODE> index of the row thbt follows the
+     * index extrbcted from the specified OID brrby.
+     * Builds the SnmpOid corresponding to the row OID bnd cblls
+     * <code>getNextOid(oid,userDbtb)</code>;
      *
      * <p>
-     * @param oid The OID array.
+     * @pbrbm oid The OID brrby.
      *
-     * @param pos The position in the OID array at which the index starts.
+     * @pbrbm pos The position in the OID brrby bt which the index stbrts.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
      * @return The next <CODE>SnmpOid</CODE>.
      *
-     * @exception SnmpStatusException There is no index following the
-     *     specified one in the table.
+     * @exception SnmpStbtusException There is no index following the
+     *     specified one in the tbble.
      */
-    SnmpOid getNextOid(long[] oid, int pos, Object userData)
-        throws SnmpStatusException {
+    SnmpOid getNextOid(long[] oid, int pos, Object userDbtb)
+        throws SnmpStbtusException {
 
-        // Construct the sub-oid starting at pos.
-        // This sub-oid correspond to the oid part just after the entry
-        // variable oid.
+        // Construct the sub-oid stbrting bt pos.
+        // This sub-oid correspond to the oid pbrt just bfter the entry
+        // vbribble oid.
         //
-        final SnmpOid resOid = new SnmpEntryOid(oid,pos);
+        finbl SnmpOid resOid = new SnmpEntryOid(oid,pos);
 
-        return getNextOid(resOid,userData);
+        return getNextOid(resOid,userDbtb);
     }
 
     // ---------------------------------------------------------------------
     //
-    // Register an exception when checking the RowStatus variable
+    // Register bn exception when checking the RowStbtus vbribble
     //
     // ---------------------------------------------------------------------
 
-    static void checkRowStatusFail(SnmpMibSubRequest req, int errorStatus)
-        throws SnmpStatusException {
+    stbtic void checkRowStbtusFbil(SnmpMibSubRequest req, int errorStbtus)
+        throws SnmpStbtusException {
 
-        final SnmpVarBind statusvb  = req.getRowStatusVarBind();
-        final SnmpStatusException x = new SnmpStatusException(errorStatus);
-        req.registerCheckException(statusvb,x);
+        finbl SnmpVbrBind stbtusvb  = req.getRowStbtusVbrBind();
+        finbl SnmpStbtusException x = new SnmpStbtusException(errorStbtus);
+        req.registerCheckException(stbtusvb,x);
     }
 
     // ---------------------------------------------------------------------
     //
-    // Register an exception when checking the RowStatus variable
+    // Register bn exception when checking the RowStbtus vbribble
     //
     // ---------------------------------------------------------------------
 
-    static void setRowStatusFail(SnmpMibSubRequest req, int errorStatus)
-        throws SnmpStatusException {
+    stbtic void setRowStbtusFbil(SnmpMibSubRequest req, int errorStbtus)
+        throws SnmpStbtusException {
 
-        final SnmpVarBind statusvb  = req.getRowStatusVarBind();
-        final SnmpStatusException x = new SnmpStatusException(errorStatus);
-        req.registerSetException(statusvb,x);
+        finbl SnmpVbrBind stbtusvb  = req.getRowStbtusVbrBind();
+        finbl SnmpStbtusException x = new SnmpStbtusException(errorStbtus);
+        req.registerSetException(stbtusvb,x);
     }
 
     // ---------------------------------------------------------------------
@@ -1844,115 +1844,115 @@ public abstract class SnmpMibTable extends SnmpMibNode
     //
     // ---------------------------------------------------------------------
     @Override
-    final synchronized void findHandlingNode(SnmpVarBind varbind,
+    finbl synchronized void findHbndlingNode(SnmpVbrBind vbrbind,
                                              long[] oid, int depth,
-                                             SnmpRequestTree handlers)
-        throws SnmpStatusException {
+                                             SnmpRequestTree hbndlers)
+        throws SnmpStbtusException {
 
-        final int  length = oid.length;
+        finbl int  length = oid.length;
 
-        if (handlers == null)
-            throw new SnmpStatusException(SnmpStatusException.snmpRspGenErr);
+        if (hbndlers == null)
+            throw new SnmpStbtusException(SnmpStbtusException.snmpRspGenErr);
 
         if (depth >= length)
-            throw new SnmpStatusException(SnmpStatusException.noAccess);
+            throw new SnmpStbtusException(SnmpStbtusException.noAccess);
 
         if (oid[depth] != nodeId)
-            throw new SnmpStatusException(SnmpStatusException.noAccess);
+            throw new SnmpStbtusException(SnmpStbtusException.noAccess);
 
         if (depth+2 >= length)
-            throw new SnmpStatusException(SnmpStatusException.noAccess);
+            throw new SnmpStbtusException(SnmpStbtusException.noAccess);
 
-        // Checks that the oid is valid
-        // validateOid(oid,depth);
+        // Checks thbt the oid is vblid
+        // vblidbteOid(oid,depth);
 
-        // Gets the part of the OID that identifies the entry
-        final SnmpOid entryoid = new SnmpEntryOid(oid, depth+2);
+        // Gets the pbrt of the OID thbt identifies the entry
+        finbl SnmpOid entryoid = new SnmpEntryOid(oid, depth+2);
 
-        // Finds the entry: false means that the entry does not exists
-        final Object data = handlers.getUserData();
-        final boolean hasEntry = contains(entryoid, data);
+        // Finds the entry: fblse mebns thbt the entry does not exists
+        finbl Object dbtb = hbndlers.getUserDbtb();
+        finbl boolebn hbsEntry = contbins(entryoid, dbtb);
 
-        // Fails if the entry is not found and the table does not
-        // not support creation.
-        // We know that the entry does not exists if (isentry == false).
-        if (!hasEntry) {
-            if (!handlers.isCreationAllowed()) {
-                // we're not doing a set
-                throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
-            } else if (!isCreationEnabled())
-                // we're doing a set but creation is disabled.
+        // Fbils if the entry is not found bnd the tbble does not
+        // not support crebtion.
+        // We know thbt the entry does not exists if (isentry == fblse).
+        if (!hbsEntry) {
+            if (!hbndlers.isCrebtionAllowed()) {
+                // we're not doing b set
+                throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
+            } else if (!isCrebtionEnbbled())
+                // we're doing b set but crebtion is disbbled.
                 throw new
-                    SnmpStatusException(SnmpStatusException.snmpRspNoAccess);
+                    SnmpStbtusException(SnmpStbtusException.snmpRspNoAccess);
         }
 
-        final long   var  = oid[depth+1];
+        finbl long   vbr  = oid[depth+1];
 
-        // Validate the entry id
-        if (hasEntry) {
-            // The entry already exists - validate the id
-            validateVarEntryId(entryoid,var,data);
+        // Vblidbte the entry id
+        if (hbsEntry) {
+            // The entry blrebdy exists - vblidbte the id
+            vblidbteVbrEntryId(entryoid,vbr,dbtb);
         }
 
         // Registers this node for the identified entry.
         //
-        if (handlers.isSetRequest() && isRowStatus(entryoid,var,data))
+        if (hbndlers.isSetRequest() && isRowStbtus(entryoid,vbr,dbtb))
 
-            // We only try to identify the RowStatus for SET operations
+            // We only try to identify the RowStbtus for SET operbtions
             //
-            handlers.add(this,depth,entryoid,varbind,(!hasEntry),varbind);
+            hbndlers.bdd(this,depth,entryoid,vbrbind,(!hbsEntry),vbrbind);
 
         else
-            handlers.add(this,depth,entryoid,varbind,(!hasEntry));
+            hbndlers.bdd(this,depth,entryoid,vbrbind,(!hbsEntry));
     }
 
 
     // ---------------------------------------------------------------------
     //
-    // Implements the method defined in SnmpMibNode. The algorithm is very
-    // largely inspired from the original getNext() method.
+    // Implements the method defined in SnmpMibNode. The blgorithm is very
+    // lbrgely inspired from the originbl getNext() method.
     //
     // ---------------------------------------------------------------------
     @Override
-    final synchronized long[] findNextHandlingNode(SnmpVarBind varbind,
+    finbl synchronized long[] findNextHbndlingNode(SnmpVbrBind vbrbind,
                                                    long[] oid,
                                                    int pos,
                                                    int depth,
-                                                   SnmpRequestTree handlers,
+                                                   SnmpRequestTree hbndlers,
                                                    AcmChecker checker)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
 
             int length = oid.length;
 
-            if (handlers == null) {
-                // This should be considered as a genErr, but we do not want to
-                // abort the whole request, so we're going to throw
-                // a noSuchObject...
+            if (hbndlers == null) {
+                // This should be considered bs b genErr, but we do not wbnt to
+                // bbort the whole request, so we're going to throw
+                // b noSuchObject...
                 //
-                throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+                throw new SnmpStbtusException(SnmpStbtusException.noSuchObject);
             }
 
-            final Object data = handlers.getUserData();
-            final int pduVersion = handlers.getRequestPduVersion();
+            finbl Object dbtb = hbndlers.getUserDbtb();
+            finbl int pduVersion = hbndlers.getRequestPduVersion();
 
-            long var= -1;
+            long vbr= -1;
 
-            // If the querried oid contains less arcs than the OID of the
-            // xxxEntry object, we must return the first leaf under the
-            // first columnar object: the best way to do that is to reset
+            // If the querried oid contbins less brcs thbn the OID of the
+            // xxxEntry object, we must return the first lebf under the
+            // first columnbr object: the best wby to do thbt is to reset
             // the queried oid:
-            //   oid[0] = nodeId (arc of the xxxEntry object)
-            //   pos    = 0 (points to the arc of the xxxEntry object)
-            // then we just have to proceed...
+            //   oid[0] = nodeId (brc of the xxxEntry object)
+            //   pos    = 0 (points to the brc of the xxxEntry object)
+            // then we just hbve to proceed...
             //
             if (pos >= length) {
-                // this will have the side effect to set
+                // this will hbve the side effect to set
                 //    oid[pos] = nodeId
-                // and
+                // bnd
                 //    (pos+1) = length
-                // so we won't fall into the "else if" cases below -
-                // so using "else if" rather than "if ..." is guaranteed
-                // to be safe.
+                // so we won't fbll into the "else if" cbses below -
+                // so using "else if" rbther thbn "if ..." is gubrbnteed
+                // to be sbfe.
                 //
                 oid = new long[1];
                 oid[0] = nodeId;
@@ -1960,243 +1960,243 @@ public abstract class SnmpMibTable extends SnmpMibNode
                 length = 1;
             } else if (oid[pos] > nodeId) {
                 // oid[pos] is expected to be the id of the xxxEntry ...
-                // The id requested is greater than the id of the xxxEntry,
-                // so we won't find the next element in this table... (any
-                // element in this table will have a smaller OID)
+                // The id requested is grebter thbn the id of the xxxEntry,
+                // so we won't find the next element in this tbble... (bny
+                // element in this tbble will hbve b smbller OID)
                 //
-                throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+                throw new SnmpStbtusException(SnmpStbtusException.noSuchObject);
             } else if (oid[pos] < nodeId) {
-                // we must return the first leaf under the first columnar
-                // object, so we are back to our first case where pos was
-                // out of bounds... => reset the oid to contain only the
-                // arc of the xxxEntry object.
+                // we must return the first lebf under the first columnbr
+                // object, so we bre bbck to our first cbse where pos wbs
+                // out of bounds... => reset the oid to contbin only the
+                // brc of the xxxEntry object.
                 //
                 oid = new long[1];
                 oid[0] = nodeId;
                 pos = 0;
                 length = 0;
             } else if ((pos + 1) < length) {
-                // The arc at the position "pos+1" is the id of the columnar
-                // object (ie: the id of the variable in the table entry)
+                // The brc bt the position "pos+1" is the id of the columnbr
+                // object (ie: the id of the vbribble in the tbble entry)
                 //
-                var = oid[pos+1];
+                vbr = oid[pos+1];
             }
 
-            // Now that we've got everything right we can begin.
+            // Now thbt we've got everything right we cbn begin.
             SnmpOid entryoid;
 
             if (pos == (length - 1)) {
-                // pos points to the last arc in the oid, and this arc is
-                // guaranteed to be the xxxEntry id (we have handled all
+                // pos points to the lbst brc in the oid, bnd this brc is
+                // gubrbnteed to be the xxxEntry id (we hbve hbndled bll
                 // the other possibilities before)
                 //
-                // We must therefore return the first leaf below the first
-                // columnar object in the table.
+                // We must therefore return the first lebf below the first
+                // columnbr object in the tbble.
                 //
-                // Get the first index. If an exception is raised,
-                // then it means that the table is empty. We thus do not
-                // have to catch the exception - we let it propagate to
-                // the caller.
+                // Get the first index. If bn exception is rbised,
+                // then it mebns thbt the tbble is empty. We thus do not
+                // hbve to cbtch the exception - we let it propbgbte to
+                // the cbller.
                 //
-                entryoid = getNextOid(data);
-                var = getNextVarEntryId(entryoid,var,data,pduVersion);
+                entryoid = getNextOid(dbtb);
+                vbr = getNextVbrEntryId(entryoid,vbr,dbtb,pduVersion);
             } else if ( pos == (length-2)) {
-                // In that case we have (pos+1) = (length-1), so pos
-                // points to the arc of the querried variable (columnar object).
-                // Since the requested oid stops there, it means we have
-                // to return the first leaf under this columnar object.
+                // In thbt cbse we hbve (pos+1) = (length-1), so pos
+                // points to the brc of the querried vbribble (columnbr object).
+                // Since the requested oid stops there, it mebns we hbve
+                // to return the first lebf under this columnbr object.
                 //
                 // So we first get the first index:
-                // Note: if this raises an exception, this means that the table
-                // is empty, so we can let the exception propagate to the caller.
+                // Note: if this rbises bn exception, this mebns thbt the tbble
+                // is empty, so we cbn let the exception propbgbte to the cbller.
                 //
-                entryoid = getNextOid(data);
+                entryoid = getNextOid(dbtb);
 
-                // XXX revisit: not exactly perfect:
-                //     a specific row could be empty.. But we don't know
-                //     how to make the difference! => tradeoff holes
-                //     in tables can't be properly supported (all rows
-                //     must have the same holes)
+                // XXX revisit: not exbctly perfect:
+                //     b specific row could be empty.. But we don't know
+                //     how to mbke the difference! => trbdeoff holes
+                //     in tbbles cbn't be properly supported (bll rows
+                //     must hbve the sbme holes)
                 //
-                if (skipEntryVariable(entryoid,var,data,pduVersion)) {
-                    var = getNextVarEntryId(entryoid,var,data,pduVersion);
+                if (skipEntryVbribble(entryoid,vbr,dbtb,pduVersion)) {
+                    vbr = getNextVbrEntryId(entryoid,vbr,dbtb,pduVersion);
                 }
             } else {
 
-                // So now there remain one last case, namely: some part of the
+                // So now there rembin one lbst cbse, nbmely: some pbrt of the
                 // index is provided by the oid...
-                // We build a possibly incomplete and invalid index from
+                // We build b possibly incomplete bnd invblid index from
                 // the OID.
-                // The piece of index provided should begin at pos+2
+                // The piece of index provided should begin bt pos+2
                 //   oid[pos]   = id of the xxxEntry object,
-                //   oid[pos+1] = id of the columnar object,
+                //   oid[pos+1] = id of the columnbr object,
                 //   oid[pos+2] ... oid[length-1] = piece of index.
                 //
 
                 // We get the next index following the provided index.
-                // If this raises an exception, then it means that we have
-                // reached the last index in the table, and we must then
-                // try with the next columnar object.
+                // If this rbises bn exception, then it mebns thbt we hbve
+                // rebched the lbst index in the tbble, bnd we must then
+                // try with the next columnbr object.
                 //
                 // Bug fix 4269251
-                // The SnmpIndex is defined to contain a valid oid:
-                // this is not an SNMP requirement for the getNext request.
+                // The SnmpIndex is defined to contbin b vblid oid:
+                // this is not bn SNMP requirement for the getNext request.
                 // So we no more use the SnmpIndex but directly the SnmpOid.
                 //
                 try {
-                    entryoid = getNextOid(oid, pos + 2, data);
+                    entryoid = getNextOid(oid, pos + 2, dbtb);
 
-                    // If the variable must ne skipped, fall through...
+                    // If the vbribble must ne skipped, fbll through...
                     //
-                    // XXX revisit: not exactly perfect:
-                    //     a specific row could be empty.. But we don't know
-                    //     how to make the difference! => tradeoff holes
-                    //     in tables can't be properly supported (all rows
-                    //     must have the same holes)
+                    // XXX revisit: not exbctly perfect:
+                    //     b specific row could be empty.. But we don't know
+                    //     how to mbke the difference! => trbdeoff holes
+                    //     in tbbles cbn't be properly supported (bll rows
+                    //     must hbve the sbme holes)
                     //
-                    if (skipEntryVariable(entryoid,var,data,pduVersion)) {
-                        throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+                    if (skipEntryVbribble(entryoid,vbr,dbtb,pduVersion)) {
+                        throw new SnmpStbtusException(SnmpStbtusException.noSuchObject);
                     }
-                } catch(SnmpStatusException se) {
-                    entryoid = getNextOid(data);
-                    var = getNextVarEntryId(entryoid,var,data,pduVersion);
+                } cbtch(SnmpStbtusException se) {
+                    entryoid = getNextOid(dbtb);
+                    vbr = getNextVbrEntryId(entryoid,vbr,dbtb,pduVersion);
                 }
             }
 
             return findNextAccessibleOid(entryoid,
-                                         varbind,
+                                         vbrbind,
                                          oid,
                                          depth,
-                                         handlers,
+                                         hbndlers,
                                          checker,
-                                         data,
-                                         var);
+                                         dbtb,
+                                         vbr);
         }
 
-    private long[] findNextAccessibleOid(SnmpOid entryoid,
-                                         SnmpVarBind varbind,long[] oid,
-                                         int depth, SnmpRequestTree handlers,
-                                         AcmChecker checker, Object data,
-                                         long var)
-        throws SnmpStatusException {
-        final int pduVersion = handlers.getRequestPduVersion();
+    privbte long[] findNextAccessibleOid(SnmpOid entryoid,
+                                         SnmpVbrBind vbrbind,long[] oid,
+                                         int depth, SnmpRequestTree hbndlers,
+                                         AcmChecker checker, Object dbtb,
+                                         long vbr)
+        throws SnmpStbtusException {
+        finbl int pduVersion = hbndlers.getRequestPduVersion();
 
-        // Loop on each var (column)
+        // Loop on ebch vbr (column)
         while(true) {
-            // This should not happen. If it happens, (bug, or customized
-            // methods returning garbage instead of raising an exception),
-            // it probably means that there is nothing to return anyway.
+            // This should not hbppen. If it hbppens, (bug, or customized
+            // methods returning gbrbbge instebd of rbising bn exception),
+            // it probbbly mebns thbt there is nothing to return bnywby.
             // So we throw the exception.
             // => will skip to next node in the MIB tree.
             //
-            if (entryoid == null || var == -1 ) {
-                throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+            if (entryoid == null || vbr == -1 ) {
+                throw new SnmpStbtusException(SnmpStbtusException.noSuchObject);
             }
 
-            // So here we know both the row (entryoid) and the column (var)
+            // So here we know both the row (entryoid) bnd the column (vbr)
             //
 
             try {
-                // Raising an exception here will make the catch() clause
-                // switch to the next variable. If `var' is not readable
-                // for this specific entry, it is not readable for any
+                // Rbising bn exception here will mbke the cbtch() clbuse
+                // switch to the next vbribble. If `vbr' is not rebdbble
+                // for this specific entry, it is not rebdbble for bny
                 // other entry => skip to next column.
                 //
-                if (!isReadableEntryId(entryoid,var,data)) {
-                    throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+                if (!isRebdbbleEntryId(entryoid,vbr,dbtb)) {
+                    throw new SnmpStbtusException(SnmpStbtusException.noSuchObject);
                 }
 
-                // Prepare the result and the ACM checker.
+                // Prepbre the result bnd the ACM checker.
                 //
-                final long[] etable  = entryoid.longValue(false);
-                final int    elength = etable.length;
-                final long[] result  = new long[depth + 2 + elength];
+                finbl long[] etbble  = entryoid.longVblue(fblse);
+                finbl int    elength = etbble.length;
+                finbl long[] result  = new long[depth + 2 + elength];
                 result[0] = -1 ; // Bug detector!
 
-                // Copy the entryOid at the end of `result'
+                // Copy the entryOid bt the end of `result'
                 //
-                java.lang.System.arraycopy(etable, 0, result,
+                jbvb.lbng.System.brrbycopy(etbble, 0, result,
                                            depth+2, elength);
 
-                // Set the node Id and var Id in result.
+                // Set the node Id bnd vbr Id in result.
                 //
                 result[depth] = nodeId;
-                result[depth+1] = var;
+                result[depth+1] = vbr;
 
-                // Append nodeId.varId.<rowOid> to ACM checker.
+                // Append nodeId.vbrId.<rowOid> to ACM checker.
                 //
-                checker.add(depth,result,depth,elength+2);
+                checker.bdd(depth,result,depth,elength+2);
 
                 // No we're going to ACM check our OID.
                 try {
                     checker.checkCurrentOid();
 
-                    // No exception thrown by checker => this is all OK!
-                    // we have it: register the handler and return the
+                    // No exception thrown by checker => this is bll OK!
+                    // we hbve it: register the hbndler bnd return the
                     // result.
                     //
-                    handlers.add(this,depth,entryoid,varbind,false);
+                    hbndlers.bdd(this,depth,entryoid,vbrbind,fblse);
                     return result;
-                } catch(SnmpStatusException e) {
-                    // Skip to the next entry. If an exception is
-                    // thrown, will be catch by enclosing catch
-                    // and a skip is done to the next var.
+                } cbtch(SnmpStbtusException e) {
+                    // Skip to the next entry. If bn exception is
+                    // thrown, will be cbtch by enclosing cbtch
+                    // bnd b skip is done to the next vbr.
                     //
-                    entryoid = getNextOid(entryoid, data);
-                } finally {
-                    // Clean the checker.
+                    entryoid = getNextOid(entryoid, dbtb);
+                } finblly {
+                    // Clebn the checker.
                     //
                     checker.remove(depth,elength+2);
                 }
-            } catch(SnmpStatusException e) {
-                // Catching an exception here means we have to skip to the
+            } cbtch(SnmpStbtusException e) {
+                // Cbtching bn exception here mebns we hbve to skip to the
                 // next column.
                 //
-                // Back to the first row.
-                entryoid = getNextOid(data);
+                // Bbck to the first row.
+                entryoid = getNextOid(dbtb);
 
                 // Find out the next column.
                 //
-                var = getNextVarEntryId(entryoid,var,data,pduVersion);
+                vbr = getNextVbrEntryId(entryoid,vbr,dbtb,pduVersion);
 
             }
 
-            // This should not happen. If it happens, (bug, or customized
-            // methods returning garbage instead of raising an exception),
-            // it probably means that there is nothing to return anyway.
-            // No need to continue, we throw an exception.
+            // This should not hbppen. If it hbppens, (bug, or customized
+            // methods returning gbrbbge instebd of rbising bn exception),
+            // it probbbly mebns thbt there is nothing to return bnywby.
+            // No need to continue, we throw bn exception.
             // => will skip to next node in the MIB tree.
             //
-            if (entryoid == null || var == -1 ) {
-                throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+            if (entryoid == null || vbr == -1 ) {
+                throw new SnmpStbtusException(SnmpStbtusException.noSuchObject);
             }
         }
     }
 
 
     /**
-     * Validate the specified OID.
+     * Vblidbte the specified OID.
      *
      * <p>
-     * @param oid The OID array.
+     * @pbrbm oid The OID brrby.
      *
-     * @param pos The position in the array.
+     * @pbrbm pos The position in the brrby.
      *
-     * @exception SnmpStatusException If the validation fails.
+     * @exception SnmpStbtusException If the vblidbtion fbils.
      */
-    final void validateOid(long[] oid, int pos) throws SnmpStatusException {
-        final int length= oid.length;
+    finbl void vblidbteOid(long[] oid, int pos) throws SnmpStbtusException {
+        finbl int length= oid.length;
 
         // Control the length of the oid
         //
         if (pos +2 >= length) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
         }
 
-        // Check that the entry identifier is specified
+        // Check thbt the entry identifier is specified
         //
         if (oid[pos] != nodeId) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchObject);
         }
     }
 
@@ -2205,185 +2205,185 @@ public abstract class SnmpMibTable extends SnmpMibNode
     // ----------------------------------------------------------------------
 
     /**
-     * Enable this <CODE>SnmpMibTable</CODE> to send a notification.
+     * Enbble this <CODE>SnmpMibTbble</CODE> to send b notificbtion.
      *
      * <p>
-     * @param notification The notification to send.
+     * @pbrbm notificbtion The notificbtion to send.
      */
-    private synchronized void sendNotification(Notification notification) {
+    privbte synchronized void sendNotificbtion(Notificbtion notificbtion) {
 
         // loop on listener
         //
-        for(java.util.Enumeration<NotificationListener> k = handbackTable.keys();
-            k.hasMoreElements(); ) {
+        for(jbvb.util.Enumerbtion<NotificbtionListener> k = hbndbbckTbble.keys();
+            k.hbsMoreElements(); ) {
 
-            NotificationListener listener = k.nextElement();
+            NotificbtionListener listener = k.nextElement();
 
-            // Get the associated handback list and the associated filter list
+            // Get the bssocibted hbndbbck list bnd the bssocibted filter list
             //
-            java.util.Vector<?> handbackList = handbackTable.get(listener) ;
-            java.util.Vector<NotificationFilter> filterList =
-                filterTable.get(listener) ;
+            jbvb.util.Vector<?> hbndbbckList = hbndbbckTbble.get(listener) ;
+            jbvb.util.Vector<NotificbtionFilter> filterList =
+                filterTbble.get(listener) ;
 
-            // loop on handback
+            // loop on hbndbbck
             //
-            java.util.Enumeration<NotificationFilter> f = filterList.elements();
-            for(java.util.Enumeration<?> h = handbackList.elements();
-                h.hasMoreElements(); ) {
+            jbvb.util.Enumerbtion<NotificbtionFilter> f = filterList.elements();
+            for(jbvb.util.Enumerbtion<?> h = hbndbbckList.elements();
+                h.hbsMoreElements(); ) {
 
-                Object handback = h.nextElement();
-                NotificationFilter filter = f.nextElement();
+                Object hbndbbck = h.nextElement();
+                NotificbtionFilter filter = f.nextElement();
 
                 if ((filter == null) ||
-                     (filter.isNotificationEnabled(notification))) {
+                     (filter.isNotificbtionEnbbled(notificbtion))) {
 
-                    listener.handleNotification(notification,handback) ;
+                    listener.hbndleNotificbtion(notificbtion,hbndbbck) ;
                 }
             }
         }
     }
 
     /**
-     * This method is used by the SnmpMibTable to create and send a table
-     * entry notification to all the listeners registered for this kind of
-     * notification.
+     * This method is used by the SnmpMibTbble to crebte bnd send b tbble
+     * entry notificbtion to bll the listeners registered for this kind of
+     * notificbtion.
      *
      * <p>
-     * @param type The notification type.
+     * @pbrbm type The notificbtion type.
      *
-     * @param timeStamp The notification emission date.
+     * @pbrbm timeStbmp The notificbtion emission dbte.
      *
-     * @param entry The entry object.
+     * @pbrbm entry The entry object.
      */
-    private void sendNotification(String type, long timeStamp,
-                                  Object entry, ObjectName name) {
+    privbte void sendNotificbtion(String type, long timeStbmp,
+                                  Object entry, ObjectNbme nbme) {
 
         synchronized(this) {
             sequenceNumber = sequenceNumber + 1;
         }
 
-        SnmpTableEntryNotification notif =
-            new SnmpTableEntryNotification(type, this, sequenceNumber,
-                                           timeStamp, entry, name);
+        SnmpTbbleEntryNotificbtion notif =
+            new SnmpTbbleEntryNotificbtion(type, this, sequenceNumber,
+                                           timeStbmp, entry, nbme);
 
-        this.sendNotification(notif) ;
+        this.sendNotificbtion(notif) ;
     }
 
     /**
      * Return true if the entry identified by the given OID index
-     * is contained in this table.
+     * is contbined in this tbble.
      * <p>
-     * <b>Do not call this method directly</b>.
+     * <b>Do not cbll this method directly</b>.
      * <p>
-     * This method is provided has a hook for subclasses.
-     * It is called when a get/set request is received in order to
-     * determine whether the specified entry is contained in the table.
-     * You may want to override this method if you need to perform e.g.
-     * lazy evaluation of tables (you need to update the table when a
-     * request is received) or if your table is virtual.
+     * This method is provided hbs b hook for subclbsses.
+     * It is cblled when b get/set request is received in order to
+     * determine whether the specified entry is contbined in the tbble.
+     * You mby wbnt to override this method if you need to perform e.g.
+     * lbzy evblubtion of tbbles (you need to updbte the tbble when b
+     * request is received) or if your tbble is virtubl.
      * <p>
-     * Note that this method is called by the Runtime from within a
+     * Note thbt this method is cblled by the Runtime from within b
      * synchronized block.
      *
-     * @param oid The index part of the OID we're looking for.
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm oid The index pbrt of the OID we're looking for.
+     * @pbrbm userDbtb A contextubl object contbining user-dbtb.
+     *        This object is bllocbted through the <code>
+     *        {@link com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory}</code>
+     *        for ebch incoming SNMP request.
      *
-     * @return <code>true</code> if the entry is found, <code>false</code>
+     * @return <code>true</code> if the entry is found, <code>fblse</code>
      *         otherwise.
      *
      * @since 1.5
      **/
-    protected boolean contains(SnmpOid oid, Object userData) {
+    protected boolebn contbins(SnmpOid oid, Object userDbtb) {
         return (findObject(oid) > -1);
     }
 
     /**
-     * Look for the given oid in the OID table (tableoids) and returns
+     * Look for the given oid in the OID tbble (tbbleoids) bnd returns
      * its position.
      *
      * <p>
-     * @param oid The OID we're looking for.
+     * @pbrbm oid The OID we're looking for.
      *
-     * @return The position of the OID in the table. -1 if the given
-     *         OID was not found.
+     * @return The position of the OID in the tbble. -1 if the given
+     *         OID wbs not found.
      *
      **/
-    private int findObject(SnmpOid oid) {
+    privbte int findObject(SnmpOid oid) {
         int low= 0;
-        int max= size - 1;
+        int mbx= size - 1;
         SnmpOid pos;
         int comp;
-        int curr= low + (max-low)/2;
+        int curr= low + (mbx-low)/2;
         //System.out.println("Try to retrieve: " + oid.toString());
-        while (low <= max) {
+        while (low <= mbx) {
 
             // XX pos = (SnmpOid) oids.elementAt(curr);
-            pos = tableoids[curr];
+            pos = tbbleoids[curr];
 
-            //System.out.println("Compare with" + pos.toString());
+            //System.out.println("Compbre with" + pos.toString());
             // never know ...we might find something ...
             //
-            comp = oid.compareTo(pos);
+            comp = oid.compbreTo(pos);
             if (comp == 0)
                 return curr;
 
-            if (oid.equals(pos) == true) {
+            if (oid.equbls(pos) == true) {
                 return curr;
             }
             if (comp > 0) {
                 low = curr + 1;
             } else {
-                max = curr - 1;
+                mbx = curr - 1;
             }
-            curr = low + (max-low)/2;
+            curr = low + (mbx-low)/2;
         }
         return -1;
     }
 
     /**
-     * Search the position at which the given oid should be inserted
-     * in the OID table (tableoids).
+     * Sebrch the position bt which the given oid should be inserted
+     * in the OID tbble (tbbleoids).
      *
      * <p>
-     * @param oid The OID we would like to insert.
+     * @pbrbm oid The OID we would like to insert.
      *
-     * @param fail Tells whether a SnmpStatusException must be generated
-     *             if the given OID is already present in the table.
+     * @pbrbm fbil Tells whether b SnmpStbtusException must be generbted
+     *             if the given OID is blrebdy present in the tbble.
      *
-     * @return The position at which the OID should be inserted in
-     *         the table. When the OID is found, it returns the next
-     *         position. Note that it is not valid to insert twice the
-     *         same OID. This feature is only an optimization to improve
-     *         the getNextOid() behaviour.
+     * @return The position bt which the OID should be inserted in
+     *         the tbble. When the OID is found, it returns the next
+     *         position. Note thbt it is not vblid to insert twice the
+     *         sbme OID. This febture is only bn optimizbtion to improve
+     *         the getNextOid() behbviour.
      *
-     * @exception SnmpStatusException if the OID is already present in the
-     *            table and <code>fail</code> is <code>true</code>.
+     * @exception SnmpStbtusException if the OID is blrebdy present in the
+     *            tbble bnd <code>fbil</code> is <code>true</code>.
      *
      **/
-    private int getInsertionPoint(SnmpOid oid, boolean fail)
-        throws SnmpStatusException {
+    privbte int getInsertionPoint(SnmpOid oid, boolebn fbil)
+        throws SnmpStbtusException {
 
-        final int failStatus = SnmpStatusException.snmpRspNotWritable;
+        finbl int fbilStbtus = SnmpStbtusException.snmpRspNotWritbble;
         int low= 0;
-        int max= size - 1;
+        int mbx= size - 1;
         SnmpOid pos;
         int comp;
-        int curr= low + (max-low)/2;
-        while (low <= max) {
+        int curr= low + (mbx-low)/2;
+        while (low <= mbx) {
 
             // XX pos= (SnmpOid) oids.elementAt(curr);
-            pos= tableoids[curr];
+            pos= tbbleoids[curr];
 
             // never know ...we might find something ...
             //
-            comp= oid.compareTo(pos);
+            comp= oid.compbreTo(pos);
 
             if (comp == 0) {
-                if (fail)
-                    throw new SnmpStatusException(failStatus,curr);
+                if (fbil)
+                    throw new SnmpStbtusException(fbilStbtus,curr);
                 else
                     return curr+1;
             }
@@ -2391,79 +2391,79 @@ public abstract class SnmpMibTable extends SnmpMibNode
             if (comp>0) {
                 low= curr +1;
             } else {
-                max= curr -1;
+                mbx= curr -1;
             }
-            curr= low + (max-low)/2;
+            curr= low + (mbx-low)/2;
         }
         return curr;
     }
 
     /**
-     * Remove the OID located at the given position.
+     * Remove the OID locbted bt the given position.
      *
      * <p>
-     * @param pos The position at which the OID to be removed is located.
+     * @pbrbm pos The position bt which the OID to be removed is locbted.
      *
      **/
-    private void removeOid(int pos) {
-        if (pos >= tablecount) return;
+    privbte void removeOid(int pos) {
+        if (pos >= tbblecount) return;
         if (pos < 0) return;
-        final int l1 = --tablecount-pos;
-        tableoids[pos] = null;
+        finbl int l1 = --tbblecount-pos;
+        tbbleoids[pos] = null;
         if (l1 > 0)
-            java.lang.System.arraycopy(tableoids,pos+1,tableoids,pos,l1);
-        tableoids[tablecount] = null;
+            jbvb.lbng.System.brrbycopy(tbbleoids,pos+1,tbbleoids,pos,l1);
+        tbbleoids[tbblecount] = null;
     }
 
     /**
-     * Insert an OID at the given position.
+     * Insert bn OID bt the given position.
      *
      * <p>
-     * @param oid The OID to be inserted in the table
-     * @param pos The position at which the OID to be added is located.
+     * @pbrbm oid The OID to be inserted in the tbble
+     * @pbrbm pos The position bt which the OID to be bdded is locbted.
      *
      **/
-    private void insertOid(int pos, SnmpOid oid) {
-        if (pos >= tablesize || tablecount == tablesize) {
-                // Vector must be enlarged
+    privbte void insertOid(int pos, SnmpOid oid) {
+        if (pos >= tbblesize || tbblecount == tbblesize) {
+                // Vector must be enlbrged
 
-                // Save old vector
-                final SnmpOid[] olde = tableoids;
+                // Sbve old vector
+                finbl SnmpOid[] olde = tbbleoids;
 
-                // Allocate larger vectors
-                tablesize += Delta;
-                tableoids = new SnmpOid[tablesize];
+                // Allocbte lbrger vectors
+                tbblesize += Deltb;
+                tbbleoids = new SnmpOid[tbblesize];
 
-                // Check pos validity
-                if (pos > tablecount) pos = tablecount;
+                // Check pos vblidity
+                if (pos > tbblecount) pos = tbblecount;
                 if (pos < 0) pos = 0;
 
-                final int l1 = pos;
-                final int l2 = tablecount - pos;
+                finbl int l1 = pos;
+                finbl int l2 = tbblecount - pos;
 
-                // Copy original vector up to `pos'
+                // Copy originbl vector up to `pos'
                 if (l1 > 0)
-                    java.lang.System.arraycopy(olde,0,tableoids,0,l1);
+                    jbvb.lbng.System.brrbycopy(olde,0,tbbleoids,0,l1);
 
-                // Copy original vector from `pos' to end, leaving
-                // an empty room at `pos' in the new vector.
+                // Copy originbl vector from `pos' to end, lebving
+                // bn empty room bt `pos' in the new vector.
                 if (l2 > 0)
-                    java.lang.System.arraycopy(olde,l1,tableoids,
+                    jbvb.lbng.System.brrbycopy(olde,l1,tbbleoids,
                                                l1+1,l2);
 
-            } else if (pos < tablecount) {
-                // Vector is large enough to accommodate one additional
+            } else if (pos < tbblecount) {
+                // Vector is lbrge enough to bccommodbte one bdditionbl
                 // entry.
                 //
-                // Shift vector, making an empty room at `pos'
+                // Shift vector, mbking bn empty room bt `pos'
 
-                java.lang.System.arraycopy(tableoids,pos,tableoids,
-                                           pos+1,tablecount-pos);
+                jbvb.lbng.System.brrbycopy(tbbleoids,pos,tbbleoids,
+                                           pos+1,tbblecount-pos);
             }
 
-            // Fill the gap at `pos'
-            tableoids[pos]  = oid;
-            tablecount++;
+            // Fill the gbp bt `pos'
+            tbbleoids[pos]  = oid;
+            tbblecount++;
     }
 
 
@@ -2472,90 +2472,90 @@ public abstract class SnmpMibTable extends SnmpMibNode
     // ----------------------------------------------------------------------
 
     /**
-     * The id of the contained entry object.
-     * @serial
+     * The id of the contbined entry object.
+     * @seribl
      */
     protected int nodeId=1;
 
     /**
-     * The MIB to which the metadata is linked.
-     * @serial
+     * The MIB to which the metbdbtb is linked.
+     * @seribl
      */
     protected SnmpMib theMib;
 
     /**
-     * <CODE>true</CODE> if remote creation of entries via SET operations
-     * is enabled.
-     * [default value is <CODE>false</CODE>]
-     * @serial
+     * <CODE>true</CODE> if remote crebtion of entries vib SET operbtions
+     * is enbbled.
+     * [defbult vblue is <CODE>fblse</CODE>]
+     * @seribl
      */
-    protected boolean creationEnabled = false;
+    protected boolebn crebtionEnbbled = fblse;
 
     /**
-     * The entry factory
+     * The entry fbctory
      */
-    protected SnmpTableEntryFactory factory = null;
+    protected SnmpTbbleEntryFbctory fbctory = null;
 
     // ----------------------------------------------------------------------
     // PRIVATE VARIABLES
     // ----------------------------------------------------------------------
 
     /**
-     * The number of elements in the table.
-     * @serial
+     * The number of elements in the tbble.
+     * @seribl
      */
-    private int size=0;
+    privbte int size=0;
 
     /**
      * The list of indexes.
-     * @serial
+     * @seribl
      */
-    //    private Vector indexes= new Vector();
+    //    privbte Vector indexes= new Vector();
 
     /**
      * The list of OIDs.
-     * @serial
+     * @seribl
      */
-    // private Vector oids= new Vector();
-    private final static int Delta = 16;
-    private int     tablecount     = 0;
-    private int     tablesize      = Delta;
-    private SnmpOid tableoids[]    = new SnmpOid[tablesize];
+    // privbte Vector oids= new Vector();
+    privbte finbl stbtic int Deltb = 16;
+    privbte int     tbblecount     = 0;
+    privbte int     tbblesize      = Deltb;
+    privbte SnmpOid tbbleoids[]    = new SnmpOid[tbblesize];
 
     /**
      * The list of entries.
-     * @serial
+     * @seribl
      */
-    private final Vector<Object> entries= new Vector<>();
+    privbte finbl Vector<Object> entries= new Vector<>();
 
     /**
-     * The list of object names.
-     * @serial
+     * The list of object nbmes.
+     * @seribl
      */
-    private final Vector<ObjectName> entrynames= new Vector<>();
+    privbte finbl Vector<ObjectNbme> entrynbmes= new Vector<>();
 
     /**
-     * Callback handlers
+     * Cbllbbck hbndlers
      */
-    // final Vector callbacks = new Vector();
+    // finbl Vector cbllbbcks = new Vector();
 
     /**
-     * Listener hashtable containing the hand-back objects.
+     * Listener hbshtbble contbining the hbnd-bbck objects.
      */
-    private Hashtable<NotificationListener, Vector<Object>> handbackTable =
-            new Hashtable<>();
+    privbte Hbshtbble<NotificbtionListener, Vector<Object>> hbndbbckTbble =
+            new Hbshtbble<>();
 
     /**
-     * Listener hashtable containing the filter objects.
+     * Listener hbshtbble contbining the filter objects.
      */
-    private Hashtable<NotificationListener, Vector<NotificationFilter>>
-            filterTable = new Hashtable<>();
+    privbte Hbshtbble<NotificbtionListener, Vector<NotificbtionFilter>>
+            filterTbble = new Hbshtbble<>();
 
     // PACKAGE VARIABLES
     //------------------
     /**
-     * SNMP table sequence number.
-     * The default value is set to 0.
+     * SNMP tbble sequence number.
+     * The defbult vblue is set to 0.
      */
-    transient long sequenceNumber = 0;
+    trbnsient long sequenceNumber = 0;
 }

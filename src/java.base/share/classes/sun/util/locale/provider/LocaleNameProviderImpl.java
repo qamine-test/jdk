@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.util.Locale;
-import java.util.Set;
-import java.util.spi.LocaleNameProvider;
+import jbvb.util.Locble;
+import jbvb.util.Set;
+import jbvb.util.spi.LocbleNbmeProvider;
 
 /**
- * Concrete implementation of the
- * {@link java.util.spi.LocaleNameProvider LocaleNameProvider} class
- * for the JRE LocaleProviderAdapter.
+ * Concrete implementbtion of the
+ * {@link jbvb.util.spi.LocbleNbmeProvider LocbleNbmeProvider} clbss
+ * for the JRE LocbleProviderAdbpter.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
  */
-public class LocaleNameProviderImpl extends LocaleNameProvider implements AvailableLanguageTags {
-    private final LocaleProviderAdapter.Type type;
-    private final Set<String> langtags;
+public clbss LocbleNbmeProviderImpl extends LocbleNbmeProvider implements AvbilbbleLbngubgeTbgs {
+    privbte finbl LocbleProviderAdbpter.Type type;
+    privbte finbl Set<String> lbngtbgs;
 
-    public LocaleNameProviderImpl(LocaleProviderAdapter.Type type, Set<String> langtags) {
+    public LocbleNbmeProviderImpl(LocbleProviderAdbpter.Type type, Set<String> lbngtbgs) {
         this.type = type;
-        this.langtags = langtags;
+        this.lbngtbgs = lbngtbgs;
     }
 
     /**
-     * Returns an array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * Returns bn brrby of bll locbles for which this locble service provider
+     * cbn provide locblized objects or nbmes.
      *
-     * @return An array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * @return An brrby of bll locbles for which this locble service provider
+     * cbn provide locblized objects or nbmes.
      */
     @Override
-    public Locale[] getAvailableLocales() {
-        return LocaleProviderAdapter.toLocaleArray(langtags);
+    public Locble[] getAvbilbbleLocbles() {
+        return LocbleProviderAdbpter.toLocbleArrby(lbngtbgs);
     }
 
     @Override
-    public boolean isSupportedLocale(Locale locale) {
-        return LocaleProviderAdapter.isSupportedLocale(locale, type, langtags);
+    public boolebn isSupportedLocble(Locble locble) {
+        return LocbleProviderAdbpter.isSupportedLocble(locble, type, lbngtbgs);
     }
 
     /**
-     * Returns a localized name for the given ISO 639 language code and the
-     * given locale that is appropriate for display to the user.
-     * For example, if <code>languageCode</code> is "fr" and <code>locale</code>
-     * is en_US, getDisplayLanguage() will return "French"; if <code>languageCode</code>
-     * is "en" and <code>locale</code> is fr_FR, getDisplayLanguage() will return "anglais".
-     * If the name returned cannot be localized according to <code>locale</code>,
-     * (say, the provider does not have a Japanese name for Croatian),
+     * Returns b locblized nbme for the given ISO 639 lbngubge code bnd the
+     * given locble thbt is bppropribte for displby to the user.
+     * For exbmple, if <code>lbngubgeCode</code> is "fr" bnd <code>locble</code>
+     * is en_US, getDisplbyLbngubge() will return "French"; if <code>lbngubgeCode</code>
+     * is "en" bnd <code>locble</code> is fr_FR, getDisplbyLbngubge() will return "bnglbis".
+     * If the nbme returned cbnnot be locblized bccording to <code>locble</code>,
+     * (sby, the provider does not hbve b Jbpbnese nbme for Crobtibn),
      * this method returns null.
-     * @param languageCode the ISO 639 language code string in the form of two
-     *     lower-case letters between 'a' (U+0061) and 'z' (U+007A)
-     * @param locale the desired locale
-     * @return the name of the given language code for the specified locale, or null if it's not
-     *     available.
-     * @exception NullPointerException if <code>languageCode</code> or <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>languageCode</code> is not in the form of
-     *     two lower-case letters, or <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.util.Locale#getDisplayLanguage(java.util.Locale)
+     * @pbrbm lbngubgeCode the ISO 639 lbngubge code string in the form of two
+     *     lower-cbse letters between 'b' (U+0061) bnd 'z' (U+007A)
+     * @pbrbm locble the desired locble
+     * @return the nbme of the given lbngubge code for the specified locble, or null if it's not
+     *     bvbilbble.
+     * @exception NullPointerException if <code>lbngubgeCode</code> or <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>lbngubgeCode</code> is not in the form of
+     *     two lower-cbse letters, or <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @see jbvb.util.Locble#getDisplbyLbngubge(jbvb.util.Locble)
      */
     @Override
-    public String getDisplayLanguage(String lang, Locale locale) {
-        return getDisplayString(lang, locale);
+    public String getDisplbyLbngubge(String lbng, Locble locble) {
+        return getDisplbyString(lbng, locble);
     }
 
     /**
-     * Returns a localized name for the given <a href="http://www.rfc-editor.org/rfc/bcp/bcp47.txt">
-     * IETF BCP47</a> script code and the given locale that is appropriate for
-     * display to the user.
-     * For example, if <code>scriptCode</code> is "Latn" and <code>locale</code>
-     * is en_US, getDisplayScript() will return "Latin"; if <code>scriptCode</code>
-     * is "Cyrl" and <code>locale</code> is fr_FR, getDisplayScript() will return "cyrillique".
-     * If the name returned cannot be localized according to <code>locale</code>,
-     * (say, the provider does not have a Japanese name for Cyrillic),
-     * this method returns null. The default implementation returns null.
-     * @param scriptCode the four letter script code string in the form of title-case
-     *     letters (the first letter is upper-case character between 'A' (U+0041) and
-     *     'Z' (U+005A) followed by three lower-case character between 'a' (U+0061)
-     *     and 'z' (U+007A)).
-     * @param locale the desired locale
-     * @return the name of the given script code for the specified locale, or null if it's not
-     *     available.
-     * @exception NullPointerException if <code>scriptCode</code> or <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>scriptCode</code> is not in the form of
-     *     four title case letters, or <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.util.Locale#getDisplayScript(java.util.Locale)
+     * Returns b locblized nbme for the given <b href="http://www.rfc-editor.org/rfc/bcp/bcp47.txt">
+     * IETF BCP47</b> script code bnd the given locble thbt is bppropribte for
+     * displby to the user.
+     * For exbmple, if <code>scriptCode</code> is "Lbtn" bnd <code>locble</code>
+     * is en_US, getDisplbyScript() will return "Lbtin"; if <code>scriptCode</code>
+     * is "Cyrl" bnd <code>locble</code> is fr_FR, getDisplbyScript() will return "cyrillique".
+     * If the nbme returned cbnnot be locblized bccording to <code>locble</code>,
+     * (sby, the provider does not hbve b Jbpbnese nbme for Cyrillic),
+     * this method returns null. The defbult implementbtion returns null.
+     * @pbrbm scriptCode the four letter script code string in the form of title-cbse
+     *     letters (the first letter is upper-cbse chbrbcter between 'A' (U+0041) bnd
+     *     'Z' (U+005A) followed by three lower-cbse chbrbcter between 'b' (U+0061)
+     *     bnd 'z' (U+007A)).
+     * @pbrbm locble the desired locble
+     * @return the nbme of the given script code for the specified locble, or null if it's not
+     *     bvbilbble.
+     * @exception NullPointerException if <code>scriptCode</code> or <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>scriptCode</code> is not in the form of
+     *     four title cbse letters, or <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @see jbvb.util.Locble#getDisplbyScript(jbvb.util.Locble)
      */
     @Override
-    public String getDisplayScript(String scriptCode, Locale locale) {
-        return getDisplayString(scriptCode, locale);
+    public String getDisplbyScript(String scriptCode, Locble locble) {
+        return getDisplbyString(scriptCode, locble);
     }
 
     /**
-     * Returns a localized name for the given ISO 3166 country code and the
-     * given locale that is appropriate for display to the user.
-     * For example, if <code>countryCode</code> is "FR" and <code>locale</code>
-     * is en_US, getDisplayCountry() will return "France"; if <code>countryCode</code>
-     * is "US" and <code>locale</code> is fr_FR, getDisplayCountry() will return "Etats-Unis".
-     * If the name returned cannot be localized according to <code>locale</code>,
-     * (say, the provider does not have a Japanese name for Croatia),
+     * Returns b locblized nbme for the given ISO 3166 country code bnd the
+     * given locble thbt is bppropribte for displby to the user.
+     * For exbmple, if <code>countryCode</code> is "FR" bnd <code>locble</code>
+     * is en_US, getDisplbyCountry() will return "Frbnce"; if <code>countryCode</code>
+     * is "US" bnd <code>locble</code> is fr_FR, getDisplbyCountry() will return "Etbts-Unis".
+     * If the nbme returned cbnnot be locblized bccording to <code>locble</code>,
+     * (sby, the provider does not hbve b Jbpbnese nbme for Crobtib),
      * this method returns null.
-     * @param countryCode the ISO 3166 country code string in the form of two
-     *     upper-case letters between 'A' (U+0041) and 'Z' (U+005A)
-     * @param locale the desired locale
-     * @return the name of the given country code for the specified locale, or null if it's not
-     *     available.
-     * @exception NullPointerException if <code>countryCode</code> or <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>countryCode</code> is not in the form of
-     *     two upper-case letters, or <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.util.Locale#getDisplayCountry(java.util.Locale)
+     * @pbrbm countryCode the ISO 3166 country code string in the form of two
+     *     upper-cbse letters between 'A' (U+0041) bnd 'Z' (U+005A)
+     * @pbrbm locble the desired locble
+     * @return the nbme of the given country code for the specified locble, or null if it's not
+     *     bvbilbble.
+     * @exception NullPointerException if <code>countryCode</code> or <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>countryCode</code> is not in the form of
+     *     two upper-cbse letters, or <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @see jbvb.util.Locble#getDisplbyCountry(jbvb.util.Locble)
      */
     @Override
-    public String getDisplayCountry(String ctry, Locale locale) {
-        return getDisplayString(ctry, locale);
+    public String getDisplbyCountry(String ctry, Locble locble) {
+        return getDisplbyString(ctry, locble);
     }
 
     /**
-     * Returns a localized name for the given variant code and the given locale that
-     * is appropriate for display to the user.
-     * If the name returned cannot be localized according to <code>locale</code>,
+     * Returns b locblized nbme for the given vbribnt code bnd the given locble thbt
+     * is bppropribte for displby to the user.
+     * If the nbme returned cbnnot be locblized bccording to <code>locble</code>,
      * this method returns null.
-     * @param variant the variant string
-     * @param locale the desired locale
-     * @return the name of the given variant string for the specified locale, or null if it's not
-     *     available.
-     * @exception NullPointerException if <code>variant</code> or <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.util.Locale#getDisplayVariant(java.util.Locale)
+     * @pbrbm vbribnt the vbribnt string
+     * @pbrbm locble the desired locble
+     * @return the nbme of the given vbribnt string for the specified locble, or null if it's not
+     *     bvbilbble.
+     * @exception NullPointerException if <code>vbribnt</code> or <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @see jbvb.util.Locble#getDisplbyVbribnt(jbvb.util.Locble)
      */
     @Override
-    public String getDisplayVariant(String vrnt, Locale locale) {
-        return getDisplayString("%%"+vrnt, locale);
+    public String getDisplbyVbribnt(String vrnt, Locble locble) {
+        return getDisplbyString("%%"+vrnt, locble);
     }
 
-    private String getDisplayString(String key, Locale locale) {
-        if (key == null || locale == null) {
+    privbte String getDisplbyString(String key, Locble locble) {
+        if (key == null || locble == null) {
             throw new NullPointerException();
         }
 
-        return LocaleProviderAdapter.forType(type).getLocaleResources(locale).getLocaleName(key);
+        return LocbleProviderAdbpter.forType(type).getLocbleResources(locble).getLocbleNbme(key);
     }
 
     @Override
-    public Set<String> getAvailableLanguageTags() {
-        return langtags;
+    public Set<String> getAvbilbbleLbngubgeTbgs() {
+        return lbngtbgs;
     }
 }

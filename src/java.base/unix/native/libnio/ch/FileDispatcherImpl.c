@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,8 +27,8 @@
 #include "jni_util.h"
 #include "jvm.h"
 #include "jlong.h"
-#include "sun_nio_ch_FileDispatcherImpl.h"
-#include "java_lang_Long.h"
+#include "sun_nio_ch_FileDispbtcherImpl.h"
+#include "jbvb_lbng_Long.h"
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <fcntl.h>
@@ -38,30 +38,30 @@
 #include "nio_util.h"
 
 #ifdef _ALLBSD_SOURCE
-#define stat64 stat
+#define stbt64 stbt
 #define flock64 flock
 #define off64_t off_t
 #define F_SETLKW64 F_SETLKW
 #define F_SETLK64 F_SETLK
 
-#define pread64 pread
+#define prebd64 prebd
 #define pwrite64 pwrite
-#define ftruncate64 ftruncate
-#define fstat64 fstat
+#define ftruncbte64 ftruncbte
+#define fstbt64 fstbt
 
-#define fdatasync fsync
+#define fdbtbsync fsync
 #endif
 
-static int preCloseFD = -1;     /* File descriptor to which we dup other fd's
-                                   before closing them for real */
+stbtic int preCloseFD = -1;     /* File descriptor to which we dup other fd's
+                                   before closing them for rebl */
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_init(JNIEnv *env, jclass cl)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_init(JNIEnv *env, jclbss cl)
 {
     int sp[2];
-    if (socketpair(PF_UNIX, SOCK_STREAM, 0, sp) < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "socketpair failed");
+    if (socketpbir(PF_UNIX, SOCK_STREAM, 0, sp) < 0) {
+        JNU_ThrowIOExceptionWithLbstError(env, "socketpbir fbiled");
         return;
     }
     preCloseFD = sp[0];
@@ -69,90 +69,90 @@ Java_sun_nio_ch_FileDispatcherImpl_init(JNIEnv *env, jclass cl)
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_read0(JNIEnv *env, jclass clazz,
-                             jobject fdo, jlong address, jint len)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_rebd0(JNIEnv *env, jclbss clbzz,
+                             jobject fdo, jlong bddress, jint len)
 {
-    jint fd = fdval(env, fdo);
-    void *buf = (void *)jlong_to_ptr(address);
+    jint fd = fdvbl(env, fdo);
+    void *buf = (void *)jlong_to_ptr(bddress);
 
-    return convertReturnVal(env, read(fd, buf, len), JNI_TRUE);
+    return convertReturnVbl(env, rebd(fd, buf, len), JNI_TRUE);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_pread0(JNIEnv *env, jclass clazz, jobject fdo,
-                            jlong address, jint len, jlong offset)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_prebd0(JNIEnv *env, jclbss clbzz, jobject fdo,
+                            jlong bddress, jint len, jlong offset)
 {
-    jint fd = fdval(env, fdo);
-    void *buf = (void *)jlong_to_ptr(address);
+    jint fd = fdvbl(env, fdo);
+    void *buf = (void *)jlong_to_ptr(bddress);
 
-    return convertReturnVal(env, pread64(fd, buf, len, offset), JNI_TRUE);
+    return convertReturnVbl(env, prebd64(fd, buf, len, offset), JNI_TRUE);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_readv0(JNIEnv *env, jclass clazz,
-                              jobject fdo, jlong address, jint len)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_rebdv0(JNIEnv *env, jclbss clbzz,
+                              jobject fdo, jlong bddress, jint len)
 {
-    jint fd = fdval(env, fdo);
-    struct iovec *iov = (struct iovec *)jlong_to_ptr(address);
-    return convertLongReturnVal(env, readv(fd, iov, len), JNI_TRUE);
+    jint fd = fdvbl(env, fdo);
+    struct iovec *iov = (struct iovec *)jlong_to_ptr(bddress);
+    return convertLongReturnVbl(env, rebdv(fd, iov, len), JNI_TRUE);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_write0(JNIEnv *env, jclass clazz,
-                              jobject fdo, jlong address, jint len)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_write0(JNIEnv *env, jclbss clbzz,
+                              jobject fdo, jlong bddress, jint len)
 {
-    jint fd = fdval(env, fdo);
-    void *buf = (void *)jlong_to_ptr(address);
+    jint fd = fdvbl(env, fdo);
+    void *buf = (void *)jlong_to_ptr(bddress);
 
-    return convertReturnVal(env, write(fd, buf, len), JNI_FALSE);
+    return convertReturnVbl(env, write(fd, buf, len), JNI_FALSE);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_pwrite0(JNIEnv *env, jclass clazz, jobject fdo,
-                            jlong address, jint len, jlong offset)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_pwrite0(JNIEnv *env, jclbss clbzz, jobject fdo,
+                            jlong bddress, jint len, jlong offset)
 {
-    jint fd = fdval(env, fdo);
-    void *buf = (void *)jlong_to_ptr(address);
+    jint fd = fdvbl(env, fdo);
+    void *buf = (void *)jlong_to_ptr(bddress);
 
-    return convertReturnVal(env, pwrite64(fd, buf, len, offset), JNI_FALSE);
+    return convertReturnVbl(env, pwrite64(fd, buf, len, offset), JNI_FALSE);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_writev0(JNIEnv *env, jclass clazz,
-                                       jobject fdo, jlong address, jint len)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_writev0(JNIEnv *env, jclbss clbzz,
+                                       jobject fdo, jlong bddress, jint len)
 {
-    jint fd = fdval(env, fdo);
-    struct iovec *iov = (struct iovec *)jlong_to_ptr(address);
-    return convertLongReturnVal(env, writev(fd, iov, len), JNI_FALSE);
+    jint fd = fdvbl(env, fdo);
+    struct iovec *iov = (struct iovec *)jlong_to_ptr(bddress);
+    return convertLongReturnVbl(env, writev(fd, iov, len), JNI_FALSE);
 }
 
-static jlong
-handle(JNIEnv *env, jlong rv, char *msg)
+stbtic jlong
+hbndle(JNIEnv *env, jlong rv, chbr *msg)
 {
     if (rv >= 0)
         return rv;
     if (errno == EINTR)
         return IOS_INTERRUPTED;
-    JNU_ThrowIOExceptionWithLastError(env, msg);
+    JNU_ThrowIOExceptionWithLbstError(env, msg);
     return IOS_THROWN;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_force0(JNIEnv *env, jobject this,
-                                          jobject fdo, jboolean md)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_force0(JNIEnv *env, jobject this,
+                                          jobject fdo, jboolebn md)
 {
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
     int result = 0;
 
     if (md == JNI_FALSE) {
-        result = fdatasync(fd);
+        result = fdbtbsync(fd);
     } else {
 #ifdef _AIX
-        /* On AIX, calling fsync on a file descriptor that is opened only for
-         * reading results in an error ("EBADF: The FileDescriptor parameter is
-         * not a valid file descriptor open for writing.").
-         * However, at this point it is not possibly anymore to read the
-         * 'writable' attribute of the corresponding file channel so we have to
+        /* On AIX, cblling fsync on b file descriptor thbt is opened only for
+         * rebding results in bn error ("EBADF: The FileDescriptor pbrbmeter is
+         * not b vblid file descriptor open for writing.").
+         * However, bt this point it is not possibly bnymore to rebd the
+         * 'writbble' bttribute of the corresponding file chbnnel so we hbve to
          * use 'fcntl'.
          */
         int getfl = fcntl(fd, F_GETFL);
@@ -162,46 +162,46 @@ Java_sun_nio_ch_FileDispatcherImpl_force0(JNIEnv *env, jobject this,
 #endif
         result = fsync(fd);
     }
-    return handle(env, result, "Force failed");
+    return hbndle(env, result, "Force fbiled");
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_truncate0(JNIEnv *env, jobject this,
+Jbvb_sun_nio_ch_FileDispbtcherImpl_truncbte0(JNIEnv *env, jobject this,
                                              jobject fdo, jlong size)
 {
-    return handle(env,
-                  ftruncate64(fdval(env, fdo), size),
-                  "Truncation failed");
+    return hbndle(env,
+                  ftruncbte64(fdvbl(env, fdo), size),
+                  "Truncbtion fbiled");
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_size0(JNIEnv *env, jobject this, jobject fdo)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_size0(JNIEnv *env, jobject this, jobject fdo)
 {
-    struct stat64 fbuf;
+    struct stbt64 fbuf;
 
-    if (fstat64(fdval(env, fdo), &fbuf) < 0)
-        return handle(env, -1, "Size failed");
+    if (fstbt64(fdvbl(env, fdo), &fbuf) < 0)
+        return hbndle(env, -1, "Size fbiled");
     return fbuf.st_size;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_lock0(JNIEnv *env, jobject this, jobject fdo,
-                                      jboolean block, jlong pos, jlong size,
-                                      jboolean shared)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_lock0(JNIEnv *env, jobject this, jobject fdo,
+                                      jboolebn block, jlong pos, jlong size,
+                                      jboolebn shbred)
 {
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
     jint lockResult = 0;
     int cmd = 0;
     struct flock64 fl;
 
     fl.l_whence = SEEK_SET;
-    if (size == (jlong)java_lang_Long_MAX_VALUE) {
+    if (size == (jlong)jbvb_lbng_Long_MAX_VALUE) {
         fl.l_len = (off64_t)0;
     } else {
         fl.l_len = (off64_t)size;
     }
-    fl.l_start = (off64_t)pos;
-    if (shared == JNI_TRUE) {
+    fl.l_stbrt = (off64_t)pos;
+    if (shbred == JNI_TRUE) {
         fl.l_type = F_RDLCK;
     } else {
         fl.l_type = F_WRLCK;
@@ -214,65 +214,65 @@ Java_sun_nio_ch_FileDispatcherImpl_lock0(JNIEnv *env, jobject this, jobject fdo,
     lockResult = fcntl(fd, cmd, &fl);
     if (lockResult < 0) {
         if ((cmd == F_SETLK64) && (errno == EAGAIN || errno == EACCES))
-            return sun_nio_ch_FileDispatcherImpl_NO_LOCK;
+            return sun_nio_ch_FileDispbtcherImpl_NO_LOCK;
         if (errno == EINTR)
-            return sun_nio_ch_FileDispatcherImpl_INTERRUPTED;
-        JNU_ThrowIOExceptionWithLastError(env, "Lock failed");
+            return sun_nio_ch_FileDispbtcherImpl_INTERRUPTED;
+        JNU_ThrowIOExceptionWithLbstError(env, "Lock fbiled");
     }
     return 0;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_release0(JNIEnv *env, jobject this,
+Jbvb_sun_nio_ch_FileDispbtcherImpl_relebse0(JNIEnv *env, jobject this,
                                          jobject fdo, jlong pos, jlong size)
 {
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
     jint lockResult = 0;
     struct flock64 fl;
     int cmd = F_SETLK64;
 
     fl.l_whence = SEEK_SET;
-    if (size == (jlong)java_lang_Long_MAX_VALUE) {
+    if (size == (jlong)jbvb_lbng_Long_MAX_VALUE) {
         fl.l_len = (off64_t)0;
     } else {
         fl.l_len = (off64_t)size;
     }
-    fl.l_start = (off64_t)pos;
+    fl.l_stbrt = (off64_t)pos;
     fl.l_type = F_UNLCK;
     lockResult = fcntl(fd, cmd, &fl);
     if (lockResult < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "Release failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Relebse fbiled");
     }
 }
 
 
-static void closeFileDescriptor(JNIEnv *env, int fd) {
+stbtic void closeFileDescriptor(JNIEnv *env, int fd) {
     if (fd != -1) {
         int result = close(fd);
         if (result < 0)
-            JNU_ThrowIOExceptionWithLastError(env, "Close failed");
+            JNU_ThrowIOExceptionWithLbstError(env, "Close fbiled");
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_close0(JNIEnv *env, jclass clazz, jobject fdo)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_close0(JNIEnv *env, jclbss clbzz, jobject fdo)
 {
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
     closeFileDescriptor(env, fd);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_preClose0(JNIEnv *env, jclass clazz, jobject fdo)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_preClose0(JNIEnv *env, jclbss clbzz, jobject fdo)
 {
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
     if (preCloseFD >= 0) {
         if (dup2(preCloseFD, fd) < 0)
-            JNU_ThrowIOExceptionWithLastError(env, "dup2 failed");
+            JNU_ThrowIOExceptionWithLbstError(env, "dup2 fbiled");
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileDispatcherImpl_closeIntFD(JNIEnv *env, jclass clazz, jint fd)
+Jbvb_sun_nio_ch_FileDispbtcherImpl_closeIntFD(JNIEnv *env, jclbss clbzz, jint fd)
 {
     closeFileDescriptor(env, fd);
 }

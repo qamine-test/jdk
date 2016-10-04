@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * Marker interface used by <tt>List</tt> implementations to indicate that
- * they support fast (generally constant time) random access.  The primary
- * purpose of this interface is to allow generic algorithms to alter their
- * behavior to provide good performance when applied to either random or
- * sequential access lists.
+ * Mbrker interfbce used by <tt>List</tt> implementbtions to indicbte thbt
+ * they support fbst (generblly constbnt time) rbndom bccess.  The primbry
+ * purpose of this interfbce is to bllow generic blgorithms to blter their
+ * behbvior to provide good performbnce when bpplied to either rbndom or
+ * sequentibl bccess lists.
  *
- * <p>The best algorithms for manipulating random access lists (such as
- * <tt>ArrayList</tt>) can produce quadratic behavior when applied to
- * sequential access lists (such as <tt>LinkedList</tt>).  Generic list
- * algorithms are encouraged to check whether the given list is an
- * <tt>instanceof</tt> this interface before applying an algorithm that would
- * provide poor performance if it were applied to a sequential access list,
- * and to alter their behavior if necessary to guarantee acceptable
- * performance.
+ * <p>The best blgorithms for mbnipulbting rbndom bccess lists (such bs
+ * <tt>ArrbyList</tt>) cbn produce qubdrbtic behbvior when bpplied to
+ * sequentibl bccess lists (such bs <tt>LinkedList</tt>).  Generic list
+ * blgorithms bre encourbged to check whether the given list is bn
+ * <tt>instbnceof</tt> this interfbce before bpplying bn blgorithm thbt would
+ * provide poor performbnce if it were bpplied to b sequentibl bccess list,
+ * bnd to blter their behbvior if necessbry to gubrbntee bcceptbble
+ * performbnce.
  *
- * <p>It is recognized that the distinction between random and sequential
- * access is often fuzzy.  For example, some <tt>List</tt> implementations
- * provide asymptotically linear access times if they get huge, but constant
- * access times in practice.  Such a <tt>List</tt> implementation
- * should generally implement this interface.  As a rule of thumb, a
- * <tt>List</tt> implementation should implement this interface if,
- * for typical instances of the class, this loop:
+ * <p>It is recognized thbt the distinction between rbndom bnd sequentibl
+ * bccess is often fuzzy.  For exbmple, some <tt>List</tt> implementbtions
+ * provide bsymptoticblly linebr bccess times if they get huge, but constbnt
+ * bccess times in prbctice.  Such b <tt>List</tt> implementbtion
+ * should generblly implement this interfbce.  As b rule of thumb, b
+ * <tt>List</tt> implementbtion should implement this interfbce if,
+ * for typicbl instbnces of the clbss, this loop:
  * <pre>
  *     for (int i=0, n=list.size(); i &lt; n; i++)
  *         list.get(i);
  * </pre>
- * runs faster than this loop:
+ * runs fbster thbn this loop:
  * <pre>
- *     for (Iterator i=list.iterator(); i.hasNext(); )
+ *     for (Iterbtor i=list.iterbtor(); i.hbsNext(); )
  *         i.next();
  * </pre>
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This interfbce is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
  * @since 1.4
  */
-public interface RandomAccess {
+public interfbce RbndomAccess {
 }

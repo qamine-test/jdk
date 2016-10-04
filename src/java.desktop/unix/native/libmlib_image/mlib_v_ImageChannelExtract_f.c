@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
 #include <stdlib.h>
-#include "mlib_image.h"
-#include "mlib_ImageCheck.h"
+#include "mlib_imbge.h"
+#include "mlib_ImbgeCheck.h"
 
 typedef union {
   double d64;
   struct {
-    float f0;
-    float f1;
+    flobt f0;
+    flobt f1;
   } f32s;
 } d64_2_f32;
 
 /***************************************************************/
 
-void mlib_v_ImageChannelExtract_U8_2_1(mlib_u8  *sl,  mlib_s32 slb,
+void mlib_v_ImbgeChbnnelExtrbct_U8_2_1(mlib_u8  *sl,  mlib_s32 slb,
                                        mlib_u8  *dl, mlib_s32 dlb,
                                        mlib_s32 width, mlib_s32 height)
 {
@@ -50,14 +50,14 @@ void mlib_v_ImageChannelExtract_U8_2_1(mlib_u8  *sl,  mlib_s32 slb,
   for (j = 0; j < height; j++) {
     mlib_u8  *dend = dl + width;
     mlib_u32 *sp2;
-    while (((mlib_addr)sp & 7) > 1) {
+    while (((mlib_bddr)sp & 7) > 1) {
       *dp++ = *sp;
       sp += 2;
-      if (dp >= dend) break;
+      if (dp >= dend) brebk;
     }
-    if ((mlib_addr)sp & 7) {
+    if ((mlib_bddr)sp & 7) {
       sp2 = (mlib_u32 *)(sp - 1);
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (; dp <= (dend-2); dp += 2) {
         mlib_u32 s0;
         s0 = *sp2++;
@@ -69,7 +69,7 @@ void mlib_v_ImageChannelExtract_U8_2_1(mlib_u8  *sl,  mlib_s32 slb,
       }
     } else {
       sp2 = (mlib_u32 *)sp;
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (; dp <= (dend-2); dp += 2) {
         mlib_u32 s0;
         s0 = *sp2++;
@@ -87,7 +87,7 @@ void mlib_v_ImageChannelExtract_U8_2_1(mlib_u8  *sl,  mlib_s32 slb,
 
 /***************************************************************/
 
-void mlib_v_ImageChannelExtract_U8_3_2(mlib_u8  *sl, mlib_s32 slb,
+void mlib_v_ImbgeChbnnelExtrbct_U8_3_2(mlib_u8  *sl, mlib_s32 slb,
                                        mlib_u8 *dl, mlib_s32 dlb,
                                        mlib_s32 width, mlib_s32 height,
                                        mlib_s32 count1)
@@ -108,8 +108,8 @@ void mlib_v_ImageChannelExtract_U8_3_2(mlib_u8  *sl, mlib_s32 slb,
       sp += 2;
     }
 
-    if ((mlib_addr)dp & 1) {
-#pragma pipeloop(0)
+    if ((mlib_bddr)dp & 1) {
+#prbgmb pipeloop(0)
       for (; dp <= (dend-2); dp += 2) {
         dp[0] = sp[0];
         dp[1] = sp[1];
@@ -124,14 +124,14 @@ void mlib_v_ImageChannelExtract_U8_3_2(mlib_u8  *sl, mlib_s32 slb,
     }
 
     dp2 = (mlib_u16*)dp;
-    d2end = (mlib_u16*)((mlib_addr)dend &~ 1);
-    off = (mlib_addr)sp & 3;
+    d2end = (mlib_u16*)((mlib_bddr)dend &~ 1);
+    off = (mlib_bddr)sp & 3;
     sp2 = (mlib_u32 *)(sp - off);
 
     switch (off) {
 
-      case 0:
-#pragma pipeloop(0)
+      cbse 0:
+#prbgmb pipeloop(0)
         for (; dp2 <= (d2end-4); dp2 += 4) {
           s0 = sp2[0];
           s1 = sp2[1];
@@ -142,10 +142,10 @@ void mlib_v_ImageChannelExtract_U8_3_2(mlib_u8  *sl, mlib_s32 slb,
           dp2[3] = s2 >>  8;
           sp2 += 3;
         }
-        break;
+        brebk;
 
-      case 1:
-#pragma pipeloop(0)
+      cbse 1:
+#prbgmb pipeloop(0)
         for (; dp2 <= (d2end-4); dp2 += 4) {
           s0 = sp2[0];
           s1 = sp2[1];
@@ -156,10 +156,10 @@ void mlib_v_ImageChannelExtract_U8_3_2(mlib_u8  *sl, mlib_s32 slb,
           dp2[3] = s2;
           sp2 += 3;
         }
-        break;
+        brebk;
 
-      case 2:
-#pragma pipeloop(0)
+      cbse 2:
+#prbgmb pipeloop(0)
         s3 = sp2[0];
         for (; dp2 <= (d2end-4); dp2 += 4) {
           s0 = s3;
@@ -172,10 +172,10 @@ void mlib_v_ImageChannelExtract_U8_3_2(mlib_u8  *sl, mlib_s32 slb,
           dp2[3] = (s2 << 8) | (s3 >> 24);
           sp2 += 3;
         }
-        break;
+        brebk;
 
-      case 3:
-#pragma pipeloop(0)
+      cbse 3:
+#prbgmb pipeloop(0)
         s3 = sp2[0];
         for (; dp2 <= (d2end-4); dp2 += 4) {
           s0 = s3;
@@ -205,7 +205,7 @@ void mlib_v_ImageChannelExtract_U8_3_2(mlib_u8  *sl, mlib_s32 slb,
 
 /***************************************************************/
 
-void mlib_v_ImageChannelExtract_U8_4_2(mlib_u8  *sl, mlib_s32 slb,
+void mlib_v_ImbgeChbnnelExtrbct_U8_4_2(mlib_u8  *sl, mlib_s32 slb,
                                        mlib_u8 *dl, mlib_s32 dlb,
                                        mlib_s32 width, mlib_s32 height,
                                        mlib_s32 count1)
@@ -226,10 +226,10 @@ void mlib_v_ImageChannelExtract_U8_4_2(mlib_u8  *sl, mlib_s32 slb,
       sp += 3;
     }
 
-    off = (mlib_addr)sp & 3;
+    off = (mlib_bddr)sp & 3;
 
-    if (((mlib_addr)dp & 1) || (off == 3)) {
-#pragma pipeloop(0)
+    if (((mlib_bddr)dp & 1) || (off == 3)) {
+#prbgmb pipeloop(0)
       for (; dp <= (dend-2); dp += 2) {
         dp[0] = sp[0];
         dp[1] = sp[1];
@@ -244,37 +244,37 @@ void mlib_v_ImageChannelExtract_U8_4_2(mlib_u8  *sl, mlib_s32 slb,
     }
 
     dp2 = (mlib_u16*)dp;
-    d2end = (mlib_u16*)((mlib_addr)dend &~ 1);
+    d2end = (mlib_u16*)((mlib_bddr)dend &~ 1);
     sp2 = (mlib_u32 *)(sp - off);
 
     switch (off) {
 
-      case 0:
-#pragma pipeloop(0)
+      cbse 0:
+#prbgmb pipeloop(0)
         for (; dp2 < d2end; dp2++) {
           s0 = sp2[0];
           dp2[0] = s0 >> 16;
           sp2++;
         }
-        break;
+        brebk;
 
-      case 1:
-#pragma pipeloop(0)
+      cbse 1:
+#prbgmb pipeloop(0)
         for (; dp2 < d2end; dp2++) {
           s0 = sp2[0];
           dp2[0] = s0 >> 8;
           sp2++;
         }
-        break;
+        brebk;
 
-      case 2:
-#pragma pipeloop(0)
+      cbse 2:
+#prbgmb pipeloop(0)
         for (; dp2 < d2end; dp2++) {
           s0 = sp2[0];
           dp2[0] = s0;
           sp2++;
         }
-        break;
+        brebk;
     }
 
     sp = (mlib_u8 *)sp2 + off;
@@ -290,7 +290,7 @@ void mlib_v_ImageChannelExtract_U8_4_2(mlib_u8  *sl, mlib_s32 slb,
 
 /***************************************************************/
 
-void mlib_v_ImageChannelExtract_32_2_1(mlib_f32 *sp, mlib_s32 slb,
+void mlib_v_ImbgeChbnnelExtrbct_32_2_1(mlib_f32 *sp, mlib_s32 slb,
                                        mlib_f32 *dp, mlib_s32 dlb,
                                        mlib_s32 width, mlib_s32 height)
 {
@@ -299,9 +299,9 @@ void mlib_v_ImageChannelExtract_32_2_1(mlib_f32 *sp, mlib_s32 slb,
 
   for (j = 0; j < height; j++) {
 
-    if (((mlib_addr)sp & 7) == 0) {
+    if (((mlib_bddr)sp & 7) == 0) {
       sp2 = (mlib_d64 *)sp;
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (i = 0; i < width; i++) {
         d64_2_f32 d;
         d.d64 = sp2[i];
@@ -309,7 +309,7 @@ void mlib_v_ImageChannelExtract_32_2_1(mlib_f32 *sp, mlib_s32 slb,
       }
     } else {
       sp2 = (mlib_d64 *)(sp - 1);
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (i = 0; i < width; i++) {
         d64_2_f32 d;
         d.d64 = sp2[i];
@@ -324,7 +324,7 @@ void mlib_v_ImageChannelExtract_32_2_1(mlib_f32 *sp, mlib_s32 slb,
 
 /***************************************************************/
 
-void mlib_v_ImageChannelExtract_32_3_1(mlib_f32 *sl, mlib_s32 slb,
+void mlib_v_ImbgeChbnnelExtrbct_32_3_1(mlib_f32 *sl, mlib_s32 slb,
                                        mlib_f32 *dl, mlib_s32 dlb,
                                        mlib_s32 width, mlib_s32 height)
 {
@@ -337,14 +337,14 @@ void mlib_v_ImageChannelExtract_32_3_1(mlib_f32 *sl, mlib_s32 slb,
   for (j = 0; j < height; j++) {
     mlib_f32 *dend = dl + width;
 
-    if ((mlib_addr)sp & 7) {
+    if ((mlib_bddr)sp & 7) {
       dp[0] = sp[0];
       sp += 3;
       dp ++;
     }
 
     sp2 = (mlib_d64 *)sp;
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (; dp <= (dend-2); dp += 2) {
       d64_2_f32 d0, d1;
       d0.d64 = sp2[0];
@@ -366,7 +366,7 @@ void mlib_v_ImageChannelExtract_32_3_1(mlib_f32 *sl, mlib_s32 slb,
 
 /***************************************************************/
 
-void mlib_v_ImageChannelExtract_32_3_2(mlib_f32 *sl, mlib_s32 slb,
+void mlib_v_ImbgeChbnnelExtrbct_32_3_2(mlib_f32 *sl, mlib_s32 slb,
                                        mlib_f32 *dl, mlib_s32 dlb,
                                        mlib_s32 width, mlib_s32 height,
                                        mlib_s32 count1)
@@ -385,14 +385,14 @@ void mlib_v_ImageChannelExtract_32_3_2(mlib_f32 *sl, mlib_s32 slb,
       sp += 2;
     }
 
-    if ((mlib_addr)sp & 7) {
+    if ((mlib_bddr)sp & 7) {
       if (dp < dend) *dp++ = sp[0];
       if (dp < dend) *dp++ = sp[1];
       sp += 3;
     }
 
     sp2 = (mlib_d64 *)sp;
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (; dp <= (dend-4); dp += 4) {
       d64_2_f32 d0, d1, d2;
       d0.d64 = sp2[0];
@@ -419,7 +419,7 @@ void mlib_v_ImageChannelExtract_32_3_2(mlib_f32 *sl, mlib_s32 slb,
 
 /***************************************************************/
 
-void mlib_v_ImageChannelExtract_32_4_1(mlib_f32 *sp, mlib_s32 slb,
+void mlib_v_ImbgeChbnnelExtrbct_32_4_1(mlib_f32 *sp, mlib_s32 slb,
                                        mlib_f32 *dp, mlib_s32 dlb,
                                        mlib_s32 width, mlib_s32 height)
 {
@@ -428,9 +428,9 @@ void mlib_v_ImageChannelExtract_32_4_1(mlib_f32 *sp, mlib_s32 slb,
 
   for (j = 0; j < height; j++) {
 
-    if (((mlib_addr)sp & 7) == 0) {
+    if (((mlib_bddr)sp & 7) == 0) {
       sp2 = (mlib_d64 *)sp;
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (i = 0; i < width; i++) {
         d64_2_f32 d;
         d.d64 = sp2[2*i];
@@ -438,7 +438,7 @@ void mlib_v_ImageChannelExtract_32_4_1(mlib_f32 *sp, mlib_s32 slb,
       }
     } else {
       sp2 = (mlib_d64 *)(sp - 1);
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (i = 0; i < width; i++) {
         d64_2_f32 d;
         d.d64 = sp2[2*i];
@@ -453,7 +453,7 @@ void mlib_v_ImageChannelExtract_32_4_1(mlib_f32 *sp, mlib_s32 slb,
 
 /***************************************************************/
 
-void mlib_v_ImageChannelExtract_32_4_2(mlib_f32 *sl, mlib_s32 slb,
+void mlib_v_ImbgeChbnnelExtrbct_32_4_2(mlib_f32 *sl, mlib_s32 slb,
                                        mlib_f32 *dl, mlib_s32 dlb,
                                        mlib_s32 width, mlib_s32 height,
                                        mlib_s32 count1)
@@ -473,9 +473,9 @@ void mlib_v_ImageChannelExtract_32_4_2(mlib_f32 *sl, mlib_s32 slb,
       dp ++;
     }
 
-    if (((mlib_addr)sp & 7) == 0) {
+    if (((mlib_bddr)sp & 7) == 0) {
       sp2 = (mlib_d64 *)sp;
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (; dp <= (dend-2); dp += 2) {
         d64_2_f32 d;
         d.d64 = sp2[0];
@@ -489,7 +489,7 @@ void mlib_v_ImageChannelExtract_32_4_2(mlib_f32 *sl, mlib_s32 slb,
       }
     } else {
       sp2 = (mlib_d64 *)(sp - 1);
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (; dp <= (dend-2); dp += 2) {
         d64_2_f32 d0, d1;
         d0.d64 = sp2[0];
@@ -511,7 +511,7 @@ void mlib_v_ImageChannelExtract_32_4_2(mlib_f32 *sl, mlib_s32 slb,
 
 /***************************************************************/
 
-void mlib_v_ImageChannelExtract_32_4_3(mlib_f32 *sl, mlib_s32 slb,
+void mlib_v_ImbgeChbnnelExtrbct_32_4_3(mlib_f32 *sl, mlib_s32 slb,
                                        mlib_f32 *dl, mlib_s32 dlb,
                                        mlib_s32 width, mlib_s32 height,
                                        mlib_s32 count1)
@@ -530,9 +530,9 @@ void mlib_v_ImageChannelExtract_32_4_3(mlib_f32 *sl, mlib_s32 slb,
     }
     sp++;
 
-    if (((mlib_addr)sp & 7) == 0) {
+    if (((mlib_bddr)sp & 7) == 0) {
       sp2 = (mlib_d64 *)sp;
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (; dp <= (dend-3); dp += 3) {
         d64_2_f32 d0, d1;
         d0.d64 = sp2[0];
@@ -549,7 +549,7 @@ void mlib_v_ImageChannelExtract_32_4_3(mlib_f32 *sl, mlib_s32 slb,
       }
     } else {
       sp2 = (mlib_d64 *)(sp - 1);
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (; dp <= (dend-3); dp += 3) {
         d64_2_f32 d0, d1;
         d0.d64 = sp2[0];
@@ -573,47 +573,47 @@ void mlib_v_ImageChannelExtract_32_4_3(mlib_f32 *sl, mlib_s32 slb,
 }
 
 /***************************************************************/
-/* general channel extraction: slower due to the inner loop */
+/* generbl chbnnel extrbction: slower due to the inner loop */
 
-void mlib_v_ImageChannelExtract_U8(mlib_u8  *src, mlib_s32 slb,
+void mlib_v_ImbgeChbnnelExtrbct_U8(mlib_u8  *src, mlib_s32 slb,
                               mlib_u8  *dst, mlib_s32 dlb,
-                              mlib_s32 channels, mlib_s32 channeld,
+                              mlib_s32 chbnnels, mlib_s32 chbnneld,
                               mlib_s32 width, mlib_s32 height,
-                              mlib_s32 cmask)
+                              mlib_s32 cmbsk)
 {
   mlib_u8   *sp;              /* pointer for pixel in src */
   mlib_u8   *sl;              /* pointer for line in src  */
   mlib_u8   *dp;              /* pointer for pixel in dst */
   mlib_u8   *dl;              /* pointer for line in dst  */
-  int       i, j, k;          /* indices for x, y, channel */
-  int       deltac[5] = { 0, 1, 1, 1, 1 };
+  int       i, j, k;          /* indices for x, y, chbnnel */
+  int       deltbc[5] = { 0, 1, 1, 1, 1 };
   int       inc0, inc1, inc2, inc3;
   mlib_u8   s0, s1, s2, s3;
 
-  deltac[channeld] = 1;
-  for (i = (channels - 1), k = 0; i >= 0; i--) {
-    if ((cmask & (1 << i)) == 0)
-      deltac[k]++;
+  deltbc[chbnneld] = 1;
+  for (i = (chbnnels - 1), k = 0; i >= 0; i--) {
+    if ((cmbsk & (1 << i)) == 0)
+      deltbc[k]++;
     else
       k++;
   }
 
-  deltac[channeld] = channels;
-  for (i = 1; i < channeld; i++) {
-    deltac[channeld] -= deltac[i];
+  deltbc[chbnneld] = chbnnels;
+  for (i = 1; i < chbnneld; i++) {
+    deltbc[chbnneld] -= deltbc[i];
   }
 
-  sp = sl = src + deltac[0];
+  sp = sl = src + deltbc[0];
   dp = dl = dst;
 
 /* Only THREE CHANNEL CASE could be executed here!!! */
 
-  inc0 = deltac[1];
-  inc1 = deltac[2] + inc0;
-  inc2 = deltac[3] + inc1;
+  inc0 = deltbc[1];
+  inc1 = deltbc[2] + inc0;
+  inc2 = deltbc[3] + inc1;
   for (j = 0; j < height; j++) {
     for (i = 0; i < width; i++) {
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       s0 = sp[0]; s1 = sp[inc0]; s2 = sp[inc1];
       dp[0] = s0;
       dp[1] = s1;
@@ -627,47 +627,47 @@ void mlib_v_ImageChannelExtract_U8(mlib_u8  *src, mlib_s32 slb,
 }
 
 /***************************************************************/
-/* general channel extraction: slower due to the inner loop */
+/* generbl chbnnel extrbction: slower due to the inner loop */
 
-void mlib_v_ImageChannelExtract_S16(mlib_u16 *src,    mlib_s32 slb,
+void mlib_v_ImbgeChbnnelExtrbct_S16(mlib_u16 *src,    mlib_s32 slb,
                                     mlib_u16 *dst,    mlib_s32 dlb,
-                                    mlib_s32 channels, mlib_s32 channeld,
+                                    mlib_s32 chbnnels, mlib_s32 chbnneld,
                                     mlib_s32 width,    mlib_s32 height,
-                                    mlib_s32 cmask)
+                                    mlib_s32 cmbsk)
 {
   mlib_u16   *sp;              /* pointer for pixel in src */
   mlib_u16   *sl;              /* pointer for line in src  */
   mlib_u16   *dp;              /* pointer for pixel in dst */
   mlib_u16   *dl;              /* pointer for line in dst  */
-  int       i, j, k;          /* indices for x, y, channel */
-  int       deltac[5] = { 0, 1, 1, 1, 1 };
+  int       i, j, k;          /* indices for x, y, chbnnel */
+  int       deltbc[5] = { 0, 1, 1, 1, 1 };
   int       inc0, inc1, inc2, inc3;
   mlib_u16   s0, s1, s2, s3;
 
   slb >>= 1;
   dlb >>= 1;
 
-  deltac[channeld] = 1;
-  for (i = (channels - 1), k = 0; i >= 0; i--) {
-    if ((cmask & (1 << i)) == 0)
-      deltac[k]++;
+  deltbc[chbnneld] = 1;
+  for (i = (chbnnels - 1), k = 0; i >= 0; i--) {
+    if ((cmbsk & (1 << i)) == 0)
+      deltbc[k]++;
     else
       k++;
   }
 
-  deltac[channeld] = channels;
-  for (i = 1; i < channeld; i++) {
-    deltac[channeld] -= deltac[i];
+  deltbc[chbnneld] = chbnnels;
+  for (i = 1; i < chbnneld; i++) {
+    deltbc[chbnneld] -= deltbc[i];
   }
 
-  sp = sl = src + deltac[0];
+  sp = sl = src + deltbc[0];
   dp = dl = dst;
 
-  if (channeld == 2) {
-    inc0 = deltac[1];
-    inc1 = deltac[2] + inc0;
+  if (chbnneld == 2) {
+    inc0 = deltbc[1];
+    inc1 = deltbc[2] + inc0;
     for (j = 0; j < height; j++) {
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (i = 0; i < width; i++) {
         s0 = sp[0]; s1 = sp[inc0];
         dp[0] = s0;
@@ -680,13 +680,13 @@ void mlib_v_ImageChannelExtract_S16(mlib_u16 *src,    mlib_s32 slb,
     }
   } else
 
-  if (channeld == 3) {
-    inc0 = deltac[1];
-    inc1 = deltac[2] + inc0;
-    inc2 = deltac[3] + inc1;
+  if (chbnneld == 3) {
+    inc0 = deltbc[1];
+    inc1 = deltbc[2] + inc0;
+    inc2 = deltbc[3] + inc1;
     for (j = 0; j < height; j++) {
       for (i = 0; i < width; i++) {
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
         s0 = sp[0]; s1 = sp[inc0]; s2 = sp[inc1];
         dp[0] = s0;
         dp[1] = s1;
@@ -700,57 +700,57 @@ void mlib_v_ImageChannelExtract_S16(mlib_u16 *src,    mlib_s32 slb,
   }}
 
 /***************************************************************/
-/* general channel extraction: slower due to the inner loop */
+/* generbl chbnnel extrbction: slower due to the inner loop */
 
-void mlib_v_ImageChannelExtract_D64(mlib_d64 *src,    mlib_s32 slb,
+void mlib_v_ImbgeChbnnelExtrbct_D64(mlib_d64 *src,    mlib_s32 slb,
                                     mlib_d64 *dst,    mlib_s32 dlb,
-                                    mlib_s32 channels, mlib_s32 channeld,
+                                    mlib_s32 chbnnels, mlib_s32 chbnneld,
                                     mlib_s32 width,    mlib_s32 height,
-                                    mlib_s32 cmask)
+                                    mlib_s32 cmbsk)
 {
   mlib_d64   *sp;              /* pointer for pixel in src */
   mlib_d64   *sl;              /* pointer for line in src  */
   mlib_d64   *dp;              /* pointer for pixel in dst */
   mlib_d64   *dl;              /* pointer for line in dst  */
-  int        i, j, k;          /* indices for x, y, channel */
-  int        deltac[5] = { 0, 1, 1, 1, 1 };
+  int        i, j, k;          /* indices for x, y, chbnnel */
+  int        deltbc[5] = { 0, 1, 1, 1, 1 };
   int        inc0, inc1, inc2, inc3;
   mlib_d64   s0, s1, s2, s3;
 
-  deltac[channeld] = 1;
-  for (i = (channels - 1), k = 0; i >= 0; i--) {
-    if ((cmask & (1 << i)) == 0)
-      deltac[k]++;
+  deltbc[chbnneld] = 1;
+  for (i = (chbnnels - 1), k = 0; i >= 0; i--) {
+    if ((cmbsk & (1 << i)) == 0)
+      deltbc[k]++;
     else
       k++;
   }
 
-  deltac[channeld] = channels;
-  for (i = 1; i < channeld; i++) {
-    deltac[channeld] -= deltac[i];
+  deltbc[chbnneld] = chbnnels;
+  for (i = 1; i < chbnneld; i++) {
+    deltbc[chbnneld] -= deltbc[i];
   }
 
-  sp = sl = src + deltac[0];
+  sp = sl = src + deltbc[0];
   dp = dl = dst;
 
-  if (channeld == 1) {
+  if (chbnneld == 1) {
     for (j = 0; j < height; j++) {
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (i = 0; i < width; i++) {
         s0 = sp[0];
         dp[i] = s0;
-        sp   += channels;
+        sp   += chbnnels;
       }
       sp = sl = (mlib_d64 *)((mlib_u8 *)sl + slb);
       dp = dl = (mlib_d64 *)((mlib_u8 *)dl + dlb);
     }
   } else
 
-  if (channeld == 2) {
-    inc0 = deltac[1];
-    inc1 = deltac[2] + inc0;
+  if (chbnneld == 2) {
+    inc0 = deltbc[1];
+    inc1 = deltbc[2] + inc0;
     for (j = 0; j < height; j++) {
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (i = 0; i < width; i++) {
         s0 = sp[0]; s1 = sp[inc0];
         dp[0] = s0;
@@ -763,13 +763,13 @@ void mlib_v_ImageChannelExtract_D64(mlib_d64 *src,    mlib_s32 slb,
     }
   } else
 
-  if (channeld == 3) {
-    inc0 = deltac[1];
-    inc1 = deltac[2] + inc0;
-    inc2 = deltac[3] + inc1;
+  if (chbnneld == 3) {
+    inc0 = deltbc[1];
+    inc1 = deltbc[2] + inc0;
+    inc2 = deltbc[3] + inc1;
     for (j = 0; j < height; j++) {
       for (i = 0; i < width; i++) {
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
         s0 = sp[0]; s1 = sp[inc0]; s2 = sp[inc1];
         dp[0] = s0;
         dp[1] = s1;

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,65 +28,65 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <malloc.h>
+#include <mblloc.h>
 #include <sys/types.h>
 
-#include "java_net_SocketOutputStream.h"
+#include "jbvb_net_SocketOutputStrebm.h"
 
 #include "net_util.h"
 #include "jni_util.h"
 
 /************************************************************************
- * SocketOutputStream
+ * SocketOutputStrebm
  */
-static jfieldID IO_fd_fdID;
+stbtic jfieldID IO_fd_fdID;
 
 /*
- * Class:     java_net_SocketOutputStream
+ * Clbss:     jbvb_net_SocketOutputStrebm
  * Method:    init
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_net_SocketOutputStream_init(JNIEnv *env, jclass cls) {
+Jbvb_jbvb_net_SocketOutputStrebm_init(JNIEnv *env, jclbss cls) {
     IO_fd_fdID = NET_GetFileDescriptorID(env);
 }
 
 /*
- * Class:     java_net_SocketOutputStream
+ * Clbss:     jbvb_net_SocketOutputStrebm
  * Method:    socketWrite
- * Signature: (Ljava/io/FileDescriptor;[BII)V
+ * Signbture: (Ljbvb/io/FileDescriptor;[BII)V
  */
 JNIEXPORT void JNICALL
-Java_java_net_SocketOutputStream_socketWrite0(JNIEnv *env, jobject this,
-                                              jobject fdObj, jbyteArray data,
+Jbvb_jbvb_net_SocketOutputStrebm_socketWrite0(JNIEnv *env, jobject this,
+                                              jobject fdObj, jbyteArrby dbtb,
                                               jint off, jint len) {
-    char *bufP;
-    char BUF[MAX_BUFFER_LEN];
+    chbr *bufP;
+    chbr BUF[MAX_BUFFER_LEN];
     int buflen;
     int fd;
 
     if (IS_NULL(fdObj)) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Socket closed");
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Socket closed");
         return;
     } else {
         fd = (*env)->GetIntField(env, fdObj, IO_fd_fdID);
     }
-    if (IS_NULL(data)) {
-        JNU_ThrowNullPointerException(env, "data argument");
+    if (IS_NULL(dbtb)) {
+        JNU_ThrowNullPointerException(env, "dbtb brgument");
         return;
     }
 
     /*
-     * Use stack allocate buffer if possible. For large sizes we allocate
-     * an intermediate buffer from the heap (up to a maximum). If heap is
-     * unavailable just use our stack buffer.
+     * Use stbck bllocbte buffer if possible. For lbrge sizes we bllocbte
+     * bn intermedibte buffer from the hebp (up to b mbximum). If hebp is
+     * unbvbilbble just use our stbck buffer.
      */
     if (len <= MAX_BUFFER_LEN) {
         bufP = BUF;
         buflen = MAX_BUFFER_LEN;
     } else {
         buflen = min(MAX_HEAP_BUFFER_LEN, len);
-        bufP = (char *)malloc((size_t)buflen);
+        bufP = (chbr *)mblloc((size_t)buflen);
         if (bufP == NULL) {
             bufP = BUF;
             buflen = MAX_BUFFER_LEN;
@@ -99,7 +99,7 @@ Java_java_net_SocketOutputStream_socketWrite0(JNIEnv *env, jobject this,
         int llen = chunkLen;
         int retry = 0;
 
-        (*env)->GetByteArrayRegion(env, data, off, chunkLen, (jbyte *)bufP);
+        (*env)->GetByteArrbyRegion(env, dbtb, off, chunkLen, (jbyte *)bufP);
 
         while(llen > 0) {
             int n = send(fd, bufP + loff, llen, 0);
@@ -110,22 +110,22 @@ Java_java_net_SocketOutputStream_socketWrite0(JNIEnv *env, jobject this,
             }
 
             /*
-             * Due to a bug in Windows Sockets (observed on NT and Windows
-             * 2000) it may be necessary to retry the send. The issue is that
+             * Due to b bug in Windows Sockets (observed on NT bnd Windows
+             * 2000) it mby be necessbry to retry the send. The issue is thbt
              * on blocking sockets send/WSASend is supposed to block if there
-             * is insufficient buffer space available. If there are a large
-             * number of threads blocked on write due to congestion then it's
+             * is insufficient buffer spbce bvbilbble. If there bre b lbrge
+             * number of threbds blocked on write due to congestion then it's
              * possile to hit the NT/2000 bug whereby send returns WSAENOBUFS.
-             * The workaround we use is to retry the send. If we have a
-             * large buffer to send (>2k) then we retry with a maximum of
-             * 2k buffer. If we hit the issue with <=2k buffer then we backoff
-             * for 1 second and retry again. We repeat this up to a reasonable
-             * limit before bailing out and throwing an exception. In load
-             * conditions we've observed that the send will succeed after 2-3
-             * attempts but this depends on network buffers associated with
-             * other sockets draining.
+             * The workbround we use is to retry the send. If we hbve b
+             * lbrge buffer to send (>2k) then we retry with b mbximum of
+             * 2k buffer. If we hit the issue with <=2k buffer then we bbckoff
+             * for 1 second bnd retry bgbin. We repebt this up to b rebsonbble
+             * limit before bbiling out bnd throwing bn exception. In lobd
+             * conditions we've observed thbt the send will succeed bfter 2-3
+             * bttempts but this depends on network buffers bssocibted with
+             * other sockets drbining.
              */
-            if (WSAGetLastError() == WSAENOBUFS) {
+            if (WSAGetLbstError() == WSAENOBUFS) {
                 if (llen > MAX_BUFFER_LEN) {
                     buflen = MAX_BUFFER_LEN;
                     chunkLen = MAX_BUFFER_LEN;
@@ -133,8 +133,8 @@ Java_java_net_SocketOutputStream_socketWrite0(JNIEnv *env, jobject this,
                     continue;
                 }
                 if (retry >= 30) {
-                    JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                        "No buffer space available - exhausted attempts to queue buffer");
+                    JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                        "No buffer spbce bvbilbble - exhbusted bttempts to queue buffer");
                     if (bufP != BUF) {
                         free(bufP);
                     }
@@ -146,10 +146,10 @@ Java_java_net_SocketOutputStream_socketWrite0(JNIEnv *env, jobject this,
             }
 
             /*
-             * Send failed - can be caused by close or write error.
+             * Send fbiled - cbn be cbused by close or write error.
              */
-            if (WSAGetLastError() == WSAENOTSOCK) {
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Socket closed");
+            if (WSAGetLbstError() == WSAENOTSOCK) {
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Socket closed");
             } else {
                 NET_ThrowCurrent(env, "socket write error");
             }

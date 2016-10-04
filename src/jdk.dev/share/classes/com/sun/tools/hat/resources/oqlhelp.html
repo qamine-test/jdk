@@ -1,45 +1,45 @@
 <!--
-Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
 
 <html>
-<head>
+<hebd>
 <style>
 .key  { color: red; font-weight: bold }
 </style>
 <title>
-Object Query Language (OQL)
+Object Query Lbngubge (OQL)
 </title>
-</head>
+</hebd>
 <body>
-<h1>Object Query Language (OQL)</h1>
+<h1>Object Query Lbngubge (OQL)</h1>
 
 <p>
-OQL is SQL-like query language to query Java heap. OQL allows to filter/select information
-wanted from Java heap. While pre-defined queries such as "show all instances of class X"
-are already supported by HAT, OQL adds more flexibility. OQL is based on JavaScript expression
-language.
+OQL is SQL-like query lbngubge to query Jbvb hebp. OQL bllows to filter/select informbtion
+wbnted from Jbvb hebp. While pre-defined queries such bs "show bll instbnces of clbss X"
+bre blrebdy supported by HAT, OQL bdds more flexibility. OQL is bbsed on JbvbScript expression
+lbngubge.
 </p>
 
 <p>
@@ -47,718 +47,718 @@ OQL query is of the form
 
 <pre>
 <code>
-         <span class="key">select</span> &lt;JavaScript expression to select&gt;
-         [ <span class="key">from</span> [<span class="key">instanceof</span>] &lt;class name&gt; &lt;identifier&gt;
-         [ <span class="key">where</span> &lt;JavaScript boolean expression to filter&gt; ] ]
+         <spbn clbss="key">select</spbn> &lt;JbvbScript expression to select&gt;
+         [ <spbn clbss="key">from</spbn> [<spbn clbss="key">instbnceof</spbn>] &lt;clbss nbme&gt; &lt;identifier&gt;
+         [ <spbn clbss="key">where</spbn> &lt;JbvbScript boolebn expression to filter&gt; ] ]
 </code>
 </pre>
-where class name is fully qualified Java class name (example: java.net.URL) or array class name.
-[C is char array name, [Ljava.io.File; is name of java.io.File[] and so on. 
-Note that fully qualified class name does not always uniquely identify a 
-Java class at runtime. There may be more than one Java class with the same 
-name but loaded by different loaders. So, class name is permitted to be
-id string of the class object.
+where clbss nbme is fully qublified Jbvb clbss nbme (exbmple: jbvb.net.URL) or brrby clbss nbme.
+[C is chbr brrby nbme, [Ljbvb.io.File; is nbme of jbvb.io.File[] bnd so on. 
+Note thbt fully qublified clbss nbme does not blwbys uniquely identify b 
+Jbvb clbss bt runtime. There mby be more thbn one Jbvb clbss with the sbme 
+nbme but lobded by different lobders. So, clbss nbme is permitted to be
+id string of the clbss object.
 
-If <span class="key">instanceof</span> keyword is used, subtype objects are selected. If this 
-keyword is not specified, only the instances of exact class specified are selected. Both
-<span class="key">from</span> and <span class="key">where</span> clauses are optional.
+If <spbn clbss="key">instbnceof</spbn> keyword is used, subtype objects bre selected. If this 
+keyword is not specified, only the instbnces of exbct clbss specified bre selected. Both
+<spbn clbss="key">from</spbn> bnd <spbn clbss="key">where</spbn> clbuses bre optionbl.
 </p>
 
 
 <p>
-In <span class="key">select</span> and (optional) <span class="key">where</span> clauses, the expression 
-used in JavaScript expression. Java heap objects are wrapped as convenient script objects so that 
-fields may be accessed in natural syntax. For example, Java fields can be accessed with obj.field_name 
-syntax and array elements can be accessed with array[index] syntax. Each Java object selected is 
-bound to a JavaScript variable of the identifier name specified in <span class="key">from</span> clause.
+In <spbn clbss="key">select</spbn> bnd (optionbl) <spbn clbss="key">where</spbn> clbuses, the expression 
+used in JbvbScript expression. Jbvb hebp objects bre wrbpped bs convenient script objects so thbt 
+fields mby be bccessed in nbturbl syntbx. For exbmple, Jbvb fields cbn be bccessed with obj.field_nbme 
+syntbx bnd brrby elements cbn be bccessed with brrby[index] syntbx. Ebch Jbvb object selected is 
+bound to b JbvbScript vbribble of the identifier nbme specified in <spbn clbss="key">from</spbn> clbuse.
 </p>
 
-<h2>OQL Examples</h2>
+<h2>OQL Exbmples</h2>
 
 <ul>
-<li>select all Strings of length 100 or more
+<li>select bll Strings of length 100 or more
 <pre>
 <code>
-    select s from java.lang.String s where s.value.length >= 100
+    select s from jbvb.lbng.String s where s.vblue.length >= 100
 </code>
 </pre>
-<li>select all int arrays of length 256 or more
+<li>select bll int brrbys of length 256 or more
 <pre>
 <code>
-    select a from [I a where a.length >= 256
+    select b from [I b where b.length >= 256
 </code>
 </pre>
-<li>show content of Strings that match a regular expression
+<li>show content of Strings thbt mbtch b regulbr expression
 <pre>
 <code>
-    select s.value.toString() from java.lang.String s 
-    where /java/.test(s.value.toString())
+    select s.vblue.toString() from jbvb.lbng.String s 
+    where /jbvb/.test(s.vblue.toString())
 </code>
 </pre>
-<li>show path value of all File objects
+<li>show pbth vblue of bll File objects
 <pre>
 <code</b>
-    select file.path.value.toString() from java.io.File file
+    select file.pbth.vblue.toString() from jbvb.io.File file
 </code>
 </pre>
-<li>show names of all ClassLoader classes
+<li>show nbmes of bll ClbssLobder clbsses
 <pre>
 <code>
-    select <a href="#classof">classof</a>(cl).name 
-    from instanceof java.lang.ClassLoader cl
+    select <b href="#clbssof">clbssof</b>(cl).nbme 
+    from instbnceof jbvb.lbng.ClbssLobder cl
 </code>
 </pre>
-<li>show instances of the Class identified by given id string
+<li>show instbnces of the Clbss identified by given id string
 <pre>
 <code>
-    select o from instanceof 0xd404b198 o
+    select o from instbnceof 0xd404b198 o
 </code>
 </pre>
-Note that 0xd404b198 is id of a Class (in a session). This is found by
-looking at the id shown in that class's page.
+Note thbt 0xd404b198 is id of b Clbss (in b session). This is found by
+looking bt the id shown in thbt clbss's pbge.
 </ul>
 
 <h2>OQL built-in objects, functions</h2>
 
-<h3>heap object</h3>
+<h3>hebp object</h3>
 
-The <b>heap</b> built-in object supports the following methods:
+The <b>hebp</b> built-in object supports the following methods:
 
 <ul> 
-<li><b>heap.forEachClass</b> -- calls a callback function for each Java Class
+<li><b>hebp.forEbchClbss</b> -- cblls b cbllbbck function for ebch Jbvb Clbss
 <pre>
 <code>
-    heap.forEachClass(callback);
+    hebp.forEbchClbss(cbllbbck);
 </code>
 </pre>
-<li><b>heap.forEachObject</b> -- calls a callback function for each Java object
+<li><b>hebp.forEbchObject</b> -- cblls b cbllbbck function for ebch Jbvb object
 <pre>
 <code>
-    heap.forEachObject(callback, clazz, includeSubtypes);
+    hebp.forEbchObject(cbllbbck, clbzz, includeSubtypes);
 </code>
 </pre>
-<code>clazz</code> is the class whose instances are selected. If not specified, defaults to java.lang.Object. <code>includeSubtypes</code> is a boolean flag 
-that specifies whether to include subtype instances or not. Default value of 
-this flag is true.
-<a name="findClass"></a>
-<li><b>heap.findClass</b> -- finds Java Class of given name
+<code>clbzz</code> is the clbss whose instbnces bre selected. If not specified, defbults to jbvb.lbng.Object. <code>includeSubtypes</code> is b boolebn flbg 
+thbt specifies whether to include subtype instbnces or not. Defbult vblue of 
+this flbg is true.
+<b nbme="findClbss"></b>
+<li><b>hebp.findClbss</b> -- finds Jbvb Clbss of given nbme
 <pre>
 <code>
-    heap.findClass(className);
+    hebp.findClbss(clbssNbme);
 </code>
 </pre>
-where <code>className</code> is name of the class to find. The resulting Class 
-object has following properties:
+where <code>clbssNbme</code> is nbme of the clbss to find. The resulting Clbss 
+object hbs following properties:
 <ul>
-<li>name - name of the class.
-<li>superclass - Class object for super class (or null if java.lang.Object).
-<li>statics - name, value pairs for static fields of the Class.
-<li>fields - array of field objects. field object has name, signature
+<li>nbme - nbme of the clbss.
+<li>superclbss - Clbss object for super clbss (or null if jbvb.lbng.Object).
+<li>stbtics - nbme, vblue pbirs for stbtic fields of the Clbss.
+<li>fields - brrby of field objects. field object hbs nbme, signbture
 properties.
-<li>loader - ClassLoader object that loaded this class.
-<li>signers - signers that signed this class.
-<li>protectionDomain - protection domain to which this class belongs.
+<li>lobder - ClbssLobder object thbt lobded this clbss.
+<li>signers - signers thbt signed this clbss.
+<li>protectionDombin - protection dombin to which this clbss belongs.
 </ul>
-Class objects have the following methods:
+Clbss objects hbve the following methods:
 <ul>
-<li>isSubclassOf - tests whether given class is direct or indirect 
-subclass of this class or not.
-<li>isSuperclassOf - tests whether given Class is direct or indirect
-superclass of this class or not.
-<li>subclasses - returns array of direct and indirect subclasses.
-<li>superclasses - returns array of direct and indirect superclasses.
+<li>isSubclbssOf - tests whether given clbss is direct or indirect 
+subclbss of this clbss or not.
+<li>isSuperclbssOf - tests whether given Clbss is direct or indirect
+superclbss of this clbss or not.
+<li>subclbsses - returns brrby of direct bnd indirect subclbsses.
+<li>superclbsses - returns brrby of direct bnd indirect superclbsses.
 </ul>
-<a name="findObject"></a>
-<li><b>heap.findObject</b> -- finds object from given object id
+<b nbme="findObject"></b>
+<li><b>hebp.findObject</b> -- finds object from given object id
 <pre>
 <code>
-    heap.findObject(stringIdOfObject);
+    hebp.findObject(stringIdOfObject);
 </code>
 </pre>
-<a name="classes"></a>
-<li><b>heap.classes</b> -- returns an enumeration of all Java classes
-<a name="objects"></a>
-<li><b>heap.objects</b> -- returns an enumeration of Java objects 
+<b nbme="clbsses"></b>
+<li><b>hebp.clbsses</b> -- returns bn enumerbtion of bll Jbvb clbsses
+<b nbme="objects"></b>
+<li><b>hebp.objects</b> -- returns bn enumerbtion of Jbvb objects 
 <pre>
 <code>
-    heap.objects(clazz, [includeSubtypes], [filter])
+    hebp.objects(clbzz, [includeSubtypes], [filter])
 </code>
 </pre>
-<code>clazz</code> is the class whose instances are selected. If not specified, defaults to java.lang.Object. <code>includeSubtypes</code> is a boolean flag 
-that specifies whether to include subtype instances or not. Default value of 
-this flag is true. This method accepts an optional filter expression to filter
+<code>clbzz</code> is the clbss whose instbnces bre selected. If not specified, defbults to jbvb.lbng.Object. <code>includeSubtypes</code> is b boolebn flbg 
+thbt specifies whether to include subtype instbnces or not. Defbult vblue of 
+this flbg is true. This method bccepts bn optionbl filter expression to filter
 the result set of objects.
-<a name="finalizables"></a>
-<li><b>heap.finalizables</b> -- returns an enumeration of Java objects that are
-pending to be finalized.
-<li><b>heap.livepaths</b> -- return an array of paths by which a given object 
-is alive. This method accepts optional second parameter that is a boolean
-flag. This flag tells whether to include paths with weak reference(s) or not.
-By default, paths with weak reference(s) are not included.
+<b nbme="finblizbbles"></b>
+<li><b>hebp.finblizbbles</b> -- returns bn enumerbtion of Jbvb objects thbt bre
+pending to be finblized.
+<li><b>hebp.livepbths</b> -- return bn brrby of pbths by which b given object 
+is blive. This method bccepts optionbl second pbrbmeter thbt is b boolebn
+flbg. This flbg tells whether to include pbths with webk reference(s) or not.
+By defbult, pbths with webk reference(s) bre not included.
 <pre>
 <code>
-    select heap.livepaths(s) from java.lang.String s
+    select hebp.livepbths(s) from jbvb.lbng.String s
 </code>
 </pre>
-Each element of this array itself is another array. The later array is 
-contains an objects that are in the 'reference chain' of the path.
-<li><b>heap.roots</b> -- returns an Enumeration of Roots of the heap. 
-<a name="rootobj"></a>
-Each Root object has the following properties:
+Ebch element of this brrby itself is bnother brrby. The lbter brrby is 
+contbins bn objects thbt bre in the 'reference chbin' of the pbth.
+<li><b>hebp.roots</b> -- returns bn Enumerbtion of Roots of the hebp. 
+<b nbme="rootobj"></b>
+Ebch Root object hbs the following properties:
 <ul>
-<li>id - String id of the object that is referred by this root
-<li>type - descriptive type of Root (JNI Global, JNI Local, Java Static etc)
+<li>id - String id of the object thbt is referred by this root
+<li>type - descriptive type of Root (JNI Globbl, JNI Locbl, Jbvb Stbtic etc)
 <li>description - String description of the Root
-<li>referrer - Thread Object or Class object that is responsible for this root or null
+<li>referrer - Threbd Object or Clbss object thbt is responsible for this root or null
 </ul>
 </ul>
 
-Examples:
+Exbmples:
 <ul>
-<li>access static field 'props' of class java.lang.System
+<li>bccess stbtic field 'props' of clbss jbvb.lbng.System
 <pre>
 <code>
-    select heap.findClass("java.lang.System").statics.props
+    select hebp.findClbss("jbvb.lbng.System").stbtics.props
 </code>
 </pre>
-<li>get number of fields of java.lang.String class 
+<li>get number of fields of jbvb.lbng.String clbss 
 <pre>
 <code>
-    select heap.findClass("java.lang.String").fields.length
+    select hebp.findClbss("jbvb.lbng.String").fields.length
 </code>
 </pre>
 <li> find the object whose object id is given
 <pre>
 <code>
-    select heap.findObject("0xf3800b58")
+    select hebp.findObject("0xf3800b58")
 </code>
 </pre>
-<li>select all classes that have name pattern java.net.*
+<li>select bll clbsses thbt hbve nbme pbttern jbvb.net.*
 <pre>
 <code>
-    select <a href="#filter">filter</a>(heap.classes(), "/java.net./.test(it.name)")
+    select <b href="#filter">filter</b>(hebp.clbsses(), "/jbvb.net./.test(it.nbme)")
 </code>
 </pre>
 </ul>
 
-<h3>functions on individual objects</h3>
+<h3>functions on individubl objects</h3>
 
 <ul>
-<li><a href="#allocTrace">allocTrace(jobject)</a>
-<li><a href="#classof">classof(jobject)</a>
-<li><a href="#forEachReferrer">forEachReferrer(callback, jobject)</a>
-<li><a href="#identical">identical(o1, o2)</a>
-<li><a href="#objectid">objectid(jobject)</a>
-<li><a href="#reachables">reachables(jobject, excludedFields)</a>
-<li><a href="#referrers">referrers(jobject)</a>
-<li><a href="#referees">referees(jobject)</a>
-<li><a href="#refers">refers(jobject)</a>
-<li><a href="#root">root(jobject)</a>
-<li><a href="#sizeof">sizeof(jobject)</a>
-<li><a href="#toHtml">toHtml(obj)</a>
+<li><b href="#bllocTrbce">bllocTrbce(jobject)</b>
+<li><b href="#clbssof">clbssof(jobject)</b>
+<li><b href="#forEbchReferrer">forEbchReferrer(cbllbbck, jobject)</b>
+<li><b href="#identicbl">identicbl(o1, o2)</b>
+<li><b href="#objectid">objectid(jobject)</b>
+<li><b href="#rebchbbles">rebchbbles(jobject, excludedFields)</b>
+<li><b href="#referrers">referrers(jobject)</b>
+<li><b href="#referees">referees(jobject)</b>
+<li><b href="#refers">refers(jobject)</b>
+<li><b href="#root">root(jobject)</b>
+<li><b href="#sizeof">sizeof(jobject)</b>
+<li><b href="#toHtml">toHtml(obj)</b>
 </ul>
 
-<a name="allocTrace"></a>
-<h4>allocTrace function</h4>
+<b nbme="bllocTrbce"></b>
+<h4>bllocTrbce function</h4>
 
-This returns allocation site trace of a given Java object if available.
-allocTrace returns array of frame objects. Each frame object has the following
+This returns bllocbtion site trbce of b given Jbvb object if bvbilbble.
+bllocTrbce returns brrby of frbme objects. Ebch frbme object hbs the following
 properties:
 <ul>
-<li>className - name of the Java class whose method is running in the frame.
-<li>methodName - name of the Java method running in the frame.
-<li>methodSignature - signature of the Java method running in the frame.
-<li>sourceFileName - name of source file of the Java class running in the frame.
+<li>clbssNbme - nbme of the Jbvb clbss whose method is running in the frbme.
+<li>methodNbme - nbme of the Jbvb method running in the frbme.
+<li>methodSignbture - signbture of the Jbvb method running in the frbme.
+<li>sourceFileNbme - nbme of source file of the Jbvb clbss running in the frbme.
 <li>lineNumber - source line number within the method.
 </ul>
 
-<a name="classof"></a>
-<h4>classof function</h4>
+<b nbme="clbssof"></b>
+<h4>clbssof function</h4>
 
-Returns Class object of a given Java Object. The result object supports the
+Returns Clbss object of b given Jbvb Object. The result object supports the
 following properties:
 <ul>
-<li>name - name of the class.
-<li>superclass - Class object for super class (or null if java.lang.Object).
-<li>statics - name, value pairs for static fields of the Class.
-<li>fields - array of field objects. Field objects have name, signature
+<li>nbme - nbme of the clbss.
+<li>superclbss - Clbss object for super clbss (or null if jbvb.lbng.Object).
+<li>stbtics - nbme, vblue pbirs for stbtic fields of the Clbss.
+<li>fields - brrby of field objects. Field objects hbve nbme, signbture
 properties.
-<li>loader - ClassLoader object that loaded this class.
-<li>signers - signers that signed this class.
-<li>protectionDomain - protection domain to which this class belongs.
+<li>lobder - ClbssLobder object thbt lobded this clbss.
+<li>signers - signers thbt signed this clbss.
+<li>protectionDombin - protection dombin to which this clbss belongs.
 </ul>
-Class objects have the following methods:
+Clbss objects hbve the following methods:
 <ul>
-<li>isSubclassOf - tests whether given class is direct or indirect 
-subclass of this class or not.
-<li>isSuperclassOf - tests whether given Class is direct or indirect
-superclass of this class or not.
-<li>subclasses - returns array of direct and indirect subclasses.
-<li>superclasses - returns array of direct and indirect superclasses.
+<li>isSubclbssOf - tests whether given clbss is direct or indirect 
+subclbss of this clbss or not.
+<li>isSuperclbssOf - tests whether given Clbss is direct or indirect
+superclbss of this clbss or not.
+<li>subclbsses - returns brrby of direct bnd indirect subclbsses.
+<li>superclbsses - returns brrby of direct bnd indirect superclbsses.
 </ul>
 
-Examples:
+Exbmples:
 <ul>
-<li>show class name of each Reference type object
+<li>show clbss nbme of ebch Reference type object
 <pre>
 <code>
-    select classof(o).name from instanceof java.lang.ref.Reference o
+    select clbssof(o).nbme from instbnceof jbvb.lbng.ref.Reference o
 </code>
-<li>show all subclasses of java.io.InputStream
+<li>show bll subclbsses of jbvb.io.InputStrebm
 <pre>
 <code>
-    select heap.findClass("java.io.InputStream").subclasses()
+    select hebp.findClbss("jbvb.io.InputStrebm").subclbsses()
 </code>
-<li>show all superclasses of java.io.BufferedInputStream
+<li>show bll superclbsses of jbvb.io.BufferedInputStrebm
 <pre>
 <code>
-    select heap.findClass("java.io.BufferedInputStream").superclasses()
+    select hebp.findClbss("jbvb.io.BufferedInputStrebm").superclbsses()
 </code>
 </pre>
 </ul>
 
-<a name="forEachReferrer"></a>
-<h4>forEachReferrer function</h4>
+<b nbme="forEbchReferrer"></b>
+<h4>forEbchReferrer function</h4>
 
-calls a callback function for each referrer of a given Java object.
+cblls b cbllbbck function for ebch referrer of b given Jbvb object.
 
-<a name="identical"></a>
-<h4>identical function</h4>
+<b nbme="identicbl"></b>
+<h4>identicbl function</h4>
 <p>
-Returns whether two given Java objects are identical or not.
+Returns whether two given Jbvb objects bre identicbl or not.
 </p>
-Example:
+Exbmple:
 <pre>
 <code>
-    select identical(heap.findClass("Foo").statics.bar, heap.findClass("AnotherClass").statics.bar)
+    select identicbl(hebp.findClbss("Foo").stbtics.bbr, hebp.findClbss("AnotherClbss").stbtics.bbr)
 </code>
 </pre>
 
-<a name="objectid"></a>
+<b nbme="objectid"></b>
 <h4>objectid function</h4>
 
 <p>
-Returns String id of a given Java object. This id can be passed to
-<a href="#findObject">heap.findObject</a> and may also be used to compare
+Returns String id of b given Jbvb object. This id cbn be pbssed to
+<b href="#findObject">hebp.findObject</b> bnd mby blso be used to compbre
 objects for identity.
 </p>
-Example:
+Exbmple:
 <pre>
 <code>
-    select objectid(o) from java.lang.Object o
+    select objectid(o) from jbvb.lbng.Object o
 </code>
 </pre>
 
-<a name="reachables"></a>
-<h4>reachables function</h4>
+<b nbme="rebchbbles"></b>
+<h4>rebchbbles function</h4>
 <p>
-Returns an array of Java objects that are transitively referred from the
-given Java object. Optionally accepts a second parameter that is comma
-separated field names to be excluded from reachability computation.
-Fields are written in class_name.field_name pattern.
+Returns bn brrby of Jbvb objects thbt bre trbnsitively referred from the
+given Jbvb object. Optionblly bccepts b second pbrbmeter thbt is commb
+sepbrbted field nbmes to be excluded from rebchbbility computbtion.
+Fields bre written in clbss_nbme.field_nbme pbttern.
 </p>
-Examples: 
+Exbmples: 
 <ul>
-<li>print all reachable objects from each Properties instance.
+<li>print bll rebchbble objects from ebch Properties instbnce.
 <pre>
 <code>
-    select reachables(p) from java.util.Properties p
+    select rebchbbles(p) from jbvb.util.Properties p
 </code>
 </pre>
-<li>print all reachables from each java.net.URL but omit the objects reachable
-via the fields specified.
+<li>print bll rebchbbles from ebch jbvb.net.URL but omit the objects rebchbble
+vib the fields specified.
 <pre>
 <code>
-    select reachables(u, 'java.net.URL.handler') from java.net.URL u
+    select rebchbbles(u, 'jbvb.net.URL.hbndler') from jbvb.net.URL u
 </code>
 </pre>
 </ul>
 
-<a name="referrers"></a>
+<b nbme="referrers"></b>
 <h4>referrers function</h4>
 <p>
-Returns an enumeration of Java objects that hold reference to a given Java
+Returns bn enumerbtion of Jbvb objects thbt hold reference to b given Jbvb
 object.
 </p>
-Examples:
+Exbmples:
 <ul>
-<li> print number of referrers for each java.lang.Object instance
+<li> print number of referrers for ebch jbvb.lbng.Object instbnce
 <pre>
 <code>
-    select count(referrers(o)) from java.lang.Object o
+    select count(referrers(o)) from jbvb.lbng.Object o
 </code>
 </pre>
-<li>print referrers for each java.io.File object
+<li>print referrers for ebch jbvb.io.File object
 <pre>
 <code>
-    select referrers(f) from java.io.File f
+    select referrers(f) from jbvb.io.File f
 </code>
 </pre>
 <li>print URL objects only if referred by 2 or more 
 <pre>
 <code>
-    select u from java.net.URL u where count(referrers(u)) > 2
+    select u from jbvb.net.URL u where count(referrers(u)) > 2
 </code>
 </pre>
 </ul>
 
-<a name="referees"></a>
+<b nbme="referees"></b>
 <h4>referees function</h4>
 <p>
-Returns an array of Java objects to which the given Java
+Returns bn brrby of Jbvb objects to which the given Jbvb
 object directly refers to.
 </p>
-Example: to print all static reference fields of java.io.File class
+Exbmple: to print bll stbtic reference fields of jbvb.io.File clbss
 <pre>
 <code>
-    select referees(<a href="#findClass">heap.findClass</a>("java.io.File"))
+    select referees(<b href="#findClbss">hebp.findClbss</b>("jbvb.io.File"))
 </code>
 </pre>
 
-<a name="refers"></a>
+<b nbme="refers"></b>
 <h4>refers function</h4>
 <p>
-Returns whether first Java object refers to second Java object or not.
+Returns whether first Jbvb object refers to second Jbvb object or not.
 </p>
 
-<a name="root"></a>
+<b nbme="root"></b>
 <h4>root function</h4>
 <p>
-If given object is a member of root set of objects, this function returns
-a descriptive <a href="#rootobj">Root object</a> describing why it is so.
-If given object is not a root, then this function returns null.
+If given object is b member of root set of objects, this function returns
+b descriptive <b href="#rootobj">Root object</b> describing why it is so.
+If given object is not b root, then this function returns null.
 </p>
 
-<a name="sizeof"></a>
+<b nbme="sizeof"></b>
 <h4>sizeof function</h4>
 
-Returns size of the given Java object in bytes
-Example: 
+Returns size of the given Jbvb object in bytes
+Exbmple: 
 <pre>
 <code>
     select sizeof(o) from [I o
 </code>
 </pre>
 
-<a name="toHtml"></a>
+<b nbme="toHtml"></b>
 <h4>toHtml function</h4>
 
-Returns HTML string for the given Java object. Note that this is called
-automatically for objects selected by select expression. But, it may be useful
+Returns HTML string for the given Jbvb object. Note thbt this is cblled
+butombticblly for objects selected by select expression. But, it mby be useful
 to print more complex output.
 
-Example: print hyperlink in bold font weight
+Exbmple: print hyperlink in bold font weight
 <pre>
 <code>
-    select "&lt;b&gt;" + toHtml(o) + "&lt;/b&gt;" from java.lang.Object o
+    select "&lt;b&gt;" + toHtml(o) + "&lt;/b&gt;" from jbvb.lbng.Object o
 </code>
 </pre>
 
-<h3>Selecting multiple values</h3>
+<h3>Selecting multiple vblues</h3>
 <p>
-Multiple values can be selected using JavaScript object literals or arrays.
+Multiple vblues cbn be selected using JbvbScript object literbls or brrbys.
 </p>
 
-Example: show name and thread for each thread object
+Exbmple: show nbme bnd threbd for ebch threbd object
 <pre>
 <code>
-    select { name: t.name? t.name.toString() : "null", thread: t } 
-    from instanceof java.lang.Thread t
+    select { nbme: t.nbme? t.nbme.toString() : "null", threbd: t } 
+    from instbnceof jbvb.lbng.Threbd t
 </code>
 </pre>
 
-<h3>array/iterator/enumeration manipulation functions</h3>
+<h3>brrby/iterbtor/enumerbtion mbnipulbtion functions</h3>
 
 <p>
-These functions accept an array/iterator/enumeration and an 
-expression string [or a callback function] as input. These functions iterate 
-the array/iterator/enumeration and apply the expression (or function) on 
-each element. Note that JavaScript objects are associative arrays. So, 
-these functions may also be used with arbitrary JavaScript objects.
+These functions bccept bn brrby/iterbtor/enumerbtion bnd bn 
+expression string [or b cbllbbck function] bs input. These functions iterbte 
+the brrby/iterbtor/enumerbtion bnd bpply the expression (or function) on 
+ebch element. Note thbt JbvbScript objects bre bssocibtive brrbys. So, 
+these functions mby blso be used with brbitrbry JbvbScript objects.
 </p>
 
 <ul>
-<li><a href="#concat">concat(array1/enumeration1, array2/enumeration2)</a>
-<li><a href="#contains">contains(array/enumeration, expression)</a>
-<li><a href="#count">count(array/enumeration, expression)</a>
-<li><a href="#filter">filter(array/enumeration, expression)</a>
-<li><a href="#length">length(array/enumeration)</a>
-<li><a href="#map">map(array/enumeration, expression)</a>
-<li><a href="#max">max(array/enumeration, [expression])</a>
-<li><a href="#min">min(array/enumeration, [expression])</a>
-<li><a href="#sort">sort(array/enumeration, [expression])</a>
-<li><a href="#sum">sum(array/enumeration, [expression])</a>
-<li><a href="#toArray">toArray(array/enumeration)</a>
-<li><a href="#unique">unique(array/enumeration, [expression])</a>
+<li><b href="#concbt">concbt(brrby1/enumerbtion1, brrby2/enumerbtion2)</b>
+<li><b href="#contbins">contbins(brrby/enumerbtion, expression)</b>
+<li><b href="#count">count(brrby/enumerbtion, expression)</b>
+<li><b href="#filter">filter(brrby/enumerbtion, expression)</b>
+<li><b href="#length">length(brrby/enumerbtion)</b>
+<li><b href="#mbp">mbp(brrby/enumerbtion, expression)</b>
+<li><b href="#mbx">mbx(brrby/enumerbtion, [expression])</b>
+<li><b href="#min">min(brrby/enumerbtion, [expression])</b>
+<li><b href="#sort">sort(brrby/enumerbtion, [expression])</b>
+<li><b href="#sum">sum(brrby/enumerbtion, [expression])</b>
+<li><b href="#toArrby">toArrby(brrby/enumerbtion)</b>
+<li><b href="#unique">unique(brrby/enumerbtion, [expression])</b>
 </ul>
 
-<a name="concat"></a>
-<h4>concat function</h4>
+<b nbme="concbt"></b>
+<h4>concbt function</h4>
 <p>
-Concatenates two arrays or enumerations (i.e., returns composite
-enumeration).
+Concbtenbtes two brrbys or enumerbtions (i.e., returns composite
+enumerbtion).
 </p>
 
-<a name="contains"></a>
-<h4>contains function</h4>
+<b nbme="contbins"></b>
+<h4>contbins function</h4>
 <p>
-Returns whether the given array/enumeration contains an element
-the given boolean expression specified in code. The code evaluated
-can refer to the following built-in variables.
+Returns whether the given brrby/enumerbtion contbins bn element
+the given boolebn expression specified in code. The code evblubted
+cbn refer to the following built-in vbribbles.
 </p>
 <ul>
 <li>it -> currently visited element
 <li>index -> index of the current element
-<li>array -> array/enumeration that is being iterated
+<li>brrby -> brrby/enumerbtion thbt is being iterbted
 </ul>
-Example: select all Properties objects that are referred by 
-some static field some class.
+Exbmple: select bll Properties objects thbt bre referred by 
+some stbtic field some clbss.
 <pre>
 <code>
-    select p from java.util.Properties p
-    where contains(<a href="#referrers">referrers</a>(p), "<a href="#classof">classof</a>(it).name == 'java.lang.Class'")
+    select p from jbvb.util.Properties p
+    where contbins(<b href="#referrers">referrers</b>(p), "<b href="#clbssof">clbssof</b>(it).nbme == 'jbvb.lbng.Clbss'")
 </code>
 </pre>
 
-<a name="count"></a>
+<b nbme="count"></b>
 <h4>count function</h4>
 <p>
-count function returns the count of elements of the input array/enumeration 
-that satisfy the given boolean expression. The boolean expression code can 
-refer to the following built-in variables.
+count function returns the count of elements of the input brrby/enumerbtion 
+thbt sbtisfy the given boolebn expression. The boolebn expression code cbn 
+refer to the following built-in vbribbles.
 </p>
 <ul>
 <li>it -> currently visited element
 <li>index -> index of the current element
-<li>array -> array/enumeration that is being iterated
+<li>brrby -> brrby/enumerbtion thbt is being iterbted
 </ul>
-Example: print number of classes that have specific name pattern
+Exbmple: print number of clbsses thbt hbve specific nbme pbttern
 <pre>
 <code>
-    select count(<a href="#classes">heap.classes()</a>, "/java.io./.test(it.name)")
+    select count(<b href="#clbsses">hebp.clbsses()</b>, "/jbvb.io./.test(it.nbme)")
 </code>
 </pre>
 
-<a name="filter"></a>
+<b nbme="filter"></b>
 <h4>filter function</h4>
 <p>
-filter function returns an array/enumeration that contains elements 
-of the input array/enumeration that satisfy the given boolean 
-expression. The boolean expression code can refer to the following built-in
-variables.
+filter function returns bn brrby/enumerbtion thbt contbins elements 
+of the input brrby/enumerbtion thbt sbtisfy the given boolebn 
+expression. The boolebn expression code cbn refer to the following built-in
+vbribbles.
 </p>
 <ul>
 <li>it -> currently visited element
 <li>index -> index of the current element
-<li>array -> array/enumeration that is being iterated
-<li>result -> result array/enumeration
+<li>brrby -> brrby/enumerbtion thbt is being iterbted
+<li>result -> result brrby/enumerbtion
 </ul>
-Examples:
+Exbmples:
 <ul>
-<li>show all classes that have java.io.* name pattern
+<li>show bll clbsses thbt hbve jbvb.io.* nbme pbttern
 <pre>
 <code>
-    select filter(<a href="#classes">heap.classes</a>(), "/java.io./.test(it.name)")
+    select filter(<b href="#clbsses">hebp.clbsses</b>(), "/jbvb.io./.test(it.nbme)")
 </code>
 </pre>
-<li> show all referrers of URL object where the referrer is not from
-java.net package
+<li> show bll referrers of URL object where the referrer is not from
+jbvb.net pbckbge
 <pre>
 <code>
-    select filter(<a href="#referrers">referrers</a>(u), "! /java.net./.test(<a href="#classof">classof</a>(it).name)")
-    from java.net.URL u
+    select filter(<b href="#referrers">referrers</b>(u), "! /jbvb.net./.test(<b href="#clbssof">clbssof</b>(it).nbme)")
+    from jbvb.net.URL u
 </code>
 </pre>
 </ul>
 
-<a name="length"></a>
+<b nbme="length"></b>
 <h4>length function</h4>
 <p>
-length function returns number of elements of an array/enumeration.
+length function returns number of elements of bn brrby/enumerbtion.
 </p>
 
-<a name="map"></a>
-<h4>map function</h4>
+<b nbme="mbp"></b>
+<h4>mbp function</h4>
 <p>
-Transforms the given array/enumeration by evaluating given code
-on each element. The code evaluated can refer to the following built-in 
-variables.
+Trbnsforms the given brrby/enumerbtion by evblubting given code
+on ebch element. The code evblubted cbn refer to the following built-in 
+vbribbles.
 </p>
 <ul>
 <li>it -> currently visited element
 <li>index -> index of the current element
-<li>array -> array/enumeration that is being iterated
-<li>result -> result array/enumeration
+<li>brrby -> brrby/enumerbtion thbt is being iterbted
+<li>result -> result brrby/enumerbtion
 </ul>
 <p>
-map function returns an array/enumeration of values created by repeatedly
-calling code on each element of input array/enumeration.
+mbp function returns bn brrby/enumerbtion of vblues crebted by repebtedly
+cblling code on ebch element of input brrby/enumerbtion.
 </p>
-Example: show all static fields of java.io.File with name and value
+Exbmple: show bll stbtic fields of jbvb.io.File with nbme bnd vblue
 <pre>
 <code>
-    select map(<a href="#findClass">heap.findClass</a>("java.io.File").statics, "index + '=' + <a href="#toHtml">toHtml</a>(it)")
+    select mbp(<b href="#findClbss">hebp.findClbss</b>("jbvb.io.File").stbtics, "index + '=' + <b href="#toHtml">toHtml</b>(it)")
 </code>
 </pre>
 
-<a name="max"></a>
-<h4>max function</h4>
+<b nbme="mbx"></b>
+<h4>mbx function</h4>
 <p>
-returns the maximum element of the  given array/enumeration. 
-Optionally accepts code expression to compare elements of the array. 
-By default numerical comparison is used. The comparison expression can 
-use the following built-in variables:
+returns the mbximum element of the  given brrby/enumerbtion. 
+Optionblly bccepts code expression to compbre elements of the brrby. 
+By defbult numericbl compbrison is used. The compbrison expression cbn 
+use the following built-in vbribbles:
 </p>
 <ul>
-<li>lhs -> left side element for comparison
-<li>rhs -> right side element for comparison
+<li>lhs -> left side element for compbrison
+<li>rhs -> right side element for compbrison
 </ul>
-Examples:
+Exbmples:
 <ul>
-<li>find the maximum length of any String instance
+<li>find the mbximum length of bny String instbnce
 <pre>
 <code>
-    select max(map(heap.objects('java.lang.String', false), 'it.value.length'))
+    select mbx(mbp(hebp.objects('jbvb.lbng.String', fblse), 'it.vblue.length'))
 </code>
 </pre>
-<li>find string instance that has the maximum length
+<li>find string instbnce thbt hbs the mbximum length
 <pre>
 <code>
-    select max(heap.objects('java.lang.String'), 'lhs.value.length > rhs.value.length')
+    select mbx(hebp.objects('jbvb.lbng.String'), 'lhs.vblue.length > rhs.vblue.length')
 </code>
 </pre>
 </ul>
 
-<a name="min"></a>
+<b nbme="min"></b>
 <h4>min function</h4>
 <p>
-returns the minimum element of the  given array/enumeration. Optionally 
-accepts code expression to compare elements of the array. By default numerical
-comparison is used. The comparison expression can use the following built-in 
-variables:
+returns the minimum element of the  given brrby/enumerbtion. Optionblly 
+bccepts code expression to compbre elements of the brrby. By defbult numericbl
+compbrison is used. The compbrison expression cbn use the following built-in 
+vbribbles:
 </p>
 <ul>
-<li>lhs -> left side element for comparison
-<li>rhs -> right side element for comparison
+<li>lhs -> left side element for compbrison
+<li>rhs -> right side element for compbrison
 </ul>
-Examples:
+Exbmples:
 <ul>
-<li>find the minimum size of any Vector instance
+<li>find the minimum size of bny Vector instbnce
 <pre>
 <code>
-    select min(map(heap.objects('java.util.Vector', false), 'it.elementData.length'))
+    select min(mbp(hebp.objects('jbvb.util.Vector', fblse), 'it.elementDbtb.length'))
 </code>
 </pre>
-<li>find Vector instance that has the maximum length
+<li>find Vector instbnce thbt hbs the mbximum length
 <pre>
 <code>
-    select min(heap.objects('java.util.Vector'), 'lhs.elementData.length < rhs.elementData.length')
+    select min(hebp.objects('jbvb.util.Vector'), 'lhs.elementDbtb.length < rhs.elementDbtb.length')
 </code>
 </ul>
 
-<a name="sort"></a>
+<b nbme="sort"></b>
 <h4>sort function</h4>
 <p>
-sorts given array/enumeration. Optionally accepts code expression to
-compare elements of the array. By default numerical comparison is used.
-The comparison expression can use the following built-in variables:
+sorts given brrby/enumerbtion. Optionblly bccepts code expression to
+compbre elements of the brrby. By defbult numericbl compbrison is used.
+The compbrison expression cbn use the following built-in vbribbles:
 </p>
 <ul>
-<li>lhs -> left side element for comparison
-<li>rhs -> right side element for comparison
+<li>lhs -> left side element for compbrison
+<li>rhs -> right side element for compbrison
 </ul>
-Examples:
+Exbmples:
 <ul>
-<li> print all char[] objects in the order of size.
+<li> print bll chbr[] objects in the order of size.
 <pre>
 <code>
-    select sort(<a href="#objects">heap.objects</a>('[C'), '<a href="#sizeof">sizeof</a>(lhs) - sizeof(rhs)')
+    select sort(<b href="#objects">hebp.objects</b>('[C'), '<b href="#sizeof">sizeof</b>(lhs) - sizeof(rhs)')
 </code>
 </pre>
-<li> print all char[] objects in the order of size but print
-size as well.
+<li> print bll chbr[] objects in the order of size but print
+size bs well.
 <pre>
 <code>
-    select <a href="#map">map</a>(sort(<a href="#objects">heap.objects</a>('[C'), '<a href="#sizeof">sizeof</a>(lhs) - sizeof(rhs)'), '{ size: sizeof(it), obj: it }')
+    select <b href="#mbp">mbp</b>(sort(<b href="#objects">hebp.objects</b>('[C'), '<b href="#sizeof">sizeof</b>(lhs) - sizeof(rhs)'), '{ size: sizeof(it), obj: it }')
 </code>
 </pre>
 </ul>
 
-<a name="sum"></a>
+<b nbme="sum"></b>
 <h4>sum function</h4>
 <p>
-This function returns the sum of all the elements of the given input array or
-enumeration. Optionally, accepts an expression as second param. This is used
-to map the input elements before summing those.
+This function returns the sum of bll the elements of the given input brrby or
+enumerbtion. Optionblly, bccepts bn expression bs second pbrbm. This is used
+to mbp the input elements before summing those.
 </p>
-Example: return sum of sizes of the reachable objects from each Properties object
+Exbmple: return sum of sizes of the rebchbble objects from ebch Properties object
 <pre>
 <code>
-    select sum(<a href="#map">map</a>(<a href="#reachables">reachables</a>(p), '<a href="#sizeof">sizeof</a>(it)')) 
-    from java.util.Properties p
+    select sum(<b href="#mbp">mbp</b>(<b href="#rebchbbles">rebchbbles</b>(p), '<b href="#sizeof">sizeof</b>(it)')) 
+    from jbvb.util.Properties p
 
-    // or omit the map as in ...
-    select sum(<a href="#reachables">reachables</a>(p), '<a href="#sizeof">sizeof</a>(it)') 
-    from java.util.Properties p
+    // or omit the mbp bs in ...
+    select sum(<b href="#rebchbbles">rebchbbles</b>(p), '<b href="#sizeof">sizeof</b>(it)') 
+    from jbvb.util.Properties p
 </code>
 </code>
 </pre>
 
-<a name="toArray"></a>
-<h4>toArray function</h4>
+<b nbme="toArrby"></b>
+<h4>toArrby function</h4>
 <p>
-This function returns an array that contains elements of the input
-array/enumeration.
+This function returns bn brrby thbt contbins elements of the input
+brrby/enumerbtion.
 </p>
 
-<a name="unique"></a>
+<b nbme="unique"></b>
 <h4>unique function</h4>
 <p>
-This function returns an array/enumeration containing unique elements of the 
-given input array/enumeration
+This function returns bn brrby/enumerbtion contbining unique elements of the 
+given input brrby/enumerbtion
 </p>
-Example: select unique char[] instances referenced from Strings. Note that
-more than one String instance can share the same char[] for the content.
+Exbmple: select unique chbr[] instbnces referenced from Strings. Note thbt
+more thbn one String instbnce cbn shbre the sbme chbr[] for the content.
 <pre>
 <code>
-   // number of unique char[] instances referenced from any String
-   select count(unique(map(heap.objects('java.lang.String'), 'it.value')))
+   // number of unique chbr[] instbnces referenced from bny String
+   select count(unique(mbp(hebp.objects('jbvb.lbng.String'), 'it.vblue')))
 
-   // total number of Strings
-   select count(heap.objects('java.lang.String'))
+   // totbl number of Strings
+   select count(hebp.objects('jbvb.lbng.String'))
 </code>
 </pre>
     
-<h3>More complex examples</h3>
+<h3>More complex exbmples</h3>
 
-<h4>Print histogram of each class loader and number of classes loaded by it</h4>
+<h4>Print histogrbm of ebch clbss lobder bnd number of clbsses lobded by it</h4>
 
 <pre>
 <code>
-   select <a href="#map">map</a>(<a href="#sort">sort</a>(map(heap.objects('java.lang.ClassLoader'), 
-   '{ loader: it, count: it.classes.elementCount }'), 'lhs.count < rhs.count'),
+   select <b href="#mbp">mbp</b>(<b href="#sort">sort</b>(mbp(hebp.objects('jbvb.lbng.ClbssLobder'), 
+   '{ lobder: it, count: it.clbsses.elementCount }'), 'lhs.count < rhs.count'),
    'toHtml(it) + "&lt;br&gt;"')
 </code>
 </pre>
 <p>
-The above query uses the fact that, <b>java.lang.ClassLoader</b> has a private 
-field called <b>classes</b> of type <b>java.util.Vector</b> and Vector has a 
-private field named <b>elementCount</b> that is number of elements in the 
-vector. We select multiple values (loader, count) using JavaScript object 
-literal and map function. We sort the result by count (i.e., number of classes 
-loaded) using sort function with comparison expression.
+The bbove query uses the fbct thbt, <b>jbvb.lbng.ClbssLobder</b> hbs b privbte 
+field cblled <b>clbsses</b> of type <b>jbvb.util.Vector</b> bnd Vector hbs b 
+privbte field nbmed <b>elementCount</b> thbt is number of elements in the 
+vector. We select multiple vblues (lobder, count) using JbvbScript object 
+literbl bnd mbp function. We sort the result by count (i.e., number of clbsses 
+lobded) using sort function with compbrison expression.
 </p>
 
-<h4>Show parent-child chain for each class loader instance</h4>
+<h4>Show pbrent-child chbin for ebch clbss lobder instbnce</h4>
 
 <pre>
 <code>
-   select <a href="#map">map</a>(heap.objects('java.lang.ClassLoader'),
+   select <b href="#mbp">mbp</b>(hebp.objects('jbvb.lbng.ClbssLobder'),
       function (it) {
-         var res = '';
+         vbr res = '';
          while (it != null) {
             res += toHtml(it) + "-&gt;";
-            it = it.parent;
+            it = it.pbrent;
          }
          res += "null";
          return res + "&lt;br&gt;";
@@ -766,20 +766,20 @@ loaded) using sort function with comparison expression.
 </code>
 </pre>
 <p>
-Note that we use <b>parent</b> field of <b>java.lang.ClassLoader</b> class
-and walk until parent is null using the callback function to map call.
+Note thbt we use <b>pbrent</b> field of <b>jbvb.lbng.ClbssLobder</b> clbss
+bnd wblk until pbrent is null using the cbllbbck function to mbp cbll.
 </p>
 
-<h4>Printing value of all System properties</h4>
+<h4>Printing vblue of bll System properties</h4>
 
 <pre>
 <code>
-   select <a href="#map">map</a>(<a href="#filter">filter(<a href="#findClass">heap.findClass</a>('java.lang.System').statics.props.table, 'it != null'), 
+   select <b href="#mbp">mbp</b>(<b href="#filter">filter(<b href="#findClbss">hebp.findClbss</b>('jbvb.lbng.System').stbtics.props.tbble, 'it != null'), 
             function (it) {
-                var res = "";
+                vbr res = "";
                 while (it != null) {
-                    res += it.key.value.toString() + '=' +
-                           it.value.value.toString() + '&lt;br&gt;';
+                    res += it.key.vblue.toString() + '=' +
+                           it.vblue.vblue.toString() + '&lt;br&gt;';
                     it = it.next;
                 }
                 return res;
@@ -787,21 +787,21 @@ and walk until parent is null using the callback function to map call.
 </code>
 </pre>
 <p>
-The above query uses the following facts:
+The bbove query uses the following fbcts:
 <ul>
-<li>java.lang.System has static field by name 'props' of type java.util.Properties.
-<li>java.util.Properties has field by 'table' of type java.util.Hashtable$Entry
-(this field is inherited from java.util.Hashtable). This is the hashtable
-buckets array.
-<li>java.util.Hashtable$Entry has 'key', 'value' and 'next' fields. Each
-entry points the next entry (or null) in the same hashtable bucket.
-<li>java.lang.String class has 'value' field of type char[].
+<li>jbvb.lbng.System hbs stbtic field by nbme 'props' of type jbvb.util.Properties.
+<li>jbvb.util.Properties hbs field by 'tbble' of type jbvb.util.Hbshtbble$Entry
+(this field is inherited from jbvb.util.Hbshtbble). This is the hbshtbble
+buckets brrby.
+<li>jbvb.util.Hbshtbble$Entry hbs 'key', 'vblue' bnd 'next' fields. Ebch
+entry points the next entry (or null) in the sbme hbshtbble bucket.
+<li>jbvb.lbng.String clbss hbs 'vblue' field of type chbr[].
 </ul>
 <p>
-<b>Note that this query (and many other queries) may not be stable - because
-private fields of Java platform classes may be modified/removed without any
-notification! (implementation detail)</b>. But, using such queries on user 
-classes may be safe - given that user has the control over the classes.
+<b>Note thbt this query (bnd mbny other queries) mby not be stbble - becbuse
+privbte fields of Jbvb plbtform clbsses mby be modified/removed without bny
+notificbtion! (implementbtion detbil)</b>. But, using such queries on user 
+clbsses mby be sbfe - given thbt user hbs the control over the clbsses.
 </p>
 
 </body>

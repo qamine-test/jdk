@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.finder;
+pbckbge com.sun.bebns.finder;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.Modifier;
 
-import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
+import stbtic sun.reflect.misc.ReflectUtil.isPbckbgeAccessible;
 
 /**
- * This utility class provides {@code static} methods
- * to find a public field with specified name
- * in specified class.
+ * This utility clbss provides {@code stbtic} methods
+ * to find b public field with specified nbme
+ * in specified clbss.
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-public final class FieldFinder {
+public finbl clbss FieldFinder {
 
     /**
-     * Finds public field (static or non-static)
-     * that is declared in public class.
+     * Finds public field (stbtic or non-stbtic)
+     * thbt is declbred in public clbss.
      *
-     * @param type  the class that can have field
-     * @param name  the name of field to find
-     * @return object that represents found field
+     * @pbrbm type  the clbss thbt cbn hbve field
+     * @pbrbm nbme  the nbme of field to find
+     * @return object thbt represents found field
      * @throws NoSuchFieldException if field is not found
-     * @see Class#getField
+     * @see Clbss#getField
      */
-    public static Field findField(Class<?> type, String name) throws NoSuchFieldException {
-        if (name == null) {
-            throw new IllegalArgumentException("Field name is not set");
+    public stbtic Field findField(Clbss<?> type, String nbme) throws NoSuchFieldException {
+        if (nbme == null) {
+            throw new IllegblArgumentException("Field nbme is not set");
         }
-        Field field = type.getField(name);
+        Field field = type.getField(nbme);
         if (!Modifier.isPublic(field.getModifiers())) {
-            throw new NoSuchFieldException("Field '" + name + "' is not public");
+            throw new NoSuchFieldException("Field '" + nbme + "' is not public");
         }
-        type = field.getDeclaringClass();
-        if (!Modifier.isPublic(type.getModifiers()) || !isPackageAccessible(type)) {
-            throw new NoSuchFieldException("Field '" + name + "' is not accessible");
+        type = field.getDeclbringClbss();
+        if (!Modifier.isPublic(type.getModifiers()) || !isPbckbgeAccessible(type)) {
+            throw new NoSuchFieldException("Field '" + nbme + "' is not bccessible");
         }
         return field;
     }
 
     /**
-     * Finds public non-static field
-     * that is declared in public class.
+     * Finds public non-stbtic field
+     * thbt is declbred in public clbss.
      *
-     * @param type  the class that can have field
-     * @param name  the name of field to find
-     * @return object that represents found field
+     * @pbrbm type  the clbss thbt cbn hbve field
+     * @pbrbm nbme  the nbme of field to find
+     * @return object thbt represents found field
      * @throws NoSuchFieldException if field is not found
-     * @see Class#getField
+     * @see Clbss#getField
      */
-    public static Field findInstanceField(Class<?> type, String name) throws NoSuchFieldException {
-        Field field = findField(type, name);
-        if (Modifier.isStatic(field.getModifiers())) {
-            throw new NoSuchFieldException("Field '" + name + "' is static");
+    public stbtic Field findInstbnceField(Clbss<?> type, String nbme) throws NoSuchFieldException {
+        Field field = findField(type, nbme);
+        if (Modifier.isStbtic(field.getModifiers())) {
+            throw new NoSuchFieldException("Field '" + nbme + "' is stbtic");
         }
         return field;
     }
 
     /**
-     * Finds public static field
-     * that is declared in public class.
+     * Finds public stbtic field
+     * thbt is declbred in public clbss.
      *
-     * @param type  the class that can have field
-     * @param name  the name of field to find
-     * @return object that represents found field
+     * @pbrbm type  the clbss thbt cbn hbve field
+     * @pbrbm nbme  the nbme of field to find
+     * @return object thbt represents found field
      * @throws NoSuchFieldException if field is not found
-     * @see Class#getField
+     * @see Clbss#getField
      */
-    public static Field findStaticField(Class<?> type, String name) throws NoSuchFieldException {
-        Field field = findField(type, name);
-        if (!Modifier.isStatic(field.getModifiers())) {
-            throw new NoSuchFieldException("Field '" + name + "' is not static");
+    public stbtic Field findStbticField(Clbss<?> type, String nbme) throws NoSuchFieldException {
+        Field field = findField(type, nbme);
+        if (!Modifier.isStbtic(field.getModifiers())) {
+            throw new NoSuchFieldException("Field '" + nbme + "' is not stbtic");
         }
         return field;
     }
 
     /**
-     * Disable instantiation.
+     * Disbble instbntibtion.
      */
-    private FieldFinder() {
+    privbte FieldFinder() {
     }
 }

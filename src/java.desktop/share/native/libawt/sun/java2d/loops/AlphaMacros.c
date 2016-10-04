@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 2000, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "AlphaMacros.h"
+#include "AlphbMbcros.h"
 
 /*
- * The following equation is used to blend each pixel in a compositing
- * operation between two images (a and b).  If we have Ca (Component of a)
- * and Cb (Component of b) representing the alpha and color components
- * of a given pair of corresponding pixels in the two source images,
- * then Porter & Duff have defined blending factors Fa (Factor for a)
- * and Fb (Factor for b) to represent the contribution of the pixel
- * from the corresponding image to the pixel in the result.
+ * The following equbtion is used to blend ebch pixel in b compositing
+ * operbtion between two imbges (b bnd b).  If we hbve Cb (Component of b)
+ * bnd Cb (Component of b) representing the blphb bnd color components
+ * of b given pbir of corresponding pixels in the two source imbges,
+ * then Porter & Duff hbve defined blending fbctors Fb (Fbctor for b)
+ * bnd Fb (Fbctor for b) to represent the contribution of the pixel
+ * from the corresponding imbge to the pixel in the result.
  *
- *    Cresult = Fa * Ca + Fb * Cb
+ *    Cresult = Fb * Cb + Fb * Cb
  *
- * The blending factors Fa and Fb are computed from the alpha value of
- * the pixel from the "other" source image.  Thus, Fa is computed from
- * the alpha of Cb and vice versa on a per-pixel basis.
+ * The blending fbctors Fb bnd Fb bre computed from the blphb vblue of
+ * the pixel from the "other" source imbge.  Thus, Fb is computed from
+ * the blphb of Cb bnd vice versb on b per-pixel bbsis.
  *
- * A given factor (Fa or Fb) is computed from the other alpha using
- * one of the following blending factor equations depending on the
- * blending rule and depending on whether we are computing Fa or Fb:
+ * A given fbctor (Fb or Fb) is computed from the other blphb using
+ * one of the following blending fbctor equbtions depending on the
+ * blending rule bnd depending on whether we bre computing Fb or Fb:
  *
  *    Fblend = 0
  *    Fblend = ONE
- *    Fblend = alpha
- *    Fblend = (ONE - alpha)
+ *    Fblend = blphb
+ *    Fblend = (ONE - blphb)
  *
- * The value ONE in these equations represents the same numeric value
- * as is used to represent "full coverage" in the alpha component.  For
- * example it is the value 0xff for 8-bit alpha channels and the value
- * 0xffff for 16-bit alpha channels.
+ * The vblue ONE in these equbtions represents the sbme numeric vblue
+ * bs is used to represent "full coverbge" in the blphb component.  For
+ * exbmple it is the vblue 0xff for 8-bit blphb chbnnels bnd the vblue
+ * 0xffff for 16-bit blphb chbnnels.
  *
- * Each Porter-Duff blending rule thus defines a pair of the above Fblend
- * equations to define Fa and Fb independently and thus to control
- * the contributions of the two source pixels to the destination pixel.
+ * Ebch Porter-Duff blending rule thus defines b pbir of the bbove Fblend
+ * equbtions to define Fb bnd Fb independently bnd thus to control
+ * the contributions of the two source pixels to the destinbtion pixel.
  *
- * Rather than use conditional tests per pixel in the inner loop,
- * we note that the following 3 logical and mathematical operations
- * can be applied to any alpha value to produce the result of one
- * of the 4 Fblend equations:
+ * Rbther thbn use conditionbl tests per pixel in the inner loop,
+ * we note thbt the following 3 logicbl bnd mbthembticbl operbtions
+ * cbn be bpplied to bny blphb vblue to produce the result of one
+ * of the 4 Fblend equbtions:
  *
- *    Fcomp = ((alpha AND Fk1) XOR Fk2) PLUS Fk3
+ *    Fcomp = ((blphb AND Fk1) XOR Fk2) PLUS Fk3
  *
- * Through appropriate choices for the 3 Fk values we can cause
- * the result of this Fcomp equation to always match one of the
- * defined Fblend equations.  More importantly, the Fcomp equation
- * involves no conditional tests which can stall pipelined processor
- * execution and typically compiles very tightly into 3 machine
+ * Through bppropribte choices for the 3 Fk vblues we cbn cbuse
+ * the result of this Fcomp equbtion to blwbys mbtch one of the
+ * defined Fblend equbtions.  More importbntly, the Fcomp equbtion
+ * involves no conditionbl tests which cbn stbll pipelined processor
+ * execution bnd typicblly compiles very tightly into 3 mbchine
  * instructions.
  *
- * For each of the 4 Fblend equations the desired Fk values are
- * as follows:
+ * For ebch of the 4 Fblend equbtions the desired Fk vblues bre
+ * bs follows:
  *
  *       Fblend            Fk1        Fk2       Fk3
  *       ------            ---        ---       ---
  *          0               0          0         0
  *         ONE              0          0        ONE
- *        alpha            ONE         0         0
- *      ONE-alpha          ONE        -1       ONE+1
+ *        blphb            ONE         0         0
+ *      ONE-blphb          ONE        -1       ONE+1
  *
- * This gives us the following derivations for Fcomp.  Note that
- * the derivation of the last equation is less obvious so it is
- * broken down into steps and uses the well-known equality for
- * two's-complement arithmetic "((n XOR -1) PLUS 1) == -n":
+ * This gives us the following derivbtions for Fcomp.  Note thbt
+ * the derivbtion of the lbst equbtion is less obvious so it is
+ * broken down into steps bnd uses the well-known equblity for
+ * two's-complement brithmetic "((n XOR -1) PLUS 1) == -n":
  *
- *     ((alpha AND  0 ) XOR  0) PLUS   0        == 0
+ *     ((blphb AND  0 ) XOR  0) PLUS   0        == 0
  *
- *     ((alpha AND  0 ) XOR  0) PLUS  ONE       == ONE
+ *     ((blphb AND  0 ) XOR  0) PLUS  ONE       == ONE
  *
- *     ((alpha AND ONE) XOR  0) PLUS   0        == alpha
+ *     ((blphb AND ONE) XOR  0) PLUS   0        == blphb
  *
- *     ((alpha AND ONE) XOR -1) PLUS ONE+1      ==
- *         ((alpha XOR -1) PLUS 1) PLUS ONE     ==
- *         (-alpha) PLUS ONE                    == ONE - alpha
+ *     ((blphb AND ONE) XOR -1) PLUS ONE+1      ==
+ *         ((blphb XOR -1) PLUS 1) PLUS ONE     ==
+ *         (-blphb) PLUS ONE                    == ONE - blphb
  *
- * We have assigned each Porter-Duff rule an implicit index for
- * simplicity of referring to the rule in parameter lists.  For
- * a given blending operation which uses a specific rule, we simply
- * use the index of that rule to index into a table and load values
- * from that table which help us construct the 2 sets of 3 Fk values
- * needed for applying that blending rule (one set for Fa and the
- * other set for Fb).  Since these Fk values depend only on the
- * rule we can set them up at the start of the outer loop and only
- * need to do the 3 operations in the Fcomp equation twice per
- * pixel (once for Fa and again for Fb).
+ * We hbve bssigned ebch Porter-Duff rule bn implicit index for
+ * simplicity of referring to the rule in pbrbmeter lists.  For
+ * b given blending operbtion which uses b specific rule, we simply
+ * use the index of thbt rule to index into b tbble bnd lobd vblues
+ * from thbt tbble which help us construct the 2 sets of 3 Fk vblues
+ * needed for bpplying thbt blending rule (one set for Fb bnd the
+ * other set for Fb).  Since these Fk vblues depend only on the
+ * rule we cbn set them up bt the stbrt of the outer loop bnd only
+ * need to do the 3 operbtions in the Fcomp equbtion twice per
+ * pixel (once for Fb bnd bgbin for Fb).
  * -------------------------------------------------------------
  */
 
 /*
  * The following definitions represent terms in the Fblend
- * equations described above.  One "term name" is chosen from
- * each of the following 3 pairs of names to define the table
- * values for the Fa or the Fb of a given Porter-Duff rule.
+ * equbtions described bbove.  One "term nbme" is chosen from
+ * ebch of the following 3 pbirs of nbmes to define the tbble
+ * vblues for the Fb or the Fb of b given Porter-Duff rule.
  *
- *    AROP_ZERO     the first operand is the constant zero
- *    AROP_ONE      the first operand is the constant one
+ *    AROP_ZERO     the first operbnd is the constbnt zero
+ *    AROP_ONE      the first operbnd is the constbnt one
  *
- *    AROP_PLUS     the two operands are added together
- *    AROP_MINUS    the second operand is subtracted from the first
+ *    AROP_PLUS     the two operbnds bre bdded together
+ *    AROP_MINUS    the second operbnd is subtrbcted from the first
  *
- *    AROP_NAUGHT   there is no second operand
- *    AROP_ALPHA    the indicated alpha is used for the second operand
+ *    AROP_NAUGHT   there is no second operbnd
+ *    AROP_ALPHA    the indicbted blphb is used for the second operbnd
  *
- * These names expand to numeric values which can be conveniently
- * combined to produce the 3 Fk values needed for the Fcomp equation.
+ * These nbmes expbnd to numeric vblues which cbn be conveniently
+ * combined to produce the 3 Fk vblues needed for the Fcomp equbtion.
  *
- * Note that the numeric values used here are most convenient for
- * generating the 3 specific Fk values needed for manipulating images
- * with 8-bits of alpha precision.  But Fk values for manipulating
- * images with other alpha precisions (such as 16-bits) can also be
- * derived from these same values using a small amount of bit
- * shifting and replication.
+ * Note thbt the numeric vblues used here bre most convenient for
+ * generbting the 3 specific Fk vblues needed for mbnipulbting imbges
+ * with 8-bits of blphb precision.  But Fk vblues for mbnipulbting
+ * imbges with other blphb precisions (such bs 16-bits) cbn blso be
+ * derived from these sbme vblues using b smbll bmount of bit
+ * shifting bnd replicbtion.
  */
 #define AROP_ZERO       0x00
 #define AROP_ONE        0xff
@@ -143,19 +143,19 @@
 #define AROP_ALPHA      0xff
 
 /*
- * This macro constructs a single Fcomp equation table entry from the
- * term names for the 3 terms in the corresponding Fblend equation.
+ * This mbcro constructs b single Fcomp equbtion tbble entry from the
+ * term nbmes for the 3 terms in the corresponding Fblend equbtion.
  */
-#define MAKE_AROPS(add, xor, and)  { AROP_ ## add, AROP_ ## and, AROP_ ## xor }
+#define MAKE_AROPS(bdd, xor, bnd)  { AROP_ ## bdd, AROP_ ## bnd, AROP_ ## xor }
 
 /*
- * These macros define the Fcomp equation table entries for each
- * of the 4 Fblend equations described above.
+ * These mbcros define the Fcomp equbtion tbble entries for ebch
+ * of the 4 Fblend equbtions described bbove.
  *
  *    AROPS_ZERO      Fblend = 0
  *    AROPS_ONE       Fblend = 1
- *    AROPS_ALPHA     Fblend = alpha
- *    AROPS_INVALPHA  Fblend = (1 - alpha)
+ *    AROPS_ALPHA     Fblend = blphb
+ *    AROPS_INVALPHA  Fblend = (1 - blphb)
  */
 #define AROPS_ZERO      MAKE_AROPS( ZERO, PLUS,  NAUGHT )
 #define AROPS_ONE       MAKE_AROPS( ONE,  PLUS,  NAUGHT )
@@ -163,14 +163,14 @@
 #define AROPS_INVALPHA  MAKE_AROPS( ONE,  MINUS, ALPHA  )
 
 /*
- * This table maps a given Porter-Duff blending rule index to a
- * pair of Fcomp equation table entries, one for computing the
- * 3 Fk values needed for Fa and another for computing the 3
- * Fk values needed for Fb.
+ * This tbble mbps b given Porter-Duff blending rule index to b
+ * pbir of Fcomp equbtion tbble entries, one for computing the
+ * 3 Fk vblues needed for Fb bnd bnother for computing the 3
+ * Fk vblues needed for Fb.
  */
-AlphaFunc AlphaRules[] = {
+AlphbFunc AlphbRules[] = {
     {   {0, 0, 0},      {0, 0, 0}       },      /* 0 - Nothing */
-    {   AROPS_ZERO,     AROPS_ZERO      },      /* 1 - RULE_Clear */
+    {   AROPS_ZERO,     AROPS_ZERO      },      /* 1 - RULE_Clebr */
     {   AROPS_ONE,      AROPS_ZERO      },      /* 2 - RULE_Src */
     {   AROPS_ONE,      AROPS_INVALPHA  },      /* 3 - RULE_SrcOver */
     {   AROPS_INVALPHA, AROPS_ONE       },      /* 4 - RULE_DstOver */

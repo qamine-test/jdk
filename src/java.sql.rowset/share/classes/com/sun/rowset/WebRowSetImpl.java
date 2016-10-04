@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rowset;
+pbckbge com.sun.rowset;
 
-import java.sql.*;
-import javax.sql.*;
-import java.io.*;
-import java.math.*;
-import java.util.*;
-import java.text.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+import jbvb.util.*;
+import jbvb.text.*;
 
-import org.xml.sax.*;
+import org.xml.sbx.*;
 
-import javax.sql.rowset.*;
-import javax.sql.rowset.spi.*;
+import jbvbx.sql.rowset.*;
+import jbvbx.sql.rowset.spi.*;
 
 import com.sun.rowset.providers.*;
-import com.sun.rowset.internal.*;
+import com.sun.rowset.internbl.*;
 
 /**
- * The standard implementation of the <code>WebRowSet</code> interface. See the interface
- * definition for full behavior and implementation requirements.
+ * The stbndbrd implementbtion of the <code>WebRowSet</code> interfbce. See the interfbce
+ * definition for full behbvior bnd implementbtion requirements.
  *
- * @author Jonathan Bruce, Amit Handa
+ * @buthor Jonbthbn Bruce, Amit Hbndb
  */
-public class WebRowSetImpl extends CachedRowSetImpl implements WebRowSet {
+public clbss WebRowSetImpl extends CbchedRowSetImpl implements WebRowSet {
 
     /**
-     * The <code>WebRowSetXmlReader</code> object that this
-     * <code>WebRowSet</code> object will call when the method
-     * <code>WebRowSet.readXml</code> is invoked.
+     * The <code>WebRowSetXmlRebder</code> object thbt this
+     * <code>WebRowSet</code> object will cbll when the method
+     * <code>WebRowSet.rebdXml</code> is invoked.
      */
-    private WebRowSetXmlReader xmlReader;
+    privbte WebRowSetXmlRebder xmlRebder;
 
     /**
-     * The <code>WebRowSetXmlWriter</code> object that this
-     * <code>WebRowSet</code> object will call when the method
+     * The <code>WebRowSetXmlWriter</code> object thbt this
+     * <code>WebRowSet</code> object will cbll when the method
      * <code>WebRowSet.writeXml</code> is invoked.
      */
-    private WebRowSetXmlWriter xmlWriter;
+    privbte WebRowSetXmlWriter xmlWriter;
 
-    /* This stores the cursor position prior to calling the writeXML.
-     * This variable is used after the write to restore the position
-     * to the point where the writeXml was called.
+    /* This stores the cursor position prior to cblling the writeXML.
+     * This vbribble is used bfter the write to restore the position
+     * to the point where the writeXml wbs cblled.
      */
-    private int curPosBfrWrite;
+    privbte int curPosBfrWrite;
 
-    private SyncProvider provider;
+    privbte SyncProvider provider;
 
     /**
-     * Constructs a new <code>WebRowSet</code> object initialized with the
-     * default values for a <code>CachedRowSet</code> object instance. This
+     * Constructs b new <code>WebRowSet</code> object initiblized with the
+     * defbult vblues for b <code>CbchedRowSet</code> object instbnce. This
      * provides the <code>RIOptimistic</code> provider to deliver
-     * synchronization capabilities to relational datastores and a default
-     * <code>WebRowSetXmlReader</code> object and a default
-     * <code>WebRowSetXmlWriter</code> object to enable XML output
-     * capabilities.
+     * synchronizbtion cbpbbilities to relbtionbl dbtbstores bnd b defbult
+     * <code>WebRowSetXmlRebder</code> object bnd b defbult
+     * <code>WebRowSetXmlWriter</code> object to enbble XML output
+     * cbpbbilities.
      *
-     * @throws SQLException if an error occurs in configuring the default
-     * synchronization providers for relational and XML providers.
+     * @throws SQLException if bn error occurs in configuring the defbult
+     * synchronizbtion providers for relbtionbl bnd XML providers.
      */
     public WebRowSetImpl() throws SQLException {
         super();
 
         // %%%
-        // Needs to use to SPI  XmlReader,XmlWriters
+        // Needs to use to SPI  XmlRebder,XmlWriters
         //
-        xmlReader = new WebRowSetXmlReader();
+        xmlRebder = new WebRowSetXmlRebder();
         xmlWriter = new WebRowSetXmlWriter();
     }
 
     /**
-     * Constructs a new <code>WebRowSet</code> object initialized with the the
-     * synchronization SPI provider properties as specified in the <code>Hashtable</code>. If
-     * this hashtable is empty or is <code>null</code> the default constructor is invoked.
+     * Constructs b new <code>WebRowSet</code> object initiblized with the the
+     * synchronizbtion SPI provider properties bs specified in the <code>Hbshtbble</code>. If
+     * this hbshtbble is empty or is <code>null</code> the defbult constructor is invoked.
      *
-     * @throws SQLException if an error occurs in configuring the specified
-     * synchronization providers for the relational and XML providers; or
-     * if the Hashtanle is null
+     * @throws SQLException if bn error occurs in configuring the specified
+     * synchronizbtion providers for the relbtionbl bnd XML providers; or
+     * if the Hbshtbnle is null
      */
-    @SuppressWarnings("rawtypes")
-    public WebRowSetImpl(Hashtable env) throws SQLException {
+    @SuppressWbrnings("rbwtypes")
+    public WebRowSetImpl(Hbshtbble env) throws SQLException {
 
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
 
         if ( env == null) {
-            throw new SQLException(resBundle.handleGetObject("webrowsetimpl.nullhash").toString());
+            throw new SQLException(resBundle.hbndleGetObject("webrowsetimpl.nullhbsh").toString());
         }
 
-        String providerName =
-            (String)env.get(javax.sql.rowset.spi.SyncFactory.ROWSET_SYNC_PROVIDER);
+        String providerNbme =
+            (String)env.get(jbvbx.sql.rowset.spi.SyncFbctory.ROWSET_SYNC_PROVIDER);
 
-        // set the Reader, this maybe overridden latter
-        provider = SyncFactory.getInstance(providerName);
+        // set the Rebder, this mbybe overridden lbtter
+        provider = SyncFbctory.getInstbnce(providerNbme);
 
-        // xmlReader = provider.getRowSetReader();
+        // xmlRebder = provider.getRowSetRebder();
         // xmlWriter = provider.getRowSetWriter();
     }
 
    /**
-    * Populates this <code>WebRowSet</code> object with the
-    * data in the given <code>ResultSet</code> object and writes itself
-    * to the given <code>java.io.Writer</code> object in XML format.
-    * This includes the rowset's data,  properties, and metadata.
+    * Populbtes this <code>WebRowSet</code> object with the
+    * dbtb in the given <code>ResultSet</code> object bnd writes itself
+    * to the given <code>jbvb.io.Writer</code> object in XML formbt.
+    * This includes the rowset's dbtb,  properties, bnd metbdbtb.
     *
-    * @throws SQLException if an error occurs writing out the rowset
+    * @throws SQLException if bn error occurs writing out the rowset
     *          contents to XML
     */
-    public void writeXml(ResultSet rs, java.io.Writer writer)
+    public void writeXml(ResultSet rs, jbvb.io.Writer writer)
         throws SQLException {
             // WebRowSetImpl wrs = new WebRowSetImpl();
-            this.populate(rs);
+            this.populbte(rs);
 
             // Store the cursor position before writing
             curPosBfrWrite = this.getRow();
@@ -146,16 +146,16 @@ public class WebRowSetImpl extends CachedRowSetImpl implements WebRowSet {
 
     /**
      * Writes this <code>WebRowSet</code> object to the given
-     * <code>java.io.Writer</code> object in XML format. This
-     * includes the rowset's data,  properties, and metadata.
+     * <code>jbvb.io.Writer</code> object in XML formbt. This
+     * includes the rowset's dbtb,  properties, bnd metbdbtb.
      *
-     * @throws SQLException if an error occurs writing out the rowset
+     * @throws SQLException if bn error occurs writing out the rowset
      *          contents to XML
      */
-    public void writeXml(java.io.Writer writer) throws SQLException {
+    public void writeXml(jbvb.io.Writer writer) throws SQLException {
         // %%%
-        // This will change to a XmlReader, which over-rides the default
-        // Xml that is used when a WRS is instantiated.
+        // This will chbnge to b XmlRebder, which over-rides the defbult
+        // Xml thbt is used when b WRS is instbntibted.
         // WebRowSetXmlWriter xmlWriter = getXmlWriter();
         if (xmlWriter != null) {
 
@@ -164,129 +164,129 @@ public class WebRowSetImpl extends CachedRowSetImpl implements WebRowSet {
 
             xmlWriter.writeXML(this, writer);
         } else {
-            throw new SQLException(resBundle.handleGetObject("webrowsetimpl.invalidwr").toString());
+            throw new SQLException(resBundle.hbndleGetObject("webrowsetimpl.invblidwr").toString());
         }
     }
 
     /**
-     * Reads this <code>WebRowSet</code> object in its XML format.
+     * Rebds this <code>WebRowSet</code> object in its XML formbt.
      *
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    public void readXml(java.io.Reader reader) throws SQLException {
+    public void rebdXml(jbvb.io.Rebder rebder) throws SQLException {
         // %%%
-        // This will change to a XmlReader, which over-rides the default
-        // Xml that is used when a WRS is instantiated.
-        //WebRowSetXmlReader xmlReader = getXmlReader();
+        // This will chbnge to b XmlRebder, which over-rides the defbult
+        // Xml thbt is used when b WRS is instbntibted.
+        //WebRowSetXmlRebder xmlRebder = getXmlRebder();
         try {
-             if (reader != null) {
-                xmlReader.readXML(this, reader);
+             if (rebder != null) {
+                xmlRebder.rebdXML(this, rebder);
 
                 // Position is before the first row
-                // The cursor position is to be stored while serializng
-                // and deserializing the WebRowSet Object.
+                // The cursor position is to be stored while seriblizng
+                // bnd deseriblizing the WebRowSet Object.
                 if(curPosBfrWrite == 0) {
                    this.beforeFirst();
                 }
 
-                // Return the position back to place prior to callin writeXml
+                // Return the position bbck to plbce prior to cbllin writeXml
                 else {
-                   this.absolute(curPosBfrWrite);
+                   this.bbsolute(curPosBfrWrite);
                 }
 
             } else {
-                throw new SQLException(resBundle.handleGetObject("webrowsetimpl.invalidrd").toString());
+                throw new SQLException(resBundle.hbndleGetObject("webrowsetimpl.invblidrd").toString());
             }
-        } catch (Exception e) {
-            throw new SQLException(e.getMessage());
+        } cbtch (Exception e) {
+            throw new SQLException(e.getMessbge());
         }
     }
 
-    // Stream based methods
+    // Strebm bbsed methods
     /**
-     * Reads a stream based XML input to populate this <code>WebRowSet</code>
+     * Rebds b strebm bbsed XML input to populbte this <code>WebRowSet</code>
      * object.
      *
-     * @throws SQLException if a data source access error occurs
-     * @throws IOException if a IO exception occurs
+     * @throws SQLException if b dbtb source bccess error occurs
+     * @throws IOException if b IO exception occurs
      */
-    public void readXml(java.io.InputStream iStream) throws SQLException, IOException {
-        if (iStream != null) {
-            xmlReader.readXML(this, iStream);
+    public void rebdXml(jbvb.io.InputStrebm iStrebm) throws SQLException, IOException {
+        if (iStrebm != null) {
+            xmlRebder.rebdXML(this, iStrebm);
 
             // Position is before the first row
-                // The cursor position is to be stored while serializng
-                // and deserializing the WebRowSet Object.
+                // The cursor position is to be stored while seriblizng
+                // bnd deseriblizing the WebRowSet Object.
                 if(curPosBfrWrite == 0) {
                    this.beforeFirst();
                 }
 
-                // Return the position back to place prior to callin writeXml
+                // Return the position bbck to plbce prior to cbllin writeXml
                 else {
-                   this.absolute(curPosBfrWrite);
+                   this.bbsolute(curPosBfrWrite);
                 }
 
         } else {
-            throw new SQLException(resBundle.handleGetObject("webrowsetimpl.invalidrd").toString());
+            throw new SQLException(resBundle.hbndleGetObject("webrowsetimpl.invblidrd").toString());
         }
     }
 
     /**
-     * Writes this <code>WebRowSet</code> object to the given <code> OutputStream</code>
-     * object in XML format.
-     * Creates an an output stream of the internal state and contents of a
+     * Writes this <code>WebRowSet</code> object to the given <code> OutputStrebm</code>
+     * object in XML formbt.
+     * Crebtes bn bn output strebm of the internbl stbte bnd contents of b
      * <code>WebRowSet</code> for XML proceessing
      *
-     * @throws SQLException if a datasource access error occurs
-     * @throws IOException if an IO exception occurs
+     * @throws SQLException if b dbtbsource bccess error occurs
+     * @throws IOException if bn IO exception occurs
      */
-    public void writeXml(java.io.OutputStream oStream) throws SQLException, IOException {
+    public void writeXml(jbvb.io.OutputStrebm oStrebm) throws SQLException, IOException {
         if (xmlWriter != null) {
 
             // Store the cursor position before writing
             curPosBfrWrite = this.getRow();
 
-            xmlWriter.writeXML(this, oStream);
+            xmlWriter.writeXML(this, oStrebm);
         } else {
-            throw new SQLException(resBundle.handleGetObject("webrowsetimpl.invalidwr").toString());
+            throw new SQLException(resBundle.hbndleGetObject("webrowsetimpl.invblidwr").toString());
         }
 
     }
 
     /**
-     * Populates this <code>WebRowSet</code> object with the
-     * data in the given <code>ResultSet</code> object and writes itself
-     * to the given <code>java.io.OutputStream</code> object in XML format.
-     * This includes the rowset's data,  properties, and metadata.
+     * Populbtes this <code>WebRowSet</code> object with the
+     * dbtb in the given <code>ResultSet</code> object bnd writes itself
+     * to the given <code>jbvb.io.OutputStrebm</code> object in XML formbt.
+     * This includes the rowset's dbtb,  properties, bnd metbdbtb.
      *
-     * @throws SQLException if a datasource access error occurs
-     * @throws IOException if an IO exception occurs
+     * @throws SQLException if b dbtbsource bccess error occurs
+     * @throws IOException if bn IO exception occurs
      */
-    public void writeXml(ResultSet rs, java.io.OutputStream oStream) throws SQLException, IOException {
-            this.populate(rs);
+    public void writeXml(ResultSet rs, jbvb.io.OutputStrebm oStrebm) throws SQLException, IOException {
+            this.populbte(rs);
 
             // Store the cursor position before writing
             curPosBfrWrite = this.getRow();
 
-            this.writeXml(oStream);
+            this.writeXml(oStrebm);
     }
 
     /**
-     * This method re populates the resBundle
-     * during the deserialization process
+     * This method re populbtes the resBundle
+     * during the deseriblizbtion process
      *
      */
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Default state initialization happens here
-        ois.defaultReadObject();
-        // Initialization of transient Res Bundle happens here .
+    privbte void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+        // Defbult stbte initiblizbtion hbppens here
+        ois.defbultRebdObject();
+        // Initiblizbtion of trbnsient Res Bundle hbppens here .
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
 
     }
 
-    static final long serialVersionUID = -8771775154092422943L;
+    stbtic finbl long seriblVersionUID = -8771775154092422943L;
 }

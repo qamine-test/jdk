@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
-// java import
+// jbvb import
 //
-import java.net.InetAddress;
-import java.util.Enumeration;
+import jbvb.net.InetAddress;
+import jbvb.util.Enumerbtion;
 
 /**
- * Defines the IP address based ACL used by the SNMP protocol adaptor.
+ * Defines the IP bddress bbsed ACL used by the SNMP protocol bdbptor.
  * <p>
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  * @since 1.5
  */
 
-public interface InetAddressAcl {
+public interfbce InetAddressAcl {
 
     /**
-     * Returns the name of the ACL.
+     * Returns the nbme of the ACL.
      *
-     * @return The name of the ACL.
+     * @return The nbme of the ACL.
      */
-    public String getName();
+    public String getNbme();
 
     /**
-     * Checks whether or not the specified host has <CODE>READ</CODE> access.
+     * Checks whether or not the specified host hbs <CODE>READ</CODE> bccess.
      *
-     * @param address The host address to check.
+     * @pbrbm bddress The host bddress to check.
      *
-     * @return <CODE>true</CODE> if the host has read permission, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the host hbs rebd permission, <CODE>fblse</CODE> otherwise.
      */
-    public boolean checkReadPermission(InetAddress address);
+    public boolebn checkRebdPermission(InetAddress bddress);
 
     /**
-     * Checks whether or not the specified host and community have <CODE>READ</CODE> access.
+     * Checks whether or not the specified host bnd community hbve <CODE>READ</CODE> bccess.
      *
-     * @param address The host address to check.
-     * @param community The community associated with the host.
+     * @pbrbm bddress The host bddress to check.
+     * @pbrbm community The community bssocibted with the host.
      *
-     * @return <CODE>true</CODE> if the pair (host, community) has read permission, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the pbir (host, community) hbs rebd permission, <CODE>fblse</CODE> otherwise.
      */
-    public boolean checkReadPermission(InetAddress address, String community);
+    public boolebn checkRebdPermission(InetAddress bddress, String community);
 
     /**
-     * Checks whether or not a community string is defined.
+     * Checks whether or not b community string is defined.
      *
-     * @param community The community to check.
+     * @pbrbm community The community to check.
      *
-     * @return <CODE>true</CODE> if the community is known, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the community is known, <CODE>fblse</CODE> otherwise.
      */
-    public boolean checkCommunity(String community);
+    public boolebn checkCommunity(String community);
 
     /**
-     * Checks whether or not the specified host has <CODE>WRITE</CODE> access.
+     * Checks whether or not the specified host hbs <CODE>WRITE</CODE> bccess.
      *
-     * @param address The host address to check.
+     * @pbrbm bddress The host bddress to check.
      *
-     * @return <CODE>true</CODE> if the host has write permission, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the host hbs write permission, <CODE>fblse</CODE> otherwise.
      */
-    public boolean checkWritePermission(InetAddress address);
+    public boolebn checkWritePermission(InetAddress bddress);
 
     /**
-     * Checks whether or not the specified host and community have <CODE>WRITE</CODE> access.
+     * Checks whether or not the specified host bnd community hbve <CODE>WRITE</CODE> bccess.
      *
-     * @param address The host address to check.
-     * @param community The community associated with the host.
+     * @pbrbm bddress The host bddress to check.
+     * @pbrbm community The community bssocibted with the host.
      *
-     * @return <CODE>true</CODE> if the pair (host, community) has write permission, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the pbir (host, community) hbs write permission, <CODE>fblse</CODE> otherwise.
      */
-    public boolean checkWritePermission(InetAddress address, String community);
+    public boolebn checkWritePermission(InetAddress bddress, String community);
 
     /**
-     * Returns an enumeration of trap destinations.
+     * Returns bn enumerbtion of trbp destinbtions.
      *
-     * @return An enumeration of the trap destinations (enumeration of <CODE>InetAddress</CODE>).
+     * @return An enumerbtion of the trbp destinbtions (enumerbtion of <CODE>InetAddress</CODE>).
      */
-    public Enumeration<InetAddress> getTrapDestinations();
+    public Enumerbtion<InetAddress> getTrbpDestinbtions();
 
     /**
-     * Returns an enumeration of trap communities for a given host.
+     * Returns bn enumerbtion of trbp communities for b given host.
      *
-     * @param address The address of the host.
+     * @pbrbm bddress The bddress of the host.
      *
-     * @return An enumeration of trap communities for a given host (enumeration of <CODE>String</CODE>).
+     * @return An enumerbtion of trbp communities for b given host (enumerbtion of <CODE>String</CODE>).
      */
-    public Enumeration<String> getTrapCommunities(InetAddress address);
+    public Enumerbtion<String> getTrbpCommunities(InetAddress bddress);
 
     /**
-     * Returns an enumeration of inform destinations.
+     * Returns bn enumerbtion of inform destinbtions.
      *
-     * @return An enumeration of the inform destinations (enumeration of <CODE>InetAddress</CODE>).
+     * @return An enumerbtion of the inform destinbtions (enumerbtion of <CODE>InetAddress</CODE>).
      */
-    public Enumeration<InetAddress> getInformDestinations();
+    public Enumerbtion<InetAddress> getInformDestinbtions();
 
     /**
-     * Returns an enumeration of inform communities for a given host.
+     * Returns bn enumerbtion of inform communities for b given host.
      *
-     * @param address The address of the host.
+     * @pbrbm bddress The bddress of the host.
      *
-     * @return An enumeration of inform communities for a given host (enumeration of <CODE>String</CODE>).
+     * @return An enumerbtion of inform communities for b given host (enumerbtion of <CODE>String</CODE>).
      */
-    public Enumeration<String> getInformCommunities(InetAddress address);
+    public Enumerbtion<String> getInformCommunities(InetAddress bddress);
 }

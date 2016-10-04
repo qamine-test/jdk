@@ -3,21 +3,21 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 5953 $"/>
-		<generation date="$Date: 2011-07-05 08:22:55 +0900 (Tue, 05 Jul 2011) $"/>
-		<language type="ne"/>
+		<generbtion dbte="$Dbte: 2011-07-05 08:22:55 +0900 (Tue, 05 Jul 2011) $"/>
+		<lbngubge type="ne"/>
 		<territory type="IN"/>
 	</identity>
-	<localeDisplayNames>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">मेट्रिक</measurementSystemName>
-			<measurementSystemName type="US">अमेरिकेली</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<locbleDisplbyNbmes>
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="metric">मेट्रिक</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="US">अमेरिकेली</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+	</locbleDisplbyNbmes>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
+					<monthContext type="formbt">
 						<monthWidth type="wide">
 							<month type="1">जनवरी</month>
 							<month type="2">फरवरी</month>
@@ -34,68 +34,68 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="wide">
-							<day type="sun">आइतवार</day>
-							<day type="mon">सोमवार</day>
-							<day type="tue">मङ्गलवार</day>
-							<day type="wed">बुधवार</day>
-							<day type="thu">बिहीवार</day>
-							<day type="fri">शुक्रवार</day>
-							<day type="sat">शनिवार</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="wide">
-							<quarter type="1">पहिलो पाउ</quarter>
-							<quarter type="2">दोस्रो पाउ</quarter>
-							<quarter type="3">तेस्रो पाउ</quarter>
-							<quarter type="4">चौथो पाउ</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">पूर्वाह्न</dayPeriod>
-							<dayPeriod type="pm">अपराह्न</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="wide">
+							<dby type="sun">आइतवार</dby>
+							<dby type="mon">सोमवार</dby>
+							<dby type="tue">मङ्गलवार</dby>
+							<dby type="wed">बुधवार</dby>
+							<dby type="thu">बिहीवार</dby>
+							<dby type="fri">शुक्रवार</dby>
+							<dby type="sbt">शनिवार</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="wide">
+							<qubrter type="1">पहिलो पाउ</qubrter>
+							<qubrter type="2">दोस्रो पाउ</qubrter>
+							<qubrter type="3">तेस्रो पाउ</qubrter>
+							<qubrter type="4">चौथो पाउ</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">पूर्वाह्न</dbyPeriod>
+							<dbyPeriod type="pm">अपराह्न</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
 				<fields>
-					<field type="era">
-						<displayName>युग</displayName>
+					<field type="erb">
+						<displbyNbme>युग</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>वर्ष</displayName>
+					<field type="yebr">
+						<displbyNbme>वर्ष</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>साता</displayName>
+						<displbyNbme>साता</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>वार</displayName>
-						<relative type="2">पर्सि</relative>
+					<field type="dby">
+						<displbyNbme>वार</displbyNbme>
+						<relbtive type="2">पर्सि</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>हप्ताको वार</displayName>
+					<field type="weekdby">
+						<displbyNbme>हप्ताको वार</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName>पूर्वाह्न / अपराह्न</displayName>
+					<field type="dbyperiod">
+						<displbyNbme>पूर्वाह्न / अपराह्न</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>सेकेन्ड</displayName>
+						<displbyNbme>सेकेन्ड</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName>अञ्‍चल</displayName>
+						<displbyNbme>अञ्‍चल</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-			<calendar type="indian">
+			</cblendbr>
+			<cblendbr type="indibn">
 				<months>
-					<monthContext type="format">
+					<monthContext type="formbt">
 						<monthWidth type="wide">
 							<month type="1">वैशाख</month>
 							<month type="2">जेठ</month>
@@ -112,25 +112,25 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
 		<currencies>
 			<currency type="INR">
-				<displayName>भारतीय रूपिँया</displayName>
-				<displayName count="one">भारतीय रूपिँया</displayName>
-				<displayName count="other">भारतीय रूपिँया</displayName>
+				<displbyNbme>भारतीय रूपिँया</displbyNbme>
+				<displbyNbme count="one">भारतीय रूपिँया</displbyNbme>
+				<displbyNbme count="other">भारतीय रूपिँया</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<units>
 		<unit type="week">
-			<unitPattern count="one">{0} साता</unitPattern>
+			<unitPbttern count="one">{0} साता</unitPbttern>
 		</unit>
-		<unit type="year">
-			<unitPattern count="one">{0} वर्ष</unitPattern>
-			<unitPattern count="other">{0} वर्ष</unitPattern>
+		<unit type="yebr">
+			<unitPbttern count="one">{0} वर्ष</unitPbttern>
+			<unitPbttern count="other">{0} वर्ष</unitPbttern>
 		</unit>
 	</units>
 </ldml>

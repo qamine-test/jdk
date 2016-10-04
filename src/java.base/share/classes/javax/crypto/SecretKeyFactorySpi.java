@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the <code>SecretKeyFactory</code> class.
- * All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a secret-key factory for a particular algorithm.
+ * This clbss defines the <i>Service Provider Interfbce</i> (<b>SPI</b>)
+ * for the <code>SecretKeyFbctory</code> clbss.
+ * All the bbstrbct methods in this clbss must be implemented by ebch
+ * cryptogrbphic service provider who wishes to supply the implementbtion
+ * of b secret-key fbctory for b pbrticulbr blgorithm.
  *
- * <P> A provider should document all the key specifications supported by its
- * secret key factory.
- * For example, the DES secret-key factory supplied by the "SunJCE" provider
- * supports <code>DESKeySpec</code> as a transparent representation of DES
- * keys, and that provider's secret-key factory for Triple DES keys supports
- * <code>DESedeKeySpec</code> as a transparent representation of Triple DES
+ * <P> A provider should document bll the key specificbtions supported by its
+ * secret key fbctory.
+ * For exbmple, the DES secret-key fbctory supplied by the "SunJCE" provider
+ * supports <code>DESKeySpec</code> bs b trbnspbrent representbtion of DES
+ * keys, bnd thbt provider's secret-key fbctory for Triple DES keys supports
+ * <code>DESedeKeySpec</code> bs b trbnspbrent representbtion of Triple DES
  * keys.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @see SecretKey
- * @see javax.crypto.spec.DESKeySpec
- * @see javax.crypto.spec.DESedeKeySpec
+ * @see jbvbx.crypto.spec.DESKeySpec
+ * @see jbvbx.crypto.spec.DESedeKeySpec
  * @since 1.4
  */
 
-public abstract class SecretKeyFactorySpi {
+public bbstrbct clbss SecretKeyFbctorySpi {
 
     /**
-     * Generates a <code>SecretKey</code> object from the
-     * provided key specification (key material).
+     * Generbtes b <code>SecretKey</code> object from the
+     * provided key specificbtion (key mbteribl).
      *
-     * @param keySpec the specification (key material) of the secret key
+     * @pbrbm keySpec the specificbtion (key mbteribl) of the secret key
      *
      * @return the secret key
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this secret-key factory to produce a secret key.
+     * @exception InvblidKeySpecException if the given key specificbtion
+     * is inbppropribte for this secret-key fbctory to produce b secret key.
      */
-    protected abstract SecretKey engineGenerateSecret(KeySpec keySpec)
-        throws InvalidKeySpecException;
+    protected bbstrbct SecretKey engineGenerbteSecret(KeySpec keySpec)
+        throws InvblidKeySpecException;
 
     /**
-     * Returns a specification (key material) of the given key
-     * object in the requested format.
+     * Returns b specificbtion (key mbteribl) of the given key
+     * object in the requested formbt.
      *
-     * @param key the key
+     * @pbrbm key the key
      *
-     * @param keySpec the requested format in which the key material shall be
+     * @pbrbm keySpec the requested formbt in which the key mbteribl shbll be
      * returned
      *
-     * @return the underlying key specification (key material) in the
-     * requested format
+     * @return the underlying key specificbtion (key mbteribl) in the
+     * requested formbt
      *
-     * @exception InvalidKeySpecException if the requested key specification is
-     * inappropriate for the given key (e.g., the algorithms associated with
-     * <code>key</code> and <code>keySpec</code> do not match, or
-     * <code>key</code> references a key on a cryptographic hardware device
-     * whereas <code>keySpec</code> is the specification of a software-based
-     * key), or the given key cannot be dealt with
-     * (e.g., the given key has an algorithm or format not supported by this
-     * secret-key factory).
+     * @exception InvblidKeySpecException if the requested key specificbtion is
+     * inbppropribte for the given key (e.g., the blgorithms bssocibted with
+     * <code>key</code> bnd <code>keySpec</code> do not mbtch, or
+     * <code>key</code> references b key on b cryptogrbphic hbrdwbre device
+     * wherebs <code>keySpec</code> is the specificbtion of b softwbre-bbsed
+     * key), or the given key cbnnot be deblt with
+     * (e.g., the given key hbs bn blgorithm or formbt not supported by this
+     * secret-key fbctory).
      */
-    protected abstract KeySpec engineGetKeySpec(SecretKey key, Class<?> keySpec)
-        throws InvalidKeySpecException;
+    protected bbstrbct KeySpec engineGetKeySpec(SecretKey key, Clbss<?> keySpec)
+        throws InvblidKeySpecException;
 
     /**
-     * Translates a key object, whose provider may be unknown or
-     * potentially untrusted, into a corresponding key object of this
-     * secret-key factory.
+     * Trbnslbtes b key object, whose provider mby be unknown or
+     * potentiblly untrusted, into b corresponding key object of this
+     * secret-key fbctory.
      *
-     * @param key the key whose provider is unknown or untrusted
+     * @pbrbm key the key whose provider is unknown or untrusted
      *
-     * @return the translated key
+     * @return the trbnslbted key
      *
-     * @exception InvalidKeyException if the given key cannot be processed
-     * by this secret-key factory.
+     * @exception InvblidKeyException if the given key cbnnot be processed
+     * by this secret-key fbctory.
      */
-    protected abstract SecretKey engineTranslateKey(SecretKey key)
-        throws InvalidKeyException;
+    protected bbstrbct SecretKey engineTrbnslbteKey(SecretKey key)
+        throws InvblidKeyException;
 }

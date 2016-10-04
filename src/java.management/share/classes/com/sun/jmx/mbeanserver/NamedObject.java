@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import javax.management.* ;
+import jbvbx.mbnbgement.* ;
 
 
 
 /**
- * This class is used for storing a pair (name, object) where name is
- * an object name and object is a reference to the object.
+ * This clbss is used for storing b pbir (nbme, object) where nbme is
+ * bn object nbme bnd object is b reference to the object.
  *
  * @since 1.5
  */
-public class NamedObject  {
+public clbss NbmedObject  {
 
 
     /**
-     * Object name.
+     * Object nbme.
      */
-    private final ObjectName name;
+    privbte finbl ObjectNbme nbme;
 
     /**
      * Object reference.
      */
-    private final DynamicMBean object;
+    privbte finbl DynbmicMBebn object;
 
 
     /**
-     * Allows a named object to be created.
+     * Allows b nbmed object to be crebted.
      *
-     *@param objectName The object name of the object.
-     *@param object A reference to the object.
+     *@pbrbm objectNbme The object nbme of the object.
+     *@pbrbm object A reference to the object.
      */
-    public NamedObject(ObjectName objectName, DynamicMBean object)  {
-        if (objectName.isPattern()) {
-            throw new RuntimeOperationsException(new IllegalArgumentException("Invalid name->"+ objectName.toString()));
+    public NbmedObject(ObjectNbme objectNbme, DynbmicMBebn object)  {
+        if (objectNbme.isPbttern()) {
+            throw new RuntimeOperbtionsException(new IllegblArgumentException("Invblid nbme->"+ objectNbme.toString()));
         }
-        this.name= objectName;
+        this.nbme= objectNbme;
         this.object= object;
     }
 
     /**
-     * Allows a named object to be created.
+     * Allows b nbmed object to be crebted.
      *
-     *@param objectName The string representation of the object name of the object.
-     *@param object A reference to the object.
+     *@pbrbm objectNbme The string representbtion of the object nbme of the object.
+     *@pbrbm object A reference to the object.
      *
-     *@exception MalformedObjectNameException The string passed does not have the format of a valid ObjectName
+     *@exception MblformedObjectNbmeException The string pbssed does not hbve the formbt of b vblid ObjectNbme
      */
-    public NamedObject(String objectName, DynamicMBean object) throws MalformedObjectNameException{
-        ObjectName objName= new ObjectName(objectName);
-        if (objName.isPattern()) {
-            throw new RuntimeOperationsException(new IllegalArgumentException("Invalid name->"+ objName.toString()));
+    public NbmedObject(String objectNbme, DynbmicMBebn object) throws MblformedObjectNbmeException{
+        ObjectNbme objNbme= new ObjectNbme(objectNbme);
+        if (objNbme.isPbttern()) {
+            throw new RuntimeOperbtionsException(new IllegblArgumentException("Invblid nbme->"+ objNbme.toString()));
         }
-        this.name= objName;
+        this.nbme= objNbme;
         this.object= object;
     }
 
     /**
-     * Compares the current object name with another object name.
+     * Compbres the current object nbme with bnother object nbme.
      *
-     * @param object  The Named Object that the current object name is to be
-     *        compared with.
+     * @pbrbm object  The Nbmed Object thbt the current object nbme is to be
+     *        compbred with.
      *
-     * @return  True if the two named objects are equal, otherwise false.
+     * @return  True if the two nbmed objects bre equbl, otherwise fblse.
      */
-    public boolean equals(Object object)  {
+    public boolebn equbls(Object object)  {
         if (this == object) return true;
-        if (object == null) return false;
-        if (!(object instanceof NamedObject)) return false;
-        NamedObject no = (NamedObject) object;
-        return name.equals(no.getName());
+        if (object == null) return fblse;
+        if (!(object instbnceof NbmedObject)) return fblse;
+        NbmedObject no = (NbmedObject) object;
+        return nbme.equbls(no.getNbme());
     }
 
 
     /**
-     * Returns a hash code for this named object.
+     * Returns b hbsh code for this nbmed object.
      *
      */
-    public int hashCode() {
-        return name.hashCode();
+    public int hbshCode() {
+        return nbme.hbshCode();
     }
 
     /**
-     * Get the object name.
+     * Get the object nbme.
      */
-    public ObjectName getName()  {
-        return name;
+    public ObjectNbme getNbme()  {
+        return nbme;
     }
 
     /**
      * Get the object
      */
-    public DynamicMBean getObject()  {
+    public DynbmicMBebn getObject()  {
         return object;
    }
 

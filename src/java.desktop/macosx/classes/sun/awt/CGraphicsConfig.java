@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
+import jbvb.bwt.*;
+import jbvb.bwt.geom.*;
+import jbvb.bwt.imbge.*;
 
-import sun.java2d.SurfaceData;
-import sun.java2d.opengl.CGLLayer;
-import sun.lwawt.LWGraphicsConfig;
-import sun.lwawt.macosx.CPlatformView;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.opengl.CGLLbyer;
+import sun.lwbwt.LWGrbphicsConfig;
+import sun.lwbwt.mbcosx.CPlbtformView;
 
-public abstract class CGraphicsConfig extends GraphicsConfiguration
-        implements LWGraphicsConfig {
+public bbstrbct clbss CGrbphicsConfig extends GrbphicsConfigurbtion
+        implements LWGrbphicsConfig {
 
-    private final CGraphicsDevice device;
-    private ColorModel colorModel;
+    privbte finbl CGrbphicsDevice device;
+    privbte ColorModel colorModel;
 
-    protected CGraphicsConfig(CGraphicsDevice device) {
+    protected CGrbphicsConfig(CGrbphicsDevice device) {
         this.device = device;
     }
 
     @Override
-    public BufferedImage createCompatibleImage(int width, int height) {
-        throw new UnsupportedOperationException("not implemented");
+    public BufferedImbge crebteCompbtibleImbge(int width, int height) {
+        throw new UnsupportedOperbtionException("not implemented");
     }
 
-    private static native Rectangle2D nativeGetBounds(int screen);
+    privbte stbtic nbtive Rectbngle2D nbtiveGetBounds(int screen);
 
     @Override
-    public Rectangle getBounds() {
-        final Rectangle2D nativeBounds = nativeGetBounds(device.getCGDisplayID());
-        return nativeBounds.getBounds(); // does integer rounding
+    public Rectbngle getBounds() {
+        finbl Rectbngle2D nbtiveBounds = nbtiveGetBounds(device.getCGDisplbyID());
+        return nbtiveBounds.getBounds(); // does integer rounding
     }
 
     @Override
     public ColorModel getColorModel() {
         if (colorModel == null) {
-            colorModel = getColorModel(Transparency.OPAQUE);
+            colorModel = getColorModel(Trbnspbrency.OPAQUE);
         }
         return colorModel;
     }
 
     @Override
-    public ColorModel getColorModel(int transparency) {
-        throw new UnsupportedOperationException("not implemented");
+    public ColorModel getColorModel(int trbnspbrency) {
+        throw new UnsupportedOperbtionException("not implemented");
     }
 
     @Override
-    public AffineTransform getDefaultTransform() {
-        return new AffineTransform();
+    public AffineTrbnsform getDefbultTrbnsform() {
+        return new AffineTrbnsform();
     }
 
     @Override
-    public CGraphicsDevice getDevice() {
+    public CGrbphicsDevice getDevice() {
         return device;
     }
 
     @Override
-    public AffineTransform getNormalizingTransform() {
-        double xscale = device.getXResolution() / 72.0;
-        double yscale = device.getYResolution() / 72.0;
-        return new AffineTransform(xscale, 0.0, 0.0, yscale, 0.0, 0.0);
+    public AffineTrbnsform getNormblizingTrbnsform() {
+        double xscble = device.getXResolution() / 72.0;
+        double yscble = device.getYResolution() / 72.0;
+        return new AffineTrbnsform(xscble, 0.0, 0.0, yscble, 0.0, 0.0);
     }
 
     /**
-     * Creates a new SurfaceData that will be associated with the given
+     * Crebtes b new SurfbceDbtb thbt will be bssocibted with the given
      * LWWindowPeer.
      */
-    public abstract SurfaceData createSurfaceData(CPlatformView pView);
+    public bbstrbct SurfbceDbtb crebteSurfbceDbtb(CPlbtformView pView);
 
     /**
-     * Creates a new SurfaceData that will be associated with the given
-     * CGLLayer.
+     * Crebtes b new SurfbceDbtb thbt will be bssocibted with the given
+     * CGLLbyer.
      */
-    public abstract SurfaceData createSurfaceData(CGLLayer layer);
+    public bbstrbct SurfbceDbtb crebteSurfbceDbtb(CGLLbyer lbyer);
 
     @Override
-    public final boolean isTranslucencyCapable() {
-        //we know for sure we have capable config :)
+    public finbl boolebn isTrbnslucencyCbpbble() {
+        //we know for sure we hbve cbpbble config :)
         return true;
     }
 }

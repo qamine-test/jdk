@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
 
-import java.awt.*;
-import java.beans.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
+import jbvb.bwt.event.*;
 
 
 /**
- * A Metal L&amp;F implementation of ScrollPaneUI.
+ * A Metbl L&bmp;F implementbtion of ScrollPbneUI.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Steve Wilson
+ * @buthor Steve Wilson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalScrollPaneUI extends BasicScrollPaneUI
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss MetblScrollPbneUI extends BbsicScrollPbneUI
 {
 
-    private PropertyChangeListener scrollBarSwapListener;
+    privbte PropertyChbngeListener scrollBbrSwbpListener;
 
     /**
-     * Constructs a new {@code MetalScrollPaneUI}.
+     * Constructs b new {@code MetblScrollPbneUI}.
      *
-     * @param x a component
-     * @return a new {@code MetalScrollPaneUI}
+     * @pbrbm x b component
+     * @return b new {@code MetblScrollPbneUI}
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new MetalScrollPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent x) {
+        return new MetblScrollPbneUI();
     }
 
-    public void installUI(JComponent c) {
+    public void instbllUI(JComponent c) {
 
-        super.installUI(c);
+        super.instbllUI(c);
 
-        JScrollPane sp = (JScrollPane)c;
-        updateScrollbarsFreeStanding();
+        JScrollPbne sp = (JScrollPbne)c;
+        updbteScrollbbrsFreeStbnding();
     }
 
-    public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
+    public void uninstbllUI(JComponent c) {
+        super.uninstbllUI(c);
 
-        JScrollPane sp = (JScrollPane)c;
-        JScrollBar hsb = sp.getHorizontalScrollBar();
-        JScrollBar vsb = sp.getVerticalScrollBar();
+        JScrollPbne sp = (JScrollPbne)c;
+        JScrollBbr hsb = sp.getHorizontblScrollBbr();
+        JScrollBbr vsb = sp.getVerticblScrollBbr();
         if (hsb != null) {
-            hsb.putClientProperty( MetalScrollBarUI.FREE_STANDING_PROP, null);
+            hsb.putClientProperty( MetblScrollBbrUI.FREE_STANDING_PROP, null);
         }
         if (vsb != null) {
-            vsb.putClientProperty( MetalScrollBarUI.FREE_STANDING_PROP, null);
+            vsb.putClientProperty( MetblScrollBbrUI.FREE_STANDING_PROP, null);
         }
     }
 
-    public void installListeners(JScrollPane scrollPane) {
-        super.installListeners(scrollPane);
-        scrollBarSwapListener = createScrollBarSwapListener();
-        scrollPane.addPropertyChangeListener(scrollBarSwapListener);
+    public void instbllListeners(JScrollPbne scrollPbne) {
+        super.instbllListeners(scrollPbne);
+        scrollBbrSwbpListener = crebteScrollBbrSwbpListener();
+        scrollPbne.bddPropertyChbngeListener(scrollBbrSwbpListener);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected void uninstallListeners(JComponent c) {
-        super.uninstallListeners(c);
-        c.removePropertyChangeListener(scrollBarSwapListener);
+    protected void uninstbllListeners(JComponent c) {
+        super.uninstbllListeners(c);
+        c.removePropertyChbngeListener(scrollBbrSwbpListener);
     }
 
     /**
-     * @param scrollPane an instance of the {@code JScrollPane}
-     * @deprecated - Replaced by {@link #uninstallListeners(JComponent)}
+     * @pbrbm scrollPbne bn instbnce of the {@code JScrollPbne}
+     * @deprecbted - Replbced by {@link #uninstbllListeners(JComponent)}
      */
-    @Deprecated
-    public void uninstallListeners(JScrollPane scrollPane) {
-        super.uninstallListeners(scrollPane);
-        scrollPane.removePropertyChangeListener(scrollBarSwapListener);
+    @Deprecbted
+    public void uninstbllListeners(JScrollPbne scrollPbne) {
+        super.uninstbllListeners(scrollPbne);
+        scrollPbne.removePropertyChbngeListener(scrollBbrSwbpListener);
     }
 
     /**
-     * If the border of the scrollpane is an instance of
-     * <code>MetalBorders.ScrollPaneBorder</code>, the client property
-     * <code>FREE_STANDING_PROP</code> of the scrollbars
-     * is set to false, otherwise it is set to true.
+     * If the border of the scrollpbne is bn instbnce of
+     * <code>MetblBorders.ScrollPbneBorder</code>, the client property
+     * <code>FREE_STANDING_PROP</code> of the scrollbbrs
+     * is set to fblse, otherwise it is set to true.
      */
-    private void updateScrollbarsFreeStanding() {
-        if (scrollpane == null) {
+    privbte void updbteScrollbbrsFreeStbnding() {
+        if (scrollpbne == null) {
             return;
         }
-        Border border = scrollpane.getBorder();
-        Object value;
+        Border border = scrollpbne.getBorder();
+        Object vblue;
 
-        if (border instanceof MetalBorders.ScrollPaneBorder) {
-            value = Boolean.FALSE;
+        if (border instbnceof MetblBorders.ScrollPbneBorder) {
+            vblue = Boolebn.FALSE;
         }
         else {
-            value = Boolean.TRUE;
+            vblue = Boolebn.TRUE;
         }
-        JScrollBar sb = scrollpane.getHorizontalScrollBar();
+        JScrollBbr sb = scrollpbne.getHorizontblScrollBbr();
         if (sb != null) {
             sb.putClientProperty
-                   (MetalScrollBarUI.FREE_STANDING_PROP, value);
+                   (MetblScrollBbrUI.FREE_STANDING_PROP, vblue);
         }
-        sb = scrollpane.getVerticalScrollBar();
+        sb = scrollpbne.getVerticblScrollBbr();
         if (sb != null) {
             sb.putClientProperty
-                   (MetalScrollBarUI.FREE_STANDING_PROP, value);
+                   (MetblScrollBbrUI.FREE_STANDING_PROP, vblue);
         }
     }
 
     /**
-     * Returns a new {@code PropertyChangeListener} for scroll bar swap events.
+     * Returns b new {@code PropertyChbngeListener} for scroll bbr swbp events.
      *
-     * @return a new {@code PropertyChangeListener} for scroll bar swap events.
+     * @return b new {@code PropertyChbngeListener} for scroll bbr swbp events.
      */
-    protected PropertyChangeListener createScrollBarSwapListener() {
-        return new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent e) {
-                  String propertyName = e.getPropertyName();
-                  if (propertyName.equals("verticalScrollBar") ||
-                      propertyName.equals("horizontalScrollBar")) {
-                      JScrollBar oldSB = (JScrollBar)e.getOldValue();
+    protected PropertyChbngeListener crebteScrollBbrSwbpListener() {
+        return new PropertyChbngeListener() {
+            public void propertyChbnge(PropertyChbngeEvent e) {
+                  String propertyNbme = e.getPropertyNbme();
+                  if (propertyNbme.equbls("verticblScrollBbr") ||
+                      propertyNbme.equbls("horizontblScrollBbr")) {
+                      JScrollBbr oldSB = (JScrollBbr)e.getOldVblue();
                       if (oldSB != null) {
                           oldSB.putClientProperty(
-                              MetalScrollBarUI.FREE_STANDING_PROP, null);
+                              MetblScrollBbrUI.FREE_STANDING_PROP, null);
                       }
-                      JScrollBar newSB = (JScrollBar)e.getNewValue();
+                      JScrollBbr newSB = (JScrollBbr)e.getNewVblue();
                       if (newSB != null) {
                           newSB.putClientProperty(
-                              MetalScrollBarUI.FREE_STANDING_PROP,
-                              Boolean.FALSE);
+                              MetblScrollBbrUI.FREE_STANDING_PROP,
+                              Boolebn.FALSE);
                       }
                   }
-                  else if ("border".equals(propertyName)) {
-                      updateScrollbarsFreeStanding();
+                  else if ("border".equbls(propertyNbme)) {
+                      updbteScrollbbrsFreeStbnding();
                   }
         }};
     }

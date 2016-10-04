@@ -1,30 +1,30 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* zconf.h -- configuration of the zlib compression library
- * Copyright (C) 1995-2013 Jean-loup Gailly.
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* zconf.h -- configurbtion of the zlib compression librbry
+ * Copyright (C) 1995-2013 Jebn-loup Gbilly.
+ * For conditions of distribution bnd use, see copyright notice in zlib.h
  */
 
 /* @(#) $Id$ */
@@ -36,26 +36,26 @@
 #include <sys/types.h>
 
 /*
- * If you *really* need a unique prefix for all types and library functions,
- * compile with -DZ_PREFIX. The "standard" zlib should be compiled without it.
- * Even better than compiling with -DZ_PREFIX would be to use configure to set
- * this permanently in zconf.h using "./configure --zprefix".
+ * If you *reblly* need b unique prefix for bll types bnd librbry functions,
+ * compile with -DZ_PREFIX. The "stbndbrd" zlib should be compiled without it.
+ * Even better thbn compiling with -DZ_PREFIX would be to use configure to set
+ * this permbnently in zconf.h using "./configure --zprefix".
  */
-#ifdef Z_PREFIX     /* may be set to #if 1 by ./configure */
+#ifdef Z_PREFIX     /* mby be set to #if 1 by ./configure */
 #  define Z_PREFIX_SET
 
-/* all linked symbols */
+/* bll linked symbols */
 #  define _dist_code            z__dist_code
 #  define _length_code          z__length_code
-#  define _tr_align             z__tr_align
+#  define _tr_blign             z__tr_blign
 #  define _tr_flush_bits        z__tr_flush_bits
 #  define _tr_flush_block       z__tr_flush_block
 #  define _tr_init              z__tr_init
 #  define _tr_stored_block      z__tr_stored_block
-#  define _tr_tally             z__tr_tally
-#  define adler32               z_adler32
-#  define adler32_combine       z_adler32_combine
-#  define adler32_combine64     z_adler32_combine64
+#  define _tr_tblly             z__tr_tblly
+#  define bdler32               z_bdler32
+#  define bdler32_combine       z_bdler32_combine
+#  define bdler32_combine64     z_bdler32_combine64
 #  ifndef Z_SOLO
 #    define compress              z_compress
 #    define compress2             z_compress2
@@ -64,28 +64,28 @@
 #  define crc32                 z_crc32
 #  define crc32_combine         z_crc32_combine
 #  define crc32_combine64       z_crc32_combine64
-#  define deflate               z_deflate
-#  define deflateBound          z_deflateBound
-#  define deflateCopy           z_deflateCopy
-#  define deflateEnd            z_deflateEnd
-#  define deflateInit2_         z_deflateInit2_
-#  define deflateInit_          z_deflateInit_
-#  define deflateParams         z_deflateParams
-#  define deflatePending        z_deflatePending
-#  define deflatePrime          z_deflatePrime
-#  define deflateReset          z_deflateReset
-#  define deflateResetKeep      z_deflateResetKeep
-#  define deflateSetDictionary  z_deflateSetDictionary
-#  define deflateSetHeader      z_deflateSetHeader
-#  define deflateTune           z_deflateTune
-#  define deflate_copyright     z_deflate_copyright
-#  define get_crc_table         z_get_crc_table
+#  define deflbte               z_deflbte
+#  define deflbteBound          z_deflbteBound
+#  define deflbteCopy           z_deflbteCopy
+#  define deflbteEnd            z_deflbteEnd
+#  define deflbteInit2_         z_deflbteInit2_
+#  define deflbteInit_          z_deflbteInit_
+#  define deflbtePbrbms         z_deflbtePbrbms
+#  define deflbtePending        z_deflbtePending
+#  define deflbtePrime          z_deflbtePrime
+#  define deflbteReset          z_deflbteReset
+#  define deflbteResetKeep      z_deflbteResetKeep
+#  define deflbteSetDictionbry  z_deflbteSetDictionbry
+#  define deflbteSetHebder      z_deflbteSetHebder
+#  define deflbteTune           z_deflbteTune
+#  define deflbte_copyright     z_deflbte_copyright
+#  define get_crc_tbble         z_get_crc_tbble
 #  ifndef Z_SOLO
 #    define gz_error              z_gz_error
-#    define gz_intmax             z_gz_intmax
+#    define gz_intmbx             z_gz_intmbx
 #    define gz_strwinerror        z_gz_strwinerror
 #    define gzbuffer              z_gzbuffer
-#    define gzclearerr            z_gzclearerr
+#    define gzclebrerr            z_gzclebrerr
 #    define gzclose               z_gzclose
 #    define gzclose_r             z_gzclose_r
 #    define gzclose_w             z_gzclose_w
@@ -108,60 +108,60 @@
 #    define gzvprintf             z_gzvprintf
 #    define gzputc                z_gzputc
 #    define gzputs                z_gzputs
-#    define gzread                z_gzread
+#    define gzrebd                z_gzrebd
 #    define gzrewind              z_gzrewind
 #    define gzseek                z_gzseek
 #    define gzseek64              z_gzseek64
-#    define gzsetparams           z_gzsetparams
+#    define gzsetpbrbms           z_gzsetpbrbms
 #    define gztell                z_gztell
 #    define gztell64              z_gztell64
 #    define gzungetc              z_gzungetc
 #    define gzwrite               z_gzwrite
 #  endif
-#  define inflate               z_inflate
-#  define inflateBack           z_inflateBack
-#  define inflateBackEnd        z_inflateBackEnd
-#  define inflateBackInit_      z_inflateBackInit_
-#  define inflateCopy           z_inflateCopy
-#  define inflateEnd            z_inflateEnd
-#  define inflateGetHeader      z_inflateGetHeader
-#  define inflateInit2_         z_inflateInit2_
-#  define inflateInit_          z_inflateInit_
-#  define inflateMark           z_inflateMark
-#  define inflatePrime          z_inflatePrime
-#  define inflateReset          z_inflateReset
-#  define inflateReset2         z_inflateReset2
-#  define inflateSetDictionary  z_inflateSetDictionary
-#  define inflateGetDictionary  z_inflateGetDictionary
-#  define inflateSync           z_inflateSync
-#  define inflateSyncPoint      z_inflateSyncPoint
-#  define inflateUndermine      z_inflateUndermine
-#  define inflateResetKeep      z_inflateResetKeep
-#  define inflate_copyright     z_inflate_copyright
-#  define inflate_fast          z_inflate_fast
-#  define inflate_table         z_inflate_table
+#  define inflbte               z_inflbte
+#  define inflbteBbck           z_inflbteBbck
+#  define inflbteBbckEnd        z_inflbteBbckEnd
+#  define inflbteBbckInit_      z_inflbteBbckInit_
+#  define inflbteCopy           z_inflbteCopy
+#  define inflbteEnd            z_inflbteEnd
+#  define inflbteGetHebder      z_inflbteGetHebder
+#  define inflbteInit2_         z_inflbteInit2_
+#  define inflbteInit_          z_inflbteInit_
+#  define inflbteMbrk           z_inflbteMbrk
+#  define inflbtePrime          z_inflbtePrime
+#  define inflbteReset          z_inflbteReset
+#  define inflbteReset2         z_inflbteReset2
+#  define inflbteSetDictionbry  z_inflbteSetDictionbry
+#  define inflbteGetDictionbry  z_inflbteGetDictionbry
+#  define inflbteSync           z_inflbteSync
+#  define inflbteSyncPoint      z_inflbteSyncPoint
+#  define inflbteUndermine      z_inflbteUndermine
+#  define inflbteResetKeep      z_inflbteResetKeep
+#  define inflbte_copyright     z_inflbte_copyright
+#  define inflbte_fbst          z_inflbte_fbst
+#  define inflbte_tbble         z_inflbte_tbble
 #  ifndef Z_SOLO
 #    define uncompress            z_uncompress
 #  endif
 #  define zError                z_zError
 #  ifndef Z_SOLO
-#    define zcalloc               z_zcalloc
+#    define zcblloc               z_zcblloc
 #    define zcfree                z_zcfree
 #  endif
-#  define zlibCompileFlags      z_zlibCompileFlags
+#  define zlibCompileFlbgs      z_zlibCompileFlbgs
 #  define zlibVersion           z_zlibVersion
 
-/* all zlib typedefs in zlib.h and zconf.h */
+/* bll zlib typedefs in zlib.h bnd zconf.h */
 #  define Byte                  z_Byte
 #  define Bytef                 z_Bytef
-#  define alloc_func            z_alloc_func
-#  define charf                 z_charf
+#  define blloc_func            z_blloc_func
+#  define chbrf                 z_chbrf
 #  define free_func             z_free_func
 #  ifndef Z_SOLO
 #    define gzFile                z_gzFile
 #  endif
-#  define gz_header             z_gz_header
-#  define gz_headerp            z_gz_headerp
+#  define gz_hebder             z_gz_hebder
+#  define gz_hebderp            z_gz_hebderp
 #  define in_func               z_in_func
 #  define intf                  z_intf
 #  define out_func              z_out_func
@@ -173,9 +173,9 @@
 #  define voidpc                z_voidpc
 #  define voidpf                z_voidpf
 
-/* all zlib structs in zlib.h and zconf.h */
-#  define gz_header_s           z_gz_header_s
-#  define internal_state        z_internal_state
+/* bll zlib structs in zlib.h bnd zconf.h */
+#  define gz_hebder_s           z_gz_hebder_s
+#  define internbl_stbte        z_internbl_stbte
 
 #endif
 
@@ -202,8 +202,8 @@
 #endif
 
 /*
- * Compile with -DMAXSEG_64K if the alloc function cannot allocate more
- * than 64k bytes at a time (needed on systems with 16-bit int).
+ * Compile with -DMAXSEG_64K if the blloc function cbnnot bllocbte more
+ * thbn 64k bytes bt b time (needed on systems with 16-bit int).
  */
 #ifdef SYS16BIT
 #  define MAXSEG_64K
@@ -240,8 +240,8 @@
 #endif
 
 #ifndef STDC
-#  ifndef const /* cannot use !defined(STDC) && !defined(const) on Mac */
-#    define const       /* note: need a more gentle solution here */
+#  ifndef const /* cbnnot use !defined(STDC) && !defined(const) on Mbc */
+#    define const       /* note: need b more gentle solution here */
 #  endif
 #endif
 
@@ -251,12 +251,12 @@
 #  define z_const
 #endif
 
-/* Some Mac compilers merge all .h files incorrectly: */
-#if defined(__MWERKS__)||defined(applec)||defined(THINK_C)||defined(__SC__)
+/* Some Mbc compilers merge bll .h files incorrectly: */
+#if defined(__MWERKS__)||defined(bpplec)||defined(THINK_C)||defined(__SC__)
 #  define NO_DUMMY_DECL
 #endif
 
-/* Maximum value for memLevel in deflateInit2 */
+/* Mbximum vblue for memLevel in deflbteInit2 */
 #ifndef MAX_MEM_LEVEL
 #  ifdef MAXSEG_64K
 #    define MAX_MEM_LEVEL 8
@@ -265,76 +265,76 @@
 #  endif
 #endif
 
-/* Maximum value for windowBits in deflateInit2 and inflateInit2.
- * WARNING: reducing MAX_WBITS makes minigzip unable to extract .gz files
- * created by gzip. (Files created by minigzip can still be extracted by
+/* Mbximum vblue for windowBits in deflbteInit2 bnd inflbteInit2.
+ * WARNING: reducing MAX_WBITS mbkes minigzip unbble to extrbct .gz files
+ * crebted by gzip. (Files crebted by minigzip cbn still be extrbcted by
  * gzip.)
  */
 #ifndef MAX_WBITS
 #  define MAX_WBITS   15 /* 32K LZ77 window */
 #endif
 
-/* The memory requirements for deflate are (in bytes):
+/* The memory requirements for deflbte bre (in bytes):
             (1 << (windowBits+2)) +  (1 << (memLevel+9))
- that is: 128K for windowBits=15  +  128K for memLevel = 8  (default values)
- plus a few kilobytes for small objects. For example, if you want to reduce
- the default memory requirements from 256K to 128K, compile with
-     make CFLAGS="-O -DMAX_WBITS=14 -DMAX_MEM_LEVEL=7"
- Of course this will generally degrade compression (there's no free lunch).
+ thbt is: 128K for windowBits=15  +  128K for memLevel = 8  (defbult vblues)
+ plus b few kilobytes for smbll objects. For exbmple, if you wbnt to reduce
+ the defbult memory requirements from 256K to 128K, compile with
+     mbke CFLAGS="-O -DMAX_WBITS=14 -DMAX_MEM_LEVEL=7"
+ Of course this will generblly degrbde compression (there's no free lunch).
 
-   The memory requirements for inflate are (in bytes) 1 << windowBits
- that is, 32K for windowBits=15 (default value) plus a few kilobytes
- for small objects.
+   The memory requirements for inflbte bre (in bytes) 1 << windowBits
+ thbt is, 32K for windowBits=15 (defbult vblue) plus b few kilobytes
+ for smbll objects.
 */
 
-                        /* Type declarations */
+                        /* Type declbrbtions */
 
 #ifndef OF /* function prototypes */
 #  ifdef STDC
-#    define OF(args)  args
+#    define OF(brgs)  brgs
 #  else
-#    define OF(args)  ()
+#    define OF(brgs)  ()
 #  endif
 #endif
 
-#ifndef Z_ARG /* function prototypes for stdarg */
+#ifndef Z_ARG /* function prototypes for stdbrg */
 #  if defined(STDC) || defined(Z_HAVE_STDARG_H)
-#    define Z_ARG(args)  args
+#    define Z_ARG(brgs)  brgs
 #  else
-#    define Z_ARG(args)  ()
+#    define Z_ARG(brgs)  ()
 #  endif
 #endif
 
-/* The following definitions for FAR are needed only for MSDOS mixed
- * model programming (small or medium model with some far allocations).
- * This was tested only with MSC; for other MSDOS compilers you may have
+/* The following definitions for FAR bre needed only for MSDOS mixed
+ * model progrbmming (smbll or medium model with some fbr bllocbtions).
+ * This wbs tested only with MSC; for other MSDOS compilers you mby hbve
  * to define NO_MEMCPY in zutil.h.  If you don't need the mixed model,
  * just define FAR to be empty.
  */
 #ifdef SYS16BIT
 #  if defined(M_I86SM) || defined(M_I86MM)
-     /* MSC small or medium model */
+     /* MSC smbll or medium model */
 #    define SMALL_MEDIUM
 #    ifdef _MSC_VER
-#      define FAR _far
+#      define FAR _fbr
 #    else
-#      define FAR far
+#      define FAR fbr
 #    endif
 #  endif
 #  if (defined(__SMALL__) || defined(__MEDIUM__))
-     /* Turbo C small or medium model */
+     /* Turbo C smbll or medium model */
 #    define SMALL_MEDIUM
 #    ifdef __BORLANDC__
-#      define FAR _far
+#      define FAR _fbr
 #    else
-#      define FAR far
+#      define FAR fbr
 #    endif
 #  endif
 #endif
 
 #if defined(WINDOWS) || defined(WIN32)
-   /* If building or using zlib as a DLL, define ZLIB_DLL.
-    * This is not mandatory, but it offers a little performance increase.
+   /* If building or using zlib bs b DLL, define ZLIB_DLL.
+    * This is not mbndbtory, but it offers b little performbnce increbse.
     */
 #  ifdef ZLIB_DLL
 #    if defined(WIN32) && (!defined(__BORLANDC__) || (__BORLANDC__ >= 0x500))
@@ -345,17 +345,17 @@
 #      endif
 #    endif
 #  endif  /* ZLIB_DLL */
-   /* If building or using zlib with the WINAPI/WINAPIV calling convention,
+   /* If building or using zlib with the WINAPI/WINAPIV cblling convention,
     * define ZLIB_WINAPI.
-    * Caution: the standard ZLIB1.DLL is NOT compiled using ZLIB_WINAPI.
+    * Cbution: the stbndbrd ZLIB1.DLL is NOT compiled using ZLIB_WINAPI.
     */
 #  ifdef ZLIB_WINAPI
 #    ifdef FAR
 #      undef FAR
 #    endif
 #    include <windows.h>
-     /* No need for _export, use ZLIB.DEF instead. */
-     /* For complete Windows compatibility, use WINAPI, not __stdcall. */
+     /* No need for _export, use ZLIB.DEF instebd. */
+     /* For complete Windows compbtibility, use WINAPI, not __stdcbll. */
 #    define ZEXPORT WINAPI
 #    ifdef WIN32
 #      define ZEXPORTVA WINAPIV
@@ -392,7 +392,7 @@
 #endif
 
 #if !defined(__MACTYPES__)
-typedef unsigned char  Byte;  /* 8 bits */
+typedef unsigned chbr  Byte;  /* 8 bits */
 #endif
 typedef unsigned int   uInt;  /* 16 bits or more */
 
@@ -403,12 +403,12 @@ typedef unsigned long  uLong; /* 32 bits or more */
 #endif
 
 #ifdef SMALL_MEDIUM
-   /* Borland C/C++ and some old MSC versions ignore FAR inside typedef */
+   /* Borlbnd C/C++ bnd some old MSC versions ignore FAR inside typedef */
 #  define Bytef Byte FAR
 #else
    typedef Byte  FAR Bytef;
 #endif
-typedef char  FAR charf;
+typedef chbr  FAR chbrf;
 typedef int   FAR intf;
 typedef uInt  FAR uIntf;
 typedef uLong FAR uLongf;
@@ -440,11 +440,11 @@ typedef uLong FAR uLongf;
    typedef unsigned long z_crc_t;
 #endif
 
-#ifdef HAVE_UNISTD_H    /* may be set to #if 1 by ./configure */
+#ifdef HAVE_UNISTD_H    /* mby be set to #if 1 by ./configure */
 #  define Z_HAVE_UNISTD_H
 #endif
 
-#ifdef HAVE_STDARG_H    /* may be set to #if 1 by ./configure */
+#ifdef HAVE_STDARG_H    /* mby be set to #if 1 by ./configure */
 #  define Z_HAVE_STDARG_H
 #endif
 
@@ -456,21 +456,21 @@ typedef uLong FAR uLongf;
 
 #if defined(STDC) || defined(Z_HAVE_STDARG_H)
 #  ifndef Z_SOLO
-#    include <stdarg.h>         /* for va_list */
+#    include <stdbrg.h>         /* for vb_list */
 #  endif
 #endif
 
 #ifdef _WIN32
 #  ifndef Z_SOLO
-#    include <stddef.h>         /* for wchar_t */
+#    include <stddef.h>         /* for wchbr_t */
 #  endif
 #endif
 
-/* a little trick to accommodate both "#define _LARGEFILE64_SOURCE" and
- * "#define _LARGEFILE64_SOURCE 1" as requesting 64-bit operations, (even
+/* b little trick to bccommodbte both "#define _LARGEFILE64_SOURCE" bnd
+ * "#define _LARGEFILE64_SOURCE 1" bs requesting 64-bit operbtions, (even
  * though the former does not conform to the LFS document), but considering
- * both "#undef _LARGEFILE64_SOURCE" and "#define _LARGEFILE64_SOURCE 0" as
- * equivalently requesting no 64-bit operations
+ * both "#undef _LARGEFILE64_SOURCE" bnd "#define _LARGEFILE64_SOURCE 0" bs
+ * equivblently requesting no 64-bit operbtions
  */
 #if defined(_LARGEFILE64_SOURCE) && -_LARGEFILE64_SOURCE - -1 == 1
 #  undef _LARGEFILE64_SOURCE
@@ -481,7 +481,7 @@ typedef uLong FAR uLongf;
 #endif
 #ifndef Z_SOLO
 #  if defined(Z_HAVE_UNISTD_H) || defined(_LARGEFILE64_SOURCE)
-#    include <unistd.h>         /* for SEEK_*, off_t, and _LFS64_LARGEFILE */
+#    include <unistd.h>         /* for SEEK_*, off_t, bnd _LFS64_LARGEFILE */
 #    ifdef VMS
 #      include <unixio.h>       /* for off_t */
 #    endif
@@ -523,21 +523,21 @@ typedef uLong FAR uLongf;
 #  endif
 #endif
 
-/* MVS linker does not support external names larger than 8 bytes */
+/* MVS linker does not support externbl nbmes lbrger thbn 8 bytes */
 #if defined(__MVS__)
-  #pragma map(deflateInit_,"DEIN")
-  #pragma map(deflateInit2_,"DEIN2")
-  #pragma map(deflateEnd,"DEEND")
-  #pragma map(deflateBound,"DEBND")
-  #pragma map(inflateInit_,"ININ")
-  #pragma map(inflateInit2_,"ININ2")
-  #pragma map(inflateEnd,"INEND")
-  #pragma map(inflateSync,"INSY")
-  #pragma map(inflateSetDictionary,"INSEDI")
-  #pragma map(compressBound,"CMBND")
-  #pragma map(inflate_table,"INTABL")
-  #pragma map(inflate_fast,"INFA")
-  #pragma map(inflate_copyright,"INCOPY")
+  #prbgmb mbp(deflbteInit_,"DEIN")
+  #prbgmb mbp(deflbteInit2_,"DEIN2")
+  #prbgmb mbp(deflbteEnd,"DEEND")
+  #prbgmb mbp(deflbteBound,"DEBND")
+  #prbgmb mbp(inflbteInit_,"ININ")
+  #prbgmb mbp(inflbteInit2_,"ININ2")
+  #prbgmb mbp(inflbteEnd,"INEND")
+  #prbgmb mbp(inflbteSync,"INSY")
+  #prbgmb mbp(inflbteSetDictionbry,"INSEDI")
+  #prbgmb mbp(compressBound,"CMBND")
+  #prbgmb mbp(inflbte_tbble,"INTABL")
+  #prbgmb mbp(inflbte_fbst,"INFA")
+  #prbgmb mbp(inflbte_copyright,"INCOPY")
 #endif
 
 #endif /* ZCONF_H */

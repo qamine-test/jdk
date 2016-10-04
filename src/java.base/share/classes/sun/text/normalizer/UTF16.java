@@ -1,452 +1,452 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyright IBM Corp. bnd others, 1996-2009 - All Rights Reserved         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
 /**
- * <p>Standalone utility class providing UTF16 character conversions and
+ * <p>Stbndblone utility clbss providing UTF16 chbrbcter conversions bnd
  * indexing conversions.</p>
- * <p>Code that uses strings alone rarely need modification.
- * By design, UTF-16 does not allow overlap, so searching for strings is a safe
- * operation. Similarly, concatenation is always safe. Substringing is safe if
- * the start and end are both on UTF-32 boundaries. In normal code, the values
- * for start and end are on those boundaries, since they arose from operations
- * like searching. If not, the nearest UTF-32 boundaries can be determined
+ * <p>Code thbt uses strings blone rbrely need modificbtion.
+ * By design, UTF-16 does not bllow overlbp, so sebrching for strings is b sbfe
+ * operbtion. Similbrly, concbtenbtion is blwbys sbfe. Substringing is sbfe if
+ * the stbrt bnd end bre both on UTF-32 boundbries. In normbl code, the vblues
+ * for stbrt bnd end bre on those boundbries, since they brose from operbtions
+ * like sebrching. If not, the nebrest UTF-32 boundbries cbn be determined
  * using <code>bounds()</code>.</p>
- * <strong>Examples:</strong>
- * <p>The following examples illustrate use of some of these methods.
+ * <strong>Exbmples:</strong>
+ * <p>The following exbmples illustrbte use of some of these methods.
  * <pre>
- * // iteration forwards: Original
+ * // iterbtion forwbrds: Originbl
  * for (int i = 0; i &lt; s.length(); ++i) {
- *     char ch = s.charAt(i);
+ *     chbr ch = s.chbrAt(i);
  *     doSomethingWith(ch);
  * }
  *
- * // iteration forwards: Changes for UTF-32
+ * // iterbtion forwbrds: Chbnges for UTF-32
  * int ch;
- * for (int i = 0; i &lt; s.length(); i+=UTF16.getCharCount(ch)) {
- *     ch = UTF16.charAt(s,i);
+ * for (int i = 0; i &lt; s.length(); i+=UTF16.getChbrCount(ch)) {
+ *     ch = UTF16.chbrAt(s,i);
  *     doSomethingWith(ch);
  * }
  *
- * // iteration backwards: Original
+ * // iterbtion bbckwbrds: Originbl
  * for (int i = s.length() -1; i >= 0; --i) {
- *     char ch = s.charAt(i);
+ *     chbr ch = s.chbrAt(i);
  *     doSomethingWith(ch);
  * }
  *
- * // iteration backwards: Changes for UTF-32
+ * // iterbtion bbckwbrds: Chbnges for UTF-32
  * int ch;
- * for (int i = s.length() -1; i > 0; i-=UTF16.getCharCount(ch)) {
- *     ch = UTF16.charAt(s,i);
+ * for (int i = s.length() -1; i > 0; i-=UTF16.getChbrCount(ch)) {
+ *     ch = UTF16.chbrAt(s,i);
  *     doSomethingWith(ch);
  * }
  * </pre>
  * <strong>Notes:</strong>
  * <ul>
  *   <li>
- *   <strong>Naming:</strong> For clarity, High and Low surrogates are called
- *   <code>Lead</code> and <code>Trail</code> in the API, which gives a better
- *   sense of their ordering in a string. <code>offset16</code> and
- *   <code>offset32</code> are used to distinguish offsets to UTF-16
- *   boundaries vs offsets to UTF-32 boundaries. <code>int char32</code> is
- *   used to contain UTF-32 characters, as opposed to <code>char16</code>,
- *   which is a UTF-16 code unit.
+ *   <strong>Nbming:</strong> For clbrity, High bnd Low surrogbtes bre cblled
+ *   <code>Lebd</code> bnd <code>Trbil</code> in the API, which gives b better
+ *   sense of their ordering in b string. <code>offset16</code> bnd
+ *   <code>offset32</code> bre used to distinguish offsets to UTF-16
+ *   boundbries vs offsets to UTF-32 boundbries. <code>int chbr32</code> is
+ *   used to contbin UTF-32 chbrbcters, bs opposed to <code>chbr16</code>,
+ *   which is b UTF-16 code unit.
  *   </li>
  *   <li>
- *   <strong>Roundtripping Offsets:</strong> You can always roundtrip from a
- *   UTF-32 offset to a UTF-16 offset and back. Because of the difference in
- *   structure, you can roundtrip from a UTF-16 offset to a UTF-32 offset and
- *   back if and only if <code>bounds(string, offset16) != TRAIL</code>.
+ *   <strong>Roundtripping Offsets:</strong> You cbn blwbys roundtrip from b
+ *   UTF-32 offset to b UTF-16 offset bnd bbck. Becbuse of the difference in
+ *   structure, you cbn roundtrip from b UTF-16 offset to b UTF-32 offset bnd
+ *   bbck if bnd only if <code>bounds(string, offset16) != TRAIL</code>.
  *   </li>
  *   <li>
- *    <strong>Exceptions:</strong> The error checking will throw an exception
- *   if indices are out of bounds. Other than than that, all methods will
- *   behave reasonably, even if unmatched surrogates or out-of-bounds UTF-32
- *   values are present. <code>UCharacter.isLegal()</code> can be used to check
- *   for validity if desired.
+ *    <strong>Exceptions:</strong> The error checking will throw bn exception
+ *   if indices bre out of bounds. Other thbn thbn thbt, bll methods will
+ *   behbve rebsonbbly, even if unmbtched surrogbtes or out-of-bounds UTF-32
+ *   vblues bre present. <code>UChbrbcter.isLegbl()</code> cbn be used to check
+ *   for vblidity if desired.
  *   </li>
  *   <li>
- *   <strong>Unmatched Surrogates:</strong> If the string contains unmatched
- *   surrogates, then these are counted as one UTF-32 value. This matches
- *   their iteration behavior, which is vital. It also matches common display
- *   practice as missing glyphs (see the Unicode Standard Section 5.4, 5.5).
+ *   <strong>Unmbtched Surrogbtes:</strong> If the string contbins unmbtched
+ *   surrogbtes, then these bre counted bs one UTF-32 vblue. This mbtches
+ *   their iterbtion behbvior, which is vitbl. It blso mbtches common displby
+ *   prbctice bs missing glyphs (see the Unicode Stbndbrd Section 5.4, 5.5).
  *   </li>
  *   <li>
- *     <strong>Optimization:</strong> The method implementations may need
- *     optimization if the compiler doesn't fold static final methods. Since
- *     surrogate pairs will form an exceeding small percentage of all the text
- *     in the world, the singleton case should always be optimized for.
+ *     <strong>Optimizbtion:</strong> The method implementbtions mby need
+ *     optimizbtion if the compiler doesn't fold stbtic finbl methods. Since
+ *     surrogbte pbirs will form bn exceeding smbll percentbge of bll the text
+ *     in the world, the singleton cbse should blwbys be optimized for.
  *   </li>
  * </ul>
- * @author Mark Davis, with help from Markus Scherer
- * @stable ICU 2.1
+ * @buthor Mbrk Dbvis, with help from Mbrkus Scherer
+ * @stbble ICU 2.1
  */
 
-public final class UTF16
+public finbl clbss UTF16
 {
-    // public variables ---------------------------------------------------
+    // public vbribbles ---------------------------------------------------
 
     /**
-     * The lowest Unicode code point value.
-     * @stable ICU 2.1
+     * The lowest Unicode code point vblue.
+     * @stbble ICU 2.1
      */
-    public static final int CODEPOINT_MIN_VALUE = 0;
+    public stbtic finbl int CODEPOINT_MIN_VALUE = 0;
     /**
-     * The highest Unicode code point value (scalar value) according to the
-     * Unicode Standard.
-     * @stable ICU 2.1
+     * The highest Unicode code point vblue (scblbr vblue) bccording to the
+     * Unicode Stbndbrd.
+     * @stbble ICU 2.1
      */
-    public static final int CODEPOINT_MAX_VALUE = 0x10ffff;
+    public stbtic finbl int CODEPOINT_MAX_VALUE = 0x10ffff;
     /**
-     * The minimum value for Supplementary code points
-     * @stable ICU 2.1
+     * The minimum vblue for Supplementbry code points
+     * @stbble ICU 2.1
      */
-    public static final int SUPPLEMENTARY_MIN_VALUE  = 0x10000;
+    public stbtic finbl int SUPPLEMENTARY_MIN_VALUE  = 0x10000;
     /**
-     * Lead surrogate minimum value
-     * @stable ICU 2.1
+     * Lebd surrogbte minimum vblue
+     * @stbble ICU 2.1
      */
-    public static final int LEAD_SURROGATE_MIN_VALUE = 0xD800;
+    public stbtic finbl int LEAD_SURROGATE_MIN_VALUE = 0xD800;
     /**
-     * Trail surrogate minimum value
-     * @stable ICU 2.1
+     * Trbil surrogbte minimum vblue
+     * @stbble ICU 2.1
      */
-    public static final int TRAIL_SURROGATE_MIN_VALUE = 0xDC00;
+    public stbtic finbl int TRAIL_SURROGATE_MIN_VALUE = 0xDC00;
     /**
-     * Lead surrogate maximum value
-     * @stable ICU 2.1
+     * Lebd surrogbte mbximum vblue
+     * @stbble ICU 2.1
      */
-    public static final int LEAD_SURROGATE_MAX_VALUE = 0xDBFF;
+    public stbtic finbl int LEAD_SURROGATE_MAX_VALUE = 0xDBFF;
     /**
-     * Trail surrogate maximum value
-     * @stable ICU 2.1
+     * Trbil surrogbte mbximum vblue
+     * @stbble ICU 2.1
      */
-    public static final int TRAIL_SURROGATE_MAX_VALUE = 0xDFFF;
+    public stbtic finbl int TRAIL_SURROGATE_MAX_VALUE = 0xDFFF;
     /**
-     * Surrogate minimum value
-     * @stable ICU 2.1
+     * Surrogbte minimum vblue
+     * @stbble ICU 2.1
      */
-    public static final int SURROGATE_MIN_VALUE = LEAD_SURROGATE_MIN_VALUE;
+    public stbtic finbl int SURROGATE_MIN_VALUE = LEAD_SURROGATE_MIN_VALUE;
 
     // public method ------------------------------------------------------
 
     /**
-     * Extract a single UTF-32 value from a string.
-     * Used when iterating forwards or backwards (with
-     * <code>UTF16.getCharCount()</code>, as well as random access. If a
-     * validity check is required, use
-     * <code><a href="../lang/UCharacter.html#isLegal(char)">
-     * UCharacter.isLegal()</a></code> on the return value.
-     * If the char retrieved is part of a surrogate pair, its supplementary
-     * character will be returned. If a complete supplementary character is
-     * not found the incomplete character will be returned
-     * @param source array of UTF-16 chars
-     * @param offset16 UTF-16 offset to the start of the character.
-     * @return UTF-32 value for the UTF-32 value that contains the char at
-     *         offset16. The boundaries of that codepoint are the same as in
+     * Extrbct b single UTF-32 vblue from b string.
+     * Used when iterbting forwbrds or bbckwbrds (with
+     * <code>UTF16.getChbrCount()</code>, bs well bs rbndom bccess. If b
+     * vblidity check is required, use
+     * <code><b href="../lbng/UChbrbcter.html#isLegbl(chbr)">
+     * UChbrbcter.isLegbl()</b></code> on the return vblue.
+     * If the chbr retrieved is pbrt of b surrogbte pbir, its supplementbry
+     * chbrbcter will be returned. If b complete supplementbry chbrbcter is
+     * not found the incomplete chbrbcter will be returned
+     * @pbrbm source brrby of UTF-16 chbrs
+     * @pbrbm offset16 UTF-16 offset to the stbrt of the chbrbcter.
+     * @return UTF-32 vblue for the UTF-32 vblue thbt contbins the chbr bt
+     *         offset16. The boundbries of thbt codepoint bre the sbme bs in
      *         <code>bounds32()</code>.
      * @exception IndexOutOfBoundsException thrown if offset16 is out of
      *            bounds.
-     * @stable ICU 2.1
+     * @stbble ICU 2.1
      */
-    public static int charAt(String source, int offset16) {
-        char single = source.charAt(offset16);
+    public stbtic int chbrAt(String source, int offset16) {
+        chbr single = source.chbrAt(offset16);
         if (single < LEAD_SURROGATE_MIN_VALUE) {
             return single;
         }
-        return _charAt(source, offset16, single);
+        return _chbrAt(source, offset16, single);
     }
 
-    private static int _charAt(String source, int offset16, char single) {
+    privbte stbtic int _chbrAt(String source, int offset16, chbr single) {
         if (single > TRAIL_SURROGATE_MAX_VALUE) {
             return single;
         }
 
-        // Convert the UTF-16 surrogate pair if necessary.
-        // For simplicity in usage, and because the frequency of pairs is
+        // Convert the UTF-16 surrogbte pbir if necessbry.
+        // For simplicity in usbge, bnd becbuse the frequency of pbirs is
         // low, look both directions.
 
         if (single <= LEAD_SURROGATE_MAX_VALUE) {
             ++offset16;
             if (source.length() != offset16) {
-                char trail = source.charAt(offset16);
-                if (trail >= TRAIL_SURROGATE_MIN_VALUE && trail <= TRAIL_SURROGATE_MAX_VALUE) {
-                    return UCharacterProperty.getRawSupplementary(single, trail);
+                chbr trbil = source.chbrAt(offset16);
+                if (trbil >= TRAIL_SURROGATE_MIN_VALUE && trbil <= TRAIL_SURROGATE_MAX_VALUE) {
+                    return UChbrbcterProperty.getRbwSupplementbry(single, trbil);
                 }
             }
         } else {
             --offset16;
             if (offset16 >= 0) {
-                // single is a trail surrogate so
-                char lead = source.charAt(offset16);
-                if (lead >= LEAD_SURROGATE_MIN_VALUE && lead <= LEAD_SURROGATE_MAX_VALUE) {
-                    return UCharacterProperty.getRawSupplementary(lead, single);
+                // single is b trbil surrogbte so
+                chbr lebd = source.chbrAt(offset16);
+                if (lebd >= LEAD_SURROGATE_MIN_VALUE && lebd <= LEAD_SURROGATE_MAX_VALUE) {
+                    return UChbrbcterProperty.getRbwSupplementbry(lebd, single);
                 }
             }
         }
-        return single; // return unmatched surrogate
+        return single; // return unmbtched surrogbte
     }
 
     /**
-     * Extract a single UTF-32 value from a substring.
-     * Used when iterating forwards or backwards (with
-     * <code>UTF16.getCharCount()</code>, as well as random access. If a
-     * validity check is required, use
-     * <code><a href="../lang/UCharacter.html#isLegal(char)">UCharacter.isLegal()
-     * </a></code> on the return value.
-     * If the char retrieved is part of a surrogate pair, its supplementary
-     * character will be returned. If a complete supplementary character is
-     * not found the incomplete character will be returned
-     * @param source array of UTF-16 chars
-     * @param start offset to substring in the source array for analyzing
-     * @param limit offset to substring in the source array for analyzing
-     * @param offset16 UTF-16 offset relative to start
-     * @return UTF-32 value for the UTF-32 value that contains the char at
-     *         offset16. The boundaries of that codepoint are the same as in
+     * Extrbct b single UTF-32 vblue from b substring.
+     * Used when iterbting forwbrds or bbckwbrds (with
+     * <code>UTF16.getChbrCount()</code>, bs well bs rbndom bccess. If b
+     * vblidity check is required, use
+     * <code><b href="../lbng/UChbrbcter.html#isLegbl(chbr)">UChbrbcter.isLegbl()
+     * </b></code> on the return vblue.
+     * If the chbr retrieved is pbrt of b surrogbte pbir, its supplementbry
+     * chbrbcter will be returned. If b complete supplementbry chbrbcter is
+     * not found the incomplete chbrbcter will be returned
+     * @pbrbm source brrby of UTF-16 chbrs
+     * @pbrbm stbrt offset to substring in the source brrby for bnblyzing
+     * @pbrbm limit offset to substring in the source brrby for bnblyzing
+     * @pbrbm offset16 UTF-16 offset relbtive to stbrt
+     * @return UTF-32 vblue for the UTF-32 vblue thbt contbins the chbr bt
+     *         offset16. The boundbries of thbt codepoint bre the sbme bs in
      *         <code>bounds32()</code>.
      * @exception IndexOutOfBoundsException thrown if offset16 is not within
-     *            the range of start and limit.
-     * @stable ICU 2.1
+     *            the rbnge of stbrt bnd limit.
+     * @stbble ICU 2.1
      */
-    public static int charAt(char source[], int start, int limit,
+    public stbtic int chbrAt(chbr source[], int stbrt, int limit,
                              int offset16)
     {
-        offset16 += start;
-        if (offset16 < start || offset16 >= limit) {
-            throw new ArrayIndexOutOfBoundsException(offset16);
+        offset16 += stbrt;
+        if (offset16 < stbrt || offset16 >= limit) {
+            throw new ArrbyIndexOutOfBoundsException(offset16);
         }
 
-        char single = source[offset16];
-        if (!isSurrogate(single)) {
+        chbr single = source[offset16];
+        if (!isSurrogbte(single)) {
             return single;
         }
 
-        // Convert the UTF-16 surrogate pair if necessary.
-        // For simplicity in usage, and because the frequency of pairs is
+        // Convert the UTF-16 surrogbte pbir if necessbry.
+        // For simplicity in usbge, bnd becbuse the frequency of pbirs is
         // low, look both directions.
         if (single <= LEAD_SURROGATE_MAX_VALUE) {
             offset16 ++;
             if (offset16 >= limit) {
                 return single;
             }
-            char trail = source[offset16];
-            if (isTrailSurrogate(trail)) {
-                return UCharacterProperty.getRawSupplementary(single, trail);
+            chbr trbil = source[offset16];
+            if (isTrbilSurrogbte(trbil)) {
+                return UChbrbcterProperty.getRbwSupplementbry(single, trbil);
             }
         }
-        else { // isTrailSurrogate(single), so
-            if (offset16 == start) {
+        else { // isTrbilSurrogbte(single), so
+            if (offset16 == stbrt) {
                 return single;
             }
             offset16 --;
-            char lead = source[offset16];
-            if (isLeadSurrogate(lead))
-                return UCharacterProperty.getRawSupplementary(lead, single);
+            chbr lebd = source[offset16];
+            if (isLebdSurrogbte(lebd))
+                return UChbrbcterProperty.getRbwSupplementbry(lebd, single);
         }
-        return single; // return unmatched surrogate
+        return single; // return unmbtched surrogbte
     }
 
     /**
-     * Determines how many chars this char32 requires.
-     * If a validity check is required, use <code>
-     * <a href="../lang/UCharacter.html#isLegal(char)">isLegal()</a></code> on
-     * char32 before calling.
-     * @param char32 the input codepoint.
-     * @return 2 if is in supplementary space, otherwise 1.
-     * @stable ICU 2.1
+     * Determines how mbny chbrs this chbr32 requires.
+     * If b vblidity check is required, use <code>
+     * <b href="../lbng/UChbrbcter.html#isLegbl(chbr)">isLegbl()</b></code> on
+     * chbr32 before cblling.
+     * @pbrbm chbr32 the input codepoint.
+     * @return 2 if is in supplementbry spbce, otherwise 1.
+     * @stbble ICU 2.1
      */
-    public static int getCharCount(int char32)
+    public stbtic int getChbrCount(int chbr32)
     {
-        if (char32 < SUPPLEMENTARY_MIN_VALUE) {
+        if (chbr32 < SUPPLEMENTARY_MIN_VALUE) {
             return 1;
         }
         return 2;
     }
 
     /**
-     * Determines whether the code value is a surrogate.
-     * @param char16 the input character.
-     * @return true iff the input character is a surrogate.
-     * @stable ICU 2.1
+     * Determines whether the code vblue is b surrogbte.
+     * @pbrbm chbr16 the input chbrbcter.
+     * @return true iff the input chbrbcter is b surrogbte.
+     * @stbble ICU 2.1
      */
-    public static boolean isSurrogate(char char16)
+    public stbtic boolebn isSurrogbte(chbr chbr16)
     {
-        return LEAD_SURROGATE_MIN_VALUE <= char16 &&
-            char16 <= TRAIL_SURROGATE_MAX_VALUE;
+        return LEAD_SURROGATE_MIN_VALUE <= chbr16 &&
+            chbr16 <= TRAIL_SURROGATE_MAX_VALUE;
     }
 
     /**
-     * Determines whether the character is a trail surrogate.
-     * @param char16 the input character.
-     * @return true iff the input character is a trail surrogate.
-     * @stable ICU 2.1
+     * Determines whether the chbrbcter is b trbil surrogbte.
+     * @pbrbm chbr16 the input chbrbcter.
+     * @return true iff the input chbrbcter is b trbil surrogbte.
+     * @stbble ICU 2.1
      */
-    public static boolean isTrailSurrogate(char char16)
+    public stbtic boolebn isTrbilSurrogbte(chbr chbr16)
     {
-        return (TRAIL_SURROGATE_MIN_VALUE <= char16 &&
-                char16 <= TRAIL_SURROGATE_MAX_VALUE);
+        return (TRAIL_SURROGATE_MIN_VALUE <= chbr16 &&
+                chbr16 <= TRAIL_SURROGATE_MAX_VALUE);
     }
 
     /**
-     * Determines whether the character is a lead surrogate.
-     * @param char16 the input character.
-     * @return true iff the input character is a lead surrogate
-     * @stable ICU 2.1
+     * Determines whether the chbrbcter is b lebd surrogbte.
+     * @pbrbm chbr16 the input chbrbcter.
+     * @return true iff the input chbrbcter is b lebd surrogbte
+     * @stbble ICU 2.1
      */
-    public static boolean isLeadSurrogate(char char16)
+    public stbtic boolebn isLebdSurrogbte(chbr chbr16)
     {
-        return LEAD_SURROGATE_MIN_VALUE <= char16 &&
-            char16 <= LEAD_SURROGATE_MAX_VALUE;
+        return LEAD_SURROGATE_MIN_VALUE <= chbr16 &&
+            chbr16 <= LEAD_SURROGATE_MAX_VALUE;
     }
 
     /**
-     * Returns the lead surrogate.
-     * If a validity check is required, use
-     * <code><a href="../lang/UCharacter.html#isLegal(char)">isLegal()</a></code>
-     * on char32 before calling.
-     * @param char32 the input character.
-     * @return lead surrogate if the getCharCount(ch) is 2; <br>
-     *         and 0 otherwise (note: 0 is not a valid lead surrogate).
-     * @stable ICU 2.1
+     * Returns the lebd surrogbte.
+     * If b vblidity check is required, use
+     * <code><b href="../lbng/UChbrbcter.html#isLegbl(chbr)">isLegbl()</b></code>
+     * on chbr32 before cblling.
+     * @pbrbm chbr32 the input chbrbcter.
+     * @return lebd surrogbte if the getChbrCount(ch) is 2; <br>
+     *         bnd 0 otherwise (note: 0 is not b vblid lebd surrogbte).
+     * @stbble ICU 2.1
      */
-    public static char getLeadSurrogate(int char32)
+    public stbtic chbr getLebdSurrogbte(int chbr32)
     {
-        if (char32 >= SUPPLEMENTARY_MIN_VALUE) {
-            return (char)(LEAD_SURROGATE_OFFSET_ +
-                          (char32 >> LEAD_SURROGATE_SHIFT_));
+        if (chbr32 >= SUPPLEMENTARY_MIN_VALUE) {
+            return (chbr)(LEAD_SURROGATE_OFFSET_ +
+                          (chbr32 >> LEAD_SURROGATE_SHIFT_));
         }
 
         return 0;
     }
 
     /**
-     * Returns the trail surrogate.
-     * If a validity check is required, use
-     * <code><a href="../lang/UCharacter.html#isLegal(char)">isLegal()</a></code>
-     * on char32 before calling.
-     * @param char32 the input character.
-     * @return the trail surrogate if the getCharCount(ch) is 2; <br>otherwise
-     *         the character itself
-     * @stable ICU 2.1
+     * Returns the trbil surrogbte.
+     * If b vblidity check is required, use
+     * <code><b href="../lbng/UChbrbcter.html#isLegbl(chbr)">isLegbl()</b></code>
+     * on chbr32 before cblling.
+     * @pbrbm chbr32 the input chbrbcter.
+     * @return the trbil surrogbte if the getChbrCount(ch) is 2; <br>otherwise
+     *         the chbrbcter itself
+     * @stbble ICU 2.1
      */
-    public static char getTrailSurrogate(int char32)
+    public stbtic chbr getTrbilSurrogbte(int chbr32)
     {
-        if (char32 >= SUPPLEMENTARY_MIN_VALUE) {
-            return (char)(TRAIL_SURROGATE_MIN_VALUE +
-                          (char32 & TRAIL_SURROGATE_MASK_));
+        if (chbr32 >= SUPPLEMENTARY_MIN_VALUE) {
+            return (chbr)(TRAIL_SURROGATE_MIN_VALUE +
+                          (chbr32 & TRAIL_SURROGATE_MASK_));
         }
 
-        return (char)char32;
+        return (chbr)chbr32;
     }
 
     /**
-     * Convenience method corresponding to String.valueOf(char). Returns a one
-     * or two char string containing the UTF-32 value in UTF16 format. If a
-     * validity check is required, use
-     * <code><a href="../lang/UCharacter.html#isLegal(char)">isLegal()</a></code>
-     * on char32 before calling.
-     * @param char32 the input character.
-     * @return string value of char32 in UTF16 format
-     * @exception IllegalArgumentException thrown if char32 is a invalid
+     * Convenience method corresponding to String.vblueOf(chbr). Returns b one
+     * or two chbr string contbining the UTF-32 vblue in UTF16 formbt. If b
+     * vblidity check is required, use
+     * <code><b href="../lbng/UChbrbcter.html#isLegbl(chbr)">isLegbl()</b></code>
+     * on chbr32 before cblling.
+     * @pbrbm chbr32 the input chbrbcter.
+     * @return string vblue of chbr32 in UTF16 formbt
+     * @exception IllegblArgumentException thrown if chbr32 is b invblid
      *            codepoint.
-     * @stable ICU 2.1
+     * @stbble ICU 2.1
      */
-    public static String valueOf(int char32)
+    public stbtic String vblueOf(int chbr32)
     {
-        if (char32 < CODEPOINT_MIN_VALUE || char32 > CODEPOINT_MAX_VALUE) {
-            throw new IllegalArgumentException("Illegal codepoint");
+        if (chbr32 < CODEPOINT_MIN_VALUE || chbr32 > CODEPOINT_MAX_VALUE) {
+            throw new IllegblArgumentException("Illegbl codepoint");
         }
-        return toString(char32);
+        return toString(chbr32);
     }
 
     /**
-     * Append a single UTF-32 value to the end of a StringBuffer.
-     * If a validity check is required, use
-     * <code><a href="../lang/UCharacter.html#isLegal(char)">isLegal()</a></code>
-     * on char32 before calling.
-     * @param target the buffer to append to
-     * @param char32 value to append.
-     * @return the updated StringBuffer
-     * @exception IllegalArgumentException thrown when char32 does not lie
-     *            within the range of the Unicode codepoints
-     * @stable ICU 2.1
+     * Append b single UTF-32 vblue to the end of b StringBuffer.
+     * If b vblidity check is required, use
+     * <code><b href="../lbng/UChbrbcter.html#isLegbl(chbr)">isLegbl()</b></code>
+     * on chbr32 before cblling.
+     * @pbrbm tbrget the buffer to bppend to
+     * @pbrbm chbr32 vblue to bppend.
+     * @return the updbted StringBuffer
+     * @exception IllegblArgumentException thrown when chbr32 does not lie
+     *            within the rbnge of the Unicode codepoints
+     * @stbble ICU 2.1
      */
-    public static StringBuffer append(StringBuffer target, int char32)
+    public stbtic StringBuffer bppend(StringBuffer tbrget, int chbr32)
     {
-        // Check for irregular values
-        if (char32 < CODEPOINT_MIN_VALUE || char32 > CODEPOINT_MAX_VALUE) {
-            throw new IllegalArgumentException("Illegal codepoint: " + Integer.toHexString(char32));
+        // Check for irregulbr vblues
+        if (chbr32 < CODEPOINT_MIN_VALUE || chbr32 > CODEPOINT_MAX_VALUE) {
+            throw new IllegblArgumentException("Illegbl codepoint: " + Integer.toHexString(chbr32));
         }
 
-        // Write the UTF-16 values
-        if (char32 >= SUPPLEMENTARY_MIN_VALUE)
+        // Write the UTF-16 vblues
+        if (chbr32 >= SUPPLEMENTARY_MIN_VALUE)
             {
-                target.append(getLeadSurrogate(char32));
-                target.append(getTrailSurrogate(char32));
+                tbrget.bppend(getLebdSurrogbte(chbr32));
+                tbrget.bppend(getTrbilSurrogbte(chbr32));
             }
         else {
-            target.append((char)char32);
+            tbrget.bppend((chbr)chbr32);
         }
-        return target;
+        return tbrget;
     }
 
     //// for StringPrep
     /**
-     * Shifts offset16 by the argument number of codepoints within a subarray.
-     * @param source char array
-     * @param start position of the subarray to be performed on
-     * @param limit position of the subarray to be performed on
-     * @param offset16 UTF16 position to shift relative to start
-     * @param shift32 number of codepoints to shift
-     * @return new shifted offset16 relative to start
+     * Shifts offset16 by the brgument number of codepoints within b subbrrby.
+     * @pbrbm source chbr brrby
+     * @pbrbm stbrt position of the subbrrby to be performed on
+     * @pbrbm limit position of the subbrrby to be performed on
+     * @pbrbm offset16 UTF16 position to shift relbtive to stbrt
+     * @pbrbm shift32 number of codepoints to shift
+     * @return new shifted offset16 relbtive to stbrt
      * @exception IndexOutOfBoundsException if the new offset16 is out of
-     *            bounds with respect to the subarray or the subarray bounds
-     *            are out of range.
-     * @stable ICU 2.1
+     *            bounds with respect to the subbrrby or the subbrrby bounds
+     *            bre out of rbnge.
+     * @stbble ICU 2.1
      */
-    public static int moveCodePointOffset(char source[], int start, int limit,
+    public stbtic int moveCodePointOffset(chbr source[], int stbrt, int limit,
                                           int offset16, int shift32)
     {
         int         size = source.length;
         int         count;
-        char        ch;
-        int         result = offset16 + start;
-        if (start<0 || limit<start) {
-            throw new StringIndexOutOfBoundsException(start);
+        chbr        ch;
+        int         result = offset16 + stbrt;
+        if (stbrt<0 || limit<stbrt) {
+            throw new StringIndexOutOfBoundsException(stbrt);
         }
         if (limit>size) {
             throw new StringIndexOutOfBoundsException(limit);
@@ -462,24 +462,24 @@ public final class UTF16
             while (result < limit && count > 0)
             {
                 ch = source[result];
-                if (isLeadSurrogate(ch) && (result+1 < limit) &&
-                        isTrailSurrogate(source[result+1])) {
+                if (isLebdSurrogbte(ch) && (result+1 < limit) &&
+                        isTrbilSurrogbte(source[result+1])) {
                     result ++;
                 }
                 count --;
                 result ++;
             }
         } else {
-            if (result + shift32 < start) {
+            if (result + shift32 < stbrt) {
                 throw new StringIndexOutOfBoundsException(result);
             }
             for (count=-shift32; count>0; count--) {
                 result--;
-                if (result<start) {
-                    break;
+                if (result<stbrt) {
+                    brebk;
                 }
                 ch = source[result];
-                if (isTrailSurrogate(ch) && result>start && isLeadSurrogate(source[result-1])) {
+                if (isTrbilSurrogbte(ch) && result>stbrt && isLebdSurrogbte(source[result-1])) {
                     result--;
                 }
             }
@@ -487,52 +487,52 @@ public final class UTF16
         if (count != 0)  {
             throw new StringIndexOutOfBoundsException(shift32);
         }
-        result -= start;
+        result -= stbrt;
         return result;
     }
 
-    // private data members -------------------------------------------------
+    // privbte dbtb members -------------------------------------------------
 
     /**
-     * Shift value for lead surrogate to form a supplementary character.
+     * Shift vblue for lebd surrogbte to form b supplementbry chbrbcter.
      */
-    private static final int LEAD_SURROGATE_SHIFT_ = 10;
+    privbte stbtic finbl int LEAD_SURROGATE_SHIFT_ = 10;
 
     /**
-     * Mask to retrieve the significant value from a trail surrogate.
+     * Mbsk to retrieve the significbnt vblue from b trbil surrogbte.
      */
-    private static final int TRAIL_SURROGATE_MASK_     = 0x3FF;
+    privbte stbtic finbl int TRAIL_SURROGATE_MASK_     = 0x3FF;
 
     /**
-     * Value that all lead surrogate starts with
+     * Vblue thbt bll lebd surrogbte stbrts with
      */
-    private static final int LEAD_SURROGATE_OFFSET_ =
+    privbte stbtic finbl int LEAD_SURROGATE_OFFSET_ =
         LEAD_SURROGATE_MIN_VALUE -
         (SUPPLEMENTARY_MIN_VALUE
          >> LEAD_SURROGATE_SHIFT_);
 
-    // private methods ------------------------------------------------------
+    // privbte methods ------------------------------------------------------
 
     /**
-     * <p>Converts argument code point and returns a String object representing
-     * the code point's value in UTF16 format.</p>
-     * <p>This method does not check for the validity of the codepoint, the
-     * results are not guaranteed if a invalid codepoint is passed as
-     * argument.</p>
-     * <p>The result is a string whose length is 1 for non-supplementary code
+     * <p>Converts brgument code point bnd returns b String object representing
+     * the code point's vblue in UTF16 formbt.</p>
+     * <p>This method does not check for the vblidity of the codepoint, the
+     * results bre not gubrbnteed if b invblid codepoint is pbssed bs
+     * brgument.</p>
+     * <p>The result is b string whose length is 1 for non-supplementbry code
      * points, 2 otherwise.</p>
-     * @param ch code point
-     * @return string representation of the code point
+     * @pbrbm ch code point
+     * @return string representbtion of the code point
      */
-    private static String toString(int ch)
+    privbte stbtic String toString(int ch)
     {
         if (ch < SUPPLEMENTARY_MIN_VALUE) {
-            return String.valueOf((char)ch);
+            return String.vblueOf((chbr)ch);
         }
 
         StringBuilder result = new StringBuilder();
-        result.append(getLeadSurrogate(ch));
-        result.append(getTrailSurrogate(ch));
+        result.bppend(getLebdSurrogbte(ch));
+        result.bppend(getTrbilSurrogbte(ch));
         return result.toString();
     }
 }

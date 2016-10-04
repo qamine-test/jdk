@@ -1,614 +1,614 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.beans.PropertyChangeEvent;
-import java.awt.event.*;
-import java.awt.peer.*;
-import java.awt.im.InputMethodHighlight;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.awt.image.ColorModel;
-import java.awt.datatransfer.Clipboard;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.InvalidDnDOperationException;
-import java.awt.dnd.peer.DragSourceContextPeer;
-import java.net.URL;
-import java.io.File;
-import java.io.FileInputStream;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.im.InputMethodHighlight;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.imbge.ImbgeProducer;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.dbtbtrbnsfer.Clipbobrd;
+import jbvb.bwt.dnd.DrbgSource;
+import jbvb.bwt.dnd.DrbgGestureRecognizer;
+import jbvb.bwt.dnd.DrbgGestureEvent;
+import jbvb.bwt.dnd.DrbgGestureListener;
+import jbvb.bwt.dnd.InvblidDnDOperbtionException;
+import jbvb.bwt.dnd.peer.DrbgSourceContextPeer;
+import jbvb.net.URL;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
 
-import java.util.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import sun.awt.AppContext;
+import jbvb.util.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeSupport;
+import sun.bwt.AppContext;
 
-import sun.awt.HeadlessToolkit;
-import sun.awt.NullComponentPeer;
-import sun.awt.PeerEvent;
-import sun.awt.SunToolkit;
-import sun.awt.AWTAccessor;
-import sun.awt.AWTPermissions;
+import sun.bwt.HebdlessToolkit;
+import sun.bwt.NullComponentPeer;
+import sun.bwt.PeerEvent;
+import sun.bwt.SunToolkit;
+import sun.bwt.AWTAccessor;
+import sun.bwt.AWTPermissions;
 
 import sun.util.CoreResourceBundleControl;
 
 /**
- * This class is the abstract superclass of all actual
- * implementations of the Abstract Window Toolkit. Subclasses of
- * the <code>Toolkit</code> class are used to bind the various components
- * to particular native toolkit implementations.
+ * This clbss is the bbstrbct superclbss of bll bctubl
+ * implementbtions of the Abstrbct Window Toolkit. Subclbsses of
+ * the <code>Toolkit</code> clbss bre used to bind the vbrious components
+ * to pbrticulbr nbtive toolkit implementbtions.
  * <p>
- * Many GUI events may be delivered to user
- * asynchronously, if the opposite is not specified explicitly.
- * As well as
- * many GUI operations may be performed asynchronously.
- * This fact means that if the state of a component is set, and then
- * the state immediately queried, the returned value may not yet
- * reflect the requested change.  This behavior includes, but is not
+ * Mbny GUI events mby be delivered to user
+ * bsynchronously, if the opposite is not specified explicitly.
+ * As well bs
+ * mbny GUI operbtions mby be performed bsynchronously.
+ * This fbct mebns thbt if the stbte of b component is set, bnd then
+ * the stbte immedibtely queried, the returned vblue mby not yet
+ * reflect the requested chbnge.  This behbvior includes, but is not
  * limited to:
  * <ul>
- * <li>Scrolling to a specified position.
- * <br>For example, calling <code>ScrollPane.setScrollPosition</code>
- *     and then <code>getScrollPosition</code> may return an incorrect
- *     value if the original request has not yet been processed.
+ * <li>Scrolling to b specified position.
+ * <br>For exbmple, cblling <code>ScrollPbne.setScrollPosition</code>
+ *     bnd then <code>getScrollPosition</code> mby return bn incorrect
+ *     vblue if the originbl request hbs not yet been processed.
  *
- * <li>Moving the focus from one component to another.
- * <br>For more information, see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/misc/focus.html#transferTiming">Timing
- * Focus Transfers</a>, a section in
- * <a href="http://java.sun.com/docs/books/tutorial/uiswing/">The Swing
- * Tutorial</a>.
+ * <li>Moving the focus from one component to bnother.
+ * <br>For more informbtion, see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/misc/focus.html#trbnsferTiming">Timing
+ * Focus Trbnsfers</b>, b section in
+ * <b href="http://jbvb.sun.com/docs/books/tutoribl/uiswing/">The Swing
+ * Tutoribl</b>.
  *
- * <li>Making a top-level container visible.
- * <br>Calling <code>setVisible(true)</code> on a <code>Window</code>,
- *     <code>Frame</code> or <code>Dialog</code> may occur
- *     asynchronously.
+ * <li>Mbking b top-level contbiner visible.
+ * <br>Cblling <code>setVisible(true)</code> on b <code>Window</code>,
+ *     <code>Frbme</code> or <code>Diblog</code> mby occur
+ *     bsynchronously.
  *
- * <li>Setting the size or location of a top-level container.
- * <br>Calls to <code>setSize</code>, <code>setBounds</code> or
- *     <code>setLocation</code> on a <code>Window</code>,
- *     <code>Frame</code> or <code>Dialog</code> are forwarded
- *     to the underlying window management system and may be
- *     ignored or modified.  See {@link java.awt.Window} for
- *     more information.
+ * <li>Setting the size or locbtion of b top-level contbiner.
+ * <br>Cblls to <code>setSize</code>, <code>setBounds</code> or
+ *     <code>setLocbtion</code> on b <code>Window</code>,
+ *     <code>Frbme</code> or <code>Diblog</code> bre forwbrded
+ *     to the underlying window mbnbgement system bnd mby be
+ *     ignored or modified.  See {@link jbvb.bwt.Window} for
+ *     more informbtion.
  * </ul>
  * <p>
- * Most applications should not call any of the methods in this
- * class directly. The methods defined by <code>Toolkit</code> are
- * the "glue" that joins the platform-independent classes in the
- * <code>java.awt</code> package with their counterparts in
- * <code>java.awt.peer</code>. Some methods defined by
- * <code>Toolkit</code> query the native operating system directly.
+ * Most bpplicbtions should not cbll bny of the methods in this
+ * clbss directly. The methods defined by <code>Toolkit</code> bre
+ * the "glue" thbt joins the plbtform-independent clbsses in the
+ * <code>jbvb.bwt</code> pbckbge with their counterpbrts in
+ * <code>jbvb.bwt.peer</code>. Some methods defined by
+ * <code>Toolkit</code> query the nbtive operbting system directly.
  *
- * @author      Sami Shaio
- * @author      Arthur van Hoff
- * @author      Fred Ecks
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
+ * @buthor      Fred Ecks
  * @since       1.0
  */
-public abstract class Toolkit {
+public bbstrbct clbss Toolkit {
 
     /**
-     * Creates this toolkit's implementation of the <code>Desktop</code>
-     * using the specified peer interface.
-     * @param     target the desktop to be implemented
-     * @return    this toolkit's implementation of the <code>Desktop</code>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of the <code>Desktop</code>
+     * using the specified peer interfbce.
+     * @pbrbm     tbrget the desktop to be implemented
+     * @return    this toolkit's implementbtion of the <code>Desktop</code>
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.Desktop
-     * @see       java.awt.peer.DesktopPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.Desktop
+     * @see       jbvb.bwt.peer.DesktopPeer
      * @since 1.6
      */
-    protected abstract DesktopPeer createDesktopPeer(Desktop target)
-      throws HeadlessException;
+    protected bbstrbct DesktopPeer crebteDesktopPeer(Desktop tbrget)
+      throws HebdlessException;
 
 
     /**
-     * Creates this toolkit's implementation of <code>Button</code> using
-     * the specified peer interface.
-     * @param     target the button to be implemented.
-     * @return    this toolkit's implementation of <code>Button</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>Button</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the button to be implemented.
+     * @return    this toolkit's implementbtion of <code>Button</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.Button
-     * @see       java.awt.peer.ButtonPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.Button
+     * @see       jbvb.bwt.peer.ButtonPeer
      */
-    protected abstract ButtonPeer createButton(Button target)
-        throws HeadlessException;
+    protected bbstrbct ButtonPeer crebteButton(Button tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>TextField</code> using
-     * the specified peer interface.
-     * @param     target the text field to be implemented.
-     * @return    this toolkit's implementation of <code>TextField</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>TextField</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the text field to be implemented.
+     * @return    this toolkit's implementbtion of <code>TextField</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.TextField
-     * @see       java.awt.peer.TextFieldPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.TextField
+     * @see       jbvb.bwt.peer.TextFieldPeer
      */
-    protected abstract TextFieldPeer createTextField(TextField target)
-        throws HeadlessException;
+    protected bbstrbct TextFieldPeer crebteTextField(TextField tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>Label</code> using
-     * the specified peer interface.
-     * @param     target the label to be implemented.
-     * @return    this toolkit's implementation of <code>Label</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>Lbbel</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the lbbel to be implemented.
+     * @return    this toolkit's implementbtion of <code>Lbbel</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.Label
-     * @see       java.awt.peer.LabelPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.Lbbel
+     * @see       jbvb.bwt.peer.LbbelPeer
      */
-    protected abstract LabelPeer createLabel(Label target)
-        throws HeadlessException;
+    protected bbstrbct LbbelPeer crebteLbbel(Lbbel tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>List</code> using
-     * the specified peer interface.
-     * @param     target the list to be implemented.
-     * @return    this toolkit's implementation of <code>List</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>List</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the list to be implemented.
+     * @return    this toolkit's implementbtion of <code>List</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.List
-     * @see       java.awt.peer.ListPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.List
+     * @see       jbvb.bwt.peer.ListPeer
      */
-    protected abstract ListPeer createList(java.awt.List target)
-        throws HeadlessException;
+    protected bbstrbct ListPeer crebteList(jbvb.bwt.List tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>Checkbox</code> using
-     * the specified peer interface.
-     * @param     target the check box to be implemented.
-     * @return    this toolkit's implementation of <code>Checkbox</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>Checkbox</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the check box to be implemented.
+     * @return    this toolkit's implementbtion of <code>Checkbox</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.Checkbox
-     * @see       java.awt.peer.CheckboxPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.Checkbox
+     * @see       jbvb.bwt.peer.CheckboxPeer
      */
-    protected abstract CheckboxPeer createCheckbox(Checkbox target)
-        throws HeadlessException;
+    protected bbstrbct CheckboxPeer crebteCheckbox(Checkbox tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>Scrollbar</code> using
-     * the specified peer interface.
-     * @param     target the scroll bar to be implemented.
-     * @return    this toolkit's implementation of <code>Scrollbar</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>Scrollbbr</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the scroll bbr to be implemented.
+     * @return    this toolkit's implementbtion of <code>Scrollbbr</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.Scrollbar
-     * @see       java.awt.peer.ScrollbarPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.Scrollbbr
+     * @see       jbvb.bwt.peer.ScrollbbrPeer
      */
-    protected abstract ScrollbarPeer createScrollbar(Scrollbar target)
-        throws HeadlessException;
+    protected bbstrbct ScrollbbrPeer crebteScrollbbr(Scrollbbr tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>ScrollPane</code> using
-     * the specified peer interface.
-     * @param     target the scroll pane to be implemented.
-     * @return    this toolkit's implementation of <code>ScrollPane</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>ScrollPbne</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the scroll pbne to be implemented.
+     * @return    this toolkit's implementbtion of <code>ScrollPbne</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.ScrollPane
-     * @see       java.awt.peer.ScrollPanePeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.ScrollPbne
+     * @see       jbvb.bwt.peer.ScrollPbnePeer
      * @since     1.1
      */
-    protected abstract ScrollPanePeer createScrollPane(ScrollPane target)
-        throws HeadlessException;
+    protected bbstrbct ScrollPbnePeer crebteScrollPbne(ScrollPbne tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>TextArea</code> using
-     * the specified peer interface.
-     * @param     target the text area to be implemented.
-     * @return    this toolkit's implementation of <code>TextArea</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>TextAreb</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the text breb to be implemented.
+     * @return    this toolkit's implementbtion of <code>TextAreb</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.TextArea
-     * @see       java.awt.peer.TextAreaPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.TextAreb
+     * @see       jbvb.bwt.peer.TextArebPeer
      */
-    protected abstract TextAreaPeer createTextArea(TextArea target)
-        throws HeadlessException;
+    protected bbstrbct TextArebPeer crebteTextAreb(TextAreb tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>Choice</code> using
-     * the specified peer interface.
-     * @param     target the choice to be implemented.
-     * @return    this toolkit's implementation of <code>Choice</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>Choice</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the choice to be implemented.
+     * @return    this toolkit's implementbtion of <code>Choice</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.Choice
-     * @see       java.awt.peer.ChoicePeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.Choice
+     * @see       jbvb.bwt.peer.ChoicePeer
      */
-    protected abstract ChoicePeer createChoice(Choice target)
-        throws HeadlessException;
+    protected bbstrbct ChoicePeer crebteChoice(Choice tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>Frame</code> using
-     * the specified peer interface.
-     * @param     target the frame to be implemented.
-     * @return    this toolkit's implementation of <code>Frame</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>Frbme</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the frbme to be implemented.
+     * @return    this toolkit's implementbtion of <code>Frbme</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.Frame
-     * @see       java.awt.peer.FramePeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.Frbme
+     * @see       jbvb.bwt.peer.FrbmePeer
      */
-    protected abstract FramePeer createFrame(Frame target)
-        throws HeadlessException;
+    protected bbstrbct FrbmePeer crebteFrbme(Frbme tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>Canvas</code> using
-     * the specified peer interface.
-     * @param     target the canvas to be implemented.
-     * @return    this toolkit's implementation of <code>Canvas</code>.
-     * @see       java.awt.Canvas
-     * @see       java.awt.peer.CanvasPeer
+     * Crebtes this toolkit's implementbtion of <code>Cbnvbs</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the cbnvbs to be implemented.
+     * @return    this toolkit's implementbtion of <code>Cbnvbs</code>.
+     * @see       jbvb.bwt.Cbnvbs
+     * @see       jbvb.bwt.peer.CbnvbsPeer
      */
-    protected abstract CanvasPeer       createCanvas(Canvas target);
+    protected bbstrbct CbnvbsPeer       crebteCbnvbs(Cbnvbs tbrget);
 
     /**
-     * Creates this toolkit's implementation of <code>Panel</code> using
-     * the specified peer interface.
-     * @param     target the panel to be implemented.
-     * @return    this toolkit's implementation of <code>Panel</code>.
-     * @see       java.awt.Panel
-     * @see       java.awt.peer.PanelPeer
+     * Crebtes this toolkit's implementbtion of <code>Pbnel</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the pbnel to be implemented.
+     * @return    this toolkit's implementbtion of <code>Pbnel</code>.
+     * @see       jbvb.bwt.Pbnel
+     * @see       jbvb.bwt.peer.PbnelPeer
      */
-    protected abstract PanelPeer        createPanel(Panel target);
+    protected bbstrbct PbnelPeer        crebtePbnel(Pbnel tbrget);
 
     /**
-     * Creates this toolkit's implementation of <code>Window</code> using
-     * the specified peer interface.
-     * @param     target the window to be implemented.
-     * @return    this toolkit's implementation of <code>Window</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>Window</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the window to be implemented.
+     * @return    this toolkit's implementbtion of <code>Window</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.Window
-     * @see       java.awt.peer.WindowPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.Window
+     * @see       jbvb.bwt.peer.WindowPeer
      */
-    protected abstract WindowPeer createWindow(Window target)
-        throws HeadlessException;
+    protected bbstrbct WindowPeer crebteWindow(Window tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>Dialog</code> using
-     * the specified peer interface.
-     * @param     target the dialog to be implemented.
-     * @return    this toolkit's implementation of <code>Dialog</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>Diblog</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the diblog to be implemented.
+     * @return    this toolkit's implementbtion of <code>Diblog</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.Dialog
-     * @see       java.awt.peer.DialogPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.Diblog
+     * @see       jbvb.bwt.peer.DiblogPeer
      */
-    protected abstract DialogPeer createDialog(Dialog target)
-        throws HeadlessException;
+    protected bbstrbct DiblogPeer crebteDiblog(Diblog tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>MenuBar</code> using
-     * the specified peer interface.
-     * @param     target the menu bar to be implemented.
-     * @return    this toolkit's implementation of <code>MenuBar</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>MenuBbr</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the menu bbr to be implemented.
+     * @return    this toolkit's implementbtion of <code>MenuBbr</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.MenuBar
-     * @see       java.awt.peer.MenuBarPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.MenuBbr
+     * @see       jbvb.bwt.peer.MenuBbrPeer
      */
-    protected abstract MenuBarPeer createMenuBar(MenuBar target)
-        throws HeadlessException;
+    protected bbstrbct MenuBbrPeer crebteMenuBbr(MenuBbr tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>Menu</code> using
-     * the specified peer interface.
-     * @param     target the menu to be implemented.
-     * @return    this toolkit's implementation of <code>Menu</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>Menu</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the menu to be implemented.
+     * @return    this toolkit's implementbtion of <code>Menu</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.Menu
-     * @see       java.awt.peer.MenuPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.Menu
+     * @see       jbvb.bwt.peer.MenuPeer
      */
-    protected abstract MenuPeer createMenu(Menu target)
-        throws HeadlessException;
+    protected bbstrbct MenuPeer crebteMenu(Menu tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>PopupMenu</code> using
-     * the specified peer interface.
-     * @param     target the popup menu to be implemented.
-     * @return    this toolkit's implementation of <code>PopupMenu</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>PopupMenu</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the popup menu to be implemented.
+     * @return    this toolkit's implementbtion of <code>PopupMenu</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.PopupMenu
-     * @see       java.awt.peer.PopupMenuPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.PopupMenu
+     * @see       jbvb.bwt.peer.PopupMenuPeer
      * @since     1.1
      */
-    protected abstract PopupMenuPeer createPopupMenu(PopupMenu target)
-        throws HeadlessException;
+    protected bbstrbct PopupMenuPeer crebtePopupMenu(PopupMenu tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>MenuItem</code> using
-     * the specified peer interface.
-     * @param     target the menu item to be implemented.
-     * @return    this toolkit's implementation of <code>MenuItem</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>MenuItem</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the menu item to be implemented.
+     * @return    this toolkit's implementbtion of <code>MenuItem</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.MenuItem
-     * @see       java.awt.peer.MenuItemPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.MenuItem
+     * @see       jbvb.bwt.peer.MenuItemPeer
      */
-    protected abstract MenuItemPeer createMenuItem(MenuItem target)
-        throws HeadlessException;
+    protected bbstrbct MenuItemPeer crebteMenuItem(MenuItem tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>FileDialog</code> using
-     * the specified peer interface.
-     * @param     target the file dialog to be implemented.
-     * @return    this toolkit's implementation of <code>FileDialog</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>FileDiblog</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the file diblog to be implemented.
+     * @return    this toolkit's implementbtion of <code>FileDiblog</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.FileDialog
-     * @see       java.awt.peer.FileDialogPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.FileDiblog
+     * @see       jbvb.bwt.peer.FileDiblogPeer
      */
-    protected abstract FileDialogPeer createFileDialog(FileDialog target)
-        throws HeadlessException;
+    protected bbstrbct FileDiblogPeer crebteFileDiblog(FileDiblog tbrget)
+        throws HebdlessException;
 
     /**
-     * Creates this toolkit's implementation of <code>CheckboxMenuItem</code> using
-     * the specified peer interface.
-     * @param     target the checkbox menu item to be implemented.
-     * @return    this toolkit's implementation of <code>CheckboxMenuItem</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes this toolkit's implementbtion of <code>CheckboxMenuItem</code> using
+     * the specified peer interfbce.
+     * @pbrbm     tbrget the checkbox menu item to be implemented.
+     * @return    this toolkit's implementbtion of <code>CheckboxMenuItem</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.CheckboxMenuItem
-     * @see       java.awt.peer.CheckboxMenuItemPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.CheckboxMenuItem
+     * @see       jbvb.bwt.peer.CheckboxMenuItemPeer
      */
-    protected abstract CheckboxMenuItemPeer createCheckboxMenuItem(
-        CheckboxMenuItem target) throws HeadlessException;
+    protected bbstrbct CheckboxMenuItemPeer crebteCheckboxMenuItem(
+        CheckboxMenuItem tbrget) throws HebdlessException;
 
     /**
-     * Obtains this toolkit's implementation of helper class for
-     * <code>MouseInfo</code> operations.
-     * @return    this toolkit's implementation of  helper for <code>MouseInfo</code>
-     * @throws    UnsupportedOperationException if this operation is not implemented
-     * @see       java.awt.peer.MouseInfoPeer
-     * @see       java.awt.MouseInfo
+     * Obtbins this toolkit's implementbtion of helper clbss for
+     * <code>MouseInfo</code> operbtions.
+     * @return    this toolkit's implementbtion of  helper for <code>MouseInfo</code>
+     * @throws    UnsupportedOperbtionException if this operbtion is not implemented
+     * @see       jbvb.bwt.peer.MouseInfoPeer
+     * @see       jbvb.bwt.MouseInfo
      * @since 1.5
      */
     protected MouseInfoPeer getMouseInfoPeer() {
-        throw new UnsupportedOperationException("Not implemented");
+        throw new UnsupportedOperbtionException("Not implemented");
     }
 
-    private static LightweightPeer lightweightMarker;
+    privbte stbtic LightweightPeer lightweightMbrker;
 
     /**
-     * Creates a peer for a component or container.  This peer is windowless
-     * and allows the Component and Container classes to be extended directly
-     * to create windowless components that are defined entirely in java.
+     * Crebtes b peer for b component or contbiner.  This peer is windowless
+     * bnd bllows the Component bnd Contbiner clbsses to be extended directly
+     * to crebte windowless components thbt bre defined entirely in jbvb.
      *
-     * @param  target The Component to be created.
+     * @pbrbm  tbrget The Component to be crebted.
      * @return the peer for the specified component
      */
-    protected LightweightPeer createComponent(Component target) {
-        if (lightweightMarker == null) {
-            lightweightMarker = new NullComponentPeer();
+    protected LightweightPeer crebteComponent(Component tbrget) {
+        if (lightweightMbrker == null) {
+            lightweightMbrker = new NullComponentPeer();
         }
-        return lightweightMarker;
+        return lightweightMbrker;
     }
 
     /**
-     * Creates this toolkit's implementation of <code>Font</code> using
-     * the specified peer interface.
-     * @param     name the font to be implemented
-     * @param     style the style of the font, such as <code>PLAIN</code>,
-     *            <code>BOLD</code>, <code>ITALIC</code>, or a combination
-     * @return    this toolkit's implementation of <code>Font</code>
-     * @see       java.awt.Font
-     * @see       java.awt.peer.FontPeer
-     * @see       java.awt.GraphicsEnvironment#getAllFonts
-     * @deprecated  see java.awt.GraphicsEnvironment#getAllFonts
+     * Crebtes this toolkit's implementbtion of <code>Font</code> using
+     * the specified peer interfbce.
+     * @pbrbm     nbme the font to be implemented
+     * @pbrbm     style the style of the font, such bs <code>PLAIN</code>,
+     *            <code>BOLD</code>, <code>ITALIC</code>, or b combinbtion
+     * @return    this toolkit's implementbtion of <code>Font</code>
+     * @see       jbvb.bwt.Font
+     * @see       jbvb.bwt.peer.FontPeer
+     * @see       jbvb.bwt.GrbphicsEnvironment#getAllFonts
+     * @deprecbted  see jbvb.bwt.GrbphicsEnvironment#getAllFonts
      */
-    @Deprecated
-    protected abstract FontPeer getFontPeer(String name, int style);
+    @Deprecbted
+    protected bbstrbct FontPeer getFontPeer(String nbme, int style);
 
-    // The following method is called by the private method
-    // <code>updateSystemColors</code> in <code>SystemColor</code>.
+    // The following method is cblled by the privbte method
+    // <code>updbteSystemColors</code> in <code>SystemColor</code>.
 
     /**
-     * Fills in the integer array that is supplied as an argument
-     * with the current system color values.
+     * Fills in the integer brrby thbt is supplied bs bn brgument
+     * with the current system color vblues.
      *
-     * @param     systemColors an integer array.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm     systemColors bn integer brrby.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.1
      */
-    protected void loadSystemColors(int[] systemColors)
-        throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
+    protected void lobdSystemColors(int[] systemColors)
+        throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
     }
 
     /**
-     * Controls whether the layout of Containers is validated dynamically
-     * during resizing, or statically, after resizing is complete.
-     * Use {@code isDynamicLayoutActive()} to detect if this feature enabled
-     * in this program and is supported by this operating system
-     * and/or window manager.
-     * Note that this feature is supported not on all platforms, and
-     * conversely, that this feature cannot be turned off on some platforms.
-     * On these platforms where dynamic layout during resizing is not supported
-     * (or is always supported), setting this property has no effect.
-     * Note that this feature can be set or unset as a property of the
-     * operating system or window manager on some platforms.  On such
-     * platforms, the dynamic resize property must be set at the operating
-     * system or window manager level before this method can take effect.
-     * This method does not change support or settings of the underlying
-     * operating system or
-     * window manager.  The OS/WM support can be
-     * queried using getDesktopProperty("awt.dynamicLayoutSupported") method.
+     * Controls whether the lbyout of Contbiners is vblidbted dynbmicblly
+     * during resizing, or stbticblly, bfter resizing is complete.
+     * Use {@code isDynbmicLbyoutActive()} to detect if this febture enbbled
+     * in this progrbm bnd is supported by this operbting system
+     * bnd/or window mbnbger.
+     * Note thbt this febture is supported not on bll plbtforms, bnd
+     * conversely, thbt this febture cbnnot be turned off on some plbtforms.
+     * On these plbtforms where dynbmic lbyout during resizing is not supported
+     * (or is blwbys supported), setting this property hbs no effect.
+     * Note thbt this febture cbn be set or unset bs b property of the
+     * operbting system or window mbnbger on some plbtforms.  On such
+     * plbtforms, the dynbmic resize property must be set bt the operbting
+     * system or window mbnbger level before this method cbn tbke effect.
+     * This method does not chbnge support or settings of the underlying
+     * operbting system or
+     * window mbnbger.  The OS/WM support cbn be
+     * queried using getDesktopProperty("bwt.dynbmicLbyoutSupported") method.
      *
-     * @param     dynamic  If true, Containers should re-layout their
-     *            components as the Container is being resized.  If false,
-     *            the layout will be validated after resizing is completed.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm     dynbmic  If true, Contbiners should re-lbyout their
+     *            components bs the Contbiner is being resized.  If fblse,
+     *            the lbyout will be vblidbted bfter resizing is completed.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      *            returns true
-     * @see       #isDynamicLayoutSet()
-     * @see       #isDynamicLayoutActive()
-     * @see       #getDesktopProperty(String propertyName)
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       #isDynbmicLbyoutSet()
+     * @see       #isDynbmicLbyoutActive()
+     * @see       #getDesktopProperty(String propertyNbme)
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.4
      */
-    public void setDynamicLayout(final boolean dynamic)
-        throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        if (this != getDefaultToolkit()) {
-            getDefaultToolkit().setDynamicLayout(dynamic);
+    public void setDynbmicLbyout(finbl boolebn dynbmic)
+        throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
+        if (this != getDefbultToolkit()) {
+            getDefbultToolkit().setDynbmicLbyout(dynbmic);
         }
     }
 
     /**
-     * Returns whether the layout of Containers is validated dynamically
-     * during resizing, or statically, after resizing is complete.
-     * Note: this method returns the value that was set programmatically;
-     * it does not reflect support at the level of the operating system
-     * or window manager for dynamic layout on resizing, or the current
-     * operating system or window manager settings.  The OS/WM support can
-     * be queried using getDesktopProperty("awt.dynamicLayoutSupported").
+     * Returns whether the lbyout of Contbiners is vblidbted dynbmicblly
+     * during resizing, or stbticblly, bfter resizing is complete.
+     * Note: this method returns the vblue thbt wbs set progrbmmbticblly;
+     * it does not reflect support bt the level of the operbting system
+     * or window mbnbger for dynbmic lbyout on resizing, or the current
+     * operbting system or window mbnbger settings.  The OS/WM support cbn
+     * be queried using getDesktopProperty("bwt.dynbmicLbyoutSupported").
      *
-     * @return    true if validation of Containers is done dynamically,
-     *            false if validation is done after resizing is finished.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @return    true if vblidbtion of Contbiners is done dynbmicblly,
+     *            fblse if vblidbtion is done bfter resizing is finished.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      *            returns true
-     * @see       #setDynamicLayout(boolean dynamic)
-     * @see       #isDynamicLayoutActive()
-     * @see       #getDesktopProperty(String propertyName)
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       #setDynbmicLbyout(boolebn dynbmic)
+     * @see       #isDynbmicLbyoutActive()
+     * @see       #getDesktopProperty(String propertyNbme)
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.4
      */
-    protected boolean isDynamicLayoutSet()
-        throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
+    protected boolebn isDynbmicLbyoutSet()
+        throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
 
-        if (this != Toolkit.getDefaultToolkit()) {
-            return Toolkit.getDefaultToolkit().isDynamicLayoutSet();
+        if (this != Toolkit.getDefbultToolkit()) {
+            return Toolkit.getDefbultToolkit().isDynbmicLbyoutSet();
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Returns whether dynamic layout of Containers on resize is
-     * currently active (both set in program
-     *( {@code isDynamicLayoutSet()} )
-     *, and supported
-     * by the underlying operating system and/or window manager).
-     * If dynamic layout is currently inactive then Containers
-     * re-layout their components when resizing is completed. As a result
-     * the {@code Component.validate()} method will be invoked only
+     * Returns whether dynbmic lbyout of Contbiners on resize is
+     * currently bctive (both set in progrbm
+     *( {@code isDynbmicLbyoutSet()} )
+     *, bnd supported
+     * by the underlying operbting system bnd/or window mbnbger).
+     * If dynbmic lbyout is currently inbctive then Contbiners
+     * re-lbyout their components when resizing is completed. As b result
+     * the {@code Component.vblidbte()} method will be invoked only
      * once per resize.
-     * If dynamic layout is currently active then Containers
-     * re-layout their components on every native resize event and
-     * the {@code validate()} method will be invoked each time.
-     * The OS/WM support can be queried using
-     * the getDesktopProperty("awt.dynamicLayoutSupported") method.
+     * If dynbmic lbyout is currently bctive then Contbiners
+     * re-lbyout their components on every nbtive resize event bnd
+     * the {@code vblidbte()} method will be invoked ebch time.
+     * The OS/WM support cbn be queried using
+     * the getDesktopProperty("bwt.dynbmicLbyoutSupported") method.
      *
-     * @return    true if dynamic layout of Containers on resize is
-     *            currently active, false otherwise.
-     * @exception HeadlessException if the GraphicsEnvironment.isHeadless()
+     * @return    true if dynbmic lbyout of Contbiners on resize is
+     *            currently bctive, fblse otherwise.
+     * @exception HebdlessException if the GrbphicsEnvironment.isHebdless()
      *            method returns true
-     * @see       #setDynamicLayout(boolean dynamic)
-     * @see       #isDynamicLayoutSet()
-     * @see       #getDesktopProperty(String propertyName)
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       #setDynbmicLbyout(boolebn dynbmic)
+     * @see       #isDynbmicLbyoutSet()
+     * @see       #getDesktopProperty(String propertyNbme)
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.4
      */
-    public boolean isDynamicLayoutActive()
-        throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
+    public boolebn isDynbmicLbyoutActive()
+        throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
 
-        if (this != Toolkit.getDefaultToolkit()) {
-            return Toolkit.getDefaultToolkit().isDynamicLayoutActive();
+        if (this != Toolkit.getDefbultToolkit()) {
+            return Toolkit.getDefbultToolkit().isDynbmicLbyoutActive();
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Gets the size of the screen.  On systems with multiple displays, the
-     * primary display is used.  Multi-screen aware display dimensions are
-     * available from <code>GraphicsConfiguration</code> and
-     * <code>GraphicsDevice</code>.
+     * Gets the size of the screen.  On systems with multiple displbys, the
+     * primbry displby is used.  Multi-screen bwbre displby dimensions bre
+     * bvbilbble from <code>GrbphicsConfigurbtion</code> bnd
+     * <code>GrbphicsDevice</code>.
      * @return    the size of this toolkit's screen, in pixels.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsConfiguration#getBounds
-     * @see       java.awt.GraphicsDevice#getDisplayMode
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       jbvb.bwt.GrbphicsConfigurbtion#getBounds
+     * @see       jbvb.bwt.GrbphicsDevice#getDisplbyMode
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public abstract Dimension getScreenSize()
-        throws HeadlessException;
+    public bbstrbct Dimension getScreenSize()
+        throws HebdlessException;
 
     /**
      * Returns the screen resolution in dots-per-inch.
      * @return    this toolkit's screen resolution, in dots-per-inch.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public abstract int getScreenResolution()
-        throws HeadlessException;
+    public bbstrbct int getScreenResolution()
+        throws HebdlessException;
 
     /**
      * Gets the insets of the screen.
-     * @param     gc a <code>GraphicsConfiguration</code>
+     * @pbrbm     gc b <code>GrbphicsConfigurbtion</code>
      * @return    the insets of this toolkit's screen, in pixels.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.4
      */
-    public Insets getScreenInsets(GraphicsConfiguration gc)
-        throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        if (this != Toolkit.getDefaultToolkit()) {
-            return Toolkit.getDefaultToolkit().getScreenInsets(gc);
+    public Insets getScreenInsets(GrbphicsConfigurbtion gc)
+        throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
+        if (this != Toolkit.getDefbultToolkit()) {
+            return Toolkit.getDefbultToolkit().getScreenInsets(gc);
         } else {
             return new Insets(0, 0, 0, 0);
         }
@@ -617,859 +617,859 @@ public abstract class Toolkit {
     /**
      * Determines the color model of this toolkit's screen.
      * <p>
-     * <code>ColorModel</code> is an abstract class that
-     * encapsulates the ability to translate between the
-     * pixel values of an image and its red, green, blue,
-     * and alpha components.
+     * <code>ColorModel</code> is bn bbstrbct clbss thbt
+     * encbpsulbtes the bbility to trbnslbte between the
+     * pixel vblues of bn imbge bnd its red, green, blue,
+     * bnd blphb components.
      * <p>
-     * This toolkit method is called by the
+     * This toolkit method is cblled by the
      * <code>getColorModel</code> method
-     * of the <code>Component</code> class.
+     * of the <code>Component</code> clbss.
      * @return    the color model of this toolkit's screen.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.image.ColorModel
-     * @see       java.awt.Component#getColorModel
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.imbge.ColorModel
+     * @see       jbvb.bwt.Component#getColorModel
      */
-    public abstract ColorModel getColorModel()
-        throws HeadlessException;
+    public bbstrbct ColorModel getColorModel()
+        throws HebdlessException;
 
     /**
-     * Returns the names of the available fonts in this toolkit.<p>
-     * For 1.1, the following font names are deprecated (the replacement
-     * name follows):
+     * Returns the nbmes of the bvbilbble fonts in this toolkit.<p>
+     * For 1.1, the following font nbmes bre deprecbted (the replbcement
+     * nbme follows):
      * <ul>
-     * <li>TimesRoman (use Serif)
-     * <li>Helvetica (use SansSerif)
-     * <li>Courier (use Monospaced)
+     * <li>TimesRombn (use Serif)
+     * <li>Helveticb (use SbnsSerif)
+     * <li>Courier (use Monospbced)
      * </ul><p>
-     * The ZapfDingbats fontname is also deprecated in 1.1 but the characters
-     * are defined in Unicode starting at 0x2700, and as of 1.1 Java supports
-     * those characters.
-     * @return    the names of the available fonts in this toolkit.
-     * @deprecated see {@link java.awt.GraphicsEnvironment#getAvailableFontFamilyNames()}
-     * @see java.awt.GraphicsEnvironment#getAvailableFontFamilyNames()
+     * The ZbpfDingbbts fontnbme is blso deprecbted in 1.1 but the chbrbcters
+     * bre defined in Unicode stbrting bt 0x2700, bnd bs of 1.1 Jbvb supports
+     * those chbrbcters.
+     * @return    the nbmes of the bvbilbble fonts in this toolkit.
+     * @deprecbted see {@link jbvb.bwt.GrbphicsEnvironment#getAvbilbbleFontFbmilyNbmes()}
+     * @see jbvb.bwt.GrbphicsEnvironment#getAvbilbbleFontFbmilyNbmes()
      */
-    @Deprecated
-    public abstract String[] getFontList();
+    @Deprecbted
+    public bbstrbct String[] getFontList();
 
     /**
      * Gets the screen device metrics for rendering of the font.
-     * @param     font   a font
+     * @pbrbm     font   b font
      * @return    the screen metrics of the specified font in this toolkit
-     * @deprecated  As of JDK version 1.2, replaced by the <code>Font</code>
+     * @deprecbted  As of JDK version 1.2, replbced by the <code>Font</code>
      *          method <code>getLineMetrics</code>.
-     * @see java.awt.font.LineMetrics
-     * @see java.awt.Font#getLineMetrics
-     * @see java.awt.GraphicsEnvironment#getScreenDevices
+     * @see jbvb.bwt.font.LineMetrics
+     * @see jbvb.bwt.Font#getLineMetrics
+     * @see jbvb.bwt.GrbphicsEnvironment#getScreenDevices
      */
-    @Deprecated
-    public abstract FontMetrics getFontMetrics(Font font);
+    @Deprecbted
+    public bbstrbct FontMetrics getFontMetrics(Font font);
 
     /**
-     * Synchronizes this toolkit's graphics state. Some window systems
-     * may do buffering of graphics events.
+     * Synchronizes this toolkit's grbphics stbte. Some window systems
+     * mby do buffering of grbphics events.
      * <p>
-     * This method ensures that the display is up-to-date. It is useful
-     * for animation.
+     * This method ensures thbt the displby is up-to-dbte. It is useful
+     * for bnimbtion.
      */
-    public abstract void sync();
+    public bbstrbct void sync();
 
     /**
-     * The default toolkit.
+     * The defbult toolkit.
      */
-    private static Toolkit toolkit;
+    privbte stbtic Toolkit toolkit;
 
     /**
-     * Used internally by the assistive technologies functions; set at
-     * init time and used at load time
+     * Used internblly by the bssistive technologies functions; set bt
+     * init time bnd used bt lobd time
      */
-    private static String atNames;
+    privbte stbtic String btNbmes;
 
     /**
-     * Initializes properties related to assistive technologies.
-     * These properties are used both in the loadAssistiveProperties()
-     * function below, as well as other classes in the jdk that depend
-     * on the properties (such as the use of the screen_magnifier_present
-     * property in Java2D hardware acceleration initialization).  The
-     * initialization of the properties must be done before the platform-
-     * specific Toolkit class is instantiated so that all necessary
-     * properties are set up properly before any classes dependent upon them
-     * are initialized.
+     * Initiblizes properties relbted to bssistive technologies.
+     * These properties bre used both in the lobdAssistiveProperties()
+     * function below, bs well bs other clbsses in the jdk thbt depend
+     * on the properties (such bs the use of the screen_mbgnifier_present
+     * property in Jbvb2D hbrdwbre bccelerbtion initiblizbtion).  The
+     * initiblizbtion of the properties must be done before the plbtform-
+     * specific Toolkit clbss is instbntibted so thbt bll necessbry
+     * properties bre set up properly before bny clbsses dependent upon them
+     * bre initiblized.
      */
-    private static void initAssistiveTechnologies() {
+    privbte stbtic void initAssistiveTechnologies() {
 
-        // Get accessibility properties
-        final String sep = File.separator;
-        final Properties properties = new Properties();
+        // Get bccessibility properties
+        finbl String sep = File.sepbrbtor;
+        finbl Properties properties = new Properties();
 
 
-        atNames = java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<String>() {
+        btNbmes = jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<String>() {
             public String run() {
 
-                // Try loading the per-user accessibility properties file.
+                // Try lobding the per-user bccessibility properties file.
                 try {
                     File propsFile = new File(
                       System.getProperty("user.home") +
-                      sep + ".accessibility.properties");
-                    FileInputStream in =
-                        new FileInputStream(propsFile);
+                      sep + ".bccessibility.properties");
+                    FileInputStrebm in =
+                        new FileInputStrebm(propsFile);
 
-                    // Inputstream has been buffered in Properties class
-                    properties.load(in);
+                    // Inputstrebm hbs been buffered in Properties clbss
+                    properties.lobd(in);
                     in.close();
-                } catch (Exception e) {
-                    // Per-user accessibility properties file does not exist
+                } cbtch (Exception e) {
+                    // Per-user bccessibility properties file does not exist
                 }
 
-                // Try loading the system-wide accessibility properties
-                // file only if a per-user accessibility properties
+                // Try lobding the system-wide bccessibility properties
+                // file only if b per-user bccessibility properties
                 // file does not exist or is empty.
                 if (properties.size() == 0) {
                     try {
                         File propsFile = new File(
-                            System.getProperty("java.home") + sep + "lib" +
-                            sep + "accessibility.properties");
-                        FileInputStream in =
-                            new FileInputStream(propsFile);
+                            System.getProperty("jbvb.home") + sep + "lib" +
+                            sep + "bccessibility.properties");
+                        FileInputStrebm in =
+                            new FileInputStrebm(propsFile);
 
-                        // Inputstream has been buffered in Properties class
-                        properties.load(in);
+                        // Inputstrebm hbs been buffered in Properties clbss
+                        properties.lobd(in);
                         in.close();
-                    } catch (Exception e) {
-                        // System-wide accessibility properties file does
+                    } cbtch (Exception e) {
+                        // System-wide bccessibility properties file does
                         // not exist;
                     }
                 }
 
-                // Get whether a screen magnifier is present.  First check
-                // the system property and then check the properties file.
-                String magPresent = System.getProperty("javax.accessibility.screen_magnifier_present");
-                if (magPresent == null) {
-                    magPresent = properties.getProperty("screen_magnifier_present", null);
-                    if (magPresent != null) {
-                        System.setProperty("javax.accessibility.screen_magnifier_present", magPresent);
+                // Get whether b screen mbgnifier is present.  First check
+                // the system property bnd then check the properties file.
+                String mbgPresent = System.getProperty("jbvbx.bccessibility.screen_mbgnifier_present");
+                if (mbgPresent == null) {
+                    mbgPresent = properties.getProperty("screen_mbgnifier_present", null);
+                    if (mbgPresent != null) {
+                        System.setProperty("jbvbx.bccessibility.screen_mbgnifier_present", mbgPresent);
                     }
                 }
 
-                // Get the names of any assistive technolgies to load.  First
-                // check the system property and then check the properties
+                // Get the nbmes of bny bssistive technolgies to lobd.  First
+                // check the system property bnd then check the properties
                 // file.
-                String classNames = System.getProperty("javax.accessibility.assistive_technologies");
-                if (classNames == null) {
-                    classNames = properties.getProperty("assistive_technologies", null);
-                    if (classNames != null) {
-                        System.setProperty("javax.accessibility.assistive_technologies", classNames);
+                String clbssNbmes = System.getProperty("jbvbx.bccessibility.bssistive_technologies");
+                if (clbssNbmes == null) {
+                    clbssNbmes = properties.getProperty("bssistive_technologies", null);
+                    if (clbssNbmes != null) {
+                        System.setProperty("jbvbx.bccessibility.bssistive_technologies", clbssNbmes);
                     }
                 }
-                return classNames;
+                return clbssNbmes;
             }
         });
     }
 
     /**
-     * Loads additional classes into the VM, using the property
-     * 'assistive_technologies' specified in the Sun reference
-     * implementation by a line in the 'accessibility.properties'
-     * file.  The form is "assistive_technologies=..." where
-     * the "..." is a comma-separated list of assistive technology
-     * classes to load.  Each class is loaded in the order given
-     * and a single instance of each is created using
-     * Class.forName(class).newInstance().  All errors are handled
-     * via an AWTError exception.
+     * Lobds bdditionbl clbsses into the VM, using the property
+     * 'bssistive_technologies' specified in the Sun reference
+     * implementbtion by b line in the 'bccessibility.properties'
+     * file.  The form is "bssistive_technologies=..." where
+     * the "..." is b commb-sepbrbted list of bssistive technology
+     * clbsses to lobd.  Ebch clbss is lobded in the order given
+     * bnd b single instbnce of ebch is crebted using
+     * Clbss.forNbme(clbss).newInstbnce().  All errors bre hbndled
+     * vib bn AWTError exception.
      *
-     * <p>The assumption is made that assistive technology classes are supplied
-     * as part of INSTALLED (as opposed to: BUNDLED) extensions or specified
-     * on the class path
-     * (and therefore can be loaded using the class loader returned by
-     * a call to <code>ClassLoader.getSystemClassLoader</code>, whose
-     * delegation parent is the extension class loader for installed
+     * <p>The bssumption is mbde thbt bssistive technology clbsses bre supplied
+     * bs pbrt of INSTALLED (bs opposed to: BUNDLED) extensions or specified
+     * on the clbss pbth
+     * (bnd therefore cbn be lobded using the clbss lobder returned by
+     * b cbll to <code>ClbssLobder.getSystemClbssLobder</code>, whose
+     * delegbtion pbrent is the extension clbss lobder for instblled
      * extensions).
      */
-    private static void loadAssistiveTechnologies() {
-        // Load any assistive technologies
-        if (atNames != null) {
-            ClassLoader cl = ClassLoader.getSystemClassLoader();
-            StringTokenizer parser = new StringTokenizer(atNames," ,");
-            String atName;
-            while (parser.hasMoreTokens()) {
-                atName = parser.nextToken();
+    privbte stbtic void lobdAssistiveTechnologies() {
+        // Lobd bny bssistive technologies
+        if (btNbmes != null) {
+            ClbssLobder cl = ClbssLobder.getSystemClbssLobder();
+            StringTokenizer pbrser = new StringTokenizer(btNbmes," ,");
+            String btNbme;
+            while (pbrser.hbsMoreTokens()) {
+                btNbme = pbrser.nextToken();
                 try {
-                    Class<?> clazz;
+                    Clbss<?> clbzz;
                     if (cl != null) {
-                        clazz = cl.loadClass(atName);
+                        clbzz = cl.lobdClbss(btNbme);
                     } else {
-                        clazz = Class.forName(atName);
+                        clbzz = Clbss.forNbme(btNbme);
                     }
-                    clazz.newInstance();
-                } catch (ClassNotFoundException e) {
+                    clbzz.newInstbnce();
+                } cbtch (ClbssNotFoundException e) {
                     throw new AWTError("Assistive Technology not found: "
-                            + atName);
-                } catch (InstantiationException e) {
-                    throw new AWTError("Could not instantiate Assistive"
-                            + " Technology: " + atName);
-                } catch (IllegalAccessException e) {
-                    throw new AWTError("Could not access Assistive"
-                            + " Technology: " + atName);
-                } catch (Exception e) {
-                    throw new AWTError("Error trying to install Assistive"
-                            + " Technology: " + atName + " " + e);
+                            + btNbme);
+                } cbtch (InstbntibtionException e) {
+                    throw new AWTError("Could not instbntibte Assistive"
+                            + " Technology: " + btNbme);
+                } cbtch (IllegblAccessException e) {
+                    throw new AWTError("Could not bccess Assistive"
+                            + " Technology: " + btNbme);
+                } cbtch (Exception e) {
+                    throw new AWTError("Error trying to instbll Assistive"
+                            + " Technology: " + btNbme + " " + e);
                 }
             }
         }
     }
 
     /**
-     * Gets the default toolkit.
+     * Gets the defbult toolkit.
      * <p>
-     * If a system property named <code>"java.awt.headless"</code> is set
-     * to <code>true</code> then the headless implementation
+     * If b system property nbmed <code>"jbvb.bwt.hebdless"</code> is set
+     * to <code>true</code> then the hebdless implementbtion
      * of <code>Toolkit</code> is used.
      * <p>
-     * If there is no <code>"java.awt.headless"</code> or it is set to
-     * <code>false</code> and there is a system property named
-     * <code>"awt.toolkit"</code>,
-     * that property is treated as the name of a class that is a subclass
+     * If there is no <code>"jbvb.bwt.hebdless"</code> or it is set to
+     * <code>fblse</code> bnd there is b system property nbmed
+     * <code>"bwt.toolkit"</code>,
+     * thbt property is trebted bs the nbme of b clbss thbt is b subclbss
      * of <code>Toolkit</code>;
-     * otherwise the default platform-specific implementation of
+     * otherwise the defbult plbtform-specific implementbtion of
      * <code>Toolkit</code> is used.
      * <p>
-     * Also loads additional classes into the VM, using the property
-     * 'assistive_technologies' specified in the Sun reference
-     * implementation by a line in the 'accessibility.properties'
-     * file.  The form is "assistive_technologies=..." where
-     * the "..." is a comma-separated list of assistive technology
-     * classes to load.  Each class is loaded in the order given
-     * and a single instance of each is created using
-     * Class.forName(class).newInstance().  This is done just after
-     * the AWT toolkit is created.  All errors are handled via an
+     * Also lobds bdditionbl clbsses into the VM, using the property
+     * 'bssistive_technologies' specified in the Sun reference
+     * implementbtion by b line in the 'bccessibility.properties'
+     * file.  The form is "bssistive_technologies=..." where
+     * the "..." is b commb-sepbrbted list of bssistive technology
+     * clbsses to lobd.  Ebch clbss is lobded in the order given
+     * bnd b single instbnce of ebch is crebted using
+     * Clbss.forNbme(clbss).newInstbnce().  This is done just bfter
+     * the AWT toolkit is crebted.  All errors bre hbndled vib bn
      * AWTError exception.
-     * @return    the default toolkit.
-     * @exception  AWTError  if a toolkit could not be found, or
-     *                 if one could not be accessed or instantiated.
+     * @return    the defbult toolkit.
+     * @exception  AWTError  if b toolkit could not be found, or
+     *                 if one could not be bccessed or instbntibted.
      */
-    public static synchronized Toolkit getDefaultToolkit() {
+    public stbtic synchronized Toolkit getDefbultToolkit() {
         if (toolkit == null) {
-            java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Void>() {
+            jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    Class<?> cls = null;
-                    String nm = System.getProperty("awt.toolkit");
+                    Clbss<?> cls = null;
+                    String nm = System.getProperty("bwt.toolkit");
                     try {
-                        cls = Class.forName(nm);
-                    } catch (ClassNotFoundException e) {
-                        ClassLoader cl = ClassLoader.getSystemClassLoader();
+                        cls = Clbss.forNbme(nm);
+                    } cbtch (ClbssNotFoundException e) {
+                        ClbssLobder cl = ClbssLobder.getSystemClbssLobder();
                         if (cl != null) {
                             try {
-                                cls = cl.loadClass(nm);
-                            } catch (final ClassNotFoundException ignored) {
+                                cls = cl.lobdClbss(nm);
+                            } cbtch (finbl ClbssNotFoundException ignored) {
                                 throw new AWTError("Toolkit not found: " + nm);
                             }
                         }
                     }
                     try {
                         if (cls != null) {
-                            toolkit = (Toolkit)cls.newInstance();
-                            if (GraphicsEnvironment.isHeadless()) {
-                                toolkit = new HeadlessToolkit(toolkit);
+                            toolkit = (Toolkit)cls.newInstbnce();
+                            if (GrbphicsEnvironment.isHebdless()) {
+                                toolkit = new HebdlessToolkit(toolkit);
                             }
                         }
-                    } catch (final InstantiationException ignored) {
-                        throw new AWTError("Could not instantiate Toolkit: " + nm);
-                    } catch (final IllegalAccessException ignored) {
-                        throw new AWTError("Could not access Toolkit: " + nm);
+                    } cbtch (finbl InstbntibtionException ignored) {
+                        throw new AWTError("Could not instbntibte Toolkit: " + nm);
+                    } cbtch (finbl IllegblAccessException ignored) {
+                        throw new AWTError("Could not bccess Toolkit: " + nm);
                     }
                     return null;
                 }
             });
-            loadAssistiveTechnologies();
+            lobdAssistiveTechnologies();
         }
         return toolkit;
     }
 
     /**
-     * Returns an image which gets pixel data from the specified file,
-     * whose format can be either GIF, JPEG or PNG.
-     * The underlying toolkit attempts to resolve multiple requests
-     * with the same filename to the same returned Image.
+     * Returns bn imbge which gets pixel dbtb from the specified file,
+     * whose formbt cbn be either GIF, JPEG or PNG.
+     * The underlying toolkit bttempts to resolve multiple requests
+     * with the sbme filenbme to the sbme returned Imbge.
      * <p>
-     * Since the mechanism required to facilitate this sharing of
-     * <code>Image</code> objects may continue to hold onto images
-     * that are no longer in use for an indefinite period of time,
-     * developers are encouraged to implement their own caching of
-     * images by using the {@link #createImage(java.lang.String) createImage}
-     * variant wherever available.
-     * If the image data contained in the specified file changes,
-     * the <code>Image</code> object returned from this method may
-     * still contain stale information which was loaded from the
-     * file after a prior call.
-     * Previously loaded image data can be manually discarded by
-     * calling the {@link Image#flush flush} method on the
-     * returned <code>Image</code>.
+     * Since the mechbnism required to fbcilitbte this shbring of
+     * <code>Imbge</code> objects mby continue to hold onto imbges
+     * thbt bre no longer in use for bn indefinite period of time,
+     * developers bre encourbged to implement their own cbching of
+     * imbges by using the {@link #crebteImbge(jbvb.lbng.String) crebteImbge}
+     * vbribnt wherever bvbilbble.
+     * If the imbge dbtb contbined in the specified file chbnges,
+     * the <code>Imbge</code> object returned from this method mby
+     * still contbin stble informbtion which wbs lobded from the
+     * file bfter b prior cbll.
+     * Previously lobded imbge dbtb cbn be mbnublly discbrded by
+     * cblling the {@link Imbge#flush flush} method on the
+     * returned <code>Imbge</code>.
      * <p>
-     * This method first checks if there is a security manager installed.
-     * If so, the method calls the security manager's
-     * <code>checkRead</code> method with the file specified to ensure
-     * that the access to the image is allowed.
-     * @param     filename   the name of a file containing pixel data
-     *                         in a recognized file format.
-     * @return    an image which gets its pixel data from
+     * This method first checks if there is b security mbnbger instblled.
+     * If so, the method cblls the security mbnbger's
+     * <code>checkRebd</code> method with the file specified to ensure
+     * thbt the bccess to the imbge is bllowed.
+     * @pbrbm     filenbme   the nbme of b file contbining pixel dbtb
+     *                         in b recognized file formbt.
+     * @return    bn imbge which gets its pixel dbtb from
      *                         the specified file.
-     * @throws SecurityException  if a security manager exists and its
-     *                            checkRead method doesn't allow the operation.
-     * @see #createImage(java.lang.String)
+     * @throws SecurityException  if b security mbnbger exists bnd its
+     *                            checkRebd method doesn't bllow the operbtion.
+     * @see #crebteImbge(jbvb.lbng.String)
      */
-    public abstract Image getImage(String filename);
+    public bbstrbct Imbge getImbge(String filenbme);
 
     /**
-     * Returns an image which gets pixel data from the specified URL.
-     * The pixel data referenced by the specified URL must be in one
-     * of the following formats: GIF, JPEG or PNG.
-     * The underlying toolkit attempts to resolve multiple requests
-     * with the same URL to the same returned Image.
+     * Returns bn imbge which gets pixel dbtb from the specified URL.
+     * The pixel dbtb referenced by the specified URL must be in one
+     * of the following formbts: GIF, JPEG or PNG.
+     * The underlying toolkit bttempts to resolve multiple requests
+     * with the sbme URL to the sbme returned Imbge.
      * <p>
-     * Since the mechanism required to facilitate this sharing of
-     * <code>Image</code> objects may continue to hold onto images
-     * that are no longer in use for an indefinite period of time,
-     * developers are encouraged to implement their own caching of
-     * images by using the {@link #createImage(java.net.URL) createImage}
-     * variant wherever available.
-     * If the image data stored at the specified URL changes,
-     * the <code>Image</code> object returned from this method may
-     * still contain stale information which was fetched from the
-     * URL after a prior call.
-     * Previously loaded image data can be manually discarded by
-     * calling the {@link Image#flush flush} method on the
-     * returned <code>Image</code>.
+     * Since the mechbnism required to fbcilitbte this shbring of
+     * <code>Imbge</code> objects mby continue to hold onto imbges
+     * thbt bre no longer in use for bn indefinite period of time,
+     * developers bre encourbged to implement their own cbching of
+     * imbges by using the {@link #crebteImbge(jbvb.net.URL) crebteImbge}
+     * vbribnt wherever bvbilbble.
+     * If the imbge dbtb stored bt the specified URL chbnges,
+     * the <code>Imbge</code> object returned from this method mby
+     * still contbin stble informbtion which wbs fetched from the
+     * URL bfter b prior cbll.
+     * Previously lobded imbge dbtb cbn be mbnublly discbrded by
+     * cblling the {@link Imbge#flush flush} method on the
+     * returned <code>Imbge</code>.
      * <p>
-     * This method first checks if there is a security manager installed.
-     * If so, the method calls the security manager's
+     * This method first checks if there is b security mbnbger instblled.
+     * If so, the method cblls the security mbnbger's
      * <code>checkPermission</code> method with the
      * url.openConnection().getPermission() permission to ensure
-     * that the access to the image is allowed. For compatibility
-     * with pre-1.2 security managers, if the access is denied with
+     * thbt the bccess to the imbge is bllowed. For compbtibility
+     * with pre-1.2 security mbnbgers, if the bccess is denied with
      * <code>FilePermission</code> or <code>SocketPermission</code>,
      * the method throws the <code>SecurityException</code>
-     * if the corresponding 1.1-style SecurityManager.checkXXX method
-     * also denies permission.
-     * @param     url   the URL to use in fetching the pixel data.
-     * @return    an image which gets its pixel data from
+     * if the corresponding 1.1-style SecurityMbnbger.checkXXX method
+     * blso denies permission.
+     * @pbrbm     url   the URL to use in fetching the pixel dbtb.
+     * @return    bn imbge which gets its pixel dbtb from
      *                         the specified URL.
-     * @throws SecurityException  if a security manager exists and its
-     *                            checkPermission method doesn't allow
-     *                            the operation.
-     * @see #createImage(java.net.URL)
+     * @throws SecurityException  if b security mbnbger exists bnd its
+     *                            checkPermission method doesn't bllow
+     *                            the operbtion.
+     * @see #crebteImbge(jbvb.net.URL)
      */
-    public abstract Image getImage(URL url);
+    public bbstrbct Imbge getImbge(URL url);
 
     /**
-     * Returns an image which gets pixel data from the specified file.
-     * The returned Image is a new object which will not be shared
-     * with any other caller of this method or its getImage variant.
+     * Returns bn imbge which gets pixel dbtb from the specified file.
+     * The returned Imbge is b new object which will not be shbred
+     * with bny other cbller of this method or its getImbge vbribnt.
      * <p>
-     * This method first checks if there is a security manager installed.
-     * If so, the method calls the security manager's
-     * <code>checkRead</code> method with the specified file to ensure
-     * that the image creation is allowed.
-     * @param     filename   the name of a file containing pixel data
-     *                         in a recognized file format.
-     * @return    an image which gets its pixel data from
+     * This method first checks if there is b security mbnbger instblled.
+     * If so, the method cblls the security mbnbger's
+     * <code>checkRebd</code> method with the specified file to ensure
+     * thbt the imbge crebtion is bllowed.
+     * @pbrbm     filenbme   the nbme of b file contbining pixel dbtb
+     *                         in b recognized file formbt.
+     * @return    bn imbge which gets its pixel dbtb from
      *                         the specified file.
-     * @throws SecurityException  if a security manager exists and its
-     *                            checkRead method doesn't allow the operation.
-     * @see #getImage(java.lang.String)
+     * @throws SecurityException  if b security mbnbger exists bnd its
+     *                            checkRebd method doesn't bllow the operbtion.
+     * @see #getImbge(jbvb.lbng.String)
      */
-    public abstract Image createImage(String filename);
+    public bbstrbct Imbge crebteImbge(String filenbme);
 
     /**
-     * Returns an image which gets pixel data from the specified URL.
-     * The returned Image is a new object which will not be shared
-     * with any other caller of this method or its getImage variant.
+     * Returns bn imbge which gets pixel dbtb from the specified URL.
+     * The returned Imbge is b new object which will not be shbred
+     * with bny other cbller of this method or its getImbge vbribnt.
      * <p>
-     * This method first checks if there is a security manager installed.
-     * If so, the method calls the security manager's
+     * This method first checks if there is b security mbnbger instblled.
+     * If so, the method cblls the security mbnbger's
      * <code>checkPermission</code> method with the
      * url.openConnection().getPermission() permission to ensure
-     * that the image creation is allowed. For compatibility
-     * with pre-1.2 security managers, if the access is denied with
+     * thbt the imbge crebtion is bllowed. For compbtibility
+     * with pre-1.2 security mbnbgers, if the bccess is denied with
      * <code>FilePermission</code> or <code>SocketPermission</code>,
      * the method throws <code>SecurityException</code>
-     * if the corresponding 1.1-style SecurityManager.checkXXX method
-     * also denies permission.
-     * @param     url   the URL to use in fetching the pixel data.
-     * @return    an image which gets its pixel data from
+     * if the corresponding 1.1-style SecurityMbnbger.checkXXX method
+     * blso denies permission.
+     * @pbrbm     url   the URL to use in fetching the pixel dbtb.
+     * @return    bn imbge which gets its pixel dbtb from
      *                         the specified URL.
-     * @throws SecurityException  if a security manager exists and its
-     *                            checkPermission method doesn't allow
-     *                            the operation.
-     * @see #getImage(java.net.URL)
+     * @throws SecurityException  if b security mbnbger exists bnd its
+     *                            checkPermission method doesn't bllow
+     *                            the operbtion.
+     * @see #getImbge(jbvb.net.URL)
      */
-    public abstract Image createImage(URL url);
+    public bbstrbct Imbge crebteImbge(URL url);
 
     /**
-     * Prepares an image for rendering.
+     * Prepbres bn imbge for rendering.
      * <p>
-     * If the values of the width and height arguments are both
-     * <code>-1</code>, this method prepares the image for rendering
-     * on the default screen; otherwise, this method prepares an image
-     * for rendering on the default screen at the specified width and height.
+     * If the vblues of the width bnd height brguments bre both
+     * <code>-1</code>, this method prepbres the imbge for rendering
+     * on the defbult screen; otherwise, this method prepbres bn imbge
+     * for rendering on the defbult screen bt the specified width bnd height.
      * <p>
-     * The image data is downloaded asynchronously in another thread,
-     * and an appropriately scaled screen representation of the image is
-     * generated.
+     * The imbge dbtb is downlobded bsynchronously in bnother threbd,
+     * bnd bn bppropribtely scbled screen representbtion of the imbge is
+     * generbted.
      * <p>
-     * This method is called by components <code>prepareImage</code>
+     * This method is cblled by components <code>prepbreImbge</code>
      * methods.
      * <p>
-     * Information on the flags returned by this method can be found
-     * with the definition of the <code>ImageObserver</code> interface.
+     * Informbtion on the flbgs returned by this method cbn be found
+     * with the definition of the <code>ImbgeObserver</code> interfbce.
 
-     * @param     image      the image for which to prepare a
-     *                           screen representation.
-     * @param     width      the width of the desired screen
-     *                           representation, or <code>-1</code>.
-     * @param     height     the height of the desired screen
-     *                           representation, or <code>-1</code>.
-     * @param     observer   the <code>ImageObserver</code>
-     *                           object to be notified as the
-     *                           image is being prepared.
-     * @return    <code>true</code> if the image has already been
-     *                 fully prepared; <code>false</code> otherwise.
-     * @see       java.awt.Component#prepareImage(java.awt.Image,
-     *                 java.awt.image.ImageObserver)
-     * @see       java.awt.Component#prepareImage(java.awt.Image,
-     *                 int, int, java.awt.image.ImageObserver)
-     * @see       java.awt.image.ImageObserver
+     * @pbrbm     imbge      the imbge for which to prepbre b
+     *                           screen representbtion.
+     * @pbrbm     width      the width of the desired screen
+     *                           representbtion, or <code>-1</code>.
+     * @pbrbm     height     the height of the desired screen
+     *                           representbtion, or <code>-1</code>.
+     * @pbrbm     observer   the <code>ImbgeObserver</code>
+     *                           object to be notified bs the
+     *                           imbge is being prepbred.
+     * @return    <code>true</code> if the imbge hbs blrebdy been
+     *                 fully prepbred; <code>fblse</code> otherwise.
+     * @see       jbvb.bwt.Component#prepbreImbge(jbvb.bwt.Imbge,
+     *                 jbvb.bwt.imbge.ImbgeObserver)
+     * @see       jbvb.bwt.Component#prepbreImbge(jbvb.bwt.Imbge,
+     *                 int, int, jbvb.bwt.imbge.ImbgeObserver)
+     * @see       jbvb.bwt.imbge.ImbgeObserver
      */
-    public abstract boolean prepareImage(Image image, int width, int height,
-                                         ImageObserver observer);
+    public bbstrbct boolebn prepbreImbge(Imbge imbge, int width, int height,
+                                         ImbgeObserver observer);
 
     /**
-     * Indicates the construction status of a specified image that is
-     * being prepared for display.
+     * Indicbtes the construction stbtus of b specified imbge thbt is
+     * being prepbred for displby.
      * <p>
-     * If the values of the width and height arguments are both
-     * <code>-1</code>, this method returns the construction status of
-     * a screen representation of the specified image in this toolkit.
-     * Otherwise, this method returns the construction status of a
-     * scaled representation of the image at the specified width
-     * and height.
+     * If the vblues of the width bnd height brguments bre both
+     * <code>-1</code>, this method returns the construction stbtus of
+     * b screen representbtion of the specified imbge in this toolkit.
+     * Otherwise, this method returns the construction stbtus of b
+     * scbled representbtion of the imbge bt the specified width
+     * bnd height.
      * <p>
-     * This method does not cause the image to begin loading.
-     * An application must call <code>prepareImage</code> to force
-     * the loading of an image.
+     * This method does not cbuse the imbge to begin lobding.
+     * An bpplicbtion must cbll <code>prepbreImbge</code> to force
+     * the lobding of bn imbge.
      * <p>
-     * This method is called by the component's <code>checkImage</code>
+     * This method is cblled by the component's <code>checkImbge</code>
      * methods.
      * <p>
-     * Information on the flags returned by this method can be found
-     * with the definition of the <code>ImageObserver</code> interface.
-     * @param     image   the image whose status is being checked.
-     * @param     width   the width of the scaled version whose status is
+     * Informbtion on the flbgs returned by this method cbn be found
+     * with the definition of the <code>ImbgeObserver</code> interfbce.
+     * @pbrbm     imbge   the imbge whose stbtus is being checked.
+     * @pbrbm     width   the width of the scbled version whose stbtus is
      *                 being checked, or <code>-1</code>.
-     * @param     height  the height of the scaled version whose status
+     * @pbrbm     height  the height of the scbled version whose stbtus
      *                 is being checked, or <code>-1</code>.
-     * @param     observer   the <code>ImageObserver</code> object to be
-     *                 notified as the image is being prepared.
+     * @pbrbm     observer   the <code>ImbgeObserver</code> object to be
+     *                 notified bs the imbge is being prepbred.
      * @return    the bitwise inclusive <strong>OR</strong> of the
-     *                 <code>ImageObserver</code> flags for the
-     *                 image data that is currently available.
-     * @see       java.awt.Toolkit#prepareImage(java.awt.Image,
-     *                 int, int, java.awt.image.ImageObserver)
-     * @see       java.awt.Component#checkImage(java.awt.Image,
-     *                 java.awt.image.ImageObserver)
-     * @see       java.awt.Component#checkImage(java.awt.Image,
-     *                 int, int, java.awt.image.ImageObserver)
-     * @see       java.awt.image.ImageObserver
+     *                 <code>ImbgeObserver</code> flbgs for the
+     *                 imbge dbtb thbt is currently bvbilbble.
+     * @see       jbvb.bwt.Toolkit#prepbreImbge(jbvb.bwt.Imbge,
+     *                 int, int, jbvb.bwt.imbge.ImbgeObserver)
+     * @see       jbvb.bwt.Component#checkImbge(jbvb.bwt.Imbge,
+     *                 jbvb.bwt.imbge.ImbgeObserver)
+     * @see       jbvb.bwt.Component#checkImbge(jbvb.bwt.Imbge,
+     *                 int, int, jbvb.bwt.imbge.ImbgeObserver)
+     * @see       jbvb.bwt.imbge.ImbgeObserver
      */
-    public abstract int checkImage(Image image, int width, int height,
-                                   ImageObserver observer);
+    public bbstrbct int checkImbge(Imbge imbge, int width, int height,
+                                   ImbgeObserver observer);
 
     /**
-     * Creates an image with the specified image producer.
-     * @param     producer the image producer to be used.
-     * @return    an image with the specified image producer.
-     * @see       java.awt.Image
-     * @see       java.awt.image.ImageProducer
-     * @see       java.awt.Component#createImage(java.awt.image.ImageProducer)
+     * Crebtes bn imbge with the specified imbge producer.
+     * @pbrbm     producer the imbge producer to be used.
+     * @return    bn imbge with the specified imbge producer.
+     * @see       jbvb.bwt.Imbge
+     * @see       jbvb.bwt.imbge.ImbgeProducer
+     * @see       jbvb.bwt.Component#crebteImbge(jbvb.bwt.imbge.ImbgeProducer)
      */
-    public abstract Image createImage(ImageProducer producer);
+    public bbstrbct Imbge crebteImbge(ImbgeProducer producer);
 
     /**
-     * Creates an image which decodes the image stored in the specified
-     * byte array.
+     * Crebtes bn imbge which decodes the imbge stored in the specified
+     * byte brrby.
      * <p>
-     * The data must be in some image format, such as GIF or JPEG,
-     * that is supported by this toolkit.
-     * @param     imagedata   an array of bytes, representing
-     *                         image data in a supported image format.
-     * @return    an image.
+     * The dbtb must be in some imbge formbt, such bs GIF or JPEG,
+     * thbt is supported by this toolkit.
+     * @pbrbm     imbgedbtb   bn brrby of bytes, representing
+     *                         imbge dbtb in b supported imbge formbt.
+     * @return    bn imbge.
      * @since     1.1
      */
-    public Image createImage(byte[] imagedata) {
-        return createImage(imagedata, 0, imagedata.length);
+    public Imbge crebteImbge(byte[] imbgedbtb) {
+        return crebteImbge(imbgedbtb, 0, imbgedbtb.length);
     }
 
     /**
-     * Creates an image which decodes the image stored in the specified
-     * byte array, and at the specified offset and length.
-     * The data must be in some image format, such as GIF or JPEG,
-     * that is supported by this toolkit.
-     * @param     imagedata   an array of bytes, representing
-     *                         image data in a supported image format.
-     * @param     imageoffset  the offset of the beginning
-     *                         of the data in the array.
-     * @param     imagelength  the length of the data in the array.
-     * @return    an image.
+     * Crebtes bn imbge which decodes the imbge stored in the specified
+     * byte brrby, bnd bt the specified offset bnd length.
+     * The dbtb must be in some imbge formbt, such bs GIF or JPEG,
+     * thbt is supported by this toolkit.
+     * @pbrbm     imbgedbtb   bn brrby of bytes, representing
+     *                         imbge dbtb in b supported imbge formbt.
+     * @pbrbm     imbgeoffset  the offset of the beginning
+     *                         of the dbtb in the brrby.
+     * @pbrbm     imbgelength  the length of the dbtb in the brrby.
+     * @return    bn imbge.
      * @since     1.1
      */
-    public abstract Image createImage(byte[] imagedata,
-                                      int imageoffset,
-                                      int imagelength);
+    public bbstrbct Imbge crebteImbge(byte[] imbgedbtb,
+                                      int imbgeoffset,
+                                      int imbgelength);
 
     /**
-     * Gets a <code>PrintJob</code> object which is the result of initiating
-     * a print operation on the toolkit's platform.
+     * Gets b <code>PrintJob</code> object which is the result of initibting
+     * b print operbtion on the toolkit's plbtform.
      * <p>
-     * Each actual implementation of this method should first check if there
-     * is a security manager installed. If there is, the method should call
-     * the security manager's <code>checkPrintJobAccess</code> method to
-     * ensure initiation of a print operation is allowed. If the default
-     * implementation of <code>checkPrintJobAccess</code> is used (that is,
-     * that method is not overriden), then this results in a call to the
-     * security manager's <code>checkPermission</code> method with a <code>
+     * Ebch bctubl implementbtion of this method should first check if there
+     * is b security mbnbger instblled. If there is, the method should cbll
+     * the security mbnbger's <code>checkPrintJobAccess</code> method to
+     * ensure initibtion of b print operbtion is bllowed. If the defbult
+     * implementbtion of <code>checkPrintJobAccess</code> is used (thbt is,
+     * thbt method is not overriden), then this results in b cbll to the
+     * security mbnbger's <code>checkPermission</code> method with b <code>
      * RuntimePermission("queuePrintJob")</code> permission.
      *
-     * @param   frame the parent of the print dialog. May not be null.
-     * @param   jobtitle the title of the PrintJob. A null title is equivalent
+     * @pbrbm   frbme the pbrent of the print diblog. Mby not be null.
+     * @pbrbm   jobtitle the title of the PrintJob. A null title is equivblent
      *          to "".
-     * @param   props a Properties object containing zero or more properties.
-     *          Properties are not standardized and are not consistent across
-     *          implementations. Because of this, PrintJobs which require job
-     *          and page control should use the version of this function which
-     *          takes JobAttributes and PageAttributes objects. This object
-     *          may be updated to reflect the user's job choices on exit. May
+     * @pbrbm   props b Properties object contbining zero or more properties.
+     *          Properties bre not stbndbrdized bnd bre not consistent bcross
+     *          implementbtions. Becbuse of this, PrintJobs which require job
+     *          bnd pbge control should use the version of this function which
+     *          tbkes JobAttributes bnd PbgeAttributes objects. This object
+     *          mby be updbted to reflect the user's job choices on exit. Mby
      *          be null.
-     * @return  a <code>PrintJob</code> object, or <code>null</code> if the
-     *          user cancelled the print job.
-     * @throws  NullPointerException if frame is null
-     * @throws  SecurityException if this thread is not allowed to initiate a
+     * @return  b <code>PrintJob</code> object, or <code>null</code> if the
+     *          user cbncelled the print job.
+     * @throws  NullPointerException if frbme is null
+     * @throws  SecurityException if this threbd is not bllowed to initibte b
      *          print job request
-     * @see     java.awt.GraphicsEnvironment#isHeadless
-     * @see     java.awt.PrintJob
-     * @see     java.lang.RuntimePermission
+     * @see     jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see     jbvb.bwt.PrintJob
+     * @see     jbvb.lbng.RuntimePermission
      * @since   1.1
      */
-    public abstract PrintJob getPrintJob(Frame frame, String jobtitle,
+    public bbstrbct PrintJob getPrintJob(Frbme frbme, String jobtitle,
                                          Properties props);
 
     /**
-     * Gets a <code>PrintJob</code> object which is the result of initiating
-     * a print operation on the toolkit's platform.
+     * Gets b <code>PrintJob</code> object which is the result of initibting
+     * b print operbtion on the toolkit's plbtform.
      * <p>
-     * Each actual implementation of this method should first check if there
-     * is a security manager installed. If there is, the method should call
-     * the security manager's <code>checkPrintJobAccess</code> method to
-     * ensure initiation of a print operation is allowed. If the default
-     * implementation of <code>checkPrintJobAccess</code> is used (that is,
-     * that method is not overriden), then this results in a call to the
-     * security manager's <code>checkPermission</code> method with a <code>
+     * Ebch bctubl implementbtion of this method should first check if there
+     * is b security mbnbger instblled. If there is, the method should cbll
+     * the security mbnbger's <code>checkPrintJobAccess</code> method to
+     * ensure initibtion of b print operbtion is bllowed. If the defbult
+     * implementbtion of <code>checkPrintJobAccess</code> is used (thbt is,
+     * thbt method is not overriden), then this results in b cbll to the
+     * security mbnbger's <code>checkPermission</code> method with b <code>
      * RuntimePermission("queuePrintJob")</code> permission.
      *
-     * @param   frame the parent of the print dialog. May not be null.
-     * @param   jobtitle the title of the PrintJob. A null title is equivalent
+     * @pbrbm   frbme the pbrent of the print diblog. Mby not be null.
+     * @pbrbm   jobtitle the title of the PrintJob. A null title is equivblent
      *          to "".
-     * @param   jobAttributes a set of job attributes which will control the
-     *          PrintJob. The attributes will be updated to reflect the user's
-     *          choices as outlined in the JobAttributes documentation. May be
+     * @pbrbm   jobAttributes b set of job bttributes which will control the
+     *          PrintJob. The bttributes will be updbted to reflect the user's
+     *          choices bs outlined in the JobAttributes documentbtion. Mby be
      *          null.
-     * @param   pageAttributes a set of page attributes which will control the
-     *          PrintJob. The attributes will be applied to every page in the
-     *          job. The attributes will be updated to reflect the user's
-     *          choices as outlined in the PageAttributes documentation. May be
+     * @pbrbm   pbgeAttributes b set of pbge bttributes which will control the
+     *          PrintJob. The bttributes will be bpplied to every pbge in the
+     *          job. The bttributes will be updbted to reflect the user's
+     *          choices bs outlined in the PbgeAttributes documentbtion. Mby be
      *          null.
-     * @return  a <code>PrintJob</code> object, or <code>null</code> if the
-     *          user cancelled the print job.
-     * @throws  NullPointerException if frame is null
-     * @throws  IllegalArgumentException if pageAttributes specifies differing
-     *          cross feed and feed resolutions. Also if this thread has
-     *          access to the file system and jobAttributes specifies
-     *          print to file, and the specified destination file exists but
-     *          is a directory rather than a regular file, does not exist but
-     *          cannot be created, or cannot be opened for any other reason.
-     *          However in the case of print to file, if a dialog is also
-     *          requested to be displayed then the user will be given an
-     *          opportunity to select a file and proceed with printing.
-     *          The dialog will ensure that the selected output file
-     *          is valid before returning from this method.
-     * @throws  SecurityException if this thread is not allowed to initiate a
+     * @return  b <code>PrintJob</code> object, or <code>null</code> if the
+     *          user cbncelled the print job.
+     * @throws  NullPointerException if frbme is null
+     * @throws  IllegblArgumentException if pbgeAttributes specifies differing
+     *          cross feed bnd feed resolutions. Also if this threbd hbs
+     *          bccess to the file system bnd jobAttributes specifies
+     *          print to file, bnd the specified destinbtion file exists but
+     *          is b directory rbther thbn b regulbr file, does not exist but
+     *          cbnnot be crebted, or cbnnot be opened for bny other rebson.
+     *          However in the cbse of print to file, if b diblog is blso
+     *          requested to be displbyed then the user will be given bn
+     *          opportunity to select b file bnd proceed with printing.
+     *          The diblog will ensure thbt the selected output file
+     *          is vblid before returning from this method.
+     * @throws  SecurityException if this threbd is not bllowed to initibte b
      *          print job request, or if jobAttributes specifies print to file,
-     *          and this thread is not allowed to access the file system
-     * @see     java.awt.PrintJob
-     * @see     java.awt.GraphicsEnvironment#isHeadless
-     * @see     java.lang.RuntimePermission
-     * @see     java.awt.JobAttributes
-     * @see     java.awt.PageAttributes
+     *          bnd this threbd is not bllowed to bccess the file system
+     * @see     jbvb.bwt.PrintJob
+     * @see     jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see     jbvb.lbng.RuntimePermission
+     * @see     jbvb.bwt.JobAttributes
+     * @see     jbvb.bwt.PbgeAttributes
      * @since   1.3
      */
-    public PrintJob getPrintJob(Frame frame, String jobtitle,
+    public PrintJob getPrintJob(Frbme frbme, String jobtitle,
                                 JobAttributes jobAttributes,
-                                PageAttributes pageAttributes) {
-        // Override to add printing support with new job/page control classes
+                                PbgeAttributes pbgeAttributes) {
+        // Override to bdd printing support with new job/pbge control clbsses
 
-        if (this != Toolkit.getDefaultToolkit()) {
-            return Toolkit.getDefaultToolkit().getPrintJob(frame, jobtitle,
+        if (this != Toolkit.getDefbultToolkit()) {
+            return Toolkit.getDefbultToolkit().getPrintJob(frbme, jobtitle,
                                                            jobAttributes,
-                                                           pageAttributes);
+                                                           pbgeAttributes);
         } else {
-            return getPrintJob(frame, jobtitle, null);
+            return getPrintJob(frbme, jobtitle, null);
         }
     }
 
     /**
-     * Emits an audio beep depending on native system settings and hardware
-     * capabilities.
+     * Emits bn budio beep depending on nbtive system settings bnd hbrdwbre
+     * cbpbbilities.
      * @since     1.1
      */
-    public abstract void beep();
+    public bbstrbct void beep();
 
     /**
-     * Gets the singleton instance of the system Clipboard which interfaces
-     * with clipboard facilities provided by the native platform. This
-     * clipboard enables data transfer between Java programs and native
-     * applications which use native clipboard facilities.
+     * Gets the singleton instbnce of the system Clipbobrd which interfbces
+     * with clipbobrd fbcilities provided by the nbtive plbtform. This
+     * clipbobrd enbbles dbtb trbnsfer between Jbvb progrbms bnd nbtive
+     * bpplicbtions which use nbtive clipbobrd fbcilities.
      * <p>
-     * In addition to any and all default formats text returned by the system
-     * Clipboard's <code>getTransferData()</code> method is available in the
-     * following flavors:
+     * In bddition to bny bnd bll defbult formbts text returned by the system
+     * Clipbobrd's <code>getTrbnsferDbtb()</code> method is bvbilbble in the
+     * following flbvors:
      * <ul>
-     * <li>DataFlavor.stringFlavor</li>
-     * <li>DataFlavor.plainTextFlavor (<b>deprecated</b>)</li>
+     * <li>DbtbFlbvor.stringFlbvor</li>
+     * <li>DbtbFlbvor.plbinTextFlbvor (<b>deprecbted</b>)</li>
      * </ul>
-     * As with <code>java.awt.datatransfer.StringSelection</code>, if the
-     * requested flavor is <code>DataFlavor.plainTextFlavor</code>, or an
-     * equivalent flavor, a Reader is returned. <b>Note:</b> The behavior of
-     * the system Clipboard's <code>getTransferData()</code> method for <code>
-     * DataFlavor.plainTextFlavor</code>, and equivalent DataFlavors, is
-     * inconsistent with the definition of <code>DataFlavor.plainTextFlavor
-     * </code>. Because of this, support for <code>
-     * DataFlavor.plainTextFlavor</code>, and equivalent flavors, is
-     * <b>deprecated</b>.
+     * As with <code>jbvb.bwt.dbtbtrbnsfer.StringSelection</code>, if the
+     * requested flbvor is <code>DbtbFlbvor.plbinTextFlbvor</code>, or bn
+     * equivblent flbvor, b Rebder is returned. <b>Note:</b> The behbvior of
+     * the system Clipbobrd's <code>getTrbnsferDbtb()</code> method for <code>
+     * DbtbFlbvor.plbinTextFlbvor</code>, bnd equivblent DbtbFlbvors, is
+     * inconsistent with the definition of <code>DbtbFlbvor.plbinTextFlbvor
+     * </code>. Becbuse of this, support for <code>
+     * DbtbFlbvor.plbinTextFlbvor</code>, bnd equivblent flbvors, is
+     * <b>deprecbted</b>.
      * <p>
-     * Each actual implementation of this method should first check if there
-     * is a security manager installed. If there is, the method should call
-     * the security manager's {@link SecurityManager#checkPermission
-     * checkPermission} method to check {@code AWTPermission("accessClipboard")}.
+     * Ebch bctubl implementbtion of this method should first check if there
+     * is b security mbnbger instblled. If there is, the method should cbll
+     * the security mbnbger's {@link SecurityMbnbger#checkPermission
+     * checkPermission} method to check {@code AWTPermission("bccessClipbobrd")}.
      *
-     * @return    the system Clipboard
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @return    the system Clipbobrd
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.datatransfer.Clipboard
-     * @see       java.awt.datatransfer.StringSelection
-     * @see       java.awt.datatransfer.DataFlavor#stringFlavor
-     * @see       java.awt.datatransfer.DataFlavor#plainTextFlavor
-     * @see       java.io.Reader
-     * @see       java.awt.AWTPermission
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.dbtbtrbnsfer.Clipbobrd
+     * @see       jbvb.bwt.dbtbtrbnsfer.StringSelection
+     * @see       jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor#stringFlbvor
+     * @see       jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor#plbinTextFlbvor
+     * @see       jbvb.io.Rebder
+     * @see       jbvb.bwt.AWTPermission
      * @since     1.1
      */
-    public abstract Clipboard getSystemClipboard()
-        throws HeadlessException;
+    public bbstrbct Clipbobrd getSystemClipbobrd()
+        throws HebdlessException;
 
     /**
-     * Gets the singleton instance of the system selection as a
-     * <code>Clipboard</code> object. This allows an application to read and
+     * Gets the singleton instbnce of the system selection bs b
+     * <code>Clipbobrd</code> object. This bllows bn bpplicbtion to rebd bnd
      * modify the current, system-wide selection.
      * <p>
-     * An application is responsible for updating the system selection whenever
-     * the user selects text, using either the mouse or the keyboard.
-     * Typically, this is implemented by installing a
-     * <code>FocusListener</code> on all <code>Component</code>s which support
-     * text selection, and, between <code>FOCUS_GAINED</code> and
-     * <code>FOCUS_LOST</code> events delivered to that <code>Component</code>,
-     * updating the system selection <code>Clipboard</code> when the selection
-     * changes inside the <code>Component</code>. Properly updating the system
-     * selection ensures that a Java application will interact correctly with
-     * native applications and other Java applications running simultaneously
-     * on the system. Note that <code>java.awt.TextComponent</code> and
-     * <code>javax.swing.text.JTextComponent</code> already adhere to this
-     * policy. When using these classes, and their subclasses, developers need
-     * not write any additional code.
+     * An bpplicbtion is responsible for updbting the system selection whenever
+     * the user selects text, using either the mouse or the keybobrd.
+     * Typicblly, this is implemented by instblling b
+     * <code>FocusListener</code> on bll <code>Component</code>s which support
+     * text selection, bnd, between <code>FOCUS_GAINED</code> bnd
+     * <code>FOCUS_LOST</code> events delivered to thbt <code>Component</code>,
+     * updbting the system selection <code>Clipbobrd</code> when the selection
+     * chbnges inside the <code>Component</code>. Properly updbting the system
+     * selection ensures thbt b Jbvb bpplicbtion will interbct correctly with
+     * nbtive bpplicbtions bnd other Jbvb bpplicbtions running simultbneously
+     * on the system. Note thbt <code>jbvb.bwt.TextComponent</code> bnd
+     * <code>jbvbx.swing.text.JTextComponent</code> blrebdy bdhere to this
+     * policy. When using these clbsses, bnd their subclbsses, developers need
+     * not write bny bdditionbl code.
      * <p>
-     * Some platforms do not support a system selection <code>Clipboard</code>.
-     * On those platforms, this method will return <code>null</code>. In such a
-     * case, an application is absolved from its responsibility to update the
-     * system selection <code>Clipboard</code> as described above.
+     * Some plbtforms do not support b system selection <code>Clipbobrd</code>.
+     * On those plbtforms, this method will return <code>null</code>. In such b
+     * cbse, bn bpplicbtion is bbsolved from its responsibility to updbte the
+     * system selection <code>Clipbobrd</code> bs described bbove.
      * <p>
-     * Each actual implementation of this method should first check if there
-     * is a security manager installed. If there is, the method should call
-     * the security manager's {@link SecurityManager#checkPermission
-     * checkPermission} method to check {@code AWTPermission("accessClipboard")}.
+     * Ebch bctubl implementbtion of this method should first check if there
+     * is b security mbnbger instblled. If there is, the method should cbll
+     * the security mbnbger's {@link SecurityMbnbger#checkPermission
+     * checkPermission} method to check {@code AWTPermission("bccessClipbobrd")}.
      *
-     * @return the system selection as a <code>Clipboard</code>, or
-     *         <code>null</code> if the native platform does not support a
-     *         system selection <code>Clipboard</code>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @return the system selection bs b <code>Clipbobrd</code>, or
+     *         <code>null</code> if the nbtive plbtform does not support b
+     *         system selection <code>Clipbobrd</code>
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      *            returns true
      *
-     * @see java.awt.datatransfer.Clipboard
-     * @see java.awt.event.FocusListener
-     * @see java.awt.event.FocusEvent#FOCUS_GAINED
-     * @see java.awt.event.FocusEvent#FOCUS_LOST
+     * @see jbvb.bwt.dbtbtrbnsfer.Clipbobrd
+     * @see jbvb.bwt.event.FocusListener
+     * @see jbvb.bwt.event.FocusEvent#FOCUS_GAINED
+     * @see jbvb.bwt.event.FocusEvent#FOCUS_LOST
      * @see TextComponent
-     * @see javax.swing.text.JTextComponent
+     * @see jbvbx.swing.text.JTextComponent
      * @see AWTPermission
-     * @see GraphicsEnvironment#isHeadless
+     * @see GrbphicsEnvironment#isHebdless
      * @since 1.4
      */
-    public Clipboard getSystemSelection() throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
+    public Clipbobrd getSystemSelection() throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
 
-        if (this != Toolkit.getDefaultToolkit()) {
-            return Toolkit.getDefaultToolkit().getSystemSelection();
+        if (this != Toolkit.getDefbultToolkit()) {
+            return Toolkit.getDefbultToolkit().getSystemSelection();
         } else {
-            GraphicsEnvironment.checkHeadless();
+            GrbphicsEnvironment.checkHebdless();
             return null;
         }
     }
 
     /**
-     * Determines which modifier key is the appropriate accelerator
+     * Determines which modifier key is the bppropribte bccelerbtor
      * key for menu shortcuts.
      * <p>
-     * Menu shortcuts, which are embodied in the
-     * <code>MenuShortcut</code> class, are handled by the
-     * <code>MenuBar</code> class.
+     * Menu shortcuts, which bre embodied in the
+     * <code>MenuShortcut</code> clbss, bre hbndled by the
+     * <code>MenuBbr</code> clbss.
      * <p>
-     * By default, this method returns <code>Event.CTRL_MASK</code>.
-     * Toolkit implementations should override this method if the
-     * <b>Control</b> key isn't the correct key for accelerators.
-     * @return    the modifier mask on the <code>Event</code> class
-     *                 that is used for menu shortcuts on this toolkit.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * By defbult, this method returns <code>Event.CTRL_MASK</code>.
+     * Toolkit implementbtions should override this method if the
+     * <b>Control</b> key isn't the correct key for bccelerbtors.
+     * @return    the modifier mbsk on the <code>Event</code> clbss
+     *                 thbt is used for menu shortcuts on this toolkit.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.MenuBar
-     * @see       java.awt.MenuShortcut
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see       jbvb.bwt.MenuBbr
+     * @see       jbvb.bwt.MenuShortcut
      * @since     1.1
      */
-    public int getMenuShortcutKeyMask() throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
+    public int getMenuShortcutKeyMbsk() throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
 
         return Event.CTRL_MASK;
     }
 
     /**
-     * Returns whether the given locking key on the keyboard is currently in
-     * its "on" state.
-     * Valid key codes are
-     * {@link java.awt.event.KeyEvent#VK_CAPS_LOCK VK_CAPS_LOCK},
-     * {@link java.awt.event.KeyEvent#VK_NUM_LOCK VK_NUM_LOCK},
-     * {@link java.awt.event.KeyEvent#VK_SCROLL_LOCK VK_SCROLL_LOCK}, and
-     * {@link java.awt.event.KeyEvent#VK_KANA_LOCK VK_KANA_LOCK}.
+     * Returns whether the given locking key on the keybobrd is currently in
+     * its "on" stbte.
+     * Vblid key codes bre
+     * {@link jbvb.bwt.event.KeyEvent#VK_CAPS_LOCK VK_CAPS_LOCK},
+     * {@link jbvb.bwt.event.KeyEvent#VK_NUM_LOCK VK_NUM_LOCK},
+     * {@link jbvb.bwt.event.KeyEvent#VK_SCROLL_LOCK VK_SCROLL_LOCK}, bnd
+     * {@link jbvb.bwt.event.KeyEvent#VK_KANA_LOCK VK_KANA_LOCK}.
      *
-     * @param  keyCode the key code
-     * @return {@code true} if the given key is currently in its "on" state;
-     *          otherwise {@code false}
-     * @exception java.lang.IllegalArgumentException if <code>keyCode</code>
-     * is not one of the valid key codes
-     * @exception java.lang.UnsupportedOperationException if the host system doesn't
-     * allow getting the state of this key programmatically, or if the keyboard
-     * doesn't have this key
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm  keyCode the key code
+     * @return {@code true} if the given key is currently in its "on" stbte;
+     *          otherwise {@code fblse}
+     * @exception jbvb.lbng.IllegblArgumentException if <code>keyCode</code>
+     * is not one of the vblid key codes
+     * @exception jbvb.lbng.UnsupportedOperbtionException if the host system doesn't
+     * bllow getting the stbte of this key progrbmmbticblly, or if the keybobrd
+     * doesn't hbve this key
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since 1.3
      */
-    public boolean getLockingKeyState(int keyCode)
-        throws UnsupportedOperationException
+    public boolebn getLockingKeyStbte(int keyCode)
+        throws UnsupportedOperbtionException
     {
-        GraphicsEnvironment.checkHeadless();
+        GrbphicsEnvironment.checkHebdless();
 
         if (! (keyCode == KeyEvent.VK_CAPS_LOCK || keyCode == KeyEvent.VK_NUM_LOCK ||
                keyCode == KeyEvent.VK_SCROLL_LOCK || keyCode == KeyEvent.VK_KANA_LOCK)) {
-            throw new IllegalArgumentException("invalid key for Toolkit.getLockingKeyState");
+            throw new IllegblArgumentException("invblid key for Toolkit.getLockingKeyStbte");
         }
-        throw new UnsupportedOperationException("Toolkit.getLockingKeyState");
+        throw new UnsupportedOperbtionException("Toolkit.getLockingKeyStbte");
     }
 
     /**
-     * Sets the state of the given locking key on the keyboard.
-     * Valid key codes are
-     * {@link java.awt.event.KeyEvent#VK_CAPS_LOCK VK_CAPS_LOCK},
-     * {@link java.awt.event.KeyEvent#VK_NUM_LOCK VK_NUM_LOCK},
-     * {@link java.awt.event.KeyEvent#VK_SCROLL_LOCK VK_SCROLL_LOCK}, and
-     * {@link java.awt.event.KeyEvent#VK_KANA_LOCK VK_KANA_LOCK}.
+     * Sets the stbte of the given locking key on the keybobrd.
+     * Vblid key codes bre
+     * {@link jbvb.bwt.event.KeyEvent#VK_CAPS_LOCK VK_CAPS_LOCK},
+     * {@link jbvb.bwt.event.KeyEvent#VK_NUM_LOCK VK_NUM_LOCK},
+     * {@link jbvb.bwt.event.KeyEvent#VK_SCROLL_LOCK VK_SCROLL_LOCK}, bnd
+     * {@link jbvb.bwt.event.KeyEvent#VK_KANA_LOCK VK_KANA_LOCK}.
      * <p>
-     * Depending on the platform, setting the state of a locking key may
-     * involve event processing and therefore may not be immediately
-     * observable through getLockingKeyState.
+     * Depending on the plbtform, setting the stbte of b locking key mby
+     * involve event processing bnd therefore mby not be immedibtely
+     * observbble through getLockingKeyStbte.
      *
-     * @param  keyCode the key code
-     * @param  on the state of the key
-     * @exception java.lang.IllegalArgumentException if <code>keyCode</code>
-     * is not one of the valid key codes
-     * @exception java.lang.UnsupportedOperationException if the host system doesn't
-     * allow setting the state of this key programmatically, or if the keyboard
-     * doesn't have this key
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm  keyCode the key code
+     * @pbrbm  on the stbte of the key
+     * @exception jbvb.lbng.IllegblArgumentException if <code>keyCode</code>
+     * is not one of the vblid key codes
+     * @exception jbvb.lbng.UnsupportedOperbtionException if the host system doesn't
+     * bllow setting the stbte of this key progrbmmbticblly, or if the keybobrd
+     * doesn't hbve this key
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since 1.3
      */
-    public void setLockingKeyState(int keyCode, boolean on)
-        throws UnsupportedOperationException
+    public void setLockingKeyStbte(int keyCode, boolebn on)
+        throws UnsupportedOperbtionException
     {
-        GraphicsEnvironment.checkHeadless();
+        GrbphicsEnvironment.checkHebdless();
 
         if (! (keyCode == KeyEvent.VK_CAPS_LOCK || keyCode == KeyEvent.VK_NUM_LOCK ||
                keyCode == KeyEvent.VK_SCROLL_LOCK || keyCode == KeyEvent.VK_KANA_LOCK)) {
-            throw new IllegalArgumentException("invalid key for Toolkit.setLockingKeyState");
+            throw new IllegblArgumentException("invblid key for Toolkit.setLockingKeyStbte");
         }
-        throw new UnsupportedOperationException("Toolkit.setLockingKeyState");
+        throw new UnsupportedOperbtionException("Toolkit.setLockingKeyStbte");
     }
 
     /**
-     * Give native peers the ability to query the native container
-     * given a native component (eg the direct parent may be lightweight).
+     * Give nbtive peers the bbility to query the nbtive contbiner
+     * given b nbtive component (eg the direct pbrent mby be lightweight).
      *
-     * @param  c the component to fetch the container for
-     * @return the native container object for the component
+     * @pbrbm  c the component to fetch the contbiner for
+     * @return the nbtive contbiner object for the component
      */
-    protected static Container getNativeContainer(Component c) {
-        return c.getNativeContainer();
+    protected stbtic Contbiner getNbtiveContbiner(Component c) {
+        return c.getNbtiveContbiner();
     }
 
     /**
-     * Creates a new custom cursor object.
-     * If the image to display is invalid, the cursor will be hidden (made
-     * completely transparent), and the hotspot will be set to (0, 0).
+     * Crebtes b new custom cursor object.
+     * If the imbge to displby is invblid, the cursor will be hidden (mbde
+     * completely trbnspbrent), bnd the hotspot will be set to (0, 0).
      *
-     * <p>Note that multi-frame images are invalid and may cause this
-     * method to hang.
+     * <p>Note thbt multi-frbme imbges bre invblid bnd mby cbuse this
+     * method to hbng.
      *
-     * @param cursor the image to display when the cursor is activated
-     * @param hotSpot the X and Y of the large cursor's hot spot; the
-     *   hotSpot values must be less than the Dimension returned by
+     * @pbrbm cursor the imbge to displby when the cursor is bctivbted
+     * @pbrbm hotSpot the X bnd Y of the lbrge cursor's hot spot; the
+     *   hotSpot vblues must be less thbn the Dimension returned by
      *   <code>getBestCursorSize</code>
-     * @param     name a localized description of the cursor, for Java Accessibility use
-     * @exception IndexOutOfBoundsException if the hotSpot values are outside
+     * @pbrbm     nbme b locblized description of the cursor, for Jbvb Accessibility use
+     * @exception IndexOutOfBoundsException if the hotSpot vblues bre outside
      *   the bounds of the cursor
-     * @return the cursor created
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @return the cursor crebted
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.2
      */
-    public Cursor createCustomCursor(Image cursor, Point hotSpot, String name)
-        throws IndexOutOfBoundsException, HeadlessException
+    public Cursor crebteCustomCursor(Imbge cursor, Point hotSpot, String nbme)
+        throws IndexOutOfBoundsException, HebdlessException
     {
         // Override to implement custom cursor support.
-        if (this != Toolkit.getDefaultToolkit()) {
-            return Toolkit.getDefaultToolkit().
-                createCustomCursor(cursor, hotSpot, name);
+        if (this != Toolkit.getDefbultToolkit()) {
+            return Toolkit.getDefbultToolkit().
+                crebteCustomCursor(cursor, hotSpot, nbme);
         } else {
             return new Cursor(Cursor.DEFAULT_CURSOR);
         }
@@ -1477,35 +1477,35 @@ public abstract class Toolkit {
 
     /**
      * Returns the supported cursor dimension which is closest to the desired
-     * sizes.  Systems which only support a single cursor size will return that
-     * size regardless of the desired sizes.  Systems which don't support custom
-     * cursors will return a dimension of 0, 0. <p>
-     * Note:  if an image is used whose dimensions don't match a supported size
-     * (as returned by this method), the Toolkit implementation will attempt to
-     * resize the image to a supported size.
-     * Since converting low-resolution images is difficult,
-     * no guarantees are made as to the quality of a cursor image which isn't a
-     * supported size.  It is therefore recommended that this method
-     * be called and an appropriate image used so no image conversion is made.
+     * sizes.  Systems which only support b single cursor size will return thbt
+     * size regbrdless of the desired sizes.  Systems which don't support custom
+     * cursors will return b dimension of 0, 0. <p>
+     * Note:  if bn imbge is used whose dimensions don't mbtch b supported size
+     * (bs returned by this method), the Toolkit implementbtion will bttempt to
+     * resize the imbge to b supported size.
+     * Since converting low-resolution imbges is difficult,
+     * no gubrbntees bre mbde bs to the qublity of b cursor imbge which isn't b
+     * supported size.  It is therefore recommended thbt this method
+     * be cblled bnd bn bppropribte imbge used so no imbge conversion is mbde.
      *
-     * @param     preferredWidth the preferred cursor width the component would like
+     * @pbrbm     preferredWidth the preferred cursor width the component would like
      * to use.
-     * @param     preferredHeight the preferred cursor height the component would like
+     * @pbrbm     preferredHeight the preferred cursor height the component would like
      * to use.
-     * @return    the closest matching supported cursor size, or a dimension of 0,0 if
-     * the Toolkit implementation doesn't support custom cursors.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @return    the closest mbtching supported cursor size, or b dimension of 0,0 if
+     * the Toolkit implementbtion doesn't support custom cursors.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.2
      */
     public Dimension getBestCursorSize(int preferredWidth,
-        int preferredHeight) throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
+        int preferredHeight) throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
 
         // Override to implement custom cursor support.
-        if (this != Toolkit.getDefaultToolkit()) {
-            return Toolkit.getDefaultToolkit().
+        if (this != Toolkit.getDefbultToolkit()) {
+            return Toolkit.getDefbultToolkit().
                 getBestCursorSize(preferredWidth, preferredHeight);
         } else {
             return new Dimension(0, 0);
@@ -1513,222 +1513,222 @@ public abstract class Toolkit {
     }
 
     /**
-     * Returns the maximum number of colors the Toolkit supports in a custom cursor
-     * palette.<p>
-     * Note: if an image is used which has more colors in its palette than
-     * the supported maximum, the Toolkit implementation will attempt to flatten the
-     * palette to the maximum.  Since converting low-resolution images is difficult,
-     * no guarantees are made as to the quality of a cursor image which has more
-     * colors than the system supports.  It is therefore recommended that this method
-     * be called and an appropriate image used so no image conversion is made.
+     * Returns the mbximum number of colors the Toolkit supports in b custom cursor
+     * pblette.<p>
+     * Note: if bn imbge is used which hbs more colors in its pblette thbn
+     * the supported mbximum, the Toolkit implementbtion will bttempt to flbtten the
+     * pblette to the mbximum.  Since converting low-resolution imbges is difficult,
+     * no gubrbntees bre mbde bs to the qublity of b cursor imbge which hbs more
+     * colors thbn the system supports.  It is therefore recommended thbt this method
+     * be cblled bnd bn bppropribte imbge used so no imbge conversion is mbde.
      *
-     * @return    the maximum number of colors, or zero if custom cursors are not
-     * supported by this Toolkit implementation.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @return    the mbximum number of colors, or zero if custom cursors bre not
+     * supported by this Toolkit implementbtion.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.2
      */
-    public int getMaximumCursorColors() throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
+    public int getMbximumCursorColors() throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
 
         // Override to implement custom cursor support.
-        if (this != Toolkit.getDefaultToolkit()) {
-            return Toolkit.getDefaultToolkit().getMaximumCursorColors();
+        if (this != Toolkit.getDefbultToolkit()) {
+            return Toolkit.getDefbultToolkit().getMbximumCursorColors();
         } else {
             return 0;
         }
     }
 
     /**
-     * Returns whether Toolkit supports this state for
-     * <code>Frame</code>s.  This method tells whether the <em>UI
-     * concept</em> of, say, maximization or iconification is
-     * supported.  It will always return false for "compound" states
-     * like <code>Frame.ICONIFIED|Frame.MAXIMIZED_VERT</code>.
-     * In other words, the rule of thumb is that only queries with a
-     * single frame state constant as an argument are meaningful.
-     * <p>Note that supporting a given concept is a platform-
-     * dependent feature. Due to native limitations the Toolkit
-     * object may report a particular state as supported, however at
-     * the same time the Toolkit object will be unable to apply the
-     * state to a given frame.  This circumstance has two following
+     * Returns whether Toolkit supports this stbte for
+     * <code>Frbme</code>s.  This method tells whether the <em>UI
+     * concept</em> of, sby, mbximizbtion or iconificbtion is
+     * supported.  It will blwbys return fblse for "compound" stbtes
+     * like <code>Frbme.ICONIFIED|Frbme.MAXIMIZED_VERT</code>.
+     * In other words, the rule of thumb is thbt only queries with b
+     * single frbme stbte constbnt bs bn brgument bre mebningful.
+     * <p>Note thbt supporting b given concept is b plbtform-
+     * dependent febture. Due to nbtive limitbtions the Toolkit
+     * object mby report b pbrticulbr stbte bs supported, however bt
+     * the sbme time the Toolkit object will be unbble to bpply the
+     * stbte to b given frbme.  This circumstbnce hbs two following
      * consequences:
      * <ul>
-     * <li>Only the return value of {@code false} for the present
-     * method actually indicates that the given state is not
-     * supported. If the method returns {@code true} the given state
-     * may still be unsupported and/or unavailable for a particular
-     * frame.
-     * <li>The developer should consider examining the value of the
-     * {@link java.awt.event.WindowEvent#getNewState} method of the
+     * <li>Only the return vblue of {@code fblse} for the present
+     * method bctublly indicbtes thbt the given stbte is not
+     * supported. If the method returns {@code true} the given stbte
+     * mby still be unsupported bnd/or unbvbilbble for b pbrticulbr
+     * frbme.
+     * <li>The developer should consider exbmining the vblue of the
+     * {@link jbvb.bwt.event.WindowEvent#getNewStbte} method of the
      * {@code WindowEvent} received through the {@link
-     * java.awt.event.WindowStateListener}, rather than assuming
-     * that the state given to the {@code setExtendedState()} method
-     * will be definitely applied. For more information see the
-     * documentation for the {@link Frame#setExtendedState} method.
+     * jbvb.bwt.event.WindowStbteListener}, rbther thbn bssuming
+     * thbt the stbte given to the {@code setExtendedStbte()} method
+     * will be definitely bpplied. For more informbtion see the
+     * documentbtion for the {@link Frbme#setExtendedStbte} method.
      * </ul>
      *
-     * @param state one of named frame state constants.
-     * @return <code>true</code> is this frame state is supported by
-     *     this Toolkit implementation, <code>false</code> otherwise.
-     * @exception HeadlessException
-     *     if <code>GraphicsEnvironment.isHeadless()</code>
+     * @pbrbm stbte one of nbmed frbme stbte constbnts.
+     * @return <code>true</code> is this frbme stbte is supported by
+     *     this Toolkit implementbtion, <code>fblse</code> otherwise.
+     * @exception HebdlessException
+     *     if <code>GrbphicsEnvironment.isHebdless()</code>
      *     returns <code>true</code>.
-     * @see java.awt.Window#addWindowStateListener
+     * @see jbvb.bwt.Window#bddWindowStbteListener
      * @since   1.4
      */
-    public boolean isFrameStateSupported(int state)
-        throws HeadlessException
+    public boolebn isFrbmeStbteSupported(int stbte)
+        throws HebdlessException
     {
-        GraphicsEnvironment.checkHeadless();
+        GrbphicsEnvironment.checkHebdless();
 
-        if (this != Toolkit.getDefaultToolkit()) {
-            return Toolkit.getDefaultToolkit().
-                isFrameStateSupported(state);
+        if (this != Toolkit.getDefbultToolkit()) {
+            return Toolkit.getDefbultToolkit().
+                isFrbmeStbteSupported(stbte);
         } else {
-            return (state == Frame.NORMAL); // others are not guaranteed
+            return (stbte == Frbme.NORMAL); // others bre not gubrbnteed
         }
     }
 
     /**
-     * Support for I18N: any visible strings should be stored in
-     * sun.awt.resources.awt.properties.  The ResourceBundle is stored
-     * here, so that only one copy is maintained.
+     * Support for I18N: bny visible strings should be stored in
+     * sun.bwt.resources.bwt.properties.  The ResourceBundle is stored
+     * here, so thbt only one copy is mbintbined.
      */
-    private static ResourceBundle resources;
-    private static ResourceBundle platformResources;
+    privbte stbtic ResourceBundle resources;
+    privbte stbtic ResourceBundle plbtformResources;
 
-    // called by platform toolkit
-    private static void setPlatformResources(ResourceBundle bundle) {
-        platformResources = bundle;
+    // cblled by plbtform toolkit
+    privbte stbtic void setPlbtformResources(ResourceBundle bundle) {
+        plbtformResources = bundle;
     }
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblize JNI field bnd method ids
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
     /**
-     * WARNING: This is a temporary workaround for a problem in the
-     * way the AWT loads native libraries. A number of classes in the
-     * AWT package have a native method, initIDs(), which initializes
-     * the JNI field and method ids used in the native portion of
-     * their implementation.
+     * WARNING: This is b temporbry workbround for b problem in the
+     * wby the AWT lobds nbtive librbries. A number of clbsses in the
+     * AWT pbckbge hbve b nbtive method, initIDs(), which initiblizes
+     * the JNI field bnd method ids used in the nbtive portion of
+     * their implementbtion.
      *
-     * Since the use and storage of these ids is done by the
-     * implementation libraries, the implementation of these method is
-     * provided by the particular AWT implementations (for example,
-     * "Toolkit"s/Peer), such as Motif, Microsoft Windows, or Tiny. The
-     * problem is that this means that the native libraries must be
-     * loaded by the java.* classes, which do not necessarily know the
-     * names of the libraries to load. A better way of doing this
-     * would be to provide a separate library which defines java.awt.*
-     * initIDs, and exports the relevant symbols out to the
-     * implementation libraries.
+     * Since the use bnd storbge of these ids is done by the
+     * implementbtion librbries, the implementbtion of these method is
+     * provided by the pbrticulbr AWT implementbtions (for exbmple,
+     * "Toolkit"s/Peer), such bs Motif, Microsoft Windows, or Tiny. The
+     * problem is thbt this mebns thbt the nbtive librbries must be
+     * lobded by the jbvb.* clbsses, which do not necessbrily know the
+     * nbmes of the librbries to lobd. A better wby of doing this
+     * would be to provide b sepbrbte librbry which defines jbvb.bwt.*
+     * initIDs, bnd exports the relevbnt symbols out to the
+     * implementbtion librbries.
      *
-     * For now, we know it's done by the implementation, and we assume
-     * that the name of the library is "awt".  -br.
+     * For now, we know it's done by the implementbtion, bnd we bssume
+     * thbt the nbme of the librbry is "bwt".  -br.
      *
-     * If you change loadLibraries(), please add the change to
-     * java.awt.image.ColorModel.loadLibraries(). Unfortunately,
-     * classes can be loaded in java.awt.image that depend on
-     * libawt and there is no way to call Toolkit.loadLibraries()
+     * If you chbnge lobdLibrbries(), plebse bdd the chbnge to
+     * jbvb.bwt.imbge.ColorModel.lobdLibrbries(). Unfortunbtely,
+     * clbsses cbn be lobded in jbvb.bwt.imbge thbt depend on
+     * libbwt bnd there is no wby to cbll Toolkit.lobdLibrbries()
      * directly.  -hung
      */
-    private static boolean loaded = false;
-    static void loadLibraries() {
-        if (!loaded) {
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Void>() {
+    privbte stbtic boolebn lobded = fblse;
+    stbtic void lobdLibrbries() {
+        if (!lobded) {
+            jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Void>() {
                     public Void run() {
-                        System.loadLibrary("awt");
+                        System.lobdLibrbry("bwt");
                         return null;
                     }
                 });
-            loaded = true;
+            lobded = true;
         }
     }
 
-    static {
+    stbtic {
         AWTAccessor.setToolkitAccessor(
                 new AWTAccessor.ToolkitAccessor() {
                     @Override
-                    public void setPlatformResources(ResourceBundle bundle) {
-                        Toolkit.setPlatformResources(bundle);
+                    public void setPlbtformResources(ResourceBundle bundle) {
+                        Toolkit.setPlbtformResources(bundle);
                     }
                 });
 
-        java.security.AccessController.doPrivileged(
-                                 new java.security.PrivilegedAction<Void>() {
+        jbvb.security.AccessController.doPrivileged(
+                                 new jbvb.security.PrivilegedAction<Void>() {
             public Void run() {
                 try {
                     resources =
-                        ResourceBundle.getBundle("sun.awt.resources.awt",
-                                                 CoreResourceBundleControl.getRBControlInstance());
-                } catch (MissingResourceException e) {
-                    // No resource file; defaults will be used.
+                        ResourceBundle.getBundle("sun.bwt.resources.bwt",
+                                                 CoreResourceBundleControl.getRBControlInstbnce());
+                } cbtch (MissingResourceException e) {
+                    // No resource file; defbults will be used.
                 }
                 return null;
             }
         });
 
-        // ensure that the proper libraries are loaded
-        loadLibraries();
+        // ensure thbt the proper librbries bre lobded
+        lobdLibrbries();
         initAssistiveTechnologies();
-        if (!GraphicsEnvironment.isHeadless()) {
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
     /**
-     * Gets a property with the specified key and default.
-     * This method returns defaultValue if the property is not found.
+     * Gets b property with the specified key bnd defbult.
+     * This method returns defbultVblue if the property is not found.
      *
-     * @param  key the key
-     * @param  defaultValue the default value
-     * @return the value of the property or the default value
-     *         if the property was not found
+     * @pbrbm  key the key
+     * @pbrbm  defbultVblue the defbult vblue
+     * @return the vblue of the property or the defbult vblue
+     *         if the property wbs not found
      */
-    public static String getProperty(String key, String defaultValue) {
-        // first try platform specific bundle
-        if (platformResources != null) {
+    public stbtic String getProperty(String key, String defbultVblue) {
+        // first try plbtform specific bundle
+        if (plbtformResources != null) {
             try {
-                return platformResources.getString(key);
+                return plbtformResources.getString(key);
             }
-            catch (MissingResourceException e) {}
+            cbtch (MissingResourceException e) {}
         }
 
-        // then shared one
+        // then shbred one
         if (resources != null) {
             try {
                 return resources.getString(key);
             }
-            catch (MissingResourceException e) {}
+            cbtch (MissingResourceException e) {}
         }
 
-        return defaultValue;
+        return defbultVblue;
     }
 
     /**
-     * Get the application's or applet's EventQueue instance.
-     * Depending on the Toolkit implementation, different EventQueues
-     * may be returned for different applets.  Applets should
-     * therefore not assume that the EventQueue instance returned
-     * by this method will be shared by other applets or the system.
+     * Get the bpplicbtion's or bpplet's EventQueue instbnce.
+     * Depending on the Toolkit implementbtion, different EventQueues
+     * mby be returned for different bpplets.  Applets should
+     * therefore not bssume thbt the EventQueue instbnce returned
+     * by this method will be shbred by other bpplets or the system.
      *
-     * <p> If there is a security manager then its
-     * {@link SecurityManager#checkPermission checkPermission} method
-     * is called to check {@code AWTPermission("accessEventQueue")}.
+     * <p> If there is b security mbnbger then its
+     * {@link SecurityMbnbger#checkPermission checkPermission} method
+     * is cblled to check {@code AWTPermission("bccessEventQueue")}.
      *
      * @return    the <code>EventQueue</code> object
      * @throws  SecurityException
-     *          if a security manager is set and it denies access to
+     *          if b security mbnbger is set bnd it denies bccess to
      *          the {@code EventQueue}
-     * @see     java.awt.AWTPermission
+     * @see     jbvb.bwt.AWTPermission
     */
-    public final EventQueue getSystemEventQueue() {
-        SecurityManager security = System.getSecurityManager();
+    public finbl EventQueue getSystemEventQueue() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(AWTPermissions.CHECK_AWT_EVENTQUEUE_PERMISSION);
         }
@@ -1736,895 +1736,895 @@ public abstract class Toolkit {
     }
 
     /**
-     * Gets the application's or applet's <code>EventQueue</code>
-     * instance, without checking access.  For security reasons,
-     * this can only be called from a <code>Toolkit</code> subclass.
+     * Gets the bpplicbtion's or bpplet's <code>EventQueue</code>
+     * instbnce, without checking bccess.  For security rebsons,
+     * this cbn only be cblled from b <code>Toolkit</code> subclbss.
      * @return the <code>EventQueue</code> object
      */
-    protected abstract EventQueue getSystemEventQueueImpl();
+    protected bbstrbct EventQueue getSystemEventQueueImpl();
 
-    /* Accessor method for use by AWT package routines. */
-    static EventQueue getEventQueue() {
-        return getDefaultToolkit().getSystemEventQueueImpl();
+    /* Accessor method for use by AWT pbckbge routines. */
+    stbtic EventQueue getEventQueue() {
+        return getDefbultToolkit().getSystemEventQueueImpl();
     }
 
     /**
-     * Creates the peer for a DragSourceContext.
-     * Always throws InvalidDndOperationException if
-     * GraphicsEnvironment.isHeadless() returns true.
+     * Crebtes the peer for b DrbgSourceContext.
+     * Alwbys throws InvblidDndOperbtionException if
+     * GrbphicsEnvironment.isHebdless() returns true.
      *
-     * @param  dge the {@code DragGestureEvent}
-     * @return the peer created
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @pbrbm  dge the {@code DrbgGestureEvent}
+     * @return the peer crebted
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public abstract DragSourceContextPeer createDragSourceContextPeer(DragGestureEvent dge) throws InvalidDnDOperationException;
+    public bbstrbct DrbgSourceContextPeer crebteDrbgSourceContextPeer(DrbgGestureEvent dge) throws InvblidDnDOperbtionException;
 
     /**
-     * Creates a concrete, platform dependent, subclass of the abstract
-     * DragGestureRecognizer class requested, and associates it with the
-     * DragSource, Component and DragGestureListener specified.
+     * Crebtes b concrete, plbtform dependent, subclbss of the bbstrbct
+     * DrbgGestureRecognizer clbss requested, bnd bssocibtes it with the
+     * DrbgSource, Component bnd DrbgGestureListener specified.
      *
-     * subclasses should override this to provide their own implementation
+     * subclbsses should override this to provide their own implementbtion
      *
-     * @param abstractRecognizerClass The abstract class of the required recognizer
-     * @param ds                      The DragSource
-     * @param c                       The Component target for the DragGestureRecognizer
-     * @param srcActions              The actions permitted for the gesture
-     * @param dgl                     The DragGestureListener
+     * @pbrbm bbstrbctRecognizerClbss The bbstrbct clbss of the required recognizer
+     * @pbrbm ds                      The DrbgSource
+     * @pbrbm c                       The Component tbrget for the DrbgGestureRecognizer
+     * @pbrbm srcActions              The bctions permitted for the gesture
+     * @pbrbm dgl                     The DrbgGestureListener
      *
-     * @return the new object or null.  Always returns null if
-     * GraphicsEnvironment.isHeadless() returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @return the new object or null.  Alwbys returns null if
+     * GrbphicsEnvironment.isHebdless() returns true.
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public <T extends DragGestureRecognizer> T
-        createDragGestureRecognizer(Class<T> abstractRecognizerClass,
-                                    DragSource ds, Component c, int srcActions,
-                                    DragGestureListener dgl)
+    public <T extends DrbgGestureRecognizer> T
+        crebteDrbgGestureRecognizer(Clbss<T> bbstrbctRecognizerClbss,
+                                    DrbgSource ds, Component c, int srcActions,
+                                    DrbgGestureListener dgl)
     {
         return null;
     }
 
     /**
-     * Obtains a value for the specified desktop property.
+     * Obtbins b vblue for the specified desktop property.
      *
-     * A desktop property is a uniquely named value for a resource that
-     * is Toolkit global in nature. Usually it also is an abstract
-     * representation for an underlying platform dependent desktop setting.
-     * For more information on desktop properties supported by the AWT see
-     * <a href="doc-files/DesktopProperties.html">AWT Desktop Properties</a>.
+     * A desktop property is b uniquely nbmed vblue for b resource thbt
+     * is Toolkit globbl in nbture. Usublly it blso is bn bbstrbct
+     * representbtion for bn underlying plbtform dependent desktop setting.
+     * For more informbtion on desktop properties supported by the AWT see
+     * <b href="doc-files/DesktopProperties.html">AWT Desktop Properties</b>.
      *
-     * @param  propertyName the property name
-     * @return the value for the specified desktop property
+     * @pbrbm  propertyNbme the property nbme
+     * @return the vblue for the specified desktop property
      */
-    public final synchronized Object getDesktopProperty(String propertyName) {
-        // This is a workaround for headless toolkits.  It would be
-        // better to override this method but it is declared final.
-        // "this instanceof" syntax defeats polymorphism.
+    public finbl synchronized Object getDesktopProperty(String propertyNbme) {
+        // This is b workbround for hebdless toolkits.  It would be
+        // better to override this method but it is declbred finbl.
+        // "this instbnceof" syntbx defebts polymorphism.
         // --mm, 03/03/00
-        if (this instanceof HeadlessToolkit) {
-            return ((HeadlessToolkit)this).getUnderlyingToolkit()
-                .getDesktopProperty(propertyName);
+        if (this instbnceof HebdlessToolkit) {
+            return ((HebdlessToolkit)this).getUnderlyingToolkit()
+                .getDesktopProperty(propertyNbme);
         }
 
         if (desktopProperties.isEmpty()) {
-            initializeDesktopProperties();
+            initiblizeDesktopProperties();
         }
 
-        Object value;
+        Object vblue;
 
-        // This property should never be cached
-        if (propertyName.equals("awt.dynamicLayoutSupported")) {
-            return getDefaultToolkit().lazilyLoadDesktopProperty(propertyName);
+        // This property should never be cbched
+        if (propertyNbme.equbls("bwt.dynbmicLbyoutSupported")) {
+            return getDefbultToolkit().lbzilyLobdDesktopProperty(propertyNbme);
         }
 
-        value = desktopProperties.get(propertyName);
+        vblue = desktopProperties.get(propertyNbme);
 
-        if (value == null) {
-            value = lazilyLoadDesktopProperty(propertyName);
+        if (vblue == null) {
+            vblue = lbzilyLobdDesktopProperty(propertyNbme);
 
-            if (value != null) {
-                setDesktopProperty(propertyName, value);
+            if (vblue != null) {
+                setDesktopProperty(propertyNbme, vblue);
             }
         }
 
-        /* for property "awt.font.desktophints" */
-        if (value instanceof RenderingHints) {
-            value = ((RenderingHints)value).clone();
+        /* for property "bwt.font.desktophints" */
+        if (vblue instbnceof RenderingHints) {
+            vblue = ((RenderingHints)vblue).clone();
         }
 
-        return value;
+        return vblue;
     }
 
     /**
-     * Sets the named desktop property to the specified value and fires a
-     * property change event to notify any listeners that the value has changed.
+     * Sets the nbmed desktop property to the specified vblue bnd fires b
+     * property chbnge event to notify bny listeners thbt the vblue hbs chbnged.
      *
-     * @param  name the property name
-     * @param  newValue the new property value
+     * @pbrbm  nbme the property nbme
+     * @pbrbm  newVblue the new property vblue
      */
-    protected final void setDesktopProperty(String name, Object newValue) {
-        // This is a workaround for headless toolkits.  It would be
-        // better to override this method but it is declared final.
-        // "this instanceof" syntax defeats polymorphism.
+    protected finbl void setDesktopProperty(String nbme, Object newVblue) {
+        // This is b workbround for hebdless toolkits.  It would be
+        // better to override this method but it is declbred finbl.
+        // "this instbnceof" syntbx defebts polymorphism.
         // --mm, 03/03/00
-        if (this instanceof HeadlessToolkit) {
-            ((HeadlessToolkit)this).getUnderlyingToolkit()
-                .setDesktopProperty(name, newValue);
+        if (this instbnceof HebdlessToolkit) {
+            ((HebdlessToolkit)this).getUnderlyingToolkit()
+                .setDesktopProperty(nbme, newVblue);
             return;
         }
-        Object oldValue;
+        Object oldVblue;
 
         synchronized (this) {
-            oldValue = desktopProperties.get(name);
-            desktopProperties.put(name, newValue);
+            oldVblue = desktopProperties.get(nbme);
+            desktopProperties.put(nbme, newVblue);
         }
 
-        // Don't fire change event if old and new values are null.
-        // It helps to avoid recursive resending of WM_THEMECHANGED
-        if (oldValue != null || newValue != null) {
-            desktopPropsSupport.firePropertyChange(name, oldValue, newValue);
+        // Don't fire chbnge event if old bnd new vblues bre null.
+        // It helps to bvoid recursive resending of WM_THEMECHANGED
+        if (oldVblue != null || newVblue != null) {
+            desktopPropsSupport.firePropertyChbnge(nbme, oldVblue, newVblue);
         }
     }
 
     /**
-     * an opportunity to lazily evaluate desktop property values.
+     * bn opportunity to lbzily evblubte desktop property vblues.
      */
-    protected Object lazilyLoadDesktopProperty(String name) {
+    protected Object lbzilyLobdDesktopProperty(String nbme) {
         return null;
     }
 
     /**
-     * initializeDesktopProperties
+     * initiblizeDesktopProperties
      */
-    protected void initializeDesktopProperties() {
+    protected void initiblizeDesktopProperties() {
     }
 
     /**
-     * Adds the specified property change listener for the named desktop
-     * property. When a {@link java.beans.PropertyChangeListenerProxy} object is added,
-     * its property name is ignored, and the wrapped listener is added.
-     * If {@code name} is {@code null} or {@code pcl} is {@code null},
-     * no exception is thrown and no action is performed.
+     * Adds the specified property chbnge listener for the nbmed desktop
+     * property. When b {@link jbvb.bebns.PropertyChbngeListenerProxy} object is bdded,
+     * its property nbme is ignored, bnd the wrbpped listener is bdded.
+     * If {@code nbme} is {@code null} or {@code pcl} is {@code null},
+     * no exception is thrown bnd no bction is performed.
      *
-     * @param   name The name of the property to listen for
-     * @param   pcl The property change listener
-     * @see PropertyChangeSupport#addPropertyChangeListener(String,
-                PropertyChangeListener)
+     * @pbrbm   nbme The nbme of the property to listen for
+     * @pbrbm   pcl The property chbnge listener
+     * @see PropertyChbngeSupport#bddPropertyChbngeListener(String,
+                PropertyChbngeListener)
      * @since   1.2
      */
-    public void addPropertyChangeListener(String name, PropertyChangeListener pcl) {
-        desktopPropsSupport.addPropertyChangeListener(name, pcl);
+    public void bddPropertyChbngeListener(String nbme, PropertyChbngeListener pcl) {
+        desktopPropsSupport.bddPropertyChbngeListener(nbme, pcl);
     }
 
     /**
-     * Removes the specified property change listener for the named
-     * desktop property. When a {@link java.beans.PropertyChangeListenerProxy} object
-     * is removed, its property name is ignored, and
-     * the wrapped listener is removed.
-     * If {@code name} is {@code null} or {@code pcl} is {@code null},
-     * no exception is thrown and no action is performed.
+     * Removes the specified property chbnge listener for the nbmed
+     * desktop property. When b {@link jbvb.bebns.PropertyChbngeListenerProxy} object
+     * is removed, its property nbme is ignored, bnd
+     * the wrbpped listener is removed.
+     * If {@code nbme} is {@code null} or {@code pcl} is {@code null},
+     * no exception is thrown bnd no bction is performed.
      *
-     * @param   name The name of the property to remove
-     * @param   pcl The property change listener
-     * @see PropertyChangeSupport#removePropertyChangeListener(String,
-                PropertyChangeListener)
+     * @pbrbm   nbme The nbme of the property to remove
+     * @pbrbm   pcl The property chbnge listener
+     * @see PropertyChbngeSupport#removePropertyChbngeListener(String,
+                PropertyChbngeListener)
      * @since   1.2
      */
-    public void removePropertyChangeListener(String name, PropertyChangeListener pcl) {
-        desktopPropsSupport.removePropertyChangeListener(name, pcl);
+    public void removePropertyChbngeListener(String nbme, PropertyChbngeListener pcl) {
+        desktopPropsSupport.removePropertyChbngeListener(nbme, pcl);
     }
 
     /**
-     * Returns an array of all the property change listeners
-     * registered on this toolkit. The returned array
-     * contains {@link java.beans.PropertyChangeListenerProxy} objects
-     * that associate listeners with the names of desktop properties.
+     * Returns bn brrby of bll the property chbnge listeners
+     * registered on this toolkit. The returned brrby
+     * contbins {@link jbvb.bebns.PropertyChbngeListenerProxy} objects
+     * thbt bssocibte listeners with the nbmes of desktop properties.
      *
-     * @return all of this toolkit's {@link PropertyChangeListener}
-     *         objects wrapped in {@code java.beans.PropertyChangeListenerProxy} objects
-     *         or an empty array  if no listeners are added
+     * @return bll of this toolkit's {@link PropertyChbngeListener}
+     *         objects wrbpped in {@code jbvb.bebns.PropertyChbngeListenerProxy} objects
+     *         or bn empty brrby  if no listeners bre bdded
      *
-     * @see PropertyChangeSupport#getPropertyChangeListeners()
+     * @see PropertyChbngeSupport#getPropertyChbngeListeners()
      * @since 1.4
      */
-    public PropertyChangeListener[] getPropertyChangeListeners() {
-        return desktopPropsSupport.getPropertyChangeListeners();
+    public PropertyChbngeListener[] getPropertyChbngeListeners() {
+        return desktopPropsSupport.getPropertyChbngeListeners();
     }
 
     /**
-     * Returns an array of all property change listeners
-     * associated with the specified name of a desktop property.
+     * Returns bn brrby of bll property chbnge listeners
+     * bssocibted with the specified nbme of b desktop property.
      *
-     * @param  propertyName the named property
-     * @return all of the {@code PropertyChangeListener} objects
-     *         associated with the specified name of a desktop property
-     *         or an empty array if no such listeners are added
+     * @pbrbm  propertyNbme the nbmed property
+     * @return bll of the {@code PropertyChbngeListener} objects
+     *         bssocibted with the specified nbme of b desktop property
+     *         or bn empty brrby if no such listeners bre bdded
      *
-     * @see PropertyChangeSupport#getPropertyChangeListeners(String)
+     * @see PropertyChbngeSupport#getPropertyChbngeListeners(String)
      * @since 1.4
      */
-    public PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
-        return desktopPropsSupport.getPropertyChangeListeners(propertyName);
+    public PropertyChbngeListener[] getPropertyChbngeListeners(String propertyNbme) {
+        return desktopPropsSupport.getPropertyChbngeListeners(propertyNbme);
     }
 
-    protected final Map<String,Object> desktopProperties =
-            new HashMap<String,Object>();
-    protected final PropertyChangeSupport desktopPropsSupport =
-            Toolkit.createPropertyChangeSupport(this);
+    protected finbl Mbp<String,Object> desktopProperties =
+            new HbshMbp<String,Object>();
+    protected finbl PropertyChbngeSupport desktopPropsSupport =
+            Toolkit.crebtePropertyChbngeSupport(this);
 
     /**
-     * Returns whether the always-on-top mode is supported by this toolkit.
-     * To detect whether the always-on-top mode is supported for a
-     * particular Window, use {@link Window#isAlwaysOnTopSupported}.
-     * @return <code>true</code>, if current toolkit supports the always-on-top mode,
-     *     otherwise returns <code>false</code>
-     * @see Window#isAlwaysOnTopSupported
-     * @see Window#setAlwaysOnTop(boolean)
+     * Returns whether the blwbys-on-top mode is supported by this toolkit.
+     * To detect whether the blwbys-on-top mode is supported for b
+     * pbrticulbr Window, use {@link Window#isAlwbysOnTopSupported}.
+     * @return <code>true</code>, if current toolkit supports the blwbys-on-top mode,
+     *     otherwise returns <code>fblse</code>
+     * @see Window#isAlwbysOnTopSupported
+     * @see Window#setAlwbysOnTop(boolebn)
      * @since 1.6
      */
-    public boolean isAlwaysOnTopSupported() {
+    public boolebn isAlwbysOnTopSupported() {
         return true;
     }
 
     /**
-     * Returns whether the given modality type is supported by this toolkit. If
-     * a dialog with unsupported modality type is created, then
-     * <code>Dialog.ModalityType.MODELESS</code> is used instead.
+     * Returns whether the given modblity type is supported by this toolkit. If
+     * b diblog with unsupported modblity type is crebted, then
+     * <code>Diblog.ModblityType.MODELESS</code> is used instebd.
      *
-     * @param modalityType modality type to be checked for support by this toolkit
+     * @pbrbm modblityType modblity type to be checked for support by this toolkit
      *
-     * @return <code>true</code>, if current toolkit supports given modality
-     *     type, <code>false</code> otherwise
+     * @return <code>true</code>, if current toolkit supports given modblity
+     *     type, <code>fblse</code> otherwise
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#getModalityType
-     * @see java.awt.Dialog#setModalityType
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog#getModblityType
+     * @see jbvb.bwt.Diblog#setModblityType
      *
      * @since 1.6
      */
-    public abstract boolean isModalityTypeSupported(Dialog.ModalityType modalityType);
+    public bbstrbct boolebn isModblityTypeSupported(Diblog.ModblityType modblityType);
 
     /**
-     * Returns whether the given modal exclusion type is supported by this
-     * toolkit. If an unsupported modal exclusion type property is set on a window,
-     * then <code>Dialog.ModalExclusionType.NO_EXCLUDE</code> is used instead.
+     * Returns whether the given modbl exclusion type is supported by this
+     * toolkit. If bn unsupported modbl exclusion type property is set on b window,
+     * then <code>Diblog.ModblExclusionType.NO_EXCLUDE</code> is used instebd.
      *
-     * @param modalExclusionType modal exclusion type to be checked for support by this toolkit
+     * @pbrbm modblExclusionType modbl exclusion type to be checked for support by this toolkit
      *
-     * @return <code>true</code>, if current toolkit supports given modal exclusion
-     *     type, <code>false</code> otherwise
+     * @return <code>true</code>, if current toolkit supports given modbl exclusion
+     *     type, <code>fblse</code> otherwise
      *
-     * @see java.awt.Dialog.ModalExclusionType
-     * @see java.awt.Window#getModalExclusionType
-     * @see java.awt.Window#setModalExclusionType
+     * @see jbvb.bwt.Diblog.ModblExclusionType
+     * @see jbvb.bwt.Window#getModblExclusionType
+     * @see jbvb.bwt.Window#setModblExclusionType
      *
      * @since 1.6
      */
-    public abstract boolean isModalExclusionTypeSupported(Dialog.ModalExclusionType modalExclusionType);
+    public bbstrbct boolebn isModblExclusionTypeSupported(Diblog.ModblExclusionType modblExclusionType);
 
-    // 8014718: logging has been removed from SunToolkit
+    // 8014718: logging hbs been removed from SunToolkit
 
-    private static final int LONG_BITS = 64;
-    private int[] calls = new int[LONG_BITS];
-    private static volatile long enabledOnToolkitMask;
-    private AWTEventListener eventListener = null;
-    private WeakHashMap<AWTEventListener, SelectiveAWTEventListener> listener2SelectiveListener = new WeakHashMap<>();
+    privbte stbtic finbl int LONG_BITS = 64;
+    privbte int[] cblls = new int[LONG_BITS];
+    privbte stbtic volbtile long enbbledOnToolkitMbsk;
+    privbte AWTEventListener eventListener = null;
+    privbte WebkHbshMbp<AWTEventListener, SelectiveAWTEventListener> listener2SelectiveListener = new WebkHbshMbp<>();
 
     /*
-     * Extracts a "pure" AWTEventListener from a AWTEventListenerProxy,
+     * Extrbcts b "pure" AWTEventListener from b AWTEventListenerProxy,
      * if the listener is proxied.
      */
-    static private AWTEventListener deProxyAWTEventListener(AWTEventListener l)
+    stbtic privbte AWTEventListener deProxyAWTEventListener(AWTEventListener l)
     {
-        AWTEventListener localL = l;
+        AWTEventListener locblL = l;
 
-        if (localL == null) {
+        if (locblL == null) {
             return null;
         }
-        // if user passed in a AWTEventListenerProxy object, extract
+        // if user pbssed in b AWTEventListenerProxy object, extrbct
         // the listener
-        if (l instanceof AWTEventListenerProxy) {
-            localL = ((AWTEventListenerProxy)l).getListener();
+        if (l instbnceof AWTEventListenerProxy) {
+            locblL = ((AWTEventListenerProxy)l).getListener();
         }
-        return localL;
+        return locblL;
     }
 
     /**
-     * Adds an AWTEventListener to receive all AWTEvents dispatched
-     * system-wide that conform to the given <code>eventMask</code>.
+     * Adds bn AWTEventListener to receive bll AWTEvents dispbtched
+     * system-wide thbt conform to the given <code>eventMbsk</code>.
      * <p>
-     * First, if there is a security manager, its <code>checkPermission</code>
-     * method is called with an
+     * First, if there is b security mbnbger, its <code>checkPermission</code>
+     * method is cblled with bn
      * <code>AWTPermission("listenToAllAWTEvents")</code> permission.
-     * This may result in a SecurityException.
+     * This mby result in b SecurityException.
      * <p>
-     * <code>eventMask</code> is a bitmask of event types to receive.
-     * It is constructed by bitwise OR-ing together the event masks
+     * <code>eventMbsk</code> is b bitmbsk of event types to receive.
+     * It is constructed by bitwise OR-ing together the event mbsks
      * defined in <code>AWTEvent</code>.
      * <p>
-     * Note:  event listener use is not recommended for normal
-     * application use, but are intended solely to support special
-     * purpose facilities including support for accessibility,
-     * event record/playback, and diagnostic tracing.
+     * Note:  event listener use is not recommended for normbl
+     * bpplicbtion use, but bre intended solely to support specibl
+     * purpose fbcilities including support for bccessibility,
+     * event record/plbybbck, bnd dibgnostic trbcing.
      *
-     * If listener is null, no exception is thrown and no action is performed.
+     * If listener is null, no exception is thrown bnd no bction is performed.
      *
-     * @param    listener   the event listener.
-     * @param    eventMask  the bitmask of event types to receive
+     * @pbrbm    listener   the event listener.
+     * @pbrbm    eventMbsk  the bitmbsk of event types to receive
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        <code>checkPermission</code> method doesn't allow the operation.
+     *        if b security mbnbger exists bnd its
+     *        <code>checkPermission</code> method doesn't bllow the operbtion.
      * @see      #removeAWTEventListener
      * @see      #getAWTEventListeners
-     * @see      SecurityManager#checkPermission
-     * @see      java.awt.AWTEvent
-     * @see      java.awt.AWTPermission
-     * @see      java.awt.event.AWTEventListener
-     * @see      java.awt.event.AWTEventListenerProxy
+     * @see      SecurityMbnbger#checkPermission
+     * @see      jbvb.bwt.AWTEvent
+     * @see      jbvb.bwt.AWTPermission
+     * @see      jbvb.bwt.event.AWTEventListener
+     * @see      jbvb.bwt.event.AWTEventListenerProxy
      * @since    1.2
      */
-    public void addAWTEventListener(AWTEventListener listener, long eventMask) {
-        AWTEventListener localL = deProxyAWTEventListener(listener);
+    public void bddAWTEventListener(AWTEventListener listener, long eventMbsk) {
+        AWTEventListener locblL = deProxyAWTEventListener(listener);
 
-        if (localL == null) {
+        if (locblL == null) {
             return;
         }
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
           security.checkPermission(AWTPermissions.ALL_AWT_EVENTS_PERMISSION);
         }
         synchronized (this) {
             SelectiveAWTEventListener selectiveListener =
-                listener2SelectiveListener.get(localL);
+                listener2SelectiveListener.get(locblL);
 
             if (selectiveListener == null) {
-                // Create a new selectiveListener.
-                selectiveListener = new SelectiveAWTEventListener(localL,
-                                                                 eventMask);
-                listener2SelectiveListener.put(localL, selectiveListener);
-                eventListener = ToolkitEventMulticaster.add(eventListener,
+                // Crebte b new selectiveListener.
+                selectiveListener = new SelectiveAWTEventListener(locblL,
+                                                                 eventMbsk);
+                listener2SelectiveListener.put(locblL, selectiveListener);
+                eventListener = ToolkitEventMulticbster.bdd(eventListener,
                                                             selectiveListener);
             }
-            // OR the eventMask into the selectiveListener's event mask.
-            selectiveListener.orEventMasks(eventMask);
+            // OR the eventMbsk into the selectiveListener's event mbsk.
+            selectiveListener.orEventMbsks(eventMbsk);
 
-            enabledOnToolkitMask |= eventMask;
+            enbbledOnToolkitMbsk |= eventMbsk;
 
-            long mask = eventMask;
+            long mbsk = eventMbsk;
             for (int i=0; i<LONG_BITS; i++) {
-                // If no bits are set, break out of loop.
-                if (mask == 0) {
-                    break;
+                // If no bits bre set, brebk out of loop.
+                if (mbsk == 0) {
+                    brebk;
                 }
-                if ((mask & 1L) != 0) {  // Always test bit 0.
-                    calls[i]++;
+                if ((mbsk & 1L) != 0) {  // Alwbys test bit 0.
+                    cblls[i]++;
                 }
-                mask >>>= 1;  // Right shift, fill with zeros on left.
+                mbsk >>>= 1;  // Right shift, fill with zeros on left.
             }
         }
     }
 
     /**
-     * Removes an AWTEventListener from receiving dispatched AWTEvents.
+     * Removes bn AWTEventListener from receiving dispbtched AWTEvents.
      * <p>
-     * First, if there is a security manager, its <code>checkPermission</code>
-     * method is called with an
+     * First, if there is b security mbnbger, its <code>checkPermission</code>
+     * method is cblled with bn
      * <code>AWTPermission("listenToAllAWTEvents")</code> permission.
-     * This may result in a SecurityException.
+     * This mby result in b SecurityException.
      * <p>
-     * Note:  event listener use is not recommended for normal
-     * application use, but are intended solely to support special
-     * purpose facilities including support for accessibility,
-     * event record/playback, and diagnostic tracing.
+     * Note:  event listener use is not recommended for normbl
+     * bpplicbtion use, but bre intended solely to support specibl
+     * purpose fbcilities including support for bccessibility,
+     * event record/plbybbck, bnd dibgnostic trbcing.
      *
-     * If listener is null, no exception is thrown and no action is performed.
+     * If listener is null, no exception is thrown bnd no bction is performed.
      *
-     * @param    listener   the event listener.
+     * @pbrbm    listener   the event listener.
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        <code>checkPermission</code> method doesn't allow the operation.
-     * @see      #addAWTEventListener
+     *        if b security mbnbger exists bnd its
+     *        <code>checkPermission</code> method doesn't bllow the operbtion.
+     * @see      #bddAWTEventListener
      * @see      #getAWTEventListeners
-     * @see      SecurityManager#checkPermission
-     * @see      java.awt.AWTEvent
-     * @see      java.awt.AWTPermission
-     * @see      java.awt.event.AWTEventListener
-     * @see      java.awt.event.AWTEventListenerProxy
+     * @see      SecurityMbnbger#checkPermission
+     * @see      jbvb.bwt.AWTEvent
+     * @see      jbvb.bwt.AWTPermission
+     * @see      jbvb.bwt.event.AWTEventListener
+     * @see      jbvb.bwt.event.AWTEventListenerProxy
      * @since    1.2
      */
     public void removeAWTEventListener(AWTEventListener listener) {
-        AWTEventListener localL = deProxyAWTEventListener(listener);
+        AWTEventListener locblL = deProxyAWTEventListener(listener);
 
         if (listener == null) {
             return;
         }
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(AWTPermissions.ALL_AWT_EVENTS_PERMISSION);
         }
 
         synchronized (this) {
             SelectiveAWTEventListener selectiveListener =
-                listener2SelectiveListener.get(localL);
+                listener2SelectiveListener.get(locblL);
 
             if (selectiveListener != null) {
-                listener2SelectiveListener.remove(localL);
-                int[] listenerCalls = selectiveListener.getCalls();
+                listener2SelectiveListener.remove(locblL);
+                int[] listenerCblls = selectiveListener.getCblls();
                 for (int i=0; i<LONG_BITS; i++) {
-                    calls[i] -= listenerCalls[i];
-                    assert calls[i] >= 0: "Negative Listeners count";
+                    cblls[i] -= listenerCblls[i];
+                    bssert cblls[i] >= 0: "Negbtive Listeners count";
 
-                    if (calls[i] == 0) {
-                        enabledOnToolkitMask &= ~(1L<<i);
+                    if (cblls[i] == 0) {
+                        enbbledOnToolkitMbsk &= ~(1L<<i);
                     }
                 }
             }
-            eventListener = ToolkitEventMulticaster.remove(eventListener,
-            (selectiveListener == null) ? localL : selectiveListener);
+            eventListener = ToolkitEventMulticbster.remove(eventListener,
+            (selectiveListener == null) ? locblL : selectiveListener);
         }
     }
 
-    static boolean enabledOnToolkit(long eventMask) {
-        return (enabledOnToolkitMask & eventMask) != 0;
+    stbtic boolebn enbbledOnToolkit(long eventMbsk) {
+        return (enbbledOnToolkitMbsk & eventMbsk) != 0;
         }
 
-    synchronized int countAWTEventListeners(long eventMask) {
+    synchronized int countAWTEventListeners(long eventMbsk) {
         int ci = 0;
-        for (; eventMask != 0; eventMask >>>= 1, ci++) {
+        for (; eventMbsk != 0; eventMbsk >>>= 1, ci++) {
         }
         ci--;
-        return calls[ci];
+        return cblls[ci];
     }
     /**
-     * Returns an array of all the <code>AWTEventListener</code>s
+     * Returns bn brrby of bll the <code>AWTEventListener</code>s
      * registered on this toolkit.
-     * If there is a security manager, its {@code checkPermission}
-     * method is called with an
+     * If there is b security mbnbger, its {@code checkPermission}
+     * method is cblled with bn
      * {@code AWTPermission("listenToAllAWTEvents")} permission.
-     * This may result in a SecurityException.
-     * Listeners can be returned
-     * within <code>AWTEventListenerProxy</code> objects, which also contain
-     * the event mask for the given listener.
-     * Note that listener objects
-     * added multiple times appear only once in the returned array.
+     * This mby result in b SecurityException.
+     * Listeners cbn be returned
+     * within <code>AWTEventListenerProxy</code> objects, which blso contbin
+     * the event mbsk for the given listener.
+     * Note thbt listener objects
+     * bdded multiple times bppebr only once in the returned brrby.
      *
-     * @return all of the <code>AWTEventListener</code>s or an empty
-     *         array if no listeners are currently registered
+     * @return bll of the <code>AWTEventListener</code>s or bn empty
+     *         brrby if no listeners bre currently registered
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        <code>checkPermission</code> method doesn't allow the operation.
-     * @see      #addAWTEventListener
+     *        if b security mbnbger exists bnd its
+     *        <code>checkPermission</code> method doesn't bllow the operbtion.
+     * @see      #bddAWTEventListener
      * @see      #removeAWTEventListener
-     * @see      SecurityManager#checkPermission
-     * @see      java.awt.AWTEvent
-     * @see      java.awt.AWTPermission
-     * @see      java.awt.event.AWTEventListener
-     * @see      java.awt.event.AWTEventListenerProxy
+     * @see      SecurityMbnbger#checkPermission
+     * @see      jbvb.bwt.AWTEvent
+     * @see      jbvb.bwt.AWTPermission
+     * @see      jbvb.bwt.event.AWTEventListener
+     * @see      jbvb.bwt.event.AWTEventListenerProxy
      * @since 1.4
      */
     public AWTEventListener[] getAWTEventListeners() {
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(AWTPermissions.ALL_AWT_EVENTS_PERMISSION);
         }
         synchronized (this) {
-            EventListener[] la = ToolkitEventMulticaster.getListeners(eventListener,AWTEventListener.class);
+            EventListener[] lb = ToolkitEventMulticbster.getListeners(eventListener,AWTEventListener.clbss);
 
-            AWTEventListener[] ret = new AWTEventListener[la.length];
-            for (int i = 0; i < la.length; i++) {
-                SelectiveAWTEventListener sael = (SelectiveAWTEventListener)la[i];
-                AWTEventListener tempL = sael.getListener();
-                //assert tempL is not an AWTEventListenerProxy - we should
-                // have weeded them all out
-                // don't want to wrap a proxy inside a proxy
-                ret[i] = new AWTEventListenerProxy(sael.getEventMask(), tempL);
+            AWTEventListener[] ret = new AWTEventListener[lb.length];
+            for (int i = 0; i < lb.length; i++) {
+                SelectiveAWTEventListener sbel = (SelectiveAWTEventListener)lb[i];
+                AWTEventListener tempL = sbel.getListener();
+                //bssert tempL is not bn AWTEventListenerProxy - we should
+                // hbve weeded them bll out
+                // don't wbnt to wrbp b proxy inside b proxy
+                ret[i] = new AWTEventListenerProxy(sbel.getEventMbsk(), tempL);
             }
             return ret;
         }
     }
 
     /**
-     * Returns an array of all the <code>AWTEventListener</code>s
-     * registered on this toolkit which listen to all of the event
-     * types specified in the {@code eventMask} argument.
-     * If there is a security manager, its {@code checkPermission}
-     * method is called with an
+     * Returns bn brrby of bll the <code>AWTEventListener</code>s
+     * registered on this toolkit which listen to bll of the event
+     * types specified in the {@code eventMbsk} brgument.
+     * If there is b security mbnbger, its {@code checkPermission}
+     * method is cblled with bn
      * {@code AWTPermission("listenToAllAWTEvents")} permission.
-     * This may result in a SecurityException.
-     * Listeners can be returned
-     * within <code>AWTEventListenerProxy</code> objects, which also contain
-     * the event mask for the given listener.
-     * Note that listener objects
-     * added multiple times appear only once in the returned array.
+     * This mby result in b SecurityException.
+     * Listeners cbn be returned
+     * within <code>AWTEventListenerProxy</code> objects, which blso contbin
+     * the event mbsk for the given listener.
+     * Note thbt listener objects
+     * bdded multiple times bppebr only once in the returned brrby.
      *
-     * @param  eventMask the bitmask of event types to listen for
-     * @return all of the <code>AWTEventListener</code>s registered
+     * @pbrbm  eventMbsk the bitmbsk of event types to listen for
+     * @return bll of the <code>AWTEventListener</code>s registered
      *         on this toolkit for the specified
-     *         event types, or an empty array if no such listeners
-     *         are currently registered
+     *         event types, or bn empty brrby if no such listeners
+     *         bre currently registered
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        <code>checkPermission</code> method doesn't allow the operation.
-     * @see      #addAWTEventListener
+     *        if b security mbnbger exists bnd its
+     *        <code>checkPermission</code> method doesn't bllow the operbtion.
+     * @see      #bddAWTEventListener
      * @see      #removeAWTEventListener
-     * @see      SecurityManager#checkPermission
-     * @see      java.awt.AWTEvent
-     * @see      java.awt.AWTPermission
-     * @see      java.awt.event.AWTEventListener
-     * @see      java.awt.event.AWTEventListenerProxy
+     * @see      SecurityMbnbger#checkPermission
+     * @see      jbvb.bwt.AWTEvent
+     * @see      jbvb.bwt.AWTPermission
+     * @see      jbvb.bwt.event.AWTEventListener
+     * @see      jbvb.bwt.event.AWTEventListenerProxy
      * @since 1.4
      */
-    public AWTEventListener[] getAWTEventListeners(long eventMask) {
-        SecurityManager security = System.getSecurityManager();
+    public AWTEventListener[] getAWTEventListeners(long eventMbsk) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(AWTPermissions.ALL_AWT_EVENTS_PERMISSION);
         }
         synchronized (this) {
-            EventListener[] la = ToolkitEventMulticaster.getListeners(eventListener,AWTEventListener.class);
+            EventListener[] lb = ToolkitEventMulticbster.getListeners(eventListener,AWTEventListener.clbss);
 
-            java.util.List<AWTEventListenerProxy> list = new ArrayList<>(la.length);
+            jbvb.util.List<AWTEventListenerProxy> list = new ArrbyList<>(lb.length);
 
-            for (int i = 0; i < la.length; i++) {
-                SelectiveAWTEventListener sael = (SelectiveAWTEventListener)la[i];
-                if ((sael.getEventMask() & eventMask) == eventMask) {
-                    //AWTEventListener tempL = sael.getListener();
-                    list.add(new AWTEventListenerProxy(sael.getEventMask(),
-                                                       sael.getListener()));
+            for (int i = 0; i < lb.length; i++) {
+                SelectiveAWTEventListener sbel = (SelectiveAWTEventListener)lb[i];
+                if ((sbel.getEventMbsk() & eventMbsk) == eventMbsk) {
+                    //AWTEventListener tempL = sbel.getListener();
+                    list.bdd(new AWTEventListenerProxy(sbel.getEventMbsk(),
+                                                       sbel.getListener()));
                 }
             }
-            return list.toArray(new AWTEventListener[0]);
+            return list.toArrby(new AWTEventListener[0]);
         }
     }
 
     /*
-     * This method notifies any AWTEventListeners that an event
-     * is about to be dispatched.
+     * This method notifies bny AWTEventListeners thbt bn event
+     * is bbout to be dispbtched.
      *
-     * @param theEvent the event which will be dispatched.
+     * @pbrbm theEvent the event which will be dispbtched.
      */
     void notifyAWTEventListeners(AWTEvent theEvent) {
-        // This is a workaround for headless toolkits.  It would be
-        // better to override this method but it is declared package private.
-        // "this instanceof" syntax defeats polymorphism.
+        // This is b workbround for hebdless toolkits.  It would be
+        // better to override this method but it is declbred pbckbge privbte.
+        // "this instbnceof" syntbx defebts polymorphism.
         // --mm, 03/03/00
-        if (this instanceof HeadlessToolkit) {
-            ((HeadlessToolkit)this).getUnderlyingToolkit()
+        if (this instbnceof HebdlessToolkit) {
+            ((HebdlessToolkit)this).getUnderlyingToolkit()
                 .notifyAWTEventListeners(theEvent);
             return;
         }
 
         AWTEventListener eventListener = this.eventListener;
         if (eventListener != null) {
-            eventListener.eventDispatched(theEvent);
+            eventListener.eventDispbtched(theEvent);
         }
     }
 
-    static private class ToolkitEventMulticaster extends AWTEventMulticaster
+    stbtic privbte clbss ToolkitEventMulticbster extends AWTEventMulticbster
         implements AWTEventListener {
-        // Implementation cloned from AWTEventMulticaster.
+        // Implementbtion cloned from AWTEventMulticbster.
 
-        ToolkitEventMulticaster(AWTEventListener a, AWTEventListener b) {
-            super(a, b);
+        ToolkitEventMulticbster(AWTEventListener b, AWTEventListener b) {
+            super(b, b);
         }
 
-        @SuppressWarnings("overloads")
-        static AWTEventListener add(AWTEventListener a,
+        @SuppressWbrnings("overlobds")
+        stbtic AWTEventListener bdd(AWTEventListener b,
                                     AWTEventListener b) {
-            if (a == null)  return b;
-            if (b == null)  return a;
-            return new ToolkitEventMulticaster(a, b);
+            if (b == null)  return b;
+            if (b == null)  return b;
+            return new ToolkitEventMulticbster(b, b);
         }
 
-        @SuppressWarnings("overloads")
-        static AWTEventListener remove(AWTEventListener l,
+        @SuppressWbrnings("overlobds")
+        stbtic AWTEventListener remove(AWTEventListener l,
                                        AWTEventListener oldl) {
-            return (AWTEventListener) removeInternal(l, oldl);
+            return (AWTEventListener) removeInternbl(l, oldl);
         }
 
-        // #4178589: must overload remove(EventListener) to call our add()
-        // instead of the static addInternal() so we allocate a
-        // ToolkitEventMulticaster instead of an AWTEventMulticaster.
-        // Note: this method is called by AWTEventListener.removeInternal(),
-        // so its method signature must match AWTEventListener.remove().
+        // #4178589: must overlobd remove(EventListener) to cbll our bdd()
+        // instebd of the stbtic bddInternbl() so we bllocbte b
+        // ToolkitEventMulticbster instebd of bn AWTEventMulticbster.
+        // Note: this method is cblled by AWTEventListener.removeInternbl(),
+        // so its method signbture must mbtch AWTEventListener.remove().
         protected EventListener remove(EventListener oldl) {
-            if (oldl == a)  return b;
-            if (oldl == b)  return a;
-            AWTEventListener a2 = (AWTEventListener)removeInternal(a, oldl);
-            AWTEventListener b2 = (AWTEventListener)removeInternal(b, oldl);
-            if (a2 == a && b2 == b) {
+            if (oldl == b)  return b;
+            if (oldl == b)  return b;
+            AWTEventListener b2 = (AWTEventListener)removeInternbl(b, oldl);
+            AWTEventListener b2 = (AWTEventListener)removeInternbl(b, oldl);
+            if (b2 == b && b2 == b) {
                 return this;    // it's not here
             }
-            return add(a2, b2);
+            return bdd(b2, b2);
         }
 
-        public void eventDispatched(AWTEvent event) {
-            ((AWTEventListener)a).eventDispatched(event);
-            ((AWTEventListener)b).eventDispatched(event);
+        public void eventDispbtched(AWTEvent event) {
+            ((AWTEventListener)b).eventDispbtched(event);
+            ((AWTEventListener)b).eventDispbtched(event);
         }
     }
 
-    private class SelectiveAWTEventListener implements AWTEventListener {
+    privbte clbss SelectiveAWTEventListener implements AWTEventListener {
         AWTEventListener listener;
-        private long eventMask;
-        // This array contains the number of times to call the eventlistener
-        // for each event type.
-        int[] calls = new int[Toolkit.LONG_BITS];
+        privbte long eventMbsk;
+        // This brrby contbins the number of times to cbll the eventlistener
+        // for ebch event type.
+        int[] cblls = new int[Toolkit.LONG_BITS];
 
         public AWTEventListener getListener() {return listener;}
-        public long getEventMask() {return eventMask;}
-        public int[] getCalls() {return calls;}
+        public long getEventMbsk() {return eventMbsk;}
+        public int[] getCblls() {return cblls;}
 
-        public void orEventMasks(long mask) {
-            eventMask |= mask;
-            // For each event bit set in mask, increment its call count.
+        public void orEventMbsks(long mbsk) {
+            eventMbsk |= mbsk;
+            // For ebch event bit set in mbsk, increment its cbll count.
             for (int i=0; i<Toolkit.LONG_BITS; i++) {
-                // If no bits are set, break out of loop.
-                if (mask == 0) {
-                    break;
+                // If no bits bre set, brebk out of loop.
+                if (mbsk == 0) {
+                    brebk;
                 }
-                if ((mask & 1L) != 0) {  // Always test bit 0.
-                    calls[i]++;
+                if ((mbsk & 1L) != 0) {  // Alwbys test bit 0.
+                    cblls[i]++;
                 }
-                mask >>>= 1;  // Right shift, fill with zeros on left.
+                mbsk >>>= 1;  // Right shift, fill with zeros on left.
             }
         }
 
-        SelectiveAWTEventListener(AWTEventListener l, long mask) {
+        SelectiveAWTEventListener(AWTEventListener l, long mbsk) {
             listener = l;
-            eventMask = mask;
+            eventMbsk = mbsk;
         }
 
-        public void eventDispatched(AWTEvent event) {
-            long eventBit = 0; // Used to save the bit of the event type.
-            if (((eventBit = eventMask & AWTEvent.COMPONENT_EVENT_MASK) != 0 &&
+        public void eventDispbtched(AWTEvent event) {
+            long eventBit = 0; // Used to sbve the bit of the event type.
+            if (((eventBit = eventMbsk & AWTEvent.COMPONENT_EVENT_MASK) != 0 &&
                  event.id >= ComponentEvent.COMPONENT_FIRST &&
                  event.id <= ComponentEvent.COMPONENT_LAST)
-             || ((eventBit = eventMask & AWTEvent.CONTAINER_EVENT_MASK) != 0 &&
-                 event.id >= ContainerEvent.CONTAINER_FIRST &&
-                 event.id <= ContainerEvent.CONTAINER_LAST)
-             || ((eventBit = eventMask & AWTEvent.FOCUS_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.CONTAINER_EVENT_MASK) != 0 &&
+                 event.id >= ContbinerEvent.CONTAINER_FIRST &&
+                 event.id <= ContbinerEvent.CONTAINER_LAST)
+             || ((eventBit = eventMbsk & AWTEvent.FOCUS_EVENT_MASK) != 0 &&
                  event.id >= FocusEvent.FOCUS_FIRST &&
                  event.id <= FocusEvent.FOCUS_LAST)
-             || ((eventBit = eventMask & AWTEvent.KEY_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.KEY_EVENT_MASK) != 0 &&
                  event.id >= KeyEvent.KEY_FIRST &&
                  event.id <= KeyEvent.KEY_LAST)
-             || ((eventBit = eventMask & AWTEvent.MOUSE_WHEEL_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.MOUSE_WHEEL_EVENT_MASK) != 0 &&
                  event.id == MouseEvent.MOUSE_WHEEL)
-             || ((eventBit = eventMask & AWTEvent.MOUSE_MOTION_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.MOUSE_MOTION_EVENT_MASK) != 0 &&
                  (event.id == MouseEvent.MOUSE_MOVED ||
                   event.id == MouseEvent.MOUSE_DRAGGED))
-             || ((eventBit = eventMask & AWTEvent.MOUSE_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.MOUSE_EVENT_MASK) != 0 &&
                  event.id != MouseEvent.MOUSE_MOVED &&
                  event.id != MouseEvent.MOUSE_DRAGGED &&
                  event.id != MouseEvent.MOUSE_WHEEL &&
                  event.id >= MouseEvent.MOUSE_FIRST &&
                  event.id <= MouseEvent.MOUSE_LAST)
-             || ((eventBit = eventMask & AWTEvent.WINDOW_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.WINDOW_EVENT_MASK) != 0 &&
                  (event.id >= WindowEvent.WINDOW_FIRST &&
                  event.id <= WindowEvent.WINDOW_LAST))
-             || ((eventBit = eventMask & AWTEvent.ACTION_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.ACTION_EVENT_MASK) != 0 &&
                  event.id >= ActionEvent.ACTION_FIRST &&
                  event.id <= ActionEvent.ACTION_LAST)
-             || ((eventBit = eventMask & AWTEvent.ADJUSTMENT_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.ADJUSTMENT_EVENT_MASK) != 0 &&
                  event.id >= AdjustmentEvent.ADJUSTMENT_FIRST &&
                  event.id <= AdjustmentEvent.ADJUSTMENT_LAST)
-             || ((eventBit = eventMask & AWTEvent.ITEM_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.ITEM_EVENT_MASK) != 0 &&
                  event.id >= ItemEvent.ITEM_FIRST &&
                  event.id <= ItemEvent.ITEM_LAST)
-             || ((eventBit = eventMask & AWTEvent.TEXT_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.TEXT_EVENT_MASK) != 0 &&
                  event.id >= TextEvent.TEXT_FIRST &&
                  event.id <= TextEvent.TEXT_LAST)
-             || ((eventBit = eventMask & AWTEvent.INPUT_METHOD_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.INPUT_METHOD_EVENT_MASK) != 0 &&
                  event.id >= InputMethodEvent.INPUT_METHOD_FIRST &&
                  event.id <= InputMethodEvent.INPUT_METHOD_LAST)
-             || ((eventBit = eventMask & AWTEvent.PAINT_EVENT_MASK) != 0 &&
-                 event.id >= PaintEvent.PAINT_FIRST &&
-                 event.id <= PaintEvent.PAINT_LAST)
-             || ((eventBit = eventMask & AWTEvent.INVOCATION_EVENT_MASK) != 0 &&
-                 event.id >= InvocationEvent.INVOCATION_FIRST &&
-                 event.id <= InvocationEvent.INVOCATION_LAST)
-             || ((eventBit = eventMask & AWTEvent.HIERARCHY_EVENT_MASK) != 0 &&
-                 event.id == HierarchyEvent.HIERARCHY_CHANGED)
-             || ((eventBit = eventMask & AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK) != 0 &&
-                 (event.id == HierarchyEvent.ANCESTOR_MOVED ||
-                  event.id == HierarchyEvent.ANCESTOR_RESIZED))
-             || ((eventBit = eventMask & AWTEvent.WINDOW_STATE_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.PAINT_EVENT_MASK) != 0 &&
+                 event.id >= PbintEvent.PAINT_FIRST &&
+                 event.id <= PbintEvent.PAINT_LAST)
+             || ((eventBit = eventMbsk & AWTEvent.INVOCATION_EVENT_MASK) != 0 &&
+                 event.id >= InvocbtionEvent.INVOCATION_FIRST &&
+                 event.id <= InvocbtionEvent.INVOCATION_LAST)
+             || ((eventBit = eventMbsk & AWTEvent.HIERARCHY_EVENT_MASK) != 0 &&
+                 event.id == HierbrchyEvent.HIERARCHY_CHANGED)
+             || ((eventBit = eventMbsk & AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK) != 0 &&
+                 (event.id == HierbrchyEvent.ANCESTOR_MOVED ||
+                  event.id == HierbrchyEvent.ANCESTOR_RESIZED))
+             || ((eventBit = eventMbsk & AWTEvent.WINDOW_STATE_EVENT_MASK) != 0 &&
                  event.id == WindowEvent.WINDOW_STATE_CHANGED)
-             || ((eventBit = eventMask & AWTEvent.WINDOW_FOCUS_EVENT_MASK) != 0 &&
+             || ((eventBit = eventMbsk & AWTEvent.WINDOW_FOCUS_EVENT_MASK) != 0 &&
                  (event.id == WindowEvent.WINDOW_GAINED_FOCUS ||
                   event.id == WindowEvent.WINDOW_LOST_FOCUS))
-                || ((eventBit = eventMask & sun.awt.SunToolkit.GRAB_EVENT_MASK) != 0 &&
-                    (event instanceof sun.awt.UngrabEvent))) {
-                // Get the index of the call count for this event type.
-                // Instead of using Math.log(...) we will calculate it with
-                // bit shifts. That's what previous implementation looked like:
+                || ((eventBit = eventMbsk & sun.bwt.SunToolkit.GRAB_EVENT_MASK) != 0 &&
+                    (event instbnceof sun.bwt.UngrbbEvent))) {
+                // Get the index of the cbll count for this event type.
+                // Instebd of using Mbth.log(...) we will cblculbte it with
+                // bit shifts. Thbt's whbt previous implementbtion looked like:
                 //
-                // int ci = (int) (Math.log(eventBit)/Math.log(2));
+                // int ci = (int) (Mbth.log(eventBit)/Mbth.log(2));
                 int ci = 0;
-                for (long eMask = eventBit; eMask != 0; eMask >>>= 1, ci++) {
+                for (long eMbsk = eventBit; eMbsk != 0; eMbsk >>>= 1, ci++) {
                 }
                 ci--;
-                // Call the listener as many times as it was added for this
+                // Cbll the listener bs mbny times bs it wbs bdded for this
                 // event type.
-                for (int i=0; i<calls[ci]; i++) {
-                    listener.eventDispatched(event);
+                for (int i=0; i<cblls[ci]; i++) {
+                    listener.eventDispbtched(event);
                 }
             }
         }
     }
 
     /**
-     * Returns a map of visual attributes for the abstract level description
-     * of the given input method highlight, or null if no mapping is found.
-     * The style field of the input method highlight is ignored. The map
-     * returned is unmodifiable.
-     * @param highlight input method highlight
-     * @return style attribute map, or <code>null</code>
-     * @exception HeadlessException if
-     *     <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * Returns b mbp of visubl bttributes for the bbstrbct level description
+     * of the given input method highlight, or null if no mbpping is found.
+     * The style field of the input method highlight is ignored. The mbp
+     * returned is unmodifibble.
+     * @pbrbm highlight input method highlight
+     * @return style bttribute mbp, or <code>null</code>
+     * @exception HebdlessException if
+     *     <code>GrbphicsEnvironment.isHebdless</code> returns true
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since 1.3
      */
-    public abstract Map<java.awt.font.TextAttribute,?>
-        mapInputMethodHighlight(InputMethodHighlight highlight)
-        throws HeadlessException;
+    public bbstrbct Mbp<jbvb.bwt.font.TextAttribute,?>
+        mbpInputMethodHighlight(InputMethodHighlight highlight)
+        throws HebdlessException;
 
-    private static PropertyChangeSupport createPropertyChangeSupport(Toolkit toolkit) {
-        if (toolkit instanceof SunToolkit || toolkit instanceof HeadlessToolkit) {
-            return new DesktopPropertyChangeSupport(toolkit);
+    privbte stbtic PropertyChbngeSupport crebtePropertyChbngeSupport(Toolkit toolkit) {
+        if (toolkit instbnceof SunToolkit || toolkit instbnceof HebdlessToolkit) {
+            return new DesktopPropertyChbngeSupport(toolkit);
         } else {
-            return new PropertyChangeSupport(toolkit);
+            return new PropertyChbngeSupport(toolkit);
         }
     }
 
-    @SuppressWarnings("serial")
-    private static class DesktopPropertyChangeSupport extends PropertyChangeSupport {
+    @SuppressWbrnings("seribl")
+    privbte stbtic clbss DesktopPropertyChbngeSupport extends PropertyChbngeSupport {
 
-        private static final StringBuilder PROP_CHANGE_SUPPORT_KEY =
-                new StringBuilder("desktop property change support key");
-        private final Object source;
+        privbte stbtic finbl StringBuilder PROP_CHANGE_SUPPORT_KEY =
+                new StringBuilder("desktop property chbnge support key");
+        privbte finbl Object source;
 
-        public DesktopPropertyChangeSupport(Object sourceBean) {
-            super(sourceBean);
-            source = sourceBean;
+        public DesktopPropertyChbngeSupport(Object sourceBebn) {
+            super(sourceBebn);
+            source = sourceBebn;
         }
 
         @Override
-        public synchronized void addPropertyChangeListener(
-                String propertyName,
-                PropertyChangeListener listener)
+        public synchronized void bddPropertyChbngeListener(
+                String propertyNbme,
+                PropertyChbngeListener listener)
         {
-            PropertyChangeSupport pcs = (PropertyChangeSupport)
+            PropertyChbngeSupport pcs = (PropertyChbngeSupport)
                     AppContext.getAppContext().get(PROP_CHANGE_SUPPORT_KEY);
             if (null == pcs) {
-                pcs = new PropertyChangeSupport(source);
+                pcs = new PropertyChbngeSupport(source);
                 AppContext.getAppContext().put(PROP_CHANGE_SUPPORT_KEY, pcs);
             }
-            pcs.addPropertyChangeListener(propertyName, listener);
+            pcs.bddPropertyChbngeListener(propertyNbme, listener);
         }
 
         @Override
-        public synchronized void removePropertyChangeListener(
-                String propertyName,
-                PropertyChangeListener listener)
+        public synchronized void removePropertyChbngeListener(
+                String propertyNbme,
+                PropertyChbngeListener listener)
         {
-            PropertyChangeSupport pcs = (PropertyChangeSupport)
+            PropertyChbngeSupport pcs = (PropertyChbngeSupport)
                     AppContext.getAppContext().get(PROP_CHANGE_SUPPORT_KEY);
             if (null != pcs) {
-                pcs.removePropertyChangeListener(propertyName, listener);
+                pcs.removePropertyChbngeListener(propertyNbme, listener);
             }
         }
 
         @Override
-        public synchronized PropertyChangeListener[] getPropertyChangeListeners()
+        public synchronized PropertyChbngeListener[] getPropertyChbngeListeners()
         {
-            PropertyChangeSupport pcs = (PropertyChangeSupport)
+            PropertyChbngeSupport pcs = (PropertyChbngeSupport)
                     AppContext.getAppContext().get(PROP_CHANGE_SUPPORT_KEY);
             if (null != pcs) {
-                return pcs.getPropertyChangeListeners();
+                return pcs.getPropertyChbngeListeners();
             } else {
-                return new PropertyChangeListener[0];
+                return new PropertyChbngeListener[0];
             }
         }
 
         @Override
-        public synchronized PropertyChangeListener[] getPropertyChangeListeners(String propertyName)
+        public synchronized PropertyChbngeListener[] getPropertyChbngeListeners(String propertyNbme)
         {
-            PropertyChangeSupport pcs = (PropertyChangeSupport)
+            PropertyChbngeSupport pcs = (PropertyChbngeSupport)
                     AppContext.getAppContext().get(PROP_CHANGE_SUPPORT_KEY);
             if (null != pcs) {
-                return pcs.getPropertyChangeListeners(propertyName);
+                return pcs.getPropertyChbngeListeners(propertyNbme);
             } else {
-                return new PropertyChangeListener[0];
+                return new PropertyChbngeListener[0];
             }
         }
 
         @Override
-        public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
-            PropertyChangeSupport pcs = (PropertyChangeSupport)
+        public synchronized void bddPropertyChbngeListener(PropertyChbngeListener listener) {
+            PropertyChbngeSupport pcs = (PropertyChbngeSupport)
                     AppContext.getAppContext().get(PROP_CHANGE_SUPPORT_KEY);
             if (null == pcs) {
-                pcs = new PropertyChangeSupport(source);
+                pcs = new PropertyChbngeSupport(source);
                 AppContext.getAppContext().put(PROP_CHANGE_SUPPORT_KEY, pcs);
             }
-            pcs.addPropertyChangeListener(listener);
+            pcs.bddPropertyChbngeListener(listener);
         }
 
         @Override
-        public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
-            PropertyChangeSupport pcs = (PropertyChangeSupport)
+        public synchronized void removePropertyChbngeListener(PropertyChbngeListener listener) {
+            PropertyChbngeSupport pcs = (PropertyChbngeSupport)
                     AppContext.getAppContext().get(PROP_CHANGE_SUPPORT_KEY);
             if (null != pcs) {
-                pcs.removePropertyChangeListener(listener);
+                pcs.removePropertyChbngeListener(listener);
             }
         }
 
         /*
-         * we do expect that all other fireXXX() methods of java.beans.PropertyChangeSupport
-         * use this method.  If this will be changed we will need to change this class.
+         * we do expect thbt bll other fireXXX() methods of jbvb.bebns.PropertyChbngeSupport
+         * use this method.  If this will be chbnged we will need to chbnge this clbss.
          */
         @Override
-        public void firePropertyChange(final PropertyChangeEvent evt) {
-            Object oldValue = evt.getOldValue();
-            Object newValue = evt.getNewValue();
-            String propertyName = evt.getPropertyName();
-            if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
+        public void firePropertyChbnge(finbl PropertyChbngeEvent evt) {
+            Object oldVblue = evt.getOldVblue();
+            Object newVblue = evt.getNewVblue();
+            String propertyNbme = evt.getPropertyNbme();
+            if (oldVblue != null && newVblue != null && oldVblue.equbls(newVblue)) {
                 return;
             }
-            Runnable updater = new Runnable() {
+            Runnbble updbter = new Runnbble() {
                 public void run() {
-                    PropertyChangeSupport pcs = (PropertyChangeSupport)
+                    PropertyChbngeSupport pcs = (PropertyChbngeSupport)
                             AppContext.getAppContext().get(PROP_CHANGE_SUPPORT_KEY);
                     if (null != pcs) {
-                        pcs.firePropertyChange(evt);
+                        pcs.firePropertyChbnge(evt);
                     }
                 }
             };
-            final AppContext currentAppContext = AppContext.getAppContext();
-            for (AppContext appContext : AppContext.getAppContexts()) {
-                if (null == appContext || appContext.isDisposed()) {
+            finbl AppContext currentAppContext = AppContext.getAppContext();
+            for (AppContext bppContext : AppContext.getAppContexts()) {
+                if (null == bppContext || bppContext.isDisposed()) {
                     continue;
                 }
-                if (currentAppContext == appContext) {
-                    updater.run();
+                if (currentAppContext == bppContext) {
+                    updbter.run();
                 } else {
-                    final PeerEvent e = new PeerEvent(source, updater, PeerEvent.ULTIMATE_PRIORITY_EVENT);
-                    SunToolkit.postEvent(appContext, e);
+                    finbl PeerEvent e = new PeerEvent(source, updbter, PeerEvent.ULTIMATE_PRIORITY_EVENT);
+                    SunToolkit.postEvent(bppContext, e);
                 }
             }
         }
     }
 
     /**
-    * Reports whether events from extra mouse buttons are allowed to be processed and posted into
+    * Reports whether events from extrb mouse buttons bre bllowed to be processed bnd posted into
     * {@code EventQueue}.
     * <br>
-    * To change the returned value it is necessary to set the {@code sun.awt.enableExtraMouseButtons}
-    * property before the {@code Toolkit} class initialization. This setting could be done on the application
-    * startup by the following command:
+    * To chbnge the returned vblue it is necessbry to set the {@code sun.bwt.enbbleExtrbMouseButtons}
+    * property before the {@code Toolkit} clbss initiblizbtion. This setting could be done on the bpplicbtion
+    * stbrtup by the following commbnd:
     * <pre>
-    * java -Dsun.awt.enableExtraMouseButtons=false Application
+    * jbvb -Dsun.bwt.enbbleExtrbMouseButtons=fblse Applicbtion
     * </pre>
-    * Alternatively, the property could be set in the application by using the following code:
+    * Alternbtively, the property could be set in the bpplicbtion by using the following code:
     * <pre>
-    * System.setProperty("sun.awt.enableExtraMouseButtons", "true");
+    * System.setProperty("sun.bwt.enbbleExtrbMouseButtons", "true");
     * </pre>
-    * before the {@code Toolkit} class initialization.
-    * If not set by the time of the {@code Toolkit} class initialization, this property will be
-    * initialized with {@code true}.
-    * Changing this value after the {@code Toolkit} class initialization will have no effect.
+    * before the {@code Toolkit} clbss initiblizbtion.
+    * If not set by the time of the {@code Toolkit} clbss initiblizbtion, this property will be
+    * initiblized with {@code true}.
+    * Chbnging this vblue bfter the {@code Toolkit} clbss initiblizbtion will hbve no effect.
     *
-    * @exception HeadlessException if GraphicsEnvironment.isHeadless() returns true
-    * @return {@code true} if events from extra mouse buttons are allowed to be processed and posted;
-    *         {@code false} otherwise
-    * @see System#getProperty(String propertyName)
-    * @see System#setProperty(String propertyName, String value)
-    * @see java.awt.EventQueue
+    * @exception HebdlessException if GrbphicsEnvironment.isHebdless() returns true
+    * @return {@code true} if events from extrb mouse buttons bre bllowed to be processed bnd posted;
+    *         {@code fblse} otherwise
+    * @see System#getProperty(String propertyNbme)
+    * @see System#setProperty(String propertyNbme, String vblue)
+    * @see jbvb.bwt.EventQueue
     * @since 1.7
      */
-    public boolean areExtraMouseButtonsEnabled() throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
+    public boolebn breExtrbMouseButtonsEnbbled() throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
 
-        return Toolkit.getDefaultToolkit().areExtraMouseButtonsEnabled();
+        return Toolkit.getDefbultToolkit().breExtrbMouseButtonsEnbbled();
     }
 }

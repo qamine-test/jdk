@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
-import java.util.List;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * The state of one method invocation on a thread's call stack.
- * As a thread executes, stack frames are pushed and popped from
- * its call stack as methods are invoked and then return. A StackFrame
- * mirrors one such frame from a target VM at some point in its
- * thread's execution. The call stack is, then, simply a List of
- * StackFrame objects. The call stack can be obtained any time a thread
- * is suspended through a call to {@link ThreadReference#frames}
+ * The stbte of one method invocbtion on b threbd's cbll stbck.
+ * As b threbd executes, stbck frbmes bre pushed bnd popped from
+ * its cbll stbck bs methods bre invoked bnd then return. A StbckFrbme
+ * mirrors one such frbme from b tbrget VM bt some point in its
+ * threbd's execution. The cbll stbck is, then, simply b List of
+ * StbckFrbme objects. The cbll stbck cbn be obtbined bny time b threbd
+ * is suspended through b cbll to {@link ThrebdReference#frbmes}
  * <p>
- * StackFrames provide access to a method's local variables and their
- * current values.
+ * StbckFrbmes provide bccess to b method's locbl vbribbles bnd their
+ * current vblues.
  * <p>
- * The lifetime of a StackFrame is very limited. It is available only
- * for suspended threads and becomes invalid once its thread is resumed.
+ * The lifetime of b StbckFrbme is very limited. It is bvbilbble only
+ * for suspended threbds bnd becomes invblid once its threbd is resumed.
  * <p>
- * Any method on <code>StackFrame</code> which
- * takes <code>StackFrame</code> as an parameter may throw
- * {@link com.sun.jdi.VMDisconnectedException} if the target VM is
- * disconnected and the {@link com.sun.jdi.event.VMDisconnectEvent} has been or is
- * available to be read from the {@link com.sun.jdi.event.EventQueue}.
+ * Any method on <code>StbckFrbme</code> which
+ * tbkes <code>StbckFrbme</code> bs bn pbrbmeter mby throw
+ * {@link com.sun.jdi.VMDisconnectedException} if the tbrget VM is
+ * disconnected bnd the {@link com.sun.jdi.event.VMDisconnectEvent} hbs been or is
+ * bvbilbble to be rebd from the {@link com.sun.jdi.event.EventQueue}.
  * <p>
- * Any method on <code>StackFrame</code> which
- * takes <code>StackFrame</code> as an parameter may throw
- * {@link com.sun.jdi.VMOutOfMemoryException} if the target VM has run out of memory.
+ * Any method on <code>StbckFrbme</code> which
+ * tbkes <code>StbckFrbme</code> bs bn pbrbmeter mby throw
+ * {@link com.sun.jdi.VMOutOfMemoryException} if the tbrget VM hbs run out of memory.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
+ * @buthor Robert Field
+ * @buthor Gordon Hirsch
+ * @buthor Jbmes McIlree
  * @since  1.3
  */
 @jdk.Exported
-public interface StackFrame extends Mirror, Locatable {
+public interfbce StbckFrbme extends Mirror, Locbtbble {
 
     /**
-     * Returns the {@link Location} of the current instruction in the frame.
-     * The method for which this frame was created can also be accessed
-     * through the returned location.
-     * For the top frame in the stack, this location identifies the
-     * next instruction to be executed. For all other frames, this
-     * location identifies the instruction that caused the next frame's
+     * Returns the {@link Locbtion} of the current instruction in the frbme.
+     * The method for which this frbme wbs crebted cbn blso be bccessed
+     * through the returned locbtion.
+     * For the top frbme in the stbck, this locbtion identifies the
+     * next instruction to be executed. For bll other frbmes, this
+     * locbtion identifies the instruction thbt cbused the next frbme's
      * method to be invoked.
-     * If the frame represents a native method invocation, the returned
-     * location indicates the class and method, but the code index will
-     * not be valid (-1).
+     * If the frbme represents b nbtive method invocbtion, the returned
+     * locbtion indicbtes the clbss bnd method, but the code index will
+     * not be vblid (-1).
      *
-     * @return the {@link Location} of the current instruction.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
+     * @return the {@link Locbtion} of the current instruction.
+     * @throws InvblidStbckFrbmeException if this stbck frbme hbs become
+     * invblid. Once the frbme's threbd is resumed, the stbck frbme is
+     * no longer vblid.
      */
-    Location location();
+    Locbtion locbtion();
 
     /**
-     * Returns the thread under which this frame's method is running.
+     * Returns the threbd under which this frbme's method is running.
      *
-     * @return a {@link ThreadReference} which mirrors the frame's thread.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
+     * @return b {@link ThrebdReference} which mirrors the frbme's threbd.
+     * @throws InvblidStbckFrbmeException if this stbck frbme hbs become
+     * invblid. Once the frbme's threbd is resumed, the stbck frbme is
+     * no longer vblid.
      */
-    ThreadReference thread();
+    ThrebdReference threbd();
 
     /**
-     * Returns the value of 'this' for the current frame.
-     * The {@link ObjectReference} for 'this' is only available for
-     * non-native instance methods.
+     * Returns the vblue of 'this' for the current frbme.
+     * The {@link ObjectReference} for 'this' is only bvbilbble for
+     * non-nbtive instbnce methods.
      *
-     * @return an {@link ObjectReference}, or null if the frame represents
-     * a native or static method.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
+     * @return bn {@link ObjectReference}, or null if the frbme represents
+     * b nbtive or stbtic method.
+     * @throws InvblidStbckFrbmeException if this stbck frbme hbs become
+     * invblid. Once the frbme's threbd is resumed, the stbck frbme is
+     * no longer vblid.
      */
     ObjectReference thisObject();
 
     /**
-     * Returns a list containing each {@link LocalVariable}
-     * that can be accessed from this frame's location.
+     * Returns b list contbining ebch {@link LocblVbribble}
+     * thbt cbn be bccessed from this frbme's locbtion.
      * <p>
-     * Visibility is based on the code index of the current instruction of
-     * this StackFrame. Each variable has a range of byte code indices in which
-     * it is accessible.
-     * If this stack frame's method
-     * matches this variable's method and if the code index of this
-     * StackFrame is within the variable's byte code range, the variable is
+     * Visibility is bbsed on the code index of the current instruction of
+     * this StbckFrbme. Ebch vbribble hbs b rbnge of byte code indices in which
+     * it is bccessible.
+     * If this stbck frbme's method
+     * mbtches this vbribble's method bnd if the code index of this
+     * StbckFrbme is within the vbribble's byte code rbnge, the vbribble is
      * visible.
      * <p>
-     * A variable's byte code range is at least as large as the scope of
-     * that variable, but can continue beyond the end of the scope under
-     * certain circumstances:
+     * A vbribble's byte code rbnge is bt lebst bs lbrge bs the scope of
+     * thbt vbribble, but cbn continue beyond the end of the scope under
+     * certbin circumstbnces:
      * <ul>
-     * <li>the compiler/VM does not immediately reuse the variable's slot.
-     * <li>the compiler/VM is implemented to report the extended range that
-     * would result from the item above.
+     * <li>the compiler/VM does not immedibtely reuse the vbribble's slot.
+     * <li>the compiler/VM is implemented to report the extended rbnge thbt
+     * would result from the item bbove.
      * </ul>
-     * The advantage of an extended range is that variables from recently
-     * exited scopes may remain available for examination (this is especially
-     * useful for loop indices). If, as a result of the extensions above,
-     * the current frame location is contained within the range
-     * of multiple local variables of the same name, the variable with the
-     * highest-starting range is chosen for the returned list.
+     * The bdvbntbge of bn extended rbnge is thbt vbribbles from recently
+     * exited scopes mby rembin bvbilbble for exbminbtion (this is especiblly
+     * useful for loop indices). If, bs b result of the extensions bbove,
+     * the current frbme locbtion is contbined within the rbnge
+     * of multiple locbl vbribbles of the sbme nbme, the vbribble with the
+     * highest-stbrting rbnge is chosen for the returned list.
      *
-     * @return the list of {@link LocalVariable} objects currently visible;
-     * the list will be empty if there are no visible variables;
-     * specifically, frames in native methods will always return a
+     * @return the list of {@link LocblVbribble} objects currently visible;
+     * the list will be empty if there bre no visible vbribbles;
+     * specificblly, frbmes in nbtive methods will blwbys return b
      * zero-length list.
-     * @throws AbsentInformationException if there is no local variable
-     * information for this method.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
-     * @throws NativeMethodException if the current method is native.
+     * @throws AbsentInformbtionException if there is no locbl vbribble
+     * informbtion for this method.
+     * @throws InvblidStbckFrbmeException if this stbck frbme hbs become
+     * invblid. Once the frbme's threbd is resumed, the stbck frbme is
+     * no longer vblid.
+     * @throws NbtiveMethodException if the current method is nbtive.
      */
-    List<LocalVariable> visibleVariables() throws AbsentInformationException;
+    List<LocblVbribble> visibleVbribbles() throws AbsentInformbtionException;
 
     /**
-     * Finds a {@link LocalVariable} that matches the given name and is
-     * visible at the current frame location.
-     * See {@link #visibleVariables} for more information on visibility.
+     * Finds b {@link LocblVbribble} thbt mbtches the given nbme bnd is
+     * visible bt the current frbme locbtion.
+     * See {@link #visibleVbribbles} for more informbtion on visibility.
      *
-     * @param name the variable name to find
-     * @return the matching {@link LocalVariable}, or null if there is no
-     * visible variable with the given name; frames in native methods
-     * will always return null.
-     * @throws AbsentInformationException if there is no local variable
-     * information for this method.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
-     * @throws NativeMethodException if the current method is native.
+     * @pbrbm nbme the vbribble nbme to find
+     * @return the mbtching {@link LocblVbribble}, or null if there is no
+     * visible vbribble with the given nbme; frbmes in nbtive methods
+     * will blwbys return null.
+     * @throws AbsentInformbtionException if there is no locbl vbribble
+     * informbtion for this method.
+     * @throws InvblidStbckFrbmeException if this stbck frbme hbs become
+     * invblid. Once the frbme's threbd is resumed, the stbck frbme is
+     * no longer vblid.
+     * @throws NbtiveMethodException if the current method is nbtive.
      */
-    LocalVariable visibleVariableByName(String name) throws AbsentInformationException;
+    LocblVbribble visibleVbribbleByNbme(String nbme) throws AbsentInformbtionException;
 
     /**
-     * Gets the {@link Value} of a {@link LocalVariable} in this frame.
-     * The variable must be valid for this frame's method and visible
-     * according to the rules described in {@link #visibleVariables}.
+     * Gets the {@link Vblue} of b {@link LocblVbribble} in this frbme.
+     * The vbribble must be vblid for this frbme's method bnd visible
+     * bccording to the rules described in {@link #visibleVbribbles}.
      *
-     * @param variable the {@link LocalVariable} to be accessed
-     * @return the {@link Value} of the instance field.
-     * @throws java.lang.IllegalArgumentException if the variable is
-     * either invalid for this frame's method or not visible.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
+     * @pbrbm vbribble the {@link LocblVbribble} to be bccessed
+     * @return the {@link Vblue} of the instbnce field.
+     * @throws jbvb.lbng.IllegblArgumentException if the vbribble is
+     * either invblid for this frbme's method or not visible.
+     * @throws InvblidStbckFrbmeException if this stbck frbme hbs become
+     * invblid. Once the frbme's threbd is resumed, the stbck frbme is
+     * no longer vblid.
      */
-    Value getValue(LocalVariable variable);
+    Vblue getVblue(LocblVbribble vbribble);
 
     /**
-     * Returns the values of multiple local variables in this frame.
-     * Each variable must be valid for this frame's method and visible
-     * according to the rules described in {@link #visibleVariables}.
+     * Returns the vblues of multiple locbl vbribbles in this frbme.
+     * Ebch vbribble must be vblid for this frbme's method bnd visible
+     * bccording to the rules described in {@link #visibleVbribbles}.
      *
-     * @param variables a list of {@link LocalVariable} objects to be accessed
-     * @return a map associating each {@link LocalVariable} with
-     * its {@link Value}
-     * @throws java.lang.IllegalArgumentException if any variable is
-     * either invalid for this frame's method or not visible.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
+     * @pbrbm vbribbles b list of {@link LocblVbribble} objects to be bccessed
+     * @return b mbp bssocibting ebch {@link LocblVbribble} with
+     * its {@link Vblue}
+     * @throws jbvb.lbng.IllegblArgumentException if bny vbribble is
+     * either invblid for this frbme's method or not visible.
+     * @throws InvblidStbckFrbmeException if this stbck frbme hbs become
+     * invblid. Once the frbme's threbd is resumed, the stbck frbme is
+     * no longer vblid.
      */
-    Map<LocalVariable,Value> getValues(List<? extends LocalVariable> variables);
+    Mbp<LocblVbribble,Vblue> getVblues(List<? extends LocblVbribble> vbribbles);
 
     /**
-     * Sets the {@link Value} of a {@link LocalVariable} in this frame.
-     * The variable must be valid for this frame's method and visible
-     * according to the rules described in {@link #visibleVariables}.
+     * Sets the {@link Vblue} of b {@link LocblVbribble} in this frbme.
+     * The vbribble must be vblid for this frbme's method bnd visible
+     * bccording to the rules described in {@link #visibleVbribbles}.
      * <p>
-     * Object values must be assignment compatible with the variable type
-     * (This implies that the variable type must be loaded through the
-     * enclosing class's class loader). Primitive values must be
-     * either assignment compatible with the variable type or must be
-     * convertible to the variable type without loss of information.
-     * See JLS section 5.2 for more information on assignment
-     * compatibility.
+     * Object vblues must be bssignment compbtible with the vbribble type
+     * (This implies thbt the vbribble type must be lobded through the
+     * enclosing clbss's clbss lobder). Primitive vblues must be
+     * either bssignment compbtible with the vbribble type or must be
+     * convertible to the vbribble type without loss of informbtion.
+     * See JLS section 5.2 for more informbtion on bssignment
+     * compbtibility.
      *
-     * @param variable the field containing the requested value
-     * @param value the new value to assign
-     * @throws java.lang.IllegalArgumentException if the field is not valid for
-     * this object's class.
-     * @throws InvalidTypeException if the value's type does not match
-     * the variable's type.
-     * @throws ClassNotLoadedException if the variable type has not yet been loaded
-     * through the appropriate class loader.
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @pbrbm vbribble the field contbining the requested vblue
+     * @pbrbm vblue the new vblue to bssign
+     * @throws jbvb.lbng.IllegblArgumentException if the field is not vblid for
+     * this object's clbss.
+     * @throws InvblidTypeException if the vblue's type does not mbtch
+     * the vbribble's type.
+     * @throws ClbssNotLobdedException if the vbribble type hbs not yet been lobded
+     * through the bppropribte clbss lobder.
+     * @throws InvblidStbckFrbmeException if this stbck frbme hbs become
+     * invblid. Once the frbme's threbd is resumed, the stbck frbme is
+     * no longer vblid.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      */
-    void setValue(LocalVariable variable, Value value)
-        throws InvalidTypeException, ClassNotLoadedException;
+    void setVblue(LocblVbribble vbribble, Vblue vblue)
+        throws InvblidTypeException, ClbssNotLobdedException;
 
     /**
-     * Returns the values of all arguments in this frame.  Values are
-     * returned even if no local variable information is present.
+     * Returns the vblues of bll brguments in this frbme.  Vblues bre
+     * returned even if no locbl vbribble informbtion is present.
      *
-     * @return a list containing a {@link Value} object for each argument
-     * to this frame, in the order in which the arguments were
-     * declared.  If the method corresponding to this frame has
-     * no arguments, an empty list is returned.
+     * @return b list contbining b {@link Vblue} object for ebch brgument
+     * to this frbme, in the order in which the brguments were
+     * declbred.  If the method corresponding to this frbme hbs
+     * no brguments, bn empty list is returned.
      *
-     * @throws InvalidStackFrameException if this stack frame has become
-     * invalid. Once the frame's thread is resumed, the stack frame is
-     * no longer valid.
+     * @throws InvblidStbckFrbmeException if this stbck frbme hbs become
+     * invblid. Once the frbme's threbd is resumed, the stbck frbme is
+     * no longer vblid.
      * @since 1.6
      */
-    List<Value> getArgumentValues();
+    List<Vblue> getArgumentVblues();
 
 }

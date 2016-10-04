@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ Redistribution bnd use in source bnd binbry forms, with or without
+ modificbtion, bre permitted provided thbt the following conditions
+ bre met:
 
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+   - Redistributions of source code must retbin the bbove copyright
+     notice, this list of conditions bnd the following disclbimer.
 
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
+   - Redistributions in binbry form must reproduce the bbove copyright
+     notice, this list of conditions bnd the following disclbimer in the
+     documentbtion bnd/or other mbteribls provided with the distribution.
 
-   - Neither the name of Oracle nor the names of its
-     contributors may be used to endorse or promote products derived
-     from this software without specific prior written permission.
+   - Neither the nbme of Orbcle nor the nbmes of its
+     contributors mby be used to endorse or promote products derived
+     from this softwbre without specific prior written permission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,113 +31,113 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<project xmlns="http://www.netbeans.org/ns/project/1">
-    <type>org.netbeans.modules.ant.freeform</type>
-    <configuration>
-        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
-            <name>jconsole-plugin</name>
+<project xmlns="http://www.netbebns.org/ns/project/1">
+    <type>org.netbebns.modules.bnt.freeform</type>
+    <configurbtion>
+        <generbl-dbtb xmlns="http://www.netbebns.org/ns/freeform-project/1">
+            <nbme>jconsole-plugin</nbme>
             <properties>
                 <property-file>user.build.properties</property-file>
                 <property-file>build.properties</property-file>
-                <property name="nbjdk.bootclasspath">${nbjdk.home}/jre/lib/rt.jar</property>
+                <property nbme="nbjdk.bootclbsspbth">${nbjdk.home}/jre/lib/rt.jbr</property>
             </properties>
             <folders>
                 <source-folder>
-                    <label>JDK Demo</label>
-                    <location>${main.dir}</location>
+                    <lbbel>JDK Demo</lbbel>
+                    <locbtion>${mbin.dir}</locbtion>
                 </source-folder>
                 <source-folder>
-                    <label>Sources</label>
-                    <type>java</type>
-                    <location>${src.dir}</location>
+                    <lbbel>Sources</lbbel>
+                    <type>jbvb</type>
+                    <locbtion>${src.dir}</locbtion>
                 </source-folder>
                 <build-folder>
-                    <location>${build.dir}</location>
+                    <locbtion>${build.dir}</locbtion>
                 </build-folder>
             </folders>
-            <ide-actions>
-                <action name="build">
-                    <target>jar</target>
-                </action>
-                <action name="clean">
-                    <target>clean</target>
-                </action>
-                <action name="rebuild">
-                    <target>clean</target>
-                    <target>jar</target>
-                </action>
-                <action name="javadoc">
-                    <script>nbproject/netbeans-targets.xml</script>
-                    <target>show-javadoc</target>
-                </action>
-                <action name="compile.single">
-                    <script>nbproject/file-targets.xml</script>
-                    <target>compile-selected</target>
+            <ide-bctions>
+                <bction nbme="build">
+                    <tbrget>jbr</tbrget>
+                </bction>
+                <bction nbme="clebn">
+                    <tbrget>clebn</tbrget>
+                </bction>
+                <bction nbme="rebuild">
+                    <tbrget>clebn</tbrget>
+                    <tbrget>jbr</tbrget>
+                </bction>
+                <bction nbme="jbvbdoc">
+                    <script>nbproject/netbebns-tbrgets.xml</script>
+                    <tbrget>show-jbvbdoc</tbrget>
+                </bction>
+                <bction nbme="compile.single">
+                    <script>nbproject/file-tbrgets.xml</script>
+                    <tbrget>compile-selected</tbrget>
                     <context>
                         <property>includes</property>
                         <folder>${src.dir}</folder>
-                        <pattern>\.java$</pattern>
-                        <format>relative-path</format>
-                        <arity>
-                            <separated-files>,</separated-files>
-                        </arity>
+                        <pbttern>\.jbvb$</pbttern>
+                        <formbt>relbtive-pbth</formbt>
+                        <brity>
+                            <sepbrbted-files>,</sepbrbted-files>
+                        </brity>
                     </context>
-                </action>
-                <action name="debug.fix">
-                    <script>nbproject/netbeans-targets.xml</script>
-                    <target>debug-fix</target>
+                </bction>
+                <bction nbme="debug.fix">
+                    <script>nbproject/netbebns-tbrgets.xml</script>
+                    <tbrget>debug-fix</tbrget>
                     <context>
-                        <property>class</property>
+                        <property>clbss</property>
                         <folder>${src.dir}</folder>
-                        <pattern>\.java$</pattern>
-                        <format>relative-path-noext</format>
-                        <arity>
+                        <pbttern>\.jbvb$</pbttern>
+                        <formbt>relbtive-pbth-noext</formbt>
+                        <brity>
                             <one-file-only/>
-                        </arity>
+                        </brity>
                     </context>
-                </action>
-            </ide-actions>
+                </bction>
+            </ide-bctions>
             <export>
-                <type>jar</type>
-                <location>${jar}</location>
-                <build-target>jar</build-target>
-                <clean-target>clean</clean-target>
+                <type>jbr</type>
+                <locbtion>${jbr}</locbtion>
+                <build-tbrget>jbr</build-tbrget>
+                <clebn-tbrget>clebn</clebn-tbrget>
             </export>
             <view>
                 <items>
-                    <source-folder style="packages">
-                        <label>Sources</label>
-                        <location>${src.dir}</location>
+                    <source-folder style="pbckbges">
+                        <lbbel>Sources</lbbel>
+                        <locbtion>${src.dir}</locbtion>
                     </source-folder>
                     <source-file>
-                        <location>${main.dir}/README.txt</location>
+                        <locbtion>${mbin.dir}/README.txt</locbtion>
                     </source-file>
                 </items>
                 <context-menu>
-                    <ide-action name="build"/>
-                    <ide-action name="rebuild"/>
-                    <ide-action name="clean"/>
-                    <ide-action name="javadoc"/>
-                    <separator/>
-                    <action>
-                        <label>Run JConsole</label>
-                        <target>run-jconsole</target>
-                    </action>
+                    <ide-bction nbme="build"/>
+                    <ide-bction nbme="rebuild"/>
+                    <ide-bction nbme="clebn"/>
+                    <ide-bction nbme="jbvbdoc"/>
+                    <sepbrbtor/>
+                    <bction>
+                        <lbbel>Run JConsole</lbbel>
+                        <tbrget>run-jconsole</tbrget>
+                    </bction>
                 </context-menu>
             </view>
             <subprojects/>
-        </general-data>
-        <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/2">
-            <compilation-unit>
-                <package-root>${src.dir}</package-root>
-                <classpath mode="compile">${cp}</classpath>
-                <classpath mode="execute">${run.cp}</classpath>
-                <classpath mode="boot">${nbjdk.bootclasspath}</classpath>
-                <built-to>${classes.dir}</built-to>
-                <built-to>${jar}</built-to>
-                <javadoc-built-to>${javadoc.dir}</javadoc-built-to>
+        </generbl-dbtb>
+        <jbvb-dbtb xmlns="http://www.netbebns.org/ns/freeform-project-jbvb/2">
+            <compilbtion-unit>
+                <pbckbge-root>${src.dir}</pbckbge-root>
+                <clbsspbth mode="compile">${cp}</clbsspbth>
+                <clbsspbth mode="execute">${run.cp}</clbsspbth>
+                <clbsspbth mode="boot">${nbjdk.bootclbsspbth}</clbsspbth>
+                <built-to>${clbsses.dir}</built-to>
+                <built-to>${jbr}</built-to>
+                <jbvbdoc-built-to>${jbvbdoc.dir}</jbvbdoc-built-to>
                 <source-level>1.5</source-level>
-            </compilation-unit>
-        </java-data>
-    </configuration>
+            </compilbtion-unit>
+        </jbvb-dbtb>
+    </configurbtion>
 </project>

@@ -1,50 +1,50 @@
 '\" t
-.\" Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\" Title: wsgen
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: Java Webサービス・ツール
-.\" Software: JDK 8
+.\" Lbngubge: English
+.\" Dbte: 2013年11月21日
+.\" SectDesc: Jbvb Webサービス・ツール
+.\" Softwbre: JDK 8
 .\" Arch: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "wsgen" "1" "2013年11月21日" "JDK 8" "Java Webサービス・ツール"
+.TH "wsgen" "1" "2013年11月21日" "JDK 8" "Jbvb Webサービス・ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
@@ -75,7 +75,7 @@ wsgen \- Webサービスのエンドポイント実装(SEI)クラスを読取り、Webサービスのデプロ
 .PP
 \fIwsgen\fRコマンドは、JAX\-WS Webサービスで使用されるJAX\-WSポータブル・アーティファクトを生成します。このツールは、Webサービスのエンドポイント・クラスを読取り、Webサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。JAXWS 2\&.1\&.1 RIでは\fIwsgen\fR
 Antタスクも提供されます。
-http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsgenant\&.htmlのJAX\-WS (wsgen)ページのToolsタブを参照してください。
+http://jbx\-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/wsgenbnt\&.htmlのJAX\-WS (wsgen)ページのToolsタブを参照してください。
 .PP
 \fIwsgen\fRコマンドを起動するには、次を行います。
 .sp
@@ -83,7 +83,7 @@ http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsgenant\&.htmlのJAX\-WS (wsgen
 .RS 4
 .\}
 .nf
-export JAXWS_HOME=/pathto/jaxws\-ri
+export JAXWS_HOME=/pbthto/jbxws\-ri
 $JAXWS_HOME/bin/wsgen\&.sh \-help
 .fi
 .if n \{\
@@ -91,12 +91,12 @@ $JAXWS_HOME/bin/wsgen\&.sh \-help
 .\}
 .SH "オプション"
 .PP
-\-classpath \fIpath\fR
+\-clbsspbth \fIpbth\fR
 .RS 4
 入力クラス・ファイルの場所。
 .RE
 .PP
-\-cp \fIpath\fR
+\-cp \fIpbth\fR
 .RS 4
 入力クラス・ファイルの場所。
 .RE
@@ -145,19 +145,19 @@ $JAXWS_HOME/bin/wsgen\&.sh \-help
 .RS 4
 エンドポイントをデプロイする前に確認するWSDLファイルを生成するオプション・コマンド。WSDLファイルには、サービスを呼び出す方法、パラメータに必要な値、返されるデータ構造についてのコンピュータで読取り可能な記述が含まれます。
 .sp
-デフォルトでは\fIwsgen\fRコマンドはWSDLファイルを生成しません。\fIprotocol\fR値は省略可能であり、WSDLバインディング(\fIwsdl:binding\fR)で使用するプロトコルを指定するために使用されます。有効なプロトコルは、\fIsoap1\&.1\fRと\fIXsoap1\&.2\fRです。デフォルトは\fIsoap1\&.1\fRです。\fIXsoap1\&.2\fRプロトコルは標準ではないため、\fI\-extension\fRオプションとともにのみ使用可能です。
+デフォルトでは\fIwsgen\fRコマンドはWSDLファイルを生成しません。\fIprotocol\fR値は省略可能であり、WSDLバインディング(\fIwsdl:binding\fR)で使用するプロトコルを指定するために使用されます。有効なプロトコルは、\fIsobp1\&.1\fRと\fIXsobp1\&.2\fRです。デフォルトは\fIsobp1\&.1\fRです。\fIXsobp1\&.2\fRプロトコルは標準ではないため、\fI\-extension\fRオプションとともにのみ使用可能です。
 .RE
 .PP
-\-servicename \fIname\fR
+\-servicenbme \fInbme\fR
 .RS 4
 \fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLサービス(\fIwsdl:service\fR)名を指定します。例:
-\fI\-servicename "{http://mynamespace/}MyService"\fR。
+\fI\-servicenbme "{http://mynbmespbce/}MyService"\fR。
 .RE
 .PP
-\-portname \fIname\fR
+\-portnbme \fInbme\fR
 .RS 4
 \fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLポート(\fIwsdl:port\fR)名を指定します。例:
-\fI\-portname "{http://mynamespace/}MyPort"\fR。
+\fI\-portnbme "{http://mynbmespbce/}MyPort"\fR。
 .RE
 .SH "例"
 .PP
@@ -167,7 +167,7 @@ $JAXWS_HOME/bin/wsgen\&.sh \-help
 .RS 4
 .\}
 .nf
-wsgen \-d stock \-cp myclasspath stock\&.StockService
+wsgen \-d stock \-cp myclbsspbth stock\&.StockService
 .fi
 .if n \{\
 .RE
@@ -179,7 +179,7 @@ wsgen \-d stock \-cp myclasspath stock\&.StockService
 .RS 4
 .\}
 .nf
-wsgen \-wsdl \-d stock \-cp myclasspath stock\&.StockService
+wsgen \-wsdl \-d stock \-cp myclbsspbth stock\&.StockService
 .fi
 .if n \{\
 .RE
@@ -191,7 +191,7 @@ wsgen \-wsdl \-d stock \-cp myclasspath stock\&.StockService
 .RS 4
 .\}
 .nf
-wsgen \-wsdl:Xsoap1\&.2 \-d stock \-cp myclasspath stock\&.StockService 
+wsgen \-wsdl:Xsobp1\&.2 \-d stock \-cp myclbsspbth stock\&.StockService 
 .fi
 .if n \{\
 .RE
@@ -220,7 +220,7 @@ wsimport(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsgenant\&.htmlの
+http://jbx\-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/wsgenbnt\&.htmlの
 JAX\-WS (wsgen)ページのToolsタブを参照してください。
 .RE
 .br

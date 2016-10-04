@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.*;
-import java.security.spec.*;
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
+import jbvbx.crypto.*;
+import jbvbx.crypto.spec.*;
 
 /**
- * This class implements the CMS DESede KeyWrap algorithm as defined
- * in <a href=http://www.w3.org/TR/xmlenc-core/#sec-Alg-SymmetricKeyWrap>
- * "XML Encryption Syntax and Processing" section 5.6.2
- * "CMS Triple DES Key Wrap".
- * Note: only <code>CBC</code> mode and <code>NoPadding</code> padding
- * scheme can be used for this algorithm.
+ * This clbss implements the CMS DESede KeyWrbp blgorithm bs defined
+ * in <b href=http://www.w3.org/TR/xmlenc-core/#sec-Alg-SymmetricKeyWrbp>
+ * "XML Encryption Syntbx bnd Processing" section 5.6.2
+ * "CMS Triple DES Key Wrbp".
+ * Note: only <code>CBC</code> mode bnd <code>NoPbdding</code> pbdding
+ * scheme cbn be used for this blgorithm.
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  *
  *
  * @see DESedeCipher
  */
-public final class DESedeWrapCipher extends CipherSpi {
+public finbl clbss DESedeWrbpCipher extends CipherSpi {
 
-    private static final byte[] IV2 = {
-        (byte) 0x4a, (byte) 0xdd, (byte) 0xa2, (byte) 0x2c,
+    privbte stbtic finbl byte[] IV2 = {
+        (byte) 0x4b, (byte) 0xdd, (byte) 0xb2, (byte) 0x2c,
         (byte) 0x79, (byte) 0xe8, (byte) 0x21, (byte) 0x05
     };
 
-    private static final int CHECKSUM_LEN = 8;
-    private static final int IV_LEN = 8;
+    privbte stbtic finbl int CHECKSUM_LEN = 8;
+    privbte stbtic finbl int IV_LEN = 8;
 
     /*
-     * internal cipher object which does the real work.
+     * internbl cipher object which does the rebl work.
      */
-    private FeedbackCipher cipher;
+    privbte FeedbbckCipher cipher;
 
     /*
-     * iv for (re-)initializing the internal cipher object.
+     * iv for (re-)initiblizing the internbl cipher object.
      */
-    private byte[] iv = null;
+    privbte byte[] iv = null;
 
     /*
-     * key for re-initializing the internal cipher object.
+     * key for re-initiblizing the internbl cipher object.
      */
-    private Key cipherKey = null;
+    privbte Key cipherKey = null;
 
     /*
-     * are we encrypting or decrypting?
+     * bre we encrypting or decrypting?
      */
-    private boolean decrypting = false;
+    privbte boolebn decrypting = fblse;
 
     /**
-     * Creates an instance of CMS DESede KeyWrap cipher with default
-     * mode, i.e. "CBC" and padding scheme, i.e. "NoPadding".
+     * Crebtes bn instbnce of CMS DESede KeyWrbp cipher with defbult
+     * mode, i.e. "CBC" bnd pbdding scheme, i.e. "NoPbdding".
      */
-    public DESedeWrapCipher() {
-        cipher = new CipherBlockChaining(new DESedeCrypt());
+    public DESedeWrbpCipher() {
+        cipher = new CipherBlockChbining(new DESedeCrypt());
     }
 
     /**
-     * Sets the mode of this cipher. Only "CBC" mode is accepted for this
+     * Sets the mode of this cipher. Only "CBC" mode is bccepted for this
      * cipher.
      *
-     * @param mode the cipher mode.
+     * @pbrbm mode the cipher mode.
      *
      * @exception NoSuchAlgorithmException if the requested cipher mode
      * is not "CBC".
      */
     protected void engineSetMode(String mode)
         throws NoSuchAlgorithmException {
-        if (!mode.equalsIgnoreCase("CBC")) {
-            throw new NoSuchAlgorithmException(mode + " cannot be used");
+        if (!mode.equblsIgnoreCbse("CBC")) {
+            throw new NoSuchAlgorithmException(mode + " cbnnot be used");
         }
     }
 
     /**
-     * Sets the padding mechanism of this cipher. Only "NoPadding" schmem
-     * is accepted for this cipher.
+     * Sets the pbdding mechbnism of this cipher. Only "NoPbdding" schmem
+     * is bccepted for this cipher.
      *
-     * @param padding the padding mechanism.
+     * @pbrbm pbdding the pbdding mechbnism.
      *
-     * @exception NoSuchPaddingException if the requested padding mechanism
-     * is not "NoPadding".
+     * @exception NoSuchPbddingException if the requested pbdding mechbnism
+     * is not "NoPbdding".
      */
-    protected void engineSetPadding(String padding)
-        throws NoSuchPaddingException {
-        if (!padding.equalsIgnoreCase("NoPadding")) {
-            throw new NoSuchPaddingException(padding + " cannot be used");
+    protected void engineSetPbdding(String pbdding)
+        throws NoSuchPbddingException {
+        if (!pbdding.equblsIgnoreCbse("NoPbdding")) {
+            throw new NoSuchPbddingException(pbdding + " cbnnot be used");
         }
     }
 
@@ -119,23 +119,23 @@ public final class DESedeWrapCipher extends CipherSpi {
      * @return the block size (in bytes), i.e. 8 bytes.
      */
     protected int engineGetBlockSize() {
-        return DESConstants.DES_BLOCK_SIZE;
+        return DESConstbnts.DES_BLOCK_SIZE;
     }
 
     /**
-     * Returns the length in bytes that an output buffer would need to be
+     * Returns the length in bytes thbt bn output buffer would need to be
      * given the input length <code>inputLen</code> (in bytes).
      *
-     * <p>The actual output length of the next <code>update</code> or
-     * <code>doFinal</code> call may be smaller than the length returned
+     * <p>The bctubl output length of the next <code>updbte</code> or
+     * <code>doFinbl</code> cbll mby be smbller thbn the length returned
      * by this method.
      *
-     * @param inputLen the input length (in bytes).
+     * @pbrbm inputLen the input length (in bytes).
      *
      * @return the required output buffer size (in bytes).
      */
     protected int engineGetOutputSize(int inputLen) {
-        // can only return an upper-limit if not initialized yet.
+        // cbn only return bn upper-limit if not initiblized yet.
         int result = 0;
         if (decrypting) {
             result = inputLen - 16; // CHECKSUM_LEN + IV_LEN;
@@ -146,10 +146,10 @@ public final class DESedeWrapCipher extends CipherSpi {
     }
 
     /**
-     * Returns the initialization vector (IV) in a new buffer.
+     * Returns the initiblizbtion vector (IV) in b new buffer.
      *
-     * @return the initialization vector, or null if the underlying
-     * algorithm does not use an IV, or if the IV has not yet
+     * @return the initiblizbtion vector, or null if the underlying
+     * blgorithm does not use bn IV, or if the IV hbs not yet
      * been set.
      */
     protected byte[] engineGetIV() {
@@ -157,91 +157,91 @@ public final class DESedeWrapCipher extends CipherSpi {
     }
 
     /**
-     * Initializes this cipher with a key and a source of randomness.
+     * Initiblizes this cipher with b key bnd b source of rbndomness.
      *
-     * <p>The cipher only supports the following two operation modes:<b>
-     * Cipher.WRAP_MODE, and <b>
+     * <p>The cipher only supports the following two operbtion modes:<b>
+     * Cipher.WRAP_MODE, bnd <b>
      * Cipher.UNWRAP_MODE.
-     * <p>For modes other than the above two, UnsupportedOperationException
+     * <p>For modes other thbn the bbove two, UnsupportedOperbtionException
      * will be thrown.
-     * <p>If this cipher requires an initialization vector (IV), it will get
-     * it from <code>random</code>.
+     * <p>If this cipher requires bn initiblizbtion vector (IV), it will get
+     * it from <code>rbndom</code>.
      *
-     * @param opmode the operation mode of this cipher. Only
-     * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>) are accepted.
-     * @param key the secret key.
-     * @param random the source of randomness.
+     * @pbrbm opmode the operbtion mode of this cipher. Only
+     * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>) bre bccepted.
+     * @pbrbm key the secret key.
+     * @pbrbm rbndom the source of rbndomness.
      *
-     * @exception InvalidKeyException if the given key is inappropriate
-     * or if parameters are required but not supplied.
+     * @exception InvblidKeyException if the given key is inbppropribte
+     * or if pbrbmeters bre required but not supplied.
      */
-    protected void engineInit(int opmode, Key key, SecureRandom random)
-        throws InvalidKeyException {
+    protected void engineInit(int opmode, Key key, SecureRbndom rbndom)
+        throws InvblidKeyException {
         try {
-            engineInit(opmode, key, (AlgorithmParameterSpec) null, random);
-        } catch (InvalidAlgorithmParameterException iape) {
-            // should never happen
-            InvalidKeyException ike =
-                new InvalidKeyException("Parameters required");
-            ike.initCause(iape);
+            engineInit(opmode, key, (AlgorithmPbrbmeterSpec) null, rbndom);
+        } cbtch (InvblidAlgorithmPbrbmeterException ibpe) {
+            // should never hbppen
+            InvblidKeyException ike =
+                new InvblidKeyException("Pbrbmeters required");
+            ike.initCbuse(ibpe);
             throw ike;
         }
     }
 
     /**
-     * Initializes this cipher with a key, a set of algorithm parameters,
-     * and a source of randomness.
+     * Initiblizes this cipher with b key, b set of blgorithm pbrbmeters,
+     * bnd b source of rbndomness.
      *
-     * <p>The cipher only supports the following two operation modes:<b>
-     * Cipher.WRAP_MODE, and <b>
+     * <p>The cipher only supports the following two operbtion modes:<b>
+     * Cipher.WRAP_MODE, bnd <b>
      * Cipher.UNWRAP_MODE.
-     * <p>For modes other than the above two, UnsupportedOperationException
+     * <p>For modes other thbn the bbove two, UnsupportedOperbtionException
      * will be thrown.
-     * <p>If this cipher requires an initialization vector (IV), it will get
-     * it from <code>random</code>.
+     * <p>If this cipher requires bn initiblizbtion vector (IV), it will get
+     * it from <code>rbndom</code>.
      *
-     * @param opmode the operation mode of this cipher. Only
-     * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>) are accepted.
-     * @param key the secret key.
-     * @param params the algorithm parameters.
-     * @param random the source of randomness.
+     * @pbrbm opmode the operbtion mode of this cipher. Only
+     * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>) bre bccepted.
+     * @pbrbm key the secret key.
+     * @pbrbm pbrbms the blgorithm pbrbmeters.
+     * @pbrbm rbndom the source of rbndomness.
      *
-     * @exception InvalidKeyException if the given key is inappropriate.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this cipher.
+     * @exception InvblidKeyException if the given key is inbppropribte.
+     * @exception InvblidAlgorithmPbrbmeterException if the given blgorithm
+     * pbrbmeters bre inbppropribte for this cipher.
      */
     protected void engineInit(int opmode, Key key,
-                              AlgorithmParameterSpec params,
-                              SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
+                              AlgorithmPbrbmeterSpec pbrbms,
+                              SecureRbndom rbndom)
+        throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
         byte[] currIv = null;
         if (opmode == Cipher.WRAP_MODE) {
-            decrypting = false;
-            if (params == null) {
+            decrypting = fblse;
+            if (pbrbms == null) {
                 iv = new byte[IV_LEN];
-                if (random == null) {
-                    random = SunJCE.getRandom();
+                if (rbndom == null) {
+                    rbndom = SunJCE.getRbndom();
                 }
-                random.nextBytes(iv);
+                rbndom.nextBytes(iv);
             }
-            else if (params instanceof IvParameterSpec) {
-                iv = ((IvParameterSpec) params).getIV();
+            else if (pbrbms instbnceof IvPbrbmeterSpec) {
+                iv = ((IvPbrbmeterSpec) pbrbms).getIV();
             } else {
-                throw new InvalidAlgorithmParameterException
-                    ("Wrong parameter type: IV expected");
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("Wrong pbrbmeter type: IV expected");
             }
             currIv = iv;
         } else if (opmode == Cipher.UNWRAP_MODE) {
-            if (params != null) {
-                throw new InvalidAlgorithmParameterException
-                    ("No parameter accepted for unwrapping keys");
+            if (pbrbms != null) {
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("No pbrbmeter bccepted for unwrbpping keys");
             }
             iv = null;
             decrypting = true;
             currIv = IV2;
         } else {
-            throw new UnsupportedOperationException("This cipher can " +
-                "only be used for key wrapping and unwrapping");
+            throw new UnsupportedOperbtionException("This cipher cbn " +
+                "only be used for key wrbpping bnd unwrbpping");
         }
         cipher.init(decrypting, key.getAlgorithm(), key.getEncoded(),
                     currIv);
@@ -249,178 +249,178 @@ public final class DESedeWrapCipher extends CipherSpi {
     }
 
     /**
-     * Initializes this cipher with a key, a set of algorithm parameters,
-     * and a source of randomness.
+     * Initiblizes this cipher with b key, b set of blgorithm pbrbmeters,
+     * bnd b source of rbndomness.
      *
-     * <p>The cipher only supports the following two operation modes:<b>
-     * Cipher.WRAP_MODE, and <b>
+     * <p>The cipher only supports the following two operbtion modes:<b>
+     * Cipher.WRAP_MODE, bnd <b>
      * Cipher.UNWRAP_MODE.
-     * <p>For modes other than the above two, UnsupportedOperationException
+     * <p>For modes other thbn the bbove two, UnsupportedOperbtionException
      * will be thrown.
-     * <p>If this cipher requires an initialization vector (IV), it will get
-     * it from <code>random</code>.
+     * <p>If this cipher requires bn initiblizbtion vector (IV), it will get
+     * it from <code>rbndom</code>.
      *
-     * @param opmode the operation mode of this cipher. Only
-     * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>) are accepted.
-     * @param key the secret key.
-     * @param params the algorithm parameters.
-     * @param random the source of randomness.
+     * @pbrbm opmode the operbtion mode of this cipher. Only
+     * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>) bre bccepted.
+     * @pbrbm key the secret key.
+     * @pbrbm pbrbms the blgorithm pbrbmeters.
+     * @pbrbm rbndom the source of rbndomness.
      *
-     * @exception InvalidKeyException if the given key is inappropriate.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this cipher.
+     * @exception InvblidKeyException if the given key is inbppropribte.
+     * @exception InvblidAlgorithmPbrbmeterException if the given blgorithm
+     * pbrbmeters bre inbppropribte for this cipher.
      */
     protected void engineInit(int opmode, Key key,
-                              AlgorithmParameters params,
-                              SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
-        IvParameterSpec ivSpec = null;
-        if (params != null) {
+                              AlgorithmPbrbmeters pbrbms,
+                              SecureRbndom rbndom)
+        throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+        IvPbrbmeterSpec ivSpec = null;
+        if (pbrbms != null) {
             try {
-                DESedeParameters paramsEng = new DESedeParameters();
-                paramsEng.engineInit(params.getEncoded());
-                ivSpec = paramsEng.engineGetParameterSpec(IvParameterSpec.class);
-            } catch (Exception ex) {
-                InvalidAlgorithmParameterException iape =
-                    new InvalidAlgorithmParameterException
-                        ("Wrong parameter type: IV expected");
-                iape.initCause(ex);
-                throw iape;
+                DESedePbrbmeters pbrbmsEng = new DESedePbrbmeters();
+                pbrbmsEng.engineInit(pbrbms.getEncoded());
+                ivSpec = pbrbmsEng.engineGetPbrbmeterSpec(IvPbrbmeterSpec.clbss);
+            } cbtch (Exception ex) {
+                InvblidAlgorithmPbrbmeterException ibpe =
+                    new InvblidAlgorithmPbrbmeterException
+                        ("Wrong pbrbmeter type: IV expected");
+                ibpe.initCbuse(ex);
+                throw ibpe;
             }
         }
-        engineInit(opmode, key, ivSpec, random);
+        engineInit(opmode, key, ivSpec, rbndom);
     }
 
     /**
-     * This operation is not supported by this cipher.
-     * Since it's impossible to initialize this cipher given the
-     * current Cipher.engineInit(...) implementation,
-     * IllegalStateException will always be thrown upon invocation.
+     * This operbtion is not supported by this cipher.
+     * Since it's impossible to initiblize this cipher given the
+     * current Cipher.engineInit(...) implementbtion,
+     * IllegblStbteException will blwbys be thrown upon invocbtion.
      *
-     * @param in the input buffer.
-     * @param inOffset the offset in <code>in</code> where the input
-     * starts.
-     * @param inLen the input length.
+     * @pbrbm in the input buffer.
+     * @pbrbm inOffset the offset in <code>in</code> where the input
+     * stbrts.
+     * @pbrbm inLen the input length.
      *
-     * @return n/a.
+     * @return n/b.
      *
-     * @exception IllegalStateException upon invocation of this method.
+     * @exception IllegblStbteException upon invocbtion of this method.
      */
-    protected byte[] engineUpdate(byte[] in, int inOffset, int inLen) {
-        throw new IllegalStateException("Cipher has not been initialized");
+    protected byte[] engineUpdbte(byte[] in, int inOffset, int inLen) {
+        throw new IllegblStbteException("Cipher hbs not been initiblized");
     }
 
     /**
-     * This operation is not supported by this cipher.
-     * Since it's impossible to initialize this cipher given the
-     * current Cipher.engineInit(...) implementation,
-     * IllegalStateException will always be thrown upon invocation.
+     * This operbtion is not supported by this cipher.
+     * Since it's impossible to initiblize this cipher given the
+     * current Cipher.engineInit(...) implementbtion,
+     * IllegblStbteException will blwbys be thrown upon invocbtion.
      *
-     * @param in the input buffer.
-     * @param inOffset the offset in <code>in</code> where the input
-     * starts.
-     * @param inLen the input length.
-     * @param out the buffer for the result.
-     * @param outOffset the offset in <code>out</code> where the result
+     * @pbrbm in the input buffer.
+     * @pbrbm inOffset the offset in <code>in</code> where the input
+     * stbrts.
+     * @pbrbm inLen the input length.
+     * @pbrbm out the buffer for the result.
+     * @pbrbm outOffset the offset in <code>out</code> where the result
      * is stored.
      *
-     * @return n/a.
+     * @return n/b.
      *
-     * @exception IllegalStateException upon invocation of this method.
+     * @exception IllegblStbteException upon invocbtion of this method.
      */
-    protected int engineUpdate(byte[] in, int inOffset, int inLen,
+    protected int engineUpdbte(byte[] in, int inOffset, int inLen,
                                byte[] out, int outOffset)
         throws ShortBufferException {
-        throw new IllegalStateException("Cipher has not been initialized");
+        throw new IllegblStbteException("Cipher hbs not been initiblized");
     }
 
     /**
-     * This operation is not supported by this cipher.
-     * Since it's impossible to initialize this cipher given the
-     * current Cipher.engineInit(...) implementation,
-     * IllegalStateException will always be thrown upon invocation.
+     * This operbtion is not supported by this cipher.
+     * Since it's impossible to initiblize this cipher given the
+     * current Cipher.engineInit(...) implementbtion,
+     * IllegblStbteException will blwbys be thrown upon invocbtion.
      *
-     * @param in the input buffer.
-     * @param inOffset the offset in <code>in</code> where the input
-     * starts.
-     * @param inLen the input length.
+     * @pbrbm in the input buffer.
+     * @pbrbm inOffset the offset in <code>in</code> where the input
+     * stbrts.
+     * @pbrbm inLen the input length.
      *
      * @return the new buffer with the result.
      *
-     * @exception IllegalStateException upon invocation of this method.
+     * @exception IllegblStbteException upon invocbtion of this method.
      */
-    protected byte[] engineDoFinal(byte[] in, int inOffset, int inLen)
-        throws IllegalBlockSizeException, BadPaddingException {
-        throw new IllegalStateException("Cipher has not been initialized");
+    protected byte[] engineDoFinbl(byte[] in, int inOffset, int inLen)
+        throws IllegblBlockSizeException, BbdPbddingException {
+        throw new IllegblStbteException("Cipher hbs not been initiblized");
     }
 
     /**
-     * This operation is not supported by this cipher.
-     * Since it's impossible to initialize this cipher given the
-     * current Cipher.engineInit(...) implementation,
-     * IllegalStateException will always be thrown upon invocation.
+     * This operbtion is not supported by this cipher.
+     * Since it's impossible to initiblize this cipher given the
+     * current Cipher.engineInit(...) implementbtion,
+     * IllegblStbteException will blwbys be thrown upon invocbtion.
      *
-     * @param in the input buffer.
-     * @param inOffset the offset in <code>in</code> where the input
-     * starts.
-     * @param inLen the input length.
-     * @param out the buffer for the result.
-     * @param outOffset the ofset in <code>out</code> where the result
+     * @pbrbm in the input buffer.
+     * @pbrbm inOffset the offset in <code>in</code> where the input
+     * stbrts.
+     * @pbrbm inLen the input length.
+     * @pbrbm out the buffer for the result.
+     * @pbrbm outOffset the ofset in <code>out</code> where the result
      * is stored.
      *
      * @return the number of bytes stored in <code>out</code>.
      *
-     * @exception IllegalStateException upon invocation of this method.
+     * @exception IllegblStbteException upon invocbtion of this method.
      */
-    protected int engineDoFinal(byte[] input, int inputOffset, int inputLen,
+    protected int engineDoFinbl(byte[] input, int inputOffset, int inputLen,
                                 byte[] output, int outputOffset)
-        throws IllegalBlockSizeException, ShortBufferException,
-               BadPaddingException {
-        throw new IllegalStateException("Cipher has not been initialized");
+        throws IllegblBlockSizeException, ShortBufferException,
+               BbdPbddingException {
+        throw new IllegblStbteException("Cipher hbs not been initiblized");
     }
 
     /**
-     * Returns the parameters used with this cipher.
-     * Note that null maybe returned if this cipher does not use any
-     * parameters or when it has not be set, e.g. initialized with
-     * UNWRAP_MODE but wrapped key data has not been given.
+     * Returns the pbrbmeters used with this cipher.
+     * Note thbt null mbybe returned if this cipher does not use bny
+     * pbrbmeters or when it hbs not be set, e.g. initiblized with
+     * UNWRAP_MODE but wrbpped key dbtb hbs not been given.
      *
-     * @return the parameters used with this cipher; can be null.
+     * @return the pbrbmeters used with this cipher; cbn be null.
      */
-    protected AlgorithmParameters engineGetParameters() {
-        AlgorithmParameters params = null;
+    protected AlgorithmPbrbmeters engineGetPbrbmeters() {
+        AlgorithmPbrbmeters pbrbms = null;
         if (iv != null) {
-            String algo = cipherKey.getAlgorithm();
+            String blgo = cipherKey.getAlgorithm();
             try {
-                params = AlgorithmParameters.getInstance(algo,
-                    SunJCE.getInstance());
-                params.init(new IvParameterSpec(iv));
-            } catch (NoSuchAlgorithmException nsae) {
-                // should never happen
-                throw new RuntimeException("Cannot find " + algo +
-                    " AlgorithmParameters implementation in SunJCE provider");
-            } catch (InvalidParameterSpecException ipse) {
-                // should never happen
-                throw new RuntimeException("IvParameterSpec not supported");
+                pbrbms = AlgorithmPbrbmeters.getInstbnce(blgo,
+                    SunJCE.getInstbnce());
+                pbrbms.init(new IvPbrbmeterSpec(iv));
+            } cbtch (NoSuchAlgorithmException nsbe) {
+                // should never hbppen
+                throw new RuntimeException("Cbnnot find " + blgo +
+                    " AlgorithmPbrbmeters implementbtion in SunJCE provider");
+            } cbtch (InvblidPbrbmeterSpecException ipse) {
+                // should never hbppen
+                throw new RuntimeException("IvPbrbmeterSpec not supported");
             }
         }
-        return params;
+        return pbrbms;
     }
 
     /**
      * Returns the key size of the given key object in number of bits.
-     * This cipher always return the same key size as the DESede ciphers.
+     * This cipher blwbys return the sbme key size bs the DESede ciphers.
      *
-     * @param key the key object.
+     * @pbrbm key the key object.
      *
      * @return the "effective" key size of the given key object.
      *
-     * @exception InvalidKeyException if <code>key</code> is invalid.
+     * @exception InvblidKeyException if <code>key</code> is invblid.
      */
-    protected int engineGetKeySize(Key key) throws InvalidKeyException {
+    protected int engineGetKeySize(Key key) throws InvblidKeyException {
         byte[] encoded = key.getEncoded();
         if (encoded.length != 24) {
-            throw new InvalidKeyException("Invalid key length: " +
+            throw new InvblidKeyException("Invblid key length: " +
                 encoded.length + " bytes");
         }
         // Return the effective key length
@@ -428,140 +428,140 @@ public final class DESedeWrapCipher extends CipherSpi {
     }
 
     /**
-     * Wrap a key.
+     * Wrbp b key.
      *
-     * @param key the key to be wrapped.
+     * @pbrbm key the key to be wrbpped.
      *
-     * @return the wrapped key.
+     * @return the wrbpped key.
      *
-     * @exception IllegalBlockSizeException if this cipher is a block
-     * cipher, no padding has been requested, and the length of the
-     * encoding of the key to be wrapped is not a
+     * @exception IllegblBlockSizeException if this cipher is b block
+     * cipher, no pbdding hbs been requested, bnd the length of the
+     * encoding of the key to be wrbpped is not b
      * multiple of the block size.
      *
-     * @exception InvalidKeyException if it is impossible or unsafe to
-     * wrap the key with this cipher (e.g., a hardware protected key is
-     * being passed to a software only cipher).
+     * @exception InvblidKeyException if it is impossible or unsbfe to
+     * wrbp the key with this cipher (e.g., b hbrdwbre protected key is
+     * being pbssed to b softwbre only cipher).
      */
-    protected byte[] engineWrap(Key key)
-        throws IllegalBlockSizeException, InvalidKeyException {
-        byte[] keyVal = key.getEncoded();
-        if ((keyVal == null) || (keyVal.length == 0)) {
-            throw new InvalidKeyException("Cannot get an encoding of " +
-                                          "the key to be wrapped");
+    protected byte[] engineWrbp(Key key)
+        throws IllegblBlockSizeException, InvblidKeyException {
+        byte[] keyVbl = key.getEncoded();
+        if ((keyVbl == null) || (keyVbl.length == 0)) {
+            throw new InvblidKeyException("Cbnnot get bn encoding of " +
+                                          "the key to be wrbpped");
         }
 
-        byte[] cks = getChecksum(keyVal);
-        byte[] in = new byte[keyVal.length + CHECKSUM_LEN];
-        System.arraycopy(keyVal, 0, in, 0, keyVal.length);
-        System.arraycopy(cks, 0, in, keyVal.length, CHECKSUM_LEN);
+        byte[] cks = getChecksum(keyVbl);
+        byte[] in = new byte[keyVbl.length + CHECKSUM_LEN];
+        System.brrbycopy(keyVbl, 0, in, 0, keyVbl.length);
+        System.brrbycopy(cks, 0, in, keyVbl.length, CHECKSUM_LEN);
 
         byte[] out = new byte[iv.length + in.length];
-        System.arraycopy(iv, 0, out, 0, iv.length);
+        System.brrbycopy(iv, 0, out, 0, iv.length);
 
         cipher.encrypt(in, 0, in.length, out, iv.length);
 
-        // reverse the array content
+        // reverse the brrby content
         for (int i = 0; i < out.length/2; i++) {
             byte temp = out[i];
             out[i] = out[out.length-1-i];
             out[out.length-1-i] = temp;
         }
         try {
-            cipher.init(false, cipherKey.getAlgorithm(),
+            cipher.init(fblse, cipherKey.getAlgorithm(),
                         cipherKey.getEncoded(), IV2);
-        } catch (InvalidKeyException ike) {
-            // should never happen
-            throw new RuntimeException("Internal cipher key is corrupted");
+        } cbtch (InvblidKeyException ike) {
+            // should never hbppen
+            throw new RuntimeException("Internbl cipher key is corrupted");
         }
         byte[] out2 = new byte[out.length];
         cipher.encrypt(out, 0, out.length, out2, 0);
 
-        // restore cipher state to prior to this call
+        // restore cipher stbte to prior to this cbll
         try {
             cipher.init(decrypting, cipherKey.getAlgorithm(),
                         cipherKey.getEncoded(), iv);
-        } catch (InvalidKeyException ike) {
-            // should never happen
-            throw new RuntimeException("Internal cipher key is corrupted");
+        } cbtch (InvblidKeyException ike) {
+            // should never hbppen
+            throw new RuntimeException("Internbl cipher key is corrupted");
         }
         return out2;
     }
 
     /**
-     * Unwrap a previously wrapped key.
+     * Unwrbp b previously wrbpped key.
      *
-     * @param wrappedKey the key to be unwrapped.
+     * @pbrbm wrbppedKey the key to be unwrbpped.
      *
-     * @param wrappedKeyAlgorithm the algorithm the wrapped key is for.
+     * @pbrbm wrbppedKeyAlgorithm the blgorithm the wrbpped key is for.
      *
-     * @param wrappedKeyType the type of the wrapped key.
+     * @pbrbm wrbppedKeyType the type of the wrbpped key.
      * This is one of <code>Cipher.SECRET_KEY</code>,
      * <code>Cipher.PRIVATE_KEY</code>, or <code>Cipher.PUBLIC_KEY</code>.
      *
-     * @return the unwrapped key.
+     * @return the unwrbpped key.
      *
-     * @exception NoSuchAlgorithmException if no installed providers
-     * can create keys of type <code>wrappedKeyType</code> for the
-     * <code>wrappedKeyAlgorithm</code>.
+     * @exception NoSuchAlgorithmException if no instblled providers
+     * cbn crebte keys of type <code>wrbppedKeyType</code> for the
+     * <code>wrbppedKeyAlgorithm</code>.
      *
-     * @exception InvalidKeyException if <code>wrappedKey</code> does not
-     * represent a wrapped key of type <code>wrappedKeyType</code> for
-     * the <code>wrappedKeyAlgorithm</code>.
+     * @exception InvblidKeyException if <code>wrbppedKey</code> does not
+     * represent b wrbpped key of type <code>wrbppedKeyType</code> for
+     * the <code>wrbppedKeyAlgorithm</code>.
      */
-    protected Key engineUnwrap(byte[] wrappedKey,
-                               String wrappedKeyAlgorithm,
-                               int wrappedKeyType)
-        throws InvalidKeyException, NoSuchAlgorithmException {
-        if (wrappedKey.length == 0) {
-            throw new InvalidKeyException("The wrapped key is empty");
+    protected Key engineUnwrbp(byte[] wrbppedKey,
+                               String wrbppedKeyAlgorithm,
+                               int wrbppedKeyType)
+        throws InvblidKeyException, NoSuchAlgorithmException {
+        if (wrbppedKey.length == 0) {
+            throw new InvblidKeyException("The wrbpped key is empty");
         }
-        byte[] buffer = new byte[wrappedKey.length];
-        cipher.decrypt(wrappedKey, 0, wrappedKey.length, buffer, 0);
+        byte[] buffer = new byte[wrbppedKey.length];
+        cipher.decrypt(wrbppedKey, 0, wrbppedKey.length, buffer, 0);
 
-        // reverse array content
+        // reverse brrby content
         for (int i = 0; i < buffer.length/2; i++) {
             byte temp = buffer[i];
             buffer[i] = buffer[buffer.length-1-i];
             buffer[buffer.length-1-i] = temp;
         }
         iv = new byte[IV_LEN];
-        System.arraycopy(buffer, 0, iv, 0, iv.length);
+        System.brrbycopy(buffer, 0, iv, 0, iv.length);
         cipher.init(true, cipherKey.getAlgorithm(), cipherKey.getEncoded(),
                     iv);
         byte[] buffer2 = new byte[buffer.length - iv.length];
         cipher.decrypt(buffer, iv.length, buffer2.length,
                        buffer2, 0);
-        int keyValLen = buffer2.length - CHECKSUM_LEN;
-        byte[] cks = getChecksum(buffer2, 0, keyValLen);
-        int offset = keyValLen;
+        int keyVblLen = buffer2.length - CHECKSUM_LEN;
+        byte[] cks = getChecksum(buffer2, 0, keyVblLen);
+        int offset = keyVblLen;
         for (int i = 0; i < CHECKSUM_LEN; i++) {
             if (buffer2[offset + i] != cks[i]) {
-                throw new InvalidKeyException("Checksum comparison failed");
+                throw new InvblidKeyException("Checksum compbrison fbiled");
             }
         }
-        // restore cipher state to prior to this call
+        // restore cipher stbte to prior to this cbll
         cipher.init(decrypting, cipherKey.getAlgorithm(),
                     cipherKey.getEncoded(), IV2);
-        byte[] out = new byte[keyValLen];
-        System.arraycopy(buffer2, 0, out, 0, keyValLen);
-        return ConstructKeys.constructKey(out, wrappedKeyAlgorithm,
-                                          wrappedKeyType);
+        byte[] out = new byte[keyVblLen];
+        System.brrbycopy(buffer2, 0, out, 0, keyVblLen);
+        return ConstructKeys.constructKey(out, wrbppedKeyAlgorithm,
+                                          wrbppedKeyType);
     }
 
-    private static final byte[] getChecksum(byte[] in) {
+    privbte stbtic finbl byte[] getChecksum(byte[] in) {
         return getChecksum(in, 0, in.length);
     }
-    private static final byte[] getChecksum(byte[] in, int offset, int len) {
-        MessageDigest md = null;
+    privbte stbtic finbl byte[] getChecksum(byte[] in, int offset, int len) {
+        MessbgeDigest md = null;
         try {
-            md = MessageDigest.getInstance("SHA1");
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new RuntimeException("SHA1 message digest not available");
+            md = MessbgeDigest.getInstbnce("SHA1");
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new RuntimeException("SHA1 messbge digest not bvbilbble");
         }
-        md.update(in, offset, len);
+        md.updbte(in, offset, len);
         byte[] cks = new byte[CHECKSUM_LEN];
-        System.arraycopy(md.digest(), 0, cks, 0, cks.length);
+        System.brrbycopy(md.digest(), 0, cks, 0, cks.length);
         return cks;
     }
 }

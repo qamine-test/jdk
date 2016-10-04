@@ -1,459 +1,459 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
 /**
- * An input stream that contains a stream of values representing an
- * instance of an SQL structured type or an SQL distinct type.
- * This interface, used only for custom mapping, is used by the driver
- * behind the scenes, and a programmer never directly invokes
- * <code>SQLInput</code> methods. The <i>reader</i> methods
- * (<code>readLong</code>, <code>readBytes</code>, and so on)
- * provide a way  for an implementation of the <code>SQLData</code>
- *  interface to read the values in an <code>SQLInput</code> object.
- *  And as described in <code>SQLData</code>, calls to reader methods must
- * be made in the order that their corresponding attributes appear in the
+ * An input strebm thbt contbins b strebm of vblues representing bn
+ * instbnce of bn SQL structured type or bn SQL distinct type.
+ * This interfbce, used only for custom mbpping, is used by the driver
+ * behind the scenes, bnd b progrbmmer never directly invokes
+ * <code>SQLInput</code> methods. The <i>rebder</i> methods
+ * (<code>rebdLong</code>, <code>rebdBytes</code>, bnd so on)
+ * provide b wby  for bn implementbtion of the <code>SQLDbtb</code>
+ *  interfbce to rebd the vblues in bn <code>SQLInput</code> object.
+ *  And bs described in <code>SQLDbtb</code>, cblls to rebder methods must
+ * be mbde in the order thbt their corresponding bttributes bppebr in the
  * SQL definition of the type.
- * The method <code>wasNull</code> is used to determine whether
- * the last value read was SQL <code>NULL</code>.
- * <P>When the method <code>getObject</code> is called with an
- * object of a class implementing the interface <code>SQLData</code>,
- * the JDBC driver calls the method <code>SQLData.getSQLType</code>
+ * The method <code>wbsNull</code> is used to determine whether
+ * the lbst vblue rebd wbs SQL <code>NULL</code>.
+ * <P>When the method <code>getObject</code> is cblled with bn
+ * object of b clbss implementing the interfbce <code>SQLDbtb</code>,
+ * the JDBC driver cblls the method <code>SQLDbtb.getSQLType</code>
  * to determine the SQL type of the user-defined type (UDT)
- * being custom mapped. The driver
- * creates an instance of <code>SQLInput</code>, populating it with the
- * attributes of the UDT.  The driver then passes the input
- * stream to the method <code>SQLData.readSQL</code>, which in turn
- * calls the <code>SQLInput</code> reader methods
- * in its implementation for reading the
- * attributes from the input stream.
+ * being custom mbpped. The driver
+ * crebtes bn instbnce of <code>SQLInput</code>, populbting it with the
+ * bttributes of the UDT.  The driver then pbsses the input
+ * strebm to the method <code>SQLDbtb.rebdSQL</code>, which in turn
+ * cblls the <code>SQLInput</code> rebder methods
+ * in its implementbtion for rebding the
+ * bttributes from the input strebm.
  * @since 1.2
  */
 
-public interface SQLInput {
+public interfbce SQLInput {
 
 
     //================================================================
-    // Methods for reading attributes from the stream of SQL data.
-    // These methods correspond to the column-accessor methods of
-    // java.sql.ResultSet.
+    // Methods for rebding bttributes from the strebm of SQL dbtb.
+    // These methods correspond to the column-bccessor methods of
+    // jbvb.sql.ResultSet.
     //================================================================
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>String</code>
-     * in the Java programming language.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>String</code>
+     * in the Jbvb progrbmming lbngubge.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    String readString() throws SQLException;
+    String rebdString() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>boolean</code>
-     * in the Java programming language.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>boolebn</code>
+     * in the Jbvb progrbmming lbngubge.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>false</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>fblse</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    boolean readBoolean() throws SQLException;
+    boolebn rebdBoolebn() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>byte</code>
-     * in the Java programming language.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>byte</code>
+     * in the Jbvb progrbmming lbngubge.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>0</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>0</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    byte readByte() throws SQLException;
+    byte rebdByte() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>short</code>
-     * in the Java programming language.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>short</code>
+     * in the Jbvb progrbmming lbngubge.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>0</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>0</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    short readShort() throws SQLException;
+    short rebdShort() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as an <code>int</code>
-     * in the Java programming language.
+     * Rebds the next bttribute in the strebm bnd returns it bs bn <code>int</code>
+     * in the Jbvb progrbmming lbngubge.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>0</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>0</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    int readInt() throws SQLException;
+    int rebdInt() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>long</code>
-     * in the Java programming language.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>long</code>
+     * in the Jbvb progrbmming lbngubge.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>0</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>0</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    long readLong() throws SQLException;
+    long rebdLong() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>float</code>
-     * in the Java programming language.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>flobt</code>
+     * in the Jbvb progrbmming lbngubge.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>0</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>0</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    float readFloat() throws SQLException;
+    flobt rebdFlobt() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>double</code>
-     * in the Java programming language.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>double</code>
+     * in the Jbvb progrbmming lbngubge.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>0</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>0</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    double readDouble() throws SQLException;
+    double rebdDouble() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>java.math.BigDecimal</code>
-     * object in the Java programming language.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>jbvb.mbth.BigDecimbl</code>
+     * object in the Jbvb progrbmming lbngubge.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    java.math.BigDecimal readBigDecimal() throws SQLException;
+    jbvb.mbth.BigDecimbl rebdBigDecimbl() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as an array of bytes
-     * in the Java programming language.
+     * Rebds the next bttribute in the strebm bnd returns it bs bn brrby of bytes
+     * in the Jbvb progrbmming lbngubge.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    byte[] readBytes() throws SQLException;
+    byte[] rebdBytes() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>java.sql.Date</code> object.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>jbvb.sql.Dbte</code> object.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    java.sql.Date readDate() throws SQLException;
+    jbvb.sql.Dbte rebdDbte() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>java.sql.Time</code> object.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>jbvb.sql.Time</code> object.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    java.sql.Time readTime() throws SQLException;
+    jbvb.sql.Time rebdTime() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>java.sql.Timestamp</code> object.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>jbvb.sql.Timestbmp</code> object.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    java.sql.Timestamp readTimestamp() throws SQLException;
+    jbvb.sql.Timestbmp rebdTimestbmp() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a stream of Unicode characters.
+     * Rebds the next bttribute in the strebm bnd returns it bs b strebm of Unicode chbrbcters.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    java.io.Reader readCharacterStream() throws SQLException;
+    jbvb.io.Rebder rebdChbrbcterStrebm() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a stream of ASCII characters.
+     * Rebds the next bttribute in the strebm bnd returns it bs b strebm of ASCII chbrbcters.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    java.io.InputStream readAsciiStream() throws SQLException;
+    jbvb.io.InputStrebm rebdAsciiStrebm() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a stream of uninterpreted
+     * Rebds the next bttribute in the strebm bnd returns it bs b strebm of uninterpreted
      * bytes.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    java.io.InputStream readBinaryStream() throws SQLException;
+    jbvb.io.InputStrebm rebdBinbryStrebm() throws SQLException;
 
     //================================================================
-    // Methods for reading items of SQL user-defined types from the stream.
+    // Methods for rebding items of SQL user-defined types from the strebm.
     //================================================================
 
     /**
-     * Reads the datum at the head of the stream and returns it as an
-     * <code>Object</code> in the Java programming language.  The
-     * actual type of the object returned is determined by the default type
-     * mapping, and any customizations present in this stream's type map.
+     * Rebds the dbtum bt the hebd of the strebm bnd returns it bs bn
+     * <code>Object</code> in the Jbvb progrbmming lbngubge.  The
+     * bctubl type of the object returned is determined by the defbult type
+     * mbpping, bnd bny customizbtions present in this strebm's type mbp.
      *
-     * <P>A type map is registered with the stream by the JDBC driver before the
-     * stream is passed to the application.
+     * <P>A type mbp is registered with the strebm by the JDBC driver before the
+     * strebm is pbssed to the bpplicbtion.
      *
-     * <P>When the datum at the head of the stream is an SQL <code>NULL</code>,
-     * the method returns <code>null</code>.  If the datum is an SQL structured or distinct
-     * type, it determines the SQL type of the datum at the head of the stream.
-     * If the stream's type map has an entry for that SQL type, the driver
-     * constructs an object of the appropriate class and calls the method
-     * <code>SQLData.readSQL</code> on that object, which reads additional data from the
-     * stream, using the protocol described for that method.
+     * <P>When the dbtum bt the hebd of the strebm is bn SQL <code>NULL</code>,
+     * the method returns <code>null</code>.  If the dbtum is bn SQL structured or distinct
+     * type, it determines the SQL type of the dbtum bt the hebd of the strebm.
+     * If the strebm's type mbp hbs bn entry for thbt SQL type, the driver
+     * constructs bn object of the bppropribte clbss bnd cblls the method
+     * <code>SQLDbtb.rebdSQL</code> on thbt object, which rebds bdditionbl dbtb from the
+     * strebm, using the protocol described for thbt method.
      *
-     * @return the datum at the head of the stream as an <code>Object</code> in the
-     * Java programming language;<code>null</code> if the datum is SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the dbtum bt the hebd of the strebm bs bn <code>Object</code> in the
+     * Jbvb progrbmming lbngubge;<code>null</code> if the dbtum is SQL <code>NULL</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    Object readObject() throws SQLException;
+    Object rebdObject() throws SQLException;
 
     /**
-     * Reads an SQL <code>REF</code> value from the stream and returns it as a
-     * <code>Ref</code> object in the Java programming language.
+     * Rebds bn SQL <code>REF</code> vblue from the strebm bnd returns it bs b
+     * <code>Ref</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @return a <code>Ref</code> object representing the SQL <code>REF</code> value
-     * at the head of the stream; <code>null</code> if the value read is
+     * @return b <code>Ref</code> object representing the SQL <code>REF</code> vblue
+     * bt the hebd of the strebm; <code>null</code> if the vblue rebd is
      * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    Ref readRef() throws SQLException;
+    Ref rebdRef() throws SQLException;
 
     /**
-     * Reads an SQL <code>BLOB</code> value from the stream and returns it as a
-     * <code>Blob</code> object in the Java programming language.
+     * Rebds bn SQL <code>BLOB</code> vblue from the strebm bnd returns it bs b
+     * <code>Blob</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @return a <code>Blob</code> object representing data of the SQL <code>BLOB</code> value
-     * at the head of the stream; <code>null</code> if the value read is
+     * @return b <code>Blob</code> object representing dbtb of the SQL <code>BLOB</code> vblue
+     * bt the hebd of the strebm; <code>null</code> if the vblue rebd is
      * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    Blob readBlob() throws SQLException;
+    Blob rebdBlob() throws SQLException;
 
     /**
-     * Reads an SQL <code>CLOB</code> value from the stream and returns it as a
-     * <code>Clob</code> object in the Java programming language.
+     * Rebds bn SQL <code>CLOB</code> vblue from the strebm bnd returns it bs b
+     * <code>Clob</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @return a <code>Clob</code> object representing data of the SQL <code>CLOB</code> value
-     * at the head of the stream; <code>null</code> if the value read is
+     * @return b <code>Clob</code> object representing dbtb of the SQL <code>CLOB</code> vblue
+     * bt the hebd of the strebm; <code>null</code> if the vblue rebd is
      * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    Clob readClob() throws SQLException;
+    Clob rebdClob() throws SQLException;
 
     /**
-     * Reads an SQL <code>ARRAY</code> value from the stream and returns it as an
-     * <code>Array</code> object in the Java programming language.
+     * Rebds bn SQL <code>ARRAY</code> vblue from the strebm bnd returns it bs bn
+     * <code>Arrby</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @return an <code>Array</code> object representing data of the SQL
-     * <code>ARRAY</code> value at the head of the stream; <code>null</code>
-     * if the value read is SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return bn <code>Arrby</code> object representing dbtb of the SQL
+     * <code>ARRAY</code> vblue bt the hebd of the strebm; <code>null</code>
+     * if the vblue rebd is SQL <code>NULL</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    Array readArray() throws SQLException;
+    Arrby rebdArrby() throws SQLException;
 
     /**
-     * Retrieves whether the last value read was SQL <code>NULL</code>.
+     * Retrieves whether the lbst vblue rebd wbs SQL <code>NULL</code>.
      *
-     * @return <code>true</code> if the most recently read SQL value was SQL
-     * <code>NULL</code>; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @return <code>true</code> if the most recently rebd SQL vblue wbs SQL
+     * <code>NULL</code>; <code>fblse</code> otherwise
+     * @exception SQLException if b dbtbbbse bccess error occurs
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    boolean wasNull() throws SQLException;
+    boolebn wbsNull() throws SQLException;
 
     //---------------------------- JDBC 3.0 -------------------------
 
     /**
-     * Reads an SQL <code>DATALINK</code> value from the stream and returns it as a
-     * <code>java.net.URL</code> object in the Java programming language.
+     * Rebds bn SQL <code>DATALINK</code> vblue from the strebm bnd returns it bs b
+     * <code>jbvb.net.URL</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @return a <code>java.net.URL</code> object.
-     * @exception SQLException if a database access error occurs,
-     *            or if a URL is malformed
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return b <code>jbvb.net.URL</code> object.
+     * @exception SQLException if b dbtbbbse bccess error occurs,
+     *            or if b URL is mblformed
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      */
-    java.net.URL readURL() throws SQLException;
+    jbvb.net.URL rebdURL() throws SQLException;
 
      //---------------------------- JDBC 4.0 -------------------------
 
     /**
-     * Reads an SQL <code>NCLOB</code> value from the stream and returns it as a
-     * <code>NClob</code> object in the Java programming language.
+     * Rebds bn SQL <code>NCLOB</code> vblue from the strebm bnd returns it bs b
+     * <code>NClob</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @return a <code>NClob</code> object representing data of the SQL <code>NCLOB</code> value
-     * at the head of the stream; <code>null</code> if the value read is
+     * @return b <code>NClob</code> object representing dbtb of the SQL <code>NCLOB</code> vblue
+     * bt the hebd of the strebm; <code>null</code> if the vblue rebd is
      * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    NClob readNClob() throws SQLException;
+    NClob rebdNClob() throws SQLException;
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>String</code>
-     * in the Java programming language. It is intended for use when
-     * accessing  <code>NCHAR</code>,<code>NVARCHAR</code>
-     * and <code>LONGNVARCHAR</code> columns.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>String</code>
+     * in the Jbvb progrbmming lbngubge. It is intended for use when
+     * bccessing  <code>NCHAR</code>,<code>NVARCHAR</code>
+     * bnd <code>LONGNVARCHAR</code> columns.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    String readNString() throws SQLException;
+    String rebdNString() throws SQLException;
 
     /**
-     * Reads an SQL <code>XML</code> value from the stream and returns it as a
-     * <code>SQLXML</code> object in the Java programming language.
+     * Rebds bn SQL <code>XML</code> vblue from the strebm bnd returns it bs b
+     * <code>SQLXML</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @return a <code>SQLXML</code> object representing data of the SQL <code>XML</code> value
-     * at the head of the stream; <code>null</code> if the value read is
+     * @return b <code>SQLXML</code> object representing dbtb of the SQL <code>XML</code> vblue
+     * bt the hebd of the strebm; <code>null</code> if the vblue rebd is
      * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    SQLXML readSQLXML() throws SQLException;
+    SQLXML rebdSQLXML() throws SQLException;
 
     /**
-     * Reads an SQL <code>ROWID</code> value from the stream and returns it as a
-     * <code>RowId</code> object in the Java programming language.
+     * Rebds bn SQL <code>ROWID</code> vblue from the strebm bnd returns it bs b
+     * <code>RowId</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @return a <code>RowId</code> object representing data of the SQL <code>ROWID</code> value
-     * at the head of the stream; <code>null</code> if the value read is
+     * @return b <code>RowId</code> object representing dbtb of the SQL <code>ROWID</code> vblue
+     * bt the hebd of the strebm; <code>null</code> if the vblue rebd is
      * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    RowId readRowId() throws SQLException;
+    RowId rebdRowId() throws SQLException;
 
     //--------------------------JDBC 4.2 -----------------------------
 
     /**
-     * Reads the next attribute in the stream and returns it as an
-     * {@code Object} in the Java programming language. The
-     * actual type of the object returned is determined by the specified
-     * Java data type, and any customizations present in this
-     * stream's type map.
+     * Rebds the next bttribute in the strebm bnd returns it bs bn
+     * {@code Object} in the Jbvb progrbmming lbngubge. The
+     * bctubl type of the object returned is determined by the specified
+     * Jbvb dbtb type, bnd bny customizbtions present in this
+     * strebm's type mbp.
      *
-     * <P>A type map is registered with the stream by the JDBC driver before the
-     * stream is passed to the application.
+     * <P>A type mbp is registered with the strebm by the JDBC driver before the
+     * strebm is pbssed to the bpplicbtion.
      *
-     * <P>When the attribute at the head of the stream is an SQL {@code NULL}
-     * the method returns {@code null}. If the attribute is an SQL
+     * <P>When the bttribute bt the hebd of the strebm is bn SQL {@code NULL}
+     * the method returns {@code null}. If the bttribute is bn SQL
      * structured or distinct
-     * type, it determines the SQL type of the attribute at the head of the stream.
-     * If the stream's type map has an entry for that SQL type, the driver
-     * constructs an object of the appropriate class and calls the method
-     * {@code SQLData.readSQL} on that object, which reads additional data from the
-     * stream, using the protocol described for that method.
+     * type, it determines the SQL type of the bttribute bt the hebd of the strebm.
+     * If the strebm's type mbp hbs bn entry for thbt SQL type, the driver
+     * constructs bn object of the bppropribte clbss bnd cblls the method
+     * {@code SQLDbtb.rebdSQL} on thbt object, which rebds bdditionbl dbtb from the
+     * strebm, using the protocol described for thbt method.
      *<p>
-     * The default implementation will throw {@code SQLFeatureNotSupportedException}
+     * The defbult implementbtion will throw {@code SQLFebtureNotSupportedException}
      *
-     * @param <T> the type of the class modeled by this Class object
-     * @param type Class representing the Java data type to convert the attribute to.
-     * @return the attribute at the head of the stream as an {@code Object} in the
-     * Java programming language;{@code null} if the attribute is SQL {@code NULL}
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm <T> the type of the clbss modeled by this Clbss object
+     * @pbrbm type Clbss representing the Jbvb dbtb type to convert the bttribute to.
+     * @return the bttribute bt the hebd of the strebm bs bn {@code Object} in the
+     * Jbvb progrbmming lbngubge;{@code null} if the bttribute is SQL {@code NULL}
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.8
      */
-    default <T> T readObject(Class<T> type) throws SQLException {
-       throw new SQLFeatureNotSupportedException();
+    defbult <T> T rebdObject(Clbss<T> type) throws SQLException {
+       throw new SQLFebtureNotSupportedException();
     }
 }

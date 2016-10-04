@@ -1,30 +1,30 @@
 ! Copyright 2000-2003 Sun Microsystems, Inc.  All Rights Reserved.
 ! DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 !
-! This code is free software; you can redistribute it and/or modify it
-! under the terms of the GNU General Public License version 2 only, as
-! published by the Free Software Foundation.  Oracle designates this
-! particular file as subject to the "Classpath" exception as provided
-! by Oracle in the LICENSE file that accompanied this code.
+! This code is free softwbre; you cbn redistribute it bnd/or modify it
+! under the terms of the GNU Generbl Public License version 2 only, bs
+! published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+! pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+! by Orbcle in the LICENSE file thbt bccompbnied this code.
 !
-! This code is distributed in the hope that it will be useful, but WITHOUT
-! ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-! FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-! version 2 for more details (a copy is included in the LICENSE file that
-! accompanied this code).
+! This code is distributed in the hope thbt it will be useful, but WITHOUT
+! ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+! FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+! version 2 for more detbils (b copy is included in the LICENSE file thbt
+! bccompbnied this code).
 !
-! You should have received a copy of the GNU General Public License version
-! 2 along with this work; if not, write to the Free Software Foundation,
-! Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+! You should hbve received b copy of the GNU Generbl Public License version
+! 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+! Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 !
-! Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-! or visit www.oracle.com if you need additional information or have any
+! Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+! or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 ! questions.
 !
-! This file contains inline procedures for VIS instructions in 64-bit mode.
+! This file contbins inline procedures for VIS instructions in 64-bit mode.
 !
 !--------------------------------------------------------------------
-! Pure edge handling instructions
+! Pure edge hbndling instructions
 !
 ! int vis_edge8(void */*frs1*/, void */*frs2*/);
 !
@@ -63,7 +63,7 @@
 	.end
 
 !--------------------------------------------------------------------
-! Edge handling instructions with negative return values if cc set
+! Edge hbndling instructions with negbtive return vblues if cc set
 !
 ! int vis_edge8cc(void */*frs1*/, void */*frs2*/);
 !
@@ -122,26 +122,26 @@
 !--------------------------------------------------------------------
 ! Alignment instructions
 !
-! void *vis_alignaddr(void */*rs1*/, int /*rs2*/);
+! void *vis_blignbddr(void */*rs1*/, int /*rs2*/);
 !
-	.inline vis_alignaddr,12
-	alignaddr	%o0,%o1,%o0
+	.inline vis_blignbddr,12
+	blignbddr	%o0,%o1,%o0
 	.end
 !
-! void *vis_alignaddrl(void */*rs1*/, int /*rs2*/);
+! void *vis_blignbddrl(void */*rs1*/, int /*rs2*/);
 !
-	.inline vis_alignaddrl,12
-	alignaddrl	%o0,%o1,%o0
+	.inline vis_blignbddrl,12
+	blignbddrl	%o0,%o1,%o0
 	.end
 !
-! double vis_faligndata(double /*frs1*/, double /*frs2*/);
+! double vis_fbligndbtb(double /*frs1*/, double /*frs2*/);
 !
-	.inline vis_faligndata,16
-	faligndata	%f0,%f2,%f0
+	.inline vis_fbligndbtb,16
+	fbligndbtb	%f0,%f2,%f0
 	.end
 
 !--------------------------------------------------------------------
-! Partitioned comparison instructions
+! Pbrtitioned compbrison instructions
 !
 ! int vis_fcmple16(double /*frs1*/, double /*frs2*/);
 !
@@ -192,30 +192,30 @@
 	.end
 
 !--------------------------------------------------------------------
-! Partitioned arithmetic
+! Pbrtitioned brithmetic
 !
-! double vis_fmul8x16(float /*frs1*/, double /*frs2*/);
+! double vis_fmul8x16(flobt /*frs1*/, double /*frs2*/);
 !
 	.inline vis_fmul8x16,12
 	fmul8x16	%f1,%f2,%f0
 	.end
 !
-! double vis_fmul8x16_dummy(float /*frs1*/, int /*dummy*/, double /*frs2*/);
+! double vis_fmul8x16_dummy(flobt /*frs1*/, int /*dummy*/, double /*frs2*/);
 !
 	.inline vis_fmul8x16_dummy,16
 	fmul8x16	%f1,%f4,%f0
 	.end
 !
-! double vis_fmul8x16au(float /*frs1*/, float /*frs2*/);
+! double vis_fmul8x16bu(flobt /*frs1*/, flobt /*frs2*/);
 !
-	.inline vis_fmul8x16au,8
-	fmul8x16au	%f1,%f3,%f0
+	.inline vis_fmul8x16bu,8
+	fmul8x16bu	%f1,%f3,%f0
 	.end
 !
-! double vis_fmul8x16al(float /*frs1*/, float /*frs2*/);
+! double vis_fmul8x16bl(flobt /*frs1*/, flobt /*frs2*/);
 !
-	.inline vis_fmul8x16al,8
-	fmul8x16al	%f1,%f3,%f0
+	.inline vis_fmul8x16bl,8
+	fmul8x16bl	%f1,%f3,%f0
 	.end
 !
 ! double vis_fmul8sux16(double /*frs1*/, double /*frs2*/);
@@ -230,40 +230,40 @@
 	fmul8ulx16	%f0,%f2,%f0
 	.end
 !
-! double vis_fmuld8sux16(float /*frs1*/, float /*frs2*/);
+! double vis_fmuld8sux16(flobt /*frs1*/, flobt /*frs2*/);
 !
 	.inline vis_fmuld8sux16,8
 	fmuld8sux16	%f1,%f3,%f0
 	.end
 !
-! double vis_fmuld8ulx16(float /*frs1*/, float /*frs2*/);
+! double vis_fmuld8ulx16(flobt /*frs1*/, flobt /*frs2*/);
 !
 	.inline vis_fmuld8ulx16,8
 	fmuld8ulx16	%f1,%f3,%f0
 	.end
 !
-! double vis_fpadd16(double /*frs1*/, double /*frs2*/);
+! double vis_fpbdd16(double /*frs1*/, double /*frs2*/);
 !
-	.inline vis_fpadd16,16
-	fpadd16	%f0,%f2,%f0
+	.inline vis_fpbdd16,16
+	fpbdd16	%f0,%f2,%f0
 	.end
 !
-! float vis_fpadd16s(float /*frs1*/, float /*frs2*/);
+! flobt vis_fpbdd16s(flobt /*frs1*/, flobt /*frs2*/);
 !
-	.inline vis_fpadd16s,8
-	fpadd16s	%f1,%f3,%f0
+	.inline vis_fpbdd16s,8
+	fpbdd16s	%f1,%f3,%f0
 	.end
 !
-! double vis_fpadd32(double /*frs1*/, double /*frs2*/);
+! double vis_fpbdd32(double /*frs1*/, double /*frs2*/);
 !
-	.inline vis_fpadd32,16
-	fpadd32	%f0,%f2,%f0
+	.inline vis_fpbdd32,16
+	fpbdd32	%f0,%f2,%f0
 	.end
 !
-! float vis_fpadd32s(float /*frs1*/, float /*frs2*/);
+! flobt vis_fpbdd32s(flobt /*frs1*/, flobt /*frs2*/);
 !
-	.inline vis_fpadd32s,8
-	fpadd32s	%f1,%f3,%f0
+	.inline vis_fpbdd32s,8
+	fpbdd32s	%f1,%f3,%f0
 	.end
 !
 ! double vis_fpsub16(double /*frs1*/, double /*frs2*/);
@@ -272,7 +272,7 @@
 	fpsub16	%f0,%f2,%f0
 	.end
 !
-! float vis_fpsub16s(float /*frs1*/, float /*frs2*/);
+! flobt vis_fpsub16s(flobt /*frs1*/, flobt /*frs2*/);
 !
 	.inline vis_fpsub16s,8
 	fpsub16s	%f1,%f3,%f0
@@ -284,89 +284,89 @@
 	fpsub32	%f0,%f2,%f0
 	.end
 !
-! float vis_fpsub32s(float /*frs1*/, float /*frs2*/);
+! flobt vis_fpsub32s(flobt /*frs1*/, flobt /*frs2*/);
 !
 	.inline vis_fpsub32s,8
 	fpsub32s	%f1,%f3,%f0
 	.end
 
 !--------------------------------------------------------------------
-! Pixel packing
+! Pixel pbcking
 !
-! float vis_fpack16(double /*frs2*/);
+! flobt vis_fpbck16(double /*frs2*/);
 !
-	.inline vis_fpack16,8
-	fpack16	%f0,%f0
+	.inline vis_fpbck16,8
+	fpbck16	%f0,%f0
 	.end
 !
-! double vis_fpack32(double /*frs1*/, double /*frs2*/);
+! double vis_fpbck32(double /*frs1*/, double /*frs2*/);
 !
-	.inline vis_fpack32,16
-	fpack32	%f0,%f2,%f0
+	.inline vis_fpbck32,16
+	fpbck32	%f0,%f2,%f0
 	.end
 !
-! float vis_fpackfix(double /*frs2*/);
+! flobt vis_fpbckfix(double /*frs2*/);
 !
-	.inline vis_fpackfix,8
-	fpackfix	%f0,%f0
+	.inline vis_fpbckfix,8
+	fpbckfix	%f0,%f0
 	.end
 !
-! double vis_fpack16_pair(double /*frs2*/, double /*frs2*/);
+! double vis_fpbck16_pbir(double /*frs2*/, double /*frs2*/);
 !
-	.inline vis_fpack16_pair,16
-	fpack16	%f0,%f0
-	fpack16	%f2,%f1
+	.inline vis_fpbck16_pbir,16
+	fpbck16	%f0,%f0
+	fpbck16	%f2,%f1
 	.end
 !
-! double vis_fpackfix_pair(double /*frs2*/, double /*frs2*/);
+! double vis_fpbckfix_pbir(double /*frs2*/, double /*frs2*/);
 !
-	.inline vis_fpackfix_pair,16
-	fpackfix	%f0,%f0
-	fpackfix	%f2,%f1
+	.inline vis_fpbckfix_pbir,16
+	fpbckfix	%f0,%f0
+	fpbckfix	%f2,%f1
 	.end
 !
-! void vis_st2_fpack16(double, double, double *);
+! void vis_st2_fpbck16(double, double, double *);
 !
-	.inline vis_st2_fpack16,24
- 	fpack16	%f0,%f0
- 	fpack16	%f2,%f1
+	.inline vis_st2_fpbck16,24
+ 	fpbck16	%f0,%f0
+ 	fpbck16	%f2,%f1
  	st	%f0,[%o2+0]
  	st	%f1,[%o2+4]
  	.end
 !
-! void vis_std_fpack16(double, double, double *);
+! void vis_std_fpbck16(double, double, double *);
 !
-	.inline vis_std_fpack16,24
-	fpack16	%f0,%f0
-	fpack16	%f2,%f1
+	.inline vis_std_fpbck16,24
+	fpbck16	%f0,%f0
+	fpbck16	%f2,%f1
 	std	%f0,[%o2]
 	.end
 !
-! void vis_st2_fpackfix(double, double, double *);
+! void vis_st2_fpbckfix(double, double, double *);
 !
-	.inline vis_st2_fpackfix,24
- 	fpackfix %f0,%f0
- 	fpackfix %f2,%f1
+	.inline vis_st2_fpbckfix,24
+ 	fpbckfix %f0,%f0
+ 	fpbckfix %f2,%f1
  	st	%f0,[%o2+0]
  	st	%f1,[%o2+4]
  	.end
 !
-! double vis_fpack16_to_hi(double /*frs1*/, double /*frs2*/);
+! double vis_fpbck16_to_hi(double /*frs1*/, double /*frs2*/);
 !
-	.inline vis_fpack16_to_hi,16
-	fpack16	%f2,%f0
+	.inline vis_fpbck16_to_hi,16
+	fpbck16	%f2,%f0
 	.end
 !
-! double vis_fpack16_to_lo(double /*frs1*/, double /*frs2*/);
+! double vis_fpbck16_to_lo(double /*frs1*/, double /*frs2*/);
 !
-	.inline vis_fpack16_to_lo,16
-	fpack16	%f2,%f1
+	.inline vis_fpbck16_to_lo,16
+	fpbck16	%f2,%f1
 	.end
 
 !--------------------------------------------------------------------
-! Motion estimation
+! Motion estimbtion
 !
-! double vis_pxldist64(double accum /*frd*/, double pxls1 /*frs1*/,
+! double vis_pxldist64(double bccum /*frd*/, double pxls1 /*frs1*/,
 !		       double pxls2 /*frs2*/);
 !
 	.inline vis_pxldist64,24
@@ -374,37 +374,37 @@
 	.end
 
 !--------------------------------------------------------------------
-! Channel merging
+! Chbnnel merging
 !
-! double vis_fpmerge(float /*frs1*/, float /*frs2*/);
+! double vis_fpmerge(flobt /*frs1*/, flobt /*frs2*/);
 !
 	.inline vis_fpmerge,8
 	fpmerge	%f1,%f3,%f0
 	.end
 
 !--------------------------------------------------------------------
-! Pixel expansion
+! Pixel expbnsion
 !
-! double vis_fexpand(float /*frs2*/);
+! double vis_fexpbnd(flobt /*frs2*/);
 !
-	.inline vis_fexpand,4
-	fexpand	%f1,%f0
+	.inline vis_fexpbnd,4
+	fexpbnd	%f1,%f0
 	.end
 !
-! double vis_fexpand_hi(double /*frs2*/);
+! double vis_fexpbnd_hi(double /*frs2*/);
 !
-	.inline vis_fexpand_hi,8
-	fexpand	%f0,%f0
+	.inline vis_fexpbnd_hi,8
+	fexpbnd	%f0,%f0
 	.end
 !
-! double vis_fexpand_lo(double /*frs2*/);
+! double vis_fexpbnd_lo(double /*frs2*/);
 !
-	.inline vis_fexpand_lo,8
-	fexpand	%f1,%f0
+	.inline vis_fexpbnd_lo,8
+	fexpbnd	%f1,%f0
 	.end
 
 !--------------------------------------------------------------------
-! Bitwise logical operations
+! Bitwise logicbl operbtions
 !
 ! double vis_fnor(double /*frs1*/, double /*frs2*/);
 !
@@ -412,22 +412,22 @@
 	fnor	%f0,%f2,%f0
 	.end
 !
-! float vis_fnors(float /*frs1*/, float /*frs2*/);
+! flobt vis_fnors(flobt /*frs1*/, flobt /*frs2*/);
 !
 	.inline vis_fnors,8
 	fnors	%f1,%f3,%f0
 	.end
 !
-! double vis_fandnot(double /*frs1*/, double /*frs2*/);
+! double vis_fbndnot(double /*frs1*/, double /*frs2*/);
 !
-	.inline vis_fandnot,16
-	fandnot1 %f0,%f2,%f0
+	.inline vis_fbndnot,16
+	fbndnot1 %f0,%f2,%f0
 	.end
 !
-! float vis_fandnots(float /*frs1*/, float /*frs2*/);
+! flobt vis_fbndnots(flobt /*frs1*/, flobt /*frs2*/);
 !
-	.inline vis_fandnots,8
-	fandnot1s %f1,%f3,%f0
+	.inline vis_fbndnots,8
+	fbndnot1s %f1,%f3,%f0
 	.end
 !
 ! double vis_fnot(double /*frs1*/);
@@ -436,7 +436,7 @@
 	fnot1	%f0,%f0
 	.end
 !
-! float vis_fnots(float /*frs1*/);
+! flobt vis_fnots(flobt /*frs1*/);
 !
 	.inline vis_fnots,4
 	fnot1s	%f1,%f0
@@ -448,34 +448,34 @@
 	fxor	%f0,%f2,%f0
 	.end
 !
-! float vis_fxors(float /*frs1*/, float /*frs2*/);
+! flobt vis_fxors(flobt /*frs1*/, flobt /*frs2*/);
 !
 	.inline vis_fxors,8
 	fxors	%f1,%f3,%f0
 	.end
 !
-! double vis_fnand(double /*frs1*/, double /*frs2*/);
+! double vis_fnbnd(double /*frs1*/, double /*frs2*/);
 !
-	.inline vis_fnand,16
-	fnand	%f0,%f2,%f0
+	.inline vis_fnbnd,16
+	fnbnd	%f0,%f2,%f0
 	.end
 !
-! float vis_fnands(float /*frs1*/, float /*frs2*/);
+! flobt vis_fnbnds(flobt /*frs1*/, flobt /*frs2*/);
 !
-	.inline vis_fnands,8
-	fnands	%f1,%f3,%f0
+	.inline vis_fnbnds,8
+	fnbnds	%f1,%f3,%f0
 	.end
 !
-! double vis_fand(double /*frs1*/, double /*frs2*/);
+! double vis_fbnd(double /*frs1*/, double /*frs2*/);
 !
-	.inline vis_fand,16
-	fand	%f0,%f2,%f0
+	.inline vis_fbnd,16
+	fbnd	%f0,%f2,%f0
 	.end
 !
-! float vis_fands(float /*frs1*/, float /*frs2*/);
+! flobt vis_fbnds(flobt /*frs1*/, flobt /*frs2*/);
 !
-	.inline vis_fands,8
-	fands	%f1,%f3,%f0
+	.inline vis_fbnds,8
+	fbnds	%f1,%f3,%f0
 	.end
 !
 ! double vis_fxnor(double /*frs1*/, double /*frs2*/);
@@ -484,7 +484,7 @@
 	fxnor	%f0,%f2,%f0
 	.end
 !
-! float vis_fxnors(float /*frs1*/, float /*frs2*/);
+! flobt vis_fxnors(flobt /*frs1*/, flobt /*frs2*/);
 !
 	.inline vis_fxnors,8
 	fxnors	%f1,%f3,%f0
@@ -496,7 +496,7 @@
 	fsrc1	%f0,%f0
 	.end
 !
-! float vis_fsrcs(float /*frs1*/);
+! flobt vis_fsrcs(flobt /*frs1*/);
 !
 	.inline vis_fsrcs,4
 	fsrc1s	%f1,%f0
@@ -508,7 +508,7 @@
 	fornot1	%f0,%f2,%f0
 	.end
 !
-! float vis_fornots(float /*frs1*/, float /*frs2*/);
+! flobt vis_fornots(flobt /*frs1*/, flobt /*frs2*/);
 !
 	.inline vis_fornots,8
 	fornot1s %f1,%f3,%f0
@@ -520,7 +520,7 @@
 	for	%f0,%f2,%f0
 	.end
 !
-! float vis_fors(float /*frs1*/, float /*frs2*/);
+! flobt vis_fors(flobt /*frs1*/, flobt /*frs2*/);
 !
 	.inline vis_fors,8
 	fors	%f1,%f3,%f0
@@ -532,7 +532,7 @@
 	fzero	%f0
 	.end
 !
-! float vis_fzeros(void);
+! flobt vis_fzeros(void);
 !
 	.inline	vis_fzeros,0
 	fzeros	%f0
@@ -544,248 +544,248 @@
 	fone	%f0
 	.end
 !
-! float vis_fones(void);
+! flobt vis_fones(void);
 !
 	.inline	vis_fones,0
 	fones	%f0
 	.end
 
 !--------------------------------------------------------------------
-! Partial store instructions
+! Pbrtibl store instructions
 !
-! void vis_stdfa_ASI_PST8P(double /*frd*/, void * /*rs1*/, int /*rmask*/);
+! void vis_stdfb_ASI_PST8P(double /*frd*/, void * /*rs1*/, int /*rmbsk*/);
 !
-	.inline vis_stdfa_ASI_PST8P,20
-	stda	%f0,[%o1]%o2,0xc0	! ASI_PST8_P
+	.inline vis_stdfb_ASI_PST8P,20
+	stdb	%f0,[%o1]%o2,0xc0	! ASI_PST8_P
 	.end
 !
-! void vis_stdfa_ASI_PST8PL(double /*frd*/, void * /*rs1*/, int /*rmask*/);
+! void vis_stdfb_ASI_PST8PL(double /*frd*/, void * /*rs1*/, int /*rmbsk*/);
 !
-	.inline vis_stdfa_ASI_PST8PL,20
-	stda	%f0,[%o1]%o2,0xc8	! ASI_PST8_PL
+	.inline vis_stdfb_ASI_PST8PL,20
+	stdb	%f0,[%o1]%o2,0xc8	! ASI_PST8_PL
 	.end
 !
-! void vis_stdfa_ASI_PST8S(double /*frd*/, void * /*rs1*/, int /*rmask*/);
+! void vis_stdfb_ASI_PST8S(double /*frd*/, void * /*rs1*/, int /*rmbsk*/);
 !
-	.inline vis_stdfa_ASI_PST8S,20
-	stda	%f0,[%o1]%o2,0xc1	! ASI_PST8_S
+	.inline vis_stdfb_ASI_PST8S,20
+	stdb	%f0,[%o1]%o2,0xc1	! ASI_PST8_S
 	.end
 !
-! void vis_stdfa_ASI_PST8P_int_pair(void * /*rs1*/, void * /*rs2*/, void * /*rs3*/, int /*rmask*/);;
+! void vis_stdfb_ASI_PST8P_int_pbir(void * /*rs1*/, void * /*rs2*/, void * /*rs3*/, int /*rmbsk*/);;
 !
-	.inline vis_stdfa_ASI_PST8P_int_pair,28
+	.inline vis_stdfb_ASI_PST8P_int_pbir,28
         ld	[%o0],%f4
         ld	[%o1],%f5
-	stda	%f4,[%o2]%o3,0xc0	! ASI_PST8_P
+	stdb	%f4,[%o2]%o3,0xc0	! ASI_PST8_P
 	.end
 !
-! void vis_stdfa_ASI_PST16P(double /*frd*/, void * /*rs1*/, int /*rmask*/);
+! void vis_stdfb_ASI_PST16P(double /*frd*/, void * /*rs1*/, int /*rmbsk*/);
 !
-	.inline vis_stdfa_ASI_PST16P,20
-	stda	%f0,[%o1]%o2,0xc2	! ASI_PST16_P
+	.inline vis_stdfb_ASI_PST16P,20
+	stdb	%f0,[%o1]%o2,0xc2	! ASI_PST16_P
 	.end
 !
-! void vis_stdfa_ASI_PST16PL(double /*frd*/, void * /*rs1*/, int /*rmask*/);
+! void vis_stdfb_ASI_PST16PL(double /*frd*/, void * /*rs1*/, int /*rmbsk*/);
 !
-	.inline vis_stdfa_ASI_PST16PL,20
-	stda	%f0,[%o1]%o2,0xca	! ASI_PST16_PL
+	.inline vis_stdfb_ASI_PST16PL,20
+	stdb	%f0,[%o1]%o2,0xcb	! ASI_PST16_PL
 	.end
 !
-! void vis_stdfa_ASI_PST16S(double /*frd*/, void * /*rs1*/, int /*rmask*/);
+! void vis_stdfb_ASI_PST16S(double /*frd*/, void * /*rs1*/, int /*rmbsk*/);
 !
-	.inline vis_stdfa_ASI_PST16S,20
-	stda	%f0,[%o1]%o2,0xc3	! ASI_PST16_S
+	.inline vis_stdfb_ASI_PST16S,20
+	stdb	%f0,[%o1]%o2,0xc3	! ASI_PST16_S
 	.end
 !
-! void vis_stdfa_ASI_PST32P(double /*frd*/, void * /*rs1*/, int /*rmask*/);
+! void vis_stdfb_ASI_PST32P(double /*frd*/, void * /*rs1*/, int /*rmbsk*/);
 !
-	.inline vis_stdfa_ASI_PST32P,20
-	stda	%f0,[%o1]%o2,0xc4	! ASI_PST32_P
+	.inline vis_stdfb_ASI_PST32P,20
+	stdb	%f0,[%o1]%o2,0xc4	! ASI_PST32_P
 	.end
 !
-! void vis_stdfa_ASI_PST32PL(double /*frd*/, void * /*rs1*/, int /*rmask*/);
+! void vis_stdfb_ASI_PST32PL(double /*frd*/, void * /*rs1*/, int /*rmbsk*/);
 !
-	.inline vis_stdfa_ASI_PST32PL,20
-	stda	%f0,[%o1]%o2,0xcc	! ASI_PST32_PL
+	.inline vis_stdfb_ASI_PST32PL,20
+	stdb	%f0,[%o1]%o2,0xcc	! ASI_PST32_PL
 	.end
 !
-! void vis_stdfa_ASI_PST32S(double /*frd*/, void * /*rs1*/, int /*rmask*/);
+! void vis_stdfb_ASI_PST32S(double /*frd*/, void * /*rs1*/, int /*rmbsk*/);
 !
-	.inline vis_stdfa_ASI_PST32S,20
-	stda	%f0,[%o1]%o2,0xc5	! ASI_PST32_S
+	.inline vis_stdfb_ASI_PST32S,20
+	stdb	%f0,[%o1]%o2,0xc5	! ASI_PST32_S
 	.end
 
 !--------------------------------------------------------------------
 ! Byte & short store instructions
 !
-! void vis_stdfa_ASI_FL8P(double /*frd*/, void * /*rs1*/);
+! void vis_stdfb_ASI_FL8P(double /*frd*/, void * /*rs1*/);
 !
-	.inline vis_stdfa_ASI_FL8P,16
-	stda	%f0,[%o1]0xd0		! ASI_FL8_P
+	.inline vis_stdfb_ASI_FL8P,16
+	stdb	%f0,[%o1]0xd0		! ASI_FL8_P
 	.end
 !
-! void vis_stdfa_ASI_FL8P_index(double /*frd*/, void * /*rs1*/, long /*index*/);
+! void vis_stdfb_ASI_FL8P_index(double /*frd*/, void * /*rs1*/, long /*index*/);
 !
-	.inline vis_stdfa_ASI_FL8P_index,24
-	stda	%f0,[%o1+%o2]0xd0	! ASI_FL8_P
+	.inline vis_stdfb_ASI_FL8P_index,24
+	stdb	%f0,[%o1+%o2]0xd0	! ASI_FL8_P
 	.end
 !
-! void vis_stdfa_ASI_FL8S(double /*frd*/, void * /*rs1*/);
+! void vis_stdfb_ASI_FL8S(double /*frd*/, void * /*rs1*/);
 !
-	.inline vis_stdfa_ASI_FL8S,16
-	stda	%f0,[%o1]0xd1		! ASI_FL8_S
+	.inline vis_stdfb_ASI_FL8S,16
+	stdb	%f0,[%o1]0xd1		! ASI_FL8_S
 	.end
 !
-! void vis_stdfa_ASI_FL16P(double /*frd*/, void * /*rs1*/);
+! void vis_stdfb_ASI_FL16P(double /*frd*/, void * /*rs1*/);
 !
-	.inline vis_stdfa_ASI_FL16P,16
-	stda	%f0,[%o1]0xd2		! ASI_FL16_P
+	.inline vis_stdfb_ASI_FL16P,16
+	stdb	%f0,[%o1]0xd2		! ASI_FL16_P
 	.end
 !
-! void vis_stdfa_ASI_FL16P_index(double /*frd*/, void * /*rs1*/, long /*index*/);
+! void vis_stdfb_ASI_FL16P_index(double /*frd*/, void * /*rs1*/, long /*index*/);
 !
-	.inline vis_stdfa_ASI_FL16P_index,24
-	stda	%f0,[%o1+%o2]0xd2	! ASI_FL16_P
+	.inline vis_stdfb_ASI_FL16P_index,24
+	stdb	%f0,[%o1+%o2]0xd2	! ASI_FL16_P
 	.end
 !
-! void vis_stdfa_ASI_FL16S(double /*frd*/, void * /*rs1*/);
+! void vis_stdfb_ASI_FL16S(double /*frd*/, void * /*rs1*/);
 !
-	.inline vis_stdfa_ASI_FL16S,16
-	stda	%f0,[%o1]0xd3		! ASI_FL16_S
+	.inline vis_stdfb_ASI_FL16S,16
+	stdb	%f0,[%o1]0xd3		! ASI_FL16_S
 	.end
 !
-! void vis_stdfa_ASI_FL8PL(double /*frd*/, void * /*rs1*/);
+! void vis_stdfb_ASI_FL8PL(double /*frd*/, void * /*rs1*/);
 !
-	.inline vis_stdfa_ASI_FL8PL,16
-	stda	%f0,[%o1]0xd8		! ASI_FL8_PL
+	.inline vis_stdfb_ASI_FL8PL,16
+	stdb	%f0,[%o1]0xd8		! ASI_FL8_PL
 	.end
 !
-! void vis_stdfa_ASI_FL8PL_index(double /*frd*/, void * /*rs1*/, long /*index*/);
+! void vis_stdfb_ASI_FL8PL_index(double /*frd*/, void * /*rs1*/, long /*index*/);
 !
-	.inline vis_stdfa_ASI_FL8PL_index,24
-	stda	%f0,[%o1+%o2]0xd8	! ASI_FL8_PL
+	.inline vis_stdfb_ASI_FL8PL_index,24
+	stdb	%f0,[%o1+%o2]0xd8	! ASI_FL8_PL
 	.end
 !
-! void vis_stdfa_ASI_FL8SL(double /*frd*/, void * /*rs1*/);
+! void vis_stdfb_ASI_FL8SL(double /*frd*/, void * /*rs1*/);
 !
-	.inline vis_stdfa_ASI_FL8SL,16
-	stda	%f0,[%o1]0xd9		! ASI_FL8_SL
+	.inline vis_stdfb_ASI_FL8SL,16
+	stdb	%f0,[%o1]0xd9		! ASI_FL8_SL
 	.end
 !
-! void vis_stdfa_ASI_FL16PL(double /*frd*/, void * /*rs1*/);
+! void vis_stdfb_ASI_FL16PL(double /*frd*/, void * /*rs1*/);
 !
-	.inline vis_stdfa_ASI_FL16PL,16
-	stda	%f0,[%o1]0xda		! ASI_FL16_PL
+	.inline vis_stdfb_ASI_FL16PL,16
+	stdb	%f0,[%o1]0xdb		! ASI_FL16_PL
 	.end
 !
-! void vis_stdfa_ASI_FL16PL_index(double /*frd*/, void * /*rs1*/, long /*index*/);
+! void vis_stdfb_ASI_FL16PL_index(double /*frd*/, void * /*rs1*/, long /*index*/);
 !
-	.inline vis_stdfa_ASI_FL16PL_index,24
-	stda	%f0,[%o1+%o2]0xda 	! ASI_FL16_PL
+	.inline vis_stdfb_ASI_FL16PL_index,24
+	stdb	%f0,[%o1+%o2]0xdb 	! ASI_FL16_PL
 	.end
 !
-! void vis_stdfa_ASI_FL16SL(double /*frd*/, void * /*rs1*/);
+! void vis_stdfb_ASI_FL16SL(double /*frd*/, void * /*rs1*/);
 !
-	.inline vis_stdfa_ASI_FL16SL,16
-	stda	%f0,[%o1]0xdb		! ASI_FL16_SL
+	.inline vis_stdfb_ASI_FL16SL,16
+	stdb	%f0,[%o1]0xdb		! ASI_FL16_SL
 	.end
 
 !--------------------------------------------------------------------
-! Byte & short load instructions
+! Byte & short lobd instructions
 !
-! double vis_lddfa_ASI_FL8P(void * /*rs1*/);
+! double vis_lddfb_ASI_FL8P(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_FL8P,8
-	ldda	[%o0]0xd0,%f0		! ASI_FL8_P
+	.inline vis_lddfb_ASI_FL8P,8
+	lddb	[%o0]0xd0,%f0		! ASI_FL8_P
 	.end
 !
-! double vis_lddfa_ASI_FL8P_index(void * /*rs1*/, long /*index*/);
+! double vis_lddfb_ASI_FL8P_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lddfa_ASI_FL8P_index,16
-	ldda	[%o0+%o1]0xd0,%f0	! ASI_FL8_P
+	.inline vis_lddfb_ASI_FL8P_index,16
+	lddb	[%o0+%o1]0xd0,%f0	! ASI_FL8_P
 	.end
 !
-! double vis_lddfa_ASI_FL8P_hi(void * /*rs1*/, unsigned int /*index*/);
+! double vis_lddfb_ASI_FL8P_hi(void * /*rs1*/, unsigned int /*index*/);
 !
-	.inline vis_lddfa_ASI_FL8P_hi,12
-	sra     %o1,16,%o1
-	ldda	[%o0+%o1]0xd0,%f0	! ASI_FL8_P
+	.inline vis_lddfb_ASI_FL8P_hi,12
+	srb     %o1,16,%o1
+	lddb	[%o0+%o1]0xd0,%f0	! ASI_FL8_P
 	.end
 !
-! double vis_lddfa_ASI_FL8P_lo(void * /*rs1*/, unsigned int /*index*/);
+! double vis_lddfb_ASI_FL8P_lo(void * /*rs1*/, unsigned int /*index*/);
 !
-	.inline vis_lddfa_ASI_FL8P_lo,12
+	.inline vis_lddfb_ASI_FL8P_lo,12
 	sll     %o1,16,%o1
-	sra     %o1,16,%o1
-	ldda	[%o0+%o1]0xd0,%f0	! ASI_FL8_P
+	srb     %o1,16,%o1
+	lddb	[%o0+%o1]0xd0,%f0	! ASI_FL8_P
 	.end
 !
-! double vis_lddfa_ASI_FL8S(void * /*rs1*/);
+! double vis_lddfb_ASI_FL8S(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_FL8S,8
-	ldda	[%o0]0xd1,%f0		! ASI_FL8_S
+	.inline vis_lddfb_ASI_FL8S,8
+	lddb	[%o0]0xd1,%f0		! ASI_FL8_S
 	.end
 !
-! double vis_lddfa_ASI_FL16P(void * /*rs1*/);
+! double vis_lddfb_ASI_FL16P(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_FL16P,8
-	ldda	[%o0]0xd2,%f0		! ASI_FL16_P
+	.inline vis_lddfb_ASI_FL16P,8
+	lddb	[%o0]0xd2,%f0		! ASI_FL16_P
 	.end
 !
-! double vis_lddfa_ASI_FL16P_index(void * /*rs1*/, long /*index*/);
+! double vis_lddfb_ASI_FL16P_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lddfa_ASI_FL16P_index,16
-	ldda	[%o0+%o1]0xd2,%f0	! ASI_FL16_P
+	.inline vis_lddfb_ASI_FL16P_index,16
+	lddb	[%o0+%o1]0xd2,%f0	! ASI_FL16_P
 	.end
 !
-! double vis_lddfa_ASI_FL16S(void * /*rs1*/);
+! double vis_lddfb_ASI_FL16S(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_FL16S,8
-	ldda	[%o0]0xd3,%f0		! ASI_FL16_S
+	.inline vis_lddfb_ASI_FL16S,8
+	lddb	[%o0]0xd3,%f0		! ASI_FL16_S
 	.end
 !
-! double vis_lddfa_ASI_FL8PL(void * /*rs1*/);
+! double vis_lddfb_ASI_FL8PL(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_FL8PL,8
-	ldda	[%o0]0xd8,%f0		! ASI_FL8_PL
+	.inline vis_lddfb_ASI_FL8PL,8
+	lddb	[%o0]0xd8,%f0		! ASI_FL8_PL
 	.end
 !
-! double vis_lddfa_ASI_FL8PL_index(void * /*rs1*/, long /*index*/);
+! double vis_lddfb_ASI_FL8PL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lddfa_ASI_FL8PL_index,16
-	ldda	[%o0+%o1]0xd8,%f0	! ASI_FL8_PL
+	.inline vis_lddfb_ASI_FL8PL_index,16
+	lddb	[%o0+%o1]0xd8,%f0	! ASI_FL8_PL
 	.end
 !
-! double vis_lddfa_ASI_FL8SL(void * /*rs1*/);
+! double vis_lddfb_ASI_FL8SL(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_FL8SL,8
-	ldda	[%o0]0xd9,%f0		! ASI_FL8_SL
+	.inline vis_lddfb_ASI_FL8SL,8
+	lddb	[%o0]0xd9,%f0		! ASI_FL8_SL
 	.end
 !
-! double vis_lddfa_ASI_FL16PL(void * /*rs1*/);
+! double vis_lddfb_ASI_FL16PL(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_FL16PL,8
-	ldda	[%o0]0xda,%f0		! ASI_FL16_PL
+	.inline vis_lddfb_ASI_FL16PL,8
+	lddb	[%o0]0xdb,%f0		! ASI_FL16_PL
 	.end
 !
-! double vis_lddfa_ASI_FL16PL_index(void * /*rs1*/, long /*index*/);
+! double vis_lddfb_ASI_FL16PL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lddfa_ASI_FL16PL_index,16
-	ldda	[%o0+%o1]0xda,%f0	! ASI_FL16_PL
+	.inline vis_lddfb_ASI_FL16PL_index,16
+	lddb	[%o0+%o1]0xdb,%f0	! ASI_FL16_PL
 	.end
 !
-! double vis_lddfa_ASI_FL16SL(void * /*rs1*/);
+! double vis_lddfb_ASI_FL16SL(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_FL16SL,8
-	ldda	[%o0]0xdb,%f0		! ASI_FL16_SL
+	.inline vis_lddfb_ASI_FL16SL,8
+	lddb	[%o0]0xdb,%f0		! ASI_FL16_SL
 	.end
 
 !--------------------------------------------------------------------
-! Graphics status register
+! Grbphics stbtus register
 !
-! unsigned int vis_read_gsr32(void);
+! unsigned int vis_rebd_gsr32(void);
 !
-	.inline vis_read_gsr32,0
+	.inline vis_rebd_gsr32,0
 	rd	%gsr,%o0
 	.end
 !
@@ -796,68 +796,68 @@
 	.end
 
 !--------------------------------------------------------------------
-! Voxel texture mapping
+! Voxel texture mbpping
 !
-! unsigned long vis_array8(unsigned long /*rs1 */, int /*rs2*/);
+! unsigned long vis_brrby8(unsigned long /*rs1 */, int /*rs2*/);
 !
-	.inline	vis_array8,12
-	array8	%o0,%o1,%o0
+	.inline	vis_brrby8,12
+	brrby8	%o0,%o1,%o0
 	.end
 !
-! unsigned long vis_array16(unsigned long /*rs1*/, int /*rs2*/);
+! unsigned long vis_brrby16(unsigned long /*rs1*/, int /*rs2*/);
 !
-	.inline	vis_array16,12
-	array16	%o0,%o1,%o0
+	.inline	vis_brrby16,12
+	brrby16	%o0,%o1,%o0
 	.end
 !
-! unsigned long vis_array32(unsigned long /*rs1*/, int /*rs2*/);
+! unsigned long vis_brrby32(unsigned long /*rs1*/, int /*rs2*/);
 !
-	.inline	vis_array32,12
-	array32	%o0,%o1,%o0
+	.inline	vis_brrby32,12
+	brrby32	%o0,%o1,%o0
 	.end
 
 !--------------------------------------------------------------------
-! Register aliasing and type casts
+! Register blibsing bnd type cbsts
 !
-! float vis_read_hi(double /* frs1 */);
+! flobt vis_rebd_hi(double /* frs1 */);
 !
-	.inline vis_read_hi,8
+	.inline vis_rebd_hi,8
 	fmovs	%f0,%f0
 	.end
 !
-! float vis_read_lo(double /* frs1 */);
+! flobt vis_rebd_lo(double /* frs1 */);
 !
-	.inline vis_read_lo,8
+	.inline vis_rebd_lo,8
 	fmovs	%f1,%f0		! %f0 = low word (frs1); return %f0;
 	.end
 !
-! double vis_write_hi(double /* frs1 */, float /* frs2 */);
+! double vis_write_hi(double /* frs1 */, flobt /* frs2 */);
 !
 	.inline vis_write_hi,12
-	fmovs	%f3,%f0		! %f3 = float frs2; return %f0:f1;
+	fmovs	%f3,%f0		! %f3 = flobt frs2; return %f0:f1;
 	.end
 !
-! double vis_write_lo(double /* frs1 */, float /* frs2 */);
+! double vis_write_lo(double /* frs1 */, flobt /* frs2 */);
 !
 	.inline vis_write_lo,12
-	fmovs	%f3,%f1		! %f3 = float frs2; return %f0:f1;
+	fmovs	%f3,%f1		! %f3 = flobt frs2; return %f0:f1;
 	.end
 !
-! double vis_freg_pair(float /* frs1 */, float /* frs2 */);
+! double vis_freg_pbir(flobt /* frs1 */, flobt /* frs2 */);
 !
-	.inline vis_freg_pair,8
+	.inline vis_freg_pbir,8
 	fmovs	%f1,%f0
 	fmovs	%f3,%f1
 	.end
 !
-! float vis_to_float(unsigned int /*value*/);
+! flobt vis_to_flobt(unsigned int /*vblue*/);
 !
-	.inline vis_to_float,4
+	.inline vis_to_flobt,4
 	st	%o0,[%sp+2183]
 	ld	[%sp+2183],%f0
 	.end
 !
-! double vis_to_double(unsigned int /*value1*/, unsigned int /*value2*/);
+! double vis_to_double(unsigned int /*vblue1*/, unsigned int /*vblue2*/);
 !
 	.inline vis_to_double,8
 	st	%o0,[%sp+2183]
@@ -866,15 +866,15 @@
 	ld	[%sp+2183],%f1
 	.end
 !
-! double vis_to_double_dup(unsigned int /*value*/);
+! double vis_to_double_dup(unsigned int /*vblue*/);
 !
 	.inline vis_to_double_dup,4
 	st	%o0,[%sp+2183]
 	ld	[%sp+2183],%f1
-	fmovs	%f1,%f0		! duplicate value
+	fmovs	%f1,%f0		! duplicbte vblue
 	.end
 !
-! double vis_ll_to_double(unsigned long /*value*/);
+! double vis_ll_to_double(unsigned long /*vblue*/);
 !
 	.inline vis_ll_to_double,8
 	stx     %o0,[%sp+2183]
@@ -882,438 +882,438 @@
         .end
 
 !--------------------------------------------------------------------
-! Address space identifier (ASI) register
+! Address spbce identifier (ASI) register
 !
-! unsigned int vis_read_asi(void);
+! unsigned int vis_rebd_bsi(void);
 !
-	.inline vis_read_asi,0
-	rd	%asi,%o0
+	.inline vis_rebd_bsi,0
+	rd	%bsi,%o0
 	.end
 !
-! void vis_write_asi(unsigned int /* ASI */);
+! void vis_write_bsi(unsigned int /* ASI */);
 !
-	.inline vis_write_asi,4
-	wr	%g0,%o0,%asi
+	.inline vis_write_bsi,4
+	wr	%g0,%o0,%bsi
 	.end
 
 !--------------------------------------------------------------------
-! Load/store from/into alternate space
+! Lobd/store from/into blternbte spbce
 !
-! float vis_ldfa_ASI_REG(void * /*rs1*/);
+! flobt vis_ldfb_ASI_REG(void * /*rs1*/);
 !
-	.inline vis_ldfa_ASI_REG,8
-	lda	[%o0+0]%asi,%f0
+	.inline vis_ldfb_ASI_REG,8
+	ldb	[%o0+0]%bsi,%f0
 	.end
 !
-! float vis_ldfa_ASI_P(void * /*rs1*/);
+! flobt vis_ldfb_ASI_P(void * /*rs1*/);
 !
-	.inline vis_ldfa_ASI_P,8
-	lda	[%o0]0x80,%f0		! ASI_P
+	.inline vis_ldfb_ASI_P,8
+	ldb	[%o0]0x80,%f0		! ASI_P
 	.end
 !
-! float vis_ldfa_ASI_P_index(void * /*rs1*/, long /*index*/);
+! flobt vis_ldfb_ASI_P_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldfa_ASI_P_index,16
-	lda	[%o0+%o1]0x80,%f0	! ASI_P
+	.inline vis_ldfb_ASI_P_index,16
+	ldb	[%o0+%o1]0x80,%f0	! ASI_P
 	.end
 !
-! float vis_ldfa_ASI_PL(void * /*rs1*/);
+! flobt vis_ldfb_ASI_PL(void * /*rs1*/);
 !
-	.inline vis_ldfa_ASI_PL,8
-	lda	[%o0]0x88,%f0		! ASI_PL
+	.inline vis_ldfb_ASI_PL,8
+	ldb	[%o0]0x88,%f0		! ASI_PL
 	.end
 !
-! float vis_ldfa_ASI_PL_index(void * /*rs1*/, long /*index*/);
+! flobt vis_ldfb_ASI_PL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldfa_ASI_PL_index,16
-	lda	[%o0+%o1]0x88,%f0	! ASI_PL
+	.inline vis_ldfb_ASI_PL_index,16
+	ldb	[%o0+%o1]0x88,%f0	! ASI_PL
 	.end
 !
-! double vis_lddfa_ASI_REG(void * /*rs1*/);
+! double vis_lddfb_ASI_REG(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_REG,8
-	ldda	[%o0+0]%asi,%f0
+	.inline vis_lddfb_ASI_REG,8
+	lddb	[%o0+0]%bsi,%f0
 	.end
 !
-! double vis_lddfa_ASI_P(void * /*rs1*/);
+! double vis_lddfb_ASI_P(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_P,8
-	ldda	[%o0]0x80,%f0		! ASI_P
+	.inline vis_lddfb_ASI_P,8
+	lddb	[%o0]0x80,%f0		! ASI_P
 	.end
 !
-! double vis_lddfa_ASI_P_index(void * /*rs1*/, long /*index*/);
+! double vis_lddfb_ASI_P_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lddfa_ASI_P_index,16
-	ldda	[%o0+%o1]0x80,%f0	! ASI_P
+	.inline vis_lddfb_ASI_P_index,16
+	lddb	[%o0+%o1]0x80,%f0	! ASI_P
 	.end
 !
-! double vis_lddfa_ASI_PL(void * /*rs1*/);
+! double vis_lddfb_ASI_PL(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_PL,8
-	ldda	[%o0]0x88,%f0		! ASI_PL
+	.inline vis_lddfb_ASI_PL,8
+	lddb	[%o0]0x88,%f0		! ASI_PL
 	.end
 !
-! double vis_lddfa_ASI_PL_index(void * /*rs1*/, long /*index*/);
+! double vis_lddfb_ASI_PL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lddfa_ASI_PL_index,16
-	ldda	[%o0+%o1]0x88,%f0	! ASI_PL
+	.inline vis_lddfb_ASI_PL_index,16
+	lddb	[%o0+%o1]0x88,%f0	! ASI_PL
 	.end
 !
-! void vis_stfa_ASI_REG(float /*frs*/, void * /*rs1*/);
+! void vis_stfb_ASI_REG(flobt /*frs*/, void * /*rs1*/);
 !
-	.inline vis_stfa_ASI_REG,12
-	sta	%f1,[%o1]%asi
+	.inline vis_stfb_ASI_REG,12
+	stb	%f1,[%o1]%bsi
 	.end
 !
-! void vis_stfa_ASI_P(float /*frs*/, void * /*rs1*/);
+! void vis_stfb_ASI_P(flobt /*frs*/, void * /*rs1*/);
 !
-	.inline vis_stfa_ASI_P,12
-	sta	%f1,[%o1]0x80		! ASI_P
+	.inline vis_stfb_ASI_P,12
+	stb	%f1,[%o1]0x80		! ASI_P
 	.end
 !
-! void vis_stfa_ASI_P_index(float /*frs*/, void * /*rs1*/, long /*index*/);
+! void vis_stfb_ASI_P_index(flobt /*frs*/, void * /*rs1*/, long /*index*/);
 !
-	.inline vis_stfa_ASI_P_index,24
-	sta	%f1,[%o1+%o2]0x80	! ASI_P
+	.inline vis_stfb_ASI_P_index,24
+	stb	%f1,[%o1+%o2]0x80	! ASI_P
 	.end
 !
-! void vis_stfa_ASI_PL(float /*frs*/, void * /*rs1*/);
+! void vis_stfb_ASI_PL(flobt /*frs*/, void * /*rs1*/);
 !
-	.inline vis_stfa_ASI_PL,12
-	sta	%f1,[%o1]0x88		! ASI_PL
+	.inline vis_stfb_ASI_PL,12
+	stb	%f1,[%o1]0x88		! ASI_PL
 	.end
 !
-! void vis_stfa_ASI_PL_index(float /*frs*/, void * /*rs1*/, long /*index*/);
+! void vis_stfb_ASI_PL_index(flobt /*frs*/, void * /*rs1*/, long /*index*/);
 !
-	.inline vis_stfa_ASI_PL_index,24
-	sta	%f1,[%o1+%o2]0x88	! ASI_PL
+	.inline vis_stfb_ASI_PL_index,24
+	stb	%f1,[%o1+%o2]0x88	! ASI_PL
 	.end
 !
-! void vis_stdfa_ASI_REG(double /*frd*/, void * /*rs1*/);
+! void vis_stdfb_ASI_REG(double /*frd*/, void * /*rs1*/);
 !
-	.inline vis_stdfa_ASI_REG,16
-	stda	%f0,[%o1]%asi
+	.inline vis_stdfb_ASI_REG,16
+	stdb	%f0,[%o1]%bsi
 	.end
 !
-! void vis_stdfa_ASI_P(double /*frd*/, void * /*rs1*/);
+! void vis_stdfb_ASI_P(double /*frd*/, void * /*rs1*/);
 !
-	.inline vis_stdfa_ASI_P,16
-	stda	%f0,[%o1]0x80		! ASI_P
+	.inline vis_stdfb_ASI_P,16
+	stdb	%f0,[%o1]0x80		! ASI_P
 	.end
 !
-! void vis_stdfa_ASI_P_index(double /*frd*/, void * /*rs1*/, long /*index*/);
+! void vis_stdfb_ASI_P_index(double /*frd*/, void * /*rs1*/, long /*index*/);
 !
-	.inline vis_stdfa_ASI_P_index,24
-	stda	%f0,[%o1+%o2]0x80	! ASI_P
+	.inline vis_stdfb_ASI_P_index,24
+	stdb	%f0,[%o1+%o2]0x80	! ASI_P
 	.end
 !
-! void vis_stdfa_ASI_PL(double /*frd*/, void * /*rs1*/);
+! void vis_stdfb_ASI_PL(double /*frd*/, void * /*rs1*/);
 !
-	.inline vis_stdfa_ASI_PL,16
-	stda	%f0,[%o1]0x88		! ASI_PL
+	.inline vis_stdfb_ASI_PL,16
+	stdb	%f0,[%o1]0x88		! ASI_PL
 	.end
 !
-! void vis_stdfa_ASI_PL_index(double /*frd*/, void * /*rs1*/, long /*index*/);
+! void vis_stdfb_ASI_PL_index(double /*frd*/, void * /*rs1*/, long /*index*/);
 !
-	.inline vis_stdfa_ASI_PL_index,24
-	stda	%f0,[%o1+%o2]0x88	! ASI_PL
+	.inline vis_stdfb_ASI_PL_index,24
+	stdb	%f0,[%o1+%o2]0x88	! ASI_PL
 	.end
 !
-! unsigned short vis_lduha_ASI_REG(void * /*rs1*/);
+! unsigned short vis_lduhb_ASI_REG(void * /*rs1*/);
 !
-	.inline vis_lduha_ASI_REG,8
-	lduha	[%o0+0]%asi,%o0
+	.inline vis_lduhb_ASI_REG,8
+	lduhb	[%o0+0]%bsi,%o0
 	.end
 !
-! unsigned short vis_lduha_ASI_P(void * /*rs1*/);
+! unsigned short vis_lduhb_ASI_P(void * /*rs1*/);
 !
-	.inline vis_lduha_ASI_P,8
-	lduha	[%o0]0x80,%o0		! ASI_P
+	.inline vis_lduhb_ASI_P,8
+	lduhb	[%o0]0x80,%o0		! ASI_P
 	.end
 !
-! unsigned short vis_lduha_ASI_PL(void * /*rs1*/);
+! unsigned short vis_lduhb_ASI_PL(void * /*rs1*/);
 !
-	.inline vis_lduha_ASI_PL,8
-	lduha	[%o0]0x88,%o0		! ASI_PL
+	.inline vis_lduhb_ASI_PL,8
+	lduhb	[%o0]0x88,%o0		! ASI_PL
 	.end
 !
-! unsigned short vis_lduha_ASI_P_index(void * /*rs1*/, long /*index*/);
+! unsigned short vis_lduhb_ASI_P_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lduha_ASI_P_index,16
-	lduha	[%o0+%o1]0x80,%o0	! ASI_P
+	.inline vis_lduhb_ASI_P_index,16
+	lduhb	[%o0+%o1]0x80,%o0	! ASI_P
 	.end
 !
-! unsigned short vis_lduha_ASI_PL_index(void * /*rs1*/, long /*index*/);
+! unsigned short vis_lduhb_ASI_PL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lduha_ASI_PL_index,16
-	lduha	[%o0+%o1]0x88,%o0	! ASI_PL
+	.inline vis_lduhb_ASI_PL_index,16
+	lduhb	[%o0+%o1]0x88,%o0	! ASI_PL
 	.end
 
 !--------------------------------------------------------------------
 ! Prefetch
 !
-! void vis_prefetch_read(void * /*address*/);
+! void vis_prefetch_rebd(void * /*bddress*/);
 !
-	.inline vis_prefetch_read,8
+	.inline vis_prefetch_rebd,8
 	prefetch	[%o0],0
 	.end
 !
-! void vis_prefetch_write(void * /*address*/);
+! void vis_prefetch_write(void * /*bddress*/);
 !
 	.inline vis_prefetch_write,8
 	prefetch	[%o0],2
 	.end
 
 !--------------------------------------------------------------------
-! Nonfaulting load instructions
+! Nonfbulting lobd instructions
 !
-! char vis_ldsba_ASI_PNF(void * /*rs1*/);
+! chbr vis_ldsbb_ASI_PNF(void * /*rs1*/);
 !
-	.inline vis_ldsba_ASI_PNF,8
-	ldsba	[%o0]0x82,%o0		! ASI_PNF
+	.inline vis_ldsbb_ASI_PNF,8
+	ldsbb	[%o0]0x82,%o0		! ASI_PNF
 	.end
 !
-! char vis_ldsba_ASI_PNF_index(void * /*rs1*/, long /*index*/);
+! chbr vis_ldsbb_ASI_PNF_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldsba_ASI_PNF_index,16
-	ldsba	[%o0+%o1]0x82,%o0	! ASI_PNF
+	.inline vis_ldsbb_ASI_PNF_index,16
+	ldsbb	[%o0+%o1]0x82,%o0	! ASI_PNF
 	.end
 !
-! char vis_ldsba_ASI_PNFL(void * /*rs1*/);
+! chbr vis_ldsbb_ASI_PNFL(void * /*rs1*/);
 !
-	.inline vis_ldsba_ASI_PNFL,8
-	ldsba	[%o0]0x8a,%o0		! ASI_PNFL
+	.inline vis_ldsbb_ASI_PNFL,8
+	ldsbb	[%o0]0x8b,%o0		! ASI_PNFL
 	.end
 !
-! char vis_ldsba_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
+! chbr vis_ldsbb_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldsba_ASI_PNFL_index,16
-	ldsba	[%o0+%o1]0x8a,%o0	! ASI_PNFL
+	.inline vis_ldsbb_ASI_PNFL_index,16
+	ldsbb	[%o0+%o1]0x8b,%o0	! ASI_PNFL
 	.end
 !
-! unsigned char vis_lduba_ASI_PNF(void * /*rs1*/);
+! unsigned chbr vis_ldubb_ASI_PNF(void * /*rs1*/);
 !
-	.inline vis_lduba_ASI_PNF,8
-	lduba	[%o0]0x82,%o0		! ASI_PNF
+	.inline vis_ldubb_ASI_PNF,8
+	ldubb	[%o0]0x82,%o0		! ASI_PNF
 	.end
 !
-! unsigned char vis_lduba_ASI_PNF_index(void * /*rs1*/, long /*index*/);
+! unsigned chbr vis_ldubb_ASI_PNF_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lduba_ASI_PNF_index,16
-	lduba	[%o0+%o1]0x82,%o0	! ASI_PNF
+	.inline vis_ldubb_ASI_PNF_index,16
+	ldubb	[%o0+%o1]0x82,%o0	! ASI_PNF
 	.end
 !
-! unsigned char vis_lduba_ASI_PNFL(void * /*rs1*/);
+! unsigned chbr vis_ldubb_ASI_PNFL(void * /*rs1*/);
 !
-	.inline vis_lduba_ASI_PNFL,8
-	lduba	[%o0]0x8a,%o0		! ASI_PNFL
+	.inline vis_ldubb_ASI_PNFL,8
+	ldubb	[%o0]0x8b,%o0		! ASI_PNFL
 	.end
 !
-! unsigned char vis_lduba_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
+! unsigned chbr vis_ldubb_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lduba_ASI_PNFL_index,16
-	lduba	[%o0+%o1]0x8a,%o0	! ASI_PNFL
+	.inline vis_ldubb_ASI_PNFL_index,16
+	ldubb	[%o0+%o1]0x8b,%o0	! ASI_PNFL
 	.end
 !
-! short vis_ldsha_ASI_PNF(void * /*rs1*/);
+! short vis_ldshb_ASI_PNF(void * /*rs1*/);
 !
-	.inline vis_ldsha_ASI_PNF,8
-	ldsha	[%o0]0x82,%o0		! ASI_PNF
+	.inline vis_ldshb_ASI_PNF,8
+	ldshb	[%o0]0x82,%o0		! ASI_PNF
 	.end
 !
-! short vis_ldsha_ASI_PNF_index(void * /*rs1*/, long /*index*/);
+! short vis_ldshb_ASI_PNF_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldsha_ASI_PNF_index,16
-	ldsha	[%o0+%o1]0x82,%o0	! ASI_PNF
+	.inline vis_ldshb_ASI_PNF_index,16
+	ldshb	[%o0+%o1]0x82,%o0	! ASI_PNF
 	.end
 !
-! short vis_ldsha_ASI_PNFL(void * /*rs1*/);
+! short vis_ldshb_ASI_PNFL(void * /*rs1*/);
 !
-	.inline vis_ldsha_ASI_PNFL,8
-	ldsha	[%o0]0x8a,%o0		! ASI_PNFL
+	.inline vis_ldshb_ASI_PNFL,8
+	ldshb	[%o0]0x8b,%o0		! ASI_PNFL
 	.end
 !
-! short vis_ldsha_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
+! short vis_ldshb_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldsha_ASI_PNFL_index,16
-	ldsha	[%o0+%o1]0x8a,%o0	! ASI_PNFL
+	.inline vis_ldshb_ASI_PNFL_index,16
+	ldshb	[%o0+%o1]0x8b,%o0	! ASI_PNFL
 	.end
 !
-! unsigned short vis_lduha_ASI_PNF(void * /*rs1*/);
+! unsigned short vis_lduhb_ASI_PNF(void * /*rs1*/);
 !
-	.inline vis_lduha_ASI_PNF,8
-	lduha	[%o0]0x82,%o0		! ASI_PNF
+	.inline vis_lduhb_ASI_PNF,8
+	lduhb	[%o0]0x82,%o0		! ASI_PNF
 	.end
 !
-! unsigned short vis_lduha_ASI_PNF_index(void * /*rs1*/, long /*index*/);
+! unsigned short vis_lduhb_ASI_PNF_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lduha_ASI_PNF_index,16
-	lduha	[%o0+%o1]0x82,%o0	! ASI_PNF
+	.inline vis_lduhb_ASI_PNF_index,16
+	lduhb	[%o0+%o1]0x82,%o0	! ASI_PNF
 	.end
 !
-! unsigned short vis_lduha_ASI_PNFL(void * /*rs1*/);
+! unsigned short vis_lduhb_ASI_PNFL(void * /*rs1*/);
 !
-	.inline vis_lduha_ASI_PNFL,8
-	lduha	[%o0]0x8a,%o0		! ASI_PNFL
+	.inline vis_lduhb_ASI_PNFL,8
+	lduhb	[%o0]0x8b,%o0		! ASI_PNFL
 	.end
 !
-! unsigned short vis_lduha_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
+! unsigned short vis_lduhb_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lduha_ASI_PNFL_index,16
-	lduha	[%o0+%o1]0x8a,%o0	! ASI_PNFL
+	.inline vis_lduhb_ASI_PNFL_index,16
+	lduhb	[%o0+%o1]0x8b,%o0	! ASI_PNFL
 	.end
 !
-! int vis_ldswa_ASI_PNF(void * /*rs1*/);
+! int vis_ldswb_ASI_PNF(void * /*rs1*/);
 !
-	.inline vis_ldswa_ASI_PNF,8
-	ldswa	[%o0]0x82,%o0		! ASI_PNF
+	.inline vis_ldswb_ASI_PNF,8
+	ldswb	[%o0]0x82,%o0		! ASI_PNF
 	.end
 !
-! int vis_ldswa_ASI_PNF_index(void * /*rs1*/, long /*index*/);
+! int vis_ldswb_ASI_PNF_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldswa_ASI_PNF_index,16
-	ldswa	[%o0+%o1]0x82,%o0	! ASI_PNF
+	.inline vis_ldswb_ASI_PNF_index,16
+	ldswb	[%o0+%o1]0x82,%o0	! ASI_PNF
 	.end
 !
-! int vis_ldswa_ASI_PNFL(void * /*rs1*/);
+! int vis_ldswb_ASI_PNFL(void * /*rs1*/);
 !
-	.inline vis_ldswa_ASI_PNFL,8
-	ldswa	[%o0]0x8a,%o0		! ASI_PNFL
+	.inline vis_ldswb_ASI_PNFL,8
+	ldswb	[%o0]0x8b,%o0		! ASI_PNFL
 	.end
 !
-! int vis_ldswa_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
+! int vis_ldswb_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldswa_ASI_PNFL_index,16
-	ldswa	[%o0+%o1]0x8a,%o0	! ASI_PNFL
+	.inline vis_ldswb_ASI_PNFL_index,16
+	ldswb	[%o0+%o1]0x8b,%o0	! ASI_PNFL
 	.end
 !
-! unsigned int vis_lduwa_ASI_PNF(void * /*rs1*/);
+! unsigned int vis_lduwb_ASI_PNF(void * /*rs1*/);
 !
-	.inline vis_lduwa_ASI_PNF,8
-	lduwa	[%o0]0x82,%o0		! ASI_PNF
+	.inline vis_lduwb_ASI_PNF,8
+	lduwb	[%o0]0x82,%o0		! ASI_PNF
 	.end
 !
-! unsigned int vis_lduwa_ASI_PNF_index(void * /*rs1*/, long /*index*/);
+! unsigned int vis_lduwb_ASI_PNF_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lduwa_ASI_PNF_index,16
-	lduwa	[%o0+%o1]0x82,%o0	! ASI_PNF
+	.inline vis_lduwb_ASI_PNF_index,16
+	lduwb	[%o0+%o1]0x82,%o0	! ASI_PNF
 	.end
 !
-! unsigned int vis_lduwa_ASI_PNFL(void * /*rs1*/);
+! unsigned int vis_lduwb_ASI_PNFL(void * /*rs1*/);
 !
-	.inline vis_lduwa_ASI_PNFL,8
-	lduwa	[%o0]0x8a,%o0		! ASI_PNFL
+	.inline vis_lduwb_ASI_PNFL,8
+	lduwb	[%o0]0x8b,%o0		! ASI_PNFL
 	.end
 !
-! unsigned int vis_lduwa_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
+! unsigned int vis_lduwb_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lduwa_ASI_PNFL_index,16
-	lduwa	[%o0+%o1]0x8a,%o0	! ASI_PNFL
+	.inline vis_lduwb_ASI_PNFL_index,16
+	lduwb	[%o0+%o1]0x8b,%o0	! ASI_PNFL
 	.end
 !
-! long vis_ldxa_ASI_PNF(void * /*rs1*/);
+! long vis_ldxb_ASI_PNF(void * /*rs1*/);
 !
-	.inline vis_ldxa_ASI_PNF,8
-	ldxa	[%o0]0x82,%o0		! ASI_PNF
+	.inline vis_ldxb_ASI_PNF,8
+	ldxb	[%o0]0x82,%o0		! ASI_PNF
 	.end
 !
-! long vis_ldxa_ASI_PNF_index(void * /*rs1*/, long /*index*/);
+! long vis_ldxb_ASI_PNF_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldxa_ASI_PNF_index,16
-	ldxa	[%o0+%o1]0x82,%o0	! ASI_PNF
+	.inline vis_ldxb_ASI_PNF_index,16
+	ldxb	[%o0+%o1]0x82,%o0	! ASI_PNF
 	.end
 !
-! long vis_ldxa_ASI_PNFL(void * /*rs1*/);
+! long vis_ldxb_ASI_PNFL(void * /*rs1*/);
 !
-	.inline vis_ldxa_ASI_PNFL,8
-	ldxa	[%o0]0x8a,%o0		! ASI_PNFL
+	.inline vis_ldxb_ASI_PNFL,8
+	ldxb	[%o0]0x8b,%o0		! ASI_PNFL
 	.end
 !
-! long vis_ldxa_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
+! long vis_ldxb_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldxa_ASI_PNFL_index,16
-	ldxa	[%o0+%o1]0x8a,%o0	! ASI_PNFL
+	.inline vis_ldxb_ASI_PNFL_index,16
+	ldxb	[%o0+%o1]0x8b,%o0	! ASI_PNFL
 	.end
 !
-! long long vis_ldda_ASI_PNF(void * /*rs1*/);
+! long long vis_lddb_ASI_PNF(void * /*rs1*/);
 !
-	.inline vis_ldda_ASI_PNF,8
-	ldda	[%o0]0x82,%o0		! ASI_PNF
+	.inline vis_lddb_ASI_PNF,8
+	lddb	[%o0]0x82,%o0		! ASI_PNF
 	.end
 !
-! long long vis_ldda_ASI_PNF_index(void * /*rs1*/, long /*index*/);
+! long long vis_lddb_ASI_PNF_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldda_ASI_PNF_index,16
-	ldda	[%o0+%o1]0x82,%o0	! ASI_PNF
+	.inline vis_lddb_ASI_PNF_index,16
+	lddb	[%o0+%o1]0x82,%o0	! ASI_PNF
 	.end
 !
-! long long vis_ldda_ASI_PNFL(void * /*rs1*/);
+! long long vis_lddb_ASI_PNFL(void * /*rs1*/);
 !
-	.inline vis_ldda_ASI_PNFL,8
-	ldda	[%o0]0x8a,%o0		! ASI_PNFL
+	.inline vis_lddb_ASI_PNFL,8
+	lddb	[%o0]0x8b,%o0		! ASI_PNFL
 	.end
 !
-! long long vis_ldda_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
+! long long vis_lddb_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldda_ASI_PNFL_index,16
-	ldda	[%o0+%o1]0x8a,%o0	! ASI_PNFL
+	.inline vis_lddb_ASI_PNFL_index,16
+	lddb	[%o0+%o1]0x8b,%o0	! ASI_PNFL
 	.end
 !
-! float vis_ldfa_ASI_PNF(void * /*rs1*/);
+! flobt vis_ldfb_ASI_PNF(void * /*rs1*/);
 !
-	.inline vis_ldfa_ASI_PNF,8
-	lda	[%o0]0x82,%f0		! ASI_PNF
+	.inline vis_ldfb_ASI_PNF,8
+	ldb	[%o0]0x82,%f0		! ASI_PNF
 	.end
 !
-! float vis_ldfa_ASI_PNF_index(void * /*rs1*/, long /*index*/);
+! flobt vis_ldfb_ASI_PNF_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldfa_ASI_PNF_index,16
-	lda	[%o0+%o1]0x82,%f0	! ASI_PNF
+	.inline vis_ldfb_ASI_PNF_index,16
+	ldb	[%o0+%o1]0x82,%f0	! ASI_PNF
 	.end
 !
-! float vis_ldfa_ASI_PNFL(void * /*rs1*/);
+! flobt vis_ldfb_ASI_PNFL(void * /*rs1*/);
 !
-	.inline vis_ldfa_ASI_PNFL,8
-	lda	[%o0]0x8a,%f0		! ASI_PNFL
+	.inline vis_ldfb_ASI_PNFL,8
+	ldb	[%o0]0x8b,%f0		! ASI_PNFL
 	.end
 !
-! float vis_ldfa_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
+! flobt vis_ldfb_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_ldfa_ASI_PNFL_index,16
-	lda	[%o0+%o1]0x8a,%f0	! ASI_PNFL
+	.inline vis_ldfb_ASI_PNFL_index,16
+	ldb	[%o0+%o1]0x8b,%f0	! ASI_PNFL
 	.end
 !
-! double vis_lddfa_ASI_PNF(void * /*rs1*/);
+! double vis_lddfb_ASI_PNF(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_PNF,8
-	ldda	[%o0]0x82,%f0		! ASI_PNF
+	.inline vis_lddfb_ASI_PNF,8
+	lddb	[%o0]0x82,%f0		! ASI_PNF
 	.end
 !
-! double vis_lddfa_ASI_PNF_index(void * /*rs1*/, long /*index*/);
+! double vis_lddfb_ASI_PNF_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lddfa_ASI_PNF_index,16
-	ldda	[%o0+%o1]0x82,%f0	! ASI_PNF
+	.inline vis_lddfb_ASI_PNF_index,16
+	lddb	[%o0+%o1]0x82,%f0	! ASI_PNF
 	.end
 !
-! double vis_lddfa_ASI_PNFL(void * /*rs1*/);
+! double vis_lddfb_ASI_PNFL(void * /*rs1*/);
 !
-	.inline vis_lddfa_ASI_PNFL,8
-	ldda	[%o0]0x8a,%f0		! ASI_PNFL
+	.inline vis_lddfb_ASI_PNFL,8
+	lddb	[%o0]0x8b,%f0		! ASI_PNFL
 	.end
 !
-! double vis_lddfa_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
+! double vis_lddfb_ASI_PNFL_index(void * /*rs1*/, long /*index*/);
 !
-	.inline vis_lddfa_ASI_PNFL_index,16
-	ldda	[%o0+%o1]0x8a,%f0	! ASI_PNFL
+	.inline vis_lddfb_ASI_PNFL_index,16
+	lddb	[%o0+%o1]0x8b,%f0	! ASI_PNFL
 	.end
 
 !--------------------------------------------------------------------
 !
-! The following are the new VIS 2.0 instructions.
+! The following bre the new VIS 2.0 instructions.
 !
 
 !
-! Edge handling instructions which do not set the integer condition codes
+! Edge hbndling instructions which do not set the integer condition codes
 !
 ! int vis_edge8n(void * /*rs1*/, void * /*rs2*/);
 !
@@ -1352,12 +1352,12 @@
 	.end
 
 !--------------------------------------------------------------------
-! Byte mask and shuffle instructions
+! Byte mbsk bnd shuffle instructions
 !
-! void vis_write_bmask(unsigned int /*rs1*/, unsigned int /*rs2*/);
+! void vis_write_bmbsk(unsigned int /*rs1*/, unsigned int /*rs2*/);
 !
-	.inline vis_write_bmask,8
-	bmask	%o0,%o1,%o0
+	.inline vis_write_bmbsk,8
+	bmbsk	%o0,%o1,%o0
 	.end
 !
 ! double vis_bshuffle(double /*frs1*/, double /*frs2*/);
@@ -1367,18 +1367,18 @@
 	.end
 
 !--------------------------------------------------------------------
-! Graphics status register
+! Grbphics stbtus register
 !
-! unsigned int vis_read_bmask(void);
+! unsigned int vis_rebd_bmbsk(void);
 !
-	.inline vis_read_bmask,0
+	.inline vis_rebd_bmbsk,0
 	rd	%gsr,%o0
 	srlx	%o0,32,%o0
 	.end
 !
-! unsigned long vis_read_gsr64(void);
+! unsigned long vis_rebd_gsr64(void);
 !
-	.inline vis_read_gsr64,0
+	.inline vis_rebd_gsr64,0
 	rd	%gsr,%o0
 	.end
 !

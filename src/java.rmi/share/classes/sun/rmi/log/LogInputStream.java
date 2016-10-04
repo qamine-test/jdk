@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.log;
+pbckbge sun.rmi.log;
 
-import java.io.*;
+import jbvb.io.*;
 
 public
-class LogInputStream extends InputStream {
-    private InputStream in;
-    private int length;
+clbss LogInputStrebm extends InputStrebm {
+    privbte InputStrebm in;
+    privbte int length;
 
     /**
-     * Creates a log input file with the specified system dependent
+     * Crebtes b log input file with the specified system dependent
      * file descriptor.
-     * @param fd the system dependent file descriptor
-     * @param length the total number of bytes allowed to be read
-     * @exception IOException If an I/O error has occurred.
+     * @pbrbm fd the system dependent file descriptor
+     * @pbrbm length the totbl number of bytes bllowed to be rebd
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    public LogInputStream(InputStream in, int length) throws IOException {
+    public LogInputStrebm(InputStrebm in, int length) throws IOException {
         this.in = in;
         this.length = length;
     }
 
     /**
-     * Reads a byte of data. This method will block if no input is
-     * available.
-     * @return  the byte read, or -1 if the end of the log or end of the
-     *          stream is reached.
-     * @exception IOException If an I/O error has occurred.
+     * Rebds b byte of dbtb. This method will block if no input is
+     * bvbilbble.
+     * @return  the byte rebd, or -1 if the end of the log or end of the
+     *          strebm is rebched.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         if (length == 0)
             return -1;
-        int c = in.read();
+        int c = in.rebd();
         length = (c != -1) ? length - 1 : 0;
         return c;
     }
 
     /**
-     * Reads data into an array of bytes.
-     * This method blocks until some input is available.
-     * @param b the buffer into which the data is read
-     * @return  the actual number of bytes read, or -1 if the end of the log
-     *          or end of the stream is reached.
-     * @exception IOException If an I/O error has occurred.
+     * Rebds dbtb into bn brrby of bytes.
+     * This method blocks until some input is bvbilbble.
+     * @pbrbm b the buffer into which the dbtb is rebd
+     * @return  the bctubl number of bytes rebd, or -1 if the end of the log
+     *          or end of the strebm is rebched.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    public int read(byte b[]) throws IOException {
-        return read(b, 0, b.length);
+    public int rebd(byte b[]) throws IOException {
+        return rebd(b, 0, b.length);
     }
 
     /**
-     * Reads data into an array of bytes.
-     * This method blocks until some input is available.
-     * @param b the buffer into which the data is read
-     * @param off the start offset of the data
-     * @param len the maximum number of bytes read
-     * @return  the actual number of bytes read, or -1 if the end of the log or
-     *          end of the stream is reached.
-     * @exception IOException If an I/O error has occurred.
+     * Rebds dbtb into bn brrby of bytes.
+     * This method blocks until some input is bvbilbble.
+     * @pbrbm b the buffer into which the dbtb is rebd
+     * @pbrbm off the stbrt offset of the dbtb
+     * @pbrbm len the mbximum number of bytes rebd
+     * @return  the bctubl number of bytes rebd, or -1 if the end of the log or
+     *          end of the strebm is rebched.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    public int read(byte b[], int off, int len) throws IOException {
+    public int rebd(byte b[], int off, int len) throws IOException {
         if (length == 0)
             return -1;
         len = (length < len) ? length : len;
-        int n = in.read(b, off, len);
+        int n = in.rebd(b, off, len);
         length = (n != -1) ? length - n : 0;
         return n;
     }
 
     /**
      * Skips n bytes of input.
-     * @param n the number of bytes to be skipped
-     * @return  the actual number of bytes skipped.
-     * @exception IOException If an I/O error has occurred.
+     * @pbrbm n the number of bytes to be skipped
+     * @return  the bctubl number of bytes skipped.
+     * @exception IOException If bn I/O error hbs occurred.
      */
     public long skip(long n) throws IOException {
         if (n > Integer.MAX_VALUE)
-            throw new IOException("Too many bytes to skip - " + n);
+            throw new IOException("Too mbny bytes to skip - " + n);
         if (length == 0)
             return 0;
         n = (length < n) ? length : n;
@@ -108,27 +108,27 @@ class LogInputStream extends InputStream {
     }
 
     /**
-     * Returns the number of bytes that can be read without blocking.
-     * @return  the number of available bytes, which is initially
-     *          equal to the file size.
+     * Returns the number of bytes thbt cbn be rebd without blocking.
+     * @return  the number of bvbilbble bytes, which is initiblly
+     *          equbl to the file size.
      */
-    public int available() throws IOException {
-        int avail = in.available();
-        return (length < avail) ? length : avail;
+    public int bvbilbble() throws IOException {
+        int bvbil = in.bvbilbble();
+        return (length < bvbil) ? length : bvbil;
     }
 
     /**
-     * Closes the input stream.  No further input can be read.
-     * the stream.
+     * Closes the input strebm.  No further input cbn be rebd.
+     * the strebm.
      */
     public void close() {
         length = 0;
     }
 
     /**
-     * Closes the stream when garbage is collected.
+     * Closes the strebm when gbrbbge is collected.
      */
-    protected void finalize() throws IOException {
+    protected void finblize() throws IOException {
         close();
     }
 }

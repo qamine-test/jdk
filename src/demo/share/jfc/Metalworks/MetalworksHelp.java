@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,128 +30,128 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import javax.swing.*;
-import java.awt.*;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.io.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.io.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.event.*;
 
 
 /**
- * @author Steve Wilson
- * @author Alexander Kouznetsov
+ * @buthor Steve Wilson
+ * @buthor Alexbnder Kouznetsov
  */
-@SuppressWarnings("serial")
-public class MetalworksHelp extends JInternalFrame {
+@SuppressWbrnings("seribl")
+public clbss MetblworksHelp extends JInternblFrbme {
 
-    public MetalworksHelp() {
+    public MetblworksHelp() {
         super("Help", true, true, true, true);
 
-        setFrameIcon((Icon) UIManager.get("Tree.openIcon")); // PENDING(steve) need more general place to get this icon
+        setFrbmeIcon((Icon) UIMbnbger.get("Tree.openIcon")); // PENDING(steve) need more generbl plbce to get this icon
         setBounds(200, 25, 400, 400);
-        HtmlPane html = new HtmlPane();
-        setContentPane(html);
+        HtmlPbne html = new HtmlPbne();
+        setContentPbne(html);
     }
 }
 
 
-@SuppressWarnings("serial")
-class HtmlPane extends JScrollPane implements HyperlinkListener {
+@SuppressWbrnings("seribl")
+clbss HtmlPbne extends JScrollPbne implements HyperlinkListener {
 
-    JEditorPane html;
+    JEditorPbne html;
 
-    @SuppressWarnings("LeakingThisInConstructor")
-    public HtmlPane() {
+    @SuppressWbrnings("LebkingThisInConstructor")
+    public HtmlPbne() {
         try {
-            URL url = getClass().getResource("/resources/HelpFiles/toc.html");
-            html = new JEditorPane(url);
-            html.setEditable(false);
-            html.addHyperlinkListener(this);
-            html.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES,
-                    Boolean.TRUE);
+            URL url = getClbss().getResource("/resources/HelpFiles/toc.html");
+            html = new JEditorPbne(url);
+            html.setEditbble(fblse);
+            html.bddHyperlinkListener(this);
+            html.putClientProperty(JEditorPbne.HONOR_DISPLAY_PROPERTIES,
+                    Boolebn.TRUE);
             JViewport vp = getViewport();
-            vp.add(html);
-        } catch (MalformedURLException e) {
-            System.out.println("Malformed URL: " + e);
-        } catch (IOException e) {
+            vp.bdd(html);
+        } cbtch (MblformedURLException e) {
+            System.out.println("Mblformed URL: " + e);
+        } cbtch (IOException e) {
             System.out.println("IOException: " + e);
         }
     }
 
     /**
-     * Notification of a change relative to a
+     * Notificbtion of b chbnge relbtive to b
      * hyperlink.
      */
-    public void hyperlinkUpdate(HyperlinkEvent e) {
+    public void hyperlinkUpdbte(HyperlinkEvent e) {
         if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-            linkActivated(e.getURL());
+            linkActivbted(e.getURL());
         }
     }
 
     /**
-     * Follows the reference in an
+     * Follows the reference in bn
      * link.  The given url is the requested reference.
-     * By default this calls <a href="#setPage">setPage</a>,
-     * and if an exception is thrown the original previous
-     * document is restored and a beep sounded.  If an
-     * attempt was made to follow a link, but it represented
-     * a malformed url, this method will be called with a
-     * null argument.
+     * By defbult this cblls <b href="#setPbge">setPbge</b>,
+     * bnd if bn exception is thrown the originbl previous
+     * document is restored bnd b beep sounded.  If bn
+     * bttempt wbs mbde to follow b link, but it represented
+     * b mblformed url, this method will be cblled with b
+     * null brgument.
      *
-     * @param u the URL to follow
+     * @pbrbm u the URL to follow
      */
-    protected void linkActivated(URL u) {
+    protected void linkActivbted(URL u) {
         Cursor c = html.getCursor();
-        Cursor waitCursor = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
-        html.setCursor(waitCursor);
-        SwingUtilities.invokeLater(new PageLoader(u, c));
+        Cursor wbitCursor = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
+        html.setCursor(wbitCursor);
+        SwingUtilities.invokeLbter(new PbgeLobder(u, c));
     }
 
 
     /**
-     * temporary class that loads synchronously (although
-     * later than the request so that a cursor change
-     * can be done).
+     * temporbry clbss thbt lobds synchronously (blthough
+     * lbter thbn the request so thbt b cursor chbnge
+     * cbn be done).
      */
-    class PageLoader implements Runnable {
+    clbss PbgeLobder implements Runnbble {
 
-        PageLoader(URL u, Cursor c) {
+        PbgeLobder(URL u, Cursor c) {
             url = u;
             cursor = c;
         }
 
         public void run() {
             if (url == null) {
-                // restore the original cursor
+                // restore the originbl cursor
                 html.setCursor(cursor);
 
-                // PENDING(prinz) remove this hack when
-                // automatic validation is activated.
-                Container parent = html.getParent();
-                parent.repaint();
+                // PENDING(prinz) remove this hbck when
+                // butombtic vblidbtion is bctivbted.
+                Contbiner pbrent = html.getPbrent();
+                pbrent.repbint();
             } else {
                 Document doc = html.getDocument();
                 try {
-                    html.setPage(url);
-                } catch (IOException ioe) {
+                    html.setPbge(url);
+                } cbtch (IOException ioe) {
                     html.setDocument(doc);
                     getToolkit().beep();
-                } finally {
-                    // schedule the cursor to revert after
-                    // the paint has happended.
+                } finblly {
+                    // schedule the cursor to revert bfter
+                    // the pbint hbs hbppended.
                     url = null;
-                    SwingUtilities.invokeLater(this);
+                    SwingUtilities.invokeLbter(this);
                 }
             }
         }

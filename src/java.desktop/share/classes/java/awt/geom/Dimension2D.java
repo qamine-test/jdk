@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.geom;
+pbckbge jbvb.bwt.geom;
 
 /**
- * The <code>Dimension2D</code> class is to encapsulate a width
- * and a height dimension.
+ * The <code>Dimension2D</code> clbss is to encbpsulbte b width
+ * bnd b height dimension.
  * <p>
- * This class is only the abstract superclass for all objects that
- * store a 2D dimension.
- * The actual storage representation of the sizes is left to
- * the subclass.
+ * This clbss is only the bbstrbct superclbss for bll objects thbt
+ * store b 2D dimension.
+ * The bctubl storbge representbtion of the sizes is left to
+ * the subclbss.
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  * @since 1.2
  */
-public abstract class Dimension2D implements Cloneable {
+public bbstrbct clbss Dimension2D implements Clonebble {
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
-     * Type-specific implementation subclasses are available for
-     * instantiation and provide a number of formats for storing
-     * the information necessary to satisfy the various accessor
+     * This is bn bbstrbct clbss thbt cbnnot be instbntibted directly.
+     * Type-specific implementbtion subclbsses bre bvbilbble for
+     * instbntibtion bnd provide b number of formbts for storing
+     * the informbtion necessbry to sbtisfy the vbrious bccessor
      * methods below.
      *
-     * @see java.awt.Dimension
+     * @see jbvb.bwt.Dimension
      * @since 1.2
      */
     protected Dimension2D() {
@@ -58,7 +58,7 @@ public abstract class Dimension2D implements Cloneable {
      * @return the width of this <code>Dimension</code>.
      * @since 1.2
      */
-    public abstract double getWidth();
+    public bbstrbct double getWidth();
 
     /**
      * Returns the height of this <code>Dimension</code> in double
@@ -66,28 +66,28 @@ public abstract class Dimension2D implements Cloneable {
      * @return the height of this <code>Dimension</code>.
      * @since 1.2
      */
-    public abstract double getHeight();
+    public bbstrbct double getHeight();
 
     /**
      * Sets the size of this <code>Dimension</code> object to the
-     * specified width and height.
-     * This method is included for completeness, to parallel the
-     * {@link java.awt.Component#getSize getSize} method of
-     * {@link java.awt.Component}.
-     * @param width  the new width for the <code>Dimension</code>
+     * specified width bnd height.
+     * This method is included for completeness, to pbrbllel the
+     * {@link jbvb.bwt.Component#getSize getSize} method of
+     * {@link jbvb.bwt.Component}.
+     * @pbrbm width  the new width for the <code>Dimension</code>
      * object
-     * @param height  the new height for the <code>Dimension</code>
+     * @pbrbm height  the new height for the <code>Dimension</code>
      * object
      * @since 1.2
      */
-    public abstract void setSize(double width, double height);
+    public bbstrbct void setSize(double width, double height);
 
     /**
      * Sets the size of this <code>Dimension2D</code> object to
-     * match the specified size.
-     * This method is included for completeness, to parallel the
+     * mbtch the specified size.
+     * This method is included for completeness, to pbrbllel the
      * <code>getSize</code> method of <code>Component</code>.
-     * @param d  the new size for the <code>Dimension2D</code>
+     * @pbrbm d  the new size for the <code>Dimension2D</code>
      * object
      * @since 1.2
      */
@@ -96,19 +96,19 @@ public abstract class Dimension2D implements Cloneable {
     }
 
     /**
-     * Creates a new object of the same class as this object.
+     * Crebtes b new object of the sbme clbss bs this object.
      *
-     * @return     a clone of this instance.
+     * @return     b clone of this instbnce.
      * @exception  OutOfMemoryError            if there is not enough memory.
-     * @see        java.lang.Cloneable
+     * @see        jbvb.lbng.Clonebble
      * @since      1.2
      */
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError(e);
         }
     }
 }

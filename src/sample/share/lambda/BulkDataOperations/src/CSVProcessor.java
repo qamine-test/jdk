@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,336 +30,336 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation, and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion, bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.function.*;
-import java.util.regex.Pattern;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import jbvb.io.BufferedRebder;
+import jbvb.io.IOException;
+import jbvb.nio.file.Files;
+import jbvb.nio.file.Pbths;
+import jbvb.util.*;
+import jbvb.util.function.*;
+import jbvb.util.regex.Pbttern;
+import jbvb.util.strebm.Collector;
+import jbvb.util.strebm.Collectors;
 
-import static java.lang.Double.parseDouble;
-import static java.util.stream.Collectors.*;
+import stbtic jbvb.lbng.Double.pbrseDouble;
+import stbtic jbvb.util.strebm.Collectors.*;
 
 /**
- * CSVProcessor is a tool for processing CSV files. There are several
- * command-line options. Consult the {@link #printUsageAndExit} method for
- * instructions and command line parameters. This sample shows examples of the
- * following features:
+ * CSVProcessor is b tool for processing CSV files. There bre severbl
+ * commbnd-line options. Consult the {@link #printUsbgeAndExit} method for
+ * instructions bnd commbnd line pbrbmeters. This sbmple shows exbmples of the
+ * following febtures:
  * <ul>
- * <li>Lambda and bulk operations. Working with streams: map(...), filter(...),
+ * <li>Lbmbdb bnd bulk operbtions. Working with strebms: mbp(...), filter(...),
  * sorted(...) methods. The collect(...) method with different collectors:
- * Collectors.maxBy(...), Collectors.minBy(...), Collectors.toList(),
+ * Collectors.mbxBy(...), Collectors.minBy(...), Collectors.toList(),
  * Collectors.toCollection(...), Collectors.groupingBy(...),
- * Collectors.toDoubleSummaryStatistics(...), and a custom Collector.</li>
- * <li>Static method reference for printing values.</li>
- * <li>Try-with-resources feature for closing files.</li>
- * <li>Switch by String feature.</li>
- * <li>Other new APIs: Pattern.asPredicate(), BinaryOperator
- * BufferedReader.lines(), Collection.forEach(...), Comparator.comparing(...),
- * Comparator.reversed(), Arrays.stream(...).</li>
+ * Collectors.toDoubleSummbryStbtistics(...), bnd b custom Collector.</li>
+ * <li>Stbtic method reference for printing vblues.</li>
+ * <li>Try-with-resources febture for closing files.</li>
+ * <li>Switch by String febture.</li>
+ * <li>Other new APIs: Pbttern.bsPredicbte(), BinbryOperbtor
+ * BufferedRebder.lines(), Collection.forEbch(...), Compbrbtor.compbring(...),
+ * Compbrbtor.reversed(), Arrbys.strebm(...).</li>
  * </ul>
  *
  */
-public class CSVProcessor {
+public clbss CSVProcessor {
 
-    //Number of characters that may be read
-    private static final int READ_AHEAD_LIMIT = 100_000_000;
+    //Number of chbrbcters thbt mby be rebd
+    privbte stbtic finbl int READ_AHEAD_LIMIT = 100_000_000;
 
     /**
-     * The main method for the CSVProcessor program. Run the program with an
-     * empty argument list to see possible arguments.
+     * The mbin method for the CSVProcessor progrbm. Run the progrbm with bn
+     * empty brgument list to see possible brguments.
      *
-     * @param args the argument list for CSVProcessor.
+     * @pbrbm brgs the brgument list for CSVProcessor.
      */
-    public static void main(String[] args) {
-        if (args.length < 2) {
-            printUsageAndExit();
+    public stbtic void mbin(String[] brgs) {
+        if (brgs.length < 2) {
+            printUsbgeAndExit();
         }
-        try (BufferedReader br = new BufferedReader(
-                Files.newBufferedReader(Paths.get(args[args.length - 1])))) {
-            //Assume that the first line contains column names.
-            List<String> header = Arrays.stream(br.readLine().split(","))
-                    .map(String::trim).collect(toList());
-            //Calculate an index of the column in question.
-            int column = getColumnNumber(header, args[1]);
-            switch (args[0]) {
-                case "sort":
-                    verifyArgumentNumber(args, 4);
+        try (BufferedRebder br = new BufferedRebder(
+                Files.newBufferedRebder(Pbths.get(brgs[brgs.length - 1])))) {
+            //Assume thbt the first line contbins column nbmes.
+            List<String> hebder = Arrbys.strebm(br.rebdLine().split(","))
+                    .mbp(String::trim).collect(toList());
+            //Cblculbte bn index of the column in question.
+            int column = getColumnNumber(hebder, brgs[1]);
+            switch (brgs[0]) {
+                cbse "sort":
+                    verifyArgumentNumber(brgs, 4);
                     //Define the sort order.
-                    boolean isAsc;
-                    switch (args[2].toUpperCase()) {
-                        case "ASC":
+                    boolebn isAsc;
+                    switch (brgs[2].toUpperCbse()) {
+                        cbse "ASC":
                             isAsc = true;
-                            break;
-                        case "DESC":
-                            isAsc = false;
-                            break;
-                        default:
-                            printUsageAndExit("Illegal argument" + args[2]);
-                            return;//Should not be reached.
+                            brebk;
+                        cbse "DESC":
+                            isAsc = fblse;
+                            brebk;
+                        defbult:
+                            printUsbgeAndExit("Illegbl brgument" + brgs[2]);
+                            return;//Should not be rebched.
                     }
                     /*
-                     * Create a comparator that compares lines by comparing
-                     * values in the specified column.
+                     * Crebte b compbrbtor thbt compbres lines by compbring
+                     * vblues in the specified column.
                      */
-                    Comparator<String> cmp
-                            = Comparator.comparing(str -> getCell(str, column),
+                    Compbrbtor<String> cmp
+                            = Compbrbtor.compbring(str -> getCell(str, column),
                                     String.CASE_INSENSITIVE_ORDER);
                     /*
                      * sorted(...) is used to sort records.
-                     * forEach(...) is used to output sorted records.
+                     * forEbch(...) is used to output sorted records.
                      */
                     br.lines().sorted(isAsc ? cmp : cmp.reversed())
-                            .forEach(System.out::println);
-                    break;
-                case "search":
-                    verifyArgumentNumber(args, 4);
+                            .forEbch(System.out::println);
+                    brebk;
+                cbse "sebrch":
+                    verifyArgumentNumber(brgs, 4);
                     /*
-                     * Records are filtered by a regex.
-                     * forEach(...) is used to output filtered records.
+                     * Records bre filtered by b regex.
+                     * forEbch(...) is used to output filtered records.
                      */
-                    Predicate<String> pattern
-                            = Pattern.compile(args[2]).asPredicate();
-                    br.lines().filter(str -> pattern.test(getCell(str, column)))
-                            .forEach(System.out::println);
-                    break;
-                case "groupby":
-                    verifyArgumentNumber(args, 3);
+                    Predicbte<String> pbttern
+                            = Pbttern.compile(brgs[2]).bsPredicbte();
+                    br.lines().filter(str -> pbttern.test(getCell(str, column)))
+                            .forEbch(System.out::println);
+                    brebk;
+                cbse "groupby":
+                    verifyArgumentNumber(brgs, 3);
                     /*
-                     * Group lines by values in the column with collect(...), and
-                     * print with forEach(...) for every distinct value within
+                     * Group lines by vblues in the column with collect(...), bnd
+                     * print with forEbch(...) for every distinct vblue within
                      * the column.
                      */
                     br.lines().collect(
                             Collectors.groupingBy(str -> getCell(str, column),
                                     toCollection(TreeSet::new)))
-                            .forEach((str, set) -> {
+                            .forEbch((str, set) -> {
                                 System.out.println(str + ":");
-                                set.forEach(System.out::println);
+                                set.forEbch(System.out::println);
                             });
-                    break;
-                case "stat":
-                    verifyArgumentNumber(args, 3);
+                    brebk;
+                cbse "stbt":
+                    verifyArgumentNumber(brgs, 3);
 
                     /*
-                     * BufferedReader will be read several times.
-                     * Mark this point to return here after each pass.
-                     * BufferedReader will be read right after the headers line
-                     * because it is already read.
+                     * BufferedRebder will be rebd severbl times.
+                     * Mbrk this point to return here bfter ebch pbss.
+                     * BufferedRebder will be rebd right bfter the hebders line
+                     * becbuse it is blrebdy rebd.
                      */
-                    br.mark(READ_AHEAD_LIMIT);
+                    br.mbrk(READ_AHEAD_LIMIT);
 
                     /*
-                     * Statistics can be collected by a custom collector in one
-                     * pass. One pass is preferable.
+                     * Stbtistics cbn be collected by b custom collector in one
+                     * pbss. One pbss is preferbble.
                      */
                     System.out.println(
-                            br.lines().collect(new Statistics(column)));
+                            br.lines().collect(new Stbtistics(column)));
 
                     /*
-                     * Alternatively, statistics can be collected
-                     * by a built-in API in several passes.
-                     * This method demonstrates how separate operations can be
-                     * implemented using a built-in API.
+                     * Alternbtively, stbtistics cbn be collected
+                     * by b built-in API in severbl pbsses.
+                     * This method demonstrbtes how sepbrbte operbtions cbn be
+                     * implemented using b built-in API.
                      */
                     br.reset();
-                    statInSeveralPasses(br, column);
-                    break;
-                default:
-                    printUsageAndExit("Illegal argument" + args[0]);
+                    stbtInSeverblPbsses(br, column);
+                    brebk;
+                defbult:
+                    printUsbgeAndExit("Illegbl brgument" + brgs[0]);
             }
-        } catch (IOException e) {
-            printUsageAndExit(e.toString());
+        } cbtch (IOException e) {
+            printUsbgeAndExit(e.toString());
         }
     }
 
-    private static void statInSeveralPasses(BufferedReader br, int column)
+    privbte stbtic void stbtInSeverblPbsses(BufferedRebder br, int column)
             throws IOException {
-        System.out.println("#-----Statistics in several passes-------#");
-        //Create a comparator to compare records by the column.
-        Comparator<String> comparator
-                = Comparator.comparing(
-                        (String str) -> parseDouble(getCell(str, column)));
-        //Find max record by using Collectors.maxBy(...)
+        System.out.println("#-----Stbtistics in severbl pbsses-------#");
+        //Crebte b compbrbtor to compbre records by the column.
+        Compbrbtor<String> compbrbtor
+                = Compbrbtor.compbring(
+                        (String str) -> pbrseDouble(getCell(str, column)));
+        //Find mbx record by using Collectors.mbxBy(...)
         System.out.println(
-                "Max: " + br.lines().collect(maxBy(comparator)).get());
+                "Mbx: " + br.lines().collect(mbxBy(compbrbtor)).get());
         br.reset();
         //Find min record by using Collectors.minBy(...)
         System.out.println(
-                "Min: " + br.lines().collect(minBy(comparator)).get());
+                "Min: " + br.lines().collect(minBy(compbrbtor)).get());
         br.reset();
-        //Compute the average value and sum with
-        //Collectors.toDoubleSummaryStatistics(...)
-        DoubleSummaryStatistics doubleSummaryStatistics
-                = br.lines().collect(summarizingDouble(
-                    str -> parseDouble(getCell(str, column))));
-        System.out.println("Average: " + doubleSummaryStatistics.getAverage());
-        System.out.println("Sum: " + doubleSummaryStatistics.getSum());
+        //Compute the bverbge vblue bnd sum with
+        //Collectors.toDoubleSummbryStbtistics(...)
+        DoubleSummbryStbtistics doubleSummbryStbtistics
+                = br.lines().collect(summbrizingDouble(
+                    str -> pbrseDouble(getCell(str, column))));
+        System.out.println("Averbge: " + doubleSummbryStbtistics.getAverbge());
+        System.out.println("Sum: " + doubleSummbryStbtistics.getSum());
     }
 
-    private static void verifyArgumentNumber(String[] args, int n) {
-        if (args.length != n) {
-            printUsageAndExit("Expected " + n + " arguments but was "
-                    + args.length);
+    privbte stbtic void verifyArgumentNumber(String[] brgs, int n) {
+        if (brgs.length != n) {
+            printUsbgeAndExit("Expected " + n + " brguments but wbs "
+                    + brgs.length);
         }
     }
 
-    private static int getColumnNumber(List<String> header, String name) {
-        int column = header.indexOf(name);
+    privbte stbtic int getColumnNumber(List<String> hebder, String nbme) {
+        int column = hebder.indexOf(nbme);
         if (column == -1) {
-            printUsageAndExit("There is no column with name " + name);
+            printUsbgeAndExit("There is no column with nbme " + nbme);
         }
         return column;
     }
 
-    private static String getCell(String record, int column) {
+    privbte stbtic String getCell(String record, int column) {
         return record.split(",")[column].trim();
     }
 
-    private static void printUsageAndExit(String... str) {
-        System.out.println("Usages:");
+    privbte stbtic void printUsbgeAndExit(String... str) {
+        System.out.println("Usbges:");
 
         System.out.println("CSVProcessor sort COLUMN_NAME ASC|DESC FILE");
         System.out.println("Sort lines by column COLUMN_NAME in CSV FILE\n");
 
-        System.out.println("CSVProcessor search COLUMN_NAME REGEX FILE");
-        System.out.println("Search for REGEX in column COLUMN_NAME in CSV FILE\n");
+        System.out.println("CSVProcessor sebrch COLUMN_NAME REGEX FILE");
+        System.out.println("Sebrch for REGEX in column COLUMN_NAME in CSV FILE\n");
 
         System.out.println("CSVProcessor groupby COLUMN_NAME FILE");
-        System.out.println("Split lines into different groups according to column "
-                + "COLUMN_NAME value\n");
+        System.out.println("Split lines into different groups bccording to column "
+                + "COLUMN_NAME vblue\n");
 
-        System.out.println("CSVProcessor stat COLUMN_NAME FILE");
-        System.out.println("Compute max/min/average/sum  statistics by column "
+        System.out.println("CSVProcessor stbt COLUMN_NAME FILE");
+        System.out.println("Compute mbx/min/bverbge/sum  stbtistics by column "
                 + "COLUMN_NAME\n");
 
-        Arrays.asList(str).forEach(System.err::println);
+        Arrbys.bsList(str).forEbch(System.err::println);
         System.exit(1);
     }
 
     /*
-     * This is a custom implementation of the Collector interface.
-     * Statistics are objects gather max,min,sum,average statistics.
+     * This is b custom implementbtion of the Collector interfbce.
+     * Stbtistics bre objects gbther mbx,min,sum,bverbge stbtistics.
      */
-    private static class Statistics
-            implements Collector<String, Statistics, Statistics> {
+    privbte stbtic clbss Stbtistics
+            implements Collector<String, Stbtistics, Stbtistics> {
 
 
         /*
-         * This implementation does not need to be thread safe because
-         * the parallel implementation of
-         * {@link java.util.stream.Stream#collect Stream.collect()}
-         * provides the necessary partitioning and isolation for safe parallel
+         * This implementbtion does not need to be threbd sbfe becbuse
+         * the pbrbllel implementbtion of
+         * {@link jbvb.util.strebm.Strebm#collect Strebm.collect()}
+         * provides the necessbry pbrtitioning bnd isolbtion for sbfe pbrbllel
          * execution.
          */
-        private String maxRecord;
-        private String minRecord;
+        privbte String mbxRecord;
+        privbte String minRecord;
 
-        private double sum;
-        private int lineCount;
-        private final BinaryOperator<String> maxOperator;
-        private final BinaryOperator<String> minOperator;
-        private final int column;
+        privbte double sum;
+        privbte int lineCount;
+        privbte finbl BinbryOperbtor<String> mbxOperbtor;
+        privbte finbl BinbryOperbtor<String> minOperbtor;
+        privbte finbl int column;
 
-        public Statistics(int column) {
+        public Stbtistics(int column) {
             this.column = column;
-            Comparator<String> cmp = Comparator.comparing(
-                    (String str) -> parseDouble(getCell(str, column)));
-            maxOperator = BinaryOperator.maxBy(cmp);
-            minOperator = BinaryOperator.minBy(cmp);
+            Compbrbtor<String> cmp = Compbrbtor.compbring(
+                    (String str) -> pbrseDouble(getCell(str, column)));
+            mbxOperbtor = BinbryOperbtor.mbxBy(cmp);
+            minOperbtor = BinbryOperbtor.minBy(cmp);
         }
 
         /*
          * Process line.
          */
-        public Statistics accept(String line) {
-            maxRecord = maxRecord == null
-                    ? line : maxOperator.apply(maxRecord, line);
+        public Stbtistics bccept(String line) {
+            mbxRecord = mbxRecord == null
+                    ? line : mbxOperbtor.bpply(mbxRecord, line);
             minRecord = minRecord == null
-                    ? line : minOperator.apply(minRecord, line);
+                    ? line : minOperbtor.bpply(minRecord, line);
 
-            sum += parseDouble(getCell(line, column));
+            sum += pbrseDouble(getCell(line, column));
             lineCount++;
             return this;
         }
 
 
         /*
-         * Merge two Statistics.
+         * Merge two Stbtistics.
          */
-        public Statistics combine(Statistics stat) {
-            maxRecord = maxOperator.apply(maxRecord, stat.getMaxRecord());
-            minRecord = minOperator.apply(minRecord, stat.getMinRecord());
-            sum += stat.getSum();
-            lineCount += stat.getLineCount();
+        public Stbtistics combine(Stbtistics stbt) {
+            mbxRecord = mbxOperbtor.bpply(mbxRecord, stbt.getMbxRecord());
+            minRecord = minOperbtor.bpply(minRecord, stbt.getMinRecord());
+            sum += stbt.getSum();
+            lineCount += stbt.getLineCount();
             return this;
         }
 
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            sb.append("#------Statistics------#\n");
-            sb.append("Max: ").append(getMaxRecord()).append("\n");
-            sb.append("Min: ").append(getMinRecord()).append("\n");
-            sb.append("Sum = ").append(getSum()).append("\n");
-            sb.append("Average = ").append(average()).append("\n");
-            sb.append("#------Statistics------#\n");
+            sb.bppend("#------Stbtistics------#\n");
+            sb.bppend("Mbx: ").bppend(getMbxRecord()).bppend("\n");
+            sb.bppend("Min: ").bppend(getMinRecord()).bppend("\n");
+            sb.bppend("Sum = ").bppend(getSum()).bppend("\n");
+            sb.bppend("Averbge = ").bppend(bverbge()).bppend("\n");
+            sb.bppend("#------Stbtistics------#\n");
             return sb.toString();
         }
 
         @Override
-        public Supplier<Statistics> supplier() {
-            return () -> new Statistics(column);
+        public Supplier<Stbtistics> supplier() {
+            return () -> new Stbtistics(column);
         }
 
         @Override
-        public BiConsumer<Statistics, String> accumulator() {
-            return Statistics::accept;
+        public BiConsumer<Stbtistics, String> bccumulbtor() {
+            return Stbtistics::bccept;
         }
 
         @Override
-        public BinaryOperator<Statistics> combiner() {
-            return Statistics::combine;
+        public BinbryOperbtor<Stbtistics> combiner() {
+            return Stbtistics::combine;
 
         }
 
         @Override
-        public Function<Statistics, Statistics> finisher() {
-            return stat -> stat;
+        public Function<Stbtistics, Stbtistics> finisher() {
+            return stbt -> stbt;
         }
 
         @Override
-        public Set<Characteristics> characteristics() {
-            return EnumSet.of(Characteristics.IDENTITY_FINISH);
+        public Set<Chbrbcteristics> chbrbcteristics() {
+            return EnumSet.of(Chbrbcteristics.IDENTITY_FINISH);
         }
 
-        private String getMaxRecord() {
-            return maxRecord;
+        privbte String getMbxRecord() {
+            return mbxRecord;
         }
 
-        private String getMinRecord() {
+        privbte String getMinRecord() {
             return minRecord;
         }
 
-        private double getSum() {
+        privbte double getSum() {
             return sum;
         }
 
-        private double average() {
+        privbte double bverbge() {
             return sum / lineCount;
         }
 
-        private int getLineCount() {
+        privbte int getLineCount() {
             return lineCount;
         }
 

@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.rmi;
+pbckbge sun.jvmstbt.perfdbtb.monitor.protocol.rmi;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.remote.*;
-import sun.jvmstat.perfdata.monitor.*;
-import java.io.*;
-import java.rmi.RemoteException;
-import java.nio.ByteBuffer;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.remote.*;
+import sun.jvmstbt.perfdbtb.monitor.*;
+import jbvb.io.*;
+import jbvb.rmi.RemoteException;
+import jbvb.nio.ByteBuffer;
 
 /**
- * The concrete PerfDataBuffer implementation for the <em>rmi:</em>
- * protocol for the HotSpot PerfData monitoring implementation.
+ * The concrete PerfDbtbBuffer implementbtion for the <em>rmi:</em>
+ * protocol for the HotSpot PerfDbtb monitoring implementbtion.
  * <p>
- * This class is responsible for acquiring the instrumentation buffer
- * data for a remote target HotSpot Java Virtual Machine.
+ * This clbss is responsible for bcquiring the instrumentbtion buffer
+ * dbtb for b remote tbrget HotSpot Jbvb Virtubl Mbchine.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class PerfDataBuffer extends AbstractPerfDataBuffer {
+public clbss PerfDbtbBuffer extends AbstrbctPerfDbtbBuffer {
 
-    private RemoteVm rvm;
+    privbte RemoteVm rvm;
 
     /**
-     * Create a PerfDataBuffer instance for accessing the specified
-     * instrumentation buffer.
+     * Crebte b PerfDbtbBuffer instbnce for bccessing the specified
+     * instrumentbtion buffer.
      *
-     * @param rvm the proxy to the remote MonitredVm object
-     * @param lvmid the local Java Virtual Machine Identifier of the
-     *              remote target.
+     * @pbrbm rvm the proxy to the remote MonitredVm object
+     * @pbrbm lvmid the locbl Jbvb Virtubl Mbchine Identifier of the
+     *              remote tbrget.
      *
      * @throws MonitorException
      */
-    public PerfDataBuffer(RemoteVm rvm, int lvmid) throws MonitorException {
+    public PerfDbtbBuffer(RemoteVm rvm, int lvmid) throws MonitorException {
 
         this.rvm = rvm;
         try {
-            ByteBuffer buffer = ByteBuffer.allocate(rvm.getCapacity());
-            sample(buffer);
-            createPerfDataBuffer(buffer, lvmid);
+            ByteBuffer buffer = ByteBuffer.bllocbte(rvm.getCbpbcity());
+            sbmple(buffer);
+            crebtePerfDbtbBuffer(buffer, lvmid);
 
-        } catch (RemoteException e) {
-            throw new MonitorException("Could not read data for remote JVM "
+        } cbtch (RemoteException e) {
+            throw new MonitorException("Could not rebd dbtb for remote JVM "
                                        + lvmid, e);
         }
     }
 
     /**
-     * Get a copy of the remote instrumentation buffer.
+     * Get b copy of the remote instrumentbtion buffer.
      *<p>
-     * The data in the remote instrumentation buffer is copied into
-     * the local byte buffer.
+     * The dbtb in the remote instrumentbtion buffer is copied into
+     * the locbl byte buffer.
      *
-     * @param buffer the buffer to receive the copy of the remote
-     *               instrumentation buffer.
-     * @throws RemoteException Thrown on any communications errors with
+     * @pbrbm buffer the buffer to receive the copy of the remote
+     *               instrumentbtion buffer.
+     * @throws RemoteException Thrown on bny communicbtions errors with
      *                         the remote system.
      */
-    public void sample(ByteBuffer buffer) throws RemoteException {
-        assert buffer != null;
-        assert rvm != null;
+    public void sbmple(ByteBuffer buffer) throws RemoteException {
+        bssert buffer != null;
+        bssert rvm != null;
         synchronized(buffer) {
-            buffer.clear();
+            buffer.clebr();
             buffer.put(rvm.getBytes());
         }
     }

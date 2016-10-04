@@ -1,443 +1,443 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// ContentHandler.java - handle main document content.
-// http://www.saxproject.org
-// Written by David Megginson
-// NO WARRANTY!  This class is in the public domain.
-// $Id: ContentHandler.java,v 1.2 2004/11/03 22:44:51 jsuttor Exp $
+// ContentHbndler.jbvb - hbndle mbin document content.
+// http://www.sbxproject.org
+// Written by Dbvid Megginson
+// NO WARRANTY!  This clbss is in the public dombin.
+// $Id: ContentHbndler.jbvb,v 1.2 2004/11/03 22:44:51 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbckbge jdk.internbl.org.xml.sbx;
 
 
 /**
- * Receive notification of the logical content of a document.
+ * Receive notificbtion of the logicbl content of b document.
  *
  * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
+ * <em>This module, both source code bnd documentbtion, is in the
+ * Public Dombin, bnd comes with <strong>NO WARRANTY</strong>.</em>
+ * See <b href='http://www.sbxproject.org'>http://www.sbxproject.org</b>
+ * for further informbtion.
  * </blockquote>
  *
- * <p>This is the main interface that most SAX applications
- * implement: if the application needs to be informed of basic parsing
- * events, it implements this interface and registers an instance with
- * the SAX parser using the {@link org.xml.sax.XMLReader#setContentHandler
- * setContentHandler} method.  The parser uses the instance to report
- * basic document-related events like the start and end of elements
- * and character data.</p>
+ * <p>This is the mbin interfbce thbt most SAX bpplicbtions
+ * implement: if the bpplicbtion needs to be informed of bbsic pbrsing
+ * events, it implements this interfbce bnd registers bn instbnce with
+ * the SAX pbrser using the {@link org.xml.sbx.XMLRebder#setContentHbndler
+ * setContentHbndler} method.  The pbrser uses the instbnce to report
+ * bbsic document-relbted events like the stbrt bnd end of elements
+ * bnd chbrbcter dbtb.</p>
  *
- * <p>The order of events in this interface is very important, and
- * mirrors the order of information in the document itself.  For
- * example, all of an element's content (character data, processing
- * instructions, and/or subelements) will appear, in order, between
- * the startElement event and the corresponding endElement event.</p>
+ * <p>The order of events in this interfbce is very importbnt, bnd
+ * mirrors the order of informbtion in the document itself.  For
+ * exbmple, bll of bn element's content (chbrbcter dbtb, processing
+ * instructions, bnd/or subelements) will bppebr, in order, between
+ * the stbrtElement event bnd the corresponding endElement event.</p>
  *
- * <p>This interface is similar to the now-deprecated SAX 1.0
- * DocumentHandler interface, but it adds support for Namespaces
- * and for reporting skipped entities (in non-validating XML
+ * <p>This interfbce is similbr to the now-deprecbted SAX 1.0
+ * DocumentHbndler interfbce, but it bdds support for Nbmespbces
+ * bnd for reporting skipped entities (in non-vblidbting XML
  * processors).</p>
  *
- * <p>Implementors should note that there is also a
- * <code>ContentHandler</code> class in the <code>java.net</code>
- * package; that means that it's probably a bad idea to do</p>
+ * <p>Implementors should note thbt there is blso b
+ * <code>ContentHbndler</code> clbss in the <code>jbvb.net</code>
+ * pbckbge; thbt mebns thbt it's probbbly b bbd ideb to do</p>
  *
- * <pre>import java.net.*;
- * import org.xml.sax.*;
+ * <pre>import jbvb.net.*;
+ * import org.xml.sbx.*;
  * </pre>
  *
- * <p>In fact, "import ...*" is usually a sign of sloppy programming
- * anyway, so the user should consider this a feature rather than a
+ * <p>In fbct, "import ...*" is usublly b sign of sloppy progrbmming
+ * bnywby, so the user should consider this b febture rbther thbn b
  * bug.</p>
  *
  * @since SAX 2.0
- * @author David Megginson
- * @see org.xml.sax.XMLReader
- * @see org.xml.sax.DTDHandler
- * @see org.xml.sax.ErrorHandler
+ * @buthor Dbvid Megginson
+ * @see org.xml.sbx.XMLRebder
+ * @see org.xml.sbx.DTDHbndler
+ * @see org.xml.sbx.ErrorHbndler
  */
-public interface ContentHandler
+public interfbce ContentHbndler
 {
 
     /**
-     * Receive an object for locating the origin of SAX document events.
+     * Receive bn object for locbting the origin of SAX document events.
      *
-     * <p>SAX parsers are strongly encouraged (though not absolutely
-     * required) to supply a locator: if it does so, it must supply
-     * the locator to the application by invoking this method before
-     * invoking any of the other methods in the ContentHandler
-     * interface.</p>
+     * <p>SAX pbrsers bre strongly encourbged (though not bbsolutely
+     * required) to supply b locbtor: if it does so, it must supply
+     * the locbtor to the bpplicbtion by invoking this method before
+     * invoking bny of the other methods in the ContentHbndler
+     * interfbce.</p>
      *
-     * <p>The locator allows the application to determine the end
-     * position of any document-related event, even if the parser is
-     * not reporting an error.  Typically, the application will
-     * use this information for reporting its own errors (such as
-     * character content that does not match an application's
-     * business rules).  The information returned by the locator
-     * is probably not sufficient for use with a search engine.</p>
+     * <p>The locbtor bllows the bpplicbtion to determine the end
+     * position of bny document-relbted event, even if the pbrser is
+     * not reporting bn error.  Typicblly, the bpplicbtion will
+     * use this informbtion for reporting its own errors (such bs
+     * chbrbcter content thbt does not mbtch bn bpplicbtion's
+     * business rules).  The informbtion returned by the locbtor
+     * is probbbly not sufficient for use with b sebrch engine.</p>
      *
-     * <p>Note that the locator will return correct information only
-     * during the invocation SAX event callbacks after
-     * {@link #startDocument startDocument} returns and before
-     * {@link #endDocument endDocument} is called.  The
-     * application should not attempt to use it at any other time.</p>
+     * <p>Note thbt the locbtor will return correct informbtion only
+     * during the invocbtion SAX event cbllbbcks bfter
+     * {@link #stbrtDocument stbrtDocument} returns bnd before
+     * {@link #endDocument endDocument} is cblled.  The
+     * bpplicbtion should not bttempt to use it bt bny other time.</p>
      *
-     * @param locator an object that can return the location of
-     *                any SAX document event
-     * @see org.xml.sax.Locator
+     * @pbrbm locbtor bn object thbt cbn return the locbtion of
+     *                bny SAX document event
+     * @see org.xml.sbx.Locbtor
      */
-    public void setDocumentLocator (Locator locator);
+    public void setDocumentLocbtor (Locbtor locbtor);
 
 
     /**
-     * Receive notification of the beginning of a document.
+     * Receive notificbtion of the beginning of b document.
      *
-     * <p>The SAX parser will invoke this method only once, before any
-     * other event callbacks (except for {@link #setDocumentLocator
-     * setDocumentLocator}).</p>
+     * <p>The SAX pbrser will invoke this method only once, before bny
+     * other event cbllbbcks (except for {@link #setDocumentLocbtor
+     * setDocumentLocbtor}).</p>
      *
-     * @throws org.xml.sax.SAXException any SAX exception, possibly
-     *            wrapping another exception
+     * @throws org.xml.sbx.SAXException bny SAX exception, possibly
+     *            wrbpping bnother exception
      * @see #endDocument
      */
-    public void startDocument ()
+    public void stbrtDocument ()
         throws SAXException;
 
 
     /**
-     * Receive notification of the end of a document.
+     * Receive notificbtion of the end of b document.
      *
-     * <p><strong>There is an apparent contradiction between the
-     * documentation for this method and the documentation for {@link
-     * org.xml.sax.ErrorHandler#fatalError}.  Until this ambiguity is
-     * resolved in a future major release, clients should make no
-     * assumptions about whether endDocument() will or will not be
-     * invoked when the parser has reported a fatalError() or thrown
-     * an exception.</strong></p>
+     * <p><strong>There is bn bppbrent contrbdiction between the
+     * documentbtion for this method bnd the documentbtion for {@link
+     * org.xml.sbx.ErrorHbndler#fbtblError}.  Until this bmbiguity is
+     * resolved in b future mbjor relebse, clients should mbke no
+     * bssumptions bbout whether endDocument() will or will not be
+     * invoked when the pbrser hbs reported b fbtblError() or thrown
+     * bn exception.</strong></p>
      *
-     * <p>The SAX parser will invoke this method only once, and it will
-     * be the last method invoked during the parse.  The parser shall
-     * not invoke this method until it has either abandoned parsing
-     * (because of an unrecoverable error) or reached the end of
+     * <p>The SAX pbrser will invoke this method only once, bnd it will
+     * be the lbst method invoked during the pbrse.  The pbrser shbll
+     * not invoke this method until it hbs either bbbndoned pbrsing
+     * (becbuse of bn unrecoverbble error) or rebched the end of
      * input.</p>
      *
-     * @throws org.xml.sax.SAXException any SAX exception, possibly
-     *            wrapping another exception
-     * @see #startDocument
+     * @throws org.xml.sbx.SAXException bny SAX exception, possibly
+     *            wrbpping bnother exception
+     * @see #stbrtDocument
      */
     public void endDocument()
         throws SAXException;
 
 
     /**
-     * Begin the scope of a prefix-URI Namespace mapping.
+     * Begin the scope of b prefix-URI Nbmespbce mbpping.
      *
-     * <p>The information from this event is not necessary for
-     * normal Namespace processing: the SAX XML reader will
-     * automatically replace prefixes for element and attribute
-     * names when the <code>http://xml.org/sax/features/namespaces</code>
-     * feature is <var>true</var> (the default).</p>
+     * <p>The informbtion from this event is not necessbry for
+     * normbl Nbmespbce processing: the SAX XML rebder will
+     * butombticblly replbce prefixes for element bnd bttribute
+     * nbmes when the <code>http://xml.org/sbx/febtures/nbmespbces</code>
+     * febture is <vbr>true</vbr> (the defbult).</p>
      *
-     * <p>There are cases, however, when applications need to
-     * use prefixes in character data or in attribute values,
-     * where they cannot safely be expanded automatically; the
-     * start/endPrefixMapping event supplies the information
-     * to the application to expand prefixes in those contexts
-     * itself, if necessary.</p>
+     * <p>There bre cbses, however, when bpplicbtions need to
+     * use prefixes in chbrbcter dbtb or in bttribute vblues,
+     * where they cbnnot sbfely be expbnded butombticblly; the
+     * stbrt/endPrefixMbpping event supplies the informbtion
+     * to the bpplicbtion to expbnd prefixes in those contexts
+     * itself, if necessbry.</p>
      *
-     * <p>Note that start/endPrefixMapping events are not
-     * guaranteed to be properly nested relative to each other:
-     * all startPrefixMapping events will occur immediately before the
-     * corresponding {@link #startElement startElement} event,
-     * and all {@link #endPrefixMapping endPrefixMapping}
-     * events will occur immediately after the corresponding
+     * <p>Note thbt stbrt/endPrefixMbpping events bre not
+     * gubrbnteed to be properly nested relbtive to ebch other:
+     * bll stbrtPrefixMbpping events will occur immedibtely before the
+     * corresponding {@link #stbrtElement stbrtElement} event,
+     * bnd bll {@link #endPrefixMbpping endPrefixMbpping}
+     * events will occur immedibtely bfter the corresponding
      * {@link #endElement endElement} event,
      * but their order is not otherwise
-     * guaranteed.</p>
+     * gubrbnteed.</p>
      *
-     * <p>There should never be start/endPrefixMapping events for the
-     * "xml" prefix, since it is predeclared and immutable.</p>
+     * <p>There should never be stbrt/endPrefixMbpping events for the
+     * "xml" prefix, since it is predeclbred bnd immutbble.</p>
      *
-     * @param prefix the Namespace prefix being declared.
-     *  An empty string is used for the default element namespace,
-     *  which has no prefix.
-     * @param uri the Namespace URI the prefix is mapped to
-     * @throws org.xml.sax.SAXException the client may throw
-     *            an exception during processing
-     * @see #endPrefixMapping
-     * @see #startElement
+     * @pbrbm prefix the Nbmespbce prefix being declbred.
+     *  An empty string is used for the defbult element nbmespbce,
+     *  which hbs no prefix.
+     * @pbrbm uri the Nbmespbce URI the prefix is mbpped to
+     * @throws org.xml.sbx.SAXException the client mby throw
+     *            bn exception during processing
+     * @see #endPrefixMbpping
+     * @see #stbrtElement
      */
-    public void startPrefixMapping (String prefix, String uri)
+    public void stbrtPrefixMbpping (String prefix, String uri)
         throws SAXException;
 
 
     /**
-     * End the scope of a prefix-URI mapping.
+     * End the scope of b prefix-URI mbpping.
      *
-     * <p>See {@link #startPrefixMapping startPrefixMapping} for
-     * details.  These events will always occur immediately after the
+     * <p>See {@link #stbrtPrefixMbpping stbrtPrefixMbpping} for
+     * detbils.  These events will blwbys occur immedibtely bfter the
      * corresponding {@link #endElement endElement} event, but the order of
-     * {@link #endPrefixMapping endPrefixMapping} events is not otherwise
-     * guaranteed.</p>
+     * {@link #endPrefixMbpping endPrefixMbpping} events is not otherwise
+     * gubrbnteed.</p>
      *
-     * @param prefix the prefix that was being mapped.
-     *  This is the empty string when a default mapping scope ends.
-     * @throws org.xml.sax.SAXException the client may throw
-     *            an exception during processing
-     * @see #startPrefixMapping
+     * @pbrbm prefix the prefix thbt wbs being mbpped.
+     *  This is the empty string when b defbult mbpping scope ends.
+     * @throws org.xml.sbx.SAXException the client mby throw
+     *            bn exception during processing
+     * @see #stbrtPrefixMbpping
      * @see #endElement
      */
-    public void endPrefixMapping (String prefix)
+    public void endPrefixMbpping (String prefix)
         throws SAXException;
 
 
     /**
-     * Receive notification of the beginning of an element.
+     * Receive notificbtion of the beginning of bn element.
      *
-     * <p>The Parser will invoke this method at the beginning of every
-     * element in the XML document; there will be a corresponding
-     * {@link #endElement endElement} event for every startElement event
+     * <p>The Pbrser will invoke this method bt the beginning of every
+     * element in the XML document; there will be b corresponding
+     * {@link #endElement endElement} event for every stbrtElement event
      * (even when the element is empty). All of the element's content will be
      * reported, in order, before the corresponding endElement
      * event.</p>
      *
-     * <p>This event allows up to three name components for each
+     * <p>This event bllows up to three nbme components for ebch
      * element:</p>
      *
      * <ol>
-     * <li>the Namespace URI;</li>
-     * <li>the local name; and</li>
-     * <li>the qualified (prefixed) name.</li>
+     * <li>the Nbmespbce URI;</li>
+     * <li>the locbl nbme; bnd</li>
+     * <li>the qublified (prefixed) nbme.</li>
      * </ol>
      *
-     * <p>Any or all of these may be provided, depending on the
-     * values of the <var>http://xml.org/sax/features/namespaces</var>
-     * and the <var>http://xml.org/sax/features/namespace-prefixes</var>
+     * <p>Any or bll of these mby be provided, depending on the
+     * vblues of the <vbr>http://xml.org/sbx/febtures/nbmespbces</vbr>
+     * bnd the <vbr>http://xml.org/sbx/febtures/nbmespbce-prefixes</vbr>
      * properties:</p>
      *
      * <ul>
-     * <li>the Namespace URI and local name are required when
-     * the namespaces property is <var>true</var> (the default), and are
-     * optional when the namespaces property is <var>false</var> (if one is
+     * <li>the Nbmespbce URI bnd locbl nbme bre required when
+     * the nbmespbces property is <vbr>true</vbr> (the defbult), bnd bre
+     * optionbl when the nbmespbces property is <vbr>fblse</vbr> (if one is
      * specified, both must be);</li>
-     * <li>the qualified name is required when the namespace-prefixes property
-     * is <var>true</var>, and is optional when the namespace-prefixes property
-     * is <var>false</var> (the default).</li>
+     * <li>the qublified nbme is required when the nbmespbce-prefixes property
+     * is <vbr>true</vbr>, bnd is optionbl when the nbmespbce-prefixes property
+     * is <vbr>fblse</vbr> (the defbult).</li>
      * </ul>
      *
-     * <p>Note that the attribute list provided will contain only
-     * attributes with explicit values (specified or defaulted):
-     * #IMPLIED attributes will be omitted.  The attribute list
-     * will contain attributes used for Namespace declarations
-     * (xmlns* attributes) only if the
-     * <code>http://xml.org/sax/features/namespace-prefixes</code>
-     * property is true (it is false by default, and support for a
-     * true value is optional).</p>
+     * <p>Note thbt the bttribute list provided will contbin only
+     * bttributes with explicit vblues (specified or defbulted):
+     * #IMPLIED bttributes will be omitted.  The bttribute list
+     * will contbin bttributes used for Nbmespbce declbrbtions
+     * (xmlns* bttributes) only if the
+     * <code>http://xml.org/sbx/febtures/nbmespbce-prefixes</code>
+     * property is true (it is fblse by defbult, bnd support for b
+     * true vblue is optionbl).</p>
      *
-     * <p>Like {@link #characters characters()}, attribute values may have
-     * characters that need more than one <code>char</code> value.  </p>
+     * <p>Like {@link #chbrbcters chbrbcters()}, bttribute vblues mby hbve
+     * chbrbcters thbt need more thbn one <code>chbr</code> vblue.  </p>
      *
-     * @param uri the Namespace URI, or the empty string if the
-     *        element has no Namespace URI or if Namespace
+     * @pbrbm uri the Nbmespbce URI, or the empty string if the
+     *        element hbs no Nbmespbce URI or if Nbmespbce
      *        processing is not being performed
-     * @param localName the local name (without prefix), or the
-     *        empty string if Namespace processing is not being
+     * @pbrbm locblNbme the locbl nbme (without prefix), or the
+     *        empty string if Nbmespbce processing is not being
      *        performed
-     * @param qName the qualified name (with prefix), or the
-     *        empty string if qualified names are not available
-     * @param atts the attributes attached to the element.  If
-     *        there are no attributes, it shall be an empty
-     *        Attributes object.  The value of this object after
-     *        startElement returns is undefined
-     * @throws org.xml.sax.SAXException any SAX exception, possibly
-     *            wrapping another exception
+     * @pbrbm qNbme the qublified nbme (with prefix), or the
+     *        empty string if qublified nbmes bre not bvbilbble
+     * @pbrbm btts the bttributes bttbched to the element.  If
+     *        there bre no bttributes, it shbll be bn empty
+     *        Attributes object.  The vblue of this object bfter
+     *        stbrtElement returns is undefined
+     * @throws org.xml.sbx.SAXException bny SAX exception, possibly
+     *            wrbpping bnother exception
      * @see #endElement
-     * @see org.xml.sax.Attributes
-     * @see org.xml.sax.helpers.AttributesImpl
+     * @see org.xml.sbx.Attributes
+     * @see org.xml.sbx.helpers.AttributesImpl
      */
-    public void startElement (String uri, String localName,
-                              String qName, Attributes atts)
+    public void stbrtElement (String uri, String locblNbme,
+                              String qNbme, Attributes btts)
         throws SAXException;
 
 
     /**
-     * Receive notification of the end of an element.
+     * Receive notificbtion of the end of bn element.
      *
-     * <p>The SAX parser will invoke this method at the end of every
-     * element in the XML document; there will be a corresponding
-     * {@link #startElement startElement} event for every endElement
+     * <p>The SAX pbrser will invoke this method bt the end of every
+     * element in the XML document; there will be b corresponding
+     * {@link #stbrtElement stbrtElement} event for every endElement
      * event (even when the element is empty).</p>
      *
-     * <p>For information on the names, see startElement.</p>
+     * <p>For informbtion on the nbmes, see stbrtElement.</p>
      *
-     * @param uri the Namespace URI, or the empty string if the
-     *        element has no Namespace URI or if Namespace
+     * @pbrbm uri the Nbmespbce URI, or the empty string if the
+     *        element hbs no Nbmespbce URI or if Nbmespbce
      *        processing is not being performed
-     * @param localName the local name (without prefix), or the
-     *        empty string if Namespace processing is not being
+     * @pbrbm locblNbme the locbl nbme (without prefix), or the
+     *        empty string if Nbmespbce processing is not being
      *        performed
-     * @param qName the qualified XML name (with prefix), or the
-     *        empty string if qualified names are not available
-     * @throws org.xml.sax.SAXException any SAX exception, possibly
-     *            wrapping another exception
+     * @pbrbm qNbme the qublified XML nbme (with prefix), or the
+     *        empty string if qublified nbmes bre not bvbilbble
+     * @throws org.xml.sbx.SAXException bny SAX exception, possibly
+     *            wrbpping bnother exception
      */
-    public void endElement (String uri, String localName,
-                            String qName)
+    public void endElement (String uri, String locblNbme,
+                            String qNbme)
         throws SAXException;
 
 
     /**
-     * Receive notification of character data.
+     * Receive notificbtion of chbrbcter dbtb.
      *
-     * <p>The Parser will call this method to report each chunk of
-     * character data.  SAX parsers may return all contiguous character
-     * data in a single chunk, or they may split it into several
-     * chunks; however, all of the characters in any single event
-     * must come from the same external entity so that the Locator
-     * provides useful information.</p>
+     * <p>The Pbrser will cbll this method to report ebch chunk of
+     * chbrbcter dbtb.  SAX pbrsers mby return bll contiguous chbrbcter
+     * dbtb in b single chunk, or they mby split it into severbl
+     * chunks; however, bll of the chbrbcters in bny single event
+     * must come from the sbme externbl entity so thbt the Locbtor
+     * provides useful informbtion.</p>
      *
-     * <p>The application must not attempt to read from the array
-     * outside of the specified range.</p>
+     * <p>The bpplicbtion must not bttempt to rebd from the brrby
+     * outside of the specified rbnge.</p>
      *
-     * <p>Individual characters may consist of more than one Java
-     * <code>char</code> value.  There are two important cases where this
-     * happens, because characters can't be represented in just sixteen bits.
-     * In one case, characters are represented in a <em>Surrogate Pair</em>,
-     * using two special Unicode values. Such characters are in the so-called
-     * "Astral Planes", with a code point above U+FFFF.  A second case involves
-     * composite characters, such as a base character combining with one or
-     * more accent characters. </p>
+     * <p>Individubl chbrbcters mby consist of more thbn one Jbvb
+     * <code>chbr</code> vblue.  There bre two importbnt cbses where this
+     * hbppens, becbuse chbrbcters cbn't be represented in just sixteen bits.
+     * In one cbse, chbrbcters bre represented in b <em>Surrogbte Pbir</em>,
+     * using two specibl Unicode vblues. Such chbrbcters bre in the so-cblled
+     * "Astrbl Plbnes", with b code point bbove U+FFFF.  A second cbse involves
+     * composite chbrbcters, such bs b bbse chbrbcter combining with one or
+     * more bccent chbrbcters. </p>
      *
-     * <p> Your code should not assume that algorithms using
-     * <code>char</code>-at-a-time idioms will be working in character
-     * units; in some cases they will split characters.  This is relevant
-     * wherever XML permits arbitrary characters, such as attribute values,
-     * processing instruction data, and comments as well as in data reported
-     * from this method.  It's also generally relevant whenever Java code
-     * manipulates internationalized text; the issue isn't unique to XML.</p>
+     * <p> Your code should not bssume thbt blgorithms using
+     * <code>chbr</code>-bt-b-time idioms will be working in chbrbcter
+     * units; in some cbses they will split chbrbcters.  This is relevbnt
+     * wherever XML permits brbitrbry chbrbcters, such bs bttribute vblues,
+     * processing instruction dbtb, bnd comments bs well bs in dbtb reported
+     * from this method.  It's blso generblly relevbnt whenever Jbvb code
+     * mbnipulbtes internbtionblized text; the issue isn't unique to XML.</p>
      *
-     * <p>Note that some parsers will report whitespace in element
-     * content using the {@link #ignorableWhitespace ignorableWhitespace}
-     * method rather than this one (validating parsers <em>must</em>
+     * <p>Note thbt some pbrsers will report whitespbce in element
+     * content using the {@link #ignorbbleWhitespbce ignorbbleWhitespbce}
+     * method rbther thbn this one (vblidbting pbrsers <em>must</em>
      * do so).</p>
      *
-     * @param ch the characters from the XML document
-     * @param start the start position in the array
-     * @param length the number of characters to read from the array
-     * @throws org.xml.sax.SAXException any SAX exception, possibly
-     *            wrapping another exception
-     * @see #ignorableWhitespace
-     * @see org.xml.sax.Locator
+     * @pbrbm ch the chbrbcters from the XML document
+     * @pbrbm stbrt the stbrt position in the brrby
+     * @pbrbm length the number of chbrbcters to rebd from the brrby
+     * @throws org.xml.sbx.SAXException bny SAX exception, possibly
+     *            wrbpping bnother exception
+     * @see #ignorbbleWhitespbce
+     * @see org.xml.sbx.Locbtor
      */
-    public void characters (char ch[], int start, int length)
+    public void chbrbcters (chbr ch[], int stbrt, int length)
         throws SAXException;
 
 
     /**
-     * Receive notification of ignorable whitespace in element content.
+     * Receive notificbtion of ignorbble whitespbce in element content.
      *
-     * <p>Validating Parsers must use this method to report each chunk
-     * of whitespace in element content (see the W3C XML 1.0
-     * recommendation, section 2.10): non-validating parsers may also
-     * use this method if they are capable of parsing and using
+     * <p>Vblidbting Pbrsers must use this method to report ebch chunk
+     * of whitespbce in element content (see the W3C XML 1.0
+     * recommendbtion, section 2.10): non-vblidbting pbrsers mby blso
+     * use this method if they bre cbpbble of pbrsing bnd using
      * content models.</p>
      *
-     * <p>SAX parsers may return all contiguous whitespace in a single
-     * chunk, or they may split it into several chunks; however, all of
-     * the characters in any single event must come from the same
-     * external entity, so that the Locator provides useful
-     * information.</p>
+     * <p>SAX pbrsers mby return bll contiguous whitespbce in b single
+     * chunk, or they mby split it into severbl chunks; however, bll of
+     * the chbrbcters in bny single event must come from the sbme
+     * externbl entity, so thbt the Locbtor provides useful
+     * informbtion.</p>
      *
-     * <p>The application must not attempt to read from the array
-     * outside of the specified range.</p>
+     * <p>The bpplicbtion must not bttempt to rebd from the brrby
+     * outside of the specified rbnge.</p>
      *
-     * @param ch the characters from the XML document
-     * @param start the start position in the array
-     * @param length the number of characters to read from the array
-     * @throws org.xml.sax.SAXException any SAX exception, possibly
-     *            wrapping another exception
-     * @see #characters
+     * @pbrbm ch the chbrbcters from the XML document
+     * @pbrbm stbrt the stbrt position in the brrby
+     * @pbrbm length the number of chbrbcters to rebd from the brrby
+     * @throws org.xml.sbx.SAXException bny SAX exception, possibly
+     *            wrbpping bnother exception
+     * @see #chbrbcters
      */
-    public void ignorableWhitespace (char ch[], int start, int length)
+    public void ignorbbleWhitespbce (chbr ch[], int stbrt, int length)
         throws SAXException;
 
 
     /**
-     * Receive notification of a processing instruction.
+     * Receive notificbtion of b processing instruction.
      *
-     * <p>The Parser will invoke this method once for each processing
-     * instruction found: note that processing instructions may occur
-     * before or after the main document element.</p>
+     * <p>The Pbrser will invoke this method once for ebch processing
+     * instruction found: note thbt processing instructions mby occur
+     * before or bfter the mbin document element.</p>
      *
-     * <p>A SAX parser must never report an XML declaration (XML 1.0,
-     * section 2.8) or a text declaration (XML 1.0, section 4.3.1)
+     * <p>A SAX pbrser must never report bn XML declbrbtion (XML 1.0,
+     * section 2.8) or b text declbrbtion (XML 1.0, section 4.3.1)
      * using this method.</p>
      *
-     * <p>Like {@link #characters characters()}, processing instruction
-     * data may have characters that need more than one <code>char</code>
-     * value. </p>
+     * <p>Like {@link #chbrbcters chbrbcters()}, processing instruction
+     * dbtb mby hbve chbrbcters thbt need more thbn one <code>chbr</code>
+     * vblue. </p>
      *
-     * @param target the processing instruction target
-     * @param data the processing instruction data, or null if
-     *        none was supplied.  The data does not include any
-     *        whitespace separating it from the target
-     * @throws org.xml.sax.SAXException any SAX exception, possibly
-     *            wrapping another exception
+     * @pbrbm tbrget the processing instruction tbrget
+     * @pbrbm dbtb the processing instruction dbtb, or null if
+     *        none wbs supplied.  The dbtb does not include bny
+     *        whitespbce sepbrbting it from the tbrget
+     * @throws org.xml.sbx.SAXException bny SAX exception, possibly
+     *            wrbpping bnother exception
      */
-    public void processingInstruction (String target, String data)
+    public void processingInstruction (String tbrget, String dbtb)
         throws SAXException;
 
 
     /**
-     * Receive notification of a skipped entity.
-     * This is not called for entity references within markup constructs
-     * such as element start tags or markup declarations.  (The XML
-     * recommendation requires reporting skipped external entities.
-     * SAX also reports internal entity expansion/non-expansion, except
-     * within markup constructs.)
+     * Receive notificbtion of b skipped entity.
+     * This is not cblled for entity references within mbrkup constructs
+     * such bs element stbrt tbgs or mbrkup declbrbtions.  (The XML
+     * recommendbtion requires reporting skipped externbl entities.
+     * SAX blso reports internbl entity expbnsion/non-expbnsion, except
+     * within mbrkup constructs.)
      *
-     * <p>The Parser will invoke this method each time the entity is
-     * skipped.  Non-validating processors may skip entities if they
-     * have not seen the declarations (because, for example, the
-     * entity was declared in an external DTD subset).  All processors
-     * may skip external entities, depending on the values of the
-     * <code>http://xml.org/sax/features/external-general-entities</code>
-     * and the
-     * <code>http://xml.org/sax/features/external-parameter-entities</code>
+     * <p>The Pbrser will invoke this method ebch time the entity is
+     * skipped.  Non-vblidbting processors mby skip entities if they
+     * hbve not seen the declbrbtions (becbuse, for exbmple, the
+     * entity wbs declbred in bn externbl DTD subset).  All processors
+     * mby skip externbl entities, depending on the vblues of the
+     * <code>http://xml.org/sbx/febtures/externbl-generbl-entities</code>
+     * bnd the
+     * <code>http://xml.org/sbx/febtures/externbl-pbrbmeter-entities</code>
      * properties.</p>
      *
-     * @param name the name of the skipped entity.  If it is a
-     *        parameter entity, the name will begin with '%', and if
-     *        it is the external DTD subset, it will be the string
+     * @pbrbm nbme the nbme of the skipped entity.  If it is b
+     *        pbrbmeter entity, the nbme will begin with '%', bnd if
+     *        it is the externbl DTD subset, it will be the string
      *        "[dtd]"
-     * @throws org.xml.sax.SAXException any SAX exception, possibly
-     *            wrapping another exception
+     * @throws org.xml.sbx.SAXException bny SAX exception, possibly
+     *            wrbpping bnother exception
      */
-    public void skippedEntity (String name)
+    public void skippedEntity (String nbme)
         throws SAXException;
 }
 
-// end of ContentHandler.java
+// end of ContentHbndler.jbvb

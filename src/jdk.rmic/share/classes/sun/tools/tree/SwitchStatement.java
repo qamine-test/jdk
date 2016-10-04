@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import sun.tools.asm.SwitchData;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.Lbbel;
+import sun.tools.bsm.SwitchDbtb;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class SwitchStatement extends Statement {
+clbss SwitchStbtement extends Stbtement {
     Expression expr;
-    Statement args[];
+    Stbtement brgs[];
 
     /**
      * Constructor
      */
-    public SwitchStatement(long where, Expression expr, Statement args[]) {
+    public SwitchStbtement(long where, Expression expr, Stbtement brgs[]) {
         super(SWITCH, where);
         this.expr = expr;
-        this.args = args;
+        this.brgs = brgs;
     }
 
     /**
-     * Check statement
+     * Check stbtement
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        checkLabel(env, ctx);
+    Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        checkLbbel(env, ctx);
         CheckContext newctx = new CheckContext(ctx, this);
-        vset = expr.checkValue(env, newctx, reach(env, vset), exp);
+        vset = expr.checkVblue(env, newctx, rebch(env, vset), exp);
         Type switchType = expr.type;
 
         expr = convert(env, newctx, Type.tInt, expr);
 
-        Hashtable<Expression, Statement> tab = new Hashtable<>();
-        boolean hasDefault = false;
-        // Note that vs is reset to vset.copy() on every case label.
-        // If the first substatement is not a case label, it is unreached.
+        Hbshtbble<Expression, Stbtement> tbb = new Hbshtbble<>();
+        boolebn hbsDefbult = fblse;
+        // Note thbt vs is reset to vset.copy() on every cbse lbbel.
+        // If the first substbtement is not b cbse lbbel, it is unrebched.
         Vset vs = DEAD_END;
 
-        for (int i = 0 ; i < args.length ; i++) {
-            Statement s = args[i];
+        for (int i = 0 ; i < brgs.length ; i++) {
+            Stbtement s = brgs[i];
 
             if (s.op == CASE) {
 
                 vs = s.check(env, newctx, vs.join(vset.copy()), exp);
 
-                Expression lbl = ((CaseStatement)s).expr;
+                Expression lbl = ((CbseStbtement)s).expr;
                 if (lbl != null) {
-                    if (lbl instanceof IntegerExpression) {
-                        Integer Ivalue =
-                            (Integer)(((IntegerExpression)lbl).getValue());
-                        int ivalue = Ivalue.intValue();
-                        if (tab.get(lbl) != null) {
-                            env.error(s.where, "duplicate.label", Ivalue);
+                    if (lbl instbnceof IntegerExpression) {
+                        Integer Ivblue =
+                            (Integer)(((IntegerExpression)lbl).getVblue());
+                        int ivblue = Ivblue.intVblue();
+                        if (tbb.get(lbl) != null) {
+                            env.error(s.where, "duplicbte.lbbel", Ivblue);
                         } else {
-                            tab.put(lbl, s);
-                            boolean overflow;
+                            tbb.put(lbl, s);
+                            boolebn overflow;
                             switch (switchType.getTypeCode()) {
-                                case TC_BYTE:
-                                    overflow = (ivalue != (byte)ivalue); break;
-                                case TC_SHORT:
-                                    overflow = (ivalue != (short)ivalue); break;
-                                case TC_CHAR:
-                                    overflow = (ivalue != (char)ivalue); break;
-                                default:
-                                    overflow = false;
+                                cbse TC_BYTE:
+                                    overflow = (ivblue != (byte)ivblue); brebk;
+                                cbse TC_SHORT:
+                                    overflow = (ivblue != (short)ivblue); brebk;
+                                cbse TC_CHAR:
+                                    overflow = (ivblue != (chbr)ivblue); brebk;
+                                defbult:
+                                    overflow = fblse;
                             }
                             if (overflow) {
                                 env.error(s.where, "switch.overflow",
-                                          Ivalue, switchType);
+                                          Ivblue, switchType);
                             }
                         }
                     } else {
-                        // Suppose a class got an error early on during
-                        // checking.  It will set all of its members to
-                        // have the status "ERROR".  Now suppose that a
-                        // case label refers to one of this class's
-                        // fields.  When we check the case label, the
+                        // Suppose b clbss got bn error ebrly on during
+                        // checking.  It will set bll of its members to
+                        // hbve the stbtus "ERROR".  Now suppose thbt b
+                        // cbse lbbel refers to one of this clbss's
+                        // fields.  When we check the cbse lbbel, the
                         // compiler will try to inline the FieldExpression.
-                        // Since the expression has ERROR status, it doesn't
-                        // inline.  This means that instead of the case
-                        // label being an IntegerExpression, it will still
-                        // be a FieldExpression, and we will end up in this
-                        // else block.  So, before we just assume that
-                        // the expression isn't constant, do a check to
-                        // see if it was constant but unable to inline.
-                        // This eliminates some spurious error messages.
+                        // Since the expression hbs ERROR stbtus, it doesn't
+                        // inline.  This mebns thbt instebd of the cbse
+                        // lbbel being bn IntegerExpression, it will still
+                        // be b FieldExpression, bnd we will end up in this
+                        // else block.  So, before we just bssume thbt
+                        // the expression isn't constbnt, do b check to
+                        // see if it wbs constbnt but unbble to inline.
+                        // This eliminbtes some spurious error messbges.
                         // (Bug id 4067498).
-                        if (!lbl.isConstant() ||
+                        if (!lbl.isConstbnt() ||
                             lbl.getType() != Type.tInt) {
                             env.error(s.where, "const.expr.required");
                         }
                     }
                 } else {
-                    if (hasDefault) {
-                        env.error(s.where, "duplicate.default");
+                    if (hbsDefbult) {
+                        env.error(s.where, "duplicbte.defbult");
                     }
-                    hasDefault = true;
+                    hbsDefbult = true;
                 }
             } else {
-                vs = s.checkBlockStatement(env, newctx, vs, exp);
+                vs = s.checkBlockStbtement(env, newctx, vs, exp);
             }
         }
-        if (!vs.isDeadEnd()) {
-            newctx.vsBreak = newctx.vsBreak.join(vs);
+        if (!vs.isDebdEnd()) {
+            newctx.vsBrebk = newctx.vsBrebk.join(vs);
         }
-        if (hasDefault)
-            vset = newctx.vsBreak;
-        return ctx.removeAdditionalVars(vset);
+        if (hbsDefbult)
+            vset = newctx.vsBrebk;
+        return ctx.removeAdditionblVbrs(vset);
     }
 
     /**
      * Inline
      */
-    public Statement inline(Environment env, Context ctx) {
+    public Stbtement inline(Environment env, Context ctx) {
         ctx = new Context(ctx, this);
-        expr = expr.inlineValue(env, ctx);
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                args[i] = args[i].inline(env, ctx);
+        expr = expr.inlineVblue(env, ctx);
+        for (int i = 0 ; i < brgs.length ; i++) {
+            if (brgs[i] != null) {
+                brgs[i] = brgs[i].inline(env, ctx);
             }
         }
         return this;
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crebte b copy of the stbtement for method inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        SwitchStatement s = (SwitchStatement)clone();
+    public Stbtement copyInline(Context ctx, boolebn vblNeeded) {
+        SwitchStbtement s = (SwitchStbtement)clone();
         s.expr = expr.copyInline(ctx);
-        s.args = new Statement[args.length];
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                s.args[i] = args[i].copyInline(ctx, valNeeded);
+        s.brgs = new Stbtement[brgs.length];
+        for (int i = 0 ; i < brgs.length ; i++) {
+            if (brgs[i] != null) {
+                s.brgs[i] = brgs[i].copyInline(ctx, vblNeeded);
             }
         }
         return s;
     }
 
     /**
-     * The cost of inlining this statement
+     * The cost of inlining this stbtement
      */
     public int costInline(int thresh, Environment env, Context ctx) {
         int cost = expr.costInline(thresh, env, ctx);
-        for (int i = 0 ; (i < args.length) && (cost < thresh) ; i++) {
-            if (args[i] != null) {
-                cost += args[i].costInline(thresh, env, ctx);
+        for (int i = 0 ; (i < brgs.length) && (cost < thresh) ; i++) {
+            if (brgs[i] != null) {
+                cost += brgs[i].costInline(thresh, env, ctx);
             }
         }
         return cost;
@@ -185,76 +185,76 @@ class SwitchStatement extends Statement {
     /**
      * Code
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
+    public void code(Environment env, Context ctx, Assembler bsm) {
         CodeContext newctx = new CodeContext(ctx, this);
 
-        expr.codeValue(env, newctx, asm);
+        expr.codeVblue(env, newctx, bsm);
 
-        SwitchData sw = new SwitchData();
-        boolean hasDefault = false;
+        SwitchDbtb sw = new SwitchDbtb();
+        boolebn hbsDefbult = fblse;
 
-        for (int i = 0 ; i < args.length ; i++) {
-            Statement s = args[i];
+        for (int i = 0 ; i < brgs.length ; i++) {
+            Stbtement s = brgs[i];
             if ((s != null) && (s.op == CASE)) {
-                Expression e = ((CaseStatement)s).expr;
+                Expression e = ((CbseStbtement)s).expr;
                 if (e != null) {
-                    sw.add(((IntegerExpression)e).value, new Label());
+                    sw.bdd(((IntegerExpression)e).vblue, new Lbbel());
                 }
 // JCOV
                 else {
-                    hasDefault = true;
+                    hbsDefbult = true;
                 }
 // end JCOV
             }
         }
 
 // JCOV
-        if (env.coverage())
-            sw.initTableCase();
+        if (env.coverbge())
+            sw.initTbbleCbse();
 // end JCOV
-        asm.add(where, opc_tableswitch, sw);
+        bsm.bdd(where, opc_tbbleswitch, sw);
 
-        for (int i = 0 ; i < args.length ; i++) {
-            Statement s = args[i];
+        for (int i = 0 ; i < brgs.length ; i++) {
+            Stbtement s = brgs[i];
             if (s != null) {
                 if (s.op == CASE) {
-                    Expression e = ((CaseStatement)s).expr;
+                    Expression e = ((CbseStbtement)s).expr;
                     if (e != null) {
-                        asm.add(sw.get(((IntegerExpression)e).value));
+                        bsm.bdd(sw.get(((IntegerExpression)e).vblue));
 // JCOV
-                        sw.addTableCase(((IntegerExpression)e).value, s.where);
+                        sw.bddTbbleCbse(((IntegerExpression)e).vblue, s.where);
 // end JCOV
                     } else {
-                        asm.add(sw.getDefaultLabel());
+                        bsm.bdd(sw.getDefbultLbbel());
 // JCOV
-                        sw.addTableDefault(s.where);
+                        sw.bddTbbleDefbult(s.where);
 // end JCOV
-/* JCOV                 hasDefault = true;   end JCOV */
+/* JCOV                 hbsDefbult = true;   end JCOV */
                     }
                 } else {
-                    s.code(env, newctx, asm);
+                    s.code(env, newctx, bsm);
                 }
             }
         }
 
-        if (!hasDefault) {
-            asm.add(sw.getDefaultLabel());
+        if (!hbsDefbult) {
+            bsm.bdd(sw.getDefbultLbbel());
         }
-        asm.add(newctx.breakLabel);
+        bsm.bdd(newctx.brebkLbbel);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
+    public void print(PrintStrebm out, int indent) {
         super.print(out, indent);
         out.print("switch (");
         expr.print(out);
         out.print(") {\n");
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
+        for (int i = 0 ; i < brgs.length ; i++) {
+            if (brgs[i] != null) {
                 printIndent(out, indent + 1);
-                args[i].print(out, indent + 1);
+                brgs[i].print(out, indent + 1);
                 out.print("\n");
             }
         }

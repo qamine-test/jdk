@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.wbmp;
+pbckbge com.sun.imbgeio.plugins.wbmp;
 
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.spi.ServiceRegistry;
-import javax.imageio.spi.IIORegistry;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.ImageWriter;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.IIOException;
+import jbvbx.imbgeio.spi.ImbgeWriterSpi;
+import jbvbx.imbgeio.spi.ServiceRegistry;
+import jbvbx.imbgeio.spi.IIORegistry;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
+import jbvbx.imbgeio.ImbgeWriter;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.IIOException;
 
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.SampleModel;
-import java.util.Locale;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.MultiPixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.util.Locble;
 
-public class WBMPImageWriterSpi extends ImageWriterSpi {
-    private static String [] readerSpiNames =
-        {"com.sun.imageio.plugins.wbmp.WBMPImageReaderSpi"};
-    private static String[] formatNames = {"wbmp", "WBMP"};
-    private static String[] entensions = {"wbmp"};
-    private static String[] mimeType = {"image/vnd.wap.wbmp"};
+public clbss WBMPImbgeWriterSpi extends ImbgeWriterSpi {
+    privbte stbtic String [] rebderSpiNbmes =
+        {"com.sun.imbgeio.plugins.wbmp.WBMPImbgeRebderSpi"};
+    privbte stbtic String[] formbtNbmes = {"wbmp", "WBMP"};
+    privbte stbtic String[] entensions = {"wbmp"};
+    privbte stbtic String[] mimeType = {"imbge/vnd.wbp.wbmp"};
 
-    private boolean registered = false;
+    privbte boolebn registered = fblse;
 
-    public WBMPImageWriterSpi() {
-        super("Oracle Corporation",
+    public WBMPImbgeWriterSpi() {
+        super("Orbcle Corporbtion",
               "1.0",
-              formatNames,
+              formbtNbmes,
               entensions,
               mimeType,
-              "com.sun.imageio.plugins.wbmp.WBMPImageWriter",
-              new Class<?>[] { ImageOutputStream.class },
-              readerSpiNames,
+              "com.sun.imbgeio.plugins.wbmp.WBMPImbgeWriter",
+              new Clbss<?>[] { ImbgeOutputStrebm.clbss },
+              rebderSpiNbmes,
               true,
               null, null, null, null,
               true,
               null, null, null, null);
     }
 
-    public String getDescription(Locale locale) {
-        return "Standard WBMP Image Writer";
+    public String getDescription(Locble locble) {
+        return "Stbndbrd WBMP Imbge Writer";
     }
 
-    public void onRegistration(ServiceRegistry registry,
-                               Class<?> category) {
+    public void onRegistrbtion(ServiceRegistry registry,
+                               Clbss<?> cbtegory) {
         if (registered) {
             return;
         }
@@ -76,18 +76,18 @@ public class WBMPImageWriterSpi extends ImageWriterSpi {
         registered = true;
     }
 
-    public boolean canEncodeImage(ImageTypeSpecifier type) {
-        SampleModel sm = type.getSampleModel();
-        if (!(sm instanceof MultiPixelPackedSampleModel))
-            return false;
-        if (sm.getSampleSize(0) != 1)
-            return false;
+    public boolebn cbnEncodeImbge(ImbgeTypeSpecifier type) {
+        SbmpleModel sm = type.getSbmpleModel();
+        if (!(sm instbnceof MultiPixelPbckedSbmpleModel))
+            return fblse;
+        if (sm.getSbmpleSize(0) != 1)
+            return fblse;
 
         return true;
     }
 
-    public ImageWriter createWriterInstance(Object extension)
+    public ImbgeWriter crebteWriterInstbnce(Object extension)
         throws IIOException {
-        return new WBMPImageWriter(this);
+        return new WBMPImbgeWriter(this);
     }
 }

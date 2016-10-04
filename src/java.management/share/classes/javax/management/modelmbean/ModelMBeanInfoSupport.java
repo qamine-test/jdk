@@ -1,482 +1,482 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * @author    IBM Corp.
+ * @buthor    IBM Corp.
  *
  * Copyright IBM Corp. 1999-2000.  All rights reserved.
  */
 
-package javax.management.modelmbean;
+pbckbge jbvbx.mbnbgement.modelmbebn;
 
-import static com.sun.jmx.defaults.JmxProperties.MODELMBEAN_LOGGER;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtic com.sun.jmx.defbults.JmxProperties.MODELMBEAN_LOGGER;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.security.AccessController;
-import java.util.logging.Level;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.security.AccessController;
+import jbvb.util.logging.Level;
 
-import javax.management.Descriptor;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanConstructorInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanOperationInfo;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.MBebnConstructorInfo;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.MBebnOperbtionInfo;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
 
 /**
- * This class represents the meta data for ModelMBeans.  Descriptors have been
- * added on the meta data objects.
+ * This clbss represents the metb dbtb for ModelMBebns.  Descriptors hbve been
+ * bdded on the metb dbtb objects.
  * <P>
- * Java resources wishing to be manageable instantiate the ModelMBean using the
- * MBeanServer's createMBean method.  The resource then sets the ModelMBeanInfo
- * and Descriptors for the ModelMBean instance. The attributes and operations
- * exposed via the ModelMBeanInfo for the ModelMBean are accessible
- * from MBeans, connectors/adaptors like other MBeans. Through the Descriptors,
- * values and methods in the managed application can be defined and mapped to
- * attributes and operations of the ModelMBean.
- * This mapping can be defined during development in a file or dynamically and
- * programmatically at runtime.
+ * Jbvb resources wishing to be mbnbgebble instbntibte the ModelMBebn using the
+ * MBebnServer's crebteMBebn method.  The resource then sets the ModelMBebnInfo
+ * bnd Descriptors for the ModelMBebn instbnce. The bttributes bnd operbtions
+ * exposed vib the ModelMBebnInfo for the ModelMBebn bre bccessible
+ * from MBebns, connectors/bdbptors like other MBebns. Through the Descriptors,
+ * vblues bnd methods in the mbnbged bpplicbtion cbn be defined bnd mbpped to
+ * bttributes bnd operbtions of the ModelMBebn.
+ * This mbpping cbn be defined during development in b file or dynbmicblly bnd
+ * progrbmmbticblly bt runtime.
  * <P>
- * Every ModelMBean which is instantiated in the MBeanServer becomes manageable:
- * its attributes and operations
- * become remotely accessible through the connectors/adaptors connected to that
- * MBeanServer.
- * A Java object cannot be registered in the MBeanServer unless it is a JMX
- * compliant MBean.
- * By instantiating a ModelMBean, resources are guaranteed that the MBean is
- * valid.
+ * Every ModelMBebn which is instbntibted in the MBebnServer becomes mbnbgebble:
+ * its bttributes bnd operbtions
+ * become remotely bccessible through the connectors/bdbptors connected to thbt
+ * MBebnServer.
+ * A Jbvb object cbnnot be registered in the MBebnServer unless it is b JMX
+ * complibnt MBebn.
+ * By instbntibting b ModelMBebn, resources bre gubrbnteed thbt the MBebn is
+ * vblid.
  *
- * MBeanException and RuntimeOperationsException must be thrown on every public
- * method.  This allows for wrapping exceptions from distributed
- * communications (RMI, EJB, etc.)
+ * MBebnException bnd RuntimeOperbtionsException must be thrown on every public
+ * method.  This bllows for wrbpping exceptions from distributed
+ * communicbtions (RMI, EJB, etc.)
  *
- * <p>The <b>serialVersionUID</b> of this class is
+ * <p>The <b>seriblVersionUID</b> of this clbss is
  * <code>-1935722590756516193L</code>.
  *
  * @since 1.5
  */
-@SuppressWarnings("serial")
-public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
+@SuppressWbrnings("seribl")
+public clbss ModelMBebnInfoSupport extends MBebnInfo implements ModelMBebnInfo {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form depends
+    // on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -3944083498453227709L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = -3944083498453227709L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -1935722590756516193L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = -1935722590756516193L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-        new ObjectStreamField("modelMBeanDescriptor", Descriptor.class),
-                new ObjectStreamField("mmbAttributes", MBeanAttributeInfo[].class),
-                new ObjectStreamField("mmbConstructors", MBeanConstructorInfo[].class),
-                new ObjectStreamField("mmbNotifications", MBeanNotificationInfo[].class),
-                new ObjectStreamField("mmbOperations", MBeanOperationInfo[].class),
-                new ObjectStreamField("currClass", String.class)
+        new ObjectStrebmField("modelMBebnDescriptor", Descriptor.clbss),
+                new ObjectStrebmField("mmbAttributes", MBebnAttributeInfo[].clbss),
+                new ObjectStrebmField("mmbConstructors", MBebnConstructorInfo[].clbss),
+                new ObjectStrebmField("mmbNotificbtions", MBebnNotificbtionInfo[].clbss),
+                new ObjectStrebmField("mmbOperbtions", MBebnOperbtionInfo[].clbss),
+                new ObjectStrebmField("currClbss", String.clbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-        new ObjectStreamField("modelMBeanDescriptor", Descriptor.class),
-                new ObjectStreamField("modelMBeanAttributes", MBeanAttributeInfo[].class),
-                new ObjectStreamField("modelMBeanConstructors", MBeanConstructorInfo[].class),
-                new ObjectStreamField("modelMBeanNotifications", MBeanNotificationInfo[].class),
-                new ObjectStreamField("modelMBeanOperations", MBeanOperationInfo[].class)
+        new ObjectStrebmField("modelMBebnDescriptor", Descriptor.clbss),
+                new ObjectStrebmField("modelMBebnAttributes", MBebnAttributeInfo[].clbss),
+                new ObjectStrebmField("modelMBebnConstructors", MBebnConstructorInfo[].clbss),
+                new ObjectStrebmField("modelMBebnNotificbtions", MBebnNotificbtionInfo[].clbss),
+                new ObjectStrebmField("modelMBebnOperbtions", MBebnOperbtionInfo[].clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
     /**
-     * @serialField modelMBeanDescriptor Descriptor The descriptor containing
-     *              MBean wide policy
-     * @serialField modelMBeanAttributes ModelMBeanAttributeInfo[] The array of
-     *              {@link ModelMBeanAttributeInfo} objects which
-     *              have descriptors
-     * @serialField modelMBeanConstructors MBeanConstructorInfo[] The array of
-     *              {@link ModelMBeanConstructorInfo} objects which
-     *              have descriptors
-     * @serialField modelMBeanNotifications MBeanNotificationInfo[] The array of
-     *              {@link ModelMBeanNotificationInfo} objects which
-     *              have descriptors
-     * @serialField modelMBeanOperations MBeanOperationInfo[] The array of
-     *              {@link ModelMBeanOperationInfo} objects which
-     *              have descriptors
+     * @seriblField modelMBebnDescriptor Descriptor The descriptor contbining
+     *              MBebn wide policy
+     * @seriblField modelMBebnAttributes ModelMBebnAttributeInfo[] The brrby of
+     *              {@link ModelMBebnAttributeInfo} objects which
+     *              hbve descriptors
+     * @seriblField modelMBebnConstructors MBebnConstructorInfo[] The brrby of
+     *              {@link ModelMBebnConstructorInfo} objects which
+     *              hbve descriptors
+     * @seriblField modelMBebnNotificbtions MBebnNotificbtionInfo[] The brrby of
+     *              {@link ModelMBebnNotificbtionInfo} objects which
+     *              hbve descriptors
+     * @seriblField modelMBebnOperbtions MBebnOperbtionInfo[] The brrby of
+     *              {@link ModelMBebnOperbtionInfo} objects which
+     *              hbve descriptors
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte stbtic boolebn compbt = fblse;
+    stbtic {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: No compat with 1.0
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            String form = AccessController.doPrivileged(bct);
+            compbt = (form != null && form.equbls("1.0"));
+        } cbtch (Exception e) {
+            // OK: No compbt with 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
     /**
-     * @serial The descriptor containing MBean wide policy
+     * @seribl The descriptor contbining MBebn wide policy
      */
-    private Descriptor modelMBeanDescriptor = null;
+    privbte Descriptor modelMBebnDescriptor = null;
 
-    /* The following fields always have the same values as the
-       fields inherited from MBeanInfo and are retained only for
-       compatibility.  By rewriting the serialization code we could
+    /* The following fields blwbys hbve the sbme vblues bs the
+       fields inherited from MBebnInfo bnd bre retbined only for
+       compbtibility.  By rewriting the seriblizbtion code we could
        get rid of them.
 
-       These fields can't be final because they are assigned to by
-       readObject().  */
+       These fields cbn't be finbl becbuse they bre bssigned to by
+       rebdObject().  */
 
     /**
-     * @serial The array of {@link ModelMBeanAttributeInfo} objects which
-     *         have descriptors
+     * @seribl The brrby of {@link ModelMBebnAttributeInfo} objects which
+     *         hbve descriptors
      */
-    private MBeanAttributeInfo[] modelMBeanAttributes;
+    privbte MBebnAttributeInfo[] modelMBebnAttributes;
 
     /**
-     * @serial The array of {@link ModelMBeanConstructorInfo} objects which
-     *         have descriptors
+     * @seribl The brrby of {@link ModelMBebnConstructorInfo} objects which
+     *         hbve descriptors
      */
-    private MBeanConstructorInfo[] modelMBeanConstructors;
+    privbte MBebnConstructorInfo[] modelMBebnConstructors;
 
     /**
-     * @serial The array of {@link ModelMBeanNotificationInfo} objects which
-     *         have descriptors
+     * @seribl The brrby of {@link ModelMBebnNotificbtionInfo} objects which
+     *         hbve descriptors
      */
-    private MBeanNotificationInfo[] modelMBeanNotifications;
+    privbte MBebnNotificbtionInfo[] modelMBebnNotificbtions;
 
     /**
-     * @serial The array of {@link ModelMBeanOperationInfo} objects which
-     *         have descriptors
+     * @seribl The brrby of {@link ModelMBebnOperbtionInfo} objects which
+     *         hbve descriptors
      */
-    private MBeanOperationInfo[] modelMBeanOperations;
+    privbte MBebnOperbtionInfo[] modelMBebnOperbtions;
 
-    private static final String ATTR = "attribute";
-    private static final String OPER = "operation";
-    private static final String NOTF = "notification";
-    private static final String CONS = "constructor";
-    private static final String MMB = "mbean";
-    private static final String ALL = "all";
-    private static final String currClass = "ModelMBeanInfoSupport";
+    privbte stbtic finbl String ATTR = "bttribute";
+    privbte stbtic finbl String OPER = "operbtion";
+    privbte stbtic finbl String NOTF = "notificbtion";
+    privbte stbtic finbl String CONS = "constructor";
+    privbte stbtic finbl String MMB = "mbebn";
+    privbte stbtic finbl String ALL = "bll";
+    privbte stbtic finbl String currClbss = "ModelMBebnInfoSupport";
 
     /**
-     * Constructs a ModelMBeanInfoSupport which is a duplicate of the given
-     * ModelMBeanInfo.  The returned object is a shallow copy of the given
-     * object.  Neither the Descriptor nor the contained arrays
-     * ({@code ModelMBeanAttributeInfo[]} etc) are cloned.  This method is
-     * chiefly of interest to modify the Descriptor of the returned instance
-     * via {@link #setDescriptor setDescriptor} without affecting the
-     * Descriptor of the original object.
+     * Constructs b ModelMBebnInfoSupport which is b duplicbte of the given
+     * ModelMBebnInfo.  The returned object is b shbllow copy of the given
+     * object.  Neither the Descriptor nor the contbined brrbys
+     * ({@code ModelMBebnAttributeInfo[]} etc) bre cloned.  This method is
+     * chiefly of interest to modify the Descriptor of the returned instbnce
+     * vib {@link #setDescriptor setDescriptor} without bffecting the
+     * Descriptor of the originbl object.
      *
-     * @param mbi the ModelMBeanInfo instance from which the ModelMBeanInfo
-     * being created is initialized.
+     * @pbrbm mbi the ModelMBebnInfo instbnce from which the ModelMBebnInfo
+     * being crebted is initiblized.
      */
-    public ModelMBeanInfoSupport(ModelMBeanInfo  mbi) {
-        super(mbi.getClassName(),
+    public ModelMBebnInfoSupport(ModelMBebnInfo  mbi) {
+        super(mbi.getClbssNbme(),
                 mbi.getDescription(),
                 mbi.getAttributes(),
                 mbi.getConstructors(),
-                mbi.getOperations(),
-                mbi.getNotifications());
+                mbi.getOperbtions(),
+                mbi.getNotificbtions());
 
-        modelMBeanAttributes = mbi.getAttributes();
-        modelMBeanConstructors = mbi.getConstructors();
-        modelMBeanOperations = mbi.getOperations();
-        modelMBeanNotifications = mbi.getNotifications();
+        modelMBebnAttributes = mbi.getAttributes();
+        modelMBebnConstructors = mbi.getConstructors();
+        modelMBebnOperbtions = mbi.getOperbtions();
+        modelMBebnNotificbtions = mbi.getNotificbtions();
 
         try {
-            Descriptor mbeandescriptor = mbi.getMBeanDescriptor();
-            modelMBeanDescriptor = validDescriptor(mbeandescriptor);
-        } catch (MBeanException mbe) {
-            modelMBeanDescriptor = validDescriptor(null);
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+            Descriptor mbebndescriptor = mbi.getMBebnDescriptor();
+            modelMBebnDescriptor = vblidDescriptor(mbebndescriptor);
+        } cbtch (MBebnException mbe) {
+            modelMBebnDescriptor = vblidDescriptor(null);
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanInfoSupport.class.getName(),
-                        "ModelMBeanInfo(ModelMBeanInfo)",
-                        "Could not get a valid modelMBeanDescriptor, " +
-                        "setting a default Descriptor");
+                        ModelMBebnInfoSupport.clbss.getNbme(),
+                        "ModelMBebnInfo(ModelMBebnInfo)",
+                        "Could not get b vblid modelMBebnDescriptor, " +
+                        "setting b defbult Descriptor");
             }
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "ModelMBeanInfo(ModelMBeanInfo)", "Exit");
+                    ModelMBebnInfoSupport.clbss.getNbme(),
+                    "ModelMBebnInfo(ModelMBebnInfo)", "Exit");
         }
     }
 
     /**
-     * Creates a ModelMBeanInfoSupport with the provided information,
-     * but the descriptor is a default.
-     * The default descriptor is: name=className, descriptorType="mbean",
-     * displayName=className, persistPolicy="never", log="F", visibility="1"
+     * Crebtes b ModelMBebnInfoSupport with the provided informbtion,
+     * but the descriptor is b defbult.
+     * The defbult descriptor is: nbme=clbssNbme, descriptorType="mbebn",
+     * displbyNbme=clbssNbme, persistPolicy="never", log="F", visibility="1"
      *
-     * @param className classname of the MBean
-     * @param description human readable description of the
-     * ModelMBean
-     * @param attributes array of ModelMBeanAttributeInfo objects
-     * which have descriptors
-     * @param constructors array of ModelMBeanConstructorInfo
-     * objects which have descriptors
-     * @param operations array of ModelMBeanOperationInfo objects
-     * which have descriptors
-     * @param notifications array of ModelMBeanNotificationInfo
-     * objects which have descriptors
+     * @pbrbm clbssNbme clbssnbme of the MBebn
+     * @pbrbm description humbn rebdbble description of the
+     * ModelMBebn
+     * @pbrbm bttributes brrby of ModelMBebnAttributeInfo objects
+     * which hbve descriptors
+     * @pbrbm constructors brrby of ModelMBebnConstructorInfo
+     * objects which hbve descriptors
+     * @pbrbm operbtions brrby of ModelMBebnOperbtionInfo objects
+     * which hbve descriptors
+     * @pbrbm notificbtions brrby of ModelMBebnNotificbtionInfo
+     * objects which hbve descriptors
      */
-    public ModelMBeanInfoSupport(String className,
+    public ModelMBebnInfoSupport(String clbssNbme,
             String description,
-            ModelMBeanAttributeInfo[] attributes,
-            ModelMBeanConstructorInfo[] constructors,
-            ModelMBeanOperationInfo[] operations,
-            ModelMBeanNotificationInfo[] notifications) {
-        this(className, description, attributes, constructors,
-                operations, notifications, null);
+            ModelMBebnAttributeInfo[] bttributes,
+            ModelMBebnConstructorInfo[] constructors,
+            ModelMBebnOperbtionInfo[] operbtions,
+            ModelMBebnNotificbtionInfo[] notificbtions) {
+        this(clbssNbme, description, bttributes, constructors,
+                operbtions, notificbtions, null);
     }
 
     /**
-     * Creates a ModelMBeanInfoSupport with the provided information
-     * and the descriptor given in parameter.
+     * Crebtes b ModelMBebnInfoSupport with the provided informbtion
+     * bnd the descriptor given in pbrbmeter.
      *
-     * @param className classname of the MBean
-     * @param description human readable description of the
-     * ModelMBean
-     * @param attributes array of ModelMBeanAttributeInfo objects
-     * which have descriptors
-     * @param constructors array of ModelMBeanConstructorInfo
-     * objects which have descriptor
-     * @param operations array of ModelMBeanOperationInfo objects
-     * which have descriptor
-     * @param notifications array of ModelMBeanNotificationInfo
-     * objects which have descriptor
-     * @param mbeandescriptor descriptor to be used as the
-     * MBeanDescriptor containing MBean wide policy. If the
-     * descriptor is null, a default descriptor will be constructed.
-     * The default descriptor is:
-     * name=className, descriptorType="mbean", displayName=className,
+     * @pbrbm clbssNbme clbssnbme of the MBebn
+     * @pbrbm description humbn rebdbble description of the
+     * ModelMBebn
+     * @pbrbm bttributes brrby of ModelMBebnAttributeInfo objects
+     * which hbve descriptors
+     * @pbrbm constructors brrby of ModelMBebnConstructorInfo
+     * objects which hbve descriptor
+     * @pbrbm operbtions brrby of ModelMBebnOperbtionInfo objects
+     * which hbve descriptor
+     * @pbrbm notificbtions brrby of ModelMBebnNotificbtionInfo
+     * objects which hbve descriptor
+     * @pbrbm mbebndescriptor descriptor to be used bs the
+     * MBebnDescriptor contbining MBebn wide policy. If the
+     * descriptor is null, b defbult descriptor will be constructed.
+     * The defbult descriptor is:
+     * nbme=clbssNbme, descriptorType="mbebn", displbyNbme=clbssNbme,
      * persistPolicy="never", log="F", visibility="1".  If the descriptor
-     * does not contain all of these fields, the missing ones are
-     * added with these default values.
+     * does not contbin bll of these fields, the missing ones bre
+     * bdded with these defbult vblues.
      *
-     * @exception RuntimeOperationsException Wraps an
-     * IllegalArgumentException for invalid descriptor passed in
-     * parameter.  (see {@link #getMBeanDescriptor
-     * getMBeanDescriptor} for the definition of a valid MBean
+     * @exception RuntimeOperbtionsException Wrbps bn
+     * IllegblArgumentException for invblid descriptor pbssed in
+     * pbrbmeter.  (see {@link #getMBebnDescriptor
+     * getMBebnDescriptor} for the definition of b vblid MBebn
      * descriptor.)
      */
 
-    public ModelMBeanInfoSupport(String    className,
+    public ModelMBebnInfoSupport(String    clbssNbme,
             String description,
-            ModelMBeanAttributeInfo[] attributes,
-            ModelMBeanConstructorInfo[] constructors,
-            ModelMBeanOperationInfo[] operations,
-            ModelMBeanNotificationInfo[] notifications,
-            Descriptor mbeandescriptor) {
-        super(className,
+            ModelMBebnAttributeInfo[] bttributes,
+            ModelMBebnConstructorInfo[] constructors,
+            ModelMBebnOperbtionInfo[] operbtions,
+            ModelMBebnNotificbtionInfo[] notificbtions,
+            Descriptor mbebndescriptor) {
+        super(clbssNbme,
                 description,
-                (attributes != null) ? attributes : NO_ATTRIBUTES,
+                (bttributes != null) ? bttributes : NO_ATTRIBUTES,
                 (constructors != null) ? constructors : NO_CONSTRUCTORS,
-                (operations != null) ? operations : NO_OPERATIONS,
-                (notifications != null) ? notifications : NO_NOTIFICATIONS);
-        /* The values saved here are possibly null, but we
-           check this everywhere they are referenced.  If at
-           some stage we replace null with an empty array
-           here, as we do in the superclass constructor
-           parameters, then we must also do this in
-           readObject().  */
-        modelMBeanAttributes = attributes;
-        modelMBeanConstructors = constructors;
-        modelMBeanOperations = operations;
-        modelMBeanNotifications = notifications;
-        modelMBeanDescriptor = validDescriptor(mbeandescriptor);
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+                (operbtions != null) ? operbtions : NO_OPERATIONS,
+                (notificbtions != null) ? notificbtions : NO_NOTIFICATIONS);
+        /* The vblues sbved here bre possibly null, but we
+           check this everywhere they bre referenced.  If bt
+           some stbge we replbce null with bn empty brrby
+           here, bs we do in the superclbss constructor
+           pbrbmeters, then we must blso do this in
+           rebdObject().  */
+        modelMBebnAttributes = bttributes;
+        modelMBebnConstructors = constructors;
+        modelMBebnOperbtions = operbtions;
+        modelMBebnNotificbtions = notificbtions;
+        modelMBebnDescriptor = vblidDescriptor(mbebndescriptor);
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "ModelMBeanInfoSupport(String,String,ModelMBeanAttributeInfo[]," +
-                    "ModelMBeanConstructorInfo[],ModelMBeanOperationInfo[]," +
-                    "ModelMBeanNotificationInfo[],Descriptor)",
+                    ModelMBebnInfoSupport.clbss.getNbme(),
+                    "ModelMBebnInfoSupport(String,String,ModelMBebnAttributeInfo[]," +
+                    "ModelMBebnConstructorInfo[],ModelMBebnOperbtionInfo[]," +
+                    "ModelMBebnNotificbtionInfo[],Descriptor)",
                     "Exit");
         }
     }
 
-    private static final ModelMBeanAttributeInfo[] NO_ATTRIBUTES =
-            new ModelMBeanAttributeInfo[0];
-    private static final ModelMBeanConstructorInfo[] NO_CONSTRUCTORS =
-            new ModelMBeanConstructorInfo[0];
-    private static final ModelMBeanNotificationInfo[] NO_NOTIFICATIONS =
-            new ModelMBeanNotificationInfo[0];
-    private static final ModelMBeanOperationInfo[] NO_OPERATIONS =
-            new ModelMBeanOperationInfo[0];
+    privbte stbtic finbl ModelMBebnAttributeInfo[] NO_ATTRIBUTES =
+            new ModelMBebnAttributeInfo[0];
+    privbte stbtic finbl ModelMBebnConstructorInfo[] NO_CONSTRUCTORS =
+            new ModelMBebnConstructorInfo[0];
+    privbte stbtic finbl ModelMBebnNotificbtionInfo[] NO_NOTIFICATIONS =
+            new ModelMBebnNotificbtionInfo[0];
+    privbte stbtic finbl ModelMBebnOperbtionInfo[] NO_OPERATIONS =
+            new ModelMBebnOperbtionInfo[0];
 
-    // Java doc inherited from MOdelMBeanInfo interface
+    // Jbvb doc inherited from MOdelMBebnInfo interfbce
 
     /**
-     * Returns a shallow clone of this instance.  Neither the Descriptor nor
-     * the contained arrays ({@code ModelMBeanAttributeInfo[]} etc) are
+     * Returns b shbllow clone of this instbnce.  Neither the Descriptor nor
+     * the contbined brrbys ({@code ModelMBebnAttributeInfo[]} etc) bre
      * cloned.  This method is chiefly of interest to modify the Descriptor
-     * of the clone via {@link #setDescriptor setDescriptor} without affecting
-     * the Descriptor of the original object.
+     * of the clone vib {@link #setDescriptor setDescriptor} without bffecting
+     * the Descriptor of the originbl object.
      *
-     * @return a shallow clone of this instance.
+     * @return b shbllow clone of this instbnce.
      */
     public Object clone() {
-        return(new ModelMBeanInfoSupport(this));
+        return(new ModelMBebnInfoSupport(this));
     }
 
 
     public Descriptor[] getDescriptors(String inDescriptorType)
-    throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    throws MBebnException, RuntimeOperbtionsException {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
+                    ModelMBebnInfoSupport.clbss.getNbme(),
                     "getDescriptors(String)", "Entry");
         }
 
-        if ((inDescriptorType == null) || (inDescriptorType.equals(""))) {
-            inDescriptorType = "all";
+        if ((inDescriptorType == null) || (inDescriptorType.equbls(""))) {
+            inDescriptorType = "bll";
         }
 
-        // if no descriptors of that type, will return empty array
+        // if no descriptors of thbt type, will return empty brrby
         //
-        final Descriptor[] retList;
+        finbl Descriptor[] retList;
 
-        if (inDescriptorType.equalsIgnoreCase(MMB)) {
-            retList = new Descriptor[] {modelMBeanDescriptor};
-        } else if (inDescriptorType.equalsIgnoreCase(ATTR)) {
-            final MBeanAttributeInfo[] attrList = modelMBeanAttributes;
+        if (inDescriptorType.equblsIgnoreCbse(MMB)) {
+            retList = new Descriptor[] {modelMBebnDescriptor};
+        } else if (inDescriptorType.equblsIgnoreCbse(ATTR)) {
+            finbl MBebnAttributeInfo[] bttrList = modelMBebnAttributes;
             int numAttrs = 0;
-            if (attrList != null) numAttrs = attrList.length;
+            if (bttrList != null) numAttrs = bttrList.length;
 
             retList = new Descriptor[numAttrs];
             for (int i=0; i < numAttrs; i++) {
-                retList[i] = (((ModelMBeanAttributeInfo)
-                    attrList[i]).getDescriptor());
+                retList[i] = (((ModelMBebnAttributeInfo)
+                    bttrList[i]).getDescriptor());
             }
-        } else if (inDescriptorType.equalsIgnoreCase(OPER)) {
-            final MBeanOperationInfo[] operList = modelMBeanOperations;
+        } else if (inDescriptorType.equblsIgnoreCbse(OPER)) {
+            finbl MBebnOperbtionInfo[] operList = modelMBebnOperbtions;
             int numOpers = 0;
             if (operList != null) numOpers = operList.length;
 
             retList = new Descriptor[numOpers];
             for (int i=0; i < numOpers; i++) {
-                retList[i] = (((ModelMBeanOperationInfo)
+                retList[i] = (((ModelMBebnOperbtionInfo)
                     operList[i]).getDescriptor());
             }
-        } else if (inDescriptorType.equalsIgnoreCase(CONS)) {
-            final MBeanConstructorInfo[] consList =  modelMBeanConstructors;
+        } else if (inDescriptorType.equblsIgnoreCbse(CONS)) {
+            finbl MBebnConstructorInfo[] consList =  modelMBebnConstructors;
             int numCons = 0;
             if (consList != null) numCons = consList.length;
 
             retList = new Descriptor[numCons];
             for (int i=0; i < numCons; i++) {
-                retList[i] = (((ModelMBeanConstructorInfo)
+                retList[i] = (((ModelMBebnConstructorInfo)
                     consList[i]).getDescriptor());
             }
-        } else if (inDescriptorType.equalsIgnoreCase(NOTF)) {
-            final MBeanNotificationInfo[] notifList = modelMBeanNotifications;
+        } else if (inDescriptorType.equblsIgnoreCbse(NOTF)) {
+            finbl MBebnNotificbtionInfo[] notifList = modelMBebnNotificbtions;
             int numNotifs = 0;
             if (notifList != null) numNotifs = notifList.length;
 
             retList = new Descriptor[numNotifs];
             for (int i=0; i < numNotifs; i++) {
-                retList[i] = (((ModelMBeanNotificationInfo)
+                retList[i] = (((ModelMBebnNotificbtionInfo)
                     notifList[i]).getDescriptor());
             }
-        } else if (inDescriptorType.equalsIgnoreCase(ALL)) {
+        } else if (inDescriptorType.equblsIgnoreCbse(ALL)) {
 
-            final MBeanAttributeInfo[] attrList = modelMBeanAttributes;
+            finbl MBebnAttributeInfo[] bttrList = modelMBebnAttributes;
             int numAttrs = 0;
-            if (attrList != null) numAttrs = attrList.length;
+            if (bttrList != null) numAttrs = bttrList.length;
 
-            final MBeanOperationInfo[] operList = modelMBeanOperations;
+            finbl MBebnOperbtionInfo[] operList = modelMBebnOperbtions;
             int numOpers = 0;
             if (operList != null) numOpers = operList.length;
 
-            final MBeanConstructorInfo[] consList = modelMBeanConstructors;
+            finbl MBebnConstructorInfo[] consList = modelMBebnConstructors;
             int numCons = 0;
             if (consList != null) numCons = consList.length;
 
-            final MBeanNotificationInfo[] notifList = modelMBeanNotifications;
+            finbl MBebnNotificbtionInfo[] notifList = modelMBebnNotificbtions;
             int numNotifs = 0;
             if (notifList != null) numNotifs = notifList.length;
 
             int count = numAttrs + numCons + numOpers + numNotifs + 1;
             retList = new Descriptor[count];
 
-            retList[count-1] = modelMBeanDescriptor;
+            retList[count-1] = modelMBebnDescriptor;
 
             int j=0;
             for (int i=0; i < numAttrs; i++) {
-                retList[j] = (((ModelMBeanAttributeInfo)
-                    attrList[i]).getDescriptor());
+                retList[j] = (((ModelMBebnAttributeInfo)
+                    bttrList[i]).getDescriptor());
                 j++;
             }
             for (int i=0; i < numCons; i++) {
-                retList[j] = (((ModelMBeanConstructorInfo)
+                retList[j] = (((ModelMBebnConstructorInfo)
                     consList[i]).getDescriptor());
                 j++;
             }
             for (int i=0; i < numOpers; i++) {
-                retList[j] = (((ModelMBeanOperationInfo)operList[i]).
+                retList[j] = (((ModelMBebnOperbtionInfo)operList[i]).
                         getDescriptor());
                 j++;
             }
             for (int i=0; i < numNotifs; i++) {
-                retList[j] = (((ModelMBeanNotificationInfo)notifList[i]).
+                retList[j] = (((ModelMBebnNotificbtionInfo)notifList[i]).
                         getDescriptor());
                 j++;
             }
         } else {
-            final IllegalArgumentException iae =
-                    new IllegalArgumentException("Descriptor Type is invalid");
-            final String msg = "Exception occurred trying to find"+
-                    " the descriptors of the MBean";
-            throw new RuntimeOperationsException(iae,msg);
+            finbl IllegblArgumentException ibe =
+                    new IllegblArgumentException("Descriptor Type is invblid");
+            finbl String msg = "Exception occurred trying to find"+
+                    " the descriptors of the MBebn";
+            throw new RuntimeOperbtionsException(ibe,msg);
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
+                    ModelMBebnInfoSupport.clbss.getNbme(),
                     "getDescriptors(String)", "Exit");
         }
 
@@ -485,18 +485,18 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
 
 
     public void setDescriptors(Descriptor[] inDescriptors)
-    throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    throws MBebnException, RuntimeOperbtionsException {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
+                    ModelMBebnInfoSupport.clbss.getNbme(),
                     "setDescriptors(Descriptor[])", "Entry");
         }
         if (inDescriptors==null) {
-            // throw RuntimeOperationsException - invalid descriptor
-            throw new RuntimeOperationsException(
-                    new IllegalArgumentException("Descriptor list is invalid"),
+            // throw RuntimeOperbtionsException - invblid descriptor
+            throw new RuntimeOperbtionsException(
+                    new IllegblArgumentException("Descriptor list is invblid"),
                     "Exception occurred trying to set the descriptors " +
-                    "of the MBeanInfo");
+                    "of the MBebnInfo");
         }
         if (inDescriptors.length == 0) { // empty list, no-op
             return;
@@ -504,9 +504,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         for (int j=0; j < inDescriptors.length; j++) {
             setDescriptor(inDescriptors[j],null);
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
+                    ModelMBebnInfoSupport.clbss.getNbme(),
                     "setDescriptors(Descriptor[])", "Exit");
         }
 
@@ -514,78 +514,78 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
 
 
     /**
-     * Returns a Descriptor requested by name.
+     * Returns b Descriptor requested by nbme.
      *
-     * @param inDescriptorName The name of the descriptor.
+     * @pbrbm inDescriptorNbme The nbme of the descriptor.
      *
-     * @return Descriptor containing a descriptor for the ModelMBean with the
-     *         same name. If no descriptor is found, null is returned.
+     * @return Descriptor contbining b descriptor for the ModelMBebn with the
+     *         sbme nbme. If no descriptor is found, null is returned.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException
-     *            for null name.
+     * @exception MBebnException Wrbps b distributed communicbtion Exception.
+     * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException
+     *            for null nbme.
      *
      * @see #setDescriptor
      */
 
-    public Descriptor getDescriptor(String inDescriptorName)
-    throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public Descriptor getDescriptor(String inDescriptorNbme)
+    throws MBebnException, RuntimeOperbtionsException {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
+                    ModelMBebnInfoSupport.clbss.getNbme(),
                     "getDescriptor(String)", "Entry");
         }
-        return(getDescriptor(inDescriptorName, null));
+        return(getDescriptor(inDescriptorNbme, null));
     }
 
 
-    public Descriptor getDescriptor(String inDescriptorName,
+    public Descriptor getDescriptor(String inDescriptorNbme,
             String inDescriptorType)
-            throws MBeanException, RuntimeOperationsException {
-        if (inDescriptorName==null) {
-            // throw RuntimeOperationsException - invalid descriptor
-            throw new RuntimeOperationsException(
-                    new IllegalArgumentException("Descriptor is invalid"),
+            throws MBebnException, RuntimeOperbtionsException {
+        if (inDescriptorNbme==null) {
+            // throw RuntimeOperbtionsException - invblid descriptor
+            throw new RuntimeOperbtionsException(
+                    new IllegblArgumentException("Descriptor is invblid"),
                     "Exception occurred trying to set the descriptors of " +
-                    "the MBeanInfo");
+                    "the MBebnInfo");
         }
 
-        if (MMB.equalsIgnoreCase(inDescriptorType)) {
-            return (Descriptor) modelMBeanDescriptor.clone();
+        if (MMB.equblsIgnoreCbse(inDescriptorType)) {
+            return (Descriptor) modelMBebnDescriptor.clone();
         }
 
-            /* The logic here is a bit convoluted, because we are
-               dealing with two possible cases, depending on whether
+            /* The logic here is b bit convoluted, becbuse we bre
+               debling with two possible cbses, depending on whether
                inDescriptorType is null.  If it's not null, then only
-               one of the following ifs will run, and it will either
-               return a descriptor or null.  If inDescriptorType is
-               null, then all of the following ifs will run until one
-               of them finds a descriptor.  */
-        if (ATTR.equalsIgnoreCase(inDescriptorType) || inDescriptorType == null) {
-            ModelMBeanAttributeInfo attr = getAttribute(inDescriptorName);
-            if (attr != null)
-                return attr.getDescriptor();
+               one of the following ifs will run, bnd it will either
+               return b descriptor or null.  If inDescriptorType is
+               null, then bll of the following ifs will run until one
+               of them finds b descriptor.  */
+        if (ATTR.equblsIgnoreCbse(inDescriptorType) || inDescriptorType == null) {
+            ModelMBebnAttributeInfo bttr = getAttribute(inDescriptorNbme);
+            if (bttr != null)
+                return bttr.getDescriptor();
             if (inDescriptorType != null)
                 return null;
         }
-        if (OPER.equalsIgnoreCase(inDescriptorType) || inDescriptorType == null) {
-            ModelMBeanOperationInfo oper = getOperation(inDescriptorName);
+        if (OPER.equblsIgnoreCbse(inDescriptorType) || inDescriptorType == null) {
+            ModelMBebnOperbtionInfo oper = getOperbtion(inDescriptorNbme);
             if (oper != null)
                 return oper.getDescriptor();
             if (inDescriptorType != null)
                 return null;
         }
-        if (CONS.equalsIgnoreCase(inDescriptorType) || inDescriptorType == null) {
-            ModelMBeanConstructorInfo oper =
-                    getConstructor(inDescriptorName);
+        if (CONS.equblsIgnoreCbse(inDescriptorType) || inDescriptorType == null) {
+            ModelMBebnConstructorInfo oper =
+                    getConstructor(inDescriptorNbme);
             if (oper != null)
                 return oper.getDescriptor();
             if (inDescriptorType != null)
                 return null;
         }
-        if (NOTF.equalsIgnoreCase(inDescriptorType) || inDescriptorType == null) {
-            ModelMBeanNotificationInfo notif =
-                    getNotification(inDescriptorName);
+        if (NOTF.equblsIgnoreCbse(inDescriptorType) || inDescriptorType == null) {
+            ModelMBebnNotificbtionInfo notif =
+                    getNotificbtion(inDescriptorNbme);
             if (notif != null)
                 return notif.getDescriptor();
             if (inDescriptorType != null)
@@ -593,9 +593,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         }
         if (inDescriptorType == null)
             return null;
-        throw new RuntimeOperationsException(
-                new IllegalArgumentException("Descriptor Type is invalid"),
-                "Exception occurred trying to find the descriptors of the MBean");
+        throw new RuntimeOperbtionsException(
+                new IllegblArgumentException("Descriptor Type is invblid"),
+                "Exception occurred trying to find the descriptors of the MBebn");
 
     }
 
@@ -603,12 +603,12 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
 
     public void setDescriptor(Descriptor inDescriptor,
             String inDescriptorType)
-            throws MBeanException, RuntimeOperationsException {
-        final String excMsg =
-                "Exception occurred trying to set the descriptors of the MBean";
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+            throws MBebnException, RuntimeOperbtionsException {
+        finbl String excMsg =
+                "Exception occurred trying to set the descriptors of the MBebn";
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
+                    ModelMBebnInfoSupport.clbss.getNbme(),
                     "setDescriptor(Descriptor,String)", "Entry");
         }
 
@@ -616,157 +616,157 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
             inDescriptor = new DescriptorSupport();
         }
 
-        if ((inDescriptorType == null) || (inDescriptorType.equals(""))) {
+        if ((inDescriptorType == null) || (inDescriptorType.equbls(""))) {
             inDescriptorType =
-                    (String) inDescriptor.getFieldValue("descriptorType");
+                    (String) inDescriptor.getFieldVblue("descriptorType");
 
             if (inDescriptorType == null) {
                    MODELMBEAN_LOGGER.logp(Level.FINER,
-                                ModelMBeanInfoSupport.class.getName(),
+                                ModelMBebnInfoSupport.clbss.getNbme(),
                                 "setDescriptor(Descriptor,String)",
-                                "descriptorType null in both String parameter and Descriptor, defaulting to "+ MMB);
+                                "descriptorType null in both String pbrbmeter bnd Descriptor, defbulting to "+ MMB);
                 inDescriptorType = MMB;
             }
         }
 
-        String inDescriptorName =
-                (String) inDescriptor.getFieldValue("name");
-        if (inDescriptorName == null) {
+        String inDescriptorNbme =
+                (String) inDescriptor.getFieldVblue("nbme");
+        if (inDescriptorNbme == null) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                                ModelMBeanInfoSupport.class.getName(),
+                                ModelMBebnInfoSupport.clbss.getNbme(),
                                 "setDescriptor(Descriptor,String)",
-                                "descriptor name null, defaulting to "+ this.getClassName());
-            inDescriptorName = this.getClassName();
+                                "descriptor nbme null, defbulting to "+ this.getClbssNbme());
+            inDescriptorNbme = this.getClbssNbme();
         }
-        boolean found = false;
-        if (inDescriptorType.equalsIgnoreCase(MMB)) {
-            setMBeanDescriptor(inDescriptor);
+        boolebn found = fblse;
+        if (inDescriptorType.equblsIgnoreCbse(MMB)) {
+            setMBebnDescriptor(inDescriptor);
             found = true;
-        } else if (inDescriptorType.equalsIgnoreCase(ATTR)) {
-            MBeanAttributeInfo[] attrList =  modelMBeanAttributes;
+        } else if (inDescriptorType.equblsIgnoreCbse(ATTR)) {
+            MBebnAttributeInfo[] bttrList =  modelMBebnAttributes;
             int numAttrs = 0;
-            if (attrList != null) numAttrs = attrList.length;
+            if (bttrList != null) numAttrs = bttrList.length;
 
             for (int i=0; i < numAttrs; i++) {
-                if (inDescriptorName.equals(attrList[i].getName())) {
+                if (inDescriptorNbme.equbls(bttrList[i].getNbme())) {
                     found = true;
-                    ModelMBeanAttributeInfo mmbai =
-                            (ModelMBeanAttributeInfo) attrList[i];
-                    mmbai.setDescriptor(inDescriptor);
-                    if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+                    ModelMBebnAttributeInfo mmbbi =
+                            (ModelMBebnAttributeInfo) bttrList[i];
+                    mmbbi.setDescriptor(inDescriptor);
+                    if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                         StringBuilder strb = new StringBuilder()
-                        .append("Setting descriptor to ").append(inDescriptor)
-                        .append("\t\n local: AttributeInfo descriptor is ")
-                        .append(mmbai.getDescriptor())
-                        .append("\t\n modelMBeanInfo: AttributeInfo descriptor is ")
-                        .append(this.getDescriptor(inDescriptorName,"attribute"));
+                        .bppend("Setting descriptor to ").bppend(inDescriptor)
+                        .bppend("\t\n locbl: AttributeInfo descriptor is ")
+                        .bppend(mmbbi.getDescriptor())
+                        .bppend("\t\n modelMBebnInfo: AttributeInfo descriptor is ")
+                        .bppend(this.getDescriptor(inDescriptorNbme,"bttribute"));
                         MODELMBEAN_LOGGER.logp(Level.FINER,
-                                ModelMBeanInfoSupport.class.getName(),
+                                ModelMBebnInfoSupport.clbss.getNbme(),
                                 "setDescriptor(Descriptor,String)",
                                 strb.toString());
                     }
                 }
             }
-        } else if (inDescriptorType.equalsIgnoreCase(OPER)) {
-            MBeanOperationInfo[] operList =  modelMBeanOperations;
+        } else if (inDescriptorType.equblsIgnoreCbse(OPER)) {
+            MBebnOperbtionInfo[] operList =  modelMBebnOperbtions;
             int numOpers = 0;
             if (operList != null) numOpers = operList.length;
 
             for (int i=0; i < numOpers; i++) {
-                if (inDescriptorName.equals(operList[i].getName())) {
+                if (inDescriptorNbme.equbls(operList[i].getNbme())) {
                     found = true;
-                    ModelMBeanOperationInfo mmboi =
-                            (ModelMBeanOperationInfo) operList[i];
+                    ModelMBebnOperbtionInfo mmboi =
+                            (ModelMBebnOperbtionInfo) operList[i];
                     mmboi.setDescriptor(inDescriptor);
                 }
             }
-        } else if (inDescriptorType.equalsIgnoreCase(CONS)) {
-            MBeanConstructorInfo[] consList =  modelMBeanConstructors;
+        } else if (inDescriptorType.equblsIgnoreCbse(CONS)) {
+            MBebnConstructorInfo[] consList =  modelMBebnConstructors;
             int numCons = 0;
             if (consList != null) numCons = consList.length;
 
             for (int i=0; i < numCons; i++) {
-                if (inDescriptorName.equals(consList[i].getName())) {
+                if (inDescriptorNbme.equbls(consList[i].getNbme())) {
                     found = true;
-                    ModelMBeanConstructorInfo mmbci =
-                            (ModelMBeanConstructorInfo) consList[i];
+                    ModelMBebnConstructorInfo mmbci =
+                            (ModelMBebnConstructorInfo) consList[i];
                     mmbci.setDescriptor(inDescriptor);
                 }
             }
-        } else if (inDescriptorType.equalsIgnoreCase(NOTF)) {
-            MBeanNotificationInfo[] notifList =  modelMBeanNotifications;
+        } else if (inDescriptorType.equblsIgnoreCbse(NOTF)) {
+            MBebnNotificbtionInfo[] notifList =  modelMBebnNotificbtions;
             int numNotifs = 0;
             if (notifList != null) numNotifs = notifList.length;
 
             for (int i=0; i < numNotifs; i++) {
-                if (inDescriptorName.equals(notifList[i].getName())) {
+                if (inDescriptorNbme.equbls(notifList[i].getNbme())) {
                     found = true;
-                    ModelMBeanNotificationInfo mmbni =
-                            (ModelMBeanNotificationInfo) notifList[i];
+                    ModelMBebnNotificbtionInfo mmbni =
+                            (ModelMBebnNotificbtionInfo) notifList[i];
                     mmbni.setDescriptor(inDescriptor);
                 }
             }
         } else {
-            RuntimeException iae =
-                    new IllegalArgumentException("Invalid descriptor type: " +
+            RuntimeException ibe =
+                    new IllegblArgumentException("Invblid descriptor type: " +
                     inDescriptorType);
-            throw new RuntimeOperationsException(iae, excMsg);
+            throw new RuntimeOperbtionsException(ibe, excMsg);
         }
 
         if (!found) {
-            RuntimeException iae =
-                    new IllegalArgumentException("Descriptor name is invalid: " +
+            RuntimeException ibe =
+                    new IllegblArgumentException("Descriptor nbme is invblid: " +
                     "type=" + inDescriptorType +
-                    "; name=" + inDescriptorName);
-            throw new RuntimeOperationsException(iae, excMsg);
+                    "; nbme=" + inDescriptorNbme);
+            throw new RuntimeOperbtionsException(ibe, excMsg);
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
+                    ModelMBebnInfoSupport.clbss.getNbme(),
                     "setDescriptor(Descriptor,String)", "Exit");
         }
 
     }
 
 
-    public ModelMBeanAttributeInfo getAttribute(String inName)
-    throws MBeanException, RuntimeOperationsException {
-        ModelMBeanAttributeInfo retInfo = null;
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public ModelMBebnAttributeInfo getAttribute(String inNbme)
+    throws MBebnException, RuntimeOperbtionsException {
+        ModelMBebnAttributeInfo retInfo = null;
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
+                    ModelMBebnInfoSupport.clbss.getNbme(),
                     "getAttribute(String)", "Entry");
         }
-        if (inName == null) {
-            throw new RuntimeOperationsException(
-                    new IllegalArgumentException("Attribute Name is null"),
+        if (inNbme == null) {
+            throw new RuntimeOperbtionsException(
+                    new IllegblArgumentException("Attribute Nbme is null"),
                     "Exception occurred trying to get the " +
-                    "ModelMBeanAttributeInfo of the MBean");
+                    "ModelMBebnAttributeInfo of the MBebn");
         }
-        MBeanAttributeInfo[] attrList = modelMBeanAttributes;
+        MBebnAttributeInfo[] bttrList = modelMBebnAttributes;
         int numAttrs = 0;
-        if (attrList != null) numAttrs = attrList.length;
+        if (bttrList != null) numAttrs = bttrList.length;
 
         for (int i=0; (i < numAttrs) && (retInfo == null); i++) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                final StringBuilder strb = new StringBuilder()
-                .append("\t\n this.getAttributes() MBeanAttributeInfo Array ")
-                .append(i).append(":")
-                .append(((ModelMBeanAttributeInfo)attrList[i]).getDescriptor())
-                .append("\t\n this.modelMBeanAttributes MBeanAttributeInfo Array ")
-                .append(i).append(":")
-                .append(((ModelMBeanAttributeInfo)modelMBeanAttributes[i]).getDescriptor());
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
+                finbl StringBuilder strb = new StringBuilder()
+                .bppend("\t\n this.getAttributes() MBebnAttributeInfo Arrby ")
+                .bppend(i).bppend(":")
+                .bppend(((ModelMBebnAttributeInfo)bttrList[i]).getDescriptor())
+                .bppend("\t\n this.modelMBebnAttributes MBebnAttributeInfo Arrby ")
+                .bppend(i).bppend(":")
+                .bppend(((ModelMBebnAttributeInfo)modelMBebnAttributes[i]).getDescriptor());
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanInfoSupport.class.getName(),
+                        ModelMBebnInfoSupport.clbss.getNbme(),
                         "getAttribute(String)", strb.toString());
             }
-            if (inName.equals(attrList[i].getName())) {
-                retInfo = ((ModelMBeanAttributeInfo)attrList[i].clone());
+            if (inNbme.equbls(bttrList[i].getNbme())) {
+                retInfo = ((ModelMBebnAttributeInfo)bttrList[i].clone());
             }
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
+                    ModelMBebnInfoSupport.clbss.getNbme(),
                     "getAttribute(String)", "Exit");
         }
 
@@ -775,78 +775,78 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
 
 
 
-    public ModelMBeanOperationInfo getOperation(String inName)
-    throws MBeanException, RuntimeOperationsException {
-        ModelMBeanOperationInfo retInfo = null;
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public ModelMBebnOperbtionInfo getOperbtion(String inNbme)
+    throws MBebnException, RuntimeOperbtionsException {
+        ModelMBebnOperbtionInfo retInfo = null;
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getOperation(String)", "Entry");
+                    ModelMBebnInfoSupport.clbss.getNbme(),
+                    "getOperbtion(String)", "Entry");
         }
-        if (inName == null) {
-            throw new RuntimeOperationsException(
-                    new IllegalArgumentException("inName is null"),
+        if (inNbme == null) {
+            throw new RuntimeOperbtionsException(
+                    new IllegblArgumentException("inNbme is null"),
                     "Exception occurred trying to get the " +
-                    "ModelMBeanOperationInfo of the MBean");
+                    "ModelMBebnOperbtionInfo of the MBebn");
         }
-        MBeanOperationInfo[] operList = modelMBeanOperations; //this.getOperations();
+        MBebnOperbtionInfo[] operList = modelMBebnOperbtions; //this.getOperbtions();
         int numOpers = 0;
         if (operList != null) numOpers = operList.length;
 
         for (int i=0; (i < numOpers) && (retInfo == null); i++) {
-            if (inName.equals(operList[i].getName())) {
-                retInfo = ((ModelMBeanOperationInfo) operList[i].clone());
+            if (inNbme.equbls(operList[i].getNbme())) {
+                retInfo = ((ModelMBebnOperbtionInfo) operList[i].clone());
             }
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getOperation(String)", "Exit");
+                    ModelMBebnInfoSupport.clbss.getNbme(),
+                    "getOperbtion(String)", "Exit");
         }
 
         return retInfo;
     }
 
     /**
-     * Returns the ModelMBeanConstructorInfo requested by name.
-     * If no ModelMBeanConstructorInfo exists for this name null is returned.
+     * Returns the ModelMBebnConstructorInfo requested by nbme.
+     * If no ModelMBebnConstructorInfo exists for this nbme null is returned.
      *
-     * @param inName the name of the constructor.
+     * @pbrbm inNbme the nbme of the constructor.
      *
-     * @return the constructor info for the named constructor, or null
+     * @return the constructor info for the nbmed constructor, or null
      * if there is none.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException
-     *            for a null constructor name.
+     * @exception MBebnException Wrbps b distributed communicbtion Exception.
+     * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException
+     *            for b null constructor nbme.
      */
 
-    public ModelMBeanConstructorInfo getConstructor(String inName)
-    throws MBeanException, RuntimeOperationsException {
-        ModelMBeanConstructorInfo retInfo = null;
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public ModelMBebnConstructorInfo getConstructor(String inNbme)
+    throws MBebnException, RuntimeOperbtionsException {
+        ModelMBebnConstructorInfo retInfo = null;
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
+                    ModelMBebnInfoSupport.clbss.getNbme(),
                     "getConstructor(String)", "Entry");
         }
-        if (inName == null) {
-            throw new RuntimeOperationsException(
-                    new IllegalArgumentException("Constructor name is null"),
+        if (inNbme == null) {
+            throw new RuntimeOperbtionsException(
+                    new IllegblArgumentException("Constructor nbme is null"),
                     "Exception occurred trying to get the " +
-                    "ModelMBeanConstructorInfo of the MBean");
+                    "ModelMBebnConstructorInfo of the MBebn");
         }
-        MBeanConstructorInfo[] consList = modelMBeanConstructors; //this.getConstructors();
+        MBebnConstructorInfo[] consList = modelMBebnConstructors; //this.getConstructors();
         int numCons = 0;
         if (consList != null) numCons = consList.length;
 
         for (int i=0; (i < numCons) && (retInfo == null); i++) {
-            if (inName.equals(consList[i].getName())) {
-                retInfo = ((ModelMBeanConstructorInfo) consList[i].clone());
+            if (inNbme.equbls(consList[i].getNbme())) {
+                retInfo = ((ModelMBebnConstructorInfo) consList[i].clone());
             }
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
+                    ModelMBebnInfoSupport.clbss.getNbme(),
                     "getConstructor(String)", "Exit");
         }
 
@@ -854,142 +854,142 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
     }
 
 
-    public ModelMBeanNotificationInfo getNotification(String inName)
-    throws MBeanException, RuntimeOperationsException {
-        ModelMBeanNotificationInfo retInfo = null;
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public ModelMBebnNotificbtionInfo getNotificbtion(String inNbme)
+    throws MBebnException, RuntimeOperbtionsException {
+        ModelMBebnNotificbtionInfo retInfo = null;
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getNotification(String)", "Entry");
+                    ModelMBebnInfoSupport.clbss.getNbme(),
+                    "getNotificbtion(String)", "Entry");
         }
-        if (inName == null) {
-            throw new RuntimeOperationsException(
-                    new IllegalArgumentException("Notification name is null"),
+        if (inNbme == null) {
+            throw new RuntimeOperbtionsException(
+                    new IllegblArgumentException("Notificbtion nbme is null"),
                     "Exception occurred trying to get the " +
-                    "ModelMBeanNotificationInfo of the MBean");
+                    "ModelMBebnNotificbtionInfo of the MBebn");
         }
-        MBeanNotificationInfo[] notifList = modelMBeanNotifications; //this.getNotifications();
+        MBebnNotificbtionInfo[] notifList = modelMBebnNotificbtions; //this.getNotificbtions();
         int numNotifs = 0;
         if (notifList != null) numNotifs = notifList.length;
 
         for (int i=0; (i < numNotifs) && (retInfo == null); i++) {
-            if (inName.equals(notifList[i].getName())) {
-                retInfo = ((ModelMBeanNotificationInfo) notifList[i].clone());
+            if (inNbme.equbls(notifList[i].getNbme())) {
+                retInfo = ((ModelMBebnNotificbtionInfo) notifList[i].clone());
             }
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getNotification(String)", "Exit");
+                    ModelMBebnInfoSupport.clbss.getNbme(),
+                    "getNotificbtion(String)", "Exit");
         }
 
         return retInfo;
     }
 
 
-    /* We override MBeanInfo.getDescriptor() to return our descriptor. */
+    /* We override MBebnInfo.getDescriptor() to return our descriptor. */
     /**
      * @since 1.6
      */
     @Override
     public Descriptor getDescriptor() {
-        return getMBeanDescriptorNoException();
+        return getMBebnDescriptorNoException();
     }
 
-    public Descriptor getMBeanDescriptor() throws MBeanException {
-        return getMBeanDescriptorNoException();
+    public Descriptor getMBebnDescriptor() throws MBebnException {
+        return getMBebnDescriptorNoException();
     }
 
-    private Descriptor getMBeanDescriptorNoException() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    privbte Descriptor getMBebnDescriptorNoException() {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getMBeanDescriptorNoException()", "Entry");
+                    ModelMBebnInfoSupport.clbss.getNbme(),
+                    "getMBebnDescriptorNoException()", "Entry");
         }
 
-        if (modelMBeanDescriptor == null)
-            modelMBeanDescriptor = validDescriptor(null);
+        if (modelMBebnDescriptor == null)
+            modelMBebnDescriptor = vblidDescriptor(null);
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getMBeanDescriptorNoException()",
-                    "Exit, returning: " + modelMBeanDescriptor);
+                    ModelMBebnInfoSupport.clbss.getNbme(),
+                    "getMBebnDescriptorNoException()",
+                    "Exit, returning: " + modelMBebnDescriptor);
         }
-        return (Descriptor) modelMBeanDescriptor.clone();
+        return (Descriptor) modelMBebnDescriptor.clone();
     }
 
-    public void setMBeanDescriptor(Descriptor inMBeanDescriptor)
-    throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public void setMBebnDescriptor(Descriptor inMBebnDescriptor)
+    throws MBebnException, RuntimeOperbtionsException {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "setMBeanDescriptor(Descriptor)", "Entry");
+                    ModelMBebnInfoSupport.clbss.getNbme(),
+                    "setMBebnDescriptor(Descriptor)", "Entry");
         }
-        modelMBeanDescriptor = validDescriptor(inMBeanDescriptor);
+        modelMBebnDescriptor = vblidDescriptor(inMBebnDescriptor);
     }
 
 
     /**
-     * Clones the passed in Descriptor, sets default values, and checks for validity.
-     * If the Descriptor is invalid (for instance by having the wrong "name"),
-     * this indicates programming error and a RuntimeOperationsException will be thrown.
+     * Clones the pbssed in Descriptor, sets defbult vblues, bnd checks for vblidity.
+     * If the Descriptor is invblid (for instbnce by hbving the wrong "nbme"),
+     * this indicbtes progrbmming error bnd b RuntimeOperbtionsException will be thrown.
      *
-     * The following fields will be defaulted if they are not already set:
-     * displayName=className,name=className,descriptorType="mbean",
+     * The following fields will be defbulted if they bre not blrebdy set:
+     * displbyNbme=clbssNbme,nbme=clbssNbme,descriptorType="mbebn",
      * persistPolicy="never", log="F", visibility="1"
      *
-     * @param in Descriptor to be checked, or null which is equivalent to
-     * an empty Descriptor.
-     * @exception RuntimeOperationsException if Descriptor is invalid
+     * @pbrbm in Descriptor to be checked, or null which is equivblent to
+     * bn empty Descriptor.
+     * @exception RuntimeOperbtionsException if Descriptor is invblid
      */
-    private Descriptor validDescriptor(final Descriptor in) throws RuntimeOperationsException {
+    privbte Descriptor vblidDescriptor(finbl Descriptor in) throws RuntimeOperbtionsException {
         Descriptor clone;
-        boolean defaulted = (in == null);
-        if (defaulted) {
+        boolebn defbulted = (in == null);
+        if (defbulted) {
             clone = new DescriptorSupport();
-            MODELMBEAN_LOGGER.finer("Null Descriptor, creating new.");
+            MODELMBEAN_LOGGER.finer("Null Descriptor, crebting new.");
         } else {
             clone = (Descriptor) in.clone();
         }
 
-        //Setting defaults.
-        if (defaulted && clone.getFieldValue("name")==null) {
-            clone.setField("name", this.getClassName());
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor name to " + this.getClassName());
+        //Setting defbults.
+        if (defbulted && clone.getFieldVblue("nbme")==null) {
+            clone.setField("nbme", this.getClbssNbme());
+            MODELMBEAN_LOGGER.finer("Defbulting Descriptor nbme to " + this.getClbssNbme());
         }
-        if (defaulted && clone.getFieldValue("descriptorType")==null) {
+        if (defbulted && clone.getFieldVblue("descriptorType")==null) {
             clone.setField("descriptorType", MMB);
-            MODELMBEAN_LOGGER.finer("Defaulting descriptorType to \"" + MMB + "\"");
+            MODELMBEAN_LOGGER.finer("Defbulting descriptorType to \"" + MMB + "\"");
         }
-        if (clone.getFieldValue("displayName") == null) {
-            clone.setField("displayName",this.getClassName());
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor displayName to " + this.getClassName());
+        if (clone.getFieldVblue("displbyNbme") == null) {
+            clone.setField("displbyNbme",this.getClbssNbme());
+            MODELMBEAN_LOGGER.finer("Defbulting Descriptor displbyNbme to " + this.getClbssNbme());
         }
-        if (clone.getFieldValue("persistPolicy") == null) {
+        if (clone.getFieldVblue("persistPolicy") == null) {
             clone.setField("persistPolicy","never");
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor persistPolicy to \"never\"");
+            MODELMBEAN_LOGGER.finer("Defbulting Descriptor persistPolicy to \"never\"");
         }
-        if (clone.getFieldValue("log") == null) {
+        if (clone.getFieldVblue("log") == null) {
             clone.setField("log","F");
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor \"log\" field to \"F\"");
+            MODELMBEAN_LOGGER.finer("Defbulting Descriptor \"log\" field to \"F\"");
         }
-        if (clone.getFieldValue("visibility") == null) {
+        if (clone.getFieldVblue("visibility") == null) {
             clone.setField("visibility","1");
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor visibility to 1");
+            MODELMBEAN_LOGGER.finer("Defbulting Descriptor visibility to 1");
         }
 
-        //Checking validity
-        if (!clone.isValid()) {
-             throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                "The isValid() method of the Descriptor object itself returned false,"+
-                "one or more required fields are invalid. Descriptor:" + clone.toString());
+        //Checking vblidity
+        if (!clone.isVblid()) {
+             throw new RuntimeOperbtionsException(new IllegblArgumentException("Invblid Descriptor brgument"),
+                "The isVblid() method of the Descriptor object itself returned fblse,"+
+                "one or more required fields bre invblid. Descriptor:" + clone.toString());
         }
 
-        if (! ((String)clone.getFieldValue("descriptorType")).equalsIgnoreCase(MMB)) {
-                 throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                "The Descriptor \"descriptorType\" field does not match the object described. " +
-                 " Expected: "+ MMB + " , was: " + clone.getFieldValue("descriptorType"));
+        if (! ((String)clone.getFieldVblue("descriptorType")).equblsIgnoreCbse(MMB)) {
+                 throw new RuntimeOperbtionsException(new IllegblArgumentException("Invblid Descriptor brgument"),
+                "The Descriptor \"descriptorType\" field does not mbtch the object described. " +
+                 " Expected: "+ MMB + " , wbs: " + clone.getFieldVblue("descriptorType"));
         }
 
         return clone;
@@ -999,67 +999,67 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
 
 
     /**
-     * Deserializes a {@link ModelMBeanInfoSupport} from an {@link ObjectInputStream}.
+     * Deseriblizes b {@link ModelMBebnInfoSupport} from bn {@link ObjectInputStrebm}.
      */
-    private void readObject(ObjectInputStream in)
-    throws IOException, ClassNotFoundException {
-        if (compat) {
-            // Read an object serialized in the old serial form
+    privbte void rebdObject(ObjectInputStrebm in)
+    throws IOException, ClbssNotFoundException {
+        if (compbt) {
+            // Rebd bn object seriblized in the old seribl form
             //
-            ObjectInputStream.GetField fields = in.readFields();
-            modelMBeanDescriptor =
-                    (Descriptor) fields.get("modelMBeanDescriptor", null);
-            if (fields.defaulted("modelMBeanDescriptor")) {
-                throw new NullPointerException("modelMBeanDescriptor");
+            ObjectInputStrebm.GetField fields = in.rebdFields();
+            modelMBebnDescriptor =
+                    (Descriptor) fields.get("modelMBebnDescriptor", null);
+            if (fields.defbulted("modelMBebnDescriptor")) {
+                throw new NullPointerException("modelMBebnDescriptor");
             }
-            modelMBeanAttributes =
-                    (MBeanAttributeInfo[]) fields.get("mmbAttributes", null);
-            if (fields.defaulted("mmbAttributes")) {
+            modelMBebnAttributes =
+                    (MBebnAttributeInfo[]) fields.get("mmbAttributes", null);
+            if (fields.defbulted("mmbAttributes")) {
                 throw new NullPointerException("mmbAttributes");
             }
-            modelMBeanConstructors =
-                    (MBeanConstructorInfo[]) fields.get("mmbConstructors", null);
-            if (fields.defaulted("mmbConstructors")) {
+            modelMBebnConstructors =
+                    (MBebnConstructorInfo[]) fields.get("mmbConstructors", null);
+            if (fields.defbulted("mmbConstructors")) {
                 throw new NullPointerException("mmbConstructors");
             }
-            modelMBeanNotifications =
-                    (MBeanNotificationInfo[]) fields.get("mmbNotifications", null);
-            if (fields.defaulted("mmbNotifications")) {
-                throw new NullPointerException("mmbNotifications");
+            modelMBebnNotificbtions =
+                    (MBebnNotificbtionInfo[]) fields.get("mmbNotificbtions", null);
+            if (fields.defbulted("mmbNotificbtions")) {
+                throw new NullPointerException("mmbNotificbtions");
             }
-            modelMBeanOperations =
-                    (MBeanOperationInfo[]) fields.get("mmbOperations", null);
-            if (fields.defaulted("mmbOperations")) {
-                throw new NullPointerException("mmbOperations");
+            modelMBebnOperbtions =
+                    (MBebnOperbtionInfo[]) fields.get("mmbOperbtions", null);
+            if (fields.defbulted("mmbOperbtions")) {
+                throw new NullPointerException("mmbOperbtions");
             }
         } else {
-            // Read an object serialized in the new serial form
+            // Rebd bn object seriblized in the new seribl form
             //
-            in.defaultReadObject();
+            in.defbultRebdObject();
         }
     }
 
 
     /**
-     * Serializes a {@link ModelMBeanInfoSupport} to an {@link ObjectOutputStream}.
+     * Seriblizes b {@link ModelMBebnInfoSupport} to bn {@link ObjectOutputStrebm}.
      */
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
     throws IOException {
-        if (compat) {
-            // Serializes this instance in the old serial form
+        if (compbt) {
+            // Seriblizes this instbnce in the old seribl form
             //
-            ObjectOutputStream.PutField fields = out.putFields();
-            fields.put("modelMBeanDescriptor", modelMBeanDescriptor);
-            fields.put("mmbAttributes", modelMBeanAttributes);
-            fields.put("mmbConstructors", modelMBeanConstructors);
-            fields.put("mmbNotifications", modelMBeanNotifications);
-            fields.put("mmbOperations", modelMBeanOperations);
-            fields.put("currClass", currClass);
+            ObjectOutputStrebm.PutField fields = out.putFields();
+            fields.put("modelMBebnDescriptor", modelMBebnDescriptor);
+            fields.put("mmbAttributes", modelMBebnAttributes);
+            fields.put("mmbConstructors", modelMBebnConstructors);
+            fields.put("mmbNotificbtions", modelMBebnNotificbtions);
+            fields.put("mmbOperbtions", modelMBebnOperbtions);
+            fields.put("currClbss", currClbss);
             out.writeFields();
         } else {
-            // Serializes this instance in the new serial form
+            // Seriblizes this instbnce in the new seribl form
             //
-            out.defaultWriteObject();
+            out.defbultWriteObject();
         }
     }
 

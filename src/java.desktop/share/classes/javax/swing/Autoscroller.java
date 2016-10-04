@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
 /**
- * Autoscroller is responsible for generating synthetic mouse dragged
+ * Autoscroller is responsible for generbting synthetic mouse drbgged
  * events. It is the responsibility of the Component (or its MouseListeners)
- * that receive the events to do the actual scrolling in response to the
- * mouse dragged events.
+ * thbt receive the events to do the bctubl scrolling in response to the
+ * mouse drbgged events.
  *
- * @author Dave Moore
- * @author Scott Violet
+ * @buthor Dbve Moore
+ * @buthor Scott Violet
  */
-class Autoscroller implements ActionListener {
+clbss Autoscroller implements ActionListener {
     /**
-     * Global Autoscroller.
+     * Globbl Autoscroller.
      */
-    private static Autoscroller sharedInstance = new Autoscroller();
+    privbte stbtic Autoscroller shbredInstbnce = new Autoscroller();
 
-    // As there can only ever be one autoscroller active these fields are
-    // static. The Timer is recreated as necessary to target the appropriate
-    // Autoscroller instance.
-    private static MouseEvent event;
-    private static Timer timer;
-    private static JComponent component;
+    // As there cbn only ever be one butoscroller bctive these fields bre
+    // stbtic. The Timer is recrebted bs necessbry to tbrget the bppropribte
+    // Autoscroller instbnce.
+    privbte stbtic MouseEvent event;
+    privbte stbtic Timer timer;
+    privbte stbtic JComponent component;
 
     //
-    // The public API, all methods are cover methods for an instance method
+    // The public API, bll methods bre cover methods for bn instbnce method
     //
     /**
-     * Stops autoscroll events from happening on the specified component.
+     * Stops butoscroll events from hbppening on the specified component.
      */
-    public static void stop(JComponent c) {
-        sharedInstance._stop(c);
+    public stbtic void stop(JComponent c) {
+        shbredInstbnce._stop(c);
     }
 
     /**
-     * Stops autoscroll events from happening on the specified component.
+     * Stops butoscroll events from hbppening on the specified component.
      */
-    public static boolean isRunning(JComponent c) {
-        return sharedInstance._isRunning(c);
+    public stbtic boolebn isRunning(JComponent c) {
+        return shbredInstbnce._isRunning(c);
     }
 
     /**
-     * Invoked when a mouse dragged event occurs, will start the autoscroller
-     * if necessary.
+     * Invoked when b mouse drbgged event occurs, will stbrt the butoscroller
+     * if necessbry.
      */
-    public static void processMouseDragged(MouseEvent e) {
-        sharedInstance._processMouseDragged(e);
+    public stbtic void processMouseDrbgged(MouseEvent e) {
+        shbredInstbnce._processMouseDrbgged(e);
     }
 
 
@@ -80,18 +80,18 @@ class Autoscroller implements ActionListener {
     }
 
     /**
-     * Starts the timer targeting the passed in component.
+     * Stbrts the timer tbrgeting the pbssed in component.
      */
-    private void start(JComponent c, MouseEvent e) {
-        Point screenLocation = c.getLocationOnScreen();
+    privbte void stbrt(JComponent c, MouseEvent e) {
+        Point screenLocbtion = c.getLocbtionOnScreen();
 
         if (component != c) {
             _stop(component);
         }
         component = c;
         event = new MouseEvent(component, e.getID(), e.getWhen(),
-                               e.getModifiers(), e.getX() + screenLocation.x,
-                               e.getY() + screenLocation.y,
+                               e.getModifiers(), e.getX() + screenLocbtion.x,
+                               e.getY() + screenLocbtion.y,
                                e.getXOnScreen(),
                                e.getYOnScreen(),
                                e.getClickCount(), e.isPopupTrigger(),
@@ -102,18 +102,18 @@ class Autoscroller implements ActionListener {
         }
 
         if (!timer.isRunning()) {
-            timer.start();
+            timer.stbrt();
         }
     }
 
     //
-    // Methods mirror the public static API
+    // Methods mirror the public stbtic API
     //
 
     /**
-     * Stops scrolling for the passed in widget.
+     * Stops scrolling for the pbssed in widget.
      */
-    private void _stop(JComponent c) {
+    privbte void _stop(JComponent c) {
         if (component == c) {
             if (timer != null) {
                 timer.stop();
@@ -125,27 +125,27 @@ class Autoscroller implements ActionListener {
     }
 
     /**
-     * Returns true if autoscrolling is currently running for the specified
+     * Returns true if butoscrolling is currently running for the specified
      * widget.
      */
-    private boolean _isRunning(JComponent c) {
+    privbte boolebn _isRunning(JComponent c) {
         return (c == component && timer != null && timer.isRunning());
     }
 
     /**
-     * MouseListener method, invokes start/stop as necessary.
+     * MouseListener method, invokes stbrt/stop bs necessbry.
      */
-    private void _processMouseDragged(MouseEvent e) {
+    privbte void _processMouseDrbgged(MouseEvent e) {
         JComponent component = (JComponent)e.getComponent();
-        boolean stop = true;
+        boolebn stop = true;
         if (component.isShowing()) {
-            Rectangle visibleRect = component.getVisibleRect();
-            stop = visibleRect.contains(e.getX(), e.getY());
+            Rectbngle visibleRect = component.getVisibleRect();
+            stop = visibleRect.contbins(e.getX(), e.getY());
         }
         if (stop) {
             _stop(component);
         } else {
-            start(component, e);
+            stbrt(component, e);
         }
     }
 
@@ -154,20 +154,20 @@ class Autoscroller implements ActionListener {
     //
     /**
      * ActionListener method. Invoked when the Timer fires. This will scroll
-     * if necessary.
+     * if necessbry.
      */
-    public void actionPerformed(ActionEvent x) {
+    public void bctionPerformed(ActionEvent x) {
         JComponent component = Autoscroller.component;
 
         if (component == null || !component.isShowing() || (event == null)) {
             _stop(component);
             return;
         }
-        Point screenLocation = component.getLocationOnScreen();
+        Point screenLocbtion = component.getLocbtionOnScreen();
         MouseEvent e = new MouseEvent(component, event.getID(),
                                       event.getWhen(), event.getModifiers(),
-                                      event.getX() - screenLocation.x,
-                                      event.getY() - screenLocation.y,
+                                      event.getX() - screenLocbtion.x,
+                                      event.getY() - screenLocbtion.y,
                                       event.getXOnScreen(),
                                       event.getYOnScreen(),
                                       event.getClickCount(),

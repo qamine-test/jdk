@@ -3,141 +3,141 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMCanonicalizationMethod.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMCbnonicblizbtionMethod.jbvb 1333415 2012-05-03 12:03:51Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import java.io.OutputStream;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.Provider;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.io.OutputStrebm;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.Provider;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
 import org.w3c.dom.Element;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dsig.*;
 
 /**
- * DOM-based abstract implementation of CanonicalizationMethod.
+ * DOM-bbsed bbstrbct implementbtion of CbnonicblizbtionMethod.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public class DOMCanonicalizationMethod extends DOMTransform
-    implements CanonicalizationMethod {
+public clbss DOMCbnonicblizbtionMethod extends DOMTrbnsform
+    implements CbnonicblizbtionMethod {
 
     /**
-     * Creates a <code>DOMCanonicalizationMethod</code>.
+     * Crebtes b <code>DOMCbnonicblizbtionMethod</code>.
      *
-     * @param spi TransformService
+     * @pbrbm spi TrbnsformService
      */
-    public DOMCanonicalizationMethod(TransformService spi)
-        throws InvalidAlgorithmParameterException
+    public DOMCbnonicblizbtionMethod(TrbnsformService spi)
+        throws InvblidAlgorithmPbrbmeterException
     {
         super(spi);
-        if (!(spi instanceof ApacheCanonicalizer) &&
-                !isC14Nalg(spi.getAlgorithm())) {
-            throw new InvalidAlgorithmParameterException(
-                "Illegal CanonicalizationMethod");
+        if (!(spi instbnceof ApbcheCbnonicblizer) &&
+                !isC14Nblg(spi.getAlgorithm())) {
+            throw new InvblidAlgorithmPbrbmeterException(
+                "Illegbl CbnonicblizbtionMethod");
         }
     }
 
     /**
-     * Creates a <code>DOMCanonicalizationMethod</code> from an element. This
-     * ctor invokes the abstract {@link #unmarshalParams unmarshalParams}
-     * method to unmarshal any algorithm-specific input parameters.
+     * Crebtes b <code>DOMCbnonicblizbtionMethod</code> from bn element. This
+     * ctor invokes the bbstrbct {@link #unmbrshblPbrbms unmbrshblPbrbms}
+     * method to unmbrshbl bny blgorithm-specific input pbrbmeters.
      *
-     * @param cmElem a CanonicalizationMethod element
+     * @pbrbm cmElem b CbnonicblizbtionMethod element
      */
-    public DOMCanonicalizationMethod(Element cmElem, XMLCryptoContext context,
+    public DOMCbnonicblizbtionMethod(Element cmElem, XMLCryptoContext context,
                                      Provider provider)
-        throws MarshalException
+        throws MbrshblException
     {
         super(cmElem, context, provider);
-        if (!(spi instanceof ApacheCanonicalizer) &&
-                !isC14Nalg(spi.getAlgorithm())) {
-            throw new MarshalException("Illegal CanonicalizationMethod");
+        if (!(spi instbnceof ApbcheCbnonicblizer) &&
+                !isC14Nblg(spi.getAlgorithm())) {
+            throw new MbrshblException("Illegbl CbnonicblizbtionMethod");
         }
     }
 
     /**
-     * Canonicalizes the specified data using the underlying canonicalization
-     * algorithm. This is a convenience method that is equivalent to invoking
-     * the {@link #transform transform} method.
+     * Cbnonicblizes the specified dbtb using the underlying cbnonicblizbtion
+     * blgorithm. This is b convenience method thbt is equivblent to invoking
+     * the {@link #trbnsform trbnsform} method.
      *
-     * @param data the data to be canonicalized
-     * @param xc the <code>XMLCryptoContext</code> containing
-     *     additional context (may be <code>null</code> if not applicable)
-     * @return the canonicalized data
-     * @throws NullPointerException if <code>data</code> is <code>null</code>
-     * @throws TransformException if an unexpected error occurs while
-     *    canonicalizing the data
+     * @pbrbm dbtb the dbtb to be cbnonicblized
+     * @pbrbm xc the <code>XMLCryptoContext</code> contbining
+     *     bdditionbl context (mby be <code>null</code> if not bpplicbble)
+     * @return the cbnonicblized dbtb
+     * @throws NullPointerException if <code>dbtb</code> is <code>null</code>
+     * @throws TrbnsformException if bn unexpected error occurs while
+     *    cbnonicblizing the dbtb
      */
-    public Data canonicalize(Data data, XMLCryptoContext xc)
-        throws TransformException
+    public Dbtb cbnonicblize(Dbtb dbtb, XMLCryptoContext xc)
+        throws TrbnsformException
     {
-        return transform(data, xc);
+        return trbnsform(dbtb, xc);
     }
 
-    public Data canonicalize(Data data, XMLCryptoContext xc, OutputStream os)
-        throws TransformException
+    public Dbtb cbnonicblize(Dbtb dbtb, XMLCryptoContext xc, OutputStrebm os)
+        throws TrbnsformException
     {
-        return transform(data, xc, os);
+        return trbnsform(dbtb, xc, os);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o) {
             return true;
         }
 
-        if (!(o instanceof CanonicalizationMethod)) {
-            return false;
+        if (!(o instbnceof CbnonicblizbtionMethod)) {
+            return fblse;
         }
-        CanonicalizationMethod ocm = (CanonicalizationMethod)o;
+        CbnonicblizbtionMethod ocm = (CbnonicblizbtionMethod)o;
 
-        return (getAlgorithm().equals(ocm.getAlgorithm()) &&
-            DOMUtils.paramsEqual(getParameterSpec(), ocm.getParameterSpec()));
+        return (getAlgorithm().equbls(ocm.getAlgorithm()) &&
+            DOMUtils.pbrbmsEqubl(getPbrbmeterSpec(), ocm.getPbrbmeterSpec()));
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
-        result = 31 * result + getAlgorithm().hashCode();
-        AlgorithmParameterSpec spec = getParameterSpec();
+        result = 31 * result + getAlgorithm().hbshCode();
+        AlgorithmPbrbmeterSpec spec = getPbrbmeterSpec();
         if (spec != null) {
-            result = 31 * result + spec.hashCode();
+            result = 31 * result + spec.hbshCode();
         }
 
         return result;
     }
 
-    private static boolean isC14Nalg(String alg) {
-        return (alg.equals(CanonicalizationMethod.INCLUSIVE) ||
-                alg.equals(CanonicalizationMethod.INCLUSIVE_WITH_COMMENTS) ||
-                alg.equals(CanonicalizationMethod.EXCLUSIVE) ||
-                alg.equals(CanonicalizationMethod.EXCLUSIVE_WITH_COMMENTS) ||
-                alg.equals(DOMCanonicalXMLC14N11Method.C14N_11) ||
-                alg.equals(DOMCanonicalXMLC14N11Method.C14N_11_WITH_COMMENTS));
+    privbte stbtic boolebn isC14Nblg(String blg) {
+        return (blg.equbls(CbnonicblizbtionMethod.INCLUSIVE) ||
+                blg.equbls(CbnonicblizbtionMethod.INCLUSIVE_WITH_COMMENTS) ||
+                blg.equbls(CbnonicblizbtionMethod.EXCLUSIVE) ||
+                blg.equbls(CbnonicblizbtionMethod.EXCLUSIVE_WITH_COMMENTS) ||
+                blg.equbls(DOMCbnonicblXMLC14N11Method.C14N_11) ||
+                blg.equbls(DOMCbnonicblXMLC14N11Method.C14N_11_WITH_COMMENTS));
     }
 }

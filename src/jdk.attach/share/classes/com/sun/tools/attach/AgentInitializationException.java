@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.attach;
+pbckbge com.sun.tools.bttbch;
 
 /**
- * The exception thrown when an agent fails to initialize in the target
- * Java virtual machine.
+ * The exception thrown when bn bgent fbils to initiblize in the tbrget
+ * Jbvb virtubl mbchine.
  *
  * <p> This exception is thrown by {@link
- * com.sun.tools.attach.VirtualMachine#loadAgent VirtualMachine.loadAgent},
- * {@link com.sun.tools.attach.VirtualMachine#loadAgentLibrary
- * VirtualMachine.loadAgentLibrary}, {@link
- * com.sun.tools.attach.VirtualMachine#loadAgentPath VirtualMachine.loadAgentPath}
- * methods if an agent, or agent library, cannot be initialized.
- * When thrown by <tt>VirtualMachine.loadAgentLibrary</tt>, or
- * <tt>VirtualMachine.loadAgentPath</tt> then the exception encapsulates
- * the error returned by the agent's <code>Agent_OnAttach</code> function.
- * This error code can be obtained by invoking the {@link #returnValue() returnValue} method.
+ * com.sun.tools.bttbch.VirtublMbchine#lobdAgent VirtublMbchine.lobdAgent},
+ * {@link com.sun.tools.bttbch.VirtublMbchine#lobdAgentLibrbry
+ * VirtublMbchine.lobdAgentLibrbry}, {@link
+ * com.sun.tools.bttbch.VirtublMbchine#lobdAgentPbth VirtublMbchine.lobdAgentPbth}
+ * methods if bn bgent, or bgent librbry, cbnnot be initiblized.
+ * When thrown by <tt>VirtublMbchine.lobdAgentLibrbry</tt>, or
+ * <tt>VirtublMbchine.lobdAgentPbth</tt> then the exception encbpsulbtes
+ * the error returned by the bgent's <code>Agent_OnAttbch</code> function.
+ * This error code cbn be obtbined by invoking the {@link #returnVblue() returnVblue} method.
  */
 @jdk.Exported
-public class AgentInitializationException extends Exception {
+public clbss AgentInitiblizbtionException extends Exception {
 
-    /** use serialVersionUID for interoperability */
-    static final long serialVersionUID = -1508756333332806353L;
+    /** use seriblVersionUID for interoperbbility */
+    stbtic finbl long seriblVersionUID = -1508756333332806353L;
 
-    private int returnValue;
+    privbte int returnVblue;
 
     /**
-     * Constructs an <code>AgentInitializationException</code> with
-     * no detail message.
+     * Constructs bn <code>AgentInitiblizbtionException</code> with
+     * no detbil messbge.
      */
-    public AgentInitializationException() {
+    public AgentInitiblizbtionException() {
         super();
-        this.returnValue = 0;
+        this.returnVblue = 0;
     }
 
     /**
-     * Constructs an <code>AgentInitializationException</code> with
-     * the specified detail message.
+     * Constructs bn <code>AgentInitiblizbtionException</code> with
+     * the specified detbil messbge.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   the detbil messbge.
      */
-    public AgentInitializationException(String s) {
+    public AgentInitiblizbtionException(String s) {
         super(s);
-        this.returnValue = 0;
+        this.returnVblue = 0;
     }
 
     /**
-     * Constructs an <code>AgentInitializationException</code> with
-     * the specified detail message and the return value from the
-     * execution of the agent's <code>Agent_OnAttach</code> function.
+     * Constructs bn <code>AgentInitiblizbtionException</code> with
+     * the specified detbil messbge bnd the return vblue from the
+     * execution of the bgent's <code>Agent_OnAttbch</code> function.
      *
-     * @param   s               the detail message.
-     * @param   returnValue     the return value
+     * @pbrbm   s               the detbil messbge.
+     * @pbrbm   returnVblue     the return vblue
      */
-    public AgentInitializationException(String s, int returnValue) {
+    public AgentInitiblizbtionException(String s, int returnVblue) {
         super(s);
-        this.returnValue = returnValue;
+        this.returnVblue = returnVblue;
     }
 
     /**
-     * If the exception was created with the return value from the agent
-     * <code>Agent_OnAttach</code> function then this returns that value,
+     * If the exception wbs crebted with the return vblue from the bgent
+     * <code>Agent_OnAttbch</code> function then this returns thbt vblue,
      * otherwise returns <code>0</code>. </p>
      *
-     * @return  the return value
+     * @return  the return vblue
      */
-    public int returnValue() {
-        return returnValue;
+    public int returnVblue() {
+        return returnVblue;
     }
 
 }

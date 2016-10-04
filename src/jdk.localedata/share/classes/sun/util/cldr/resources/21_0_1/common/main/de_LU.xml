@@ -3,15 +3,15 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 4123 $"/>
-		<generation date="$Date: 2009-05-06 08:06:42 +0900 (Wed, 06 May 2009) $"/>
-		<language type="de"/>
+		<generbtion dbte="$Dbte: 2009-05-06 08:06:42 +0900 (Wed, 06 Mby 2009) $"/>
+		<lbngubge type="de"/>
 		<territory type="LU"/>
 	</identity>
 	<numbers>
 		<currencies>
 			<currency type="LUF">
 				<symbol>F</symbol>
-				<decimal>.</decimal>
+				<decimbl>.</decimbl>
 				<group>,</group>
 			</currency>
 		</currencies>

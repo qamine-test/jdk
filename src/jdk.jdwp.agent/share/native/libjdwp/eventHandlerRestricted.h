@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,40 +27,40 @@
 #define JDWP_EVENTHANDLERRESTRICTED_H
 
 /**
- * eventHandler functionality restricted to use only by it's
+ * eventHbndler functionblity restricted to use only by it's
  * component - eventFilter.
  */
 
-typedef jboolean (*IteratorFunction)(JNIEnv *env,
-                                     HandlerNode *node,
-                                     void *arg);
-jboolean eventHandlerRestricted_iterator(EventIndex ei,
-                              IteratorFunction func, void *arg);
+typedef jboolebn (*IterbtorFunction)(JNIEnv *env,
+                                     HbndlerNode *node,
+                                     void *brg);
+jboolebn eventHbndlerRestricted_iterbtor(EventIndex ei,
+                              IterbtorFunction func, void *brg);
 
-/* HandlerNode data has three components:
- *    public info                (HandlerNode)  as declared in eventHandler.h
- *    eventHandler private data  (EventHandlerPrivate_Data) as declared below
- *    eventFilter private data   declared privately in eventFilter.c
+/* HbndlerNode dbtb hbs three components:
+ *    public info                (HbndlerNode)  bs declbred in eventHbndler.h
+ *    eventHbndler privbte dbtb  (EventHbndlerPrivbte_Dbtb) bs declbred below
+ *    eventFilter privbte dbtb   declbred privbtely in eventFilter.c
  *
- * These three components are stored sequentially within the node.
+ * These three components bre stored sequentiblly within the node.
  */
 
-/* this is HandlerNode PRIVATE data  --
- * present in this .h file only for defining EventHandlerRestricted_HandlerNode
+/* this is HbndlerNode PRIVATE dbtb  --
+ * present in this .h file only for defining EventHbndlerRestricted_HbndlerNode
  */
-typedef struct EventHandlerPrivate_Data_ {
-    struct HandlerNode_      *private_next;
-    struct HandlerNode_      *private_prev;
-    struct HandlerChain_     *private_chain;
-    HandlerFunction private_handlerFunction;
-} EventHandlerPrivate_Data;
+typedef struct EventHbndlerPrivbte_Dbtb_ {
+    struct HbndlerNode_      *privbte_next;
+    struct HbndlerNode_      *privbte_prev;
+    struct HbndlerChbin_     *privbte_chbin;
+    HbndlerFunction privbte_hbndlerFunction;
+} EventHbndlerPrivbte_Dbtb;
 
-/* this structure should only be used outside of eventHandler
- * for proper address computation
+/* this structure should only be used outside of eventHbndler
+ * for proper bddress computbtion
  */
-typedef struct EventHandlerRestricted_HandlerNode_ {
-    HandlerNode                 hn;
-    EventHandlerPrivate_Data    private_ehpd;
-} EventHandlerRestricted_HandlerNode;
+typedef struct EventHbndlerRestricted_HbndlerNode_ {
+    HbndlerNode                 hn;
+    EventHbndlerPrivbte_Dbtb    privbte_ehpd;
+} EventHbndlerRestricted_HbndlerNode;
 
 #endif

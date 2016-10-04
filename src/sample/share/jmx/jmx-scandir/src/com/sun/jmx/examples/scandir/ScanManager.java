@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,679 +30,679 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import static com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState.*;
-import com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState;
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig;
-import com.sun.jmx.examples.scandir.config.ScanManagerConfig;
-import java.io.File;
+import stbtic com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn.ScbnStbte.*;
+import com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn.ScbnStbte;
+import com.sun.jmx.exbmples.scbndir.config.DirectoryScbnnerConfig;
+import com.sun.jmx.exbmples.scbndir.config.ScbnMbnbgerConfig;
+import jbvb.io.File;
 
-import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.management.AttributeChangeNotification;
-import javax.management.InstanceNotFoundException;
-import javax.management.JMException;
-import javax.management.JMX;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerConnection;
-import javax.management.MalformedObjectNameException;
-import javax.management.Notification;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
+import jbvb.io.IOException;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.EnumSet;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Timer;
+import jbvb.util.TimerTbsk;
+import jbvb.util.concurrent.BlockingQueue;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentLinkedQueue;
+import jbvb.util.concurrent.LinkedBlockingQueue;
+import jbvb.util.concurrent.Sembphore;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.logging.Level;
+import jbvb.util.logging.Logger;
+import jbvbx.mbnbgement.AttributeChbngeNotificbtion;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.JMException;
+import jbvbx.mbnbgement.JMX;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MBebnServerConnection;
+import jbvbx.mbnbgement.MblformedObjectNbmeException;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionBrobdcbsterSupport;
+import jbvbx.mbnbgement.NotificbtionEmitter;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.ObjectInstbnce;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
  * <p>
- * The <code>ScanManager</code> is responsible for applying a configuration,
- * starting and scheduling directory scans, and reporting application state.
+ * The <code>ScbnMbnbger</code> is responsible for bpplying b configurbtion,
+ * stbrting bnd scheduling directory scbns, bnd reporting bpplicbtion stbte.
  * </p>
  * <p>
- * The ScanManager MBean is a singleton MBean which controls
- * scan session. The ScanManager name is defined by
- * {@link #SCAN_MANAGER_NAME ScanManager.SCAN_MANAGER_NAME}.
+ * The ScbnMbnbger MBebn is b singleton MBebn which controls
+ * scbn session. The ScbnMbnbger nbme is defined by
+ * {@link #SCAN_MANAGER_NAME ScbnMbnbger.SCAN_MANAGER_NAME}.
  * </p>
  * <p>
- * The <code>ScanManager</code> MBean is the entry point of the <i>scandir</i>
- * application management interface. It is from this MBean that all other MBeans
- * will be created and registered.
+ * The <code>ScbnMbnbger</code> MBebn is the entry point of the <i>scbndir</i>
+ * bpplicbtion mbnbgement interfbce. It is from this MBebn thbt bll other MBebns
+ * will be crebted bnd registered.
  * </p>
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-public class ScanManager implements ScanManagerMXBean,
-        NotificationEmitter, MBeanRegistration {
+public clbss ScbnMbnbger implements ScbnMbnbgerMXBebn,
+        NotificbtionEmitter, MBebnRegistrbtion {
 
     /**
-     * A logger for this class.
+     * A logger for this clbss.
      **/
-    private static final Logger LOG =
-            Logger.getLogger(ScanManager.class.getName());
+    privbte stbtic finbl Logger LOG =
+            Logger.getLogger(ScbnMbnbger.clbss.getNbme());
 
     /**
-     * The name of the ScanManager singleton MBean.
+     * The nbme of the ScbnMbnbger singleton MBebn.
      **/
-    public final static ObjectName SCAN_MANAGER_NAME =
-            makeSingletonName(ScanManagerMXBean.class);
+    public finbl stbtic ObjectNbme SCAN_MANAGER_NAME =
+            mbkeSingletonNbme(ScbnMbnbgerMXBebn.clbss);
 
     /**
-     * Sequence number used for sending notifications. We use this
-     * sequence number throughout the application.
+     * Sequence number used for sending notificbtions. We use this
+     * sequence number throughout the bpplicbtion.
      **/
-    private static long seqNumber=0;
+    privbte stbtic long seqNumber=0;
 
     /**
-     * The NotificationBroadcasterSupport object used to handle
-     * listener registration.
+     * The NotificbtionBrobdcbsterSupport object used to hbndle
+     * listener registrbtion.
      **/
-    private final NotificationBroadcasterSupport broadcaster;
+    privbte finbl NotificbtionBrobdcbsterSupport brobdcbster;
 
     /**
-     * The MBeanServer in which this MBean is registered. We obtain
-     * this reference by implementing the {@link MBeanRegistration}
-     * interface.
+     * The MBebnServer in which this MBebn is registered. We obtbin
+     * this reference by implementing the {@link MBebnRegistrbtion}
+     * interfbce.
      **/
-    private volatile MBeanServer mbeanServer;
+    privbte volbtile MBebnServer mbebnServer;
 
     /**
-     * A queue of pending notifications we are about to send.
-     * We're using a BlockingQueue in order to avoid sending
-     * notifications from within a synchronized block.
+     * A queue of pending notificbtions we bre bbout to send.
+     * We're using b BlockingQueue in order to bvoid sending
+     * notificbtions from within b synchronized block.
      **/
-    private final BlockingQueue<Notification> pendingNotifs;
+    privbte finbl BlockingQueue<Notificbtion> pendingNotifs;
 
     /**
-     * The state of the scan session.
+     * The stbte of the scbn session.
      **/
-    private volatile ScanState state = STOPPED;
+    privbte volbtile ScbnStbte stbte = STOPPED;
 
     /**
-     * The list of DirectoryScannerMBean that are run by a scan session.
+     * The list of DirectoryScbnnerMBebn thbt bre run by b scbn session.
      **/
-    private final Map<ObjectName,DirectoryScannerMXBean> scanmap;
+    privbte finbl Mbp<ObjectNbme,DirectoryScbnnerMXBebn> scbnmbp;
 
     /**
-     * The list of ScanDirConfigMXBean that were created by this MBean.
+     * The list of ScbnDirConfigMXBebn thbt were crebted by this MBebn.
      **/
-    private final Map<ObjectName, ScanDirConfigMXBean> configmap;
+    privbte finbl Mbp<ObjectNbme, ScbnDirConfigMXBebn> configmbp;
 
-    // The ResultLogManager for this application.
-    private final ResultLogManager log;
+    // The ResultLogMbnbger for this bpplicbtion.
+    privbte finbl ResultLogMbnbger log;
 
     /**
-     * We use a semaphore to ensure proper sequencing of exclusive
-     * action. The logic we have implemented is to fail - rather
-     * than block, if an exclusive action is already in progress.
+     * We use b sembphore to ensure proper sequencing of exclusive
+     * bction. The logic we hbve implemented is to fbil - rbther
+     * thbn block, if bn exclusive bction is blrebdy in progress.
      **/
-    private final Semaphore sequencer = new Semaphore(1);
+    privbte finbl Sembphore sequencer = new Sembphore(1);
 
-    // A proxy to the current ScanDirConfigMXBean which holds the current
-    // configuration data.
+    // A proxy to the current ScbnDirConfigMXBebn which holds the current
+    // configurbtion dbtb.
     //
-    private volatile ScanDirConfigMXBean config = null;
+    privbte volbtile ScbnDirConfigMXBebn config = null;
 
-    // Avoid to write parameters twices when creating a new ConcurrentHashMap.
+    // Avoid to write pbrbmeters twices when crebting b new ConcurrentHbshMbp.
     //
-    private static <K, V> Map<K, V> newConcurrentHashMap() {
-        return new ConcurrentHashMap<K, V>();
+    privbte stbtic <K, V> Mbp<K, V> newConcurrentHbshMbp() {
+        return new ConcurrentHbshMbp<K, V>();
     }
 
-    // Avoid to write parameters twices when creating a new HashMap.
+    // Avoid to write pbrbmeters twices when crebting b new HbshMbp.
     //
-    private static <K, V> Map<K, V> newHashMap() {
-        return new HashMap<K, V>();
+    privbte stbtic <K, V> Mbp<K, V> newHbshMbp() {
+        return new HbshMbp<K, V>();
     }
 
     /**
-     * Creates a default singleton ObjectName for a given class.
-     * @param clazz The interface class of the MBean for which we want to obtain
-     *        a default singleton name, or its implementation class.
-     *        Give one or the other depending on what you wish to see in
-     *        the value of the key {@code type=}.
-     * @return A default singleton name for a singleton MBean class.
-     * @throws IllegalArgumentException if the name can't be created
-     *         for some unfathomable reason (e.g. an unexpected
-     *         exception was raised).
+     * Crebtes b defbult singleton ObjectNbme for b given clbss.
+     * @pbrbm clbzz The interfbce clbss of the MBebn for which we wbnt to obtbin
+     *        b defbult singleton nbme, or its implementbtion clbss.
+     *        Give one or the other depending on whbt you wish to see in
+     *        the vblue of the key {@code type=}.
+     * @return A defbult singleton nbme for b singleton MBebn clbss.
+     * @throws IllegblArgumentException if the nbme cbn't be crebted
+     *         for some unfbthombble rebson (e.g. bn unexpected
+     *         exception wbs rbised).
      **/
-    public final static ObjectName makeSingletonName(Class clazz) {
+    public finbl stbtic ObjectNbme mbkeSingletonNbme(Clbss clbzz) {
         try {
-            final Package p = clazz.getPackage();
-            final String packageName = (p==null)?null:p.getName();
-            final String className   = clazz.getSimpleName();
-            final String domain;
-            if (packageName == null || packageName.length()==0) {
-                // We use a reference to ScanDirAgent.class to ease
-                // to keep track of possible class renaming.
-                domain = ScanDirAgent.class.getSimpleName();
+            finbl Pbckbge p = clbzz.getPbckbge();
+            finbl String pbckbgeNbme = (p==null)?null:p.getNbme();
+            finbl String clbssNbme   = clbzz.getSimpleNbme();
+            finbl String dombin;
+            if (pbckbgeNbme == null || pbckbgeNbme.length()==0) {
+                // We use b reference to ScbnDirAgent.clbss to ebse
+                // to keep trbck of possible clbss renbming.
+                dombin = ScbnDirAgent.clbss.getSimpleNbme();
             } else {
-                domain = packageName;
+                dombin = pbckbgeNbme;
             }
-            final ObjectName name = new ObjectName(domain,"type",className);
-            return name;
-        } catch (Exception x) {
-            final IllegalArgumentException iae =
-                    new IllegalArgumentException(String.valueOf(clazz),x);
-            throw iae;
+            finbl ObjectNbme nbme = new ObjectNbme(dombin,"type",clbssNbme);
+            return nbme;
+        } cbtch (Exception x) {
+            finbl IllegblArgumentException ibe =
+                    new IllegblArgumentException(String.vblueOf(clbzz),x);
+            throw ibe;
         }
     }
 
     /**
-     * Creates a default ObjectName with keys <code>type=</code> and
-     * <code>name=</code> for an instance of a given MBean interface class.
-     * @param clazz The interface class of the MBean for which we want to obtain
-     *        a default name, or its implementation class.
-     *        Give one or the other depending on what you wish to see in
-     *        the value of the key {@code type=}.
-     * @param name The value of the <code>name=</code> key.
-     * @return A default name for an instance of the given MBean interface class.
-     * @throws IllegalArgumentException if the name can't be created.
-     *         (e.g. an unexpected exception was raised).
+     * Crebtes b defbult ObjectNbme with keys <code>type=</code> bnd
+     * <code>nbme=</code> for bn instbnce of b given MBebn interfbce clbss.
+     * @pbrbm clbzz The interfbce clbss of the MBebn for which we wbnt to obtbin
+     *        b defbult nbme, or its implementbtion clbss.
+     *        Give one or the other depending on whbt you wish to see in
+     *        the vblue of the key {@code type=}.
+     * @pbrbm nbme The vblue of the <code>nbme=</code> key.
+     * @return A defbult nbme for bn instbnce of the given MBebn interfbce clbss.
+     * @throws IllegblArgumentException if the nbme cbn't be crebted.
+     *         (e.g. bn unexpected exception wbs rbised).
      **/
-    public static final ObjectName makeMBeanName(Class clazz, String name) {
+    public stbtic finbl ObjectNbme mbkeMBebnNbme(Clbss clbzz, String nbme) {
         try {
-            return ObjectName.
-                getInstance(makeSingletonName(clazz)
-                        .toString()+",name="+name);
-        } catch (MalformedObjectNameException x) {
-            final IllegalArgumentException iae =
-                    new IllegalArgumentException(String.valueOf(name),x);
-            throw iae;
+            return ObjectNbme.
+                getInstbnce(mbkeSingletonNbme(clbzz)
+                        .toString()+",nbme="+nbme);
+        } cbtch (MblformedObjectNbmeException x) {
+            finbl IllegblArgumentException ibe =
+                    new IllegblArgumentException(String.vblueOf(nbme),x);
+            throw ibe;
         }
     }
 
     /**
-     * Return the ObjectName for a DirectoryScannerMXBean of that name.
-     * This is {@code makeMBeanName(DirectoryScannerMXBean.class,name)}.
-     * @param name The value of the <code>name=</code> key.
-     * @return the ObjectName for a DirectoryScannerMXBean of that name.
+     * Return the ObjectNbme for b DirectoryScbnnerMXBebn of thbt nbme.
+     * This is {@code mbkeMBebnNbme(DirectoryScbnnerMXBebn.clbss,nbme)}.
+     * @pbrbm nbme The vblue of the <code>nbme=</code> key.
+     * @return the ObjectNbme for b DirectoryScbnnerMXBebn of thbt nbme.
      */
-    public static final ObjectName makeDirectoryScannerName(String name) {
-        return makeMBeanName(DirectoryScannerMXBean.class,name);
+    public stbtic finbl ObjectNbme mbkeDirectoryScbnnerNbme(String nbme) {
+        return mbkeMBebnNbme(DirectoryScbnnerMXBebn.clbss,nbme);
     }
 
     /**
-     * Return the ObjectName for a {@code ScanDirConfigMXBean} of that name.
-     * This is {@code makeMBeanName(ScanDirConfigMXBean.class,name)}.
-     * @param name The value of the <code>name=</code> key.
-     * @return the ObjectName for a {@code ScanDirConfigMXBean} of that name.
+     * Return the ObjectNbme for b {@code ScbnDirConfigMXBebn} of thbt nbme.
+     * This is {@code mbkeMBebnNbme(ScbnDirConfigMXBebn.clbss,nbme)}.
+     * @pbrbm nbme The vblue of the <code>nbme=</code> key.
+     * @return the ObjectNbme for b {@code ScbnDirConfigMXBebn} of thbt nbme.
      */
-    public static final ObjectName makeScanDirConfigName(String name) {
-        return makeMBeanName(ScanDirConfigMXBean.class,name);
+    public stbtic finbl ObjectNbme mbkeScbnDirConfigNbme(String nbme) {
+        return mbkeMBebnNbme(ScbnDirConfigMXBebn.clbss,nbme);
     }
 
     /**
-     * Create and register a new singleton instance of the ScanManager
-     * MBean in the given {@link MBeanServerConnection}.
-     * @param mbs The MBeanServer in which the new singleton instance
-     *         should be created.
-     * @throws JMException The MBeanServer connection raised an exception
-     *         while trying to instantiate and register the singleton MBean
-     *         instance.
-     * @throws IOException There was a connection problem while trying to
-     *         communicate with the underlying MBeanServer.
-     * @return A proxy for the registered MBean.
+     * Crebte bnd register b new singleton instbnce of the ScbnMbnbger
+     * MBebn in the given {@link MBebnServerConnection}.
+     * @pbrbm mbs The MBebnServer in which the new singleton instbnce
+     *         should be crebted.
+     * @throws JMException The MBebnServer connection rbised bn exception
+     *         while trying to instbntibte bnd register the singleton MBebn
+     *         instbnce.
+     * @throws IOException There wbs b connection problem while trying to
+     *         communicbte with the underlying MBebnServer.
+     * @return A proxy for the registered MBebn.
      **/
-    public static ScanManagerMXBean register(MBeanServerConnection mbs)
+    public stbtic ScbnMbnbgerMXBebn register(MBebnServerConnection mbs)
         throws IOException, JMException {
-        final ObjectInstance moi =
-                mbs.createMBean(ScanManager.class.getName(),SCAN_MANAGER_NAME);
-        final ScanManagerMXBean proxy =
-                JMX.newMXBeanProxy(mbs,moi.getObjectName(),
-                                  ScanManagerMXBean.class,true);
+        finbl ObjectInstbnce moi =
+                mbs.crebteMBebn(ScbnMbnbger.clbss.getNbme(),SCAN_MANAGER_NAME);
+        finbl ScbnMbnbgerMXBebn proxy =
+                JMX.newMXBebnProxy(mbs,moi.getObjectNbme(),
+                                  ScbnMbnbgerMXBebn.clbss,true);
         return proxy;
     }
 
     /**
-     * Creates a new {@code ScanManagerMXBean} proxy over the given
-     * {@code MBeanServerConnection}. Does not check whether a
-     * {@code ScanManagerMXBean}
-     * is actually registered in that {@code MBeanServerConnection}.
-     * @return a new {@code ScanManagerMXBean} proxy.
-     * @param mbs The {@code MBeanServerConnection} which holds the
-     * {@code ScanManagerMXBean} to proxy.
+     * Crebtes b new {@code ScbnMbnbgerMXBebn} proxy over the given
+     * {@code MBebnServerConnection}. Does not check whether b
+     * {@code ScbnMbnbgerMXBebn}
+     * is bctublly registered in thbt {@code MBebnServerConnection}.
+     * @return b new {@code ScbnMbnbgerMXBebn} proxy.
+     * @pbrbm mbs The {@code MBebnServerConnection} which holds the
+     * {@code ScbnMbnbgerMXBebn} to proxy.
      */
-    public static ScanManagerMXBean
-            newSingletonProxy(MBeanServerConnection mbs) {
-        final ScanManagerMXBean proxy =
-                JMX.newMXBeanProxy(mbs,SCAN_MANAGER_NAME,
-                                  ScanManagerMXBean.class,true);
+    public stbtic ScbnMbnbgerMXBebn
+            newSingletonProxy(MBebnServerConnection mbs) {
+        finbl ScbnMbnbgerMXBebn proxy =
+                JMX.newMXBebnProxy(mbs,SCAN_MANAGER_NAME,
+                                  ScbnMbnbgerMXBebn.clbss,true);
         return proxy;
     }
 
     /**
-     * Creates a new {@code ScanManagerMXBean} proxy over the platform
-     * {@code MBeanServer}. This is equivalent to
-     * {@code newSingletonProxy(ManagementFactory.getPlatformMBeanServer())}.
-     * @return a new {@code ScanManagerMXBean} proxy.
+     * Crebtes b new {@code ScbnMbnbgerMXBebn} proxy over the plbtform
+     * {@code MBebnServer}. This is equivblent to
+     * {@code newSingletonProxy(MbnbgementFbctory.getPlbtformMBebnServer())}.
+     * @return b new {@code ScbnMbnbgerMXBebn} proxy.
      **/
-    public static ScanManagerMXBean newSingletonProxy() {
-        return newSingletonProxy(ManagementFactory.getPlatformMBeanServer());
+    public stbtic ScbnMbnbgerMXBebn newSingletonProxy() {
+        return newSingletonProxy(MbnbgementFbctory.getPlbtformMBebnServer());
     }
 
     /**
-     * Create and register a new singleton instance of the ScanManager
-     * MBean in the given {@link MBeanServerConnection}.
-     * @throws JMException The MBeanServer connection raised an exception
-     *         while trying to instantiate and register the singleton MBean
-     *         instance.
-     * @throws IOException There was a connection problem while trying to
-     *         communicate with the underlying MBeanServer.
-     * @return A proxy for the registered MBean.
+     * Crebte bnd register b new singleton instbnce of the ScbnMbnbger
+     * MBebn in the given {@link MBebnServerConnection}.
+     * @throws JMException The MBebnServer connection rbised bn exception
+     *         while trying to instbntibte bnd register the singleton MBebn
+     *         instbnce.
+     * @throws IOException There wbs b connection problem while trying to
+     *         communicbte with the underlying MBebnServer.
+     * @return A proxy for the registered MBebn.
      **/
-    public static ScanManagerMXBean register()
+    public stbtic ScbnMbnbgerMXBebn register()
         throws IOException, JMException {
-        final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        finbl MBebnServer mbs = MbnbgementFbctory.getPlbtformMBebnServer();
         return register(mbs);
     }
 
     /**
-     * Create a new ScanManager MBean
+     * Crebte b new ScbnMbnbger MBebn
      **/
-    public ScanManager() {
-        broadcaster = new NotificationBroadcasterSupport();
-        pendingNotifs = new LinkedBlockingQueue<Notification>(100);
-        scanmap = newConcurrentHashMap();
-        configmap = newConcurrentHashMap();
-        log = new ResultLogManager();
+    public ScbnMbnbger() {
+        brobdcbster = new NotificbtionBrobdcbsterSupport();
+        pendingNotifs = new LinkedBlockingQueue<Notificbtion>(100);
+        scbnmbp = newConcurrentHbshMbp();
+        configmbp = newConcurrentHbshMbp();
+        log = new ResultLogMbnbger();
     }
 
 
-    // Creates a new DirectoryScannerMXBean, from the given configuration data.
-    DirectoryScannerMXBean createDirectoryScanner(DirectoryScannerConfig config) {
-            return new DirectoryScanner(config,log);
+    // Crebtes b new DirectoryScbnnerMXBebn, from the given configurbtion dbtb.
+    DirectoryScbnnerMXBebn crebteDirectoryScbnner(DirectoryScbnnerConfig config) {
+            return new DirectoryScbnner(config,log);
     }
 
-    // Applies a configuration.
-    // throws IllegalStateException if lock can't be acquired.
-    // Unregisters all existing directory scanners, the create and registers
-    // new directory scanners according to the given config.
-    // Then pushes the log config to the result log manager.
+    // Applies b configurbtion.
+    // throws IllegblStbteException if lock cbn't be bcquired.
+    // Unregisters bll existing directory scbnners, the crebte bnd registers
+    // new directory scbnners bccording to the given config.
+    // Then pushes the log config to the result log mbnbger.
     //
-    private void applyConfiguration(ScanManagerConfig bean)
+    privbte void bpplyConfigurbtion(ScbnMbnbgerConfig bebn)
         throws IOException, JMException {
-        if (bean == null) return;
+        if (bebn == null) return;
         if (!sequencer.tryAcquire()) {
-            throw new IllegalStateException("Can't acquire lock");
+            throw new IllegblStbteException("Cbn't bcquire lock");
         }
         try {
-            unregisterScanners();
-            final DirectoryScannerConfig[] scans = bean.getScanList();
-            if (scans == null) return;
-            for (DirectoryScannerConfig scan : scans) {
-                addDirectoryScanner(scan);
+            unregisterScbnners();
+            finbl DirectoryScbnnerConfig[] scbns = bebn.getScbnList();
+            if (scbns == null) return;
+            for (DirectoryScbnnerConfig scbn : scbns) {
+                bddDirectoryScbnner(scbn);
             }
-            log.setConfig(bean.getInitialResultLogConfig());
-        } finally {
-            sequencer.release();
+            log.setConfig(bebn.getInitiblResultLogConfig());
+        } finblly {
+            sequencer.relebse();
         }
     }
 
-    // See ScanManagerMXBean
-    public void applyConfiguration(boolean fromMemory)
+    // See ScbnMbnbgerMXBebn
+    public void bpplyConfigurbtion(boolebn fromMemory)
         throws IOException, JMException {
-        if (fromMemory == false) config.load();
-        applyConfiguration(config.getConfiguration());
+        if (fromMemory == fblse) config.lobd();
+        bpplyConfigurbtion(config.getConfigurbtion());
     }
 
-    // See ScanManagerMXBean
-    public void applyCurrentResultLogConfig(boolean toMemory)
+    // See ScbnMbnbgerMXBebn
+    public void bpplyCurrentResultLogConfig(boolebn toMemory)
         throws IOException, JMException {
-        final ScanManagerConfig bean = config.getConfiguration();
-        bean.setInitialResultLogConfig(log.getConfig());
-        config.setConfiguration(bean);
-        if (toMemory==false) config.save();
+        finbl ScbnMbnbgerConfig bebn = config.getConfigurbtion();
+        bebn.setInitiblResultLogConfig(log.getConfig());
+        config.setConfigurbtion(bebn);
+        if (toMemory==fblse) config.sbve();
     }
 
-    // See ScanManagerMXBean
-    public void setConfigurationMBean(ScanDirConfigMXBean config) {
+    // See ScbnMbnbgerMXBebn
+    public void setConfigurbtionMBebn(ScbnDirConfigMXBebn config) {
         this.config = config;
     }
 
-    // See ScanManagerMXBean
-    public ScanDirConfigMXBean getConfigurationMBean() {
+    // See ScbnMbnbgerMXBebn
+    public ScbnDirConfigMXBebn getConfigurbtionMBebn() {
         return config;
     }
 
-    // Creates and registers a new directory scanner.
-    // Called by applyConfiguration.
-    // throws IllegalStateException if state is not STOPPED or COMPLETED
-    // (you cannot change the config while scanning is scheduled or running).
+    // Crebtes bnd registers b new directory scbnner.
+    // Cblled by bpplyConfigurbtion.
+    // throws IllegblStbteException if stbte is not STOPPED or COMPLETED
+    // (you cbnnot chbnge the config while scbnning is scheduled or running).
     //
-    private DirectoryScannerMXBean addDirectoryScanner(
-                DirectoryScannerConfig bean)
+    privbte DirectoryScbnnerMXBebn bddDirectoryScbnner(
+                DirectoryScbnnerConfig bebn)
         throws JMException {
         try {
-            final DirectoryScannerMXBean scanner;
-            final ObjectName scanName;
+            finbl DirectoryScbnnerMXBebn scbnner;
+            finbl ObjectNbme scbnNbme;
             synchronized (this) {
-                if (state != STOPPED && state != COMPLETED)
-                   throw new IllegalStateException(state.toString());
-                scanner = createDirectoryScanner(bean);
-                scanName = makeDirectoryScannerName(bean.getName());
+                if (stbte != STOPPED && stbte != COMPLETED)
+                   throw new IllegblStbteException(stbte.toString());
+                scbnner = crebteDirectoryScbnner(bebn);
+                scbnNbme = mbkeDirectoryScbnnerNbme(bebn.getNbme());
             }
-            LOG.fine("server: "+mbeanServer);
-            LOG.fine("scanner: "+scanner);
-            LOG.fine("scanName: "+scanName);
-            final ObjectInstance moi =
-                mbeanServer.registerMBean(scanner,scanName);
-            final ObjectName moiName = moi.getObjectName();
-            final DirectoryScannerMXBean proxy =
-                JMX.newMXBeanProxy(mbeanServer,moiName,
-                DirectoryScannerMXBean.class,true);
-            scanmap.put(moiName,proxy);
+            LOG.fine("server: "+mbebnServer);
+            LOG.fine("scbnner: "+scbnner);
+            LOG.fine("scbnNbme: "+scbnNbme);
+            finbl ObjectInstbnce moi =
+                mbebnServer.registerMBebn(scbnner,scbnNbme);
+            finbl ObjectNbme moiNbme = moi.getObjectNbme();
+            finbl DirectoryScbnnerMXBebn proxy =
+                JMX.newMXBebnProxy(mbebnServer,moiNbme,
+                DirectoryScbnnerMXBebn.clbss,true);
+            scbnmbp.put(moiNbme,proxy);
             return proxy;
-        } catch (RuntimeException x) {
-            final String msg = "Operation failed: "+x;
-            if (LOG.isLoggable(Level.FINEST))
+        } cbtch (RuntimeException x) {
+            finbl String msg = "Operbtion fbiled: "+x;
+            if (LOG.isLoggbble(Level.FINEST))
                 LOG.log(Level.FINEST,msg,x);
             else LOG.fine(msg);
             throw x;
-        } catch (JMException x) {
-            final String msg = "Operation failed: "+x;
-            if (LOG.isLoggable(Level.FINEST))
+        } cbtch (JMException x) {
+            finbl String msg = "Operbtion fbiled: "+x;
+            if (LOG.isLoggbble(Level.FINEST))
                 LOG.log(Level.FINEST,msg,x);
             else LOG.fine(msg);
             throw x;
         }
     }
 
-    // See ScanManagerMXBean
-    public ScanDirConfigMXBean createOtherConfigurationMBean(String name,
-            String filename)
+    // See ScbnMbnbgerMXBebn
+    public ScbnDirConfigMXBebn crebteOtherConfigurbtionMBebn(String nbme,
+            String filenbme)
         throws JMException {
-        final ScanDirConfig profile = new ScanDirConfig(filename);
-        final ObjectName profName = makeScanDirConfigName(name);
-        final ObjectInstance moi = mbeanServer.registerMBean(profile,profName);
-        final ScanDirConfigMXBean proxy =
-                JMX.newMXBeanProxy(mbeanServer,profName,
-                    ScanDirConfigMXBean.class,true);
-        configmap.put(moi.getObjectName(),proxy);
+        finbl ScbnDirConfig profile = new ScbnDirConfig(filenbme);
+        finbl ObjectNbme profNbme = mbkeScbnDirConfigNbme(nbme);
+        finbl ObjectInstbnce moi = mbebnServer.registerMBebn(profile,profNbme);
+        finbl ScbnDirConfigMXBebn proxy =
+                JMX.newMXBebnProxy(mbebnServer,profNbme,
+                    ScbnDirConfigMXBebn.clbss,true);
+        configmbp.put(moi.getObjectNbme(),proxy);
         return proxy;
     }
 
 
-    // See ScanManagerMXBean
-    public Map<String,DirectoryScannerMXBean> getDirectoryScanners() {
-        final Map<String,DirectoryScannerMXBean> proxyMap = newHashMap();
-        for (Entry<ObjectName,DirectoryScannerMXBean> item : scanmap.entrySet()){
-            proxyMap.put(item.getKey().getKeyProperty("name"),item.getValue());
+    // See ScbnMbnbgerMXBebn
+    public Mbp<String,DirectoryScbnnerMXBebn> getDirectoryScbnners() {
+        finbl Mbp<String,DirectoryScbnnerMXBebn> proxyMbp = newHbshMbp();
+        for (Entry<ObjectNbme,DirectoryScbnnerMXBebn> item : scbnmbp.entrySet()){
+            proxyMbp.put(item.getKey().getKeyProperty("nbme"),item.getVblue());
         }
-        return proxyMap;
+        return proxyMbp;
     }
 
     // ---------------------------------------------------------------
-    // State Management
+    // Stbte Mbnbgement
     // ---------------------------------------------------------------
 
     /**
-     * For each operation, this map stores a list of states from
-     * which the corresponding operation can be legally called.
-     * For instance, it is legal to call "stop" regardless of the
-     * application state. However, "schedule" can be called only if
-     * the application state is STOPPED, etc...
+     * For ebch operbtion, this mbp stores b list of stbtes from
+     * which the corresponding operbtion cbn be legblly cblled.
+     * For instbnce, it is legbl to cbll "stop" regbrdless of the
+     * bpplicbtion stbte. However, "schedule" cbn be cblled only if
+     * the bpplicbtion stbte is STOPPED, etc...
      **/
-    private final static Map<String,EnumSet<ScanState>> allowedStates;
-    static {
-        allowedStates = newHashMap();
-        // You can always call stop
-        allowedStates.put("stop",EnumSet.allOf(ScanState.class));
+    privbte finbl stbtic Mbp<String,EnumSet<ScbnStbte>> bllowedStbtes;
+    stbtic {
+        bllowedStbtes = newHbshMbp();
+        // You cbn blwbys cbll stop
+        bllowedStbtes.put("stop",EnumSet.bllOf(ScbnStbte.clbss));
 
-        // You can only call closed when stopped
-        allowedStates.put("close",EnumSet.of(STOPPED,COMPLETED,CLOSED));
+        // You cbn only cbll closed when stopped
+        bllowedStbtes.put("close",EnumSet.of(STOPPED,COMPLETED,CLOSED));
 
-        // You can call schedule only when the current task is
+        // You cbn cbll schedule only when the current tbsk is
         // completed or stopped.
-        allowedStates.put("schedule",EnumSet.of(STOPPED,COMPLETED));
+        bllowedStbtes.put("schedule",EnumSet.of(STOPPED,COMPLETED));
 
-        // switch reserved for background task: goes from SCHEDULED to
+        // switch reserved for bbckground tbsk: goes from SCHEDULED to
         //    RUNNING when it enters the run() method.
-        allowedStates.put("scan-running",EnumSet.of(SCHEDULED));
+        bllowedStbtes.put("scbn-running",EnumSet.of(SCHEDULED));
 
-        // switch reserved for background task: goes from RUNNING to
-        //    SCHEDULED when it has completed but needs to reschedule
-        //    itself for specified interval.
-        allowedStates.put("scan-scheduled",EnumSet.of(RUNNING));
+        // switch reserved for bbckground tbsk: goes from RUNNING to
+        //    SCHEDULED when it hbs completed but needs to reschedule
+        //    itself for specified intervbl.
+        bllowedStbtes.put("scbn-scheduled",EnumSet.of(RUNNING));
 
-        // switch reserved for background task:
+        // switch reserved for bbckground tbsk:
         //     goes from RUNNING to COMPLETED upon successful completion
-        allowedStates.put("scan-done",EnumSet.of(RUNNING));
+        bllowedStbtes.put("scbn-done",EnumSet.of(RUNNING));
     }
 
-    // Get this object's state. No need to synchronize because
-    // state is volatile.
-    // See ScanManagerMXBean
-    public ScanState getState() {
-        return state;
+    // Get this object's stbte. No need to synchronize becbuse
+    // stbte is volbtile.
+    // See ScbnMbnbgerMXBebn
+    public ScbnStbte getStbte() {
+        return stbte;
     }
 
     /**
-     * Enqueue a state changed notification for the given states.
+     * Enqueue b stbte chbnged notificbtion for the given stbtes.
      **/
-    private void queueStateChangedNotification(
+    privbte void queueStbteChbngedNotificbtion(
                     long sequence,
                     long time,
-                    ScanState old,
-                    ScanState current) {
-        final AttributeChangeNotification n =
-                new AttributeChangeNotification(SCAN_MANAGER_NAME,sequence,time,
-                "ScanManager State changed to "+current,"State",
-                ScanState.class.getName(),old.toString(),current.toString());
-        // Queue the notification. We have created an unlimited queue, so
-        // this method should always succeed.
+                    ScbnStbte old,
+                    ScbnStbte current) {
+        finbl AttributeChbngeNotificbtion n =
+                new AttributeChbngeNotificbtion(SCAN_MANAGER_NAME,sequence,time,
+                "ScbnMbnbger Stbte chbnged to "+current,"Stbte",
+                ScbnStbte.clbss.getNbme(),old.toString(),current.toString());
+        // Queue the notificbtion. We hbve crebted bn unlimited queue, so
+        // this method should blwbys succeed.
         try {
             if (!pendingNotifs.offer(n,2,TimeUnit.SECONDS)) {
-                LOG.fine("Can't queue Notification: "+n);
+                LOG.fine("Cbn't queue Notificbtion: "+n);
             }
-        } catch (InterruptedException x) {
-                LOG.fine("Can't queue Notification: "+x);
+        } cbtch (InterruptedException x) {
+                LOG.fine("Cbn't queue Notificbtion: "+x);
         }
     }
 
     /**
-     * Send all notifications present in the queue.
+     * Send bll notificbtions present in the queue.
      **/
-    private void sendQueuedNotifications() {
-        Notification n;
+    privbte void sendQueuedNotificbtions() {
+        Notificbtion n;
         while ((n = pendingNotifs.poll()) != null) {
-            broadcaster.sendNotification(n);
+            brobdcbster.sendNotificbtion(n);
         }
     }
 
     /**
-     * Checks that the current state is allowed for the given operation,
-     * and if so, switch its value to the new desired state.
-     * This operation also enqueue the appropriate state changed
-     * notification.
+     * Checks thbt the current stbte is bllowed for the given operbtion,
+     * bnd if so, switch its vblue to the new desired stbte.
+     * This operbtion blso enqueue the bppropribte stbte chbnged
+     * notificbtion.
      **/
-    private ScanState switchState(ScanState desired,String forOperation) {
-        return switchState(desired,allowedStates.get(forOperation));
+    privbte ScbnStbte switchStbte(ScbnStbte desired,String forOperbtion) {
+        return switchStbte(desired,bllowedStbtes.get(forOperbtion));
     }
 
     /**
-     * Checks that the current state is one of the allowed states,
-     * and if so, switch its value to the new desired state.
-     * This operation also enqueue the appropriate state changed
-     * notification.
+     * Checks thbt the current stbte is one of the bllowed stbtes,
+     * bnd if so, switch its vblue to the new desired stbte.
+     * This operbtion blso enqueue the bppropribte stbte chbnged
+     * notificbtion.
      **/
-    private ScanState switchState(ScanState desired,EnumSet<ScanState> allowed) {
-        final ScanState old;
-        final long timestamp;
-        final long sequence;
+    privbte ScbnStbte switchStbte(ScbnStbte desired,EnumSet<ScbnStbte> bllowed) {
+        finbl ScbnStbte old;
+        finbl long timestbmp;
+        finbl long sequence;
         synchronized(this) {
-            old = state;
-            if (!allowed.contains(state))
-               throw new IllegalStateException(state.toString());
-            state = desired;
-            timestamp = System.currentTimeMillis();
+            old = stbte;
+            if (!bllowed.contbins(stbte))
+               throw new IllegblStbteException(stbte.toString());
+            stbte = desired;
+            timestbmp = System.currentTimeMillis();
             sequence  = getNextSeqNumber();
         }
-        LOG.fine("switched state: "+old+" -> "+desired);
+        LOG.fine("switched stbte: "+old+" -> "+desired);
         if (old != desired)
-            queueStateChangedNotification(sequence,timestamp,old,desired);
+            queueStbteChbngedNotificbtion(sequence,timestbmp,old,desired);
         return old;
     }
 
 
     // ---------------------------------------------------------------
-    // schedule() creates a new SessionTask that will be executed later
-    // (possibly right away if delay=0) by a Timer thread.
+    // schedule() crebtes b new SessionTbsk thbt will be executed lbter
+    // (possibly right bwby if delby=0) by b Timer threbd.
     // ---------------------------------------------------------------
 
-    // The timer used by this object. Lazzy evaluation. Cleaned in
+    // The timer used by this object. Lbzzy evblubtion. Clebned in
     // postDeregister()
     //
-    private Timer timer = null;
+    privbte Timer timer = null;
 
-    // See ScanManagerMXBean
-    public void schedule(long delay, long interval) {
+    // See ScbnMbnbgerMXBebn
+    public void schedule(long delby, long intervbl) {
         if (!sequencer.tryAcquire()) {
-            throw new IllegalStateException("Can't acquire lock");
+            throw new IllegblStbteException("Cbn't bcquire lock");
         }
         try {
-            LOG.fine("scheduling new task: state="+state);
-            final ScanState old = switchState(SCHEDULED,"schedule");
-            final boolean scheduled =
-                scheduleSession(new SessionTask(interval),delay);
+            LOG.fine("scheduling new tbsk: stbte="+stbte);
+            finbl ScbnStbte old = switchStbte(SCHEDULED,"schedule");
+            finbl boolebn scheduled =
+                scheduleSession(new SessionTbsk(intervbl),delby);
             if (scheduled)
-                LOG.fine("new task scheduled: state="+state);
-        } finally {
-            sequencer.release();
+                LOG.fine("new tbsk scheduled: stbte="+stbte);
+        } finblly {
+            sequencer.relebse();
         }
-        sendQueuedNotifications();
+        sendQueuedNotificbtions();
     }
 
-    // Schedule a SessionTask. The session task may reschedule
-    // a new identical task when it eventually ends.
-    // We use this logic so that the 'interval' time is measured
-    // starting at the end of the task that finishes, rather than
-    // at its beginning. Therefore if a repeated task takes x ms,
-    // it will be repeated every x+interval ms.
+    // Schedule b SessionTbsk. The session tbsk mby reschedule
+    // b new identicbl tbsk when it eventublly ends.
+    // We use this logic so thbt the 'intervbl' time is mebsured
+    // stbrting bt the end of the tbsk thbt finishes, rbther thbn
+    // bt its beginning. Therefore if b repebted tbsk tbkes x ms,
+    // it will be repebted every x+intervbl ms.
     //
-    private synchronized boolean scheduleSession(SessionTask task, long delay) {
-        if (state == STOPPED) return false;
-        if (timer == null) timer = new Timer("ScanManager");
-        tasklist.add(task);
-        timer.schedule(task,delay);
+    privbte synchronized boolebn scheduleSession(SessionTbsk tbsk, long delby) {
+        if (stbte == STOPPED) return fblse;
+        if (timer == null) timer = new Timer("ScbnMbnbger");
+        tbsklist.bdd(tbsk);
+        timer.schedule(tbsk,delby);
         return true;
     }
 
     // ---------------------------------------------------------------
-    // start() is equivalent to schedule(0,0)
+    // stbrt() is equivblent to schedule(0,0)
     // ---------------------------------------------------------------
 
-    // See ScanManagerMXBean
-    public void start() throws IOException, InstanceNotFoundException {
+    // See ScbnMbnbgerMXBebn
+    public void stbrt() throws IOException, InstbnceNotFoundException {
         schedule(0,0);
     }
 
     // ---------------------------------------------------------------
-    // Methods used to implement stop() -  stop() is asynchronous,
-    // and needs to notify any running background task that it needs
-    // to stop. It also needs to prevent scheduled task from being
+    // Methods used to implement stop() -  stop() is bsynchronous,
+    // bnd needs to notify bny running bbckground tbsk thbt it needs
+    // to stop. It blso needs to prevent scheduled tbsk from being
     // run.
     // ---------------------------------------------------------------
 
-    // See ScanManagerMXBean
+    // See ScbnMbnbgerMXBebn
     public void stop() {
         if (!sequencer.tryAcquire())
-            throw new IllegalStateException("Can't acquire lock");
+            throw new IllegblStbteException("Cbn't bcquire lock");
         int errcount = 0;
-        final StringBuilder b = new StringBuilder();
+        finbl StringBuilder b = new StringBuilder();
 
         try {
-            switchState(STOPPED,"stop");
+            switchStbte(STOPPED,"stop");
 
-            errcount += cancelSessionTasks(b);
-            errcount += stopDirectoryScanners(b);
-        } finally {
-            sequencer.release();
+            errcount += cbncelSessionTbsks(b);
+            errcount += stopDirectoryScbnners(b);
+        } finblly {
+            sequencer.relebse();
         }
 
-        sendQueuedNotifications();
+        sendQueuedNotificbtions();
         if (errcount > 0) {
-            b.insert(0,"stop partially failed with "+errcount+" error(s):");
+            b.insert(0,"stop pbrtiblly fbiled with "+errcount+" error(s):");
             throw new RuntimeException(b.toString());
         }
     }
 
-    // See ScanManagerMXBean
+    // See ScbnMbnbgerMXBebn
     public void close() {
-        switchState(CLOSED,"close");
-        sendQueuedNotifications();
+        switchStbte(CLOSED,"close");
+        sendQueuedNotificbtions();
     }
 
-    // Appends exception to a StringBuilder message.
+    // Appends exception to b StringBuilder messbge.
     //
-    private void append(StringBuilder b,String prefix,Throwable t) {
-        final String first = (prefix==null)?"\n":"\n"+prefix;
-        b.append(first).append(String.valueOf(t));
-        Throwable cause = t;
-        while ((cause = cause.getCause())!=null) {
-            b.append(first).append("Caused by:").append(first);
-            b.append('\t').append(String.valueOf(cause));
+    privbte void bppend(StringBuilder b,String prefix,Throwbble t) {
+        finbl String first = (prefix==null)?"\n":"\n"+prefix;
+        b.bppend(first).bppend(String.vblueOf(t));
+        Throwbble cbuse = t;
+        while ((cbuse = cbuse.getCbuse())!=null) {
+            b.bppend(first).bppend("Cbused by:").bppend(first);
+            b.bppend('\t').bppend(String.vblueOf(cbuse));
         }
     }
 
-    // Cancels all scheduled session tasks
+    // Cbncels bll scheduled session tbsks
     //
-    private int cancelSessionTasks(StringBuilder b) {
+    privbte int cbncelSessionTbsks(StringBuilder b) {
         int errcount = 0;
-        // Stops scheduled tasks if any...
+        // Stops scheduled tbsks if bny...
         //
-        for (SessionTask task : tasklist) {
+        for (SessionTbsk tbsk : tbsklist) {
             try {
-                task.cancel();
-                tasklist.remove(task);
-            } catch (Exception ex) {
+                tbsk.cbncel();
+                tbsklist.remove(tbsk);
+            } cbtch (Exception ex) {
                 errcount++;
-                append(b,"\t",ex);
+                bppend(b,"\t",ex);
             }
         }
         return errcount;
     }
 
-    // Stops all DirectoryScanners configured for this object.
+    // Stops bll DirectoryScbnners configured for this object.
     //
-    private int stopDirectoryScanners(StringBuilder b) {
+    privbte int stopDirectoryScbnners(StringBuilder b) {
         int errcount = 0;
-        // Stops directory scanners if any...
+        // Stops directory scbnners if bny...
         //
-        for (DirectoryScannerMXBean s : scanmap.values()) {
+        for (DirectoryScbnnerMXBebn s : scbnmbp.vblues()) {
             try {
                 s.stop();
-            } catch (Exception ex) {
+            } cbtch (Exception ex) {
                 errcount++;
-                append(b,"\t",ex);
+                bppend(b,"\t",ex);
             }
         }
         return errcount;
@@ -710,160 +710,160 @@ public class ScanManager implements ScanManagerMXBean,
 
 
     // ---------------------------------------------------------------
-    // We start scanning in background in a Timer thread.
-    // The methods below implement that logic.
+    // We stbrt scbnning in bbckground in b Timer threbd.
+    // The methods below implement thbt logic.
     // ---------------------------------------------------------------
 
-    private void scanAllDirectories()
-        throws IOException, InstanceNotFoundException {
+    privbte void scbnAllDirectories()
+        throws IOException, InstbnceNotFoundException {
 
         int errcount = 0;
-        final StringBuilder b = new StringBuilder();
-        for (ObjectName key : scanmap.keySet()) {
-            final DirectoryScannerMXBean s = scanmap.get(key);
+        finbl StringBuilder b = new StringBuilder();
+        for (ObjectNbme key : scbnmbp.keySet()) {
+            finbl DirectoryScbnnerMXBebn s = scbnmbp.get(key);
             try {
-                if (state == STOPPED) return;
-                s.scan();
-            } catch (Exception ex) {
-                LOG.log(Level.FINE,key + " failed to scan: "+ex,ex);
+                if (stbte == STOPPED) return;
+                s.scbn();
+            } cbtch (Exception ex) {
+                LOG.log(Level.FINE,key + " fbiled to scbn: "+ex,ex);
                 errcount++;
-                append(b,"\t",ex);
+                bppend(b,"\t",ex);
             }
         }
         if (errcount > 0) {
-            b.insert(0,"scan partially performed with "+errcount+" error(s):");
+            b.insert(0,"scbn pbrtiblly performed with "+errcount+" error(s):");
             throw new RuntimeException(b.toString());
         }
     }
 
-    // List of scheduled session task. Needed by stop() to cancel
-    // scheduled sessions. There's usually at most 1 session in
-    // this list (unless there's a bug somewhere ;-))
+    // List of scheduled session tbsk. Needed by stop() to cbncel
+    // scheduled sessions. There's usublly bt most 1 session in
+    // this list (unless there's b bug somewhere ;-))
     //
-    private final ConcurrentLinkedQueue<SessionTask> tasklist =
-            new ConcurrentLinkedQueue<SessionTask>();
+    privbte finbl ConcurrentLinkedQueue<SessionTbsk> tbsklist =
+            new ConcurrentLinkedQueue<SessionTbsk>();
 
-    // Used to give a unique id to session task - useful for
+    // Used to give b unique id to session tbsk - useful for
     // debugging.
     //
-    private volatile static long taskcount = 0;
+    privbte volbtile stbtic long tbskcount = 0;
 
     /**
-     * A session task will be scheduled to run in background in a
-     * timer thread. There can be at most one session task running
-     * at a given time (this is ensured by using a timer - which is
-     * a single threaded object).
+     * A session tbsk will be scheduled to run in bbckground in b
+     * timer threbd. There cbn be bt most one session tbsk running
+     * bt b given time (this is ensured by using b timer - which is
+     * b single threbded object).
      *
-     * If the session needs to be repeated, it will reschedule an
-     * identical session when it finishes to run. This ensure that
-     * two session runs are separated by the given interval time.
+     * If the session needs to be repebted, it will reschedule bn
+     * identicbl session when it finishes to run. This ensure thbt
+     * two session runs bre sepbrbted by the given intervbl time.
      *
      **/
-    private class SessionTask extends TimerTask {
+    privbte clbss SessionTbsk extends TimerTbsk {
 
         /**
-         * Delay after which the next iteration of this task will
-         * start. This delay is measured  starting at the end of
-         * the previous iteration.
+         * Delby bfter which the next iterbtion of this tbsk will
+         * stbrt. This delby is mebsured  stbrting bt the end of
+         * the previous iterbtion.
          **/
-        final long delayBeforeNext;
+        finbl long delbyBeforeNext;
 
         /**
-         * A unique id for this task.
+         * A unique id for this tbsk.
          **/
-        final long taskid;
+        finbl long tbskid;
 
         /**
-         * Whether it's been cancelled by stop()
+         * Whether it's been cbncelled by stop()
          **/
-        volatile boolean cancelled=false;
+        volbtile boolebn cbncelled=fblse;
 
         /**
-         * create a new SessionTask.
+         * crebte b new SessionTbsk.
          **/
-        SessionTask(long scheduleNext) {
-            delayBeforeNext = scheduleNext;
-            taskid = taskcount++;
+        SessionTbsk(long scheduleNext) {
+            delbyBeforeNext = scheduleNext;
+            tbskid = tbskcount++;
         }
 
         /**
-         * When run() begins, the state is switched to RUNNING.
+         * When run() begins, the stbte is switched to RUNNING.
          * When run() ends then:
-         *      If the task is repeated, the state will be switched
-         *      to SCHEDULED (because a new task was scheduled).
-         *      Otherwise the state will be switched to either
-         *      STOPPED (if it was stopped before it could complete)
-         *      or COMPLETED (if it completed gracefully)
-         * This method is used to switch to the desired state and
-         * send the appropriate notifications.
-         * When entering the method, we check whether the state is
-         * STOPPED. If so, we return false - and the SessionTask will
-         * stop. Otherwise, we switch the state to the desired value.
+         *      If the tbsk is repebted, the stbte will be switched
+         *      to SCHEDULED (becbuse b new tbsk wbs scheduled).
+         *      Otherwise the stbte will be switched to either
+         *      STOPPED (if it wbs stopped before it could complete)
+         *      or COMPLETED (if it completed grbcefully)
+         * This method is used to switch to the desired stbte bnd
+         * send the bppropribte notificbtions.
+         * When entering the method, we check whether the stbte is
+         * STOPPED. If so, we return fblse - bnd the SessionTbsk will
+         * stop. Otherwise, we switch the stbte to the desired vblue.
          **/
-        private boolean notifyStateChange(ScanState newState,String condition) {
-            synchronized (ScanManager.this) {
-                if (state == STOPPED || state == CLOSED) return false;
-                switchState(newState,condition);
+        privbte boolebn notifyStbteChbnge(ScbnStbte newStbte,String condition) {
+            synchronized (ScbnMbnbger.this) {
+                if (stbte == STOPPED || stbte == CLOSED) return fblse;
+                switchStbte(newStbte,condition);
             }
-            sendQueuedNotifications();
+            sendQueuedNotificbtions();
             return true;
         }
 
-        // Cancels this task.
-        public boolean cancel() {
-            cancelled=true;
-            return super.cancel();
+        // Cbncels this tbsk.
+        public boolebn cbncel() {
+            cbncelled=true;
+            return super.cbncel();
         }
 
         /**
-         * Invoke all directories scanners in sequence. At each
-         * step, checks to see whether the task should stop.
+         * Invoke bll directories scbnners in sequence. At ebch
+         * step, checks to see whether the tbsk should stop.
          **/
-        private boolean execute() {
-            final String tag = "Scheduled session["+taskid+"]";
+        privbte boolebn execute() {
+            finbl String tbg = "Scheduled session["+tbskid+"]";
             try {
-                if (cancelled) {
-                    LOG.finer(tag+" cancelled: done");
-                    return false;
+                if (cbncelled) {
+                    LOG.finer(tbg+" cbncelled: done");
+                    return fblse;
                 }
-                if (!notifyStateChange(RUNNING,"scan-running")) {
-                    LOG.finer(tag+" stopped: done");
-                    return false;
+                if (!notifyStbteChbnge(RUNNING,"scbn-running")) {
+                    LOG.finer(tbg+" stopped: done");
+                    return fblse;
                 }
-                scanAllDirectories();
-            } catch (Exception x) {
-                if (LOG.isLoggable(Level.FINEST)) {
+                scbnAllDirectories();
+            } cbtch (Exception x) {
+                if (LOG.isLoggbble(Level.FINEST)) {
                     LOG.log(Level.FINEST,
-                            tag+" failed to scan: "+x,x);
-                } else if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine(tag+" failed to scan: "+x);
+                            tbg+" fbiled to scbn: "+x,x);
+                } else if (LOG.isLoggbble(Level.FINE)) {
+                    LOG.fine(tbg+" fbiled to scbn: "+x);
                 }
             }
             return true;
         }
 
         /**
-         * Schedule an identical task for next iteration.
+         * Schedule bn identicbl tbsk for next iterbtion.
          **/
-        private boolean scheduleNext() {
-            final String tag = "Scheduled session["+taskid+"]";
+        privbte boolebn scheduleNext() {
+            finbl String tbg = "Scheduled session["+tbskid+"]";
 
-            // We need now to reschedule a new task for after 'delayBeforeNext' ms.
+            // We need now to reschedule b new tbsk for bfter 'delbyBeforeNext' ms.
             try {
-                LOG.finer(tag+": scheduling next session for "+ delayBeforeNext + "ms");
-                if (cancelled || !notifyStateChange(SCHEDULED,"scan-scheduled")) {
-                    LOG.finer(tag+" stopped: do not reschedule");
-                    return false;
+                LOG.finer(tbg+": scheduling next session for "+ delbyBeforeNext + "ms");
+                if (cbncelled || !notifyStbteChbnge(SCHEDULED,"scbn-scheduled")) {
+                    LOG.finer(tbg+" stopped: do not reschedule");
+                    return fblse;
                 }
-                final SessionTask nextTask = new SessionTask(delayBeforeNext);
-                if (!scheduleSession(nextTask,delayBeforeNext)) return false;
-                LOG.finer(tag+": next session successfully scheduled");
-            } catch (Exception x) {
-                if (LOG.isLoggable(Level.FINEST)) {
-                    LOG.log(Level.FINEST,tag+
-                            " failed to schedule next session: "+x,x);
-                } else if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine(tag+" failed to schedule next session: "+x);
+                finbl SessionTbsk nextTbsk = new SessionTbsk(delbyBeforeNext);
+                if (!scheduleSession(nextTbsk,delbyBeforeNext)) return fblse;
+                LOG.finer(tbg+": next session successfully scheduled");
+            } cbtch (Exception x) {
+                if (LOG.isLoggbble(Level.FINEST)) {
+                    LOG.log(Level.FINEST,tbg+
+                            " fbiled to schedule next session: "+x,x);
+                } else if (LOG.isLoggbble(Level.FINE)) {
+                    LOG.fine(tbg+" fbiled to schedule next session: "+x);
                 }
             }
             return true;
@@ -872,36 +872,36 @@ public class ScanManager implements ScanManagerMXBean,
 
         /**
          * The run method:
-         * executes scanning logic, the schedule next iteration if needed.
+         * executes scbnning logic, the schedule next iterbtion if needed.
          **/
         public void run() {
-            final String tag = "Scheduled session["+taskid+"]";
-            LOG.entering(SessionTask.class.getName(),"run");
-            LOG.finer(tag+" starting...");
+            finbl String tbg = "Scheduled session["+tbskid+"]";
+            LOG.entering(SessionTbsk.clbss.getNbme(),"run");
+            LOG.finer(tbg+" stbrting...");
             try {
-                if (execute()==false) return;
+                if (execute()==fblse) return;
 
-                LOG.finer(tag+" terminating - state is "+state+
-                    ((delayBeforeNext >0)?(" next session is due in "+delayBeforeNext+" ms."):
-                        " no additional session scheduled"));
+                LOG.finer(tbg+" terminbting - stbte is "+stbte+
+                    ((delbyBeforeNext >0)?(" next session is due in "+delbyBeforeNext+" ms."):
+                        " no bdditionbl session scheduled"));
 
-                // if delayBeforeNext <= 0 we are done, either because the session was
-                // stopped or because it successfully completed.
-                if (delayBeforeNext <= 0) {
-                    if (!notifyStateChange(COMPLETED,"scan-done"))
-                        LOG.finer(tag+" stopped: done");
+                // if delbyBeforeNext <= 0 we bre done, either becbuse the session wbs
+                // stopped or becbuse it successfully completed.
+                if (delbyBeforeNext <= 0) {
+                    if (!notifyStbteChbnge(COMPLETED,"scbn-done"))
+                        LOG.finer(tbg+" stopped: done");
                     else
-                        LOG.finer(tag+" completed: done");
+                        LOG.finer(tbg+" completed: done");
                     return;
                 }
 
-                // we need to reschedule a new session for 'delayBeforeNext' ms.
+                // we need to reschedule b new session for 'delbyBeforeNext' ms.
                 scheduleNext();
 
-            } finally {
-                tasklist.remove(this);
-                LOG.finer(tag+" finished...");
-                LOG.exiting(SessionTask.class.getName(),"run");
+            } finblly {
+                tbsklist.remove(this);
+                LOG.finer(tbg+" finished...");
+                LOG.exiting(SessionTbsk.clbss.getNbme(),"run");
             }
         }
     }
@@ -910,251 +910,251 @@ public class ScanManager implements ScanManagerMXBean,
     // ---------------------------------------------------------------
 
     // ---------------------------------------------------------------
-    // MBean Notification support
-    // The methods below are imported from {@link NotificationEmitter}
+    // MBebn Notificbtion support
+    // The methods below bre imported from {@link NotificbtionEmitter}
     // ---------------------------------------------------------------
 
     /**
-     * Delegates the implementation of this method to the wrapped
-     * {@code NotificationBroadcasterSupport} object.
+     * Delegbtes the implementbtion of this method to the wrbpped
+     * {@code NotificbtionBrobdcbsterSupport} object.
      **/
-    public void addNotificationListener(NotificationListener listener, NotificationFilter filter, Object handback) throws IllegalArgumentException {
-        broadcaster.addNotificationListener(listener, filter, handback);
+    public void bddNotificbtionListener(NotificbtionListener listener, NotificbtionFilter filter, Object hbndbbck) throws IllegblArgumentException {
+        brobdcbster.bddNotificbtionListener(listener, filter, hbndbbck);
     }
 
 
     /**
-     * We emit an {@code AttributeChangeNotification} when the {@code State}
-     * attribute changes.
+     * We emit bn {@code AttributeChbngeNotificbtion} when the {@code Stbte}
+     * bttribute chbnges.
      **/
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        return new MBeanNotificationInfo[] {
-            new MBeanNotificationInfo(new String[] {
-                AttributeChangeNotification.ATTRIBUTE_CHANGE},
-                AttributeChangeNotification.class.getName(),
-                "Emitted when the State attribute changes")
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
+        return new MBebnNotificbtionInfo[] {
+            new MBebnNotificbtionInfo(new String[] {
+                AttributeChbngeNotificbtion.ATTRIBUTE_CHANGE},
+                AttributeChbngeNotificbtion.clbss.getNbme(),
+                "Emitted when the Stbte bttribute chbnges")
             };
     }
 
     /**
-     * Delegates the implementation of this method to the wrapped
-     * {@code NotificationBroadcasterSupport} object.
+     * Delegbtes the implementbtion of this method to the wrbpped
+     * {@code NotificbtionBrobdcbsterSupport} object.
      **/
-    public void removeNotificationListener(NotificationListener listener) throws ListenerNotFoundException {
-        broadcaster.removeNotificationListener(listener);
+    public void removeNotificbtionListener(NotificbtionListener listener) throws ListenerNotFoundException {
+        brobdcbster.removeNotificbtionListener(listener);
     }
 
     /**
-     * Delegates the implementation of this method to the wrapped
-     * {@code NotificationBroadcasterSupport} object.
+     * Delegbtes the implementbtion of this method to the wrbpped
+     * {@code NotificbtionBrobdcbsterSupport} object.
      **/
-    public void removeNotificationListener(NotificationListener listener, NotificationFilter filter, Object handback) throws ListenerNotFoundException {
-        broadcaster.removeNotificationListener(listener, filter, handback);
+    public void removeNotificbtionListener(NotificbtionListener listener, NotificbtionFilter filter, Object hbndbbck) throws ListenerNotFoundException {
+        brobdcbster.removeNotificbtionListener(listener, filter, hbndbbck);
     }
 
     /**
-     * Returns and increment the sequence number used for
-     * notifications. We use the same sequence number throughout the
-     * application - this is why this method is only package protected.
-     * @return A unique sequence number for the next notification.
+     * Returns bnd increment the sequence number used for
+     * notificbtions. We use the sbme sequence number throughout the
+     * bpplicbtion - this is why this method is only pbckbge protected.
+     * @return A unique sequence number for the next notificbtion.
      */
-    static synchronized long getNextSeqNumber() {
+    stbtic synchronized long getNextSeqNumber() {
         return seqNumber++;
     }
 
     // ---------------------------------------------------------------
-    // End of MBean Notification support
+    // End of MBebn Notificbtion support
     // ---------------------------------------------------------------
 
     // ---------------------------------------------------------------
-    // MBeanRegistration support
-    // The methods below are imported from {@link MBeanRegistration}
+    // MBebnRegistrbtion support
+    // The methods below bre imported from {@link MBebnRegistrbtion}
     // ---------------------------------------------------------------
 
     /**
-     * Allows the MBean to perform any operations it needs before being
-     * registered in the MBean server. If the name of the MBean is not
-     * specified, the MBean can provide a name for its registration. If
-     * any exception is raised, the MBean will not be registered in the
-     * MBean server.
-     * <p>In this implementation, we check that the provided name is
-     * either {@code null} or equals to {@link #SCAN_MANAGER_NAME}. If it
-     * isn't then we throw an IllegalArgumentException, otherwise we return
+     * Allows the MBebn to perform bny operbtions it needs before being
+     * registered in the MBebn server. If the nbme of the MBebn is not
+     * specified, the MBebn cbn provide b nbme for its registrbtion. If
+     * bny exception is rbised, the MBebn will not be registered in the
+     * MBebn server.
+     * <p>In this implementbtion, we check thbt the provided nbme is
+     * either {@code null} or equbls to {@link #SCAN_MANAGER_NAME}. If it
+     * isn't then we throw bn IllegblArgumentException, otherwise we return
      * {@link #SCAN_MANAGER_NAME}.</p>
-     * <p>This ensures that there will be a single instance of ScanManager
-     * registered in a given MBeanServer, and that it will always be
+     * <p>This ensures thbt there will be b single instbnce of ScbnMbnbger
+     * registered in b given MBebnServer, bnd thbt it will blwbys be
      * registered with the singleton's {@link #SCAN_MANAGER_NAME}.</p>
-     * <p>We do not need to check whether an MBean by that name is
-     *    already registered because the MBeanServer will perform
-     *    this check just after having called preRegister().</p>
-     * @param server The MBean server in which the MBean will be registered.
-     * @param name The object name of the MBean. This name is null if the
-     * name parameter to one of the createMBean or registerMBean methods in
-     * the MBeanServer interface is null. In that case, this method must
-     * return a non-null ObjectName for the new MBean.
-     * @return The name under which the MBean is to be registered. This value
-     * must not be null. If the name parameter is not null, it will usually
-     * but not necessarily be the returned value.
-     * @throws Exception This exception will be caught by the MBean server and
-     * re-thrown as an MBeanRegistrationException.
+     * <p>We do not need to check whether bn MBebn by thbt nbme is
+     *    blrebdy registered becbuse the MBebnServer will perform
+     *    this check just bfter hbving cblled preRegister().</p>
+     * @pbrbm server The MBebn server in which the MBebn will be registered.
+     * @pbrbm nbme The object nbme of the MBebn. This nbme is null if the
+     * nbme pbrbmeter to one of the crebteMBebn or registerMBebn methods in
+     * the MBebnServer interfbce is null. In thbt cbse, this method must
+     * return b non-null ObjectNbme for the new MBebn.
+     * @return The nbme under which the MBebn is to be registered. This vblue
+     * must not be null. If the nbme pbrbmeter is not null, it will usublly
+     * but not necessbrily be the returned vblue.
+     * @throws Exception This exception will be cbught by the MBebn server bnd
+     * re-thrown bs bn MBebnRegistrbtionException.
      */
-    public ObjectName preRegister(MBeanServer server, ObjectName name) throws Exception {
-        if (name != null) {
-            if (!SCAN_MANAGER_NAME.equals(name))
-                throw new IllegalArgumentException(String.valueOf(name));
+    public ObjectNbme preRegister(MBebnServer server, ObjectNbme nbme) throws Exception {
+        if (nbme != null) {
+            if (!SCAN_MANAGER_NAME.equbls(nbme))
+                throw new IllegblArgumentException(String.vblueOf(nbme));
         }
-        mbeanServer = server;
+        mbebnServer = server;
         return SCAN_MANAGER_NAME;
     }
 
-    // Returns the default configuration filename
-    static String getDefaultConfigurationFileName() {
-        // This is a file calles 'jmx-scandir.xml' located
+    // Returns the defbult configurbtion filenbme
+    stbtic String getDefbultConfigurbtionFileNbme() {
+        // This is b file cblles 'jmx-scbndir.xml' locbted
         // in the user directory.
-        final String user = System.getProperty("user.home");
-        final String defconf = user+File.separator+"jmx-scandir.xml";
+        finbl String user = System.getProperty("user.home");
+        finbl String defconf = user+File.sepbrbtor+"jmx-scbndir.xml";
         return defconf;
     }
 
     /**
-     * Allows the MBean to perform any operations needed after having
-     * been registered in the MBean server or after the registration has
-     * failed.
+     * Allows the MBebn to perform bny operbtions needed bfter hbving
+     * been registered in the MBebn server or bfter the registrbtion hbs
+     * fbiled.
      * <p>
-     * If registration was not successful, the method returns immediately.
+     * If registrbtion wbs not successful, the method returns immedibtely.
      * <p>
-     * If registration is successful, register the {@link ResultLogManager}
-     * and default {@link ScanDirConfigMXBean}. If registering these
-     * MBean fails, the {@code ScanManager} state will be switched to
-     * {@link #close CLOSED}, and postRegister ends there.
+     * If registrbtion is successful, register the {@link ResultLogMbnbger}
+     * bnd defbult {@link ScbnDirConfigMXBebn}. If registering these
+     * MBebn fbils, the {@code ScbnMbnbger} stbte will be switched to
+     * {@link #close CLOSED}, bnd postRegister ends there.
      * </p>
-     * <p>Otherwise the {@code ScanManager} will ask the
-     * {@link ScanDirConfigMXBean} to load its configuration.
-     * If it succeeds, the configuration will be {@link
-     * #applyConfiguration applied}. Otherwise, the method simply returns,
-     * assuming that the user will later create/update a configuration and
-     * apply it.
-     * @param registrationDone Indicates whether or not the MBean has been
-     * successfully registered in the MBean server. The value false means
-     * that the registration has failed.
+     * <p>Otherwise the {@code ScbnMbnbger} will bsk the
+     * {@link ScbnDirConfigMXBebn} to lobd its configurbtion.
+     * If it succeeds, the configurbtion will be {@link
+     * #bpplyConfigurbtion bpplied}. Otherwise, the method simply returns,
+     * bssuming thbt the user will lbter crebte/updbte b configurbtion bnd
+     * bpply it.
+     * @pbrbm registrbtionDone Indicbtes whether or not the MBebn hbs been
+     * successfully registered in the MBebn server. The vblue fblse mebns
+     * thbt the registrbtion hbs fbiled.
      */
-    public void postRegister(Boolean registrationDone) {
-        if (!registrationDone) return;
+    public void postRegister(Boolebn registrbtionDone) {
+        if (!registrbtionDone) return;
         Exception test=null;
         try {
-            mbeanServer.registerMBean(log,
-                    ResultLogManager.RESULT_LOG_MANAGER_NAME);
-            final String defconf = getDefaultConfigurationFileName();
-            final String conf = System.getProperty("scandir.config.file",defconf);
-            final String confname = ScanDirConfig.guessConfigName(conf,defconf);
-            final ObjectName defaultProfileName =
-                    makeMBeanName(ScanDirConfigMXBean.class,confname);
-            if (!mbeanServer.isRegistered(defaultProfileName))
-                mbeanServer.registerMBean(new ScanDirConfig(conf),
-                        defaultProfileName);
-            config = JMX.newMXBeanProxy(mbeanServer,defaultProfileName,
-                    ScanDirConfigMXBean.class,true);
-            configmap.put(defaultProfileName,config);
-        } catch (Exception x) {
-            LOG.config("Failed to populate MBeanServer: "+x);
+            mbebnServer.registerMBebn(log,
+                    ResultLogMbnbger.RESULT_LOG_MANAGER_NAME);
+            finbl String defconf = getDefbultConfigurbtionFileNbme();
+            finbl String conf = System.getProperty("scbndir.config.file",defconf);
+            finbl String confnbme = ScbnDirConfig.guessConfigNbme(conf,defconf);
+            finbl ObjectNbme defbultProfileNbme =
+                    mbkeMBebnNbme(ScbnDirConfigMXBebn.clbss,confnbme);
+            if (!mbebnServer.isRegistered(defbultProfileNbme))
+                mbebnServer.registerMBebn(new ScbnDirConfig(conf),
+                        defbultProfileNbme);
+            config = JMX.newMXBebnProxy(mbebnServer,defbultProfileNbme,
+                    ScbnDirConfigMXBebn.clbss,true);
+            configmbp.put(defbultProfileNbme,config);
+        } cbtch (Exception x) {
+            LOG.config("Fbiled to populbte MBebnServer: "+x);
             close();
             return;
         }
         try {
-            config.load();
-        } catch (Exception x) {
-            LOG.finest("No config to load: "+x);
+            config.lobd();
+        } cbtch (Exception x) {
+            LOG.finest("No config to lobd: "+x);
             test = x;
         }
         if (test == null) {
             try {
-                applyConfiguration(config.getConfiguration());
-            } catch (Exception x) {
-                if (LOG.isLoggable(Level.FINEST))
-                    LOG.log(Level.FINEST,"Failed to apply config: "+x,x);
-                LOG.config("Failed to apply config: "+x);
+                bpplyConfigurbtion(config.getConfigurbtion());
+            } cbtch (Exception x) {
+                if (LOG.isLoggbble(Level.FINEST))
+                    LOG.log(Level.FINEST,"Fbiled to bpply config: "+x,x);
+                LOG.config("Fbiled to bpply config: "+x);
             }
         }
     }
 
-    // Unregisters all created DirectoryScanners
-    private void unregisterScanners() throws JMException {
-        unregisterMBeans(scanmap);
+    // Unregisters bll crebted DirectoryScbnners
+    privbte void unregisterScbnners() throws JMException {
+        unregisterMBebns(scbnmbp);
     }
 
-    // Unregisters all created ScanDirConfigs
-    private void unregisterConfigs() throws JMException {
-        unregisterMBeans(configmap);
+    // Unregisters bll crebted ScbnDirConfigs
+    privbte void unregisterConfigs() throws JMException {
+        unregisterMBebns(configmbp);
     }
 
-    // Unregisters all MBeans named by the given map
-    private void unregisterMBeans(Map<ObjectName,?> map) throws JMException {
-        for (ObjectName key : map.keySet()) {
-            if (mbeanServer.isRegistered(key))
-                mbeanServer.unregisterMBean(key);
-            map.remove(key);
+    // Unregisters bll MBebns nbmed by the given mbp
+    privbte void unregisterMBebns(Mbp<ObjectNbme,?> mbp) throws JMException {
+        for (ObjectNbme key : mbp.keySet()) {
+            if (mbebnServer.isRegistered(key))
+                mbebnServer.unregisterMBebn(key);
+            mbp.remove(key);
         }
     }
 
-    // Unregisters the ResultLogManager.
-    private void unregisterResultLogManager() throws JMException {
-        final ObjectName name = ResultLogManager.RESULT_LOG_MANAGER_NAME;
-        if (mbeanServer.isRegistered(name)) {
-            mbeanServer.unregisterMBean(name);
+    // Unregisters the ResultLogMbnbger.
+    privbte void unregisterResultLogMbnbger() throws JMException {
+        finbl ObjectNbme nbme = ResultLogMbnbger.RESULT_LOG_MANAGER_NAME;
+        if (mbebnServer.isRegistered(nbme)) {
+            mbebnServer.unregisterMBebn(nbme);
         }
     }
 
     /**
-     * Allows the MBean to perform any operations it needs before being
-     * unregistered by the MBean server.
-     * This implementation also unregisters all the MXBeans
-     * that were created by this object.
-     * @throws IllegalStateException if the lock can't be acquire, or if
-     *         the MBean's state doesn't allow the MBean to be unregistered
-     *         (e.g. because it's scheduled or running).
-     * @throws Exception This exception will be caught by the MBean server and
-     * re-thrown as an MBeanRegistrationException.
+     * Allows the MBebn to perform bny operbtions it needs before being
+     * unregistered by the MBebn server.
+     * This implementbtion blso unregisters bll the MXBebns
+     * thbt were crebted by this object.
+     * @throws IllegblStbteException if the lock cbn't be bcquire, or if
+     *         the MBebn's stbte doesn't bllow the MBebn to be unregistered
+     *         (e.g. becbuse it's scheduled or running).
+     * @throws Exception This exception will be cbught by the MBebn server bnd
+     * re-thrown bs bn MBebnRegistrbtionException.
      */
     public void preDeregister() throws Exception {
         try {
             close();
             if (!sequencer.tryAcquire())
-                throw new IllegalStateException("can't acquire lock");
+                throw new IllegblStbteException("cbn't bcquire lock");
             try {
-                unregisterScanners();
+                unregisterScbnners();
                 unregisterConfigs();
-                unregisterResultLogManager();
-            } finally {
-                sequencer.release();
+                unregisterResultLogMbnbger();
+            } finblly {
+                sequencer.relebse();
             }
-        } catch (Exception x) {
-            LOG.log(Level.FINEST,"Failed to unregister: "+x,x);
+        } cbtch (Exception x) {
+            LOG.log(Level.FINEST,"Fbiled to unregister: "+x,x);
             throw x;
         }
     }
 
     /**
-     * Allows the MBean to perform any operations needed after having been
-     * unregistered in the MBean server.
-     * Cancels the internal timer - if any.
+     * Allows the MBebn to perform bny operbtions needed bfter hbving been
+     * unregistered in the MBebn server.
+     * Cbncels the internbl timer - if bny.
      */
     public synchronized void postDeregister() {
         if (timer != null) {
             try {
-                timer.cancel();
-            } catch (Exception x) {
-                if (LOG.isLoggable(Level.FINEST))
-                    LOG.log(Level.FINEST,"Failed to cancel timer",x);
-                else if (LOG.isLoggable(Level.FINE))
-                    LOG.fine("Failed to cancel timer: "+x);
-            } finally {
+                timer.cbncel();
+            } cbtch (Exception x) {
+                if (LOG.isLoggbble(Level.FINEST))
+                    LOG.log(Level.FINEST,"Fbiled to cbncel timer",x);
+                else if (LOG.isLoggbble(Level.FINE))
+                    LOG.fine("Fbiled to cbncel timer: "+x);
+            } finblly {
                 timer = null;
             }
         }
    }
 
     // ---------------------------------------------------------------
-    // End of MBeanRegistration support
+    // End of MBebnRegistrbtion support
     // ---------------------------------------------------------------
 
 }

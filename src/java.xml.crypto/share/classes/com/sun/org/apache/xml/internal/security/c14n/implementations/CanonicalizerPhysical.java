@@ -3,181 +3,181 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.c14n.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Iterbtor;
+import jbvb.util.Set;
+import jbvb.util.SortedSet;
+import jbvb.util.TreeSet;
 
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.Cbnonicblizer;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
-import org.xml.sax.SAXException;
+import org.xml.sbx.SAXException;
 
 /**
- * Serializes the physical representation of the subtree. All the attributes
- * present in the subtree are emitted. The attributes are sorted within an element,
- * with the namespace declarations appearing before the regular attributes.
- * This algorithm is not a true canonicalization since equivalent subtrees
- * may produce different output. It is therefore unsuitable for digital signatures.
- * This same property makes it ideal for XML Encryption Syntax and Processing,
- * because the decrypted XML content will share the same physical representation
- * as the original XML content that was encrypted.
+ * Seriblizes the physicbl representbtion of the subtree. All the bttributes
+ * present in the subtree bre emitted. The bttributes bre sorted within bn element,
+ * with the nbmespbce declbrbtions bppebring before the regulbr bttributes.
+ * This blgorithm is not b true cbnonicblizbtion since equivblent subtrees
+ * mby produce different output. It is therefore unsuitbble for digitbl signbtures.
+ * This sbme property mbkes it idebl for XML Encryption Syntbx bnd Processing,
+ * becbuse the decrypted XML content will shbre the sbme physicbl representbtion
+ * bs the originbl XML content thbt wbs encrypted.
  */
-public class CanonicalizerPhysical extends CanonicalizerBase {
+public clbss CbnonicblizerPhysicbl extends CbnonicblizerBbse {
 
-    private final SortedSet<Attr> result = new TreeSet<Attr>(COMPARE);
+    privbte finbl SortedSet<Attr> result = new TreeSet<Attr>(COMPARE);
 
     /**
-     * Constructor Canonicalizer20010315
+     * Constructor Cbnonicblizer20010315
      */
-    public CanonicalizerPhysical() {
+    public CbnonicblizerPhysicbl() {
         super(true);
     }
 
     /**
-     * Always throws a CanonicalizationException.
+     * Alwbys throws b CbnonicblizbtionException.
      *
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
-     * @return none it always fails
-     * @throws CanonicalizationException always
+     * @pbrbm xpbthNodeSet
+     * @pbrbm inclusiveNbmespbces
+     * @return none it blwbys fbils
+     * @throws CbnonicblizbtionException blwbys
      */
-    public byte[] engineCanonicalizeXPathNodeSet(Set<Node> xpathNodeSet, String inclusiveNamespaces)
-        throws CanonicalizationException {
+    public byte[] engineCbnonicblizeXPbthNodeSet(Set<Node> xpbthNodeSet, String inclusiveNbmespbces)
+        throws CbnonicblizbtionException {
 
-        /** $todo$ well, should we throw UnsupportedOperationException ? */
-        throw new CanonicalizationException("c14n.Canonicalizer.UnsupportedOperation");
+        /** $todo$ well, should we throw UnsupportedOperbtionException ? */
+        throw new CbnonicblizbtionException("c14n.Cbnonicblizer.UnsupportedOperbtion");
     }
 
     /**
-     * Always throws a CanonicalizationException.
+     * Alwbys throws b CbnonicblizbtionException.
      *
-     * @param rootNode
-     * @param inclusiveNamespaces
-     * @return none it always fails
-     * @throws CanonicalizationException
+     * @pbrbm rootNode
+     * @pbrbm inclusiveNbmespbces
+     * @return none it blwbys fbils
+     * @throws CbnonicblizbtionException
      */
-    public byte[] engineCanonicalizeSubTree(Node rootNode, String inclusiveNamespaces)
-        throws CanonicalizationException {
+    public byte[] engineCbnonicblizeSubTree(Node rootNode, String inclusiveNbmespbces)
+        throws CbnonicblizbtionException {
 
-        /** $todo$ well, should we throw UnsupportedOperationException ? */
-        throw new CanonicalizationException("c14n.Canonicalizer.UnsupportedOperation");
+        /** $todo$ well, should we throw UnsupportedOperbtionException ? */
+        throw new CbnonicblizbtionException("c14n.Cbnonicblizer.UnsupportedOperbtion");
     }
 
     /**
      * Returns the Attr[]s to be output for the given element.
      * <br>
-     * The code of this method is a copy of {@link #handleAttributes(Element,
-     * NameSpaceSymbTable)},
-     * whereas it takes into account that subtree-c14n is -- well -- subtree-based.
-     * So if the element in question isRoot of c14n, it's parent is not in the
-     * node set, as well as all other ancestors.
+     * The code of this method is b copy of {@link #hbndleAttributes(Element,
+     * NbmeSpbceSymbTbble)},
+     * wherebs it tbkes into bccount thbt subtree-c14n is -- well -- subtree-bbsed.
+     * So if the element in question isRoot of c14n, it's pbrent is not in the
+     * node set, bs well bs bll other bncestors.
      *
-     * @param element
-     * @param ns
+     * @pbrbm element
+     * @pbrbm ns
      * @return the Attr[]s to be output
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
     @Override
-    protected Iterator<Attr> handleAttributesSubtree(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException {
-        if (!element.hasAttributes()) {
+    protected Iterbtor<Attr> hbndleAttributesSubtree(Element element, NbmeSpbceSymbTbble ns)
+        throws CbnonicblizbtionException {
+        if (!element.hbsAttributes()) {
             return null;
         }
 
-        // result will contain all the attrs declared directly on that element
-        final SortedSet<Attr> result = this.result;
-        result.clear();
+        // result will contbin bll the bttrs declbred directly on thbt element
+        finbl SortedSet<Attr> result = this.result;
+        result.clebr();
 
-        if (element.hasAttributes()) {
-            NamedNodeMap attrs = element.getAttributes();
-            int attrsLength = attrs.getLength();
+        if (element.hbsAttributes()) {
+            NbmedNodeMbp bttrs = element.getAttributes();
+            int bttrsLength = bttrs.getLength();
 
-            for (int i = 0; i < attrsLength; i++) {
-                Attr attribute = (Attr) attrs.item(i);
-                result.add(attribute);
+            for (int i = 0; i < bttrsLength; i++) {
+                Attr bttribute = (Attr) bttrs.item(i);
+                result.bdd(bttribute);
             }
         }
 
-        return result.iterator();
+        return result.iterbtor();
     }
 
     /**
      * Returns the Attr[]s to be output for the given element.
      *
-     * @param element
-     * @param ns
+     * @pbrbm element
+     * @pbrbm ns
      * @return the Attr[]s to be output
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
     @Override
-    protected Iterator<Attr> handleAttributes(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException {
+    protected Iterbtor<Attr> hbndleAttributes(Element element, NbmeSpbceSymbTbble ns)
+        throws CbnonicblizbtionException {
 
-        /** $todo$ well, should we throw UnsupportedOperationException ? */
-        throw new CanonicalizationException("c14n.Canonicalizer.UnsupportedOperation");
+        /** $todo$ well, should we throw UnsupportedOperbtionException ? */
+        throw new CbnonicblizbtionException("c14n.Cbnonicblizer.UnsupportedOperbtion");
     }
 
-    protected void circumventBugIfNeeded(XMLSignatureInput input)
-        throws CanonicalizationException, ParserConfigurationException, IOException, SAXException {
+    protected void circumventBugIfNeeded(XMLSignbtureInput input)
+        throws CbnonicblizbtionException, PbrserConfigurbtionException, IOException, SAXException {
         // nothing to do
     }
 
     @Override
-    protected void handleParent(Element e, NameSpaceSymbTable ns) {
+    protected void hbndlePbrent(Element e, NbmeSpbceSymbTbble ns) {
         // nothing to do
     }
 
     /** @inheritDoc */
-    public final String engineGetURI() {
-        return Canonicalizer.ALGO_ID_C14N_PHYSICAL;
+    public finbl String engineGetURI() {
+        return Cbnonicblizer.ALGO_ID_C14N_PHYSICAL;
     }
 
     /** @inheritDoc */
-    public final boolean engineGetIncludeComments() {
+    public finbl boolebn engineGetIncludeComments() {
         return true;
     }
 
     @Override
     protected void outputPItoWriter(ProcessingInstruction currentPI,
-                                    OutputStream writer, int position) throws IOException {
-        // Processing Instructions before or after the document element are not treated specially
+                                    OutputStrebm writer, int position) throws IOException {
+        // Processing Instructions before or bfter the document element bre not trebted speciblly
         super.outputPItoWriter(currentPI, writer, NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT);
     }
 
     @Override
     protected void outputCommentToWriter(Comment currentComment,
-                                         OutputStream writer, int position) throws IOException {
-        // Comments before or after the document element are not treated specially
+                                         OutputStrebm writer, int position) throws IOException {
+        // Comments before or bfter the document element bre not trebted speciblly
         super.outputCommentToWriter(currentComment, writer, NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT);
     }
 

@@ -1,724 +1,724 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
-import sun.security.util.SecurityConstants;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.util.Hbshtbble;
+import jbvb.util.StringTokenizer;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * Class {@code URL} represents a Uniform Resource
- * Locator, a pointer to a "resource" on the World
- * Wide Web. A resource can be something as simple as a file or a
- * directory, or it can be a reference to a more complicated object,
- * such as a query to a database or to a search engine. More
- * information on the types of URLs and their formats can be found at:
- * <a href=
- * "http://web.archive.org/web/20051219043731/http://archive.ncsa.uiuc.edu/SDG/Software/Mosaic/Demo/url-primer.html">
- * <i>Types of URL</i></a>
+ * Clbss {@code URL} represents b Uniform Resource
+ * Locbtor, b pointer to b "resource" on the World
+ * Wide Web. A resource cbn be something bs simple bs b file or b
+ * directory, or it cbn be b reference to b more complicbted object,
+ * such bs b query to b dbtbbbse or to b sebrch engine. More
+ * informbtion on the types of URLs bnd their formbts cbn be found bt:
+ * <b href=
+ * "http://web.brchive.org/web/20051219043731/http://brchive.ncsb.uiuc.edu/SDG/Softwbre/Mosbic/Demo/url-primer.html">
+ * <i>Types of URL</i></b>
  * <p>
- * In general, a URL can be broken into several parts. Consider the
- * following example:
+ * In generbl, b URL cbn be broken into severbl pbrts. Consider the
+ * following exbmple:
  * <blockquote><pre>
- *     http://www.example.com/docs/resource1.html
+ *     http://www.exbmple.com/docs/resource1.html
  * </pre></blockquote>
  * <p>
- * The URL above indicates that the protocol to use is
- * {@code http} (HyperText Transfer Protocol) and that the
- * information resides on a host machine named
- * {@code www.example.com}. The information on that host
- * machine is named {@code /docs/resource1.html}. The exact
- * meaning of this name on the host machine is both protocol
- * dependent and host dependent. The information normally resides in
- * a file, but it could be generated on the fly. This component of
- * the URL is called the <i>path</i> component.
+ * The URL bbove indicbtes thbt the protocol to use is
+ * {@code http} (HyperText Trbnsfer Protocol) bnd thbt the
+ * informbtion resides on b host mbchine nbmed
+ * {@code www.exbmple.com}. The informbtion on thbt host
+ * mbchine is nbmed {@code /docs/resource1.html}. The exbct
+ * mebning of this nbme on the host mbchine is both protocol
+ * dependent bnd host dependent. The informbtion normblly resides in
+ * b file, but it could be generbted on the fly. This component of
+ * the URL is cblled the <i>pbth</i> component.
  * <p>
- * A URL can optionally specify a "port", which is the
- * port number to which the TCP connection is made on the remote host
- * machine. If the port is not specified, the default port for
- * the protocol is used instead. For example, the default port for
- * {@code http} is {@code 80}. An alternative port could be
- * specified as:
+ * A URL cbn optionblly specify b "port", which is the
+ * port number to which the TCP connection is mbde on the remote host
+ * mbchine. If the port is not specified, the defbult port for
+ * the protocol is used instebd. For exbmple, the defbult port for
+ * {@code http} is {@code 80}. An blternbtive port could be
+ * specified bs:
  * <blockquote><pre>
- *     http://www.example.com:1080/docs/resource1.html
+ *     http://www.exbmple.com:1080/docs/resource1.html
  * </pre></blockquote>
  * <p>
- * The syntax of {@code URL} is defined by  <a
+ * The syntbx of {@code URL} is defined by  <b
  * href="http://www.ietf.org/rfc/rfc2396.txt"><i>RFC&nbsp;2396: Uniform
- * Resource Identifiers (URI): Generic Syntax</i></a>, amended by <a
- * href="http://www.ietf.org/rfc/rfc2732.txt"><i>RFC&nbsp;2732: Format for
- * Literal IPv6 Addresses in URLs</i></a>. The Literal IPv6 address format
- * also supports scope_ids. The syntax and usage of scope_ids is described
- * <a href="Inet6Address.html#scoped">here</a>.
+ * Resource Identifiers (URI): Generic Syntbx</i></b>, bmended by <b
+ * href="http://www.ietf.org/rfc/rfc2732.txt"><i>RFC&nbsp;2732: Formbt for
+ * Literbl IPv6 Addresses in URLs</i></b>. The Literbl IPv6 bddress formbt
+ * blso supports scope_ids. The syntbx bnd usbge of scope_ids is described
+ * <b href="Inet6Address.html#scoped">here</b>.
  * <p>
- * A URL may have appended to it a "fragment", also known
- * as a "ref" or a "reference". The fragment is indicated by the sharp
- * sign character "#" followed by more characters. For example,
+ * A URL mby hbve bppended to it b "frbgment", blso known
+ * bs b "ref" or b "reference". The frbgment is indicbted by the shbrp
+ * sign chbrbcter "#" followed by more chbrbcters. For exbmple,
  * <blockquote><pre>
- *     http://java.sun.com/index.html#chapter1
+ *     http://jbvb.sun.com/index.html#chbpter1
  * </pre></blockquote>
  * <p>
- * This fragment is not technically part of the URL. Rather, it
- * indicates that after the specified resource is retrieved, the
- * application is specifically interested in that part of the
- * document that has the tag {@code chapter1} attached to it. The
- * meaning of a tag is resource specific.
+ * This frbgment is not technicblly pbrt of the URL. Rbther, it
+ * indicbtes thbt bfter the specified resource is retrieved, the
+ * bpplicbtion is specificblly interested in thbt pbrt of the
+ * document thbt hbs the tbg {@code chbpter1} bttbched to it. The
+ * mebning of b tbg is resource specific.
  * <p>
- * An application can also specify a "relative URL",
- * which contains only enough information to reach the resource
- * relative to another URL. Relative URLs are frequently used within
- * HTML pages. For example, if the contents of the URL:
+ * An bpplicbtion cbn blso specify b "relbtive URL",
+ * which contbins only enough informbtion to rebch the resource
+ * relbtive to bnother URL. Relbtive URLs bre frequently used within
+ * HTML pbges. For exbmple, if the contents of the URL:
  * <blockquote><pre>
- *     http://java.sun.com/index.html
+ *     http://jbvb.sun.com/index.html
  * </pre></blockquote>
- * contained within it the relative URL:
+ * contbined within it the relbtive URL:
  * <blockquote><pre>
  *     FAQ.html
  * </pre></blockquote>
- * it would be a shorthand for:
+ * it would be b shorthbnd for:
  * <blockquote><pre>
- *     http://java.sun.com/FAQ.html
+ *     http://jbvb.sun.com/FAQ.html
  * </pre></blockquote>
  * <p>
- * The relative URL need not specify all the components of a URL. If
- * the protocol, host name, or port number is missing, the value is
+ * The relbtive URL need not specify bll the components of b URL. If
+ * the protocol, host nbme, or port number is missing, the vblue is
  * inherited from the fully specified URL. The file component must be
- * specified. The optional fragment is not inherited.
+ * specified. The optionbl frbgment is not inherited.
  * <p>
- * The URL class does not itself encode or decode any URL components
- * according to the escaping mechanism defined in RFC2396. It is the
- * responsibility of the caller to encode any fields, which need to be
- * escaped prior to calling URL, and also to decode any escaped fields,
- * that are returned from URL. Furthermore, because URL has no knowledge
- * of URL escaping, it does not recognise equivalence between the encoded
- * or decoded form of the same URL. For example, the two URLs:<br>
- * <pre>    http://foo.com/hello world/ and http://foo.com/hello%20world</pre>
- * would be considered not equal to each other.
+ * The URL clbss does not itself encode or decode bny URL components
+ * bccording to the escbping mechbnism defined in RFC2396. It is the
+ * responsibility of the cbller to encode bny fields, which need to be
+ * escbped prior to cblling URL, bnd blso to decode bny escbped fields,
+ * thbt bre returned from URL. Furthermore, becbuse URL hbs no knowledge
+ * of URL escbping, it does not recognise equivblence between the encoded
+ * or decoded form of the sbme URL. For exbmple, the two URLs:<br>
+ * <pre>    http://foo.com/hello world/ bnd http://foo.com/hello%20world</pre>
+ * would be considered not equbl to ebch other.
  * <p>
- * Note, the {@link java.net.URI} class does perform escaping of its
- * component fields in certain circumstances. The recommended way
- * to manage the encoding and decoding of URLs is to use {@link java.net.URI},
- * and to convert between these two classes using {@link #toURI()} and
+ * Note, the {@link jbvb.net.URI} clbss does perform escbping of its
+ * component fields in certbin circumstbnces. The recommended wby
+ * to mbnbge the encoding bnd decoding of URLs is to use {@link jbvb.net.URI},
+ * bnd to convert between these two clbsses using {@link #toURI()} bnd
  * {@link URI#toURL()}.
  * <p>
- * The {@link URLEncoder} and {@link URLDecoder} classes can also be
- * used, but only for HTML form encoding, which is not the same
- * as the encoding scheme defined in RFC2396.
+ * The {@link URLEncoder} bnd {@link URLDecoder} clbsses cbn blso be
+ * used, but only for HTML form encoding, which is not the sbme
+ * bs the encoding scheme defined in RFC2396.
  *
- * @author  James Gosling
+ * @buthor  Jbmes Gosling
  * @since 1.0
  */
-public final class URL implements java.io.Serializable {
+public finbl clbss URL implements jbvb.io.Seriblizbble {
 
-    static final long serialVersionUID = -7627629688361524110L;
+    stbtic finbl long seriblVersionUID = -7627629688361524110L;
 
     /**
-     * The property which specifies the package prefix list to be scanned
-     * for protocol handlers.  The value of this property (if any) should
-     * be a vertical bar delimited list of package names to search through
-     * for a protocol handler to load.  The policy of this class is that
-     * all protocol handlers will be in a class called <protocolname>.Handler,
-     * and each package in the list is examined in turn for a matching
-     * handler.  If none are found (or the property is not specified), the
-     * default package prefix, sun.net.www.protocol, is used.  The search
-     * proceeds from the first package in the list to the last and stops
-     * when a match is found.
+     * The property which specifies the pbckbge prefix list to be scbnned
+     * for protocol hbndlers.  The vblue of this property (if bny) should
+     * be b verticbl bbr delimited list of pbckbge nbmes to sebrch through
+     * for b protocol hbndler to lobd.  The policy of this clbss is thbt
+     * bll protocol hbndlers will be in b clbss cblled <protocolnbme>.Hbndler,
+     * bnd ebch pbckbge in the list is exbmined in turn for b mbtching
+     * hbndler.  If none bre found (or the property is not specified), the
+     * defbult pbckbge prefix, sun.net.www.protocol, is used.  The sebrch
+     * proceeds from the first pbckbge in the list to the lbst bnd stops
+     * when b mbtch is found.
      */
-    private static final String protocolPathProp = "java.protocol.handler.pkgs";
+    privbte stbtic finbl String protocolPbthProp = "jbvb.protocol.hbndler.pkgs";
 
     /**
      * The protocol to use (ftp, http, nntp, ... etc.) .
-     * @serial
+     * @seribl
      */
-    private String protocol;
+    privbte String protocol;
 
     /**
-     * The host name to connect to.
-     * @serial
+     * The host nbme to connect to.
+     * @seribl
      */
-    private String host;
+    privbte String host;
 
     /**
      * The protocol port to connect to.
-     * @serial
+     * @seribl
      */
-    private int port = -1;
+    privbte int port = -1;
 
     /**
-     * The specified file name on that host. {@code file} is
-     * defined as {@code path[?query]}
-     * @serial
+     * The specified file nbme on thbt host. {@code file} is
+     * defined bs {@code pbth[?query]}
+     * @seribl
      */
-    private String file;
+    privbte String file;
 
     /**
-     * The query part of this URL.
+     * The query pbrt of this URL.
      */
-    private transient String query;
+    privbte trbnsient String query;
 
     /**
-     * The authority part of this URL.
-     * @serial
+     * The buthority pbrt of this URL.
+     * @seribl
      */
-    private String authority;
+    privbte String buthority;
 
     /**
-     * The path part of this URL.
+     * The pbth pbrt of this URL.
      */
-    private transient String path;
+    privbte trbnsient String pbth;
 
     /**
-     * The userinfo part of this URL.
+     * The userinfo pbrt of this URL.
      */
-    private transient String userInfo;
+    privbte trbnsient String userInfo;
 
     /**
      * # reference.
-     * @serial
+     * @seribl
      */
-    private String ref;
+    privbte String ref;
 
     /**
-     * The host's IP address, used in equals and hashCode.
-     * Computed on demand. An uninitialized or unknown hostAddress is null.
+     * The host's IP bddress, used in equbls bnd hbshCode.
+     * Computed on dembnd. An uninitiblized or unknown hostAddress is null.
      */
-    transient InetAddress hostAddress;
+    trbnsient InetAddress hostAddress;
 
     /**
-     * The URLStreamHandler for this URL.
+     * The URLStrebmHbndler for this URL.
      */
-    transient URLStreamHandler handler;
+    trbnsient URLStrebmHbndler hbndler;
 
-    /* Our hash code.
-     * @serial
+    /* Our hbsh code.
+     * @seribl
      */
-    private int hashCode = -1;
+    privbte int hbshCode = -1;
 
     /**
-     * Creates a {@code URL} object from the specified
+     * Crebtes b {@code URL} object from the specified
      * {@code protocol}, {@code host}, {@code port}
-     * number, and {@code file}.<p>
+     * number, bnd {@code file}.<p>
      *
-     * {@code host} can be expressed as a host name or a literal
-     * IP address. If IPv6 literal address is used, it should be
-     * enclosed in square brackets ({@code '['} and {@code ']'}), as
-     * specified by <a
-     * href="http://www.ietf.org/rfc/rfc2732.txt">RFC&nbsp;2732</a>;
-     * However, the literal IPv6 address format defined in <a
+     * {@code host} cbn be expressed bs b host nbme or b literbl
+     * IP bddress. If IPv6 literbl bddress is used, it should be
+     * enclosed in squbre brbckets ({@code '['} bnd {@code ']'}), bs
+     * specified by <b
+     * href="http://www.ietf.org/rfc/rfc2732.txt">RFC&nbsp;2732</b>;
+     * However, the literbl IPv6 bddress formbt defined in <b
      * href="http://www.ietf.org/rfc/rfc2373.txt"><i>RFC&nbsp;2373: IP
-     * Version 6 Addressing Architecture</i></a> is also accepted.<p>
+     * Version 6 Addressing Architecture</i></b> is blso bccepted.<p>
      *
-     * Specifying a {@code port} number of {@code -1}
-     * indicates that the URL should use the default port for the
+     * Specifying b {@code port} number of {@code -1}
+     * indicbtes thbt the URL should use the defbult port for the
      * protocol.<p>
      *
-     * If this is the first URL object being created with the specified
-     * protocol, a <i>stream protocol handler</i> object, an instance of
-     * class {@code URLStreamHandler}, is created for that protocol:
+     * If this is the first URL object being crebted with the specified
+     * protocol, b <i>strebm protocol hbndler</i> object, bn instbnce of
+     * clbss {@code URLStrebmHbndler}, is crebted for thbt protocol:
      * <ol>
-     * <li>If the application has previously set up an instance of
-     *     {@code URLStreamHandlerFactory} as the stream handler factory,
-     *     then the {@code createURLStreamHandler} method of that instance
-     *     is called with the protocol string as an argument to create the
-     *     stream protocol handler.
-     * <li>If no {@code URLStreamHandlerFactory} has yet been set up,
-     *     or if the factory's {@code createURLStreamHandler} method
+     * <li>If the bpplicbtion hbs previously set up bn instbnce of
+     *     {@code URLStrebmHbndlerFbctory} bs the strebm hbndler fbctory,
+     *     then the {@code crebteURLStrebmHbndler} method of thbt instbnce
+     *     is cblled with the protocol string bs bn brgument to crebte the
+     *     strebm protocol hbndler.
+     * <li>If no {@code URLStrebmHbndlerFbctory} hbs yet been set up,
+     *     or if the fbctory's {@code crebteURLStrebmHbndler} method
      *     returns {@code null}, then the constructor finds the
-     *     value of the system property:
+     *     vblue of the system property:
      *     <blockquote><pre>
-     *         java.protocol.handler.pkgs
+     *         jbvb.protocol.hbndler.pkgs
      *     </pre></blockquote>
-     *     If the value of that system property is not {@code null},
-     *     it is interpreted as a list of packages separated by a vertical
-     *     slash character '{@code |}'. The constructor tries to load
-     *     the class named:
+     *     If the vblue of thbt system property is not {@code null},
+     *     it is interpreted bs b list of pbckbges sepbrbted by b verticbl
+     *     slbsh chbrbcter '{@code |}'. The constructor tries to lobd
+     *     the clbss nbmed:
      *     <blockquote><pre>
-     *         &lt;<i>package</i>&gt;.&lt;<i>protocol</i>&gt;.Handler
+     *         &lt;<i>pbckbge</i>&gt;.&lt;<i>protocol</i>&gt;.Hbndler
      *     </pre></blockquote>
-     *     where &lt;<i>package</i>&gt; is replaced by the name of the package
-     *     and &lt;<i>protocol</i>&gt; is replaced by the name of the protocol.
-     *     If this class does not exist, or if the class exists but it is not
-     *     a subclass of {@code URLStreamHandler}, then the next package
+     *     where &lt;<i>pbckbge</i>&gt; is replbced by the nbme of the pbckbge
+     *     bnd &lt;<i>protocol</i>&gt; is replbced by the nbme of the protocol.
+     *     If this clbss does not exist, or if the clbss exists but it is not
+     *     b subclbss of {@code URLStrebmHbndler}, then the next pbckbge
      *     in the list is tried.
-     * <li>If the previous step fails to find a protocol handler, then the
-     *     constructor tries to load a built-in protocol handler.
-     *     If this class does not exist, or if the class exists but it is not a
-     *     subclass of {@code URLStreamHandler}, then a
-     *     {@code MalformedURLException} is thrown.
+     * <li>If the previous step fbils to find b protocol hbndler, then the
+     *     constructor tries to lobd b built-in protocol hbndler.
+     *     If this clbss does not exist, or if the clbss exists but it is not b
+     *     subclbss of {@code URLStrebmHbndler}, then b
+     *     {@code MblformedURLException} is thrown.
      * </ol>
      *
-     * <p>Protocol handlers for the following protocols are guaranteed
-     * to exist on the search path :-
+     * <p>Protocol hbndlers for the following protocols bre gubrbnteed
+     * to exist on the sebrch pbth :-
      * <blockquote><pre>
-     *     http, https, file, and jar
+     *     http, https, file, bnd jbr
      * </pre></blockquote>
-     * Protocol handlers for additional protocols may also be
-     * available.
+     * Protocol hbndlers for bdditionbl protocols mby blso be
+     * bvbilbble.
      *
-     * <p>No validation of the inputs is performed by this constructor.
+     * <p>No vblidbtion of the inputs is performed by this constructor.
      *
-     * @param      protocol   the name of the protocol to use.
-     * @param      host       the name of the host.
-     * @param      port       the port number on the host.
-     * @param      file       the file on the host
-     * @exception  MalformedURLException  if an unknown protocol is specified.
-     * @see        java.lang.System#getProperty(java.lang.String)
-     * @see        java.net.URL#setURLStreamHandlerFactory(
-     *                  java.net.URLStreamHandlerFactory)
-     * @see        java.net.URLStreamHandler
-     * @see        java.net.URLStreamHandlerFactory#createURLStreamHandler(
-     *                  java.lang.String)
+     * @pbrbm      protocol   the nbme of the protocol to use.
+     * @pbrbm      host       the nbme of the host.
+     * @pbrbm      port       the port number on the host.
+     * @pbrbm      file       the file on the host
+     * @exception  MblformedURLException  if bn unknown protocol is specified.
+     * @see        jbvb.lbng.System#getProperty(jbvb.lbng.String)
+     * @see        jbvb.net.URL#setURLStrebmHbndlerFbctory(
+     *                  jbvb.net.URLStrebmHbndlerFbctory)
+     * @see        jbvb.net.URLStrebmHbndler
+     * @see        jbvb.net.URLStrebmHbndlerFbctory#crebteURLStrebmHbndler(
+     *                  jbvb.lbng.String)
      */
     public URL(String protocol, String host, int port, String file)
-        throws MalformedURLException
+        throws MblformedURLException
     {
         this(protocol, host, port, file, null);
     }
 
     /**
-     * Creates a URL from the specified {@code protocol}
-     * name, {@code host} name, and {@code file} name. The
-     * default port for the specified protocol is used.
+     * Crebtes b URL from the specified {@code protocol}
+     * nbme, {@code host} nbme, bnd {@code file} nbme. The
+     * defbult port for the specified protocol is used.
      * <p>
-     * This method is equivalent to calling the four-argument
-     * constructor with the arguments being {@code protocol},
-     * {@code host}, {@code -1}, and {@code file}.
+     * This method is equivblent to cblling the four-brgument
+     * constructor with the brguments being {@code protocol},
+     * {@code host}, {@code -1}, bnd {@code file}.
      *
-     * No validation of the inputs is performed by this constructor.
+     * No vblidbtion of the inputs is performed by this constructor.
      *
-     * @param      protocol   the name of the protocol to use.
-     * @param      host       the name of the host.
-     * @param      file       the file on the host.
-     * @exception  MalformedURLException  if an unknown protocol is specified.
-     * @see        java.net.URL#URL(java.lang.String, java.lang.String,
-     *                  int, java.lang.String)
+     * @pbrbm      protocol   the nbme of the protocol to use.
+     * @pbrbm      host       the nbme of the host.
+     * @pbrbm      file       the file on the host.
+     * @exception  MblformedURLException  if bn unknown protocol is specified.
+     * @see        jbvb.net.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *                  int, jbvb.lbng.String)
      */
     public URL(String protocol, String host, String file)
-            throws MalformedURLException {
+            throws MblformedURLException {
         this(protocol, host, -1, file);
     }
 
     /**
-     * Creates a {@code URL} object from the specified
+     * Crebtes b {@code URL} object from the specified
      * {@code protocol}, {@code host}, {@code port}
-     * number, {@code file}, and {@code handler}. Specifying
-     * a {@code port} number of {@code -1} indicates that
-     * the URL should use the default port for the protocol. Specifying
-     * a {@code handler} of {@code null} indicates that the URL
-     * should use a default stream handler for the protocol, as outlined
+     * number, {@code file}, bnd {@code hbndler}. Specifying
+     * b {@code port} number of {@code -1} indicbtes thbt
+     * the URL should use the defbult port for the protocol. Specifying
+     * b {@code hbndler} of {@code null} indicbtes thbt the URL
+     * should use b defbult strebm hbndler for the protocol, bs outlined
      * for:
-     *     java.net.URL#URL(java.lang.String, java.lang.String, int,
-     *                      java.lang.String)
+     *     jbvb.net.URL#URL(jbvb.lbng.String, jbvb.lbng.String, int,
+     *                      jbvb.lbng.String)
      *
-     * <p>If the handler is not null and there is a security manager,
-     * the security manager's {@code checkPermission}
-     * method is called with a
-     * {@code NetPermission("specifyStreamHandler")} permission.
-     * This may result in a SecurityException.
+     * <p>If the hbndler is not null bnd there is b security mbnbger,
+     * the security mbnbger's {@code checkPermission}
+     * method is cblled with b
+     * {@code NetPermission("specifyStrebmHbndler")} permission.
+     * This mby result in b SecurityException.
      *
-     * No validation of the inputs is performed by this constructor.
+     * No vblidbtion of the inputs is performed by this constructor.
      *
-     * @param      protocol   the name of the protocol to use.
-     * @param      host       the name of the host.
-     * @param      port       the port number on the host.
-     * @param      file       the file on the host
-     * @param      handler    the stream handler for the URL.
-     * @exception  MalformedURLException  if an unknown protocol is specified.
+     * @pbrbm      protocol   the nbme of the protocol to use.
+     * @pbrbm      host       the nbme of the host.
+     * @pbrbm      port       the port number on the host.
+     * @pbrbm      file       the file on the host
+     * @pbrbm      hbndler    the strebm hbndler for the URL.
+     * @exception  MblformedURLException  if bn unknown protocol is specified.
      * @exception  SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
-     *        specifying a stream handler explicitly.
-     * @see        java.lang.System#getProperty(java.lang.String)
-     * @see        java.net.URL#setURLStreamHandlerFactory(
-     *                  java.net.URLStreamHandlerFactory)
-     * @see        java.net.URLStreamHandler
-     * @see        java.net.URLStreamHandlerFactory#createURLStreamHandler(
-     *                  java.lang.String)
-     * @see        SecurityManager#checkPermission
-     * @see        java.net.NetPermission
+     *        if b security mbnbger exists bnd its
+     *        {@code checkPermission} method doesn't bllow
+     *        specifying b strebm hbndler explicitly.
+     * @see        jbvb.lbng.System#getProperty(jbvb.lbng.String)
+     * @see        jbvb.net.URL#setURLStrebmHbndlerFbctory(
+     *                  jbvb.net.URLStrebmHbndlerFbctory)
+     * @see        jbvb.net.URLStrebmHbndler
+     * @see        jbvb.net.URLStrebmHbndlerFbctory#crebteURLStrebmHbndler(
+     *                  jbvb.lbng.String)
+     * @see        SecurityMbnbger#checkPermission
+     * @see        jbvb.net.NetPermission
      */
     public URL(String protocol, String host, int port, String file,
-               URLStreamHandler handler) throws MalformedURLException {
-        if (handler != null) {
-            SecurityManager sm = System.getSecurityManager();
+               URLStrebmHbndler hbndler) throws MblformedURLException {
+        if (hbndler != null) {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
-                // check for permission to specify a handler
-                checkSpecifyHandler(sm);
+                // check for permission to specify b hbndler
+                checkSpecifyHbndler(sm);
             }
         }
 
-        protocol = protocol.toLowerCase();
+        protocol = protocol.toLowerCbse();
         this.protocol = protocol;
         if (host != null) {
 
             /**
-             * if host is a literal IPv6 address,
-             * we will make it conform to RFC 2732
+             * if host is b literbl IPv6 bddress,
+             * we will mbke it conform to RFC 2732
              */
-            if (host.indexOf(':') >= 0 && !host.startsWith("[")) {
+            if (host.indexOf(':') >= 0 && !host.stbrtsWith("[")) {
                 host = "["+host+"]";
             }
             this.host = host;
 
             if (port < -1) {
-                throw new MalformedURLException("Invalid port number :" +
+                throw new MblformedURLException("Invblid port number :" +
                                                     port);
             }
             this.port = port;
-            authority = (port == -1) ? host : host + ":" + port;
+            buthority = (port == -1) ? host : host + ":" + port;
         }
 
-        Parts parts = new Parts(file);
-        path = parts.getPath();
-        query = parts.getQuery();
+        Pbrts pbrts = new Pbrts(file);
+        pbth = pbrts.getPbth();
+        query = pbrts.getQuery();
 
         if (query != null) {
-            this.file = path + "?" + query;
+            this.file = pbth + "?" + query;
         } else {
-            this.file = path;
+            this.file = pbth;
         }
-        ref = parts.getRef();
+        ref = pbrts.getRef();
 
-        // Note: we don't do validation of the URL here. Too risky to change
+        // Note: we don't do vblidbtion of the URL here. Too risky to chbnge
         // right now, but worth considering for future reference. -br
-        if (handler == null &&
-            (handler = getURLStreamHandler(protocol)) == null) {
-            throw new MalformedURLException("unknown protocol: " + protocol);
+        if (hbndler == null &&
+            (hbndler = getURLStrebmHbndler(protocol)) == null) {
+            throw new MblformedURLException("unknown protocol: " + protocol);
         }
-        this.handler = handler;
+        this.hbndler = hbndler;
     }
 
     /**
-     * Creates a {@code URL} object from the {@code String}
-     * representation.
+     * Crebtes b {@code URL} object from the {@code String}
+     * representbtion.
      * <p>
-     * This constructor is equivalent to a call to the two-argument
-     * constructor with a {@code null} first argument.
+     * This constructor is equivblent to b cbll to the two-brgument
+     * constructor with b {@code null} first brgument.
      *
-     * @param      spec   the {@code String} to parse as a URL.
-     * @exception  MalformedURLException  if no protocol is specified, or an
+     * @pbrbm      spec   the {@code String} to pbrse bs b URL.
+     * @exception  MblformedURLException  if no protocol is specified, or bn
      *               unknown protocol is found, or {@code spec} is {@code null}.
-     * @see        java.net.URL#URL(java.net.URL, java.lang.String)
+     * @see        jbvb.net.URL#URL(jbvb.net.URL, jbvb.lbng.String)
      */
-    public URL(String spec) throws MalformedURLException {
+    public URL(String spec) throws MblformedURLException {
         this(null, spec);
     }
 
     /**
-     * Creates a URL by parsing the given spec within a specified context.
+     * Crebtes b URL by pbrsing the given spec within b specified context.
      *
-     * The new URL is created from the given context URL and the spec
-     * argument as described in
-     * RFC2396 &quot;Uniform Resource Identifiers : Generic * Syntax&quot; :
+     * The new URL is crebted from the given context URL bnd the spec
+     * brgument bs described in
+     * RFC2396 &quot;Uniform Resource Identifiers : Generic * Syntbx&quot; :
      * <blockquote><pre>
-     *          &lt;scheme&gt;://&lt;authority&gt;&lt;path&gt;?&lt;query&gt;#&lt;fragment&gt;
+     *          &lt;scheme&gt;://&lt;buthority&gt;&lt;pbth&gt;?&lt;query&gt;#&lt;frbgment&gt;
      * </pre></blockquote>
-     * The reference is parsed into the scheme, authority, path, query and
-     * fragment parts. If the path component is empty and the scheme,
-     * authority, and query components are undefined, then the new URL is a
-     * reference to the current document. Otherwise, the fragment and query
-     * parts present in the spec are used in the new URL.
+     * The reference is pbrsed into the scheme, buthority, pbth, query bnd
+     * frbgment pbrts. If the pbth component is empty bnd the scheme,
+     * buthority, bnd query components bre undefined, then the new URL is b
+     * reference to the current document. Otherwise, the frbgment bnd query
+     * pbrts present in the spec bre used in the new URL.
      * <p>
-     * If the scheme component is defined in the given spec and does not match
-     * the scheme of the context, then the new URL is created as an absolute
-     * URL based on the spec alone. Otherwise the scheme component is inherited
+     * If the scheme component is defined in the given spec bnd does not mbtch
+     * the scheme of the context, then the new URL is crebted bs bn bbsolute
+     * URL bbsed on the spec blone. Otherwise the scheme component is inherited
      * from the context URL.
      * <p>
-     * If the authority component is present in the spec then the spec is
-     * treated as absolute and the spec authority and path will replace the
-     * context authority and path. If the authority component is absent in the
-     * spec then the authority of the new URL will be inherited from the
+     * If the buthority component is present in the spec then the spec is
+     * trebted bs bbsolute bnd the spec buthority bnd pbth will replbce the
+     * context buthority bnd pbth. If the buthority component is bbsent in the
+     * spec then the buthority of the new URL will be inherited from the
      * context.
      * <p>
-     * If the spec's path component begins with a slash character
+     * If the spec's pbth component begins with b slbsh chbrbcter
      * &quot;/&quot; then the
-     * path is treated as absolute and the spec path replaces the context path.
+     * pbth is trebted bs bbsolute bnd the spec pbth replbces the context pbth.
      * <p>
-     * Otherwise, the path is treated as a relative path and is appended to the
-     * context path, as described in RFC2396. Also, in this case,
-     * the path is canonicalized through the removal of directory
-     * changes made by occurrences of &quot;..&quot; and &quot;.&quot;.
+     * Otherwise, the pbth is trebted bs b relbtive pbth bnd is bppended to the
+     * context pbth, bs described in RFC2396. Also, in this cbse,
+     * the pbth is cbnonicblized through the removbl of directory
+     * chbnges mbde by occurrences of &quot;..&quot; bnd &quot;.&quot;.
      * <p>
-     * For a more detailed description of URL parsing, refer to RFC2396.
+     * For b more detbiled description of URL pbrsing, refer to RFC2396.
      *
-     * @param      context   the context in which to parse the specification.
-     * @param      spec      the {@code String} to parse as a URL.
-     * @exception  MalformedURLException  if no protocol is specified, or an
+     * @pbrbm      context   the context in which to pbrse the specificbtion.
+     * @pbrbm      spec      the {@code String} to pbrse bs b URL.
+     * @exception  MblformedURLException  if no protocol is specified, or bn
      *               unknown protocol is found, or {@code spec} is {@code null}.
-     * @see        java.net.URL#URL(java.lang.String, java.lang.String,
-     *                  int, java.lang.String)
-     * @see        java.net.URLStreamHandler
-     * @see        java.net.URLStreamHandler#parseURL(java.net.URL,
-     *                  java.lang.String, int, int)
+     * @see        jbvb.net.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *                  int, jbvb.lbng.String)
+     * @see        jbvb.net.URLStrebmHbndler
+     * @see        jbvb.net.URLStrebmHbndler#pbrseURL(jbvb.net.URL,
+     *                  jbvb.lbng.String, int, int)
      */
-    public URL(URL context, String spec) throws MalformedURLException {
+    public URL(URL context, String spec) throws MblformedURLException {
         this(context, spec, null);
     }
 
     /**
-     * Creates a URL by parsing the given spec with the specified handler
-     * within a specified context. If the handler is null, the parsing
-     * occurs as with the two argument constructor.
+     * Crebtes b URL by pbrsing the given spec with the specified hbndler
+     * within b specified context. If the hbndler is null, the pbrsing
+     * occurs bs with the two brgument constructor.
      *
-     * @param      context   the context in which to parse the specification.
-     * @param      spec      the {@code String} to parse as a URL.
-     * @param      handler   the stream handler for the URL.
-     * @exception  MalformedURLException  if no protocol is specified, or an
+     * @pbrbm      context   the context in which to pbrse the specificbtion.
+     * @pbrbm      spec      the {@code String} to pbrse bs b URL.
+     * @pbrbm      hbndler   the strebm hbndler for the URL.
+     * @exception  MblformedURLException  if no protocol is specified, or bn
      *               unknown protocol is found, or {@code spec} is {@code null}.
      * @exception  SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
-     *        specifying a stream handler.
-     * @see        java.net.URL#URL(java.lang.String, java.lang.String,
-     *                  int, java.lang.String)
-     * @see        java.net.URLStreamHandler
-     * @see        java.net.URLStreamHandler#parseURL(java.net.URL,
-     *                  java.lang.String, int, int)
+     *        if b security mbnbger exists bnd its
+     *        {@code checkPermission} method doesn't bllow
+     *        specifying b strebm hbndler.
+     * @see        jbvb.net.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *                  int, jbvb.lbng.String)
+     * @see        jbvb.net.URLStrebmHbndler
+     * @see        jbvb.net.URLStrebmHbndler#pbrseURL(jbvb.net.URL,
+     *                  jbvb.lbng.String, int, int)
      */
-    public URL(URL context, String spec, URLStreamHandler handler)
-        throws MalformedURLException
+    public URL(URL context, String spec, URLStrebmHbndler hbndler)
+        throws MblformedURLException
     {
-        String original = spec;
+        String originbl = spec;
         int i, limit, c;
-        int start = 0;
+        int stbrt = 0;
         String newProtocol = null;
-        boolean aRef=false;
-        boolean isRelative = false;
+        boolebn bRef=fblse;
+        boolebn isRelbtive = fblse;
 
-        // Check for permission to specify a handler
-        if (handler != null) {
-            SecurityManager sm = System.getSecurityManager();
+        // Check for permission to specify b hbndler
+        if (hbndler != null) {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
-                checkSpecifyHandler(sm);
+                checkSpecifyHbndler(sm);
             }
         }
 
         try {
             limit = spec.length();
-            while ((limit > 0) && (spec.charAt(limit - 1) <= ' ')) {
-                limit--;        //eliminate trailing whitespace
+            while ((limit > 0) && (spec.chbrAt(limit - 1) <= ' ')) {
+                limit--;        //eliminbte trbiling whitespbce
             }
-            while ((start < limit) && (spec.charAt(start) <= ' ')) {
-                start++;        // eliminate leading whitespace
+            while ((stbrt < limit) && (spec.chbrAt(stbrt) <= ' ')) {
+                stbrt++;        // eliminbte lebding whitespbce
             }
 
-            if (spec.regionMatches(true, start, "url:", 0, 4)) {
-                start += 4;
+            if (spec.regionMbtches(true, stbrt, "url:", 0, 4)) {
+                stbrt += 4;
             }
-            if (start < spec.length() && spec.charAt(start) == '#') {
-                /* we're assuming this is a ref relative to the context URL.
-                 * This means protocols cannot start w/ '#', but we must parse
-                 * ref URL's like: "hello:there" w/ a ':' in them.
+            if (stbrt < spec.length() && spec.chbrAt(stbrt) == '#') {
+                /* we're bssuming this is b ref relbtive to the context URL.
+                 * This mebns protocols cbnnot stbrt w/ '#', but we must pbrse
+                 * ref URL's like: "hello:there" w/ b ':' in them.
                  */
-                aRef=true;
+                bRef=true;
             }
-            for (i = start ; !aRef && (i < limit) &&
-                     ((c = spec.charAt(i)) != '/') ; i++) {
+            for (i = stbrt ; !bRef && (i < limit) &&
+                     ((c = spec.chbrAt(i)) != '/') ; i++) {
                 if (c == ':') {
 
-                    String s = spec.substring(start, i).toLowerCase();
-                    if (isValidProtocol(s)) {
+                    String s = spec.substring(stbrt, i).toLowerCbse();
+                    if (isVblidProtocol(s)) {
                         newProtocol = s;
-                        start = i + 1;
+                        stbrt = i + 1;
                     }
-                    break;
+                    brebk;
                 }
             }
 
-            // Only use our context if the protocols match.
+            // Only use our context if the protocols mbtch.
             protocol = newProtocol;
             if ((context != null) && ((newProtocol == null) ||
-                            newProtocol.equalsIgnoreCase(context.protocol))) {
-                // inherit the protocol handler from the context
+                            newProtocol.equblsIgnoreCbse(context.protocol))) {
+                // inherit the protocol hbndler from the context
                 // if not specified to the constructor
-                if (handler == null) {
-                    handler = context.handler;
+                if (hbndler == null) {
+                    hbndler = context.hbndler;
                 }
 
-                // If the context is a hierarchical URL scheme and the spec
-                // contains a matching scheme then maintain backwards
-                // compatibility and treat it as if the spec didn't contain
+                // If the context is b hierbrchicbl URL scheme bnd the spec
+                // contbins b mbtching scheme then mbintbin bbckwbrds
+                // compbtibility bnd trebt it bs if the spec didn't contbin
                 // the scheme; see 5.2.3 of RFC2396
-                if (context.path != null && context.path.startsWith("/"))
+                if (context.pbth != null && context.pbth.stbrtsWith("/"))
                     newProtocol = null;
 
                 if (newProtocol == null) {
                     protocol = context.protocol;
-                    authority = context.authority;
+                    buthority = context.buthority;
                     userInfo = context.userInfo;
                     host = context.host;
                     port = context.port;
                     file = context.file;
-                    path = context.path;
-                    isRelative = true;
+                    pbth = context.pbth;
+                    isRelbtive = true;
                 }
             }
 
             if (protocol == null) {
-                throw new MalformedURLException("no protocol: "+original);
+                throw new MblformedURLException("no protocol: "+originbl);
             }
 
-            // Get the protocol handler if not specified or the protocol
+            // Get the protocol hbndler if not specified or the protocol
             // of the context could not be used
-            if (handler == null &&
-                (handler = getURLStreamHandler(protocol)) == null) {
-                throw new MalformedURLException("unknown protocol: "+protocol);
+            if (hbndler == null &&
+                (hbndler = getURLStrebmHbndler(protocol)) == null) {
+                throw new MblformedURLException("unknown protocol: "+protocol);
             }
 
-            this.handler = handler;
+            this.hbndler = hbndler;
 
-            i = spec.indexOf('#', start);
+            i = spec.indexOf('#', stbrt);
             if (i >= 0) {
                 ref = spec.substring(i + 1, limit);
                 limit = i;
             }
 
             /*
-             * Handle special case inheritance of query and fragment
+             * Hbndle specibl cbse inheritbnce of query bnd frbgment
              * implied by RFC2396 section 5.2.2.
              */
-            if (isRelative && start == limit) {
+            if (isRelbtive && stbrt == limit) {
                 query = context.query;
                 if (ref == null) {
                     ref = context.ref;
                 }
             }
 
-            handler.parseURL(this, spec, start, limit);
+            hbndler.pbrseURL(this, spec, stbrt, limit);
 
-        } catch(MalformedURLException e) {
+        } cbtch(MblformedURLException e) {
             throw e;
-        } catch(Exception e) {
-            MalformedURLException exception = new MalformedURLException(e.getMessage());
-            exception.initCause(e);
+        } cbtch(Exception e) {
+            MblformedURLException exception = new MblformedURLException(e.getMessbge());
+            exception.initCbuse(e);
             throw exception;
         }
     }
 
     /*
-     * Returns true if specified string is a valid protocol name.
+     * Returns true if specified string is b vblid protocol nbme.
      */
-    private boolean isValidProtocol(String protocol) {
+    privbte boolebn isVblidProtocol(String protocol) {
         int len = protocol.length();
         if (len < 1)
-            return false;
-        char c = protocol.charAt(0);
-        if (!Character.isLetter(c))
-            return false;
+            return fblse;
+        chbr c = protocol.chbrAt(0);
+        if (!Chbrbcter.isLetter(c))
+            return fblse;
         for (int i = 1; i < len; i++) {
-            c = protocol.charAt(i);
-            if (!Character.isLetterOrDigit(c) && c != '.' && c != '+' &&
+            c = protocol.chbrAt(i);
+            if (!Chbrbcter.isLetterOrDigit(c) && c != '.' && c != '+' &&
                 c != '-') {
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
     /*
-     * Checks for permission to specify a stream handler.
+     * Checks for permission to specify b strebm hbndler.
      */
-    private void checkSpecifyHandler(SecurityManager sm) {
-        sm.checkPermission(SecurityConstants.SPECIFY_HANDLER_PERMISSION);
+    privbte void checkSpecifyHbndler(SecurityMbnbger sm) {
+        sm.checkPermission(SecurityConstbnts.SPECIFY_HANDLER_PERMISSION);
     }
 
     /**
-     * Sets the fields of the URL. This is not a public method so that
-     * only URLStreamHandlers can modify URL fields. URLs are
-     * otherwise constant.
+     * Sets the fields of the URL. This is not b public method so thbt
+     * only URLStrebmHbndlers cbn modify URL fields. URLs bre
+     * otherwise constbnt.
      *
-     * @param protocol the name of the protocol to use
-     * @param host the name of the host
-       @param port the port number on the host
-     * @param file the file on the host
-     * @param ref the internal reference in the URL
+     * @pbrbm protocol the nbme of the protocol to use
+     * @pbrbm host the nbme of the host
+       @pbrbm port the port number on the host
+     * @pbrbm file the file on the host
+     * @pbrbm ref the internbl reference in the URL
      */
     void set(String protocol, String host, int port,
              String file, String ref) {
         synchronized (this) {
             this.protocol = protocol;
             this.host = host;
-            authority = port == -1 ? host : host + ":" + port;
+            buthority = port == -1 ? host : host + ":" + port;
             this.port = port;
             this.file = file;
             this.ref = ref;
-            /* This is very important. We must recompute this after the
-             * URL has been changed. */
-            hashCode = -1;
+            /* This is very importbnt. We must recompute this bfter the
+             * URL hbs been chbnged. */
+            hbshCode = -1;
             hostAddress = null;
-            int q = file.lastIndexOf('?');
+            int q = file.lbstIndexOf('?');
             if (q != -1) {
                 query = file.substring(q+1);
-                path = file.substring(0, q);
+                pbth = file.substring(0, q);
             } else
-                path = file;
+                pbth = file;
         }
     }
 
     /**
-     * Sets the specified 8 fields of the URL. This is not a public method so
-     * that only URLStreamHandlers can modify URL fields. URLs are otherwise
-     * constant.
+     * Sets the specified 8 fields of the URL. This is not b public method so
+     * thbt only URLStrebmHbndlers cbn modify URL fields. URLs bre otherwise
+     * constbnt.
      *
-     * @param protocol the name of the protocol to use
-     * @param host the name of the host
-     * @param port the port number on the host
-     * @param authority the authority part for the url
-     * @param userInfo the username and password
-     * @param path the file on the host
-     * @param ref the internal reference in the URL
-     * @param query the query part of this URL
+     * @pbrbm protocol the nbme of the protocol to use
+     * @pbrbm host the nbme of the host
+     * @pbrbm port the port number on the host
+     * @pbrbm buthority the buthority pbrt for the url
+     * @pbrbm userInfo the usernbme bnd pbssword
+     * @pbrbm pbth the file on the host
+     * @pbrbm ref the internbl reference in the URL
+     * @pbrbm query the query pbrt of this URL
      * @since 1.3
      */
     void set(String protocol, String host, int port,
-             String authority, String userInfo, String path,
+             String buthority, String userInfo, String pbth,
              String query, String ref) {
         synchronized (this) {
             this.protocol = protocol;
             this.host = host;
             this.port = port;
-            this.file = query == null ? path : path + "?" + query;
+            this.file = query == null ? pbth : pbth + "?" + query;
             this.userInfo = userInfo;
-            this.path = path;
+            this.pbth = pbth;
             this.ref = ref;
-            /* This is very important. We must recompute this after the
-             * URL has been changed. */
-            hashCode = -1;
+            /* This is very importbnt. We must recompute this bfter the
+             * URL hbs been chbnged. */
+            hbshCode = -1;
             hostAddress = null;
             this.query = query;
-            this.authority = authority;
+            this.buthority = buthority;
         }
     }
 
     /**
-     * Gets the query part of this {@code URL}.
+     * Gets the query pbrt of this {@code URL}.
      *
-     * @return  the query part of this {@code URL},
+     * @return  the query pbrt of this {@code URL},
      * or <CODE>null</CODE> if one does not exist
      * @since 1.3
      */
@@ -727,20 +727,20 @@ public final class URL implements java.io.Serializable {
     }
 
     /**
-     * Gets the path part of this {@code URL}.
+     * Gets the pbth pbrt of this {@code URL}.
      *
-     * @return  the path part of this {@code URL}, or an
+     * @return  the pbth pbrt of this {@code URL}, or bn
      * empty string if one does not exist
      * @since 1.3
      */
-    public String getPath() {
-        return path;
+    public String getPbth() {
+        return pbth;
     }
 
     /**
-     * Gets the userInfo part of this {@code URL}.
+     * Gets the userInfo pbrt of this {@code URL}.
      *
-     * @return  the userInfo part of this {@code URL}, or
+     * @return  the userInfo pbrt of this {@code URL}, or
      * <CODE>null</CODE> if one does not exist
      * @since 1.3
      */
@@ -749,13 +749,13 @@ public final class URL implements java.io.Serializable {
     }
 
     /**
-     * Gets the authority part of this {@code URL}.
+     * Gets the buthority pbrt of this {@code URL}.
      *
-     * @return  the authority part of this {@code URL}
+     * @return  the buthority pbrt of this {@code URL}
      * @since 1.3
      */
     public String getAuthority() {
-        return authority;
+        return buthority;
     }
 
     /**
@@ -768,20 +768,20 @@ public final class URL implements java.io.Serializable {
     }
 
     /**
-     * Gets the default port number of the protocol associated
-     * with this {@code URL}. If the URL scheme or the URLStreamHandler
-     * for the URL do not define a default port number,
+     * Gets the defbult port number of the protocol bssocibted
+     * with this {@code URL}. If the URL scheme or the URLStrebmHbndler
+     * for the URL do not define b defbult port number,
      * then -1 is returned.
      *
      * @return  the port number
      * @since 1.4
      */
-    public int getDefaultPort() {
-        return handler.getDefaultPort();
+    public int getDefbultPort() {
+        return hbndler.getDefbultPort();
     }
 
     /**
-     * Gets the protocol name of this {@code URL}.
+     * Gets the protocol nbme of this {@code URL}.
      *
      * @return  the protocol of this {@code URL}.
      */
@@ -790,37 +790,37 @@ public final class URL implements java.io.Serializable {
     }
 
     /**
-     * Gets the host name of this {@code URL}, if applicable.
-     * The format of the host conforms to RFC 2732, i.e. for a
-     * literal IPv6 address, this method will return the IPv6 address
-     * enclosed in square brackets ({@code '['} and {@code ']'}).
+     * Gets the host nbme of this {@code URL}, if bpplicbble.
+     * The formbt of the host conforms to RFC 2732, i.e. for b
+     * literbl IPv6 bddress, this method will return the IPv6 bddress
+     * enclosed in squbre brbckets ({@code '['} bnd {@code ']'}).
      *
-     * @return  the host name of this {@code URL}.
+     * @return  the host nbme of this {@code URL}.
      */
     public String getHost() {
         return host;
     }
 
     /**
-     * Gets the file name of this {@code URL}.
+     * Gets the file nbme of this {@code URL}.
      * The returned file portion will be
-     * the same as <CODE>getPath()</CODE>, plus the concatenation of
-     * the value of <CODE>getQuery()</CODE>, if any. If there is
-     * no query portion, this method and <CODE>getPath()</CODE> will
-     * return identical results.
+     * the sbme bs <CODE>getPbth()</CODE>, plus the concbtenbtion of
+     * the vblue of <CODE>getQuery()</CODE>, if bny. If there is
+     * no query portion, this method bnd <CODE>getPbth()</CODE> will
+     * return identicbl results.
      *
-     * @return  the file name of this {@code URL},
-     * or an empty string if one does not exist
+     * @return  the file nbme of this {@code URL},
+     * or bn empty string if one does not exist
      */
     public String getFile() {
         return file;
     }
 
     /**
-     * Gets the anchor (also known as the "reference") of this
+     * Gets the bnchor (blso known bs the "reference") of this
      * {@code URL}.
      *
-     * @return  the anchor (also known as the "reference") of this
+     * @return  the bnchor (blso known bs the "reference") of this
      *          {@code URL}, or <CODE>null</CODE> if one does not exist
      */
     public String getRef() {
@@ -828,479 +828,479 @@ public final class URL implements java.io.Serializable {
     }
 
     /**
-     * Compares this URL for equality with another object.<p>
+     * Compbres this URL for equblity with bnother object.<p>
      *
-     * If the given object is not a URL then this method immediately returns
-     * {@code false}.<p>
+     * If the given object is not b URL then this method immedibtely returns
+     * {@code fblse}.<p>
      *
-     * Two URL objects are equal if they have the same protocol, reference
-     * equivalent hosts, have the same port number on the host, and the same
-     * file and fragment of the file.<p>
+     * Two URL objects bre equbl if they hbve the sbme protocol, reference
+     * equivblent hosts, hbve the sbme port number on the host, bnd the sbme
+     * file bnd frbgment of the file.<p>
      *
-     * Two hosts are considered equivalent if both host names can be resolved
-     * into the same IP addresses; else if either host name can't be
-     * resolved, the host names must be equal without regard to case; or both
-     * host names equal to null.<p>
+     * Two hosts bre considered equivblent if both host nbmes cbn be resolved
+     * into the sbme IP bddresses; else if either host nbme cbn't be
+     * resolved, the host nbmes must be equbl without regbrd to cbse; or both
+     * host nbmes equbl to null.<p>
      *
-     * Since hosts comparison requires name resolution, this operation is a
-     * blocking operation. <p>
+     * Since hosts compbrison requires nbme resolution, this operbtion is b
+     * blocking operbtion. <p>
      *
-     * Note: The defined behavior for {@code equals} is known to
-     * be inconsistent with virtual hosting in HTTP.
+     * Note: The defined behbvior for {@code equbls} is known to
+     * be inconsistent with virtubl hosting in HTTP.
      *
-     * @param   obj   the URL to compare against.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
+     * @pbrbm   obj   the URL to compbre bgbinst.
+     * @return  {@code true} if the objects bre the sbme;
+     *          {@code fblse} otherwise.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof URL))
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof URL))
+            return fblse;
         URL u2 = (URL)obj;
 
-        return handler.equals(this, u2);
+        return hbndler.equbls(this, u2);
     }
 
     /**
-     * Creates an integer suitable for hash table indexing.<p>
+     * Crebtes bn integer suitbble for hbsh tbble indexing.<p>
      *
-     * The hash code is based upon all the URL components relevant for URL
-     * comparison. As such, this operation is a blocking operation.
+     * The hbsh code is bbsed upon bll the URL components relevbnt for URL
+     * compbrison. As such, this operbtion is b blocking operbtion.
      *
-     * @return  a hash code for this {@code URL}.
+     * @return  b hbsh code for this {@code URL}.
      */
-    public synchronized int hashCode() {
-        if (hashCode != -1)
-            return hashCode;
+    public synchronized int hbshCode() {
+        if (hbshCode != -1)
+            return hbshCode;
 
-        hashCode = handler.hashCode(this);
-        return hashCode;
+        hbshCode = hbndler.hbshCode(this);
+        return hbshCode;
     }
 
     /**
-     * Compares two URLs, excluding the fragment component.<p>
+     * Compbres two URLs, excluding the frbgment component.<p>
      *
-     * Returns {@code true} if this {@code URL} and the
-     * {@code other} argument are equal without taking the
-     * fragment component into consideration.
+     * Returns {@code true} if this {@code URL} bnd the
+     * {@code other} brgument bre equbl without tbking the
+     * frbgment component into considerbtion.
      *
-     * @param   other   the {@code URL} to compare against.
-     * @return  {@code true} if they reference the same remote object;
-     *          {@code false} otherwise.
+     * @pbrbm   other   the {@code URL} to compbre bgbinst.
+     * @return  {@code true} if they reference the sbme remote object;
+     *          {@code fblse} otherwise.
      */
-    public boolean sameFile(URL other) {
-        return handler.sameFile(this, other);
+    public boolebn sbmeFile(URL other) {
+        return hbndler.sbmeFile(this, other);
     }
 
     /**
-     * Constructs a string representation of this {@code URL}. The
-     * string is created by calling the {@code toExternalForm}
-     * method of the stream protocol handler for this object.
+     * Constructs b string representbtion of this {@code URL}. The
+     * string is crebted by cblling the {@code toExternblForm}
+     * method of the strebm protocol hbndler for this object.
      *
-     * @return  a string representation of this object.
-     * @see     java.net.URL#URL(java.lang.String, java.lang.String, int,
-     *                  java.lang.String)
-     * @see     java.net.URLStreamHandler#toExternalForm(java.net.URL)
+     * @return  b string representbtion of this object.
+     * @see     jbvb.net.URL#URL(jbvb.lbng.String, jbvb.lbng.String, int,
+     *                  jbvb.lbng.String)
+     * @see     jbvb.net.URLStrebmHbndler#toExternblForm(jbvb.net.URL)
      */
     public String toString() {
-        return toExternalForm();
+        return toExternblForm();
     }
 
     /**
-     * Constructs a string representation of this {@code URL}. The
-     * string is created by calling the {@code toExternalForm}
-     * method of the stream protocol handler for this object.
+     * Constructs b string representbtion of this {@code URL}. The
+     * string is crebted by cblling the {@code toExternblForm}
+     * method of the strebm protocol hbndler for this object.
      *
-     * @return  a string representation of this object.
-     * @see     java.net.URL#URL(java.lang.String, java.lang.String,
-     *                  int, java.lang.String)
-     * @see     java.net.URLStreamHandler#toExternalForm(java.net.URL)
+     * @return  b string representbtion of this object.
+     * @see     jbvb.net.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *                  int, jbvb.lbng.String)
+     * @see     jbvb.net.URLStrebmHbndler#toExternblForm(jbvb.net.URL)
      */
-    public String toExternalForm() {
-        return handler.toExternalForm(this);
+    public String toExternblForm() {
+        return hbndler.toExternblForm(this);
     }
 
     /**
-     * Returns a {@link java.net.URI} equivalent to this URL.
-     * This method functions in the same way as {@code new URI (this.toString())}.
-     * <p>Note, any URL instance that complies with RFC 2396 can be converted
-     * to a URI. However, some URLs that are not strictly in compliance
-     * can not be converted to a URI.
+     * Returns b {@link jbvb.net.URI} equivblent to this URL.
+     * This method functions in the sbme wby bs {@code new URI (this.toString())}.
+     * <p>Note, bny URL instbnce thbt complies with RFC 2396 cbn be converted
+     * to b URI. However, some URLs thbt bre not strictly in complibnce
+     * cbn not be converted to b URI.
      *
-     * @exception URISyntaxException if this URL is not formatted strictly according to
-     *            to RFC2396 and cannot be converted to a URI.
+     * @exception URISyntbxException if this URL is not formbtted strictly bccording to
+     *            to RFC2396 bnd cbnnot be converted to b URI.
      *
-     * @return    a URI instance equivalent to this URL.
+     * @return    b URI instbnce equivblent to this URL.
      * @since 1.5
      */
-    public URI toURI() throws URISyntaxException {
+    public URI toURI() throws URISyntbxException {
         return new URI (toString());
     }
 
     /**
-     * Returns a {@link java.net.URLConnection URLConnection} instance that
-     * represents a connection to the remote object referred to by the
+     * Returns b {@link jbvb.net.URLConnection URLConnection} instbnce thbt
+     * represents b connection to the remote object referred to by the
      * {@code URL}.
      *
-     * <P>A new instance of {@linkplain java.net.URLConnection URLConnection} is
-     * created every time when invoking the
-     * {@linkplain java.net.URLStreamHandler#openConnection(URL)
-     * URLStreamHandler.openConnection(URL)} method of the protocol handler for
+     * <P>A new instbnce of {@linkplbin jbvb.net.URLConnection URLConnection} is
+     * crebted every time when invoking the
+     * {@linkplbin jbvb.net.URLStrebmHbndler#openConnection(URL)
+     * URLStrebmHbndler.openConnection(URL)} method of the protocol hbndler for
      * this URL.</P>
      *
-     * <P>It should be noted that a URLConnection instance does not establish
-     * the actual network connection on creation. This will happen only when
-     * calling {@linkplain java.net.URLConnection#connect() URLConnection.connect()}.</P>
+     * <P>It should be noted thbt b URLConnection instbnce does not estbblish
+     * the bctubl network connection on crebtion. This will hbppen only when
+     * cblling {@linkplbin jbvb.net.URLConnection#connect() URLConnection.connect()}.</P>
      *
-     * <P>If for the URL's protocol (such as HTTP or JAR), there
-     * exists a public, specialized URLConnection subclass belonging
-     * to one of the following packages or one of their subpackages:
-     * java.lang, java.io, java.util, java.net, the connection
-     * returned will be of that subclass. For example, for HTTP an
-     * HttpURLConnection will be returned, and for JAR a
-     * JarURLConnection will be returned.</P>
+     * <P>If for the URL's protocol (such bs HTTP or JAR), there
+     * exists b public, speciblized URLConnection subclbss belonging
+     * to one of the following pbckbges or one of their subpbckbges:
+     * jbvb.lbng, jbvb.io, jbvb.util, jbvb.net, the connection
+     * returned will be of thbt subclbss. For exbmple, for HTTP bn
+     * HttpURLConnection will be returned, bnd for JAR b
+     * JbrURLConnection will be returned.</P>
      *
-     * @return     a {@link java.net.URLConnection URLConnection} linking
+     * @return     b {@link jbvb.net.URLConnection URLConnection} linking
      *             to the URL.
-     * @exception  IOException  if an I/O exception occurs.
-     * @see        java.net.URL#URL(java.lang.String, java.lang.String,
-     *             int, java.lang.String)
+     * @exception  IOException  if bn I/O exception occurs.
+     * @see        jbvb.net.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *             int, jbvb.lbng.String)
      */
-    public URLConnection openConnection() throws java.io.IOException {
-        return handler.openConnection(this);
+    public URLConnection openConnection() throws jbvb.io.IOException {
+        return hbndler.openConnection(this);
     }
 
     /**
-     * Same as {@link #openConnection()}, except that the connection will be
-     * made through the specified proxy; Protocol handlers that do not
-     * support proxing will ignore the proxy parameter and make a
-     * normal connection.
+     * Sbme bs {@link #openConnection()}, except thbt the connection will be
+     * mbde through the specified proxy; Protocol hbndlers thbt do not
+     * support proxing will ignore the proxy pbrbmeter bnd mbke b
+     * normbl connection.
      *
-     * Invoking this method preempts the system's default
-     * {@link java.net.ProxySelector ProxySelector} settings.
+     * Invoking this method preempts the system's defbult
+     * {@link jbvb.net.ProxySelector ProxySelector} settings.
      *
-     * @param      proxy the Proxy through which this connection
-     *             will be made. If direct connection is desired,
+     * @pbrbm      proxy the Proxy through which this connection
+     *             will be mbde. If direct connection is desired,
      *             Proxy.NO_PROXY should be specified.
-     * @return     a {@code URLConnection} to the URL.
-     * @exception  IOException  if an I/O exception occurs.
-     * @exception  SecurityException if a security manager is present
-     *             and the caller doesn't have permission to connect
+     * @return     b {@code URLConnection} to the URL.
+     * @exception  IOException  if bn I/O exception occurs.
+     * @exception  SecurityException if b security mbnbger is present
+     *             bnd the cbller doesn't hbve permission to connect
      *             to the proxy.
-     * @exception  IllegalArgumentException will be thrown if proxy is null,
-     *             or proxy has the wrong type
-     * @exception  UnsupportedOperationException if the subclass that
-     *             implements the protocol handler doesn't support
+     * @exception  IllegblArgumentException will be thrown if proxy is null,
+     *             or proxy hbs the wrong type
+     * @exception  UnsupportedOperbtionException if the subclbss thbt
+     *             implements the protocol hbndler doesn't support
      *             this method.
-     * @see        java.net.URL#URL(java.lang.String, java.lang.String,
-     *             int, java.lang.String)
-     * @see        java.net.URLConnection
-     * @see        java.net.URLStreamHandler#openConnection(java.net.URL,
-     *             java.net.Proxy)
+     * @see        jbvb.net.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *             int, jbvb.lbng.String)
+     * @see        jbvb.net.URLConnection
+     * @see        jbvb.net.URLStrebmHbndler#openConnection(jbvb.net.URL,
+     *             jbvb.net.Proxy)
      * @since      1.5
      */
     public URLConnection openConnection(Proxy proxy)
-        throws java.io.IOException {
+        throws jbvb.io.IOException {
         if (proxy == null) {
-            throw new IllegalArgumentException("proxy can not be null");
+            throw new IllegblArgumentException("proxy cbn not be null");
         }
 
-        // Create a copy of Proxy as a security measure
-        Proxy p = proxy == Proxy.NO_PROXY ? Proxy.NO_PROXY : sun.net.ApplicationProxy.create(proxy);
-        SecurityManager sm = System.getSecurityManager();
+        // Crebte b copy of Proxy bs b security mebsure
+        Proxy p = proxy == Proxy.NO_PROXY ? Proxy.NO_PROXY : sun.net.ApplicbtionProxy.crebte(proxy);
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (p.type() != Proxy.Type.DIRECT && sm != null) {
-            InetSocketAddress epoint = (InetSocketAddress) p.address();
+            InetSocketAddress epoint = (InetSocketAddress) p.bddress();
             if (epoint.isUnresolved())
-                sm.checkConnect(epoint.getHostName(), epoint.getPort());
+                sm.checkConnect(epoint.getHostNbme(), epoint.getPort());
             else
                 sm.checkConnect(epoint.getAddress().getHostAddress(),
                                 epoint.getPort());
         }
-        return handler.openConnection(this, p);
+        return hbndler.openConnection(this, p);
     }
 
     /**
-     * Opens a connection to this {@code URL} and returns an
-     * {@code InputStream} for reading from that connection. This
-     * method is a shorthand for:
+     * Opens b connection to this {@code URL} bnd returns bn
+     * {@code InputStrebm} for rebding from thbt connection. This
+     * method is b shorthbnd for:
      * <blockquote><pre>
-     *     openConnection().getInputStream()
+     *     openConnection().getInputStrebm()
      * </pre></blockquote>
      *
-     * @return     an input stream for reading from the URL connection.
-     * @exception  IOException  if an I/O exception occurs.
-     * @see        java.net.URL#openConnection()
-     * @see        java.net.URLConnection#getInputStream()
+     * @return     bn input strebm for rebding from the URL connection.
+     * @exception  IOException  if bn I/O exception occurs.
+     * @see        jbvb.net.URL#openConnection()
+     * @see        jbvb.net.URLConnection#getInputStrebm()
      */
-    public final InputStream openStream() throws java.io.IOException {
-        return openConnection().getInputStream();
+    public finbl InputStrebm openStrebm() throws jbvb.io.IOException {
+        return openConnection().getInputStrebm();
     }
 
     /**
-     * Gets the contents of this URL. This method is a shorthand for:
+     * Gets the contents of this URL. This method is b shorthbnd for:
      * <blockquote><pre>
      *     openConnection().getContent()
      * </pre></blockquote>
      *
      * @return     the contents of this URL.
-     * @exception  IOException  if an I/O exception occurs.
-     * @see        java.net.URLConnection#getContent()
+     * @exception  IOException  if bn I/O exception occurs.
+     * @see        jbvb.net.URLConnection#getContent()
      */
-    public final Object getContent() throws java.io.IOException {
+    public finbl Object getContent() throws jbvb.io.IOException {
         return openConnection().getContent();
     }
 
     /**
-     * Gets the contents of this URL. This method is a shorthand for:
+     * Gets the contents of this URL. This method is b shorthbnd for:
      * <blockquote><pre>
-     *     openConnection().getContent(classes)
+     *     openConnection().getContent(clbsses)
      * </pre></blockquote>
      *
-     * @param classes an array of Java types
-     * @return     the content object of this URL that is the first match of
-     *               the types specified in the classes array.
-     *               null if none of the requested types are supported.
-     * @exception  IOException  if an I/O exception occurs.
-     * @see        java.net.URLConnection#getContent(Class[])
+     * @pbrbm clbsses bn brrby of Jbvb types
+     * @return     the content object of this URL thbt is the first mbtch of
+     *               the types specified in the clbsses brrby.
+     *               null if none of the requested types bre supported.
+     * @exception  IOException  if bn I/O exception occurs.
+     * @see        jbvb.net.URLConnection#getContent(Clbss[])
      * @since 1.3
      */
-    public final Object getContent(Class<?>[] classes)
-    throws java.io.IOException {
-        return openConnection().getContent(classes);
+    public finbl Object getContent(Clbss<?>[] clbsses)
+    throws jbvb.io.IOException {
+        return openConnection().getContent(clbsses);
     }
 
     /**
-     * The URLStreamHandler factory.
+     * The URLStrebmHbndler fbctory.
      */
-    private static volatile URLStreamHandlerFactory factory;
+    privbte stbtic volbtile URLStrebmHbndlerFbctory fbctory;
 
     /**
-     * Sets an application's {@code URLStreamHandlerFactory}.
-     * This method can be called at most once in a given Java Virtual
-     * Machine.
+     * Sets bn bpplicbtion's {@code URLStrebmHbndlerFbctory}.
+     * This method cbn be cblled bt most once in b given Jbvb Virtubl
+     * Mbchine.
      *
-     *<p> The {@code URLStreamHandlerFactory} instance is used to
-     *construct a stream protocol handler from a protocol name.
+     *<p> The {@code URLStrebmHbndlerFbctory} instbnce is used to
+     *construct b strebm protocol hbndler from b protocol nbme.
      *
-     * <p> If there is a security manager, this method first calls
-     * the security manager's {@code checkSetFactory} method
-     * to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p> If there is b security mbnbger, this method first cblls
+     * the security mbnbger's {@code checkSetFbctory} method
+     * to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      *
-     * @param      fac   the desired factory.
-     * @exception  Error  if the application has already set a factory.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkSetFactory} method doesn't allow
-     *             the operation.
-     * @see        java.net.URL#URL(java.lang.String, java.lang.String,
-     *             int, java.lang.String)
-     * @see        java.net.URLStreamHandlerFactory
-     * @see        SecurityManager#checkSetFactory
+     * @pbrbm      fbc   the desired fbctory.
+     * @exception  Error  if the bpplicbtion hbs blrebdy set b fbctory.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkSetFbctory} method doesn't bllow
+     *             the operbtion.
+     * @see        jbvb.net.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *             int, jbvb.lbng.String)
+     * @see        jbvb.net.URLStrebmHbndlerFbctory
+     * @see        SecurityMbnbger#checkSetFbctory
      */
-    public static void setURLStreamHandlerFactory(URLStreamHandlerFactory fac) {
-        synchronized (streamHandlerLock) {
-            if (factory != null) {
-                throw new Error("factory already defined");
+    public stbtic void setURLStrebmHbndlerFbctory(URLStrebmHbndlerFbctory fbc) {
+        synchronized (strebmHbndlerLock) {
+            if (fbctory != null) {
+                throw new Error("fbctory blrebdy defined");
             }
-            SecurityManager security = System.getSecurityManager();
+            SecurityMbnbger security = System.getSecurityMbnbger();
             if (security != null) {
-                security.checkSetFactory();
+                security.checkSetFbctory();
             }
-            handlers.clear();
-            // safe publication of URLStreamHandlerFactory with volatile write
-            factory = fac;
+            hbndlers.clebr();
+            // sbfe publicbtion of URLStrebmHbndlerFbctory with volbtile write
+            fbctory = fbc;
         }
     }
 
     /**
-     * A table of protocol handlers.
+     * A tbble of protocol hbndlers.
      */
-    static Hashtable<String,URLStreamHandler> handlers = new Hashtable<>();
-    private static Object streamHandlerLock = new Object();
+    stbtic Hbshtbble<String,URLStrebmHbndler> hbndlers = new Hbshtbble<>();
+    privbte stbtic Object strebmHbndlerLock = new Object();
 
     /**
-     * Returns the Stream Handler.
-     * @param protocol the protocol to use
+     * Returns the Strebm Hbndler.
+     * @pbrbm protocol the protocol to use
      */
-    static URLStreamHandler getURLStreamHandler(String protocol) {
+    stbtic URLStrebmHbndler getURLStrebmHbndler(String protocol) {
 
-        URLStreamHandler handler = handlers.get(protocol);
-        if (handler == null) {
+        URLStrebmHbndler hbndler = hbndlers.get(protocol);
+        if (hbndler == null) {
 
-            boolean checkedWithFactory = false;
+            boolebn checkedWithFbctory = fblse;
 
-            // Use the factory (if any). Volatile read makes
-            // URLStreamHandlerFactory appear fully initialized to current thread.
-            URLStreamHandlerFactory fac = factory;
-            if (fac != null) {
-                handler = fac.createURLStreamHandler(protocol);
-                checkedWithFactory = true;
+            // Use the fbctory (if bny). Volbtile rebd mbkes
+            // URLStrebmHbndlerFbctory bppebr fully initiblized to current threbd.
+            URLStrebmHbndlerFbctory fbc = fbctory;
+            if (fbc != null) {
+                hbndler = fbc.crebteURLStrebmHbndler(protocol);
+                checkedWithFbctory = true;
             }
 
-            // Try java protocol handler
-            if (handler == null) {
-                String packagePrefixList = null;
+            // Try jbvb protocol hbndler
+            if (hbndler == null) {
+                String pbckbgePrefixList = null;
 
-                packagePrefixList
-                    = java.security.AccessController.doPrivileged(
-                    new sun.security.action.GetPropertyAction(
-                        protocolPathProp,""));
-                if (packagePrefixList != "") {
-                    packagePrefixList += "|";
+                pbckbgePrefixList
+                    = jbvb.security.AccessController.doPrivileged(
+                    new sun.security.bction.GetPropertyAction(
+                        protocolPbthProp,""));
+                if (pbckbgePrefixList != "") {
+                    pbckbgePrefixList += "|";
                 }
 
-                // REMIND: decide whether to allow the "null" class prefix
+                // REMIND: decide whether to bllow the "null" clbss prefix
                 // or not.
-                packagePrefixList += "sun.net.www.protocol";
+                pbckbgePrefixList += "sun.net.www.protocol";
 
-                StringTokenizer packagePrefixIter =
-                    new StringTokenizer(packagePrefixList, "|");
+                StringTokenizer pbckbgePrefixIter =
+                    new StringTokenizer(pbckbgePrefixList, "|");
 
-                while (handler == null &&
-                       packagePrefixIter.hasMoreTokens()) {
+                while (hbndler == null &&
+                       pbckbgePrefixIter.hbsMoreTokens()) {
 
-                    String packagePrefix =
-                      packagePrefixIter.nextToken().trim();
+                    String pbckbgePrefix =
+                      pbckbgePrefixIter.nextToken().trim();
                     try {
-                        String clsName = packagePrefix + "." + protocol +
-                          ".Handler";
-                        Class<?> cls = null;
+                        String clsNbme = pbckbgePrefix + "." + protocol +
+                          ".Hbndler";
+                        Clbss<?> cls = null;
                         try {
-                            cls = Class.forName(clsName);
-                        } catch (ClassNotFoundException e) {
-                            ClassLoader cl = ClassLoader.getSystemClassLoader();
+                            cls = Clbss.forNbme(clsNbme);
+                        } cbtch (ClbssNotFoundException e) {
+                            ClbssLobder cl = ClbssLobder.getSystemClbssLobder();
                             if (cl != null) {
-                                cls = cl.loadClass(clsName);
+                                cls = cl.lobdClbss(clsNbme);
                             }
                         }
                         if (cls != null) {
-                            handler  =
-                              (URLStreamHandler)cls.newInstance();
+                            hbndler  =
+                              (URLStrebmHbndler)cls.newInstbnce();
                         }
-                    } catch (Exception e) {
-                        // any number of exceptions can get thrown here
+                    } cbtch (Exception e) {
+                        // bny number of exceptions cbn get thrown here
                     }
                 }
             }
 
-            synchronized (streamHandlerLock) {
+            synchronized (strebmHbndlerLock) {
 
-                URLStreamHandler handler2 = null;
+                URLStrebmHbndler hbndler2 = null;
 
-                // Check again with hashtable just in case another
-                // thread created a handler since we last checked
-                handler2 = handlers.get(protocol);
+                // Check bgbin with hbshtbble just in cbse bnother
+                // threbd crebted b hbndler since we lbst checked
+                hbndler2 = hbndlers.get(protocol);
 
-                if (handler2 != null) {
-                    return handler2;
+                if (hbndler2 != null) {
+                    return hbndler2;
                 }
 
-                // Check with factory if another thread set a
-                // factory since our last check
-                if (!checkedWithFactory && (fac = factory) != null) {
-                    handler2 = fac.createURLStreamHandler(protocol);
+                // Check with fbctory if bnother threbd set b
+                // fbctory since our lbst check
+                if (!checkedWithFbctory && (fbc = fbctory) != null) {
+                    hbndler2 = fbc.crebteURLStrebmHbndler(protocol);
                 }
 
-                if (handler2 != null) {
-                    // The handler from the factory must be given more
-                    // importance. Discard the default handler that
-                    // this thread created.
-                    handler = handler2;
+                if (hbndler2 != null) {
+                    // The hbndler from the fbctory must be given more
+                    // importbnce. Discbrd the defbult hbndler thbt
+                    // this threbd crebted.
+                    hbndler = hbndler2;
                 }
 
-                // Insert this handler into the hashtable
-                if (handler != null) {
-                    handlers.put(protocol, handler);
+                // Insert this hbndler into the hbshtbble
+                if (hbndler != null) {
+                    hbndlers.put(protocol, hbndler);
                 }
 
             }
         }
 
-        return handler;
+        return hbndler;
 
     }
 
     /**
-     * WriteObject is called to save the state of the URL to an
-     * ObjectOutputStream. The handler is not saved since it is
+     * WriteObject is cblled to sbve the stbte of the URL to bn
+     * ObjectOutputStrebm. The hbndler is not sbved since it is
      * specific to this system.
      *
-     * @serialData the default write object value. When read back in,
-     * the reader must ensure that calling getURLStreamHandler with
-     * the protocol variable returns a valid URLStreamHandler and
-     * throw an IOException if it does not.
+     * @seriblDbtb the defbult write object vblue. When rebd bbck in,
+     * the rebder must ensure thbt cblling getURLStrebmHbndler with
+     * the protocol vbribble returns b vblid URLStrebmHbndler bnd
+     * throw bn IOException if it does not.
      */
-    private synchronized void writeObject(java.io.ObjectOutputStream s)
+    privbte synchronized void writeObject(jbvb.io.ObjectOutputStrebm s)
         throws IOException
     {
-        s.defaultWriteObject(); // write the fields
+        s.defbultWriteObject(); // write the fields
     }
 
     /**
-     * readObject is called to restore the state of the URL from the
-     * stream.  It reads the components of the URL and finds the local
-     * stream handler.
+     * rebdObject is cblled to restore the stbte of the URL from the
+     * strebm.  It rebds the components of the URL bnd finds the locbl
+     * strebm hbndler.
      */
-    private synchronized void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbte synchronized void rebdObject(jbvb.io.ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException
     {
-        s.defaultReadObject();  // read the fields
-        if ((handler = getURLStreamHandler(protocol)) == null) {
+        s.defbultRebdObject();  // rebd the fields
+        if ((hbndler = getURLStrebmHbndler(protocol)) == null) {
             throw new IOException("unknown protocol: " + protocol);
         }
 
-        // Construct authority part
-        if (authority == null &&
+        // Construct buthority pbrt
+        if (buthority == null &&
             ((host != null && host.length() > 0) || port != -1)) {
             if (host == null)
                 host = "";
-            authority = (port == -1) ? host : host + ":" + port;
+            buthority = (port == -1) ? host : host + ":" + port;
 
-            // Handle hosts with userInfo in them
-            int at = host.lastIndexOf('@');
-            if (at != -1) {
-                userInfo = host.substring(0, at);
-                host = host.substring(at+1);
+            // Hbndle hosts with userInfo in them
+            int bt = host.lbstIndexOf('@');
+            if (bt != -1) {
+                userInfo = host.substring(0, bt);
+                host = host.substring(bt+1);
             }
-        } else if (authority != null) {
-            // Construct user info part
-            int ind = authority.indexOf('@');
+        } else if (buthority != null) {
+            // Construct user info pbrt
+            int ind = buthority.indexOf('@');
             if (ind != -1)
-                userInfo = authority.substring(0, ind);
+                userInfo = buthority.substring(0, ind);
         }
 
-        // Construct path and query part
-        path = null;
+        // Construct pbth bnd query pbrt
+        pbth = null;
         query = null;
         if (file != null) {
-            // Fix: only do this if hierarchical?
-            int q = file.lastIndexOf('?');
+            // Fix: only do this if hierbrchicbl?
+            int q = file.lbstIndexOf('?');
             if (q != -1) {
                 query = file.substring(q+1);
-                path = file.substring(0, q);
+                pbth = file.substring(0, q);
             } else
-                path = file;
+                pbth = file;
         }
     }
 }
 
-class Parts {
-    String path, query, ref;
+clbss Pbrts {
+    String pbth, query, ref;
 
-    Parts(String file) {
+    Pbrts(String file) {
         int ind = file.indexOf('#');
         ref = ind < 0 ? null: file.substring(ind + 1);
         file = ind < 0 ? file: file.substring(0, ind);
-        int q = file.lastIndexOf('?');
+        int q = file.lbstIndexOf('?');
         if (q != -1) {
             query = file.substring(q+1);
-            path = file.substring(0, q);
+            pbth = file.substring(0, q);
         } else {
-            path = file;
+            pbth = file;
         }
     }
 
-    String getPath() {
-        return path;
+    String getPbth() {
+        return pbth;
     }
 
     String getQuery() {

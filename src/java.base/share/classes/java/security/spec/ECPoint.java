@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.security.spec;
+pbckbge jbvb.security.spec;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
 /**
- * This immutable class represents a point on an elliptic curve (EC)
- * in affine coordinates. Other coordinate systems can
- * extend this class to represent this point in other
- * coordinates.
+ * This immutbble clbss represents b point on bn elliptic curve (EC)
+ * in bffine coordinbtes. Other coordinbte systems cbn
+ * extend this clbss to represent this point in other
+ * coordinbtes.
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  *
  * @since 1.5
  */
-public class ECPoint {
+public clbss ECPoint {
 
-    private final BigInteger x;
-    private final BigInteger y;
+    privbte finbl BigInteger x;
+    privbte finbl BigInteger y;
 
     /**
-     * This defines the point at infinity.
+     * This defines the point bt infinity.
      */
-    public static final ECPoint POINT_INFINITY = new ECPoint();
+    public stbtic finbl ECPoint POINT_INFINITY = new ECPoint();
 
-    // private constructor for constructing point at infinity
-    private ECPoint() {
+    // privbte constructor for constructing point bt infinity
+    privbte ECPoint() {
         this.x = null;
         this.y = null;
     }
 
     /**
-     * Creates an ECPoint from the specified affine x-coordinate
-     * {@code x} and affine y-coordinate {@code y}.
-     * @param x the affine x-coordinate.
-     * @param y the affine y-coordinate.
+     * Crebtes bn ECPoint from the specified bffine x-coordinbte
+     * {@code x} bnd bffine y-coordinbte {@code y}.
+     * @pbrbm x the bffine x-coordinbte.
+     * @pbrbm y the bffine y-coordinbte.
      * @exception NullPointerException if {@code x} or
      * {@code y} is null.
      */
     public ECPoint(BigInteger x, BigInteger y) {
         if ((x==null) || (y==null)) {
-            throw new NullPointerException("affine coordinate x or y is null");
+            throw new NullPointerException("bffine coordinbte x or y is null");
         }
         this.x = x;
         this.y = y;
     }
 
     /**
-     * Returns the affine x-coordinate {@code x}.
-     * Note: POINT_INFINITY has a null affine x-coordinate.
-     * @return the affine x-coordinate.
+     * Returns the bffine x-coordinbte {@code x}.
+     * Note: POINT_INFINITY hbs b null bffine x-coordinbte.
+     * @return the bffine x-coordinbte.
      */
     public BigInteger getAffineX() {
         return x;
     }
 
     /**
-     * Returns the affine y-coordinate {@code y}.
-     * Note: POINT_INFINITY has a null affine y-coordinate.
-     * @return the affine y-coordinate.
+     * Returns the bffine y-coordinbte {@code y}.
+     * Note: POINT_INFINITY hbs b null bffine y-coordinbte.
+     * @return the bffine y-coordinbte.
      */
     public BigInteger getAffineY() {
         return y;
     }
 
     /**
-     * Compares this elliptic curve point for equality with
+     * Compbres this elliptic curve point for equblity with
      * the specified object.
-     * @param obj the object to be compared.
-     * @return true if {@code obj} is an instance of
-     * ECPoint and the affine coordinates match, false otherwise.
+     * @pbrbm obj the object to be compbred.
+     * @return true if {@code obj} is bn instbnce of
+     * ECPoint bnd the bffine coordinbtes mbtch, fblse otherwise.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) return true;
-        if (this == POINT_INFINITY) return false;
-        if (obj instanceof ECPoint) {
-            return ((x.equals(((ECPoint)obj).x)) &&
-                    (y.equals(((ECPoint)obj).y)));
+        if (this == POINT_INFINITY) return fblse;
+        if (obj instbnceof ECPoint) {
+            return ((x.equbls(((ECPoint)obj).x)) &&
+                    (y.equbls(((ECPoint)obj).y)));
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hash code value for this elliptic curve point.
-     * @return a hash code value.
+     * Returns b hbsh code vblue for this elliptic curve point.
+     * @return b hbsh code vblue.
      */
-    public int hashCode() {
+    public int hbshCode() {
         if (this == POINT_INFINITY) return 0;
-        return x.hashCode() << 5 + y.hashCode();
+        return x.hbshCode() << 5 + y.hbshCode();
     }
 }

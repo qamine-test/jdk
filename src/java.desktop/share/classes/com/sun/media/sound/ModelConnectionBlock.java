@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * Connection blocks are used to connect source variable
- * to a destination variable.
- * For example Note On velocity can be connected to output gain.
- * In DLS this is called articulator and in SoundFonts (SF2) a modulator.
+ * Connection blocks bre used to connect source vbribble
+ * to b destinbtion vbribble.
+ * For exbmple Note On velocity cbn be connected to output gbin.
+ * In DLS this is cblled brticulbtor bnd in SoundFonts (SF2) b modulbtor.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class ModelConnectionBlock {
+public finbl clbss ModelConnectionBlock {
 
     //
-    //   source1 * source2 * scale -> destination
+    //   source1 * source2 * scble -> destinbtion
     //
-    private final static ModelSource[] no_sources = new ModelSource[0];
-    private ModelSource[] sources = no_sources;
-    private double scale = 1;
-    private ModelDestination destination;
+    privbte finbl stbtic ModelSource[] no_sources = new ModelSource[0];
+    privbte ModelSource[] sources = no_sources;
+    privbte double scble = 1;
+    privbte ModelDestinbtion destinbtion;
 
     public ModelConnectionBlock() {
     }
 
-    public ModelConnectionBlock(double scale, ModelDestination destination) {
-        this.scale = scale;
-        this.destination = destination;
+    public ModelConnectionBlock(double scble, ModelDestinbtion destinbtion) {
+        this.scble = scble;
+        this.destinbtion = destinbtion;
     }
 
     public ModelConnectionBlock(ModelSource source,
-            ModelDestination destination) {
+            ModelDestinbtion destinbtion) {
         if (source != null) {
             this.sources = new ModelSource[1];
             this.sources[0] = source;
         }
-        this.destination = destination;
+        this.destinbtion = destinbtion;
     }
 
-    public ModelConnectionBlock(ModelSource source, double scale,
-            ModelDestination destination) {
+    public ModelConnectionBlock(ModelSource source, double scble,
+            ModelDestinbtion destinbtion) {
         if (source != null) {
             this.sources = new ModelSource[1];
             this.sources[0] = source;
         }
-        this.scale = scale;
-        this.destination = destination;
+        this.scble = scble;
+        this.destinbtion = destinbtion;
     }
 
     public ModelConnectionBlock(ModelSource source, ModelSource control,
-            ModelDestination destination) {
+            ModelDestinbtion destinbtion) {
         if (source != null) {
             if (control == null) {
                 this.sources = new ModelSource[1];
@@ -83,11 +83,11 @@ public final class ModelConnectionBlock {
                 this.sources[1] = control;
             }
         }
-        this.destination = destination;
+        this.destinbtion = destinbtion;
     }
 
     public ModelConnectionBlock(ModelSource source, ModelSource control,
-            double scale, ModelDestination destination) {
+            double scble, ModelDestinbtion destinbtion) {
         if (source != null) {
             if (control == null) {
                 this.sources = new ModelSource[1];
@@ -98,38 +98,38 @@ public final class ModelConnectionBlock {
                 this.sources[1] = control;
             }
         }
-        this.scale = scale;
-        this.destination = destination;
+        this.scble = scble;
+        this.destinbtion = destinbtion;
     }
 
-    public ModelDestination getDestination() {
-        return destination;
+    public ModelDestinbtion getDestinbtion() {
+        return destinbtion;
     }
 
-    public void setDestination(ModelDestination destination) {
-        this.destination = destination;
+    public void setDestinbtion(ModelDestinbtion destinbtion) {
+        this.destinbtion = destinbtion;
     }
 
-    public double getScale() {
-        return scale;
+    public double getScble() {
+        return scble;
     }
 
-    public void setScale(double scale) {
-        this.scale = scale;
+    public void setScble(double scble) {
+        this.scble = scble;
     }
 
     public ModelSource[] getSources() {
-        return Arrays.copyOf(sources, sources.length);
+        return Arrbys.copyOf(sources, sources.length);
     }
 
     public void setSources(ModelSource[] source) {
-        this.sources = source == null ? no_sources : Arrays.copyOf(source, source.length);
+        this.sources = source == null ? no_sources : Arrbys.copyOf(source, source.length);
     }
 
-    public void addSource(ModelSource source) {
+    public void bddSource(ModelSource source) {
         ModelSource[] oldsources = sources;
         sources = new ModelSource[oldsources.length + 1];
-        System.arraycopy(oldsources, 0, sources, 0, oldsources.length);
+        System.brrbycopy(oldsources, 0, sources, 0, oldsources.length);
         sources[sources.length - 1] = source;
     }
 }

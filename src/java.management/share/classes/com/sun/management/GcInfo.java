@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.management;
+pbckbge com.sun.mbnbgement;
 
-import java.lang.management.MemoryUsage;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataView;
-import javax.management.openmbean.CompositeType;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import sun.management.GcInfoCompositeData;
-import sun.management.GcInfoBuilder;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbView;
+import jbvbx.mbnbgement.openmbebn.CompositeType;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import sun.mbnbgement.GcInfoCompositeDbtb;
+import sun.mbnbgement.GcInfoBuilder;
 
 /**
- * Garbage collection information.  It contains the following
- * information for one garbage collection as well as GC-specific
- * attributes:
+ * Gbrbbge collection informbtion.  It contbins the following
+ * informbtion for one gbrbbge collection bs well bs GC-specific
+ * bttributes:
  * <blockquote>
  * <ul>
- *   <li>Start time</li>
+ *   <li>Stbrt time</li>
  *   <li>End time</li>
- *   <li>Duration</li>
- *   <li>Memory usage before the collection starts</li>
- *   <li>Memory usage after the collection ends</li>
+ *   <li>Durbtion</li>
+ *   <li>Memory usbge before the collection stbrts</li>
+ *   <li>Memory usbge bfter the collection ends</li>
  * </ul>
  * </blockquote>
  *
  * <p>
- * <tt>GcInfo</tt> is a {@link CompositeData CompositeData}
- * The GC-specific attributes can be obtained via the CompositeData
- * interface.  This is a historical relic, and other classes should
- * not copy this pattern.  Use {@link CompositeDataView} instead.
+ * <tt>GcInfo</tt> is b {@link CompositeDbtb CompositeDbtb}
+ * The GC-specific bttributes cbn be obtbined vib the CompositeDbtb
+ * interfbce.  This is b historicbl relic, bnd other clbsses should
+ * not copy this pbttern.  Use {@link CompositeDbtbView} instebd.
  *
- * <h4>MXBean Mapping</h4>
- * <tt>GcInfo</tt> is mapped to a {@link CompositeData CompositeData}
- * with attributes as specified in the {@link #from from} method.
+ * <h4>MXBebn Mbpping</h4>
+ * <tt>GcInfo</tt> is mbpped to b {@link CompositeDbtb CompositeDbtb}
+ * with bttributes bs specified in the {@link #from from} method.
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  * @since   1.5
  */
 @jdk.Exported
-public class GcInfo implements CompositeData, CompositeDataView {
-    private final long index;
-    private final long startTime;
-    private final long endTime;
-    private final Map<String, MemoryUsage> usageBeforeGc;
-    private final Map<String, MemoryUsage> usageAfterGc;
-    private final Object[] extAttributes;
-    private final CompositeData cdata;
-    private final GcInfoBuilder builder;
+public clbss GcInfo implements CompositeDbtb, CompositeDbtbView {
+    privbte finbl long index;
+    privbte finbl long stbrtTime;
+    privbte finbl long endTime;
+    privbte finbl Mbp<String, MemoryUsbge> usbgeBeforeGc;
+    privbte finbl Mbp<String, MemoryUsbge> usbgeAfterGc;
+    privbte finbl Object[] extAttributes;
+    privbte finbl CompositeDbtb cdbtb;
+    privbte finbl GcInfoBuilder builder;
 
-    private GcInfo(GcInfoBuilder builder,
-                   long index, long startTime, long endTime,
-                   MemoryUsage[] muBeforeGc,
-                   MemoryUsage[] muAfterGc,
+    privbte GcInfo(GcInfoBuilder builder,
+                   long index, long stbrtTime, long endTime,
+                   MemoryUsbge[] muBeforeGc,
+                   MemoryUsbge[] muAfterGc,
                    Object[] extAttributes) {
         this.builder       = builder;
         this.index         = index;
-        this.startTime     = startTime;
+        this.stbrtTime     = stbrtTime;
         this.endTime       = endTime;
-        String[] poolNames = builder.getPoolNames();
-        this.usageBeforeGc = new HashMap<String, MemoryUsage>(poolNames.length);
-        this.usageAfterGc = new HashMap<String, MemoryUsage>(poolNames.length);
-        for (int i = 0; i < poolNames.length; i++) {
-            this.usageBeforeGc.put(poolNames[i],  muBeforeGc[i]);
-            this.usageAfterGc.put(poolNames[i],  muAfterGc[i]);
+        String[] poolNbmes = builder.getPoolNbmes();
+        this.usbgeBeforeGc = new HbshMbp<String, MemoryUsbge>(poolNbmes.length);
+        this.usbgeAfterGc = new HbshMbp<String, MemoryUsbge>(poolNbmes.length);
+        for (int i = 0; i < poolNbmes.length; i++) {
+            this.usbgeBeforeGc.put(poolNbmes[i],  muBeforeGc[i]);
+            this.usbgeAfterGc.put(poolNbmes[i],  muAfterGc[i]);
         }
         this.extAttributes = extAttributes;
-        this.cdata = new GcInfoCompositeData(this, builder, extAttributes);
+        this.cdbtb = new GcInfoCompositeDbtb(this, builder, extAttributes);
     }
 
-    private GcInfo(CompositeData cd) {
-        GcInfoCompositeData.validateCompositeData(cd);
+    privbte GcInfo(CompositeDbtb cd) {
+        GcInfoCompositeDbtb.vblidbteCompositeDbtb(cd);
 
-        this.index         = GcInfoCompositeData.getId(cd);
-        this.startTime     = GcInfoCompositeData.getStartTime(cd);
-        this.endTime       = GcInfoCompositeData.getEndTime(cd);
-        this.usageBeforeGc = GcInfoCompositeData.getMemoryUsageBeforeGc(cd);
-        this.usageAfterGc  = GcInfoCompositeData.getMemoryUsageAfterGc(cd);
+        this.index         = GcInfoCompositeDbtb.getId(cd);
+        this.stbrtTime     = GcInfoCompositeDbtb.getStbrtTime(cd);
+        this.endTime       = GcInfoCompositeDbtb.getEndTime(cd);
+        this.usbgeBeforeGc = GcInfoCompositeDbtb.getMemoryUsbgeBeforeGc(cd);
+        this.usbgeAfterGc  = GcInfoCompositeDbtb.getMemoryUsbgeAfterGc(cd);
         this.extAttributes = null;
         this.builder       = null;
-        this.cdata         = cd;
+        this.cdbtb         = cd;
     }
 
     /**
-     * Returns the identifier of this garbage collection which is
-     * the number of collections that this collector has done.
+     * Returns the identifier of this gbrbbge collection which is
+     * the number of collections thbt this collector hbs done.
      *
-     * @return the identifier of this garbage collection which is
-     * the number of collections that this collector has done.
+     * @return the identifier of this gbrbbge collection which is
+     * the number of collections thbt this collector hbs done.
      */
     public long getId() {
         return index;
     }
 
     /**
-     * Returns the start time of this GC in milliseconds
-     * since the Java virtual machine was started.
+     * Returns the stbrt time of this GC in milliseconds
+     * since the Jbvb virtubl mbchine wbs stbrted.
      *
-     * @return the start time of this GC.
+     * @return the stbrt time of this GC.
      */
-    public long getStartTime() {
-        return startTime;
+    public long getStbrtTime() {
+        return stbrtTime;
     }
 
     /**
      * Returns the end time of this GC in milliseconds
-     * since the Java virtual machine was started.
+     * since the Jbvb virtubl mbchine wbs stbrted.
      *
      * @return the end time of this GC.
      */
@@ -140,150 +140,150 @@ public class GcInfo implements CompositeData, CompositeDataView {
     }
 
     /**
-     * Returns the elapsed time of this GC in milliseconds.
+     * Returns the elbpsed time of this GC in milliseconds.
      *
-     * @return the elapsed time of this GC in milliseconds.
+     * @return the elbpsed time of this GC in milliseconds.
      */
-    public long getDuration() {
-        return endTime - startTime;
+    public long getDurbtion() {
+        return endTime - stbrtTime;
     }
 
     /**
-     * Returns the memory usage of all memory pools
-     * at the beginning of this GC.
+     * Returns the memory usbge of bll memory pools
+     * bt the beginning of this GC.
      * This method returns
-     * a <tt>Map</tt> of the name of a memory pool
-     * to the memory usage of the corresponding
-     * memory pool before GC starts.
+     * b <tt>Mbp</tt> of the nbme of b memory pool
+     * to the memory usbge of the corresponding
+     * memory pool before GC stbrts.
      *
-     * @return a <tt>Map</tt> of memory pool names to the memory
-     * usage of a memory pool before GC starts.
+     * @return b <tt>Mbp</tt> of memory pool nbmes to the memory
+     * usbge of b memory pool before GC stbrts.
      */
-    public Map<String, MemoryUsage> getMemoryUsageBeforeGc() {
-        return Collections.unmodifiableMap(usageBeforeGc);
+    public Mbp<String, MemoryUsbge> getMemoryUsbgeBeforeGc() {
+        return Collections.unmodifibbleMbp(usbgeBeforeGc);
     }
 
     /**
-     * Returns the memory usage of all memory pools
-     * at the end of this GC.
+     * Returns the memory usbge of bll memory pools
+     * bt the end of this GC.
      * This method returns
-     * a <tt>Map</tt> of the name of a memory pool
-     * to the memory usage of the corresponding
+     * b <tt>Mbp</tt> of the nbme of b memory pool
+     * to the memory usbge of the corresponding
      * memory pool when GC finishes.
      *
-     * @return a <tt>Map</tt> of memory pool names to the memory
-     * usage of a memory pool when GC finishes.
+     * @return b <tt>Mbp</tt> of memory pool nbmes to the memory
+     * usbge of b memory pool when GC finishes.
      */
-    public Map<String, MemoryUsage> getMemoryUsageAfterGc() {
-        return Collections.unmodifiableMap(usageAfterGc);
+    public Mbp<String, MemoryUsbge> getMemoryUsbgeAfterGc() {
+        return Collections.unmodifibbleMbp(usbgeAfterGc);
     }
 
    /**
-     * Returns a <tt>GcInfo</tt> object represented by the
-     * given <tt>CompositeData</tt>. The given
-     * <tt>CompositeData</tt> must contain
-     * all the following attributes:
+     * Returns b <tt>GcInfo</tt> object represented by the
+     * given <tt>CompositeDbtb</tt>. The given
+     * <tt>CompositeDbtb</tt> must contbin
+     * bll the following bttributes:
      *
      * <p>
      * <blockquote>
-     * <table border>
+     * <tbble border>
      * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
+     *   <th blign=left>Attribute Nbme</th>
+     *   <th blign=left>Type</th>
      * </tr>
      * <tr>
      *   <td>index</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>startTime</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>stbrtTime</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
      *   <td>endTime</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>memoryUsageBeforeGc</td>
-     *   <td><tt>javax.management.openmbean.TabularData</tt></td>
+     *   <td>memoryUsbgeBeforeGc</td>
+     *   <td><tt>jbvbx.mbnbgement.openmbebn.TbbulbrDbtb</tt></td>
      * </tr>
      * <tr>
-     *   <td>memoryUsageAfterGc</td>
-     *   <td><tt>javax.management.openmbean.TabularData</tt></td>
+     *   <td>memoryUsbgeAfterGc</td>
+     *   <td><tt>jbvbx.mbnbgement.openmbebn.TbbulbrDbtb</tt></td>
      * </tr>
-     * </table>
+     * </tbble>
      * </blockquote>
      *
-     * @throws IllegalArgumentException if <tt>cd</tt> does not
-     *   represent a <tt>GcInfo</tt> object with the attributes
-     *   described above.
+     * @throws IllegblArgumentException if <tt>cd</tt> does not
+     *   represent b <tt>GcInfo</tt> object with the bttributes
+     *   described bbove.
      *
-     * @return a <tt>GcInfo</tt> object represented by <tt>cd</tt>
+     * @return b <tt>GcInfo</tt> object represented by <tt>cd</tt>
      * if <tt>cd</tt> is not <tt>null</tt>; <tt>null</tt> otherwise.
      */
-    public static GcInfo from(CompositeData cd) {
+    public stbtic GcInfo from(CompositeDbtb cd) {
         if (cd == null) {
             return null;
         }
 
-        if (cd instanceof GcInfoCompositeData) {
-            return ((GcInfoCompositeData) cd).getGcInfo();
+        if (cd instbnceof GcInfoCompositeDbtb) {
+            return ((GcInfoCompositeDbtb) cd).getGcInfo();
         } else {
             return new GcInfo(cd);
         }
 
     }
 
-    // Implementation of the CompositeData interface
-    public boolean containsKey(String key) {
-        return cdata.containsKey(key);
+    // Implementbtion of the CompositeDbtb interfbce
+    public boolebn contbinsKey(String key) {
+        return cdbtb.contbinsKey(key);
     }
 
-    public boolean containsValue(Object value) {
-        return cdata.containsValue(value);
+    public boolebn contbinsVblue(Object vblue) {
+        return cdbtb.contbinsVblue(vblue);
     }
 
-    public boolean equals(Object obj) {
-        return cdata.equals(obj);
+    public boolebn equbls(Object obj) {
+        return cdbtb.equbls(obj);
     }
 
     public Object get(String key) {
-        return cdata.get(key);
+        return cdbtb.get(key);
     }
 
     public Object[] getAll(String[] keys) {
-        return cdata.getAll(keys);
+        return cdbtb.getAll(keys);
     }
 
     public CompositeType getCompositeType() {
-        return cdata.getCompositeType();
+        return cdbtb.getCompositeType();
     }
 
-    public int hashCode() {
-        return cdata.hashCode();
+    public int hbshCode() {
+        return cdbtb.hbshCode();
     }
 
     public String toString() {
-        return cdata.toString();
+        return cdbtb.toString();
     }
 
-    public Collection<?> values() {
-        return cdata.values();
+    public Collection<?> vblues() {
+        return cdbtb.vblues();
     }
 
     /**
-     * <p>Return the {@code CompositeData} representation of this
-     * {@code GcInfo}, including any GC-specific attributes.  The
-     * returned value will have at least all the attributes described
-     * in the {@link #from(CompositeData) from} method, plus optionally
-     * other attributes.
+     * <p>Return the {@code CompositeDbtb} representbtion of this
+     * {@code GcInfo}, including bny GC-specific bttributes.  The
+     * returned vblue will hbve bt lebst bll the bttributes described
+     * in the {@link #from(CompositeDbtb) from} method, plus optionblly
+     * other bttributes.
      *
-     * @param ct the {@code CompositeType} that the caller expects.
-     * This parameter is ignored and can be null.
+     * @pbrbm ct the {@code CompositeType} thbt the cbller expects.
+     * This pbrbmeter is ignored bnd cbn be null.
      *
-     * @return the {@code CompositeData} representation.
+     * @return the {@code CompositeDbtb} representbtion.
      */
-    public CompositeData toCompositeData(CompositeType ct) {
-        return cdata;
+    public CompositeDbtb toCompositeDbtb(CompositeType ct) {
+        return cdbtb;
     }
 }

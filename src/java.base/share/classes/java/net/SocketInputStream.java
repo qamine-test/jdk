@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
+import jbvb.io.FileDescriptor;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.nio.chbnnels.FileChbnnel;
 
 import sun.net.ConnectionResetException;
 
 /**
- * This stream extends FileInputStream to implement a
- * SocketInputStream. Note that this class should <b>NOT</b> be
+ * This strebm extends FileInputStrebm to implement b
+ * SocketInputStrebm. Note thbt this clbss should <b>NOT</b> be
  * public.
  *
- * @author      Jonathan Payne
- * @author      Arthur van Hoff
+ * @buthor      Jonbthbn Pbyne
+ * @buthor      Arthur vbn Hoff
  */
-class SocketInputStream extends FileInputStream
+clbss SocketInputStrebm extends FileInputStrebm
 {
-    static {
+    stbtic {
         init();
     }
 
-    private boolean eof;
-    private AbstractPlainSocketImpl impl = null;
-    private byte temp[];
-    private Socket socket = null;
+    privbte boolebn eof;
+    privbte AbstrbctPlbinSocketImpl impl = null;
+    privbte byte temp[];
+    privbte Socket socket = null;
 
     /**
-     * Creates a new SocketInputStream. Can only be called
-     * by a Socket. This method needs to hang on to the owner Socket so
-     * that the fd will not be closed.
-     * @param impl the implemented socket input stream
+     * Crebtes b new SocketInputStrebm. Cbn only be cblled
+     * by b Socket. This method needs to hbng on to the owner Socket so
+     * thbt the fd will not be closed.
+     * @pbrbm impl the implemented socket input strebm
      */
-    SocketInputStream(AbstractPlainSocketImpl impl) throws IOException {
+    SocketInputStrebm(AbstrbctPlbinSocketImpl impl) throws IOException {
         super(impl.getFileDescriptor());
         this.impl = impl;
         socket = impl.getSocket();
     }
 
     /**
-     * Returns the unique {@link java.nio.channels.FileChannel FileChannel}
-     * object associated with this file input stream.</p>
+     * Returns the unique {@link jbvb.nio.chbnnels.FileChbnnel FileChbnnel}
+     * object bssocibted with this file input strebm.</p>
      *
-     * The {@code getChannel} method of {@code SocketInputStream}
-     * returns {@code null} since it is a socket based stream.</p>
+     * The {@code getChbnnel} method of {@code SocketInputStrebm}
+     * returns {@code null} since it is b socket bbsed strebm.</p>
      *
-     * @return  the file channel associated with this file input stream
+     * @return  the file chbnnel bssocibted with this file input strebm
      *
      * @since 1.4
      * @spec JSR-51
      */
-    public final FileChannel getChannel() {
+    public finbl FileChbnnel getChbnnel() {
         return null;
     }
 
     /**
-     * Reads into an array of bytes at the specified offset using
+     * Rebds into bn brrby of bytes bt the specified offset using
      * the received socket primitive.
-     * @param fd the FileDescriptor
-     * @param b the buffer into which the data is read
-     * @param off the start offset of the data
-     * @param len the maximum number of bytes read
-     * @param timeout the read timeout in ms
-     * @return the actual number of bytes read, -1 is
-     *          returned when the end of the stream is reached.
-     * @exception IOException If an I/O error has occurred.
+     * @pbrbm fd the FileDescriptor
+     * @pbrbm b the buffer into which the dbtb is rebd
+     * @pbrbm off the stbrt offset of the dbtb
+     * @pbrbm len the mbximum number of bytes rebd
+     * @pbrbm timeout the rebd timeout in ms
+     * @return the bctubl number of bytes rebd, -1 is
+     *          returned when the end of the strebm is rebched.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private native int socketRead0(FileDescriptor fd,
+    privbte nbtive int socketRebd0(FileDescriptor fd,
                                    byte b[], int off, int len,
                                    int timeout)
         throws IOException;
 
     /**
-     * Reads into a byte array data from the socket.
-     * @param b the buffer into which the data is read
-     * @return the actual number of bytes read, -1 is
-     *          returned when the end of the stream is reached.
-     * @exception IOException If an I/O error has occurred.
+     * Rebds into b byte brrby dbtb from the socket.
+     * @pbrbm b the buffer into which the dbtb is rebd
+     * @return the bctubl number of bytes rebd, -1 is
+     *          returned when the end of the strebm is rebched.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    public int read(byte b[]) throws IOException {
-        return read(b, 0, b.length);
+    public int rebd(byte b[]) throws IOException {
+        return rebd(b, 0, b.length);
     }
 
     /**
-     * Reads into a byte array <i>b</i> at offset <i>off</i>,
-     * <i>length</i> bytes of data.
-     * @param b the buffer into which the data is read
-     * @param off the start offset of the data
-     * @param length the maximum number of bytes read
-     * @return the actual number of bytes read, -1 is
-     *          returned when the end of the stream is reached.
-     * @exception IOException If an I/O error has occurred.
+     * Rebds into b byte brrby <i>b</i> bt offset <i>off</i>,
+     * <i>length</i> bytes of dbtb.
+     * @pbrbm b the buffer into which the dbtb is rebd
+     * @pbrbm off the stbrt offset of the dbtb
+     * @pbrbm length the mbximum number of bytes rebd
+     * @return the bctubl number of bytes rebd, -1 is
+     *          returned when the end of the strebm is rebched.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    public int read(byte b[], int off, int length) throws IOException {
-        return read(b, off, length, impl.getTimeout());
+    public int rebd(byte b[], int off, int length) throws IOException {
+        return rebd(b, off, length, impl.getTimeout());
     }
 
-    int read(byte b[], int off, int length, int timeout) throws IOException {
+    int rebd(byte b[], int off, int length, int timeout) throws IOException {
         int n;
 
-        // EOF already encountered
+        // EOF blrebdy encountered
         if (eof) {
             return -1;
         }
@@ -139,45 +139,45 @@ class SocketInputStream extends FileInputStream
             if (length == 0) {
                 return 0;
             }
-            throw new ArrayIndexOutOfBoundsException();
+            throw new ArrbyIndexOutOfBoundsException();
         }
 
-        boolean gotReset = false;
+        boolebn gotReset = fblse;
 
-        // acquire file descriptor and do the read
-        FileDescriptor fd = impl.acquireFD();
+        // bcquire file descriptor bnd do the rebd
+        FileDescriptor fd = impl.bcquireFD();
         try {
-            n = socketRead0(fd, b, off, length, timeout);
+            n = socketRebd0(fd, b, off, length, timeout);
             if (n > 0) {
                 return n;
             }
-        } catch (ConnectionResetException rstExc) {
+        } cbtch (ConnectionResetException rstExc) {
             gotReset = true;
-        } finally {
-            impl.releaseFD();
+        } finblly {
+            impl.relebseFD();
         }
 
         /*
-         * We receive a "connection reset" but there may be bytes still
+         * We receive b "connection reset" but there mby be bytes still
          * buffered on the socket
          */
         if (gotReset) {
             impl.setConnectionResetPending();
-            impl.acquireFD();
+            impl.bcquireFD();
             try {
-                n = socketRead0(fd, b, off, length, timeout);
+                n = socketRebd0(fd, b, off, length, timeout);
                 if (n > 0) {
                     return n;
                 }
-            } catch (ConnectionResetException rstExc) {
-            } finally {
-                impl.releaseFD();
+            } cbtch (ConnectionResetException rstExc) {
+            } finblly {
+                impl.relebseFD();
             }
         }
 
         /*
-         * If we get here we are at EOF, the socket has been closed,
-         * or the connection has been reset.
+         * If we get here we bre bt EOF, the socket hbs been closed,
+         * or the connection hbs been reset.
          */
         if (impl.isClosedOrPending()) {
             throw new SocketException("Socket closed");
@@ -193,14 +193,14 @@ class SocketInputStream extends FileInputStream
     }
 
     /**
-     * Reads a single byte from the socket.
+     * Rebds b single byte from the socket.
      */
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         if (eof) {
             return -1;
         }
         temp = new byte[1];
-        int n = read(temp, 0, 1);
+        int n = rebd(temp, 0, 1);
         if (n <= 0) {
             return -1;
         }
@@ -209,21 +209,21 @@ class SocketInputStream extends FileInputStream
 
     /**
      * Skips n bytes of input.
-     * @param numbytes the number of bytes to skip
-     * @return  the actual number of bytes skipped.
-     * @exception IOException If an I/O error has occurred.
+     * @pbrbm numbytes the number of bytes to skip
+     * @return  the bctubl number of bytes skipped.
+     * @exception IOException If bn I/O error hbs occurred.
      */
     public long skip(long numbytes) throws IOException {
         if (numbytes <= 0) {
             return 0;
         }
         long n = numbytes;
-        int buflen = (int) Math.min(1024, n);
-        byte data[] = new byte[buflen];
+        int buflen = (int) Mbth.min(1024, n);
+        byte dbtb[] = new byte[buflen];
         while (n > 0) {
-            int r = read(data, 0, (int) Math.min((long) buflen, n));
+            int r = rebd(dbtb, 0, (int) Mbth.min((long) buflen, n));
             if (r < 0) {
-                break;
+                brebk;
             }
             n -= r;
         }
@@ -231,17 +231,17 @@ class SocketInputStream extends FileInputStream
     }
 
     /**
-     * Returns the number of bytes that can be read without blocking.
-     * @return the number of immediately available bytes
+     * Returns the number of bytes thbt cbn be rebd without blocking.
+     * @return the number of immedibtely bvbilbble bytes
      */
-    public int available() throws IOException {
-        return impl.available();
+    public int bvbilbble() throws IOException {
+        return impl.bvbilbble();
     }
 
     /**
-     * Closes the stream.
+     * Closes the strebm.
      */
-    private boolean closing = false;
+    privbte boolebn closing = fblse;
     public void close() throws IOException {
         // Prevent recursion. See BugId 4484411
         if (closing)
@@ -252,20 +252,20 @@ class SocketInputStream extends FileInputStream
                 socket.close();
         } else
             impl.close();
-        closing = false;
+        closing = fblse;
     }
 
-    void setEOF(boolean eof) {
+    void setEOF(boolebn eof) {
         this.eof = eof;
     }
 
     /**
-     * Overrides finalize, the fd is closed by the Socket.
+     * Overrides finblize, the fd is closed by the Socket.
      */
-    protected void finalize() {}
+    protected void finblize() {}
 
     /**
-     * Perform class load-time initializations.
+     * Perform clbss lobd-time initiblizbtions.
      */
-    private native static void init();
+    privbte nbtive stbtic void init();
 }

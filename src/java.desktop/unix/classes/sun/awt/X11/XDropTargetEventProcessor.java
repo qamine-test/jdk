@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.util.Iterator;
+import jbvb.util.Iterbtor;
 
 /**
- * This class is a registry for the supported drag and drop protocols.
+ * This clbss is b registry for the supported drbg bnd drop protocols.
  *
  * @since 1.5
  */
-final class XDropTargetEventProcessor {
-    private static final XDropTargetEventProcessor theInstance =
-        new XDropTargetEventProcessor();
-    private static boolean active = false;
+finbl clbss XDropTbrgetEventProcessor {
+    privbte stbtic finbl XDropTbrgetEventProcessor theInstbnce =
+        new XDropTbrgetEventProcessor();
+    privbte stbtic boolebn bctive = fblse;
 
     // The current drop protocol.
-    private XDropTargetProtocol protocol = null;
+    privbte XDropTbrgetProtocol protocol = null;
 
-    private XDropTargetEventProcessor() {}
+    privbte XDropTbrgetEventProcessor() {}
 
-    private boolean doProcessEvent(XEvent ev) {
-        if (ev.get_type() == XConstants.DestroyNotify &&
+    privbte boolebn doProcessEvent(XEvent ev) {
+        if (ev.get_type() == XConstbnts.DestroyNotify &&
             protocol != null &&
-            ev.get_xany().get_window() == protocol.getSourceWindow()) {
-            protocol.cleanup();
+            ev.get_xbny().get_window() == protocol.getSourceWindow()) {
+            protocol.clebnup();
             protocol = null;
-            return false;
+            return fblse;
         }
 
-        if (ev.get_type() == XConstants.PropertyNotify) {
+        if (ev.get_type() == XConstbnts.PropertyNotify) {
             XPropertyEvent xproperty = ev.get_xproperty();
-            if (xproperty.get_atom() ==
-                MotifDnDConstants.XA_MOTIF_DRAG_RECEIVER_INFO.getAtom()) {
+            if (xproperty.get_btom() ==
+                MotifDnDConstbnts.XA_MOTIF_DRAG_RECEIVER_INFO.getAtom()) {
 
-                XDropTargetRegistry.getRegistry().updateEmbedderDropSite(xproperty.get_window());
+                XDropTbrgetRegistry.getRegistry().updbteEmbedderDropSite(xproperty.get_window());
             }
         }
 
-        if (ev.get_type() != XConstants.ClientMessage) {
-            return false;
+        if (ev.get_type() != XConstbnts.ClientMessbge) {
+            return fblse;
         }
 
-        boolean processed = false;
-        XClientMessageEvent xclient = ev.get_xclient();
+        boolebn processed = fblse;
+        XClientMessbgeEvent xclient = ev.get_xclient();
 
-        XDropTargetProtocol curProtocol = protocol;
+        XDropTbrgetProtocol curProtocol = protocol;
 
         if (protocol != null) {
-            if (protocol.getMessageType(xclient) !=
-                XDropTargetProtocol.UNKNOWN_MESSAGE) {
-                processed = protocol.processClientMessage(xclient);
+            if (protocol.getMessbgeType(xclient) !=
+                XDropTbrgetProtocol.UNKNOWN_MESSAGE) {
+                processed = protocol.processClientMessbge(xclient);
             } else {
                 protocol = null;
             }
         }
 
         if (protocol == null) {
-            Iterator<XDropTargetProtocol> dropTargetProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+            Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols =
+                XDrbgAndDropProtocols.getDropTbrgetProtocols();
 
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-                // Don't try to process it again with the current protocol.
-                if (dropTargetProtocol == curProtocol) {
+            while (dropTbrgetProtocols.hbsNext()) {
+                XDropTbrgetProtocol dropTbrgetProtocol = dropTbrgetProtocols.next();
+                // Don't try to process it bgbin with the current protocol.
+                if (dropTbrgetProtocol == curProtocol) {
                     continue;
                 }
 
-                if (dropTargetProtocol.getMessageType(xclient) ==
-                    XDropTargetProtocol.UNKNOWN_MESSAGE) {
+                if (dropTbrgetProtocol.getMessbgeType(xclient) ==
+                    XDropTbrgetProtocol.UNKNOWN_MESSAGE) {
                     continue;
                 }
 
-                protocol = dropTargetProtocol;
-                processed = protocol.processClientMessage(xclient);
-                break;
+                protocol = dropTbrgetProtocol;
+                processed = protocol.processClientMessbge(xclient);
+                brebk;
             }
         }
 
         return processed;
     }
 
-    static void reset() {
-        theInstance.protocol = null;
+    stbtic void reset() {
+        theInstbnce.protocol = null;
     }
 
-    static void activate() {
-        active = true;
+    stbtic void bctivbte() {
+        bctive = true;
     }
 
-    // Fix for 4915454 - do not call doProcessEvent() until the first drop
-    // target is registered to avoid premature loading of DnD protocol
-    // classes.
-    static boolean processEvent(XEvent ev) {
-        return active ? theInstance.doProcessEvent(ev) : false;
+    // Fix for 4915454 - do not cbll doProcessEvent() until the first drop
+    // tbrget is registered to bvoid prembture lobding of DnD protocol
+    // clbsses.
+    stbtic boolebn processEvent(XEvent ev) {
+        return bctive ? theInstbnce.doProcessEvent(ev) : fblse;
     }
 }

@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.AWTKeyStroke;
-import java.awt.Toolkit;
-import java.lang.reflect.InvocationTargetException;
+import jbvb.bwt.AWTKeyStroke;
+import jbvb.bwt.Toolkit;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
 
-import sun.awt.EmbeddedFrame;
-import sun.lwawt.LWWindowPeer;
+import sun.bwt.EmbeddedFrbme;
+import sun.lwbwt.LWWindowPeer;
 
 /*
- * The CViewEmbeddedFrame class is used in the SWT_AWT bridge.
- * This is a part of public API and should not be renamed or moved
+ * The CViewEmbeddedFrbme clbss is used in the SWT_AWT bridge.
+ * This is b pbrt of public API bnd should not be renbmed or moved
  */
-@SuppressWarnings("serial") // JDK implementation class
-public class CViewEmbeddedFrame extends EmbeddedFrame {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public clbss CViewEmbeddedFrbme extends EmbeddedFrbme {
 
-    private final long nsViewPtr;
+    privbte finbl long nsViewPtr;
 
-    private boolean isActive = false;
+    privbte boolebn isActive = fblse;
 
-    public CViewEmbeddedFrame(long nsViewPtr) {
+    public CViewEmbeddedFrbme(long nsViewPtr) {
         this.nsViewPtr = nsViewPtr;
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     @Override
-    public void addNotify() {
+    public void bddNotify() {
         if (getPeer() == null) {
-            LWCToolkit toolkit = (LWCToolkit) Toolkit.getDefaultToolkit();
-            setPeer(toolkit.createEmbeddedFrame(this));
+            LWCToolkit toolkit = (LWCToolkit) Toolkit.getDefbultToolkit();
+            setPeer(toolkit.crebteEmbeddedFrbme(this));
         }
-        super.addNotify();
+        super.bddNotify();
     }
 
-    public long getEmbedderHandle() {
+    public long getEmbedderHbndle() {
         return nsViewPtr;
     }
 
     @Override
-    public void registerAccelerator(AWTKeyStroke awtks) {
+    public void registerAccelerbtor(AWTKeyStroke bwtks) {
     }
 
     @Override
-    public void unregisterAccelerator(AWTKeyStroke awtks) {
+    public void unregisterAccelerbtor(AWTKeyStroke bwtks) {
     }
 
-    public boolean isParentWindowActive() {
+    public boolebn isPbrentWindowActive() {
         return isActive;
     }
 
     /*
-     * Synthetic event delivery for focus management
+     * Synthetic event delivery for focus mbnbgement
      */
     @Override
-    public void synthesizeWindowActivation(boolean activated) {
-        if (isActive != activated) {
-            isActive = activated;
-            ((LWWindowPeer)getPeer()).notifyActivation(activated, null);
+    public void synthesizeWindowActivbtion(boolebn bctivbted) {
+        if (isActive != bctivbted) {
+            isActive = bctivbted;
+            ((LWWindowPeer)getPeer()).notifyActivbtion(bctivbted, null);
         }
     }
 
     /*
-     * Initializes the embedded frame bounds and validates a component.
-     * Designed to be called from the main thread
-     * This method should be called once from the initialization of the SWT_AWT Bridge
+     * Initiblizes the embedded frbme bounds bnd vblidbtes b component.
+     * Designed to be cblled from the mbin threbd
+     * This method should be cblled once from the initiblizbtion of the SWT_AWT Bridge
      */
-    @SuppressWarnings("deprecation")
-    public void validateWithBounds(final int x, final int y, final int width, final int height) {
+    @SuppressWbrnings("deprecbtion")
+    public void vblidbteWithBounds(finbl int x, finbl int y, finbl int width, finbl int height) {
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
+            LWCToolkit.invokeAndWbit(new Runnbble() {
                 @Override
                 public void run() {
-                    ((LWWindowPeer) getPeer()).setBoundsPrivate(0, 0, width, height);
-                    validate();
+                    ((LWWindowPeer) getPeer()).setBoundsPrivbte(0, 0, width, height);
+                    vblidbte();
                     setVisible(true);
                 }
             }, this);
-        } catch (InvocationTargetException ex) {}
+        } cbtch (InvocbtionTbrgetException ex) {}
     }
 }

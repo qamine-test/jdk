@@ -1,237 +1,237 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rowset.internal;
+pbckbge com.sun.rowset.internbl;
 
-import java.sql.*;
-import javax.sql.*;
-import java.io.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
 
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-import javax.xml.parsers.*;
+import org.xml.sbx.*;
+import org.xml.sbx.helpers.*;
+import jbvbx.xml.pbrsers.*;
 
 import com.sun.rowset.*;
-import java.text.MessageFormat;
-import javax.sql.rowset.*;
-import javax.sql.rowset.spi.*;
+import jbvb.text.MessbgeFormbt;
+import jbvbx.sql.rowset.*;
+import jbvbx.sql.rowset.spi.*;
 
 /**
- * An implementation of the <code>XmlReader</code> interface, which
- * reads and parses an XML formatted <code>WebRowSet</code> object.
- * This implementation uses an <code>org.xml.sax.Parser</code> object
- * as its parser.
+ * An implementbtion of the <code>XmlRebder</code> interfbce, which
+ * rebds bnd pbrses bn XML formbtted <code>WebRowSet</code> object.
+ * This implementbtion uses bn <code>org.xml.sbx.Pbrser</code> object
+ * bs its pbrser.
  */
-public class WebRowSetXmlReader implements XmlReader, Serializable {
+public clbss WebRowSetXmlRebder implements XmlRebder, Seriblizbble {
 
 
-    private JdbcRowSetResourceBundle resBundle;
+    privbte JdbcRowSetResourceBundle resBundle;
 
-    public WebRowSetXmlReader(){
+    public WebRowSetXmlRebder(){
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
     }
 
     /**
-     * Parses the given <code>WebRowSet</code> object, getting its input from
-     * the given <code>java.io.Reader</code> object.  The parser will send
-     * notifications of parse events to the rowset's
-     * <code>XmlReaderDocHandler</code>, which will build the rowset as
-     * an XML document.
+     * Pbrses the given <code>WebRowSet</code> object, getting its input from
+     * the given <code>jbvb.io.Rebder</code> object.  The pbrser will send
+     * notificbtions of pbrse events to the rowset's
+     * <code>XmlRebderDocHbndler</code>, which will build the rowset bs
+     * bn XML document.
      * <P>
-     * This method is called internally by the method
-     * <code>WebRowSet.readXml</code>.
+     * This method is cblled internblly by the method
+     * <code>WebRowSet.rebdXml</code>.
      * <P>
-     * If a parsing error occurs, the exception thrown will include
-     * information for locating the error in the original XML document.
+     * If b pbrsing error occurs, the exception thrown will include
+     * informbtion for locbting the error in the originbl XML document.
      *
-     * @param caller the <code>WebRowSet</code> object to be parsed, whose
-     *        <code>xmlReader</code> field must contain a reference to
-     *        this <code>XmlReader</code> object
-     * @param reader the <code>java.io.Reader</code> object from which
-     *        the parser will get its input
-     * @exception SQLException if a database access error occurs or
-     *            this <code>WebRowSetXmlReader</code> object is not the
-     *            reader for the given rowset
-     * @see XmlReaderContentHandler
+     * @pbrbm cbller the <code>WebRowSet</code> object to be pbrsed, whose
+     *        <code>xmlRebder</code> field must contbin b reference to
+     *        this <code>XmlRebder</code> object
+     * @pbrbm rebder the <code>jbvb.io.Rebder</code> object from which
+     *        the pbrser will get its input
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     *            this <code>WebRowSetXmlRebder</code> object is not the
+     *            rebder for the given rowset
+     * @see XmlRebderContentHbndler
      */
-    public void readXML(WebRowSet caller, java.io.Reader reader) throws SQLException {
+    public void rebdXML(WebRowSet cbller, jbvb.io.Rebder rebder) throws SQLException {
         try {
-            // Crimson Parser(as in J2SE 1.4.1 is NOT able to handle
-            // Reader(s)(FileReader).
+            // Crimson Pbrser(bs in J2SE 1.4.1 is NOT bble to hbndle
+            // Rebder(s)(FileRebder).
             //
-            // But getting the file as a Stream works fine. So we are going to take
-            // the reader but send it as a InputStream to the parser. Note that this
-            // functionality needs to work against any parser
+            // But getting the file bs b Strebm works fine. So we bre going to tbke
+            // the rebder but send it bs b InputStrebm to the pbrser. Note thbt this
+            // functionblity needs to work bgbinst bny pbrser
             // Crimson(J2SE 1.4.x) / Xerces(J2SE 1.5.x).
-            InputSource is = new InputSource(reader);
-            DefaultHandler dh = new XmlErrorHandler();
-            XmlReaderContentHandler hndr = new XmlReaderContentHandler((RowSet)caller);
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            factory.setValidating(true);
-            SAXParser parser = factory.newSAXParser() ;
+            InputSource is = new InputSource(rebder);
+            DefbultHbndler dh = new XmlErrorHbndler();
+            XmlRebderContentHbndler hndr = new XmlRebderContentHbndler((RowSet)cbller);
+            SAXPbrserFbctory fbctory = SAXPbrserFbctory.newInstbnce();
+            fbctory.setNbmespbceAwbre(true);
+            fbctory.setVblidbting(true);
+            SAXPbrser pbrser = fbctory.newSAXPbrser() ;
 
-            parser.setProperty(
-                               "http://java.sun.com/xml/jaxp/properties/schemaLanguage", "http://www.w3.org/2001/XMLSchema");
+            pbrser.setProperty(
+                               "http://jbvb.sun.com/xml/jbxp/properties/schembLbngubge", "http://www.w3.org/2001/XMLSchemb");
 
-            XMLReader reader1 = parser.getXMLReader() ;
-            reader1.setEntityResolver(new XmlResolver());
-            reader1.setContentHandler(hndr);
+            XMLRebder rebder1 = pbrser.getXMLRebder() ;
+            rebder1.setEntityResolver(new XmlResolver());
+            rebder1.setContentHbndler(hndr);
 
-            reader1.setErrorHandler(dh);
+            rebder1.setErrorHbndler(dh);
 
-            reader1.parse(is);
+            rebder1.pbrse(is);
 
-        } catch (SAXParseException err) {
-            System.out.println (MessageFormat.format(resBundle.handleGetObject("wrsxmlreader.parseerr").toString(), new Object[]{ err.getMessage (), err.getLineNumber(), err.getSystemId()}));
-            err.printStackTrace();
-            throw new SQLException(err.getMessage());
+        } cbtch (SAXPbrseException err) {
+            System.out.println (MessbgeFormbt.formbt(resBundle.hbndleGetObject("wrsxmlrebder.pbrseerr").toString(), new Object[]{ err.getMessbge (), err.getLineNumber(), err.getSystemId()}));
+            err.printStbckTrbce();
+            throw new SQLException(err.getMessbge());
 
-        } catch (SAXException e) {
+        } cbtch (SAXException e) {
             Exception   x = e;
             if (e.getException () != null)
                 x = e.getException();
-            x.printStackTrace ();
-            throw new SQLException(x.getMessage());
+            x.printStbckTrbce ();
+            throw new SQLException(x.getMessbge());
 
         }
 
         // Will be here if trying to write beyond the RowSet limits
 
-         catch (ArrayIndexOutOfBoundsException aie) {
-              throw new SQLException(resBundle.handleGetObject("wrsxmlreader.invalidcp").toString());
+         cbtch (ArrbyIndexOutOfBoundsException bie) {
+              throw new SQLException(resBundle.hbndleGetObject("wrsxmlrebder.invblidcp").toString());
         }
-        catch (Throwable e) {
-            throw new SQLException(MessageFormat.format(resBundle.handleGetObject("wrsxmlreader.readxml").toString() , e.getMessage()));
+        cbtch (Throwbble e) {
+            throw new SQLException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("wrsxmlrebder.rebdxml").toString() , e.getMessbge()));
         }
 
     }
 
 
     /**
-     * Parses the given <code>WebRowSet</code> object, getting its input from
-     * the given <code>java.io.InputStream</code> object.  The parser will send
-     * notifications of parse events to the rowset's
-     * <code>XmlReaderDocHandler</code>, which will build the rowset as
-     * an XML document.
+     * Pbrses the given <code>WebRowSet</code> object, getting its input from
+     * the given <code>jbvb.io.InputStrebm</code> object.  The pbrser will send
+     * notificbtions of pbrse events to the rowset's
+     * <code>XmlRebderDocHbndler</code>, which will build the rowset bs
+     * bn XML document.
      * <P>
-     * Using streams is a much faster way than using <code>java.io.Reader</code>
+     * Using strebms is b much fbster wby thbn using <code>jbvb.io.Rebder</code>
      * <P>
-     * This method is called internally by the method
-     * <code>WebRowSet.readXml</code>.
+     * This method is cblled internblly by the method
+     * <code>WebRowSet.rebdXml</code>.
      * <P>
-     * If a parsing error occurs, the exception thrown will include
-     * information for locating the error in the original XML document.
+     * If b pbrsing error occurs, the exception thrown will include
+     * informbtion for locbting the error in the originbl XML document.
      *
-     * @param caller the <code>WebRowSet</code> object to be parsed, whose
-     *        <code>xmlReader</code> field must contain a reference to
-     *        this <code>XmlReader</code> object
-     * @param iStream the <code>java.io.InputStream</code> object from which
-     *        the parser will get its input
-     * @throws SQLException if a database access error occurs or
-     *            this <code>WebRowSetXmlReader</code> object is not the
-     *            reader for the given rowset
-     * @see XmlReaderContentHandler
+     * @pbrbm cbller the <code>WebRowSet</code> object to be pbrsed, whose
+     *        <code>xmlRebder</code> field must contbin b reference to
+     *        this <code>XmlRebder</code> object
+     * @pbrbm iStrebm the <code>jbvb.io.InputStrebm</code> object from which
+     *        the pbrser will get its input
+     * @throws SQLException if b dbtbbbse bccess error occurs or
+     *            this <code>WebRowSetXmlRebder</code> object is not the
+     *            rebder for the given rowset
+     * @see XmlRebderContentHbndler
      */
-    public void readXML(WebRowSet caller, java.io.InputStream iStream) throws SQLException {
+    public void rebdXML(WebRowSet cbller, jbvb.io.InputStrebm iStrebm) throws SQLException {
         try {
-            InputSource is = new InputSource(iStream);
-            DefaultHandler dh = new XmlErrorHandler();
+            InputSource is = new InputSource(iStrebm);
+            DefbultHbndler dh = new XmlErrorHbndler();
 
-            XmlReaderContentHandler hndr = new XmlReaderContentHandler((RowSet)caller);
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            factory.setValidating(true);
+            XmlRebderContentHbndler hndr = new XmlRebderContentHbndler((RowSet)cbller);
+            SAXPbrserFbctory fbctory = SAXPbrserFbctory.newInstbnce();
+            fbctory.setNbmespbceAwbre(true);
+            fbctory.setVblidbting(true);
 
-            SAXParser parser = factory.newSAXParser() ;
+            SAXPbrser pbrser = fbctory.newSAXPbrser() ;
 
-            parser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaLanguage",
-                     "http://www.w3.org/2001/XMLSchema");
+            pbrser.setProperty("http://jbvb.sun.com/xml/jbxp/properties/schembLbngubge",
+                     "http://www.w3.org/2001/XMLSchemb");
 
-            XMLReader reader1 = parser.getXMLReader() ;
-            reader1.setEntityResolver(new XmlResolver());
-            reader1.setContentHandler(hndr);
+            XMLRebder rebder1 = pbrser.getXMLRebder() ;
+            rebder1.setEntityResolver(new XmlResolver());
+            rebder1.setContentHbndler(hndr);
 
-            reader1.setErrorHandler(dh);
+            rebder1.setErrorHbndler(dh);
 
-            reader1.parse(is);
+            rebder1.pbrse(is);
 
-        } catch (SAXParseException err) {
-            System.out.println (MessageFormat.format(resBundle.handleGetObject("wrsxmlreader.parseerr").toString(), new Object[]{err.getLineNumber(), err.getSystemId() }));
-            System.out.println("   " + err.getMessage ());
-            err.printStackTrace();
-            throw new SQLException(err.getMessage());
+        } cbtch (SAXPbrseException err) {
+            System.out.println (MessbgeFormbt.formbt(resBundle.hbndleGetObject("wrsxmlrebder.pbrseerr").toString(), new Object[]{err.getLineNumber(), err.getSystemId() }));
+            System.out.println("   " + err.getMessbge ());
+            err.printStbckTrbce();
+            throw new SQLException(err.getMessbge());
 
-        } catch (SAXException e) {
+        } cbtch (SAXException e) {
             Exception   x = e;
             if (e.getException () != null)
                 x = e.getException();
-            x.printStackTrace ();
-            throw new SQLException(x.getMessage());
+            x.printStbckTrbce ();
+            throw new SQLException(x.getMessbge());
 
         }
 
         // Will be here if trying to write beyond the RowSet limits
 
-         catch (ArrayIndexOutOfBoundsException aie) {
-              throw new SQLException(resBundle.handleGetObject("wrsxmlreader.invalidcp").toString());
+         cbtch (ArrbyIndexOutOfBoundsException bie) {
+              throw new SQLException(resBundle.hbndleGetObject("wrsxmlrebder.invblidcp").toString());
         }
 
-        catch (Throwable e) {
-            throw new SQLException(MessageFormat.format(resBundle.handleGetObject("wrsxmlreader.readxml").toString() , e.getMessage()));
+        cbtch (Throwbble e) {
+            throw new SQLException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("wrsxmlrebder.rebdxml").toString() , e.getMessbge()));
         }
     }
 
     /**
-     * For code coverage purposes only right now
+     * For code coverbge purposes only right now
      *
      */
 
-    public void readData(RowSetInternal caller) {
+    public void rebdDbtb(RowSetInternbl cbller) {
     }
 
     /**
-     * This method re populates the resBundle
-     * during the deserialization process
+     * This method re populbtes the resBundle
+     * during the deseriblizbtion process
      *
      */
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Default state initialization happens here
-        ois.defaultReadObject();
-        // Initialization of transient Res Bundle happens here .
+    privbte void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+        // Defbult stbte initiblizbtion hbppens here
+        ois.defbultRebdObject();
+        // Initiblizbtion of trbnsient Res Bundle hbppens here .
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
 
     }
 
-    static final long serialVersionUID = -9127058392819008014L;
+    stbtic finbl long seriblVersionUID = -9127058392819008014L;
 }

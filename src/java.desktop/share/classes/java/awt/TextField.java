@@ -1,330 +1,330 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.peer.TextFieldPeer;
-import java.awt.event.*;
-import java.util.EventListener;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import javax.accessibility.*;
+import jbvb.bwt.peer.TextFieldPeer;
+import jbvb.bwt.event.*;
+import jbvb.util.EventListener;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvbx.bccessibility.*;
 
 
 /**
- * A <code>TextField</code> object is a text component
- * that allows for the editing of a single line of text.
+ * A <code>TextField</code> object is b text component
+ * thbt bllows for the editing of b single line of text.
  * <p>
- * For example, the following image depicts a frame with four
- * text fields of varying widths. Two of these text fields
- * display the predefined text <code>"Hello"</code>.
+ * For exbmple, the following imbge depicts b frbme with four
+ * text fields of vbrying widths. Two of these text fields
+ * displby the predefined text <code>"Hello"</code>.
  * <p>
- * <img src="doc-files/TextField-1.gif" alt="The preceding text describes this image."
- * style="float:center; margin: 7px 10px;">
+ * <img src="doc-files/TextField-1.gif" blt="The preceding text describes this imbge."
+ * style="flobt:center; mbrgin: 7px 10px;">
  * <p>
- * Here is the code that produces these four text fields:
+ * Here is the code thbt produces these four text fields:
  *
  * <hr><blockquote><pre>
  * TextField tf1, tf2, tf3, tf4;
- * // a blank text field
+ * // b blbnk text field
  * tf1 = new TextField();
- * // blank field of 20 columns
+ * // blbnk field of 20 columns
  * tf2 = new TextField("", 20);
- * // predefined text displayed
+ * // predefined text displbyed
  * tf3 = new TextField("Hello!");
  * // predefined text in 30 columns
  * tf4 = new TextField("Hello", 30);
  * </pre></blockquote><hr>
  * <p>
- * Every time the user types a key in the text field, one or
- * more key events are sent to the text field.  A <code>KeyEvent</code>
- * may be one of three types: keyPressed, keyReleased, or keyTyped.
- * The properties of a key event indicate which of these types
- * it is, as well as additional information about the event,
- * such as what modifiers are applied to the key event and the
- * time at which the event occurred.
+ * Every time the user types b key in the text field, one or
+ * more key events bre sent to the text field.  A <code>KeyEvent</code>
+ * mby be one of three types: keyPressed, keyRelebsed, or keyTyped.
+ * The properties of b key event indicbte which of these types
+ * it is, bs well bs bdditionbl informbtion bbout the event,
+ * such bs whbt modifiers bre bpplied to the key event bnd the
+ * time bt which the event occurred.
  * <p>
- * The key event is passed to every <code>KeyListener</code>
- * or <code>KeyAdapter</code> object which registered to receive such
- * events using the component's <code>addKeyListener</code> method.
- * (<code>KeyAdapter</code> objects implement the
- * <code>KeyListener</code> interface.)
+ * The key event is pbssed to every <code>KeyListener</code>
+ * or <code>KeyAdbpter</code> object which registered to receive such
+ * events using the component's <code>bddKeyListener</code> method.
+ * (<code>KeyAdbpter</code> objects implement the
+ * <code>KeyListener</code> interfbce.)
  * <p>
- * It is also possible to fire an <code>ActionEvent</code>.
- * If action events are enabled for the text field, they may
+ * It is blso possible to fire bn <code>ActionEvent</code>.
+ * If bction events bre enbbled for the text field, they mby
  * be fired by pressing the <code>Return</code> key.
  * <p>
- * The <code>TextField</code> class's <code>processEvent</code>
- * method examines the action event and passes it along to
- * <code>processActionEvent</code>. The latter method redirects the
- * event to any <code>ActionListener</code> objects that have
- * registered to receive action events generated by this
+ * The <code>TextField</code> clbss's <code>processEvent</code>
+ * method exbmines the bction event bnd pbsses it blong to
+ * <code>processActionEvent</code>. The lbtter method redirects the
+ * event to bny <code>ActionListener</code> objects thbt hbve
+ * registered to receive bction events generbted by this
  * text field.
  *
- * @author      Sami Shaio
- * @see         java.awt.event.KeyEvent
- * @see         java.awt.event.KeyAdapter
- * @see         java.awt.event.KeyListener
- * @see         java.awt.event.ActionEvent
- * @see         java.awt.Component#addKeyListener
- * @see         java.awt.TextField#processEvent
- * @see         java.awt.TextField#processActionEvent
- * @see         java.awt.TextField#addActionListener
+ * @buthor      Sbmi Shbio
+ * @see         jbvb.bwt.event.KeyEvent
+ * @see         jbvb.bwt.event.KeyAdbpter
+ * @see         jbvb.bwt.event.KeyListener
+ * @see         jbvb.bwt.event.ActionEvent
+ * @see         jbvb.bwt.Component#bddKeyListener
+ * @see         jbvb.bwt.TextField#processEvent
+ * @see         jbvb.bwt.TextField#processActionEvent
+ * @see         jbvb.bwt.TextField#bddActionListener
  * @since       1.0
  */
-public class TextField extends TextComponent {
+public clbss TextField extends TextComponent {
 
     /**
      * The number of columns in the text field.
-     * A column is an approximate average character
-     * width that is platform-dependent.
-     * Guaranteed to be non-negative.
+     * A column is bn bpproximbte bverbge chbrbcter
+     * width thbt is plbtform-dependent.
+     * Gubrbnteed to be non-negbtive.
      *
-     * @serial
+     * @seribl
      * @see #setColumns(int)
      * @see #getColumns()
      */
     int columns;
 
     /**
-     * The echo character, which is used when
-     * the user wishes to disguise the characters
+     * The echo chbrbcter, which is used when
+     * the user wishes to disguise the chbrbcters
      * typed into the text field.
-     * The disguises are removed if echoChar = <code>0</code>.
+     * The disguises bre removed if echoChbr = <code>0</code>.
      *
-     * @serial
-     * @see #getEchoChar()
-     * @see #setEchoChar(char)
-     * @see #echoCharIsSet()
+     * @seribl
+     * @see #getEchoChbr()
+     * @see #setEchoChbr(chbr)
+     * @see #echoChbrIsSet()
      */
-    char echoChar;
+    chbr echoChbr;
 
-    transient ActionListener actionListener;
+    trbnsient ActionListener bctionListener;
 
-    private static final String base = "textfield";
-    private static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "textfield";
+    privbte stbtic int nbmeCounter = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = -2966288784432217853L;
+    privbte stbtic finbl long seriblVersionUID = -2966288784432217853L;
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblize JNI field bnd method ids
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
     /**
-     * Constructs a new text field.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Constructs b new text field.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public TextField() throws HeadlessException {
+    public TextField() throws HebdlessException {
         this("", 0);
     }
 
     /**
-     * Constructs a new text field initialized with the specified text.
-     * @param      text       the text to be displayed. If
+     * Constructs b new text field initiblized with the specified text.
+     * @pbrbm      text       the text to be displbyed. If
      *             <code>text</code> is <code>null</code>, the empty
-     *             string <code>""</code> will be displayed.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     *             string <code>""</code> will be displbyed.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public TextField(String text) throws HeadlessException {
+    public TextField(String text) throws HebdlessException {
         this(text, (text != null) ? text.length() : 0);
     }
 
     /**
-     * Constructs a new empty text field with the specified number
-     * of columns.  A column is an approximate average character
-     * width that is platform-dependent.
-     * @param      columns     the number of columns.  If
-     *             <code>columns</code> is less than <code>0</code>,
+     * Constructs b new empty text field with the specified number
+     * of columns.  A column is bn bpproximbte bverbge chbrbcter
+     * width thbt is plbtform-dependent.
+     * @pbrbm      columns     the number of columns.  If
+     *             <code>columns</code> is less thbn <code>0</code>,
      *             <code>columns</code> is set to <code>0</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public TextField(int columns) throws HeadlessException {
+    public TextField(int columns) throws HebdlessException {
         this("", columns);
     }
 
     /**
-     * Constructs a new text field initialized with the specified text
-     * to be displayed, and wide enough to hold the specified
-     * number of columns. A column is an approximate average character
-     * width that is platform-dependent.
-     * @param      text       the text to be displayed. If
+     * Constructs b new text field initiblized with the specified text
+     * to be displbyed, bnd wide enough to hold the specified
+     * number of columns. A column is bn bpproximbte bverbge chbrbcter
+     * width thbt is plbtform-dependent.
+     * @pbrbm      text       the text to be displbyed. If
      *             <code>text</code> is <code>null</code>, the empty
-     *             string <code>""</code> will be displayed.
-     * @param      columns     the number of columns.  If
-     *             <code>columns</code> is less than <code>0</code>,
+     *             string <code>""</code> will be displbyed.
+     * @pbrbm      columns     the number of columns.  If
+     *             <code>columns</code> is less thbn <code>0</code>,
      *             <code>columns</code> is set to <code>0</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public TextField(String text, int columns) throws HeadlessException {
+    public TextField(String text, int columns) throws HebdlessException {
         super(text);
         this.columns = (columns >= 0) ? columns : 0;
     }
 
     /**
-     * Construct a name for this component.  Called by getName() when the
-     * name is null.
+     * Construct b nbme for this component.  Cblled by getNbme() when the
+     * nbme is null.
      */
-    String constructComponentName() {
-        synchronized (TextField.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (TextField.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Creates the TextField's peer.  The peer allows us to modify the
-     * appearance of the TextField without changing its functionality.
+     * Crebtes the TextField's peer.  The peer bllows us to modify the
+     * bppebrbnce of the TextField without chbnging its functionblity.
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
             if (peer == null)
-                peer = getToolkit().createTextField(this);
-            super.addNotify();
+                peer = getToolkit().crebteTextField(this);
+            super.bddNotify();
         }
     }
 
     /**
-     * Gets the character that is to be used for echoing.
+     * Gets the chbrbcter thbt is to be used for echoing.
      * <p>
-     * An echo character is useful for text fields where
-     * user input should not be echoed to the screen, as in
-     * the case of a text field for entering a password.
-     * If <code>echoChar</code> = <code>0</code>, user
-     * input is echoed to the screen unchanged.
+     * An echo chbrbcter is useful for text fields where
+     * user input should not be echoed to the screen, bs in
+     * the cbse of b text field for entering b pbssword.
+     * If <code>echoChbr</code> = <code>0</code>, user
+     * input is echoed to the screen unchbnged.
      * <p>
-     * A Java platform implementation may support only a limited,
-     * non-empty set of echo characters. This function returns the
-     * echo character originally requested via setEchoChar(). The echo
-     * character actually used by the TextField implementation might be
+     * A Jbvb plbtform implementbtion mby support only b limited,
+     * non-empty set of echo chbrbcters. This function returns the
+     * echo chbrbcter originblly requested vib setEchoChbr(). The echo
+     * chbrbcter bctublly used by the TextField implementbtion might be
      * different.
-     * @return      the echo character for this text field.
-     * @see         java.awt.TextField#echoCharIsSet
-     * @see         java.awt.TextField#setEchoChar
+     * @return      the echo chbrbcter for this text field.
+     * @see         jbvb.bwt.TextField#echoChbrIsSet
+     * @see         jbvb.bwt.TextField#setEchoChbr
      */
-    public char getEchoChar() {
-        return echoChar;
+    public chbr getEchoChbr() {
+        return echoChbr;
     }
 
     /**
-     * Sets the echo character for this text field.
+     * Sets the echo chbrbcter for this text field.
      * <p>
-     * An echo character is useful for text fields where
-     * user input should not be echoed to the screen, as in
-     * the case of a text field for entering a password.
-     * Setting <code>echoChar</code> = <code>0</code> allows
-     * user input to be echoed to the screen again.
+     * An echo chbrbcter is useful for text fields where
+     * user input should not be echoed to the screen, bs in
+     * the cbse of b text field for entering b pbssword.
+     * Setting <code>echoChbr</code> = <code>0</code> bllows
+     * user input to be echoed to the screen bgbin.
      * <p>
-     * A Java platform implementation may support only a limited,
-     * non-empty set of echo characters. Attempts to set an
-     * unsupported echo character will cause the default echo
-     * character to be used instead. Subsequent calls to getEchoChar()
-     * will return the echo character originally requested. This might
-     * or might not be identical to the echo character actually
-     * used by the TextField implementation.
-     * @param       c   the echo character for this text field.
-     * @see         java.awt.TextField#echoCharIsSet
-     * @see         java.awt.TextField#getEchoChar
+     * A Jbvb plbtform implementbtion mby support only b limited,
+     * non-empty set of echo chbrbcters. Attempts to set bn
+     * unsupported echo chbrbcter will cbuse the defbult echo
+     * chbrbcter to be used instebd. Subsequent cblls to getEchoChbr()
+     * will return the echo chbrbcter originblly requested. This might
+     * or might not be identicbl to the echo chbrbcter bctublly
+     * used by the TextField implementbtion.
+     * @pbrbm       c   the echo chbrbcter for this text field.
+     * @see         jbvb.bwt.TextField#echoChbrIsSet
+     * @see         jbvb.bwt.TextField#getEchoChbr
      * @since       1.1
      */
-    public void setEchoChar(char c) {
-        setEchoCharacter(c);
+    public void setEchoChbr(chbr c) {
+        setEchoChbrbcter(c);
     }
 
     /**
-     * Sets the character to be echoed when protected input is displayed.
+     * Sets the chbrbcter to be echoed when protected input is displbyed.
      *
-     *  @param  c the echo character for this text field
+     *  @pbrbm  c the echo chbrbcter for this text field
      *
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setEchoChar(char)</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>setEchoChbr(chbr)</code>.
      */
-    @Deprecated
-    public synchronized void setEchoCharacter(char c) {
-        if (echoChar != c) {
-            echoChar = c;
+    @Deprecbted
+    public synchronized void setEchoChbrbcter(chbr c) {
+        if (echoChbr != c) {
+            echoChbr = c;
             TextFieldPeer peer = (TextFieldPeer)this.peer;
             if (peer != null) {
-                peer.setEchoChar(c);
+                peer.setEchoChbr(c);
             }
         }
     }
 
     /**
-     * Sets the text that is presented by this
+     * Sets the text thbt is presented by this
      * text component to be the specified text.
-     * @param       t   the new text.
-     * @see         java.awt.TextComponent#getText
+     * @pbrbm       t   the new text.
+     * @see         jbvb.bwt.TextComponent#getText
      */
     public void setText(String t) {
         super.setText(t);
 
-        // This could change the preferred size of the Component.
-        invalidateIfValid();
+        // This could chbnge the preferred size of the Component.
+        invblidbteIfVblid();
     }
 
     /**
-     * Indicates whether or not this text field has a
-     * character set for echoing.
+     * Indicbtes whether or not this text field hbs b
+     * chbrbcter set for echoing.
      * <p>
-     * An echo character is useful for text fields where
-     * user input should not be echoed to the screen, as in
-     * the case of a text field for entering a password.
-     * @return     <code>true</code> if this text field has
-     *                 a character set for echoing;
-     *                 <code>false</code> otherwise.
-     * @see        java.awt.TextField#setEchoChar
-     * @see        java.awt.TextField#getEchoChar
+     * An echo chbrbcter is useful for text fields where
+     * user input should not be echoed to the screen, bs in
+     * the cbse of b text field for entering b pbssword.
+     * @return     <code>true</code> if this text field hbs
+     *                 b chbrbcter set for echoing;
+     *                 <code>fblse</code> otherwise.
+     * @see        jbvb.bwt.TextField#setEchoChbr
+     * @see        jbvb.bwt.TextField#getEchoChbr
      */
-    public boolean echoCharIsSet() {
-        return echoChar != 0;
+    public boolebn echoChbrIsSet() {
+        return echoChbr != 0;
     }
 
     /**
-     * Gets the number of columns in this text field. A column is an
-     * approximate average character width that is platform-dependent.
+     * Gets the number of columns in this text field. A column is bn
+     * bpproximbte bverbge chbrbcter width thbt is plbtform-dependent.
      * @return     the number of columns.
-     * @see        java.awt.TextField#setColumns
+     * @see        jbvb.bwt.TextField#setColumns
      * @since      1.1
      */
     public int getColumns() {
@@ -332,39 +332,39 @@ public class TextField extends TextComponent {
     }
 
     /**
-     * Sets the number of columns in this text field. A column is an
-     * approximate average character width that is platform-dependent.
-     * @param      columns   the number of columns.
-     * @see        java.awt.TextField#getColumns
-     * @exception  IllegalArgumentException   if the value
+     * Sets the number of columns in this text field. A column is bn
+     * bpproximbte bverbge chbrbcter width thbt is plbtform-dependent.
+     * @pbrbm      columns   the number of columns.
+     * @see        jbvb.bwt.TextField#getColumns
+     * @exception  IllegblArgumentException   if the vblue
      *                 supplied for <code>columns</code>
-     *                 is less than <code>0</code>.
+     *                 is less thbn <code>0</code>.
      * @since      1.1
      */
     public void setColumns(int columns) {
-        int oldVal;
+        int oldVbl;
         synchronized (this) {
-            oldVal = this.columns;
+            oldVbl = this.columns;
             if (columns < 0) {
-                throw new IllegalArgumentException("columns less than zero.");
+                throw new IllegblArgumentException("columns less thbn zero.");
             }
-            if (columns != oldVal) {
+            if (columns != oldVbl) {
                 this.columns = columns;
             }
         }
 
-        if (columns != oldVal) {
-            invalidate();
+        if (columns != oldVbl) {
+            invblidbte();
         }
     }
 
     /**
      * Gets the preferred size of this text field
      * with the specified number of columns.
-     * @param     columns the number of columns
+     * @pbrbm     columns the number of columns
      *                 in this text field.
      * @return    the preferred dimensions for
-     *                 displaying this text field.
+     *                 displbying this text field.
      * @since     1.1
      */
     public Dimension getPreferredSize(int columns) {
@@ -375,13 +375,13 @@ public class TextField extends TextComponent {
      * Returns the preferred size for this text field
      * with the specified number of columns.
      *
-     * @param  columns the number of columns
+     * @pbrbm  columns the number of columns
      * @return the preferred size for the text field
      *
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getPreferredSize(int)</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getPreferredSize(int)</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension preferredSize(int columns) {
         synchronized (getTreeLock()) {
             TextFieldPeer peer = (TextFieldPeer)this.peer;
@@ -394,7 +394,7 @@ public class TextField extends TextComponent {
     /**
      * Gets the preferred size of this text field.
      * @return     the preferred dimensions for
-     *                         displaying this text field.
+     *                         displbying this text field.
      * @since      1.1
      */
     public Dimension getPreferredSize() {
@@ -402,10 +402,10 @@ public class TextField extends TextComponent {
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getPreferredSize()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getPreferredSize()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension preferredSize() {
         synchronized (getTreeLock()) {
             return (columns > 0) ?
@@ -415,9 +415,9 @@ public class TextField extends TextComponent {
     }
 
     /**
-     * Gets the minimum dimensions for a text field with
+     * Gets the minimum dimensions for b text field with
      * the specified number of columns.
-     * @param  columns the number of columns in
+     * @pbrbm  columns the number of columns in
      *         this text field.
      * @return the minimum size for this text field
      * @since    1.1
@@ -427,15 +427,15 @@ public class TextField extends TextComponent {
     }
 
     /**
-     * Returns the minimum dimensions for a text field with
+     * Returns the minimum dimensions for b text field with
      * the specified number of columns.
      *
-     * @param  columns the number of columns
+     * @pbrbm  columns the number of columns
      * @return the minimum size for this text field
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getMinimumSize(int)</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getMinimumSize(int)</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension minimumSize(int columns) {
         synchronized (getTreeLock()) {
             TextFieldPeer peer = (TextFieldPeer)this.peer;
@@ -448,7 +448,7 @@ public class TextField extends TextComponent {
     /**
      * Gets the minimum dimensions for this text field.
      * @return     the minimum dimensions for
-     *                  displaying this text field.
+     *                  displbying this text field.
      * @since      1.1
      */
     public Dimension getMinimumSize() {
@@ -456,10 +456,10 @@ public class TextField extends TextComponent {
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getMinimumSize()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getMinimumSize()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension minimumSize() {
         synchronized (getTreeLock()) {
             return (columns > 0) ?
@@ -469,135 +469,135 @@ public class TextField extends TextComponent {
     }
 
     /**
-     * Adds the specified action listener to receive
-     * action events from this text field.
-     * If l is null, no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Adds the specified bction listener to receive
+     * bction events from this text field.
+     * If l is null, no exception is thrown bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param      l the action listener.
+     * @pbrbm      l the bction listener.
      * @see        #removeActionListener
      * @see        #getActionListeners
-     * @see        java.awt.event.ActionListener
+     * @see        jbvb.bwt.event.ActionListener
      * @since      1.1
      */
-    public synchronized void addActionListener(ActionListener l) {
+    public synchronized void bddActionListener(ActionListener l) {
         if (l == null) {
             return;
         }
-        actionListener = AWTEventMulticaster.add(actionListener, l);
+        bctionListener = AWTEventMulticbster.bdd(bctionListener, l);
         newEventsOnly = true;
     }
 
     /**
-     * Removes the specified action listener so that it no longer
-     * receives action events from this text field.
-     * If l is null, no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Removes the specified bction listener so thbt it no longer
+     * receives bction events from this text field.
+     * If l is null, no exception is thrown bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param           l the action listener.
-     * @see             #addActionListener
+     * @pbrbm           l the bction listener.
+     * @see             #bddActionListener
      * @see             #getActionListeners
-     * @see             java.awt.event.ActionListener
+     * @see             jbvb.bwt.event.ActionListener
      * @since           1.1
      */
     public synchronized void removeActionListener(ActionListener l) {
         if (l == null) {
             return;
         }
-        actionListener = AWTEventMulticaster.remove(actionListener, l);
+        bctionListener = AWTEventMulticbster.remove(bctionListener, l);
     }
 
     /**
-     * Returns an array of all the action listeners
+     * Returns bn brrby of bll the bction listeners
      * registered on this textfield.
      *
-     * @return all of this textfield's <code>ActionListener</code>s
-     *         or an empty array if no action
-     *         listeners are currently registered
+     * @return bll of this textfield's <code>ActionListener</code>s
+     *         or bn empty brrby if no bction
+     *         listeners bre currently registered
      *
-     * @see #addActionListener
+     * @see #bddActionListener
      * @see #removeActionListener
-     * @see java.awt.event.ActionListener
+     * @see jbvb.bwt.event.ActionListener
      * @since 1.4
      */
     public synchronized ActionListener[] getActionListeners() {
-        return getListeners(ActionListener.class);
+        return getListeners(ActionListener.clbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
      * upon this <code>TextField</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl, such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
      * <code>TextField</code> <code>t</code>
-     * for its action listeners with the following code:
+     * for its bction listeners with the following code:
      *
-     * <pre>ActionListener[] als = (ActionListener[])(t.getListeners(ActionListener.class));</pre>
+     * <pre>ActionListener[] bls = (ActionListener[])(t.getListeners(ActionListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this textfield,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @see #getActionListeners
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         EventListener l = null;
-        if  (listenerType == ActionListener.class) {
-            l = actionListener;
+        if  (listenerType == ActionListener.clbss) {
+            l = bctionListener;
         } else {
             return super.getListeners(listenerType);
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        return AWTEventMulticbster.getListeners(l, listenerType);
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
+    // REMIND: remove when filtering is done bt lower level
+    boolebn eventEnbbled(AWTEvent e) {
         if (e.id == ActionEvent.ACTION_PERFORMED) {
-            if ((eventMask & AWTEvent.ACTION_EVENT_MASK) != 0 ||
-                actionListener != null) {
+            if ((eventMbsk & AWTEvent.ACTION_EVENT_MASK) != 0 ||
+                bctionListener != null) {
                 return true;
             }
-            return false;
+            return fblse;
         }
-        return super.eventEnabled(e);
+        return super.eventEnbbled(e);
     }
 
     /**
      * Processes events on this text field. If the event
-     * is an instance of <code>ActionEvent</code>,
+     * is bn instbnce of <code>ActionEvent</code>,
      * it invokes the <code>processActionEvent</code>
      * method. Otherwise, it invokes <code>processEvent</code>
-     * on the superclass.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * on the superclbss.
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param      e the event
-     * @see        java.awt.event.ActionEvent
-     * @see        java.awt.TextField#processActionEvent
+     * @pbrbm      e the event
+     * @see        jbvb.bwt.event.ActionEvent
+     * @see        jbvb.bwt.TextField#processActionEvent
      * @since      1.1
      */
     protected void processEvent(AWTEvent e) {
-        if (e instanceof ActionEvent) {
+        if (e instbnceof ActionEvent) {
             processActionEvent((ActionEvent)e);
             return;
         }
@@ -605,121 +605,121 @@ public class TextField extends TextComponent {
     }
 
     /**
-     * Processes action events occurring on this text field by
-     * dispatching them to any registered
+     * Processes bction events occurring on this text field by
+     * dispbtching them to bny registered
      * <code>ActionListener</code> objects.
      * <p>
-     * This method is not called unless action events are
-     * enabled for this component. Action events are enabled
+     * This method is not cblled unless bction events bre
+     * enbbled for this component. Action events bre enbbled
      * when one of the following occurs:
      * <ul>
      * <li>An <code>ActionListener</code> object is registered
-     * via <code>addActionListener</code>.
-     * <li>Action events are enabled via <code>enableEvents</code>.
+     * vib <code>bddActionListener</code>.
+     * <li>Action events bre enbbled vib <code>enbbleEvents</code>.
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param       e the action event
-     * @see         java.awt.event.ActionListener
-     * @see         java.awt.TextField#addActionListener
-     * @see         java.awt.Component#enableEvents
+     * @pbrbm       e the bction event
+     * @see         jbvb.bwt.event.ActionListener
+     * @see         jbvb.bwt.TextField#bddActionListener
+     * @see         jbvb.bwt.Component#enbbleEvents
      * @since       1.1
      */
     protected void processActionEvent(ActionEvent e) {
-        ActionListener listener = actionListener;
+        ActionListener listener = bctionListener;
         if (listener != null) {
-            listener.actionPerformed(e);
+            listener.bctionPerformed(e);
         }
     }
 
     /**
-     * Returns a string representing the state of this <code>TextField</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * Returns b string representing the stbte of this <code>TextField</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return      the parameter string of this text field
+     * @return      the pbrbmeter string of this text field
      */
-    protected String paramString() {
-        String str = super.paramString();
-        if (echoChar != 0) {
-            str += ",echo=" + echoChar;
+    protected String pbrbmString() {
+        String str = super.pbrbmString();
+        if (echoChbr != 0) {
+            str += ",echo=" + echoChbr;
         }
         return str;
     }
 
 
     /*
-     * Serialization support.
+     * Seriblizbtion support.
      */
     /**
-     * The textField Serialized Data Version.
+     * The textField Seriblized Dbtb Version.
      *
-     * @serial
+     * @seribl
      */
-    private int textFieldSerializedDataVersion = 1;
+    privbte int textFieldSeriblizedDbtbVersion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * a list of serializable ActionListener(s) as optional data.
-     * The non-serializable ActionListener(s) are detected and
-     * no attempt is made to serialize them.
+     * Writes defbult seriblizbble fields to strebm.  Writes
+     * b list of seriblizbble ActionListener(s) bs optionbl dbtb.
+     * The non-seriblizbble ActionListener(s) bre detected bnd
+     * no bttempt is mbde to seriblize them.
      *
-     * @serialData Null terminated sequence of zero or more pairs.
-     *             A pair consists of a String and Object.
-     *             The String indicates the type of object and
+     * @seriblDbtb Null terminbted sequence of zero or more pbirs.
+     *             A pbir consists of b String bnd Object.
+     *             The String indicbtes the type of object bnd
      *             is one of the following :
-     *             ActionListenerK indicating and ActionListener object.
+     *             ActionListenerK indicbting bnd ActionListener object.
      *
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see java.awt.Component#actionListenerK
+     * @see AWTEventMulticbster#sbve(ObjectOutputStrebm, String, EventListener)
+     * @see jbvb.bwt.Component#bctionListenerK
      */
-    private void writeObject(ObjectOutputStream s)
+    privbte void writeObject(ObjectOutputStrebm s)
       throws IOException
     {
-        s.defaultWriteObject();
+        s.defbultWriteObject();
 
-        AWTEventMulticaster.save(s, actionListenerK, actionListener);
+        AWTEventMulticbster.sbve(s, bctionListenerK, bctionListener);
         s.writeObject(null);
     }
 
     /**
-     * Read the ObjectInputStream and if it isn't null,
-     * add a listener to receive action events fired by the
-     * TextField.  Unrecognized keys or values will be
+     * Rebd the ObjectInputStrebm bnd if it isn't null,
+     * bdd b listener to receive bction events fired by the
+     * TextField.  Unrecognized keys or vblues will be
      * ignored.
      *
-     * @exception HeadlessException if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns
+     * @exception HebdlessException if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns
      * <code>true</code>
      * @see #removeActionListener(ActionListener)
-     * @see #addActionListener(ActionListener)
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see #bddActionListener(ActionListener)
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException, HebdlessException
     {
-        // HeadlessException will be thrown by TextComponent's readObject
-        s.defaultReadObject();
+        // HebdlessException will be thrown by TextComponent's rebdObject
+        s.defbultRebdObject();
 
-        // Make sure the state we just read in for columns has legal values
+        // Mbke sure the stbte we just rebd in for columns hbs legbl vblues
         if (columns < 0) {
             columns = 0;
         }
 
-        // Read in listeners, if any
+        // Rebd in listeners, if bny
         Object keyOrNull;
-        while(null != (keyOrNull = s.readObject())) {
+        while(null != (keyOrNull = s.rebdObject())) {
             String key = ((String)keyOrNull).intern();
 
-            if (actionListenerK == key) {
-                addActionListener((ActionListener)(s.readObject()));
+            if (bctionListenerK == key) {
+                bddActionListener((ActionListener)(s.rebdObject()));
             } else {
-                // skip value for unrecognized key
-                s.readObject();
+                // skip vblue for unrecognized key
+                s.rebdObject();
             }
         }
     }
@@ -731,46 +731,46 @@ public class TextField extends TextComponent {
 
 
     /**
-     * Gets the AccessibleContext associated with this TextField.
-     * For text fields, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this TextField.
+     * For text fields, the AccessibleContext tbkes the form of bn
      * AccessibleAWTTextField.
-     * A new AccessibleAWTTextField instance is created if necessary.
+     * A new AccessibleAWTTextField instbnce is crebted if necessbry.
      *
-     * @return an AccessibleAWTTextField that serves as the
+     * @return bn AccessibleAWTTextField thbt serves bs the
      *         AccessibleContext of this TextField
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTTextField();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTTextField();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>TextField</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to text field user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>TextField</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to text field user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleAWTTextField extends AccessibleAWTTextComponent
+    protected clbss AccessibleAWTTextField extends AccessibleAWTTextComponent
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = 6219164359235943158L;
+        privbte stbtic finbl long seriblVersionUID = 6219164359235943158L;
 
         /**
-         * Gets the state set of this object.
+         * Gets the stbte set of this object.
          *
-         * @return an instance of AccessibleStateSet describing the states
+         * @return bn instbnce of AccessibleStbteSet describing the stbtes
          * of the object
-         * @see AccessibleState
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            states.add(AccessibleState.SINGLE_LINE);
-            return states;
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            stbtes.bdd(AccessibleStbte.SINGLE_LINE);
+            return stbtes;
         }
     }
 

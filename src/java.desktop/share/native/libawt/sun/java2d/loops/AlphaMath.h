@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef AlphaMath_h_Included
-#define AlphaMath_h_Included
+#ifndef AlphbMbth_h_Included
+#define AlphbMbth_h_Included
 
-extern unsigned char mul8table[256][256];
-extern unsigned char div8table[256][256];
-extern void initAlphaTables();
+extern unsigned chbr mul8tbble[256][256];
+extern unsigned chbr div8tbble[256][256];
+extern void initAlphbTbbles();
 
 
 /*
- * Multiply and Divide macros for single byte (8-bit) quantities representing
- * the values 0.0 to 1.0 as 0x00 to 0xff.
- * MUL8 multiplies its operands together
- * DIV8 divides the first operand by the second, clipping to 0xff
- *    (Note that since the divisor for DIV8 is likely to be
- *     the alpha quantity which is likely to be the same for
- *     multiple adjacent invocations, the table is designed
+ * Multiply bnd Divide mbcros for single byte (8-bit) qubntities representing
+ * the vblues 0.0 to 1.0 bs 0x00 to 0xff.
+ * MUL8 multiplies its operbnds together
+ * DIV8 divides the first operbnd by the second, clipping to 0xff
+ *    (Note thbt since the divisor for DIV8 is likely to be
+ *     the blphb qubntity which is likely to be the sbme for
+ *     multiple bdjbcent invocbtions, the tbble is designed
  *     with the first index being the divisor to hopefully
- *     improve memory cache hits...)
+ *     improve memory cbche hits...)
  */
-#define MUL8(a,b) mul8table[a][b]
-#define DIV8(a,b) div8table[b][a]
+#define MUL8(b,b) mul8tbble[b][b]
+#define DIV8(b,b) div8tbble[b][b]
 
 /*
- * Multiply and Divide macros for operations involving a single short (16-bit)
- * quantity and a single byte (8-bit) quantity.  Typically, promoting the
- * 8-bit value to 16 bits would lead to overflow when the operation occurs.
- * These macros have been modified somewhat so that overflow will not occur.
- * MUL8_16 multiplies an 8-bit value by a 16-bit value (the order of operands
- *         is unimportant since multiplication is a commutative operation)
- * DIV16_8 divides the first (16-bit) operand by the second (8-bit) value
+ * Multiply bnd Divide mbcros for operbtions involving b single short (16-bit)
+ * qubntity bnd b single byte (8-bit) qubntity.  Typicblly, promoting the
+ * 8-bit vblue to 16 bits would lebd to overflow when the operbtion occurs.
+ * These mbcros hbve been modified somewhbt so thbt overflow will not occur.
+ * MUL8_16 multiplies bn 8-bit vblue by b 16-bit vblue (the order of operbnds
+ *         is unimportbnt since multiplicbtion is b commutbtive operbtion)
+ * DIV16_8 divides the first (16-bit) operbnd by the second (8-bit) vblue
  */
 
-#define MUL8_16(a,b) (((a) * (b)) / 255)
-#define DIV16_8(a,b) (((a) * 255) / (b))
+#define MUL8_16(b,b) (((b) * (b)) / 255)
+#define DIV16_8(b,b) (((b) * 255) / (b))
 
 /*
- * Multiply and Divide macros for single short (16-bit) quantities
- * representing the values 0.0 to 1.0 as 0x0000 to 0xffff.
- * MUL16 multiplies its operands using the standard multiplication operator
- *       and normalizes the result to the appropriate range
- * DIV16 divides the first operand by the second and normalizes the result
- *       to a 16-bit value
+ * Multiply bnd Divide mbcros for single short (16-bit) qubntities
+ * representing the vblues 0.0 to 1.0 bs 0x0000 to 0xffff.
+ * MUL16 multiplies its operbnds using the stbndbrd multiplicbtion operbtor
+ *       bnd normblizes the result to the bppropribte rbnge
+ * DIV16 divides the first operbnd by the second bnd normblizes the result
+ *       to b 16-bit vblue
  */
-#define MUL16(a,b) (((a) * (b)) / 65535)
-#define DIV16(a,b) (((a) * 65535) / (b))
+#define MUL16(b,b) (((b) * (b)) / 65535)
+#define DIV16(b,b) (((b) * 65535) / (b))
 
 /*
- * Macro for the sum of two normalized (16-bit) products.  Refer to the
- * following equation and note that the right side reduces the number of
- * divide operations in the left side and increases the precision of the
+ * Mbcro for the sum of two normblized (16-bit) products.  Refer to the
+ * following equbtion bnd note thbt the right side reduces the number of
+ * divide operbtions in the left side bnd increbses the precision of the
  * result:
- *   a*f1 + b*f2     a*f1 + b*f2
- *   ----   ----  =  -----------     (where n in this case will be 65535)
+ *   b*f1 + b*f2     b*f1 + b*f2
+ *   ----   ----  =  -----------     (where n in this cbse will be 65535)
  *     n      n           n
  */
-#define AddNormalizedProducts16(a, f1, b, f2) \
-    ((((a) * (f1)) + ((b) * (f2))) / 65535)
+#define AddNormblizedProducts16(b, f1, b, f2) \
+    ((((b) * (f1)) + ((b) * (f2))) / 65535)
 
 
 /*
- * The following macros help to generalize the MaskBlit and MaskFill loops
- * found in AlphaMacros.h.  The appropriate macros will be used based on the
- * strategy of the given loop.  The strategy types take the form:
- *   <number of components per pixel><component data type><colorspace>
- * For example, these are the current strategy types:
- *   3ByteRgb    (currently only used as a glyph list blending strategy where
- *                the alpha value itself is neither blended nor stored)
+ * The following mbcros help to generblize the MbskBlit bnd MbskFill loops
+ * found in AlphbMbcros.h.  The bppropribte mbcros will be used bbsed on the
+ * strbtegy of the given loop.  The strbtegy types tbke the form:
+ *   <number of components per pixel><component dbtb type><colorspbce>
+ * For exbmple, these bre the current strbtegy types:
+ *   3ByteRgb    (currently only used bs b glyph list blending strbtegy where
+ *                the blphb vblue itself is neither blended nor stored)
  *   4ByteArgb   (eg. IntArgb, ThreeByteBgr, Ushort555Rgb, ByteIndexed, etc.)
- *   4ShortArgb  (not used currently; could be used when surface types using
- *                16 bits per component are implemented)
- *   1ByteGray   (eg. ByteGray)
- *   1ShortGray  (eg. UshortGray)
- * Note that the macros which operate on alpha values have the word "Alpha"
- * somewhere in their name.  Those macros that only operate on the color/gray
- * components of a given strategy will have the word "Components" or "Comps"
- * in their name.
+ *   4ShortArgb  (not used currently; could be used when surfbce types using
+ *                16 bits per component bre implemented)
+ *   1ByteGrby   (eg. ByteGrby)
+ *   1ShortGrby  (eg. UshortGrby)
+ * Note thbt the mbcros which operbte on blphb vblues hbve the word "Alphb"
+ * somewhere in their nbme.  Those mbcros thbt only operbte on the color/grby
+ * components of b given strbtegy will hbve the word "Components" or "Comps"
+ * in their nbme.
  */
 
 
 /*
- * MaxValFor ## STRATEGY
+ * MbxVblFor ## STRATEGY
  */
-#define MaxValFor4ByteArgb     0xff
-#define MaxValFor1ByteGray     0xff
-#define MaxValFor1ShortGray    0xffff
+#define MbxVblFor4ByteArgb     0xff
+#define MbxVblFor1ByteGrby     0xff
+#define MbxVblFor1ShortGrby    0xffff
 
 
 /*
- * AlphaType ## STRATEGY
+ * AlphbType ## STRATEGY
  */
-#define AlphaType3ByteRgb      jint
-#define AlphaType4ByteArgb     jint
-#define AlphaType1ByteGray     jint
-#define AlphaType1ShortGray    juint
+#define AlphbType3ByteRgb      jint
+#define AlphbType4ByteArgb     jint
+#define AlphbType1ByteGrby     jint
+#define AlphbType1ShortGrby    juint
 
 
 /*
@@ -124,161 +124,161 @@ extern void initAlphaTables();
  */
 #define ComponentType3ByteRgb      jint
 #define ComponentType4ByteArgb     jint
-#define ComponentType1ByteGray     jint
-#define ComponentType1ShortGray    juint
+#define ComponentType1ByteGrby     jint
+#define ComponentType1ShortGrby    juint
 
 
 /*
- * DeclareAlphaVarFor ## STRATEGY(VAR)
+ * DeclbreAlphbVbrFor ## STRATEGY(VAR)
  *
- * jint a;
+ * jint b;
  */
-#define DeclareAlphaVarFor3ByteRgb(VAR) \
-    AlphaType3ByteRgb VAR;
+#define DeclbreAlphbVbrFor3ByteRgb(VAR) \
+    AlphbType3ByteRgb VAR;
 
-#define DeclareAlphaVarFor4ByteArgb(VAR) \
-    AlphaType4ByteArgb VAR;
+#define DeclbreAlphbVbrFor4ByteArgb(VAR) \
+    AlphbType4ByteArgb VAR;
 
-#define DeclareAlphaVarFor1ByteGray(VAR) \
-    AlphaType1ByteGray VAR;
+#define DeclbreAlphbVbrFor1ByteGrby(VAR) \
+    AlphbType1ByteGrby VAR;
 
-#define DeclareAlphaVarFor1ShortGray(VAR) \
-    AlphaType1ShortGray VAR;
+#define DeclbreAlphbVbrFor1ShortGrby(VAR) \
+    AlphbType1ShortGrby VAR;
 
 
 /*
- * DeclareAndInitAlphaVarFor ## STRATEGY(VAR, initval)
+ * DeclbreAndInitAlphbVbrFor ## STRATEGY(VAR, initvbl)
  *
- * jint a = initval;
+ * jint b = initvbl;
  */
-#define DeclareAndInitAlphaVarFor4ByteArgb(VAR, initval) \
-    AlphaType4ByteArgb VAR = initval;
+#define DeclbreAndInitAlphbVbrFor4ByteArgb(VAR, initvbl) \
+    AlphbType4ByteArgb VAR = initvbl;
 
-#define DeclareAndInitAlphaVarFor1ByteGray(VAR, initval) \
-    AlphaType1ByteGray VAR = initval;
+#define DeclbreAndInitAlphbVbrFor1ByteGrby(VAR, initvbl) \
+    AlphbType1ByteGrby VAR = initvbl;
 
-#define DeclareAndInitAlphaVarFor1ShortGray(VAR, initval) \
-    AlphaType1ShortGray VAR = initval;
+#define DeclbreAndInitAlphbVbrFor1ShortGrby(VAR, initvbl) \
+    AlphbType1ShortGrby VAR = initvbl;
 
 
 /*
- * DeclareAndClearAlphaVarFor ## STRATEGY(VAR)
+ * DeclbreAndClebrAlphbVbrFor ## STRATEGY(VAR)
  *
- * jint a = 0;
+ * jint b = 0;
  */
-#define DeclareAndClearAlphaVarFor4ByteArgb(VAR) \
-    DeclareAndInitAlphaVarFor4ByteArgb(VAR, 0)
+#define DeclbreAndClebrAlphbVbrFor4ByteArgb(VAR) \
+    DeclbreAndInitAlphbVbrFor4ByteArgb(VAR, 0)
 
-#define DeclareAndClearAlphaVarFor1ByteGray(VAR) \
-    DeclareAndInitAlphaVarFor1ByteGray(VAR, 0)
+#define DeclbreAndClebrAlphbVbrFor1ByteGrby(VAR) \
+    DeclbreAndInitAlphbVbrFor1ByteGrby(VAR, 0)
 
-#define DeclareAndClearAlphaVarFor1ShortGray(VAR) \
-    DeclareAndInitAlphaVarFor1ShortGray(VAR, 0)
+#define DeclbreAndClebrAlphbVbrFor1ShortGrby(VAR) \
+    DeclbreAndInitAlphbVbrFor1ShortGrby(VAR, 0)
 
 
 /*
- * DeclareAndSetOpaqueAlphaVarFor ## STRATEGY(VAR)
+ * DeclbreAndSetOpbqueAlphbVbrFor ## STRATEGY(VAR)
  *
- * jint a = 0xff;
+ * jint b = 0xff;
  */
-#define DeclareAndSetOpaqueAlphaVarFor4ByteArgb(VAR) \
-    DeclareAndInitAlphaVarFor4ByteArgb(VAR, MaxValFor4ByteArgb)
+#define DeclbreAndSetOpbqueAlphbVbrFor4ByteArgb(VAR) \
+    DeclbreAndInitAlphbVbrFor4ByteArgb(VAR, MbxVblFor4ByteArgb)
 
-#define DeclareAndSetOpaqueAlphaVarFor1ByteGray(VAR) \
-    DeclareAndInitAlphaVarFor1ByteGray(VAR, MaxValFor1ByteGray)
+#define DeclbreAndSetOpbqueAlphbVbrFor1ByteGrby(VAR) \
+    DeclbreAndInitAlphbVbrFor1ByteGrby(VAR, MbxVblFor1ByteGrby)
 
-#define DeclareAndSetOpaqueAlphaVarFor1ShortGray(VAR) \
-    DeclareAndInitAlphaVarFor1ShortGray(VAR, MaxValFor1ShortGray)
+#define DeclbreAndSetOpbqueAlphbVbrFor1ShortGrby(VAR) \
+    DeclbreAndInitAlphbVbrFor1ShortGrby(VAR, MbxVblFor1ShortGrby)
 
 
 /*
- * DeclareAndInvertAlphaVarFor ## STRATEGY(VAR, invalpha)
+ * DeclbreAndInvertAlphbVbrFor ## STRATEGY(VAR, invblphb)
  *
- * jint a = 0xff - resA;
+ * jint b = 0xff - resA;
  */
-#define DeclareAndInvertAlphaVarFor4ByteArgb(VAR, invalpha) \
-    DeclareAndInitAlphaVarFor4ByteArgb(VAR, MaxValFor4ByteArgb - invalpha)
+#define DeclbreAndInvertAlphbVbrFor4ByteArgb(VAR, invblphb) \
+    DeclbreAndInitAlphbVbrFor4ByteArgb(VAR, MbxVblFor4ByteArgb - invblphb)
 
-#define DeclareAndInvertAlphaVarFor1ByteGray(VAR, invalpha) \
-    DeclareAndInitAlphaVarFor1ByteGray(VAR, MaxValFor1ByteGray - invalpha)
+#define DeclbreAndInvertAlphbVbrFor1ByteGrby(VAR, invblphb) \
+    DeclbreAndInitAlphbVbrFor1ByteGrby(VAR, MbxVblFor1ByteGrby - invblphb)
 
-#define DeclareAndInvertAlphaVarFor1ShortGray(VAR, invalpha) \
-    DeclareAndInitAlphaVarFor1ShortGray(VAR, MaxValFor1ShortGray - invalpha)
+#define DeclbreAndInvertAlphbVbrFor1ShortGrby(VAR, invblphb) \
+    DeclbreAndInitAlphbVbrFor1ShortGrby(VAR, MbxVblFor1ShortGrby - invblphb)
 
 
 /*
- * DeclareCompVarsFor ## STRATEGY(PREFIX)
+ * DeclbreCompVbrsFor ## STRATEGY(PREFIX)
  *
  * jint c;
  */
-#define DeclareCompVarsFor3ByteRgb(PREFIX) \
+#define DeclbreCompVbrsFor3ByteRgb(PREFIX) \
     ComponentType3ByteRgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
 
-#define DeclareCompVarsFor4ByteArgb(PREFIX) \
+#define DeclbreCompVbrsFor4ByteArgb(PREFIX) \
     ComponentType4ByteArgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
 
-#define DeclareCompVarsFor1ByteGray(PREFIX) \
-    ComponentType1ByteGray PREFIX ## G;
+#define DeclbreCompVbrsFor1ByteGrby(PREFIX) \
+    ComponentType1ByteGrby PREFIX ## G;
 
-#define DeclareCompVarsFor1ShortGray(PREFIX) \
-    ComponentType1ShortGray PREFIX ## G;
+#define DeclbreCompVbrsFor1ShortGrby(PREFIX) \
+    ComponentType1ShortGrby PREFIX ## G;
 
 
 /*
- * DeclareAndInitExtraAlphaFor ## STRATEGY(VAR)
+ * DeclbreAndInitExtrbAlphbFor ## STRATEGY(VAR)
  *
- * jint extraA = (int)(pCompInfo->details.extraAlpha * 255.0 + 0.5);
+ * jint extrbA = (int)(pCompInfo->detbils.extrbAlphb * 255.0 + 0.5);
  */
-#define DeclareAndInitExtraAlphaFor4ByteArgb(VAR) \
-    AlphaType4ByteArgb VAR = \
-        (AlphaType4ByteArgb)(pCompInfo->details.extraAlpha * 255.0 + 0.5);
+#define DeclbreAndInitExtrbAlphbFor4ByteArgb(VAR) \
+    AlphbType4ByteArgb VAR = \
+        (AlphbType4ByteArgb)(pCompInfo->detbils.extrbAlphb * 255.0 + 0.5);
 
-#define DeclareAndInitExtraAlphaFor1ByteGray(VAR) \
-    AlphaType1ByteGray VAR = \
-        (AlphaType1ByteGray)(pCompInfo->details.extraAlpha * 255.0 + 0.5);
+#define DeclbreAndInitExtrbAlphbFor1ByteGrby(VAR) \
+    AlphbType1ByteGrby VAR = \
+        (AlphbType1ByteGrby)(pCompInfo->detbils.extrbAlphb * 255.0 + 0.5);
 
-#define DeclareAndInitExtraAlphaFor1ShortGray(VAR) \
-    AlphaType1ShortGray VAR = \
-        (AlphaType1ShortGray)(pCompInfo->details.extraAlpha * 65535.0 + 0.5);
+#define DeclbreAndInitExtrbAlphbFor1ShortGrby(VAR) \
+    AlphbType1ShortGrby VAR = \
+        (AlphbType1ShortGrby)(pCompInfo->detbils.extrbAlphb * 65535.0 + 0.5);
 
 
 /*
- * PromoteByteAlphaFor ## STRATEGY(a)
+ * PromoteByteAlphbFor ## STRATEGY(b)
  */
-#define PromoteByteAlphaFor4ByteArgb(a)
-#define PromoteByteAlphaFor1ByteGray(a)
-#define PromoteByteAlphaFor1ShortGray(a) \
-    (a) = (((a) << 8) + (a))
+#define PromoteByteAlphbFor4ByteArgb(b)
+#define PromoteByteAlphbFor1ByteGrby(b)
+#define PromoteByteAlphbFor1ShortGrby(b) \
+    (b) = (((b) << 8) + (b))
 
 
 /*
- * DeclareAndInitPathAlphaFor ## STRATEGY(VAR)
+ * DeclbreAndInitPbthAlphbFor ## STRATEGY(VAR)
  *
- * jint pathA = *pMask++;
+ * jint pbthA = *pMbsk++;
  */
-#define DeclareAndInitPathAlphaFor4ByteArgb(VAR) \
-    AlphaType4ByteArgb VAR = *pMask++;
+#define DeclbreAndInitPbthAlphbFor4ByteArgb(VAR) \
+    AlphbType4ByteArgb VAR = *pMbsk++;
 
-#define DeclareAndInitPathAlphaFor1ByteGray(VAR) \
-    AlphaType1ByteGray VAR = *pMask++;
+#define DeclbreAndInitPbthAlphbFor1ByteGrby(VAR) \
+    AlphbType1ByteGrby VAR = *pMbsk++;
 
-#define DeclareAndInitPathAlphaFor1ShortGray(VAR) \
-    AlphaType1ShortGray VAR = *pMask++;
+#define DeclbreAndInitPbthAlphbFor1ShortGrby(VAR) \
+    AlphbType1ShortGrby VAR = *pMbsk++;
 
 
 /*
- * MultiplyAlphaFor ## STRATEGY(a, b)
+ * MultiplyAlphbFor ## STRATEGY(b, b)
  *
- * a * b
+ * b * b
  */
-#define MultiplyAlphaFor4ByteArgb(a, b) \
-    MUL8(a, b)
+#define MultiplyAlphbFor4ByteArgb(b, b) \
+    MUL8(b, b)
 
-#define MultiplyAlphaFor1ByteGray(a, b) \
-    MUL8(a, b)
+#define MultiplyAlphbFor1ByteGrby(b, b) \
+    MUL8(b, b)
 
-#define MultiplyAlphaFor1ShortGray(a, b) \
-    MUL16(a, b)
+#define MultiplyAlphbFor1ShortGrby(b, b) \
+    MUL16(b, b)
 
 
 /*
@@ -299,10 +299,10 @@ extern void initAlphaTables();
 #define MultiplyAndStore4ByteArgbComps(PROD_PREFIX, M1, M2_PREFIX) \
     MultiplyAndStore3Components(PROD_PREFIX, M1, M2_PREFIX, 8)
 
-#define MultiplyAndStore1ByteGrayComps(PROD_PREFIX, M1, M2_PREFIX) \
+#define MultiplyAndStore1ByteGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
     MultiplyAndStore1Component(PROD_PREFIX, M1, M2_PREFIX, 8)
 
-#define MultiplyAndStore1ShortGrayComps(PROD_PREFIX, M1, M2_PREFIX) \
+#define MultiplyAndStore1ShortGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
     MultiplyAndStore1Component(PROD_PREFIX, M1, M2_PREFIX, 16)
 
 
@@ -324,10 +324,10 @@ extern void initAlphaTables();
 #define DivideAndStore4ByteArgbComps(QUOT_PREFIX, D1_PREFIX, D2) \
     DivideAndStore3Components(QUOT_PREFIX, D1_PREFIX, D2, 8)
 
-#define DivideAndStore1ByteGrayComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#define DivideAndStore1ByteGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
     DivideAndStore1Component(QUOT_PREFIX, D1_PREFIX, D2, 8)
 
-#define DivideAndStore1ShortGrayComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#define DivideAndStore1ShortGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
     DivideAndStore1Component(QUOT_PREFIX, D1_PREFIX, D2, 16)
 
 
@@ -335,7 +335,7 @@ extern void initAlphaTables();
  * MultiplyAddAndStore ## STRATEGY ## Comps(RES_PREFIX, M1, \
  *                                          M2_PREFIX, A_PREFIX)
  *
- * c = (m1 * m2) + a;
+ * c = (m1 * m2) + b;
  */
 #define MultiplyAddAndStore3Components(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
                                        PRECISION) \
@@ -356,11 +356,11 @@ extern void initAlphaTables();
                                           A_PREFIX) \
     MultiplyAddAndStore3Components(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
 
-#define MultiplyAddAndStore1ByteGrayComps(RES_PREFIX, M1, M2_PREFIX, \
+#define MultiplyAddAndStore1ByteGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
                                           A_PREFIX) \
     MultiplyAddAndStore1Component(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
 
-#define MultiplyAddAndStore1ShortGrayComps(RES_PREFIX, M1, M2_PREFIX, \
+#define MultiplyAddAndStore1ShortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
                                            A_PREFIX) \
     MultiplyAddAndStore1Component(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 16)
 
@@ -419,21 +419,21 @@ extern void initAlphaTables();
     MultMultAddAndStoreLCD3Components(RES_PREFIX, M1, M2_PREFIX, \
                                       M3, M4_PREFIX, 8)
 
-#define MultMultAddAndStore1ByteGrayComps(RES_PREFIX, M1, M2_PREFIX, \
+#define MultMultAddAndStore1ByteGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
                                           M3, M4_PREFIX) \
     MultMultAddAndStore1Component(RES_PREFIX, M1, M2_PREFIX, \
                                   M3, M4_PREFIX, 8)
 
-#define MultMultAddAndStore1ShortGrayComps(RES_PREFIX, M1, M2_PREFIX, \
+#define MultMultAddAndStore1ShortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
                                            M3, M4_PREFIX) \
-    RES_PREFIX ## G = AddNormalizedProducts16(M1, M2_PREFIX ## G, \
+    RES_PREFIX ## G = AddNormblizedProducts16(M1, M2_PREFIX ## G, \
                                               M3, M4_PREFIX ## G)
 
 
 /*
  * Store ## STRATEGY ## CompsUsingOp(L_PREFIX, OP, R_PREFIX)
  *
- * l op r;  // where op can be something like = or +=
+ * l op r;  // where op cbn be something like = or +=
  */
 #define Store3ComponentsUsingOp(L_PREFIX, OP, R_PREFIX) \
     do { \
@@ -448,10 +448,10 @@ extern void initAlphaTables();
 #define Store4ByteArgbCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
     Store3ComponentsUsingOp(L_PREFIX, OP, R_PREFIX)
 
-#define Store1ByteGrayCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#define Store1ByteGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
     Store1ComponentUsingOp(L_PREFIX, OP, R_PREFIX)
 
-#define Store1ShortGrayCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#define Store1ShortGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
     Store1ComponentUsingOp(L_PREFIX, OP, R_PREFIX)
 
 
@@ -463,10 +463,10 @@ extern void initAlphaTables();
 #define Set4ByteArgbCompsToZero(PREFIX) \
     PREFIX ## R = PREFIX ## G = PREFIX ## B = 0
 
-#define Set1ByteGrayCompsToZero(PREFIX) \
+#define Set1ByteGrbyCompsToZero(PREFIX) \
     PREFIX ## G = 0
 
-#define Set1ShortGrayCompsToZero(PREFIX) \
+#define Set1ShortGrbyCompsToZero(PREFIX) \
     PREFIX ## G = 0
 
-#endif /* AlphaMath_h_Included */
+#endif /* AlphbMbth_h_Included */

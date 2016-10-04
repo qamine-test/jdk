@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,359 +56,359 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree.analysis;
+pbckbge jdk.internbl.org.objectweb.bsm.tree.bnblysis;
 
-import java.util.List;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.AbstractInsnNode;
-import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
-import jdk.internal.org.objectweb.asm.tree.InvokeDynamicInsnNode;
-import jdk.internal.org.objectweb.asm.tree.MethodInsnNode;
+import jdk.internbl.org.objectweb.bsm.Type;
+import jdk.internbl.org.objectweb.bsm.tree.AbstrbctInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.FieldInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.InvokeDynbmicInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.MethodInsnNode;
 
 /**
- * An extended {@link BasicInterpreter} that checks that bytecode instructions
- * are correctly used.
+ * An extended {@link BbsicInterpreter} thbt checks thbt bytecode instructions
+ * bre correctly used.
  *
- * @author Eric Bruneton
- * @author Bing Ran
+ * @buthor Eric Bruneton
+ * @buthor Bing Rbn
  */
-public class BasicVerifier extends BasicInterpreter {
+public clbss BbsicVerifier extends BbsicInterpreter {
 
-    public BasicVerifier() {
+    public BbsicVerifier() {
         super(ASM5);
     }
 
-    protected BasicVerifier(final int api) {
-        super(api);
+    protected BbsicVerifier(finbl int bpi) {
+        super(bpi);
     }
 
     @Override
-    public BasicValue copyOperation(final AbstractInsnNode insn,
-            final BasicValue value) throws AnalyzerException {
-        Value expected;
+    public BbsicVblue copyOperbtion(finbl AbstrbctInsnNode insn,
+            finbl BbsicVblue vblue) throws AnblyzerException {
+        Vblue expected;
         switch (insn.getOpcode()) {
-        case ILOAD:
-        case ISTORE:
-            expected = BasicValue.INT_VALUE;
-            break;
-        case FLOAD:
-        case FSTORE:
-            expected = BasicValue.FLOAT_VALUE;
-            break;
-        case LLOAD:
-        case LSTORE:
-            expected = BasicValue.LONG_VALUE;
-            break;
-        case DLOAD:
-        case DSTORE:
-            expected = BasicValue.DOUBLE_VALUE;
-            break;
-        case ALOAD:
-            if (!value.isReference()) {
-                throw new AnalyzerException(insn, null, "an object reference",
-                        value);
+        cbse ILOAD:
+        cbse ISTORE:
+            expected = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse FLOAD:
+        cbse FSTORE:
+            expected = BbsicVblue.FLOAT_VALUE;
+            brebk;
+        cbse LLOAD:
+        cbse LSTORE:
+            expected = BbsicVblue.LONG_VALUE;
+            brebk;
+        cbse DLOAD:
+        cbse DSTORE:
+            expected = BbsicVblue.DOUBLE_VALUE;
+            brebk;
+        cbse ALOAD:
+            if (!vblue.isReference()) {
+                throw new AnblyzerException(insn, null, "bn object reference",
+                        vblue);
             }
-            return value;
-        case ASTORE:
-            if (!value.isReference()
-                    && !BasicValue.RETURNADDRESS_VALUE.equals(value)) {
-                throw new AnalyzerException(insn, null,
-                        "an object reference or a return address", value);
+            return vblue;
+        cbse ASTORE:
+            if (!vblue.isReference()
+                    && !BbsicVblue.RETURNADDRESS_VALUE.equbls(vblue)) {
+                throw new AnblyzerException(insn, null,
+                        "bn object reference or b return bddress", vblue);
             }
-            return value;
-        default:
-            return value;
+            return vblue;
+        defbult:
+            return vblue;
         }
-        if (!expected.equals(value)) {
-            throw new AnalyzerException(insn, null, expected, value);
+        if (!expected.equbls(vblue)) {
+            throw new AnblyzerException(insn, null, expected, vblue);
         }
-        return value;
+        return vblue;
     }
 
     @Override
-    public BasicValue unaryOperation(final AbstractInsnNode insn,
-            final BasicValue value) throws AnalyzerException {
-        BasicValue expected;
+    public BbsicVblue unbryOperbtion(finbl AbstrbctInsnNode insn,
+            finbl BbsicVblue vblue) throws AnblyzerException {
+        BbsicVblue expected;
         switch (insn.getOpcode()) {
-        case INEG:
-        case IINC:
-        case I2F:
-        case I2L:
-        case I2D:
-        case I2B:
-        case I2C:
-        case I2S:
-        case IFEQ:
-        case IFNE:
-        case IFLT:
-        case IFGE:
-        case IFGT:
-        case IFLE:
-        case TABLESWITCH:
-        case LOOKUPSWITCH:
-        case IRETURN:
-        case NEWARRAY:
-        case ANEWARRAY:
-            expected = BasicValue.INT_VALUE;
-            break;
-        case FNEG:
-        case F2I:
-        case F2L:
-        case F2D:
-        case FRETURN:
-            expected = BasicValue.FLOAT_VALUE;
-            break;
-        case LNEG:
-        case L2I:
-        case L2F:
-        case L2D:
-        case LRETURN:
-            expected = BasicValue.LONG_VALUE;
-            break;
-        case DNEG:
-        case D2I:
-        case D2F:
-        case D2L:
-        case DRETURN:
-            expected = BasicValue.DOUBLE_VALUE;
-            break;
-        case GETFIELD:
-            expected = newValue(Type
+        cbse INEG:
+        cbse IINC:
+        cbse I2F:
+        cbse I2L:
+        cbse I2D:
+        cbse I2B:
+        cbse I2C:
+        cbse I2S:
+        cbse IFEQ:
+        cbse IFNE:
+        cbse IFLT:
+        cbse IFGE:
+        cbse IFGT:
+        cbse IFLE:
+        cbse TABLESWITCH:
+        cbse LOOKUPSWITCH:
+        cbse IRETURN:
+        cbse NEWARRAY:
+        cbse ANEWARRAY:
+            expected = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse FNEG:
+        cbse F2I:
+        cbse F2L:
+        cbse F2D:
+        cbse FRETURN:
+            expected = BbsicVblue.FLOAT_VALUE;
+            brebk;
+        cbse LNEG:
+        cbse L2I:
+        cbse L2F:
+        cbse L2D:
+        cbse LRETURN:
+            expected = BbsicVblue.LONG_VALUE;
+            brebk;
+        cbse DNEG:
+        cbse D2I:
+        cbse D2F:
+        cbse D2L:
+        cbse DRETURN:
+            expected = BbsicVblue.DOUBLE_VALUE;
+            brebk;
+        cbse GETFIELD:
+            expected = newVblue(Type
                     .getObjectType(((FieldInsnNode) insn).owner));
-            break;
-        case CHECKCAST:
-            if (!value.isReference()) {
-                throw new AnalyzerException(insn, null, "an object reference",
-                        value);
+            brebk;
+        cbse CHECKCAST:
+            if (!vblue.isReference()) {
+                throw new AnblyzerException(insn, null, "bn object reference",
+                        vblue);
             }
-            return super.unaryOperation(insn, value);
-        case ARRAYLENGTH:
-            if (!isArrayValue(value)) {
-                throw new AnalyzerException(insn, null, "an array reference",
-                        value);
+            return super.unbryOperbtion(insn, vblue);
+        cbse ARRAYLENGTH:
+            if (!isArrbyVblue(vblue)) {
+                throw new AnblyzerException(insn, null, "bn brrby reference",
+                        vblue);
             }
-            return super.unaryOperation(insn, value);
-        case ARETURN:
-        case ATHROW:
-        case INSTANCEOF:
-        case MONITORENTER:
-        case MONITOREXIT:
-        case IFNULL:
-        case IFNONNULL:
-            if (!value.isReference()) {
-                throw new AnalyzerException(insn, null, "an object reference",
-                        value);
+            return super.unbryOperbtion(insn, vblue);
+        cbse ARETURN:
+        cbse ATHROW:
+        cbse INSTANCEOF:
+        cbse MONITORENTER:
+        cbse MONITOREXIT:
+        cbse IFNULL:
+        cbse IFNONNULL:
+            if (!vblue.isReference()) {
+                throw new AnblyzerException(insn, null, "bn object reference",
+                        vblue);
             }
-            return super.unaryOperation(insn, value);
-        case PUTSTATIC:
-            expected = newValue(Type.getType(((FieldInsnNode) insn).desc));
-            break;
-        default:
-            throw new Error("Internal error.");
+            return super.unbryOperbtion(insn, vblue);
+        cbse PUTSTATIC:
+            expected = newVblue(Type.getType(((FieldInsnNode) insn).desc));
+            brebk;
+        defbult:
+            throw new Error("Internbl error.");
         }
-        if (!isSubTypeOf(value, expected)) {
-            throw new AnalyzerException(insn, null, expected, value);
+        if (!isSubTypeOf(vblue, expected)) {
+            throw new AnblyzerException(insn, null, expected, vblue);
         }
-        return super.unaryOperation(insn, value);
+        return super.unbryOperbtion(insn, vblue);
     }
 
     @Override
-    public BasicValue binaryOperation(final AbstractInsnNode insn,
-            final BasicValue value1, final BasicValue value2)
-            throws AnalyzerException {
-        BasicValue expected1;
-        BasicValue expected2;
+    public BbsicVblue binbryOperbtion(finbl AbstrbctInsnNode insn,
+            finbl BbsicVblue vblue1, finbl BbsicVblue vblue2)
+            throws AnblyzerException {
+        BbsicVblue expected1;
+        BbsicVblue expected2;
         switch (insn.getOpcode()) {
-        case IALOAD:
-            expected1 = newValue(Type.getType("[I"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case BALOAD:
-            if (isSubTypeOf(value1, newValue(Type.getType("[Z")))) {
-                expected1 = newValue(Type.getType("[Z"));
+        cbse IALOAD:
+            expected1 = newVblue(Type.getType("[I"));
+            expected2 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse BALOAD:
+            if (isSubTypeOf(vblue1, newVblue(Type.getType("[Z")))) {
+                expected1 = newVblue(Type.getType("[Z"));
             } else {
-                expected1 = newValue(Type.getType("[B"));
+                expected1 = newVblue(Type.getType("[B"));
             }
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case CALOAD:
-            expected1 = newValue(Type.getType("[C"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case SALOAD:
-            expected1 = newValue(Type.getType("[S"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case LALOAD:
-            expected1 = newValue(Type.getType("[J"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case FALOAD:
-            expected1 = newValue(Type.getType("[F"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case DALOAD:
-            expected1 = newValue(Type.getType("[D"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case AALOAD:
-            expected1 = newValue(Type.getType("[Ljava/lang/Object;"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case IADD:
-        case ISUB:
-        case IMUL:
-        case IDIV:
-        case IREM:
-        case ISHL:
-        case ISHR:
-        case IUSHR:
-        case IAND:
-        case IOR:
-        case IXOR:
-        case IF_ICMPEQ:
-        case IF_ICMPNE:
-        case IF_ICMPLT:
-        case IF_ICMPGE:
-        case IF_ICMPGT:
-        case IF_ICMPLE:
-            expected1 = BasicValue.INT_VALUE;
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case FADD:
-        case FSUB:
-        case FMUL:
-        case FDIV:
-        case FREM:
-        case FCMPL:
-        case FCMPG:
-            expected1 = BasicValue.FLOAT_VALUE;
-            expected2 = BasicValue.FLOAT_VALUE;
-            break;
-        case LADD:
-        case LSUB:
-        case LMUL:
-        case LDIV:
-        case LREM:
-        case LAND:
-        case LOR:
-        case LXOR:
-        case LCMP:
-            expected1 = BasicValue.LONG_VALUE;
-            expected2 = BasicValue.LONG_VALUE;
-            break;
-        case LSHL:
-        case LSHR:
-        case LUSHR:
-            expected1 = BasicValue.LONG_VALUE;
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case DADD:
-        case DSUB:
-        case DMUL:
-        case DDIV:
-        case DREM:
-        case DCMPL:
-        case DCMPG:
-            expected1 = BasicValue.DOUBLE_VALUE;
-            expected2 = BasicValue.DOUBLE_VALUE;
-            break;
-        case IF_ACMPEQ:
-        case IF_ACMPNE:
-            expected1 = BasicValue.REFERENCE_VALUE;
-            expected2 = BasicValue.REFERENCE_VALUE;
-            break;
-        case PUTFIELD:
+            expected2 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse CALOAD:
+            expected1 = newVblue(Type.getType("[C"));
+            expected2 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse SALOAD:
+            expected1 = newVblue(Type.getType("[S"));
+            expected2 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse LALOAD:
+            expected1 = newVblue(Type.getType("[J"));
+            expected2 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse FALOAD:
+            expected1 = newVblue(Type.getType("[F"));
+            expected2 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse DALOAD:
+            expected1 = newVblue(Type.getType("[D"));
+            expected2 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse AALOAD:
+            expected1 = newVblue(Type.getType("[Ljbvb/lbng/Object;"));
+            expected2 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse IADD:
+        cbse ISUB:
+        cbse IMUL:
+        cbse IDIV:
+        cbse IREM:
+        cbse ISHL:
+        cbse ISHR:
+        cbse IUSHR:
+        cbse IAND:
+        cbse IOR:
+        cbse IXOR:
+        cbse IF_ICMPEQ:
+        cbse IF_ICMPNE:
+        cbse IF_ICMPLT:
+        cbse IF_ICMPGE:
+        cbse IF_ICMPGT:
+        cbse IF_ICMPLE:
+            expected1 = BbsicVblue.INT_VALUE;
+            expected2 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse FADD:
+        cbse FSUB:
+        cbse FMUL:
+        cbse FDIV:
+        cbse FREM:
+        cbse FCMPL:
+        cbse FCMPG:
+            expected1 = BbsicVblue.FLOAT_VALUE;
+            expected2 = BbsicVblue.FLOAT_VALUE;
+            brebk;
+        cbse LADD:
+        cbse LSUB:
+        cbse LMUL:
+        cbse LDIV:
+        cbse LREM:
+        cbse LAND:
+        cbse LOR:
+        cbse LXOR:
+        cbse LCMP:
+            expected1 = BbsicVblue.LONG_VALUE;
+            expected2 = BbsicVblue.LONG_VALUE;
+            brebk;
+        cbse LSHL:
+        cbse LSHR:
+        cbse LUSHR:
+            expected1 = BbsicVblue.LONG_VALUE;
+            expected2 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse DADD:
+        cbse DSUB:
+        cbse DMUL:
+        cbse DDIV:
+        cbse DREM:
+        cbse DCMPL:
+        cbse DCMPG:
+            expected1 = BbsicVblue.DOUBLE_VALUE;
+            expected2 = BbsicVblue.DOUBLE_VALUE;
+            brebk;
+        cbse IF_ACMPEQ:
+        cbse IF_ACMPNE:
+            expected1 = BbsicVblue.REFERENCE_VALUE;
+            expected2 = BbsicVblue.REFERENCE_VALUE;
+            brebk;
+        cbse PUTFIELD:
             FieldInsnNode fin = (FieldInsnNode) insn;
-            expected1 = newValue(Type.getObjectType(fin.owner));
-            expected2 = newValue(Type.getType(fin.desc));
-            break;
-        default:
-            throw new Error("Internal error.");
+            expected1 = newVblue(Type.getObjectType(fin.owner));
+            expected2 = newVblue(Type.getType(fin.desc));
+            brebk;
+        defbult:
+            throw new Error("Internbl error.");
         }
-        if (!isSubTypeOf(value1, expected1)) {
-            throw new AnalyzerException(insn, "First argument", expected1,
-                    value1);
-        } else if (!isSubTypeOf(value2, expected2)) {
-            throw new AnalyzerException(insn, "Second argument", expected2,
-                    value2);
+        if (!isSubTypeOf(vblue1, expected1)) {
+            throw new AnblyzerException(insn, "First brgument", expected1,
+                    vblue1);
+        } else if (!isSubTypeOf(vblue2, expected2)) {
+            throw new AnblyzerException(insn, "Second brgument", expected2,
+                    vblue2);
         }
         if (insn.getOpcode() == AALOAD) {
-            return getElementValue(value1);
+            return getElementVblue(vblue1);
         } else {
-            return super.binaryOperation(insn, value1, value2);
+            return super.binbryOperbtion(insn, vblue1, vblue2);
         }
     }
 
     @Override
-    public BasicValue ternaryOperation(final AbstractInsnNode insn,
-            final BasicValue value1, final BasicValue value2,
-            final BasicValue value3) throws AnalyzerException {
-        BasicValue expected1;
-        BasicValue expected3;
+    public BbsicVblue ternbryOperbtion(finbl AbstrbctInsnNode insn,
+            finbl BbsicVblue vblue1, finbl BbsicVblue vblue2,
+            finbl BbsicVblue vblue3) throws AnblyzerException {
+        BbsicVblue expected1;
+        BbsicVblue expected3;
         switch (insn.getOpcode()) {
-        case IASTORE:
-            expected1 = newValue(Type.getType("[I"));
-            expected3 = BasicValue.INT_VALUE;
-            break;
-        case BASTORE:
-            if (isSubTypeOf(value1, newValue(Type.getType("[Z")))) {
-                expected1 = newValue(Type.getType("[Z"));
+        cbse IASTORE:
+            expected1 = newVblue(Type.getType("[I"));
+            expected3 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse BASTORE:
+            if (isSubTypeOf(vblue1, newVblue(Type.getType("[Z")))) {
+                expected1 = newVblue(Type.getType("[Z"));
             } else {
-                expected1 = newValue(Type.getType("[B"));
+                expected1 = newVblue(Type.getType("[B"));
             }
-            expected3 = BasicValue.INT_VALUE;
-            break;
-        case CASTORE:
-            expected1 = newValue(Type.getType("[C"));
-            expected3 = BasicValue.INT_VALUE;
-            break;
-        case SASTORE:
-            expected1 = newValue(Type.getType("[S"));
-            expected3 = BasicValue.INT_VALUE;
-            break;
-        case LASTORE:
-            expected1 = newValue(Type.getType("[J"));
-            expected3 = BasicValue.LONG_VALUE;
-            break;
-        case FASTORE:
-            expected1 = newValue(Type.getType("[F"));
-            expected3 = BasicValue.FLOAT_VALUE;
-            break;
-        case DASTORE:
-            expected1 = newValue(Type.getType("[D"));
-            expected3 = BasicValue.DOUBLE_VALUE;
-            break;
-        case AASTORE:
-            expected1 = value1;
-            expected3 = BasicValue.REFERENCE_VALUE;
-            break;
-        default:
-            throw new Error("Internal error.");
+            expected3 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse CASTORE:
+            expected1 = newVblue(Type.getType("[C"));
+            expected3 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse SASTORE:
+            expected1 = newVblue(Type.getType("[S"));
+            expected3 = BbsicVblue.INT_VALUE;
+            brebk;
+        cbse LASTORE:
+            expected1 = newVblue(Type.getType("[J"));
+            expected3 = BbsicVblue.LONG_VALUE;
+            brebk;
+        cbse FASTORE:
+            expected1 = newVblue(Type.getType("[F"));
+            expected3 = BbsicVblue.FLOAT_VALUE;
+            brebk;
+        cbse DASTORE:
+            expected1 = newVblue(Type.getType("[D"));
+            expected3 = BbsicVblue.DOUBLE_VALUE;
+            brebk;
+        cbse AASTORE:
+            expected1 = vblue1;
+            expected3 = BbsicVblue.REFERENCE_VALUE;
+            brebk;
+        defbult:
+            throw new Error("Internbl error.");
         }
-        if (!isSubTypeOf(value1, expected1)) {
-            throw new AnalyzerException(insn, "First argument", "a "
-                    + expected1 + " array reference", value1);
-        } else if (!BasicValue.INT_VALUE.equals(value2)) {
-            throw new AnalyzerException(insn, "Second argument",
-                    BasicValue.INT_VALUE, value2);
-        } else if (!isSubTypeOf(value3, expected3)) {
-            throw new AnalyzerException(insn, "Third argument", expected3,
-                    value3);
+        if (!isSubTypeOf(vblue1, expected1)) {
+            throw new AnblyzerException(insn, "First brgument", "b "
+                    + expected1 + " brrby reference", vblue1);
+        } else if (!BbsicVblue.INT_VALUE.equbls(vblue2)) {
+            throw new AnblyzerException(insn, "Second brgument",
+                    BbsicVblue.INT_VALUE, vblue2);
+        } else if (!isSubTypeOf(vblue3, expected3)) {
+            throw new AnblyzerException(insn, "Third brgument", expected3,
+                    vblue3);
         }
         return null;
     }
 
     @Override
-    public BasicValue naryOperation(final AbstractInsnNode insn,
-            final List<? extends BasicValue> values) throws AnalyzerException {
+    public BbsicVblue nbryOperbtion(finbl AbstrbctInsnNode insn,
+            finbl List<? extends BbsicVblue> vblues) throws AnblyzerException {
         int opcode = insn.getOpcode();
         if (opcode == MULTIANEWARRAY) {
-            for (int i = 0; i < values.size(); ++i) {
-                if (!BasicValue.INT_VALUE.equals(values.get(i))) {
-                    throw new AnalyzerException(insn, null,
-                            BasicValue.INT_VALUE, values.get(i));
+            for (int i = 0; i < vblues.size(); ++i) {
+                if (!BbsicVblue.INT_VALUE.equbls(vblues.get(i))) {
+                    throw new AnblyzerException(insn, null,
+                            BbsicVblue.INT_VALUE, vblues.get(i));
                 }
             }
         } else {
@@ -416,47 +416,47 @@ public class BasicVerifier extends BasicInterpreter {
             int j = 0;
             if (opcode != INVOKESTATIC && opcode != INVOKEDYNAMIC) {
                 Type owner = Type.getObjectType(((MethodInsnNode) insn).owner);
-                if (!isSubTypeOf(values.get(i++), newValue(owner))) {
-                    throw new AnalyzerException(insn, "Method owner",
-                            newValue(owner), values.get(0));
+                if (!isSubTypeOf(vblues.get(i++), newVblue(owner))) {
+                    throw new AnblyzerException(insn, "Method owner",
+                            newVblue(owner), vblues.get(0));
                 }
             }
-            String desc = (opcode == INVOKEDYNAMIC) ? ((InvokeDynamicInsnNode) insn).desc
+            String desc = (opcode == INVOKEDYNAMIC) ? ((InvokeDynbmicInsnNode) insn).desc
                     : ((MethodInsnNode) insn).desc;
-            Type[] args = Type.getArgumentTypes(desc);
-            while (i < values.size()) {
-                BasicValue expected = newValue(args[j++]);
-                BasicValue encountered = values.get(i++);
+            Type[] brgs = Type.getArgumentTypes(desc);
+            while (i < vblues.size()) {
+                BbsicVblue expected = newVblue(brgs[j++]);
+                BbsicVblue encountered = vblues.get(i++);
                 if (!isSubTypeOf(encountered, expected)) {
-                    throw new AnalyzerException(insn, "Argument " + j,
+                    throw new AnblyzerException(insn, "Argument " + j,
                             expected, encountered);
                 }
             }
         }
-        return super.naryOperation(insn, values);
+        return super.nbryOperbtion(insn, vblues);
     }
 
     @Override
-    public void returnOperation(final AbstractInsnNode insn,
-            final BasicValue value, final BasicValue expected)
-            throws AnalyzerException {
-        if (!isSubTypeOf(value, expected)) {
-            throw new AnalyzerException(insn, "Incompatible return type",
-                    expected, value);
+    public void returnOperbtion(finbl AbstrbctInsnNode insn,
+            finbl BbsicVblue vblue, finbl BbsicVblue expected)
+            throws AnblyzerException {
+        if (!isSubTypeOf(vblue, expected)) {
+            throw new AnblyzerException(insn, "Incompbtible return type",
+                    expected, vblue);
         }
     }
 
-    protected boolean isArrayValue(final BasicValue value) {
-        return value.isReference();
+    protected boolebn isArrbyVblue(finbl BbsicVblue vblue) {
+        return vblue.isReference();
     }
 
-    protected BasicValue getElementValue(final BasicValue objectArrayValue)
-            throws AnalyzerException {
-        return BasicValue.REFERENCE_VALUE;
+    protected BbsicVblue getElementVblue(finbl BbsicVblue objectArrbyVblue)
+            throws AnblyzerException {
+        return BbsicVblue.REFERENCE_VALUE;
     }
 
-    protected boolean isSubTypeOf(final BasicValue value,
-            final BasicValue expected) {
-        return value.equals(expected);
+    protected boolebn isSubTypeOf(finbl BbsicVblue vblue,
+            finbl BbsicVblue expected) {
+        return vblue.equbls(expected);
     }
 }

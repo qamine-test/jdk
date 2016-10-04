@@ -3,104 +3,104 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.c14n;
+pbckbge com.sun.org.bpbche.xml.internbl.security.c14n;
 
-import java.io.ByteArrayInputStream;
-import java.io.OutputStream;
-import java.util.Set;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Set;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsers.DocumentBuilder;
+import jbvbx.xml.pbrsers.DocumentBuilderFbctory;
 
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+import org.xml.sbx.InputSource;
 
 /**
- * Base class which all Canonicalization algorithms extend.
+ * Bbse clbss which bll Cbnonicblizbtion blgorithms extend.
  *
- * @author Christian Geuer-Pollmann
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public abstract class CanonicalizerSpi {
+public bbstrbct clbss CbnonicblizerSpi {
 
-    /** Reset the writer after a c14n */
-    protected boolean reset = false;
+    /** Reset the writer bfter b c14n */
+    protected boolebn reset = fblse;
 
     /**
-     * Method canonicalize
+     * Method cbnonicblize
      *
-     * @param inputBytes
+     * @pbrbm inputBytes
      * @return the c14n bytes.
      *
-     * @throws CanonicalizationException
-     * @throws java.io.IOException
-     * @throws javax.xml.parsers.ParserConfigurationException
-     * @throws org.xml.sax.SAXException
+     * @throws CbnonicblizbtionException
+     * @throws jbvb.io.IOException
+     * @throws jbvbx.xml.pbrsers.PbrserConfigurbtionException
+     * @throws org.xml.sbx.SAXException
      */
-    public byte[] engineCanonicalize(byte[] inputBytes)
-        throws javax.xml.parsers.ParserConfigurationException, java.io.IOException,
-        org.xml.sax.SAXException, CanonicalizationException {
+    public byte[] engineCbnonicblize(byte[] inputBytes)
+        throws jbvbx.xml.pbrsers.PbrserConfigurbtionException, jbvb.io.IOException,
+        org.xml.sbx.SAXException, CbnonicblizbtionException {
 
-        java.io.InputStream bais = new ByteArrayInputStream(inputBytes);
-        InputSource in = new InputSource(bais);
-        DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
-        dfactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+        jbvb.io.InputStrebm bbis = new ByteArrbyInputStrebm(inputBytes);
+        InputSource in = new InputSource(bbis);
+        DocumentBuilderFbctory dfbctory = DocumentBuilderFbctory.newInstbnce();
+        dfbctory.setFebture(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolebn.TRUE);
 
-        // needs to validate for ID attribute normalization
-        dfactory.setNamespaceAware(true);
+        // needs to vblidbte for ID bttribute normblizbtion
+        dfbctory.setNbmespbceAwbre(true);
 
-        DocumentBuilder db = dfactory.newDocumentBuilder();
+        DocumentBuilder db = dfbctory.newDocumentBuilder();
 
-        Document document = db.parse(in);
-        return this.engineCanonicalizeSubTree(document);
+        Document document = db.pbrse(in);
+        return this.engineCbnonicblizeSubTree(document);
     }
 
     /**
-     * Method engineCanonicalizeXPathNodeSet
+     * Method engineCbnonicblizeXPbthNodeSet
      *
-     * @param xpathNodeSet
+     * @pbrbm xpbthNodeSet
      * @return the c14n bytes
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public byte[] engineCanonicalizeXPathNodeSet(NodeList xpathNodeSet)
-        throws CanonicalizationException {
-        return this.engineCanonicalizeXPathNodeSet(
-            XMLUtils.convertNodelistToSet(xpathNodeSet)
+    public byte[] engineCbnonicblizeXPbthNodeSet(NodeList xpbthNodeSet)
+        throws CbnonicblizbtionException {
+        return this.engineCbnonicblizeXPbthNodeSet(
+            XMLUtils.convertNodelistToSet(xpbthNodeSet)
         );
     }
 
     /**
-     * Method engineCanonicalizeXPathNodeSet
+     * Method engineCbnonicblizeXPbthNodeSet
      *
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
+     * @pbrbm xpbthNodeSet
+     * @pbrbm inclusiveNbmespbces
      * @return the c14n bytes
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public byte[] engineCanonicalizeXPathNodeSet(NodeList xpathNodeSet, String inclusiveNamespaces)
-        throws CanonicalizationException {
-        return this.engineCanonicalizeXPathNodeSet(
-            XMLUtils.convertNodelistToSet(xpathNodeSet), inclusiveNamespaces
+    public byte[] engineCbnonicblizeXPbthNodeSet(NodeList xpbthNodeSet, String inclusiveNbmespbces)
+        throws CbnonicblizbtionException {
+        return this.engineCbnonicblizeXPbthNodeSet(
+            XMLUtils.convertNodelistToSet(xpbthNodeSet), inclusiveNbmespbces
         );
     }
 
@@ -108,62 +108,62 @@ public abstract class CanonicalizerSpi {
      * Returns the URI of this engine.
      * @return the URI
      */
-    public abstract String engineGetURI();
+    public bbstrbct String engineGetURI();
 
     /**
-     * Returns true if comments are included
-     * @return true if comments are included
+     * Returns true if comments bre included
+     * @return true if comments bre included
      */
-    public abstract boolean engineGetIncludeComments();
+    public bbstrbct boolebn engineGetIncludeComments();
 
     /**
-     * C14n a nodeset
+     * C14n b nodeset
      *
-     * @param xpathNodeSet
+     * @pbrbm xpbthNodeSet
      * @return the c14n bytes
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public abstract byte[] engineCanonicalizeXPathNodeSet(Set<Node> xpathNodeSet)
-        throws CanonicalizationException;
+    public bbstrbct byte[] engineCbnonicblizeXPbthNodeSet(Set<Node> xpbthNodeSet)
+        throws CbnonicblizbtionException;
 
     /**
-     * C14n a nodeset
+     * C14n b nodeset
      *
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
+     * @pbrbm xpbthNodeSet
+     * @pbrbm inclusiveNbmespbces
      * @return the c14n bytes
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public abstract byte[] engineCanonicalizeXPathNodeSet(
-        Set<Node> xpathNodeSet, String inclusiveNamespaces
-    ) throws CanonicalizationException;
+    public bbstrbct byte[] engineCbnonicblizeXPbthNodeSet(
+        Set<Node> xpbthNodeSet, String inclusiveNbmespbces
+    ) throws CbnonicblizbtionException;
 
     /**
-     * C14n a node tree.
+     * C14n b node tree.
      *
-     * @param rootNode
+     * @pbrbm rootNode
      * @return the c14n bytes
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public abstract byte[] engineCanonicalizeSubTree(Node rootNode)
-        throws CanonicalizationException;
+    public bbstrbct byte[] engineCbnonicblizeSubTree(Node rootNode)
+        throws CbnonicblizbtionException;
 
     /**
-     * C14n a node tree.
+     * C14n b node tree.
      *
-     * @param rootNode
-     * @param inclusiveNamespaces
+     * @pbrbm rootNode
+     * @pbrbm inclusiveNbmespbces
      * @return the c14n bytes
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public abstract byte[] engineCanonicalizeSubTree(Node rootNode, String inclusiveNamespaces)
-        throws CanonicalizationException;
+    public bbstrbct byte[] engineCbnonicblizeSubTree(Node rootNode, String inclusiveNbmespbces)
+        throws CbnonicblizbtionException;
 
     /**
-     * Sets the writer where the canonicalization ends. ByteArrayOutputStream if
+     * Sets the writer where the cbnonicblizbtion ends. ByteArrbyOutputStrebm if
      * none is set.
-     * @param os
+     * @pbrbm os
      */
-    public abstract void setWriter(OutputStream os);
+    public bbstrbct void setWriter(OutputStrebm os);
 
 }

@@ -1,197 +1,197 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import java.awt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvb.bwt.*;
 
 /**
- * The Metal implementation of ProgressBarUI.
+ * The Metbl implementbtion of ProgressBbrUI.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Michael C. Albers
+ * @buthor Michbel C. Albers
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalProgressBarUI extends BasicProgressBarUI {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss MetblProgressBbrUI extends BbsicProgressBbrUI {
 
-    private Rectangle innards;
-    private Rectangle box;
+    privbte Rectbngle innbrds;
+    privbte Rectbngle box;
 
     /**
-     * Constructs an instance of {@code MetalProgressBarUI}.
+     * Constructs bn instbnce of {@code MetblProgressBbrUI}.
      *
-     * @param c a component
-     * @return an instance of {@code MetalProgressBarUI}
+     * @pbrbm c b component
+     * @return bn instbnce of {@code MetblProgressBbrUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new MetalProgressBarUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new MetblProgressBbrUI();
     }
 
     /**
-     * Draws a bit of special highlighting on the progress bar.
-     * The core painting is deferred to the BasicProgressBar's
-     * <code>paintDeterminate</code> method.
+     * Drbws b bit of specibl highlighting on the progress bbr.
+     * The core pbinting is deferred to the BbsicProgressBbr's
+     * <code>pbintDeterminbte</code> method.
      * @since 1.4
      */
-    public void paintDeterminate(Graphics g, JComponent c) {
-        super.paintDeterminate(g,c);
+    public void pbintDeterminbte(Grbphics g, JComponent c) {
+        super.pbintDeterminbte(g,c);
 
-        if (!(g instanceof Graphics2D)) {
+        if (!(g instbnceof Grbphics2D)) {
             return;
         }
 
-        if (progressBar.isBorderPainted()) {
-            Insets b = progressBar.getInsets(); // area for border
-            int barRectWidth = progressBar.getWidth() - (b.left + b.right);
-            int barRectHeight = progressBar.getHeight() - (b.top + b.bottom);
-            int amountFull = getAmountFull(b, barRectWidth, barRectHeight);
-            boolean isLeftToRight = MetalUtils.isLeftToRight(c);
-            int startX, startY, endX, endY;
+        if (progressBbr.isBorderPbinted()) {
+            Insets b = progressBbr.getInsets(); // breb for border
+            int bbrRectWidth = progressBbr.getWidth() - (b.left + b.right);
+            int bbrRectHeight = progressBbr.getHeight() - (b.top + b.bottom);
+            int bmountFull = getAmountFull(b, bbrRectWidth, bbrRectHeight);
+            boolebn isLeftToRight = MetblUtils.isLeftToRight(c);
+            int stbrtX, stbrtY, endX, endY;
 
-            // The progress bar border is painted according to a light source.
-            // This light source is stationary and does not change when the
-            // component orientation changes.
-            startX = b.left;
-            startY = b.top;
-            endX = b.left + barRectWidth - 1;
-            endY = b.top + barRectHeight - 1;
+            // The progress bbr border is pbinted bccording to b light source.
+            // This light source is stbtionbry bnd does not chbnge when the
+            // component orientbtion chbnges.
+            stbrtX = b.left;
+            stbrtY = b.top;
+            endX = b.left + bbrRectWidth - 1;
+            endY = b.top + bbrRectHeight - 1;
 
-            Graphics2D g2 = (Graphics2D)g;
-            g2.setStroke(new BasicStroke(1.f));
+            Grbphics2D g2 = (Grbphics2D)g;
+            g2.setStroke(new BbsicStroke(1.f));
 
-            if (progressBar.getOrientation() == JProgressBar.HORIZONTAL) {
-                // Draw light line lengthwise across the progress bar.
-                g2.setColor(MetalLookAndFeel.getControlShadow());
-                g2.drawLine(startX, startY, endX, startY);
+            if (progressBbr.getOrientbtion() == JProgressBbr.HORIZONTAL) {
+                // Drbw light line lengthwise bcross the progress bbr.
+                g2.setColor(MetblLookAndFeel.getControlShbdow());
+                g2.drbwLine(stbrtX, stbrtY, endX, stbrtY);
 
-                if (amountFull > 0) {
-                    // Draw darker lengthwise line over filled area.
-                    g2.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
+                if (bmountFull > 0) {
+                    // Drbw dbrker lengthwise line over filled breb.
+                    g2.setColor(MetblLookAndFeel.getPrimbryControlDbrkShbdow());
 
                     if (isLeftToRight) {
-                        g2.drawLine(startX, startY,
-                                startX + amountFull - 1, startY);
+                        g2.drbwLine(stbrtX, stbrtY,
+                                stbrtX + bmountFull - 1, stbrtY);
                     } else {
-                        g2.drawLine(endX, startY,
-                                endX - amountFull + 1, startY);
-                        if (progressBar.getPercentComplete() != 1.f) {
-                            g2.setColor(MetalLookAndFeel.getControlShadow());
+                        g2.drbwLine(endX, stbrtY,
+                                endX - bmountFull + 1, stbrtY);
+                        if (progressBbr.getPercentComplete() != 1.f) {
+                            g2.setColor(MetblLookAndFeel.getControlShbdow());
                         }
                     }
                 }
-                // Draw a line across the width.  The color is determined by
-                // the code above.
-                g2.drawLine(startX, startY, startX, endY);
+                // Drbw b line bcross the width.  The color is determined by
+                // the code bbove.
+                g2.drbwLine(stbrtX, stbrtY, stbrtX, endY);
 
             } else { // VERTICAL
-                // Draw light line lengthwise across the progress bar.
-                g2.setColor(MetalLookAndFeel.getControlShadow());
-                g2.drawLine(startX, startY, startX, endY);
+                // Drbw light line lengthwise bcross the progress bbr.
+                g2.setColor(MetblLookAndFeel.getControlShbdow());
+                g2.drbwLine(stbrtX, stbrtY, stbrtX, endY);
 
-                if (amountFull > 0) {
-                    // Draw darker lengthwise line over filled area.
-                    g2.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
-                    g2.drawLine(startX, endY,
-                            startX, endY - amountFull + 1);
+                if (bmountFull > 0) {
+                    // Drbw dbrker lengthwise line over filled breb.
+                    g2.setColor(MetblLookAndFeel.getPrimbryControlDbrkShbdow());
+                    g2.drbwLine(stbrtX, endY,
+                            stbrtX, endY - bmountFull + 1);
                 }
-                // Draw a line across the width.  The color is determined by
-                // the code above.
-                g2.setColor(MetalLookAndFeel.getControlShadow());
+                // Drbw b line bcross the width.  The color is determined by
+                // the code bbove.
+                g2.setColor(MetblLookAndFeel.getControlShbdow());
 
-                if (progressBar.getPercentComplete() == 1.f) {
-                    g2.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
+                if (progressBbr.getPercentComplete() == 1.f) {
+                    g2.setColor(MetblLookAndFeel.getPrimbryControlDbrkShbdow());
                 }
-                g2.drawLine(startX, startY, endX, startY);
+                g2.drbwLine(stbrtX, stbrtY, endX, stbrtY);
             }
         }
     }
 
     /**
-     * Draws a bit of special highlighting on the progress bar
-     * and bouncing box.
-     * The core painting is deferred to the BasicProgressBar's
-     * <code>paintIndeterminate</code> method.
+     * Drbws b bit of specibl highlighting on the progress bbr
+     * bnd bouncing box.
+     * The core pbinting is deferred to the BbsicProgressBbr's
+     * <code>pbintIndeterminbte</code> method.
      * @since 1.4
      */
-    public void paintIndeterminate(Graphics g, JComponent c) {
-        super.paintIndeterminate(g, c);
+    public void pbintIndeterminbte(Grbphics g, JComponent c) {
+        super.pbintIndeterminbte(g, c);
 
-        if (!progressBar.isBorderPainted() || (!(g instanceof Graphics2D))) {
+        if (!progressBbr.isBorderPbinted() || (!(g instbnceof Grbphics2D))) {
             return;
         }
 
-        Insets b = progressBar.getInsets(); // area for border
-        int barRectWidth = progressBar.getWidth() - (b.left + b.right);
-        int barRectHeight = progressBar.getHeight() - (b.top + b.bottom);
-        int amountFull = getAmountFull(b, barRectWidth, barRectHeight);
-        boolean isLeftToRight = MetalUtils.isLeftToRight(c);
-        int startX, startY, endX, endY;
-        Rectangle box = null;
+        Insets b = progressBbr.getInsets(); // breb for border
+        int bbrRectWidth = progressBbr.getWidth() - (b.left + b.right);
+        int bbrRectHeight = progressBbr.getHeight() - (b.top + b.bottom);
+        int bmountFull = getAmountFull(b, bbrRectWidth, bbrRectHeight);
+        boolebn isLeftToRight = MetblUtils.isLeftToRight(c);
+        int stbrtX, stbrtY, endX, endY;
+        Rectbngle box = null;
         box = getBox(box);
 
-        // The progress bar border is painted according to a light source.
-        // This light source is stationary and does not change when the
-        // component orientation changes.
-        startX = b.left;
-        startY = b.top;
-        endX = b.left + barRectWidth - 1;
-        endY = b.top + barRectHeight - 1;
+        // The progress bbr border is pbinted bccording to b light source.
+        // This light source is stbtionbry bnd does not chbnge when the
+        // component orientbtion chbnges.
+        stbrtX = b.left;
+        stbrtY = b.top;
+        endX = b.left + bbrRectWidth - 1;
+        endY = b.top + bbrRectHeight - 1;
 
-        Graphics2D g2 = (Graphics2D)g;
-        g2.setStroke(new BasicStroke(1.f));
+        Grbphics2D g2 = (Grbphics2D)g;
+        g2.setStroke(new BbsicStroke(1.f));
 
-        if (progressBar.getOrientation() == JProgressBar.HORIZONTAL) {
-            // Draw light line lengthwise across the progress bar.
-            g2.setColor(MetalLookAndFeel.getControlShadow());
-            g2.drawLine(startX, startY, endX, startY);
-            g2.drawLine(startX, startY, startX, endY);
+        if (progressBbr.getOrientbtion() == JProgressBbr.HORIZONTAL) {
+            // Drbw light line lengthwise bcross the progress bbr.
+            g2.setColor(MetblLookAndFeel.getControlShbdow());
+            g2.drbwLine(stbrtX, stbrtY, endX, stbrtY);
+            g2.drbwLine(stbrtX, stbrtY, stbrtX, endY);
 
-            // Draw darker lengthwise line over filled area.
-            g2.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
-            g2.drawLine(box.x, startY, box.x + box.width - 1, startY);
+            // Drbw dbrker lengthwise line over filled breb.
+            g2.setColor(MetblLookAndFeel.getPrimbryControlDbrkShbdow());
+            g2.drbwLine(box.x, stbrtY, box.x + box.width - 1, stbrtY);
 
         } else { // VERTICAL
-            // Draw light line lengthwise across the progress bar.
-            g2.setColor(MetalLookAndFeel.getControlShadow());
-            g2.drawLine(startX, startY, startX, endY);
-            g2.drawLine(startX, startY, endX, startY);
+            // Drbw light line lengthwise bcross the progress bbr.
+            g2.setColor(MetblLookAndFeel.getControlShbdow());
+            g2.drbwLine(stbrtX, stbrtY, stbrtX, endY);
+            g2.drbwLine(stbrtX, stbrtY, endX, stbrtY);
 
-            // Draw darker lengthwise line over filled area.
-            g2.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
-            g2.drawLine(startX, box.y, startX, box.y + box.height - 1);
+            // Drbw dbrker lengthwise line over filled breb.
+            g2.setColor(MetblLookAndFeel.getPrimbryControlDbrkShbdow());
+            g2.drbwLine(stbrtX, box.y, stbrtX, box.y + box.height - 1);
         }
     }
 }

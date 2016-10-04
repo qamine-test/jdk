@@ -1,330 +1,330 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import javax.management.Descriptor;
-import javax.management.ImmutableDescriptor;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.ImmutbbleDescriptor;
 
 /**
- * The <code>OpenType</code> class is the parent abstract class of all classes which describe the actual <i>open type</i>
- * of open data values.
+ * The <code>OpenType</code> clbss is the pbrent bbstrbct clbss of bll clbsses which describe the bctubl <i>open type</i>
+ * of open dbtb vblues.
  * <p>
  * An <i>open type</i> is defined by:
  * <ul>
- *  <li>the fully qualified Java class name of the open data values this type describes;
- *      note that only a limited set of Java classes is allowed for open data values
+ *  <li>the fully qublified Jbvb clbss nbme of the open dbtb vblues this type describes;
+ *      note thbt only b limited set of Jbvb clbsses is bllowed for open dbtb vblues
  *      (see {@link #ALLOWED_CLASSNAMES_LIST ALLOWED_CLASSNAMES_LIST}),</li>
- *  <li>its name,</li>
+ *  <li>its nbme,</li>
  *  <li>its description.</li>
  * </ul>
  *
- * @param <T> the Java type that instances described by this type must
- * have.  For example, {@link SimpleType#INTEGER} is a {@code
- * SimpleType<Integer>} which is a subclass of {@code OpenType<Integer>},
- * meaning that an attribute, parameter, or return value that is described
- * as a {@code SimpleType.INTEGER} must have Java type
+ * @pbrbm <T> the Jbvb type thbt instbnces described by this type must
+ * hbve.  For exbmple, {@link SimpleType#INTEGER} is b {@code
+ * SimpleType<Integer>} which is b subclbss of {@code OpenType<Integer>},
+ * mebning thbt bn bttribute, pbrbmeter, or return vblue thbt is described
+ * bs b {@code SimpleType.INTEGER} must hbve Jbvb type
  * {@link Integer}.
  *
  * @since 1.5
  */
-public abstract class OpenType<T> implements Serializable {
+public bbstrbct clbss OpenType<T> implements Seriblizbble {
 
-    /* Serial version */
-    static final long serialVersionUID = -9195195325186646468L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = -9195195325186646468L;
 
 
     /**
-     * List of the fully qualified names of the Java classes allowed for open
-     * data values. A multidimensional array of any one of these classes or
-     * their corresponding primitive types is also an allowed class for open
-     * data values.
+     * List of the fully qublified nbmes of the Jbvb clbsses bllowed for open
+     * dbtb vblues. A multidimensionbl brrby of bny one of these clbsses or
+     * their corresponding primitive types is blso bn bllowed clbss for open
+     * dbtb vblues.
      *
        <pre>ALLOWED_CLASSNAMES_LIST = {
-        "java.lang.Void",
-        "java.lang.Boolean",
-        "java.lang.Character",
-        "java.lang.Byte",
-        "java.lang.Short",
-        "java.lang.Integer",
-        "java.lang.Long",
-        "java.lang.Float",
-        "java.lang.Double",
-        "java.lang.String",
-        "java.math.BigDecimal",
-        "java.math.BigInteger",
-        "java.util.Date",
-        "javax.management.ObjectName",
-        CompositeData.class.getName(),
-        TabularData.class.getName() } ;
+        "jbvb.lbng.Void",
+        "jbvb.lbng.Boolebn",
+        "jbvb.lbng.Chbrbcter",
+        "jbvb.lbng.Byte",
+        "jbvb.lbng.Short",
+        "jbvb.lbng.Integer",
+        "jbvb.lbng.Long",
+        "jbvb.lbng.Flobt",
+        "jbvb.lbng.Double",
+        "jbvb.lbng.String",
+        "jbvb.mbth.BigDecimbl",
+        "jbvb.mbth.BigInteger",
+        "jbvb.util.Dbte",
+        "jbvbx.mbnbgement.ObjectNbme",
+        CompositeDbtb.clbss.getNbme(),
+        TbbulbrDbtb.clbss.getNbme() } ;
        </pre>
      *
      */
-    public static final List<String> ALLOWED_CLASSNAMES_LIST =
-      Collections.unmodifiableList(
-        Arrays.asList(
-          "java.lang.Void",
-          "java.lang.Boolean",
-          "java.lang.Character",
-          "java.lang.Byte",
-          "java.lang.Short",
-          "java.lang.Integer",
-          "java.lang.Long",
-          "java.lang.Float",
-          "java.lang.Double",
-          "java.lang.String",
-          "java.math.BigDecimal",
-          "java.math.BigInteger",
-          "java.util.Date",
-          "javax.management.ObjectName",
-          CompositeData.class.getName(),        // better refer to these two class names like this, rather than hardcoding a string,
-          TabularData.class.getName()) );       // in case the package of these classes should change (who knows...)
+    public stbtic finbl List<String> ALLOWED_CLASSNAMES_LIST =
+      Collections.unmodifibbleList(
+        Arrbys.bsList(
+          "jbvb.lbng.Void",
+          "jbvb.lbng.Boolebn",
+          "jbvb.lbng.Chbrbcter",
+          "jbvb.lbng.Byte",
+          "jbvb.lbng.Short",
+          "jbvb.lbng.Integer",
+          "jbvb.lbng.Long",
+          "jbvb.lbng.Flobt",
+          "jbvb.lbng.Double",
+          "jbvb.lbng.String",
+          "jbvb.mbth.BigDecimbl",
+          "jbvb.mbth.BigInteger",
+          "jbvb.util.Dbte",
+          "jbvbx.mbnbgement.ObjectNbme",
+          CompositeDbtb.clbss.getNbme(),        // better refer to these two clbss nbmes like this, rbther thbn hbrdcoding b string,
+          TbbulbrDbtb.clbss.getNbme()) );       // in cbse the pbckbge of these clbsses should chbnge (who knows...)
 
 
     /**
-     * @deprecated Use {@link #ALLOWED_CLASSNAMES_LIST ALLOWED_CLASSNAMES_LIST} instead.
+     * @deprecbted Use {@link #ALLOWED_CLASSNAMES_LIST ALLOWED_CLASSNAMES_LIST} instebd.
      */
-    @Deprecated
-    public static final String[] ALLOWED_CLASSNAMES =
-        ALLOWED_CLASSNAMES_LIST.toArray(new String[0]);
+    @Deprecbted
+    public stbtic finbl String[] ALLOWED_CLASSNAMES =
+        ALLOWED_CLASSNAMES_LIST.toArrby(new String[0]);
 
 
     /**
-     * @serial The fully qualified Java class name of open data values this
+     * @seribl The fully qublified Jbvb clbss nbme of open dbtb vblues this
      *         type describes.
      */
-    private String className;
+    privbte String clbssNbme;
 
     /**
-     * @serial The type description (should not be null or empty).
+     * @seribl The type description (should not be null or empty).
      */
-    private String description;
+    privbte String description;
 
     /**
-     * @serial The name given to this type (should not be null or empty).
+     * @seribl The nbme given to this type (should not be null or empty).
      */
-    private String typeName;
+    privbte String typeNbme;
 
     /**
-     * Tells if this type describes an array (checked in constructor).
+     * Tells if this type describes bn brrby (checked in constructor).
      */
-    private transient boolean isArray = false;
+    privbte trbnsient boolebn isArrby = fblse;
 
     /**
-     * Cached Descriptor for this OpenType, constructed on demand.
+     * Cbched Descriptor for this OpenType, constructed on dembnd.
      */
-    private transient Descriptor descriptor;
+    privbte trbnsient Descriptor descriptor;
 
     /* *** Constructor *** */
 
     /**
-     * Constructs an <code>OpenType</code> instance (actually a subclass instance as <code>OpenType</code> is abstract),
-     * checking for the validity of the given parameters.
-     * The validity constraints are described below for each parameter.
+     * Constructs bn <code>OpenType</code> instbnce (bctublly b subclbss instbnce bs <code>OpenType</code> is bbstrbct),
+     * checking for the vblidity of the given pbrbmeters.
+     * The vblidity constrbints bre described below for ebch pbrbmeter.
      * <br>&nbsp;
-     * @param  className  The fully qualified Java class name of the open data values this open type describes.
-     *                    The valid Java class names allowed for open data values are listed in
+     * @pbrbm  clbssNbme  The fully qublified Jbvb clbss nbme of the open dbtb vblues this open type describes.
+     *                    The vblid Jbvb clbss nbmes bllowed for open dbtb vblues bre listed in
      *                    {@link #ALLOWED_CLASSNAMES_LIST ALLOWED_CLASSNAMES_LIST}.
-     *                    A multidimensional array of any one of these classes
-     *                    or their corresponding primitive types is also an allowed class,
-     *                    in which case the class name follows the rules defined by the method
-     *                    {@link Class#getName() getName()} of <code>java.lang.Class</code>.
-     *                    For example, a 3-dimensional array of Strings has for class name
-     *                    &quot;<code>[[[Ljava.lang.String;</code>&quot; (without the quotes).
+     *                    A multidimensionbl brrby of bny one of these clbsses
+     *                    or their corresponding primitive types is blso bn bllowed clbss,
+     *                    in which cbse the clbss nbme follows the rules defined by the method
+     *                    {@link Clbss#getNbme() getNbme()} of <code>jbvb.lbng.Clbss</code>.
+     *                    For exbmple, b 3-dimensionbl brrby of Strings hbs for clbss nbme
+     *                    &quot;<code>[[[Ljbvb.lbng.String;</code>&quot; (without the quotes).
      * <br>&nbsp;
-     * @param  typeName  The name given to the open type this instance represents; cannot be a null or empty string.
+     * @pbrbm  typeNbme  The nbme given to the open type this instbnce represents; cbnnot be b null or empty string.
      * <br>&nbsp;
-     * @param  description  The human readable description of the open type this instance represents;
-     *                      cannot be a null or empty string.
+     * @pbrbm  description  The humbn rebdbble description of the open type this instbnce represents;
+     *                      cbnnot be b null or empty string.
      * <br>&nbsp;
-     * @throws IllegalArgumentException  if <var>className</var>, <var>typeName</var> or <var>description</var>
-     *                                   is a null or empty string
+     * @throws IllegblArgumentException  if <vbr>clbssNbme</vbr>, <vbr>typeNbme</vbr> or <vbr>description</vbr>
+     *                                   is b null or empty string
      * <br>&nbsp;
-     * @throws OpenDataException  if <var>className</var> is not one of the allowed Java class names for open data
+     * @throws OpenDbtbException  if <vbr>clbssNbme</vbr> is not one of the bllowed Jbvb clbss nbmes for open dbtb
      */
-    protected OpenType(String  className,
-                       String  typeName,
-                       String  description) throws OpenDataException {
-        checkClassNameOverride();
-        this.typeName = valid("typeName", typeName);
-        this.description = valid("description", description);
-        this.className = validClassName(className);
-        this.isArray = (this.className != null && this.className.startsWith("["));
+    protected OpenType(String  clbssNbme,
+                       String  typeNbme,
+                       String  description) throws OpenDbtbException {
+        checkClbssNbmeOverride();
+        this.typeNbme = vblid("typeNbme", typeNbme);
+        this.description = vblid("description", description);
+        this.clbssNbme = vblidClbssNbme(clbssNbme);
+        this.isArrby = (this.clbssNbme != null && this.clbssNbme.stbrtsWith("["));
     }
 
-    /* Package-private constructor for callers we trust to get it right. */
-    OpenType(String className, String typeName, String description,
-             boolean isArray) {
-        this.className   = valid("className",className);
-        this.typeName    = valid("typeName", typeName);
-        this.description = valid("description", description);
-        this.isArray     = isArray;
+    /* Pbckbge-privbte constructor for cbllers we trust to get it right. */
+    OpenType(String clbssNbme, String typeNbme, String description,
+             boolebn isArrby) {
+        this.clbssNbme   = vblid("clbssNbme",clbssNbme);
+        this.typeNbme    = vblid("typeNbme", typeNbme);
+        this.description = vblid("description", description);
+        this.isArrby     = isArrby;
     }
 
-    private void checkClassNameOverride() throws SecurityException {
-        if (this.getClass().getClassLoader() == null)
-            return;  // We trust bootstrap classes.
-        if (overridesGetClassName(this.getClass())) {
-            final GetPropertyAction getExtendOpenTypes =
+    privbte void checkClbssNbmeOverride() throws SecurityException {
+        if (this.getClbss().getClbssLobder() == null)
+            return;  // We trust bootstrbp clbsses.
+        if (overridesGetClbssNbme(this.getClbss())) {
+            finbl GetPropertyAction getExtendOpenTypes =
                 new GetPropertyAction("jmx.extend.open.types");
             if (AccessController.doPrivileged(getExtendOpenTypes) == null) {
-                throw new SecurityException("Cannot override getClassName() " +
+                throw new SecurityException("Cbnnot override getClbssNbme() " +
                         "unless -Djmx.extend.open.types");
             }
         }
     }
 
-    private static boolean overridesGetClassName(final Class<?> c) {
-        return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-            public Boolean run() {
+    privbte stbtic boolebn overridesGetClbssNbme(finbl Clbss<?> c) {
+        return AccessController.doPrivileged(new PrivilegedAction<Boolebn>() {
+            public Boolebn run() {
                 try {
-                    return (c.getMethod("getClassName").getDeclaringClass() !=
-                            OpenType.class);
-                } catch (Exception e) {
-                    return true;  // fail safe
+                    return (c.getMethod("getClbssNbme").getDeclbringClbss() !=
+                            OpenType.clbss);
+                } cbtch (Exception e) {
+                    return true;  // fbil sbfe
                 }
             }
         });
     }
 
-    private static String validClassName(String className) throws OpenDataException {
-        className   = valid("className", className);
+    privbte stbtic String vblidClbssNbme(String clbssNbme) throws OpenDbtbException {
+        clbssNbme   = vblid("clbssNbme", clbssNbme);
 
-        // Check if className describes an array class, and determines its elements' class name.
-        // (eg: a 3-dimensional array of Strings has for class name: "[[[Ljava.lang.String;")
+        // Check if clbssNbme describes bn brrby clbss, bnd determines its elements' clbss nbme.
+        // (eg: b 3-dimensionbl brrby of Strings hbs for clbss nbme: "[[[Ljbvb.lbng.String;")
         //
         int n = 0;
-        while (className.startsWith("[", n)) {
+        while (clbssNbme.stbrtsWith("[", n)) {
             n++;
         }
-        String eltClassName; // class name of array elements
-        boolean isPrimitiveArray = false;
+        String eltClbssNbme; // clbss nbme of brrby elements
+        boolebn isPrimitiveArrby = fblse;
         if (n > 0) {
-            if (className.startsWith("L", n) && className.endsWith(";")) {
-                // removes the n leading '[' + the 'L' characters
-                // and the last ';' character
-                eltClassName = className.substring(n+1, className.length()-1);
-            } else if (n == className.length() - 1) {
-                // removes the n leading '[' characters
-                eltClassName = className.substring(n, className.length());
-                isPrimitiveArray = true;
+            if (clbssNbme.stbrtsWith("L", n) && clbssNbme.endsWith(";")) {
+                // removes the n lebding '[' + the 'L' chbrbcters
+                // bnd the lbst ';' chbrbcter
+                eltClbssNbme = clbssNbme.substring(n+1, clbssNbme.length()-1);
+            } else if (n == clbssNbme.length() - 1) {
+                // removes the n lebding '[' chbrbcters
+                eltClbssNbme = clbssNbme.substring(n, clbssNbme.length());
+                isPrimitiveArrby = true;
             } else {
-                throw new OpenDataException("Argument className=\"" + className +
-                        "\" is not a valid class name");
+                throw new OpenDbtbException("Argument clbssNbme=\"" + clbssNbme +
+                        "\" is not b vblid clbss nbme");
             }
         } else {
-            // not an array
-            eltClassName = className;
+            // not bn brrby
+            eltClbssNbme = clbssNbme;
         }
 
-        // Check that eltClassName's value is one of the allowed basic data types for open data
+        // Check thbt eltClbssNbme's vblue is one of the bllowed bbsic dbtb types for open dbtb
         //
-        boolean ok = false;
-        if (isPrimitiveArray) {
-            ok = ArrayType.isPrimitiveContentType(eltClassName);
+        boolebn ok = fblse;
+        if (isPrimitiveArrby) {
+            ok = ArrbyType.isPrimitiveContentType(eltClbssNbme);
         } else {
-            ok = ALLOWED_CLASSNAMES_LIST.contains(eltClassName);
+            ok = ALLOWED_CLASSNAMES_LIST.contbins(eltClbssNbme);
         }
         if ( ! ok ) {
-            throw new OpenDataException("Argument className=\""+ className +
-                                        "\" is not one of the allowed Java class names for open data.");
+            throw new OpenDbtbException("Argument clbssNbme=\""+ clbssNbme +
+                                        "\" is not one of the bllowed Jbvb clbss nbmes for open dbtb.");
         }
 
-        return className;
+        return clbssNbme;
     }
 
-    /* Return argValue.trim() provided argValue is neither null nor empty;
-       otherwise throw IllegalArgumentException.  */
-    private static String valid(String argName, String argValue) {
-        if (argValue == null || (argValue = argValue.trim()).equals(""))
-            throw new IllegalArgumentException("Argument " + argName +
-                                               " cannot be null or empty");
-        return argValue;
+    /* Return brgVblue.trim() provided brgVblue is neither null nor empty;
+       otherwise throw IllegblArgumentException.  */
+    privbte stbtic String vblid(String brgNbme, String brgVblue) {
+        if (brgVblue == null || (brgVblue = brgVblue.trim()).equbls(""))
+            throw new IllegblArgumentException("Argument " + brgNbme +
+                                               " cbnnot be null or empty");
+        return brgVblue;
     }
 
-    /* Package-private access to a Descriptor containing this OpenType. */
+    /* Pbckbge-privbte bccess to b Descriptor contbining this OpenType. */
     synchronized Descriptor getDescriptor() {
         if (descriptor == null) {
-            descriptor = new ImmutableDescriptor(new String[] {"openType"},
+            descriptor = new ImmutbbleDescriptor(new String[] {"openType"},
                                                  new Object[] {this});
         }
         return descriptor;
     }
 
-    /* *** Open type information methods *** */
+    /* *** Open type informbtion methods *** */
 
     /**
-     * Returns the fully qualified Java class name of the open data values
+     * Returns the fully qublified Jbvb clbss nbme of the open dbtb vblues
      * this open type describes.
-     * The only possible Java class names for open data values are listed in
+     * The only possible Jbvb clbss nbmes for open dbtb vblues bre listed in
      * {@link #ALLOWED_CLASSNAMES_LIST ALLOWED_CLASSNAMES_LIST}.
-     * A multidimensional array of any one of these classes or their
-     * corresponding primitive types is also an allowed class,
-     * in which case the class name follows the rules defined by the method
-     * {@link Class#getName() getName()} of <code>java.lang.Class</code>.
-     * For example, a 3-dimensional array of Strings has for class name
-     * &quot;<code>[[[Ljava.lang.String;</code>&quot; (without the quotes),
-     * a 3-dimensional array of Integers has for class name
-     * &quot;<code>[[[Ljava.lang.Integer;</code>&quot; (without the quotes),
-     * and a 3-dimensional array of int has for class name
+     * A multidimensionbl brrby of bny one of these clbsses or their
+     * corresponding primitive types is blso bn bllowed clbss,
+     * in which cbse the clbss nbme follows the rules defined by the method
+     * {@link Clbss#getNbme() getNbme()} of <code>jbvb.lbng.Clbss</code>.
+     * For exbmple, b 3-dimensionbl brrby of Strings hbs for clbss nbme
+     * &quot;<code>[[[Ljbvb.lbng.String;</code>&quot; (without the quotes),
+     * b 3-dimensionbl brrby of Integers hbs for clbss nbme
+     * &quot;<code>[[[Ljbvb.lbng.Integer;</code>&quot; (without the quotes),
+     * bnd b 3-dimensionbl brrby of int hbs for clbss nbme
      * &quot;<code>[[[I</code>&quot; (without the quotes)
      *
-     * @return the class name.
+     * @return the clbss nbme.
      */
-    public String getClassName() {
-        return className;
+    public String getClbssNbme() {
+        return clbssNbme;
     }
 
-    // A version of getClassName() that can only be called from within this
-    // package and that cannot be overridden.
-    String safeGetClassName() {
-        return className;
+    // A version of getClbssNbme() thbt cbn only be cblled from within this
+    // pbckbge bnd thbt cbnnot be overridden.
+    String sbfeGetClbssNbme() {
+        return clbssNbme;
     }
 
     /**
-     * Returns the name of this <code>OpenType</code> instance.
+     * Returns the nbme of this <code>OpenType</code> instbnce.
      *
-     * @return the type name.
+     * @return the type nbme.
      */
-    public String getTypeName() {
+    public String getTypeNbme() {
 
-        return typeName;
+        return typeNbme;
     }
 
     /**
-     * Returns the text description of this <code>OpenType</code> instance.
+     * Returns the text description of this <code>OpenType</code> instbnce.
      *
      * @return the description.
      */
@@ -334,85 +334,85 @@ public abstract class OpenType<T> implements Serializable {
     }
 
     /**
-     * Returns <code>true</code> if the open data values this open
-     * type describes are arrays, <code>false</code> otherwise.
+     * Returns <code>true</code> if the open dbtb vblues this open
+     * type describes bre brrbys, <code>fblse</code> otherwise.
      *
-     * @return true if this is an array type.
+     * @return true if this is bn brrby type.
      */
-    public boolean isArray() {
+    public boolebn isArrby() {
 
-        return isArray;
+        return isArrby;
     }
 
     /**
-     * Tests whether <var>obj</var> is a value for this open type.
+     * Tests whether <vbr>obj</vbr> is b vblue for this open type.
      *
-     * @param obj the object to be tested for validity.
+     * @pbrbm obj the object to be tested for vblidity.
      *
-     * @return <code>true</code> if <var>obj</var> is a value for this
-     * open type, <code>false</code> otherwise.
+     * @return <code>true</code> if <vbr>obj</vbr> is b vblue for this
+     * open type, <code>fblse</code> otherwise.
      */
-    public abstract boolean isValue(Object obj) ;
+    public bbstrbct boolebn isVblue(Object obj) ;
 
     /**
-     * Tests whether values of the given type can be assigned to this open type.
-     * The default implementation of this method returns true only if the
-     * types are equal.
+     * Tests whether vblues of the given type cbn be bssigned to this open type.
+     * The defbult implementbtion of this method returns true only if the
+     * types bre equbl.
      *
-     * @param ot the type to be tested.
+     * @pbrbm ot the type to be tested.
      *
-     * @return true if {@code ot} is assignable to this open type.
+     * @return true if {@code ot} is bssignbble to this open type.
      */
-    boolean isAssignableFrom(OpenType<?> ot) {
-        return this.equals(ot);
+    boolebn isAssignbbleFrom(OpenType<?> ot) {
+        return this.equbls(ot);
     }
 
-    /* *** Methods overriden from class Object *** */
+    /* *** Methods overriden from clbss Object *** */
 
     /**
-     * Compares the specified <code>obj</code> parameter with this
-     * open type instance for equality.
+     * Compbres the specified <code>obj</code> pbrbmeter with this
+     * open type instbnce for equblity.
      *
-     * @param obj the object to compare to.
+     * @pbrbm obj the object to compbre to.
      *
-     * @return true if this object and <code>obj</code> are equal.
+     * @return true if this object bnd <code>obj</code> bre equbl.
      */
-    public abstract boolean equals(Object obj) ;
+    public bbstrbct boolebn equbls(Object obj) ;
 
-    public abstract int hashCode() ;
-
-    /**
-     * Returns a string representation of this open type instance.
-     *
-     * @return the string representation.
-     */
-    public abstract String toString() ;
+    public bbstrbct int hbshCode() ;
 
     /**
-     * Deserializes an {@link OpenType} from an {@link java.io.ObjectInputStream}.
+     * Returns b string representbtion of this open type instbnce.
+     *
+     * @return the string representbtion.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-        checkClassNameOverride();
-        ObjectInputStream.GetField fields = in.readFields();
-        final String classNameField;
-        final String descriptionField;
-        final String typeNameField;
+    public bbstrbct String toString() ;
+
+    /**
+     * Deseriblizes bn {@link OpenType} from bn {@link jbvb.io.ObjectInputStrebm}.
+     */
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+        checkClbssNbmeOverride();
+        ObjectInputStrebm.GetField fields = in.rebdFields();
+        finbl String clbssNbmeField;
+        finbl String descriptionField;
+        finbl String typeNbmeField;
         try {
-            classNameField =
-                validClassName((String) fields.get("className", null));
+            clbssNbmeField =
+                vblidClbssNbme((String) fields.get("clbssNbme", null));
             descriptionField =
-                valid("description", (String) fields.get("description", null));
-            typeNameField =
-                valid("typeName", (String) fields.get("typeName", null));
-        } catch (Exception e) {
-            IOException e2 = new InvalidObjectException(e.getMessage());
-            e2.initCause(e);
+                vblid("description", (String) fields.get("description", null));
+            typeNbmeField =
+                vblid("typeNbme", (String) fields.get("typeNbme", null));
+        } cbtch (Exception e) {
+            IOException e2 = new InvblidObjectException(e.getMessbge());
+            e2.initCbuse(e);
             throw e2;
         }
-        className = classNameField;
+        clbssNbme = clbssNbmeField;
         description = descriptionField;
-        typeName = typeNameField;
-        isArray = (className.startsWith("["));
+        typeNbme = typeNbmeField;
+        isArrby = (clbssNbme.stbrtsWith("["));
     }
 }

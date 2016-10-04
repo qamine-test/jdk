@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2004, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect;
+pbckbge sun.reflect;
 
-import java.lang.reflect.Field;
+import jbvb.lbng.reflect.Field;
 
-class UnsafeQualifiedStaticDoubleFieldAccessorImpl
-    extends UnsafeQualifiedStaticFieldAccessorImpl
+clbss UnsbfeQublifiedStbticDoubleFieldAccessorImpl
+    extends UnsbfeQublifiedStbticFieldAccessorImpl
 {
-    UnsafeQualifiedStaticDoubleFieldAccessorImpl(Field field, boolean isReadOnly) {
-        super(field, isReadOnly);
+    UnsbfeQublifiedStbticDoubleFieldAccessorImpl(Field field, boolebn isRebdOnly) {
+        super(field, isRebdOnly);
     }
 
-    public Object get(Object obj) throws IllegalArgumentException {
+    public Object get(Object obj) throws IllegblArgumentException {
         return new Double(getDouble(obj));
     }
 
-    public boolean getBoolean(Object obj) throws IllegalArgumentException {
-        throw newGetBooleanIllegalArgumentException();
+    public boolebn getBoolebn(Object obj) throws IllegblArgumentException {
+        throw newGetBoolebnIllegblArgumentException();
     }
 
-    public byte getByte(Object obj) throws IllegalArgumentException {
-        throw newGetByteIllegalArgumentException();
+    public byte getByte(Object obj) throws IllegblArgumentException {
+        throw newGetByteIllegblArgumentException();
     }
 
-    public char getChar(Object obj) throws IllegalArgumentException {
-        throw newGetCharIllegalArgumentException();
+    public chbr getChbr(Object obj) throws IllegblArgumentException {
+        throw newGetChbrIllegblArgumentException();
     }
 
-    public short getShort(Object obj) throws IllegalArgumentException {
-        throw newGetShortIllegalArgumentException();
+    public short getShort(Object obj) throws IllegblArgumentException {
+        throw newGetShortIllegblArgumentException();
     }
 
-    public int getInt(Object obj) throws IllegalArgumentException {
-        throw newGetIntIllegalArgumentException();
+    public int getInt(Object obj) throws IllegblArgumentException {
+        throw newGetIntIllegblArgumentException();
     }
 
-    public long getLong(Object obj) throws IllegalArgumentException {
-        throw newGetLongIllegalArgumentException();
+    public long getLong(Object obj) throws IllegblArgumentException {
+        throw newGetLongIllegblArgumentException();
     }
 
-    public float getFloat(Object obj) throws IllegalArgumentException {
-        throw newGetFloatIllegalArgumentException();
+    public flobt getFlobt(Object obj) throws IllegblArgumentException {
+        throw newGetFlobtIllegblArgumentException();
     }
 
-    public double getDouble(Object obj) throws IllegalArgumentException {
-        return unsafe.getDoubleVolatile(base, fieldOffset);
+    public double getDouble(Object obj) throws IllegblArgumentException {
+        return unsbfe.getDoubleVolbtile(bbse, fieldOffset);
     }
 
-    public void set(Object obj, Object value)
-        throws IllegalArgumentException, IllegalAccessException
+    public void set(Object obj, Object vblue)
+        throws IllegblArgumentException, IllegblAccessException
     {
-        if (isReadOnly) {
-            throwFinalFieldIllegalAccessException(value);
+        if (isRebdOnly) {
+            throwFinblFieldIllegblAccessException(vblue);
         }
-        if (value == null) {
-            throwSetIllegalArgumentException(value);
+        if (vblue == null) {
+            throwSetIllegblArgumentException(vblue);
         }
-        if (value instanceof Byte) {
-            unsafe.putDoubleVolatile(base, fieldOffset, ((Byte) value).byteValue());
+        if (vblue instbnceof Byte) {
+            unsbfe.putDoubleVolbtile(bbse, fieldOffset, ((Byte) vblue).byteVblue());
             return;
         }
-        if (value instanceof Short) {
-            unsafe.putDoubleVolatile(base, fieldOffset, ((Short) value).shortValue());
+        if (vblue instbnceof Short) {
+            unsbfe.putDoubleVolbtile(bbse, fieldOffset, ((Short) vblue).shortVblue());
             return;
         }
-        if (value instanceof Character) {
-            unsafe.putDoubleVolatile(base, fieldOffset, ((Character) value).charValue());
+        if (vblue instbnceof Chbrbcter) {
+            unsbfe.putDoubleVolbtile(bbse, fieldOffset, ((Chbrbcter) vblue).chbrVblue());
             return;
         }
-        if (value instanceof Integer) {
-            unsafe.putDoubleVolatile(base, fieldOffset, ((Integer) value).intValue());
+        if (vblue instbnceof Integer) {
+            unsbfe.putDoubleVolbtile(bbse, fieldOffset, ((Integer) vblue).intVblue());
             return;
         }
-        if (value instanceof Long) {
-            unsafe.putDoubleVolatile(base, fieldOffset, ((Long) value).longValue());
+        if (vblue instbnceof Long) {
+            unsbfe.putDoubleVolbtile(bbse, fieldOffset, ((Long) vblue).longVblue());
             return;
         }
-        if (value instanceof Float) {
-            unsafe.putDoubleVolatile(base, fieldOffset, ((Float) value).floatValue());
+        if (vblue instbnceof Flobt) {
+            unsbfe.putDoubleVolbtile(bbse, fieldOffset, ((Flobt) vblue).flobtVblue());
             return;
         }
-        if (value instanceof Double) {
-            unsafe.putDoubleVolatile(base, fieldOffset, ((Double) value).doubleValue());
+        if (vblue instbnceof Double) {
+            unsbfe.putDoubleVolbtile(bbse, fieldOffset, ((Double) vblue).doubleVblue());
             return;
         }
-        throwSetIllegalArgumentException(value);
+        throwSetIllegblArgumentException(vblue);
     }
 
-    public void setBoolean(Object obj, boolean z)
-        throws IllegalArgumentException, IllegalAccessException
+    public void setBoolebn(Object obj, boolebn z)
+        throws IllegblArgumentException, IllegblAccessException
     {
-        throwSetIllegalArgumentException(z);
+        throwSetIllegblArgumentException(z);
     }
 
     public void setByte(Object obj, byte b)
-        throws IllegalArgumentException, IllegalAccessException
+        throws IllegblArgumentException, IllegblAccessException
     {
         setDouble(obj, b);
     }
 
-    public void setChar(Object obj, char c)
-        throws IllegalArgumentException, IllegalAccessException
+    public void setChbr(Object obj, chbr c)
+        throws IllegblArgumentException, IllegblAccessException
     {
         setDouble(obj, c);
     }
 
     public void setShort(Object obj, short s)
-        throws IllegalArgumentException, IllegalAccessException
+        throws IllegblArgumentException, IllegblAccessException
     {
         setDouble(obj, s);
     }
 
     public void setInt(Object obj, int i)
-        throws IllegalArgumentException, IllegalAccessException
+        throws IllegblArgumentException, IllegblAccessException
     {
         setDouble(obj, i);
     }
 
     public void setLong(Object obj, long l)
-        throws IllegalArgumentException, IllegalAccessException
+        throws IllegblArgumentException, IllegblAccessException
     {
         setDouble(obj, l);
     }
 
-    public void setFloat(Object obj, float f)
-        throws IllegalArgumentException, IllegalAccessException
+    public void setFlobt(Object obj, flobt f)
+        throws IllegblArgumentException, IllegblAccessException
     {
         setDouble(obj, f);
     }
 
     public void setDouble(Object obj, double d)
-        throws IllegalArgumentException, IllegalAccessException
+        throws IllegblArgumentException, IllegblAccessException
     {
-        if (isReadOnly) {
-            throwFinalFieldIllegalAccessException(d);
+        if (isRebdOnly) {
+            throwFinblFieldIllegblAccessException(d);
         }
-        unsafe.putDoubleVolatile(base, fieldOffset, d);
+        unsbfe.putDoubleVolbtile(bbse, fieldOffset, d);
     }
 }

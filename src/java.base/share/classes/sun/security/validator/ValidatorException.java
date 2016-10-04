@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.validator;
+pbckbge sun.security.vblidbtor;
 
-import java.security.cert.*;
+import jbvb.security.cert.*;
 
 /**
- * ValidatorException thrown by the Validator. It has optional fields that
- * allow better error diagnostics.
+ * VblidbtorException thrown by the Vblidbtor. It hbs optionbl fields thbt
+ * bllow better error dibgnostics.
  *
- * @author Andreas Sterbenz
+ * @buthor Andrebs Sterbenz
  */
-public class ValidatorException extends CertificateException {
+public clbss VblidbtorException extends CertificbteException {
 
-    private static final long serialVersionUID = -2836879718282292155L;
+    privbte stbtic finbl long seriblVersionUID = -2836879718282292155L;
 
-    public final static Object T_NO_TRUST_ANCHOR =
-        "No trusted certificate found";
+    public finbl stbtic Object T_NO_TRUST_ANCHOR =
+        "No trusted certificbte found";
 
-    public final static Object T_EE_EXTENSIONS =
-        "End entity certificate extension check failed";
+    public finbl stbtic Object T_EE_EXTENSIONS =
+        "End entity certificbte extension check fbiled";
 
-    public final static Object T_CA_EXTENSIONS =
-        "CA certificate extension check failed";
+    public finbl stbtic Object T_CA_EXTENSIONS =
+        "CA certificbte extension check fbiled";
 
-    public final static Object T_CERT_EXPIRED =
-        "Certificate expired";
+    public finbl stbtic Object T_CERT_EXPIRED =
+        "Certificbte expired";
 
-    public final static Object T_SIGNATURE_ERROR =
-        "Certificate signature validation failed";
+    public finbl stbtic Object T_SIGNATURE_ERROR =
+        "Certificbte signbture vblidbtion fbiled";
 
-    public final static Object T_NAME_CHAINING =
-        "Certificate chaining error";
+    public finbl stbtic Object T_NAME_CHAINING =
+        "Certificbte chbining error";
 
-    public final static Object T_ALGORITHM_DISABLED =
-        "Certificate signature algorithm disabled";
+    public finbl stbtic Object T_ALGORITHM_DISABLED =
+        "Certificbte signbture blgorithm disbbled";
 
-    public final static Object T_UNTRUSTED_CERT =
-        "Untrusted certificate";
+    public finbl stbtic Object T_UNTRUSTED_CERT =
+        "Untrusted certificbte";
 
-    private Object type;
-    private X509Certificate cert;
+    privbte Object type;
+    privbte X509Certificbte cert;
 
-    public ValidatorException(String msg) {
+    public VblidbtorException(String msg) {
         super(msg);
     }
 
-    public ValidatorException(String msg, Throwable cause) {
+    public VblidbtorException(String msg, Throwbble cbuse) {
         super(msg);
-        initCause(cause);
+        initCbuse(cbuse);
     }
 
-    public ValidatorException(Object type) {
+    public VblidbtorException(Object type) {
         this(type, null);
     }
 
-    public ValidatorException(Object type, X509Certificate cert) {
+    public VblidbtorException(Object type, X509Certificbte cert) {
         super((String)type);
         this.type = type;
         this.cert = cert;
     }
 
-    public ValidatorException(Object type, X509Certificate cert,
-            Throwable cause) {
+    public VblidbtorException(Object type, X509Certificbte cert,
+            Throwbble cbuse) {
         this(type, cert);
-        initCause(cause);
+        initCbuse(cbuse);
     }
 
-    public ValidatorException(String msg, Object type, X509Certificate cert) {
+    public VblidbtorException(String msg, Object type, X509Certificbte cert) {
         super(msg);
         this.type = type;
         this.cert = cert;
     }
 
-    public ValidatorException(String msg, Object type, X509Certificate cert,
-            Throwable cause) {
+    public VblidbtorException(String msg, Object type, X509Certificbte cert,
+            Throwbble cbuse) {
         this(msg, type, cert);
-        initCause(cause);
+        initCbuse(cbuse);
     }
 
     /**
-     * Get the type of the failure (one of the T_XXX constants), if
-     * available. This may be helpful when designing a user interface.
+     * Get the type of the fbilure (one of the T_XXX constbnts), if
+     * bvbilbble. This mby be helpful when designing b user interfbce.
      */
     public Object getErrorType() {
         return type;
     }
 
     /**
-     * Get the certificate causing the exception, if available.
+     * Get the certificbte cbusing the exception, if bvbilbble.
      */
-    public X509Certificate getErrorCertificate() {
+    public X509Certificbte getErrorCertificbte() {
         return cert;
     }
 

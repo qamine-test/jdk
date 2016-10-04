@@ -1,260 +1,260 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.kerberos;
+pbckbge jbvbx.security.buth.kerberos;
 
-import java.util.*;
-import java.security.Permission;
-import java.security.BasicPermission;
-import java.security.PermissionCollection;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.util.*;
+import jbvb.security.Permission;
+import jbvb.security.BbsicPermission;
+import jbvb.security.PermissionCollection;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 /**
- * This class is used to restrict the usage of the Kerberos
- * delegation model, ie: forwardable and proxiable tickets.
+ * This clbss is used to restrict the usbge of the Kerberos
+ * delegbtion model, ie: forwbrdbble bnd proxibble tickets.
  * <p>
- * The target name of this {@code Permission} specifies a pair of
- * kerberos service principals. The first is the subordinate service principal
- * being entrusted to use the TGT. The second service principal designates
- * the target service the subordinate service principal is to
- * interact with on behalf of the initiating KerberosPrincipal. This
- * latter service principal is specified to restrict the use of a
- * proxiable ticket.
+ * The tbrget nbme of this {@code Permission} specifies b pbir of
+ * kerberos service principbls. The first is the subordinbte service principbl
+ * being entrusted to use the TGT. The second service principbl designbtes
+ * the tbrget service the subordinbte service principbl is to
+ * interbct with on behblf of the initibting KerberosPrincipbl. This
+ * lbtter service principbl is specified to restrict the use of b
+ * proxibble ticket.
  * <p>
- * For example, to specify the "host" service use of a forwardable TGT the
- * target permission is specified as follows:
+ * For exbmple, to specify the "host" service use of b forwbrdbble TGT the
+ * tbrget permission is specified bs follows:
  *
  * <pre>
- *  DelegationPermission("\"host/foo.example.com@EXAMPLE.COM\" \"krbtgt/EXAMPLE.COM@EXAMPLE.COM\"");
+ *  DelegbtionPermission("\"host/foo.exbmple.com@EXAMPLE.COM\" \"krbtgt/EXAMPLE.COM@EXAMPLE.COM\"");
  * </pre>
  * <p>
- * To give the "backup" service a proxiable nfs service ticket the target permission
+ * To give the "bbckup" service b proxibble nfs service ticket the tbrget permission
  * might be specified:
  *
  * <pre>
- *  DelegationPermission("\"backup/bar.example.com@EXAMPLE.COM\" \"nfs/home.EXAMPLE.COM@EXAMPLE.COM\"");
+ *  DelegbtionPermission("\"bbckup/bbr.exbmple.com@EXAMPLE.COM\" \"nfs/home.EXAMPLE.COM@EXAMPLE.COM\"");
  * </pre>
  *
  * @since 1.4
  */
 
-public final class DelegationPermission extends BasicPermission
-    implements java.io.Serializable {
+public finbl clbss DelegbtionPermission extends BbsicPermission
+    implements jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = 883133252142523922L;
+    privbte stbtic finbl long seriblVersionUID = 883133252142523922L;
 
-    private transient String subordinate, service;
+    privbte trbnsient String subordinbte, service;
 
     /**
-     * Create a new {@code DelegationPermission}
-     * with the specified subordinate and target principals.
+     * Crebte b new {@code DelegbtionPermission}
+     * with the specified subordinbte bnd tbrget principbls.
      *
      * <p>
      *
-     * @param principals the name of the subordinate and target principals
+     * @pbrbm principbls the nbme of the subordinbte bnd tbrget principbls
      *
-     * @throws NullPointerException if {@code principals} is {@code null}.
-     * @throws IllegalArgumentException if {@code principals} is empty.
+     * @throws NullPointerException if {@code principbls} is {@code null}.
+     * @throws IllegblArgumentException if {@code principbls} is empty.
      */
-    public DelegationPermission(String principals) {
-        super(principals);
-        init(principals);
+    public DelegbtionPermission(String principbls) {
+        super(principbls);
+        init(principbls);
     }
 
     /**
-     * Create a new {@code DelegationPermission}
-     * with the specified subordinate and target principals.
+     * Crebte b new {@code DelegbtionPermission}
+     * with the specified subordinbte bnd tbrget principbls.
      * <p>
      *
-     * @param principals the name of the subordinate and target principals
+     * @pbrbm principbls the nbme of the subordinbte bnd tbrget principbls
      * <p>
-     * @param actions should be null.
+     * @pbrbm bctions should be null.
      *
-     * @throws NullPointerException if {@code principals} is {@code null}.
-     * @throws IllegalArgumentException if {@code principals} is empty.
+     * @throws NullPointerException if {@code principbls} is {@code null}.
+     * @throws IllegblArgumentException if {@code principbls} is empty.
      */
-    public DelegationPermission(String principals, String actions) {
-        super(principals, actions);
-        init(principals);
+    public DelegbtionPermission(String principbls, String bctions) {
+        super(principbls, bctions);
+        init(principbls);
     }
 
 
     /**
-     * Initialize the DelegationPermission object.
+     * Initiblize the DelegbtionPermission object.
      */
-    private void init(String target) {
+    privbte void init(String tbrget) {
 
         StringTokenizer t = null;
-        if (!target.startsWith("\"")) {
-            throw new IllegalArgumentException
-                ("service principal [" + target +
-                 "] syntax invalid: " +
+        if (!tbrget.stbrtsWith("\"")) {
+            throw new IllegblArgumentException
+                ("service principbl [" + tbrget +
+                 "] syntbx invblid: " +
                  "improperly quoted");
         } else {
-            t = new StringTokenizer(target, "\"", false);
-            subordinate = t.nextToken();
+            t = new StringTokenizer(tbrget, "\"", fblse);
+            subordinbte = t.nextToken();
             if (t.countTokens() == 2) {
-                t.nextToken();  // bypass whitespace
+                t.nextToken();  // bypbss whitespbce
                 service = t.nextToken();
             } else if (t.countTokens() > 0) {
-                throw new IllegalArgumentException
-                    ("service principal [" + t.nextToken() +
-                     "] syntax invalid: " +
+                throw new IllegblArgumentException
+                    ("service principbl [" + t.nextToken() +
+                     "] syntbx invblid: " +
                      "improperly quoted");
             }
         }
     }
 
     /**
-     * Checks if this Kerberos delegation permission object "implies" the
+     * Checks if this Kerberos delegbtion permission object "implies" the
      * specified permission.
      * <P>
-     * If none of the above are true, {@code implies} returns false.
-     * @param p the permission to check against.
+     * If none of the bbove bre true, {@code implies} returns fblse.
+     * @pbrbm p the permission to check bgbinst.
      *
      * @return true if the specified permission is implied by this object,
-     * false if not.
+     * fblse if not.
      */
-    public boolean implies(Permission p) {
-        if (!(p instanceof DelegationPermission))
-            return false;
+    public boolebn implies(Permission p) {
+        if (!(p instbnceof DelegbtionPermission))
+            return fblse;
 
-        DelegationPermission that = (DelegationPermission) p;
-        if (this.subordinate.equals(that.subordinate) &&
-            this.service.equals(that.service))
+        DelegbtionPermission thbt = (DelegbtionPermission) p;
+        if (this.subordinbte.equbls(thbt.subordinbte) &&
+            this.service.equbls(thbt.service))
             return true;
 
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Checks two DelegationPermission objects for equality.
+     * Checks two DelegbtionPermission objects for equblity.
      * <P>
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj the object to test for equblity with this object.
      *
-     * @return true if <i>obj</i> is a DelegationPermission, and
-     *  has the same subordinate and service principal as this.
-     *  DelegationPermission object.
+     * @return true if <i>obj</i> is b DelegbtionPermission, bnd
+     *  hbs the sbme subordinbte bnd service principbl bs this.
+     *  DelegbtionPermission object.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if (! (obj instanceof DelegationPermission))
-            return false;
+        if (! (obj instbnceof DelegbtionPermission))
+            return fblse;
 
-        DelegationPermission that = (DelegationPermission) obj;
-        return implies(that);
+        DelegbtionPermission thbt = (DelegbtionPermission) obj;
+        return implies(thbt);
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Returns the hbsh code vblue for this object.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return getName().hashCode();
+    public int hbshCode() {
+        return getNbme().hbshCode();
     }
 
 
     /**
-     * Returns a PermissionCollection object for storing
-     * DelegationPermission objects.
+     * Returns b PermissionCollection object for storing
+     * DelegbtionPermission objects.
      * <br>
-     * DelegationPermission objects must be stored in a manner that
-     * allows them to be inserted into the collection in any order, but
-     * that also enables the PermissionCollection implies method to
-     * be implemented in an efficient (and consistent) manner.
+     * DelegbtionPermission objects must be stored in b mbnner thbt
+     * bllows them to be inserted into the collection in bny order, but
+     * thbt blso enbbles the PermissionCollection implies method to
+     * be implemented in bn efficient (bnd consistent) mbnner.
      *
-     * @return a new PermissionCollection object suitable for storing
-     * DelegationPermissions.
+     * @return b new PermissionCollection object suitbble for storing
+     * DelegbtionPermissions.
      */
 
     public PermissionCollection newPermissionCollection() {
-        return new KrbDelegationPermissionCollection();
+        return new KrbDelegbtionPermissionCollection();
     }
 
     /**
-     * WriteObject is called to save the state of the DelegationPermission
-     * to a stream. The actions are serialized, and the superclass
-     * takes care of the name.
+     * WriteObject is cblled to sbve the stbte of the DelegbtionPermission
+     * to b strebm. The bctions bre seriblized, bnd the superclbss
+     * tbkes cbre of the nbme.
      */
-    private synchronized void writeObject(java.io.ObjectOutputStream s)
+    privbte synchronized void writeObject(jbvb.io.ObjectOutputStrebm s)
         throws IOException
     {
-        s.defaultWriteObject();
+        s.defbultWriteObject();
     }
 
     /**
-     * readObject is called to restore the state of the
-     * DelegationPermission from a stream.
+     * rebdObject is cblled to restore the stbte of the
+     * DelegbtionPermission from b strebm.
      */
-    private synchronized void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbte synchronized void rebdObject(jbvb.io.ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException
     {
-        // Read in the action, then initialize the rest
-        s.defaultReadObject();
-        init(getName());
+        // Rebd in the bction, then initiblize the rest
+        s.defbultRebdObject();
+        init(getNbme());
     }
 
     /*
-      public static void main(String args[]) throws Exception {
-      DelegationPermission this_ =
-      new DelegationPermission(args[0]);
-      DelegationPermission that_ =
-      new DelegationPermission(args[1]);
+      public stbtic void mbin(String brgs[]) throws Exception {
+      DelegbtionPermission this_ =
+      new DelegbtionPermission(brgs[0]);
+      DelegbtionPermission thbt_ =
+      new DelegbtionPermission(brgs[1]);
       System.out.println("-----\n");
-      System.out.println("this.implies(that) = " + this_.implies(that_));
+      System.out.println("this.implies(thbt) = " + this_.implies(thbt_));
       System.out.println("-----\n");
       System.out.println("this = "+this_);
       System.out.println("-----\n");
-      System.out.println("that = "+that_);
+      System.out.println("thbt = "+thbt_);
       System.out.println("-----\n");
 
-      KrbDelegationPermissionCollection nps =
-      new KrbDelegationPermissionCollection();
-      nps.add(this_);
-      nps.add(new DelegationPermission("\"host/foo.example.com@EXAMPLE.COM\" \"CN=Gary Ellison/OU=JSN/O=SUNW/L=Palo Alto/ST=CA/C=US\""));
+      KrbDelegbtionPermissionCollection nps =
+      new KrbDelegbtionPermissionCollection();
+      nps.bdd(this_);
+      nps.bdd(new DelegbtionPermission("\"host/foo.exbmple.com@EXAMPLE.COM\" \"CN=Gbry Ellison/OU=JSN/O=SUNW/L=Pblo Alto/ST=CA/C=US\""));
       try {
-      nps.add(new DelegationPermission("host/foo.example.com@EXAMPLE.COM \"CN=Gary Ellison/OU=JSN/O=SUNW/L=Palo Alto/ST=CA/C=US\""));
-      } catch (Exception e) {
+      nps.bdd(new DelegbtionPermission("host/foo.exbmple.com@EXAMPLE.COM \"CN=Gbry Ellison/OU=JSN/O=SUNW/L=Pblo Alto/ST=CA/C=US\""));
+      } cbtch (Exception e) {
       System.err.println(e);
       }
 
-      System.out.println("nps.implies(that) = " + nps.implies(that_));
+      System.out.println("nps.implies(thbt) = " + nps.implies(thbt_));
       System.out.println("-----\n");
 
-      Enumeration e = nps.elements();
+      Enumerbtion e = nps.elements();
 
-      while (e.hasMoreElements()) {
-      DelegationPermission x =
-      (DelegationPermission) e.nextElement();
+      while (e.hbsMoreElements()) {
+      DelegbtionPermission x =
+      (DelegbtionPermission) e.nextElement();
       System.out.println("nps.e = " + x);
       }
       }
@@ -262,29 +262,29 @@ public final class DelegationPermission extends BasicPermission
 }
 
 
-final class KrbDelegationPermissionCollection extends PermissionCollection
-    implements java.io.Serializable {
+finbl clbss KrbDelegbtionPermissionCollection extends PermissionCollection
+    implements jbvb.io.Seriblizbble {
 
-    // Not serialized; see serialization section at end of class.
-    private transient List<Permission> perms;
+    // Not seriblized; see seriblizbtion section bt end of clbss.
+    privbte trbnsient List<Permission> perms;
 
-    public KrbDelegationPermissionCollection() {
-        perms = new ArrayList<Permission>();
+    public KrbDelegbtionPermissionCollection() {
+        perms = new ArrbyList<Permission>();
     }
 
 
     /**
-     * Check and see if this collection of permissions implies the permissions
+     * Check bnd see if this collection of permissions implies the permissions
      * expressed in "permission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm permission the Permission object to compbre
      *
-     * @return true if "permission" is a proper subset of a permission in
-     * the collection, false if not.
+     * @return true if "permission" is b proper subset of b permission in
+     * the collection, fblse if not.
      */
-    public boolean implies(Permission permission) {
-        if (! (permission instanceof DelegationPermission))
-                return false;
+    public boolebn implies(Permission permission) {
+        if (! (permission instbnceof DelegbtionPermission))
+                return fblse;
 
         synchronized (this) {
             for (Permission x : perms) {
@@ -292,98 +292,98 @@ final class KrbDelegationPermissionCollection extends PermissionCollection
                     return true;
             }
         }
-        return false;
+        return fblse;
 
     }
 
     /**
-     * Adds a permission to the DelegationPermissions. The key for
-     * the hash is the name.
+     * Adds b permission to the DelegbtionPermissions. The key for
+     * the hbsh is the nbme.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      *
-     * @exception IllegalArgumentException - if the permission is not a
-     *                                       DelegationPermission
+     * @exception IllegblArgumentException - if the permission is not b
+     *                                       DelegbtionPermission
      *
      * @exception SecurityException - if this PermissionCollection object
-     *                                has been marked readonly
+     *                                hbs been mbrked rebdonly
      */
-    public void add(Permission permission) {
-        if (! (permission instanceof DelegationPermission))
-            throw new IllegalArgumentException("invalid permission: "+
+    public void bdd(Permission permission) {
+        if (! (permission instbnceof DelegbtionPermission))
+            throw new IllegblArgumentException("invblid permission: "+
                                                permission);
-        if (isReadOnly())
-            throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+        if (isRebdOnly())
+            throw new SecurityException("bttempt to bdd b Permission to b rebdonly PermissionCollection");
 
         synchronized (this) {
-            perms.add(0, permission);
+            perms.bdd(0, permission);
         }
     }
 
     /**
-     * Returns an enumeration of all the DelegationPermission objects
-     * in the container.
+     * Returns bn enumerbtion of bll the DelegbtionPermission objects
+     * in the contbiner.
      *
-     * @return an enumeration of all the DelegationPermission objects.
+     * @return bn enumerbtion of bll the DelegbtionPermission objects.
      */
-    public Enumeration<Permission> elements() {
-        // Convert Iterator into Enumeration
+    public Enumerbtion<Permission> elements() {
+        // Convert Iterbtor into Enumerbtion
         synchronized (this) {
-            return Collections.enumeration(perms);
+            return Collections.enumerbtion(perms);
         }
     }
 
-    private static final long serialVersionUID = -3383936936589966948L;
+    privbte stbtic finbl long seriblVersionUID = -3383936936589966948L;
 
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
-    //    private Vector permissions;
+    // Need to mbintbin seriblizbtion interoperbbility with ebrlier relebses,
+    // which hbd the seriblizbble field:
+    //    privbte Vector permissions;
     /**
-     * @serialField permissions java.util.Vector
-     *     A list of DelegationPermission objects.
+     * @seriblField permissions jbvb.util.Vector
+     *     A list of DelegbtionPermission objects.
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("permissions", Vector.class),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("permissions", Vector.clbss),
     };
 
     /**
-     * @serialData "permissions" field (a Vector containing the DelegationPermissions).
+     * @seriblDbtb "permissions" field (b Vector contbining the DelegbtionPermissions).
      */
     /*
-     * Writes the contents of the perms field out as a Vector for
-     * serialization compatibility with earlier releases.
+     * Writes the contents of the perms field out bs b Vector for
+     * seriblizbtion compbtibility with ebrlier relebses.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        // Don't cbll out.defbultWriteObject()
 
         // Write out Vector
         Vector<Permission> permissions = new Vector<>(perms.size());
 
         synchronized (this) {
-            permissions.addAll(perms);
+            permissions.bddAll(perms);
         }
 
-        ObjectOutputStream.PutField pfields = out.putFields();
+        ObjectOutputStrebm.PutField pfields = out.putFields();
         pfields.put("permissions", permissions);
         out.writeFields();
     }
 
     /*
-     * Reads in a Vector of DelegationPermissions and saves them in the perms field.
+     * Rebds in b Vector of DelegbtionPermissions bnd sbves them in the perms field.
      */
-    @SuppressWarnings("unchecked")
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    @SuppressWbrnings("unchecked")
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException
     {
-        // Don't call defaultReadObject()
+        // Don't cbll defbultRebdObject()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rebd in seriblized fields
+        ObjectInputStrebm.GetField gfields = in.rebdFields();
 
-        // Get the one we want
+        // Get the one we wbnt
         Vector<Permission> permissions =
                 (Vector<Permission>)gfields.get("permissions", null);
-        perms = new ArrayList<Permission>(permissions.size());
-        perms.addAll(permissions);
+        perms = new ArrbyList<Permission>(permissions.size());
+        perms.bddAll(permissions);
     }
 }

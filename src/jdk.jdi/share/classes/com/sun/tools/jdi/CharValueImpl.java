@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-public class CharValueImpl extends PrimitiveValueImpl
-                           implements CharValue {
-    private char value;
+public clbss ChbrVblueImpl extends PrimitiveVblueImpl
+                           implements ChbrVblue {
+    privbte chbr vblue;
 
-    CharValueImpl(VirtualMachine aVm,char aValue) {
-        super(aVm);
+    ChbrVblueImpl(VirtublMbchine bVm,chbr bVblue) {
+        super(bVm);
 
-        value = aValue;
+        vblue = bVblue;
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof CharValue)) {
-            return (value == ((CharValue)obj).value()) &&
-                   super.equals(obj);
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof ChbrVblue)) {
+            return (vblue == ((ChbrVblue)obj).vblue()) &&
+                   super.equbls(obj);
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         /*
-         * TO DO: Better hash code
+         * TO DO: Better hbsh code
          */
-        return intValue();
+        return intVblue();
     }
 
-    public int compareTo(CharValue obj) {
-        char other = obj.value();
-        return value() - other;
+    public int compbreTo(ChbrVblue obj) {
+        chbr other = obj.vblue();
+        return vblue() - other;
     }
 
     public Type type() {
-        return vm.theCharType();
+        return vm.theChbrType();
     }
 
-    public char value() {
-        return value;
+    public chbr vblue() {
+        return vblue;
     }
 
-    public boolean booleanValue() {
-        return(value == 0)?false:true;
+    public boolebn boolebnVblue() {
+        return(vblue == 0)?fblse:true;
     }
 
-    public byte byteValue() {
-        return(byte)value;
+    public byte byteVblue() {
+        return(byte)vblue;
     }
 
-    public char charValue() {
-        return value;
+    public chbr chbrVblue() {
+        return vblue;
     }
 
-    public short shortValue() {
-        return(short)value;
+    public short shortVblue() {
+        return(short)vblue;
     }
 
-    public int intValue() {
-        return(int)value;
+    public int intVblue() {
+        return(int)vblue;
     }
 
-    public long longValue() {
-        return(long)value;
+    public long longVblue() {
+        return(long)vblue;
     }
 
-    public float floatValue() {
-        return(float)value;
+    public flobt flobtVblue() {
+        return(flobt)vblue;
     }
 
-    public double doubleValue() {
-        return(double)value;
+    public double doubleVblue() {
+        return(double)vblue;
     }
 
     public String toString() {
-        return "" + value;
+        return "" + vblue;
     }
 
-    byte checkedByteValue() throws InvalidTypeException {
-        // Note: since char is unsigned, don't check against MIN_VALUE
-        if (value > Byte.MAX_VALUE) {
-            throw new InvalidTypeException("Can't convert " + value + " to byte");
+    byte checkedByteVblue() throws InvblidTypeException {
+        // Note: since chbr is unsigned, don't check bgbinst MIN_VALUE
+        if (vblue > Byte.MAX_VALUE) {
+            throw new InvblidTypeException("Cbn't convert " + vblue + " to byte");
         } else {
-            return super.checkedByteValue();
+            return super.checkedByteVblue();
         }
     }
 
-    short checkedShortValue() throws InvalidTypeException {
-        // Note: since char is unsigned, don't check against MIN_VALUE
-        if (value > Short.MAX_VALUE) {
-            throw new InvalidTypeException("Can't convert " + value + " to short");
+    short checkedShortVblue() throws InvblidTypeException {
+        // Note: since chbr is unsigned, don't check bgbinst MIN_VALUE
+        if (vblue > Short.MAX_VALUE) {
+            throw new InvblidTypeException("Cbn't convert " + vblue + " to short");
         } else {
-            return super.checkedShortValue();
+            return super.checkedShortVblue();
         }
     }
 
-    byte typeValueKey() {
-        return JDWP.Tag.CHAR;
+    byte typeVblueKey() {
+        return JDWP.Tbg.CHAR;
     }
 }

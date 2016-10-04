@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.MenuComponentPeer;
-import java.util.Hashtable;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.MenuComponentPeer;
+import jbvb.util.Hbshtbble;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-import sun.awt.SunToolkit;
-import sun.lwawt.LWToolkit;
-import sun.lwawt.macosx.*;
+import sun.bwt.SunToolkit;
+import sun.lwbwt.LWToolkit;
+import sun.lwbwt.mbcosx.*;
 
-@SuppressWarnings("serial") // JDK implementation class
-final class ScreenMenu extends Menu
-        implements ContainerListener, ComponentListener,
-                   ScreenMenuPropertyHandler {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+finbl clbss ScreenMenu extends Menu
+        implements ContbinerListener, ComponentListener,
+                   ScreenMenuPropertyHbndler {
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("awt");
+                    System.lobdLibrbry("bwt");
                     return null;
                 }
             });
     }
 
     // screen menu stuff
-    private static native long addMenuListeners(ScreenMenu listener, long nativeMenu);
-    private static native void removeMenuListeners(long modelPtr);
+    privbte stbtic nbtive long bddMenuListeners(ScreenMenu listener, long nbtiveMenu);
+    privbte stbtic nbtive void removeMenuListeners(long modelPtr);
 
-    private transient long fModelPtr;
+    privbte trbnsient long fModelPtr;
 
-    private final Hashtable<Component, MenuItem> fItems;
-    private final JMenu fInvoker;
+    privbte finbl Hbshtbble<Component, MenuItem> fItems;
+    privbte finbl JMenu fInvoker;
 
-    private Component fLastMouseEventTarget;
-    private Rectangle fLastTargetRect;
-    private volatile Rectangle[] fItemBounds;
+    privbte Component fLbstMouseEventTbrget;
+    privbte Rectbngle fLbstTbrgetRect;
+    privbte volbtile Rectbngle[] fItemBounds;
 
-    private ScreenMenuPropertyListener fPropertyListener;
+    privbte ScreenMenuPropertyListener fPropertyListener;
 
-    // Array of child hashes used to see if we need to recreate the Menu.
-    private int childHashArray[];
+    // Arrby of child hbshes used to see if we need to recrebte the Menu.
+    privbte int childHbshArrby[];
 
-    ScreenMenu(final JMenu invoker) {
+    ScreenMenu(finbl JMenu invoker) {
         super(invoker.getText());
         fInvoker = invoker;
 
         int count = fInvoker.getMenuComponentCount();
         if (count < 5) count = 5;
-        fItems = new Hashtable<Component, MenuItem>(count);
-        setEnabled(fInvoker.isEnabled());
-        updateItems();
+        fItems = new Hbshtbble<Component, MenuItem>(count);
+        setEnbbled(fInvoker.isEnbbled());
+        updbteItems();
     }
 
     /**
-     * Determine if we need to tear down the Menu and re-create it, since the contents may have changed in the Menu opened listener and
-     * we do not get notified of it, because EDT is busy in our code. We only need to update if the menu contents have changed in some
-     * way, such as the number of menu items, the text of the menuitems, icon, shortcut etc.
+     * Determine if we need to tebr down the Menu bnd re-crebte it, since the contents mby hbve chbnged in the Menu opened listener bnd
+     * we do not get notified of it, becbuse EDT is busy in our code. We only need to updbte if the menu contents hbve chbnged in some
+     * wby, such bs the number of menu items, the text of the menuitems, icon, shortcut etc.
      */
-    private static boolean needsUpdate(final Component items[], final int childHashArray[]) {
-      if (items == null || childHashArray == null) {
+    privbte stbtic boolebn needsUpdbte(finbl Component items[], finbl int childHbshArrby[]) {
+      if (items == null || childHbshArrby == null) {
         return true;
       }
-      if (childHashArray.length != items.length) {
+      if (childHbshArrby.length != items.length) {
        return true;
       }
       for (int i = 0; i < items.length; i++) {
-          final int hashCode = getHashCode(items[i]);
-          if (hashCode != childHashArray[i]) {
+          finbl int hbshCode = getHbshCode(items[i]);
+          if (hbshCode != childHbshArrby[i]) {
             return true;
           }
       }
-      return false;
+      return fblse;
     }
 
     /**
-     * Used to recreate the AWT based Menu structure that implements the Screen Menu.
-     * Also computes hashcode and stores them so that we can compare them later in needsUpdate.
+     * Used to recrebte the AWT bbsed Menu structure thbt implements the Screen Menu.
+     * Also computes hbshcode bnd stores them so thbt we cbn compbre them lbter in needsUpdbte.
      */
-    private void updateItems() {
-        final int count = fInvoker.getMenuComponentCount();
-        final Component[] items = fInvoker.getMenuComponents();
-        if (needsUpdate(items, childHashArray)) {
+    privbte void updbteItems() {
+        finbl int count = fInvoker.getMenuComponentCount();
+        finbl Component[] items = fInvoker.getMenuComponents();
+        if (needsUpdbte(items, childHbshArrby)) {
             removeAll();
             if (count <= 0) return;
 
-            childHashArray = new int[count];
+            childHbshArrby = new int[count];
             for (int i = 0; i < count; i++) {
-                addItem(items[i]);
-                childHashArray[i] = getHashCode(items[i]);
+                bddItem(items[i]);
+                childHbshArrby[i] = getHbshCode(items[i]);
             }
         }
     }
 
     /**
-     * Callback from JavaMenuUpdater.m -- called when menu first opens
+     * Cbllbbck from JbvbMenuUpdbter.m -- cblled when menu first opens
      */
-    public void invokeOpenLater() {
-        final JMenu invoker = fInvoker;
+    public void invokeOpenLbter() {
+        finbl JMenu invoker = fInvoker;
         if (invoker == null) {
             System.err.println("invoker is null!");
             return;
         }
 
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
+            LWCToolkit.invokeAndWbit(new Runnbble() {
                 public void run() {
                     invoker.setSelected(true);
-                    invoker.validate();
-                    updateItems();
-                    fItemBounds = new Rectangle[invoker.getMenuComponentCount()];
+                    invoker.vblidbte();
+                    updbteItems();
+                    fItemBounds = new Rectbngle[invoker.getMenuComponentCount()];
                 }
             }, invoker);
-        } catch (final Exception e) {
+        } cbtch (finbl Exception e) {
             System.err.println(e);
-            e.printStackTrace();
+            e.printStbckTrbce();
         }
     }
 
     /**
-     * Callback from JavaMenuUpdater.m -- called when menu closes.
+     * Cbllbbck from JbvbMenuUpdbter.m -- cblled when menu closes.
      */
     public void invokeMenuClosing() {
-        final JMenu invoker = fInvoker;
+        finbl JMenu invoker = fInvoker;
         if (invoker == null) return;
 
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
+            LWCToolkit.invokeAndWbit(new Runnbble() {
                 public void run() {
-                    invoker.setSelected(false);
-                    // Null out the tracking rectangles and the array.
+                    invoker.setSelected(fblse);
+                    // Null out the trbcking rectbngles bnd the brrby.
                     if (fItemBounds != null) {
                         for (int i = 0; i < fItemBounds.length; i++) {
                             fItemBounds[i] = null;
@@ -165,93 +165,93 @@ final class ScreenMenu extends Menu
                     fItemBounds = null;
                 }
             }, invoker);
-        } catch (final Exception e) {
-            e.printStackTrace();
+        } cbtch (finbl Exception e) {
+            e.printStbckTrbce();
         }
     }
 
     /**
-     * Callback from JavaMenuUpdater.m -- called when menu item is hilighted.
+     * Cbllbbck from JbvbMenuUpdbter.m -- cblled when menu item is hilighted.
      *
-     * @param inWhichItem The menu item selected by the user. -1 if mouse moves off the menu.
-     * @param itemRectTop
-     * @param itemRectLeft
-     * @param itemRectBottom
-     * @param itemRectRight Tracking rectangle coordinates.
+     * @pbrbm inWhichItem The menu item selected by the user. -1 if mouse moves off the menu.
+     * @pbrbm itemRectTop
+     * @pbrbm itemRectLeft
+     * @pbrbm itemRectBottom
+     * @pbrbm itemRectRight Trbcking rectbngle coordinbtes.
      */
-    public void handleItemTargeted(final int inWhichItem, final int itemRectTop, final int itemRectLeft, final int itemRectBottom, final int itemRectRight) {
+    public void hbndleItemTbrgeted(finbl int inWhichItem, finbl int itemRectTop, finbl int itemRectLeft, finbl int itemRectBottom, finbl int itemRectRight) {
         if (fItemBounds == null || inWhichItem < 0 || inWhichItem > (fItemBounds.length - 1)) return;
-        final Rectangle itemRect = new Rectangle(itemRectLeft, itemRectTop, itemRectRight - itemRectLeft, itemRectBottom - itemRectTop);
+        finbl Rectbngle itemRect = new Rectbngle(itemRectLeft, itemRectTop, itemRectRight - itemRectLeft, itemRectBottom - itemRectTop);
         fItemBounds[inWhichItem] = itemRect;
     }
 
     /**
-     * Callback from JavaMenuUpdater.m -- called when mouse event happens on the menu.
+     * Cbllbbck from JbvbMenuUpdbter.m -- cblled when mouse event hbppens on the menu.
      */
-    public void handleMouseEvent(final int kind, final int x, final int y, final int modifiers, final long when) {
+    public void hbndleMouseEvent(finbl int kind, finbl int x, finbl int y, finbl int modifiers, finbl long when) {
         if (kind == 0) return;
         if (fItemBounds == null) return;
 
-        SunToolkit.executeOnEventHandlerThread(fInvoker, new Runnable() {
+        SunToolkit.executeOnEventHbndlerThrebd(fInvoker, new Runnbble() {
             @Override
             public void run() {
-                Component target = null;
-                Rectangle targetRect = null;
+                Component tbrget = null;
+                Rectbngle tbrgetRect = null;
                 for (int i = 0; i < fItemBounds.length; i++) {
-                    final Rectangle testRect = fItemBounds[i];
+                    finbl Rectbngle testRect = fItemBounds[i];
                     if (testRect != null) {
-                        if (testRect.contains(x, y)) {
-                            target = fInvoker.getMenuComponent(i);
-                            targetRect = testRect;
-                            break;
+                        if (testRect.contbins(x, y)) {
+                            tbrget = fInvoker.getMenuComponent(i);
+                            tbrgetRect = testRect;
+                            brebk;
                         }
                     }
                 }
-                if (target == null && fLastMouseEventTarget == null) return;
+                if (tbrget == null && fLbstMouseEventTbrget == null) return;
 
-                // Send a mouseExited to the previously hilited item, if it wasn't 0.
-                if (target != fLastMouseEventTarget) {
-                    if (fLastMouseEventTarget != null) {
-                        LWToolkit.postEvent(new MouseEvent(fLastMouseEventTarget, MouseEvent.MOUSE_EXITED, when, modifiers, x - fLastTargetRect.x, y - fLastTargetRect.y, 0, false));
+                // Send b mouseExited to the previously hilited item, if it wbsn't 0.
+                if (tbrget != fLbstMouseEventTbrget) {
+                    if (fLbstMouseEventTbrget != null) {
+                        LWToolkit.postEvent(new MouseEvent(fLbstMouseEventTbrget, MouseEvent.MOUSE_EXITED, when, modifiers, x - fLbstTbrgetRect.x, y - fLbstTbrgetRect.y, 0, fblse));
                     }
-                    // Send a mouseEntered to the current hilited item, if it wasn't 0.
-                    if (target != null) {
-                        LWToolkit.postEvent(new MouseEvent(target, MouseEvent.MOUSE_ENTERED, when, modifiers, x - targetRect.x, y - targetRect.y, 0, false));
+                    // Send b mouseEntered to the current hilited item, if it wbsn't 0.
+                    if (tbrget != null) {
+                        LWToolkit.postEvent(new MouseEvent(tbrget, MouseEvent.MOUSE_ENTERED, when, modifiers, x - tbrgetRect.x, y - tbrgetRect.y, 0, fblse));
                     }
-                    fLastMouseEventTarget = target;
-                    fLastTargetRect = targetRect;
+                    fLbstMouseEventTbrget = tbrget;
+                    fLbstTbrgetRect = tbrgetRect;
                 }
-                // Post a mouse event to the current item.
-                if (target == null) return;
-                LWToolkit.postEvent(new MouseEvent(target, kind, when, modifiers, x - targetRect.x, y - targetRect.y, 0, false));
+                // Post b mouse event to the current item.
+                if (tbrget == null) return;
+                LWToolkit.postEvent(new MouseEvent(tbrget, kind, when, modifiers, x - tbrgetRect.x, y - tbrgetRect.y, 0, fblse));
             }
         });
     }
 
     @Override
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
-            super.addNotify();
+            super.bddNotify();
             if (fModelPtr == 0) {
-                fInvoker.addContainerListener(this);
-                fInvoker.addComponentListener(this);
+                fInvoker.bddContbinerListener(this);
+                fInvoker.bddComponentListener(this);
                 fPropertyListener = new ScreenMenuPropertyListener(this);
-                fInvoker.addPropertyChangeListener(fPropertyListener);
+                fInvoker.bddPropertyChbngeListener(fPropertyListener);
 
-                final Icon icon = fInvoker.getIcon();
+                finbl Icon icon = fInvoker.getIcon();
                 if (icon != null) {
                     setIcon(icon);
                 }
 
-                final String tooltipText = fInvoker.getToolTipText();
+                finbl String tooltipText = fInvoker.getToolTipText();
                 if (tooltipText != null) {
                     setToolTipText(tooltipText);
                 }
-                final MenuComponentPeer peer = getPeer();
-                if (peer instanceof CMenu) {
-                    final CMenu menu = (CMenu) peer;
-                    final long nativeMenu = menu.getNativeMenu();
-                    fModelPtr = addMenuListeners(this, nativeMenu);
+                finbl MenuComponentPeer peer = getPeer();
+                if (peer instbnceof CMenu) {
+                    finbl CMenu menu = (CMenu) peer;
+                    finbl long nbtiveMenu = menu.getNbtiveMenu();
+                    fModelPtr = bddMenuListeners(this, nbtiveMenu);
                 }
             }
         }
@@ -260,35 +260,35 @@ final class ScreenMenu extends Menu
     @Override
     public void removeNotify() {
         synchronized (getTreeLock()) {
-            // Call super so that the NSMenu has been removed, before we release
-            // the delegate in removeMenuListeners
+            // Cbll super so thbt the NSMenu hbs been removed, before we relebse
+            // the delegbte in removeMenuListeners
             super.removeNotify();
-            fItems.clear();
+            fItems.clebr();
             if (fModelPtr != 0) {
                 removeMenuListeners(fModelPtr);
                 fModelPtr = 0;
-                fInvoker.removeContainerListener(this);
+                fInvoker.removeContbinerListener(this);
                 fInvoker.removeComponentListener(this);
-                fInvoker.removePropertyChangeListener(fPropertyListener);
+                fInvoker.removePropertyChbngeListener(fPropertyListener);
             }
         }
     }
 
     /**
-     * Invoked when a component has been added to the container.
+     * Invoked when b component hbs been bdded to the contbiner.
      */
     @Override
-    public void componentAdded(final ContainerEvent e) {
-        addItem(e.getChild());
+    public void componentAdded(finbl ContbinerEvent e) {
+        bddItem(e.getChild());
     }
 
     /**
-     * Invoked when a component has been removed from the container.
+     * Invoked when b component hbs been removed from the contbiner.
      */
     @Override
-    public void componentRemoved(final ContainerEvent e) {
-        final Component child = e.getChild();
-        final MenuItem sm = fItems.get(child);
+    public void componentRemoved(finbl ContbinerEvent e) {
+        finbl Component child = e.getChild();
+        finbl MenuItem sm = fItems.get(child);
         if (sm == null) return;
 
         remove(sm);
@@ -296,150 +296,150 @@ final class ScreenMenu extends Menu
     }
 
     /**
-     * Invoked when the component's size changes.
+     * Invoked when the component's size chbnges.
      */
     @Override
-    public void componentResized(final ComponentEvent e) {}
+    public void componentResized(finbl ComponentEvent e) {}
 
     /**
-     * Invoked when the component's position changes.
+     * Invoked when the component's position chbnges.
      */
     @Override
-    public void componentMoved(final ComponentEvent e) {}
+    public void componentMoved(finbl ComponentEvent e) {}
 
     /**
-     * Invoked when the component has been made visible.
-     * See componentHidden - we should still have a MenuItem
+     * Invoked when the component hbs been mbde visible.
+     * See componentHidden - we should still hbve b MenuItem
      * it just isn't inserted
      */
     @Override
-    public void componentShown(final ComponentEvent e) {
+    public void componentShown(finbl ComponentEvent e) {
         setVisible(true);
     }
 
     /**
-     * Invoked when the component has been made invisible.
+     * Invoked when the component hbs been mbde invisible.
      * MenuComponent.setVisible does nothing,
      * so we remove the ScreenMenuItem from the ScreenMenu
-     * but leave it in fItems
+     * but lebve it in fItems
      */
     @Override
-    public void componentHidden(final ComponentEvent e) {
-        setVisible(false);
+    public void componentHidden(finbl ComponentEvent e) {
+        setVisible(fblse);
     }
 
-    private void setVisible(final boolean b) {
-        // Tell our parent to add/remove us
-        final MenuContainer parent = getParent();
+    privbte void setVisible(finbl boolebn b) {
+        // Tell our pbrent to bdd/remove us
+        finbl MenuContbiner pbrent = getPbrent();
 
-        if (parent != null) {
-            if (parent instanceof ScreenMenu) {
-                final ScreenMenu sm = (ScreenMenu)parent;
+        if (pbrent != null) {
+            if (pbrent instbnceof ScreenMenu) {
+                finbl ScreenMenu sm = (ScreenMenu)pbrent;
                 sm.setChildVisible(fInvoker, b);
             }
         }
     }
 
     @Override
-    public void setChildVisible(final JMenuItem child, final boolean b) {
+    public void setChildVisible(finbl JMenuItem child, finbl boolebn b) {
         fItems.remove(child);
-        updateItems();
+        updbteItems();
     }
 
     @Override
-    public void setAccelerator(final KeyStroke ks) {}
+    public void setAccelerbtor(finbl KeyStroke ks) {}
 
-    // only check and radio items can be indeterminate
+    // only check bnd rbdio items cbn be indeterminbte
     @Override
-    public void setIndeterminate(boolean indeterminate) { }
+    public void setIndeterminbte(boolebn indeterminbte) { }
 
     @Override
-    public void setToolTipText(final String text) {
-        final MenuComponentPeer peer = getPeer();
-        if (!(peer instanceof CMenuItem)) return;
+    public void setToolTipText(finbl String text) {
+        finbl MenuComponentPeer peer = getPeer();
+        if (!(peer instbnceof CMenuItem)) return;
 
-        final CMenuItem cmi = (CMenuItem)peer;
+        finbl CMenuItem cmi = (CMenuItem)peer;
         cmi.setToolTipText(text);
     }
 
     @Override
-    public void setIcon(final Icon i) {
-        final MenuComponentPeer peer = getPeer();
-        if (!(peer instanceof CMenuItem)) return;
+    public void setIcon(finbl Icon i) {
+        finbl MenuComponentPeer peer = getPeer();
+        if (!(peer instbnceof CMenuItem)) return;
 
-        final CMenuItem cmi = (CMenuItem)peer;
-        Image img = null;
+        finbl CMenuItem cmi = (CMenuItem)peer;
+        Imbge img = null;
 
         if (i != null) {
             if (i.getIconWidth() > 0 && i.getIconHeight() > 0) {
-                img = AquaIcon.getImageForIcon(i);
+                img = AqubIcon.getImbgeForIcon(i);
             }
         }
-        cmi.setImage(img);
+        cmi.setImbge(img);
     }
 
 
     /**
-     * Gets a hashCode for a JMenu or JMenuItem or subclass so that we can compare for
-     * changes in the Menu.
+     * Gets b hbshCode for b JMenu or JMenuItem or subclbss so thbt we cbn compbre for
+     * chbnges in the Menu.
      */
-    private static int getHashCode(final Component m) {
-        int hashCode = m.hashCode();
+    privbte stbtic int getHbshCode(finbl Component m) {
+        int hbshCode = m.hbshCode();
 
-        if (m instanceof JMenuItem) {
-            final JMenuItem mi = (JMenuItem) m;
+        if (m instbnceof JMenuItem) {
+            finbl JMenuItem mi = (JMenuItem) m;
 
-            final String text = mi.getText();
-            if (text != null) hashCode ^= text.hashCode();
+            finbl String text = mi.getText();
+            if (text != null) hbshCode ^= text.hbshCode();
 
-            final Icon icon = mi.getIcon();
-            if (icon != null) hashCode ^= icon.hashCode();
+            finbl Icon icon = mi.getIcon();
+            if (icon != null) hbshCode ^= icon.hbshCode();
 
-            final Icon disabledIcon = mi.getDisabledIcon();
-            if (disabledIcon != null) hashCode ^= disabledIcon.hashCode();
+            finbl Icon disbbledIcon = mi.getDisbbledIcon();
+            if (disbbledIcon != null) hbshCode ^= disbbledIcon.hbshCode();
 
-            final Action action = mi.getAction();
-            if (action != null) hashCode ^= action.hashCode();
+            finbl Action bction = mi.getAction();
+            if (bction != null) hbshCode ^= bction.hbshCode();
 
-            final KeyStroke ks = mi.getAccelerator();
-            if (ks != null) hashCode ^= ks.hashCode();
+            finbl KeyStroke ks = mi.getAccelerbtor();
+            if (ks != null) hbshCode ^= ks.hbshCode();
 
-            hashCode ^= Boolean.valueOf(mi.isVisible()).hashCode();
-            hashCode ^= Boolean.valueOf(mi.isEnabled()).hashCode();
-            hashCode ^= Boolean.valueOf(mi.isSelected()).hashCode();
+            hbshCode ^= Boolebn.vblueOf(mi.isVisible()).hbshCode();
+            hbshCode ^= Boolebn.vblueOf(mi.isEnbbled()).hbshCode();
+            hbshCode ^= Boolebn.vblueOf(mi.isSelected()).hbshCode();
 
-        } else if (m instanceof JSeparator) {
-            hashCode ^= "-".hashCode();
+        } else if (m instbnceof JSepbrbtor) {
+            hbshCode ^= "-".hbshCode();
         }
 
-        return hashCode;
+        return hbshCode;
     }
 
-    private void addItem(final Component m) {
+    privbte void bddItem(finbl Component m) {
         if (!m.isVisible()) return;
         MenuItem sm = fItems.get(m);
 
         if (sm == null) {
-            if (m instanceof JMenu) {
+            if (m instbnceof JMenu) {
                 sm = new ScreenMenu((JMenu)m);
-            } else if (m instanceof JCheckBoxMenuItem) {
+            } else if (m instbnceof JCheckBoxMenuItem) {
                 sm = new ScreenMenuItemCheckbox((JCheckBoxMenuItem)m);
-            } else if (m instanceof JRadioButtonMenuItem) {
-                sm = new ScreenMenuItemCheckbox((JRadioButtonMenuItem)m);
-            } else if (m instanceof JMenuItem) {
+            } else if (m instbnceof JRbdioButtonMenuItem) {
+                sm = new ScreenMenuItemCheckbox((JRbdioButtonMenuItem)m);
+            } else if (m instbnceof JMenuItem) {
                 sm = new ScreenMenuItem((JMenuItem)m);
-            } else if (m instanceof JPopupMenu.Separator || m instanceof JSeparator) {
-                sm = new MenuItem("-"); // This is what java.awt.Menu.addSeparator does
+            } else if (m instbnceof JPopupMenu.Sepbrbtor || m instbnceof JSepbrbtor) {
+                sm = new MenuItem("-"); // This is whbt jbvb.bwt.Menu.bddSepbrbtor does
             }
 
-            // Only place the menu item in the hashtable if we just created it.
+            // Only plbce the menu item in the hbshtbble if we just crebted it.
             if (sm != null) {
                 fItems.put(m, sm);
             }
         }
 
         if (sm != null) {
-            add(sm);
+            bdd(sm);
         }
     }
 }

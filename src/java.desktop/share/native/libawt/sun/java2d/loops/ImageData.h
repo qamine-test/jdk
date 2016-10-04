@@ -1,375 +1,375 @@
 /*
- * Copyright (c) 1997, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * @author Charlton Innovations, Inc.
+ * @buthor Chbrlton Innovbtions, Inc.
  */
 
-#ifndef _Included_ImageData
-#define _Included_ImageData
+#ifndef _Included_ImbgeDbtb
+#define _Included_ImbgeDbtb
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "colordata.h"
+#include "colordbtb.h"
 
 
-typedef struct ImageDataID {
-    jfieldID dataID;
-    jfieldID lutDataID;
+typedef struct ImbgeDbtbID {
+    jfieldID dbtbID;
+    jfieldID lutDbtbID;
     jfieldID typeID;
-    jfieldID lutDataLengthID;
+    jfieldID lutDbtbLengthID;
     jfieldID pixelStrideID;
-    jfieldID scanlineStrideID;
-    jfieldID numChannelsID;
-    jfieldID bytePerChannelID;
-    jfieldID pixelsPerDataUnitID;
+    jfieldID scbnlineStrideID;
+    jfieldID numChbnnelsID;
+    jfieldID bytePerChbnnelID;
+    jfieldID pixelsPerDbtbUnitID;
 
-    jfieldID xViewAreaID;
-    jfieldID yViewAreaID;
-    jfieldID dxViewAreaID;
-    jfieldID dyViewAreaID;
-    jfieldID xDeviceAreaID;
-    jfieldID yDeviceAreaID;
-    jfieldID dxDeviceAreaID;
-    jfieldID dyDeviceAreaID;
-    jfieldID xOutputAreaID;
-    jfieldID yOutputAreaID;
-    jfieldID dxOutputAreaID;
-    jfieldID dyOutputAreaID;
+    jfieldID xViewArebID;
+    jfieldID yViewArebID;
+    jfieldID dxViewArebID;
+    jfieldID dyViewArebID;
+    jfieldID xDeviceArebID;
+    jfieldID yDeviceArebID;
+    jfieldID dxDeviceArebID;
+    jfieldID dyDeviceArebID;
+    jfieldID xOutputArebID;
+    jfieldID yOutputArebID;
+    jfieldID dxOutputArebID;
+    jfieldID dyOutputArebID;
 
-    jfieldID intDataID;
-    jfieldID shortDataID;
-    jfieldID byteDataID;
+    jfieldID intDbtbID;
+    jfieldID shortDbtbID;
+    jfieldID byteDbtbID;
 
-    jfieldID lutArrayID;
+    jfieldID lutArrbyID;
 
     jfieldID originXID;
     jfieldID originYID;
 
-    jfieldID theResRatioID;
-    jfieldID theScaleFactorXID;
-    jfieldID theScaleFactorYID;
+    jfieldID theResRbtioID;
+    jfieldID theScbleFbctorXID;
+    jfieldID theScbleFbctorYID;
 
     jfieldID lockMethodID;
     jfieldID lockFunctionID;
-    jfieldID platformInfoID;
+    jfieldID plbtformInfoID;
     jfieldID deviceInfoID;
     jfieldID colorModelID;
 
-    jfieldID grayInverseLutDataID;
-} ImageDataID;
+    jfieldID grbyInverseLutDbtbID;
+} ImbgeDbtbID;
 
-extern ImageDataID gImageData;
+extern ImbgeDbtbID gImbgeDbtb;
 
-int minImageWidths(JNIEnv *env, int width1, jobject img1, jobject img2);
-int minImageRows(JNIEnv *env, int rows1, jobject img1, jobject img2);
+int minImbgeWidths(JNIEnv *env, int width1, jobject img1, jobject img2);
+int minImbgeRows(JNIEnv *env, int rows1, jobject img1, jobject img2);
 
-typedef int (*deferredLockFunc) (JNIEnv *env, jobject idData);
+typedef int (*deferredLockFunc) (JNIEnv *env, jobject idDbtb);
 
 
-typedef struct ImageDataIntLockInfo {
+typedef struct ImbgeDbtbIntLockInfo {
     unsigned int *lockedBuffer;     /* filled if buffer previously locked   */
-    deferredLockFunc lockFunction;  /* ptr to lock function (optional)      */
-    unsigned int xOutput,yOutput;   /* top-left of clipped output area      */
-    unsigned int scanStride;
-    unsigned int bytePerChannel;
+    deferredLockFunc lockFunction;  /* ptr to lock function (optionbl)      */
+    unsigned int xOutput,yOutput;   /* top-left of clipped output breb      */
+    unsigned int scbnStride;
+    unsigned int bytePerChbnnel;
     unsigned int pixelStride;
-    unsigned int pixelsPerData;
+    unsigned int pixelsPerDbtb;
 
-    jintArray arrayToLock;      /* filled if buffer not previously locked   */
-    unsigned int *arrayLockedBuffer;    /* state needed for unlock of array */
-    int arrayLockedOffset;      /* offset from start of array to copy image */
-} ImageDataIntLockInfo;
+    jintArrby brrbyToLock;      /* filled if buffer not previously locked   */
+    unsigned int *brrbyLockedBuffer;    /* stbte needed for unlock of brrby */
+    int brrbyLockedOffset;      /* offset from stbrt of brrby to copy imbge */
+} ImbgeDbtbIntLockInfo;
 
-typedef struct ImageDataShortLockInfo {
+typedef struct ImbgeDbtbShortLockInfo {
     unsigned short *lockedBuffer;   /* filled if buffer previously locked   */
-    deferredLockFunc lockFunction;  /* ptr to lock function (optional)      */
-    unsigned int xOutput,yOutput;   /* top-left of clipped output area      */
-    unsigned int scanStride;
-    unsigned int bytePerChannel;
+    deferredLockFunc lockFunction;  /* ptr to lock function (optionbl)      */
+    unsigned int xOutput,yOutput;   /* top-left of clipped output breb      */
+    unsigned int scbnStride;
+    unsigned int bytePerChbnnel;
     unsigned int pixelStride;
-    unsigned int pixelsPerData;
+    unsigned int pixelsPerDbtb;
 
-    jshortArray arrayToLock;    /* filled if buffer not previously locked   */
-    unsigned short *arrayLockedBuffer;  /* state needed for unlock of array */
-    int arrayLockedOffset;      /* offset from start of array to copy image */
-} ImageDataShortLockInfo;
+    jshortArrby brrbyToLock;    /* filled if buffer not previously locked   */
+    unsigned short *brrbyLockedBuffer;  /* stbte needed for unlock of brrby */
+    int brrbyLockedOffset;      /* offset from stbrt of brrby to copy imbge */
+} ImbgeDbtbShortLockInfo;
 
-typedef struct ImageDataByteLockInfo {
-    unsigned char *lockedBuffer;    /* filled if buffer previously locked   */
-    deferredLockFunc lockFunction;  /* ptr to lock function (optional)      */
-    unsigned int xOutput,yOutput;   /* top-left of clipped output area      */
-    unsigned int scanStride;
-    unsigned int bytePerChannel;
+typedef struct ImbgeDbtbByteLockInfo {
+    unsigned chbr *lockedBuffer;    /* filled if buffer previously locked   */
+    deferredLockFunc lockFunction;  /* ptr to lock function (optionbl)      */
+    unsigned int xOutput,yOutput;   /* top-left of clipped output breb      */
+    unsigned int scbnStride;
+    unsigned int bytePerChbnnel;
     unsigned int pixelStride;
-    unsigned int pixelsPerData;
+    unsigned int pixelsPerDbtb;
 
-    jbyteArray arrayToLock;     /* filled if buffer not previously locked   */
-    unsigned char *arrayLockedBuffer;   /* state needed for unlock of array */
-    int arrayLockedOffset;      /* offset from start of array to copy image */
-} ImageDataByteLockInfo;
+    jbyteArrby brrbyToLock;     /* filled if buffer not previously locked   */
+    unsigned chbr *brrbyLockedBuffer;   /* stbte needed for unlock of brrby */
+    int brrbyLockedOffset;      /* offset from stbrt of brrby to copy imbge */
+} ImbgeDbtbByteLockInfo;
 
-typedef struct ImageDataShortIndexedLockInfo {
+typedef struct ImbgeDbtbShortIndexedLockInfo {
     unsigned short *lockedBuffer;   /* filled if buffer previously locked   */
-    deferredLockFunc lockFunction;  /* ptr to lock function (optional)      */
-    unsigned int xOutput,yOutput;   /* top-left of clipped output area      */
-    unsigned int scanStride;
-    unsigned int bytePerChannel;
+    deferredLockFunc lockFunction;  /* ptr to lock function (optionbl)      */
+    unsigned int xOutput,yOutput;   /* top-left of clipped output breb      */
+    unsigned int scbnStride;
+    unsigned int bytePerChbnnel;
     unsigned int pixelStride;
-    unsigned int pixelsPerData;
+    unsigned int pixelsPerDbtb;
 
-    jshortArray arrayToLock;    /* filled if buffer not previously locked   */
-    unsigned short *arrayLockedBuffer;  /* state needed for unlock of array */
-    int arrayLockedOffset;      /* offset from start of array to copy image */
+    jshortArrby brrbyToLock;    /* filled if buffer not previously locked   */
+    unsigned short *brrbyLockedBuffer;  /* stbte needed for unlock of brrby */
+    int brrbyLockedOffset;      /* offset from stbrt of brrby to copy imbge */
 
     unsigned int *lockedLut;
-    jintArray  arrayToLockLut;
-    unsigned int *arrayLockedLut;
-    unsigned int arrayLutSize;
-} ImageDataShortIndexedLockInfo;
+    jintArrby  brrbyToLockLut;
+    unsigned int *brrbyLockedLut;
+    unsigned int brrbyLutSize;
+} ImbgeDbtbShortIndexedLockInfo;
 
-typedef struct ImageDataByteIndexedLockInfo {
-    unsigned char *lockedBuffer;    /* filled if buffer previously locked   */
-    deferredLockFunc lockFunction;  /* ptr to lock function (optional)      */
-    unsigned int xOutput,yOutput;   /* top-left of clipped output area      */
-    unsigned int scanStride;
-    unsigned int bytePerChannel;
+typedef struct ImbgeDbtbByteIndexedLockInfo {
+    unsigned chbr *lockedBuffer;    /* filled if buffer previously locked   */
+    deferredLockFunc lockFunction;  /* ptr to lock function (optionbl)      */
+    unsigned int xOutput,yOutput;   /* top-left of clipped output breb      */
+    unsigned int scbnStride;
+    unsigned int bytePerChbnnel;
     unsigned int pixelStride;
-    unsigned int pixelsPerData;
+    unsigned int pixelsPerDbtb;
 
-    jbyteArray arrayToLock;     /* filled if buffer not previously locked   */
-    unsigned char *arrayLockedBuffer;   /* state needed for unlock of array */
-    int arrayLockedOffset;      /* offset from start of array to copy image */
+    jbyteArrby brrbyToLock;     /* filled if buffer not previously locked   */
+    unsigned chbr *brrbyLockedBuffer;   /* stbte needed for unlock of brrby */
+    int brrbyLockedOffset;      /* offset from stbrt of brrby to copy imbge */
 
     unsigned int *lockedLut;
-    jintArray  arrayToLockLut;
-    unsigned int *arrayLockedLut;
-    unsigned int arrayLutSize;
+    jintArrby  brrbyToLockLut;
+    unsigned int *brrbyLockedLut;
+    unsigned int brrbyLutSize;
     unsigned int minLut[256];   /* provide min size LUT - speed inner loops */
-    ColorData *colorData;
+    ColorDbtb *colorDbtb;
     unsigned int lockedForWrite;
-    const char* inv_cmap;       /* The inverse cmap to use */
-} ImageDataByteIndexedLockInfo;
+    const chbr* inv_cmbp;       /* The inverse cmbp to use */
+} ImbgeDbtbByteIndexedLockInfo;
 
-typedef struct ImageDataIndex8GrayLockInfo {
-    unsigned char *lockedBuffer;    /* filled if buffer previously locked   */
-    deferredLockFunc lockFunction;  /* ptr to lock function (optional)      */
-    unsigned int xOutput,yOutput;   /* top-left of clipped output area      */
-    unsigned int scanStride;
-    unsigned int bytePerChannel;
+typedef struct ImbgeDbtbIndex8GrbyLockInfo {
+    unsigned chbr *lockedBuffer;    /* filled if buffer previously locked   */
+    deferredLockFunc lockFunction;  /* ptr to lock function (optionbl)      */
+    unsigned int xOutput,yOutput;   /* top-left of clipped output breb      */
+    unsigned int scbnStride;
+    unsigned int bytePerChbnnel;
     unsigned int pixelStride;
 
-    jbyteArray arrayToLock;     /* filled if buffer not previously locked   */
-    unsigned char *arrayLockedBuffer;   /* state needed for unlock of array */
-    int arrayLockedOffset;      /* offset from start of array to copy image */
+    jbyteArrby brrbyToLock;     /* filled if buffer not previously locked   */
+    unsigned chbr *brrbyLockedBuffer;   /* stbte needed for unlock of brrby */
+    int brrbyLockedOffset;      /* offset from stbrt of brrby to copy imbge */
 
     unsigned int *lockedLut;
-    jintArray  arrayToLockLut;
-    unsigned int *arrayLockedLut;
-    unsigned int arrayLutSize;
+    jintArrby  brrbyToLockLut;
+    unsigned int *brrbyLockedLut;
+    unsigned int brrbyLutSize;
     unsigned int minLut[256];
-    ColorData *colorData;
+    ColorDbtb *colorDbtb;
     unsigned int lockedForWrite;
-    const char* inv_cmap;       /* The inverse cmap to use */
+    const chbr* inv_cmbp;       /* The inverse cmbp to use */
 
-    unsigned int *lockedInverseGrayLut;
+    unsigned int *lockedInverseGrbyLut;
 
-} ImageDataIndex8GrayLockInfo;
+} ImbgeDbtbIndex8GrbyLockInfo;
 
-typedef struct ImageDataIndex12GrayLockInfo {
+typedef struct ImbgeDbtbIndex12GrbyLockInfo {
     unsigned short *lockedBuffer;    /* filled if buffer previously locked   */
-    deferredLockFunc lockFunction;  /* ptr to lock function (optional)      */
-    unsigned int xOutput,yOutput;   /* top-left of clipped output area      */
-    unsigned int scanStride;
-    unsigned int bytePerChannel;
+    deferredLockFunc lockFunction;  /* ptr to lock function (optionbl)      */
+    unsigned int xOutput,yOutput;   /* top-left of clipped output breb      */
+    unsigned int scbnStride;
+    unsigned int bytePerChbnnel;
     unsigned int pixelStride;
 
-    jshortArray arrayToLock;     /* filled if buffer not previously locked   */
-    unsigned short *arrayLockedBuffer;   /* state needed for unlock of array */
-    int arrayLockedOffset;      /* offset from start of array to copy image */
+    jshortArrby brrbyToLock;     /* filled if buffer not previously locked   */
+    unsigned short *brrbyLockedBuffer;   /* stbte needed for unlock of brrby */
+    int brrbyLockedOffset;      /* offset from stbrt of brrby to copy imbge */
 
     unsigned int *lockedLut;
-    jintArray  arrayToLockLut;
-    unsigned int *arrayLockedLut;
-    unsigned int arrayLutSize;
-    unsigned int *minLut;   /* Not used right now, and therefore just having a
-                                pointer instead of an array */
-    ColorData *colorData;
+    jintArrby  brrbyToLockLut;
+    unsigned int *brrbyLockedLut;
+    unsigned int brrbyLutSize;
+    unsigned int *minLut;   /* Not used right now, bnd therefore just hbving b
+                                pointer instebd of bn brrby */
+    ColorDbtb *colorDbtb;
     unsigned int lockedForWrite;
-    const char* inv_cmap;   /* The inverse cmap to use */
+    const chbr* inv_cmbp;   /* The inverse cmbp to use */
 
-    unsigned int *lockedInverseGrayLut;
+    unsigned int *lockedInverseGrbyLut;
 
-} ImageDataIndex12GrayLockInfo;
+} ImbgeDbtbIndex12GrbyLockInfo;
 
-typedef struct ImageDataBitLockInfo {
-    unsigned char *lockedBuffer;    /* filled if buffer previously locked   */
-    deferredLockFunc lockFunction;  /* ptr to lock function (optional)      */
-    unsigned int xOutput,yOutput;   /* top-left of clipped output area      */
-    unsigned int scanStride;
-    unsigned int bytePerChannel;
+typedef struct ImbgeDbtbBitLockInfo {
+    unsigned chbr *lockedBuffer;    /* filled if buffer previously locked   */
+    deferredLockFunc lockFunction;  /* ptr to lock function (optionbl)      */
+    unsigned int xOutput,yOutput;   /* top-left of clipped output breb      */
+    unsigned int scbnStride;
+    unsigned int bytePerChbnnel;
     unsigned int pixelStride;
-    unsigned int pixelsPerData;
+    unsigned int pixelsPerDbtb;
 
-    jbyteArray arrayToLock;     /* filled if buffer not previously locked   */
-    unsigned char *arrayLockedBuffer;   /* state needed for unlock of array */
-    int arrayLockedOffset;      /* offset from start of array to copy image */
-} ImageDataBitLockInfo;
+    jbyteArrby brrbyToLock;     /* filled if buffer not previously locked   */
+    unsigned chbr *brrbyLockedBuffer;   /* stbte needed for unlock of brrby */
+    int brrbyLockedOffset;      /* offset from stbrt of brrby to copy imbge */
+} ImbgeDbtbBitLockInfo;
 
-int offsetOfAlphaData(JNIEnv *env, jobject img, int scanStride);
-#define offsetOfSrcData(env, img, srcStride, srcBump, offsetVar) \
+int offsetOfAlphbDbtb(JNIEnv *env, jobject img, int scbnStride);
+#define offsetOfSrcDbtb(env, img, srcStride, srcBump, offsetVbr) \
       do { \
           int x1, y1; \
           int x2, y2; \
-          x1 = (*env)->GetIntField(env, img, gImageData.xDeviceAreaID); \
-          y1 = (*env)->GetIntField(env, img, gImageData.yDeviceAreaID); \
-          x2 = (*env)->GetIntField(env, img, gImageData.xOutputAreaID); \
-          y2 = (*env)->GetIntField(env, img, gImageData.yOutputAreaID); \
-          offsetVar = srcBump * (x2 - x1) +  srcStride * (y2 - y1); \
+          x1 = (*env)->GetIntField(env, img, gImbgeDbtb.xDeviceArebID); \
+          y1 = (*env)->GetIntField(env, img, gImbgeDbtb.yDeviceArebID); \
+          x2 = (*env)->GetIntField(env, img, gImbgeDbtb.xOutputArebID); \
+          y2 = (*env)->GetIntField(env, img, gImbgeDbtb.yOutputArebID); \
+          offsetVbr = srcBump * (x2 - x1) +  srcStride * (y2 - y1); \
       } while (0);
 
-long getPlatformInfoFromImageData(JNIEnv *env, jobject img);
+long getPlbtformInfoFromImbgeDbtb(JNIEnv *env, jobject img);
 
 JNIEXPORT void JNICALL
-getViewOriginFromImageData(JNIEnv *env, jobject img, int *x, int *y);
+getViewOriginFromImbgeDbtb(JNIEnv *env, jobject img, int *x, int *y);
 
 JNIEXPORT void JNICALL
-getDeviceOriginFromImageData(JNIEnv *env, jobject img, int *x, int *y);
+getDeviceOriginFromImbgeDbtb(JNIEnv *env, jobject img, int *x, int *y);
 
 JNIEXPORT void JNICALL
-getOutputOriginFromImageData(JNIEnv *env, jobject img, int *x, int *y);
+getOutputOriginFromImbgeDbtb(JNIEnv *env, jobject img, int *x, int *y);
 
 JNIEXPORT void JNICALL
-getTypeFromImageData(JNIEnv *env, jobject img, int *type);
+getTypeFromImbgeDbtb(JNIEnv *env, jobject img, int *type);
 
 JNIEXPORT void JNICALL
-getOriginFromImageData(JNIEnv *env, jobject img, int *x, int *y);
+getOriginFromImbgeDbtb(JNIEnv *env, jobject img, int *x, int *y);
 
 JNIEXPORT double JNICALL
-getResRatioFromImageData(JNIEnv *env, jobject img);
+getResRbtioFromImbgeDbtb(JNIEnv *env, jobject img);
 
 JNIEXPORT void JNICALL
-getScaleFactorFromImageData(JNIEnv *env, jobject img, double *sx, double *sy);
+getScbleFbctorFromImbgeDbtb(JNIEnv *env, jobject img, double *sx, double *sy);
 
 JNIEXPORT int JNICALL
-getDeviceInfoFromImageData(JNIEnv *env, jobject img);
+getDeviceInfoFromImbgeDbtb(JNIEnv *env, jobject img);
 
 /*
- *  Integer component raster handlers
+ *  Integer component rbster hbndlers
  */
 
-JNIEXPORT void JNICALL getIntImageLockInfo(
+JNIEXPORT void JNICALL getIntImbgeLockInfo(
     JNIEnv *env, jobject img,
-    ImageDataIntLockInfo *lockInfo);
-JNIEXPORT unsigned int * JNICALL lockIntImageData(
-    JNIEnv *env, ImageDataIntLockInfo *lockInfo);
-JNIEXPORT void JNICALL unlockIntImageData(
-    JNIEnv *env, ImageDataIntLockInfo *lockInfo);
+    ImbgeDbtbIntLockInfo *lockInfo);
+JNIEXPORT unsigned int * JNICALL lockIntImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbIntLockInfo *lockInfo);
+JNIEXPORT void JNICALL unlockIntImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbIntLockInfo *lockInfo);
 
 /*
- *  Short component raster handlers
+ *  Short component rbster hbndlers
  */
 
-JNIEXPORT void JNICALL getShortImageLockInfo(
+JNIEXPORT void JNICALL getShortImbgeLockInfo(
     JNIEnv *env, jobject img,
-    ImageDataShortLockInfo *lockInfo);
-JNIEXPORT unsigned short * JNICALL lockShortImageData(
-    JNIEnv *env, ImageDataShortLockInfo *lockInfo);
-JNIEXPORT void JNICALL unlockShortImageData(
-    JNIEnv *env, ImageDataShortLockInfo *lockInfo);
+    ImbgeDbtbShortLockInfo *lockInfo);
+JNIEXPORT unsigned short * JNICALL lockShortImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbShortLockInfo *lockInfo);
+JNIEXPORT void JNICALL unlockShortImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbShortLockInfo *lockInfo);
 
 /*
- *  Byte component raster handlers
+ *  Byte component rbster hbndlers
  */
 
-JNIEXPORT void JNICALL getByteImageLockInfo(
+JNIEXPORT void JNICALL getByteImbgeLockInfo(
     JNIEnv *env, jobject img,
-    ImageDataByteLockInfo *lockInfo);
-JNIEXPORT unsigned char * JNICALL lockByteImageData(
-    JNIEnv *env, ImageDataByteLockInfo *lockInfo);
-JNIEXPORT void JNICALL unlockByteImageData(
-    JNIEnv *env, ImageDataByteLockInfo *lockInfo);
+    ImbgeDbtbByteLockInfo *lockInfo);
+JNIEXPORT unsigned chbr * JNICALL lockByteImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbByteLockInfo *lockInfo);
+JNIEXPORT void JNICALL unlockByteImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbByteLockInfo *lockInfo);
 
 /*
- *  Short Indexed component raster handlers
+ *  Short Indexed component rbster hbndlers
  */
 
-JNIEXPORT void JNICALL getShortIndexedImageLockInfo(
+JNIEXPORT void JNICALL getShortIndexedImbgeLockInfo(
     JNIEnv *env, jobject img,
-    ImageDataShortIndexedLockInfo *lockInfo);
-JNIEXPORT unsigned short * JNICALL lockShortIndexedImageData(
-    JNIEnv *env, ImageDataShortIndexedLockInfo *lockInfo);
-JNIEXPORT void JNICALL unlockShortIndexedImageData(
-    JNIEnv *env, ImageDataShortIndexedLockInfo *lockInfo);
+    ImbgeDbtbShortIndexedLockInfo *lockInfo);
+JNIEXPORT unsigned short * JNICALL lockShortIndexedImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbShortIndexedLockInfo *lockInfo);
+JNIEXPORT void JNICALL unlockShortIndexedImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbShortIndexedLockInfo *lockInfo);
 
 /*
- *  Byte Indexed component raster handlers
+ *  Byte Indexed component rbster hbndlers
  */
 
-JNIEXPORT void JNICALL getByteIndexedImageLockInfo(
+JNIEXPORT void JNICALL getByteIndexedImbgeLockInfo(
     JNIEnv *env, jobject img,
-    ImageDataByteIndexedLockInfo *lockInfo);
-JNIEXPORT unsigned char * JNICALL lockByteIndexedImageData(
-    JNIEnv *env, ImageDataByteIndexedLockInfo *lockInfo);
-JNIEXPORT void JNICALL unlockByteIndexedImageData(
-    JNIEnv *env, ImageDataByteIndexedLockInfo *lockInfo);
+    ImbgeDbtbByteIndexedLockInfo *lockInfo);
+JNIEXPORT unsigned chbr * JNICALL lockByteIndexedImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbByteIndexedLockInfo *lockInfo);
+JNIEXPORT void JNICALL unlockByteIndexedImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbByteIndexedLockInfo *lockInfo);
 /*
- *  Index 8 Gray component raster handlers
+ *  Index 8 Grby component rbster hbndlers
  */
 
-JNIEXPORT void JNICALL getIndex8GrayImageLockInfo(
+JNIEXPORT void JNICALL getIndex8GrbyImbgeLockInfo(
     JNIEnv *env, jobject img,
-    ImageDataIndex8GrayLockInfo *lockInfo);
-JNIEXPORT unsigned char * JNICALL lockIndex8GrayImageData(
-    JNIEnv *env, ImageDataIndex8GrayLockInfo *lockInfo);
-JNIEXPORT void JNICALL unlockIndex8GrayImageData(
-    JNIEnv *env, ImageDataIndex8GrayLockInfo *lockInfo);
+    ImbgeDbtbIndex8GrbyLockInfo *lockInfo);
+JNIEXPORT unsigned chbr * JNICALL lockIndex8GrbyImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbIndex8GrbyLockInfo *lockInfo);
+JNIEXPORT void JNICALL unlockIndex8GrbyImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbIndex8GrbyLockInfo *lockInfo);
 /*
- *  Index 12 Gray component raster handlers
+ *  Index 12 Grby component rbster hbndlers
  */
 
-JNIEXPORT void JNICALL getIndex12GrayImageLockInfo(
+JNIEXPORT void JNICALL getIndex12GrbyImbgeLockInfo(
     JNIEnv *env, jobject img,
-    ImageDataIndex12GrayLockInfo *lockInfo);
-JNIEXPORT unsigned short * JNICALL lockIndex12GrayImageData(
-    JNIEnv *env, ImageDataIndex12GrayLockInfo *lockInfo);
-JNIEXPORT void JNICALL unlockIndex12GrayImageData(
-    JNIEnv *env, ImageDataIndex12GrayLockInfo *lockInfo);
+    ImbgeDbtbIndex12GrbyLockInfo *lockInfo);
+JNIEXPORT unsigned short * JNICALL lockIndex12GrbyImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbIndex12GrbyLockInfo *lockInfo);
+JNIEXPORT void JNICALL unlockIndex12GrbyImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbIndex12GrbyLockInfo *lockInfo);
 
 /*
- *  Bit component raster handlers
+ *  Bit component rbster hbndlers
  */
 
-JNIEXPORT void JNICALL getBitImageLockInfo(
-    JNIEnv *env, jobject img, ImageDataBitLockInfo *lockInfo);
-JNIEXPORT unsigned char *JNICALL lockBitImageData(
-    JNIEnv *env, ImageDataBitLockInfo *lockInfo);
-JNIEXPORT void JNICALL unlockBitImageData(
-    JNIEnv *env, ImageDataBitLockInfo *lockInfo);
+JNIEXPORT void JNICALL getBitImbgeLockInfo(
+    JNIEnv *env, jobject img, ImbgeDbtbBitLockInfo *lockInfo);
+JNIEXPORT unsigned chbr *JNICALL lockBitImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbBitLockInfo *lockInfo);
+JNIEXPORT void JNICALL unlockBitImbgeDbtb(
+    JNIEnv *env, ImbgeDbtbBitLockInfo *lockInfo);
 
 #ifdef __cplusplus
 };

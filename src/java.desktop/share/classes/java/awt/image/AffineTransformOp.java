@@ -1,290 +1,290 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
-import java.awt.AlphaComposite;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Transparency;
-import java.lang.annotation.Native;
-import sun.awt.image.ImagingLib;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.NoninvertibleTrbnsformException;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.RenderingHints;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.lbng.bnnotbtion.Nbtive;
+import sun.bwt.imbge.ImbgingLib;
 
 /**
- * This class uses an affine transform to perform a linear mapping from
- * 2D coordinates in the source image or <CODE>Raster</CODE> to 2D coordinates
- * in the destination image or <CODE>Raster</CODE>.
- * The type of interpolation that is used is specified through a constructor,
- * either by a <CODE>RenderingHints</CODE> object or by one of the integer
- * interpolation types defined in this class.
+ * This clbss uses bn bffine trbnsform to perform b linebr mbpping from
+ * 2D coordinbtes in the source imbge or <CODE>Rbster</CODE> to 2D coordinbtes
+ * in the destinbtion imbge or <CODE>Rbster</CODE>.
+ * The type of interpolbtion thbt is used is specified through b constructor,
+ * either by b <CODE>RenderingHints</CODE> object or by one of the integer
+ * interpolbtion types defined in this clbss.
  * <p>
- * If a <CODE>RenderingHints</CODE> object is specified in the constructor, the
- * interpolation hint and the rendering quality hint are used to set
- * the interpolation type for this operation.  The color rendering hint
- * and the dithering hint can be used when color conversion is required.
+ * If b <CODE>RenderingHints</CODE> object is specified in the constructor, the
+ * interpolbtion hint bnd the rendering qublity hint bre used to set
+ * the interpolbtion type for this operbtion.  The color rendering hint
+ * bnd the dithering hint cbn be used when color conversion is required.
  * <p>
- * Note that the following constraints have to be met:
+ * Note thbt the following constrbints hbve to be met:
  * <ul>
- * <li>The source and destination must be different.
- * <li>For <CODE>Raster</CODE> objects, the number of bands in the source must
- * be equal to the number of bands in the destination.
+ * <li>The source bnd destinbtion must be different.
+ * <li>For <CODE>Rbster</CODE> objects, the number of bbnds in the source must
+ * be equbl to the number of bbnds in the destinbtion.
  * </ul>
- * @see AffineTransform
- * @see BufferedImageFilter
- * @see java.awt.RenderingHints#KEY_INTERPOLATION
- * @see java.awt.RenderingHints#KEY_RENDERING
- * @see java.awt.RenderingHints#KEY_COLOR_RENDERING
- * @see java.awt.RenderingHints#KEY_DITHERING
+ * @see AffineTrbnsform
+ * @see BufferedImbgeFilter
+ * @see jbvb.bwt.RenderingHints#KEY_INTERPOLATION
+ * @see jbvb.bwt.RenderingHints#KEY_RENDERING
+ * @see jbvb.bwt.RenderingHints#KEY_COLOR_RENDERING
+ * @see jbvb.bwt.RenderingHints#KEY_DITHERING
  */
-public class AffineTransformOp implements BufferedImageOp, RasterOp {
-    private AffineTransform xform;
+public clbss AffineTrbnsformOp implements BufferedImbgeOp, RbsterOp {
+    privbte AffineTrbnsform xform;
     RenderingHints hints;
 
     /**
-     * Nearest-neighbor interpolation type.
+     * Nebrest-neighbor interpolbtion type.
      */
-    @Native public static final int TYPE_NEAREST_NEIGHBOR = 1;
+    @Nbtive public stbtic finbl int TYPE_NEAREST_NEIGHBOR = 1;
 
     /**
-     * Bilinear interpolation type.
+     * Bilinebr interpolbtion type.
      */
-    @Native public static final int TYPE_BILINEAR = 2;
+    @Nbtive public stbtic finbl int TYPE_BILINEAR = 2;
 
     /**
-     * Bicubic interpolation type.
+     * Bicubic interpolbtion type.
      */
-    @Native public static final int TYPE_BICUBIC = 3;
+    @Nbtive public stbtic finbl int TYPE_BICUBIC = 3;
 
-    int interpolationType = TYPE_NEAREST_NEIGHBOR;
+    int interpolbtionType = TYPE_NEAREST_NEIGHBOR;
 
     /**
-     * Constructs an <CODE>AffineTransformOp</CODE> given an affine transform.
-     * The interpolation type is determined from the
-     * <CODE>RenderingHints</CODE> object.  If the interpolation hint is
-     * defined, it will be used. Otherwise, if the rendering quality hint is
-     * defined, the interpolation type is determined from its value.  If no
-     * hints are specified (<CODE>hints</CODE> is null),
-     * the interpolation type is {@link #TYPE_NEAREST_NEIGHBOR
+     * Constructs bn <CODE>AffineTrbnsformOp</CODE> given bn bffine trbnsform.
+     * The interpolbtion type is determined from the
+     * <CODE>RenderingHints</CODE> object.  If the interpolbtion hint is
+     * defined, it will be used. Otherwise, if the rendering qublity hint is
+     * defined, the interpolbtion type is determined from its vblue.  If no
+     * hints bre specified (<CODE>hints</CODE> is null),
+     * the interpolbtion type is {@link #TYPE_NEAREST_NEIGHBOR
      * TYPE_NEAREST_NEIGHBOR}.
      *
-     * @param xform The <CODE>AffineTransform</CODE> to use for the
-     * operation.
+     * @pbrbm xform The <CODE>AffineTrbnsform</CODE> to use for the
+     * operbtion.
      *
-     * @param hints The <CODE>RenderingHints</CODE> object used to specify
-     * the interpolation type for the operation.
+     * @pbrbm hints The <CODE>RenderingHints</CODE> object used to specify
+     * the interpolbtion type for the operbtion.
      *
-     * @throws ImagingOpException if the transform is non-invertible.
-     * @see java.awt.RenderingHints#KEY_INTERPOLATION
-     * @see java.awt.RenderingHints#KEY_RENDERING
+     * @throws ImbgingOpException if the trbnsform is non-invertible.
+     * @see jbvb.bwt.RenderingHints#KEY_INTERPOLATION
+     * @see jbvb.bwt.RenderingHints#KEY_RENDERING
      */
-    public AffineTransformOp(AffineTransform xform, RenderingHints hints){
-        validateTransform(xform);
-        this.xform = (AffineTransform) xform.clone();
+    public AffineTrbnsformOp(AffineTrbnsform xform, RenderingHints hints){
+        vblidbteTrbnsform(xform);
+        this.xform = (AffineTrbnsform) xform.clone();
         this.hints = hints;
 
         if (hints != null) {
-            Object value = hints.get(RenderingHints.KEY_INTERPOLATION);
-            if (value == null) {
-                value = hints.get(RenderingHints.KEY_RENDERING);
-                if (value == RenderingHints.VALUE_RENDER_SPEED) {
-                    interpolationType = TYPE_NEAREST_NEIGHBOR;
+            Object vblue = hints.get(RenderingHints.KEY_INTERPOLATION);
+            if (vblue == null) {
+                vblue = hints.get(RenderingHints.KEY_RENDERING);
+                if (vblue == RenderingHints.VALUE_RENDER_SPEED) {
+                    interpolbtionType = TYPE_NEAREST_NEIGHBOR;
                 }
-                else if (value == RenderingHints.VALUE_RENDER_QUALITY) {
-                    interpolationType = TYPE_BILINEAR;
+                else if (vblue == RenderingHints.VALUE_RENDER_QUALITY) {
+                    interpolbtionType = TYPE_BILINEAR;
                 }
             }
-            else if (value == RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR) {
-                interpolationType = TYPE_NEAREST_NEIGHBOR;
+            else if (vblue == RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR) {
+                interpolbtionType = TYPE_NEAREST_NEIGHBOR;
             }
-            else if (value == RenderingHints.VALUE_INTERPOLATION_BILINEAR) {
-                interpolationType = TYPE_BILINEAR;
+            else if (vblue == RenderingHints.VALUE_INTERPOLATION_BILINEAR) {
+                interpolbtionType = TYPE_BILINEAR;
             }
-            else if (value == RenderingHints.VALUE_INTERPOLATION_BICUBIC) {
-                interpolationType = TYPE_BICUBIC;
+            else if (vblue == RenderingHints.VALUE_INTERPOLATION_BICUBIC) {
+                interpolbtionType = TYPE_BICUBIC;
             }
         }
         else {
-            interpolationType = TYPE_NEAREST_NEIGHBOR;
+            interpolbtionType = TYPE_NEAREST_NEIGHBOR;
         }
     }
 
     /**
-     * Constructs an <CODE>AffineTransformOp</CODE> given an affine transform
-     * and the interpolation type.
+     * Constructs bn <CODE>AffineTrbnsformOp</CODE> given bn bffine trbnsform
+     * bnd the interpolbtion type.
      *
-     * @param xform The <CODE>AffineTransform</CODE> to use for the operation.
-     * @param interpolationType One of the integer
-     * interpolation type constants defined by this class:
+     * @pbrbm xform The <CODE>AffineTrbnsform</CODE> to use for the operbtion.
+     * @pbrbm interpolbtionType One of the integer
+     * interpolbtion type constbnts defined by this clbss:
      * {@link #TYPE_NEAREST_NEIGHBOR TYPE_NEAREST_NEIGHBOR},
      * {@link #TYPE_BILINEAR TYPE_BILINEAR},
      * {@link #TYPE_BICUBIC TYPE_BICUBIC}.
-     * @throws ImagingOpException if the transform is non-invertible.
+     * @throws ImbgingOpException if the trbnsform is non-invertible.
      */
-    public AffineTransformOp(AffineTransform xform, int interpolationType) {
-        validateTransform(xform);
-        this.xform = (AffineTransform)xform.clone();
-        switch(interpolationType) {
-            case TYPE_NEAREST_NEIGHBOR:
-            case TYPE_BILINEAR:
-            case TYPE_BICUBIC:
-                break;
-        default:
-            throw new IllegalArgumentException("Unknown interpolation type: "+
-                                               interpolationType);
+    public AffineTrbnsformOp(AffineTrbnsform xform, int interpolbtionType) {
+        vblidbteTrbnsform(xform);
+        this.xform = (AffineTrbnsform)xform.clone();
+        switch(interpolbtionType) {
+            cbse TYPE_NEAREST_NEIGHBOR:
+            cbse TYPE_BILINEAR:
+            cbse TYPE_BICUBIC:
+                brebk;
+        defbult:
+            throw new IllegblArgumentException("Unknown interpolbtion type: "+
+                                               interpolbtionType);
         }
-        this.interpolationType = interpolationType;
+        this.interpolbtionType = interpolbtionType;
     }
 
     /**
-     * Returns the interpolation type used by this op.
-     * @return the interpolation type.
+     * Returns the interpolbtion type used by this op.
+     * @return the interpolbtion type.
      * @see #TYPE_NEAREST_NEIGHBOR
      * @see #TYPE_BILINEAR
      * @see #TYPE_BICUBIC
      */
-    public final int getInterpolationType() {
-        return interpolationType;
+    public finbl int getInterpolbtionType() {
+        return interpolbtionType;
     }
 
     /**
-     * Transforms the source <CODE>BufferedImage</CODE> and stores the results
-     * in the destination <CODE>BufferedImage</CODE>.
-     * If the color models for the two images do not match, a color
-     * conversion into the destination color model is performed.
-     * If the destination image is null,
-     * a <CODE>BufferedImage</CODE> is created with the source
+     * Trbnsforms the source <CODE>BufferedImbge</CODE> bnd stores the results
+     * in the destinbtion <CODE>BufferedImbge</CODE>.
+     * If the color models for the two imbges do not mbtch, b color
+     * conversion into the destinbtion color model is performed.
+     * If the destinbtion imbge is null,
+     * b <CODE>BufferedImbge</CODE> is crebted with the source
      * <CODE>ColorModel</CODE>.
      * <p>
-     * The coordinates of the rectangle returned by
-     * <code>getBounds2D(BufferedImage)</code>
-     * are not necessarily the same as the coordinates of the
-     * <code>BufferedImage</code> returned by this method.  If the
-     * upper-left corner coordinates of the rectangle are
-     * negative then this part of the rectangle is not drawn.  If the
-     * upper-left corner coordinates of the  rectangle are positive
-     * then the filtered image is drawn at that position in the
-     * destination <code>BufferedImage</code>.
+     * The coordinbtes of the rectbngle returned by
+     * <code>getBounds2D(BufferedImbge)</code>
+     * bre not necessbrily the sbme bs the coordinbtes of the
+     * <code>BufferedImbge</code> returned by this method.  If the
+     * upper-left corner coordinbtes of the rectbngle bre
+     * negbtive then this pbrt of the rectbngle is not drbwn.  If the
+     * upper-left corner coordinbtes of the  rectbngle bre positive
+     * then the filtered imbge is drbwn bt thbt position in the
+     * destinbtion <code>BufferedImbge</code>.
      * <p>
-     * An <CODE>IllegalArgumentException</CODE> is thrown if the source is
-     * the same as the destination.
+     * An <CODE>IllegblArgumentException</CODE> is thrown if the source is
+     * the sbme bs the destinbtion.
      *
-     * @param src The <CODE>BufferedImage</CODE> to transform.
-     * @param dst The <CODE>BufferedImage</CODE> in which to store the results
-     * of the transformation.
+     * @pbrbm src The <CODE>BufferedImbge</CODE> to trbnsform.
+     * @pbrbm dst The <CODE>BufferedImbge</CODE> in which to store the results
+     * of the trbnsformbtion.
      *
-     * @return The filtered <CODE>BufferedImage</CODE>.
-     * @throws IllegalArgumentException if <code>src</code> and
-     *         <code>dst</code> are the same
-     * @throws ImagingOpException if the image cannot be transformed
-     *         because of a data-processing error that might be
-     *         caused by an invalid image format, tile format, or
-     *         image-processing operation, or any other unsupported
-     *         operation.
+     * @return The filtered <CODE>BufferedImbge</CODE>.
+     * @throws IllegblArgumentException if <code>src</code> bnd
+     *         <code>dst</code> bre the sbme
+     * @throws ImbgingOpException if the imbge cbnnot be trbnsformed
+     *         becbuse of b dbtb-processing error thbt might be
+     *         cbused by bn invblid imbge formbt, tile formbt, or
+     *         imbge-processing operbtion, or bny other unsupported
+     *         operbtion.
      */
-    public final BufferedImage filter(BufferedImage src, BufferedImage dst) {
+    public finbl BufferedImbge filter(BufferedImbge src, BufferedImbge dst) {
 
         if (src == null) {
-            throw new NullPointerException("src image is null");
+            throw new NullPointerException("src imbge is null");
         }
         if (src == dst) {
-            throw new IllegalArgumentException("src image cannot be the "+
-                                               "same as the dst image");
+            throw new IllegblArgumentException("src imbge cbnnot be the "+
+                                               "sbme bs the dst imbge");
         }
 
-        boolean needToConvert = false;
+        boolebn needToConvert = fblse;
         ColorModel srcCM = src.getColorModel();
         ColorModel dstCM;
-        BufferedImage origDst = dst;
+        BufferedImbge origDst = dst;
 
         if (dst == null) {
-            dst = createCompatibleDestImage(src, null);
+            dst = crebteCompbtibleDestImbge(src, null);
             dstCM = srcCM;
             origDst = dst;
         }
         else {
             dstCM = dst.getColorModel();
-            if (srcCM.getColorSpace().getType() !=
-                dstCM.getColorSpace().getType())
+            if (srcCM.getColorSpbce().getType() !=
+                dstCM.getColorSpbce().getType())
             {
                 int type = xform.getType();
-                boolean needTrans = ((type&
-                                      (AffineTransform.TYPE_MASK_ROTATION|
-                                       AffineTransform.TYPE_GENERAL_TRANSFORM))
+                boolebn needTrbns = ((type&
+                                      (AffineTrbnsform.TYPE_MASK_ROTATION|
+                                       AffineTrbnsform.TYPE_GENERAL_TRANSFORM))
                                      != 0);
-                if (! needTrans &&
-                    type != AffineTransform.TYPE_TRANSLATION &&
-                    type != AffineTransform.TYPE_IDENTITY)
+                if (! needTrbns &&
+                    type != AffineTrbnsform.TYPE_TRANSLATION &&
+                    type != AffineTrbnsform.TYPE_IDENTITY)
                 {
                     double[] mtx = new double[4];
-                    xform.getMatrix(mtx);
-                    // Check out the matrix.  A non-integral scale will force ARGB
-                    // since the edge conditions can't be guaranteed.
-                    needTrans = (mtx[0] != (int)mtx[0] || mtx[3] != (int)mtx[3]);
+                    xform.getMbtrix(mtx);
+                    // Check out the mbtrix.  A non-integrbl scble will force ARGB
+                    // since the edge conditions cbn't be gubrbnteed.
+                    needTrbns = (mtx[0] != (int)mtx[0] || mtx[3] != (int)mtx[3]);
                 }
 
-                if (needTrans &&
-                    srcCM.getTransparency() == Transparency.OPAQUE)
+                if (needTrbns &&
+                    srcCM.getTrbnspbrency() == Trbnspbrency.OPAQUE)
                 {
                     // Need to convert first
                     ColorConvertOp ccop = new ColorConvertOp(hints);
-                    BufferedImage tmpSrc = null;
+                    BufferedImbge tmpSrc = null;
                     int sw = src.getWidth();
                     int sh = src.getHeight();
-                    if (dstCM.getTransparency() == Transparency.OPAQUE) {
-                        tmpSrc = new BufferedImage(sw, sh,
-                                                  BufferedImage.TYPE_INT_ARGB);
+                    if (dstCM.getTrbnspbrency() == Trbnspbrency.OPAQUE) {
+                        tmpSrc = new BufferedImbge(sw, sh,
+                                                  BufferedImbge.TYPE_INT_ARGB);
                     }
                     else {
-                        WritableRaster r =
-                            dstCM.createCompatibleWritableRaster(sw, sh);
-                        tmpSrc = new BufferedImage(dstCM, r,
-                                                  dstCM.isAlphaPremultiplied(),
+                        WritbbleRbster r =
+                            dstCM.crebteCompbtibleWritbbleRbster(sw, sh);
+                        tmpSrc = new BufferedImbge(dstCM, r,
+                                                  dstCM.isAlphbPremultiplied(),
                                                   null);
                     }
                     src = ccop.filter(src, tmpSrc);
                 }
                 else {
                     needToConvert = true;
-                    dst = createCompatibleDestImage(src, null);
+                    dst = crebteCompbtibleDestImbge(src, null);
                 }
             }
 
         }
 
-        if (interpolationType != TYPE_NEAREST_NEIGHBOR &&
-            dst.getColorModel() instanceof IndexColorModel) {
-            dst = new BufferedImage(dst.getWidth(), dst.getHeight(),
-                                    BufferedImage.TYPE_INT_ARGB);
+        if (interpolbtionType != TYPE_NEAREST_NEIGHBOR &&
+            dst.getColorModel() instbnceof IndexColorModel) {
+            dst = new BufferedImbge(dst.getWidth(), dst.getHeight(),
+                                    BufferedImbge.TYPE_INT_ARGB);
         }
-        if (ImagingLib.filter(this, src, dst) == null) {
-            throw new ImagingOpException ("Unable to transform src image");
+        if (ImbgingLib.filter(this, src, dst) == null) {
+            throw new ImbgingOpException ("Unbble to trbnsform src imbge");
         }
 
         if (needToConvert) {
@@ -292,11 +292,11 @@ public class AffineTransformOp implements BufferedImageOp, RasterOp {
             ccop.filter(dst, origDst);
         }
         else if (origDst != dst) {
-            java.awt.Graphics2D g = origDst.createGraphics();
+            jbvb.bwt.Grbphics2D g = origDst.crebteGrbphics();
             try {
-                g.setComposite(AlphaComposite.Src);
-                g.drawImage(dst, 0, 0, null);
-            } finally {
+                g.setComposite(AlphbComposite.Src);
+                g.drbwImbge(dst, 0, 0, null);
+            } finblly {
                 g.dispose();
             }
         }
@@ -305,259 +305,259 @@ public class AffineTransformOp implements BufferedImageOp, RasterOp {
     }
 
     /**
-     * Transforms the source <CODE>Raster</CODE> and stores the results in
-     * the destination <CODE>Raster</CODE>.  This operation performs the
-     * transform band by band.
+     * Trbnsforms the source <CODE>Rbster</CODE> bnd stores the results in
+     * the destinbtion <CODE>Rbster</CODE>.  This operbtion performs the
+     * trbnsform bbnd by bbnd.
      * <p>
-     * If the destination <CODE>Raster</CODE> is null, a new
-     * <CODE>Raster</CODE> is created.
-     * An <CODE>IllegalArgumentException</CODE> may be thrown if the source is
-     * the same as the destination or if the number of bands in
-     * the source is not equal to the number of bands in the
-     * destination.
+     * If the destinbtion <CODE>Rbster</CODE> is null, b new
+     * <CODE>Rbster</CODE> is crebted.
+     * An <CODE>IllegblArgumentException</CODE> mby be thrown if the source is
+     * the sbme bs the destinbtion or if the number of bbnds in
+     * the source is not equbl to the number of bbnds in the
+     * destinbtion.
      * <p>
-     * The coordinates of the rectangle returned by
-     * <code>getBounds2D(Raster)</code>
-     * are not necessarily the same as the coordinates of the
-     * <code>WritableRaster</code> returned by this method.  If the
-     * upper-left corner coordinates of rectangle are negative then
-     * this part of the rectangle is not drawn.  If the coordinates
-     * of the rectangle are positive then the filtered image is drawn at
-     * that position in the destination <code>Raster</code>.
+     * The coordinbtes of the rectbngle returned by
+     * <code>getBounds2D(Rbster)</code>
+     * bre not necessbrily the sbme bs the coordinbtes of the
+     * <code>WritbbleRbster</code> returned by this method.  If the
+     * upper-left corner coordinbtes of rectbngle bre negbtive then
+     * this pbrt of the rectbngle is not drbwn.  If the coordinbtes
+     * of the rectbngle bre positive then the filtered imbge is drbwn bt
+     * thbt position in the destinbtion <code>Rbster</code>.
      *
-     * @param src The <CODE>Raster</CODE> to transform.
-     * @param dst The <CODE>Raster</CODE> in which to store the results of the
-     * transformation.
+     * @pbrbm src The <CODE>Rbster</CODE> to trbnsform.
+     * @pbrbm dst The <CODE>Rbster</CODE> in which to store the results of the
+     * trbnsformbtion.
      *
-     * @return The transformed <CODE>Raster</CODE>.
+     * @return The trbnsformed <CODE>Rbster</CODE>.
      *
-     * @throws ImagingOpException if the raster cannot be transformed
-     *         because of a data-processing error that might be
-     *         caused by an invalid image format, tile format, or
-     *         image-processing operation, or any other unsupported
-     *         operation.
+     * @throws ImbgingOpException if the rbster cbnnot be trbnsformed
+     *         becbuse of b dbtb-processing error thbt might be
+     *         cbused by bn invblid imbge formbt, tile formbt, or
+     *         imbge-processing operbtion, or bny other unsupported
+     *         operbtion.
      */
-    public final WritableRaster filter(Raster src, WritableRaster dst) {
+    public finbl WritbbleRbster filter(Rbster src, WritbbleRbster dst) {
         if (src == null) {
-            throw new NullPointerException("src image is null");
+            throw new NullPointerException("src imbge is null");
         }
         if (dst == null) {
-            dst = createCompatibleDestRaster(src);
+            dst = crebteCompbtibleDestRbster(src);
         }
         if (src == dst) {
-            throw new IllegalArgumentException("src image cannot be the "+
-                                               "same as the dst image");
+            throw new IllegblArgumentException("src imbge cbnnot be the "+
+                                               "sbme bs the dst imbge");
         }
-        if (src.getNumBands() != dst.getNumBands()) {
-            throw new IllegalArgumentException("Number of src bands ("+
-                                               src.getNumBands()+
-                                               ") does not match number of "+
-                                               " dst bands ("+
-                                               dst.getNumBands()+")");
+        if (src.getNumBbnds() != dst.getNumBbnds()) {
+            throw new IllegblArgumentException("Number of src bbnds ("+
+                                               src.getNumBbnds()+
+                                               ") does not mbtch number of "+
+                                               " dst bbnds ("+
+                                               dst.getNumBbnds()+")");
         }
 
-        if (ImagingLib.filter(this, src, dst) == null) {
-            throw new ImagingOpException ("Unable to transform src image");
+        if (ImbgingLib.filter(this, src, dst) == null) {
+            throw new ImbgingOpException ("Unbble to trbnsform src imbge");
         }
         return dst;
     }
 
     /**
-     * Returns the bounding box of the transformed destination.  The
-     * rectangle returned is the actual bounding box of the
-     * transformed points.  The coordinates of the upper-left corner
-     * of the returned rectangle might not be (0,&nbsp;0).
+     * Returns the bounding box of the trbnsformed destinbtion.  The
+     * rectbngle returned is the bctubl bounding box of the
+     * trbnsformed points.  The coordinbtes of the upper-left corner
+     * of the returned rectbngle might not be (0,&nbsp;0).
      *
-     * @param src The <CODE>BufferedImage</CODE> to be transformed.
+     * @pbrbm src The <CODE>BufferedImbge</CODE> to be trbnsformed.
      *
-     * @return The <CODE>Rectangle2D</CODE> representing the destination's
+     * @return The <CODE>Rectbngle2D</CODE> representing the destinbtion's
      * bounding box.
      */
-    public final Rectangle2D getBounds2D (BufferedImage src) {
-        return getBounds2D(src.getRaster());
+    public finbl Rectbngle2D getBounds2D (BufferedImbge src) {
+        return getBounds2D(src.getRbster());
     }
 
     /**
-     * Returns the bounding box of the transformed destination.  The
-     * rectangle returned will be the actual bounding box of the
-     * transformed points.  The coordinates of the upper-left corner
-     * of the returned rectangle might not be (0,&nbsp;0).
+     * Returns the bounding box of the trbnsformed destinbtion.  The
+     * rectbngle returned will be the bctubl bounding box of the
+     * trbnsformed points.  The coordinbtes of the upper-left corner
+     * of the returned rectbngle might not be (0,&nbsp;0).
      *
-     * @param src The <CODE>Raster</CODE> to be transformed.
+     * @pbrbm src The <CODE>Rbster</CODE> to be trbnsformed.
      *
-     * @return The <CODE>Rectangle2D</CODE> representing the destination's
+     * @return The <CODE>Rectbngle2D</CODE> representing the destinbtion's
      * bounding box.
      */
-    public final Rectangle2D getBounds2D (Raster src) {
+    public finbl Rectbngle2D getBounds2D (Rbster src) {
         int w = src.getWidth();
         int h = src.getHeight();
 
-        // Get the bounding box of the src and transform the corners
-        float[] pts = {0, 0, w, 0, w, h, 0, h};
-        xform.transform(pts, 0, pts, 0, 4);
+        // Get the bounding box of the src bnd trbnsform the corners
+        flobt[] pts = {0, 0, w, 0, w, h, 0, h};
+        xform.trbnsform(pts, 0, pts, 0, 4);
 
-        // Get the min, max of the dst
-        float fmaxX = pts[0];
-        float fmaxY = pts[1];
-        float fminX = pts[0];
-        float fminY = pts[1];
+        // Get the min, mbx of the dst
+        flobt fmbxX = pts[0];
+        flobt fmbxY = pts[1];
+        flobt fminX = pts[0];
+        flobt fminY = pts[1];
         for (int i=2; i < 8; i+=2) {
-            if (pts[i] > fmaxX) {
-                fmaxX = pts[i];
+            if (pts[i] > fmbxX) {
+                fmbxX = pts[i];
             }
             else if (pts[i] < fminX) {
                 fminX = pts[i];
             }
-            if (pts[i+1] > fmaxY) {
-                fmaxY = pts[i+1];
+            if (pts[i+1] > fmbxY) {
+                fmbxY = pts[i+1];
             }
             else if (pts[i+1] < fminY) {
                 fminY = pts[i+1];
             }
         }
 
-        return new Rectangle2D.Float(fminX, fminY, fmaxX-fminX, fmaxY-fminY);
+        return new Rectbngle2D.Flobt(fminX, fminY, fmbxX-fminX, fmbxY-fminY);
     }
 
     /**
-     * Creates a zeroed destination image with the correct size and number of
-     * bands.  A <CODE>RasterFormatException</CODE> may be thrown if the
-     * transformed width or height is equal to 0.
+     * Crebtes b zeroed destinbtion imbge with the correct size bnd number of
+     * bbnds.  A <CODE>RbsterFormbtException</CODE> mby be thrown if the
+     * trbnsformed width or height is equbl to 0.
      * <p>
      * If <CODE>destCM</CODE> is null,
-     * an appropriate <CODE>ColorModel</CODE> is used; this
-     * <CODE>ColorModel</CODE> may have
-     * an alpha channel even if the source <CODE>ColorModel</CODE> is opaque.
+     * bn bppropribte <CODE>ColorModel</CODE> is used; this
+     * <CODE>ColorModel</CODE> mby hbve
+     * bn blphb chbnnel even if the source <CODE>ColorModel</CODE> is opbque.
      *
-     * @param src  The <CODE>BufferedImage</CODE> to be transformed.
-     * @param destCM  <CODE>ColorModel</CODE> of the destination.  If null,
-     * an appropriate <CODE>ColorModel</CODE> is used.
+     * @pbrbm src  The <CODE>BufferedImbge</CODE> to be trbnsformed.
+     * @pbrbm destCM  <CODE>ColorModel</CODE> of the destinbtion.  If null,
+     * bn bppropribte <CODE>ColorModel</CODE> is used.
      *
-     * @return The zeroed destination image.
+     * @return The zeroed destinbtion imbge.
      */
-    public BufferedImage createCompatibleDestImage (BufferedImage src,
+    public BufferedImbge crebteCompbtibleDestImbge (BufferedImbge src,
                                                     ColorModel destCM) {
-        BufferedImage image;
-        Rectangle r = getBounds2D(src).getBounds();
+        BufferedImbge imbge;
+        Rectbngle r = getBounds2D(src).getBounds();
 
-        // If r.x (or r.y) is < 0, then we want to only create an image
-        // that is in the positive range.
-        // If r.x (or r.y) is > 0, then we need to create an image that
-        // includes the translation.
+        // If r.x (or r.y) is < 0, then we wbnt to only crebte bn imbge
+        // thbt is in the positive rbnge.
+        // If r.x (or r.y) is > 0, then we need to crebte bn imbge thbt
+        // includes the trbnslbtion.
         int w = r.x + r.width;
         int h = r.y + r.height;
         if (w <= 0) {
-            throw new RasterFormatException("Transformed width ("+w+
-                                            ") is less than or equal to 0.");
+            throw new RbsterFormbtException("Trbnsformed width ("+w+
+                                            ") is less thbn or equbl to 0.");
         }
         if (h <= 0) {
-            throw new RasterFormatException("Transformed height ("+h+
-                                            ") is less than or equal to 0.");
+            throw new RbsterFormbtException("Trbnsformed height ("+h+
+                                            ") is less thbn or equbl to 0.");
         }
 
         if (destCM == null) {
             ColorModel cm = src.getColorModel();
-            if (interpolationType != TYPE_NEAREST_NEIGHBOR &&
-                (cm instanceof IndexColorModel ||
-                 cm.getTransparency() == Transparency.OPAQUE))
+            if (interpolbtionType != TYPE_NEAREST_NEIGHBOR &&
+                (cm instbnceof IndexColorModel ||
+                 cm.getTrbnspbrency() == Trbnspbrency.OPAQUE))
             {
-                image = new BufferedImage(w, h,
-                                          BufferedImage.TYPE_INT_ARGB);
+                imbge = new BufferedImbge(w, h,
+                                          BufferedImbge.TYPE_INT_ARGB);
             }
             else {
-                image = new BufferedImage(cm,
-                          src.getRaster().createCompatibleWritableRaster(w,h),
-                          cm.isAlphaPremultiplied(), null);
+                imbge = new BufferedImbge(cm,
+                          src.getRbster().crebteCompbtibleWritbbleRbster(w,h),
+                          cm.isAlphbPremultiplied(), null);
             }
         }
         else {
-            image = new BufferedImage(destCM,
-                                    destCM.createCompatibleWritableRaster(w,h),
-                                    destCM.isAlphaPremultiplied(), null);
+            imbge = new BufferedImbge(destCM,
+                                    destCM.crebteCompbtibleWritbbleRbster(w,h),
+                                    destCM.isAlphbPremultiplied(), null);
         }
 
-        return image;
+        return imbge;
     }
 
     /**
-     * Creates a zeroed destination <CODE>Raster</CODE> with the correct size
-     * and number of bands.  A <CODE>RasterFormatException</CODE> may be thrown
-     * if the transformed width or height is equal to 0.
+     * Crebtes b zeroed destinbtion <CODE>Rbster</CODE> with the correct size
+     * bnd number of bbnds.  A <CODE>RbsterFormbtException</CODE> mby be thrown
+     * if the trbnsformed width or height is equbl to 0.
      *
-     * @param src The <CODE>Raster</CODE> to be transformed.
+     * @pbrbm src The <CODE>Rbster</CODE> to be trbnsformed.
      *
-     * @return The zeroed destination <CODE>Raster</CODE>.
+     * @return The zeroed destinbtion <CODE>Rbster</CODE>.
      */
-    public WritableRaster createCompatibleDestRaster (Raster src) {
-        Rectangle2D r = getBounds2D(src);
+    public WritbbleRbster crebteCompbtibleDestRbster (Rbster src) {
+        Rectbngle2D r = getBounds2D(src);
 
-        return src.createCompatibleWritableRaster((int)r.getX(),
+        return src.crebteCompbtibleWritbbleRbster((int)r.getX(),
                                                   (int)r.getY(),
                                                   (int)r.getWidth(),
                                                   (int)r.getHeight());
     }
 
     /**
-     * Returns the location of the corresponding destination point given a
+     * Returns the locbtion of the corresponding destinbtion point given b
      * point in the source.  If <CODE>dstPt</CODE> is specified, it
-     * is used to hold the return value.
+     * is used to hold the return vblue.
      *
-     * @param srcPt The <code>Point2D</code> that represents the source
+     * @pbrbm srcPt The <code>Point2D</code> thbt represents the source
      *              point.
-     * @param dstPt The <CODE>Point2D</CODE> in which to store the result.
+     * @pbrbm dstPt The <CODE>Point2D</CODE> in which to store the result.
      *
-     * @return The <CODE>Point2D</CODE> in the destination that corresponds to
+     * @return The <CODE>Point2D</CODE> in the destinbtion thbt corresponds to
      * the specified point in the source.
      */
-    public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
-        return xform.transform (srcPt, dstPt);
+    public finbl Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
+        return xform.trbnsform (srcPt, dstPt);
     }
 
     /**
-     * Returns the affine transform used by this transform operation.
+     * Returns the bffine trbnsform used by this trbnsform operbtion.
      *
-     * @return The <CODE>AffineTransform</CODE> associated with this op.
+     * @return The <CODE>AffineTrbnsform</CODE> bssocibted with this op.
      */
-    public final AffineTransform getTransform() {
-        return (AffineTransform) xform.clone();
+    public finbl AffineTrbnsform getTrbnsform() {
+        return (AffineTrbnsform) xform.clone();
     }
 
     /**
-     * Returns the rendering hints used by this transform operation.
+     * Returns the rendering hints used by this trbnsform operbtion.
      *
-     * @return The <CODE>RenderingHints</CODE> object associated with this op.
+     * @return The <CODE>RenderingHints</CODE> object bssocibted with this op.
      */
-    public final RenderingHints getRenderingHints() {
+    public finbl RenderingHints getRenderingHints() {
         if (hints == null) {
-            Object val;
-            switch(interpolationType) {
-            case TYPE_NEAREST_NEIGHBOR:
-                val = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-                break;
-            case TYPE_BILINEAR:
-                val = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
-                break;
-            case TYPE_BICUBIC:
-                val = RenderingHints.VALUE_INTERPOLATION_BICUBIC;
-                break;
-            default:
+            Object vbl;
+            switch(interpolbtionType) {
+            cbse TYPE_NEAREST_NEIGHBOR:
+                vbl = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+                brebk;
+            cbse TYPE_BILINEAR:
+                vbl = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+                brebk;
+            cbse TYPE_BICUBIC:
+                vbl = RenderingHints.VALUE_INTERPOLATION_BICUBIC;
+                brebk;
+            defbult:
                 // Should never get here
-                throw new InternalError("Unknown interpolation type "+
-                                         interpolationType);
+                throw new InternblError("Unknown interpolbtion type "+
+                                         interpolbtionType);
 
             }
-            hints = new RenderingHints(RenderingHints.KEY_INTERPOLATION, val);
+            hints = new RenderingHints(RenderingHints.KEY_INTERPOLATION, vbl);
         }
 
         return hints;
     }
 
-    // We need to be able to invert the transform if we want to
-    // transform the image.  If the determinant of the matrix is 0,
-    // then we can't invert the transform.
-    void validateTransform(AffineTransform xform) {
-        if (Math.abs(xform.getDeterminant()) <= Double.MIN_VALUE) {
-            throw new ImagingOpException("Unable to invert transform "+xform);
+    // We need to be bble to invert the trbnsform if we wbnt to
+    // trbnsform the imbge.  If the determinbnt of the mbtrix is 0,
+    // then we cbn't invert the trbnsform.
+    void vblidbteTrbnsform(AffineTrbnsform xform) {
+        if (Mbth.bbs(xform.getDeterminbnt()) <= Double.MIN_VALUE) {
+            throw new ImbgingOpException("Unbble to invert trbnsform "+xform);
         }
     }
 }

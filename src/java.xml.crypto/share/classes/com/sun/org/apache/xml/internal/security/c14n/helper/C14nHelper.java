@@ -3,153 +3,153 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.c14n.helper;
+pbckbge com.sun.org.bpbche.xml.internbl.security.c14n.helper;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 
 /**
- * Temporary swapped static functions from the normalizer Section
+ * Temporbry swbpped stbtic functions from the normblizer Section
  *
- * @author Christian Geuer-Pollmann
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public class C14nHelper {
+public clbss C14nHelper {
 
     /**
      * Constructor C14nHelper
      *
      */
-    private C14nHelper() {
-        // don't allow instantiation
+    privbte C14nHelper() {
+        // don't bllow instbntibtion
     }
 
     /**
-     * Method namespaceIsRelative
+     * Method nbmespbceIsRelbtive
      *
-     * @param namespace
-     * @return true if the given namespace is relative.
+     * @pbrbm nbmespbce
+     * @return true if the given nbmespbce is relbtive.
      */
-    public static boolean namespaceIsRelative(Attr namespace) {
-        return !namespaceIsAbsolute(namespace);
+    public stbtic boolebn nbmespbceIsRelbtive(Attr nbmespbce) {
+        return !nbmespbceIsAbsolute(nbmespbce);
     }
 
     /**
-     * Method namespaceIsRelative
+     * Method nbmespbceIsRelbtive
      *
-     * @param namespaceValue
-     * @return true if the given namespace is relative.
+     * @pbrbm nbmespbceVblue
+     * @return true if the given nbmespbce is relbtive.
      */
-    public static boolean namespaceIsRelative(String namespaceValue) {
-        return !namespaceIsAbsolute(namespaceValue);
+    public stbtic boolebn nbmespbceIsRelbtive(String nbmespbceVblue) {
+        return !nbmespbceIsAbsolute(nbmespbceVblue);
     }
 
     /**
-     * Method namespaceIsAbsolute
+     * Method nbmespbceIsAbsolute
      *
-     * @param namespace
-     * @return true if the given namespace is absolute.
+     * @pbrbm nbmespbce
+     * @return true if the given nbmespbce is bbsolute.
      */
-    public static boolean namespaceIsAbsolute(Attr namespace) {
-        return namespaceIsAbsolute(namespace.getValue());
+    public stbtic boolebn nbmespbceIsAbsolute(Attr nbmespbce) {
+        return nbmespbceIsAbsolute(nbmespbce.getVblue());
     }
 
     /**
-     * Method namespaceIsAbsolute
+     * Method nbmespbceIsAbsolute
      *
-     * @param namespaceValue
-     * @return true if the given namespace is absolute.
+     * @pbrbm nbmespbceVblue
+     * @return true if the given nbmespbce is bbsolute.
      */
-    public static boolean namespaceIsAbsolute(String namespaceValue) {
-        // assume empty namespaces are absolute
-        if (namespaceValue.length() == 0) {
+    public stbtic boolebn nbmespbceIsAbsolute(String nbmespbceVblue) {
+        // bssume empty nbmespbces bre bbsolute
+        if (nbmespbceVblue.length() == 0) {
             return true;
         }
-        return namespaceValue.indexOf(':') > 0;
+        return nbmespbceVblue.indexOf(':') > 0;
     }
 
     /**
-     * This method throws an exception if the Attribute value contains
-     * a relative URI.
+     * This method throws bn exception if the Attribute vblue contbins
+     * b relbtive URI.
      *
-     * @param attr
-     * @throws CanonicalizationException
+     * @pbrbm bttr
+     * @throws CbnonicblizbtionException
      */
-    public static void assertNotRelativeNS(Attr attr) throws CanonicalizationException {
-        if (attr == null) {
+    public stbtic void bssertNotRelbtiveNS(Attr bttr) throws CbnonicblizbtionException {
+        if (bttr == null) {
             return;
         }
 
-        String nodeAttrName = attr.getNodeName();
-        boolean definesDefaultNS = nodeAttrName.equals("xmlns");
-        boolean definesNonDefaultNS = nodeAttrName.startsWith("xmlns:");
+        String nodeAttrNbme = bttr.getNodeNbme();
+        boolebn definesDefbultNS = nodeAttrNbme.equbls("xmlns");
+        boolebn definesNonDefbultNS = nodeAttrNbme.stbrtsWith("xmlns:");
 
-        if ((definesDefaultNS || definesNonDefaultNS) && namespaceIsRelative(attr)) {
-            String parentName = attr.getOwnerElement().getTagName();
-            String attrValue = attr.getValue();
-            Object exArgs[] = { parentName, nodeAttrName, attrValue };
+        if ((definesDefbultNS || definesNonDefbultNS) && nbmespbceIsRelbtive(bttr)) {
+            String pbrentNbme = bttr.getOwnerElement().getTbgNbme();
+            String bttrVblue = bttr.getVblue();
+            Object exArgs[] = { pbrentNbme, nodeAttrNbme, bttrVblue };
 
-            throw new CanonicalizationException(
-                "c14n.Canonicalizer.RelativeNamespace", exArgs
+            throw new CbnonicblizbtionException(
+                "c14n.Cbnonicblizer.RelbtiveNbmespbce", exArgs
             );
         }
     }
 
     /**
-     * This method throws a CanonicalizationException if the supplied Document
-     * is not able to be traversed using a TreeWalker.
+     * This method throws b CbnonicblizbtionException if the supplied Document
+     * is not bble to be trbversed using b TreeWblker.
      *
-     * @param document
-     * @throws CanonicalizationException
+     * @pbrbm document
+     * @throws CbnonicblizbtionException
      */
-    public static void checkTraversability(Document document)
-        throws CanonicalizationException {
-        if (!document.isSupported("Traversal", "2.0")) {
-            Object exArgs[] = {document.getImplementation().getClass().getName() };
+    public stbtic void checkTrbversbbility(Document document)
+        throws CbnonicblizbtionException {
+        if (!document.isSupported("Trbversbl", "2.0")) {
+            Object exArgs[] = {document.getImplementbtion().getClbss().getNbme() };
 
-            throw new CanonicalizationException(
-                "c14n.Canonicalizer.TraversalNotSupported", exArgs
+            throw new CbnonicblizbtionException(
+                "c14n.Cbnonicblizer.TrbversblNotSupported", exArgs
             );
         }
     }
 
     /**
-     * This method throws a CanonicalizationException if the supplied Element
-     * contains any relative namespaces.
+     * This method throws b CbnonicblizbtionException if the supplied Element
+     * contbins bny relbtive nbmespbces.
      *
-     * @param ctxNode
-     * @throws CanonicalizationException
-     * @see C14nHelper#assertNotRelativeNS(Attr)
+     * @pbrbm ctxNode
+     * @throws CbnonicblizbtionException
+     * @see C14nHelper#bssertNotRelbtiveNS(Attr)
      */
-    public static void checkForRelativeNamespace(Element ctxNode)
-        throws CanonicalizationException {
+    public stbtic void checkForRelbtiveNbmespbce(Element ctxNode)
+        throws CbnonicblizbtionException {
         if (ctxNode != null) {
-            NamedNodeMap attributes = ctxNode.getAttributes();
+            NbmedNodeMbp bttributes = ctxNode.getAttributes();
 
-            for (int i = 0; i < attributes.getLength(); i++) {
-                C14nHelper.assertNotRelativeNS((Attr) attributes.item(i));
+            for (int i = 0; i < bttributes.getLength(); i++) {
+                C14nHelper.bssertNotRelbtiveNS((Attr) bttributes.item(i));
             }
         } else {
-            throw new CanonicalizationException("Called checkForRelativeNamespace() on null");
+            throw new CbnonicblizbtionException("Cblled checkForRelbtiveNbmespbce() on null");
         }
     }
 }

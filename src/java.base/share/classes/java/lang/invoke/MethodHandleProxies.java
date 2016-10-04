@@ -1,321 +1,321 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
-import java.lang.reflect.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.invoke.WrapperInstance;
-import java.util.ArrayList;
-import sun.reflect.CallerSensitive;
+import jbvb.lbng.reflect.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.invoke.WrbpperInstbnce;
+import jbvb.util.ArrbyList;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * This class consists exclusively of static methods that help adapt
- * method handles to other JVM types, such as interfaces.
+ * This clbss consists exclusively of stbtic methods thbt help bdbpt
+ * method hbndles to other JVM types, such bs interfbces.
  */
-public class MethodHandleProxies {
+public clbss MethodHbndleProxies {
 
-    private MethodHandleProxies() { }  // do not instantiate
+    privbte MethodHbndleProxies() { }  // do not instbntibte
 
     /**
-     * Produces an instance of the given single-method interface which redirects
-     * its calls to the given method handle.
+     * Produces bn instbnce of the given single-method interfbce which redirects
+     * its cblls to the given method hbndle.
      * <p>
-     * A single-method interface is an interface which declares a uniquely named method.
-     * When determining the uniquely named method of a single-method interface,
-     * the public {@code Object} methods ({@code toString}, {@code equals}, {@code hashCode})
-     * are disregarded.  For example, {@link java.util.Comparator} is a single-method interface,
-     * even though it re-declares the {@code Object.equals} method.
+     * A single-method interfbce is bn interfbce which declbres b uniquely nbmed method.
+     * When determining the uniquely nbmed method of b single-method interfbce,
+     * the public {@code Object} methods ({@code toString}, {@code equbls}, {@code hbshCode})
+     * bre disregbrded.  For exbmple, {@link jbvb.util.Compbrbtor} is b single-method interfbce,
+     * even though it re-declbres the {@code Object.equbls} method.
      * <p>
-     * The interface must be public.  No additional access checks are performed.
+     * The interfbce must be public.  No bdditionbl bccess checks bre performed.
      * <p>
-     * The resulting instance of the required type will respond to
-     * invocation of the type's uniquely named method by calling
-     * the given target on the incoming arguments,
-     * and returning or throwing whatever the target
-     * returns or throws.  The invocation will be as if by
-     * {@code target.invoke}.
-     * The target's type will be checked before the
-     * instance is created, as if by a call to {@code asType},
-     * which may result in a {@code WrongMethodTypeException}.
+     * The resulting instbnce of the required type will respond to
+     * invocbtion of the type's uniquely nbmed method by cblling
+     * the given tbrget on the incoming brguments,
+     * bnd returning or throwing whbtever the tbrget
+     * returns or throws.  The invocbtion will be bs if by
+     * {@code tbrget.invoke}.
+     * The tbrget's type will be checked before the
+     * instbnce is crebted, bs if by b cbll to {@code bsType},
+     * which mby result in b {@code WrongMethodTypeException}.
      * <p>
-     * The uniquely named method is allowed to be multiply declared,
-     * with distinct type descriptors.  (E.g., it can be overloaded,
-     * or can possess bridge methods.)  All such declarations are
-     * connected directly to the target method handle.
-     * Argument and return types are adjusted by {@code asType}
-     * for each individual declaration.
+     * The uniquely nbmed method is bllowed to be multiply declbred,
+     * with distinct type descriptors.  (E.g., it cbn be overlobded,
+     * or cbn possess bridge methods.)  All such declbrbtions bre
+     * connected directly to the tbrget method hbndle.
+     * Argument bnd return types bre bdjusted by {@code bsType}
+     * for ebch individubl declbrbtion.
      * <p>
-     * The wrapper instance will implement the requested interface
-     * and its super-types, but no other single-method interfaces.
-     * This means that the instance will not unexpectedly
-     * pass an {@code instanceof} test for any unrequested type.
-     * <p style="font-size:smaller;">
-     * <em>Implementation Note:</em>
-     * Therefore, each instance must implement a unique single-method interface.
-     * Implementations may not bundle together
-     * multiple single-method interfaces onto single implementation classes
-     * in the style of {@link java.awt.AWTEventMulticaster}.
+     * The wrbpper instbnce will implement the requested interfbce
+     * bnd its super-types, but no other single-method interfbces.
+     * This mebns thbt the instbnce will not unexpectedly
+     * pbss bn {@code instbnceof} test for bny unrequested type.
+     * <p style="font-size:smbller;">
+     * <em>Implementbtion Note:</em>
+     * Therefore, ebch instbnce must implement b unique single-method interfbce.
+     * Implementbtions mby not bundle together
+     * multiple single-method interfbces onto single implementbtion clbsses
+     * in the style of {@link jbvb.bwt.AWTEventMulticbster}.
      * <p>
-     * The method handle may throw an <em>undeclared exception</em>,
-     * which means any checked exception (or other checked throwable)
-     * not declared by the requested type's single abstract method.
-     * If this happens, the throwable will be wrapped in an instance of
-     * {@link java.lang.reflect.UndeclaredThrowableException UndeclaredThrowableException}
-     * and thrown in that wrapped form.
+     * The method hbndle mby throw bn <em>undeclbred exception</em>,
+     * which mebns bny checked exception (or other checked throwbble)
+     * not declbred by the requested type's single bbstrbct method.
+     * If this hbppens, the throwbble will be wrbpped in bn instbnce of
+     * {@link jbvb.lbng.reflect.UndeclbredThrowbbleException UndeclbredThrowbbleException}
+     * bnd thrown in thbt wrbpped form.
      * <p>
-     * Like {@link java.lang.Integer#valueOf Integer.valueOf},
-     * {@code asInterfaceInstance} is a factory method whose results are defined
-     * by their behavior.
-     * It is not guaranteed to return a new instance for every call.
+     * Like {@link jbvb.lbng.Integer#vblueOf Integer.vblueOf},
+     * {@code bsInterfbceInstbnce} is b fbctory method whose results bre defined
+     * by their behbvior.
+     * It is not gubrbnteed to return b new instbnce for every cbll.
      * <p>
-     * Because of the possibility of {@linkplain java.lang.reflect.Method#isBridge bridge methods}
-     * and other corner cases, the interface may also have several abstract methods
-     * with the same name but having distinct descriptors (types of returns and parameters).
-     * In this case, all the methods are bound in common to the one given target.
-     * The type check and effective {@code asType} conversion is applied to each
-     * method type descriptor, and all abstract methods are bound to the target in common.
-     * Beyond this type check, no further checks are made to determine that the
-     * abstract methods are related in any way.
+     * Becbuse of the possibility of {@linkplbin jbvb.lbng.reflect.Method#isBridge bridge methods}
+     * bnd other corner cbses, the interfbce mby blso hbve severbl bbstrbct methods
+     * with the sbme nbme but hbving distinct descriptors (types of returns bnd pbrbmeters).
+     * In this cbse, bll the methods bre bound in common to the one given tbrget.
+     * The type check bnd effective {@code bsType} conversion is bpplied to ebch
+     * method type descriptor, bnd bll bbstrbct methods bre bound to the tbrget in common.
+     * Beyond this type check, no further checks bre mbde to determine thbt the
+     * bbstrbct methods bre relbted in bny wby.
      * <p>
-     * Future versions of this API may accept additional types,
-     * such as abstract classes with single abstract methods.
-     * Future versions of this API may also equip wrapper instances
-     * with one or more additional public "marker" interfaces.
+     * Future versions of this API mby bccept bdditionbl types,
+     * such bs bbstrbct clbsses with single bbstrbct methods.
+     * Future versions of this API mby blso equip wrbpper instbnces
+     * with one or more bdditionbl public "mbrker" interfbces.
      * <p>
-     * If a security manager is installed, this method is caller sensitive.
-     * During any invocation of the target method handle via the returned wrapper,
-     * the original creator of the wrapper (the caller) will be visible
-     * to context checks requested by the security manager.
+     * If b security mbnbger is instblled, this method is cbller sensitive.
+     * During bny invocbtion of the tbrget method hbndle vib the returned wrbpper,
+     * the originbl crebtor of the wrbpper (the cbller) will be visible
+     * to context checks requested by the security mbnbger.
      *
-     * @param <T> the desired type of the wrapper, a single-method interface
-     * @param intfc a class object representing {@code T}
-     * @param target the method handle to invoke from the wrapper
-     * @return a correctly-typed wrapper for the given target
-     * @throws NullPointerException if either argument is null
-     * @throws IllegalArgumentException if the {@code intfc} is not a
-     *         valid argument to this method
-     * @throws WrongMethodTypeException if the target cannot
-     *         be converted to the type required by the requested interface
+     * @pbrbm <T> the desired type of the wrbpper, b single-method interfbce
+     * @pbrbm intfc b clbss object representing {@code T}
+     * @pbrbm tbrget the method hbndle to invoke from the wrbpper
+     * @return b correctly-typed wrbpper for the given tbrget
+     * @throws NullPointerException if either brgument is null
+     * @throws IllegblArgumentException if the {@code intfc} is not b
+     *         vblid brgument to this method
+     * @throws WrongMethodTypeException if the tbrget cbnnot
+     *         be converted to the type required by the requested interfbce
      */
     // Other notes to implementors:
     // <p>
-    // No stable mapping is promised between the single-method interface and
-    // the implementation class C.  Over time, several implementation
-    // classes might be used for the same type.
+    // No stbble mbpping is promised between the single-method interfbce bnd
+    // the implementbtion clbss C.  Over time, severbl implementbtion
+    // clbsses might be used for the sbme type.
     // <p>
-    // If the implementation is able
-    // to prove that a wrapper of the required type
-    // has already been created for a given
-    // method handle, or for another method handle with the
-    // same behavior, the implementation may return that wrapper in place of
-    // a new wrapper.
+    // If the implementbtion is bble
+    // to prove thbt b wrbpper of the required type
+    // hbs blrebdy been crebted for b given
+    // method hbndle, or for bnother method hbndle with the
+    // sbme behbvior, the implementbtion mby return thbt wrbpper in plbce of
+    // b new wrbpper.
     // <p>
-    // This method is designed to apply to common use cases
-    // where a single method handle must interoperate with
-    // an interface that implements a function-like
-    // API.  Additional variations, such as single-abstract-method classes with
-    // private constructors, or interfaces with multiple but related
-    // entry points, must be covered by hand-written or automatically
-    // generated adapter classes.
+    // This method is designed to bpply to common use cbses
+    // where b single method hbndle must interoperbte with
+    // bn interfbce thbt implements b function-like
+    // API.  Additionbl vbribtions, such bs single-bbstrbct-method clbsses with
+    // privbte constructors, or interfbces with multiple but relbted
+    // entry points, must be covered by hbnd-written or butombticblly
+    // generbted bdbpter clbsses.
     //
-    @CallerSensitive
-    public static
-    <T> T asInterfaceInstance(final Class<T> intfc, final MethodHandle target) {
-        if (!intfc.isInterface() || !Modifier.isPublic(intfc.getModifiers()))
-            throw new IllegalArgumentException("not a public interface: "+intfc.getName());
-        final MethodHandle mh;
-        if (System.getSecurityManager() != null) {
-            final Class<?> caller = Reflection.getCallerClass();
-            final ClassLoader ccl = caller != null ? caller.getClassLoader() : null;
-            ReflectUtil.checkProxyPackageAccess(ccl, intfc);
-            mh = ccl != null ? bindCaller(target, caller) : target;
+    @CbllerSensitive
+    public stbtic
+    <T> T bsInterfbceInstbnce(finbl Clbss<T> intfc, finbl MethodHbndle tbrget) {
+        if (!intfc.isInterfbce() || !Modifier.isPublic(intfc.getModifiers()))
+            throw new IllegblArgumentException("not b public interfbce: "+intfc.getNbme());
+        finbl MethodHbndle mh;
+        if (System.getSecurityMbnbger() != null) {
+            finbl Clbss<?> cbller = Reflection.getCbllerClbss();
+            finbl ClbssLobder ccl = cbller != null ? cbller.getClbssLobder() : null;
+            ReflectUtil.checkProxyPbckbgeAccess(ccl, intfc);
+            mh = ccl != null ? bindCbller(tbrget, cbller) : tbrget;
         } else {
-            mh = target;
+            mh = tbrget;
         }
-        ClassLoader proxyLoader = intfc.getClassLoader();
-        if (proxyLoader == null) {
-            ClassLoader cl = Thread.currentThread().getContextClassLoader(); // avoid use of BCP
-            proxyLoader = cl != null ? cl : ClassLoader.getSystemClassLoader();
+        ClbssLobder proxyLobder = intfc.getClbssLobder();
+        if (proxyLobder == null) {
+            ClbssLobder cl = Threbd.currentThrebd().getContextClbssLobder(); // bvoid use of BCP
+            proxyLobder = cl != null ? cl : ClbssLobder.getSystemClbssLobder();
         }
-        final Method[] methods = getSingleNameMethods(intfc);
+        finbl Method[] methods = getSingleNbmeMethods(intfc);
         if (methods == null)
-            throw new IllegalArgumentException("not a single-method interface: "+intfc.getName());
-        final MethodHandle[] vaTargets = new MethodHandle[methods.length];
+            throw new IllegblArgumentException("not b single-method interfbce: "+intfc.getNbme());
+        finbl MethodHbndle[] vbTbrgets = new MethodHbndle[methods.length];
         for (int i = 0; i < methods.length; i++) {
             Method sm = methods[i];
-            MethodType smMT = MethodType.methodType(sm.getReturnType(), sm.getParameterTypes());
-            MethodHandle checkTarget = mh.asType(smMT);  // make throw WMT
-            checkTarget = checkTarget.asType(checkTarget.type().changeReturnType(Object.class));
-            vaTargets[i] = checkTarget.asSpreader(Object[].class, smMT.parameterCount());
+            MethodType smMT = MethodType.methodType(sm.getReturnType(), sm.getPbrbmeterTypes());
+            MethodHbndle checkTbrget = mh.bsType(smMT);  // mbke throw WMT
+            checkTbrget = checkTbrget.bsType(checkTbrget.type().chbngeReturnType(Object.clbss));
+            vbTbrgets[i] = checkTbrget.bsSprebder(Object[].clbss, smMT.pbrbmeterCount());
         }
-        final InvocationHandler ih = new InvocationHandler() {
-                private Object getArg(String name) {
-                    if ((Object)name == "getWrapperInstanceTarget")  return target;
-                    if ((Object)name == "getWrapperInstanceType")    return intfc;
+        finbl InvocbtionHbndler ih = new InvocbtionHbndler() {
+                privbte Object getArg(String nbme) {
+                    if ((Object)nbme == "getWrbpperInstbnceTbrget")  return tbrget;
+                    if ((Object)nbme == "getWrbpperInstbnceType")    return intfc;
                     throw new AssertionError();
                 }
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                public Object invoke(Object proxy, Method method, Object[] brgs) throws Throwbble {
                     for (int i = 0; i < methods.length; i++) {
-                        if (method.equals(methods[i]))
-                            return vaTargets[i].invokeExact(args);
+                        if (method.equbls(methods[i]))
+                            return vbTbrgets[i].invokeExbct(brgs);
                     }
-                    if (method.getDeclaringClass() == WrapperInstance.class)
-                        return getArg(method.getName());
+                    if (method.getDeclbringClbss() == WrbpperInstbnce.clbss)
+                        return getArg(method.getNbme());
                     if (isObjectMethod(method))
-                        return callObjectMethod(proxy, method, args);
-                    throw new InternalError("bad proxy method: "+method);
+                        return cbllObjectMethod(proxy, method, brgs);
+                    throw new InternblError("bbd proxy method: "+method);
                 }
             };
 
-        final Object proxy;
-        if (System.getSecurityManager() != null) {
-            // sun.invoke.WrapperInstance is a restricted interface not accessible
-            // by any non-null class loader.
-            final ClassLoader loader = proxyLoader;
+        finbl Object proxy;
+        if (System.getSecurityMbnbger() != null) {
+            // sun.invoke.WrbpperInstbnce is b restricted interfbce not bccessible
+            // by bny non-null clbss lobder.
+            finbl ClbssLobder lobder = proxyLobder;
             proxy = AccessController.doPrivileged(new PrivilegedAction<Object>() {
                 public Object run() {
-                    return Proxy.newProxyInstance(
-                            loader,
-                            new Class<?>[]{ intfc, WrapperInstance.class },
+                    return Proxy.newProxyInstbnce(
+                            lobder,
+                            new Clbss<?>[]{ intfc, WrbpperInstbnce.clbss },
                             ih);
                 }
             });
         } else {
-            proxy = Proxy.newProxyInstance(proxyLoader,
-                                           new Class<?>[]{ intfc, WrapperInstance.class },
+            proxy = Proxy.newProxyInstbnce(proxyLobder,
+                                           new Clbss<?>[]{ intfc, WrbpperInstbnce.clbss },
                                            ih);
         }
-        return intfc.cast(proxy);
+        return intfc.cbst(proxy);
     }
 
-    private static MethodHandle bindCaller(MethodHandle target, Class<?> hostClass) {
-        MethodHandle cbmh = MethodHandleImpl.bindCaller(target, hostClass);
-        if (target.isVarargsCollector()) {
+    privbte stbtic MethodHbndle bindCbller(MethodHbndle tbrget, Clbss<?> hostClbss) {
+        MethodHbndle cbmh = MethodHbndleImpl.bindCbller(tbrget, hostClbss);
+        if (tbrget.isVbrbrgsCollector()) {
             MethodType type = cbmh.type();
-            int arity = type.parameterCount();
-            return cbmh.asVarargsCollector(type.parameterType(arity-1));
+            int brity = type.pbrbmeterCount();
+            return cbmh.bsVbrbrgsCollector(type.pbrbmeterType(brity-1));
         }
         return cbmh;
     }
 
     /**
-     * Determines if the given object was produced by a call to {@link #asInterfaceInstance asInterfaceInstance}.
-     * @param x any reference
-     * @return true if the reference is not null and points to an object produced by {@code asInterfaceInstance}
+     * Determines if the given object wbs produced by b cbll to {@link #bsInterfbceInstbnce bsInterfbceInstbnce}.
+     * @pbrbm x bny reference
+     * @return true if the reference is not null bnd points to bn object produced by {@code bsInterfbceInstbnce}
      */
-    public static
-    boolean isWrapperInstance(Object x) {
-        return x instanceof WrapperInstance;
+    public stbtic
+    boolebn isWrbpperInstbnce(Object x) {
+        return x instbnceof WrbpperInstbnce;
     }
 
-    private static WrapperInstance asWrapperInstance(Object x) {
+    privbte stbtic WrbpperInstbnce bsWrbpperInstbnce(Object x) {
         try {
             if (x != null)
-                return (WrapperInstance) x;
-        } catch (ClassCastException ex) {
+                return (WrbpperInstbnce) x;
+        } cbtch (ClbssCbstException ex) {
         }
-        throw new IllegalArgumentException("not a wrapper instance");
+        throw new IllegblArgumentException("not b wrbpper instbnce");
     }
 
     /**
-     * Produces or recovers a target method handle which is behaviorally
-     * equivalent to the unique method of this wrapper instance.
-     * The object {@code x} must have been produced by a call to {@link #asInterfaceInstance asInterfaceInstance}.
-     * This requirement may be tested via {@link #isWrapperInstance isWrapperInstance}.
-     * @param x any reference
-     * @return a method handle implementing the unique method
-     * @throws IllegalArgumentException if the reference x is not to a wrapper instance
+     * Produces or recovers b tbrget method hbndle which is behbviorblly
+     * equivblent to the unique method of this wrbpper instbnce.
+     * The object {@code x} must hbve been produced by b cbll to {@link #bsInterfbceInstbnce bsInterfbceInstbnce}.
+     * This requirement mby be tested vib {@link #isWrbpperInstbnce isWrbpperInstbnce}.
+     * @pbrbm x bny reference
+     * @return b method hbndle implementing the unique method
+     * @throws IllegblArgumentException if the reference x is not to b wrbpper instbnce
      */
-    public static
-    MethodHandle wrapperInstanceTarget(Object x) {
-        return asWrapperInstance(x).getWrapperInstanceTarget();
+    public stbtic
+    MethodHbndle wrbpperInstbnceTbrget(Object x) {
+        return bsWrbpperInstbnce(x).getWrbpperInstbnceTbrget();
     }
 
     /**
-     * Recovers the unique single-method interface type for which this wrapper instance was created.
-     * The object {@code x} must have been produced by a call to {@link #asInterfaceInstance asInterfaceInstance}.
-     * This requirement may be tested via {@link #isWrapperInstance isWrapperInstance}.
-     * @param x any reference
-     * @return the single-method interface type for which the wrapper was created
-     * @throws IllegalArgumentException if the reference x is not to a wrapper instance
+     * Recovers the unique single-method interfbce type for which this wrbpper instbnce wbs crebted.
+     * The object {@code x} must hbve been produced by b cbll to {@link #bsInterfbceInstbnce bsInterfbceInstbnce}.
+     * This requirement mby be tested vib {@link #isWrbpperInstbnce isWrbpperInstbnce}.
+     * @pbrbm x bny reference
+     * @return the single-method interfbce type for which the wrbpper wbs crebted
+     * @throws IllegblArgumentException if the reference x is not to b wrbpper instbnce
      */
-    public static
-    Class<?> wrapperInstanceType(Object x) {
-        return asWrapperInstance(x).getWrapperInstanceType();
+    public stbtic
+    Clbss<?> wrbpperInstbnceType(Object x) {
+        return bsWrbpperInstbnce(x).getWrbpperInstbnceType();
     }
 
-    private static
-    boolean isObjectMethod(Method m) {
-        switch (m.getName()) {
-        case "toString":
-            return (m.getReturnType() == String.class
-                    && m.getParameterTypes().length == 0);
-        case "hashCode":
-            return (m.getReturnType() == int.class
-                    && m.getParameterTypes().length == 0);
-        case "equals":
-            return (m.getReturnType() == boolean.class
-                    && m.getParameterTypes().length == 1
-                    && m.getParameterTypes()[0] == Object.class);
+    privbte stbtic
+    boolebn isObjectMethod(Method m) {
+        switch (m.getNbme()) {
+        cbse "toString":
+            return (m.getReturnType() == String.clbss
+                    && m.getPbrbmeterTypes().length == 0);
+        cbse "hbshCode":
+            return (m.getReturnType() == int.clbss
+                    && m.getPbrbmeterTypes().length == 0);
+        cbse "equbls":
+            return (m.getReturnType() == boolebn.clbss
+                    && m.getPbrbmeterTypes().length == 1
+                    && m.getPbrbmeterTypes()[0] == Object.clbss);
         }
-        return false;
+        return fblse;
     }
 
-    private static
-    Object callObjectMethod(Object self, Method m, Object[] args) {
-        assert(isObjectMethod(m)) : m;
-        switch (m.getName()) {
-        case "toString":
-            return self.getClass().getName() + "@" + Integer.toHexString(self.hashCode());
-        case "hashCode":
-            return System.identityHashCode(self);
-        case "equals":
-            return (self == args[0]);
+    privbte stbtic
+    Object cbllObjectMethod(Object self, Method m, Object[] brgs) {
+        bssert(isObjectMethod(m)) : m;
+        switch (m.getNbme()) {
+        cbse "toString":
+            return self.getClbss().getNbme() + "@" + Integer.toHexString(self.hbshCode());
+        cbse "hbshCode":
+            return System.identityHbshCode(self);
+        cbse "equbls":
+            return (self == brgs[0]);
         }
         return null;
     }
 
-    private static
-    Method[] getSingleNameMethods(Class<?> intfc) {
-        ArrayList<Method> methods = new ArrayList<>();
-        String uniqueName = null;
+    privbte stbtic
+    Method[] getSingleNbmeMethods(Clbss<?> intfc) {
+        ArrbyList<Method> methods = new ArrbyList<>();
+        String uniqueNbme = null;
         for (Method m : intfc.getMethods()) {
             if (isObjectMethod(m))  continue;
-            if (!Modifier.isAbstract(m.getModifiers()))  continue;
-            String mname = m.getName();
-            if (uniqueName == null)
-                uniqueName = mname;
-            else if (!uniqueName.equals(mname))
-                return null;  // too many abstract methods
-            methods.add(m);
+            if (!Modifier.isAbstrbct(m.getModifiers()))  continue;
+            String mnbme = m.getNbme();
+            if (uniqueNbme == null)
+                uniqueNbme = mnbme;
+            else if (!uniqueNbme.equbls(mnbme))
+                return null;  // too mbny bbstrbct methods
+            methods.bdd(m);
         }
-        if (uniqueName == null)  return null;
-        return methods.toArray(new Method[methods.size()]);
+        if (uniqueNbme == null)  return null;
+        return methods.toArrby(new Method[methods.size()]);
     }
 }

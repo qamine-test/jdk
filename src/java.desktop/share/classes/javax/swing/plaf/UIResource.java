@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1997, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf;
+pbckbge jbvbx.swing.plbf;
 
 
 /**
- * This interface is used to mark objects created by ComponentUI delegates.
- * The <code>ComponentUI.installUI()</code> and
- * <code>ComponentUI.uninstallUI()</code> methods can use this interface
- * to decide if a properties value has been overridden.  For example, the
- * JList cellRenderer property is initialized by BasicListUI.installUI(),
- * only if it's initial value is null:
+ * This interfbce is used to mbrk objects crebted by ComponentUI delegbtes.
+ * The <code>ComponentUI.instbllUI()</code> bnd
+ * <code>ComponentUI.uninstbllUI()</code> methods cbn use this interfbce
+ * to decide if b properties vblue hbs been overridden.  For exbmple, the
+ * JList cellRenderer property is initiblized by BbsicListUI.instbllUI(),
+ * only if it's initibl vblue is null:
  * <pre>
  * if (list.getCellRenderer() == null) {
- *     list.setCellRenderer((ListCellRenderer)(UIManager.get("List.cellRenderer")));
+ *     list.setCellRenderer((ListCellRenderer)(UIMbnbger.get("List.cellRenderer")));
  * }
  * </pre>
- * At uninstallUI() time we reset the property to null if its value
- * is an instance of UIResource:
+ * At uninstbllUI() time we reset the property to null if its vblue
+ * is bn instbnce of UIResource:
  * <pre>
- * if (list.getCellRenderer() instanceof UIResource) {
+ * if (list.getCellRenderer() instbnceof UIResource) {
  *     list.setCellRenderer(null);
  * }
  *</pre>
- * This pattern applies to all properties except the java.awt.Component
- * properties font, foreground, and background.  If one of these
- * properties isn't initialized, or is explicitly set to null,
- * its container provides the value.  For this reason the
- * <code>"== null"</code> is unreliable when installUI() is called
- * to dynamically change a components look and feel.  So at installUI()
- * time we check to see if the current value is a UIResource:
+ * This pbttern bpplies to bll properties except the jbvb.bwt.Component
+ * properties font, foreground, bnd bbckground.  If one of these
+ * properties isn't initiblized, or is explicitly set to null,
+ * its contbiner provides the vblue.  For this rebson the
+ * <code>"== null"</code> is unrelibble when instbllUI() is cblled
+ * to dynbmicblly chbnge b components look bnd feel.  So bt instbllUI()
+ * time we check to see if the current vblue is b UIResource:
  *<pre>
- * if (!(list.getFont() instanceof UIResource)) {
- *     list.setFont(UIManager.getFont("List.font"));
+ * if (!(list.getFont() instbnceof UIResource)) {
+ *     list.setFont(UIMbnbger.getFont("List.font"));
  * }
  * </pre>
  *
  * @see ComponentUI
- * @author Hans Muller
+ * @buthor Hbns Muller
  *
  */
 
-public interface UIResource {
+public interfbce UIResource {
 }

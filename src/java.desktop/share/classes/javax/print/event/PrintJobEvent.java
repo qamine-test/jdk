@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print.event;
+pbckbge jbvbx.print.event;
 
-import javax.print.DocPrintJob;
+import jbvbx.print.DocPrintJob;
 
 /**
  *
- * Class <code>PrintJobEvent</code> encapsulates common events a print job
- * reports to let a listener know of progress in the processing of the
+ * Clbss <code>PrintJobEvent</code> encbpsulbtes common events b print job
+ * reports to let b listener know of progress in the processing of the
  * {@link DocPrintJob}.
  *
  */
 
-public class PrintJobEvent extends PrintEvent {
+public clbss PrintJobEvent extends PrintEvent {
 
-   private static final long serialVersionUID = -1711656903622072997L;
+   privbte stbtic finbl long seriblVersionUID = -1711656903622072997L;
 
-   private int reason;
+   privbte int rebson;
 
    /**
-    * The job was canceled by the {@link javax.print.PrintService PrintService}.
+    * The job wbs cbnceled by the {@link jbvbx.print.PrintService PrintService}.
     */
-   public static final int JOB_CANCELED   = 101;
+   public stbtic finbl int JOB_CANCELED   = 101;
 
    /**
     * The document cis completely printed.
     */
-   public static final int JOB_COMPLETE       = 102;
+   public stbtic finbl int JOB_COMPLETE       = 102;
 
    /**
-    * The print service reports that the job cannot be completed.
-    * The application must resubmit the job.
+    * The print service reports thbt the job cbnnot be completed.
+    * The bpplicbtion must resubmit the job.
     */
 
-   public static final int JOB_FAILED         = 103;
+   public stbtic finbl int JOB_FAILED         = 103;
 
    /**
-    * The print service indicates that a - possibly transient - problem
-    * may require external intervention before the print service can
-    * continue.  One example of an event that can
-    * generate this message is when the printer runs out of paper.
+    * The print service indicbtes thbt b - possibly trbnsient - problem
+    * mby require externbl intervention before the print service cbn
+    * continue.  One exbmple of bn event thbt cbn
+    * generbte this messbge is when the printer runs out of pbper.
     */
-   public static final int REQUIRES_ATTENTION = 104;
+   public stbtic finbl int REQUIRES_ATTENTION = 104;
 
    /**
-    * Not all print services may be capable of delivering interesting
-    * events, or even telling when a job is complete. This message indicates
-    * the print job has no further information or communication
-    * with the print service. This message should always be delivered
-    * if a terminal event (completed/failed/canceled) is not delivered.
-    * For example, if messages such as JOB_COMPLETE have NOT been received
-    * before receiving this message, the only inference that should be drawn
-    * is that the print service does not support delivering such an event.
+    * Not bll print services mby be cbpbble of delivering interesting
+    * events, or even telling when b job is complete. This messbge indicbtes
+    * the print job hbs no further informbtion or communicbtion
+    * with the print service. This messbge should blwbys be delivered
+    * if b terminbl event (completed/fbiled/cbnceled) is not delivered.
+    * For exbmple, if messbges such bs JOB_COMPLETE hbve NOT been received
+    * before receiving this messbge, the only inference thbt should be drbwn
+    * is thbt the print service does not support delivering such bn event.
     */
-   public static final int NO_MORE_EVENTS    = 105;
+   public stbtic finbl int NO_MORE_EVENTS    = 105;
 
    /**
-    * The job is not necessarily printed yet, but the data has been transferred
-    * successfully from the client to the print service. The client may
-    * free data resources.
+    * The job is not necessbrily printed yet, but the dbtb hbs been trbnsferred
+    * successfully from the client to the print service. The client mby
+    * free dbtb resources.
     */
-   public static final int DATA_TRANSFER_COMPLETE    = 106;
+   public stbtic finbl int DATA_TRANSFER_COMPLETE    = 106;
 
    /**
-     * Constructs a <code>PrintJobEvent</code> object.
+     * Constructs b <code>PrintJobEvent</code> object.
      *
-     * @param source  a <code>DocPrintJob</code> object
-     * @param reason  an int specifying the reason.
-     * @throws IllegalArgumentException if <code>source</code> is
+     * @pbrbm source  b <code>DocPrintJob</code> object
+     * @pbrbm rebson  bn int specifying the rebson.
+     * @throws IllegblArgumentException if <code>source</code> is
      *         <code>null</code>.
      */
 
-    public PrintJobEvent( DocPrintJob source, int reason) {
+    public PrintJobEvent( DocPrintJob source, int rebson) {
 
         super(source);
-        this.reason = reason;
+        this.rebson = rebson;
    }
 
     /**
-     * Gets the reason for this event.
-     * @return  reason int.
+     * Gets the rebson for this event.
+     * @return  rebson int.
      */
     public int getPrintEventType() {
-        return reason;
+        return rebson;
     }
 
     /**
      * Determines the <code>DocPrintJob</code> to which this print job
-     * event pertains.
+     * event pertbins.
      *
-     * @return  the <code>DocPrintJob</code> object that represents the
-     *          print job that reports the events encapsulated by this
+     * @return  the <code>DocPrintJob</code> object thbt represents the
+     *          print job thbt reports the events encbpsulbted by this
      *          <code>PrintJobEvent</code>.
      *
      */

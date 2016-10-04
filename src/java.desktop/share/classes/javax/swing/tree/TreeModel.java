@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.tree;
+pbckbge jbvbx.swing.tree;
 
-import javax.swing.event.*;
+import jbvbx.swing.event.*;
 
 /**
  * The model used by <code>JTree</code>.
  * <p>
- * <code>JTree</code> and its related classes make extensive use of
- * <code>TreePath</code>s for identifying nodes in the <code>TreeModel</code>.
- * If a <code>TreeModel</code> returns the same object, as compared by
- * <code>equals</code>, at two different indices under the same parent
- * than the resulting <code>TreePath</code> objects will be considered equal
- * as well. Some implementations may assume that if two
- * <code>TreePath</code>s are equal, they identify the same node. If this
- * condition is not met, painting problems and other oddities may result.
- * In other words, if <code>getChild</code> for a given parent returns
- * the same Object (as determined by <code>equals</code>) problems may
- * result, and it is recommended you avoid doing this.
+ * <code>JTree</code> bnd its relbted clbsses mbke extensive use of
+ * <code>TreePbth</code>s for identifying nodes in the <code>TreeModel</code>.
+ * If b <code>TreeModel</code> returns the sbme object, bs compbred by
+ * <code>equbls</code>, bt two different indices under the sbme pbrent
+ * thbn the resulting <code>TreePbth</code> objects will be considered equbl
+ * bs well. Some implementbtions mby bssume thbt if two
+ * <code>TreePbth</code>s bre equbl, they identify the sbme node. If this
+ * condition is not met, pbinting problems bnd other oddities mby result.
+ * In other words, if <code>getChild</code> for b given pbrent returns
+ * the sbme Object (bs determined by <code>equbls</code>) problems mby
+ * result, bnd it is recommended you bvoid doing this.
  * <p>
- * Similarly <code>JTree</code> and its related classes place
- * <code>TreePath</code>s in <code>Map</code>s.  As such if
- * a node is requested twice, the return values must be equal
- * (using the <code>equals</code> method) and have the same
- * <code>hashCode</code>.
+ * Similbrly <code>JTree</code> bnd its relbted clbsses plbce
+ * <code>TreePbth</code>s in <code>Mbp</code>s.  As such if
+ * b node is requested twice, the return vblues must be equbl
+ * (using the <code>equbls</code> method) bnd hbve the sbme
+ * <code>hbshCode</code>.
  * <p>
- * For further information on tree models,
- * including an example of a custom implementation,
- * see <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Trees</a>
- * in <em>The Java Tutorial.</em>
+ * For further informbtion on tree models,
+ * including bn exbmple of b custom implementbtion,
+ * see <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/tree.html">How to Use Trees</b>
+ * in <em>The Jbvb Tutoribl.</em>
  *
- * @see TreePath
+ * @see TreePbth
  *
- * @author Rob Davis
- * @author Ray Ryan
+ * @buthor Rob Dbvis
+ * @buthor Rby Rybn
  */
-public interface TreeModel
+public interfbce TreeModel
 {
 
     /**
      * Returns the root of the tree.  Returns <code>null</code>
-     * only if the tree has no nodes.
+     * only if the tree hbs no nodes.
      *
      * @return  the root of the tree
      */
@@ -71,90 +71,90 @@ public interface TreeModel
 
 
     /**
-     * Returns the child of <code>parent</code> at index <code>index</code>
-     * in the parent's
-     * child array.  <code>parent</code> must be a node previously obtained
-     * from this data source. This should not return <code>null</code>
+     * Returns the child of <code>pbrent</code> bt index <code>index</code>
+     * in the pbrent's
+     * child brrby.  <code>pbrent</code> must be b node previously obtbined
+     * from this dbtb source. This should not return <code>null</code>
      * if <code>index</code>
-     * is a valid index for <code>parent</code> (that is <code>index &gt;= 0 &amp;&amp;
-     * index &lt; getChildCount(parent</code>)).
+     * is b vblid index for <code>pbrent</code> (thbt is <code>index &gt;= 0 &bmp;&bmp;
+     * index &lt; getChildCount(pbrent</code>)).
      *
-     * @param parent    a node in the tree, obtained from this data source
-     * @param index     index of child to be returned
-     * @return          the child of {@code parent} at index {@code index}
+     * @pbrbm pbrent    b node in the tree, obtbined from this dbtb source
+     * @pbrbm index     index of child to be returned
+     * @return          the child of {@code pbrent} bt index {@code index}
      */
-    public Object getChild(Object parent, int index);
+    public Object getChild(Object pbrent, int index);
 
 
     /**
-     * Returns the number of children of <code>parent</code>.
+     * Returns the number of children of <code>pbrent</code>.
      * Returns 0 if the node
-     * is a leaf or if it has no children.  <code>parent</code> must be a node
-     * previously obtained from this data source.
+     * is b lebf or if it hbs no children.  <code>pbrent</code> must be b node
+     * previously obtbined from this dbtb source.
      *
-     * @param   parent  a node in the tree, obtained from this data source
-     * @return  the number of children of the node <code>parent</code>
+     * @pbrbm   pbrent  b node in the tree, obtbined from this dbtb source
+     * @return  the number of children of the node <code>pbrent</code>
      */
-    public int getChildCount(Object parent);
+    public int getChildCount(Object pbrent);
 
 
     /**
-     * Returns <code>true</code> if <code>node</code> is a leaf.
-     * It is possible for this method to return <code>false</code>
-     * even if <code>node</code> has no children.
-     * A directory in a filesystem, for example,
-     * may contain no files; the node representing
-     * the directory is not a leaf, but it also has no children.
+     * Returns <code>true</code> if <code>node</code> is b lebf.
+     * It is possible for this method to return <code>fblse</code>
+     * even if <code>node</code> hbs no children.
+     * A directory in b filesystem, for exbmple,
+     * mby contbin no files; the node representing
+     * the directory is not b lebf, but it blso hbs no children.
      *
-     * @param   node  a node in the tree, obtained from this data source
-     * @return  true if <code>node</code> is a leaf
+     * @pbrbm   node  b node in the tree, obtbined from this dbtb source
+     * @return  true if <code>node</code> is b lebf
      */
-    public boolean isLeaf(Object node);
+    public boolebn isLebf(Object node);
 
     /**
-      * Messaged when the user has altered the value for the item identified
-      * by <code>path</code> to <code>newValue</code>.
-      * If <code>newValue</code> signifies a truly new value
-      * the model should post a <code>treeNodesChanged</code> event.
+      * Messbged when the user hbs bltered the vblue for the item identified
+      * by <code>pbth</code> to <code>newVblue</code>.
+      * If <code>newVblue</code> signifies b truly new vblue
+      * the model should post b <code>treeNodesChbnged</code> event.
       *
-      * @param path path to the node that the user has altered
-      * @param newValue the new value from the TreeCellEditor
+      * @pbrbm pbth pbth to the node thbt the user hbs bltered
+      * @pbrbm newVblue the new vblue from the TreeCellEditor
       */
-    public void valueForPathChanged(TreePath path, Object newValue);
+    public void vblueForPbthChbnged(TreePbth pbth, Object newVblue);
 
     /**
-     * Returns the index of child in parent.  If either <code>parent</code>
+     * Returns the index of child in pbrent.  If either <code>pbrent</code>
      * or <code>child</code> is <code>null</code>, returns -1.
-     * If either <code>parent</code> or <code>child</code> don't
+     * If either <code>pbrent</code> or <code>child</code> don't
      * belong to this tree model, returns -1.
      *
-     * @param parent a node in the tree, obtained from this data source
-     * @param child the node we are interested in
-     * @return the index of the child in the parent, or -1 if either
-     *    <code>child</code> or <code>parent</code> are <code>null</code>
+     * @pbrbm pbrent b node in the tree, obtbined from this dbtb source
+     * @pbrbm child the node we bre interested in
+     * @return the index of the child in the pbrent, or -1 if either
+     *    <code>child</code> or <code>pbrent</code> bre <code>null</code>
      *    or don't belong to this tree model
      */
-    public int getIndexOfChild(Object parent, Object child);
+    public int getIndexOfChild(Object pbrent, Object child);
 
 //
-//  Change Events
+//  Chbnge Events
 //
 
     /**
-     * Adds a listener for the <code>TreeModelEvent</code>
-     * posted after the tree changes.
+     * Adds b listener for the <code>TreeModelEvent</code>
+     * posted bfter the tree chbnges.
      *
-     * @param   l       the listener to add
+     * @pbrbm   l       the listener to bdd
      * @see     #removeTreeModelListener
      */
-    void addTreeModelListener(TreeModelListener l);
+    void bddTreeModelListener(TreeModelListener l);
 
     /**
-     * Removes a listener previously added with
-     * <code>addTreeModelListener</code>.
+     * Removes b listener previously bdded with
+     * <code>bddTreeModelListener</code>.
      *
-     * @see     #addTreeModelListener
-     * @param   l       the listener to remove
+     * @see     #bddTreeModelListener
+     * @pbrbm   l       the listener to remove
      */
     void removeTreeModelListener(TreeModelListener l);
 

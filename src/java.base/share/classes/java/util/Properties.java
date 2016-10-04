@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.Writer;
-import java.io.OutputStreamWriter;
-import java.io.BufferedWriter;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.IOException;
+import jbvb.io.PrintStrebm;
+import jbvb.io.PrintWriter;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.Rebder;
+import jbvb.io.Writer;
+import jbvb.io.OutputStrebmWriter;
+import jbvb.io.BufferedWriter;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import jdk.internal.util.xml.PropertiesDefaultHandler;
+import jdk.internbl.util.xml.PropertiesDefbultHbndler;
 
 /**
- * The {@code Properties} class represents a persistent set of
- * properties. The {@code Properties} can be saved to a stream
- * or loaded from a stream. Each key and its corresponding value in
- * the property list is a string.
+ * The {@code Properties} clbss represents b persistent set of
+ * properties. The {@code Properties} cbn be sbved to b strebm
+ * or lobded from b strebm. Ebch key bnd its corresponding vblue in
+ * the property list is b string.
  * <p>
- * A property list can contain another property list as its
- * "defaults"; this second property list is searched if
- * the property key is not found in the original property list.
+ * A property list cbn contbin bnother property list bs its
+ * "defbults"; this second property list is sebrched if
+ * the property key is not found in the originbl property list.
  * <p>
- * Because {@code Properties} inherits from {@code Hashtable}, the
- * {@code put} and {@code putAll} methods can be applied to a
- * {@code Properties} object.  Their use is strongly discouraged as they
- * allow the caller to insert entries whose keys or values are not
+ * Becbuse {@code Properties} inherits from {@code Hbshtbble}, the
+ * {@code put} bnd {@code putAll} methods cbn be bpplied to b
+ * {@code Properties} object.  Their use is strongly discourbged bs they
+ * bllow the cbller to insert entries whose keys or vblues bre not
  * {@code Strings}.  The {@code setProperty} method should be used
- * instead.  If the {@code store} or {@code save} method is called
- * on a "compromised" {@code Properties} object that contains a
- * non-{@code String} key or value, the call will fail. Similarly,
- * the call to the {@code propertyNames} or {@code list} method
- * will fail if it is called on a "compromised" {@code Properties}
- * object that contains a non-{@code String} key.
+ * instebd.  If the {@code store} or {@code sbve} method is cblled
+ * on b "compromised" {@code Properties} object thbt contbins b
+ * non-{@code String} key or vblue, the cbll will fbil. Similbrly,
+ * the cbll to the {@code propertyNbmes} or {@code list} method
+ * will fbil if it is cblled on b "compromised" {@code Properties}
+ * object thbt contbins b non-{@code String} key.
  *
  * <p>
- * The {@link #load(java.io.Reader) load(Reader)} <tt>/</tt>
- * {@link #store(java.io.Writer, java.lang.String) store(Writer, String)}
- * methods load and store properties from and to a character based stream
- * in a simple line-oriented format specified below.
+ * The {@link #lobd(jbvb.io.Rebder) lobd(Rebder)} <tt>/</tt>
+ * {@link #store(jbvb.io.Writer, jbvb.lbng.String) store(Writer, String)}
+ * methods lobd bnd store properties from bnd to b chbrbcter bbsed strebm
+ * in b simple line-oriented formbt specified below.
  *
- * The {@link #load(java.io.InputStream) load(InputStream)} <tt>/</tt>
- * {@link #store(java.io.OutputStream, java.lang.String) store(OutputStream, String)}
- * methods work the same way as the load(Reader)/store(Writer, String) pair, except
- * the input/output stream is encoded in ISO 8859-1 character encoding.
- * Characters that cannot be directly represented in this encoding can be written using
- * Unicode escapes as defined in section 3.3 of
- * <cite>The Java&trade; Language Specification</cite>;
- * only a single 'u' character is allowed in an escape
- * sequence. The native2ascii tool can be used to convert property files to and
- * from other character encodings.
+ * The {@link #lobd(jbvb.io.InputStrebm) lobd(InputStrebm)} <tt>/</tt>
+ * {@link #store(jbvb.io.OutputStrebm, jbvb.lbng.String) store(OutputStrebm, String)}
+ * methods work the sbme wby bs the lobd(Rebder)/store(Writer, String) pbir, except
+ * the input/output strebm is encoded in ISO 8859-1 chbrbcter encoding.
+ * Chbrbcters thbt cbnnot be directly represented in this encoding cbn be written using
+ * Unicode escbpes bs defined in section 3.3 of
+ * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>;
+ * only b single 'u' chbrbcter is bllowed in bn escbpe
+ * sequence. The nbtive2bscii tool cbn be used to convert property files to bnd
+ * from other chbrbcter encodings.
  *
- * <p> The {@link #loadFromXML(InputStream)} and {@link
- * #storeToXML(OutputStream, String, String)} methods load and store properties
- * in a simple XML format.  By default the UTF-8 character encoding is used,
- * however a specific encoding may be specified if required. Implementations
- * are required to support UTF-8 and UTF-16 and may support other encodings.
- * An XML properties document has the following DOCTYPE declaration:
+ * <p> The {@link #lobdFromXML(InputStrebm)} bnd {@link
+ * #storeToXML(OutputStrebm, String, String)} methods lobd bnd store properties
+ * in b simple XML formbt.  By defbult the UTF-8 chbrbcter encoding is used,
+ * however b specific encoding mby be specified if required. Implementbtions
+ * bre required to support UTF-8 bnd UTF-16 bnd mby support other encodings.
+ * An XML properties document hbs the following DOCTYPE declbrbtion:
  *
  * <pre>
- * &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+ * &lt;!DOCTYPE properties SYSTEM "http://jbvb.sun.com/dtd/properties.dtd"&gt;
  * </pre>
- * Note that the system URI (http://java.sun.com/dtd/properties.dtd) is
- * <i>not</i> accessed when exporting or importing properties; it merely
- * serves as a string to uniquely identify the DTD, which is:
+ * Note thbt the system URI (http://jbvb.sun.com/dtd/properties.dtd) is
+ * <i>not</i> bccessed when exporting or importing properties; it merely
+ * serves bs b string to uniquely identify the DTD, which is:
  * <pre>
  *    &lt;?xml version="1.0" encoding="UTF-8"?&gt;
  *
@@ -107,368 +107,368 @@ import jdk.internal.util.xml.PropertiesDefaultHandler;
  *    &lt;!ATTLIST entry key CDATA #REQUIRED&gt;
  * </pre>
  *
- * <p>This class is thread-safe: multiple threads can share a single
- * <tt>Properties</tt> object without the need for external synchronization.
+ * <p>This clbss is threbd-sbfe: multiple threbds cbn shbre b single
+ * <tt>Properties</tt> object without the need for externbl synchronizbtion.
  *
- * @see <a href="../../../technotes/tools/solaris/native2ascii.html">native2ascii tool for Solaris</a>
- * @see <a href="../../../technotes/tools/windows/native2ascii.html">native2ascii tool for Windows</a>
+ * @see <b href="../../../technotes/tools/solbris/nbtive2bscii.html">nbtive2bscii tool for Solbris</b>
+ * @see <b href="../../../technotes/tools/windows/nbtive2bscii.html">nbtive2bscii tool for Windows</b>
  *
- * @author  Arthur van Hoff
- * @author  Michael McCloskey
- * @author  Xueming Shen
+ * @buthor  Arthur vbn Hoff
+ * @buthor  Michbel McCloskey
+ * @buthor  Xueming Shen
  * @since   1.0
  */
 public
-class Properties extends Hashtable<Object,Object> {
+clbss Properties extends Hbshtbble<Object,Object> {
     /**
-     * use serialVersionUID from JDK 1.1.X for interoperability
+     * use seriblVersionUID from JDK 1.1.X for interoperbbility
      */
-     private static final long serialVersionUID = 4112578634029874840L;
+     privbte stbtic finbl long seriblVersionUID = 4112578634029874840L;
 
     /**
-     * A property list that contains default values for any keys not
+     * A property list thbt contbins defbult vblues for bny keys not
      * found in this property list.
      *
-     * @serial
+     * @seribl
      */
-    protected Properties defaults;
+    protected Properties defbults;
 
     /**
-     * Creates an empty property list with no default values.
+     * Crebtes bn empty property list with no defbult vblues.
      */
     public Properties() {
         this(null);
     }
 
     /**
-     * Creates an empty property list with the specified defaults.
+     * Crebtes bn empty property list with the specified defbults.
      *
-     * @param   defaults   the defaults.
+     * @pbrbm   defbults   the defbults.
      */
-    public Properties(Properties defaults) {
-        this.defaults = defaults;
+    public Properties(Properties defbults) {
+        this.defbults = defbults;
     }
 
     /**
-     * Calls the <tt>Hashtable</tt> method {@code put}. Provided for
-     * parallelism with the <tt>getProperty</tt> method. Enforces use of
-     * strings for property keys and values. The value returned is the
-     * result of the <tt>Hashtable</tt> call to {@code put}.
+     * Cblls the <tt>Hbshtbble</tt> method {@code put}. Provided for
+     * pbrbllelism with the <tt>getProperty</tt> method. Enforces use of
+     * strings for property keys bnd vblues. The vblue returned is the
+     * result of the <tt>Hbshtbble</tt> cbll to {@code put}.
      *
-     * @param key the key to be placed into this property list.
-     * @param value the value corresponding to <tt>key</tt>.
-     * @return     the previous value of the specified key in this property
-     *             list, or {@code null} if it did not have one.
+     * @pbrbm key the key to be plbced into this property list.
+     * @pbrbm vblue the vblue corresponding to <tt>key</tt>.
+     * @return     the previous vblue of the specified key in this property
+     *             list, or {@code null} if it did not hbve one.
      * @see #getProperty
      * @since    1.2
      */
-    public synchronized Object setProperty(String key, String value) {
-        return put(key, value);
+    public synchronized Object setProperty(String key, String vblue) {
+        return put(key, vblue);
     }
 
 
     /**
-     * Reads a property list (key and element pairs) from the input
-     * character stream in a simple line-oriented format.
+     * Rebds b property list (key bnd element pbirs) from the input
+     * chbrbcter strebm in b simple line-oriented formbt.
      * <p>
-     * Properties are processed in terms of lines. There are two
-     * kinds of line, <i>natural lines</i> and <i>logical lines</i>.
-     * A natural line is defined as a line of
-     * characters that is terminated either by a set of line terminator
-     * characters ({@code \n} or {@code \r} or {@code \r\n})
-     * or by the end of the stream. A natural line may be either a blank line,
-     * a comment line, or hold all or some of a key-element pair. A logical
-     * line holds all the data of a key-element pair, which may be spread
-     * out across several adjacent natural lines by escaping
-     * the line terminator sequence with a backslash character
-     * {@code \}.  Note that a comment line cannot be extended
-     * in this manner; every natural line that is a comment must have
-     * its own comment indicator, as described below. Lines are read from
-     * input until the end of the stream is reached.
+     * Properties bre processed in terms of lines. There bre two
+     * kinds of line, <i>nbturbl lines</i> bnd <i>logicbl lines</i>.
+     * A nbturbl line is defined bs b line of
+     * chbrbcters thbt is terminbted either by b set of line terminbtor
+     * chbrbcters ({@code \n} or {@code \r} or {@code \r\n})
+     * or by the end of the strebm. A nbturbl line mby be either b blbnk line,
+     * b comment line, or hold bll or some of b key-element pbir. A logicbl
+     * line holds bll the dbtb of b key-element pbir, which mby be sprebd
+     * out bcross severbl bdjbcent nbturbl lines by escbping
+     * the line terminbtor sequence with b bbckslbsh chbrbcter
+     * {@code \}.  Note thbt b comment line cbnnot be extended
+     * in this mbnner; every nbturbl line thbt is b comment must hbve
+     * its own comment indicbtor, bs described below. Lines bre rebd from
+     * input until the end of the strebm is rebched.
      *
      * <p>
-     * A natural line that contains only white space characters is
-     * considered blank and is ignored.  A comment line has an ASCII
-     * {@code '#'} or {@code '!'} as its first non-white
-     * space character; comment lines are also ignored and do not
-     * encode key-element information.  In addition to line
-     * terminators, this format considers the characters space
-     * ({@code ' '}, {@code '\u005Cu0020'}), tab
-     * ({@code '\t'}, {@code '\u005Cu0009'}), and form feed
+     * A nbturbl line thbt contbins only white spbce chbrbcters is
+     * considered blbnk bnd is ignored.  A comment line hbs bn ASCII
+     * {@code '#'} or {@code '!'} bs its first non-white
+     * spbce chbrbcter; comment lines bre blso ignored bnd do not
+     * encode key-element informbtion.  In bddition to line
+     * terminbtors, this formbt considers the chbrbcters spbce
+     * ({@code ' '}, {@code '\u005Cu0020'}), tbb
+     * ({@code '\t'}, {@code '\u005Cu0009'}), bnd form feed
      * ({@code '\f'}, {@code '\u005Cu000C'}) to be white
-     * space.
+     * spbce.
      *
      * <p>
-     * If a logical line is spread across several natural lines, the
-     * backslash escaping the line terminator sequence, the line
-     * terminator sequence, and any white space at the start of the
-     * following line have no affect on the key or element values.
-     * The remainder of the discussion of key and element parsing
-     * (when loading) will assume all the characters constituting
-     * the key and element appear on a single natural line after
-     * line continuation characters have been removed.  Note that
-     * it is <i>not</i> sufficient to only examine the character
-     * preceding a line terminator sequence to decide if the line
-     * terminator is escaped; there must be an odd number of
-     * contiguous backslashes for the line terminator to be escaped.
-     * Since the input is processed from left to right, a
-     * non-zero even number of 2<i>n</i> contiguous backslashes
-     * before a line terminator (or elsewhere) encodes <i>n</i>
-     * backslashes after escape processing.
+     * If b logicbl line is sprebd bcross severbl nbturbl lines, the
+     * bbckslbsh escbping the line terminbtor sequence, the line
+     * terminbtor sequence, bnd bny white spbce bt the stbrt of the
+     * following line hbve no bffect on the key or element vblues.
+     * The rembinder of the discussion of key bnd element pbrsing
+     * (when lobding) will bssume bll the chbrbcters constituting
+     * the key bnd element bppebr on b single nbturbl line bfter
+     * line continubtion chbrbcters hbve been removed.  Note thbt
+     * it is <i>not</i> sufficient to only exbmine the chbrbcter
+     * preceding b line terminbtor sequence to decide if the line
+     * terminbtor is escbped; there must be bn odd number of
+     * contiguous bbckslbshes for the line terminbtor to be escbped.
+     * Since the input is processed from left to right, b
+     * non-zero even number of 2<i>n</i> contiguous bbckslbshes
+     * before b line terminbtor (or elsewhere) encodes <i>n</i>
+     * bbckslbshes bfter escbpe processing.
      *
      * <p>
-     * The key contains all of the characters in the line starting
-     * with the first non-white space character and up to, but not
-     * including, the first unescaped {@code '='},
-     * {@code ':'}, or white space character other than a line
-     * terminator. All of these key termination characters may be
-     * included in the key by escaping them with a preceding backslash
-     * character; for example,<p>
+     * The key contbins bll of the chbrbcters in the line stbrting
+     * with the first non-white spbce chbrbcter bnd up to, but not
+     * including, the first unescbped {@code '='},
+     * {@code ':'}, or white spbce chbrbcter other thbn b line
+     * terminbtor. All of these key terminbtion chbrbcters mby be
+     * included in the key by escbping them with b preceding bbckslbsh
+     * chbrbcter; for exbmple,<p>
      *
      * {@code \:\=}<p>
      *
-     * would be the two-character key {@code ":="}.  Line
-     * terminator characters can be included using {@code \r} and
-     * {@code \n} escape sequences.  Any white space after the
-     * key is skipped; if the first non-white space character after
+     * would be the two-chbrbcter key {@code ":="}.  Line
+     * terminbtor chbrbcters cbn be included using {@code \r} bnd
+     * {@code \n} escbpe sequences.  Any white spbce bfter the
+     * key is skipped; if the first non-white spbce chbrbcter bfter
      * the key is {@code '='} or {@code ':'}, then it is
-     * ignored and any white space characters after it are also
-     * skipped.  All remaining characters on the line become part of
-     * the associated element string; if there are no remaining
-     * characters, the element is the empty string
-     * {@code ""}.  Once the raw character sequences
-     * constituting the key and element are identified, escape
-     * processing is performed as described above.
+     * ignored bnd bny white spbce chbrbcters bfter it bre blso
+     * skipped.  All rembining chbrbcters on the line become pbrt of
+     * the bssocibted element string; if there bre no rembining
+     * chbrbcters, the element is the empty string
+     * {@code ""}.  Once the rbw chbrbcter sequences
+     * constituting the key bnd element bre identified, escbpe
+     * processing is performed bs described bbove.
      *
      * <p>
-     * As an example, each of the following three lines specifies the key
-     * {@code "Truth"} and the associated element value
-     * {@code "Beauty"}:
+     * As bn exbmple, ebch of the following three lines specifies the key
+     * {@code "Truth"} bnd the bssocibted element vblue
+     * {@code "Bebuty"}:
      * <pre>
-     * Truth = Beauty
-     *  Truth:Beauty
-     * Truth                    :Beauty
+     * Truth = Bebuty
+     *  Truth:Bebuty
+     * Truth                    :Bebuty
      * </pre>
-     * As another example, the following three lines specify a single
+     * As bnother exbmple, the following three lines specify b single
      * property:
      * <pre>
-     * fruits                           apple, banana, pear, \
-     *                                  cantaloupe, watermelon, \
-     *                                  kiwi, mango
+     * fruits                           bpple, bbnbnb, pebr, \
+     *                                  cbntbloupe, wbtermelon, \
+     *                                  kiwi, mbngo
      * </pre>
-     * The key is {@code "fruits"} and the associated element is:
-     * <pre>"apple, banana, pear, cantaloupe, watermelon, kiwi, mango"</pre>
-     * Note that a space appears before each {@code \} so that a space
-     * will appear after each comma in the final result; the {@code \},
-     * line terminator, and leading white space on the continuation line are
-     * merely discarded and are <i>not</i> replaced by one or more other
-     * characters.
+     * The key is {@code "fruits"} bnd the bssocibted element is:
+     * <pre>"bpple, bbnbnb, pebr, cbntbloupe, wbtermelon, kiwi, mbngo"</pre>
+     * Note thbt b spbce bppebrs before ebch {@code \} so thbt b spbce
+     * will bppebr bfter ebch commb in the finbl result; the {@code \},
+     * line terminbtor, bnd lebding white spbce on the continubtion line bre
+     * merely discbrded bnd bre <i>not</i> replbced by one or more other
+     * chbrbcters.
      * <p>
-     * As a third example, the line:
+     * As b third exbmple, the line:
      * <pre>cheeses
      * </pre>
-     * specifies that the key is {@code "cheeses"} and the associated
+     * specifies thbt the key is {@code "cheeses"} bnd the bssocibted
      * element is the empty string {@code ""}.
      * <p>
-     * <a name="unicodeescapes"></a>
-     * Characters in keys and elements can be represented in escape
-     * sequences similar to those used for character and string literals
-     * (see sections 3.3 and 3.10.6 of
-     * <cite>The Java&trade; Language Specification</cite>).
+     * <b nbme="unicodeescbpes"></b>
+     * Chbrbcters in keys bnd elements cbn be represented in escbpe
+     * sequences similbr to those used for chbrbcter bnd string literbls
+     * (see sections 3.3 bnd 3.10.6 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>).
      *
-     * The differences from the character escape sequences and Unicode
-     * escapes used for characters and strings are:
+     * The differences from the chbrbcter escbpe sequences bnd Unicode
+     * escbpes used for chbrbcters bnd strings bre:
      *
      * <ul>
-     * <li> Octal escapes are not recognized.
+     * <li> Octbl escbpes bre not recognized.
      *
-     * <li> The character sequence {@code \b} does <i>not</i>
-     * represent a backspace character.
+     * <li> The chbrbcter sequence {@code \b} does <i>not</i>
+     * represent b bbckspbce chbrbcter.
      *
-     * <li> The method does not treat a backslash character,
-     * {@code \}, before a non-valid escape character as an
-     * error; the backslash is silently dropped.  For example, in a
-     * Java string the sequence {@code "\z"} would cause a
-     * compile time error.  In contrast, this method silently drops
-     * the backslash.  Therefore, this method treats the two character
-     * sequence {@code "\b"} as equivalent to the single
-     * character {@code 'b'}.
+     * <li> The method does not trebt b bbckslbsh chbrbcter,
+     * {@code \}, before b non-vblid escbpe chbrbcter bs bn
+     * error; the bbckslbsh is silently dropped.  For exbmple, in b
+     * Jbvb string the sequence {@code "\z"} would cbuse b
+     * compile time error.  In contrbst, this method silently drops
+     * the bbckslbsh.  Therefore, this method trebts the two chbrbcter
+     * sequence {@code "\b"} bs equivblent to the single
+     * chbrbcter {@code 'b'}.
      *
-     * <li> Escapes are not necessary for single and double quotes;
-     * however, by the rule above, single and double quote characters
-     * preceded by a backslash still yield single and double quote
-     * characters, respectively.
+     * <li> Escbpes bre not necessbry for single bnd double quotes;
+     * however, by the rule bbove, single bnd double quote chbrbcters
+     * preceded by b bbckslbsh still yield single bnd double quote
+     * chbrbcters, respectively.
      *
-     * <li> Only a single 'u' character is allowed in a Unicode escape
+     * <li> Only b single 'u' chbrbcter is bllowed in b Unicode escbpe
      * sequence.
      *
      * </ul>
      * <p>
-     * The specified stream remains open after this method returns.
+     * The specified strebm rembins open bfter this method returns.
      *
-     * @param   reader   the input character stream.
-     * @throws  IOException  if an error occurred when reading from the
-     *          input stream.
-     * @throws  IllegalArgumentException if a malformed Unicode escape
-     *          appears in the input.
+     * @pbrbm   rebder   the input chbrbcter strebm.
+     * @throws  IOException  if bn error occurred when rebding from the
+     *          input strebm.
+     * @throws  IllegblArgumentException if b mblformed Unicode escbpe
+     *          bppebrs in the input.
      * @since   1.6
      */
-    public synchronized void load(Reader reader) throws IOException {
-        load0(new LineReader(reader));
+    public synchronized void lobd(Rebder rebder) throws IOException {
+        lobd0(new LineRebder(rebder));
     }
 
     /**
-     * Reads a property list (key and element pairs) from the input
-     * byte stream. The input stream is in a simple line-oriented
-     * format as specified in
-     * {@link #load(java.io.Reader) load(Reader)} and is assumed to use
-     * the ISO 8859-1 character encoding; that is each byte is one Latin1
-     * character. Characters not in Latin1, and certain special characters,
-     * are represented in keys and elements using Unicode escapes as defined in
+     * Rebds b property list (key bnd element pbirs) from the input
+     * byte strebm. The input strebm is in b simple line-oriented
+     * formbt bs specified in
+     * {@link #lobd(jbvb.io.Rebder) lobd(Rebder)} bnd is bssumed to use
+     * the ISO 8859-1 chbrbcter encoding; thbt is ebch byte is one Lbtin1
+     * chbrbcter. Chbrbcters not in Lbtin1, bnd certbin specibl chbrbcters,
+     * bre represented in keys bnd elements using Unicode escbpes bs defined in
      * section 3.3 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      * <p>
-     * The specified stream remains open after this method returns.
+     * The specified strebm rembins open bfter this method returns.
      *
-     * @param      inStream   the input stream.
-     * @exception  IOException  if an error occurred when reading from the
-     *             input stream.
-     * @throws     IllegalArgumentException if the input stream contains a
-     *             malformed Unicode escape sequence.
+     * @pbrbm      inStrebm   the input strebm.
+     * @exception  IOException  if bn error occurred when rebding from the
+     *             input strebm.
+     * @throws     IllegblArgumentException if the input strebm contbins b
+     *             mblformed Unicode escbpe sequence.
      * @since 1.2
      */
-    public synchronized void load(InputStream inStream) throws IOException {
-        load0(new LineReader(inStream));
+    public synchronized void lobd(InputStrebm inStrebm) throws IOException {
+        lobd0(new LineRebder(inStrebm));
     }
 
-    private void load0 (LineReader lr) throws IOException {
-        char[] convtBuf = new char[1024];
+    privbte void lobd0 (LineRebder lr) throws IOException {
+        chbr[] convtBuf = new chbr[1024];
         int limit;
         int keyLen;
-        int valueStart;
-        char c;
-        boolean hasSep;
-        boolean precedingBackslash;
+        int vblueStbrt;
+        chbr c;
+        boolebn hbsSep;
+        boolebn precedingBbckslbsh;
 
-        while ((limit = lr.readLine()) >= 0) {
+        while ((limit = lr.rebdLine()) >= 0) {
             c = 0;
             keyLen = 0;
-            valueStart = limit;
-            hasSep = false;
+            vblueStbrt = limit;
+            hbsSep = fblse;
 
             //System.out.println("line=<" + new String(lineBuf, 0, limit) + ">");
-            precedingBackslash = false;
+            precedingBbckslbsh = fblse;
             while (keyLen < limit) {
                 c = lr.lineBuf[keyLen];
-                //need check if escaped.
-                if ((c == '=' ||  c == ':') && !precedingBackslash) {
-                    valueStart = keyLen + 1;
-                    hasSep = true;
-                    break;
-                } else if ((c == ' ' || c == '\t' ||  c == '\f') && !precedingBackslash) {
-                    valueStart = keyLen + 1;
-                    break;
+                //need check if escbped.
+                if ((c == '=' ||  c == ':') && !precedingBbckslbsh) {
+                    vblueStbrt = keyLen + 1;
+                    hbsSep = true;
+                    brebk;
+                } else if ((c == ' ' || c == '\t' ||  c == '\f') && !precedingBbckslbsh) {
+                    vblueStbrt = keyLen + 1;
+                    brebk;
                 }
                 if (c == '\\') {
-                    precedingBackslash = !precedingBackslash;
+                    precedingBbckslbsh = !precedingBbckslbsh;
                 } else {
-                    precedingBackslash = false;
+                    precedingBbckslbsh = fblse;
                 }
                 keyLen++;
             }
-            while (valueStart < limit) {
-                c = lr.lineBuf[valueStart];
+            while (vblueStbrt < limit) {
+                c = lr.lineBuf[vblueStbrt];
                 if (c != ' ' && c != '\t' &&  c != '\f') {
-                    if (!hasSep && (c == '=' ||  c == ':')) {
-                        hasSep = true;
+                    if (!hbsSep && (c == '=' ||  c == ':')) {
+                        hbsSep = true;
                     } else {
-                        break;
+                        brebk;
                     }
                 }
-                valueStart++;
+                vblueStbrt++;
             }
-            String key = loadConvert(lr.lineBuf, 0, keyLen, convtBuf);
-            String value = loadConvert(lr.lineBuf, valueStart, limit - valueStart, convtBuf);
-            put(key, value);
+            String key = lobdConvert(lr.lineBuf, 0, keyLen, convtBuf);
+            String vblue = lobdConvert(lr.lineBuf, vblueStbrt, limit - vblueStbrt, convtBuf);
+            put(key, vblue);
         }
     }
 
-    /* Read in a "logical line" from an InputStream/Reader, skip all comment
-     * and blank lines and filter out those leading whitespace characters
-     * (\u0020, \u0009 and \u000c) from the beginning of a "natural line".
-     * Method returns the char length of the "logical line" and stores
+    /* Rebd in b "logicbl line" from bn InputStrebm/Rebder, skip bll comment
+     * bnd blbnk lines bnd filter out those lebding whitespbce chbrbcters
+     * (\u0020, \u0009 bnd \u000c) from the beginning of b "nbturbl line".
+     * Method returns the chbr length of the "logicbl line" bnd stores
      * the line in "lineBuf".
      */
-    class LineReader {
-        public LineReader(InputStream inStream) {
-            this.inStream = inStream;
+    clbss LineRebder {
+        public LineRebder(InputStrebm inStrebm) {
+            this.inStrebm = inStrebm;
             inByteBuf = new byte[8192];
         }
 
-        public LineReader(Reader reader) {
-            this.reader = reader;
-            inCharBuf = new char[8192];
+        public LineRebder(Rebder rebder) {
+            this.rebder = rebder;
+            inChbrBuf = new chbr[8192];
         }
 
         byte[] inByteBuf;
-        char[] inCharBuf;
-        char[] lineBuf = new char[1024];
+        chbr[] inChbrBuf;
+        chbr[] lineBuf = new chbr[1024];
         int inLimit = 0;
         int inOff = 0;
-        InputStream inStream;
-        Reader reader;
+        InputStrebm inStrebm;
+        Rebder rebder;
 
-        int readLine() throws IOException {
+        int rebdLine() throws IOException {
             int len = 0;
-            char c = 0;
+            chbr c = 0;
 
-            boolean skipWhiteSpace = true;
-            boolean isCommentLine = false;
-            boolean isNewLine = true;
-            boolean appendedLineBegin = false;
-            boolean precedingBackslash = false;
-            boolean skipLF = false;
+            boolebn skipWhiteSpbce = true;
+            boolebn isCommentLine = fblse;
+            boolebn isNewLine = true;
+            boolebn bppendedLineBegin = fblse;
+            boolebn precedingBbckslbsh = fblse;
+            boolebn skipLF = fblse;
 
             while (true) {
                 if (inOff >= inLimit) {
-                    inLimit = (inStream==null)?reader.read(inCharBuf)
-                                              :inStream.read(inByteBuf);
+                    inLimit = (inStrebm==null)?rebder.rebd(inChbrBuf)
+                                              :inStrebm.rebd(inByteBuf);
                     inOff = 0;
                     if (inLimit <= 0) {
                         if (len == 0 || isCommentLine) {
                             return -1;
                         }
-                        if (precedingBackslash) {
+                        if (precedingBbckslbsh) {
                             len--;
                         }
                         return len;
                     }
                 }
-                if (inStream != null) {
-                    //The line below is equivalent to calling a
+                if (inStrebm != null) {
+                    //The line below is equivblent to cblling b
                     //ISO8859-1 decoder.
-                    c = (char) (0xff & inByteBuf[inOff++]);
+                    c = (chbr) (0xff & inByteBuf[inOff++]);
                 } else {
-                    c = inCharBuf[inOff++];
+                    c = inChbrBuf[inOff++];
                 }
                 if (skipLF) {
-                    skipLF = false;
+                    skipLF = fblse;
                     if (c == '\n') {
                         continue;
                     }
                 }
-                if (skipWhiteSpace) {
+                if (skipWhiteSpbce) {
                     if (c == ' ' || c == '\t' || c == '\f') {
                         continue;
                     }
-                    if (!appendedLineBegin && (c == '\r' || c == '\n')) {
+                    if (!bppendedLineBegin && (c == '\r' || c == '\n')) {
                         continue;
                     }
-                    skipWhiteSpace = false;
-                    appendedLineBegin = false;
+                    skipWhiteSpbce = fblse;
+                    bppendedLineBegin = fblse;
                 }
                 if (isNewLine) {
-                    isNewLine = false;
+                    isNewLine = fblse;
                     if (c == '#' || c == '!') {
                         isCommentLine = true;
                         continue;
@@ -482,44 +482,44 @@ class Properties extends Hashtable<Object,Object> {
                         if (newLength < 0) {
                             newLength = Integer.MAX_VALUE;
                         }
-                        char[] buf = new char[newLength];
-                        System.arraycopy(lineBuf, 0, buf, 0, lineBuf.length);
+                        chbr[] buf = new chbr[newLength];
+                        System.brrbycopy(lineBuf, 0, buf, 0, lineBuf.length);
                         lineBuf = buf;
                     }
-                    //flip the preceding backslash flag
+                    //flip the preceding bbckslbsh flbg
                     if (c == '\\') {
-                        precedingBackslash = !precedingBackslash;
+                        precedingBbckslbsh = !precedingBbckslbsh;
                     } else {
-                        precedingBackslash = false;
+                        precedingBbckslbsh = fblse;
                     }
                 }
                 else {
-                    // reached EOL
+                    // rebched EOL
                     if (isCommentLine || len == 0) {
-                        isCommentLine = false;
+                        isCommentLine = fblse;
                         isNewLine = true;
-                        skipWhiteSpace = true;
+                        skipWhiteSpbce = true;
                         len = 0;
                         continue;
                     }
                     if (inOff >= inLimit) {
-                        inLimit = (inStream==null)
-                                  ?reader.read(inCharBuf)
-                                  :inStream.read(inByteBuf);
+                        inLimit = (inStrebm==null)
+                                  ?rebder.rebd(inChbrBuf)
+                                  :inStrebm.rebd(inByteBuf);
                         inOff = 0;
                         if (inLimit <= 0) {
-                            if (precedingBackslash) {
+                            if (precedingBbckslbsh) {
                                 len--;
                             }
                             return len;
                         }
                     }
-                    if (precedingBackslash) {
+                    if (precedingBbckslbsh) {
                         len -= 1;
-                        //skip the leading whitespace characters in following line
-                        skipWhiteSpace = true;
-                        appendedLineBegin = true;
-                        precedingBackslash = false;
+                        //skip the lebding whitespbce chbrbcters in following line
+                        skipWhiteSpbce = true;
+                        bppendedLineBegin = true;
+                        precedingBbckslbsh = fblse;
                         if (c == '\r') {
                             skipLF = true;
                         }
@@ -532,71 +532,71 @@ class Properties extends Hashtable<Object,Object> {
     }
 
     /*
-     * Converts encoded &#92;uxxxx to unicode chars
-     * and changes special saved chars to their original forms
+     * Converts encoded &#92;uxxxx to unicode chbrs
+     * bnd chbnges specibl sbved chbrs to their originbl forms
      */
-    private String loadConvert (char[] in, int off, int len, char[] convtBuf) {
+    privbte String lobdConvert (chbr[] in, int off, int len, chbr[] convtBuf) {
         if (convtBuf.length < len) {
             int newLen = len * 2;
             if (newLen < 0) {
                 newLen = Integer.MAX_VALUE;
             }
-            convtBuf = new char[newLen];
+            convtBuf = new chbr[newLen];
         }
-        char aChar;
-        char[] out = convtBuf;
+        chbr bChbr;
+        chbr[] out = convtBuf;
         int outLen = 0;
         int end = off + len;
 
         while (off < end) {
-            aChar = in[off++];
-            if (aChar == '\\') {
-                aChar = in[off++];
-                if(aChar == 'u') {
-                    // Read the xxxx
-                    int value=0;
+            bChbr = in[off++];
+            if (bChbr == '\\') {
+                bChbr = in[off++];
+                if(bChbr == 'u') {
+                    // Rebd the xxxx
+                    int vblue=0;
                     for (int i=0; i<4; i++) {
-                        aChar = in[off++];
-                        switch (aChar) {
-                          case '0': case '1': case '2': case '3': case '4':
-                          case '5': case '6': case '7': case '8': case '9':
-                             value = (value << 4) + aChar - '0';
-                             break;
-                          case 'a': case 'b': case 'c':
-                          case 'd': case 'e': case 'f':
-                             value = (value << 4) + 10 + aChar - 'a';
-                             break;
-                          case 'A': case 'B': case 'C':
-                          case 'D': case 'E': case 'F':
-                             value = (value << 4) + 10 + aChar - 'A';
-                             break;
-                          default:
-                              throw new IllegalArgumentException(
-                                           "Malformed \\uxxxx encoding.");
+                        bChbr = in[off++];
+                        switch (bChbr) {
+                          cbse '0': cbse '1': cbse '2': cbse '3': cbse '4':
+                          cbse '5': cbse '6': cbse '7': cbse '8': cbse '9':
+                             vblue = (vblue << 4) + bChbr - '0';
+                             brebk;
+                          cbse 'b': cbse 'b': cbse 'c':
+                          cbse 'd': cbse 'e': cbse 'f':
+                             vblue = (vblue << 4) + 10 + bChbr - 'b';
+                             brebk;
+                          cbse 'A': cbse 'B': cbse 'C':
+                          cbse 'D': cbse 'E': cbse 'F':
+                             vblue = (vblue << 4) + 10 + bChbr - 'A';
+                             brebk;
+                          defbult:
+                              throw new IllegblArgumentException(
+                                           "Mblformed \\uxxxx encoding.");
                         }
                      }
-                    out[outLen++] = (char)value;
+                    out[outLen++] = (chbr)vblue;
                 } else {
-                    if (aChar == 't') aChar = '\t';
-                    else if (aChar == 'r') aChar = '\r';
-                    else if (aChar == 'n') aChar = '\n';
-                    else if (aChar == 'f') aChar = '\f';
-                    out[outLen++] = aChar;
+                    if (bChbr == 't') bChbr = '\t';
+                    else if (bChbr == 'r') bChbr = '\r';
+                    else if (bChbr == 'n') bChbr = '\n';
+                    else if (bChbr == 'f') bChbr = '\f';
+                    out[outLen++] = bChbr;
                 }
             } else {
-                out[outLen++] = aChar;
+                out[outLen++] = bChbr;
             }
         }
         return new String (out, 0, outLen);
     }
 
     /*
-     * Converts unicodes to encoded &#92;uxxxx and escapes
-     * special characters with a preceding slash
+     * Converts unicodes to encoded &#92;uxxxx bnd escbpes
+     * specibl chbrbcters with b preceding slbsh
      */
-    private String saveConvert(String theString,
-                               boolean escapeSpace,
-                               boolean escapeUnicode) {
+    privbte String sbveConvert(String theString,
+                               boolebn escbpeSpbce,
+                               boolebn escbpeUnicode) {
         int len = theString.length();
         int bufLen = len * 2;
         if (bufLen < 0) {
@@ -605,67 +605,67 @@ class Properties extends Hashtable<Object,Object> {
         StringBuilder outBuffer = new StringBuilder(bufLen);
 
         for(int x=0; x<len; x++) {
-            char aChar = theString.charAt(x);
-            // Handle common case first, selecting largest block that
-            // avoids the specials below
-            if ((aChar > 61) && (aChar < 127)) {
-                if (aChar == '\\') {
-                    outBuffer.append('\\'); outBuffer.append('\\');
+            chbr bChbr = theString.chbrAt(x);
+            // Hbndle common cbse first, selecting lbrgest block thbt
+            // bvoids the specibls below
+            if ((bChbr > 61) && (bChbr < 127)) {
+                if (bChbr == '\\') {
+                    outBuffer.bppend('\\'); outBuffer.bppend('\\');
                     continue;
                 }
-                outBuffer.append(aChar);
+                outBuffer.bppend(bChbr);
                 continue;
             }
-            switch(aChar) {
-                case ' ':
-                    if (x == 0 || escapeSpace)
-                        outBuffer.append('\\');
-                    outBuffer.append(' ');
-                    break;
-                case '\t':outBuffer.append('\\'); outBuffer.append('t');
-                          break;
-                case '\n':outBuffer.append('\\'); outBuffer.append('n');
-                          break;
-                case '\r':outBuffer.append('\\'); outBuffer.append('r');
-                          break;
-                case '\f':outBuffer.append('\\'); outBuffer.append('f');
-                          break;
-                case '=': // Fall through
-                case ':': // Fall through
-                case '#': // Fall through
-                case '!':
-                    outBuffer.append('\\'); outBuffer.append(aChar);
-                    break;
-                default:
-                    if (((aChar < 0x0020) || (aChar > 0x007e)) & escapeUnicode ) {
-                        outBuffer.append('\\');
-                        outBuffer.append('u');
-                        outBuffer.append(toHex((aChar >> 12) & 0xF));
-                        outBuffer.append(toHex((aChar >>  8) & 0xF));
-                        outBuffer.append(toHex((aChar >>  4) & 0xF));
-                        outBuffer.append(toHex( aChar        & 0xF));
+            switch(bChbr) {
+                cbse ' ':
+                    if (x == 0 || escbpeSpbce)
+                        outBuffer.bppend('\\');
+                    outBuffer.bppend(' ');
+                    brebk;
+                cbse '\t':outBuffer.bppend('\\'); outBuffer.bppend('t');
+                          brebk;
+                cbse '\n':outBuffer.bppend('\\'); outBuffer.bppend('n');
+                          brebk;
+                cbse '\r':outBuffer.bppend('\\'); outBuffer.bppend('r');
+                          brebk;
+                cbse '\f':outBuffer.bppend('\\'); outBuffer.bppend('f');
+                          brebk;
+                cbse '=': // Fbll through
+                cbse ':': // Fbll through
+                cbse '#': // Fbll through
+                cbse '!':
+                    outBuffer.bppend('\\'); outBuffer.bppend(bChbr);
+                    brebk;
+                defbult:
+                    if (((bChbr < 0x0020) || (bChbr > 0x007e)) & escbpeUnicode ) {
+                        outBuffer.bppend('\\');
+                        outBuffer.bppend('u');
+                        outBuffer.bppend(toHex((bChbr >> 12) & 0xF));
+                        outBuffer.bppend(toHex((bChbr >>  8) & 0xF));
+                        outBuffer.bppend(toHex((bChbr >>  4) & 0xF));
+                        outBuffer.bppend(toHex( bChbr        & 0xF));
                     } else {
-                        outBuffer.append(aChar);
+                        outBuffer.bppend(bChbr);
                     }
             }
         }
         return outBuffer.toString();
     }
 
-    private static void writeComments(BufferedWriter bw, String comments)
+    privbte stbtic void writeComments(BufferedWriter bw, String comments)
         throws IOException {
         bw.write("#");
         int len = comments.length();
         int current = 0;
-        int last = 0;
-        char[] uu = new char[6];
+        int lbst = 0;
+        chbr[] uu = new chbr[6];
         uu[0] = '\\';
         uu[1] = 'u';
         while (current < len) {
-            char c = comments.charAt(current);
+            chbr c = comments.chbrAt(current);
             if (c > '\u00ff' || c == '\n' || c == '\r') {
-                if (last != current)
-                    bw.write(comments.substring(last, current));
+                if (lbst != current)
+                    bw.write(comments.substring(lbst, current));
                 if (c > '\u00ff') {
                     uu[2] = toHex((c >> 12) & 0xf);
                     uu[3] = toHex((c >>  8) & 0xf);
@@ -676,167 +676,167 @@ class Properties extends Hashtable<Object,Object> {
                     bw.newLine();
                     if (c == '\r' &&
                         current != len - 1 &&
-                        comments.charAt(current + 1) == '\n') {
+                        comments.chbrAt(current + 1) == '\n') {
                         current++;
                     }
                     if (current == len - 1 ||
-                        (comments.charAt(current + 1) != '#' &&
-                        comments.charAt(current + 1) != '!'))
+                        (comments.chbrAt(current + 1) != '#' &&
+                        comments.chbrAt(current + 1) != '!'))
                         bw.write("#");
                 }
-                last = current + 1;
+                lbst = current + 1;
             }
             current++;
         }
-        if (last != current)
-            bw.write(comments.substring(last, current));
+        if (lbst != current)
+            bw.write(comments.substring(lbst, current));
         bw.newLine();
     }
 
     /**
-     * Calls the {@code store(OutputStream out, String comments)} method
-     * and suppresses IOExceptions that were thrown.
+     * Cblls the {@code store(OutputStrebm out, String comments)} method
+     * bnd suppresses IOExceptions thbt were thrown.
      *
-     * @deprecated This method does not throw an IOException if an I/O error
-     * occurs while saving the property list.  The preferred way to save a
-     * properties list is via the {@code store(OutputStream out,
+     * @deprecbted This method does not throw bn IOException if bn I/O error
+     * occurs while sbving the property list.  The preferred wby to sbve b
+     * properties list is vib the {@code store(OutputStrebm out,
      * String comments)} method or the
-     * {@code storeToXML(OutputStream os, String comment)} method.
+     * {@code storeToXML(OutputStrebm os, String comment)} method.
      *
-     * @param   out      an output stream.
-     * @param   comments   a description of the property list.
-     * @exception  ClassCastException  if this {@code Properties} object
-     *             contains any keys or values that are not
+     * @pbrbm   out      bn output strebm.
+     * @pbrbm   comments   b description of the property list.
+     * @exception  ClbssCbstException  if this {@code Properties} object
+     *             contbins bny keys or vblues thbt bre not
      *             {@code Strings}.
      */
-    @Deprecated
-    public void save(OutputStream out, String comments)  {
+    @Deprecbted
+    public void sbve(OutputStrebm out, String comments)  {
         try {
             store(out, comments);
-        } catch (IOException e) {
+        } cbtch (IOException e) {
         }
     }
 
     /**
-     * Writes this property list (key and element pairs) in this
-     * {@code Properties} table to the output character stream in a
-     * format suitable for using the {@link #load(java.io.Reader) load(Reader)}
+     * Writes this property list (key bnd element pbirs) in this
+     * {@code Properties} tbble to the output chbrbcter strebm in b
+     * formbt suitbble for using the {@link #lobd(jbvb.io.Rebder) lobd(Rebder)}
      * method.
      * <p>
-     * Properties from the defaults table of this {@code Properties}
-     * table (if any) are <i>not</i> written out by this method.
+     * Properties from the defbults tbble of this {@code Properties}
+     * tbble (if bny) bre <i>not</i> written out by this method.
      * <p>
-     * If the comments argument is not null, then an ASCII {@code #}
-     * character, the comments string, and a line separator are first written
-     * to the output stream. Thus, the {@code comments} can serve as an
-     * identifying comment. Any one of a line feed ('\n'), a carriage
-     * return ('\r'), or a carriage return followed immediately by a line feed
-     * in comments is replaced by a line separator generated by the {@code Writer}
-     * and if the next character in comments is not character {@code #} or
-     * character {@code !} then an ASCII {@code #} is written out
-     * after that line separator.
+     * If the comments brgument is not null, then bn ASCII {@code #}
+     * chbrbcter, the comments string, bnd b line sepbrbtor bre first written
+     * to the output strebm. Thus, the {@code comments} cbn serve bs bn
+     * identifying comment. Any one of b line feed ('\n'), b cbrribge
+     * return ('\r'), or b cbrribge return followed immedibtely by b line feed
+     * in comments is replbced by b line sepbrbtor generbted by the {@code Writer}
+     * bnd if the next chbrbcter in comments is not chbrbcter {@code #} or
+     * chbrbcter {@code !} then bn ASCII {@code #} is written out
+     * bfter thbt line sepbrbtor.
      * <p>
-     * Next, a comment line is always written, consisting of an ASCII
-     * {@code #} character, the current date and time (as if produced
-     * by the {@code toString} method of {@code Date} for the
-     * current time), and a line separator as generated by the {@code Writer}.
+     * Next, b comment line is blwbys written, consisting of bn ASCII
+     * {@code #} chbrbcter, the current dbte bnd time (bs if produced
+     * by the {@code toString} method of {@code Dbte} for the
+     * current time), bnd b line sepbrbtor bs generbted by the {@code Writer}.
      * <p>
-     * Then every entry in this {@code Properties} table is
-     * written out, one per line. For each entry the key string is
-     * written, then an ASCII {@code =}, then the associated
-     * element string. For the key, all space characters are
-     * written with a preceding {@code \} character.  For the
-     * element, leading space characters, but not embedded or trailing
-     * space characters, are written with a preceding {@code \}
-     * character. The key and element characters {@code #},
-     * {@code !}, {@code =}, and {@code :} are written
-     * with a preceding backslash to ensure that they are properly loaded.
+     * Then every entry in this {@code Properties} tbble is
+     * written out, one per line. For ebch entry the key string is
+     * written, then bn ASCII {@code =}, then the bssocibted
+     * element string. For the key, bll spbce chbrbcters bre
+     * written with b preceding {@code \} chbrbcter.  For the
+     * element, lebding spbce chbrbcters, but not embedded or trbiling
+     * spbce chbrbcters, bre written with b preceding {@code \}
+     * chbrbcter. The key bnd element chbrbcters {@code #},
+     * {@code !}, {@code =}, bnd {@code :} bre written
+     * with b preceding bbckslbsh to ensure thbt they bre properly lobded.
      * <p>
-     * After the entries have been written, the output stream is flushed.
-     * The output stream remains open after this method returns.
+     * After the entries hbve been written, the output strebm is flushed.
+     * The output strebm rembins open bfter this method returns.
      *
-     * @param   writer      an output character stream writer.
-     * @param   comments   a description of the property list.
+     * @pbrbm   writer      bn output chbrbcter strebm writer.
+     * @pbrbm   comments   b description of the property list.
      * @exception  IOException if writing this property list to the specified
-     *             output stream throws an <tt>IOException</tt>.
-     * @exception  ClassCastException  if this {@code Properties} object
-     *             contains any keys or values that are not {@code Strings}.
+     *             output strebm throws bn <tt>IOException</tt>.
+     * @exception  ClbssCbstException  if this {@code Properties} object
+     *             contbins bny keys or vblues thbt bre not {@code Strings}.
      * @exception  NullPointerException  if {@code writer} is null.
      * @since 1.6
      */
     public void store(Writer writer, String comments)
         throws IOException
     {
-        store0((writer instanceof BufferedWriter)?(BufferedWriter)writer
+        store0((writer instbnceof BufferedWriter)?(BufferedWriter)writer
                                                  : new BufferedWriter(writer),
                comments,
-               false);
+               fblse);
     }
 
     /**
-     * Writes this property list (key and element pairs) in this
-     * {@code Properties} table to the output stream in a format suitable
-     * for loading into a {@code Properties} table using the
-     * {@link #load(InputStream) load(InputStream)} method.
+     * Writes this property list (key bnd element pbirs) in this
+     * {@code Properties} tbble to the output strebm in b formbt suitbble
+     * for lobding into b {@code Properties} tbble using the
+     * {@link #lobd(InputStrebm) lobd(InputStrebm)} method.
      * <p>
-     * Properties from the defaults table of this {@code Properties}
-     * table (if any) are <i>not</i> written out by this method.
+     * Properties from the defbults tbble of this {@code Properties}
+     * tbble (if bny) bre <i>not</i> written out by this method.
      * <p>
-     * This method outputs the comments, properties keys and values in
-     * the same format as specified in
-     * {@link #store(java.io.Writer, java.lang.String) store(Writer)},
+     * This method outputs the comments, properties keys bnd vblues in
+     * the sbme formbt bs specified in
+     * {@link #store(jbvb.io.Writer, jbvb.lbng.String) store(Writer)},
      * with the following differences:
      * <ul>
-     * <li>The stream is written using the ISO 8859-1 character encoding.
+     * <li>The strebm is written using the ISO 8859-1 chbrbcter encoding.
      *
-     * <li>Characters not in Latin-1 in the comments are written as
-     * {@code \u005Cu}<i>xxxx</i> for their appropriate unicode
-     * hexadecimal value <i>xxxx</i>.
+     * <li>Chbrbcters not in Lbtin-1 in the comments bre written bs
+     * {@code \u005Cu}<i>xxxx</i> for their bppropribte unicode
+     * hexbdecimbl vblue <i>xxxx</i>.
      *
-     * <li>Characters less than {@code \u005Cu0020} and characters greater
-     * than {@code \u005Cu007E} in property keys or values are written
-     * as {@code \u005Cu}<i>xxxx</i> for the appropriate hexadecimal
-     * value <i>xxxx</i>.
+     * <li>Chbrbcters less thbn {@code \u005Cu0020} bnd chbrbcters grebter
+     * thbn {@code \u005Cu007E} in property keys or vblues bre written
+     * bs {@code \u005Cu}<i>xxxx</i> for the bppropribte hexbdecimbl
+     * vblue <i>xxxx</i>.
      * </ul>
      * <p>
-     * After the entries have been written, the output stream is flushed.
-     * The output stream remains open after this method returns.
+     * After the entries hbve been written, the output strebm is flushed.
+     * The output strebm rembins open bfter this method returns.
      *
-     * @param   out      an output stream.
-     * @param   comments   a description of the property list.
+     * @pbrbm   out      bn output strebm.
+     * @pbrbm   comments   b description of the property list.
      * @exception  IOException if writing this property list to the specified
-     *             output stream throws an <tt>IOException</tt>.
-     * @exception  ClassCastException  if this {@code Properties} object
-     *             contains any keys or values that are not {@code Strings}.
+     *             output strebm throws bn <tt>IOException</tt>.
+     * @exception  ClbssCbstException  if this {@code Properties} object
+     *             contbins bny keys or vblues thbt bre not {@code Strings}.
      * @exception  NullPointerException  if {@code out} is null.
      * @since 1.2
      */
-    public void store(OutputStream out, String comments)
+    public void store(OutputStrebm out, String comments)
         throws IOException
     {
-        store0(new BufferedWriter(new OutputStreamWriter(out, "8859_1")),
+        store0(new BufferedWriter(new OutputStrebmWriter(out, "8859_1")),
                comments,
                true);
     }
 
-    private void store0(BufferedWriter bw, String comments, boolean escUnicode)
+    privbte void store0(BufferedWriter bw, String comments, boolebn escUnicode)
         throws IOException
     {
         if (comments != null) {
             writeComments(bw, comments);
         }
-        bw.write("#" + new Date().toString());
+        bw.write("#" + new Dbte().toString());
         bw.newLine();
         synchronized (this) {
-            for (Enumeration<?> e = keys(); e.hasMoreElements();) {
+            for (Enumerbtion<?> e = keys(); e.hbsMoreElements();) {
                 String key = (String)e.nextElement();
-                String val = (String)get(key);
-                key = saveConvert(key, true, escUnicode);
-                /* No need to escape embedded and trailing spaces for value, hence
-                 * pass false to flag.
+                String vbl = (String)get(key);
+                key = sbveConvert(key, true, escUnicode);
+                /* No need to escbpe embedded bnd trbiling spbces for vblue, hence
+                 * pbss fblse to flbg.
                  */
-                val = saveConvert(val, false, escUnicode);
-                bw.write(key + "=" + val);
+                vbl = sbveConvert(vbl, fblse, escUnicode);
+                bw.write(key + "=" + vbl);
                 bw.newLine();
             }
         }
@@ -844,292 +844,292 @@ class Properties extends Hashtable<Object,Object> {
     }
 
     /**
-     * Loads all of the properties represented by the XML document on the
-     * specified input stream into this properties table.
+     * Lobds bll of the properties represented by the XML document on the
+     * specified input strebm into this properties tbble.
      *
-     * <p>The XML document must have the following DOCTYPE declaration:
+     * <p>The XML document must hbve the following DOCTYPE declbrbtion:
      * <pre>
-     * &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+     * &lt;!DOCTYPE properties SYSTEM "http://jbvb.sun.com/dtd/properties.dtd"&gt;
      * </pre>
-     * Furthermore, the document must satisfy the properties DTD described
-     * above.
+     * Furthermore, the document must sbtisfy the properties DTD described
+     * bbove.
      *
-     * <p> An implementation is required to read XML documents that use the
-     * "{@code UTF-8}" or "{@code UTF-16}" encoding. An implementation may
-     * support additional encodings.
+     * <p> An implementbtion is required to rebd XML documents thbt use the
+     * "{@code UTF-8}" or "{@code UTF-16}" encoding. An implementbtion mby
+     * support bdditionbl encodings.
      *
-     * <p>The specified stream is closed after this method returns.
+     * <p>The specified strebm is closed bfter this method returns.
      *
-     * @param in the input stream from which to read the XML document.
-     * @throws IOException if reading from the specified input stream
-     *         results in an <tt>IOException</tt>.
-     * @throws java.io.UnsupportedEncodingException if the document's encoding
-     *         declaration can be read and it specifies an encoding that is not
+     * @pbrbm in the input strebm from which to rebd the XML document.
+     * @throws IOException if rebding from the specified input strebm
+     *         results in bn <tt>IOException</tt>.
+     * @throws jbvb.io.UnsupportedEncodingException if the document's encoding
+     *         declbrbtion cbn be rebd bnd it specifies bn encoding thbt is not
      *         supported
-     * @throws InvalidPropertiesFormatException Data on input stream does not
-     *         constitute a valid XML document with the mandated document type.
+     * @throws InvblidPropertiesFormbtException Dbtb on input strebm does not
+     *         constitute b vblid XML document with the mbndbted document type.
      * @throws NullPointerException if {@code in} is null.
-     * @see    #storeToXML(OutputStream, String, String)
-     * @see    <a href="http://www.w3.org/TR/REC-xml/#charencoding">Character
-     *         Encoding in Entities</a>
+     * @see    #storeToXML(OutputStrebm, String, String)
+     * @see    <b href="http://www.w3.org/TR/REC-xml/#chbrencoding">Chbrbcter
+     *         Encoding in Entities</b>
      * @since 1.5
      */
-    public synchronized void loadFromXML(InputStream in)
-        throws IOException, InvalidPropertiesFormatException
+    public synchronized void lobdFromXML(InputStrebm in)
+        throws IOException, InvblidPropertiesFormbtException
     {
         Objects.requireNonNull(in);
-        PropertiesDefaultHandler handler = new PropertiesDefaultHandler();
-        handler.load(this, in);
+        PropertiesDefbultHbndler hbndler = new PropertiesDefbultHbndler();
+        hbndler.lobd(this, in);
         in.close();
     }
 
     /**
-     * Emits an XML document representing all of the properties contained
-     * in this table.
+     * Emits bn XML document representing bll of the properties contbined
+     * in this tbble.
      *
-     * <p> An invocation of this method of the form <tt>props.storeToXML(os,
-     * comment)</tt> behaves in exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>props.storeToXML(os,
+     * comment)</tt> behbves in exbctly the sbme wby bs the invocbtion
      * <tt>props.storeToXML(os, comment, "UTF-8");</tt>.
      *
-     * @param os the output stream on which to emit the XML document.
-     * @param comment a description of the property list, or {@code null}
+     * @pbrbm os the output strebm on which to emit the XML document.
+     * @pbrbm comment b description of the property list, or {@code null}
      *        if no comment is desired.
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
+     * @throws IOException if writing to the specified output strebm
+     *         results in bn <tt>IOException</tt>.
      * @throws NullPointerException if {@code os} is null.
-     * @throws ClassCastException  if this {@code Properties} object
-     *         contains any keys or values that are not
+     * @throws ClbssCbstException  if this {@code Properties} object
+     *         contbins bny keys or vblues thbt bre not
      *         {@code Strings}.
-     * @see    #loadFromXML(InputStream)
+     * @see    #lobdFromXML(InputStrebm)
      * @since 1.5
      */
-    public void storeToXML(OutputStream os, String comment)
+    public void storeToXML(OutputStrebm os, String comment)
         throws IOException
     {
         storeToXML(os, comment, "UTF-8");
     }
 
     /**
-     * Emits an XML document representing all of the properties contained
-     * in this table, using the specified encoding.
+     * Emits bn XML document representing bll of the properties contbined
+     * in this tbble, using the specified encoding.
      *
-     * <p>The XML document will have the following DOCTYPE declaration:
+     * <p>The XML document will hbve the following DOCTYPE declbrbtion:
      * <pre>
-     * &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+     * &lt;!DOCTYPE properties SYSTEM "http://jbvb.sun.com/dtd/properties.dtd"&gt;
      * </pre>
      *
      * <p>If the specified comment is {@code null} then no comment
      * will be stored in the document.
      *
-     * <p> An implementation is required to support writing of XML documents
-     * that use the "{@code UTF-8}" or "{@code UTF-16}" encoding. An
-     * implementation may support additional encodings.
+     * <p> An implementbtion is required to support writing of XML documents
+     * thbt use the "{@code UTF-8}" or "{@code UTF-16}" encoding. An
+     * implementbtion mby support bdditionbl encodings.
      *
-     * <p>The specified stream remains open after this method returns.
+     * <p>The specified strebm rembins open bfter this method returns.
      *
-     * @param os        the output stream on which to emit the XML document.
-     * @param comment   a description of the property list, or {@code null}
+     * @pbrbm os        the output strebm on which to emit the XML document.
+     * @pbrbm comment   b description of the property list, or {@code null}
      *                  if no comment is desired.
-     * @param  encoding the name of a supported
-     *                  <a href="../lang/package-summary.html#charenc">
-     *                  character encoding</a>
+     * @pbrbm  encoding the nbme of b supported
+     *                  <b href="../lbng/pbckbge-summbry.html#chbrenc">
+     *                  chbrbcter encoding</b>
      *
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws java.io.UnsupportedEncodingException if the encoding is not
-     *         supported by the implementation.
+     * @throws IOException if writing to the specified output strebm
+     *         results in bn <tt>IOException</tt>.
+     * @throws jbvb.io.UnsupportedEncodingException if the encoding is not
+     *         supported by the implementbtion.
      * @throws NullPointerException if {@code os} is {@code null},
      *         or if {@code encoding} is {@code null}.
-     * @throws ClassCastException  if this {@code Properties} object
-     *         contains any keys or values that are not
+     * @throws ClbssCbstException  if this {@code Properties} object
+     *         contbins bny keys or vblues thbt bre not
      *         {@code Strings}.
-     * @see    #loadFromXML(InputStream)
-     * @see    <a href="http://www.w3.org/TR/REC-xml/#charencoding">Character
-     *         Encoding in Entities</a>
+     * @see    #lobdFromXML(InputStrebm)
+     * @see    <b href="http://www.w3.org/TR/REC-xml/#chbrencoding">Chbrbcter
+     *         Encoding in Entities</b>
      * @since 1.5
      */
-    public void storeToXML(OutputStream os, String comment, String encoding)
+    public void storeToXML(OutputStrebm os, String comment, String encoding)
         throws IOException
     {
         Objects.requireNonNull(os);
         Objects.requireNonNull(encoding);
-        PropertiesDefaultHandler handler = new PropertiesDefaultHandler();
-        handler.store(this, os, comment, encoding);
+        PropertiesDefbultHbndler hbndler = new PropertiesDefbultHbndler();
+        hbndler.store(this, os, comment, encoding);
     }
 
     /**
-     * Searches for the property with the specified key in this property list.
-     * If the key is not found in this property list, the default property list,
-     * and its defaults, recursively, are then checked. The method returns
+     * Sebrches for the property with the specified key in this property list.
+     * If the key is not found in this property list, the defbult property list,
+     * bnd its defbults, recursively, bre then checked. The method returns
      * {@code null} if the property is not found.
      *
-     * @param   key   the property key.
-     * @return  the value in this property list with the specified key value.
+     * @pbrbm   key   the property key.
+     * @return  the vblue in this property list with the specified key vblue.
      * @see     #setProperty
-     * @see     #defaults
+     * @see     #defbults
      */
     public String getProperty(String key) {
-        Object oval = super.get(key);
-        String sval = (oval instanceof String) ? (String)oval : null;
-        return ((sval == null) && (defaults != null)) ? defaults.getProperty(key) : sval;
+        Object ovbl = super.get(key);
+        String svbl = (ovbl instbnceof String) ? (String)ovbl : null;
+        return ((svbl == null) && (defbults != null)) ? defbults.getProperty(key) : svbl;
     }
 
     /**
-     * Searches for the property with the specified key in this property list.
-     * If the key is not found in this property list, the default property list,
-     * and its defaults, recursively, are then checked. The method returns the
-     * default value argument if the property is not found.
+     * Sebrches for the property with the specified key in this property list.
+     * If the key is not found in this property list, the defbult property list,
+     * bnd its defbults, recursively, bre then checked. The method returns the
+     * defbult vblue brgument if the property is not found.
      *
-     * @param   key            the hashtable key.
-     * @param   defaultValue   a default value.
+     * @pbrbm   key            the hbshtbble key.
+     * @pbrbm   defbultVblue   b defbult vblue.
      *
-     * @return  the value in this property list with the specified key value.
+     * @return  the vblue in this property list with the specified key vblue.
      * @see     #setProperty
-     * @see     #defaults
+     * @see     #defbults
      */
-    public String getProperty(String key, String defaultValue) {
-        String val = getProperty(key);
-        return (val == null) ? defaultValue : val;
+    public String getProperty(String key, String defbultVblue) {
+        String vbl = getProperty(key);
+        return (vbl == null) ? defbultVblue : vbl;
     }
 
     /**
-     * Returns an enumeration of all the keys in this property list,
-     * including distinct keys in the default property list if a key
-     * of the same name has not already been found from the main
+     * Returns bn enumerbtion of bll the keys in this property list,
+     * including distinct keys in the defbult property list if b key
+     * of the sbme nbme hbs not blrebdy been found from the mbin
      * properties list.
      *
-     * @return  an enumeration of all the keys in this property list, including
-     *          the keys in the default property list.
-     * @throws  ClassCastException if any key in this property list
-     *          is not a string.
-     * @see     java.util.Enumeration
-     * @see     java.util.Properties#defaults
-     * @see     #stringPropertyNames
+     * @return  bn enumerbtion of bll the keys in this property list, including
+     *          the keys in the defbult property list.
+     * @throws  ClbssCbstException if bny key in this property list
+     *          is not b string.
+     * @see     jbvb.util.Enumerbtion
+     * @see     jbvb.util.Properties#defbults
+     * @see     #stringPropertyNbmes
      */
-    public Enumeration<?> propertyNames() {
-        Hashtable<String,Object> h = new Hashtable<>();
-        enumerate(h);
+    public Enumerbtion<?> propertyNbmes() {
+        Hbshtbble<String,Object> h = new Hbshtbble<>();
+        enumerbte(h);
         return h.keys();
     }
 
     /**
-     * Returns a set of keys in this property list where
-     * the key and its corresponding value are strings,
-     * including distinct keys in the default property list if a key
-     * of the same name has not already been found from the main
-     * properties list.  Properties whose key or value is not
-     * of type <tt>String</tt> are omitted.
+     * Returns b set of keys in this property list where
+     * the key bnd its corresponding vblue bre strings,
+     * including distinct keys in the defbult property list if b key
+     * of the sbme nbme hbs not blrebdy been found from the mbin
+     * properties list.  Properties whose key or vblue is not
+     * of type <tt>String</tt> bre omitted.
      * <p>
-     * The returned set is not backed by the <tt>Properties</tt> object.
-     * Changes to this <tt>Properties</tt> are not reflected in the set,
-     * or vice versa.
+     * The returned set is not bbcked by the <tt>Properties</tt> object.
+     * Chbnges to this <tt>Properties</tt> bre not reflected in the set,
+     * or vice versb.
      *
-     * @return  a set of keys in this property list where
-     *          the key and its corresponding value are strings,
-     *          including the keys in the default property list.
-     * @see     java.util.Properties#defaults
+     * @return  b set of keys in this property list where
+     *          the key bnd its corresponding vblue bre strings,
+     *          including the keys in the defbult property list.
+     * @see     jbvb.util.Properties#defbults
      * @since   1.6
      */
-    public Set<String> stringPropertyNames() {
-        Hashtable<String, String> h = new Hashtable<>();
-        enumerateStringProperties(h);
+    public Set<String> stringPropertyNbmes() {
+        Hbshtbble<String, String> h = new Hbshtbble<>();
+        enumerbteStringProperties(h);
         return h.keySet();
     }
 
     /**
-     * Prints this property list out to the specified output stream.
+     * Prints this property list out to the specified output strebm.
      * This method is useful for debugging.
      *
-     * @param   out   an output stream.
-     * @throws  ClassCastException if any key in this property list
-     *          is not a string.
+     * @pbrbm   out   bn output strebm.
+     * @throws  ClbssCbstException if bny key in this property list
+     *          is not b string.
      */
-    public void list(PrintStream out) {
+    public void list(PrintStrebm out) {
         out.println("-- listing properties --");
-        Hashtable<String,Object> h = new Hashtable<>();
-        enumerate(h);
-        for (Enumeration<String> e = h.keys() ; e.hasMoreElements() ;) {
+        Hbshtbble<String,Object> h = new Hbshtbble<>();
+        enumerbte(h);
+        for (Enumerbtion<String> e = h.keys() ; e.hbsMoreElements() ;) {
             String key = e.nextElement();
-            String val = (String)h.get(key);
-            if (val.length() > 40) {
-                val = val.substring(0, 37) + "...";
+            String vbl = (String)h.get(key);
+            if (vbl.length() > 40) {
+                vbl = vbl.substring(0, 37) + "...";
             }
-            out.println(key + "=" + val);
+            out.println(key + "=" + vbl);
         }
     }
 
     /**
-     * Prints this property list out to the specified output stream.
+     * Prints this property list out to the specified output strebm.
      * This method is useful for debugging.
      *
-     * @param   out   an output stream.
-     * @throws  ClassCastException if any key in this property list
-     *          is not a string.
+     * @pbrbm   out   bn output strebm.
+     * @throws  ClbssCbstException if bny key in this property list
+     *          is not b string.
      * @since   1.1
      */
     /*
-     * Rather than use an anonymous inner class to share common code, this
-     * method is duplicated in order to ensure that a non-1.1 compiler can
+     * Rbther thbn use bn bnonymous inner clbss to shbre common code, this
+     * method is duplicbted in order to ensure thbt b non-1.1 compiler cbn
      * compile this file.
      */
     public void list(PrintWriter out) {
         out.println("-- listing properties --");
-        Hashtable<String,Object> h = new Hashtable<>();
-        enumerate(h);
-        for (Enumeration<String> e = h.keys() ; e.hasMoreElements() ;) {
+        Hbshtbble<String,Object> h = new Hbshtbble<>();
+        enumerbte(h);
+        for (Enumerbtion<String> e = h.keys() ; e.hbsMoreElements() ;) {
             String key = e.nextElement();
-            String val = (String)h.get(key);
-            if (val.length() > 40) {
-                val = val.substring(0, 37) + "...";
+            String vbl = (String)h.get(key);
+            if (vbl.length() > 40) {
+                vbl = vbl.substring(0, 37) + "...";
             }
-            out.println(key + "=" + val);
+            out.println(key + "=" + vbl);
         }
     }
 
     /**
-     * Enumerates all key/value pairs in the specified hashtable.
-     * @param h the hashtable
-     * @throws ClassCastException if any of the property keys
+     * Enumerbtes bll key/vblue pbirs in the specified hbshtbble.
+     * @pbrbm h the hbshtbble
+     * @throws ClbssCbstException if bny of the property keys
      *         is not of String type.
      */
-    private synchronized void enumerate(Hashtable<String,Object> h) {
-        if (defaults != null) {
-            defaults.enumerate(h);
+    privbte synchronized void enumerbte(Hbshtbble<String,Object> h) {
+        if (defbults != null) {
+            defbults.enumerbte(h);
         }
-        for (Enumeration<?> e = keys() ; e.hasMoreElements() ;) {
+        for (Enumerbtion<?> e = keys() ; e.hbsMoreElements() ;) {
             String key = (String)e.nextElement();
             h.put(key, get(key));
         }
     }
 
     /**
-     * Enumerates all key/value pairs in the specified hashtable
-     * and omits the property if the key or value is not a string.
-     * @param h the hashtable
+     * Enumerbtes bll key/vblue pbirs in the specified hbshtbble
+     * bnd omits the property if the key or vblue is not b string.
+     * @pbrbm h the hbshtbble
      */
-    private synchronized void enumerateStringProperties(Hashtable<String, String> h) {
-        if (defaults != null) {
-            defaults.enumerateStringProperties(h);
+    privbte synchronized void enumerbteStringProperties(Hbshtbble<String, String> h) {
+        if (defbults != null) {
+            defbults.enumerbteStringProperties(h);
         }
-        for (Enumeration<?> e = keys() ; e.hasMoreElements() ;) {
+        for (Enumerbtion<?> e = keys() ; e.hbsMoreElements() ;) {
             Object k = e.nextElement();
             Object v = get(k);
-            if (k instanceof String && v instanceof String) {
+            if (k instbnceof String && v instbnceof String) {
                 h.put((String) k, (String) v);
             }
         }
     }
 
     /**
-     * Convert a nibble to a hex character
-     * @param   nibble  the nibble to convert.
+     * Convert b nibble to b hex chbrbcter
+     * @pbrbm   nibble  the nibble to convert.
      */
-    private static char toHex(int nibble) {
+    privbte stbtic chbr toHex(int nibble) {
         return hexDigit[(nibble & 0xF)];
     }
 
-    /** A table of hex digits */
-    private static final char[] hexDigit = {
+    /** A tbble of hex digits */
+    privbte stbtic finbl chbr[] hexDigit = {
         '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
     };
 }

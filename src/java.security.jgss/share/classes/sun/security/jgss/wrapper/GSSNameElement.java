@@ -1,267 +1,267 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.wrapper;
+pbckbge sun.security.jgss.wrbpper;
 
 import org.ietf.jgss.*;
-import java.security.Provider;
-import java.security.Security;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import jbvb.security.Provider;
+import jbvb.security.Security;
+import jbvb.io.IOException;
+import jbvb.io.UnsupportedEncodingException;
 import sun.security.jgss.GSSUtil;
 import sun.security.util.ObjectIdentifier;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
+import sun.security.util.DerInputStrebm;
+import sun.security.util.DerOutputStrebm;
 import sun.security.jgss.GSSUtil;
 import sun.security.jgss.GSSExceptionImpl;
-import sun.security.jgss.spi.GSSNameSpi;
+import sun.security.jgss.spi.GSSNbmeSpi;
 
 /**
- * This class is essentially a wrapper class for the gss_name_t
- * structure of the native GSS library.
- * @author Valerie Peng
+ * This clbss is essentiblly b wrbpper clbss for the gss_nbme_t
+ * structure of the nbtive GSS librbry.
+ * @buthor Vblerie Peng
  * @since 1.6
  */
 
-public class GSSNameElement implements GSSNameSpi {
+public clbss GSSNbmeElement implements GSSNbmeSpi {
 
-    long pName = 0; // Pointer to the gss_name_t structure
-    private String printableName;
-    private Oid printableType;
-    private GSSLibStub cStub;
+    long pNbme = 0; // Pointer to the gss_nbme_t structure
+    privbte String printbbleNbme;
+    privbte Oid printbbleType;
+    privbte GSSLibStub cStub;
 
-    static final GSSNameElement DEF_ACCEPTOR = new GSSNameElement();
+    stbtic finbl GSSNbmeElement DEF_ACCEPTOR = new GSSNbmeElement();
 
-    private static Oid getNativeNameType(Oid nameType, GSSLibStub stub) {
-        if (GSSUtil.NT_GSS_KRB5_PRINCIPAL.equals(nameType)) {
+    privbte stbtic Oid getNbtiveNbmeType(Oid nbmeType, GSSLibStub stub) {
+        if (GSSUtil.NT_GSS_KRB5_PRINCIPAL.equbls(nbmeType)) {
             Oid[] supportedNTs = null;
             try {
-                supportedNTs = stub.inquireNamesForMech();
-            } catch (GSSException ge) {
-                if (ge.getMajor() == GSSException.BAD_MECH &&
+                supportedNTs = stub.inquireNbmesForMech();
+            } cbtch (GSSException ge) {
+                if (ge.getMbjor() == GSSException.BAD_MECH &&
                     GSSUtil.isSpNegoMech(stub.getMech())) {
-                    // Workaround known Heimdal issue and retry with KRB5
+                    // Workbround known Heimdbl issue bnd retry with KRB5
                     try {
-                        stub = GSSLibStub.getInstance
+                        stub = GSSLibStub.getInstbnce
                             (GSSUtil.GSS_KRB5_MECH_OID);
-                        supportedNTs = stub.inquireNamesForMech();
-                    } catch (GSSException ge2) {
-                        // Should never happen
-                        SunNativeProvider.debug("Name type list unavailable: " +
-                            ge2.getMajorString());
+                        supportedNTs = stub.inquireNbmesForMech();
+                    } cbtch (GSSException ge2) {
+                        // Should never hbppen
+                        SunNbtiveProvider.debug("Nbme type list unbvbilbble: " +
+                            ge2.getMbjorString());
                     }
                 } else {
-                    SunNativeProvider.debug("Name type list unavailable: " +
-                        ge.getMajorString());
+                    SunNbtiveProvider.debug("Nbme type list unbvbilbble: " +
+                        ge.getMbjorString());
                 }
             }
             if (supportedNTs != null) {
                 for (int i = 0; i < supportedNTs.length; i++) {
-                    if (supportedNTs[i].equals(nameType)) return nameType;
+                    if (supportedNTs[i].equbls(nbmeType)) return nbmeType;
                 }
-                // Special handling the specified name type
-                SunNativeProvider.debug("Override " + nameType +
-                    " with mechanism default(null)");
-                return null; // Use mechanism specific default
+                // Specibl hbndling the specified nbme type
+                SunNbtiveProvider.debug("Override " + nbmeType +
+                    " with mechbnism defbult(null)");
+                return null; // Use mechbnism specific defbult
             }
         }
-        return nameType;
+        return nbmeType;
     }
 
-    private GSSNameElement() {
-        printableName = "<DEFAULT ACCEPTOR>";
+    privbte GSSNbmeElement() {
+        printbbleNbme = "<DEFAULT ACCEPTOR>";
     }
 
-    GSSNameElement(long pNativeName, GSSLibStub stub) throws GSSException {
-        assert(stub != null);
-        if (pNativeName == 0) {
+    GSSNbmeElement(long pNbtiveNbme, GSSLibStub stub) throws GSSException {
+        bssert(stub != null);
+        if (pNbtiveNbme == 0) {
             throw new GSSException(GSSException.BAD_NAME);
         }
-        // Note: pNativeName is assumed to be a MN.
-        pName = pNativeName;
+        // Note: pNbtiveNbme is bssumed to be b MN.
+        pNbme = pNbtiveNbme;
         cStub = stub;
-        setPrintables();
+        setPrintbbles();
     }
 
-    GSSNameElement(byte[] nameBytes, Oid nameType, GSSLibStub stub)
+    GSSNbmeElement(byte[] nbmeBytes, Oid nbmeType, GSSLibStub stub)
         throws GSSException {
-        assert(stub != null);
-        if (nameBytes == null) {
+        bssert(stub != null);
+        if (nbmeBytes == null) {
             throw new GSSException(GSSException.BAD_NAME);
         }
         cStub = stub;
-        byte[] name = nameBytes;
+        byte[] nbme = nbmeBytes;
 
-        if (nameType != null) {
-            // Special handling the specified name type if
-            // necessary
-            nameType = getNativeNameType(nameType, stub);
+        if (nbmeType != null) {
+            // Specibl hbndling the specified nbme type if
+            // necessbry
+            nbmeType = getNbtiveNbmeType(nbmeType, stub);
 
-            if (GSSName.NT_EXPORT_NAME.equals(nameType)) {
-                // Need to add back the mech Oid portion (stripped
-                // off by GSSNameImpl class prior to calling this
+            if (GSSNbme.NT_EXPORT_NAME.equbls(nbmeType)) {
+                // Need to bdd bbck the mech Oid portion (stripped
+                // off by GSSNbmeImpl clbss prior to cblling this
                 // method) for "NT_EXPORT_NAME"
                 byte[] mechBytes = null;
-                DerOutputStream dout = new DerOutputStream();
+                DerOutputStrebm dout = new DerOutputStrebm();
                 Oid mech = cStub.getMech();
                 try {
                     dout.putOID(new ObjectIdentifier(mech.toString()));
-                } catch (IOException e) {
+                } cbtch (IOException e) {
                     throw new GSSExceptionImpl(GSSException.FAILURE, e);
                 }
-                mechBytes = dout.toByteArray();
-                name = new byte[2 + 2 + mechBytes.length + 4 + nameBytes.length];
+                mechBytes = dout.toByteArrby();
+                nbme = new byte[2 + 2 + mechBytes.length + 4 + nbmeBytes.length];
                 int pos = 0;
-                name[pos++] = 0x04;
-                name[pos++] = 0x01;
-                name[pos++] = (byte) (mechBytes.length>>>8);
-                name[pos++] = (byte) mechBytes.length;
-                System.arraycopy(mechBytes, 0, name, pos, mechBytes.length);
+                nbme[pos++] = 0x04;
+                nbme[pos++] = 0x01;
+                nbme[pos++] = (byte) (mechBytes.length>>>8);
+                nbme[pos++] = (byte) mechBytes.length;
+                System.brrbycopy(mechBytes, 0, nbme, pos, mechBytes.length);
                 pos += mechBytes.length;
-                name[pos++] = (byte) (nameBytes.length>>>24);
-                name[pos++] = (byte) (nameBytes.length>>>16);
-                name[pos++] = (byte) (nameBytes.length>>>8);
-                name[pos++] = (byte) nameBytes.length;
-                System.arraycopy(nameBytes, 0, name, pos, nameBytes.length);
+                nbme[pos++] = (byte) (nbmeBytes.length>>>24);
+                nbme[pos++] = (byte) (nbmeBytes.length>>>16);
+                nbme[pos++] = (byte) (nbmeBytes.length>>>8);
+                nbme[pos++] = (byte) nbmeBytes.length;
+                System.brrbycopy(nbmeBytes, 0, nbme, pos, nbmeBytes.length);
             }
         }
-        pName = cStub.importName(name, nameType);
-        setPrintables();
+        pNbme = cStub.importNbme(nbme, nbmeType);
+        setPrintbbles();
 
-        SunNativeProvider.debug("Imported " + printableName + " w/ type " +
-                                printableType);
+        SunNbtiveProvider.debug("Imported " + printbbleNbme + " w/ type " +
+                                printbbleType);
     }
 
-    private void setPrintables() throws GSSException {
-        Object[] printables = null;
-        printables = cStub.displayName(pName);
-        assert((printables != null) && (printables.length == 2));
-        printableName = (String) printables[0];
-        assert(printableName != null);
-        printableType = (Oid) printables[1];
-        if (printableType == null) {
-            printableType = GSSName.NT_USER_NAME;
+    privbte void setPrintbbles() throws GSSException {
+        Object[] printbbles = null;
+        printbbles = cStub.displbyNbme(pNbme);
+        bssert((printbbles != null) && (printbbles.length == 2));
+        printbbleNbme = (String) printbbles[0];
+        bssert(printbbleNbme != null);
+        printbbleType = (Oid) printbbles[1];
+        if (printbbleType == null) {
+            printbbleType = GSSNbme.NT_USER_NAME;
         }
     }
 
     // Need to be public for GSSUtil.getSubject()
-    public String getKrbName() throws GSSException {
-        long mName = 0;
+    public String getKrbNbme() throws GSSException {
+        long mNbme = 0;
         GSSLibStub stub = cStub;
         if (!GSSUtil.isKerberosMech(cStub.getMech())) {
-            stub = GSSLibStub.getInstance(GSSUtil.GSS_KRB5_MECH_OID);
+            stub = GSSLibStub.getInstbnce(GSSUtil.GSS_KRB5_MECH_OID);
         }
-        mName = stub.canonicalizeName(pName);
-        Object[] printables2 = stub.displayName(mName);
-        stub.releaseName(mName);
-        SunNativeProvider.debug("Got kerberized name: " + printables2[0]);
-        return (String) printables2[0];
+        mNbme = stub.cbnonicblizeNbme(pNbme);
+        Object[] printbbles2 = stub.displbyNbme(mNbme);
+        stub.relebseNbme(mNbme);
+        SunNbtiveProvider.debug("Got kerberized nbme: " + printbbles2[0]);
+        return (String) printbbles2[0];
     }
 
     public Provider getProvider() {
-        return SunNativeProvider.INSTANCE;
+        return SunNbtiveProvider.INSTANCE;
     }
 
-    public boolean equals(GSSNameSpi other) throws GSSException {
-        if (!(other instanceof GSSNameElement)) {
-            return false;
+    public boolebn equbls(GSSNbmeSpi other) throws GSSException {
+        if (!(other instbnceof GSSNbmeElement)) {
+            return fblse;
         }
-        return cStub.compareName(pName, ((GSSNameElement)other).pName);
+        return cStub.compbreNbme(pNbme, ((GSSNbmeElement)other).pNbme);
     }
 
-    public boolean equals(Object other) {
-        if (!(other instanceof GSSNameElement)) {
-            return false;
+    public boolebn equbls(Object other) {
+        if (!(other instbnceof GSSNbmeElement)) {
+            return fblse;
         }
         try {
-            return equals((GSSNameElement) other);
-        } catch (GSSException ex) {
-            return false;
+            return equbls((GSSNbmeElement) other);
+        } cbtch (GSSException ex) {
+            return fblse;
         }
     }
 
-    public int hashCode() {
-        return Long.hashCode(pName);
+    public int hbshCode() {
+        return Long.hbshCode(pNbme);
     }
 
     public byte[] export() throws GSSException {
-        byte[] nameVal = cStub.exportName(pName);
+        byte[] nbmeVbl = cStub.exportNbme(pNbme);
 
         // Need to strip off the mech Oid portion of the exported
-        // bytes since GSSNameImpl class will subsequently add it.
+        // bytes since GSSNbmeImpl clbss will subsequently bdd it.
         int pos = 0;
-        if ((nameVal[pos++] != 0x04) ||
-            (nameVal[pos++] != 0x01))
+        if ((nbmeVbl[pos++] != 0x04) ||
+            (nbmeVbl[pos++] != 0x01))
             throw new GSSException(GSSException.BAD_NAME);
 
-        int mechOidLen  = (((0xFF & nameVal[pos++]) << 8) |
-                           (0xFF & nameVal[pos++]));
+        int mechOidLen  = (((0xFF & nbmeVbl[pos++]) << 8) |
+                           (0xFF & nbmeVbl[pos++]));
         ObjectIdentifier temp = null;
         try {
-            DerInputStream din = new DerInputStream(nameVal, pos,
+            DerInputStrebm din = new DerInputStrebm(nbmeVbl, pos,
                                                     mechOidLen);
             temp = new ObjectIdentifier(din);
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new GSSExceptionImpl(GSSException.BAD_NAME, e);
         }
         Oid mech2 = new Oid(temp.toString());
-        assert(mech2.equals(getMechanism()));
+        bssert(mech2.equbls(getMechbnism()));
         pos += mechOidLen;
-        int mechPortionLen = (((0xFF & nameVal[pos++]) << 24) |
-                              ((0xFF & nameVal[pos++]) << 16) |
-                              ((0xFF & nameVal[pos++]) << 8) |
-                              (0xFF & nameVal[pos++]));
+        int mechPortionLen = (((0xFF & nbmeVbl[pos++]) << 24) |
+                              ((0xFF & nbmeVbl[pos++]) << 16) |
+                              ((0xFF & nbmeVbl[pos++]) << 8) |
+                              (0xFF & nbmeVbl[pos++]));
         byte[] mechPortion = new byte[mechPortionLen];
-        System.arraycopy(nameVal, pos, mechPortion, 0, mechPortionLen);
+        System.brrbycopy(nbmeVbl, pos, mechPortion, 0, mechPortionLen);
         return mechPortion;
     }
 
-    public Oid getMechanism() {
+    public Oid getMechbnism() {
         return cStub.getMech();
     }
 
     public String toString() {
-        return printableName;
+        return printbbleNbme;
     }
 
-    public Oid getStringNameType() {
-        return printableType;
+    public Oid getStringNbmeType() {
+        return printbbleType;
     }
 
-    public boolean isAnonymousName() {
-        return (GSSName.NT_ANONYMOUS.equals(printableType));
+    public boolebn isAnonymousNbme() {
+        return (GSSNbme.NT_ANONYMOUS.equbls(printbbleType));
     }
 
     public void dispose() {
-        if (pName != 0) {
-            cStub.releaseName(pName);
-            pName = 0;
+        if (pNbme != 0) {
+            cStub.relebseNbme(pNbme);
+            pNbme = 0;
         }
     }
 
-    protected void finalize() throws Throwable {
+    protected void finblize() throws Throwbble {
         dispose();
     }
 }

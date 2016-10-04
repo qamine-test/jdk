@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.event.AdjustmentEvent;
-import java.awt.peer.ScrollPanePeer;
+import jbvb.bwt.*;
+import jbvb.bwt.event.AdjustmentEvent;
+import jbvb.bwt.peer.ScrollPbnePeer;
 
-import sun.awt.AWTAccessor;
-import sun.awt.PeerEvent;
+import sun.bwt.AWTAccessor;
+import sun.bwt.PeerEvent;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-final class WScrollPanePeer extends WPanelPeer implements ScrollPanePeer {
+finbl clbss WScrollPbnePeer extends WPbnelPeer implements ScrollPbnePeer {
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.windows.WScrollPanePeer");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.windows.WScrollPbnePeer");
 
-    int scrollbarWidth;
-    int scrollbarHeight;
+    int scrollbbrWidth;
+    int scrollbbrHeight;
     int prevx;
     int prevy;
 
-    static {
+    stbtic {
         initIDs();
     }
 
-    static native void initIDs();
+    stbtic nbtive void initIDs();
     @Override
-    native void create(WComponentPeer parent);
-    native int getOffset(int orient);
+    nbtive void crebte(WComponentPeer pbrent);
+    nbtive int getOffset(int orient);
 
-    WScrollPanePeer(Component target) {
-        super(target);
-        scrollbarWidth = _getVScrollbarWidth();
-        scrollbarHeight = _getHScrollbarHeight();
+    WScrollPbnePeer(Component tbrget) {
+        super(tbrget);
+        scrollbbrWidth = _getVScrollbbrWidth();
+        scrollbbrHeight = _getHScrollbbrHeight();
     }
 
     @Override
-    void initialize() {
-        super.initialize();
+    void initiblize() {
+        super.initiblize();
         setInsets();
         Insets i = getInsets();
         setScrollPosition(-i.left,-i.top);
     }
 
     @Override
-    public void setUnitIncrement(Adjustable adj, int p) {
-        // The unitIncrement is grabbed from the target as needed.
+    public void setUnitIncrement(Adjustbble bdj, int p) {
+        // The unitIncrement is grbbbed from the tbrget bs needed.
     }
 
     @Override
     public Insets insets() {
         return getInsets();
     }
-    private native void setInsets();
+    privbte nbtive void setInsets();
 
     @Override
-    public native synchronized void setScrollPosition(int x, int y);
+    public nbtive synchronized void setScrollPosition(int x, int y);
 
     @Override
-    public int getHScrollbarHeight() {
-        return scrollbarHeight;
+    public int getHScrollbbrHeight() {
+        return scrollbbrHeight;
     }
-    private native int _getHScrollbarHeight();
+    privbte nbtive int _getHScrollbbrHeight();
 
     @Override
-    public int getVScrollbarWidth() {
-        return scrollbarWidth;
+    public int getVScrollbbrWidth() {
+        return scrollbbrWidth;
     }
-    private native int _getVScrollbarWidth();
+    privbte nbtive int _getVScrollbbrWidth();
 
     public Point getScrollOffset() {
-        int x = getOffset(Adjustable.HORIZONTAL);
-        int y = getOffset(Adjustable.VERTICAL);
+        int x = getOffset(Adjustbble.HORIZONTAL);
+        int y = getOffset(Adjustbble.VERTICAL);
         return new Point(x, y);
     }
 
     /**
-     * The child component has been resized.  The scrollbars must be
-     * updated with the new sizes.  At the native level the sizes of
-     * the actual windows may not have changed yet, so the size
-     * information from the java-level is passed down and used.
+     * The child component hbs been resized.  The scrollbbrs must be
+     * updbted with the new sizes.  At the nbtive level the sizes of
+     * the bctubl windows mby not hbve chbnged yet, so the size
+     * informbtion from the jbvb-level is pbssed down bnd used.
      */
     @Override
     public void childResized(int width, int height) {
-        ScrollPane sp = (ScrollPane)target;
+        ScrollPbne sp = (ScrollPbne)tbrget;
         Dimension vs = sp.getSize();
-        setSpans(vs.width, vs.height, width, height);
+        setSpbns(vs.width, vs.height, width, height);
         setInsets();
     }
 
-    native synchronized void setSpans(int viewWidth, int viewHeight,
+    nbtive synchronized void setSpbns(int viewWidth, int viewHeight,
                                       int childWidth, int childHeight);
 
     /**
-     * Called by ScrollPane's internal observer of the scrollpane's adjustables.
-     * This is called whenever a scroll position is changed in one
-     * of adjustables, whether it was modified externally or from the
-     * native scrollbars themselves.
+     * Cblled by ScrollPbne's internbl observer of the scrollpbne's bdjustbbles.
+     * This is cblled whenever b scroll position is chbnged in one
+     * of bdjustbbles, whether it wbs modified externblly or from the
+     * nbtive scrollbbrs themselves.
      */
     @Override
-    public void setValue(Adjustable adj, int v) {
+    public void setVblue(Adjustbble bdj, int v) {
         Component c = getScrollChild();
         if (c == null) {
             return;
         }
 
-        Point p = c.getLocation();
-        switch(adj.getOrientation()) {
-        case Adjustable.VERTICAL:
+        Point p = c.getLocbtion();
+        switch(bdj.getOrientbtion()) {
+        cbse Adjustbble.VERTICAL:
             setScrollPosition(-(p.x), v);
-            break;
-        case Adjustable.HORIZONTAL:
+            brebk;
+        cbse Adjustbble.HORIZONTAL:
             setScrollPosition(v, -(p.y));
-            break;
+            brebk;
         }
     }
 
-    private Component getScrollChild() {
-        ScrollPane sp = (ScrollPane)target;
+    privbte Component getScrollChild() {
+        ScrollPbne sp = (ScrollPbne)tbrget;
         Component child = null;
         try {
             child = sp.getComponent(0);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            // do nothing.  in this case we return null
+        } cbtch (ArrbyIndexOutOfBoundsException e) {
+            // do nothing.  in this cbse we return null
         }
         return child;
     }
 
     /*
-     * Called from Windows in response to WM_VSCROLL/WM_HSCROLL message
+     * Cblled from Windows in response to WM_VSCROLL/WM_HSCROLL messbge
      */
-    private void postScrollEvent(int orient, int type,
-                                 int pos, boolean isAdjusting)
+    privbte void postScrollEvent(int orient, int type,
+                                 int pos, boolebn isAdjusting)
     {
-        Runnable adjustor = new Adjustor(orient, type, pos, isAdjusting);
-        WToolkit.executeOnEventHandlerThread(new ScrollEvent(target, adjustor));
+        Runnbble bdjustor = new Adjustor(orient, type, pos, isAdjusting);
+        WToolkit.executeOnEventHbndlerThrebd(new ScrollEvent(tbrget, bdjustor));
     }
 
     /*
-     * Event that executes on the Java dispatch thread to move the
-     * scroll bar thumbs and paint the exposed area in one synchronous
-     * operation.
+     * Event thbt executes on the Jbvb dispbtch threbd to move the
+     * scroll bbr thumbs bnd pbint the exposed breb in one synchronous
+     * operbtion.
      */
-    @SuppressWarnings("serial") // JDK-implementation class
-    class ScrollEvent extends PeerEvent {
-        ScrollEvent(Object source, Runnable runnable) {
-            super(source, runnable, 0L);
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    clbss ScrollEvent extends PeerEvent {
+        ScrollEvent(Object source, Runnbble runnbble) {
+            super(source, runnbble, 0L);
         }
 
         @Override
-        public PeerEvent coalesceEvents(PeerEvent newEvent) {
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest("ScrollEvent coalesced: " + newEvent);
+        public PeerEvent coblesceEvents(PeerEvent newEvent) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                log.finest("ScrollEvent coblesced: " + newEvent);
             }
-            if (newEvent instanceof ScrollEvent) {
+            if (newEvent instbnceof ScrollEvent) {
                 return newEvent;
             }
             return null;
@@ -183,15 +183,15 @@ final class WScrollPanePeer extends WPanelPeer implements ScrollPanePeer {
     }
 
     /*
-     * Runnable for the ScrollEvent that performs the adjustment.
+     * Runnbble for the ScrollEvent thbt performs the bdjustment.
      */
-    class Adjustor implements Runnable {
-        int orient;             // selects scrollbar
-        int type;               // adjustment type
-        int pos;                // new position (only used for absolute)
-        boolean isAdjusting;    // isAdjusting status
+    clbss Adjustor implements Runnbble {
+        int orient;             // selects scrollbbr
+        int type;               // bdjustment type
+        int pos;                // new position (only used for bbsolute)
+        boolebn isAdjusting;    // isAdjusting stbtus
 
-        Adjustor(int orient, int type, int pos, boolean isAdjusting) {
+        Adjustor(int orient, int type, int pos, boolebn isAdjusting) {
             this.orient = orient;
             this.type = type;
             this.pos = pos;
@@ -203,82 +203,82 @@ final class WScrollPanePeer extends WPanelPeer implements ScrollPanePeer {
             if (getScrollChild() == null) {
                 return;
             }
-            ScrollPane sp = (ScrollPane)WScrollPanePeer.this.target;
-            ScrollPaneAdjustable adj = null;
+            ScrollPbne sp = (ScrollPbne)WScrollPbnePeer.this.tbrget;
+            ScrollPbneAdjustbble bdj = null;
 
-            // ScrollPaneAdjustable made public in 1.4, but
-            // get[HV]Adjustable can't be declared to return
-            // ScrollPaneAdjustable because it would break backward
-            // compatibility -- hence the cast
+            // ScrollPbneAdjustbble mbde public in 1.4, but
+            // get[HV]Adjustbble cbn't be declbred to return
+            // ScrollPbneAdjustbble becbuse it would brebk bbckwbrd
+            // compbtibility -- hence the cbst
 
-            if (orient == Adjustable.VERTICAL) {
-                adj = (ScrollPaneAdjustable)sp.getVAdjustable();
-            } else if (orient == Adjustable.HORIZONTAL) {
-                adj = (ScrollPaneAdjustable)sp.getHAdjustable();
+            if (orient == Adjustbble.VERTICAL) {
+                bdj = (ScrollPbneAdjustbble)sp.getVAdjustbble();
+            } else if (orient == Adjustbble.HORIZONTAL) {
+                bdj = (ScrollPbneAdjustbble)sp.getHAdjustbble();
             } else {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("Assertion failed: unknown orient");
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("Assertion fbiled: unknown orient");
                 }
             }
 
-            if (adj == null) {
+            if (bdj == null) {
                 return;
             }
 
-            int newpos = adj.getValue();
+            int newpos = bdj.getVblue();
             switch (type) {
-              case AdjustmentEvent.UNIT_DECREMENT:
-                  newpos -= adj.getUnitIncrement();
-                  break;
-              case AdjustmentEvent.UNIT_INCREMENT:
-                  newpos += adj.getUnitIncrement();
-                  break;
-              case AdjustmentEvent.BLOCK_DECREMENT:
-                  newpos -= adj.getBlockIncrement();
-                  break;
-              case AdjustmentEvent.BLOCK_INCREMENT:
-                  newpos += adj.getBlockIncrement();
-                  break;
-              case AdjustmentEvent.TRACK:
+              cbse AdjustmentEvent.UNIT_DECREMENT:
+                  newpos -= bdj.getUnitIncrement();
+                  brebk;
+              cbse AdjustmentEvent.UNIT_INCREMENT:
+                  newpos += bdj.getUnitIncrement();
+                  brebk;
+              cbse AdjustmentEvent.BLOCK_DECREMENT:
+                  newpos -= bdj.getBlockIncrement();
+                  brebk;
+              cbse AdjustmentEvent.BLOCK_INCREMENT:
+                  newpos += bdj.getBlockIncrement();
+                  brebk;
+              cbse AdjustmentEvent.TRACK:
                   newpos = this.pos;
-                  break;
-              default:
-                  if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                      log.fine("Assertion failed: unknown type");
+                  brebk;
+              defbult:
+                  if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                      log.fine("Assertion fbiled: unknown type");
                   }
                   return;
             }
 
-            // keep scroll position in acceptable range
-            newpos = Math.max(adj.getMinimum(), newpos);
-            newpos = Math.min(adj.getMaximum(), newpos);
+            // keep scroll position in bcceptbble rbnge
+            newpos = Mbth.mbx(bdj.getMinimum(), newpos);
+            newpos = Mbth.min(bdj.getMbximum(), newpos);
 
-            // set value, this will synchronously fire an AdjustmentEvent
-            adj.setValueIsAdjusting(isAdjusting);
+            // set vblue, this will synchronously fire bn AdjustmentEvent
+            bdj.setVblueIsAdjusting(isAdjusting);
 
-            // Fix for 4075484 - consider type information when creating AdjustmentEvent
-            // We can't just call adj.setValue() because it creates AdjustmentEvent with type=TRACK
-            // Instead, we call private method setTypedValue of ScrollPaneAdjustable.
-            AWTAccessor.getScrollPaneAdjustableAccessor().setTypedValue(adj,
+            // Fix for 4075484 - consider type informbtion when crebting AdjustmentEvent
+            // We cbn't just cbll bdj.setVblue() becbuse it crebtes AdjustmentEvent with type=TRACK
+            // Instebd, we cbll privbte method setTypedVblue of ScrollPbneAdjustbble.
+            AWTAccessor.getScrollPbneAdjustbbleAccessor().setTypedVblue(bdj,
                                                                         newpos,
                                                                         type);
 
-            // Paint the exposed area right away.  To do this - find
-            // the heavyweight ancestor of the scroll child.
+            // Pbint the exposed breb right bwby.  To do this - find
+            // the hebvyweight bncestor of the scroll child.
             Component hwAncestor = getScrollChild();
             while (hwAncestor != null
-                   && !(hwAncestor.getPeer() instanceof WComponentPeer))
+                   && !(hwAncestor.getPeer() instbnceof WComponentPeer))
             {
-                hwAncestor = hwAncestor.getParent();
+                hwAncestor = hwAncestor.getPbrent();
             }
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                 if (hwAncestor == null) {
-                    log.fine("Assertion (hwAncestor != null) failed, " +
-                             "couldn't find heavyweight ancestor of scroll pane child");
+                    log.fine("Assertion (hwAncestor != null) fbiled, " +
+                             "couldn't find hebvyweight bncestor of scroll pbne child");
                 }
             }
             WComponentPeer hwPeer = (WComponentPeer)hwAncestor.getPeer();
-            hwPeer.paintDamagedAreaImmediately();
+            hwPeer.pbintDbmbgedArebImmedibtely();
         }
     }
 

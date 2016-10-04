@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "CGLGraphicsConfig.h"
-#import "CGLLayer.h"
-#import "ThreadUtilities.h"
+#import "CGLGrbphicsConfig.h"
+#import "CGLLbyer.h"
+#import "ThrebdUtilities.h"
 #import "LWCToolkit.h"
-#import "CGLSurfaceData.h"
+#import "CGLSurfbceDbtb.h"
 
 
-extern NSOpenGLPixelFormat *sharedPixelFormat;
-extern NSOpenGLContext *sharedContext;
+extern NSOpenGLPixelFormbt *shbredPixelFormbt;
+extern NSOpenGLContext *shbredContext;
 
-@implementation CGLLayer
+@implementbtion CGLLbyer
 
-@synthesize javaLayer;
+@synthesize jbvbLbyer;
 @synthesize textureID;
-@synthesize target;
+@synthesize tbrget;
 @synthesize textureWidth;
 @synthesize textureHeight;
 #ifdef REMOTELAYER
-@synthesize parentLayer;
-@synthesize remoteLayer;
-@synthesize jrsRemoteLayer;
+@synthesize pbrentLbyer;
+@synthesize remoteLbyer;
+@synthesize jrsRemoteLbyer;
 #endif
 
-- (id) initWithJavaLayer:(JNFJObjectWrapper *)layer;
+- (id) initWithJbvbLbyer:(JNFJObjectWrbpper *)lbyer;
 {
 AWT_ASSERT_APPKIT_THREAD;
-    // Initialize ourselves
+    // Initiblize ourselves
     self = [super init];
     if (self == nil) return self;
 
-    self.javaLayer = layer;
+    self.jbvbLbyer = lbyer;
 
-    // NOTE: async=YES means that the layer is re-cached periodically
-    self.asynchronous = FALSE;
-    self.contentsGravity = kCAGravityTopLeft;
-    //Layer backed view
-    //self.needsDisplayOnBoundsChange = YES;
-    //self.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
+    // NOTE: bsync=YES mebns thbt the lbyer is re-cbched periodicblly
+    self.bsynchronous = FALSE;
+    self.contentsGrbvity = kCAGrbvityTopLeft;
+    //Lbyer bbcked view
+    //self.needsDisplbyOnBoundsChbnge = YES;
+    //self.butoresizingMbsk = kCALbyerWidthSizbble | kCALbyerHeightSizbble;
 
-    //Disable CALayer's default animation
-    NSMutableDictionary * actions = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                    [NSNull null], @"anchorPoint",
+    //Disbble CALbyer's defbult bnimbtion
+    NSMutbbleDictionbry * bctions = [[NSMutbbleDictionbry blloc] initWithObjectsAndKeys:
+                                    [NSNull null], @"bnchorPoint",
                                     [NSNull null], @"bounds",
                                     [NSNull null], @"contents",
-                                    [NSNull null], @"contentsScale",
+                                    [NSNull null], @"contentsScble",
                                     [NSNull null], @"onOrderIn",
                                     [NSNull null], @"onOrderOut",
                                     [NSNull null], @"position",
-                                    [NSNull null], @"sublayers",
+                                    [NSNull null], @"sublbyers",
                                     nil];
-    self.actions = actions;
-    [actions release];
+    self.bctions = bctions;
+    [bctions relebse];
 
-    textureID = 0; // texture will be created by rendering pipe
-    target = 0;
+    textureID = 0; // texture will be crebted by rendering pipe
+    tbrget = 0;
 
     return self;
 }
 
-- (void) dealloc {
-    self.javaLayer = nil;
-    [super dealloc];
+- (void) deblloc {
+    self.jbvbLbyer = nil;
+    [super deblloc];
 }
 
-- (CGLPixelFormatObj)copyCGLPixelFormatForDisplayMask:(uint32_t)mask {
-    return CGLRetainPixelFormat(sharedPixelFormat.CGLPixelFormatObj);
+- (CGLPixelFormbtObj)copyCGLPixelFormbtForDisplbyMbsk:(uint32_t)mbsk {
+    return CGLRetbinPixelFormbt(shbredPixelFormbt.CGLPixelFormbtObj);
 }
 
-- (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pixelFormat {
+- (CGLContextObj)copyCGLContextForPixelFormbt:(CGLPixelFormbtObj)pixelFormbt {
     CGLContextObj contextObj = NULL;
-    CGLCreateContext(pixelFormat, sharedContext.CGLContextObj, &contextObj);
+    CGLCrebteContext(pixelFormbt, shbredContext.CGLContextObj, &contextObj);
     return contextObj;
 }
 
-// use texture (intermediate buffer) as src and blit it to the layer
+// use texture (intermedibte buffer) bs src bnd blit it to the lbyer
 - (void) blitTexture
 {
     if (textureID == 0) {
         return;
     }
 
-    glEnable(target);
-    glBindTexture(target, textureID);
+    glEnbble(tbrget);
+    glBindTexture(tbrget, textureID);
 
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE); // srccopy
 
-    float swid = 1.0f, shgt = 1.0f;
-    if (target == GL_TEXTURE_RECTANGLE_ARB) {
+    flobt swid = 1.0f, shgt = 1.0f;
+    if (tbrget == GL_TEXTURE_RECTANGLE_ARB) {
         swid = textureWidth;
         shgt = textureHeight;
     }
@@ -121,37 +121,37 @@ AWT_ASSERT_APPKIT_THREAD;
     glTexCoord2f(0.0f, shgt); glVertex2f(-1.0f,  1.0f);
     glEnd();
 
-    glBindTexture(target, 0);
-    glDisable(target);
+    glBindTexture(tbrget, 0);
+    glDisbble(tbrget);
 }
 
--(BOOL)canDrawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp{
+-(BOOL)cbnDrbwInCGLContext:(CGLContextObj)glContext pixelFormbt:(CGLPixelFormbtObj)pixelFormbt forLbyerTime:(CFTimeIntervbl)timeIntervbl displbyTime:(const CVTimeStbmp *)timeStbmp{
     return textureID == 0 ? NO : YES;
 }
 
--(void)drawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
+-(void)drbwInCGLContext:(CGLContextObj)glContext pixelFormbt:(CGLPixelFormbtObj)pixelFormbt forLbyerTime:(CFTimeIntervbl)timeIntervbl displbyTime:(const CVTimeStbmp *)timeStbmp
 {
     AWT_ASSERT_APPKIT_THREAD;
 
     // Set the current context to the one given to us.
     CGLSetCurrentContext(glContext);
 
-    // Should clear the whole CALayer, because it can be larger than our texture.
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    // Should clebr the whole CALbyer, becbuse it cbn be lbrger thbn our texture.
+    glClebrColor(0.0, 0.0, 0.0, 0.0);
+    glClebr(GL_COLOR_BUFFER_BIT);
 
     glViewport(0, 0, textureWidth, textureHeight);
     
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_CLASS_CACHE(jc_JavaLayer, "sun/java2d/opengl/CGLLayer");
-    static JNF_MEMBER_CACHE(jm_drawInCGLContext, jc_JavaLayer, "drawInCGLContext", "()V");
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_CLASS_CACHE(jc_JbvbLbyer, "sun/jbvb2d/opengl/CGLLbyer");
+    stbtic JNF_MEMBER_CACHE(jm_drbwInCGLContext, jc_JbvbLbyer, "drbwInCGLContext", "()V");
 
-    jobject javaLayerLocalRef = [self.javaLayer jObjectWithEnv:env];
-    JNFCallVoidMethod(env, javaLayerLocalRef, jm_drawInCGLContext);
-    (*env)->DeleteLocalRef(env, javaLayerLocalRef);
+    jobject jbvbLbyerLocblRef = [self.jbvbLbyer jObjectWithEnv:env];
+    JNFCbllVoidMethod(env, jbvbLbyerLocblRef, jm_drbwInCGLContext);
+    (*env)->DeleteLocblRef(env, jbvbLbyerLocblRef);
 
-    // Call super to finalize the drawing. By default all it does is call glFlush().
-    [super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
+    // Cbll super to finblize the drbwing. By defbult bll it does is cbll glFlush().
+    [super drbwInCGLContext:glContext pixelFormbt:pixelFormbt forLbyerTime:timeIntervbl displbyTime:timeStbmp];
 
     CGLSetCurrentContext(NULL);
 }
@@ -159,71 +159,71 @@ AWT_ASSERT_APPKIT_THREAD;
 @end
 
 /*
- * Class:     sun_java2d_opengl_CGLLayer
- * Method:    nativeCreateLayer
- * Signature: ()J
+ * Clbss:     sun_jbvb2d_opengl_CGLLbyer
+ * Method:    nbtiveCrebteLbyer
+ * Signbture: ()J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_java2d_opengl_CGLLayer_nativeCreateLayer
+Jbvb_sun_jbvb2d_opengl_CGLLbyer_nbtiveCrebteLbyer
 (JNIEnv *env, jobject obj)
 {
-    __block CGLLayer *layer = nil;
+    __block CGLLbyer *lbyer = nil;
 
 JNF_COCOA_ENTER(env);
 
-    JNFJObjectWrapper *javaLayer = [JNFJObjectWrapper wrapperWithJObject:obj withEnv:env];
+    JNFJObjectWrbpper *jbvbLbyer = [JNFJObjectWrbpper wrbpperWithJObject:obj withEnv:env];
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
             AWT_ASSERT_APPKIT_THREAD;
         
-            layer = [[CGLLayer alloc] initWithJavaLayer: javaLayer];
+            lbyer = [[CGLLbyer blloc] initWithJbvbLbyer: jbvbLbyer];
     }];
     
 JNF_COCOA_EXIT(env);
 
-    return ptr_to_jlong(layer);
+    return ptr_to_jlong(lbyer);
 }
 
-// Must be called under the RQ lock.
+// Must be cblled under the RQ lock.
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_CGLLayer_validate
-(JNIEnv *env, jclass cls, jlong layerPtr, jobject surfaceData)
+Jbvb_sun_jbvb2d_opengl_CGLLbyer_vblidbte
+(JNIEnv *env, jclbss cls, jlong lbyerPtr, jobject surfbceDbtb)
 {
-    CGLLayer *layer = OBJC(layerPtr);
+    CGLLbyer *lbyer = OBJC(lbyerPtr);
 
-    if (surfaceData != NULL) {
-        OGLSDOps *oglsdo = (OGLSDOps*) SurfaceData_GetOps(env, surfaceData);
-        layer.textureID = oglsdo->textureID;
-        layer.target = GL_TEXTURE_2D;
-        layer.textureWidth = oglsdo->width;
-        layer.textureHeight = oglsdo->height;
+    if (surfbceDbtb != NULL) {
+        OGLSDOps *oglsdo = (OGLSDOps*) SurfbceDbtb_GetOps(env, surfbceDbtb);
+        lbyer.textureID = oglsdo->textureID;
+        lbyer.tbrget = GL_TEXTURE_2D;
+        lbyer.textureWidth = oglsdo->width;
+        lbyer.textureHeight = oglsdo->height;
     } else {
-        layer.textureID = 0;
+        lbyer.textureID = 0;
     }
 }
 
-// Must be called on the AppKit thread and under the RQ lock.
+// Must be cblled on the AppKit threbd bnd under the RQ lock.
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_CGLLayer_blitTexture
-(JNIEnv *env, jclass cls, jlong layerPtr)
+Jbvb_sun_jbvb2d_opengl_CGLLbyer_blitTexture
+(JNIEnv *env, jclbss cls, jlong lbyerPtr)
 {
-    CGLLayer *layer = jlong_to_ptr(layerPtr);
+    CGLLbyer *lbyer = jlong_to_ptr(lbyerPtr);
 
-    [layer blitTexture];
+    [lbyer blitTexture];
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_CGLLayer_nativeSetScale
-(JNIEnv *env, jclass cls, jlong layerPtr, jdouble scale)
+Jbvb_sun_jbvb2d_opengl_CGLLbyer_nbtiveSetScble
+(JNIEnv *env, jclbss cls, jlong lbyerPtr, jdouble scble)
 {
     JNF_COCOA_ENTER(env);
-    CGLLayer *layer = jlong_to_ptr(layerPtr);
-    // We always call all setXX methods asynchronously, exception is only in 
-    // this method where we need to change native texture size and layer's scale
-    // in one call on appkit, otherwise we'll get window's contents blinking, 
+    CGLLbyer *lbyer = jlong_to_ptr(lbyerPtr);
+    // We blwbys cbll bll setXX methods bsynchronously, exception is only in 
+    // this method where we need to chbnge nbtive texture size bnd lbyer's scble
+    // in one cbll on bppkit, otherwise we'll get window's contents blinking, 
     // during screen-2-screen moving.
-    [ThreadUtilities performOnMainThreadWaiting:[NSThread isMainThread] block:^(){
-        layer.contentsScale = scale;
+    [ThrebdUtilities performOnMbinThrebdWbiting:[NSThrebd isMbinThrebd] block:^(){
+        lbyer.contentsScble = scble;
     }];
     JNF_COCOA_EXIT(env);
 }

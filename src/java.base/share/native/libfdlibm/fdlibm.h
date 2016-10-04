@@ -1,41 +1,41 @@
 
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifdef _ALLBSD_SOURCE
-#include <machine/endian.h>
+#include <mbchine/endibn.h>
 #elif __linux__
 #define __USE_BSD 1
-#include <endian.h>
+#include <endibn.h>
 #endif
 #include "jfdlibm.h"
 
-#ifdef __NEWVALID       /* special setup for Sun test regime */
+#ifdef __NEWVALID       /* specibl setup for Sun test regime */
 #if defined(i386) || defined(i486) || \
-    defined(intel) || defined(x86) || defined(arm) || \
-    defined(i86pc) || defined(_M_IA64) || defined(ia64)
+    defined(intel) || defined(x86) || defined(brm) || \
+    defined(i86pc) || defined(_M_IA64) || defined(ib64)
 #define _LITTLE_ENDIAN
 #endif
 #endif
@@ -64,21 +64,21 @@
  * ANSI/POSIX
  */
 
-extern int signgam;
+extern int signgbm;
 
-#define MAXFLOAT        ((float)3.40282346638528860e+38)
+#define MAXFLOAT        ((flobt)3.40282346638528860e+38)
 
 enum fdversion {fdlibm_ieee = -1, fdlibm_svid, fdlibm_xopen, fdlibm_posix};
 
 #define _LIB_VERSION_TYPE enum fdversion
 #define _LIB_VERSION _fdlib_version
 
-/* if global variable _LIB_VERSION is not desirable, one may
- * change the following to be a constant by:
+/* if globbl vbribble _LIB_VERSION is not desirbble, one mby
+ * chbnge the following to be b constbnt by:
  *      #define _LIB_VERSION_TYPE const enum version
- * In that case, after one initializes the value _LIB_VERSION (see
- * s_lib_version.c) during compile time, it cannot be modified
- * in the middle of a program
+ * In thbt cbse, bfter one initiblizes the vblue _LIB_VERSION (see
+ * s_lib_version.c) during compile time, it cbnnot be modified
+ * in the middle of b progrbm
  */
 extern  _LIB_VERSION_TYPE  _LIB_VERSION;
 
@@ -89,17 +89,17 @@ extern  _LIB_VERSION_TYPE  _LIB_VERSION;
 
 struct exception {
         int type;
-        char *name;
-        double arg1;
-        double arg2;
-        double retval;
+        chbr *nbme;
+        double brg1;
+        double brg2;
+        double retvbl;
 };
 
 #define HUGE            MAXFLOAT
 
 /*
- * set X_TLOSS = pi*2**52, which is possibly defined in <values.h>
- * (one may replace the following line by "#include <values.h>")
+ * set X_TLOSS = pi*2**52, which is possibly defined in <vblues.h>
+ * (one mby replbce the following line by "#include <vblues.h>")
  */
 
 #define X_TLOSS         1.41484755040568800000e+16
@@ -114,17 +114,17 @@ struct exception {
 /*
  * ANSI/POSIX
  */
-extern double acos __P((double));
-extern double asin __P((double));
-extern double atan __P((double));
-extern double atan2 __P((double, double));
+extern double bcos __P((double));
+extern double bsin __P((double));
+extern double btbn __P((double));
+extern double btbn2 __P((double, double));
 extern double cos __P((double));
 extern double sin __P((double));
-extern double tan __P((double));
+extern double tbn __P((double));
 
 extern double cosh __P((double));
 extern double sinh __P((double));
-extern double tanh __P((double));
+extern double tbnh __P((double));
 
 extern double exp __P((double));
 extern double frexp __P((double, int *));
@@ -137,53 +137,53 @@ extern double pow __P((double, double));
 extern double sqrt __P((double));
 
 extern double ceil __P((double));
-extern double fabs __P((double));
+extern double fbbs __P((double));
 extern double floor __P((double));
 extern double fmod __P((double, double));
 
 extern double hypot __P((double, double));
-extern int isnan __P((double));
+extern int isnbn __P((double));
 extern int finite __P((double));
 
-extern double atanh __P((double));
+extern double btbnh __P((double));
 extern double cbrt __P((double));
 extern double logb __P((double));
-extern double nextafter __P((double, double));
-extern double remainder __P((double, double));
+extern double nextbfter __P((double, double));
+extern double rembinder __P((double, double));
 #ifdef _SCALB_INT
-extern double scalb __P((double, int));
+extern double scblb __P((double, int));
 #else
-extern double scalb __P((double, double));
+extern double scblb __P((double, double));
 #endif
 
-extern int matherr __P((struct exception *));
+extern int mbtherr __P((struct exception *));
 
 /*
  * IEEE Test Vector
  */
-extern double significand __P((double));
+extern double significbnd __P((double));
 
 /*
- * Functions callable from C, intended to support IEEE arithmetic.
+ * Functions cbllbble from C, intended to support IEEE brithmetic.
  */
 extern double copysign __P((double, double));
 extern int ilogb __P((double));
 extern double rint __P((double));
-extern double scalbn __P((double, int));
+extern double scblbn __P((double, int));
 
 /*
- * BSD math library entry points
+ * BSD mbth librbry entry points
  */
 extern double expm1 __P((double));
 extern double log1p __P((double));
 
-/* ieee style elementary functions */
+/* ieee style elementbry functions */
 extern double __ieee754_sqrt __P((double));
-extern double __ieee754_acos __P((double));
+extern double __ieee754_bcos __P((double));
 extern double __ieee754_log __P((double));
-extern double __ieee754_atanh __P((double));
-extern double __ieee754_asin __P((double));
-extern double __ieee754_atan2 __P((double,double));
+extern double __ieee754_btbnh __P((double));
+extern double __ieee754_bsin __P((double));
+extern double __ieee754_btbn2 __P((double,double));
 extern double __ieee754_exp __P((double));
 extern double __ieee754_cosh __P((double));
 extern double __ieee754_fmod __P((double,double));
@@ -191,17 +191,17 @@ extern double __ieee754_pow __P((double,double));
 extern double __ieee754_log10 __P((double));
 extern double __ieee754_sinh __P((double));
 extern double __ieee754_hypot __P((double,double));
-extern double __ieee754_remainder __P((double,double));
+extern double __ieee754_rembinder __P((double,double));
 extern int    __ieee754_rem_pio2 __P((double,double*));
 #ifdef _SCALB_INT
-extern double __ieee754_scalb __P((double,int));
+extern double __ieee754_scblb __P((double,int));
 #else
-extern double __ieee754_scalb __P((double,double));
+extern double __ieee754_scblb __P((double,double));
 #endif
 
 /* fdlibm kernel function */
-extern double __kernel_standard __P((double,double,int));
+extern double __kernel_stbndbrd __P((double,double,int));
 extern double __kernel_sin __P((double,double,int));
 extern double __kernel_cos __P((double,double));
-extern double __kernel_tan __P((double,double,int));
+extern double __kernel_tbn __P((double,double,int));
 extern int    __kernel_rem_pio2 __P((double*,double*,int,int,int,const int*));

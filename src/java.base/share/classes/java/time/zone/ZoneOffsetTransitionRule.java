@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2009-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2009-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,216 +59,216 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.zone;
+pbckbge jbvb.time.zone;
 
-import static java.time.temporal.TemporalAdjusters.nextOrSame;
-import static java.time.temporal.TemporalAdjusters.previousOrSame;
+import stbtic jbvb.time.temporbl.TemporblAdjusters.nextOrSbme;
+import stbtic jbvb.time.temporbl.TemporblAdjusters.previousOrSbme;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.ZoneOffset;
-import java.time.chrono.IsoChronology;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.DbyOfWeek;
+import jbvb.time.LocblDbte;
+import jbvb.time.LocblDbteTime;
+import jbvb.time.LocblTime;
+import jbvb.time.Month;
+import jbvb.time.ZoneOffset;
+import jbvb.time.chrono.IsoChronology;
+import jbvb.util.Objects;
 
 /**
- * A rule expressing how to create a transition.
+ * A rule expressing how to crebte b trbnsition.
  * <p>
- * This class allows rules for identifying future transitions to be expressed.
- * A rule might be written in many forms:
+ * This clbss bllows rules for identifying future trbnsitions to be expressed.
+ * A rule might be written in mbny forms:
  * <ul>
- * <li>the 16th March
- * <li>the Sunday on or after the 16th March
- * <li>the Sunday on or before the 16th March
- * <li>the last Sunday in February
+ * <li>the 16th Mbrch
+ * <li>the Sundby on or bfter the 16th Mbrch
+ * <li>the Sundby on or before the 16th Mbrch
+ * <li>the lbst Sundby in Februbry
  * </ul>
- * These different rule types can be expressed and queried.
+ * These different rule types cbn be expressed bnd queried.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class ZoneOffsetTransitionRule implements Serializable {
+public finbl clbss ZoneOffsetTrbnsitionRule implements Seriblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = 6889046316657758795L;
+    privbte stbtic finbl long seriblVersionUID = 6889046316657758795L;
 
     /**
-     * The month of the month-day of the first day of the cutover week.
-     * The actual date will be adjusted by the dowChange field.
+     * The month of the month-dby of the first dby of the cutover week.
+     * The bctubl dbte will be bdjusted by the dowChbnge field.
      */
-    private final Month month;
+    privbte finbl Month month;
     /**
-     * The day-of-month of the month-day of the cutover week.
-     * If positive, it is the start of the week where the cutover can occur.
-     * If negative, it represents the end of the week where cutover can occur.
-     * The value is the number of days from the end of the month, such that
-     * {@code -1} is the last day of the month, {@code -2} is the second
-     * to last day, and so on.
+     * The dby-of-month of the month-dby of the cutover week.
+     * If positive, it is the stbrt of the week where the cutover cbn occur.
+     * If negbtive, it represents the end of the week where cutover cbn occur.
+     * The vblue is the number of dbys from the end of the month, such thbt
+     * {@code -1} is the lbst dby of the month, {@code -2} is the second
+     * to lbst dby, bnd so on.
      */
-    private final byte dom;
+    privbte finbl byte dom;
     /**
-     * The cutover day-of-week, null to retain the day-of-month.
+     * The cutover dby-of-week, null to retbin the dby-of-month.
      */
-    private final DayOfWeek dow;
+    privbte finbl DbyOfWeek dow;
     /**
      * The cutover time in the 'before' offset.
      */
-    private final LocalTime time;
+    privbte finbl LocblTime time;
     /**
-     * Whether the cutover time is midnight at the end of day.
+     * Whether the cutover time is midnight bt the end of dby.
      */
-    private final boolean timeEndOfDay;
+    privbte finbl boolebn timeEndOfDby;
     /**
-     * The definition of how the local time should be interpreted.
+     * The definition of how the locbl time should be interpreted.
      */
-    private final TimeDefinition timeDefinition;
+    privbte finbl TimeDefinition timeDefinition;
     /**
-     * The standard offset at the cutover.
+     * The stbndbrd offset bt the cutover.
      */
-    private final ZoneOffset standardOffset;
+    privbte finbl ZoneOffset stbndbrdOffset;
     /**
      * The offset before the cutover.
      */
-    private final ZoneOffset offsetBefore;
+    privbte finbl ZoneOffset offsetBefore;
     /**
-     * The offset after the cutover.
+     * The offset bfter the cutover.
      */
-    private final ZoneOffset offsetAfter;
+    privbte finbl ZoneOffset offsetAfter;
 
     /**
-     * Obtains an instance defining the yearly rule to create transitions between two offsets.
+     * Obtbins bn instbnce defining the yebrly rule to crebte trbnsitions between two offsets.
      * <p>
-     * Applications should normally obtain an instance from {@link ZoneRules}.
-     * This factory is only intended for use when creating {@link ZoneRules}.
+     * Applicbtions should normblly obtbin bn instbnce from {@link ZoneRules}.
+     * This fbctory is only intended for use when crebting {@link ZoneRules}.
      *
-     * @param month  the month of the month-day of the first day of the cutover week, not null
-     * @param dayOfMonthIndicator  the day of the month-day of the cutover week, positive if the week is that
-     *  day or later, negative if the week is that day or earlier, counting from the last day of the month,
+     * @pbrbm month  the month of the month-dby of the first dby of the cutover week, not null
+     * @pbrbm dbyOfMonthIndicbtor  the dby of the month-dby of the cutover week, positive if the week is thbt
+     *  dby or lbter, negbtive if the week is thbt dby or ebrlier, counting from the lbst dby of the month,
      *  from -28 to 31 excluding 0
-     * @param dayOfWeek  the required day-of-week, null if the month-day should not be changed
-     * @param time  the cutover time in the 'before' offset, not null
-     * @param timeEndOfDay  whether the time is midnight at the end of day
-     * @param timeDefnition  how to interpret the cutover
-     * @param standardOffset  the standard offset in force at the cutover, not null
-     * @param offsetBefore  the offset before the cutover, not null
-     * @param offsetAfter  the offset after the cutover, not null
+     * @pbrbm dbyOfWeek  the required dby-of-week, null if the month-dby should not be chbnged
+     * @pbrbm time  the cutover time in the 'before' offset, not null
+     * @pbrbm timeEndOfDby  whether the time is midnight bt the end of dby
+     * @pbrbm timeDefnition  how to interpret the cutover
+     * @pbrbm stbndbrdOffset  the stbndbrd offset in force bt the cutover, not null
+     * @pbrbm offsetBefore  the offset before the cutover, not null
+     * @pbrbm offsetAfter  the offset bfter the cutover, not null
      * @return the rule, not null
-     * @throws IllegalArgumentException if the day of month indicator is invalid
-     * @throws IllegalArgumentException if the end of day flag is true when the time is not midnight
+     * @throws IllegblArgumentException if the dby of month indicbtor is invblid
+     * @throws IllegblArgumentException if the end of dby flbg is true when the time is not midnight
      */
-    public static ZoneOffsetTransitionRule of(
+    public stbtic ZoneOffsetTrbnsitionRule of(
             Month month,
-            int dayOfMonthIndicator,
-            DayOfWeek dayOfWeek,
-            LocalTime time,
-            boolean timeEndOfDay,
+            int dbyOfMonthIndicbtor,
+            DbyOfWeek dbyOfWeek,
+            LocblTime time,
+            boolebn timeEndOfDby,
             TimeDefinition timeDefnition,
-            ZoneOffset standardOffset,
+            ZoneOffset stbndbrdOffset,
             ZoneOffset offsetBefore,
             ZoneOffset offsetAfter) {
         Objects.requireNonNull(month, "month");
         Objects.requireNonNull(time, "time");
         Objects.requireNonNull(timeDefnition, "timeDefnition");
-        Objects.requireNonNull(standardOffset, "standardOffset");
+        Objects.requireNonNull(stbndbrdOffset, "stbndbrdOffset");
         Objects.requireNonNull(offsetBefore, "offsetBefore");
         Objects.requireNonNull(offsetAfter, "offsetAfter");
-        if (dayOfMonthIndicator < -28 || dayOfMonthIndicator > 31 || dayOfMonthIndicator == 0) {
-            throw new IllegalArgumentException("Day of month indicator must be between -28 and 31 inclusive excluding zero");
+        if (dbyOfMonthIndicbtor < -28 || dbyOfMonthIndicbtor > 31 || dbyOfMonthIndicbtor == 0) {
+            throw new IllegblArgumentException("Dby of month indicbtor must be between -28 bnd 31 inclusive excluding zero");
         }
-        if (timeEndOfDay && time.equals(LocalTime.MIDNIGHT) == false) {
-            throw new IllegalArgumentException("Time must be midnight when end of day flag is true");
+        if (timeEndOfDby && time.equbls(LocblTime.MIDNIGHT) == fblse) {
+            throw new IllegblArgumentException("Time must be midnight when end of dby flbg is true");
         }
-        return new ZoneOffsetTransitionRule(month, dayOfMonthIndicator, dayOfWeek, time, timeEndOfDay, timeDefnition, standardOffset, offsetBefore, offsetAfter);
+        return new ZoneOffsetTrbnsitionRule(month, dbyOfMonthIndicbtor, dbyOfWeek, time, timeEndOfDby, timeDefnition, stbndbrdOffset, offsetBefore, offsetAfter);
     }
 
     /**
-     * Creates an instance defining the yearly rule to create transitions between two offsets.
+     * Crebtes bn instbnce defining the yebrly rule to crebte trbnsitions between two offsets.
      *
-     * @param month  the month of the month-day of the first day of the cutover week, not null
-     * @param dayOfMonthIndicator  the day of the month-day of the cutover week, positive if the week is that
-     *  day or later, negative if the week is that day or earlier, counting from the last day of the month,
+     * @pbrbm month  the month of the month-dby of the first dby of the cutover week, not null
+     * @pbrbm dbyOfMonthIndicbtor  the dby of the month-dby of the cutover week, positive if the week is thbt
+     *  dby or lbter, negbtive if the week is thbt dby or ebrlier, counting from the lbst dby of the month,
      *  from -28 to 31 excluding 0
-     * @param dayOfWeek  the required day-of-week, null if the month-day should not be changed
-     * @param time  the cutover time in the 'before' offset, not null
-     * @param timeEndOfDay  whether the time is midnight at the end of day
-     * @param timeDefnition  how to interpret the cutover
-     * @param standardOffset  the standard offset in force at the cutover, not null
-     * @param offsetBefore  the offset before the cutover, not null
-     * @param offsetAfter  the offset after the cutover, not null
-     * @throws IllegalArgumentException if the day of month indicator is invalid
-     * @throws IllegalArgumentException if the end of day flag is true when the time is not midnight
+     * @pbrbm dbyOfWeek  the required dby-of-week, null if the month-dby should not be chbnged
+     * @pbrbm time  the cutover time in the 'before' offset, not null
+     * @pbrbm timeEndOfDby  whether the time is midnight bt the end of dby
+     * @pbrbm timeDefnition  how to interpret the cutover
+     * @pbrbm stbndbrdOffset  the stbndbrd offset in force bt the cutover, not null
+     * @pbrbm offsetBefore  the offset before the cutover, not null
+     * @pbrbm offsetAfter  the offset bfter the cutover, not null
+     * @throws IllegblArgumentException if the dby of month indicbtor is invblid
+     * @throws IllegblArgumentException if the end of dby flbg is true when the time is not midnight
      */
-    ZoneOffsetTransitionRule(
+    ZoneOffsetTrbnsitionRule(
             Month month,
-            int dayOfMonthIndicator,
-            DayOfWeek dayOfWeek,
-            LocalTime time,
-            boolean timeEndOfDay,
+            int dbyOfMonthIndicbtor,
+            DbyOfWeek dbyOfWeek,
+            LocblTime time,
+            boolebn timeEndOfDby,
             TimeDefinition timeDefnition,
-            ZoneOffset standardOffset,
+            ZoneOffset stbndbrdOffset,
             ZoneOffset offsetBefore,
             ZoneOffset offsetAfter) {
         this.month = month;
-        this.dom = (byte) dayOfMonthIndicator;
-        this.dow = dayOfWeek;
+        this.dom = (byte) dbyOfMonthIndicbtor;
+        this.dow = dbyOfWeek;
         this.time = time;
-        this.timeEndOfDay = timeEndOfDay;
+        this.timeEndOfDby = timeEndOfDby;
         this.timeDefinition = timeDefnition;
-        this.standardOffset = standardOffset;
+        this.stbndbrdOffset = stbndbrdOffset;
         this.offsetBefore = offsetBefore;
         this.offsetAfter = offsetAfter;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
     /**
-     * Writes the object using a
-     * <a href="../../../serialized-form.html#java.time.zone.Ser">dedicated serialized form</a>.
-     * @serialData
-     * Refer to the serialized form of
-     * <a href="../../../serialized-form.html#java.time.zone.ZoneRules">ZoneRules.writeReplace</a>
-     * for the encoding of epoch seconds and offsets.
+     * Writes the object using b
+     * <b href="../../../seriblized-form.html#jbvb.time.zone.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
+     * Refer to the seriblized form of
+     * <b href="../../../seriblized-form.html#jbvb.time.zone.ZoneRules">ZoneRules.writeReplbce</b>
+     * for the encoding of epoch seconds bnd offsets.
      * <pre style="font-size:1.0em">{@code
      *
-     *      out.writeByte(3);                // identifies a ZoneOffsetTransition
-     *      final int timeSecs = (timeEndOfDay ? 86400 : time.toSecondOfDay());
-     *      final int stdOffset = standardOffset.getTotalSeconds();
-     *      final int beforeDiff = offsetBefore.getTotalSeconds() - stdOffset;
-     *      final int afterDiff = offsetAfter.getTotalSeconds() - stdOffset;
-     *      final int timeByte = (timeSecs % 3600 == 0 ? (timeEndOfDay ? 24 : time.getHour()) : 31);
-     *      final int stdOffsetByte = (stdOffset % 900 == 0 ? stdOffset / 900 + 128 : 255);
-     *      final int beforeByte = (beforeDiff == 0 || beforeDiff == 1800 || beforeDiff == 3600 ? beforeDiff / 1800 : 3);
-     *      final int afterByte = (afterDiff == 0 || afterDiff == 1800 || afterDiff == 3600 ? afterDiff / 1800 : 3);
-     *      final int dowByte = (dow == null ? 0 : dow.getValue());
-     *      int b = (month.getValue() << 28) +          // 4 bits
+     *      out.writeByte(3);                // identifies b ZoneOffsetTrbnsition
+     *      finbl int timeSecs = (timeEndOfDby ? 86400 : time.toSecondOfDby());
+     *      finbl int stdOffset = stbndbrdOffset.getTotblSeconds();
+     *      finbl int beforeDiff = offsetBefore.getTotblSeconds() - stdOffset;
+     *      finbl int bfterDiff = offsetAfter.getTotblSeconds() - stdOffset;
+     *      finbl int timeByte = (timeSecs % 3600 == 0 ? (timeEndOfDby ? 24 : time.getHour()) : 31);
+     *      finbl int stdOffsetByte = (stdOffset % 900 == 0 ? stdOffset / 900 + 128 : 255);
+     *      finbl int beforeByte = (beforeDiff == 0 || beforeDiff == 1800 || beforeDiff == 3600 ? beforeDiff / 1800 : 3);
+     *      finbl int bfterByte = (bfterDiff == 0 || bfterDiff == 1800 || bfterDiff == 3600 ? bfterDiff / 1800 : 3);
+     *      finbl int dowByte = (dow == null ? 0 : dow.getVblue());
+     *      int b = (month.getVblue() << 28) +          // 4 bits
      *              ((dom + 32) << 22) +                // 6 bits
      *              (dowByte << 19) +                   // 3 bits
      *              (timeByte << 14) +                  // 5 bits
-     *              (timeDefinition.ordinal() << 12) +  // 2 bits
+     *              (timeDefinition.ordinbl() << 12) +  // 2 bits
      *              (stdOffsetByte << 4) +              // 8 bits
      *              (beforeByte << 2) +                 // 2 bits
-     *              afterByte;                          // 2 bits
+     *              bfterByte;                          // 2 bits
      *      out.writeInt(b);
      *      if (timeByte == 31) {
      *          out.writeInt(timeSecs);
@@ -277,44 +277,44 @@ public final class ZoneOffsetTransitionRule implements Serializable {
      *          out.writeInt(stdOffset);
      *      }
      *      if (beforeByte == 3) {
-     *          out.writeInt(offsetBefore.getTotalSeconds());
+     *          out.writeInt(offsetBefore.getTotblSeconds());
      *      }
-     *      if (afterByte == 3) {
-     *          out.writeInt(offsetAfter.getTotalSeconds());
+     *      if (bfterByte == 3) {
+     *          out.writeInt(offsetAfter.getTotblSeconds());
      *      }
      * }
      * </pre>
      *
-     * @return the replacing object, not null
+     * @return the replbcing object, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.ZOTRULE, this);
     }
 
     /**
-     * Writes the state to the stream.
+     * Writes the stbte to the strebm.
      *
-     * @param out  the output stream, not null
-     * @throws IOException if an error occurs
+     * @pbrbm out  the output strebm, not null
+     * @throws IOException if bn error occurs
      */
-    void writeExternal(DataOutput out) throws IOException {
-        final int timeSecs = (timeEndOfDay ? 86400 : time.toSecondOfDay());
-        final int stdOffset = standardOffset.getTotalSeconds();
-        final int beforeDiff = offsetBefore.getTotalSeconds() - stdOffset;
-        final int afterDiff = offsetAfter.getTotalSeconds() - stdOffset;
-        final int timeByte = (timeSecs % 3600 == 0 ? (timeEndOfDay ? 24 : time.getHour()) : 31);
-        final int stdOffsetByte = (stdOffset % 900 == 0 ? stdOffset / 900 + 128 : 255);
-        final int beforeByte = (beforeDiff == 0 || beforeDiff == 1800 || beforeDiff == 3600 ? beforeDiff / 1800 : 3);
-        final int afterByte = (afterDiff == 0 || afterDiff == 1800 || afterDiff == 3600 ? afterDiff / 1800 : 3);
-        final int dowByte = (dow == null ? 0 : dow.getValue());
-        int b = (month.getValue() << 28) +          // 4 bits
+    void writeExternbl(DbtbOutput out) throws IOException {
+        finbl int timeSecs = (timeEndOfDby ? 86400 : time.toSecondOfDby());
+        finbl int stdOffset = stbndbrdOffset.getTotblSeconds();
+        finbl int beforeDiff = offsetBefore.getTotblSeconds() - stdOffset;
+        finbl int bfterDiff = offsetAfter.getTotblSeconds() - stdOffset;
+        finbl int timeByte = (timeSecs % 3600 == 0 ? (timeEndOfDby ? 24 : time.getHour()) : 31);
+        finbl int stdOffsetByte = (stdOffset % 900 == 0 ? stdOffset / 900 + 128 : 255);
+        finbl int beforeByte = (beforeDiff == 0 || beforeDiff == 1800 || beforeDiff == 3600 ? beforeDiff / 1800 : 3);
+        finbl int bfterByte = (bfterDiff == 0 || bfterDiff == 1800 || bfterDiff == 3600 ? bfterDiff / 1800 : 3);
+        finbl int dowByte = (dow == null ? 0 : dow.getVblue());
+        int b = (month.getVblue() << 28) +          // 4 bits
                 ((dom + 32) << 22) +                // 6 bits
                 (dowByte << 19) +                   // 3 bits
                 (timeByte << 14) +                  // 5 bits
-                (timeDefinition.ordinal() << 12) +  // 2 bits
+                (timeDefinition.ordinbl() << 12) +  // 2 bits
                 (stdOffsetByte << 4) +              // 8 bits
                 (beforeByte << 2) +                 // 2 bits
-                afterByte;                          // 2 bits
+                bfterByte;                          // 2 bits
         out.writeInt(b);
         if (timeByte == 31) {
             out.writeInt(timeSecs);
@@ -323,119 +323,119 @@ public final class ZoneOffsetTransitionRule implements Serializable {
             out.writeInt(stdOffset);
         }
         if (beforeByte == 3) {
-            out.writeInt(offsetBefore.getTotalSeconds());
+            out.writeInt(offsetBefore.getTotblSeconds());
         }
-        if (afterByte == 3) {
-            out.writeInt(offsetAfter.getTotalSeconds());
+        if (bfterByte == 3) {
+            out.writeInt(offsetAfter.getTotblSeconds());
         }
     }
 
     /**
-     * Reads the state from the stream.
+     * Rebds the stbte from the strebm.
      *
-     * @param in  the input stream, not null
-     * @return the created object, not null
-     * @throws IOException if an error occurs
+     * @pbrbm in  the input strebm, not null
+     * @return the crebted object, not null
+     * @throws IOException if bn error occurs
      */
-    static ZoneOffsetTransitionRule readExternal(DataInput in) throws IOException {
-        int data = in.readInt();
-        Month month = Month.of(data >>> 28);
-        int dom = ((data & (63 << 22)) >>> 22) - 32;
-        int dowByte = (data & (7 << 19)) >>> 19;
-        DayOfWeek dow = dowByte == 0 ? null : DayOfWeek.of(dowByte);
-        int timeByte = (data & (31 << 14)) >>> 14;
-        TimeDefinition defn = TimeDefinition.values()[(data & (3 << 12)) >>> 12];
-        int stdByte = (data & (255 << 4)) >>> 4;
-        int beforeByte = (data & (3 << 2)) >>> 2;
-        int afterByte = (data & 3);
-        LocalTime time = (timeByte == 31 ? LocalTime.ofSecondOfDay(in.readInt()) : LocalTime.of(timeByte % 24, 0));
-        ZoneOffset std = (stdByte == 255 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds((stdByte - 128) * 900));
-        ZoneOffset before = (beforeByte == 3 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds(std.getTotalSeconds() + beforeByte * 1800));
-        ZoneOffset after = (afterByte == 3 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds(std.getTotalSeconds() + afterByte * 1800));
-        return ZoneOffsetTransitionRule.of(month, dom, dow, time, timeByte == 24, defn, std, before, after);
+    stbtic ZoneOffsetTrbnsitionRule rebdExternbl(DbtbInput in) throws IOException {
+        int dbtb = in.rebdInt();
+        Month month = Month.of(dbtb >>> 28);
+        int dom = ((dbtb & (63 << 22)) >>> 22) - 32;
+        int dowByte = (dbtb & (7 << 19)) >>> 19;
+        DbyOfWeek dow = dowByte == 0 ? null : DbyOfWeek.of(dowByte);
+        int timeByte = (dbtb & (31 << 14)) >>> 14;
+        TimeDefinition defn = TimeDefinition.vblues()[(dbtb & (3 << 12)) >>> 12];
+        int stdByte = (dbtb & (255 << 4)) >>> 4;
+        int beforeByte = (dbtb & (3 << 2)) >>> 2;
+        int bfterByte = (dbtb & 3);
+        LocblTime time = (timeByte == 31 ? LocblTime.ofSecondOfDby(in.rebdInt()) : LocblTime.of(timeByte % 24, 0));
+        ZoneOffset std = (stdByte == 255 ? ZoneOffset.ofTotblSeconds(in.rebdInt()) : ZoneOffset.ofTotblSeconds((stdByte - 128) * 900));
+        ZoneOffset before = (beforeByte == 3 ? ZoneOffset.ofTotblSeconds(in.rebdInt()) : ZoneOffset.ofTotblSeconds(std.getTotblSeconds() + beforeByte * 1800));
+        ZoneOffset bfter = (bfterByte == 3 ? ZoneOffset.ofTotblSeconds(in.rebdInt()) : ZoneOffset.ofTotblSeconds(std.getTotblSeconds() + bfterByte * 1800));
+        return ZoneOffsetTrbnsitionRule.of(month, dom, dow, time, timeByte == 24, defn, std, before, bfter);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the month of the transition.
+     * Gets the month of the trbnsition.
      * <p>
-     * If the rule defines an exact date then the month is the month of that date.
+     * If the rule defines bn exbct dbte then the month is the month of thbt dbte.
      * <p>
-     * If the rule defines a week where the transition might occur, then the month
-     * if the month of either the earliest or latest possible date of the cutover.
+     * If the rule defines b week where the trbnsition might occur, then the month
+     * if the month of either the ebrliest or lbtest possible dbte of the cutover.
      *
-     * @return the month of the transition, not null
+     * @return the month of the trbnsition, not null
      */
     public Month getMonth() {
         return month;
     }
 
     /**
-     * Gets the indicator of the day-of-month of the transition.
+     * Gets the indicbtor of the dby-of-month of the trbnsition.
      * <p>
-     * If the rule defines an exact date then the day is the month of that date.
+     * If the rule defines bn exbct dbte then the dby is the month of thbt dbte.
      * <p>
-     * If the rule defines a week where the transition might occur, then the day
-     * defines either the start of the end of the transition week.
+     * If the rule defines b week where the trbnsition might occur, then the dby
+     * defines either the stbrt of the end of the trbnsition week.
      * <p>
-     * If the value is positive, then it represents a normal day-of-month, and is the
-     * earliest possible date that the transition can be.
-     * The date may refer to 29th February which should be treated as 1st March in non-leap years.
+     * If the vblue is positive, then it represents b normbl dby-of-month, bnd is the
+     * ebrliest possible dbte thbt the trbnsition cbn be.
+     * The dbte mby refer to 29th Februbry which should be trebted bs 1st Mbrch in non-lebp yebrs.
      * <p>
-     * If the value is negative, then it represents the number of days back from the
-     * end of the month where {@code -1} is the last day of the month.
-     * In this case, the day identified is the latest possible date that the transition can be.
+     * If the vblue is negbtive, then it represents the number of dbys bbck from the
+     * end of the month where {@code -1} is the lbst dby of the month.
+     * In this cbse, the dby identified is the lbtest possible dbte thbt the trbnsition cbn be.
      *
-     * @return the day-of-month indicator, from -28 to 31 excluding 0
+     * @return the dby-of-month indicbtor, from -28 to 31 excluding 0
      */
-    public int getDayOfMonthIndicator() {
+    public int getDbyOfMonthIndicbtor() {
         return dom;
     }
 
     /**
-     * Gets the day-of-week of the transition.
+     * Gets the dby-of-week of the trbnsition.
      * <p>
-     * If the rule defines an exact date then this returns null.
+     * If the rule defines bn exbct dbte then this returns null.
      * <p>
-     * If the rule defines a week where the cutover might occur, then this method
-     * returns the day-of-week that the month-day will be adjusted to.
-     * If the day is positive then the adjustment is later.
-     * If the day is negative then the adjustment is earlier.
+     * If the rule defines b week where the cutover might occur, then this method
+     * returns the dby-of-week thbt the month-dby will be bdjusted to.
+     * If the dby is positive then the bdjustment is lbter.
+     * If the dby is negbtive then the bdjustment is ebrlier.
      *
-     * @return the day-of-week that the transition occurs, null if the rule defines an exact date
+     * @return the dby-of-week thbt the trbnsition occurs, null if the rule defines bn exbct dbte
      */
-    public DayOfWeek getDayOfWeek() {
+    public DbyOfWeek getDbyOfWeek() {
         return dow;
     }
 
     /**
-     * Gets the local time of day of the transition which must be checked with
-     * {@link #isMidnightEndOfDay()}.
+     * Gets the locbl time of dby of the trbnsition which must be checked with
+     * {@link #isMidnightEndOfDby()}.
      * <p>
-     * The time is converted into an instant using the time definition.
+     * The time is converted into bn instbnt using the time definition.
      *
-     * @return the local time of day of the transition, not null
+     * @return the locbl time of dby of the trbnsition, not null
      */
-    public LocalTime getLocalTime() {
+    public LocblTime getLocblTime() {
         return time;
     }
 
     /**
-     * Is the transition local time midnight at the end of day.
+     * Is the trbnsition locbl time midnight bt the end of dby.
      * <p>
-     * The transition may be represented as occurring at 24:00.
+     * The trbnsition mby be represented bs occurring bt 24:00.
      *
-     * @return whether a local time of midnight is at the start or end of the day
+     * @return whether b locbl time of midnight is bt the stbrt or end of the dby
      */
-    public boolean isMidnightEndOfDay() {
-        return timeEndOfDay;
+    public boolebn isMidnightEndOfDby() {
+        return timeEndOfDby;
     }
 
     /**
-     * Gets the time definition, specifying how to convert the time to an instant.
+     * Gets the time definition, specifying how to convert the time to bn instbnt.
      * <p>
-     * The local time can be converted to an instant using the standard offset,
-     * the wall offset or UTC.
+     * The locbl time cbn be converted to bn instbnt using the stbndbrd offset,
+     * the wbll offset or UTC.
      *
      * @return the time definition, not null
      */
@@ -444,16 +444,16 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     }
 
     /**
-     * Gets the standard offset in force at the transition.
+     * Gets the stbndbrd offset in force bt the trbnsition.
      *
-     * @return the standard offset, not null
+     * @return the stbndbrd offset, not null
      */
-    public ZoneOffset getStandardOffset() {
-        return standardOffset;
+    public ZoneOffset getStbndbrdOffset() {
+        return stbndbrdOffset;
     }
 
     /**
-     * Gets the offset before the transition.
+     * Gets the offset before the trbnsition.
      *
      * @return the offset before, not null
      */
@@ -462,9 +462,9 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     }
 
     /**
-     * Gets the offset after the transition.
+     * Gets the offset bfter the trbnsition.
      *
-     * @return the offset after, not null
+     * @return the offset bfter, not null
      */
     public ZoneOffset getOffsetAfter() {
         return offsetAfter;
@@ -472,154 +472,154 @@ public final class ZoneOffsetTransitionRule implements Serializable {
 
     //-----------------------------------------------------------------------
     /**
-     * Creates a transition instance for the specified year.
+     * Crebtes b trbnsition instbnce for the specified yebr.
      * <p>
-     * Calculations are performed using the ISO-8601 chronology.
+     * Cblculbtions bre performed using the ISO-8601 chronology.
      *
-     * @param year  the year to create a transition for, not null
-     * @return the transition instance, not null
+     * @pbrbm yebr  the yebr to crebte b trbnsition for, not null
+     * @return the trbnsition instbnce, not null
      */
-    public ZoneOffsetTransition createTransition(int year) {
-        LocalDate date;
+    public ZoneOffsetTrbnsition crebteTrbnsition(int yebr) {
+        LocblDbte dbte;
         if (dom < 0) {
-            date = LocalDate.of(year, month, month.length(IsoChronology.INSTANCE.isLeapYear(year)) + 1 + dom);
+            dbte = LocblDbte.of(yebr, month, month.length(IsoChronology.INSTANCE.isLebpYebr(yebr)) + 1 + dom);
             if (dow != null) {
-                date = date.with(previousOrSame(dow));
+                dbte = dbte.with(previousOrSbme(dow));
             }
         } else {
-            date = LocalDate.of(year, month, dom);
+            dbte = LocblDbte.of(yebr, month, dom);
             if (dow != null) {
-                date = date.with(nextOrSame(dow));
+                dbte = dbte.with(nextOrSbme(dow));
             }
         }
-        if (timeEndOfDay) {
-            date = date.plusDays(1);
+        if (timeEndOfDby) {
+            dbte = dbte.plusDbys(1);
         }
-        LocalDateTime localDT = LocalDateTime.of(date, time);
-        LocalDateTime transition = timeDefinition.createDateTime(localDT, standardOffset, offsetBefore);
-        return new ZoneOffsetTransition(transition, offsetBefore, offsetAfter);
+        LocblDbteTime locblDT = LocblDbteTime.of(dbte, time);
+        LocblDbteTime trbnsition = timeDefinition.crebteDbteTime(locblDT, stbndbrdOffset, offsetBefore);
+        return new ZoneOffsetTrbnsition(trbnsition, offsetBefore, offsetAfter);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this object equals another.
+     * Checks if this object equbls bnother.
      * <p>
-     * The entire state of the object is compared.
+     * The entire stbte of the object is compbred.
      *
-     * @param otherRule  the other object to compare to, null returns false
-     * @return true if equal
+     * @pbrbm otherRule  the other object to compbre to, null returns fblse
+     * @return true if equbl
      */
     @Override
-    public boolean equals(Object otherRule) {
+    public boolebn equbls(Object otherRule) {
         if (otherRule == this) {
             return true;
         }
-        if (otherRule instanceof ZoneOffsetTransitionRule) {
-            ZoneOffsetTransitionRule other = (ZoneOffsetTransitionRule) otherRule;
+        if (otherRule instbnceof ZoneOffsetTrbnsitionRule) {
+            ZoneOffsetTrbnsitionRule other = (ZoneOffsetTrbnsitionRule) otherRule;
             return month == other.month && dom == other.dom && dow == other.dow &&
                 timeDefinition == other.timeDefinition &&
-                time.equals(other.time) &&
-                timeEndOfDay == other.timeEndOfDay &&
-                standardOffset.equals(other.standardOffset) &&
-                offsetBefore.equals(other.offsetBefore) &&
-                offsetAfter.equals(other.offsetAfter);
+                time.equbls(other.time) &&
+                timeEndOfDby == other.timeEndOfDby &&
+                stbndbrdOffset.equbls(other.stbndbrdOffset) &&
+                offsetBefore.equbls(other.offsetBefore) &&
+                offsetAfter.equbls(other.offsetAfter);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a suitable hash code.
+     * Returns b suitbble hbsh code.
      *
-     * @return the hash code
+     * @return the hbsh code
      */
     @Override
-    public int hashCode() {
-        int hash = ((time.toSecondOfDay() + (timeEndOfDay ? 1 : 0)) << 15) +
-                (month.ordinal() << 11) + ((dom + 32) << 5) +
-                ((dow == null ? 7 : dow.ordinal()) << 2) + (timeDefinition.ordinal());
-        return hash ^ standardOffset.hashCode() ^
-                offsetBefore.hashCode() ^ offsetAfter.hashCode();
+    public int hbshCode() {
+        int hbsh = ((time.toSecondOfDby() + (timeEndOfDby ? 1 : 0)) << 15) +
+                (month.ordinbl() << 11) + ((dom + 32) << 5) +
+                ((dow == null ? 7 : dow.ordinbl()) << 2) + (timeDefinition.ordinbl());
+        return hbsh ^ stbndbrdOffset.hbshCode() ^
+                offsetBefore.hbshCode() ^ offsetAfter.hbshCode();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a string describing this object.
+     * Returns b string describing this object.
      *
-     * @return a string for debugging, not null
+     * @return b string for debugging, not null
      */
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append("TransitionRule[")
-            .append(offsetBefore.compareTo(offsetAfter) > 0 ? "Gap " : "Overlap ")
-            .append(offsetBefore).append(" to ").append(offsetAfter).append(", ");
+        buf.bppend("TrbnsitionRule[")
+            .bppend(offsetBefore.compbreTo(offsetAfter) > 0 ? "Gbp " : "Overlbp ")
+            .bppend(offsetBefore).bppend(" to ").bppend(offsetAfter).bppend(", ");
         if (dow != null) {
             if (dom == -1) {
-                buf.append(dow.name()).append(" on or before last day of ").append(month.name());
+                buf.bppend(dow.nbme()).bppend(" on or before lbst dby of ").bppend(month.nbme());
             } else if (dom < 0) {
-                buf.append(dow.name()).append(" on or before last day minus ").append(-dom - 1).append(" of ").append(month.name());
+                buf.bppend(dow.nbme()).bppend(" on or before lbst dby minus ").bppend(-dom - 1).bppend(" of ").bppend(month.nbme());
             } else {
-                buf.append(dow.name()).append(" on or after ").append(month.name()).append(' ').append(dom);
+                buf.bppend(dow.nbme()).bppend(" on or bfter ").bppend(month.nbme()).bppend(' ').bppend(dom);
             }
         } else {
-            buf.append(month.name()).append(' ').append(dom);
+            buf.bppend(month.nbme()).bppend(' ').bppend(dom);
         }
-        buf.append(" at ").append(timeEndOfDay ? "24:00" : time.toString())
-            .append(" ").append(timeDefinition)
-            .append(", standard offset ").append(standardOffset)
-            .append(']');
+        buf.bppend(" bt ").bppend(timeEndOfDby ? "24:00" : time.toString())
+            .bppend(" ").bppend(timeDefinition)
+            .bppend(", stbndbrd offset ").bppend(stbndbrdOffset)
+            .bppend(']');
         return buf.toString();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * A definition of the way a local time can be converted to the actual
-     * transition date-time.
+     * A definition of the wby b locbl time cbn be converted to the bctubl
+     * trbnsition dbte-time.
      * <p>
-     * Time zone rules are expressed in one of three ways:
+     * Time zone rules bre expressed in one of three wbys:
      * <ul>
-     * <li>Relative to UTC</li>
-     * <li>Relative to the standard offset in force</li>
-     * <li>Relative to the wall offset (what you would see on a clock on the wall)</li>
+     * <li>Relbtive to UTC</li>
+     * <li>Relbtive to the stbndbrd offset in force</li>
+     * <li>Relbtive to the wbll offset (whbt you would see on b clock on the wbll)</li>
      * </ul>
      */
-    public static enum TimeDefinition {
-        /** The local date-time is expressed in terms of the UTC offset. */
+    public stbtic enum TimeDefinition {
+        /** The locbl dbte-time is expressed in terms of the UTC offset. */
         UTC,
-        /** The local date-time is expressed in terms of the wall offset. */
+        /** The locbl dbte-time is expressed in terms of the wbll offset. */
         WALL,
-        /** The local date-time is expressed in terms of the standard offset. */
+        /** The locbl dbte-time is expressed in terms of the stbndbrd offset. */
         STANDARD;
 
         /**
-         * Converts the specified local date-time to the local date-time actually
-         * seen on a wall clock.
+         * Converts the specified locbl dbte-time to the locbl dbte-time bctublly
+         * seen on b wbll clock.
          * <p>
          * This method converts using the type of this enum.
-         * The output is defined relative to the 'before' offset of the transition.
+         * The output is defined relbtive to the 'before' offset of the trbnsition.
          * <p>
          * The UTC type uses the UTC offset.
-         * The STANDARD type uses the standard offset.
-         * The WALL type returns the input date-time.
-         * The result is intended for use with the wall-offset.
+         * The STANDARD type uses the stbndbrd offset.
+         * The WALL type returns the input dbte-time.
+         * The result is intended for use with the wbll-offset.
          *
-         * @param dateTime  the local date-time, not null
-         * @param standardOffset  the standard offset, not null
-         * @param wallOffset  the wall offset, not null
-         * @return the date-time relative to the wall/before offset, not null
+         * @pbrbm dbteTime  the locbl dbte-time, not null
+         * @pbrbm stbndbrdOffset  the stbndbrd offset, not null
+         * @pbrbm wbllOffset  the wbll offset, not null
+         * @return the dbte-time relbtive to the wbll/before offset, not null
          */
-        public LocalDateTime createDateTime(LocalDateTime dateTime, ZoneOffset standardOffset, ZoneOffset wallOffset) {
+        public LocblDbteTime crebteDbteTime(LocblDbteTime dbteTime, ZoneOffset stbndbrdOffset, ZoneOffset wbllOffset) {
             switch (this) {
-                case UTC: {
-                    int difference = wallOffset.getTotalSeconds() - ZoneOffset.UTC.getTotalSeconds();
-                    return dateTime.plusSeconds(difference);
+                cbse UTC: {
+                    int difference = wbllOffset.getTotblSeconds() - ZoneOffset.UTC.getTotblSeconds();
+                    return dbteTime.plusSeconds(difference);
                 }
-                case STANDARD: {
-                    int difference = wallOffset.getTotalSeconds() - standardOffset.getTotalSeconds();
-                    return dateTime.plusSeconds(difference);
+                cbse STANDARD: {
+                    int difference = wbllOffset.getTotblSeconds() - stbndbrdOffset.getTotblSeconds();
+                    return dbteTime.plusSeconds(difference);
                 }
-                default:  // WALL
-                    return dateTime;
+                defbult:  // WALL
+                    return dbteTime;
             }
         }
     }

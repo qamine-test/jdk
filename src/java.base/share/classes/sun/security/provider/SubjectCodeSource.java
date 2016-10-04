@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.net.URL;
-import java.util.*;
-import java.security.CodeSource;
-import java.security.Principal;
-import java.security.cert.Certificate;
-import java.lang.reflect.Constructor;
+import jbvb.net.URL;
+import jbvb.util.*;
+import jbvb.security.CodeSource;
+import jbvb.security.Principbl;
+import jbvb.security.cert.Certificbte;
+import jbvb.lbng.reflect.Constructor;
 
-import javax.security.auth.Subject;
-import sun.security.provider.PolicyParser.PrincipalEntry;
+import jbvbx.security.buth.Subject;
+import sun.security.provider.PolicyPbrser.PrincipblEntry;
 
 /**
- * <p> This <code>SubjectCodeSource</code> class contains
- * a <code>URL</code>, signer certificates, and either a <code>Subject</code>
- * (that represents the <code>Subject</code> in the current
- * <code>AccessControlContext</code>), or a linked list of Principals
- * (that represent a "subject" in a <code>Policy</code>).
+ * <p> This <code>SubjectCodeSource</code> clbss contbins
+ * b <code>URL</code>, signer certificbtes, bnd either b <code>Subject</code>
+ * (thbt represents the <code>Subject</code> in the current
+ * <code>AccessControlContext</code>), or b linked list of Principbls
+ * (thbt represent b "subject" in b <code>Policy</code>).
  *
  */
-class SubjectCodeSource extends CodeSource implements java.io.Serializable {
+clbss SubjectCodeSource extends CodeSource implements jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = 6039418085604715275L;
+    privbte stbtic finbl long seriblVersionUID = 6039418085604715275L;
 
-    private static final java.util.ResourceBundle rb =
-        java.security.AccessController.doPrivileged
-        (new java.security.PrivilegedAction<java.util.ResourceBundle>() {
-            public java.util.ResourceBundle run() {
-                return (java.util.ResourceBundle.getBundle
+    privbte stbtic finbl jbvb.util.ResourceBundle rb =
+        jbvb.security.AccessController.doPrivileged
+        (new jbvb.security.PrivilegedAction<jbvb.util.ResourceBundle>() {
+            public jbvb.util.ResourceBundle run() {
+                return (jbvb.util.ResourceBundle.getBundle
                         ("sun.security.util.AuthResources"));
             }
         });
 
-    private Subject subject;
-    private LinkedList<PrincipalEntry> principals;
-    private static final Class<?>[] PARAMS = { String.class };
-    private static final sun.security.util.Debug debug =
-        sun.security.util.Debug.getInstance("auth", "\t[Auth Access]");
-    private ClassLoader sysClassLoader;
+    privbte Subject subject;
+    privbte LinkedList<PrincipblEntry> principbls;
+    privbte stbtic finbl Clbss<?>[] PARAMS = { String.clbss };
+    privbte stbtic finbl sun.security.util.Debug debug =
+        sun.security.util.Debug.getInstbnce("buth", "\t[Auth Access]");
+    privbte ClbssLobder sysClbssLobder;
 
     /**
-     * Creates a new <code>SubjectCodeSource</code>
-     * with the given <code>Subject</code>, principals, <code>URL</code>,
-     * and signers (Certificates).  The <code>Subject</code>
-     * represents the <code>Subject</code> associated with the current
+     * Crebtes b new <code>SubjectCodeSource</code>
+     * with the given <code>Subject</code>, principbls, <code>URL</code>,
+     * bnd signers (Certificbtes).  The <code>Subject</code>
+     * represents the <code>Subject</code> bssocibted with the current
      * <code>AccessControlContext</code>.
-     * The Principals are given as a <code>LinkedList</code>
-     * of <code>PolicyParser.PrincipalEntry</code> objects.
-     * Typically either a <code>Subject</code> will be provided,
-     * or a list of <code>principals</code> will be provided
+     * The Principbls bre given bs b <code>LinkedList</code>
+     * of <code>PolicyPbrser.PrincipblEntry</code> objects.
+     * Typicblly either b <code>Subject</code> will be provided,
+     * or b list of <code>principbls</code> will be provided
      * (not both).
      *
      * <p>
      *
-     * @param subject the <code>Subject</code> associated with this
+     * @pbrbm subject the <code>Subject</code> bssocibted with this
      *                  <code>SubjectCodeSource</code> <p>
      *
-     * @param url the <code>URL</code> associated with this
+     * @pbrbm url the <code>URL</code> bssocibted with this
      *                  <code>SubjectCodeSource</code> <p>
      *
-     * @param certs the signers associated with this
+     * @pbrbm certs the signers bssocibted with this
      *                  <code>SubjectCodeSource</code> <p>
      */
     SubjectCodeSource(Subject subject,
-        LinkedList<PrincipalEntry> principals,
-        URL url, Certificate[] certs) {
+        LinkedList<PrincipblEntry> principbls,
+        URL url, Certificbte[] certs) {
 
         super(url, certs);
         this.subject = subject;
-        this.principals = (principals == null ?
-                new LinkedList<PrincipalEntry>() :
-                new LinkedList<PrincipalEntry>(principals));
-        sysClassLoader = java.security.AccessController.doPrivileged
-        (new java.security.PrivilegedAction<ClassLoader>() {
-            public ClassLoader run() {
-                    return ClassLoader.getSystemClassLoader();
+        this.principbls = (principbls == null ?
+                new LinkedList<PrincipblEntry>() :
+                new LinkedList<PrincipblEntry>(principbls));
+        sysClbssLobder = jbvb.security.AccessController.doPrivileged
+        (new jbvb.security.PrivilegedAction<ClbssLobder>() {
+            public ClbssLobder run() {
+                    return ClbssLobder.getSystemClbssLobder();
             }
         });
     }
 
     /**
-     * Get the Principals associated with this <code>SubjectCodeSource</code>.
-     * The Principals are retrieved as a <code>LinkedList</code>
-     * of <code>PolicyParser.PrincipalEntry</code> objects.
+     * Get the Principbls bssocibted with this <code>SubjectCodeSource</code>.
+     * The Principbls bre retrieved bs b <code>LinkedList</code>
+     * of <code>PolicyPbrser.PrincipblEntry</code> objects.
      *
      * <p>
      *
-     * @return the Principals associated with this
-     *          <code>SubjectCodeSource</code> as a <code>LinkedList</code>
-     *          of <code>PolicyParser.PrincipalEntry</code> objects.
+     * @return the Principbls bssocibted with this
+     *          <code>SubjectCodeSource</code> bs b <code>LinkedList</code>
+     *          of <code>PolicyPbrser.PrincipblEntry</code> objects.
      */
-    LinkedList<PrincipalEntry> getPrincipals() {
-        return principals;
+    LinkedList<PrincipblEntry> getPrincipbls() {
+        return principbls;
     }
 
     /**
-     * Get the <code>Subject</code> associated with this
+     * Get the <code>Subject</code> bssocibted with this
      * <code>SubjectCodeSource</code>.  The <code>Subject</code>
-     * represents the <code>Subject</code> associated with the
+     * represents the <code>Subject</code> bssocibted with the
      * current <code>AccessControlContext</code>.
      *
      * <p>
      *
-     * @return the <code>Subject</code> associated with this
+     * @return the <code>Subject</code> bssocibted with this
      *          <code>SubjectCodeSource</code>.
      */
     Subject getSubject() {
@@ -136,122 +136,122 @@ class SubjectCodeSource extends CodeSource implements java.io.Serializable {
     /**
      * Returns true if this <code>SubjectCodeSource</code> object "implies"
      * the specified <code>CodeSource</code>.
-     * More specifically, this method makes the following checks.
-     * If any fail, it returns false.  If they all succeed, it returns true.
+     * More specificblly, this method mbkes the following checks.
+     * If bny fbil, it returns fblse.  If they bll succeed, it returns true.
      *
      * <p>
      * <ol>
      * <li> The provided codesource must not be <code>null</code>.
-     * <li> codesource must be an instance of <code>SubjectCodeSource</code>.
+     * <li> codesource must be bn instbnce of <code>SubjectCodeSource</code>.
      * <li> super.implies(codesource) must return true.
-     * <li> for each principal in this codesource's principal list:
+     * <li> for ebch principbl in this codesource's principbl list:
      * <ol>
-     * <li>     if the principal is an instanceof
-     *          <code>Principal</code>, then the principal must
+     * <li>     if the principbl is bn instbnceof
+     *          <code>Principbl</code>, then the principbl must
      *          imply the provided codesource's <code>Subject</code>.
-     * <li>     if the principal is not an instanceof
-     *          <code>Principal</code>, then the provided
-     *          codesource's <code>Subject</code> must have an
-     *          associated <code>Principal</code>, <i>P</i>, where
-     *          P.getClass().getName equals principal.principalClass,
-     *          and P.getName() equals principal.principalName.
+     * <li>     if the principbl is not bn instbnceof
+     *          <code>Principbl</code>, then the provided
+     *          codesource's <code>Subject</code> must hbve bn
+     *          bssocibted <code>Principbl</code>, <i>P</i>, where
+     *          P.getClbss().getNbme equbls principbl.principblClbss,
+     *          bnd P.getNbme() equbls principbl.principblNbme.
      * </ol>
      * </ol>
      *
      * <p>
      *
-     * @param codesource the <code>CodeSource</code> to compare against.
+     * @pbrbm codesource the <code>CodeSource</code> to compbre bgbinst.
      *
      * @return true if this <code>SubjectCodeSource</code> implies the
      *          the specified <code>CodeSource</code>.
      */
-    public boolean implies(CodeSource codesource) {
+    public boolebn implies(CodeSource codesource) {
 
-        LinkedList<PrincipalEntry> subjectList = null;
+        LinkedList<PrincipblEntry> subjectList = null;
 
         if (codesource == null ||
-            !(codesource instanceof SubjectCodeSource) ||
+            !(codesource instbnceof SubjectCodeSource) ||
             !(super.implies(codesource))) {
 
             if (debug != null)
                 debug.println("\tSubjectCodeSource.implies: FAILURE 1");
-            return false;
+            return fblse;
         }
 
-        SubjectCodeSource that = (SubjectCodeSource)codesource;
+        SubjectCodeSource thbt = (SubjectCodeSource)codesource;
 
-        // if the principal list in the policy "implies"
-        // the Subject associated with the current AccessControlContext,
+        // if the principbl list in the policy "implies"
+        // the Subject bssocibted with the current AccessControlContext,
         // then return true
 
-        if (this.principals == null) {
+        if (this.principbls == null) {
             if (debug != null)
                 debug.println("\tSubjectCodeSource.implies: PASS 1");
             return true;
         }
 
-        if (that.getSubject() == null ||
-            that.getSubject().getPrincipals().size() == 0) {
+        if (thbt.getSubject() == null ||
+            thbt.getSubject().getPrincipbls().size() == 0) {
             if (debug != null)
                 debug.println("\tSubjectCodeSource.implies: FAILURE 2");
-            return false;
+            return fblse;
         }
 
-        ListIterator<PrincipalEntry> li = this.principals.listIterator(0);
-        while (li.hasNext()) {
-            PrincipalEntry pppe = li.next();
+        ListIterbtor<PrincipblEntry> li = this.principbls.listIterbtor(0);
+        while (li.hbsNext()) {
+            PrincipblEntry pppe = li.next();
             try {
 
-                // use new Principal.implies method
+                // use new Principbl.implies method
 
-                Class<?> pClass = Class.forName(pppe.principalClass,
-                                                true, sysClassLoader);
-                if (!Principal.class.isAssignableFrom(pClass)) {
+                Clbss<?> pClbss = Clbss.forNbme(pppe.principblClbss,
+                                                true, sysClbssLobder);
+                if (!Principbl.clbss.isAssignbbleFrom(pClbss)) {
                     // not the right subtype
-                    throw new ClassCastException(pppe.principalClass +
-                                                 " is not a Principal");
+                    throw new ClbssCbstException(pppe.principblClbss +
+                                                 " is not b Principbl");
                 }
-                Constructor<?> c = pClass.getConstructor(PARAMS);
-                Principal p = (Principal)c.newInstance(new Object[] {
-                                                       pppe.principalName });
+                Constructor<?> c = pClbss.getConstructor(PARAMS);
+                Principbl p = (Principbl)c.newInstbnce(new Object[] {
+                                                       pppe.principblNbme });
 
-                if (!p.implies(that.getSubject())) {
+                if (!p.implies(thbt.getSubject())) {
                     if (debug != null)
                         debug.println("\tSubjectCodeSource.implies: FAILURE 3");
-                    return false;
+                    return fblse;
                 } else {
                     if (debug != null)
                         debug.println("\tSubjectCodeSource.implies: PASS 2");
                     return true;
                 }
-            } catch (Exception e) {
+            } cbtch (Exception e) {
 
-                // simply compare Principals
+                // simply compbre Principbls
 
                 if (subjectList == null) {
 
-                    if (that.getSubject() == null) {
+                    if (thbt.getSubject() == null) {
                         if (debug != null)
                             debug.println("\tSubjectCodeSource.implies: " +
                                         "FAILURE 4");
-                        return false;
+                        return fblse;
                     }
-                    Iterator<Principal> i =
-                                that.getSubject().getPrincipals().iterator();
+                    Iterbtor<Principbl> i =
+                                thbt.getSubject().getPrincipbls().iterbtor();
 
-                    subjectList = new LinkedList<PrincipalEntry>();
-                    while (i.hasNext()) {
-                        Principal p = i.next();
-                        PrincipalEntry spppe = new PrincipalEntry
-                                (p.getClass().getName(), p.getName());
-                        subjectList.add(spppe);
+                    subjectList = new LinkedList<PrincipblEntry>();
+                    while (i.hbsNext()) {
+                        Principbl p = i.next();
+                        PrincipblEntry spppe = new PrincipblEntry
+                                (p.getClbss().getNbme(), p.getNbme());
+                        subjectList.bdd(spppe);
                     }
                 }
 
-                if (!subjectListImpliesPrincipalEntry(subjectList, pppe)) {
+                if (!subjectListImpliesPrincipblEntry(subjectList, pppe)) {
                     if (debug != null)
                         debug.println("\tSubjectCodeSource.implies: FAILURE 5");
-                    return false;
+                    return fblse;
                 }
             }
         }
@@ -263,137 +263,137 @@ class SubjectCodeSource extends CodeSource implements java.io.Serializable {
 
     /**
      * This method returns, true, if the provided <i>subjectList</i>
-     * "contains" the <code>Principal</code> specified
-     * in the provided <i>pppe</i> argument.
+     * "contbins" the <code>Principbl</code> specified
+     * in the provided <i>pppe</i> brgument.
      *
-     * Note that the provided <i>pppe</i> argument may have
-     * wildcards (*) for the <code>Principal</code> class and name,
+     * Note thbt the provided <i>pppe</i> brgument mby hbve
+     * wildcbrds (*) for the <code>Principbl</code> clbss bnd nbme,
      * which need to be considered.
      *
      * <p>
      *
-     * @param subjectList a list of PolicyParser.PrincipalEntry objects
-     *          that correspond to all the Principals in the Subject currently
-     *          on this thread's AccessControlContext. <p>
+     * @pbrbm subjectList b list of PolicyPbrser.PrincipblEntry objects
+     *          thbt correspond to bll the Principbls in the Subject currently
+     *          on this threbd's AccessControlContext. <p>
      *
-     * @param pppe the Principals specified in a grant entry.
+     * @pbrbm pppe the Principbls specified in b grbnt entry.
      *
-     * @return true if the provided <i>subjectList</i> "contains"
-     *          the <code>Principal</code> specified in the provided
-     *          <i>pppe</i> argument.
+     * @return true if the provided <i>subjectList</i> "contbins"
+     *          the <code>Principbl</code> specified in the provided
+     *          <i>pppe</i> brgument.
      */
-    private boolean subjectListImpliesPrincipalEntry(
-                LinkedList<PrincipalEntry> subjectList, PrincipalEntry pppe) {
+    privbte boolebn subjectListImpliesPrincipblEntry(
+                LinkedList<PrincipblEntry> subjectList, PrincipblEntry pppe) {
 
-        ListIterator<PrincipalEntry> li = subjectList.listIterator(0);
-        while (li.hasNext()) {
-            PrincipalEntry listPppe = li.next();
+        ListIterbtor<PrincipblEntry> li = subjectList.listIterbtor(0);
+        while (li.hbsNext()) {
+            PrincipblEntry listPppe = li.next();
 
-            if (pppe.getPrincipalClass().equals
-                        (PrincipalEntry.WILDCARD_CLASS) ||
-                pppe.getPrincipalClass().equals(listPppe.getPrincipalClass()))
+            if (pppe.getPrincipblClbss().equbls
+                        (PrincipblEntry.WILDCARD_CLASS) ||
+                pppe.getPrincipblClbss().equbls(listPppe.getPrincipblClbss()))
             {
-                if (pppe.getPrincipalName().equals
-                        (PrincipalEntry.WILDCARD_NAME) ||
-                    pppe.getPrincipalName().equals(listPppe.getPrincipalName()))
+                if (pppe.getPrincipblNbme().equbls
+                        (PrincipblEntry.WILDCARD_NAME) ||
+                    pppe.getPrincipblNbme().equbls(listPppe.getPrincipblNbme()))
                     return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Tests for equality between the specified object and this
-     * object. Two <code>SubjectCodeSource</code> objects are considered equal
-     * if their locations are of identical value, if the two sets of
-     * Certificates are of identical values, and if the
-     * Subjects are equal, and if the PolicyParser.PrincipalEntry values
-     * are of identical values.  It is not required that
-     * the Certificates or PolicyParser.PrincipalEntry values
-     * be in the same order.
+     * Tests for equblity between the specified object bnd this
+     * object. Two <code>SubjectCodeSource</code> objects bre considered equbl
+     * if their locbtions bre of identicbl vblue, if the two sets of
+     * Certificbtes bre of identicbl vblues, bnd if the
+     * Subjects bre equbl, bnd if the PolicyPbrser.PrincipblEntry vblues
+     * bre of identicbl vblues.  It is not required thbt
+     * the Certificbtes or PolicyPbrser.PrincipblEntry vblues
+     * be in the sbme order.
      *
      * <p>
      *
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj the object to test for equblity with this object.
      *
-     * @return true if the objects are considered equal, false otherwise.
+     * @return true if the objects bre considered equbl, fblse otherwise.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
 
         if (obj == this)
             return true;
 
-        if (super.equals(obj) == false)
-            return false;
+        if (super.equbls(obj) == fblse)
+            return fblse;
 
-        if (!(obj instanceof SubjectCodeSource))
-            return false;
+        if (!(obj instbnceof SubjectCodeSource))
+            return fblse;
 
-        SubjectCodeSource that = (SubjectCodeSource)obj;
+        SubjectCodeSource thbt = (SubjectCodeSource)obj;
 
-        // the principal lists must match
+        // the principbl lists must mbtch
         try {
-            if (this.getSubject() != that.getSubject())
-                return false;
-        } catch (SecurityException se) {
-            return false;
+            if (this.getSubject() != thbt.getSubject())
+                return fblse;
+        } cbtch (SecurityException se) {
+            return fblse;
         }
 
-        if ((this.principals == null && that.principals != null) ||
-            (this.principals != null && that.principals == null))
-            return false;
+        if ((this.principbls == null && thbt.principbls != null) ||
+            (this.principbls != null && thbt.principbls == null))
+            return fblse;
 
-        if (this.principals != null && that.principals != null) {
-            if (!this.principals.containsAll(that.principals) ||
-                !that.principals.containsAll(this.principals))
+        if (this.principbls != null && thbt.principbls != null) {
+            if (!this.principbls.contbinsAll(thbt.principbls) ||
+                !thbt.principbls.contbinsAll(this.principbls))
 
-                return false;
+                return fblse;
         }
 
         return true;
     }
 
     /**
-     * Return a hashcode for this <code>SubjectCodeSource</code>.
+     * Return b hbshcode for this <code>SubjectCodeSource</code>.
      *
      * <p>
      *
-     * @return a hashcode for this <code>SubjectCodeSource</code>.
+     * @return b hbshcode for this <code>SubjectCodeSource</code>.
      */
-    public int hashCode() {
-        return super.hashCode();
+    public int hbshCode() {
+        return super.hbshCode();
     }
 
     /**
-     * Return a String representation of this <code>SubjectCodeSource</code>.
+     * Return b String representbtion of this <code>SubjectCodeSource</code>.
      *
      * <p>
      *
-     * @return a String representation of this <code>SubjectCodeSource</code>.
+     * @return b String representbtion of this <code>SubjectCodeSource</code>.
      */
     public String toString() {
         String returnMe = super.toString();
         if (getSubject() != null) {
             if (debug != null) {
-                final Subject finalSubject = getSubject();
+                finbl Subject finblSubject = getSubject();
                 returnMe = returnMe + "\n" +
-                        java.security.AccessController.doPrivileged
-                                (new java.security.PrivilegedAction<String>() {
+                        jbvb.security.AccessController.doPrivileged
+                                (new jbvb.security.PrivilegedAction<String>() {
                                 public String run() {
-                                    return finalSubject.toString();
+                                    return finblSubject.toString();
                                 }
                         });
             } else {
                 returnMe = returnMe + "\n" + getSubject().toString();
             }
         }
-        if (principals != null) {
-            ListIterator<PrincipalEntry> li = principals.listIterator();
-            while (li.hasNext()) {
-                PrincipalEntry pppe = li.next();
+        if (principbls != null) {
+            ListIterbtor<PrincipblEntry> li = principbls.listIterbtor();
+            while (li.hbsNext()) {
+                PrincipblEntry pppe = li.next();
                 returnMe = returnMe + rb.getString("NEWLINE") +
-                        pppe.getPrincipalClass() + " " +
-                        pppe.getPrincipalName();
+                        pppe.getPrincipblClbss() + " " +
+                        pppe.getPrincipblNbme();
             }
         }
         return returnMe;

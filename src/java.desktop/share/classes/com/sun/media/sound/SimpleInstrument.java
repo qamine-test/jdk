@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.sound.midi.Patch;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.sound.midi.Pbtch;
 
 /**
- * A simple instrument that is made of other ModelInstrument, ModelPerformer
+ * A simple instrument thbt is mbde of other ModelInstrument, ModelPerformer
  * objects.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public class SimpleInstrument extends ModelInstrument {
+public clbss SimpleInstrument extends ModelInstrument {
 
-    private static class SimpleInstrumentPart {
+    privbte stbtic clbss SimpleInstrumentPbrt {
         ModelPerformer[] performers;
         int keyFrom;
         int keyTo;
         int velFrom;
         int velTo;
-        int exclusiveClass;
+        int exclusiveClbss;
     }
     protected int preset = 0;
-    protected int bank = 0;
-    protected boolean percussion = false;
-    protected String name = "";
-    protected List<SimpleInstrumentPart> parts
-            = new ArrayList<SimpleInstrumentPart>();
+    protected int bbnk = 0;
+    protected boolebn percussion = fblse;
+    protected String nbme = "";
+    protected List<SimpleInstrumentPbrt> pbrts
+            = new ArrbyList<SimpleInstrumentPbrt>();
 
     public SimpleInstrument() {
         super(null, null, null, null);
     }
 
-    public void clear() {
-        parts.clear();
+    public void clebr() {
+        pbrts.clebr();
     }
 
-    public void add(ModelPerformer[] performers, int keyFrom, int keyTo,
-            int velFrom, int velTo, int exclusiveClass) {
-        SimpleInstrumentPart part = new SimpleInstrumentPart();
-        part.performers = performers;
-        part.keyFrom = keyFrom;
-        part.keyTo = keyTo;
-        part.velFrom = velFrom;
-        part.velTo = velTo;
-        part.exclusiveClass = exclusiveClass;
-        parts.add(part);
+    public void bdd(ModelPerformer[] performers, int keyFrom, int keyTo,
+            int velFrom, int velTo, int exclusiveClbss) {
+        SimpleInstrumentPbrt pbrt = new SimpleInstrumentPbrt();
+        pbrt.performers = performers;
+        pbrt.keyFrom = keyFrom;
+        pbrt.keyTo = keyTo;
+        pbrt.velFrom = velFrom;
+        pbrt.velTo = velTo;
+        pbrt.exclusiveClbss = exclusiveClbss;
+        pbrts.bdd(pbrt);
     }
 
-    public void add(ModelPerformer[] performers, int keyFrom, int keyTo,
+    public void bdd(ModelPerformer[] performers, int keyFrom, int keyTo,
             int velFrom, int velTo) {
-        add(performers, keyFrom, keyTo, velFrom, velTo, -1);
+        bdd(performers, keyFrom, keyTo, velFrom, velTo, -1);
     }
 
-    public void add(ModelPerformer[] performers, int keyFrom, int keyTo) {
-        add(performers, keyFrom, keyTo, 0, 127, -1);
+    public void bdd(ModelPerformer[] performers, int keyFrom, int keyTo) {
+        bdd(performers, keyFrom, keyTo, 0, 127, -1);
     }
 
-    public void add(ModelPerformer[] performers) {
-        add(performers, 0, 127, 0, 127, -1);
+    public void bdd(ModelPerformer[] performers) {
+        bdd(performers, 0, 127, 0, 127, -1);
     }
 
-    public void add(ModelPerformer performer, int keyFrom, int keyTo,
-            int velFrom, int velTo, int exclusiveClass) {
-        add(new ModelPerformer[]{performer}, keyFrom, keyTo, velFrom, velTo,
-                exclusiveClass);
+    public void bdd(ModelPerformer performer, int keyFrom, int keyTo,
+            int velFrom, int velTo, int exclusiveClbss) {
+        bdd(new ModelPerformer[]{performer}, keyFrom, keyTo, velFrom, velTo,
+                exclusiveClbss);
     }
 
-    public void add(ModelPerformer performer, int keyFrom, int keyTo,
+    public void bdd(ModelPerformer performer, int keyFrom, int keyTo,
             int velFrom, int velTo) {
-        add(new ModelPerformer[]{performer}, keyFrom, keyTo, velFrom, velTo);
+        bdd(new ModelPerformer[]{performer}, keyFrom, keyTo, velFrom, velTo);
     }
 
-    public void add(ModelPerformer performer, int keyFrom, int keyTo) {
-        add(new ModelPerformer[]{performer}, keyFrom, keyTo);
+    public void bdd(ModelPerformer performer, int keyFrom, int keyTo) {
+        bdd(new ModelPerformer[]{performer}, keyFrom, keyTo);
     }
 
-    public void add(ModelPerformer performer) {
-        add(new ModelPerformer[]{performer});
+    public void bdd(ModelPerformer performer) {
+        bdd(new ModelPerformer[]{performer});
     }
 
-    public void add(ModelInstrument ins, int keyFrom, int keyTo, int velFrom,
-            int velTo, int exclusiveClass) {
-        add(ins.getPerformers(), keyFrom, keyTo, velFrom, velTo, exclusiveClass);
+    public void bdd(ModelInstrument ins, int keyFrom, int keyTo, int velFrom,
+            int velTo, int exclusiveClbss) {
+        bdd(ins.getPerformers(), keyFrom, keyTo, velFrom, velTo, exclusiveClbss);
     }
 
-    public void add(ModelInstrument ins, int keyFrom, int keyTo, int velFrom,
+    public void bdd(ModelInstrument ins, int keyFrom, int keyTo, int velFrom,
             int velTo) {
-        add(ins.getPerformers(), keyFrom, keyTo, velFrom, velTo);
+        bdd(ins.getPerformers(), keyFrom, keyTo, velFrom, velTo);
     }
 
-    public void add(ModelInstrument ins, int keyFrom, int keyTo) {
-        add(ins.getPerformers(), keyFrom, keyTo);
+    public void bdd(ModelInstrument ins, int keyFrom, int keyTo) {
+        bdd(ins.getPerformers(), keyFrom, keyTo);
     }
 
-    public void add(ModelInstrument ins) {
-        add(ins.getPerformers());
+    public void bdd(ModelInstrument ins) {
+        bdd(ins.getPerformers());
     }
 
     public ModelPerformer[] getPerformers() {
 
         int percount = 0;
-        for (SimpleInstrumentPart part : parts)
-            if (part.performers != null)
-                percount += part.performers.length;
+        for (SimpleInstrumentPbrt pbrt : pbrts)
+            if (pbrt.performers != null)
+                percount += pbrt.performers.length;
 
         ModelPerformer[] performers = new ModelPerformer[percount];
         int px = 0;
-        for (SimpleInstrumentPart part : parts) {
-            if (part.performers != null) {
-                for (ModelPerformer mperfm : part.performers) {
+        for (SimpleInstrumentPbrt pbrt : pbrts) {
+            if (pbrt.performers != null) {
+                for (ModelPerformer mperfm : pbrt.performers) {
                     ModelPerformer performer = new ModelPerformer();
-                    performer.setName(getName());
+                    performer.setNbme(getNbme());
                     performers[px++] = performer;
 
-                    performer.setDefaultConnectionsEnabled(
-                            mperfm.isDefaultConnectionsEnabled());
+                    performer.setDefbultConnectionsEnbbled(
+                            mperfm.isDefbultConnectionsEnbbled());
                     performer.setKeyFrom(mperfm.getKeyFrom());
                     performer.setKeyTo(mperfm.getKeyTo());
                     performer.setVelFrom(mperfm.getVelFrom());
                     performer.setVelTo(mperfm.getVelTo());
-                    performer.setExclusiveClass(mperfm.getExclusiveClass());
+                    performer.setExclusiveClbss(mperfm.getExclusiveClbss());
                     performer.setSelfNonExclusive(mperfm.isSelfNonExclusive());
-                    performer.setReleaseTriggered(mperfm.isReleaseTriggered());
-                    if (part.exclusiveClass != -1)
-                        performer.setExclusiveClass(part.exclusiveClass);
-                    if (part.keyFrom > performer.getKeyFrom())
-                        performer.setKeyFrom(part.keyFrom);
-                    if (part.keyTo < performer.getKeyTo())
-                        performer.setKeyTo(part.keyTo);
-                    if (part.velFrom > performer.getVelFrom())
-                        performer.setVelFrom(part.velFrom);
-                    if (part.velTo < performer.getVelTo())
-                        performer.setVelTo(part.velTo);
-                    performer.getOscillators().addAll(mperfm.getOscillators());
-                    performer.getConnectionBlocks().addAll(
+                    performer.setRelebseTriggered(mperfm.isRelebseTriggered());
+                    if (pbrt.exclusiveClbss != -1)
+                        performer.setExclusiveClbss(pbrt.exclusiveClbss);
+                    if (pbrt.keyFrom > performer.getKeyFrom())
+                        performer.setKeyFrom(pbrt.keyFrom);
+                    if (pbrt.keyTo < performer.getKeyTo())
+                        performer.setKeyTo(pbrt.keyTo);
+                    if (pbrt.velFrom > performer.getVelFrom())
+                        performer.setVelFrom(pbrt.velFrom);
+                    if (pbrt.velTo < performer.getVelTo())
+                        performer.setVelTo(pbrt.velTo);
+                    performer.getOscillbtors().bddAll(mperfm.getOscillbtors());
+                    performer.getConnectionBlocks().bddAll(
                             mperfm.getConnectionBlocks());
                 }
             }
@@ -166,31 +166,31 @@ public class SimpleInstrument extends ModelInstrument {
         return performers;
     }
 
-    public Object getData() {
+    public Object getDbtb() {
         return null;
     }
 
-    public String getName() {
-        return this.name;
+    public String getNbme() {
+        return this.nbme;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNbme(String nbme) {
+        this.nbme = nbme;
     }
 
-    public ModelPatch getPatch() {
-        return new ModelPatch(bank, preset, percussion);
+    public ModelPbtch getPbtch() {
+        return new ModelPbtch(bbnk, preset, percussion);
     }
 
-    public void setPatch(Patch patch) {
-        if (patch instanceof ModelPatch && ((ModelPatch)patch).isPercussion()) {
+    public void setPbtch(Pbtch pbtch) {
+        if (pbtch instbnceof ModelPbtch && ((ModelPbtch)pbtch).isPercussion()) {
             percussion = true;
-            bank = patch.getBank();
-            preset = patch.getProgram();
+            bbnk = pbtch.getBbnk();
+            preset = pbtch.getProgrbm();
         } else {
-            percussion = false;
-            bank = patch.getBank();
-            preset = patch.getProgram();
+            percussion = fblse;
+            bbnk = pbtch.getBbnk();
+            preset = pbtch.getProgrbm();
         }
     }
 }

@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import sun.misc.Unsafe;
-import sun.util.logging.PlatformLogger;
+import sun.misc.Unsbfe;
+import sun.util.logging.PlbtformLogger;
 
-class UnsafeXDisposerRecord implements sun.java2d.DisposerRecord {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.UnsafeXDisposerRecord");
-    private static Unsafe unsafe = XlibWrapper.unsafe;
-    final long[] unsafe_ptrs, x_ptrs;
-    final String name;
-    volatile boolean disposed;
-    final Throwable place;
-    public UnsafeXDisposerRecord(String name, long[] unsafe_ptrs, long[] x_ptrs) {
-        this.unsafe_ptrs = unsafe_ptrs;
+clbss UnsbfeXDisposerRecord implements sun.jbvb2d.DisposerRecord {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.UnsbfeXDisposerRecord");
+    privbte stbtic Unsbfe unsbfe = XlibWrbpper.unsbfe;
+    finbl long[] unsbfe_ptrs, x_ptrs;
+    finbl String nbme;
+    volbtile boolebn disposed;
+    finbl Throwbble plbce;
+    public UnsbfeXDisposerRecord(String nbme, long[] unsbfe_ptrs, long[] x_ptrs) {
+        this.unsbfe_ptrs = unsbfe_ptrs;
         this.x_ptrs = x_ptrs;
-        this.name = name;
-        if (XlibWrapper.isBuildInternal) {
-            place = new Throwable();
+        this.nbme = nbme;
+        if (XlibWrbpper.isBuildInternbl) {
+            plbce = new Throwbble();
         } else {
-            place = null;
+            plbce = null;
         }
     }
-    public UnsafeXDisposerRecord(String name, long ... unsafe_ptrs) {
-        this.unsafe_ptrs = unsafe_ptrs;
+    public UnsbfeXDisposerRecord(String nbme, long ... unsbfe_ptrs) {
+        this.unsbfe_ptrs = unsbfe_ptrs;
         this.x_ptrs = null;
-        this.name = name;
-        if (XlibWrapper.isBuildInternal) {
-            place = new Throwable();
+        this.nbme = nbme;
+        if (XlibWrbpper.isBuildInternbl) {
+            plbce = new Throwbble();
         } else {
-            place = null;
+            plbce = null;
         }
     }
 
     public void dispose() {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
             if (!disposed) {
-                if (XlibWrapper.isBuildInternal && "Java2D Disposer".equals(Thread.currentThread().getName()) && log.isLoggable(PlatformLogger.Level.WARNING)) {
-                    if (place != null) {
-                        log.warning(name + " object was not disposed before finalization!", place);
+                if (XlibWrbpper.isBuildInternbl && "Jbvb2D Disposer".equbls(Threbd.currentThrebd().getNbme()) && log.isLoggbble(PlbtformLogger.Level.WARNING)) {
+                    if (plbce != null) {
+                        log.wbrning(nbme + " object wbs not disposed before finblizbtion!", plbce);
                     } else {
-                        log.warning(name + " object was not disposed before finalization!");
+                        log.wbrning(nbme + " object wbs not disposed before finblizbtion!");
                     }
                 }
 
-                if (unsafe_ptrs != null) {
-                    for (long l : unsafe_ptrs) {
+                if (unsbfe_ptrs != null) {
+                    for (long l : unsbfe_ptrs) {
                         if (l != 0) {
-                            unsafe.freeMemory(l);
+                            unsbfe.freeMemory(l);
                         }
                     }
                 }
                 if (x_ptrs != null) {
                     for (long l : x_ptrs) {
                         if (l != 0) {
-                            if (Native.getLong(l) != 0) {
-                                XlibWrapper.XFree(Native.getLong(l));
+                            if (Nbtive.getLong(l) != 0) {
+                                XlibWrbpper.XFree(Nbtive.getLong(l));
                             }
-                            unsafe.freeMemory(l);
+                            unsbfe.freeMemory(l);
                         }
                     }
                 }
                 disposed = true;
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 }

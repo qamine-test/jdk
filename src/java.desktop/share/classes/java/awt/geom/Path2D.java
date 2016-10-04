@@ -1,284 +1,284 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.geom;
+pbckbge jbvb.bwt.geom;
 
-import java.awt.Shape;
-import java.awt.Rectangle;
-import sun.awt.geom.Curve;
-import java.io.Serializable;
-import java.io.StreamCorruptedException;
-import java.util.Arrays;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.Rectbngle;
+import sun.bwt.geom.Curve;
+import jbvb.io.Seriblizbble;
+import jbvb.io.StrebmCorruptedException;
+import jbvb.util.Arrbys;
 
 /**
- * The {@code Path2D} class provides a simple, yet flexible
- * shape which represents an arbitrary geometric path.
- * It can fully represent any path which can be iterated by the
- * {@link PathIterator} interface including all of its segment
- * types and winding rules and it implements all of the
- * basic hit testing methods of the {@link Shape} interface.
+ * The {@code Pbth2D} clbss provides b simple, yet flexible
+ * shbpe which represents bn brbitrbry geometric pbth.
+ * It cbn fully represent bny pbth which cbn be iterbted by the
+ * {@link PbthIterbtor} interfbce including bll of its segment
+ * types bnd winding rules bnd it implements bll of the
+ * bbsic hit testing methods of the {@link Shbpe} interfbce.
  * <p>
- * Use {@link Path2D.Float} when dealing with data that can be represented
- * and used with floating point precision.  Use {@link Path2D.Double}
- * for data that requires the accuracy or range of double precision.
+ * Use {@link Pbth2D.Flobt} when debling with dbtb thbt cbn be represented
+ * bnd used with flobting point precision.  Use {@link Pbth2D.Double}
+ * for dbtb thbt requires the bccurbcy or rbnge of double precision.
  * <p>
- * {@code Path2D} provides exactly those facilities required for
- * basic construction and management of a geometric path and
- * implementation of the above interfaces with little added
- * interpretation.
- * If it is useful to manipulate the interiors of closed
- * geometric shapes beyond simple hit testing then the
- * {@link Area} class provides additional capabilities
- * specifically targeted at closed figures.
- * While both classes nominally implement the {@code Shape}
- * interface, they differ in purpose and together they provide
- * two useful views of a geometric shape where {@code Path2D}
- * deals primarily with a trajectory formed by path segments
- * and {@code Area} deals more with interpretation and manipulation
- * of enclosed regions of 2D geometric space.
+ * {@code Pbth2D} provides exbctly those fbcilities required for
+ * bbsic construction bnd mbnbgement of b geometric pbth bnd
+ * implementbtion of the bbove interfbces with little bdded
+ * interpretbtion.
+ * If it is useful to mbnipulbte the interiors of closed
+ * geometric shbpes beyond simple hit testing then the
+ * {@link Areb} clbss provides bdditionbl cbpbbilities
+ * specificblly tbrgeted bt closed figures.
+ * While both clbsses nominblly implement the {@code Shbpe}
+ * interfbce, they differ in purpose bnd together they provide
+ * two useful views of b geometric shbpe where {@code Pbth2D}
+ * debls primbrily with b trbjectory formed by pbth segments
+ * bnd {@code Areb} debls more with interpretbtion bnd mbnipulbtion
+ * of enclosed regions of 2D geometric spbce.
  * <p>
- * The {@link PathIterator} interface has more detailed descriptions
- * of the types of segments that make up a path and the winding rules
- * that control how to determine which regions are inside or outside
- * the path.
+ * The {@link PbthIterbtor} interfbce hbs more detbiled descriptions
+ * of the types of segments thbt mbke up b pbth bnd the winding rules
+ * thbt control how to determine which regions bre inside or outside
+ * the pbth.
  *
- * @author Jim Graham
+ * @buthor Jim Grbhbm
  * @since 1.6
  */
-public abstract class Path2D implements Shape, Cloneable {
+public bbstrbct clbss Pbth2D implements Shbpe, Clonebble {
     /**
      * An even-odd winding rule for determining the interior of
-     * a path.
+     * b pbth.
      *
-     * @see PathIterator#WIND_EVEN_ODD
+     * @see PbthIterbtor#WIND_EVEN_ODD
      * @since 1.6
      */
-    public static final int WIND_EVEN_ODD = PathIterator.WIND_EVEN_ODD;
+    public stbtic finbl int WIND_EVEN_ODD = PbthIterbtor.WIND_EVEN_ODD;
 
     /**
-     * A non-zero winding rule for determining the interior of a
-     * path.
+     * A non-zero winding rule for determining the interior of b
+     * pbth.
      *
-     * @see PathIterator#WIND_NON_ZERO
+     * @see PbthIterbtor#WIND_NON_ZERO
      * @since 1.6
      */
-    public static final int WIND_NON_ZERO = PathIterator.WIND_NON_ZERO;
+    public stbtic finbl int WIND_NON_ZERO = PbthIterbtor.WIND_NON_ZERO;
 
-    // For code simplicity, copy these constants to our namespace
-    // and cast them to byte constants for easy storage.
-    private static final byte SEG_MOVETO  = (byte) PathIterator.SEG_MOVETO;
-    private static final byte SEG_LINETO  = (byte) PathIterator.SEG_LINETO;
-    private static final byte SEG_QUADTO  = (byte) PathIterator.SEG_QUADTO;
-    private static final byte SEG_CUBICTO = (byte) PathIterator.SEG_CUBICTO;
-    private static final byte SEG_CLOSE   = (byte) PathIterator.SEG_CLOSE;
+    // For code simplicity, copy these constbnts to our nbmespbce
+    // bnd cbst them to byte constbnts for ebsy storbge.
+    privbte stbtic finbl byte SEG_MOVETO  = (byte) PbthIterbtor.SEG_MOVETO;
+    privbte stbtic finbl byte SEG_LINETO  = (byte) PbthIterbtor.SEG_LINETO;
+    privbte stbtic finbl byte SEG_QUADTO  = (byte) PbthIterbtor.SEG_QUADTO;
+    privbte stbtic finbl byte SEG_CUBICTO = (byte) PbthIterbtor.SEG_CUBICTO;
+    privbte stbtic finbl byte SEG_CLOSE   = (byte) PbthIterbtor.SEG_CLOSE;
 
-    transient byte[] pointTypes;
-    transient int numTypes;
-    transient int numCoords;
-    transient int windingRule;
+    trbnsient byte[] pointTypes;
+    trbnsient int numTypes;
+    trbnsient int numCoords;
+    trbnsient int windingRule;
 
-    static final int INIT_SIZE = 20;
-    static final int EXPAND_MAX = 500;
+    stbtic finbl int INIT_SIZE = 20;
+    stbtic finbl int EXPAND_MAX = 500;
 
     /**
-     * Constructs a new empty {@code Path2D} object.
-     * It is assumed that the package sibling subclass that is
-     * defaulting to this constructor will fill in all values.
+     * Constructs b new empty {@code Pbth2D} object.
+     * It is bssumed thbt the pbckbge sibling subclbss thbt is
+     * defbulting to this constructor will fill in bll vblues.
      *
      * @since 1.6
      */
-    /* private protected */
-    Path2D() {
+    /* privbte protected */
+    Pbth2D() {
     }
 
     /**
-     * Constructs a new {@code Path2D} object from the given
-     * specified initial values.
-     * This method is only intended for internal use and should
-     * not be made public if the other constructors for this class
-     * are ever exposed.
+     * Constructs b new {@code Pbth2D} object from the given
+     * specified initibl vblues.
+     * This method is only intended for internbl use bnd should
+     * not be mbde public if the other constructors for this clbss
+     * bre ever exposed.
      *
-     * @param rule the winding rule
-     * @param initialTypes the size to make the initial array to
-     *                     store the path segment types
+     * @pbrbm rule the winding rule
+     * @pbrbm initiblTypes the size to mbke the initibl brrby to
+     *                     store the pbth segment types
      * @since 1.6
      */
-    /* private protected */
-    Path2D(int rule, int initialTypes) {
+    /* privbte protected */
+    Pbth2D(int rule, int initiblTypes) {
         setWindingRule(rule);
-        this.pointTypes = new byte[initialTypes];
+        this.pointTypes = new byte[initiblTypes];
     }
 
-    abstract float[] cloneCoordsFloat(AffineTransform at);
-    abstract double[] cloneCoordsDouble(AffineTransform at);
-    abstract void append(float x, float y);
-    abstract void append(double x, double y);
-    abstract Point2D getPoint(int coordindex);
-    abstract void needRoom(boolean needMove, int newCoords);
-    abstract int pointCrossings(double px, double py);
-    abstract int rectCrossings(double rxmin, double rymin,
-                               double rxmax, double rymax);
+    bbstrbct flobt[] cloneCoordsFlobt(AffineTrbnsform bt);
+    bbstrbct double[] cloneCoordsDouble(AffineTrbnsform bt);
+    bbstrbct void bppend(flobt x, flobt y);
+    bbstrbct void bppend(double x, double y);
+    bbstrbct Point2D getPoint(int coordindex);
+    bbstrbct void needRoom(boolebn needMove, int newCoords);
+    bbstrbct int pointCrossings(double px, double py);
+    bbstrbct int rectCrossings(double rxmin, double rymin,
+                               double rxmbx, double rymbx);
 
     /**
-     * The {@code Float} class defines a geometric path with
-     * coordinates stored in single precision floating point.
+     * The {@code Flobt} clbss defines b geometric pbth with
+     * coordinbtes stored in single precision flobting point.
      *
      * @since 1.6
      */
-    public static class Float extends Path2D implements Serializable {
-        transient float floatCoords[];
+    public stbtic clbss Flobt extends Pbth2D implements Seriblizbble {
+        trbnsient flobt flobtCoords[];
 
         /**
-         * Constructs a new empty single precision {@code Path2D} object
-         * with a default winding rule of {@link #WIND_NON_ZERO}.
+         * Constructs b new empty single precision {@code Pbth2D} object
+         * with b defbult winding rule of {@link #WIND_NON_ZERO}.
          *
          * @since 1.6
          */
-        public Float() {
+        public Flobt() {
             this(WIND_NON_ZERO, INIT_SIZE);
         }
 
         /**
-         * Constructs a new empty single precision {@code Path2D} object
-         * with the specified winding rule to control operations that
-         * require the interior of the path to be defined.
+         * Constructs b new empty single precision {@code Pbth2D} object
+         * with the specified winding rule to control operbtions thbt
+         * require the interior of the pbth to be defined.
          *
-         * @param rule the winding rule
+         * @pbrbm rule the winding rule
          * @see #WIND_EVEN_ODD
          * @see #WIND_NON_ZERO
          * @since 1.6
          */
-        public Float(int rule) {
+        public Flobt(int rule) {
             this(rule, INIT_SIZE);
         }
 
         /**
-         * Constructs a new empty single precision {@code Path2D} object
-         * with the specified winding rule and the specified initial
-         * capacity to store path segments.
-         * This number is an initial guess as to how many path segments
-         * will be added to the path, but the storage is expanded as
-         * needed to store whatever path segments are added.
+         * Constructs b new empty single precision {@code Pbth2D} object
+         * with the specified winding rule bnd the specified initibl
+         * cbpbcity to store pbth segments.
+         * This number is bn initibl guess bs to how mbny pbth segments
+         * will be bdded to the pbth, but the storbge is expbnded bs
+         * needed to store whbtever pbth segments bre bdded.
          *
-         * @param rule the winding rule
-         * @param initialCapacity the estimate for the number of path segments
-         *                        in the path
+         * @pbrbm rule the winding rule
+         * @pbrbm initiblCbpbcity the estimbte for the number of pbth segments
+         *                        in the pbth
          * @see #WIND_EVEN_ODD
          * @see #WIND_NON_ZERO
          * @since 1.6
          */
-        public Float(int rule, int initialCapacity) {
-            super(rule, initialCapacity);
-            floatCoords = new float[initialCapacity * 2];
+        public Flobt(int rule, int initiblCbpbcity) {
+            super(rule, initiblCbpbcity);
+            flobtCoords = new flobt[initiblCbpbcity * 2];
         }
 
         /**
-         * Constructs a new single precision {@code Path2D} object
-         * from an arbitrary {@link Shape} object.
-         * All of the initial geometry and the winding rule for this path are
-         * taken from the specified {@code Shape} object.
+         * Constructs b new single precision {@code Pbth2D} object
+         * from bn brbitrbry {@link Shbpe} object.
+         * All of the initibl geometry bnd the winding rule for this pbth bre
+         * tbken from the specified {@code Shbpe} object.
          *
-         * @param s the specified {@code Shape} object
+         * @pbrbm s the specified {@code Shbpe} object
          * @since 1.6
          */
-        public Float(Shape s) {
+        public Flobt(Shbpe s) {
             this(s, null);
         }
 
         /**
-         * Constructs a new single precision {@code Path2D} object
-         * from an arbitrary {@link Shape} object, transformed by an
-         * {@link AffineTransform} object.
-         * All of the initial geometry and the winding rule for this path are
-         * taken from the specified {@code Shape} object and transformed
-         * by the specified {@code AffineTransform} object.
+         * Constructs b new single precision {@code Pbth2D} object
+         * from bn brbitrbry {@link Shbpe} object, trbnsformed by bn
+         * {@link AffineTrbnsform} object.
+         * All of the initibl geometry bnd the winding rule for this pbth bre
+         * tbken from the specified {@code Shbpe} object bnd trbnsformed
+         * by the specified {@code AffineTrbnsform} object.
          *
-         * @param s the specified {@code Shape} object
-         * @param at the specified {@code AffineTransform} object
+         * @pbrbm s the specified {@code Shbpe} object
+         * @pbrbm bt the specified {@code AffineTrbnsform} object
          * @since 1.6
          */
-        public Float(Shape s, AffineTransform at) {
-            if (s instanceof Path2D) {
-                Path2D p2d = (Path2D) s;
+        public Flobt(Shbpe s, AffineTrbnsform bt) {
+            if (s instbnceof Pbth2D) {
+                Pbth2D p2d = (Pbth2D) s;
                 setWindingRule(p2d.windingRule);
                 this.numTypes = p2d.numTypes;
-                this.pointTypes = Arrays.copyOf(p2d.pointTypes,
+                this.pointTypes = Arrbys.copyOf(p2d.pointTypes,
                                                 p2d.pointTypes.length);
                 this.numCoords = p2d.numCoords;
-                this.floatCoords = p2d.cloneCoordsFloat(at);
+                this.flobtCoords = p2d.cloneCoordsFlobt(bt);
             } else {
-                PathIterator pi = s.getPathIterator(at);
+                PbthIterbtor pi = s.getPbthIterbtor(bt);
                 setWindingRule(pi.getWindingRule());
                 this.pointTypes = new byte[INIT_SIZE];
-                this.floatCoords = new float[INIT_SIZE * 2];
-                append(pi, false);
+                this.flobtCoords = new flobt[INIT_SIZE * 2];
+                bppend(pi, fblse);
             }
         }
 
-        float[] cloneCoordsFloat(AffineTransform at) {
-            float ret[];
-            if (at == null) {
-                ret = Arrays.copyOf(this.floatCoords, this.floatCoords.length);
+        flobt[] cloneCoordsFlobt(AffineTrbnsform bt) {
+            flobt ret[];
+            if (bt == null) {
+                ret = Arrbys.copyOf(this.flobtCoords, this.flobtCoords.length);
             } else {
-                ret = new float[floatCoords.length];
-                at.transform(floatCoords, 0, ret, 0, numCoords / 2);
+                ret = new flobt[flobtCoords.length];
+                bt.trbnsform(flobtCoords, 0, ret, 0, numCoords / 2);
             }
             return ret;
         }
 
-        double[] cloneCoordsDouble(AffineTransform at) {
-            double ret[] = new double[floatCoords.length];
-            if (at == null) {
+        double[] cloneCoordsDouble(AffineTrbnsform bt) {
+            double ret[] = new double[flobtCoords.length];
+            if (bt == null) {
                 for (int i = 0; i < numCoords; i++) {
-                    ret[i] = floatCoords[i];
+                    ret[i] = flobtCoords[i];
                 }
             } else {
-                at.transform(floatCoords, 0, ret, 0, numCoords / 2);
+                bt.trbnsform(flobtCoords, 0, ret, 0, numCoords / 2);
             }
             return ret;
         }
 
-        void append(float x, float y) {
-            floatCoords[numCoords++] = x;
-            floatCoords[numCoords++] = y;
+        void bppend(flobt x, flobt y) {
+            flobtCoords[numCoords++] = x;
+            flobtCoords[numCoords++] = y;
         }
 
-        void append(double x, double y) {
-            floatCoords[numCoords++] = (float) x;
-            floatCoords[numCoords++] = (float) y;
+        void bppend(double x, double y) {
+            flobtCoords[numCoords++] = (flobt) x;
+            flobtCoords[numCoords++] = (flobt) y;
         }
 
         Point2D getPoint(int coordindex) {
-            return new Point2D.Float(floatCoords[coordindex],
-                                     floatCoords[coordindex+1]);
+            return new Point2D.Flobt(flobtCoords[coordindex],
+                                     flobtCoords[coordindex+1]);
         }
 
-        void needRoom(boolean needMove, int newCoords) {
+        void needRoom(boolebn needMove, int newCoords) {
             if (needMove && numTypes == 0) {
-                throw new IllegalPathStateException("missing initial moveto "+
-                                                    "in path definition");
+                throw new IllegblPbthStbteException("missing initibl moveto "+
+                                                    "in pbth definition");
             }
             int size = pointTypes.length;
             if (numTypes >= size) {
@@ -288,9 +288,9 @@ public abstract class Path2D implements Shape, Cloneable {
                 } else if (grow == 0) {
                     grow = 1;
                 }
-                pointTypes = Arrays.copyOf(pointTypes, size+grow);
+                pointTypes = Arrbys.copyOf(pointTypes, size+grow);
             }
-            size = floatCoords.length;
+            size = flobtCoords.length;
             if (numCoords + newCoords > size) {
                 int grow = size;
                 if (grow > EXPAND_MAX * 2) {
@@ -299,7 +299,7 @@ public abstract class Path2D implements Shape, Cloneable {
                 if (grow < newCoords) {
                     grow = newCoords;
                 }
-                floatCoords = Arrays.copyOf(floatCoords, size+grow);
+                flobtCoords = Arrbys.copyOf(flobtCoords, size+grow);
             }
         }
 
@@ -307,40 +307,40 @@ public abstract class Path2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.6
          */
-        public final synchronized void moveTo(double x, double y) {
+        public finbl synchronized void moveTo(double x, double y) {
             if (numTypes > 0 && pointTypes[numTypes - 1] == SEG_MOVETO) {
-                floatCoords[numCoords-2] = (float) x;
-                floatCoords[numCoords-1] = (float) y;
+                flobtCoords[numCoords-2] = (flobt) x;
+                flobtCoords[numCoords-1] = (flobt) y;
             } else {
-                needRoom(false, 2);
+                needRoom(fblse, 2);
                 pointTypes[numTypes++] = SEG_MOVETO;
-                floatCoords[numCoords++] = (float) x;
-                floatCoords[numCoords++] = (float) y;
+                flobtCoords[numCoords++] = (flobt) x;
+                flobtCoords[numCoords++] = (flobt) y;
             }
         }
 
         /**
-         * Adds a point to the path by moving to the specified
-         * coordinates specified in float precision.
+         * Adds b point to the pbth by moving to the specified
+         * coordinbtes specified in flobt precision.
          * <p>
-         * This method provides a single precision variant of
+         * This method provides b single precision vbribnt of
          * the double precision {@code moveTo()} method on the
-         * base {@code Path2D} class.
+         * bbse {@code Pbth2D} clbss.
          *
-         * @param x the specified X coordinate
-         * @param y the specified Y coordinate
-         * @see Path2D#moveTo
+         * @pbrbm x the specified X coordinbte
+         * @pbrbm y the specified Y coordinbte
+         * @see Pbth2D#moveTo
          * @since 1.6
          */
-        public final synchronized void moveTo(float x, float y) {
+        public finbl synchronized void moveTo(flobt x, flobt y) {
             if (numTypes > 0 && pointTypes[numTypes - 1] == SEG_MOVETO) {
-                floatCoords[numCoords-2] = x;
-                floatCoords[numCoords-1] = y;
+                flobtCoords[numCoords-2] = x;
+                flobtCoords[numCoords-1] = y;
             } else {
-                needRoom(false, 2);
+                needRoom(fblse, 2);
                 pointTypes[numTypes++] = SEG_MOVETO;
-                floatCoords[numCoords++] = x;
-                floatCoords[numCoords++] = y;
+                flobtCoords[numCoords++] = x;
+                flobtCoords[numCoords++] = y;
             }
         }
 
@@ -348,142 +348,142 @@ public abstract class Path2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.6
          */
-        public final synchronized void lineTo(double x, double y) {
+        public finbl synchronized void lineTo(double x, double y) {
             needRoom(true, 2);
             pointTypes[numTypes++] = SEG_LINETO;
-            floatCoords[numCoords++] = (float) x;
-            floatCoords[numCoords++] = (float) y;
+            flobtCoords[numCoords++] = (flobt) x;
+            flobtCoords[numCoords++] = (flobt) y;
         }
 
         /**
-         * Adds a point to the path by drawing a straight line from the
-         * current coordinates to the new specified coordinates
-         * specified in float precision.
+         * Adds b point to the pbth by drbwing b strbight line from the
+         * current coordinbtes to the new specified coordinbtes
+         * specified in flobt precision.
          * <p>
-         * This method provides a single precision variant of
+         * This method provides b single precision vbribnt of
          * the double precision {@code lineTo()} method on the
-         * base {@code Path2D} class.
+         * bbse {@code Pbth2D} clbss.
          *
-         * @param x the specified X coordinate
-         * @param y the specified Y coordinate
-         * @see Path2D#lineTo
+         * @pbrbm x the specified X coordinbte
+         * @pbrbm y the specified Y coordinbte
+         * @see Pbth2D#lineTo
          * @since 1.6
          */
-        public final synchronized void lineTo(float x, float y) {
+        public finbl synchronized void lineTo(flobt x, flobt y) {
             needRoom(true, 2);
             pointTypes[numTypes++] = SEG_LINETO;
-            floatCoords[numCoords++] = x;
-            floatCoords[numCoords++] = y;
+            flobtCoords[numCoords++] = x;
+            flobtCoords[numCoords++] = y;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.6
          */
-        public final synchronized void quadTo(double x1, double y1,
+        public finbl synchronized void qubdTo(double x1, double y1,
                                               double x2, double y2)
         {
             needRoom(true, 4);
             pointTypes[numTypes++] = SEG_QUADTO;
-            floatCoords[numCoords++] = (float) x1;
-            floatCoords[numCoords++] = (float) y1;
-            floatCoords[numCoords++] = (float) x2;
-            floatCoords[numCoords++] = (float) y2;
+            flobtCoords[numCoords++] = (flobt) x1;
+            flobtCoords[numCoords++] = (flobt) y1;
+            flobtCoords[numCoords++] = (flobt) x2;
+            flobtCoords[numCoords++] = (flobt) y2;
         }
 
         /**
-         * Adds a curved segment, defined by two new points, to the path by
-         * drawing a Quadratic curve that intersects both the current
-         * coordinates and the specified coordinates {@code (x2,y2)},
-         * using the specified point {@code (x1,y1)} as a quadratic
-         * parametric control point.
-         * All coordinates are specified in float precision.
+         * Adds b curved segment, defined by two new points, to the pbth by
+         * drbwing b Qubdrbtic curve thbt intersects both the current
+         * coordinbtes bnd the specified coordinbtes {@code (x2,y2)},
+         * using the specified point {@code (x1,y1)} bs b qubdrbtic
+         * pbrbmetric control point.
+         * All coordinbtes bre specified in flobt precision.
          * <p>
-         * This method provides a single precision variant of
-         * the double precision {@code quadTo()} method on the
-         * base {@code Path2D} class.
+         * This method provides b single precision vbribnt of
+         * the double precision {@code qubdTo()} method on the
+         * bbse {@code Pbth2D} clbss.
          *
-         * @param x1 the X coordinate of the quadratic control point
-         * @param y1 the Y coordinate of the quadratic control point
-         * @param x2 the X coordinate of the final end point
-         * @param y2 the Y coordinate of the final end point
-         * @see Path2D#quadTo
+         * @pbrbm x1 the X coordinbte of the qubdrbtic control point
+         * @pbrbm y1 the Y coordinbte of the qubdrbtic control point
+         * @pbrbm x2 the X coordinbte of the finbl end point
+         * @pbrbm y2 the Y coordinbte of the finbl end point
+         * @see Pbth2D#qubdTo
          * @since 1.6
          */
-        public final synchronized void quadTo(float x1, float y1,
-                                              float x2, float y2)
+        public finbl synchronized void qubdTo(flobt x1, flobt y1,
+                                              flobt x2, flobt y2)
         {
             needRoom(true, 4);
             pointTypes[numTypes++] = SEG_QUADTO;
-            floatCoords[numCoords++] = x1;
-            floatCoords[numCoords++] = y1;
-            floatCoords[numCoords++] = x2;
-            floatCoords[numCoords++] = y2;
+            flobtCoords[numCoords++] = x1;
+            flobtCoords[numCoords++] = y1;
+            flobtCoords[numCoords++] = x2;
+            flobtCoords[numCoords++] = y2;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.6
          */
-        public final synchronized void curveTo(double x1, double y1,
+        public finbl synchronized void curveTo(double x1, double y1,
                                                double x2, double y2,
                                                double x3, double y3)
         {
             needRoom(true, 6);
             pointTypes[numTypes++] = SEG_CUBICTO;
-            floatCoords[numCoords++] = (float) x1;
-            floatCoords[numCoords++] = (float) y1;
-            floatCoords[numCoords++] = (float) x2;
-            floatCoords[numCoords++] = (float) y2;
-            floatCoords[numCoords++] = (float) x3;
-            floatCoords[numCoords++] = (float) y3;
+            flobtCoords[numCoords++] = (flobt) x1;
+            flobtCoords[numCoords++] = (flobt) y1;
+            flobtCoords[numCoords++] = (flobt) x2;
+            flobtCoords[numCoords++] = (flobt) y2;
+            flobtCoords[numCoords++] = (flobt) x3;
+            flobtCoords[numCoords++] = (flobt) y3;
         }
 
         /**
-         * Adds a curved segment, defined by three new points, to the path by
-         * drawing a B&eacute;zier curve that intersects both the current
-         * coordinates and the specified coordinates {@code (x3,y3)},
-         * using the specified points {@code (x1,y1)} and {@code (x2,y2)} as
-         * B&eacute;zier control points.
-         * All coordinates are specified in float precision.
+         * Adds b curved segment, defined by three new points, to the pbth by
+         * drbwing b B&ebcute;zier curve thbt intersects both the current
+         * coordinbtes bnd the specified coordinbtes {@code (x3,y3)},
+         * using the specified points {@code (x1,y1)} bnd {@code (x2,y2)} bs
+         * B&ebcute;zier control points.
+         * All coordinbtes bre specified in flobt precision.
          * <p>
-         * This method provides a single precision variant of
+         * This method provides b single precision vbribnt of
          * the double precision {@code curveTo()} method on the
-         * base {@code Path2D} class.
+         * bbse {@code Pbth2D} clbss.
          *
-         * @param x1 the X coordinate of the first B&eacute;zier control point
-         * @param y1 the Y coordinate of the first B&eacute;zier control point
-         * @param x2 the X coordinate of the second B&eacute;zier control point
-         * @param y2 the Y coordinate of the second B&eacute;zier control point
-         * @param x3 the X coordinate of the final end point
-         * @param y3 the Y coordinate of the final end point
-         * @see Path2D#curveTo
+         * @pbrbm x1 the X coordinbte of the first B&ebcute;zier control point
+         * @pbrbm y1 the Y coordinbte of the first B&ebcute;zier control point
+         * @pbrbm x2 the X coordinbte of the second B&ebcute;zier control point
+         * @pbrbm y2 the Y coordinbte of the second B&ebcute;zier control point
+         * @pbrbm x3 the X coordinbte of the finbl end point
+         * @pbrbm y3 the Y coordinbte of the finbl end point
+         * @see Pbth2D#curveTo
          * @since 1.6
          */
-        public final synchronized void curveTo(float x1, float y1,
-                                               float x2, float y2,
-                                               float x3, float y3)
+        public finbl synchronized void curveTo(flobt x1, flobt y1,
+                                               flobt x2, flobt y2,
+                                               flobt x3, flobt y3)
         {
             needRoom(true, 6);
             pointTypes[numTypes++] = SEG_CUBICTO;
-            floatCoords[numCoords++] = x1;
-            floatCoords[numCoords++] = y1;
-            floatCoords[numCoords++] = x2;
-            floatCoords[numCoords++] = y2;
-            floatCoords[numCoords++] = x3;
-            floatCoords[numCoords++] = y3;
+            flobtCoords[numCoords++] = x1;
+            flobtCoords[numCoords++] = y1;
+            flobtCoords[numCoords++] = x2;
+            flobtCoords[numCoords++] = y2;
+            flobtCoords[numCoords++] = x3;
+            flobtCoords[numCoords++] = y3;
         }
 
         int pointCrossings(double px, double py) {
             double movx, movy, curx, cury, endx, endy;
-            float coords[] = floatCoords;
+            flobt coords[] = flobtCoords;
             curx = movx = coords[0];
             cury = movy = coords[1];
             int crossings = 0;
             int ci = 2;
             for (int i = 1; i < numTypes; i++) {
                 switch (pointTypes[i]) {
-                case PathIterator.SEG_MOVETO:
+                cbse PbthIterbtor.SEG_MOVETO:
                     if (cury != movy) {
                         crossings +=
                             Curve.pointCrossingsForLine(px, py,
@@ -492,8 +492,8 @@ public abstract class Path2D implements Shape, Cloneable {
                     }
                     movx = curx = coords[ci++];
                     movy = cury = coords[ci++];
-                    break;
-                case PathIterator.SEG_LINETO:
+                    brebk;
+                cbse PbthIterbtor.SEG_LINETO:
                     crossings +=
                         Curve.pointCrossingsForLine(px, py,
                                                     curx, cury,
@@ -501,10 +501,10 @@ public abstract class Path2D implements Shape, Cloneable {
                                                     endy = coords[ci++]);
                     curx = endx;
                     cury = endy;
-                    break;
-                case PathIterator.SEG_QUADTO:
+                    brebk;
+                cbse PbthIterbtor.SEG_QUADTO:
                     crossings +=
-                        Curve.pointCrossingsForQuad(px, py,
+                        Curve.pointCrossingsForQubd(px, py,
                                                     curx, cury,
                                                     coords[ci++],
                                                     coords[ci++],
@@ -513,8 +513,8 @@ public abstract class Path2D implements Shape, Cloneable {
                                                     0);
                     curx = endx;
                     cury = endy;
-                    break;
-            case PathIterator.SEG_CUBICTO:
+                    brebk;
+            cbse PbthIterbtor.SEG_CUBICTO:
                     crossings +=
                         Curve.pointCrossingsForCubic(px, py,
                                                      curx, cury,
@@ -527,8 +527,8 @@ public abstract class Path2D implements Shape, Cloneable {
                                                      0);
                     curx = endx;
                     cury = endy;
-                    break;
-                case PathIterator.SEG_CLOSE:
+                    brebk;
+                cbse PbthIterbtor.SEG_CLOSE:
                     if (cury != movy) {
                         crossings +=
                             Curve.pointCrossingsForLine(px, py,
@@ -537,7 +537,7 @@ public abstract class Path2D implements Shape, Cloneable {
                     }
                     curx = movx;
                     cury = movy;
-                    break;
+                    brebk;
                 }
             }
             if (cury != movy) {
@@ -550,9 +550,9 @@ public abstract class Path2D implements Shape, Cloneable {
         }
 
         int rectCrossings(double rxmin, double rymin,
-                          double rxmax, double rymax)
+                          double rxmbx, double rymbx)
         {
-            float coords[] = floatCoords;
+            flobt coords[] = flobtCoords;
             double curx, cury, movx, movy, endx, endy;
             curx = movx = coords[0];
             cury = movy = coords[1];
@@ -563,36 +563,36 @@ public abstract class Path2D implements Shape, Cloneable {
                  i++)
             {
                 switch (pointTypes[i]) {
-                case PathIterator.SEG_MOVETO:
+                cbse PbthIterbtor.SEG_MOVETO:
                     if (curx != movx || cury != movy) {
                         crossings =
                             Curve.rectCrossingsForLine(crossings,
                                                        rxmin, rymin,
-                                                       rxmax, rymax,
+                                                       rxmbx, rymbx,
                                                        curx, cury,
                                                        movx, movy);
                     }
-                    // Count should always be a multiple of 2 here.
-                    // assert((crossings & 1) != 0);
+                    // Count should blwbys be b multiple of 2 here.
+                    // bssert((crossings & 1) != 0);
                     movx = curx = coords[ci++];
                     movy = cury = coords[ci++];
-                    break;
-                case PathIterator.SEG_LINETO:
+                    brebk;
+                cbse PbthIterbtor.SEG_LINETO:
                     crossings =
                         Curve.rectCrossingsForLine(crossings,
                                                    rxmin, rymin,
-                                                   rxmax, rymax,
+                                                   rxmbx, rymbx,
                                                    curx, cury,
                                                    endx = coords[ci++],
                                                    endy = coords[ci++]);
                     curx = endx;
                     cury = endy;
-                    break;
-                case PathIterator.SEG_QUADTO:
+                    brebk;
+                cbse PbthIterbtor.SEG_QUADTO:
                     crossings =
-                        Curve.rectCrossingsForQuad(crossings,
+                        Curve.rectCrossingsForQubd(crossings,
                                                    rxmin, rymin,
-                                                   rxmax, rymax,
+                                                   rxmbx, rymbx,
                                                    curx, cury,
                                                    coords[ci++],
                                                    coords[ci++],
@@ -601,12 +601,12 @@ public abstract class Path2D implements Shape, Cloneable {
                                                    0);
                     curx = endx;
                     cury = endy;
-                    break;
-                case PathIterator.SEG_CUBICTO:
+                    brebk;
+                cbse PbthIterbtor.SEG_CUBICTO:
                     crossings =
                         Curve.rectCrossingsForCubic(crossings,
                                                     rxmin, rymin,
-                                                    rxmax, rymax,
+                                                    rxmbx, rymbx,
                                                     curx, cury,
                                                     coords[ci++],
                                                     coords[ci++],
@@ -617,21 +617,21 @@ public abstract class Path2D implements Shape, Cloneable {
                                                     0);
                     curx = endx;
                     cury = endy;
-                    break;
-                case PathIterator.SEG_CLOSE:
+                    brebk;
+                cbse PbthIterbtor.SEG_CLOSE:
                     if (curx != movx || cury != movy) {
                         crossings =
                             Curve.rectCrossingsForLine(crossings,
                                                        rxmin, rymin,
-                                                       rxmax, rymax,
+                                                       rxmbx, rymbx,
                                                        curx, cury,
                                                        movx, movy);
                     }
                     curx = movx;
                     cury = movy;
-                    // Count should always be a multiple of 2 here.
-                    // assert((crossings & 1) != 0);
-                    break;
+                    // Count should blwbys be b multiple of 2 here.
+                    // bssert((crossings & 1) != 0);
+                    brebk;
                 }
             }
             if (crossings != Curve.RECT_INTERSECTS &&
@@ -640,12 +640,12 @@ public abstract class Path2D implements Shape, Cloneable {
                 crossings =
                     Curve.rectCrossingsForLine(crossings,
                                                rxmin, rymin,
-                                               rxmax, rymax,
+                                               rxmbx, rymbx,
                                                curx, cury,
                                                movx, movy);
             }
-            // Count should always be a multiple of 2 here.
-            // assert((crossings & 1) != 0);
+            // Count should blwbys be b multiple of 2 here.
+            // bssert((crossings & 1) != 0);
             return crossings;
         }
 
@@ -653,42 +653,42 @@ public abstract class Path2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.6
          */
-        public final void append(PathIterator pi, boolean connect) {
-            float coords[] = new float[6];
+        public finbl void bppend(PbthIterbtor pi, boolebn connect) {
+            flobt coords[] = new flobt[6];
             while (!pi.isDone()) {
                 switch (pi.currentSegment(coords)) {
-                case SEG_MOVETO:
+                cbse SEG_MOVETO:
                     if (!connect || numTypes < 1 || numCoords < 1) {
                         moveTo(coords[0], coords[1]);
-                        break;
+                        brebk;
                     }
                     if (pointTypes[numTypes - 1] != SEG_CLOSE &&
-                        floatCoords[numCoords-2] == coords[0] &&
-                        floatCoords[numCoords-1] == coords[1])
+                        flobtCoords[numCoords-2] == coords[0] &&
+                        flobtCoords[numCoords-1] == coords[1])
                     {
-                        // Collapse out initial moveto/lineto
-                        break;
+                        // Collbpse out initibl moveto/lineto
+                        brebk;
                     }
                     lineTo(coords[0], coords[1]);
-                    break;
-                case SEG_LINETO:
+                    brebk;
+                cbse SEG_LINETO:
                     lineTo(coords[0], coords[1]);
-                    break;
-                case SEG_QUADTO:
-                    quadTo(coords[0], coords[1],
+                    brebk;
+                cbse SEG_QUADTO:
+                    qubdTo(coords[0], coords[1],
                            coords[2], coords[3]);
-                    break;
-                case SEG_CUBICTO:
+                    brebk;
+                cbse SEG_CUBICTO:
                     curveTo(coords[0], coords[1],
                             coords[2], coords[3],
                             coords[4], coords[5]);
-                    break;
-                case SEG_CLOSE:
-                    closePath();
-                    break;
+                    brebk;
+                cbse SEG_CLOSE:
+                    closePbth();
+                    brebk;
                 }
                 pi.next();
-                connect = false;
+                connect = fblse;
             }
         }
 
@@ -696,23 +696,23 @@ public abstract class Path2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.6
          */
-        public final void transform(AffineTransform at) {
-            at.transform(floatCoords, 0, floatCoords, 0, numCoords / 2);
+        public finbl void trbnsform(AffineTrbnsform bt) {
+            bt.trbnsform(flobtCoords, 0, flobtCoords, 0, numCoords / 2);
         }
 
         /**
          * {@inheritDoc}
          * @since 1.6
          */
-        public final synchronized Rectangle2D getBounds2D() {
-            float x1, y1, x2, y2;
+        public finbl synchronized Rectbngle2D getBounds2D() {
+            flobt x1, y1, x2, y2;
             int i = numCoords;
             if (i > 0) {
-                y1 = y2 = floatCoords[--i];
-                x1 = x2 = floatCoords[--i];
+                y1 = y2 = flobtCoords[--i];
+                x1 = x2 = flobtCoords[--i];
                 while (i > 0) {
-                    float y = floatCoords[--i];
-                    float x = floatCoords[--i];
+                    flobt y = flobtCoords[--i];
+                    flobt x = flobtCoords[--i];
                     if (x < x1) x1 = x;
                     if (y < y1) y1 = y;
                     if (x > x2) x2 = x;
@@ -721,95 +721,95 @@ public abstract class Path2D implements Shape, Cloneable {
             } else {
                 x1 = y1 = x2 = y2 = 0.0f;
             }
-            return new Rectangle2D.Float(x1, y1, x2 - x1, y2 - y1);
+            return new Rectbngle2D.Flobt(x1, y1, x2 - x1, y2 - y1);
         }
 
         /**
          * {@inheritDoc}
          * <p>
-         * The iterator for this class is not multi-threaded safe,
-         * which means that the {@code Path2D} class does not
-         * guarantee that modifications to the geometry of this
-         * {@code Path2D} object do not affect any iterations of
-         * that geometry that are already in process.
+         * The iterbtor for this clbss is not multi-threbded sbfe,
+         * which mebns thbt the {@code Pbth2D} clbss does not
+         * gubrbntee thbt modificbtions to the geometry of this
+         * {@code Pbth2D} object do not bffect bny iterbtions of
+         * thbt geometry thbt bre blrebdy in process.
          *
          * @since 1.6
          */
-        public final PathIterator getPathIterator(AffineTransform at) {
-            if (at == null) {
-                return new CopyIterator(this);
+        public finbl PbthIterbtor getPbthIterbtor(AffineTrbnsform bt) {
+            if (bt == null) {
+                return new CopyIterbtor(this);
             } else {
-                return new TxIterator(this, at);
+                return new TxIterbtor(this, bt);
             }
         }
 
         /**
-         * Creates a new object of the same class as this object.
+         * Crebtes b new object of the sbme clbss bs this object.
          *
-         * @return     a clone of this instance.
+         * @return     b clone of this instbnce.
          * @exception  OutOfMemoryError    if there is not enough memory.
-         * @see        java.lang.Cloneable
+         * @see        jbvb.lbng.Clonebble
          * @since      1.6
          */
-        public final Object clone() {
-            // Note: It would be nice to have this return Path2D
-            // but one of our subclasses (GeneralPath) needs to
-            // offer "public Object clone()" for backwards
-            // compatibility so we cannot restrict it further.
-            // REMIND: Can we do both somehow?
-            if (this instanceof GeneralPath) {
-                return new GeneralPath(this);
+        public finbl Object clone() {
+            // Note: It would be nice to hbve this return Pbth2D
+            // but one of our subclbsses (GenerblPbth) needs to
+            // offer "public Object clone()" for bbckwbrds
+            // compbtibility so we cbnnot restrict it further.
+            // REMIND: Cbn we do both somehow?
+            if (this instbnceof GenerblPbth) {
+                return new GenerblPbth(this);
             } else {
-                return new Path2D.Float(this);
+                return new Pbth2D.Flobt(this);
             }
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 seriblVersionUID
          */
-        private static final long serialVersionUID = 6990832515060788886L;
+        privbte stbtic finbl long seriblVersionUID = 6990832515060788886L;
 
         /**
-         * Writes the default serializable fields to the
-         * {@code ObjectOutputStream} followed by an explicit
-         * serialization of the path segments stored in this
-         * path.
+         * Writes the defbult seriblizbble fields to the
+         * {@code ObjectOutputStrebm} followed by bn explicit
+         * seriblizbtion of the pbth segments stored in this
+         * pbth.
          *
-         * @serialData
-         * <a name="Path2DSerialData"><!-- --></a>
+         * @seriblDbtb
+         * <b nbme="Pbth2DSeriblDbtb"><!-- --></b>
          * <ol>
-         * <li>The default serializable fields.
-         * There are no default serializable fields as of 1.6.
+         * <li>The defbult seriblizbble fields.
+         * There bre no defbult seriblizbble fields bs of 1.6.
          * <li>followed by
-         * a byte indicating the storage type of the original object
-         * as a hint (SERIAL_STORAGE_FLT_ARRAY)
+         * b byte indicbting the storbge type of the originbl object
+         * bs b hint (SERIAL_STORAGE_FLT_ARRAY)
          * <li>followed by
-         * an integer indicating the number of path segments to follow (NP)
-         * or -1 to indicate an unknown number of path segments follows
+         * bn integer indicbting the number of pbth segments to follow (NP)
+         * or -1 to indicbte bn unknown number of pbth segments follows
          * <li>followed by
-         * an integer indicating the total number of coordinates to follow (NC)
-         * or -1 to indicate an unknown number of coordinates follows
-         * (NC should always be even since coordinates always appear in pairs
-         *  representing an x,y pair)
+         * bn integer indicbting the totbl number of coordinbtes to follow (NC)
+         * or -1 to indicbte bn unknown number of coordinbtes follows
+         * (NC should blwbys be even since coordinbtes blwbys bppebr in pbirs
+         *  representing bn x,y pbir)
          * <li>followed by
-         * a byte indicating the winding rule
+         * b byte indicbting the winding rule
          * ({@link #WIND_EVEN_ODD WIND_EVEN_ODD} or
          *  {@link #WIND_NON_ZERO WIND_NON_ZERO})
          * <li>followed by
-         * {@code NP} (or unlimited if {@code NP < 0}) sets of values consisting of
-         * a single byte indicating a path segment type
-         * followed by one or more pairs of float or double
-         * values representing the coordinates of the path segment
+         * {@code NP} (or unlimited if {@code NP < 0}) sets of vblues consisting of
+         * b single byte indicbting b pbth segment type
+         * followed by one or more pbirs of flobt or double
+         * vblues representing the coordinbtes of the pbth segment
          * <li>followed by
-         * a byte indicating the end of the path (SERIAL_PATH_END).
+         * b byte indicbting the end of the pbth (SERIAL_PATH_END).
          * </ol>
          * <p>
-         * The following byte value constants are used in the serialized form
-         * of {@code Path2D} objects:
-         * <table>
+         * The following byte vblue constbnts bre used in the seriblized form
+         * of {@code Pbth2D} objects:
+         * <tbble>
          * <tr>
-         * <th>Constant Name</th>
-         * <th>Byte Value</th>
+         * <th>Constbnt Nbme</th>
+         * <th>Byte Vblue</th>
          * <th>Followed by</th>
          * <th>Description</th>
          * </tr>
@@ -817,159 +817,159 @@ public abstract class Path2D implements Shape, Cloneable {
          * <td>{@code SERIAL_STORAGE_FLT_ARRAY}</td>
          * <td>0x30</td>
          * <td></td>
-         * <td>A hint that the original {@code Path2D} object stored
-         * the coordinates in a Java array of floats.</td>
+         * <td>A hint thbt the originbl {@code Pbth2D} object stored
+         * the coordinbtes in b Jbvb brrby of flobts.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_STORAGE_DBL_ARRAY}</td>
          * <td>0x31</td>
          * <td></td>
-         * <td>A hint that the original {@code Path2D} object stored
-         * the coordinates in a Java array of doubles.</td>
+         * <td>A hint thbt the originbl {@code Pbth2D} object stored
+         * the coordinbtes in b Jbvb brrby of doubles.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_FLT_MOVETO}</td>
          * <td>0x40</td>
-         * <td>2 floats</td>
-         * <td>A {@link #moveTo moveTo} path segment follows.</td>
+         * <td>2 flobts</td>
+         * <td>A {@link #moveTo moveTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_FLT_LINETO}</td>
          * <td>0x41</td>
-         * <td>2 floats</td>
-         * <td>A {@link #lineTo lineTo} path segment follows.</td>
+         * <td>2 flobts</td>
+         * <td>A {@link #lineTo lineTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_FLT_QUADTO}</td>
          * <td>0x42</td>
-         * <td>4 floats</td>
-         * <td>A {@link #quadTo quadTo} path segment follows.</td>
+         * <td>4 flobts</td>
+         * <td>A {@link #qubdTo qubdTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_FLT_CUBICTO}</td>
          * <td>0x43</td>
-         * <td>6 floats</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
+         * <td>6 flobts</td>
+         * <td>A {@link #curveTo curveTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_DBL_MOVETO}</td>
          * <td>0x50</td>
          * <td>2 doubles</td>
-         * <td>A {@link #moveTo moveTo} path segment follows.</td>
+         * <td>A {@link #moveTo moveTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_DBL_LINETO}</td>
          * <td>0x51</td>
          * <td>2 doubles</td>
-         * <td>A {@link #lineTo lineTo} path segment follows.</td>
+         * <td>A {@link #lineTo lineTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_DBL_QUADTO}</td>
          * <td>0x52</td>
          * <td>4 doubles</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
+         * <td>A {@link #curveTo curveTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_DBL_CUBICTO}</td>
          * <td>0x53</td>
          * <td>6 doubles</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
+         * <td>A {@link #curveTo curveTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_CLOSE}</td>
          * <td>0x60</td>
          * <td></td>
-         * <td>A {@link #closePath closePath} path segment.</td>
+         * <td>A {@link #closePbth closePbth} pbth segment.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_PATH_END}</td>
          * <td>0x61</td>
          * <td></td>
-         * <td>There are no more path segments following.</td>
-         * </table>
+         * <td>There bre no more pbth segments following.</td>
+         * </tbble>
          *
          * @since 1.6
          */
-        private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException
+        privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+            throws jbvb.io.IOException
         {
-            super.writeObject(s, false);
+            super.writeObject(s, fblse);
         }
 
         /**
-         * Reads the default serializable fields from the
-         * {@code ObjectInputStream} followed by an explicit
-         * serialization of the path segments stored in this
-         * path.
+         * Rebds the defbult seriblizbble fields from the
+         * {@code ObjectInputStrebm} followed by bn explicit
+         * seriblizbtion of the pbth segments stored in this
+         * pbth.
          * <p>
-         * There are no default serializable fields as of 1.6.
+         * There bre no defbult seriblizbble fields bs of 1.6.
          * <p>
-         * The serial data for this object is described in the
+         * The seribl dbtb for this object is described in the
          * writeObject method.
          *
          * @since 1.6
          */
-        private void readObject(java.io.ObjectInputStream s)
-            throws java.lang.ClassNotFoundException, java.io.IOException
+        privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+            throws jbvb.lbng.ClbssNotFoundException, jbvb.io.IOException
         {
-            super.readObject(s, false);
+            super.rebdObject(s, fblse);
         }
 
-        static class CopyIterator extends Path2D.Iterator {
-            float floatCoords[];
+        stbtic clbss CopyIterbtor extends Pbth2D.Iterbtor {
+            flobt flobtCoords[];
 
-            CopyIterator(Path2D.Float p2df) {
+            CopyIterbtor(Pbth2D.Flobt p2df) {
                 super(p2df);
-                this.floatCoords = p2df.floatCoords;
+                this.flobtCoords = p2df.flobtCoords;
             }
 
-            public int currentSegment(float[] coords) {
-                int type = path.pointTypes[typeIdx];
+            public int currentSegment(flobt[] coords) {
+                int type = pbth.pointTypes[typeIdx];
                 int numCoords = curvecoords[type];
                 if (numCoords > 0) {
-                    System.arraycopy(floatCoords, pointIdx,
+                    System.brrbycopy(flobtCoords, pointIdx,
                                      coords, 0, numCoords);
                 }
                 return type;
             }
 
             public int currentSegment(double[] coords) {
-                int type = path.pointTypes[typeIdx];
+                int type = pbth.pointTypes[typeIdx];
                 int numCoords = curvecoords[type];
                 if (numCoords > 0) {
                     for (int i = 0; i < numCoords; i++) {
-                        coords[i] = floatCoords[pointIdx + i];
+                        coords[i] = flobtCoords[pointIdx + i];
                     }
                 }
                 return type;
             }
         }
 
-        static class TxIterator extends Path2D.Iterator {
-            float floatCoords[];
-            AffineTransform affine;
+        stbtic clbss TxIterbtor extends Pbth2D.Iterbtor {
+            flobt flobtCoords[];
+            AffineTrbnsform bffine;
 
-            TxIterator(Path2D.Float p2df, AffineTransform at) {
+            TxIterbtor(Pbth2D.Flobt p2df, AffineTrbnsform bt) {
                 super(p2df);
-                this.floatCoords = p2df.floatCoords;
-                this.affine = at;
+                this.flobtCoords = p2df.flobtCoords;
+                this.bffine = bt;
             }
 
-            public int currentSegment(float[] coords) {
-                int type = path.pointTypes[typeIdx];
+            public int currentSegment(flobt[] coords) {
+                int type = pbth.pointTypes[typeIdx];
                 int numCoords = curvecoords[type];
                 if (numCoords > 0) {
-                    affine.transform(floatCoords, pointIdx,
+                    bffine.trbnsform(flobtCoords, pointIdx,
                                      coords, 0, numCoords / 2);
                 }
                 return type;
             }
 
             public int currentSegment(double[] coords) {
-                int type = path.pointTypes[typeIdx];
+                int type = pbth.pointTypes[typeIdx];
                 int numCoords = curvecoords[type];
                 if (numCoords > 0) {
-                    affine.transform(floatCoords, pointIdx,
+                    bffine.trbnsform(flobtCoords, pointIdx,
                                      coords, 0, numCoords / 2);
                 }
                 return type;
@@ -979,17 +979,17 @@ public abstract class Path2D implements Shape, Cloneable {
     }
 
     /**
-     * The {@code Double} class defines a geometric path with
-     * coordinates stored in double precision floating point.
+     * The {@code Double} clbss defines b geometric pbth with
+     * coordinbtes stored in double precision flobting point.
      *
      * @since 1.6
      */
-    public static class Double extends Path2D implements Serializable {
-        transient double doubleCoords[];
+    public stbtic clbss Double extends Pbth2D implements Seriblizbble {
+        trbnsient double doubleCoords[];
 
         /**
-         * Constructs a new empty double precision {@code Path2D} object
-         * with a default winding rule of {@link #WIND_NON_ZERO}.
+         * Constructs b new empty double precision {@code Pbth2D} object
+         * with b defbult winding rule of {@link #WIND_NON_ZERO}.
          *
          * @since 1.6
          */
@@ -998,11 +998,11 @@ public abstract class Path2D implements Shape, Cloneable {
         }
 
         /**
-         * Constructs a new empty double precision {@code Path2D} object
-         * with the specified winding rule to control operations that
-         * require the interior of the path to be defined.
+         * Constructs b new empty double precision {@code Pbth2D} object
+         * with the specified winding rule to control operbtions thbt
+         * require the interior of the pbth to be defined.
          *
-         * @param rule the winding rule
+         * @pbrbm rule the winding rule
          * @see #WIND_EVEN_ODD
          * @see #WIND_NON_ZERO
          * @since 1.6
@@ -1012,98 +1012,98 @@ public abstract class Path2D implements Shape, Cloneable {
         }
 
         /**
-         * Constructs a new empty double precision {@code Path2D} object
-         * with the specified winding rule and the specified initial
-         * capacity to store path segments.
-         * This number is an initial guess as to how many path segments
-         * are in the path, but the storage is expanded as needed to store
-         * whatever path segments are added to this path.
+         * Constructs b new empty double precision {@code Pbth2D} object
+         * with the specified winding rule bnd the specified initibl
+         * cbpbcity to store pbth segments.
+         * This number is bn initibl guess bs to how mbny pbth segments
+         * bre in the pbth, but the storbge is expbnded bs needed to store
+         * whbtever pbth segments bre bdded to this pbth.
          *
-         * @param rule the winding rule
-         * @param initialCapacity the estimate for the number of path segments
-         *                        in the path
+         * @pbrbm rule the winding rule
+         * @pbrbm initiblCbpbcity the estimbte for the number of pbth segments
+         *                        in the pbth
          * @see #WIND_EVEN_ODD
          * @see #WIND_NON_ZERO
          * @since 1.6
          */
-        public Double(int rule, int initialCapacity) {
-            super(rule, initialCapacity);
-            doubleCoords = new double[initialCapacity * 2];
+        public Double(int rule, int initiblCbpbcity) {
+            super(rule, initiblCbpbcity);
+            doubleCoords = new double[initiblCbpbcity * 2];
         }
 
         /**
-         * Constructs a new double precision {@code Path2D} object
-         * from an arbitrary {@link Shape} object.
-         * All of the initial geometry and the winding rule for this path are
-         * taken from the specified {@code Shape} object.
+         * Constructs b new double precision {@code Pbth2D} object
+         * from bn brbitrbry {@link Shbpe} object.
+         * All of the initibl geometry bnd the winding rule for this pbth bre
+         * tbken from the specified {@code Shbpe} object.
          *
-         * @param s the specified {@code Shape} object
+         * @pbrbm s the specified {@code Shbpe} object
          * @since 1.6
          */
-        public Double(Shape s) {
+        public Double(Shbpe s) {
             this(s, null);
         }
 
         /**
-         * Constructs a new double precision {@code Path2D} object
-         * from an arbitrary {@link Shape} object, transformed by an
-         * {@link AffineTransform} object.
-         * All of the initial geometry and the winding rule for this path are
-         * taken from the specified {@code Shape} object and transformed
-         * by the specified {@code AffineTransform} object.
+         * Constructs b new double precision {@code Pbth2D} object
+         * from bn brbitrbry {@link Shbpe} object, trbnsformed by bn
+         * {@link AffineTrbnsform} object.
+         * All of the initibl geometry bnd the winding rule for this pbth bre
+         * tbken from the specified {@code Shbpe} object bnd trbnsformed
+         * by the specified {@code AffineTrbnsform} object.
          *
-         * @param s the specified {@code Shape} object
-         * @param at the specified {@code AffineTransform} object
+         * @pbrbm s the specified {@code Shbpe} object
+         * @pbrbm bt the specified {@code AffineTrbnsform} object
          * @since 1.6
          */
-        public Double(Shape s, AffineTransform at) {
-            if (s instanceof Path2D) {
-                Path2D p2d = (Path2D) s;
+        public Double(Shbpe s, AffineTrbnsform bt) {
+            if (s instbnceof Pbth2D) {
+                Pbth2D p2d = (Pbth2D) s;
                 setWindingRule(p2d.windingRule);
                 this.numTypes = p2d.numTypes;
-                this.pointTypes = Arrays.copyOf(p2d.pointTypes,
+                this.pointTypes = Arrbys.copyOf(p2d.pointTypes,
                                                 p2d.pointTypes.length);
                 this.numCoords = p2d.numCoords;
-                this.doubleCoords = p2d.cloneCoordsDouble(at);
+                this.doubleCoords = p2d.cloneCoordsDouble(bt);
             } else {
-                PathIterator pi = s.getPathIterator(at);
+                PbthIterbtor pi = s.getPbthIterbtor(bt);
                 setWindingRule(pi.getWindingRule());
                 this.pointTypes = new byte[INIT_SIZE];
                 this.doubleCoords = new double[INIT_SIZE * 2];
-                append(pi, false);
+                bppend(pi, fblse);
             }
         }
 
-        float[] cloneCoordsFloat(AffineTransform at) {
-            float ret[] = new float[doubleCoords.length];
-            if (at == null) {
+        flobt[] cloneCoordsFlobt(AffineTrbnsform bt) {
+            flobt ret[] = new flobt[doubleCoords.length];
+            if (bt == null) {
                 for (int i = 0; i < numCoords; i++) {
-                    ret[i] = (float) doubleCoords[i];
+                    ret[i] = (flobt) doubleCoords[i];
                 }
             } else {
-                at.transform(doubleCoords, 0, ret, 0, numCoords / 2);
+                bt.trbnsform(doubleCoords, 0, ret, 0, numCoords / 2);
             }
             return ret;
         }
 
-        double[] cloneCoordsDouble(AffineTransform at) {
+        double[] cloneCoordsDouble(AffineTrbnsform bt) {
             double ret[];
-            if (at == null) {
-                ret = Arrays.copyOf(this.doubleCoords,
+            if (bt == null) {
+                ret = Arrbys.copyOf(this.doubleCoords,
                                     this.doubleCoords.length);
             } else {
                 ret = new double[doubleCoords.length];
-                at.transform(doubleCoords, 0, ret, 0, numCoords / 2);
+                bt.trbnsform(doubleCoords, 0, ret, 0, numCoords / 2);
             }
             return ret;
         }
 
-        void append(float x, float y) {
+        void bppend(flobt x, flobt y) {
             doubleCoords[numCoords++] = x;
             doubleCoords[numCoords++] = y;
         }
 
-        void append(double x, double y) {
+        void bppend(double x, double y) {
             doubleCoords[numCoords++] = x;
             doubleCoords[numCoords++] = y;
         }
@@ -1113,10 +1113,10 @@ public abstract class Path2D implements Shape, Cloneable {
                                       doubleCoords[coordindex+1]);
         }
 
-        void needRoom(boolean needMove, int newCoords) {
+        void needRoom(boolebn needMove, int newCoords) {
             if (needMove && numTypes == 0) {
-                throw new IllegalPathStateException("missing initial moveto "+
-                                                    "in path definition");
+                throw new IllegblPbthStbteException("missing initibl moveto "+
+                                                    "in pbth definition");
             }
             int size = pointTypes.length;
             if (numTypes >= size) {
@@ -1126,7 +1126,7 @@ public abstract class Path2D implements Shape, Cloneable {
                 } else if (grow == 0) {
                     grow = 1;
                 }
-                pointTypes = Arrays.copyOf(pointTypes, size+grow);
+                pointTypes = Arrbys.copyOf(pointTypes, size+grow);
             }
             size = doubleCoords.length;
             if (numCoords + newCoords > size) {
@@ -1137,7 +1137,7 @@ public abstract class Path2D implements Shape, Cloneable {
                 if (grow < newCoords) {
                     grow = newCoords;
                 }
-                doubleCoords = Arrays.copyOf(doubleCoords, size+grow);
+                doubleCoords = Arrbys.copyOf(doubleCoords, size+grow);
             }
         }
 
@@ -1145,12 +1145,12 @@ public abstract class Path2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.6
          */
-        public final synchronized void moveTo(double x, double y) {
+        public finbl synchronized void moveTo(double x, double y) {
             if (numTypes > 0 && pointTypes[numTypes - 1] == SEG_MOVETO) {
                 doubleCoords[numCoords-2] = x;
                 doubleCoords[numCoords-1] = y;
             } else {
-                needRoom(false, 2);
+                needRoom(fblse, 2);
                 pointTypes[numTypes++] = SEG_MOVETO;
                 doubleCoords[numCoords++] = x;
                 doubleCoords[numCoords++] = y;
@@ -1161,7 +1161,7 @@ public abstract class Path2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.6
          */
-        public final synchronized void lineTo(double x, double y) {
+        public finbl synchronized void lineTo(double x, double y) {
             needRoom(true, 2);
             pointTypes[numTypes++] = SEG_LINETO;
             doubleCoords[numCoords++] = x;
@@ -1172,7 +1172,7 @@ public abstract class Path2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.6
          */
-        public final synchronized void quadTo(double x1, double y1,
+        public finbl synchronized void qubdTo(double x1, double y1,
                                               double x2, double y2)
         {
             needRoom(true, 4);
@@ -1187,7 +1187,7 @@ public abstract class Path2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.6
          */
-        public final synchronized void curveTo(double x1, double y1,
+        public finbl synchronized void curveTo(double x1, double y1,
                                                double x2, double y2,
                                                double x3, double y3)
         {
@@ -1210,7 +1210,7 @@ public abstract class Path2D implements Shape, Cloneable {
             int ci = 2;
             for (int i = 1; i < numTypes; i++) {
                 switch (pointTypes[i]) {
-                case PathIterator.SEG_MOVETO:
+                cbse PbthIterbtor.SEG_MOVETO:
                     if (cury != movy) {
                         crossings +=
                             Curve.pointCrossingsForLine(px, py,
@@ -1219,8 +1219,8 @@ public abstract class Path2D implements Shape, Cloneable {
                     }
                     movx = curx = coords[ci++];
                     movy = cury = coords[ci++];
-                    break;
-                case PathIterator.SEG_LINETO:
+                    brebk;
+                cbse PbthIterbtor.SEG_LINETO:
                     crossings +=
                         Curve.pointCrossingsForLine(px, py,
                                                     curx, cury,
@@ -1228,10 +1228,10 @@ public abstract class Path2D implements Shape, Cloneable {
                                                     endy = coords[ci++]);
                     curx = endx;
                     cury = endy;
-                    break;
-                case PathIterator.SEG_QUADTO:
+                    brebk;
+                cbse PbthIterbtor.SEG_QUADTO:
                     crossings +=
-                        Curve.pointCrossingsForQuad(px, py,
+                        Curve.pointCrossingsForQubd(px, py,
                                                     curx, cury,
                                                     coords[ci++],
                                                     coords[ci++],
@@ -1240,8 +1240,8 @@ public abstract class Path2D implements Shape, Cloneable {
                                                     0);
                     curx = endx;
                     cury = endy;
-                    break;
-            case PathIterator.SEG_CUBICTO:
+                    brebk;
+            cbse PbthIterbtor.SEG_CUBICTO:
                     crossings +=
                         Curve.pointCrossingsForCubic(px, py,
                                                      curx, cury,
@@ -1254,8 +1254,8 @@ public abstract class Path2D implements Shape, Cloneable {
                                                      0);
                     curx = endx;
                     cury = endy;
-                    break;
-                case PathIterator.SEG_CLOSE:
+                    brebk;
+                cbse PbthIterbtor.SEG_CLOSE:
                     if (cury != movy) {
                         crossings +=
                             Curve.pointCrossingsForLine(px, py,
@@ -1264,7 +1264,7 @@ public abstract class Path2D implements Shape, Cloneable {
                     }
                     curx = movx;
                     cury = movy;
-                    break;
+                    brebk;
                 }
             }
             if (cury != movy) {
@@ -1277,7 +1277,7 @@ public abstract class Path2D implements Shape, Cloneable {
         }
 
         int rectCrossings(double rxmin, double rymin,
-                          double rxmax, double rymax)
+                          double rxmbx, double rymbx)
         {
             double coords[] = doubleCoords;
             double curx, cury, movx, movy, endx, endy;
@@ -1290,37 +1290,37 @@ public abstract class Path2D implements Shape, Cloneable {
                  i++)
             {
                 switch (pointTypes[i]) {
-                case PathIterator.SEG_MOVETO:
+                cbse PbthIterbtor.SEG_MOVETO:
                     if (curx != movx || cury != movy) {
                         crossings =
                             Curve.rectCrossingsForLine(crossings,
                                                        rxmin, rymin,
-                                                       rxmax, rymax,
+                                                       rxmbx, rymbx,
                                                        curx, cury,
                                                        movx, movy);
                     }
-                    // Count should always be a multiple of 2 here.
-                    // assert((crossings & 1) != 0);
+                    // Count should blwbys be b multiple of 2 here.
+                    // bssert((crossings & 1) != 0);
                     movx = curx = coords[ci++];
                     movy = cury = coords[ci++];
-                    break;
-                case PathIterator.SEG_LINETO:
+                    brebk;
+                cbse PbthIterbtor.SEG_LINETO:
                     endx = coords[ci++];
                     endy = coords[ci++];
                     crossings =
                         Curve.rectCrossingsForLine(crossings,
                                                    rxmin, rymin,
-                                                   rxmax, rymax,
+                                                   rxmbx, rymbx,
                                                    curx, cury,
                                                    endx, endy);
                     curx = endx;
                     cury = endy;
-                    break;
-                case PathIterator.SEG_QUADTO:
+                    brebk;
+                cbse PbthIterbtor.SEG_QUADTO:
                     crossings =
-                        Curve.rectCrossingsForQuad(crossings,
+                        Curve.rectCrossingsForQubd(crossings,
                                                    rxmin, rymin,
-                                                   rxmax, rymax,
+                                                   rxmbx, rymbx,
                                                    curx, cury,
                                                    coords[ci++],
                                                    coords[ci++],
@@ -1329,12 +1329,12 @@ public abstract class Path2D implements Shape, Cloneable {
                                                    0);
                     curx = endx;
                     cury = endy;
-                    break;
-                case PathIterator.SEG_CUBICTO:
+                    brebk;
+                cbse PbthIterbtor.SEG_CUBICTO:
                     crossings =
                         Curve.rectCrossingsForCubic(crossings,
                                                     rxmin, rymin,
-                                                    rxmax, rymax,
+                                                    rxmbx, rymbx,
                                                     curx, cury,
                                                     coords[ci++],
                                                     coords[ci++],
@@ -1345,21 +1345,21 @@ public abstract class Path2D implements Shape, Cloneable {
                                                     0);
                     curx = endx;
                     cury = endy;
-                    break;
-                case PathIterator.SEG_CLOSE:
+                    brebk;
+                cbse PbthIterbtor.SEG_CLOSE:
                     if (curx != movx || cury != movy) {
                         crossings =
                             Curve.rectCrossingsForLine(crossings,
                                                        rxmin, rymin,
-                                                       rxmax, rymax,
+                                                       rxmbx, rymbx,
                                                        curx, cury,
                                                        movx, movy);
                     }
                     curx = movx;
                     cury = movy;
-                    // Count should always be a multiple of 2 here.
-                    // assert((crossings & 1) != 0);
-                    break;
+                    // Count should blwbys be b multiple of 2 here.
+                    // bssert((crossings & 1) != 0);
+                    brebk;
                 }
             }
             if (crossings != Curve.RECT_INTERSECTS &&
@@ -1368,12 +1368,12 @@ public abstract class Path2D implements Shape, Cloneable {
                 crossings =
                     Curve.rectCrossingsForLine(crossings,
                                                rxmin, rymin,
-                                               rxmax, rymax,
+                                               rxmbx, rymbx,
                                                curx, cury,
                                                movx, movy);
             }
-            // Count should always be a multiple of 2 here.
-            // assert((crossings & 1) != 0);
+            // Count should blwbys be b multiple of 2 here.
+            // bssert((crossings & 1) != 0);
             return crossings;
         }
 
@@ -1381,42 +1381,42 @@ public abstract class Path2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.6
          */
-        public final void append(PathIterator pi, boolean connect) {
+        public finbl void bppend(PbthIterbtor pi, boolebn connect) {
             double coords[] = new double[6];
             while (!pi.isDone()) {
                 switch (pi.currentSegment(coords)) {
-                case SEG_MOVETO:
+                cbse SEG_MOVETO:
                     if (!connect || numTypes < 1 || numCoords < 1) {
                         moveTo(coords[0], coords[1]);
-                        break;
+                        brebk;
                     }
                     if (pointTypes[numTypes - 1] != SEG_CLOSE &&
                         doubleCoords[numCoords-2] == coords[0] &&
                         doubleCoords[numCoords-1] == coords[1])
                     {
-                        // Collapse out initial moveto/lineto
-                        break;
+                        // Collbpse out initibl moveto/lineto
+                        brebk;
                     }
                     lineTo(coords[0], coords[1]);
-                    break;
-                case SEG_LINETO:
+                    brebk;
+                cbse SEG_LINETO:
                     lineTo(coords[0], coords[1]);
-                    break;
-                case SEG_QUADTO:
-                    quadTo(coords[0], coords[1],
+                    brebk;
+                cbse SEG_QUADTO:
+                    qubdTo(coords[0], coords[1],
                            coords[2], coords[3]);
-                    break;
-                case SEG_CUBICTO:
+                    brebk;
+                cbse SEG_CUBICTO:
                     curveTo(coords[0], coords[1],
                             coords[2], coords[3],
                             coords[4], coords[5]);
-                    break;
-                case SEG_CLOSE:
-                    closePath();
-                    break;
+                    brebk;
+                cbse SEG_CLOSE:
+                    closePbth();
+                    brebk;
                 }
                 pi.next();
-                connect = false;
+                connect = fblse;
             }
         }
 
@@ -1424,15 +1424,15 @@ public abstract class Path2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.6
          */
-        public final void transform(AffineTransform at) {
-            at.transform(doubleCoords, 0, doubleCoords, 0, numCoords / 2);
+        public finbl void trbnsform(AffineTrbnsform bt) {
+            bt.trbnsform(doubleCoords, 0, doubleCoords, 0, numCoords / 2);
         }
 
         /**
          * {@inheritDoc}
          * @since 1.6
          */
-        public final synchronized Rectangle2D getBounds2D() {
+        public finbl synchronized Rectbngle2D getBounds2D() {
             double x1, y1, x2, y2;
             int i = numCoords;
             if (i > 0) {
@@ -1449,95 +1449,95 @@ public abstract class Path2D implements Shape, Cloneable {
             } else {
                 x1 = y1 = x2 = y2 = 0.0;
             }
-            return new Rectangle2D.Double(x1, y1, x2 - x1, y2 - y1);
+            return new Rectbngle2D.Double(x1, y1, x2 - x1, y2 - y1);
         }
 
         /**
          * {@inheritDoc}
          * <p>
-         * The iterator for this class is not multi-threaded safe,
-         * which means that the {@code Path2D} class does not
-         * guarantee that modifications to the geometry of this
-         * {@code Path2D} object do not affect any iterations of
-         * that geometry that are already in process.
+         * The iterbtor for this clbss is not multi-threbded sbfe,
+         * which mebns thbt the {@code Pbth2D} clbss does not
+         * gubrbntee thbt modificbtions to the geometry of this
+         * {@code Pbth2D} object do not bffect bny iterbtions of
+         * thbt geometry thbt bre blrebdy in process.
          *
-         * @param at an {@code AffineTransform}
-         * @return a new {@code PathIterator} that iterates along the boundary
-         *         of this {@code Shape} and provides access to the geometry
-         *         of this {@code Shape}'s outline
+         * @pbrbm bt bn {@code AffineTrbnsform}
+         * @return b new {@code PbthIterbtor} thbt iterbtes blong the boundbry
+         *         of this {@code Shbpe} bnd provides bccess to the geometry
+         *         of this {@code Shbpe}'s outline
          * @since 1.6
          */
-        public final PathIterator getPathIterator(AffineTransform at) {
-            if (at == null) {
-                return new CopyIterator(this);
+        public finbl PbthIterbtor getPbthIterbtor(AffineTrbnsform bt) {
+            if (bt == null) {
+                return new CopyIterbtor(this);
             } else {
-                return new TxIterator(this, at);
+                return new TxIterbtor(this, bt);
             }
         }
 
         /**
-         * Creates a new object of the same class as this object.
+         * Crebtes b new object of the sbme clbss bs this object.
          *
-         * @return     a clone of this instance.
+         * @return     b clone of this instbnce.
          * @exception  OutOfMemoryError    if there is not enough memory.
-         * @see        java.lang.Cloneable
+         * @see        jbvb.lbng.Clonebble
          * @since      1.6
          */
-        public final Object clone() {
-            // Note: It would be nice to have this return Path2D
-            // but one of our subclasses (GeneralPath) needs to
-            // offer "public Object clone()" for backwards
-            // compatibility so we cannot restrict it further.
-            // REMIND: Can we do both somehow?
-            return new Path2D.Double(this);
+        public finbl Object clone() {
+            // Note: It would be nice to hbve this return Pbth2D
+            // but one of our subclbsses (GenerblPbth) needs to
+            // offer "public Object clone()" for bbckwbrds
+            // compbtibility so we cbnnot restrict it further.
+            // REMIND: Cbn we do both somehow?
+            return new Pbth2D.Double(this);
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 seriblVersionUID
          */
-        private static final long serialVersionUID = 1826762518450014216L;
+        privbte stbtic finbl long seriblVersionUID = 1826762518450014216L;
 
         /**
-         * Writes the default serializable fields to the
-         * {@code ObjectOutputStream} followed by an explicit
-         * serialization of the path segments stored in this
-         * path.
+         * Writes the defbult seriblizbble fields to the
+         * {@code ObjectOutputStrebm} followed by bn explicit
+         * seriblizbtion of the pbth segments stored in this
+         * pbth.
          *
-         * @serialData
-         * <a name="Path2DSerialData"><!-- --></a>
+         * @seriblDbtb
+         * <b nbme="Pbth2DSeriblDbtb"><!-- --></b>
          * <ol>
-         * <li>The default serializable fields.
-         * There are no default serializable fields as of 1.6.
+         * <li>The defbult seriblizbble fields.
+         * There bre no defbult seriblizbble fields bs of 1.6.
          * <li>followed by
-         * a byte indicating the storage type of the original object
-         * as a hint (SERIAL_STORAGE_DBL_ARRAY)
+         * b byte indicbting the storbge type of the originbl object
+         * bs b hint (SERIAL_STORAGE_DBL_ARRAY)
          * <li>followed by
-         * an integer indicating the number of path segments to follow (NP)
-         * or -1 to indicate an unknown number of path segments follows
+         * bn integer indicbting the number of pbth segments to follow (NP)
+         * or -1 to indicbte bn unknown number of pbth segments follows
          * <li>followed by
-         * an integer indicating the total number of coordinates to follow (NC)
-         * or -1 to indicate an unknown number of coordinates follows
-         * (NC should always be even since coordinates always appear in pairs
-         *  representing an x,y pair)
+         * bn integer indicbting the totbl number of coordinbtes to follow (NC)
+         * or -1 to indicbte bn unknown number of coordinbtes follows
+         * (NC should blwbys be even since coordinbtes blwbys bppebr in pbirs
+         *  representing bn x,y pbir)
          * <li>followed by
-         * a byte indicating the winding rule
+         * b byte indicbting the winding rule
          * ({@link #WIND_EVEN_ODD WIND_EVEN_ODD} or
          *  {@link #WIND_NON_ZERO WIND_NON_ZERO})
          * <li>followed by
-         * {@code NP} (or unlimited if {@code NP < 0}) sets of values consisting of
-         * a single byte indicating a path segment type
-         * followed by one or more pairs of float or double
-         * values representing the coordinates of the path segment
+         * {@code NP} (or unlimited if {@code NP < 0}) sets of vblues consisting of
+         * b single byte indicbting b pbth segment type
+         * followed by one or more pbirs of flobt or double
+         * vblues representing the coordinbtes of the pbth segment
          * <li>followed by
-         * a byte indicating the end of the path (SERIAL_PATH_END).
+         * b byte indicbting the end of the pbth (SERIAL_PATH_END).
          * </ol>
          * <p>
-         * The following byte value constants are used in the serialized form
-         * of {@code Path2D} objects:
-         * <table>
+         * The following byte vblue constbnts bre used in the seriblized form
+         * of {@code Pbth2D} objects:
+         * <tbble>
          * <tr>
-         * <th>Constant Name</th>
-         * <th>Byte Value</th>
+         * <th>Constbnt Nbme</th>
+         * <th>Byte Vblue</th>
          * <th>Followed by</th>
          * <th>Description</th>
          * </tr>
@@ -1545,159 +1545,159 @@ public abstract class Path2D implements Shape, Cloneable {
          * <td>{@code SERIAL_STORAGE_FLT_ARRAY}</td>
          * <td>0x30</td>
          * <td></td>
-         * <td>A hint that the original {@code Path2D} object stored
-         * the coordinates in a Java array of floats.</td>
+         * <td>A hint thbt the originbl {@code Pbth2D} object stored
+         * the coordinbtes in b Jbvb brrby of flobts.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_STORAGE_DBL_ARRAY}</td>
          * <td>0x31</td>
          * <td></td>
-         * <td>A hint that the original {@code Path2D} object stored
-         * the coordinates in a Java array of doubles.</td>
+         * <td>A hint thbt the originbl {@code Pbth2D} object stored
+         * the coordinbtes in b Jbvb brrby of doubles.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_FLT_MOVETO}</td>
          * <td>0x40</td>
-         * <td>2 floats</td>
-         * <td>A {@link #moveTo moveTo} path segment follows.</td>
+         * <td>2 flobts</td>
+         * <td>A {@link #moveTo moveTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_FLT_LINETO}</td>
          * <td>0x41</td>
-         * <td>2 floats</td>
-         * <td>A {@link #lineTo lineTo} path segment follows.</td>
+         * <td>2 flobts</td>
+         * <td>A {@link #lineTo lineTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_FLT_QUADTO}</td>
          * <td>0x42</td>
-         * <td>4 floats</td>
-         * <td>A {@link #quadTo quadTo} path segment follows.</td>
+         * <td>4 flobts</td>
+         * <td>A {@link #qubdTo qubdTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_FLT_CUBICTO}</td>
          * <td>0x43</td>
-         * <td>6 floats</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
+         * <td>6 flobts</td>
+         * <td>A {@link #curveTo curveTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_DBL_MOVETO}</td>
          * <td>0x50</td>
          * <td>2 doubles</td>
-         * <td>A {@link #moveTo moveTo} path segment follows.</td>
+         * <td>A {@link #moveTo moveTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_DBL_LINETO}</td>
          * <td>0x51</td>
          * <td>2 doubles</td>
-         * <td>A {@link #lineTo lineTo} path segment follows.</td>
+         * <td>A {@link #lineTo lineTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_DBL_QUADTO}</td>
          * <td>0x52</td>
          * <td>4 doubles</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
+         * <td>A {@link #curveTo curveTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_DBL_CUBICTO}</td>
          * <td>0x53</td>
          * <td>6 doubles</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
+         * <td>A {@link #curveTo curveTo} pbth segment follows.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_SEG_CLOSE}</td>
          * <td>0x60</td>
          * <td></td>
-         * <td>A {@link #closePath closePath} path segment.</td>
+         * <td>A {@link #closePbth closePbth} pbth segment.</td>
          * </tr>
          * <tr>
          * <td>{@code SERIAL_PATH_END}</td>
          * <td>0x61</td>
          * <td></td>
-         * <td>There are no more path segments following.</td>
-         * </table>
+         * <td>There bre no more pbth segments following.</td>
+         * </tbble>
          *
          * @since 1.6
          */
-        private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException
+        privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+            throws jbvb.io.IOException
         {
             super.writeObject(s, true);
         }
 
         /**
-         * Reads the default serializable fields from the
-         * {@code ObjectInputStream} followed by an explicit
-         * serialization of the path segments stored in this
-         * path.
+         * Rebds the defbult seriblizbble fields from the
+         * {@code ObjectInputStrebm} followed by bn explicit
+         * seriblizbtion of the pbth segments stored in this
+         * pbth.
          * <p>
-         * There are no default serializable fields as of 1.6.
+         * There bre no defbult seriblizbble fields bs of 1.6.
          * <p>
-         * The serial data for this object is described in the
+         * The seribl dbtb for this object is described in the
          * writeObject method.
          *
          * @since 1.6
          */
-        private void readObject(java.io.ObjectInputStream s)
-            throws java.lang.ClassNotFoundException, java.io.IOException
+        privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+            throws jbvb.lbng.ClbssNotFoundException, jbvb.io.IOException
         {
-            super.readObject(s, true);
+            super.rebdObject(s, true);
         }
 
-        static class CopyIterator extends Path2D.Iterator {
+        stbtic clbss CopyIterbtor extends Pbth2D.Iterbtor {
             double doubleCoords[];
 
-            CopyIterator(Path2D.Double p2dd) {
+            CopyIterbtor(Pbth2D.Double p2dd) {
                 super(p2dd);
                 this.doubleCoords = p2dd.doubleCoords;
             }
 
-            public int currentSegment(float[] coords) {
-                int type = path.pointTypes[typeIdx];
+            public int currentSegment(flobt[] coords) {
+                int type = pbth.pointTypes[typeIdx];
                 int numCoords = curvecoords[type];
                 if (numCoords > 0) {
                     for (int i = 0; i < numCoords; i++) {
-                        coords[i] = (float) doubleCoords[pointIdx + i];
+                        coords[i] = (flobt) doubleCoords[pointIdx + i];
                     }
                 }
                 return type;
             }
 
             public int currentSegment(double[] coords) {
-                int type = path.pointTypes[typeIdx];
+                int type = pbth.pointTypes[typeIdx];
                 int numCoords = curvecoords[type];
                 if (numCoords > 0) {
-                    System.arraycopy(doubleCoords, pointIdx,
+                    System.brrbycopy(doubleCoords, pointIdx,
                                      coords, 0, numCoords);
                 }
                 return type;
             }
         }
 
-        static class TxIterator extends Path2D.Iterator {
+        stbtic clbss TxIterbtor extends Pbth2D.Iterbtor {
             double doubleCoords[];
-            AffineTransform affine;
+            AffineTrbnsform bffine;
 
-            TxIterator(Path2D.Double p2dd, AffineTransform at) {
+            TxIterbtor(Pbth2D.Double p2dd, AffineTrbnsform bt) {
                 super(p2dd);
                 this.doubleCoords = p2dd.doubleCoords;
-                this.affine = at;
+                this.bffine = bt;
             }
 
-            public int currentSegment(float[] coords) {
-                int type = path.pointTypes[typeIdx];
+            public int currentSegment(flobt[] coords) {
+                int type = pbth.pointTypes[typeIdx];
                 int numCoords = curvecoords[type];
                 if (numCoords > 0) {
-                    affine.transform(doubleCoords, pointIdx,
+                    bffine.trbnsform(doubleCoords, pointIdx,
                                      coords, 0, numCoords / 2);
                 }
                 return type;
             }
 
             public int currentSegment(double[] coords) {
-                int type = path.pointTypes[typeIdx];
+                int type = pbth.pointTypes[typeIdx];
                 int numCoords = curvecoords[type];
                 if (numCoords > 0) {
-                    affine.transform(doubleCoords, pointIdx,
+                    bffine.trbnsform(doubleCoords, pointIdx,
                                      coords, 0, numCoords / 2);
                 }
                 return type;
@@ -1706,71 +1706,71 @@ public abstract class Path2D implements Shape, Cloneable {
     }
 
     /**
-     * Adds a point to the path by moving to the specified
-     * coordinates specified in double precision.
+     * Adds b point to the pbth by moving to the specified
+     * coordinbtes specified in double precision.
      *
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
+     * @pbrbm x the specified X coordinbte
+     * @pbrbm y the specified Y coordinbte
      * @since 1.6
      */
-    public abstract void moveTo(double x, double y);
+    public bbstrbct void moveTo(double x, double y);
 
     /**
-     * Adds a point to the path by drawing a straight line from the
-     * current coordinates to the new specified coordinates
+     * Adds b point to the pbth by drbwing b strbight line from the
+     * current coordinbtes to the new specified coordinbtes
      * specified in double precision.
      *
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
+     * @pbrbm x the specified X coordinbte
+     * @pbrbm y the specified Y coordinbte
      * @since 1.6
      */
-    public abstract void lineTo(double x, double y);
+    public bbstrbct void lineTo(double x, double y);
 
     /**
-     * Adds a curved segment, defined by two new points, to the path by
-     * drawing a Quadratic curve that intersects both the current
-     * coordinates and the specified coordinates {@code (x2,y2)},
-     * using the specified point {@code (x1,y1)} as a quadratic
-     * parametric control point.
-     * All coordinates are specified in double precision.
+     * Adds b curved segment, defined by two new points, to the pbth by
+     * drbwing b Qubdrbtic curve thbt intersects both the current
+     * coordinbtes bnd the specified coordinbtes {@code (x2,y2)},
+     * using the specified point {@code (x1,y1)} bs b qubdrbtic
+     * pbrbmetric control point.
+     * All coordinbtes bre specified in double precision.
      *
-     * @param x1 the X coordinate of the quadratic control point
-     * @param y1 the Y coordinate of the quadratic control point
-     * @param x2 the X coordinate of the final end point
-     * @param y2 the Y coordinate of the final end point
+     * @pbrbm x1 the X coordinbte of the qubdrbtic control point
+     * @pbrbm y1 the Y coordinbte of the qubdrbtic control point
+     * @pbrbm x2 the X coordinbte of the finbl end point
+     * @pbrbm y2 the Y coordinbte of the finbl end point
      * @since 1.6
      */
-    public abstract void quadTo(double x1, double y1,
+    public bbstrbct void qubdTo(double x1, double y1,
                                 double x2, double y2);
 
     /**
-     * Adds a curved segment, defined by three new points, to the path by
-     * drawing a B&eacute;zier curve that intersects both the current
-     * coordinates and the specified coordinates {@code (x3,y3)},
-     * using the specified points {@code (x1,y1)} and {@code (x2,y2)} as
-     * B&eacute;zier control points.
-     * All coordinates are specified in double precision.
+     * Adds b curved segment, defined by three new points, to the pbth by
+     * drbwing b B&ebcute;zier curve thbt intersects both the current
+     * coordinbtes bnd the specified coordinbtes {@code (x3,y3)},
+     * using the specified points {@code (x1,y1)} bnd {@code (x2,y2)} bs
+     * B&ebcute;zier control points.
+     * All coordinbtes bre specified in double precision.
      *
-     * @param x1 the X coordinate of the first B&eacute;zier control point
-     * @param y1 the Y coordinate of the first B&eacute;zier control point
-     * @param x2 the X coordinate of the second B&eacute;zier control point
-     * @param y2 the Y coordinate of the second B&eacute;zier control point
-     * @param x3 the X coordinate of the final end point
-     * @param y3 the Y coordinate of the final end point
+     * @pbrbm x1 the X coordinbte of the first B&ebcute;zier control point
+     * @pbrbm y1 the Y coordinbte of the first B&ebcute;zier control point
+     * @pbrbm x2 the X coordinbte of the second B&ebcute;zier control point
+     * @pbrbm y2 the Y coordinbte of the second B&ebcute;zier control point
+     * @pbrbm x3 the X coordinbte of the finbl end point
+     * @pbrbm y3 the Y coordinbte of the finbl end point
      * @since 1.6
      */
-    public abstract void curveTo(double x1, double y1,
+    public bbstrbct void curveTo(double x1, double y1,
                                  double x2, double y2,
                                  double x3, double y3);
 
     /**
-     * Closes the current subpath by drawing a straight line back to
-     * the coordinates of the last {@code moveTo}.  If the path is already
-     * closed then this method has no effect.
+     * Closes the current subpbth by drbwing b strbight line bbck to
+     * the coordinbtes of the lbst {@code moveTo}.  If the pbth is blrebdy
+     * closed then this method hbs no effect.
      *
      * @since 1.6
      */
-    public final synchronized void closePath() {
+    public finbl synchronized void closePbth() {
         if (numTypes == 0 || pointTypes[numTypes - 1] != SEG_CLOSE) {
             needRoom(true, 0);
             pointTypes[numTypes++] = SEG_CLOSE;
@@ -1778,84 +1778,84 @@ public abstract class Path2D implements Shape, Cloneable {
     }
 
     /**
-     * Appends the geometry of the specified {@code Shape} object to the
-     * path, possibly connecting the new geometry to the existing path
-     * segments with a line segment.
-     * If the {@code connect} parameter is {@code true} and the
-     * path is not empty then any initial {@code moveTo} in the
-     * geometry of the appended {@code Shape}
-     * is turned into a {@code lineTo} segment.
-     * If the destination coordinates of such a connecting {@code lineTo}
-     * segment match the ending coordinates of a currently open
-     * subpath then the segment is omitted as superfluous.
-     * The winding rule of the specified {@code Shape} is ignored
-     * and the appended geometry is governed by the winding
-     * rule specified for this path.
+     * Appends the geometry of the specified {@code Shbpe} object to the
+     * pbth, possibly connecting the new geometry to the existing pbth
+     * segments with b line segment.
+     * If the {@code connect} pbrbmeter is {@code true} bnd the
+     * pbth is not empty then bny initibl {@code moveTo} in the
+     * geometry of the bppended {@code Shbpe}
+     * is turned into b {@code lineTo} segment.
+     * If the destinbtion coordinbtes of such b connecting {@code lineTo}
+     * segment mbtch the ending coordinbtes of b currently open
+     * subpbth then the segment is omitted bs superfluous.
+     * The winding rule of the specified {@code Shbpe} is ignored
+     * bnd the bppended geometry is governed by the winding
+     * rule specified for this pbth.
      *
-     * @param s the {@code Shape} whose geometry is appended
-     *          to this path
-     * @param connect a boolean to control whether or not to turn an initial
-     *                {@code moveTo} segment into a {@code lineTo} segment
-     *                to connect the new geometry to the existing path
+     * @pbrbm s the {@code Shbpe} whose geometry is bppended
+     *          to this pbth
+     * @pbrbm connect b boolebn to control whether or not to turn bn initibl
+     *                {@code moveTo} segment into b {@code lineTo} segment
+     *                to connect the new geometry to the existing pbth
      * @since 1.6
      */
-    public final void append(Shape s, boolean connect) {
-        append(s.getPathIterator(null), connect);
+    public finbl void bppend(Shbpe s, boolebn connect) {
+        bppend(s.getPbthIterbtor(null), connect);
     }
 
     /**
      * Appends the geometry of the specified
-     * {@link PathIterator} object
-     * to the path, possibly connecting the new geometry to the existing
-     * path segments with a line segment.
-     * If the {@code connect} parameter is {@code true} and the
-     * path is not empty then any initial {@code moveTo} in the
-     * geometry of the appended {@code Shape} is turned into a
+     * {@link PbthIterbtor} object
+     * to the pbth, possibly connecting the new geometry to the existing
+     * pbth segments with b line segment.
+     * If the {@code connect} pbrbmeter is {@code true} bnd the
+     * pbth is not empty then bny initibl {@code moveTo} in the
+     * geometry of the bppended {@code Shbpe} is turned into b
      * {@code lineTo} segment.
-     * If the destination coordinates of such a connecting {@code lineTo}
-     * segment match the ending coordinates of a currently open
-     * subpath then the segment is omitted as superfluous.
-     * The winding rule of the specified {@code Shape} is ignored
-     * and the appended geometry is governed by the winding
-     * rule specified for this path.
+     * If the destinbtion coordinbtes of such b connecting {@code lineTo}
+     * segment mbtch the ending coordinbtes of b currently open
+     * subpbth then the segment is omitted bs superfluous.
+     * The winding rule of the specified {@code Shbpe} is ignored
+     * bnd the bppended geometry is governed by the winding
+     * rule specified for this pbth.
      *
-     * @param pi the {@code PathIterator} whose geometry is appended to
-     *           this path
-     * @param connect a boolean to control whether or not to turn an initial
-     *                {@code moveTo} segment into a {@code lineTo} segment
-     *                to connect the new geometry to the existing path
+     * @pbrbm pi the {@code PbthIterbtor} whose geometry is bppended to
+     *           this pbth
+     * @pbrbm connect b boolebn to control whether or not to turn bn initibl
+     *                {@code moveTo} segment into b {@code lineTo} segment
+     *                to connect the new geometry to the existing pbth
      * @since 1.6
      */
-    public abstract void append(PathIterator pi, boolean connect);
+    public bbstrbct void bppend(PbthIterbtor pi, boolebn connect);
 
     /**
      * Returns the fill style winding rule.
      *
-     * @return an integer representing the current winding rule.
+     * @return bn integer representing the current winding rule.
      * @see #WIND_EVEN_ODD
      * @see #WIND_NON_ZERO
      * @see #setWindingRule
      * @since 1.6
      */
-    public final synchronized int getWindingRule() {
+    public finbl synchronized int getWindingRule() {
         return windingRule;
     }
 
     /**
-     * Sets the winding rule for this path to the specified value.
+     * Sets the winding rule for this pbth to the specified vblue.
      *
-     * @param rule an integer representing the specified
+     * @pbrbm rule bn integer representing the specified
      *             winding rule
-     * @exception IllegalArgumentException if
+     * @exception IllegblArgumentException if
      *          {@code rule} is not either
      *          {@link #WIND_EVEN_ODD} or
      *          {@link #WIND_NON_ZERO}
      * @see #getWindingRule
      * @since 1.6
      */
-    public final void setWindingRule(int rule) {
+    public finbl void setWindingRule(int rule) {
         if (rule != WIND_EVEN_ODD && rule != WIND_NON_ZERO) {
-            throw new IllegalArgumentException("winding rule must be "+
+            throw new IllegblArgumentException("winding rule must be "+
                                                "WIND_EVEN_ODD or "+
                                                "WIND_NON_ZERO");
         }
@@ -1863,14 +1863,14 @@ public abstract class Path2D implements Shape, Cloneable {
     }
 
     /**
-     * Returns the coordinates most recently added to the end of the path
-     * as a {@link Point2D} object.
+     * Returns the coordinbtes most recently bdded to the end of the pbth
+     * bs b {@link Point2D} object.
      *
-     * @return a {@code Point2D} object containing the ending coordinates of
-     *         the path or {@code null} if there are no points in the path.
+     * @return b {@code Point2D} object contbining the ending coordinbtes of
+     *         the pbth or {@code null} if there bre no points in the pbth.
      * @since 1.6
      */
-    public final synchronized Point2D getCurrentPoint() {
+    public finbl synchronized Point2D getCurrentPoint() {
         int index = numCoords;
         if (numTypes < 1 || index < 1) {
             return null;
@@ -1879,19 +1879,19 @@ public abstract class Path2D implements Shape, Cloneable {
         loop:
             for (int i = numTypes - 2; i > 0; i--) {
                 switch (pointTypes[i]) {
-                case SEG_MOVETO:
-                    break loop;
-                case SEG_LINETO:
+                cbse SEG_MOVETO:
+                    brebk loop;
+                cbse SEG_LINETO:
                     index -= 2;
-                    break;
-                case SEG_QUADTO:
+                    brebk;
+                cbse SEG_QUADTO:
                     index -= 4;
-                    break;
-                case SEG_CUBICTO:
+                    brebk;
+                cbse SEG_CUBICTO:
                     index -= 6;
-                    break;
-                case SEG_CLOSE:
-                    break;
+                    brebk;
+                cbse SEG_CLOSE:
+                    brebk;
                 }
             }
         }
@@ -1899,52 +1899,52 @@ public abstract class Path2D implements Shape, Cloneable {
     }
 
     /**
-     * Resets the path to empty.  The append position is set back to the
-     * beginning of the path and all coordinates and point types are
+     * Resets the pbth to empty.  The bppend position is set bbck to the
+     * beginning of the pbth bnd bll coordinbtes bnd point types bre
      * forgotten.
      *
      * @since 1.6
      */
-    public final synchronized void reset() {
+    public finbl synchronized void reset() {
         numTypes = numCoords = 0;
     }
 
     /**
-     * Transforms the geometry of this path using the specified
-     * {@link AffineTransform}.
-     * The geometry is transformed in place, which permanently changes the
-     * boundary defined by this object.
+     * Trbnsforms the geometry of this pbth using the specified
+     * {@link AffineTrbnsform}.
+     * The geometry is trbnsformed in plbce, which permbnently chbnges the
+     * boundbry defined by this object.
      *
-     * @param at the {@code AffineTransform} used to transform the area
+     * @pbrbm bt the {@code AffineTrbnsform} used to trbnsform the breb
      * @since 1.6
      */
-    public abstract void transform(AffineTransform at);
+    public bbstrbct void trbnsform(AffineTrbnsform bt);
 
     /**
-     * Returns a new {@code Shape} representing a transformed version
-     * of this {@code Path2D}.
-     * Note that the exact type and coordinate precision of the return
-     * value is not specified for this method.
-     * The method will return a Shape that contains no less precision
-     * for the transformed geometry than this {@code Path2D} currently
-     * maintains, but it may contain no more precision either.
-     * If the tradeoff of precision vs. storage size in the result is
-     * important then the convenience constructors in the
-     * {@link Path2D.Float#Float(Shape, AffineTransform) Path2D.Float}
-     * and
-     * {@link Path2D.Double#Double(Shape, AffineTransform) Path2D.Double}
-     * subclasses should be used to make the choice explicit.
+     * Returns b new {@code Shbpe} representing b trbnsformed version
+     * of this {@code Pbth2D}.
+     * Note thbt the exbct type bnd coordinbte precision of the return
+     * vblue is not specified for this method.
+     * The method will return b Shbpe thbt contbins no less precision
+     * for the trbnsformed geometry thbn this {@code Pbth2D} currently
+     * mbintbins, but it mby contbin no more precision either.
+     * If the trbdeoff of precision vs. storbge size in the result is
+     * importbnt then the convenience constructors in the
+     * {@link Pbth2D.Flobt#Flobt(Shbpe, AffineTrbnsform) Pbth2D.Flobt}
+     * bnd
+     * {@link Pbth2D.Double#Double(Shbpe, AffineTrbnsform) Pbth2D.Double}
+     * subclbsses should be used to mbke the choice explicit.
      *
-     * @param at the {@code AffineTransform} used to transform a
-     *           new {@code Shape}.
-     * @return a new {@code Shape}, transformed with the specified
-     *         {@code AffineTransform}.
+     * @pbrbm bt the {@code AffineTrbnsform} used to trbnsform b
+     *           new {@code Shbpe}.
+     * @return b new {@code Shbpe}, trbnsformed with the specified
+     *         {@code AffineTrbnsform}.
      * @since 1.6
      */
-    public final synchronized Shape createTransformedShape(AffineTransform at) {
-        Path2D p2d = (Path2D) clone();
-        if (at != null) {
-            p2d.transform(at);
+    public finbl synchronized Shbpe crebteTrbnsformedShbpe(AffineTrbnsform bt) {
+        Pbth2D p2d = (Pbth2D) clone();
+        if (bt != null) {
+            p2d.trbnsform(bt);
         }
         return p2d;
     }
@@ -1953,82 +1953,82 @@ public abstract class Path2D implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.6
      */
-    public final Rectangle getBounds() {
+    public finbl Rectbngle getBounds() {
         return getBounds2D().getBounds();
     }
 
     /**
-     * Tests if the specified coordinates are inside the closed
-     * boundary of the specified {@link PathIterator}.
+     * Tests if the specified coordinbtes bre inside the closed
+     * boundbry of the specified {@link PbthIterbtor}.
      * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#contains(double, double)} method.
+     * This method provides b bbsic fbcility for implementors of
+     * the {@link Shbpe} interfbce to implement support for the
+     * {@link Shbpe#contbins(double, double)} method.
      *
-     * @param pi the specified {@code PathIterator}
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
-     * @return {@code true} if the specified coordinates are inside the
-     *         specified {@code PathIterator}; {@code false} otherwise
+     * @pbrbm pi the specified {@code PbthIterbtor}
+     * @pbrbm x the specified X coordinbte
+     * @pbrbm y the specified Y coordinbte
+     * @return {@code true} if the specified coordinbtes bre inside the
+     *         specified {@code PbthIterbtor}; {@code fblse} otherwise
      * @since 1.6
      */
-    public static boolean contains(PathIterator pi, double x, double y) {
+    public stbtic boolebn contbins(PbthIterbtor pi, double x, double y) {
         if (x * 0.0 + y * 0.0 == 0.0) {
             /* N * 0.0 is 0.0 only if N is finite.
-             * Here we know that both x and y are finite.
+             * Here we know thbt both x bnd y bre finite.
              */
-            int mask = (pi.getWindingRule() == WIND_NON_ZERO ? -1 : 1);
-            int cross = Curve.pointCrossingsForPath(pi, x, y);
-            return ((cross & mask) != 0);
+            int mbsk = (pi.getWindingRule() == WIND_NON_ZERO ? -1 : 1);
+            int cross = Curve.pointCrossingsForPbth(pi, x, y);
+            return ((cross & mbsk) != 0);
         } else {
-            /* Either x or y was infinite or NaN.
-             * A NaN always produces a negative response to any test
-             * and Infinity values cannot be "inside" any path so
-             * they should return false as well.
+            /* Either x or y wbs infinite or NbN.
+             * A NbN blwbys produces b negbtive response to bny test
+             * bnd Infinity vblues cbnnot be "inside" bny pbth so
+             * they should return fblse bs well.
              */
-            return false;
+            return fblse;
         }
     }
 
     /**
      * Tests if the specified {@link Point2D} is inside the closed
-     * boundary of the specified {@link PathIterator}.
+     * boundbry of the specified {@link PbthIterbtor}.
      * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#contains(Point2D)} method.
+     * This method provides b bbsic fbcility for implementors of
+     * the {@link Shbpe} interfbce to implement support for the
+     * {@link Shbpe#contbins(Point2D)} method.
      *
-     * @param pi the specified {@code PathIterator}
-     * @param p the specified {@code Point2D}
-     * @return {@code true} if the specified coordinates are inside the
-     *         specified {@code PathIterator}; {@code false} otherwise
+     * @pbrbm pi the specified {@code PbthIterbtor}
+     * @pbrbm p the specified {@code Point2D}
+     * @return {@code true} if the specified coordinbtes bre inside the
+     *         specified {@code PbthIterbtor}; {@code fblse} otherwise
      * @since 1.6
      */
-    public static boolean contains(PathIterator pi, Point2D p) {
-        return contains(pi, p.getX(), p.getY());
+    public stbtic boolebn contbins(PbthIterbtor pi, Point2D p) {
+        return contbins(pi, p.getX(), p.getY());
     }
 
     /**
      * {@inheritDoc}
      * @since 1.6
      */
-    public final boolean contains(double x, double y) {
+    public finbl boolebn contbins(double x, double y) {
         if (x * 0.0 + y * 0.0 == 0.0) {
             /* N * 0.0 is 0.0 only if N is finite.
-             * Here we know that both x and y are finite.
+             * Here we know thbt both x bnd y bre finite.
              */
             if (numTypes < 2) {
-                return false;
+                return fblse;
             }
-            int mask = (windingRule == WIND_NON_ZERO ? -1 : 1);
-            return ((pointCrossings(x, y) & mask) != 0);
+            int mbsk = (windingRule == WIND_NON_ZERO ? -1 : 1);
+            return ((pointCrossings(x, y) & mbsk) != 0);
         } else {
-            /* Either x or y was infinite or NaN.
-             * A NaN always produces a negative response to any test
-             * and Infinity values cannot be "inside" any path so
-             * they should return false as well.
+            /* Either x or y wbs infinite or NbN.
+             * A NbN blwbys produces b negbtive response to bny test
+             * bnd Infinity vblues cbnnot be "inside" bny pbth so
+             * they should return fblse bs well.
              */
-            return false;
+            return fblse;
         }
     }
 
@@ -2036,371 +2036,371 @@ public abstract class Path2D implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.6
      */
-    public final boolean contains(Point2D p) {
-        return contains(p.getX(), p.getY());
+    public finbl boolebn contbins(Point2D p) {
+        return contbins(p.getX(), p.getY());
     }
 
     /**
-     * Tests if the specified rectangular area is entirely inside the
-     * closed boundary of the specified {@link PathIterator}.
+     * Tests if the specified rectbngulbr breb is entirely inside the
+     * closed boundbry of the specified {@link PbthIterbtor}.
      * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#contains(double, double, double, double)} method.
+     * This method provides b bbsic fbcility for implementors of
+     * the {@link Shbpe} interfbce to implement support for the
+     * {@link Shbpe#contbins(double, double, double, double)} method.
      * <p>
-     * This method object may conservatively return false in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
+     * This method object mby conservbtively return fblse in
+     * cbses where the specified rectbngulbr breb intersects b
+     * segment of the pbth, but thbt segment does not represent b
+     * boundbry between the interior bnd exterior of the pbth.
      * Such segments could lie entirely within the interior of the
-     * path if they are part of a path with a {@link #WIND_NON_ZERO}
-     * winding rule or if the segments are retraced in the reverse
-     * direction such that the two sets of segments cancel each
-     * other out without any exterior area falling between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * pbth if they bre pbrt of b pbth with b {@link #WIND_NON_ZERO}
+     * winding rule or if the segments bre retrbced in the reverse
+     * direction such thbt the two sets of segments cbncel ebch
+     * other out without bny exterior breb fblling between them.
+     * To determine whether segments represent true boundbries of
+     * the interior of the pbth would require extensive cblculbtions
+     * involving bll of the segments of the pbth bnd the winding
+     * rule bnd bre thus beyond the scope of this implementbtion.
      *
-     * @param pi the specified {@code PathIterator}
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
-     * @param w the width of the specified rectangular area
-     * @param h the height of the specified rectangular area
-     * @return {@code true} if the specified {@code PathIterator} contains
-     *         the specified rectangular area; {@code false} otherwise.
+     * @pbrbm pi the specified {@code PbthIterbtor}
+     * @pbrbm x the specified X coordinbte
+     * @pbrbm y the specified Y coordinbte
+     * @pbrbm w the width of the specified rectbngulbr breb
+     * @pbrbm h the height of the specified rectbngulbr breb
+     * @return {@code true} if the specified {@code PbthIterbtor} contbins
+     *         the specified rectbngulbr breb; {@code fblse} otherwise.
      * @since 1.6
      */
-    public static boolean contains(PathIterator pi,
+    public stbtic boolebn contbins(PbthIterbtor pi,
                                    double x, double y, double w, double h)
     {
-        if (java.lang.Double.isNaN(x+w) || java.lang.Double.isNaN(y+h)) {
-            /* [xy]+[wh] is NaN if any of those values are NaN,
-             * or if adding the two together would produce NaN
-             * by virtue of adding opposing Infinte values.
-             * Since we need to add them below, their sum must
-             * not be NaN.
-             * We return false because NaN always produces a
-             * negative response to tests
+        if (jbvb.lbng.Double.isNbN(x+w) || jbvb.lbng.Double.isNbN(y+h)) {
+            /* [xy]+[wh] is NbN if bny of those vblues bre NbN,
+             * or if bdding the two together would produce NbN
+             * by virtue of bdding opposing Infinte vblues.
+             * Since we need to bdd them below, their sum must
+             * not be NbN.
+             * We return fblse becbuse NbN blwbys produces b
+             * negbtive response to tests
              */
-            return false;
+            return fblse;
         }
         if (w <= 0 || h <= 0) {
-            return false;
+            return fblse;
         }
-        int mask = (pi.getWindingRule() == WIND_NON_ZERO ? -1 : 2);
-        int crossings = Curve.rectCrossingsForPath(pi, x, y, x+w, y+h);
+        int mbsk = (pi.getWindingRule() == WIND_NON_ZERO ? -1 : 2);
+        int crossings = Curve.rectCrossingsForPbth(pi, x, y, x+w, y+h);
         return (crossings != Curve.RECT_INTERSECTS &&
-                (crossings & mask) != 0);
+                (crossings & mbsk) != 0);
     }
 
     /**
-     * Tests if the specified {@link Rectangle2D} is entirely inside the
-     * closed boundary of the specified {@link PathIterator}.
+     * Tests if the specified {@link Rectbngle2D} is entirely inside the
+     * closed boundbry of the specified {@link PbthIterbtor}.
      * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#contains(Rectangle2D)} method.
+     * This method provides b bbsic fbcility for implementors of
+     * the {@link Shbpe} interfbce to implement support for the
+     * {@link Shbpe#contbins(Rectbngle2D)} method.
      * <p>
-     * This method object may conservatively return false in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
+     * This method object mby conservbtively return fblse in
+     * cbses where the specified rectbngulbr breb intersects b
+     * segment of the pbth, but thbt segment does not represent b
+     * boundbry between the interior bnd exterior of the pbth.
      * Such segments could lie entirely within the interior of the
-     * path if they are part of a path with a {@link #WIND_NON_ZERO}
-     * winding rule or if the segments are retraced in the reverse
-     * direction such that the two sets of segments cancel each
-     * other out without any exterior area falling between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * pbth if they bre pbrt of b pbth with b {@link #WIND_NON_ZERO}
+     * winding rule or if the segments bre retrbced in the reverse
+     * direction such thbt the two sets of segments cbncel ebch
+     * other out without bny exterior breb fblling between them.
+     * To determine whether segments represent true boundbries of
+     * the interior of the pbth would require extensive cblculbtions
+     * involving bll of the segments of the pbth bnd the winding
+     * rule bnd bre thus beyond the scope of this implementbtion.
      *
-     * @param pi the specified {@code PathIterator}
-     * @param r a specified {@code Rectangle2D}
-     * @return {@code true} if the specified {@code PathIterator} contains
-     *         the specified {@code Rectangle2D}; {@code false} otherwise.
+     * @pbrbm pi the specified {@code PbthIterbtor}
+     * @pbrbm r b specified {@code Rectbngle2D}
+     * @return {@code true} if the specified {@code PbthIterbtor} contbins
+     *         the specified {@code Rectbngle2D}; {@code fblse} otherwise.
      * @since 1.6
      */
-    public static boolean contains(PathIterator pi, Rectangle2D r) {
-        return contains(pi, r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    public stbtic boolebn contbins(PbthIterbtor pi, Rectbngle2D r) {
+        return contbins(pi, r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * This method object may conservatively return false in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
+     * This method object mby conservbtively return fblse in
+     * cbses where the specified rectbngulbr breb intersects b
+     * segment of the pbth, but thbt segment does not represent b
+     * boundbry between the interior bnd exterior of the pbth.
      * Such segments could lie entirely within the interior of the
-     * path if they are part of a path with a {@link #WIND_NON_ZERO}
-     * winding rule or if the segments are retraced in the reverse
-     * direction such that the two sets of segments cancel each
-     * other out without any exterior area falling between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * pbth if they bre pbrt of b pbth with b {@link #WIND_NON_ZERO}
+     * winding rule or if the segments bre retrbced in the reverse
+     * direction such thbt the two sets of segments cbncel ebch
+     * other out without bny exterior breb fblling between them.
+     * To determine whether segments represent true boundbries of
+     * the interior of the pbth would require extensive cblculbtions
+     * involving bll of the segments of the pbth bnd the winding
+     * rule bnd bre thus beyond the scope of this implementbtion.
      *
      * @since 1.6
      */
-    public final boolean contains(double x, double y, double w, double h) {
-        if (java.lang.Double.isNaN(x+w) || java.lang.Double.isNaN(y+h)) {
-            /* [xy]+[wh] is NaN if any of those values are NaN,
-             * or if adding the two together would produce NaN
-             * by virtue of adding opposing Infinte values.
-             * Since we need to add them below, their sum must
-             * not be NaN.
-             * We return false because NaN always produces a
-             * negative response to tests
+    public finbl boolebn contbins(double x, double y, double w, double h) {
+        if (jbvb.lbng.Double.isNbN(x+w) || jbvb.lbng.Double.isNbN(y+h)) {
+            /* [xy]+[wh] is NbN if bny of those vblues bre NbN,
+             * or if bdding the two together would produce NbN
+             * by virtue of bdding opposing Infinte vblues.
+             * Since we need to bdd them below, their sum must
+             * not be NbN.
+             * We return fblse becbuse NbN blwbys produces b
+             * negbtive response to tests
              */
-            return false;
+            return fblse;
         }
         if (w <= 0 || h <= 0) {
-            return false;
+            return fblse;
         }
-        int mask = (windingRule == WIND_NON_ZERO ? -1 : 2);
+        int mbsk = (windingRule == WIND_NON_ZERO ? -1 : 2);
         int crossings = rectCrossings(x, y, x+w, y+h);
         return (crossings != Curve.RECT_INTERSECTS &&
-                (crossings & mask) != 0);
+                (crossings & mbsk) != 0);
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * This method object may conservatively return false in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
+     * This method object mby conservbtively return fblse in
+     * cbses where the specified rectbngulbr breb intersects b
+     * segment of the pbth, but thbt segment does not represent b
+     * boundbry between the interior bnd exterior of the pbth.
      * Such segments could lie entirely within the interior of the
-     * path if they are part of a path with a {@link #WIND_NON_ZERO}
-     * winding rule or if the segments are retraced in the reverse
-     * direction such that the two sets of segments cancel each
-     * other out without any exterior area falling between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * pbth if they bre pbrt of b pbth with b {@link #WIND_NON_ZERO}
+     * winding rule or if the segments bre retrbced in the reverse
+     * direction such thbt the two sets of segments cbncel ebch
+     * other out without bny exterior breb fblling between them.
+     * To determine whether segments represent true boundbries of
+     * the interior of the pbth would require extensive cblculbtions
+     * involving bll of the segments of the pbth bnd the winding
+     * rule bnd bre thus beyond the scope of this implementbtion.
      *
      * @since 1.6
      */
-    public final boolean contains(Rectangle2D r) {
-        return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    public finbl boolebn contbins(Rectbngle2D r) {
+        return contbins(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     /**
-     * Tests if the interior of the specified {@link PathIterator}
-     * intersects the interior of a specified set of rectangular
-     * coordinates.
+     * Tests if the interior of the specified {@link PbthIterbtor}
+     * intersects the interior of b specified set of rectbngulbr
+     * coordinbtes.
      * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#intersects(double, double, double, double)} method.
+     * This method provides b bbsic fbcility for implementors of
+     * the {@link Shbpe} interfbce to implement support for the
+     * {@link Shbpe#intersects(double, double, double, double)} method.
      * <p>
-     * This method object may conservatively return true in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such a case may occur if some set of segments of the
-     * path are retraced in the reverse direction such that the
-     * two sets of segments cancel each other out without any
-     * interior area between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * This method object mby conservbtively return true in
+     * cbses where the specified rectbngulbr breb intersects b
+     * segment of the pbth, but thbt segment does not represent b
+     * boundbry between the interior bnd exterior of the pbth.
+     * Such b cbse mby occur if some set of segments of the
+     * pbth bre retrbced in the reverse direction such thbt the
+     * two sets of segments cbncel ebch other out without bny
+     * interior breb between them.
+     * To determine whether segments represent true boundbries of
+     * the interior of the pbth would require extensive cblculbtions
+     * involving bll of the segments of the pbth bnd the winding
+     * rule bnd bre thus beyond the scope of this implementbtion.
      *
-     * @param pi the specified {@code PathIterator}
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
-     * @param w the width of the specified rectangular coordinates
-     * @param h the height of the specified rectangular coordinates
-     * @return {@code true} if the specified {@code PathIterator} and
-     *         the interior of the specified set of rectangular
-     *         coordinates intersect each other; {@code false} otherwise.
+     * @pbrbm pi the specified {@code PbthIterbtor}
+     * @pbrbm x the specified X coordinbte
+     * @pbrbm y the specified Y coordinbte
+     * @pbrbm w the width of the specified rectbngulbr coordinbtes
+     * @pbrbm h the height of the specified rectbngulbr coordinbtes
+     * @return {@code true} if the specified {@code PbthIterbtor} bnd
+     *         the interior of the specified set of rectbngulbr
+     *         coordinbtes intersect ebch other; {@code fblse} otherwise.
      * @since 1.6
      */
-    public static boolean intersects(PathIterator pi,
+    public stbtic boolebn intersects(PbthIterbtor pi,
                                      double x, double y, double w, double h)
     {
-        if (java.lang.Double.isNaN(x+w) || java.lang.Double.isNaN(y+h)) {
-            /* [xy]+[wh] is NaN if any of those values are NaN,
-             * or if adding the two together would produce NaN
-             * by virtue of adding opposing Infinte values.
-             * Since we need to add them below, their sum must
-             * not be NaN.
-             * We return false because NaN always produces a
-             * negative response to tests
+        if (jbvb.lbng.Double.isNbN(x+w) || jbvb.lbng.Double.isNbN(y+h)) {
+            /* [xy]+[wh] is NbN if bny of those vblues bre NbN,
+             * or if bdding the two together would produce NbN
+             * by virtue of bdding opposing Infinte vblues.
+             * Since we need to bdd them below, their sum must
+             * not be NbN.
+             * We return fblse becbuse NbN blwbys produces b
+             * negbtive response to tests
              */
-            return false;
+            return fblse;
         }
         if (w <= 0 || h <= 0) {
-            return false;
+            return fblse;
         }
-        int mask = (pi.getWindingRule() == WIND_NON_ZERO ? -1 : 2);
-        int crossings = Curve.rectCrossingsForPath(pi, x, y, x+w, y+h);
+        int mbsk = (pi.getWindingRule() == WIND_NON_ZERO ? -1 : 2);
+        int crossings = Curve.rectCrossingsForPbth(pi, x, y, x+w, y+h);
         return (crossings == Curve.RECT_INTERSECTS ||
-                (crossings & mask) != 0);
+                (crossings & mbsk) != 0);
     }
 
     /**
-     * Tests if the interior of the specified {@link PathIterator}
-     * intersects the interior of a specified {@link Rectangle2D}.
+     * Tests if the interior of the specified {@link PbthIterbtor}
+     * intersects the interior of b specified {@link Rectbngle2D}.
      * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#intersects(Rectangle2D)} method.
+     * This method provides b bbsic fbcility for implementors of
+     * the {@link Shbpe} interfbce to implement support for the
+     * {@link Shbpe#intersects(Rectbngle2D)} method.
      * <p>
-     * This method object may conservatively return true in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such a case may occur if some set of segments of the
-     * path are retraced in the reverse direction such that the
-     * two sets of segments cancel each other out without any
-     * interior area between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * This method object mby conservbtively return true in
+     * cbses where the specified rectbngulbr breb intersects b
+     * segment of the pbth, but thbt segment does not represent b
+     * boundbry between the interior bnd exterior of the pbth.
+     * Such b cbse mby occur if some set of segments of the
+     * pbth bre retrbced in the reverse direction such thbt the
+     * two sets of segments cbncel ebch other out without bny
+     * interior breb between them.
+     * To determine whether segments represent true boundbries of
+     * the interior of the pbth would require extensive cblculbtions
+     * involving bll of the segments of the pbth bnd the winding
+     * rule bnd bre thus beyond the scope of this implementbtion.
      *
-     * @param pi the specified {@code PathIterator}
-     * @param r the specified {@code Rectangle2D}
-     * @return {@code true} if the specified {@code PathIterator} and
-     *         the interior of the specified {@code Rectangle2D}
-     *         intersect each other; {@code false} otherwise.
+     * @pbrbm pi the specified {@code PbthIterbtor}
+     * @pbrbm r the specified {@code Rectbngle2D}
+     * @return {@code true} if the specified {@code PbthIterbtor} bnd
+     *         the interior of the specified {@code Rectbngle2D}
+     *         intersect ebch other; {@code fblse} otherwise.
      * @since 1.6
      */
-    public static boolean intersects(PathIterator pi, Rectangle2D r) {
+    public stbtic boolebn intersects(PbthIterbtor pi, Rectbngle2D r) {
         return intersects(pi, r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * This method object may conservatively return true in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such a case may occur if some set of segments of the
-     * path are retraced in the reverse direction such that the
-     * two sets of segments cancel each other out without any
-     * interior area between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * This method object mby conservbtively return true in
+     * cbses where the specified rectbngulbr breb intersects b
+     * segment of the pbth, but thbt segment does not represent b
+     * boundbry between the interior bnd exterior of the pbth.
+     * Such b cbse mby occur if some set of segments of the
+     * pbth bre retrbced in the reverse direction such thbt the
+     * two sets of segments cbncel ebch other out without bny
+     * interior breb between them.
+     * To determine whether segments represent true boundbries of
+     * the interior of the pbth would require extensive cblculbtions
+     * involving bll of the segments of the pbth bnd the winding
+     * rule bnd bre thus beyond the scope of this implementbtion.
      *
      * @since 1.6
      */
-    public final boolean intersects(double x, double y, double w, double h) {
-        if (java.lang.Double.isNaN(x+w) || java.lang.Double.isNaN(y+h)) {
-            /* [xy]+[wh] is NaN if any of those values are NaN,
-             * or if adding the two together would produce NaN
-             * by virtue of adding opposing Infinte values.
-             * Since we need to add them below, their sum must
-             * not be NaN.
-             * We return false because NaN always produces a
-             * negative response to tests
+    public finbl boolebn intersects(double x, double y, double w, double h) {
+        if (jbvb.lbng.Double.isNbN(x+w) || jbvb.lbng.Double.isNbN(y+h)) {
+            /* [xy]+[wh] is NbN if bny of those vblues bre NbN,
+             * or if bdding the two together would produce NbN
+             * by virtue of bdding opposing Infinte vblues.
+             * Since we need to bdd them below, their sum must
+             * not be NbN.
+             * We return fblse becbuse NbN blwbys produces b
+             * negbtive response to tests
              */
-            return false;
+            return fblse;
         }
         if (w <= 0 || h <= 0) {
-            return false;
+            return fblse;
         }
-        int mask = (windingRule == WIND_NON_ZERO ? -1 : 2);
+        int mbsk = (windingRule == WIND_NON_ZERO ? -1 : 2);
         int crossings = rectCrossings(x, y, x+w, y+h);
         return (crossings == Curve.RECT_INTERSECTS ||
-                (crossings & mask) != 0);
+                (crossings & mbsk) != 0);
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * This method object may conservatively return true in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such a case may occur if some set of segments of the
-     * path are retraced in the reverse direction such that the
-     * two sets of segments cancel each other out without any
-     * interior area between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * This method object mby conservbtively return true in
+     * cbses where the specified rectbngulbr breb intersects b
+     * segment of the pbth, but thbt segment does not represent b
+     * boundbry between the interior bnd exterior of the pbth.
+     * Such b cbse mby occur if some set of segments of the
+     * pbth bre retrbced in the reverse direction such thbt the
+     * two sets of segments cbncel ebch other out without bny
+     * interior breb between them.
+     * To determine whether segments represent true boundbries of
+     * the interior of the pbth would require extensive cblculbtions
+     * involving bll of the segments of the pbth bnd the winding
+     * rule bnd bre thus beyond the scope of this implementbtion.
      *
      * @since 1.6
      */
-    public final boolean intersects(Rectangle2D r) {
+    public finbl boolebn intersects(Rectbngle2D r) {
         return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * The iterator for this class is not multi-threaded safe,
-     * which means that this {@code Path2D} class does not
-     * guarantee that modifications to the geometry of this
-     * {@code Path2D} object do not affect any iterations of
-     * that geometry that are already in process.
+     * The iterbtor for this clbss is not multi-threbded sbfe,
+     * which mebns thbt this {@code Pbth2D} clbss does not
+     * gubrbntee thbt modificbtions to the geometry of this
+     * {@code Pbth2D} object do not bffect bny iterbtions of
+     * thbt geometry thbt bre blrebdy in process.
      *
      * @since 1.6
      */
-    public final PathIterator getPathIterator(AffineTransform at,
-                                              double flatness)
+    public finbl PbthIterbtor getPbthIterbtor(AffineTrbnsform bt,
+                                              double flbtness)
     {
-        return new FlatteningPathIterator(getPathIterator(at), flatness);
+        return new FlbtteningPbthIterbtor(getPbthIterbtor(bt), flbtness);
     }
 
     /**
-     * Creates a new object of the same class as this object.
+     * Crebtes b new object of the sbme clbss bs this object.
      *
-     * @return     a clone of this instance.
+     * @return     b clone of this instbnce.
      * @exception  OutOfMemoryError            if there is not enough memory.
-     * @see        java.lang.Cloneable
+     * @see        jbvb.lbng.Clonebble
      * @since      1.6
      */
-    public abstract Object clone();
-        // Note: It would be nice to have this return Path2D
-        // but one of our subclasses (GeneralPath) needs to
-        // offer "public Object clone()" for backwards
-        // compatibility so we cannot restrict it further.
-        // REMIND: Can we do both somehow?
+    public bbstrbct Object clone();
+        // Note: It would be nice to hbve this return Pbth2D
+        // but one of our subclbsses (GenerblPbth) needs to
+        // offer "public Object clone()" for bbckwbrds
+        // compbtibility so we cbnnot restrict it further.
+        // REMIND: Cbn we do both somehow?
 
     /*
-     * Support fields and methods for serializing the subclasses.
+     * Support fields bnd methods for seriblizing the subclbsses.
      */
-    private static final byte SERIAL_STORAGE_FLT_ARRAY = 0x30;
-    private static final byte SERIAL_STORAGE_DBL_ARRAY = 0x31;
+    privbte stbtic finbl byte SERIAL_STORAGE_FLT_ARRAY = 0x30;
+    privbte stbtic finbl byte SERIAL_STORAGE_DBL_ARRAY = 0x31;
 
-    private static final byte SERIAL_SEG_FLT_MOVETO    = 0x40;
-    private static final byte SERIAL_SEG_FLT_LINETO    = 0x41;
-    private static final byte SERIAL_SEG_FLT_QUADTO    = 0x42;
-    private static final byte SERIAL_SEG_FLT_CUBICTO   = 0x43;
+    privbte stbtic finbl byte SERIAL_SEG_FLT_MOVETO    = 0x40;
+    privbte stbtic finbl byte SERIAL_SEG_FLT_LINETO    = 0x41;
+    privbte stbtic finbl byte SERIAL_SEG_FLT_QUADTO    = 0x42;
+    privbte stbtic finbl byte SERIAL_SEG_FLT_CUBICTO   = 0x43;
 
-    private static final byte SERIAL_SEG_DBL_MOVETO    = 0x50;
-    private static final byte SERIAL_SEG_DBL_LINETO    = 0x51;
-    private static final byte SERIAL_SEG_DBL_QUADTO    = 0x52;
-    private static final byte SERIAL_SEG_DBL_CUBICTO   = 0x53;
+    privbte stbtic finbl byte SERIAL_SEG_DBL_MOVETO    = 0x50;
+    privbte stbtic finbl byte SERIAL_SEG_DBL_LINETO    = 0x51;
+    privbte stbtic finbl byte SERIAL_SEG_DBL_QUADTO    = 0x52;
+    privbte stbtic finbl byte SERIAL_SEG_DBL_CUBICTO   = 0x53;
 
-    private static final byte SERIAL_SEG_CLOSE         = 0x60;
-    private static final byte SERIAL_PATH_END          = 0x61;
+    privbte stbtic finbl byte SERIAL_SEG_CLOSE         = 0x60;
+    privbte stbtic finbl byte SERIAL_PATH_END          = 0x61;
 
-    final void writeObject(java.io.ObjectOutputStream s, boolean isdbl)
-        throws java.io.IOException
+    finbl void writeObject(jbvb.io.ObjectOutputStrebm s, boolebn isdbl)
+        throws jbvb.io.IOException
     {
-        s.defaultWriteObject();
+        s.defbultWriteObject();
 
-        float fCoords[];
+        flobt fCoords[];
         double dCoords[];
 
         if (isdbl) {
-            dCoords = ((Path2D.Double) this).doubleCoords;
+            dCoords = ((Pbth2D.Double) this).doubleCoords;
             fCoords = null;
         } else {
-            fCoords = ((Path2D.Float) this).floatCoords;
+            fCoords = ((Pbth2D.Flobt) this).flobtCoords;
             dCoords = null;
         }
 
@@ -2416,70 +2416,70 @@ public abstract class Path2D implements Shape, Cloneable {
         int cindex = 0;
         for (int i = 0; i < numTypes; i++) {
             int npoints;
-            byte serialtype;
+            byte seribltype;
             switch (pointTypes[i]) {
-            case SEG_MOVETO:
+            cbse SEG_MOVETO:
                 npoints = 1;
-                serialtype = (isdbl
+                seribltype = (isdbl
                               ? SERIAL_SEG_DBL_MOVETO
                               : SERIAL_SEG_FLT_MOVETO);
-                break;
-            case SEG_LINETO:
+                brebk;
+            cbse SEG_LINETO:
                 npoints = 1;
-                serialtype = (isdbl
+                seribltype = (isdbl
                               ? SERIAL_SEG_DBL_LINETO
                               : SERIAL_SEG_FLT_LINETO);
-                break;
-            case SEG_QUADTO:
+                brebk;
+            cbse SEG_QUADTO:
                 npoints = 2;
-                serialtype = (isdbl
+                seribltype = (isdbl
                               ? SERIAL_SEG_DBL_QUADTO
                               : SERIAL_SEG_FLT_QUADTO);
-                break;
-            case SEG_CUBICTO:
+                brebk;
+            cbse SEG_CUBICTO:
                 npoints = 3;
-                serialtype = (isdbl
+                seribltype = (isdbl
                               ? SERIAL_SEG_DBL_CUBICTO
                               : SERIAL_SEG_FLT_CUBICTO);
-                break;
-            case SEG_CLOSE:
+                brebk;
+            cbse SEG_CLOSE:
                 npoints = 0;
-                serialtype = SERIAL_SEG_CLOSE;
-                break;
+                seribltype = SERIAL_SEG_CLOSE;
+                brebk;
 
-            default:
-                // Should never happen
-                throw new InternalError("unrecognized path type");
+            defbult:
+                // Should never hbppen
+                throw new InternblError("unrecognized pbth type");
             }
-            s.writeByte(serialtype);
+            s.writeByte(seribltype);
             while (--npoints >= 0) {
                 if (isdbl) {
                     s.writeDouble(dCoords[cindex++]);
                     s.writeDouble(dCoords[cindex++]);
                 } else {
-                    s.writeFloat(fCoords[cindex++]);
-                    s.writeFloat(fCoords[cindex++]);
+                    s.writeFlobt(fCoords[cindex++]);
+                    s.writeFlobt(fCoords[cindex++]);
                 }
             }
         }
         s.writeByte(SERIAL_PATH_END);
     }
 
-    final void readObject(java.io.ObjectInputStream s, boolean storedbl)
-        throws java.lang.ClassNotFoundException, java.io.IOException
+    finbl void rebdObject(jbvb.io.ObjectInputStrebm s, boolebn storedbl)
+        throws jbvb.lbng.ClbssNotFoundException, jbvb.io.IOException
     {
-        s.defaultReadObject();
+        s.defbultRebdObject();
 
-        // The subclass calls this method with the storage type that
-        // they want us to use (storedbl) so we ignore the storage
-        // method hint from the stream.
-        s.readByte();
-        int nT = s.readInt();
-        int nC = s.readInt();
+        // The subclbss cblls this method with the storbge type thbt
+        // they wbnt us to use (storedbl) so we ignore the storbge
+        // method hint from the strebm.
+        s.rebdByte();
+        int nT = s.rebdInt();
+        int nC = s.rebdInt();
         try {
-            setWindingRule(s.readByte());
-        } catch (IllegalArgumentException iae) {
-            throw new java.io.InvalidObjectException(iae.getMessage());
+            setWindingRule(s.rebdByte());
+        } cbtch (IllegblArgumentException ibe) {
+            throw new jbvb.io.InvblidObjectException(ibe.getMessbge());
         }
 
         pointTypes = new byte[(nT < 0) ? INIT_SIZE : nT];
@@ -2487,114 +2487,114 @@ public abstract class Path2D implements Shape, Cloneable {
             nC = INIT_SIZE * 2;
         }
         if (storedbl) {
-            ((Path2D.Double) this).doubleCoords = new double[nC];
+            ((Pbth2D.Double) this).doubleCoords = new double[nC];
         } else {
-            ((Path2D.Float) this).floatCoords = new float[nC];
+            ((Pbth2D.Flobt) this).flobtCoords = new flobt[nC];
         }
 
     PATHDONE:
         for (int i = 0; nT < 0 || i < nT; i++) {
-            boolean isdbl;
+            boolebn isdbl;
             int npoints;
             byte segtype;
 
-            byte serialtype = s.readByte();
-            switch (serialtype) {
-            case SERIAL_SEG_FLT_MOVETO:
-                isdbl = false;
+            byte seribltype = s.rebdByte();
+            switch (seribltype) {
+            cbse SERIAL_SEG_FLT_MOVETO:
+                isdbl = fblse;
                 npoints = 1;
                 segtype = SEG_MOVETO;
-                break;
-            case SERIAL_SEG_FLT_LINETO:
-                isdbl = false;
+                brebk;
+            cbse SERIAL_SEG_FLT_LINETO:
+                isdbl = fblse;
                 npoints = 1;
                 segtype = SEG_LINETO;
-                break;
-            case SERIAL_SEG_FLT_QUADTO:
-                isdbl = false;
+                brebk;
+            cbse SERIAL_SEG_FLT_QUADTO:
+                isdbl = fblse;
                 npoints = 2;
                 segtype = SEG_QUADTO;
-                break;
-            case SERIAL_SEG_FLT_CUBICTO:
-                isdbl = false;
+                brebk;
+            cbse SERIAL_SEG_FLT_CUBICTO:
+                isdbl = fblse;
                 npoints = 3;
                 segtype = SEG_CUBICTO;
-                break;
+                brebk;
 
-            case SERIAL_SEG_DBL_MOVETO:
+            cbse SERIAL_SEG_DBL_MOVETO:
                 isdbl = true;
                 npoints = 1;
                 segtype = SEG_MOVETO;
-                break;
-            case SERIAL_SEG_DBL_LINETO:
+                brebk;
+            cbse SERIAL_SEG_DBL_LINETO:
                 isdbl = true;
                 npoints = 1;
                 segtype = SEG_LINETO;
-                break;
-            case SERIAL_SEG_DBL_QUADTO:
+                brebk;
+            cbse SERIAL_SEG_DBL_QUADTO:
                 isdbl = true;
                 npoints = 2;
                 segtype = SEG_QUADTO;
-                break;
-            case SERIAL_SEG_DBL_CUBICTO:
+                brebk;
+            cbse SERIAL_SEG_DBL_CUBICTO:
                 isdbl = true;
                 npoints = 3;
                 segtype = SEG_CUBICTO;
-                break;
+                brebk;
 
-            case SERIAL_SEG_CLOSE:
-                isdbl = false;
+            cbse SERIAL_SEG_CLOSE:
+                isdbl = fblse;
                 npoints = 0;
                 segtype = SEG_CLOSE;
-                break;
+                brebk;
 
-            case SERIAL_PATH_END:
+            cbse SERIAL_PATH_END:
                 if (nT < 0) {
-                    break PATHDONE;
+                    brebk PATHDONE;
                 }
-                throw new StreamCorruptedException("unexpected PATH_END");
+                throw new StrebmCorruptedException("unexpected PATH_END");
 
-            default:
-                throw new StreamCorruptedException("unrecognized path type");
+            defbult:
+                throw new StrebmCorruptedException("unrecognized pbth type");
             }
             needRoom(segtype != SEG_MOVETO, npoints * 2);
             if (isdbl) {
                 while (--npoints >= 0) {
-                    append(s.readDouble(), s.readDouble());
+                    bppend(s.rebdDouble(), s.rebdDouble());
                 }
             } else {
                 while (--npoints >= 0) {
-                    append(s.readFloat(), s.readFloat());
+                    bppend(s.rebdFlobt(), s.rebdFlobt());
                 }
             }
             pointTypes[numTypes++] = segtype;
         }
-        if (nT >= 0 && s.readByte() != SERIAL_PATH_END) {
-            throw new StreamCorruptedException("missing PATH_END");
+        if (nT >= 0 && s.rebdByte() != SERIAL_PATH_END) {
+            throw new StrebmCorruptedException("missing PATH_END");
         }
     }
 
-    static abstract class Iterator implements PathIterator {
+    stbtic bbstrbct clbss Iterbtor implements PbthIterbtor {
         int typeIdx;
         int pointIdx;
-        Path2D path;
+        Pbth2D pbth;
 
-        static final int curvecoords[] = {2, 2, 4, 6, 0};
+        stbtic finbl int curvecoords[] = {2, 2, 4, 6, 0};
 
-        Iterator(Path2D path) {
-            this.path = path;
+        Iterbtor(Pbth2D pbth) {
+            this.pbth = pbth;
         }
 
         public int getWindingRule() {
-            return path.getWindingRule();
+            return pbth.getWindingRule();
         }
 
-        public boolean isDone() {
-            return (typeIdx >= path.numTypes);
+        public boolebn isDone() {
+            return (typeIdx >= pbth.numTypes);
         }
 
         public void next() {
-            int type = path.pointTypes[typeIdx++];
+            int type = pbth.pointTypes[typeIdx++];
             pointIdx += curvecoords[type];
         }
     }

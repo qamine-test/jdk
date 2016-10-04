@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util;
+pbckbge jbvb.util;
 
 /*
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.CountedCompleter;
-import java.util.function.BinaryOperator;
-import java.util.function.IntBinaryOperator;
-import java.util.function.LongBinaryOperator;
-import java.util.function.DoubleBinaryOperator;
+import jbvb.util.concurrent.ForkJoinPool;
+import jbvb.util.concurrent.CountedCompleter;
+import jbvb.util.function.BinbryOperbtor;
+import jbvb.util.function.IntBinbryOperbtor;
+import jbvb.util.function.LongBinbryOperbtor;
+import jbvb.util.function.DoubleBinbryOperbtor;
 
 /**
- * ForkJoin tasks to perform Arrays.parallelPrefix operations.
+ * ForkJoin tbsks to perform Arrbys.pbrbllelPrefix operbtions.
  *
- * @author Doug Lea
+ * @buthor Doug Leb
  * @since 1.8
  */
-class ArrayPrefixHelpers {
-    private ArrayPrefixHelpers() {}; // non-instantiable
+clbss ArrbyPrefixHelpers {
+    privbte ArrbyPrefixHelpers() {}; // non-instbntibble
 
     /*
-     * Parallel prefix (aka cumulate, scan) task classes
-     * are based loosely on Guy Blelloch's original
-     * algorithm (http://www.cs.cmu.edu/~scandal/alg/scan.html):
-     *  Keep dividing by two to threshold segment size, and then:
-     *   Pass 1: Create tree of partial sums for each segment
-     *   Pass 2: For each segment, cumulate with offset of left sibling
+     * Pbrbllel prefix (bkb cumulbte, scbn) tbsk clbsses
+     * bre bbsed loosely on Guy Blelloch's originbl
+     * blgorithm (http://www.cs.cmu.edu/~scbndbl/blg/scbn.html):
+     *  Keep dividing by two to threshold segment size, bnd then:
+     *   Pbss 1: Crebte tree of pbrtibl sums for ebch segment
+     *   Pbss 2: For ebch segment, cumulbte with offset of left sibling
      *
-     * This version improves performance within FJ framework mainly by
-     * allowing the second pass of ready left-hand sides to proceed
-     * even if some right-hand side first passes are still executing.
-     * It also combines first and second pass for leftmost segment,
-     * and skips the first pass for rightmost segment (whose result is
-     * not needed for second pass).  It similarly manages to avoid
-     * requiring that users supply an identity basis for accumulations
-     * by tracking those segments/subtasks for which the first
-     * existing element is used as base.
+     * This version improves performbnce within FJ frbmework mbinly by
+     * bllowing the second pbss of rebdy left-hbnd sides to proceed
+     * even if some right-hbnd side first pbsses bre still executing.
+     * It blso combines first bnd second pbss for leftmost segment,
+     * bnd skips the first pbss for rightmost segment (whose result is
+     * not needed for second pbss).  It similbrly mbnbges to bvoid
+     * requiring thbt users supply bn identity bbsis for bccumulbtions
+     * by trbcking those segments/subtbsks for which the first
+     * existing element is used bs bbse.
      *
-     * Managing this relies on ORing some bits in the pendingCount for
-     * phases/states: CUMULATE, SUMMED, and FINISHED. CUMULATE is the
-     * main phase bit. When false, segments compute only their sum.
-     * When true, they cumulate array elements. CUMULATE is set at
-     * root at beginning of second pass and then propagated down. But
-     * it may also be set earlier for subtrees with lo==0 (the left
-     * spine of tree). SUMMED is a one bit join count. For leafs, it
-     * is set when summed. For internal nodes, it becomes true when
+     * Mbnbging this relies on ORing some bits in the pendingCount for
+     * phbses/stbtes: CUMULATE, SUMMED, bnd FINISHED. CUMULATE is the
+     * mbin phbse bit. When fblse, segments compute only their sum.
+     * When true, they cumulbte brrby elements. CUMULATE is set bt
+     * root bt beginning of second pbss bnd then propbgbted down. But
+     * it mby blso be set ebrlier for subtrees with lo==0 (the left
+     * spine of tree). SUMMED is b one bit join count. For lebfs, it
+     * is set when summed. For internbl nodes, it becomes true when
      * one child is summed.  When the second child finishes summing,
-     * we then moves up tree to trigger the cumulate phase. FINISHED
-     * is also a one bit join count. For leafs, it is set when
-     * cumulated. For internal nodes, it becomes true when one child
-     * is cumulated.  When the second child finishes cumulating, it
-     * then moves up tree, completing at the root.
+     * we then moves up tree to trigger the cumulbte phbse. FINISHED
+     * is blso b one bit join count. For lebfs, it is set when
+     * cumulbted. For internbl nodes, it becomes true when one child
+     * is cumulbted.  When the second child finishes cumulbting, it
+     * then moves up tree, completing bt the root.
      *
-     * To better exploit locality and reduce overhead, the compute
-     * method loops starting with the current task, moving if possible
-     * to one of its subtasks rather than forking.
+     * To better exploit locblity bnd reduce overhebd, the compute
+     * method loops stbrting with the current tbsk, moving if possible
+     * to one of its subtbsks rbther thbn forking.
      *
-     * As usual for this sort of utility, there are 4 versions, that
-     * are simple copy/paste/adapt variants of each other.  (The
-     * double and int versions differ from long version soley by
-     * replacing "long" (with case-matching)).
+     * As usubl for this sort of utility, there bre 4 versions, thbt
+     * bre simple copy/pbste/bdbpt vbribnts of ebch other.  (The
+     * double bnd int versions differ from long version soley by
+     * replbcing "long" (with cbse-mbtching)).
      */
 
-    // see above
-    static final int CUMULATE = 1;
-    static final int SUMMED   = 2;
-    static final int FINISHED = 4;
+    // see bbove
+    stbtic finbl int CUMULATE = 1;
+    stbtic finbl int SUMMED   = 2;
+    stbtic finbl int FINISHED = 4;
 
-    /** The smallest subtask array partition size to use as threshold */
-    static final int MIN_PARTITION = 16;
+    /** The smbllest subtbsk brrby pbrtition size to use bs threshold */
+    stbtic finbl int MIN_PARTITION = 16;
 
-    static final class CumulateTask<T> extends CountedCompleter<Void> {
-        final T[] array;
-        final BinaryOperator<T> function;
-        CumulateTask<T> left, right;
+    stbtic finbl clbss CumulbteTbsk<T> extends CountedCompleter<Void> {
+        finbl T[] brrby;
+        finbl BinbryOperbtor<T> function;
+        CumulbteTbsk<T> left, right;
         T in, out;
-        final int lo, hi, origin, fence, threshold;
+        finbl int lo, hi, origin, fence, threshold;
 
-        /** Root task constructor */
-        public CumulateTask(CumulateTask<T> parent,
-                            BinaryOperator<T> function,
-                            T[] array, int lo, int hi) {
-            super(parent);
-            this.function = function; this.array = array;
+        /** Root tbsk constructor */
+        public CumulbteTbsk(CumulbteTbsk<T> pbrent,
+                            BinbryOperbtor<T> function,
+                            T[] brrby, int lo, int hi) {
+            super(pbrent);
+            this.function = function; this.brrby = brrby;
             this.lo = this.origin = lo; this.hi = this.fence = hi;
             int p;
             this.threshold =
-                    (p = (hi - lo) / (ForkJoinPool.getCommonPoolParallelism() << 3))
+                    (p = (hi - lo) / (ForkJoinPool.getCommonPoolPbrbllelism() << 3))
                     <= MIN_PARTITION ? MIN_PARTITION : p;
         }
 
-        /** Subtask constructor */
-        CumulateTask(CumulateTask<T> parent, BinaryOperator<T> function,
-                     T[] array, int origin, int fence, int threshold,
+        /** Subtbsk constructor */
+        CumulbteTbsk(CumulbteTbsk<T> pbrent, BinbryOperbtor<T> function,
+                     T[] brrby, int origin, int fence, int threshold,
                      int lo, int hi) {
-            super(parent);
-            this.function = function; this.array = array;
+            super(pbrent);
+            this.function = function; this.brrby = brrby;
             this.origin = origin; this.fence = fence;
             this.threshold = threshold;
             this.lo = lo; this.hi = hi;
         }
 
-        public final void compute() {
-            final BinaryOperator<T> fn;
-            final T[] a;
-            if ((fn = this.function) == null || (a = this.array) == null)
+        public finbl void compute() {
+            finbl BinbryOperbtor<T> fn;
+            finbl T[] b;
+            if ((fn = this.function) == null || (b = this.brrby) == null)
                 throw new NullPointerException();    // hoist checks
             int th = threshold, org = origin, fnc = fence, l, h;
-            CumulateTask<T> t = this;
-            outer: while ((l = t.lo) >= 0 && (h = t.hi) <= a.length) {
+            CumulbteTbsk<T> t = this;
+            outer: while ((l = t.lo) >= 0 && (h = t.hi) <= b.length) {
                 if (h - l > th) {
-                    CumulateTask<T> lt = t.left, rt = t.right, f;
-                    if (lt == null) {                // first pass
+                    CumulbteTbsk<T> lt = t.left, rt = t.right, f;
+                    if (lt == null) {                // first pbss
                         int mid = (l + h) >>> 1;
                         f = rt = t.right =
-                                new CumulateTask<T>(t, fn, a, org, fnc, th, mid, h);
+                                new CumulbteTbsk<T>(t, fn, b, org, fnc, th, mid, h);
                         t = lt = t.left  =
-                                new CumulateTask<T>(t, fn, a, org, fnc, th, l, mid);
+                                new CumulbteTbsk<T>(t, fn, b, org, fnc, th, l, mid);
                     }
                     else {                           // possibly refork
                         T pin = t.in;
@@ -152,150 +152,150 @@ class ArrayPrefixHelpers {
                         if (rt != null) {
                             T lout = lt.out;
                             rt.in = (l == org ? lout :
-                                     fn.apply(pin, lout));
+                                     fn.bpply(pin, lout));
                             for (int c;;) {
                                 if (((c = rt.getPendingCount()) & CUMULATE) != 0)
-                                    break;
-                                if (rt.compareAndSetPendingCount(c, c|CUMULATE)){
+                                    brebk;
+                                if (rt.compbreAndSetPendingCount(c, c|CUMULATE)){
                                     t = rt;
-                                    break;
+                                    brebk;
                                 }
                             }
                         }
                         for (int c;;) {
                             if (((c = lt.getPendingCount()) & CUMULATE) != 0)
-                                break;
-                            if (lt.compareAndSetPendingCount(c, c|CUMULATE)) {
+                                brebk;
+                            if (lt.compbreAndSetPendingCount(c, c|CUMULATE)) {
                                 if (t != null)
                                     f = t;
                                 t = lt;
-                                break;
+                                brebk;
                             }
                         }
                         if (t == null)
-                            break;
+                            brebk;
                     }
                     if (f != null)
                         f.fork();
                 }
                 else {
-                    int state; // Transition to sum, cumulate, or both
+                    int stbte; // Trbnsition to sum, cumulbte, or both
                     for (int b;;) {
                         if (((b = t.getPendingCount()) & FINISHED) != 0)
-                            break outer;                      // already done
-                        state = ((b & CUMULATE) != 0? FINISHED :
+                            brebk outer;                      // blrebdy done
+                        stbte = ((b & CUMULATE) != 0? FINISHED :
                                  (l > org) ? SUMMED : (SUMMED|FINISHED));
-                        if (t.compareAndSetPendingCount(b, b|state))
-                            break;
+                        if (t.compbreAndSetPendingCount(b, b|stbte))
+                            brebk;
                     }
 
                     T sum;
-                    if (state != SUMMED) {
+                    if (stbte != SUMMED) {
                         int first;
                         if (l == org) {                       // leftmost; no in
-                            sum = a[org];
+                            sum = b[org];
                             first = org + 1;
                         }
                         else {
                             sum = t.in;
                             first = l;
                         }
-                        for (int i = first; i < h; ++i)       // cumulate
-                            a[i] = sum = fn.apply(sum, a[i]);
+                        for (int i = first; i < h; ++i)       // cumulbte
+                            b[i] = sum = fn.bpply(sum, b[i]);
                     }
                     else if (h < fnc) {                       // skip rightmost
-                        sum = a[l];
+                        sum = b[l];
                         for (int i = l + 1; i < h; ++i)       // sum only
-                            sum = fn.apply(sum, a[i]);
+                            sum = fn.bpply(sum, b[i]);
                     }
                     else
                         sum = t.in;
                     t.out = sum;
-                    for (CumulateTask<T> par;;) {             // propagate
-                        @SuppressWarnings("unchecked") CumulateTask<T> partmp
-                            = (CumulateTask<T>)t.getCompleter();
-                        if ((par = partmp) == null) {
-                            if ((state & FINISHED) != 0)      // enable join
+                    for (CumulbteTbsk<T> pbr;;) {             // propbgbte
+                        @SuppressWbrnings("unchecked") CumulbteTbsk<T> pbrtmp
+                            = (CumulbteTbsk<T>)t.getCompleter();
+                        if ((pbr = pbrtmp) == null) {
+                            if ((stbte & FINISHED) != 0)      // enbble join
                                 t.quietlyComplete();
-                            break outer;
+                            brebk outer;
                         }
-                        int b = par.getPendingCount();
-                        if ((b & state & FINISHED) != 0)
-                            t = par;                          // both done
-                        else if ((b & state & SUMMED) != 0) { // both summed
-                            int nextState; CumulateTask<T> lt, rt;
-                            if ((lt = par.left) != null &&
-                                (rt = par.right) != null) {
+                        int b = pbr.getPendingCount();
+                        if ((b & stbte & FINISHED) != 0)
+                            t = pbr;                          // both done
+                        else if ((b & stbte & SUMMED) != 0) { // both summed
+                            int nextStbte; CumulbteTbsk<T> lt, rt;
+                            if ((lt = pbr.left) != null &&
+                                (rt = pbr.right) != null) {
                                 T lout = lt.out;
-                                par.out = (rt.hi == fnc ? lout :
-                                           fn.apply(lout, rt.out));
+                                pbr.out = (rt.hi == fnc ? lout :
+                                           fn.bpply(lout, rt.out));
                             }
                             int refork = (((b & CUMULATE) == 0 &&
-                                           par.lo == org) ? CUMULATE : 0);
-                            if ((nextState = b|state|refork) == b ||
-                                par.compareAndSetPendingCount(b, nextState)) {
-                                state = SUMMED;               // drop finished
-                                t = par;
+                                           pbr.lo == org) ? CUMULATE : 0);
+                            if ((nextStbte = b|stbte|refork) == b ||
+                                pbr.compbreAndSetPendingCount(b, nextStbte)) {
+                                stbte = SUMMED;               // drop finished
+                                t = pbr;
                                 if (refork != 0)
-                                    par.fork();
+                                    pbr.fork();
                             }
                         }
-                        else if (par.compareAndSetPendingCount(b, b|state))
-                            break outer;                      // sib not ready
+                        else if (pbr.compbreAndSetPendingCount(b, b|stbte))
+                            brebk outer;                      // sib not rebdy
                     }
                 }
             }
         }
-        private static final long serialVersionUID = 5293554502939613543L;
+        privbte stbtic finbl long seriblVersionUID = 5293554502939613543L;
     }
 
-    static final class LongCumulateTask extends CountedCompleter<Void> {
-        final long[] array;
-        final LongBinaryOperator function;
-        LongCumulateTask left, right;
+    stbtic finbl clbss LongCumulbteTbsk extends CountedCompleter<Void> {
+        finbl long[] brrby;
+        finbl LongBinbryOperbtor function;
+        LongCumulbteTbsk left, right;
         long in, out;
-        final int lo, hi, origin, fence, threshold;
+        finbl int lo, hi, origin, fence, threshold;
 
-        /** Root task constructor */
-        public LongCumulateTask(LongCumulateTask parent,
-                                LongBinaryOperator function,
-                                long[] array, int lo, int hi) {
-            super(parent);
-            this.function = function; this.array = array;
+        /** Root tbsk constructor */
+        public LongCumulbteTbsk(LongCumulbteTbsk pbrent,
+                                LongBinbryOperbtor function,
+                                long[] brrby, int lo, int hi) {
+            super(pbrent);
+            this.function = function; this.brrby = brrby;
             this.lo = this.origin = lo; this.hi = this.fence = hi;
             int p;
             this.threshold =
-                    (p = (hi - lo) / (ForkJoinPool.getCommonPoolParallelism() << 3))
+                    (p = (hi - lo) / (ForkJoinPool.getCommonPoolPbrbllelism() << 3))
                     <= MIN_PARTITION ? MIN_PARTITION : p;
         }
 
-        /** Subtask constructor */
-        LongCumulateTask(LongCumulateTask parent, LongBinaryOperator function,
-                         long[] array, int origin, int fence, int threshold,
+        /** Subtbsk constructor */
+        LongCumulbteTbsk(LongCumulbteTbsk pbrent, LongBinbryOperbtor function,
+                         long[] brrby, int origin, int fence, int threshold,
                          int lo, int hi) {
-            super(parent);
-            this.function = function; this.array = array;
+            super(pbrent);
+            this.function = function; this.brrby = brrby;
             this.origin = origin; this.fence = fence;
             this.threshold = threshold;
             this.lo = lo; this.hi = hi;
         }
 
-        public final void compute() {
-            final LongBinaryOperator fn;
-            final long[] a;
-            if ((fn = this.function) == null || (a = this.array) == null)
+        public finbl void compute() {
+            finbl LongBinbryOperbtor fn;
+            finbl long[] b;
+            if ((fn = this.function) == null || (b = this.brrby) == null)
                 throw new NullPointerException();    // hoist checks
             int th = threshold, org = origin, fnc = fence, l, h;
-            LongCumulateTask t = this;
-            outer: while ((l = t.lo) >= 0 && (h = t.hi) <= a.length) {
+            LongCumulbteTbsk t = this;
+            outer: while ((l = t.lo) >= 0 && (h = t.hi) <= b.length) {
                 if (h - l > th) {
-                    LongCumulateTask lt = t.left, rt = t.right, f;
-                    if (lt == null) {                // first pass
+                    LongCumulbteTbsk lt = t.left, rt = t.right, f;
+                    if (lt == null) {                // first pbss
                         int mid = (l + h) >>> 1;
                         f = rt = t.right =
-                                new LongCumulateTask(t, fn, a, org, fnc, th, mid, h);
+                                new LongCumulbteTbsk(t, fn, b, org, fnc, th, mid, h);
                         t = lt = t.left  =
-                                new LongCumulateTask(t, fn, a, org, fnc, th, l, mid);
+                                new LongCumulbteTbsk(t, fn, b, org, fnc, th, l, mid);
                     }
                     else {                           // possibly refork
                         long pin = t.in;
@@ -304,148 +304,148 @@ class ArrayPrefixHelpers {
                         if (rt != null) {
                             long lout = lt.out;
                             rt.in = (l == org ? lout :
-                                     fn.applyAsLong(pin, lout));
+                                     fn.bpplyAsLong(pin, lout));
                             for (int c;;) {
                                 if (((c = rt.getPendingCount()) & CUMULATE) != 0)
-                                    break;
-                                if (rt.compareAndSetPendingCount(c, c|CUMULATE)){
+                                    brebk;
+                                if (rt.compbreAndSetPendingCount(c, c|CUMULATE)){
                                     t = rt;
-                                    break;
+                                    brebk;
                                 }
                             }
                         }
                         for (int c;;) {
                             if (((c = lt.getPendingCount()) & CUMULATE) != 0)
-                                break;
-                            if (lt.compareAndSetPendingCount(c, c|CUMULATE)) {
+                                brebk;
+                            if (lt.compbreAndSetPendingCount(c, c|CUMULATE)) {
                                 if (t != null)
                                     f = t;
                                 t = lt;
-                                break;
+                                brebk;
                             }
                         }
                         if (t == null)
-                            break;
+                            brebk;
                     }
                     if (f != null)
                         f.fork();
                 }
                 else {
-                    int state; // Transition to sum, cumulate, or both
+                    int stbte; // Trbnsition to sum, cumulbte, or both
                     for (int b;;) {
                         if (((b = t.getPendingCount()) & FINISHED) != 0)
-                            break outer;                      // already done
-                        state = ((b & CUMULATE) != 0? FINISHED :
+                            brebk outer;                      // blrebdy done
+                        stbte = ((b & CUMULATE) != 0? FINISHED :
                                  (l > org) ? SUMMED : (SUMMED|FINISHED));
-                        if (t.compareAndSetPendingCount(b, b|state))
-                            break;
+                        if (t.compbreAndSetPendingCount(b, b|stbte))
+                            brebk;
                     }
 
                     long sum;
-                    if (state != SUMMED) {
+                    if (stbte != SUMMED) {
                         int first;
                         if (l == org) {                       // leftmost; no in
-                            sum = a[org];
+                            sum = b[org];
                             first = org + 1;
                         }
                         else {
                             sum = t.in;
                             first = l;
                         }
-                        for (int i = first; i < h; ++i)       // cumulate
-                            a[i] = sum = fn.applyAsLong(sum, a[i]);
+                        for (int i = first; i < h; ++i)       // cumulbte
+                            b[i] = sum = fn.bpplyAsLong(sum, b[i]);
                     }
                     else if (h < fnc) {                       // skip rightmost
-                        sum = a[l];
+                        sum = b[l];
                         for (int i = l + 1; i < h; ++i)       // sum only
-                            sum = fn.applyAsLong(sum, a[i]);
+                            sum = fn.bpplyAsLong(sum, b[i]);
                     }
                     else
                         sum = t.in;
                     t.out = sum;
-                    for (LongCumulateTask par;;) {            // propagate
-                        if ((par = (LongCumulateTask)t.getCompleter()) == null) {
-                            if ((state & FINISHED) != 0)      // enable join
+                    for (LongCumulbteTbsk pbr;;) {            // propbgbte
+                        if ((pbr = (LongCumulbteTbsk)t.getCompleter()) == null) {
+                            if ((stbte & FINISHED) != 0)      // enbble join
                                 t.quietlyComplete();
-                            break outer;
+                            brebk outer;
                         }
-                        int b = par.getPendingCount();
-                        if ((b & state & FINISHED) != 0)
-                            t = par;                          // both done
-                        else if ((b & state & SUMMED) != 0) { // both summed
-                            int nextState; LongCumulateTask lt, rt;
-                            if ((lt = par.left) != null &&
-                                (rt = par.right) != null) {
+                        int b = pbr.getPendingCount();
+                        if ((b & stbte & FINISHED) != 0)
+                            t = pbr;                          // both done
+                        else if ((b & stbte & SUMMED) != 0) { // both summed
+                            int nextStbte; LongCumulbteTbsk lt, rt;
+                            if ((lt = pbr.left) != null &&
+                                (rt = pbr.right) != null) {
                                 long lout = lt.out;
-                                par.out = (rt.hi == fnc ? lout :
-                                           fn.applyAsLong(lout, rt.out));
+                                pbr.out = (rt.hi == fnc ? lout :
+                                           fn.bpplyAsLong(lout, rt.out));
                             }
                             int refork = (((b & CUMULATE) == 0 &&
-                                           par.lo == org) ? CUMULATE : 0);
-                            if ((nextState = b|state|refork) == b ||
-                                par.compareAndSetPendingCount(b, nextState)) {
-                                state = SUMMED;               // drop finished
-                                t = par;
+                                           pbr.lo == org) ? CUMULATE : 0);
+                            if ((nextStbte = b|stbte|refork) == b ||
+                                pbr.compbreAndSetPendingCount(b, nextStbte)) {
+                                stbte = SUMMED;               // drop finished
+                                t = pbr;
                                 if (refork != 0)
-                                    par.fork();
+                                    pbr.fork();
                             }
                         }
-                        else if (par.compareAndSetPendingCount(b, b|state))
-                            break outer;                      // sib not ready
+                        else if (pbr.compbreAndSetPendingCount(b, b|stbte))
+                            brebk outer;                      // sib not rebdy
                     }
                 }
             }
         }
-        private static final long serialVersionUID = -5074099945909284273L;
+        privbte stbtic finbl long seriblVersionUID = -5074099945909284273L;
     }
 
-    static final class DoubleCumulateTask extends CountedCompleter<Void> {
-        final double[] array;
-        final DoubleBinaryOperator function;
-        DoubleCumulateTask left, right;
+    stbtic finbl clbss DoubleCumulbteTbsk extends CountedCompleter<Void> {
+        finbl double[] brrby;
+        finbl DoubleBinbryOperbtor function;
+        DoubleCumulbteTbsk left, right;
         double in, out;
-        final int lo, hi, origin, fence, threshold;
+        finbl int lo, hi, origin, fence, threshold;
 
-        /** Root task constructor */
-        public DoubleCumulateTask(DoubleCumulateTask parent,
-                                  DoubleBinaryOperator function,
-                                  double[] array, int lo, int hi) {
-            super(parent);
-            this.function = function; this.array = array;
+        /** Root tbsk constructor */
+        public DoubleCumulbteTbsk(DoubleCumulbteTbsk pbrent,
+                                  DoubleBinbryOperbtor function,
+                                  double[] brrby, int lo, int hi) {
+            super(pbrent);
+            this.function = function; this.brrby = brrby;
             this.lo = this.origin = lo; this.hi = this.fence = hi;
             int p;
             this.threshold =
-                    (p = (hi - lo) / (ForkJoinPool.getCommonPoolParallelism() << 3))
+                    (p = (hi - lo) / (ForkJoinPool.getCommonPoolPbrbllelism() << 3))
                     <= MIN_PARTITION ? MIN_PARTITION : p;
         }
 
-        /** Subtask constructor */
-        DoubleCumulateTask(DoubleCumulateTask parent, DoubleBinaryOperator function,
-                           double[] array, int origin, int fence, int threshold,
+        /** Subtbsk constructor */
+        DoubleCumulbteTbsk(DoubleCumulbteTbsk pbrent, DoubleBinbryOperbtor function,
+                           double[] brrby, int origin, int fence, int threshold,
                            int lo, int hi) {
-            super(parent);
-            this.function = function; this.array = array;
+            super(pbrent);
+            this.function = function; this.brrby = brrby;
             this.origin = origin; this.fence = fence;
             this.threshold = threshold;
             this.lo = lo; this.hi = hi;
         }
 
-        public final void compute() {
-            final DoubleBinaryOperator fn;
-            final double[] a;
-            if ((fn = this.function) == null || (a = this.array) == null)
+        public finbl void compute() {
+            finbl DoubleBinbryOperbtor fn;
+            finbl double[] b;
+            if ((fn = this.function) == null || (b = this.brrby) == null)
                 throw new NullPointerException();    // hoist checks
             int th = threshold, org = origin, fnc = fence, l, h;
-            DoubleCumulateTask t = this;
-            outer: while ((l = t.lo) >= 0 && (h = t.hi) <= a.length) {
+            DoubleCumulbteTbsk t = this;
+            outer: while ((l = t.lo) >= 0 && (h = t.hi) <= b.length) {
                 if (h - l > th) {
-                    DoubleCumulateTask lt = t.left, rt = t.right, f;
-                    if (lt == null) {                // first pass
+                    DoubleCumulbteTbsk lt = t.left, rt = t.right, f;
+                    if (lt == null) {                // first pbss
                         int mid = (l + h) >>> 1;
                         f = rt = t.right =
-                                new DoubleCumulateTask(t, fn, a, org, fnc, th, mid, h);
+                                new DoubleCumulbteTbsk(t, fn, b, org, fnc, th, mid, h);
                         t = lt = t.left  =
-                                new DoubleCumulateTask(t, fn, a, org, fnc, th, l, mid);
+                                new DoubleCumulbteTbsk(t, fn, b, org, fnc, th, l, mid);
                     }
                     else {                           // possibly refork
                         double pin = t.in;
@@ -454,148 +454,148 @@ class ArrayPrefixHelpers {
                         if (rt != null) {
                             double lout = lt.out;
                             rt.in = (l == org ? lout :
-                                     fn.applyAsDouble(pin, lout));
+                                     fn.bpplyAsDouble(pin, lout));
                             for (int c;;) {
                                 if (((c = rt.getPendingCount()) & CUMULATE) != 0)
-                                    break;
-                                if (rt.compareAndSetPendingCount(c, c|CUMULATE)){
+                                    brebk;
+                                if (rt.compbreAndSetPendingCount(c, c|CUMULATE)){
                                     t = rt;
-                                    break;
+                                    brebk;
                                 }
                             }
                         }
                         for (int c;;) {
                             if (((c = lt.getPendingCount()) & CUMULATE) != 0)
-                                break;
-                            if (lt.compareAndSetPendingCount(c, c|CUMULATE)) {
+                                brebk;
+                            if (lt.compbreAndSetPendingCount(c, c|CUMULATE)) {
                                 if (t != null)
                                     f = t;
                                 t = lt;
-                                break;
+                                brebk;
                             }
                         }
                         if (t == null)
-                            break;
+                            brebk;
                     }
                     if (f != null)
                         f.fork();
                 }
                 else {
-                    int state; // Transition to sum, cumulate, or both
+                    int stbte; // Trbnsition to sum, cumulbte, or both
                     for (int b;;) {
                         if (((b = t.getPendingCount()) & FINISHED) != 0)
-                            break outer;                      // already done
-                        state = ((b & CUMULATE) != 0? FINISHED :
+                            brebk outer;                      // blrebdy done
+                        stbte = ((b & CUMULATE) != 0? FINISHED :
                                  (l > org) ? SUMMED : (SUMMED|FINISHED));
-                        if (t.compareAndSetPendingCount(b, b|state))
-                            break;
+                        if (t.compbreAndSetPendingCount(b, b|stbte))
+                            brebk;
                     }
 
                     double sum;
-                    if (state != SUMMED) {
+                    if (stbte != SUMMED) {
                         int first;
                         if (l == org) {                       // leftmost; no in
-                            sum = a[org];
+                            sum = b[org];
                             first = org + 1;
                         }
                         else {
                             sum = t.in;
                             first = l;
                         }
-                        for (int i = first; i < h; ++i)       // cumulate
-                            a[i] = sum = fn.applyAsDouble(sum, a[i]);
+                        for (int i = first; i < h; ++i)       // cumulbte
+                            b[i] = sum = fn.bpplyAsDouble(sum, b[i]);
                     }
                     else if (h < fnc) {                       // skip rightmost
-                        sum = a[l];
+                        sum = b[l];
                         for (int i = l + 1; i < h; ++i)       // sum only
-                            sum = fn.applyAsDouble(sum, a[i]);
+                            sum = fn.bpplyAsDouble(sum, b[i]);
                     }
                     else
                         sum = t.in;
                     t.out = sum;
-                    for (DoubleCumulateTask par;;) {            // propagate
-                        if ((par = (DoubleCumulateTask)t.getCompleter()) == null) {
-                            if ((state & FINISHED) != 0)      // enable join
+                    for (DoubleCumulbteTbsk pbr;;) {            // propbgbte
+                        if ((pbr = (DoubleCumulbteTbsk)t.getCompleter()) == null) {
+                            if ((stbte & FINISHED) != 0)      // enbble join
                                 t.quietlyComplete();
-                            break outer;
+                            brebk outer;
                         }
-                        int b = par.getPendingCount();
-                        if ((b & state & FINISHED) != 0)
-                            t = par;                          // both done
-                        else if ((b & state & SUMMED) != 0) { // both summed
-                            int nextState; DoubleCumulateTask lt, rt;
-                            if ((lt = par.left) != null &&
-                                (rt = par.right) != null) {
+                        int b = pbr.getPendingCount();
+                        if ((b & stbte & FINISHED) != 0)
+                            t = pbr;                          // both done
+                        else if ((b & stbte & SUMMED) != 0) { // both summed
+                            int nextStbte; DoubleCumulbteTbsk lt, rt;
+                            if ((lt = pbr.left) != null &&
+                                (rt = pbr.right) != null) {
                                 double lout = lt.out;
-                                par.out = (rt.hi == fnc ? lout :
-                                           fn.applyAsDouble(lout, rt.out));
+                                pbr.out = (rt.hi == fnc ? lout :
+                                           fn.bpplyAsDouble(lout, rt.out));
                             }
                             int refork = (((b & CUMULATE) == 0 &&
-                                           par.lo == org) ? CUMULATE : 0);
-                            if ((nextState = b|state|refork) == b ||
-                                par.compareAndSetPendingCount(b, nextState)) {
-                                state = SUMMED;               // drop finished
-                                t = par;
+                                           pbr.lo == org) ? CUMULATE : 0);
+                            if ((nextStbte = b|stbte|refork) == b ||
+                                pbr.compbreAndSetPendingCount(b, nextStbte)) {
+                                stbte = SUMMED;               // drop finished
+                                t = pbr;
                                 if (refork != 0)
-                                    par.fork();
+                                    pbr.fork();
                             }
                         }
-                        else if (par.compareAndSetPendingCount(b, b|state))
-                            break outer;                      // sib not ready
+                        else if (pbr.compbreAndSetPendingCount(b, b|stbte))
+                            brebk outer;                      // sib not rebdy
                     }
                 }
             }
         }
-        private static final long serialVersionUID = -586947823794232033L;
+        privbte stbtic finbl long seriblVersionUID = -586947823794232033L;
     }
 
-    static final class IntCumulateTask extends CountedCompleter<Void> {
-        final int[] array;
-        final IntBinaryOperator function;
-        IntCumulateTask left, right;
+    stbtic finbl clbss IntCumulbteTbsk extends CountedCompleter<Void> {
+        finbl int[] brrby;
+        finbl IntBinbryOperbtor function;
+        IntCumulbteTbsk left, right;
         int in, out;
-        final int lo, hi, origin, fence, threshold;
+        finbl int lo, hi, origin, fence, threshold;
 
-        /** Root task constructor */
-        public IntCumulateTask(IntCumulateTask parent,
-                               IntBinaryOperator function,
-                               int[] array, int lo, int hi) {
-            super(parent);
-            this.function = function; this.array = array;
+        /** Root tbsk constructor */
+        public IntCumulbteTbsk(IntCumulbteTbsk pbrent,
+                               IntBinbryOperbtor function,
+                               int[] brrby, int lo, int hi) {
+            super(pbrent);
+            this.function = function; this.brrby = brrby;
             this.lo = this.origin = lo; this.hi = this.fence = hi;
             int p;
             this.threshold =
-                    (p = (hi - lo) / (ForkJoinPool.getCommonPoolParallelism() << 3))
+                    (p = (hi - lo) / (ForkJoinPool.getCommonPoolPbrbllelism() << 3))
                     <= MIN_PARTITION ? MIN_PARTITION : p;
         }
 
-        /** Subtask constructor */
-        IntCumulateTask(IntCumulateTask parent, IntBinaryOperator function,
-                        int[] array, int origin, int fence, int threshold,
+        /** Subtbsk constructor */
+        IntCumulbteTbsk(IntCumulbteTbsk pbrent, IntBinbryOperbtor function,
+                        int[] brrby, int origin, int fence, int threshold,
                         int lo, int hi) {
-            super(parent);
-            this.function = function; this.array = array;
+            super(pbrent);
+            this.function = function; this.brrby = brrby;
             this.origin = origin; this.fence = fence;
             this.threshold = threshold;
             this.lo = lo; this.hi = hi;
         }
 
-        public final void compute() {
-            final IntBinaryOperator fn;
-            final int[] a;
-            if ((fn = this.function) == null || (a = this.array) == null)
+        public finbl void compute() {
+            finbl IntBinbryOperbtor fn;
+            finbl int[] b;
+            if ((fn = this.function) == null || (b = this.brrby) == null)
                 throw new NullPointerException();    // hoist checks
             int th = threshold, org = origin, fnc = fence, l, h;
-            IntCumulateTask t = this;
-            outer: while ((l = t.lo) >= 0 && (h = t.hi) <= a.length) {
+            IntCumulbteTbsk t = this;
+            outer: while ((l = t.lo) >= 0 && (h = t.hi) <= b.length) {
                 if (h - l > th) {
-                    IntCumulateTask lt = t.left, rt = t.right, f;
-                    if (lt == null) {                // first pass
+                    IntCumulbteTbsk lt = t.left, rt = t.right, f;
+                    if (lt == null) {                // first pbss
                         int mid = (l + h) >>> 1;
                         f = rt = t.right =
-                                new IntCumulateTask(t, fn, a, org, fnc, th, mid, h);
+                                new IntCumulbteTbsk(t, fn, b, org, fnc, th, mid, h);
                         t = lt = t.left  =
-                                new IntCumulateTask(t, fn, a, org, fnc, th, l, mid);
+                                new IntCumulbteTbsk(t, fn, b, org, fnc, th, l, mid);
                     }
                     else {                           // possibly refork
                         int pin = t.in;
@@ -604,98 +604,98 @@ class ArrayPrefixHelpers {
                         if (rt != null) {
                             int lout = lt.out;
                             rt.in = (l == org ? lout :
-                                     fn.applyAsInt(pin, lout));
+                                     fn.bpplyAsInt(pin, lout));
                             for (int c;;) {
                                 if (((c = rt.getPendingCount()) & CUMULATE) != 0)
-                                    break;
-                                if (rt.compareAndSetPendingCount(c, c|CUMULATE)){
+                                    brebk;
+                                if (rt.compbreAndSetPendingCount(c, c|CUMULATE)){
                                     t = rt;
-                                    break;
+                                    brebk;
                                 }
                             }
                         }
                         for (int c;;) {
                             if (((c = lt.getPendingCount()) & CUMULATE) != 0)
-                                break;
-                            if (lt.compareAndSetPendingCount(c, c|CUMULATE)) {
+                                brebk;
+                            if (lt.compbreAndSetPendingCount(c, c|CUMULATE)) {
                                 if (t != null)
                                     f = t;
                                 t = lt;
-                                break;
+                                brebk;
                             }
                         }
                         if (t == null)
-                            break;
+                            brebk;
                     }
                     if (f != null)
                         f.fork();
                 }
                 else {
-                    int state; // Transition to sum, cumulate, or both
+                    int stbte; // Trbnsition to sum, cumulbte, or both
                     for (int b;;) {
                         if (((b = t.getPendingCount()) & FINISHED) != 0)
-                            break outer;                      // already done
-                        state = ((b & CUMULATE) != 0? FINISHED :
+                            brebk outer;                      // blrebdy done
+                        stbte = ((b & CUMULATE) != 0? FINISHED :
                                  (l > org) ? SUMMED : (SUMMED|FINISHED));
-                        if (t.compareAndSetPendingCount(b, b|state))
-                            break;
+                        if (t.compbreAndSetPendingCount(b, b|stbte))
+                            brebk;
                     }
 
                     int sum;
-                    if (state != SUMMED) {
+                    if (stbte != SUMMED) {
                         int first;
                         if (l == org) {                       // leftmost; no in
-                            sum = a[org];
+                            sum = b[org];
                             first = org + 1;
                         }
                         else {
                             sum = t.in;
                             first = l;
                         }
-                        for (int i = first; i < h; ++i)       // cumulate
-                            a[i] = sum = fn.applyAsInt(sum, a[i]);
+                        for (int i = first; i < h; ++i)       // cumulbte
+                            b[i] = sum = fn.bpplyAsInt(sum, b[i]);
                     }
                     else if (h < fnc) {                       // skip rightmost
-                        sum = a[l];
+                        sum = b[l];
                         for (int i = l + 1; i < h; ++i)       // sum only
-                            sum = fn.applyAsInt(sum, a[i]);
+                            sum = fn.bpplyAsInt(sum, b[i]);
                     }
                     else
                         sum = t.in;
                     t.out = sum;
-                    for (IntCumulateTask par;;) {            // propagate
-                        if ((par = (IntCumulateTask)t.getCompleter()) == null) {
-                            if ((state & FINISHED) != 0)      // enable join
+                    for (IntCumulbteTbsk pbr;;) {            // propbgbte
+                        if ((pbr = (IntCumulbteTbsk)t.getCompleter()) == null) {
+                            if ((stbte & FINISHED) != 0)      // enbble join
                                 t.quietlyComplete();
-                            break outer;
+                            brebk outer;
                         }
-                        int b = par.getPendingCount();
-                        if ((b & state & FINISHED) != 0)
-                            t = par;                          // both done
-                        else if ((b & state & SUMMED) != 0) { // both summed
-                            int nextState; IntCumulateTask lt, rt;
-                            if ((lt = par.left) != null &&
-                                (rt = par.right) != null) {
+                        int b = pbr.getPendingCount();
+                        if ((b & stbte & FINISHED) != 0)
+                            t = pbr;                          // both done
+                        else if ((b & stbte & SUMMED) != 0) { // both summed
+                            int nextStbte; IntCumulbteTbsk lt, rt;
+                            if ((lt = pbr.left) != null &&
+                                (rt = pbr.right) != null) {
                                 int lout = lt.out;
-                                par.out = (rt.hi == fnc ? lout :
-                                           fn.applyAsInt(lout, rt.out));
+                                pbr.out = (rt.hi == fnc ? lout :
+                                           fn.bpplyAsInt(lout, rt.out));
                             }
                             int refork = (((b & CUMULATE) == 0 &&
-                                           par.lo == org) ? CUMULATE : 0);
-                            if ((nextState = b|state|refork) == b ||
-                                par.compareAndSetPendingCount(b, nextState)) {
-                                state = SUMMED;               // drop finished
-                                t = par;
+                                           pbr.lo == org) ? CUMULATE : 0);
+                            if ((nextStbte = b|stbte|refork) == b ||
+                                pbr.compbreAndSetPendingCount(b, nextStbte)) {
+                                stbte = SUMMED;               // drop finished
+                                t = pbr;
                                 if (refork != 0)
-                                    par.fork();
+                                    pbr.fork();
                             }
                         }
-                        else if (par.compareAndSetPendingCount(b, b|state))
-                            break outer;                      // sib not ready
+                        else if (pbr.compbreAndSetPendingCount(b, b|stbte))
+                            brebk outer;                      // sib not rebdy
                     }
                 }
             }
         }
-        private static final long serialVersionUID = 3731755594596840961L;
+        privbte stbtic finbl long seriblVersionUID = 3731755594596840961L;
     }
 }

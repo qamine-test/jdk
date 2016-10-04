@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 
 
 /**
- * Represents an SNMP 64bits counter.
+ * Represents bn SNMP 64bits counter.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public class SnmpCounter64 extends SnmpValue {
-    private static final long serialVersionUID = 8784850650494679937L;
+public clbss SnmpCounter64 extends SnmpVblue {
+    privbte stbtic finbl long seriblVersionUID = 8784850650494679937L;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new <CODE>SnmpCounter64</CODE> from the specified long value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is negative
-     * or larger than <CODE>Long.MAX_VALUE</CODE>.
+     * Constructs b new <CODE>SnmpCounter64</CODE> from the specified long vblue.
+     * @pbrbm v The initiblizbtion vblue.
+     * @exception IllegblArgumentException The specified vblue is negbtive
+     * or lbrger thbn <CODE>Long.MAX_VALUE</CODE>.
      */
-    public SnmpCounter64(long v) throws IllegalArgumentException {
+    public SnmpCounter64(long v) throws IllegblArgumentException {
 
         // NOTE:
-        // The max value for a counter64 variable is 2^64 - 1.
-        // The max value for a Long is 2^63 - 1.
-        // All the allowed values for a conuter64 variable cannot be covered !!!
+        // The mbx vblue for b counter64 vbribble is 2^64 - 1.
+        // The mbx vblue for b Long is 2^63 - 1.
+        // All the bllowed vblues for b conuter64 vbribble cbnnot be covered !!!
         //
         if ((v < 0) || (v > Long.MAX_VALUE)) {
-            throw new IllegalArgumentException() ;
+            throw new IllegblArgumentException() ;
         }
-        value = v ;
+        vblue = v ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpCounter64</CODE> from the specified <CODE>Long</CODE> value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is negative
-     * or larger than <CODE>Long.MAX_VALUE</CODE>.
+     * Constructs b new <CODE>SnmpCounter64</CODE> from the specified <CODE>Long</CODE> vblue.
+     * @pbrbm v The initiblizbtion vblue.
+     * @exception IllegblArgumentException The specified vblue is negbtive
+     * or lbrger thbn <CODE>Long.MAX_VALUE</CODE>.
      */
-    public SnmpCounter64(Long v) throws IllegalArgumentException {
-        this(v.longValue()) ;
+    public SnmpCounter64(Long v) throws IllegblArgumentException {
+        this(v.longVblue()) ;
     }
 
     // PUBLIC METHODS
     //---------------
     /**
-     * Returns the counter value of this <CODE>SnmpCounter64</CODE>.
-     * @return The value.
+     * Returns the counter vblue of this <CODE>SnmpCounter64</CODE>.
+     * @return The vblue.
      */
-    public long longValue() {
-        return value ;
+    public long longVblue() {
+        return vblue ;
     }
 
     /**
-     * Converts the counter value to its <CODE>Long</CODE> form.
-     * @return The <CODE>Long</CODE> representation of the value.
+     * Converts the counter vblue to its <CODE>Long</CODE> form.
+     * @return The <CODE>Long</CODE> representbtion of the vblue.
      */
     public Long toLong() {
-        return value;
+        return vblue;
     }
 
     /**
-     * Converts the counter value to its integer form.
-     * @return The integer representation of the value.
+     * Converts the counter vblue to its integer form.
+     * @return The integer representbtion of the vblue.
      */
-    public int intValue() {
-        return (int)value ;
+    public int intVblue() {
+        return (int)vblue ;
     }
 
     /**
-     * Converts the counter value to its <CODE>Integer</CODE> form.
-     * @return The <CODE>Integer</CODE> representation of the value.
+     * Converts the counter vblue to its <CODE>Integer</CODE> form.
+     * @return The <CODE>Integer</CODE> representbtion of the vblue.
      */
     public Integer toInteger() {
-        return (int)value;
+        return (int)vblue;
     }
 
     /**
-     * Converts the counter value to its <CODE>String</CODE> form.
-     * @return The <CODE>String</CODE> representation of the value.
+     * Converts the counter vblue to its <CODE>String</CODE> form.
+     * @return The <CODE>String</CODE> representbtion of the vblue.
      */
     public String toString() {
-        return String.valueOf(value) ;
+        return String.vblueOf(vblue) ;
     }
 
     /**
-     * Converts the counter value to its <CODE>SnmpOid</CODE> form.
-     * @return The OID representation of the value.
+     * Converts the counter vblue to its <CODE>SnmpOid</CODE> form.
+     * @return The OID representbtion of the vblue.
      */
     public SnmpOid toOid() {
-        return new SnmpOid(value) ;
+        return new SnmpOid(vblue) ;
     }
 
     /**
-     * Extracts the counter from an index OID and returns its
-     * value converted as an <CODE>SnmpOid</CODE>.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The OID representing the counter value.
-     * @exception SnmpStatusException There is no counter value
-     * available at the start position.
+     * Extrbcts the counter from bn index OID bnd returns its
+     * vblue converted bs bn <CODE>SnmpOid</CODE>.
+     * @pbrbm index The index brrby.
+     * @pbrbm stbrt The position in the index brrby.
+     * @return The OID representing the counter vblue.
+     * @exception SnmpStbtusException There is no counter vblue
+     * bvbilbble bt the stbrt position.
      */
-    public static SnmpOid toOid(long[] index, int start) throws SnmpStatusException {
+    public stbtic SnmpOid toOid(long[] index, int stbrt) throws SnmpStbtusException {
         try {
-            return new SnmpOid(index[start]) ;
+            return new SnmpOid(index[stbrt]) ;
         }
-        catch(IndexOutOfBoundsException e) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+        cbtch(IndexOutOfBoundsException e) {
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme) ;
         }
     }
 
     /**
-     * Scans an index OID, skips the counter value and returns the position
-     * of the next value.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The position of the next value.
-     * @exception SnmpStatusException There is no counter value
-     * available at the start position.
+     * Scbns bn index OID, skips the counter vblue bnd returns the position
+     * of the next vblue.
+     * @pbrbm index The index brrby.
+     * @pbrbm stbrt The position in the index brrby.
+     * @return The position of the next vblue.
+     * @exception SnmpStbtusException There is no counter vblue
+     * bvbilbble bt the stbrt position.
      */
-    public static int nextOid(long[] index, int start) throws SnmpStatusException {
-        if (start >= index.length) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+    public stbtic int nextOid(long[] index, int stbrt) throws SnmpStbtusException {
+        if (stbrt >= index.length) {
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme) ;
         }
         else {
-            return start + 1 ;
+            return stbrt + 1 ;
         }
     }
 
     /**
-     * Appends an <CODE>SnmpOid</CODE> representing an <CODE>SnmpCounter64</CODE> to another OID.
-     * @param source An OID representing an <CODE>SnmpCounter64</CODE> value.
-     * @param dest Where source should be appended.
+     * Appends bn <CODE>SnmpOid</CODE> representing bn <CODE>SnmpCounter64</CODE> to bnother OID.
+     * @pbrbm source An OID representing bn <CODE>SnmpCounter64</CODE> vblue.
+     * @pbrbm dest Where source should be bppended.
      */
-    public static void appendToOid(SnmpOid source, SnmpOid dest) {
+    public stbtic void bppendToOid(SnmpOid source, SnmpOid dest) {
         if (source.getLength() != 1) {
-            throw new IllegalArgumentException() ;
+            throw new IllegblArgumentException() ;
         }
-        dest.append(source) ;
+        dest.bppend(source) ;
     }
 
     /**
-     * Performs a clone action. This provides a workaround for the
-     * <CODE>SnmpValue</CODE> interface.
-     * @return The SnmpValue clone.
+     * Performs b clone bction. This provides b workbround for the
+     * <CODE>SnmpVblue</CODE> interfbce.
+     * @return The SnmpVblue clone.
      */
-    final synchronized public SnmpValue duplicate() {
-        return (SnmpValue)clone() ;
+    finbl synchronized public SnmpVblue duplicbte() {
+        return (SnmpVblue)clone() ;
     }
 
     /**
-     * Clones the <CODE>SnmpCounter64</CODE> object, making a copy of its data.
+     * Clones the <CODE>SnmpCounter64</CODE> object, mbking b copy of its dbtb.
      * @return The object clone.
      */
-    final synchronized public Object clone() {
+    finbl synchronized public Object clone() {
         SnmpCounter64  newclone = null ;
         try {
             newclone = (SnmpCounter64) super.clone() ;
-            newclone.value = value ;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e) ; // vm bug.
+            newclone.vblue = vblue ;
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e) ; // vm bug.
         }
         return newclone ;
     }
 
     /**
-     * Returns a textual description of the type object.
-     * @return ASN.1 textual description.
+     * Returns b textubl description of the type object.
+     * @return ASN.1 textubl description.
      */
-    final public String getTypeName() {
-        return name ;
+    finbl public String getTypeNbme() {
+        return nbme ;
     }
 
     // VARIABLES
     //----------
     /**
-     * Name of the type.
+     * Nbme of the type.
      */
-    final static String name = "Counter64" ;
+    finbl stbtic String nbme = "Counter64" ;
 
     /**
-     * This is where the value is stored. This long is positive.
-     * @serial
+     * This is where the vblue is stored. This long is positive.
+     * @seribl
      */
-    private long value = 0 ;
+    privbte long vblue = 0 ;
 }

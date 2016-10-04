@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,92 +30,92 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench;
+pbckbge j2dbench;
 
-import java.awt.Canvas;
-import java.awt.Image;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Dimension;
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Toolkit;
-import java.util.Hashtable;
+import jbvb.bwt.Cbnvbs;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.Color;
+import jbvb.bwt.Toolkit;
+import jbvb.util.Hbshtbble;
 
-import j2dbench.tests.GraphicsTests;
+import j2dbench.tests.GrbphicsTests;
 
-public class TestEnvironment implements Node.Visitor {
-    static Group globaloptroot;
-    static Group envroot;
+public clbss TestEnvironment implements Node.Visitor {
+    stbtic Group globbloptroot;
+    stbtic Group envroot;
 
-    static Option.Int outputWidth;
-    static Option.Int outputHeight;
+    stbtic Option.Int outputWidth;
+    stbtic Option.Int outputHeight;
 
-    static Option.Int runCount;
-    static Option.Int repCount;
-    static Option.Int testTime;
+    stbtic Option.Int runCount;
+    stbtic Option.Int repCount;
+    stbtic Option.Int testTime;
 
-    public static void init() {
-        globaloptroot = new Group("global", "Global Options");
-        envroot = new Group(globaloptroot, "env", "Test Environment Options");
+    public stbtic void init() {
+        globbloptroot = new Group("globbl", "Globbl Options");
+        envroot = new Group(globbloptroot, "env", "Test Environment Options");
 
         outputWidth =
             new Option.Int(envroot, "outputwidth",
-                           "Width of Output Window or Image",
+                           "Width of Output Window or Imbge",
                            1, Integer.MAX_VALUE, 640);
         outputHeight =
             new Option.Int(envroot, "outputheight",
-                           "Height of Output Window or Image",
+                           "Height of Output Window or Imbge",
                            1, Integer.MAX_VALUE, 480);
 
         runCount =
             new Option.Int(envroot, "runcount",
-                           "Fixed Number of Test Runs per Benchmark",
+                           "Fixed Number of Test Runs per Benchmbrk",
                            1, Integer.MAX_VALUE, 5);
         repCount =
             new Option.Int(envroot, "repcount",
-                           "Fixed Number of Reps (0 means calibrate)",
+                           "Fixed Number of Reps (0 mebns cblibrbte)",
                            0, Integer.MAX_VALUE, 0);
         testTime =
             new Option.Int(envroot, "testtime",
-                           "Target test time to calibrate for",
+                           "Tbrget test time to cblibrbte for",
                            1, Integer.MAX_VALUE, 2500);
     }
 
     public void visit(Node node) {
-        if (node instanceof Test) {
+        if (node instbnceof Test) {
             ((Test) node).runTest(this);
         }
     }
 
     public void runAllTests() {
-        Group.root.traverse(this);
+        Group.root.trbverse(this);
     }
 
-    Canvas comp;
-    Image testImage;
-    Image srcImage;
-    boolean stopped;
+    Cbnvbs comp;
+    Imbge testImbge;
+    Imbge srcImbge;
+    boolebn stopped;
     ResultSet results;
-    Hashtable modifiers;
+    Hbshtbble modifiers;
     Timer timer;
 
     public TestEnvironment() {
         results = new ResultSet();
-        modifiers = new Hashtable();
+        modifiers = new Hbshtbble();
         timer = Timer.getImpl();
     }
 
-    public void startTiming() {
-        timer.start();
+    public void stbrtTiming() {
+        timer.stbrt();
     }
 
     public void stopTiming() {
@@ -126,15 +126,15 @@ public class TestEnvironment implements Node.Visitor {
         return timer.getTimeMillis();
     }
 
-    public long getTimeNanos() {
-        return timer.getTimeNanos();
+    public long getTimeNbnos() {
+        return timer.getTimeNbnos();
     }
 
-    public Canvas getCanvas() {
+    public Cbnvbs getCbnvbs() {
         if (comp == null) {
-            final int w = getWidth();
-            final int h = getHeight();
-            comp = new Canvas() {
+            finbl int w = getWidth();
+            finbl int h = getHeight();
+            comp = new Cbnvbs() {
                 public Dimension getPreferredSize() {
                     return new Dimension(w, h);
                 }
@@ -143,28 +143,28 @@ public class TestEnvironment implements Node.Visitor {
         return comp;
     }
 
-    public Image getSrcImage() {
-        return srcImage;
+    public Imbge getSrcImbge() {
+        return srcImbge;
     }
 
     public void stop() {
         stopped = true;
     }
 
-    public boolean isStopped() {
+    public boolebn isStopped() {
         return stopped;
     }
 
-    public void setTestImage(Image img) {
-        this.testImage = img;
+    public void setTestImbge(Imbge img) {
+        this.testImbge = img;
     }
 
-    public void setSrcImage(Image img) {
-        this.srcImage = img;
+    public void setSrcImbge(Imbge img) {
+        this.srcImbge = img;
     }
 
-    public void erase() {
-        Graphics g = getGraphics();
+    public void erbse() {
+        Grbphics g = getGrbphics();
         if (g != null) {
             g.setColor(Color.white);
             g.fillRect(0, 0, getWidth(), getHeight());
@@ -172,54 +172,54 @@ public class TestEnvironment implements Node.Visitor {
         }
     }
 
-    public Graphics getGraphics() {
-        if (testImage != null) {
-            return testImage.getGraphics();
+    public Grbphics getGrbphics() {
+        if (testImbge != null) {
+            return testImbge.getGrbphics();
         }
         if (comp != null) {
-            return comp.getGraphics();
+            return comp.getGrbphics();
         }
         return null;
     }
 
     public int getWidth() {
-        return outputWidth.getIntValue();
+        return outputWidth.getIntVblue();
     }
 
     public int getHeight() {
-        return outputHeight.getIntValue();
+        return outputHeight.getIntVblue();
     }
 
     public int getRunCount() {
-        return runCount.getIntValue();
+        return runCount.getIntVblue();
     }
 
     public int getRepCount() {
-        return repCount.getIntValue();
+        return repCount.getIntVblue();
     }
 
     public long getTestTime() {
-        return testTime.getIntValue();
+        return testTime.getIntVblue();
     }
 
     public void sync() {
         if (comp == null) {
-            Toolkit.getDefaultToolkit().sync();
+            Toolkit.getDefbultToolkit().sync();
         } else {
             comp.getToolkit().sync();
         }
     }
 
-    public boolean idle() {
+    public boolebn idle() {
         if (!stopped) {
             sync();
             System.gc();
-            System.runFinalization();
+            System.runFinblizbtion();
             System.gc();
             sync();
             try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
+                Threbd.sleep(50);
+            } cbtch (InterruptedException e) {
                 stop();
             }
         }
@@ -234,20 +234,20 @@ public class TestEnvironment implements Node.Visitor {
         return modifiers.get(o);
     }
 
-    public boolean isEnabled(Modifier o) {
-        return ((Boolean) modifiers.get(o)).booleanValue();
+    public boolebn isEnbbled(Modifier o) {
+        return ((Boolebn) modifiers.get(o)).boolebnVblue();
     }
 
-    public int getIntValue(Modifier o) {
-        return ((Integer) modifiers.get(o)).intValue();
+    public int getIntVblue(Modifier o) {
+        return ((Integer) modifiers.get(o)).intVblue();
     }
 
     public void removeModifier(Modifier o) {
         modifiers.remove(o);
     }
 
-    public Hashtable getModifiers() {
-        return (Hashtable) modifiers.clone();
+    public Hbshtbble getModifiers() {
+        return (Hbshtbble) modifiers.clone();
     }
 
     public void record(Result result) {
@@ -255,39 +255,39 @@ public class TestEnvironment implements Node.Visitor {
     }
 
     public void flushToScreen() {
-        if (testImage != null && comp != null) {
-            Graphics g = comp.getGraphics();
-            if (GraphicsTests.hasGraphics2D) {
-                ((Graphics2D) g).setComposite(AlphaComposite.Src);
+        if (testImbge != null && comp != null) {
+            Grbphics g = comp.getGrbphics();
+            if (GrbphicsTests.hbsGrbphics2D) {
+                ((Grbphics2D) g).setComposite(AlphbComposite.Src);
             }
-            g.drawImage(testImage, 0, 0, null);
+            g.drbwImbge(testImbge, 0, 0, null);
             g.dispose();
         }
     }
 
-    public void summarize() {
-        results.summarize();
+    public void summbrize() {
+        results.summbrize();
     }
 
-    private abstract static class Timer {
-        public static Timer getImpl() {
+    privbte bbstrbct stbtic clbss Timer {
+        public stbtic Timer getImpl() {
             try {
-                System.nanoTime();
-                return new Nanos();
-            } catch (NoSuchMethodError e) {
+                System.nbnoTime();
+                return new Nbnos();
+            } cbtch (NoSuchMethodError e) {
                 return new Millis();
             }
         }
 
-        public abstract void start();
-        public abstract void stop();
-        public abstract long getTimeMillis();
-        public abstract long getTimeNanos();
+        public bbstrbct void stbrt();
+        public bbstrbct void stop();
+        public bbstrbct long getTimeMillis();
+        public bbstrbct long getTimeNbnos();
 
-        private static class Millis extends Timer {
-            private long millis;
+        privbte stbtic clbss Millis extends Timer {
+            privbte long millis;
 
-            public void start() {
+            public void stbrt() {
                 millis = System.currentTimeMillis();
             }
 
@@ -299,28 +299,28 @@ public class TestEnvironment implements Node.Visitor {
                 return millis;
             }
 
-            public long getTimeNanos() {
+            public long getTimeNbnos() {
                 return millis * 1000 * 1000;
             }
         }
 
-        private static class Nanos extends Timer {
-            private long nanos;
+        privbte stbtic clbss Nbnos extends Timer {
+            privbte long nbnos;
 
-            public void start() {
-                nanos = System.nanoTime();
+            public void stbrt() {
+                nbnos = System.nbnoTime();
             }
 
             public void stop() {
-                nanos = System.nanoTime() - nanos;
+                nbnos = System.nbnoTime() - nbnos;
             }
 
             public long getTimeMillis() {
-                return (nanos + (500 * 1000)) / (1000 * 1000);
+                return (nbnos + (500 * 1000)) / (1000 * 1000);
             }
 
-            public long getTimeNanos() {
-                return nanos;
+            public long getTimeNbnos() {
+                return nbnos;
             }
         }
     }

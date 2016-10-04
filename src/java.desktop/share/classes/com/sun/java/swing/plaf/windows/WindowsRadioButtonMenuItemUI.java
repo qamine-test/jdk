@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
 
-import com.sun.java.swing.plaf.windows.TMSchema.Part;
-import com.sun.java.swing.plaf.windows.TMSchema.State;
+import com.sun.jbvb.swing.plbf.windows.TMSchemb.Pbrt;
+import com.sun.jbvb.swing.plbf.windows.TMSchemb.Stbte;
 
 /**
  * Windows rendition of the component.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  */
-public class WindowsRadioButtonMenuItemUI extends BasicRadioButtonMenuItemUI {
+public clbss WindowsRbdioButtonMenuItemUI extends BbsicRbdioButtonMenuItemUI {
 
-    final WindowsMenuItemUIAccessor accessor =
+    finbl WindowsMenuItemUIAccessor bccessor =
         new WindowsMenuItemUIAccessor() {
 
            public JMenuItem getMenuItem() {
                return menuItem;
            }
 
-           public State getState(JMenuItem menuItem) {
-               return WindowsMenuItemUI.getState(this, menuItem);
+           public Stbte getStbte(JMenuItem menuItem) {
+               return WindowsMenuItemUI.getStbte(this, menuItem);
            }
 
-           public Part getPart(JMenuItem menuItem) {
-               return WindowsMenuItemUI.getPart(this, menuItem);
+           public Pbrt getPbrt(JMenuItem menuItem) {
+               return WindowsMenuItemUI.getPbrt(this, menuItem);
            }
     };
-    public static ComponentUI createUI(JComponent b) {
-        return new WindowsRadioButtonMenuItemUI();
+    public stbtic ComponentUI crebteUI(JComponent b) {
+        return new WindowsRbdioButtonMenuItemUI();
     }
 
     @Override
-    protected  void paintBackground(Graphics g, JMenuItem menuItem,
+    protected  void pbintBbckground(Grbphics g, JMenuItem menuItem,
             Color bgColor) {
-        if (WindowsMenuItemUI.isVistaPainting()) {
-            WindowsMenuItemUI.paintBackground(accessor, g, menuItem, bgColor);
+        if (WindowsMenuItemUI.isVistbPbinting()) {
+            WindowsMenuItemUI.pbintBbckground(bccessor, g, menuItem, bgColor);
             return;
         }
-        super.paintBackground(g, menuItem, bgColor);
+        super.pbintBbckground(g, menuItem, bgColor);
     }
 
     /**
      * Method which renders the text of the current menu item.
      * <p>
-     * @param g Graphics context
-     * @param menuItem Current menu item to render
-     * @param textRect Bounding rectangle to render the text.
-     * @param text String to render
+     * @pbrbm g Grbphics context
+     * @pbrbm menuItem Current menu item to render
+     * @pbrbm textRect Bounding rectbngle to render the text.
+     * @pbrbm text String to render
      * @since 1.4
      */
-    protected void paintText(Graphics g, JMenuItem menuItem,
-            Rectangle textRect, String text) {
-        if (WindowsMenuItemUI.isVistaPainting()) {
-            WindowsMenuItemUI.paintText(accessor, g, menuItem, textRect, text);
+    protected void pbintText(Grbphics g, JMenuItem menuItem,
+            Rectbngle textRect, String text) {
+        if (WindowsMenuItemUI.isVistbPbinting()) {
+            WindowsMenuItemUI.pbintText(bccessor, g, menuItem, textRect, text);
             return;
         }
         ButtonModel model = menuItem.getModel();
         Color oldColor = g.getColor();
 
-        if(model.isEnabled() && model.isArmed()) {
+        if(model.isEnbbled() && model.isArmed()) {
             g.setColor(selectionForeground); // Uses protected field.
         }
 
-        WindowsGraphicsUtils.paintText(g, menuItem, textRect, text, 0);
+        WindowsGrbphicsUtils.pbintText(g, menuItem, textRect, text, 0);
 
         g.setColor(oldColor);
     }

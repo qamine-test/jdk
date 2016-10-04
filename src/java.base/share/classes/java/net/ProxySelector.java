@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.util.List;
-import sun.security.util.SecurityConstants;
+import jbvb.io.IOException;
+import jbvb.util.List;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * Selects the proxy server to use, if any, when connecting to the
- * network resource referenced by a URL. A proxy selector is a
- * concrete sub-class of this class and is registered by invoking the
- * {@link java.net.ProxySelector#setDefault setDefault} method. The
- * currently registered proxy selector can be retrieved by calling
- * {@link java.net.ProxySelector#getDefault getDefault} method.
+ * Selects the proxy server to use, if bny, when connecting to the
+ * network resource referenced by b URL. A proxy selector is b
+ * concrete sub-clbss of this clbss bnd is registered by invoking the
+ * {@link jbvb.net.ProxySelector#setDefbult setDefbult} method. The
+ * currently registered proxy selector cbn be retrieved by cblling
+ * {@link jbvb.net.ProxySelector#getDefbult getDefbult} method.
  *
- * <p> When a proxy selector is registered, for instance, a subclass
- * of URLConnection class should call the {@link #select select}
- * method for each URL request so that the proxy selector can decide
- * if a direct, or proxied connection should be used. The {@link
- * #select select} method returns an iterator over a collection with
- * the preferred connection approach.
+ * <p> When b proxy selector is registered, for instbnce, b subclbss
+ * of URLConnection clbss should cbll the {@link #select select}
+ * method for ebch URL request so thbt the proxy selector cbn decide
+ * if b direct, or proxied connection should be used. The {@link
+ * #select select} method returns bn iterbtor over b collection with
+ * the preferred connection bpprobch.
  *
- * <p> If a connection cannot be established to a proxy (PROXY or
- * SOCKS) servers then the caller should call the proxy selector's
- * {@link #connectFailed connectFailed} method to notify the proxy
- * selector that the proxy server is unavailable. </p>
+ * <p> If b connection cbnnot be estbblished to b proxy (PROXY or
+ * SOCKS) servers then the cbller should cbll the proxy selector's
+ * {@link #connectFbiled connectFbiled} method to notify the proxy
+ * selector thbt the proxy server is unbvbilbble. </p>
  *
- * <P>The default proxy selector does enforce a
- * <a href="doc-files/net-properties.html#Proxies">set of System Properties</a>
- * related to proxy settings.</P>
+ * <P>The defbult proxy selector does enforce b
+ * <b href="doc-files/net-properties.html#Proxies">set of System Properties</b>
+ * relbted to proxy settings.</P>
  *
- * @author Yingxian Wang
- * @author Jean-Christophe Collet
+ * @buthor Yingxibn Wbng
+ * @buthor Jebn-Christophe Collet
  * @since 1.5
  */
-public abstract class ProxySelector {
+public bbstrbct clbss ProxySelector {
     /**
-     * The system wide proxy selector that selects the proxy server to
-     * use, if any, when connecting to a remote object referenced by
-     * an URL.
+     * The system wide proxy selector thbt selects the proxy server to
+     * use, if bny, when connecting to b remote object referenced by
+     * bn URL.
      *
-     * @see #setDefault(ProxySelector)
+     * @see #setDefbult(ProxySelector)
      */
-    private static ProxySelector theProxySelector;
+    privbte stbtic ProxySelector theProxySelector;
 
-    static {
+    stbtic {
         try {
-            Class<?> c = Class.forName("sun.net.spi.DefaultProxySelector");
-            if (c != null && ProxySelector.class.isAssignableFrom(c)) {
-                theProxySelector = (ProxySelector) c.newInstance();
+            Clbss<?> c = Clbss.forNbme("sun.net.spi.DefbultProxySelector");
+            if (c != null && ProxySelector.clbss.isAssignbbleFrom(c)) {
+                theProxySelector = (ProxySelector) c.newInstbnce();
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             theProxySelector = null;
         }
     }
@@ -82,16 +82,16 @@ public abstract class ProxySelector {
      * Gets the system-wide proxy selector.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
+     *          If b security mbnbger hbs been instblled bnd it denies
      * {@link NetPermission}{@code ("getProxySelector")}
-     * @see #setDefault(ProxySelector)
+     * @see #setDefbult(ProxySelector)
      * @return the system-wide {@code ProxySelector}
      * @since 1.5
      */
-    public static ProxySelector getDefault() {
-        SecurityManager sm = System.getSecurityManager();
+    public stbtic ProxySelector getDefbult() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.GET_PROXYSELECTOR_PERMISSION);
+            sm.checkPermission(SecurityConstbnts.GET_PROXYSELECTOR_PERMISSION);
         }
         return theProxySelector;
     }
@@ -99,31 +99,31 @@ public abstract class ProxySelector {
     /**
      * Sets (or unsets) the system-wide proxy selector.
      *
-     * Note: non-standard protocol handlers may ignore this setting.
+     * Note: non-stbndbrd protocol hbndlers mby ignore this setting.
      *
-     * @param ps The HTTP proxy selector, or
+     * @pbrbm ps The HTTP proxy selector, or
      *          {@code null} to unset the proxy selector.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
+     *          If b security mbnbger hbs been instblled bnd it denies
      * {@link NetPermission}{@code ("setProxySelector")}
      *
-     * @see #getDefault()
+     * @see #getDefbult()
      * @since 1.5
      */
-    public static void setDefault(ProxySelector ps) {
-        SecurityManager sm = System.getSecurityManager();
+    public stbtic void setDefbult(ProxySelector ps) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.SET_PROXYSELECTOR_PERMISSION);
+            sm.checkPermission(SecurityConstbnts.SET_PROXYSELECTOR_PERMISSION);
         }
         theProxySelector = ps;
     }
 
     /**
-     * Selects all the applicable proxies based on the protocol to
-     * access the resource with and a destination address to access
-     * the resource at.
-     * The format of the URI is defined as follow:
+     * Selects bll the bpplicbble proxies bbsed on the protocol to
+     * bccess the resource with bnd b destinbtion bddress to bccess
+     * the resource bt.
+     * The formbt of the URI is defined bs follow:
      * <UL>
      * <LI>http URI for http connections</LI>
      * <LI>https URI for https connections
@@ -131,35 +131,35 @@ public abstract class ProxySelector {
      *     for tcp client sockets connections</LI>
      * </UL>
      *
-     * @param   uri
-     *          The URI that a connection is required to
+     * @pbrbm   uri
+     *          The URI thbt b connection is required to
      *
-     * @return  a List of Proxies. Each element in the
+     * @return  b List of Proxies. Ebch element in the
      *          the List is of type
-     *          {@link java.net.Proxy Proxy};
-     *          when no proxy is available, the list will
-     *          contain one element of type
-     *          {@link java.net.Proxy Proxy}
-     *          that represents a direct connection.
-     * @throws IllegalArgumentException if the argument is null
+     *          {@link jbvb.net.Proxy Proxy};
+     *          when no proxy is bvbilbble, the list will
+     *          contbin one element of type
+     *          {@link jbvb.net.Proxy Proxy}
+     *          thbt represents b direct connection.
+     * @throws IllegblArgumentException if the brgument is null
      */
-    public abstract List<Proxy> select(URI uri);
+    public bbstrbct List<Proxy> select(URI uri);
 
     /**
-     * Called to indicate that a connection could not be established
-     * to a proxy/socks server. An implementation of this method can
-     * temporarily remove the proxies or reorder the sequence of
-     * proxies returned by {@link #select(URI)}, using the address
-     * and the IOException caught when trying to connect.
+     * Cblled to indicbte thbt b connection could not be estbblished
+     * to b proxy/socks server. An implementbtion of this method cbn
+     * temporbrily remove the proxies or reorder the sequence of
+     * proxies returned by {@link #select(URI)}, using the bddress
+     * bnd the IOException cbught when trying to connect.
      *
-     * @param   uri
-     *          The URI that the proxy at sa failed to serve.
-     * @param   sa
-     *          The socket address of the proxy/SOCKS server
+     * @pbrbm   uri
+     *          The URI thbt the proxy bt sb fbiled to serve.
+     * @pbrbm   sb
+     *          The socket bddress of the proxy/SOCKS server
      *
-     * @param   ioe
-     *          The I/O exception thrown when the connect failed.
-     * @throws IllegalArgumentException if either argument is null
+     * @pbrbm   ioe
+     *          The I/O exception thrown when the connect fbiled.
+     * @throws IllegblArgumentException if either brgument is null
      */
-    public abstract void connectFailed(URI uri, SocketAddress sa, IOException ioe);
+    public bbstrbct void connectFbiled(URI uri, SocketAddress sb, IOException ioe);
 }

@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
 /*
- * This keeps track of data that needs to be cleaned up once a
+ * This keeps trbck of dbtb thbt needs to be clebned up once b
  * strike is freed.
- * a) The native memory that is the glyph image cache.
- * b) removing the "desc" key from the strike's map.
- * This is safe to do because this disposer is invoked only when the
- * reference object has been cleared, which means the value indexed by
- * this key is just an empty reference object.
- * It is possible that a new FontStrike has been created that would
- * be referenced by the same (equals) key. If it is placed in the map
- * before this disposer is executed, then we do not want to remove that
- * object. We should only remove an object where the value is null.
- * So we first verify that the key still points to a cleared reference.
- * Updates to the map thus need to be synchronized.
+ * b) The nbtive memory thbt is the glyph imbge cbche.
+ * b) removing the "desc" key from the strike's mbp.
+ * This is sbfe to do becbuse this disposer is invoked only when the
+ * reference object hbs been clebred, which mebns the vblue indexed by
+ * this key is just bn empty reference object.
+ * It is possible thbt b new FontStrike hbs been crebted thbt would
+ * be referenced by the sbme (equbls) key. If it is plbced in the mbp
+ * before this disposer is executed, then we do not wbnt to remove thbt
+ * object. We should only remove bn object where the vblue is null.
+ * So we first verify thbt the key still points to b clebred reference.
+ * Updbtes to the mbp thus need to be synchronized.
  *
- * A WeakHashmap will automatically clean up, but we might maintain a
- * reference to the "desc" key in the FontStrike (value) which would
- * prevent the keys from being discarded. And since the strike is the only
- * place is likely we would maintain such a strong reference, then the map
- * entries would be removed much more promptly than we need.
+ * A WebkHbshmbp will butombticblly clebn up, but we might mbintbin b
+ * reference to the "desc" key in the FontStrike (vblue) which would
+ * prevent the keys from being discbrded. And since the strike is the only
+ * plbce is likely we would mbintbin such b strong reference, then the mbp
+ * entries would be removed much more promptly thbn we need.
  */
 
-class NativeStrikeDisposer extends FontStrikeDisposer {
+clbss NbtiveStrikeDisposer extends FontStrikeDisposer {
 
-    long pNativeScalerContext;
+    long pNbtiveScblerContext;
 
-    public NativeStrikeDisposer(Font2D font2D, FontStrikeDesc desc,
-                              long pContext, int[] images) {
-        super(font2D, desc, 0L, images);
-        pNativeScalerContext = pContext;
+    public NbtiveStrikeDisposer(Font2D font2D, FontStrikeDesc desc,
+                              long pContext, int[] imbges) {
+        super(font2D, desc, 0L, imbges);
+        pNbtiveScblerContext = pContext;
     }
 
-    public NativeStrikeDisposer(Font2D font2D, FontStrikeDesc desc,
-                              long pContext, long[] images) {
-        super(font2D, desc, 0L, images);
-        pNativeScalerContext = pContext;
+    public NbtiveStrikeDisposer(Font2D font2D, FontStrikeDesc desc,
+                              long pContext, long[] imbges) {
+        super(font2D, desc, 0L, imbges);
+        pNbtiveScblerContext = pContext;
     }
 
-    public NativeStrikeDisposer(Font2D font2D, FontStrikeDesc desc,
+    public NbtiveStrikeDisposer(Font2D font2D, FontStrikeDesc desc,
                               long pContext) {
         super(font2D, desc, 0L);
-        pNativeScalerContext = pContext;
+        pNbtiveScblerContext = pContext;
     }
 
-    public NativeStrikeDisposer(Font2D font2D, FontStrikeDesc desc) {
+    public NbtiveStrikeDisposer(Font2D font2D, FontStrikeDesc desc) {
         super(font2D, desc);
     }
 
     public synchronized void dispose() {
         if (!disposed) {
-            if (pNativeScalerContext != 0L) {
-                freeNativeScalerContext(pNativeScalerContext);
+            if (pNbtiveScblerContext != 0L) {
+                freeNbtiveScblerContext(pNbtiveScblerContext);
             }
             super.dispose();
         }
     }
 
-    private native void freeNativeScalerContext(long pContext);
+    privbte nbtive void freeNbtiveScblerContext(long pContext);
 }

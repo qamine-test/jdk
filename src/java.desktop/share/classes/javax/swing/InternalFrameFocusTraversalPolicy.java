@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
-import java.awt.Component;
-import java.awt.FocusTraversalPolicy;
+import jbvb.bwt.Component;
+import jbvb.bwt.FocusTrbversblPolicy;
 
 /**
- * A FocusTraversalPolicy which can optionally provide an algorithm for
- * determining a JInternalFrame's initial Component. The initial Component is
- * the first to receive focus when the JInternalFrame is first selected. By
- * default, this is the same as the JInternalFrame's default Component to
+ * A FocusTrbversblPolicy which cbn optionblly provide bn blgorithm for
+ * determining b JInternblFrbme's initibl Component. The initibl Component is
+ * the first to receive focus when the JInternblFrbme is first selected. By
+ * defbult, this is the sbme bs the JInternblFrbme's defbult Component to
  * focus.
  *
- * @author David Mendenhall
+ * @buthor Dbvid Mendenhbll
  *
  * @since 1.4
  */
-public abstract class InternalFrameFocusTraversalPolicy
-    extends FocusTraversalPolicy
+public bbstrbct clbss InternblFrbmeFocusTrbversblPolicy
+    extends FocusTrbversblPolicy
 {
 
     /**
-     * Returns the Component that should receive the focus when a
-     * JInternalFrame is selected for the first time. Once the JInternalFrame
-     * has been selected by a call to <code>setSelected(true)</code>, the
-     * initial Component will not be used again. Instead, if the JInternalFrame
-     * loses and subsequently regains selection, or is made invisible or
-     * undisplayable and subsequently made visible and displayable, the
-     * JInternalFrame's most recently focused Component will become the focus
-     * owner. The default implementation of this method returns the
-     * JInternalFrame's default Component to focus.
+     * Returns the Component thbt should receive the focus when b
+     * JInternblFrbme is selected for the first time. Once the JInternblFrbme
+     * hbs been selected by b cbll to <code>setSelected(true)</code>, the
+     * initibl Component will not be used bgbin. Instebd, if the JInternblFrbme
+     * loses bnd subsequently regbins selection, or is mbde invisible or
+     * undisplbybble bnd subsequently mbde visible bnd displbybble, the
+     * JInternblFrbme's most recently focused Component will become the focus
+     * owner. The defbult implementbtion of this method returns the
+     * JInternblFrbme's defbult Component to focus.
      *
-     * @param frame the JInternalFrame whose initial Component is to be
+     * @pbrbm frbme the JInternblFrbme whose initibl Component is to be
      *        returned
-     * @return the Component that should receive the focus when frame is
-     *         selected for the first time, or null if no suitable Component
-     *         can be found
-     * @see JInternalFrame#getMostRecentFocusOwner
-     * @throws IllegalArgumentException if window is null
+     * @return the Component thbt should receive the focus when frbme is
+     *         selected for the first time, or null if no suitbble Component
+     *         cbn be found
+     * @see JInternblFrbme#getMostRecentFocusOwner
+     * @throws IllegblArgumentException if window is null
      */
-    public Component getInitialComponent(JInternalFrame frame) {
-        return getDefaultComponent(frame);
+    public Component getInitiblComponent(JInternblFrbme frbme) {
+        return getDefbultComponent(frbme);
     }
 }

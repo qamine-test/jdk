@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import java.util.Locale;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.TextSyntax;
-import javax.print.attribute.PrintServiceAttribute;
+import jbvb.util.Locble;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.TextSyntbx;
+import jbvbx.print.bttribute.PrintServiceAttribute;
 
 /**
- * Class PrinterMakeAndModel is a printing attribute class, a text attribute,
- * that the make and model of the printer.
+ * Clbss PrinterMbkeAndModel is b printing bttribute clbss, b text bttribute,
+ * thbt the mbke bnd model of the printer.
  * <P>
- * <B>IPP Compatibility:</B> The string value gives the IPP name value. The
- * locale gives the IPP natural language. The category name returned by
- * <CODE>getName()</CODE> gives the IPP attribute name.
+ * <B>IPP Compbtibility:</B> The string vblue gives the IPP nbme vblue. The
+ * locble gives the IPP nbturbl lbngubge. The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> gives the IPP bttribute nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class PrinterMakeAndModel extends TextSyntax
+public finbl clbss PrinterMbkeAndModel extends TextSyntbx
         implements PrintServiceAttribute {
 
-    private static final long serialVersionUID = 4580461489499351411L;
+    privbte stbtic finbl long seriblVersionUID = 4580461489499351411L;
 
     /**
-     * Constructs a new printer make and model attribute with the given make
-     * and model string and locale.
+     * Constructs b new printer mbke bnd model bttribute with the given mbke
+     * bnd model string bnd locble.
      *
-     * @param  makeAndModel  Printer make and model string.
-     * @param  locale        Natural language of the text string. null
-     * is interpreted to mean the default locale as returned
-     * by <code>Locale.getDefault()</code>
+     * @pbrbm  mbkeAndModel  Printer mbke bnd model string.
+     * @pbrbm  locble        Nbturbl lbngubge of the text string. null
+     * is interpreted to mebn the defbult locble bs returned
+     * by <code>Locble.getDefbult()</code>
      *
      * @exception  NullPointerException
-     *    (unchecked exception) Thrown if <CODE>makeAndModel</CODE> is null.
+     *    (unchecked exception) Thrown if <CODE>mbkeAndModel</CODE> is null.
      */
-    public PrinterMakeAndModel(String makeAndModel, Locale locale) {
-        super (makeAndModel, locale);
+    public PrinterMbkeAndModel(String mbkeAndModel, Locble locble) {
+        super (mbkeAndModel, locble);
     }
 
     /**
-     * Returns whether this printer make and model attribute is equivalent to
-     * the passed in object. To be equivalent, all of the following conditions
+     * Returns whether this printer mbke bnd model bttribute is equivblent to
+     * the pbssed in object. To be equivblent, bll of the following conditions
      * must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class PrinterMakeAndModel.
+     * <CODE>object</CODE> is bn instbnce of clbss PrinterMbkeAndModel.
      * <LI>
-     * This printer make and model attribute's underlying string and
-     * <CODE>object</CODE>'s underlying string are equal.
+     * This printer mbke bnd model bttribute's underlying string bnd
+     * <CODE>object</CODE>'s underlying string bre equbl.
      * <LI>
-     * This printer make and model attribute's locale and
-     * <CODE>object</CODE>'s locale are equal.
+     * This printer mbke bnd model bttribute's locble bnd
+     * <CODE>object</CODE>'s locble bre equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this printer
-     *          make and model attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this printer
+     *          mbke bnd model bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return (super.equals(object) &&
-                object instanceof PrinterMakeAndModel);
+    public boolebn equbls(Object object) {
+        return (super.equbls(object) &&
+                object instbnceof PrinterMbkeAndModel);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class PrinterMakeAndModel, the
-     * category is class PrinterMakeAndModel itself.
+     * For clbss PrinterMbkeAndModel, the
+     * cbtegory is clbss PrinterMbkeAndModel itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PrinterMakeAndModel.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return PrinterMbkeAndModel.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class PrinterMakeAndModel, the
-     * category name is <CODE>"printer-make-and-model"</CODE>.
+     * For clbss PrinterMbkeAndModel, the
+     * cbtegory nbme is <CODE>"printer-mbke-bnd-model"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "printer-make-and-model";
+    public finbl String getNbme() {
+        return "printer-mbke-bnd-model";
     }
 
 }

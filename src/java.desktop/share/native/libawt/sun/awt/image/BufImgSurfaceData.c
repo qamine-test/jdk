@@ -1,32 +1,32 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "BufImgSurfaceData.h"
+#include "BufImgSurfbceDbtb.h"
 #include <stdlib.h>
 
-#include "sun_awt_image_BufImgSurfaceData.h"
+#include "sun_bwt_imbge_BufImgSurfbceDbtb.h"
 
 #include "img_util_md.h"
 #include "jni_util.h"
@@ -34,280 +34,280 @@
 #include "gdefs.h"
 
 /**
- * This include file contains support code for loops using the
- * SurfaceData interface to talk to an X11 drawable from native
+ * This include file contbins support code for loops using the
+ * SurfbceDbtb interfbce to tblk to bn X11 drbwbble from nbtive
  * code.
  */
 
-static LockFunc                 BufImg_Lock;
-static GetRasInfoFunc           BufImg_GetRasInfo;
-static ReleaseFunc              BufImg_Release;
-static DisposeFunc              BufImg_Dispose;
+stbtic LockFunc                 BufImg_Lock;
+stbtic GetRbsInfoFunc           BufImg_GetRbsInfo;
+stbtic RelebseFunc              BufImg_Relebse;
+stbtic DisposeFunc              BufImg_Dispose;
 
-static ColorData *BufImg_SetupICM(JNIEnv *env, BufImgSDOps *bisdo);
+stbtic ColorDbtb *BufImg_SetupICM(JNIEnv *env, BufImgSDOps *bisdo);
 
-static jfieldID         rgbID;
-static jfieldID         mapSizeID;
-static jfieldID         colorDataID;
-static jfieldID         pDataID;
-static jfieldID         allGrayID;
+stbtic jfieldID         rgbID;
+stbtic jfieldID         mbpSizeID;
+stbtic jfieldID         colorDbtbID;
+stbtic jfieldID         pDbtbID;
+stbtic jfieldID         bllGrbyID;
 
-static jclass           clsICMCD;
-static jmethodID        initICMCDmID;
+stbtic jclbss           clsICMCD;
+stbtic jmethodID        initICMCDmID;
 /*
- * Class:     sun_awt_image_BufImgSurfaceData
+ * Clbss:     sun_bwt_imbge_BufImgSurfbceDbtb
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_image_BufImgSurfaceData_initIDs
-(JNIEnv *env, jclass bisd, jclass icm, jclass cd)
+Jbvb_sun_bwt_imbge_BufImgSurfbceDbtb_initIDs
+(JNIEnv *env, jclbss bisd, jclbss icm, jclbss cd)
 {
-    if (sizeof(BufImgRIPrivate) > SD_RASINFO_PRIVATE_SIZE) {
-        JNU_ThrowInternalError(env, "Private RasInfo structure too large!");
+    if (sizeof(BufImgRIPrivbte) > SD_RASINFO_PRIVATE_SIZE) {
+        JNU_ThrowInternblError(env, "Privbte RbsInfo structure too lbrge!");
         return;
     }
 
-    clsICMCD = (*env)->NewWeakGlobalRef(env, cd);
+    clsICMCD = (*env)->NewWebkGlobblRef(env, cd);
     JNU_CHECK_EXCEPTION(env);
     CHECK_NULL(initICMCDmID = (*env)->GetMethodID(env, cd, "<init>", "(J)V"));
-    CHECK_NULL(pDataID = (*env)->GetFieldID(env, cd, "pData", "J"));
+    CHECK_NULL(pDbtbID = (*env)->GetFieldID(env, cd, "pDbtb", "J"));
     CHECK_NULL(rgbID = (*env)->GetFieldID(env, icm, "rgb", "[I"));
-    CHECK_NULL(allGrayID = (*env)->GetFieldID(env, icm, "allgrayopaque", "Z"));
-    CHECK_NULL(mapSizeID = (*env)->GetFieldID(env, icm, "map_size", "I"));
-    CHECK_NULL(colorDataID = (*env)->GetFieldID(env, icm, "colorData",
-                                           "Lsun/awt/image/BufImgSurfaceData$ICMColorData;"));
+    CHECK_NULL(bllGrbyID = (*env)->GetFieldID(env, icm, "bllgrbyopbque", "Z"));
+    CHECK_NULL(mbpSizeID = (*env)->GetFieldID(env, icm, "mbp_size", "I"));
+    CHECK_NULL(colorDbtbID = (*env)->GetFieldID(env, icm, "colorDbtb",
+                                           "Lsun/bwt/imbge/BufImgSurfbceDbtb$ICMColorDbtb;"));
 }
 
 /*
- * Class:     sun_java2d_SurfaceData
- * Method:    freeNativeICMData
- * Signature: (Ljava/awt/image/IndexColorModel;)V
+ * Clbss:     sun_jbvb2d_SurfbceDbtb
+ * Method:    freeNbtiveICMDbtb
+ * Signbture: (Ljbvb/bwt/imbge/IndexColorModel;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_image_BufImgSurfaceData_freeNativeICMData
-    (JNIEnv *env, jclass sd, jlong pData)
+Jbvb_sun_bwt_imbge_BufImgSurfbceDbtb_freeNbtiveICMDbtb
+    (JNIEnv *env, jclbss sd, jlong pDbtb)
 {
-    ColorData *cdata = (ColorData*)jlong_to_ptr(pData);
-    freeICMColorData(cdata);
+    ColorDbtb *cdbtb = (ColorDbtb*)jlong_to_ptr(pDbtb);
+    freeICMColorDbtb(cdbtb);
 }
 
 /*
- * Class:     sun_awt_image_BufImgSurfaceData
+ * Clbss:     sun_bwt_imbge_BufImgSurfbceDbtb
  * Method:    initOps
- * Signature: (Ljava/lang/Object;IIIII)V
+ * Signbture: (Ljbvb/lbng/Object;IIIII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_image_BufImgSurfaceData_initRaster(JNIEnv *env, jobject bisd,
-                                                jobject array,
+Jbvb_sun_bwt_imbge_BufImgSurfbceDbtb_initRbster(JNIEnv *env, jobject bisd,
+                                                jobject brrby,
                                                 jint offset, jint bitoffset,
                                                 jint width, jint height,
-                                                jint pixStr, jint scanStr,
+                                                jint pixStr, jint scbnStr,
                                                 jobject icm)
 {
     BufImgSDOps *bisdo =
-        (BufImgSDOps*)SurfaceData_InitOps(env, bisd, sizeof(BufImgSDOps));
+        (BufImgSDOps*)SurfbceDbtb_InitOps(env, bisd, sizeof(BufImgSDOps));
     if (bisdo == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "Initialization of SurfaceData failed.");
+        JNU_ThrowOutOfMemoryError(env, "Initiblizbtion of SurfbceDbtb fbiled.");
         return;
     }
     bisdo->sdOps.Lock = BufImg_Lock;
-    bisdo->sdOps.GetRasInfo = BufImg_GetRasInfo;
-    bisdo->sdOps.Release = BufImg_Release;
+    bisdo->sdOps.GetRbsInfo = BufImg_GetRbsInfo;
+    bisdo->sdOps.Relebse = BufImg_Relebse;
     bisdo->sdOps.Unlock = NULL;
     bisdo->sdOps.Dispose = BufImg_Dispose;
-    bisdo->array = (*env)->NewWeakGlobalRef(env, array);
+    bisdo->brrby = (*env)->NewWebkGlobblRef(env, brrby);
     JNU_CHECK_EXCEPTION(env);
     bisdo->offset = offset;
     bisdo->bitoffset = bitoffset;
-    bisdo->scanStr = scanStr;
+    bisdo->scbnStr = scbnStr;
     bisdo->pixStr = pixStr;
     if (JNU_IsNull(env, icm)) {
-        bisdo->lutarray = NULL;
+        bisdo->lutbrrby = NULL;
         bisdo->lutsize = 0;
         bisdo->icm = NULL;
     } else {
-        jobject lutarray = (*env)->GetObjectField(env, icm, rgbID);
-        bisdo->lutarray = (*env)->NewWeakGlobalRef(env, lutarray);
+        jobject lutbrrby = (*env)->GetObjectField(env, icm, rgbID);
+        bisdo->lutbrrby = (*env)->NewWebkGlobblRef(env, lutbrrby);
         JNU_CHECK_EXCEPTION(env);
-        bisdo->lutsize = (*env)->GetIntField(env, icm, mapSizeID);
-        bisdo->icm = (*env)->NewWeakGlobalRef(env, icm);
+        bisdo->lutsize = (*env)->GetIntField(env, icm, mbpSizeID);
+        bisdo->icm = (*env)->NewWebkGlobblRef(env, icm);
     }
-    bisdo->rasbounds.x1 = 0;
-    bisdo->rasbounds.y1 = 0;
-    bisdo->rasbounds.x2 = width;
-    bisdo->rasbounds.y2 = height;
+    bisdo->rbsbounds.x1 = 0;
+    bisdo->rbsbounds.y1 = 0;
+    bisdo->rbsbounds.x2 = width;
+    bisdo->rbsbounds.y2 = height;
 }
 
 /*
- * Method for disposing native BufImgSD
+ * Method for disposing nbtive BufImgSD
  */
-static void BufImg_Dispose(JNIEnv *env, SurfaceDataOps *ops)
+stbtic void BufImg_Dispose(JNIEnv *env, SurfbceDbtbOps *ops)
 {
-    /* ops is assumed non-null as it is checked in SurfaceData_DisposeOps */
+    /* ops is bssumed non-null bs it is checked in SurfbceDbtb_DisposeOps */
     BufImgSDOps *bisdo = (BufImgSDOps *)ops;
-    (*env)->DeleteWeakGlobalRef(env, bisdo->array);
-    if (bisdo->lutarray != NULL) {
-        (*env)->DeleteWeakGlobalRef(env, bisdo->lutarray);
+    (*env)->DeleteWebkGlobblRef(env, bisdo->brrby);
+    if (bisdo->lutbrrby != NULL) {
+        (*env)->DeleteWebkGlobblRef(env, bisdo->lutbrrby);
     }
     if (bisdo->icm != NULL) {
-        (*env)->DeleteWeakGlobalRef(env, bisdo->icm);
+        (*env)->DeleteWebkGlobblRef(env, bisdo->icm);
     }
 }
 
-static jint BufImg_Lock(JNIEnv *env,
-                        SurfaceDataOps *ops,
-                        SurfaceDataRasInfo *pRasInfo,
-                        jint lockflags)
+stbtic jint BufImg_Lock(JNIEnv *env,
+                        SurfbceDbtbOps *ops,
+                        SurfbceDbtbRbsInfo *pRbsInfo,
+                        jint lockflbgs)
 {
     BufImgSDOps *bisdo = (BufImgSDOps *)ops;
-    BufImgRIPrivate *bipriv = (BufImgRIPrivate *) &(pRasInfo->priv);
+    BufImgRIPrivbte *bipriv = (BufImgRIPrivbte *) &(pRbsInfo->priv);
 
-    if ((lockflags & (SD_LOCK_LUT)) != 0 && JNU_IsNull(env, bisdo->lutarray)) {
-        /* REMIND: Should this be an InvalidPipe exception? */
-        JNU_ThrowNullPointerException(env, "Attempt to lock missing colormap");
+    if ((lockflbgs & (SD_LOCK_LUT)) != 0 && JNU_IsNull(env, bisdo->lutbrrby)) {
+        /* REMIND: Should this be bn InvblidPipe exception? */
+        JNU_ThrowNullPointerException(env, "Attempt to lock missing colormbp");
         return SD_FAILURE;
     }
-    if ((lockflags & SD_LOCK_INVCOLOR) != 0 ||
-        (lockflags & SD_LOCK_INVGRAY) != 0)
+    if ((lockflbgs & SD_LOCK_INVCOLOR) != 0 ||
+        (lockflbgs & SD_LOCK_INVGRAY) != 0)
     {
-        bipriv->cData = BufImg_SetupICM(env, bisdo);
-        if (bipriv->cData == NULL) {
-            (*env)->ExceptionClear(env);
-            JNU_ThrowNullPointerException(env, "Could not initialize inverse tables");
+        bipriv->cDbtb = BufImg_SetupICM(env, bisdo);
+        if (bipriv->cDbtb == NULL) {
+            (*env)->ExceptionClebr(env);
+            JNU_ThrowNullPointerException(env, "Could not initiblize inverse tbbles");
             return SD_FAILURE;
         }
     } else {
-        bipriv->cData = NULL;
+        bipriv->cDbtb = NULL;
     }
 
-    bipriv->lockFlags = lockflags;
-    bipriv->base = NULL;
-    bipriv->lutbase = NULL;
+    bipriv->lockFlbgs = lockflbgs;
+    bipriv->bbse = NULL;
+    bipriv->lutbbse = NULL;
 
-    SurfaceData_IntersectBounds(&pRasInfo->bounds, &bisdo->rasbounds);
+    SurfbceDbtb_IntersectBounds(&pRbsInfo->bounds, &bisdo->rbsbounds);
 
     return SD_SUCCESS;
 }
 
-static void BufImg_GetRasInfo(JNIEnv *env,
-                              SurfaceDataOps *ops,
-                              SurfaceDataRasInfo *pRasInfo)
+stbtic void BufImg_GetRbsInfo(JNIEnv *env,
+                              SurfbceDbtbOps *ops,
+                              SurfbceDbtbRbsInfo *pRbsInfo)
 {
     BufImgSDOps *bisdo = (BufImgSDOps *)ops;
-    BufImgRIPrivate *bipriv = (BufImgRIPrivate *) &(pRasInfo->priv);
+    BufImgRIPrivbte *bipriv = (BufImgRIPrivbte *) &(pRbsInfo->priv);
 
-    if ((bipriv->lockFlags & (SD_LOCK_RD_WR)) != 0) {
-        bipriv->base =
-            (*env)->GetPrimitiveArrayCritical(env, bisdo->array, NULL);
-        CHECK_NULL(bipriv->base);
+    if ((bipriv->lockFlbgs & (SD_LOCK_RD_WR)) != 0) {
+        bipriv->bbse =
+            (*env)->GetPrimitiveArrbyCriticbl(env, bisdo->brrby, NULL);
+        CHECK_NULL(bipriv->bbse);
     }
-    if ((bipriv->lockFlags & (SD_LOCK_LUT)) != 0) {
-        bipriv->lutbase =
-            (*env)->GetPrimitiveArrayCritical(env, bisdo->lutarray, NULL);
+    if ((bipriv->lockFlbgs & (SD_LOCK_LUT)) != 0) {
+        bipriv->lutbbse =
+            (*env)->GetPrimitiveArrbyCriticbl(env, bisdo->lutbrrby, NULL);
     }
 
-    if (bipriv->base == NULL) {
-        pRasInfo->rasBase = NULL;
-        pRasInfo->pixelStride = 0;
-        pRasInfo->pixelBitOffset = 0;
-        pRasInfo->scanStride = 0;
+    if (bipriv->bbse == NULL) {
+        pRbsInfo->rbsBbse = NULL;
+        pRbsInfo->pixelStride = 0;
+        pRbsInfo->pixelBitOffset = 0;
+        pRbsInfo->scbnStride = 0;
     } else {
-        pRasInfo->rasBase = (void *)
-            (((uintptr_t) bipriv->base) + bisdo->offset);
-        pRasInfo->pixelStride = bisdo->pixStr;
-        pRasInfo->pixelBitOffset = bisdo->bitoffset;
-        pRasInfo->scanStride = bisdo->scanStr;
+        pRbsInfo->rbsBbse = (void *)
+            (((uintptr_t) bipriv->bbse) + bisdo->offset);
+        pRbsInfo->pixelStride = bisdo->pixStr;
+        pRbsInfo->pixelBitOffset = bisdo->bitoffset;
+        pRbsInfo->scbnStride = bisdo->scbnStr;
     }
-    if (bipriv->lutbase == NULL) {
-        pRasInfo->lutBase = NULL;
-        pRasInfo->lutSize = 0;
+    if (bipriv->lutbbse == NULL) {
+        pRbsInfo->lutBbse = NULL;
+        pRbsInfo->lutSize = 0;
     } else {
-        pRasInfo->lutBase = bipriv->lutbase;
-        pRasInfo->lutSize = bisdo->lutsize;
+        pRbsInfo->lutBbse = bipriv->lutbbse;
+        pRbsInfo->lutSize = bisdo->lutsize;
     }
-    if (bipriv->cData == NULL) {
-        pRasInfo->invColorTable = NULL;
-        pRasInfo->redErrTable = NULL;
-        pRasInfo->grnErrTable = NULL;
-        pRasInfo->bluErrTable = NULL;
+    if (bipriv->cDbtb == NULL) {
+        pRbsInfo->invColorTbble = NULL;
+        pRbsInfo->redErrTbble = NULL;
+        pRbsInfo->grnErrTbble = NULL;
+        pRbsInfo->bluErrTbble = NULL;
     } else {
-        pRasInfo->invColorTable = bipriv->cData->img_clr_tbl;
-        pRasInfo->redErrTable = bipriv->cData->img_oda_red;
-        pRasInfo->grnErrTable = bipriv->cData->img_oda_green;
-        pRasInfo->bluErrTable = bipriv->cData->img_oda_blue;
-        pRasInfo->invGrayTable = bipriv->cData->pGrayInverseLutData;
+        pRbsInfo->invColorTbble = bipriv->cDbtb->img_clr_tbl;
+        pRbsInfo->redErrTbble = bipriv->cDbtb->img_odb_red;
+        pRbsInfo->grnErrTbble = bipriv->cDbtb->img_odb_green;
+        pRbsInfo->bluErrTbble = bipriv->cDbtb->img_odb_blue;
+        pRbsInfo->invGrbyTbble = bipriv->cDbtb->pGrbyInverseLutDbtb;
     }
 }
 
-static void BufImg_Release(JNIEnv *env,
-                           SurfaceDataOps *ops,
-                           SurfaceDataRasInfo *pRasInfo)
+stbtic void BufImg_Relebse(JNIEnv *env,
+                           SurfbceDbtbOps *ops,
+                           SurfbceDbtbRbsInfo *pRbsInfo)
 {
     BufImgSDOps *bisdo = (BufImgSDOps *)ops;
-    BufImgRIPrivate *bipriv = (BufImgRIPrivate *) &(pRasInfo->priv);
+    BufImgRIPrivbte *bipriv = (BufImgRIPrivbte *) &(pRbsInfo->priv);
 
-    if (bipriv->base != NULL) {
-        jint mode = (((bipriv->lockFlags & (SD_LOCK_WRITE)) != 0)
+    if (bipriv->bbse != NULL) {
+        jint mode = (((bipriv->lockFlbgs & (SD_LOCK_WRITE)) != 0)
                      ? 0 : JNI_ABORT);
-        (*env)->ReleasePrimitiveArrayCritical(env, bisdo->array,
-                                              bipriv->base, mode);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, bisdo->brrby,
+                                              bipriv->bbse, mode);
     }
-    if (bipriv->lutbase != NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, bisdo->lutarray,
-                                              bipriv->lutbase, JNI_ABORT);
+    if (bipriv->lutbbse != NULL) {
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, bisdo->lutbrrby,
+                                              bipriv->lutbbse, JNI_ABORT);
     }
 }
 
-static ColorData *BufImg_SetupICM(JNIEnv *env,
+stbtic ColorDbtb *BufImg_SetupICM(JNIEnv *env,
                                   BufImgSDOps *bisdo)
 {
-    ColorData *cData = NULL;
-    jobject colorData;
+    ColorDbtb *cDbtb = NULL;
+    jobject colorDbtb;
 
     if (JNU_IsNull(env, bisdo->icm)) {
-        return (ColorData *) NULL;
+        return (ColorDbtb *) NULL;
     }
 
-    colorData = (*env)->GetObjectField(env, bisdo->icm, colorDataID);
+    colorDbtb = (*env)->GetObjectField(env, bisdo->icm, colorDbtbID);
 
-    if (JNU_IsNull(env, colorData)) {
+    if (JNU_IsNull(env, colorDbtb)) {
         if (JNU_IsNull(env, clsICMCD)) {
-            // we are unable to create a wrapper object
-            return (ColorData*)NULL;
+            // we bre unbble to crebte b wrbpper object
+            return (ColorDbtb*)NULL;
         }
     } else {
-        cData = (ColorData*)JNU_GetLongFieldAsPtr(env, colorData, pDataID);
+        cDbtb = (ColorDbtb*)JNU_GetLongFieldAsPtr(env, colorDbtb, pDbtbID);
     }
 
-    if (cData != NULL) {
-        return cData;
+    if (cDbtb != NULL) {
+        return cDbtb;
     }
 
-    cData = (ColorData*)calloc(1, sizeof(ColorData));
+    cDbtb = (ColorDbtb*)cblloc(1, sizeof(ColorDbtb));
 
-    if (cData != NULL) {
-        jboolean allGray
-            = (*env)->GetBooleanField(env, bisdo->icm, allGrayID);
+    if (cDbtb != NULL) {
+        jboolebn bllGrby
+            = (*env)->GetBoolebnField(env, bisdo->icm, bllGrbyID);
         int *pRgb = (int *)
-            ((*env)->GetPrimitiveArrayCritical(env, bisdo->lutarray, NULL));
-        CHECK_NULL_RETURN(pRgb, (ColorData*)NULL);
-        cData->img_clr_tbl = initCubemap(pRgb, bisdo->lutsize, 32);
-        if (allGray == JNI_TRUE) {
-            initInverseGrayLut(pRgb, bisdo->lutsize, cData);
+            ((*env)->GetPrimitiveArrbyCriticbl(env, bisdo->lutbrrby, NULL));
+        CHECK_NULL_RETURN(pRgb, (ColorDbtb*)NULL);
+        cDbtb->img_clr_tbl = initCubembp(pRgb, bisdo->lutsize, 32);
+        if (bllGrby == JNI_TRUE) {
+            initInverseGrbyLut(pRgb, bisdo->lutsize, cDbtb);
         }
-        (*env)->ReleasePrimitiveArrayCritical(env, bisdo->lutarray, pRgb,
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, bisdo->lutbrrby, pRgb,
                                               JNI_ABORT);
 
-        initDitherTables(cData);
+        initDitherTbbles(cDbtb);
 
-        if (JNU_IsNull(env, colorData)) {
-            jlong pData = ptr_to_jlong(cData);
-            colorData = (*env)->NewObjectA(env, clsICMCD, initICMCDmID, (jvalue *)&pData);
-            JNU_CHECK_EXCEPTION_RETURN(env, (ColorData*)NULL);
-            (*env)->SetObjectField(env, bisdo->icm, colorDataID, colorData);
+        if (JNU_IsNull(env, colorDbtb)) {
+            jlong pDbtb = ptr_to_jlong(cDbtb);
+            colorDbtb = (*env)->NewObjectA(env, clsICMCD, initICMCDmID, (jvblue *)&pDbtb);
+            JNU_CHECK_EXCEPTION_RETURN(env, (ColorDbtb*)NULL);
+            (*env)->SetObjectField(env, bisdo->icm, colorDbtbID, colorDbtb);
         }
     }
 
-    return cData;
+    return cDbtb;
 }

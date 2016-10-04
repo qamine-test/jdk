@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import sun.util.logging.PlbtformLogger;
 
-class XWINProtocol extends XProtocol implements XStateProtocol, XLayerProtocol {
-    final static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XWINProtocol");
+clbss XWINProtocol extends XProtocol implements XStbteProtocol, XLbyerProtocol {
+    finbl stbtic PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XWINProtocol");
 
 /* Gnome WM spec  */
     XAtom XA_WIN_SUPPORTING_WM_CHECK = XAtom.get("_WIN_SUPPORTING_WM_CHECK");
     XAtom XA_WIN_PROTOCOLS = XAtom.get("_WIN_PROTOCOLS");
     XAtom XA_WIN_STATE = XAtom.get("_WIN_STATE");
 
-    public boolean supportsState(int state) {
-        return doStateProtocol();   // TODO - check for Frame constants
+    public boolebn supportsStbte(int stbte) {
+        return doStbteProtocol();   // TODO - check for Frbme constbnts
     }
 
-    public void setState(XWindowPeer window, int state) {
+    public void setStbte(XWindowPeer window, int stbte) {
         if (window.isShowing()) {
             /*
-             * Request state transition from a Gnome WM (_WIN protocol) by sending
-             * _WIN_STATE ClientMessage to root window.
+             * Request stbte trbnsition from b Gnome WM (_WIN protocol) by sending
+             * _WIN_STATE ClientMessbge to root window.
              */
-            long win_state = 0;
+            long win_stbte = 0;
 
-            if ( (state & Frame.MAXIMIZED_VERT) != 0) {
-                win_state |= WIN_STATE_MAXIMIZED_VERT;
+            if ( (stbte & Frbme.MAXIMIZED_VERT) != 0) {
+                win_stbte |= WIN_STATE_MAXIMIZED_VERT;
             }
-            if ( (state & Frame.MAXIMIZED_HORIZ) != 0) {
-                win_state |= WIN_STATE_MAXIMIZED_HORIZ;
+            if ( (stbte & Frbme.MAXIMIZED_HORIZ) != 0) {
+                win_stbte |= WIN_STATE_MAXIMIZED_HORIZ;
             }
 
-            XClientMessageEvent req = new XClientMessageEvent();
-            req.set_type(XConstants.ClientMessage);
+            XClientMessbgeEvent req = new XClientMessbgeEvent();
+            req.set_type(XConstbnts.ClientMessbge);
             req.set_window(window.getWindow());
-            req.set_message_type(XA_WIN_STATE.getAtom());
-            req.set_format(32);
-            req.set_data(0, (WIN_STATE_MAXIMIZED_HORIZ | WIN_STATE_MAXIMIZED_VERT));
-            req.set_data(1, win_state);
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("Sending WIN_STATE to root to change the state to " + win_state);
+            req.set_messbge_type(XA_WIN_STATE.getAtom());
+            req.set_formbt(32);
+            req.set_dbtb(0, (WIN_STATE_MAXIMIZED_HORIZ | WIN_STATE_MAXIMIZED_VERT));
+            req.set_dbtb(1, win_stbte);
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                log.fine("Sending WIN_STATE to root to chbnge the stbte to " + win_stbte);
             }
             try {
-                XToolkit.awtLock();
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(),
-                        XlibWrapper.RootWindow(XToolkit.getDisplay(),
+                XToolkit.bwtLock();
+                XlibWrbpper.XSendEvent(XToolkit.getDisplby(),
+                        XlibWrbpper.RootWindow(XToolkit.getDisplby(),
                             window.getScreenNumber()),
-                        false,
-                        XConstants.SubstructureRedirectMask | XConstants.SubstructureNotifyMask,
-                        req.pData);
+                        fblse,
+                        XConstbnts.SubstructureRedirectMbsk | XConstbnts.SubstructureNotifyMbsk,
+                        req.pDbtb);
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlock();
             }
             req.dispose();
         } else {
             /*
-             * Specify initial state for a Gnome WM (_WIN protocol) by setting
-             * WIN_STATE property on the window to the desired state before
-             * mapping it.
+             * Specify initibl stbte for b Gnome WM (_WIN protocol) by setting
+             * WIN_STATE property on the window to the desired stbte before
+             * mbpping it.
              */
-            /* Be careful to not wipe out state bits we don't understand */
-            long win_state = XA_WIN_STATE.getCard32Property(window);
-            long old_win_state = win_state;
+            /* Be cbreful to not wipe out stbte bits we don't understbnd */
+            long win_stbte = XA_WIN_STATE.getCbrd32Property(window);
+            long old_win_stbte = win_stbte;
 
             /*
              * In their stupid quest of reinventing every wheel, Gnome WM spec
-             * have its own "minimized" hint (instead of using initial state
-             * and WM_STATE hints).  This is bogus, but, apparently, some WMs
-             * pay attention.
+             * hbve its own "minimized" hint (instebd of using initibl stbte
+             * bnd WM_STATE hints).  This is bogus, but, bppbrently, some WMs
+             * pby bttention.
              */
-            if ((state & Frame.ICONIFIED) != 0) {
-                win_state |= WIN_STATE_MINIMIZED;
+            if ((stbte & Frbme.ICONIFIED) != 0) {
+                win_stbte |= WIN_STATE_MINIMIZED;
             } else {
-                win_state &= ~WIN_STATE_MINIMIZED;
+                win_stbte &= ~WIN_STATE_MINIMIZED;
             }
 
-            if ((state & Frame.MAXIMIZED_VERT) != 0) {
-                win_state |= WIN_STATE_MAXIMIZED_VERT;
+            if ((stbte & Frbme.MAXIMIZED_VERT) != 0) {
+                win_stbte |= WIN_STATE_MAXIMIZED_VERT;
             } else {
-                win_state &= ~WIN_STATE_MAXIMIZED_VERT;
+                win_stbte &= ~WIN_STATE_MAXIMIZED_VERT;
             }
 
-            if ((state & Frame.MAXIMIZED_HORIZ) != 0) {
-                win_state |= WIN_STATE_MAXIMIZED_HORIZ;
+            if ((stbte & Frbme.MAXIMIZED_HORIZ) != 0) {
+                win_stbte |= WIN_STATE_MAXIMIZED_HORIZ;
             } else {
-                win_state &= ~WIN_STATE_MAXIMIZED_HORIZ;
+                win_stbte &= ~WIN_STATE_MAXIMIZED_HORIZ;
             }
-            if ((old_win_state ^ win_state) != 0) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("Setting WIN_STATE on " + window + " to change the state to " + win_state);
+            if ((old_win_stbte ^ win_stbte) != 0) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("Setting WIN_STATE on " + window + " to chbnge the stbte to " + win_stbte);
                 }
-                XA_WIN_STATE.setCard32Property(window, win_state);
+                XA_WIN_STATE.setCbrd32Property(window, win_stbte);
             }
         }
     }
 
-    public int getState(XWindowPeer window) {
-        long win_state = XA_WIN_STATE.getCard32Property(window);
-        int java_state = Frame.NORMAL;
-        if ((win_state & WIN_STATE_MAXIMIZED_VERT) != 0) {
-            java_state |= Frame.MAXIMIZED_VERT;
+    public int getStbte(XWindowPeer window) {
+        long win_stbte = XA_WIN_STATE.getCbrd32Property(window);
+        int jbvb_stbte = Frbme.NORMAL;
+        if ((win_stbte & WIN_STATE_MAXIMIZED_VERT) != 0) {
+            jbvb_stbte |= Frbme.MAXIMIZED_VERT;
         }
-        if ((win_state & WIN_STATE_MAXIMIZED_HORIZ) != 0) {
-            java_state |= Frame.MAXIMIZED_HORIZ;
+        if ((win_stbte & WIN_STATE_MAXIMIZED_HORIZ) != 0) {
+            jbvb_stbte |= Frbme.MAXIMIZED_HORIZ;
         }
-        return java_state;
+        return jbvb_stbte;
     }
 
-    public boolean isStateChange(XPropertyEvent e) {
-        return doStateProtocol() && e.get_atom() == XA_WIN_STATE.getAtom();
+    public boolebn isStbteChbnge(XPropertyEvent e) {
+        return doStbteProtocol() && e.get_btom() == XA_WIN_STATE.getAtom();
     }
 
-    public void unshadeKludge(XWindowPeer window) {
-        long win_state = XA_WIN_STATE.getCard32Property(window);
-        if ((win_state & WIN_STATE_SHADED) == 0) {
+    public void unshbdeKludge(XWindowPeer window) {
+        long win_stbte = XA_WIN_STATE.getCbrd32Property(window);
+        if ((win_stbte & WIN_STATE_SHADED) == 0) {
             return;
         }
-        win_state &= ~WIN_STATE_SHADED;
-        XA_WIN_STATE.setCard32Property(window, win_state);
+        win_stbte &= ~WIN_STATE_SHADED;
+        XA_WIN_STATE.setCbrd32Property(window, win_stbte);
     }
 
-    public boolean supportsLayer(int layer) {
-        return ((layer == LAYER_ALWAYS_ON_TOP) || (layer == LAYER_NORMAL)) && doLayerProtocol();
+    public boolebn supportsLbyer(int lbyer) {
+        return ((lbyer == LAYER_ALWAYS_ON_TOP) || (lbyer == LAYER_NORMAL)) && doLbyerProtocol();
     }
 
-    public void setLayer(XWindowPeer window, int layer) {
+    public void setLbyer(XWindowPeer window, int lbyer) {
         if (window.isShowing()) {
-            XClientMessageEvent req = new XClientMessageEvent();
-            req.set_type(XConstants.ClientMessage);
+            XClientMessbgeEvent req = new XClientMessbgeEvent();
+            req.set_type(XConstbnts.ClientMessbge);
             req.set_window(window.getWindow());
-            req.set_message_type(XA_WIN_LAYER.getAtom());
-            req.set_format(32);
-            req.set_data(0, layer == LAYER_NORMAL ? WIN_LAYER_NORMAL : WIN_LAYER_ONTOP);
-            req.set_data(1, 0);
-            req.set_data(2, 0);
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("Setting layer " + layer + " by root message : " + req);
+            req.set_messbge_type(XA_WIN_LAYER.getAtom());
+            req.set_formbt(32);
+            req.set_dbtb(0, lbyer == LAYER_NORMAL ? WIN_LAYER_NORMAL : WIN_LAYER_ONTOP);
+            req.set_dbtb(1, 0);
+            req.set_dbtb(2, 0);
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                log.fine("Setting lbyer " + lbyer + " by root messbge : " + req);
             }
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(),
-                        XlibWrapper.RootWindow(XToolkit.getDisplay(),
+                XlibWrbpper.XSendEvent(XToolkit.getDisplby(),
+                        XlibWrbpper.RootWindow(XToolkit.getDisplby(),
                             window.getScreenNumber()),
-                        false,
-                        /*XConstants.SubstructureRedirectMask | */XConstants.SubstructureNotifyMask,
-                        req.pData);
+                        fblse,
+                        /*XConstbnts.SubstructureRedirectMbsk | */XConstbnts.SubstructureNotifyMbsk,
+                        req.pDbtb);
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlock();
             }
             req.dispose();
         } else {
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("Setting layer property to " + layer);
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                log.fine("Setting lbyer property to " + lbyer);
             }
-            XA_WIN_LAYER.setCard32Property(window, layer == LAYER_NORMAL ? WIN_LAYER_NORMAL : WIN_LAYER_ONTOP);
+            XA_WIN_LAYER.setCbrd32Property(window, lbyer == LAYER_NORMAL ? WIN_LAYER_NORMAL : WIN_LAYER_ONTOP);
         }
     }
 
     XAtom XA_WIN_LAYER = XAtom.get("_WIN_LAYER");
 
 /* _WIN_STATE bits */
-    final static int WIN_STATE_STICKY          =(1<<0); /* everyone knows sticky            */
-    final static int WIN_STATE_MINIMIZED       =(1<<1); /* Reserved - definition is unclear */
-    final static int WIN_STATE_MAXIMIZED_VERT  =(1<<2); /* window in maximized V state      */
-    final static int WIN_STATE_MAXIMIZED_HORIZ =(1<<3); /* window in maximized H state      */
-    final static int WIN_STATE_HIDDEN          =(1<<4); /* not on taskbar but window visible*/
-    final static int WIN_STATE_SHADED          =(1<<5); /* shaded (MacOS / Afterstep style) */
-/* _WIN_LAYER values */
-    final static int WIN_LAYER_ONTOP = 6;
-    final static int WIN_LAYER_NORMAL = 4;
+    finbl stbtic int WIN_STATE_STICKY          =(1<<0); /* everyone knows sticky            */
+    finbl stbtic int WIN_STATE_MINIMIZED       =(1<<1); /* Reserved - definition is unclebr */
+    finbl stbtic int WIN_STATE_MAXIMIZED_VERT  =(1<<2); /* window in mbximized V stbte      */
+    finbl stbtic int WIN_STATE_MAXIMIZED_HORIZ =(1<<3); /* window in mbximized H stbte      */
+    finbl stbtic int WIN_STATE_HIDDEN          =(1<<4); /* not on tbskbbr but window visible*/
+    finbl stbtic int WIN_STATE_SHADED          =(1<<5); /* shbded (MbcOS / Afterstep style) */
+/* _WIN_LAYER vblues */
+    finbl stbtic int WIN_LAYER_ONTOP = 6;
+    finbl stbtic int WIN_LAYER_NORMAL = 4;
 
     long WinWindow = 0;
-    boolean supportChecked = false;
+    boolebn supportChecked = fblse;
     void detect() {
         if (supportChecked) {
             return;
         }
         WinWindow = checkAnchor(XA_WIN_SUPPORTING_WM_CHECK, XAtom.XA_CARDINAL);
         supportChecked = true;
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("### " + this + " is active: " + (WinWindow != 0));
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("### " + this + " is bctive: " + (WinWindow != 0));
         }
     }
 
-    boolean active() {
+    boolebn bctive() {
         detect();
         return WinWindow != 0;
     }
-    boolean doStateProtocol() {
-        boolean res = active() && checkProtocol(XA_WIN_PROTOCOLS, XA_WIN_STATE);
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("### " + this + " supports state: " + res);
+    boolebn doStbteProtocol() {
+        boolebn res = bctive() && checkProtocol(XA_WIN_PROTOCOLS, XA_WIN_STATE);
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("### " + this + " supports stbte: " + res);
         }
         return res;
     }
 
-    boolean doLayerProtocol() {
-        boolean res = active() && checkProtocol(XA_WIN_PROTOCOLS, XA_WIN_LAYER);
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("### " + this + " supports layer: " + res);
+    boolebn doLbyerProtocol() {
+        boolebn res = bctive() && checkProtocol(XA_WIN_PROTOCOLS, XA_WIN_LAYER);
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("### " + this + " supports lbyer: " + res);
         }
         return res;
     }

@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport.proxy;
+pbckbge sun.rmi.trbnsport.proxy;
 
-import java.io.*;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.*;
+import jbvb.net.InetAddress;
+import jbvb.net.Socket;
+import jbvb.net.SocketException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * The WrappedSocket class provides a general wrapper for providing an
- * extended implementation of java.net.Socket that can be attached to
- * a pre-existing Socket object.  WrappedSocket itself provides a
- * constructor for specifying alternate input or output streams to be
- * returned than those of the underlying Socket.
+ * The WrbppedSocket clbss provides b generbl wrbpper for providing bn
+ * extended implementbtion of jbvb.net.Socket thbt cbn be bttbched to
+ * b pre-existing Socket object.  WrbppedSocket itself provides b
+ * constructor for specifying blternbte input or output strebms to be
+ * returned thbn those of the underlying Socket.
  */
-class WrappedSocket extends Socket {
+clbss WrbppedSocket extends Socket {
 
     /** the underlying concrete socket */
     protected Socket socket;
 
-    /** the input stream to return for socket */
-    protected InputStream in = null;
+    /** the input strebm to return for socket */
+    protected InputStrebm in = null;
 
-    /** the output stream to return for socket */
-    protected OutputStream out = null;
+    /** the output strebm to return for socket */
+    protected OutputStrebm out = null;
 
     /**
-     * Layer on top of a pre-existing Socket object, and use specified
-     * input and output streams.  This allows the creator of the
-     * underlying socket to peek at the beginning of the input with a
-     * BufferedInputStream and determine which kind of socket
-     * to create, without consuming the input.
-     * @param socket the pre-existing socket to use
-     * @param in the InputStream to return to users (can be null)
-     * @param out the OutputStream to return to users (can be null)
+     * Lbyer on top of b pre-existing Socket object, bnd use specified
+     * input bnd output strebms.  This bllows the crebtor of the
+     * underlying socket to peek bt the beginning of the input with b
+     * BufferedInputStrebm bnd determine which kind of socket
+     * to crebte, without consuming the input.
+     * @pbrbm socket the pre-existing socket to use
+     * @pbrbm in the InputStrebm to return to users (cbn be null)
+     * @pbrbm out the OutputStrebm to return to users (cbn be null)
      */
-    public WrappedSocket(Socket socket, InputStream in, OutputStream out)
+    public WrbppedSocket(Socket socket, InputStrebm in, OutputStrebm out)
         throws IOException
     {
-        super((java.net.SocketImpl)null);       // no underlying SocketImpl for this object
+        super((jbvb.net.SocketImpl)null);       // no underlying SocketImpl for this object
         this.socket = socket;
         this.in = in;
         this.out = out;
     }
 
     /**
-     * Get the address to which the socket is connected.
+     * Get the bddress to which the socket is connected.
      */
     public InetAddress getInetAddress()
     {
@@ -77,14 +77,14 @@ class WrappedSocket extends Socket {
     }
 
     /**
-     * Get the local address to which the socket is bound.
+     * Get the locbl bddress to which the socket is bound.
      */
-    public InetAddress getLocalAddress() {
+    public InetAddress getLocblAddress() {
         return  AccessController.doPrivileged(
                         new PrivilegedAction<InetAddress>() {
                             @Override
                             public InetAddress run() {
-                                return socket.getLocalAddress();
+                                return socket.getLocblAddress();
 
                             }
                         });
@@ -99,55 +99,55 @@ class WrappedSocket extends Socket {
     }
 
     /**
-     * Get the local port to which the socket is connected.
+     * Get the locbl port to which the socket is connected.
      */
-    public int getLocalPort()
+    public int getLocblPort()
     {
-        return socket.getLocalPort();
+        return socket.getLocblPort();
     }
 
     /**
-     * Get an InputStream for this socket.
+     * Get bn InputStrebm for this socket.
      */
-    public InputStream getInputStream() throws IOException
+    public InputStrebm getInputStrebm() throws IOException
     {
         if (in == null)
-            in = socket.getInputStream();
+            in = socket.getInputStrebm();
         return in;
     }
 
     /**
-     * Get an OutputStream for this socket.
+     * Get bn OutputStrebm for this socket.
      */
-    public OutputStream getOutputStream() throws IOException
+    public OutputStrebm getOutputStrebm() throws IOException
     {
         if (out == null)
-            out = socket.getOutputStream();
+            out = socket.getOutputStrebm();
         return out;
     }
 
     /**
-     * Enable/disable TCP_NODELAY.
+     * Enbble/disbble TCP_NODELAY.
      */
-    public void setTcpNoDelay(boolean on) throws SocketException
+    public void setTcpNoDelby(boolebn on) throws SocketException
     {
-        socket.setTcpNoDelay(on);
+        socket.setTcpNoDelby(on);
     }
 
     /**
-     * Retrieve whether TCP_NODELAY is enabled.
+     * Retrieve whether TCP_NODELAY is enbbled.
      */
-    public boolean getTcpNoDelay() throws SocketException
+    public boolebn getTcpNoDelby() throws SocketException
     {
-        return socket.getTcpNoDelay();
+        return socket.getTcpNoDelby();
     }
 
     /**
-     * Enable/disable SO_LINGER with the specified linger time.
+     * Enbble/disbble SO_LINGER with the specified linger time.
      */
-    public void setSoLinger(boolean on, int val) throws SocketException
+    public void setSoLinger(boolebn on, int vbl) throws SocketException
     {
-        socket.setSoLinger(on, val);
+        socket.setSoLinger(on, vbl);
     }
 
     /**
@@ -159,7 +159,7 @@ class WrappedSocket extends Socket {
     }
 
     /**
-     * Enable/disable SO_TIMEOUT with the specified timeout
+     * Enbble/disbble SO_TIMEOUT with the specified timeout
      */
     public synchronized void setSoTimeout(int timeout) throws SocketException
     {
@@ -183,10 +183,10 @@ class WrappedSocket extends Socket {
     }
 
     /**
-     * Return string representation of the socket.
+     * Return string representbtion of the socket.
      */
     public String toString()
     {
-        return "Wrapped" + socket.toString();
+        return "Wrbpped" + socket.toString();
     }
 }

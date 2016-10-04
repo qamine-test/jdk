@@ -1,1137 +1,1137 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset;
+pbckbge jbvbx.sql.rowset;
 
-import java.sql.*;
-import javax.sql.*;
-import javax.naming.*;
-import java.io.*;
-import java.math.*;
-import java.util.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+import jbvb.util.*;
 
-import javax.sql.rowset.spi.*;
+import jbvbx.sql.rowset.spi.*;
 
 /**
- * The interface that all standard implementations of
- * <code>CachedRowSet</code> must implement.
+ * The interfbce thbt bll stbndbrd implementbtions of
+ * <code>CbchedRowSet</code> must implement.
  * <P>
- * The reference implementation of the <code>CachedRowSet</code> interface provided
- * by Oracle Corporation is a standard implementation. Developers may use this implementation
- * just as it is, they may extend it, or they may choose to write their own implementations
- * of this interface.
+ * The reference implementbtion of the <code>CbchedRowSet</code> interfbce provided
+ * by Orbcle Corporbtion is b stbndbrd implementbtion. Developers mby use this implementbtion
+ * just bs it is, they mby extend it, or they mby choose to write their own implementbtions
+ * of this interfbce.
  * <P>
- * A <code>CachedRowSet</code> object is a container for rows of data
- * that caches its rows in memory, which makes it possible to operate without always being
- * connected to its data source. Further, it is a
- * JavaBeans&trade; component and is scrollable,
- * updatable, and serializable. A <code>CachedRowSet</code> object typically
- * contains rows from a result set, but it can also contain rows from any file
- * with a tabular format, such as a spread sheet.  The reference implementation
- * supports getting data only from a <code>ResultSet</code> object, but
- * developers can extend the <code>SyncProvider</code> implementations to provide
- * access to other tabular data sources.
+ * A <code>CbchedRowSet</code> object is b contbiner for rows of dbtb
+ * thbt cbches its rows in memory, which mbkes it possible to operbte without blwbys being
+ * connected to its dbtb source. Further, it is b
+ * JbvbBebns&trbde; component bnd is scrollbble,
+ * updbtbble, bnd seriblizbble. A <code>CbchedRowSet</code> object typicblly
+ * contbins rows from b result set, but it cbn blso contbin rows from bny file
+ * with b tbbulbr formbt, such bs b sprebd sheet.  The reference implementbtion
+ * supports getting dbtb only from b <code>ResultSet</code> object, but
+ * developers cbn extend the <code>SyncProvider</code> implementbtions to provide
+ * bccess to other tbbulbr dbtb sources.
  * <P>
- * An application can modify the data in a <code>CachedRowSet</code> object, and
- * those modifications can then be propagated back to the source of the data.
+ * An bpplicbtion cbn modify the dbtb in b <code>CbchedRowSet</code> object, bnd
+ * those modificbtions cbn then be propbgbted bbck to the source of the dbtb.
  * <P>
- * A <code>CachedRowSet</code> object is a <i>disconnected</i> rowset, which means
- * that it makes use of a connection to its data source only briefly. It connects to its
- * data source while it is reading data to populate itself with rows and again
- * while it is propagating changes back to its underlying data source. The rest
- * of the time, a <code>CachedRowSet</code> object is disconnected, including
- * while its data is being modified. Being disconnected makes a <code>RowSet</code>
- * object much leaner and therefore much easier to pass to another component.  For
- * example, a disconnected <code>RowSet</code> object can be serialized and passed
- * over the wire to a thin client such as a personal digital assistant (PDA).
+ * A <code>CbchedRowSet</code> object is b <i>disconnected</i> rowset, which mebns
+ * thbt it mbkes use of b connection to its dbtb source only briefly. It connects to its
+ * dbtb source while it is rebding dbtb to populbte itself with rows bnd bgbin
+ * while it is propbgbting chbnges bbck to its underlying dbtb source. The rest
+ * of the time, b <code>CbchedRowSet</code> object is disconnected, including
+ * while its dbtb is being modified. Being disconnected mbkes b <code>RowSet</code>
+ * object much lebner bnd therefore much ebsier to pbss to bnother component.  For
+ * exbmple, b disconnected <code>RowSet</code> object cbn be seriblized bnd pbssed
+ * over the wire to b thin client such bs b personbl digitbl bssistbnt (PDA).
  *
  *
- * <h3>1.0 Creating a <code>CachedRowSet</code> Object</h3>
- * The following line of code uses the default constructor for
- * <code>CachedRowSet</code>
- * supplied in the reference implementation (RI) to create a default
- * <code>CachedRowSet</code> object.
+ * <h3>1.0 Crebting b <code>CbchedRowSet</code> Object</h3>
+ * The following line of code uses the defbult constructor for
+ * <code>CbchedRowSet</code>
+ * supplied in the reference implementbtion (RI) to crebte b defbult
+ * <code>CbchedRowSet</code> object.
  * <PRE>
- *     CachedRowSetImpl crs = new CachedRowSetImpl();
+ *     CbchedRowSetImpl crs = new CbchedRowSetImpl();
  * </PRE>
- * This new <code>CachedRowSet</code> object will have its properties set to the
- * default properties of a <code>BaseRowSet</code> object, and, in addition, it will
- * have an <code>RIOptimisticProvider</code> object as its synchronization provider.
+ * This new <code>CbchedRowSet</code> object will hbve its properties set to the
+ * defbult properties of b <code>BbseRowSet</code> object, bnd, in bddition, it will
+ * hbve bn <code>RIOptimisticProvider</code> object bs its synchronizbtion provider.
  * <code>RIOptimisticProvider</code>, one of two <code>SyncProvider</code>
- * implementations included in the RI, is the default provider that the
- * <code>SyncFactory</code> singleton will supply when no synchronization
+ * implementbtions included in the RI, is the defbult provider thbt the
+ * <code>SyncFbctory</code> singleton will supply when no synchronizbtion
  * provider is specified.
  * <P>
- * A <code>SyncProvider</code> object provides a <code>CachedRowSet</code> object
- * with a reader (a <code>RowSetReader</code> object) for reading data from a
- * data source to populate itself with data. A reader can be implemented to read
- * data from a <code>ResultSet</code> object or from a file with a tabular format.
- * A <code>SyncProvider</code> object also provides
- * a writer (a <code>RowSetWriter</code> object) for synchronizing any
- * modifications to the <code>CachedRowSet</code> object's data made while it was
- * disconnected with the data in the underlying data source.
+ * A <code>SyncProvider</code> object provides b <code>CbchedRowSet</code> object
+ * with b rebder (b <code>RowSetRebder</code> object) for rebding dbtb from b
+ * dbtb source to populbte itself with dbtb. A rebder cbn be implemented to rebd
+ * dbtb from b <code>ResultSet</code> object or from b file with b tbbulbr formbt.
+ * A <code>SyncProvider</code> object blso provides
+ * b writer (b <code>RowSetWriter</code> object) for synchronizing bny
+ * modificbtions to the <code>CbchedRowSet</code> object's dbtb mbde while it wbs
+ * disconnected with the dbtb in the underlying dbtb source.
  * <P>
- * A writer can be implemented to exercise various degrees of care in checking
- * for conflicts and in avoiding them.
- * (A conflict occurs when a value in the data source has been changed after
- * the rowset populated itself with that value.)
- * The <code>RIOptimisticProvider</code> implementation assumes there will be
- * few or no conflicts and therefore sets no locks. It updates the data source
- * with values from the <code>CachedRowSet</code> object only if there are no
+ * A writer cbn be implemented to exercise vbrious degrees of cbre in checking
+ * for conflicts bnd in bvoiding them.
+ * (A conflict occurs when b vblue in the dbtb source hbs been chbnged bfter
+ * the rowset populbted itself with thbt vblue.)
+ * The <code>RIOptimisticProvider</code> implementbtion bssumes there will be
+ * few or no conflicts bnd therefore sets no locks. It updbtes the dbtb source
+ * with vblues from the <code>CbchedRowSet</code> object only if there bre no
  * conflicts.
- * Other writers can be implemented so that they always write modified data to
- * the data source, which can be accomplished either by not checking for conflicts
- * or, on the other end of the spectrum, by setting locks sufficient to prevent data
- * in the data source from being changed. Still other writer implementations can be
+ * Other writers cbn be implemented so thbt they blwbys write modified dbtb to
+ * the dbtb source, which cbn be bccomplished either by not checking for conflicts
+ * or, on the other end of the spectrum, by setting locks sufficient to prevent dbtb
+ * in the dbtb source from being chbnged. Still other writer implementbtions cbn be
  * somewhere in between.
  * <P>
- * A <code>CachedRowSet</code> object may use any
- * <code>SyncProvider</code> implementation that has been registered
- * with the <code>SyncFactory</code> singleton. An application
- * can find out which <code>SyncProvider</code> implementations have been
- * registered by calling the following line of code.
+ * A <code>CbchedRowSet</code> object mby use bny
+ * <code>SyncProvider</code> implementbtion thbt hbs been registered
+ * with the <code>SyncFbctory</code> singleton. An bpplicbtion
+ * cbn find out which <code>SyncProvider</code> implementbtions hbve been
+ * registered by cblling the following line of code.
  * <PRE>
- *      java.util.Enumeration providers = SyncFactory.getRegisteredProviders();
+ *      jbvb.util.Enumerbtion providers = SyncFbctory.getRegisteredProviders();
  * </PRE>
  * <P>
- * There are two ways for a <code>CachedRowSet</code> object to specify which
+ * There bre two wbys for b <code>CbchedRowSet</code> object to specify which
  * <code>SyncProvider</code> object it will use.
  * <UL>
- *     <LI>Supplying the name of the implementation to the constructor<BR>
- *     The following line of code creates the <code>CachedRowSet</code>
- *     object <i>crs2</i> that is initialized with default values except that its
+ *     <LI>Supplying the nbme of the implementbtion to the constructor<BR>
+ *     The following line of code crebtes the <code>CbchedRowSet</code>
+ *     object <i>crs2</i> thbt is initiblized with defbult vblues except thbt its
  *     <code>SyncProvider</code> object is the one specified.
  *     <PRE>
- *          CachedRowSetImpl crs2 = new CachedRowSetImpl(
- *                                 "com.fred.providers.HighAvailabilityProvider");
+ *          CbchedRowSetImpl crs2 = new CbchedRowSetImpl(
+ *                                 "com.fred.providers.HighAvbilbbilityProvider");
  *     </PRE>
- *     <LI>Setting the <code>SyncProvider</code> using the <code>CachedRowSet</code>
+ *     <LI>Setting the <code>SyncProvider</code> using the <code>CbchedRowSet</code>
  *         method <code>setSyncProvider</code><BR>
  *      The following line of code resets the <code>SyncProvider</code> object
- *      for <i>crs</i>, the <code>CachedRowSet</code> object created with the
- *      default constructor.
+ *      for <i>crs</i>, the <code>CbchedRowSet</code> object crebted with the
+ *      defbult constructor.
  *      <PRE>
- *           crs.setSyncProvider("com.fred.providers.HighAvailabilityProvider");
+ *           crs.setSyncProvider("com.fred.providers.HighAvbilbbilityProvider");
  *      </PRE>
  * </UL>
- * See the comments for <code>SyncFactory</code> and <code>SyncProvider</code> for
- * more details.
+ * See the comments for <code>SyncFbctory</code> bnd <code>SyncProvider</code> for
+ * more detbils.
  *
  *
- * <h3>2.0 Retrieving Data from a <code>CachedRowSet</code> Object</h3>
- * Data is retrieved from a <code>CachedRowSet</code> object by using the
+ * <h3>2.0 Retrieving Dbtb from b <code>CbchedRowSet</code> Object</h3>
+ * Dbtb is retrieved from b <code>CbchedRowSet</code> object by using the
  * getter methods inherited from the <code>ResultSet</code>
- * interface.  The following examples, in which <code>crs</code> is a
- * <code>CachedRowSet</code>
- * object, demonstrate how to iterate through the rows, retrieving the column
- * values in each row.  The first example uses the version of the
- * getter methods that take a column number; the second example
- * uses the version that takes a column name. Column numbers are generally
- * used when the <code>RowSet</code> object's command
- * is of the form <code>SELECT * FROM TABLENAME</code>; column names are most
- * commonly used when the command specifies columns by name.
+ * interfbce.  The following exbmples, in which <code>crs</code> is b
+ * <code>CbchedRowSet</code>
+ * object, demonstrbte how to iterbte through the rows, retrieving the column
+ * vblues in ebch row.  The first exbmple uses the version of the
+ * getter methods thbt tbke b column number; the second exbmple
+ * uses the version thbt tbkes b column nbme. Column numbers bre generblly
+ * used when the <code>RowSet</code> object's commbnd
+ * is of the form <code>SELECT * FROM TABLENAME</code>; column nbmes bre most
+ * commonly used when the commbnd specifies columns by nbme.
  * <PRE>
  *    while (crs.next()) {
- *        String name = crs.getString(1);
+ *        String nbme = crs.getString(1);
  *        int id = crs.getInt(2);
  *        Clob comment = crs.getClob(3);
  *        short dept = crs.getShort(4);
- *        System.out.println(name + "  " + id + "  " + comment + "  " + dept);
+ *        System.out.println(nbme + "  " + id + "  " + comment + "  " + dept);
  *    }
  * </PRE>
  *
  * <PRE>
  *    while (crs.next()) {
- *        String name = crs.getString("NAME");
+ *        String nbme = crs.getString("NAME");
  *        int id = crs.getInt("ID");
  *        Clob comment = crs.getClob("COM");
  *        short dept = crs.getShort("DEPT");
- *        System.out.println(name + "  " + id + "  " + comment + "  " + dept);
+ *        System.out.println(nbme + "  " + id + "  " + comment + "  " + dept);
  *    }
  * </PRE>
- * <h4>2.1 Retrieving <code>RowSetMetaData</code></h4>
- * An application can get information about the columns in a <code>CachedRowSet</code>
- * object by calling <code>ResultSetMetaData</code> and <code>RowSetMetaData</code>
- * methods on a <code>RowSetMetaData</code> object. The following code fragment,
- * in which <i>crs</i> is a <code>CachedRowSet</code> object, illustrates the process.
- * The first line creates a <code>RowSetMetaData</code> object with information
- * about the columns in <i>crs</i>.  The method <code>getMetaData</code>,
- * inherited from the <code>ResultSet</code> interface, returns a
- * <code>ResultSetMetaData</code> object, which is cast to a
- * <code>RowSetMetaData</code> object before being assigned to the variable
- * <i>rsmd</i>.  The second line finds out how many columns <i>jrs</i> has, and
- * the third line gets the JDBC type of values stored in the second column of
+ * <h4>2.1 Retrieving <code>RowSetMetbDbtb</code></h4>
+ * An bpplicbtion cbn get informbtion bbout the columns in b <code>CbchedRowSet</code>
+ * object by cblling <code>ResultSetMetbDbtb</code> bnd <code>RowSetMetbDbtb</code>
+ * methods on b <code>RowSetMetbDbtb</code> object. The following code frbgment,
+ * in which <i>crs</i> is b <code>CbchedRowSet</code> object, illustrbtes the process.
+ * The first line crebtes b <code>RowSetMetbDbtb</code> object with informbtion
+ * bbout the columns in <i>crs</i>.  The method <code>getMetbDbtb</code>,
+ * inherited from the <code>ResultSet</code> interfbce, returns b
+ * <code>ResultSetMetbDbtb</code> object, which is cbst to b
+ * <code>RowSetMetbDbtb</code> object before being bssigned to the vbribble
+ * <i>rsmd</i>.  The second line finds out how mbny columns <i>jrs</i> hbs, bnd
+ * the third line gets the JDBC type of vblues stored in the second column of
  * <code>jrs</code>.
  * <PRE>
- *     RowSetMetaData rsmd = (RowSetMetaData)crs.getMetaData();
+ *     RowSetMetbDbtb rsmd = (RowSetMetbDbtb)crs.getMetbDbtb();
  *     int count = rsmd.getColumnCount();
  *     int type = rsmd.getColumnType(2);
  * </PRE>
- * The <code>RowSetMetaData</code> interface differs from the
- * <code>ResultSetMetaData</code> interface in two ways.
+ * The <code>RowSetMetbDbtb</code> interfbce differs from the
+ * <code>ResultSetMetbDbtb</code> interfbce in two wbys.
  * <UL>
  *   <LI><i>It includes <code>setter</code> methods:</i> A <code>RowSet</code>
- *   object uses these methods internally when it is populated with data from a
+ *   object uses these methods internblly when it is populbted with dbtb from b
  *   different <code>ResultSet</code> object.
  *
- *   <LI><i>It contains fewer <code>getter</code> methods:</i> Some
- *   <code>ResultSetMetaData</code> methods to not apply to a <code>RowSet</code>
- *   object. For example, methods retrieving whether a column value is writable
- *   or read only do not apply because all of a <code>RowSet</code> object's
- *   columns will be writable or read only, depending on whether the rowset is
- *   updatable or not.
+ *   <LI><i>It contbins fewer <code>getter</code> methods:</i> Some
+ *   <code>ResultSetMetbDbtb</code> methods to not bpply to b <code>RowSet</code>
+ *   object. For exbmple, methods retrieving whether b column vblue is writbble
+ *   or rebd only do not bpply becbuse bll of b <code>RowSet</code> object's
+ *   columns will be writbble or rebd only, depending on whether the rowset is
+ *   updbtbble or not.
  * </UL>
- * NOTE: In order to return a <code>RowSetMetaData</code> object, implementations must
- * override the <code>getMetaData()</code> method defined in
- * <code>java.sql.ResultSet</code> and return a <code>RowSetMetaData</code> object.
+ * NOTE: In order to return b <code>RowSetMetbDbtb</code> object, implementbtions must
+ * override the <code>getMetbDbtb()</code> method defined in
+ * <code>jbvb.sql.ResultSet</code> bnd return b <code>RowSetMetbDbtb</code> object.
  *
- * <h3>3.0 Updating a <code>CachedRowSet</code> Object</h3>
- * Updating a <code>CachedRowSet</code> object is similar to updating a
- * <code>ResultSet</code> object, but because the rowset is not connected to
- * its data source while it is being updated, it must take an additional step
- * to effect changes in its underlying data source. After calling the method
- * <code>updateRow</code> or <code>insertRow</code>, a
- * <code>CachedRowSet</code>
- * object must also call the method <code>acceptChanges</code> to have updates
- * written to the data source. The following example, in which the cursor is
- * on a row in the <code>CachedRowSet</code> object <i>crs</i>, shows
- * the code required to update two column values in the current row and also
- * update the <code>RowSet</code> object's underlying data source.
+ * <h3>3.0 Updbting b <code>CbchedRowSet</code> Object</h3>
+ * Updbting b <code>CbchedRowSet</code> object is similbr to updbting b
+ * <code>ResultSet</code> object, but becbuse the rowset is not connected to
+ * its dbtb source while it is being updbted, it must tbke bn bdditionbl step
+ * to effect chbnges in its underlying dbtb source. After cblling the method
+ * <code>updbteRow</code> or <code>insertRow</code>, b
+ * <code>CbchedRowSet</code>
+ * object must blso cbll the method <code>bcceptChbnges</code> to hbve updbtes
+ * written to the dbtb source. The following exbmple, in which the cursor is
+ * on b row in the <code>CbchedRowSet</code> object <i>crs</i>, shows
+ * the code required to updbte two column vblues in the current row bnd blso
+ * updbte the <code>RowSet</code> object's underlying dbtb source.
  * <PRE>
- *     crs.updateShort(3, 58);
- *     crs.updateInt(4, 150000);
- *     crs.updateRow();
- *     crs.acceptChanges();
+ *     crs.updbteShort(3, 58);
+ *     crs.updbteInt(4, 150000);
+ *     crs.updbteRow();
+ *     crs.bcceptChbnges();
  * </PRE>
  * <P>
- * The next example demonstrates moving to the insert row, building a new
- * row on the insert row, inserting it into the rowset, and then calling the
- * method <code>acceptChanges</code> to add the new row to the underlying data
- * source.  Note that as with the getter methods, the  updater methods may take
- * either a column index or a column name to designate the column being acted upon.
+ * The next exbmple demonstrbtes moving to the insert row, building b new
+ * row on the insert row, inserting it into the rowset, bnd then cblling the
+ * method <code>bcceptChbnges</code> to bdd the new row to the underlying dbtb
+ * source.  Note thbt bs with the getter methods, the  updbter methods mby tbke
+ * either b column index or b column nbme to designbte the column being bcted upon.
  * <PRE>
  *     crs.moveToInsertRow();
- *     crs.updateString("Name", "Shakespeare");
- *     crs.updateInt("ID", 10098347);
- *     crs.updateShort("Age", 58);
- *     crs.updateInt("Sal", 150000);
+ *     crs.updbteString("Nbme", "Shbkespebre");
+ *     crs.updbteInt("ID", 10098347);
+ *     crs.updbteShort("Age", 58);
+ *     crs.updbteInt("Sbl", 150000);
  *     crs.insertRow();
  *     crs.moveToCurrentRow();
- *     crs.acceptChanges();
+ *     crs.bcceptChbnges();
  * </PRE>
  * <P>
- * NOTE: Where the <code>insertRow()</code> method inserts the contents of a
- * <code>CachedRowSet</code> object's insert row is implementation-defined.
- * The reference implementation for the <code>CachedRowSet</code> interface
- * inserts a new row immediately following the current row, but it could be
- * implemented to insert new rows in any number of other places.
+ * NOTE: Where the <code>insertRow()</code> method inserts the contents of b
+ * <code>CbchedRowSet</code> object's insert row is implementbtion-defined.
+ * The reference implementbtion for the <code>CbchedRowSet</code> interfbce
+ * inserts b new row immedibtely following the current row, but it could be
+ * implemented to insert new rows in bny number of other plbces.
  * <P>
- * Another thing to note about these examples is how they use the method
- * <code>acceptChanges</code>.  It is this method that propagates changes in
- * a <code>CachedRowSet</code> object back to the underlying data source,
- * calling on the <code>RowSet</code> object's writer internally to write
- * changes to the data source. To do this, the writer has to incur the expense
- * of establishing a connection with that data source. The
- * preceding two code fragments call the method <code>acceptChanges</code>
- * immediately after calling <code>updateRow</code> or <code>insertRow</code>.
- * However, when there are multiple rows being changed, it is more efficient to call
- * <code>acceptChanges</code> after all calls to <code>updateRow</code>
- * and <code>insertRow</code> have been made.  If <code>acceptChanges</code>
- * is called only once, only one connection needs to be established.
+ * Another thing to note bbout these exbmples is how they use the method
+ * <code>bcceptChbnges</code>.  It is this method thbt propbgbtes chbnges in
+ * b <code>CbchedRowSet</code> object bbck to the underlying dbtb source,
+ * cblling on the <code>RowSet</code> object's writer internblly to write
+ * chbnges to the dbtb source. To do this, the writer hbs to incur the expense
+ * of estbblishing b connection with thbt dbtb source. The
+ * preceding two code frbgments cbll the method <code>bcceptChbnges</code>
+ * immedibtely bfter cblling <code>updbteRow</code> or <code>insertRow</code>.
+ * However, when there bre multiple rows being chbnged, it is more efficient to cbll
+ * <code>bcceptChbnges</code> bfter bll cblls to <code>updbteRow</code>
+ * bnd <code>insertRow</code> hbve been mbde.  If <code>bcceptChbnges</code>
+ * is cblled only once, only one connection needs to be estbblished.
  *
- * <h3>4.0 Updating the Underlying Data Source</h3>
- * When the method <code>acceptChanges</code> is executed, the
- * <code>CachedRowSet</code> object's writer, a <code>RowSetWriterImpl</code>
- * object, is called behind the scenes to write the changes made to the
- * rowset to the underlying data source. The writer is implemented to make a
- * connection to the data source and write updates to it.
+ * <h3>4.0 Updbting the Underlying Dbtb Source</h3>
+ * When the method <code>bcceptChbnges</code> is executed, the
+ * <code>CbchedRowSet</code> object's writer, b <code>RowSetWriterImpl</code>
+ * object, is cblled behind the scenes to write the chbnges mbde to the
+ * rowset to the underlying dbtb source. The writer is implemented to mbke b
+ * connection to the dbtb source bnd write updbtes to it.
  * <P>
- * A writer is made available through an implementation of the
- * <code>SyncProvider</code> interface, as discussed in section 1,
- * "Creating a <code>CachedRowSet</code> Object."
- * The default reference implementation provider, <code>RIOptimisticProvider</code>,
- * has its writer implemented to use an optimistic concurrency control
- * mechanism. That is, it maintains no locks in the underlying database while
- * the rowset is disconnected from the database and simply checks to see if there
- * are any conflicts before writing data to the data source.  If there are any
- * conflicts, it does not write anything to the data source.
+ * A writer is mbde bvbilbble through bn implementbtion of the
+ * <code>SyncProvider</code> interfbce, bs discussed in section 1,
+ * "Crebting b <code>CbchedRowSet</code> Object."
+ * The defbult reference implementbtion provider, <code>RIOptimisticProvider</code>,
+ * hbs its writer implemented to use bn optimistic concurrency control
+ * mechbnism. Thbt is, it mbintbins no locks in the underlying dbtbbbse while
+ * the rowset is disconnected from the dbtbbbse bnd simply checks to see if there
+ * bre bny conflicts before writing dbtb to the dbtb source.  If there bre bny
+ * conflicts, it does not write bnything to the dbtb source.
  * <P>
- * The reader/writer facility
- * provided by the <code>SyncProvider</code> class is pluggable, allowing for the
- * customization of data retrieval and updating. If a different concurrency
- * control mechanism is desired, a different implementation of
- * <code>SyncProvider</code> can be plugged in using the method
+ * The rebder/writer fbcility
+ * provided by the <code>SyncProvider</code> clbss is pluggbble, bllowing for the
+ * customizbtion of dbtb retrievbl bnd updbting. If b different concurrency
+ * control mechbnism is desired, b different implementbtion of
+ * <code>SyncProvider</code> cbn be plugged in using the method
  * <code>setSyncProvider</code>.
  * <P>
  * In order to use the optimistic concurrency control routine, the
- * <code>RIOptismisticProvider</code> maintains both its current
- * value and its original value (the value it had immediately preceding the
- * current value). Note that if no changes have been made to the data in a
- * <code>RowSet</code> object, its current values and its original values are the same,
- * both being the values with which the <code>RowSet</code> object was initially
- * populated.  However, once any values in the <code>RowSet</code> object have been
- * changed, the current values and the original values will be different, though at
- * this stage, the original values are still the initial values. With any subsequent
- * changes to data in a <code>RowSet</code> object, its original values and current
- * values will still differ, but its original values will be the values that
- * were previously the current values.
+ * <code>RIOptismisticProvider</code> mbintbins both its current
+ * vblue bnd its originbl vblue (the vblue it hbd immedibtely preceding the
+ * current vblue). Note thbt if no chbnges hbve been mbde to the dbtb in b
+ * <code>RowSet</code> object, its current vblues bnd its originbl vblues bre the sbme,
+ * both being the vblues with which the <code>RowSet</code> object wbs initiblly
+ * populbted.  However, once bny vblues in the <code>RowSet</code> object hbve been
+ * chbnged, the current vblues bnd the originbl vblues will be different, though bt
+ * this stbge, the originbl vblues bre still the initibl vblues. With bny subsequent
+ * chbnges to dbtb in b <code>RowSet</code> object, its originbl vblues bnd current
+ * vblues will still differ, but its originbl vblues will be the vblues thbt
+ * were previously the current vblues.
  * <P>
- * Keeping track of original values allows the writer to compare the <code>RowSet</code>
- * object's original value with the value in the database. If the values in
- * the database differ from the <code>RowSet</code> object's original values, which means that
- * the values in the database have been changed, there is a conflict.
- * Whether a writer checks for conflicts, what degree of checking it does, and how
- * it handles conflicts all depend on how it is implemented.
+ * Keeping trbck of originbl vblues bllows the writer to compbre the <code>RowSet</code>
+ * object's originbl vblue with the vblue in the dbtbbbse. If the vblues in
+ * the dbtbbbse differ from the <code>RowSet</code> object's originbl vblues, which mebns thbt
+ * the vblues in the dbtbbbse hbve been chbnged, there is b conflict.
+ * Whether b writer checks for conflicts, whbt degree of checking it does, bnd how
+ * it hbndles conflicts bll depend on how it is implemented.
  *
- * <h3>5.0 Registering and Notifying Listeners</h3>
- * Being JavaBeans components, all rowsets participate in the JavaBeans event
- * model, inheriting methods for registering listeners and notifying them of
- * changes from the <code>BaseRowSet</code> class.  A listener for a
- * <code>CachedRowSet</code> object is a component that wants to be notified
- * whenever there is a change in the rowset.  For example, if a
- * <code>CachedRowSet</code> object contains the results of a query and
+ * <h3>5.0 Registering bnd Notifying Listeners</h3>
+ * Being JbvbBebns components, bll rowsets pbrticipbte in the JbvbBebns event
+ * model, inheriting methods for registering listeners bnd notifying them of
+ * chbnges from the <code>BbseRowSet</code> clbss.  A listener for b
+ * <code>CbchedRowSet</code> object is b component thbt wbnts to be notified
+ * whenever there is b chbnge in the rowset.  For exbmple, if b
+ * <code>CbchedRowSet</code> object contbins the results of b query bnd
  * those
- * results are being displayed in, say, a table and a bar graph, the table and
- * bar graph could be registered as listeners with the rowset so that they can
- * update themselves to reflect changes. To become listeners, the table and
- * bar graph classes must implement the <code>RowSetListener</code> interface.
- * Then they can be added to the <Code>CachedRowSet</code> object's list of
- * listeners, as is illustrated in the following lines of code.
+ * results bre being displbyed in, sby, b tbble bnd b bbr grbph, the tbble bnd
+ * bbr grbph could be registered bs listeners with the rowset so thbt they cbn
+ * updbte themselves to reflect chbnges. To become listeners, the tbble bnd
+ * bbr grbph clbsses must implement the <code>RowSetListener</code> interfbce.
+ * Then they cbn be bdded to the <Code>CbchedRowSet</code> object's list of
+ * listeners, bs is illustrbted in the following lines of code.
  * <PRE>
- *    crs.addRowSetListener(table);
- *    crs.addRowSetListener(barGraph);
+ *    crs.bddRowSetListener(tbble);
+ *    crs.bddRowSetListener(bbrGrbph);
  * </PRE>
- * Each <code>CachedRowSet</code> method that moves the cursor or changes
- * data also notifies registered listeners of the changes, so
- * <code>table</code> and <code>barGraph</code> will be notified when there is
- * a change in <code>crs</code>.
+ * Ebch <code>CbchedRowSet</code> method thbt moves the cursor or chbnges
+ * dbtb blso notifies registered listeners of the chbnges, so
+ * <code>tbble</code> bnd <code>bbrGrbph</code> will be notified when there is
+ * b chbnge in <code>crs</code>.
  *
- * <h3>6.0 Passing Data to Thin Clients</h3>
- * One of the main reasons to use a <code>CachedRowSet</code> object is to
- * pass data between different components of an application. Because it is
- * serializable, a <code>CachedRowSet</code> object can be used, for example,
- * to send the result of a query executed by an enterprise JavaBeans component
- * running in a server environment over a network to a client running in a
+ * <h3>6.0 Pbssing Dbtb to Thin Clients</h3>
+ * One of the mbin rebsons to use b <code>CbchedRowSet</code> object is to
+ * pbss dbtb between different components of bn bpplicbtion. Becbuse it is
+ * seriblizbble, b <code>CbchedRowSet</code> object cbn be used, for exbmple,
+ * to send the result of b query executed by bn enterprise JbvbBebns component
+ * running in b server environment over b network to b client running in b
  * web browser.
  * <P>
- * While a <code>CachedRowSet</code> object is disconnected, it can be much
- * leaner than a <code>ResultSet</code> object with the same data.
- * As a result, it can be especially suitable for sending data to a thin client
- * such as a PDA, where it would be inappropriate to use a JDBC driver
- * due to resource limitations or security considerations.
- * Thus, a <code>CachedRowSet</code> object provides a means to "get rows in"
+ * While b <code>CbchedRowSet</code> object is disconnected, it cbn be much
+ * lebner thbn b <code>ResultSet</code> object with the sbme dbtb.
+ * As b result, it cbn be especiblly suitbble for sending dbtb to b thin client
+ * such bs b PDA, where it would be inbppropribte to use b JDBC driver
+ * due to resource limitbtions or security considerbtions.
+ * Thus, b <code>CbchedRowSet</code> object provides b mebns to "get rows in"
  * without the need to implement the full JDBC API.
  *
- * <h3>7.0 Scrolling and Updating</h3>
- * A second major use for <code>CachedRowSet</code> objects is to provide
- * scrolling and updating for <code>ResultSet</code> objects that
- * do not provide these capabilities themselves.  In other words, a
- * <code>CachedRowSet</code> object can be used to augment the
- * capabilities of a JDBC technology-enabled driver (hereafter called a
- * "JDBC driver") when the DBMS does not provide full support for scrolling and
- * updating. To achieve the effect of making a non-scrollble and read-only
- * <code>ResultSet</code> object scrollable and updatable, a programmer
- * simply needs to create a <code>CachedRowSet</code> object populated
- * with that <code>ResultSet</code> object's data.  This is demonstrated
- * in the following code fragment, where <code>stmt</code> is a
- * <code>Statement</code> object.
+ * <h3>7.0 Scrolling bnd Updbting</h3>
+ * A second mbjor use for <code>CbchedRowSet</code> objects is to provide
+ * scrolling bnd updbting for <code>ResultSet</code> objects thbt
+ * do not provide these cbpbbilities themselves.  In other words, b
+ * <code>CbchedRowSet</code> object cbn be used to bugment the
+ * cbpbbilities of b JDBC technology-enbbled driver (herebfter cblled b
+ * "JDBC driver") when the DBMS does not provide full support for scrolling bnd
+ * updbting. To bchieve the effect of mbking b non-scrollble bnd rebd-only
+ * <code>ResultSet</code> object scrollbble bnd updbtbble, b progrbmmer
+ * simply needs to crebte b <code>CbchedRowSet</code> object populbted
+ * with thbt <code>ResultSet</code> object's dbtb.  This is demonstrbted
+ * in the following code frbgment, where <code>stmt</code> is b
+ * <code>Stbtement</code> object.
  * <PRE>
  *    ResultSet rs = stmt.executeQuery("SELECT * FROM EMPLOYEES");
- *    CachedRowSetImpl crs = new CachedRowSetImpl();
- *    crs.populate(rs);
+ *    CbchedRowSetImpl crs = new CbchedRowSetImpl();
+ *    crs.populbte(rs);
  * </PRE>
  * <P>
- * The object <code>crs</code> now contains the data from the table
- * <code>EMPLOYEES</code>, just as the object <code>rs</code> does.
- * The difference is that the cursor for <code>crs</code> can be moved
- * forward, backward, or to a particular row even if the cursor for
- * <code>rs</code> can move only forward.  In addition, <code>crs</code> is
- * updatable even if <code>rs</code> is not because by default, a
- * <code>CachedRowSet</code> object is both scrollable and updatable.
+ * The object <code>crs</code> now contbins the dbtb from the tbble
+ * <code>EMPLOYEES</code>, just bs the object <code>rs</code> does.
+ * The difference is thbt the cursor for <code>crs</code> cbn be moved
+ * forwbrd, bbckwbrd, or to b pbrticulbr row even if the cursor for
+ * <code>rs</code> cbn move only forwbrd.  In bddition, <code>crs</code> is
+ * updbtbble even if <code>rs</code> is not becbuse by defbult, b
+ * <code>CbchedRowSet</code> object is both scrollbble bnd updbtbble.
  * <P>
- * In summary, a <code>CachedRowSet</code> object can be thought of as simply
- * a disconnected set of rows that are being cached outside of a data source.
- * Being thin and serializable, it can easily be sent across a wire,
- * and it is well suited to sending data to a thin client. However, a
- * <code>CachedRowSet</code> object does have a limitation: It is limited in
- * size by the amount of data it can store in memory at one time.
+ * In summbry, b <code>CbchedRowSet</code> object cbn be thought of bs simply
+ * b disconnected set of rows thbt bre being cbched outside of b dbtb source.
+ * Being thin bnd seriblizbble, it cbn ebsily be sent bcross b wire,
+ * bnd it is well suited to sending dbtb to b thin client. However, b
+ * <code>CbchedRowSet</code> object does hbve b limitbtion: It is limited in
+ * size by the bmount of dbtb it cbn store in memory bt one time.
  *
- * <h3>8.0 Getting Universal Data Access</h3>
- * Another advantage of the <code>CachedRowSet</code> class is that it makes it
- * possible to retrieve and store data from sources other than a relational
- * database. The reader for a rowset can be implemented to read and populate
- * its rowset with data from any tabular data source, including a spreadsheet
- * or flat file.
- * Because both a <code>CachedRowSet</code> object and its metadata can be
- * created from scratch, a component that acts as a factory for rowsets
- * can use this capability to create a rowset containing data from
- * non-SQL data sources. Nevertheless, it is expected that most of the time,
- * <code>CachedRowSet</code> objects will contain data that was fetched
- * from an SQL database using the JDBC API.
+ * <h3>8.0 Getting Universbl Dbtb Access</h3>
+ * Another bdvbntbge of the <code>CbchedRowSet</code> clbss is thbt it mbkes it
+ * possible to retrieve bnd store dbtb from sources other thbn b relbtionbl
+ * dbtbbbse. The rebder for b rowset cbn be implemented to rebd bnd populbte
+ * its rowset with dbtb from bny tbbulbr dbtb source, including b sprebdsheet
+ * or flbt file.
+ * Becbuse both b <code>CbchedRowSet</code> object bnd its metbdbtb cbn be
+ * crebted from scrbtch, b component thbt bcts bs b fbctory for rowsets
+ * cbn use this cbpbbility to crebte b rowset contbining dbtb from
+ * non-SQL dbtb sources. Nevertheless, it is expected thbt most of the time,
+ * <code>CbchedRowSet</code> objects will contbin dbtb thbt wbs fetched
+ * from bn SQL dbtbbbse using the JDBC API.
  *
  * <h3>9.0 Setting Properties</h3>
- * All rowsets maintain a set of properties, which will usually be set using
- * a tool.  The number and kinds of properties a rowset has will vary,
- * depending on what the rowset does and how it gets its data.  For example,
- * rowsets that get their data from a <code>ResultSet</code> object need to
- * set the properties that are required for making a database connection.
- * If a rowset uses the <code>DriverManager</code> facility to make a
- * connection, it needs to set a property for the JDBC URL that identifies
- * the appropriate driver, and it needs to set the properties that give the
- * user name and password.
- * If, on the other hand, the rowset uses a <code>DataSource</code> object
- * to make the connection, which is the preferred method, it does not need to
- * set the property for the JDBC URL.  Instead, it needs to set
- * properties for the logical name of the data source, for the user name,
- * and for the password.
+ * All rowsets mbintbin b set of properties, which will usublly be set using
+ * b tool.  The number bnd kinds of properties b rowset hbs will vbry,
+ * depending on whbt the rowset does bnd how it gets its dbtb.  For exbmple,
+ * rowsets thbt get their dbtb from b <code>ResultSet</code> object need to
+ * set the properties thbt bre required for mbking b dbtbbbse connection.
+ * If b rowset uses the <code>DriverMbnbger</code> fbcility to mbke b
+ * connection, it needs to set b property for the JDBC URL thbt identifies
+ * the bppropribte driver, bnd it needs to set the properties thbt give the
+ * user nbme bnd pbssword.
+ * If, on the other hbnd, the rowset uses b <code>DbtbSource</code> object
+ * to mbke the connection, which is the preferred method, it does not need to
+ * set the property for the JDBC URL.  Instebd, it needs to set
+ * properties for the logicbl nbme of the dbtb source, for the user nbme,
+ * bnd for the pbssword.
  * <P>
- * NOTE:  In order to use a <code>DataSource</code> object for making a
- * connection, the <code>DataSource</code> object must have been registered
- * with a naming service that uses the Java Naming and Directory
- * Interface&trade; (JNDI) API.  This registration
- * is usually done by a person acting in the capacity of a system
- * administrator.
+ * NOTE:  In order to use b <code>DbtbSource</code> object for mbking b
+ * connection, the <code>DbtbSource</code> object must hbve been registered
+ * with b nbming service thbt uses the Jbvb Nbming bnd Directory
+ * Interfbce&trbde; (JNDI) API.  This registrbtion
+ * is usublly done by b person bcting in the cbpbcity of b system
+ * bdministrbtor.
  * <P>
- * In order to be able to populate itself with data from a database, a rowset
- * needs to set a command property.  This property is a query that is a
- * <code>PreparedStatement</code> object, which allows the query to have
- * parameter placeholders that are set at run time, as opposed to design time.
- * To set these placeholder parameters with values, a rowset provides
- * setter methods for setting values of each data type,
- * similar to the setter methods provided by the <code>PreparedStatement</code>
- * interface.
+ * In order to be bble to populbte itself with dbtb from b dbtbbbse, b rowset
+ * needs to set b commbnd property.  This property is b query thbt is b
+ * <code>PrepbredStbtement</code> object, which bllows the query to hbve
+ * pbrbmeter plbceholders thbt bre set bt run time, bs opposed to design time.
+ * To set these plbceholder pbrbmeters with vblues, b rowset provides
+ * setter methods for setting vblues of ebch dbtb type,
+ * similbr to the setter methods provided by the <code>PrepbredStbtement</code>
+ * interfbce.
  * <P>
- * The following code fragment illustrates how the <code>CachedRowSet</code>
- * object <code>crs</code> might have its command property set.  Note that if a
- * tool is used to set properties, this is the code that the tool would use.
+ * The following code frbgment illustrbtes how the <code>CbchedRowSet</code>
+ * object <code>crs</code> might hbve its commbnd property set.  Note thbt if b
+ * tool is used to set properties, this is the code thbt the tool would use.
  * <PRE>{@code
- *    crs.setCommand("SELECT FIRST_NAME, LAST_NAME, ADDRESS FROM CUSTOMERS " +
+ *    crs.setCommbnd("SELECT FIRST_NAME, LAST_NAME, ADDRESS FROM CUSTOMERS " +
  *                   "WHERE CREDIT_LIMIT > ? AND REGION = ?");
  * } </PRE>
  * <P>
- * The values that will be used to set the command's placeholder parameters are
- * contained in the <code>RowSet</code> object's <code>params</code> field, which is a
+ * The vblues thbt will be used to set the commbnd's plbceholder pbrbmeters bre
+ * contbined in the <code>RowSet</code> object's <code>pbrbms</code> field, which is b
  * <code>Vector</code> object.
- * The <code>CachedRowSet</code> class provides a set of setter
- * methods for setting the elements in its <code>params</code> field.  The
- * following code fragment demonstrates setting the two parameters in the
- * query from the previous example.
+ * The <code>CbchedRowSet</code> clbss provides b set of setter
+ * methods for setting the elements in its <code>pbrbms</code> field.  The
+ * following code frbgment demonstrbtes setting the two pbrbmeters in the
+ * query from the previous exbmple.
  * <PRE>
  *    crs.setInt(1, 5000);
  *    crs.setString(2, "West");
  * </PRE>
  * <P>
- * The <code>params</code> field now contains two elements, each of which is
- * an array two elements long.  The first element is the parameter number;
- * the second is the value to be set.
- * In this case, the first element of <code>params</code> is
- * <code>1</code>, <code>5000</code>, and the second element is <code>2</code>,
- * <code>"West"</code>.  When an application calls the method
- * <code>execute</code>, it will in turn call on this <code>RowSet</code> object's reader,
- * which will in turn invoke its <code>readData</code> method. As part of
- * its implementation, <code>readData</code> will get the values in
- * <code>params</code> and use them to set the command's placeholder
- * parameters.
- * The following code fragment gives an idea of how the reader
- * does this, after obtaining the <code>Connection</code> object
+ * The <code>pbrbms</code> field now contbins two elements, ebch of which is
+ * bn brrby two elements long.  The first element is the pbrbmeter number;
+ * the second is the vblue to be set.
+ * In this cbse, the first element of <code>pbrbms</code> is
+ * <code>1</code>, <code>5000</code>, bnd the second element is <code>2</code>,
+ * <code>"West"</code>.  When bn bpplicbtion cblls the method
+ * <code>execute</code>, it will in turn cbll on this <code>RowSet</code> object's rebder,
+ * which will in turn invoke its <code>rebdDbtb</code> method. As pbrt of
+ * its implementbtion, <code>rebdDbtb</code> will get the vblues in
+ * <code>pbrbms</code> bnd use them to set the commbnd's plbceholder
+ * pbrbmeters.
+ * The following code frbgment gives bn ideb of how the rebder
+ * does this, bfter obtbining the <code>Connection</code> object
  * <code>con</code>.
  * <PRE>{@code
- *    PreparedStatement pstmt = con.prepareStatement(crs.getCommand());
- *    reader.decodeParams();
- *    // decodeParams figures out which setter methods to use and does something
+ *    PrepbredStbtement pstmt = con.prepbreStbtement(crs.getCommbnd());
+ *    rebder.decodePbrbms();
+ *    // decodePbrbms figures out which setter methods to use bnd does something
  *    // like the following:
- *    //    for (i = 0; i < params.length; i++) {
- *    //        pstmt.setObject(i + 1, params[i]);
+ *    //    for (i = 0; i < pbrbms.length; i++) {
+ *    //        pstmt.setObject(i + 1, pbrbms[i]);
  *    //    }
  * }</PRE>
  * <P>
- * At this point, the command for <code>crs</code> is the query {@code "SELECT
+ * At this point, the commbnd for <code>crs</code> is the query {@code "SELECT
  * FIRST_NAME, LAST_NAME, ADDRESS FROM CUSTOMERS WHERE CREDIT_LIMIT > 5000
- * AND REGION = "West"}.  After the <code>readData</code> method executes
- * this command with the following line of code, it will have the data from
- * <code>rs</code> with which to populate <code>crs</code>.
+ * AND REGION = "West"}.  After the <code>rebdDbtb</code> method executes
+ * this commbnd with the following line of code, it will hbve the dbtb from
+ * <code>rs</code> with which to populbte <code>crs</code>.
  * <PRE>{@code
  *     ResultSet rs = pstmt.executeQuery();
  * }</PRE>
  * <P>
- * The preceding code fragments give an idea of what goes on behind the
- * scenes; they would not appear in an application, which would not invoke
- * methods like <code>readData</code> and <code>decodeParams</code>.
- * In contrast, the following code fragment shows what an application might do.
- * It sets the rowset's command, sets the command's parameters, and executes
- * the command. Simply by calling the <code>execute</code> method,
- * <code>crs</code> populates itself with the requested data from the
- * table <code>CUSTOMERS</code>.
+ * The preceding code frbgments give bn ideb of whbt goes on behind the
+ * scenes; they would not bppebr in bn bpplicbtion, which would not invoke
+ * methods like <code>rebdDbtb</code> bnd <code>decodePbrbms</code>.
+ * In contrbst, the following code frbgment shows whbt bn bpplicbtion might do.
+ * It sets the rowset's commbnd, sets the commbnd's pbrbmeters, bnd executes
+ * the commbnd. Simply by cblling the <code>execute</code> method,
+ * <code>crs</code> populbtes itself with the requested dbtb from the
+ * tbble <code>CUSTOMERS</code>.
  * <PRE>{@code
- *    crs.setCommand("SELECT FIRST_NAME, LAST_NAME, ADDRESS FROM CUSTOMERS" +
+ *    crs.setCommbnd("SELECT FIRST_NAME, LAST_NAME, ADDRESS FROM CUSTOMERS" +
  *                   "WHERE CREDIT_LIMIT > ? AND REGION = ?");
  *    crs.setInt(1, 5000);
  *    crs.setString(2, "West");
  *    crs.execute();
  * }</PRE>
  *
- * <h3>10.0 Paging Data</h3>
- * Because a <code>CachedRowSet</code> object stores data in memory,
- * the amount of data that it can contain at any one
- * time is determined by the amount of memory available. To get around this limitation,
- * a <code>CachedRowSet</code> object can retrieve data from a <code>ResultSet</code>
- * object in chunks of data, called <i>pages</i>. To take advantage of this mechanism,
- * an application sets the number of rows to be included in a page using the method
- * <code>setPageSize</code>. In other words, if the page size is set to five, a chunk
+ * <h3>10.0 Pbging Dbtb</h3>
+ * Becbuse b <code>CbchedRowSet</code> object stores dbtb in memory,
+ * the bmount of dbtb thbt it cbn contbin bt bny one
+ * time is determined by the bmount of memory bvbilbble. To get bround this limitbtion,
+ * b <code>CbchedRowSet</code> object cbn retrieve dbtb from b <code>ResultSet</code>
+ * object in chunks of dbtb, cblled <i>pbges</i>. To tbke bdvbntbge of this mechbnism,
+ * bn bpplicbtion sets the number of rows to be included in b pbge using the method
+ * <code>setPbgeSize</code>. In other words, if the pbge size is set to five, b chunk
  * of five rows of
- * data will be fetched from the data source at one time. An application can also
- * optionally set the maximum number of rows that may be fetched at one time.  If the
- * maximum number of rows is set to zero, or no maximum number of rows is set, there is
- * no limit to the number of rows that may be fetched at a time.
+ * dbtb will be fetched from the dbtb source bt one time. An bpplicbtion cbn blso
+ * optionblly set the mbximum number of rows thbt mby be fetched bt one time.  If the
+ * mbximum number of rows is set to zero, or no mbximum number of rows is set, there is
+ * no limit to the number of rows thbt mby be fetched bt b time.
  * <P>
- * After properties have been set,
- * the <code>CachedRowSet</code> object must be populated with data
- * using either the method <code>populate</code> or the method <code>execute</code>.
- * The following lines of code demonstrate using the method <code>populate</code>.
- * Note that this version of the method takes two parameters, a <code>ResultSet</code>
- * handle and the row in the <code>ResultSet</code> object from which to start
+ * After properties hbve been set,
+ * the <code>CbchedRowSet</code> object must be populbted with dbtb
+ * using either the method <code>populbte</code> or the method <code>execute</code>.
+ * The following lines of code demonstrbte using the method <code>populbte</code>.
+ * Note thbt this version of the method tbkes two pbrbmeters, b <code>ResultSet</code>
+ * hbndle bnd the row in the <code>ResultSet</code> object from which to stbrt
  * retrieving rows.
  * <PRE>
- *     CachedRowSet crs = new CachedRowSetImpl();
- *     crs.setMaxRows(20);
- *     crs.setPageSize(4);
- *     crs.populate(rsHandle, 10);
+ *     CbchedRowSet crs = new CbchedRowSetImpl();
+ *     crs.setMbxRows(20);
+ *     crs.setPbgeSize(4);
+ *     crs.populbte(rsHbndle, 10);
  * </PRE>
- * When this code runs, <i>crs</i> will be populated with four rows from
- * <i>rsHandle</i> starting with the tenth row.
+ * When this code runs, <i>crs</i> will be populbted with four rows from
+ * <i>rsHbndle</i> stbrting with the tenth row.
  * <P>
- * The next code fragment shows populating a <code>CachedRowSet</code> object using the
- * method <code>execute</code>, which may or may not take a <code>Connection</code>
- * object as a parameter.  This code passes <code>execute</code> the <code>Connection</code>
- * object <i>conHandle</i>.
+ * The next code frbgment shows populbting b <code>CbchedRowSet</code> object using the
+ * method <code>execute</code>, which mby or mby not tbke b <code>Connection</code>
+ * object bs b pbrbmeter.  This code pbsses <code>execute</code> the <code>Connection</code>
+ * object <i>conHbndle</i>.
  * <P>
- * Note that there are two differences between the following code
- * fragment and the previous one. First, the method <code>setMaxRows</code> is not
- * called, so there is no limit set for the number of rows that <i>crs</i> may contain.
- * (Remember that <i>crs</i> always has the overriding limit of how much data it can
- * store in memory.) The second difference is that the you cannot pass the method
+ * Note thbt there bre two differences between the following code
+ * frbgment bnd the previous one. First, the method <code>setMbxRows</code> is not
+ * cblled, so there is no limit set for the number of rows thbt <i>crs</i> mby contbin.
+ * (Remember thbt <i>crs</i> blwbys hbs the overriding limit of how much dbtb it cbn
+ * store in memory.) The second difference is thbt the you cbnnot pbss the method
  * <code>execute</code> the number of the row in the <code>ResultSet</code> object
- * from which to start retrieving rows. This method always starts with the first row.
+ * from which to stbrt retrieving rows. This method blwbys stbrts with the first row.
  * <PRE>
- *     CachedRowSet crs = new CachedRowSetImpl();
- *     crs.setPageSize(5);
- *     crs.execute(conHandle);
+ *     CbchedRowSet crs = new CbchedRowSetImpl();
+ *     crs.setPbgeSize(5);
+ *     crs.execute(conHbndle);
  * </PRE>
- * After this code has run, <i>crs</i> will contain five rows of data from the
- * <code>ResultSet</code> object produced by the command for <i>crs</i>. The writer
- * for <i>crs</i> will use <i>conHandle</i> to connect to the data source and
- * execute the command for <i>crs</i>. An application is then able to operate on the
- * data in <i>crs</i> in the same way that it would operate on data in any other
- * <code>CachedRowSet</code> object.
+ * After this code hbs run, <i>crs</i> will contbin five rows of dbtb from the
+ * <code>ResultSet</code> object produced by the commbnd for <i>crs</i>. The writer
+ * for <i>crs</i> will use <i>conHbndle</i> to connect to the dbtb source bnd
+ * execute the commbnd for <i>crs</i>. An bpplicbtion is then bble to operbte on the
+ * dbtb in <i>crs</i> in the sbme wby thbt it would operbte on dbtb in bny other
+ * <code>CbchedRowSet</code> object.
  * <P>
- * To access the next page (chunk of data), an application calls the method
- * <code>nextPage</code>.  This method creates a new <code>CachedRowSet</code> object
- * and fills it with the next page of data.  For example, assume that the
- * <code>CachedRowSet</code> object's command returns a <code>ResultSet</code> object
- * <i>rs</i> with 1000 rows of data.  If the page size has been set to 100, the first
- *  call to the method <code>nextPage</code> will create a <code>CachedRowSet</code> object
- * containing the first 100 rows of <i>rs</i>. After doing what it needs to do with the
- * data in these first 100 rows, the application can again call the method
- * <code>nextPage</code> to create another <code>CachedRowSet</code> object
- * with the second 100 rows from <i>rs</i>. The data from the first <code>CachedRowSet</code>
- * object will no longer be in memory because it is replaced with the data from the
- * second <code>CachedRowSet</code> object. After the tenth call to the method <code>nextPage</code>,
- * the tenth <code>CachedRowSet</code> object will contain the last 100 rows of data from
- * <i>rs</i>, which are stored in memory. At any given time, the data from only one
- * <code>CachedRowSet</code> object is stored in memory.
+ * To bccess the next pbge (chunk of dbtb), bn bpplicbtion cblls the method
+ * <code>nextPbge</code>.  This method crebtes b new <code>CbchedRowSet</code> object
+ * bnd fills it with the next pbge of dbtb.  For exbmple, bssume thbt the
+ * <code>CbchedRowSet</code> object's commbnd returns b <code>ResultSet</code> object
+ * <i>rs</i> with 1000 rows of dbtb.  If the pbge size hbs been set to 100, the first
+ *  cbll to the method <code>nextPbge</code> will crebte b <code>CbchedRowSet</code> object
+ * contbining the first 100 rows of <i>rs</i>. After doing whbt it needs to do with the
+ * dbtb in these first 100 rows, the bpplicbtion cbn bgbin cbll the method
+ * <code>nextPbge</code> to crebte bnother <code>CbchedRowSet</code> object
+ * with the second 100 rows from <i>rs</i>. The dbtb from the first <code>CbchedRowSet</code>
+ * object will no longer be in memory becbuse it is replbced with the dbtb from the
+ * second <code>CbchedRowSet</code> object. After the tenth cbll to the method <code>nextPbge</code>,
+ * the tenth <code>CbchedRowSet</code> object will contbin the lbst 100 rows of dbtb from
+ * <i>rs</i>, which bre stored in memory. At bny given time, the dbtb from only one
+ * <code>CbchedRowSet</code> object is stored in memory.
  * <P>
- * The method <code>nextPage</code> returns <code>true</code> as long as the current
- * page is not the last page of rows and <code>false</code> when there are no more pages.
- * It can therefore be used in a <code>while</code> loop to retrieve all of the pages,
- * as is demonstrated in the following lines of code.
+ * The method <code>nextPbge</code> returns <code>true</code> bs long bs the current
+ * pbge is not the lbst pbge of rows bnd <code>fblse</code> when there bre no more pbges.
+ * It cbn therefore be used in b <code>while</code> loop to retrieve bll of the pbges,
+ * bs is demonstrbted in the following lines of code.
  * <PRE>
- *     CachedRowSet crs = CachedRowSetImpl();
- *     crs.setPageSize(100);
- *     crs.execute(conHandle);
+ *     CbchedRowSet crs = CbchedRowSetImpl();
+ *     crs.setPbgeSize(100);
+ *     crs.execute(conHbndle);
  *
- *     while(crs.nextPage()) {
+ *     while(crs.nextPbge()) {
  *         while(crs.next()) {
- *             . . . // operate on chunks (of 100 rows each) in crs,
+ *             . . . // operbte on chunks (of 100 rows ebch) in crs,
  *                   // row by row
  *         }
  *     }
  * </PRE>
- * After this code fragment has been run, the application will have traversed all
- * 1000 rows, but it will have had no more than 100 rows in memory at a time.
+ * After this code frbgment hbs been run, the bpplicbtion will hbve trbversed bll
+ * 1000 rows, but it will hbve hbd no more thbn 100 rows in memory bt b time.
  * <P>
- * The <code>CachedRowSet</code> interface also defines the method <code>previousPage</code>.
- * Just as the method <code>nextPage</code> is analogous to the <code>ResultSet</code>
- * method <code>next</code>, the method <code>previousPage</code> is analogous to
- * the <code>ResultSet</code> method <code>previous</code>.  Similar to the method
- * <code>nextPage</code>, <code>previousPage</code> creates a <code>CachedRowSet</code>
- * object containing the number of rows set as the page size.  So, for instance, the
- * method <code>previousPage</code> could be used in a <code>while</code> loop at
- * the end of the preceding code fragment to navigate back through the pages from the last
- * page to the first page.
- * The method <code>previousPage</code> is also similar to <code>nextPage</code>
- * in that it can be used in a <code>while</code>
- * loop, except that it returns <code>true</code> as long as there is another page
- * preceding it and <code>false</code> when there are no more pages ahead of it.
+ * The <code>CbchedRowSet</code> interfbce blso defines the method <code>previousPbge</code>.
+ * Just bs the method <code>nextPbge</code> is bnblogous to the <code>ResultSet</code>
+ * method <code>next</code>, the method <code>previousPbge</code> is bnblogous to
+ * the <code>ResultSet</code> method <code>previous</code>.  Similbr to the method
+ * <code>nextPbge</code>, <code>previousPbge</code> crebtes b <code>CbchedRowSet</code>
+ * object contbining the number of rows set bs the pbge size.  So, for instbnce, the
+ * method <code>previousPbge</code> could be used in b <code>while</code> loop bt
+ * the end of the preceding code frbgment to nbvigbte bbck through the pbges from the lbst
+ * pbge to the first pbge.
+ * The method <code>previousPbge</code> is blso similbr to <code>nextPbge</code>
+ * in thbt it cbn be used in b <code>while</code>
+ * loop, except thbt it returns <code>true</code> bs long bs there is bnother pbge
+ * preceding it bnd <code>fblse</code> when there bre no more pbges bhebd of it.
  * <P>
- * By positioning the cursor after the last row for each page,
- * as is done in the following code fragment, the method <code>previous</code>
- * navigates from the last row to the first row in each page.
- * The code could also have left the cursor before the first row on each page and then
- * used the method <code>next</code> in a <code>while</code> loop to navigate each page
- * from the first row to the last row.
+ * By positioning the cursor bfter the lbst row for ebch pbge,
+ * bs is done in the following code frbgment, the method <code>previous</code>
+ * nbvigbtes from the lbst row to the first row in ebch pbge.
+ * The code could blso hbve left the cursor before the first row on ebch pbge bnd then
+ * used the method <code>next</code> in b <code>while</code> loop to nbvigbte ebch pbge
+ * from the first row to the lbst row.
  * <P>
- * The following code fragment assumes a continuation from the previous code fragment,
- * meaning that the cursor for the tenth <code>CachedRowSet</code> object is on the
- * last row.  The code moves the cursor to after the last row so that the first
- * call to the method <code>previous</code> will put the cursor back on the last row.
- * After going through all of the rows in the last page (the <code>CachedRowSet</code>
+ * The following code frbgment bssumes b continubtion from the previous code frbgment,
+ * mebning thbt the cursor for the tenth <code>CbchedRowSet</code> object is on the
+ * lbst row.  The code moves the cursor to bfter the lbst row so thbt the first
+ * cbll to the method <code>previous</code> will put the cursor bbck on the lbst row.
+ * After going through bll of the rows in the lbst pbge (the <code>CbchedRowSet</code>
  * object <i>crs</i>), the code then enters
- * the <code>while</code> loop to get to the ninth page, go through the rows backwards,
- * go to the eighth page, go through the rows backwards, and so on to the first row
- * of the first page.
+ * the <code>while</code> loop to get to the ninth pbge, go through the rows bbckwbrds,
+ * go to the eighth pbge, go through the rows bbckwbrds, bnd so on to the first row
+ * of the first pbge.
  *
  * <PRE>
- *     crs.afterLast();
+ *     crs.bfterLbst();
  *     while(crs.previous())  {
- *         . . . // navigate through the rows, last to first
+ *         . . . // nbvigbte through the rows, lbst to first
  *     {
- *     while(crs.previousPage())  {
- *         crs.afterLast();
+ *     while(crs.previousPbge())  {
+ *         crs.bfterLbst();
  *         while(crs.previous())  {
- *             . . . // go from the last row to the first row of each page
+ *             . . . // go from the lbst row to the first row of ebch pbge
  *         }
  *     }
  * </PRE>
  *
- * @author Jonathan Bruce
+ * @buthor Jonbthbn Bruce
  * @since 1.5
  */
 
-public interface CachedRowSet extends RowSet, Joinable {
+public interfbce CbchedRowSet extends RowSet, Joinbble {
 
    /**
-    * Populates this <code>CachedRowSet</code> object with data from
+    * Populbtes this <code>CbchedRowSet</code> object with dbtb from
     * the given <code>ResultSet</code> object.
     * <P>
-    * This method can be used as an alternative to the <code>execute</code> method when an
-    * application has a connection to an open <code>ResultSet</code> object.
-    * Using the method <code>populate</code> can be more efficient than using
-    * the version of the <code>execute</code> method that takes no parameters
-    * because it does not open a new connection and re-execute this
-    * <code>CachedRowSet</code> object's command. Using the <code>populate</code>
-    * method is more a matter of convenience when compared to using the version
-    * of <code>execute</code> that takes a <code>ResultSet</code> object.
+    * This method cbn be used bs bn blternbtive to the <code>execute</code> method when bn
+    * bpplicbtion hbs b connection to bn open <code>ResultSet</code> object.
+    * Using the method <code>populbte</code> cbn be more efficient thbn using
+    * the version of the <code>execute</code> method thbt tbkes no pbrbmeters
+    * becbuse it does not open b new connection bnd re-execute this
+    * <code>CbchedRowSet</code> object's commbnd. Using the <code>populbte</code>
+    * method is more b mbtter of convenience when compbred to using the version
+    * of <code>execute</code> thbt tbkes b <code>ResultSet</code> object.
     *
-    * @param data the <code>ResultSet</code> object containing the data
-    * to be read into this <code>CachedRowSet</code> object
-    * @throws SQLException if a null <code>ResultSet</code> object is supplied
-    * or this <code>CachedRowSet</code> object cannot
-    * retrieve the associated <code>ResultSetMetaData</code> object
+    * @pbrbm dbtb the <code>ResultSet</code> object contbining the dbtb
+    * to be rebd into this <code>CbchedRowSet</code> object
+    * @throws SQLException if b null <code>ResultSet</code> object is supplied
+    * or this <code>CbchedRowSet</code> object cbnnot
+    * retrieve the bssocibted <code>ResultSetMetbDbtb</code> object
     * @see #execute
-    * @see java.sql.ResultSet
-    * @see java.sql.ResultSetMetaData
+    * @see jbvb.sql.ResultSet
+    * @see jbvb.sql.ResultSetMetbDbtb
     */
-    public void populate(ResultSet data) throws SQLException;
+    public void populbte(ResultSet dbtb) throws SQLException;
 
    /**
-    * Populates this <code>CachedRowSet</code> object with data, using the
-    * given connection to produce the result set from which the data will be read.
-    * This method should close any database connections that it creates to
-    * ensure that this <code>CachedRowSet</code> object is disconnected except when
-    * it is reading data from its data source or writing data to its data source.
+    * Populbtes this <code>CbchedRowSet</code> object with dbtb, using the
+    * given connection to produce the result set from which the dbtb will be rebd.
+    * This method should close bny dbtbbbse connections thbt it crebtes to
+    * ensure thbt this <code>CbchedRowSet</code> object is disconnected except when
+    * it is rebding dbtb from its dbtb source or writing dbtb to its dbtb source.
     * <P>
-    * The reader for this <code>CachedRowSet</code> object
-    * will use <i>conn</i> to establish a connection to the data source
-    * so that it can execute the rowset's command and read data from the
+    * The rebder for this <code>CbchedRowSet</code> object
+    * will use <i>conn</i> to estbblish b connection to the dbtb source
+    * so thbt it cbn execute the rowset's commbnd bnd rebd dbtb from the
     * the resulting <code>ResultSet</code> object into this
-    * <code>CachedRowSet</code> object. This method also closes <i>conn</i>
-    * after it has populated this <code>CachedRowSet</code> object.
+    * <code>CbchedRowSet</code> object. This method blso closes <i>conn</i>
+    * bfter it hbs populbted this <code>CbchedRowSet</code> object.
     * <P>
-    * If this method is called when an implementation has already been
-    * populated, the contents and the metadata are (re)set. Also, if this method is
-    * called before the method <code>acceptChanges</code> has been called
-    * to commit outstanding updates, those updates are lost.
+    * If this method is cblled when bn implementbtion hbs blrebdy been
+    * populbted, the contents bnd the metbdbtb bre (re)set. Also, if this method is
+    * cblled before the method <code>bcceptChbnges</code> hbs been cblled
+    * to commit outstbnding updbtes, those updbtes bre lost.
     *
-    * @param conn a standard JDBC <code>Connection</code> object with valid
+    * @pbrbm conn b stbndbrd JDBC <code>Connection</code> object with vblid
     * properties
-    * @throws SQLException if an invalid <code>Connection</code> object is supplied
-    * or an error occurs in establishing the connection to the
-    * data source
-    * @see #populate
-    * @see java.sql.Connection
+    * @throws SQLException if bn invblid <code>Connection</code> object is supplied
+    * or bn error occurs in estbblishing the connection to the
+    * dbtb source
+    * @see #populbte
+    * @see jbvb.sql.Connection
     */
     public void execute(Connection conn) throws SQLException;
 
    /**
-    * Propagates row update, insert and delete changes made to this
-    * <code>CachedRowSet</code> object to the underlying data source.
+    * Propbgbtes row updbte, insert bnd delete chbnges mbde to this
+    * <code>CbchedRowSet</code> object to the underlying dbtb source.
     * <P>
-    * This method calls on this <code>CachedRowSet</code> object's writer
+    * This method cblls on this <code>CbchedRowSet</code> object's writer
     * to do the work behind the scenes.
-    * Standard <code>CachedRowSet</code> implementations should use the
-    * <code>SyncFactory</code> singleton
-    * to obtain a <code>SyncProvider</code> instance providing a
-    * <code>RowSetWriter</code> object (writer).  The writer will attempt
-    * to propagate changes made in this <code>CachedRowSet</code> object
-    * back to the data source.
+    * Stbndbrd <code>CbchedRowSet</code> implementbtions should use the
+    * <code>SyncFbctory</code> singleton
+    * to obtbin b <code>SyncProvider</code> instbnce providing b
+    * <code>RowSetWriter</code> object (writer).  The writer will bttempt
+    * to propbgbte chbnges mbde in this <code>CbchedRowSet</code> object
+    * bbck to the dbtb source.
     * <P>
-    * When the method <code>acceptChanges</code> executes successfully, in
-    * addition to writing changes to the data source, it
-    * makes the values in the current row be the values in the original row.
+    * When the method <code>bcceptChbnges</code> executes successfully, in
+    * bddition to writing chbnges to the dbtb source, it
+    * mbkes the vblues in the current row be the vblues in the originbl row.
     * <P>
-    * Depending on the synchronization level of the <code>SyncProvider</code>
-    * implementation being used, the writer will compare the original values
-    * with those in the data source to check for conflicts. When there is a conflict,
-    * the <code>RIOptimisticProvider</code> implementation, for example, throws a
-    * <code>SyncProviderException</code> and does not write anything to the
-    * data source.
+    * Depending on the synchronizbtion level of the <code>SyncProvider</code>
+    * implementbtion being used, the writer will compbre the originbl vblues
+    * with those in the dbtb source to check for conflicts. When there is b conflict,
+    * the <code>RIOptimisticProvider</code> implementbtion, for exbmple, throws b
+    * <code>SyncProviderException</code> bnd does not write bnything to the
+    * dbtb source.
     * <P>
-    * An application may choose to catch the <code>SyncProviderException</code>
-    * object and retrieve the <code>SyncResolver</code> object it contains.
-    * The <code>SyncResolver</code> object lists the conflicts row by row and
-    * sets a lock on the data source to avoid further conflicts while the
-    * current conflicts are being resolved.
-    * Further, for each conflict, it provides methods for examining the conflict
-    * and setting the value that should be persisted in the data source.
-    * After all conflicts have been resolved, an application must call the
-    * <code>acceptChanges</code> method again to write resolved values to the
-    * data source.  If all of the values in the data source are already the
-    * values to be persisted, the method <code>acceptChanges</code> does nothing.
+    * An bpplicbtion mby choose to cbtch the <code>SyncProviderException</code>
+    * object bnd retrieve the <code>SyncResolver</code> object it contbins.
+    * The <code>SyncResolver</code> object lists the conflicts row by row bnd
+    * sets b lock on the dbtb source to bvoid further conflicts while the
+    * current conflicts bre being resolved.
+    * Further, for ebch conflict, it provides methods for exbmining the conflict
+    * bnd setting the vblue thbt should be persisted in the dbtb source.
+    * After bll conflicts hbve been resolved, bn bpplicbtion must cbll the
+    * <code>bcceptChbnges</code> method bgbin to write resolved vblues to the
+    * dbtb source.  If bll of the vblues in the dbtb source bre blrebdy the
+    * vblues to be persisted, the method <code>bcceptChbnges</code> does nothing.
     * <P>
-    * Some provider implementations may use locks to ensure that there are no
-    * conflicts.  In such cases, it is guaranteed that the writer will succeed in
-    * writing changes to the data source when the method <code>acceptChanges</code>
-    * is called.  This method may be called immediately after the methods
-    * <code>updateRow</code>, <code>insertRow</code>, or <code>deleteRow</code>
-    * have been called, but it is more efficient to call it only once after
-    * all changes have been made so that only one connection needs to be
-    * established.
+    * Some provider implementbtions mby use locks to ensure thbt there bre no
+    * conflicts.  In such cbses, it is gubrbnteed thbt the writer will succeed in
+    * writing chbnges to the dbtb source when the method <code>bcceptChbnges</code>
+    * is cblled.  This method mby be cblled immedibtely bfter the methods
+    * <code>updbteRow</code>, <code>insertRow</code>, or <code>deleteRow</code>
+    * hbve been cblled, but it is more efficient to cbll it only once bfter
+    * bll chbnges hbve been mbde so thbt only one connection needs to be
+    * estbblished.
     * <P>
-    * Note: The <code>acceptChanges()</code> method will determine if the
+    * Note: The <code>bcceptChbnges()</code> method will determine if the
     * <code>COMMIT_ON_ACCEPT_CHANGES</code> is set to true or not. If it is set
-    * to true, all updates in the synchronization are committed to the data
-    * source. Otherwise, the application <b>must</b> explicity call the
-    * <code>commit()</code> or <code>rollback()</code> methods as appropriate.
+    * to true, bll updbtes in the synchronizbtion bre committed to the dbtb
+    * source. Otherwise, the bpplicbtion <b>must</b> explicity cbll the
+    * <code>commit()</code> or <code>rollbbck()</code> methods bs bppropribte.
     *
     * @throws SyncProviderException if the underlying
-    * synchronization provider's writer fails to write the updates
-    * back to the data source
-    * @see #acceptChanges(java.sql.Connection)
-    * @see javax.sql.RowSetWriter
-    * @see javax.sql.rowset.spi.SyncFactory
-    * @see javax.sql.rowset.spi.SyncProvider
-    * @see javax.sql.rowset.spi.SyncProviderException
-    * @see javax.sql.rowset.spi.SyncResolver
+    * synchronizbtion provider's writer fbils to write the updbtes
+    * bbck to the dbtb source
+    * @see #bcceptChbnges(jbvb.sql.Connection)
+    * @see jbvbx.sql.RowSetWriter
+    * @see jbvbx.sql.rowset.spi.SyncFbctory
+    * @see jbvbx.sql.rowset.spi.SyncProvider
+    * @see jbvbx.sql.rowset.spi.SyncProviderException
+    * @see jbvbx.sql.rowset.spi.SyncResolver
     */
-    public void acceptChanges() throws SyncProviderException;
+    public void bcceptChbnges() throws SyncProviderException;
 
    /**
-    * Propagates all row update, insert and delete changes to the
-    * data source backing this <code>CachedRowSet</code> object
-    * using the specified <code>Connection</code> object to establish a
-    * connection to the data source.
+    * Propbgbtes bll row updbte, insert bnd delete chbnges to the
+    * dbtb source bbcking this <code>CbchedRowSet</code> object
+    * using the specified <code>Connection</code> object to estbblish b
+    * connection to the dbtb source.
     * <P>
-    * The other version of the <code>acceptChanges</code> method is not passed
-    * a connection because it uses
-    * the <code>Connection</code> object already defined within the <code>RowSet</code>
-    * object, which is the connection used for populating it initially.
+    * The other version of the <code>bcceptChbnges</code> method is not pbssed
+    * b connection becbuse it uses
+    * the <code>Connection</code> object blrebdy defined within the <code>RowSet</code>
+    * object, which is the connection used for populbting it initiblly.
     * <P>
-    * This form of the method <code>acceptChanges</code> is similar to the
-    * form that takes no arguments; however, unlike the other form, this form
-    * can be used only when the underlying data source is a JDBC data source.
-    * The updated <code>Connection</code> properties must be used by the
+    * This form of the method <code>bcceptChbnges</code> is similbr to the
+    * form thbt tbkes no brguments; however, unlike the other form, this form
+    * cbn be used only when the underlying dbtb source is b JDBC dbtb source.
+    * The updbted <code>Connection</code> properties must be used by the
     * <code>SyncProvider</code> to reset the <code>RowSetWriter</code>
-    * configuration to ensure that the contents of the <code>CachedRowSet</code>
-    * object are synchronized correctly.
+    * configurbtion to ensure thbt the contents of the <code>CbchedRowSet</code>
+    * object bre synchronized correctly.
     * <P>
-    * When the method <code>acceptChanges</code> executes successfully, in
-    * addition to writing changes to the data source, it
-    * makes the values in the current row be the values in the original row.
+    * When the method <code>bcceptChbnges</code> executes successfully, in
+    * bddition to writing chbnges to the dbtb source, it
+    * mbkes the vblues in the current row be the vblues in the originbl row.
     * <P>
-    * Depending on the synchronization level of the <code>SyncProvider</code>
-    * implementation being used, the writer will compare the original values
-    * with those in the data source to check for conflicts. When there is a conflict,
-    * the <code>RIOptimisticProvider</code> implementation, for example, throws a
-    * <code>SyncProviderException</code> and does not write anything to the
-    * data source.
+    * Depending on the synchronizbtion level of the <code>SyncProvider</code>
+    * implementbtion being used, the writer will compbre the originbl vblues
+    * with those in the dbtb source to check for conflicts. When there is b conflict,
+    * the <code>RIOptimisticProvider</code> implementbtion, for exbmple, throws b
+    * <code>SyncProviderException</code> bnd does not write bnything to the
+    * dbtb source.
     * <P>
-    * An application may choose to catch the <code>SyncProviderException</code>
-    * object and retrieve the <code>SyncResolver</code> object it contains.
-    * The <code>SyncResolver</code> object lists the conflicts row by row and
-    * sets a lock on the data source to avoid further conflicts while the
-    * current conflicts are being resolved.
-    * Further, for each conflict, it provides methods for examining the conflict
-    * and setting the value that should be persisted in the data source.
-    * After all conflicts have been resolved, an application must call the
-    * <code>acceptChanges</code> method again to write resolved values to the
-    * data source.  If all of the values in the data source are already the
-    * values to be persisted, the method <code>acceptChanges</code> does nothing.
+    * An bpplicbtion mby choose to cbtch the <code>SyncProviderException</code>
+    * object bnd retrieve the <code>SyncResolver</code> object it contbins.
+    * The <code>SyncResolver</code> object lists the conflicts row by row bnd
+    * sets b lock on the dbtb source to bvoid further conflicts while the
+    * current conflicts bre being resolved.
+    * Further, for ebch conflict, it provides methods for exbmining the conflict
+    * bnd setting the vblue thbt should be persisted in the dbtb source.
+    * After bll conflicts hbve been resolved, bn bpplicbtion must cbll the
+    * <code>bcceptChbnges</code> method bgbin to write resolved vblues to the
+    * dbtb source.  If bll of the vblues in the dbtb source bre blrebdy the
+    * vblues to be persisted, the method <code>bcceptChbnges</code> does nothing.
     * <P>
-    * Some provider implementations may use locks to ensure that there are no
-    * conflicts.  In such cases, it is guaranteed that the writer will succeed in
-    * writing changes to the data source when the method <code>acceptChanges</code>
-    * is called.  This method may be called immediately after the methods
-    * <code>updateRow</code>, <code>insertRow</code>, or <code>deleteRow</code>
-    * have been called, but it is more efficient to call it only once after
-    * all changes have been made so that only one connection needs to be
-    * established.
+    * Some provider implementbtions mby use locks to ensure thbt there bre no
+    * conflicts.  In such cbses, it is gubrbnteed thbt the writer will succeed in
+    * writing chbnges to the dbtb source when the method <code>bcceptChbnges</code>
+    * is cblled.  This method mby be cblled immedibtely bfter the methods
+    * <code>updbteRow</code>, <code>insertRow</code>, or <code>deleteRow</code>
+    * hbve been cblled, but it is more efficient to cbll it only once bfter
+    * bll chbnges hbve been mbde so thbt only one connection needs to be
+    * estbblished.
     * <P>
-    * Note: The <code>acceptChanges()</code> method will determine if the
+    * Note: The <code>bcceptChbnges()</code> method will determine if the
     * <code>COMMIT_ON_ACCEPT_CHANGES</code> is set to true or not. If it is set
-    * to true, all updates in the synchronization are committed to the data
-    * source. Otherwise, the application <b>must</b> explicity call the
-    * <code>commit</code> or <code>rollback</code> methods as appropriate.
+    * to true, bll updbtes in the synchronizbtion bre committed to the dbtb
+    * source. Otherwise, the bpplicbtion <b>must</b> explicity cbll the
+    * <code>commit</code> or <code>rollbbck</code> methods bs bppropribte.
     *
-    * @param con a standard JDBC <code>Connection</code> object
+    * @pbrbm con b stbndbrd JDBC <code>Connection</code> object
     * @throws SyncProviderException if the underlying
-    * synchronization provider's writer fails to write the updates
-    * back to the data source
-    * @see #acceptChanges()
-    * @see javax.sql.RowSetWriter
-    * @see javax.sql.rowset.spi.SyncFactory
-    * @see javax.sql.rowset.spi.SyncProvider
-    * @see javax.sql.rowset.spi.SyncProviderException
-    * @see javax.sql.rowset.spi.SyncResolver
+    * synchronizbtion provider's writer fbils to write the updbtes
+    * bbck to the dbtb source
+    * @see #bcceptChbnges()
+    * @see jbvbx.sql.RowSetWriter
+    * @see jbvbx.sql.rowset.spi.SyncFbctory
+    * @see jbvbx.sql.rowset.spi.SyncProvider
+    * @see jbvbx.sql.rowset.spi.SyncProviderException
+    * @see jbvbx.sql.rowset.spi.SyncResolver
     */
-    public void acceptChanges(Connection con) throws SyncProviderException;
+    public void bcceptChbnges(Connection con) throws SyncProviderException;
 
    /**
-    * Restores this <code>CachedRowSet</code> object to its original
-    * value, that is, its value before the last set of changes. If there
-    * have been no changes to the rowset or only one set of changes,
-    * the original value is the value with which this <code>CachedRowSet</code> object
-    * was populated; otherwise, the original value is
-    * the value it had immediately before its current value.
+    * Restores this <code>CbchedRowSet</code> object to its originbl
+    * vblue, thbt is, its vblue before the lbst set of chbnges. If there
+    * hbve been no chbnges to the rowset or only one set of chbnges,
+    * the originbl vblue is the vblue with which this <code>CbchedRowSet</code> object
+    * wbs populbted; otherwise, the originbl vblue is
+    * the vblue it hbd immedibtely before its current vblue.
     * <P>
-    * When this method is called, a <code>CachedRowSet</code> implementation
-    * must ensure that all updates, inserts, and deletes to the current
-    * rowset instance are replaced by the previous values. In addition,
+    * When this method is cblled, b <code>CbchedRowSet</code> implementbtion
+    * must ensure thbt bll updbtes, inserts, bnd deletes to the current
+    * rowset instbnce bre replbced by the previous vblues. In bddition,
     * the cursor should be
-    * reset to the first row and a <code>rowSetChanged</code> event
-    * should be fired to notify all registered listeners.
+    * reset to the first row bnd b <code>rowSetChbnged</code> event
+    * should be fired to notify bll registered listeners.
     *
-    * @throws SQLException if an error occurs rolling back the current value of
-    *       this <code>CachedRowSet</code> object to its previous value
-    * @see javax.sql.RowSetListener#rowSetChanged
+    * @throws SQLException if bn error occurs rolling bbck the current vblue of
+    *       this <code>CbchedRowSet</code> object to its previous vblue
+    * @see jbvbx.sql.RowSetListener#rowSetChbnged
     */
-    public void restoreOriginal() throws SQLException;
+    public void restoreOriginbl() throws SQLException;
 
    /**
-    * Releases the current contents of this <code>CachedRowSet</code>
-    * object and sends a <code>rowSetChanged</code> event to all
-    * registered listeners. Any outstanding updates are discarded and
-    * the rowset contains no rows after this method is called. There
-    * are no interactions with the underlying data source, and any rowset
-    * content, metadata, and content updates should be non-recoverable.
+    * Relebses the current contents of this <code>CbchedRowSet</code>
+    * object bnd sends b <code>rowSetChbnged</code> event to bll
+    * registered listeners. Any outstbnding updbtes bre discbrded bnd
+    * the rowset contbins no rows bfter this method is cblled. There
+    * bre no interbctions with the underlying dbtb source, bnd bny rowset
+    * content, metbdbtb, bnd content updbtes should be non-recoverbble.
     * <P>
-    * This <code>CachedRowSet</code> object should lock until its contents and
-    * associated updates are fully cleared, thus preventing 'dirty' reads by
-    * other components that hold a reference to this <code>RowSet</code> object.
-    * In addition, the contents cannot be released
-    * until all all components reading this <code>CachedRowSet</code> object
-    * have completed their reads. This <code>CachedRowSet</code> object
-    * should be returned to normal behavior after firing the
-    * <code>rowSetChanged</code> event.
+    * This <code>CbchedRowSet</code> object should lock until its contents bnd
+    * bssocibted updbtes bre fully clebred, thus preventing 'dirty' rebds by
+    * other components thbt hold b reference to this <code>RowSet</code> object.
+    * In bddition, the contents cbnnot be relebsed
+    * until bll bll components rebding this <code>CbchedRowSet</code> object
+    * hbve completed their rebds. This <code>CbchedRowSet</code> object
+    * should be returned to normbl behbvior bfter firing the
+    * <code>rowSetChbnged</code> event.
     * <P>
-    * The metadata, including JDBC properties and Synchronization SPI
-    * properties, are maintained for future use. It is important that
-    * properties such as the <code>command</code> property be
-    * relevant to the originating data source from which this <code>CachedRowSet</code>
-    * object was originally established.
+    * The metbdbtb, including JDBC properties bnd Synchronizbtion SPI
+    * properties, bre mbintbined for future use. It is importbnt thbt
+    * properties such bs the <code>commbnd</code> property be
+    * relevbnt to the originbting dbtb source from which this <code>CbchedRowSet</code>
+    * object wbs originblly estbblished.
     * <P>
-    * This method empties a rowset, as opposed to the <code>close</code> method,
-    * which marks the entire rowset as recoverable to allow the garbage collector
-    * the rowset's Java VM resources.
+    * This method empties b rowset, bs opposed to the <code>close</code> method,
+    * which mbrks the entire rowset bs recoverbble to bllow the gbrbbge collector
+    * the rowset's Jbvb VM resources.
     *
-    * @throws SQLException if an error occurs flushing the contents of this
-    * <code>CachedRowSet</code> object
-    * @see javax.sql.RowSetListener#rowSetChanged
-    * @see java.sql.ResultSet#close
+    * @throws SQLException if bn error occurs flushing the contents of this
+    * <code>CbchedRowSet</code> object
+    * @see jbvbx.sql.RowSetListener#rowSetChbnged
+    * @see jbvb.sql.ResultSet#close
     */
-    public void release() throws SQLException;
+    public void relebse() throws SQLException;
 
    /**
-    * Cancels the deletion of the current row and notifies listeners that
-    * a row has changed. After this method is called, the current row is
-    * no longer marked for deletion. This method can be called at any
+    * Cbncels the deletion of the current row bnd notifies listeners thbt
+    * b row hbs chbnged. After this method is cblled, the current row is
+    * no longer mbrked for deletion. This method cbn be cblled bt bny
     * time during the lifetime of the rowset.
     * <P>
-    * In addition, multiple cancellations of row deletions can be made
-    * by adjusting the position of the cursor using any of the cursor
-    * position control methods such as:
+    * In bddition, multiple cbncellbtions of row deletions cbn be mbde
+    * by bdjusting the position of the cursor using bny of the cursor
+    * position control methods such bs:
     * <ul>
-    * <li><code>CachedRowSet.absolute</code>
-    * <li><code>CachedRowSet.first</code>
-    * <li><code>CachedRowSet.last</code>
+    * <li><code>CbchedRowSet.bbsolute</code>
+    * <li><code>CbchedRowSet.first</code>
+    * <li><code>CbchedRowSet.lbst</code>
     * </ul>
     *
-    * @throws SQLException if (1) the current row has not been deleted or
+    * @throws SQLException if (1) the current row hbs not been deleted or
     * (2) the cursor is on the insert row, before the first row, or
-    * after the last row
-    * @see javax.sql.rowset.CachedRowSet#undoInsert
-    * @see java.sql.ResultSet#cancelRowUpdates
+    * bfter the lbst row
+    * @see jbvbx.sql.rowset.CbchedRowSet#undoInsert
+    * @see jbvb.sql.ResultSet#cbncelRowUpdbtes
     */
     public void undoDelete() throws SQLException;
 
    /**
-    * Immediately removes the current row from this <code>CachedRowSet</code>
-    * object if the row has been inserted, and also notifies listeners that a
-    * row has changed. This method can be called at any time during the
-    * lifetime of a rowset and assuming the current row is within
-    * the exception limitations (see below), it cancels the row insertion
+    * Immedibtely removes the current row from this <code>CbchedRowSet</code>
+    * object if the row hbs been inserted, bnd blso notifies listeners thbt b
+    * row hbs chbnged. This method cbn be cblled bt bny time during the
+    * lifetime of b rowset bnd bssuming the current row is within
+    * the exception limitbtions (see below), it cbncels the row insertion
     * of the current row.
     * <P>
-    * In addition, multiple cancellations of row insertions can be made
-    * by adjusting the position of the cursor using any of the cursor
-    * position control methods such as:
+    * In bddition, multiple cbncellbtions of row insertions cbn be mbde
+    * by bdjusting the position of the cursor using bny of the cursor
+    * position control methods such bs:
     * <ul>
-    * <li><code>CachedRowSet.absolute</code>
-    * <li><code>CachedRowSet.first</code>
-    * <li><code>CachedRowSet.last</code>
+    * <li><code>CbchedRowSet.bbsolute</code>
+    * <li><code>CbchedRowSet.first</code>
+    * <li><code>CbchedRowSet.lbst</code>
     * </ul>
     *
-    * @throws SQLException if (1) the current row has not been inserted or (2)
-    * the cursor is before the first row, after the last row, or on the
+    * @throws SQLException if (1) the current row hbs not been inserted or (2)
+    * the cursor is before the first row, bfter the lbst row, or on the
     * insert row
-    * @see javax.sql.rowset.CachedRowSet#undoDelete
-    * @see java.sql.ResultSet#cancelRowUpdates
+    * @see jbvbx.sql.rowset.CbchedRowSet#undoDelete
+    * @see jbvb.sql.ResultSet#cbncelRowUpdbtes
     */
     public void undoInsert() throws SQLException;
 
 
    /**
-    * Immediately reverses the last update operation if the
-    * row has been modified. This method can be
-    * called to reverse updates on all columns until all updates in a row have
-    * been rolled back to their state just prior to the last synchronization
-    * (<code>acceptChanges</code>) or population. This method may also be called
-    * while performing updates to the insert row.
+    * Immedibtely reverses the lbst updbte operbtion if the
+    * row hbs been modified. This method cbn be
+    * cblled to reverse updbtes on bll columns until bll updbtes in b row hbve
+    * been rolled bbck to their stbte just prior to the lbst synchronizbtion
+    * (<code>bcceptChbnges</code>) or populbtion. This method mby blso be cblled
+    * while performing updbtes to the insert row.
     * <P>
-    * <code>undoUpdate</code> may be called at any time during the lifetime of a
-    * rowset; however, after a synchronization has occurred, this method has no
-    * effect until further modification to the rowset data has occurred.
+    * <code>undoUpdbte</code> mby be cblled bt bny time during the lifetime of b
+    * rowset; however, bfter b synchronizbtion hbs occurred, this method hbs no
+    * effect until further modificbtion to the rowset dbtb hbs occurred.
     *
-    * @throws SQLException if the cursor is before the first row or after the last
-    *     row in in this <code>CachedRowSet</code> object
+    * @throws SQLException if the cursor is before the first row or bfter the lbst
+    *     row in in this <code>CbchedRowSet</code> object
     * @see #undoDelete
     * @see #undoInsert
-    * @see java.sql.ResultSet#cancelRowUpdates
+    * @see jbvb.sql.ResultSet#cbncelRowUpdbtes
     */
-    public void undoUpdate() throws SQLException;
+    public void undoUpdbte() throws SQLException;
 
    /**
-    * Indicates whether the designated column in the current row of this
-    * <code>CachedRowSet</code> object has been updated.
+    * Indicbtes whether the designbted column in the current row of this
+    * <code>CbchedRowSet</code> object hbs been updbted.
     *
-    * @param idx an <code>int</code> identifying the column to be checked for updates
-    * @return <code>true</code> if the designated column has been visibly updated;
-    * <code>false</code> otherwise
+    * @pbrbm idx bn <code>int</code> identifying the column to be checked for updbtes
+    * @return <code>true</code> if the designbted column hbs been visibly updbted;
+    * <code>fblse</code> otherwise
     * @throws SQLException if the cursor is on the insert row, before the first row,
-    *     or after the last row
-    * @see java.sql.DatabaseMetaData#updatesAreDetected
+    *     or bfter the lbst row
+    * @see jbvb.sql.DbtbbbseMetbDbtb#updbtesAreDetected
     */
-    public boolean columnUpdated(int idx) throws SQLException;
+    public boolebn columnUpdbted(int idx) throws SQLException;
 
 
    /**
-    * Indicates whether the designated column in the current row of this
-    * <code>CachedRowSet</code> object has been updated.
+    * Indicbtes whether the designbted column in the current row of this
+    * <code>CbchedRowSet</code> object hbs been updbted.
     *
-    * @param columnName a <code>String</code> object giving the name of the
-    *        column to be checked for updates
-    * @return <code>true</code> if the column has been visibly updated;
-    * <code>false</code> otherwise
+    * @pbrbm columnNbme b <code>String</code> object giving the nbme of the
+    *        column to be checked for updbtes
+    * @return <code>true</code> if the column hbs been visibly updbted;
+    * <code>fblse</code> otherwise
     * @throws SQLException if the cursor is on the insert row, before the first row,
-    *      or after the last row
-    * @see java.sql.DatabaseMetaData#updatesAreDetected
+    *      or bfter the lbst row
+    * @see jbvb.sql.DbtbbbseMetbDbtb#updbtesAreDetected
     */
-    public boolean columnUpdated(String columnName) throws SQLException;
+    public boolebn columnUpdbted(String columnNbme) throws SQLException;
 
    /**
-    * Converts this <code>CachedRowSet</code> object to a <code>Collection</code>
-    * object that contains all of this <code>CachedRowSet</code> object's data.
-    * Implementations have some latitude in
-    * how they can represent this <code>Collection</code> object because of the
-    * abstract nature of the <code>Collection</code> framework.
-    * Each row must be fully represented in either a
-    * general purpose <code>Collection</code> implementation or a specialized
-    * <code>Collection</code> implementation, such as a <code>TreeMap</code>
-    * object or a <code>Vector</code> object.
-    * An SQL <code>NULL</code> column value must be represented as a <code>null</code>
-    * in the Java programming language.
+    * Converts this <code>CbchedRowSet</code> object to b <code>Collection</code>
+    * object thbt contbins bll of this <code>CbchedRowSet</code> object's dbtb.
+    * Implementbtions hbve some lbtitude in
+    * how they cbn represent this <code>Collection</code> object becbuse of the
+    * bbstrbct nbture of the <code>Collection</code> frbmework.
+    * Ebch row must be fully represented in either b
+    * generbl purpose <code>Collection</code> implementbtion or b speciblized
+    * <code>Collection</code> implementbtion, such bs b <code>TreeMbp</code>
+    * object or b <code>Vector</code> object.
+    * An SQL <code>NULL</code> column vblue must be represented bs b <code>null</code>
+    * in the Jbvb progrbmming lbngubge.
     * <P>
-    * The standard reference implementation for the <code>CachedRowSet</code>
-    * interface uses a <code>TreeMap</code> object for the rowset, with the
-    * values in each row being contained in  <code>Vector</code> objects. It is
-    * expected that most implementations will do the same.
+    * The stbndbrd reference implementbtion for the <code>CbchedRowSet</code>
+    * interfbce uses b <code>TreeMbp</code> object for the rowset, with the
+    * vblues in ebch row being contbined in  <code>Vector</code> objects. It is
+    * expected thbt most implementbtions will do the sbme.
     * <P>
-    * The <code>TreeMap</code> type of collection guarantees that the map will be in
-    * ascending key order, sorted according to the natural order for the
-    * key's class.
-    * Each key references a <code>Vector</code> object that corresponds to one
-    * row of a <code>RowSet</code> object. Therefore, the size of each
-    * <code>Vector</code> object  must be exactly equal to the number of
+    * The <code>TreeMbp</code> type of collection gubrbntees thbt the mbp will be in
+    * bscending key order, sorted bccording to the nbturbl order for the
+    * key's clbss.
+    * Ebch key references b <code>Vector</code> object thbt corresponds to one
+    * row of b <code>RowSet</code> object. Therefore, the size of ebch
+    * <code>Vector</code> object  must be exbctly equbl to the number of
     * columns in the <code>RowSet</code> object.
-    * The key used by the <code>TreeMap</code> collection is determined by the
-    * implementation, which may choose to leverage a set key that is
-    * available within the internal <code>RowSet</code> tabular structure by
-    * virtue of a key already set either on the <code>RowSet</code> object
-    * itself or on the underlying SQL data.
+    * The key used by the <code>TreeMbp</code> collection is determined by the
+    * implementbtion, which mby choose to leverbge b set key thbt is
+    * bvbilbble within the internbl <code>RowSet</code> tbbulbr structure by
+    * virtue of b key blrebdy set either on the <code>RowSet</code> object
+    * itself or on the underlying SQL dbtb.
     *
-    * @return a <code>Collection</code> object that contains the values in
-    * each row in this <code>CachedRowSet</code> object
-    * @throws SQLException if an error occurs generating the collection
+    * @return b <code>Collection</code> object thbt contbins the vblues in
+    * ebch row in this <code>CbchedRowSet</code> object
+    * @throws SQLException if bn error occurs generbting the collection
     * @see #toCollection(int)
     * @see #toCollection(String)
     */
     public Collection<?> toCollection() throws SQLException;
 
    /**
-    * Converts the designated column in this <code>CachedRowSet</code> object
-    * to a <code>Collection</code> object. Implementations have some latitude in
-    * how they can represent this <code>Collection</code> object because of the
-    * abstract nature of the <code>Collection</code> framework.
-    * Each column value should be fully represented in either a
-    * general purpose <code>Collection</code> implementation or a specialized
-    * <code>Collection</code> implementation, such as a <code>Vector</code> object.
-    * An SQL <code>NULL</code> column value must be represented as a <code>null</code>
-    * in the Java programming language.
+    * Converts the designbted column in this <code>CbchedRowSet</code> object
+    * to b <code>Collection</code> object. Implementbtions hbve some lbtitude in
+    * how they cbn represent this <code>Collection</code> object becbuse of the
+    * bbstrbct nbture of the <code>Collection</code> frbmework.
+    * Ebch column vblue should be fully represented in either b
+    * generbl purpose <code>Collection</code> implementbtion or b speciblized
+    * <code>Collection</code> implementbtion, such bs b <code>Vector</code> object.
+    * An SQL <code>NULL</code> column vblue must be represented bs b <code>null</code>
+    * in the Jbvb progrbmming lbngubge.
     * <P>
-    * The standard reference implementation uses a <code>Vector</code> object
-    * to contain the column values, and it is expected
-    * that most implementations will do the same. If a <code>Vector</code> object
-    * is used, it size must be exactly equal to the number of rows
-    * in this <code>CachedRowSet</code> object.
+    * The stbndbrd reference implementbtion uses b <code>Vector</code> object
+    * to contbin the column vblues, bnd it is expected
+    * thbt most implementbtions will do the sbme. If b <code>Vector</code> object
+    * is used, it size must be exbctly equbl to the number of rows
+    * in this <code>CbchedRowSet</code> object.
     *
-    * @param column an <code>int</code> indicating the column whose values
-    *        are to be represented in a <code>Collection</code> object
-    * @return a <code>Collection</code> object that contains the values
-    * stored in the specified column of this <code>CachedRowSet</code>
+    * @pbrbm column bn <code>int</code> indicbting the column whose vblues
+    *        bre to be represented in b <code>Collection</code> object
+    * @return b <code>Collection</code> object thbt contbins the vblues
+    * stored in the specified column of this <code>CbchedRowSet</code>
     * object
-    * @throws SQLException if an error occurs generating the collection or
-    * an invalid column id is provided
+    * @throws SQLException if bn error occurs generbting the collection or
+    * bn invblid column id is provided
     * @see #toCollection
     * @see #toCollection(String)
     */
     public Collection<?> toCollection(int column) throws SQLException;
 
    /**
-    * Converts the designated column in this <code>CachedRowSet</code> object
-    * to a <code>Collection</code> object. Implementations have some latitude in
-    * how they can represent this <code>Collection</code> object because of the
-    * abstract nature of the <code>Collection</code> framework.
-    * Each column value should be fully represented in either a
-    * general purpose <code>Collection</code> implementation or a specialized
-    * <code>Collection</code> implementation, such as a <code>Vector</code> object.
-    * An SQL <code>NULL</code> column value must be represented as a <code>null</code>
-    * in the Java programming language.
+    * Converts the designbted column in this <code>CbchedRowSet</code> object
+    * to b <code>Collection</code> object. Implementbtions hbve some lbtitude in
+    * how they cbn represent this <code>Collection</code> object becbuse of the
+    * bbstrbct nbture of the <code>Collection</code> frbmework.
+    * Ebch column vblue should be fully represented in either b
+    * generbl purpose <code>Collection</code> implementbtion or b speciblized
+    * <code>Collection</code> implementbtion, such bs b <code>Vector</code> object.
+    * An SQL <code>NULL</code> column vblue must be represented bs b <code>null</code>
+    * in the Jbvb progrbmming lbngubge.
     * <P>
-    * The standard reference implementation uses a <code>Vector</code> object
-    * to contain the column values, and it is expected
-    * that most implementations will do the same. If a <code>Vector</code> object
-    * is used, it size must be exactly equal to the number of rows
-    * in this <code>CachedRowSet</code> object.
+    * The stbndbrd reference implementbtion uses b <code>Vector</code> object
+    * to contbin the column vblues, bnd it is expected
+    * thbt most implementbtions will do the sbme. If b <code>Vector</code> object
+    * is used, it size must be exbctly equbl to the number of rows
+    * in this <code>CbchedRowSet</code> object.
     *
-    * @param column a <code>String</code> object giving the name of the
-    *        column whose values are to be represented in a collection
-    * @return a <code>Collection</code> object that contains the values
-    * stored in the specified column of this <code>CachedRowSet</code>
+    * @pbrbm column b <code>String</code> object giving the nbme of the
+    *        column whose vblues bre to be represented in b collection
+    * @return b <code>Collection</code> object thbt contbins the vblues
+    * stored in the specified column of this <code>CbchedRowSet</code>
     * object
-    * @throws SQLException if an error occurs generating the collection or
-    * an invalid column id is provided
+    * @throws SQLException if bn error occurs generbting the collection or
+    * bn invblid column id is provided
     * @see #toCollection
     * @see #toCollection(int)
     */
     public Collection<?> toCollection(String column) throws SQLException;
 
    /**
-    * Retrieves the <code>SyncProvider</code> implementation for this
-    * <code>CachedRowSet</code> object. Internally, this method is used by a rowset
-    * to trigger read or write actions between the rowset
-    * and the data source. For example, a rowset may need to get a handle
-    * on the the rowset reader (<code>RowSetReader</code> object) from the
-    * <code>SyncProvider</code> to allow the rowset to be populated.
+    * Retrieves the <code>SyncProvider</code> implementbtion for this
+    * <code>CbchedRowSet</code> object. Internblly, this method is used by b rowset
+    * to trigger rebd or write bctions between the rowset
+    * bnd the dbtb source. For exbmple, b rowset mby need to get b hbndle
+    * on the the rowset rebder (<code>RowSetRebder</code> object) from the
+    * <code>SyncProvider</code> to bllow the rowset to be populbted.
     * <pre>
-    *     RowSetReader rowsetReader = null;
+    *     RowSetRebder rowsetRebder = null;
     *     SyncProvider provider =
-    *         SyncFactory.getInstance("javax.sql.rowset.provider.RIOptimisticProvider");
-    *         if (provider instanceof RIOptimisticProvider) {
-    *             rowsetReader = provider.getRowSetReader();
+    *         SyncFbctory.getInstbnce("jbvbx.sql.rowset.provider.RIOptimisticProvider");
+    *         if (provider instbnceof RIOptimisticProvider) {
+    *             rowsetRebder = provider.getRowSetRebder();
     *         }
     * </pre>
-    * Assuming <i>rowsetReader</i> is a private, accessible field within
-    * the rowset implementation, when an application calls the <code>execute</code>
-    * method, it in turn calls on the reader's <code>readData</code> method
-    * to populate the <code>RowSet</code> object.
+    * Assuming <i>rowsetRebder</i> is b privbte, bccessible field within
+    * the rowset implementbtion, when bn bpplicbtion cblls the <code>execute</code>
+    * method, it in turn cblls on the rebder's <code>rebdDbtb</code> method
+    * to populbte the <code>RowSet</code> object.
     *<pre>
-    *     rowsetReader.readData((RowSetInternal)this);
+    *     rowsetRebder.rebdDbtb((RowSetInternbl)this);
     * </pre>
     * <P>
-    * In addition, an application can use the <code>SyncProvider</code> object
-    * returned by this method to call methods that return information about the
-    * <code>SyncProvider</code> object, including information about the
-    * vendor, version, provider identification, synchronization grade, and locks
-    * it currently has set.
+    * In bddition, bn bpplicbtion cbn use the <code>SyncProvider</code> object
+    * returned by this method to cbll methods thbt return informbtion bbout the
+    * <code>SyncProvider</code> object, including informbtion bbout the
+    * vendor, version, provider identificbtion, synchronizbtion grbde, bnd locks
+    * it currently hbs set.
     *
-    * @return the <code>SyncProvider</code> object that was set when the rowset
-    *      was instantiated, or if none was was set, the default provider
-    * @throws SQLException if an error occurs while returning the
+    * @return the <code>SyncProvider</code> object thbt wbs set when the rowset
+    *      wbs instbntibted, or if none wbs wbs set, the defbult provider
+    * @throws SQLException if bn error occurs while returning the
     * <code>SyncProvider</code> object
     * @see #setSyncProvider
     */
     public SyncProvider getSyncProvider() throws SQLException;
 
    /**
-    * Sets the <code>SyncProvider</code> object for this <code>CachedRowSet</code>
+    * Sets the <code>SyncProvider</code> object for this <code>CbchedRowSet</code>
     * object to the one specified.  This method
-    * allows the <code>SyncProvider</code> object to be reset.
+    * bllows the <code>SyncProvider</code> object to be reset.
     * <P>
-    * A <code>CachedRowSet</code> implementation should always be instantiated
-    * with an available <code>SyncProvider</code> mechanism, but there are
-    * cases where resetting the <code>SyncProvider</code> object is desirable
-    * or necessary. For example, an application might want to use the default
-    * <code>SyncProvider</code> object for a time and then choose to use a provider
-    * that has more recently become available and better fits its needs.
+    * A <code>CbchedRowSet</code> implementbtion should blwbys be instbntibted
+    * with bn bvbilbble <code>SyncProvider</code> mechbnism, but there bre
+    * cbses where resetting the <code>SyncProvider</code> object is desirbble
+    * or necessbry. For exbmple, bn bpplicbtion might wbnt to use the defbult
+    * <code>SyncProvider</code> object for b time bnd then choose to use b provider
+    * thbt hbs more recently become bvbilbble bnd better fits its needs.
     * <P>
-    * Resetting the <code>SyncProvider</code> object causes the
-    * <code>RowSet</code> object to request a new <code>SyncProvider</code> implementation
-    * from the <code>SyncFactory</code>. This has the effect of resetting
-    * all previous connections and relationships with the originating
-    * data source and can potentially drastically change the synchronization
-    * behavior of a disconnected rowset.
+    * Resetting the <code>SyncProvider</code> object cbuses the
+    * <code>RowSet</code> object to request b new <code>SyncProvider</code> implementbtion
+    * from the <code>SyncFbctory</code>. This hbs the effect of resetting
+    * bll previous connections bnd relbtionships with the originbting
+    * dbtb source bnd cbn potentiblly drbsticblly chbnge the synchronizbtion
+    * behbvior of b disconnected rowset.
     *
-    * @param provider a <code>String</code> object giving the fully qualified class
-    *        name of a <code>SyncProvider</code> implementation
-    * @throws SQLException if an error occurs while attempting to reset the
-    * <code>SyncProvider</code> implementation
+    * @pbrbm provider b <code>String</code> object giving the fully qublified clbss
+    *        nbme of b <code>SyncProvider</code> implementbtion
+    * @throws SQLException if bn error occurs while bttempting to reset the
+    * <code>SyncProvider</code> implementbtion
     * @see #getSyncProvider
     */
     public void setSyncProvider(String provider) throws SQLException;
 
    /**
-    * Returns the number of rows in this <code>CachedRowSet</code>
+    * Returns the number of rows in this <code>CbchedRowSet</code>
     * object.
     *
     * @return number of rows in the rowset
@@ -1139,486 +1139,486 @@ public interface CachedRowSet extends RowSet, Joinable {
     public int size();
 
    /**
-    * Sets the metadata for this <code>CachedRowSet</code> object with
-    * the given <code>RowSetMetaData</code> object. When a
-    * <code>RowSetReader</code> object is reading the contents of a rowset,
-    * it creates a <code>RowSetMetaData</code> object and initializes
-    * it using the methods in the <code>RowSetMetaData</code> implementation.
-    * The reference implementation uses the <code>RowSetMetaDataImpl</code>
-    * class. When the reader has completed reading the rowset contents,
-    * this method is called internally to pass the <code>RowSetMetaData</code>
+    * Sets the metbdbtb for this <code>CbchedRowSet</code> object with
+    * the given <code>RowSetMetbDbtb</code> object. When b
+    * <code>RowSetRebder</code> object is rebding the contents of b rowset,
+    * it crebtes b <code>RowSetMetbDbtb</code> object bnd initiblizes
+    * it using the methods in the <code>RowSetMetbDbtb</code> implementbtion.
+    * The reference implementbtion uses the <code>RowSetMetbDbtbImpl</code>
+    * clbss. When the rebder hbs completed rebding the rowset contents,
+    * this method is cblled internblly to pbss the <code>RowSetMetbDbtb</code>
     * object to the rowset.
     *
-    * @param md a <code>RowSetMetaData</code> object containing
-    * metadata about the columns in this <code>CachedRowSet</code> object
-    * @throws SQLException if invalid metadata is supplied to the
+    * @pbrbm md b <code>RowSetMetbDbtb</code> object contbining
+    * metbdbtb bbout the columns in this <code>CbchedRowSet</code> object
+    * @throws SQLException if invblid metbdbtb is supplied to the
     * rowset
     */
-    public void setMetaData(RowSetMetaData md) throws SQLException;
+    public void setMetbDbtb(RowSetMetbDbtb md) throws SQLException;
 
    /**
-    * Returns a <code>ResultSet</code> object containing the original value of this
-    * <code>CachedRowSet</code> object.
+    * Returns b <code>ResultSet</code> object contbining the originbl vblue of this
+    * <code>CbchedRowSet</code> object.
     * <P>
     * The cursor for the <code>ResultSet</code>
     * object should be positioned before the first row.
-    * In addition, the returned <code>ResultSet</code> object should have the following
+    * In bddition, the returned <code>ResultSet</code> object should hbve the following
     * properties:
     * <UL>
     * <LI>ResultSet.TYPE_SCROLL_INSENSITIVE
     * <LI>ResultSet.CONCUR_UPDATABLE
     * </UL>
     * <P>
-    * The original value for a <code>RowSet</code> object is the value it had before
-    * the last synchronization with the underlying data source.  If there have been
-    * no synchronizations, the original value will be the value with which the
-    * <code>RowSet</code> object was populated.  This method is called internally
-    * when an application calls the method <code>acceptChanges</code> and the
-    * <code>SyncProvider</code> object has been implemented to check for conflicts.
-    * If this is the case, the writer compares the original value with the value
-    * currently in the data source to check for conflicts.
+    * The originbl vblue for b <code>RowSet</code> object is the vblue it hbd before
+    * the lbst synchronizbtion with the underlying dbtb source.  If there hbve been
+    * no synchronizbtions, the originbl vblue will be the vblue with which the
+    * <code>RowSet</code> object wbs populbted.  This method is cblled internblly
+    * when bn bpplicbtion cblls the method <code>bcceptChbnges</code> bnd the
+    * <code>SyncProvider</code> object hbs been implemented to check for conflicts.
+    * If this is the cbse, the writer compbres the originbl vblue with the vblue
+    * currently in the dbtb source to check for conflicts.
     *
-    * @return a <code>ResultSet</code> object that contains the original value for
-    *         this <code>CachedRowSet</code> object
-    * @throws SQLException if an error occurs producing the
+    * @return b <code>ResultSet</code> object thbt contbins the originbl vblue for
+    *         this <code>CbchedRowSet</code> object
+    * @throws SQLException if bn error occurs producing the
     * <code>ResultSet</code> object
     */
-   public ResultSet getOriginal() throws SQLException;
+   public ResultSet getOriginbl() throws SQLException;
 
    /**
-    * Returns a <code>ResultSet</code> object containing the original value for the
-    * current row only of this <code>CachedRowSet</code> object.
+    * Returns b <code>ResultSet</code> object contbining the originbl vblue for the
+    * current row only of this <code>CbchedRowSet</code> object.
     * <P>
     * The cursor for the <code>ResultSet</code>
     * object should be positioned before the first row.
-    * In addition, the returned <code>ResultSet</code> object should have the following
+    * In bddition, the returned <code>ResultSet</code> object should hbve the following
     * properties:
     * <UL>
     * <LI>ResultSet.TYPE_SCROLL_INSENSITIVE
     * <LI>ResultSet.CONCUR_UPDATABLE
     * </UL>
     *
-    * @return the original result set of the row
+    * @return the originbl result set of the row
     * @throws SQLException if there is no current row
-    * @see #setOriginalRow
+    * @see #setOriginblRow
     */
-    public ResultSet getOriginalRow() throws SQLException;
+    public ResultSet getOriginblRow() throws SQLException;
 
    /**
-    * Sets the current row in this <code>CachedRowSet</code> object as the original
+    * Sets the current row in this <code>CbchedRowSet</code> object bs the originbl
     * row.
     * <P>
-    * This method is called internally after the any modified values in the current
-    * row have been synchronized with the data source. The current row must be tagged
-    * as no longer inserted, deleted or updated.
+    * This method is cblled internblly bfter the bny modified vblues in the current
+    * row hbve been synchronized with the dbtb source. The current row must be tbgged
+    * bs no longer inserted, deleted or updbted.
     * <P>
-    * A call to <code>setOriginalRow</code> is irreversible.
+    * A cbll to <code>setOriginblRow</code> is irreversible.
     *
-    * @throws SQLException if there is no current row or an error is
-    * encountered resetting the contents of the original row
-    * @see #getOriginalRow
+    * @throws SQLException if there is no current row or bn error is
+    * encountered resetting the contents of the originbl row
+    * @see #getOriginblRow
     */
-    public void setOriginalRow() throws SQLException;
+    public void setOriginblRow() throws SQLException;
 
    /**
-    * Returns an identifier for the object (table) that was used to
-    * create this <code>CachedRowSet</code> object. This name may be set on multiple occasions,
-    * and the specification imposes no limits on how many times this
-    * may occur or whether standard implementations should keep track
-    * of previous table names.
+    * Returns bn identifier for the object (tbble) thbt wbs used to
+    * crebte this <code>CbchedRowSet</code> object. This nbme mby be set on multiple occbsions,
+    * bnd the specificbtion imposes no limits on how mbny times this
+    * mby occur or whether stbndbrd implementbtions should keep trbck
+    * of previous tbble nbmes.
     *
-    * @return a <code>String</code> object giving the name of the table that is the
-    *         source of data for this <code>CachedRowSet</code> object or <code>null</code>
-    *         if no name has been set for the table
-    * @throws SQLException if an error is encountered returning the table name
-    * @see javax.sql.RowSetMetaData#getTableName
+    * @return b <code>String</code> object giving the nbme of the tbble thbt is the
+    *         source of dbtb for this <code>CbchedRowSet</code> object or <code>null</code>
+    *         if no nbme hbs been set for the tbble
+    * @throws SQLException if bn error is encountered returning the tbble nbme
+    * @see jbvbx.sql.RowSetMetbDbtb#getTbbleNbme
     */
-    public String getTableName() throws SQLException;
+    public String getTbbleNbme() throws SQLException;
 
    /**
-    * Sets the identifier for the table from which this <code>CachedRowSet</code>
-    * object was derived to the given table name. The writer uses this name to
-    * determine which table to use when comparing the values in the data source with the
-    * <code>CachedRowSet</code> object's values during a synchronization attempt.
-    * The table identifier also indicates where modified values from this
-    * <code>CachedRowSet</code> object should be written.
+    * Sets the identifier for the tbble from which this <code>CbchedRowSet</code>
+    * object wbs derived to the given tbble nbme. The writer uses this nbme to
+    * determine which tbble to use when compbring the vblues in the dbtb source with the
+    * <code>CbchedRowSet</code> object's vblues during b synchronizbtion bttempt.
+    * The tbble identifier blso indicbtes where modified vblues from this
+    * <code>CbchedRowSet</code> object should be written.
     * <P>
-    * The implementation of this <code>CachedRowSet</code> object may obtain the
-    * the name internally from the <code>RowSetMetaDataImpl</code> object.
+    * The implementbtion of this <code>CbchedRowSet</code> object mby obtbin the
+    * the nbme internblly from the <code>RowSetMetbDbtbImpl</code> object.
     *
-    * @param tabName a <code>String</code> object identifying the table from which this
-             <code>CachedRowSet</code> object was derived; cannot be <code>null</code>
-    *         but may be an empty string
-    * @throws SQLException if an error is encountered naming the table or
-    *     <i>tabName</i> is <code>null</code>
-    * @see javax.sql.RowSetMetaData#setTableName
-    * @see javax.sql.RowSetWriter
-    * @see javax.sql.rowset.spi.SyncProvider
+    * @pbrbm tbbNbme b <code>String</code> object identifying the tbble from which this
+             <code>CbchedRowSet</code> object wbs derived; cbnnot be <code>null</code>
+    *         but mby be bn empty string
+    * @throws SQLException if bn error is encountered nbming the tbble or
+    *     <i>tbbNbme</i> is <code>null</code>
+    * @see jbvbx.sql.RowSetMetbDbtb#setTbbleNbme
+    * @see jbvbx.sql.RowSetWriter
+    * @see jbvbx.sql.rowset.spi.SyncProvider
     */
-   public void setTableName(String tabName) throws SQLException;
+   public void setTbbleNbme(String tbbNbme) throws SQLException;
 
    /**
-    * Returns an array containing one or more column numbers indicating the columns
-    * that form a key that uniquely
-    * identifies a row in this <code>CachedRowSet</code> object.
+    * Returns bn brrby contbining one or more column numbers indicbting the columns
+    * thbt form b key thbt uniquely
+    * identifies b row in this <code>CbchedRowSet</code> object.
     *
-    * @return an array containing the column number or numbers that indicate which columns
-    *       constitute a primary key
-    *       for a row in this <code>CachedRowSet</code> object. This array should be
-    *       empty if no columns are representative of a primary key.
-    * @throws SQLException if this <code>CachedRowSet</code> object is empty
+    * @return bn brrby contbining the column number or numbers thbt indicbte which columns
+    *       constitute b primbry key
+    *       for b row in this <code>CbchedRowSet</code> object. This brrby should be
+    *       empty if no columns bre representbtive of b primbry key.
+    * @throws SQLException if this <code>CbchedRowSet</code> object is empty
     * @see #setKeyColumns
-    * @see Joinable#getMatchColumnIndexes
-    * @see Joinable#getMatchColumnNames
+    * @see Joinbble#getMbtchColumnIndexes
+    * @see Joinbble#getMbtchColumnNbmes
     */
     public int[] getKeyColumns() throws SQLException;
 
    /**
-    * Sets this <code>CachedRowSet</code> object's <code>keyCols</code>
-    * field with the given array of column numbers, which forms a key
-    * for uniquely identifying a row in this <code>CachedRowSet</code> object.
+    * Sets this <code>CbchedRowSet</code> object's <code>keyCols</code>
+    * field with the given brrby of column numbers, which forms b key
+    * for uniquely identifying b row in this <code>CbchedRowSet</code> object.
     * <p>
-    * If a <code>CachedRowSet</code> object becomes part of a <code>JoinRowSet</code>
-    * object, the keys defined by this method and the resulting constraints are
-    * maintained if the columns designated as key columns also become match
+    * If b <code>CbchedRowSet</code> object becomes pbrt of b <code>JoinRowSet</code>
+    * object, the keys defined by this method bnd the resulting constrbints bre
+    * mbintbined if the columns designbted bs key columns blso become mbtch
     * columns.
     *
-    * @param keys an array of <code>int</code> indicating the columns that form
-    *        a primary key for this <code>CachedRowSet</code> object; every
-    *        element in the array must be greater than <code>0</code> and
-    *        less than or equal to the number of columns in this rowset
-    * @throws SQLException if any of the numbers in the given array
-    *            are not valid for this rowset
+    * @pbrbm keys bn brrby of <code>int</code> indicbting the columns thbt form
+    *        b primbry key for this <code>CbchedRowSet</code> object; every
+    *        element in the brrby must be grebter thbn <code>0</code> bnd
+    *        less thbn or equbl to the number of columns in this rowset
+    * @throws SQLException if bny of the numbers in the given brrby
+    *            bre not vblid for this rowset
     * @see #getKeyColumns
-    * @see Joinable#setMatchColumn(String)
-    * @see Joinable#setMatchColumn(int)
+    * @see Joinbble#setMbtchColumn(String)
+    * @see Joinbble#setMbtchColumn(int)
 
     */
     public void setKeyColumns(int[] keys) throws SQLException;
 
 
    /**
-    * Returns a new <code>RowSet</code> object backed by the same data as
-    * that of this <code>CachedRowSet</code> object. In effect, both
-    * <code>CachedRowSet</code> objects have a cursor over the same data.
-    * As a result, any changes made by a duplicate are visible to the original
-    * and to any other duplicates, just as a change made by the original is visible
-    * to all of its duplicates. If a duplicate calls a method that changes the
-    * underlying data, the method it calls notifies all registered listeners
-    * just as it would when it is called by the original <code>CachedRowSet</code>
+    * Returns b new <code>RowSet</code> object bbcked by the sbme dbtb bs
+    * thbt of this <code>CbchedRowSet</code> object. In effect, both
+    * <code>CbchedRowSet</code> objects hbve b cursor over the sbme dbtb.
+    * As b result, bny chbnges mbde by b duplicbte bre visible to the originbl
+    * bnd to bny other duplicbtes, just bs b chbnge mbde by the originbl is visible
+    * to bll of its duplicbtes. If b duplicbte cblls b method thbt chbnges the
+    * underlying dbtb, the method it cblls notifies bll registered listeners
+    * just bs it would when it is cblled by the originbl <code>CbchedRowSet</code>
     * object.
     * <P>
-    * In addition, any <code>RowSet</code> object
-    * created by this method will have the same properties as this
-    * <code>CachedRowSet</code> object. For example, if this <code>CachedRowSet</code>
-    * object is read-only, all of its duplicates will also be read-only. If it is
-    * changed to be updatable, the duplicates also become updatable.
+    * In bddition, bny <code>RowSet</code> object
+    * crebted by this method will hbve the sbme properties bs this
+    * <code>CbchedRowSet</code> object. For exbmple, if this <code>CbchedRowSet</code>
+    * object is rebd-only, bll of its duplicbtes will blso be rebd-only. If it is
+    * chbnged to be updbtbble, the duplicbtes blso become updbtbble.
     * <P>
-    * NOTE: If multiple threads access <code>RowSet</code> objects created from
-    * the <code>createShared()</code> method, the following behavior is specified
-    * to preserve shared data integrity: reads and writes of all
-    * shared <code>RowSet</code> objects should be made serially between each
-    * object and the single underlying tabular structure.
+    * NOTE: If multiple threbds bccess <code>RowSet</code> objects crebted from
+    * the <code>crebteShbred()</code> method, the following behbvior is specified
+    * to preserve shbred dbtb integrity: rebds bnd writes of bll
+    * shbred <code>RowSet</code> objects should be mbde seriblly between ebch
+    * object bnd the single underlying tbbulbr structure.
     *
-    * @return a new shared <code>RowSet</code> object that has the same properties
-    *         as this <code>CachedRowSet</code> object and that has a cursor over
-    *         the same data
-    * @throws SQLException if an error occurs or cloning is not
-    * supported in the underlying platform
-    * @see javax.sql.RowSetEvent
-    * @see javax.sql.RowSetListener
+    * @return b new shbred <code>RowSet</code> object thbt hbs the sbme properties
+    *         bs this <code>CbchedRowSet</code> object bnd thbt hbs b cursor over
+    *         the sbme dbtb
+    * @throws SQLException if bn error occurs or cloning is not
+    * supported in the underlying plbtform
+    * @see jbvbx.sql.RowSetEvent
+    * @see jbvbx.sql.RowSetListener
     */
-    public RowSet createShared() throws SQLException;
+    public RowSet crebteShbred() throws SQLException;
 
    /**
-    * Creates a <code>RowSet</code> object that is a deep copy of the data in
-    * this <code>CachedRowSet</code> object. In contrast to
-    * the <code>RowSet</code> object generated from a <code>createShared</code>
-    * call, updates made to the copy of the original <code>RowSet</code> object
-    * must not be visible to the original <code>RowSet</code> object. Also, any
-    * event listeners that are registered with the original
-    * <code>RowSet</code> must not have scope over the new
-    * <code>RowSet</code> copies. In addition, any constraint restrictions
-    * established must be maintained.
+    * Crebtes b <code>RowSet</code> object thbt is b deep copy of the dbtb in
+    * this <code>CbchedRowSet</code> object. In contrbst to
+    * the <code>RowSet</code> object generbted from b <code>crebteShbred</code>
+    * cbll, updbtes mbde to the copy of the originbl <code>RowSet</code> object
+    * must not be visible to the originbl <code>RowSet</code> object. Also, bny
+    * event listeners thbt bre registered with the originbl
+    * <code>RowSet</code> must not hbve scope over the new
+    * <code>RowSet</code> copies. In bddition, bny constrbint restrictions
+    * estbblished must be mbintbined.
     *
-    * @return a new <code>RowSet</code> object that is a deep copy
-    * of this <code>CachedRowSet</code> object and is
-    * completely independent of this <code>CachedRowSet</code> object
-    * @throws SQLException if an error occurs in generating the copy of
-    * the of this <code>CachedRowSet</code> object
-    * @see #createShared
-    * @see #createCopySchema
-    * @see #createCopyNoConstraints
-    * @see javax.sql.RowSetEvent
-    * @see javax.sql.RowSetListener
+    * @return b new <code>RowSet</code> object thbt is b deep copy
+    * of this <code>CbchedRowSet</code> object bnd is
+    * completely independent of this <code>CbchedRowSet</code> object
+    * @throws SQLException if bn error occurs in generbting the copy of
+    * the of this <code>CbchedRowSet</code> object
+    * @see #crebteShbred
+    * @see #crebteCopySchemb
+    * @see #crebteCopyNoConstrbints
+    * @see jbvbx.sql.RowSetEvent
+    * @see jbvbx.sql.RowSetListener
     */
-    public CachedRowSet createCopy() throws SQLException;
+    public CbchedRowSet crebteCopy() throws SQLException;
 
     /**
-     * Creates a <code>CachedRowSet</code> object that is an empty copy of this
-     * <code>CachedRowSet</code> object.  The copy
-     * must not contain any contents but only represent the table
-     * structure of the original <code>CachedRowSet</code> object. In addition, primary
-     * or foreign key constraints set in the originating <code>CachedRowSet</code> object must
-     * be equally enforced in the new empty <code>CachedRowSet</code> object.
-     * In contrast to
-     * the <code>RowSet</code> object generated from a <code>createShared</code> method
-     * call, updates made to a copy of this <code>CachedRowSet</code> object with the
-     * <code>createCopySchema</code> method must not be visible to it.
+     * Crebtes b <code>CbchedRowSet</code> object thbt is bn empty copy of this
+     * <code>CbchedRowSet</code> object.  The copy
+     * must not contbin bny contents but only represent the tbble
+     * structure of the originbl <code>CbchedRowSet</code> object. In bddition, primbry
+     * or foreign key constrbints set in the originbting <code>CbchedRowSet</code> object must
+     * be equblly enforced in the new empty <code>CbchedRowSet</code> object.
+     * In contrbst to
+     * the <code>RowSet</code> object generbted from b <code>crebteShbred</code> method
+     * cbll, updbtes mbde to b copy of this <code>CbchedRowSet</code> object with the
+     * <code>crebteCopySchemb</code> method must not be visible to it.
      * <P>
-     * Applications can form a <code>WebRowSet</code> object from the <code>CachedRowSet</code>
+     * Applicbtions cbn form b <code>WebRowSet</code> object from the <code>CbchedRowSet</code>
      * object returned by this method in order
-     * to export the <code>RowSet</code> schema definition to XML for future use.
-     * @return An empty copy of this {@code CachedRowSet} object
-     * @throws SQLException if an error occurs in cloning the structure of this
-     *         <code>CachedRowSet</code> object
-     * @see #createShared
-     * @see #createCopySchema
-     * @see #createCopyNoConstraints
-     * @see javax.sql.RowSetEvent
-     * @see javax.sql.RowSetListener
+     * to export the <code>RowSet</code> schemb definition to XML for future use.
+     * @return An empty copy of this {@code CbchedRowSet} object
+     * @throws SQLException if bn error occurs in cloning the structure of this
+     *         <code>CbchedRowSet</code> object
+     * @see #crebteShbred
+     * @see #crebteCopySchemb
+     * @see #crebteCopyNoConstrbints
+     * @see jbvbx.sql.RowSetEvent
+     * @see jbvbx.sql.RowSetListener
      */
-    public CachedRowSet createCopySchema() throws SQLException;
+    public CbchedRowSet crebteCopySchemb() throws SQLException;
 
     /**
-     * Creates a <code>CachedRowSet</code> object that is a deep copy of
-     * this <code>CachedRowSet</code> object's data but is independent of it.
-     * In contrast to
-     * the <code>RowSet</code> object generated from a <code>createShared</code>
-     * method call, updates made to a copy of this <code>CachedRowSet</code> object
-     * must not be visible to it. Also, any
-     * event listeners that are registered with this
-     * <code>CachedRowSet</code> object must not have scope over the new
-     * <code>RowSet</code> object. In addition, any constraint restrictions
-     * established for this <code>CachedRowSet</code> object must <b>not</b> be maintained
+     * Crebtes b <code>CbchedRowSet</code> object thbt is b deep copy of
+     * this <code>CbchedRowSet</code> object's dbtb but is independent of it.
+     * In contrbst to
+     * the <code>RowSet</code> object generbted from b <code>crebteShbred</code>
+     * method cbll, updbtes mbde to b copy of this <code>CbchedRowSet</code> object
+     * must not be visible to it. Also, bny
+     * event listeners thbt bre registered with this
+     * <code>CbchedRowSet</code> object must not hbve scope over the new
+     * <code>RowSet</code> object. In bddition, bny constrbint restrictions
+     * estbblished for this <code>CbchedRowSet</code> object must <b>not</b> be mbintbined
      * in the copy.
      *
-     * @return a new <code>CachedRowSet</code> object that is a deep copy
-     *     of this <code>CachedRowSet</code> object and is
-     *     completely independent of this  <code>CachedRowSet</code> object
-     * @throws SQLException if an error occurs in generating the copy of
-     *     the of this <code>CachedRowSet</code> object
-     * @see #createCopy
-     * @see #createShared
-     * @see #createCopySchema
-     * @see javax.sql.RowSetEvent
-     * @see javax.sql.RowSetListener
+     * @return b new <code>CbchedRowSet</code> object thbt is b deep copy
+     *     of this <code>CbchedRowSet</code> object bnd is
+     *     completely independent of this  <code>CbchedRowSet</code> object
+     * @throws SQLException if bn error occurs in generbting the copy of
+     *     the of this <code>CbchedRowSet</code> object
+     * @see #crebteCopy
+     * @see #crebteShbred
+     * @see #crebteCopySchemb
+     * @see jbvbx.sql.RowSetEvent
+     * @see jbvbx.sql.RowSetListener
      */
-    public CachedRowSet createCopyNoConstraints() throws SQLException;
+    public CbchedRowSet crebteCopyNoConstrbints() throws SQLException;
 
     /**
-     * Retrieves the first warning reported by calls on this <code>RowSet</code> object.
-     * Subsequent warnings on this <code>RowSet</code> object will be chained to the
-     * <code>RowSetWarning</code> object that this method returns.
+     * Retrieves the first wbrning reported by cblls on this <code>RowSet</code> object.
+     * Subsequent wbrnings on this <code>RowSet</code> object will be chbined to the
+     * <code>RowSetWbrning</code> object thbt this method returns.
      *
-     * The warning chain is automatically cleared each time a new row is read.
-     * This method may not be called on a RowSet object that has been closed;
-     * doing so will cause a <code>SQLException</code> to be thrown.
+     * The wbrning chbin is butombticblly clebred ebch time b new row is rebd.
+     * This method mby not be cblled on b RowSet object thbt hbs been closed;
+     * doing so will cbuse b <code>SQLException</code> to be thrown.
      *
-     * @return RowSetWarning the first <code>RowSetWarning</code>
-     * object reported or null if there are none
-     * @throws SQLException if this method is called on a closed RowSet
-     * @see RowSetWarning
+     * @return RowSetWbrning the first <code>RowSetWbrning</code>
+     * object reported or null if there bre none
+     * @throws SQLException if this method is cblled on b closed RowSet
+     * @see RowSetWbrning
      */
-    public RowSetWarning getRowSetWarnings() throws SQLException;
+    public RowSetWbrning getRowSetWbrnings() throws SQLException;
 
     /**
-     * Retrieves a <code>boolean</code> indicating whether rows marked
-     * for deletion appear in the set of current rows. If <code>true</code> is
-     * returned, deleted rows are visible with the current rows. If
-     * <code>false</code> is returned, rows are not visible with the set of
-     * current rows. The default value is <code>false</code>.
+     * Retrieves b <code>boolebn</code> indicbting whether rows mbrked
+     * for deletion bppebr in the set of current rows. If <code>true</code> is
+     * returned, deleted rows bre visible with the current rows. If
+     * <code>fblse</code> is returned, rows bre not visible with the set of
+     * current rows. The defbult vblue is <code>fblse</code>.
      * <P>
-     * Standard rowset implementations may choose to restrict this behavior
-     * due to security considerations or to better fit certain deployment
-     * scenarios. This is left as implementation defined and does not
-     * represent standard behavior.
+     * Stbndbrd rowset implementbtions mby choose to restrict this behbvior
+     * due to security considerbtions or to better fit certbin deployment
+     * scenbrios. This is left bs implementbtion defined bnd does not
+     * represent stbndbrd behbvior.
      * <P>
-     * Note: Allowing deleted rows to remain visible complicates the behavior
-     * of some standard JDBC <code>RowSet</code> Implementations methods.
-     * However, most rowset users can simply ignore this extra detail because
-     * only very specialized applications will likely want to take advantage of
-     * this feature.
+     * Note: Allowing deleted rows to rembin visible complicbtes the behbvior
+     * of some stbndbrd JDBC <code>RowSet</code> Implementbtions methods.
+     * However, most rowset users cbn simply ignore this extrb detbil becbuse
+     * only very speciblized bpplicbtions will likely wbnt to tbke bdvbntbge of
+     * this febture.
      *
-     * @return <code>true</code> if deleted rows are visible;
-     *         <code>false</code> otherwise
-     * @throws SQLException if a rowset implementation is unable to
-     * to determine whether rows marked for deletion are visible
+     * @return <code>true</code> if deleted rows bre visible;
+     *         <code>fblse</code> otherwise
+     * @throws SQLException if b rowset implementbtion is unbble to
+     * to determine whether rows mbrked for deletion bre visible
      * @see #setShowDeleted
      */
-    public boolean getShowDeleted() throws SQLException;
+    public boolebn getShowDeleted() throws SQLException;
 
     /**
      * Sets the property <code>showDeleted</code> to the given
-     * <code>boolean</code> value, which determines whether
-     * rows marked for deletion appear in the set of current rows.
-     * If the value is set to <code>true</code>, deleted rows are immediately
-     * visible with the set of current rows. If the value is set to
-     * <code>false</code>, the deleted rows are set as invisible with the
+     * <code>boolebn</code> vblue, which determines whether
+     * rows mbrked for deletion bppebr in the set of current rows.
+     * If the vblue is set to <code>true</code>, deleted rows bre immedibtely
+     * visible with the set of current rows. If the vblue is set to
+     * <code>fblse</code>, the deleted rows bre set bs invisible with the
      * current set of rows.
      * <P>
-     * Standard rowset implementations may choose to restrict this behavior
-     * due to security considerations or to better fit certain deployment
-     * scenarios. This is left as implementations defined and does not
-     * represent standard behavior.
+     * Stbndbrd rowset implementbtions mby choose to restrict this behbvior
+     * due to security considerbtions or to better fit certbin deployment
+     * scenbrios. This is left bs implementbtions defined bnd does not
+     * represent stbndbrd behbvior.
      *
-     * @param b <code>true</code> if deleted rows should be shown;
-     *              <code>false</code> otherwise
-     * @exception SQLException if a rowset implementation is unable to
+     * @pbrbm b <code>true</code> if deleted rows should be shown;
+     *              <code>fblse</code> otherwise
+     * @exception SQLException if b rowset implementbtion is unbble to
      * to reset whether deleted rows should be visible
      * @see #getShowDeleted
      */
-    public void setShowDeleted(boolean b) throws SQLException;
+    public void setShowDeleted(boolebn b) throws SQLException;
 
     /**
-     * Each <code>CachedRowSet</code> object's <code>SyncProvider</code> contains
-     * a <code>Connection</code> object from the <code>ResultSet</code> or JDBC
-     * properties passed to it's constructors. This method wraps the
-     * <code>Connection</code> commit method to allow flexible
-     * auto commit or non auto commit transactional control support.
+     * Ebch <code>CbchedRowSet</code> object's <code>SyncProvider</code> contbins
+     * b <code>Connection</code> object from the <code>ResultSet</code> or JDBC
+     * properties pbssed to it's constructors. This method wrbps the
+     * <code>Connection</code> commit method to bllow flexible
+     * buto commit or non buto commit trbnsbctionbl control support.
      * <p>
-     * Makes all changes that are performed by the <code>acceptChanges()</code>
-     * method since the previous commit/rollback permanent. This method should
-     * be used only when auto-commit mode has been disabled.
+     * Mbkes bll chbnges thbt bre performed by the <code>bcceptChbnges()</code>
+     * method since the previous commit/rollbbck permbnent. This method should
+     * be used only when buto-commit mode hbs been disbbled.
      *
-     * @throws SQLException if a database access error occurs or this
-     * Connection object within this <code>CachedRowSet</code> is in auto-commit mode
-     * @see java.sql.Connection#setAutoCommit
+     * @throws SQLException if b dbtbbbse bccess error occurs or this
+     * Connection object within this <code>CbchedRowSet</code> is in buto-commit mode
+     * @see jbvb.sql.Connection#setAutoCommit
      */
     public void commit() throws SQLException;
 
     /**
-     * Each <code>CachedRowSet</code> object's <code>SyncProvider</code> contains
-     * a <code>Connection</code> object from the original <code>ResultSet</code>
-     * or JDBC properties passed to it.
+     * Ebch <code>CbchedRowSet</code> object's <code>SyncProvider</code> contbins
+     * b <code>Connection</code> object from the originbl <code>ResultSet</code>
+     * or JDBC properties pbssed to it.
      * <p>
-     * Undoes all changes made in the current transaction.  This method
-     * should be used only when auto-commit mode has been disabled.
+     * Undoes bll chbnges mbde in the current trbnsbction.  This method
+     * should be used only when buto-commit mode hbs been disbbled.
      *
-     * @throws SQLException if a database access error occurs or this Connection
-     * object within this <code>CachedRowSet</code> is in auto-commit mode.
+     * @throws SQLException if b dbtbbbse bccess error occurs or this Connection
+     * object within this <code>CbchedRowSet</code> is in buto-commit mode.
      */
-    public void rollback() throws SQLException;
+    public void rollbbck() throws SQLException;
 
     /**
-     * Each <code>CachedRowSet</code> object's <code>SyncProvider</code> contains
-     * a <code>Connection</code> object from the original <code>ResultSet</code>
-     * or JDBC properties passed to it.
+     * Ebch <code>CbchedRowSet</code> object's <code>SyncProvider</code> contbins
+     * b <code>Connection</code> object from the originbl <code>ResultSet</code>
+     * or JDBC properties pbssed to it.
      * <p>
-     * Undoes all changes made in the current transaction back to the last
-     * <code>Savepoint</code> transaction marker. This method should be used only
-     * when auto-commit mode has been disabled.
+     * Undoes bll chbnges mbde in the current trbnsbction bbck to the lbst
+     * <code>Sbvepoint</code> trbnsbction mbrker. This method should be used only
+     * when buto-commit mode hbs been disbbled.
      *
-     * @param s A <code>Savepoint</code> transaction marker
-     * @throws SQLException if a database access error occurs or this Connection
-     * object within this <code>CachedRowSet</code> is in auto-commit mode.
+     * @pbrbm s A <code>Sbvepoint</code> trbnsbction mbrker
+     * @throws SQLException if b dbtbbbse bccess error occurs or this Connection
+     * object within this <code>CbchedRowSet</code> is in buto-commit mode.
      */
-    public void rollback(Savepoint s) throws SQLException;
+    public void rollbbck(Sbvepoint s) throws SQLException;
 
     /**
-     * Causes the <code>CachedRowSet</code> object's <code>SyncProvider</code>
-     * to commit the changes when <code>acceptChanges()</code> is called. If
-     * set to false, the changes will <b>not</b> be committed until one of the
-     * <code>CachedRowSet</code> interface transaction methods is called.
+     * Cbuses the <code>CbchedRowSet</code> object's <code>SyncProvider</code>
+     * to commit the chbnges when <code>bcceptChbnges()</code> is cblled. If
+     * set to fblse, the chbnges will <b>not</b> be committed until one of the
+     * <code>CbchedRowSet</code> interfbce trbnsbction methods is cblled.
      *
-     * @deprecated Because this field is final (it is part of an interface),
-     *  its value cannot be changed.
+     * @deprecbted Becbuse this field is finbl (it is pbrt of bn interfbce),
+     *  its vblue cbnnot be chbnged.
      * @see #commit
-     * @see #rollback
+     * @see #rollbbck
      */
-    @Deprecated
-    public static final boolean COMMIT_ON_ACCEPT_CHANGES = true;
+    @Deprecbted
+    public stbtic finbl boolebn COMMIT_ON_ACCEPT_CHANGES = true;
 
     /**
-     * Notifies registered listeners that a RowSet object in the given RowSetEvent
-     * object has populated a number of additional rows. The <code>numRows</code> parameter
-     * ensures that this event will only be fired every <code>numRow</code>.
+     * Notifies registered listeners thbt b RowSet object in the given RowSetEvent
+     * object hbs populbted b number of bdditionbl rows. The <code>numRows</code> pbrbmeter
+     * ensures thbt this event will only be fired every <code>numRow</code>.
      * <p>
-     * The source of the event can be retrieved with the method event.getSource.
+     * The source of the event cbn be retrieved with the method event.getSource.
      *
-     * @param event a <code>RowSetEvent</code> object that contains the
-     *     <code>RowSet</code> object that is the source of the events
-     * @param numRows when populating, the number of rows interval on which the
-     *     <code>CachedRowSet</code> populated should fire; the default value
-     *     is zero; cannot be less than <code>fetchSize</code> or zero
+     * @pbrbm event b <code>RowSetEvent</code> object thbt contbins the
+     *     <code>RowSet</code> object thbt is the source of the events
+     * @pbrbm numRows when populbting, the number of rows intervbl on which the
+     *     <code>CbchedRowSet</code> populbted should fire; the defbult vblue
+     *     is zero; cbnnot be less thbn <code>fetchSize</code> or zero
      * @throws SQLException {@code numRows < 0 or numRows < getFetchSize() }
      */
-    public void rowSetPopulated(RowSetEvent event, int numRows) throws SQLException;
+    public void rowSetPopulbted(RowSetEvent event, int numRows) throws SQLException;
 
     /**
-     * Populates this <code>CachedRowSet</code> object with data from
-     * the given <code>ResultSet</code> object. While related to the <code>populate(ResultSet)</code>
-     * method, an additional parameter is provided to allow starting position within
-     * the <code>ResultSet</code> from where to populate the CachedRowSet
-     * instance.
+     * Populbtes this <code>CbchedRowSet</code> object with dbtb from
+     * the given <code>ResultSet</code> object. While relbted to the <code>populbte(ResultSet)</code>
+     * method, bn bdditionbl pbrbmeter is provided to bllow stbrting position within
+     * the <code>ResultSet</code> from where to populbte the CbchedRowSet
+     * instbnce.
      * <P>
-     * This method can be used as an alternative to the <code>execute</code> method when an
-     * application has a connection to an open <code>ResultSet</code> object.
-     * Using the method <code>populate</code> can be more efficient than using
-     * the version of the <code>execute</code> method that takes no parameters
-     * because it does not open a new connection and re-execute this
-     * <code>CachedRowSet</code> object's command. Using the <code>populate</code>
-     *  method is more a matter of convenience when compared to using the version
-     * of <code>execute</code> that takes a <code>ResultSet</code> object.
+     * This method cbn be used bs bn blternbtive to the <code>execute</code> method when bn
+     * bpplicbtion hbs b connection to bn open <code>ResultSet</code> object.
+     * Using the method <code>populbte</code> cbn be more efficient thbn using
+     * the version of the <code>execute</code> method thbt tbkes no pbrbmeters
+     * becbuse it does not open b new connection bnd re-execute this
+     * <code>CbchedRowSet</code> object's commbnd. Using the <code>populbte</code>
+     *  method is more b mbtter of convenience when compbred to using the version
+     * of <code>execute</code> thbt tbkes b <code>ResultSet</code> object.
      *
-     * @param startRow the position in the <code>ResultSet</code> from where to start
-     *                populating the records in this <code>CachedRowSet</code>
-     * @param rs the <code>ResultSet</code> object containing the data
-     * to be read into this <code>CachedRowSet</code> object
-     * @throws SQLException if a null <code>ResultSet</code> object is supplied
-     * or this <code>CachedRowSet</code> object cannot
-     * retrieve the associated <code>ResultSetMetaData</code> object
+     * @pbrbm stbrtRow the position in the <code>ResultSet</code> from where to stbrt
+     *                populbting the records in this <code>CbchedRowSet</code>
+     * @pbrbm rs the <code>ResultSet</code> object contbining the dbtb
+     * to be rebd into this <code>CbchedRowSet</code> object
+     * @throws SQLException if b null <code>ResultSet</code> object is supplied
+     * or this <code>CbchedRowSet</code> object cbnnot
+     * retrieve the bssocibted <code>ResultSetMetbDbtb</code> object
      * @see #execute
-     * @see #populate(ResultSet)
-     * @see java.sql.ResultSet
-     * @see java.sql.ResultSetMetaData
+     * @see #populbte(ResultSet)
+     * @see jbvb.sql.ResultSet
+     * @see jbvb.sql.ResultSetMetbDbtb
     */
-    public void populate(ResultSet rs, int startRow) throws SQLException;
+    public void populbte(ResultSet rs, int stbrtRow) throws SQLException;
 
     /**
-     * Sets the <code>CachedRowSet</code> object's page-size. A <code>CachedRowSet</code>
-     * may be configured to populate itself in page-size sized batches of rows. When
-     * either <code>populate()</code> or <code>execute()</code> are called, the
-     * <code>CachedRowSet</code> fetches an additional page according to the
-     * original SQL query used to populate the RowSet.
+     * Sets the <code>CbchedRowSet</code> object's pbge-size. A <code>CbchedRowSet</code>
+     * mby be configured to populbte itself in pbge-size sized bbtches of rows. When
+     * either <code>populbte()</code> or <code>execute()</code> bre cblled, the
+     * <code>CbchedRowSet</code> fetches bn bdditionbl pbge bccording to the
+     * originbl SQL query used to populbte the RowSet.
      *
-     * @param size the page-size of the <code>CachedRowSet</code>
-     * @throws SQLException if an error occurs setting the <code>CachedRowSet</code>
-     *      page size or if the page size is less than 0.
+     * @pbrbm size the pbge-size of the <code>CbchedRowSet</code>
+     * @throws SQLException if bn error occurs setting the <code>CbchedRowSet</code>
+     *      pbge size or if the pbge size is less thbn 0.
      */
-    public void setPageSize(int size) throws SQLException;
+    public void setPbgeSize(int size) throws SQLException;
 
     /**
-     * Returns the page-size for the <code>CachedRowSet</code> object
+     * Returns the pbge-size for the <code>CbchedRowSet</code> object
      *
-     * @return an <code>int</code> page size
+     * @return bn <code>int</code> pbge size
      */
-    public int getPageSize();
+    public int getPbgeSize();
 
     /**
-     * Increments the current page of the <code>CachedRowSet</code>. This causes
-     * the <code>CachedRowSet</code> implementation to fetch the next page-size
-     * rows and populate the RowSet, if remaining rows remain within scope of the
-     * original SQL query used to populated the RowSet.
+     * Increments the current pbge of the <code>CbchedRowSet</code>. This cbuses
+     * the <code>CbchedRowSet</code> implementbtion to fetch the next pbge-size
+     * rows bnd populbte the RowSet, if rembining rows rembin within scope of the
+     * originbl SQL query used to populbted the RowSet.
      *
-     * @return true if more pages exist; false if this is the last page
-     * @throws SQLException if an error occurs fetching the next page, or if this
-     *     method is called prematurely before populate or execute.
+     * @return true if more pbges exist; fblse if this is the lbst pbge
+     * @throws SQLException if bn error occurs fetching the next pbge, or if this
+     *     method is cblled prembturely before populbte or execute.
      */
-    public boolean nextPage() throws SQLException;
+    public boolebn nextPbge() throws SQLException;
 
     /**
-     * Decrements the current page of the <code>CachedRowSet</code>. This causes
-     * the <code>CachedRowSet</code> implementation to fetch the previous page-size
-     * rows and populate the RowSet. The amount of rows returned in the previous
-     * page must always remain within scope of the original SQL query used to
-     * populate the RowSet.
+     * Decrements the current pbge of the <code>CbchedRowSet</code>. This cbuses
+     * the <code>CbchedRowSet</code> implementbtion to fetch the previous pbge-size
+     * rows bnd populbte the RowSet. The bmount of rows returned in the previous
+     * pbge must blwbys rembin within scope of the originbl SQL query used to
+     * populbte the RowSet.
      *
-     * @return true if the previous page is successfully retrieved; false if this
-     *     is the first page.
-     * @throws SQLException if an error occurs fetching the previous page, or if
-     *     this method is called prematurely before populate or execute.
+     * @return true if the previous pbge is successfully retrieved; fblse if this
+     *     is the first pbge.
+     * @throws SQLException if bn error occurs fetching the previous pbge, or if
+     *     this method is cblled prembturely before populbte or execute.
      */
-    public boolean previousPage() throws SQLException;
+    public boolebn previousPbge() throws SQLException;
 
 }

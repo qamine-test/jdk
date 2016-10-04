@@ -3,205 +3,205 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="be"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="be"/>
 	</identity>
-	<localeDisplayNames>
-		<localeDisplayPattern>
-			<localePattern draft="contributed">{0} ({1})</localePattern>
-			<localeSeparator draft="contributed">, </localeSeparator>
-		</localeDisplayPattern>
-		<languages>
-			<language type="ab">абхазская</language>
-			<language type="ady" draft="contributed">адыгейская</language>
-			<language type="af">афрыкаанс</language>
-			<language type="afa" draft="contributed">афра-азіяцкая мова</language>
-			<language type="akk" draft="contributed">акадзкая</language>
-			<language type="ale" draft="contributed">алеуцкая</language>
-			<language type="am">амхарская</language>
-			<language type="an" draft="contributed">арагонская</language>
-			<language type="ang">стараанглійская</language>
-			<language type="ar">арабская</language>
-			<language type="arc" draft="contributed">арамейская</language>
-			<language type="art" draft="contributed">штучная мова</language>
-			<language type="as">асамская</language>
-			<language type="ast" draft="contributed">астурыйская</language>
-			<language type="aus" draft="contributed">аўстралійская</language>
-			<language type="av" draft="contributed">аварская</language>
-			<language type="ay" draft="contributed">аймара</language>
-			<language type="az">азербайджанская</language>
-			<language type="ba">башкірская</language>
-			<language type="be">беларуская</language>
-			<language type="bg">балгарская</language>
-			<language type="bh">біхары</language>
-			<language type="bn">бенгальская</language>
-			<language type="br">брэтонская</language>
-			<language type="bs">баснійская</language>
-			<language type="bua" draft="contributed">бурацкая</language>
-			<language type="ca">каталонская</language>
-			<language type="cai" draft="contributed">мова індзейцаў Цэнтральнай Амерыкі</language>
-			<language type="cau" draft="contributed">каўказская мова</language>
-			<language type="ce">чачэнская</language>
-			<language type="cel" draft="contributed">кельцкая мова</language>
-			<language type="chb" draft="unconfirmed">чыбча</language>
-			<language type="cop">копцкая</language>
-			<language type="cs">чэшская</language>
-			<language type="cus" draft="unconfirmed">кушыцкая мова</language>
-			<language type="cv" draft="contributed">чувашская</language>
-			<language type="cy">валійская</language>
-			<language type="da">дацкая</language>
-			<language type="de">нямецкая</language>
-			<language type="de_AT">нямецкая (аўстр.)</language>
-			<language type="de_CH">нямецкая (швейц.)</language>
-			<language type="egy" draft="contributed">стараэгіпецкая</language>
-			<language type="el">грэцкая</language>
-			<language type="en">англійская</language>
-			<language type="en_AU">англійская (аўстрал.)</language>
-			<language type="en_CA">англійская (канад.)</language>
-			<language type="en_GB">англійская (Вялікабрытанія)</language>
-			<language type="en_US">англійская (ЗША)</language>
-			<language type="eo">эсперанта</language>
-			<language type="es">іспанская</language>
-			<language type="es_419">іспанская (лацінаамер.)</language>
-			<language type="et">эстонская</language>
-			<language type="eu">баскская</language>
-			<language type="fa">фарсі</language>
-			<language type="fi">фінская</language>
-			<language type="fil">тагальская</language>
-			<language type="fo">фарэрская</language>
-			<language type="fr">французская</language>
-			<language type="fr_CA">французская (канад.)</language>
-			<language type="fr_CH">французская (швейц.)</language>
-			<language type="fro">старафранцузская</language>
-			<language type="fy">фрызская</language>
-			<language type="ga">ірландская</language>
-			<language type="gd">шатландская гэльская</language>
-			<language type="gl">галісійская</language>
-			<language type="gn">гуарані</language>
-			<language type="grc" draft="contributed">старагрэцкая</language>
-			<language type="gu">гуяраці</language>
-			<language type="he">іўрыт</language>
-			<language type="hi">хіндзі</language>
-			<language type="hr">харвацкая</language>
-			<language type="hu">венгерская</language>
-			<language type="hy">армянская</language>
-			<language type="ia">інтэрлінгва</language>
-			<language type="id">інданезійская</language>
-			<language type="ie">інтэрлінгве</language>
-			<language type="is">ісландская</language>
-			<language type="it">італьянская</language>
-			<language type="ja">японская</language>
-			<language type="jv">яванская</language>
-			<language type="ka">грузінская</language>
-			<language type="kk">казахская</language>
-			<language type="kn">каннада</language>
-			<language type="ko">карэйская</language>
-			<language type="ku">курдская</language>
-			<language type="la">лацінская</language>
-			<language type="ln">лінгала</language>
-			<language type="lo">лаоская</language>
-			<language type="lol" draft="unconfirmed">монга</language>
-			<language type="lt">літоўская</language>
-			<language type="luo" draft="unconfirmed">луо</language>
-			<language type="lv">латышская</language>
-			<language type="man" draft="unconfirmed">мандынга</language>
-			<language type="map" draft="contributed">аўстранезійская</language>
-			<language type="mas" draft="unconfirmed">масаі</language>
-			<language type="men" draft="unconfirmed">мендэ</language>
-			<language type="mg" draft="unconfirmed">мальгашская</language>
-			<language type="mk">македонская</language>
-			<language type="ml">малаяламская</language>
-			<language type="mn">мангольская</language>
-			<language type="mo">малдаўская</language>
-			<language type="mos" draft="unconfirmed">мосі</language>
-			<language type="mr">маратхі</language>
-			<language type="ms">малайская</language>
-			<language type="mt">мальтыйская</language>
-			<language type="nai" draft="unconfirmed">мова індзейцаў Паўночнай Амерыкі</language>
-			<language type="nb" draft="contributed">нарвэская букмал</language>
-			<language type="ne">непальская</language>
-			<language type="nl">галандская</language>
-			<language type="nl_BE">фламандская</language>
-			<language type="nn">нарвежская (нюнорск)</language>
-			<language type="no">нарвежская</language>
-			<language type="nog" draft="unconfirmed">нагайская</language>
-			<language type="non" draft="unconfirmed">старанарвежская</language>
-			<language type="nub" draft="unconfirmed">нубійская мова</language>
-			<language type="oc">правансальская</language>
-			<language type="oj" draft="unconfirmed">аджыбве</language>
-			<language type="or" draft="unconfirmed">орыя</language>
-			<language type="os" draft="unconfirmed">асецінская</language>
-			<language type="pa">панджабі</language>
-			<language type="peo" draft="unconfirmed">стараперсідская</language>
-			<language type="phn" draft="unconfirmed">фінікійская</language>
-			<language type="pl">польская</language>
-			<language type="pro" draft="unconfirmed">стараправансальская</language>
-			<language type="ps">пушту</language>
-			<language type="pt">партугальская</language>
-			<language type="pt_BR">партугальская (бразіл.)</language>
-			<language type="qu" draft="unconfirmed">кечуа</language>
-			<language type="raj" draft="unconfirmed">раджастханская</language>
-			<language type="rm" draft="unconfirmed">рэта-раманская</language>
-			<language type="ro">румынская</language>
-			<language type="ru">руская</language>
-			<language type="sa">санскрыт</language>
-			<language type="sah">якуцкая</language>
-			<language type="sai" draft="unconfirmed">мова індзейцаў Паўднёвай Амерыкі</language>
-			<language type="sd">сіндхі</language>
-			<language type="sem" draft="unconfirmed">семіцкая мова</language>
-			<language type="sga" draft="unconfirmed">стараірландская</language>
-			<language type="sgn" draft="contributed">знакавая мова</language>
-			<language type="sh">сербска-харвацкая</language>
-			<language type="si">сінгальская</language>
-			<language type="sit" draft="unconfirmed">кітайска-тыбецкая мова</language>
-			<language type="sk">славацкая</language>
-			<language type="sl">славенская</language>
-			<language type="sla" draft="contributed">славянская мова</language>
-			<language type="so">самалійская</language>
-			<language type="sq">албанская</language>
-			<language type="sr">сербская</language>
-			<language type="su">суданская</language>
-			<language type="sux" draft="unconfirmed">шумерская</language>
-			<language type="sv">шведская</language>
-			<language type="sw">суахілі</language>
-			<language type="ta">тамільская</language>
-			<language type="tai" draft="unconfirmed">мова таі</language>
-			<language type="te">тэлугу</language>
-			<language type="tg" draft="unconfirmed">таджыкская</language>
-			<language type="th">тайская</language>
-			<language type="ti">тыгрынья</language>
-			<language type="tk">туркменская</language>
-			<language type="tlh">клінгон</language>
-			<language type="tr">турэцкая</language>
-			<language type="tt">татарская</language>
-			<language type="tup" draft="unconfirmed">мова тупі</language>
-			<language type="tut" draft="contributed">алтайская мова</language>
-			<language type="tyv" draft="unconfirmed">тувінская</language>
-			<language type="ug">уйгурская</language>
-			<language type="uk">украінская</language>
-			<language type="und">невядомая мова</language>
-			<language type="ur">урду</language>
-			<language type="uz">узбекская</language>
-			<language type="vi">в'етнамская</language>
-			<language type="vo" draft="unconfirmed">валапюк</language>
-			<language type="xh">хоса</language>
-			<language type="yi" draft="contributed">ідыш</language>
-			<language type="zap" draft="unconfirmed">сапатэкаў</language>
-			<language type="zh">кітайская</language>
-			<language type="zh_Hans">спрошчаная кітайская</language>
-			<language type="zh_Hant">традыцыйная кітайская</language>
-			<language type="zu">зулу</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<locbleDisplbyPbttern>
+			<locblePbttern drbft="contributed">{0} ({1})</locblePbttern>
+			<locbleSepbrbtor drbft="contributed">, </locbleSepbrbtor>
+		</locbleDisplbyPbttern>
+		<lbngubges>
+			<lbngubge type="bb">абхазская</lbngubge>
+			<lbngubge type="bdy" drbft="contributed">адыгейская</lbngubge>
+			<lbngubge type="bf">афрыкаанс</lbngubge>
+			<lbngubge type="bfb" drbft="contributed">афра-азіяцкая мова</lbngubge>
+			<lbngubge type="bkk" drbft="contributed">акадзкая</lbngubge>
+			<lbngubge type="ble" drbft="contributed">алеуцкая</lbngubge>
+			<lbngubge type="bm">амхарская</lbngubge>
+			<lbngubge type="bn" drbft="contributed">арагонская</lbngubge>
+			<lbngubge type="bng">стараанглійская</lbngubge>
+			<lbngubge type="br">арабская</lbngubge>
+			<lbngubge type="brc" drbft="contributed">арамейская</lbngubge>
+			<lbngubge type="brt" drbft="contributed">штучная мова</lbngubge>
+			<lbngubge type="bs">асамская</lbngubge>
+			<lbngubge type="bst" drbft="contributed">астурыйская</lbngubge>
+			<lbngubge type="bus" drbft="contributed">аўстралійская</lbngubge>
+			<lbngubge type="bv" drbft="contributed">аварская</lbngubge>
+			<lbngubge type="by" drbft="contributed">аймара</lbngubge>
+			<lbngubge type="bz">азербайджанская</lbngubge>
+			<lbngubge type="bb">башкірская</lbngubge>
+			<lbngubge type="be">беларуская</lbngubge>
+			<lbngubge type="bg">балгарская</lbngubge>
+			<lbngubge type="bh">біхары</lbngubge>
+			<lbngubge type="bn">бенгальская</lbngubge>
+			<lbngubge type="br">брэтонская</lbngubge>
+			<lbngubge type="bs">баснійская</lbngubge>
+			<lbngubge type="bub" drbft="contributed">бурацкая</lbngubge>
+			<lbngubge type="cb">каталонская</lbngubge>
+			<lbngubge type="cbi" drbft="contributed">мова індзейцаў Цэнтральнай Амерыкі</lbngubge>
+			<lbngubge type="cbu" drbft="contributed">каўказская мова</lbngubge>
+			<lbngubge type="ce">чачэнская</lbngubge>
+			<lbngubge type="cel" drbft="contributed">кельцкая мова</lbngubge>
+			<lbngubge type="chb" drbft="unconfirmed">чыбча</lbngubge>
+			<lbngubge type="cop">копцкая</lbngubge>
+			<lbngubge type="cs">чэшская</lbngubge>
+			<lbngubge type="cus" drbft="unconfirmed">кушыцкая мова</lbngubge>
+			<lbngubge type="cv" drbft="contributed">чувашская</lbngubge>
+			<lbngubge type="cy">валійская</lbngubge>
+			<lbngubge type="db">дацкая</lbngubge>
+			<lbngubge type="de">нямецкая</lbngubge>
+			<lbngubge type="de_AT">нямецкая (аўстр.)</lbngubge>
+			<lbngubge type="de_CH">нямецкая (швейц.)</lbngubge>
+			<lbngubge type="egy" drbft="contributed">стараэгіпецкая</lbngubge>
+			<lbngubge type="el">грэцкая</lbngubge>
+			<lbngubge type="en">англійская</lbngubge>
+			<lbngubge type="en_AU">англійская (аўстрал.)</lbngubge>
+			<lbngubge type="en_CA">англійская (канад.)</lbngubge>
+			<lbngubge type="en_GB">англійская (Вялікабрытанія)</lbngubge>
+			<lbngubge type="en_US">англійская (ЗША)</lbngubge>
+			<lbngubge type="eo">эсперанта</lbngubge>
+			<lbngubge type="es">іспанская</lbngubge>
+			<lbngubge type="es_419">іспанская (лацінаамер.)</lbngubge>
+			<lbngubge type="et">эстонская</lbngubge>
+			<lbngubge type="eu">баскская</lbngubge>
+			<lbngubge type="fb">фарсі</lbngubge>
+			<lbngubge type="fi">фінская</lbngubge>
+			<lbngubge type="fil">тагальская</lbngubge>
+			<lbngubge type="fo">фарэрская</lbngubge>
+			<lbngubge type="fr">французская</lbngubge>
+			<lbngubge type="fr_CA">французская (канад.)</lbngubge>
+			<lbngubge type="fr_CH">французская (швейц.)</lbngubge>
+			<lbngubge type="fro">старафранцузская</lbngubge>
+			<lbngubge type="fy">фрызская</lbngubge>
+			<lbngubge type="gb">ірландская</lbngubge>
+			<lbngubge type="gd">шатландская гэльская</lbngubge>
+			<lbngubge type="gl">галісійская</lbngubge>
+			<lbngubge type="gn">гуарані</lbngubge>
+			<lbngubge type="grc" drbft="contributed">старагрэцкая</lbngubge>
+			<lbngubge type="gu">гуяраці</lbngubge>
+			<lbngubge type="he">іўрыт</lbngubge>
+			<lbngubge type="hi">хіндзі</lbngubge>
+			<lbngubge type="hr">харвацкая</lbngubge>
+			<lbngubge type="hu">венгерская</lbngubge>
+			<lbngubge type="hy">армянская</lbngubge>
+			<lbngubge type="ib">інтэрлінгва</lbngubge>
+			<lbngubge type="id">інданезійская</lbngubge>
+			<lbngubge type="ie">інтэрлінгве</lbngubge>
+			<lbngubge type="is">ісландская</lbngubge>
+			<lbngubge type="it">італьянская</lbngubge>
+			<lbngubge type="jb">японская</lbngubge>
+			<lbngubge type="jv">яванская</lbngubge>
+			<lbngubge type="kb">грузінская</lbngubge>
+			<lbngubge type="kk">казахская</lbngubge>
+			<lbngubge type="kn">каннада</lbngubge>
+			<lbngubge type="ko">карэйская</lbngubge>
+			<lbngubge type="ku">курдская</lbngubge>
+			<lbngubge type="lb">лацінская</lbngubge>
+			<lbngubge type="ln">лінгала</lbngubge>
+			<lbngubge type="lo">лаоская</lbngubge>
+			<lbngubge type="lol" drbft="unconfirmed">монга</lbngubge>
+			<lbngubge type="lt">літоўская</lbngubge>
+			<lbngubge type="luo" drbft="unconfirmed">луо</lbngubge>
+			<lbngubge type="lv">латышская</lbngubge>
+			<lbngubge type="mbn" drbft="unconfirmed">мандынга</lbngubge>
+			<lbngubge type="mbp" drbft="contributed">аўстранезійская</lbngubge>
+			<lbngubge type="mbs" drbft="unconfirmed">масаі</lbngubge>
+			<lbngubge type="men" drbft="unconfirmed">мендэ</lbngubge>
+			<lbngubge type="mg" drbft="unconfirmed">мальгашская</lbngubge>
+			<lbngubge type="mk">македонская</lbngubge>
+			<lbngubge type="ml">малаяламская</lbngubge>
+			<lbngubge type="mn">мангольская</lbngubge>
+			<lbngubge type="mo">малдаўская</lbngubge>
+			<lbngubge type="mos" drbft="unconfirmed">мосі</lbngubge>
+			<lbngubge type="mr">маратхі</lbngubge>
+			<lbngubge type="ms">малайская</lbngubge>
+			<lbngubge type="mt">мальтыйская</lbngubge>
+			<lbngubge type="nbi" drbft="unconfirmed">мова індзейцаў Паўночнай Амерыкі</lbngubge>
+			<lbngubge type="nb" drbft="contributed">нарвэская букмал</lbngubge>
+			<lbngubge type="ne">непальская</lbngubge>
+			<lbngubge type="nl">галандская</lbngubge>
+			<lbngubge type="nl_BE">фламандская</lbngubge>
+			<lbngubge type="nn">нарвежская (нюнорск)</lbngubge>
+			<lbngubge type="no">нарвежская</lbngubge>
+			<lbngubge type="nog" drbft="unconfirmed">нагайская</lbngubge>
+			<lbngubge type="non" drbft="unconfirmed">старанарвежская</lbngubge>
+			<lbngubge type="nub" drbft="unconfirmed">нубійская мова</lbngubge>
+			<lbngubge type="oc">правансальская</lbngubge>
+			<lbngubge type="oj" drbft="unconfirmed">аджыбве</lbngubge>
+			<lbngubge type="or" drbft="unconfirmed">орыя</lbngubge>
+			<lbngubge type="os" drbft="unconfirmed">асецінская</lbngubge>
+			<lbngubge type="pb">панджабі</lbngubge>
+			<lbngubge type="peo" drbft="unconfirmed">стараперсідская</lbngubge>
+			<lbngubge type="phn" drbft="unconfirmed">фінікійская</lbngubge>
+			<lbngubge type="pl">польская</lbngubge>
+			<lbngubge type="pro" drbft="unconfirmed">стараправансальская</lbngubge>
+			<lbngubge type="ps">пушту</lbngubge>
+			<lbngubge type="pt">партугальская</lbngubge>
+			<lbngubge type="pt_BR">партугальская (бразіл.)</lbngubge>
+			<lbngubge type="qu" drbft="unconfirmed">кечуа</lbngubge>
+			<lbngubge type="rbj" drbft="unconfirmed">раджастханская</lbngubge>
+			<lbngubge type="rm" drbft="unconfirmed">рэта-раманская</lbngubge>
+			<lbngubge type="ro">румынская</lbngubge>
+			<lbngubge type="ru">руская</lbngubge>
+			<lbngubge type="sb">санскрыт</lbngubge>
+			<lbngubge type="sbh">якуцкая</lbngubge>
+			<lbngubge type="sbi" drbft="unconfirmed">мова індзейцаў Паўднёвай Амерыкі</lbngubge>
+			<lbngubge type="sd">сіндхі</lbngubge>
+			<lbngubge type="sem" drbft="unconfirmed">семіцкая мова</lbngubge>
+			<lbngubge type="sgb" drbft="unconfirmed">стараірландская</lbngubge>
+			<lbngubge type="sgn" drbft="contributed">знакавая мова</lbngubge>
+			<lbngubge type="sh">сербска-харвацкая</lbngubge>
+			<lbngubge type="si">сінгальская</lbngubge>
+			<lbngubge type="sit" drbft="unconfirmed">кітайска-тыбецкая мова</lbngubge>
+			<lbngubge type="sk">славацкая</lbngubge>
+			<lbngubge type="sl">славенская</lbngubge>
+			<lbngubge type="slb" drbft="contributed">славянская мова</lbngubge>
+			<lbngubge type="so">самалійская</lbngubge>
+			<lbngubge type="sq">албанская</lbngubge>
+			<lbngubge type="sr">сербская</lbngubge>
+			<lbngubge type="su">суданская</lbngubge>
+			<lbngubge type="sux" drbft="unconfirmed">шумерская</lbngubge>
+			<lbngubge type="sv">шведская</lbngubge>
+			<lbngubge type="sw">суахілі</lbngubge>
+			<lbngubge type="tb">тамільская</lbngubge>
+			<lbngubge type="tbi" drbft="unconfirmed">мова таі</lbngubge>
+			<lbngubge type="te">тэлугу</lbngubge>
+			<lbngubge type="tg" drbft="unconfirmed">таджыкская</lbngubge>
+			<lbngubge type="th">тайская</lbngubge>
+			<lbngubge type="ti">тыгрынья</lbngubge>
+			<lbngubge type="tk">туркменская</lbngubge>
+			<lbngubge type="tlh">клінгон</lbngubge>
+			<lbngubge type="tr">турэцкая</lbngubge>
+			<lbngubge type="tt">татарская</lbngubge>
+			<lbngubge type="tup" drbft="unconfirmed">мова тупі</lbngubge>
+			<lbngubge type="tut" drbft="contributed">алтайская мова</lbngubge>
+			<lbngubge type="tyv" drbft="unconfirmed">тувінская</lbngubge>
+			<lbngubge type="ug">уйгурская</lbngubge>
+			<lbngubge type="uk">украінская</lbngubge>
+			<lbngubge type="und">невядомая мова</lbngubge>
+			<lbngubge type="ur">урду</lbngubge>
+			<lbngubge type="uz">узбекская</lbngubge>
+			<lbngubge type="vi">в'етнамская</lbngubge>
+			<lbngubge type="vo" drbft="unconfirmed">валапюк</lbngubge>
+			<lbngubge type="xh">хоса</lbngubge>
+			<lbngubge type="yi" drbft="contributed">ідыш</lbngubge>
+			<lbngubge type="zbp" drbft="unconfirmed">сапатэкаў</lbngubge>
+			<lbngubge type="zh">кітайская</lbngubge>
+			<lbngubge type="zh_Hbns">спрошчаная кітайская</lbngubge>
+			<lbngubge type="zh_Hbnt">традыцыйная кітайская</lbngubge>
+			<lbngubge type="zu">зулу</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Arab" draft="contributed">арабскае</script>
-			<script type="Armn" draft="contributed">армянскае</script>
+			<script type="Arbb" drbft="contributed">арабскае</script>
+			<script type="Armn" drbft="contributed">армянскае</script>
 			<script type="Cyrl">кірылічны</script>
-			<script type="Geor" draft="contributed">грузінскае</script>
-			<script type="Hans" draft="contributed">спрошчанае кітайскае</script>
-			<script type="Hant" draft="contributed">традыцыйнае кітайскае</script>
-			<script type="Hebr" draft="contributed">габрэйскае</script>
-			<script type="Jpan" draft="contributed">японскае</script>
-			<script type="Latn">лацінскі</script>
+			<script type="Geor" drbft="contributed">грузінскае</script>
+			<script type="Hbns" drbft="contributed">спрошчанае кітайскае</script>
+			<script type="Hbnt" drbft="contributed">традыцыйнае кітайскае</script>
+			<script type="Hebr" drbft="contributed">габрэйскае</script>
+			<script type="Jpbn" drbft="contributed">японскае</script>
+			<script type="Lbtn">лацінскі</script>
 			<script type="Zxxx">чысты</script>
 			<script type="Zzzz">невядомы або недапушчальны пераклад</script>
 		</scripts>
@@ -323,7 +323,7 @@
 			<territory type="GW">Гвінея-Бісаў</territory>
 			<territory type="GY">Гаяна</territory>
 			<territory type="HK">Гон-Конг, Кітай (САР)</territory>
-			<territory type="HK" alt="short">Гон-Конг</territory>
+			<territory type="HK" blt="short">Гон-Конг</territory>
 			<territory type="HM">Гэрда востраў і МакДоналда астравы</territory>
 			<territory type="HN">Гандурас</territory>
 			<territory type="HR">Харватыя</territory>
@@ -374,7 +374,7 @@
 			<territory type="MM">М'янма</territory>
 			<territory type="MN">Манголія</territory>
 			<territory type="MO">Макао, Кітай (САР)</territory>
-			<territory type="MO" alt="short">Макао</territory>
+			<territory type="MO" blt="short">Макао</territory>
 			<territory type="MP">Паўночныя Марыянскія астравы</territory>
 			<territory type="MQ">Марцініка</territory>
 			<territory type="MR">Маўрытанія</territory>
@@ -472,95 +472,95 @@
 			<territory type="ZZ">Невядомы рэгіён</territory>
 		</territories>
 		<keys>
-			<key type="calendar">каляндар</key>
-			<key type="collation">параўнаньне тэксту</key>
+			<key type="cblendbr">каляндар</key>
+			<key type="collbtion">параўнаньне тэксту</key>
 			<key type="currency">валюта</key>
 		</keys>
 		<types>
-			<type type="buddhist" key="calendar">будысцкі каляндар</type>
-			<type type="chinese" key="calendar">кітайскі каляндар</type>
-			<type type="gregorian" key="calendar">грэгарыянскі каляндар</type>
-			<type type="hebrew" key="calendar">іудэйскі каляндар</type>
-			<type type="islamic" key="calendar">мусульманскі каляндар</type>
-			<type type="islamic-civil" key="calendar">мусульманскі свецкі каляндар</type>
-			<type type="japanese" key="calendar">японскі каляндар</type>
+			<type type="buddhist" key="cblendbr">будысцкі каляндар</type>
+			<type type="chinese" key="cblendbr">кітайскі каляндар</type>
+			<type type="gregoribn" key="cblendbr">грэгарыянскі каляндар</type>
+			<type type="hebrew" key="cblendbr">іудэйскі каляндар</type>
+			<type type="islbmic" key="cblendbr">мусульманскі каляндар</type>
+			<type type="islbmic-civil" key="cblendbr">мусульманскі свецкі каляндар</type>
+			<type type="jbpbnese" key="cblendbr">японскі каляндар</type>
 		</types>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">метрычная</measurementSystemName>
-			<measurementSystemName type="US">ЗША</measurementSystemName>
-		</measurementSystemNames>
-		<codePatterns>
-			<codePattern type="language" draft="contributed">Мова: {0}</codePattern>
-			<codePattern type="script" draft="contributed">Пісьмо: {0}</codePattern>
-			<codePattern type="territory" draft="contributed">Рэгіён: {0}</codePattern>
-		</codePatterns>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[а б в г д {дж} {дз} е ё ж з і й к л м н о п р с т у ў ф х ц ч ш ы ь э ю я]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="contributed">[А Б В Г Д Е Ж З І Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Ы Э Ю Я]</exemplarCharacters>
-	</characters>
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="metric">метрычная</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="US">ЗША</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+		<codePbtterns>
+			<codePbttern type="lbngubge" drbft="contributed">Мова: {0}</codePbttern>
+			<codePbttern type="script" drbft="contributed">Пісьмо: {0}</codePbttern>
+			<codePbttern type="territory" drbft="contributed">Рэгіён: {0}</codePbttern>
+		</codePbtterns>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[а б в г д {дж} {дз} е ё ж з і й к л м н о п р с т у ў ф х ц ч ш ы ь э ю я]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="currencySymbol">[b b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="contributed">[А Б В Г Д Е Ж З І Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Ы Э Ю Я]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart draft="contributed">«</quotationStart>
-		<quotationEnd draft="contributed">»</quotationEnd>
-		<alternateQuotationStart draft="contributed">‹</alternateQuotationStart>
-		<alternateQuotationEnd draft="contributed">›</alternateQuotationEnd>
+		<quotbtionStbrt drbft="contributed">«</quotbtionStbrt>
+		<quotbtionEnd drbft="contributed">»</quotbtionEnd>
+		<blternbteQuotbtionStbrt drbft="contributed">‹</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd drbft="contributed">›</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="buddhist">
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d.M.yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="Ed">E, d</dateFormatItem>
-						<dateFormatItem id="Gy">G y</dateFormatItem>
-						<dateFormatItem id="hm">h.mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH.mm</dateFormatItem>
-						<dateFormatItem id="hms">h.mm.ss a</dateFormatItem>
-						<dateFormatItem id="Hms">HH.mm.ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">d.M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d.M</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
-						<dateFormatItem id="y">G y</dateFormatItem>
-						<dateFormatItem id="yM">M.yy</dateFormatItem>
-						<dateFormatItem id="yMd">d.M.yy</dateFormatItem>
-						<dateFormatItem id="yMEd">E, d.M.yy</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y G</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y G</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d MMM y G</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="buddhist">
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d MMMM y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d.M.yy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="d">d</dbteFormbtItem>
+						<dbteFormbtItem id="Ed">E, d</dbteFormbtItem>
+						<dbteFormbtItem id="Gy">G y</dbteFormbtItem>
+						<dbteFormbtItem id="hm">h.mm b</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">HH.mm</dbteFormbtItem>
+						<dbteFormbtItem id="hms">h.mm.ss b</dbteFormbtItem>
+						<dbteFormbtItem id="Hms">HH.mm.ss</dbteFormbtItem>
+						<dbteFormbtItem id="M">L</dbteFormbtItem>
+						<dbteFormbtItem id="Md">d.M</dbteFormbtItem>
+						<dbteFormbtItem id="MEd">E, d.M</dbteFormbtItem>
+						<dbteFormbtItem id="MMM">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E, d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="y">G y</dbteFormbtItem>
+						<dbteFormbtItem id="yM">M.yy</dbteFormbtItem>
+						<dbteFormbtItem id="yMd">d.M.yy</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E, d.M.yy</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MMM y G</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd">d MMM y G</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, d MMM y G</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="1">сту</month>
 							<month type="2">лют</month>
 							<month type="3">сак</month>
@@ -574,7 +574,7 @@
 							<month type="11">ліс</month>
 							<month type="12">сне</month>
 						</monthWidth>
-						<monthWidth type="narrow">
+						<monthWidth type="nbrrow">
 							<month type="5">т</month>
 						</monthWidth>
 						<monthWidth type="wide">
@@ -592,11 +592,11 @@
 							<month type="12">снежань</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="abbreviated">
+					<monthContext type="stbnd-blone">
+						<monthWidth type="bbbrevibted">
 							<month type="5">тра</month>
 						</monthWidth>
-						<monthWidth type="narrow">
+						<monthWidth type="nbrrow">
 							<month type="1">с</month>
 							<month type="2">л</month>
 							<month type="3">с</month>
@@ -615,511 +615,511 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">нд</day>
-							<day type="mon">пн</day>
-							<day type="tue">аў</day>
-							<day type="wed">ср</day>
-							<day type="thu">чц</day>
-							<day type="fri">пт</day>
-							<day type="sat">сб</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">нядзеля</day>
-							<day type="mon">панядзелак</day>
-							<day type="tue">аўторак</day>
-							<day type="wed">серада</day>
-							<day type="thu">чацвер</day>
-							<day type="fri">пятніца</day>
-							<day type="sat">субота</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">н</day>
-							<day type="mon">п</day>
-							<day type="tue">а</day>
-							<day type="wed">с</day>
-							<day type="thu">ч</day>
-							<day type="fri">п</day>
-							<day type="sat">с</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">1-шы кв.</quarter>
-							<quarter type="2">2-гі кв.</quarter>
-							<quarter type="3">3-ці кв.</quarter>
-							<quarter type="4">4-ты кв.</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">1-шы квартал</quarter>
-							<quarter type="2">2-гі квартал</quarter>
-							<quarter type="3">3-ці квартал</quarter>
-							<quarter type="4">4-ты квартал</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">да палудня</dayPeriod>
-							<dayPeriod type="pm">пасля палудня</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-					<dayPeriodContext type="stand-alone">
-						<dayPeriodWidth type="abbreviated">
-							<dayPeriod type="am">раніцы</dayPeriod>
-							<dayPeriod type="pm">вечара</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraAbbr>
-						<era type="0">да н.э.</era>
-						<era type="1">н.э.</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d.M.yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d.M.yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH.mm.ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH.mm.ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH.mm.ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH.mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d" draft="contributed">d</dateFormatItem>
-						<dateFormatItem id="hm">h.mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH.mm</dateFormatItem>
-						<dateFormatItem id="hms">h.mm.ss a</dateFormatItem>
-						<dateFormatItem id="Hms">HH.mm.ss</dateFormatItem>
-						<dateFormatItem id="M" draft="contributed">L</dateFormatItem>
-						<dateFormatItem id="Md" draft="unconfirmed">d.M</dateFormatItem>
-						<dateFormatItem id="MEd" draft="contributed">E, d MMM</dateFormatItem>
-						<dateFormatItem id="MMM" draft="contributed">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd" draft="contributed">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd" draft="contributed">E, d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd" draft="contributed">MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd" draft="contributed">MMMM d, EEEE</dateFormatItem>
-						<dateFormatItem id="ms" draft="contributed">mm.ss</dateFormatItem>
-						<dateFormatItem id="y" draft="contributed">y</dateFormatItem>
-						<dateFormatItem id="yM" draft="contributed">MM/yyyy</dateFormatItem>
-						<dateFormatItem id="yMd">d.M.yy</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">E, dd/MM/yyyy</dateFormatItem>
-						<dateFormatItem id="yMMM" draft="contributed">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="contributed">E, d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMM" draft="contributed">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQ" draft="contributed">Q 'кв'. y</dateFormatItem>
-						<dateFormatItem id="yQQQ" draft="contributed">QQQ y</dateFormatItem>
-						<dateFormatItem id="yyyyM" draft="contributed">MM/yyyy</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatFallback draft="unconfirmed">{0} - {1}</intervalFormatFallback>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d" draft="unconfirmed">d-d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="h">
-							<greatestDifference id="h" draft="unconfirmed">h-h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="H">
-							<greatestDifference id="H" draft="unconfirmed">HH-HH</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="h" draft="unconfirmed">h.mm-h.mm a</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">h.mm-h.mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hm">
-							<greatestDifference id="H" draft="unconfirmed">HH.mm-HH.mm</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">HH.mm-HH.mm</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="h" draft="unconfirmed">h.mm-h.mm a v</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">h.mm-h.mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hmv">
-							<greatestDifference id="H" draft="unconfirmed">HH.mm-HH.mm v</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">HH.mm-HH.mm v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="h" draft="unconfirmed">h-h a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hv">
-							<greatestDifference id="H" draft="unconfirmed">HH-HH v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M" draft="unconfirmed">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d" draft="unconfirmed">d.M - d.M</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d.M - d.M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d" draft="unconfirmed">E, d.M - E, d.M</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, d.M - E, d.M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M" draft="unconfirmed">MMM-MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d" draft="unconfirmed">d-d MMM</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d MMM - d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, d - E, d MMM</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, d MMM - E, d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y" draft="unconfirmed">y-y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M" draft="unconfirmed">M.yy - M.yy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">M.yy - M.yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d" draft="unconfirmed">d.M.yy - d.M.yy</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d.M.yy - d.M.yy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">d.M.yy - d.M.yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, d.M.yy - E, d.M.yy</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, d.M.yy - E, d.M.yy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, d.M.yy - E, d.M.yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M" draft="unconfirmed">MMM-MMM y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MMM y - MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d" draft="unconfirmed">d-d MMM y</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d MMM - d MMM y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">d MMM y - d MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, d - E, d MMM y</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, d MMM - E, d MMM y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, d MMM y - E, d MMM y</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">нд</dby>
+							<dby type="mon">пн</dby>
+							<dby type="tue">аў</dby>
+							<dby type="wed">ср</dby>
+							<dby type="thu">чц</dby>
+							<dby type="fri">пт</dby>
+							<dby type="sbt">сб</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">нядзеля</dby>
+							<dby type="mon">панядзелак</dby>
+							<dby type="tue">аўторак</dby>
+							<dby type="wed">серада</dby>
+							<dby type="thu">чацвер</dby>
+							<dby type="fri">пятніца</dby>
+							<dby type="sbt">субота</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">н</dby>
+							<dby type="mon">п</dby>
+							<dby type="tue">а</dby>
+							<dby type="wed">с</dby>
+							<dby type="thu">ч</dby>
+							<dby type="fri">п</dby>
+							<dby type="sbt">с</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">1-шы кв.</qubrter>
+							<qubrter type="2">2-гі кв.</qubrter>
+							<qubrter type="3">3-ці кв.</qubrter>
+							<qubrter type="4">4-ты кв.</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">1-шы квартал</qubrter>
+							<qubrter type="2">2-гі квартал</qubrter>
+							<qubrter type="3">3-ці квартал</qubrter>
+							<qubrter type="4">4-ты квартал</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">да палудня</dbyPeriod>
+							<dbyPeriod type="pm">пасля палудня</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+					<dbyPeriodContext type="stbnd-blone">
+						<dbyPeriodWidth type="bbbrevibted">
+							<dbyPeriod type="bm">раніцы</dbyPeriod>
+							<dbyPeriod type="pm">вечара</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbAbbr>
+						<erb type="0">да н.э.</erb>
+						<erb type="1">н.э.</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d.M.yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d.M.yy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>HH.mm.ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>HH.mm.ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>HH.mm.ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>HH.mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="d" drbft="contributed">d</dbteFormbtItem>
+						<dbteFormbtItem id="hm">h.mm b</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">HH.mm</dbteFormbtItem>
+						<dbteFormbtItem id="hms">h.mm.ss b</dbteFormbtItem>
+						<dbteFormbtItem id="Hms">HH.mm.ss</dbteFormbtItem>
+						<dbteFormbtItem id="M" drbft="contributed">L</dbteFormbtItem>
+						<dbteFormbtItem id="Md" drbft="unconfirmed">d.M</dbteFormbtItem>
+						<dbteFormbtItem id="MEd" drbft="contributed">E, d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMM" drbft="contributed">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd" drbft="contributed">d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd" drbft="contributed">E, d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMd" drbft="contributed">MMMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMEd" drbft="contributed">MMMM d, EEEE</dbteFormbtItem>
+						<dbteFormbtItem id="ms" drbft="contributed">mm.ss</dbteFormbtItem>
+						<dbteFormbtItem id="y" drbft="contributed">y</dbteFormbtItem>
+						<dbteFormbtItem id="yM" drbft="contributed">MM/yyyy</dbteFormbtItem>
+						<dbteFormbtItem id="yMd">d.M.yy</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd" drbft="contributed">E, dd/MM/yyyy</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM" drbft="contributed">MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd">d MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd" drbft="contributed">E, d MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMM" drbft="contributed">MMMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yQ" drbft="contributed">Q 'кв'. y</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ" drbft="contributed">QQQ y</dbteFormbtItem>
+						<dbteFormbtItem id="yyyyM" drbft="contributed">MM/yyyy</dbteFormbtItem>
+					</bvbilbbleFormbts>
+					<intervblFormbts>
+						<intervblFormbtFbllbbck drbft="unconfirmed">{0} - {1}</intervblFormbtFbllbbck>
+						<intervblFormbtItem id="d">
+							<grebtestDifference id="d" drbft="unconfirmed">d-d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="h">
+							<grebtestDifference id="h" drbft="unconfirmed">h-h b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="H">
+							<grebtestDifference id="H" drbft="unconfirmed">HH-HH</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hm">
+							<grebtestDifference id="h" drbft="unconfirmed">h.mm-h.mm b</grebtestDifference>
+							<grebtestDifference id="m" drbft="unconfirmed">h.mm-h.mm b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hm">
+							<grebtestDifference id="H" drbft="unconfirmed">HH.mm-HH.mm</grebtestDifference>
+							<grebtestDifference id="m" drbft="unconfirmed">HH.mm-HH.mm</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hmv">
+							<grebtestDifference id="h" drbft="unconfirmed">h.mm-h.mm b v</grebtestDifference>
+							<grebtestDifference id="m" drbft="unconfirmed">h.mm-h.mm b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hmv">
+							<grebtestDifference id="H" drbft="unconfirmed">HH.mm-HH.mm v</grebtestDifference>
+							<grebtestDifference id="m" drbft="unconfirmed">HH.mm-HH.mm v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hv">
+							<grebtestDifference id="h" drbft="unconfirmed">h-h b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hv">
+							<grebtestDifference id="H" drbft="unconfirmed">HH-HH v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="M">
+							<grebtestDifference id="M" drbft="unconfirmed">M-M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Md">
+							<grebtestDifference id="d" drbft="unconfirmed">d.M - d.M</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">d.M - d.M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MEd">
+							<grebtestDifference id="d" drbft="unconfirmed">E, d.M - E, d.M</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">E, d.M - E, d.M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMM">
+							<grebtestDifference id="M" drbft="unconfirmed">MMM-MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMd">
+							<grebtestDifference id="d" drbft="unconfirmed">d-d MMM</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">d MMM - d MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMEd">
+							<grebtestDifference id="d" drbft="unconfirmed">E, d - E, d MMM</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">E, d MMM - E, d MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="y">
+							<grebtestDifference id="y" drbft="unconfirmed">y-y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yM">
+							<grebtestDifference id="M" drbft="unconfirmed">M.yy - M.yy</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">M.yy - M.yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMd">
+							<grebtestDifference id="d" drbft="unconfirmed">d.M.yy - d.M.yy</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">d.M.yy - d.M.yy</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">d.M.yy - d.M.yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMEd">
+							<grebtestDifference id="d" drbft="unconfirmed">E, d.M.yy - E, d.M.yy</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">E, d.M.yy - E, d.M.yy</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">E, d.M.yy - E, d.M.yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMM">
+							<grebtestDifference id="M" drbft="unconfirmed">MMM-MMM y</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">MMM y - MMM y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMd">
+							<grebtestDifference id="d" drbft="unconfirmed">d-d MMM y</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">d MMM - d MMM y</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">d MMM y - d MMM y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMEd">
+							<grebtestDifference id="d" drbft="unconfirmed">E, d - E, d MMM y</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">E, d MMM - E, d MMM y</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">E, d MMM y - E, d MMM y</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>эра</displayName>
+					<field type="erb">
+						<displbyNbme>эра</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>год</displayName>
+					<field type="yebr">
+						<displbyNbme>год</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>месяц</displayName>
+						<displbyNbme>месяц</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>тыдзень</displayName>
+						<displbyNbme>тыдзень</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>дзень</displayName>
-						<relative type="-2">пазаўчора</relative>
-						<relative type="-1">учора</relative>
-						<relative type="0">сёння</relative>
-						<relative type="1">заўтра</relative>
-						<relative type="2">паслязаўтра</relative>
+					<field type="dby">
+						<displbyNbme>дзень</displbyNbme>
+						<relbtive type="-2">пазаўчора</relbtive>
+						<relbtive type="-1">учора</relbtive>
+						<relbtive type="0">сёння</relbtive>
+						<relbtive type="1">заўтра</relbtive>
+						<relbtive type="2">паслязаўтра</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>дзень тыдня</displayName>
+					<field type="weekdby">
+						<displbyNbme>дзень тыдня</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName draft="contributed">ДП/ПП</displayName>
+					<field type="dbyperiod">
+						<displbyNbme drbft="contributed">ДП/ПП</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>гадзіна</displayName>
+						<displbyNbme>гадзіна</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>хвіліна</displayName>
+						<displbyNbme>хвіліна</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>секунда</displayName>
+						<displbyNbme>секунда</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName draft="contributed">Zone</displayName>
+						<displbyNbme drbft="contributed">Zone</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<hourFormat draft="contributed">+HH:mm;-HH:mm</hourFormat>
-			<gmtFormat>GMT{0}</gmtFormat>
-			<regionFormat draft="contributed">Час: {0}</regionFormat>
-			<fallbackFormat draft="contributed">{1} ({0})</fallbackFormat>
-			<fallbackRegionFormat draft="contributed">Час: {1} ({0})</fallbackRegionFormat>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<hourFormbt drbft="contributed">+HH:mm;-HH:mm</hourFormbt>
+			<gmtFormbt>GMT{0}</gmtFormbt>
+			<regionFormbt drbft="contributed">Час: {0}</regionFormbt>
+			<fbllbbckFormbt drbft="contributed">{1} ({0})</fbllbbckFormbt>
+			<fbllbbckRegionFormbt drbft="contributed">Час: {1} ({0})</fbllbbckRegionFormbt>
 			<zone type="Etc/Unknown">
-				<exemplarCity>Невядомы</exemplarCity>
+				<exemplbrCity>Невядомы</exemplbrCity>
 			</zone>
-			<zone type="America/Rio_Branco">
-				<exemplarCity draft="contributed">Рыё Бранка</exemplarCity>
+			<zone type="Americb/Rio_Brbnco">
+				<exemplbrCity drbft="contributed">Рыё Бранка</exemplbrCity>
 			</zone>
-			<zone type="America/Campo_Grande">
-				<exemplarCity draft="contributed">Кампа Грандэ</exemplarCity>
+			<zone type="Americb/Cbmpo_Grbnde">
+				<exemplbrCity drbft="contributed">Кампа Грандэ</exemplbrCity>
 			</zone>
-			<zone type="America/Sao_Paulo">
-				<exemplarCity draft="contributed">Сан-Паўлу</exemplarCity>
+			<zone type="Americb/Sbo_Pbulo">
+				<exemplbrCity drbft="contributed">Сан-Паўлу</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Honolulu">
-				<exemplarCity draft="contributed">Ганалулу</exemplarCity>
+			<zone type="Pbcific/Honolulu">
+				<exemplbrCity drbft="contributed">Ганалулу</exemplbrCity>
 			</zone>
-			<zone type="America/Anchorage">
-				<exemplarCity draft="contributed">Анкорыдж</exemplarCity>
+			<zone type="Americb/Anchorbge">
+				<exemplbrCity drbft="contributed">Анкорыдж</exemplbrCity>
 			</zone>
-			<zone type="America/Los_Angeles">
-				<exemplarCity draft="contributed">Лос-Анджэлас</exemplarCity>
+			<zone type="Americb/Los_Angeles">
+				<exemplbrCity drbft="contributed">Лос-Анджэлас</exemplbrCity>
 			</zone>
-			<zone type="America/Phoenix">
-				<exemplarCity draft="contributed">Фэнікс</exemplarCity>
+			<zone type="Americb/Phoenix">
+				<exemplbrCity drbft="contributed">Фэнікс</exemplbrCity>
 			</zone>
-			<zone type="America/Denver">
-				<exemplarCity draft="contributed">Дэнвэр</exemplarCity>
+			<zone type="Americb/Denver">
+				<exemplbrCity drbft="contributed">Дэнвэр</exemplbrCity>
 			</zone>
-			<zone type="America/Chicago">
-				<exemplarCity draft="contributed">Чыкага</exemplarCity>
+			<zone type="Americb/Chicbgo">
+				<exemplbrCity drbft="contributed">Чыкага</exemplbrCity>
 			</zone>
-			<zone type="America/Indianapolis">
-				<exemplarCity draft="contributed">Індыянапаліс</exemplarCity>
+			<zone type="Americb/Indibnbpolis">
+				<exemplbrCity drbft="contributed">Індыянапаліс</exemplbrCity>
 			</zone>
-			<zone type="America/New_York">
-				<exemplarCity draft="contributed">Нью-Ёрк</exemplarCity>
+			<zone type="Americb/New_York">
+				<exemplbrCity drbft="contributed">Нью-Ёрк</exemplbrCity>
 			</zone>
-			<metazone type="America_Central">
+			<metbzone type="Americb_Centrbl">
 				<long>
-					<generic draft="contributed">Паўночнаамэрыканскі цэнтральны час</generic>
-					<standard draft="contributed">Паўночнаамэрыканскі цэнтральны стандартны час</standard>
-					<daylight draft="contributed">Паўночнаамэрыканскі цэнтральны летні час</daylight>
+					<generic drbft="contributed">Паўночнаамэрыканскі цэнтральны час</generic>
+					<stbndbrd drbft="contributed">Паўночнаамэрыканскі цэнтральны стандартны час</stbndbrd>
+					<dbylight drbft="contributed">Паўночнаамэрыканскі цэнтральны летні час</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Eastern">
+			</metbzone>
+			<metbzone type="Americb_Ebstern">
 				<long>
-					<generic draft="contributed">Паўночнаамэрыканскі усходні час</generic>
-					<standard draft="contributed">Паўночнаамэрыканскі усходні стандартны час</standard>
-					<daylight draft="contributed">Паўночнаамэрыканскі усходні летні час</daylight>
+					<generic drbft="contributed">Паўночнаамэрыканскі усходні час</generic>
+					<stbndbrd drbft="contributed">Паўночнаамэрыканскі усходні стандартны час</stbndbrd>
+					<dbylight drbft="contributed">Паўночнаамэрыканскі усходні летні час</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Mountain">
+			</metbzone>
+			<metbzone type="Americb_Mountbin">
 				<long>
-					<generic draft="contributed">Паўночнаамэрыканскі горны час</generic>
-					<standard draft="contributed">Паўночнаамэрыканскі горны стандартны час</standard>
-					<daylight draft="contributed">Паўночнаамэрыканскі горны летні час</daylight>
+					<generic drbft="contributed">Паўночнаамэрыканскі горны час</generic>
+					<stbndbrd drbft="contributed">Паўночнаамэрыканскі горны стандартны час</stbndbrd>
+					<dbylight drbft="contributed">Паўночнаамэрыканскі горны летні час</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Pacific">
+			</metbzone>
+			<metbzone type="Americb_Pbcific">
 				<long>
-					<generic draft="contributed">Ціхаакіянскі час</generic>
-					<standard draft="contributed">Ціхаакіянскі стандартны час</standard>
-					<daylight draft="contributed">Ціхаакіянскі летні час</daylight>
+					<generic drbft="contributed">Ціхаакіянскі час</generic>
+					<stbndbrd drbft="contributed">Ціхаакіянскі стандартны час</stbndbrd>
+					<dbylight drbft="contributed">Ціхаакіянскі летні час</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Atlantic">
+			</metbzone>
+			<metbzone type="Atlbntic">
 				<long>
-					<generic draft="contributed">Атлянтычны час</generic>
-					<standard draft="contributed">Атлянтычны стандартны час</standard>
-					<daylight draft="contributed">Атлянтычны летні час</daylight>
+					<generic drbft="contributed">Атлянтычны час</generic>
+					<stbndbrd drbft="contributed">Атлянтычны стандартны час</stbndbrd>
+					<dbylight drbft="contributed">Атлянтычны летні час</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Europe_Central">
+			</metbzone>
+			<metbzone type="Europe_Centrbl">
 				<long>
-					<generic draft="contributed">Цэнтральнаэўрапейскі час</generic>
-					<standard draft="contributed">Цэнтральнаэўрапейскі час</standard>
-					<daylight draft="contributed">Цэнтральнаэўрапейскі летні час</daylight>
+					<generic drbft="contributed">Цэнтральнаэўрапейскі час</generic>
+					<stbndbrd drbft="contributed">Цэнтральнаэўрапейскі час</stbndbrd>
+					<dbylight drbft="contributed">Цэнтральнаэўрапейскі летні час</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Europe_Eastern">
+			</metbzone>
+			<metbzone type="Europe_Ebstern">
 				<long>
-					<generic draft="contributed">Усходнеэўрапейскі час</generic>
-					<standard draft="contributed">Усходнеэўрапейскі час</standard>
-					<daylight draft="contributed">Усходнеэўрапейскі летні час</daylight>
+					<generic drbft="contributed">Усходнеэўрапейскі час</generic>
+					<stbndbrd drbft="contributed">Усходнеэўрапейскі час</stbndbrd>
+					<dbylight drbft="contributed">Усходнеэўрапейскі летні час</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Europe_Western">
+			</metbzone>
+			<metbzone type="Europe_Western">
 				<long>
-					<generic draft="contributed">Заходнеэўрапейскі час</generic>
-					<standard draft="contributed">Заходнеэўрапейскі час</standard>
-					<daylight draft="contributed">Заходнеэўрапейскі летні час</daylight>
+					<generic drbft="contributed">Заходнеэўрапейскі час</generic>
+					<stbndbrd drbft="contributed">Заходнеэўрапейскі час</stbndbrd>
+					<dbylight drbft="contributed">Заходнеэўрапейскі летні час</dbylight>
 				</long>
-			</metazone>
-			<metazone type="GMT">
+			</metbzone>
+			<metbzone type="GMT">
 				<long>
-					<standard draft="contributed">Грынвічскі час</standard>
+					<stbndbrd drbft="contributed">Грынвічскі час</stbndbrd>
 				</long>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>,</decimbl>
 			<group> </group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern draft="contributed">#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<scientificFormats numberSystem="latn">
-			<scientificFormatLength>
-				<scientificFormat>
-					<pattern draft="contributed">#E0</pattern>
-				</scientificFormat>
-			</scientificFormatLength>
-		</scientificFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern draft="contributed">#,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength>
+				<decimblFormbt>
+					<pbttern drbft="contributed">#,##0.###</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<scientificFormbts numberSystem="lbtn">
+			<scientificFormbtLength>
+				<scientificFormbt>
+					<pbttern drbft="contributed">#E0</pbttern>
+				</scientificFormbt>
+			</scientificFormbtLength>
+		</scientificFormbts>
+		<percentFormbts numberSystem="lbtn">
+			<percentFormbtLength>
+				<percentFormbt>
+					<pbttern drbft="contributed">#,##0%</pbttern>
+				</percentFormbt>
+			</percentFormbtLength>
+		</percentFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤#,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="AUD">
-				<displayName draft="contributed">аўстралійскі даляр</displayName>
+				<displbyNbme drbft="contributed">аўстралійскі даляр</displbyNbme>
 			</currency>
 			<currency type="BRL">
-				<displayName>бразільскі рэал</displayName>
+				<displbyNbme>бразільскі рэал</displbyNbme>
 			</currency>
 			<currency type="BYB">
 				<symbol>Руб</symbol>
 			</currency>
 			<currency type="BYR">
-				<displayName>беларускі рубель</displayName>
+				<displbyNbme>беларускі рубель</displbyNbme>
 			</currency>
 			<currency type="CNY">
-				<displayName>кітайскі юань</displayName>
+				<displbyNbme>кітайскі юань</displbyNbme>
 			</currency>
 			<currency type="ERN">
-				<displayName draft="contributed">эрытрэйская накфа</displayName>
+				<displbyNbme drbft="contributed">эрытрэйская накфа</displbyNbme>
 			</currency>
 			<currency type="EUR">
-				<displayName>еўра</displayName>
+				<displbyNbme>еўра</displbyNbme>
 			</currency>
 			<currency type="GBP">
-				<displayName>англійскі фунт</displayName>
+				<displbyNbme>англійскі фунт</displbyNbme>
 			</currency>
 			<currency type="INR">
-				<displayName>індыйская рупія</displayName>
+				<displbyNbme>індыйская рупія</displbyNbme>
 			</currency>
 			<currency type="JPY">
-				<displayName>японская іена</displayName>
-				<symbol draft="contributed">¥</symbol>
+				<displbyNbme>японская іена</displbyNbme>
+				<symbol drbft="contributed">¥</symbol>
 			</currency>
 			<currency type="NOK">
-				<displayName draft="contributed">нарвэская крона</displayName>
+				<displbyNbme drbft="contributed">нарвэская крона</displbyNbme>
 			</currency>
 			<currency type="RUB">
-				<displayName>рускі рубель</displayName>
-				<symbol draft="contributed">рас. руб.</symbol>
+				<displbyNbme>рускі рубель</displbyNbme>
+				<symbol drbft="contributed">рас. руб.</symbol>
 			</currency>
 			<currency type="USD">
-				<displayName>долар ЗША</displayName>
-				<symbol draft="contributed">$</symbol>
+				<displbyNbme>долар ЗША</displbyNbme>
+				<symbol drbft="contributed">$</symbol>
 			</currency>
 			<currency type="XXX">
-				<displayName>невядомая або недапушчальная валюта</displayName>
+				<displbyNbme>невядомая або недапушчальная валюта</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="few" draft="contributed">{0} дні</unitPattern>
-			<unitPattern count="many" draft="contributed">{0} дзён</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} дзень</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} дня</unitPattern>
+		<unit type="dby">
+			<unitPbttern count="few" drbft="contributed">{0} дні</unitPbttern>
+			<unitPbttern count="mbny" drbft="contributed">{0} дзён</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">{0} дзень</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">{0} дня</unitPbttern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="few" draft="contributed">{0} гадзіны</unitPattern>
-			<unitPattern count="many" draft="contributed">{0} гадзін</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} гадзіна</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} гадзіны</unitPattern>
+			<unitPbttern count="few" drbft="contributed">{0} гадзіны</unitPbttern>
+			<unitPbttern count="mbny" drbft="contributed">{0} гадзін</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">{0} гадзіна</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">{0} гадзіны</unitPbttern>
 		</unit>
 		<unit type="minute">
-			<unitPattern count="few" draft="contributed">{0} хвіліны</unitPattern>
-			<unitPattern count="many" draft="contributed">{0} хвілін</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} хвіліна</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} хвіліны</unitPattern>
+			<unitPbttern count="few" drbft="contributed">{0} хвіліны</unitPbttern>
+			<unitPbttern count="mbny" drbft="contributed">{0} хвілін</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">{0} хвіліна</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">{0} хвіліны</unitPbttern>
 		</unit>
 		<unit type="month">
-			<unitPattern count="few" draft="contributed">{0} месяца</unitPattern>
-			<unitPattern count="many" draft="contributed">{0} месяцаў</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} месяц</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} месяца</unitPattern>
+			<unitPbttern count="few" drbft="contributed">{0} месяца</unitPbttern>
+			<unitPbttern count="mbny" drbft="contributed">{0} месяцаў</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">{0} месяц</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">{0} месяца</unitPbttern>
 		</unit>
 		<unit type="second">
-			<unitPattern count="few" draft="contributed">{0} сэкунды</unitPattern>
-			<unitPattern count="many" draft="contributed">{0} сэкунд</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} сэкунда</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} сэкунды</unitPattern>
+			<unitPbttern count="few" drbft="contributed">{0} сэкунды</unitPbttern>
+			<unitPbttern count="mbny" drbft="contributed">{0} сэкунд</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">{0} сэкунда</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">{0} сэкунды</unitPbttern>
 		</unit>
 		<unit type="week">
-			<unitPattern count="few" draft="contributed">{0} тыдні</unitPattern>
-			<unitPattern count="many" draft="contributed">{0} тыдняў</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} тыдзень</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} тыдня</unitPattern>
+			<unitPbttern count="few" drbft="contributed">{0} тыдні</unitPbttern>
+			<unitPbttern count="mbny" drbft="contributed">{0} тыдняў</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">{0} тыдзень</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">{0} тыдня</unitPbttern>
 		</unit>
-		<unit type="year">
-			<unitPattern count="few" draft="contributed">{0} гады</unitPattern>
-			<unitPattern count="many" draft="contributed">{0} гадоў</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} год</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} году</unitPattern>
+		<unit type="yebr">
+			<unitPbttern count="few" drbft="contributed">{0} гады</unitPbttern>
+			<unitPbttern count="mbny" drbft="contributed">{0} гадоў</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">{0} год</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">{0} году</unitPbttern>
 		</unit>
 	</units>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>так:т</yesstr>
 			<nostr>не:н</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>

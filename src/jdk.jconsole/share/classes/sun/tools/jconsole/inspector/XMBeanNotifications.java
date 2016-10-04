@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-import javax.swing.*;
-import javax.swing.table.*;
-import javax.swing.tree.*;
-import java.awt.Font;
+import jbvbx.swing.*;
+import jbvbx.swing.tbble.*;
+import jbvbx.swing.tree.*;
+import jbvb.bwt.Font;
 
-import java.text.SimpleDateFormat;
+import jbvb.text.SimpleDbteFormbt;
 
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.event.*;
-import java.awt.Dimension;
-import java.util.*;
-import java.io.*;
-import java.lang.reflect.Array;
+import jbvb.bwt.Component;
+import jbvb.bwt.EventQueue;
+import jbvb.bwt.event.*;
+import jbvb.bwt.Dimension;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.lbng.reflect.Arrby;
 
-import javax.management.*;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.TabularData;
+import jbvbx.mbnbgement.*;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.TbbulbrDbtb;
 
 import sun.tools.jconsole.JConsole;
-import sun.tools.jconsole.Messages;
+import sun.tools.jconsole.Messbges;
 
-@SuppressWarnings("serial")
-public class XMBeanNotifications extends JTable implements NotificationListener {
+@SuppressWbrnings("seribl")
+public clbss XMBebnNotificbtions extends JTbble implements NotificbtionListener {
 
-    private final static String[] columnNames = {
-        Messages.TIME_STAMP,
-        Messages.TYPE,
-        Messages.USER_DATA,
-        Messages.SEQ_NUM,
-        Messages.MESSAGE,
-        Messages.EVENT,
-        Messages.SOURCE
+    privbte finbl stbtic String[] columnNbmes = {
+        Messbges.TIME_STAMP,
+        Messbges.TYPE,
+        Messbges.USER_DATA,
+        Messbges.SEQ_NUM,
+        Messbges.MESSAGE,
+        Messbges.EVENT,
+        Messbges.SOURCE
     };
-    private HashMap<ObjectName, XMBeanNotificationsListener> listeners =
-            new HashMap<ObjectName, XMBeanNotificationsListener>();
-    private volatile boolean subscribed;
-    private XMBeanNotificationsListener currentListener;
-    public final static String NOTIFICATION_RECEIVED_EVENT =
-            "jconsole.xnotification.received";
-    private List<NotificationListener> notificationListenersList;
-    private volatile boolean enabled;
-    private Font normalFont,  boldFont;
-    private int rowMinHeight = -1;
-    private TableCellEditor userDataEditor = new UserDataCellEditor();
-    private NotifMouseListener mouseListener = new NotifMouseListener();
-    private SimpleDateFormat timeFormater = new SimpleDateFormat("HH:mm:ss:SSS");
-    private static TableCellEditor editor =
-            new Utils.ReadOnlyTableCellEditor(new JTextField());
+    privbte HbshMbp<ObjectNbme, XMBebnNotificbtionsListener> listeners =
+            new HbshMbp<ObjectNbme, XMBebnNotificbtionsListener>();
+    privbte volbtile boolebn subscribed;
+    privbte XMBebnNotificbtionsListener currentListener;
+    public finbl stbtic String NOTIFICATION_RECEIVED_EVENT =
+            "jconsole.xnotificbtion.received";
+    privbte List<NotificbtionListener> notificbtionListenersList;
+    privbte volbtile boolebn enbbled;
+    privbte Font normblFont,  boldFont;
+    privbte int rowMinHeight = -1;
+    privbte TbbleCellEditor userDbtbEditor = new UserDbtbCellEditor();
+    privbte NotifMouseListener mouseListener = new NotifMouseListener();
+    privbte SimpleDbteFormbt timeFormbter = new SimpleDbteFormbt("HH:mm:ss:SSS");
+    privbte stbtic TbbleCellEditor editor =
+            new Utils.RebdOnlyTbbleCellEditor(new JTextField());
 
-    public XMBeanNotifications() {
-        super(new TableSorter(columnNames, 0));
-        setColumnSelectionAllowed(false);
-        setRowSelectionAllowed(false);
-        getTableHeader().setReorderingAllowed(false);
-        ArrayList<NotificationListener> l =
-                new ArrayList<NotificationListener>(1);
-        notificationListenersList = Collections.synchronizedList(l);
+    public XMBebnNotificbtions() {
+        super(new TbbleSorter(columnNbmes, 0));
+        setColumnSelectionAllowed(fblse);
+        setRowSelectionAllowed(fblse);
+        getTbbleHebder().setReorderingAllowed(fblse);
+        ArrbyList<NotificbtionListener> l =
+                new ArrbyList<NotificbtionListener>(1);
+        notificbtionListenersList = Collections.synchronizedList(l);
 
-        addMouseListener(mouseListener);
+        bddMouseListener(mouseListener);
 
-        TableColumnModel colModel = getColumnModel();
+        TbbleColumnModel colModel = getColumnModel();
         colModel.getColumn(0).setPreferredWidth(45);
         colModel.getColumn(1).setPreferredWidth(50);
         colModel.getColumn(2).setPreferredWidth(50);
@@ -94,58 +94,58 @@ public class XMBeanNotifications extends JTable implements NotificationListener 
         colModel.getColumn(4).setPreferredWidth(50);
         colModel.getColumn(5).setPreferredWidth(50);
         setColumnEditors();
-        addKeyListener(new Utils.CopyKeyAdapter());
+        bddKeyListener(new Utils.CopyKeyAdbpter());
     }
 
-    // Call on EDT
-    public void cancelCellEditing() {
-        TableCellEditor tce = getCellEditor();
+    // Cbll on EDT
+    public void cbncelCellEditing() {
+        TbbleCellEditor tce = getCellEditor();
         if (tce != null) {
-            tce.cancelCellEditing();
+            tce.cbncelCellEditing();
         }
     }
 
-    // Call on EDT
+    // Cbll on EDT
     public void stopCellEditing() {
-        TableCellEditor tce = getCellEditor();
+        TbbleCellEditor tce = getCellEditor();
         if (tce != null) {
             tce.stopCellEditing();
         }
     }
 
-    // Call on EDT
+    // Cbll on EDT
     @Override
-    public boolean isCellEditable(int row, int col) {
-        UserDataCell cell = getUserDataCell(row, col);
+    public boolebn isCellEditbble(int row, int col) {
+        UserDbtbCell cell = getUserDbtbCell(row, col);
         if (cell != null) {
-            return cell.isMaximized();
+            return cell.isMbximized();
         }
         return true;
     }
 
-    // Call on EDT
+    // Cbll on EDT
     @Override
-    public void setValueAt(Object value, int row, int column) {
+    public void setVblueAt(Object vblue, int row, int column) {
     }
 
-    // Call on EDT
+    // Cbll on EDT
     @Override
-    public synchronized Component prepareRenderer(
-            TableCellRenderer renderer, int row, int column) {
-        //In case we have a repaint thread that is in the process of
-        //repainting an obsolete table, just ignore the call.
-        //It can happen when MBean selection is switched at a very quick rate
+    public synchronized Component prepbreRenderer(
+            TbbleCellRenderer renderer, int row, int column) {
+        //In cbse we hbve b repbint threbd thbt is in the process of
+        //repbinting bn obsolete tbble, just ignore the cbll.
+        //It cbn hbppen when MBebn selection is switched bt b very quick rbte
         if (row >= getRowCount()) {
             return null;
         }
 
-        Component comp = super.prepareRenderer(renderer, row, column);
+        Component comp = super.prepbreRenderer(renderer, row, column);
 
-        if (normalFont == null) {
-            normalFont = comp.getFont();
-            boldFont = normalFont.deriveFont(Font.BOLD);
+        if (normblFont == null) {
+            normblFont = comp.getFont();
+            boldFont = normblFont.deriveFont(Font.BOLD);
         }
-        UserDataCell cell = getUserDataCell(row, 2);
+        UserDbtbCell cell = getUserDbtbCell(row, 2);
         if (column == 2 && cell != null) {
             comp.setFont(boldFont);
             int size = cell.getHeight();
@@ -155,40 +155,40 @@ public class XMBeanNotifications extends JTable implements NotificationListener 
                 }
             }
         } else {
-            comp.setFont(normalFont);
+            comp.setFont(normblFont);
         }
 
         return comp;
     }
 
-    // Call on EDT
+    // Cbll on EDT
     @Override
-    public synchronized TableCellRenderer getCellRenderer(int row, int column) {
-        //In case we have a repaint thread that is in the process of
-        //repainting an obsolete table, just ignore the call.
-        //It can happen when MBean selection is switched at a very quick rate
+    public synchronized TbbleCellRenderer getCellRenderer(int row, int column) {
+        //In cbse we hbve b repbint threbd thbt is in the process of
+        //repbinting bn obsolete tbble, just ignore the cbll.
+        //It cbn hbppen when MBebn selection is switched bt b very quick rbte
         if (row >= getRowCount()) {
             return null;
         }
 
-        DefaultTableCellRenderer renderer;
+        DefbultTbbleCellRenderer renderer;
         String toolTip = null;
-        UserDataCell cell = getUserDataCell(row, column);
+        UserDbtbCell cell = getUserDbtbCell(row, column);
         if (cell != null && cell.isInited()) {
-            renderer = (DefaultTableCellRenderer) cell.getRenderer();
+            renderer = (DefbultTbbleCellRenderer) cell.getRenderer();
         } else {
             renderer =
-                    (DefaultTableCellRenderer) super.getCellRenderer(row, column);
+                    (DefbultTbbleCellRenderer) super.getCellRenderer(row, column);
         }
 
         if (cell != null) {
-            toolTip = Messages.DOUBLE_CLICK_TO_EXPAND_FORWARD_SLASH_COLLAPSE+
+            toolTip = Messbges.DOUBLE_CLICK_TO_EXPAND_FORWARD_SLASH_COLLAPSE+
                     ". " + cell.toString();
         } else {
-            Object val =
-                    ((DefaultTableModel) getModel()).getValueAt(row, column);
-            if (val != null) {
-                toolTip = val.toString();
+            Object vbl =
+                    ((DefbultTbbleModel) getModel()).getVblueAt(row, column);
+            if (vbl != null) {
+                toolTip = vbl.toString();
             }
         }
 
@@ -197,204 +197,204 @@ public class XMBeanNotifications extends JTable implements NotificationListener 
         return renderer;
     }
 
-    // Call on EDT
-    private UserDataCell getUserDataCell(int row, int column) {
-        Object obj = ((DefaultTableModel) getModel()).getValueAt(row, column);
-        if (obj instanceof UserDataCell) {
-            return (UserDataCell) obj;
+    // Cbll on EDT
+    privbte UserDbtbCell getUserDbtbCell(int row, int column) {
+        Object obj = ((DefbultTbbleModel) getModel()).getVblueAt(row, column);
+        if (obj instbnceof UserDbtbCell) {
+            return (UserDbtbCell) obj;
         }
         return null;
     }
 
     synchronized void dispose() {
-        listeners.clear();
+        listeners.clebr();
     }
 
-    public long getReceivedNotifications(XMBean mbean) {
-        XMBeanNotificationsListener listener =
-                listeners.get(mbean.getObjectName());
+    public long getReceivedNotificbtions(XMBebn mbebn) {
+        XMBebnNotificbtionsListener listener =
+                listeners.get(mbebn.getObjectNbme());
         if (listener == null) {
             return 0;
         } else {
-            return listener.getReceivedNotifications();
+            return listener.getReceivedNotificbtions();
         }
     }
 
-    public synchronized boolean clearCurrentNotifications() {
-        emptyTable();
+    public synchronized boolebn clebrCurrentNotificbtions() {
+        emptyTbble();
         if (currentListener != null) {
-            currentListener.clear();
+            currentListener.clebr();
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public synchronized boolean unregisterListener(DefaultMutableTreeNode node) {
-        XMBean mbean = (XMBean) ((XNodeInfo) node.getUserObject()).getData();
-        return unregister(mbean.getObjectName());
+    public synchronized boolebn unregisterListener(DefbultMutbbleTreeNode node) {
+        XMBebn mbebn = (XMBebn) ((XNodeInfo) node.getUserObject()).getDbtb();
+        return unregister(mbebn.getObjectNbme());
     }
 
-    public synchronized void registerListener(DefaultMutableTreeNode node)
-            throws InstanceNotFoundException, IOException {
-        XMBean mbean = (XMBean) ((XNodeInfo) node.getUserObject()).getData();
+    public synchronized void registerListener(DefbultMutbbleTreeNode node)
+            throws InstbnceNotFoundException, IOException {
+        XMBebn mbebn = (XMBebn) ((XNodeInfo) node.getUserObject()).getDbtb();
         if (!subscribed) {
             try {
-                mbean.getMBeanServerConnection().addNotificationListener(
-                        MBeanServerDelegate.DELEGATE_NAME, this, null, null);
+                mbebn.getMBebnServerConnection().bddNotificbtionListener(
+                        MBebnServerDelegbte.DELEGATE_NAME, this, null, null);
                 subscribed = true;
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 if (JConsole.isDebug()) {
-                    System.err.println("Error adding listener for delegate:");
-                    e.printStackTrace();
+                    System.err.println("Error bdding listener for delegbte:");
+                    e.printStbckTrbce();
                 }
             }
         }
-        XMBeanNotificationsListener listener =
-                listeners.get(mbean.getObjectName());
+        XMBebnNotificbtionsListener listener =
+                listeners.get(mbebn.getObjectNbme());
         if (listener == null) {
-            listener = new XMBeanNotificationsListener(
-                    this, mbean, node, columnNames);
-            listeners.put(mbean.getObjectName(), listener);
+            listener = new XMBebnNotificbtionsListener(
+                    this, mbebn, node, columnNbmes);
+            listeners.put(mbebn.getObjectNbme(), listener);
         } else {
             if (!listener.isRegistered()) {
-                emptyTable();
+                emptyTbble();
                 listener.register(node);
             }
         }
-        enabled = true;
+        enbbled = true;
         currentListener = listener;
     }
 
-    public synchronized void handleNotification(
-            Notification notif, Object handback) {
+    public synchronized void hbndleNotificbtion(
+            Notificbtion notif, Object hbndbbck) {
         try {
-            if (notif instanceof MBeanServerNotification) {
-                ObjectName mbean =
-                        ((MBeanServerNotification) notif).getMBeanName();
-                if (notif.getType().indexOf("JMX.mbean.unregistered") >= 0) {
-                    unregister(mbean);
+            if (notif instbnceof MBebnServerNotificbtion) {
+                ObjectNbme mbebn =
+                        ((MBebnServerNotificbtion) notif).getMBebnNbme();
+                if (notif.getType().indexOf("JMX.mbebn.unregistered") >= 0) {
+                    unregister(mbebn);
                 }
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             if (JConsole.isDebug()) {
-                System.err.println("Error unregistering notification:");
-                e.printStackTrace();
+                System.err.println("Error unregistering notificbtion:");
+                e.printStbckTrbce();
             }
         }
     }
 
-    public synchronized void disableNotifications() {
-        emptyTable();
+    public synchronized void disbbleNotificbtions() {
+        emptyTbble();
         currentListener = null;
-        enabled = false;
+        enbbled = fblse;
     }
 
-    private synchronized boolean unregister(ObjectName mbean) {
-        XMBeanNotificationsListener listener = listeners.get(mbean);
+    privbte synchronized boolebn unregister(ObjectNbme mbebn) {
+        XMBebnNotificbtionsListener listener = listeners.get(mbebn);
         if (listener != null && listener.isRegistered()) {
             listener.unregister();
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public void addNotificationsListener(NotificationListener nl) {
-        notificationListenersList.add(nl);
+    public void bddNotificbtionsListener(NotificbtionListener nl) {
+        notificbtionListenersList.bdd(nl);
     }
 
-    public void removeNotificationsListener(NotificationListener nl) {
-        notificationListenersList.remove(nl);
+    public void removeNotificbtionsListener(NotificbtionListener nl) {
+        notificbtionListenersList.remove(nl);
     }
 
-    // Call on EDT
-    void fireNotificationReceived(
-            XMBeanNotificationsListener listener, XMBean mbean,
-            DefaultMutableTreeNode node, Object[] rowData, long received) {
-        if (enabled) {
-            DefaultTableModel tableModel = (DefaultTableModel) getModel();
+    // Cbll on EDT
+    void fireNotificbtionReceived(
+            XMBebnNotificbtionsListener listener, XMBebn mbebn,
+            DefbultMutbbleTreeNode node, Object[] rowDbtb, long received) {
+        if (enbbled) {
+            DefbultTbbleModel tbbleModel = (DefbultTbbleModel) getModel();
             if (listener == currentListener) {
-                tableModel.insertRow(0, rowData);
-                repaint();
+                tbbleModel.insertRow(0, rowDbtb);
+                repbint();
             }
         }
-        Notification notif =
-                new Notification(NOTIFICATION_RECEIVED_EVENT, this, 0);
-        notif.setUserData(received);
-        for (NotificationListener nl : notificationListenersList) {
-            nl.handleNotification(notif, node);
+        Notificbtion notif =
+                new Notificbtion(NOTIFICATION_RECEIVED_EVENT, this, 0);
+        notif.setUserDbtb(received);
+        for (NotificbtionListener nl : notificbtionListenersList) {
+            nl.hbndleNotificbtion(notif, node);
         }
     }
 
-    // Call on EDT
-    private void updateModel(List<Object[]> data) {
-        emptyTable();
-        DefaultTableModel tableModel = (DefaultTableModel) getModel();
-        for (Object[] rowData : data) {
-            tableModel.addRow(rowData);
+    // Cbll on EDT
+    privbte void updbteModel(List<Object[]> dbtb) {
+        emptyTbble();
+        DefbultTbbleModel tbbleModel = (DefbultTbbleModel) getModel();
+        for (Object[] rowDbtb : dbtb) {
+            tbbleModel.bddRow(rowDbtb);
         }
     }
 
-    public synchronized boolean isListenerRegistered(XMBean mbean) {
-        XMBeanNotificationsListener listener =
-                listeners.get(mbean.getObjectName());
+    public synchronized boolebn isListenerRegistered(XMBebn mbebn) {
+        XMBebnNotificbtionsListener listener =
+                listeners.get(mbebn.getObjectNbme());
         if (listener == null) {
-            return false;
+            return fblse;
         }
         return listener.isRegistered();
     }
 
-    // Call on EDT
-    public synchronized void loadNotifications(XMBean mbean) {
-        XMBeanNotificationsListener listener =
-                listeners.get(mbean.getObjectName());
-        emptyTable();
+    // Cbll on EDT
+    public synchronized void lobdNotificbtions(XMBebn mbebn) {
+        XMBebnNotificbtionsListener listener =
+                listeners.get(mbebn.getObjectNbme());
+        emptyTbble();
         if (listener != null) {
-            enabled = true;
-            List<Object[]> data = listener.getData();
-            updateModel(data);
+            enbbled = true;
+            List<Object[]> dbtb = listener.getDbtb();
+            updbteModel(dbtb);
             currentListener = listener;
-            validate();
-            repaint();
+            vblidbte();
+            repbint();
         } else {
-            enabled = false;
+            enbbled = fblse;
         }
     }
 
-    // Call on EDT
-    private void setColumnEditors() {
-        TableColumnModel tcm = getColumnModel();
-        for (int i = 0; i < columnNames.length; i++) {
-            TableColumn tc = tcm.getColumn(i);
+    // Cbll on EDT
+    privbte void setColumnEditors() {
+        TbbleColumnModel tcm = getColumnModel();
+        for (int i = 0; i < columnNbmes.length; i++) {
+            TbbleColumn tc = tcm.getColumn(i);
             if (i == 2) {
-                tc.setCellEditor(userDataEditor);
+                tc.setCellEditor(userDbtbEditor);
             } else {
                 tc.setCellEditor(editor);
             }
         }
     }
 
-    // Call on EDT
-    public boolean isTableEditable() {
+    // Cbll on EDT
+    public boolebn isTbbleEditbble() {
         return true;
     }
 
-    // Call on EDT
-    public synchronized void emptyTable() {
-        DefaultTableModel model = (DefaultTableModel) getModel();
-        //invalidate();
+    // Cbll on EDT
+    public synchronized void emptyTbble() {
+        DefbultTbbleModel model = (DefbultTbbleModel) getModel();
+        //invblidbte();
         while (model.getRowCount() > 0) {
             model.removeRow(0);
         }
-        validate();
+        vblidbte();
     }
 
-    // Call on EDT
-    synchronized void updateUserDataCell(int row, int col) {
-        Object obj = getModel().getValueAt(row, 2);
-        if (obj instanceof UserDataCell) {
-            UserDataCell cell = (UserDataCell) obj;
+    // Cbll on EDT
+    synchronized void updbteUserDbtbCell(int row, int col) {
+        Object obj = getModel().getVblueAt(row, 2);
+        if (obj instbnceof UserDbtbCell) {
+            UserDbtbCell cell = (UserDbtbCell) obj;
             if (!cell.isInited()) {
                 if (rowMinHeight == -1) {
                     rowMinHeight = getRowHeight(row);
@@ -402,25 +402,25 @@ public class XMBeanNotifications extends JTable implements NotificationListener 
                 cell.init(super.getCellRenderer(row, col), rowMinHeight);
             }
 
-            cell.switchState();
+            cell.switchStbte();
             setRowHeight(row, cell.getHeight());
 
-            if (!cell.isMaximized()) {
-                cancelCellEditing();
-                //Back to simple editor.
+            if (!cell.isMbximized()) {
+                cbncelCellEditing();
+                //Bbck to simple editor.
                 editCellAt(row, 2);
             }
 
-            invalidate();
-            repaint();
+            invblidbte();
+            repbint();
         }
     }
 
-    class UserDataCellRenderer extends DefaultTableCellRenderer {
+    clbss UserDbtbCellRenderer extends DefbultTbbleCellRenderer {
 
         Component comp;
 
-        UserDataCellRenderer(Component comp) {
+        UserDbtbCellRenderer(Component comp) {
             this.comp = comp;
             Dimension d = comp.getPreferredSize();
             if (d.getHeight() > 200) {
@@ -429,11 +429,11 @@ public class XMBeanNotifications extends JTable implements NotificationListener 
         }
 
         @Override
-        public Component getTableCellRendererComponent(
-                JTable table,
-                Object value,
-                boolean isSelected,
-                boolean hasFocus,
+        public Component getTbbleCellRendererComponent(
+                JTbble tbble,
+                Object vblue,
+                boolebn isSelected,
+                boolebn hbsFocus,
                 int row,
                 int column) {
             return comp;
@@ -444,56 +444,56 @@ public class XMBeanNotifications extends JTable implements NotificationListener 
         }
     }
 
-    class UserDataCell {
+    clbss UserDbtbCell {
 
-        TableCellRenderer minRenderer;
-        UserDataCellRenderer maxRenderer;
+        TbbleCellRenderer minRenderer;
+        UserDbtbCellRenderer mbxRenderer;
         int minHeight;
-        boolean minimized = true;
-        boolean init = false;
-        Object userData;
+        boolebn minimized = true;
+        boolebn init = fblse;
+        Object userDbtb;
 
-        UserDataCell(Object userData, Component max) {
-            this.userData = userData;
-            this.maxRenderer = new UserDataCellRenderer(max);
+        UserDbtbCell(Object userDbtb, Component mbx) {
+            this.userDbtb = userDbtb;
+            this.mbxRenderer = new UserDbtbCellRenderer(mbx);
 
         }
 
         @Override
         public String toString() {
-            if (userData == null) {
+            if (userDbtb == null) {
                 return null;
             }
-            if (userData.getClass().isArray()) {
-                String name =
-                        Utils.getArrayClassName(userData.getClass().getName());
-                int length = Array.getLength(userData);
-                return name + "[" + length + "]";
+            if (userDbtb.getClbss().isArrby()) {
+                String nbme =
+                        Utils.getArrbyClbssNbme(userDbtb.getClbss().getNbme());
+                int length = Arrby.getLength(userDbtb);
+                return nbme + "[" + length + "]";
             }
 
-            if (userData instanceof CompositeData ||
-                    userData instanceof TabularData) {
-                return userData.getClass().getName();
+            if (userDbtb instbnceof CompositeDbtb ||
+                    userDbtb instbnceof TbbulbrDbtb) {
+                return userDbtb.getClbss().getNbme();
             }
 
-            return userData.toString();
+            return userDbtb.toString();
         }
 
-        boolean isInited() {
+        boolebn isInited() {
             return init;
         }
 
-        void init(TableCellRenderer minRenderer, int minHeight) {
+        void init(TbbleCellRenderer minRenderer, int minHeight) {
             this.minRenderer = minRenderer;
             this.minHeight = minHeight;
             init = true;
         }
 
-        void switchState() {
+        void switchStbte() {
             minimized = !minimized;
         }
 
-        boolean isMaximized() {
+        boolebn isMbximized() {
             return !minimized;
         }
 
@@ -501,36 +501,36 @@ public class XMBeanNotifications extends JTable implements NotificationListener 
             minimized = true;
         }
 
-        void maximize() {
-            minimized = false;
+        void mbximize() {
+            minimized = fblse;
         }
 
         int getHeight() {
             if (minimized) {
                 return minHeight;
             } else {
-                return (int) maxRenderer.getComponent().
+                return (int) mbxRenderer.getComponent().
                         getPreferredSize().getHeight();
             }
         }
 
-        TableCellRenderer getRenderer() {
+        TbbleCellRenderer getRenderer() {
             if (minimized) {
                 return minRenderer;
             } else {
-                return maxRenderer;
+                return mbxRenderer;
             }
         }
     }
 
-    class NotifMouseListener extends MouseAdapter {
+    clbss NotifMouseListener extends MouseAdbpter {
 
         @Override
         public void mousePressed(MouseEvent e) {
             if (e.getButton() == MouseEvent.BUTTON1) {
                 if (e.getClickCount() >= 2) {
-                    int row = XMBeanNotifications.this.getSelectedRow();
-                    int col = XMBeanNotifications.this.getSelectedColumn();
+                    int row = XMBebnNotificbtions.this.getSelectedRow();
+                    int col = XMBebnNotificbtions.this.getSelectedColumn();
                     if (col != 2) {
                         return;
                     }
@@ -538,56 +538,56 @@ public class XMBeanNotifications extends JTable implements NotificationListener 
                         return;
                     }
 
-                    XMBeanNotifications.this.updateUserDataCell(row, col);
+                    XMBebnNotificbtions.this.updbteUserDbtbCell(row, col);
                 }
             }
         }
     }
 
-    class UserDataCellEditor extends XTextFieldEditor {
-        // implements javax.swing.table.TableCellEditor
+    clbss UserDbtbCellEditor extends XTextFieldEditor {
+        // implements jbvbx.swing.tbble.TbbleCellEditor
         @Override
-        public Component getTableCellEditorComponent(
-                JTable table,
-                Object value,
-                boolean isSelected,
+        public Component getTbbleCellEditorComponent(
+                JTbble tbble,
+                Object vblue,
+                boolebn isSelected,
                 int row,
                 int column) {
-            Object val = value;
+            Object vbl = vblue;
             if (column == 2) {
-                Object obj = getModel().getValueAt(row, column);
-                if (obj instanceof UserDataCell) {
-                    UserDataCell cell = (UserDataCell) obj;
-                    if (cell.getRenderer() instanceof UserDataCellRenderer) {
-                        UserDataCellRenderer zr =
-                                (UserDataCellRenderer) cell.getRenderer();
+                Object obj = getModel().getVblueAt(row, column);
+                if (obj instbnceof UserDbtbCell) {
+                    UserDbtbCell cell = (UserDbtbCell) obj;
+                    if (cell.getRenderer() instbnceof UserDbtbCellRenderer) {
+                        UserDbtbCellRenderer zr =
+                                (UserDbtbCellRenderer) cell.getRenderer();
                         return zr.getComponent();
                     }
                 } else {
-                    Component comp = super.getTableCellEditorComponent(
-                            table, val, isSelected, row, column);
-                    textField.setEditable(false);
+                    Component comp = super.getTbbleCellEditorComponent(
+                            tbble, vbl, isSelected, row, column);
+                    textField.setEditbble(fblse);
                     return comp;
                 }
             }
-            return super.getTableCellEditorComponent(
-                    table,
-                    val,
+            return super.getTbbleCellEditorComponent(
+                    tbble,
+                    vbl,
                     isSelected,
                     row,
                     column);
         }
 
         @Override
-        public boolean stopCellEditing() {
+        public boolebn stopCellEditing() {
             int editingRow = getEditingRow();
             int editingColumn = getEditingColumn();
             if (editingColumn == 2) {
-                Object obj = getModel().getValueAt(editingRow, editingColumn);
-                if (obj instanceof UserDataCell) {
-                    UserDataCell cell = (UserDataCell) obj;
-                    if (cell.isMaximized()) {
-                        cancelCellEditing();
+                Object obj = getModel().getVblueAt(editingRow, editingColumn);
+                if (obj instbnceof UserDbtbCell) {
+                    UserDbtbCell cell = (UserDbtbCell) obj;
+                    if (cell.isMbximized()) {
+                        cbncelCellEditing();
                         return true;
                     }
                 }
@@ -596,111 +596,111 @@ public class XMBeanNotifications extends JTable implements NotificationListener 
         }
     }
 
-    class XMBeanNotificationsListener implements NotificationListener {
+    clbss XMBebnNotificbtionsListener implements NotificbtionListener {
 
-        private XMBean xmbean;
-        private DefaultMutableTreeNode node;
-        private volatile long received;
-        private XMBeanNotifications notifications;
-        private volatile boolean unregistered;
-        private ArrayList<Object[]> data = new ArrayList<Object[]>();
+        privbte XMBebn xmbebn;
+        privbte DefbultMutbbleTreeNode node;
+        privbte volbtile long received;
+        privbte XMBebnNotificbtions notificbtions;
+        privbte volbtile boolebn unregistered;
+        privbte ArrbyList<Object[]> dbtb = new ArrbyList<Object[]>();
 
-        public XMBeanNotificationsListener(
-                XMBeanNotifications notifications,
-                XMBean xmbean,
-                DefaultMutableTreeNode node,
-                String[] columnNames) {
-            this.notifications = notifications;
-            this.xmbean = xmbean;
+        public XMBebnNotificbtionsListener(
+                XMBebnNotificbtions notificbtions,
+                XMBebn xmbebn,
+                DefbultMutbbleTreeNode node,
+                String[] columnNbmes) {
+            this.notificbtions = notificbtions;
+            this.xmbebn = xmbebn;
             this.node = node;
             register(node);
         }
 
-        public synchronized List<Object[]> getData() {
-            return data;
+        public synchronized List<Object[]> getDbtb() {
+            return dbtb;
         }
 
-        public synchronized void clear() {
-            data.clear();
+        public synchronized void clebr() {
+            dbtb.clebr();
             received = 0;
         }
 
-        public synchronized boolean isRegistered() {
+        public synchronized boolebn isRegistered() {
             return !unregistered;
         }
 
         public synchronized void unregister() {
             try {
-                xmbean.getMBeanServerConnection().removeNotificationListener(
-                        xmbean.getObjectName(), this, null, null);
-            } catch (Exception e) {
+                xmbebn.getMBebnServerConnection().removeNotificbtionListener(
+                        xmbebn.getObjectNbme(), this, null, null);
+            } cbtch (Exception e) {
                 if (JConsole.isDebug()) {
                     System.err.println("Error removing listener:");
-                    e.printStackTrace();
+                    e.printStbckTrbce();
                 }
             }
             unregistered = true;
         }
 
-        public synchronized long getReceivedNotifications() {
+        public synchronized long getReceivedNotificbtions() {
             return received;
         }
 
-        public synchronized void register(DefaultMutableTreeNode node) {
-            clear();
+        public synchronized void register(DefbultMutbbleTreeNode node) {
+            clebr();
             this.node = node;
             try {
-                xmbean.getMBeanServerConnection().addNotificationListener(
-                        xmbean.getObjectName(), this, null, null);
-                unregistered = false;
-            } catch (Exception e) {
+                xmbebn.getMBebnServerConnection().bddNotificbtionListener(
+                        xmbebn.getObjectNbme(), this, null, null);
+                unregistered = fblse;
+            } cbtch (Exception e) {
                 if (JConsole.isDebug()) {
-                    System.err.println("Error adding listener:");
-                    e.printStackTrace();
+                    System.err.println("Error bdding listener:");
+                    e.printStbckTrbce();
                 }
             }
         }
 
-        public synchronized void handleNotification(
-                final Notification n, Object hb) {
-            EventQueue.invokeLater(new Runnable() {
+        public synchronized void hbndleNotificbtion(
+                finbl Notificbtion n, Object hb) {
+            EventQueue.invokeLbter(new Runnbble() {
 
                 public void run() {
-                    synchronized (XMBeanNotificationsListener.this) {
+                    synchronized (XMBebnNotificbtionsListener.this) {
                         try {
                             if (unregistered) {
                                 return;
                             }
-                            Date receivedDate = new Date(n.getTimeStamp());
-                            String time = timeFormater.format(receivedDate);
+                            Dbte receivedDbte = new Dbte(n.getTimeStbmp());
+                            String time = timeFormbter.formbt(receivedDbte);
 
-                            Object userData = n.getUserData();
+                            Object userDbtb = n.getUserDbtb();
                             Component comp = null;
-                            UserDataCell cell = null;
-                            if ((comp = XDataViewer.createNotificationViewer(userData)) != null) {
-                                XDataViewer.registerForMouseEvent(comp, mouseListener);
-                                cell = new UserDataCell(userData, comp);
+                            UserDbtbCell cell = null;
+                            if ((comp = XDbtbViewer.crebteNotificbtionViewer(userDbtb)) != null) {
+                                XDbtbViewer.registerForMouseEvent(comp, mouseListener);
+                                cell = new UserDbtbCell(userDbtb, comp);
                             }
 
-                            Object[] rowData = {
+                            Object[] rowDbtb = {
                                 time,
                                 n.getType(),
-                                (cell == null ? userData : cell),
+                                (cell == null ? userDbtb : cell),
                                 n.getSequenceNumber(),
-                                n.getMessage(),
+                                n.getMessbge(),
                                 n,
                                 n.getSource()
                             };
                             received++;
-                            data.add(0, rowData);
+                            dbtb.bdd(0, rowDbtb);
 
-                            notifications.fireNotificationReceived(
-                                    XMBeanNotificationsListener.this,
-                                    xmbean, node, rowData, received);
-                        } catch (Exception e) {
+                            notificbtions.fireNotificbtionReceived(
+                                    XMBebnNotificbtionsListener.this,
+                                    xmbebn, node, rowDbtb, received);
+                        } cbtch (Exception e) {
                             if (JConsole.isDebug()) {
-                                System.err.println("Error handling notification:");
-                                e.printStackTrace();
+                                System.err.println("Error hbndling notificbtion:");
+                                e.printStbckTrbce();
                             }
                         }
                     }

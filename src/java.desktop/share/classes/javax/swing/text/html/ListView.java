@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.util.Enumeration;
-import java.awt.*;
-import javax.swing.text.*;
+import jbvb.util.Enumerbtion;
+import jbvb.bwt.*;
+import jbvbx.swing.text.*;
 
 /**
- * A view implementation to display an html list
+ * A view implementbtion to displby bn html list
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public class ListView extends BlockView  {
+public clbss ListView extends BlockView  {
 
     /**
-     * Creates a new view that represents a list element.
+     * Crebtes b new view thbt represents b list element.
      *
-     * @param elem the element to create a view for
+     * @pbrbm elem the element to crebte b view for
      */
     public ListView(Element elem) {
         super(elem, View.Y_AXIS);
     }
 
     /**
-     * Calculates the desired shape of the list.
+     * Cblculbtes the desired shbpe of the list.
      *
-     * @return the desired span
-     * @see View#getPreferredSpan
+     * @return the desired spbn
+     * @see View#getPreferredSpbn
      */
-    public float getAlignment(int axis) {
-        switch (axis) {
-        case View.X_AXIS:
+    public flobt getAlignment(int bxis) {
+        switch (bxis) {
+        cbse View.X_AXIS:
             return 0.5f;
-        case View.Y_AXIS:
+        cbse View.Y_AXIS:
             return 0.5f;
-        default:
-            throw new IllegalArgumentException("Invalid axis: " + axis);
+        defbult:
+            throw new IllegblArgumentException("Invblid bxis: " + bxis);
         }
     }
 
     /**
-     * Renders using the given rendering surface and area on that
-     * surface.
+     * Renders using the given rendering surfbce bnd breb on thbt
+     * surfbce.
      *
-     * @param g the rendering surface to use
-     * @param allocation the allocated region to render into
-     * @see View#paint
+     * @pbrbm g the rendering surfbce to use
+     * @pbrbm bllocbtion the bllocbted region to render into
+     * @see View#pbint
      */
-    public void paint(Graphics g, Shape allocation) {
-        super.paint(g, allocation);
-        Rectangle alloc = allocation.getBounds();
-        Rectangle clip = g.getClipBounds();
-        // Since listPainter paints in the insets we have to check for the
-        // case where the child is not painted because the paint region is
-        // to the left of the child. This assumes the ListPainter paints in
-        // the left margin.
-        if ((clip.x + clip.width) < (alloc.x + getLeftInset())) {
-            Rectangle childRect = alloc;
-            alloc = getInsideAllocation(allocation);
+    public void pbint(Grbphics g, Shbpe bllocbtion) {
+        super.pbint(g, bllocbtion);
+        Rectbngle blloc = bllocbtion.getBounds();
+        Rectbngle clip = g.getClipBounds();
+        // Since listPbinter pbints in the insets we hbve to check for the
+        // cbse where the child is not pbinted becbuse the pbint region is
+        // to the left of the child. This bssumes the ListPbinter pbints in
+        // the left mbrgin.
+        if ((clip.x + clip.width) < (blloc.x + getLeftInset())) {
+            Rectbngle childRect = blloc;
+            blloc = getInsideAllocbtion(bllocbtion);
             int n = getViewCount();
             int endY = clip.y + clip.height;
             for (int i = 0; i < n; i++) {
-                childRect.setBounds(alloc);
-                childAllocation(i, childRect);
+                childRect.setBounds(blloc);
+                childAllocbtion(i, childRect);
                 if (childRect.y < endY) {
                     if ((childRect.y + childRect.height) >= clip.y) {
-                        listPainter.paint(g, childRect.x, childRect.y,
+                        listPbinter.pbint(g, childRect.x, childRect.y,
                                           childRect.width, childRect.height,
                                           this, i);
                     }
                 }
                 else {
-                    break;
+                    brebk;
                 }
             }
         }
     }
 
     /**
-     * Paints one of the children; called by paint().  By default
-     * that is all it does, but a subclass can use this to paint
-     * things relative to the child.
+     * Pbints one of the children; cblled by pbint().  By defbult
+     * thbt is bll it does, but b subclbss cbn use this to pbint
+     * things relbtive to the child.
      *
-     * @param g the graphics context
-     * @param alloc the allocated region to render the child into
-     * @param index the index of the child
+     * @pbrbm g the grbphics context
+     * @pbrbm blloc the bllocbted region to render the child into
+     * @pbrbm index the index of the child
      */
-    protected void paintChild(Graphics g, Rectangle alloc, int index) {
-        listPainter.paint(g, alloc.x, alloc.y, alloc.width, alloc.height, this, index);
-        super.paintChild(g, alloc, index);
+    protected void pbintChild(Grbphics g, Rectbngle blloc, int index) {
+        listPbinter.pbint(g, blloc.x, blloc.y, blloc.width, blloc.height, this, index);
+        super.pbintChild(g, blloc, index);
     }
 
     protected void setPropertiesFromAttributes() {
         super.setPropertiesFromAttributes();
-        listPainter = getStyleSheet().getListPainter(getAttributes());
+        listPbinter = getStyleSheet().getListPbinter(getAttributes());
     }
 
-    private StyleSheet.ListPainter listPainter;
+    privbte StyleSheet.ListPbinter listPbinter;
 }

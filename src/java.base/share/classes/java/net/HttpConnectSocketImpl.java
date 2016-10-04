@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
 /**
- * Basic SocketImpl that relies on the internal HTTP protocol handler
- * implementation to perform the HTTP tunneling and authentication. The
- * sockets impl is swapped out and replaced with the socket from the HTTP
- * handler after the tunnel is successfully setup.
+ * Bbsic SocketImpl thbt relies on the internbl HTTP protocol hbndler
+ * implementbtion to perform the HTTP tunneling bnd buthenticbtion. The
+ * sockets impl is swbpped out bnd replbced with the socket from the HTTP
+ * hbndler bfter the tunnel is successfully setup.
  *
  * @since 1.8
  */
 
-/*package*/ class HttpConnectSocketImpl extends PlainSocketImpl {
+/*pbckbge*/ clbss HttpConnectSocketImpl extends PlbinSocketImpl {
 
-    private static final String httpURLClazzStr =
+    privbte stbtic finbl String httpURLClbzzStr =
                                   "sun.net.www.protocol.http.HttpURLConnection";
-    private static final String netClientClazzStr = "sun.net.NetworkClient";
-    private static final String doTunnelingStr = "doTunneling";
-    private static final Field httpField;
-    private static final Field serverSocketField;
-    private static final Method doTunneling;
+    privbte stbtic finbl String netClientClbzzStr = "sun.net.NetworkClient";
+    privbte stbtic finbl String doTunnelingStr = "doTunneling";
+    privbte stbtic finbl Field httpField;
+    privbte stbtic finbl Field serverSocketField;
+    privbte stbtic finbl Method doTunneling;
 
-    private final String server;
-    private InetSocketAddress external_address;
-    private HashMap<Integer, Object> optionsMap = new HashMap<>();
+    privbte finbl String server;
+    privbte InetSocketAddress externbl_bddress;
+    privbte HbshMbp<Integer, Object> optionsMbp = new HbshMbp<>();
 
-    static  {
+    stbtic  {
         try {
-            Class<?> httpClazz = Class.forName(httpURLClazzStr, true, null);
-            httpField = httpClazz.getDeclaredField("http");
-            doTunneling = httpClazz.getDeclaredMethod(doTunnelingStr);
-            Class<?> netClientClazz = Class.forName(netClientClazzStr, true, null);
-            serverSocketField = netClientClazz.getDeclaredField("serverSocket");
+            Clbss<?> httpClbzz = Clbss.forNbme(httpURLClbzzStr, true, null);
+            httpField = httpClbzz.getDeclbredField("http");
+            doTunneling = httpClbzz.getDeclbredMethod(doTunnelingStr);
+            Clbss<?> netClientClbzz = Clbss.forNbme(netClientClbzzStr, true, null);
+            serverSocketField = netClientClbzz.getDeclbredField("serverSocket");
 
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Void>() {
+            jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Void>() {
                     public Void run() {
                         httpField.setAccessible(true);
                         serverSocketField.setAccessible(true);
                         return null;
                 }
             });
-        } catch (ReflectiveOperationException x) {
-            throw new InternalError("Should not reach here", x);
+        } cbtch (ReflectiveOperbtionException x) {
+            throw new InternblError("Should not rebch here", x);
         }
     }
 
@@ -82,27 +82,27 @@ import java.util.Set;
     }
 
     HttpConnectSocketImpl(Proxy proxy) {
-        SocketAddress a = proxy.address();
-        if ( !(a instanceof InetSocketAddress) )
-            throw new IllegalArgumentException("Unsupported address type");
+        SocketAddress b = proxy.bddress();
+        if ( !(b instbnceof InetSocketAddress) )
+            throw new IllegblArgumentException("Unsupported bddress type");
 
-        InetSocketAddress ad = (InetSocketAddress) a;
-        server = ad.getHostString();
-        port = ad.getPort();
+        InetSocketAddress bd = (InetSocketAddress) b;
+        server = bd.getHostString();
+        port = bd.getPort();
     }
 
     @Override
     protected void connect(SocketAddress endpoint, int timeout)
         throws IOException
     {
-        if (endpoint == null || !(endpoint instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
-        final InetSocketAddress epoint = (InetSocketAddress)endpoint;
-        final String destHost = epoint.isUnresolved() ? epoint.getHostName()
+        if (endpoint == null || !(endpoint instbnceof InetSocketAddress))
+            throw new IllegblArgumentException("Unsupported bddress type");
+        finbl InetSocketAddress epoint = (InetSocketAddress)endpoint;
+        finbl String destHost = epoint.isUnresolved() ? epoint.getHostNbme()
                                                       : epoint.getAddress().getHostAddress();
-        final int destPort = epoint.getPort();
+        finbl int destPort = epoint.getPort();
 
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null)
             security.checkConnect(destHost, destPort);
 
@@ -111,100 +111,100 @@ import java.util.Set;
         Socket httpSocket = privilegedDoTunnel(urlString, timeout);
 
         // Success!
-        external_address = epoint;
+        externbl_bddress = epoint;
 
-        // close the original socket impl and release its descriptor
+        // close the originbl socket impl bnd relebse its descriptor
         close();
 
-        // update the Sockets impl to the impl from the http Socket
-        AbstractPlainSocketImpl psi = (AbstractPlainSocketImpl) httpSocket.impl;
+        // updbte the Sockets impl to the impl from the http Socket
+        AbstrbctPlbinSocketImpl psi = (AbstrbctPlbinSocketImpl) httpSocket.impl;
         this.getSocket().impl = psi;
 
-        // best effort is made to try and reset options previously set
-        Set<Map.Entry<Integer,Object>> options = optionsMap.entrySet();
+        // best effort is mbde to try bnd reset options previously set
+        Set<Mbp.Entry<Integer,Object>> options = optionsMbp.entrySet();
         try {
-            for(Map.Entry<Integer,Object> entry : options) {
-                psi.setOption(entry.getKey(), entry.getValue());
+            for(Mbp.Entry<Integer,Object> entry : options) {
+                psi.setOption(entry.getKey(), entry.getVblue());
             }
-        } catch (IOException x) {  /* gulp! */  }
+        } cbtch (IOException x) {  /* gulp! */  }
     }
 
     @Override
-    public void setOption(int opt, Object val) throws SocketException {
-        super.setOption(opt, val);
+    public void setOption(int opt, Object vbl) throws SocketException {
+        super.setOption(opt, vbl);
 
-        if (external_address != null)
+        if (externbl_bddress != null)
             return;  // we're connected, just return
 
-        // store options so that they can be re-applied to the impl after connect
-        optionsMap.put(opt, val);
+        // store options so thbt they cbn be re-bpplied to the impl bfter connect
+        optionsMbp.put(opt, vbl);
     }
 
-    private Socket privilegedDoTunnel(final String urlString,
-                                      final int timeout)
+    privbte Socket privilegedDoTunnel(finbl String urlString,
+                                      finbl int timeout)
         throws IOException
     {
         try {
-            return java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedExceptionAction<Socket>() {
+            return jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedExceptionAction<Socket>() {
                     public Socket run() throws IOException {
                         return doTunnel(urlString, timeout);
                 }
             });
-        } catch (java.security.PrivilegedActionException pae) {
-            throw (IOException) pae.getException();
+        } cbtch (jbvb.security.PrivilegedActionException pbe) {
+            throw (IOException) pbe.getException();
         }
     }
 
-    private Socket doTunnel(String urlString, int connectTimeout)
+    privbte Socket doTunnel(String urlString, int connectTimeout)
         throws IOException
     {
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(server, port));
         URL destURL = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) destURL.openConnection(proxy);
         conn.setConnectTimeout(connectTimeout);
-        conn.setReadTimeout(this.timeout);
+        conn.setRebdTimeout(this.timeout);
         conn.connect();
         doTunneling(conn);
         try {
             Object httpClient = httpField.get(conn);
             return (Socket) serverSocketField.get(httpClient);
-        } catch (IllegalAccessException x) {
-            throw new InternalError("Should not reach here", x);
+        } cbtch (IllegblAccessException x) {
+            throw new InternblError("Should not rebch here", x);
         }
     }
 
-    private void doTunneling(HttpURLConnection conn) {
+    privbte void doTunneling(HttpURLConnection conn) {
         try {
             doTunneling.invoke(conn);
-        } catch (ReflectiveOperationException x) {
-            throw new InternalError("Should not reach here", x);
+        } cbtch (ReflectiveOperbtionException x) {
+            throw new InternblError("Should not rebch here", x);
         }
     }
 
     @Override
     protected InetAddress getInetAddress() {
-        if (external_address != null)
-            return external_address.getAddress();
+        if (externbl_bddress != null)
+            return externbl_bddress.getAddress();
         else
             return super.getInetAddress();
     }
 
     @Override
     protected int getPort() {
-        if (external_address != null)
-            return external_address.getPort();
+        if (externbl_bddress != null)
+            return externbl_bddress.getPort();
         else
             return super.getPort();
     }
 
     @Override
-    protected int getLocalPort() {
+    protected int getLocblPort() {
         if (socket != null)
-            return super.getLocalPort();
-        if (external_address != null)
-            return external_address.getPort();
+            return super.getLocblPort();
+        if (externbl_bddress != null)
+            return externbl_bddress.getPort();
         else
-            return super.getLocalPort();
+            return super.getLocblPort();
     }
 }

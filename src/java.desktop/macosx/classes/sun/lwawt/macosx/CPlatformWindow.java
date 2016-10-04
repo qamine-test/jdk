@@ -1,399 +1,399 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.awt.Dialog.ModalityType;
-import java.awt.event.*;
-import java.awt.peer.WindowPeer;
-import java.beans.*;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Objects;
+import jbvb.bwt.*;
+import jbvb.bwt.Diblog.ModblityType;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.WindowPeer;
+import jbvb.bebns.*;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.util.List;
+import jbvb.util.Objects;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-import sun.awt.*;
-import sun.java2d.SurfaceData;
-import sun.java2d.opengl.CGLSurfaceData;
-import sun.lwawt.*;
-import sun.util.logging.PlatformLogger;
+import sun.bwt.*;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.opengl.CGLSurfbceDbtb;
+import sun.lwbwt.*;
+import sun.util.logging.PlbtformLogger;
 
-import com.apple.laf.*;
-import com.apple.laf.ClientPropertyApplicator.Property;
-import com.sun.awt.AWTUtilities;
+import com.bpple.lbf.*;
+import com.bpple.lbf.ClientPropertyApplicbtor.Property;
+import com.sun.bwt.AWTUtilities;
 
-public class CPlatformWindow extends CFRetainedResource implements PlatformWindow {
-    private native long nativeCreateNSWindow(long nsViewPtr,long ownerPtr, long styleBits, double x, double y, double w, double h);
-    private static native void nativeSetNSWindowStyleBits(long nsWindowPtr, int mask, int data);
-    private static native void nativeSetNSWindowMenuBar(long nsWindowPtr, long menuBarPtr);
-    private static native Insets nativeGetNSWindowInsets(long nsWindowPtr);
-    private static native void nativeSetNSWindowBounds(long nsWindowPtr, double x, double y, double w, double h);
-    private static native void nativeSetNSWindowMinMax(long nsWindowPtr, double minW, double minH, double maxW, double maxH);
-    private static native void nativePushNSWindowToBack(long nsWindowPtr);
-    private static native void nativePushNSWindowToFront(long nsWindowPtr);
-    private static native void nativeSetNSWindowTitle(long nsWindowPtr, String title);
-    private static native void nativeRevalidateNSWindowShadow(long nsWindowPtr);
-    private static native void nativeSetNSWindowMinimizedIcon(long nsWindowPtr, long nsImage);
-    private static native void nativeSetNSWindowRepresentedFilename(long nsWindowPtr, String representedFilename);
-    private static native void nativeSetEnabled(long nsWindowPtr, boolean isEnabled);
-    private static native void nativeSynthesizeMouseEnteredExitedEvents();
-    private static native void nativeDispose(long nsWindowPtr);
-    private static native CPlatformWindow nativeGetTopmostPlatformWindowUnderMouse();
-    private static native void nativeEnterFullScreenMode(long nsWindowPtr);
-    private static native void nativeExitFullScreenMode(long nsWindowPtr);
+public clbss CPlbtformWindow extends CFRetbinedResource implements PlbtformWindow {
+    privbte nbtive long nbtiveCrebteNSWindow(long nsViewPtr,long ownerPtr, long styleBits, double x, double y, double w, double h);
+    privbte stbtic nbtive void nbtiveSetNSWindowStyleBits(long nsWindowPtr, int mbsk, int dbtb);
+    privbte stbtic nbtive void nbtiveSetNSWindowMenuBbr(long nsWindowPtr, long menuBbrPtr);
+    privbte stbtic nbtive Insets nbtiveGetNSWindowInsets(long nsWindowPtr);
+    privbte stbtic nbtive void nbtiveSetNSWindowBounds(long nsWindowPtr, double x, double y, double w, double h);
+    privbte stbtic nbtive void nbtiveSetNSWindowMinMbx(long nsWindowPtr, double minW, double minH, double mbxW, double mbxH);
+    privbte stbtic nbtive void nbtivePushNSWindowToBbck(long nsWindowPtr);
+    privbte stbtic nbtive void nbtivePushNSWindowToFront(long nsWindowPtr);
+    privbte stbtic nbtive void nbtiveSetNSWindowTitle(long nsWindowPtr, String title);
+    privbte stbtic nbtive void nbtiveRevblidbteNSWindowShbdow(long nsWindowPtr);
+    privbte stbtic nbtive void nbtiveSetNSWindowMinimizedIcon(long nsWindowPtr, long nsImbge);
+    privbte stbtic nbtive void nbtiveSetNSWindowRepresentedFilenbme(long nsWindowPtr, String representedFilenbme);
+    privbte stbtic nbtive void nbtiveSetEnbbled(long nsWindowPtr, boolebn isEnbbled);
+    privbte stbtic nbtive void nbtiveSynthesizeMouseEnteredExitedEvents();
+    privbte stbtic nbtive void nbtiveDispose(long nsWindowPtr);
+    privbte stbtic nbtive CPlbtformWindow nbtiveGetTopmostPlbtformWindowUnderMouse();
+    privbte stbtic nbtive void nbtiveEnterFullScreenMode(long nsWindowPtr);
+    privbte stbtic nbtive void nbtiveExitFullScreenMode(long nsWindowPtr);
 
-    // Loger to report issues happened during execution but that do not affect functionality
-    private static final PlatformLogger logger = PlatformLogger.getLogger("sun.lwawt.macosx.CPlatformWindow");
-    private static final PlatformLogger focusLogger = PlatformLogger.getLogger("sun.lwawt.macosx.focus.CPlatformWindow");
+    // Loger to report issues hbppened during execution but thbt do not bffect functionblity
+    privbte stbtic finbl PlbtformLogger logger = PlbtformLogger.getLogger("sun.lwbwt.mbcosx.CPlbtformWindow");
+    privbte stbtic finbl PlbtformLogger focusLogger = PlbtformLogger.getLogger("sun.lwbwt.mbcosx.focus.CPlbtformWindow");
 
     // for client properties
-    public static final String WINDOW_BRUSH_METAL_LOOK = "apple.awt.brushMetalLook";
-    public static final String WINDOW_DRAGGABLE_BACKGROUND = "apple.awt.draggableWindowBackground";
+    public stbtic finbl String WINDOW_BRUSH_METAL_LOOK = "bpple.bwt.brushMetblLook";
+    public stbtic finbl String WINDOW_DRAGGABLE_BACKGROUND = "bpple.bwt.drbggbbleWindowBbckground";
 
-    public static final String WINDOW_ALPHA = "Window.alpha";
-    public static final String WINDOW_SHADOW = "Window.shadow";
+    public stbtic finbl String WINDOW_ALPHA = "Window.blphb";
+    public stbtic finbl String WINDOW_SHADOW = "Window.shbdow";
 
-    public static final String WINDOW_STYLE = "Window.style";
-    public static final String WINDOW_SHADOW_REVALIDATE_NOW = "apple.awt.windowShadow.revalidateNow";
+    public stbtic finbl String WINDOW_STYLE = "Window.style";
+    public stbtic finbl String WINDOW_SHADOW_REVALIDATE_NOW = "bpple.bwt.windowShbdow.revblidbteNow";
 
-    public static final String WINDOW_DOCUMENT_MODIFIED = "Window.documentModified";
-    public static final String WINDOW_DOCUMENT_FILE = "Window.documentFile";
+    public stbtic finbl String WINDOW_DOCUMENT_MODIFIED = "Window.documentModified";
+    public stbtic finbl String WINDOW_DOCUMENT_FILE = "Window.documentFile";
 
-    public static final String WINDOW_CLOSEABLE = "Window.closeable";
-    public static final String WINDOW_MINIMIZABLE = "Window.minimizable";
-    public static final String WINDOW_ZOOMABLE = "Window.zoomable";
-    public static final String WINDOW_HIDES_ON_DEACTIVATE="Window.hidesOnDeactivate";
+    public stbtic finbl String WINDOW_CLOSEABLE = "Window.closebble";
+    public stbtic finbl String WINDOW_MINIMIZABLE = "Window.minimizbble";
+    public stbtic finbl String WINDOW_ZOOMABLE = "Window.zoombble";
+    public stbtic finbl String WINDOW_HIDES_ON_DEACTIVATE="Window.hidesOnDebctivbte";
 
-    public static final String WINDOW_DOC_MODAL_SHEET = "apple.awt.documentModalSheet";
-    public static final String WINDOW_FADE_DELEGATE = "apple.awt._windowFadeDelegate";
-    public static final String WINDOW_FADE_IN = "apple.awt._windowFadeIn";
-    public static final String WINDOW_FADE_OUT = "apple.awt._windowFadeOut";
-    public static final String WINDOW_FULLSCREENABLE = "apple.awt.fullscreenable";
+    public stbtic finbl String WINDOW_DOC_MODAL_SHEET = "bpple.bwt.documentModblSheet";
+    public stbtic finbl String WINDOW_FADE_DELEGATE = "bpple.bwt._windowFbdeDelegbte";
+    public stbtic finbl String WINDOW_FADE_IN = "bpple.bwt._windowFbdeIn";
+    public stbtic finbl String WINDOW_FADE_OUT = "bpple.bwt._windowFbdeOut";
+    public stbtic finbl String WINDOW_FULLSCREENABLE = "bpple.bwt.fullscreenbble";
 
 
-    // Yeah, I know. But it's easier to deal with ints from JNI
-    static final int MODELESS = 0;
-    static final int DOCUMENT_MODAL = 1;
-    static final int APPLICATION_MODAL = 2;
-    static final int TOOLKIT_MODAL = 3;
+    // Yebh, I know. But it's ebsier to debl with ints from JNI
+    stbtic finbl int MODELESS = 0;
+    stbtic finbl int DOCUMENT_MODAL = 1;
+    stbtic finbl int APPLICATION_MODAL = 2;
+    stbtic finbl int TOOLKIT_MODAL = 3;
 
     // window style bits
-    static final int _RESERVED_FOR_DATA = 1 << 0;
+    stbtic finbl int _RESERVED_FOR_DATA = 1 << 0;
 
-    // corresponds to native style mask bits
-    static final int DECORATED = 1 << 1;
-    static final int TEXTURED = 1 << 2;
-    static final int UNIFIED = 1 << 3;
-    static final int UTILITY = 1 << 4;
-    static final int HUD = 1 << 5;
-    static final int SHEET = 1 << 6;
+    // corresponds to nbtive style mbsk bits
+    stbtic finbl int DECORATED = 1 << 1;
+    stbtic finbl int TEXTURED = 1 << 2;
+    stbtic finbl int UNIFIED = 1 << 3;
+    stbtic finbl int UTILITY = 1 << 4;
+    stbtic finbl int HUD = 1 << 5;
+    stbtic finbl int SHEET = 1 << 6;
 
-    static final int CLOSEABLE = 1 << 7;
-    static final int MINIMIZABLE = 1 << 8;
+    stbtic finbl int CLOSEABLE = 1 << 7;
+    stbtic finbl int MINIMIZABLE = 1 << 8;
 
-    static final int RESIZABLE = 1 << 9; // both a style bit and prop bit
-    static final int NONACTIVATING = 1 << 24;
-    static final int IS_DIALOG = 1 << 25;
-    static final int IS_MODAL = 1 << 26;
-    static final int IS_POPUP = 1 << 27;
+    stbtic finbl int RESIZABLE = 1 << 9; // both b style bit bnd prop bit
+    stbtic finbl int NONACTIVATING = 1 << 24;
+    stbtic finbl int IS_DIALOG = 1 << 25;
+    stbtic finbl int IS_MODAL = 1 << 26;
+    stbtic finbl int IS_POPUP = 1 << 27;
 
-    static final int _STYLE_PROP_BITMASK = DECORATED | TEXTURED | UNIFIED | UTILITY | HUD | SHEET | CLOSEABLE | MINIMIZABLE | RESIZABLE;
+    stbtic finbl int _STYLE_PROP_BITMASK = DECORATED | TEXTURED | UNIFIED | UTILITY | HUD | SHEET | CLOSEABLE | MINIMIZABLE | RESIZABLE;
 
-    // corresponds to method-based properties
-    static final int HAS_SHADOW = 1 << 10;
-    static final int ZOOMABLE = 1 << 11;
+    // corresponds to method-bbsed properties
+    stbtic finbl int HAS_SHADOW = 1 << 10;
+    stbtic finbl int ZOOMABLE = 1 << 11;
 
-    static final int ALWAYS_ON_TOP = 1 << 15;
-    static final int HIDES_ON_DEACTIVATE = 1 << 17;
-    static final int DRAGGABLE_BACKGROUND = 1 << 19;
-    static final int DOCUMENT_MODIFIED = 1 << 21;
-    static final int FULLSCREENABLE = 1 << 23;
+    stbtic finbl int ALWAYS_ON_TOP = 1 << 15;
+    stbtic finbl int HIDES_ON_DEACTIVATE = 1 << 17;
+    stbtic finbl int DRAGGABLE_BACKGROUND = 1 << 19;
+    stbtic finbl int DOCUMENT_MODIFIED = 1 << 21;
+    stbtic finbl int FULLSCREENABLE = 1 << 23;
 
-    static final int _METHOD_PROP_BITMASK = RESIZABLE | HAS_SHADOW | ZOOMABLE | ALWAYS_ON_TOP | HIDES_ON_DEACTIVATE | DRAGGABLE_BACKGROUND | DOCUMENT_MODIFIED | FULLSCREENABLE;
+    stbtic finbl int _METHOD_PROP_BITMASK = RESIZABLE | HAS_SHADOW | ZOOMABLE | ALWAYS_ON_TOP | HIDES_ON_DEACTIVATE | DRAGGABLE_BACKGROUND | DOCUMENT_MODIFIED | FULLSCREENABLE;
 
-    // corresponds to callback-based properties
-    static final int SHOULD_BECOME_KEY = 1 << 12;
-    static final int SHOULD_BECOME_MAIN = 1 << 13;
-    static final int MODAL_EXCLUDED = 1 << 16;
+    // corresponds to cbllbbck-bbsed properties
+    stbtic finbl int SHOULD_BECOME_KEY = 1 << 12;
+    stbtic finbl int SHOULD_BECOME_MAIN = 1 << 13;
+    stbtic finbl int MODAL_EXCLUDED = 1 << 16;
 
-    static final int _CALLBACK_PROP_BITMASK = SHOULD_BECOME_KEY | SHOULD_BECOME_MAIN | MODAL_EXCLUDED;
+    stbtic finbl int _CALLBACK_PROP_BITMASK = SHOULD_BECOME_KEY | SHOULD_BECOME_MAIN | MODAL_EXCLUDED;
 
-    static int SET(final int bits, final int mask, final boolean value) {
-        if (value) return (bits | mask);
-        return bits & ~mask;
+    stbtic int SET(finbl int bits, finbl int mbsk, finbl boolebn vblue) {
+        if (vblue) return (bits | mbsk);
+        return bits & ~mbsk;
     }
 
-    static boolean IS(final int bits, final int mask) {
-        return (bits & mask) != 0;
+    stbtic boolebn IS(finbl int bits, finbl int mbsk) {
+        return (bits & mbsk) != 0;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    static ClientPropertyApplicator<JRootPane, CPlatformWindow> CLIENT_PROPERTY_APPLICATOR = new ClientPropertyApplicator<JRootPane, CPlatformWindow>(new Property[] {
-        new Property<CPlatformWindow>(WINDOW_DOCUMENT_MODIFIED) { public void applyProperty(final CPlatformWindow c, final Object value) {
-            c.setStyleBits(DOCUMENT_MODIFIED, value == null ? false : Boolean.parseBoolean(value.toString()));
+    @SuppressWbrnings({"unchecked", "rbwtypes"})
+    stbtic ClientPropertyApplicbtor<JRootPbne, CPlbtformWindow> CLIENT_PROPERTY_APPLICATOR = new ClientPropertyApplicbtor<JRootPbne, CPlbtformWindow>(new Property[] {
+        new Property<CPlbtformWindow>(WINDOW_DOCUMENT_MODIFIED) { public void bpplyProperty(finbl CPlbtformWindow c, finbl Object vblue) {
+            c.setStyleBits(DOCUMENT_MODIFIED, vblue == null ? fblse : Boolebn.pbrseBoolebn(vblue.toString()));
         }},
-        new Property<CPlatformWindow>(WINDOW_BRUSH_METAL_LOOK) { public void applyProperty(final CPlatformWindow c, final Object value) {
-            c.setStyleBits(TEXTURED, Boolean.parseBoolean(value.toString()));
+        new Property<CPlbtformWindow>(WINDOW_BRUSH_METAL_LOOK) { public void bpplyProperty(finbl CPlbtformWindow c, finbl Object vblue) {
+            c.setStyleBits(TEXTURED, Boolebn.pbrseBoolebn(vblue.toString()));
         }},
-        new Property<CPlatformWindow>(WINDOW_ALPHA) { public void applyProperty(final CPlatformWindow c, final Object value) {
-            AWTUtilities.setWindowOpacity(c.target, value == null ? 1.0f : Float.parseFloat(value.toString()));
+        new Property<CPlbtformWindow>(WINDOW_ALPHA) { public void bpplyProperty(finbl CPlbtformWindow c, finbl Object vblue) {
+            AWTUtilities.setWindowOpbcity(c.tbrget, vblue == null ? 1.0f : Flobt.pbrseFlobt(vblue.toString()));
         }},
-        new Property<CPlatformWindow>(WINDOW_SHADOW) { public void applyProperty(final CPlatformWindow c, final Object value) {
-            c.setStyleBits(HAS_SHADOW, value == null ? true : Boolean.parseBoolean(value.toString()));
+        new Property<CPlbtformWindow>(WINDOW_SHADOW) { public void bpplyProperty(finbl CPlbtformWindow c, finbl Object vblue) {
+            c.setStyleBits(HAS_SHADOW, vblue == null ? true : Boolebn.pbrseBoolebn(vblue.toString()));
         }},
-        new Property<CPlatformWindow>(WINDOW_MINIMIZABLE) { public void applyProperty(final CPlatformWindow c, final Object value) {
-            c.setStyleBits(MINIMIZABLE, Boolean.parseBoolean(value.toString()));
+        new Property<CPlbtformWindow>(WINDOW_MINIMIZABLE) { public void bpplyProperty(finbl CPlbtformWindow c, finbl Object vblue) {
+            c.setStyleBits(MINIMIZABLE, Boolebn.pbrseBoolebn(vblue.toString()));
         }},
-        new Property<CPlatformWindow>(WINDOW_CLOSEABLE) { public void applyProperty(final CPlatformWindow c, final Object value) {
-            c.setStyleBits(CLOSEABLE, Boolean.parseBoolean(value.toString()));
+        new Property<CPlbtformWindow>(WINDOW_CLOSEABLE) { public void bpplyProperty(finbl CPlbtformWindow c, finbl Object vblue) {
+            c.setStyleBits(CLOSEABLE, Boolebn.pbrseBoolebn(vblue.toString()));
         }},
-        new Property<CPlatformWindow>(WINDOW_ZOOMABLE) { public void applyProperty(final CPlatformWindow c, final Object value) {
-            c.setStyleBits(ZOOMABLE, Boolean.parseBoolean(value.toString()));
+        new Property<CPlbtformWindow>(WINDOW_ZOOMABLE) { public void bpplyProperty(finbl CPlbtformWindow c, finbl Object vblue) {
+            c.setStyleBits(ZOOMABLE, Boolebn.pbrseBoolebn(vblue.toString()));
         }},
-        new Property<CPlatformWindow>(WINDOW_FULLSCREENABLE) { public void applyProperty(final CPlatformWindow c, final Object value) {
-            c.setStyleBits(FULLSCREENABLE, Boolean.parseBoolean(value.toString()));
+        new Property<CPlbtformWindow>(WINDOW_FULLSCREENABLE) { public void bpplyProperty(finbl CPlbtformWindow c, finbl Object vblue) {
+            c.setStyleBits(FULLSCREENABLE, Boolebn.pbrseBoolebn(vblue.toString()));
         }},
-        new Property<CPlatformWindow>(WINDOW_SHADOW_REVALIDATE_NOW) { public void applyProperty(final CPlatformWindow c, final Object value) {
-            nativeRevalidateNSWindowShadow(c.getNSWindowPtr());
+        new Property<CPlbtformWindow>(WINDOW_SHADOW_REVALIDATE_NOW) { public void bpplyProperty(finbl CPlbtformWindow c, finbl Object vblue) {
+            nbtiveRevblidbteNSWindowShbdow(c.getNSWindowPtr());
         }},
-        new Property<CPlatformWindow>(WINDOW_DOCUMENT_FILE) { public void applyProperty(final CPlatformWindow c, final Object value) {
-            if (value == null || !(value instanceof java.io.File)) {
-                nativeSetNSWindowRepresentedFilename(c.getNSWindowPtr(), null);
+        new Property<CPlbtformWindow>(WINDOW_DOCUMENT_FILE) { public void bpplyProperty(finbl CPlbtformWindow c, finbl Object vblue) {
+            if (vblue == null || !(vblue instbnceof jbvb.io.File)) {
+                nbtiveSetNSWindowRepresentedFilenbme(c.getNSWindowPtr(), null);
                 return;
             }
 
-            final String filename = ((java.io.File)value).getAbsolutePath();
-            nativeSetNSWindowRepresentedFilename(c.getNSWindowPtr(), filename);
+            finbl String filenbme = ((jbvb.io.File)vblue).getAbsolutePbth();
+            nbtiveSetNSWindowRepresentedFilenbme(c.getNSWindowPtr(), filenbme);
         }}
     }) {
-        public CPlatformWindow convertJComponentToTarget(final JRootPane p) {
+        public CPlbtformWindow convertJComponentToTbrget(finbl JRootPbne p) {
             Component root = SwingUtilities.getRoot(p);
             if (root == null || (LWWindowPeer)root.getPeer() == null) return null;
-            return (CPlatformWindow)((LWWindowPeer)root.getPeer()).getPlatformWindow();
+            return (CPlbtformWindow)((LWWindowPeer)root.getPeer()).getPlbtformWindow();
         }
     };
 
-    // Bounds of the native widget but in the Java coordinate system.
-    // In order to keep it up-to-date we will update them on
-    // 1) setting native bounds via nativeSetBounds() call
-    // 2) getting notification from the native level via deliverMoveResizeEvent()
-    private Rectangle nativeBounds = new Rectangle(0, 0, 0, 0);
-    private volatile boolean isFullScreenMode;
-    private boolean isFullScreenAnimationOn;
+    // Bounds of the nbtive widget but in the Jbvb coordinbte system.
+    // In order to keep it up-to-dbte we will updbte them on
+    // 1) setting nbtive bounds vib nbtiveSetBounds() cbll
+    // 2) getting notificbtion from the nbtive level vib deliverMoveResizeEvent()
+    privbte Rectbngle nbtiveBounds = new Rectbngle(0, 0, 0, 0);
+    privbte volbtile boolebn isFullScreenMode;
+    privbte boolebn isFullScreenAnimbtionOn;
 
-    private Window target;
-    private LWWindowPeer peer;
-    protected CPlatformView contentView;
-    protected CPlatformWindow owner;
-    protected boolean visible = false; // visibility status from native perspective
-    private boolean undecorated; // initialized in getInitialStyleBits()
-    private Rectangle normalBounds = null; // not-null only for undecorated maximized windows
-    private CPlatformResponder responder;
+    privbte Window tbrget;
+    privbte LWWindowPeer peer;
+    protected CPlbtformView contentView;
+    protected CPlbtformWindow owner;
+    protected boolebn visible = fblse; // visibility stbtus from nbtive perspective
+    privbte boolebn undecorbted; // initiblized in getInitiblStyleBits()
+    privbte Rectbngle normblBounds = null; // not-null only for undecorbted mbximized windows
+    privbte CPlbtformResponder responder;
 
-    public CPlatformWindow() {
+    public CPlbtformWindow() {
         super(0, true);
     }
 
     /*
-     * Delegate initialization (create native window and all the
-     * related resources).
+     * Delegbte initiblizbtion (crebte nbtive window bnd bll the
+     * relbted resources).
      */
-    @Override // PlatformWindow
-    public void initialize(Window _target, LWWindowPeer _peer, PlatformWindow _owner) {
-        initializeBase(_target, _peer, _owner, new CPlatformView());
+    @Override // PlbtformWindow
+    public void initiblize(Window _tbrget, LWWindowPeer _peer, PlbtformWindow _owner) {
+        initiblizeBbse(_tbrget, _peer, _owner, new CPlbtformView());
 
-        final int styleBits = getInitialStyleBits();
+        finbl int styleBits = getInitiblStyleBits();
 
-        responder = createPlatformResponder();
-        contentView = createContentView();
-        contentView.initialize(peer, responder);
+        responder = crebtePlbtformResponder();
+        contentView = crebteContentView();
+        contentView.initiblize(peer, responder);
 
-        final long ownerPtr = owner != null ? owner.getNSWindowPtr() : 0L;
-        Rectangle bounds;
+        finbl long ownerPtr = owner != null ? owner.getNSWindowPtr() : 0L;
+        Rectbngle bounds;
         if (!IS(DECORATED, styleBits)) {
-            // For undecorated frames the move/resize event does not come if the frame is centered on the screen
-            // so we need to set a stub location to force an initial move/resize. Real bounds would be set later.
-            bounds = new Rectangle(0, 0, 1, 1);
+            // For undecorbted frbmes the move/resize event does not come if the frbme is centered on the screen
+            // so we need to set b stub locbtion to force bn initibl move/resize. Rebl bounds would be set lbter.
+            bounds = new Rectbngle(0, 0, 1, 1);
         } else {
-            bounds = _peer.constrainBounds(_target.getBounds());
+            bounds = _peer.constrbinBounds(_tbrget.getBounds());
         }
-        final long nativeWindowPtr = nativeCreateNSWindow(contentView.getAWTView(),
+        finbl long nbtiveWindowPtr = nbtiveCrebteNSWindow(contentView.getAWTView(),
                 ownerPtr, styleBits, bounds.x, bounds.y, bounds.width, bounds.height);
-        setPtr(nativeWindowPtr);
+        setPtr(nbtiveWindowPtr);
 
-        if (target instanceof javax.swing.RootPaneContainer) {
-            final javax.swing.JRootPane rootpane = ((javax.swing.RootPaneContainer)target).getRootPane();
-            if (rootpane != null) rootpane.addPropertyChangeListener("ancestor", new PropertyChangeListener() {
-                public void propertyChange(final PropertyChangeEvent evt) {
-                    CLIENT_PROPERTY_APPLICATOR.attachAndApplyClientProperties(rootpane);
-                    rootpane.removePropertyChangeListener("ancestor", this);
+        if (tbrget instbnceof jbvbx.swing.RootPbneContbiner) {
+            finbl jbvbx.swing.JRootPbne rootpbne = ((jbvbx.swing.RootPbneContbiner)tbrget).getRootPbne();
+            if (rootpbne != null) rootpbne.bddPropertyChbngeListener("bncestor", new PropertyChbngeListener() {
+                public void propertyChbnge(finbl PropertyChbngeEvent evt) {
+                    CLIENT_PROPERTY_APPLICATOR.bttbchAndApplyClientProperties(rootpbne);
+                    rootpbne.removePropertyChbngeListener("bncestor", this);
                 }
             });
         }
 
-        validateSurface();
+        vblidbteSurfbce();
     }
 
-    protected void initializeBase(Window target, LWWindowPeer peer, PlatformWindow owner, CPlatformView view) {
+    protected void initiblizeBbse(Window tbrget, LWWindowPeer peer, PlbtformWindow owner, CPlbtformView view) {
         this.peer = peer;
-        this.target = target;
-        if (owner instanceof CPlatformWindow) {
-            this.owner = (CPlatformWindow)owner;
+        this.tbrget = tbrget;
+        if (owner instbnceof CPlbtformWindow) {
+            this.owner = (CPlbtformWindow)owner;
         }
         this.contentView = view;
     }
 
-    protected CPlatformResponder createPlatformResponder() {
-        return new CPlatformResponder(peer, false);
+    protected CPlbtformResponder crebtePlbtformResponder() {
+        return new CPlbtformResponder(peer, fblse);
     }
 
-    protected CPlatformView createContentView() {
-        return new CPlatformView();
+    protected CPlbtformView crebteContentView() {
+        return new CPlbtformView();
     }
 
-    protected int getInitialStyleBits() {
-        // defaults style bits
+    protected int getInitiblStyleBits() {
+        // defbults style bits
         int styleBits = DECORATED | HAS_SHADOW | CLOSEABLE | MINIMIZABLE | ZOOMABLE | RESIZABLE;
 
-        if (isNativelyFocusableWindow()) {
+        if (isNbtivelyFocusbbleWindow()) {
             styleBits = SET(styleBits, SHOULD_BECOME_KEY, true);
             styleBits = SET(styleBits, SHOULD_BECOME_MAIN, true);
         }
 
-        final boolean isFrame = (target instanceof Frame);
-        final boolean isDialog = (target instanceof Dialog);
-        final boolean isPopup = (target.getType() == Window.Type.POPUP);
-        if (isDialog) {
-            styleBits = SET(styleBits, MINIMIZABLE, false);
+        finbl boolebn isFrbme = (tbrget instbnceof Frbme);
+        finbl boolebn isDiblog = (tbrget instbnceof Diblog);
+        finbl boolebn isPopup = (tbrget.getType() == Window.Type.POPUP);
+        if (isDiblog) {
+            styleBits = SET(styleBits, MINIMIZABLE, fblse);
         }
 
-        // Either java.awt.Frame or java.awt.Dialog can be undecorated, however java.awt.Window always is undecorated.
+        // Either jbvb.bwt.Frbme or jbvb.bwt.Diblog cbn be undecorbted, however jbvb.bwt.Window blwbys is undecorbted.
         {
-            this.undecorated = isFrame ? ((Frame)target).isUndecorated() : (isDialog ? ((Dialog)target).isUndecorated() : true);
-            if (this.undecorated) styleBits = SET(styleBits, DECORATED, false);
+            this.undecorbted = isFrbme ? ((Frbme)tbrget).isUndecorbted() : (isDiblog ? ((Diblog)tbrget).isUndecorbted() : true);
+            if (this.undecorbted) styleBits = SET(styleBits, DECORATED, fblse);
         }
 
-        // Either java.awt.Frame or java.awt.Dialog can be resizable, however java.awt.Window is never resizable
+        // Either jbvb.bwt.Frbme or jbvb.bwt.Diblog cbn be resizbble, however jbvb.bwt.Window is never resizbble
         {
-            final boolean resizable = isFrame ? ((Frame)target).isResizable() : (isDialog ? ((Dialog)target).isResizable() : false);
-            styleBits = SET(styleBits, RESIZABLE, resizable);
-            if (!resizable) {
-                styleBits = SET(styleBits, ZOOMABLE, false);
+            finbl boolebn resizbble = isFrbme ? ((Frbme)tbrget).isResizbble() : (isDiblog ? ((Diblog)tbrget).isResizbble() : fblse);
+            styleBits = SET(styleBits, RESIZABLE, resizbble);
+            if (!resizbble) {
+                styleBits = SET(styleBits, ZOOMABLE, fblse);
             }
         }
 
-        if (target.isAlwaysOnTop()) {
+        if (tbrget.isAlwbysOnTop()) {
             styleBits = SET(styleBits, ALWAYS_ON_TOP, true);
         }
 
-        if (target.getModalExclusionType() == Dialog.ModalExclusionType.APPLICATION_EXCLUDE) {
+        if (tbrget.getModblExclusionType() == Diblog.ModblExclusionType.APPLICATION_EXCLUDE) {
             styleBits = SET(styleBits, MODAL_EXCLUDED, true);
         }
 
-        // If the target is a dialog, popup or tooltip we want it to ignore the brushed metal look.
+        // If the tbrget is b diblog, popup or tooltip we wbnt it to ignore the brushed metbl look.
         if (isPopup) {
-            styleBits = SET(styleBits, TEXTURED, false);
-            // Popups in applets don't activate applet's process
+            styleBits = SET(styleBits, TEXTURED, fblse);
+            // Popups in bpplets don't bctivbte bpplet's process
             styleBits = SET(styleBits, NONACTIVATING, true);
             styleBits = SET(styleBits, IS_POPUP, true);
         }
 
-        if (Window.Type.UTILITY.equals(target.getType())) {
+        if (Window.Type.UTILITY.equbls(tbrget.getType())) {
             styleBits = SET(styleBits, UTILITY, true);
         }
 
-        if (target instanceof javax.swing.RootPaneContainer) {
-            javax.swing.JRootPane rootpane = ((javax.swing.RootPaneContainer)target).getRootPane();
+        if (tbrget instbnceof jbvbx.swing.RootPbneContbiner) {
+            jbvbx.swing.JRootPbne rootpbne = ((jbvbx.swing.RootPbneContbiner)tbrget).getRootPbne();
             Object prop = null;
 
-            prop = rootpane.getClientProperty(WINDOW_BRUSH_METAL_LOOK);
+            prop = rootpbne.getClientProperty(WINDOW_BRUSH_METAL_LOOK);
             if (prop != null) {
-                styleBits = SET(styleBits, TEXTURED, Boolean.parseBoolean(prop.toString()));
+                styleBits = SET(styleBits, TEXTURED, Boolebn.pbrseBoolebn(prop.toString()));
             }
 
-            if (isDialog && ((Dialog)target).getModalityType() == ModalityType.DOCUMENT_MODAL) {
-                prop = rootpane.getClientProperty(WINDOW_DOC_MODAL_SHEET);
+            if (isDiblog && ((Diblog)tbrget).getModblityType() == ModblityType.DOCUMENT_MODAL) {
+                prop = rootpbne.getClientProperty(WINDOW_DOC_MODAL_SHEET);
                 if (prop != null) {
-                    styleBits = SET(styleBits, SHEET, Boolean.parseBoolean(prop.toString()));
+                    styleBits = SET(styleBits, SHEET, Boolebn.pbrseBoolebn(prop.toString()));
                 }
             }
 
-            prop = rootpane.getClientProperty(WINDOW_STYLE);
+            prop = rootpbne.getClientProperty(WINDOW_STYLE);
             if (prop != null) {
-                if ("small".equals(prop))  {
+                if ("smbll".equbls(prop))  {
                     styleBits = SET(styleBits, UTILITY, true);
-                    if (target.isAlwaysOnTop() && rootpane.getClientProperty(WINDOW_HIDES_ON_DEACTIVATE) == null) {
+                    if (tbrget.isAlwbysOnTop() && rootpbne.getClientProperty(WINDOW_HIDES_ON_DEACTIVATE) == null) {
                         styleBits = SET(styleBits, HIDES_ON_DEACTIVATE, true);
                     }
                 }
-                if ("textured".equals(prop)) styleBits = SET(styleBits, TEXTURED, true);
-                if ("unified".equals(prop)) styleBits = SET(styleBits, UNIFIED, true);
-                if ("hud".equals(prop)) styleBits = SET(styleBits, HUD, true);
+                if ("textured".equbls(prop)) styleBits = SET(styleBits, TEXTURED, true);
+                if ("unified".equbls(prop)) styleBits = SET(styleBits, UNIFIED, true);
+                if ("hud".equbls(prop)) styleBits = SET(styleBits, HUD, true);
             }
 
-            prop = rootpane.getClientProperty(WINDOW_HIDES_ON_DEACTIVATE);
+            prop = rootpbne.getClientProperty(WINDOW_HIDES_ON_DEACTIVATE);
             if (prop != null) {
-                styleBits = SET(styleBits, HIDES_ON_DEACTIVATE, Boolean.parseBoolean(prop.toString()));
+                styleBits = SET(styleBits, HIDES_ON_DEACTIVATE, Boolebn.pbrseBoolebn(prop.toString()));
             }
 
-            prop = rootpane.getClientProperty(WINDOW_CLOSEABLE);
+            prop = rootpbne.getClientProperty(WINDOW_CLOSEABLE);
             if (prop != null) {
-                styleBits = SET(styleBits, CLOSEABLE, Boolean.parseBoolean(prop.toString()));
+                styleBits = SET(styleBits, CLOSEABLE, Boolebn.pbrseBoolebn(prop.toString()));
             }
 
-            prop = rootpane.getClientProperty(WINDOW_MINIMIZABLE);
+            prop = rootpbne.getClientProperty(WINDOW_MINIMIZABLE);
             if (prop != null) {
-                styleBits = SET(styleBits, MINIMIZABLE, Boolean.parseBoolean(prop.toString()));
+                styleBits = SET(styleBits, MINIMIZABLE, Boolebn.pbrseBoolebn(prop.toString()));
             }
 
-            prop = rootpane.getClientProperty(WINDOW_ZOOMABLE);
+            prop = rootpbne.getClientProperty(WINDOW_ZOOMABLE);
             if (prop != null) {
-                styleBits = SET(styleBits, ZOOMABLE, Boolean.parseBoolean(prop.toString()));
+                styleBits = SET(styleBits, ZOOMABLE, Boolebn.pbrseBoolebn(prop.toString()));
             }
 
-            prop = rootpane.getClientProperty(WINDOW_FULLSCREENABLE);
+            prop = rootpbne.getClientProperty(WINDOW_FULLSCREENABLE);
             if (prop != null) {
-                styleBits = SET(styleBits, FULLSCREENABLE, Boolean.parseBoolean(prop.toString()));
+                styleBits = SET(styleBits, FULLSCREENABLE, Boolebn.pbrseBoolebn(prop.toString()));
             }
 
-            prop = rootpane.getClientProperty(WINDOW_SHADOW);
+            prop = rootpbne.getClientProperty(WINDOW_SHADOW);
             if (prop != null) {
-                styleBits = SET(styleBits, HAS_SHADOW, Boolean.parseBoolean(prop.toString()));
+                styleBits = SET(styleBits, HAS_SHADOW, Boolebn.pbrseBoolebn(prop.toString()));
             }
 
-            prop = rootpane.getClientProperty(WINDOW_DRAGGABLE_BACKGROUND);
+            prop = rootpbne.getClientProperty(WINDOW_DRAGGABLE_BACKGROUND);
             if (prop != null) {
-                styleBits = SET(styleBits, DRAGGABLE_BACKGROUND, Boolean.parseBoolean(prop.toString()));
+                styleBits = SET(styleBits, DRAGGABLE_BACKGROUND, Boolebn.pbrseBoolebn(prop.toString()));
             }
         }
 
-        if (isDialog) {
+        if (isDiblog) {
             styleBits = SET(styleBits, IS_DIALOG, true);
-            if (((Dialog) target).isModal()) {
+            if (((Diblog) tbrget).isModbl()) {
                 styleBits = SET(styleBits, IS_MODAL, true);
             }
         }
@@ -403,95 +403,95 @@ public class CPlatformWindow extends CFRetainedResource implements PlatformWindo
         return styleBits;
     }
 
-    // this is the counter-point to -[CWindow _nativeSetStyleBit:]
-    private void setStyleBits(final int mask, final boolean value) {
-        nativeSetNSWindowStyleBits(getNSWindowPtr(), mask, value ? mask : 0);
+    // this is the counter-point to -[CWindow _nbtiveSetStyleBit:]
+    privbte void setStyleBits(finbl int mbsk, finbl boolebn vblue) {
+        nbtiveSetNSWindowStyleBits(getNSWindowPtr(), mbsk, vblue ? mbsk : 0);
     }
 
-    private native void _toggleFullScreenMode(final long model);
+    privbte nbtive void _toggleFullScreenMode(finbl long model);
 
     public void toggleFullScreen() {
         _toggleFullScreenMode(getNSWindowPtr());
     }
 
-    @Override // PlatformWindow
-    public void setMenuBar(MenuBar mb) {
-        final long nsWindowPtr = getNSWindowPtr();
-        CMenuBar mbPeer = (CMenuBar)LWToolkit.targetToPeer(mb);
+    @Override // PlbtformWindow
+    public void setMenuBbr(MenuBbr mb) {
+        finbl long nsWindowPtr = getNSWindowPtr();
+        CMenuBbr mbPeer = (CMenuBbr)LWToolkit.tbrgetToPeer(mb);
         if (mbPeer != null) {
-            nativeSetNSWindowMenuBar(nsWindowPtr, mbPeer.getModel());
+            nbtiveSetNSWindowMenuBbr(nsWindowPtr, mbPeer.getModel());
         } else {
-            nativeSetNSWindowMenuBar(nsWindowPtr, 0);
+            nbtiveSetNSWindowMenuBbr(nsWindowPtr, 0);
         }
     }
 
-    @Override // PlatformWindow
+    @Override // PlbtformWindow
     public void dispose() {
         if (owner != null) {
-            CWrapper.NSWindow.removeChildWindow(owner.getNSWindowPtr(), getNSWindowPtr());
+            CWrbpper.NSWindow.removeChildWindow(owner.getNSWindowPtr(), getNSWindowPtr());
         }
         contentView.dispose();
-        nativeDispose(getNSWindowPtr());
-        CPlatformWindow.super.dispose();
+        nbtiveDispose(getNSWindowPtr());
+        CPlbtformWindow.super.dispose();
     }
 
-    @Override // PlatformWindow
+    @Override // PlbtformWindow
     public FontMetrics getFontMetrics(Font f) {
         // TODO: not implemented
-        (new RuntimeException("unimplemented")).printStackTrace();
+        (new RuntimeException("unimplemented")).printStbckTrbce();
         return null;
     }
 
-    @Override // PlatformWindow
+    @Override // PlbtformWindow
     public Insets getInsets() {
-        return nativeGetNSWindowInsets(getNSWindowPtr());
+        return nbtiveGetNSWindowInsets(getNSWindowPtr());
     }
 
-    @Override // PlatformWindow
-    public Point getLocationOnScreen() {
-        return new Point(nativeBounds.x, nativeBounds.y);
+    @Override // PlbtformWindow
+    public Point getLocbtionOnScreen() {
+        return new Point(nbtiveBounds.x, nbtiveBounds.y);
     }
 
     @Override
-    public GraphicsDevice getGraphicsDevice() {
-        return contentView.getGraphicsDevice();
+    public GrbphicsDevice getGrbphicsDevice() {
+        return contentView.getGrbphicsDevice();
     }
 
-    @Override // PlatformWindow
-    public SurfaceData getScreenSurface() {
+    @Override // PlbtformWindow
+    public SurfbceDbtb getScreenSurfbce() {
         // TODO: not implemented
         return null;
     }
 
-    @Override // PlatformWindow
-    public SurfaceData replaceSurfaceData() {
-        return contentView.replaceSurfaceData();
+    @Override // PlbtformWindow
+    public SurfbceDbtb replbceSurfbceDbtb() {
+        return contentView.replbceSurfbceDbtb();
     }
 
-    @Override // PlatformWindow
+    @Override // PlbtformWindow
     public void setBounds(int x, int y, int w, int h) {
-        nativeSetNSWindowBounds(getNSWindowPtr(), x, y, w, h);
+        nbtiveSetNSWindowBounds(getNSWindowPtr(), x, y, w, h);
     }
 
-    private boolean isMaximized() {
-        return undecorated ? this.normalBounds != null
-                : CWrapper.NSWindow.isZoomed(getNSWindowPtr());
+    privbte boolebn isMbximized() {
+        return undecorbted ? this.normblBounds != null
+                : CWrbpper.NSWindow.isZoomed(getNSWindowPtr());
     }
 
-    private void maximize() {
-        if (peer == null || isMaximized()) {
+    privbte void mbximize() {
+        if (peer == null || isMbximized()) {
             return;
         }
-        if (!undecorated) {
-            CWrapper.NSWindow.zoom(getNSWindowPtr());
+        if (!undecorbted) {
+            CWrbpper.NSWindow.zoom(getNSWindowPtr());
         } else {
             deliverZoom(true);
 
-            this.normalBounds = peer.getBounds();
+            this.normblBounds = peer.getBounds();
 
-            GraphicsConfiguration config = getPeer().getGraphicsConfiguration();
-            Insets i = ((CGraphicsDevice)config.getDevice()).getScreenInsets();
-            Rectangle toBounds = config.getBounds();
+            GrbphicsConfigurbtion config = getPeer().getGrbphicsConfigurbtion();
+            Insets i = ((CGrbphicsDevice)config.getDevice()).getScreenInsets();
+            Rectbngle toBounds = config.getBounds();
             setBounds(toBounds.x + i.left,
                       toBounds.y + i.top,
                       toBounds.width - i.left - i.right,
@@ -499,347 +499,347 @@ public class CPlatformWindow extends CFRetainedResource implements PlatformWindo
         }
     }
 
-    private void unmaximize() {
-        if (!isMaximized()) {
+    privbte void unmbximize() {
+        if (!isMbximized()) {
             return;
         }
-        if (!undecorated) {
-            CWrapper.NSWindow.zoom(getNSWindowPtr());
+        if (!undecorbted) {
+            CWrbpper.NSWindow.zoom(getNSWindowPtr());
         } else {
-            deliverZoom(false);
+            deliverZoom(fblse);
 
-            Rectangle toBounds = this.normalBounds;
-            this.normalBounds = null;
+            Rectbngle toBounds = this.normblBounds;
+            this.normblBounds = null;
             setBounds(toBounds.x, toBounds.y, toBounds.width, toBounds.height);
         }
     }
 
-    public boolean isVisible() {
+    public boolebn isVisible() {
         return this.visible;
     }
 
-    @Override // PlatformWindow
-    public void setVisible(boolean visible) {
-        final long nsWindowPtr = getNSWindowPtr();
+    @Override // PlbtformWindow
+    public void setVisible(boolebn visible) {
+        finbl long nsWindowPtr = getNSWindowPtr();
 
-        // Process parent-child relationship when hiding
+        // Process pbrent-child relbtionship when hiding
         if (!visible) {
-            // Unparent my children
-            for (Window w : target.getOwnedWindows()) {
+            // Unpbrent my children
+            for (Window w : tbrget.getOwnedWindows()) {
                 WindowPeer p = (WindowPeer)w.getPeer();
-                if (p instanceof LWWindowPeer) {
-                    CPlatformWindow pw = (CPlatformWindow)((LWWindowPeer)p).getPlatformWindow();
+                if (p instbnceof LWWindowPeer) {
+                    CPlbtformWindow pw = (CPlbtformWindow)((LWWindowPeer)p).getPlbtformWindow();
                     if (pw != null && pw.isVisible()) {
-                        CWrapper.NSWindow.removeChildWindow(nsWindowPtr, pw.getNSWindowPtr());
+                        CWrbpper.NSWindow.removeChildWindow(nsWindowPtr, pw.getNSWindowPtr());
                     }
                 }
             }
 
-            // Unparent myself
+            // Unpbrent myself
             if (owner != null && owner.isVisible()) {
-                CWrapper.NSWindow.removeChildWindow(owner.getNSWindowPtr(), nsWindowPtr);
+                CWrbpper.NSWindow.removeChildWindow(owner.getNSWindowPtr(), nsWindowPtr);
             }
         }
 
         // Configure stuff
-        updateIconImages();
-        updateFocusabilityForAutoRequestFocus(false);
+        updbteIconImbges();
+        updbteFocusbbilityForAutoRequestFocus(fblse);
 
-        boolean wasMaximized = isMaximized();
+        boolebn wbsMbximized = isMbximized();
 
-        // Actually show or hide the window
+        // Actublly show or hide the window
         LWWindowPeer blocker = (peer == null)? null : peer.getBlocker();
         if (blocker == null || !visible) {
-            // If it ain't blocked, or is being hidden, go regular way
+            // If it bin't blocked, or is being hidden, go regulbr wby
             if (visible) {
-                CWrapper.NSWindow.makeFirstResponder(nsWindowPtr, contentView.getAWTView());
+                CWrbpper.NSWindow.mbkeFirstResponder(nsWindowPtr, contentView.getAWTView());
 
-                boolean isPopup = (target.getType() == Window.Type.POPUP);
+                boolebn isPopup = (tbrget.getType() == Window.Type.POPUP);
                 if (isPopup) {
-                    // Popups in applets don't activate applet's process
-                    CWrapper.NSWindow.orderFrontRegardless(nsWindowPtr);
+                    // Popups in bpplets don't bctivbte bpplet's process
+                    CWrbpper.NSWindow.orderFrontRegbrdless(nsWindowPtr);
                 } else {
-                    CWrapper.NSWindow.orderFront(nsWindowPtr);
+                    CWrbpper.NSWindow.orderFront(nsWindowPtr);
                 }
 
-                boolean isKeyWindow = CWrapper.NSWindow.isKeyWindow(nsWindowPtr);
+                boolebn isKeyWindow = CWrbpper.NSWindow.isKeyWindow(nsWindowPtr);
                 if (!isKeyWindow) {
-                    CWrapper.NSWindow.makeKeyWindow(nsWindowPtr);
+                    CWrbpper.NSWindow.mbkeKeyWindow(nsWindowPtr);
                 }
             } else {
-                CWrapper.NSWindow.orderOut(nsWindowPtr);
+                CWrbpper.NSWindow.orderOut(nsWindowPtr);
             }
         } else {
-            // otherwise, put it in a proper z-order
-            CWrapper.NSWindow.orderWindow(nsWindowPtr, CWrapper.NSWindow.NSWindowBelow,
-                    ((CPlatformWindow)blocker.getPlatformWindow()).getNSWindowPtr());
+            // otherwise, put it in b proper z-order
+            CWrbpper.NSWindow.orderWindow(nsWindowPtr, CWrbpper.NSWindow.NSWindowBelow,
+                    ((CPlbtformWindow)blocker.getPlbtformWindow()).getNSWindowPtr());
         }
         this.visible = visible;
 
-        // Manage the extended state when showing
+        // Mbnbge the extended stbte when showing
         if (visible) {
-            // Apply the extended state as expected in shared code
-            if (target instanceof Frame) {
-                if (!wasMaximized && isMaximized()) {
-                    // setVisible could have changed the native maximized state
+            // Apply the extended stbte bs expected in shbred code
+            if (tbrget instbnceof Frbme) {
+                if (!wbsMbximized && isMbximized()) {
+                    // setVisible could hbve chbnged the nbtive mbximized stbte
                     deliverZoom(true);
                 } else {
-                    int frameState = ((Frame)target).getExtendedState();
-                    if ((frameState & Frame.ICONIFIED) != 0) {
-                        // Treat all state bit masks with ICONIFIED bit as ICONIFIED state.
-                        frameState = Frame.ICONIFIED;
+                    int frbmeStbte = ((Frbme)tbrget).getExtendedStbte();
+                    if ((frbmeStbte & Frbme.ICONIFIED) != 0) {
+                        // Trebt bll stbte bit mbsks with ICONIFIED bit bs ICONIFIED stbte.
+                        frbmeStbte = Frbme.ICONIFIED;
                     }
-                    switch (frameState) {
-                        case Frame.ICONIFIED:
-                            CWrapper.NSWindow.miniaturize(nsWindowPtr);
-                            break;
-                        case Frame.MAXIMIZED_BOTH:
-                            maximize();
-                            break;
-                        default: // NORMAL
-                            unmaximize(); // in case it was maximized, otherwise this is a no-op
-                            break;
+                    switch (frbmeStbte) {
+                        cbse Frbme.ICONIFIED:
+                            CWrbpper.NSWindow.minibturize(nsWindowPtr);
+                            brebk;
+                        cbse Frbme.MAXIMIZED_BOTH:
+                            mbximize();
+                            brebk;
+                        defbult: // NORMAL
+                            unmbximize(); // in cbse it wbs mbximized, otherwise this is b no-op
+                            brebk;
                     }
                 }
             }
         }
 
-        nativeSynthesizeMouseEnteredExitedEvents();
+        nbtiveSynthesizeMouseEnteredExitedEvents();
 
         // Configure stuff #2
-        updateFocusabilityForAutoRequestFocus(true);
+        updbteFocusbbilityForAutoRequestFocus(true);
 
-        // Manage parent-child relationship when showing
+        // Mbnbge pbrent-child relbtionship when showing
         if (visible) {
-            // Add myself as a child
+            // Add myself bs b child
             if (owner != null && owner.isVisible()) {
-                CWrapper.NSWindow.addChildWindow(owner.getNSWindowPtr(), nsWindowPtr, CWrapper.NSWindow.NSWindowAbove);
-                applyWindowLevel(target);
+                CWrbpper.NSWindow.bddChildWindow(owner.getNSWindowPtr(), nsWindowPtr, CWrbpper.NSWindow.NSWindowAbove);
+                bpplyWindowLevel(tbrget);
             }
 
             // Add my own children to myself
-            for (Window w : target.getOwnedWindows()) {
+            for (Window w : tbrget.getOwnedWindows()) {
                 WindowPeer p = (WindowPeer)w.getPeer();
-                if (p instanceof LWWindowPeer) {
-                    CPlatformWindow pw = (CPlatformWindow)((LWWindowPeer)p).getPlatformWindow();
+                if (p instbnceof LWWindowPeer) {
+                    CPlbtformWindow pw = (CPlbtformWindow)((LWWindowPeer)p).getPlbtformWindow();
                     if (pw != null && pw.isVisible()) {
-                        CWrapper.NSWindow.addChildWindow(nsWindowPtr, pw.getNSWindowPtr(), CWrapper.NSWindow.NSWindowAbove);
-                        pw.applyWindowLevel(w);
+                        CWrbpper.NSWindow.bddChildWindow(nsWindowPtr, pw.getNSWindowPtr(), CWrbpper.NSWindow.NSWindowAbove);
+                        pw.bpplyWindowLevel(w);
                     }
                 }
             }
         }
 
-        // Deal with the blocker of the window being shown
+        // Debl with the blocker of the window being shown
         if (blocker != null && visible) {
-            // Make sure the blocker is above its siblings
-            ((CPlatformWindow)blocker.getPlatformWindow()).orderAboveSiblings();
+            // Mbke sure the blocker is bbove its siblings
+            ((CPlbtformWindow)blocker.getPlbtformWindow()).orderAboveSiblings();
         }
     }
 
-    @Override // PlatformWindow
+    @Override // PlbtformWindow
     public void setTitle(String title) {
-        nativeSetNSWindowTitle(getNSWindowPtr(), title);
+        nbtiveSetNSWindowTitle(getNSWindowPtr(), title);
     }
 
-    // Should be called on every window key property change.
-    @Override // PlatformWindow
-    public void updateIconImages() {
-        final long nsWindowPtr = getNSWindowPtr();
-        final CImage cImage = getImageForTarget();
-        nativeSetNSWindowMinimizedIcon(nsWindowPtr, cImage == null ? 0L : cImage.ptr);
+    // Should be cblled on every window key property chbnge.
+    @Override // PlbtformWindow
+    public void updbteIconImbges() {
+        finbl long nsWindowPtr = getNSWindowPtr();
+        finbl CImbge cImbge = getImbgeForTbrget();
+        nbtiveSetNSWindowMinimizedIcon(nsWindowPtr, cImbge == null ? 0L : cImbge.ptr);
     }
 
     public long getNSWindowPtr() {
-        final long nsWindowPtr = ptr;
+        finbl long nsWindowPtr = ptr;
         if (nsWindowPtr == 0L) {
-            if(logger.isLoggable(PlatformLogger.Level.FINE)) {
-                logger.fine("NSWindow already disposed?", new Exception("Pointer to native NSWindow is invalid."));
+            if(logger.isLoggbble(PlbtformLogger.Level.FINE)) {
+                logger.fine("NSWindow blrebdy disposed?", new Exception("Pointer to nbtive NSWindow is invblid."));
             }
         }
         return nsWindowPtr;
     }
 
-    public SurfaceData getSurfaceData() {
-        return contentView.getSurfaceData();
+    public SurfbceDbtb getSurfbceDbtb() {
+        return contentView.getSurfbceDbtb();
     }
 
-    @Override  // PlatformWindow
-    public void toBack() {
-        final long nsWindowPtr = getNSWindowPtr();
-        nativePushNSWindowToBack(nsWindowPtr);
+    @Override  // PlbtformWindow
+    public void toBbck() {
+        finbl long nsWindowPtr = getNSWindowPtr();
+        nbtivePushNSWindowToBbck(nsWindowPtr);
     }
 
-    @Override  // PlatformWindow
+    @Override  // PlbtformWindow
     public void toFront() {
-        final long nsWindowPtr = getNSWindowPtr();
-        updateFocusabilityForAutoRequestFocus(false);
-        nativePushNSWindowToFront(nsWindowPtr);
-        updateFocusabilityForAutoRequestFocus(true);
+        finbl long nsWindowPtr = getNSWindowPtr();
+        updbteFocusbbilityForAutoRequestFocus(fblse);
+        nbtivePushNSWindowToFront(nsWindowPtr);
+        updbteFocusbbilityForAutoRequestFocus(true);
     }
 
     @Override
-    public void setResizable(final boolean resizable) {
-        setStyleBits(RESIZABLE, resizable);
+    public void setResizbble(finbl boolebn resizbble) {
+        setStyleBits(RESIZABLE, resizbble);
     }
 
     @Override
-    public void setSizeConstraints(int minW, int minH, int maxW, int maxH) {
-        nativeSetNSWindowMinMax(getNSWindowPtr(), minW, minH, maxW, maxH);
+    public void setSizeConstrbints(int minW, int minH, int mbxW, int mbxH) {
+        nbtiveSetNSWindowMinMbx(getNSWindowPtr(), minW, minH, mbxW, mbxH);
     }
 
     @Override
-    public boolean rejectFocusRequest(CausedFocusEvent.Cause cause) {
-        // Cross-app activation requests are not allowed.
-        if (cause != CausedFocusEvent.Cause.MOUSE_EVENT &&
-            !((LWCToolkit)Toolkit.getDefaultToolkit()).isApplicationActive())
+    public boolebn rejectFocusRequest(CbusedFocusEvent.Cbuse cbuse) {
+        // Cross-bpp bctivbtion requests bre not bllowed.
+        if (cbuse != CbusedFocusEvent.Cbuse.MOUSE_EVENT &&
+            !((LWCToolkit)Toolkit.getDefbultToolkit()).isApplicbtionActive())
         {
-            focusLogger.fine("the app is inactive, so the request is rejected");
+            focusLogger.fine("the bpp is inbctive, so the request is rejected");
             return true;
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public boolean requestWindowFocus() {
+    public boolebn requestWindowFocus() {
 
         long ptr = getNSWindowPtr();
-        if (CWrapper.NSWindow.canBecomeMainWindow(ptr)) {
-            CWrapper.NSWindow.makeMainWindow(ptr);
+        if (CWrbpper.NSWindow.cbnBecomeMbinWindow(ptr)) {
+            CWrbpper.NSWindow.mbkeMbinWindow(ptr);
         }
-        CWrapper.NSWindow.makeKeyAndOrderFront(ptr);
+        CWrbpper.NSWindow.mbkeKeyAndOrderFront(ptr);
         return true;
     }
 
     @Override
-    public boolean isActive() {
+    public boolebn isActive() {
         long ptr = getNSWindowPtr();
-        return CWrapper.NSWindow.isKeyWindow(ptr);
+        return CWrbpper.NSWindow.isKeyWindow(ptr);
     }
 
     @Override
-    public void updateFocusableWindowState() {
-        final boolean isFocusable = isNativelyFocusableWindow();
-        setStyleBits(SHOULD_BECOME_KEY | SHOULD_BECOME_MAIN, isFocusable); // set both bits at once
+    public void updbteFocusbbleWindowStbte() {
+        finbl boolebn isFocusbble = isNbtivelyFocusbbleWindow();
+        setStyleBits(SHOULD_BECOME_KEY | SHOULD_BECOME_MAIN, isFocusbble); // set both bits bt once
     }
 
     @Override
-    public Graphics transformGraphics(Graphics g) {
-        // is this where we can inject a transform for HiDPI?
+    public Grbphics trbnsformGrbphics(Grbphics g) {
+        // is this where we cbn inject b trbnsform for HiDPI?
         return g;
     }
 
     @Override
-    public void setAlwaysOnTop(boolean isAlwaysOnTop) {
-        setStyleBits(ALWAYS_ON_TOP, isAlwaysOnTop);
+    public void setAlwbysOnTop(boolebn isAlwbysOnTop) {
+        setStyleBits(ALWAYS_ON_TOP, isAlwbysOnTop);
     }
 
-    public PlatformWindow getTopmostPlatformWindowUnderMouse(){
-        return CPlatformWindow.nativeGetTopmostPlatformWindowUnderMouse();
-    }
-
-    @Override
-    public void setOpacity(float opacity) {
-        CWrapper.NSWindow.setAlphaValue(getNSWindowPtr(), opacity);
+    public PlbtformWindow getTopmostPlbtformWindowUnderMouse(){
+        return CPlbtformWindow.nbtiveGetTopmostPlbtformWindowUnderMouse();
     }
 
     @Override
-    public void setOpaque(boolean isOpaque) {
-        CWrapper.NSWindow.setOpaque(getNSWindowPtr(), isOpaque);
-        boolean isTextured = (peer == null) ? false : peer.isTextured();
+    public void setOpbcity(flobt opbcity) {
+        CWrbpper.NSWindow.setAlphbVblue(getNSWindowPtr(), opbcity);
+    }
+
+    @Override
+    public void setOpbque(boolebn isOpbque) {
+        CWrbpper.NSWindow.setOpbque(getNSWindowPtr(), isOpbque);
+        boolebn isTextured = (peer == null) ? fblse : peer.isTextured();
         if (!isTextured) {
-            if (!isOpaque) {
-                CWrapper.NSWindow.setBackgroundColor(getNSWindowPtr(), 0);
+            if (!isOpbque) {
+                CWrbpper.NSWindow.setBbckgroundColor(getNSWindowPtr(), 0);
             } else if (peer != null) {
-                Color color = peer.getBackground();
+                Color color = peer.getBbckground();
                 if (color != null) {
                     int rgb = color.getRGB();
-                    CWrapper.NSWindow.setBackgroundColor(getNSWindowPtr(), rgb);
+                    CWrbpper.NSWindow.setBbckgroundColor(getNSWindowPtr(), rgb);
                 }
             }
         }
 
-        //This is a temporary workaround. Looks like after 7124236 will be fixed
-        //the correct place for invalidateShadow() is CGLayer.drawInCGLContext.
-        SwingUtilities.invokeLater(this::invalidateShadow);
+        //This is b temporbry workbround. Looks like bfter 7124236 will be fixed
+        //the correct plbce for invblidbteShbdow() is CGLbyer.drbwInCGLContext.
+        SwingUtilities.invokeLbter(this::invblidbteShbdow);
     }
 
     @Override
     public void enterFullScreenMode() {
         isFullScreenMode = true;
-        nativeEnterFullScreenMode(getNSWindowPtr());
+        nbtiveEnterFullScreenMode(getNSWindowPtr());
     }
 
     @Override
     public void exitFullScreenMode() {
-        nativeExitFullScreenMode(getNSWindowPtr());
-        isFullScreenMode = false;
+        nbtiveExitFullScreenMode(getNSWindowPtr());
+        isFullScreenMode = fblse;
     }
 
     @Override
-    public boolean isFullScreenMode() {
+    public boolebn isFullScreenMode() {
         return isFullScreenMode;
     }
 
     @Override
-    public void setWindowState(int windowState) {
+    public void setWindowStbte(int windowStbte) {
         if (peer == null || !peer.isVisible()) {
-            // setVisible() applies the state
+            // setVisible() bpplies the stbte
             return;
         }
 
-        int prevWindowState = peer.getState();
-        if (prevWindowState == windowState) return;
+        int prevWindowStbte = peer.getStbte();
+        if (prevWindowStbte == windowStbte) return;
 
-        final long nsWindowPtr = getNSWindowPtr();
-        if ((windowState & Frame.ICONIFIED) != 0) {
-            // Treat all state bit masks with ICONIFIED bit as ICONIFIED state.
-            windowState = Frame.ICONIFIED;
+        finbl long nsWindowPtr = getNSWindowPtr();
+        if ((windowStbte & Frbme.ICONIFIED) != 0) {
+            // Trebt bll stbte bit mbsks with ICONIFIED bit bs ICONIFIED stbte.
+            windowStbte = Frbme.ICONIFIED;
         }
-        switch (windowState) {
-            case Frame.ICONIFIED:
-                if (prevWindowState == Frame.MAXIMIZED_BOTH) {
-                    // let's return into the normal states first
-                    // the zoom call toggles between the normal and the max states
-                    unmaximize();
+        switch (windowStbte) {
+            cbse Frbme.ICONIFIED:
+                if (prevWindowStbte == Frbme.MAXIMIZED_BOTH) {
+                    // let's return into the normbl stbtes first
+                    // the zoom cbll toggles between the normbl bnd the mbx stbtes
+                    unmbximize();
                 }
-                CWrapper.NSWindow.miniaturize(nsWindowPtr);
-                break;
-            case Frame.MAXIMIZED_BOTH:
-                if (prevWindowState == Frame.ICONIFIED) {
-                    // let's return into the normal states first
-                    CWrapper.NSWindow.deminiaturize(nsWindowPtr);
+                CWrbpper.NSWindow.minibturize(nsWindowPtr);
+                brebk;
+            cbse Frbme.MAXIMIZED_BOTH:
+                if (prevWindowStbte == Frbme.ICONIFIED) {
+                    // let's return into the normbl stbtes first
+                    CWrbpper.NSWindow.deminibturize(nsWindowPtr);
                 }
-                maximize();
-                break;
-            case Frame.NORMAL:
-                if (prevWindowState == Frame.ICONIFIED) {
-                    CWrapper.NSWindow.deminiaturize(nsWindowPtr);
-                } else if (prevWindowState == Frame.MAXIMIZED_BOTH) {
-                    // the zoom call toggles between the normal and the max states
-                    unmaximize();
+                mbximize();
+                brebk;
+            cbse Frbme.NORMAL:
+                if (prevWindowStbte == Frbme.ICONIFIED) {
+                    CWrbpper.NSWindow.deminibturize(nsWindowPtr);
+                } else if (prevWindowStbte == Frbme.MAXIMIZED_BOTH) {
+                    // the zoom cbll toggles between the normbl bnd the mbx stbtes
+                    unmbximize();
                 }
-                break;
-            default:
-                throw new RuntimeException("Unknown window state: " + windowState);
+                brebk;
+            defbult:
+                throw new RuntimeException("Unknown window stbte: " + windowStbte);
         }
 
-        // NOTE: the SWP.windowState field gets updated to the newWindowState
-        //       value when the native notification comes to us
+        // NOTE: the SWP.windowStbte field gets updbted to the newWindowStbte
+        //       vblue when the nbtive notificbtion comes to us
     }
 
     @Override
-    public void setModalBlocked(boolean blocked) {
-        if (target.getModalExclusionType() == Dialog.ModalExclusionType.APPLICATION_EXCLUDE) {
+    public void setModblBlocked(boolebn blocked) {
+        if (tbrget.getModblExclusionType() == Diblog.ModblExclusionType.APPLICATION_EXCLUDE) {
             return;
         }
 
-        nativeSetEnabled(getNSWindowPtr(), !blocked);
+        nbtiveSetEnbbled(getNSWindowPtr(), !blocked);
         checkBlockingAndOrder();
     }
 
-    public final void invalidateShadow(){
-        nativeRevalidateNSWindowShadow(getNSWindowPtr());
+    public finbl void invblidbteShbdow(){
+        nbtiveRevblidbteNSWindowShbdow(getNSWindowPtr());
     }
 
     // ----------------------------------------------------------------------
@@ -847,22 +847,22 @@ public class CPlatformWindow extends CFRetainedResource implements PlatformWindo
     // ----------------------------------------------------------------------
 
     /**
-     * Find image to install into Title or into Application icon. First try
-     * icons installed for toplevel. Null is returned, if there is no icon and
-     * default Duke image should be used.
+     * Find imbge to instbll into Title or into Applicbtion icon. First try
+     * icons instblled for toplevel. Null is returned, if there is no icon bnd
+     * defbult Duke imbge should be used.
      */
-    private CImage getImageForTarget() {
-        CImage icon = null;
+    privbte CImbge getImbgeForTbrget() {
+        CImbge icon = null;
         try {
-            icon = CImage.getCreator().createFromImages(target.getIconImages());
-        } catch (Exception ignored) {
-            // Perhaps the icon passed into Java is broken. Skipping this icon.
+            icon = CImbge.getCrebtor().crebteFromImbges(tbrget.getIconImbges());
+        } cbtch (Exception ignored) {
+            // Perhbps the icon pbssed into Jbvb is broken. Skipping this icon.
         }
         return icon;
     }
 
     /*
-     * Returns LWWindowPeer associated with this delegate.
+     * Returns LWWindowPeer bssocibted with this delegbte.
      */
     @Override
     public LWWindowPeer getPeer() {
@@ -870,193 +870,193 @@ public class CPlatformWindow extends CFRetainedResource implements PlatformWindo
     }
 
     @Override
-    public boolean isUnderMouse() {
+    public boolebn isUnderMouse() {
         return contentView.isUnderMouse();
     }
 
-    public CPlatformView getContentView() {
+    public CPlbtformView getContentView() {
         return contentView;
     }
 
     @Override
-    public long getLayerPtr() {
-        return contentView.getWindowLayerPtr();
+    public long getLbyerPtr() {
+        return contentView.getWindowLbyerPtr();
     }
 
-    private void validateSurface() {
-        SurfaceData surfaceData = getSurfaceData();
-        if (surfaceData instanceof CGLSurfaceData) {
-            ((CGLSurfaceData)surfaceData).validate();
+    privbte void vblidbteSurfbce() {
+        SurfbceDbtb surfbceDbtb = getSurfbceDbtb();
+        if (surfbceDbtb instbnceof CGLSurfbceDbtb) {
+            ((CGLSurfbceDbtb)surfbceDbtb).vblidbte();
         }
     }
 
     void flushBuffers() {
-        if (isVisible() && !nativeBounds.isEmpty() && !isFullScreenMode) {
+        if (isVisible() && !nbtiveBounds.isEmpty() && !isFullScreenMode) {
             try {
-                LWCToolkit.invokeAndWait(new Runnable() {
+                LWCToolkit.invokeAndWbit(new Runnbble() {
                     @Override
                     public void run() {
-                        //Posting an empty to flush the EventQueue without blocking the main thread
+                        //Posting bn empty to flush the EventQueue without blocking the mbin threbd
                     }
-                }, target);
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+                }, tbrget);
+            } cbtch (InvocbtionTbrgetException e) {
+                e.printStbckTrbce();
             }
         }
     }
 
     /**
-     * Helper method to get a pointer to the native view from the PlatformWindow.
+     * Helper method to get b pointer to the nbtive view from the PlbtformWindow.
      */
-    static long getNativeViewPtr(PlatformWindow platformWindow) {
-        long nativePeer = 0L;
-        if (platformWindow instanceof CPlatformWindow) {
-            nativePeer = ((CPlatformWindow) platformWindow).getContentView().getAWTView();
-        } else if (platformWindow instanceof CViewPlatformEmbeddedFrame){
-            nativePeer = ((CViewPlatformEmbeddedFrame) platformWindow).getNSViewPtr();
+    stbtic long getNbtiveViewPtr(PlbtformWindow plbtformWindow) {
+        long nbtivePeer = 0L;
+        if (plbtformWindow instbnceof CPlbtformWindow) {
+            nbtivePeer = ((CPlbtformWindow) plbtformWindow).getContentView().getAWTView();
+        } else if (plbtformWindow instbnceof CViewPlbtformEmbeddedFrbme){
+            nbtivePeer = ((CViewPlbtformEmbeddedFrbme) plbtformWindow).getNSViewPtr();
         }
-        return nativePeer;
+        return nbtivePeer;
     }
 
     /*************************************************************
-     * Callbacks from the AWTWindow and AWTView objc classes.
+     * Cbllbbcks from the AWTWindow bnd AWTView objc clbsses.
      *************************************************************/
-    private void deliverWindowFocusEvent(boolean gained, CPlatformWindow opposite){
-        // Fix for 7150349: ingore "gained" notifications when the app is inactive.
-        if (gained && !((LWCToolkit)Toolkit.getDefaultToolkit()).isApplicationActive()) {
-            focusLogger.fine("the app is inactive, so the notification is ignored");
+    privbte void deliverWindowFocusEvent(boolebn gbined, CPlbtformWindow opposite){
+        // Fix for 7150349: ingore "gbined" notificbtions when the bpp is inbctive.
+        if (gbined && !((LWCToolkit)Toolkit.getDefbultToolkit()).isApplicbtionActive()) {
+            focusLogger.fine("the bpp is inbctive, so the notificbtion is ignored");
             return;
         }
 
         LWWindowPeer oppositePeer = (opposite == null)? null : opposite.getPeer();
-        responder.handleWindowFocusEvent(gained, oppositePeer);
+        responder.hbndleWindowFocusEvent(gbined, oppositePeer);
     }
 
     protected void deliverMoveResizeEvent(int x, int y, int width, int height,
-                                        boolean byUser) {
+                                        boolebn byUser) {
         checkZoom();
 
-        final Rectangle oldB = nativeBounds;
-        nativeBounds = new Rectangle(x, y, width, height);
+        finbl Rectbngle oldB = nbtiveBounds;
+        nbtiveBounds = new Rectbngle(x, y, width, height);
         if (peer != null) {
-            peer.notifyReshape(x, y, width, height);
-            // System-dependent appearance optimization.
-            if ((byUser && !oldB.getSize().equals(nativeBounds.getSize()))
-                    || isFullScreenAnimationOn) {
+            peer.notifyReshbpe(x, y, width, height);
+            // System-dependent bppebrbnce optimizbtion.
+            if ((byUser && !oldB.getSize().equbls(nbtiveBounds.getSize()))
+                    || isFullScreenAnimbtionOn) {
                 flushBuffers();
             }
         }
     }
 
-    private void deliverWindowClosingEvent() {
+    privbte void deliverWindowClosingEvent() {
         if (peer != null && peer.getBlocker() == null) {
-            peer.postEvent(new WindowEvent(target, WindowEvent.WINDOW_CLOSING));
+            peer.postEvent(new WindowEvent(tbrget, WindowEvent.WINDOW_CLOSING));
         }
     }
 
-    private void deliverIconify(final boolean iconify) {
+    privbte void deliverIconify(finbl boolebn iconify) {
         if (peer != null) {
             peer.notifyIconify(iconify);
         }
     }
 
-    private void deliverZoom(final boolean isZoomed) {
+    privbte void deliverZoom(finbl boolebn isZoomed) {
         if (peer != null) {
             peer.notifyZoom(isZoomed);
         }
     }
 
-    private void checkZoom() {
-        if (target instanceof Frame && isVisible()) {
-            Frame targetFrame = (Frame)target;
-            if (targetFrame.getExtendedState() != Frame.MAXIMIZED_BOTH && isMaximized()) {
+    privbte void checkZoom() {
+        if (tbrget instbnceof Frbme && isVisible()) {
+            Frbme tbrgetFrbme = (Frbme)tbrget;
+            if (tbrgetFrbme.getExtendedStbte() != Frbme.MAXIMIZED_BOTH && isMbximized()) {
                 deliverZoom(true);
-            } else if (targetFrame.getExtendedState() == Frame.MAXIMIZED_BOTH && !isMaximized()) {
-                deliverZoom(false);
+            } else if (tbrgetFrbme.getExtendedStbte() == Frbme.MAXIMIZED_BOTH && !isMbximized()) {
+                deliverZoom(fblse);
             }
         }
     }
 
-    private void deliverNCMouseDown() {
+    privbte void deliverNCMouseDown() {
         if (peer != null) {
             peer.notifyNCMouseDown();
         }
     }
 
     /*
-     * Our focus model is synthetic and only non-simple window
-     * may become natively focusable window.
+     * Our focus model is synthetic bnd only non-simple window
+     * mby become nbtively focusbble window.
      */
-    private boolean isNativelyFocusableWindow() {
+    privbte boolebn isNbtivelyFocusbbleWindow() {
         if (peer == null) {
-            return false;
+            return fblse;
         }
 
-        return !peer.isSimpleWindow() && target.getFocusableWindowState();
+        return !peer.isSimpleWindow() && tbrget.getFocusbbleWindowStbte();
     }
 
     /*
-     * An utility method for the support of the auto request focus.
-     * Updates the focusable state of the window under certain
-     * circumstances.
+     * An utility method for the support of the buto request focus.
+     * Updbtes the focusbble stbte of the window under certbin
+     * circumstbnces.
      */
-    private void updateFocusabilityForAutoRequestFocus(boolean isFocusable) {
-        if (target.isAutoRequestFocus() || !isNativelyFocusableWindow()) return;
-        setStyleBits(SHOULD_BECOME_KEY | SHOULD_BECOME_MAIN, isFocusable); // set both bits at once
+    privbte void updbteFocusbbilityForAutoRequestFocus(boolebn isFocusbble) {
+        if (tbrget.isAutoRequestFocus() || !isNbtivelyFocusbbleWindow()) return;
+        setStyleBits(SHOULD_BECOME_KEY | SHOULD_BECOME_MAIN, isFocusbble); // set both bits bt once
     }
 
-    private boolean checkBlockingAndOrder() {
+    privbte boolebn checkBlockingAndOrder() {
         LWWindowPeer blocker = (peer == null)? null : peer.getBlocker();
         if (blocker == null) {
-            return false;
+            return fblse;
         }
 
-        if (blocker instanceof CPrinterDialogPeer) {
+        if (blocker instbnceof CPrinterDiblogPeer) {
             return true;
         }
 
-        CPlatformWindow pWindow = (CPlatformWindow)blocker.getPlatformWindow();
+        CPlbtformWindow pWindow = (CPlbtformWindow)blocker.getPlbtformWindow();
 
         pWindow.orderAboveSiblings();
 
-        final long nsWindowPtr = pWindow.getNSWindowPtr();
-        CWrapper.NSWindow.orderFrontRegardless(nsWindowPtr);
-        CWrapper.NSWindow.makeKeyAndOrderFront(nsWindowPtr);
-        CWrapper.NSWindow.makeMainWindow(nsWindowPtr);
+        finbl long nsWindowPtr = pWindow.getNSWindowPtr();
+        CWrbpper.NSWindow.orderFrontRegbrdless(nsWindowPtr);
+        CWrbpper.NSWindow.mbkeKeyAndOrderFront(nsWindowPtr);
+        CWrbpper.NSWindow.mbkeMbinWindow(nsWindowPtr);
 
         return true;
     }
 
-    private void orderAboveSiblings() {
+    privbte void orderAboveSiblings() {
         if (owner == null) {
             return;
         }
 
-        // NOTE: the logic will fail if we have a hierarchy like:
+        // NOTE: the logic will fbil if we hbve b hierbrchy like:
         //       visible root owner
         //          invisible owner
-        //              visible dialog
-        // However, this is an unlikely scenario for real life apps
+        //              visible diblog
+        // However, this is bn unlikely scenbrio for rebl life bpps
         if (owner.isVisible()) {
-            // Recursively pop up the windows from the very bottom so that only
-            // the very top-most one becomes the main window
+            // Recursively pop up the windows from the very bottom so thbt only
+            // the very top-most one becomes the mbin window
             owner.orderAboveSiblings();
 
-            // Order the window to front of the stack of child windows
-            final long nsWindowSelfPtr = getNSWindowPtr();
-            final long nsWindowOwnerPtr = owner.getNSWindowPtr();
-            CWrapper.NSWindow.removeChildWindow(nsWindowOwnerPtr, nsWindowSelfPtr);
-            CWrapper.NSWindow.addChildWindow(nsWindowOwnerPtr, nsWindowSelfPtr, CWrapper.NSWindow.NSWindowAbove);
+            // Order the window to front of the stbck of child windows
+            finbl long nsWindowSelfPtr = getNSWindowPtr();
+            finbl long nsWindowOwnerPtr = owner.getNSWindowPtr();
+            CWrbpper.NSWindow.removeChildWindow(nsWindowOwnerPtr, nsWindowSelfPtr);
+            CWrbpper.NSWindow.bddChildWindow(nsWindowOwnerPtr, nsWindowSelfPtr, CWrbpper.NSWindow.NSWindowAbove);
         }
 
-        applyWindowLevel(target);
+        bpplyWindowLevel(tbrget);
     }
 
-    protected void applyWindowLevel(Window target) {
-        if (target.isAlwaysOnTop() && target.getType() != Window.Type.POPUP) {
-            CWrapper.NSWindow.setLevel(getNSWindowPtr(), CWrapper.NSWindow.NSFloatingWindowLevel);
-        } else if (target.getType() == Window.Type.POPUP) {
-            CWrapper.NSWindow.setLevel(getNSWindowPtr(), CWrapper.NSWindow.NSPopUpMenuWindowLevel);
+    protected void bpplyWindowLevel(Window tbrget) {
+        if (tbrget.isAlwbysOnTop() && tbrget.getType() != Window.Type.POPUP) {
+            CWrbpper.NSWindow.setLevel(getNSWindowPtr(), CWrbpper.NSWindow.NSFlobtingWindowLevel);
+        } else if (tbrget.getType() == Window.Type.POPUP) {
+            CWrbpper.NSWindow.setLevel(getNSWindowPtr(), CWrbpper.NSWindow.NSPopUpMenuWindowLevel);
         }
     }
 
@@ -1064,25 +1064,25 @@ public class CPlatformWindow extends CFRetainedResource implements PlatformWindo
     //                          NATIVE CALLBACKS
     // ----------------------------------------------------------------------
 
-    private void windowDidBecomeMain() {
+    privbte void windowDidBecomeMbin() {
         if (checkBlockingAndOrder()) return;
-        // If it's not blocked, make sure it's above its siblings
+        // If it's not blocked, mbke sure it's bbove its siblings
         orderAboveSiblings();
     }
 
-    private void windowWillEnterFullScreen() {
-        isFullScreenAnimationOn = true;
+    privbte void windowWillEnterFullScreen() {
+        isFullScreenAnimbtionOn = true;
     }
 
-    private void windowDidEnterFullScreen() {
-        isFullScreenAnimationOn = false;
+    privbte void windowDidEnterFullScreen() {
+        isFullScreenAnimbtionOn = fblse;
     }
 
-    private void windowWillExitFullScreen() {
-        isFullScreenAnimationOn = true;
+    privbte void windowWillExitFullScreen() {
+        isFullScreenAnimbtionOn = true;
     }
 
-    private void windowDidExitFullScreen() {
-        isFullScreenAnimationOn = false;
+    privbte void windowDidExitFullScreen() {
+        isFullScreenAnimbtionOn = fblse;
     }
 }

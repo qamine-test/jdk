@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.prefs;
+pbckbge jbvb.util.prefs;
 
-import java.io.NotSerializableException;
+import jbvb.io.NotSeriblizbbleException;
 
 /**
- * An event emitted by a <tt>Preferences</tt> node to indicate that
- * a preference has been added, removed or has had its value changed.<p>
+ * An event emitted by b <tt>Preferences</tt> node to indicbte thbt
+ * b preference hbs been bdded, removed or hbs hbd its vblue chbnged.<p>
  *
- * Note, that although PreferenceChangeEvent inherits Serializable interface
- * from EventObject, it is not intended to be Serializable. Appropriate
- * serialization methods are implemented to throw NotSerializableException.
+ * Note, thbt blthough PreferenceChbngeEvent inherits Seriblizbble interfbce
+ * from EventObject, it is not intended to be Seriblizbble. Appropribte
+ * seriblizbtion methods bre implemented to throw NotSeriblizbbleException.
  *
- * @author  Josh Bloch
+ * @buthor  Josh Bloch
  * @see Preferences
- * @see PreferenceChangeListener
- * @see NodeChangeEvent
+ * @see PreferenceChbngeListener
+ * @see NodeChbngeEvent
  * @since   1.4
- * @serial exclude
+ * @seribl exclude
  */
-public class PreferenceChangeEvent extends java.util.EventObject {
+public clbss PreferenceChbngeEvent extends jbvb.util.EventObject {
 
     /**
-     * Key of the preference that changed.
+     * Key of the preference thbt chbnged.
      *
-     * @serial
+     * @seribl
      */
-    private String key;
+    privbte String key;
 
     /**
-     * New value for preference, or <tt>null</tt> if it was removed.
+     * New vblue for preference, or <tt>null</tt> if it wbs removed.
      *
-     * @serial
+     * @seribl
      */
-    private String newValue;
+    privbte String newVblue;
 
     /**
-     * Constructs a new <code>PreferenceChangeEvent</code> instance.
+     * Constructs b new <code>PreferenceChbngeEvent</code> instbnce.
      *
-     * @param node  The Preferences node that emitted the event.
-     * @param key  The key of the preference that was changed.
-     * @param newValue  The new value of the preference, or <tt>null</tt>
+     * @pbrbm node  The Preferences node thbt emitted the event.
+     * @pbrbm key  The key of the preference thbt wbs chbnged.
+     * @pbrbm newVblue  The new vblue of the preference, or <tt>null</tt>
      *                  if the preference is being removed.
      */
-    public PreferenceChangeEvent(Preferences node, String key,
-                                 String newValue) {
+    public PreferenceChbngeEvent(Preferences node, String key,
+                                 String newVblue) {
         super(node);
         this.key = key;
-        this.newValue = newValue;
+        this.newVblue = newVblue;
     }
 
     /**
-     * Returns the preference node that emitted the event.
+     * Returns the preference node thbt emitted the event.
      *
-     * @return  The preference node that emitted the event.
+     * @return  The preference node thbt emitted the event.
      */
     public Preferences getNode() {
         return (Preferences) getSource();
     }
 
     /**
-     * Returns the key of the preference that was changed.
+     * Returns the key of the preference thbt wbs chbnged.
      *
-     * @return  The key of the preference that was changed.
+     * @return  The key of the preference thbt wbs chbnged.
      */
     public String getKey() {
         return key;
     }
 
     /**
-     * Returns the new value for the preference.
+     * Returns the new vblue for the preference.
      *
-     * @return  The new value for the preference, or <tt>null</tt> if the
-     *          preference was removed.
+     * @return  The new vblue for the preference, or <tt>null</tt> if the
+     *          preference wbs removed.
      */
-    public String getNewValue() {
-        return newValue;
+    public String getNewVblue() {
+        return newVblue;
     }
 
     /**
-     * Throws NotSerializableException, since NodeChangeEvent objects
-     * are not intended to be serializable.
+     * Throws NotSeriblizbbleException, since NodeChbngeEvent objects
+     * bre not intended to be seriblizbble.
      */
-     private void writeObject(java.io.ObjectOutputStream out)
-                                               throws NotSerializableException {
-         throw new NotSerializableException("Not serializable.");
+     privbte void writeObject(jbvb.io.ObjectOutputStrebm out)
+                                               throws NotSeriblizbbleException {
+         throw new NotSeriblizbbleException("Not seriblizbble.");
      }
 
     /**
-     * Throws NotSerializableException, since PreferenceChangeEvent objects
-     * are not intended to be serializable.
+     * Throws NotSeriblizbbleException, since PreferenceChbngeEvent objects
+     * bre not intended to be seriblizbble.
      */
-     private void readObject(java.io.ObjectInputStream in)
-                                               throws NotSerializableException {
-         throw new NotSerializableException("Not serializable.");
+     privbte void rebdObject(jbvb.io.ObjectInputStrebm in)
+                                               throws NotSeriblizbbleException {
+         throw new NotSeriblizbbleException("Not seriblizbble.");
      }
 
-    // Defined so that this class isn't flagged as a potential problem when
-    // searches for missing serialVersionUID fields are done.
-    private static final long serialVersionUID = 793724513368024975L;
+    // Defined so thbt this clbss isn't flbgged bs b potentibl problem when
+    // sebrches for missing seriblVersionUID fields bre done.
+    privbte stbtic finbl long seriblVersionUID = 793724513368024975L;
 }

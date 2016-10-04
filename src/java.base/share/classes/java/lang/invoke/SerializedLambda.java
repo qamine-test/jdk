@@ -1,258 +1,258 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.Objects;
+import jbvb.io.Seriblizbble;
+import jbvb.lbng.reflect.Method;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.util.Objects;
 
 /**
- * Serialized form of a lambda expression.  The properties of this class
- * represent the information that is present at the lambda factory site, including
- * static metafactory arguments such as the identity of the primary functional
- * interface method and the identity of the implementation method, as well as
- * dynamic metafactory arguments such as values captured from the lexical scope
- * at the time of lambda capture.
+ * Seriblized form of b lbmbdb expression.  The properties of this clbss
+ * represent the informbtion thbt is present bt the lbmbdb fbctory site, including
+ * stbtic metbfbctory brguments such bs the identity of the primbry functionbl
+ * interfbce method bnd the identity of the implementbtion method, bs well bs
+ * dynbmic metbfbctory brguments such bs vblues cbptured from the lexicbl scope
+ * bt the time of lbmbdb cbpture.
  *
- * <p>Implementors of serializable lambdas, such as compilers or language
- * runtime libraries, are expected to ensure that instances deserialize properly.
- * One means to do so is to ensure that the {@code writeReplace} method returns
- * an instance of {@code SerializedLambda}, rather than allowing default
- * serialization to proceed.
+ * <p>Implementors of seriblizbble lbmbdbs, such bs compilers or lbngubge
+ * runtime librbries, bre expected to ensure thbt instbnces deseriblize properly.
+ * One mebns to do so is to ensure thbt the {@code writeReplbce} method returns
+ * bn instbnce of {@code SeriblizedLbmbdb}, rbther thbn bllowing defbult
+ * seriblizbtion to proceed.
  *
- * <p>{@code SerializedLambda} has a {@code readResolve} method that looks for
- * a (possibly private) static method called
- * {@code $deserializeLambda$(SerializedLambda)} in the capturing class, invokes
- * that with itself as the first argument, and returns the result.  Lambda classes
- * implementing {@code $deserializeLambda$} are responsible for validating
- * that the properties of the {@code SerializedLambda} are consistent with a
- * lambda actually captured by that class.
+ * <p>{@code SeriblizedLbmbdb} hbs b {@code rebdResolve} method thbt looks for
+ * b (possibly privbte) stbtic method cblled
+ * {@code $deseriblizeLbmbdb$(SeriblizedLbmbdb)} in the cbpturing clbss, invokes
+ * thbt with itself bs the first brgument, bnd returns the result.  Lbmbdb clbsses
+ * implementing {@code $deseriblizeLbmbdb$} bre responsible for vblidbting
+ * thbt the properties of the {@code SeriblizedLbmbdb} bre consistent with b
+ * lbmbdb bctublly cbptured by thbt clbss.
  *
- * @see LambdaMetafactory
+ * @see LbmbdbMetbfbctory
  */
-public final class SerializedLambda implements Serializable {
-    private static final long serialVersionUID = 8025925345765570181L;
-    private final Class<?> capturingClass;
-    private final String functionalInterfaceClass;
-    private final String functionalInterfaceMethodName;
-    private final String functionalInterfaceMethodSignature;
-    private final String implClass;
-    private final String implMethodName;
-    private final String implMethodSignature;
-    private final int implMethodKind;
-    private final String instantiatedMethodType;
-    private final Object[] capturedArgs;
+public finbl clbss SeriblizedLbmbdb implements Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 8025925345765570181L;
+    privbte finbl Clbss<?> cbpturingClbss;
+    privbte finbl String functionblInterfbceClbss;
+    privbte finbl String functionblInterfbceMethodNbme;
+    privbte finbl String functionblInterfbceMethodSignbture;
+    privbte finbl String implClbss;
+    privbte finbl String implMethodNbme;
+    privbte finbl String implMethodSignbture;
+    privbte finbl int implMethodKind;
+    privbte finbl String instbntibtedMethodType;
+    privbte finbl Object[] cbpturedArgs;
 
     /**
-     * Create a {@code SerializedLambda} from the low-level information present
-     * at the lambda factory site.
+     * Crebte b {@code SeriblizedLbmbdb} from the low-level informbtion present
+     * bt the lbmbdb fbctory site.
      *
-     * @param capturingClass The class in which the lambda expression appears
-     * @param functionalInterfaceClass Name, in slash-delimited form, of static
-     *                                 type of the returned lambda object
-     * @param functionalInterfaceMethodName Name of the functional interface
-     *                                      method for the present at the
-     *                                      lambda factory site
-     * @param functionalInterfaceMethodSignature Signature of the functional
-     *                                           interface method present at
-     *                                           the lambda factory site
-     * @param implMethodKind Method handle kind for the implementation method
-     * @param implClass Name, in slash-delimited form, for the class holding
-     *                  the implementation method
-     * @param implMethodName Name of the implementation method
-     * @param implMethodSignature Signature of the implementation method
-     * @param instantiatedMethodType The signature of the primary functional
-     *                               interface method after type variables
-     *                               are substituted with their instantiation
-     *                               from the capture site
-     * @param capturedArgs The dynamic arguments to the lambda factory site,
-     *                     which represent variables captured by
-     *                     the lambda
+     * @pbrbm cbpturingClbss The clbss in which the lbmbdb expression bppebrs
+     * @pbrbm functionblInterfbceClbss Nbme, in slbsh-delimited form, of stbtic
+     *                                 type of the returned lbmbdb object
+     * @pbrbm functionblInterfbceMethodNbme Nbme of the functionbl interfbce
+     *                                      method for the present bt the
+     *                                      lbmbdb fbctory site
+     * @pbrbm functionblInterfbceMethodSignbture Signbture of the functionbl
+     *                                           interfbce method present bt
+     *                                           the lbmbdb fbctory site
+     * @pbrbm implMethodKind Method hbndle kind for the implementbtion method
+     * @pbrbm implClbss Nbme, in slbsh-delimited form, for the clbss holding
+     *                  the implementbtion method
+     * @pbrbm implMethodNbme Nbme of the implementbtion method
+     * @pbrbm implMethodSignbture Signbture of the implementbtion method
+     * @pbrbm instbntibtedMethodType The signbture of the primbry functionbl
+     *                               interfbce method bfter type vbribbles
+     *                               bre substituted with their instbntibtion
+     *                               from the cbpture site
+     * @pbrbm cbpturedArgs The dynbmic brguments to the lbmbdb fbctory site,
+     *                     which represent vbribbles cbptured by
+     *                     the lbmbdb
      */
-    public SerializedLambda(Class<?> capturingClass,
-                            String functionalInterfaceClass,
-                            String functionalInterfaceMethodName,
-                            String functionalInterfaceMethodSignature,
+    public SeriblizedLbmbdb(Clbss<?> cbpturingClbss,
+                            String functionblInterfbceClbss,
+                            String functionblInterfbceMethodNbme,
+                            String functionblInterfbceMethodSignbture,
                             int implMethodKind,
-                            String implClass,
-                            String implMethodName,
-                            String implMethodSignature,
-                            String instantiatedMethodType,
-                            Object[] capturedArgs) {
-        this.capturingClass = capturingClass;
-        this.functionalInterfaceClass = functionalInterfaceClass;
-        this.functionalInterfaceMethodName = functionalInterfaceMethodName;
-        this.functionalInterfaceMethodSignature = functionalInterfaceMethodSignature;
+                            String implClbss,
+                            String implMethodNbme,
+                            String implMethodSignbture,
+                            String instbntibtedMethodType,
+                            Object[] cbpturedArgs) {
+        this.cbpturingClbss = cbpturingClbss;
+        this.functionblInterfbceClbss = functionblInterfbceClbss;
+        this.functionblInterfbceMethodNbme = functionblInterfbceMethodNbme;
+        this.functionblInterfbceMethodSignbture = functionblInterfbceMethodSignbture;
         this.implMethodKind = implMethodKind;
-        this.implClass = implClass;
-        this.implMethodName = implMethodName;
-        this.implMethodSignature = implMethodSignature;
-        this.instantiatedMethodType = instantiatedMethodType;
-        this.capturedArgs = Objects.requireNonNull(capturedArgs).clone();
+        this.implClbss = implClbss;
+        this.implMethodNbme = implMethodNbme;
+        this.implMethodSignbture = implMethodSignbture;
+        this.instbntibtedMethodType = instbntibtedMethodType;
+        this.cbpturedArgs = Objects.requireNonNull(cbpturedArgs).clone();
     }
 
     /**
-     * Get the name of the class that captured this lambda.
-     * @return the name of the class that captured this lambda
+     * Get the nbme of the clbss thbt cbptured this lbmbdb.
+     * @return the nbme of the clbss thbt cbptured this lbmbdb
      */
-    public String getCapturingClass() {
-        return capturingClass.getName().replace('.', '/');
+    public String getCbpturingClbss() {
+        return cbpturingClbss.getNbme().replbce('.', '/');
     }
 
     /**
-     * Get the name of the invoked type to which this
-     * lambda has been converted
-     * @return the name of the functional interface class to which
-     * this lambda has been converted
+     * Get the nbme of the invoked type to which this
+     * lbmbdb hbs been converted
+     * @return the nbme of the functionbl interfbce clbss to which
+     * this lbmbdb hbs been converted
      */
-    public String getFunctionalInterfaceClass() {
-        return functionalInterfaceClass;
+    public String getFunctionblInterfbceClbss() {
+        return functionblInterfbceClbss;
     }
 
     /**
-     * Get the name of the primary method for the functional interface
-     * to which this lambda has been converted.
-     * @return the name of the primary methods of the functional interface
+     * Get the nbme of the primbry method for the functionbl interfbce
+     * to which this lbmbdb hbs been converted.
+     * @return the nbme of the primbry methods of the functionbl interfbce
      */
-    public String getFunctionalInterfaceMethodName() {
-        return functionalInterfaceMethodName;
+    public String getFunctionblInterfbceMethodNbme() {
+        return functionblInterfbceMethodNbme;
     }
 
     /**
-     * Get the signature of the primary method for the functional
-     * interface to which this lambda has been converted.
-     * @return the signature of the primary method of the functional
-     * interface
+     * Get the signbture of the primbry method for the functionbl
+     * interfbce to which this lbmbdb hbs been converted.
+     * @return the signbture of the primbry method of the functionbl
+     * interfbce
      */
-    public String getFunctionalInterfaceMethodSignature() {
-        return functionalInterfaceMethodSignature;
+    public String getFunctionblInterfbceMethodSignbture() {
+        return functionblInterfbceMethodSignbture;
     }
 
     /**
-     * Get the name of the class containing the implementation
+     * Get the nbme of the clbss contbining the implementbtion
      * method.
-     * @return the name of the class containing the implementation
+     * @return the nbme of the clbss contbining the implementbtion
      * method
      */
-    public String getImplClass() {
-        return implClass;
+    public String getImplClbss() {
+        return implClbss;
     }
 
     /**
-     * Get the name of the implementation method.
-     * @return the name of the implementation method
+     * Get the nbme of the implementbtion method.
+     * @return the nbme of the implementbtion method
      */
-    public String getImplMethodName() {
-        return implMethodName;
+    public String getImplMethodNbme() {
+        return implMethodNbme;
     }
 
     /**
-     * Get the signature of the implementation method.
-     * @return the signature of the implementation method
+     * Get the signbture of the implementbtion method.
+     * @return the signbture of the implementbtion method
      */
-    public String getImplMethodSignature() {
-        return implMethodSignature;
+    public String getImplMethodSignbture() {
+        return implMethodSignbture;
     }
 
     /**
-     * Get the method handle kind (see {@link MethodHandleInfo}) of
-     * the implementation method.
-     * @return the method handle kind of the implementation method
+     * Get the method hbndle kind (see {@link MethodHbndleInfo}) of
+     * the implementbtion method.
+     * @return the method hbndle kind of the implementbtion method
      */
     public int getImplMethodKind() {
         return implMethodKind;
     }
 
     /**
-     * Get the signature of the primary functional interface method
-     * after type variables are substituted with their instantiation
-     * from the capture site.
-     * @return the signature of the primary functional interface method
-     * after type variable processing
+     * Get the signbture of the primbry functionbl interfbce method
+     * bfter type vbribbles bre substituted with their instbntibtion
+     * from the cbpture site.
+     * @return the signbture of the primbry functionbl interfbce method
+     * bfter type vbribble processing
      */
-    public final String getInstantiatedMethodType() {
-        return instantiatedMethodType;
+    public finbl String getInstbntibtedMethodType() {
+        return instbntibtedMethodType;
     }
 
     /**
-     * Get the count of dynamic arguments to the lambda capture site.
-     * @return the count of dynamic arguments to the lambda capture site
+     * Get the count of dynbmic brguments to the lbmbdb cbpture site.
+     * @return the count of dynbmic brguments to the lbmbdb cbpture site
      */
-    public int getCapturedArgCount() {
-        return capturedArgs.length;
+    public int getCbpturedArgCount() {
+        return cbpturedArgs.length;
     }
 
     /**
-     * Get a dynamic argument to the lambda capture site.
-     * @param i the argument to capture
-     * @return a dynamic argument to the lambda capture site
+     * Get b dynbmic brgument to the lbmbdb cbpture site.
+     * @pbrbm i the brgument to cbpture
+     * @return b dynbmic brgument to the lbmbdb cbpture site
      */
-    public Object getCapturedArg(int i) {
-        return capturedArgs[i];
+    public Object getCbpturedArg(int i) {
+        return cbpturedArgs[i];
     }
 
-    private Object readResolve() throws ReflectiveOperationException {
+    privbte Object rebdResolve() throws ReflectiveOperbtionException {
         try {
-            Method deserialize = AccessController.doPrivileged(new PrivilegedExceptionAction<Method>() {
+            Method deseriblize = AccessController.doPrivileged(new PrivilegedExceptionAction<Method>() {
                 @Override
                 public Method run() throws Exception {
-                    Method m = capturingClass.getDeclaredMethod("$deserializeLambda$", SerializedLambda.class);
+                    Method m = cbpturingClbss.getDeclbredMethod("$deseriblizeLbmbdb$", SeriblizedLbmbdb.clbss);
                     m.setAccessible(true);
                     return m;
                 }
             });
 
-            return deserialize.invoke(null, this);
+            return deseriblize.invoke(null, this);
         }
-        catch (PrivilegedActionException e) {
-            Exception cause = e.getException();
-            if (cause instanceof ReflectiveOperationException)
-                throw (ReflectiveOperationException) cause;
-            else if (cause instanceof RuntimeException)
-                throw (RuntimeException) cause;
+        cbtch (PrivilegedActionException e) {
+            Exception cbuse = e.getException();
+            if (cbuse instbnceof ReflectiveOperbtionException)
+                throw (ReflectiveOperbtionException) cbuse;
+            else if (cbuse instbnceof RuntimeException)
+                throw (RuntimeException) cbuse;
             else
-                throw new RuntimeException("Exception in SerializedLambda.readResolve", e);
+                throw new RuntimeException("Exception in SeriblizedLbmbdb.rebdResolve", e);
         }
     }
 
     @Override
     public String toString() {
-        String implKind=MethodHandleInfo.referenceKindToString(implMethodKind);
-        return String.format("SerializedLambda[%s=%s, %s=%s.%s:%s, " +
+        String implKind=MethodHbndleInfo.referenceKindToString(implMethodKind);
+        return String.formbt("SeriblizedLbmbdb[%s=%s, %s=%s.%s:%s, " +
                              "%s=%s %s.%s:%s, %s=%s, %s=%d]",
-                             "capturingClass", capturingClass,
-                             "functionalInterfaceMethod", functionalInterfaceClass,
-                               functionalInterfaceMethodName,
-                               functionalInterfaceMethodSignature,
-                             "implementation",
+                             "cbpturingClbss", cbpturingClbss,
+                             "functionblInterfbceMethod", functionblInterfbceClbss,
+                               functionblInterfbceMethodNbme,
+                               functionblInterfbceMethodSignbture,
+                             "implementbtion",
                                implKind,
-                               implClass, implMethodName, implMethodSignature,
-                             "instantiatedMethodType", instantiatedMethodType,
-                             "numCaptured", capturedArgs.length);
+                               implClbss, implMethodNbme, implMethodSignbture,
+                             "instbntibtedMethodType", instbntibtedMethodType,
+                             "numCbptured", cbpturedArgs.length);
     }
 }

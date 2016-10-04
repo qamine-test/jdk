@@ -1,247 +1,247 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.util.*;
-import java.io.IOException;
-import java.io.File;
+import jbvb.util.*;
+import jbvb.io.IOException;
+import jbvb.io.File;
 
 // Sun specific
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.VirtualMachineDescriptor;
-import com.sun.tools.attach.AttachNotSupportedException;
+import com.sun.tools.bttbch.VirtublMbchine;
+import com.sun.tools.bttbch.VirtublMbchineDescriptor;
+import com.sun.tools.bttbch.AttbchNotSupportedException;
 
-// Sun private
-import sun.management.ConnectorAddressLink;
-import sun.jvmstat.monitor.HostIdentifier;
-import sun.jvmstat.monitor.MonitoredHost;
-import sun.jvmstat.monitor.MonitoredVm;
-import sun.jvmstat.monitor.MonitoredVmUtil;
-import sun.jvmstat.monitor.MonitorException;
-import sun.jvmstat.monitor.VmIdentifier;
+// Sun privbte
+import sun.mbnbgement.ConnectorAddressLink;
+import sun.jvmstbt.monitor.HostIdentifier;
+import sun.jvmstbt.monitor.MonitoredHost;
+import sun.jvmstbt.monitor.MonitoredVm;
+import sun.jvmstbt.monitor.MonitoredVmUtil;
+import sun.jvmstbt.monitor.MonitorException;
+import sun.jvmstbt.monitor.VmIdentifier;
 
-public class LocalVirtualMachine {
-    private String address;
-    private String commandLine;
-    private String displayName;
-    private int vmid;
-    private boolean isAttachSupported;
+public clbss LocblVirtublMbchine {
+    privbte String bddress;
+    privbte String commbndLine;
+    privbte String displbyNbme;
+    privbte int vmid;
+    privbte boolebn isAttbchSupported;
 
-    public LocalVirtualMachine(int vmid, String commandLine, boolean canAttach, String connectorAddress) {
+    public LocblVirtublMbchine(int vmid, String commbndLine, boolebn cbnAttbch, String connectorAddress) {
         this.vmid = vmid;
-        this.commandLine = commandLine;
-        this.address = connectorAddress;
-        this.isAttachSupported = canAttach;
-        this.displayName = getDisplayName(commandLine);
+        this.commbndLine = commbndLine;
+        this.bddress = connectorAddress;
+        this.isAttbchSupported = cbnAttbch;
+        this.displbyNbme = getDisplbyNbme(commbndLine);
     }
 
-    private static String getDisplayName(String commandLine) {
-        // trim the pathname of jar file if it's a jar
-        String[] res = commandLine.split(" ", 2);
-        if (res[0].endsWith(".jar")) {
-           File jarfile = new File(res[0]);
-           String displayName = jarfile.getName();
+    privbte stbtic String getDisplbyNbme(String commbndLine) {
+        // trim the pbthnbme of jbr file if it's b jbr
+        String[] res = commbndLine.split(" ", 2);
+        if (res[0].endsWith(".jbr")) {
+           File jbrfile = new File(res[0]);
+           String displbyNbme = jbrfile.getNbme();
            if (res.length == 2) {
-               displayName += " " + res[1];
+               displbyNbme += " " + res[1];
            }
-           return displayName;
+           return displbyNbme;
         }
-        return commandLine;
+        return commbndLine;
     }
 
     public int vmid() {
         return vmid;
     }
 
-    public boolean isManageable() {
-        return (address != null);
+    public boolebn isMbnbgebble() {
+        return (bddress != null);
     }
 
-    public boolean isAttachable() {
-        return isAttachSupported;
+    public boolebn isAttbchbble() {
+        return isAttbchSupported;
     }
 
-    public void startManagementAgent() throws IOException {
-        if (address != null) {
-            // already started
+    public void stbrtMbnbgementAgent() throws IOException {
+        if (bddress != null) {
+            // blrebdy stbrted
             return;
         }
 
-        if (!isAttachable()) {
-            throw new IOException("This virtual machine \"" + vmid +
-                "\" does not support dynamic attach.");
+        if (!isAttbchbble()) {
+            throw new IOException("This virtubl mbchine \"" + vmid +
+                "\" does not support dynbmic bttbch.");
         }
 
-        loadManagementAgent();
-        // fails to load or start the management agent
-        if (address == null) {
-            // should never reach here
-            throw new IOException("Fails to find connector address");
+        lobdMbnbgementAgent();
+        // fbils to lobd or stbrt the mbnbgement bgent
+        if (bddress == null) {
+            // should never rebch here
+            throw new IOException("Fbils to find connector bddress");
         }
     }
 
     public String connectorAddress() {
-        // return null if not available or no JMX agent
-        return address;
+        // return null if not bvbilbble or no JMX bgent
+        return bddress;
     }
 
-    public String displayName() {
-        return displayName;
+    public String displbyNbme() {
+        return displbyNbme;
     }
 
     public String toString() {
-        return commandLine;
+        return commbndLine;
     }
 
-    // This method returns the list of all virtual machines currently
-    // running on the machine
-    public static Map<Integer, LocalVirtualMachine> getAllVirtualMachines() {
-        Map<Integer, LocalVirtualMachine> map =
-            new HashMap<Integer, LocalVirtualMachine>();
-        getMonitoredVMs(map);
-        getAttachableVMs(map);
-        return map;
+    // This method returns the list of bll virtubl mbchines currently
+    // running on the mbchine
+    public stbtic Mbp<Integer, LocblVirtublMbchine> getAllVirtublMbchines() {
+        Mbp<Integer, LocblVirtublMbchine> mbp =
+            new HbshMbp<Integer, LocblVirtublMbchine>();
+        getMonitoredVMs(mbp);
+        getAttbchbbleVMs(mbp);
+        return mbp;
     }
 
-    private static void getMonitoredVMs(Map<Integer, LocalVirtualMachine> map) {
+    privbte stbtic void getMonitoredVMs(Mbp<Integer, LocblVirtublMbchine> mbp) {
         MonitoredHost host;
         Set<Integer> vms;
         try {
             host = MonitoredHost.getMonitoredHost(new HostIdentifier((String)null));
-            vms = host.activeVms();
-        } catch (java.net.URISyntaxException | MonitorException x) {
-            throw new InternalError(x.getMessage(), x);
+            vms = host.bctiveVms();
+        } cbtch (jbvb.net.URISyntbxException | MonitorException x) {
+            throw new InternblError(x.getMessbge(), x);
         }
         for (Object vmid: vms) {
-            if (vmid instanceof Integer) {
-                int pid = ((Integer) vmid).intValue();
-                String name = vmid.toString(); // default to pid if name not available
-                boolean attachable = false;
-                String address = null;
+            if (vmid instbnceof Integer) {
+                int pid = ((Integer) vmid).intVblue();
+                String nbme = vmid.toString(); // defbult to pid if nbme not bvbilbble
+                boolebn bttbchbble = fblse;
+                String bddress = null;
                 try {
-                     MonitoredVm mvm = host.getMonitoredVm(new VmIdentifier(name));
-                     // use the command line as the display name
-                     name =  MonitoredVmUtil.commandLine(mvm);
-                     attachable = MonitoredVmUtil.isAttachable(mvm);
-                     address = ConnectorAddressLink.importFrom(pid);
-                     mvm.detach();
-                } catch (Exception x) {
+                     MonitoredVm mvm = host.getMonitoredVm(new VmIdentifier(nbme));
+                     // use the commbnd line bs the displby nbme
+                     nbme =  MonitoredVmUtil.commbndLine(mvm);
+                     bttbchbble = MonitoredVmUtil.isAttbchbble(mvm);
+                     bddress = ConnectorAddressLink.importFrom(pid);
+                     mvm.detbch();
+                } cbtch (Exception x) {
                      // ignore
                 }
-                map.put((Integer) vmid,
-                        new LocalVirtualMachine(pid, name, attachable, address));
+                mbp.put((Integer) vmid,
+                        new LocblVirtublMbchine(pid, nbme, bttbchbble, bddress));
             }
         }
     }
 
-    private static final String LOCAL_CONNECTOR_ADDRESS_PROP =
-        "com.sun.management.jmxremote.localConnectorAddress";
+    privbte stbtic finbl String LOCAL_CONNECTOR_ADDRESS_PROP =
+        "com.sun.mbnbgement.jmxremote.locblConnectorAddress";
 
-    private static void getAttachableVMs(Map<Integer, LocalVirtualMachine> map) {
-        List<VirtualMachineDescriptor> vms = VirtualMachine.list();
-        for (VirtualMachineDescriptor vmd : vms) {
+    privbte stbtic void getAttbchbbleVMs(Mbp<Integer, LocblVirtublMbchine> mbp) {
+        List<VirtublMbchineDescriptor> vms = VirtublMbchine.list();
+        for (VirtublMbchineDescriptor vmd : vms) {
             try {
-                Integer vmid = Integer.valueOf(vmd.id());
-                if (!map.containsKey(vmid)) {
-                    boolean attachable = false;
-                    String address = null;
+                Integer vmid = Integer.vblueOf(vmd.id());
+                if (!mbp.contbinsKey(vmid)) {
+                    boolebn bttbchbble = fblse;
+                    String bddress = null;
                     try {
-                        VirtualMachine vm = VirtualMachine.attach(vmd);
-                        attachable = true;
-                        Properties agentProps = vm.getAgentProperties();
-                        address = (String) agentProps.get(LOCAL_CONNECTOR_ADDRESS_PROP);
-                        vm.detach();
-                    } catch (AttachNotSupportedException x) {
-                        // not attachable
-                    } catch (IOException x) {
+                        VirtublMbchine vm = VirtublMbchine.bttbch(vmd);
+                        bttbchbble = true;
+                        Properties bgentProps = vm.getAgentProperties();
+                        bddress = (String) bgentProps.get(LOCAL_CONNECTOR_ADDRESS_PROP);
+                        vm.detbch();
+                    } cbtch (AttbchNotSupportedException x) {
+                        // not bttbchbble
+                    } cbtch (IOException x) {
                         // ignore
                     }
-                    map.put(vmid, new LocalVirtualMachine(vmid.intValue(),
-                                                          vmd.displayName(),
-                                                          attachable,
-                                                          address));
+                    mbp.put(vmid, new LocblVirtublMbchine(vmid.intVblue(),
+                                                          vmd.displbyNbme(),
+                                                          bttbchbble,
+                                                          bddress));
                 }
-            } catch (NumberFormatException e) {
-                // do not support vmid different than pid
+            } cbtch (NumberFormbtException e) {
+                // do not support vmid different thbn pid
             }
         }
     }
 
-    public static LocalVirtualMachine getLocalVirtualMachine(int vmid) {
-        Map<Integer, LocalVirtualMachine> map = getAllVirtualMachines();
-        LocalVirtualMachine lvm = map.get(vmid);
+    public stbtic LocblVirtublMbchine getLocblVirtublMbchine(int vmid) {
+        Mbp<Integer, LocblVirtublMbchine> mbp = getAllVirtublMbchines();
+        LocblVirtublMbchine lvm = mbp.get(vmid);
         if (lvm == null) {
-            // Check if the VM is attachable but not included in the list
-            // if it's running with a different security context.
-            // For example, Windows services running
-            // local SYSTEM account are attachable if you have Adminstrator
+            // Check if the VM is bttbchbble but not included in the list
+            // if it's running with b different security context.
+            // For exbmple, Windows services running
+            // locbl SYSTEM bccount bre bttbchbble if you hbve Adminstrbtor
             // privileges.
-            boolean attachable = false;
-            String address = null;
-            String name = String.valueOf(vmid); // default display name to pid
+            boolebn bttbchbble = fblse;
+            String bddress = null;
+            String nbme = String.vblueOf(vmid); // defbult displby nbme to pid
             try {
-                VirtualMachine vm = VirtualMachine.attach(name);
-                attachable = true;
-                Properties agentProps = vm.getAgentProperties();
-                address = (String) agentProps.get(LOCAL_CONNECTOR_ADDRESS_PROP);
-                vm.detach();
-                lvm = new LocalVirtualMachine(vmid, name, attachable, address);
-            } catch (AttachNotSupportedException x) {
-                // not attachable
+                VirtublMbchine vm = VirtublMbchine.bttbch(nbme);
+                bttbchbble = true;
+                Properties bgentProps = vm.getAgentProperties();
+                bddress = (String) bgentProps.get(LOCAL_CONNECTOR_ADDRESS_PROP);
+                vm.detbch();
+                lvm = new LocblVirtublMbchine(vmid, nbme, bttbchbble, bddress);
+            } cbtch (AttbchNotSupportedException x) {
+                // not bttbchbble
                 if (JConsole.isDebug()) {
-                    x.printStackTrace();
+                    x.printStbckTrbce();
                 }
-            } catch (IOException x) {
+            } cbtch (IOException x) {
                 // ignore
                 if (JConsole.isDebug()) {
-                    x.printStackTrace();
+                    x.printStbckTrbce();
                 }
             }
         }
         return lvm;
     }
 
-    // load the management agent into the target VM
-    private void loadManagementAgent() throws IOException {
-        VirtualMachine vm = null;
-        String name = String.valueOf(vmid);
+    // lobd the mbnbgement bgent into the tbrget VM
+    privbte void lobdMbnbgementAgent() throws IOException {
+        VirtublMbchine vm = null;
+        String nbme = String.vblueOf(vmid);
         try {
-            vm = VirtualMachine.attach(name);
-        } catch (AttachNotSupportedException x) {
-            IOException ioe = new IOException(x.getMessage());
-            ioe.initCause(x);
+            vm = VirtublMbchine.bttbch(nbme);
+        } cbtch (AttbchNotSupportedException x) {
+            IOException ioe = new IOException(x.getMessbge());
+            ioe.initCbuse(x);
             throw ioe;
         }
 
-        vm.startLocalManagementAgent();
+        vm.stbrtLocblMbnbgementAgent();
 
-        // get the connector address
-        Properties agentProps = vm.getAgentProperties();
-        address = (String) agentProps.get(LOCAL_CONNECTOR_ADDRESS_PROP);
+        // get the connector bddress
+        Properties bgentProps = vm.getAgentProperties();
+        bddress = (String) bgentProps.get(LOCAL_CONNECTOR_ADDRESS_PROP);
 
-        vm.detach();
+        vm.detbch();
     }
 }

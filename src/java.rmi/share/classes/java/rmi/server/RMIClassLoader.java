@@ -1,722 +1,722 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.server;
+pbckbge jbvb.rmi.server;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Iterator;
-import java.util.ServiceLoader;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Iterbtor;
+import jbvb.util.ServiceLobder;
 
 /**
- * <code>RMIClassLoader</code> comprises static methods to support
- * dynamic class loading with RMI.  Included are methods for loading
- * classes from a network location (one or more URLs) and obtaining
- * the location from which an existing class should be loaded by
- * remote parties.  These methods are used by the RMI runtime when
- * marshalling and unmarshalling classes contained in the arguments
- * and return values of remote method calls, and they also may be
- * invoked directly by applications in order to mimic RMI's dynamic
- * class loading behavior.
+ * <code>RMIClbssLobder</code> comprises stbtic methods to support
+ * dynbmic clbss lobding with RMI.  Included bre methods for lobding
+ * clbsses from b network locbtion (one or more URLs) bnd obtbining
+ * the locbtion from which bn existing clbss should be lobded by
+ * remote pbrties.  These methods bre used by the RMI runtime when
+ * mbrshblling bnd unmbrshblling clbsses contbined in the brguments
+ * bnd return vblues of remote method cblls, bnd they blso mby be
+ * invoked directly by bpplicbtions in order to mimic RMI's dynbmic
+ * clbss lobding behbvior.
  *
- * <p>The implementation of the following static methods
+ * <p>The implementbtion of the following stbtic methods
  *
  * <ul>
  *
- * <li>{@link #loadClass(URL,String)}
- * <li>{@link #loadClass(String,String)}
- * <li>{@link #loadClass(String,String,ClassLoader)}
- * <li>{@link #loadProxyClass(String,String[],ClassLoader)}
- * <li>{@link #getClassLoader(String)}
- * <li>{@link #getClassAnnotation(Class)}
+ * <li>{@link #lobdClbss(URL,String)}
+ * <li>{@link #lobdClbss(String,String)}
+ * <li>{@link #lobdClbss(String,String,ClbssLobder)}
+ * <li>{@link #lobdProxyClbss(String,String[],ClbssLobder)}
+ * <li>{@link #getClbssLobder(String)}
+ * <li>{@link #getClbssAnnotbtion(Clbss)}
  *
  * </ul>
  *
- * is provided by an instance of {@link RMIClassLoaderSpi}, the
- * service provider interface for those methods.  When one of the
- * methods is invoked, its behavior is to delegate to a corresponding
- * method on the service provider instance.  The details of how each
- * method delegates to the provider instance is described in the
- * documentation for each particular method.
+ * is provided by bn instbnce of {@link RMIClbssLobderSpi}, the
+ * service provider interfbce for those methods.  When one of the
+ * methods is invoked, its behbvior is to delegbte to b corresponding
+ * method on the service provider instbnce.  The detbils of how ebch
+ * method delegbtes to the provider instbnce is described in the
+ * documentbtion for ebch pbrticulbr method.
  *
- * <p>The service provider instance is chosen as follows:
+ * <p>The service provider instbnce is chosen bs follows:
  *
  * <ul>
  *
  * <li>If the system property
- * <code>java.rmi.server.RMIClassLoaderSpi</code> is defined, then if
- * its value equals the string <code>"default"</code>, the provider
- * instance will be the value returned by an invocation of the {@link
- * #getDefaultProviderInstance()} method, and for any other value, if
- * a class named with the value of the property can be loaded by the
- * system class loader (see {@link ClassLoader#getSystemClassLoader})
- * and that class is assignable to {@link RMIClassLoaderSpi} and has a
- * public no-argument constructor, then that constructor will be
- * invoked to create the provider instance.  If the property is
- * defined but any other of those conditions are not true, then an
- * unspecified <code>Error</code> will be thrown to code that attempts
- * to use <code>RMIClassLoader</code>, indicating the failure to
- * obtain a provider instance.
+ * <code>jbvb.rmi.server.RMIClbssLobderSpi</code> is defined, then if
+ * its vblue equbls the string <code>"defbult"</code>, the provider
+ * instbnce will be the vblue returned by bn invocbtion of the {@link
+ * #getDefbultProviderInstbnce()} method, bnd for bny other vblue, if
+ * b clbss nbmed with the vblue of the property cbn be lobded by the
+ * system clbss lobder (see {@link ClbssLobder#getSystemClbssLobder})
+ * bnd thbt clbss is bssignbble to {@link RMIClbssLobderSpi} bnd hbs b
+ * public no-brgument constructor, then thbt constructor will be
+ * invoked to crebte the provider instbnce.  If the property is
+ * defined but bny other of those conditions bre not true, then bn
+ * unspecified <code>Error</code> will be thrown to code thbt bttempts
+ * to use <code>RMIClbssLobder</code>, indicbting the fbilure to
+ * obtbin b provider instbnce.
  *
- * <li>If a resource named
- * <code>META-INF/services/java.rmi.server.RMIClassLoaderSpi</code> is
- * visible to the system class loader, then the contents of that
- * resource are interpreted as a provider-configuration file, and the
- * first class name specified in that file is used as the provider
- * class name.  If a class with that name can be loaded by the system
- * class loader and that class is assignable to {@link
- * RMIClassLoaderSpi} and has a public no-argument constructor, then
- * that constructor will be invoked to create the provider instance.
- * If the resource is found but a provider cannot be instantiated as
- * described, then an unspecified <code>Error</code> will be thrown to
- * code that attempts to use <code>RMIClassLoader</code>, indicating
- * the failure to obtain a provider instance.
+ * <li>If b resource nbmed
+ * <code>META-INF/services/jbvb.rmi.server.RMIClbssLobderSpi</code> is
+ * visible to the system clbss lobder, then the contents of thbt
+ * resource bre interpreted bs b provider-configurbtion file, bnd the
+ * first clbss nbme specified in thbt file is used bs the provider
+ * clbss nbme.  If b clbss with thbt nbme cbn be lobded by the system
+ * clbss lobder bnd thbt clbss is bssignbble to {@link
+ * RMIClbssLobderSpi} bnd hbs b public no-brgument constructor, then
+ * thbt constructor will be invoked to crebte the provider instbnce.
+ * If the resource is found but b provider cbnnot be instbntibted bs
+ * described, then bn unspecified <code>Error</code> will be thrown to
+ * code thbt bttempts to use <code>RMIClbssLobder</code>, indicbting
+ * the fbilure to obtbin b provider instbnce.
  *
- * <li>Otherwise, the provider instance will be the value returned by
- * an invocation of the {@link #getDefaultProviderInstance()} method.
+ * <li>Otherwise, the provider instbnce will be the vblue returned by
+ * bn invocbtion of the {@link #getDefbultProviderInstbnce()} method.
  *
  * </ul>
  *
- * @author      Ann Wollrath
- * @author      Peter Jones
- * @author      Laird Dornin
- * @see         RMIClassLoaderSpi
+ * @buthor      Ann Wollrbth
+ * @buthor      Peter Jones
+ * @buthor      Lbird Dornin
+ * @see         RMIClbssLobderSpi
  * @since       1.1
  */
-public class RMIClassLoader {
+public clbss RMIClbssLobder {
 
-    /** "default" provider instance */
-    private static final RMIClassLoaderSpi defaultProvider =
-        newDefaultProviderInstance();
+    /** "defbult" provider instbnce */
+    privbte stbtic finbl RMIClbssLobderSpi defbultProvider =
+        newDefbultProviderInstbnce();
 
-    /** provider instance */
-    private static final RMIClassLoaderSpi provider =
+    /** provider instbnce */
+    privbte stbtic finbl RMIClbssLobderSpi provider =
         AccessController.doPrivileged(
-            new PrivilegedAction<RMIClassLoaderSpi>() {
-                public RMIClassLoaderSpi run() { return initializeProvider(); }
+            new PrivilegedAction<RMIClbssLobderSpi>() {
+                public RMIClbssLobderSpi run() { return initiblizeProvider(); }
             });
 
     /*
-     * Disallow anyone from creating one of these.
+     * Disbllow bnyone from crebting one of these.
      */
-    private RMIClassLoader() {}
+    privbte RMIClbssLobder() {}
 
     /**
-     * Loads the class with the specified <code>name</code>.
+     * Lobds the clbss with the specified <code>nbme</code>.
      *
-     * <p>This method delegates to {@link #loadClass(String,String)},
-     * passing <code>null</code> as the first argument and
-     * <code>name</code> as the second argument.
+     * <p>This method delegbtes to {@link #lobdClbss(String,String)},
+     * pbssing <code>null</code> bs the first brgument bnd
+     * <code>nbme</code> bs the second brgument.
      *
-     * @param   name the name of the class to load
+     * @pbrbm   nbme the nbme of the clbss to lobd
      *
-     * @return  the <code>Class</code> object representing the loaded class
+     * @return  the <code>Clbss</code> object representing the lobded clbss
      *
-     * @throws MalformedURLException if a provider-specific URL used
-     * to load classes is invalid
+     * @throws MblformedURLException if b provider-specific URL used
+     * to lobd clbsses is invblid
      *
-     * @throws  ClassNotFoundException if a definition for the class
-     * could not be found at the codebase location
+     * @throws  ClbssNotFoundException if b definition for the clbss
+     * could not be found bt the codebbse locbtion
      *
-     * @deprecated replaced by <code>loadClass(String,String)</code> method
-     * @see #loadClass(String,String)
+     * @deprecbted replbced by <code>lobdClbss(String,String)</code> method
+     * @see #lobdClbss(String,String)
      */
-    @Deprecated
-    public static Class<?> loadClass(String name)
-        throws MalformedURLException, ClassNotFoundException
+    @Deprecbted
+    public stbtic Clbss<?> lobdClbss(String nbme)
+        throws MblformedURLException, ClbssNotFoundException
     {
-        return loadClass((String) null, name);
+        return lobdClbss((String) null, nbme);
     }
 
     /**
-     * Loads a class from a codebase URL.
+     * Lobds b clbss from b codebbse URL.
      *
-     * If <code>codebase</code> is <code>null</code>, then this method
-     * will behave the same as {@link #loadClass(String,String)} with a
-     * <code>null</code> <code>codebase</code> and the given class name.
+     * If <code>codebbse</code> is <code>null</code>, then this method
+     * will behbve the sbme bs {@link #lobdClbss(String,String)} with b
+     * <code>null</code> <code>codebbse</code> bnd the given clbss nbme.
      *
-     * <p>This method delegates to the
-     * {@link RMIClassLoaderSpi#loadClass(String,String,ClassLoader)}
-     * method of the provider instance, passing the result of invoking
+     * <p>This method delegbtes to the
+     * {@link RMIClbssLobderSpi#lobdClbss(String,String,ClbssLobder)}
+     * method of the provider instbnce, pbssing the result of invoking
      * {@link URL#toString} on the given URL (or <code>null</code> if
-     * <code>codebase</code> is null) as the first argument,
-     * <code>name</code> as the second argument,
-     * and <code>null</code> as the third argument.
+     * <code>codebbse</code> is null) bs the first brgument,
+     * <code>nbme</code> bs the second brgument,
+     * bnd <code>null</code> bs the third brgument.
      *
-     * @param   codebase the URL to load the class from, or <code>null</code>
+     * @pbrbm   codebbse the URL to lobd the clbss from, or <code>null</code>
      *
-     * @param   name the name of the class to load
+     * @pbrbm   nbme the nbme of the clbss to lobd
      *
-     * @return  the <code>Class</code> object representing the loaded class
+     * @return  the <code>Clbss</code> object representing the lobded clbss
      *
-     * @throws MalformedURLException if <code>codebase</code> is
-     * <code>null</code> and a provider-specific URL used
-     * to load classes is invalid
+     * @throws MblformedURLException if <code>codebbse</code> is
+     * <code>null</code> bnd b provider-specific URL used
+     * to lobd clbsses is invblid
      *
-     * @throws  ClassNotFoundException if a definition for the class
-     * could not be found at the specified URL
+     * @throws  ClbssNotFoundException if b definition for the clbss
+     * could not be found bt the specified URL
      */
-    public static Class<?> loadClass(URL codebase, String name)
-        throws MalformedURLException, ClassNotFoundException
+    public stbtic Clbss<?> lobdClbss(URL codebbse, String nbme)
+        throws MblformedURLException, ClbssNotFoundException
     {
-        return provider.loadClass(
-            codebase != null ? codebase.toString() : null, name, null);
+        return provider.lobdClbss(
+            codebbse != null ? codebbse.toString() : null, nbme, null);
     }
 
     /**
-     * Loads a class from a codebase URL path.
+     * Lobds b clbss from b codebbse URL pbth.
      *
-     * <p>This method delegates to the
-     * {@link RMIClassLoaderSpi#loadClass(String,String,ClassLoader)}
-     * method of the provider instance, passing <code>codebase</code>
-     * as the first argument, <code>name</code> as the second argument,
-     * and <code>null</code> as the third argument.
+     * <p>This method delegbtes to the
+     * {@link RMIClbssLobderSpi#lobdClbss(String,String,ClbssLobder)}
+     * method of the provider instbnce, pbssing <code>codebbse</code>
+     * bs the first brgument, <code>nbme</code> bs the second brgument,
+     * bnd <code>null</code> bs the third brgument.
      *
-     * @param   codebase the list of URLs (separated by spaces) to load
-     * the class from, or <code>null</code>
+     * @pbrbm   codebbse the list of URLs (sepbrbted by spbces) to lobd
+     * the clbss from, or <code>null</code>
      *
-     * @param   name the name of the class to load
+     * @pbrbm   nbme the nbme of the clbss to lobd
      *
-     * @return  the <code>Class</code> object representing the loaded class
+     * @return  the <code>Clbss</code> object representing the lobded clbss
      *
-     * @throws MalformedURLException if <code>codebase</code> is
-     * non-<code>null</code> and contains an invalid URL, or if
-     * <code>codebase</code> is <code>null</code> and a provider-specific
-     * URL used to load classes is invalid
+     * @throws MblformedURLException if <code>codebbse</code> is
+     * non-<code>null</code> bnd contbins bn invblid URL, or if
+     * <code>codebbse</code> is <code>null</code> bnd b provider-specific
+     * URL used to lobd clbsses is invblid
      *
-     * @throws  ClassNotFoundException if a definition for the class
-     * could not be found at the specified location
+     * @throws  ClbssNotFoundException if b definition for the clbss
+     * could not be found bt the specified locbtion
      *
      * @since   1.2
      */
-    public static Class<?> loadClass(String codebase, String name)
-        throws MalformedURLException, ClassNotFoundException
+    public stbtic Clbss<?> lobdClbss(String codebbse, String nbme)
+        throws MblformedURLException, ClbssNotFoundException
     {
-        return provider.loadClass(codebase, name, null);
+        return provider.lobdClbss(codebbse, nbme, null);
     }
 
     /**
-     * Loads a class from a codebase URL path, optionally using the
-     * supplied loader.
+     * Lobds b clbss from b codebbse URL pbth, optionblly using the
+     * supplied lobder.
      *
-     * This method should be used when the caller would like to make
-     * available to the provider implementation an additional contextual
-     * class loader to consider, such as the loader of a caller on the
-     * stack.  Typically, a provider implementation will attempt to
-     * resolve the named class using the given <code>defaultLoader</code>,
-     * if specified, before attempting to resolve the class from the
-     * codebase URL path.
+     * This method should be used when the cbller would like to mbke
+     * bvbilbble to the provider implementbtion bn bdditionbl contextubl
+     * clbss lobder to consider, such bs the lobder of b cbller on the
+     * stbck.  Typicblly, b provider implementbtion will bttempt to
+     * resolve the nbmed clbss using the given <code>defbultLobder</code>,
+     * if specified, before bttempting to resolve the clbss from the
+     * codebbse URL pbth.
      *
-     * <p>This method delegates to the
-     * {@link RMIClassLoaderSpi#loadClass(String,String,ClassLoader)}
-     * method of the provider instance, passing <code>codebase</code>
-     * as the first argument, <code>name</code> as the second argument,
-     * and <code>defaultLoader</code> as the third argument.
+     * <p>This method delegbtes to the
+     * {@link RMIClbssLobderSpi#lobdClbss(String,String,ClbssLobder)}
+     * method of the provider instbnce, pbssing <code>codebbse</code>
+     * bs the first brgument, <code>nbme</code> bs the second brgument,
+     * bnd <code>defbultLobder</code> bs the third brgument.
      *
-     * @param   codebase the list of URLs (separated by spaces) to load
-     * the class from, or <code>null</code>
+     * @pbrbm   codebbse the list of URLs (sepbrbted by spbces) to lobd
+     * the clbss from, or <code>null</code>
      *
-     * @param   name the name of the class to load
+     * @pbrbm   nbme the nbme of the clbss to lobd
      *
-     * @param   defaultLoader additional contextual class loader
+     * @pbrbm   defbultLobder bdditionbl contextubl clbss lobder
      * to use, or <code>null</code>
      *
-     * @return  the <code>Class</code> object representing the loaded class
+     * @return  the <code>Clbss</code> object representing the lobded clbss
      *
-     * @throws MalformedURLException if <code>codebase</code> is
-     * non-<code>null</code> and contains an invalid URL, or if
-     * <code>codebase</code> is <code>null</code> and a provider-specific
-     * URL used to load classes is invalid
+     * @throws MblformedURLException if <code>codebbse</code> is
+     * non-<code>null</code> bnd contbins bn invblid URL, or if
+     * <code>codebbse</code> is <code>null</code> bnd b provider-specific
+     * URL used to lobd clbsses is invblid
      *
-     * @throws  ClassNotFoundException if a definition for the class
-     * could not be found at the specified location
+     * @throws  ClbssNotFoundException if b definition for the clbss
+     * could not be found bt the specified locbtion
      *
      * @since   1.4
      */
-    public static Class<?> loadClass(String codebase, String name,
-                                     ClassLoader defaultLoader)
-        throws MalformedURLException, ClassNotFoundException
+    public stbtic Clbss<?> lobdClbss(String codebbse, String nbme,
+                                     ClbssLobder defbultLobder)
+        throws MblformedURLException, ClbssNotFoundException
     {
-        return provider.loadClass(codebase, name, defaultLoader);
+        return provider.lobdClbss(codebbse, nbme, defbultLobder);
     }
 
     /**
-     * Loads a dynamic proxy class (see {@link java.lang.reflect.Proxy})
-     * that implements a set of interfaces with the given names
-     * from a codebase URL path.
+     * Lobds b dynbmic proxy clbss (see {@link jbvb.lbng.reflect.Proxy})
+     * thbt implements b set of interfbces with the given nbmes
+     * from b codebbse URL pbth.
      *
-     * <p>The interfaces will be resolved similar to classes loaded via
-     * the {@link #loadClass(String,String)} method using the given
-     * <code>codebase</code>.
+     * <p>The interfbces will be resolved similbr to clbsses lobded vib
+     * the {@link #lobdClbss(String,String)} method using the given
+     * <code>codebbse</code>.
      *
-     * <p>This method delegates to the
-     * {@link RMIClassLoaderSpi#loadProxyClass(String,String[],ClassLoader)}
-     * method of the provider instance, passing <code>codebase</code>
-     * as the first argument, <code>interfaces</code> as the second argument,
-     * and <code>defaultLoader</code> as the third argument.
+     * <p>This method delegbtes to the
+     * {@link RMIClbssLobderSpi#lobdProxyClbss(String,String[],ClbssLobder)}
+     * method of the provider instbnce, pbssing <code>codebbse</code>
+     * bs the first brgument, <code>interfbces</code> bs the second brgument,
+     * bnd <code>defbultLobder</code> bs the third brgument.
      *
-     * @param   codebase the list of URLs (space-separated) to load
-     * classes from, or <code>null</code>
+     * @pbrbm   codebbse the list of URLs (spbce-sepbrbted) to lobd
+     * clbsses from, or <code>null</code>
      *
-     * @param   interfaces the names of the interfaces for the proxy class
+     * @pbrbm   interfbces the nbmes of the interfbces for the proxy clbss
      * to implement
      *
-     * @param   defaultLoader additional contextual class loader
+     * @pbrbm   defbultLobder bdditionbl contextubl clbss lobder
      * to use, or <code>null</code>
      *
-     * @return  a dynamic proxy class that implements the named interfaces
+     * @return  b dynbmic proxy clbss thbt implements the nbmed interfbces
      *
-     * @throws  MalformedURLException if <code>codebase</code> is
-     * non-<code>null</code> and contains an invalid URL, or
-     * if <code>codebase</code> is <code>null</code> and a provider-specific
-     * URL used to load classes is invalid
+     * @throws  MblformedURLException if <code>codebbse</code> is
+     * non-<code>null</code> bnd contbins bn invblid URL, or
+     * if <code>codebbse</code> is <code>null</code> bnd b provider-specific
+     * URL used to lobd clbsses is invblid
      *
-     * @throws  ClassNotFoundException if a definition for one of
-     * the named interfaces could not be found at the specified location,
-     * or if creation of the dynamic proxy class failed (such as if
-     * {@link java.lang.reflect.Proxy#getProxyClass(ClassLoader,Class[])}
-     * would throw an <code>IllegalArgumentException</code> for the given
-     * interface list)
+     * @throws  ClbssNotFoundException if b definition for one of
+     * the nbmed interfbces could not be found bt the specified locbtion,
+     * or if crebtion of the dynbmic proxy clbss fbiled (such bs if
+     * {@link jbvb.lbng.reflect.Proxy#getProxyClbss(ClbssLobder,Clbss[])}
+     * would throw bn <code>IllegblArgumentException</code> for the given
+     * interfbce list)
      *
      * @since   1.4
      */
-    public static Class<?> loadProxyClass(String codebase, String[] interfaces,
-                                          ClassLoader defaultLoader)
-        throws ClassNotFoundException, MalformedURLException
+    public stbtic Clbss<?> lobdProxyClbss(String codebbse, String[] interfbces,
+                                          ClbssLobder defbultLobder)
+        throws ClbssNotFoundException, MblformedURLException
     {
-        return provider.loadProxyClass(codebase, interfaces, defaultLoader);
+        return provider.lobdProxyClbss(codebbse, interfbces, defbultLobder);
     }
 
     /**
-     * Returns a class loader that loads classes from the given codebase
-     * URL path.
+     * Returns b clbss lobder thbt lobds clbsses from the given codebbse
+     * URL pbth.
      *
-     * <p>The class loader returned is the class loader that the
-     * {@link #loadClass(String,String)} method would use to load classes
-     * for the same <code>codebase</code> argument.
+     * <p>The clbss lobder returned is the clbss lobder thbt the
+     * {@link #lobdClbss(String,String)} method would use to lobd clbsses
+     * for the sbme <code>codebbse</code> brgument.
      *
-     * <p>This method delegates to the
-     * {@link RMIClassLoaderSpi#getClassLoader(String)} method
-     * of the provider instance, passing <code>codebase</code> as the argument.
+     * <p>This method delegbtes to the
+     * {@link RMIClbssLobderSpi#getClbssLobder(String)} method
+     * of the provider instbnce, pbssing <code>codebbse</code> bs the brgument.
      *
-     * <p>If there is a security manger, its <code>checkPermission</code>
-     * method will be invoked with a
-     * <code>RuntimePermission("getClassLoader")</code> permission;
-     * this could result in a <code>SecurityException</code>.
-     * The provider implementation of this method may also perform further
-     * security checks to verify that the calling context has permission to
-     * connect to all of the URLs in the codebase URL path.
+     * <p>If there is b security mbnger, its <code>checkPermission</code>
+     * method will be invoked with b
+     * <code>RuntimePermission("getClbssLobder")</code> permission;
+     * this could result in b <code>SecurityException</code>.
+     * The provider implementbtion of this method mby blso perform further
+     * security checks to verify thbt the cblling context hbs permission to
+     * connect to bll of the URLs in the codebbse URL pbth.
      *
-     * @param   codebase the list of URLs (space-separated) from which
-     * the returned class loader will load classes from, or <code>null</code>
+     * @pbrbm   codebbse the list of URLs (spbce-sepbrbted) from which
+     * the returned clbss lobder will lobd clbsses from, or <code>null</code>
      *
-     * @return a class loader that loads classes from the given codebase URL
-     * path
+     * @return b clbss lobder thbt lobds clbsses from the given codebbse URL
+     * pbth
      *
-     * @throws  MalformedURLException if <code>codebase</code> is
-     * non-<code>null</code> and contains an invalid URL, or
-     * if <code>codebase</code> is <code>null</code> and a provider-specific
-     * URL used to identify the class loader is invalid
+     * @throws  MblformedURLException if <code>codebbse</code> is
+     * non-<code>null</code> bnd contbins bn invblid URL, or
+     * if <code>codebbse</code> is <code>null</code> bnd b provider-specific
+     * URL used to identify the clbss lobder is invblid
      *
-     * @throws  SecurityException if there is a security manager and the
-     * invocation of its <code>checkPermission</code> method fails, or
-     * if the caller does not have permission to connect to all of the
-     * URLs in the codebase URL path
+     * @throws  SecurityException if there is b security mbnbger bnd the
+     * invocbtion of its <code>checkPermission</code> method fbils, or
+     * if the cbller does not hbve permission to connect to bll of the
+     * URLs in the codebbse URL pbth
      *
      * @since   1.3
      */
-    public static ClassLoader getClassLoader(String codebase)
-        throws MalformedURLException, SecurityException
+    public stbtic ClbssLobder getClbssLobder(String codebbse)
+        throws MblformedURLException, SecurityException
     {
-        return provider.getClassLoader(codebase);
+        return provider.getClbssLobder(codebbse);
     }
 
     /**
-     * Returns the annotation string (representing a location for
-     * the class definition) that RMI will use to annotate the class
-     * descriptor when marshalling objects of the given class.
+     * Returns the bnnotbtion string (representing b locbtion for
+     * the clbss definition) thbt RMI will use to bnnotbte the clbss
+     * descriptor when mbrshblling objects of the given clbss.
      *
-     * <p>This method delegates to the
-     * {@link RMIClassLoaderSpi#getClassAnnotation(Class)} method
-     * of the provider instance, passing <code>cl</code> as the argument.
+     * <p>This method delegbtes to the
+     * {@link RMIClbssLobderSpi#getClbssAnnotbtion(Clbss)} method
+     * of the provider instbnce, pbssing <code>cl</code> bs the brgument.
      *
-     * @param   cl the class to obtain the annotation for
+     * @pbrbm   cl the clbss to obtbin the bnnotbtion for
      *
-     * @return  a string to be used to annotate the given class when
-     * it gets marshalled, or <code>null</code>
+     * @return  b string to be used to bnnotbte the given clbss when
+     * it gets mbrshblled, or <code>null</code>
      *
      * @throws  NullPointerException if <code>cl</code> is <code>null</code>
      *
      * @since   1.2
      */
     /*
-     * REMIND: Should we say that the returned class annotation will or
-     * should be a (space-separated) list of URLs?
+     * REMIND: Should we sby thbt the returned clbss bnnotbtion will or
+     * should be b (spbce-sepbrbted) list of URLs?
      */
-    public static String getClassAnnotation(Class<?> cl) {
-        return provider.getClassAnnotation(cl);
+    public stbtic String getClbssAnnotbtion(Clbss<?> cl) {
+        return provider.getClbssAnnotbtion(cl);
     }
 
     /**
-     * Returns the canonical instance of the default provider
-     * for the service provider interface {@link RMIClassLoaderSpi}.
-     * If the system property <code>java.rmi.server.RMIClassLoaderSpi</code>
-     * is not defined, then the <code>RMIClassLoader</code> static
+     * Returns the cbnonicbl instbnce of the defbult provider
+     * for the service provider interfbce {@link RMIClbssLobderSpi}.
+     * If the system property <code>jbvb.rmi.server.RMIClbssLobderSpi</code>
+     * is not defined, then the <code>RMIClbssLobder</code> stbtic
      * methods
      *
      * <ul>
      *
-     * <li>{@link #loadClass(URL,String)}
-     * <li>{@link #loadClass(String,String)}
-     * <li>{@link #loadClass(String,String,ClassLoader)}
-     * <li>{@link #loadProxyClass(String,String[],ClassLoader)}
-     * <li>{@link #getClassLoader(String)}
-     * <li>{@link #getClassAnnotation(Class)}
+     * <li>{@link #lobdClbss(URL,String)}
+     * <li>{@link #lobdClbss(String,String)}
+     * <li>{@link #lobdClbss(String,String,ClbssLobder)}
+     * <li>{@link #lobdProxyClbss(String,String[],ClbssLobder)}
+     * <li>{@link #getClbssLobder(String)}
+     * <li>{@link #getClbssAnnotbtion(Clbss)}
      *
      * </ul>
      *
-     * will use the canonical instance of the default provider
-     * as the service provider instance.
+     * will use the cbnonicbl instbnce of the defbult provider
+     * bs the service provider instbnce.
      *
-     * <p>If there is a security manager, its
-     * <code>checkPermission</code> method will be invoked with a
-     * <code>RuntimePermission("setFactory")</code> permission; this
-     * could result in a <code>SecurityException</code>.
+     * <p>If there is b security mbnbger, its
+     * <code>checkPermission</code> method will be invoked with b
+     * <code>RuntimePermission("setFbctory")</code> permission; this
+     * could result in b <code>SecurityException</code>.
      *
-     * <p>The default service provider instance implements
-     * {@link RMIClassLoaderSpi} as follows:
+     * <p>The defbult service provider instbnce implements
+     * {@link RMIClbssLobderSpi} bs follows:
      *
      * <blockquote>
      *
-     * <p>The <b>{@link RMIClassLoaderSpi#getClassAnnotation(Class)
-     * getClassAnnotation}</b> method returns a <code>String</code>
-     * representing the codebase URL path that a remote party should
-     * use to download the definition for the specified class.  The
-     * format of the returned string is a path of URLs separated by
-     * spaces.
+     * <p>The <b>{@link RMIClbssLobderSpi#getClbssAnnotbtion(Clbss)
+     * getClbssAnnotbtion}</b> method returns b <code>String</code>
+     * representing the codebbse URL pbth thbt b remote pbrty should
+     * use to downlobd the definition for the specified clbss.  The
+     * formbt of the returned string is b pbth of URLs sepbrbted by
+     * spbces.
      *
-     * The codebase string returned depends on the defining class
-     * loader of the specified class:
+     * The codebbse string returned depends on the defining clbss
+     * lobder of the specified clbss:
      *
      * <ul>
      *
-     * <li><p>If the class loader is the system class loader (see
-     * {@link ClassLoader#getSystemClassLoader}), a parent of the
-     * system class loader such as the loader used for installed
-     * extensions, or the bootstrap class loader (which may be
-     * represented by <code>null</code>), then the value of the
-     * <code>java.rmi.server.codebase</code> property (or possibly an
-     * earlier cached value) is returned, or
-     * <code>null</code> is returned if that property is not set.
+     * <li><p>If the clbss lobder is the system clbss lobder (see
+     * {@link ClbssLobder#getSystemClbssLobder}), b pbrent of the
+     * system clbss lobder such bs the lobder used for instblled
+     * extensions, or the bootstrbp clbss lobder (which mby be
+     * represented by <code>null</code>), then the vblue of the
+     * <code>jbvb.rmi.server.codebbse</code> property (or possibly bn
+     * ebrlier cbched vblue) is returned, or
+     * <code>null</code> is returned if thbt property is not set.
      *
-     * <li><p>Otherwise, if the class loader is an instance of
-     * <code>URLClassLoader</code>, then the returned string is a
-     * space-separated list of the external forms of the URLs returned
-     * by invoking the <code>getURLs</code> methods of the loader.  If
-     * the <code>URLClassLoader</code> was created by this provider to
-     * service an invocation of its <code>loadClass</code> or
-     * <code>loadProxyClass</code> methods, then no permissions are
-     * required to get the associated codebase string.  If it is an
-     * arbitrary other <code>URLClassLoader</code> instance, then if
-     * there is a security manager, its <code>checkPermission</code>
-     * method will be invoked once for each URL returned by the
+     * <li><p>Otherwise, if the clbss lobder is bn instbnce of
+     * <code>URLClbssLobder</code>, then the returned string is b
+     * spbce-sepbrbted list of the externbl forms of the URLs returned
+     * by invoking the <code>getURLs</code> methods of the lobder.  If
+     * the <code>URLClbssLobder</code> wbs crebted by this provider to
+     * service bn invocbtion of its <code>lobdClbss</code> or
+     * <code>lobdProxyClbss</code> methods, then no permissions bre
+     * required to get the bssocibted codebbse string.  If it is bn
+     * brbitrbry other <code>URLClbssLobder</code> instbnce, then if
+     * there is b security mbnbger, its <code>checkPermission</code>
+     * method will be invoked once for ebch URL returned by the
      * <code>getURLs</code> method, with the permission returned by
-     * invoking <code>openConnection().getPermission()</code> on each
-     * URL; if any of those invocations throws a
-     * <code>SecurityException</code> or an <code>IOException</code>,
-     * then the value of the <code>java.rmi.server.codebase</code>
-     * property (or possibly an earlier cached value) is returned, or
-     * <code>null</code> is returned if that property is not set.
+     * invoking <code>openConnection().getPermission()</code> on ebch
+     * URL; if bny of those invocbtions throws b
+     * <code>SecurityException</code> or bn <code>IOException</code>,
+     * then the vblue of the <code>jbvb.rmi.server.codebbse</code>
+     * property (or possibly bn ebrlier cbched vblue) is returned, or
+     * <code>null</code> is returned if thbt property is not set.
      *
-     * <li><p>Finally, if the class loader is not an instance of
-     * <code>URLClassLoader</code>, then the value of the
-     * <code>java.rmi.server.codebase</code> property (or possibly an
-     * earlier cached value) is returned, or
-     * <code>null</code> is returned if that property is not set.
+     * <li><p>Finblly, if the clbss lobder is not bn instbnce of
+     * <code>URLClbssLobder</code>, then the vblue of the
+     * <code>jbvb.rmi.server.codebbse</code> property (or possibly bn
+     * ebrlier cbched vblue) is returned, or
+     * <code>null</code> is returned if thbt property is not set.
      *
      * </ul>
      *
-     * <p>For the implementations of the methods described below,
-     * which all take a <code>String</code> parameter named
-     * <code>codebase</code> that is a space-separated list of URLs,
-     * each invocation has an associated <i>codebase loader</i> that
-     * is identified using the <code>codebase</code> argument in
-     * conjunction with the current thread's context class loader (see
-     * {@link Thread#getContextClassLoader()}).  When there is a
-     * security manager, this provider maintains an internal table of
-     * class loader instances (which are at least instances of {@link
-     * java.net.URLClassLoader}) keyed by the pair of their parent
-     * class loader and their codebase URL path (an ordered list of
-     * URLs).  If the <code>codebase</code> argument is <code>null</code>,
-     * the codebase URL path is the value of the system property
-     * <code>java.rmi.server.codebase</code> or possibly an
-     * earlier cached value.  For a given codebase URL path passed as the
-     * <code>codebase</code> argument to an invocation of one of the
-     * below methods in a given context, the codebase loader is the
-     * loader in the table with the specified codebase URL path and
-     * the current thread's context class loader as its parent.  If no
-     * such loader exists, then one is created and added to the table.
-     * The table does not maintain strong references to its contained
-     * loaders, in order to allow them and their defined classes to be
-     * garbage collected when not otherwise reachable.  In order to
-     * prevent arbitrary untrusted code from being implicitly loaded
-     * into a virtual machine with no security manager, if there is no
-     * security manager set, the codebase loader is just the current
-     * thread's context class loader (the supplied codebase URL path
-     * is ignored, so remote class loading is disabled).
+     * <p>For the implementbtions of the methods described below,
+     * which bll tbke b <code>String</code> pbrbmeter nbmed
+     * <code>codebbse</code> thbt is b spbce-sepbrbted list of URLs,
+     * ebch invocbtion hbs bn bssocibted <i>codebbse lobder</i> thbt
+     * is identified using the <code>codebbse</code> brgument in
+     * conjunction with the current threbd's context clbss lobder (see
+     * {@link Threbd#getContextClbssLobder()}).  When there is b
+     * security mbnbger, this provider mbintbins bn internbl tbble of
+     * clbss lobder instbnces (which bre bt lebst instbnces of {@link
+     * jbvb.net.URLClbssLobder}) keyed by the pbir of their pbrent
+     * clbss lobder bnd their codebbse URL pbth (bn ordered list of
+     * URLs).  If the <code>codebbse</code> brgument is <code>null</code>,
+     * the codebbse URL pbth is the vblue of the system property
+     * <code>jbvb.rmi.server.codebbse</code> or possibly bn
+     * ebrlier cbched vblue.  For b given codebbse URL pbth pbssed bs the
+     * <code>codebbse</code> brgument to bn invocbtion of one of the
+     * below methods in b given context, the codebbse lobder is the
+     * lobder in the tbble with the specified codebbse URL pbth bnd
+     * the current threbd's context clbss lobder bs its pbrent.  If no
+     * such lobder exists, then one is crebted bnd bdded to the tbble.
+     * The tbble does not mbintbin strong references to its contbined
+     * lobders, in order to bllow them bnd their defined clbsses to be
+     * gbrbbge collected when not otherwise rebchbble.  In order to
+     * prevent brbitrbry untrusted code from being implicitly lobded
+     * into b virtubl mbchine with no security mbnbger, if there is no
+     * security mbnbger set, the codebbse lobder is just the current
+     * threbd's context clbss lobder (the supplied codebbse URL pbth
+     * is ignored, so remote clbss lobding is disbbled).
      *
-     * <p>The <b>{@link RMIClassLoaderSpi#getClassLoader(String)
-     * getClassLoader}</b> method returns the codebase loader for the
-     * specified codebase URL path.  If there is a security manager,
-     * then if the calling context does not have permission to connect
-     * to all of the URLs in the codebase URL path, a
+     * <p>The <b>{@link RMIClbssLobderSpi#getClbssLobder(String)
+     * getClbssLobder}</b> method returns the codebbse lobder for the
+     * specified codebbse URL pbth.  If there is b security mbnbger,
+     * then if the cblling context does not hbve permission to connect
+     * to bll of the URLs in the codebbse URL pbth, b
      * <code>SecurityException</code> will be thrown.
      *
      * <p>The <b>{@link
-     * RMIClassLoaderSpi#loadClass(String,String,ClassLoader)
-     * loadClass}</b> method attempts to load the class with the
-     * specified name as follows:
+     * RMIClbssLobderSpi#lobdClbss(String,String,ClbssLobder)
+     * lobdClbss}</b> method bttempts to lobd the clbss with the
+     * specified nbme bs follows:
      *
      * <blockquote>
      *
-     * If the <code>defaultLoader</code> argument is
-     * non-<code>null</code>, it first attempts to load the class with the
-     * specified <code>name</code> using the
-     * <code>defaultLoader</code>, such as by evaluating
+     * If the <code>defbultLobder</code> brgument is
+     * non-<code>null</code>, it first bttempts to lobd the clbss with the
+     * specified <code>nbme</code> using the
+     * <code>defbultLobder</code>, such bs by evblubting
      *
      * <pre>
-     *     Class.forName(name, false, defaultLoader)
+     *     Clbss.forNbme(nbme, fblse, defbultLobder)
      * </pre>
      *
-     * If the class is successfully loaded from the
-     * <code>defaultLoader</code>, that class is returned.  If an
-     * exception other than <code>ClassNotFoundException</code> is
-     * thrown, that exception is thrown to the caller.
+     * If the clbss is successfully lobded from the
+     * <code>defbultLobder</code>, thbt clbss is returned.  If bn
+     * exception other thbn <code>ClbssNotFoundException</code> is
+     * thrown, thbt exception is thrown to the cbller.
      *
-     * <p>Next, the <code>loadClass</code> method attempts to load the
-     * class with the specified <code>name</code> using the codebase
-     * loader for the specified codebase URL path.
-     * If there is a security manager, then the calling context
-     * must have permission to connect to all of the URLs in the
-     * codebase URL path; otherwise, the current thread's context
-     * class loader will be used instead of the codebase loader.
+     * <p>Next, the <code>lobdClbss</code> method bttempts to lobd the
+     * clbss with the specified <code>nbme</code> using the codebbse
+     * lobder for the specified codebbse URL pbth.
+     * If there is b security mbnbger, then the cblling context
+     * must hbve permission to connect to bll of the URLs in the
+     * codebbse URL pbth; otherwise, the current threbd's context
+     * clbss lobder will be used instebd of the codebbse lobder.
      *
      * </blockquote>
      *
      * <p>The <b>{@link
-     * RMIClassLoaderSpi#loadProxyClass(String,String[],ClassLoader)
-     * loadProxyClass}</b> method attempts to return a dynamic proxy
-     * class with the named interface as follows:
+     * RMIClbssLobderSpi#lobdProxyClbss(String,String[],ClbssLobder)
+     * lobdProxyClbss}</b> method bttempts to return b dynbmic proxy
+     * clbss with the nbmed interfbce bs follows:
      *
      * <blockquote>
      *
-     * <p>If the <code>defaultLoader</code> argument is
-     * non-<code>null</code> and all of the named interfaces can be
-     * resolved through that loader, then,
+     * <p>If the <code>defbultLobder</code> brgument is
+     * non-<code>null</code> bnd bll of the nbmed interfbces cbn be
+     * resolved through thbt lobder, then,
      *
      * <ul>
      *
-     * <li>if all of the resolved interfaces are <code>public</code>,
-     * then it first attempts to obtain a dynamic proxy class (using
+     * <li>if bll of the resolved interfbces bre <code>public</code>,
+     * then it first bttempts to obtbin b dynbmic proxy clbss (using
      * {@link
-     * java.lang.reflect.Proxy#getProxyClass(ClassLoader,Class[])
-     * Proxy.getProxyClass}) for the resolved interfaces defined in
-     * the codebase loader; if that attempt throws an
-     * <code>IllegalArgumentException</code>, it then attempts to
-     * obtain a dynamic proxy class for the resolved interfaces
-     * defined in the <code>defaultLoader</code>.  If both attempts
-     * throw <code>IllegalArgumentException</code>, then this method
-     * throws a <code>ClassNotFoundException</code>.  If any other
-     * exception is thrown, that exception is thrown to the caller.
+     * jbvb.lbng.reflect.Proxy#getProxyClbss(ClbssLobder,Clbss[])
+     * Proxy.getProxyClbss}) for the resolved interfbces defined in
+     * the codebbse lobder; if thbt bttempt throws bn
+     * <code>IllegblArgumentException</code>, it then bttempts to
+     * obtbin b dynbmic proxy clbss for the resolved interfbces
+     * defined in the <code>defbultLobder</code>.  If both bttempts
+     * throw <code>IllegblArgumentException</code>, then this method
+     * throws b <code>ClbssNotFoundException</code>.  If bny other
+     * exception is thrown, thbt exception is thrown to the cbller.
      *
-     * <li>if all of the non-<code>public</code> resolved interfaces
-     * are defined in the same class loader, then it attempts to
-     * obtain a dynamic proxy class for the resolved interfaces
-     * defined in that loader.
+     * <li>if bll of the non-<code>public</code> resolved interfbces
+     * bre defined in the sbme clbss lobder, then it bttempts to
+     * obtbin b dynbmic proxy clbss for the resolved interfbces
+     * defined in thbt lobder.
      *
-     * <li>otherwise, a <code>LinkageError</code> is thrown (because a
-     * class that implements all of the specified interfaces cannot be
-     * defined in any loader).
+     * <li>otherwise, b <code>LinkbgeError</code> is thrown (becbuse b
+     * clbss thbt implements bll of the specified interfbces cbnnot be
+     * defined in bny lobder).
      *
      * </ul>
      *
-     * <p>Otherwise, if all of the named interfaces can be resolved
-     * through the codebase loader, then,
+     * <p>Otherwise, if bll of the nbmed interfbces cbn be resolved
+     * through the codebbse lobder, then,
      *
      * <ul>
      *
-     * <li>if all of the resolved interfaces are <code>public</code>,
-     * then it attempts to obtain a dynamic proxy class for the
-     * resolved interfaces in the codebase loader.  If the attempt
-     * throws an <code>IllegalArgumentException</code>, then this
-     * method throws a <code>ClassNotFoundException</code>.
+     * <li>if bll of the resolved interfbces bre <code>public</code>,
+     * then it bttempts to obtbin b dynbmic proxy clbss for the
+     * resolved interfbces in the codebbse lobder.  If the bttempt
+     * throws bn <code>IllegblArgumentException</code>, then this
+     * method throws b <code>ClbssNotFoundException</code>.
      *
-     * <li>if all of the non-<code>public</code> resolved interfaces
-     * are defined in the same class loader, then it attempts to
-     * obtain a dynamic proxy class for the resolved interfaces
-     * defined in that loader.
+     * <li>if bll of the non-<code>public</code> resolved interfbces
+     * bre defined in the sbme clbss lobder, then it bttempts to
+     * obtbin b dynbmic proxy clbss for the resolved interfbces
+     * defined in thbt lobder.
      *
-     * <li>otherwise, a <code>LinkageError</code> is thrown (because a
-     * class that implements all of the specified interfaces cannot be
-     * defined in any loader).
+     * <li>otherwise, b <code>LinkbgeError</code> is thrown (becbuse b
+     * clbss thbt implements bll of the specified interfbces cbnnot be
+     * defined in bny lobder).
      *
      * </ul>
      *
-     * <p>Otherwise, a <code>ClassNotFoundException</code> is thrown
-     * for one of the named interfaces that could not be resolved.
+     * <p>Otherwise, b <code>ClbssNotFoundException</code> is thrown
+     * for one of the nbmed interfbces thbt could not be resolved.
      *
      * </blockquote>
      *
      * </blockquote>
      *
-     * @return  the canonical instance of the default service provider
+     * @return  the cbnonicbl instbnce of the defbult service provider
      *
-     * @throws  SecurityException if there is a security manager and the
-     * invocation of its <code>checkPermission</code> method fails
+     * @throws  SecurityException if there is b security mbnbger bnd the
+     * invocbtion of its <code>checkPermission</code> method fbils
      *
      * @since   1.4
      */
-    public static RMIClassLoaderSpi getDefaultProviderInstance() {
-        SecurityManager sm = System.getSecurityManager();
+    public stbtic RMIClbssLobderSpi getDefbultProviderInstbnce() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("setFactory"));
+            sm.checkPermission(new RuntimePermission("setFbctory"));
         }
-        return defaultProvider;
+        return defbultProvider;
     }
 
     /**
-     * Returns the security context of the given class loader.
+     * Returns the security context of the given clbss lobder.
      *
-     * @param   loader a class loader from which to get the security context
+     * @pbrbm   lobder b clbss lobder from which to get the security context
      *
      * @return  the security context
      *
-     * @deprecated no replacement.  As of the Java 2 platform v1.2, RMI no
-     * longer uses this method to obtain a class loader's security context.
-     * @see java.lang.SecurityManager#getSecurityContext()
+     * @deprecbted no replbcement.  As of the Jbvb 2 plbtform v1.2, RMI no
+     * longer uses this method to obtbin b clbss lobder's security context.
+     * @see jbvb.lbng.SecurityMbnbger#getSecurityContext()
      */
-    @Deprecated
-    public static Object getSecurityContext(ClassLoader loader)
+    @Deprecbted
+    public stbtic Object getSecurityContext(ClbssLobder lobder)
     {
-        return sun.rmi.server.LoaderHandler.getSecurityContext(loader);
+        return sun.rmi.server.LobderHbndler.getSecurityContext(lobder);
     }
 
     /**
-     * Creates an instance of the default provider class.
+     * Crebtes bn instbnce of the defbult provider clbss.
      */
-    private static RMIClassLoaderSpi newDefaultProviderInstance() {
-        return new RMIClassLoaderSpi() {
-            public Class<?> loadClass(String codebase, String name,
-                                      ClassLoader defaultLoader)
-                throws MalformedURLException, ClassNotFoundException
+    privbte stbtic RMIClbssLobderSpi newDefbultProviderInstbnce() {
+        return new RMIClbssLobderSpi() {
+            public Clbss<?> lobdClbss(String codebbse, String nbme,
+                                      ClbssLobder defbultLobder)
+                throws MblformedURLException, ClbssNotFoundException
             {
-                return sun.rmi.server.LoaderHandler.loadClass(
-                    codebase, name, defaultLoader);
+                return sun.rmi.server.LobderHbndler.lobdClbss(
+                    codebbse, nbme, defbultLobder);
             }
 
-            public Class<?> loadProxyClass(String codebase,
-                                           String[] interfaces,
-                                           ClassLoader defaultLoader)
-                throws MalformedURLException, ClassNotFoundException
+            public Clbss<?> lobdProxyClbss(String codebbse,
+                                           String[] interfbces,
+                                           ClbssLobder defbultLobder)
+                throws MblformedURLException, ClbssNotFoundException
             {
-                return sun.rmi.server.LoaderHandler.loadProxyClass(
-                    codebase, interfaces, defaultLoader);
+                return sun.rmi.server.LobderHbndler.lobdProxyClbss(
+                    codebbse, interfbces, defbultLobder);
             }
 
-            public ClassLoader getClassLoader(String codebase)
-                throws MalformedURLException
+            public ClbssLobder getClbssLobder(String codebbse)
+                throws MblformedURLException
             {
-                return sun.rmi.server.LoaderHandler.getClassLoader(codebase);
+                return sun.rmi.server.LobderHbndler.getClbssLobder(codebbse);
             }
 
-            public String getClassAnnotation(Class<?> cl) {
-                return sun.rmi.server.LoaderHandler.getClassAnnotation(cl);
+            public String getClbssAnnotbtion(Clbss<?> cl) {
+                return sun.rmi.server.LobderHbndler.getClbssAnnotbtion(cl);
             }
         };
     }
 
     /**
-     * Chooses provider instance, following above documentation.
+     * Chooses provider instbnce, following bbove documentbtion.
      *
-     * This method assumes that it has been invoked in a privileged block.
+     * This method bssumes thbt it hbs been invoked in b privileged block.
      */
-    private static RMIClassLoaderSpi initializeProvider() {
+    privbte stbtic RMIClbssLobderSpi initiblizeProvider() {
         /*
          * First check for the system property being set:
          */
-        String providerClassName =
-            System.getProperty("java.rmi.server.RMIClassLoaderSpi");
+        String providerClbssNbme =
+            System.getProperty("jbvb.rmi.server.RMIClbssLobderSpi");
 
-        if (providerClassName != null) {
-            if (providerClassName.equals("default")) {
-                return defaultProvider;
+        if (providerClbssNbme != null) {
+            if (providerClbssNbme.equbls("defbult")) {
+                return defbultProvider;
             }
 
             try {
-                Class<? extends RMIClassLoaderSpi> providerClass =
-                    Class.forName(providerClassName, false,
-                                  ClassLoader.getSystemClassLoader())
-                    .asSubclass(RMIClassLoaderSpi.class);
-                return providerClass.newInstance();
+                Clbss<? extends RMIClbssLobderSpi> providerClbss =
+                    Clbss.forNbme(providerClbssNbme, fblse,
+                                  ClbssLobder.getSystemClbssLobder())
+                    .bsSubclbss(RMIClbssLobderSpi.clbss);
+                return providerClbss.newInstbnce();
 
-            } catch (ClassNotFoundException e) {
-                throw new NoClassDefFoundError(e.getMessage());
-            } catch (IllegalAccessException e) {
-                throw new IllegalAccessError(e.getMessage());
-            } catch (InstantiationException e) {
-                throw new InstantiationError(e.getMessage());
-            } catch (ClassCastException e) {
-                Error error = new LinkageError(
-                    "provider class not assignable to RMIClassLoaderSpi");
-                error.initCause(e);
+            } cbtch (ClbssNotFoundException e) {
+                throw new NoClbssDefFoundError(e.getMessbge());
+            } cbtch (IllegblAccessException e) {
+                throw new IllegblAccessError(e.getMessbge());
+            } cbtch (InstbntibtionException e) {
+                throw new InstbntibtionError(e.getMessbge());
+            } cbtch (ClbssCbstException e) {
+                Error error = new LinkbgeError(
+                    "provider clbss not bssignbble to RMIClbssLobderSpi");
+                error.initCbuse(e);
                 throw error;
             }
         }
 
         /*
-         * Next look for a provider configuration file installed:
+         * Next look for b provider configurbtion file instblled:
          */
-        Iterator<RMIClassLoaderSpi> iter =
-            ServiceLoader.load(RMIClassLoaderSpi.class,
-                               ClassLoader.getSystemClassLoader()).iterator();
-        if (iter.hasNext()) {
+        Iterbtor<RMIClbssLobderSpi> iter =
+            ServiceLobder.lobd(RMIClbssLobderSpi.clbss,
+                               ClbssLobder.getSystemClbssLobder()).iterbtor();
+        if (iter.hbsNext()) {
             try {
                 return iter.next();
-            } catch (ClassCastException e) {
-                Error error = new LinkageError(
-                    "provider class not assignable to RMIClassLoaderSpi");
-                error.initCause(e);
+            } cbtch (ClbssCbstException e) {
+                Error error = new LinkbgeError(
+                    "provider clbss not bssignbble to RMIClbssLobderSpi");
+                error.initCbuse(e);
                 throw error;
             }
         }
 
         /*
-         * Finally, return the canonical instance of the default provider.
+         * Finblly, return the cbnonicbl instbnce of the defbult provider.
          */
-        return defaultProvider;
+        return defbultProvider;
     }
 }

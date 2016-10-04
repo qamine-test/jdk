@@ -3,162 +3,162 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.algorithms;
+pbckbge com.sun.org.bpbche.xml.internbl.security.blgorithms;
 
-import java.security.Key;
-import java.security.SecureRandom;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.Key;
+import jbvb.security.SecureRbndom;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureException;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureException;
 import org.w3c.dom.Element;
 
-public abstract class SignatureAlgorithmSpi {
+public bbstrbct clbss SignbtureAlgorithmSpi {
 
     /**
-     * Returns the URI representation of <code>Transformation algorithm</code>
+     * Returns the URI representbtion of <code>Trbnsformbtion blgorithm</code>
      *
-     * @return the URI representation of <code>Transformation algorithm</code>
+     * @return the URI representbtion of <code>Trbnsformbtion blgorithm</code>
      */
-    protected abstract String engineGetURI();
+    protected bbstrbct String engineGetURI();
 
     /**
-     * Proxy method for {@link java.security.Signature#getAlgorithm}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#getAlgorithm}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @return the result of the {@link java.security.Signature#getAlgorithm} method
+     * @return the result of the {@link jbvb.security.Signbture#getAlgorithm} method
      */
-    protected abstract String engineGetJCEAlgorithmString();
+    protected bbstrbct String engineGetJCEAlgorithmString();
 
     /**
-     * Method engineGetJCEProviderName
+     * Method engineGetJCEProviderNbme
      *
-     * @return the JCE ProviderName
+     * @return the JCE ProviderNbme
      */
-    protected abstract String engineGetJCEProviderName();
+    protected bbstrbct String engineGetJCEProviderNbme();
 
     /**
-     * Proxy method for {@link java.security.Signature#update(byte[])}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#updbte(byte[])}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param input
-     * @throws XMLSignatureException
+     * @pbrbm input
+     * @throws XMLSignbtureException
      */
-    protected abstract void engineUpdate(byte[] input) throws XMLSignatureException;
+    protected bbstrbct void engineUpdbte(byte[] input) throws XMLSignbtureException;
 
     /**
-     * Proxy method for {@link java.security.Signature#update(byte[])}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#updbte(byte[])}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param input
-     * @throws XMLSignatureException
+     * @pbrbm input
+     * @throws XMLSignbtureException
      */
-    protected abstract void engineUpdate(byte input) throws XMLSignatureException;
+    protected bbstrbct void engineUpdbte(byte input) throws XMLSignbtureException;
 
     /**
-     * Proxy method for {@link java.security.Signature#update(byte[], int, int)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#updbte(byte[], int, int)}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param buf
-     * @param offset
-     * @param len
-     * @throws XMLSignatureException
+     * @pbrbm buf
+     * @pbrbm offset
+     * @pbrbm len
+     * @throws XMLSignbtureException
      */
-    protected abstract void engineUpdate(byte buf[], int offset, int len)
-        throws XMLSignatureException;
+    protected bbstrbct void engineUpdbte(byte buf[], int offset, int len)
+        throws XMLSignbtureException;
 
     /**
-     * Proxy method for {@link java.security.Signature#initSign(java.security.PrivateKey)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#initSign(jbvb.security.PrivbteKey)}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param signingKey
-     * @throws XMLSignatureException if this method is called on a MAC
+     * @pbrbm signingKey
+     * @throws XMLSignbtureException if this method is cblled on b MAC
      */
-    protected abstract void engineInitSign(Key signingKey) throws XMLSignatureException;
+    protected bbstrbct void engineInitSign(Key signingKey) throws XMLSignbtureException;
 
     /**
-     * Proxy method for {@link java.security.Signature#initSign(java.security.PrivateKey,
-     * java.security.SecureRandom)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#initSign(jbvb.security.PrivbteKey,
+     * jbvb.security.SecureRbndom)}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param signingKey
-     * @param secureRandom
-     * @throws XMLSignatureException if this method is called on a MAC
+     * @pbrbm signingKey
+     * @pbrbm secureRbndom
+     * @throws XMLSignbtureException if this method is cblled on b MAC
      */
-    protected abstract void engineInitSign(Key signingKey, SecureRandom secureRandom)
-        throws XMLSignatureException;
+    protected bbstrbct void engineInitSign(Key signingKey, SecureRbndom secureRbndom)
+        throws XMLSignbtureException;
 
     /**
-     * Proxy method for {@link javax.crypto.Mac}
-     * which is executed on the internal {@link javax.crypto.Mac#init(Key)} object.
+     * Proxy method for {@link jbvbx.crypto.Mbc}
+     * which is executed on the internbl {@link jbvbx.crypto.Mbc#init(Key)} object.
      *
-     * @param signingKey
-     * @param algorithmParameterSpec
-     * @throws XMLSignatureException if this method is called on a Signature
+     * @pbrbm signingKey
+     * @pbrbm blgorithmPbrbmeterSpec
+     * @throws XMLSignbtureException if this method is cblled on b Signbture
      */
-    protected abstract void engineInitSign(
-        Key signingKey, AlgorithmParameterSpec algorithmParameterSpec
-    ) throws XMLSignatureException;
+    protected bbstrbct void engineInitSign(
+        Key signingKey, AlgorithmPbrbmeterSpec blgorithmPbrbmeterSpec
+    ) throws XMLSignbtureException;
 
     /**
-     * Proxy method for {@link java.security.Signature#sign()}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#sign()}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @return the result of the {@link java.security.Signature#sign()} method
-     * @throws XMLSignatureException
+     * @return the result of the {@link jbvb.security.Signbture#sign()} method
+     * @throws XMLSignbtureException
      */
-    protected abstract byte[] engineSign() throws XMLSignatureException;
+    protected bbstrbct byte[] engineSign() throws XMLSignbtureException;
 
     /**
      * Method engineInitVerify
      *
-     * @param verificationKey
-     * @throws XMLSignatureException
+     * @pbrbm verificbtionKey
+     * @throws XMLSignbtureException
      */
-    protected abstract void engineInitVerify(Key verificationKey) throws XMLSignatureException;
+    protected bbstrbct void engineInitVerify(Key verificbtionKey) throws XMLSignbtureException;
 
     /**
-     * Proxy method for {@link java.security.Signature#verify(byte[])}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#verify(byte[])}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param signature
-     * @return true if the signature is correct
-     * @throws XMLSignatureException
+     * @pbrbm signbture
+     * @return true if the signbture is correct
+     * @throws XMLSignbtureException
      */
-    protected abstract boolean engineVerify(byte[] signature) throws XMLSignatureException;
+    protected bbstrbct boolebn engineVerify(byte[] signbture) throws XMLSignbtureException;
 
     /**
-     * Proxy method for {@link java.security.Signature#setParameter(
-     * java.security.spec.AlgorithmParameterSpec)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#setPbrbmeter(
+     * jbvb.security.spec.AlgorithmPbrbmeterSpec)}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param params
-     * @throws XMLSignatureException
+     * @pbrbm pbrbms
+     * @throws XMLSignbtureException
      */
-    protected abstract void engineSetParameter(AlgorithmParameterSpec params)
-        throws XMLSignatureException;
+    protected bbstrbct void engineSetPbrbmeter(AlgorithmPbrbmeterSpec pbrbms)
+        throws XMLSignbtureException;
 
 
     /**
      * Method engineGetContextFromElement
      *
-     * @param element
+     * @pbrbm element
      */
     protected void engineGetContextFromElement(Element element) {
     }
@@ -166,11 +166,11 @@ public abstract class SignatureAlgorithmSpi {
     /**
      * Method engineSetHMACOutputLength
      *
-     * @param HMACOutputLength
-     * @throws XMLSignatureException
+     * @pbrbm HMACOutputLength
+     * @throws XMLSignbtureException
      */
-    protected abstract void engineSetHMACOutputLength(int HMACOutputLength)
-        throws XMLSignatureException;
+    protected bbstrbct void engineSetHMACOutputLength(int HMACOutputLength)
+        throws XMLSignbtureException;
 
     public void reset() {
     }

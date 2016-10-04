@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.*;
-import java.io.File;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Locale;
-import java.util.TreeMap;
-import java.util.Vector;
+import jbvb.bwt.*;
+import jbvb.io.File;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Locble;
+import jbvb.util.TreeMbp;
+import jbvb.util.Vector;
 
-import javax.swing.plaf.FontUIResource;
+import jbvbx.swing.plbf.FontUIResource;
 
-import sun.awt.FontConfiguration;
-import sun.awt.HeadlessToolkit;
-import sun.awt.util.ThreadGroupUtils;
-import sun.lwawt.macosx.*;
+import sun.bwt.FontConfigurbtion;
+import sun.bwt.HebdlessToolkit;
+import sun.bwt.util.ThrebdGroupUtils;
+import sun.lwbwt.mbcosx.*;
 
-public class CFontManager extends SunFontManager {
-    private FontConfigManager fcManager = null;
-    private static Hashtable<String, Font2D> genericFonts = new Hashtable<String, Font2D>();
+public clbss CFontMbnbger extends SunFontMbnbger {
+    privbte FontConfigMbnbger fcMbnbger = null;
+    privbte stbtic Hbshtbble<String, Font2D> genericFonts = new Hbshtbble<String, Font2D>();
 
     @Override
-    protected FontConfiguration createFontConfiguration() {
-        FontConfiguration fc = new CFontConfiguration(this);
+    protected FontConfigurbtion crebteFontConfigurbtion() {
+        FontConfigurbtion fc = new CFontConfigurbtion(this);
         fc.init();
         return fc;
     }
 
     @Override
-    public FontConfiguration createFontConfiguration(boolean preferLocaleFonts,
-                                                     boolean preferPropFonts)
+    public FontConfigurbtion crebteFontConfigurbtion(boolebn preferLocbleFonts,
+                                                     boolebn preferPropFonts)
     {
-        return new CFontConfiguration(this, preferLocaleFonts, preferPropFonts);
+        return new CFontConfigurbtion(this, preferLocbleFonts, preferPropFonts);
     }
 
-    private static String[] defaultPlatformFont = null;
+    privbte stbtic String[] defbultPlbtformFont = null;
 
     /*
-     * Returns an array of two strings. The first element is the
-     * name of the font. The second element is the file name.
+     * Returns bn brrby of two strings. The first element is the
+     * nbme of the font. The second element is the file nbme.
      */
     @Override
-    public synchronized String[] getDefaultPlatformFont() {
-        if (defaultPlatformFont == null) {
-            defaultPlatformFont = new String[2];
-            defaultPlatformFont[0] = "Lucida Grande";
-            defaultPlatformFont[1] = "/System/Library/Fonts/LucidaGrande.ttc";
+    public synchronized String[] getDefbultPlbtformFont() {
+        if (defbultPlbtformFont == null) {
+            defbultPlbtformFont = new String[2];
+            defbultPlbtformFont[0] = "Lucidb Grbnde";
+            defbultPlbtformFont[1] = "/System/Librbry/Fonts/LucidbGrbnde.ttc";
         }
-        return defaultPlatformFont;
+        return defbultPlbtformFont;
     }
 
-    // This is a way to register any kind of Font2D, not just files and composites.
-    public static Font2D[] getGenericFonts() {
-        return genericFonts.values().toArray(new Font2D[0]);
+    // This is b wby to register bny kind of Font2D, not just files bnd composites.
+    public stbtic Font2D[] getGenericFonts() {
+        return genericFonts.vblues().toArrby(new Font2D[0]);
     }
 
     public Font2D registerGenericFont(Font2D f)
     {
-        return registerGenericFont(f, false);
+        return registerGenericFont(f, fblse);
     }
-    public Font2D registerGenericFont(Font2D f, boolean logicalFont)
+    public Font2D registerGenericFont(Font2D f, boolebn logicblFont)
     {
-        int rank = 4;
+        int rbnk = 4;
 
-        String fontName = f.fullName;
-        String familyName = f.familyName;
+        String fontNbme = f.fullNbme;
+        String fbmilyNbme = f.fbmilyNbme;
 
-        if (fontName == null || "".equals(fontName)) {
+        if (fontNbme == null || "".equbls(fontNbme)) {
             return null;
         }
 
-        // logical fonts always need to be added to the family
-        // plus they never need to be added to the generic font list
-        // or the fullNameToFont table since they are covers for
-        // already existing fonts in this list
-        if (logicalFont || !genericFonts.containsKey(fontName)) {
+        // logicbl fonts blwbys need to be bdded to the fbmily
+        // plus they never need to be bdded to the generic font list
+        // or the fullNbmeToFont tbble since they bre covers for
+        // blrebdy existing fonts in this list
+        if (logicblFont || !genericFonts.contbinsKey(fontNbme)) {
             if (FontUtilities.debugFonts()) {
-                FontUtilities.getLogger().info("Add to Family "+familyName +
-                    ", Font " + fontName + " rank="+rank);
+                FontUtilities.getLogger().info("Add to Fbmily "+fbmilyNbme +
+                    ", Font " + fontNbme + " rbnk="+rbnk);
             }
-            FontFamily family = FontFamily.getFamily(familyName);
-            if (family == null) {
-                family = new FontFamily(familyName, false, rank);
-                family.setFont(f, f.style);
-            } else if (family.getRank() >= rank) {
-                family.setFont(f, f.style);
+            FontFbmily fbmily = FontFbmily.getFbmily(fbmilyNbme);
+            if (fbmily == null) {
+                fbmily = new FontFbmily(fbmilyNbme, fblse, rbnk);
+                fbmily.setFont(f, f.style);
+            } else if (fbmily.getRbnk() >= rbnk) {
+                fbmily.setFont(f, f.style);
             }
-            if (!logicalFont)
+            if (!logicblFont)
             {
-                genericFonts.put(fontName, f);
-                fullNameToFont.put(fontName.toLowerCase(Locale.ENGLISH), f);
+                genericFonts.put(fontNbme, f);
+                fullNbmeToFont.put(fontNbme.toLowerCbse(Locble.ENGLISH), f);
             }
             return f;
         } else {
-            return genericFonts.get(fontName);
+            return genericFonts.get(fontNbme);
         }
     }
 
@@ -128,51 +128,51 @@ public class CFontManager extends SunFontManager {
     public Font2D[] getRegisteredFonts() {
         Font2D[] regFonts = super.getRegisteredFonts();
 
-        // Add in the Mac OS X native fonts
+        // Add in the Mbc OS X nbtive fonts
         Font2D[] genericFonts = getGenericFonts();
-        Font2D[] allFonts = new Font2D[regFonts.length+genericFonts.length];
-        System.arraycopy(regFonts, 0, allFonts, 0, regFonts.length);
-        System.arraycopy(genericFonts, 0, allFonts, regFonts.length, genericFonts.length);
+        Font2D[] bllFonts = new Font2D[regFonts.length+genericFonts.length];
+        System.brrbycopy(regFonts, 0, bllFonts, 0, regFonts.length);
+        System.brrbycopy(genericFonts, 0, bllFonts, regFonts.length, genericFonts.length);
 
-        return allFonts;
+        return bllFonts;
     }
 
     @Override
-    protected void addNativeFontFamilyNames(TreeMap<String, String> familyNames, Locale requestedLocale) {
+    protected void bddNbtiveFontFbmilyNbmes(TreeMbp<String, String> fbmilyNbmes, Locble requestedLocble) {
         Font2D[] genericfonts = getGenericFonts();
         for (int i=0; i < genericfonts.length; i++) {
-            if (!(genericfonts[i] instanceof NativeFont)) {
-                String name = genericfonts[i].getFamilyName(requestedLocale);
-                familyNames.put(name.toLowerCase(requestedLocale), name);
+            if (!(genericfonts[i] instbnceof NbtiveFont)) {
+                String nbme = genericfonts[i].getFbmilyNbme(requestedLocble);
+                fbmilyNbmes.put(nbme.toLowerCbse(requestedLocble), nbme);
             }
         }
     }
 
     @Override
-    public Font2D createFont2D(File fontFile, int fontFormat, boolean isCopy, CreatedFontTracker tracker) throws FontFormatException {
+    public Font2D crebteFont2D(File fontFile, int fontFormbt, boolebn isCopy, CrebtedFontTrbcker trbcker) throws FontFormbtException {
 
-    String fontFilePath = fontFile.getPath();
+    String fontFilePbth = fontFile.getPbth();
     Font2D font2D = null;
-    final File fFile = fontFile;
-    final CreatedFontTracker _tracker = tracker;
+    finbl File fFile = fontFile;
+    finbl CrebtedFontTrbcker _trbcker = trbcker;
     try {
-        switch (fontFormat) {
-            case Font.TRUETYPE_FONT:
-                        font2D = new TrueTypeFont(fontFilePath, null, 0, true);
-                break;
-            case Font.TYPE1_FONT:
-                        font2D = new Type1Font(fontFilePath, null, isCopy);
-                break;
-            default:
-                throw new FontFormatException("Unrecognised Font Format");
+        switch (fontFormbt) {
+            cbse Font.TRUETYPE_FONT:
+                        font2D = new TrueTypeFont(fontFilePbth, null, 0, true);
+                brebk;
+            cbse Font.TYPE1_FONT:
+                        font2D = new Type1Font(fontFilePbth, null, isCopy);
+                brebk;
+            defbult:
+                throw new FontFormbtException("Unrecognised Font Formbt");
         }
-    } catch (FontFormatException e) {
+    } cbtch (FontFormbtException e) {
         if (isCopy) {
-            java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Object>() {
+            jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Object>() {
                         public Object run() {
-                            if (_tracker != null) {
-                                _tracker.subBytes((int)fFile.length());
+                            if (_trbcker != null) {
+                                _trbcker.subBytes((int)fFile.length());
                             }
                             fFile.delete();
                             return null;
@@ -182,35 +182,35 @@ public class CFontManager extends SunFontManager {
         throw(e);
     }
     if (isCopy) {
-        FileFont.setFileToRemove(font2D, fontFile, tracker);
-        synchronized (FontManager.class) {
+        FileFont.setFileToRemove(font2D, fontFile, trbcker);
+        synchronized (FontMbnbger.clbss) {
 
             if (tmpFontFiles == null) {
                 tmpFontFiles = new Vector<File>();
             }
-            tmpFontFiles.add(fontFile);
+            tmpFontFiles.bdd(fontFile);
 
             if (fileCloser == null) {
-                final Runnable fileCloserRunnable = new Runnable() {
+                finbl Runnbble fileCloserRunnbble = new Runnbble() {
                     public void run() {
-                        java.security.AccessController.doPrivileged(
-                                new java.security.PrivilegedAction<Object>() {
+                        jbvb.security.AccessController.doPrivileged(
+                                new jbvb.security.PrivilegedAction<Object>() {
                                     public Object run() {
 
                                         for (int i=0;i<CHANNELPOOLSIZE;i++) {
-                                            if (fontFileCache[i] != null) {
+                                            if (fontFileCbche[i] != null) {
                                                 try {
-                                                    fontFileCache[i].close();
-                                                } catch (Exception e) {}
+                                                    fontFileCbche[i].close();
+                                                } cbtch (Exception e) {}
                                             }
                                         }
                                         if (tmpFontFiles != null) {
                                             File[] files = new File[tmpFontFiles.size()];
-                                            files = tmpFontFiles.toArray(files);
+                                            files = tmpFontFiles.toArrby(files);
                                             for (int f=0; f<files.length;f++) {
                                                 try {
                                                     files[f].delete();
-                                                } catch (Exception e) {}
+                                                } cbtch (Exception e) {}
                                             }
                                         }
                                         return null;
@@ -220,14 +220,14 @@ public class CFontManager extends SunFontManager {
                 };
                 AccessController.doPrivileged(
                         (PrivilegedAction<Void>) () -> {
-                            /* The thread must be a member of a thread group
+                            /* The threbd must be b member of b threbd group
                              * which will not get GCed before VM exit.
-                             * Make its parent the top-level thread group.
+                             * Mbke its pbrent the top-level threbd group.
                              */
-                            ThreadGroup rootTG = ThreadGroupUtils.getRootThreadGroup();
-                            fileCloser = new Thread(rootTG, fileCloserRunnable);
-                            fileCloser.setContextClassLoader(null);
-                            Runtime.getRuntime().addShutdownHook(fileCloser);
+                            ThrebdGroup rootTG = ThrebdGroupUtils.getRootThrebdGroup();
+                            fileCloser = new Threbd(rootTG, fileCloserRunnbble);
+                            fileCloser.setContextClbssLobder(null);
+                            Runtime.getRuntime().bddShutdownHook(fileCloser);
                             return null;
                         }
                 );
@@ -238,134 +238,134 @@ public class CFontManager extends SunFontManager {
     }
 
     /*
-    public synchronized FontConfigManager getFontConfigManager() {
-        if (fcManager  == null) {
-            fcManager = new FontConfigManager();
+    public synchronized FontConfigMbnbger getFontConfigMbnbger() {
+        if (fcMbnbger  == null) {
+            fcMbnbger = new FontConfigMbnbger();
         }
-        return fcManager;
+        return fcMbnbger;
     }
     */
 
-    protected void registerFontsInDir(String dirName, boolean useJavaRasterizer, int fontRank, boolean defer, boolean resolveSymLinks) {
-        loadNativeDirFonts(dirName);
-        super.registerFontsInDir(dirName, useJavaRasterizer, fontRank, defer, resolveSymLinks);
+    protected void registerFontsInDir(String dirNbme, boolebn useJbvbRbsterizer, int fontRbnk, boolebn defer, boolebn resolveSymLinks) {
+        lobdNbtiveDirFonts(dirNbme);
+        super.registerFontsInDir(dirNbme, useJbvbRbsterizer, fontRbnk, defer, resolveSymLinks);
     }
 
-    private native void loadNativeDirFonts(String dirName);
-    private native void loadNativeFonts();
+    privbte nbtive void lobdNbtiveDirFonts(String dirNbme);
+    privbte nbtive void lobdNbtiveFonts();
 
-    void registerFont(String fontName, String fontFamilyName) {
-        final CFont font = new CFont(fontName, fontFamilyName);
+    void registerFont(String fontNbme, String fontFbmilyNbme) {
+        finbl CFont font = new CFont(fontNbme, fontFbmilyNbme);
 
         registerGenericFont(font);
 
         if ((font.getStyle() & Font.ITALIC) == 0) {
-            registerGenericFont(font.createItalicVariant(), true);
+            registerGenericFont(font.crebteItblicVbribnt(), true);
         }
     }
 
-    Object waitForFontsToBeLoaded  = new Object();
-    public void loadFonts()
+    Object wbitForFontsToBeLobded  = new Object();
+    public void lobdFonts()
     {
-        synchronized(waitForFontsToBeLoaded)
+        synchronized(wbitForFontsToBeLobded)
         {
-            super.loadFonts();
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Object>() {
+            super.lobdFonts();
+            jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Object>() {
                     public Object run() {
-                        loadNativeFonts();
+                        lobdNbtiveFonts();
                         return null;
                     }
                 }
             );
 
-            String defaultFont = "Lucida Grande";
-            String defaultFallback = "Lucida Sans";
+            String defbultFont = "Lucidb Grbnde";
+            String defbultFbllbbck = "Lucidb Sbns";
 
-            setupLogicalFonts("Dialog", defaultFont, defaultFallback);
-            setupLogicalFonts("Serif", "Times", "Lucida Bright");
-            setupLogicalFonts("SansSerif", defaultFont, defaultFallback);
-            setupLogicalFonts("Monospaced", "Menlo", "Lucida Sans Typewriter");
-            setupLogicalFonts("DialogInput", defaultFont, defaultFallback);
+            setupLogicblFonts("Diblog", defbultFont, defbultFbllbbck);
+            setupLogicblFonts("Serif", "Times", "Lucidb Bright");
+            setupLogicblFonts("SbnsSerif", defbultFont, defbultFbllbbck);
+            setupLogicblFonts("Monospbced", "Menlo", "Lucidb Sbns Typewriter");
+            setupLogicblFonts("DiblogInput", defbultFont, defbultFbllbbck);
         }
     }
 
-    protected void setupLogicalFonts(String logicalName, String realName, String fallbackName) {
-        FontFamily realFamily = getFontFamilyWithExtraTry(logicalName, realName, fallbackName);
+    protected void setupLogicblFonts(String logicblNbme, String reblNbme, String fbllbbckNbme) {
+        FontFbmily reblFbmily = getFontFbmilyWithExtrbTry(logicblNbme, reblNbme, fbllbbckNbme);
 
-        cloneStyledFont(realFamily, logicalName, Font.PLAIN);
-        cloneStyledFont(realFamily, logicalName, Font.BOLD);
-        cloneStyledFont(realFamily, logicalName, Font.ITALIC);
-        cloneStyledFont(realFamily, logicalName, Font.BOLD | Font.ITALIC);
+        cloneStyledFont(reblFbmily, logicblNbme, Font.PLAIN);
+        cloneStyledFont(reblFbmily, logicblNbme, Font.BOLD);
+        cloneStyledFont(reblFbmily, logicblNbme, Font.ITALIC);
+        cloneStyledFont(reblFbmily, logicblNbme, Font.BOLD | Font.ITALIC);
     }
 
-    protected FontFamily getFontFamilyWithExtraTry(String logicalName, String realName, String fallbackName){
-        FontFamily family = getFontFamily(realName, fallbackName);
-        if (family != null) return family;
+    protected FontFbmily getFontFbmilyWithExtrbTry(String logicblNbme, String reblNbme, String fbllbbckNbme){
+        FontFbmily fbmily = getFontFbmily(reblNbme, fbllbbckNbme);
+        if (fbmily != null) return fbmily;
 
-        // at this point, we recognize that we probably needed a fallback font
-        super.loadFonts();
+        // bt this point, we recognize thbt we probbbly needed b fbllbbck font
+        super.lobdFonts();
 
-        family = getFontFamily(realName, fallbackName);
-        if (family != null) return family;
+        fbmily = getFontFbmily(reblNbme, fbllbbckNbme);
+        if (fbmily != null) return fbmily;
 
-        System.err.println("Warning: the fonts \"" + realName + "\" and \"" + fallbackName + "\" are not available for the Java logical font \"" + logicalName + "\", which may have unexpected appearance or behavior. Re-enable the \""+ realName +"\" font to remove this warning.");
+        System.err.println("Wbrning: the fonts \"" + reblNbme + "\" bnd \"" + fbllbbckNbme + "\" bre not bvbilbble for the Jbvb logicbl font \"" + logicblNbme + "\", which mby hbve unexpected bppebrbnce or behbvior. Re-enbble the \""+ reblNbme +"\" font to remove this wbrning.");
         return null;
     }
 
-    protected FontFamily getFontFamily(String realName, String fallbackName){
-        FontFamily family = FontFamily.getFamily(realName);
-        if (family != null) return family;
+    protected FontFbmily getFontFbmily(String reblNbme, String fbllbbckNbme){
+        FontFbmily fbmily = FontFbmily.getFbmily(reblNbme);
+        if (fbmily != null) return fbmily;
 
-        family = FontFamily.getFamily(fallbackName);
-        if (family != null){
-            System.err.println("Warning: the font \"" + realName + "\" is not available, so \"" + fallbackName + "\" has been substituted, but may have unexpected appearance or behavor. Re-enable the \""+ realName +"\" font to remove this warning.");
-            return family;
+        fbmily = FontFbmily.getFbmily(fbllbbckNbme);
+        if (fbmily != null){
+            System.err.println("Wbrning: the font \"" + reblNbme + "\" is not bvbilbble, so \"" + fbllbbckNbme + "\" hbs been substituted, but mby hbve unexpected bppebrbnce or behbvor. Re-enbble the \""+ reblNbme +"\" font to remove this wbrning.");
+            return fbmily;
         }
 
         return null;
     }
 
-    protected boolean cloneStyledFont(FontFamily realFamily, String logicalFamilyName, int style) {
-        if (realFamily == null) return false;
+    protected boolebn cloneStyledFont(FontFbmily reblFbmily, String logicblFbmilyNbme, int style) {
+        if (reblFbmily == null) return fblse;
 
-        Font2D realFont = realFamily.getFontWithExactStyleMatch(style);
-        if (realFont == null || !(realFont instanceof CFont)) return false;
+        Font2D reblFont = reblFbmily.getFontWithExbctStyleMbtch(style);
+        if (reblFont == null || !(reblFont instbnceof CFont)) return fblse;
 
-        CFont newFont = new CFont((CFont)realFont, logicalFamilyName);
+        CFont newFont = new CFont((CFont)reblFont, logicblFbmilyNbme);
         registerGenericFont(newFont, true);
 
         return true;
     }
 
     @Override
-    public String getFontPath(boolean noType1Fonts) {
-        // In the case of the Cocoa toolkit, since we go through NSFont, we don't need to register /Library/Fonts
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        if (tk instanceof HeadlessToolkit) {
-            tk = ((HeadlessToolkit)tk).getUnderlyingToolkit();
+    public String getFontPbth(boolebn noType1Fonts) {
+        // In the cbse of the Cocob toolkit, since we go through NSFont, we don't need to register /Librbry/Fonts
+        Toolkit tk = Toolkit.getDefbultToolkit();
+        if (tk instbnceof HebdlessToolkit) {
+            tk = ((HebdlessToolkit)tk).getUnderlyingToolkit();
         }
-        if (tk instanceof LWCToolkit) {
+        if (tk instbnceof LWCToolkit) {
             return "";
         }
 
-        // X11 case
-        return "/Library/Fonts";
+        // X11 cbse
+        return "/Librbry/Fonts";
     }
 
     @Override
     protected FontUIResource getFontConfigFUIR(
-            String family, int style, int size)
+            String fbmily, int style, int size)
     {
-        String mappedName = FontUtilities.mapFcName(family);
-        if (mappedName == null) {
-            mappedName = "sansserif";
+        String mbppedNbme = FontUtilities.mbpFcNbme(fbmily);
+        if (mbppedNbme == null) {
+            mbppedNbme = "sbnsserif";
         }
-        return new FontUIResource(mappedName, style, size);
+        return new FontUIResource(mbppedNbme, style, size);
     }
 
     // Only implemented on Windows
     @Override
-    protected void populateFontFileNameMap(HashMap<String, String> fontToFileMap, HashMap<String, String> fontToFamilyNameMap,
-            HashMap<String, ArrayList<String>> familyToFontListMap, Locale locale) {}
+    protected void populbteFontFileNbmeMbp(HbshMbp<String, String> fontToFileMbp, HbshMbp<String, String> fontToFbmilyNbmeMbp,
+            HbshMbp<String, ArrbyList<String>> fbmilyToFontListMbp, Locble locble) {}
 }

@@ -1,300 +1,300 @@
 /*
- * Copyright (c) 1999, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.naming.directory;
+pbckbge jbvbx.nbming.directory;
 
-import java.util.Hashtable;
-import javax.naming.spi.NamingManager;
-import javax.naming.*;
+import jbvb.util.Hbshtbble;
+import jbvbx.nbming.spi.NbmingMbnbger;
+import jbvbx.nbming.*;
 
 /**
- * This class is the starting context for performing
- * directory operations. The documentation in the class description
- * of InitialContext (including those for synchronization) apply here.
+ * This clbss is the stbrting context for performing
+ * directory operbtions. The documentbtion in the clbss description
+ * of InitiblContext (including those for synchronizbtion) bpply here.
  *
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
  *
- * @see javax.naming.InitialContext
+ * @see jbvbx.nbming.InitiblContext
  * @since 1.3
  */
 
-public class InitialDirContext extends InitialContext implements DirContext {
+public clbss InitiblDirContext extends InitiblContext implements DirContext {
 
     /**
-     * Constructs an initial DirContext with the option of not
-     * initializing it.  This may be used by a constructor in
-     * a subclass when the value of the environment parameter
-     * is not yet known at the time the <tt>InitialDirContext</tt>
-     * constructor is called.  The subclass's constructor will
-     * call this constructor, compute the value of the environment,
-     * and then call <tt>init()</tt> before returning.
+     * Constructs bn initibl DirContext with the option of not
+     * initiblizing it.  This mby be used by b constructor in
+     * b subclbss when the vblue of the environment pbrbmeter
+     * is not yet known bt the time the <tt>InitiblDirContext</tt>
+     * constructor is cblled.  The subclbss's constructor will
+     * cbll this constructor, compute the vblue of the environment,
+     * bnd then cbll <tt>init()</tt> before returning.
      *
-     * @param lazy
-     *          true means do not initialize the initial DirContext; false
-     *          is equivalent to calling <tt>new InitialDirContext()</tt>
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm lbzy
+     *          true mebns do not initiblize the initibl DirContext; fblse
+     *          is equivblent to cblling <tt>new InitiblDirContext()</tt>
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see InitialContext#init(Hashtable)
+     * @see InitiblContext#init(Hbshtbble)
      * @since 1.3
      */
-    protected InitialDirContext(boolean lazy) throws NamingException {
-        super(lazy);
+    protected InitiblDirContext(boolebn lbzy) throws NbmingException {
+        super(lbzy);
     }
 
     /**
-     * Constructs an initial DirContext.
-     * No environment properties are supplied.
-     * Equivalent to <tt>new InitialDirContext(null)</tt>.
+     * Constructs bn initibl DirContext.
+     * No environment properties bre supplied.
+     * Equivblent to <tt>new InitiblDirContext(null)</tt>.
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #InitialDirContext(Hashtable)
+     * @see #InitiblDirContext(Hbshtbble)
      */
-    public InitialDirContext() throws NamingException {
+    public InitiblDirContext() throws NbmingException {
         super();
     }
 
     /**
-     * Constructs an initial DirContext using the supplied environment.
-     * Environment properties are discussed in the
-     * <tt>javax.naming.InitialContext</tt> class description.
+     * Constructs bn initibl DirContext using the supplied environment.
+     * Environment properties bre discussed in the
+     * <tt>jbvbx.nbming.InitiblContext</tt> clbss description.
      *
      * <p> This constructor will not modify <tt>environment</tt>
-     * or save a reference to it, but may save a clone.
-     * Caller should not modify mutable keys and values in
-     * <tt>environment</tt> after it has been passed to the constructor.
+     * or sbve b reference to it, but mby sbve b clone.
+     * Cbller should not modify mutbble keys bnd vblues in
+     * <tt>environment</tt> bfter it hbs been pbssed to the constructor.
      *
-     * @param environment
-     *          environment used to create the initial DirContext.
-     *          Null indicates an empty environment.
+     * @pbrbm environment
+     *          environment used to crebte the initibl DirContext.
+     *          Null indicbtes bn empty environment.
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public InitialDirContext(Hashtable<?,?> environment)
-        throws NamingException
+    public InitiblDirContext(Hbshtbble<?,?> environment)
+        throws NbmingException
     {
         super(environment);
     }
 
-    private DirContext getURLOrDefaultInitDirCtx(String name)
-            throws NamingException {
-        Context answer = getURLOrDefaultInitCtx(name);
-        if (!(answer instanceof DirContext)) {
-            if (answer == null) {
-                throw new NoInitialContextException();
+    privbte DirContext getURLOrDefbultInitDirCtx(String nbme)
+            throws NbmingException {
+        Context bnswer = getURLOrDefbultInitCtx(nbme);
+        if (!(bnswer instbnceof DirContext)) {
+            if (bnswer == null) {
+                throw new NoInitiblContextException();
             } else {
                 throw new NotContextException(
-                    "Not an instance of DirContext");
+                    "Not bn instbnce of DirContext");
             }
         }
-        return (DirContext)answer;
+        return (DirContext)bnswer;
     }
 
-    private DirContext getURLOrDefaultInitDirCtx(Name name)
-            throws NamingException {
-        Context answer = getURLOrDefaultInitCtx(name);
-        if (!(answer instanceof DirContext)) {
-            if (answer == null) {
-                throw new NoInitialContextException();
+    privbte DirContext getURLOrDefbultInitDirCtx(Nbme nbme)
+            throws NbmingException {
+        Context bnswer = getURLOrDefbultInitCtx(nbme);
+        if (!(bnswer instbnceof DirContext)) {
+            if (bnswer == null) {
+                throw new NoInitiblContextException();
             } else {
                 throw new NotContextException(
-                    "Not an instance of DirContext");
+                    "Not bn instbnce of DirContext");
             }
         }
-        return (DirContext)answer;
+        return (DirContext)bnswer;
     }
 
 // DirContext methods
-// Most Javadoc is deferred to the DirContext interface.
+// Most Jbvbdoc is deferred to the DirContext interfbce.
 
-    public Attributes getAttributes(String name)
-            throws NamingException {
-        return getAttributes(name, null);
+    public Attributes getAttributes(String nbme)
+            throws NbmingException {
+        return getAttributes(nbme, null);
     }
 
-    public Attributes getAttributes(String name, String[] attrIds)
-            throws NamingException {
-        return getURLOrDefaultInitDirCtx(name).getAttributes(name, attrIds);
+    public Attributes getAttributes(String nbme, String[] bttrIds)
+            throws NbmingException {
+        return getURLOrDefbultInitDirCtx(nbme).getAttributes(nbme, bttrIds);
     }
 
-    public Attributes getAttributes(Name name)
-            throws NamingException {
-        return getAttributes(name, null);
+    public Attributes getAttributes(Nbme nbme)
+            throws NbmingException {
+        return getAttributes(nbme, null);
     }
 
-    public Attributes getAttributes(Name name, String[] attrIds)
-            throws NamingException {
-        return getURLOrDefaultInitDirCtx(name).getAttributes(name, attrIds);
+    public Attributes getAttributes(Nbme nbme, String[] bttrIds)
+            throws NbmingException {
+        return getURLOrDefbultInitDirCtx(nbme).getAttributes(nbme, bttrIds);
     }
 
-    public void modifyAttributes(String name, int mod_op, Attributes attrs)
-            throws NamingException {
-        getURLOrDefaultInitDirCtx(name).modifyAttributes(name, mod_op, attrs);
+    public void modifyAttributes(String nbme, int mod_op, Attributes bttrs)
+            throws NbmingException {
+        getURLOrDefbultInitDirCtx(nbme).modifyAttributes(nbme, mod_op, bttrs);
     }
 
-    public void modifyAttributes(Name name, int mod_op, Attributes attrs)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).modifyAttributes(name, mod_op, attrs);
+    public void modifyAttributes(Nbme nbme, int mod_op, Attributes bttrs)
+            throws NbmingException  {
+        getURLOrDefbultInitDirCtx(nbme).modifyAttributes(nbme, mod_op, bttrs);
     }
 
-    public void modifyAttributes(String name, ModificationItem[] mods)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).modifyAttributes(name, mods);
+    public void modifyAttributes(String nbme, ModificbtionItem[] mods)
+            throws NbmingException  {
+        getURLOrDefbultInitDirCtx(nbme).modifyAttributes(nbme, mods);
     }
 
-    public void modifyAttributes(Name name, ModificationItem[] mods)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).modifyAttributes(name, mods);
+    public void modifyAttributes(Nbme nbme, ModificbtionItem[] mods)
+            throws NbmingException  {
+        getURLOrDefbultInitDirCtx(nbme).modifyAttributes(nbme, mods);
     }
 
-    public void bind(String name, Object obj, Attributes attrs)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).bind(name, obj, attrs);
+    public void bind(String nbme, Object obj, Attributes bttrs)
+            throws NbmingException  {
+        getURLOrDefbultInitDirCtx(nbme).bind(nbme, obj, bttrs);
     }
 
-    public void bind(Name name, Object obj, Attributes attrs)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).bind(name, obj, attrs);
+    public void bind(Nbme nbme, Object obj, Attributes bttrs)
+            throws NbmingException  {
+        getURLOrDefbultInitDirCtx(nbme).bind(nbme, obj, bttrs);
     }
 
-    public void rebind(String name, Object obj, Attributes attrs)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).rebind(name, obj, attrs);
+    public void rebind(String nbme, Object obj, Attributes bttrs)
+            throws NbmingException  {
+        getURLOrDefbultInitDirCtx(nbme).rebind(nbme, obj, bttrs);
     }
 
-    public void rebind(Name name, Object obj, Attributes attrs)
-            throws NamingException  {
-        getURLOrDefaultInitDirCtx(name).rebind(name, obj, attrs);
+    public void rebind(Nbme nbme, Object obj, Attributes bttrs)
+            throws NbmingException  {
+        getURLOrDefbultInitDirCtx(nbme).rebind(nbme, obj, bttrs);
     }
 
-    public DirContext createSubcontext(String name, Attributes attrs)
-            throws NamingException  {
-        return getURLOrDefaultInitDirCtx(name).createSubcontext(name, attrs);
+    public DirContext crebteSubcontext(String nbme, Attributes bttrs)
+            throws NbmingException  {
+        return getURLOrDefbultInitDirCtx(nbme).crebteSubcontext(nbme, bttrs);
     }
 
-    public DirContext createSubcontext(Name name, Attributes attrs)
-            throws NamingException  {
-        return getURLOrDefaultInitDirCtx(name).createSubcontext(name, attrs);
+    public DirContext crebteSubcontext(Nbme nbme, Attributes bttrs)
+            throws NbmingException  {
+        return getURLOrDefbultInitDirCtx(nbme).crebteSubcontext(nbme, bttrs);
     }
 
-    public DirContext getSchema(String name) throws NamingException {
-        return getURLOrDefaultInitDirCtx(name).getSchema(name);
+    public DirContext getSchemb(String nbme) throws NbmingException {
+        return getURLOrDefbultInitDirCtx(nbme).getSchemb(nbme);
     }
 
-    public DirContext getSchema(Name name) throws NamingException {
-        return getURLOrDefaultInitDirCtx(name).getSchema(name);
+    public DirContext getSchemb(Nbme nbme) throws NbmingException {
+        return getURLOrDefbultInitDirCtx(nbme).getSchemb(nbme);
     }
 
-    public DirContext getSchemaClassDefinition(String name)
-            throws NamingException {
-        return getURLOrDefaultInitDirCtx(name).getSchemaClassDefinition(name);
+    public DirContext getSchembClbssDefinition(String nbme)
+            throws NbmingException {
+        return getURLOrDefbultInitDirCtx(nbme).getSchembClbssDefinition(nbme);
     }
 
-    public DirContext getSchemaClassDefinition(Name name)
-            throws NamingException {
-        return getURLOrDefaultInitDirCtx(name).getSchemaClassDefinition(name);
+    public DirContext getSchembClbssDefinition(Nbme nbme)
+            throws NbmingException {
+        return getURLOrDefbultInitDirCtx(nbme).getSchembClbssDefinition(nbme);
     }
 
-// -------------------- search operations
+// -------------------- sebrch operbtions
 
-    public NamingEnumeration<SearchResult>
-        search(String name, Attributes matchingAttributes)
-        throws NamingException
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(String nbme, Attributes mbtchingAttributes)
+        throws NbmingException
     {
-        return getURLOrDefaultInitDirCtx(name).search(name, matchingAttributes);
+        return getURLOrDefbultInitDirCtx(nbme).sebrch(nbme, mbtchingAttributes);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name, Attributes matchingAttributes)
-        throws NamingException
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(Nbme nbme, Attributes mbtchingAttributes)
+        throws NbmingException
     {
-        return getURLOrDefaultInitDirCtx(name).search(name, matchingAttributes);
+        return getURLOrDefbultInitDirCtx(nbme).sebrch(nbme, mbtchingAttributes);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name,
-               Attributes matchingAttributes,
-               String[] attributesToReturn)
-        throws NamingException
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(String nbme,
+               Attributes mbtchingAttributes,
+               String[] bttributesToReturn)
+        throws NbmingException
     {
-        return getURLOrDefaultInitDirCtx(name).search(name,
-                                                      matchingAttributes,
-                                                      attributesToReturn);
+        return getURLOrDefbultInitDirCtx(nbme).sebrch(nbme,
+                                                      mbtchingAttributes,
+                                                      bttributesToReturn);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name,
-               Attributes matchingAttributes,
-               String[] attributesToReturn)
-        throws NamingException
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(Nbme nbme,
+               Attributes mbtchingAttributes,
+               String[] bttributesToReturn)
+        throws NbmingException
     {
-        return getURLOrDefaultInitDirCtx(name).search(name,
-                                            matchingAttributes,
-                                            attributesToReturn);
+        return getURLOrDefbultInitDirCtx(nbme).sebrch(nbme,
+                                            mbtchingAttributes,
+                                            bttributesToReturn);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name,
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(String nbme,
                String filter,
-               SearchControls cons)
-        throws NamingException
+               SebrchControls cons)
+        throws NbmingException
     {
-        return getURLOrDefaultInitDirCtx(name).search(name, filter, cons);
+        return getURLOrDefbultInitDirCtx(nbme).sebrch(nbme, filter, cons);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name,
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(Nbme nbme,
                String filter,
-               SearchControls cons)
-        throws NamingException
+               SebrchControls cons)
+        throws NbmingException
     {
-        return getURLOrDefaultInitDirCtx(name).search(name, filter, cons);
+        return getURLOrDefbultInitDirCtx(nbme).sebrch(nbme, filter, cons);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name,
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(String nbme,
                String filterExpr,
                Object[] filterArgs,
-               SearchControls cons)
-        throws NamingException
+               SebrchControls cons)
+        throws NbmingException
     {
-        return getURLOrDefaultInitDirCtx(name).search(name, filterExpr,
+        return getURLOrDefbultInitDirCtx(nbme).sebrch(nbme, filterExpr,
                                                       filterArgs, cons);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name,
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(Nbme nbme,
                String filterExpr,
                Object[] filterArgs,
-               SearchControls cons)
-        throws NamingException
+               SebrchControls cons)
+        throws NbmingException
     {
-        return getURLOrDefaultInitDirCtx(name).search(name, filterExpr,
+        return getURLOrDefbultInitDirCtx(nbme).sebrch(nbme, filterExpr,
                                                       filterArgs, cons);
     }
 }

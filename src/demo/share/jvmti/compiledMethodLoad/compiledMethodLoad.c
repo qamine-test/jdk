@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,11 +30,11 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
@@ -46,95 +46,95 @@
 #include "jvmti.h"
 #include "jvmticmlr.h"
 
-#include "agent_util.h"
+#include "bgent_util.h"
 
-/* Global static data */
-static char          OUTPUT_FILE[] = "compiledMethodLoad.txt";
-static FILE         *fp;
-static jvmtiEnv     *jvmti;
-static jrawMonitorID lock;
+/* Globbl stbtic dbtb */
+stbtic chbr          OUTPUT_FILE[] = "compiledMethodLobd.txt";
+stbtic FILE         *fp;
+stbtic jvmtiEnv     *jvmti;
+stbtic jrbwMonitorID lock;
 
-/* print a jvmtiCompiledMethodLoadDummyRecord */
+/* print b jvmtiCompiledMethodLobdDummyRecord */
 void
-print_dummy_record(jvmtiCompiledMethodLoadDummyRecord* record,
+print_dummy_record(jvmtiCompiledMethodLobdDummyRecord* record,
     jvmtiEnv* jvmti, FILE* fp) {
 
     if (record != NULL) {
-        fprintf(fp, "Dummy record detected containing message: %s\n",
-            (char *)record->message);
+        fprintf(fp, "Dummy record detected contbining messbge: %s\n",
+            (chbr *)record->messbge);
     }
 }
 
-/* print the specified stack frames */
+/* print the specified stbck frbmes */
 void
-print_stack_frames(PCStackInfo* record, jvmtiEnv *jvmti, FILE* fp) {
+print_stbck_frbmes(PCStbckInfo* record, jvmtiEnv *jvmti, FILE* fp) {
     if (record != NULL && record->methods != NULL) {
         int i;
 
-        for (i = 0; i < record->numstackframes; i++) {
+        for (i = 0; i < record->numstbckfrbmes; i++) {
             jvmtiError err;
-            char* method_name = NULL;
-            char* class_name = NULL;
-            char* method_signature = NULL;
-            char* class_signature = NULL;
-            char* generic_ptr_method = NULL;
-            char* generic_ptr_class = NULL;
+            chbr* method_nbme = NULL;
+            chbr* clbss_nbme = NULL;
+            chbr* method_signbture = NULL;
+            chbr* clbss_signbture = NULL;
+            chbr* generic_ptr_method = NULL;
+            chbr* generic_ptr_clbss = NULL;
             jmethodID id;
-            jclass declaringclassptr;
+            jclbss declbringclbssptr;
             id = record->methods[i];
 
-            err = (*jvmti)->GetMethodDeclaringClass(jvmti, id,
-                      &declaringclassptr);
-            check_jvmti_error(jvmti, err, "get method declaring class");
+            err = (*jvmti)->GetMethodDeclbringClbss(jvmti, id,
+                      &declbringclbssptr);
+            check_jvmti_error(jvmti, err, "get method declbring clbss");
 
-            err = (*jvmti)->GetClassSignature(jvmti, declaringclassptr,
-                      &class_signature, &generic_ptr_class);
-            check_jvmti_error(jvmti, err, "get class signature");
+            err = (*jvmti)->GetClbssSignbture(jvmti, declbringclbssptr,
+                      &clbss_signbture, &generic_ptr_clbss);
+            check_jvmti_error(jvmti, err, "get clbss signbture");
 
-            err = (*jvmti)->GetMethodName(jvmti, id, &method_name,
-                      &method_signature, &generic_ptr_method);
-            check_jvmti_error(jvmti, err, "get method name");
+            err = (*jvmti)->GetMethodNbme(jvmti, id, &method_nbme,
+                      &method_signbture, &generic_ptr_method);
+            check_jvmti_error(jvmti, err, "get method nbme");
 
-            fprintf(fp, "%s::%s %s %s @%d\n", class_signature, method_name,
-                method_signature,
+            fprintf(fp, "%s::%s %s %s @%d\n", clbss_signbture, method_nbme,
+                method_signbture,
                 generic_ptr_method == NULL ? "" : generic_ptr_method,
                 record->bcis[i]);
 
-            if (method_name != NULL) {
-                err = (*jvmti)->Deallocate(jvmti, (unsigned char*)method_name);
-                check_jvmti_error(jvmti, err, "deallocate method_name");
+            if (method_nbme != NULL) {
+                err = (*jvmti)->Debllocbte(jvmti, (unsigned chbr*)method_nbme);
+                check_jvmti_error(jvmti, err, "debllocbte method_nbme");
             }
-            if (method_signature != NULL) {
-                err = (*jvmti)->Deallocate(jvmti,
-                          (unsigned char*)method_signature);
-                check_jvmti_error(jvmti, err, "deallocate method_signature");
+            if (method_signbture != NULL) {
+                err = (*jvmti)->Debllocbte(jvmti,
+                          (unsigned chbr*)method_signbture);
+                check_jvmti_error(jvmti, err, "debllocbte method_signbture");
             }
             if (generic_ptr_method != NULL) {
-                err = (*jvmti)->Deallocate(jvmti,
-                          (unsigned char*)generic_ptr_method);
-                check_jvmti_error(jvmti, err, "deallocate generic_ptr_method");
+                err = (*jvmti)->Debllocbte(jvmti,
+                          (unsigned chbr*)generic_ptr_method);
+                check_jvmti_error(jvmti, err, "debllocbte generic_ptr_method");
             }
-            if (class_name != NULL) {
-                err = (*jvmti)->Deallocate(jvmti, (unsigned char*)class_name);
-                check_jvmti_error(jvmti, err, "deallocate class_name");
+            if (clbss_nbme != NULL) {
+                err = (*jvmti)->Debllocbte(jvmti, (unsigned chbr*)clbss_nbme);
+                check_jvmti_error(jvmti, err, "debllocbte clbss_nbme");
             }
-            if (class_signature != NULL) {
-                err = (*jvmti)->Deallocate(jvmti,
-                          (unsigned char*)class_signature);
-                check_jvmti_error(jvmti, err, "deallocate class_signature");
+            if (clbss_signbture != NULL) {
+                err = (*jvmti)->Debllocbte(jvmti,
+                          (unsigned chbr*)clbss_signbture);
+                check_jvmti_error(jvmti, err, "debllocbte clbss_signbture");
             }
-            if (generic_ptr_class != NULL) {
-                err = (*jvmti)->Deallocate(jvmti,
-                          (unsigned char*)generic_ptr_class);
-                check_jvmti_error(jvmti, err, "deallocate generic_ptr_class");
+            if (generic_ptr_clbss != NULL) {
+                err = (*jvmti)->Debllocbte(jvmti,
+                          (unsigned chbr*)generic_ptr_clbss);
+                check_jvmti_error(jvmti, err, "debllocbte generic_ptr_clbss");
             }
         }
     }
 }
 
-/* print a jvmtiCompiledMethodLoadInlineRecord */
+/* print b jvmtiCompiledMethodLobdInlineRecord */
 void
-print_inline_info_record(jvmtiCompiledMethodLoadInlineRecord* record,
+print_inline_info_record(jvmtiCompiledMethodLobdInlineRecord* record,
     jvmtiEnv *jvmti, FILE* fp) {
 
     if (record != NULL && record->pcinfo != NULL) {
@@ -142,136 +142,136 @@ print_inline_info_record(jvmtiCompiledMethodLoadInlineRecord* record,
         int i;
 
         for (i = 0; i < numpcs; i++) {
-            PCStackInfo pcrecord = (record->pcinfo[i]);
+            PCStbckInfo pcrecord = (record->pcinfo[i]);
             fprintf(fp, "PcDescriptor(pc=0x%lx):\n", (jint)(pcrecord.pc));
-            print_stack_frames(&pcrecord, jvmti, fp);
+            print_stbck_frbmes(&pcrecord, jvmti, fp);
         }
     }
 }
 
-/* decode kind of CompiledMethodLoadRecord and print */
+/* decode kind of CompiledMethodLobdRecord bnd print */
 void
-print_records(jvmtiCompiledMethodLoadRecordHeader* list, jvmtiEnv *jvmti,
+print_records(jvmtiCompiledMethodLobdRecordHebder* list, jvmtiEnv *jvmti,
     FILE* fp)
 {
-    jvmtiCompiledMethodLoadRecordHeader* curr = list;
+    jvmtiCompiledMethodLobdRecordHebder* curr = list;
     fprintf(fp, "\nPrinting PC Descriptors\n\n");
     while (curr != NULL) {
         switch (curr->kind) {
-        case JVMTI_CMLR_DUMMY:
-            print_dummy_record((jvmtiCompiledMethodLoadDummyRecord *)curr,
+        cbse JVMTI_CMLR_DUMMY:
+            print_dummy_record((jvmtiCompiledMethodLobdDummyRecord *)curr,
                 jvmti, fp);
-            break;
+            brebk;
 
-        case JVMTI_CMLR_INLINE_INFO:
+        cbse JVMTI_CMLR_INLINE_INFO:
             print_inline_info_record(
-                (jvmtiCompiledMethodLoadInlineRecord *)curr, jvmti, fp);
-            break;
+                (jvmtiCompiledMethodLobdInlineRecord *)curr, jvmti, fp);
+            brebk;
 
-        default:
-            fprintf(fp, "Warning: unrecognized record: kind=%d\n", curr->kind);
-            break;
+        defbult:
+            fprintf(fp, "Wbrning: unrecognized record: kind=%d\n", curr->kind);
+            brebk;
         }
 
-        curr = (jvmtiCompiledMethodLoadRecordHeader *)curr->next;
+        curr = (jvmtiCompiledMethodLobdRecordHebder *)curr->next;
     }
 }
 
-/* Callback for JVMTI_EVENT_COMPILED_METHOD_LOAD */
+/* Cbllbbck for JVMTI_EVENT_COMPILED_METHOD_LOAD */
 void JNICALL
-compiled_method_load(jvmtiEnv *jvmti, jmethodID method, jint code_size,
-    const void* code_addr, jint map_length, const jvmtiAddrLocationMap* map,
+compiled_method_lobd(jvmtiEnv *jvmti, jmethodID method, jint code_size,
+    const void* code_bddr, jint mbp_length, const jvmtiAddrLocbtionMbp* mbp,
     const void* compile_info)
 {
     jvmtiError err;
-    char* name = NULL;
-    char* signature = NULL;
-    char* generic_ptr = NULL;
-    jvmtiCompiledMethodLoadRecordHeader* pcs;
+    chbr* nbme = NULL;
+    chbr* signbture = NULL;
+    chbr* generic_ptr = NULL;
+    jvmtiCompiledMethodLobdRecordHebder* pcs;
 
-    err = (*jvmti)->RawMonitorEnter(jvmti, lock);
-    check_jvmti_error(jvmti, err, "raw monitor enter");
+    err = (*jvmti)->RbwMonitorEnter(jvmti, lock);
+    check_jvmti_error(jvmti, err, "rbw monitor enter");
 
-    err = (*jvmti)->GetMethodName(jvmti, method, &name, &signature,
+    err = (*jvmti)->GetMethodNbme(jvmti, method, &nbme, &signbture,
               &generic_ptr);
-    check_jvmti_error(jvmti, err, "get method name");
+    check_jvmti_error(jvmti, err, "get method nbme");
 
-    fprintf(fp, "\nCompiled method load event\n");
-    fprintf(fp, "Method name %s %s %s\n\n", name, signature,
+    fprintf(fp, "\nCompiled method lobd event\n");
+    fprintf(fp, "Method nbme %s %s %s\n\n", nbme, signbture,
         generic_ptr == NULL ? "" : generic_ptr);
-    pcs = (jvmtiCompiledMethodLoadRecordHeader *)compile_info;
+    pcs = (jvmtiCompiledMethodLobdRecordHebder *)compile_info;
     if (pcs != NULL) {
         print_records(pcs, jvmti, fp);
     }
 
-    if (name != NULL) {
-        err = (*jvmti)->Deallocate(jvmti, (unsigned char*)name);
-        check_jvmti_error(jvmti, err, "deallocate name");
+    if (nbme != NULL) {
+        err = (*jvmti)->Debllocbte(jvmti, (unsigned chbr*)nbme);
+        check_jvmti_error(jvmti, err, "debllocbte nbme");
     }
-    if (signature != NULL) {
-        err = (*jvmti)->Deallocate(jvmti, (unsigned char*)signature);
-        check_jvmti_error(jvmti, err, "deallocate signature");
+    if (signbture != NULL) {
+        err = (*jvmti)->Debllocbte(jvmti, (unsigned chbr*)signbture);
+        check_jvmti_error(jvmti, err, "debllocbte signbture");
     }
     if (generic_ptr != NULL) {
-        err = (*jvmti)->Deallocate(jvmti, (unsigned char*)generic_ptr);
-        check_jvmti_error(jvmti, err, "deallocate generic_ptr");
+        err = (*jvmti)->Debllocbte(jvmti, (unsigned chbr*)generic_ptr);
+        check_jvmti_error(jvmti, err, "debllocbte generic_ptr");
     }
 
-    err = (*jvmti)->RawMonitorExit(jvmti, lock);
-    check_jvmti_error(jvmti, err, "raw monitor exit");
+    err = (*jvmti)->RbwMonitorExit(jvmti, lock);
+    check_jvmti_error(jvmti, err, "rbw monitor exit");
 }
 
-/* Agent_OnLoad() is called first, we prepare for a COMPILED_METHOD_LOAD
+/* Agent_OnLobd() is cblled first, we prepbre for b COMPILED_METHOD_LOAD
  * event here.
  */
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
+Agent_OnLobd(JbvbVM *vm, chbr *options, void *reserved)
 {
     jint                rc;
     jvmtiError          err;
-    jvmtiCapabilities   capabilities;
-    jvmtiEventCallbacks callbacks;
+    jvmtiCbpbbilities   cbpbbilities;
+    jvmtiEventCbllbbcks cbllbbcks;
 
     fp = fopen(OUTPUT_FILE, "w");
     if (fp == NULL) {
-        fatal_error("ERROR: %s: Unable to create output file\n", OUTPUT_FILE);
+        fbtbl_error("ERROR: %s: Unbble to crebte output file\n", OUTPUT_FILE);
         return -1;
     }
 
     /* Get JVMTI environment */
     rc = (*vm)->GetEnv(vm, (void **)&jvmti, JVMTI_VERSION);
     if (rc != JNI_OK) {
-        fatal_error(
-            "ERROR: Unable to create jvmtiEnv, GetEnv failed, error=%d\n", rc);
+        fbtbl_error(
+            "ERROR: Unbble to crebte jvmtiEnv, GetEnv fbiled, error=%d\n", rc);
         return -1;
     }
 
-    /* add JVMTI capabilities */
-    memset(&capabilities,0, sizeof(capabilities));
-    capabilities.can_generate_compiled_method_load_events = 1;
-    err = (*jvmti)->AddCapabilities(jvmti, &capabilities);
-    check_jvmti_error(jvmti, err, "add capabilities");
+    /* bdd JVMTI cbpbbilities */
+    memset(&cbpbbilities,0, sizeof(cbpbbilities));
+    cbpbbilities.cbn_generbte_compiled_method_lobd_events = 1;
+    err = (*jvmti)->AddCbpbbilities(jvmti, &cbpbbilities);
+    check_jvmti_error(jvmti, err, "bdd cbpbbilities");
 
-    /* set JVMTI callbacks for events */
-    memset(&callbacks, 0, sizeof(callbacks));
-    callbacks.CompiledMethodLoad = &compiled_method_load;
-    err = (*jvmti)->SetEventCallbacks(jvmti, &callbacks, sizeof(callbacks));
-    check_jvmti_error(jvmti, err, "set event callbacks");
+    /* set JVMTI cbllbbcks for events */
+    memset(&cbllbbcks, 0, sizeof(cbllbbcks));
+    cbllbbcks.CompiledMethodLobd = &compiled_method_lobd;
+    err = (*jvmti)->SetEventCbllbbcks(jvmti, &cbllbbcks, sizeof(cbllbbcks));
+    check_jvmti_error(jvmti, err, "set event cbllbbcks");
 
-    /* enable JVMTI events */
-    err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
+    /* enbble JVMTI events */
+    err = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_ENABLE,
                         JVMTI_EVENT_COMPILED_METHOD_LOAD, NULL);
     check_jvmti_error(jvmti, err, "set event notify");
 
-    /* create coordination monitor */
-    err = (*jvmti)->CreateRawMonitor(jvmti, "agent lock", &lock);
-    check_jvmti_error(jvmti, err, "create raw monitor");
+    /* crebte coordinbtion monitor */
+    err = (*jvmti)->CrebteRbwMonitor(jvmti, "bgent lock", &lock);
+    check_jvmti_error(jvmti, err, "crebte rbw monitor");
 
     return 0;
 }
 
-/* Agent_OnUnload() is called last */
+/* Agent_OnUnlobd() is cblled lbst */
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm)
+Agent_OnUnlobd(JbvbVM *vm)
 {
 }

@@ -1,194 +1,194 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.internal;
+pbckbge com.sun.jmx.remote.internbl;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import com.sun.jmx.remote.util.ClassLogger;
+import com.sun.jmx.remote.util.ClbssLogger;
 
-public abstract class ServerCommunicatorAdmin {
-    public ServerCommunicatorAdmin(long timeout) {
-        if (logger.traceOn()) {
-            logger.trace("Constructor",
-                         "Creates a new ServerCommunicatorAdmin object "+
+public bbstrbct clbss ServerCommunicbtorAdmin {
+    public ServerCommunicbtorAdmin(long timeout) {
+        if (logger.trbceOn()) {
+            logger.trbce("Constructor",
+                         "Crebtes b new ServerCommunicbtorAdmin object "+
                          "with the timeout "+timeout);
         }
 
         this.timeout = timeout;
 
-        timestamp = 0;
+        timestbmp = 0;
         if (timeout < Long.MAX_VALUE) {
-            Runnable timeoutTask = new Timeout();
-            final Thread t = new Thread(timeoutTask);
-            t.setName("JMX server connection timeout " + t.getId());
-            // If you change this name you will need to change a unit test
+            Runnbble timeoutTbsk = new Timeout();
+            finbl Threbd t = new Threbd(timeoutTbsk);
+            t.setNbme("JMX server connection timeout " + t.getId());
+            // If you chbnge this nbme you will need to chbnge b unit test
             // (NoServerTimeoutTest)
-            t.setDaemon(true);
-            t.start();
+            t.setDbemon(true);
+            t.stbrt();
         }
     }
 
     /**
-     * Tells that a new request message is received.
-     * A caller of this method should always call the method
-     * <code>rspOutgoing</code> to inform that a response is sent out
+     * Tells thbt b new request messbge is received.
+     * A cbller of this method should blwbys cbll the method
+     * <code>rspOutgoing</code> to inform thbt b response is sent out
      * for the received request.
-     * @return the value of the termination flag:
-     * <ul><code>true</code> if the connection is already being terminated,
-     * <br><code>false</code> otherwise.</ul>
+     * @return the vblue of the terminbtion flbg:
+     * <ul><code>true</code> if the connection is blrebdy being terminbted,
+     * <br><code>fblse</code> otherwise.</ul>
      */
-    public boolean reqIncoming() {
-        if (logger.traceOn()) {
-            logger.trace("reqIncoming", "Receive a new request.");
+    public boolebn reqIncoming() {
+        if (logger.trbceOn()) {
+            logger.trbce("reqIncoming", "Receive b new request.");
         }
 
         synchronized(lock) {
-            if (terminated) {
-                logger.warning("reqIncoming",
-                               "The server has decided to close " +
+            if (terminbted) {
+                logger.wbrning("reqIncoming",
+                               "The server hbs decided to close " +
                                "this client connection.");
             }
             ++currentJobs;
 
-            return terminated;
+            return terminbted;
         }
     }
 
     /**
-     * Tells that a response is sent out for a received request.
-     * @return the value of the termination flag:
-     * <ul><code>true</code> if the connection is already being terminated,
-     * <br><code>false</code> otherwise.</ul>
+     * Tells thbt b response is sent out for b received request.
+     * @return the vblue of the terminbtion flbg:
+     * <ul><code>true</code> if the connection is blrebdy being terminbted,
+     * <br><code>fblse</code> otherwise.</ul>
      */
-    public boolean rspOutgoing() {
-        if (logger.traceOn()) {
-            logger.trace("reqIncoming", "Finish a request.");
+    public boolebn rspOutgoing() {
+        if (logger.trbceOn()) {
+            logger.trbce("reqIncoming", "Finish b request.");
         }
 
         synchronized(lock) {
             if (--currentJobs == 0) {
-                timestamp = System.currentTimeMillis();
-                logtime("Admin: Timestamp=",timestamp);
-                // tells the adminor to restart waiting with timeout
+                timestbmp = System.currentTimeMillis();
+                logtime("Admin: Timestbmp=",timestbmp);
+                // tells the bdminor to restbrt wbiting with timeout
                 lock.notify();
             }
-            return terminated;
+            return terminbted;
         }
     }
 
     /**
-     * Called by this class to tell an implementation to do stop.
+     * Cblled by this clbss to tell bn implementbtion to do stop.
      */
-    protected abstract void doStop();
+    protected bbstrbct void doStop();
 
     /**
-     * Terminates this object.
-     * Called only by outside, so do not need to call doStop
+     * Terminbtes this object.
+     * Cblled only by outside, so do not need to cbll doStop
      */
-    public void terminate() {
-        if (logger.traceOn()) {
-            logger.trace("terminate",
-                         "terminate the ServerCommunicatorAdmin object.");
+    public void terminbte() {
+        if (logger.trbceOn()) {
+            logger.trbce("terminbte",
+                         "terminbte the ServerCommunicbtorAdmin object.");
         }
 
         synchronized(lock) {
-            if (terminated) {
+            if (terminbted) {
                 return;
             }
 
-            terminated = true;
+            terminbted = true;
 
-            // tell Timeout to terminate
+            // tell Timeout to terminbte
             lock.notify();
         }
     }
 
 // --------------------------------------------------------------
-// private classes
+// privbte clbsses
 // --------------------------------------------------------------
-    private class Timeout implements Runnable {
+    privbte clbss Timeout implements Runnbble {
         public void run() {
-            boolean stopping = false;
+            boolebn stopping = fblse;
 
             synchronized(lock) {
-                if (timestamp == 0) timestamp = System.currentTimeMillis();
+                if (timestbmp == 0) timestbmp = System.currentTimeMillis();
                 logtime("Admin: timeout=",timeout);
-                logtime("Admin: Timestamp=",timestamp);
+                logtime("Admin: Timestbmp=",timestbmp);
 
-                while(!terminated) {
+                while(!terminbted) {
                     try {
-                        // wait until there is no more job
-                        while(!terminated && currentJobs != 0) {
-                            if (logger.traceOn()) {
-                                logger.trace("Timeout-run",
-                                             "Waiting without timeout.");
+                        // wbit until there is no more job
+                        while(!terminbted && currentJobs != 0) {
+                            if (logger.trbceOn()) {
+                                logger.trbce("Timeout-run",
+                                             "Wbiting without timeout.");
                             }
 
-                            lock.wait();
+                            lock.wbit();
                         }
 
-                        if (terminated) return;
+                        if (terminbted) return;
 
-                        final long remaining =
-                            timeout - (System.currentTimeMillis() - timestamp);
+                        finbl long rembining =
+                            timeout - (System.currentTimeMillis() - timestbmp);
 
-                        logtime("Admin: remaining timeout=",remaining);
+                        logtime("Admin: rembining timeout=",rembining);
 
-                        if (remaining > 0) {
+                        if (rembining > 0) {
 
-                            if (logger.traceOn()) {
-                                logger.trace("Timeout-run",
-                                             "Waiting with timeout: "+
-                                             remaining + " ms remaining");
+                            if (logger.trbceOn()) {
+                                logger.trbce("Timeout-run",
+                                             "Wbiting with timeout: "+
+                                             rembining + " ms rembining");
                             }
 
-                            lock.wait(remaining);
+                            lock.wbit(rembining);
                         }
 
                         if (currentJobs > 0) continue;
 
-                        final long elapsed =
-                            System.currentTimeMillis() - timestamp;
-                        logtime("Admin: elapsed=",elapsed);
+                        finbl long elbpsed =
+                            System.currentTimeMillis() - timestbmp;
+                        logtime("Admin: elbpsed=",elbpsed);
 
-                        if (!terminated && elapsed > timeout) {
-                            if (logger.traceOn()) {
-                                logger.trace("Timeout-run",
-                                             "timeout elapsed");
+                        if (!terminbted && elbpsed > timeout) {
+                            if (logger.trbceOn()) {
+                                logger.trbce("Timeout-run",
+                                             "timeout elbpsed");
                             }
-                            logtime("Admin: timeout elapsed! "+
-                                    elapsed+">",timeout);
+                            logtime("Admin: timeout elbpsed! "+
+                                    elbpsed+">",timeout);
                                 // stopping
-                            terminated = true;
+                            terminbted = true;
 
                             stopping = true;
-                            break;
+                            brebk;
                         }
-                    } catch (InterruptedException ire) {
-                        logger.warning("Timeout-run","Unexpected Exception: "+
+                    } cbtch (InterruptedException ire) {
+                        logger.wbrning("Timeout-run","Unexpected Exception: "+
                                        ire);
                         logger.debug("Timeout-run",ire);
                         return;
@@ -197,8 +197,8 @@ public abstract class ServerCommunicatorAdmin {
             }
 
             if (stopping) {
-                if (logger.traceOn()) {
-                    logger.trace("Timeout-run", "Call the doStop.");
+                if (logger.trbceOn()) {
+                    logger.trbce("Timeout-run", "Cbll the doStop.");
                 }
 
                 doStop();
@@ -206,27 +206,27 @@ public abstract class ServerCommunicatorAdmin {
         }
     }
 
-    private void logtime(String desc,long time) {
-        timelogger.trace("synchro",desc+time);
+    privbte void logtime(String desc,long time) {
+        timelogger.trbce("synchro",desc+time);
     }
 
 // --------------------------------------------------------------
-// private variables
+// privbte vbribbles
 // --------------------------------------------------------------
-    private long    timestamp;
+    privbte long    timestbmp;
 
-    private final int[] lock = new int[0];
-    private int currentJobs = 0;
+    privbte finbl int[] lock = new int[0];
+    privbte int currentJobs = 0;
 
-    private long timeout;
+    privbte long timeout;
 
-    // state issue
-    private boolean terminated = false;
+    // stbte issue
+    privbte boolebn terminbted = fblse;
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc",
-                        "ServerCommunicatorAdmin");
-    private static final ClassLogger timelogger =
-        new ClassLogger("javax.management.remote.timeout",
-                        "ServerCommunicatorAdmin");
+    privbte stbtic finbl ClbssLogger logger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.misc",
+                        "ServerCommunicbtorAdmin");
+    privbte stbtic finbl ClbssLogger timelogger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.timeout",
+                        "ServerCommunicbtorAdmin");
 }

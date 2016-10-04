@@ -3,216 +3,216 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6610 $"/>
-		<generation date="$Date: 2012-02-27 09:50:26 +0900 (Mon, 27 Feb 2012) $"/>
-		<language type="tg"/>
+		<generbtion dbte="$Dbte: 2012-02-27 09:50:26 +0900 (Mon, 27 Feb 2012) $"/>
+		<lbngubge type="tg"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="be" draft="unconfirmed">Белорусӣ</language>
-			<language type="bg" draft="unconfirmed">Булғорӣ</language>
-			<language type="bh" draft="unconfirmed">Биҳарӣ</language>
-			<language type="bn" draft="unconfirmed">Бенгалӣ</language>
-			<language type="br" draft="unconfirmed">Бретонӣ</language>
-			<language type="bs" draft="unconfirmed">Босниягӣ</language>
-			<language type="ca" draft="unconfirmed">Каталанӣ</language>
-			<language type="cs" draft="unconfirmed">Чехӣ</language>
-			<language type="da" draft="unconfirmed">Даниягӣ</language>
-			<language type="de">Немисӣ</language>
-			<language type="el" draft="unconfirmed">Юнонӣ</language>
-			<language type="en">Англисӣ</language>
-			<language type="eo" draft="unconfirmed">Эсперанто</language>
-			<language type="es" draft="unconfirmed">Испанӣ</language>
-			<language type="et" draft="unconfirmed">Эстонӣ</language>
-			<language type="eu" draft="unconfirmed">Баскӣ</language>
-			<language type="fa" draft="unconfirmed">Форсӣ</language>
-			<language type="fi" draft="unconfirmed">Финнӣ</language>
-			<language type="fil" draft="unconfirmed">Филиппинӣ</language>
-			<language type="fo" draft="unconfirmed">Фарозӣ</language>
-			<language type="fr">Фаронсавӣ</language>
-			<language type="fy" draft="unconfirmed">Фрисианӣ</language>
-			<language type="ga" draft="unconfirmed">Ирландӣ</language>
-			<language type="gd" draft="unconfirmed">Шотландӣ-Галикӣ</language>
-			<language type="gl" draft="unconfirmed">Галисианӣ</language>
-			<language type="gn" draft="unconfirmed">Горанӣ</language>
-			<language type="gu" draft="unconfirmed">Гуҷаратӣ</language>
-			<language type="he" draft="unconfirmed">Яҳудӣ</language>
-			<language type="hi" draft="unconfirmed">Ҳиндӣ</language>
-			<language type="hu" draft="unconfirmed">Маҷорӣ</language>
-			<language type="ia" draft="unconfirmed">Байни забонӣ</language>
-			<language type="id" draft="unconfirmed">Индонезӣ</language>
-			<language type="is" draft="unconfirmed">Исландӣ</language>
-			<language type="ja" draft="unconfirmed">Ҷопонӣ</language>
-			<language type="jv" draft="unconfirmed">Ҷаванизӣ</language>
-			<language type="ka" draft="unconfirmed">Гурҷӣ</language>
-			<language type="ky" draft="unconfirmed">Қирғизӣ</language>
-			<language type="la" draft="unconfirmed">Лотинӣ</language>
-			<language type="lo" draft="unconfirmed">Лаосӣ</language>
-			<language type="lt" draft="unconfirmed">Литвонӣ</language>
-			<language type="lv" draft="unconfirmed">Латвиягӣ</language>
-			<language type="nl" draft="unconfirmed">Ҳолландӣ</language>
-			<language type="no" draft="unconfirmed">Норвегӣ</language>
-			<language type="or" draft="unconfirmed">Урисоӣ</language>
-			<language type="pl" draft="unconfirmed">Лаҳистонӣ</language>
-			<language type="pt" draft="unconfirmed">Португалӣ</language>
-			<language type="pt_BR" draft="unconfirmed">Португалӣ (Бразилия)</language>
-			<language type="ro" draft="unconfirmed">Руминӣ</language>
-			<language type="ru" draft="unconfirmed">Русӣ</language>
-            <language type="sv" draft="unconfirmed">Шведӣ</language>
-            <language type="tg" draft="unconfirmed">Тоҷикӣ</language>
-			<language type="ug" draft="unconfirmed">Ӯйғурӣ</language>
-			<language type="uk" draft="unconfirmed">Украинӣ</language>
-			<language type="ur" draft="unconfirmed">Урду</language>
-			<language type="uz" draft="unconfirmed">Ӯзбекӣ</language>
-			<language type="yi" draft="unconfirmed">Яҳудии Аврупои шарқӣ</language>
-			<language type="zh">Чинӣ</language>
-			<language type="zu" draft="unconfirmed">Зулу</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="be" drbft="unconfirmed">Белорусӣ</lbngubge>
+			<lbngubge type="bg" drbft="unconfirmed">Булғорӣ</lbngubge>
+			<lbngubge type="bh" drbft="unconfirmed">Биҳарӣ</lbngubge>
+			<lbngubge type="bn" drbft="unconfirmed">Бенгалӣ</lbngubge>
+			<lbngubge type="br" drbft="unconfirmed">Бретонӣ</lbngubge>
+			<lbngubge type="bs" drbft="unconfirmed">Босниягӣ</lbngubge>
+			<lbngubge type="cb" drbft="unconfirmed">Каталанӣ</lbngubge>
+			<lbngubge type="cs" drbft="unconfirmed">Чехӣ</lbngubge>
+			<lbngubge type="db" drbft="unconfirmed">Даниягӣ</lbngubge>
+			<lbngubge type="de">Немисӣ</lbngubge>
+			<lbngubge type="el" drbft="unconfirmed">Юнонӣ</lbngubge>
+			<lbngubge type="en">Англисӣ</lbngubge>
+			<lbngubge type="eo" drbft="unconfirmed">Эсперанто</lbngubge>
+			<lbngubge type="es" drbft="unconfirmed">Испанӣ</lbngubge>
+			<lbngubge type="et" drbft="unconfirmed">Эстонӣ</lbngubge>
+			<lbngubge type="eu" drbft="unconfirmed">Баскӣ</lbngubge>
+			<lbngubge type="fb" drbft="unconfirmed">Форсӣ</lbngubge>
+			<lbngubge type="fi" drbft="unconfirmed">Финнӣ</lbngubge>
+			<lbngubge type="fil" drbft="unconfirmed">Филиппинӣ</lbngubge>
+			<lbngubge type="fo" drbft="unconfirmed">Фарозӣ</lbngubge>
+			<lbngubge type="fr">Фаронсавӣ</lbngubge>
+			<lbngubge type="fy" drbft="unconfirmed">Фрисианӣ</lbngubge>
+			<lbngubge type="gb" drbft="unconfirmed">Ирландӣ</lbngubge>
+			<lbngubge type="gd" drbft="unconfirmed">Шотландӣ-Галикӣ</lbngubge>
+			<lbngubge type="gl" drbft="unconfirmed">Галисианӣ</lbngubge>
+			<lbngubge type="gn" drbft="unconfirmed">Горанӣ</lbngubge>
+			<lbngubge type="gu" drbft="unconfirmed">Гуҷаратӣ</lbngubge>
+			<lbngubge type="he" drbft="unconfirmed">Яҳудӣ</lbngubge>
+			<lbngubge type="hi" drbft="unconfirmed">Ҳиндӣ</lbngubge>
+			<lbngubge type="hu" drbft="unconfirmed">Маҷорӣ</lbngubge>
+			<lbngubge type="ib" drbft="unconfirmed">Байни забонӣ</lbngubge>
+			<lbngubge type="id" drbft="unconfirmed">Индонезӣ</lbngubge>
+			<lbngubge type="is" drbft="unconfirmed">Исландӣ</lbngubge>
+			<lbngubge type="jb" drbft="unconfirmed">Ҷопонӣ</lbngubge>
+			<lbngubge type="jv" drbft="unconfirmed">Ҷаванизӣ</lbngubge>
+			<lbngubge type="kb" drbft="unconfirmed">Гурҷӣ</lbngubge>
+			<lbngubge type="ky" drbft="unconfirmed">Қирғизӣ</lbngubge>
+			<lbngubge type="lb" drbft="unconfirmed">Лотинӣ</lbngubge>
+			<lbngubge type="lo" drbft="unconfirmed">Лаосӣ</lbngubge>
+			<lbngubge type="lt" drbft="unconfirmed">Литвонӣ</lbngubge>
+			<lbngubge type="lv" drbft="unconfirmed">Латвиягӣ</lbngubge>
+			<lbngubge type="nl" drbft="unconfirmed">Ҳолландӣ</lbngubge>
+			<lbngubge type="no" drbft="unconfirmed">Норвегӣ</lbngubge>
+			<lbngubge type="or" drbft="unconfirmed">Урисоӣ</lbngubge>
+			<lbngubge type="pl" drbft="unconfirmed">Лаҳистонӣ</lbngubge>
+			<lbngubge type="pt" drbft="unconfirmed">Португалӣ</lbngubge>
+			<lbngubge type="pt_BR" drbft="unconfirmed">Португалӣ (Бразилия)</lbngubge>
+			<lbngubge type="ro" drbft="unconfirmed">Руминӣ</lbngubge>
+			<lbngubge type="ru" drbft="unconfirmed">Русӣ</lbngubge>
+            <lbngubge type="sv" drbft="unconfirmed">Шведӣ</lbngubge>
+            <lbngubge type="tg" drbft="unconfirmed">Тоҷикӣ</lbngubge>
+			<lbngubge type="ug" drbft="unconfirmed">Ӯйғурӣ</lbngubge>
+			<lbngubge type="uk" drbft="unconfirmed">Украинӣ</lbngubge>
+			<lbngubge type="ur" drbft="unconfirmed">Урду</lbngubge>
+			<lbngubge type="uz" drbft="unconfirmed">Ӯзбекӣ</lbngubge>
+			<lbngubge type="yi" drbft="unconfirmed">Яҳудии Аврупои шарқӣ</lbngubge>
+			<lbngubge type="zh">Чинӣ</lbngubge>
+			<lbngubge type="zu" drbft="unconfirmed">Зулу</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Arab">Арабӣ</script>
+			<script type="Arbb">Арабӣ</script>
 		</scripts>
 		<territories>
 			<territory type="AF">Афғонистан</territory>
-			<territory type="TO" draft="unconfirmed">Тонга</territory>
+			<territory type="TO" drbft="unconfirmed">Тонга</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[а б в г ғ д е ё ж з и ӣ й к қ л м н о п р с т у ӯ ф х ҳ ч ҷ ш ъ э ю я]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[ц щ ы ь]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[А Б В Г Ғ Д Е Ж З И Й К Қ Л М Н О П Р С Т У Ф Х Ҳ Ч Ҷ Ш Ъ Э Ю Я]</exemplarCharacters>
-	</characters>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[а б в г ғ д е ё ж з и ӣ й к қ л м н о п р с т у ӯ ф х ҳ ч ҷ ш ъ э ю я]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[ц щ ы ь]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="unconfirmed">[А Б В Г Ғ Д Е Ж З И Й К Қ Л М Н О П Р С Т У Ф Х Ҳ Ч Ҷ Ш Ъ Э Ю Я]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart draft="unconfirmed">«</quotationStart>
-		<quotationEnd draft="unconfirmed">»</quotationEnd>
-		<alternateQuotationStart draft="unconfirmed">«</alternateQuotationStart>
-		<alternateQuotationEnd draft="unconfirmed">„</alternateQuotationEnd>
+		<quotbtionStbrt drbft="unconfirmed">«</quotbtionStbrt>
+		<quotbtionEnd drbft="unconfirmed">»</quotbtionEnd>
+		<blternbteQuotbtionStbrt drbft="unconfirmed">«</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd drbft="unconfirmed">„</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="unconfirmed">Янв</month>
-							<month type="2" draft="unconfirmed">Фев</month>
-							<month type="3" draft="unconfirmed">Мар</month>
-							<month type="4" draft="unconfirmed">Апр</month>
-							<month type="5" draft="unconfirmed">Май</month>
-							<month type="6" draft="unconfirmed">Июн</month>
-							<month type="7" draft="unconfirmed">Июл</month>
-							<month type="8" draft="unconfirmed">Авг</month>
-							<month type="9" draft="unconfirmed">Сен</month>
-							<month type="10" draft="unconfirmed">Окт</month>
-							<month type="11" draft="unconfirmed">Ноя</month>
-							<month type="12" draft="unconfirmed">Дек</month>
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
+							<month type="1" drbft="unconfirmed">Янв</month>
+							<month type="2" drbft="unconfirmed">Фев</month>
+							<month type="3" drbft="unconfirmed">Мар</month>
+							<month type="4" drbft="unconfirmed">Апр</month>
+							<month type="5" drbft="unconfirmed">Май</month>
+							<month type="6" drbft="unconfirmed">Июн</month>
+							<month type="7" drbft="unconfirmed">Июл</month>
+							<month type="8" drbft="unconfirmed">Авг</month>
+							<month type="9" drbft="unconfirmed">Сен</month>
+							<month type="10" drbft="unconfirmed">Окт</month>
+							<month type="11" drbft="unconfirmed">Ноя</month>
+							<month type="12" drbft="unconfirmed">Дек</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1" draft="unconfirmed">Январ</month>
-							<month type="2" draft="unconfirmed">Феврал</month>
-							<month type="3" draft="unconfirmed">Март</month>
-							<month type="4" draft="unconfirmed">Апрел</month>
-							<month type="5" draft="unconfirmed">Май</month>
-							<month type="6" draft="unconfirmed">Июн</month>
-							<month type="7" draft="unconfirmed">Июл</month>
-							<month type="8" draft="unconfirmed">Август</month>
-							<month type="9" draft="unconfirmed">Сентябр</month>
-							<month type="10" draft="unconfirmed">Октябр</month>
-							<month type="11" draft="unconfirmed">Ноябр</month>
-							<month type="12" draft="unconfirmed">Декабр</month>
+							<month type="1" drbft="unconfirmed">Январ</month>
+							<month type="2" drbft="unconfirmed">Феврал</month>
+							<month type="3" drbft="unconfirmed">Март</month>
+							<month type="4" drbft="unconfirmed">Апрел</month>
+							<month type="5" drbft="unconfirmed">Май</month>
+							<month type="6" drbft="unconfirmed">Июн</month>
+							<month type="7" drbft="unconfirmed">Июл</month>
+							<month type="8" drbft="unconfirmed">Август</month>
+							<month type="9" drbft="unconfirmed">Сентябр</month>
+							<month type="10" drbft="unconfirmed">Октябр</month>
+							<month type="11" drbft="unconfirmed">Ноябр</month>
+							<month type="12" drbft="unconfirmed">Декабр</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">Яшб</day>
-							<day type="mon" draft="unconfirmed">Дшб</day>
-							<day type="tue" draft="unconfirmed">Сшб</day>
-							<day type="wed" draft="unconfirmed">Чшб</day>
-							<day type="thu" draft="unconfirmed">Пшб</day>
-							<day type="fri" draft="unconfirmed">Ҷмъ</day>
-							<day type="sat" draft="unconfirmed">Шнб</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">Якшанбе</day>
-							<day type="mon" draft="unconfirmed">Душанбе</day>
-							<day type="tue" draft="unconfirmed">Сешанбе</day>
-							<day type="wed" draft="unconfirmed">Чоршанбе</day>
-							<day type="thu" draft="unconfirmed">Панҷшанбе</day>
-							<day type="fri" draft="unconfirmed">Ҷумъа</day>
-							<day type="sat" draft="unconfirmed">Шанбе</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am" draft="unconfirmed">пе. чо.</dayPeriod>
-							<dayPeriod type="pm" draft="unconfirmed">па. чо.</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0" draft="unconfirmed">Пеш аз милод</era>
-						<era type="1" draft="unconfirmed">ПаМ</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0" draft="unconfirmed">ПеМ</era>
-						<era type="1" draft="unconfirmed">ПаМ</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, y MMMM dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">y MMMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="unconfirmed">y MMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">yy/MM/dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-			</calendar>
-		</calendars>
-	</dates>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun" drbft="unconfirmed">Яшб</dby>
+							<dby type="mon" drbft="unconfirmed">Дшб</dby>
+							<dby type="tue" drbft="unconfirmed">Сшб</dby>
+							<dby type="wed" drbft="unconfirmed">Чшб</dby>
+							<dby type="thu" drbft="unconfirmed">Пшб</dby>
+							<dby type="fri" drbft="unconfirmed">Ҷмъ</dby>
+							<dby type="sbt" drbft="unconfirmed">Шнб</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun" drbft="unconfirmed">Якшанбе</dby>
+							<dby type="mon" drbft="unconfirmed">Душанбе</dby>
+							<dby type="tue" drbft="unconfirmed">Сешанбе</dby>
+							<dby type="wed" drbft="unconfirmed">Чоршанбе</dby>
+							<dby type="thu" drbft="unconfirmed">Панҷшанбе</dby>
+							<dby type="fri" drbft="unconfirmed">Ҷумъа</dby>
+							<dby type="sbt" drbft="unconfirmed">Шанбе</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm" drbft="unconfirmed">пе. чо.</dbyPeriod>
+							<dbyPeriod type="pm" drbft="unconfirmed">па. чо.</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0" drbft="unconfirmed">Пеш аз милод</erb>
+						<erb type="1" drbft="unconfirmed">ПаМ</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0" drbft="unconfirmed">ПеМ</erb>
+						<erb type="1" drbft="unconfirmed">ПаМ</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">EEEE, y MMMM dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">y MMMM d</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">y MMM d</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">yy/MM/dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
 		<currencies>
 			<currency type="TJS">
-				<displayName draft="unconfirmed">Сомонӣ</displayName>
-				<symbol draft="unconfirmed">сом</symbol>
+				<displbyNbme drbft="unconfirmed">Сомонӣ</displbyNbme>
+				<symbol drbft="unconfirmed">сом</symbol>
 			</currency>
 		</currencies>
 	</numbers>

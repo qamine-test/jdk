@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -34,33 +34,33 @@
 
 /**
  * \file
- * \internal
+ * \internbl
  */
 
 #include "LETypes.h"
-#include "OpenTypeTables.h"
+#include "OpenTypeTbbles.h"
 
 U_NAMESPACE_BEGIN
 
-class OpenTypeUtilities /* not : public UObject because all methods are static */ {
+clbss OpenTypeUtilities /* not : public UObject becbuse bll methods bre stbtic */ {
 public:
-    static le_int8 highBit(le_int32 value);
-    static Offset getTagOffset(LETag tag, const LEReferenceToArrayOf<TagAndOffsetRecord> &records, LEErrorCode &success);
+    stbtic le_int8 highBit(le_int32 vblue);
+    stbtic Offset getTbgOffset(LETbg tbg, const LEReferenceToArrbyOf<TbgAndOffsetRecord> &records, LEErrorCode &success);
 #if LE_ENABLE_RAW
-    static le_int32 getGlyphRangeIndex(TTGlyphID glyphID, const GlyphRangeRecord *records, le_int32 recordCount) {
+    stbtic le_int32 getGlyphRbngeIndex(TTGlyphID glyphID, const GlyphRbngeRecord *records, le_int32 recordCount) {
       LEErrorCode success = LE_NO_ERROR;
-      LETableReference recordRef0((const le_uint8*)records);
-      LEReferenceToArrayOf<GlyphRangeRecord> recordRef(recordRef0, success, (size_t)0, recordCount);
-      return getGlyphRangeIndex(glyphID, recordRef, success);
+      LETbbleReference recordRef0((const le_uint8*)records);
+      LEReferenceToArrbyOf<GlyphRbngeRecord> recordRef(recordRef0, success, (size_t)0, recordCount);
+      return getGlyphRbngeIndex(glyphID, recordRef, success);
     }
 #endif
-    static le_int32 getGlyphRangeIndex(TTGlyphID glyphID, const LEReferenceToArrayOf<GlyphRangeRecord> &records, LEErrorCode &success);
-    static le_int32 search(le_uint16 value, const le_uint16 array[], le_int32 count);
-    static le_int32 search(le_uint32 value, const le_uint32 array[], le_int32 count);
-    static void sort(le_uint16 *array, le_int32 count);
+    stbtic le_int32 getGlyphRbngeIndex(TTGlyphID glyphID, const LEReferenceToArrbyOf<GlyphRbngeRecord> &records, LEErrorCode &success);
+    stbtic le_int32 sebrch(le_uint16 vblue, const le_uint16 brrby[], le_int32 count);
+    stbtic le_int32 sebrch(le_uint32 vblue, const le_uint32 brrby[], le_int32 count);
+    stbtic void sort(le_uint16 *brrby, le_int32 count);
 
-private:
-    OpenTypeUtilities() {} // private - forbid instantiation
+privbte:
+    OpenTypeUtilities() {} // privbte - forbid instbntibtion
 };
 
 U_NAMESPACE_END

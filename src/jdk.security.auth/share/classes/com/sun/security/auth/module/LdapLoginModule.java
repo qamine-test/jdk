@@ -1,260 +1,260 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.auth.module;
+pbckbge com.sun.security.buth.module;
 
-import java.security.AccessController;
-import java.net.SocketPermission;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.Set;
+import jbvb.security.AccessController;
+import jbvb.net.SocketPermission;
+import jbvb.security.Principbl;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Arrbys;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Mbp;
+import jbvb.util.ResourceBundle;
+import jbvb.util.regex.Mbtcher;
+import jbvb.util.regex.Pbttern;
+import jbvb.util.Set;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.ldap.*;
-import javax.security.auth.*;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.*;
-import javax.security.auth.spi.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.ldbp.*;
+import jbvbx.security.buth.*;
+import jbvbx.security.buth.cbllbbck.*;
+import jbvbx.security.buth.login.*;
+import jbvbx.security.buth.spi.*;
 
-import com.sun.security.auth.LdapPrincipal;
-import com.sun.security.auth.UserPrincipal;
+import com.sun.security.buth.LdbpPrincipbl;
+import com.sun.security.buth.UserPrincipbl;
 
 
 /**
- * This {@link LoginModule} performs LDAP-based authentication.
- * A username and password is verified against the corresponding user
- * credentials stored in an LDAP directory.
- * This module requires the supplied {@link CallbackHandler} to support a
- * {@link NameCallback} and a {@link PasswordCallback}.
- * If authentication is successful then a new {@link LdapPrincipal} is created
- * using the user's distinguished name and a new {@link UserPrincipal} is
- * created using the user's username and both are associated
+ * This {@link LoginModule} performs LDAP-bbsed buthenticbtion.
+ * A usernbme bnd pbssword is verified bgbinst the corresponding user
+ * credentibls stored in bn LDAP directory.
+ * This module requires the supplied {@link CbllbbckHbndler} to support b
+ * {@link NbmeCbllbbck} bnd b {@link PbsswordCbllbbck}.
+ * If buthenticbtion is successful then b new {@link LdbpPrincipbl} is crebted
+ * using the user's distinguished nbme bnd b new {@link UserPrincipbl} is
+ * crebted using the user's usernbme bnd both bre bssocibted
  * with the current {@link Subject}.
  *
- * <p> This module operates in one of three modes: <i>search-first</i>,
- * <i>authentication-first</i> or <i>authentication-only</i>.
- * A mode is selected by specifying a particular set of options.
+ * <p> This module operbtes in one of three modes: <i>sebrch-first</i>,
+ * <i>buthenticbtion-first</i> or <i>buthenticbtion-only</i>.
+ * A mode is selected by specifying b pbrticulbr set of options.
  *
- * <p> In search-first mode, the LDAP directory is searched to determine the
- * user's distinguished name and then authentication is attempted.
- * An (anonymous) search is performed using the supplied username in
- * conjunction with a specified search filter.
- * If successful then authentication is attempted using the user's
- * distinguished name and the supplied password.
- * To enable this mode, set the <code>userFilter</code> option and omit the
- * <code>authIdentity</code> option.
- * Use search-first mode when the user's distinguished name is not
- * known in advance.
+ * <p> In sebrch-first mode, the LDAP directory is sebrched to determine the
+ * user's distinguished nbme bnd then buthenticbtion is bttempted.
+ * An (bnonymous) sebrch is performed using the supplied usernbme in
+ * conjunction with b specified sebrch filter.
+ * If successful then buthenticbtion is bttempted using the user's
+ * distinguished nbme bnd the supplied pbssword.
+ * To enbble this mode, set the <code>userFilter</code> option bnd omit the
+ * <code>buthIdentity</code> option.
+ * Use sebrch-first mode when the user's distinguished nbme is not
+ * known in bdvbnce.
  *
- * <p> In authentication-first mode, authentication is attempted using the
- * supplied username and password and then the LDAP directory is searched.
- * If authentication is successful then a search is performed using the
- * supplied username in conjunction with a specified search filter.
- * To enable this mode, set the <code>authIdentity</code> and the
+ * <p> In buthenticbtion-first mode, buthenticbtion is bttempted using the
+ * supplied usernbme bnd pbssword bnd then the LDAP directory is sebrched.
+ * If buthenticbtion is successful then b sebrch is performed using the
+ * supplied usernbme in conjunction with b specified sebrch filter.
+ * To enbble this mode, set the <code>buthIdentity</code> bnd the
  * <code>userFilter</code> options.
- * Use authentication-first mode when accessing an LDAP directory
- * that has been configured to disallow anonymous searches.
+ * Use buthenticbtion-first mode when bccessing bn LDAP directory
+ * thbt hbs been configured to disbllow bnonymous sebrches.
  *
- * <p> In authentication-only mode, authentication is attempted using the
- * supplied username and password. The LDAP directory is not searched because
- * the user's distinguished name is already known.
- * To enable this mode, set the <code>authIdentity</code> option to a valid
- * distinguished name and omit the <code>userFilter</code> option.
- * Use authentication-only mode when the user's distinguished name is
- * known in advance.
+ * <p> In buthenticbtion-only mode, buthenticbtion is bttempted using the
+ * supplied usernbme bnd pbssword. The LDAP directory is not sebrched becbuse
+ * the user's distinguished nbme is blrebdy known.
+ * To enbble this mode, set the <code>buthIdentity</code> option to b vblid
+ * distinguished nbme bnd omit the <code>userFilter</code> option.
+ * Use buthenticbtion-only mode when the user's distinguished nbme is
+ * known in bdvbnce.
  *
- * <p> The following option is mandatory and must be specified in this
- * module's login {@link Configuration}:
+ * <p> The following option is mbndbtory bnd must be specified in this
+ * module's login {@link Configurbtion}:
  * <dl><dt></dt><dd>
  * <dl>
- * <dt> <code>userProvider=<b>ldap_urls</b></code>
+ * <dt> <code>userProvider=<b>ldbp_urls</b></code>
  * </dt>
- * <dd> This option identifies the LDAP directory that stores user entries.
- *      <b>ldap_urls</b> is a list of space-separated LDAP URLs
- *      (<a href="http://www.ietf.org/rfc/rfc2255.txt">RFC 2255</a>)
- *      that identifies the LDAP server to use and the position in
- *      its directory tree where user entries are located.
- *      When several LDAP URLs are specified then each is attempted,
- *      in turn, until the first successful connection is established.
- *      Spaces in the distinguished name component of the URL must be escaped
- *      using the standard mechanism of percent character ('<code>%</code>')
- *      followed by two hexadecimal digits (see {@link java.net.URI}).
- *      Query components must also be omitted from the URL.
+ * <dd> This option identifies the LDAP directory thbt stores user entries.
+ *      <b>ldbp_urls</b> is b list of spbce-sepbrbted LDAP URLs
+ *      (<b href="http://www.ietf.org/rfc/rfc2255.txt">RFC 2255</b>)
+ *      thbt identifies the LDAP server to use bnd the position in
+ *      its directory tree where user entries bre locbted.
+ *      When severbl LDAP URLs bre specified then ebch is bttempted,
+ *      in turn, until the first successful connection is estbblished.
+ *      Spbces in the distinguished nbme component of the URL must be escbped
+ *      using the stbndbrd mechbnism of percent chbrbcter ('<code>%</code>')
+ *      followed by two hexbdecimbl digits (see {@link jbvb.net.URI}).
+ *      Query components must blso be omitted from the URL.
  *
  *      <p>
- *      Automatic discovery of the LDAP server via DNS
- *      (<a href="http://www.ietf.org/rfc/rfc2782.txt">RFC 2782</a>)
- *      is supported (once DNS has been configured to support such a service).
- *      It is enabled by omitting the hostname and port number components from
+ *      Autombtic discovery of the LDAP server vib DNS
+ *      (<b href="http://www.ietf.org/rfc/rfc2782.txt">RFC 2782</b>)
+ *      is supported (once DNS hbs been configured to support such b service).
+ *      It is enbbled by omitting the hostnbme bnd port number components from
  *      the LDAP URL. </dd>
  * </dl></dl>
  *
- * <p> This module also recognizes the following optional {@link Configuration}
+ * <p> This module blso recognizes the following optionbl {@link Configurbtion}
  *     options:
  * <dl><dt></dt><dd>
  * <dl>
- * <dt> <code>userFilter=<b>ldap_filter</b></code> </dt>
- * <dd> This option specifies the search filter to use to locate a user's
- *      entry in the LDAP directory. It is used to determine a user's
- *      distinguished name.
- *      <code><b>ldap_filter</b></code> is an LDAP filter string
- *      (<a href="http://www.ietf.org/rfc/rfc2254.txt">RFC 2254</a>).
- *      If it contains the special token "<code><b>{USERNAME}</b></code>"
- *      then that token will be replaced with the supplied username value
- *      before the filter is used to search the directory. </dd>
+ * <dt> <code>userFilter=<b>ldbp_filter</b></code> </dt>
+ * <dd> This option specifies the sebrch filter to use to locbte b user's
+ *      entry in the LDAP directory. It is used to determine b user's
+ *      distinguished nbme.
+ *      <code><b>ldbp_filter</b></code> is bn LDAP filter string
+ *      (<b href="http://www.ietf.org/rfc/rfc2254.txt">RFC 2254</b>).
+ *      If it contbins the specibl token "<code><b>{USERNAME}</b></code>"
+ *      then thbt token will be replbced with the supplied usernbme vblue
+ *      before the filter is used to sebrch the directory. </dd>
  *
- * <dt> <code>authIdentity=<b>auth_id</b></code> </dt>
- * <dd> This option specifies the identity to use when authenticating a user
+ * <dt> <code>buthIdentity=<b>buth_id</b></code> </dt>
+ * <dd> This option specifies the identity to use when buthenticbting b user
  *      to the LDAP directory.
- *      <code><b>auth_id</b></code> may be an LDAP distinguished name string
- *      (<a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>) or some
- *      other string name.
- *      It must contain the special token "<code><b>{USERNAME}</b></code>"
- *      which will be replaced with the supplied username value before the
- *      name is used for authentication.
- *      Note that if this option does not contain a distinguished name then
- *      the <code>userFilter</code> option must also be specified. </dd>
+ *      <code><b>buth_id</b></code> mby be bn LDAP distinguished nbme string
+ *      (<b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b>) or some
+ *      other string nbme.
+ *      It must contbin the specibl token "<code><b>{USERNAME}</b></code>"
+ *      which will be replbced with the supplied usernbme vblue before the
+ *      nbme is used for buthenticbtion.
+ *      Note thbt if this option does not contbin b distinguished nbme then
+ *      the <code>userFilter</code> option must blso be specified. </dd>
  *
- * <dt> <code>authzIdentity=<b>authz_id</b></code> </dt>
- * <dd> This option specifies an authorization identity for the user.
- *      <code><b>authz_id</b></code> is any string name.
- *      If it comprises a single special token with curly braces then
- *      that token is treated as a attribute name and will be replaced with a
- *      single value of that attribute from the user's LDAP entry.
- *      If the attribute cannot be found then the option is ignored.
- *      When this option is supplied and the user has been successfully
- *      authenticated then an additional {@link UserPrincipal}
- *      is created using the authorization identity and it is associated with
+ * <dt> <code>buthzIdentity=<b>buthz_id</b></code> </dt>
+ * <dd> This option specifies bn buthorizbtion identity for the user.
+ *      <code><b>buthz_id</b></code> is bny string nbme.
+ *      If it comprises b single specibl token with curly brbces then
+ *      thbt token is trebted bs b bttribute nbme bnd will be replbced with b
+ *      single vblue of thbt bttribute from the user's LDAP entry.
+ *      If the bttribute cbnnot be found then the option is ignored.
+ *      When this option is supplied bnd the user hbs been successfully
+ *      buthenticbted then bn bdditionbl {@link UserPrincipbl}
+ *      is crebted using the buthorizbtion identity bnd it is bssocibted with
  *      the current {@link Subject}. </dd>
  *
  * <dt> <code>useSSL</code> </dt>
- * <dd> if <code>false</code>, this module does not establish an SSL connection
- *      to the LDAP server before attempting authentication. SSL is used to
- *      protect the privacy of the user's password because it is transmitted
- *      in the clear over LDAP.
- *      By default, this module uses SSL. </dd>
+ * <dd> if <code>fblse</code>, this module does not estbblish bn SSL connection
+ *      to the LDAP server before bttempting buthenticbtion. SSL is used to
+ *      protect the privbcy of the user's pbssword becbuse it is trbnsmitted
+ *      in the clebr over LDAP.
+ *      By defbult, this module uses SSL. </dd>
  *
- * <dt> <code>useFirstPass</code> </dt>
- * <dd> if <code>true</code>, this module retrieves the username and password
- *      from the module's shared state, using "javax.security.auth.login.name"
- *      and "javax.security.auth.login.password" as the respective keys. The
- *      retrieved values are used for authentication. If authentication fails,
- *      no attempt for a retry is made, and the failure is reported back to
- *      the calling application.</dd>
+ * <dt> <code>useFirstPbss</code> </dt>
+ * <dd> if <code>true</code>, this module retrieves the usernbme bnd pbssword
+ *      from the module's shbred stbte, using "jbvbx.security.buth.login.nbme"
+ *      bnd "jbvbx.security.buth.login.pbssword" bs the respective keys. The
+ *      retrieved vblues bre used for buthenticbtion. If buthenticbtion fbils,
+ *      no bttempt for b retry is mbde, bnd the fbilure is reported bbck to
+ *      the cblling bpplicbtion.</dd>
  *
- * <dt> <code>tryFirstPass</code> </dt>
- * <dd> if <code>true</code>, this module retrieves the username and password
- *      from the module's shared state, using "javax.security.auth.login.name"
- *       and "javax.security.auth.login.password" as the respective keys.  The
- *      retrieved values are used for authentication. If authentication fails,
- *      the module uses the {@link CallbackHandler} to retrieve a new username
- *      and password, and another attempt to authenticate is made. If the
- *      authentication fails, the failure is reported back to the calling
- *      application.</dd>
+ * <dt> <code>tryFirstPbss</code> </dt>
+ * <dd> if <code>true</code>, this module retrieves the usernbme bnd pbssword
+ *      from the module's shbred stbte, using "jbvbx.security.buth.login.nbme"
+ *       bnd "jbvbx.security.buth.login.pbssword" bs the respective keys.  The
+ *      retrieved vblues bre used for buthenticbtion. If buthenticbtion fbils,
+ *      the module uses the {@link CbllbbckHbndler} to retrieve b new usernbme
+ *      bnd pbssword, bnd bnother bttempt to buthenticbte is mbde. If the
+ *      buthenticbtion fbils, the fbilure is reported bbck to the cblling
+ *      bpplicbtion.</dd>
  *
- * <dt> <code>storePass</code> </dt>
- * <dd> if <code>true</code>, this module stores the username and password
- *      obtained from the {@link CallbackHandler} in the module's shared state,
+ * <dt> <code>storePbss</code> </dt>
+ * <dd> if <code>true</code>, this module stores the usernbme bnd pbssword
+ *      obtbined from the {@link CbllbbckHbndler} in the module's shbred stbte,
  *      using
- *      "javax.security.auth.login.name" and
- *      "javax.security.auth.login.password" as the respective keys.  This is
- *      not performed if existing values already exist for the username and
- *      password in the shared state, or if authentication fails.</dd>
+ *      "jbvbx.security.buth.login.nbme" bnd
+ *      "jbvbx.security.buth.login.pbssword" bs the respective keys.  This is
+ *      not performed if existing vblues blrebdy exist for the usernbme bnd
+ *      pbssword in the shbred stbte, or if buthenticbtion fbils.</dd>
  *
- * <dt> <code>clearPass</code> </dt>
- * <dd> if <code>true</code>, this module clears the username and password
- *      stored in the module's shared state after both phases of authentication
- *      (login and commit) have completed.</dd>
+ * <dt> <code>clebrPbss</code> </dt>
+ * <dd> if <code>true</code>, this module clebrs the usernbme bnd pbssword
+ *      stored in the module's shbred stbte bfter both phbses of buthenticbtion
+ *      (login bnd commit) hbve completed.</dd>
  *
  * <dt> <code>debug</code> </dt>
- * <dd> if <code>true</code>, debug messages are displayed on the standard
- *      output stream.
+ * <dd> if <code>true</code>, debug messbges bre displbyed on the stbndbrd
+ *      output strebm.
  * </dl>
  * </dl>
  *
  * <p>
- * Arbitrary
- * <a href="{@docRoot}/../../../../../technotes/guides/jndi/jndi-ldap-gl.html#PROP">JNDI properties</a>
- * may also be specified in the {@link Configuration}.
- * They are added to the environment and passed to the LDAP provider.
- * Note that the following four JNDI properties are set by this module directly
- * and are ignored if also present in the configuration:
+ * Arbitrbry
+ * <b href="{@docRoot}/../../../../../technotes/guides/jndi/jndi-ldbp-gl.html#PROP">JNDI properties</b>
+ * mby blso be specified in the {@link Configurbtion}.
+ * They bre bdded to the environment bnd pbssed to the LDAP provider.
+ * Note thbt the following four JNDI properties bre set by this module directly
+ * bnd bre ignored if blso present in the configurbtion:
  * <ul>
- * <li> <code>java.naming.provider.url</code>
- * <li> <code>java.naming.security.principal</code>
- * <li> <code>java.naming.security.credentials</code>
- * <li> <code>java.naming.security.protocol</code>
+ * <li> <code>jbvb.nbming.provider.url</code>
+ * <li> <code>jbvb.nbming.security.principbl</code>
+ * <li> <code>jbvb.nbming.security.credentibls</code>
+ * <li> <code>jbvb.nbming.security.protocol</code>
  * </ul>
  *
  * <p>
- * Three sample {@link Configuration}s are shown below.
- * The first one activates search-first mode. It identifies the LDAP server
- * and specifies that users' entries be located by their <code>uid</code> and
- * <code>objectClass</code> attributes. It also specifies that an identity
- * based on the user's <code>employeeNumber</code> attribute should be created.
- * The second one activates authentication-first mode. It requests that the
- * LDAP server be located dynamically, that authentication be performed using
- * the supplied username directly but without the protection of SSL and that
- * users' entries be located by one of three naming attributes and their
- * <code>objectClass</code> attribute.
- * The third one activates authentication-only mode. It identifies alternative
- * LDAP servers, it specifies the distinguished name to use for
- * authentication and a fixed identity to use for authorization. No directory
- * search is performed.
+ * Three sbmple {@link Configurbtion}s bre shown below.
+ * The first one bctivbtes sebrch-first mode. It identifies the LDAP server
+ * bnd specifies thbt users' entries be locbted by their <code>uid</code> bnd
+ * <code>objectClbss</code> bttributes. It blso specifies thbt bn identity
+ * bbsed on the user's <code>employeeNumber</code> bttribute should be crebted.
+ * The second one bctivbtes buthenticbtion-first mode. It requests thbt the
+ * LDAP server be locbted dynbmicblly, thbt buthenticbtion be performed using
+ * the supplied usernbme directly but without the protection of SSL bnd thbt
+ * users' entries be locbted by one of three nbming bttributes bnd their
+ * <code>objectClbss</code> bttribute.
+ * The third one bctivbtes buthenticbtion-only mode. It identifies blternbtive
+ * LDAP servers, it specifies the distinguished nbme to use for
+ * buthenticbtion bnd b fixed identity to use for buthorizbtion. No directory
+ * sebrch is performed.
  *
  * <pre>
  *
- *     ExampleApplication {
- *         com.sun.security.auth.module.LdapLoginModule REQUIRED
- *             userProvider="ldap://ldap-svr/ou=people,dc=example,dc=com"
- *             userFilter="(&(uid={USERNAME})(objectClass=inetOrgPerson))"
- *             authzIdentity="{EMPLOYEENUMBER}"
+ *     ExbmpleApplicbtion {
+ *         com.sun.security.buth.module.LdbpLoginModule REQUIRED
+ *             userProvider="ldbp://ldbp-svr/ou=people,dc=exbmple,dc=com"
+ *             userFilter="(&(uid={USERNAME})(objectClbss=inetOrgPerson))"
+ *             buthzIdentity="{EMPLOYEENUMBER}"
  *             debug=true;
  *     };
  *
- *     ExampleApplication {
- *         com.sun.security.auth.module.LdapLoginModule REQUIRED
- *             userProvider="ldap:///cn=users,dc=example,dc=com"
- *             authIdentity="{USERNAME}"
- *             userFilter="(&(|(samAccountName={USERNAME})(userPrincipalName={USERNAME})(cn={USERNAME}))(objectClass=user))"
- *             useSSL=false
+ *     ExbmpleApplicbtion {
+ *         com.sun.security.buth.module.LdbpLoginModule REQUIRED
+ *             userProvider="ldbp:///cn=users,dc=exbmple,dc=com"
+ *             buthIdentity="{USERNAME}"
+ *             userFilter="(&(|(sbmAccountNbme={USERNAME})(userPrincipblNbme={USERNAME})(cn={USERNAME}))(objectClbss=user))"
+ *             useSSL=fblse
  *             debug=true;
  *     };
  *
- *     ExampleApplication {
- *         com.sun.security.auth.module.LdapLoginModule REQUIRED
- *             userProvider="ldap://ldap-svr1 ldap://ldap-svr2"
- *             authIdentity="cn={USERNAME},ou=people,dc=example,dc=com"
- *             authzIdentity="staff"
+ *     ExbmpleApplicbtion {
+ *         com.sun.security.buth.module.LdbpLoginModule REQUIRED
+ *             userProvider="ldbp://ldbp-svr1 ldbp://ldbp-svr2"
+ *             buthIdentity="cn={USERNAME},ou=people,dc=exbmple,dc=com"
+ *             buthzIdentity="stbff"
  *             debug=true;
  *     };
  *
@@ -262,41 +262,41 @@ import com.sun.security.auth.UserPrincipal;
  *
  * <dl>
  * <dt><b>Note:</b> </dt>
- * <dd>When a {@link SecurityManager} is active then an application
- *     that creates a {@link LoginContext} and uses a {@link LoginModule}
- *     must be granted certain permissions.
+ * <dd>When b {@link SecurityMbnbger} is bctive then bn bpplicbtion
+ *     thbt crebtes b {@link LoginContext} bnd uses b {@link LoginModule}
+ *     must be grbnted certbin permissions.
  *     <p>
- *     If the application creates a login context using an <em>installed</em>
- *     {@link Configuration} then the application must be granted the
- *     {@link AuthPermission} to create login contexts.
- *     For example, the following security policy allows an application in
- *     the user's current directory to instantiate <em>any</em> login context:
+ *     If the bpplicbtion crebtes b login context using bn <em>instblled</em>
+ *     {@link Configurbtion} then the bpplicbtion must be grbnted the
+ *     {@link AuthPermission} to crebte login contexts.
+ *     For exbmple, the following security policy bllows bn bpplicbtion in
+ *     the user's current directory to instbntibte <em>bny</em> login context:
  *     <pre>
  *
- *     grant codebase "file:${user.dir}/" {
- *         permission javax.security.auth.AuthPermission "createLoginContext.*";
+ *     grbnt codebbse "file:${user.dir}/" {
+ *         permission jbvbx.security.buth.AuthPermission "crebteLoginContext.*";
  *     };
  *     </pre>
  *
- *     Alternatively, if the application creates a login context using a
- *     <em>caller-specified</em> {@link Configuration} then the application
- *     must be granted the permissions required by the {@link LoginModule}.
+ *     Alternbtively, if the bpplicbtion crebtes b login context using b
+ *     <em>cbller-specified</em> {@link Configurbtion} then the bpplicbtion
+ *     must be grbnted the permissions required by the {@link LoginModule}.
  *     <em>This</em> module requires the following two permissions:
  *     <p>
  *     <ul>
- *     <li> The {@link SocketPermission} to connect to an LDAP server.
- *     <li> The {@link AuthPermission} to modify the set of {@link Principal}s
- *          associated with a {@link Subject}.
+ *     <li> The {@link SocketPermission} to connect to bn LDAP server.
+ *     <li> The {@link AuthPermission} to modify the set of {@link Principbl}s
+ *          bssocibted with b {@link Subject}.
  *     </ul>
  *     <p>
- *     For example, the following security policy grants an application in the
- *     user's current directory all the permissions required by this module:
+ *     For exbmple, the following security policy grbnts bn bpplicbtion in the
+ *     user's current directory bll the permissions required by this module:
  *     <pre>
  *
- *     grant codebase "file:${user.dir}/" {
- *         permission java.net.SocketPermission "*:389", "connect";
- *         permission java.net.SocketPermission "*:636", "connect";
- *         permission javax.security.auth.AuthPermission "modifyPrincipals";
+ *     grbnt codebbse "file:${user.dir}/" {
+ *         permission jbvb.net.SocketPermission "*:389", "connect";
+ *         permission jbvb.net.SocketPermission "*:636", "connect";
+ *         permission jbvbx.security.buth.AuthPermission "modifyPrincipbls";
  *     };
  *     </pre>
  * </dd>
@@ -305,10 +305,10 @@ import com.sun.security.auth.UserPrincipal;
  * @since 1.6
  */
 @jdk.Exported
-public class LdapLoginModule implements LoginModule {
+public clbss LdbpLoginModule implements LoginModule {
 
-    // Use the default classloader for this class to load the prompt strings.
-    private static final ResourceBundle rb = AccessController.doPrivileged(
+    // Use the defbult clbsslobder for this clbss to lobd the prompt strings.
+    privbte stbtic finbl ResourceBundle rb = AccessController.doPrivileged(
             new PrivilegedAction<ResourceBundle>() {
                 public ResourceBundle run() {
                     return ResourceBundle.getBundle(
@@ -317,465 +317,465 @@ public class LdapLoginModule implements LoginModule {
             }
         );
 
-    // Keys to retrieve the stored username and password
-    private static final String USERNAME_KEY = "javax.security.auth.login.name";
-    private static final String PASSWORD_KEY =
-        "javax.security.auth.login.password";
+    // Keys to retrieve the stored usernbme bnd pbssword
+    privbte stbtic finbl String USERNAME_KEY = "jbvbx.security.buth.login.nbme";
+    privbte stbtic finbl String PASSWORD_KEY =
+        "jbvbx.security.buth.login.pbssword";
 
-    // Option names
-    private static final String USER_PROVIDER = "userProvider";
-    private static final String USER_FILTER = "userFilter";
-    private static final String AUTHC_IDENTITY = "authIdentity";
-    private static final String AUTHZ_IDENTITY = "authzIdentity";
+    // Option nbmes
+    privbte stbtic finbl String USER_PROVIDER = "userProvider";
+    privbte stbtic finbl String USER_FILTER = "userFilter";
+    privbte stbtic finbl String AUTHC_IDENTITY = "buthIdentity";
+    privbte stbtic finbl String AUTHZ_IDENTITY = "buthzIdentity";
 
-    // Used for the username token replacement
-    private static final String USERNAME_TOKEN = "{USERNAME}";
-    private static final Pattern USERNAME_PATTERN =
-        Pattern.compile("\\{USERNAME\\}");
+    // Used for the usernbme token replbcement
+    privbte stbtic finbl String USERNAME_TOKEN = "{USERNAME}";
+    privbte stbtic finbl Pbttern USERNAME_PATTERN =
+        Pbttern.compile("\\{USERNAME\\}");
 
-    // Configurable options
-    private String userProvider;
-    private String userFilter;
-    private String authcIdentity;
-    private String authzIdentity;
-    private String authzIdentityAttr = null;
-    private boolean useSSL = true;
-    private boolean authFirst = false;
-    private boolean authOnly = false;
-    private boolean useFirstPass = false;
-    private boolean tryFirstPass = false;
-    private boolean storePass = false;
-    private boolean clearPass = false;
-    private boolean debug = false;
+    // Configurbble options
+    privbte String userProvider;
+    privbte String userFilter;
+    privbte String buthcIdentity;
+    privbte String buthzIdentity;
+    privbte String buthzIdentityAttr = null;
+    privbte boolebn useSSL = true;
+    privbte boolebn buthFirst = fblse;
+    privbte boolebn buthOnly = fblse;
+    privbte boolebn useFirstPbss = fblse;
+    privbte boolebn tryFirstPbss = fblse;
+    privbte boolebn storePbss = fblse;
+    privbte boolebn clebrPbss = fblse;
+    privbte boolebn debug = fblse;
 
-    // Authentication status
-    private boolean succeeded = false;
-    private boolean commitSucceeded = false;
+    // Authenticbtion stbtus
+    privbte boolebn succeeded = fblse;
+    privbte boolebn commitSucceeded = fblse;
 
-    // Supplied username and password
-    private String username;
-    private char[] password;
+    // Supplied usernbme bnd pbssword
+    privbte String usernbme;
+    privbte chbr[] pbssword;
 
     // User's identities
-    private LdapPrincipal ldapPrincipal;
-    private UserPrincipal userPrincipal;
-    private UserPrincipal authzPrincipal;
+    privbte LdbpPrincipbl ldbpPrincipbl;
+    privbte UserPrincipbl userPrincipbl;
+    privbte UserPrincipbl buthzPrincipbl;
 
-    // Initial state
-    private Subject subject;
-    private CallbackHandler callbackHandler;
-    private Map<String, Object> sharedState;
-    private Map<String, ?> options;
-    private LdapContext ctx;
-    private Matcher identityMatcher = null;
-    private Matcher filterMatcher = null;
-    private Hashtable<String, Object> ldapEnvironment;
-    private SearchControls constraints = null;
+    // Initibl stbte
+    privbte Subject subject;
+    privbte CbllbbckHbndler cbllbbckHbndler;
+    privbte Mbp<String, Object> shbredStbte;
+    privbte Mbp<String, ?> options;
+    privbte LdbpContext ctx;
+    privbte Mbtcher identityMbtcher = null;
+    privbte Mbtcher filterMbtcher = null;
+    privbte Hbshtbble<String, Object> ldbpEnvironment;
+    privbte SebrchControls constrbints = null;
 
     /**
-     * Initialize this <code>LoginModule</code>.
+     * Initiblize this <code>LoginModule</code>.
      *
-     * @param subject the <code>Subject</code> to be authenticated.
-     * @param callbackHandler a <code>CallbackHandler</code> to acquire the
-     *                  username and password.
-     * @param sharedState shared <code>LoginModule</code> state.
-     * @param options options specified in the login
-     *                  <code>Configuration</code> for this particular
+     * @pbrbm subject the <code>Subject</code> to be buthenticbted.
+     * @pbrbm cbllbbckHbndler b <code>CbllbbckHbndler</code> to bcquire the
+     *                  usernbme bnd pbssword.
+     * @pbrbm shbredStbte shbred <code>LoginModule</code> stbte.
+     * @pbrbm options options specified in the login
+     *                  <code>Configurbtion</code> for this pbrticulbr
      *                  <code>LoginModule</code>.
      */
-    // Unchecked warning from (Map<String, Object>)sharedState is safe
-    // since javax.security.auth.login.LoginContext passes a raw HashMap.
-    @SuppressWarnings("unchecked")
-    public void initialize(Subject subject, CallbackHandler callbackHandler,
-                        Map<String, ?> sharedState, Map<String, ?> options) {
+    // Unchecked wbrning from (Mbp<String, Object>)shbredStbte is sbfe
+    // since jbvbx.security.buth.login.LoginContext pbsses b rbw HbshMbp.
+    @SuppressWbrnings("unchecked")
+    public void initiblize(Subject subject, CbllbbckHbndler cbllbbckHbndler,
+                        Mbp<String, ?> shbredStbte, Mbp<String, ?> options) {
 
         this.subject = subject;
-        this.callbackHandler = callbackHandler;
-        this.sharedState = (Map<String, Object>)sharedState;
+        this.cbllbbckHbndler = cbllbbckHbndler;
+        this.shbredStbte = (Mbp<String, Object>)shbredStbte;
         this.options = options;
 
-        ldapEnvironment = new Hashtable<String, Object>(9);
-        ldapEnvironment.put(Context.INITIAL_CONTEXT_FACTORY,
-            "com.sun.jndi.ldap.LdapCtxFactory");
+        ldbpEnvironment = new Hbshtbble<String, Object>(9);
+        ldbpEnvironment.put(Context.INITIAL_CONTEXT_FACTORY,
+            "com.sun.jndi.ldbp.LdbpCtxFbctory");
 
-        // Add any JNDI properties to the environment
+        // Add bny JNDI properties to the environment
         for (String key : options.keySet()) {
             if (key.indexOf('.') > -1) {
-                ldapEnvironment.put(key, options.get(key));
+                ldbpEnvironment.put(key, options.get(key));
             }
         }
 
-        // initialize any configured options
+        // initiblize bny configured options
 
         userProvider = (String)options.get(USER_PROVIDER);
         if (userProvider != null) {
-            ldapEnvironment.put(Context.PROVIDER_URL, userProvider);
+            ldbpEnvironment.put(Context.PROVIDER_URL, userProvider);
         }
 
-        authcIdentity = (String)options.get(AUTHC_IDENTITY);
-        if (authcIdentity != null &&
-            (authcIdentity.indexOf(USERNAME_TOKEN) != -1)) {
-            identityMatcher = USERNAME_PATTERN.matcher(authcIdentity);
+        buthcIdentity = (String)options.get(AUTHC_IDENTITY);
+        if (buthcIdentity != null &&
+            (buthcIdentity.indexOf(USERNAME_TOKEN) != -1)) {
+            identityMbtcher = USERNAME_PATTERN.mbtcher(buthcIdentity);
         }
 
         userFilter = (String)options.get(USER_FILTER);
         if (userFilter != null) {
             if (userFilter.indexOf(USERNAME_TOKEN) != -1) {
-                filterMatcher = USERNAME_PATTERN.matcher(userFilter);
+                filterMbtcher = USERNAME_PATTERN.mbtcher(userFilter);
             }
-            constraints = new SearchControls();
-            constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);
-            constraints.setReturningAttributes(new String[0]); //return no attrs
-            constraints.setReturningObjFlag(true); // to get the full DN
+            constrbints = new SebrchControls();
+            constrbints.setSebrchScope(SebrchControls.SUBTREE_SCOPE);
+            constrbints.setReturningAttributes(new String[0]); //return no bttrs
+            constrbints.setReturningObjFlbg(true); // to get the full DN
         }
 
-        authzIdentity = (String)options.get(AUTHZ_IDENTITY);
-        if (authzIdentity != null &&
-            authzIdentity.startsWith("{") && authzIdentity.endsWith("}")) {
-            if (constraints != null) {
-                authzIdentityAttr =
-                    authzIdentity.substring(1, authzIdentity.length() - 1);
-                constraints.setReturningAttributes(
-                    new String[]{authzIdentityAttr});
+        buthzIdentity = (String)options.get(AUTHZ_IDENTITY);
+        if (buthzIdentity != null &&
+            buthzIdentity.stbrtsWith("{") && buthzIdentity.endsWith("}")) {
+            if (constrbints != null) {
+                buthzIdentityAttr =
+                    buthzIdentity.substring(1, buthzIdentity.length() - 1);
+                constrbints.setReturningAttributes(
+                    new String[]{buthzIdentityAttr});
             }
-            authzIdentity = null; // set later, from the specified attribute
+            buthzIdentity = null; // set lbter, from the specified bttribute
         }
 
         // determine mode
-        if (authcIdentity != null) {
+        if (buthcIdentity != null) {
             if (userFilter != null) {
-                authFirst = true; // authentication-first mode
+                buthFirst = true; // buthenticbtion-first mode
             } else {
-                authOnly = true; // authentication-only mode
+                buthOnly = true; // buthenticbtion-only mode
             }
         }
 
-        if ("false".equalsIgnoreCase((String)options.get("useSSL"))) {
-            useSSL = false;
-            ldapEnvironment.remove(Context.SECURITY_PROTOCOL);
+        if ("fblse".equblsIgnoreCbse((String)options.get("useSSL"))) {
+            useSSL = fblse;
+            ldbpEnvironment.remove(Context.SECURITY_PROTOCOL);
         } else {
-            ldapEnvironment.put(Context.SECURITY_PROTOCOL, "ssl");
+            ldbpEnvironment.put(Context.SECURITY_PROTOCOL, "ssl");
         }
 
-        tryFirstPass =
-                "true".equalsIgnoreCase((String)options.get("tryFirstPass"));
+        tryFirstPbss =
+                "true".equblsIgnoreCbse((String)options.get("tryFirstPbss"));
 
-        useFirstPass =
-                "true".equalsIgnoreCase((String)options.get("useFirstPass"));
+        useFirstPbss =
+                "true".equblsIgnoreCbse((String)options.get("useFirstPbss"));
 
-        storePass = "true".equalsIgnoreCase((String)options.get("storePass"));
+        storePbss = "true".equblsIgnoreCbse((String)options.get("storePbss"));
 
-        clearPass = "true".equalsIgnoreCase((String)options.get("clearPass"));
+        clebrPbss = "true".equblsIgnoreCbse((String)options.get("clebrPbss"));
 
-        debug = "true".equalsIgnoreCase((String)options.get("debug"));
+        debug = "true".equblsIgnoreCbse((String)options.get("debug"));
 
         if (debug) {
-            if (authFirst) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                    "authentication-first mode; " +
-                    (useSSL ? "SSL enabled" : "SSL disabled"));
-            } else if (authOnly) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                    "authentication-only mode; " +
-                    (useSSL ? "SSL enabled" : "SSL disabled"));
+            if (buthFirst) {
+                System.out.println("\t\t[LdbpLoginModule] " +
+                    "buthenticbtion-first mode; " +
+                    (useSSL ? "SSL enbbled" : "SSL disbbled"));
+            } else if (buthOnly) {
+                System.out.println("\t\t[LdbpLoginModule] " +
+                    "buthenticbtion-only mode; " +
+                    (useSSL ? "SSL enbbled" : "SSL disbbled"));
             } else {
-                System.out.println("\t\t[LdapLoginModule] " +
-                    "search-first mode; " +
-                    (useSSL ? "SSL enabled" : "SSL disabled"));
+                System.out.println("\t\t[LdbpLoginModule] " +
+                    "sebrch-first mode; " +
+                    (useSSL ? "SSL enbbled" : "SSL disbbled"));
             }
         }
     }
 
     /**
-     * Begin user authentication.
+     * Begin user buthenticbtion.
      *
-     * <p> Acquire the user's credentials and verify them against the
+     * <p> Acquire the user's credentibls bnd verify them bgbinst the
      * specified LDAP directory.
      *
-     * @return true always, since this <code>LoginModule</code>
+     * @return true blwbys, since this <code>LoginModule</code>
      *          should not be ignored.
-     * @exception FailedLoginException if the authentication fails.
+     * @exception FbiledLoginException if the buthenticbtion fbils.
      * @exception LoginException if this <code>LoginModule</code>
-     *          is unable to perform the authentication.
+     *          is unbble to perform the buthenticbtion.
      */
-    public boolean login() throws LoginException {
+    public boolebn login() throws LoginException {
 
         if (userProvider == null) {
             throw new LoginException
-                ("Unable to locate the LDAP directory service");
+                ("Unbble to locbte the LDAP directory service");
         }
 
         if (debug) {
-            System.out.println("\t\t[LdapLoginModule] user provider: " +
+            System.out.println("\t\t[LdbpLoginModule] user provider: " +
                 userProvider);
         }
 
-        // attempt the authentication
-        if (tryFirstPass) {
+        // bttempt the buthenticbtion
+        if (tryFirstPbss) {
 
             try {
-                // attempt the authentication by getting the
-                // username and password from shared state
-                attemptAuthentication(true);
+                // bttempt the buthenticbtion by getting the
+                // usernbme bnd pbssword from shbred stbte
+                bttemptAuthenticbtion(true);
 
-                // authentication succeeded
+                // buthenticbtion succeeded
                 succeeded = true;
                 if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] " +
-                                "tryFirstPass succeeded");
+                    System.out.println("\t\t[LdbpLoginModule] " +
+                                "tryFirstPbss succeeded");
                 }
                 return true;
 
-            } catch (LoginException le) {
-                // authentication failed -- try again below by prompting
-                cleanState();
+            } cbtch (LoginException le) {
+                // buthenticbtion fbiled -- try bgbin below by prompting
+                clebnStbte();
                 if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] " +
-                                "tryFirstPass failed: " + le.toString());
+                    System.out.println("\t\t[LdbpLoginModule] " +
+                                "tryFirstPbss fbiled: " + le.toString());
                 }
             }
 
-        } else if (useFirstPass) {
+        } else if (useFirstPbss) {
 
             try {
-                // attempt the authentication by getting the
-                // username and password from shared state
-                attemptAuthentication(true);
+                // bttempt the buthenticbtion by getting the
+                // usernbme bnd pbssword from shbred stbte
+                bttemptAuthenticbtion(true);
 
-                // authentication succeeded
+                // buthenticbtion succeeded
                 succeeded = true;
                 if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] " +
-                                "useFirstPass succeeded");
+                    System.out.println("\t\t[LdbpLoginModule] " +
+                                "useFirstPbss succeeded");
                 }
                 return true;
 
-            } catch (LoginException le) {
-                // authentication failed
-                cleanState();
+            } cbtch (LoginException le) {
+                // buthenticbtion fbiled
+                clebnStbte();
                 if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] " +
-                                "useFirstPass failed");
+                    System.out.println("\t\t[LdbpLoginModule] " +
+                                "useFirstPbss fbiled");
                 }
                 throw le;
             }
         }
 
-        // attempt the authentication by prompting for the username and pwd
+        // bttempt the buthenticbtion by prompting for the usernbme bnd pwd
         try {
-            attemptAuthentication(false);
+            bttemptAuthenticbtion(fblse);
 
-            // authentication succeeded
+            // buthenticbtion succeeded
            succeeded = true;
             if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                                "authentication succeeded");
+                System.out.println("\t\t[LdbpLoginModule] " +
+                                "buthenticbtion succeeded");
             }
             return true;
 
-        } catch (LoginException le) {
-            cleanState();
+        } cbtch (LoginException le) {
+            clebnStbte();
             if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                                "authentication failed");
+                System.out.println("\t\t[LdbpLoginModule] " +
+                                "buthenticbtion fbiled");
             }
             throw le;
         }
     }
 
     /**
-     * Complete user authentication.
+     * Complete user buthenticbtion.
      *
-     * <p> This method is called if the LoginContext's
-     * overall authentication succeeded
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion succeeded
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules
      * succeeded).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> method), then this method associates an
-     * <code>LdapPrincipal</code> and one or more <code>UserPrincipal</code>s
-     * with the <code>Subject</code> located in the
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * <code>login</code> method), then this method bssocibtes bn
+     * <code>LdbpPrincipbl</code> bnd one or more <code>UserPrincipbl</code>s
+     * with the <code>Subject</code> locbted in the
      * <code>LoginModule</code>.  If this LoginModule's own
-     * authentication attempted failed, then this method removes
-     * any state that was originally saved.
+     * buthenticbtion bttempted fbiled, then this method removes
+     * bny stbte thbt wbs originblly sbved.
      *
-     * @exception LoginException if the commit fails
-     * @return true if this LoginModule's own login and commit
-     *          attempts succeeded, or false otherwise.
+     * @exception LoginException if the commit fbils
+     * @return true if this LoginModule's own login bnd commit
+     *          bttempts succeeded, or fblse otherwise.
      */
-    public boolean commit() throws LoginException {
+    public boolebn commit() throws LoginException {
 
-        if (succeeded == false) {
-            return false;
+        if (succeeded == fblse) {
+            return fblse;
         } else {
-            if (subject.isReadOnly()) {
-                cleanState();
-                throw new LoginException ("Subject is read-only");
+            if (subject.isRebdOnly()) {
+                clebnStbte();
+                throw new LoginException ("Subject is rebd-only");
             }
-            // add Principals to the Subject
-            Set<Principal> principals = subject.getPrincipals();
-            if (! principals.contains(ldapPrincipal)) {
-                principals.add(ldapPrincipal);
+            // bdd Principbls to the Subject
+            Set<Principbl> principbls = subject.getPrincipbls();
+            if (! principbls.contbins(ldbpPrincipbl)) {
+                principbls.bdd(ldbpPrincipbl);
             }
             if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                                   "added LdapPrincipal \"" +
-                                   ldapPrincipal +
+                System.out.println("\t\t[LdbpLoginModule] " +
+                                   "bdded LdbpPrincipbl \"" +
+                                   ldbpPrincipbl +
                                    "\" to Subject");
             }
 
-            if (! principals.contains(userPrincipal)) {
-                principals.add(userPrincipal);
+            if (! principbls.contbins(userPrincipbl)) {
+                principbls.bdd(userPrincipbl);
             }
             if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                                   "added UserPrincipal \"" +
-                                   userPrincipal +
+                System.out.println("\t\t[LdbpLoginModule] " +
+                                   "bdded UserPrincipbl \"" +
+                                   userPrincipbl +
                                    "\" to Subject");
             }
 
-            if (authzPrincipal != null &&
-                (! principals.contains(authzPrincipal))) {
-                principals.add(authzPrincipal);
+            if (buthzPrincipbl != null &&
+                (! principbls.contbins(buthzPrincipbl))) {
+                principbls.bdd(buthzPrincipbl);
 
                 if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] " +
-                                   "added UserPrincipal \"" +
-                                   authzPrincipal +
+                    System.out.println("\t\t[LdbpLoginModule] " +
+                                   "bdded UserPrincipbl \"" +
+                                   buthzPrincipbl +
                                    "\" to Subject");
                 }
             }
         }
-        // in any case, clean out state
-        cleanState();
+        // in bny cbse, clebn out stbte
+        clebnStbte();
         commitSucceeded = true;
         return true;
     }
 
     /**
-     * Abort user authentication.
+     * Abort user buthenticbtion.
      *
-     * <p> This method is called if the overall authentication failed.
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
+     * <p> This method is cblled if the overbll buthenticbtion fbiled.
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules
      * did not succeed).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> and <code>commit</code> methods),
-     * then this method cleans up any state that was originally saved.
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * <code>login</code> bnd <code>commit</code> methods),
+     * then this method clebns up bny stbte thbt wbs originblly sbved.
      *
-     * @exception LoginException if the abort fails.
-     * @return false if this LoginModule's own login and/or commit attempts
-     *          failed, and true otherwise.
+     * @exception LoginException if the bbort fbils.
+     * @return fblse if this LoginModule's own login bnd/or commit bttempts
+     *          fbiled, bnd true otherwise.
      */
-    public boolean abort() throws LoginException {
+    public boolebn bbort() throws LoginException {
         if (debug)
-            System.out.println("\t\t[LdapLoginModule] " +
-                "aborted authentication");
+            System.out.println("\t\t[LdbpLoginModule] " +
+                "bborted buthenticbtion");
 
-        if (succeeded == false) {
-            return false;
-        } else if (succeeded == true && commitSucceeded == false) {
+        if (succeeded == fblse) {
+            return fblse;
+        } else if (succeeded == true && commitSucceeded == fblse) {
 
-            // Clean out state
-            succeeded = false;
-            cleanState();
+            // Clebn out stbte
+            succeeded = fblse;
+            clebnStbte();
 
-            ldapPrincipal = null;
-            userPrincipal = null;
-            authzPrincipal = null;
+            ldbpPrincipbl = null;
+            userPrincipbl = null;
+            buthzPrincipbl = null;
         } else {
-            // overall authentication succeeded and commit succeeded,
-            // but someone else's commit failed
+            // overbll buthenticbtion succeeded bnd commit succeeded,
+            // but someone else's commit fbiled
             logout();
         }
         return true;
     }
 
     /**
-     * Logout a user.
+     * Logout b user.
      *
-     * <p> This method removes the Principals
-     * that were added by the <code>commit</code> method.
+     * <p> This method removes the Principbls
+     * thbt were bdded by the <code>commit</code> method.
      *
-     * @exception LoginException if the logout fails.
-     * @return true in all cases since this <code>LoginModule</code>
+     * @exception LoginException if the logout fbils.
+     * @return true in bll cbses since this <code>LoginModule</code>
      *          should not be ignored.
      */
-    public boolean logout() throws LoginException {
-        if (subject.isReadOnly()) {
-            cleanState();
-            throw new LoginException ("Subject is read-only");
+    public boolebn logout() throws LoginException {
+        if (subject.isRebdOnly()) {
+            clebnStbte();
+            throw new LoginException ("Subject is rebd-only");
         }
-        Set<Principal> principals = subject.getPrincipals();
-        principals.remove(ldapPrincipal);
-        principals.remove(userPrincipal);
-        if (authzIdentity != null) {
-            principals.remove(authzPrincipal);
+        Set<Principbl> principbls = subject.getPrincipbls();
+        principbls.remove(ldbpPrincipbl);
+        principbls.remove(userPrincipbl);
+        if (buthzIdentity != null) {
+            principbls.remove(buthzPrincipbl);
         }
 
-        // clean out state
-        cleanState();
-        succeeded = false;
-        commitSucceeded = false;
+        // clebn out stbte
+        clebnStbte();
+        succeeded = fblse;
+        commitSucceeded = fblse;
 
-        ldapPrincipal = null;
-        userPrincipal = null;
-        authzPrincipal = null;
+        ldbpPrincipbl = null;
+        userPrincipbl = null;
+        buthzPrincipbl = null;
 
         if (debug) {
-            System.out.println("\t\t[LdapLoginModule] logged out Subject");
+            System.out.println("\t\t[LdbpLoginModule] logged out Subject");
         }
         return true;
     }
 
     /**
-     * Attempt authentication
+     * Attempt buthenticbtion
      *
-     * @param getPasswdFromSharedState boolean that tells this method whether
-     *          to retrieve the password from the sharedState.
-     * @exception LoginException if the authentication attempt fails.
+     * @pbrbm getPbsswdFromShbredStbte boolebn thbt tells this method whether
+     *          to retrieve the pbssword from the shbredStbte.
+     * @exception LoginException if the buthenticbtion bttempt fbils.
      */
-    private void attemptAuthentication(boolean getPasswdFromSharedState)
+    privbte void bttemptAuthenticbtion(boolebn getPbsswdFromShbredStbte)
         throws LoginException {
 
-        // first get the username and password
-        getUsernamePassword(getPasswdFromSharedState);
+        // first get the usernbme bnd pbssword
+        getUsernbmePbssword(getPbsswdFromShbredStbte);
 
-        if (password == null || password.length == 0) {
+        if (pbssword == null || pbssword.length == 0) {
             throw (LoginException)
-                new FailedLoginException("No password was supplied");
+                new FbiledLoginException("No pbssword wbs supplied");
         }
 
         String dn = "";
 
-        if (authFirst || authOnly) {
+        if (buthFirst || buthOnly) {
 
-            String id = replaceUsernameToken(identityMatcher, authcIdentity);
+            String id = replbceUsernbmeToken(identityMbtcher, buthcIdentity);
 
-            // Prepare to bind using user's username and password
-            ldapEnvironment.put(Context.SECURITY_CREDENTIALS, password);
-            ldapEnvironment.put(Context.SECURITY_PRINCIPAL, id);
+            // Prepbre to bind using user's usernbme bnd pbssword
+            ldbpEnvironment.put(Context.SECURITY_CREDENTIALS, pbssword);
+            ldbpEnvironment.put(Context.SECURITY_PRINCIPAL, id);
 
             if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                    "attempting to authenticate user: " + username);
+                System.out.println("\t\t[LdbpLoginModule] " +
+                    "bttempting to buthenticbte user: " + usernbme);
             }
 
             try {
                 // Connect to the LDAP server (using simple bind)
-                ctx = new InitialLdapContext(ldapEnvironment, null);
+                ctx = new InitiblLdbpContext(ldbpEnvironment, null);
 
-            } catch (NamingException e) {
+            } cbtch (NbmingException e) {
                 throw (LoginException)
-                    new FailedLoginException("Cannot bind to LDAP server")
-                        .initCause(e);
+                    new FbiledLoginException("Cbnnot bind to LDAP server")
+                        .initCbuse(e);
             }
 
-            // Authentication has succeeded
+            // Authenticbtion hbs succeeded
 
-            // Locate the user's distinguished name
+            // Locbte the user's distinguished nbme
             if (userFilter != null) {
                 dn = findUserDN(ctx);
             } else {
@@ -785,126 +785,126 @@ public class LdapLoginModule implements LoginModule {
         } else {
 
             try {
-                // Connect to the LDAP server (using anonymous bind)
-                ctx = new InitialLdapContext(ldapEnvironment, null);
+                // Connect to the LDAP server (using bnonymous bind)
+                ctx = new InitiblLdbpContext(ldbpEnvironment, null);
 
-            } catch (NamingException e) {
+            } cbtch (NbmingException e) {
                 throw (LoginException)
-                    new FailedLoginException("Cannot connect to LDAP server")
-                        .initCause(e);
+                    new FbiledLoginException("Cbnnot connect to LDAP server")
+                        .initCbuse(e);
             }
 
-            // Locate the user's distinguished name
+            // Locbte the user's distinguished nbme
             dn = findUserDN(ctx);
 
             try {
 
-                // Prepare to bind using user's distinguished name and password
-                ctx.addToEnvironment(Context.SECURITY_AUTHENTICATION, "simple");
-                ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, dn);
-                ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
+                // Prepbre to bind using user's distinguished nbme bnd pbssword
+                ctx.bddToEnvironment(Context.SECURITY_AUTHENTICATION, "simple");
+                ctx.bddToEnvironment(Context.SECURITY_PRINCIPAL, dn);
+                ctx.bddToEnvironment(Context.SECURITY_CREDENTIALS, pbssword);
 
                 if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] " +
-                        "attempting to authenticate user: " + username);
+                    System.out.println("\t\t[LdbpLoginModule] " +
+                        "bttempting to buthenticbte user: " + usernbme);
                 }
                 // Connect to the LDAP server (using simple bind)
                 ctx.reconnect(null);
 
-                // Authentication has succeeded
+                // Authenticbtion hbs succeeded
 
-            } catch (NamingException e) {
+            } cbtch (NbmingException e) {
                 throw (LoginException)
-                    new FailedLoginException("Cannot bind to LDAP server")
-                        .initCause(e);
+                    new FbiledLoginException("Cbnnot bind to LDAP server")
+                        .initCbuse(e);
             }
         }
 
-        // Save input as shared state only if authentication succeeded
-        if (storePass &&
-            !sharedState.containsKey(USERNAME_KEY) &&
-            !sharedState.containsKey(PASSWORD_KEY)) {
-            sharedState.put(USERNAME_KEY, username);
-            sharedState.put(PASSWORD_KEY, password);
+        // Sbve input bs shbred stbte only if buthenticbtion succeeded
+        if (storePbss &&
+            !shbredStbte.contbinsKey(USERNAME_KEY) &&
+            !shbredStbte.contbinsKey(PASSWORD_KEY)) {
+            shbredStbte.put(USERNAME_KEY, usernbme);
+            shbredStbte.put(PASSWORD_KEY, pbssword);
         }
 
-        // Create the user principals
-        userPrincipal = new UserPrincipal(username);
-        if (authzIdentity != null) {
-            authzPrincipal = new UserPrincipal(authzIdentity);
+        // Crebte the user principbls
+        userPrincipbl = new UserPrincipbl(usernbme);
+        if (buthzIdentity != null) {
+            buthzPrincipbl = new UserPrincipbl(buthzIdentity);
         }
 
         try {
 
-            ldapPrincipal = new LdapPrincipal(dn);
+            ldbpPrincipbl = new LdbpPrincipbl(dn);
 
-        } catch (InvalidNameException e) {
+        } cbtch (InvblidNbmeException e) {
             if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                                   "cannot create LdapPrincipal: bad DN");
+                System.out.println("\t\t[LdbpLoginModule] " +
+                                   "cbnnot crebte LdbpPrincipbl: bbd DN");
             }
             throw (LoginException)
-                new FailedLoginException("Cannot create LdapPrincipal")
-                    .initCause(e);
+                new FbiledLoginException("Cbnnot crebte LdbpPrincipbl")
+                    .initCbuse(e);
         }
     }
 
     /**
-     * Search for the user's entry.
-     * Determine the distinguished name of the user's entry and optionally
-     * an authorization identity for the user.
+     * Sebrch for the user's entry.
+     * Determine the distinguished nbme of the user's entry bnd optionblly
+     * bn buthorizbtion identity for the user.
      *
-     * @param ctx an LDAP context to use for the search
-     * @return the user's distinguished name or an empty string if none
-     *         was found.
-     * @exception LoginException if the user's entry cannot be found.
+     * @pbrbm ctx bn LDAP context to use for the sebrch
+     * @return the user's distinguished nbme or bn empty string if none
+     *         wbs found.
+     * @exception LoginException if the user's entry cbnnot be found.
      */
-    private String findUserDN(LdapContext ctx) throws LoginException {
+    privbte String findUserDN(LdbpContext ctx) throws LoginException {
 
         String userDN = "";
 
-        // Locate the user's LDAP entry
+        // Locbte the user's LDAP entry
         if (userFilter != null) {
             if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                    "searching for entry belonging to user: " + username);
+                System.out.println("\t\t[LdbpLoginModule] " +
+                    "sebrching for entry belonging to user: " + usernbme);
             }
         } else {
             if (debug) {
-                System.out.println("\t\t[LdapLoginModule] " +
-                    "cannot search for entry belonging to user: " + username);
+                System.out.println("\t\t[LdbpLoginModule] " +
+                    "cbnnot sebrch for entry belonging to user: " + usernbme);
             }
             throw (LoginException)
-                new FailedLoginException("Cannot find user's LDAP entry");
+                new FbiledLoginException("Cbnnot find user's LDAP entry");
         }
 
         try {
-            NamingEnumeration<SearchResult> results = ctx.search("",
-                replaceUsernameToken(filterMatcher, userFilter), constraints);
+            NbmingEnumerbtion<SebrchResult> results = ctx.sebrch("",
+                replbceUsernbmeToken(filterMbtcher, userFilter), constrbints);
 
-            // Extract the distinguished name of the user's entry
-            // (Use the first entry if more than one is returned)
-            if (results.hasMore()) {
-                SearchResult entry = results.next();
+            // Extrbct the distinguished nbme of the user's entry
+            // (Use the first entry if more thbn one is returned)
+            if (results.hbsMore()) {
+                SebrchResult entry = results.next();
 
-                // %%% - use the SearchResult.getNameInNamespace method
-                //        available in JDK 1.5 and later.
-                //        (can remove call to constraints.setReturningObjFlag)
-                userDN = ((Context)entry.getObject()).getNameInNamespace();
+                // %%% - use the SebrchResult.getNbmeInNbmespbce method
+                //        bvbilbble in JDK 1.5 bnd lbter.
+                //        (cbn remove cbll to constrbints.setReturningObjFlbg)
+                userDN = ((Context)entry.getObject()).getNbmeInNbmespbce();
 
                 if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] found entry: " +
+                    System.out.println("\t\t[LdbpLoginModule] found entry: " +
                         userDN);
                 }
 
-                // Extract a value from user's authorization identity attribute
-                if (authzIdentityAttr != null) {
-                    Attribute attr =
-                        entry.getAttributes().get(authzIdentityAttr);
-                    if (attr != null) {
-                        Object val = attr.get();
-                        if (val instanceof String) {
-                            authzIdentity = (String) val;
+                // Extrbct b vblue from user's buthorizbtion identity bttribute
+                if (buthzIdentityAttr != null) {
+                    Attribute bttr =
+                        entry.getAttributes().get(buthzIdentityAttr);
+                    if (bttr != null) {
+                        Object vbl = bttr.get();
+                        if (vbl instbnceof String) {
+                            buthzIdentity = (String) vbl;
                         }
                     }
                 }
@@ -912,107 +912,107 @@ public class LdapLoginModule implements LoginModule {
                 results.close();
 
             } else {
-                // Bad username
+                // Bbd usernbme
                 if (debug) {
-                    System.out.println("\t\t[LdapLoginModule] user's entry " +
+                    System.out.println("\t\t[LdbpLoginModule] user's entry " +
                         "not found");
                 }
             }
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             // ignore
         }
 
-        if (userDN.equals("")) {
+        if (userDN.equbls("")) {
             throw (LoginException)
-                new FailedLoginException("Cannot find user's LDAP entry");
+                new FbiledLoginException("Cbnnot find user's LDAP entry");
         } else {
             return userDN;
         }
     }
 
     /**
-     * Replace the username token
+     * Replbce the usernbme token
      *
-     * @param string the target string
+     * @pbrbm string the tbrget string
      * @return the modified string
      */
-    private String replaceUsernameToken(Matcher matcher, String string) {
-        return matcher != null ? matcher.replaceAll(username) : string;
+    privbte String replbceUsernbmeToken(Mbtcher mbtcher, String string) {
+        return mbtcher != null ? mbtcher.replbceAll(usernbme) : string;
     }
 
     /**
-     * Get the username and password.
-     * This method does not return any value.
-     * Instead, it sets global name and password variables.
+     * Get the usernbme bnd pbssword.
+     * This method does not return bny vblue.
+     * Instebd, it sets globbl nbme bnd pbssword vbribbles.
      *
-     * <p> Also note that this method will set the username and password
-     * values in the shared state in case subsequent LoginModules
-     * want to use them via use/tryFirstPass.
+     * <p> Also note thbt this method will set the usernbme bnd pbssword
+     * vblues in the shbred stbte in cbse subsequent LoginModules
+     * wbnt to use them vib use/tryFirstPbss.
      *
-     * @param getPasswdFromSharedState boolean that tells this method whether
-     *          to retrieve the password from the sharedState.
-     * @exception LoginException if the username/password cannot be acquired.
+     * @pbrbm getPbsswdFromShbredStbte boolebn thbt tells this method whether
+     *          to retrieve the pbssword from the shbredStbte.
+     * @exception LoginException if the usernbme/pbssword cbnnot be bcquired.
      */
-    private void getUsernamePassword(boolean getPasswdFromSharedState)
+    privbte void getUsernbmePbssword(boolebn getPbsswdFromShbredStbte)
         throws LoginException {
 
-        if (getPasswdFromSharedState) {
-            // use the password saved by the first module in the stack
-            username = (String)sharedState.get(USERNAME_KEY);
-            password = (char[])sharedState.get(PASSWORD_KEY);
+        if (getPbsswdFromShbredStbte) {
+            // use the pbssword sbved by the first module in the stbck
+            usernbme = (String)shbredStbte.get(USERNAME_KEY);
+            pbssword = (chbr[])shbredStbte.get(PASSWORD_KEY);
             return;
         }
 
-        // prompt for a username and password
-        if (callbackHandler == null)
-            throw new LoginException("No CallbackHandler available " +
-                "to acquire authentication information from the user");
+        // prompt for b usernbme bnd pbssword
+        if (cbllbbckHbndler == null)
+            throw new LoginException("No CbllbbckHbndler bvbilbble " +
+                "to bcquire buthenticbtion informbtion from the user");
 
-        Callback[] callbacks = new Callback[2];
-        callbacks[0] = new NameCallback(rb.getString("username."));
-        callbacks[1] = new PasswordCallback(rb.getString("password."), false);
+        Cbllbbck[] cbllbbcks = new Cbllbbck[2];
+        cbllbbcks[0] = new NbmeCbllbbck(rb.getString("usernbme."));
+        cbllbbcks[1] = new PbsswordCbllbbck(rb.getString("pbssword."), fblse);
 
         try {
-            callbackHandler.handle(callbacks);
-            username = ((NameCallback)callbacks[0]).getName();
-            char[] tmpPassword = ((PasswordCallback)callbacks[1]).getPassword();
-            password = new char[tmpPassword.length];
-            System.arraycopy(tmpPassword, 0,
-                                password, 0, tmpPassword.length);
-            ((PasswordCallback)callbacks[1]).clearPassword();
+            cbllbbckHbndler.hbndle(cbllbbcks);
+            usernbme = ((NbmeCbllbbck)cbllbbcks[0]).getNbme();
+            chbr[] tmpPbssword = ((PbsswordCbllbbck)cbllbbcks[1]).getPbssword();
+            pbssword = new chbr[tmpPbssword.length];
+            System.brrbycopy(tmpPbssword, 0,
+                                pbssword, 0, tmpPbssword.length);
+            ((PbsswordCbllbbck)cbllbbcks[1]).clebrPbssword();
 
-        } catch (java.io.IOException ioe) {
+        } cbtch (jbvb.io.IOException ioe) {
             throw new LoginException(ioe.toString());
 
-        } catch (UnsupportedCallbackException uce) {
-            throw new LoginException("Error: " + uce.getCallback().toString() +
-                        " not available to acquire authentication information" +
+        } cbtch (UnsupportedCbllbbckException uce) {
+            throw new LoginException("Error: " + uce.getCbllbbck().toString() +
+                        " not bvbilbble to bcquire buthenticbtion informbtion" +
                         " from the user");
         }
     }
 
     /**
-     * Clean out state because of a failed authentication attempt
+     * Clebn out stbte becbuse of b fbiled buthenticbtion bttempt
      */
-    private void cleanState() {
-        username = null;
-        if (password != null) {
-            Arrays.fill(password, ' ');
-            password = null;
+    privbte void clebnStbte() {
+        usernbme = null;
+        if (pbssword != null) {
+            Arrbys.fill(pbssword, ' ');
+            pbssword = null;
         }
         try {
             if (ctx != null) {
                 ctx.close();
             }
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             // ignore
         }
         ctx = null;
 
-        if (clearPass) {
-            sharedState.remove(USERNAME_KEY);
-            sharedState.remove(PASSWORD_KEY);
+        if (clebrPbss) {
+            shbredStbte.remove(USERNAME_KEY);
+            shbredStbte.remove(PASSWORD_KEY);
         }
     }
 }

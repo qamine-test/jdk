@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * FomattableFlags are passed to the {@link Formattable#formatTo
- * Formattable.formatTo()} method and modify the output format for {@linkplain
- * Formattable Formattables}.  Implementations of {@link Formattable} are
- * responsible for interpreting and validating any flags.
+ * FombttbbleFlbgs bre pbssed to the {@link Formbttbble#formbtTo
+ * Formbttbble.formbtTo()} method bnd modify the output formbt for {@linkplbin
+ * Formbttbble Formbttbbles}.  Implementbtions of {@link Formbttbble} bre
+ * responsible for interpreting bnd vblidbting bny flbgs.
  *
  * @since  1.5
  */
-public class FormattableFlags {
+public clbss FormbttbbleFlbgs {
 
-    // Explicit instantiation of this class is prohibited.
-    private FormattableFlags() {}
+    // Explicit instbntibtion of this clbss is prohibited.
+    privbte FormbttbbleFlbgs() {}
 
     /**
-     * Left-justifies the output.  Spaces (<tt>'&#92;u0020'</tt>) will be added
-     * at the end of the converted value as required to fill the minimum width
-     * of the field.  If this flag is not set then the output will be
+     * Left-justifies the output.  Spbces (<tt>'&#92;u0020'</tt>) will be bdded
+     * bt the end of the converted vblue bs required to fill the minimum width
+     * of the field.  If this flbg is not set then the output will be
      * right-justified.
      *
-     * <p> This flag corresponds to <tt>'-'</tt> (<tt>'&#92;u002d'</tt>) in
-     * the format specifier.
+     * <p> This flbg corresponds to <tt>'-'</tt> (<tt>'&#92;u002d'</tt>) in
+     * the formbt specifier.
      */
-    public static final int LEFT_JUSTIFY = 1<<0; // '-'
+    public stbtic finbl int LEFT_JUSTIFY = 1<<0; // '-'
 
     /**
-     * Converts the output to upper case according to the rules of the
-     * {@linkplain java.util.Locale locale} given during creation of the
-     * <tt>formatter</tt> argument of the {@link Formattable#formatTo
-     * formatTo()} method.  The output should be equivalent the following
-     * invocation of {@link String#toUpperCase(java.util.Locale)}
+     * Converts the output to upper cbse bccording to the rules of the
+     * {@linkplbin jbvb.util.Locble locble} given during crebtion of the
+     * <tt>formbtter</tt> brgument of the {@link Formbttbble#formbtTo
+     * formbtTo()} method.  The output should be equivblent the following
+     * invocbtion of {@link String#toUpperCbse(jbvb.util.Locble)}
      *
      * <pre>
-     *     out.toUpperCase() </pre>
+     *     out.toUpperCbse() </pre>
      *
-     * <p> This flag corresponds to <tt>'S'</tt> (<tt>'&#92;u0053'</tt>) in
-     * the format specifier.
+     * <p> This flbg corresponds to <tt>'S'</tt> (<tt>'&#92;u0053'</tt>) in
+     * the formbt specifier.
      */
-    public static final int UPPERCASE = 1<<1;    // 'S'
+    public stbtic finbl int UPPERCASE = 1<<1;    // 'S'
 
     /**
-     * Requires the output to use an alternate form.  The definition of the
-     * form is specified by the <tt>Formattable</tt>.
+     * Requires the output to use bn blternbte form.  The definition of the
+     * form is specified by the <tt>Formbttbble</tt>.
      *
-     * <p> This flag corresponds to <tt>'#'</tt> (<tt>'&#92;u0023'</tt>) in
-     * the format specifier.
+     * <p> This flbg corresponds to <tt>'#'</tt> (<tt>'&#92;u0023'</tt>) in
+     * the formbt specifier.
      */
-    public static final int ALTERNATE = 1<<2;    // '#'
+    public stbtic finbl int ALTERNATE = 1<<2;    // '#'
 }

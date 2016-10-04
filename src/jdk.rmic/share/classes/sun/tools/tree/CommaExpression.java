@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class CommaExpression extends BinaryExpression {
+clbss CommbExpression extends BinbryExpression {
     /**
      * constructor
      */
-    public CommaExpression(long where, Expression left, Expression right) {
+    public CommbExpression(long where, Expression left, Expression right) {
         super(COMMA, where, (right != null) ? right.type : Type.tVoid, left, right);
     }
 
     /**
      * Check void expression
      */
-    public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
+    public Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
         vset = left.check(env, ctx, vset, exp);
         vset = right.check(env, ctx, vset, exp);
         return vset;
@@ -84,12 +84,12 @@ class CommaExpression extends BinaryExpression {
         }
         return simplify();
     }
-    public Expression inlineValue(Environment env, Context ctx) {
+    public Expression inlineVblue(Environment env, Context ctx) {
         if (left != null) {
             left = left.inline(env, ctx);
         }
         if (right != null) {
-            right = right.inlineValue(env, ctx);
+            right = right.inlineVblue(env, ctx);
         }
         return simplify();
     }
@@ -97,54 +97,54 @@ class CommaExpression extends BinaryExpression {
     /**
      * Code
      */
-    int codeLValue(Environment env, Context ctx, Assembler asm) {
+    int codeLVblue(Environment env, Context ctx, Assembler bsm) {
         if (right == null) {
-            // throw an appropriate error
-            return super.codeLValue(env, ctx, asm);
+            // throw bn bppropribte error
+            return super.codeLVblue(env, ctx, bsm);
         } else {
-            // Fully code the left-hand side.  Do the LValue part of the
-            // right-hand side now.  The remainder will be done by codeLoad or
+            // Fully code the left-hbnd side.  Do the LVblue pbrt of the
+            // right-hbnd side now.  The rembinder will be done by codeLobd or
             // codeStore
             if (left != null) {
-                left.code(env, ctx, asm);
+                left.code(env, ctx, bsm);
             }
-            return right.codeLValue(env, ctx, asm);
+            return right.codeLVblue(env, ctx, bsm);
         }
     }
 
-    void codeLoad(Environment env, Context ctx, Assembler asm) {
-        // The left-hand part has already been handled by codeLValue.
+    void codeLobd(Environment env, Context ctx, Assembler bsm) {
+        // The left-hbnd pbrt hbs blrebdy been hbndled by codeLVblue.
 
         if (right == null) {
-            // throw an appropriate error
-            super.codeLoad(env, ctx, asm);
+            // throw bn bppropribte error
+            super.codeLobd(env, ctx, bsm);
         } else {
-            right.codeLoad(env, ctx, asm);
+            right.codeLobd(env, ctx, bsm);
         }
     }
 
-    void codeStore(Environment env, Context ctx, Assembler asm) {
-        // The left-hand part has already been handled by codeLValue.
+    void codeStore(Environment env, Context ctx, Assembler bsm) {
+        // The left-hbnd pbrt hbs blrebdy been hbndled by codeLVblue.
         if (right == null) {
-            // throw an appropriate error
-            super.codeStore(env, ctx, asm);
+            // throw bn bppropribte error
+            super.codeStore(env, ctx, bsm);
         } else {
-            right.codeStore(env, ctx, asm);
+            right.codeStore(env, ctx, bsm);
         }
     }
 
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
+    public void codeVblue(Environment env, Context ctx, Assembler bsm) {
         if (left != null) {
-            left.code(env, ctx, asm);
+            left.code(env, ctx, bsm);
         }
-        right.codeValue(env, ctx, asm);
+        right.codeVblue(env, ctx, bsm);
     }
-    public void code(Environment env, Context ctx, Assembler asm) {
+    public void code(Environment env, Context ctx, Assembler bsm) {
         if (left != null) {
-            left.code(env, ctx, asm);
+            left.code(env, ctx, bsm);
         }
         if (right != null) {
-            right.code(env, ctx, asm);
+            right.code(env, ctx, bsm);
         }
     }
 }

@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp.defaults;
+pbckbge com.sun.jmx.snmp.defbults;
 
-// java import
+// jbvb import
 //
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.Enumeration;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.Properties;
+import jbvb.util.Enumerbtion;
 
 /**
- * This class reads a file containing the property list defined for Java DMK
- * and adds all the read properties to the list of system properties.
+ * This clbss rebds b file contbining the property list defined for Jbvb DMK
+ * bnd bdds bll the rebd properties to the list of system properties.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  *
  * @since 1.5
  */
-public class SnmpProperties {
+public clbss SnmpProperties {
 
-    // private constructor defined to "hide" the default public constructor
-    private SnmpProperties() {
+    // privbte constructor defined to "hide" the defbult public constructor
+    privbte SnmpProperties() {
     }
 
     // PUBLIC STATIC METHODS
     //----------------------
 
     /**
-     * Reads the Java DMK property list from a file and
-     * adds the read properties as system properties.
+     * Rebds the Jbvb DMK property list from b file bnd
+     * bdds the rebd properties bs system properties.
      */
-    public static void load(String file) throws IOException {
+    public stbtic void lobd(String file) throws IOException {
         Properties props = new Properties();
-        InputStream is = new FileInputStream(file);
-        props.load(is);
+        InputStrebm is = new FileInputStrebm(file);
+        props.lobd(is);
         is.close();
-        for (final Enumeration<?> e = props.keys(); e.hasMoreElements() ; ) {
-            final String key = (String) e.nextElement();
+        for (finbl Enumerbtion<?> e = props.keys(); e.hbsMoreElements() ; ) {
+            finbl String key = (String) e.nextElement();
             System.setProperty(key,props.getProperty(key));
         }
     }
@@ -70,109 +70,109 @@ public class SnmpProperties {
     //------------------------
 
     /**
-     * References the property that specifies the directory where
-     * the native libraries will be stored before the MLet Service
-     * loads them into memory.
+     * References the property thbt specifies the directory where
+     * the nbtive librbries will be stored before the MLet Service
+     * lobds them into memory.
      * <p>
-     * Property Name: <B>jmx.mlet.library.dir</B>
+     * Property Nbme: <B>jmx.mlet.librbry.dir</B>
      */
-    public static final String MLET_LIB_DIR = "jmx.mlet.library.dir";
+    public stbtic finbl String MLET_LIB_DIR = "jmx.mlet.librbry.dir";
 
     /**
-     * References the property that specifies the ACL file
-     * used by the SNMP protocol adaptor.
+     * References the property thbt specifies the ACL file
+     * used by the SNMP protocol bdbptor.
      * <p>
-     * Property Name: <B>jdmk.acl.file</B>
+     * Property Nbme: <B>jdmk.bcl.file</B>
      */
-    public static final String ACL_FILE = "jdmk.acl.file";
+    public stbtic finbl String ACL_FILE = "jdmk.bcl.file";
 
     /**
-     * References the property that specifies the Security file
-     * used by the SNMP protocol adaptor.
+     * References the property thbt specifies the Security file
+     * used by the SNMP protocol bdbptor.
      * <p>
-     * Property Name: <B>jdmk.security.file</B>
+     * Property Nbme: <B>jdmk.security.file</B>
      */
-    public static final String SECURITY_FILE = "jdmk.security.file";
+    public stbtic finbl String SECURITY_FILE = "jdmk.security.file";
 
     /**
-     * References the property that specifies the User ACL file
-     * used by the SNMP protocol adaptor.
+     * References the property thbt specifies the User ACL file
+     * used by the SNMP protocol bdbptor.
      * <p>
-     * Property Name: <B>jdmk.uacl.file</B>
+     * Property Nbme: <B>jdmk.ubcl.file</B>
      */
-    public static final String UACL_FILE = "jdmk.uacl.file";
+    public stbtic finbl String UACL_FILE = "jdmk.ubcl.file";
 
     /**
-     * References the property that specifies the default mib_core file
+     * References the property thbt specifies the defbult mib_core file
      * used by the mibgen compiler.
      * <p>
-     * Property Name: <B>mibcore.file</B>
+     * Property Nbme: <B>mibcore.file</B>
      */
-    public static final String MIB_CORE_FILE = "mibcore.file";
+    public stbtic finbl String MIB_CORE_FILE = "mibcore.file";
 
     /**
-     * References the property that specifies the full name of the JMX
-     * specification implemented by this product.
+     * References the property thbt specifies the full nbme of the JMX
+     * specificbtion implemented by this product.
      * <p>
-     * Property Name: <B>jmx.specification.name</B>
+     * Property Nbme: <B>jmx.specificbtion.nbme</B>
      */
-     public static final String JMX_SPEC_NAME = "jmx.specification.name";
+     public stbtic finbl String JMX_SPEC_NAME = "jmx.specificbtion.nbme";
 
     /**
-     * References the property that specifies the version of the JMX
-     * specification implemented by this product.
+     * References the property thbt specifies the version of the JMX
+     * specificbtion implemented by this product.
      * <p>
-     * Property Name: <B>jmx.specification.version</B>
+     * Property Nbme: <B>jmx.specificbtion.version</B>
      */
-     public static final String JMX_SPEC_VERSION = "jmx.specification.version";
+     public stbtic finbl String JMX_SPEC_VERSION = "jmx.specificbtion.version";
 
     /**
-     * References the property that specifies the vendor of the JMX
-     * specification implemented by this product.
+     * References the property thbt specifies the vendor of the JMX
+     * specificbtion implemented by this product.
      * <p>
-     * Property Name: <B>jmx.specification.vendor</B>
+     * Property Nbme: <B>jmx.specificbtion.vendor</B>
      */
-     public static final String JMX_SPEC_VENDOR = "jmx.specification.vendor";
+     public stbtic finbl String JMX_SPEC_VENDOR = "jmx.specificbtion.vendor";
 
     /**
-     * References the property that specifies the full name of this product
-     * implementing the  JMX specification.
+     * References the property thbt specifies the full nbme of this product
+     * implementing the  JMX specificbtion.
      * <p>
-     * Property Name: <B>jmx.implementation.name</B>
+     * Property Nbme: <B>jmx.implementbtion.nbme</B>
      */
-    public static final String JMX_IMPL_NAME = "jmx.implementation.name";
+    public stbtic finbl String JMX_IMPL_NAME = "jmx.implementbtion.nbme";
 
     /**
-     * References the property that specifies the name of the vendor of this product
-     * implementing the  JMX specification.
+     * References the property thbt specifies the nbme of the vendor of this product
+     * implementing the  JMX specificbtion.
      * <p>
-     * Property Name: <B>jmx.implementation.vendor</B>
+     * Property Nbme: <B>jmx.implementbtion.vendor</B>
      */
-    public static final String JMX_IMPL_VENDOR = "jmx.implementation.vendor";
+    public stbtic finbl String JMX_IMPL_VENDOR = "jmx.implementbtion.vendor";
 
     /**
-     * References the property that specifies the version of this product
-     * implementing the  JMX specification.
+     * References the property thbt specifies the version of this product
+     * implementing the  JMX specificbtion.
      * <p>
-     * Property Name: <B>jmx.implementation.version</B>
+     * Property Nbme: <B>jmx.implementbtion.version</B>
      */
-    public static final String JMX_IMPL_VERSION = "jmx.implementation.version";
+    public stbtic finbl String JMX_IMPL_VERSION = "jmx.implementbtion.version";
 
     /**
-     * References the property that specifies the SSL cipher suites to
-     * be enabled by the HTTP/SSL connector.
+     * References the property thbt specifies the SSL cipher suites to
+     * be enbbled by the HTTP/SSL connector.
      * <p>
-     * Property Name: <B>jdmk.ssl.cipher.suite.</B>
+     * Property Nbme: <B>jdmk.ssl.cipher.suite.</B>
      * <p>
-     * The list of SSL cipher suites is specified in the format:
+     * The list of SSL cipher suites is specified in the formbt:
      * <p>
-     * <DD><B>jdmk.ssl.cipher.suite.</B>&lt;n&gt;<B>=</B>&lt;cipher suite name&gt;</DD>
+     * <DD><B>jdmk.ssl.cipher.suite.</B>&lt;n&gt;<B>=</B>&lt;cipher suite nbme&gt;</DD>
      * <p>
-     * For example:
+     * For exbmple:
      * <p>
      * <DD>jdmk.ssl.cipher.suite.1=SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA</DD>
      * <DD>jdmk.ssl.cipher.suite.2=SSL_RSA_EXPORT_WITH_RC4_40_MD5</DD>
      * <DD>. . .</DD>
      */
-    public static final String SSL_CIPHER_SUITE = "jdmk.ssl.cipher.suite.";
+    public stbtic finbl String SSL_CIPHER_SUITE = "jdmk.ssl.cipher.suite.";
 }

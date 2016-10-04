@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "util.h"
-#include "VirtualMachineImpl.h"
+#include "VirtublMbchineImpl.h"
 #include "commonRef.h"
-#include "inStream.h"
-#include "outStream.h"
-#include "eventHandler.h"
+#include "inStrebm.h"
+#include "outStrebm.h"
+#include "eventHbndler.h"
 #include "eventHelper.h"
-#include "threadControl.h"
+#include "threbdControl.h"
 #include "SDE.h"
-#include "FrameID.h"
+#include "FrbmeID.h"
 
-static char *versionName = "Java Debug Wire Protocol (Reference Implementation)";
-static int majorVersion = 1;  /* JDWP major version */
-static int minorVersion = 8;  /* JDWP minor version */
+stbtic chbr *versionNbme = "Jbvb Debug Wire Protocol (Reference Implementbtion)";
+stbtic int mbjorVersion = 1;  /* JDWP mbjor version */
+stbtic int minorVersion = 8;  /* JDWP minor version */
 
-static jboolean
-version(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+version(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    char buf[500];
-    char *vmName;
-    char *vmVersion;
-    char *vmInfo;
+    chbr buf[500];
+    chbr *vmNbme;
+    chbr *vmVersion;
+    chbr *vmInfo;
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
+    if (gdbtb->vmDebd) {
+        outStrebm_setError(out, JDWP_ERROR(VM_DEAD));
         return JNI_TRUE;
     }
 
-    vmVersion = gdata->property_java_version;
+    vmVersion = gdbtb->property_jbvb_version;
     if (vmVersion == NULL) {
         vmVersion = "<unknown>";
     }
-    vmName = gdata->property_java_vm_name;
-    if (vmName == NULL) {
-        vmName = "<unknown>";
+    vmNbme = gdbtb->property_jbvb_vm_nbme;
+    if (vmNbme == NULL) {
+        vmNbme = "<unknown>";
     }
-    vmInfo = gdata->property_java_vm_info;
+    vmInfo = gdbtb->property_jbvb_vm_info;
     if (vmInfo == NULL) {
         vmInfo = "<unknown>";
     }
 
     /*
-     * Write the descriptive version information
+     * Write the descriptive version informbtion
      */
     (void)snprintf(buf, sizeof(buf),
-                "%s version %d.%d\nJVM Debug Interface version %d.%d\n"
+                "%s version %d.%d\nJVM Debug Interfbce version %d.%d\n"
                  "JVM version %s (%s, %s)",
-                  versionName, majorVersion, minorVersion,
-                  jvmtiMajorVersion(), jvmtiMinorVersion(),
-                  vmVersion, vmName, vmInfo);
-    (void)outStream_writeString(out, buf);
+                  versionNbme, mbjorVersion, minorVersion,
+                  jvmtiMbjorVersion(), jvmtiMinorVersion(),
+                  vmVersion, vmNbme, vmInfo);
+    (void)outStrebm_writeString(out, buf);
 
     /*
      * Write the JDWP version numbers
      */
-    (void)outStream_writeInt(out, majorVersion);
-    (void)outStream_writeInt(out, minorVersion);
+    (void)outStrebm_writeInt(out, mbjorVersion);
+    (void)outStrebm_writeInt(out, minorVersion);
 
     /*
-     * Write the VM version and name
+     * Write the VM version bnd nbme
      */
-    (void)outStream_writeString(out, vmVersion);
-    (void)outStream_writeString(out, vmName);
+    (void)outStrebm_writeString(out, vmVersion);
+    (void)outStrebm_writeString(out, vmNbme);
 
     return JNI_TRUE;
 }
 
-static jboolean
-classesForSignature(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+clbssesForSignbture(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
-    char *signature;
+    chbr *signbture;
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
+    if (gdbtb->vmDebd) {
+        outStrebm_setError(out, JDWP_ERROR(VM_DEAD));
         return JNI_TRUE;
     }
 
-    signature = inStream_readString(in);
-    if (signature == NULL) {
-        outStream_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
+    signbture = inStrebm_rebdString(in);
+    if (signbture == NULL) {
+        outStrebm_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
         return JNI_TRUE;
     }
-    if (inStream_error(in)) {
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
@@ -114,88 +114,88 @@ classesForSignature(PacketInputStream *in, PacketOutputStream *out)
 
     WITH_LOCAL_REFS(env, 1) {
 
-        jint classCount;
-        jclass *theClasses;
+        jint clbssCount;
+        jclbss *theClbsses;
         jvmtiError error;
 
-        error = allLoadedClasses(&theClasses, &classCount);
+        error = bllLobdedClbsses(&theClbsses, &clbssCount);
         if ( error == JVMTI_ERROR_NONE ) {
-            /* Count classes in theClasses which match signature */
-            int matchCount = 0;
-            /* Count classes written to the JDWP connection */
+            /* Count clbsses in theClbsses which mbtch signbture */
+            int mbtchCount = 0;
+            /* Count clbsses written to the JDWP connection */
             int writtenCount = 0;
             int i;
 
-            for (i=0; i<classCount; i++) {
-                jclass clazz = theClasses[i];
-                jint status = classStatus(clazz);
-                char *candidate_signature = NULL;
-                jint wanted =
+            for (i=0; i<clbssCount; i++) {
+                jclbss clbzz = theClbsses[i];
+                jint stbtus = clbssStbtus(clbzz);
+                chbr *cbndidbte_signbture = NULL;
+                jint wbnted =
                     (JVMTI_CLASS_STATUS_PREPARED|JVMTI_CLASS_STATUS_ARRAY|
                      JVMTI_CLASS_STATUS_PRIMITIVE);
 
-                /* We want prepared classes, primitives, and arrays only */
-                if ((status & wanted) == 0) {
+                /* We wbnt prepbred clbsses, primitives, bnd brrbys only */
+                if ((stbtus & wbnted) == 0) {
                     continue;
                 }
 
-                error = classSignature(clazz, &candidate_signature, NULL);
+                error = clbssSignbture(clbzz, &cbndidbte_signbture, NULL);
                 if (error != JVMTI_ERROR_NONE) {
-                    break;
+                    brebk;
                 }
 
-                if (strcmp(candidate_signature, signature) == 0) {
-                    /* Float interesting classes (those that
-                     * are matching and are prepared) to the
-                     * beginning of the array.
+                if (strcmp(cbndidbte_signbture, signbture) == 0) {
+                    /* Flobt interesting clbsses (those thbt
+                     * bre mbtching bnd bre prepbred) to the
+                     * beginning of the brrby.
                      */
-                    theClasses[i] = theClasses[matchCount];
-                    theClasses[matchCount++] = clazz;
+                    theClbsses[i] = theClbsses[mbtchCount];
+                    theClbsses[mbtchCount++] = clbzz;
                 }
-                jvmtiDeallocate(candidate_signature);
+                jvmtiDebllocbte(cbndidbte_signbture);
             }
 
-            /* At this point matching prepared classes occupy
-             * indicies 0 thru matchCount-1 of theClasses.
+            /* At this point mbtching prepbred clbsses occupy
+             * indicies 0 thru mbtchCount-1 of theClbsses.
              */
 
             if ( error ==  JVMTI_ERROR_NONE ) {
-                (void)outStream_writeInt(out, matchCount);
-                for (; writtenCount < matchCount; writtenCount++) {
-                    jclass clazz = theClasses[writtenCount];
-                    jint status = classStatus(clazz);
-                    jbyte tag = referenceTypeTag(clazz);
-                    (void)outStream_writeByte(out, tag);
-                    (void)outStream_writeObjectRef(env, out, clazz);
-                    (void)outStream_writeInt(out, map2jdwpClassStatus(status));
-                    /* No point in continuing if there's an error */
-                    if (outStream_error(out)) {
-                        break;
+                (void)outStrebm_writeInt(out, mbtchCount);
+                for (; writtenCount < mbtchCount; writtenCount++) {
+                    jclbss clbzz = theClbsses[writtenCount];
+                    jint stbtus = clbssStbtus(clbzz);
+                    jbyte tbg = referenceTypeTbg(clbzz);
+                    (void)outStrebm_writeByte(out, tbg);
+                    (void)outStrebm_writeObjectRef(env, out, clbzz);
+                    (void)outStrebm_writeInt(out, mbp2jdwpClbssStbtus(stbtus));
+                    /* No point in continuing if there's bn error */
+                    if (outStrebm_error(out)) {
+                        brebk;
                     }
                 }
             }
 
-            jvmtiDeallocate(theClasses);
+            jvmtiDebllocbte(theClbsses);
         }
 
         if ( error != JVMTI_ERROR_NONE ) {
-            outStream_setError(out, map2jdwpError(error));
+            outStrebm_setError(out, mbp2jdwpError(error));
         }
 
     } END_WITH_LOCAL_REFS(env);
 
-    jvmtiDeallocate(signature);
+    jvmtiDebllocbte(signbture);
 
     return JNI_TRUE;
 }
 
-static jboolean
-allClasses1(PacketInputStream *in, PacketOutputStream *out, int outputGenerics)
+stbtic jboolebn
+bllClbsses1(PbcketInputStrebm *in, PbcketOutputStrebm *out, int outputGenerics)
 {
     JNIEnv *env;
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
+    if (gdbtb->vmDebd) {
+        outStrebm_setError(out, JDWP_ERROR(VM_DEAD));
         return JNI_TRUE;
     }
 
@@ -203,74 +203,74 @@ allClasses1(PacketInputStream *in, PacketOutputStream *out, int outputGenerics)
 
     WITH_LOCAL_REFS(env, 1) {
 
-        jint classCount;
-        jclass *theClasses;
+        jint clbssCount;
+        jclbss *theClbsses;
         jvmtiError error;
 
-        error = allLoadedClasses(&theClasses, &classCount);
+        error = bllLobdedClbsses(&theClbsses, &clbssCount);
         if ( error != JVMTI_ERROR_NONE ) {
-            outStream_setError(out, map2jdwpError(error));
+            outStrebm_setError(out, mbp2jdwpError(error));
         } else {
-            /* Count classes in theClasses which are prepared */
+            /* Count clbsses in theClbsses which bre prepbred */
             int prepCount = 0;
-            /* Count classes written to the JDWP connection */
+            /* Count clbsses written to the JDWP connection */
             int writtenCount = 0;
             int i;
 
-            for (i=0; i<classCount; i++) {
-                jclass clazz = theClasses[i];
-                jint status = classStatus(clazz);
-                jint wanted =
+            for (i=0; i<clbssCount; i++) {
+                jclbss clbzz = theClbsses[i];
+                jint stbtus = clbssStbtus(clbzz);
+                jint wbnted =
                     (JVMTI_CLASS_STATUS_PREPARED|JVMTI_CLASS_STATUS_ARRAY);
 
-                /* We want prepared classes and arrays only */
-                if ((status & wanted) != 0) {
-                    /* Float interesting classes (those that
-                     * are prepared) to the beginning of the array.
+                /* We wbnt prepbred clbsses bnd brrbys only */
+                if ((stbtus & wbnted) != 0) {
+                    /* Flobt interesting clbsses (those thbt
+                     * bre prepbred) to the beginning of the brrby.
                      */
-                    theClasses[i] = theClasses[prepCount];
-                    theClasses[prepCount++] = clazz;
+                    theClbsses[i] = theClbsses[prepCount];
+                    theClbsses[prepCount++] = clbzz;
                 }
             }
 
-            /* At this point prepared classes occupy
-             * indicies 0 thru prepCount-1 of theClasses.
+            /* At this point prepbred clbsses occupy
+             * indicies 0 thru prepCount-1 of theClbsses.
              */
 
-            (void)outStream_writeInt(out, prepCount);
+            (void)outStrebm_writeInt(out, prepCount);
             for (; writtenCount < prepCount; writtenCount++) {
-                char *signature = NULL;
-                char *genericSignature = NULL;
-                jclass clazz = theClasses[writtenCount];
-                jint status = classStatus(clazz);
-                jbyte tag = referenceTypeTag(clazz);
+                chbr *signbture = NULL;
+                chbr *genericSignbture = NULL;
+                jclbss clbzz = theClbsses[writtenCount];
+                jint stbtus = clbssStbtus(clbzz);
+                jbyte tbg = referenceTypeTbg(clbzz);
                 jvmtiError error;
 
-                error = classSignature(clazz, &signature, &genericSignature);
+                error = clbssSignbture(clbzz, &signbture, &genericSignbture);
                 if (error != JVMTI_ERROR_NONE) {
-                    outStream_setError(out, map2jdwpError(error));
-                    break;
+                    outStrebm_setError(out, mbp2jdwpError(error));
+                    brebk;
                 }
 
-                (void)outStream_writeByte(out, tag);
-                (void)outStream_writeObjectRef(env, out, clazz);
-                (void)outStream_writeString(out, signature);
+                (void)outStrebm_writeByte(out, tbg);
+                (void)outStrebm_writeObjectRef(env, out, clbzz);
+                (void)outStrebm_writeString(out, signbture);
                 if (outputGenerics == 1) {
-                    writeGenericSignature(out, genericSignature);
+                    writeGenericSignbture(out, genericSignbture);
                 }
 
-                (void)outStream_writeInt(out, map2jdwpClassStatus(status));
-                jvmtiDeallocate(signature);
-                if (genericSignature != NULL) {
-                  jvmtiDeallocate(genericSignature);
+                (void)outStrebm_writeInt(out, mbp2jdwpClbssStbtus(stbtus));
+                jvmtiDebllocbte(signbture);
+                if (genericSignbture != NULL) {
+                  jvmtiDebllocbte(genericSignbture);
                 }
 
-                /* No point in continuing if there's an error */
-                if (outStream_error(out)) {
-                    break;
+                /* No point in continuing if there's bn error */
+                if (outStrebm_error(out)) {
+                    brebk;
                 }
             }
-            jvmtiDeallocate(theClasses);
+            jvmtiDebllocbte(theClbsses);
         }
 
     } END_WITH_LOCAL_REFS(env);
@@ -278,66 +278,66 @@ allClasses1(PacketInputStream *in, PacketOutputStream *out, int outputGenerics)
     return JNI_TRUE;
 }
 
-static jboolean
-allClasses(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+bllClbsses(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    return allClasses1(in, out, 0);
+    return bllClbsses1(in, out, 0);
 }
 
-static jboolean
-allClassesWithGeneric(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+bllClbssesWithGeneric(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    return allClasses1(in, out, 1);
+    return bllClbsses1(in, out, 1);
 }
 
   /***********************************************************/
 
 
-static jboolean
-instanceCounts(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+instbnceCounts(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    jint classCount;
-    jclass *classes;
+    jint clbssCount;
+    jclbss *clbsses;
     JNIEnv *env;
     int ii;
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
+    if (gdbtb->vmDebd) {
+        outStrebm_setError(out, JDWP_ERROR(VM_DEAD));
         return JNI_TRUE;
     }
 
-    classCount = inStream_readInt(in);
+    clbssCount = inStrebm_rebdInt(in);
 
-    if (inStream_error(in)) {
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    if (classCount == 0) {
-        (void)outStream_writeInt(out, 0);
+    if (clbssCount == 0) {
+        (void)outStrebm_writeInt(out, 0);
         return JNI_TRUE;
     }
-    if (classCount < 0) {
-        outStream_setError(out, JDWP_ERROR(ILLEGAL_ARGUMENT));
+    if (clbssCount < 0) {
+        outStrebm_setError(out, JDWP_ERROR(ILLEGAL_ARGUMENT));
         return JNI_TRUE;
     }
     env = getEnv();
-    classes = jvmtiAllocate(classCount * (int)sizeof(jclass));
-    for (ii = 0; ii < classCount; ii++) {
+    clbsses = jvmtiAllocbte(clbssCount * (int)sizeof(jclbss));
+    for (ii = 0; ii < clbssCount; ii++) {
         jdwpError errorCode;
-        classes[ii] = inStream_readClassRef(env, in);
-        errorCode = inStream_error(in);
+        clbsses[ii] = inStrebm_rebdClbssRef(env, in);
+        errorCode = inStrebm_error(in);
         if (errorCode != JDWP_ERROR(NONE)) {
             /*
-             * A class could have been unloaded/gc'd so
-             * if we get an error, just ignore it and keep
-             * going.  An instanceCount of 0 will be returned.
+             * A clbss could hbve been unlobded/gc'd so
+             * if we get bn error, just ignore it bnd keep
+             * going.  An instbnceCount of 0 will be returned.
              */
             if (errorCode == JDWP_ERROR(INVALID_OBJECT) ||
                 errorCode == JDWP_ERROR(INVALID_CLASS)) {
-                inStream_clearError(in);
-                classes[ii] = NULL;
+                inStrebm_clebrError(in);
+                clbsses[ii] = NULL;
                 continue;
             }
-            jvmtiDeallocate(classes);
+            jvmtiDebllocbte(clbsses);
             return JNI_TRUE;
         }
     }
@@ -346,145 +346,145 @@ instanceCounts(PacketInputStream *in, PacketOutputStream *out)
         jlong      *counts;
         jvmtiError error;
 
-        counts = jvmtiAllocate(classCount * (int)sizeof(jlong));
-        /* Iterate over heap getting info on these classes */
-        error = classInstanceCounts(classCount, classes, counts);
+        counts = jvmtiAllocbte(clbssCount * (int)sizeof(jlong));
+        /* Iterbte over hebp getting info on these clbsses */
+        error = clbssInstbnceCounts(clbssCount, clbsses, counts);
         if (error != JVMTI_ERROR_NONE) {
-            outStream_setError(out, map2jdwpError(error));
+            outStrebm_setError(out, mbp2jdwpError(error));
         } else {
-            (void)outStream_writeInt(out, classCount);
-            for (ii = 0; ii < classCount; ii++) {
-                (void)outStream_writeLong(out, counts[ii]);
+            (void)outStrebm_writeInt(out, clbssCount);
+            for (ii = 0; ii < clbssCount; ii++) {
+                (void)outStrebm_writeLong(out, counts[ii]);
             }
         }
-        jvmtiDeallocate(counts);
+        jvmtiDebllocbte(counts);
     } END_WITH_LOCAL_REFS(env);
-    jvmtiDeallocate(classes);
+    jvmtiDebllocbte(clbsses);
     return JNI_TRUE;
 }
 
-static jboolean
-redefineClasses(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+redefineClbsses(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    jvmtiClassDefinition *classDefs;
-    jboolean ok = JNI_TRUE;
-    jint classCount;
+    jvmtiClbssDefinition *clbssDefs;
+    jboolebn ok = JNI_TRUE;
+    jint clbssCount;
     jint i;
     JNIEnv *env;
 
-    if (gdata->vmDead) {
+    if (gdbtb->vmDebd) {
         /* quietly ignore */
         return JNI_TRUE;
     }
 
-    classCount = inStream_readInt(in);
-    if (inStream_error(in)) {
+    clbssCount = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    if ( classCount == 0 ) {
-        return JNI_TRUE;
-    }
-    /*LINTED*/
-    classDefs = jvmtiAllocate(classCount*(int)sizeof(jvmtiClassDefinition));
-    if (classDefs == NULL) {
-        outStream_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
+    if ( clbssCount == 0 ) {
         return JNI_TRUE;
     }
     /*LINTED*/
-    (void)memset(classDefs, 0, classCount*sizeof(jvmtiClassDefinition));
+    clbssDefs = jvmtiAllocbte(clbssCount*(int)sizeof(jvmtiClbssDefinition));
+    if (clbssDefs == NULL) {
+        outStrebm_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
+        return JNI_TRUE;
+    }
+    /*LINTED*/
+    (void)memset(clbssDefs, 0, clbssCount*sizeof(jvmtiClbssDefinition));
 
     env = getEnv();
-    for (i = 0; i < classCount; ++i) {
+    for (i = 0; i < clbssCount; ++i) {
         int byteCount;
-        unsigned char * bytes;
-        jclass clazz;
+        unsigned chbr * bytes;
+        jclbss clbzz;
 
-        clazz = inStream_readClassRef(env, in);
-        if (inStream_error(in)) {
+        clbzz = inStrebm_rebdClbssRef(env, in);
+        if (inStrebm_error(in)) {
             ok = JNI_FALSE;
-            break;
+            brebk;
         }
-        byteCount = inStream_readInt(in);
-        if (inStream_error(in)) {
+        byteCount = inStrebm_rebdInt(in);
+        if (inStrebm_error(in)) {
             ok = JNI_FALSE;
-            break;
+            brebk;
         }
         if ( byteCount <= 0 ) {
-            outStream_setError(out, JDWP_ERROR(INVALID_CLASS_FORMAT));
+            outStrebm_setError(out, JDWP_ERROR(INVALID_CLASS_FORMAT));
             ok = JNI_FALSE;
-            break;
+            brebk;
         }
-        bytes = (unsigned char *)jvmtiAllocate(byteCount);
+        bytes = (unsigned chbr *)jvmtiAllocbte(byteCount);
         if (bytes == NULL) {
-            outStream_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
+            outStrebm_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
             ok = JNI_FALSE;
-            break;
+            brebk;
         }
-        (void)inStream_readBytes(in, byteCount, (jbyte *)bytes);
-        if (inStream_error(in)) {
+        (void)inStrebm_rebdBytes(in, byteCount, (jbyte *)bytes);
+        if (inStrebm_error(in)) {
             ok = JNI_FALSE;
-            break;
+            brebk;
         }
 
-        classDefs[i].klass = clazz;
-        classDefs[i].class_byte_count = byteCount;
-        classDefs[i].class_bytes = bytes;
+        clbssDefs[i].klbss = clbzz;
+        clbssDefs[i].clbss_byte_count = byteCount;
+        clbssDefs[i].clbss_bytes = bytes;
     }
 
     if (ok == JNI_TRUE) {
         jvmtiError error;
 
-        error = JVMTI_FUNC_PTR(gdata->jvmti,RedefineClasses)
-                        (gdata->jvmti, classCount, classDefs);
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,RedefineClbsses)
+                        (gdbtb->jvmti, clbssCount, clbssDefs);
         if (error != JVMTI_ERROR_NONE) {
-            outStream_setError(out, map2jdwpError(error));
+            outStrebm_setError(out, mbp2jdwpError(error));
         } else {
-            /* zap our BP info */
-            for ( i = 0 ; i < classCount; i++ ) {
-                eventHandler_freeClassBreakpoints(classDefs[i].klass);
+            /* zbp our BP info */
+            for ( i = 0 ; i < clbssCount; i++ ) {
+                eventHbndler_freeClbssBrebkpoints(clbssDefs[i].klbss);
             }
         }
     }
 
-    /* free up allocated memory */
-    for ( i = 0 ; i < classCount; i++ ) {
-        if ( classDefs[i].class_bytes != NULL ) {
-            jvmtiDeallocate((void*)classDefs[i].class_bytes);
+    /* free up bllocbted memory */
+    for ( i = 0 ; i < clbssCount; i++ ) {
+        if ( clbssDefs[i].clbss_bytes != NULL ) {
+            jvmtiDebllocbte((void*)clbssDefs[i].clbss_bytes);
         }
     }
-    jvmtiDeallocate(classDefs);
+    jvmtiDebllocbte(clbssDefs);
 
     return JNI_TRUE;
 }
 
-static jboolean
-setDefaultStratum(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+setDefbultStrbtum(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    char *stratumId;
+    chbr *strbtumId;
 
-    if (gdata->vmDead) {
+    if (gdbtb->vmDebd) {
         /* quietly ignore */
         return JNI_TRUE;
     }
 
-    stratumId = inStream_readString(in);
-    if (inStream_error(in)) {
+    strbtumId = inStrebm_rebdString(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
-    } else if (strcmp(stratumId, "") == 0) {
-        stratumId = NULL;
+    } else if (strcmp(strbtumId, "") == 0) {
+        strbtumId = NULL;
     }
-    setGlobalStratumId(stratumId);
+    setGlobblStrbtumId(strbtumId);
 
     return JNI_TRUE;
 }
 
-static jboolean
-getAllThreads(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+getAllThrebds(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
+    if (gdbtb->vmDebd) {
+        outStrebm_setError(out, JDWP_ERROR(VM_DEAD));
         return JNI_TRUE;
     }
 
@@ -493,22 +493,22 @@ getAllThreads(PacketInputStream *in, PacketOutputStream *out)
     WITH_LOCAL_REFS(env, 1) {
 
         int i;
-        jint threadCount;
-        jthread *theThreads;
+        jint threbdCount;
+        jthrebd *theThrebds;
 
-        theThreads = allThreads(&threadCount);
-        if (theThreads == NULL) {
-            outStream_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
+        theThrebds = bllThrebds(&threbdCount);
+        if (theThrebds == NULL) {
+            outStrebm_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
         } else {
-            /* Squish out all of the debugger-spawned threads */
-            threadCount = filterDebugThreads(theThreads, threadCount);
+            /* Squish out bll of the debugger-spbwned threbds */
+            threbdCount = filterDebugThrebds(theThrebds, threbdCount);
 
-            (void)outStream_writeInt(out, threadCount);
-            for (i = 0; i <threadCount; i++) {
-                (void)outStream_writeObjectRef(env, out, theThreads[i]);
+            (void)outStrebm_writeInt(out, threbdCount);
+            for (i = 0; i <threbdCount; i++) {
+                (void)outStrebm_writeObjectRef(env, out, theThrebds[i]);
             }
 
-            jvmtiDeallocate(theThreads);
+            jvmtiDebllocbte(theThrebds);
         }
 
     } END_WITH_LOCAL_REFS(env);
@@ -516,13 +516,13 @@ getAllThreads(PacketInputStream *in, PacketOutputStream *out)
     return JNI_TRUE;
 }
 
-static jboolean
-topLevelThreadGroups(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+topLevelThrebdGroups(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
+    if (gdbtb->vmDebd) {
+        outStrebm_setError(out, JDWP_ERROR(VM_DEAD));
         return JNI_TRUE;
     }
 
@@ -532,22 +532,22 @@ topLevelThreadGroups(PacketInputStream *in, PacketOutputStream *out)
 
         jvmtiError error;
         jint groupCount;
-        jthreadGroup *groups;
+        jthrebdGroup *groups;
 
         groups = NULL;
-        error = JVMTI_FUNC_PTR(gdata->jvmti,GetTopThreadGroups)
-                    (gdata->jvmti, &groupCount, &groups);
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetTopThrebdGroups)
+                    (gdbtb->jvmti, &groupCount, &groups);
         if (error != JVMTI_ERROR_NONE) {
-            outStream_setError(out, map2jdwpError(error));
+            outStrebm_setError(out, mbp2jdwpError(error));
         } else {
             int i;
 
-            (void)outStream_writeInt(out, groupCount);
+            (void)outStrebm_writeInt(out, groupCount);
             for (i = 0; i < groupCount; i++) {
-                (void)outStream_writeObjectRef(env, out, groups[i]);
+                (void)outStrebm_writeObjectRef(env, out, groups[i]);
             }
 
-            jvmtiDeallocate(groups);
+            jvmtiDebllocbte(groups);
         }
 
     } END_WITH_LOCAL_REFS(env);
@@ -555,71 +555,71 @@ topLevelThreadGroups(PacketInputStream *in, PacketOutputStream *out)
     return JNI_TRUE;
 }
 
-static jboolean
-dispose(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+dispose(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     return JNI_TRUE;
 }
 
-static jboolean
-idSizes(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+idSizes(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    (void)outStream_writeInt(out, sizeof(jfieldID));    /* fields */
-    (void)outStream_writeInt(out, sizeof(jmethodID));   /* methods */
-    (void)outStream_writeInt(out, sizeof(jlong));       /* objects */
-    (void)outStream_writeInt(out, sizeof(jlong));       /* referent types */
-    (void)outStream_writeInt(out, sizeof(FrameID));    /* frames */
+    (void)outStrebm_writeInt(out, sizeof(jfieldID));    /* fields */
+    (void)outStrebm_writeInt(out, sizeof(jmethodID));   /* methods */
+    (void)outStrebm_writeInt(out, sizeof(jlong));       /* objects */
+    (void)outStrebm_writeInt(out, sizeof(jlong));       /* referent types */
+    (void)outStrebm_writeInt(out, sizeof(FrbmeID));    /* frbmes */
     return JNI_TRUE;
 }
 
-static jboolean
-suspend(PacketInputStream *in, PacketOutputStream *out)
-{
-    jvmtiError error;
-
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
-        return JNI_TRUE;
-    }
-    error = threadControl_suspendAll();
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-    }
-    return JNI_TRUE;
-}
-
-static jboolean
-resume(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+suspend(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     jvmtiError error;
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
+    if (gdbtb->vmDebd) {
+        outStrebm_setError(out, JDWP_ERROR(VM_DEAD));
         return JNI_TRUE;
     }
-    error = threadControl_resumeAll();
+    error = threbdControl_suspendAll();
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
     }
     return JNI_TRUE;
 }
 
-static jboolean
-doExit(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+resume(PbcketInputStrebm *in, PbcketOutputStrebm *out)
+{
+    jvmtiError error;
+
+    if (gdbtb->vmDebd) {
+        outStrebm_setError(out, JDWP_ERROR(VM_DEAD));
+        return JNI_TRUE;
+    }
+    error = threbdControl_resumeAll();
+    if (error != JVMTI_ERROR_NONE) {
+        outStrebm_setError(out, mbp2jdwpError(error));
+    }
+    return JNI_TRUE;
+}
+
+stbtic jboolebn
+doExit(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     jint exitCode;
 
-    exitCode = inStream_readInt(in);
-    if (gdata->vmDead) {
+    exitCode = inStrebm_rebdInt(in);
+    if (gdbtb->vmDebd) {
         /* quietly ignore */
         return JNI_FALSE;
     }
 
-    /* We send the reply from here because we are about to exit. */
-    if (inStream_error(in)) {
-        outStream_setError(out, inStream_error(in));
+    /* We send the reply from here becbuse we bre bbout to exit. */
+    if (inStrebm_error(in)) {
+        outStrebm_setError(out, inStrebm_error(in));
     }
-    outStream_sendReply(out);
+    outStrebm_sendReply(out);
 
     forceExit(exitCode);
 
@@ -631,23 +631,23 @@ doExit(PacketInputStream *in, PacketOutputStream *out)
 
 }
 
-static jboolean
-createString(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+crebteString(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
-    char *cstring;
+    chbr *cstring;
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
+    if (gdbtb->vmDebd) {
+        outStrebm_setError(out, JDWP_ERROR(VM_DEAD));
         return JNI_TRUE;
     }
 
-    cstring = inStream_readString(in);
+    cstring = inStrebm_rebdString(in);
     if (cstring == NULL) {
-        outStream_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
+        outStrebm_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
         return JNI_TRUE;
     }
-    if (inStream_error(in)) {
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
@@ -659,115 +659,115 @@ createString(PacketInputStream *in, PacketOutputStream *out)
 
         string = JNI_FUNC_PTR(env,NewStringUTF)(env, cstring);
         if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-            outStream_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
+            outStrebm_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
         } else {
-            (void)outStream_writeObjectRef(env, out, string);
+            (void)outStrebm_writeObjectRef(env, out, string);
         }
 
     } END_WITH_LOCAL_REFS(env);
 
-    jvmtiDeallocate(cstring);
+    jvmtiDebllocbte(cstring);
 
     return JNI_TRUE;
 }
 
-static jboolean
-capabilities(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+cbpbbilities(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    jvmtiCapabilities caps;
+    jvmtiCbpbbilities cbps;
     jvmtiError error;
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
+    if (gdbtb->vmDebd) {
+        outStrebm_setError(out, JDWP_ERROR(VM_DEAD));
         return JNI_TRUE;
     }
-    error = jvmtiGetCapabilities(&caps);
+    error = jvmtiGetCbpbbilities(&cbps);
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
         return JNI_TRUE;
     }
 
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_generate_field_modification_events);
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_generate_field_access_events);
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_bytecodes);
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_synthetic_attribute);
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_owned_monitor_info);
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_current_contended_monitor);
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_monitor_info);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_generbte_field_modificbtion_events);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_generbte_field_bccess_events);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_bytecodes);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_synthetic_bttribute);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_owned_monitor_info);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_current_contended_monitor);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_monitor_info);
     return JNI_TRUE;
 }
 
-static jboolean
-capabilitiesNew(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+cbpbbilitiesNew(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    jvmtiCapabilities caps;
+    jvmtiCbpbbilities cbps;
     jvmtiError error;
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
+    if (gdbtb->vmDebd) {
+        outStrebm_setError(out, JDWP_ERROR(VM_DEAD));
         return JNI_TRUE;
     }
-    error = jvmtiGetCapabilities(&caps);
+    error = jvmtiGetCbpbbilities(&cbps);
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
         return JNI_TRUE;
     }
 
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_generate_field_modification_events);
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_generate_field_access_events);
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_bytecodes);
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_synthetic_attribute);
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_owned_monitor_info);
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_current_contended_monitor);
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_monitor_info);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_generbte_field_modificbtion_events);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_generbte_field_bccess_events);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_bytecodes);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_synthetic_bttribute);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_owned_monitor_info);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_current_contended_monitor);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_monitor_info);
 
     /* new since JDWP version 1.4 */
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_redefine_classes);
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE /* can_add_method */ );
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE /* can_unrestrictedly_redefine_classes */ );
-    /* 11: canPopFrames */
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_pop_frame);
-    /* 12: canUseInstanceFilters */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_TRUE);
-    /* 13: canGetSourceDebugExtension */
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_source_debug_extension);
-    /* 14: canRequestVMDeathEvent */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_TRUE);
-    /* 15: canSetDefaultStratum */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_TRUE);
-    /* 16: canGetInstanceInfo */
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_tag_objects);
-    /* 17: canRequestMonitorEvents */
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_generate_monitor_events);
-    /* 18: canGetMonitorFrameInfo */
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_owned_monitor_stack_depth_info);
-    /* remaining reserved */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE); /* 19 */
-    /* 20 Can get constant pool information */
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_get_constant_pool);
-    /* 21 Can force early return */
-    (void)outStream_writeBoolean(out, (jboolean)caps.can_force_early_return);
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE); /* 22 */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE); /* 23 */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE); /* 24 */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE); /* 25 */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE); /* 26 */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE); /* 27 */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE); /* 28 */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE); /* 29 */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE); /* 30 */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE); /* 31 */
-    (void)outStream_writeBoolean(out, (jboolean)JNI_FALSE); /* 32 */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_redefine_clbsses);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE /* cbn_bdd_method */ );
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE /* cbn_unrestrictedly_redefine_clbsses */ );
+    /* 11: cbnPopFrbmes */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_pop_frbme);
+    /* 12: cbnUseInstbnceFilters */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_TRUE);
+    /* 13: cbnGetSourceDebugExtension */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_source_debug_extension);
+    /* 14: cbnRequestVMDebthEvent */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_TRUE);
+    /* 15: cbnSetDefbultStrbtum */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_TRUE);
+    /* 16: cbnGetInstbnceInfo */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_tbg_objects);
+    /* 17: cbnRequestMonitorEvents */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_generbte_monitor_events);
+    /* 18: cbnGetMonitorFrbmeInfo */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_owned_monitor_stbck_depth_info);
+    /* rembining reserved */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE); /* 19 */
+    /* 20 Cbn get constbnt pool informbtion */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_get_constbnt_pool);
+    /* 21 Cbn force ebrly return */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)cbps.cbn_force_ebrly_return);
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE); /* 22 */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE); /* 23 */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE); /* 24 */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE); /* 25 */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE); /* 26 */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE); /* 27 */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE); /* 28 */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE); /* 29 */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE); /* 30 */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE); /* 31 */
+    (void)outStrebm_writeBoolebn(out, (jboolebn)JNI_FALSE); /* 32 */
     return JNI_TRUE;
 }
 
-static int
-countPaths(char *string) {
-    int cnt = 1; /* always have one */
-    char *pos = string;
-    char *ps;
+stbtic int
+countPbths(chbr *string) {
+    int cnt = 1; /* blwbys hbve one */
+    chbr *pos = string;
+    chbr *ps;
 
-    ps = gdata->property_path_separator;
+    ps = gdbtb->property_pbth_sepbrbtor;
     if ( ps == NULL ) {
         ps = ";";
     }
@@ -778,27 +778,27 @@ countPaths(char *string) {
     return cnt;
 }
 
-static void
-writePaths(PacketOutputStream *out, char *string) {
-    char *pos;
-    char *ps;
-    char *buf;
-    int   npaths;
+stbtic void
+writePbths(PbcketOutputStrebm *out, chbr *string) {
+    chbr *pos;
+    chbr *ps;
+    chbr *buf;
+    int   npbths;
     int   i;
 
-    buf = jvmtiAllocate((int)strlen(string)+1);
+    buf = jvmtiAllocbte((int)strlen(string)+1);
 
-    npaths = countPaths(string);
-    (void)outStream_writeInt(out, npaths);
+    npbths = countPbths(string);
+    (void)outStrebm_writeInt(out, npbths);
 
-    ps = gdata->property_path_separator;
+    ps = gdbtb->property_pbth_sepbrbtor;
     if ( ps == NULL ) {
         ps = ";";
     }
 
     pos = string;
-    for ( i = 0 ; i < npaths ; i++ ) {
-        char *psPos;
+    for ( i = 0 ; i < npbths ; i++ ) {
+        chbr *psPos;
         int   plen;
 
         psPos = strchr(pos, ps[0]);
@@ -810,42 +810,42 @@ writePaths(PacketOutputStream *out, char *string) {
         }
         (void)memcpy(buf, pos, plen);
         buf[plen] = 0;
-        (void)outStream_writeString(out, buf);
+        (void)outStrebm_writeString(out, buf);
         pos = psPos;
     }
 
-    jvmtiDeallocate(buf);
+    jvmtiDebllocbte(buf);
 }
 
 
 
-static jboolean
-classPaths(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+clbssPbths(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    char *ud;
-    char *bp;
-    char *cp;
+    chbr *ud;
+    chbr *bp;
+    chbr *cp;
 
-    ud = gdata->property_user_dir;
+    ud = gdbtb->property_user_dir;
     if ( ud == NULL ) {
         ud = "";
     }
-    cp = gdata->property_java_class_path;
+    cp = gdbtb->property_jbvb_clbss_pbth;
     if ( cp == NULL ) {
         cp = "";
     }
-    bp = gdata->property_sun_boot_class_path;
+    bp = gdbtb->property_sun_boot_clbss_pbth;
     if ( bp == NULL ) {
         bp = "";
     }
-    (void)outStream_writeString(out, ud);
-    writePaths(out, cp);
-    writePaths(out, bp);
+    (void)outStrebm_writeString(out, ud);
+    writePbths(out, cp);
+    writePbths(out, bp);
     return JNI_TRUE;
 }
 
-static jboolean
-disposeObjects(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+disposeObjects(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     int i;
     int refCount;
@@ -853,63 +853,63 @@ disposeObjects(PacketInputStream *in, PacketOutputStream *out)
     int requestCount;
     JNIEnv *env;
 
-    if (gdata->vmDead) {
+    if (gdbtb->vmDebd) {
         /* quietly ignore */
         return JNI_TRUE;
     }
 
-    requestCount = inStream_readInt(in);
-    if (inStream_error(in)) {
+    requestCount = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     env = getEnv();
     for (i = 0; i < requestCount; i++) {
-        id = inStream_readObjectID(in);
-        refCount = inStream_readInt(in);
-        if (inStream_error(in)) {
+        id = inStrebm_rebdObjectID(in);
+        refCount = inStrebm_rebdInt(in);
+        if (inStrebm_error(in)) {
             return JNI_TRUE;
         }
-        commonRef_releaseMultiple(env, id, refCount);
+        commonRef_relebseMultiple(env, id, refCount);
     }
 
     return JNI_TRUE;
 }
 
-static jboolean
-holdEvents(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+holdEvents(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     eventHelper_holdEvents();
     return JNI_TRUE;
 }
 
-static jboolean
-releaseEvents(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+relebseEvents(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    eventHelper_releaseEvents();
+    eventHelper_relebseEvents();
     return JNI_TRUE;
 }
 
-void *VirtualMachine_Cmds[] = { (void *)21
+void *VirtublMbchine_Cmds[] = { (void *)21
     ,(void *)version
-    ,(void *)classesForSignature
-    ,(void *)allClasses
-    ,(void *)getAllThreads
-    ,(void *)topLevelThreadGroups
+    ,(void *)clbssesForSignbture
+    ,(void *)bllClbsses
+    ,(void *)getAllThrebds
+    ,(void *)topLevelThrebdGroups
     ,(void *)dispose
     ,(void *)idSizes
     ,(void *)suspend
     ,(void *)resume
     ,(void *)doExit
-    ,(void *)createString
-    ,(void *)capabilities
-    ,(void *)classPaths
+    ,(void *)crebteString
+    ,(void *)cbpbbilities
+    ,(void *)clbssPbths
     ,(void *)disposeObjects
     ,(void *)holdEvents
-    ,(void *)releaseEvents
-    ,(void *)capabilitiesNew
-    ,(void *)redefineClasses
-    ,(void *)setDefaultStratum
-    ,(void *)allClassesWithGeneric
-    ,(void *)instanceCounts
+    ,(void *)relebseEvents
+    ,(void *)cbpbbilitiesNew
+    ,(void *)redefineClbsses
+    ,(void *)setDefbultStrbtum
+    ,(void *)bllClbssesWithGeneric
+    ,(void *)instbnceCounts
 };

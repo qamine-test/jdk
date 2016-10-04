@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.net.URL;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.spi.SoundbankReader;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import jbvbx.sound.midi.InvblidMidiDbtbException;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.spi.SoundbbnkRebder;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.AudioSystem;
+import jbvbx.sound.sbmpled.UnsupportedAudioFileException;
 
 /**
- * Soundbank reader that uses audio files as soundbanks.
+ * Soundbbnk rebder thbt uses budio files bs soundbbnks.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class AudioFileSoundbankReader extends SoundbankReader {
+public finbl clbss AudioFileSoundbbnkRebder extends SoundbbnkRebder {
 
-    public Soundbank getSoundbank(URL url)
-            throws InvalidMidiDataException, IOException {
+    public Soundbbnk getSoundbbnk(URL url)
+            throws InvblidMidiDbtbException, IOException {
         try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(url);
-            Soundbank sbk = getSoundbank(ais);
-            ais.close();
+            AudioInputStrebm bis = AudioSystem.getAudioInputStrebm(url);
+            Soundbbnk sbk = getSoundbbnk(bis);
+            bis.close();
             return sbk;
-        } catch (UnsupportedAudioFileException e) {
+        } cbtch (UnsupportedAudioFileException e) {
             return null;
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             return null;
         }
     }
 
-    public Soundbank getSoundbank(InputStream stream)
-            throws InvalidMidiDataException, IOException {
-        stream.mark(512);
+    public Soundbbnk getSoundbbnk(InputStrebm strebm)
+            throws InvblidMidiDbtbException, IOException {
+        strebm.mbrk(512);
         try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(stream);
-            Soundbank sbk = getSoundbank(ais);
+            AudioInputStrebm bis = AudioSystem.getAudioInputStrebm(strebm);
+            Soundbbnk sbk = getSoundbbnk(bis);
             if (sbk != null)
                 return sbk;
-        } catch (UnsupportedAudioFileException e) {
-        } catch (IOException e) {
+        } cbtch (UnsupportedAudioFileException e) {
+        } cbtch (IOException e) {
         }
-        stream.reset();
+        strebm.reset();
         return null;
     }
 
-    public Soundbank getSoundbank(AudioInputStream ais)
-            throws InvalidMidiDataException, IOException {
+    public Soundbbnk getSoundbbnk(AudioInputStrebm bis)
+            throws InvblidMidiDbtbException, IOException {
         try {
             byte[] buffer;
-            if (ais.getFrameLength() == -1) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            if (bis.getFrbmeLength() == -1) {
+                ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
                 byte[] buff = new byte[1024
-                        - (1024 % ais.getFormat().getFrameSize())];
+                        - (1024 % bis.getFormbt().getFrbmeSize())];
                 int ret;
-                while ((ret = ais.read(buff)) != -1) {
-                    baos.write(buff, 0, ret);
+                while ((ret = bis.rebd(buff)) != -1) {
+                    bbos.write(buff, 0, ret);
                 }
-                ais.close();
-                buffer = baos.toByteArray();
+                bis.close();
+                buffer = bbos.toByteArrby();
             } else {
-                buffer = new byte[(int) (ais.getFrameLength()
-                                    * ais.getFormat().getFrameSize())];
-                new DataInputStream(ais).readFully(buffer);
+                buffer = new byte[(int) (bis.getFrbmeLength()
+                                    * bis.getFormbt().getFrbmeSize())];
+                new DbtbInputStrebm(bis).rebdFully(buffer);
             }
-            ModelByteBufferWavetable osc = new ModelByteBufferWavetable(
-                    new ModelByteBuffer(buffer), ais.getFormat(), -4800);
+            ModelByteBufferWbvetbble osc = new ModelByteBufferWbvetbble(
+                    new ModelByteBuffer(buffer), bis.getFormbt(), -4800);
             ModelPerformer performer = new ModelPerformer();
-            performer.getOscillators().add(osc);
+            performer.getOscillbtors().bdd(osc);
 
-            SimpleSoundbank sbk = new SimpleSoundbank();
+            SimpleSoundbbnk sbk = new SimpleSoundbbnk();
             SimpleInstrument ins = new SimpleInstrument();
-            ins.add(performer);
-            sbk.addInstrument(ins);
+            ins.bdd(performer);
+            sbk.bddInstrument(ins);
             return sbk;
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             return null;
         }
     }
 
-    public Soundbank getSoundbank(File file)
-            throws InvalidMidiDataException, IOException {
+    public Soundbbnk getSoundbbnk(File file)
+            throws InvblidMidiDbtbException, IOException {
         try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(file);
-            ais.close();
-            ModelByteBufferWavetable osc = new ModelByteBufferWavetable(
+            AudioInputStrebm bis = AudioSystem.getAudioInputStrebm(file);
+            bis.close();
+            ModelByteBufferWbvetbble osc = new ModelByteBufferWbvetbble(
                     new ModelByteBuffer(file, 0, file.length()), -4800);
             ModelPerformer performer = new ModelPerformer();
-            performer.getOscillators().add(osc);
-            SimpleSoundbank sbk = new SimpleSoundbank();
+            performer.getOscillbtors().bdd(osc);
+            SimpleSoundbbnk sbk = new SimpleSoundbbnk();
             SimpleInstrument ins = new SimpleInstrument();
-            ins.add(performer);
-            sbk.addInstrument(ins);
+            ins.bdd(performer);
+            sbk.bddInstrument(ins);
             return sbk;
-        } catch (UnsupportedAudioFileException e1) {
+        } cbtch (UnsupportedAudioFileException e1) {
             return null;
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             return null;
         }
     }

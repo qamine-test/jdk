@@ -1,394 +1,394 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
 
 /**
- * The <code>Action</code> interface provides a useful extension to the
+ * The <code>Action</code> interfbce provides b useful extension to the
  * <code>ActionListener</code>
- * interface in cases where the same functionality may be accessed by
- * several controls.
+ * interfbce in cbses where the sbme functionblity mby be bccessed by
+ * severbl controls.
  * <p>
- * In addition to the <code>actionPerformed</code> method defined by the
- * <code>ActionListener</code> interface, this interface allows the
- * application to define, in a single place:
+ * In bddition to the <code>bctionPerformed</code> method defined by the
+ * <code>ActionListener</code> interfbce, this interfbce bllows the
+ * bpplicbtion to define, in b single plbce:
  * <ul>
- * <li>One or more text strings that describe the function. These strings
- *     can be used, for example, to display the flyover text for a button
- *     or to set the text in a menu item.
- * <li>One or more icons that depict the function. These icons can be used
- *     for the images in a menu control, or for composite entries in a more
- *     sophisticated user interface.
- * <li>The enabled/disabled state of the functionality. Instead of having
- *     to separately disable the menu item and the toolbar button, the
- *     application can disable the function that implements this interface.
- *     All components which are registered as listeners for the state change
- *     then know to disable event generation for that item and to modify the
- *     display accordingly.
+ * <li>One or more text strings thbt describe the function. These strings
+ *     cbn be used, for exbmple, to displby the flyover text for b button
+ *     or to set the text in b menu item.
+ * <li>One or more icons thbt depict the function. These icons cbn be used
+ *     for the imbges in b menu control, or for composite entries in b more
+ *     sophisticbted user interfbce.
+ * <li>The enbbled/disbbled stbte of the functionblity. Instebd of hbving
+ *     to sepbrbtely disbble the menu item bnd the toolbbr button, the
+ *     bpplicbtion cbn disbble the function thbt implements this interfbce.
+ *     All components which bre registered bs listeners for the stbte chbnge
+ *     then know to disbble event generbtion for thbt item bnd to modify the
+ *     displby bccordingly.
  * </ul>
  * <p>
- * This interface can be added to an existing class or used to create an
- * adapter (typically, by subclassing <code>AbstractAction</code>).
+ * This interfbce cbn be bdded to bn existing clbss or used to crebte bn
+ * bdbpter (typicblly, by subclbssing <code>AbstrbctAction</code>).
  * The <code>Action</code> object
- * can then be added to multiple <code>Action</code>-aware containers
- * and connected to <code>Action</code>-capable
- * components. The GUI controls can then be activated or
- * deactivated all at once by invoking the <code>Action</code> object's
- * <code>setEnabled</code> method.
+ * cbn then be bdded to multiple <code>Action</code>-bwbre contbiners
+ * bnd connected to <code>Action</code>-cbpbble
+ * components. The GUI controls cbn then be bctivbted or
+ * debctivbted bll bt once by invoking the <code>Action</code> object's
+ * <code>setEnbbled</code> method.
  * <p>
- * Note that <code>Action</code> implementations tend to be more expensive
- * in terms of storage than a typical <code>ActionListener</code>,
- * which does not offer the benefits of centralized control of
- * functionality and broadcast of property changes.  For this reason,
- * you should take care to only use <code>Action</code>s where their benefits
- * are desired, and use simple <code>ActionListener</code>s elsewhere.
+ * Note thbt <code>Action</code> implementbtions tend to be more expensive
+ * in terms of storbge thbn b typicbl <code>ActionListener</code>,
+ * which does not offer the benefits of centrblized control of
+ * functionblity bnd brobdcbst of property chbnges.  For this rebson,
+ * you should tbke cbre to only use <code>Action</code>s where their benefits
+ * bre desired, bnd use simple <code>ActionListener</code>s elsewhere.
  * <br>
  *
- * <h3><a name="buttonActions"></a>Swing Components Supporting <code>Action</code></h3>
+ * <h3><b nbme="buttonActions"></b>Swing Components Supporting <code>Action</code></h3>
  * <p>
- * Many of Swing's components have an <code>Action</code> property.  When
- * an <code>Action</code> is set on a component, the following things
- * happen:
+ * Mbny of Swing's components hbve bn <code>Action</code> property.  When
+ * bn <code>Action</code> is set on b component, the following things
+ * hbppen:
  * <ul>
- * <li>The <code>Action</code> is added as an <code>ActionListener</code> to
+ * <li>The <code>Action</code> is bdded bs bn <code>ActionListener</code> to
  *     the component.
- * <li>The component configures some of its properties to match the
+ * <li>The component configures some of its properties to mbtch the
  *      <code>Action</code>.
- * <li>The component installs a <code>PropertyChangeListener</code> on the
- *     <code>Action</code> so that the component can change its properties
- *     to reflect changes in the <code>Action</code>'s properties.
+ * <li>The component instblls b <code>PropertyChbngeListener</code> on the
+ *     <code>Action</code> so thbt the component cbn chbnge its properties
+ *     to reflect chbnges in the <code>Action</code>'s properties.
  * </ul>
  * <p>
- * The following table describes the properties used by
- * <code>Swing</code> components that support <code>Actions</code>.
- * In the table, <em>button</em> refers to any
- * <code>AbstractButton</code> subclass, which includes not only
- * <code>JButton</code> but also classes such as
- * <code>JMenuItem</code>. Unless otherwise stated, a
- * <code>null</code> property value in an <code>Action</code> (or a
- * <code>Action</code> that is <code>null</code>) results in the
+ * The following tbble describes the properties used by
+ * <code>Swing</code> components thbt support <code>Actions</code>.
+ * In the tbble, <em>button</em> refers to bny
+ * <code>AbstrbctButton</code> subclbss, which includes not only
+ * <code>JButton</code> but blso clbsses such bs
+ * <code>JMenuItem</code>. Unless otherwise stbted, b
+ * <code>null</code> property vblue in bn <code>Action</code> (or b
+ * <code>Action</code> thbt is <code>null</code>) results in the
  * button's corresponding property being set to <code>null</code>.
  *
- * <table border="1" cellpadding="1" cellspacing="0"
- *         summary="Supported Action properties">
- *  <tr valign="top"  align="left">
- *    <th style="background-color:#CCCCFF" align="left">Component Property
- *    <th style="background-color:#CCCCFF" align="left">Components
- *    <th style="background-color:#CCCCFF" align="left">Action Key
- *    <th style="background-color:#CCCCFF" align="left">Notes
- *  <tr valign="top"  align="left">
- *      <td><b><code>enabled</code></b>
+ * <tbble border="1" cellpbdding="1" cellspbcing="0"
+ *         summbry="Supported Action properties">
+ *  <tr vblign="top"  blign="left">
+ *    <th style="bbckground-color:#CCCCFF" blign="left">Component Property
+ *    <th style="bbckground-color:#CCCCFF" blign="left">Components
+ *    <th style="bbckground-color:#CCCCFF" blign="left">Action Key
+ *    <th style="bbckground-color:#CCCCFF" blign="left">Notes
+ *  <tr vblign="top"  blign="left">
+ *      <td><b><code>enbbled</code></b>
  *      <td>All
- *      <td>The <code>isEnabled</code> method
+ *      <td>The <code>isEnbbled</code> method
  *      <td>&nbsp;
- *  <tr valign="top"  align="left">
+ *  <tr vblign="top"  blign="left">
  *      <td><b><code>toolTipText</code></b>
  *      <td>All
  *      <td><code>SHORT_DESCRIPTION</code>
  *      <td>&nbsp;
- *  <tr valign="top"  align="left">
- *      <td><b><code>actionCommand</code></b>
+ *  <tr vblign="top"  blign="left">
+ *      <td><b><code>bctionCommbnd</code></b>
  *      <td>All
  *      <td><code>ACTION_COMMAND_KEY</code>
  *      <td>&nbsp;
- *  <tr valign="top"  align="left">
+ *  <tr vblign="top"  blign="left">
  *      <td><b><code>mnemonic</code></b>
  *      <td>All buttons
  *      <td><code>MNEMONIC_KEY</code>
- *      <td>A <code>null</code> value or <code>Action</code> results in the
+ *      <td>A <code>null</code> vblue or <code>Action</code> results in the
  *          button's <code>mnemonic</code> property being set to
  *          <code>'\0'</code>.
- *  <tr valign="top"  align="left">
+ *  <tr vblign="top"  blign="left">
  *      <td><b><code>text</code></b>
  *      <td>All buttons
  *      <td><code>NAME</code>
- *      <td>If you do not want the text of the button to mirror that
+ *      <td>If you do not wbnt the text of the button to mirror thbt
  *          of the <code>Action</code>, set the property
  *          <code>hideActionText</code> to <code>true</code>.  If
  *          <code>hideActionText</code> is <code>true</code>, setting the
- *          <code>Action</code> changes the text of the button to
- *          <code>null</code> and any changes to <code>NAME</code>
- *          are ignored.  <code>hideActionText</code> is useful for
- *          tool bar buttons that typically only show an <code>Icon</code>.
- *          <code>JToolBar.add(Action)</code> sets the property to
- *          <code>true</code> if the <code>Action</code> has a
- *          non-<code>null</code> value for <code>LARGE_ICON_KEY</code> or
+ *          <code>Action</code> chbnges the text of the button to
+ *          <code>null</code> bnd bny chbnges to <code>NAME</code>
+ *          bre ignored.  <code>hideActionText</code> is useful for
+ *          tool bbr buttons thbt typicblly only show bn <code>Icon</code>.
+ *          <code>JToolBbr.bdd(Action)</code> sets the property to
+ *          <code>true</code> if the <code>Action</code> hbs b
+ *          non-<code>null</code> vblue for <code>LARGE_ICON_KEY</code> or
  *          <code>SMALL_ICON</code>.
- *  <tr valign="top"  align="left">
- *      <td><b><code>displayedMnemonicIndex</code></b>
+ *  <tr vblign="top"  blign="left">
+ *      <td><b><code>displbyedMnemonicIndex</code></b>
  *      <td>All buttons
  *      <td><code>DISPLAYED_MNEMONIC_INDEX_KEY</code>
- *      <td>If the value of <code>DISPLAYED_MNEMONIC_INDEX_KEY</code> is
+ *      <td>If the vblue of <code>DISPLAYED_MNEMONIC_INDEX_KEY</code> is
  *          beyond the bounds of the text, it is ignored.  When
- *          <code>setAction</code> is called, if the value from the
- *          <code>Action</code> is <code>null</code>, the displayed
- *          mnemonic index is not updated.  In any subsequent changes to
+ *          <code>setAction</code> is cblled, if the vblue from the
+ *          <code>Action</code> is <code>null</code>, the displbyed
+ *          mnemonic index is not updbted.  In bny subsequent chbnges to
  *          <code>DISPLAYED_MNEMONIC_INDEX_KEY</code>, <code>null</code>
- *          is treated as -1.
- *  <tr valign="top"  align="left">
+ *          is trebted bs -1.
+ *  <tr vblign="top"  blign="left">
  *      <td><b><code>icon</code></b>
  *      <td>All buttons except of <code>JCheckBox</code>,
- *      <code>JToggleButton</code> and <code>JRadioButton</code>.
+ *      <code>JToggleButton</code> bnd <code>JRbdioButton</code>.
  *      <td>either <code>LARGE_ICON_KEY</code> or
  *          <code>SMALL_ICON</code>
- *     <td>The <code>JMenuItem</code> subclasses only use
+ *     <td>The <code>JMenuItem</code> subclbsses only use
  *         <code>SMALL_ICON</code>.  All other buttons will use
- *         <code>LARGE_ICON_KEY</code>; if the value is <code>null</code> they
+ *         <code>LARGE_ICON_KEY</code>; if the vblue is <code>null</code> they
  *         use <code>SMALL_ICON</code>.
- *  <tr valign="top"  align="left">
- *      <td><b><code>accelerator</code></b>
- *      <td>All <code>JMenuItem</code> subclasses, with the exception of
+ *  <tr vblign="top"  blign="left">
+ *      <td><b><code>bccelerbtor</code></b>
+ *      <td>All <code>JMenuItem</code> subclbsses, with the exception of
  *          <code>JMenu</code>.
  *      <td><code>ACCELERATOR_KEY</code>
  *      <td>&nbsp;
- *  <tr valign="top"  align="left">
+ *  <tr vblign="top"  blign="left">
  *      <td><b><code>selected</code></b>
  *      <td><code>JToggleButton</code>, <code>JCheckBox</code>,
- *          <code>JRadioButton</code>, <code>JCheckBoxMenuItem</code> and
- *          <code>JRadioButtonMenuItem</code>
+ *          <code>JRbdioButton</code>, <code>JCheckBoxMenuItem</code> bnd
+ *          <code>JRbdioButtonMenuItem</code>
  *      <td><code>SELECTED_KEY</code>
- *      <td>Components that honor this property only use
- *          the value if it is {@code non-null}. For example, if
- *          you set an {@code Action} that has a {@code null}
- *          value for {@code SELECTED_KEY} on a {@code JToggleButton}, the
- *          {@code JToggleButton} will not update it's selected state in
- *          any way. Similarly, any time the {@code JToggleButton}'s
- *          selected state changes it will only set the value back on
- *          the {@code Action} if the {@code Action} has a {@code non-null}
- *          value for {@code SELECTED_KEY}.
+ *      <td>Components thbt honor this property only use
+ *          the vblue if it is {@code non-null}. For exbmple, if
+ *          you set bn {@code Action} thbt hbs b {@code null}
+ *          vblue for {@code SELECTED_KEY} on b {@code JToggleButton}, the
+ *          {@code JToggleButton} will not updbte it's selected stbte in
+ *          bny wby. Similbrly, bny time the {@code JToggleButton}'s
+ *          selected stbte chbnges it will only set the vblue bbck on
+ *          the {@code Action} if the {@code Action} hbs b {@code non-null}
+ *          vblue for {@code SELECTED_KEY}.
  *          <br>
- *          Components that honor this property keep their selected state
- *          in sync with this property. When the same {@code Action} is used
- *          with multiple components, all the components keep their selected
- *          state in sync with this property. Mutually exclusive
- *          buttons, such as {@code JToggleButton}s in a {@code ButtonGroup},
+ *          Components thbt honor this property keep their selected stbte
+ *          in sync with this property. When the sbme {@code Action} is used
+ *          with multiple components, bll the components keep their selected
+ *          stbte in sync with this property. Mutublly exclusive
+ *          buttons, such bs {@code JToggleButton}s in b {@code ButtonGroup},
  *          force only one of the buttons to be selected. As such, do not
- *          use the same {@code Action} that defines a value for the
- *          {@code SELECTED_KEY} property with multiple mutually
+ *          use the sbme {@code Action} thbt defines b vblue for the
+ *          {@code SELECTED_KEY} property with multiple mutublly
  *          exclusive buttons.
- * </table>
+ * </tbble>
  * <p>
- * <code>JPopupMenu</code>, <code>JToolBar</code> and <code>JMenu</code>
- * all provide convenience methods for creating a component and setting the
- * <code>Action</code> on the corresponding component.  Refer to each of
- * these classes for more information.
+ * <code>JPopupMenu</code>, <code>JToolBbr</code> bnd <code>JMenu</code>
+ * bll provide convenience methods for crebting b component bnd setting the
+ * <code>Action</code> on the corresponding component.  Refer to ebch of
+ * these clbsses for more informbtion.
  * <p>
- * <code>Action</code> uses <code>PropertyChangeListener</code> to
- * inform listeners the <code>Action</code> has changed.  The beans
- * specification indicates that a <code>null</code> property name can
- * be used to indicate multiple values have changed.  By default Swing
- * components that take an <code>Action</code> do not handle such a
- * change.  To indicate that Swing should treat <code>null</code>
- * according to the beans specification set the system property
- * <code>swing.actions.reconfigureOnNull</code> to the <code>String</code>
- * value <code>true</code>.
+ * <code>Action</code> uses <code>PropertyChbngeListener</code> to
+ * inform listeners the <code>Action</code> hbs chbnged.  The bebns
+ * specificbtion indicbtes thbt b <code>null</code> property nbme cbn
+ * be used to indicbte multiple vblues hbve chbnged.  By defbult Swing
+ * components thbt tbke bn <code>Action</code> do not hbndle such b
+ * chbnge.  To indicbte thbt Swing should trebt <code>null</code>
+ * bccording to the bebns specificbtion set the system property
+ * <code>swing.bctions.reconfigureOnNull</code> to the <code>String</code>
+ * vblue <code>true</code>.
  *
- * @author Georges Saab
- * @see AbstractAction
+ * @buthor Georges Sbbb
+ * @see AbstrbctAction
  * @since 1.2
  */
-public interface Action extends ActionListener {
+public interfbce Action extends ActionListener {
     /**
-     * Useful constants that can be used as the storage-retrieval key
+     * Useful constbnts thbt cbn be used bs the storbge-retrievbl key
      * when setting or getting one of this object's properties (text
      * or icon).
      */
     /**
      * Not currently used.
      */
-    public static final String DEFAULT = "Default";
+    public stbtic finbl String DEFAULT = "Defbult";
     /**
-     * The key used for storing the <code>String</code> name
-     * for the action, used for a menu or button.
+     * The key used for storing the <code>String</code> nbme
+     * for the bction, used for b menu or button.
      */
-    public static final String NAME = "Name";
+    public stbtic finbl String NAME = "Nbme";
     /**
-     * The key used for storing a short <code>String</code>
-     * description for the action, used for tooltip text.
+     * The key used for storing b short <code>String</code>
+     * description for the bction, used for tooltip text.
      */
-    public static final String SHORT_DESCRIPTION = "ShortDescription";
+    public stbtic finbl String SHORT_DESCRIPTION = "ShortDescription";
     /**
-     * The key used for storing a longer <code>String</code>
-     * description for the action, could be used for context-sensitive help.
+     * The key used for storing b longer <code>String</code>
+     * description for the bction, could be used for context-sensitive help.
      */
-    public static final String LONG_DESCRIPTION = "LongDescription";
+    public stbtic finbl String LONG_DESCRIPTION = "LongDescription";
     /**
-     * The key used for storing a small <code>Icon</code>, such
-     * as <code>ImageIcon</code>.  This is typically used with
-     * menus such as <code>JMenuItem</code>.
+     * The key used for storing b smbll <code>Icon</code>, such
+     * bs <code>ImbgeIcon</code>.  This is typicblly used with
+     * menus such bs <code>JMenuItem</code>.
      * <p>
-     * If the same <code>Action</code> is used with menus and buttons you'll
-     * typically specify both a <code>SMALL_ICON</code> and a
+     * If the sbme <code>Action</code> is used with menus bnd buttons you'll
+     * typicblly specify both b <code>SMALL_ICON</code> bnd b
      * <code>LARGE_ICON_KEY</code>.  The menu will use the
-     * <code>SMALL_ICON</code> and the button will use the
+     * <code>SMALL_ICON</code> bnd the button will use the
      * <code>LARGE_ICON_KEY</code>.
      */
-    public static final String SMALL_ICON = "SmallIcon";
+    public stbtic finbl String SMALL_ICON = "SmbllIcon";
 
     /**
-     * The key used to determine the command <code>String</code> for the
-     * <code>ActionEvent</code> that will be created when an
-     * <code>Action</code> is going to be notified as the result of
-     * residing in a <code>Keymap</code> associated with a
+     * The key used to determine the commbnd <code>String</code> for the
+     * <code>ActionEvent</code> thbt will be crebted when bn
+     * <code>Action</code> is going to be notified bs the result of
+     * residing in b <code>Keymbp</code> bssocibted with b
      * <code>JComponent</code>.
      */
-    public static final String ACTION_COMMAND_KEY = "ActionCommandKey";
+    public stbtic finbl String ACTION_COMMAND_KEY = "ActionCommbndKey";
 
     /**
-     * The key used for storing a <code>KeyStroke</code> to be used as the
-     * accelerator for the action.
+     * The key used for storing b <code>KeyStroke</code> to be used bs the
+     * bccelerbtor for the bction.
      *
      * @since 1.3
      */
-    public static final String ACCELERATOR_KEY="AcceleratorKey";
+    public stbtic finbl String ACCELERATOR_KEY="AccelerbtorKey";
 
     /**
-     * The key used for storing an <code>Integer</code> that corresponds to
-     * one of the <code>KeyEvent</code> key codes.  The value is
-     * commonly used to specify a mnemonic.  For example:
-     * <code>myAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_A)</code>
-     * sets the mnemonic of <code>myAction</code> to 'a', while
-     * <code>myAction.putValue(Action.MNEMONIC_KEY, KeyEvent.getExtendedKeyCodeForChar('\u0444'))</code>
+     * The key used for storing bn <code>Integer</code> thbt corresponds to
+     * one of the <code>KeyEvent</code> key codes.  The vblue is
+     * commonly used to specify b mnemonic.  For exbmple:
+     * <code>myAction.putVblue(Action.MNEMONIC_KEY, KeyEvent.VK_A)</code>
+     * sets the mnemonic of <code>myAction</code> to 'b', while
+     * <code>myAction.putVblue(Action.MNEMONIC_KEY, KeyEvent.getExtendedKeyCodeForChbr('\u0444'))</code>
      * sets the mnemonic of <code>myAction</code> to Cyrillic letter "Ef".
      *
      * @since 1.3
      */
-    public static final String MNEMONIC_KEY="MnemonicKey";
+    public stbtic finbl String MNEMONIC_KEY="MnemonicKey";
 
     /**
-     * The key used for storing a <code>Boolean</code> that corresponds
-     * to the selected state.  This is typically used only for components
-     * that have a meaningful selection state.  For example,
-     * <code>JRadioButton</code> and <code>JCheckBox</code> make use of
-     * this but instances of <code>JMenu</code> don't.
+     * The key used for storing b <code>Boolebn</code> thbt corresponds
+     * to the selected stbte.  This is typicblly used only for components
+     * thbt hbve b mebningful selection stbte.  For exbmple,
+     * <code>JRbdioButton</code> bnd <code>JCheckBox</code> mbke use of
+     * this but instbnces of <code>JMenu</code> don't.
      * <p>
-     * This property differs from the others in that it is both read
-     * by the component and set by the component.  For example,
-     * if an <code>Action</code> is attached to a <code>JCheckBox</code>
-     * the selected state of the <code>JCheckBox</code> will be set from
-     * that of the <code>Action</code>.  If the user clicks on the
-     * <code>JCheckBox</code> the selected state of the <code>JCheckBox</code>
-     * <b>and</b> the <code>Action</code> will <b>both</b> be updated.
+     * This property differs from the others in thbt it is both rebd
+     * by the component bnd set by the component.  For exbmple,
+     * if bn <code>Action</code> is bttbched to b <code>JCheckBox</code>
+     * the selected stbte of the <code>JCheckBox</code> will be set from
+     * thbt of the <code>Action</code>.  If the user clicks on the
+     * <code>JCheckBox</code> the selected stbte of the <code>JCheckBox</code>
+     * <b>bnd</b> the <code>Action</code> will <b>both</b> be updbted.
      * <p>
-     * Note: the value of this field is prefixed with 'Swing' to
-     * avoid possible collisions with existing <code>Actions</code>.
+     * Note: the vblue of this field is prefixed with 'Swing' to
+     * bvoid possible collisions with existing <code>Actions</code>.
      *
      * @since 1.6
      */
-    public static final String SELECTED_KEY = "SwingSelectedKey";
+    public stbtic finbl String SELECTED_KEY = "SwingSelectedKey";
 
     /**
-     * The key used for storing an <code>Integer</code> that corresponds
+     * The key used for storing bn <code>Integer</code> thbt corresponds
      * to the index in the text (identified by the <code>NAME</code>
-     * property) that the decoration for a mnemonic should be rendered at.  If
-     * the value of this property is greater than or equal to the length of
-     * the text, it will treated as -1.
+     * property) thbt the decorbtion for b mnemonic should be rendered bt.  If
+     * the vblue of this property is grebter thbn or equbl to the length of
+     * the text, it will trebted bs -1.
      * <p>
-     * Note: the value of this field is prefixed with 'Swing' to
-     * avoid possible collisions with existing <code>Actions</code>.
+     * Note: the vblue of this field is prefixed with 'Swing' to
+     * bvoid possible collisions with existing <code>Actions</code>.
      *
-     * @see AbstractButton#setDisplayedMnemonicIndex
+     * @see AbstrbctButton#setDisplbyedMnemonicIndex
      * @since 1.6
      */
-    public static final String DISPLAYED_MNEMONIC_INDEX_KEY =
-                                 "SwingDisplayedMnemonicIndexKey";
+    public stbtic finbl String DISPLAYED_MNEMONIC_INDEX_KEY =
+                                 "SwingDisplbyedMnemonicIndexKey";
 
     /**
-     * The key used for storing an <code>Icon</code>.  This is typically
-     * used by buttons, such as <code>JButton</code> and
+     * The key used for storing bn <code>Icon</code>.  This is typicblly
+     * used by buttons, such bs <code>JButton</code> bnd
      * <code>JToggleButton</code>.
      * <p>
-     * If the same <code>Action</code> is used with menus and buttons you'll
-     * typically specify both a <code>SMALL_ICON</code> and a
+     * If the sbme <code>Action</code> is used with menus bnd buttons you'll
+     * typicblly specify both b <code>SMALL_ICON</code> bnd b
      * <code>LARGE_ICON_KEY</code>.  The menu will use the
-     * <code>SMALL_ICON</code> and the button the <code>LARGE_ICON_KEY</code>.
+     * <code>SMALL_ICON</code> bnd the button the <code>LARGE_ICON_KEY</code>.
      * <p>
-     * Note: the value of this field is prefixed with 'Swing' to
-     * avoid possible collisions with existing <code>Actions</code>.
+     * Note: the vblue of this field is prefixed with 'Swing' to
+     * bvoid possible collisions with existing <code>Actions</code>.
      *
      * @since 1.6
      */
-    public static final String LARGE_ICON_KEY = "SwingLargeIconKey";
+    public stbtic finbl String LARGE_ICON_KEY = "SwingLbrgeIconKey";
 
     /**
      * Gets one of this object's properties
-     * using the associated key.
+     * using the bssocibted key.
      *
-     * @param key a {@code String} containing the key
-     * @return the {@code Object} value
-     * @see #putValue
+     * @pbrbm key b {@code String} contbining the key
+     * @return the {@code Object} vblue
+     * @see #putVblue
      */
-    public Object getValue(String key);
+    public Object getVblue(String key);
     /**
      * Sets one of this object's properties
-     * using the associated key. If the value has
-     * changed, a <code>PropertyChangeEvent</code> is sent
+     * using the bssocibted key. If the vblue hbs
+     * chbnged, b <code>PropertyChbngeEvent</code> is sent
      * to listeners.
      *
-     * @param key    a <code>String</code> containing the key
-     * @param value  an <code>Object</code> value
+     * @pbrbm key    b <code>String</code> contbining the key
+     * @pbrbm vblue  bn <code>Object</code> vblue
      */
-    public void putValue(String key, Object value);
+    public void putVblue(String key, Object vblue);
 
     /**
-     * Sets the enabled state of the <code>Action</code>.  When enabled,
-     * any component associated with this object is active and
-     * able to fire this object's <code>actionPerformed</code> method.
-     * If the value has changed, a <code>PropertyChangeEvent</code> is sent
+     * Sets the enbbled stbte of the <code>Action</code>.  When enbbled,
+     * bny component bssocibted with this object is bctive bnd
+     * bble to fire this object's <code>bctionPerformed</code> method.
+     * If the vblue hbs chbnged, b <code>PropertyChbngeEvent</code> is sent
      * to listeners.
      *
-     * @param  b true to enable this <code>Action</code>, false to disable it
+     * @pbrbm  b true to enbble this <code>Action</code>, fblse to disbble it
      */
-    public void setEnabled(boolean b);
+    public void setEnbbled(boolebn b);
     /**
-     * Returns the enabled state of the <code>Action</code>. When enabled,
-     * any component associated with this object is active and
-     * able to fire this object's <code>actionPerformed</code> method.
+     * Returns the enbbled stbte of the <code>Action</code>. When enbbled,
+     * bny component bssocibted with this object is bctive bnd
+     * bble to fire this object's <code>bctionPerformed</code> method.
      *
-     * @return true if this <code>Action</code> is enabled
+     * @return true if this <code>Action</code> is enbbled
      */
-    public boolean isEnabled();
+    public boolebn isEnbbled();
 
     /**
-     * Adds a <code>PropertyChange</code> listener. Containers and attached
+     * Adds b <code>PropertyChbnge</code> listener. Contbiners bnd bttbched
      * components use these methods to register interest in this
-     * <code>Action</code> object. When its enabled state or other property
-     * changes, the registered listeners are informed of the change.
+     * <code>Action</code> object. When its enbbled stbte or other property
+     * chbnges, the registered listeners bre informed of the chbnge.
      *
-     * @param listener  a <code>PropertyChangeListener</code> object
+     * @pbrbm listener  b <code>PropertyChbngeListener</code> object
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener);
+    public void bddPropertyChbngeListener(PropertyChbngeListener listener);
     /**
-     * Removes a <code>PropertyChange</code> listener.
+     * Removes b <code>PropertyChbnge</code> listener.
      *
-     * @param listener  a <code>PropertyChangeListener</code> object
-     * @see #addPropertyChangeListener
+     * @pbrbm listener  b <code>PropertyChbngeListener</code> object
+     * @see #bddPropertyChbngeListener
      */
-    public void removePropertyChangeListener(PropertyChangeListener listener);
+    public void removePropertyChbngeListener(PropertyChbngeListener listener);
 
 }

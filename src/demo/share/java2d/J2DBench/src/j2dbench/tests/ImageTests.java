@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,392 +30,392 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench.tests;
+pbckbge j2dbench.tests;
 
-import j2dbench.Destinations;
+import j2dbench.Destinbtions;
 import j2dbench.Group;
 import j2dbench.Modifier;
 import j2dbench.Option;
 import j2dbench.TestEnvironment;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Canvas;
-import java.awt.AlphaComposite;
-import java.awt.Dimension;
-import java.awt.GraphicsConfiguration;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ByteLookupTable;
-import java.awt.image.ConvolveOp;
-import java.awt.image.DataBuffer;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Kernel;
-import java.awt.image.LookupOp;
-import java.awt.image.Raster;
-import java.awt.image.RasterOp;
-import java.awt.image.RescaleOp;
-import java.awt.image.ShortLookupTable;
-import java.awt.image.VolatileImage;
-import java.awt.image.WritableRaster;
-import java.awt.Transparency;
-import java.awt.geom.AffineTransform;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DataBufferShort;
-import java.util.ArrayList;
-import javax.swing.JComponent;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Color;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Cbnvbs;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.BufferedImbgeOp;
+import jbvb.bwt.imbge.ByteLookupTbble;
+import jbvb.bwt.imbge.ConvolveOp;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.Kernel;
+import jbvb.bwt.imbge.LookupOp;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.RbsterOp;
+import jbvb.bwt.imbge.RescbleOp;
+import jbvb.bwt.imbge.ShortLookupTbble;
+import jbvb.bwt.imbge.VolbtileImbge;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.DbtbBufferByte;
+import jbvb.bwt.imbge.DbtbBufferInt;
+import jbvb.bwt.imbge.DbtbBufferShort;
+import jbvb.util.ArrbyList;
+import jbvbx.swing.JComponent;
 
-public abstract class ImageTests extends GraphicsTests {
-    public static boolean hasVolatileImage;
-    public static boolean hasCompatImage;
+public bbstrbct clbss ImbgeTests extends GrbphicsTests {
+    public stbtic boolebn hbsVolbtileImbge;
+    public stbtic boolebn hbsCompbtImbge;
 
-    static {
+    stbtic {
         try {
-            hasVolatileImage = (VolatileImage.class != null);
-        } catch (NoClassDefFoundError e) {
+            hbsVolbtileImbge = (VolbtileImbge.clbss != null);
+        } cbtch (NoClbssDefFoundError e) {
         }
         try {
-            new Canvas().getGraphicsConfiguration();
-            hasCompatImage = true;
-        } catch (NoSuchMethodError e) {
+            new Cbnvbs().getGrbphicsConfigurbtion();
+            hbsCompbtImbge = true;
+        } cbtch (NoSuchMethodError e) {
         }
     }
 
-    static Group imageroot;
-    static Group.EnableSet imgsrcroot;
-    static Group.EnableSet bufimgsrcroot;
+    stbtic Group imbgeroot;
+    stbtic Group.EnbbleSet imgsrcroot;
+    stbtic Group.EnbbleSet bufimgsrcroot;
 
-    static Group imgtestroot;
-    static Group imgoptionsroot;
+    stbtic Group imgtestroot;
+    stbtic Group imgoptionsroot;
 
-    static Group imageOpRoot;
-    static Group imageOpOptRoot;
-    static Group imageOpTestRoot;
-    static Group graphicsTestRoot;
-    static Group bufImgOpTestRoot;
-    static Group rasterOpTestRoot;
-    static Option opList;
-    static Option doTouchSrc;
+    stbtic Group imbgeOpRoot;
+    stbtic Group imbgeOpOptRoot;
+    stbtic Group imbgeOpTestRoot;
+    stbtic Group grbphicsTestRoot;
+    stbtic Group bufImgOpTestRoot;
+    stbtic Group rbsterOpTestRoot;
+    stbtic Option opList;
+    stbtic Option doTouchSrc;
 
-    static String transNodeNames[] = {
-        null, "opaque", "bitmask", "translucent",
+    stbtic String trbnsNodeNbmes[] = {
+        null, "opbque", "bitmbsk", "trbnslucent",
     };
 
-    static String transDescriptions[] = {
-        null, "Opaque", "Bitmask", "Translucent",
+    stbtic String trbnsDescriptions[] = {
+        null, "Opbque", "Bitmbsk", "Trbnslucent",
     };
 
-    public static void init() {
-        imageroot = new Group(graphicsroot, "imaging",
-                              "Imaging Benchmarks");
-        imageroot.setTabbed();
+    public stbtic void init() {
+        imbgeroot = new Group(grbphicsroot, "imbging",
+                              "Imbging Benchmbrks");
+        imbgeroot.setTbbbed();
 
-        imgsrcroot = new Group.EnableSet(imageroot, "src",
-                                         "Image Rendering Sources");
+        imgsrcroot = new Group.EnbbleSet(imbgeroot, "src",
+                                         "Imbge Rendering Sources");
         imgsrcroot.setBordered(true);
 
         imgoptionsroot = new Group(imgsrcroot, "options",
-                                "Image Source Options");
+                                "Imbge Source Options");
         imgoptionsroot.setBordered(true);
         doTouchSrc =
             new Option.Toggle(imgoptionsroot, "touchsrc",
-                              "Touch src image before every operation",
+                              "Touch src imbge before every operbtion",
                                Option.Toggle.Off);
 
-        imgtestroot = new Group(imageroot, "tests",
-                                "Image Rendering Tests");
+        imgtestroot = new Group(imbgeroot, "tests",
+                                "Imbge Rendering Tests");
         imgtestroot.setBordered(true);
 
         new OffScreen();
 
-        if (hasGraphics2D) {
-            if (hasCompatImage) {
-                new CompatImg(Transparency.OPAQUE);
-                new CompatImg(Transparency.BITMASK);
-                new CompatImg(Transparency.TRANSLUCENT);
+        if (hbsGrbphics2D) {
+            if (hbsCompbtImbge) {
+                new CompbtImg(Trbnspbrency.OPAQUE);
+                new CompbtImg(Trbnspbrency.BITMASK);
+                new CompbtImg(Trbnspbrency.TRANSLUCENT);
             }
 
-            if (hasVolatileImage) {
-                new VolatileImg();
+            if (hbsVolbtileImbge) {
+                new VolbtileImg();
             }
 
             bufimgsrcroot =
-                new Group.EnableSet(imgsrcroot, "bufimg",
-                                    "BufferedImage Rendering Sources");
-            new BufImg(BufferedImage.TYPE_INT_RGB);
-            new BufImg(BufferedImage.TYPE_INT_ARGB);
-            new BufImg(BufferedImage.TYPE_BYTE_GRAY);
-            new BufImg(BufferedImage.TYPE_3BYTE_BGR);
+                new Group.EnbbleSet(imgsrcroot, "bufimg",
+                                    "BufferedImbge Rendering Sources");
+            new BufImg(BufferedImbge.TYPE_INT_RGB);
+            new BufImg(BufferedImbge.TYPE_INT_ARGB);
+            new BufImg(BufferedImbge.TYPE_BYTE_GRAY);
+            new BufImg(BufferedImbge.TYPE_3BYTE_BGR);
             new BmByteIndexBufImg();
-            new BufImg(BufferedImage.TYPE_INT_RGB, true);
-            new BufImg(BufferedImage.TYPE_INT_ARGB, true);
-            new BufImg(BufferedImage.TYPE_3BYTE_BGR, true);
+            new BufImg(BufferedImbge.TYPE_INT_RGB, true);
+            new BufImg(BufferedImbge.TYPE_INT_ARGB, true);
+            new BufImg(BufferedImbge.TYPE_3BYTE_BGR, true);
 
-            imageOpRoot = new Group(imageroot, "imageops",
-                                    "Image Op Benchmarks");
-            imageOpOptRoot = new Group(imageOpRoot, "opts", "Options");
-            imageOpTestRoot = new Group(imageOpRoot, "tests", "Tests");
-            graphicsTestRoot = new Group(imageOpTestRoot, "graphics2d",
-                                         "Graphics2D Tests");
-            bufImgOpTestRoot = new Group(imageOpTestRoot, "bufimgop",
-                                         "BufferedImageOp Tests");
-            rasterOpTestRoot = new Group(imageOpTestRoot, "rasterop",
-                                         "RasterOp Tests");
+            imbgeOpRoot = new Group(imbgeroot, "imbgeops",
+                                    "Imbge Op Benchmbrks");
+            imbgeOpOptRoot = new Group(imbgeOpRoot, "opts", "Options");
+            imbgeOpTestRoot = new Group(imbgeOpRoot, "tests", "Tests");
+            grbphicsTestRoot = new Group(imbgeOpTestRoot, "grbphics2d",
+                                         "Grbphics2D Tests");
+            bufImgOpTestRoot = new Group(imbgeOpTestRoot, "bufimgop",
+                                         "BufferedImbgeOp Tests");
+            rbsterOpTestRoot = new Group(imbgeOpTestRoot, "rbsterop",
+                                         "RbsterOp Tests");
 
-            ArrayList opStrs = new ArrayList();
-            ArrayList opDescs = new ArrayList();
-            opStrs.add("convolve3x3zero");
-            opDescs.add("ConvolveOp (3x3 blur, zero)");
-            opStrs.add("convolve3x3noop");
-            opDescs.add("ConvolveOp (3x3 blur, noop)");
-            opStrs.add("convolve5x5zero");
-            opDescs.add("ConvolveOp (5x5 edge, zero)");
-            opStrs.add("convolve5x5noop");
-            opDescs.add("ConvolveOp (5x5 edge, noop)");
-            opStrs.add("lookup1byte");
-            opDescs.add("LookupOp (1 band, byte)");
-            opStrs.add("lookup1short");
-            opDescs.add("LookupOp (1 band, short)");
-            opStrs.add("lookup3byte");
-            opDescs.add("LookupOp (3 band, byte)");
-            opStrs.add("lookup3short");
-            opDescs.add("LookupOp (3 band, short)");
-            opStrs.add("rescale1band");
-            opDescs.add("RescaleOp (1 band)");
-            opStrs.add("rescale3band");
-            opDescs.add("RescaleOp (3 band)");
+            ArrbyList opStrs = new ArrbyList();
+            ArrbyList opDescs = new ArrbyList();
+            opStrs.bdd("convolve3x3zero");
+            opDescs.bdd("ConvolveOp (3x3 blur, zero)");
+            opStrs.bdd("convolve3x3noop");
+            opDescs.bdd("ConvolveOp (3x3 blur, noop)");
+            opStrs.bdd("convolve5x5zero");
+            opDescs.bdd("ConvolveOp (5x5 edge, zero)");
+            opStrs.bdd("convolve5x5noop");
+            opDescs.bdd("ConvolveOp (5x5 edge, noop)");
+            opStrs.bdd("lookup1byte");
+            opDescs.bdd("LookupOp (1 bbnd, byte)");
+            opStrs.bdd("lookup1short");
+            opDescs.bdd("LookupOp (1 bbnd, short)");
+            opStrs.bdd("lookup3byte");
+            opDescs.bdd("LookupOp (3 bbnd, byte)");
+            opStrs.bdd("lookup3short");
+            opDescs.bdd("LookupOp (3 bbnd, short)");
+            opStrs.bdd("rescble1bbnd");
+            opDescs.bdd("RescbleOp (1 bbnd)");
+            opStrs.bdd("rescble3bbnd");
+            opDescs.bdd("RescbleOp (3 bbnd)");
             String[] opStrArr = new String[opStrs.size()];
-            opStrArr = (String[])opStrs.toArray(opStrArr);
+            opStrArr = (String[])opStrs.toArrby(opStrArr);
             String[] opDescArr = new String[opDescs.size()];
-            opDescArr = (String[])opDescs.toArray(opDescArr);
+            opDescArr = (String[])opDescs.toArrby(opDescArr);
             opList =
-                new Option.ObjectList(imageOpOptRoot,
-                                      "op", "Operation",
+                new Option.ObjectList(imbgeOpOptRoot,
+                                      "op", "Operbtion",
                                       opStrArr, opStrArr,
                                       opStrArr, opDescArr,
                                       0x1);
             ((Option.ObjectList) opList).setNumRows(4);
 
-            new DrawImageOp();
-            new BufImgOpFilter(false);
+            new DrbwImbgeOp();
+            new BufImgOpFilter(fblse);
             new BufImgOpFilter(true);
-            new RasterOpFilter(false);
-            new RasterOpFilter(true);
+            new RbsterOpFilter(fblse);
+            new RbsterOpFilter(true);
         }
 
-        new DrawImage();
-        new DrawImageBg();
-        new DrawImageScale("up", 1.5f);
-        new DrawImageScale("down", .75f);
-        new DrawImageTransform();
+        new DrbwImbge();
+        new DrbwImbgeBg();
+        new DrbwImbgeScble("up", 1.5f);
+        new DrbwImbgeScble("down", .75f);
+        new DrbwImbgeTrbnsform();
     }
 
-    public static class Context extends GraphicsTests.Context {
-        boolean touchSrc;
-        Image src;
-        AffineTransform tx;
+    public stbtic clbss Context extends GrbphicsTests.Context {
+        boolebn touchSrc;
+        Imbge src;
+        AffineTrbnsform tx;
     }
 
-    public ImageTests(Group parent, String nodeName, String description) {
-        this(parent, nodeName, description, null);
+    public ImbgeTests(Group pbrent, String nodeNbme, String description) {
+        this(pbrent, nodeNbme, description, null);
     }
 
-    public ImageTests(Group parent, String nodeName, String description,
+    public ImbgeTests(Group pbrent, String nodeNbme, String description,
                       Modifier.Filter srcFilter)
     {
-        super(parent, nodeName, description);
-        addDependency(imgsrcroot, srcFilter);
-        addDependency(doTouchSrc);
+        super(pbrent, nodeNbme, description);
+        bddDependency(imgsrcroot, srcFilter);
+        bddDependency(doTouchSrc);
     }
 
-    public GraphicsTests.Context createContext() {
-        return new ImageTests.Context();
+    public GrbphicsTests.Context crebteContext() {
+        return new ImbgeTests.Context();
     }
 
-    public void initContext(TestEnvironment env, GraphicsTests.Context ctx) {
+    public void initContext(TestEnvironment env, GrbphicsTests.Context ctx) {
         super.initContext(env, ctx);
-        ImageTests.Context ictx = (ImageTests.Context) ctx;
+        ImbgeTests.Context ictx = (ImbgeTests.Context) ctx;
 
-        ictx.src = env.getSrcImage();
-        ictx.touchSrc = env.isEnabled(doTouchSrc);
+        ictx.src = env.getSrcImbge();
+        ictx.touchSrc = env.isEnbbled(doTouchSrc);
     }
 
-    public abstract static class TriStateImageType extends Group {
-        Image theImage;
+    public bbstrbct stbtic clbss TriStbteImbgeType extends Group {
+        Imbge theImbge;
 
-        public TriStateImageType(Group parent, String nodename, String desc,
-                                 int transparency)
+        public TriStbteImbgeType(Group pbrent, String nodenbme, String desc,
+                                 int trbnspbrency)
         {
-            super(parent, nodename, desc);
-            setHorizontal();
-            new DrawableImage(this, Transparency.OPAQUE, true);
-            new DrawableImage(this, Transparency.BITMASK,
-                              (transparency != Transparency.OPAQUE));
-            new DrawableImage(this, Transparency.TRANSLUCENT,
-                              (transparency == Transparency.TRANSLUCENT));
+            super(pbrent, nodenbme, desc);
+            setHorizontbl();
+            new DrbwbbleImbge(this, Trbnspbrency.OPAQUE, true);
+            new DrbwbbleImbge(this, Trbnspbrency.BITMASK,
+                              (trbnspbrency != Trbnspbrency.OPAQUE));
+            new DrbwbbleImbge(this, Trbnspbrency.TRANSLUCENT,
+                              (trbnspbrency == Trbnspbrency.TRANSLUCENT));
         }
 
-        public Image getImage(TestEnvironment env, int w, int h) {
-            if (theImage == null ||
-                theImage.getWidth(null) != w ||
-                theImage.getHeight(null) != h)
+        public Imbge getImbge(TestEnvironment env, int w, int h) {
+            if (theImbge == null ||
+                theImbge.getWidth(null) != w ||
+                theImbge.getHeight(null) != h)
             {
-                theImage = makeImage(env, w, h);
+                theImbge = mbkeImbge(env, w, h);
             }
-            return theImage;
+            return theImbge;
         }
 
-        public abstract Image makeImage(TestEnvironment env, int w, int h);
+        public bbstrbct Imbge mbkeImbge(TestEnvironment env, int w, int h);
     }
 
-    public static class OffScreen extends TriStateImageType {
+    public stbtic clbss OffScreen extends TriStbteImbgeType {
         public OffScreen() {
-            super(imgsrcroot, "offscr", "Offscreen Image", Transparency.OPAQUE);
+            super(imgsrcroot, "offscr", "Offscreen Imbge", Trbnspbrency.OPAQUE);
         }
 
-        public Image makeImage(TestEnvironment env, int w, int h) {
-            Canvas c = env.getCanvas();
-            return c.createImage(w, h);
-        }
-    }
-
-    public static class VolatileImg extends TriStateImageType {
-        public VolatileImg() {
-            super(imgsrcroot, "volimg", "Volatile Image", Transparency.OPAQUE);
-        }
-
-        public Image makeImage(TestEnvironment env, int w, int h) {
-            Canvas c = env.getCanvas();
-            return c.createVolatileImage(w, h);
+        public Imbge mbkeImbge(TestEnvironment env, int w, int h) {
+            Cbnvbs c = env.getCbnvbs();
+            return c.crebteImbge(w, h);
         }
     }
 
-    public static class CompatImg extends TriStateImageType {
-        int transparency;
+    public stbtic clbss VolbtileImg extends TriStbteImbgeType {
+        public VolbtileImg() {
+            super(imgsrcroot, "volimg", "Volbtile Imbge", Trbnspbrency.OPAQUE);
+        }
 
-        public CompatImg(int transparency) {
+        public Imbge mbkeImbge(TestEnvironment env, int w, int h) {
+            Cbnvbs c = env.getCbnvbs();
+            return c.crebteVolbtileImbge(w, h);
+        }
+    }
+
+    public stbtic clbss CompbtImg extends TriStbteImbgeType {
+        int trbnspbrency;
+
+        public CompbtImg(int trbnspbrency) {
             super(imgsrcroot,
-                  Destinations.CompatImg.ShortNames[transparency],
-                  Destinations.CompatImg.LongDescriptions[transparency],
-                  transparency);
-            this.transparency = transparency;
+                  Destinbtions.CompbtImg.ShortNbmes[trbnspbrency],
+                  Destinbtions.CompbtImg.LongDescriptions[trbnspbrency],
+                  trbnspbrency);
+            this.trbnspbrency = trbnspbrency;
         }
 
-        public Image makeImage(TestEnvironment env, int w, int h) {
-            Canvas c = env.getCanvas();
-            GraphicsConfiguration gc = c.getGraphicsConfiguration();
-            return gc.createCompatibleImage(w, h, transparency);
+        public Imbge mbkeImbge(TestEnvironment env, int w, int h) {
+            Cbnvbs c = env.getCbnvbs();
+            GrbphicsConfigurbtion gc = c.getGrbphicsConfigurbtion();
+            return gc.crebteCompbtibleImbge(w, h, trbnspbrency);
         }
     }
 
-    public static class BufImg extends TriStateImageType {
+    public stbtic clbss BufImg extends TriStbteImbgeType {
         int type;
-        boolean unmanaged;
+        boolebn unmbnbged;
 
-        static int Transparencies[] = {
-            Transparency.TRANSLUCENT, // "custom",
-            Transparency.OPAQUE,      // "IntXrgb",
-            Transparency.TRANSLUCENT, // "IntArgb",
-            Transparency.TRANSLUCENT, // "IntArgbPre",
-            Transparency.OPAQUE,      // "IntXbgr",
-            Transparency.OPAQUE,      // "3ByteBgr",
-            Transparency.TRANSLUCENT, // "4ByteAbgr",
-            Transparency.TRANSLUCENT, // "4ByteAbgrPre",
-            Transparency.OPAQUE,      // "Short565",
-            Transparency.OPAQUE,      // "Short555",
-            Transparency.OPAQUE,      // "ByteGray",
-            Transparency.OPAQUE,      // "ShortGray",
-            Transparency.OPAQUE,      // "ByteBinary",
-            Transparency.OPAQUE,      // "ByteIndexed",
+        stbtic int Trbnspbrencies[] = {
+            Trbnspbrency.TRANSLUCENT, // "custom",
+            Trbnspbrency.OPAQUE,      // "IntXrgb",
+            Trbnspbrency.TRANSLUCENT, // "IntArgb",
+            Trbnspbrency.TRANSLUCENT, // "IntArgbPre",
+            Trbnspbrency.OPAQUE,      // "IntXbgr",
+            Trbnspbrency.OPAQUE,      // "3ByteBgr",
+            Trbnspbrency.TRANSLUCENT, // "4ByteAbgr",
+            Trbnspbrency.TRANSLUCENT, // "4ByteAbgrPre",
+            Trbnspbrency.OPAQUE,      // "Short565",
+            Trbnspbrency.OPAQUE,      // "Short555",
+            Trbnspbrency.OPAQUE,      // "ByteGrby",
+            Trbnspbrency.OPAQUE,      // "ShortGrby",
+            Trbnspbrency.OPAQUE,      // "ByteBinbry",
+            Trbnspbrency.OPAQUE,      // "ByteIndexed",
         };
 
         public BufImg(int type) {
-            this(type, false);
+            this(type, fblse);
         }
 
-        public BufImg(int type, boolean unmanaged) {
+        public BufImg(int type, boolebn unmbnbged) {
             super(bufimgsrcroot,
-                  (unmanaged ? "unmanaged" : "") +
-                  Destinations.BufImg.ShortNames[type],
-                  (unmanaged ? "Unmanaged " : "") +
-                  Destinations.BufImg.Descriptions[type],
-                  Transparencies[type]);
+                  (unmbnbged ? "unmbnbged" : "") +
+                  Destinbtions.BufImg.ShortNbmes[type],
+                  (unmbnbged ? "Unmbnbged " : "") +
+                  Destinbtions.BufImg.Descriptions[type],
+                  Trbnspbrencies[type]);
             this.type = type;
-            this.unmanaged = unmanaged;
+            this.unmbnbged = unmbnbged;
         }
 
-        public Image makeImage(TestEnvironment env, int w, int h) {
-            BufferedImage img = new BufferedImage(w, h, type);
-            if (unmanaged) {
-                DataBuffer db = img.getRaster().getDataBuffer();
-                if (db instanceof DataBufferInt) {
-                    ((DataBufferInt)db).getData();
-                } else if (db instanceof DataBufferShort) {
-                    ((DataBufferShort)db).getData();
-                } else if (db instanceof DataBufferByte) {
-                    ((DataBufferByte)db).getData();
+        public Imbge mbkeImbge(TestEnvironment env, int w, int h) {
+            BufferedImbge img = new BufferedImbge(w, h, type);
+            if (unmbnbged) {
+                DbtbBuffer db = img.getRbster().getDbtbBuffer();
+                if (db instbnceof DbtbBufferInt) {
+                    ((DbtbBufferInt)db).getDbtb();
+                } else if (db instbnceof DbtbBufferShort) {
+                    ((DbtbBufferShort)db).getDbtb();
+                } else if (db instbnceof DbtbBufferByte) {
+                    ((DbtbBufferByte)db).getDbtb();
                 } else {
                     try {
-                        img.setAccelerationPriority(0.0f);
-                    } catch (Throwable e) {}
+                        img.setAccelerbtionPriority(0.0f);
+                    } cbtch (Throwbble e) {}
                 }
             }
             return img;
         }
     }
 
-    public static class BmByteIndexBufImg extends TriStateImageType {
-        static IndexColorModel icm;
+    public stbtic clbss BmByteIndexBufImg extends TriStbteImbgeType {
+        stbtic IndexColorModel icm;
 
         public BmByteIndexBufImg() {
             super(bufimgsrcroot,
                   "ByteIndexedBm",
-                  "8-bit Transparent Indexed Image",
-                  Transparency.BITMASK);
+                  "8-bit Trbnspbrent Indexed Imbge",
+                  Trbnspbrency.BITMASK);
         }
 
-        public Image makeImage(TestEnvironment env, int w, int h) {
+        public Imbge mbkeImbge(TestEnvironment env, int w, int h) {
             if (icm == null) {
-                int cmap[] = new int[256];
-                // Workaround for transparency rendering bug in earlier VMs
-                // Can only render transparency if first cmap entry is 0x0
-                // This bug is fixed in 1.4.2 (Mantis)
+                int cmbp[] = new int[256];
+                // Workbround for trbnspbrency rendering bug in ebrlier VMs
+                // Cbn only render trbnspbrency if first cmbp entry is 0x0
+                // This bug is fixed in 1.4.2 (Mbntis)
                 int i = 1;
                 for (int r = 0; r < 256; r += 51) {
                     for (int g = 0; g < 256; g += 51) {
                         for (int b = 0; b < 256; b += 51) {
-                            cmap[i++] = (0xff<<24)|(r<<16)|(g<<8)|b;
+                            cmbp[i++] = (0xff<<24)|(r<<16)|(g<<8)|b;
                         }
                     }
                 }
 
-                // Leave the rest of the colormap transparent
+                // Lebve the rest of the colormbp trbnspbrent
 
-                icm = new IndexColorModel(8, 256, cmap, 0, true, 255,
-                                          DataBuffer.TYPE_BYTE);
+                icm = new IndexColorModel(8, 256, cmbp, 0, true, 255,
+                                          DbtbBuffer.TYPE_BYTE);
             }
-            return new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED,
+            return new BufferedImbge(w, h, BufferedImbge.TYPE_BYTE_INDEXED,
                                      icm);
         }
     }
 
-    public static class DrawableImage extends Option.Enable {
-        static Color transparentBlack  = makeAlphaColor(Color.black, 0);
-        static Color translucentRed    = makeAlphaColor(Color.red, 192);
-        static Color translucentGreen  = makeAlphaColor(Color.green, 128);
-        static Color translucentYellow = makeAlphaColor(Color.yellow, 64);
+    public stbtic clbss DrbwbbleImbge extends Option.Enbble {
+        stbtic Color trbnspbrentBlbck  = mbkeAlphbColor(Color.blbck, 0);
+        stbtic Color trbnslucentRed    = mbkeAlphbColor(Color.red, 192);
+        stbtic Color trbnslucentGreen  = mbkeAlphbColor(Color.green, 128);
+        stbtic Color trbnslucentYellow = mbkeAlphbColor(Color.yellow, 64);
 
-        static Color colorsets[][] = new Color[][] {
+        stbtic Color colorsets[][] = new Color[][] {
             null,
             {
                 Color.blue,       Color.red,
@@ -423,373 +423,373 @@ public abstract class ImageTests extends GraphicsTests {
                 Color.blue,
             },
             {
-                transparentBlack, Color.red,
-                Color.green,      transparentBlack,
-                transparentBlack,
+                trbnspbrentBlbck, Color.red,
+                Color.green,      trbnspbrentBlbck,
+                trbnspbrentBlbck,
             },
             {
-                Color.blue,       translucentRed,
-                translucentGreen, translucentYellow,
-                translucentRed,
+                Color.blue,       trbnslucentRed,
+                trbnslucentGreen, trbnslucentYellow,
+                trbnslucentRed,
             },
         };
 
-        TriStateImageType tsit;
-        int transparency;
-        boolean possible;
+        TriStbteImbgeType tsit;
+        int trbnspbrency;
+        boolebn possible;
 
-        public DrawableImage(TriStateImageType parent, int transparency,
-                             boolean possible)
+        public DrbwbbleImbge(TriStbteImbgeType pbrent, int trbnspbrency,
+                             boolebn possible)
         {
-            super(parent,
-                  transNodeNames[transparency],
-                  transDescriptions[transparency],
-                  false);
-            this.tsit = parent;
-            this.transparency = transparency;
+            super(pbrent,
+                  trbnsNodeNbmes[trbnspbrency],
+                  trbnsDescriptions[trbnspbrency],
+                  fblse);
+            this.tsit = pbrent;
+            this.trbnspbrency = trbnspbrency;
             this.possible = possible;
         }
 
-        public int getTransparency() {
-            return transparency;
+        public int getTrbnspbrency() {
+            return trbnspbrency;
         }
 
         public JComponent getJComponent() {
             JComponent comp = super.getJComponent();
-            comp.setEnabled(possible);
+            comp.setEnbbled(possible);
             return comp;
         }
 
-        public String setValueFromString(String value) {
-            if (!possible && !value.equalsIgnoreCase("disabled")) {
-                return "Bad Value";
+        public String setVblueFromString(String vblue) {
+            if (!possible && !vblue.equblsIgnoreCbse("disbbled")) {
+                return "Bbd Vblue";
             }
-            return super.setValueFromString(value);
+            return super.setVblueFromString(vblue);
         }
 
         public void modifyTest(TestEnvironment env) {
-            int size = env.getIntValue(sizeList);
-            Image src = tsit.getImage(env, size, size);
-            Graphics g = src.getGraphics();
-            if (hasGraphics2D) {
-                ((Graphics2D) g).setComposite(AlphaComposite.Src);
+            int size = env.getIntVblue(sizeList);
+            Imbge src = tsit.getImbge(env, size, size);
+            Grbphics g = src.getGrbphics();
+            if (hbsGrbphics2D) {
+                ((Grbphics2D) g).setComposite(AlphbComposite.Src);
             }
             if (size == 1) {
-                g.setColor(colorsets[transparency][4]);
+                g.setColor(colorsets[trbnspbrency][4]);
                 g.fillRect(0, 0, 1, 1);
             } else {
                 int mid = size/2;
-                g.setColor(colorsets[transparency][0]);
+                g.setColor(colorsets[trbnspbrency][0]);
                 g.fillRect(0, 0, mid, mid);
-                g.setColor(colorsets[transparency][1]);
+                g.setColor(colorsets[trbnspbrency][1]);
                 g.fillRect(mid, 0, size-mid, mid);
-                g.setColor(colorsets[transparency][2]);
+                g.setColor(colorsets[trbnspbrency][2]);
                 g.fillRect(0, mid, mid, size-mid);
-                g.setColor(colorsets[transparency][3]);
+                g.setColor(colorsets[trbnspbrency][3]);
                 g.fillRect(mid, mid, size-mid, size-mid);
             }
             g.dispose();
-            env.setSrcImage(src);
+            env.setSrcImbge(src);
         }
 
         public void restoreTest(TestEnvironment env) {
-            env.setSrcImage(null);
+            env.setSrcImbge(null);
         }
 
-        public String getAbbreviatedModifierDescription(Object value) {
-            return "from "+getModifierValueName(value);
+        public String getAbbrevibtedModifierDescription(Object vblue) {
+            return "from "+getModifierVblueNbme(vblue);
         }
 
-        public String getModifierValueName(Object val) {
-            return getParent().getNodeName()+" "+getNodeName();
+        public String getModifierVblueNbme(Object vbl) {
+            return getPbrent().getNodeNbme()+" "+getNodeNbme();
         }
     }
 
-    public static class DrawImage extends ImageTests {
-        public DrawImage() {
-            super(imgtestroot, "drawimage", "drawImage(img, x, y, obs);");
+    public stbtic clbss DrbwImbge extends ImbgeTests {
+        public DrbwImbge() {
+            super(imgtestroot, "drbwimbge", "drbwImbge(img, x, y, obs);");
         }
 
         public void runTest(Object ctx, int numReps) {
-            ImageTests.Context ictx = (ImageTests.Context) ctx;
+            ImbgeTests.Context ictx = (ImbgeTests.Context) ctx;
             int x = ictx.initX;
             int y = ictx.initY;
-            Graphics g = ictx.graphics;
-            g.translate(ictx.orgX, ictx.orgY);
-            Image src = ictx.src;
-            if (ictx.animate) {
+            Grbphics g = ictx.grbphics;
+            g.trbnslbte(ictx.orgX, ictx.orgY);
+            Imbge src = ictx.src;
+            if (ictx.bnimbte) {
                 if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+                    Grbphics srcG = src.getGrbphics();
                     do {
                         srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, x, y, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
+                        g.drbwImbge(src, x, y, null);
+                        if ((x -= 3) < 0) x += ictx.mbxX;
+                        if ((y -= 1) < 0) y += ictx.mbxY;
                     } while (--numReps > 0);
                 } else {
                     do {
-                        g.drawImage(src, x, y, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
+                        g.drbwImbge(src, x, y, null);
+                        if ((x -= 3) < 0) x += ictx.mbxX;
+                        if ((y -= 1) < 0) y += ictx.mbxY;
                     } while (--numReps > 0);
                 }
             } else {
                 if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+                    Grbphics srcG = src.getGrbphics();
                     do {
                         srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, x, y, null);
+                        g.drbwImbge(src, x, y, null);
                     } while (--numReps > 0);
                 } else {
                     do {
-                        g.drawImage(src, x, y, null);
+                        g.drbwImbge(src, x, y, null);
                     } while (--numReps > 0);
                 }
             }
-            g.translate(-ictx.orgX, -ictx.orgY);
+            g.trbnslbte(-ictx.orgX, -ictx.orgY);
         }
     }
 
-    public static class DrawImageBg extends ImageTests {
-        public DrawImageBg() {
-            super(imgtestroot, "drawimagebg", "drawImage(img, x, y, bg, obs);",
+    public stbtic clbss DrbwImbgeBg extends ImbgeTests {
+        public DrbwImbgeBg() {
+            super(imgtestroot, "drbwimbgebg", "drbwImbge(img, x, y, bg, obs);",
                   new Modifier.Filter() {
-                      public boolean isCompatible(Object val) {
-                          DrawableImage di = (DrawableImage) val;
-                          return (di.getTransparency() != Transparency.OPAQUE);
+                      public boolebn isCompbtible(Object vbl) {
+                          DrbwbbleImbge di = (DrbwbbleImbge) vbl;
+                          return (di.getTrbnspbrency() != Trbnspbrency.OPAQUE);
                       }
                   });
         }
 
         public void runTest(Object ctx, int numReps) {
-            ImageTests.Context ictx = (ImageTests.Context) ctx;
+            ImbgeTests.Context ictx = (ImbgeTests.Context) ctx;
             int x = ictx.initX;
             int y = ictx.initY;
-            Graphics g = ictx.graphics;
-            g.translate(ictx.orgX, ictx.orgY);
-            Image src = ictx.src;
-            Color bg = Color.orange;
-            if (ictx.animate) {
+            Grbphics g = ictx.grbphics;
+            g.trbnslbte(ictx.orgX, ictx.orgY);
+            Imbge src = ictx.src;
+            Color bg = Color.orbnge;
+            if (ictx.bnimbte) {
                 if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+                    Grbphics srcG = src.getGrbphics();
                     do {
                         srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, x, y, bg, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
+                        g.drbwImbge(src, x, y, bg, null);
+                        if ((x -= 3) < 0) x += ictx.mbxX;
+                        if ((y -= 1) < 0) y += ictx.mbxY;
                     } while (--numReps > 0);
                 } else {
                     do {
-                        g.drawImage(src, x, y, bg, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
+                        g.drbwImbge(src, x, y, bg, null);
+                        if ((x -= 3) < 0) x += ictx.mbxX;
+                        if ((y -= 1) < 0) y += ictx.mbxY;
                     } while (--numReps > 0);
                 }
             } else {
                 if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+                    Grbphics srcG = src.getGrbphics();
                     do {
                         srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, x, y, bg, null);
+                        g.drbwImbge(src, x, y, bg, null);
                     } while (--numReps > 0);
                 } else {
                     do {
-                        g.drawImage(src, x, y, bg, null);
+                        g.drbwImbge(src, x, y, bg, null);
                     } while (--numReps > 0);
                 }
             }
-            g.translate(-ictx.orgX, -ictx.orgY);
+            g.trbnslbte(-ictx.orgX, -ictx.orgY);
         }
     }
 
-    public static class DrawImageScale extends ImageTests {
-        float scale;
+    public stbtic clbss DrbwImbgeScble extends ImbgeTests {
+        flobt scble;
 
-        public DrawImageScale(String dir, float scale) {
-            super(imgtestroot, "drawimagescale"+dir,
-                               "drawImage(img, x, y, w*"+scale+", h*"+scale+", obs);");
-            this.scale = scale;
+        public DrbwImbgeScble(String dir, flobt scble) {
+            super(imgtestroot, "drbwimbgescble"+dir,
+                               "drbwImbge(img, x, y, w*"+scble+", h*"+scble+", obs);");
+            this.scble = scble;
         }
 
         public Dimension getOutputSize(int w, int h) {
-            int neww = (int) (w * scale);
-            int newh = (int) (h * scale);
-            if (neww == w && scale > 1f) neww = w+1;
-            if (newh == h && scale > 1f) newh = h+1;
+            int neww = (int) (w * scble);
+            int newh = (int) (h * scble);
+            if (neww == w && scble > 1f) neww = w+1;
+            if (newh == h && scble > 1f) newh = h+1;
             return new Dimension(neww, newh);
         }
 
         public void runTest(Object ctx, int numReps) {
-            ImageTests.Context ictx = (ImageTests.Context) ctx;
+            ImbgeTests.Context ictx = (ImbgeTests.Context) ctx;
             int x = ictx.initX;
             int y = ictx.initY;
             int w = ictx.outdim.width;
             int h = ictx.outdim.height;
-            Graphics g = ictx.graphics;
-            g.translate(ictx.orgX, ictx.orgY);
-            Image src = ictx.src;
-            if (ictx.animate) {
+            Grbphics g = ictx.grbphics;
+            g.trbnslbte(ictx.orgX, ictx.orgY);
+            Imbge src = ictx.src;
+            if (ictx.bnimbte) {
                 if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+                    Grbphics srcG = src.getGrbphics();
                     do {
                         srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, x, y, w, h, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
+                        g.drbwImbge(src, x, y, w, h, null);
+                        if ((x -= 3) < 0) x += ictx.mbxX;
+                        if ((y -= 1) < 0) y += ictx.mbxY;
                     } while (--numReps > 0);
                 } else {
                     do {
-                        g.drawImage(src, x, y, w, h, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
+                        g.drbwImbge(src, x, y, w, h, null);
+                        if ((x -= 3) < 0) x += ictx.mbxX;
+                        if ((y -= 1) < 0) y += ictx.mbxY;
                     } while (--numReps > 0);
                 }
             } else {
-                Graphics srcG = src.getGraphics();
+                Grbphics srcG = src.getGrbphics();
                 if (ictx.touchSrc) {
                     do {
                         srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, x, y, w, h, null);
+                        g.drbwImbge(src, x, y, w, h, null);
                     } while (--numReps > 0);
                 } else {
                     do {
-                        g.drawImage(src, x, y, w, h, null);
+                        g.drbwImbge(src, x, y, w, h, null);
                     } while (--numReps > 0);
                 }
             }
-            g.translate(-ictx.orgX, -ictx.orgY);
+            g.trbnslbte(-ictx.orgX, -ictx.orgY);
         }
     }
 
-    public static class DrawImageTransform extends ImageTests {
-        public DrawImageTransform() {
-            super(imgtestroot, "drawimagetxform", "drawImage(img, tx, obs);");
+    public stbtic clbss DrbwImbgeTrbnsform extends ImbgeTests {
+        public DrbwImbgeTrbnsform() {
+            super(imgtestroot, "drbwimbgetxform", "drbwImbge(img, tx, obs);");
         }
 
         public Dimension getOutputSize(int w, int h) {
-            int neww = (int) Math.ceil(w * 1.1);
-            int newh = (int) Math.ceil(h * 1.1);
+            int neww = (int) Mbth.ceil(w * 1.1);
+            int newh = (int) Mbth.ceil(h * 1.1);
             return new Dimension(neww, newh);
         }
 
-        public void initContext(TestEnvironment env, GraphicsTests.Context ctx)
+        public void initContext(TestEnvironment env, GrbphicsTests.Context ctx)
         {
             super.initContext(env, ctx);
-            ImageTests.Context ictx = (ImageTests.Context) ctx;
+            ImbgeTests.Context ictx = (ImbgeTests.Context) ctx;
 
-            ictx.tx = new AffineTransform();
+            ictx.tx = new AffineTrbnsform();
         }
 
         public void runTest(Object ctx, int numReps) {
-            ImageTests.Context ictx = (ImageTests.Context) ctx;
+            ImbgeTests.Context ictx = (ImbgeTests.Context) ctx;
             int x = ictx.initX;
             int y = ictx.initY;
-            Graphics2D g = (Graphics2D) ictx.graphics;
-            g.translate(ictx.orgX, ictx.orgY);
-            Image src = ictx.src;
-            AffineTransform tx = ictx.tx;
-            if (ictx.animate) {
+            Grbphics2D g = (Grbphics2D) ictx.grbphics;
+            g.trbnslbte(ictx.orgX, ictx.orgY);
+            Imbge src = ictx.src;
+            AffineTrbnsform tx = ictx.tx;
+            if (ictx.bnimbte) {
                 if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+                    Grbphics srcG = src.getGrbphics();
                     do {
-                        tx.setTransform(1.0, 0.1, 0.1, 1.0, x, y);
+                        tx.setTrbnsform(1.0, 0.1, 0.1, 1.0, x, y);
                         srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, tx, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
+                        g.drbwImbge(src, tx, null);
+                        if ((x -= 3) < 0) x += ictx.mbxX;
+                        if ((y -= 1) < 0) y += ictx.mbxY;
                     } while (--numReps > 0);
                 } else {
                     do {
-                        tx.setTransform(1.0, 0.1, 0.1, 1.0, x, y);
-                        g.drawImage(src, tx, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
+                        tx.setTrbnsform(1.0, 0.1, 0.1, 1.0, x, y);
+                        g.drbwImbge(src, tx, null);
+                        if ((x -= 3) < 0) x += ictx.mbxX;
+                        if ((y -= 1) < 0) y += ictx.mbxY;
                     } while (--numReps > 0);
                 }
             } else {
-                tx.setTransform(1.0, 0.1, 0.1, 1.0, x, y);
+                tx.setTrbnsform(1.0, 0.1, 0.1, 1.0, x, y);
                 if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+                    Grbphics srcG = src.getGrbphics();
                     do {
                         srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, tx, null);
+                        g.drbwImbge(src, tx, null);
                     } while (--numReps > 0);
                 } else {
                     do {
-                        g.drawImage(src, tx, null);
+                        g.drbwImbge(src, tx, null);
                     } while (--numReps > 0);
                 }
             }
-            g.translate(-ictx.orgX, -ictx.orgY);
+            g.trbnslbte(-ictx.orgX, -ictx.orgY);
         }
     }
 
-    private static abstract class ImageOpTests extends ImageTests {
-        ImageOpTests(Group parent, String nodeName, String desc) {
-            super(parent, nodeName, desc,
+    privbte stbtic bbstrbct clbss ImbgeOpTests extends ImbgeTests {
+        ImbgeOpTests(Group pbrent, String nodeNbme, String desc) {
+            super(pbrent, nodeNbme, desc,
                   new Modifier.Filter() {
-                      public boolean isCompatible(Object val) {
-                          // Filter out all non-BufferedImage sources
-                          DrawableImage di = (DrawableImage) val;
-                          Group imgtype = di.getParent();
+                      public boolebn isCompbtible(Object vbl) {
+                          // Filter out bll non-BufferedImbge sources
+                          DrbwbbleImbge di = (DrbwbbleImbge) vbl;
+                          Group imgtype = di.getPbrent();
                           return
-                              !(imgtype instanceof VolatileImg) &&
-                              !(imgtype instanceof OffScreen);
+                              !(imgtype instbnceof VolbtileImg) &&
+                              !(imgtype instbnceof OffScreen);
                       }
                   });
-            addDependencies(imageOpOptRoot, true);
+            bddDependencies(imbgeOpOptRoot, true);
         }
 
-        private static class Context extends ImageTests.Context {
-            BufferedImageOp bufImgOp;
-            BufferedImage   bufSrc;
-            BufferedImage   bufDst;
+        privbte stbtic clbss Context extends ImbgeTests.Context {
+            BufferedImbgeOp bufImgOp;
+            BufferedImbge   bufSrc;
+            BufferedImbge   bufDst;
 
-            RasterOp        rasterOp;
-            Raster          rasSrc;
-            WritableRaster  rasDst;
+            RbsterOp        rbsterOp;
+            Rbster          rbsSrc;
+            WritbbleRbster  rbsDst;
         }
 
-        public GraphicsTests.Context createContext() {
-            return new ImageOpTests.Context();
+        public GrbphicsTests.Context crebteContext() {
+            return new ImbgeOpTests.Context();
         }
 
         public void initContext(TestEnvironment env,
-                                GraphicsTests.Context ctx)
+                                GrbphicsTests.Context ctx)
         {
             super.initContext(env, ctx);
-            ImageOpTests.Context ictx = (ImageOpTests.Context)ctx;
+            ImbgeOpTests.Context ictx = (ImbgeOpTests.Context)ctx;
 
-            // Note: We filter out all non-BufferedImage sources in the
-            // ImageOpTests constructor above, so the following is safe...
-            ictx.bufSrc = (BufferedImage)ictx.src;
+            // Note: We filter out bll non-BufferedImbge sources in the
+            // ImbgeOpTests constructor bbove, so the following is sbfe...
+            ictx.bufSrc = (BufferedImbge)ictx.src;
 
             String op = (String)env.getModifier(opList);
-            if (op.startsWith("convolve")) {
+            if (op.stbrtsWith("convolve")) {
                 Kernel kernel;
-                if (op.startsWith("convolve3x3")) {
+                if (op.stbrtsWith("convolve3x3")) {
                     // 3x3 blur
-                    float[] data = {
+                    flobt[] dbtb = {
                         0.1f, 0.1f, 0.1f,
                         0.1f, 0.2f, 0.1f,
                         0.1f, 0.1f, 0.1f,
                     };
-                    kernel = new Kernel(3, 3, data);
-                } else { // (op.startsWith("convolve5x5"))
+                    kernel = new Kernel(3, 3, dbtb);
+                } else { // (op.stbrtsWith("convolve5x5"))
                     // 5x5 edge
-                    float[] data = {
+                    flobt[] dbtb = {
                         -1.0f, -1.0f, -1.0f, -1.0f, -1.0f,
                         -1.0f, -1.0f, -1.0f, -1.0f, -1.0f,
                         -1.0f, -1.0f, 24.0f, -1.0f, -1.0f,
                         -1.0f, -1.0f, -1.0f, -1.0f, -1.0f,
                         -1.0f, -1.0f, -1.0f, -1.0f, -1.0f,
                     };
-                    kernel = new Kernel(5, 5, data);
+                    kernel = new Kernel(5, 5, dbtb);
                 }
                 int edge = op.endsWith("zero") ?
                     ConvolveOp.EDGE_ZERO_FILL : ConvolveOp.EDGE_NO_OP;
                 ictx.bufImgOp = new ConvolveOp(kernel, edge, null);
-            } else if (op.startsWith("lookup")) {
+            } else if (op.stbrtsWith("lookup")) {
                 if (op.endsWith("byte")) {
                     byte invert[] = new byte[256];
                     byte ordered[] = new byte[256];
@@ -797,15 +797,15 @@ public abstract class ImageTests extends GraphicsTests {
                         invert[j] = (byte)(255-j);
                         ordered[j] = (byte)j;
                     }
-                    if (op.equals("lookup1byte")) {
+                    if (op.equbls("lookup1byte")) {
                         ictx.bufImgOp =
-                            new LookupOp(new ByteLookupTable(0, invert),
+                            new LookupOp(new ByteLookupTbble(0, invert),
                                          null);
-                    } else { // (op.equals("lookup3byte"))
+                    } else { // (op.equbls("lookup3byte"))
                         byte[][] yellowInvert =
                             new byte[][] { invert, invert, ordered };
                         ictx.bufImgOp =
-                            new LookupOp(new ByteLookupTable(0, yellowInvert),
+                            new LookupOp(new ByteLookupTbble(0, yellowInvert),
                                          null);
                     }
                 } else { // (op.endsWith("short"))
@@ -815,109 +815,109 @@ public abstract class ImageTests extends GraphicsTests {
                         invert[j] = (short)((255-j) * 255);
                         ordered[j] = (short)(j * 255);
                     }
-                    if (op.equals("lookup1short")) {
+                    if (op.equbls("lookup1short")) {
                         ictx.bufImgOp =
-                            new LookupOp(new ShortLookupTable(0, invert),
+                            new LookupOp(new ShortLookupTbble(0, invert),
                                          null);
-                    } else { // (op.equals("lookup3short"))
+                    } else { // (op.equbls("lookup3short"))
                         short[][] yellowInvert =
                             new short[][] { invert, invert, ordered };
                         ictx.bufImgOp =
-                            new LookupOp(new ShortLookupTable(0, yellowInvert),
+                            new LookupOp(new ShortLookupTbble(0, yellowInvert),
                                          null);
                     }
                 }
-            } else if (op.equals("rescale1band")) {
-                ictx.bufImgOp = new RescaleOp(0.5f, 10.0f, null);
-            } else if (op.equals("rescale3band")) {
-                float[] scaleFactors = { 0.5f,  0.3f, 0.8f };
-                float[] offsets      = { 5.0f, -7.5f, 1.0f };
-                ictx.bufImgOp = new RescaleOp(scaleFactors, offsets, null);
+            } else if (op.equbls("rescble1bbnd")) {
+                ictx.bufImgOp = new RescbleOp(0.5f, 10.0f, null);
+            } else if (op.equbls("rescble3bbnd")) {
+                flobt[] scbleFbctors = { 0.5f,  0.3f, 0.8f };
+                flobt[] offsets      = { 5.0f, -7.5f, 1.0f };
+                ictx.bufImgOp = new RescbleOp(scbleFbctors, offsets, null);
             } else {
-                throw new InternalError("Invalid image op");
+                throw new InternblError("Invblid imbge op");
             }
 
-            ictx.rasterOp = (RasterOp)ictx.bufImgOp;
+            ictx.rbsterOp = (RbsterOp)ictx.bufImgOp;
         }
     }
 
-    private static class DrawImageOp extends ImageOpTests {
-        DrawImageOp() {
-            super(graphicsTestRoot, "drawimageop",
-                  "drawImage(srcBufImg, op, x, y);");
+    privbte stbtic clbss DrbwImbgeOp extends ImbgeOpTests {
+        DrbwImbgeOp() {
+            super(grbphicsTestRoot, "drbwimbgeop",
+                  "drbwImbge(srcBufImg, op, x, y);");
         }
 
         public void runTest(Object ctx, int numReps) {
-            ImageOpTests.Context ictx = (ImageOpTests.Context)ctx;
+            ImbgeOpTests.Context ictx = (ImbgeOpTests.Context)ctx;
             int x = ictx.initX;
             int y = ictx.initY;
-            BufferedImageOp op = ictx.bufImgOp;
-            BufferedImage src = ictx.bufSrc;
-            Graphics2D g2 = (Graphics2D)ictx.graphics;
-            g2.translate(ictx.orgX, ictx.orgY);
-            if (ictx.animate) {
+            BufferedImbgeOp op = ictx.bufImgOp;
+            BufferedImbge src = ictx.bufSrc;
+            Grbphics2D g2 = (Grbphics2D)ictx.grbphics;
+            g2.trbnslbte(ictx.orgX, ictx.orgY);
+            if (ictx.bnimbte) {
                 if (ictx.touchSrc) {
-                    Graphics gSrc = src.getGraphics();
+                    Grbphics gSrc = src.getGrbphics();
                     do {
                         gSrc.fillRect(0, 0, 1, 1);
-                        g2.drawImage(src, op, x, y);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
+                        g2.drbwImbge(src, op, x, y);
+                        if ((x -= 3) < 0) x += ictx.mbxX;
+                        if ((y -= 1) < 0) y += ictx.mbxY;
                     } while (--numReps > 0);
                 } else {
                     do {
-                        g2.drawImage(src, op, x, y);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
+                        g2.drbwImbge(src, op, x, y);
+                        if ((x -= 3) < 0) x += ictx.mbxX;
+                        if ((y -= 1) < 0) y += ictx.mbxY;
                     } while (--numReps > 0);
                 }
             } else {
                 if (ictx.touchSrc) {
-                    Graphics gSrc = src.getGraphics();
+                    Grbphics gSrc = src.getGrbphics();
                     do {
                         gSrc.fillRect(0, 0, 1, 1);
-                        g2.drawImage(src, op, x, y);
+                        g2.drbwImbge(src, op, x, y);
                     } while (--numReps > 0);
                 } else {
                     do {
-                        g2.drawImage(src, op, x, y);
+                        g2.drbwImbge(src, op, x, y);
                     } while (--numReps > 0);
                 }
             }
-            g2.translate(-ictx.orgX, -ictx.orgY);
+            g2.trbnslbte(-ictx.orgX, -ictx.orgY);
         }
     }
 
-    private static class BufImgOpFilter extends ImageOpTests {
-        private boolean cached;
+    privbte stbtic clbss BufImgOpFilter extends ImbgeOpTests {
+        privbte boolebn cbched;
 
-        BufImgOpFilter(boolean cached) {
+        BufImgOpFilter(boolebn cbched) {
             super(bufImgOpTestRoot,
-                  "filter" + (cached ? "cached" : "null"),
+                  "filter" + (cbched ? "cbched" : "null"),
                   "op.filter(srcBufImg, " +
-                  (cached ? "cachedCompatibleDestImg" : "null") + ");");
-            this.cached = cached;
+                  (cbched ? "cbchedCompbtibleDestImg" : "null") + ");");
+            this.cbched = cbched;
         }
 
         public void initContext(TestEnvironment env,
-                                GraphicsTests.Context ctx)
+                                GrbphicsTests.Context ctx)
         {
             super.initContext(env, ctx);
-            ImageOpTests.Context ictx = (ImageOpTests.Context)ctx;
+            ImbgeOpTests.Context ictx = (ImbgeOpTests.Context)ctx;
 
-            if (cached) {
+            if (cbched) {
                 ictx.bufDst =
-                    ictx.bufImgOp.createCompatibleDestImage(ictx.bufSrc, null);
+                    ictx.bufImgOp.crebteCompbtibleDestImbge(ictx.bufSrc, null);
             }
         }
 
         public void runTest(Object ctx, int numReps) {
-            ImageOpTests.Context ictx = (ImageOpTests.Context)ctx;
-            BufferedImageOp op = ictx.bufImgOp;
-            BufferedImage src = ictx.bufSrc;
-            BufferedImage dst = ictx.bufDst;
+            ImbgeOpTests.Context ictx = (ImbgeOpTests.Context)ctx;
+            BufferedImbgeOp op = ictx.bufImgOp;
+            BufferedImbge src = ictx.bufSrc;
+            BufferedImbge dst = ictx.bufDst;
             if (ictx.touchSrc) {
-                Graphics gSrc = src.getGraphics();
+                Grbphics gSrc = src.getGrbphics();
                 do {
                     gSrc.fillRect(0, 0, 1, 1);
                     op.filter(src, dst);
@@ -930,38 +930,38 @@ public abstract class ImageTests extends GraphicsTests {
         }
     }
 
-    private static class RasterOpFilter extends ImageOpTests {
-        private boolean cached;
+    privbte stbtic clbss RbsterOpFilter extends ImbgeOpTests {
+        privbte boolebn cbched;
 
-        RasterOpFilter(boolean cached) {
-            super(rasterOpTestRoot,
-                  "filter" + (cached ? "cached" : "null"),
-                  "op.filter(srcRaster, " +
-                  (cached ? "cachedCompatibleDestRaster" : "null") + ");");
-            this.cached = cached;
+        RbsterOpFilter(boolebn cbched) {
+            super(rbsterOpTestRoot,
+                  "filter" + (cbched ? "cbched" : "null"),
+                  "op.filter(srcRbster, " +
+                  (cbched ? "cbchedCompbtibleDestRbster" : "null") + ");");
+            this.cbched = cbched;
         }
 
         public void initContext(TestEnvironment env,
-                                GraphicsTests.Context ctx)
+                                GrbphicsTests.Context ctx)
         {
             super.initContext(env, ctx);
-            ImageOpTests.Context ictx = (ImageOpTests.Context)ctx;
+            ImbgeOpTests.Context ictx = (ImbgeOpTests.Context)ctx;
 
-            ictx.rasSrc = ictx.bufSrc.getRaster();
-            if (cached) {
+            ictx.rbsSrc = ictx.bufSrc.getRbster();
+            if (cbched) {
                 ictx.bufDst =
-                    ictx.bufImgOp.createCompatibleDestImage(ictx.bufSrc, null);
-                ictx.rasDst = ictx.bufDst.getRaster();
+                    ictx.bufImgOp.crebteCompbtibleDestImbge(ictx.bufSrc, null);
+                ictx.rbsDst = ictx.bufDst.getRbster();
             }
         }
 
         public void runTest(Object ctx, int numReps) {
-            ImageOpTests.Context ictx = (ImageOpTests.Context)ctx;
-            RasterOp op = ictx.rasterOp;
-            Raster src = ictx.rasSrc;
-            WritableRaster dst = ictx.rasDst;
+            ImbgeOpTests.Context ictx = (ImbgeOpTests.Context)ctx;
+            RbsterOp op = ictx.rbsterOp;
+            Rbster src = ictx.rbsSrc;
+            WritbbleRbster dst = ictx.rbsDst;
             if (ictx.touchSrc) {
-                Graphics gSrc = ictx.bufSrc.getGraphics();
+                Grbphics gSrc = ictx.bufSrc.getGrbphics();
                 do {
                     gSrc.fillRect(0, 0, 1, 1);
                     op.filter(src, dst);

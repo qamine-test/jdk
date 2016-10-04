@@ -1,359 +1,359 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.jar;
+pbckbge jbvb.util.jbr;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.Collection;
-import java.util.AbstractSet;
-import java.util.Iterator;
-import sun.util.logging.PlatformLogger;
-import java.util.Comparator;
-import sun.misc.ASCIICaseInsensitiveComparator;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.Collection;
+import jbvb.util.AbstrbctSet;
+import jbvb.util.Iterbtor;
+import sun.util.logging.PlbtformLogger;
+import jbvb.util.Compbrbtor;
+import sun.misc.ASCIICbseInsensitiveCompbrbtor;
 
 /**
- * The Attributes class maps Manifest attribute names to associated string
- * values. Valid attribute names are case-insensitive, are restricted to
- * the ASCII characters in the set [0-9a-zA-Z_-], and cannot exceed 70
- * characters in length. Attribute values can contain any characters and
- * will be UTF8-encoded when written to the output stream.  See the
- * <a href="../../../../technotes/guides/jar/jar.html">JAR File Specification</a>
- * for more information about valid attribute names and values.
+ * The Attributes clbss mbps Mbnifest bttribute nbmes to bssocibted string
+ * vblues. Vblid bttribute nbmes bre cbse-insensitive, bre restricted to
+ * the ASCII chbrbcters in the set [0-9b-zA-Z_-], bnd cbnnot exceed 70
+ * chbrbcters in length. Attribute vblues cbn contbin bny chbrbcters bnd
+ * will be UTF8-encoded when written to the output strebm.  See the
+ * <b href="../../../../technotes/guides/jbr/jbr.html">JAR File Specificbtion</b>
+ * for more informbtion bbout vblid bttribute nbmes bnd vblues.
  *
- * @author  David Connelly
- * @see     Manifest
+ * @buthor  Dbvid Connelly
+ * @see     Mbnifest
  * @since   1.2
  */
-public class Attributes implements Map<Object,Object>, Cloneable {
+public clbss Attributes implements Mbp<Object,Object>, Clonebble {
     /**
-     * The attribute name-value mappings.
+     * The bttribute nbme-vblue mbppings.
      */
-    protected Map<Object,Object> map;
+    protected Mbp<Object,Object> mbp;
 
     /**
-     * Constructs a new, empty Attributes object with default size.
+     * Constructs b new, empty Attributes object with defbult size.
      */
     public Attributes() {
         this(11);
     }
 
     /**
-     * Constructs a new, empty Attributes object with the specified
-     * initial size.
+     * Constructs b new, empty Attributes object with the specified
+     * initibl size.
      *
-     * @param size the initial number of attributes
+     * @pbrbm size the initibl number of bttributes
      */
     public Attributes(int size) {
-        map = new HashMap<>(size);
+        mbp = new HbshMbp<>(size);
     }
 
     /**
-     * Constructs a new Attributes object with the same attribute name-value
-     * mappings as in the specified Attributes.
+     * Constructs b new Attributes object with the sbme bttribute nbme-vblue
+     * mbppings bs in the specified Attributes.
      *
-     * @param attr the specified Attributes
+     * @pbrbm bttr the specified Attributes
      */
-    public Attributes(Attributes attr) {
-        map = new HashMap<>(attr);
+    public Attributes(Attributes bttr) {
+        mbp = new HbshMbp<>(bttr);
     }
 
 
     /**
-     * Returns the value of the specified attribute name, or null if the
-     * attribute name was not found.
+     * Returns the vblue of the specified bttribute nbme, or null if the
+     * bttribute nbme wbs not found.
      *
-     * @param name the attribute name
-     * @return the value of the specified attribute name, or null if
+     * @pbrbm nbme the bttribute nbme
+     * @return the vblue of the specified bttribute nbme, or null if
      *         not found.
      */
-    public Object get(Object name) {
-        return map.get(name);
+    public Object get(Object nbme) {
+        return mbp.get(nbme);
     }
 
     /**
-     * Returns the value of the specified attribute name, specified as
-     * a string, or null if the attribute was not found. The attribute
-     * name is case-insensitive.
+     * Returns the vblue of the specified bttribute nbme, specified bs
+     * b string, or null if the bttribute wbs not found. The bttribute
+     * nbme is cbse-insensitive.
      * <p>
-     * This method is defined as:
+     * This method is defined bs:
      * <pre>
-     *      return (String)get(new Attributes.Name((String)name));
+     *      return (String)get(new Attributes.Nbme((String)nbme));
      * </pre>
      *
-     * @param name the attribute name as a string
-     * @return the String value of the specified attribute name, or null if
+     * @pbrbm nbme the bttribute nbme bs b string
+     * @return the String vblue of the specified bttribute nbme, or null if
      *         not found.
-     * @throws IllegalArgumentException if the attribute name is invalid
+     * @throws IllegblArgumentException if the bttribute nbme is invblid
      */
-    public String getValue(String name) {
-        return (String)get(new Attributes.Name(name));
+    public String getVblue(String nbme) {
+        return (String)get(new Attributes.Nbme(nbme));
     }
 
     /**
-     * Returns the value of the specified Attributes.Name, or null if the
-     * attribute was not found.
+     * Returns the vblue of the specified Attributes.Nbme, or null if the
+     * bttribute wbs not found.
      * <p>
-     * This method is defined as:
+     * This method is defined bs:
      * <pre>
-     *     return (String)get(name);
+     *     return (String)get(nbme);
      * </pre>
      *
-     * @param name the Attributes.Name object
-     * @return the String value of the specified Attribute.Name, or null if
+     * @pbrbm nbme the Attributes.Nbme object
+     * @return the String vblue of the specified Attribute.Nbme, or null if
      *         not found.
      */
-    public String getValue(Name name) {
-        return (String)get(name);
+    public String getVblue(Nbme nbme) {
+        return (String)get(nbme);
     }
 
     /**
-     * Associates the specified value with the specified attribute name
-     * (key) in this Map. If the Map previously contained a mapping for
-     * the attribute name, the old value is replaced.
+     * Associbtes the specified vblue with the specified bttribute nbme
+     * (key) in this Mbp. If the Mbp previously contbined b mbpping for
+     * the bttribute nbme, the old vblue is replbced.
      *
-     * @param name the attribute name
-     * @param value the attribute value
-     * @return the previous value of the attribute, or null if none
-     * @exception ClassCastException if the name is not a Attributes.Name
-     *            or the value is not a String
+     * @pbrbm nbme the bttribute nbme
+     * @pbrbm vblue the bttribute vblue
+     * @return the previous vblue of the bttribute, or null if none
+     * @exception ClbssCbstException if the nbme is not b Attributes.Nbme
+     *            or the vblue is not b String
      */
-    public Object put(Object name, Object value) {
-        return map.put((Attributes.Name)name, (String)value);
+    public Object put(Object nbme, Object vblue) {
+        return mbp.put((Attributes.Nbme)nbme, (String)vblue);
     }
 
     /**
-     * Associates the specified value with the specified attribute name,
-     * specified as a String. The attributes name is case-insensitive.
-     * If the Map previously contained a mapping for the attribute name,
-     * the old value is replaced.
+     * Associbtes the specified vblue with the specified bttribute nbme,
+     * specified bs b String. The bttributes nbme is cbse-insensitive.
+     * If the Mbp previously contbined b mbpping for the bttribute nbme,
+     * the old vblue is replbced.
      * <p>
-     * This method is defined as:
+     * This method is defined bs:
      * <pre>
-     *      return (String)put(new Attributes.Name(name), value);
+     *      return (String)put(new Attributes.Nbme(nbme), vblue);
      * </pre>
      *
-     * @param name the attribute name as a string
-     * @param value the attribute value
-     * @return the previous value of the attribute, or null if none
-     * @exception IllegalArgumentException if the attribute name is invalid
+     * @pbrbm nbme the bttribute nbme bs b string
+     * @pbrbm vblue the bttribute vblue
+     * @return the previous vblue of the bttribute, or null if none
+     * @exception IllegblArgumentException if the bttribute nbme is invblid
      */
-    public String putValue(String name, String value) {
-        return (String)put(new Name(name), value);
+    public String putVblue(String nbme, String vblue) {
+        return (String)put(new Nbme(nbme), vblue);
     }
 
     /**
-     * Removes the attribute with the specified name (key) from this Map.
-     * Returns the previous attribute value, or null if none.
+     * Removes the bttribute with the specified nbme (key) from this Mbp.
+     * Returns the previous bttribute vblue, or null if none.
      *
-     * @param name attribute name
-     * @return the previous value of the attribute, or null if none
+     * @pbrbm nbme bttribute nbme
+     * @return the previous vblue of the bttribute, or null if none
      */
-    public Object remove(Object name) {
-        return map.remove(name);
+    public Object remove(Object nbme) {
+        return mbp.remove(nbme);
     }
 
     /**
-     * Returns true if this Map maps one or more attribute names (keys)
-     * to the specified value.
+     * Returns true if this Mbp mbps one or more bttribute nbmes (keys)
+     * to the specified vblue.
      *
-     * @param value the attribute value
-     * @return true if this Map maps one or more attribute names to
-     *         the specified value
+     * @pbrbm vblue the bttribute vblue
+     * @return true if this Mbp mbps one or more bttribute nbmes to
+     *         the specified vblue
      */
-    public boolean containsValue(Object value) {
-        return map.containsValue(value);
+    public boolebn contbinsVblue(Object vblue) {
+        return mbp.contbinsVblue(vblue);
     }
 
     /**
-     * Returns true if this Map contains the specified attribute name (key).
+     * Returns true if this Mbp contbins the specified bttribute nbme (key).
      *
-     * @param name the attribute name
-     * @return true if this Map contains the specified attribute name
+     * @pbrbm nbme the bttribute nbme
+     * @return true if this Mbp contbins the specified bttribute nbme
      */
-    public boolean containsKey(Object name) {
-        return map.containsKey(name);
+    public boolebn contbinsKey(Object nbme) {
+        return mbp.contbinsKey(nbme);
     }
 
     /**
-     * Copies all of the attribute name-value mappings from the specified
-     * Attributes to this Map. Duplicate mappings will be replaced.
+     * Copies bll of the bttribute nbme-vblue mbppings from the specified
+     * Attributes to this Mbp. Duplicbte mbppings will be replbced.
      *
-     * @param attr the Attributes to be stored in this map
-     * @exception ClassCastException if attr is not an Attributes
+     * @pbrbm bttr the Attributes to be stored in this mbp
+     * @exception ClbssCbstException if bttr is not bn Attributes
      */
-    public void putAll(Map<?,?> attr) {
-        // ## javac bug?
-        if (!Attributes.class.isInstance(attr))
-            throw new ClassCastException();
-        for (Map.Entry<?,?> me : (attr).entrySet())
-            put(me.getKey(), me.getValue());
+    public void putAll(Mbp<?,?> bttr) {
+        // ## jbvbc bug?
+        if (!Attributes.clbss.isInstbnce(bttr))
+            throw new ClbssCbstException();
+        for (Mbp.Entry<?,?> me : (bttr).entrySet())
+            put(me.getKey(), me.getVblue());
     }
 
     /**
-     * Removes all attributes from this Map.
+     * Removes bll bttributes from this Mbp.
      */
-    public void clear() {
-        map.clear();
+    public void clebr() {
+        mbp.clebr();
     }
 
     /**
-     * Returns the number of attributes in this Map.
+     * Returns the number of bttributes in this Mbp.
      */
     public int size() {
-        return map.size();
+        return mbp.size();
     }
 
     /**
-     * Returns true if this Map contains no attributes.
+     * Returns true if this Mbp contbins no bttributes.
      */
-    public boolean isEmpty() {
-        return map.isEmpty();
+    public boolebn isEmpty() {
+        return mbp.isEmpty();
     }
 
     /**
-     * Returns a Set view of the attribute names (keys) contained in this Map.
+     * Returns b Set view of the bttribute nbmes (keys) contbined in this Mbp.
      */
     public Set<Object> keySet() {
-        return map.keySet();
+        return mbp.keySet();
     }
 
     /**
-     * Returns a Collection view of the attribute values contained in this Map.
+     * Returns b Collection view of the bttribute vblues contbined in this Mbp.
      */
-    public Collection<Object> values() {
-        return map.values();
+    public Collection<Object> vblues() {
+        return mbp.vblues();
     }
 
     /**
-     * Returns a Collection view of the attribute name-value mappings
-     * contained in this Map.
+     * Returns b Collection view of the bttribute nbme-vblue mbppings
+     * contbined in this Mbp.
      */
-    public Set<Map.Entry<Object,Object>> entrySet() {
-        return map.entrySet();
+    public Set<Mbp.Entry<Object,Object>> entrySet() {
+        return mbp.entrySet();
     }
 
     /**
-     * Compares the specified Attributes object with this Map for equality.
-     * Returns true if the given object is also an instance of Attributes
-     * and the two Attributes objects represent the same mappings.
+     * Compbres the specified Attributes object with this Mbp for equblity.
+     * Returns true if the given object is blso bn instbnce of Attributes
+     * bnd the two Attributes objects represent the sbme mbppings.
      *
-     * @param o the Object to be compared
-     * @return true if the specified Object is equal to this Map
+     * @pbrbm o the Object to be compbred
+     * @return true if the specified Object is equbl to this Mbp
      */
-    public boolean equals(Object o) {
-        return map.equals(o);
+    public boolebn equbls(Object o) {
+        return mbp.equbls(o);
     }
 
     /**
-     * Returns the hash code value for this Map.
+     * Returns the hbsh code vblue for this Mbp.
      */
-    public int hashCode() {
-        return map.hashCode();
+    public int hbshCode() {
+        return mbp.hbshCode();
     }
 
     /**
-     * Returns a copy of the Attributes, implemented as follows:
+     * Returns b copy of the Attributes, implemented bs follows:
      * <pre>
      *     public Object clone() { return new Attributes(this); }
      * </pre>
-     * Since the attribute names and values are themselves immutable,
-     * the Attributes returned can be safely modified without affecting
-     * the original.
+     * Since the bttribute nbmes bnd vblues bre themselves immutbble,
+     * the Attributes returned cbn be sbfely modified without bffecting
+     * the originbl.
      */
     public Object clone() {
         return new Attributes(this);
     }
 
     /*
-     * Writes the current attributes to the specified data output stream.
-     * XXX Need to handle UTF8 values and break up lines longer than 72 bytes
+     * Writes the current bttributes to the specified dbtb output strebm.
+     * XXX Need to hbndle UTF8 vblues bnd brebk up lines longer thbn 72 bytes
      */
-     void write(DataOutputStream os) throws IOException {
+     void write(DbtbOutputStrebm os) throws IOException {
          for (Entry<Object, Object> e : entrySet()) {
              StringBuffer buffer = new StringBuffer(
-                                         ((Name) e.getKey()).toString());
-             buffer.append(": ");
+                                         ((Nbme) e.getKey()).toString());
+             buffer.bppend(": ");
 
-             String value = (String) e.getValue();
-             if (value != null) {
-                 byte[] vb = value.getBytes("UTF8");
-                 value = new String(vb, 0, 0, vb.length);
+             String vblue = (String) e.getVblue();
+             if (vblue != null) {
+                 byte[] vb = vblue.getBytes("UTF8");
+                 vblue = new String(vb, 0, 0, vb.length);
              }
-             buffer.append(value);
+             buffer.bppend(vblue);
 
-             buffer.append("\r\n");
-             Manifest.make72Safe(buffer);
+             buffer.bppend("\r\n");
+             Mbnifest.mbke72Sbfe(buffer);
              os.writeBytes(buffer.toString());
          }
         os.writeBytes("\r\n");
     }
 
     /*
-     * Writes the current attributes to the specified data output stream,
-     * make sure to write out the MANIFEST_VERSION or SIGNATURE_VERSION
-     * attributes first.
+     * Writes the current bttributes to the specified dbtb output strebm,
+     * mbke sure to write out the MANIFEST_VERSION or SIGNATURE_VERSION
+     * bttributes first.
      *
-     * XXX Need to handle UTF8 values and break up lines longer than 72 bytes
+     * XXX Need to hbndle UTF8 vblues bnd brebk up lines longer thbn 72 bytes
      */
-    void writeMain(DataOutputStream out) throws IOException
+    void writeMbin(DbtbOutputStrebm out) throws IOException
     {
-        // write out the *-Version header first, if it exists
-        String vername = Name.MANIFEST_VERSION.toString();
-        String version = getValue(vername);
+        // write out the *-Version hebder first, if it exists
+        String vernbme = Nbme.MANIFEST_VERSION.toString();
+        String version = getVblue(vernbme);
         if (version == null) {
-            vername = Name.SIGNATURE_VERSION.toString();
-            version = getValue(vername);
+            vernbme = Nbme.SIGNATURE_VERSION.toString();
+            version = getVblue(vernbme);
         }
 
         if (version != null) {
-            out.writeBytes(vername+": "+version+"\r\n");
+            out.writeBytes(vernbme+": "+version+"\r\n");
         }
 
-        // write out all attributes except for the version
-        // we wrote out earlier
+        // write out bll bttributes except for the version
+        // we wrote out ebrlier
         for (Entry<Object, Object> e : entrySet()) {
-            String name = ((Name) e.getKey()).toString();
-            if ((version != null) && !(name.equalsIgnoreCase(vername))) {
+            String nbme = ((Nbme) e.getKey()).toString();
+            if ((version != null) && !(nbme.equblsIgnoreCbse(vernbme))) {
 
-                StringBuffer buffer = new StringBuffer(name);
-                buffer.append(": ");
+                StringBuffer buffer = new StringBuffer(nbme);
+                buffer.bppend(": ");
 
-                String value = (String) e.getValue();
-                if (value != null) {
-                    byte[] vb = value.getBytes("UTF8");
-                    value = new String(vb, 0, 0, vb.length);
+                String vblue = (String) e.getVblue();
+                if (vblue != null) {
+                    byte[] vb = vblue.getBytes("UTF8");
+                    vblue = new String(vb, 0, 0, vb.length);
                 }
-                buffer.append(value);
+                buffer.bppend(vblue);
 
-                buffer.append("\r\n");
-                Manifest.make72Safe(buffer);
+                buffer.bppend("\r\n");
+                Mbnifest.mbke72Sbfe(buffer);
                 out.writeBytes(buffer.toString());
             }
         }
@@ -361,16 +361,16 @@ public class Attributes implements Map<Object,Object>, Cloneable {
     }
 
     /*
-     * Reads attributes from the specified input stream.
-     * XXX Need to handle UTF8 values.
+     * Rebds bttributes from the specified input strebm.
+     * XXX Need to hbndle UTF8 vblues.
      */
-    void read(Manifest.FastInputStream is, byte[] lbuf) throws IOException {
-        String name = null, value = null;
-        byte[] lastline = null;
+    void rebd(Mbnifest.FbstInputStrebm is, byte[] lbuf) throws IOException {
+        String nbme = null, vblue = null;
+        byte[] lbstline = null;
 
         int len;
-        while ((len = is.readLine(lbuf)) != -1) {
-            boolean lineContinued = false;
+        while ((len = is.rebdLine(lbuf)) != -1) {
+            boolebn lineContinued = fblse;
             if (lbuf[--len] != '\n') {
                 throw new IOException("line too long");
             }
@@ -378,282 +378,282 @@ public class Attributes implements Map<Object,Object>, Cloneable {
                 --len;
             }
             if (len == 0) {
-                break;
+                brebk;
             }
             int i = 0;
             if (lbuf[0] == ' ') {
-                // continuation of previous line
-                if (name == null) {
-                    throw new IOException("misplaced continuation line");
+                // continubtion of previous line
+                if (nbme == null) {
+                    throw new IOException("misplbced continubtion line");
                 }
                 lineContinued = true;
-                byte[] buf = new byte[lastline.length + len - 1];
-                System.arraycopy(lastline, 0, buf, 0, lastline.length);
-                System.arraycopy(lbuf, 1, buf, lastline.length, len - 1);
+                byte[] buf = new byte[lbstline.length + len - 1];
+                System.brrbycopy(lbstline, 0, buf, 0, lbstline.length);
+                System.brrbycopy(lbuf, 1, buf, lbstline.length, len - 1);
                 if (is.peek() == ' ') {
-                    lastline = buf;
+                    lbstline = buf;
                     continue;
                 }
-                value = new String(buf, 0, buf.length, "UTF8");
-                lastline = null;
+                vblue = new String(buf, 0, buf.length, "UTF8");
+                lbstline = null;
             } else {
                 while (lbuf[i++] != ':') {
                     if (i >= len) {
-                        throw new IOException("invalid header field");
+                        throw new IOException("invblid hebder field");
                     }
                 }
                 if (lbuf[i++] != ' ') {
-                    throw new IOException("invalid header field");
+                    throw new IOException("invblid hebder field");
                 }
-                name = new String(lbuf, 0, 0, i - 2);
+                nbme = new String(lbuf, 0, 0, i - 2);
                 if (is.peek() == ' ') {
-                    lastline = new byte[len - i];
-                    System.arraycopy(lbuf, i, lastline, 0, len - i);
+                    lbstline = new byte[len - i];
+                    System.brrbycopy(lbuf, i, lbstline, 0, len - i);
                     continue;
                 }
-                value = new String(lbuf, i, len - i, "UTF8");
+                vblue = new String(lbuf, i, len - i, "UTF8");
             }
             try {
-                if ((putValue(name, value) != null) && (!lineContinued)) {
-                    PlatformLogger.getLogger("java.util.jar").warning(
-                                     "Duplicate name in Manifest: " + name
+                if ((putVblue(nbme, vblue) != null) && (!lineContinued)) {
+                    PlbtformLogger.getLogger("jbvb.util.jbr").wbrning(
+                                     "Duplicbte nbme in Mbnifest: " + nbme
                                      + ".\n"
-                                     + "Ensure that the manifest does not "
-                                     + "have duplicate entries, and\n"
-                                     + "that blank lines separate "
-                                     + "individual sections in both your\n"
-                                     + "manifest and in the META-INF/MANIFEST.MF "
-                                     + "entry in the jar file.");
+                                     + "Ensure thbt the mbnifest does not "
+                                     + "hbve duplicbte entries, bnd\n"
+                                     + "thbt blbnk lines sepbrbte "
+                                     + "individubl sections in both your\n"
+                                     + "mbnifest bnd in the META-INF/MANIFEST.MF "
+                                     + "entry in the jbr file.");
                 }
-            } catch (IllegalArgumentException e) {
-                throw new IOException("invalid header field name: " + name);
+            } cbtch (IllegblArgumentException e) {
+                throw new IOException("invblid hebder field nbme: " + nbme);
             }
         }
     }
 
     /**
-     * The Attributes.Name class represents an attribute name stored in
-     * this Map. Valid attribute names are case-insensitive, are restricted
-     * to the ASCII characters in the set [0-9a-zA-Z_-], and cannot exceed
-     * 70 characters in length. Attribute values can contain any characters
-     * and will be UTF8-encoded when written to the output stream.  See the
-     * <a href="../../../../technotes/guides/jar/jar.html">JAR File Specification</a>
-     * for more information about valid attribute names and values.
+     * The Attributes.Nbme clbss represents bn bttribute nbme stored in
+     * this Mbp. Vblid bttribute nbmes bre cbse-insensitive, bre restricted
+     * to the ASCII chbrbcters in the set [0-9b-zA-Z_-], bnd cbnnot exceed
+     * 70 chbrbcters in length. Attribute vblues cbn contbin bny chbrbcters
+     * bnd will be UTF8-encoded when written to the output strebm.  See the
+     * <b href="../../../../technotes/guides/jbr/jbr.html">JAR File Specificbtion</b>
+     * for more informbtion bbout vblid bttribute nbmes bnd vblues.
      */
-    public static class Name {
-        private String name;
-        private int hashCode = -1;
+    public stbtic clbss Nbme {
+        privbte String nbme;
+        privbte int hbshCode = -1;
 
         /**
-         * Constructs a new attribute name using the given string name.
+         * Constructs b new bttribute nbme using the given string nbme.
          *
-         * @param name the attribute string name
-         * @exception IllegalArgumentException if the attribute name was
-         *            invalid
-         * @exception NullPointerException if the attribute name was null
+         * @pbrbm nbme the bttribute string nbme
+         * @exception IllegblArgumentException if the bttribute nbme wbs
+         *            invblid
+         * @exception NullPointerException if the bttribute nbme wbs null
          */
-        public Name(String name) {
-            if (name == null) {
-                throw new NullPointerException("name");
+        public Nbme(String nbme) {
+            if (nbme == null) {
+                throw new NullPointerException("nbme");
             }
-            if (!isValid(name)) {
-                throw new IllegalArgumentException(name);
+            if (!isVblid(nbme)) {
+                throw new IllegblArgumentException(nbme);
             }
-            this.name = name.intern();
+            this.nbme = nbme.intern();
         }
 
-        private static boolean isValid(String name) {
-            int len = name.length();
+        privbte stbtic boolebn isVblid(String nbme) {
+            int len = nbme.length();
             if (len > 70 || len == 0) {
-                return false;
+                return fblse;
             }
             for (int i = 0; i < len; i++) {
-                if (!isValid(name.charAt(i))) {
-                    return false;
+                if (!isVblid(nbme.chbrAt(i))) {
+                    return fblse;
                 }
             }
             return true;
         }
 
-        private static boolean isValid(char c) {
-            return isAlpha(c) || isDigit(c) || c == '_' || c == '-';
+        privbte stbtic boolebn isVblid(chbr c) {
+            return isAlphb(c) || isDigit(c) || c == '_' || c == '-';
         }
 
-        private static boolean isAlpha(char c) {
-            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+        privbte stbtic boolebn isAlphb(chbr c) {
+            return (c >= 'b' && c <= 'z') || (c >= 'A' && c <= 'Z');
         }
 
-        private static boolean isDigit(char c) {
+        privbte stbtic boolebn isDigit(chbr c) {
             return c >= '0' && c <= '9';
         }
 
         /**
-         * Compares this attribute name to another for equality.
-         * @param o the object to compare
-         * @return true if this attribute name is equal to the
-         *         specified attribute object
+         * Compbres this bttribute nbme to bnother for equblity.
+         * @pbrbm o the object to compbre
+         * @return true if this bttribute nbme is equbl to the
+         *         specified bttribute object
          */
-        public boolean equals(Object o) {
-            if (o instanceof Name) {
-                Comparator<String> c = ASCIICaseInsensitiveComparator.CASE_INSENSITIVE_ORDER;
-                return c.compare(name, ((Name)o).name) == 0;
+        public boolebn equbls(Object o) {
+            if (o instbnceof Nbme) {
+                Compbrbtor<String> c = ASCIICbseInsensitiveCompbrbtor.CASE_INSENSITIVE_ORDER;
+                return c.compbre(nbme, ((Nbme)o).nbme) == 0;
             } else {
-                return false;
+                return fblse;
             }
         }
 
         /**
-         * Computes the hash value for this attribute name.
+         * Computes the hbsh vblue for this bttribute nbme.
          */
-        public int hashCode() {
-            if (hashCode == -1) {
-                hashCode = ASCIICaseInsensitiveComparator.lowerCaseHashCode(name);
+        public int hbshCode() {
+            if (hbshCode == -1) {
+                hbshCode = ASCIICbseInsensitiveCompbrbtor.lowerCbseHbshCode(nbme);
             }
-            return hashCode;
+            return hbshCode;
         }
 
         /**
-         * Returns the attribute name as a String.
+         * Returns the bttribute nbme bs b String.
          */
         public String toString() {
-            return name;
+            return nbme;
         }
 
         /**
-         * <code>Name</code> object for <code>Manifest-Version</code>
-         * manifest attribute. This attribute indicates the version number
-         * of the manifest standard to which a JAR file's manifest conforms.
-         * @see <a href="../../../../technotes/guides/jar/jar.html#JAR_Manifest">
-         *      Manifest and Signature Specification</a>
+         * <code>Nbme</code> object for <code>Mbnifest-Version</code>
+         * mbnifest bttribute. This bttribute indicbtes the version number
+         * of the mbnifest stbndbrd to which b JAR file's mbnifest conforms.
+         * @see <b href="../../../../technotes/guides/jbr/jbr.html#JAR_Mbnifest">
+         *      Mbnifest bnd Signbture Specificbtion</b>
          */
-        public static final Name MANIFEST_VERSION = new Name("Manifest-Version");
+        public stbtic finbl Nbme MANIFEST_VERSION = new Nbme("Mbnifest-Version");
 
         /**
-         * <code>Name</code> object for <code>Signature-Version</code>
-         * manifest attribute used when signing JAR files.
-         * @see <a href="../../../../technotes/guides/jar/jar.html#JAR_Manifest">
-         *      Manifest and Signature Specification</a>
+         * <code>Nbme</code> object for <code>Signbture-Version</code>
+         * mbnifest bttribute used when signing JAR files.
+         * @see <b href="../../../../technotes/guides/jbr/jbr.html#JAR_Mbnifest">
+         *      Mbnifest bnd Signbture Specificbtion</b>
          */
-        public static final Name SIGNATURE_VERSION = new Name("Signature-Version");
+        public stbtic finbl Nbme SIGNATURE_VERSION = new Nbme("Signbture-Version");
 
         /**
-         * <code>Name</code> object for <code>Content-Type</code>
-         * manifest attribute.
+         * <code>Nbme</code> object for <code>Content-Type</code>
+         * mbnifest bttribute.
          */
-        public static final Name CONTENT_TYPE = new Name("Content-Type");
+        public stbtic finbl Nbme CONTENT_TYPE = new Nbme("Content-Type");
 
         /**
-         * <code>Name</code> object for <code>Class-Path</code>
-         * manifest attribute. Bundled extensions can use this attribute
-         * to find other JAR files containing needed classes.
-         * @see <a href="../../../../technotes/guides/extensions/spec.html#bundled">
-         *      Extensions Specification</a>
+         * <code>Nbme</code> object for <code>Clbss-Pbth</code>
+         * mbnifest bttribute. Bundled extensions cbn use this bttribute
+         * to find other JAR files contbining needed clbsses.
+         * @see <b href="../../../../technotes/guides/extensions/spec.html#bundled">
+         *      Extensions Specificbtion</b>
          */
-        public static final Name CLASS_PATH = new Name("Class-Path");
+        public stbtic finbl Nbme CLASS_PATH = new Nbme("Clbss-Pbth");
 
         /**
-         * <code>Name</code> object for <code>Main-Class</code> manifest
-         * attribute used for launching applications packaged in JAR files.
-         * The <code>Main-Class</code> attribute is used in conjunction
-         * with the <code>-jar</code> command-line option of the
-         * <tt>java</tt> application launcher.
+         * <code>Nbme</code> object for <code>Mbin-Clbss</code> mbnifest
+         * bttribute used for lbunching bpplicbtions pbckbged in JAR files.
+         * The <code>Mbin-Clbss</code> bttribute is used in conjunction
+         * with the <code>-jbr</code> commbnd-line option of the
+         * <tt>jbvb</tt> bpplicbtion lbuncher.
          */
-        public static final Name MAIN_CLASS = new Name("Main-Class");
+        public stbtic finbl Nbme MAIN_CLASS = new Nbme("Mbin-Clbss");
 
         /**
-         * <code>Name</code> object for <code>Sealed</code> manifest attribute
-         * used for sealing.
-         * @see <a href="../../../../technotes/guides/extensions/spec.html#sealing">
-         *      Extension Sealing</a>
+         * <code>Nbme</code> object for <code>Sebled</code> mbnifest bttribute
+         * used for sebling.
+         * @see <b href="../../../../technotes/guides/extensions/spec.html#sebling">
+         *      Extension Sebling</b>
          */
-        public static final Name SEALED = new Name("Sealed");
+        public stbtic finbl Nbme SEALED = new Nbme("Sebled");
 
        /**
-         * <code>Name</code> object for <code>Extension-List</code> manifest attribute
-         * used for declaring dependencies on installed extensions.
-         * @see <a href="../../../../technotes/guides/extensions/spec.html#dependency">
-         *      Installed extension dependency</a>
+         * <code>Nbme</code> object for <code>Extension-List</code> mbnifest bttribute
+         * used for declbring dependencies on instblled extensions.
+         * @see <b href="../../../../technotes/guides/extensions/spec.html#dependency">
+         *      Instblled extension dependency</b>
          */
-        public static final Name EXTENSION_LIST = new Name("Extension-List");
+        public stbtic finbl Nbme EXTENSION_LIST = new Nbme("Extension-List");
 
         /**
-         * <code>Name</code> object for <code>Extension-Name</code> manifest attribute
-         * used for declaring dependencies on installed extensions.
-         * @see <a href="../../../../technotes/guides/extensions/spec.html#dependency">
-         *      Installed extension dependency</a>
+         * <code>Nbme</code> object for <code>Extension-Nbme</code> mbnifest bttribute
+         * used for declbring dependencies on instblled extensions.
+         * @see <b href="../../../../technotes/guides/extensions/spec.html#dependency">
+         *      Instblled extension dependency</b>
          */
-        public static final Name EXTENSION_NAME = new Name("Extension-Name");
+        public stbtic finbl Nbme EXTENSION_NAME = new Nbme("Extension-Nbme");
 
         /**
-         * <code>Name</code> object for <code>Extension-Name</code> manifest attribute
-         * used for declaring dependencies on installed extensions.
-         * @see <a href="../../../../technotes/guides/extensions/spec.html#dependency">
-         *      Installed extension dependency</a>
+         * <code>Nbme</code> object for <code>Extension-Nbme</code> mbnifest bttribute
+         * used for declbring dependencies on instblled extensions.
+         * @see <b href="../../../../technotes/guides/extensions/spec.html#dependency">
+         *      Instblled extension dependency</b>
          */
-        public static final Name EXTENSION_INSTALLATION = new Name("Extension-Installation");
+        public stbtic finbl Nbme EXTENSION_INSTALLATION = new Nbme("Extension-Instbllbtion");
 
         /**
-         * <code>Name</code> object for <code>Implementation-Title</code>
-         * manifest attribute used for package versioning.
-         * @see <a href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
-         *      Java Product Versioning Specification</a>
+         * <code>Nbme</code> object for <code>Implementbtion-Title</code>
+         * mbnifest bttribute used for pbckbge versioning.
+         * @see <b href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
+         *      Jbvb Product Versioning Specificbtion</b>
          */
-        public static final Name IMPLEMENTATION_TITLE = new Name("Implementation-Title");
+        public stbtic finbl Nbme IMPLEMENTATION_TITLE = new Nbme("Implementbtion-Title");
 
         /**
-         * <code>Name</code> object for <code>Implementation-Version</code>
-         * manifest attribute used for package versioning.
-         * @see <a href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
-         *      Java Product Versioning Specification</a>
+         * <code>Nbme</code> object for <code>Implementbtion-Version</code>
+         * mbnifest bttribute used for pbckbge versioning.
+         * @see <b href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
+         *      Jbvb Product Versioning Specificbtion</b>
          */
-        public static final Name IMPLEMENTATION_VERSION = new Name("Implementation-Version");
+        public stbtic finbl Nbme IMPLEMENTATION_VERSION = new Nbme("Implementbtion-Version");
 
         /**
-         * <code>Name</code> object for <code>Implementation-Vendor</code>
-         * manifest attribute used for package versioning.
-         * @see <a href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
-         *      Java Product Versioning Specification</a>
+         * <code>Nbme</code> object for <code>Implementbtion-Vendor</code>
+         * mbnifest bttribute used for pbckbge versioning.
+         * @see <b href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
+         *      Jbvb Product Versioning Specificbtion</b>
          */
-        public static final Name IMPLEMENTATION_VENDOR = new Name("Implementation-Vendor");
+        public stbtic finbl Nbme IMPLEMENTATION_VENDOR = new Nbme("Implementbtion-Vendor");
 
         /**
-         * <code>Name</code> object for <code>Implementation-Vendor-Id</code>
-         * manifest attribute used for package versioning.
-         * @see <a href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
-         *      Java Product Versioning Specification</a>
+         * <code>Nbme</code> object for <code>Implementbtion-Vendor-Id</code>
+         * mbnifest bttribute used for pbckbge versioning.
+         * @see <b href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
+         *      Jbvb Product Versioning Specificbtion</b>
          */
-        public static final Name IMPLEMENTATION_VENDOR_ID = new Name("Implementation-Vendor-Id");
+        public stbtic finbl Nbme IMPLEMENTATION_VENDOR_ID = new Nbme("Implementbtion-Vendor-Id");
 
        /**
-         * <code>Name</code> object for <code>Implementation-URL</code>
-         * manifest attribute used for package versioning.
-         * @see <a href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
-         *      Java Product Versioning Specification</a>
+         * <code>Nbme</code> object for <code>Implementbtion-URL</code>
+         * mbnifest bttribute used for pbckbge versioning.
+         * @see <b href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
+         *      Jbvb Product Versioning Specificbtion</b>
          */
-        public static final Name IMPLEMENTATION_URL = new Name("Implementation-URL");
+        public stbtic finbl Nbme IMPLEMENTATION_URL = new Nbme("Implementbtion-URL");
 
         /**
-         * <code>Name</code> object for <code>Specification-Title</code>
-         * manifest attribute used for package versioning.
-         * @see <a href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
-         *      Java Product Versioning Specification</a>
+         * <code>Nbme</code> object for <code>Specificbtion-Title</code>
+         * mbnifest bttribute used for pbckbge versioning.
+         * @see <b href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
+         *      Jbvb Product Versioning Specificbtion</b>
          */
-        public static final Name SPECIFICATION_TITLE = new Name("Specification-Title");
+        public stbtic finbl Nbme SPECIFICATION_TITLE = new Nbme("Specificbtion-Title");
 
         /**
-         * <code>Name</code> object for <code>Specification-Version</code>
-         * manifest attribute used for package versioning.
-         * @see <a href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
-         *      Java Product Versioning Specification</a>
+         * <code>Nbme</code> object for <code>Specificbtion-Version</code>
+         * mbnifest bttribute used for pbckbge versioning.
+         * @see <b href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
+         *      Jbvb Product Versioning Specificbtion</b>
          */
-        public static final Name SPECIFICATION_VERSION = new Name("Specification-Version");
+        public stbtic finbl Nbme SPECIFICATION_VERSION = new Nbme("Specificbtion-Version");
 
         /**
-         * <code>Name</code> object for <code>Specification-Vendor</code>
-         * manifest attribute used for package versioning.
-         * @see <a href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
-         *      Java Product Versioning Specification</a>
+         * <code>Nbme</code> object for <code>Specificbtion-Vendor</code>
+         * mbnifest bttribute used for pbckbge versioning.
+         * @see <b href="../../../../technotes/guides/versioning/spec/versioning2.html#wp90779">
+         *      Jbvb Product Versioning Specificbtion</b>
          */
-        public static final Name SPECIFICATION_VENDOR = new Name("Specification-Vendor");
+        public stbtic finbl Nbme SPECIFICATION_VENDOR = new Nbme("Specificbtion-Vendor");
     }
 }

@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print;
+pbckbge jbvbx.print;
 
 /**
- * Class PrintException encapsulates a printing-related error condition that
- * occurred while using a Print Service instance. This base class
- * furnishes only a string description of the error. Subclasses furnish more
- * detailed information if applicable.
+ * Clbss PrintException encbpsulbtes b printing-relbted error condition thbt
+ * occurred while using b Print Service instbnce. This bbse clbss
+ * furnishes only b string description of the error. Subclbsses furnish more
+ * detbiled informbtion if bpplicbble.
  *
  */
-public class PrintException extends Exception {
-    private static final long serialVersionUID = -5932531546705242471L;
+public clbss PrintException extends Exception {
+    privbte stbtic finbl long seriblVersionUID = -5932531546705242471L;
 
     /**
-     * Construct a print exception with no detail message.
+     * Construct b print exception with no detbil messbge.
      */
     public PrintException() {
         super();
     }
 
     /**
-     * Construct a print exception with the given detail message.
+     * Construct b print exception with the given detbil messbge.
      *
-     * @param  s  Detail message, or null if no detail message.
+     * @pbrbm  s  Detbil messbge, or null if no detbil messbge.
      */
     public PrintException (String s) {
         super (s);
     }
 
     /**
-     * Construct a print exception chaining the supplied exception.
+     * Construct b print exception chbining the supplied exception.
      *
-     * @param  e  Chained exception.
+     * @pbrbm  e  Chbined exception.
      */
     public PrintException (Exception e) {
         super ( e);
     }
 
     /**
-     * Construct a print exception with the given detail message
-     * and chained exception.
-     * @param  s  Detail message, or null if no detail message.
-     * @param  e  Chained exception.
+     * Construct b print exception with the given detbil messbge
+     * bnd chbined exception.
+     * @pbrbm  s  Detbil messbge, or null if no detbil messbge.
+     * @pbrbm  e  Chbined exception.
      */
     public PrintException (String s, Exception e) {
         super (s, e);

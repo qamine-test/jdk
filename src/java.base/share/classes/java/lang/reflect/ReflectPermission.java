@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
 /**
- * The Permission class for reflective operations.
+ * The Permission clbss for reflective operbtions.
  * <P>
- * The following table
- * provides a summary description of what the permission allows,
- * and discusses the risks of granting code the permission.
+ * The following tbble
+ * provides b summbry description of whbt the permission bllows,
+ * bnd discusses the risks of grbnting code the permission.
  *
- * <table border=1 cellpadding=5 summary="Table shows permission target name, what the permission allows, and associated risks">
+ * <tbble border=1 cellpbdding=5 summbry="Tbble shows permission tbrget nbme, whbt the permission bllows, bnd bssocibted risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
+ * <th>Permission Tbrget Nbme</th>
+ * <th>Whbt the Permission Allows</th>
  * <th>Risks of Allowing this Permission</th>
  * </tr>
  *
  * <tr>
  *   <td>suppressAccessChecks</td>
- *   <td>ability to suppress the standard Java language access checks
- *       on fields and methods in a class; allow access not only public members
- *       but also allow access to default (package) access, protected,
- *       and private members.</td>
- *   <td>This is dangerous in that information (possibly confidential) and
- *       methods normally unavailable would be accessible to malicious code.</td>
+ *   <td>bbility to suppress the stbndbrd Jbvb lbngubge bccess checks
+ *       on fields bnd methods in b clbss; bllow bccess not only public members
+ *       but blso bllow bccess to defbult (pbckbge) bccess, protected,
+ *       bnd privbte members.</td>
+ *   <td>This is dbngerous in thbt informbtion (possibly confidentibl) bnd
+ *       methods normblly unbvbilbble would be bccessible to mblicious code.</td>
  * </tr>
  * <tr>
- *   <td>newProxyInPackage.{package name}</td>
- *   <td>ability to create a proxy instance in the specified package of which
- *       the non-public interface that the proxy class implements.</td>
- *   <td>This gives code access to classes in packages to which it normally
- *       does not have access and the dynamic proxy class is in the system
- *       protection domain. Malicious code may use these classes to
- *       help in its attempt to compromise security in the system.</td>
+ *   <td>newProxyInPbckbge.{pbckbge nbme}</td>
+ *   <td>bbility to crebte b proxy instbnce in the specified pbckbge of which
+ *       the non-public interfbce thbt the proxy clbss implements.</td>
+ *   <td>This gives code bccess to clbsses in pbckbges to which it normblly
+ *       does not hbve bccess bnd the dynbmic proxy clbss is in the system
+ *       protection dombin. Mblicious code mby use these clbsses to
+ *       help in its bttempt to compromise security in the system.</td>
  * </tr>
  *
- * </table>
+ * </tbble>
  *
- * @see java.security.Permission
- * @see java.security.BasicPermission
+ * @see jbvb.security.Permission
+ * @see jbvb.security.BbsicPermission
  * @see AccessibleObject
  * @see Field#get
  * @see Field#set
  * @see Method#invoke
- * @see Constructor#newInstance
- * @see Proxy#newProxyInstance
+ * @see Constructor#newInstbnce
+ * @see Proxy#newProxyInstbnce
  *
  * @since 1.2
  */
-public final
-class ReflectPermission extends java.security.BasicPermission {
+public finbl
+clbss ReflectPermission extends jbvb.security.BbsicPermission {
 
-    private static final long serialVersionUID = 7412737110241507485L;
+    privbte stbtic finbl long seriblVersionUID = 7412737110241507485L;
 
     /**
-     * Constructs a ReflectPermission with the specified name.
+     * Constructs b ReflectPermission with the specified nbme.
      *
-     * @param name the name of the ReflectPermission
+     * @pbrbm nbme the nbme of the ReflectPermission
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @throws NullPointerException if {@code nbme} is {@code null}.
+     * @throws IllegblArgumentException if {@code nbme} is empty.
      */
-    public ReflectPermission(String name) {
-        super(name);
+    public ReflectPermission(String nbme) {
+        super(nbme);
     }
 
     /**
-     * Constructs a ReflectPermission with the specified name and actions.
-     * The actions should be null; they are ignored.
+     * Constructs b ReflectPermission with the specified nbme bnd bctions.
+     * The bctions should be null; they bre ignored.
      *
-     * @param name the name of the ReflectPermission
+     * @pbrbm nbme the nbme of the ReflectPermission
      *
-     * @param actions should be null
+     * @pbrbm bctions should be null
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @throws NullPointerException if {@code nbme} is {@code null}.
+     * @throws IllegblArgumentException if {@code nbme} is empty.
      */
-    public ReflectPermission(String name, String actions) {
-        super(name, actions);
+    public ReflectPermission(String nbme, String bctions) {
+        super(nbme, bctions);
     }
 
 }

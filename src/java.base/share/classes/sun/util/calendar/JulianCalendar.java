@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.calendar;
+pbckbge sun.util.cblendbr;
 
-import java.util.TimeZone;
+import jbvb.util.TimeZone;
 
 /**
- * Julian calendar implementation.
+ * Julibn cblendbr implementbtion.
  *
- * @author Masayoshi Okutsu
+ * @buthor Mbsbyoshi Okutsu
  * @since 1.5
  */
-public class JulianCalendar extends BaseCalendar {
+public clbss JulibnCblendbr extends BbseCblendbr {
 
-    private static final int BCE = 0;
-    private static final int CE = 1;
+    privbte stbtic finbl int BCE = 0;
+    privbte stbtic finbl int CE = 1;
 
-    private static final Era[] eras = {
-        new Era("BeforeCommonEra", "B.C.E.", Long.MIN_VALUE, false),
-        new Era("CommonEra", "C.E.", -62135709175808L, true)
+    privbte stbtic finbl Erb[] erbs = {
+        new Erb("BeforeCommonErb", "B.C.E.", Long.MIN_VALUE, fblse),
+        new Erb("CommonErb", "C.E.", -62135709175808L, true)
     };
-    private static final int JULIAN_EPOCH = -1;
+    privbte stbtic finbl int JULIAN_EPOCH = -1;
 
-    private static class Date extends BaseCalendar.Date {
-        protected Date() {
+    privbte stbtic clbss Dbte extends BbseCblendbr.Dbte {
+        protected Dbte() {
             super();
-            setCache(1, -1L, 365); // January 1, 1 CE (Julian)
+            setCbche(1, -1L, 365); // Jbnubry 1, 1 CE (Julibn)
         }
 
-        protected Date(TimeZone zone) {
+        protected Dbte(TimeZone zone) {
             super(zone);
-            setCache(1, -1L, 365); // January 1, 1 CE (Julian)
+            setCbche(1, -1L, 365); // Jbnubry 1, 1 CE (Julibn)
         }
 
-        public Date setEra(Era era) {
-            if (era == null) {
+        public Dbte setErb(Erb erb) {
+            if (erb == null) {
                 throw new NullPointerException();
             }
-            if (era != eras[0] || era != eras[1]) {
-                throw new IllegalArgumentException("unknown era: " + era);
+            if (erb != erbs[0] || erb != erbs[1]) {
+                throw new IllegblArgumentException("unknown erb: " + erb);
             }
-            super.setEra(era);
+            super.setErb(erb);
             return this;
         }
 
-        protected void setKnownEra(Era era) {
-            super.setEra(era);
+        protected void setKnownErb(Erb erb) {
+            super.setErb(erb);
         }
 
-        public int getNormalizedYear() {
-            if (getEra() == eras[BCE]) {
-                return 1 - getYear();
+        public int getNormblizedYebr() {
+            if (getErb() == erbs[BCE]) {
+                return 1 - getYebr();
             }
-            return getYear();
+            return getYebr();
         }
 
-        // Use the year numbering ..., -2, -1, 0, 1, 2, ... for
-        // normalized years. This differs from "Calendrical
-        // Calculations" in which the numbering is ..., -2, -1, 1, 2,
+        // Use the yebr numbering ..., -2, -1, 0, 1, 2, ... for
+        // normblized yebrs. This differs from "Cblendricbl
+        // Cblculbtions" in which the numbering is ..., -2, -1, 1, 2,
         // ...
-        public void setNormalizedYear(int year) {
-            if (year <= 0) {
-                setYear(1 - year);
-                setKnownEra(eras[BCE]);
+        public void setNormblizedYebr(int yebr) {
+            if (yebr <= 0) {
+                setYebr(1 - yebr);
+                setKnownErb(erbs[BCE]);
             } else {
-                setYear(year);
-                setKnownEra(eras[CE]);
+                setYebr(yebr);
+                setKnownErb(erbs[CE]);
             }
         }
 
@@ -95,140 +95,140 @@ public class JulianCalendar extends BaseCalendar {
             String time = super.toString();
             time = time.substring(time.indexOf('T'));
             StringBuffer sb = new StringBuffer();
-            Era era = getEra();
-            if (era != null) {
-                String n = era.getAbbreviation();
+            Erb erb = getErb();
+            if (erb != null) {
+                String n = erb.getAbbrevibtion();
                 if (n != null) {
-                    sb.append(n).append(' ');
+                    sb.bppend(n).bppend(' ');
                 }
             }
-            sb.append(getYear()).append('-');
-            CalendarUtils.sprintf0d(sb, getMonth(), 2).append('-');
-            CalendarUtils.sprintf0d(sb, getDayOfMonth(), 2);
-            sb.append(time);
+            sb.bppend(getYebr()).bppend('-');
+            CblendbrUtils.sprintf0d(sb, getMonth(), 2).bppend('-');
+            CblendbrUtils.sprintf0d(sb, getDbyOfMonth(), 2);
+            sb.bppend(time);
             return sb.toString();
         }
     }
 
-    JulianCalendar() {
-        setEras(eras);
+    JulibnCblendbr() {
+        setErbs(erbs);
     }
 
-    public String getName() {
-        return "julian";
+    public String getNbme() {
+        return "julibn";
     }
 
-    public Date getCalendarDate() {
-        return getCalendarDate(System.currentTimeMillis(), newCalendarDate());
+    public Dbte getCblendbrDbte() {
+        return getCblendbrDbte(System.currentTimeMillis(), newCblendbrDbte());
     }
 
-    public Date getCalendarDate(long millis) {
-        return getCalendarDate(millis, newCalendarDate());
+    public Dbte getCblendbrDbte(long millis) {
+        return getCblendbrDbte(millis, newCblendbrDbte());
     }
 
-    public Date getCalendarDate(long millis, CalendarDate date) {
-        return (Date) super.getCalendarDate(millis, date);
+    public Dbte getCblendbrDbte(long millis, CblendbrDbte dbte) {
+        return (Dbte) super.getCblendbrDbte(millis, dbte);
     }
 
-    public Date getCalendarDate(long millis, TimeZone zone) {
-        return getCalendarDate(millis, newCalendarDate(zone));
+    public Dbte getCblendbrDbte(long millis, TimeZone zone) {
+        return getCblendbrDbte(millis, newCblendbrDbte(zone));
     }
 
-    public Date newCalendarDate() {
-        return new Date();
+    public Dbte newCblendbrDbte() {
+        return new Dbte();
     }
 
-    public Date newCalendarDate(TimeZone zone) {
-        return new Date(zone);
+    public Dbte newCblendbrDbte(TimeZone zone) {
+        return new Dbte(zone);
     }
 
     /**
-     * @param jyear normalized Julian year
+     * @pbrbm jyebr normblized Julibn yebr
      */
-    public long getFixedDate(int jyear, int month, int dayOfMonth, BaseCalendar.Date cache) {
-        boolean isJan1 = month == JANUARY && dayOfMonth == 1;
+    public long getFixedDbte(int jyebr, int month, int dbyOfMonth, BbseCblendbr.Dbte cbche) {
+        boolebn isJbn1 = month == JANUARY && dbyOfMonth == 1;
 
-        // Look up the one year cache
-        if (cache != null && cache.hit(jyear)) {
-            if (isJan1) {
-                return cache.getCachedJan1();
+        // Look up the one yebr cbche
+        if (cbche != null && cbche.hit(jyebr)) {
+            if (isJbn1) {
+                return cbche.getCbchedJbn1();
             }
-            return cache.getCachedJan1() + getDayOfYear(jyear, month, dayOfMonth) - 1;
+            return cbche.getCbchedJbn1() + getDbyOfYebr(jyebr, month, dbyOfMonth) - 1;
         }
 
-        long y = jyear;
-        long days = JULIAN_EPOCH - 1 + (365 * (y - 1)) + dayOfMonth;
+        long y = jyebr;
+        long dbys = JULIAN_EPOCH - 1 + (365 * (y - 1)) + dbyOfMonth;
         if (y > 0) {
-            // CE years
-            days += (y - 1) / 4;
+            // CE yebrs
+            dbys += (y - 1) / 4;
         } else {
-            // BCE years
-            days += CalendarUtils.floorDivide(y - 1, 4);
+            // BCE yebrs
+            dbys += CblendbrUtils.floorDivide(y - 1, 4);
         }
         if (month > 0) {
-            days += ((367 * (long) month) - 362) / 12;
+            dbys += ((367 * (long) month) - 362) / 12;
         } else {
-            days += CalendarUtils.floorDivide((367 * (long) month) - 362, 12);
+            dbys += CblendbrUtils.floorDivide((367 * (long) month) - 362, 12);
         }
         if (month > FEBRUARY) {
-            days -= CalendarUtils.isJulianLeapYear(jyear) ? 1 : 2;
+            dbys -= CblendbrUtils.isJulibnLebpYebr(jyebr) ? 1 : 2;
         }
 
-        // If it's January 1, update the cache.
-        if (cache != null && isJan1) {
-            cache.setCache(jyear, days, CalendarUtils.isJulianLeapYear(jyear) ? 366 : 365);
+        // If it's Jbnubry 1, updbte the cbche.
+        if (cbche != null && isJbn1) {
+            cbche.setCbche(jyebr, dbys, CblendbrUtils.isJulibnLebpYebr(jyebr) ? 366 : 365);
         }
 
-        return days;
+        return dbys;
     }
 
-    public void getCalendarDateFromFixedDate(CalendarDate date, long fixedDate) {
-        Date jdate = (Date) date;
-        long fd = 4 * (fixedDate - JULIAN_EPOCH) + 1464;
-        int year;
+    public void getCblendbrDbteFromFixedDbte(CblendbrDbte dbte, long fixedDbte) {
+        Dbte jdbte = (Dbte) dbte;
+        long fd = 4 * (fixedDbte - JULIAN_EPOCH) + 1464;
+        int yebr;
         if (fd >= 0) {
-            year = (int)(fd / 1461);
+            yebr = (int)(fd / 1461);
         } else {
-            year = (int) CalendarUtils.floorDivide(fd, 1461);
+            yebr = (int) CblendbrUtils.floorDivide(fd, 1461);
         }
-        int priorDays = (int)(fixedDate - getFixedDate(year, JANUARY, 1, jdate));
-        boolean isLeap = CalendarUtils.isJulianLeapYear(year);
-        if (fixedDate >= getFixedDate(year, MARCH, 1, jdate)) {
-            priorDays += isLeap ? 1 : 2;
+        int priorDbys = (int)(fixedDbte - getFixedDbte(yebr, JANUARY, 1, jdbte));
+        boolebn isLebp = CblendbrUtils.isJulibnLebpYebr(yebr);
+        if (fixedDbte >= getFixedDbte(yebr, MARCH, 1, jdbte)) {
+            priorDbys += isLebp ? 1 : 2;
         }
-        int month = 12 * priorDays + 373;
+        int month = 12 * priorDbys + 373;
         if (month > 0) {
             month /= 367;
         } else {
-            month = CalendarUtils.floorDivide(month, 367);
+            month = CblendbrUtils.floorDivide(month, 367);
         }
-        int dayOfMonth = (int)(fixedDate - getFixedDate(year, month, 1, jdate)) + 1;
-        int dayOfWeek = getDayOfWeekFromFixedDate(fixedDate);
-        assert dayOfWeek > 0 : "negative day of week " + dayOfWeek;
-        jdate.setNormalizedYear(year);
-        jdate.setMonth(month);
-        jdate.setDayOfMonth(dayOfMonth);
-        jdate.setDayOfWeek(dayOfWeek);
-        jdate.setLeapYear(isLeap);
-        jdate.setNormalized(true);
+        int dbyOfMonth = (int)(fixedDbte - getFixedDbte(yebr, month, 1, jdbte)) + 1;
+        int dbyOfWeek = getDbyOfWeekFromFixedDbte(fixedDbte);
+        bssert dbyOfWeek > 0 : "negbtive dby of week " + dbyOfWeek;
+        jdbte.setNormblizedYebr(yebr);
+        jdbte.setMonth(month);
+        jdbte.setDbyOfMonth(dbyOfMonth);
+        jdbte.setDbyOfWeek(dbyOfWeek);
+        jdbte.setLebpYebr(isLebp);
+        jdbte.setNormblized(true);
     }
 
     /**
-     * Returns the normalized Julian year number of the given fixed date.
+     * Returns the normblized Julibn yebr number of the given fixed dbte.
      */
-    public int getYearFromFixedDate(long fixedDate) {
-        int year = (int) CalendarUtils.floorDivide(4 * (fixedDate - JULIAN_EPOCH) + 1464, 1461);
-        return year;
+    public int getYebrFromFixedDbte(long fixedDbte) {
+        int yebr = (int) CblendbrUtils.floorDivide(4 * (fixedDbte - JULIAN_EPOCH) + 1464, 1461);
+        return yebr;
     }
 
-    public int getDayOfWeek(CalendarDate date) {
-        // TODO: should replace this with a faster calculation, such
-        // as cache table lookup
-        long fixedDate = getFixedDate(date);
-        return getDayOfWeekFromFixedDate(fixedDate);
+    public int getDbyOfWeek(CblendbrDbte dbte) {
+        // TODO: should replbce this with b fbster cblculbtion, such
+        // bs cbche tbble lookup
+        long fixedDbte = getFixedDbte(dbte);
+        return getDbyOfWeekFromFixedDbte(fixedDbte);
     }
 
-    boolean isLeapYear(int jyear) {
-        return CalendarUtils.isJulianLeapYear(jyear);
+    boolebn isLebpYebr(int jyebr) {
+        return CblendbrUtils.isJulibnLebpYebr(jyebr);
     }
 }

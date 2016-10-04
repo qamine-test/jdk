@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
 /**
  * A <code>SizeSequence</code> object
- * efficiently maintains an ordered list
- * of sizes and corresponding positions.
- * One situation for which <code>SizeSequence</code>
- * might be appropriate is in a component
- * that displays multiple rows of unequal size.
- * In this case, a single <code>SizeSequence</code>
- * object could be used to track the heights
- * and Y positions of all rows.
+ * efficiently mbintbins bn ordered list
+ * of sizes bnd corresponding positions.
+ * One situbtion for which <code>SizeSequence</code>
+ * might be bppropribte is in b component
+ * thbt displbys multiple rows of unequbl size.
+ * In this cbse, b single <code>SizeSequence</code>
+ * object could be used to trbck the heights
+ * bnd Y positions of bll rows.
  * <p>
- * Another example would be a multi-column component,
- * such as a <code>JTable</code>,
- * in which the column sizes are not all equal.
- * The <code>JTable</code> might use a single
+ * Another exbmple would be b multi-column component,
+ * such bs b <code>JTbble</code>,
+ * in which the column sizes bre not bll equbl.
+ * The <code>JTbble</code> might use b single
  * <code>SizeSequence</code> object
- * to store the widths and X positions of all the columns.
- * The <code>JTable</code> could then use the
+ * to store the widths bnd X positions of bll the columns.
+ * The <code>JTbble</code> could then use the
  * <code>SizeSequence</code> object
- * to find the column corresponding to a certain position.
- * The <code>JTable</code> could update the
+ * to find the column corresponding to b certbin position.
+ * The <code>JTbble</code> could updbte the
  * <code>SizeSequence</code> object
- * whenever one or more column sizes changed.
+ * whenever one or more column sizes chbnged.
  *
  * <p>
- * The following figure shows the relationship between size and position data
- * for a multi-column component.
+ * The following figure shows the relbtionship between size bnd position dbtb
+ * for b multi-column component.
  *
  * <center>
  * <img src="doc-files/SizeSequence-1.gif" width=384 height = 100
- * alt="The first item begins at position 0, the second at the position equal
- to the size of the previous item, and so on.">
+ * blt="The first item begins bt position 0, the second bt the position equbl
+ to the size of the previous item, bnd so on.">
  * </center>
  * <p>
  * In the figure, the first index (0) corresponds to the first column,
- * the second index (1) to the second column, and so on.
- * The first column's position starts at 0,
- * and the column occupies <em>size<sub>0</sub></em> pixels,
- * where <em>size<sub>0</sub></em> is the value returned by
+ * the second index (1) to the second column, bnd so on.
+ * The first column's position stbrts bt 0,
+ * bnd the column occupies <em>size<sub>0</sub></em> pixels,
+ * where <em>size<sub>0</sub></em> is the vblue returned by
  * <code>getSize(0)</code>.
- * Thus, the first column ends at <em>size<sub>0</sub></em> - 1.
- * The second column then begins at
+ * Thus, the first column ends bt <em>size<sub>0</sub></em> - 1.
+ * The second column then begins bt
  * the position <em>size<sub>0</sub></em>
- * and occupies <em>size<sub>1</sub></em> (<code>getSize(1)</code>) pixels.
+ * bnd occupies <em>size<sub>1</sub></em> (<code>getSize(1)</code>) pixels.
  * <p>
- * Note that a <code>SizeSequence</code> object simply represents intervals
- * along an axis.
- * In our examples, the intervals represent height or width in pixels.
- * However, any other unit of measure (for example, time in days)
- * could be just as valid.
+ * Note thbt b <code>SizeSequence</code> object simply represents intervbls
+ * blong bn bxis.
+ * In our exbmples, the intervbls represent height or width in pixels.
+ * However, bny other unit of mebsure (for exbmple, time in dbys)
+ * could be just bs vblid.
  *
  *
- * <h3>Implementation Notes</h3>
+ * <h3>Implementbtion Notes</h3>
  *
- * Normally when storing the size and position of entries,
+ * Normblly when storing the size bnd position of entries,
  * one would choose between
  * storing the sizes or storing their positions
- * instead. The two common operations that are needed during
- * rendering are: <code>getIndex(position)</code>
- * and <code>setSize(index, size)</code>.
- * Whichever choice of internal format is made one of these
- * operations is costly when the number of entries becomes large.
- * If sizes are stored, finding the index of the entry
- * that encloses a particular position is linear in the
- * number of entries. If positions are stored instead, setting
- * the size of an entry at a particular index requires updating
- * the positions of the affected entries, which is also a linear
- * calculation.
+ * instebd. The two common operbtions thbt bre needed during
+ * rendering bre: <code>getIndex(position)</code>
+ * bnd <code>setSize(index, size)</code>.
+ * Whichever choice of internbl formbt is mbde one of these
+ * operbtions is costly when the number of entries becomes lbrge.
+ * If sizes bre stored, finding the index of the entry
+ * thbt encloses b pbrticulbr position is linebr in the
+ * number of entries. If positions bre stored instebd, setting
+ * the size of bn entry bt b pbrticulbr index requires updbting
+ * the positions of the bffected entries, which is blso b linebr
+ * cblculbtion.
  * <p>
- * Like the above techniques this class holds an array of N integers
- * internally but uses a hybrid encoding, which is halfway
- * between the size-based and positional-based approaches.
- * The result is a data structure that takes the same space to store
- * the information but can perform most operations in Log(N) time
- * instead of O(N), where N is the number of entries in the list.
+ * Like the bbove techniques this clbss holds bn brrby of N integers
+ * internblly but uses b hybrid encoding, which is hblfwby
+ * between the size-bbsed bnd positionbl-bbsed bpprobches.
+ * The result is b dbtb structure thbt tbkes the sbme spbce to store
+ * the informbtion but cbn perform most operbtions in Log(N) time
+ * instebd of O(N), where N is the number of entries in the list.
  * <p>
- * Two operations that remain O(N) in the number of entries are
+ * Two operbtions thbt rembin O(N) in the number of entries bre
  * the <code>insertEntries</code>
- * and <code>removeEntries</code> methods, both
- * of which are implemented by converting the internal array to
- * a set of integer sizes, copying it into the new array, and then
- * reforming the hybrid representation in place.
+ * bnd <code>removeEntries</code> methods, both
+ * of which bre implemented by converting the internbl brrby to
+ * b set of integer sizes, copying it into the new brrby, bnd then
+ * reforming the hybrid representbtion in plbce.
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  * @since 1.3
  */
 
 /*
- *   Each method is implemented by taking the minimum and
- *   maximum of the range of integers that need to be operated
- *   upon. All the algorithms work by dividing this range
- *   into two smaller ranges and recursing. The recursion
- *   is terminated when the upper and lower bounds are equal.
+ *   Ebch method is implemented by tbking the minimum bnd
+ *   mbximum of the rbnge of integers thbt need to be operbted
+ *   upon. All the blgorithms work by dividing this rbnge
+ *   into two smbller rbnges bnd recursing. The recursion
+ *   is terminbted when the upper bnd lower bounds bre equbl.
  */
 
-public class SizeSequence {
+public clbss SizeSequence {
 
-    private static int[] emptyArray = new int[0];
-    private int a[];
+    privbte stbtic int[] emptyArrby = new int[0];
+    privbte int b[];
 
     /**
-     * Creates a new <code>SizeSequence</code> object
-     * that contains no entries.  To add entries, you
-     * can use <code>insertEntries</code> or <code>setSizes</code>.
+     * Crebtes b new <code>SizeSequence</code> object
+     * thbt contbins no entries.  To bdd entries, you
+     * cbn use <code>insertEntries</code> or <code>setSizes</code>.
      *
      * @see #insertEntries
      * @see #setSizes(int[])
      */
     public SizeSequence() {
-        a = emptyArray;
+        b = emptyArrby;
     }
 
     /**
-     * Creates a new <code>SizeSequence</code> object
-     * that contains the specified number of entries,
-     * all initialized to have size 0.
+     * Crebtes b new <code>SizeSequence</code> object
+     * thbt contbins the specified number of entries,
+     * bll initiblized to hbve size 0.
      *
-     * @param numEntries  the number of sizes to track
-     * @exception NegativeArraySizeException if
+     * @pbrbm numEntries  the number of sizes to trbck
+     * @exception NegbtiveArrbySizeException if
      *    <code>numEntries &lt; 0</code>
      */
     public SizeSequence(int numEntries) {
@@ -151,23 +151,23 @@ public class SizeSequence {
     }
 
     /**
-     * Creates a new <code>SizeSequence</code> object
-     * that contains the specified number of entries,
-     * all initialized to have size <code>value</code>.
+     * Crebtes b new <code>SizeSequence</code> object
+     * thbt contbins the specified number of entries,
+     * bll initiblized to hbve size <code>vblue</code>.
      *
-     * @param numEntries  the number of sizes to track
-     * @param value       the initial value of each size
+     * @pbrbm numEntries  the number of sizes to trbck
+     * @pbrbm vblue       the initibl vblue of ebch size
      */
-    public SizeSequence(int numEntries, int value) {
+    public SizeSequence(int numEntries, int vblue) {
         this();
-        insertEntries(0, numEntries, value);
+        insertEntries(0, numEntries, vblue);
     }
 
     /**
-     * Creates a new <code>SizeSequence</code> object
-     * that contains the specified sizes.
+     * Crebtes b new <code>SizeSequence</code> object
+     * thbt contbins the specified sizes.
      *
-     * @param sizes  the array of sizes to be contained in
+     * @pbrbm sizes  the brrby of sizes to be contbined in
      *               the <code>SizeSequence</code>
      */
     public SizeSequence(int[] sizes) {
@@ -176,93 +176,93 @@ public class SizeSequence {
     }
 
     /**
-     * Resets the size sequence to contain <code>length</code> items
-     * all with a size of <code>size</code>.
+     * Resets the size sequence to contbin <code>length</code> items
+     * bll with b size of <code>size</code>.
      */
     void setSizes(int length, int size) {
-        if (a.length != length) {
-            a = new int[length];
+        if (b.length != length) {
+            b = new int[length];
         }
         setSizes(0, length, size);
     }
 
-    private int setSizes(int from, int to, int size) {
+    privbte int setSizes(int from, int to, int size) {
         if (to <= from) {
             return 0;
         }
         int m = (from + to)/2;
-        a[m] = size + setSizes(from, m, size);
-        return a[m] + setSizes(m + 1, to, size);
+        b[m] = size + setSizes(from, m, size);
+        return b[m] + setSizes(m + 1, to, size);
     }
 
     /**
      * Resets this <code>SizeSequence</code> object,
-     * using the data in the <code>sizes</code> argument.
-     * This method reinitializes this object so that it
-     * contains as many entries as the <code>sizes</code> array.
-     * Each entry's size is initialized to the value of the
+     * using the dbtb in the <code>sizes</code> brgument.
+     * This method reinitiblizes this object so thbt it
+     * contbins bs mbny entries bs the <code>sizes</code> brrby.
+     * Ebch entry's size is initiblized to the vblue of the
      * corresponding item in <code>sizes</code>.
      *
-     * @param sizes  the array of sizes to be contained in
+     * @pbrbm sizes  the brrby of sizes to be contbined in
      *               this <code>SizeSequence</code>
      */
     public void setSizes(int[] sizes) {
-        if (a.length != sizes.length) {
-            a = new int[sizes.length];
+        if (b.length != sizes.length) {
+            b = new int[sizes.length];
         }
-        setSizes(0, a.length, sizes);
+        setSizes(0, b.length, sizes);
     }
 
-    private int setSizes(int from, int to, int[] sizes) {
+    privbte int setSizes(int from, int to, int[] sizes) {
         if (to <= from) {
             return 0;
         }
         int m = (from + to)/2;
-        a[m] = sizes[m] + setSizes(from, m, sizes);
-        return a[m] + setSizes(m + 1, to, sizes);
+        b[m] = sizes[m] + setSizes(from, m, sizes);
+        return b[m] + setSizes(m + 1, to, sizes);
     }
 
     /**
-     * Returns the size of all entries.
+     * Returns the size of bll entries.
      *
-     * @return  a new array containing the sizes in this object
+     * @return  b new brrby contbining the sizes in this object
      */
     public int[] getSizes() {
-        int n = a.length;
+        int n = b.length;
         int[] sizes = new int[n];
         getSizes(0, n, sizes);
         return sizes;
     }
 
-    private int getSizes(int from, int to, int[] sizes) {
+    privbte int getSizes(int from, int to, int[] sizes) {
         if (to <= from) {
             return 0;
         }
         int m = (from + to)/2;
-        sizes[m] = a[m] - getSizes(from, m, sizes);
-        return a[m] + getSizes(m + 1, to, sizes);
+        sizes[m] = b[m] - getSizes(from, m, sizes);
+        return b[m] + getSizes(m + 1, to, sizes);
     }
 
     /**
-     * Returns the start position for the specified entry.
-     * For example, <code>getPosition(0)</code> returns 0,
-     * <code>getPosition(1)</code> is equal to
+     * Returns the stbrt position for the specified entry.
+     * For exbmple, <code>getPosition(0)</code> returns 0,
+     * <code>getPosition(1)</code> is equbl to
      *   <code>getSize(0)</code>,
-     * <code>getPosition(2)</code> is equal to
+     * <code>getPosition(2)</code> is equbl to
      *   <code>getSize(0)</code> + <code>getSize(1)</code>,
-     * and so on.
-     * <p>Note that if <code>index</code> is greater than
-     * <code>length</code> the value returned may
-     * be meaningless.
+     * bnd so on.
+     * <p>Note thbt if <code>index</code> is grebter thbn
+     * <code>length</code> the vblue returned mby
+     * be mebningless.
      *
-     * @param index  the index of the entry whose position is desired
-     * @return       the starting position of the specified entry
+     * @pbrbm index  the index of the entry whose position is desired
+     * @return       the stbrting position of the specified entry
      */
     public int getPosition(int index) {
-        return getPosition(0, a.length, index);
+        return getPosition(0, b.length, index);
     }
 
-    private int getPosition(int from, int to, int index) {
+    privbte int getPosition(int from, int to, int index) {
         if (to <= from) {
             return 0;
         }
@@ -271,29 +271,29 @@ public class SizeSequence {
             return getPosition(from, m, index);
         }
         else {
-            return a[m] + getPosition(m + 1, to, index);
+            return b[m] + getPosition(m + 1, to, index);
         }
     }
 
     /**
      * Returns the index of the entry
-     * that corresponds to the specified position.
-     * For example, <code>getIndex(0)</code> is 0,
-     * since the first entry always starts at position 0.
+     * thbt corresponds to the specified position.
+     * For exbmple, <code>getIndex(0)</code> is 0,
+     * since the first entry blwbys stbrts bt position 0.
      *
-     * @param position  the position of the entry
-     * @return  the index of the entry that occupies the specified position
+     * @pbrbm position  the position of the entry
+     * @return  the index of the entry thbt occupies the specified position
      */
     public int getIndex(int position) {
-        return getIndex(0, a.length, position);
+        return getIndex(0, b.length, position);
     }
 
-    private int getIndex(int from, int to, int position) {
+    privbte int getIndex(int from, int to, int position) {
         if (to <= from) {
             return from;
         }
         int m = (from + to)/2;
-        int pivot = a[m];
+        int pivot = b[m];
         if (position < pivot) {
            return getIndex(from, m, position);
         }
@@ -304,11 +304,11 @@ public class SizeSequence {
 
     /**
      * Returns the size of the specified entry.
-     * If <code>index</code> is out of the range
+     * If <code>index</code> is out of the rbnge
      * <code>(0 &lt;= index &lt; getSizes().length)</code>
-     * the behavior is unspecified.
+     * the behbvior is unspecified.
      *
-     * @param index  the index corresponding to the entry
+     * @pbrbm index  the index corresponding to the entry
      * @return  the size of the entry
      */
     public int getSize(int index) {
@@ -317,90 +317,90 @@ public class SizeSequence {
 
     /**
      * Sets the size of the specified entry.
-     * Note that if the value of <code>index</code>
-     * does not fall in the range:
+     * Note thbt if the vblue of <code>index</code>
+     * does not fbll in the rbnge:
      * <code>(0 &lt;= index &lt; getSizes().length)</code>
-     * the behavior is unspecified.
+     * the behbvior is unspecified.
      *
-     * @param index  the index corresponding to the entry
-     * @param size   the size of the entry
+     * @pbrbm index  the index corresponding to the entry
+     * @pbrbm size   the size of the entry
      */
     public void setSize(int index, int size) {
-        changeSize(0, a.length, index, size - getSize(index));
+        chbngeSize(0, b.length, index, size - getSize(index));
     }
 
-    private void changeSize(int from, int to, int index, int delta) {
+    privbte void chbngeSize(int from, int to, int index, int deltb) {
         if (to <= from) {
             return;
         }
         int m = (from + to)/2;
         if (index <= m) {
-            a[m] += delta;
-            changeSize(from, m, index, delta);
+            b[m] += deltb;
+            chbngeSize(from, m, index, deltb);
         }
         else {
-            changeSize(m + 1, to, index, delta);
+            chbngeSize(m + 1, to, index, deltb);
         }
     }
 
     /**
-     * Adds a contiguous group of entries to this <code>SizeSequence</code>.
-     * Note that the values of <code>start</code> and
-     * <code>length</code> must satisfy the following
-     * conditions:  <code>(0 &lt;= start &lt; getSizes().length)
-     * AND (length &gt;= 0)</code>.  If these conditions are
-     * not met, the behavior is unspecified and an exception
-     * may be thrown.
+     * Adds b contiguous group of entries to this <code>SizeSequence</code>.
+     * Note thbt the vblues of <code>stbrt</code> bnd
+     * <code>length</code> must sbtisfy the following
+     * conditions:  <code>(0 &lt;= stbrt &lt; getSizes().length)
+     * AND (length &gt;= 0)</code>.  If these conditions bre
+     * not met, the behbvior is unspecified bnd bn exception
+     * mby be thrown.
      *
-     * @param start   the index to be assigned to the first entry
+     * @pbrbm stbrt   the index to be bssigned to the first entry
      *                in the group
-     * @param length  the number of entries in the group
-     * @param value   the size to be assigned to each new entry
-     * @exception ArrayIndexOutOfBoundsException if the parameters
-     *   are outside of the range:
-     *   (<code>0 &lt;= start &lt; (getSizes().length)) AND (length &gt;= 0)</code>
+     * @pbrbm length  the number of entries in the group
+     * @pbrbm vblue   the size to be bssigned to ebch new entry
+     * @exception ArrbyIndexOutOfBoundsException if the pbrbmeters
+     *   bre outside of the rbnge:
+     *   (<code>0 &lt;= stbrt &lt; (getSizes().length)) AND (length &gt;= 0)</code>
      */
-    public void insertEntries(int start, int length, int value) {
+    public void insertEntries(int stbrt, int length, int vblue) {
         int sizes[] = getSizes();
-        int end = start + length;
-        int n = a.length + length;
-        a = new int[n];
-        for (int i = 0; i < start; i++) {
-            a[i] = sizes[i] ;
+        int end = stbrt + length;
+        int n = b.length + length;
+        b = new int[n];
+        for (int i = 0; i < stbrt; i++) {
+            b[i] = sizes[i] ;
         }
-        for (int i = start; i < end; i++) {
-            a[i] = value ;
+        for (int i = stbrt; i < end; i++) {
+            b[i] = vblue ;
         }
         for (int i = end; i < n; i++) {
-            a[i] = sizes[i-length] ;
+            b[i] = sizes[i-length] ;
         }
-        setSizes(a);
+        setSizes(b);
     }
 
     /**
-     * Removes a contiguous group of entries
+     * Removes b contiguous group of entries
      * from this <code>SizeSequence</code>.
-     * Note that the values of <code>start</code> and
-     * <code>length</code> must satisfy the following
-     * conditions:  <code>(0 &lt;= start &lt; getSizes().length)
-     * AND (length &gt;= 0)</code>.  If these conditions are
-     * not met, the behavior is unspecified and an exception
-     * may be thrown.
+     * Note thbt the vblues of <code>stbrt</code> bnd
+     * <code>length</code> must sbtisfy the following
+     * conditions:  <code>(0 &lt;= stbrt &lt; getSizes().length)
+     * AND (length &gt;= 0)</code>.  If these conditions bre
+     * not met, the behbvior is unspecified bnd bn exception
+     * mby be thrown.
      *
-     * @param start   the index of the first entry to be removed
-     * @param length  the number of entries to be removed
+     * @pbrbm stbrt   the index of the first entry to be removed
+     * @pbrbm length  the number of entries to be removed
      */
-    public void removeEntries(int start, int length) {
+    public void removeEntries(int stbrt, int length) {
         int sizes[] = getSizes();
-        int end = start + length;
-        int n = a.length - length;
-        a = new int[n];
-        for (int i = 0; i < start; i++) {
-            a[i] = sizes[i] ;
+        int end = stbrt + length;
+        int n = b.length - length;
+        b = new int[n];
+        for (int i = 0; i < stbrt; i++) {
+            b[i] = sizes[i] ;
         }
-        for (int i = start; i < n; i++) {
-            a[i] = sizes[i+length] ;
+        for (int i = stbrt; i < n; i++) {
+            b[i] = sizes[i+length] ;
         }
-        setSizes(a);
+        setSizes(b);
     }
 }

@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.text.CharacterIterator;
+import jbvb.text.ChbrbcterIterbtor;
 
 /**
- * A segment of a character array representing a fragment
- * of text.  It should be treated as immutable even though
- * the array is directly accessible.  This gives fast access
- * to fragments of text without the overhead of copying
- * around characters.  This is effectively an unprotected
+ * A segment of b chbrbcter brrby representing b frbgment
+ * of text.  It should be trebted bs immutbble even though
+ * the brrby is directly bccessible.  This gives fbst bccess
+ * to frbgments of text without the overhebd of copying
+ * bround chbrbcters.  This is effectively bn unprotected
  * String.
  * <p>
- * The Segment implements the java.text.CharacterIterator
- * interface to support use with the i18n support without
- * copying text into a string.
+ * The Segment implements the jbvb.text.ChbrbcterIterbtor
+ * interfbce to support use with the i18n support without
+ * copying text into b string.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public class Segment implements Cloneable, CharacterIterator, CharSequence {
+public clbss Segment implements Clonebble, ChbrbcterIterbtor, ChbrSequence {
 
     /**
-     * This is the array containing the text of
-     * interest.  This array should never be modified;
-     * it is available only for efficiency.
+     * This is the brrby contbining the text of
+     * interest.  This brrby should never be modified;
+     * it is bvbilbble only for efficiency.
      */
-    public char[] array;
+    public chbr[] brrby;
 
     /**
-     * This is the offset into the array that
+     * This is the offset into the brrby thbt
      * the desired text begins.
      */
     public int offset;
 
     /**
-     * This is the number of array elements that
-     * make up the text of interest.
+     * This is the number of brrby elements thbt
+     * mbke up the text of interest.
      */
     public int count;
 
-    private boolean partialReturn;
+    privbte boolebn pbrtiblReturn;
 
     /**
-     * Creates a new segment.
+     * Crebtes b new segment.
      */
     public Segment() {
         this(null, 0, 0);
     }
 
     /**
-     * Creates a new segment referring to an existing array.
+     * Crebtes b new segment referring to bn existing brrby.
      *
-     * @param array the array to refer to
-     * @param offset the offset into the array
-     * @param count the number of characters
+     * @pbrbm brrby the brrby to refer to
+     * @pbrbm offset the offset into the brrby
+     * @pbrbm count the number of chbrbcters
      */
-    public Segment(char[] array, int offset, int count) {
-        this.array = array;
+    public Segment(chbr[] brrby, int offset, int count) {
+        this.brrby = brrby;
         this.offset = offset;
         this.count = count;
-        partialReturn = false;
+        pbrtiblReturn = fblse;
     }
 
     /**
-     * Flag to indicate that partial returns are valid.  If the flag is true,
-     * an implementation of the interface method Document.getText(position,length,Segment)
-     * should return as much text as possible without making a copy.  The default
-     * state of the flag is false which will cause Document.getText(position,length,Segment)
-     * to provide the same return behavior it always had, which may or may not
-     * make a copy of the text depending upon the request.
+     * Flbg to indicbte thbt pbrtibl returns bre vblid.  If the flbg is true,
+     * bn implementbtion of the interfbce method Document.getText(position,length,Segment)
+     * should return bs much text bs possible without mbking b copy.  The defbult
+     * stbte of the flbg is fblse which will cbuse Document.getText(position,length,Segment)
+     * to provide the sbme return behbvior it blwbys hbd, which mby or mby not
+     * mbke b copy of the text depending upon the request.
      *
-     * @param p whether or not partial returns are valid.
+     * @pbrbm p whether or not pbrtibl returns bre vblid.
      * @since 1.4
      */
-    public void setPartialReturn(boolean p) {
-        partialReturn = p;
+    public void setPbrtiblReturn(boolebn p) {
+        pbrtiblReturn = p;
     }
 
     /**
-     * Flag to indicate that partial returns are valid.
+     * Flbg to indicbte thbt pbrtibl returns bre vblid.
      *
-     * @return whether or not partial returns are valid.
+     * @return whether or not pbrtibl returns bre vblid.
      * @since 1.4
      */
-    public boolean isPartialReturn() {
-        return partialReturn;
+    public boolebn isPbrtiblReturn() {
+        return pbrtiblReturn;
     }
 
     /**
-     * Converts a segment into a String.
+     * Converts b segment into b String.
      *
      * @return the string
      */
     public String toString() {
-        if (array != null) {
-            return new String(array, offset, count);
+        if (brrby != null) {
+            return new String(brrby, offset, count);
         }
         return "";
     }
 
-    // --- CharacterIterator methods -------------------------------------
+    // --- ChbrbcterIterbtor methods -------------------------------------
 
     /**
-     * Sets the position to getBeginIndex() and returns the character at that
+     * Sets the position to getBeginIndex() bnd returns the chbrbcter bt thbt
      * position.
-     * @return the first character in the text, or DONE if the text is empty
+     * @return the first chbrbcter in the text, or DONE if the text is empty
      * @see #getBeginIndex
      * @since 1.3
      */
-    public char first() {
+    public chbr first() {
         pos = offset;
         if (count != 0) {
-            return array[pos];
+            return brrby[pos];
         }
         return DONE;
     }
 
     /**
      * Sets the position to getEndIndex()-1 (getEndIndex() if the text is empty)
-     * and returns the character at that position.
-     * @return the last character in the text, or DONE if the text is empty
+     * bnd returns the chbrbcter bt thbt position.
+     * @return the lbst chbrbcter in the text, or DONE if the text is empty
      * @see #getEndIndex
      * @since 1.3
      */
-    public char last() {
+    public chbr lbst() {
         pos = offset + count;
         if (count != 0) {
             pos -= 1;
-            return array[pos];
+            return brrby[pos];
         }
         return DONE;
     }
 
     /**
-     * Gets the character at the current position (as returned by getIndex()).
-     * @return the character at the current position or DONE if the current
+     * Gets the chbrbcter bt the current position (bs returned by getIndex()).
+     * @return the chbrbcter bt the current position or DONE if the current
      * position is off the end of the text.
      * @see #getIndex
      * @since 1.3
      */
-    public char current() {
+    public chbr current() {
         if (count != 0 && pos < offset + count) {
-            return array[pos];
+            return brrby[pos];
         }
         return DONE;
     }
 
     /**
-     * Increments the iterator's index by one and returns the character
-     * at the new index.  If the resulting index is greater or equal
-     * to getEndIndex(), the current index is reset to getEndIndex() and
-     * a value of DONE is returned.
-     * @return the character at the new position or DONE if the new
-     * position is off the end of the text range.
+     * Increments the iterbtor's index by one bnd returns the chbrbcter
+     * bt the new index.  If the resulting index is grebter or equbl
+     * to getEndIndex(), the current index is reset to getEndIndex() bnd
+     * b vblue of DONE is returned.
+     * @return the chbrbcter bt the new position or DONE if the new
+     * position is off the end of the text rbnge.
      * @since 1.3
      */
-    public char next() {
+    public chbr next() {
         pos += 1;
         int end = offset + count;
         if (pos >= end) {
@@ -188,14 +188,14 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
     }
 
     /**
-     * Decrements the iterator's index by one and returns the character
-     * at the new index. If the current index is getBeginIndex(), the index
-     * remains at getBeginIndex() and a value of DONE is returned.
-     * @return the character at the new position or DONE if the current
-     * position is equal to getBeginIndex().
+     * Decrements the iterbtor's index by one bnd returns the chbrbcter
+     * bt the new index. If the current index is getBeginIndex(), the index
+     * rembins bt getBeginIndex() bnd b vblue of DONE is returned.
+     * @return the chbrbcter bt the new position or DONE if the current
+     * position is equbl to getBeginIndex().
      * @since 1.3
      */
-    public char previous() {
+    public chbr previous() {
         if (pos == offset) {
             return DONE;
         }
@@ -204,29 +204,29 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
     }
 
     /**
-     * Sets the position to the specified position in the text and returns that
-     * character.
-     * @param position the position within the text.  Valid values range from
-     * getBeginIndex() to getEndIndex().  An IllegalArgumentException is thrown
-     * if an invalid value is supplied.
-     * @return the character at the specified position or DONE if the specified position is equal to getEndIndex()
+     * Sets the position to the specified position in the text bnd returns thbt
+     * chbrbcter.
+     * @pbrbm position the position within the text.  Vblid vblues rbnge from
+     * getBeginIndex() to getEndIndex().  An IllegblArgumentException is thrown
+     * if bn invblid vblue is supplied.
+     * @return the chbrbcter bt the specified position or DONE if the specified position is equbl to getEndIndex()
      * @since 1.3
      */
-    public char setIndex(int position) {
+    public chbr setIndex(int position) {
         int end = offset + count;
         if ((position < offset) || (position > end)) {
-            throw new IllegalArgumentException("bad position: " + position);
+            throw new IllegblArgumentException("bbd position: " + position);
         }
         pos = position;
         if ((pos != end) && (count != 0)) {
-            return array[pos];
+            return brrby[pos];
         }
         return DONE;
     }
 
     /**
-     * Returns the start index of the text.
-     * @return the index at which the text begins.
+     * Returns the stbrt index of the text.
+     * @return the index bt which the text begins.
      * @since 1.3
      */
     public int getBeginIndex() {
@@ -235,8 +235,8 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
 
     /**
      * Returns the end index of the text.  This index is the index of the first
-     * character following the end of the text.
-     * @return the index after the last character in the text
+     * chbrbcter following the end of the text.
+     * @return the index bfter the lbst chbrbcter in the text
      * @since 1.3
      */
     public int getEndIndex() {
@@ -252,18 +252,18 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
         return pos;
     }
 
-    // --- CharSequence methods -------------------------------------
+    // --- ChbrSequence methods -------------------------------------
 
     /**
      * {@inheritDoc}
      * @since 1.6
      */
-    public char charAt(int index) {
+    public chbr chbrAt(int index) {
         if (index < 0
             || index >= count) {
             throw new StringIndexOutOfBoundsException(index);
         }
-        return array[offset + index];
+        return brrby[offset + index];
     }
 
     /**
@@ -278,25 +278,25 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * {@inheritDoc}
      * @since 1.6
      */
-    public CharSequence subSequence(int start, int end) {
-        if (start < 0) {
-            throw new StringIndexOutOfBoundsException(start);
+    public ChbrSequence subSequence(int stbrt, int end) {
+        if (stbrt < 0) {
+            throw new StringIndexOutOfBoundsException(stbrt);
         }
         if (end > count) {
             throw new StringIndexOutOfBoundsException(end);
         }
-        if (start > end) {
-            throw new StringIndexOutOfBoundsException(end - start);
+        if (stbrt > end) {
+            throw new StringIndexOutOfBoundsException(end - stbrt);
         }
         Segment segment = new Segment();
-        segment.array = this.array;
-        segment.offset = this.offset + start;
-        segment.count = end - start;
+        segment.brrby = this.brrby;
+        segment.offset = this.offset + stbrt;
+        segment.count = end - stbrt;
         return segment;
     }
 
     /**
-     * Creates a shallow copy.
+     * Crebtes b shbllow copy.
      *
      * @return the copy
      */
@@ -304,13 +304,13 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
         Object o;
         try {
             o = super.clone();
-        } catch (CloneNotSupportedException cnse) {
+        } cbtch (CloneNotSupportedException cnse) {
             o = null;
         }
         return o;
     }
 
-    private int pos;
+    privbte int pos;
 
 
 }

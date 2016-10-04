@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.acl;
+pbckbge jbvb.security.bcl;
 
-import java.util.Enumeration;
-import java.security.Principal;
+import jbvb.util.Enumerbtion;
+import jbvb.security.Principbl;
 
 /**
- * This is the interface used for representing one entry in an Access
+ * This is the interfbce used for representing one entry in bn Access
  * Control List (ACL).<p>
  *
- * An ACL can be thought of as a data structure with multiple ACL entry
- * objects. Each ACL entry object contains a set of permissions associated
- * with a particular principal. (A principal represents an entity such as
- * an individual user or a group). Additionally, each ACL entry is specified
- * as being either positive or negative. If positive, the permissions are
- * to be granted to the associated principal. If negative, the permissions
- * are to be denied. Each principal can have at most one positive ACL entry
- * and one negative entry; that is, multiple positive or negative ACL
- * entries are not allowed for any principal.
+ * An ACL cbn be thought of bs b dbtb structure with multiple ACL entry
+ * objects. Ebch ACL entry object contbins b set of permissions bssocibted
+ * with b pbrticulbr principbl. (A principbl represents bn entity such bs
+ * bn individubl user or b group). Additionblly, ebch ACL entry is specified
+ * bs being either positive or negbtive. If positive, the permissions bre
+ * to be grbnted to the bssocibted principbl. If negbtive, the permissions
+ * bre to be denied. Ebch principbl cbn hbve bt most one positive ACL entry
+ * bnd one negbtive entry; thbt is, multiple positive or negbtive ACL
+ * entries bre not bllowed for bny principbl.
  *
- * Note: ACL entries are by default positive. An entry becomes a
- * negative entry only if the
- * {@link #setNegativePermissions() setNegativePermissions}
- * method is called on it.
+ * Note: ACL entries bre by defbult positive. An entry becomes b
+ * negbtive entry only if the
+ * {@link #setNegbtivePermissions() setNegbtivePermissions}
+ * method is cblled on it.
  *
- * @see java.security.acl.Acl
+ * @see jbvb.security.bcl.Acl
  *
- * @author      Satish Dharmaraj
+ * @buthor      Sbtish Dhbrmbrbj
  */
-public interface AclEntry extends Cloneable {
+public interfbce AclEntry extends Clonebble {
 
     /**
-     * Specifies the principal for which permissions are granted or denied
-     * by this ACL entry. If a principal was already set for this ACL entry,
-     * false is returned, otherwise true is returned.
+     * Specifies the principbl for which permissions bre grbnted or denied
+     * by this ACL entry. If b principbl wbs blrebdy set for this ACL entry,
+     * fblse is returned, otherwise true is returned.
      *
-     * @param user the principal to be set for this entry.
+     * @pbrbm user the principbl to be set for this entry.
      *
-     * @return true if the principal is set, false if there was
-     * already a principal set for this entry.
+     * @return true if the principbl is set, fblse if there wbs
+     * blrebdy b principbl set for this entry.
      *
-     * @see #getPrincipal
+     * @see #getPrincipbl
      */
-    public boolean setPrincipal(Principal user);
+    public boolebn setPrincipbl(Principbl user);
 
     /**
-     * Returns the principal for which permissions are granted or denied by
-     * this ACL entry. Returns null if there is no principal set for this
+     * Returns the principbl for which permissions bre grbnted or denied by
+     * this ACL entry. Returns null if there is no principbl set for this
      * entry yet.
      *
-     * @return the principal associated with this entry.
+     * @return the principbl bssocibted with this entry.
      *
-     * @see #setPrincipal
+     * @see #setPrincipbl
      */
-    public Principal getPrincipal();
+    public Principbl getPrincipbl();
 
     /**
-     * Sets this ACL entry to be a negative one. That is, the associated
-     * principal (e.g., a user or a group) will be denied the permission set
+     * Sets this ACL entry to be b negbtive one. Thbt is, the bssocibted
+     * principbl (e.g., b user or b group) will be denied the permission set
      * specified in the entry.
      *
-     * Note: ACL entries are by default positive. An entry becomes a
-     * negative entry only if this {@code setNegativePermissions}
-     * method is called on it.
+     * Note: ACL entries bre by defbult positive. An entry becomes b
+     * negbtive entry only if this {@code setNegbtivePermissions}
+     * method is cblled on it.
      */
-    public void setNegativePermissions();
+    public void setNegbtivePermissions();
 
     /**
-     * Returns true if this is a negative ACL entry (one denying the
-     * associated principal the set of permissions in the entry), false
+     * Returns true if this is b negbtive ACL entry (one denying the
+     * bssocibted principbl the set of permissions in the entry), fblse
      * otherwise.
      *
-     * @return true if this is a negative ACL entry, false if it's not.
+     * @return true if this is b negbtive ACL entry, fblse if it's not.
      */
-    public boolean isNegative();
+    public boolebn isNegbtive();
 
     /**
-     * Adds the specified permission to this ACL entry. Note: An entry can
-     * have multiple permissions.
+     * Adds the specified permission to this ACL entry. Note: An entry cbn
+     * hbve multiple permissions.
      *
-     * @param permission the permission to be associated with
-     * the principal in this entry.
+     * @pbrbm permission the permission to be bssocibted with
+     * the principbl in this entry.
      *
-     * @return true if the permission was added, false if the
-     * permission was already part of this entry's permission set.
+     * @return true if the permission wbs bdded, fblse if the
+     * permission wbs blrebdy pbrt of this entry's permission set.
      */
-    public boolean addPermission(Permission permission);
+    public boolebn bddPermission(Permission permission);
 
     /**
      * Removes the specified permission from this ACL entry.
      *
-     * @param permission the permission to be removed from this entry.
+     * @pbrbm permission the permission to be removed from this entry.
      *
-     * @return true if the permission is removed, false if the
-     * permission was not part of this entry's permission set.
+     * @return true if the permission is removed, fblse if the
+     * permission wbs not pbrt of this entry's permission set.
      */
-    public boolean removePermission(Permission permission);
+    public boolebn removePermission(Permission permission);
 
     /**
-     * Checks if the specified permission is part of the
+     * Checks if the specified permission is pbrt of the
      * permission set in this entry.
      *
-     * @param permission the permission to be checked for.
+     * @pbrbm permission the permission to be checked for.
      *
-     * @return true if the permission is part of the
-     * permission set in this entry, false otherwise.
+     * @return true if the permission is pbrt of the
+     * permission set in this entry, fblse otherwise.
      */
-    public boolean checkPermission(Permission permission);
+    public boolebn checkPermission(Permission permission);
 
     /**
-     * Returns an enumeration of the permissions in this ACL entry.
+     * Returns bn enumerbtion of the permissions in this ACL entry.
      *
-     * @return an enumeration of the permissions in this ACL entry.
+     * @return bn enumerbtion of the permissions in this ACL entry.
      */
-    public Enumeration<Permission> permissions();
+    public Enumerbtion<Permission> permissions();
 
     /**
-     * Returns a string representation of the contents of this ACL entry.
+     * Returns b string representbtion of the contents of this ACL entry.
      *
-     * @return a string representation of the contents.
+     * @return b string representbtion of the contents.
      */
     public String toString();
 
     /**
      * Clones this ACL entry.
      *
-     * @return a clone of this ACL entry.
+     * @return b clone of this ACL entry.
      */
     public Object clone();
 }

@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.IntegerSyntax;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.IntegerSyntbx;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class NumberOfDocuments is an integer valued printing attribute that
- * indicates the number of individual docs the printer has accepted for this
- * job, regardless of whether the docs' print data has reached the printer or
+ * Clbss NumberOfDocuments is bn integer vblued printing bttribute thbt
+ * indicbtes the number of individubl docs the printer hbs bccepted for this
+ * job, regbrdless of whether the docs' print dbtb hbs rebched the printer or
  * not.
  * <P>
- * <B>IPP Compatibility:</B> The integer value gives the IPP integer value. The
- * category name returned by <CODE>getName()</CODE> gives the IPP attribute
- * name.
+ * <B>IPP Compbtibility:</B> The integer vblue gives the IPP integer vblue. The
+ * cbtegory nbme returned by <CODE>getNbme()</CODE> gives the IPP bttribute
+ * nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class NumberOfDocuments extends IntegerSyntax
+public finbl clbss NumberOfDocuments extends IntegerSyntbx
     implements PrintJobAttribute {
 
-    private static final long serialVersionUID = 7891881310684461097L;
+    privbte stbtic finbl long seriblVersionUID = 7891881310684461097L;
 
 
     /**
-     * Construct a new number of documents attribute with the given integer
-     * value.
+     * Construct b new number of documents bttribute with the given integer
+     * vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      *
-     * @exception  IllegalArgumentException
-     *   (Unchecked exception) Thrown if <CODE>value</CODE> is less than 0.
+     * @exception  IllegblArgumentException
+     *   (Unchecked exception) Thrown if <CODE>vblue</CODE> is less thbn 0.
      */
-    public NumberOfDocuments(int value) {
-        super (value, 0, Integer.MAX_VALUE);
+    public NumberOfDocuments(int vblue) {
+        super (vblue, 0, Integer.MAX_VALUE);
     }
 
     /**
-     * Returns whether this number of documents attribute is equivalent to the
-     * passed in object. To be equivalent, all of the following conditions
+     * Returns whether this number of documents bttribute is equivblent to the
+     * pbssed in object. To be equivblent, bll of the following conditions
      * must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class NumberOfDocuments.
+     * <CODE>object</CODE> is bn instbnce of clbss NumberOfDocuments.
      * <LI>
-     * This number of documents attribute's value and <CODE>object</CODE>'s
-     * value are equal.
+     * This number of documents bttribute's vblue bnd <CODE>object</CODE>'s
+     * vblue bre equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this number of
-     *          documents attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this number of
+     *          documents bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return (super.equals (object) &&
-                object instanceof NumberOfDocuments);
+    public boolebn equbls(Object object) {
+        return (super.equbls (object) &&
+                object instbnceof NumberOfDocuments);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class NumberOfDocuments, the
-     * category is class NumberOfDocuments itself.
+     * For clbss NumberOfDocuments, the
+     * cbtegory is clbss NumberOfDocuments itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return NumberOfDocuments.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return NumberOfDocuments.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class NumberOfDocuments, the
-     * category name is <CODE>"number-of-documents"</CODE>.
+     * For clbss NumberOfDocuments, the
+     * cbtegory nbme is <CODE>"number-of-documents"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "number-of-documents";
     }
 

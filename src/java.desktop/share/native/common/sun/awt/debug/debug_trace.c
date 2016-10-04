@@ -1,370 +1,370 @@
 /*
- * Copyright (c) 1999, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "debug_util.h"
 
-static void DTrace_PrintStdErr(const char *msg);
+stbtic void DTrbce_PrintStdErr(const chbr *msg);
 
 #if defined(DEBUG)
 enum {
-    MAX_TRACES = 200,           /* max number of defined trace points allowed */
-    MAX_TRACE_BUFFER = 512,     /* maximum size of a given trace output */
-    MAX_LINE = 100000,          /* reasonable upper limit on line number in source file */
-    MAX_ARGC = 8                /* maximum number of arguments to print functions */
+    MAX_TRACES = 200,           /* mbx number of defined trbce points bllowed */
+    MAX_TRACE_BUFFER = 512,     /* mbximum size of b given trbce output */
+    MAX_LINE = 100000,          /* rebsonbble upper limit on line number in source file */
+    MAX_ARGC = 8                /* mbximum number of brguments to print functions */
 };
 
-typedef enum dtrace_scope {
+typedef enum dtrbce_scope {
     DTRACE_FILE,
     DTRACE_LINE
-} dtrace_scope;
+} dtrbce_scope;
 
-typedef struct dtrace_info {
-    char                file[FILENAME_MAX+1];
+typedef struct dtrbce_info {
+    chbr                file[FILENAME_MAX+1];
     int                 line;
-    int                 enabled;
-    dtrace_scope        scope;
-} dtrace_info, * p_dtrace_info;
+    int                 enbbled;
+    dtrbce_scope        scope;
+} dtrbce_info, * p_dtrbce_info;
 
-static dtrace_info      DTraceInfo[MAX_TRACES];
-static char             DTraceBuffer[MAX_TRACE_BUFFER*2+1]; /* double the buffer size to catch overruns */
-static dmutex_t         DTraceMutex = NULL;
-static dbool_t          GlobalTracingEnabled = FALSE;
-static int              NumTraces = 0;
+stbtic dtrbce_info      DTrbceInfo[MAX_TRACES];
+stbtic chbr             DTrbceBuffer[MAX_TRACE_BUFFER*2+1]; /* double the buffer size to cbtch overruns */
+stbtic dmutex_t         DTrbceMutex = NULL;
+stbtic dbool_t          GlobblTrbcingEnbbled = FALSE;
+stbtic int              NumTrbces = 0;
 
-static DTRACE_OUTPUT_CALLBACK   PfnTraceCallback = DTrace_PrintStdErr;
+stbtic DTRACE_OUTPUT_CALLBACK   PfnTrbceCbllbbck = DTrbce_PrintStdErr;
 
-static p_dtrace_info DTrace_GetInfo(dtrace_id tid) {
+stbtic p_dtrbce_info DTrbce_GetInfo(dtrbce_id tid) {
     DASSERT(tid < MAX_TRACES);
-    return &DTraceInfo[tid];
+    return &DTrbceInfo[tid];
 }
 
-static dtrace_id DTrace_CreateTraceId(const char * file, int line, dtrace_scope scope) {
-    dtrace_id           tid = NumTraces++;
-    p_dtrace_info       info = &DTraceInfo[tid];
-    DASSERT(NumTraces < MAX_TRACES);
+stbtic dtrbce_id DTrbce_CrebteTrbceId(const chbr * file, int line, dtrbce_scope scope) {
+    dtrbce_id           tid = NumTrbces++;
+    p_dtrbce_info       info = &DTrbceInfo[tid];
+    DASSERT(NumTrbces < MAX_TRACES);
 
     strcpy(info->file, file);
     info->line = line;
-    info->enabled = FALSE;
+    info->enbbled = FALSE;
     info->scope = scope;
     return tid;
 }
 
 /*
- * Compares the trailing characters in a filename to see if they match
- * e.g. "src\win32\foobar.c" and "foobar.c" would be considered equal
- * but "src\win32\foo.c" and "src\win32\bar.c" would not.
+ * Compbres the trbiling chbrbcters in b filenbme to see if they mbtch
+ * e.g. "src\win32\foobbr.c" bnd "foobbr.c" would be considered equbl
+ * but "src\win32\foo.c" bnd "src\win32\bbr.c" would not.
  */
-static dbool_t FileNamesSame(const char * fileOne, const char * fileTwo) {
+stbtic dbool_t FileNbmesSbme(const chbr * fileOne, const chbr * fileTwo) {
     size_t      lengthOne = strlen(fileOne);
     size_t      lengthTwo = strlen(fileTwo);
-    size_t      numCompareChars;
-    dbool_t     tailsEqual;
+    size_t      numCompbreChbrs;
+    dbool_t     tbilsEqubl;
 
     if (fileOne == fileTwo) {
         return TRUE;
     } else if (fileOne == NULL || fileTwo == NULL) {
         return FALSE;
     }
-    /* compare the tail ends of the strings for equality */
-    numCompareChars = lengthOne < lengthTwo ? lengthOne : lengthTwo;
-    tailsEqual = strcmp(fileOne + lengthOne - numCompareChars,
-                        fileTwo + lengthTwo - numCompareChars) == 0;
-    return tailsEqual;
+    /* compbre the tbil ends of the strings for equblity */
+    numCompbreChbrs = lengthOne < lengthTwo ? lengthOne : lengthTwo;
+    tbilsEqubl = strcmp(fileOne + lengthOne - numCompbreChbrs,
+                        fileTwo + lengthTwo - numCompbreChbrs) == 0;
+    return tbilsEqubl;
 }
 
 /*
- * Finds the trace id for a given file/line location or creates one
+ * Finds the trbce id for b given file/line locbtion or crebtes one
  * if it doesn't exist
  */
-static dtrace_id DTrace_GetTraceId(const char * file, int line, dtrace_scope scope) {
-    dtrace_id           tid;
-    p_dtrace_info       info;
+stbtic dtrbce_id DTrbce_GetTrbceId(const chbr * file, int line, dtrbce_scope scope) {
+    dtrbce_id           tid;
+    p_dtrbce_info       info;
 
-    /* check to see if the trace point has already been created */
-    for ( tid = 0; tid < NumTraces; tid++ ) {
-        info = DTrace_GetInfo(tid);
+    /* check to see if the trbce point hbs blrebdy been crebted */
+    for ( tid = 0; tid < NumTrbces; tid++ ) {
+        info = DTrbce_GetInfo(tid);
         if ( info->scope == scope ) {
-            dbool_t     sameFile = FileNamesSame(file, info->file);
-            dbool_t     sameLine = info->line == line;
+            dbool_t     sbmeFile = FileNbmesSbme(file, info->file);
+            dbool_t     sbmeLine = info->line == line;
 
-            if ( (info->scope == DTRACE_FILE && sameFile) ||
-                 (info->scope == DTRACE_LINE && sameFile && sameLine) ) {
+            if ( (info->scope == DTRACE_FILE && sbmeFile) ||
+                 (info->scope == DTRACE_LINE && sbmeFile && sbmeLine) ) {
                 goto Exit;
             }
         }
     }
 
-    /* trace point wasn't created, so force it's creation */
-    tid = DTrace_CreateTraceId(file, line, scope);
+    /* trbce point wbsn't crebted, so force it's crebtion */
+    tid = DTrbce_CrebteTrbceId(file, line, scope);
 Exit:
     return tid;
 }
 
 
-static dbool_t DTrace_IsEnabledAt(dtrace_id * pfileid, dtrace_id * plineid, const char * file, int line) {
+stbtic dbool_t DTrbce_IsEnbbledAt(dtrbce_id * pfileid, dtrbce_id * plineid, const chbr * file, int line) {
     DASSERT(pfileid != NULL && plineid != NULL);
 
     if ( *pfileid == UNDEFINED_TRACE_ID ) {
-    /* first time calling the trace for this file, so obtain a trace id */
-         *pfileid = DTrace_GetTraceId(file, -1, DTRACE_FILE);
+    /* first time cblling the trbce for this file, so obtbin b trbce id */
+         *pfileid = DTrbce_GetTrbceId(file, -1, DTRACE_FILE);
     }
     if ( *plineid == UNDEFINED_TRACE_ID ) {
-    /* first time calling the trace for this line, so obtain a trace id */
-         *plineid = DTrace_GetTraceId(file, line, DTRACE_LINE);
+    /* first time cblling the trbce for this line, so obtbin b trbce id */
+         *plineid = DTrbce_GetTrbceId(file, line, DTRACE_LINE);
     }
 
-    return GlobalTracingEnabled || DTraceInfo[*pfileid].enabled || DTraceInfo[*plineid].enabled;
+    return GlobblTrbcingEnbbled || DTrbceInfo[*pfileid].enbbled || DTrbceInfo[*plineid].enbbled;
 }
 
 /*
- * Initialize trace functionality. This MUST BE CALLED before any
- * tracing function is called.
+ * Initiblize trbce functionblity. This MUST BE CALLED before bny
+ * trbcing function is cblled.
  */
-void DTrace_Initialize() {
-    DTraceMutex = DMutex_Create();
+void DTrbce_Initiblize() {
+    DTrbceMutex = DMutex_Crebte();
 }
 
 /*
- * Cleans up tracing system. Should be called when tracing functionality
+ * Clebns up trbcing system. Should be cblled when trbcing functionblity
  * is no longer needed.
  */
-void DTrace_Shutdown() {
-    DMutex_Destroy(DTraceMutex);
+void DTrbce_Shutdown() {
+    DMutex_Destroy(DTrbceMutex);
 }
 
-void DTrace_DisableMutex() {
-    DTraceMutex = NULL;
+void DTrbce_DisbbleMutex() {
+    DTrbceMutex = NULL;
 }
 
 /*
- * Enable tracing for all modules.
+ * Enbble trbcing for bll modules.
  */
-void DTrace_EnableAll(dbool_t enabled) {
-    DMutex_Enter(DTraceMutex);
-    GlobalTracingEnabled = enabled;
-    DMutex_Exit(DTraceMutex);
+void DTrbce_EnbbleAll(dbool_t enbbled) {
+    DMutex_Enter(DTrbceMutex);
+    GlobblTrbcingEnbbled = enbbled;
+    DMutex_Exit(DTrbceMutex);
 }
 
 /*
- * Enable tracing for a specific module. Filename may
- * be fully or partially qualified.
- * e.g. awt_Component.cpp
+ * Enbble trbcing for b specific module. Filenbme mby
+ * be fully or pbrtiblly qublified.
+ * e.g. bwt_Component.cpp
  *              or
- *      src\win32\native\sun\windows\awt_Component.cpp
+ *      src\win32\nbtive\sun\windows\bwt_Component.cpp
  */
-void DTrace_EnableFile(const char * file, dbool_t enabled) {
-    dtrace_id tid;
-    p_dtrace_info info;
+void DTrbce_EnbbleFile(const chbr * file, dbool_t enbbled) {
+    dtrbce_id tid;
+    p_dtrbce_info info;
 
     DASSERT(file != NULL);
-    DMutex_Enter(DTraceMutex);
-    tid = DTrace_GetTraceId(file, -1, DTRACE_FILE);
-    info = DTrace_GetInfo(tid);
-    info->enabled = enabled;
-    DMutex_Exit(DTraceMutex);
+    DMutex_Enter(DTrbceMutex);
+    tid = DTrbce_GetTrbceId(file, -1, DTRACE_FILE);
+    info = DTrbce_GetInfo(tid);
+    info->enbbled = enbbled;
+    DMutex_Exit(DTrbceMutex);
 }
 
 /*
- * Enable tracing for a specific line in a specific module.
- * See comments above regarding filename argument.
+ * Enbble trbcing for b specific line in b specific module.
+ * See comments bbove regbrding filenbme brgument.
  */
-void DTrace_EnableLine(const char * file, int line, dbool_t enabled) {
-    dtrace_id tid;
-    p_dtrace_info info;
+void DTrbce_EnbbleLine(const chbr * file, int line, dbool_t enbbled) {
+    dtrbce_id tid;
+    p_dtrbce_info info;
 
     DASSERT(file != NULL && (line > 0 && line < MAX_LINE));
-    DMutex_Enter(DTraceMutex);
-    tid = DTrace_GetTraceId(file, line, DTRACE_LINE);
-    info = DTrace_GetInfo(tid);
-    info->enabled = enabled;
-    DMutex_Exit(DTraceMutex);
+    DMutex_Enter(DTrbceMutex);
+    tid = DTrbce_GetTrbceId(file, line, DTRACE_LINE);
+    info = DTrbce_GetInfo(tid);
+    info->enbbled = enbbled;
+    DMutex_Exit(DTrbceMutex);
 }
 
-static void DTrace_ClientPrint(const char * msg) {
-    DASSERT(msg != NULL && PfnTraceCallback != NULL);
-    (*PfnTraceCallback)(msg);
+stbtic void DTrbce_ClientPrint(const chbr * msg) {
+    DASSERT(msg != NULL && PfnTrbceCbllbbck != NULL);
+    (*PfnTrbceCbllbbck)(msg);
 }
 
 /*
- * Print implementation for the use of client defined trace macros. Unsynchronized so it must
- * be used from within a DTRACE_PRINT_CALLBACK function.
+ * Print implementbtion for the use of client defined trbce mbcros. Unsynchronized so it must
+ * be used from within b DTRACE_PRINT_CALLBACK function.
  */
-void DTrace_VPrintImpl(const char * fmt, va_list arglist) {
+void DTrbce_VPrintImpl(const chbr * fmt, vb_list brglist) {
     DASSERT(fmt != NULL);
 
-    /* format the trace message */
-    vsprintf(DTraceBuffer, fmt, arglist);
-    /* not a real great overflow check (memory would already be hammered) but better than nothing */
-    DASSERT(strlen(DTraceBuffer) < MAX_TRACE_BUFFER);
-    /* output the trace message */
-    DTrace_ClientPrint(DTraceBuffer);
+    /* formbt the trbce messbge */
+    vsprintf(DTrbceBuffer, fmt, brglist);
+    /* not b rebl grebt overflow check (memory would blrebdy be hbmmered) but better thbn nothing */
+    DASSERT(strlen(DTrbceBuffer) < MAX_TRACE_BUFFER);
+    /* output the trbce messbge */
+    DTrbce_ClientPrint(DTrbceBuffer);
 }
 
 /*
- * Print implementation for the use of client defined trace macros. Unsynchronized so it must
- * be used from within a DTRACE_PRINT_CALLBACK function.
+ * Print implementbtion for the use of client defined trbce mbcros. Unsynchronized so it must
+ * be used from within b DTRACE_PRINT_CALLBACK function.
  */
-void DTrace_PrintImpl(const char * fmt, ...) {
-    va_list     arglist;
+void DTrbce_PrintImpl(const chbr * fmt, ...) {
+    vb_list     brglist;
 
-    va_start(arglist, fmt);
-    DTrace_VPrintImpl(fmt, arglist);
-    va_end(arglist);
+    vb_stbrt(brglist, fmt);
+    DTrbce_VPrintImpl(fmt, brglist);
+    vb_end(brglist);
 }
 
 /*
- * Called via DTRACE_PRINT macro. Outputs printf style formatted text.
+ * Cblled vib DTRACE_PRINT mbcro. Outputs printf style formbtted text.
  */
-void DTrace_VPrint( const char * file, int line, int argc, const char * fmt, va_list arglist ) {
+void DTrbce_VPrint( const chbr * file, int line, int brgc, const chbr * fmt, vb_list brglist ) {
     DASSERT(fmt != NULL);
-    DTrace_VPrintImpl(fmt, arglist);
+    DTrbce_VPrintImpl(fmt, brglist);
 }
 
 /*
- * Called via DTRACE_PRINTLN macro. Outputs printf style formatted text with an automatic newline.
+ * Cblled vib DTRACE_PRINTLN mbcro. Outputs printf style formbtted text with bn butombtic newline.
  */
-void DTrace_VPrintln( const char * file, int line, int argc, const char * fmt, va_list arglist ) {
-    DTrace_VPrintImpl(fmt, arglist);
-    DTrace_PrintImpl("\n");
+void DTrbce_VPrintln( const chbr * file, int line, int brgc, const chbr * fmt, vb_list brglist ) {
+    DTrbce_VPrintImpl(fmt, brglist);
+    DTrbce_PrintImpl("\n");
 }
 
 /*
- * Called via DTRACE_ macros. If tracing is enabled at the given location, it enters
- * the trace mutex and invokes the callback function to output the trace.
+ * Cblled vib DTRACE_ mbcros. If trbcing is enbbled bt the given locbtion, it enters
+ * the trbce mutex bnd invokes the cbllbbck function to output the trbce.
  */
-void DTrace_PrintFunction( DTRACE_PRINT_CALLBACK pfn, dtrace_id * pFileTraceId, dtrace_id * pLineTraceId,
-                           const char * file, int line,
-                           int argc, const char * fmt, ... ) {
-    va_list     arglist;
+void DTrbce_PrintFunction( DTRACE_PRINT_CALLBACK pfn, dtrbce_id * pFileTrbceId, dtrbce_id * pLineTrbceId,
+                           const chbr * file, int line,
+                           int brgc, const chbr * fmt, ... ) {
+    vb_list     brglist;
 
     DASSERT(file != NULL);
     DASSERT(line > 0 && line < MAX_LINE);
-    DASSERT(argc <= MAX_ARGC);
+    DASSERT(brgc <= MAX_ARGC);
     DASSERT(fmt != NULL);
 
-    DMutex_Enter(DTraceMutex);
-    if ( DTrace_IsEnabledAt(pFileTraceId, pLineTraceId, file, line) ) {
-        va_start(arglist, fmt);
-        (*pfn)(file, line, argc, fmt, arglist);
-        va_end(arglist);
+    DMutex_Enter(DTrbceMutex);
+    if ( DTrbce_IsEnbbledAt(pFileTrbceId, pLineTrbceId, file, line) ) {
+        vb_stbrt(brglist, fmt);
+        (*pfn)(file, line, brgc, fmt, brglist);
+        vb_end(brglist);
     }
-    DMutex_Exit(DTraceMutex);
+    DMutex_Exit(DTrbceMutex);
 }
 
 /*
- * Sets a callback function to be used to output
- * trace statements.
+ * Sets b cbllbbck function to be used to output
+ * trbce stbtements.
  */
-void DTrace_SetOutputCallback(DTRACE_OUTPUT_CALLBACK pfn) {
+void DTrbce_SetOutputCbllbbck(DTRACE_OUTPUT_CALLBACK pfn) {
     DASSERT(pfn != NULL);
 
-    DMutex_Enter(DTraceMutex);
-    PfnTraceCallback = pfn;
-    DMutex_Exit(DTraceMutex);
+    DMutex_Enter(DTrbceMutex);
+    PfnTrbceCbllbbck = pfn;
+    DMutex_Exit(DTrbceMutex);
 }
 
 #endif /* DEBUG */
 
 /**********************************************************************************
- * Support for Java tracing in release or debug mode builds
+ * Support for Jbvb trbcing in relebse or debug mode builds
  */
 
-static void DTrace_PrintStdErr(const char *msg) {
+stbtic void DTrbce_PrintStdErr(const chbr *msg) {
     fprintf(stderr, "%s", msg);
     fflush(stderr);
 }
 
-static void DTrace_JavaPrint(const char * msg) {
+stbtic void DTrbce_JbvbPrint(const chbr * msg) {
 #if defined(DEBUG)
-    DMutex_Enter(DTraceMutex);
-    DTrace_ClientPrint(msg);
-    DMutex_Exit(DTraceMutex);
+    DMutex_Enter(DTrbceMutex);
+    DTrbce_ClientPrint(msg);
+    DMutex_Exit(DTrbceMutex);
 #else
-    DTrace_PrintStdErr(msg);
+    DTrbce_PrintStdErr(msg);
 #endif
 }
 
-static void DTrace_JavaPrintln(const char * msg) {
+stbtic void DTrbce_JbvbPrintln(const chbr * msg) {
 #if defined(DEBUG)
-    DMutex_Enter(DTraceMutex);
-    DTrace_ClientPrint(msg);
-    DTrace_ClientPrint("\n");
-    DMutex_Exit(DTraceMutex);
+    DMutex_Enter(DTrbceMutex);
+    DTrbce_ClientPrint(msg);
+    DTrbce_ClientPrint("\n");
+    DMutex_Exit(DTrbceMutex);
 #else
-    DTrace_PrintStdErr(msg);
-    DTrace_PrintStdErr("\n");
+    DTrbce_PrintStdErr(msg);
+    DTrbce_PrintStdErr("\n");
 #endif
 }
 
 /*********************************************************************************
- * Native method implementations. Java print trace calls are functional in
- * release builds, but functions to enable/disable native tracing are not.
+ * Nbtive method implementbtions. Jbvb print trbce cblls bre functionbl in
+ * relebse builds, but functions to enbble/disbble nbtive trbcing bre not.
  */
 
-/* Implementation of DebugSettings.setCTracingOn*/
+/* Implementbtion of DebugSettings.setCTrbcingOn*/
 JNIEXPORT void JNICALL
-Java_sun_awt_DebugSettings_setCTracingOn__Z(JNIEnv *env, jobject self, jboolean enabled) {
+Jbvb_sun_bwt_DebugSettings_setCTrbcingOn__Z(JNIEnv *env, jobject self, jboolebn enbbled) {
 #if defined(DEBUG)
-    DTrace_EnableAll(enabled == JNI_TRUE);
+    DTrbce_EnbbleAll(enbbled == JNI_TRUE);
 #endif
 }
 
-/* Implementation of DebugSettings.setCTracingOn*/
+/* Implementbtion of DebugSettings.setCTrbcingOn*/
 JNIEXPORT void JNICALL
-Java_sun_awt_DebugSettings_setCTracingOn__ZLjava_lang_String_2(
+Jbvb_sun_bwt_DebugSettings_setCTrbcingOn__ZLjbvb_lbng_String_2(
     JNIEnv *env,
     jobject self,
-    jboolean enabled,
+    jboolebn enbbled,
     jstring file ) {
 #if defined(DEBUG)
-    const char *        cfile;
-    cfile = JNU_GetStringPlatformChars(env, file, NULL);
+    const chbr *        cfile;
+    cfile = JNU_GetStringPlbtformChbrs(env, file, NULL);
     if ( cfile == NULL ) {
         return;
     }
-    DTrace_EnableFile(cfile, enabled == JNI_TRUE);
-    JNU_ReleaseStringPlatformChars(env, file, cfile);
+    DTrbce_EnbbleFile(cfile, enbbled == JNI_TRUE);
+    JNU_RelebseStringPlbtformChbrs(env, file, cfile);
 #endif
 }
 
-/* Implementation of DebugSettings.setCTracingOn*/
+/* Implementbtion of DebugSettings.setCTrbcingOn*/
 JNIEXPORT void JNICALL
-Java_sun_awt_DebugSettings_setCTracingOn__ZLjava_lang_String_2I(
+Jbvb_sun_bwt_DebugSettings_setCTrbcingOn__ZLjbvb_lbng_String_2I(
     JNIEnv *env,
     jobject self,
-    jboolean enabled,
+    jboolebn enbbled,
     jstring file,
     jint line ) {
 #if defined(DEBUG)
-    const char *        cfile;
-    cfile = JNU_GetStringPlatformChars(env, file, NULL);
+    const chbr *        cfile;
+    cfile = JNU_GetStringPlbtformChbrs(env, file, NULL);
     if ( cfile == NULL ) {
         return;
     }
-    DTrace_EnableLine(cfile, line, enabled == JNI_TRUE);
-    JNU_ReleaseStringPlatformChars(env, file, cfile);
+    DTrbce_EnbbleLine(cfile, line, enbbled == JNI_TRUE);
+    JNU_RelebseStringPlbtformChbrs(env, file, cfile);
 #endif
 }

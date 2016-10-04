@@ -1,348 +1,348 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
-import java.io.Reader;
+import jbvb.io.Rebder;
 
 /**
- * The mapping in the Java&trade; programming language
+ * The mbpping in the Jbvb&trbde; progrbmming lbngubge
  * for the SQL <code>CLOB</code> type.
- * An SQL <code>CLOB</code> is a built-in type
- * that stores a Character Large Object as a column value in a row of
- * a database table.
- * By default drivers implement a <code>Clob</code> object using an SQL
- * <code>locator(CLOB)</code>, which means that a <code>Clob</code> object
- * contains a logical pointer to the SQL <code>CLOB</code> data rather than
- * the data itself. A <code>Clob</code> object is valid for the duration
- * of the transaction in which it was created.
- * <P>The <code>Clob</code> interface provides methods for getting the
- * length of an SQL <code>CLOB</code> (Character Large Object) value,
- * for materializing a <code>CLOB</code> value on the client, and for
- * searching for a substring or <code>CLOB</code> object within a
- * <code>CLOB</code> value.
- * Methods in the interfaces {@link ResultSet},
- * {@link CallableStatement}, and {@link PreparedStatement}, such as
- * <code>getClob</code> and <code>setClob</code> allow a programmer to
- * access an SQL <code>CLOB</code> value.  In addition, this interface
- * has methods for updating a <code>CLOB</code> value.
+ * An SQL <code>CLOB</code> is b built-in type
+ * thbt stores b Chbrbcter Lbrge Object bs b column vblue in b row of
+ * b dbtbbbse tbble.
+ * By defbult drivers implement b <code>Clob</code> object using bn SQL
+ * <code>locbtor(CLOB)</code>, which mebns thbt b <code>Clob</code> object
+ * contbins b logicbl pointer to the SQL <code>CLOB</code> dbtb rbther thbn
+ * the dbtb itself. A <code>Clob</code> object is vblid for the durbtion
+ * of the trbnsbction in which it wbs crebted.
+ * <P>The <code>Clob</code> interfbce provides methods for getting the
+ * length of bn SQL <code>CLOB</code> (Chbrbcter Lbrge Object) vblue,
+ * for mbteriblizing b <code>CLOB</code> vblue on the client, bnd for
+ * sebrching for b substring or <code>CLOB</code> object within b
+ * <code>CLOB</code> vblue.
+ * Methods in the interfbces {@link ResultSet},
+ * {@link CbllbbleStbtement}, bnd {@link PrepbredStbtement}, such bs
+ * <code>getClob</code> bnd <code>setClob</code> bllow b progrbmmer to
+ * bccess bn SQL <code>CLOB</code> vblue.  In bddition, this interfbce
+ * hbs methods for updbting b <code>CLOB</code> vblue.
  * <p>
- * All methods on the <code>Clob</code> interface must be fully implemented if the
- * JDBC driver supports the data type.
+ * All methods on the <code>Clob</code> interfbce must be fully implemented if the
+ * JDBC driver supports the dbtb type.
  *
  * @since 1.2
  */
 
-public interface Clob {
+public interfbce Clob {
 
   /**
-   * Retrieves the number of characters
-   * in the <code>CLOB</code> value
-   * designated by this <code>Clob</code> object.
+   * Retrieves the number of chbrbcters
+   * in the <code>CLOB</code> vblue
+   * designbted by this <code>Clob</code> object.
    *
-   * @return length of the <code>CLOB</code> in characters
-   * @exception SQLException if there is an error accessing the
-   *            length of the <code>CLOB</code> value
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return length of the <code>CLOB</code> in chbrbcters
+   * @exception SQLException if there is bn error bccessing the
+   *            length of the <code>CLOB</code> vblue
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   long length() throws SQLException;
 
   /**
-   * Retrieves a copy of the specified substring
-   * in the <code>CLOB</code> value
-   * designated by this <code>Clob</code> object.
-   * The substring begins at position
-   * <code>pos</code> and has up to <code>length</code> consecutive
-   * characters.
+   * Retrieves b copy of the specified substring
+   * in the <code>CLOB</code> vblue
+   * designbted by this <code>Clob</code> object.
+   * The substring begins bt position
+   * <code>pos</code> bnd hbs up to <code>length</code> consecutive
+   * chbrbcters.
    *
-   * @param pos the first character of the substring to be extracted.
-   *            The first character is at position 1.
-   * @param length the number of consecutive characters to be copied;
-   * the value for length must be 0 or greater
-   * @return a <code>String</code> that is the specified substring in
-   *         the <code>CLOB</code> value designated by this <code>Clob</code> object
-   * @exception SQLException if there is an error accessing the
-   *            <code>CLOB</code> value; if pos is less than 1 or length is
-   * less than 0
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm pos the first chbrbcter of the substring to be extrbcted.
+   *            The first chbrbcter is bt position 1.
+   * @pbrbm length the number of consecutive chbrbcters to be copied;
+   * the vblue for length must be 0 or grebter
+   * @return b <code>String</code> thbt is the specified substring in
+   *         the <code>CLOB</code> vblue designbted by this <code>Clob</code> object
+   * @exception SQLException if there is bn error bccessing the
+   *            <code>CLOB</code> vblue; if pos is less thbn 1 or length is
+   * less thbn 0
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   String getSubString(long pos, int length) throws SQLException;
 
   /**
-   * Retrieves the <code>CLOB</code> value designated by this <code>Clob</code>
-   * object as a <code>java.io.Reader</code> object (or as a stream of
-   * characters).
+   * Retrieves the <code>CLOB</code> vblue designbted by this <code>Clob</code>
+   * object bs b <code>jbvb.io.Rebder</code> object (or bs b strebm of
+   * chbrbcters).
    *
-   * @return a <code>java.io.Reader</code> object containing the
-   *         <code>CLOB</code> data
-   * @exception SQLException if there is an error accessing the
-   *            <code>CLOB</code> value
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return b <code>jbvb.io.Rebder</code> object contbining the
+   *         <code>CLOB</code> dbtb
+   * @exception SQLException if there is bn error bccessing the
+   *            <code>CLOB</code> vblue
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
-   * @see #setCharacterStream
+   * @see #setChbrbcterStrebm
    * @since 1.2
    */
-  java.io.Reader getCharacterStream() throws SQLException;
+  jbvb.io.Rebder getChbrbcterStrebm() throws SQLException;
 
   /**
-   * Retrieves the <code>CLOB</code> value designated by this <code>Clob</code>
-   * object as an ascii stream.
+   * Retrieves the <code>CLOB</code> vblue designbted by this <code>Clob</code>
+   * object bs bn bscii strebm.
    *
-   * @return a <code>java.io.InputStream</code> object containing the
-   *         <code>CLOB</code> data
-   * @exception SQLException if there is an error accessing the
-   *            <code>CLOB</code> value
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return b <code>jbvb.io.InputStrebm</code> object contbining the
+   *         <code>CLOB</code> dbtb
+   * @exception SQLException if there is bn error bccessing the
+   *            <code>CLOB</code> vblue
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
-   * @see #setAsciiStream
+   * @see #setAsciiStrebm
    * @since 1.2
    */
-  java.io.InputStream getAsciiStream() throws SQLException;
+  jbvb.io.InputStrebm getAsciiStrebm() throws SQLException;
 
   /**
-   * Retrieves the character position at which the specified substring
-   * <code>searchstr</code> appears in the SQL <code>CLOB</code> value
-   * represented by this <code>Clob</code> object.  The search
-   * begins at position <code>start</code>.
+   * Retrieves the chbrbcter position bt which the specified substring
+   * <code>sebrchstr</code> bppebrs in the SQL <code>CLOB</code> vblue
+   * represented by this <code>Clob</code> object.  The sebrch
+   * begins bt position <code>stbrt</code>.
    *
-   * @param searchstr the substring for which to search
-   * @param start the position at which to begin searching; the first position
+   * @pbrbm sebrchstr the substring for which to sebrch
+   * @pbrbm stbrt the position bt which to begin sebrching; the first position
    *              is 1
-   * @return the position at which the substring appears or -1 if it is not
+   * @return the position bt which the substring bppebrs or -1 if it is not
    *         present; the first position is 1
-   * @exception SQLException if there is an error accessing the
-   *            <code>CLOB</code> value or if pos is less than 1
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @exception SQLException if there is bn error bccessing the
+   *            <code>CLOB</code> vblue or if pos is less thbn 1
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  long position(String searchstr, long start) throws SQLException;
+  long position(String sebrchstr, long stbrt) throws SQLException;
 
   /**
-   * Retrieves the character position at which the specified
-   * <code>Clob</code> object <code>searchstr</code> appears in this
-   * <code>Clob</code> object.  The search begins at position
-   * <code>start</code>.
+   * Retrieves the chbrbcter position bt which the specified
+   * <code>Clob</code> object <code>sebrchstr</code> bppebrs in this
+   * <code>Clob</code> object.  The sebrch begins bt position
+   * <code>stbrt</code>.
    *
-   * @param searchstr the <code>Clob</code> object for which to search
-   * @param start the position at which to begin searching; the first
+   * @pbrbm sebrchstr the <code>Clob</code> object for which to sebrch
+   * @pbrbm stbrt the position bt which to begin sebrching; the first
    *              position is 1
-   * @return the position at which the <code>Clob</code> object appears
+   * @return the position bt which the <code>Clob</code> object bppebrs
    *              or -1 if it is not present; the first position is 1
-   * @exception SQLException if there is an error accessing the
-   *            <code>CLOB</code> value or if start is less than 1
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @exception SQLException if there is bn error bccessing the
+   *            <code>CLOB</code> vblue or if stbrt is less thbn 1
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  long position(Clob searchstr, long start) throws SQLException;
+  long position(Clob sebrchstr, long stbrt) throws SQLException;
 
     //---------------------------- jdbc 3.0 -----------------------------------
 
     /**
-     * Writes the given Java <code>String</code> to the <code>CLOB</code>
-     * value that this <code>Clob</code> object designates at the position
-     * <code>pos</code>. The string will overwrite the existing characters
-     * in the <code>Clob</code> object starting at the position
-     * <code>pos</code>.  If the end of the <code>Clob</code> value is reached
+     * Writes the given Jbvb <code>String</code> to the <code>CLOB</code>
+     * vblue thbt this <code>Clob</code> object designbtes bt the position
+     * <code>pos</code>. The string will overwrite the existing chbrbcters
+     * in the <code>Clob</code> object stbrting bt the position
+     * <code>pos</code>.  If the end of the <code>Clob</code> vblue is rebched
      * while writing the given string, then the length of the <code>Clob</code>
-     * value will be increased to accommodate the extra characters.
+     * vblue will be increbsed to bccommodbte the extrb chbrbcters.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>CLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Note:</b> If the vblue specified for <code>pos</code>
+     * is grebter then the length+1 of the <code>CLOB</code> vblue then the
+     * behbvior is undefined. Some JDBC drivers mby throw b
+     * <code>SQLException</code> while other drivers mby support this
+     * operbtion.
      *
-     * @param pos the position at which to start writing to the <code>CLOB</code>
-     *         value that this <code>Clob</code> object represents;
+     * @pbrbm pos the position bt which to stbrt writing to the <code>CLOB</code>
+     *         vblue thbt this <code>Clob</code> object represents;
      * The first position is 1
-     * @param str the string to be written to the <code>CLOB</code>
-     *        value that this <code>Clob</code> designates
-     * @return the number of characters written
-     * @exception SQLException if there is an error accessing the
-     *            <code>CLOB</code> value or if pos is less than 1
+     * @pbrbm str the string to be written to the <code>CLOB</code>
+     *        vblue thbt this <code>Clob</code> designbtes
+     * @return the number of chbrbcters written
+     * @exception SQLException if there is bn error bccessing the
+     *            <code>CLOB</code> vblue or if pos is less thbn 1
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      */
     int setString(long pos, String str) throws SQLException;
 
     /**
-     * Writes <code>len</code> characters of <code>str</code>, starting
-     * at character <code>offset</code>, to the <code>CLOB</code> value
-     * that this <code>Clob</code> represents.  The string will overwrite the existing characters
-     * in the <code>Clob</code> object starting at the position
-     * <code>pos</code>.  If the end of the <code>Clob</code> value is reached
+     * Writes <code>len</code> chbrbcters of <code>str</code>, stbrting
+     * bt chbrbcter <code>offset</code>, to the <code>CLOB</code> vblue
+     * thbt this <code>Clob</code> represents.  The string will overwrite the existing chbrbcters
+     * in the <code>Clob</code> object stbrting bt the position
+     * <code>pos</code>.  If the end of the <code>Clob</code> vblue is rebched
      * while writing the given string, then the length of the <code>Clob</code>
-     * value will be increased to accommodate the extra characters.
+     * vblue will be increbsed to bccommodbte the extrb chbrbcters.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>CLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Note:</b> If the vblue specified for <code>pos</code>
+     * is grebter then the length+1 of the <code>CLOB</code> vblue then the
+     * behbvior is undefined. Some JDBC drivers mby throw b
+     * <code>SQLException</code> while other drivers mby support this
+     * operbtion.
      *
-     * @param pos the position at which to start writing to this
+     * @pbrbm pos the position bt which to stbrt writing to this
      *        <code>CLOB</code> object; The first position  is 1
-     * @param str the string to be written to the <code>CLOB</code>
-     *        value that this <code>Clob</code> object represents
-     * @param offset the offset into <code>str</code> to start reading
-     *        the characters to be written
-     * @param len the number of characters to be written
-     * @return the number of characters written
-     * @exception SQLException if there is an error accessing the
-     *            <code>CLOB</code> value or if pos is less than 1
+     * @pbrbm str the string to be written to the <code>CLOB</code>
+     *        vblue thbt this <code>Clob</code> object represents
+     * @pbrbm offset the offset into <code>str</code> to stbrt rebding
+     *        the chbrbcters to be written
+     * @pbrbm len the number of chbrbcters to be written
+     * @return the number of chbrbcters written
+     * @exception SQLException if there is bn error bccessing the
+     *            <code>CLOB</code> vblue or if pos is less thbn 1
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      */
     int setString(long pos, String str, int offset, int len) throws SQLException;
 
     /**
-     * Retrieves a stream to be used to write Ascii characters to the
-     * <code>CLOB</code> value that this <code>Clob</code> object represents,
-     * starting at position <code>pos</code>.  Characters written to the stream
-     * will overwrite the existing characters
-     * in the <code>Clob</code> object starting at the position
-     * <code>pos</code>.  If the end of the <code>Clob</code> value is reached
-     * while writing characters to the stream, then the length of the <code>Clob</code>
-     * value will be increased to accommodate the extra characters.
+     * Retrieves b strebm to be used to write Ascii chbrbcters to the
+     * <code>CLOB</code> vblue thbt this <code>Clob</code> object represents,
+     * stbrting bt position <code>pos</code>.  Chbrbcters written to the strebm
+     * will overwrite the existing chbrbcters
+     * in the <code>Clob</code> object stbrting bt the position
+     * <code>pos</code>.  If the end of the <code>Clob</code> vblue is rebched
+     * while writing chbrbcters to the strebm, then the length of the <code>Clob</code>
+     * vblue will be increbsed to bccommodbte the extrb chbrbcters.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>CLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Note:</b> If the vblue specified for <code>pos</code>
+     * is grebter then the length+1 of the <code>CLOB</code> vblue then the
+     * behbvior is undefined. Some JDBC drivers mby throw b
+     * <code>SQLException</code> while other drivers mby support this
+     * operbtion.
      *
-     * @param pos the position at which to start writing to this
+     * @pbrbm pos the position bt which to stbrt writing to this
      *        <code>CLOB</code> object; The first position is 1
-     * @return the stream to which ASCII encoded characters can be written
-     * @exception SQLException if there is an error accessing the
-     *            <code>CLOB</code> value or if pos is less than 1
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the strebm to which ASCII encoded chbrbcters cbn be written
+     * @exception SQLException if there is bn error bccessing the
+     *            <code>CLOB</code> vblue or if pos is less thbn 1
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
-     * @see #getAsciiStream
+     * @see #getAsciiStrebm
      *
      * @since 1.4
      */
-    java.io.OutputStream setAsciiStream(long pos) throws SQLException;
+    jbvb.io.OutputStrebm setAsciiStrebm(long pos) throws SQLException;
 
     /**
-     * Retrieves a stream to be used to write a stream of Unicode characters
-     * to the <code>CLOB</code> value that this <code>Clob</code> object
-     * represents, at position <code>pos</code>. Characters written to the stream
-     * will overwrite the existing characters
-     * in the <code>Clob</code> object starting at the position
-     * <code>pos</code>.  If the end of the <code>Clob</code> value is reached
-     * while writing characters to the stream, then the length of the <code>Clob</code>
-     * value will be increased to accommodate the extra characters.
+     * Retrieves b strebm to be used to write b strebm of Unicode chbrbcters
+     * to the <code>CLOB</code> vblue thbt this <code>Clob</code> object
+     * represents, bt position <code>pos</code>. Chbrbcters written to the strebm
+     * will overwrite the existing chbrbcters
+     * in the <code>Clob</code> object stbrting bt the position
+     * <code>pos</code>.  If the end of the <code>Clob</code> vblue is rebched
+     * while writing chbrbcters to the strebm, then the length of the <code>Clob</code>
+     * vblue will be increbsed to bccommodbte the extrb chbrbcters.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>CLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Note:</b> If the vblue specified for <code>pos</code>
+     * is grebter then the length+1 of the <code>CLOB</code> vblue then the
+     * behbvior is undefined. Some JDBC drivers mby throw b
+     * <code>SQLException</code> while other drivers mby support this
+     * operbtion.
      *
-     * @param  pos the position at which to start writing to the
-     *        <code>CLOB</code> value; The first position is 1
+     * @pbrbm  pos the position bt which to stbrt writing to the
+     *        <code>CLOB</code> vblue; The first position is 1
      *
-     * @return a stream to which Unicode encoded characters can be written
-     * @exception SQLException if there is an error accessing the
-     *            <code>CLOB</code> value or if pos is less than 1
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return b strebm to which Unicode encoded chbrbcters cbn be written
+     * @exception SQLException if there is bn error bccessing the
+     *            <code>CLOB</code> vblue or if pos is less thbn 1
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
-     * @see #getCharacterStream
+     * @see #getChbrbcterStrebm
      *
      * @since 1.4
      */
-    java.io.Writer setCharacterStream(long pos) throws SQLException;
+    jbvb.io.Writer setChbrbcterStrebm(long pos) throws SQLException;
 
     /**
-     * Truncates the <code>CLOB</code> value that this <code>Clob</code>
-     * designates to have a length of <code>len</code>
-     * characters.
+     * Truncbtes the <code>CLOB</code> vblue thbt this <code>Clob</code>
+     * designbtes to hbve b length of <code>len</code>
+     * chbrbcters.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>CLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Note:</b> If the vblue specified for <code>pos</code>
+     * is grebter then the length+1 of the <code>CLOB</code> vblue then the
+     * behbvior is undefined. Some JDBC drivers mby throw b
+     * <code>SQLException</code> while other drivers mby support this
+     * operbtion.
      *
-     * @param len the length, in characters, to which the <code>CLOB</code> value
-     *        should be truncated
-     * @exception SQLException if there is an error accessing the
-     *            <code>CLOB</code> value or if len is less than 0
+     * @pbrbm len the length, in chbrbcters, to which the <code>CLOB</code> vblue
+     *        should be truncbted
+     * @exception SQLException if there is bn error bccessing the
+     *            <code>CLOB</code> vblue or if len is less thbn 0
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      */
-    void truncate(long len) throws SQLException;
+    void truncbte(long len) throws SQLException;
 
     /**
-     * This method releases the resources that the <code>Clob</code> object
-     * holds.  The object is invalid once the <code>free</code> method
-     * is called.
+     * This method relebses the resources thbt the <code>Clob</code> object
+     * holds.  The object is invblid once the <code>free</code> method
+     * is cblled.
      * <p>
-     * After <code>free</code> has been called, any attempt to invoke a
-     * method other than <code>free</code> will result in a <code>SQLException</code>
-     * being thrown.  If <code>free</code> is called multiple times, the subsequent
-     * calls to <code>free</code> are treated as a no-op.
+     * After <code>free</code> hbs been cblled, bny bttempt to invoke b
+     * method other thbn <code>free</code> will result in b <code>SQLException</code>
+     * being thrown.  If <code>free</code> is cblled multiple times, the subsequent
+     * cblls to <code>free</code> bre trebted bs b no-op.
      *
-     * @throws SQLException if an error occurs releasing
+     * @throws SQLException if bn error occurs relebsing
      * the Clob's resources
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
     void free() throws SQLException;
 
     /**
-     * Returns a <code>Reader</code> object that contains a partial <code>Clob</code> value, starting
-     * with the character specified by pos, which is length characters in length.
+     * Returns b <code>Rebder</code> object thbt contbins b pbrtibl <code>Clob</code> vblue, stbrting
+     * with the chbrbcter specified by pos, which is length chbrbcters in length.
      *
-     * @param pos the offset to the first character of the partial value to
-     * be retrieved.  The first character in the Clob is at position 1.
-     * @param length the length in characters of the partial value to be retrieved.
-     * @return <code>Reader</code> through which the partial <code>Clob</code> value can be read.
-     * @throws SQLException if pos is less than 1 or if pos is greater than the number of
-     * characters in the <code>Clob</code> or if pos + length is greater than the number of
-     * characters in the <code>Clob</code>
+     * @pbrbm pos the offset to the first chbrbcter of the pbrtibl vblue to
+     * be retrieved.  The first chbrbcter in the Clob is bt position 1.
+     * @pbrbm length the length in chbrbcters of the pbrtibl vblue to be retrieved.
+     * @return <code>Rebder</code> through which the pbrtibl <code>Clob</code> vblue cbn be rebd.
+     * @throws SQLException if pos is less thbn 1 or if pos is grebter thbn the number of
+     * chbrbcters in the <code>Clob</code> or if pos + length is grebter thbn the number of
+     * chbrbcters in the <code>Clob</code>
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    Reader getCharacterStream(long pos, long length) throws SQLException;
+    Rebder getChbrbcterStrebm(long pos, long length) throws SQLException;
 
 }

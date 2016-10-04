@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.file;
+pbckbge sun.net.www.protocol.file;
 
-import java.net.InetAddress;
-import java.net.URLConnection;
-import java.net.URL;
-import java.net.Proxy;
-import java.net.MalformedURLException;
-import java.net.URLStreamHandler;
-import java.io.InputStream;
-import java.io.IOException;
-import sun.net.www.ParseUtil;
-import java.io.File;
+import jbvb.net.InetAddress;
+import jbvb.net.URLConnection;
+import jbvb.net.URL;
+import jbvb.net.Proxy;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URLStrebmHbndler;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import sun.net.www.PbrseUtil;
+import jbvb.io.File;
 
 /**
- * Open an file input stream given a URL.
- * @author      James Gosling
+ * Open bn file input strebm given b URL.
+ * @buthor      Jbmes Gosling
  */
-public class Handler extends URLStreamHandler {
+public clbss Hbndler extends URLStrebmHbndler {
 
-    private String getHost(URL url) {
+    privbte String getHost(URL url) {
         String host = url.getHost();
         if (host == null)
             host = "";
@@ -50,21 +50,21 @@ public class Handler extends URLStreamHandler {
     }
 
 
-    protected void parseURL(URL u, String spec, int start, int limit) {
+    protected void pbrseURL(URL u, String spec, int stbrt, int limit) {
         /*
-         * Ugly backwards compatibility. Flip any file separator
-         * characters to be forward slashes. This is a nop on Unix
-         * and "fixes" win32 file paths. According to RFC 2396,
-         * only forward slashes may be used to represent hierarchy
-         * separation in a URL but previous releases unfortunately
-         * performed this "fixup" behavior in the file URL parsing code
-         * rather than forcing this to be fixed in the caller of the URL
-         * class where it belongs. Since backslash is an "unwise"
-         * character that would normally be encoded if literally intended
-         * as a non-seperator character the damage of veering away from the
-         * specification is presumably limited.
+         * Ugly bbckwbrds compbtibility. Flip bny file sepbrbtor
+         * chbrbcters to be forwbrd slbshes. This is b nop on Unix
+         * bnd "fixes" win32 file pbths. According to RFC 2396,
+         * only forwbrd slbshes mby be used to represent hierbrchy
+         * sepbrbtion in b URL but previous relebses unfortunbtely
+         * performed this "fixup" behbvior in the file URL pbrsing code
+         * rbther thbn forcing this to be fixed in the cbller of the URL
+         * clbss where it belongs. Since bbckslbsh is bn "unwise"
+         * chbrbcter thbt would normblly be encoded if literblly intended
+         * bs b non-seperbtor chbrbcter the dbmbge of veering bwby from the
+         * specificbtion is presumbbly limited.
          */
-        super.parseURL(u, spec.replace(File.separatorChar, '/'), start, limit);
+        super.pbrseURL(u, spec.replbce(File.sepbrbtorChbr, '/'), stbrt, limit);
     }
 
     public synchronized URLConnection openConnection(URL u)
@@ -75,14 +75,14 @@ public class Handler extends URLStreamHandler {
     public synchronized URLConnection openConnection(URL u, Proxy p)
            throws IOException {
         String host = u.getHost();
-        if (host == null || host.equals("") || host.equals("~") ||
-            host.equalsIgnoreCase("localhost")) {
-            File file = new File(ParseUtil.decode(u.getPath()));
-            return createFileURLConnection(u, file);
+        if (host == null || host.equbls("") || host.equbls("~") ||
+            host.equblsIgnoreCbse("locblhost")) {
+            File file = new File(PbrseUtil.decode(u.getPbth()));
+            return crebteFileURLConnection(u, file);
         }
 
-        /* If you reach here, it implies that you have a hostname
-           so attempt an ftp connection.
+        /* If you rebch here, it implies thbt you hbve b hostnbme
+           so bttempt bn ftp connection.
          */
         URLConnection uc;
         URL ru;
@@ -95,42 +95,42 @@ public class Handler extends URLStreamHandler {
             } else {
                 uc = ru.openConnection();
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             uc = null;
         }
         if (uc == null) {
-            throw new IOException("Unable to connect to: " +
-                                                       u.toExternalForm());
+            throw new IOException("Unbble to connect to: " +
+                                                       u.toExternblForm());
         }
         return uc;
     }
 
-    // Template method to be overriden by Java Plug-in. [stanleyh]
+    // Templbte method to be overriden by Jbvb Plug-in. [stbnleyh]
     //
-    protected URLConnection createFileURLConnection(URL u, File file)
+    protected URLConnection crebteFileURLConnection(URL u, File file)
     {
         return new FileURLConnection(u, file);
     }
 
     /**
-     * Compares the host components of two URLs.
-     * @param u1 the URL of the first host to compare
-     * @param u2 the URL of the second host to compare
-     * @return  <tt>true</tt> if and only if they
-     * are equal, <tt>false</tt> otherwise.
+     * Compbres the host components of two URLs.
+     * @pbrbm u1 the URL of the first host to compbre
+     * @pbrbm u2 the URL of the second host to compbre
+     * @return  <tt>true</tt> if bnd only if they
+     * bre equbl, <tt>fblse</tt> otherwise.
      */
-    protected boolean hostsEqual(URL u1, URL u2) {
+    protected boolebn hostsEqubl(URL u1, URL u2) {
         /*
-         * Special case for file: URLs
-         * per RFC 1738 no hostname is equivalent to 'localhost'
-         * i.e. file:///path is equal to file://localhost/path
+         * Specibl cbse for file: URLs
+         * per RFC 1738 no hostnbme is equivblent to 'locblhost'
+         * i.e. file:///pbth is equbl to file://locblhost/pbth
          */
         String s1 = u1.getHost();
         String s2 = u2.getHost();
-        if ("localhost".equalsIgnoreCase(s1) && ( s2 == null || "".equals(s2)))
+        if ("locblhost".equblsIgnoreCbse(s1) && ( s2 == null || "".equbls(s2)))
             return true;
-        if ("localhost".equalsIgnoreCase(s2) && ( s1 == null || "".equals(s1)))
+        if ("locblhost".equblsIgnoreCbse(s2) && ( s1 == null || "".equbls(s1)))
             return true;
-        return super.hostsEqual(u1, u2);
+        return super.hostsEqubl(u1, u2);
     }
 }

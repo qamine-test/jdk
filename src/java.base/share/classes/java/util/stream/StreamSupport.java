@@ -1,318 +1,318 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.function.Supplier;
+import jbvb.util.Objects;
+import jbvb.util.Spliterbtor;
+import jbvb.util.function.Supplier;
 
 /**
- * Low-level utility methods for creating and manipulating streams.
+ * Low-level utility methods for crebting bnd mbnipulbting strebms.
  *
- * <p>This class is mostly for library writers presenting stream views
- * of data structures; most static stream methods intended for end users are in
- * the various {@code Stream} classes.
+ * <p>This clbss is mostly for librbry writers presenting strebm views
+ * of dbtb structures; most stbtic strebm methods intended for end users bre in
+ * the vbrious {@code Strebm} clbsses.
  *
  * @since 1.8
  */
-public final class StreamSupport {
+public finbl clbss StrebmSupport {
 
-    // Suppresses default constructor, ensuring non-instantiability.
-    private StreamSupport() {}
+    // Suppresses defbult constructor, ensuring non-instbntibbility.
+    privbte StrebmSupport() {}
 
     /**
-     * Creates a new sequential or parallel {@code Stream} from a
-     * {@code Spliterator}.
+     * Crebtes b new sequentibl or pbrbllel {@code Strebm} from b
+     * {@code Spliterbtor}.
      *
-     * <p>The spliterator is only traversed, split, or queried for estimated
-     * size after the terminal operation of the stream pipeline commences.
+     * <p>The spliterbtor is only trbversed, split, or queried for estimbted
+     * size bfter the terminbl operbtion of the strebm pipeline commences.
      *
-     * <p>It is strongly recommended the spliterator report a characteristic of
+     * <p>It is strongly recommended the spliterbtor report b chbrbcteristic of
      * {@code IMMUTABLE} or {@code CONCURRENT}, or be
-     * <a href="../Spliterator.html#binding">late-binding</a>.  Otherwise,
-     * {@link #stream(java.util.function.Supplier, int, boolean)} should be used
-     * to reduce the scope of potential interference with the source.  See
-     * <a href="package-summary.html#NonInterference">Non-Interference</a> for
-     * more details.
+     * <b href="../Spliterbtor.html#binding">lbte-binding</b>.  Otherwise,
+     * {@link #strebm(jbvb.util.function.Supplier, int, boolebn)} should be used
+     * to reduce the scope of potentibl interference with the source.  See
+     * <b href="pbckbge-summbry.html#NonInterference">Non-Interference</b> for
+     * more detbils.
      *
-     * @param <T> the type of stream elements
-     * @param spliterator a {@code Spliterator} describing the stream elements
-     * @param parallel if {@code true} then the returned stream is a parallel
-     *        stream; if {@code false} the returned stream is a sequential
-     *        stream.
-     * @return a new sequential or parallel {@code Stream}
+     * @pbrbm <T> the type of strebm elements
+     * @pbrbm spliterbtor b {@code Spliterbtor} describing the strebm elements
+     * @pbrbm pbrbllel if {@code true} then the returned strebm is b pbrbllel
+     *        strebm; if {@code fblse} the returned strebm is b sequentibl
+     *        strebm.
+     * @return b new sequentibl or pbrbllel {@code Strebm}
      */
-    public static <T> Stream<T> stream(Spliterator<T> spliterator, boolean parallel) {
-        Objects.requireNonNull(spliterator);
-        return new ReferencePipeline.Head<>(spliterator,
-                                            StreamOpFlag.fromCharacteristics(spliterator),
-                                            parallel);
+    public stbtic <T> Strebm<T> strebm(Spliterbtor<T> spliterbtor, boolebn pbrbllel) {
+        Objects.requireNonNull(spliterbtor);
+        return new ReferencePipeline.Hebd<>(spliterbtor,
+                                            StrebmOpFlbg.fromChbrbcteristics(spliterbtor),
+                                            pbrbllel);
     }
 
     /**
-     * Creates a new sequential or parallel {@code Stream} from a
-     * {@code Supplier} of {@code Spliterator}.
+     * Crebtes b new sequentibl or pbrbllel {@code Strebm} from b
+     * {@code Supplier} of {@code Spliterbtor}.
      *
      * <p>The {@link Supplier#get()} method will be invoked on the supplier no
-     * more than once, and only after the terminal operation of the stream pipeline
+     * more thbn once, bnd only bfter the terminbl operbtion of the strebm pipeline
      * commences.
      *
-     * <p>For spliterators that report a characteristic of {@code IMMUTABLE}
-     * or {@code CONCURRENT}, or that are
-     * <a href="../Spliterator.html#binding">late-binding</a>, it is likely
-     * more efficient to use {@link #stream(java.util.Spliterator, boolean)}
-     * instead.
-     * <p>The use of a {@code Supplier} in this form provides a level of
-     * indirection that reduces the scope of potential interference with the
-     * source.  Since the supplier is only invoked after the terminal operation
-     * commences, any modifications to the source up to the start of the
-     * terminal operation are reflected in the stream result.  See
-     * <a href="package-summary.html#NonInterference">Non-Interference</a> for
-     * more details.
+     * <p>For spliterbtors thbt report b chbrbcteristic of {@code IMMUTABLE}
+     * or {@code CONCURRENT}, or thbt bre
+     * <b href="../Spliterbtor.html#binding">lbte-binding</b>, it is likely
+     * more efficient to use {@link #strebm(jbvb.util.Spliterbtor, boolebn)}
+     * instebd.
+     * <p>The use of b {@code Supplier} in this form provides b level of
+     * indirection thbt reduces the scope of potentibl interference with the
+     * source.  Since the supplier is only invoked bfter the terminbl operbtion
+     * commences, bny modificbtions to the source up to the stbrt of the
+     * terminbl operbtion bre reflected in the strebm result.  See
+     * <b href="pbckbge-summbry.html#NonInterference">Non-Interference</b> for
+     * more detbils.
      *
-     * @param <T> the type of stream elements
-     * @param supplier a {@code Supplier} of a {@code Spliterator}
-     * @param characteristics Spliterator characteristics of the supplied
-     *        {@code Spliterator}.  The characteristics must be equal to
-     *        {@code supplier.get().characteristics()}, otherwise undefined
-     *        behavior may occur when terminal operation commences.
-     * @param parallel if {@code true} then the returned stream is a parallel
-     *        stream; if {@code false} the returned stream is a sequential
-     *        stream.
-     * @return a new sequential or parallel {@code Stream}
-     * @see #stream(java.util.Spliterator, boolean)
+     * @pbrbm <T> the type of strebm elements
+     * @pbrbm supplier b {@code Supplier} of b {@code Spliterbtor}
+     * @pbrbm chbrbcteristics Spliterbtor chbrbcteristics of the supplied
+     *        {@code Spliterbtor}.  The chbrbcteristics must be equbl to
+     *        {@code supplier.get().chbrbcteristics()}, otherwise undefined
+     *        behbvior mby occur when terminbl operbtion commences.
+     * @pbrbm pbrbllel if {@code true} then the returned strebm is b pbrbllel
+     *        strebm; if {@code fblse} the returned strebm is b sequentibl
+     *        strebm.
+     * @return b new sequentibl or pbrbllel {@code Strebm}
+     * @see #strebm(jbvb.util.Spliterbtor, boolebn)
      */
-    public static <T> Stream<T> stream(Supplier<? extends Spliterator<T>> supplier,
-                                       int characteristics,
-                                       boolean parallel) {
+    public stbtic <T> Strebm<T> strebm(Supplier<? extends Spliterbtor<T>> supplier,
+                                       int chbrbcteristics,
+                                       boolebn pbrbllel) {
         Objects.requireNonNull(supplier);
-        return new ReferencePipeline.Head<>(supplier,
-                                            StreamOpFlag.fromCharacteristics(characteristics),
-                                            parallel);
+        return new ReferencePipeline.Hebd<>(supplier,
+                                            StrebmOpFlbg.fromChbrbcteristics(chbrbcteristics),
+                                            pbrbllel);
     }
 
     /**
-     * Creates a new sequential or parallel {@code IntStream} from a
-     * {@code Spliterator.OfInt}.
+     * Crebtes b new sequentibl or pbrbllel {@code IntStrebm} from b
+     * {@code Spliterbtor.OfInt}.
      *
-     * <p>The spliterator is only traversed, split, or queried for estimated size
-     * after the terminal operation of the stream pipeline commences.
+     * <p>The spliterbtor is only trbversed, split, or queried for estimbted size
+     * bfter the terminbl operbtion of the strebm pipeline commences.
      *
-     * <p>It is strongly recommended the spliterator report a characteristic of
+     * <p>It is strongly recommended the spliterbtor report b chbrbcteristic of
      * {@code IMMUTABLE} or {@code CONCURRENT}, or be
-     * <a href="../Spliterator.html#binding">late-binding</a>.  Otherwise,
-     * {@link #intStream(java.util.function.Supplier, int, boolean)} should be
-     * used to reduce the scope of potential interference with the source.  See
-     * <a href="package-summary.html#NonInterference">Non-Interference</a> for
-     * more details.
+     * <b href="../Spliterbtor.html#binding">lbte-binding</b>.  Otherwise,
+     * {@link #intStrebm(jbvb.util.function.Supplier, int, boolebn)} should be
+     * used to reduce the scope of potentibl interference with the source.  See
+     * <b href="pbckbge-summbry.html#NonInterference">Non-Interference</b> for
+     * more detbils.
      *
-     * @param spliterator a {@code Spliterator.OfInt} describing the stream elements
-     * @param parallel if {@code true} then the returned stream is a parallel
-     *        stream; if {@code false} the returned stream is a sequential
-     *        stream.
-     * @return a new sequential or parallel {@code IntStream}
+     * @pbrbm spliterbtor b {@code Spliterbtor.OfInt} describing the strebm elements
+     * @pbrbm pbrbllel if {@code true} then the returned strebm is b pbrbllel
+     *        strebm; if {@code fblse} the returned strebm is b sequentibl
+     *        strebm.
+     * @return b new sequentibl or pbrbllel {@code IntStrebm}
      */
-    public static IntStream intStream(Spliterator.OfInt spliterator, boolean parallel) {
-        return new IntPipeline.Head<>(spliterator,
-                                      StreamOpFlag.fromCharacteristics(spliterator),
-                                      parallel);
+    public stbtic IntStrebm intStrebm(Spliterbtor.OfInt spliterbtor, boolebn pbrbllel) {
+        return new IntPipeline.Hebd<>(spliterbtor,
+                                      StrebmOpFlbg.fromChbrbcteristics(spliterbtor),
+                                      pbrbllel);
     }
 
     /**
-     * Creates a new sequential or parallel {@code IntStream} from a
-     * {@code Supplier} of {@code Spliterator.OfInt}.
+     * Crebtes b new sequentibl or pbrbllel {@code IntStrebm} from b
+     * {@code Supplier} of {@code Spliterbtor.OfInt}.
      *
      * <p>The {@link Supplier#get()} method will be invoked on the supplier no
-     * more than once, and only after the terminal operation of the stream pipeline
+     * more thbn once, bnd only bfter the terminbl operbtion of the strebm pipeline
      * commences.
      *
-     * <p>For spliterators that report a characteristic of {@code IMMUTABLE}
-     * or {@code CONCURRENT}, or that are
-     * <a href="../Spliterator.html#binding">late-binding</a>, it is likely
-     * more efficient to use {@link #intStream(java.util.Spliterator.OfInt, boolean)}
-     * instead.
-     * <p>The use of a {@code Supplier} in this form provides a level of
-     * indirection that reduces the scope of potential interference with the
-     * source.  Since the supplier is only invoked after the terminal operation
-     * commences, any modifications to the source up to the start of the
-     * terminal operation are reflected in the stream result.  See
-     * <a href="package-summary.html#NonInterference">Non-Interference</a> for
-     * more details.
+     * <p>For spliterbtors thbt report b chbrbcteristic of {@code IMMUTABLE}
+     * or {@code CONCURRENT}, or thbt bre
+     * <b href="../Spliterbtor.html#binding">lbte-binding</b>, it is likely
+     * more efficient to use {@link #intStrebm(jbvb.util.Spliterbtor.OfInt, boolebn)}
+     * instebd.
+     * <p>The use of b {@code Supplier} in this form provides b level of
+     * indirection thbt reduces the scope of potentibl interference with the
+     * source.  Since the supplier is only invoked bfter the terminbl operbtion
+     * commences, bny modificbtions to the source up to the stbrt of the
+     * terminbl operbtion bre reflected in the strebm result.  See
+     * <b href="pbckbge-summbry.html#NonInterference">Non-Interference</b> for
+     * more detbils.
      *
-     * @param supplier a {@code Supplier} of a {@code Spliterator.OfInt}
-     * @param characteristics Spliterator characteristics of the supplied
-     *        {@code Spliterator.OfInt}.  The characteristics must be equal to
-     *        {@code supplier.get().characteristics()}, otherwise undefined
-     *        behavior may occur when terminal operation commences.
-     * @param parallel if {@code true} then the returned stream is a parallel
-     *        stream; if {@code false} the returned stream is a sequential
-     *        stream.
-     * @return a new sequential or parallel {@code IntStream}
-     * @see #intStream(java.util.Spliterator.OfInt, boolean)
+     * @pbrbm supplier b {@code Supplier} of b {@code Spliterbtor.OfInt}
+     * @pbrbm chbrbcteristics Spliterbtor chbrbcteristics of the supplied
+     *        {@code Spliterbtor.OfInt}.  The chbrbcteristics must be equbl to
+     *        {@code supplier.get().chbrbcteristics()}, otherwise undefined
+     *        behbvior mby occur when terminbl operbtion commences.
+     * @pbrbm pbrbllel if {@code true} then the returned strebm is b pbrbllel
+     *        strebm; if {@code fblse} the returned strebm is b sequentibl
+     *        strebm.
+     * @return b new sequentibl or pbrbllel {@code IntStrebm}
+     * @see #intStrebm(jbvb.util.Spliterbtor.OfInt, boolebn)
      */
-    public static IntStream intStream(Supplier<? extends Spliterator.OfInt> supplier,
-                                      int characteristics,
-                                      boolean parallel) {
-        return new IntPipeline.Head<>(supplier,
-                                      StreamOpFlag.fromCharacteristics(characteristics),
-                                      parallel);
+    public stbtic IntStrebm intStrebm(Supplier<? extends Spliterbtor.OfInt> supplier,
+                                      int chbrbcteristics,
+                                      boolebn pbrbllel) {
+        return new IntPipeline.Hebd<>(supplier,
+                                      StrebmOpFlbg.fromChbrbcteristics(chbrbcteristics),
+                                      pbrbllel);
     }
 
     /**
-     * Creates a new sequential or parallel {@code LongStream} from a
-     * {@code Spliterator.OfLong}.
+     * Crebtes b new sequentibl or pbrbllel {@code LongStrebm} from b
+     * {@code Spliterbtor.OfLong}.
      *
-     * <p>The spliterator is only traversed, split, or queried for estimated
-     * size after the terminal operation of the stream pipeline commences.
+     * <p>The spliterbtor is only trbversed, split, or queried for estimbted
+     * size bfter the terminbl operbtion of the strebm pipeline commences.
      *
-     * <p>It is strongly recommended the spliterator report a characteristic of
+     * <p>It is strongly recommended the spliterbtor report b chbrbcteristic of
      * {@code IMMUTABLE} or {@code CONCURRENT}, or be
-     * <a href="../Spliterator.html#binding">late-binding</a>.  Otherwise,
-     * {@link #longStream(java.util.function.Supplier, int, boolean)} should be
-     * used to reduce the scope of potential interference with the source.  See
-     * <a href="package-summary.html#NonInterference">Non-Interference</a> for
-     * more details.
+     * <b href="../Spliterbtor.html#binding">lbte-binding</b>.  Otherwise,
+     * {@link #longStrebm(jbvb.util.function.Supplier, int, boolebn)} should be
+     * used to reduce the scope of potentibl interference with the source.  See
+     * <b href="pbckbge-summbry.html#NonInterference">Non-Interference</b> for
+     * more detbils.
      *
-     * @param spliterator a {@code Spliterator.OfLong} describing the stream elements
-     * @param parallel if {@code true} then the returned stream is a parallel
-     *        stream; if {@code false} the returned stream is a sequential
-     *        stream.
-     * @return a new sequential or parallel {@code LongStream}
+     * @pbrbm spliterbtor b {@code Spliterbtor.OfLong} describing the strebm elements
+     * @pbrbm pbrbllel if {@code true} then the returned strebm is b pbrbllel
+     *        strebm; if {@code fblse} the returned strebm is b sequentibl
+     *        strebm.
+     * @return b new sequentibl or pbrbllel {@code LongStrebm}
      */
-    public static LongStream longStream(Spliterator.OfLong spliterator,
-                                        boolean parallel) {
-        return new LongPipeline.Head<>(spliterator,
-                                       StreamOpFlag.fromCharacteristics(spliterator),
-                                       parallel);
+    public stbtic LongStrebm longStrebm(Spliterbtor.OfLong spliterbtor,
+                                        boolebn pbrbllel) {
+        return new LongPipeline.Hebd<>(spliterbtor,
+                                       StrebmOpFlbg.fromChbrbcteristics(spliterbtor),
+                                       pbrbllel);
     }
 
     /**
-     * Creates a new sequential or parallel {@code LongStream} from a
-     * {@code Supplier} of {@code Spliterator.OfLong}.
+     * Crebtes b new sequentibl or pbrbllel {@code LongStrebm} from b
+     * {@code Supplier} of {@code Spliterbtor.OfLong}.
      *
      * <p>The {@link Supplier#get()} method will be invoked on the supplier no
-     * more than once, and only after the terminal operation of the stream pipeline
+     * more thbn once, bnd only bfter the terminbl operbtion of the strebm pipeline
      * commences.
      *
-     * <p>For spliterators that report a characteristic of {@code IMMUTABLE}
-     * or {@code CONCURRENT}, or that are
-     * <a href="../Spliterator.html#binding">late-binding</a>, it is likely
-     * more efficient to use {@link #longStream(java.util.Spliterator.OfLong, boolean)}
-     * instead.
-     * <p>The use of a {@code Supplier} in this form provides a level of
-     * indirection that reduces the scope of potential interference with the
-     * source.  Since the supplier is only invoked after the terminal operation
-     * commences, any modifications to the source up to the start of the
-     * terminal operation are reflected in the stream result.  See
-     * <a href="package-summary.html#NonInterference">Non-Interference</a> for
-     * more details.
+     * <p>For spliterbtors thbt report b chbrbcteristic of {@code IMMUTABLE}
+     * or {@code CONCURRENT}, or thbt bre
+     * <b href="../Spliterbtor.html#binding">lbte-binding</b>, it is likely
+     * more efficient to use {@link #longStrebm(jbvb.util.Spliterbtor.OfLong, boolebn)}
+     * instebd.
+     * <p>The use of b {@code Supplier} in this form provides b level of
+     * indirection thbt reduces the scope of potentibl interference with the
+     * source.  Since the supplier is only invoked bfter the terminbl operbtion
+     * commences, bny modificbtions to the source up to the stbrt of the
+     * terminbl operbtion bre reflected in the strebm result.  See
+     * <b href="pbckbge-summbry.html#NonInterference">Non-Interference</b> for
+     * more detbils.
      *
-     * @param supplier a {@code Supplier} of a {@code Spliterator.OfLong}
-     * @param characteristics Spliterator characteristics of the supplied
-     *        {@code Spliterator.OfLong}.  The characteristics must be equal to
-     *        {@code supplier.get().characteristics()}, otherwise undefined
-     *        behavior may occur when terminal operation commences.
-     * @param parallel if {@code true} then the returned stream is a parallel
-     *        stream; if {@code false} the returned stream is a sequential
-     *        stream.
-     * @return a new sequential or parallel {@code LongStream}
-     * @see #longStream(java.util.Spliterator.OfLong, boolean)
+     * @pbrbm supplier b {@code Supplier} of b {@code Spliterbtor.OfLong}
+     * @pbrbm chbrbcteristics Spliterbtor chbrbcteristics of the supplied
+     *        {@code Spliterbtor.OfLong}.  The chbrbcteristics must be equbl to
+     *        {@code supplier.get().chbrbcteristics()}, otherwise undefined
+     *        behbvior mby occur when terminbl operbtion commences.
+     * @pbrbm pbrbllel if {@code true} then the returned strebm is b pbrbllel
+     *        strebm; if {@code fblse} the returned strebm is b sequentibl
+     *        strebm.
+     * @return b new sequentibl or pbrbllel {@code LongStrebm}
+     * @see #longStrebm(jbvb.util.Spliterbtor.OfLong, boolebn)
      */
-    public static LongStream longStream(Supplier<? extends Spliterator.OfLong> supplier,
-                                        int characteristics,
-                                        boolean parallel) {
-        return new LongPipeline.Head<>(supplier,
-                                       StreamOpFlag.fromCharacteristics(characteristics),
-                                       parallel);
+    public stbtic LongStrebm longStrebm(Supplier<? extends Spliterbtor.OfLong> supplier,
+                                        int chbrbcteristics,
+                                        boolebn pbrbllel) {
+        return new LongPipeline.Hebd<>(supplier,
+                                       StrebmOpFlbg.fromChbrbcteristics(chbrbcteristics),
+                                       pbrbllel);
     }
 
     /**
-     * Creates a new sequential or parallel {@code DoubleStream} from a
-     * {@code Spliterator.OfDouble}.
+     * Crebtes b new sequentibl or pbrbllel {@code DoubleStrebm} from b
+     * {@code Spliterbtor.OfDouble}.
      *
-     * <p>The spliterator is only traversed, split, or queried for estimated size
-     * after the terminal operation of the stream pipeline commences.
+     * <p>The spliterbtor is only trbversed, split, or queried for estimbted size
+     * bfter the terminbl operbtion of the strebm pipeline commences.
      *
-     * <p>It is strongly recommended the spliterator report a characteristic of
+     * <p>It is strongly recommended the spliterbtor report b chbrbcteristic of
      * {@code IMMUTABLE} or {@code CONCURRENT}, or be
-     * <a href="../Spliterator.html#binding">late-binding</a>.  Otherwise,
-     * {@link #doubleStream(java.util.function.Supplier, int, boolean)} should
-     * be used to reduce the scope of potential interference with the source.  See
-     * <a href="package-summary.html#NonInterference">Non-Interference</a> for
-     * more details.
+     * <b href="../Spliterbtor.html#binding">lbte-binding</b>.  Otherwise,
+     * {@link #doubleStrebm(jbvb.util.function.Supplier, int, boolebn)} should
+     * be used to reduce the scope of potentibl interference with the source.  See
+     * <b href="pbckbge-summbry.html#NonInterference">Non-Interference</b> for
+     * more detbils.
      *
-     * @param spliterator A {@code Spliterator.OfDouble} describing the stream elements
-     * @param parallel if {@code true} then the returned stream is a parallel
-     *        stream; if {@code false} the returned stream is a sequential
-     *        stream.
-     * @return a new sequential or parallel {@code DoubleStream}
+     * @pbrbm spliterbtor A {@code Spliterbtor.OfDouble} describing the strebm elements
+     * @pbrbm pbrbllel if {@code true} then the returned strebm is b pbrbllel
+     *        strebm; if {@code fblse} the returned strebm is b sequentibl
+     *        strebm.
+     * @return b new sequentibl or pbrbllel {@code DoubleStrebm}
      */
-    public static DoubleStream doubleStream(Spliterator.OfDouble spliterator,
-                                            boolean parallel) {
-        return new DoublePipeline.Head<>(spliterator,
-                                         StreamOpFlag.fromCharacteristics(spliterator),
-                                         parallel);
+    public stbtic DoubleStrebm doubleStrebm(Spliterbtor.OfDouble spliterbtor,
+                                            boolebn pbrbllel) {
+        return new DoublePipeline.Hebd<>(spliterbtor,
+                                         StrebmOpFlbg.fromChbrbcteristics(spliterbtor),
+                                         pbrbllel);
     }
 
     /**
-     * Creates a new sequential or parallel {@code DoubleStream} from a
-     * {@code Supplier} of {@code Spliterator.OfDouble}.
+     * Crebtes b new sequentibl or pbrbllel {@code DoubleStrebm} from b
+     * {@code Supplier} of {@code Spliterbtor.OfDouble}.
      *
      * <p>The {@link Supplier#get()} method will be invoked on the supplier no
-     * more than once, and only after the terminal operation of the stream pipeline
+     * more thbn once, bnd only bfter the terminbl operbtion of the strebm pipeline
      * commences.
      *
-     * <p>For spliterators that report a characteristic of {@code IMMUTABLE}
-     * or {@code CONCURRENT}, or that are
-     * <a href="../Spliterator.html#binding">late-binding</a>, it is likely
-     * more efficient to use {@link #doubleStream(java.util.Spliterator.OfDouble, boolean)}
-     * instead.
-     * <p>The use of a {@code Supplier} in this form provides a level of
-     * indirection that reduces the scope of potential interference with the
-     * source.  Since the supplier is only invoked after the terminal operation
-     * commences, any modifications to the source up to the start of the
-     * terminal operation are reflected in the stream result.  See
-     * <a href="package-summary.html#NonInterference">Non-Interference</a> for
-     * more details.
+     * <p>For spliterbtors thbt report b chbrbcteristic of {@code IMMUTABLE}
+     * or {@code CONCURRENT}, or thbt bre
+     * <b href="../Spliterbtor.html#binding">lbte-binding</b>, it is likely
+     * more efficient to use {@link #doubleStrebm(jbvb.util.Spliterbtor.OfDouble, boolebn)}
+     * instebd.
+     * <p>The use of b {@code Supplier} in this form provides b level of
+     * indirection thbt reduces the scope of potentibl interference with the
+     * source.  Since the supplier is only invoked bfter the terminbl operbtion
+     * commences, bny modificbtions to the source up to the stbrt of the
+     * terminbl operbtion bre reflected in the strebm result.  See
+     * <b href="pbckbge-summbry.html#NonInterference">Non-Interference</b> for
+     * more detbils.
      *
-     * @param supplier A {@code Supplier} of a {@code Spliterator.OfDouble}
-     * @param characteristics Spliterator characteristics of the supplied
-     *        {@code Spliterator.OfDouble}.  The characteristics must be equal to
-     *        {@code supplier.get().characteristics()}, otherwise undefined
-     *        behavior may occur when terminal operation commences.
-     * @param parallel if {@code true} then the returned stream is a parallel
-     *        stream; if {@code false} the returned stream is a sequential
-     *        stream.
-     * @return a new sequential or parallel {@code DoubleStream}
-     * @see #doubleStream(java.util.Spliterator.OfDouble, boolean)
+     * @pbrbm supplier A {@code Supplier} of b {@code Spliterbtor.OfDouble}
+     * @pbrbm chbrbcteristics Spliterbtor chbrbcteristics of the supplied
+     *        {@code Spliterbtor.OfDouble}.  The chbrbcteristics must be equbl to
+     *        {@code supplier.get().chbrbcteristics()}, otherwise undefined
+     *        behbvior mby occur when terminbl operbtion commences.
+     * @pbrbm pbrbllel if {@code true} then the returned strebm is b pbrbllel
+     *        strebm; if {@code fblse} the returned strebm is b sequentibl
+     *        strebm.
+     * @return b new sequentibl or pbrbllel {@code DoubleStrebm}
+     * @see #doubleStrebm(jbvb.util.Spliterbtor.OfDouble, boolebn)
      */
-    public static DoubleStream doubleStream(Supplier<? extends Spliterator.OfDouble> supplier,
-                                            int characteristics,
-                                            boolean parallel) {
-        return new DoublePipeline.Head<>(supplier,
-                                         StreamOpFlag.fromCharacteristics(characteristics),
-                                         parallel);
+    public stbtic DoubleStrebm doubleStrebm(Supplier<? extends Spliterbtor.OfDouble> supplier,
+                                            int chbrbcteristics,
+                                            boolebn pbrbllel) {
+        return new DoublePipeline.Hebd<>(supplier,
+                                         StrebmOpFlbg.fromChbrbcteristics(chbrbcteristics),
+                                         pbrbllel);
     }
 }

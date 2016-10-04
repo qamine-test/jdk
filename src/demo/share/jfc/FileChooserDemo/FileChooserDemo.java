@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,460 +30,460 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.UIManager.LookAndFeelInfo;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
-import java.util.ArrayList;
-import javax.swing.plaf.FileChooserUI;
-import javax.swing.plaf.basic.BasicFileChooserUI;
-import java.io.File;
-import static javax.swing.JFileChooser.*;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.util.logging.Level;
+import jbvb.util.logging.Logger;
+import jbvbx.swing.UIMbnbger.LookAndFeelInfo;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.CbrdLbyout;
+import jbvb.bwt.Component;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Insets;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.util.List;
+import jbvbx.swing.BorderFbctory;
+import jbvbx.swing.Box;
+import jbvbx.swing.BoxLbyout;
+import jbvbx.swing.ButtonGroup;
+import jbvbx.swing.DefbultComboBoxModel;
+import jbvbx.swing.ImbgeIcon;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JCheckBox;
+import jbvbx.swing.JComboBox;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JDiblog;
+import jbvbx.swing.JFileChooser;
+import jbvbx.swing.JFrbme;
+import jbvbx.swing.JLbbel;
+import jbvbx.swing.JOptionPbne;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.JRbdioButton;
+import jbvbx.swing.JTextField;
+import jbvbx.swing.JToggleButton;
+import jbvbx.swing.LookAndFeel;
+import jbvbx.swing.SwingUtilities;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.UnsupportedLookAndFeelException;
+import jbvbx.swing.WindowConstbnts;
+import jbvbx.swing.filechooser.FileFilter;
+import jbvbx.swing.filechooser.FileNbmeExtensionFilter;
+import jbvbx.swing.filechooser.FileSystemView;
+import jbvb.util.ArrbyList;
+import jbvbx.swing.plbf.FileChooserUI;
+import jbvbx.swing.plbf.bbsic.BbsicFileChooserUI;
+import jbvb.io.File;
+import stbtic jbvbx.swing.JFileChooser.*;
 
 
 /**
  *
- * A demo which makes extensive use of the file chooser.
+ * A demo which mbkes extensive use of the file chooser.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  */
-@SuppressWarnings("serial")
-public class FileChooserDemo extends JPanel implements ActionListener {
+@SuppressWbrnings("seribl")
+public clbss FileChooserDemo extends JPbnel implements ActionListener {
 
-    public static final String NIMBUS_LAF_NAME = "Nimbus";
-    private static JFrame frame;
-    private final List<SupportedLaF> supportedLaFs =
-            new ArrayList<SupportedLaF>();
-    private static SupportedLaF nimbusLaF;
+    public stbtic finbl String NIMBUS_LAF_NAME = "Nimbus";
+    privbte stbtic JFrbme frbme;
+    privbte finbl List<SupportedLbF> supportedLbFs =
+            new ArrbyList<SupportedLbF>();
+    privbte stbtic SupportedLbF nimbusLbF;
 
 
-    private static class SupportedLaF {
+    privbte stbtic clbss SupportedLbF {
 
-        private final String name;
-        private final LookAndFeel laf;
+        privbte finbl String nbme;
+        privbte finbl LookAndFeel lbf;
 
-        SupportedLaF(String name, LookAndFeel laf) {
-            this.name = name;
-            this.laf = laf;
+        SupportedLbF(String nbme, LookAndFeel lbf) {
+            this.nbme = nbme;
+            this.lbf = lbf;
         }
 
         @Override
         public String toString() {
-            return name;
+            return nbme;
         }
     }
-    private JButton showButton;
-    private JCheckBox showAllFilesFilterCheckBox;
-    private JCheckBox showImageFilesFilterCheckBox;
-    private JCheckBox showFullDescriptionCheckBox;
-    private JCheckBox useFileViewCheckBox;
-    private JCheckBox useFileSystemViewCheckBox;
-    private JCheckBox accessoryCheckBox;
-    private JCheckBox setHiddenCheckBox;
-    private JCheckBox useEmbedInWizardCheckBox;
-    private JCheckBox useControlsCheckBox;
-    private JCheckBox enableDragCheckBox;
-    private JRadioButton singleSelectionRadioButton;
-    private JRadioButton multiSelectionRadioButton;
-    private JRadioButton openRadioButton;
-    private JRadioButton saveRadioButton;
-    private JRadioButton customButton;
-    private JComboBox lafComboBox;
-    private JRadioButton justFilesRadioButton;
-    private JRadioButton justDirectoriesRadioButton;
-    private JRadioButton bothFilesAndDirectoriesRadioButton;
-    private JTextField customField;
-    private final ExampleFileView fileView;
-    private final ExampleFileSystemView fileSystemView;
-    private final static Dimension hpad10 = new Dimension(10, 1);
-    private final static Dimension vpad20 = new Dimension(1, 20);
-    private final static Dimension vpad7 = new Dimension(1, 7);
-    private final static Dimension vpad4 = new Dimension(1, 4);
-    private final static Insets insets = new Insets(5, 10, 0, 10);
-    private final FilePreviewer previewer;
-    private final JFileChooser chooser;
+    privbte JButton showButton;
+    privbte JCheckBox showAllFilesFilterCheckBox;
+    privbte JCheckBox showImbgeFilesFilterCheckBox;
+    privbte JCheckBox showFullDescriptionCheckBox;
+    privbte JCheckBox useFileViewCheckBox;
+    privbte JCheckBox useFileSystemViewCheckBox;
+    privbte JCheckBox bccessoryCheckBox;
+    privbte JCheckBox setHiddenCheckBox;
+    privbte JCheckBox useEmbedInWizbrdCheckBox;
+    privbte JCheckBox useControlsCheckBox;
+    privbte JCheckBox enbbleDrbgCheckBox;
+    privbte JRbdioButton singleSelectionRbdioButton;
+    privbte JRbdioButton multiSelectionRbdioButton;
+    privbte JRbdioButton openRbdioButton;
+    privbte JRbdioButton sbveRbdioButton;
+    privbte JRbdioButton customButton;
+    privbte JComboBox lbfComboBox;
+    privbte JRbdioButton justFilesRbdioButton;
+    privbte JRbdioButton justDirectoriesRbdioButton;
+    privbte JRbdioButton bothFilesAndDirectoriesRbdioButton;
+    privbte JTextField customField;
+    privbte finbl ExbmpleFileView fileView;
+    privbte finbl ExbmpleFileSystemView fileSystemView;
+    privbte finbl stbtic Dimension hpbd10 = new Dimension(10, 1);
+    privbte finbl stbtic Dimension vpbd20 = new Dimension(1, 20);
+    privbte finbl stbtic Dimension vpbd7 = new Dimension(1, 7);
+    privbte finbl stbtic Dimension vpbd4 = new Dimension(1, 4);
+    privbte finbl stbtic Insets insets = new Insets(5, 10, 0, 10);
+    privbte finbl FilePreviewer previewer;
+    privbte finbl JFileChooser chooser;
 
-    @SuppressWarnings("LeakingThisInConstructor")
+    @SuppressWbrnings("LebkingThisInConstructor")
     public FileChooserDemo() {
-        UIManager.LookAndFeelInfo[] installedLafs = UIManager.
-                getInstalledLookAndFeels();
-        for (UIManager.LookAndFeelInfo lafInfo : installedLafs) {
+        UIMbnbger.LookAndFeelInfo[] instblledLbfs = UIMbnbger.
+                getInstblledLookAndFeels();
+        for (UIMbnbger.LookAndFeelInfo lbfInfo : instblledLbfs) {
             try {
-                Class<?> lnfClass = Class.forName(lafInfo.getClassName());
-                LookAndFeel laf = (LookAndFeel) (lnfClass.newInstance());
-                if (laf.isSupportedLookAndFeel()) {
-                    String name = lafInfo.getName();
-                    SupportedLaF supportedLaF = new SupportedLaF(name, laf);
-                    supportedLaFs.add(supportedLaF);
-                    if (NIMBUS_LAF_NAME.equals(name)) {
-                        nimbusLaF = supportedLaF;
+                Clbss<?> lnfClbss = Clbss.forNbme(lbfInfo.getClbssNbme());
+                LookAndFeel lbf = (LookAndFeel) (lnfClbss.newInstbnce());
+                if (lbf.isSupportedLookAndFeel()) {
+                    String nbme = lbfInfo.getNbme();
+                    SupportedLbF supportedLbF = new SupportedLbF(nbme, lbf);
+                    supportedLbFs.bdd(supportedLbF);
+                    if (NIMBUS_LAF_NAME.equbls(nbme)) {
+                        nimbusLbF = supportedLbF;
                     }
                 }
-            } catch (Exception ignored) {
-                // If ANYTHING weird happens, don't add this L&F
+            } cbtch (Exception ignored) {
+                // If ANYTHING weird hbppens, don't bdd this L&F
             }
         }
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLbyout(new BoxLbyout(this, BoxLbyout.Y_AXIS));
 
         chooser = new JFileChooser();
         previewer = new FilePreviewer(chooser);
 
-        // Create Custom FileView
-        fileView = new ExampleFileView();
-        fileView.putIcon("jpg", new ImageIcon(getClass().getResource(
-                "/resources/images/jpgIcon.jpg")));
-        fileView.putIcon("gif", new ImageIcon(getClass().getResource(
-                "/resources/images/gifIcon.gif")));
+        // Crebte Custom FileView
+        fileView = new ExbmpleFileView();
+        fileView.putIcon("jpg", new ImbgeIcon(getClbss().getResource(
+                "/resources/imbges/jpgIcon.jpg")));
+        fileView.putIcon("gif", new ImbgeIcon(getClbss().getResource(
+                "/resources/imbges/gifIcon.gif")));
 
-        // Create Custom FileSystemView
-        fileSystemView = new ExampleFileSystemView();
+        // Crebte Custom FileSystemView
+        fileSystemView = new ExbmpleFileSystemView();
 
-        // create a radio listener to listen to option changes
+        // crebte b rbdio listener to listen to option chbnges
         OptionListener optionListener = new OptionListener();
 
-        // Create options
-        openRadioButton = new JRadioButton("Open");
-        openRadioButton.setSelected(true);
-        openRadioButton.addActionListener(optionListener);
+        // Crebte options
+        openRbdioButton = new JRbdioButton("Open");
+        openRbdioButton.setSelected(true);
+        openRbdioButton.bddActionListener(optionListener);
 
-        saveRadioButton = new JRadioButton("Save");
-        saveRadioButton.addActionListener(optionListener);
+        sbveRbdioButton = new JRbdioButton("Sbve");
+        sbveRbdioButton.bddActionListener(optionListener);
 
-        customButton = new JRadioButton("Custom");
-        customButton.addActionListener(optionListener);
+        customButton = new JRbdioButton("Custom");
+        customButton.bddActionListener(optionListener);
 
         customField = new JTextField(8) {
 
             @Override
-            public Dimension getMaximumSize() {
+            public Dimension getMbximumSize() {
                 return new Dimension(getPreferredSize().width,
                         getPreferredSize().height);
             }
         };
         customField.setText("Doit");
         customField.setAlignmentY(JComponent.TOP_ALIGNMENT);
-        customField.setEnabled(false);
-        customField.addActionListener(optionListener);
+        customField.setEnbbled(fblse);
+        customField.bddActionListener(optionListener);
 
         ButtonGroup group1 = new ButtonGroup();
-        group1.add(openRadioButton);
-        group1.add(saveRadioButton);
-        group1.add(customButton);
+        group1.bdd(openRbdioButton);
+        group1.bdd(sbveRbdioButton);
+        group1.bdd(customButton);
 
         // filter buttons
         showAllFilesFilterCheckBox = new JCheckBox("Show \"All Files\" Filter");
-        showAllFilesFilterCheckBox.addActionListener(optionListener);
+        showAllFilesFilterCheckBox.bddActionListener(optionListener);
         showAllFilesFilterCheckBox.setSelected(true);
 
-        showImageFilesFilterCheckBox = new JCheckBox("Show JPG and GIF Filters");
-        showImageFilesFilterCheckBox.addActionListener(optionListener);
-        showImageFilesFilterCheckBox.setSelected(false);
+        showImbgeFilesFilterCheckBox = new JCheckBox("Show JPG bnd GIF Filters");
+        showImbgeFilesFilterCheckBox.bddActionListener(optionListener);
+        showImbgeFilesFilterCheckBox.setSelected(fblse);
 
-        accessoryCheckBox = new JCheckBox("Show Preview");
-        accessoryCheckBox.addActionListener(optionListener);
-        accessoryCheckBox.setSelected(false);
+        bccessoryCheckBox = new JCheckBox("Show Preview");
+        bccessoryCheckBox.bddActionListener(optionListener);
+        bccessoryCheckBox.setSelected(fblse);
 
         // more options
         setHiddenCheckBox = new JCheckBox("Show Hidden Files");
-        setHiddenCheckBox.addActionListener(optionListener);
+        setHiddenCheckBox.bddActionListener(optionListener);
 
         showFullDescriptionCheckBox = new JCheckBox("With File Extensions");
-        showFullDescriptionCheckBox.addActionListener(optionListener);
+        showFullDescriptionCheckBox.bddActionListener(optionListener);
         showFullDescriptionCheckBox.setSelected(true);
-        showFullDescriptionCheckBox.setEnabled(false);
+        showFullDescriptionCheckBox.setEnbbled(fblse);
 
         useFileViewCheckBox = new JCheckBox("Use FileView");
-        useFileViewCheckBox.addActionListener(optionListener);
-        useFileViewCheckBox.setSelected(false);
+        useFileViewCheckBox.bddActionListener(optionListener);
+        useFileViewCheckBox.setSelected(fblse);
 
-        useFileSystemViewCheckBox = new JCheckBox("Use FileSystemView", false);
-        useFileSystemViewCheckBox.addActionListener(optionListener);
+        useFileSystemViewCheckBox = new JCheckBox("Use FileSystemView", fblse);
+        useFileSystemViewCheckBox.bddActionListener(optionListener);
 
-        useEmbedInWizardCheckBox = new JCheckBox("Embed in Wizard");
-        useEmbedInWizardCheckBox.addActionListener(optionListener);
-        useEmbedInWizardCheckBox.setSelected(false);
+        useEmbedInWizbrdCheckBox = new JCheckBox("Embed in Wizbrd");
+        useEmbedInWizbrdCheckBox.bddActionListener(optionListener);
+        useEmbedInWizbrdCheckBox.setSelected(fblse);
 
         useControlsCheckBox = new JCheckBox("Show Control Buttons");
-        useControlsCheckBox.addActionListener(optionListener);
+        useControlsCheckBox.bddActionListener(optionListener);
         useControlsCheckBox.setSelected(true);
 
-        enableDragCheckBox = new JCheckBox("Enable Dragging");
-        enableDragCheckBox.addActionListener(optionListener);
+        enbbleDrbgCheckBox = new JCheckBox("Enbble Drbgging");
+        enbbleDrbgCheckBox.bddActionListener(optionListener);
 
         // File or Directory chooser options
         ButtonGroup group3 = new ButtonGroup();
-        justFilesRadioButton = new JRadioButton("Just Select Files");
-        justFilesRadioButton.setSelected(true);
-        group3.add(justFilesRadioButton);
-        justFilesRadioButton.addActionListener(optionListener);
+        justFilesRbdioButton = new JRbdioButton("Just Select Files");
+        justFilesRbdioButton.setSelected(true);
+        group3.bdd(justFilesRbdioButton);
+        justFilesRbdioButton.bddActionListener(optionListener);
 
-        justDirectoriesRadioButton = new JRadioButton("Just Select Directories");
-        group3.add(justDirectoriesRadioButton);
-        justDirectoriesRadioButton.addActionListener(optionListener);
+        justDirectoriesRbdioButton = new JRbdioButton("Just Select Directories");
+        group3.bdd(justDirectoriesRbdioButton);
+        justDirectoriesRbdioButton.bddActionListener(optionListener);
 
-        bothFilesAndDirectoriesRadioButton = new JRadioButton(
+        bothFilesAndDirectoriesRbdioButton = new JRbdioButton(
                 "Select Files or Directories");
-        group3.add(bothFilesAndDirectoriesRadioButton);
-        bothFilesAndDirectoriesRadioButton.addActionListener(optionListener);
+        group3.bdd(bothFilesAndDirectoriesRbdioButton);
+        bothFilesAndDirectoriesRbdioButton.bddActionListener(optionListener);
 
-        singleSelectionRadioButton = new JRadioButton("Single Selection", true);
-        singleSelectionRadioButton.addActionListener(optionListener);
+        singleSelectionRbdioButton = new JRbdioButton("Single Selection", true);
+        singleSelectionRbdioButton.bddActionListener(optionListener);
 
-        multiSelectionRadioButton = new JRadioButton("Multi Selection");
-        multiSelectionRadioButton.addActionListener(optionListener);
+        multiSelectionRbdioButton = new JRbdioButton("Multi Selection");
+        multiSelectionRbdioButton.bddActionListener(optionListener);
 
         ButtonGroup group4 = new ButtonGroup();
-        group4.add(singleSelectionRadioButton);
-        group4.add(multiSelectionRadioButton);
+        group4.bdd(singleSelectionRbdioButton);
+        group4.bdd(multiSelectionRbdioButton);
 
 
-        // Create show button
+        // Crebte show button
         showButton = new JButton("Show FileChooser");
-        showButton.addActionListener(this);
+        showButton.bddActionListener(this);
         showButton.setMnemonic('s');
 
-        // Create laf combo box
-        lafComboBox = new JComboBox(supportedLaFs.toArray());
-        lafComboBox.setSelectedItem(nimbusLaF);
-        lafComboBox.setEditable(false);
-        lafComboBox.addActionListener(optionListener);
+        // Crebte lbf combo box
+        lbfComboBox = new JComboBox(supportedLbFs.toArrby());
+        lbfComboBox.setSelectedItem(nimbusLbF);
+        lbfComboBox.setEditbble(fblse);
+        lbfComboBox.bddActionListener(optionListener);
 
         // ********************************************************
-        // ******************** Dialog Type ***********************
+        // ******************** Diblog Type ***********************
         // ********************************************************
-        JPanel control1 = new InsetPanel(insets);
-        control1.setBorder(BorderFactory.createTitledBorder("Dialog Type"));
+        JPbnel control1 = new InsetPbnel(insets);
+        control1.setBorder(BorderFbctory.crebteTitledBorder("Diblog Type"));
 
-        control1.setLayout(new BoxLayout(control1, BoxLayout.Y_AXIS));
-        control1.add(Box.createRigidArea(vpad20));
-        control1.add(openRadioButton);
-        control1.add(Box.createRigidArea(vpad7));
-        control1.add(saveRadioButton);
-        control1.add(Box.createRigidArea(vpad7));
-        control1.add(customButton);
-        control1.add(Box.createRigidArea(vpad4));
-        JPanel fieldWrapper = new JPanel();
-        fieldWrapper.setLayout(new BoxLayout(fieldWrapper, BoxLayout.X_AXIS));
-        fieldWrapper.setAlignmentX(Component.LEFT_ALIGNMENT);
-        fieldWrapper.add(Box.createRigidArea(hpad10));
-        fieldWrapper.add(Box.createRigidArea(hpad10));
-        fieldWrapper.add(customField);
-        control1.add(fieldWrapper);
-        control1.add(Box.createRigidArea(vpad20));
-        control1.add(Box.createGlue());
+        control1.setLbyout(new BoxLbyout(control1, BoxLbyout.Y_AXIS));
+        control1.bdd(Box.crebteRigidAreb(vpbd20));
+        control1.bdd(openRbdioButton);
+        control1.bdd(Box.crebteRigidAreb(vpbd7));
+        control1.bdd(sbveRbdioButton);
+        control1.bdd(Box.crebteRigidAreb(vpbd7));
+        control1.bdd(customButton);
+        control1.bdd(Box.crebteRigidAreb(vpbd4));
+        JPbnel fieldWrbpper = new JPbnel();
+        fieldWrbpper.setLbyout(new BoxLbyout(fieldWrbpper, BoxLbyout.X_AXIS));
+        fieldWrbpper.setAlignmentX(Component.LEFT_ALIGNMENT);
+        fieldWrbpper.bdd(Box.crebteRigidAreb(hpbd10));
+        fieldWrbpper.bdd(Box.crebteRigidAreb(hpbd10));
+        fieldWrbpper.bdd(customField);
+        control1.bdd(fieldWrbpper);
+        control1.bdd(Box.crebteRigidAreb(vpbd20));
+        control1.bdd(Box.crebteGlue());
 
         // ********************************************************
         // ***************** Filter Controls **********************
         // ********************************************************
-        JPanel control2 = new InsetPanel(insets);
-        control2.setBorder(BorderFactory.createTitledBorder("Filter Controls"));
-        control2.setLayout(new BoxLayout(control2, BoxLayout.Y_AXIS));
-        control2.add(Box.createRigidArea(vpad20));
-        control2.add(showAllFilesFilterCheckBox);
-        control2.add(Box.createRigidArea(vpad7));
-        control2.add(showImageFilesFilterCheckBox);
-        control2.add(Box.createRigidArea(vpad4));
-        JPanel checkWrapper = new JPanel();
-        checkWrapper.setLayout(new BoxLayout(checkWrapper, BoxLayout.X_AXIS));
-        checkWrapper.setAlignmentX(Component.LEFT_ALIGNMENT);
-        checkWrapper.add(Box.createRigidArea(hpad10));
-        checkWrapper.add(Box.createRigidArea(hpad10));
-        checkWrapper.add(showFullDescriptionCheckBox);
-        control2.add(checkWrapper);
-        control2.add(Box.createRigidArea(vpad20));
-        control2.add(Box.createGlue());
+        JPbnel control2 = new InsetPbnel(insets);
+        control2.setBorder(BorderFbctory.crebteTitledBorder("Filter Controls"));
+        control2.setLbyout(new BoxLbyout(control2, BoxLbyout.Y_AXIS));
+        control2.bdd(Box.crebteRigidAreb(vpbd20));
+        control2.bdd(showAllFilesFilterCheckBox);
+        control2.bdd(Box.crebteRigidAreb(vpbd7));
+        control2.bdd(showImbgeFilesFilterCheckBox);
+        control2.bdd(Box.crebteRigidAreb(vpbd4));
+        JPbnel checkWrbpper = new JPbnel();
+        checkWrbpper.setLbyout(new BoxLbyout(checkWrbpper, BoxLbyout.X_AXIS));
+        checkWrbpper.setAlignmentX(Component.LEFT_ALIGNMENT);
+        checkWrbpper.bdd(Box.crebteRigidAreb(hpbd10));
+        checkWrbpper.bdd(Box.crebteRigidAreb(hpbd10));
+        checkWrbpper.bdd(showFullDescriptionCheckBox);
+        control2.bdd(checkWrbpper);
+        control2.bdd(Box.crebteRigidAreb(vpbd20));
+        control2.bdd(Box.crebteGlue());
 
         // ********************************************************
-        // ****************** Display Options *********************
+        // ****************** Displby Options *********************
         // ********************************************************
-        JPanel control3 = new InsetPanel(insets);
-        control3.setBorder(BorderFactory.createTitledBorder("Display Options"));
-        control3.setLayout(new BoxLayout(control3, BoxLayout.Y_AXIS));
-        control3.add(Box.createRigidArea(vpad20));
-        control3.add(setHiddenCheckBox);
-        control3.add(Box.createRigidArea(vpad7));
-        control3.add(useFileViewCheckBox);
-        control3.add(Box.createRigidArea(vpad7));
-        control3.add(useFileSystemViewCheckBox);
-        control3.add(Box.createRigidArea(vpad7));
-        control3.add(accessoryCheckBox);
-        control3.add(Box.createRigidArea(vpad7));
-        control3.add(useEmbedInWizardCheckBox);
-        control3.add(Box.createRigidArea(vpad7));
-        control3.add(useControlsCheckBox);
-        control3.add(Box.createRigidArea(vpad7));
-        control3.add(enableDragCheckBox);
-        control3.add(Box.createRigidArea(vpad20));
-        control3.add(Box.createGlue());
+        JPbnel control3 = new InsetPbnel(insets);
+        control3.setBorder(BorderFbctory.crebteTitledBorder("Displby Options"));
+        control3.setLbyout(new BoxLbyout(control3, BoxLbyout.Y_AXIS));
+        control3.bdd(Box.crebteRigidAreb(vpbd20));
+        control3.bdd(setHiddenCheckBox);
+        control3.bdd(Box.crebteRigidAreb(vpbd7));
+        control3.bdd(useFileViewCheckBox);
+        control3.bdd(Box.crebteRigidAreb(vpbd7));
+        control3.bdd(useFileSystemViewCheckBox);
+        control3.bdd(Box.crebteRigidAreb(vpbd7));
+        control3.bdd(bccessoryCheckBox);
+        control3.bdd(Box.crebteRigidAreb(vpbd7));
+        control3.bdd(useEmbedInWizbrdCheckBox);
+        control3.bdd(Box.crebteRigidAreb(vpbd7));
+        control3.bdd(useControlsCheckBox);
+        control3.bdd(Box.crebteRigidAreb(vpbd7));
+        control3.bdd(enbbleDrbgCheckBox);
+        control3.bdd(Box.crebteRigidAreb(vpbd20));
+        control3.bdd(Box.crebteGlue());
 
         // ********************************************************
         // ************* File & Directory Options *****************
         // ********************************************************
-        JPanel control4 = new InsetPanel(insets);
-        control4.setBorder(BorderFactory.createTitledBorder(
-                "File and Directory Options"));
-        control4.setLayout(new BoxLayout(control4, BoxLayout.Y_AXIS));
-        control4.add(Box.createRigidArea(vpad20));
-        control4.add(justFilesRadioButton);
-        control4.add(Box.createRigidArea(vpad7));
-        control4.add(justDirectoriesRadioButton);
-        control4.add(Box.createRigidArea(vpad7));
-        control4.add(bothFilesAndDirectoriesRadioButton);
-        control4.add(Box.createRigidArea(vpad20));
-        control4.add(singleSelectionRadioButton);
-        control4.add(Box.createRigidArea(vpad7));
-        control4.add(multiSelectionRadioButton);
-        control4.add(Box.createRigidArea(vpad20));
-        control4.add(Box.createGlue());
+        JPbnel control4 = new InsetPbnel(insets);
+        control4.setBorder(BorderFbctory.crebteTitledBorder(
+                "File bnd Directory Options"));
+        control4.setLbyout(new BoxLbyout(control4, BoxLbyout.Y_AXIS));
+        control4.bdd(Box.crebteRigidAreb(vpbd20));
+        control4.bdd(justFilesRbdioButton);
+        control4.bdd(Box.crebteRigidAreb(vpbd7));
+        control4.bdd(justDirectoriesRbdioButton);
+        control4.bdd(Box.crebteRigidAreb(vpbd7));
+        control4.bdd(bothFilesAndDirectoriesRbdioButton);
+        control4.bdd(Box.crebteRigidAreb(vpbd20));
+        control4.bdd(singleSelectionRbdioButton);
+        control4.bdd(Box.crebteRigidAreb(vpbd7));
+        control4.bdd(multiSelectionRbdioButton);
+        control4.bdd(Box.crebteRigidAreb(vpbd20));
+        control4.bdd(Box.crebteGlue());
 
 
         // ********************************************************
         // **************** Look & Feel Switch ********************
         // ********************************************************
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Look and Feel: "));
-        panel.add(lafComboBox);
-        panel.add(showButton);
+        JPbnel pbnel = new JPbnel();
+        pbnel.bdd(new JLbbel("Look bnd Feel: "));
+        pbnel.bdd(lbfComboBox);
+        pbnel.bdd(showButton);
 
         // ********************************************************
-        // ****************** Wrap 'em all up *********************
+        // ****************** Wrbp 'em bll up *********************
         // ********************************************************
-        JPanel wrapper = new JPanel();
-        wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.X_AXIS));
+        JPbnel wrbpper = new JPbnel();
+        wrbpper.setLbyout(new BoxLbyout(wrbpper, BoxLbyout.X_AXIS));
 
-        add(Box.createRigidArea(vpad20));
+        bdd(Box.crebteRigidAreb(vpbd20));
 
-        wrapper.add(Box.createRigidArea(hpad10));
-        wrapper.add(Box.createRigidArea(hpad10));
-        wrapper.add(control1);
-        wrapper.add(Box.createRigidArea(hpad10));
-        wrapper.add(control2);
-        wrapper.add(Box.createRigidArea(hpad10));
-        wrapper.add(control3);
-        wrapper.add(Box.createRigidArea(hpad10));
-        wrapper.add(control4);
-        wrapper.add(Box.createRigidArea(hpad10));
-        wrapper.add(Box.createRigidArea(hpad10));
+        wrbpper.bdd(Box.crebteRigidAreb(hpbd10));
+        wrbpper.bdd(Box.crebteRigidAreb(hpbd10));
+        wrbpper.bdd(control1);
+        wrbpper.bdd(Box.crebteRigidAreb(hpbd10));
+        wrbpper.bdd(control2);
+        wrbpper.bdd(Box.crebteRigidAreb(hpbd10));
+        wrbpper.bdd(control3);
+        wrbpper.bdd(Box.crebteRigidAreb(hpbd10));
+        wrbpper.bdd(control4);
+        wrbpper.bdd(Box.crebteRigidAreb(hpbd10));
+        wrbpper.bdd(Box.crebteRigidAreb(hpbd10));
 
-        add(wrapper);
-        add(Box.createRigidArea(vpad20));
-        add(panel);
-        add(Box.createRigidArea(vpad20));
+        bdd(wrbpper);
+        bdd(Box.crebteRigidAreb(vpbd20));
+        bdd(pbnel);
+        bdd(Box.crebteRigidAreb(vpbd20));
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void bctionPerformed(ActionEvent e) {
         if (customButton.isSelected()) {
             chooser.setApproveButtonText(customField.getText());
         }
-        if (chooser.isMultiSelectionEnabled()) {
+        if (chooser.isMultiSelectionEnbbled()) {
             chooser.setSelectedFiles(null);
         } else {
             chooser.setSelectedFile(null);
         }
-        // clear the preview from the previous display of the chooser
-        JComponent accessory = chooser.getAccessory();
-        if (accessory != null) {
-            ((FilePreviewer) accessory).loadImage(null);
+        // clebr the preview from the previous displby of the chooser
+        JComponent bccessory = chooser.getAccessory();
+        if (bccessory != null) {
+            ((FilePreviewer) bccessory).lobdImbge(null);
         }
 
-        if (useEmbedInWizardCheckBox.isSelected()) {
-            WizardDialog wizard = new WizardDialog(frame, true);
-            wizard.setVisible(true);
-            wizard.dispose();
+        if (useEmbedInWizbrdCheckBox.isSelected()) {
+            WizbrdDiblog wizbrd = new WizbrdDiblog(frbme, true);
+            wizbrd.setVisible(true);
+            wizbrd.dispose();
             return;
         }
 
-        int retval = chooser.showDialog(frame, null);
-        if (retval == APPROVE_OPTION) {
-            JOptionPane.showMessageDialog(frame, getResultString());
-        } else if (retval == CANCEL_OPTION) {
-            JOptionPane.showMessageDialog(frame,
-                    "User cancelled operation. No file was chosen.");
-        } else if (retval == ERROR_OPTION) {
-            JOptionPane.showMessageDialog(frame,
-                    "An error occurred. No file was chosen.");
+        int retvbl = chooser.showDiblog(frbme, null);
+        if (retvbl == APPROVE_OPTION) {
+            JOptionPbne.showMessbgeDiblog(frbme, getResultString());
+        } else if (retvbl == CANCEL_OPTION) {
+            JOptionPbne.showMessbgeDiblog(frbme,
+                    "User cbncelled operbtion. No file wbs chosen.");
+        } else if (retvbl == ERROR_OPTION) {
+            JOptionPbne.showMessbgeDiblog(frbme,
+                    "An error occurred. No file wbs chosen.");
         } else {
-            JOptionPane.showMessageDialog(frame, "Unknown operation occurred.");
+            JOptionPbne.showMessbgeDiblog(frbme, "Unknown operbtion occurred.");
         }
     }
 
-    private void resetFileFilters(boolean enableFilters,
-            boolean showExtensionInDescription) {
-        chooser.resetChoosableFileFilters();
-        if (enableFilters) {
-            FileFilter jpgFilter = createFileFilter(
-                    "JPEG Compressed Image Files",
+    privbte void resetFileFilters(boolebn enbbleFilters,
+            boolebn showExtensionInDescription) {
+        chooser.resetChoosbbleFileFilters();
+        if (enbbleFilters) {
+            FileFilter jpgFilter = crebteFileFilter(
+                    "JPEG Compressed Imbge Files",
                     showExtensionInDescription, "jpg");
-            FileFilter gifFilter = createFileFilter("GIF Image Files",
+            FileFilter gifFilter = crebteFileFilter("GIF Imbge Files",
                     showExtensionInDescription, "gif");
-            FileFilter bothFilter = createFileFilter("JPEG and GIF Image Files",
+            FileFilter bothFilter = crebteFileFilter("JPEG bnd GIF Imbge Files",
                     showExtensionInDescription, "jpg",
                     "gif");
-            chooser.addChoosableFileFilter(bothFilter);
-            chooser.addChoosableFileFilter(jpgFilter);
-            chooser.addChoosableFileFilter(gifFilter);
+            chooser.bddChoosbbleFileFilter(bothFilter);
+            chooser.bddChoosbbleFileFilter(jpgFilter);
+            chooser.bddChoosbbleFileFilter(gifFilter);
         }
     }
 
-    private FileFilter createFileFilter(String description,
-            boolean showExtensionInDescription, String... extensions) {
+    privbte FileFilter crebteFileFilter(String description,
+            boolebn showExtensionInDescription, String... extensions) {
         if (showExtensionInDescription) {
-            description = createFileNameFilterDescriptionFromExtensions(
+            description = crebteFileNbmeFilterDescriptionFromExtensions(
                     description, extensions);
         }
-        return new FileNameExtensionFilter(description, extensions);
+        return new FileNbmeExtensionFilter(description, extensions);
     }
 
-    private String createFileNameFilterDescriptionFromExtensions(
+    privbte String crebteFileNbmeFilterDescriptionFromExtensions(
             String description, String[] extensions) {
         String fullDescription = (description == null) ? "(" : description
                 + " (";
@@ -498,110 +498,110 @@ public class FileChooserDemo extends JPanel implements ActionListener {
     }
 
 
-    private class WizardDialog extends JDialog implements ActionListener {
+    privbte clbss WizbrdDiblog extends JDiblog implements ActionListener {
 
-        CardLayout cardLayout;
-        JPanel cardPanel;
-        JLabel messageLabel;
-        JButton backButton, nextButton, closeButton;
+        CbrdLbyout cbrdLbyout;
+        JPbnel cbrdPbnel;
+        JLbbel messbgeLbbel;
+        JButton bbckButton, nextButton, closeButton;
 
-        @SuppressWarnings("LeakingThisInConstructor")
-        WizardDialog(JFrame frame, boolean modal) {
-            super(frame, "Embedded JFileChooser Demo", modal);
+        @SuppressWbrnings("LebkingThisInConstructor")
+        WizbrdDiblog(JFrbme frbme, boolebn modbl) {
+            super(frbme, "Embedded JFileChooser Demo", modbl);
 
-            cardLayout = new CardLayout();
-            cardPanel = new JPanel(cardLayout);
-            getContentPane().add(cardPanel, BorderLayout.CENTER);
+            cbrdLbyout = new CbrdLbyout();
+            cbrdPbnel = new JPbnel(cbrdLbyout);
+            getContentPbne().bdd(cbrdPbnel, BorderLbyout.CENTER);
 
-            messageLabel = new JLabel("", JLabel.CENTER);
-            cardPanel.add(chooser, "fileChooser");
-            cardPanel.add(messageLabel, "label");
-            cardLayout.show(cardPanel, "fileChooser");
-            chooser.addActionListener(this);
+            messbgeLbbel = new JLbbel("", JLbbel.CENTER);
+            cbrdPbnel.bdd(chooser, "fileChooser");
+            cbrdPbnel.bdd(messbgeLbbel, "lbbel");
+            cbrdLbyout.show(cbrdPbnel, "fileChooser");
+            chooser.bddActionListener(this);
 
-            JPanel buttonPanel = new JPanel();
-            backButton = new JButton("< Back");
+            JPbnel buttonPbnel = new JPbnel();
+            bbckButton = new JButton("< Bbck");
             nextButton = new JButton("Next >");
             closeButton = new JButton("Close");
 
-            buttonPanel.add(backButton);
-            buttonPanel.add(nextButton);
-            buttonPanel.add(closeButton);
+            buttonPbnel.bdd(bbckButton);
+            buttonPbnel.bdd(nextButton);
+            buttonPbnel.bdd(closeButton);
 
-            getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+            getContentPbne().bdd(buttonPbnel, BorderLbyout.SOUTH);
 
-            backButton.setEnabled(false);
-            getRootPane().setDefaultButton(nextButton);
+            bbckButton.setEnbbled(fblse);
+            getRootPbne().setDefbultButton(nextButton);
 
-            backButton.addActionListener(this);
-            nextButton.addActionListener(this);
-            closeButton.addActionListener(this);
+            bbckButton.bddActionListener(this);
+            nextButton.bddActionListener(this);
+            closeButton.bddActionListener(this);
 
-            pack();
-            setLocationRelativeTo(frame);
+            pbck();
+            setLocbtionRelbtiveTo(frbme);
         }
 
-        public void actionPerformed(ActionEvent evt) {
+        public void bctionPerformed(ActionEvent evt) {
             Object src = evt.getSource();
-            String cmd = evt.getActionCommand();
+            String cmd = evt.getActionCommbnd();
 
-            if (src == backButton) {
-                back();
+            if (src == bbckButton) {
+                bbck();
             } else if (src == nextButton) {
                 FileChooserUI ui = chooser.getUI();
-                if (ui instanceof BasicFileChooserUI) {
-                    // Workaround for bug 4528663. This is necessary to
+                if (ui instbnceof BbsicFileChooserUI) {
+                    // Workbround for bug 4528663. This is necessbry to
                     // pick up the contents of the file chooser text field.
-                    // This will trigger an APPROVE_SELECTION action.
-                    ((BasicFileChooserUI) ui).getApproveSelectionAction().
-                            actionPerformed(null);
+                    // This will trigger bn APPROVE_SELECTION bction.
+                    ((BbsicFileChooserUI) ui).getApproveSelectionAction().
+                            bctionPerformed(null);
                 } else {
                     next();
                 }
             } else if (src == closeButton) {
                 close();
-            } else if (APPROVE_SELECTION.equals(cmd)) {
+            } else if (APPROVE_SELECTION.equbls(cmd)) {
                 next();
-            } else if (CANCEL_SELECTION.equals(cmd)) {
+            } else if (CANCEL_SELECTION.equbls(cmd)) {
                 close();
             }
         }
 
-        private void back() {
-            backButton.setEnabled(false);
-            nextButton.setEnabled(true);
-            cardLayout.show(cardPanel, "fileChooser");
-            getRootPane().setDefaultButton(nextButton);
+        privbte void bbck() {
+            bbckButton.setEnbbled(fblse);
+            nextButton.setEnbbled(true);
+            cbrdLbyout.show(cbrdPbnel, "fileChooser");
+            getRootPbne().setDefbultButton(nextButton);
             chooser.requestFocus();
         }
 
-        private void next() {
-            backButton.setEnabled(true);
-            nextButton.setEnabled(false);
-            messageLabel.setText(getResultString());
-            cardLayout.show(cardPanel, "label");
-            getRootPane().setDefaultButton(closeButton);
+        privbte void next() {
+            bbckButton.setEnbbled(true);
+            nextButton.setEnbbled(fblse);
+            messbgeLbbel.setText(getResultString());
+            cbrdLbyout.show(cbrdPbnel, "lbbel");
+            getRootPbne().setDefbultButton(closeButton);
             closeButton.requestFocus();
         }
 
-        private void close() {
-            setVisible(false);
+        privbte void close() {
+            setVisible(fblse);
         }
 
         @Override
         public void dispose() {
             chooser.removeActionListener(this);
 
-            // The chooser is hidden by CardLayout on remove
+            // The chooser is hidden by CbrdLbyout on remove
             // so fix it here
-            cardPanel.remove(chooser);
+            cbrdPbnel.remove(chooser);
             chooser.setVisible(true);
 
             super.dispose();
         }
     }
 
-    private String getResultString() {
+    privbte String getResultString() {
         String resultString;
         String filter;
         if (chooser.getFileFilter() == null) {
@@ -609,78 +609,78 @@ public class FileChooserDemo extends JPanel implements ActionListener {
         } else {
             filter = chooser.getFileFilter().getDescription();
         }
-        String path = null;
-        boolean isDirMode = (chooser.getFileSelectionMode() == DIRECTORIES_ONLY);
-        boolean isMulti = chooser.isMultiSelectionEnabled();
+        String pbth = null;
+        boolebn isDirMode = (chooser.getFileSelectionMode() == DIRECTORIES_ONLY);
+        boolebn isMulti = chooser.isMultiSelectionEnbbled();
 
         if (isMulti) {
             File[] files = chooser.getSelectedFiles();
             if (files != null && files.length > 0) {
-                path = "";
+                pbth = "";
                 for (File file : files) {
-                    path = path + "<br>" + file.getPath();
+                    pbth = pbth + "<br>" + file.getPbth();
                 }
             }
         } else {
             File file = chooser.getSelectedFile();
             if (file != null) {
-                path = "<br>" + file.getPath();
+                pbth = "<br>" + file.getPbth();
             }
         }
-        if (path != null) {
-            path = path.replace(" ", "&nbsp;");
-            filter = filter.replace(" ", "&nbsp;");
+        if (pbth != null) {
+            pbth = pbth.replbce(" ", "&nbsp;");
+            filter = filter.replbce(" ", "&nbsp;");
             resultString =
                     "<html>You chose " + (isMulti ? "these" : "this") + " " + (isDirMode ? (isMulti
                     ? "directories" : "directory")
-                    : (isMulti ? "files" : "file")) + ": <code>" + path
+                    : (isMulti ? "files" : "file")) + ": <code>" + pbth
                     + "</code><br><br>with filter: <br><code>" + filter;
         } else {
-            resultString = "Nothing was chosen";
+            resultString = "Nothing wbs chosen";
         }
         return resultString;
     }
 
 
-    /** An ActionListener that listens to the radio buttons. */
-    private class OptionListener implements ActionListener {
+    /** An ActionListener thbt listens to the rbdio buttons. */
+    privbte clbss OptionListener implements ActionListener {
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             JComponent c = (JComponent) e.getSource();
-            boolean selected = false;
-            if (c instanceof JToggleButton) {
+            boolebn selected = fblse;
+            if (c instbnceof JToggleButton) {
                 selected = ((JToggleButton) c).isSelected();
             }
 
-            if (c == openRadioButton) {
-                chooser.setDialogType(OPEN_DIALOG);
-                customField.setEnabled(false);
-                repaint();
-            } else if (c == useEmbedInWizardCheckBox) {
-                useControlsCheckBox.setEnabled(!selected);
+            if (c == openRbdioButton) {
+                chooser.setDiblogType(OPEN_DIALOG);
+                customField.setEnbbled(fblse);
+                repbint();
+            } else if (c == useEmbedInWizbrdCheckBox) {
+                useControlsCheckBox.setEnbbled(!selected);
                 useControlsCheckBox.setSelected(!selected);
                 chooser.setControlButtonsAreShown(!selected);
             } else if (c == useControlsCheckBox) {
                 chooser.setControlButtonsAreShown(selected);
-            } else if (c == enableDragCheckBox) {
-                chooser.setDragEnabled(selected);
-            } else if (c == saveRadioButton) {
-                chooser.setDialogType(SAVE_DIALOG);
-                customField.setEnabled(false);
-                repaint();
+            } else if (c == enbbleDrbgCheckBox) {
+                chooser.setDrbgEnbbled(selected);
+            } else if (c == sbveRbdioButton) {
+                chooser.setDiblogType(SAVE_DIALOG);
+                customField.setEnbbled(fblse);
+                repbint();
             } else if (c == customButton || c == customField) {
-                customField.setEnabled(true);
-                chooser.setDialogType(CUSTOM_DIALOG);
-                repaint();
+                customField.setEnbbled(true);
+                chooser.setDiblogType(CUSTOM_DIALOG);
+                repbint();
             } else if (c == showAllFilesFilterCheckBox) {
                 chooser.setAcceptAllFileFilterUsed(selected);
-            } else if (c == showImageFilesFilterCheckBox) {
+            } else if (c == showImbgeFilesFilterCheckBox) {
                 resetFileFilters(selected,
                         showFullDescriptionCheckBox.isSelected());
-                showFullDescriptionCheckBox.setEnabled(selected);
+                showFullDescriptionCheckBox.setEnbbled(selected);
             } else if (c == setHiddenCheckBox) {
-                chooser.setFileHidingEnabled(!selected);
-            } else if (c == accessoryCheckBox) {
+                chooser.setFileHidingEnbbled(!selected);
+            } else if (c == bccessoryCheckBox) {
                 if (selected) {
                     chooser.setAccessory(previewer);
                 } else {
@@ -696,41 +696,41 @@ public class FileChooserDemo extends JPanel implements ActionListener {
                 if (selected) {
                     chooser.setFileSystemView(fileSystemView);
                 } else {
-                    // Restore default behaviour
+                    // Restore defbult behbviour
                     chooser.setFileSystemView(FileSystemView.getFileSystemView());
                 }
             } else if (c == showFullDescriptionCheckBox) {
-                resetFileFilters(showImageFilesFilterCheckBox.isSelected(),
+                resetFileFilters(showImbgeFilesFilterCheckBox.isSelected(),
                         selected);
-            } else if (c == justFilesRadioButton) {
+            } else if (c == justFilesRbdioButton) {
                 chooser.setFileSelectionMode(FILES_ONLY);
-            } else if (c == justDirectoriesRadioButton) {
+            } else if (c == justDirectoriesRbdioButton) {
                 chooser.setFileSelectionMode(DIRECTORIES_ONLY);
-            } else if (c == bothFilesAndDirectoriesRadioButton) {
+            } else if (c == bothFilesAndDirectoriesRbdioButton) {
                 chooser.setFileSelectionMode(FILES_AND_DIRECTORIES);
-            } else if (c == singleSelectionRadioButton) {
+            } else if (c == singleSelectionRbdioButton) {
                 if (selected) {
-                    chooser.setMultiSelectionEnabled(false);
+                    chooser.setMultiSelectionEnbbled(fblse);
                 }
-            } else if (c == multiSelectionRadioButton) {
+            } else if (c == multiSelectionRbdioButton) {
                 if (selected) {
-                    chooser.setMultiSelectionEnabled(true);
+                    chooser.setMultiSelectionEnbbled(true);
                 }
-            } else if (c == lafComboBox) {
-                SupportedLaF supportedLaF = ((SupportedLaF) lafComboBox.
+            } else if (c == lbfComboBox) {
+                SupportedLbF supportedLbF = ((SupportedLbF) lbfComboBox.
                         getSelectedItem());
-                LookAndFeel laf = supportedLaF.laf;
+                LookAndFeel lbf = supportedLbF.lbf;
                 try {
-                    UIManager.setLookAndFeel(laf);
-                    SwingUtilities.updateComponentTreeUI(frame);
+                    UIMbnbger.setLookAndFeel(lbf);
+                    SwingUtilities.updbteComponentTreeUI(frbme);
                     if (chooser != null) {
-                        SwingUtilities.updateComponentTreeUI(chooser);
+                        SwingUtilities.updbteComponentTreeUI(chooser);
                     }
-                    frame.pack();
-                } catch (UnsupportedLookAndFeelException exc) {
-                    // This should not happen because we already checked
-                    ((DefaultComboBoxModel) lafComboBox.getModel()).
-                            removeElement(supportedLaF);
+                    frbme.pbck();
+                } cbtch (UnsupportedLookAndFeelException exc) {
+                    // This should not hbppen becbuse we blrebdy checked
+                    ((DefbultComboBoxModel) lbfComboBox.getModel()).
+                            removeElement(supportedLbF);
                 }
             }
 
@@ -738,47 +738,47 @@ public class FileChooserDemo extends JPanel implements ActionListener {
     }
 
 
-    private class FilePreviewer extends JComponent implements
-            PropertyChangeListener {
+    privbte clbss FilePreviewer extends JComponent implements
+            PropertyChbngeListener {
 
-        ImageIcon thumbnail = null;
+        ImbgeIcon thumbnbil = null;
 
-        @SuppressWarnings("LeakingThisInConstructor")
+        @SuppressWbrnings("LebkingThisInConstructor")
         public FilePreviewer(JFileChooser fc) {
             setPreferredSize(new Dimension(100, 50));
-            fc.addPropertyChangeListener(this);
+            fc.bddPropertyChbngeListener(this);
         }
 
-        public void loadImage(File f) {
+        public void lobdImbge(File f) {
             if (f == null) {
-                thumbnail = null;
+                thumbnbil = null;
             } else {
-                ImageIcon tmpIcon = new ImageIcon(f.getPath());
+                ImbgeIcon tmpIcon = new ImbgeIcon(f.getPbth());
                 if (tmpIcon.getIconWidth() > 90) {
-                    thumbnail = new ImageIcon(
-                            tmpIcon.getImage().getScaledInstance(90, -1,
-                            Image.SCALE_DEFAULT));
+                    thumbnbil = new ImbgeIcon(
+                            tmpIcon.getImbge().getScbledInstbnce(90, -1,
+                            Imbge.SCALE_DEFAULT));
                 } else {
-                    thumbnail = tmpIcon;
+                    thumbnbil = tmpIcon;
                 }
             }
         }
 
-        public void propertyChange(PropertyChangeEvent e) {
-            String prop = e.getPropertyName();
-            if (SELECTED_FILE_CHANGED_PROPERTY.equals(prop)) {
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String prop = e.getPropertyNbme();
+            if (SELECTED_FILE_CHANGED_PROPERTY.equbls(prop)) {
                 if (isShowing()) {
-                    loadImage((File) e.getNewValue());
-                    repaint();
+                    lobdImbge((File) e.getNewVblue());
+                    repbint();
                 }
             }
         }
 
         @Override
-        public void paint(Graphics g) {
-            if (thumbnail != null) {
-                int x = getWidth() / 2 - thumbnail.getIconWidth() / 2;
-                int y = getHeight() / 2 - thumbnail.getIconHeight() / 2;
+        public void pbint(Grbphics g) {
+            if (thumbnbil != null) {
+                int x = getWidth() / 2 - thumbnbil.getIconWidth() / 2;
+                int y = getHeight() / 2 - thumbnbil.getIconHeight() / 2;
                 if (y < 0) {
                     y = 0;
                 }
@@ -786,59 +786,59 @@ public class FileChooserDemo extends JPanel implements ActionListener {
                 if (x < 5) {
                     x = 5;
                 }
-                thumbnail.paintIcon(this, g, x, y);
+                thumbnbil.pbintIcon(this, g, x, y);
             }
         }
     }
 
-    public static void main(String s[]) {
+    public stbtic void mbin(String s[]) {
         try {
-            SwingUtilities.invokeAndWait(new Runnable() {
+            SwingUtilities.invokeAndWbit(new Runnbble() {
 
                 public void run() {
                     /*
-                     * NOTE: By default, the look and feel will be set to the
-                     * Cross Platform Look and Feel (which is currently Metal).
-                     * The following code tries to set the Look and Feel to Nimbus.
-                     * http://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/nimbus.html
+                     * NOTE: By defbult, the look bnd feel will be set to the
+                     * Cross Plbtform Look bnd Feel (which is currently Metbl).
+                     * The following code tries to set the Look bnd Feel to Nimbus.
+                     * http://docs.orbcle.com/jbvbse/tutoribl/uiswing/lookbndfeel/nimbus.html
                      */
                     try {
-                        for (LookAndFeelInfo info : UIManager.
-                                getInstalledLookAndFeels()) {
-                            if (NIMBUS_LAF_NAME.equals(info.getName())) {
-                                UIManager.setLookAndFeel(info.getClassName());
-                                break;
+                        for (LookAndFeelInfo info : UIMbnbger.
+                                getInstblledLookAndFeels()) {
+                            if (NIMBUS_LAF_NAME.equbls(info.getNbme())) {
+                                UIMbnbger.setLookAndFeel(info.getClbssNbme());
+                                brebk;
                             }
                         }
-                    } catch (Exception ignored) {
+                    } cbtch (Exception ignored) {
                     }
 
-                    FileChooserDemo panel = new FileChooserDemo();
+                    FileChooserDemo pbnel = new FileChooserDemo();
 
-                    frame = new JFrame("FileChooserDemo");
-                    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    frame.getContentPane().add("Center", panel);
-                    frame.pack();
-                    frame.setVisible(true);
+                    frbme = new JFrbme("FileChooserDemo");
+                    frbme.setDefbultCloseOperbtion(WindowConstbnts.EXIT_ON_CLOSE);
+                    frbme.getContentPbne().bdd("Center", pbnel);
+                    frbme.pbck();
+                    frbme.setVisible(true);
                 }
             });
-        } catch (InterruptedException ex) {
-            Logger.getLogger(FileChooserDemo.class.getName()).log(Level.SEVERE,
+        } cbtch (InterruptedException ex) {
+            Logger.getLogger(FileChooserDemo.clbss.getNbme()).log(Level.SEVERE,
                     null,
                     ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(FileChooserDemo.class.getName()).log(Level.SEVERE,
+        } cbtch (InvocbtionTbrgetException ex) {
+            Logger.getLogger(FileChooserDemo.clbss.getNbme()).log(Level.SEVERE,
                     null,
                     ex);
         }
     }
 
 
-    private static class InsetPanel extends JPanel {
+    privbte stbtic clbss InsetPbnel extends JPbnel {
 
         Insets i;
 
-        InsetPanel(Insets i) {
+        InsetPbnel(Insets i) {
             this.i = i;
         }
 

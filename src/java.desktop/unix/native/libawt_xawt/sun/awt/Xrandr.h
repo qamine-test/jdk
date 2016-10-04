@@ -3,20 +3,20 @@
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * $XFree86: xc/lib/Xrandr/Xrandr.h,v 1.9 2002/09/29 23:39:44 keithp Exp $
+ * $XFree86: xc/lib/Xrbndr/Xrbndr.h,v 1.9 2002/09/29 23:39:44 keithp Exp $
  *
- * Copyright © 2000 Compaq Computer Corporation, Inc.
- * Copyright © 2002 Hewlett-Packard Company, Inc.
+ * Copyright © 2000 Compbq Computer Corporbtion, Inc.
+ * Copyright © 2002 Hewlett-Pbckbrd Compbny, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Compaq not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  HP makes no representations about the
- * suitability of this software for any purpose.  It is provided "as is"
- * without express or implied warranty.
+ * Permission to use, copy, modify, distribute, bnd sell this softwbre bnd its
+ * documentbtion for bny purpose is hereby grbnted without fee, provided thbt
+ * the bbove copyright notice bppebr in bll copies bnd thbt both thbt
+ * copyright notice bnd this permission notice bppebr in supporting
+ * documentbtion, bnd thbt the nbme of Compbq not be used in bdvertising or
+ * publicity pertbining to distribution of the softwbre without specific,
+ * written prior permission.  HP mbkes no representbtions bbout the
+ * suitbbility of this softwbre for bny purpose.  It is provided "bs is"
+ * without express or implied wbrrbnty.
  *
  * HP DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL COMPAQ
@@ -25,14 +25,14 @@
  * OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *
- * Author:  Jim Gettys, HP Labs, HP.
+ * Author:  Jim Gettys, HP Lbbs, HP.
  */
 
 #ifndef _XRANDR_H_
 #define _XRANDR_H_
 
-/*#include <X11/extensions/randr.h>*/
-#include "randr.h"
+/*#include <X11/extensions/rbndr.h>*/
+#include "rbndr.h"
 
 #include <X11/Xfuncproto.h>
 
@@ -49,107 +49,107 @@ typedef struct {
  */
 
 typedef struct {
-    int type;                   /* event base */
-    unsigned long serial;       /* # of last request processed by server */
-    Bool send_event;            /* true if this came from a SendEvent request */
-    Display *display;           /* Display the event was read from */
+    int type;                   /* event bbse */
+    unsigned long seribl;       /* # of lbst request processed by server */
+    Bool send_event;            /* true if this cbme from b SendEvent request */
+    Displby *displby;           /* Displby the event wbs rebd from */
     Window window;              /* window which selected for this event */
-    Window root;                /* Root window for changed screen */
-    Time timestamp;             /* when the screen change occurred */
-    Time config_timestamp;      /* when the last configuration change */
+    Window root;                /* Root window for chbnged screen */
+    Time timestbmp;             /* when the screen chbnge occurred */
+    Time config_timestbmp;      /* when the lbst configurbtion chbnge */
     SizeID size_index;
     SubpixelOrder subpixel_order;
-    Rotation rotation;
+    Rotbtion rotbtion;
     int width;
     int height;
     int mwidth;
     int mheight;
-} XRRScreenChangeNotifyEvent;
+} XRRScreenChbngeNotifyEvent;
 
 
-/* internal representation is private to the library */
-typedef struct _XRRScreenConfiguration XRRScreenConfiguration;
+/* internbl representbtion is privbte to the librbry */
+typedef struct _XRRScreenConfigurbtion XRRScreenConfigurbtion;
 
-Bool XRRQueryExtension (Display *dpy, int *event_basep, int *error_basep);
-Status XRRQueryVersion (Display *dpy,
-                            int     *major_versionp,
+Bool XRRQueryExtension (Displby *dpy, int *event_bbsep, int *error_bbsep);
+Stbtus XRRQueryVersion (Displby *dpy,
+                            int     *mbjor_versionp,
                             int     *minor_versionp);
 
-XRRScreenConfiguration *XRRGetScreenInfo (Display *dpy,
-                                          Drawable draw);
+XRRScreenConfigurbtion *XRRGetScreenInfo (Displby *dpy,
+                                          Drbwbble drbw);
 
-void XRRFreeScreenConfigInfo (XRRScreenConfiguration *config);
+void XRRFreeScreenConfigInfo (XRRScreenConfigurbtion *config);
 
 /*
- * Note that screen configuration changes are only permitted if the client can
- * prove it has up to date configuration information.  We are trying to
- * insist that it become possible for screens to change dynamically, so
- * we want to ensure the client knows what it is talking about when requesting
- * changes.
+ * Note thbt screen configurbtion chbnges bre only permitted if the client cbn
+ * prove it hbs up to dbte configurbtion informbtion.  We bre trying to
+ * insist thbt it become possible for screens to chbnge dynbmicblly, so
+ * we wbnt to ensure the client knows whbt it is tblking bbout when requesting
+ * chbnges.
  */
-Status XRRSetScreenConfig (Display *dpy,
-                           XRRScreenConfiguration *config,
-                           Drawable draw,
+Stbtus XRRSetScreenConfig (Displby *dpy,
+                           XRRScreenConfigurbtion *config,
+                           Drbwbble drbw,
                            int size_index,
-                           Rotation rotation,
-                           Time timestamp);
+                           Rotbtion rotbtion,
+                           Time timestbmp);
 
-/* added in v1.1, sorry for the lame name */
-Status XRRSetScreenConfigAndRate (Display *dpy,
-                                  XRRScreenConfiguration *config,
-                                  Drawable draw,
+/* bdded in v1.1, sorry for the lbme nbme */
+Stbtus XRRSetScreenConfigAndRbte (Displby *dpy,
+                                  XRRScreenConfigurbtion *config,
+                                  Drbwbble drbw,
                                   int size_index,
-                                  Rotation rotation,
-                                  short rate,
-                                  Time timestamp);
+                                  Rotbtion rotbtion,
+                                  short rbte,
+                                  Time timestbmp);
 
 
-Rotation XRRConfigRotations(XRRScreenConfiguration *config, Rotation *current_rotation);
+Rotbtion XRRConfigRotbtions(XRRScreenConfigurbtion *config, Rotbtion *current_rotbtion);
 
-Time XRRConfigTimes (XRRScreenConfiguration *config, Time *config_timestamp);
+Time XRRConfigTimes (XRRScreenConfigurbtion *config, Time *config_timestbmp);
 
-XRRScreenSize *XRRConfigSizes(XRRScreenConfiguration *config, int *nsizes);
+XRRScreenSize *XRRConfigSizes(XRRScreenConfigurbtion *config, int *nsizes);
 
-short *XRRConfigRates (XRRScreenConfiguration *config, int sizeID, int *nrates);
+short *XRRConfigRbtes (XRRScreenConfigurbtion *config, int sizeID, int *nrbtes);
 
-SizeID XRRConfigCurrentConfiguration (XRRScreenConfiguration *config,
-                              Rotation *rotation);
+SizeID XRRConfigCurrentConfigurbtion (XRRScreenConfigurbtion *config,
+                              Rotbtion *rotbtion);
 
-short XRRConfigCurrentRate (XRRScreenConfiguration *config);
+short XRRConfigCurrentRbte (XRRScreenConfigurbtion *config);
 
-int XRRRootToScreen(Display *dpy, Window root);
+int XRRRootToScreen(Displby *dpy, Window root);
 
 /*
- * returns the screen configuration for the specified screen; does a lazy
- * evalution to delay getting the information, and caches the result.
+ * returns the screen configurbtion for the specified screen; does b lbzy
+ * evblution to delby getting the informbtion, bnd cbches the result.
  * These routines should be used in preference to XRRGetScreenInfo
- * to avoid unneeded round trips to the X server.  These are new
+ * to bvoid unneeded round trips to the X server.  These bre new
  * in protocol version 0.1.
  */
 
 
-XRRScreenConfiguration *XRRScreenConfig(Display *dpy, int screen);
-XRRScreenConfiguration *XRRConfig(Screen *screen);
-void XRRSelectInput(Display *dpy, Window window, int mask);
+XRRScreenConfigurbtion *XRRScreenConfig(Displby *dpy, int screen);
+XRRScreenConfigurbtion *XRRConfig(Screen *screen);
+void XRRSelectInput(Displby *dpy, Window window, int mbsk);
 
 /*
- * the following are always safe to call, even if RandR is not implemented
- * on a screen
+ * the following bre blwbys sbfe to cbll, even if RbndR is not implemented
+ * on b screen
  */
 
 
-Rotation XRRRotations(Display *dpy, int screen, Rotation *current_rotation);
-XRRScreenSize *XRRSizes(Display *dpy, int screen, int *nsizes);
-short *XRRRates (Display *dpy, int screen, int sizeID, int *nrates);
-Time XRRTimes (Display *dpy, int screen, Time *config_timestamp);
+Rotbtion XRRRotbtions(Displby *dpy, int screen, Rotbtion *current_rotbtion);
+XRRScreenSize *XRRSizes(Displby *dpy, int screen, int *nsizes);
+short *XRRRbtes (Displby *dpy, int screen, int sizeID, int *nrbtes);
+Time XRRTimes (Displby *dpy, int screen, Time *config_timestbmp);
 
 
 /*
- * intended to take RRScreenChangeNotify,  or
+ * intended to tbke RRScreenChbngeNotify,  or
  * ConfigureNotify (on the root window)
- * returns 1 if it is an event type it understands, 0 if not
+ * returns 1 if it is bn event type it understbnds, 0 if not
  */
-int XRRUpdateConfiguration(XEvent *event);
+int XRRUpdbteConfigurbtion(XEvent *event);
 
 _XFUNCPROTOEND
 

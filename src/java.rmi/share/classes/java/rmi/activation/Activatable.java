@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.activation;
+pbckbge jbvb.rmi.bctivbtion;
 
-import java.rmi.MarshalledObject;
-import java.rmi.NoSuchObjectException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.activation.UnknownGroupException;
-import java.rmi.activation.UnknownObjectException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.RemoteServer;
-import sun.rmi.server.ActivatableServerRef;
+import jbvb.rmi.MbrshblledObject;
+import jbvb.rmi.NoSuchObjectException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.bctivbtion.UnknownGroupException;
+import jbvb.rmi.bctivbtion.UnknownObjectException;
+import jbvb.rmi.server.RMIClientSocketFbctory;
+import jbvb.rmi.server.RMIServerSocketFbctory;
+import jbvb.rmi.server.RemoteServer;
+import sun.rmi.server.ActivbtbbleServerRef;
 
 /**
- * The <code>Activatable</code> class provides support for remote
- * objects that require persistent access over time and that
- * can be activated by the system.
+ * The <code>Activbtbble</code> clbss provides support for remote
+ * objects thbt require persistent bccess over time bnd thbt
+ * cbn be bctivbted by the system.
  *
- * <p>For the constructors and static <code>exportObject</code> methods,
- * the stub for a remote object being exported is obtained as described in
- * {@link java.rmi.server.UnicastRemoteObject}.
+ * <p>For the constructors bnd stbtic <code>exportObject</code> methods,
+ * the stub for b remote object being exported is obtbined bs described in
+ * {@link jbvb.rmi.server.UnicbstRemoteObject}.
  *
- * <p>An attempt to serialize explicitly an instance of this class will
- * fail.
+ * <p>An bttempt to seriblize explicitly bn instbnce of this clbss will
+ * fbil.
  *
- * @author      Ann Wollrath
+ * @buthor      Ann Wollrbth
  * @since       1.2
- * @serial      exclude
+ * @seribl      exclude
  */
-public abstract class Activatable extends RemoteServer {
+public bbstrbct clbss Activbtbble extends RemoteServer {
 
-    private ActivationID id;
-    /** indicate compatibility with the Java 2 SDK v1.2 version of class */
-    private static final long serialVersionUID = -3120617863591563455L;
+    privbte ActivbtionID id;
+    /** indicbte compbtibility with the Jbvb 2 SDK v1.2 version of clbss */
+    privbte stbtic finbl long seriblVersionUID = -3120617863591563455L;
 
     /**
-     * Constructs an activatable remote object by registering
-     * an activation descriptor (with the specified location, data, and
-     * restart mode) for this object, and exporting the object with the
+     * Constructs bn bctivbtbble remote object by registering
+     * bn bctivbtion descriptor (with the specified locbtion, dbtb, bnd
+     * restbrt mode) for this object, bnd exporting the object with the
      * specified port.
      *
-     * <p><strong>Note:</strong> Using the <code>Activatable</code>
-     * constructors that both register and export an activatable remote
-     * object is strongly discouraged because the actions of registering
-     * and exporting the remote object are <i>not</i> guaranteed to be
-     * atomic.  Instead, an application should register an activation
-     * descriptor and export a remote object separately, so that exceptions
-     * can be handled properly.
+     * <p><strong>Note:</strong> Using the <code>Activbtbble</code>
+     * constructors thbt both register bnd export bn bctivbtbble remote
+     * object is strongly discourbged becbuse the bctions of registering
+     * bnd exporting the remote object bre <i>not</i> gubrbnteed to be
+     * btomic.  Instebd, bn bpplicbtion should register bn bctivbtion
+     * descriptor bnd export b remote object sepbrbtely, so thbt exceptions
+     * cbn be hbndled properly.
      *
      * <p>This method invokes the {@link
-     * #exportObject(Remote,String,MarshalledObject,boolean,int)
-     * exportObject} method with this object, and the specified location,
-     * data, restart mode, and port.  Subsequent calls to {@link #getID}
-     * will return the activation identifier returned from the call to
+     * #exportObject(Remote,String,MbrshblledObject,boolebn,int)
+     * exportObject} method with this object, bnd the specified locbtion,
+     * dbtb, restbrt mode, bnd port.  Subsequent cblls to {@link #getID}
+     * will return the bctivbtion identifier returned from the cbll to
      * <code>exportObject</code>.
      *
-     * @param location the location for classes for this object
-     * @param data the object's initialization data
-     * @param port the port on which the object is exported (an anonymous
+     * @pbrbm locbtion the locbtion for clbsses for this object
+     * @pbrbm dbtb the object's initiblizbtion dbtb
+     * @pbrbm port the port on which the object is exported (bn bnonymous
      * port is used if port=0)
-     * @param restart if true, the object is restarted (reactivated) when
-     * either the activator is restarted or the object's activation group
-     * is restarted after an unexpected crash; if false, the object is only
-     * activated on demand.  Specifying <code>restart</code> to be
-     * <code>true</code> does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @exception ActivationException if object registration fails.
-     * @exception RemoteException if either of the following fails:
-     * a) registering the object with the activation system or b) exporting
+     * @pbrbm restbrt if true, the object is restbrted (rebctivbted) when
+     * either the bctivbtor is restbrted or the object's bctivbtion group
+     * is restbrted bfter bn unexpected crbsh; if fblse, the object is only
+     * bctivbted on dembnd.  Specifying <code>restbrt</code> to be
+     * <code>true</code> does not force bn initibl immedibte bctivbtion of
+     * b newly registered object;  initibl bctivbtion is lbzy.
+     * @exception ActivbtionException if object registrbtion fbils.
+     * @exception RemoteException if either of the following fbils:
+     * b) registering the object with the bctivbtion system or b) exporting
      * the object to the RMI runtime.
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation.
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion.
      * @since 1.2
      **/
-    protected Activatable(String location,
-                          MarshalledObject<?> data,
-                          boolean restart,
+    protected Activbtbble(String locbtion,
+                          MbrshblledObject<?> dbtb,
+                          boolebn restbrt,
                           int port)
-        throws ActivationException, RemoteException
+        throws ActivbtionException, RemoteException
     {
         super();
-        id = exportObject(this, location, data, restart, port);
+        id = exportObject(this, locbtion, dbtb, restbrt, port);
     }
 
     /**
-     * Constructs an activatable remote object by registering
-     * an activation descriptor (with the specified location, data, and
-     * restart mode) for this object, and exporting the object with the
-     * specified port, and specified client and server socket factories.
+     * Constructs bn bctivbtbble remote object by registering
+     * bn bctivbtion descriptor (with the specified locbtion, dbtb, bnd
+     * restbrt mode) for this object, bnd exporting the object with the
+     * specified port, bnd specified client bnd server socket fbctories.
      *
-     * <p><strong>Note:</strong> Using the <code>Activatable</code>
-     * constructors that both register and export an activatable remote
-     * object is strongly discouraged because the actions of registering
-     * and exporting the remote object are <i>not</i> guaranteed to be
-     * atomic.  Instead, an application should register an activation
-     * descriptor and export a remote object separately, so that exceptions
-     * can be handled properly.
+     * <p><strong>Note:</strong> Using the <code>Activbtbble</code>
+     * constructors thbt both register bnd export bn bctivbtbble remote
+     * object is strongly discourbged becbuse the bctions of registering
+     * bnd exporting the remote object bre <i>not</i> gubrbnteed to be
+     * btomic.  Instebd, bn bpplicbtion should register bn bctivbtion
+     * descriptor bnd export b remote object sepbrbtely, so thbt exceptions
+     * cbn be hbndled properly.
      *
      * <p>This method invokes the {@link
-     * #exportObject(Remote,String,MarshalledObject,boolean,int,RMIClientSocketFactory,RMIServerSocketFactory)
-     * exportObject} method with this object, and the specified location,
-     * data, restart mode, port, and client and server socket factories.
-     * Subsequent calls to {@link #getID} will return the activation
-     * identifier returned from the call to <code>exportObject</code>.
+     * #exportObject(Remote,String,MbrshblledObject,boolebn,int,RMIClientSocketFbctory,RMIServerSocketFbctory)
+     * exportObject} method with this object, bnd the specified locbtion,
+     * dbtb, restbrt mode, port, bnd client bnd server socket fbctories.
+     * Subsequent cblls to {@link #getID} will return the bctivbtion
+     * identifier returned from the cbll to <code>exportObject</code>.
      *
-     * @param location the location for classes for this object
-     * @param data the object's initialization data
-     * @param restart if true, the object is restarted (reactivated) when
-     * either the activator is restarted or the object's activation group
-     * is restarted after an unexpected crash; if false, the object is only
-     * activated on demand.  Specifying <code>restart</code> to be
-     * <code>true</code> does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @param port the port on which the object is exported (an anonymous
+     * @pbrbm locbtion the locbtion for clbsses for this object
+     * @pbrbm dbtb the object's initiblizbtion dbtb
+     * @pbrbm restbrt if true, the object is restbrted (rebctivbted) when
+     * either the bctivbtor is restbrted or the object's bctivbtion group
+     * is restbrted bfter bn unexpected crbsh; if fblse, the object is only
+     * bctivbted on dembnd.  Specifying <code>restbrt</code> to be
+     * <code>true</code> does not force bn initibl immedibte bctivbtion of
+     * b newly registered object;  initibl bctivbtion is lbzy.
+     * @pbrbm port the port on which the object is exported (bn bnonymous
      * port is used if port=0)
-     * @param csf the client-side socket factory for making calls to the
+     * @pbrbm csf the client-side socket fbctory for mbking cblls to the
      * remote object
-     * @param ssf the server-side socket factory for receiving remote calls
-     * @exception ActivationException if object registration fails.
-     * @exception RemoteException if either of the following fails:
-     * a) registering the object with the activation system or b) exporting
+     * @pbrbm ssf the server-side socket fbctory for receiving remote cblls
+     * @exception ActivbtionException if object registrbtion fbils.
+     * @exception RemoteException if either of the following fbils:
+     * b) registering the object with the bctivbtion system or b) exporting
      * the object to the RMI runtime.
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation.
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion.
      * @since 1.2
      **/
-    protected Activatable(String location,
-                          MarshalledObject<?> data,
-                          boolean restart,
+    protected Activbtbble(String locbtion,
+                          MbrshblledObject<?> dbtb,
+                          boolebn restbrt,
                           int port,
-                          RMIClientSocketFactory csf,
-                          RMIServerSocketFactory ssf)
-        throws ActivationException, RemoteException
+                          RMIClientSocketFbctory csf,
+                          RMIServerSocketFbctory ssf)
+        throws ActivbtionException, RemoteException
     {
         super();
-        id = exportObject(this, location, data, restart, port, csf, ssf);
+        id = exportObject(this, locbtion, dbtb, restbrt, port, csf, ssf);
     }
 
     /**
-     * Constructor used to activate/export the object on a specified
-     * port. An "activatable" remote object must have a constructor that
-     * takes two arguments: <ul>
-     * <li>the object's activation identifier (<code>ActivationID</code>), and
-     * <li>the object's initialization data (a <code>MarshalledObject</code>).
+     * Constructor used to bctivbte/export the object on b specified
+     * port. An "bctivbtbble" remote object must hbve b constructor thbt
+     * tbkes two brguments: <ul>
+     * <li>the object's bctivbtion identifier (<code>ActivbtionID</code>), bnd
+     * <li>the object's initiblizbtion dbtb (b <code>MbrshblledObject</code>).
      * </ul><p>
      *
-     * A concrete subclass of this class must call this constructor when it is
-     * <i>activated</i> via the two parameter constructor described above. As
-     * a side-effect of construction, the remote object is "exported"
-     * to the RMI runtime (on the specified <code>port</code>) and is
-     * available to accept incoming calls from clients.
+     * A concrete subclbss of this clbss must cbll this constructor when it is
+     * <i>bctivbted</i> vib the two pbrbmeter constructor described bbove. As
+     * b side-effect of construction, the remote object is "exported"
+     * to the RMI runtime (on the specified <code>port</code>) bnd is
+     * bvbilbble to bccept incoming cblls from clients.
      *
-     * @param id activation identifier for the object
-     * @param port the port number on which the object is exported
+     * @pbrbm id bctivbtion identifier for the object
+     * @pbrbm port the port number on which the object is exported
      * @exception RemoteException if exporting the object to the RMI
-     * runtime fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * runtime fbils
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
      * @since 1.2
      */
-    protected Activatable(ActivationID id, int port)
+    protected Activbtbble(ActivbtionID id, int port)
         throws RemoteException
     {
         super();
@@ -192,33 +192,33 @@ public abstract class Activatable extends RemoteServer {
     }
 
     /**
-     * Constructor used to activate/export the object on a specified
-     * port. An "activatable" remote object must have a constructor that
-     * takes two arguments: <ul>
-     * <li>the object's activation identifier (<code>ActivationID</code>), and
-     * <li>the object's initialization data (a <code>MarshalledObject</code>).
+     * Constructor used to bctivbte/export the object on b specified
+     * port. An "bctivbtbble" remote object must hbve b constructor thbt
+     * tbkes two brguments: <ul>
+     * <li>the object's bctivbtion identifier (<code>ActivbtionID</code>), bnd
+     * <li>the object's initiblizbtion dbtb (b <code>MbrshblledObject</code>).
      * </ul><p>
      *
-     * A concrete subclass of this class must call this constructor when it is
-     * <i>activated</i> via the two parameter constructor described above. As
-     * a side-effect of construction, the remote object is "exported"
-     * to the RMI runtime (on the specified <code>port</code>) and is
-     * available to accept incoming calls from clients.
+     * A concrete subclbss of this clbss must cbll this constructor when it is
+     * <i>bctivbted</i> vib the two pbrbmeter constructor described bbove. As
+     * b side-effect of construction, the remote object is "exported"
+     * to the RMI runtime (on the specified <code>port</code>) bnd is
+     * bvbilbble to bccept incoming cblls from clients.
      *
-     * @param id activation identifier for the object
-     * @param port the port number on which the object is exported
-     * @param csf the client-side socket factory for making calls to the
+     * @pbrbm id bctivbtion identifier for the object
+     * @pbrbm port the port number on which the object is exported
+     * @pbrbm csf the client-side socket fbctory for mbking cblls to the
      * remote object
-     * @param ssf the server-side socket factory for receiving remote calls
+     * @pbrbm ssf the server-side socket fbctory for receiving remote cblls
      * @exception RemoteException if exporting the object to the RMI
-     * runtime fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * runtime fbils
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
      * @since 1.2
      */
-    protected Activatable(ActivationID id, int port,
-                          RMIClientSocketFactory csf,
-                          RMIServerSocketFactory ssf)
+    protected Activbtbble(ActivbtionID id, int port,
+                          RMIClientSocketFbctory csf,
+                          RMIServerSocketFbctory ssf)
         throws RemoteException
     {
         super();
@@ -227,353 +227,353 @@ public abstract class Activatable extends RemoteServer {
     }
 
     /**
-     * Returns the object's activation identifier.  The method is
-     * protected so that only subclasses can obtain an object's
+     * Returns the object's bctivbtion identifier.  The method is
+     * protected so thbt only subclbsses cbn obtbin bn object's
      * identifier.
-     * @return the object's activation identifier
+     * @return the object's bctivbtion identifier
      * @since 1.2
      */
-    protected ActivationID getID() {
+    protected ActivbtionID getID() {
         return id;
     }
 
     /**
-     * Register an object descriptor for an activatable remote
-     * object so that is can be activated on demand.
+     * Register bn object descriptor for bn bctivbtbble remote
+     * object so thbt is cbn be bctivbted on dembnd.
      *
-     * @param desc  the object's descriptor
-     * @return the stub for the activatable remote object
+     * @pbrbm desc  the object's descriptor
+     * @return the stub for the bctivbtbble remote object
      * @exception UnknownGroupException if group id in <code>desc</code>
-     * is not registered with the activation system
-     * @exception ActivationException if activation system is not running
-     * @exception RemoteException if remote call fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * is not registered with the bctivbtion system
+     * @exception ActivbtionException if bctivbtion system is not running
+     * @exception RemoteException if remote cbll fbils
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
      * @since 1.2
      */
-    public static Remote register(ActivationDesc desc)
-        throws UnknownGroupException, ActivationException, RemoteException
+    public stbtic Remote register(ActivbtionDesc desc)
+        throws UnknownGroupException, ActivbtionException, RemoteException
     {
-        // register object with activator.
-        ActivationID id =
-            ActivationGroup.getSystem().registerObject(desc);
-        return sun.rmi.server.ActivatableRef.getStub(desc, id);
+        // register object with bctivbtor.
+        ActivbtionID id =
+            ActivbtionGroup.getSystem().registerObject(desc);
+        return sun.rmi.server.ActivbtbbleRef.getStub(desc, id);
     }
 
     /**
-     * Informs the system that the object with the corresponding activation
-     * <code>id</code> is currently inactive. If the object is currently
-     * active, the object is "unexported" from the RMI runtime (only if
-     * there are no pending or in-progress calls)
-     * so the that it can no longer receive incoming calls. This call
-     * informs this VM's ActivationGroup that the object is inactive,
-     * that, in turn, informs its ActivationMonitor. If this call
-     * completes successfully, a subsequent activate request to the activator
-     * will cause the object to reactivate. The operation may still
-     * succeed if the object is considered active but has already
+     * Informs the system thbt the object with the corresponding bctivbtion
+     * <code>id</code> is currently inbctive. If the object is currently
+     * bctive, the object is "unexported" from the RMI runtime (only if
+     * there bre no pending or in-progress cblls)
+     * so the thbt it cbn no longer receive incoming cblls. This cbll
+     * informs this VM's ActivbtionGroup thbt the object is inbctive,
+     * thbt, in turn, informs its ActivbtionMonitor. If this cbll
+     * completes successfully, b subsequent bctivbte request to the bctivbtor
+     * will cbuse the object to rebctivbte. The operbtion mby still
+     * succeed if the object is considered bctive but hbs blrebdy
      * unexported itself.
      *
-     * @param id the object's activation identifier
-     * @return true if the operation succeeds (the operation will
-     * succeed if the object in currently known to be active and is
-     * either already unexported or is currently exported and has no
-     * pending/executing calls); false is returned if the object has
-     * pending/executing calls in which case it cannot be deactivated
-     * @exception UnknownObjectException if object is not known (it may
-     * already be inactive)
-     * @exception ActivationException if group is not active
-     * @exception RemoteException if call informing monitor fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @pbrbm id the object's bctivbtion identifier
+     * @return true if the operbtion succeeds (the operbtion will
+     * succeed if the object in currently known to be bctive bnd is
+     * either blrebdy unexported or is currently exported bnd hbs no
+     * pending/executing cblls); fblse is returned if the object hbs
+     * pending/executing cblls in which cbse it cbnnot be debctivbted
+     * @exception UnknownObjectException if object is not known (it mby
+     * blrebdy be inbctive)
+     * @exception ActivbtionException if group is not bctive
+     * @exception RemoteException if cbll informing monitor fbils
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
      * @since 1.2
      */
-    public static boolean inactive(ActivationID id)
-        throws UnknownObjectException, ActivationException, RemoteException
+    public stbtic boolebn inbctive(ActivbtionID id)
+        throws UnknownObjectException, ActivbtionException, RemoteException
     {
-        return ActivationGroup.currentGroup().inactiveObject(id);
+        return ActivbtionGroup.currentGroup().inbctiveObject(id);
     }
 
     /**
-     * Revokes previous registration for the activation descriptor
-     * associated with <code>id</code>. An object can no longer be
-     * activated via that <code>id</code>.
+     * Revokes previous registrbtion for the bctivbtion descriptor
+     * bssocibted with <code>id</code>. An object cbn no longer be
+     * bctivbted vib thbt <code>id</code>.
      *
-     * @param id the object's activation identifier
+     * @pbrbm id the object's bctivbtion identifier
      * @exception UnknownObjectException if object (<code>id</code>) is unknown
-     * @exception ActivationException if activation system is not running
-     * @exception RemoteException if remote call to activation system fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @exception ActivbtionException if bctivbtion system is not running
+     * @exception RemoteException if remote cbll to bctivbtion system fbils
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
      * @since 1.2
      */
-    public static void unregister(ActivationID id)
-        throws UnknownObjectException, ActivationException, RemoteException
+    public stbtic void unregister(ActivbtionID id)
+        throws UnknownObjectException, ActivbtionException, RemoteException
     {
-        ActivationGroup.getSystem().unregisterObject(id);
+        ActivbtionGroup.getSystem().unregisterObject(id);
     }
 
     /**
-     * Registers an activation descriptor (with the specified location,
-     * data, and restart mode) for the specified object, and exports that
+     * Registers bn bctivbtion descriptor (with the specified locbtion,
+     * dbtb, bnd restbrt mode) for the specified object, bnd exports thbt
      * object with the specified port.
      *
-     * <p><strong>Note:</strong> Using this method (as well as the
-     * <code>Activatable</code> constructors that both register and export
-     * an activatable remote object) is strongly discouraged because the
-     * actions of registering and exporting the remote object are
-     * <i>not</i> guaranteed to be atomic.  Instead, an application should
-     * register an activation descriptor and export a remote object
-     * separately, so that exceptions can be handled properly.
+     * <p><strong>Note:</strong> Using this method (bs well bs the
+     * <code>Activbtbble</code> constructors thbt both register bnd export
+     * bn bctivbtbble remote object) is strongly discourbged becbuse the
+     * bctions of registering bnd exporting the remote object bre
+     * <i>not</i> gubrbnteed to be btomic.  Instebd, bn bpplicbtion should
+     * register bn bctivbtion descriptor bnd export b remote object
+     * sepbrbtely, so thbt exceptions cbn be hbndled properly.
      *
      * <p>This method invokes the {@link
-     * #exportObject(Remote,String,MarshalledObject,boolean,int,RMIClientSocketFactory,RMIServerSocketFactory)
-     * exportObject} method with the specified object, location, data,
-     * restart mode, and port, and <code>null</code> for both client and
-     * server socket factories, and then returns the resulting activation
+     * #exportObject(Remote,String,MbrshblledObject,boolebn,int,RMIClientSocketFbctory,RMIServerSocketFbctory)
+     * exportObject} method with the specified object, locbtion, dbtb,
+     * restbrt mode, bnd port, bnd <code>null</code> for both client bnd
+     * server socket fbctories, bnd then returns the resulting bctivbtion
      * identifier.
      *
-     * @param obj the object being exported
-     * @param location the object's code location
-     * @param data the object's bootstrapping data
-     * @param restart if true, the object is restarted (reactivated) when
-     * either the activator is restarted or the object's activation group
-     * is restarted after an unexpected crash; if false, the object is only
-     * activated on demand.  Specifying <code>restart</code> to be
-     * <code>true</code> does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @param port the port on which the object is exported (an anonymous
+     * @pbrbm obj the object being exported
+     * @pbrbm locbtion the object's code locbtion
+     * @pbrbm dbtb the object's bootstrbpping dbtb
+     * @pbrbm restbrt if true, the object is restbrted (rebctivbted) when
+     * either the bctivbtor is restbrted or the object's bctivbtion group
+     * is restbrted bfter bn unexpected crbsh; if fblse, the object is only
+     * bctivbted on dembnd.  Specifying <code>restbrt</code> to be
+     * <code>true</code> does not force bn initibl immedibte bctivbtion of
+     * b newly registered object;  initibl bctivbtion is lbzy.
+     * @pbrbm port the port on which the object is exported (bn bnonymous
      * port is used if port=0)
-     * @return the activation identifier obtained from registering the
-     * descriptor, <code>desc</code>, with the activation system
+     * @return the bctivbtion identifier obtbined from registering the
+     * descriptor, <code>desc</code>, with the bctivbtion system
      * the wrong group
-     * @exception ActivationException if activation group is not active
-     * @exception RemoteException if object registration or export fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @exception ActivbtionException if bctivbtion group is not bctive
+     * @exception RemoteException if object registrbtion or export fbils
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
      * @since 1.2
      **/
-    public static ActivationID exportObject(Remote obj,
-                                            String location,
-                                            MarshalledObject<?> data,
-                                            boolean restart,
+    public stbtic ActivbtionID exportObject(Remote obj,
+                                            String locbtion,
+                                            MbrshblledObject<?> dbtb,
+                                            boolebn restbrt,
                                             int port)
-        throws ActivationException, RemoteException
+        throws ActivbtionException, RemoteException
     {
-        return exportObject(obj, location, data, restart, port, null, null);
+        return exportObject(obj, locbtion, dbtb, restbrt, port, null, null);
     }
 
     /**
-     * Registers an activation descriptor (with the specified location,
-     * data, and restart mode) for the specified object, and exports that
-     * object with the specified port, and the specified client and server
-     * socket factories.
+     * Registers bn bctivbtion descriptor (with the specified locbtion,
+     * dbtb, bnd restbrt mode) for the specified object, bnd exports thbt
+     * object with the specified port, bnd the specified client bnd server
+     * socket fbctories.
      *
-     * <p><strong>Note:</strong> Using this method (as well as the
-     * <code>Activatable</code> constructors that both register and export
-     * an activatable remote object) is strongly discouraged because the
-     * actions of registering and exporting the remote object are
-     * <i>not</i> guaranteed to be atomic.  Instead, an application should
-     * register an activation descriptor and export a remote object
-     * separately, so that exceptions can be handled properly.
+     * <p><strong>Note:</strong> Using this method (bs well bs the
+     * <code>Activbtbble</code> constructors thbt both register bnd export
+     * bn bctivbtbble remote object) is strongly discourbged becbuse the
+     * bctions of registering bnd exporting the remote object bre
+     * <i>not</i> gubrbnteed to be btomic.  Instebd, bn bpplicbtion should
+     * register bn bctivbtion descriptor bnd export b remote object
+     * sepbrbtely, so thbt exceptions cbn be hbndled properly.
      *
-     * <p>This method first registers an activation descriptor for the
-     * specified object as follows. It obtains the activation system by
-     * invoking the method {@link ActivationGroup#getSystem
-     * ActivationGroup.getSystem}.  This method then obtains an {@link
-     * ActivationID} for the object by invoking the activation system's
-     * {@link ActivationSystem#registerObject registerObject} method with
-     * an {@link ActivationDesc} constructed with the specified object's
-     * class name, and the specified location, data, and restart mode.  If
-     * an exception occurs obtaining the activation system or registering
-     * the activation descriptor, that exception is thrown to the caller.
+     * <p>This method first registers bn bctivbtion descriptor for the
+     * specified object bs follows. It obtbins the bctivbtion system by
+     * invoking the method {@link ActivbtionGroup#getSystem
+     * ActivbtionGroup.getSystem}.  This method then obtbins bn {@link
+     * ActivbtionID} for the object by invoking the bctivbtion system's
+     * {@link ActivbtionSystem#registerObject registerObject} method with
+     * bn {@link ActivbtionDesc} constructed with the specified object's
+     * clbss nbme, bnd the specified locbtion, dbtb, bnd restbrt mode.  If
+     * bn exception occurs obtbining the bctivbtion system or registering
+     * the bctivbtion descriptor, thbt exception is thrown to the cbller.
      *
      * <p>Next, this method exports the object by invoking the {@link
-     * #exportObject(Remote,ActivationID,int,RMIClientSocketFactory,RMIServerSocketFactory)
+     * #exportObject(Remote,ActivbtionID,int,RMIClientSocketFbctory,RMIServerSocketFbctory)
      * exportObject} method with the specified remote object, the
-     * activation identifier obtained from registration, the specified
-     * port, and the specified client and server socket factories.  If an
-     * exception occurs exporting the object, this method attempts to
-     * unregister the activation identifier (obtained from registration) by
-     * invoking the activation system's {@link
-     * ActivationSystem#unregisterObject unregisterObject} method with the
-     * activation identifier.  If an exception occurs unregistering the
-     * identifier, that exception is ignored, and the original exception
-     * that occurred exporting the object is thrown to the caller.
+     * bctivbtion identifier obtbined from registrbtion, the specified
+     * port, bnd the specified client bnd server socket fbctories.  If bn
+     * exception occurs exporting the object, this method bttempts to
+     * unregister the bctivbtion identifier (obtbined from registrbtion) by
+     * invoking the bctivbtion system's {@link
+     * ActivbtionSystem#unregisterObject unregisterObject} method with the
+     * bctivbtion identifier.  If bn exception occurs unregistering the
+     * identifier, thbt exception is ignored, bnd the originbl exception
+     * thbt occurred exporting the object is thrown to the cbller.
      *
-     * <p>Finally, this method invokes the {@link
-     * ActivationGroup#activeObject activeObject} method on the activation
-     * group in this VM with the activation identifier and the specified
-     * remote object, and returns the activation identifier to the caller.
+     * <p>Finblly, this method invokes the {@link
+     * ActivbtionGroup#bctiveObject bctiveObject} method on the bctivbtion
+     * group in this VM with the bctivbtion identifier bnd the specified
+     * remote object, bnd returns the bctivbtion identifier to the cbller.
      *
-     * @param obj the object being exported
-     * @param location the object's code location
-     * @param data the object's bootstrapping data
-     * @param restart if true, the object is restarted (reactivated) when
-     * either the activator is restarted or the object's activation group
-     * is restarted after an unexpected crash; if false, the object is only
-     * activated on demand.  Specifying <code>restart</code> to be
-     * <code>true</code> does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @param port the port on which the object is exported (an anonymous
+     * @pbrbm obj the object being exported
+     * @pbrbm locbtion the object's code locbtion
+     * @pbrbm dbtb the object's bootstrbpping dbtb
+     * @pbrbm restbrt if true, the object is restbrted (rebctivbted) when
+     * either the bctivbtor is restbrted or the object's bctivbtion group
+     * is restbrted bfter bn unexpected crbsh; if fblse, the object is only
+     * bctivbted on dembnd.  Specifying <code>restbrt</code> to be
+     * <code>true</code> does not force bn initibl immedibte bctivbtion of
+     * b newly registered object;  initibl bctivbtion is lbzy.
+     * @pbrbm port the port on which the object is exported (bn bnonymous
      * port is used if port=0)
-     * @param csf the client-side socket factory for making calls to the
+     * @pbrbm csf the client-side socket fbctory for mbking cblls to the
      * remote object
-     * @param ssf the server-side socket factory for receiving remote calls
-     * @return the activation identifier obtained from registering the
-     * descriptor with the activation system
-     * @exception ActivationException if activation group is not active
-     * @exception RemoteException if object registration or export fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @pbrbm ssf the server-side socket fbctory for receiving remote cblls
+     * @return the bctivbtion identifier obtbined from registering the
+     * descriptor with the bctivbtion system
+     * @exception ActivbtionException if bctivbtion group is not bctive
+     * @exception RemoteException if object registrbtion or export fbils
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
      * @since 1.2
      **/
-    public static ActivationID exportObject(Remote obj,
-                                            String location,
-                                            MarshalledObject<?> data,
-                                            boolean restart,
+    public stbtic ActivbtionID exportObject(Remote obj,
+                                            String locbtion,
+                                            MbrshblledObject<?> dbtb,
+                                            boolebn restbrt,
                                             int port,
-                                            RMIClientSocketFactory csf,
-                                            RMIServerSocketFactory ssf)
-        throws ActivationException, RemoteException
+                                            RMIClientSocketFbctory csf,
+                                            RMIServerSocketFbctory ssf)
+        throws ActivbtionException, RemoteException
     {
-        ActivationDesc desc = new ActivationDesc(obj.getClass().getName(),
-                                                 location, data, restart);
+        ActivbtionDesc desc = new ActivbtionDesc(obj.getClbss().getNbme(),
+                                                 locbtion, dbtb, restbrt);
         /*
          * Register descriptor.
          */
-        ActivationSystem system =  ActivationGroup.getSystem();
-        ActivationID id = system.registerObject(desc);
+        ActivbtionSystem system =  ActivbtionGroup.getSystem();
+        ActivbtionID id = system.registerObject(desc);
 
         /*
          * Export object.
          */
         try {
             exportObject(obj, id, port, csf, ssf);
-        } catch (RemoteException e) {
+        } cbtch (RemoteException e) {
             /*
-             * Attempt to unregister activation descriptor because export
-             * failed and register/export should be atomic (see 4323621).
+             * Attempt to unregister bctivbtion descriptor becbuse export
+             * fbiled bnd register/export should be btomic (see 4323621).
              */
             try {
                 system.unregisterObject(id);
-            } catch (Exception ex) {
+            } cbtch (Exception ex) {
             }
             /*
-             * Report original exception.
+             * Report originbl exception.
              */
             throw e;
         }
 
         /*
-         * This call can't fail (it is a local call, and the only possible
-         * exception, thrown if the group is inactive, will not be thrown
-         * because the group is not inactive).
+         * This cbll cbn't fbil (it is b locbl cbll, bnd the only possible
+         * exception, thrown if the group is inbctive, will not be thrown
+         * becbuse the group is not inbctive).
          */
-        ActivationGroup.currentGroup().activeObject(id, obj);
+        ActivbtionGroup.currentGroup().bctiveObject(id, obj);
 
         return id;
     }
 
     /**
-     * Export the activatable remote object to the RMI runtime to make
-     * the object available to receive incoming calls. The object is
-     * exported on an anonymous port, if <code>port</code> is zero. <p>
+     * Export the bctivbtbble remote object to the RMI runtime to mbke
+     * the object bvbilbble to receive incoming cblls. The object is
+     * exported on bn bnonymous port, if <code>port</code> is zero. <p>
      *
-     * During activation, this <code>exportObject</code> method should
-     * be invoked explicitly by an "activatable" object, that does not
-     * extend the <code>Activatable</code> class. There is no need for objects
-     * that do extend the <code>Activatable</code> class to invoke this
-     * method directly because the object is exported during construction.
+     * During bctivbtion, this <code>exportObject</code> method should
+     * be invoked explicitly by bn "bctivbtbble" object, thbt does not
+     * extend the <code>Activbtbble</code> clbss. There is no need for objects
+     * thbt do extend the <code>Activbtbble</code> clbss to invoke this
+     * method directly becbuse the object is exported during construction.
      *
-     * @return the stub for the activatable remote object
-     * @param obj the remote object implementation
-     * @param id the object's  activation identifier
-     * @param port the port on which the object is exported (an anonymous
+     * @return the stub for the bctivbtbble remote object
+     * @pbrbm obj the remote object implementbtion
+     * @pbrbm id the object's  bctivbtion identifier
+     * @pbrbm port the port on which the object is exported (bn bnonymous
      * port is used if port=0)
-     * @exception RemoteException if object export fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @exception RemoteException if object export fbils
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
      * @since 1.2
      */
-    public static Remote exportObject(Remote obj,
-                                      ActivationID id,
+    public stbtic Remote exportObject(Remote obj,
+                                      ActivbtionID id,
                                       int port)
         throws RemoteException
     {
-        return exportObject(obj, new ActivatableServerRef(id, port));
+        return exportObject(obj, new ActivbtbbleServerRef(id, port));
     }
 
     /**
-     * Export the activatable remote object to the RMI runtime to make
-     * the object available to receive incoming calls. The object is
-     * exported on an anonymous port, if <code>port</code> is zero. <p>
+     * Export the bctivbtbble remote object to the RMI runtime to mbke
+     * the object bvbilbble to receive incoming cblls. The object is
+     * exported on bn bnonymous port, if <code>port</code> is zero. <p>
      *
-     * During activation, this <code>exportObject</code> method should
-     * be invoked explicitly by an "activatable" object, that does not
-     * extend the <code>Activatable</code> class. There is no need for objects
-     * that do extend the <code>Activatable</code> class to invoke this
-     * method directly because the object is exported during construction.
+     * During bctivbtion, this <code>exportObject</code> method should
+     * be invoked explicitly by bn "bctivbtbble" object, thbt does not
+     * extend the <code>Activbtbble</code> clbss. There is no need for objects
+     * thbt do extend the <code>Activbtbble</code> clbss to invoke this
+     * method directly becbuse the object is exported during construction.
      *
-     * @return the stub for the activatable remote object
-     * @param obj the remote object implementation
-     * @param id the object's  activation identifier
-     * @param port the port on which the object is exported (an anonymous
+     * @return the stub for the bctivbtbble remote object
+     * @pbrbm obj the remote object implementbtion
+     * @pbrbm id the object's  bctivbtion identifier
+     * @pbrbm port the port on which the object is exported (bn bnonymous
      * port is used if port=0)
-     * @param csf the client-side socket factory for making calls to the
+     * @pbrbm csf the client-side socket fbctory for mbking cblls to the
      * remote object
-     * @param ssf the server-side socket factory for receiving remote calls
-     * @exception RemoteException if object export fails
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @pbrbm ssf the server-side socket fbctory for receiving remote cblls
+     * @exception RemoteException if object export fbils
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
      * @since 1.2
      */
-    public static Remote exportObject(Remote obj,
-                                      ActivationID id,
+    public stbtic Remote exportObject(Remote obj,
+                                      ActivbtionID id,
                                       int port,
-                                      RMIClientSocketFactory csf,
-                                      RMIServerSocketFactory ssf)
+                                      RMIClientSocketFbctory csf,
+                                      RMIServerSocketFbctory ssf)
         throws RemoteException
     {
-        return exportObject(obj, new ActivatableServerRef(id, port, csf, ssf));
+        return exportObject(obj, new ActivbtbbleServerRef(id, port, csf, ssf));
     }
 
     /**
      * Remove the remote object, obj, from the RMI runtime. If
-     * successful, the object can no longer accept incoming RMI calls.
-     * If the force parameter is true, the object is forcibly unexported
-     * even if there are pending calls to the remote object or the
-     * remote object still has calls in progress.  If the force
-     * parameter is false, the object is only unexported if there are
-     * no pending or in progress calls to the object.
+     * successful, the object cbn no longer bccept incoming RMI cblls.
+     * If the force pbrbmeter is true, the object is forcibly unexported
+     * even if there bre pending cblls to the remote object or the
+     * remote object still hbs cblls in progress.  If the force
+     * pbrbmeter is fblse, the object is only unexported if there bre
+     * no pending or in progress cblls to the object.
      *
-     * @param obj the remote object to be unexported
-     * @param force if true, unexports the object even if there are
-     * pending or in-progress calls; if false, only unexports the object
-     * if there are no pending or in-progress calls
-     * @return true if operation is successful, false otherwise
+     * @pbrbm obj the remote object to be unexported
+     * @pbrbm force if true, unexports the object even if there bre
+     * pending or in-progress cblls; if fblse, only unexports the object
+     * if there bre no pending or in-progress cblls
+     * @return true if operbtion is successful, fblse otherwise
      * @exception NoSuchObjectException if the remote object is not
      * currently exported
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
      * @since 1.2
      */
-    public static boolean unexportObject(Remote obj, boolean force)
+    public stbtic boolebn unexportObject(Remote obj, boolebn force)
         throws NoSuchObjectException
     {
-        return sun.rmi.transport.ObjectTable.unexportObject(obj, force);
+        return sun.rmi.trbnsport.ObjectTbble.unexportObject(obj, force);
     }
 
     /**
      * Exports the specified object using the specified server ref.
      */
-    private static Remote exportObject(Remote obj, ActivatableServerRef sref)
+    privbte stbtic Remote exportObject(Remote obj, ActivbtbbleServerRef sref)
         throws RemoteException
     {
-        // if obj extends Activatable, set its ref.
-        if (obj instanceof Activatable) {
-            ((Activatable) obj).ref = sref;
+        // if obj extends Activbtbble, set its ref.
+        if (obj instbnceof Activbtbble) {
+            ((Activbtbble) obj).ref = sref;
 
         }
-        return sref.exportObject(obj, null, false);
+        return sref.exportObject(obj, null, fblse);
     }
 }

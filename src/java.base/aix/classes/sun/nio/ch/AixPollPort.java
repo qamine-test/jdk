@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Copyright 2012 SAP AG. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.spi.AsynchronousChannelProvider;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.ReentrantLock;
-import sun.misc.Unsafe;
+import jbvb.nio.chbnnels.spi.AsynchronousChbnnelProvider;
+import jbvb.io.IOException;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.concurrent.ArrbyBlockingQueue;
+import jbvb.util.concurrent.RejectedExecutionException;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.concurrent.locks.ReentrbntLock;
+import sun.misc.Unsbfe;
 
 /**
- * AsynchronousChannelGroup implementation based on the AIX pollset framework.
+ * AsynchronousChbnnelGroup implementbtion bbsed on the AIX pollset frbmework.
  */
-final class AixPollPort
+finbl clbss AixPollPort
     extends Port
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
         init();
     }
 
@@ -56,67 +56,67 @@ final class AixPollPort
      *     short revents;
      * }
      */
-    private static final int SIZEOF_POLLFD    = eventSize();
-    private static final int OFFSETOF_EVENTS  = eventsOffset();
-    private static final int OFFSETOF_REVENTS = reventsOffset();
-    private static final int OFFSETOF_FD      = fdOffset();
+    privbte stbtic finbl int SIZEOF_POLLFD    = eventSize();
+    privbte stbtic finbl int OFFSETOF_EVENTS  = eventsOffset();
+    privbte stbtic finbl int OFFSETOF_REVENTS = reventsOffset();
+    privbte stbtic finbl int OFFSETOF_FD      = fdOffset();
 
     // opcodes
-    private static final int PS_ADD     = 0x0;
-    private static final int PS_MOD     = 0x1;
-    private static final int PS_DELETE  = 0x2;
+    privbte stbtic finbl int PS_ADD     = 0x0;
+    privbte stbtic finbl int PS_MOD     = 0x1;
+    privbte stbtic finbl int PS_DELETE  = 0x2;
 
-    // maximum number of events to poll at a time
-    private static final int MAX_POLL_EVENTS = 512;
+    // mbximum number of events to poll bt b time
+    privbte stbtic finbl int MAX_POLL_EVENTS = 512;
 
     // pollset ID
-    private final int pollset;
+    privbte finbl int pollset;
 
     // true if port is closed
-    private boolean closed;
+    privbte boolebn closed;
 
-    // socket pair used for wakeup
-    private final int sp[];
+    // socket pbir used for wbkeup
+    privbte finbl int sp[];
 
-    // socket pair used to indicate pending pollsetCtl calls
-    // Background info: pollsetCtl blocks when another thread is in a pollsetPoll call.
-    private final int ctlSp[];
+    // socket pbir used to indicbte pending pollsetCtl cblls
+    // Bbckground info: pollsetCtl blocks when bnother threbd is in b pollsetPoll cbll.
+    privbte finbl int ctlSp[];
 
-    // number of wakeups pending
-    private final AtomicInteger wakeupCount = new AtomicInteger();
+    // number of wbkeups pending
+    privbte finbl AtomicInteger wbkeupCount = new AtomicInteger();
 
-    // address of the poll array passed to pollset_poll
-    private final long address;
+    // bddress of the poll brrby pbssed to pollset_poll
+    privbte finbl long bddress;
 
-    // encapsulates an event for a channel
-    static class Event {
-        final PollableChannel channel;
-        final int events;
+    // encbpsulbtes bn event for b chbnnel
+    stbtic clbss Event {
+        finbl PollbbleChbnnel chbnnel;
+        finbl int events;
 
-        Event(PollableChannel channel, int events) {
-            this.channel = channel;
+        Event(PollbbleChbnnel chbnnel, int events) {
+            this.chbnnel = chbnnel;
             this.events = events;
         }
 
-        PollableChannel channel()   { return channel; }
+        PollbbleChbnnel chbnnel()   { return chbnnel; }
         int events()                { return events; }
     }
 
-    // queue of events for cases that a polling thread dequeues more than one
+    // queue of events for cbses thbt b polling threbd dequeues more thbn one
     // event
-    private final ArrayBlockingQueue<Event> queue;
-    private final Event NEED_TO_POLL = new Event(null, 0);
-    private final Event EXECUTE_TASK_OR_SHUTDOWN = new Event(null, 0);
-    private final Event CONTINUE_AFTER_CTL_EVENT = new Event(null, 0);
+    privbte finbl ArrbyBlockingQueue<Event> queue;
+    privbte finbl Event NEED_TO_POLL = new Event(null, 0);
+    privbte finbl Event EXECUTE_TASK_OR_SHUTDOWN = new Event(null, 0);
+    privbte finbl Event CONTINUE_AFTER_CTL_EVENT = new Event(null, 0);
 
-    // encapsulates a pollset control event for a file descriptor
-    static class ControlEvent {
-        final int fd;
-        final int events;
-        final boolean removeOnly;
+    // encbpsulbtes b pollset control event for b file descriptor
+    stbtic clbss ControlEvent {
+        finbl int fd;
+        finbl int events;
+        finbl boolebn removeOnly;
         int error = 0;
 
-        ControlEvent(int fd, int events, boolean removeOnly) {
+        ControlEvent(int fd, int events, boolebn removeOnly) {
             this.fd = fd;
             this.events = events;
             this.removeOnly = removeOnly;
@@ -124,74 +124,74 @@ final class AixPollPort
 
         int fd()                 { return fd; }
         int events()             { return events; }
-        boolean removeOnly()     { return removeOnly; }
+        boolebn removeOnly()     { return removeOnly; }
         int error()              { return error; }
         void setError(int error) { this.error = error; }
     }
 
-    // queue of control events that need to be processed
-    // (this object is also used for synchronization)
-    private final HashSet<ControlEvent> controlQueue = new HashSet<ControlEvent>();
+    // queue of control events thbt need to be processed
+    // (this object is blso used for synchronizbtion)
+    privbte finbl HbshSet<ControlEvent> controlQueue = new HbshSet<ControlEvent>();
 
-    // lock used to check whether a poll operation is ongoing
-    private final ReentrantLock controlLock = new ReentrantLock();
+    // lock used to check whether b poll operbtion is ongoing
+    privbte finbl ReentrbntLock controlLock = new ReentrbntLock();
 
-    AixPollPort(AsynchronousChannelProvider provider, ThreadPool pool)
+    AixPollPort(AsynchronousChbnnelProvider provider, ThrebdPool pool)
         throws IOException
     {
         super(provider, pool);
 
         // open pollset
-        this.pollset = pollsetCreate();
+        this.pollset = pollsetCrebte();
 
-        // create socket pair for wakeup mechanism
+        // crebte socket pbir for wbkeup mechbnism
         int[] sv = new int[2];
         try {
-            socketpair(sv);
+            socketpbir(sv);
             // register one end with pollset
             pollsetCtl(pollset, PS_ADD, sv[0], Net.POLLIN);
-        } catch (IOException x) {
+        } cbtch (IOException x) {
             pollsetDestroy(pollset);
             throw x;
         }
         this.sp = sv;
 
-        // create socket pair for pollset control mechanism
+        // crebte socket pbir for pollset control mechbnism
         sv = new int[2];
         try {
-            socketpair(sv);
+            socketpbir(sv);
             // register one end with pollset
             pollsetCtl(pollset, PS_ADD, sv[0], Net.POLLIN);
-        } catch (IOException x) {
+        } cbtch (IOException x) {
             pollsetDestroy(pollset);
             throw x;
         }
         this.ctlSp = sv;
 
-        // allocate the poll array
-        this.address = allocatePollArray(MAX_POLL_EVENTS);
+        // bllocbte the poll brrby
+        this.bddress = bllocbtePollArrby(MAX_POLL_EVENTS);
 
-        // create the queue and offer the special event to ensure that the first
-        // threads polls
-        this.queue = new ArrayBlockingQueue<Event>(MAX_POLL_EVENTS);
+        // crebte the queue bnd offer the specibl event to ensure thbt the first
+        // threbds polls
+        this.queue = new ArrbyBlockingQueue<Event>(MAX_POLL_EVENTS);
         this.queue.offer(NEED_TO_POLL);
     }
 
-    AixPollPort start() {
-        startThreads(new EventHandlerTask());
+    AixPollPort stbrt() {
+        stbrtThrebds(new EventHbndlerTbsk());
         return this;
     }
 
     /**
-     * Release all resources
+     * Relebse bll resources
      */
-    private void implClose() {
+    privbte void implClose() {
         synchronized (this) {
             if (closed)
                 return;
             closed = true;
         }
-        freePollArray(address);
+        freePollArrby(bddress);
         close0(sp[0]);
         close0(sp[1]);
         close0(ctlSp[0]);
@@ -199,105 +199,105 @@ final class AixPollPort
         pollsetDestroy(pollset);
     }
 
-    private void wakeup() {
-        if (wakeupCount.incrementAndGet() == 1) {
-            // write byte to socketpair to force wakeup
+    privbte void wbkeup() {
+        if (wbkeupCount.incrementAndGet() == 1) {
+            // write byte to socketpbir to force wbkeup
             try {
                 interrupt(sp[1]);
-            } catch (IOException x) {
+            } cbtch (IOException x) {
                 throw new AssertionError(x);
             }
         }
     }
 
     @Override
-    void executeOnHandlerTask(Runnable task) {
+    void executeOnHbndlerTbsk(Runnbble tbsk) {
         synchronized (this) {
             if (closed)
                 throw new RejectedExecutionException();
-            offerTask(task);
-            wakeup();
+            offerTbsk(tbsk);
+            wbkeup();
         }
     }
 
     @Override
-    void shutdownHandlerTasks() {
+    void shutdownHbndlerTbsks() {
         /*
-         * If no tasks are running then just release resources; otherwise
-         * write to the one end of the socketpair to wakeup any polling threads.
+         * If no tbsks bre running then just relebse resources; otherwise
+         * write to the one end of the socketpbir to wbkeup bny polling threbds.
          */
-        int nThreads = threadCount();
-        if (nThreads == 0) {
+        int nThrebds = threbdCount();
+        if (nThrebds == 0) {
             implClose();
         } else {
-            // send interrupt to each thread
-            while (nThreads-- > 0) {
-                wakeup();
+            // send interrupt to ebch threbd
+            while (nThrebds-- > 0) {
+                wbkeup();
             }
         }
     }
 
-    // invoke by clients to register a file descriptor
+    // invoke by clients to register b file descriptor
     @Override
-    void startPoll(int fd, int events) {
-        queueControlEvent(new ControlEvent(fd, events, false));
+    void stbrtPoll(int fd, int events) {
+        queueControlEvent(new ControlEvent(fd, events, fblse));
     }
 
-    // Callback method for implementations that need special handling when fd is removed
+    // Cbllbbck method for implementbtions thbt need specibl hbndling when fd is removed
     @Override
     protected void preUnregister(int fd) {
         queueControlEvent(new ControlEvent(fd, 0, true));
     }
 
-    // Add control event into queue and wait for completion.
-    // In case the control lock is free, this method also tries to apply the control change directly.
-    private void queueControlEvent(ControlEvent ev) {
-        // pollsetCtl blocks when a poll call is ongoing. This is very probable.
-        // Therefore we let the polling thread do the pollsetCtl call.
+    // Add control event into queue bnd wbit for completion.
+    // In cbse the control lock is free, this method blso tries to bpply the control chbnge directly.
+    privbte void queueControlEvent(ControlEvent ev) {
+        // pollsetCtl blocks when b poll cbll is ongoing. This is very probbble.
+        // Therefore we let the polling threbd do the pollsetCtl cbll.
         synchronized (controlQueue) {
-            controlQueue.add(ev);
-            // write byte to socketpair to force wakeup
+            controlQueue.bdd(ev);
+            // write byte to socketpbir to force wbkeup
             try {
                 interrupt(ctlSp[1]);
-            } catch (IOException x) {
+            } cbtch (IOException x) {
                 throw new AssertionError(x);
             }
             do {
-                // Directly empty queue if no poll call is ongoing.
+                // Directly empty queue if no poll cbll is ongoing.
                 if (controlLock.tryLock()) {
                     try {
                         processControlQueue();
-                    } finally {
+                    } finblly {
                         controlLock.unlock();
                     }
                 } else {
                     try {
-                        // Do not starve in case the polling thread returned before
-                        // we could write to ctlSp[1] but the polling thread did not
-                        // release the control lock until we checked. Therefore, use
-                        // a timed wait for the time being.
-                        controlQueue.wait(100);
-                    } catch (InterruptedException e) {
-                        // ignore exception and try again
+                        // Do not stbrve in cbse the polling threbd returned before
+                        // we could write to ctlSp[1] but the polling threbd did not
+                        // relebse the control lock until we checked. Therefore, use
+                        // b timed wbit for the time being.
+                        controlQueue.wbit(100);
+                    } cbtch (InterruptedException e) {
+                        // ignore exception bnd try bgbin
                     }
                 }
-            } while (controlQueue.contains(ev));
+            } while (controlQueue.contbins(ev));
         }
         if (ev.error() != 0) {
             throw new AssertionError();
         }
     }
 
-    // Process all events currently stored in the control queue.
-    private void processControlQueue() {
+    // Process bll events currently stored in the control queue.
+    privbte void processControlQueue() {
         synchronized (controlQueue) {
             // On Aix it is only possible to set the event
-            // bits on the first call of pollsetCtl. Later
-            // calls only add bits, but cannot remove them.
-            // Therefore, we always remove the file
-            // descriptor ignoring the error and then add it.
-            Iterator<ControlEvent> iter = controlQueue.iterator();
-            while (iter.hasNext()) {
+            // bits on the first cbll of pollsetCtl. Lbter
+            // cblls only bdd bits, but cbnnot remove them.
+            // Therefore, we blwbys remove the file
+            // descriptor ignoring the error bnd then bdd it.
+            Iterbtor<ControlEvent> iter = controlQueue.iterbtor();
+            while (iter.hbsNext()) {
                 ControlEvent ev = iter.next();
                 pollsetCtl(pollset, PS_DELETE, ev.fd(), 0);
                 if (!ev.removeOnly()) {
@@ -310,38 +310,38 @@ final class AixPollPort
     }
 
     /*
-     * Task to process events from pollset and dispatch to the channel's
-     * onEvent handler.
+     * Tbsk to process events from pollset bnd dispbtch to the chbnnel's
+     * onEvent hbndler.
      *
-     * Events are retreived from pollset in batch and offered to a BlockingQueue
-     * where they are consumed by handler threads. A special "NEED_TO_POLL"
-     * event is used to signal one consumer to re-poll when all events have
+     * Events bre retreived from pollset in bbtch bnd offered to b BlockingQueue
+     * where they bre consumed by hbndler threbds. A specibl "NEED_TO_POLL"
+     * event is used to signbl one consumer to re-poll when bll events hbve
      * been consumed.
      */
-    private class EventHandlerTask implements Runnable {
-        private Event poll() throws IOException {
+    privbte clbss EventHbndlerTbsk implements Runnbble {
+        privbte Event poll() throws IOException {
             try {
                 for (;;) {
                     int n;
                     controlLock.lock();
                     try {
-                        n = pollsetPoll(pollset, address, MAX_POLL_EVENTS);
-                    } finally {
+                        n = pollsetPoll(pollset, bddress, MAX_POLL_EVENTS);
+                    } finblly {
                         controlLock.unlock();
                     }
                     /*
-                     * 'n' events have been read. Here we map them to their
-                     * corresponding channel in batch and queue n-1 so that
-                     * they can be handled by other handler threads. The last
-                     * event is handled by this thread (and so is not queued).
+                     * 'n' events hbve been rebd. Here we mbp them to their
+                     * corresponding chbnnel in bbtch bnd queue n-1 so thbt
+                     * they cbn be hbndled by other hbndler threbds. The lbst
+                     * event is hbndled by this threbd (bnd so is not queued).
                      */
-                    fdToChannelLock.readLock().lock();
+                    fdToChbnnelLock.rebdLock().lock();
                     try {
                         while (n-- > 0) {
-                            long eventAddress = getEvent(address, n);
+                            long eventAddress = getEvent(bddress, n);
                             int fd = getDescriptor(eventAddress);
 
-                            // To emulate one shot semantic we need to remove
+                            // To emulbte one shot sembntic we need to remove
                             // the file descriptor here.
                             if (fd != sp[0] && fd != ctlSp[0]) {
                                 synchronized (controlQueue) {
@@ -349,15 +349,15 @@ final class AixPollPort
                                 }
                             }
 
-                            // wakeup
+                            // wbkeup
                             if (fd == sp[0]) {
-                                if (wakeupCount.decrementAndGet() == 0) {
-                                    // no more wakeups so drain pipe
-                                    drain1(sp[0]);
+                                if (wbkeupCount.decrementAndGet() == 0) {
+                                    // no more wbkeups so drbin pipe
+                                    drbin1(sp[0]);
                                 }
 
-                                // queue special event if there are more events
-                                // to handle.
+                                // queue specibl event if there bre more events
+                                // to hbndle.
                                 if (n > 0) {
                                     queue.offer(EXECUTE_TASK_OR_SHUTDOWN);
                                     continue;
@@ -365,10 +365,10 @@ final class AixPollPort
                                 return EXECUTE_TASK_OR_SHUTDOWN;
                             }
 
-                            // wakeup to process control event
+                            // wbkeup to process control event
                             if (fd == ctlSp[0]) {
                                 synchronized (controlQueue) {
-                                    drain1(ctlSp[0]);
+                                    drbin1(ctlSp[0]);
                                     processControlQueue();
                                 }
                                 if (n > 0) {
@@ -377,13 +377,13 @@ final class AixPollPort
                                 return CONTINUE_AFTER_CTL_EVENT;
                             }
 
-                            PollableChannel channel = fdToChannel.get(fd);
-                            if (channel != null) {
+                            PollbbleChbnnel chbnnel = fdToChbnnel.get(fd);
+                            if (chbnnel != null) {
                                 int events = getRevents(eventAddress);
-                                Event ev = new Event(channel, events);
+                                Event ev = new Event(chbnnel, events);
 
-                                // n-1 events are queued; This thread handles
-                                // the last one except for the wakeup
+                                // n-1 events bre queued; This threbd hbndles
+                                // the lbst one except for the wbkeup
                                 if (n > 0) {
                                     queue.offer(ev);
                                 } else {
@@ -391,12 +391,12 @@ final class AixPollPort
                                 }
                             }
                         }
-                    } finally {
-                        fdToChannelLock.readLock().unlock();
+                    } finblly {
+                        fdToChbnnelLock.rebdLock().unlock();
                     }
                 }
-            } finally {
-                // to ensure that some thread will poll when all events have
+            } finblly {
+                // to ensure thbt some threbd will poll when bll events hbve
                 // been consumed
                 queue.offer(NEED_TO_POLL);
             }
@@ -405,64 +405,64 @@ final class AixPollPort
         public void run() {
             Invoker.GroupAndInvokeCount myGroupAndInvokeCount =
                 Invoker.getGroupAndInvokeCount();
-            final boolean isPooledThread = (myGroupAndInvokeCount != null);
-            boolean replaceMe = false;
+            finbl boolebn isPooledThrebd = (myGroupAndInvokeCount != null);
+            boolebn replbceMe = fblse;
             Event ev;
             try {
                 for (;;) {
                     // reset invoke count
-                    if (isPooledThread)
+                    if (isPooledThrebd)
                         myGroupAndInvokeCount.resetInvokeCount();
 
                     try {
-                        replaceMe = false;
-                        ev = queue.take();
+                        replbceMe = fblse;
+                        ev = queue.tbke();
 
-                        // no events and this thread has been "selected" to
+                        // no events bnd this threbd hbs been "selected" to
                         // poll for more.
                         if (ev == NEED_TO_POLL) {
                             try {
                                 ev = poll();
-                            } catch (IOException x) {
-                                x.printStackTrace();
+                            } cbtch (IOException x) {
+                                x.printStbckTrbce();
                                 return;
                             }
                         }
-                    } catch (InterruptedException x) {
+                    } cbtch (InterruptedException x) {
                         continue;
                     }
 
-                    // contine after we processed a control event
+                    // contine bfter we processed b control event
                     if (ev == CONTINUE_AFTER_CTL_EVENT) {
                         continue;
                     }
 
-                    // handle wakeup to execute task or shutdown
+                    // hbndle wbkeup to execute tbsk or shutdown
                     if (ev == EXECUTE_TASK_OR_SHUTDOWN) {
-                        Runnable task = pollTask();
-                        if (task == null) {
+                        Runnbble tbsk = pollTbsk();
+                        if (tbsk == null) {
                             // shutdown request
                             return;
                         }
-                        // run task (may throw error/exception)
-                        replaceMe = true;
-                        task.run();
+                        // run tbsk (mby throw error/exception)
+                        replbceMe = true;
+                        tbsk.run();
                         continue;
                     }
 
                     // process event
                     try {
-                        ev.channel().onEvent(ev.events(), isPooledThread);
-                    } catch (Error x) {
-                        replaceMe = true; throw x;
-                    } catch (RuntimeException x) {
-                        replaceMe = true; throw x;
+                        ev.chbnnel().onEvent(ev.events(), isPooledThrebd);
+                    } cbtch (Error x) {
+                        replbceMe = true; throw x;
+                    } cbtch (RuntimeException x) {
+                        replbceMe = true; throw x;
                     }
                 }
-            } finally {
-                // last handler to exit when shutdown releases resources
-                int remaining = threadExit(this, replaceMe);
-                if (remaining == 0 && isShutdown()) {
+            } finblly {
+                // lbst hbndler to exit when shutdown relebses resources
+                int rembining = threbdExit(this, replbceMe);
+                if (rembining == 0 && isShutdown()) {
                     implClose();
                 }
             }
@@ -470,73 +470,73 @@ final class AixPollPort
     }
 
     /**
-     * Allocates a poll array to handle up to {@code count} events.
+     * Allocbtes b poll brrby to hbndle up to {@code count} events.
      */
-    private static long allocatePollArray(int count) {
-        return unsafe.allocateMemory(count * SIZEOF_POLLFD);
+    privbte stbtic long bllocbtePollArrby(int count) {
+        return unsbfe.bllocbteMemory(count * SIZEOF_POLLFD);
     }
 
     /**
-     * Free a poll array
+     * Free b poll brrby
      */
-    private static void freePollArray(long address) {
-        unsafe.freeMemory(address);
+    privbte stbtic void freePollArrby(long bddress) {
+        unsbfe.freeMemory(bddress);
     }
 
     /**
      * Returns event[i];
      */
-    private static long getEvent(long address, int i) {
-        return address + (SIZEOF_POLLFD*i);
+    privbte stbtic long getEvent(long bddress, int i) {
+        return bddress + (SIZEOF_POLLFD*i);
     }
 
     /**
      * Returns event->fd
      */
-    private static int getDescriptor(long eventAddress) {
-        return unsafe.getInt(eventAddress + OFFSETOF_FD);
+    privbte stbtic int getDescriptor(long eventAddress) {
+        return unsbfe.getInt(eventAddress + OFFSETOF_FD);
     }
 
     /**
      * Returns event->events
      */
-    private static int getEvents(long eventAddress) {
-        return unsafe.getChar(eventAddress + OFFSETOF_EVENTS);
+    privbte stbtic int getEvents(long eventAddress) {
+        return unsbfe.getChbr(eventAddress + OFFSETOF_EVENTS);
     }
 
     /**
      * Returns event->revents
      */
-    private static int getRevents(long eventAddress) {
-        return unsafe.getChar(eventAddress + OFFSETOF_REVENTS);
+    privbte stbtic int getRevents(long eventAddress) {
+        return unsbfe.getChbr(eventAddress + OFFSETOF_REVENTS);
     }
 
-    // -- Native methods --
+    // -- Nbtive methods --
 
-    private static native void init();
+    privbte stbtic nbtive void init();
 
-    private static native int eventSize();
+    privbte stbtic nbtive int eventSize();
 
-    private static native int eventsOffset();
+    privbte stbtic nbtive int eventsOffset();
 
-    private static native int reventsOffset();
+    privbte stbtic nbtive int reventsOffset();
 
-    private static native int fdOffset();
+    privbte stbtic nbtive int fdOffset();
 
-    private static native int pollsetCreate() throws IOException;
+    privbte stbtic nbtive int pollsetCrebte() throws IOException;
 
-    private static native int pollsetCtl(int pollset, int opcode, int fd, int events);
+    privbte stbtic nbtive int pollsetCtl(int pollset, int opcode, int fd, int events);
 
-    private static native int pollsetPoll(int pollset, long pollAddress, int numfds)
+    privbte stbtic nbtive int pollsetPoll(int pollset, long pollAddress, int numfds)
         throws IOException;
 
-    private static native void pollsetDestroy(int pollset);
+    privbte stbtic nbtive void pollsetDestroy(int pollset);
 
-    private static native void socketpair(int[] sv) throws IOException;
+    privbte stbtic nbtive void socketpbir(int[] sv) throws IOException;
 
-    private static native void interrupt(int fd) throws IOException;
+    privbte stbtic nbtive void interrupt(int fd) throws IOException;
 
-    private static native void drain1(int fd) throws IOException;
+    privbte stbtic nbtive void drbin1(int fd) throws IOException;
 
-    private static native void close0(int fd);
+    privbte stbtic nbtive void close0(int fd);
 }

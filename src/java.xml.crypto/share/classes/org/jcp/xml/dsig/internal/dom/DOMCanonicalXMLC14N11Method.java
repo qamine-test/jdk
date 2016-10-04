@@ -3,79 +3,79 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
  * $Id$
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.spec.TrbnsformPbrbmeterSpec;
 
-import java.security.InvalidAlgorithmParameterException;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
 
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.Cbnonicblizer;
+import com.sun.org.bpbche.xml.internbl.security.c14n.InvblidCbnonicblizerException;
 
 /**
- * DOM-based implementation of CanonicalizationMethod for Canonical XML 1.1
- * (with or without comments). Uses Apache XML-Sec Canonicalizer.
+ * DOM-bbsed implementbtion of CbnonicblizbtionMethod for Cbnonicbl XML 1.1
+ * (with or without comments). Uses Apbche XML-Sec Cbnonicblizer.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public final class DOMCanonicalXMLC14N11Method extends ApacheCanonicalizer {
+public finbl clbss DOMCbnonicblXMLC14N11Method extends ApbcheCbnonicblizer {
 
-    public static final String C14N_11 = "http://www.w3.org/2006/12/xml-c14n11";
-    public static final String C14N_11_WITH_COMMENTS
+    public stbtic finbl String C14N_11 = "http://www.w3.org/2006/12/xml-c14n11";
+    public stbtic finbl String C14N_11_WITH_COMMENTS
         = "http://www.w3.org/2006/12/xml-c14n11#WithComments";
 
-    public void init(TransformParameterSpec params)
-        throws InvalidAlgorithmParameterException {
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException("no parameters " +
-                "should be specified for Canonical XML 1.1 algorithm");
+    public void init(TrbnsformPbrbmeterSpec pbrbms)
+        throws InvblidAlgorithmPbrbmeterException {
+        if (pbrbms != null) {
+            throw new InvblidAlgorithmPbrbmeterException("no pbrbmeters " +
+                "should be specified for Cbnonicbl XML 1.1 blgorithm");
         }
     }
 
-    public Data transform(Data data, XMLCryptoContext xc)
-        throws TransformException {
+    public Dbtb trbnsform(Dbtb dbtb, XMLCryptoContext xc)
+        throws TrbnsformException {
 
-        // ignore comments if dereferencing same-document URI that requires
-        // you to omit comments, even if the Transform says otherwise -
-        // this is to be compliant with section 4.3.3.3 of W3C Rec.
-        if (data instanceof DOMSubTreeData) {
-            DOMSubTreeData subTree = (DOMSubTreeData) data;
+        // ignore comments if dereferencing sbme-document URI thbt requires
+        // you to omit comments, even if the Trbnsform sbys otherwise -
+        // this is to be complibnt with section 4.3.3.3 of W3C Rec.
+        if (dbtb instbnceof DOMSubTreeDbtb) {
+            DOMSubTreeDbtb subTree = (DOMSubTreeDbtb) dbtb;
             if (subTree.excludeComments()) {
                 try {
-                    apacheCanonicalizer = Canonicalizer.getInstance(C14N_11);
-                } catch (InvalidCanonicalizerException ice) {
-                    throw new TransformException
-                        ("Couldn't find Canonicalizer for: " +
-                         C14N_11 + ": " + ice.getMessage(), ice);
+                    bpbcheCbnonicblizer = Cbnonicblizer.getInstbnce(C14N_11);
+                } cbtch (InvblidCbnonicblizerException ice) {
+                    throw new TrbnsformException
+                        ("Couldn't find Cbnonicblizer for: " +
+                         C14N_11 + ": " + ice.getMessbge(), ice);
                 }
             }
         }
 
-        return canonicalize(data, xc);
+        return cbnonicblize(dbtb, xc);
     }
 }

@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.event.*;
+import jbvb.bwt.event.*;
 
-import javax.swing.JComponent;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.text.JTextComponent;
 
 /**
- * This class exists only as a hack to work around a Sun bug which parks the
- * insertion caret at the begining of a text field when it gets clicked on.
+ * This clbss exists only bs b hbck to work bround b Sun bug which pbrks the
+ * insertion cbret bt the begining of b text field when it gets clicked on.
  */
-public class AquaTextFieldFormattedUI extends AquaTextFieldUI implements MouseListener {
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaTextFieldFormattedUI();
+public clbss AqubTextFieldFormbttedUI extends AqubTextFieldUI implements MouseListener {
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubTextFieldFormbttedUI();
     }
 
     @Override
     protected String getPropertyPrefix() {
-        return "FormattedTextField";
+        return "FormbttedTextField";
     }
 
-    protected void installListeners() {
-        super.installListeners();
-        getComponent().addMouseListener(this);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        getComponent().bddMouseListener(this);
     }
 
-    protected void uninstallListeners() {
+    protected void uninstbllListeners() {
         getComponent().removeMouseListener(this);
-        super.uninstallListeners();
+        super.uninstbllListeners();
     }
 
-    public void mouseClicked(final MouseEvent e) {
+    public void mouseClicked(finbl MouseEvent e) {
         if (e.getClickCount() != 1) return;
 
-        final JTextComponent c = getComponent();
-        // apparently, focus has already been granted by the time this mouse listener fires
-    //    if (c.hasFocus()) return;
+        finbl JTextComponent c = getComponent();
+        // bppbrently, focus hbs blrebdy been grbnted by the time this mouse listener fires
+    //    if (c.hbsFocus()) return;
 
-        c.setCaretPosition(viewToModel(c, e.getPoint()));
+        c.setCbretPosition(viewToModel(c, e.getPoint()));
     }
 
-    public void mouseEntered(final MouseEvent e) { }
-    public void mouseExited(final MouseEvent e) { }
-    public void mousePressed(final MouseEvent e) { }
-    public void mouseReleased(final MouseEvent e) { }
+    public void mouseEntered(finbl MouseEvent e) { }
+    public void mouseExited(finbl MouseEvent e) { }
+    public void mousePressed(finbl MouseEvent e) { }
+    public void mouseRelebsed(finbl MouseEvent e) { }
 }

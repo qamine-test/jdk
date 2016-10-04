@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
+import jbvb.io.EOFException;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
 
 /**
- * Resource Interchange File Format (RIFF) stream decoder.
+ * Resource Interchbnge File Formbt (RIFF) strebm decoder.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class RIFFReader extends InputStream {
+public finbl clbss RIFFRebder extends InputStrebm {
 
-    private final RIFFReader root;
-    private long filepointer = 0;
-    private final String fourcc;
-    private String riff_type = null;
-    private long ckSize = 0;
-    private InputStream stream;
-    private long avail;
-    private RIFFReader lastiterator = null;
+    privbte finbl RIFFRebder root;
+    privbte long filepointer = 0;
+    privbte finbl String fourcc;
+    privbte String riff_type = null;
+    privbte long ckSize = 0;
+    privbte InputStrebm strebm;
+    privbte long bvbil;
+    privbte RIFFRebder lbstiterbtor = null;
 
-    public RIFFReader(InputStream stream) throws IOException {
+    public RIFFRebder(InputStrebm strebm) throws IOException {
 
-        if (stream instanceof RIFFReader)
-            root = ((RIFFReader)stream).root;
+        if (strebm instbnceof RIFFRebder)
+            root = ((RIFFRebder)strebm).root;
         else
             root = this;
 
-        this.stream = stream;
-        avail = Integer.MAX_VALUE;
+        this.strebm = strebm;
+        bvbil = Integer.MAX_VALUE;
         ckSize = Integer.MAX_VALUE;
 
-        // Check for RIFF null paddings,
+        // Check for RIFF null pbddings,
         int b;
         while (true) {
-            b = read();
+            b = rebd();
             if (b == -1) {
-                fourcc = ""; // don't put null value into fourcc,
-                // because it is expected to
-                // always contain a string value
+                fourcc = ""; // don't put null vblue into fourcc,
+                // becbuse it is expected to
+                // blwbys contbin b string vblue
                 riff_type = null;
-                avail = 0;
+                bvbil = 0;
                 return;
             }
             if (b != 0)
-                break;
+                brebk;
         }
 
         byte[] fourcc = new byte[4];
         fourcc[0] = (byte) b;
-        readFully(fourcc, 1, 3);
-        this.fourcc = new String(fourcc, "ascii");
-        ckSize = readUnsignedInt();
+        rebdFully(fourcc, 1, 3);
+        this.fourcc = new String(fourcc, "bscii");
+        ckSize = rebdUnsignedInt();
 
-        avail = this.ckSize;
+        bvbil = this.ckSize;
 
-        if (getFormat().equals("RIFF") || getFormat().equals("LIST")) {
-            byte[] format = new byte[4];
-            readFully(format);
-            this.riff_type = new String(format, "ascii");
+        if (getFormbt().equbls("RIFF") || getFormbt().equbls("LIST")) {
+            byte[] formbt = new byte[4];
+            rebdFully(formbt);
+            this.riff_type = new String(formbt, "bscii");
         }
     }
 
@@ -90,22 +90,22 @@ public final class RIFFReader extends InputStream {
         return root.filepointer;
     }
 
-    public boolean hasNextChunk() throws IOException {
-        if (lastiterator != null)
-            lastiterator.finish();
-        return avail != 0;
+    public boolebn hbsNextChunk() throws IOException {
+        if (lbstiterbtor != null)
+            lbstiterbtor.finish();
+        return bvbil != 0;
     }
 
-    public RIFFReader nextChunk() throws IOException {
-        if (lastiterator != null)
-            lastiterator.finish();
-        if (avail == 0)
+    public RIFFRebder nextChunk() throws IOException {
+        if (lbstiterbtor != null)
+            lbstiterbtor.finish();
+        if (bvbil == 0)
             return null;
-        lastiterator = new RIFFReader(this);
-        return lastiterator;
+        lbstiterbtor = new RIFFRebder(this);
+        return lbstiterbtor;
     }
 
-    public String getFormat() {
+    public String getFormbt() {
         return fourcc;
     }
 
@@ -117,122 +117,122 @@ public final class RIFFReader extends InputStream {
         return ckSize;
     }
 
-    public int read() throws IOException {
-        if (avail == 0)
+    public int rebd() throws IOException {
+        if (bvbil == 0)
             return -1;
-        int b = stream.read();
+        int b = strebm.rebd();
         if (b == -1)
             return -1;
-        avail--;
+        bvbil--;
         filepointer++;
         return b;
     }
 
-    public int read(byte[] b, int offset, int len) throws IOException {
-        if (avail == 0)
+    public int rebd(byte[] b, int offset, int len) throws IOException {
+        if (bvbil == 0)
             return -1;
-        if (len > avail) {
-            int rlen = stream.read(b, offset, (int)avail);
+        if (len > bvbil) {
+            int rlen = strebm.rebd(b, offset, (int)bvbil);
             if (rlen != -1)
                 filepointer += rlen;
-            avail = 0;
+            bvbil = 0;
             return rlen;
         } else {
-            int ret = stream.read(b, offset, len);
+            int ret = strebm.rebd(b, offset, len);
             if (ret == -1)
                 return -1;
-            avail -= ret;
+            bvbil -= ret;
             filepointer += ret;
             return ret;
         }
     }
 
-    public final void readFully(byte b[]) throws IOException {
-        readFully(b, 0, b.length);
+    public finbl void rebdFully(byte b[]) throws IOException {
+        rebdFully(b, 0, b.length);
     }
 
-    public final void readFully(byte b[], int off, int len) throws IOException {
+    public finbl void rebdFully(byte b[], int off, int len) throws IOException {
         if (len < 0)
             throw new IndexOutOfBoundsException();
         while (len > 0) {
-            int s = read(b, off, len);
+            int s = rebd(b, off, len);
             if (s < 0)
                 throw new EOFException();
             if (s == 0)
-                Thread.yield();
+                Threbd.yield();
             off += s;
             len -= s;
         }
     }
 
-    public final long skipBytes(long n) throws IOException {
+    public finbl long skipBytes(long n) throws IOException {
         if (n < 0)
             return 0;
         long skipped = 0;
         while (skipped != n) {
             long s = skip(n - skipped);
             if (s < 0)
-                break;
+                brebk;
             if (s == 0)
-                Thread.yield();
+                Threbd.yield();
             skipped += s;
         }
         return skipped;
     }
 
     public long skip(long n) throws IOException {
-        if (avail == 0)
+        if (bvbil == 0)
             return -1;
-        if (n > avail) {
-            long len = stream.skip(avail);
+        if (n > bvbil) {
+            long len = strebm.skip(bvbil);
             if (len != -1)
                 filepointer += len;
-            avail = 0;
+            bvbil = 0;
             return len;
         } else {
-            long ret = stream.skip(n);
+            long ret = strebm.skip(n);
             if (ret == -1)
                 return -1;
-            avail -= ret;
+            bvbil -= ret;
             filepointer += ret;
             return ret;
         }
     }
 
-    public int available() {
-        return (int)avail;
+    public int bvbilbble() {
+        return (int)bvbil;
     }
 
     public void finish() throws IOException {
-        if (avail != 0) {
-            skipBytes(avail);
+        if (bvbil != 0) {
+            skipBytes(bvbil);
         }
     }
 
-    // Read ASCII chars from stream
-    public String readString(int len) throws IOException {
+    // Rebd ASCII chbrs from strebm
+    public String rebdString(int len) throws IOException {
         byte[] buff = new byte[len];
-        readFully(buff);
+        rebdFully(buff);
         for (int i = 0; i < buff.length; i++) {
             if (buff[i] == 0) {
-                return new String(buff, 0, i, "ascii");
+                return new String(buff, 0, i, "bscii");
             }
         }
-        return new String(buff, "ascii");
+        return new String(buff, "bscii");
     }
 
-    // Read 8 bit signed integer from stream
-    public byte readByte() throws IOException {
-        int ch = read();
+    // Rebd 8 bit signed integer from strebm
+    public byte rebdByte() throws IOException {
+        int ch = rebd();
         if (ch < 0)
             throw new EOFException();
         return (byte) ch;
     }
 
-    // Read 16 bit signed integer from stream
-    public short readShort() throws IOException {
-        int ch1 = read();
-        int ch2 = read();
+    // Rebd 16 bit signed integer from strebm
+    public short rebdShort() throws IOException {
+        int ch1 = rebd();
+        int ch2 = rebd();
         if (ch1 < 0)
             throw new EOFException();
         if (ch2 < 0)
@@ -240,12 +240,12 @@ public final class RIFFReader extends InputStream {
         return (short)(ch1 | (ch2 << 8));
     }
 
-    // Read 32 bit signed integer from stream
-    public int readInt() throws IOException {
-        int ch1 = read();
-        int ch2 = read();
-        int ch3 = read();
-        int ch4 = read();
+    // Rebd 32 bit signed integer from strebm
+    public int rebdInt() throws IOException {
+        int ch1 = rebd();
+        int ch2 = rebd();
+        int ch3 = rebd();
+        int ch4 = rebd();
         if (ch1 < 0)
             throw new EOFException();
         if (ch2 < 0)
@@ -257,16 +257,16 @@ public final class RIFFReader extends InputStream {
         return ch1 + (ch2 << 8) | (ch3 << 16) | (ch4 << 24);
     }
 
-    // Read 64 bit signed integer from stream
-    public long readLong() throws IOException {
-        long ch1 = read();
-        long ch2 = read();
-        long ch3 = read();
-        long ch4 = read();
-        long ch5 = read();
-        long ch6 = read();
-        long ch7 = read();
-        long ch8 = read();
+    // Rebd 64 bit signed integer from strebm
+    public long rebdLong() throws IOException {
+        long ch1 = rebd();
+        long ch2 = rebd();
+        long ch3 = rebd();
+        long ch4 = rebd();
+        long ch5 = rebd();
+        long ch6 = rebd();
+        long ch7 = rebd();
+        long ch8 = rebd();
         if (ch1 < 0)
             throw new EOFException();
         if (ch2 < 0)
@@ -287,18 +287,18 @@ public final class RIFFReader extends InputStream {
                 | (ch5 << 32) | (ch6 << 40) | (ch7 << 48) | (ch8 << 56);
     }
 
-    // Read 8 bit unsigned integer from stream
-    public int readUnsignedByte() throws IOException {
-        int ch = read();
+    // Rebd 8 bit unsigned integer from strebm
+    public int rebdUnsignedByte() throws IOException {
+        int ch = rebd();
         if (ch < 0)
             throw new EOFException();
         return ch;
     }
 
-    // Read 16 bit unsigned integer from stream
-    public int readUnsignedShort() throws IOException {
-        int ch1 = read();
-        int ch2 = read();
+    // Rebd 16 bit unsigned integer from strebm
+    public int rebdUnsignedShort() throws IOException {
+        int ch1 = rebd();
+        int ch2 = rebd();
         if (ch1 < 0)
             throw new EOFException();
         if (ch2 < 0)
@@ -306,12 +306,12 @@ public final class RIFFReader extends InputStream {
         return ch1 | (ch2 << 8);
     }
 
-    // Read 32 bit unsigned integer from stream
-    public long readUnsignedInt() throws IOException {
-        long ch1 = read();
-        long ch2 = read();
-        long ch3 = read();
-        long ch4 = read();
+    // Rebd 32 bit unsigned integer from strebm
+    public long rebdUnsignedInt() throws IOException {
+        long ch1 = rebd();
+        long ch2 = rebd();
+        long ch3 = rebd();
+        long ch4 = rebd();
         if (ch1 < 0)
             throw new EOFException();
         if (ch2 < 0)
@@ -326,7 +326,7 @@ public final class RIFFReader extends InputStream {
     public void close() throws IOException {
         finish();
         if (this == root)
-            stream.close();
-        stream = null;
+            strebm.close();
+        strebm = null;
     }
 }

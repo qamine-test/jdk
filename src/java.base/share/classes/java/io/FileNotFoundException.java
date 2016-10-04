@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1994, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 
 /**
- * Signals that an attempt to open the file denoted by a specified pathname
- * has failed.
+ * Signbls thbt bn bttempt to open the file denoted by b specified pbthnbme
+ * hbs fbiled.
  *
- * <p> This exception will be thrown by the {@link FileInputStream}, {@link
- * FileOutputStream}, and {@link RandomAccessFile} constructors when a file
- * with the specified pathname does not exist.  It will also be thrown by these
- * constructors if the file does exist but for some reason is inaccessible, for
- * example when an attempt is made to open a read-only file for writing.
+ * <p> This exception will be thrown by the {@link FileInputStrebm}, {@link
+ * FileOutputStrebm}, bnd {@link RbndomAccessFile} constructors when b file
+ * with the specified pbthnbme does not exist.  It will blso be thrown by these
+ * constructors if the file does exist but for some rebson is inbccessible, for
+ * exbmple when bn bttempt is mbde to open b rebd-only file for writing.
  *
- * @author  unascribed
+ * @buthor  unbscribed
  * @since   1.0
  */
 
-public class FileNotFoundException extends IOException {
-    private static final long serialVersionUID = -897856973823710492L;
+public clbss FileNotFoundException extends IOException {
+    privbte stbtic finbl long seriblVersionUID = -897856973823710492L;
 
     /**
-     * Constructs a <code>FileNotFoundException</code> with
-     * <code>null</code> as its error detail message.
+     * Constructs b <code>FileNotFoundException</code> with
+     * <code>null</code> bs its error detbil messbge.
      */
     public FileNotFoundException() {
         super();
     }
 
     /**
-     * Constructs a <code>FileNotFoundException</code> with the
-     * specified detail message. The string <code>s</code> can be
-     * retrieved later by the
-     * <code>{@link java.lang.Throwable#getMessage}</code>
-     * method of class <code>java.lang.Throwable</code>.
+     * Constructs b <code>FileNotFoundException</code> with the
+     * specified detbil messbge. The string <code>s</code> cbn be
+     * retrieved lbter by the
+     * <code>{@link jbvb.lbng.Throwbble#getMessbge}</code>
+     * method of clbss <code>jbvb.lbng.Throwbble</code>.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   the detbil messbge.
      */
     public FileNotFoundException(String s) {
         super(s);
     }
 
     /**
-     * Constructs a <code>FileNotFoundException</code> with a detail message
-     * consisting of the given pathname string followed by the given reason
-     * string.  If the <code>reason</code> argument is <code>null</code> then
-     * it will be omitted.  This private constructor is invoked only by native
+     * Constructs b <code>FileNotFoundException</code> with b detbil messbge
+     * consisting of the given pbthnbme string followed by the given rebson
+     * string.  If the <code>rebson</code> brgument is <code>null</code> then
+     * it will be omitted.  This privbte constructor is invoked only by nbtive
      * I/O methods.
      *
      * @since 1.2
      */
-    private FileNotFoundException(String path, String reason) {
-        super(path + ((reason == null)
+    privbte FileNotFoundException(String pbth, String rebson) {
+        super(pbth + ((rebson == null)
                       ? ""
-                      : " (" + reason + ")"));
+                      : " (" + rebson + ")"));
     }
 
 }

@@ -3,88 +3,88 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
-import java.util.Iterator;
+import jbvb.util.Iterbtor;
 import org.w3c.dom.Element;
 
 /**
- * <code>EncryptionMethod</code> describes the encryption algorithm applied to
- * the cipher data. If the element is absent, the encryption algorithm must be
- * known by the recipient or the decryption will fail.
+ * <code>EncryptionMethod</code> describes the encryption blgorithm bpplied to
+ * the cipher dbtb. If the element is bbsent, the encryption blgorithm must be
+ * known by the recipient or the decryption will fbil.
  * <p>
- * It is defined as follows:
+ * It is defined bs follows:
  * <xmp>
- * <complexType name='EncryptionMethodType' mixed='true'>
+ * <complexType nbme='EncryptionMethodType' mixed='true'>
  *     <sequence>
- *         <element name='KeySize' minOccurs='0' type='xenc:KeySizeType'/>
- *         <element name='OAEPparams' minOccurs='0' type='base64Binary'/>
- *         <any namespace='##other' minOccurs='0' maxOccurs='unbounded'/>
+ *         <element nbme='KeySize' minOccurs='0' type='xenc:KeySizeType'/>
+ *         <element nbme='OAEPpbrbms' minOccurs='0' type='bbse64Binbry'/>
+ *         <bny nbmespbce='##other' minOccurs='0' mbxOccurs='unbounded'/>
  *     </sequence>
- *     <attribute name='Algorithm' type='anyURI' use='required'/>
+ *     <bttribute nbme='Algorithm' type='bnyURI' use='required'/>
  * </complexType>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @buthor Axl Mbttheus
  */
-public interface EncryptionMethod {
+public interfbce EncryptionMethod {
     /**
-     * Returns the algorithm applied to the cipher data.
+     * Returns the blgorithm bpplied to the cipher dbtb.
      *
-     * @return the encryption algorithm.
+     * @return the encryption blgorithm.
      */
     String getAlgorithm();
 
     /**
-     * Returns the key size of the key of the algorithm applied to the cipher
-     * data.
+     * Returns the key size of the key of the blgorithm bpplied to the cipher
+     * dbtb.
      *
      * @return the key size.
      */
     int getKeySize();
 
     /**
-     * Sets the size of the key of the algorithm applied to the cipher data.
+     * Sets the size of the key of the blgorithm bpplied to the cipher dbtb.
      *
-     * @param size the key size.
+     * @pbrbm size the key size.
      */
     void setKeySize(int size);
 
     /**
-     * Returns the OAEP parameters of the algorithm applied applied to the
-     * cipher data.
+     * Returns the OAEP pbrbmeters of the blgorithm bpplied bpplied to the
+     * cipher dbtb.
      *
-     * @return the OAEP parameters.
+     * @return the OAEP pbrbmeters.
      */
-    byte[] getOAEPparams();
+    byte[] getOAEPpbrbms();
 
     /**
-     * Sets the OAEP parameters.
+     * Sets the OAEP pbrbmeters.
      *
-     * @param parameters the OAEP parameters.
+     * @pbrbm pbrbmeters the OAEP pbrbmeters.
      */
-    void setOAEPparams(byte[] parameters);
+    void setOAEPpbrbms(byte[] pbrbmeters);
 
     /**
      * Set the Digest Algorithm to use
-     * @param digestAlgorithm the Digest Algorithm to use
+     * @pbrbm digestAlgorithm the Digest Algorithm to use
      */
     void setDigestAlgorithm(String digestAlgorithm);
 
@@ -96,7 +96,7 @@ public interface EncryptionMethod {
 
     /**
      * Set the MGF Algorithm to use
-     * @param mgfAlgorithm the MGF Algorithm to use
+     * @pbrbm mgfAlgorithm the MGF Algorithm to use
      */
     void setMGFAlgorithm(String mgfAlgorithm);
 
@@ -107,27 +107,27 @@ public interface EncryptionMethod {
     String getMGFAlgorithm();
 
     /**
-     * Returns an iterator over all the additional elements contained in the
+     * Returns bn iterbtor over bll the bdditionbl elements contbined in the
      * <code>EncryptionMethod</code>.
      *
-     * @return an <code>Iterator</code> over all the additional information
-     *   about the <code>EncryptionMethod</code>.
+     * @return bn <code>Iterbtor</code> over bll the bdditionbl informbtion
+     *   bbout the <code>EncryptionMethod</code>.
      */
-    Iterator<Element> getEncryptionMethodInformation();
+    Iterbtor<Element> getEncryptionMethodInformbtion();
 
     /**
-     * Adds encryption method information.
+     * Adds encryption method informbtion.
      *
-     * @param information additional encryption method information.
+     * @pbrbm informbtion bdditionbl encryption method informbtion.
      */
-    void addEncryptionMethodInformation(Element information);
+    void bddEncryptionMethodInformbtion(Element informbtion);
 
     /**
-     * Removes encryption method information.
+     * Removes encryption method informbtion.
      *
-     * @param information the information to remove from the
+     * @pbrbm informbtion the informbtion to remove from the
      *   <code>EncryptionMethod</code>.
      */
-    void removeEncryptionMethodInformation(Element information);
+    void removeEncryptionMethodInformbtion(Element informbtion);
 }
 

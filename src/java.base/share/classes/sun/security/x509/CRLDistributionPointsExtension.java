@@ -1,299 +1,299 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
 
-import java.util.*;
+import jbvb.util.*;
 
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
+import sun.security.util.DerOutputStrebm;
+import sun.security.util.DerVblue;
 import sun.security.util.ObjectIdentifier;
 
 /**
  * Represent the CRL Distribution Points Extension (OID = 2.5.29.31).
  * <p>
- * The CRL distribution points extension identifies how CRL information
- * is obtained.  The extension SHOULD be non-critical, but the PKIX profile
- * recommends support for this extension by CAs and applications.
+ * The CRL distribution points extension identifies how CRL informbtion
+ * is obtbined.  The extension SHOULD be non-criticbl, but the PKIX profile
+ * recommends support for this extension by CAs bnd bpplicbtions.
  * <p>
- * For PKIX, if the cRLDistributionPoints extension contains a
- * DistributionPointName of type URI, the following semantics MUST be
- * assumed: the URI is a pointer to the current CRL for the associated
- * reasons and will be issued by the associated cRLIssuer.  The
- * expected values for the URI conform to the following rules.  The
- * name MUST be a non-relative URL, and MUST follow the URL syntax and
- * encoding rules specified in [RFC 1738].  The name must include both
- * a scheme (e.g., "http" or "ftp") and a scheme-specific-part.  The
- * scheme- specific-part must include a fully qualified domain name or
- * IP address as the host.  As specified in [RFC 1738], the scheme
- * name is not case-sensitive (e.g., "http" is equivalent to "HTTP").
- * The host part is also not case-sensitive, but other components of
- * the scheme-specific-part may be case-sensitive. When comparing
- * URIs, conforming implementations MUST compare the scheme and host
- * without regard to case, but assume the remainder of the
- * scheme-specific-part is case sensitive.  Processing rules for other
- * values are not defined by this specification.  If the
- * distributionPoint omits reasons, the CRL MUST include revocations
- * for all reasons. If the distributionPoint omits cRLIssuer, the CRL
- * MUST be issued by the CA that issued the certificate.
+ * For PKIX, if the cRLDistributionPoints extension contbins b
+ * DistributionPointNbme of type URI, the following sembntics MUST be
+ * bssumed: the URI is b pointer to the current CRL for the bssocibted
+ * rebsons bnd will be issued by the bssocibted cRLIssuer.  The
+ * expected vblues for the URI conform to the following rules.  The
+ * nbme MUST be b non-relbtive URL, bnd MUST follow the URL syntbx bnd
+ * encoding rules specified in [RFC 1738].  The nbme must include both
+ * b scheme (e.g., "http" or "ftp") bnd b scheme-specific-pbrt.  The
+ * scheme- specific-pbrt must include b fully qublified dombin nbme or
+ * IP bddress bs the host.  As specified in [RFC 1738], the scheme
+ * nbme is not cbse-sensitive (e.g., "http" is equivblent to "HTTP").
+ * The host pbrt is blso not cbse-sensitive, but other components of
+ * the scheme-specific-pbrt mby be cbse-sensitive. When compbring
+ * URIs, conforming implementbtions MUST compbre the scheme bnd host
+ * without regbrd to cbse, but bssume the rembinder of the
+ * scheme-specific-pbrt is cbse sensitive.  Processing rules for other
+ * vblues bre not defined by this specificbtion.  If the
+ * distributionPoint omits rebsons, the CRL MUST include revocbtions
+ * for bll rebsons. If the distributionPoint omits cRLIssuer, the CRL
+ * MUST be issued by the CA thbt issued the certificbte.
  * <p>
  * The ASN.1 definition for this is:
  * <pre>
  * id-ce-cRLDistributionPoints OBJECT IDENTIFIER ::=  { id-ce 31 }
  *
  * cRLDistributionPoints ::= {
- *      CRLDistPointsSyntax }
+ *      CRLDistPointsSyntbx }
  *
- * CRLDistPointsSyntax ::= SEQUENCE SIZE (1..MAX) OF DistributionPoint
+ * CRLDistPointsSyntbx ::= SEQUENCE SIZE (1..MAX) OF DistributionPoint
  * </pre>
  * <p>
- * @author Anne Anderson
- * @author Andreas Sterbenz
+ * @buthor Anne Anderson
+ * @buthor Andrebs Sterbenz
  * @since 1.4.2
  * @see DistributionPoint
  * @see Extension
  * @see CertAttrSet
  */
-public class CRLDistributionPointsExtension extends Extension
+public clbss CRLDistributionPointsExtension extends Extension
         implements CertAttrSet<String> {
 
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT =
+    public stbtic finbl String IDENT =
                                 "x509.info.extensions.CRLDistributionPoints";
 
     /**
-     * Attribute name.
+     * Attribute nbme.
      */
-    public static final String NAME = "CRLDistributionPoints";
-    public static final String POINTS = "points";
+    public stbtic finbl String NAME = "CRLDistributionPoints";
+    public stbtic finbl String POINTS = "points";
 
     /**
      * The List of DistributionPoint objects.
      */
-    private List<DistributionPoint> distributionPoints;
+    privbte List<DistributionPoint> distributionPoints;
 
-    private String extensionName;
+    privbte String extensionNbme;
 
     /**
-     * Create a CRLDistributionPointsExtension from a List of
-     * DistributionPoint; the criticality is set to false.
+     * Crebte b CRLDistributionPointsExtension from b List of
+     * DistributionPoint; the criticblity is set to fblse.
      *
-     * @param distributionPoints the list of distribution points
+     * @pbrbm distributionPoints the list of distribution points
      * @throws IOException on error
      */
     public CRLDistributionPointsExtension(
         List<DistributionPoint> distributionPoints) throws IOException {
 
-        this(false, distributionPoints);
+        this(fblse, distributionPoints);
     }
 
     /**
-     * Create a CRLDistributionPointsExtension from a List of
+     * Crebte b CRLDistributionPointsExtension from b List of
      * DistributionPoint.
      *
-     * @param isCritical the criticality setting.
-     * @param distributionPoints the list of distribution points
+     * @pbrbm isCriticbl the criticblity setting.
+     * @pbrbm distributionPoints the list of distribution points
      * @throws IOException on error
      */
-    public CRLDistributionPointsExtension(boolean isCritical,
+    public CRLDistributionPointsExtension(boolebn isCriticbl,
         List<DistributionPoint> distributionPoints) throws IOException {
 
-        this(PKIXExtensions.CRLDistributionPoints_Id, isCritical,
+        this(PKIXExtensions.CRLDistributionPoints_Id, isCriticbl,
             distributionPoints, NAME);
     }
 
     /**
-     * Creates the extension (also called by the subclass).
+     * Crebtes the extension (blso cblled by the subclbss).
      */
     protected CRLDistributionPointsExtension(ObjectIdentifier extensionId,
-        boolean isCritical, List<DistributionPoint> distributionPoints,
-            String extensionName) throws IOException {
+        boolebn isCriticbl, List<DistributionPoint> distributionPoints,
+            String extensionNbme) throws IOException {
 
         this.extensionId = extensionId;
-        this.critical = isCritical;
+        this.criticbl = isCriticbl;
         this.distributionPoints = distributionPoints;
         encodeThis();
-        this.extensionName = extensionName;
+        this.extensionNbme = extensionNbme;
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crebte the extension from the pbssed DER encoded vblue of the sbme.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value Array of DER encoded bytes of the actual value.
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue Arrby of DER encoded bytes of the bctubl vblue.
      * @exception IOException on error.
      */
-    public CRLDistributionPointsExtension(Boolean critical, Object value)
+    public CRLDistributionPointsExtension(Boolebn criticbl, Object vblue)
             throws IOException {
-        this(PKIXExtensions.CRLDistributionPoints_Id, critical, value, NAME);
+        this(PKIXExtensions.CRLDistributionPoints_Id, criticbl, vblue, NAME);
     }
 
     /**
-     * Creates the extension (also called by the subclass).
+     * Crebtes the extension (blso cblled by the subclbss).
      */
     protected CRLDistributionPointsExtension(ObjectIdentifier extensionId,
-        Boolean critical, Object value, String extensionName)
+        Boolebn criticbl, Object vblue, String extensionNbme)
             throws IOException {
 
         this.extensionId = extensionId;
-        this.critical = critical.booleanValue();
+        this.criticbl = criticbl.boolebnVblue();
 
-        if (!(value instanceof byte[])) {
-            throw new IOException("Illegal argument type");
+        if (!(vblue instbnceof byte[])) {
+            throw new IOException("Illegbl brgument type");
         }
 
-        extensionValue = (byte[])value;
-        DerValue val = new DerValue(extensionValue);
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for " + extensionName +
+        extensionVblue = (byte[])vblue;
+        DerVblue vbl = new DerVblue(extensionVblue);
+        if (vbl.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Invblid encoding for " + extensionNbme +
                                   " extension.");
         }
-        distributionPoints = new ArrayList<DistributionPoint>();
-        while (val.data.available() != 0) {
-            DerValue seq = val.data.getDerValue();
+        distributionPoints = new ArrbyList<DistributionPoint>();
+        while (vbl.dbtb.bvbilbble() != 0) {
+            DerVblue seq = vbl.dbtb.getDerVblue();
             DistributionPoint point = new DistributionPoint(seq);
-            distributionPoints.add(point);
+            distributionPoints.bdd(point);
         }
-        this.extensionName = extensionName;
+        this.extensionNbme = extensionNbme;
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
-        return extensionName;
+    public String getNbme() {
+        return extensionNbme;
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Write the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        encode(out, PKIXExtensions.CRLDistributionPoints_Id, false);
+    public void encode(OutputStrebm out) throws IOException {
+        encode(out, PKIXExtensions.CRLDistributionPoints_Id, fblse);
     }
 
     /**
-     * Write the extension to the DerOutputStream.
-     * (Also called by the subclass)
+     * Write the extension to the DerOutputStrebm.
+     * (Also cblled by the subclbss)
      */
-    protected void encode(OutputStream out, ObjectIdentifier extensionId,
-        boolean isCritical) throws IOException {
+    protected void encode(OutputStrebm out, ObjectIdentifier extensionId,
+        boolebn isCriticbl) throws IOException {
 
-        DerOutputStream tmp = new DerOutputStream();
-        if (this.extensionValue == null) {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        if (this.extensionVblue == null) {
             this.extensionId = extensionId;
-            this.critical = isCritical;
+            this.criticbl = isCriticbl;
             encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    @SuppressWarnings("unchecked") // Checked with instanceof
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(POINTS)) {
-            if (!(obj instanceof List)) {
-                throw new IOException("Attribute value should be of type List.");
+    @SuppressWbrnings("unchecked") // Checked with instbnceof
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(POINTS)) {
+            if (!(obj instbnceof List)) {
+                throw new IOException("Attribute vblue should be of type List.");
             }
             distributionPoints = (List<DistributionPoint>)obj;
         } else {
-            throw new IOException("Attribute name [" + name +
+            throw new IOException("Attribute nbme [" + nbme +
                                 "] not recognized by " +
-                                "CertAttrSet:" + extensionName + ".");
+                                "CertAttrSet:" + extensionNbme + ".");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public List<DistributionPoint> get(String name) throws IOException {
-        if (name.equalsIgnoreCase(POINTS)) {
+    public List<DistributionPoint> get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(POINTS)) {
             return distributionPoints;
         } else {
-            throw new IOException("Attribute name [" + name +
+            throw new IOException("Attribute nbme [" + nbme +
                                 "] not recognized by " +
-                                "CertAttrSet:" + extensionName + ".");
+                                "CertAttrSet:" + extensionNbme + ".");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(POINTS)) {
-            distributionPoints = new ArrayList<DistributionPoint>();
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(POINTS)) {
+            distributionPoints = new ArrbyList<DistributionPoint>();
         } else {
-            throw new IOException("Attribute name [" + name +
+            throw new IOException("Attribute nbme [" + nbme +
                                 "] not recognized by " +
-                                "CertAttrSet:" + extensionName + ".");
+                                "CertAttrSet:" + extensionNbme + ".");
         }
         encodeThis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(POINTS);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(POINTS);
         return elements.elements();
     }
 
-     // Encode this extension value
-    private void encodeThis() throws IOException {
+     // Encode this extension vblue
+    privbte void encodeThis() throws IOException {
         if (distributionPoints.isEmpty()) {
-            this.extensionValue = null;
+            this.extensionVblue = null;
         } else {
-            DerOutputStream pnts = new DerOutputStream();
+            DerOutputStrebm pnts = new DerOutputStrebm();
             for (DistributionPoint point : distributionPoints) {
                 point.encode(pnts);
             }
-            DerOutputStream seq = new DerOutputStream();
-            seq.write(DerValue.tag_Sequence, pnts);
-            this.extensionValue = seq.toByteArray();
+            DerOutputStrebm seq = new DerOutputStrebm();
+            seq.write(DerVblue.tbg_Sequence, pnts);
+            this.extensionVblue = seq.toByteArrby();
         }
     }
 
     /**
-     * Return the extension as user readable string.
+     * Return the extension bs user rebdbble string.
      */
     public String toString() {
-        return super.toString() + extensionName + " [\n  "
+        return super.toString() + extensionNbme + " [\n  "
                + distributionPoints + "]\n";
     }
 

@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "jlong.h"
-#include "math.h"
+#include "mbth.h"
 #include "string.h"
 #include "stdlib.h"
 #include "sunfontids.h"
-#include "fontscalerdefs.h"
+#include "fontscblerdefs.h"
 #include "glyphblitting.h"
-#include "GraphicsPrimitiveMgr.h"
-#include "sun_java2d_loops_DrawGlyphList.h"
-#include "sun_java2d_loops_DrawGlyphListAA.h"
+#include "GrbphicsPrimitiveMgr.h"
+#include "sun_jbvb2d_loops_DrbwGlyphList.h"
+#include "sun_jbvb2d_loops_DrbwGlyphListAA.h"
 
 
 /*
- * Need to account for the rare case when (eg) repainting damaged
- * areas results in the drawing location being negative, in which
- * case (int) rounding always goes towards zero. We need to always
- * round down instead, so that we paint at the correct position.
- * We only call "floor" when value is < 0 (ie rarely).
- * Storing the result of (eg) (x+ginfo->topLeftX) benchmarks is more
- * expensive than repeating the calculation as we do here.
- * "floor" shows up as a significant cost in app-level microbenchmarks.
- * This macro avoids calling it on positive values, instead using an
- * (int) cast.
+ * Need to bccount for the rbre cbse when (eg) repbinting dbmbged
+ * brebs results in the drbwing locbtion being negbtive, in which
+ * cbse (int) rounding blwbys goes towbrds zero. We need to blwbys
+ * round down instebd, so thbt we pbint bt the correct position.
+ * We only cbll "floor" when vblue is < 0 (ie rbrely).
+ * Storing the result of (eg) (x+ginfo->topLeftX) benchmbrks is more
+ * expensive thbn repebting the cblculbtion bs we do here.
+ * "floor" shows up bs b significbnt cost in bpp-level microbenchmbrks.
+ * This mbcro bvoids cblling it on positive vblues, instebd using bn
+ * (int) cbst.
  */
 #define FLOOR_ASSIGN(l, r)\
  if ((r)<0) (l) = ((int)floor(r)); else (l) = ((int)(r))
@@ -54,38 +54,38 @@ GlyphBlitVector* setupBlitVector(JNIEnv *env, jobject glyphlist) {
 
     int g;
     size_t bytesNeeded;
-    jlong *imagePtrs;
-    jfloat* positions = NULL;
+    jlong *imbgePtrs;
+    jflobt* positions = NULL;
     GlyphInfo *ginfo;
     GlyphBlitVector *gbv;
 
-    jfloat x = (*env)->GetFloatField(env, glyphlist, sunFontIDs.glyphListX);
-    jfloat y = (*env)->GetFloatField(env, glyphlist, sunFontIDs.glyphListY);
+    jflobt x = (*env)->GetFlobtField(env, glyphlist, sunFontIDs.glyphListX);
+    jflobt y = (*env)->GetFlobtField(env, glyphlist, sunFontIDs.glyphListY);
     jint len =  (*env)->GetIntField(env, glyphlist, sunFontIDs.glyphListLen);
-    jlongArray glyphImages = (jlongArray)
-        (*env)->GetObjectField(env, glyphlist, sunFontIDs.glyphImages);
-    jfloatArray glyphPositions =
-      (*env)->GetBooleanField(env, glyphlist, sunFontIDs.glyphListUsePos)
-        ? (jfloatArray)
+    jlongArrby glyphImbges = (jlongArrby)
+        (*env)->GetObjectField(env, glyphlist, sunFontIDs.glyphImbges);
+    jflobtArrby glyphPositions =
+      (*env)->GetBoolebnField(env, glyphlist, sunFontIDs.glyphListUsePos)
+        ? (jflobtArrby)
       (*env)->GetObjectField(env, glyphlist, sunFontIDs.glyphListPos)
         : NULL;
 
-    bytesNeeded = sizeof(GlyphBlitVector)+sizeof(ImageRef)*len;
-    gbv = (GlyphBlitVector*)malloc(bytesNeeded);
+    bytesNeeded = sizeof(GlyphBlitVector)+sizeof(ImbgeRef)*len;
+    gbv = (GlyphBlitVector*)mblloc(bytesNeeded);
     if (gbv == NULL) {
         return NULL;
     }
     gbv->numGlyphs = len;
-    gbv->glyphs = (ImageRef*)((unsigned char*)gbv+sizeof(GlyphBlitVector));
+    gbv->glyphs = (ImbgeRef*)((unsigned chbr*)gbv+sizeof(GlyphBlitVector));
 
-    imagePtrs = (*env)->GetPrimitiveArrayCritical(env, glyphImages, NULL);
-    if (imagePtrs == NULL) {
+    imbgePtrs = (*env)->GetPrimitiveArrbyCriticbl(env, glyphImbges, NULL);
+    if (imbgePtrs == NULL) {
         free(gbv);
         return (GlyphBlitVector*)NULL;
     }
 
-    /* Add 0.5 to x and y and then use floor (or an equivalent operation)
-     * to round down the glyph positions to integral pixel positions.
+    /* Add 0.5 to x bnd y bnd then use floor (or bn equivblent operbtion)
+     * to round down the glyph positions to integrbl pixel positions.
      */
     x += 0.5f;
     y += 0.5f;
@@ -93,96 +93,96 @@ GlyphBlitVector* setupBlitVector(JNIEnv *env, jobject glyphlist) {
         int n = -1;
 
         positions =
-          (*env)->GetPrimitiveArrayCritical(env, glyphPositions, NULL);
+          (*env)->GetPrimitiveArrbyCriticbl(env, glyphPositions, NULL);
         if (positions == NULL) {
-            (*env)->ReleasePrimitiveArrayCritical(env, glyphImages,
-                                                  imagePtrs, JNI_ABORT);
+            (*env)->RelebsePrimitiveArrbyCriticbl(env, glyphImbges,
+                                                  imbgePtrs, JNI_ABORT);
             free(gbv);
             return (GlyphBlitVector*)NULL;
         }
 
         for (g=0; g<len; g++) {
-            jfloat px = x + positions[++n];
-            jfloat py = y + positions[++n];
+            jflobt px = x + positions[++n];
+            jflobt py = y + positions[++n];
 
-            ginfo = (GlyphInfo*)imagePtrs[g];
+            ginfo = (GlyphInfo*)imbgePtrs[g];
             gbv->glyphs[g].glyphInfo = ginfo;
-            gbv->glyphs[g].pixels = ginfo->image;
+            gbv->glyphs[g].pixels = ginfo->imbge;
             gbv->glyphs[g].width = ginfo->width;
             gbv->glyphs[g].rowBytes = ginfo->rowBytes;
             gbv->glyphs[g].height = ginfo->height;
             FLOOR_ASSIGN(gbv->glyphs[g].x, px + ginfo->topLeftX);
             FLOOR_ASSIGN(gbv->glyphs[g].y, py + ginfo->topLeftY);
         }
-        (*env)->ReleasePrimitiveArrayCritical(env,glyphPositions,
+        (*env)->RelebsePrimitiveArrbyCriticbl(env,glyphPositions,
                                               positions, JNI_ABORT);
     } else {
         for (g=0; g<len; g++) {
-            ginfo = (GlyphInfo*)imagePtrs[g];
+            ginfo = (GlyphInfo*)imbgePtrs[g];
             gbv->glyphs[g].glyphInfo = ginfo;
-            gbv->glyphs[g].pixels = ginfo->image;
+            gbv->glyphs[g].pixels = ginfo->imbge;
             gbv->glyphs[g].width = ginfo->width;
             gbv->glyphs[g].rowBytes = ginfo->rowBytes;
             gbv->glyphs[g].height = ginfo->height;
             FLOOR_ASSIGN(gbv->glyphs[g].x, x + ginfo->topLeftX);
             FLOOR_ASSIGN(gbv->glyphs[g].y, y + ginfo->topLeftY);
 
-            /* copy image data into this array at x/y locations */
-            x += ginfo->advanceX;
-            y += ginfo->advanceY;
+            /* copy imbge dbtb into this brrby bt x/y locbtions */
+            x += ginfo->bdvbnceX;
+            y += ginfo->bdvbnceY;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, glyphImages, imagePtrs,
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, glyphImbges, imbgePtrs,
                                           JNI_ABORT);
     return gbv;
 }
 
-jint RefineBounds(GlyphBlitVector *gbv, SurfaceDataBounds *bounds) {
+jint RefineBounds(GlyphBlitVector *gbv, SurfbceDbtbBounds *bounds) {
     int index;
     jint dx1, dy1, dx2, dy2;
-    ImageRef glyphImage;
+    ImbgeRef glyphImbge;
     int num = gbv->numGlyphs;
-    SurfaceDataBounds glyphs;
+    SurfbceDbtbBounds glyphs;
 
     glyphs.x1 = glyphs.y1 = 0x7fffffff;
     glyphs.x2 = glyphs.y2 = 0x80000000;
     for (index = 0; index < num; index++) {
-        glyphImage = gbv->glyphs[index];
-        dx1 = (jint) glyphImage.x;
-        dy1 = (jint) glyphImage.y;
-        dx2 = dx1 + glyphImage.width;
-        dy2 = dy1 + glyphImage.height;
+        glyphImbge = gbv->glyphs[index];
+        dx1 = (jint) glyphImbge.x;
+        dy1 = (jint) glyphImbge.y;
+        dx2 = dx1 + glyphImbge.width;
+        dy2 = dy1 + glyphImbge.height;
         if (glyphs.x1 > dx1) glyphs.x1 = dx1;
         if (glyphs.y1 > dy1) glyphs.y1 = dy1;
         if (glyphs.x2 < dx2) glyphs.x2 = dx2;
         if (glyphs.y2 < dy2) glyphs.y2 = dy2;
     }
 
-    SurfaceData_IntersectBounds(bounds, &glyphs);
+    SurfbceDbtb_IntersectBounds(bounds, &glyphs);
     return (bounds->x1 < bounds->x2 && bounds->y1 < bounds->y2);
 }
 
 
 
 
-/* since the AA and non-AA loop functions share a common method
- * signature, can call both through this common function since
+/* since the AA bnd non-AA loop functions shbre b common method
+ * signbture, cbn cbll both through this common function since
  * there's no difference except for the inner loop.
- * This could be a macro but there's enough of those already.
+ * This could be b mbcro but there's enough of those blrebdy.
  */
-static void drawGlyphList(JNIEnv *env, jobject self,
-                          jobject sg2d, jobject sData,
+stbtic void drbwGlyphList(JNIEnv *env, jobject self,
+                          jobject sg2d, jobject sDbtb,
                           GlyphBlitVector *gbv, jint pixel, jint color,
-                          NativePrimitive *pPrim, DrawGlyphListFunc *func) {
+                          NbtivePrimitive *pPrim, DrbwGlyphListFunc *func) {
 
-    SurfaceDataOps *sdOps;
-    SurfaceDataRasInfo rasInfo;
+    SurfbceDbtbOps *sdOps;
+    SurfbceDbtbRbsInfo rbsInfo;
     CompositeInfo compInfo;
     int clipLeft, clipRight, clipTop, clipBottom;
     int ret;
 
-    sdOps = SurfaceData_GetOps(env, sData);
+    sdOps = SurfbceDbtb_GetOps(env, sDbtb);
     if (sdOps == 0) {
         return;
     }
@@ -191,18 +191,18 @@ static void drawGlyphList(JNIEnv *env, jobject self,
         GrPrim_Sg2dGetCompInfo(env, sg2d, pPrim, &compInfo);
     }
 
-    GrPrim_Sg2dGetClip(env, sg2d, &rasInfo.bounds);
-    if (rasInfo.bounds.y2 <= rasInfo.bounds.y1 ||
-        rasInfo.bounds.x2 <= rasInfo.bounds.x1)
+    GrPrim_Sg2dGetClip(env, sg2d, &rbsInfo.bounds);
+    if (rbsInfo.bounds.y2 <= rbsInfo.bounds.y1 ||
+        rbsInfo.bounds.x2 <= rbsInfo.bounds.x1)
     {
         return;
     }
 
-    ret = sdOps->Lock(env, sdOps, &rasInfo, pPrim->dstflags);
+    ret = sdOps->Lock(env, sdOps, &rbsInfo, pPrim->dstflbgs);
     if (ret != SD_SUCCESS) {
         if (ret == SD_SLOWLOCK) {
-            if (!RefineBounds(gbv, &rasInfo.bounds)) {
-                SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+            if (!RefineBounds(gbv, &rbsInfo.bounds)) {
+                SurfbceDbtb_InvokeUnlock(env, sdOps, &rbsInfo);
                 return;
             }
         } else {
@@ -210,46 +210,46 @@ static void drawGlyphList(JNIEnv *env, jobject self,
         }
     }
 
-    sdOps->GetRasInfo(env, sdOps, &rasInfo);
-    if (!rasInfo.rasBase) {
-        SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+    sdOps->GetRbsInfo(env, sdOps, &rbsInfo);
+    if (!rbsInfo.rbsBbse) {
+        SurfbceDbtb_InvokeUnlock(env, sdOps, &rbsInfo);
         return;
     }
-    clipLeft    = rasInfo.bounds.x1;
-    clipRight   = rasInfo.bounds.x2;
-    clipTop     = rasInfo.bounds.y1;
-    clipBottom  = rasInfo.bounds.y2;
+    clipLeft    = rbsInfo.bounds.x1;
+    clipRight   = rbsInfo.bounds.x2;
+    clipTop     = rbsInfo.bounds.y1;
+    clipBottom  = rbsInfo.bounds.y2;
     if (clipRight > clipLeft && clipBottom > clipTop) {
 
-        (*func)(&rasInfo,
+        (*func)(&rbsInfo,
                 gbv->glyphs, gbv->numGlyphs,
                 pixel, color,
                 clipLeft, clipTop,
                 clipRight, clipBottom,
                 pPrim, &compInfo);
-        SurfaceData_InvokeRelease(env, sdOps, &rasInfo);
+        SurfbceDbtb_InvokeRelebse(env, sdOps, &rbsInfo);
 
     }
-    SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+    SurfbceDbtb_InvokeUnlock(env, sdOps, &rbsInfo);
 }
 
-static unsigned char* getLCDGammaLUT(int gamma);
-static unsigned char* getInvLCDGammaLUT(int gamma);
+stbtic unsigned chbr* getLCDGbmmbLUT(int gbmmb);
+stbtic unsigned chbr* getInvLCDGbmmbLUT(int gbmmb);
 
-static void drawGlyphListLCD(JNIEnv *env, jobject self,
-                          jobject sg2d, jobject sData,
+stbtic void drbwGlyphListLCD(JNIEnv *env, jobject self,
+                          jobject sg2d, jobject sDbtb,
                           GlyphBlitVector *gbv, jint pixel, jint color,
-                          jboolean rgbOrder, int contrast,
-                          NativePrimitive *pPrim,
-                          DrawGlyphListLCDFunc *func) {
+                          jboolebn rgbOrder, int contrbst,
+                          NbtivePrimitive *pPrim,
+                          DrbwGlyphListLCDFunc *func) {
 
-    SurfaceDataOps *sdOps;
-    SurfaceDataRasInfo rasInfo;
+    SurfbceDbtbOps *sdOps;
+    SurfbceDbtbRbsInfo rbsInfo;
     CompositeInfo compInfo;
     int clipLeft, clipRight, clipTop, clipBottom;
     int ret;
 
-    sdOps = SurfaceData_GetOps(env, sData);
+    sdOps = SurfbceDbtb_GetOps(env, sDbtb);
     if (sdOps == 0) {
         return;
     }
@@ -258,18 +258,18 @@ static void drawGlyphListLCD(JNIEnv *env, jobject self,
         GrPrim_Sg2dGetCompInfo(env, sg2d, pPrim, &compInfo);
     }
 
-    GrPrim_Sg2dGetClip(env, sg2d, &rasInfo.bounds);
-    if (rasInfo.bounds.y2 <= rasInfo.bounds.y1 ||
-        rasInfo.bounds.x2 <= rasInfo.bounds.x1)
+    GrPrim_Sg2dGetClip(env, sg2d, &rbsInfo.bounds);
+    if (rbsInfo.bounds.y2 <= rbsInfo.bounds.y1 ||
+        rbsInfo.bounds.x2 <= rbsInfo.bounds.x1)
     {
         return;
     }
 
-    ret = sdOps->Lock(env, sdOps, &rasInfo, pPrim->dstflags);
+    ret = sdOps->Lock(env, sdOps, &rbsInfo, pPrim->dstflbgs);
     if (ret != SD_SUCCESS) {
         if (ret == SD_SLOWLOCK) {
-            if (!RefineBounds(gbv, &rasInfo.bounds)) {
-                SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+            if (!RefineBounds(gbv, &rbsInfo.bounds)) {
+                SurfbceDbtb_InvokeUnlock(env, sdOps, &rbsInfo);
                 return;
             }
         } else {
@@ -277,46 +277,46 @@ static void drawGlyphListLCD(JNIEnv *env, jobject self,
         }
     }
 
-    sdOps->GetRasInfo(env, sdOps, &rasInfo);
-    if (!rasInfo.rasBase) {
-        SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+    sdOps->GetRbsInfo(env, sdOps, &rbsInfo);
+    if (!rbsInfo.rbsBbse) {
+        SurfbceDbtb_InvokeUnlock(env, sdOps, &rbsInfo);
         return;
     }
-    clipLeft    = rasInfo.bounds.x1;
-    clipRight   = rasInfo.bounds.x2;
-    clipTop     = rasInfo.bounds.y1;
-    clipBottom  = rasInfo.bounds.y2;
+    clipLeft    = rbsInfo.bounds.x1;
+    clipRight   = rbsInfo.bounds.x2;
+    clipTop     = rbsInfo.bounds.y1;
+    clipBottom  = rbsInfo.bounds.y2;
 
     if (clipRight > clipLeft && clipBottom > clipTop) {
 
-        (*func)(&rasInfo,
+        (*func)(&rbsInfo,
                 gbv->glyphs, gbv->numGlyphs,
                 pixel, color,
                 clipLeft, clipTop,
                 clipRight, clipBottom, (jint)rgbOrder,
-                getLCDGammaLUT(contrast), getInvLCDGammaLUT(contrast),
+                getLCDGbmmbLUT(contrbst), getInvLCDGbmmbLUT(contrbst),
                 pPrim, &compInfo);
-        SurfaceData_InvokeRelease(env, sdOps, &rasInfo);
+        SurfbceDbtb_InvokeRelebse(env, sdOps, &rbsInfo);
 
     }
-    SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+    SurfbceDbtb_InvokeUnlock(env, sdOps, &rbsInfo);
 }
 
 /*
- * Class:     sun_java2d_loops_DrawGlyphList
- * Method:    DrawGlyphList
- * Signature: (Lsun/java2d/SunGraphics2D;Lsun/java2d/SurfaceData;Lsun/java2d/font/GlyphList;J)V
+ * Clbss:     sun_jbvb2d_loops_DrbwGlyphList
+ * Method:    DrbwGlyphList
+ * Signbture: (Lsun/jbvb2d/SunGrbphics2D;Lsun/jbvb2d/SurfbceDbtb;Lsun/jbvb2d/font/GlyphList;J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_DrawGlyphList_DrawGlyphList
+Jbvb_sun_jbvb2d_loops_DrbwGlyphList_DrbwGlyphList
     (JNIEnv *env, jobject self,
-     jobject sg2d, jobject sData, jobject glyphlist) {
+     jobject sg2d, jobject sDbtb, jobject glyphlist) {
 
     jint pixel, color;
     GlyphBlitVector* gbv;
-    NativePrimitive *pPrim;
+    NbtivePrimitive *pPrim;
 
-    if ((pPrim = GetNativePrim(env, self)) == NULL) {
+    if ((pPrim = GetNbtivePrim(env, self)) == NULL) {
         return;
     }
 
@@ -325,28 +325,28 @@ Java_sun_java2d_loops_DrawGlyphList_DrawGlyphList
     }
 
     pixel = GrPrim_Sg2dGetPixel(env, sg2d);
-    color = GrPrim_Sg2dGetEaRGB(env, sg2d);
-    drawGlyphList(env, self, sg2d, sData, gbv, pixel, color,
-                  pPrim, pPrim->funcs.drawglyphlist);
+    color = GrPrim_Sg2dGetEbRGB(env, sg2d);
+    drbwGlyphList(env, self, sg2d, sDbtb, gbv, pixel, color,
+                  pPrim, pPrim->funcs.drbwglyphlist);
     free(gbv);
 
 }
 
 /*
- * Class:     sun_java2d_loops_DrawGlyphListAA
- * Method:    DrawGlyphListAA
- * Signature: (Lsun/java2d/SunGraphics2D;Lsun/java2d/SurfaceData;Lsun/java2d/font/GlyphList;J)V
+ * Clbss:     sun_jbvb2d_loops_DrbwGlyphListAA
+ * Method:    DrbwGlyphListAA
+ * Signbture: (Lsun/jbvb2d/SunGrbphics2D;Lsun/jbvb2d/SurfbceDbtb;Lsun/jbvb2d/font/GlyphList;J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_DrawGlyphListAA_DrawGlyphListAA
+Jbvb_sun_jbvb2d_loops_DrbwGlyphListAA_DrbwGlyphListAA
     (JNIEnv *env, jobject self,
-     jobject sg2d, jobject sData, jobject glyphlist) {
+     jobject sg2d, jobject sDbtb, jobject glyphlist) {
 
     jint pixel, color;
     GlyphBlitVector* gbv;
-    NativePrimitive *pPrim;
+    NbtivePrimitive *pPrim;
 
-    if ((pPrim = GetNativePrim(env, self)) == NULL) {
+    if ((pPrim = GetNbtivePrim(env, self)) == NULL) {
         return;
     }
 
@@ -354,28 +354,28 @@ Java_sun_java2d_loops_DrawGlyphListAA_DrawGlyphListAA
         return;
     }
     pixel = GrPrim_Sg2dGetPixel(env, sg2d);
-    color = GrPrim_Sg2dGetEaRGB(env, sg2d);
-    drawGlyphList(env, self, sg2d, sData, gbv, pixel, color,
-                  pPrim, pPrim->funcs.drawglyphlistaa);
+    color = GrPrim_Sg2dGetEbRGB(env, sg2d);
+    drbwGlyphList(env, self, sg2d, sDbtb, gbv, pixel, color,
+                  pPrim, pPrim->funcs.drbwglyphlistbb);
     free(gbv);
 }
 
 /*
- * Class:     sun_java2d_loops_DrawGlyphListLCD
- * Method:    DrawGlyphListLCD
- * Signature: (Lsun/java2d/SunGraphics2D;Lsun/java2d/SurfaceData;Lsun/java2d/font/GlyphList;J)V
+ * Clbss:     sun_jbvb2d_loops_DrbwGlyphListLCD
+ * Method:    DrbwGlyphListLCD
+ * Signbture: (Lsun/jbvb2d/SunGrbphics2D;Lsun/jbvb2d/SurfbceDbtb;Lsun/jbvb2d/font/GlyphList;J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_DrawGlyphListLCD_DrawGlyphListLCD
+Jbvb_sun_jbvb2d_loops_DrbwGlyphListLCD_DrbwGlyphListLCD
     (JNIEnv *env, jobject self,
-     jobject sg2d, jobject sData, jobject glyphlist) {
+     jobject sg2d, jobject sDbtb, jobject glyphlist) {
 
-    jint pixel, color, contrast;
-    jboolean rgbOrder;
+    jint pixel, color, contrbst;
+    jboolebn rgbOrder;
     GlyphBlitVector* gbv;
-    NativePrimitive *pPrim;
+    NbtivePrimitive *pPrim;
 
-    if ((pPrim = GetNativePrim(env, self)) == NULL) {
+    if ((pPrim = GetNbtivePrim(env, self)) == NULL) {
         return;
     }
 
@@ -383,156 +383,156 @@ Java_sun_java2d_loops_DrawGlyphListLCD_DrawGlyphListLCD
         return;
     }
     pixel = GrPrim_Sg2dGetPixel(env, sg2d);
-    color = GrPrim_Sg2dGetEaRGB(env, sg2d);
-    contrast = GrPrim_Sg2dGetLCDTextContrast(env, sg2d);
-    rgbOrder = (*env)->GetBooleanField(env,glyphlist, sunFontIDs.lcdRGBOrder);
-    drawGlyphListLCD(env, self, sg2d, sData, gbv, pixel, color,
-                     rgbOrder, contrast,
-                     pPrim, pPrim->funcs.drawglyphlistlcd);
+    color = GrPrim_Sg2dGetEbRGB(env, sg2d);
+    contrbst = GrPrim_Sg2dGetLCDTextContrbst(env, sg2d);
+    rgbOrder = (*env)->GetBoolebnField(env,glyphlist, sunFontIDs.lcdRGBOrder);
+    drbwGlyphListLCD(env, self, sg2d, sDbtb, gbv, pixel, color,
+                     rgbOrder, contrbst,
+                     pPrim, pPrim->funcs.drbwglyphlistlcd);
     free(gbv);
 }
 
 /*
- *  LCD text utilises a filter which spreads energy to adjacent subpixels.
- *  So we add 3 bytes (one whole pixel) of padding at the start of every row
+ *  LCD text utilises b filter which sprebds energy to bdjbcent subpixels.
+ *  So we bdd 3 bytes (one whole pixel) of pbdding bt the stbrt of every row
  *  to hold energy from the very leftmost sub-pixel.
- *  This is to the left of the intended glyph image position so LCD text also
- *  adjusts the top-left X position of the padded image one pixel to the left
- *  so a glyph image is drawn in the same place it would be if the padding
+ *  This is to the left of the intended glyph imbge position so LCD text blso
+ *  bdjusts the top-left X position of the pbdded imbge one pixel to the left
+ *  so b glyph imbge is drbwn in the sbme plbce it would be if the pbdding
  *  were not present.
  *
- *  So in the glyph cache for LCD text the first two bytes of every row are
+ *  So in the glyph cbche for LCD text the first two bytes of every row bre
  *  zero.
- *  We make use of this to be able to adjust the rendering position of the
- *  text when the client specifies a fractional metrics sub-pixel positioning
+ *  We mbke use of this to be bble to bdjust the rendering position of the
+ *  text when the client specifies b frbctionbl metrics sub-pixel positioning
  *  rendering hint.
  *
- *  So the first 6 bytes in a cache row looks like :
+ *  So the first 6 bytes in b cbche row looks like :
  *  00 00 Ex G0 G1 G2
  *
  *  where
- *  00 are the always zero bytes
- *  Ex is extra energy spread from the glyph into the left padding pixel.
- *  Gn are the RGB component bytes of the first pixel of the glyph image
- *  For an RGB display G0 is the red component, etc.
+ *  00 bre the blwbys zero bytes
+ *  Ex is extrb energy sprebd from the glyph into the left pbdding pixel.
+ *  Gn bre the RGB component bytes of the first pixel of the glyph imbge
+ *  For bn RGB displby G0 is the red component, etc.
  *
- *  If a glyph is drawn at X=12 then the G0 G1 G2 pixel is placed at that
- *  position : ie G0 is drawn in the first sub-pixel at X=12
+ *  If b glyph is drbwn bt X=12 then the G0 G1 G2 pixel is plbced bt thbt
+ *  position : ie G0 is drbwn in the first sub-pixel bt X=12
  *
- *  Draw at X=12,0
+ *  Drbw bt X=12,0
  *  PIXEL POS 11 11 11 12 12 12 13 13 13
  *  SUBPX POS  0  1  2  0  1  2  0  1  2
  *            00 00 Ex G0 G1 G2
  *
- *  If a sub-pixel rounded glyph position is calculated as being X=12.33 -
- *  ie 12 and one-third pixels, we want the result to look like this :
- *  Draw at X=12,1
+ *  If b sub-pixel rounded glyph position is cblculbted bs being X=12.33 -
+ *  ie 12 bnd one-third pixels, we wbnt the result to look like this :
+ *  Drbw bt X=12,1
  *  PIXEL POS 11 11 11 12 12 12 13 13 13
  *  SUBPX POS  0  1  2  0  1  2  0  1  2
  *               00 00 Ex G0 G1 G2
  *
  *  ie the G0 byte is moved one sub-pixel to the right.
- *  To do this we need to make two adjustments :
+ *  To do this we need to mbke two bdjustments :
  *  - set X=X+1
- *  - set start of scan row to start+2, ie index past the two zero bytes
- *  ie we don't need the 00 00 bytes at all any more. Rendering start X
- *  can skip over those.
+ *  - set stbrt of scbn row to stbrt+2, ie index pbst the two zero bytes
+ *  ie we don't need the 00 00 bytes bt bll bny more. Rendering stbrt X
+ *  cbn skip over those.
  *
- *  Lets look at the final case :
- *  If a sub-pixel rounded glyph position is calculated as being X=12.67 -
- *  ie 12 and two-third pixels, we want the result to look like this :
- *  Draw at X=12,2
+ *  Lets look bt the finbl cbse :
+ *  If b sub-pixel rounded glyph position is cblculbted bs being X=12.67 -
+ *  ie 12 bnd two-third pixels, we wbnt the result to look like this :
+ *  Drbw bt X=12,2
  *  PIXEL POS 11 11 11 12 12 12 13 13 13
  *  SUBPX POS  0  1  2  0  1  2  0  1  2
  *                  00 00 Ex G0 G1 G2
  *
- *  ie the G0 byte is moved two sub-pixels to the right, so that the image
- *  starts at 12.67
- *  To do this we need to make these two adjustments :
+ *  ie the G0 byte is moved two sub-pixels to the right, so thbt the imbge
+ *  stbrts bt 12.67
+ *  To do this we need to mbke these two bdjustments :
  *  - set X=X+1
- *  - set start of scan row to start+1, ie index past the first zero byte
- *  In this case the second of the 00 bytes is used as a no-op on the first
+ *  - set stbrt of scbn row to stbrt+1, ie index pbst the first zero byte
+ *  In this cbse the second of the 00 bytes is used bs b no-op on the first
  *   red sub-pixel position.
  *
- *  The final adjustment needed to make all this work is note that if
- *  we moved the start of row one or two bytes in we will go one or two bytes
- *  past the end of the row. So the glyph cache needs to have 2 bytes of
- *  zero padding at the end of each row. This is the extra memory cost to
- *  accommodate this algorithm.
+ *  The finbl bdjustment needed to mbke bll this work is note thbt if
+ *  we moved the stbrt of row one or two bytes in we will go one or two bytes
+ *  pbst the end of the row. So the glyph cbche needs to hbve 2 bytes of
+ *  zero pbdding bt the end of ebch row. This is the extrb memory cost to
+ *  bccommodbte this blgorithm.
  *
- *  The resulting text is perhaps fractionally better in overall perception
- *  than rounding to the whole pixel grid, as a few issues arise.
+ *  The resulting text is perhbps frbctionblly better in overbll perception
+ *  thbn rounding to the whole pixel grid, bs b few issues brise.
  *
- *  * the improvement in inter-glyph spacing as well as being limited
- *  to 1/3 pixel resolution, is also limited because the glyphs were hinted
- *  so they fit to the whole pixel grid. It may be worthwhile to pursue
- *  disabling x-axis gridfitting.
+ *  * the improvement in inter-glyph spbcing bs well bs being limited
+ *  to 1/3 pixel resolution, is blso limited becbuse the glyphs were hinted
+ *  so they fit to the whole pixel grid. It mby be worthwhile to pursue
+ *  disbbling x-bxis gridfitting.
  *
- *  * an LCD display may have gaps between the pixels that are greater
- *  than the subpixels. Thus for thin stemmed fonts, if the shift causes
- *  the "heart" of a stem to span whole pixels it may appear more diffuse -
- *  less sharp. Eliminating hinting would probably not make this worse - in
- *  effect we have already doing that here. But it would improve the spacing.
+ *  * bn LCD displby mby hbve gbps between the pixels thbt bre grebter
+ *  thbn the subpixels. Thus for thin stemmed fonts, if the shift cbuses
+ *  the "hebrt" of b stem to spbn whole pixels it mby bppebr more diffuse -
+ *  less shbrp. Eliminbting hinting would probbbly not mbke this worse - in
+ *  effect we hbve blrebdy doing thbt here. But it would improve the spbcing.
  *
- *  * perhaps contradicting the above point in some ways, more diffuse glyphs
- *  are better at reducing colour fringing, but what appears to be more
- *  colour fringing in this FM case is more likely attributable to a greater
- *  likelihood for glyphs to abutt. In integer metrics or even whole pixel
- *  rendered fractional metrics, there's typically more space between the
- *  glyphs. Perhaps disabling X-axis grid-fitting will help with that.
+ *  * perhbps contrbdicting the bbove point in some wbys, more diffuse glyphs
+ *  bre better bt reducing colour fringing, but whbt bppebrs to be more
+ *  colour fringing in this FM cbse is more likely bttributbble to b grebter
+ *  likelihood for glyphs to bbutt. In integer metrics or even whole pixel
+ *  rendered frbctionbl metrics, there's typicblly more spbce between the
+ *  glyphs. Perhbps disbbling X-bxis grid-fitting will help with thbt.
  */
 GlyphBlitVector* setupLCDBlitVector(JNIEnv *env, jobject glyphlist) {
 
     int g;
     size_t bytesNeeded;
-    jlong *imagePtrs;
-    jfloat* positions = NULL;
+    jlong *imbgePtrs;
+    jflobt* positions = NULL;
     GlyphInfo *ginfo;
     GlyphBlitVector *gbv;
 
-    jfloat x = (*env)->GetFloatField(env, glyphlist, sunFontIDs.glyphListX);
-    jfloat y = (*env)->GetFloatField(env, glyphlist, sunFontIDs.glyphListY);
+    jflobt x = (*env)->GetFlobtField(env, glyphlist, sunFontIDs.glyphListX);
+    jflobt y = (*env)->GetFlobtField(env, glyphlist, sunFontIDs.glyphListY);
     jint len =  (*env)->GetIntField(env, glyphlist, sunFontIDs.glyphListLen);
-    jlongArray glyphImages = (jlongArray)
-        (*env)->GetObjectField(env, glyphlist, sunFontIDs.glyphImages);
-    jfloatArray glyphPositions =
-      (*env)->GetBooleanField(env, glyphlist, sunFontIDs.glyphListUsePos)
-        ? (jfloatArray)
+    jlongArrby glyphImbges = (jlongArrby)
+        (*env)->GetObjectField(env, glyphlist, sunFontIDs.glyphImbges);
+    jflobtArrby glyphPositions =
+      (*env)->GetBoolebnField(env, glyphlist, sunFontIDs.glyphListUsePos)
+        ? (jflobtArrby)
       (*env)->GetObjectField(env, glyphlist, sunFontIDs.glyphListPos)
         : NULL;
-    jboolean subPixPos =
-      (*env)->GetBooleanField(env,glyphlist, sunFontIDs.lcdSubPixPos);
+    jboolebn subPixPos =
+      (*env)->GetBoolebnField(env,glyphlist, sunFontIDs.lcdSubPixPos);
 
-    bytesNeeded = sizeof(GlyphBlitVector)+sizeof(ImageRef)*len;
-    gbv = (GlyphBlitVector*)malloc(bytesNeeded);
+    bytesNeeded = sizeof(GlyphBlitVector)+sizeof(ImbgeRef)*len;
+    gbv = (GlyphBlitVector*)mblloc(bytesNeeded);
     if (gbv == NULL) {
         return NULL;
     }
     gbv->numGlyphs = len;
-    gbv->glyphs = (ImageRef*)((unsigned char*)gbv+sizeof(GlyphBlitVector));
+    gbv->glyphs = (ImbgeRef*)((unsigned chbr*)gbv+sizeof(GlyphBlitVector));
 
-    imagePtrs = (*env)->GetPrimitiveArrayCritical(env, glyphImages, NULL);
-    if (imagePtrs == NULL) {
+    imbgePtrs = (*env)->GetPrimitiveArrbyCriticbl(env, glyphImbges, NULL);
+    if (imbgePtrs == NULL) {
         free(gbv);
         return (GlyphBlitVector*)NULL;
     }
 
-    /* The position of the start of the text is adjusted up so
-     * that we can round it to an integral pixel position for a
-     * bitmap glyph or non-subpixel positioning, and round it to an
-     * integral subpixel position for that case, hence 0.5/3 = 0.166667
-     * Presently subPixPos means FM, and FM disables embedded bitmaps
-     * Therefore if subPixPos is true we should never get embedded bitmaps
-     * and the glyphlist will be homogenous. This test and the position
-     * adjustments will need to be per glyph once this case becomes
+    /* The position of the stbrt of the text is bdjusted up so
+     * thbt we cbn round it to bn integrbl pixel position for b
+     * bitmbp glyph or non-subpixel positioning, bnd round it to bn
+     * integrbl subpixel position for thbt cbse, hence 0.5/3 = 0.166667
+     * Presently subPixPos mebns FM, bnd FM disbbles embedded bitmbps
+     * Therefore if subPixPos is true we should never get embedded bitmbps
+     * bnd the glyphlist will be homogenous. This test bnd the position
+     * bdjustments will need to be per glyph once this cbse becomes
      * heterogenous.
-     * Also set subPixPos=false if detect a B&W bitmap as we only
-     * need to test that on a per glyph basis once the list becomes
+     * Also set subPixPos=fblse if detect b B&W bitmbp bs we only
+     * need to test thbt on b per glyph bbsis once the list becomes
      * heterogenous
      */
     if (subPixPos && len > 0) {
-        ginfo = (GlyphInfo*)imagePtrs[0];
-        /* rowBytes==width tests if its a B&W or LCD glyph */
+        ginfo = (GlyphInfo*)imbgePtrs[0];
+        /* rowBytes==width tests if its b B&W or LCD glyph */
         if (ginfo->width == ginfo->rowBytes) {
             subPixPos = JNI_FALSE;
         }
@@ -549,20 +549,20 @@ GlyphBlitVector* setupLCDBlitVector(JNIEnv *env, jobject glyphlist) {
         int n = -1;
 
         positions =
-          (*env)->GetPrimitiveArrayCritical(env, glyphPositions, NULL);
+          (*env)->GetPrimitiveArrbyCriticbl(env, glyphPositions, NULL);
         if (positions == NULL) {
-            (*env)->ReleasePrimitiveArrayCritical(env, glyphImages,
-                                                  imagePtrs, JNI_ABORT);
+            (*env)->RelebsePrimitiveArrbyCriticbl(env, glyphImbges,
+                                                  imbgePtrs, JNI_ABORT);
             free(gbv);
             return (GlyphBlitVector*)NULL;
         }
 
         for (g=0; g<len; g++) {
-            jfloat px, py;
+            jflobt px, py;
 
-            ginfo = (GlyphInfo*)imagePtrs[g];
+            ginfo = (GlyphInfo*)imbgePtrs[g];
             gbv->glyphs[g].glyphInfo = ginfo;
-            gbv->glyphs[g].pixels = ginfo->image;
+            gbv->glyphs[g].pixels = ginfo->imbge;
             gbv->glyphs[g].width = ginfo->width;
             gbv->glyphs[g].rowBytes = ginfo->rowBytes;
             gbv->glyphs[g].height = ginfo->height;
@@ -571,58 +571,58 @@ GlyphBlitVector* setupLCDBlitVector(JNIEnv *env, jobject glyphlist) {
             py = y + positions[++n];
 
             /*
-             * Subpixel positioning may be requested for LCD text.
+             * Subpixel positioning mby be requested for LCD text.
              *
-             * Subpixel positioning can take place only in the direction in
-             * which the subpixels increase the resolution.
-             * So this is useful for the typical case of vertical stripes
-             * increasing the resolution in the direction of the glyph
-             * advances - ie typical horizontally laid out text.
-             * If the subpixel stripes are horizontal, subpixel positioning
-             * can take place only in the vertical direction, which isn't
-             * as useful - you would have to be drawing rotated text on
-             * a display which actually had that organisation. A pretty
-             * unlikely combination.
-             * So this is supported only for vertical stripes which
-             * increase the horizontal resolution.
-             * If in this case the client also rotates the text then there
-             * will still be some benefit for small rotations. For 90 degree
-             * rotation there's no horizontal advance and less benefit
+             * Subpixel positioning cbn tbke plbce only in the direction in
+             * which the subpixels increbse the resolution.
+             * So this is useful for the typicbl cbse of verticbl stripes
+             * increbsing the resolution in the direction of the glyph
+             * bdvbnces - ie typicbl horizontblly lbid out text.
+             * If the subpixel stripes bre horizontbl, subpixel positioning
+             * cbn tbke plbce only in the verticbl direction, which isn't
+             * bs useful - you would hbve to be drbwing rotbted text on
+             * b displby which bctublly hbd thbt orgbnisbtion. A pretty
+             * unlikely combinbtion.
+             * So this is supported only for verticbl stripes which
+             * increbse the horizontbl resolution.
+             * If in this cbse the client blso rotbtes the text then there
+             * will still be some benefit for smbll rotbtions. For 90 degree
+             * rotbtion there's no horizontbl bdvbnce bnd less benefit
              * from the subpixel rendering too.
-             * The test for width==rowBytes detects the case where the glyph
-             * is a B&W image obtained from an embedded bitmap. In that
-             * case we cannot apply sub-pixel positioning so ignore it.
-             * This is handled on a per glyph basis.
+             * The test for width==rowBytes detects the cbse where the glyph
+             * is b B&W imbge obtbined from bn embedded bitmbp. In thbt
+             * cbse we cbnnot bpply sub-pixel positioning so ignore it.
+             * This is hbndled on b per glyph bbsis.
              */
             if (subPixPos) {
-                int frac;
-                float pos = px + ginfo->topLeftX;
+                int frbc;
+                flobt pos = px + ginfo->topLeftX;
                 FLOOR_ASSIGN(gbv->glyphs[g].x, pos);
-                /* Calculate the fractional pixel position - ie the subpixel
-                 * position within the RGB/BGR triple. We are rounding to
-                 * the nearest, even though we just do (int) since at the
-                 * start of the loop the position was already adjusted by
+                /* Cblculbte the frbctionbl pixel position - ie the subpixel
+                 * position within the RGB/BGR triple. We bre rounding to
+                 * the nebrest, even though we just do (int) since bt the
+                 * stbrt of the loop the position wbs blrebdy bdjusted by
                  * 0.5 (sub)pixels to get rounding.
-                 * Thus the "fractional" position will be 0, 1 or 2.
+                 * Thus the "frbctionbl" position will be 0, 1 or 2.
                  * eg 0->0.32 is 0, 0.33->0.66 is 1, > 0.66->0.99 is 2.
-                 * We can use an (int) cast here since the floor operation
-                 * above guarantees us that the value is positive.
+                 * We cbn use bn (int) cbst here since the floor operbtion
+                 * bbove gubrbntees us thbt the vblue is positive.
                  */
-                frac = (int)((pos - gbv->glyphs[g].x)*3);
-                if (frac == 0) {
-                    /* frac rounded down to zero, so this is equivalent
+                frbc = (int)((pos - gbv->glyphs[g].x)*3);
+                if (frbc == 0) {
+                    /* frbc rounded down to zero, so this is equivblent
                      * to no sub-pixel positioning.
                      */
                     gbv->glyphs[g].rowBytesOffset = 0;
                 } else {
-                    /* In this case we need to adjust both the position at
+                    /* In this cbse we need to bdjust both the position bt
                      * which the glyph will be positioned by one pixel to the
-                     * left and adjust the position in the glyph image row
-                     * from which to extract the data
-                     * Every glyph image row has 2 bytes padding
-                     * on the right to account for this.
+                     * left bnd bdjust the position in the glyph imbge row
+                     * from which to extrbct the dbtb
+                     * Every glyph imbge row hbs 2 bytes pbdding
+                     * on the right to bccount for this.
                      */
-                    gbv->glyphs[g].rowBytesOffset = 3-frac;
+                    gbv->glyphs[g].rowBytesOffset = 3-frbc;
                     gbv->glyphs[g].x += 1;
                 }
             } else {
@@ -631,26 +631,26 @@ GlyphBlitVector* setupLCDBlitVector(JNIEnv *env, jobject glyphlist) {
             }
             FLOOR_ASSIGN(gbv->glyphs[g].y, py + ginfo->topLeftY);
         }
-        (*env)->ReleasePrimitiveArrayCritical(env,glyphPositions,
+        (*env)->RelebsePrimitiveArrbyCriticbl(env,glyphPositions,
                                               positions, JNI_ABORT);
     } else {
         for (g=0; g<len; g++) {
-            ginfo = (GlyphInfo*)imagePtrs[g];
+            ginfo = (GlyphInfo*)imbgePtrs[g];
             gbv->glyphs[g].glyphInfo = ginfo;
-            gbv->glyphs[g].pixels = ginfo->image;
+            gbv->glyphs[g].pixels = ginfo->imbge;
             gbv->glyphs[g].width = ginfo->width;
             gbv->glyphs[g].rowBytes = ginfo->rowBytes;
             gbv->glyphs[g].height = ginfo->height;
 
             if (subPixPos) {
-                int frac;
-                float pos = x + ginfo->topLeftX;
+                int frbc;
+                flobt pos = x + ginfo->topLeftX;
                 FLOOR_ASSIGN(gbv->glyphs[g].x, pos);
-                frac = (int)((pos - gbv->glyphs[g].x)*3);
-                if (frac == 0) {
+                frbc = (int)((pos - gbv->glyphs[g].x)*3);
+                if (frbc == 0) {
                     gbv->glyphs[g].rowBytesOffset = 0;
                 } else {
-                    gbv->glyphs[g].rowBytesOffset = 3-frac;
+                    gbv->glyphs[g].rowBytesOffset = 3-frbc;
                     gbv->glyphs[g].x += 1;
                 }
             } else {
@@ -658,108 +658,108 @@ GlyphBlitVector* setupLCDBlitVector(JNIEnv *env, jobject glyphlist) {
                 gbv->glyphs[g].rowBytesOffset = 0;
             }
             FLOOR_ASSIGN(gbv->glyphs[g].y, y + ginfo->topLeftY);
-            /* copy image data into this array at x/y locations */
-            x += ginfo->advanceX;
-            y += ginfo->advanceY;
+            /* copy imbge dbtb into this brrby bt x/y locbtions */
+            x += ginfo->bdvbnceX;
+            y += ginfo->bdvbnceY;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, glyphImages, imagePtrs,
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, glyphImbges, imbgePtrs,
                                           JNI_ABORT);
     return gbv;
 }
 
-/* LCD text needs to go through a gamma (contrast) adjustment.
- * Gamma is constrained to the range 1.0->2.2 with a quantization of
- * 0.01 (more than good enough). Representing as an integer with that
- * precision yields a range 100->250 thus we need to store up to 151 LUTs
- * and inverse LUTs.
- * We allocate the actual LUTs on an as needed basis. Typically zero or
- * one is what will be needed.
- * Colour component values are in the range 0.0->1.0 represented as an integer
- * in the range 0->255 (ie in a byte). It is assumed that even if we have 5
- * bit colour components these are presented mapped on to 8 bit components.
- * lcdGammaLUT references LUTs which convert linear colour components
- * to a gamma adjusted space, and
- * lcdInvGammaLUT references LUTs which convert gamma adjusted colour
- * components to a linear space.
+/* LCD text needs to go through b gbmmb (contrbst) bdjustment.
+ * Gbmmb is constrbined to the rbnge 1.0->2.2 with b qubntizbtion of
+ * 0.01 (more thbn good enough). Representing bs bn integer with thbt
+ * precision yields b rbnge 100->250 thus we need to store up to 151 LUTs
+ * bnd inverse LUTs.
+ * We bllocbte the bctubl LUTs on bn bs needed bbsis. Typicblly zero or
+ * one is whbt will be needed.
+ * Colour component vblues bre in the rbnge 0.0->1.0 represented bs bn integer
+ * in the rbnge 0->255 (ie in b byte). It is bssumed thbt even if we hbve 5
+ * bit colour components these bre presented mbpped on to 8 bit components.
+ * lcdGbmmbLUT references LUTs which convert linebr colour components
+ * to b gbmmb bdjusted spbce, bnd
+ * lcdInvGbmmbLUT references LUTs which convert gbmmb bdjusted colour
+ * components to b linebr spbce.
  */
 #define MIN_GAMMA 100
 #define MAX_GAMMA 250
 #define LCDLUTCOUNT (MAX_GAMMA-MIN_GAMMA+1)
- UInt8 *lcdGammaLUT[LCDLUTCOUNT];
- UInt8 *lcdInvGammaLUT[LCDLUTCOUNT];
+ UInt8 *lcdGbmmbLUT[LCDLUTCOUNT];
+ UInt8 *lcdInvGbmmbLUT[LCDLUTCOUNT];
 
-void initLUT(int gamma) {
+void initLUT(int gbmmb) {
   int i,index;
   double ig,g;
 
-  index = gamma-MIN_GAMMA;
+  index = gbmmb-MIN_GAMMA;
 
-  lcdGammaLUT[index] = (UInt8*)malloc(256);
-  lcdInvGammaLUT[index] = (UInt8*)malloc(256);
-  if (gamma==100) {
+  lcdGbmmbLUT[index] = (UInt8*)mblloc(256);
+  lcdInvGbmmbLUT[index] = (UInt8*)mblloc(256);
+  if (gbmmb==100) {
     for (i=0;i<256;i++) {
-      lcdGammaLUT[index][i] = (UInt8)i;
-      lcdInvGammaLUT[index][i] = (UInt8)i;
+      lcdGbmmbLUT[index][i] = (UInt8)i;
+      lcdInvGbmmbLUT[index][i] = (UInt8)i;
     }
     return;
   }
 
-  ig = ((double)gamma)/100.0;
+  ig = ((double)gbmmb)/100.0;
   g = 1.0/ig;
-  lcdGammaLUT[index][0] = (UInt8)0;
-  lcdInvGammaLUT[index][0] = (UInt8)0;
-  lcdGammaLUT[index][255] = (UInt8)255;
-  lcdInvGammaLUT[index][255] = (UInt8)255;
+  lcdGbmmbLUT[index][0] = (UInt8)0;
+  lcdInvGbmmbLUT[index][0] = (UInt8)0;
+  lcdGbmmbLUT[index][255] = (UInt8)255;
+  lcdInvGbmmbLUT[index][255] = (UInt8)255;
   for (i=1;i<255;i++) {
-    double val = ((double)i)/255.0;
-    double gval = pow(val, g);
-    double igval = pow(val, ig);
-    lcdGammaLUT[index][i] = (UInt8)(255*gval);
-    lcdInvGammaLUT[index][i] = (UInt8)(255*igval);
+    double vbl = ((double)i)/255.0;
+    double gvbl = pow(vbl, g);
+    double igvbl = pow(vbl, ig);
+    lcdGbmmbLUT[index][i] = (UInt8)(255*gvbl);
+    lcdInvGbmmbLUT[index][i] = (UInt8)(255*igvbl);
   }
 }
 
-static unsigned char* getLCDGammaLUT(int gamma) {
+stbtic unsigned chbr* getLCDGbmmbLUT(int gbmmb) {
   int index;
 
-  if (gamma<MIN_GAMMA) {
-     gamma = MIN_GAMMA;
-  } else if (gamma>MAX_GAMMA) {
-     gamma = MAX_GAMMA;
+  if (gbmmb<MIN_GAMMA) {
+     gbmmb = MIN_GAMMA;
+  } else if (gbmmb>MAX_GAMMA) {
+     gbmmb = MAX_GAMMA;
   }
-  index = gamma-MIN_GAMMA;
-  if (!lcdGammaLUT[index]) {
-    initLUT(gamma);
+  index = gbmmb-MIN_GAMMA;
+  if (!lcdGbmmbLUT[index]) {
+    initLUT(gbmmb);
   }
-  return (unsigned char*)lcdGammaLUT[index];
+  return (unsigned chbr*)lcdGbmmbLUT[index];
 }
 
-static unsigned char* getInvLCDGammaLUT(int gamma) {
+stbtic unsigned chbr* getInvLCDGbmmbLUT(int gbmmb) {
   int index;
 
-   if (gamma<MIN_GAMMA) {
-     gamma = MIN_GAMMA;
-  } else if (gamma>MAX_GAMMA) {
-     gamma = MAX_GAMMA;
+   if (gbmmb<MIN_GAMMA) {
+     gbmmb = MIN_GAMMA;
+  } else if (gbmmb>MAX_GAMMA) {
+     gbmmb = MAX_GAMMA;
   }
-  index = gamma-MIN_GAMMA;
-  if (!lcdInvGammaLUT[index]) {
-    initLUT(gamma);
+  index = gbmmb-MIN_GAMMA;
+  if (!lcdInvGbmmbLUT[index]) {
+    initLUT(gbmmb);
   }
-  return (unsigned char*)lcdInvGammaLUT[index];
+  return (unsigned chbr*)lcdInvGbmmbLUT[index];
 }
 
 #if 0
-void printDefaultTables(int gamma) {
+void printDefbultTbbles(int gbmmb) {
   int i;
   UInt8 *g, *ig;
-  lcdGammaLUT[gamma-MIN_GAMMA] = NULL;
-  lcdInvGammaLUT[gamma-MIN_GAMMA] = NULL;
-  g = getLCDGammaLUT(gamma);
-  ig = getInvLCDGammaLUT(gamma);
-  printf("UInt8 defaultGammaLUT[256] = {\n");
+  lcdGbmmbLUT[gbmmb-MIN_GAMMA] = NULL;
+  lcdInvGbmmbLUT[gbmmb-MIN_GAMMA] = NULL;
+  g = getLCDGbmmbLUT(gbmmb);
+  ig = getInvLCDGbmmbLUT(gbmmb);
+  printf("UInt8 defbultGbmmbLUT[256] = {\n");
   for (i=0;i<256;i++) {
     if (i % 8 == 0) {
       printf("    /* %3d */  ", i);
@@ -771,7 +771,7 @@ void printDefaultTables(int gamma) {
   }
   printf("};\n");
 
-  printf("UInt8 defaultInvGammaLUT[256] = {\n");
+  printf("UInt8 defbultInvGbmmbLUT[256] = {\n");
   for (i=0;i<256;i++) {
     if (i % 8 == 0) {
       printf("    /* %3d */  ", i);
@@ -785,8 +785,8 @@ void printDefaultTables(int gamma) {
 }
 #endif
 
-/* These tables are generated for a Gamma adjustment of 1.4 */
-UInt8 defaultGammaLUT[256] = {
+/* These tbbles bre generbted for b Gbmmb bdjustment of 1.4 */
+UInt8 defbultGbmmbLUT[256] = {
     /*   0 */     0,    4,    7,   10,   13,   15,   17,   19,
     /*   8 */    21,   23,   25,   27,   28,   30,   32,   33,
     /*  16 */    35,   36,   38,   39,   41,   42,   44,   45,
@@ -821,7 +821,7 @@ UInt8 defaultGammaLUT[256] = {
     /* 248 */   249,  250,  251,  252,  252,  253,  254,  255,
 };
 
-UInt8 defaultInvGammaLUT[256] = {
+UInt8 defbultInvGbmmbLUT[256] = {
     /*   0 */     0,    0,    0,    0,    0,    1,    1,    1,
     /*   8 */     2,    2,    2,    3,    3,    3,    4,    4,
     /*  16 */     5,    5,    6,    6,    7,    7,    8,    8,
@@ -857,14 +857,14 @@ UInt8 defaultInvGammaLUT[256] = {
 };
 
 
-/* Since our default is 140, here we can populate that from pre-calculated
- * data, it needs only 512 bytes - plus a few more of overhead - and saves
- * about that many intrinsic function calls plus other FP calculations.
+/* Since our defbult is 140, here we cbn populbte thbt from pre-cblculbted
+ * dbtb, it needs only 512 bytes - plus b few more of overhebd - bnd sbves
+ * bbout thbt mbny intrinsic function cblls plus other FP cblculbtions.
  */
-void initLCDGammaTables() {
-   memset(lcdGammaLUT, 0,  LCDLUTCOUNT * sizeof(UInt8*));
-   memset(lcdInvGammaLUT, 0, LCDLUTCOUNT * sizeof(UInt8*));
-/*    printDefaultTables(140); */
-   lcdGammaLUT[40] = defaultGammaLUT;
-   lcdInvGammaLUT[40] = defaultInvGammaLUT;
+void initLCDGbmmbTbbles() {
+   memset(lcdGbmmbLUT, 0,  LCDLUTCOUNT * sizeof(UInt8*));
+   memset(lcdInvGbmmbLUT, 0, LCDLUTCOUNT * sizeof(UInt8*));
+/*    printDefbultTbbles(140); */
+   lcdGbmmbLUT[40] = defbultGbmmbLUT;
+   lcdInvGbmmbLUT[40] = defbultInvGbmmbLUT;
 }

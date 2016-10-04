@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -29,106 +29,106 @@
  */
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "AnchorTables.h"
-#include "MarkArrays.h"
-#include "GlyphPositioningTables.h"
-#include "AttachmentPosnSubtables.h"
-#include "MarkToLigaturePosnSubtables.h"
-#include "GlyphIterator.h"
-#include "LESwaps.h"
+#include "LEFontInstbnce.h"
+#include "OpenTypeTbbles.h"
+#include "AnchorTbbles.h"
+#include "MbrkArrbys.h"
+#include "GlyphPositioningTbbles.h"
+#include "AttbchmentPosnSubtbbles.h"
+#include "MbrkToLigbturePosnSubtbbles.h"
+#include "GlyphIterbtor.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-LEGlyphID MarkToLigaturePositioningSubtable::findLigatureGlyph(GlyphIterator *glyphIterator) const
+LEGlyphID MbrkToLigbturePositioningSubtbble::findLigbtureGlyph(GlyphIterbtor *glyphIterbtor) const
 {
-    if (glyphIterator->prev()) {
-        return glyphIterator->getCurrGlyphID();
+    if (glyphIterbtor->prev()) {
+        return glyphIterbtor->getCurrGlyphID();
     }
 
     return 0xFFFF;
 }
 
-le_int32 MarkToLigaturePositioningSubtable::process(const LETableReference &base, GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode &success) const
+le_int32 MbrkToLigbturePositioningSubtbble::process(const LETbbleReference &bbse, GlyphIterbtor *glyphIterbtor, const LEFontInstbnce *fontInstbnce, LEErrorCode &success) const
 {
-    LEGlyphID markGlyph = glyphIterator->getCurrGlyphID();
-    le_int32 markCoverage = getGlyphCoverage(base, (LEGlyphID) markGlyph, success);
+    LEGlyphID mbrkGlyph = glyphIterbtor->getCurrGlyphID();
+    le_int32 mbrkCoverbge = getGlyphCoverbge(bbse, (LEGlyphID) mbrkGlyph, success);
 
     if (LE_FAILURE(success)) {
       return 0;
     }
 
-    if (markCoverage < 0) {
-        // markGlyph isn't a covered mark glyph
+    if (mbrkCoverbge < 0) {
+        // mbrkGlyph isn't b covered mbrk glyph
         return 0;
     }
 
-    LEPoint markAnchor;
-    LEReferenceTo<MarkArray> markArray(base, success,  SWAPW(markArrayOffset));
+    LEPoint mbrkAnchor;
+    LEReferenceTo<MbrkArrby> mbrkArrby(bbse, success,  SWAPW(mbrkArrbyOffset));
     if( LE_FAILURE(success) ) {
       return 0;
     }
-    le_int32 markClass = markArray->getMarkClass(markArray, markGlyph, markCoverage, fontInstance, markAnchor, success);
-    le_uint16 mcCount = SWAPW(classCount);
+    le_int32 mbrkClbss = mbrkArrby->getMbrkClbss(mbrkArrby, mbrkGlyph, mbrkCoverbge, fontInstbnce, mbrkAnchor, success);
+    le_uint16 mcCount = SWAPW(clbssCount);
 
-    if (markClass < 0 || markClass >= mcCount) {
-        // markGlyph isn't in the mark array or its
-        // mark class is too big. The table is mal-formed!
+    if (mbrkClbss < 0 || mbrkClbss >= mcCount) {
+        // mbrkGlyph isn't in the mbrk brrby or its
+        // mbrk clbss is too big. The tbble is mbl-formed!
         return 0;
     }
 
-    // FIXME: we probably don't want to find a ligature before a previous base glyph...
-    GlyphIterator ligatureIterator(*glyphIterator, (le_uint16) (lfIgnoreMarks /*| lfIgnoreBaseGlyphs*/));
-    LEGlyphID ligatureGlyph = findLigatureGlyph(&ligatureIterator);
-    le_int32 ligatureCoverage = getBaseCoverage(base, (LEGlyphID) ligatureGlyph, success);
-    LEReferenceTo<LigatureArray> ligatureArray(base, success, SWAPW(baseArrayOffset));
-    le_uint16 ligatureCount = SWAPW(ligatureArray->ligatureCount);
+    // FIXME: we probbbly don't wbnt to find b ligbture before b previous bbse glyph...
+    GlyphIterbtor ligbtureIterbtor(*glyphIterbtor, (le_uint16) (lfIgnoreMbrks /*| lfIgnoreBbseGlyphs*/));
+    LEGlyphID ligbtureGlyph = findLigbtureGlyph(&ligbtureIterbtor);
+    le_int32 ligbtureCoverbge = getBbseCoverbge(bbse, (LEGlyphID) ligbtureGlyph, success);
+    LEReferenceTo<LigbtureArrby> ligbtureArrby(bbse, success, SWAPW(bbseArrbyOffset));
+    le_uint16 ligbtureCount = SWAPW(ligbtureArrby->ligbtureCount);
 
-    if (ligatureCoverage < 0 || ligatureCoverage >= ligatureCount) {
-        // The ligature glyph isn't covered, or the coverage
-        // index is too big. The latter means that the
-        // table is mal-formed...
+    if (ligbtureCoverbge < 0 || ligbtureCoverbge >= ligbtureCount) {
+        // The ligbture glyph isn't covered, or the coverbge
+        // index is too big. The lbtter mebns thbt the
+        // tbble is mbl-formed...
         return 0;
     }
 
-    le_int32 markPosition = glyphIterator->getCurrStreamPosition();
-    Offset ligatureAttachOffset = SWAPW(ligatureArray->ligatureAttachTableOffsetArray[ligatureCoverage]);
-    LEReferenceTo<LigatureAttachTable> ligatureAttachTable(ligatureArray, success, ligatureAttachOffset);
-    le_int32 componentCount = SWAPW(ligatureAttachTable->componentCount);
-    le_int32 component = ligatureIterator.getMarkComponent(markPosition);
+    le_int32 mbrkPosition = glyphIterbtor->getCurrStrebmPosition();
+    Offset ligbtureAttbchOffset = SWAPW(ligbtureArrby->ligbtureAttbchTbbleOffsetArrby[ligbtureCoverbge]);
+    LEReferenceTo<LigbtureAttbchTbble> ligbtureAttbchTbble(ligbtureArrby, success, ligbtureAttbchOffset);
+    le_int32 componentCount = SWAPW(ligbtureAttbchTbble->componentCount);
+    le_int32 component = ligbtureIterbtor.getMbrkComponent(mbrkPosition);
 
     if (component >= componentCount) {
-        // should really just bail at this point...
+        // should reblly just bbil bt this point...
         component = componentCount - 1;
     }
 
-    LEReferenceTo<ComponentRecord> componentRecord(base, success, &ligatureAttachTable->componentRecordArray[component * mcCount]);
-    LEReferenceToArrayOf<Offset> ligatureAnchorTableOffsetArray(base, success, &(componentRecord->ligatureAnchorTableOffsetArray[0]), markClass+1);
+    LEReferenceTo<ComponentRecord> componentRecord(bbse, success, &ligbtureAttbchTbble->componentRecordArrby[component * mcCount]);
+    LEReferenceToArrbyOf<Offset> ligbtureAnchorTbbleOffsetArrby(bbse, success, &(componentRecord->ligbtureAnchorTbbleOffsetArrby[0]), mbrkClbss+1);
     if( LE_FAILURE(success) ) { return 0; }
-    Offset anchorTableOffset = SWAPW(componentRecord->ligatureAnchorTableOffsetArray[markClass]);
-    LEReferenceTo<AnchorTable> anchorTable(ligatureAttachTable, success, anchorTableOffset);
-    LEPoint ligatureAnchor, markAdvance, pixels;
+    Offset bnchorTbbleOffset = SWAPW(componentRecord->ligbtureAnchorTbbleOffsetArrby[mbrkClbss]);
+    LEReferenceTo<AnchorTbble> bnchorTbble(ligbtureAttbchTbble, success, bnchorTbbleOffset);
+    LEPoint ligbtureAnchor, mbrkAdvbnce, pixels;
 
-    anchorTable->getAnchor(anchorTable, ligatureGlyph, fontInstance, ligatureAnchor, success);
+    bnchorTbble->getAnchor(bnchorTbble, ligbtureGlyph, fontInstbnce, ligbtureAnchor, success);
 
-    fontInstance->getGlyphAdvance(markGlyph, pixels);
-    fontInstance->pixelsToUnits(pixels, markAdvance);
+    fontInstbnce->getGlyphAdvbnce(mbrkGlyph, pixels);
+    fontInstbnce->pixelsToUnits(pixels, mbrkAdvbnce);
 
-    float anchorDiffX = ligatureAnchor.fX - markAnchor.fX;
-    float anchorDiffY = ligatureAnchor.fY - markAnchor.fY;
+    flobt bnchorDiffX = ligbtureAnchor.fX - mbrkAnchor.fX;
+    flobt bnchorDiffY = ligbtureAnchor.fY - mbrkAnchor.fY;
 
-    glyphIterator->setCurrGlyphBaseOffset(ligatureIterator.getCurrStreamPosition());
+    glyphIterbtor->setCurrGlyphBbseOffset(ligbtureIterbtor.getCurrStrebmPosition());
 
-    if (glyphIterator->isRightToLeft()) {
-        glyphIterator->setCurrGlyphPositionAdjustment(anchorDiffX, anchorDiffY, -markAdvance.fX, -markAdvance.fY);
+    if (glyphIterbtor->isRightToLeft()) {
+        glyphIterbtor->setCurrGlyphPositionAdjustment(bnchorDiffX, bnchorDiffY, -mbrkAdvbnce.fX, -mbrkAdvbnce.fY);
     } else {
-        LEPoint ligatureAdvance;
+        LEPoint ligbtureAdvbnce;
 
-        fontInstance->getGlyphAdvance(ligatureGlyph, pixels);
-        fontInstance->pixelsToUnits(pixels, ligatureAdvance);
+        fontInstbnce->getGlyphAdvbnce(ligbtureGlyph, pixels);
+        fontInstbnce->pixelsToUnits(pixels, ligbtureAdvbnce);
 
-        glyphIterator->setCurrGlyphPositionAdjustment(anchorDiffX - ligatureAdvance.fX, anchorDiffY - ligatureAdvance.fY, -markAdvance.fX, -markAdvance.fY);
+        glyphIterbtor->setCurrGlyphPositionAdjustment(bnchorDiffX - ligbtureAdvbnce.fX, bnchorDiffY - ligbtureAdvbnce.fY, -mbrkAdvbnce.fX, -mbrkAdvbnce.fY);
     }
 
     return 1;

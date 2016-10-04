@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jca;
+pbckbge sun.security.jcb;
 
-import java.security.Provider;
+import jbvb.security.Provider;
 
 /**
- * Collection of methods to get and set provider list. Also includes
- * special code for the provider list during JAR verification.
+ * Collection of methods to get bnd set provider list. Also includes
+ * specibl code for the provider list during JAR verificbtion.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-public class Providers {
+public clbss Providers {
 
-    private static final ThreadLocal<ProviderList> threadLists =
-        new InheritableThreadLocal<>();
+    privbte stbtic finbl ThrebdLocbl<ProviderList> threbdLists =
+        new InheritbbleThrebdLocbl<>();
 
-    // number of threads currently using thread-local provider lists
-    // tracked to allow an optimization if == 0
-    private static volatile int threadListsUsed;
+    // number of threbds currently using threbd-locbl provider lists
+    // trbcked to bllow bn optimizbtion if == 0
+    privbte stbtic volbtile int threbdListsUsed;
 
     // current system-wide provider list
-    // Note volatile immutable object, so no synchronization needed.
-    private static volatile ProviderList providerList;
+    // Note volbtile immutbble object, so no synchronizbtion needed.
+    privbte stbtic volbtile ProviderList providerList;
 
-    static {
-        // set providerList to empty list first in case initialization somehow
-        // triggers a getInstance() call (although that should not happen)
+    stbtic {
+        // set providerList to empty list first in cbse initiblizbtion somehow
+        // triggers b getInstbnce() cbll (blthough thbt should not hbppen)
         providerList = ProviderList.EMPTY;
         providerList = ProviderList.fromSecurityProperties();
     }
 
-    private Providers() {
+    privbte Providers() {
         // empty
     }
 
-    // we need special handling to resolve circularities when loading
-    // signed JAR files during startup. The code below is part of that.
+    // we need specibl hbndling to resolve circulbrities when lobding
+    // signed JAR files during stbrtup. The code below is pbrt of thbt.
 
-    // Basically, before we load data from a signed JAR file, we parse
-    // the PKCS#7 file and verify the signature. We need a
-    // CertificateFactory, Signatures, etc. to do that. We have to make
-    // sure that we do not try to load the implementation from the JAR
-    // file we are just verifying.
+    // Bbsicblly, before we lobd dbtb from b signed JAR file, we pbrse
+    // the PKCS#7 file bnd verify the signbture. We need b
+    // CertificbteFbctory, Signbtures, etc. to do thbt. We hbve to mbke
+    // sure thbt we do not try to lobd the implementbtion from the JAR
+    // file we bre just verifying.
     //
-    // To avoid that, we use different provider settings during JAR
-    // verification.  However, we do not want those provider settings to
-    // interfere with other parts of the system. Therefore, we make them local
-    // to the Thread executing the JAR verification code.
+    // To bvoid thbt, we use different provider settings during JAR
+    // verificbtion.  However, we do not wbnt those provider settings to
+    // interfere with other pbrts of the system. Therefore, we mbke them locbl
+    // to the Threbd executing the JAR verificbtion code.
     //
-    // The code here is used by sun.security.util.SignatureFileVerifier.
-    // See there for details.
+    // The code here is used by sun.security.util.SignbtureFileVerifier.
+    // See there for detbils.
 
-    private static final String BACKUP_PROVIDER_CLASSNAME =
-        "sun.security.provider.VerificationProvider";
+    privbte stbtic finbl String BACKUP_PROVIDER_CLASSNAME =
+        "sun.security.provider.VerificbtionProvider";
 
-    // Hardcoded classnames of providers to use for JAR verification.
-    // MUST NOT be on the bootclasspath and not in signed JAR files.
-    private static final String[] jarVerificationProviders = {
+    // Hbrdcoded clbssnbmes of providers to use for JAR verificbtion.
+    // MUST NOT be on the bootclbsspbth bnd not in signed JAR files.
+    privbte stbtic finbl String[] jbrVerificbtionProviders = {
         "sun.security.provider.Sun",
-        "sun.security.rsa.SunRsaSign",
-        // Note: SunEC *is* in a signed JAR file, but it's not signed
-        // by EC itself. So it's still safe to be listed here.
+        "sun.security.rsb.SunRsbSign",
+        // Note: SunEC *is* in b signed JAR file, but it's not signed
+        // by EC itself. So it's still sbfe to be listed here.
         "sun.security.ec.SunEC",
         BACKUP_PROVIDER_CLASSNAME,
     };
 
-    // Return to Sun provider or its backup.
-    // This method should only be called by
-    // sun.security.util.ManifestEntryVerifier and java.security.SecureRandom.
-    public static Provider getSunProvider() {
+    // Return to Sun provider or its bbckup.
+    // This method should only be cblled by
+    // sun.security.util.MbnifestEntryVerifier bnd jbvb.security.SecureRbndom.
+    public stbtic Provider getSunProvider() {
         try {
-            Class<?> clazz = Class.forName(jarVerificationProviders[0]);
-            return (Provider)clazz.newInstance();
-        } catch (Exception e) {
+            Clbss<?> clbzz = Clbss.forNbme(jbrVerificbtionProviders[0]);
+            return (Provider)clbzz.newInstbnce();
+        } cbtch (Exception e) {
             try {
-                Class<?> clazz = Class.forName(BACKUP_PROVIDER_CLASSNAME);
-                return (Provider)clazz.newInstance();
-            } catch (Exception ee) {
+                Clbss<?> clbzz = Clbss.forNbme(BACKUP_PROVIDER_CLASSNAME);
+                return (Provider)clbzz.newInstbnce();
+            } cbtch (Exception ee) {
                 throw new RuntimeException("Sun provider not found", e);
             }
         }
     }
 
     /**
-     * Start JAR verification. This sets a special provider list for
-     * the current thread. You MUST save the return value from this
-     * method and you MUST call stopJarVerification() with that object
-     * once you are done.
+     * Stbrt JAR verificbtion. This sets b specibl provider list for
+     * the current threbd. You MUST sbve the return vblue from this
+     * method bnd you MUST cbll stopJbrVerificbtion() with thbt object
+     * once you bre done.
      */
-    public static Object startJarVerification() {
+    public stbtic Object stbrtJbrVerificbtion() {
         ProviderList currentList = getProviderList();
-        ProviderList jarList = currentList.getJarList(jarVerificationProviders);
-        // return the old thread-local provider list, usually null
-        return beginThreadProviderList(jarList);
+        ProviderList jbrList = currentList.getJbrList(jbrVerificbtionProviders);
+        // return the old threbd-locbl provider list, usublly null
+        return beginThrebdProviderList(jbrList);
     }
 
     /**
-     * Stop JAR verification. Call once you have completed JAR verification.
+     * Stop JAR verificbtion. Cbll once you hbve completed JAR verificbtion.
      */
-    public static void stopJarVerification(Object obj) {
-        // restore old thread-local provider list
-        endThreadProviderList((ProviderList)obj);
+    public stbtic void stopJbrVerificbtion(Object obj) {
+        // restore old threbd-locbl provider list
+        endThrebdProviderList((ProviderList)obj);
     }
 
     /**
-     * Return the current ProviderList. If the thread-local list is set,
+     * Return the current ProviderList. If the threbd-locbl list is set,
      * it is returned. Otherwise, the system wide list is returned.
      */
-    public static ProviderList getProviderList() {
-        ProviderList list = getThreadProviderList();
+    public stbtic ProviderList getProviderList() {
+        ProviderList list = getThrebdProviderList();
         if (list == null) {
             list = getSystemProviderList();
         }
@@ -140,37 +140,37 @@ public class Providers {
     }
 
     /**
-     * Set the current ProviderList. Affects the thread-local list if set,
+     * Set the current ProviderList. Affects the threbd-locbl list if set,
      * otherwise the system wide list.
      */
-    public static void setProviderList(ProviderList newList) {
-        if (getThreadProviderList() == null) {
+    public stbtic void setProviderList(ProviderList newList) {
+        if (getThrebdProviderList() == null) {
             setSystemProviderList(newList);
         } else {
-            changeThreadProviderList(newList);
+            chbngeThrebdProviderList(newList);
         }
     }
 
     /**
-     * Get the full provider list with invalid providers (those that
-     * could not be loaded) removed. This is the list we need to
-     * present to applications.
+     * Get the full provider list with invblid providers (those thbt
+     * could not be lobded) removed. This is the list we need to
+     * present to bpplicbtions.
      */
-    public static ProviderList getFullProviderList() {
+    public stbtic ProviderList getFullProviderList() {
         ProviderList list;
-        synchronized (Providers.class) {
-            list = getThreadProviderList();
+        synchronized (Providers.clbss) {
+            list = getThrebdProviderList();
             if (list != null) {
-                ProviderList newList = list.removeInvalid();
+                ProviderList newList = list.removeInvblid();
                 if (newList != list) {
-                    changeThreadProviderList(newList);
+                    chbngeThrebdProviderList(newList);
                     list = newList;
                 }
                 return list;
             }
         }
         list = getSystemProviderList();
-        ProviderList newList = list.removeInvalid();
+        ProviderList newList = list.removeInvblid();
         if (newList != list) {
             setSystemProviderList(newList);
             list = newList;
@@ -178,70 +178,70 @@ public class Providers {
         return list;
     }
 
-    private static ProviderList getSystemProviderList() {
+    privbte stbtic ProviderList getSystemProviderList() {
         return providerList;
     }
 
-    private static void setSystemProviderList(ProviderList list) {
+    privbte stbtic void setSystemProviderList(ProviderList list) {
         providerList = list;
     }
 
-    public static ProviderList getThreadProviderList() {
-        // avoid accessing the threadlocal if none are currently in use
-        // (first use of ThreadLocal.get() for a Thread allocates a Map)
-        if (threadListsUsed == 0) {
+    public stbtic ProviderList getThrebdProviderList() {
+        // bvoid bccessing the threbdlocbl if none bre currently in use
+        // (first use of ThrebdLocbl.get() for b Threbd bllocbtes b Mbp)
+        if (threbdListsUsed == 0) {
             return null;
         }
-        return threadLists.get();
+        return threbdLists.get();
     }
 
-    // Change the thread local provider list. Use only if the current thread
-    // is already using a thread local list and you want to change it in place.
-    // In other cases, use the begin/endThreadProviderList() methods.
-    private static void changeThreadProviderList(ProviderList list) {
-        threadLists.set(list);
+    // Chbnge the threbd locbl provider list. Use only if the current threbd
+    // is blrebdy using b threbd locbl list bnd you wbnt to chbnge it in plbce.
+    // In other cbses, use the begin/endThrebdProviderList() methods.
+    privbte stbtic void chbngeThrebdProviderList(ProviderList list) {
+        threbdLists.set(list);
     }
 
     /**
-     * Methods to manipulate the thread local provider list. It is for use by
-     * JAR verification (see above) and the SunJSSE FIPS mode only.
+     * Methods to mbnipulbte the threbd locbl provider list. It is for use by
+     * JAR verificbtion (see bbove) bnd the SunJSSE FIPS mode only.
      *
-     * It should be used as follows:
+     * It should be used bs follows:
      *
      *   ProviderList list = ...;
-     *   ProviderList oldList = Providers.beginThreadProviderList(list);
+     *   ProviderList oldList = Providers.beginThrebdProviderList(list);
      *   try {
-     *     // code that needs thread local provider list
-     *   } finally {
-     *     Providers.endThreadProviderList(oldList);
+     *     // code thbt needs threbd locbl provider list
+     *   } finblly {
+     *     Providers.endThrebdProviderList(oldList);
      *   }
      *
      */
 
-    public static synchronized ProviderList beginThreadProviderList(ProviderList list) {
+    public stbtic synchronized ProviderList beginThrebdProviderList(ProviderList list) {
         if (ProviderList.debug != null) {
-            ProviderList.debug.println("ThreadLocal providers: " + list);
+            ProviderList.debug.println("ThrebdLocbl providers: " + list);
         }
-        ProviderList oldList = threadLists.get();
-        threadListsUsed++;
-        threadLists.set(list);
+        ProviderList oldList = threbdLists.get();
+        threbdListsUsed++;
+        threbdLists.set(list);
         return oldList;
     }
 
-    public static synchronized void endThreadProviderList(ProviderList list) {
+    public stbtic synchronized void endThrebdProviderList(ProviderList list) {
         if (list == null) {
             if (ProviderList.debug != null) {
-                ProviderList.debug.println("Disabling ThreadLocal providers");
+                ProviderList.debug.println("Disbbling ThrebdLocbl providers");
             }
-            threadLists.remove();
+            threbdLists.remove();
         } else {
             if (ProviderList.debug != null) {
                 ProviderList.debug.println
-                    ("Restoring previous ThreadLocal providers: " + list);
+                    ("Restoring previous ThrebdLocbl providers: " + list);
             }
-            threadLists.set(list);
+            threbdLists.set(list);
         }
-        threadListsUsed--;
+        threbdListsUsed--;
     }
 
 }

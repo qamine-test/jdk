@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "GraphicsPrimitiveMgr.h"
+#include "GrbphicsPrimitiveMgr.h"
 #include "Region.h"
 
-#include "sun_java2d_loops_Blit.h"
+#include "sun_jbvb2d_loops_Blit.h"
 
 /*
- * Class:     sun_java2d_loops_Blit
+ * Clbss:     sun_jbvb2d_loops_Blit
  * Method:    Blit
- * Signature: (Lsun/java2d/SurfaceData;Lsun/java2d/SurfaceData;Ljava/awt/Composite;IIIIII)V
+ * Signbture: (Lsun/jbvb2d/SurfbceDbtb;Lsun/jbvb2d/SurfbceDbtb;Ljbvb/bwt/Composite;IIIIII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_Blit_Blit
+Jbvb_sun_jbvb2d_loops_Blit_Blit
     (JNIEnv *env, jobject self,
-     jobject srcData, jobject dstData, jobject comp, jobject clip,
+     jobject srcDbtb, jobject dstDbtb, jobject comp, jobject clip,
      jint srcx, jint srcy, jint dstx, jint dsty, jint width, jint height)
 {
-    SurfaceDataOps *srcOps;
-    SurfaceDataOps *dstOps;
-    SurfaceDataRasInfo srcInfo;
-    SurfaceDataRasInfo dstInfo;
-    NativePrimitive *pPrim;
+    SurfbceDbtbOps *srcOps;
+    SurfbceDbtbOps *dstOps;
+    SurfbceDbtbRbsInfo srcInfo;
+    SurfbceDbtbRbsInfo dstInfo;
+    NbtivePrimitive *pPrim;
     CompositeInfo compInfo;
-    RegionData clipInfo;
-    jint dstFlags;
+    RegionDbtb clipInfo;
+    jint dstFlbgs;
 
-    pPrim = GetNativePrim(env, self);
+    pPrim = GetNbtivePrim(env, self);
     if (pPrim == NULL) {
         return;
     }
@@ -59,11 +59,11 @@ Java_sun_java2d_loops_Blit_Blit
         return;
     }
 
-    srcOps = SurfaceData_GetOps(env, srcData);
+    srcOps = SurfbceDbtb_GetOps(env, srcDbtb);
     if (srcOps == 0) {
         return;
     }
-    dstOps = SurfaceData_GetOps(env, dstData);
+    dstOps = SurfbceDbtb_GetOps(env, dstDbtb);
     if (dstOps == 0) {
         return;
     }
@@ -78,58 +78,58 @@ Java_sun_java2d_loops_Blit_Blit
     dstInfo.bounds.y2 = dsty + height;
     srcx -= dstx;
     srcy -= dsty;
-    SurfaceData_IntersectBounds(&dstInfo.bounds, &clipInfo.bounds);
-    if (srcOps->Lock(env, srcOps, &srcInfo, pPrim->srcflags) != SD_SUCCESS) {
+    SurfbceDbtb_IntersectBounds(&dstInfo.bounds, &clipInfo.bounds);
+    if (srcOps->Lock(env, srcOps, &srcInfo, pPrim->srcflbgs) != SD_SUCCESS) {
         return;
     }
 
-    dstFlags = pPrim->dstflags;
-    if (!Region_IsRectangular(&clipInfo)) {
-        dstFlags |= SD_LOCK_PARTIAL_WRITE;
+    dstFlbgs = pPrim->dstflbgs;
+    if (!Region_IsRectbngulbr(&clipInfo)) {
+        dstFlbgs |= SD_LOCK_PARTIAL_WRITE;
     }
-    if (dstOps->Lock(env, dstOps, &dstInfo, dstFlags) != SD_SUCCESS) {
-        SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
+    if (dstOps->Lock(env, dstOps, &dstInfo, dstFlbgs) != SD_SUCCESS) {
+        SurfbceDbtb_InvokeUnlock(env, srcOps, &srcInfo);
         return;
     }
-    SurfaceData_IntersectBlitBounds(&dstInfo.bounds, &srcInfo.bounds,
+    SurfbceDbtb_IntersectBlitBounds(&dstInfo.bounds, &srcInfo.bounds,
                                     srcx, srcy);
     Region_IntersectBounds(&clipInfo, &dstInfo.bounds);
 
     if (!Region_IsEmpty(&clipInfo)) {
-        srcOps->GetRasInfo(env, srcOps, &srcInfo);
-        dstOps->GetRasInfo(env, dstOps, &dstInfo);
-        if (srcInfo.rasBase && dstInfo.rasBase) {
-            SurfaceDataBounds span;
-            jint savesx = srcInfo.bounds.x1;
-            jint savedx = dstInfo.bounds.x1;
-            Region_StartIteration(env, &clipInfo);
-            while (Region_NextIteration(&clipInfo, &span)) {
-                void *pSrc = PtrCoord(srcInfo.rasBase,
-                                      srcx + span.x1, srcInfo.pixelStride,
-                                      srcy + span.y1, srcInfo.scanStride);
-                void *pDst = PtrCoord(dstInfo.rasBase,
-                                      span.x1, dstInfo.pixelStride,
-                                      span.y1, dstInfo.scanStride);
+        srcOps->GetRbsInfo(env, srcOps, &srcInfo);
+        dstOps->GetRbsInfo(env, dstOps, &dstInfo);
+        if (srcInfo.rbsBbse && dstInfo.rbsBbse) {
+            SurfbceDbtbBounds spbn;
+            jint sbvesx = srcInfo.bounds.x1;
+            jint sbvedx = dstInfo.bounds.x1;
+            Region_StbrtIterbtion(env, &clipInfo);
+            while (Region_NextIterbtion(&clipInfo, &spbn)) {
+                void *pSrc = PtrCoord(srcInfo.rbsBbse,
+                                      srcx + spbn.x1, srcInfo.pixelStride,
+                                      srcy + spbn.y1, srcInfo.scbnStride);
+                void *pDst = PtrCoord(dstInfo.rbsBbse,
+                                      spbn.x1, dstInfo.pixelStride,
+                                      spbn.y1, dstInfo.scbnStride);
                 /*
                  * Fix for 4804375
-                 * REMIND: There should probably be a better
-                 * way to give the span coordinates to the
-                 * inner loop.  This is only really needed
-                 * for the 1, 2, and 4 bit loops.
+                 * REMIND: There should probbbly be b better
+                 * wby to give the spbn coordinbtes to the
+                 * inner loop.  This is only reblly needed
+                 * for the 1, 2, bnd 4 bit loops.
                  */
-                srcInfo.bounds.x1 = srcx + span.x1;
-                dstInfo.bounds.x1 = span.x1;
+                srcInfo.bounds.x1 = srcx + spbn.x1;
+                dstInfo.bounds.x1 = spbn.x1;
                 (*pPrim->funcs.blit)(pSrc, pDst,
-                                     span.x2 - span.x1, span.y2 - span.y1,
+                                     spbn.x2 - spbn.x1, spbn.y2 - spbn.y1,
                                      &srcInfo, &dstInfo, pPrim, &compInfo);
             }
-            Region_EndIteration(env, &clipInfo);
-            srcInfo.bounds.x1 = savesx;
-            dstInfo.bounds.x1 = savedx;
+            Region_EndIterbtion(env, &clipInfo);
+            srcInfo.bounds.x1 = sbvesx;
+            dstInfo.bounds.x1 = sbvedx;
         }
-        SurfaceData_InvokeRelease(env, dstOps, &dstInfo);
-        SurfaceData_InvokeRelease(env, srcOps, &srcInfo);
+        SurfbceDbtb_InvokeRelebse(env, dstOps, &dstInfo);
+        SurfbceDbtb_InvokeRelebse(env, srcOps, &srcInfo);
     }
-    SurfaceData_InvokeUnlock(env, dstOps, &dstInfo);
-    SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
+    SurfbceDbtb_InvokeUnlock(env, dstOps, &dstInfo);
+    SurfbceDbtb_InvokeUnlock(env, srcOps, &srcInfo);
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,289 +30,289 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 /*
- * This is a collection of utilities for Monitoring
- * and management API.
+ * This is b collection of utilities for Monitoring
+ * bnd mbnbgement API.
  *
  * File dependency:
  *    conc.js -> for concurrency utilities
  */
 
-// At any time, we maintain atmost one MBeanServer
-// connection. And so, we store the same as a global
-// variable.
-var mmConnection = null;
+// At bny time, we mbintbin btmost one MBebnServer
+// connection. And so, we store the sbme bs b globbl
+// vbribble.
+vbr mmConnection = null;
 
 function jmxConnect(hostport) {
     if (mmConnection != null) {
         // close the existing connection
         try {
             mmConnection.close();
-        } catch (e) {
+        } cbtch (e) {
         }
     }
 
-    var JMXServiceURL = javax.management.remote.JMXServiceURL;
-    var JMXConnectorFactory = javax.management.remote.JMXConnectorFactory;
+    vbr JMXServiceURL = jbvbx.mbnbgement.remote.JMXServiceURL;
+    vbr JMXConnectorFbctory = jbvbx.mbnbgement.remote.JMXConnectorFbctory;
 
-    var urlPath = "/jndi/rmi://" + hostport + "/jmxrmi";
-    var url = new JMXServiceURL("rmi", "", 0, urlPath);
-    var jmxc = JMXConnectorFactory.connect(url);
-    // note that the "mmConnection" is a global variable!
-    mmConnection = jmxc.getMBeanServerConnection();
+    vbr urlPbth = "/jndi/rmi://" + hostport + "/jmxrmi";
+    vbr url = new JMXServiceURL("rmi", "", 0, urlPbth);
+    vbr jmxc = JMXConnectorFbctory.connect(url);
+    // note thbt the "mmConnection" is b globbl vbribble!
+    mmConnection = jmxc.getMBebnServerConnection();
 }
-jmxConnect.docString = "connects to the given host, port (specified as name:port)";
+jmxConnect.docString = "connects to the given host, port (specified bs nbme:port)";
 
-function mbeanConnection() {
+function mbebnConnection() {
     if (mmConnection == null) {
-        throw "Not connected to MBeanServer yet!";
+        throw "Not connected to MBebnServer yet!";
     }
 
     return mmConnection;
 }
-mbeanConnection.docString = "returns the current MBeanServer connection";
+mbebnConnection.docString = "returns the current MBebnServer connection";
 
 /**
- * Returns a platform MXBean proxy for given MXBean name and interface class
+ * Returns b plbtform MXBebn proxy for given MXBebn nbme bnd interfbce clbss
  */
-function newPlatformMXBeanProxy(name, intf) {
-    var factory = java.lang.management.ManagementFactory;
-    return factory.newPlatformMXBeanProxy(mbeanConnection(), name, intf);
+function newPlbtformMXBebnProxy(nbme, intf) {
+    vbr fbctory = jbvb.lbng.mbnbgement.MbnbgementFbctory;
+    return fbctory.newPlbtformMXBebnProxy(mbebnConnection(), nbme, intf);
 }
-newPlatformMXBeanProxy.docString = "returns a proxy for a platform MXBean";
+newPlbtformMXBebnProxy.docString = "returns b proxy for b plbtform MXBebn";
 
 /**
- * Wraps a string to ObjectName if needed.
+ * Wrbps b string to ObjectNbme if needed.
  */
-function objectName(objName) {
-    var ObjectName = Packages.javax.management.ObjectName;
-    if (objName instanceof ObjectName) {
-        return objName;
+function objectNbme(objNbme) {
+    vbr ObjectNbme = Pbckbges.jbvbx.mbnbgement.ObjectNbme;
+    if (objNbme instbnceof ObjectNbme) {
+        return objNbme;
     } else {
-        return new ObjectName(objName);
+        return new ObjectNbme(objNbme);
     }
 }
-objectName.docString = "creates JMX ObjectName for a given String";
+objectNbme.docString = "crebtes JMX ObjectNbme for b given String";
 
 /**
- * Creates a new (M&M) Attribute object
+ * Crebtes b new (M&M) Attribute object
  *
- * @param name name of the attribute
- * @param value value of the attribute
+ * @pbrbm nbme nbme of the bttribute
+ * @pbrbm vblue vblue of the bttribute
  */
-function attribute(name, value) {
-    var Attribute = Packages.javax.management.Attribute;
-    return new Attribute(name, value);
+function bttribute(nbme, vblue) {
+    vbr Attribute = Pbckbges.jbvbx.mbnbgement.Attribute;
+    return new Attribute(nbme, vblue);
 }
-attribute.docString = "returns a new JMX Attribute using name and value given";
+bttribute.docString = "returns b new JMX Attribute using nbme bnd vblue given";
 
 /**
- * Returns MBeanInfo for given ObjectName. Strings are accepted.
+ * Returns MBebnInfo for given ObjectNbme. Strings bre bccepted.
  */
-function mbeanInfo(objName) {
-    objName = objectName(objName);
-    return mbeanConnection().getMBeanInfo(objName);
+function mbebnInfo(objNbme) {
+    objNbme = objectNbme(objNbme);
+    return mbebnConnection().getMBebnInfo(objNbme);
 }
-mbeanInfo.docString = "returns MBeanInfo of a given ObjectName";
+mbebnInfo.docString = "returns MBebnInfo of b given ObjectNbme";
 
 /**
- * Returns ObjectInstance for a given ObjectName.
+ * Returns ObjectInstbnce for b given ObjectNbme.
  */
-function objectInstance(objName) {
-    objName = objectName(objName);
-    return mbeanConnection().objectInstance(objectName);
+function objectInstbnce(objNbme) {
+    objNbme = objectNbme(objNbme);
+    return mbebnConnection().objectInstbnce(objectNbme);
 }
-objectInstance.docString = "returns ObjectInstance for a given ObjectName";
+objectInstbnce.docString = "returns ObjectInstbnce for b given ObjectNbme";
 
 /**
- * Queries with given ObjectName and QueryExp.
- * QueryExp may be null.
+ * Queries with given ObjectNbme bnd QueryExp.
+ * QueryExp mby be null.
  *
- * @return set of ObjectNames.
+ * @return set of ObjectNbmes.
  */
-function queryNames(objName, query) {
-    objName = objectName(objName);
+function queryNbmes(objNbme, query) {
+    objNbme = objectNbme(objNbme);
     if (query == undefined) query = null;
-    return mbeanConnection().queryNames(objName, query);
+    return mbebnConnection().queryNbmes(objNbme, query);
 }
-queryNames.docString = "returns QueryNames using given ObjectName and optional query";
+queryNbmes.docString = "returns QueryNbmes using given ObjectNbme bnd optionbl query";
 
 /**
- * Queries with given ObjectName and QueryExp.
- * QueryExp may be null.
+ * Queries with given ObjectNbme bnd QueryExp.
+ * QueryExp mby be null.
  *
- * @return set of ObjectInstances.
+ * @return set of ObjectInstbnces.
  */
-function queryMBeans(objName, query) {
-    objName = objectName(objName);
+function queryMBebns(objNbme, query) {
+    objNbme = objectNbme(objNbme);
     if (query == undefined) query = null;
-    return mbeanConnection().queryMBeans(objName, query);
+    return mbebnConnection().queryMBebns(objNbme, query);
 }
-queryMBeans.docString = "return MBeans using given ObjectName and optional query";
+queryMBebns.docString = "return MBebns using given ObjectNbme bnd optionbl query";
 
-// wraps a script array as java.lang.Object[]
-function objectArray(array) {
-    return Java.to(array, "java.lang.Object[]");
-}
-
-// wraps a script (string) array as java.lang.String[]
-function stringArray(array) {
-    return Java.to(array, "java.lang.String[]");
+// wrbps b script brrby bs jbvb.lbng.Object[]
+function objectArrby(brrby) {
+    return Jbvb.to(brrby, "jbvb.lbng.Object[]");
 }
 
-// script array to Java List
-function toAttrList(array) {
-    var AttributeList = Packages.javax.management.AttributeList;
-    if (array instanceof AttributeList) {
-        return array;
+// wrbps b script (string) brrby bs jbvb.lbng.String[]
+function stringArrby(brrby) {
+    return Jbvb.to(brrby, "jbvb.lbng.String[]");
+}
+
+// script brrby to Jbvb List
+function toAttrList(brrby) {
+    vbr AttributeList = Pbckbges.jbvbx.mbnbgement.AttributeList;
+    if (brrby instbnceof AttributeList) {
+        return brrby;
     }
-    var list = new AttributeList(array.length);
-    for (var index = 0; index < array.length; index++) {
-        list.add(array[index]);
+    vbr list = new AttributeList(brrby.length);
+    for (vbr index = 0; index < brrby.length; index++) {
+        list.bdd(brrby[index]);
     }
     return list;
 }
 
-// Java Collection (Iterable) to script array
-function toArray(collection) {
-    if (collection instanceof Array) {
+// Jbvb Collection (Iterbble) to script brrby
+function toArrby(collection) {
+    if (collection instbnceof Arrby) {
         return collection;
     }
-    var itr = collection.iterator();
-    var array = new Array();
-    while (itr.hasNext()) {
-        array[array.length] = itr.next();
+    vbr itr = collection.iterbtor();
+    vbr brrby = new Arrby();
+    while (itr.hbsNext()) {
+        brrby[brrby.length] = itr.next();
     }
-    return array;
+    return brrby;
 }
 
-// gets MBean attributes
-function getMBeanAttributes(objName, attributeNames) {
-    objName = objectName(objName);
-    return mbeanConnection().getAttributes(objName,stringArray(attributeNames));
+// gets MBebn bttributes
+function getMBebnAttributes(objNbme, bttributeNbmes) {
+    objNbme = objectNbme(objNbme);
+    return mbebnConnection().getAttributes(objNbme,stringArrby(bttributeNbmes));
 }
-getMBeanAttributes.docString = "returns specified Attributes of given ObjectName";
+getMBebnAttributes.docString = "returns specified Attributes of given ObjectNbme";
 
-// gets MBean attribute
-function getMBeanAttribute(objName, attrName) {
-    objName = objectName(objName);
-    return mbeanConnection().getAttribute(objName, attrName);
+// gets MBebn bttribute
+function getMBebnAttribute(objNbme, bttrNbme) {
+    objNbme = objectNbme(objNbme);
+    return mbebnConnection().getAttribute(objNbme, bttrNbme);
 }
-getMBeanAttribute.docString = "returns a single Attribute of given ObjectName";
+getMBebnAttribute.docString = "returns b single Attribute of given ObjectNbme";
 
-// sets MBean attributes
-function setMBeanAttributes(objName, attrList) {
-    objName = objectName(objName);
-    attrList = toAttrList(attrList);
-    return mbeanConnection().setAttributes(objName, attrList);
+// sets MBebn bttributes
+function setMBebnAttributes(objNbme, bttrList) {
+    objNbme = objectNbme(objNbme);
+    bttrList = toAttrList(bttrList);
+    return mbebnConnection().setAttributes(objNbme, bttrList);
 }
-setMBeanAttributes.docString = "sets specified Attributes of given ObjectName";
+setMBebnAttributes.docString = "sets specified Attributes of given ObjectNbme";
 
-// sets MBean attribute
-function setMBeanAttribute(objName, attrName, attrValue) {
-    var Attribute = Packages.javax.management.Attribute;
-    objName = objectName(objName);
-    mbeanConnection().setAttribute(objName, new Attribute(attrName, attrValue));
+// sets MBebn bttribute
+function setMBebnAttribute(objNbme, bttrNbme, bttrVblue) {
+    vbr Attribute = Pbckbges.jbvbx.mbnbgement.Attribute;
+    objNbme = objectNbme(objNbme);
+    mbebnConnection().setAttribute(objNbme, new Attribute(bttrNbme, bttrVblue));
 }
-setMBeanAttribute.docString = "sets a single Attribute of given ObjectName";
+setMBebnAttribute.docString = "sets b single Attribute of given ObjectNbme";
 
-// invokes an operation on given MBean
-function invokeMBean(objName, operation, params, signature) {
-    objName = objectName(objName);
-    params = objectArray(params);
-    signature = stringArray(signature);
-    return mbeanConnection().invoke(objName, operation, params, signature);
+// invokes bn operbtion on given MBebn
+function invokeMBebn(objNbme, operbtion, pbrbms, signbture) {
+    objNbme = objectNbme(objNbme);
+    pbrbms = objectArrby(pbrbms);
+    signbture = stringArrby(signbture);
+    return mbebnConnection().invoke(objNbme, operbtion, pbrbms, signbture);
 }
-invokeMBean.docString = "invokes MBean operation on given ObjectName";
+invokeMBebn.docString = "invokes MBebn operbtion on given ObjectNbme";
 
 /**
- * Wraps a MBean specified by ObjectName as a convenient
- * script object -- so that setting/getting MBean attributes
- * and invoking MBean method can be done with natural syntax.
+ * Wrbps b MBebn specified by ObjectNbme bs b convenient
+ * script object -- so thbt setting/getting MBebn bttributes
+ * bnd invoking MBebn method cbn be done with nbturbl syntbx.
  *
- * @param objName ObjectName of the MBean
- * @param async asynchornous mode [optional, default is false]
- * @return script wrapper for MBean
+ * @pbrbm objNbme ObjectNbme of the MBebn
+ * @pbrbm bsync bsynchornous mode [optionbl, defbult is fblse]
+ * @return script wrbpper for MBebn
  *
- * With async mode, all field, operation access is async. Results
- * will be of type FutureTask. When you need value, call 'get' on it.
+ * With bsync mode, bll field, operbtion bccess is bsync. Results
+ * will be of type FutureTbsk. When you need vblue, cbll 'get' on it.
  */
-function mbean(objName, async) {
-    var index;
-    objName = objectName(objName);
-    var info = mbeanInfo(objName);
-    var attrs = info.attributes;
-    var attrMap = new Object;
-    for (index in attrs) {
-        attrMap[attrs[index].name] = attrs[index];
+function mbebn(objNbme, bsync) {
+    vbr index;
+    objNbme = objectNbme(objNbme);
+    vbr info = mbebnInfo(objNbme);
+    vbr bttrs = info.bttributes;
+    vbr bttrMbp = new Object;
+    for (index in bttrs) {
+        bttrMbp[bttrs[index].nbme] = bttrs[index];
     }
-    var opers = info.operations;
-    var operMap = new Object;
+    vbr opers = info.operbtions;
+    vbr operMbp = new Object;
     for (index in opers) {
-        operMap[opers[index].name] = opers[index];
+        operMbp[opers[index].nbme] = opers[index];
     }
 
-    function isAttribute(name) {
-        return name in attrMap;
+    function isAttribute(nbme) {
+        return nbme in bttrMbp;
     }
 
-    function isOperation(name) {
-        return name in operMap;
+    function isOperbtion(nbme) {
+        return nbme in operMbp;
     }
 
-    return new JSAdapter() {
-        __has__: function (name) {
-            return isAttribute(name) || isOperation(name);
+    return new JSAdbpter() {
+        __hbs__: function (nbme) {
+            return isAttribute(nbme) || isOperbtion(nbme);
         },
-        __get__: function (name) {
-            if (isAttribute(name)) {
-                if (async) {
-                    return getMBeanAttribute.future(objName, name); 
+        __get__: function (nbme) {
+            if (isAttribute(nbme)) {
+                if (bsync) {
+                    return getMBebnAttribute.future(objNbme, nbme); 
                 } else {
-                    return getMBeanAttribute(objName, name); 
+                    return getMBebnAttribute(objNbme, nbme); 
                 }
             } else {
                 return undefined;
             }
         },
-        __call__: function(name) {
-            if (isOperation(name)) {
-                var oper = operMap[name];
+        __cbll__: function(nbme) {
+            if (isOperbtion(nbme)) {
+                vbr oper = operMbp[nbme];
 
-                var params = [];
-                for (var j = 1; j < arguments.length; j++) {
-                    params[j-1]= arguments[j];
+                vbr pbrbms = [];
+                for (vbr j = 1; j < brguments.length; j++) {
+                    pbrbms[j-1]= brguments[j];
                 }
 
-                var sigs = oper.signature;
+                vbr sigs = oper.signbture;
 
-                var sigNames = new Array(sigs.length);
-                for (var index in sigs) {
-                    sigNames[index] = sigs[index].getType();
+                vbr sigNbmes = new Arrby(sigs.length);
+                for (vbr index in sigs) {
+                    sigNbmes[index] = sigs[index].getType();
                 }
 
-                if (async) {
-                    return invokeMBean.future(objName, name, params, sigNames);
+                if (bsync) {
+                    return invokeMBebn.future(objNbme, nbme, pbrbms, sigNbmes);
                 } else {
-                    return invokeMBean(objName, name, params, sigNames);
+                    return invokeMBebn(objNbme, nbme, pbrbms, sigNbmes);
                 }
             } else {
                 return undefined;
             }
         },
-        __put__: function (name, value) {
-            if (isAttribute(name)) {
-                if (async) {
-                    setMBeanAttribute.future(objName, name, value);
+        __put__: function (nbme, vblue) {
+            if (isAttribute(nbme)) {
+                if (bsync) {
+                    setMBebnAttribute.future(objNbme, nbme, vblue);
                 } else {
-                    setMBeanAttribute(objName, name, value);
+                    setMBebnAttribute(objNbme, nbme, vblue);
                 }
             } else {
                 return undefined;
@@ -320,19 +320,19 @@ function mbean(objName, async) {
         }
     };
 }
-mbean.docString = "returns a conveninent script wrapper for a MBean of given ObjectName";
+mbebn.docString = "returns b conveninent script wrbpper for b MBebn of given ObjectNbme";
 
-if (this.application != undefined) {
-    this.application.addTool("JMX Connect",
-        // connect to a JMX MBean Server
+if (this.bpplicbtion != undefined) {
+    this.bpplicbtion.bddTool("JMX Connect",
+        // connect to b JMX MBebn Server
         function () {
-            var url = prompt("Connect to JMX server (host:port)");
+            vbr url = prompt("Connect to JMX server (host:port)");
             if (url != null) {
                 try {
                     jmxConnect(url);
-                    alert("connected!");
-                } catch (e) {
-                    error(e, "Can not connect to " + url);
+                    blert("connected!");
+                } cbtch (e) {
+                    error(e, "Cbn not connect to " + url);
                 }
             }
         });

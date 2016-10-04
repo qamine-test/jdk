@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.nio.sctp;
+pbckbge com.sun.nio.sctp;
 
-import java.nio.ByteBuffer;
-import java.net.SocketAddress;
+import jbvb.nio.ByteBuffer;
+import jbvb.net.SocketAddress;
 
 /**
- * Notification emitted when a send failed notification has been received.
+ * Notificbtion emitted when b send fbiled notificbtion hbs been received.
  *
- * <P> A send failed notification indicates that a message cannot be delivered.
- * Typically this is because the association has been shutdown with unsent data
- * in the socket output buffer, or in the case of a {@link SctpMultiChannel}
- * the association failed to setup.
+ * <P> A send fbiled notificbtion indicbtes thbt b messbge cbnnot be delivered.
+ * Typicblly this is becbuse the bssocibtion hbs been shutdown with unsent dbtb
+ * in the socket output buffer, or in the cbse of b {@link SctpMultiChbnnel}
+ * the bssocibtion fbiled to setup.
  *
  * @since 1.7
  */
 @jdk.Exported
-public abstract class SendFailedNotification implements Notification {
+public bbstrbct clbss SendFbiledNotificbtion implements Notificbtion {
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      */
-    protected SendFailedNotification() {}
+    protected SendFbiledNotificbtion() {}
 
     /**
-     * Returns the association that this notification is applicable to.
+     * Returns the bssocibtion thbt this notificbtion is bpplicbble to.
      *
-     * @return  The association that failed to send, or {@code null} if
-     *          there is no association, that is, the notification follows a
-     *          {@linkplain
-     *          com.sun.nio.sctp.AssociationChangeNotification.AssocChangeEvent#CANT_START}
+     * @return  The bssocibtion thbt fbiled to send, or {@code null} if
+     *          there is no bssocibtion, thbt is, the notificbtion follows b
+     *          {@linkplbin
+     *          com.sun.nio.sctp.AssocibtionChbngeNotificbtion.AssocChbngeEvent#CANT_START}
      */
     @Override
-    public abstract Association association();
+    public bbstrbct Associbtion bssocibtion();
 
     /**
-     * Returns the address.
+     * Returns the bddress.
      *
-     * @return  The peer primary address of the association or the address that
-     *          the message was sent to
+     * @return  The peer primbry bddress of the bssocibtion or the bddress thbt
+     *          the messbge wbs sent to
      */
-    public abstract SocketAddress address();
+    public bbstrbct SocketAddress bddress();
 
     /**
-     * Returns the data that was to be sent.
+     * Returns the dbtb thbt wbs to be sent.
      *
-     * @return  The user data. The buffers position will be {@code 0} and its
-     *          limit will be set to the end of the data.
+     * @return  The user dbtb. The buffers position will be {@code 0} bnd its
+     *          limit will be set to the end of the dbtb.
      */
-    public abstract ByteBuffer buffer();
+    public bbstrbct ByteBuffer buffer();
 
     /**
      * Returns the error code.
      *
-     * <P> The errorCode gives the reason why the send failed, and if set, will
-     * be a SCTP protocol error code as defined in RFC2960 section 3.3.10
+     * <P> The errorCode gives the rebson why the send fbiled, bnd if set, will
+     * be b SCTP protocol error code bs defined in RFC2960 section 3.3.10
      *
      * @return  The error code
      */
-    public abstract int errorCode();
+    public bbstrbct int errorCode();
 
     /**
-     * Returns the stream number that the messge was to be sent on.
+     * Returns the strebm number thbt the messge wbs to be sent on.
      *
-     * @return  The stream number
+     * @return  The strebm number
      */
-    public abstract int streamNumber();
+    public bbstrbct int strebmNumber();
 }

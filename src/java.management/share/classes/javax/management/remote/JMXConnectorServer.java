@@ -1,414 +1,414 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.remote;
+pbckbge jbvbx.mbnbgement.remote;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.Notification;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionBrobdcbsterSupport;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * <p>Superclass of every connector server.  A connector server is
- * attached to an MBean server.  It listens for client connection
- * requests and creates a connection for each one.</p>
+ * <p>Superclbss of every connector server.  A connector server is
+ * bttbched to bn MBebn server.  It listens for client connection
+ * requests bnd crebtes b connection for ebch one.</p>
  *
- * <p>A connector server is associated with an MBean server either by
- * registering it in that MBean server, or by passing the MBean server
+ * <p>A connector server is bssocibted with bn MBebn server either by
+ * registering it in thbt MBebn server, or by pbssing the MBebn server
  * to its constructor.</p>
  *
- * <p>A connector server is inactive when created.  It only starts
- * listening for client connections when the {@link #start() start}
- * method is called.  A connector server stops listening for client
- * connections when the {@link #stop() stop} method is called or when
- * the connector server is unregistered from its MBean server.</p>
+ * <p>A connector server is inbctive when crebted.  It only stbrts
+ * listening for client connections when the {@link #stbrt() stbrt}
+ * method is cblled.  A connector server stops listening for client
+ * connections when the {@link #stop() stop} method is cblled or when
+ * the connector server is unregistered from its MBebn server.</p>
  *
- * <p>Stopping a connector server does not unregister it from its
- * MBean server.  A connector server once stopped cannot be
- * restarted.</p>
+ * <p>Stopping b connector server does not unregister it from its
+ * MBebn server.  A connector server once stopped cbnnot be
+ * restbrted.</p>
  *
- * <p>Each time a client connection is made or broken, a notification
- * of class {@link JMXConnectionNotification} is emitted.</p>
+ * <p>Ebch time b client connection is mbde or broken, b notificbtion
+ * of clbss {@link JMXConnectionNotificbtion} is emitted.</p>
  *
  * @since 1.5
  */
-public abstract class JMXConnectorServer
-        extends NotificationBroadcasterSupport
-        implements JMXConnectorServerMBean, MBeanRegistration, JMXAddressable {
+public bbstrbct clbss JMXConnectorServer
+        extends NotificbtionBrobdcbsterSupport
+        implements JMXConnectorServerMBebn, MBebnRegistrbtion, JMXAddressbble {
 
     /**
-     * <p>Name of the attribute that specifies the authenticator for a
-     * connector server.  The value associated with this attribute, if
-     * any, must be an object that implements the interface {@link
-     * JMXAuthenticator}.</p>
+     * <p>Nbme of the bttribute thbt specifies the buthenticbtor for b
+     * connector server.  The vblue bssocibted with this bttribute, if
+     * bny, must be bn object thbt implements the interfbce {@link
+     * JMXAuthenticbtor}.</p>
      */
-    public static final String AUTHENTICATOR =
-        "jmx.remote.authenticator";
+    public stbtic finbl String AUTHENTICATOR =
+        "jmx.remote.buthenticbtor";
 
     /**
-     * <p>Constructs a connector server that will be registered as an
-     * MBean in the MBean server it is attached to.  This constructor
-     * is typically called by one of the <code>createMBean</code>
-     * methods when creating, within an MBean server, a connector
-     * server that makes it available remotely.</p>
+     * <p>Constructs b connector server thbt will be registered bs bn
+     * MBebn in the MBebn server it is bttbched to.  This constructor
+     * is typicblly cblled by one of the <code>crebteMBebn</code>
+     * methods when crebting, within bn MBebn server, b connector
+     * server thbt mbkes it bvbilbble remotely.</p>
      */
     public JMXConnectorServer() {
         this(null);
     }
 
     /**
-     * <p>Constructs a connector server that is attached to the given
-     * MBean server.  A connector server that is created in this way
-     * can be registered in a different MBean server, or not registered
-     * in any MBean server.</p>
+     * <p>Constructs b connector server thbt is bttbched to the given
+     * MBebn server.  A connector server thbt is crebted in this wby
+     * cbn be registered in b different MBebn server, or not registered
+     * in bny MBebn server.</p>
      *
-     * @param mbeanServer the MBean server that this connector server
-     * is attached to.  Null if this connector server will be attached
-     * to an MBean server by being registered in it.
+     * @pbrbm mbebnServer the MBebn server thbt this connector server
+     * is bttbched to.  Null if this connector server will be bttbched
+     * to bn MBebn server by being registered in it.
      */
-    public JMXConnectorServer(MBeanServer mbeanServer) {
-        this.mbeanServer = mbeanServer;
+    public JMXConnectorServer(MBebnServer mbebnServer) {
+        this.mbebnServer = mbebnServer;
     }
 
     /**
-     * <p>Returns the MBean server that this connector server is
-     * attached to.</p>
+     * <p>Returns the MBebn server thbt this connector server is
+     * bttbched to.</p>
      *
-     * @return the MBean server that this connector server is attached
-     * to, or null if it is not yet attached to an MBean server.
+     * @return the MBebn server thbt this connector server is bttbched
+     * to, or null if it is not yet bttbched to bn MBebn server.
      */
-    public synchronized MBeanServer getMBeanServer() {
-        return mbeanServer;
+    public synchronized MBebnServer getMBebnServer() {
+        return mbebnServer;
     }
 
-    public synchronized void setMBeanServerForwarder(MBeanServerForwarder mbsf)
+    public synchronized void setMBebnServerForwbrder(MBebnServerForwbrder mbsf)
     {
         if (mbsf == null)
-            throw new IllegalArgumentException("Invalid null argument: mbsf");
+            throw new IllegblArgumentException("Invblid null brgument: mbsf");
 
-        if (mbeanServer !=  null) mbsf.setMBeanServer(mbeanServer);
-        mbeanServer = mbsf;
+        if (mbebnServer !=  null) mbsf.setMBebnServer(mbebnServer);
+        mbebnServer = mbsf;
     }
 
     public String[] getConnectionIds() {
         synchronized (connectionIds) {
-            return connectionIds.toArray(new String[connectionIds.size()]);
+            return connectionIds.toArrby(new String[connectionIds.size()]);
         }
     }
 
     /**
-     * <p>Returns a client stub for this connector server.  A client
-     * stub is a serializable object whose {@link
-     * JMXConnector#connect(Map) connect} method can be used to make
+     * <p>Returns b client stub for this connector server.  A client
+     * stub is b seriblizbble object whose {@link
+     * JMXConnector#connect(Mbp) connect} method cbn be used to mbke
      * one new connection to this connector server.</p>
      *
-     * <p>A given connector need not support the generation of client
+     * <p>A given connector need not support the generbtion of client
      * stubs.  However, the connectors specified by the JMX Remote API do
-     * (JMXMP Connector and RMI Connector).</p>
+     * (JMXMP Connector bnd RMI Connector).</p>
      *
-     * <p>The default implementation of this method uses {@link
-     * #getAddress} and {@link JMXConnectorFactory} to generate the
-     * stub, with code equivalent to the following:</p>
+     * <p>The defbult implementbtion of this method uses {@link
+     * #getAddress} bnd {@link JMXConnectorFbctory} to generbte the
+     * stub, with code equivblent to the following:</p>
      *
      * <pre>
-     * JMXServiceURL addr = {@link #getAddress() getAddress()};
-     * return {@link JMXConnectorFactory#newJMXConnector(JMXServiceURL, Map)
-     *          JMXConnectorFactory.newJMXConnector(addr, env)};
+     * JMXServiceURL bddr = {@link #getAddress() getAddress()};
+     * return {@link JMXConnectorFbctory#newJMXConnector(JMXServiceURL, Mbp)
+     *          JMXConnectorFbctory.newJMXConnector(bddr, env)};
      * </pre>
      *
-     * <p>A connector server for which this is inappropriate must
-     * override this method so that it either implements the
-     * appropriate logic or throws {@link
-     * UnsupportedOperationException}.</p>
+     * <p>A connector server for which this is inbppropribte must
+     * override this method so thbt it either implements the
+     * bppropribte logic or throws {@link
+     * UnsupportedOperbtionException}.</p>
      *
-     * @param env client connection parameters of the same sort that
-     * could be provided to {@link JMXConnector#connect(Map)
-     * JMXConnector.connect(Map)}.  Can be null, which is equivalent
-     * to an empty map.
+     * @pbrbm env client connection pbrbmeters of the sbme sort thbt
+     * could be provided to {@link JMXConnector#connect(Mbp)
+     * JMXConnector.connect(Mbp)}.  Cbn be null, which is equivblent
+     * to bn empty mbp.
      *
-     * @return a client stub that can be used to make a new connection
+     * @return b client stub thbt cbn be used to mbke b new connection
      * to this connector server.
      *
-     * @exception UnsupportedOperationException if this connector
-     * server does not support the generation of client stubs.
+     * @exception UnsupportedOperbtionException if this connector
+     * server does not support the generbtion of client stubs.
      *
-     * @exception IllegalStateException if the JMXConnectorServer is
-     * not started (see {@link JMXConnectorServerMBean#isActive()}).
+     * @exception IllegblStbteException if the JMXConnectorServer is
+     * not stbrted (see {@link JMXConnectorServerMBebn#isActive()}).
      *
-     * @exception IOException if a communications problem means that a
-     * stub cannot be created.
+     * @exception IOException if b communicbtions problem mebns thbt b
+     * stub cbnnot be crebted.
      **/
-    public JMXConnector toJMXConnector(Map<String,?> env)
+    public JMXConnector toJMXConnector(Mbp<String,?> env)
         throws IOException
     {
         if (!isActive()) throw new
-            IllegalStateException("Connector is not active");
-        JMXServiceURL addr = getAddress();
-        return JMXConnectorFactory.newJMXConnector(addr, env);
+            IllegblStbteException("Connector is not bctive");
+        JMXServiceURL bddr = getAddress();
+        return JMXConnectorFbctory.newJMXConnector(bddr, env);
     }
 
     /**
-     * <p>Returns an array indicating the notifications that this MBean
-     * sends. The implementation in <code>JMXConnectorServer</code>
-     * returns an array with one element, indicating that it can emit
-     * notifications of class {@link JMXConnectionNotification} with
-     * the types defined in that class.  A subclass that can emit other
-     * notifications should return an array that contains this element
-     * plus descriptions of the other notifications.</p>
+     * <p>Returns bn brrby indicbting the notificbtions thbt this MBebn
+     * sends. The implementbtion in <code>JMXConnectorServer</code>
+     * returns bn brrby with one element, indicbting thbt it cbn emit
+     * notificbtions of clbss {@link JMXConnectionNotificbtion} with
+     * the types defined in thbt clbss.  A subclbss thbt cbn emit other
+     * notificbtions should return bn brrby thbt contbins this element
+     * plus descriptions of the other notificbtions.</p>
      *
-     * @return the array of possible notifications.
+     * @return the brrby of possible notificbtions.
      */
     @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        final String[] types = {
-            JMXConnectionNotification.OPENED,
-            JMXConnectionNotification.CLOSED,
-            JMXConnectionNotification.FAILED,
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
+        finbl String[] types = {
+            JMXConnectionNotificbtion.OPENED,
+            JMXConnectionNotificbtion.CLOSED,
+            JMXConnectionNotificbtion.FAILED,
         };
-        final String className = JMXConnectionNotification.class.getName();
-        final String description =
-            "A client connection has been opened or closed";
-        return new MBeanNotificationInfo[] {
-            new MBeanNotificationInfo(types, className, description),
+        finbl String clbssNbme = JMXConnectionNotificbtion.clbss.getNbme();
+        finbl String description =
+            "A client connection hbs been opened or closed";
+        return new MBebnNotificbtionInfo[] {
+            new MBebnNotificbtionInfo(types, clbssNbme, description),
         };
     }
 
     /**
-     * <p>Called by a subclass when a new client connection is opened.
+     * <p>Cblled by b subclbss when b new client connection is opened.
      * Adds <code>connectionId</code> to the list returned by {@link
-     * #getConnectionIds()}, then emits a {@link
-     * JMXConnectionNotification} with type {@link
-     * JMXConnectionNotification#OPENED}.</p>
+     * #getConnectionIds()}, then emits b {@link
+     * JMXConnectionNotificbtion} with type {@link
+     * JMXConnectionNotificbtion#OPENED}.</p>
      *
-     * @param connectionId the ID of the new connection.  This must be
-     * different from the ID of any connection previously opened by
+     * @pbrbm connectionId the ID of the new connection.  This must be
+     * different from the ID of bny connection previously opened by
      * this connector server.
      *
-     * @param message the message for the emitted {@link
-     * JMXConnectionNotification}.  Can be null.  See {@link
-     * Notification#getMessage()}.
+     * @pbrbm messbge the messbge for the emitted {@link
+     * JMXConnectionNotificbtion}.  Cbn be null.  See {@link
+     * Notificbtion#getMessbge()}.
      *
-     * @param userData the <code>userData</code> for the emitted
-     * {@link JMXConnectionNotification}.  Can be null.  See {@link
-     * Notification#getUserData()}.
+     * @pbrbm userDbtb the <code>userDbtb</code> for the emitted
+     * {@link JMXConnectionNotificbtion}.  Cbn be null.  See {@link
+     * Notificbtion#getUserDbtb()}.
      *
      * @exception NullPointerException if <code>connectionId</code> is
      * null.
      */
     protected void connectionOpened(String connectionId,
-                                    String message,
-                                    Object userData) {
+                                    String messbge,
+                                    Object userDbtb) {
 
         if (connectionId == null)
-            throw new NullPointerException("Illegal null argument");
+            throw new NullPointerException("Illegbl null brgument");
 
         synchronized (connectionIds) {
-            connectionIds.add(connectionId);
+            connectionIds.bdd(connectionId);
         }
 
-        sendNotification(JMXConnectionNotification.OPENED, connectionId,
-                         message, userData);
+        sendNotificbtion(JMXConnectionNotificbtion.OPENED, connectionId,
+                         messbge, userDbtb);
     }
 
     /**
-     * <p>Called by a subclass when a client connection is closed
-     * normally.  Removes <code>connectionId</code> from the list returned
-     * by {@link #getConnectionIds()}, then emits a {@link
-     * JMXConnectionNotification} with type {@link
-     * JMXConnectionNotification#CLOSED}.</p>
+     * <p>Cblled by b subclbss when b client connection is closed
+     * normblly.  Removes <code>connectionId</code> from the list returned
+     * by {@link #getConnectionIds()}, then emits b {@link
+     * JMXConnectionNotificbtion} with type {@link
+     * JMXConnectionNotificbtion#CLOSED}.</p>
      *
-     * @param connectionId the ID of the closed connection.
+     * @pbrbm connectionId the ID of the closed connection.
      *
-     * @param message the message for the emitted {@link
-     * JMXConnectionNotification}.  Can be null.  See {@link
-     * Notification#getMessage()}.
+     * @pbrbm messbge the messbge for the emitted {@link
+     * JMXConnectionNotificbtion}.  Cbn be null.  See {@link
+     * Notificbtion#getMessbge()}.
      *
-     * @param userData the <code>userData</code> for the emitted
-     * {@link JMXConnectionNotification}.  Can be null.  See {@link
-     * Notification#getUserData()}.
+     * @pbrbm userDbtb the <code>userDbtb</code> for the emitted
+     * {@link JMXConnectionNotificbtion}.  Cbn be null.  See {@link
+     * Notificbtion#getUserDbtb()}.
      *
      * @exception NullPointerException if <code>connectionId</code>
      * is null.
      */
     protected void connectionClosed(String connectionId,
-                                    String message,
-                                    Object userData) {
+                                    String messbge,
+                                    Object userDbtb) {
 
         if (connectionId == null)
-            throw new NullPointerException("Illegal null argument");
+            throw new NullPointerException("Illegbl null brgument");
 
         synchronized (connectionIds) {
             connectionIds.remove(connectionId);
         }
 
-        sendNotification(JMXConnectionNotification.CLOSED, connectionId,
-                         message, userData);
+        sendNotificbtion(JMXConnectionNotificbtion.CLOSED, connectionId,
+                         messbge, userDbtb);
     }
 
     /**
-     * <p>Called by a subclass when a client connection fails.
+     * <p>Cblled by b subclbss when b client connection fbils.
      * Removes <code>connectionId</code> from the list returned by
-     * {@link #getConnectionIds()}, then emits a {@link
-     * JMXConnectionNotification} with type {@link
-     * JMXConnectionNotification#FAILED}.</p>
+     * {@link #getConnectionIds()}, then emits b {@link
+     * JMXConnectionNotificbtion} with type {@link
+     * JMXConnectionNotificbtion#FAILED}.</p>
      *
-     * @param connectionId the ID of the failed connection.
+     * @pbrbm connectionId the ID of the fbiled connection.
      *
-     * @param message the message for the emitted {@link
-     * JMXConnectionNotification}.  Can be null.  See {@link
-     * Notification#getMessage()}.
+     * @pbrbm messbge the messbge for the emitted {@link
+     * JMXConnectionNotificbtion}.  Cbn be null.  See {@link
+     * Notificbtion#getMessbge()}.
      *
-     * @param userData the <code>userData</code> for the emitted
-     * {@link JMXConnectionNotification}.  Can be null.  See {@link
-     * Notification#getUserData()}.
+     * @pbrbm userDbtb the <code>userDbtb</code> for the emitted
+     * {@link JMXConnectionNotificbtion}.  Cbn be null.  See {@link
+     * Notificbtion#getUserDbtb()}.
      *
      * @exception NullPointerException if <code>connectionId</code> is
      * null.
      */
-    protected void connectionFailed(String connectionId,
-                                    String message,
-                                    Object userData) {
+    protected void connectionFbiled(String connectionId,
+                                    String messbge,
+                                    Object userDbtb) {
 
         if (connectionId == null)
-            throw new NullPointerException("Illegal null argument");
+            throw new NullPointerException("Illegbl null brgument");
 
         synchronized (connectionIds) {
             connectionIds.remove(connectionId);
         }
 
-        sendNotification(JMXConnectionNotification.FAILED, connectionId,
-                         message, userData);
+        sendNotificbtion(JMXConnectionNotificbtion.FAILED, connectionId,
+                         messbge, userDbtb);
     }
 
-    private void sendNotification(String type, String connectionId,
-                                  String message, Object userData) {
-        Notification notif =
-            new JMXConnectionNotification(type,
-                                          getNotificationSource(),
+    privbte void sendNotificbtion(String type, String connectionId,
+                                  String messbge, Object userDbtb) {
+        Notificbtion notif =
+            new JMXConnectionNotificbtion(type,
+                                          getNotificbtionSource(),
                                           connectionId,
                                           nextSequenceNumber(),
-                                          message,
-                                          userData);
-        sendNotification(notif);
+                                          messbge,
+                                          userDbtb);
+        sendNotificbtion(notif);
     }
 
-    private synchronized Object getNotificationSource() {
-        if (myName != null)
-            return myName;
+    privbte synchronized Object getNotificbtionSource() {
+        if (myNbme != null)
+            return myNbme;
         else
             return this;
     }
 
-    private static long nextSequenceNumber() {
+    privbte stbtic long nextSequenceNumber() {
         synchronized (sequenceNumberLock) {
             return sequenceNumber++;
         }
     }
 
-    // implements MBeanRegistration
+    // implements MBebnRegistrbtion
     /**
-     * <p>Called by an MBean server when this connector server is
-     * registered in that MBean server.  This connector server becomes
-     * attached to the MBean server and its {@link #getMBeanServer()}
+     * <p>Cblled by bn MBebn server when this connector server is
+     * registered in thbt MBebn server.  This connector server becomes
+     * bttbched to the MBebn server bnd its {@link #getMBebnServer()}
      * method will return <code>mbs</code>.</p>
      *
-     * <p>If this connector server is already attached to an MBean
-     * server, this method has no effect.  The MBean server it is
-     * attached to is not necessarily the one it is being registered
+     * <p>If this connector server is blrebdy bttbched to bn MBebn
+     * server, this method hbs no effect.  The MBebn server it is
+     * bttbched to is not necessbrily the one it is being registered
      * in.</p>
      *
-     * @param mbs the MBean server in which this connection server is
+     * @pbrbm mbs the MBebn server in which this connection server is
      * being registered.
      *
-     * @param name The object name of the MBean.
+     * @pbrbm nbme The object nbme of the MBebn.
      *
-     * @return The name under which the MBean is to be registered.
+     * @return The nbme under which the MBebn is to be registered.
      *
      * @exception NullPointerException if <code>mbs</code> or
-     * <code>name</code> is null.
+     * <code>nbme</code> is null.
      */
-    public synchronized ObjectName preRegister(MBeanServer mbs,
-                                               ObjectName name) {
-        if (mbs == null || name == null)
-            throw new NullPointerException("Null MBeanServer or ObjectName");
-        if (mbeanServer == null) {
-            mbeanServer = mbs;
-            myName = name;
+    public synchronized ObjectNbme preRegister(MBebnServer mbs,
+                                               ObjectNbme nbme) {
+        if (mbs == null || nbme == null)
+            throw new NullPointerException("Null MBebnServer or ObjectNbme");
+        if (mbebnServer == null) {
+            mbebnServer = mbs;
+            myNbme = nbme;
         }
-        return name;
+        return nbme;
     }
 
-    public void postRegister(Boolean registrationDone) {
+    public void postRegister(Boolebn registrbtionDone) {
         // do nothing
     }
 
     /**
-     * <p>Called by an MBean server when this connector server is
-     * unregistered from that MBean server.  If this connector server
-     * was attached to that MBean server by being registered in it,
-     * and if the connector server is still active,
-     * then unregistering it will call the {@link #stop stop} method.
-     * If the <code>stop</code> method throws an exception, the
-     * unregistration attempt will fail.  It is recommended to call
+     * <p>Cblled by bn MBebn server when this connector server is
+     * unregistered from thbt MBebn server.  If this connector server
+     * wbs bttbched to thbt MBebn server by being registered in it,
+     * bnd if the connector server is still bctive,
+     * then unregistering it will cbll the {@link #stop stop} method.
+     * If the <code>stop</code> method throws bn exception, the
+     * unregistrbtion bttempt will fbil.  It is recommended to cbll
      * the <code>stop</code> method explicitly before unregistering
-     * the MBean.</p>
+     * the MBebn.</p>
      *
      * @exception IOException if thrown by the {@link #stop stop} method.
      */
     public synchronized void preDeregister() throws Exception {
-        if (myName != null && isActive()) {
+        if (myNbme != null && isActive()) {
             stop();
-            myName = null; // just in case stop is buggy and doesn't stop
+            myNbme = null; // just in cbse stop is buggy bnd doesn't stop
         }
     }
 
     public void postDeregister() {
-        myName = null;
+        myNbme = null;
     }
 
     /**
-     * The MBeanServer used by this server to execute a client request.
+     * The MBebnServer used by this server to execute b client request.
      */
-    private MBeanServer mbeanServer = null;
+    privbte MBebnServer mbebnServer = null;
 
     /**
-     * The name used to registered this server in an MBeanServer.
-     * It is null if the this server is not registered or has been unregistered.
+     * The nbme used to registered this server in bn MBebnServer.
+     * It is null if the this server is not registered or hbs been unregistered.
      */
-    private ObjectName myName;
+    privbte ObjectNbme myNbme;
 
-    private final List<String> connectionIds = new ArrayList<String>();
+    privbte finbl List<String> connectionIds = new ArrbyList<String>();
 
-    private static final int[] sequenceNumberLock = new int[0];
-    private static long sequenceNumber;
+    privbte stbtic finbl int[] sequenceNumberLock = new int[0];
+    privbte stbtic long sequenceNumber;
 }

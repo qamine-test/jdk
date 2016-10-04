@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import java.awt.Composite;
-import java.awt.geom.AffineTransform;
-import java.lang.ref.WeakReference;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.pipe.Region;
+import jbvb.bwt.Composite;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.lbng.ref.WebkReference;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.pipe.Region;
 
 /**
- * TransformBlit
- * 1) applies an AffineTransform to a rectangle of pixels while copying
- *    from one surface to another
- * 2) performs compositing of colors based upon a Composite
- *    parameter
+ * TrbnsformBlit
+ * 1) bpplies bn AffineTrbnsform to b rectbngle of pixels while copying
+ *    from one surfbce to bnother
+ * 2) performs compositing of colors bbsed upon b Composite
+ *    pbrbmeter
  *
- * precise behavior is undefined if the source surface
- * and the destination surface are the same surface
- * with overlapping regions of pixels
+ * precise behbvior is undefined if the source surfbce
+ * bnd the destinbtion surfbce bre the sbme surfbce
+ * with overlbpping regions of pixels
  */
 
-public class TransformBlit extends GraphicsPrimitive
+public clbss TrbnsformBlit extends GrbphicsPrimitive
 {
-    public static final String methodSignature =
-        "TransformBlit(...)".toString();
+    public stbtic finbl String methodSignbture =
+        "TrbnsformBlit(...)".toString();
 
-    public static final int primTypeID = makePrimTypeID();
+    public stbtic finbl int primTypeID = mbkePrimTypeID();
 
-    private static RenderCache blitcache = new RenderCache(10);
+    privbte stbtic RenderCbche blitcbche = new RenderCbche(10);
 
-    public static TransformBlit locate(SurfaceType srctype,
+    public stbtic TrbnsformBlit locbte(SurfbceType srctype,
                                        CompositeType comptype,
-                                       SurfaceType dsttype)
+                                       SurfbceType dsttype)
     {
-        return (TransformBlit)
-            GraphicsPrimitiveMgr.locate(primTypeID,
+        return (TrbnsformBlit)
+            GrbphicsPrimitiveMgr.locbte(primTypeID,
                                         srctype, comptype, dsttype);
     }
 
-    public static TransformBlit getFromCache(SurfaceType src,
+    public stbtic TrbnsformBlit getFromCbche(SurfbceType src,
                                              CompositeType comp,
-                                             SurfaceType dst)
+                                             SurfbceType dst)
     {
-        Object o = blitcache.get(src, comp, dst);
+        Object o = blitcbche.get(src, comp, dst);
         if (o != null) {
-            return (TransformBlit) o;
+            return (TrbnsformBlit) o;
         }
-        TransformBlit blit = locate(src, comp, dst);
+        TrbnsformBlit blit = locbte(src, comp, dst);
         if (blit == null) {
             /*
             System.out.println("blit loop not found for:");
@@ -79,45 +79,45 @@ public class TransformBlit extends GraphicsPrimitive
             System.out.println("dst:  "+dst);
             */
         } else {
-            blitcache.put(src, comp, dst, blit);
+            blitcbche.put(src, comp, dst, blit);
         }
         return blit;
     }
 
-    protected TransformBlit(SurfaceType srctype,
+    protected TrbnsformBlit(SurfbceType srctype,
                             CompositeType comptype,
-                            SurfaceType dsttype)
+                            SurfbceType dsttype)
     {
-        super(methodSignature, primTypeID, srctype, comptype, dsttype);
+        super(methodSignbture, primTypeID, srctype, comptype, dsttype);
     }
 
-    public TransformBlit(long pNativePrim,
-                         SurfaceType srctype,
+    public TrbnsformBlit(long pNbtivePrim,
+                         SurfbceType srctype,
                          CompositeType comptype,
-                         SurfaceType dsttype)
+                         SurfbceType dsttype)
     {
-        super(pNativePrim, methodSignature, primTypeID,
+        super(pNbtivePrim, methodSignbture, primTypeID,
               srctype, comptype, dsttype);
     }
 
-    public native void Transform(SurfaceData src, SurfaceData dst,
+    public nbtive void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst,
                                  Composite comp, Region clip,
-                                 AffineTransform at, int hint,
+                                 AffineTrbnsform bt, int hint,
                                  int srcx, int srcy, int dstx, int dsty,
                                  int width, int height);
 
-    // REMIND: do we have a general loop?
-    static {
-        GraphicsPrimitiveMgr.registerGeneral(new TransformBlit(null, null,
+    // REMIND: do we hbve b generbl loop?
+    stbtic {
+        GrbphicsPrimitiveMgr.registerGenerbl(new TrbnsformBlit(null, null,
                                                                null));
     }
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
+    public GrbphicsPrimitive mbkePrimitive(SurfbceType srctype,
                                            CompositeType comptype,
-                                           SurfaceType dsttype)
+                                           SurfbceType dsttype)
     {
         /*
-        System.out.println("Constructing general blit for:");
+        System.out.println("Constructing generbl blit for:");
         System.out.println("src:  "+srctype);
         System.out.println("comp: "+comptype);
         System.out.println("dst:  "+dsttype);
@@ -125,32 +125,32 @@ public class TransformBlit extends GraphicsPrimitive
         return null;
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceTransformBlit(this);
+    public GrbphicsPrimitive trbceWrbp() {
+        return new TrbceTrbnsformBlit(this);
     }
 
-    private static class TraceTransformBlit extends TransformBlit {
-        TransformBlit target;
+    privbte stbtic clbss TrbceTrbnsformBlit extends TrbnsformBlit {
+        TrbnsformBlit tbrget;
 
-        public TraceTransformBlit(TransformBlit target) {
-            super(target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
+        public TrbceTrbnsformBlit(TrbnsformBlit tbrget) {
+            super(tbrget.getSourceType(),
+                  tbrget.getCompositeType(),
+                  tbrget.getDestType());
+            this.tbrget = tbrget;
         }
 
-        public GraphicsPrimitive traceWrap() {
+        public GrbphicsPrimitive trbceWrbp() {
             return this;
         }
 
-        public void Transform(SurfaceData src, SurfaceData dst,
+        public void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst,
                               Composite comp, Region clip,
-                              AffineTransform at, int hint,
+                              AffineTrbnsform bt, int hint,
                               int srcx, int srcy, int dstx, int dsty,
                               int width, int height)
         {
-            tracePrimitive(target);
-            target.Transform(src, dst, comp, clip, at, hint,
+            trbcePrimitive(tbrget);
+            tbrget.Trbnsform(src, dst, comp, clip, bt, hint,
                              srcx, srcy, dstx, dsty, width, height);
         }
     }

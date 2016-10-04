@@ -3,259 +3,259 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMPGPData.java 1203846 2011-11-18 21:18:17Z mullan $
+ * $Id: DOMPGPDbtb.jbvb 1203846 2011-11-18 21:18:17Z mullbn $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import java.util.*;
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.keyinfo.PGPData;
+import jbvb.util.*;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.keyinfo.PGPDbtb;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.Bbse64DecodingException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Bbse64;
 
 /**
- * DOM-based implementation of PGPData.
+ * DOM-bbsed implementbtion of PGPDbtb.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public final class DOMPGPData extends DOMStructure implements PGPData {
+public finbl clbss DOMPGPDbtb extends DOMStructure implements PGPDbtb {
 
-    private final byte[] keyId;
-    private final byte[] keyPacket;
-    private final List<XMLStructure> externalElements;
+    privbte finbl byte[] keyId;
+    privbte finbl byte[] keyPbcket;
+    privbte finbl List<XMLStructure> externblElements;
 
     /**
-     * Creates a <code>DOMPGPData</code> containing the specified key packet.
-     * and optional list of external elements.
+     * Crebtes b <code>DOMPGPDbtb</code> contbining the specified key pbcket.
+     * bnd optionbl list of externbl elements.
      *
-     * @param keyPacket a PGP Key Material Packet as defined in section 5.5 of
-     *    <a href="http://www.ietf.org/rfc/rfc2440.txt"/>RFC 2440</a>. The
-     *    array is cloned to prevent subsequent modification.
-     * @param other a list of {@link XMLStructure}s representing elements from
-     *    an external namespace. The list is defensively copied to prevent
-     *    subsequent modification. May be <code>null</code> or empty.
-     * @throws NullPointerException if <code>keyPacket</code> is
+     * @pbrbm keyPbcket b PGP Key Mbteribl Pbcket bs defined in section 5.5 of
+     *    <b href="http://www.ietf.org/rfc/rfc2440.txt"/>RFC 2440</b>. The
+     *    brrby is cloned to prevent subsequent modificbtion.
+     * @pbrbm other b list of {@link XMLStructure}s representing elements from
+     *    bn externbl nbmespbce. The list is defensively copied to prevent
+     *    subsequent modificbtion. Mby be <code>null</code> or empty.
+     * @throws NullPointerException if <code>keyPbcket</code> is
      *    <code>null</code>
-     * @throws IllegalArgumentException if the key packet is not in the
-     *    correct format
-     * @throws ClassCastException if <code>other</code> contains any
-     *    entries that are not of type {@link XMLStructure}
+     * @throws IllegblArgumentException if the key pbcket is not in the
+     *    correct formbt
+     * @throws ClbssCbstException if <code>other</code> contbins bny
+     *    entries thbt bre not of type {@link XMLStructure}
      */
-    public DOMPGPData(byte[] keyPacket, List<? extends XMLStructure> other) {
-        if (keyPacket == null) {
-            throw new NullPointerException("keyPacket cannot be null");
+    public DOMPGPDbtb(byte[] keyPbcket, List<? extends XMLStructure> other) {
+        if (keyPbcket == null) {
+            throw new NullPointerException("keyPbcket cbnnot be null");
         }
         if (other == null || other.isEmpty()) {
-            this.externalElements = Collections.emptyList();
+            this.externblElements = Collections.emptyList();
         } else {
-            this.externalElements =
-                Collections.unmodifiableList(new ArrayList<XMLStructure>(other));
-            for (int i = 0, size = this.externalElements.size(); i < size; i++) {
-                if (!(this.externalElements.get(i) instanceof XMLStructure)) {
-                    throw new ClassCastException
-                        ("other["+i+"] is not a valid PGPData type");
+            this.externblElements =
+                Collections.unmodifibbleList(new ArrbyList<XMLStructure>(other));
+            for (int i = 0, size = this.externblElements.size(); i < size; i++) {
+                if (!(this.externblElements.get(i) instbnceof XMLStructure)) {
+                    throw new ClbssCbstException
+                        ("other["+i+"] is not b vblid PGPDbtb type");
                 }
             }
         }
-        this.keyPacket = keyPacket.clone();
-        checkKeyPacket(keyPacket);
+        this.keyPbcket = keyPbcket.clone();
+        checkKeyPbcket(keyPbcket);
         this.keyId = null;
     }
 
     /**
-     * Creates a <code>DOMPGPData</code> containing the specified key id and
-     * optional key packet and list of external elements.
+     * Crebtes b <code>DOMPGPDbtb</code> contbining the specified key id bnd
+     * optionbl key pbcket bnd list of externbl elements.
      *
-     * @param keyId a PGP public key id as defined in section 11.2 of
-     *    <a href="http://www.ietf.org/rfc/rfc2440.txt"/>RFC 2440</a>. The
-     *    array is cloned to prevent subsequent modification.
-     * @param keyPacket a PGP Key Material Packet as defined in section 5.5 of
-     *    <a href="http://www.ietf.org/rfc/rfc2440.txt"/>RFC 2440</a> (may
-     *    be <code>null</code>). The array is cloned to prevent subsequent
-     *    modification.
-     * @param other a list of {@link XMLStructure}s representing elements from
-     *    an external namespace. The list is defensively copied to prevent
-     *    subsequent modification. May be <code>null</code> or empty.
+     * @pbrbm keyId b PGP public key id bs defined in section 11.2 of
+     *    <b href="http://www.ietf.org/rfc/rfc2440.txt"/>RFC 2440</b>. The
+     *    brrby is cloned to prevent subsequent modificbtion.
+     * @pbrbm keyPbcket b PGP Key Mbteribl Pbcket bs defined in section 5.5 of
+     *    <b href="http://www.ietf.org/rfc/rfc2440.txt"/>RFC 2440</b> (mby
+     *    be <code>null</code>). The brrby is cloned to prevent subsequent
+     *    modificbtion.
+     * @pbrbm other b list of {@link XMLStructure}s representing elements from
+     *    bn externbl nbmespbce. The list is defensively copied to prevent
+     *    subsequent modificbtion. Mby be <code>null</code> or empty.
      * @throws NullPointerException if <code>keyId</code> is <code>null</code>
-     * @throws IllegalArgumentException if the key id or packet is not in the
-     *    correct format
-     * @throws ClassCastException if <code>other</code> contains any
-     *    entries that are not of type {@link XMLStructure}
+     * @throws IllegblArgumentException if the key id or pbcket is not in the
+     *    correct formbt
+     * @throws ClbssCbstException if <code>other</code> contbins bny
+     *    entries thbt bre not of type {@link XMLStructure}
      */
-    public DOMPGPData(byte[] keyId, byte[] keyPacket,
+    public DOMPGPDbtb(byte[] keyId, byte[] keyPbcket,
                       List<? extends XMLStructure> other)
     {
         if (keyId == null) {
-            throw new NullPointerException("keyId cannot be null");
+            throw new NullPointerException("keyId cbnnot be null");
         }
         // key ids must be 8 bytes
         if (keyId.length != 8) {
-            throw new IllegalArgumentException("keyId must be 8 bytes long");
+            throw new IllegblArgumentException("keyId must be 8 bytes long");
         }
         if (other == null || other.isEmpty()) {
-            this.externalElements = Collections.emptyList();
+            this.externblElements = Collections.emptyList();
         } else {
-            this.externalElements =
-                Collections.unmodifiableList(new ArrayList<XMLStructure>(other));
-            for (int i = 0, size = this.externalElements.size(); i < size; i++) {
-                if (!(this.externalElements.get(i) instanceof XMLStructure)) {
-                    throw new ClassCastException
-                        ("other["+i+"] is not a valid PGPData type");
+            this.externblElements =
+                Collections.unmodifibbleList(new ArrbyList<XMLStructure>(other));
+            for (int i = 0, size = this.externblElements.size(); i < size; i++) {
+                if (!(this.externblElements.get(i) instbnceof XMLStructure)) {
+                    throw new ClbssCbstException
+                        ("other["+i+"] is not b vblid PGPDbtb type");
                 }
             }
         }
         this.keyId = keyId.clone();
-        this.keyPacket = keyPacket == null ? null
-                                           : keyPacket.clone();
-        if (keyPacket != null) {
-            checkKeyPacket(keyPacket);
+        this.keyPbcket = keyPbcket == null ? null
+                                           : keyPbcket.clone();
+        if (keyPbcket != null) {
+            checkKeyPbcket(keyPbcket);
         }
     }
 
     /**
-     * Creates a <code>DOMPGPData</code> from an element.
+     * Crebtes b <code>DOMPGPDbtb</code> from bn element.
      *
-     * @param pdElem a PGPData element
+     * @pbrbm pdElem b PGPDbtb element
      */
-    public DOMPGPData(Element pdElem) throws MarshalException {
-        // get all children nodes
+    public DOMPGPDbtb(Element pdElem) throws MbrshblException {
+        // get bll children nodes
         byte[] keyId = null;
-        byte[] keyPacket = null;
+        byte[] keyPbcket = null;
         NodeList nl = pdElem.getChildNodes();
         int length = nl.getLength();
-        List<XMLStructure> other = new ArrayList<XMLStructure>(length);
+        List<XMLStructure> other = new ArrbyList<XMLStructure>(length);
         for (int x = 0; x < length; x++) {
             Node n = nl.item(x);
             if (n.getNodeType() == Node.ELEMENT_NODE) {
                 Element childElem = (Element)n;
-                String localName = childElem.getLocalName();
+                String locblNbme = childElem.getLocblNbme();
                 try {
-                    if (localName.equals("PGPKeyID")) {
-                        keyId = Base64.decode(childElem);
-                    } else if (localName.equals("PGPKeyPacket")){
-                        keyPacket = Base64.decode(childElem);
+                    if (locblNbme.equbls("PGPKeyID")) {
+                        keyId = Bbse64.decode(childElem);
+                    } else if (locblNbme.equbls("PGPKeyPbcket")){
+                        keyPbcket = Bbse64.decode(childElem);
                     } else {
-                        other.add
-                            (new javax.xml.crypto.dom.DOMStructure(childElem));
+                        other.bdd
+                            (new jbvbx.xml.crypto.dom.DOMStructure(childElem));
                     }
-                } catch (Base64DecodingException bde) {
-                    throw new MarshalException(bde);
+                } cbtch (Bbse64DecodingException bde) {
+                    throw new MbrshblException(bde);
                 }
             }
         }
         this.keyId = keyId;
-        this.keyPacket = keyPacket;
-        this.externalElements = Collections.unmodifiableList(other);
+        this.keyPbcket = keyPbcket;
+        this.externblElements = Collections.unmodifibbleList(other);
     }
 
     public byte[] getKeyId() {
         return (keyId == null ? null : keyId.clone());
     }
 
-    public byte[] getKeyPacket() {
-        return (keyPacket == null ? null : keyPacket.clone());
+    public byte[] getKeyPbcket() {
+        return (keyPbcket == null ? null : keyPbcket.clone());
     }
 
-    public List<XMLStructure> getExternalElements() {
-        return externalElements;
+    public List<XMLStructure> getExternblElements() {
+        return externblElements;
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    public void mbrshbl(Node pbrent, String dsPrefix, DOMCryptoContext context)
+        throws MbrshblException
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
-        Element pdElem = DOMUtils.createElement(ownerDoc, "PGPData",
-                                                XMLSignature.XMLNS, dsPrefix);
+        Document ownerDoc = DOMUtils.getOwnerDocument(pbrent);
+        Element pdElem = DOMUtils.crebteElement(ownerDoc, "PGPDbtb",
+                                                XMLSignbture.XMLNS, dsPrefix);
 
-        // create and append PGPKeyID element
+        // crebte bnd bppend PGPKeyID element
         if (keyId != null) {
-            Element keyIdElem = DOMUtils.createElement(ownerDoc, "PGPKeyID",
-                                                       XMLSignature.XMLNS,
+            Element keyIdElem = DOMUtils.crebteElement(ownerDoc, "PGPKeyID",
+                                                       XMLSignbture.XMLNS,
                                                        dsPrefix);
-            keyIdElem.appendChild
-                (ownerDoc.createTextNode(Base64.encode(keyId)));
-            pdElem.appendChild(keyIdElem);
+            keyIdElem.bppendChild
+                (ownerDoc.crebteTextNode(Bbse64.encode(keyId)));
+            pdElem.bppendChild(keyIdElem);
         }
 
-        // create and append PGPKeyPacket element
-        if (keyPacket != null) {
-            Element keyPktElem = DOMUtils.createElement(ownerDoc,
-                                                        "PGPKeyPacket",
-                                                        XMLSignature.XMLNS,
+        // crebte bnd bppend PGPKeyPbcket element
+        if (keyPbcket != null) {
+            Element keyPktElem = DOMUtils.crebteElement(ownerDoc,
+                                                        "PGPKeyPbcket",
+                                                        XMLSignbture.XMLNS,
                                                         dsPrefix);
-            keyPktElem.appendChild
-                (ownerDoc.createTextNode(Base64.encode(keyPacket)));
-            pdElem.appendChild(keyPktElem);
+            keyPktElem.bppendChild
+                (ownerDoc.crebteTextNode(Bbse64.encode(keyPbcket)));
+            pdElem.bppendChild(keyPktElem);
         }
 
-        // create and append any elements
-        for (XMLStructure extElem : externalElements) {
-            DOMUtils.appendChild(pdElem, ((javax.xml.crypto.dom.DOMStructure)
+        // crebte bnd bppend bny elements
+        for (XMLStructure extElem : externblElements) {
+            DOMUtils.bppendChild(pdElem, ((jbvbx.xml.crypto.dom.DOMStructure)
                 extElem).getNode());
         }
 
-        parent.appendChild(pdElem);
+        pbrent.bppendChild(pdElem);
     }
 
     /**
-     * We assume packets use the new format packet syntax, as specified in
+     * We bssume pbckets use the new formbt pbcket syntbx, bs specified in
      * section 4 of RFC 2440.
      *
-     * This method only checks if the packet contains a valid tag. The
-     * contents of the packet should be checked by the application.
+     * This method only checks if the pbcket contbins b vblid tbg. The
+     * contents of the pbcket should be checked by the bpplicbtion.
      */
-    private void checkKeyPacket(byte[] keyPacket) {
-        // length must be at least 3 (one byte for tag, one byte for length,
-        // and minimally one byte of content
-        if (keyPacket.length < 3) {
-            throw new IllegalArgumentException("keypacket must be at least " +
+    privbte void checkKeyPbcket(byte[] keyPbcket) {
+        // length must be bt lebst 3 (one byte for tbg, one byte for length,
+        // bnd minimblly one byte of content
+        if (keyPbcket.length < 3) {
+            throw new IllegblArgumentException("keypbcket must be bt lebst " +
                                                "3 bytes long");
         }
 
-        int tag = keyPacket[0];
+        int tbg = keyPbcket[0];
         // first bit must be set
-        if ((tag & 128) != 128) {
-            throw new IllegalArgumentException("keypacket tag is invalid: " +
+        if ((tbg & 128) != 128) {
+            throw new IllegblArgumentException("keypbcket tbg is invblid: " +
                                                "bit 7 is not set");
         }
-        // make sure using new format
-        if ((tag & 64) != 64) {
-            throw new IllegalArgumentException("old keypacket tag format is " +
+        // mbke sure using new formbt
+        if ((tbg & 64) != 64) {
+            throw new IllegblArgumentException("old keypbcket tbg formbt is " +
                                                "unsupported");
         }
 
-        // tag value must be 6, 14, 5 or 7
-        if (((tag & 6) != 6) && ((tag & 14) != 14) &&
-            ((tag & 5) != 5) && ((tag & 7) != 7)) {
-            throw new IllegalArgumentException("keypacket tag is invalid: " +
+        // tbg vblue must be 6, 14, 5 or 7
+        if (((tbg & 6) != 6) && ((tbg & 14) != 14) &&
+            ((tbg & 5) != 5) && ((tbg & 7) != 7)) {
+            throw new IllegblArgumentException("keypbcket tbg is invblid: " +
                                                "must be 6, 14, 5, or 7");
         }
     }

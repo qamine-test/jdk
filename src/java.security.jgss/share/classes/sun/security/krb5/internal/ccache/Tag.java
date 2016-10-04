@@ -1,73 +1,73 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.ccache;
+pbckbge sun.security.krb5.internbl.ccbche;
 
 import sun.security.krb5.*;
-import java.io.ByteArrayOutputStream;
+import jbvb.io.ByteArrbyOutputStrebm;
 
 /**
- * tag field introduced in KRB5_FCC_FVNO_4
+ * tbg field introduced in KRB5_FCC_FVNO_4
  *
- * @author Yanni Zhang
+ * @buthor Ybnni Zhbng
  */
-public class Tag{
+public clbss Tbg{
     int length;
-    int tag;
-    int tagLen;
+    int tbg;
+    int tbgLen;
     Integer time_offset;
     Integer usec_offset;
 
-    public Tag(int len, int new_tag, Integer new_time, Integer new_usec) {
-        tag = new_tag;
-        tagLen = 8;
+    public Tbg(int len, int new_tbg, Integer new_time, Integer new_usec) {
+        tbg = new_tbg;
+        tbgLen = 8;
         time_offset = new_time;
         usec_offset = new_usec;
-        length =  4 + tagLen;
+        length =  4 + tbgLen;
     }
-    public Tag(int new_tag) {
-        tag = new_tag;
-        tagLen = 0;
-        length = 4 + tagLen;
+    public Tbg(int new_tbg) {
+        tbg = new_tbg;
+        tbgLen = 0;
+        length = 4 + tbgLen;
     }
-    public byte[] toByteArray() {
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
+    public byte[] toByteArrby() {
+        ByteArrbyOutputStrebm os = new ByteArrbyOutputStrebm();
         os.write(length);
-        os.write(tag);
-        os.write(tagLen);
+        os.write(tbg);
+        os.write(tbgLen);
         if (time_offset != null) {
-            os.write(time_offset.intValue());
+            os.write(time_offset.intVblue());
         }
         if (usec_offset != null) {
-            os.write(usec_offset.intValue());
+            os.write(usec_offset.intVblue());
         }
-        return os.toByteArray();
+        return os.toByteArrby();
     }
 }

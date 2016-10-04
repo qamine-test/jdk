@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.midi.MidiDevice;
-import javax.sound.midi.spi.MidiDeviceProvider;
+import jbvbx.sound.midi.MidiDevice;
+import jbvbx.sound.midi.spi.MidiDeviceProvider;
 
 
 /**
- * Super class for MIDI input or output device provider.
+ * Super clbss for MIDI input or output device provider.
  *
- * @author Florian Bomers
+ * @buthor Floribn Bomers
  */
-public abstract class AbstractMidiDeviceProvider extends MidiDeviceProvider {
+public bbstrbct clbss AbstrbctMidiDeviceProvider extends MidiDeviceProvider {
 
-    private static final boolean enabled;
+    privbte stbtic finbl boolebn enbbled;
 
     /**
-     * Create objects representing all MIDI output devices on the system.
+     * Crebte objects representing bll MIDI output devices on the system.
      */
-    static {
-        if (Printer.trace) Printer.trace("AbstractMidiDeviceProvider: static");
-        Platform.initialize();
-        enabled = Platform.isMidiIOEnabled();
-        if (Printer.trace) Printer.trace("AbstractMidiDeviceProvider: enabled: " + enabled);
+    stbtic {
+        if (Printer.trbce) Printer.trbce("AbstrbctMidiDeviceProvider: stbtic");
+        Plbtform.initiblize();
+        enbbled = Plbtform.isMidiIOEnbbled();
+        if (Printer.trbce) Printer.trbce("AbstrbctMidiDeviceProvider: enbbled: " + enbbled);
 
-        // $$fb number of MIDI devices may change with time
-        // also for memory's sake, do not initialize the arrays here
+        // $$fb number of MIDI devices mby chbnge with time
+        // blso for memory's sbke, do not initiblize the brrbys here
     }
 
 
-    final synchronized void readDeviceInfos() {
-        Info[] infos = getInfoCache();
-        MidiDevice[] devices = getDeviceCache();
-        if (!enabled) {
+    finbl synchronized void rebdDeviceInfos() {
+        Info[] infos = getInfoCbche();
+        MidiDevice[] devices = getDeviceCbche();
+        if (!enbbled) {
             if (infos == null || infos.length != 0) {
-                setInfoCache(new Info[0]);
+                setInfoCbche(new Info[0]);
             }
             if (devices == null || devices.length != 0) {
-                setDeviceCache(new MidiDevice[0]);
+                setDeviceCbche(new MidiDevice[0]);
             }
             return;
         }
@@ -68,30 +68,30 @@ public abstract class AbstractMidiDeviceProvider extends MidiDeviceProvider {
         int oldNumDevices = (infos==null)?-1:infos.length;
         int newNumDevices = getNumDevices();
         if (oldNumDevices != newNumDevices) {
-            if (Printer.trace) Printer.trace(getClass().toString()
-                                             +": readDeviceInfos: old numDevices: "+oldNumDevices
+            if (Printer.trbce) Printer.trbce(getClbss().toString()
+                                             +": rebdDeviceInfos: old numDevices: "+oldNumDevices
                                              +"  newNumDevices: "+ newNumDevices);
 
-            // initialize the arrays
+            // initiblize the brrbys
             Info[] newInfos = new Info[newNumDevices];
             MidiDevice[] newDevices = new MidiDevice[newNumDevices];
 
             for (int i = 0; i < newNumDevices; i++) {
-                Info newInfo = createInfo(i);
+                Info newInfo = crebteInfo(i);
 
-                // in case that we are re-reading devices, try to find
-                // the previous one and reuse it
+                // in cbse thbt we bre re-rebding devices, try to find
+                // the previous one bnd reuse it
                 if (infos != null) {
                     for (int ii = 0; ii < infos.length; ii++) {
                         Info info = infos[ii];
-                        if (info != null && info.equalStrings(newInfo)) {
-                            // new info matches the still existing info. Use old one
+                        if (info != null && info.equblStrings(newInfo)) {
+                            // new info mbtches the still existing info. Use old one
                             newInfos[i] = info;
                             info.setIndex(i);
                             infos[ii] = null; // prevent re-use
                             newDevices[i] = devices[ii];
                             devices[ii] = null;
-                            break;
+                            brebk;
                         }
                     }
                 }
@@ -99,44 +99,44 @@ public abstract class AbstractMidiDeviceProvider extends MidiDeviceProvider {
                     newInfos[i] = newInfo;
                 }
             }
-            // the remaining MidiDevice.Info instances in the infos array
-            // have become obsolete.
+            // the rembining MidiDevice.Info instbnces in the infos brrby
+            // hbve become obsolete.
             if (infos != null) {
                 for (int i = 0; i < infos.length; i++) {
                     if (infos[i] != null) {
-                        // disable this device info
+                        // disbble this device info
                         infos[i].setIndex(-1);
                     }
-                    // what to do with the MidiDevice instances that are left
-                    // in the devices array ?? Close them ?
+                    // whbt to do with the MidiDevice instbnces thbt bre left
+                    // in the devices brrby ?? Close them ?
                 }
             }
             // commit new list of infos.
-            setInfoCache(newInfos);
-            setDeviceCache(newDevices);
+            setInfoCbche(newInfos);
+            setDeviceCbche(newDevices);
         }
     }
 
 
-    public final MidiDevice.Info[] getDeviceInfo() {
-        readDeviceInfos();
-        Info[] infos = getInfoCache();
-        MidiDevice.Info[] localArray = new MidiDevice.Info[infos.length];
-        System.arraycopy(infos, 0, localArray, 0, infos.length);
-        return localArray;
+    public finbl MidiDevice.Info[] getDeviceInfo() {
+        rebdDeviceInfos();
+        Info[] infos = getInfoCbche();
+        MidiDevice.Info[] locblArrby = new MidiDevice.Info[infos.length];
+        System.brrbycopy(infos, 0, locblArrby, 0, infos.length);
+        return locblArrby;
     }
 
 
-    public final MidiDevice getDevice(MidiDevice.Info info) {
-        if (info instanceof Info) {
-            readDeviceInfos();
-            MidiDevice[] devices = getDeviceCache();
-            Info[] infos = getInfoCache();
+    public finbl MidiDevice getDevice(MidiDevice.Info info) {
+        if (info instbnceof Info) {
+            rebdDeviceInfos();
+            MidiDevice[] devices = getDeviceCbche();
+            Info[] infos = getInfoCbche();
             Info thisInfo = (Info) info;
             int index = thisInfo.getIndex();
             if (index >= 0 && index < devices.length && infos[index] == info) {
                 if (devices[index] == null) {
-                    devices[index] = createDevice(thisInfo);
+                    devices[index] = crebteDevice(thisInfo);
                 }
                 if (devices[index] != null) {
                     return devices[index];
@@ -144,7 +144,7 @@ public abstract class AbstractMidiDeviceProvider extends MidiDeviceProvider {
             }
         }
 
-        throw new IllegalArgumentException("MidiDevice " + info.toString()
+        throw new IllegblArgumentException("MidiDevice " + info.toString()
                                            + " not supported by this provider.");
     }
 
@@ -153,44 +153,44 @@ public abstract class AbstractMidiDeviceProvider extends MidiDeviceProvider {
 
 
     /**
-     * Info class for MidiDevices.  Adds an index value for
-     * making native references to a particular device.
+     * Info clbss for MidiDevices.  Adds bn index vblue for
+     * mbking nbtive references to b pbrticulbr device.
      */
-    static class Info extends MidiDevice.Info {
-        private int index;
+    stbtic clbss Info extends MidiDevice.Info {
+        privbte int index;
 
-        Info(String name, String vendor, String description, String version, int index) {
-            super(name, vendor, description, version);
+        Info(String nbme, String vendor, String description, String version, int index) {
+            super(nbme, vendor, description, version);
             this.index = index;
         }
 
-        final boolean equalStrings(Info info) {
+        finbl boolebn equblStrings(Info info) {
             return      (info != null
-                         && getName().equals(info.getName())
-                         && getVendor().equals(info.getVendor())
-                         && getDescription().equals(info.getDescription())
-                         && getVersion().equals(info.getVersion()));
+                         && getNbme().equbls(info.getNbme())
+                         && getVendor().equbls(info.getVendor())
+                         && getDescription().equbls(info.getDescription())
+                         && getVersion().equbls(info.getVersion()));
         }
 
-        final int getIndex() {
+        finbl int getIndex() {
             return index;
         }
 
-        final void setIndex(int index) {
+        finbl void setIndex(int index) {
             this.index = index;
         }
 
-    } // class Info
+    } // clbss Info
 
 
     // ABSTRACT METHODS
 
-    abstract int getNumDevices();
-    abstract MidiDevice[] getDeviceCache();
-    abstract void setDeviceCache(MidiDevice[] devices);
-    abstract Info[] getInfoCache();
-    abstract void setInfoCache(Info[] infos);
+    bbstrbct int getNumDevices();
+    bbstrbct MidiDevice[] getDeviceCbche();
+    bbstrbct void setDeviceCbche(MidiDevice[] devices);
+    bbstrbct Info[] getInfoCbche();
+    bbstrbct void setInfoCbche(Info[] infos);
 
-    abstract Info createInfo(int index);
-    abstract MidiDevice createDevice(Info info);
+    bbstrbct Info crebteInfo(int index);
+    bbstrbct MidiDevice crebteDevice(Info info);
 }

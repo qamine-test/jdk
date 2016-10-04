@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 1998, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.io.Writer;
-import java.io.IOException;
-import java.util.*;
-import java.awt.Color;
-import javax.swing.text.*;
+import jbvb.io.Writer;
+import jbvb.io.IOException;
+import jbvb.util.*;
+import jbvb.bwt.Color;
+import jbvbx.swing.text.*;
 
 /**
- * MinimalHTMLWriter is a fallback writer used by the
- * HTMLEditorKit to write out HTML for a document that
- * is a not produced by the EditorKit.
+ * MinimblHTMLWriter is b fbllbbck writer used by the
+ * HTMLEditorKit to write out HTML for b document thbt
+ * is b not produced by the EditorKit.
  *
- * The format for the document is:
+ * The formbt for the document is:
  * <pre>
  * &lt;html&gt;
- *   &lt;head&gt;
+ *   &lt;hebd&gt;
  *     &lt;style&gt;
- *        &lt;!-- list of named styles
- *         p.normal {
- *            font-family: SansSerif;
- *            margin-height: 0;
+ *        &lt;!-- list of nbmed styles
+ *         p.normbl {
+ *            font-fbmily: SbnsSerif;
+ *            mbrgin-height: 0;
  *            font-size: 14
  *         }
  *        --&gt;
  *      &lt;/style&gt;
- *   &lt;/head&gt;
+ *   &lt;/hebd&gt;
  *   &lt;body&gt;
- *    &lt;p style=normal&gt;
- *        <b>Bold, italic, and underline attributes
- *        of the run are emitted as HTML tags.
- *        The remaining attributes are emitted as
- *        part of the style attribute of a &lt;span&gt; tag.
- *        The syntax is similar to inline styles.</b>
+ *    &lt;p style=normbl&gt;
+ *        <b>Bold, itblic, bnd underline bttributes
+ *        of the run bre emitted bs HTML tbgs.
+ *        The rembining bttributes bre emitted bs
+ *        pbrt of the style bttribute of b &lt;spbn&gt; tbg.
+ *        The syntbx is similbr to inline styles.</b>
  *    &lt;/p&gt;
  *   &lt;/body&gt;
  * &lt;/html&gt;
  * </pre>
  *
- * @author Sunita Mani
+ * @buthor Sunitb Mbni
  */
 
-public class MinimalHTMLWriter extends AbstractWriter {
+public clbss MinimblHTMLWriter extends AbstrbctWriter {
 
     /**
-     * These static finals are used to
-     * tweak and query the fontMask about which
-     * of these tags need to be generated or
-     * terminated.
+     * These stbtic finbls bre used to
+     * twebk bnd query the fontMbsk bbout which
+     * of these tbgs need to be generbted or
+     * terminbted.
      */
-    private static final int BOLD = 0x01;
-    private static final int ITALIC = 0x02;
-    private static final int UNDERLINE = 0x04;
+    privbte stbtic finbl int BOLD = 0x01;
+    privbte stbtic finbl int ITALIC = 0x02;
+    privbte stbtic finbl int UNDERLINE = 0x04;
 
-    // Used to map StyleConstants to CSS.
-    private static final CSS css = new CSS();
+    // Used to mbp StyleConstbnts to CSS.
+    privbte stbtic finbl CSS css = new CSS();
 
-    private int fontMask = 0;
+    privbte int fontMbsk = 0;
 
-    int startOffset = 0;
+    int stbrtOffset = 0;
     int endOffset = 0;
 
     /**
-     * Stores the attributes of the previous run.
-     * Used to compare with the current run's
-     * attributeset.  If identical, then a
-     * &lt;span&gt; tag is not emitted.
+     * Stores the bttributes of the previous run.
+     * Used to compbre with the current run's
+     * bttributeset.  If identicbl, then b
+     * &lt;spbn&gt; tbg is not emitted.
      */
-    private AttributeSet fontAttributes;
+    privbte AttributeSet fontAttributes;
 
     /**
-     * Maps from style name as held by the Document, to the archived
-     * style name (style name written out). These may differ.
+     * Mbps from style nbme bs held by the Document, to the brchived
+     * style nbme (style nbme written out). These mby differ.
      */
-    private Hashtable<String, String> styleNameMapping;
+    privbte Hbshtbble<String, String> styleNbmeMbpping;
 
     /**
-     * Creates a new MinimalHTMLWriter.
+     * Crebtes b new MinimblHTMLWriter.
      *
-     * @param w  Writer
-     * @param doc StyledDocument
+     * @pbrbm w  Writer
+     * @pbrbm doc StyledDocument
      *
      */
-    public MinimalHTMLWriter(Writer w, StyledDocument doc) {
+    public MinimblHTMLWriter(Writer w, StyledDocument doc) {
         super(w, doc);
     }
 
     /**
-     * Creates a new MinimalHTMLWriter.
+     * Crebtes b new MinimblHTMLWriter.
      *
-     * @param w  Writer
-     * @param doc StyledDocument
-     * @param pos The location in the document to fetch the
+     * @pbrbm w  Writer
+     * @pbrbm doc StyledDocument
+     * @pbrbm pos The locbtion in the document to fetch the
      *   content.
-     * @param len The amount to write out.
+     * @pbrbm len The bmount to write out.
      *
      */
-    public MinimalHTMLWriter(Writer w, StyledDocument doc, int pos, int len) {
+    public MinimblHTMLWriter(Writer w, StyledDocument doc, int pos, int len) {
         super(w, doc, pos, len);
     }
 
     /**
-     * Generates HTML output
-     * from a StyledDocument.
+     * Generbtes HTML output
+     * from b StyledDocument.
      *
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *            location within the document.
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *            locbtion within the document.
      *
      */
-    public void write() throws IOException, BadLocationException {
-        styleNameMapping = new Hashtable<String, String>();
-        writeStartTag("<html>");
-        writeHeader();
+    public void write() throws IOException, BbdLocbtionException {
+        styleNbmeMbpping = new Hbshtbble<String, String>();
+        writeStbrtTbg("<html>");
+        writeHebder();
         writeBody();
-        writeEndTag("</html>");
+        writeEndTbg("</html>");
     }
 
 
     /**
-     * Writes out all the attributes for the
+     * Writes out bll the bttributes for the
      * following types:
-     *  StyleConstants.ParagraphConstants,
-     *  StyleConstants.CharacterConstants,
-     *  StyleConstants.FontConstants,
-     *  StyleConstants.ColorConstants.
-     * The attribute name and value are separated by a colon.
-     * Each pair is separated by a semicolon.
+     *  StyleConstbnts.PbrbgrbphConstbnts,
+     *  StyleConstbnts.ChbrbcterConstbnts,
+     *  StyleConstbnts.FontConstbnts,
+     *  StyleConstbnts.ColorConstbnts.
+     * The bttribute nbme bnd vblue bre sepbrbted by b colon.
+     * Ebch pbir is sepbrbted by b semicolon.
      *
-     * @exception IOException on any I/O error
+     * @exception IOException on bny I/O error
      */
-    protected void writeAttributes(AttributeSet attr) throws IOException {
-        Enumeration<?> attributeNames = attr.getAttributeNames();
-        while (attributeNames.hasMoreElements()) {
-            Object name = attributeNames.nextElement();
-            if ((name instanceof StyleConstants.ParagraphConstants) ||
-                (name instanceof StyleConstants.CharacterConstants) ||
-                (name instanceof StyleConstants.FontConstants) ||
-                (name instanceof StyleConstants.ColorConstants)) {
+    protected void writeAttributes(AttributeSet bttr) throws IOException {
+        Enumerbtion<?> bttributeNbmes = bttr.getAttributeNbmes();
+        while (bttributeNbmes.hbsMoreElements()) {
+            Object nbme = bttributeNbmes.nextElement();
+            if ((nbme instbnceof StyleConstbnts.PbrbgrbphConstbnts) ||
+                (nbme instbnceof StyleConstbnts.ChbrbcterConstbnts) ||
+                (nbme instbnceof StyleConstbnts.FontConstbnts) ||
+                (nbme instbnceof StyleConstbnts.ColorConstbnts)) {
                 indent();
-                write(name.toString());
+                write(nbme.toString());
                 write(':');
-                write(css.styleConstantsValueToCSSValue
-                      ((StyleConstants)name, attr.getAttribute(name)).
+                write(css.styleConstbntsVblueToCSSVblue
+                      ((StyleConstbnts)nbme, bttr.getAttribute(nbme)).
                       toString());
                 write(';');
                 write(NEWLINE);
@@ -178,12 +178,12 @@ public class MinimalHTMLWriter extends AbstractWriter {
     /**
      * Writes out text.
      *
-     * @exception IOException on any I/O error
+     * @exception IOException on bny I/O error
      */
-    protected void text(Element elem) throws IOException, BadLocationException {
+    protected void text(Element elem) throws IOException, BbdLocbtionException {
         String contentStr = getText(elem);
         if ((contentStr.length() > 0) &&
-            (contentStr.charAt(contentStr.length()-1) == NEWLINE)) {
+            (contentStr.chbrAt(contentStr.length()-1) == NEWLINE)) {
             contentStr = contentStr.substring(0, contentStr.length()-1);
         }
         if (contentStr.length() > 0) {
@@ -192,84 +192,84 @@ public class MinimalHTMLWriter extends AbstractWriter {
     }
 
     /**
-     * Writes out a start tag appropriately
+     * Writes out b stbrt tbg bppropribtely
      * indented.  Also increments the indent level.
      *
-     * @param tag a start tag
-     * @exception IOException on any I/O error
+     * @pbrbm tbg b stbrt tbg
+     * @exception IOException on bny I/O error
      */
-    protected void writeStartTag(String tag) throws IOException {
+    protected void writeStbrtTbg(String tbg) throws IOException {
         indent();
-        write(tag);
+        write(tbg);
         write(NEWLINE);
         incrIndent();
     }
 
 
     /**
-     * Writes out an end tag appropriately
+     * Writes out bn end tbg bppropribtely
      * indented.  Also decrements the indent level.
      *
-     * @param endTag an end tag
-     * @exception IOException on any I/O error
+     * @pbrbm endTbg bn end tbg
+     * @exception IOException on bny I/O error
      */
-    protected void writeEndTag(String endTag) throws IOException {
+    protected void writeEndTbg(String endTbg) throws IOException {
         decrIndent();
         indent();
-        write(endTag);
+        write(endTbg);
         write(NEWLINE);
     }
 
 
     /**
-     * Writes out the &lt;head&gt; and &lt;style&gt;
-     * tags, and then invokes writeStyles() to write
-     * out all the named styles as the content of the
-     * &lt;style&gt; tag.  The content is surrounded by
-     * valid HTML comment markers to ensure that the
-     * document is viewable in applications/browsers
-     * that do not support the tag.
+     * Writes out the &lt;hebd&gt; bnd &lt;style&gt;
+     * tbgs, bnd then invokes writeStyles() to write
+     * out bll the nbmed styles bs the content of the
+     * &lt;style&gt; tbg.  The content is surrounded by
+     * vblid HTML comment mbrkers to ensure thbt the
+     * document is viewbble in bpplicbtions/browsers
+     * thbt do not support the tbg.
      *
-     * @exception IOException on any I/O error
+     * @exception IOException on bny I/O error
      */
-    protected void writeHeader() throws IOException {
-        writeStartTag("<head>");
-        writeStartTag("<style>");
-        writeStartTag("<!--");
+    protected void writeHebder() throws IOException {
+        writeStbrtTbg("<hebd>");
+        writeStbrtTbg("<style>");
+        writeStbrtTbg("<!--");
         writeStyles();
-        writeEndTag("-->");
-        writeEndTag("</style>");
-        writeEndTag("</head>");
+        writeEndTbg("-->");
+        writeEndTbg("</style>");
+        writeEndTbg("</hebd>");
     }
 
 
 
     /**
-     * Writes out all the named styles as the
-     * content of the &lt;style&gt; tag.
+     * Writes out bll the nbmed styles bs the
+     * content of the &lt;style&gt; tbg.
      *
-     * @exception IOException on any I/O error
+     * @exception IOException on bny I/O error
      */
     protected void writeStyles() throws IOException {
         /*
-         *  Access to DefaultStyledDocument done to workaround
-         *  a missing API in styled document to access the
-         *  stylenames.
+         *  Access to DefbultStyledDocument done to workbround
+         *  b missing API in styled document to bccess the
+         *  stylenbmes.
          */
-        DefaultStyledDocument styledDoc =  ((DefaultStyledDocument)getDocument());
-        Enumeration<?> styleNames = styledDoc.getStyleNames();
+        DefbultStyledDocument styledDoc =  ((DefbultStyledDocument)getDocument());
+        Enumerbtion<?> styleNbmes = styledDoc.getStyleNbmes();
 
-        while (styleNames.hasMoreElements()) {
-            Style s = styledDoc.getStyle((String)styleNames.nextElement());
+        while (styleNbmes.hbsMoreElements()) {
+            Style s = styledDoc.getStyle((String)styleNbmes.nextElement());
 
-            /** PENDING: Once the name attribute is removed
+            /** PENDING: Once the nbme bttribute is removed
                 from the list we check check for 0. **/
             if (s.getAttributeCount() == 1 &&
-                s.isDefined(StyleConstants.NameAttribute)) {
+                s.isDefined(StyleConstbnts.NbmeAttribute)) {
                 continue;
             }
             indent();
-            write("p." + addStyleName(s.getName()));
+            write("p." + bddStyleNbme(s.getNbme()));
             write(" {\n");
             incrIndent();
             writeAttributes(s);
@@ -281,136 +281,136 @@ public class MinimalHTMLWriter extends AbstractWriter {
 
 
     /**
-     * Iterates over the elements in the document
-     * and processes elements based on whether they are
-     * branch elements or leaf elements.  This method specially handles
-     * leaf elements that are text.
+     * Iterbtes over the elements in the document
+     * bnd processes elements bbsed on whether they bre
+     * brbnch elements or lebf elements.  This method speciblly hbndles
+     * lebf elements thbt bre text.
      *
-     * @throws IOException on any I/O error
-     * @throws BadLocationException if we are in an invalid
-     *            location within the document.
+     * @throws IOException on bny I/O error
+     * @throws BbdLocbtionException if we bre in bn invblid
+     *            locbtion within the document.
      */
-    protected void writeBody() throws IOException, BadLocationException {
-        ElementIterator it = getElementIterator();
+    protected void writeBody() throws IOException, BbdLocbtionException {
+        ElementIterbtor it = getElementIterbtor();
 
         /*
-          This will be a section element for a styled document.
-          We represent this element in HTML as the body tags.
+          This will be b section element for b styled document.
+          We represent this element in HTML bs the body tbgs.
           Therefore we ignore it.
          */
         it.current();
 
         Element next;
 
-        writeStartTag("<body>");
+        writeStbrtTbg("<body>");
 
-        boolean inContent = false;
+        boolebn inContent = fblse;
 
         while((next = it.next()) != null) {
-            if (!inRange(next)) {
+            if (!inRbnge(next)) {
                 continue;
             }
-            if (next instanceof AbstractDocument.BranchElement) {
+            if (next instbnceof AbstrbctDocument.BrbnchElement) {
                 if (inContent) {
-                    writeEndParagraph();
-                    inContent = false;
-                    fontMask = 0;
+                    writeEndPbrbgrbph();
+                    inContent = fblse;
+                    fontMbsk = 0;
                 }
-                writeStartParagraph(next);
+                writeStbrtPbrbgrbph(next);
             } else if (isText(next)) {
                 writeContent(next, !inContent);
                 inContent = true;
             } else {
-                writeLeaf(next);
+                writeLebf(next);
                 inContent = true;
             }
         }
         if (inContent) {
-            writeEndParagraph();
+            writeEndPbrbgrbph();
         }
-        writeEndTag("</body>");
+        writeEndTbg("</body>");
     }
 
 
     /**
-     * Emits an end tag for a &lt;p&gt;
-     * tag.  Before writing out the tag, this method ensures
-     * that all other tags that have been opened are
-     * appropriately closed off.
+     * Emits bn end tbg for b &lt;p&gt;
+     * tbg.  Before writing out the tbg, this method ensures
+     * thbt bll other tbgs thbt hbve been opened bre
+     * bppropribtely closed off.
      *
-     * @exception IOException on any I/O error
+     * @exception IOException on bny I/O error
      */
-    protected void writeEndParagraph() throws IOException {
-        writeEndMask(fontMask);
-        if (inFontTag()) {
-            endSpanTag();
+    protected void writeEndPbrbgrbph() throws IOException {
+        writeEndMbsk(fontMbsk);
+        if (inFontTbg()) {
+            endSpbnTbg();
         } else {
             write(NEWLINE);
         }
-        writeEndTag("</p>");
+        writeEndTbg("</p>");
     }
 
 
     /**
-     * Emits the start tag for a paragraph. If
-     * the paragraph has a named style associated with it,
-     * then this method also generates a class attribute for the
-     * &lt;p&gt; tag and sets its value to be the name of the
+     * Emits the stbrt tbg for b pbrbgrbph. If
+     * the pbrbgrbph hbs b nbmed style bssocibted with it,
+     * then this method blso generbtes b clbss bttribute for the
+     * &lt;p&gt; tbg bnd sets its vblue to be the nbme of the
      * style.
      *
-     * @param elem an element
-     * @exception IOException on any I/O error
+     * @pbrbm elem bn element
+     * @exception IOException on bny I/O error
      */
-    protected void writeStartParagraph(Element elem) throws IOException {
-        AttributeSet attr = elem.getAttributes();
-        Object resolveAttr = attr.getAttribute(StyleConstants.ResolveAttribute);
-        if (resolveAttr instanceof StyleContext.NamedStyle) {
-            writeStartTag("<p class=" + mapStyleName(((StyleContext.NamedStyle)resolveAttr).getName()) + ">");
+    protected void writeStbrtPbrbgrbph(Element elem) throws IOException {
+        AttributeSet bttr = elem.getAttributes();
+        Object resolveAttr = bttr.getAttribute(StyleConstbnts.ResolveAttribute);
+        if (resolveAttr instbnceof StyleContext.NbmedStyle) {
+            writeStbrtTbg("<p clbss=" + mbpStyleNbme(((StyleContext.NbmedStyle)resolveAttr).getNbme()) + ">");
         } else {
-            writeStartTag("<p>");
+            writeStbrtTbg("<p>");
         }
     }
 
 
     /**
-     * Responsible for writing out other non-text leaf
+     * Responsible for writing out other non-text lebf
      * elements.
      *
-     * @param elem an element
-     * @exception IOException on any I/O error
+     * @pbrbm elem bn element
+     * @exception IOException on bny I/O error
      */
-    protected void writeLeaf(Element elem) throws IOException {
+    protected void writeLebf(Element elem) throws IOException {
         indent();
-        if (elem.getName() == StyleConstants.IconElementName) {
-            writeImage(elem);
-        } else if (elem.getName() == StyleConstants.ComponentElementName) {
+        if (elem.getNbme() == StyleConstbnts.IconElementNbme) {
+            writeImbge(elem);
+        } else if (elem.getNbme() == StyleConstbnts.ComponentElementNbme) {
             writeComponent(elem);
         }
     }
 
 
     /**
-     * Responsible for handling Icon Elements;
-     * deliberately unimplemented.  How to implement this method is
-     * an issue of policy.  For example, if you're generating
-     * an &lt;img&gt; tag, how should you
-     * represent the src attribute (the location of the image)?
-     * In certain cases it could be a URL, in others it could
-     * be read from a stream.
+     * Responsible for hbndling Icon Elements;
+     * deliberbtely unimplemented.  How to implement this method is
+     * bn issue of policy.  For exbmple, if you're generbting
+     * bn &lt;img&gt; tbg, how should you
+     * represent the src bttribute (the locbtion of the imbge)?
+     * In certbin cbses it could be b URL, in others it could
+     * be rebd from b strebm.
      *
-     * @param elem an element of type StyleConstants.IconElementName
+     * @pbrbm elem bn element of type StyleConstbnts.IconElementNbme
      * @throws IOException if I/O error occured.
      */
-    protected void writeImage(Element elem) throws IOException {
+    protected void writeImbge(Element elem) throws IOException {
     }
 
 
     /**
-     * Responsible for handling Component Elements;
-     * deliberately unimplemented.
-     * How this method is implemented is a matter of policy.
+     * Responsible for hbndling Component Elements;
+     * deliberbtely unimplemented.
+     * How this method is implemented is b mbtter of policy.
      *
-     * @param elem an element of type StyleConstants.ComponentElementName
+     * @pbrbm elem bn element of type StyleConstbnts.ComponentElementNbme
      * @throws IOException if I/O error occured.
      */
     protected void writeComponent(Element elem) throws IOException {
@@ -418,100 +418,100 @@ public class MinimalHTMLWriter extends AbstractWriter {
 
 
     /**
-     * Returns true if the element is a text element.
+     * Returns true if the element is b text element.
      *
-     * @param elem an element
-     * @return {@code true} if the element is a text element.
+     * @pbrbm elem bn element
+     * @return {@code true} if the element is b text element.
      */
-    protected boolean isText(Element elem) {
-        return (elem.getName() == AbstractDocument.ContentElementName);
+    protected boolebn isText(Element elem) {
+        return (elem.getNbme() == AbstrbctDocument.ContentElementNbme);
     }
 
 
     /**
-     * Writes out the attribute set
-     * in an HTML-compliant manner.
+     * Writes out the bttribute set
+     * in bn HTML-complibnt mbnner.
      *
-     * @param elem an element
-     * @param needsIndenting indention will be added if {@code needsIndenting} is {@code true}
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *            location within the document.
+     * @pbrbm elem bn element
+     * @pbrbm needsIndenting indention will be bdded if {@code needsIndenting} is {@code true}
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *            locbtion within the document.
      */
-    protected void writeContent(Element elem,  boolean needsIndenting)
-        throws IOException, BadLocationException {
+    protected void writeContent(Element elem,  boolebn needsIndenting)
+        throws IOException, BbdLocbtionException {
 
-        AttributeSet attr = elem.getAttributes();
-        writeNonHTMLAttributes(attr);
+        AttributeSet bttr = elem.getAttributes();
+        writeNonHTMLAttributes(bttr);
         if (needsIndenting) {
             indent();
         }
-        writeHTMLTags(attr);
+        writeHTMLTbgs(bttr);
         text(elem);
     }
 
 
     /**
-     * Generates
-     * bold &lt;b&gt;, italic &lt;i&gt;, and &lt;u&gt; tags for the
-     * text based on its attribute settings.
+     * Generbtes
+     * bold &lt;b&gt;, itblic &lt;i&gt;, bnd &lt;u&gt; tbgs for the
+     * text bbsed on its bttribute settings.
      *
-     * @param attr a set of attributes
-     * @exception IOException on any I/O error
+     * @pbrbm bttr b set of bttributes
+     * @exception IOException on bny I/O error
      */
 
-    protected void writeHTMLTags(AttributeSet attr) throws IOException {
+    protected void writeHTMLTbgs(AttributeSet bttr) throws IOException {
 
-        int oldMask = fontMask;
-        setFontMask(attr);
+        int oldMbsk = fontMbsk;
+        setFontMbsk(bttr);
 
-        int endMask = 0;
-        int startMask = 0;
-        if ((oldMask & BOLD) != 0) {
-            if ((fontMask & BOLD) == 0) {
-                endMask |= BOLD;
+        int endMbsk = 0;
+        int stbrtMbsk = 0;
+        if ((oldMbsk & BOLD) != 0) {
+            if ((fontMbsk & BOLD) == 0) {
+                endMbsk |= BOLD;
             }
-        } else if ((fontMask & BOLD) != 0) {
-            startMask |= BOLD;
+        } else if ((fontMbsk & BOLD) != 0) {
+            stbrtMbsk |= BOLD;
         }
 
-        if ((oldMask & ITALIC) != 0) {
-            if ((fontMask & ITALIC) == 0) {
-                endMask |= ITALIC;
+        if ((oldMbsk & ITALIC) != 0) {
+            if ((fontMbsk & ITALIC) == 0) {
+                endMbsk |= ITALIC;
             }
-        } else if ((fontMask & ITALIC) != 0) {
-            startMask |= ITALIC;
+        } else if ((fontMbsk & ITALIC) != 0) {
+            stbrtMbsk |= ITALIC;
         }
 
-        if ((oldMask & UNDERLINE) != 0) {
-            if ((fontMask & UNDERLINE) == 0) {
-                endMask |= UNDERLINE;
+        if ((oldMbsk & UNDERLINE) != 0) {
+            if ((fontMbsk & UNDERLINE) == 0) {
+                endMbsk |= UNDERLINE;
             }
-        } else if ((fontMask & UNDERLINE) != 0) {
-            startMask |= UNDERLINE;
+        } else if ((fontMbsk & UNDERLINE) != 0) {
+            stbrtMbsk |= UNDERLINE;
         }
-        writeEndMask(endMask);
-        writeStartMask(startMask);
+        writeEndMbsk(endMbsk);
+        writeStbrtMbsk(stbrtMbsk);
     }
 
 
     /**
-     * Tweaks the appropriate bits of fontMask
-     * to reflect whether the text is to be displayed in
-     * bold, italic, and/or with an underline.
+     * Twebks the bppropribte bits of fontMbsk
+     * to reflect whether the text is to be displbyed in
+     * bold, itblic, bnd/or with bn underline.
      *
      */
-    private void setFontMask(AttributeSet attr) {
-        if (StyleConstants.isBold(attr)) {
-            fontMask |= BOLD;
+    privbte void setFontMbsk(AttributeSet bttr) {
+        if (StyleConstbnts.isBold(bttr)) {
+            fontMbsk |= BOLD;
         }
 
-        if (StyleConstants.isItalic(attr)) {
-            fontMask |= ITALIC;
+        if (StyleConstbnts.isItblic(bttr)) {
+            fontMbsk |= ITALIC;
         }
 
-        if (StyleConstants.isUnderline(attr)) {
-            fontMask |= UNDERLINE;
+        if (StyleConstbnts.isUnderline(bttr)) {
+            fontMbsk |= UNDERLINE;
         }
     }
 
@@ -519,40 +519,40 @@ public class MinimalHTMLWriter extends AbstractWriter {
 
 
     /**
-     * Writes out start tags &lt;u&gt;, &lt;i&gt;, and &lt;b&gt; based on
-     * the mask settings.
+     * Writes out stbrt tbgs &lt;u&gt;, &lt;i&gt;, bnd &lt;b&gt; bbsed on
+     * the mbsk settings.
      *
-     * @exception IOException on any I/O error
+     * @exception IOException on bny I/O error
      */
-    private void writeStartMask(int mask) throws IOException  {
-        if (mask != 0) {
-            if ((mask & UNDERLINE) != 0) {
+    privbte void writeStbrtMbsk(int mbsk) throws IOException  {
+        if (mbsk != 0) {
+            if ((mbsk & UNDERLINE) != 0) {
                 write("<u>");
             }
-            if ((mask & ITALIC) != 0) {
+            if ((mbsk & ITALIC) != 0) {
                 write("<i>");
             }
-            if ((mask & BOLD) != 0) {
+            if ((mbsk & BOLD) != 0) {
                 write("<b>");
             }
         }
     }
 
     /**
-     * Writes out end tags for &lt;u&gt;, &lt;i&gt;, and &lt;b&gt; based on
-     * the mask settings.
+     * Writes out end tbgs for &lt;u&gt;, &lt;i&gt;, bnd &lt;b&gt; bbsed on
+     * the mbsk settings.
      *
-     * @exception IOException on any I/O error
+     * @exception IOException on bny I/O error
      */
-    private void writeEndMask(int mask) throws IOException {
-        if (mask != 0) {
-            if ((mask & BOLD) != 0) {
+    privbte void writeEndMbsk(int mbsk) throws IOException {
+        if (mbsk != 0) {
+            if ((mbsk & BOLD) != 0) {
                 write("</b>");
             }
-            if ((mask & ITALIC) != 0) {
+            if ((mbsk & ITALIC) != 0) {
                 write("</i>");
             }
-            if ((mask & UNDERLINE) != 0) {
+            if ((mbsk & UNDERLINE) != 0) {
                 write("</u>");
             }
         }
@@ -560,186 +560,186 @@ public class MinimalHTMLWriter extends AbstractWriter {
 
 
     /**
-     * Writes out the remaining
-     * character-level attributes (attributes other than bold,
-     * italic, and underline) in an HTML-compliant way.  Given that
-     * attributes such as font family and font size have no direct
-     * mapping to HTML tags, a &lt;span&gt; tag is generated and its
-     * style attribute is set to contain the list of remaining
-     * attributes just like inline styles.
+     * Writes out the rembining
+     * chbrbcter-level bttributes (bttributes other thbn bold,
+     * itblic, bnd underline) in bn HTML-complibnt wby.  Given thbt
+     * bttributes such bs font fbmily bnd font size hbve no direct
+     * mbpping to HTML tbgs, b &lt;spbn&gt; tbg is generbted bnd its
+     * style bttribute is set to contbin the list of rembining
+     * bttributes just like inline styles.
      *
-     * @param attr a set of attributes
-     * @exception IOException on any I/O error
+     * @pbrbm bttr b set of bttributes
+     * @exception IOException on bny I/O error
      */
-    protected void writeNonHTMLAttributes(AttributeSet attr) throws IOException {
+    protected void writeNonHTMLAttributes(AttributeSet bttr) throws IOException {
 
         String style = "";
-        String separator = "; ";
+        String sepbrbtor = "; ";
 
-        if (inFontTag() && fontAttributes.isEqual(attr)) {
+        if (inFontTbg() && fontAttributes.isEqubl(bttr)) {
             return;
         }
 
-        boolean first = true;
-        Color color = (Color)attr.getAttribute(StyleConstants.Foreground);
+        boolebn first = true;
+        Color color = (Color)bttr.getAttribute(StyleConstbnts.Foreground);
         if (color != null) {
-            style += "color: " + css.styleConstantsValueToCSSValue
-                                    ((StyleConstants)StyleConstants.Foreground,
+            style += "color: " + css.styleConstbntsVblueToCSSVblue
+                                    ((StyleConstbnts)StyleConstbnts.Foreground,
                                      color);
-            first = false;
+            first = fblse;
         }
-        Integer size = (Integer)attr.getAttribute(StyleConstants.FontSize);
+        Integer size = (Integer)bttr.getAttribute(StyleConstbnts.FontSize);
         if (size != null) {
             if (!first) {
-                style += separator;
+                style += sepbrbtor;
             }
-            style += "font-size: " + size.intValue() + "pt";
-            first = false;
+            style += "font-size: " + size.intVblue() + "pt";
+            first = fblse;
         }
 
-        String family = (String)attr.getAttribute(StyleConstants.FontFamily);
-        if (family != null) {
+        String fbmily = (String)bttr.getAttribute(StyleConstbnts.FontFbmily);
+        if (fbmily != null) {
             if (!first) {
-                style += separator;
+                style += sepbrbtor;
             }
-            style += "font-family: " + family;
-            first = false;
+            style += "font-fbmily: " + fbmily;
+            first = fblse;
         }
 
         if (style.length() > 0) {
-            if (fontMask != 0) {
-                writeEndMask(fontMask);
-                fontMask = 0;
+            if (fontMbsk != 0) {
+                writeEndMbsk(fontMbsk);
+                fontMbsk = 0;
             }
-            startSpanTag(style);
-            fontAttributes = attr;
+            stbrtSpbnTbg(style);
+            fontAttributes = bttr;
         }
         else if (fontAttributes != null) {
-            writeEndMask(fontMask);
-            fontMask = 0;
-            endSpanTag();
+            writeEndMbsk(fontMbsk);
+            fontMbsk = 0;
+            endSpbnTbg();
         }
     }
 
 
     /**
-     * Returns true if we are currently in a &lt;font&gt; tag.
+     * Returns true if we bre currently in b &lt;font&gt; tbg.
      *
-     * @return {@code true} if we are currently in a &lt;font&gt; tag.
+     * @return {@code true} if we bre currently in b &lt;font&gt; tbg.
      */
-    protected boolean inFontTag() {
+    protected boolebn inFontTbg() {
         return (fontAttributes != null);
     }
 
     /**
-     * This is no longer used, instead &lt;span&gt; will be written out.
+     * This is no longer used, instebd &lt;spbn&gt; will be written out.
      * <p>
-     * Writes out an end tag for the &lt;font&gt; tag.
+     * Writes out bn end tbg for the &lt;font&gt; tbg.
      *
-     * @exception IOException on any I/O error
+     * @exception IOException on bny I/O error
      */
-    protected void endFontTag() throws IOException {
+    protected void endFontTbg() throws IOException {
         write(NEWLINE);
-        writeEndTag("</font>");
+        writeEndTbg("</font>");
         fontAttributes = null;
     }
 
 
     /**
-     * This is no longer used, instead &lt;span&gt; will be written out.
+     * This is no longer used, instebd &lt;spbn&gt; will be written out.
      * <p>
-     * Writes out a start tag for the &lt;font&gt; tag.
-     * Because font tags cannot be nested,
+     * Writes out b stbrt tbg for the &lt;font&gt; tbg.
+     * Becbuse font tbgs cbnnot be nested,
      * this method closes out
-     * any enclosing font tag before writing out a
-     * new start tag.
+     * bny enclosing font tbg before writing out b
+     * new stbrt tbg.
      *
-     * @param style a font style
-     * @exception IOException on any I/O error
+     * @pbrbm style b font style
+     * @exception IOException on bny I/O error
      */
-    protected void startFontTag(String style) throws IOException {
-        boolean callIndent = false;
-        if (inFontTag()) {
-            endFontTag();
-            callIndent = true;
+    protected void stbrtFontTbg(String style) throws IOException {
+        boolebn cbllIndent = fblse;
+        if (inFontTbg()) {
+            endFontTbg();
+            cbllIndent = true;
         }
-        writeStartTag("<font style=\"" + style + "\">");
-        if (callIndent) {
+        writeStbrtTbg("<font style=\"" + style + "\">");
+        if (cbllIndent) {
             indent();
         }
     }
 
     /**
-     * Writes out a start tag for the &lt;font&gt; tag.
-     * Because font tags cannot be nested,
+     * Writes out b stbrt tbg for the &lt;font&gt; tbg.
+     * Becbuse font tbgs cbnnot be nested,
      * this method closes out
-     * any enclosing font tag before writing out a
-     * new start tag.
+     * bny enclosing font tbg before writing out b
+     * new stbrt tbg.
      *
-     * @exception IOException on any I/O error
+     * @exception IOException on bny I/O error
      */
-    private void startSpanTag(String style) throws IOException {
-        boolean callIndent = false;
-        if (inFontTag()) {
-            endSpanTag();
-            callIndent = true;
+    privbte void stbrtSpbnTbg(String style) throws IOException {
+        boolebn cbllIndent = fblse;
+        if (inFontTbg()) {
+            endSpbnTbg();
+            cbllIndent = true;
         }
-        writeStartTag("<span style=\"" + style + "\">");
-        if (callIndent) {
+        writeStbrtTbg("<spbn style=\"" + style + "\">");
+        if (cbllIndent) {
             indent();
         }
     }
 
     /**
-     * Writes out an end tag for the &lt;span&gt; tag.
+     * Writes out bn end tbg for the &lt;spbn&gt; tbg.
      *
-     * @exception IOException on any I/O error
+     * @exception IOException on bny I/O error
      */
-    private void endSpanTag() throws IOException {
+    privbte void endSpbnTbg() throws IOException {
         write(NEWLINE);
-        writeEndTag("</span>");
+        writeEndTbg("</spbn>");
         fontAttributes = null;
     }
 
     /**
-     * Adds the style named <code>style</code> to the style mapping. This
-     * returns the name that should be used when outputting. CSS does not
-     * allow the full Unicode set to be used as a style name.
+     * Adds the style nbmed <code>style</code> to the style mbpping. This
+     * returns the nbme thbt should be used when outputting. CSS does not
+     * bllow the full Unicode set to be used bs b style nbme.
      */
-    private String addStyleName(String style) {
-        if (styleNameMapping == null) {
+    privbte String bddStyleNbme(String style) {
+        if (styleNbmeMbpping == null) {
             return style;
         }
         StringBuilder sb = null;
         for (int counter = style.length() - 1; counter >= 0; counter--) {
-            if (!isValidCharacter(style.charAt(counter))) {
+            if (!isVblidChbrbcter(style.chbrAt(counter))) {
                 if (sb == null) {
                     sb = new StringBuilder(style);
                 }
-                sb.setCharAt(counter, 'a');
+                sb.setChbrAt(counter, 'b');
             }
         }
-        String mappedName = (sb != null) ? sb.toString() : style;
-        while (styleNameMapping.get(mappedName) != null) {
-            mappedName = mappedName + 'x';
+        String mbppedNbme = (sb != null) ? sb.toString() : style;
+        while (styleNbmeMbpping.get(mbppedNbme) != null) {
+            mbppedNbme = mbppedNbme + 'x';
         }
-        styleNameMapping.put(style, mappedName);
-        return mappedName;
+        styleNbmeMbpping.put(style, mbppedNbme);
+        return mbppedNbme;
     }
 
     /**
-     * Returns the mapped style name corresponding to <code>style</code>.
+     * Returns the mbpped style nbme corresponding to <code>style</code>.
      */
-    private String mapStyleName(String style) {
-        if (styleNameMapping == null) {
+    privbte String mbpStyleNbme(String style) {
+        if (styleNbmeMbpping == null) {
             return style;
         }
-        String retValue = styleNameMapping.get(style);
-        return (retValue == null) ? style : retValue;
+        String retVblue = styleNbmeMbpping.get(style);
+        return (retVblue == null) ? style : retVblue;
     }
 
-    private boolean isValidCharacter(char character) {
-        return ((character >= 'a' && character <= 'z') ||
-                (character >= 'A' && character <= 'Z'));
+    privbte boolebn isVblidChbrbcter(chbr chbrbcter) {
+        return ((chbrbcter >= 'b' && chbrbcter <= 'z') ||
+                (chbrbcter >= 'A' && chbrbcter <= 'Z'));
     }
 }

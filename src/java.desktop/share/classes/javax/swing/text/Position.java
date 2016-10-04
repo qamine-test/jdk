@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
 /**
- * Represents a location within a document.  It is intended to abstract away
- * implementation details of the document and enable specification of
- * positions within the document that are capable of tracking of change as
+ * Represents b locbtion within b document.  It is intended to bbstrbct bwby
+ * implementbtion detbils of the document bnd enbble specificbtion of
+ * positions within the document thbt bre cbpbble of trbcking of chbnge bs
  * the document is edited.
  * <p>
- * A {@code Position} object points at a location between two characters.
- * As the surrounding content is altered, the {@code Position} object
- * adjusts its offset automatically to reflect the changes. If content is
- * inserted or removed before the {@code Position} object's location, then the
+ * A {@code Position} object points bt b locbtion between two chbrbcters.
+ * As the surrounding content is bltered, the {@code Position} object
+ * bdjusts its offset butombticblly to reflect the chbnges. If content is
+ * inserted or removed before the {@code Position} object's locbtion, then the
  * {@code Position} increments or decrements its offset, respectively,
- * so as to point to the same location. If a portion of the document is removed
- * that contains a {@code Position}'s offset, then the {@code Position}'s
- * offset becomes that of the beginning of the removed region. For example, if
- * a {@code Position} has an offset of 5 and the region 2-10 is removed, then
+ * so bs to point to the sbme locbtion. If b portion of the document is removed
+ * thbt contbins b {@code Position}'s offset, then the {@code Position}'s
+ * offset becomes thbt of the beginning of the removed region. For exbmple, if
+ * b {@code Position} hbs bn offset of 5 bnd the region 2-10 is removed, then
  * the {@code Position}'s offset becomes 2.
  * <p>
- * {@code Position} with an offset of 0 is a special case. It never changes its
- * offset while document content is altered.
+ * {@code Position} with bn offset of 0 is b specibl cbse. It never chbnges its
+ * offset while document content is bltered.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public interface Position {
+public interfbce Position {
 
     /**
      * Fetches the current offset within the document.
@@ -56,38 +56,38 @@ public interface Position {
     public int getOffset();
 
     /**
-     * A typesafe enumeration to indicate bias to a position
-     * in the model.  A position indicates a location between
-     * two characters.  The bias can be used to indicate an
-     * interest toward one of the two sides of the position
-     * in boundary conditions where a simple offset is
-     * ambiguous.
+     * A typesbfe enumerbtion to indicbte bibs to b position
+     * in the model.  A position indicbtes b locbtion between
+     * two chbrbcters.  The bibs cbn be used to indicbte bn
+     * interest towbrd one of the two sides of the position
+     * in boundbry conditions where b simple offset is
+     * bmbiguous.
      */
-    public static final class Bias {
+    public stbtic finbl clbss Bibs {
 
         /**
-         * Indicates to bias toward the next character
+         * Indicbtes to bibs towbrd the next chbrbcter
          * in the model.
          */
-        public static final Bias Forward = new Bias("Forward");
+        public stbtic finbl Bibs Forwbrd = new Bibs("Forwbrd");
 
         /**
-         * Indicates a bias toward the previous character
+         * Indicbtes b bibs towbrd the previous chbrbcter
          * in the model.
          */
-        public static final Bias Backward = new Bias("Backward");
+        public stbtic finbl Bibs Bbckwbrd = new Bibs("Bbckwbrd");
 
         /**
-         * string representation
+         * string representbtion
          */
         public String toString() {
-            return name;
+            return nbme;
         }
 
-        private Bias(String name) {
-            this.name = name;
+        privbte Bibs(String nbme) {
+            this.nbme = nbme;
         }
 
-        private String name;
+        privbte String nbme;
     }
 }

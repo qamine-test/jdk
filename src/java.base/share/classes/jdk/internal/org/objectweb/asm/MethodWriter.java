@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,579 +56,579 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * A {@link MethodVisitor} that generates methods in bytecode form. Each visit
- * method of this class appends the bytecode corresponding to the visited
- * instruction to a byte vector, in the order these methods are called.
+ * A {@link MethodVisitor} thbt generbtes methods in bytecode form. Ebch visit
+ * method of this clbss bppends the bytecode corresponding to the visited
+ * instruction to b byte vector, in the order these methods bre cblled.
  *
- * @author Eric Bruneton
- * @author Eugene Kuleshov
+ * @buthor Eric Bruneton
+ * @buthor Eugene Kuleshov
  */
-class MethodWriter extends MethodVisitor {
+clbss MethodWriter extends MethodVisitor {
 
     /**
-     * Pseudo access flag used to denote constructors.
+     * Pseudo bccess flbg used to denote constructors.
      */
-    static final int ACC_CONSTRUCTOR = 0x80000;
+    stbtic finbl int ACC_CONSTRUCTOR = 0x80000;
 
     /**
-     * Frame has exactly the same locals as the previous stack map frame and
-     * number of stack items is zero.
+     * Frbme hbs exbctly the sbme locbls bs the previous stbck mbp frbme bnd
+     * number of stbck items is zero.
      */
-    static final int SAME_FRAME = 0; // to 63 (0-3f)
+    stbtic finbl int SAME_FRAME = 0; // to 63 (0-3f)
 
     /**
-     * Frame has exactly the same locals as the previous stack map frame and
-     * number of stack items is 1
+     * Frbme hbs exbctly the sbme locbls bs the previous stbck mbp frbme bnd
+     * number of stbck items is 1
      */
-    static final int SAME_LOCALS_1_STACK_ITEM_FRAME = 64; // to 127 (40-7f)
+    stbtic finbl int SAME_LOCALS_1_STACK_ITEM_FRAME = 64; // to 127 (40-7f)
 
     /**
      * Reserved for future use
      */
-    static final int RESERVED = 128;
+    stbtic finbl int RESERVED = 128;
 
     /**
-     * Frame has exactly the same locals as the previous stack map frame and
-     * number of stack items is 1. Offset is bigger then 63;
+     * Frbme hbs exbctly the sbme locbls bs the previous stbck mbp frbme bnd
+     * number of stbck items is 1. Offset is bigger then 63;
      */
-    static final int SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED = 247; // f7
+    stbtic finbl int SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED = 247; // f7
 
     /**
-     * Frame where current locals are the same as the locals in the previous
-     * frame, except that the k last locals are absent. The value of k is given
-     * by the formula 251-frame_type.
+     * Frbme where current locbls bre the sbme bs the locbls in the previous
+     * frbme, except thbt the k lbst locbls bre bbsent. The vblue of k is given
+     * by the formulb 251-frbme_type.
      */
-    static final int CHOP_FRAME = 248; // to 250 (f8-fA)
+    stbtic finbl int CHOP_FRAME = 248; // to 250 (f8-fA)
 
     /**
-     * Frame has exactly the same locals as the previous stack map frame and
-     * number of stack items is zero. Offset is bigger then 63;
+     * Frbme hbs exbctly the sbme locbls bs the previous stbck mbp frbme bnd
+     * number of stbck items is zero. Offset is bigger then 63;
      */
-    static final int SAME_FRAME_EXTENDED = 251; // fb
+    stbtic finbl int SAME_FRAME_EXTENDED = 251; // fb
 
     /**
-     * Frame where current locals are the same as the locals in the previous
-     * frame, except that k additional locals are defined. The value of k is
-     * given by the formula frame_type-251.
+     * Frbme where current locbls bre the sbme bs the locbls in the previous
+     * frbme, except thbt k bdditionbl locbls bre defined. The vblue of k is
+     * given by the formulb frbme_type-251.
      */
-    static final int APPEND_FRAME = 252; // to 254 // fc-fe
+    stbtic finbl int APPEND_FRAME = 252; // to 254 // fc-fe
 
     /**
-     * Full frame
+     * Full frbme
      */
-    static final int FULL_FRAME = 255; // ff
+    stbtic finbl int FULL_FRAME = 255; // ff
 
     /**
-     * Indicates that the stack map frames must be recomputed from scratch. In
-     * this case the maximum stack size and number of local variables is also
-     * recomputed from scratch.
+     * Indicbtes thbt the stbck mbp frbmes must be recomputed from scrbtch. In
+     * this cbse the mbximum stbck size bnd number of locbl vbribbles is blso
+     * recomputed from scrbtch.
      *
      * @see #compute
      */
-    private static final int FRAMES = 0;
+    privbte stbtic finbl int FRAMES = 0;
 
     /**
-     * Indicates that the maximum stack size and number of local variables must
-     * be automatically computed.
+     * Indicbtes thbt the mbximum stbck size bnd number of locbl vbribbles must
+     * be butombticblly computed.
      *
      * @see #compute
      */
-    private static final int MAXS = 1;
+    privbte stbtic finbl int MAXS = 1;
 
     /**
-     * Indicates that nothing must be automatically computed.
+     * Indicbtes thbt nothing must be butombticblly computed.
      *
      * @see #compute
      */
-    private static final int NOTHING = 2;
+    privbte stbtic finbl int NOTHING = 2;
 
     /**
-     * The class writer to which this method must be added.
+     * The clbss writer to which this method must be bdded.
      */
-    final ClassWriter cw;
+    finbl ClbssWriter cw;
 
     /**
-     * Access flags of this method.
+     * Access flbgs of this method.
      */
-    private int access;
+    privbte int bccess;
 
     /**
-     * The index of the constant pool item that contains the name of this
+     * The index of the constbnt pool item thbt contbins the nbme of this
      * method.
      */
-    private final int name;
+    privbte finbl int nbme;
 
     /**
-     * The index of the constant pool item that contains the descriptor of this
+     * The index of the constbnt pool item thbt contbins the descriptor of this
      * method.
      */
-    private final int desc;
+    privbte finbl int desc;
 
     /**
      * The descriptor of this method.
      */
-    private final String descriptor;
+    privbte finbl String descriptor;
 
     /**
-     * The signature of this method.
+     * The signbture of this method.
      */
-    String signature;
+    String signbture;
 
     /**
-     * If not zero, indicates that the code of this method must be copied from
-     * the ClassReader associated to this writer in <code>cw.cr</code>. More
+     * If not zero, indicbtes thbt the code of this method must be copied from
+     * the ClbssRebder bssocibted to this writer in <code>cw.cr</code>. More
      * precisely, this field gives the index of the first byte to copied from
      * <code>cw.cr.b</code>.
      */
-    int classReaderOffset;
+    int clbssRebderOffset;
 
     /**
-     * If not zero, indicates that the code of this method must be copied from
-     * the ClassReader associated to this writer in <code>cw.cr</code>. More
+     * If not zero, indicbtes thbt the code of this method must be copied from
+     * the ClbssRebder bssocibted to this writer in <code>cw.cr</code>. More
      * precisely, this field gives the number of bytes to copied from
      * <code>cw.cr.b</code>.
      */
-    int classReaderLength;
+    int clbssRebderLength;
 
     /**
-     * Number of exceptions that can be thrown by this method.
+     * Number of exceptions thbt cbn be thrown by this method.
      */
     int exceptionCount;
 
     /**
-     * The exceptions that can be thrown by this method. More precisely, this
-     * array contains the indexes of the constant pool items that contain the
-     * internal names of these exception classes.
+     * The exceptions thbt cbn be thrown by this method. More precisely, this
+     * brrby contbins the indexes of the constbnt pool items thbt contbin the
+     * internbl nbmes of these exception clbsses.
      */
     int[] exceptions;
 
     /**
-     * The annotation default attribute of this method. May be <tt>null</tt>.
+     * The bnnotbtion defbult bttribute of this method. Mby be <tt>null</tt>.
      */
-    private ByteVector annd;
+    privbte ByteVector bnnd;
 
     /**
-     * The runtime visible annotations of this method. May be <tt>null</tt>.
+     * The runtime visible bnnotbtions of this method. Mby be <tt>null</tt>.
      */
-    private AnnotationWriter anns;
+    privbte AnnotbtionWriter bnns;
 
     /**
-     * The runtime invisible annotations of this method. May be <tt>null</tt>.
+     * The runtime invisible bnnotbtions of this method. Mby be <tt>null</tt>.
      */
-    private AnnotationWriter ianns;
+    privbte AnnotbtionWriter ibnns;
 
     /**
-     * The runtime visible type annotations of this method. May be <tt>null</tt>
+     * The runtime visible type bnnotbtions of this method. Mby be <tt>null</tt>
      * .
      */
-    private AnnotationWriter tanns;
+    privbte AnnotbtionWriter tbnns;
 
     /**
-     * The runtime invisible type annotations of this method. May be
+     * The runtime invisible type bnnotbtions of this method. Mby be
      * <tt>null</tt>.
      */
-    private AnnotationWriter itanns;
+    privbte AnnotbtionWriter itbnns;
 
     /**
-     * The runtime visible parameter annotations of this method. May be
+     * The runtime visible pbrbmeter bnnotbtions of this method. Mby be
      * <tt>null</tt>.
      */
-    private AnnotationWriter[] panns;
+    privbte AnnotbtionWriter[] pbnns;
 
     /**
-     * The runtime invisible parameter annotations of this method. May be
+     * The runtime invisible pbrbmeter bnnotbtions of this method. Mby be
      * <tt>null</tt>.
      */
-    private AnnotationWriter[] ipanns;
+    privbte AnnotbtionWriter[] ipbnns;
 
     /**
-     * The number of synthetic parameters of this method.
+     * The number of synthetic pbrbmeters of this method.
      */
-    private int synthetics;
+    privbte int synthetics;
 
     /**
-     * The non standard attributes of the method.
+     * The non stbndbrd bttributes of the method.
      */
-    private Attribute attrs;
+    privbte Attribute bttrs;
 
     /**
      * The bytecode of this method.
      */
-    private ByteVector code = new ByteVector();
+    privbte ByteVector code = new ByteVector();
 
     /**
-     * Maximum stack size of this method.
+     * Mbximum stbck size of this method.
      */
-    private int maxStack;
+    privbte int mbxStbck;
 
     /**
-     * Maximum number of local variables for this method.
+     * Mbximum number of locbl vbribbles for this method.
      */
-    private int maxLocals;
+    privbte int mbxLocbls;
 
     /**
-     * Number of local variables in the current stack map frame.
+     * Number of locbl vbribbles in the current stbck mbp frbme.
      */
-    private int currentLocals;
+    privbte int currentLocbls;
 
     /**
-     * Number of stack map frames in the StackMapTable attribute.
+     * Number of stbck mbp frbmes in the StbckMbpTbble bttribute.
      */
-    private int frameCount;
+    privbte int frbmeCount;
 
     /**
-     * The StackMapTable attribute.
+     * The StbckMbpTbble bttribute.
      */
-    private ByteVector stackMap;
+    privbte ByteVector stbckMbp;
 
     /**
-     * The offset of the last frame that was written in the StackMapTable
-     * attribute.
+     * The offset of the lbst frbme thbt wbs written in the StbckMbpTbble
+     * bttribute.
      */
-    private int previousFrameOffset;
+    privbte int previousFrbmeOffset;
 
     /**
-     * The last frame that was written in the StackMapTable attribute.
+     * The lbst frbme thbt wbs written in the StbckMbpTbble bttribute.
      *
-     * @see #frame
+     * @see #frbme
      */
-    private int[] previousFrame;
+    privbte int[] previousFrbme;
 
     /**
-     * The current stack map frame. The first element contains the offset of the
-     * instruction to which the frame corresponds, the second element is the
-     * number of locals and the third one is the number of stack elements. The
-     * local variables start at index 3 and are followed by the operand stack
-     * values. In summary frame[0] = offset, frame[1] = nLocal, frame[2] =
-     * nStack, frame[3] = nLocal. All types are encoded as integers, with the
-     * same format as the one used in {@link Label}, but limited to BASE types.
+     * The current stbck mbp frbme. The first element contbins the offset of the
+     * instruction to which the frbme corresponds, the second element is the
+     * number of locbls bnd the third one is the number of stbck elements. The
+     * locbl vbribbles stbrt bt index 3 bnd bre followed by the operbnd stbck
+     * vblues. In summbry frbme[0] = offset, frbme[1] = nLocbl, frbme[2] =
+     * nStbck, frbme[3] = nLocbl. All types bre encoded bs integers, with the
+     * sbme formbt bs the one used in {@link Lbbel}, but limited to BASE types.
      */
-    private int[] frame;
+    privbte int[] frbme;
 
     /**
-     * Number of elements in the exception handler list.
+     * Number of elements in the exception hbndler list.
      */
-    private int handlerCount;
+    privbte int hbndlerCount;
 
     /**
-     * The first element in the exception handler list.
+     * The first element in the exception hbndler list.
      */
-    private Handler firstHandler;
+    privbte Hbndler firstHbndler;
 
     /**
-     * The last element in the exception handler list.
+     * The lbst element in the exception hbndler list.
      */
-    private Handler lastHandler;
+    privbte Hbndler lbstHbndler;
 
     /**
-     * Number of entries in the MethodParameters attribute.
+     * Number of entries in the MethodPbrbmeters bttribute.
      */
-    private int methodParametersCount;
+    privbte int methodPbrbmetersCount;
 
     /**
-     * The MethodParameters attribute.
+     * The MethodPbrbmeters bttribute.
      */
-    private ByteVector methodParameters;
+    privbte ByteVector methodPbrbmeters;
 
     /**
-     * Number of entries in the LocalVariableTable attribute.
+     * Number of entries in the LocblVbribbleTbble bttribute.
      */
-    private int localVarCount;
+    privbte int locblVbrCount;
 
     /**
-     * The LocalVariableTable attribute.
+     * The LocblVbribbleTbble bttribute.
      */
-    private ByteVector localVar;
+    privbte ByteVector locblVbr;
 
     /**
-     * Number of entries in the LocalVariableTypeTable attribute.
+     * Number of entries in the LocblVbribbleTypeTbble bttribute.
      */
-    private int localVarTypeCount;
+    privbte int locblVbrTypeCount;
 
     /**
-     * The LocalVariableTypeTable attribute.
+     * The LocblVbribbleTypeTbble bttribute.
      */
-    private ByteVector localVarType;
+    privbte ByteVector locblVbrType;
 
     /**
-     * Number of entries in the LineNumberTable attribute.
+     * Number of entries in the LineNumberTbble bttribute.
      */
-    private int lineNumberCount;
+    privbte int lineNumberCount;
 
     /**
-     * The LineNumberTable attribute.
+     * The LineNumberTbble bttribute.
      */
-    private ByteVector lineNumber;
+    privbte ByteVector lineNumber;
 
     /**
-     * The start offset of the last visited instruction.
+     * The stbrt offset of the lbst visited instruction.
      */
-    private int lastCodeOffset;
+    privbte int lbstCodeOffset;
 
     /**
-     * The runtime visible type annotations of the code. May be <tt>null</tt>.
+     * The runtime visible type bnnotbtions of the code. Mby be <tt>null</tt>.
      */
-    private AnnotationWriter ctanns;
+    privbte AnnotbtionWriter ctbnns;
 
     /**
-     * The runtime invisible type annotations of the code. May be <tt>null</tt>.
+     * The runtime invisible type bnnotbtions of the code. Mby be <tt>null</tt>.
      */
-    private AnnotationWriter ictanns;
+    privbte AnnotbtionWriter ictbnns;
 
     /**
-     * The non standard attributes of the method's code.
+     * The non stbndbrd bttributes of the method's code.
      */
-    private Attribute cattrs;
+    privbte Attribute cbttrs;
 
     /**
-     * Indicates if some jump instructions are too small and need to be resized.
+     * Indicbtes if some jump instructions bre too smbll bnd need to be resized.
      */
-    private boolean resize;
+    privbte boolebn resize;
 
     /**
      * The number of subroutines in this method.
      */
-    private int subroutines;
+    privbte int subroutines;
 
     // ------------------------------------------------------------------------
 
     /*
-     * Fields for the control flow graph analysis algorithm (used to compute the
-     * maximum stack size). A control flow graph contains one node per "basic
-     * block", and one edge per "jump" from one basic block to another. Each
-     * node (i.e., each basic block) is represented by the Label object that
-     * corresponds to the first instruction of this basic block. Each node also
-     * stores the list of its successors in the graph, as a linked list of Edge
+     * Fields for the control flow grbph bnblysis blgorithm (used to compute the
+     * mbximum stbck size). A control flow grbph contbins one node per "bbsic
+     * block", bnd one edge per "jump" from one bbsic block to bnother. Ebch
+     * node (i.e., ebch bbsic block) is represented by the Lbbel object thbt
+     * corresponds to the first instruction of this bbsic block. Ebch node blso
+     * stores the list of its successors in the grbph, bs b linked list of Edge
      * objects.
      */
 
     /**
-     * Indicates what must be automatically computed.
+     * Indicbtes whbt must be butombticblly computed.
      *
      * @see #FRAMES
      * @see #MAXS
      * @see #NOTHING
      */
-    private final int compute;
+    privbte finbl int compute;
 
     /**
-     * A list of labels. This list is the list of basic blocks in the method,
-     * i.e. a list of Label objects linked to each other by their
-     * {@link Label#successor} field, in the order they are visited by
-     * {@link MethodVisitor#visitLabel}, and starting with the first basic
+     * A list of lbbels. This list is the list of bbsic blocks in the method,
+     * i.e. b list of Lbbel objects linked to ebch other by their
+     * {@link Lbbel#successor} field, in the order they bre visited by
+     * {@link MethodVisitor#visitLbbel}, bnd stbrting with the first bbsic
      * block.
      */
-    private Label labels;
+    privbte Lbbel lbbels;
 
     /**
-     * The previous basic block.
+     * The previous bbsic block.
      */
-    private Label previousBlock;
+    privbte Lbbel previousBlock;
 
     /**
-     * The current basic block.
+     * The current bbsic block.
      */
-    private Label currentBlock;
+    privbte Lbbel currentBlock;
 
     /**
-     * The (relative) stack size after the last visited instruction. This size
-     * is relative to the beginning of the current basic block, i.e., the true
-     * stack size after the last visited instruction is equal to the
-     * {@link Label#inputStackTop beginStackSize} of the current basic block
-     * plus <tt>stackSize</tt>.
+     * The (relbtive) stbck size bfter the lbst visited instruction. This size
+     * is relbtive to the beginning of the current bbsic block, i.e., the true
+     * stbck size bfter the lbst visited instruction is equbl to the
+     * {@link Lbbel#inputStbckTop beginStbckSize} of the current bbsic block
+     * plus <tt>stbckSize</tt>.
      */
-    private int stackSize;
+    privbte int stbckSize;
 
     /**
-     * The (relative) maximum stack size after the last visited instruction.
-     * This size is relative to the beginning of the current basic block, i.e.,
-     * the true maximum stack size after the last visited instruction is equal
-     * to the {@link Label#inputStackTop beginStackSize} of the current basic
-     * block plus <tt>stackSize</tt>.
+     * The (relbtive) mbximum stbck size bfter the lbst visited instruction.
+     * This size is relbtive to the beginning of the current bbsic block, i.e.,
+     * the true mbximum stbck size bfter the lbst visited instruction is equbl
+     * to the {@link Lbbel#inputStbckTop beginStbckSize} of the current bbsic
+     * block plus <tt>stbckSize</tt>.
      */
-    private int maxStackSize;
+    privbte int mbxStbckSize;
 
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
 
     /**
-     * Constructs a new {@link MethodWriter}.
+     * Constructs b new {@link MethodWriter}.
      *
-     * @param cw
-     *            the class writer in which the method must be added.
-     * @param access
-     *            the method's access flags (see {@link Opcodes}).
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm cw
+     *            the clbss writer in which the method must be bdded.
+     * @pbrbm bccess
+     *            the method's bccess flbgs (see {@link Opcodes}).
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type}).
-     * @param signature
-     *            the method's signature. May be <tt>null</tt>.
-     * @param exceptions
-     *            the internal names of the method's exceptions. May be
+     * @pbrbm signbture
+     *            the method's signbture. Mby be <tt>null</tt>.
+     * @pbrbm exceptions
+     *            the internbl nbmes of the method's exceptions. Mby be
      *            <tt>null</tt>.
-     * @param computeMaxs
-     *            <tt>true</tt> if the maximum stack size and number of local
-     *            variables must be automatically computed.
-     * @param computeFrames
-     *            <tt>true</tt> if the stack map tables must be recomputed from
-     *            scratch.
+     * @pbrbm computeMbxs
+     *            <tt>true</tt> if the mbximum stbck size bnd number of locbl
+     *            vbribbles must be butombticblly computed.
+     * @pbrbm computeFrbmes
+     *            <tt>true</tt> if the stbck mbp tbbles must be recomputed from
+     *            scrbtch.
      */
-    MethodWriter(final ClassWriter cw, final int access, final String name,
-            final String desc, final String signature,
-            final String[] exceptions, final boolean computeMaxs,
-            final boolean computeFrames) {
+    MethodWriter(finbl ClbssWriter cw, finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture,
+            finbl String[] exceptions, finbl boolebn computeMbxs,
+            finbl boolebn computeFrbmes) {
         super(Opcodes.ASM5);
         if (cw.firstMethod == null) {
             cw.firstMethod = this;
         } else {
-            cw.lastMethod.mv = this;
+            cw.lbstMethod.mv = this;
         }
-        cw.lastMethod = this;
+        cw.lbstMethod = this;
         this.cw = cw;
-        this.access = access;
-        if ("<init>".equals(name)) {
-            this.access |= ACC_CONSTRUCTOR;
+        this.bccess = bccess;
+        if ("<init>".equbls(nbme)) {
+            this.bccess |= ACC_CONSTRUCTOR;
         }
-        this.name = cw.newUTF8(name);
+        this.nbme = cw.newUTF8(nbme);
         this.desc = cw.newUTF8(desc);
         this.descriptor = desc;
-        if (ClassReader.SIGNATURES) {
-            this.signature = signature;
+        if (ClbssRebder.SIGNATURES) {
+            this.signbture = signbture;
         }
         if (exceptions != null && exceptions.length > 0) {
             exceptionCount = exceptions.length;
             this.exceptions = new int[exceptionCount];
             for (int i = 0; i < exceptionCount; ++i) {
-                this.exceptions[i] = cw.newClass(exceptions[i]);
+                this.exceptions[i] = cw.newClbss(exceptions[i]);
             }
         }
-        this.compute = computeFrames ? FRAMES : (computeMaxs ? MAXS : NOTHING);
-        if (computeMaxs || computeFrames) {
-            // updates maxLocals
+        this.compute = computeFrbmes ? FRAMES : (computeMbxs ? MAXS : NOTHING);
+        if (computeMbxs || computeFrbmes) {
+            // updbtes mbxLocbls
             int size = Type.getArgumentsAndReturnSizes(descriptor) >> 2;
-            if ((access & Opcodes.ACC_STATIC) != 0) {
+            if ((bccess & Opcodes.ACC_STATIC) != 0) {
                 --size;
             }
-            maxLocals = size;
-            currentLocals = size;
-            // creates and visits the label for the first basic block
-            labels = new Label();
-            labels.status |= Label.PUSHED;
-            visitLabel(labels);
+            mbxLocbls = size;
+            currentLocbls = size;
+            // crebtes bnd visits the lbbel for the first bbsic block
+            lbbels = new Lbbel();
+            lbbels.stbtus |= Lbbel.PUSHED;
+            visitLbbel(lbbels);
         }
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the MethodVisitor abstract class
+    // Implementbtion of the MethodVisitor bbstrbct clbss
     // ------------------------------------------------------------------------
 
     @Override
-    public void visitParameter(String name, int access) {
-        if (methodParameters == null) {
-            methodParameters = new ByteVector();
+    public void visitPbrbmeter(String nbme, int bccess) {
+        if (methodPbrbmeters == null) {
+            methodPbrbmeters = new ByteVector();
         }
-        ++methodParametersCount;
-        methodParameters.putShort((name == null) ? 0 : cw.newUTF8(name))
-                .putShort(access);
+        ++methodPbrbmetersCount;
+        methodPbrbmeters.putShort((nbme == null) ? 0 : cw.newUTF8(nbme))
+                .putShort(bccess);
     }
 
     @Override
-    public AnnotationVisitor visitAnnotationDefault() {
-        if (!ClassReader.ANNOTATIONS) {
+    public AnnotbtionVisitor visitAnnotbtionDefbult() {
+        if (!ClbssRebder.ANNOTATIONS) {
             return null;
         }
-        annd = new ByteVector();
-        return new AnnotationWriter(cw, false, annd, null, 0);
+        bnnd = new ByteVector();
+        return new AnnotbtionWriter(cw, fblse, bnnd, null, 0);
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        if (!ClassReader.ANNOTATIONS) {
+    public AnnotbtionVisitor visitAnnotbtion(finbl String desc,
+            finbl boolebn visible) {
+        if (!ClbssRebder.ANNOTATIONS) {
             return null;
         }
         ByteVector bv = new ByteVector();
-        // write type, and reserve space for values count
+        // write type, bnd reserve spbce for vblues count
         bv.putShort(cw.newUTF8(desc)).putShort(0);
-        AnnotationWriter aw = new AnnotationWriter(cw, true, bv, bv, 2);
+        AnnotbtionWriter bw = new AnnotbtionWriter(cw, true, bv, bv, 2);
         if (visible) {
-            aw.next = anns;
-            anns = aw;
+            bw.next = bnns;
+            bnns = bw;
         } else {
-            aw.next = ianns;
-            ianns = aw;
+            bw.next = ibnns;
+            ibnns = bw;
         }
-        return aw;
+        return bw;
     }
 
     @Override
-    public AnnotationVisitor visitTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        if (!ClassReader.ANNOTATIONS) {
+    public AnnotbtionVisitor visitTypeAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl String desc, finbl boolebn visible) {
+        if (!ClbssRebder.ANNOTATIONS) {
             return null;
         }
         ByteVector bv = new ByteVector();
-        // write target_type and target_info
-        AnnotationWriter.putTarget(typeRef, typePath, bv);
-        // write type, and reserve space for values count
+        // write tbrget_type bnd tbrget_info
+        AnnotbtionWriter.putTbrget(typeRef, typePbth, bv);
+        // write type, bnd reserve spbce for vblues count
         bv.putShort(cw.newUTF8(desc)).putShort(0);
-        AnnotationWriter aw = new AnnotationWriter(cw, true, bv, bv,
+        AnnotbtionWriter bw = new AnnotbtionWriter(cw, true, bv, bv,
                 bv.length - 2);
         if (visible) {
-            aw.next = tanns;
-            tanns = aw;
+            bw.next = tbnns;
+            tbnns = bw;
         } else {
-            aw.next = itanns;
-            itanns = aw;
+            bw.next = itbnns;
+            itbnns = bw;
         }
-        return aw;
+        return bw;
     }
 
     @Override
-    public AnnotationVisitor visitParameterAnnotation(final int parameter,
-            final String desc, final boolean visible) {
-        if (!ClassReader.ANNOTATIONS) {
+    public AnnotbtionVisitor visitPbrbmeterAnnotbtion(finbl int pbrbmeter,
+            finbl String desc, finbl boolebn visible) {
+        if (!ClbssRebder.ANNOTATIONS) {
             return null;
         }
         ByteVector bv = new ByteVector();
-        if ("Ljava/lang/Synthetic;".equals(desc)) {
-            // workaround for a bug in javac with synthetic parameters
-            // see ClassReader.readParameterAnnotations
-            synthetics = Math.max(synthetics, parameter + 1);
-            return new AnnotationWriter(cw, false, bv, null, 0);
+        if ("Ljbvb/lbng/Synthetic;".equbls(desc)) {
+            // workbround for b bug in jbvbc with synthetic pbrbmeters
+            // see ClbssRebder.rebdPbrbmeterAnnotbtions
+            synthetics = Mbth.mbx(synthetics, pbrbmeter + 1);
+            return new AnnotbtionWriter(cw, fblse, bv, null, 0);
         }
-        // write type, and reserve space for values count
+        // write type, bnd reserve spbce for vblues count
         bv.putShort(cw.newUTF8(desc)).putShort(0);
-        AnnotationWriter aw = new AnnotationWriter(cw, true, bv, bv, 2);
+        AnnotbtionWriter bw = new AnnotbtionWriter(cw, true, bv, bv, 2);
         if (visible) {
-            if (panns == null) {
-                panns = new AnnotationWriter[Type.getArgumentTypes(descriptor).length];
+            if (pbnns == null) {
+                pbnns = new AnnotbtionWriter[Type.getArgumentTypes(descriptor).length];
             }
-            aw.next = panns[parameter];
-            panns[parameter] = aw;
+            bw.next = pbnns[pbrbmeter];
+            pbnns[pbrbmeter] = bw;
         } else {
-            if (ipanns == null) {
-                ipanns = new AnnotationWriter[Type.getArgumentTypes(descriptor).length];
+            if (ipbnns == null) {
+                ipbnns = new AnnotbtionWriter[Type.getArgumentTypes(descriptor).length];
             }
-            aw.next = ipanns[parameter];
-            ipanns[parameter] = aw;
+            bw.next = ipbnns[pbrbmeter];
+            ipbnns[pbrbmeter] = bw;
         }
-        return aw;
+        return bw;
     }
 
     @Override
-    public void visitAttribute(final Attribute attr) {
-        if (attr.isCodeAttribute()) {
-            attr.next = cattrs;
-            cattrs = attr;
+    public void visitAttribute(finbl Attribute bttr) {
+        if (bttr.isCodeAttribute()) {
+            bttr.next = cbttrs;
+            cbttrs = bttr;
         } else {
-            attr.next = attrs;
-            attrs = attr;
+            bttr.next = bttrs;
+            bttrs = bttr;
         }
     }
 
@@ -637,125 +637,125 @@ class MethodWriter extends MethodVisitor {
     }
 
     @Override
-    public void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack) {
-        if (!ClassReader.FRAMES || compute == FRAMES) {
+    public void visitFrbme(finbl int type, finbl int nLocbl,
+            finbl Object[] locbl, finbl int nStbck, finbl Object[] stbck) {
+        if (!ClbssRebder.FRAMES || compute == FRAMES) {
             return;
         }
 
         if (type == Opcodes.F_NEW) {
-            if (previousFrame == null) {
-                visitImplicitFirstFrame();
+            if (previousFrbme == null) {
+                visitImplicitFirstFrbme();
             }
-            currentLocals = nLocal;
-            int frameIndex = startFrame(code.length, nLocal, nStack);
-            for (int i = 0; i < nLocal; ++i) {
-                if (local[i] instanceof String) {
-                    frame[frameIndex++] = Frame.OBJECT
-                            | cw.addType((String) local[i]);
-                } else if (local[i] instanceof Integer) {
-                    frame[frameIndex++] = ((Integer) local[i]).intValue();
+            currentLocbls = nLocbl;
+            int frbmeIndex = stbrtFrbme(code.length, nLocbl, nStbck);
+            for (int i = 0; i < nLocbl; ++i) {
+                if (locbl[i] instbnceof String) {
+                    frbme[frbmeIndex++] = Frbme.OBJECT
+                            | cw.bddType((String) locbl[i]);
+                } else if (locbl[i] instbnceof Integer) {
+                    frbme[frbmeIndex++] = ((Integer) locbl[i]).intVblue();
                 } else {
-                    frame[frameIndex++] = Frame.UNINITIALIZED
-                            | cw.addUninitializedType("",
-                                    ((Label) local[i]).position);
+                    frbme[frbmeIndex++] = Frbme.UNINITIALIZED
+                            | cw.bddUninitiblizedType("",
+                                    ((Lbbel) locbl[i]).position);
                 }
             }
-            for (int i = 0; i < nStack; ++i) {
-                if (stack[i] instanceof String) {
-                    frame[frameIndex++] = Frame.OBJECT
-                            | cw.addType((String) stack[i]);
-                } else if (stack[i] instanceof Integer) {
-                    frame[frameIndex++] = ((Integer) stack[i]).intValue();
+            for (int i = 0; i < nStbck; ++i) {
+                if (stbck[i] instbnceof String) {
+                    frbme[frbmeIndex++] = Frbme.OBJECT
+                            | cw.bddType((String) stbck[i]);
+                } else if (stbck[i] instbnceof Integer) {
+                    frbme[frbmeIndex++] = ((Integer) stbck[i]).intVblue();
                 } else {
-                    frame[frameIndex++] = Frame.UNINITIALIZED
-                            | cw.addUninitializedType("",
-                                    ((Label) stack[i]).position);
+                    frbme[frbmeIndex++] = Frbme.UNINITIALIZED
+                            | cw.bddUninitiblizedType("",
+                                    ((Lbbel) stbck[i]).position);
                 }
             }
-            endFrame();
+            endFrbme();
         } else {
-            int delta;
-            if (stackMap == null) {
-                stackMap = new ByteVector();
-                delta = code.length;
+            int deltb;
+            if (stbckMbp == null) {
+                stbckMbp = new ByteVector();
+                deltb = code.length;
             } else {
-                delta = code.length - previousFrameOffset - 1;
-                if (delta < 0) {
+                deltb = code.length - previousFrbmeOffset - 1;
+                if (deltb < 0) {
                     if (type == Opcodes.F_SAME) {
                         return;
                     } else {
-                        throw new IllegalStateException();
+                        throw new IllegblStbteException();
                     }
                 }
             }
 
             switch (type) {
-            case Opcodes.F_FULL:
-                currentLocals = nLocal;
-                stackMap.putByte(FULL_FRAME).putShort(delta).putShort(nLocal);
-                for (int i = 0; i < nLocal; ++i) {
-                    writeFrameType(local[i]);
+            cbse Opcodes.F_FULL:
+                currentLocbls = nLocbl;
+                stbckMbp.putByte(FULL_FRAME).putShort(deltb).putShort(nLocbl);
+                for (int i = 0; i < nLocbl; ++i) {
+                    writeFrbmeType(locbl[i]);
                 }
-                stackMap.putShort(nStack);
-                for (int i = 0; i < nStack; ++i) {
-                    writeFrameType(stack[i]);
+                stbckMbp.putShort(nStbck);
+                for (int i = 0; i < nStbck; ++i) {
+                    writeFrbmeType(stbck[i]);
                 }
-                break;
-            case Opcodes.F_APPEND:
-                currentLocals += nLocal;
-                stackMap.putByte(SAME_FRAME_EXTENDED + nLocal).putShort(delta);
-                for (int i = 0; i < nLocal; ++i) {
-                    writeFrameType(local[i]);
+                brebk;
+            cbse Opcodes.F_APPEND:
+                currentLocbls += nLocbl;
+                stbckMbp.putByte(SAME_FRAME_EXTENDED + nLocbl).putShort(deltb);
+                for (int i = 0; i < nLocbl; ++i) {
+                    writeFrbmeType(locbl[i]);
                 }
-                break;
-            case Opcodes.F_CHOP:
-                currentLocals -= nLocal;
-                stackMap.putByte(SAME_FRAME_EXTENDED - nLocal).putShort(delta);
-                break;
-            case Opcodes.F_SAME:
-                if (delta < 64) {
-                    stackMap.putByte(delta);
+                brebk;
+            cbse Opcodes.F_CHOP:
+                currentLocbls -= nLocbl;
+                stbckMbp.putByte(SAME_FRAME_EXTENDED - nLocbl).putShort(deltb);
+                brebk;
+            cbse Opcodes.F_SAME:
+                if (deltb < 64) {
+                    stbckMbp.putByte(deltb);
                 } else {
-                    stackMap.putByte(SAME_FRAME_EXTENDED).putShort(delta);
+                    stbckMbp.putByte(SAME_FRAME_EXTENDED).putShort(deltb);
                 }
-                break;
-            case Opcodes.F_SAME1:
-                if (delta < 64) {
-                    stackMap.putByte(SAME_LOCALS_1_STACK_ITEM_FRAME + delta);
+                brebk;
+            cbse Opcodes.F_SAME1:
+                if (deltb < 64) {
+                    stbckMbp.putByte(SAME_LOCALS_1_STACK_ITEM_FRAME + deltb);
                 } else {
-                    stackMap.putByte(SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED)
-                            .putShort(delta);
+                    stbckMbp.putByte(SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED)
+                            .putShort(deltb);
                 }
-                writeFrameType(stack[0]);
-                break;
+                writeFrbmeType(stbck[0]);
+                brebk;
             }
 
-            previousFrameOffset = code.length;
-            ++frameCount;
+            previousFrbmeOffset = code.length;
+            ++frbmeCount;
         }
 
-        maxStack = Math.max(maxStack, nStack);
-        maxLocals = Math.max(maxLocals, currentLocals);
+        mbxStbck = Mbth.mbx(mbxStbck, nStbck);
+        mbxLocbls = Mbth.mbx(mbxLocbls, currentLocbls);
     }
 
     @Override
-    public void visitInsn(final int opcode) {
-        lastCodeOffset = code.length;
-        // adds the instruction to the bytecode of the method
+    public void visitInsn(finbl int opcode) {
+        lbstCodeOffset = code.length;
+        // bdds the instruction to the bytecode of the method
         code.putByte(opcode);
-        // update currentBlock
-        // Label currentBlock = this.currentBlock;
+        // updbte currentBlock
+        // Lbbel currentBlock = this.currentBlock;
         if (currentBlock != null) {
             if (compute == FRAMES) {
-                currentBlock.frame.execute(opcode, 0, null, null);
+                currentBlock.frbme.execute(opcode, 0, null, null);
             } else {
-                // updates current and max stack sizes
-                int size = stackSize + Frame.SIZE[opcode];
-                if (size > maxStackSize) {
-                    maxStackSize = size;
+                // updbtes current bnd mbx stbck sizes
+                int size = stbckSize + Frbme.SIZE[opcode];
+                if (size > mbxStbckSize) {
+                    mbxStbckSize = size;
                 }
-                stackSize = size;
+                stbckSize = size;
             }
             // if opcode == ATHROW or xRETURN, ends current block (no successor)
             if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)
@@ -766,327 +766,327 @@ class MethodWriter extends MethodVisitor {
     }
 
     @Override
-    public void visitIntInsn(final int opcode, final int operand) {
-        lastCodeOffset = code.length;
-        // Label currentBlock = this.currentBlock;
+    public void visitIntInsn(finbl int opcode, finbl int operbnd) {
+        lbstCodeOffset = code.length;
+        // Lbbel currentBlock = this.currentBlock;
         if (currentBlock != null) {
             if (compute == FRAMES) {
-                currentBlock.frame.execute(opcode, operand, null, null);
+                currentBlock.frbme.execute(opcode, operbnd, null, null);
             } else if (opcode != Opcodes.NEWARRAY) {
-                // updates current and max stack sizes only for NEWARRAY
-                // (stack size variation = 0 for BIPUSH or SIPUSH)
-                int size = stackSize + 1;
-                if (size > maxStackSize) {
-                    maxStackSize = size;
+                // updbtes current bnd mbx stbck sizes only for NEWARRAY
+                // (stbck size vbribtion = 0 for BIPUSH or SIPUSH)
+                int size = stbckSize + 1;
+                if (size > mbxStbckSize) {
+                    mbxStbckSize = size;
                 }
-                stackSize = size;
+                stbckSize = size;
             }
         }
-        // adds the instruction to the bytecode of the method
+        // bdds the instruction to the bytecode of the method
         if (opcode == Opcodes.SIPUSH) {
-            code.put12(opcode, operand);
+            code.put12(opcode, operbnd);
         } else { // BIPUSH or NEWARRAY
-            code.put11(opcode, operand);
+            code.put11(opcode, operbnd);
         }
     }
 
     @Override
-    public void visitVarInsn(final int opcode, final int var) {
-        lastCodeOffset = code.length;
-        // Label currentBlock = this.currentBlock;
+    public void visitVbrInsn(finbl int opcode, finbl int vbr) {
+        lbstCodeOffset = code.length;
+        // Lbbel currentBlock = this.currentBlock;
         if (currentBlock != null) {
             if (compute == FRAMES) {
-                currentBlock.frame.execute(opcode, var, null, null);
+                currentBlock.frbme.execute(opcode, vbr, null, null);
             } else {
-                // updates current and max stack sizes
+                // updbtes current bnd mbx stbck sizes
                 if (opcode == Opcodes.RET) {
-                    // no stack change, but end of current block (no successor)
-                    currentBlock.status |= Label.RET;
-                    // save 'stackSize' here for future use
+                    // no stbck chbnge, but end of current block (no successor)
+                    currentBlock.stbtus |= Lbbel.RET;
+                    // sbve 'stbckSize' here for future use
                     // (see {@link #findSubroutineSuccessors})
-                    currentBlock.inputStackTop = stackSize;
+                    currentBlock.inputStbckTop = stbckSize;
                     noSuccessor();
                 } else { // xLOAD or xSTORE
-                    int size = stackSize + Frame.SIZE[opcode];
-                    if (size > maxStackSize) {
-                        maxStackSize = size;
+                    int size = stbckSize + Frbme.SIZE[opcode];
+                    if (size > mbxStbckSize) {
+                        mbxStbckSize = size;
                     }
-                    stackSize = size;
+                    stbckSize = size;
                 }
             }
         }
         if (compute != NOTHING) {
-            // updates max locals
+            // updbtes mbx locbls
             int n;
             if (opcode == Opcodes.LLOAD || opcode == Opcodes.DLOAD
                     || opcode == Opcodes.LSTORE || opcode == Opcodes.DSTORE) {
-                n = var + 2;
+                n = vbr + 2;
             } else {
-                n = var + 1;
+                n = vbr + 1;
             }
-            if (n > maxLocals) {
-                maxLocals = n;
+            if (n > mbxLocbls) {
+                mbxLocbls = n;
             }
         }
-        // adds the instruction to the bytecode of the method
-        if (var < 4 && opcode != Opcodes.RET) {
+        // bdds the instruction to the bytecode of the method
+        if (vbr < 4 && opcode != Opcodes.RET) {
             int opt;
             if (opcode < Opcodes.ISTORE) {
                 /* ILOAD_0 */
-                opt = 26 + ((opcode - Opcodes.ILOAD) << 2) + var;
+                opt = 26 + ((opcode - Opcodes.ILOAD) << 2) + vbr;
             } else {
                 /* ISTORE_0 */
-                opt = 59 + ((opcode - Opcodes.ISTORE) << 2) + var;
+                opt = 59 + ((opcode - Opcodes.ISTORE) << 2) + vbr;
             }
             code.putByte(opt);
-        } else if (var >= 256) {
-            code.putByte(196 /* WIDE */).put12(opcode, var);
+        } else if (vbr >= 256) {
+            code.putByte(196 /* WIDE */).put12(opcode, vbr);
         } else {
-            code.put11(opcode, var);
+            code.put11(opcode, vbr);
         }
-        if (opcode >= Opcodes.ISTORE && compute == FRAMES && handlerCount > 0) {
-            visitLabel(new Label());
+        if (opcode >= Opcodes.ISTORE && compute == FRAMES && hbndlerCount > 0) {
+            visitLbbel(new Lbbel());
         }
     }
 
     @Override
-    public void visitTypeInsn(final int opcode, final String type) {
-        lastCodeOffset = code.length;
-        Item i = cw.newClassItem(type);
-        // Label currentBlock = this.currentBlock;
+    public void visitTypeInsn(finbl int opcode, finbl String type) {
+        lbstCodeOffset = code.length;
+        Item i = cw.newClbssItem(type);
+        // Lbbel currentBlock = this.currentBlock;
         if (currentBlock != null) {
             if (compute == FRAMES) {
-                currentBlock.frame.execute(opcode, code.length, cw, i);
+                currentBlock.frbme.execute(opcode, code.length, cw, i);
             } else if (opcode == Opcodes.NEW) {
-                // updates current and max stack sizes only if opcode == NEW
-                // (no stack change for ANEWARRAY, CHECKCAST, INSTANCEOF)
-                int size = stackSize + 1;
-                if (size > maxStackSize) {
-                    maxStackSize = size;
+                // updbtes current bnd mbx stbck sizes only if opcode == NEW
+                // (no stbck chbnge for ANEWARRAY, CHECKCAST, INSTANCEOF)
+                int size = stbckSize + 1;
+                if (size > mbxStbckSize) {
+                    mbxStbckSize = size;
                 }
-                stackSize = size;
+                stbckSize = size;
             }
         }
-        // adds the instruction to the bytecode of the method
+        // bdds the instruction to the bytecode of the method
         code.put12(opcode, i.index);
     }
 
     @Override
-    public void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        lastCodeOffset = code.length;
-        Item i = cw.newFieldItem(owner, name, desc);
-        // Label currentBlock = this.currentBlock;
+    public void visitFieldInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc) {
+        lbstCodeOffset = code.length;
+        Item i = cw.newFieldItem(owner, nbme, desc);
+        // Lbbel currentBlock = this.currentBlock;
         if (currentBlock != null) {
             if (compute == FRAMES) {
-                currentBlock.frame.execute(opcode, 0, cw, i);
+                currentBlock.frbme.execute(opcode, 0, cw, i);
             } else {
                 int size;
-                // computes the stack size variation
-                char c = desc.charAt(0);
+                // computes the stbck size vbribtion
+                chbr c = desc.chbrAt(0);
                 switch (opcode) {
-                case Opcodes.GETSTATIC:
-                    size = stackSize + (c == 'D' || c == 'J' ? 2 : 1);
-                    break;
-                case Opcodes.PUTSTATIC:
-                    size = stackSize + (c == 'D' || c == 'J' ? -2 : -1);
-                    break;
-                case Opcodes.GETFIELD:
-                    size = stackSize + (c == 'D' || c == 'J' ? 1 : 0);
-                    break;
-                // case Constants.PUTFIELD:
-                default:
-                    size = stackSize + (c == 'D' || c == 'J' ? -3 : -2);
-                    break;
+                cbse Opcodes.GETSTATIC:
+                    size = stbckSize + (c == 'D' || c == 'J' ? 2 : 1);
+                    brebk;
+                cbse Opcodes.PUTSTATIC:
+                    size = stbckSize + (c == 'D' || c == 'J' ? -2 : -1);
+                    brebk;
+                cbse Opcodes.GETFIELD:
+                    size = stbckSize + (c == 'D' || c == 'J' ? 1 : 0);
+                    brebk;
+                // cbse Constbnts.PUTFIELD:
+                defbult:
+                    size = stbckSize + (c == 'D' || c == 'J' ? -3 : -2);
+                    brebk;
                 }
-                // updates current and max stack sizes
-                if (size > maxStackSize) {
-                    maxStackSize = size;
+                // updbtes current bnd mbx stbck sizes
+                if (size > mbxStbckSize) {
+                    mbxStbckSize = size;
                 }
-                stackSize = size;
+                stbckSize = size;
             }
         }
-        // adds the instruction to the bytecode of the method
+        // bdds the instruction to the bytecode of the method
         code.put12(opcode, i.index);
     }
 
     @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        lastCodeOffset = code.length;
-        Item i = cw.newMethodItem(owner, name, desc, itf);
-        int argSize = i.intVal;
-        // Label currentBlock = this.currentBlock;
+    public void visitMethodInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc, finbl boolebn itf) {
+        lbstCodeOffset = code.length;
+        Item i = cw.newMethodItem(owner, nbme, desc, itf);
+        int brgSize = i.intVbl;
+        // Lbbel currentBlock = this.currentBlock;
         if (currentBlock != null) {
             if (compute == FRAMES) {
-                currentBlock.frame.execute(opcode, 0, cw, i);
+                currentBlock.frbme.execute(opcode, 0, cw, i);
             } else {
                 /*
-                 * computes the stack size variation. In order not to recompute
-                 * several times this variation for the same Item, we use the
-                 * intVal field of this item to store this variation, once it
-                 * has been computed. More precisely this intVal field stores
-                 * the sizes of the arguments and of the return value
+                 * computes the stbck size vbribtion. In order not to recompute
+                 * severbl times this vbribtion for the sbme Item, we use the
+                 * intVbl field of this item to store this vbribtion, once it
+                 * hbs been computed. More precisely this intVbl field stores
+                 * the sizes of the brguments bnd of the return vblue
                  * corresponding to desc.
                  */
-                if (argSize == 0) {
-                    // the above sizes have not been computed yet,
+                if (brgSize == 0) {
+                    // the bbove sizes hbve not been computed yet,
                     // so we compute them...
-                    argSize = Type.getArgumentsAndReturnSizes(desc);
-                    // ... and we save them in order
+                    brgSize = Type.getArgumentsAndReturnSizes(desc);
+                    // ... bnd we sbve them in order
                     // not to recompute them in the future
-                    i.intVal = argSize;
+                    i.intVbl = brgSize;
                 }
                 int size;
                 if (opcode == Opcodes.INVOKESTATIC) {
-                    size = stackSize - (argSize >> 2) + (argSize & 0x03) + 1;
+                    size = stbckSize - (brgSize >> 2) + (brgSize & 0x03) + 1;
                 } else {
-                    size = stackSize - (argSize >> 2) + (argSize & 0x03);
+                    size = stbckSize - (brgSize >> 2) + (brgSize & 0x03);
                 }
-                // updates current and max stack sizes
-                if (size > maxStackSize) {
-                    maxStackSize = size;
+                // updbtes current bnd mbx stbck sizes
+                if (size > mbxStbckSize) {
+                    mbxStbckSize = size;
                 }
-                stackSize = size;
+                stbckSize = size;
             }
         }
-        // adds the instruction to the bytecode of the method
+        // bdds the instruction to the bytecode of the method
         if (opcode == Opcodes.INVOKEINTERFACE) {
-            if (argSize == 0) {
-                argSize = Type.getArgumentsAndReturnSizes(desc);
-                i.intVal = argSize;
+            if (brgSize == 0) {
+                brgSize = Type.getArgumentsAndReturnSizes(desc);
+                i.intVbl = brgSize;
             }
-            code.put12(Opcodes.INVOKEINTERFACE, i.index).put11(argSize >> 2, 0);
+            code.put12(Opcodes.INVOKEINTERFACE, i.index).put11(brgSize >> 2, 0);
         } else {
             code.put12(opcode, i.index);
         }
     }
 
     @Override
-    public void visitInvokeDynamicInsn(final String name, final String desc,
-            final Handle bsm, final Object... bsmArgs) {
-        lastCodeOffset = code.length;
-        Item i = cw.newInvokeDynamicItem(name, desc, bsm, bsmArgs);
-        int argSize = i.intVal;
-        // Label currentBlock = this.currentBlock;
+    public void visitInvokeDynbmicInsn(finbl String nbme, finbl String desc,
+            finbl Hbndle bsm, finbl Object... bsmArgs) {
+        lbstCodeOffset = code.length;
+        Item i = cw.newInvokeDynbmicItem(nbme, desc, bsm, bsmArgs);
+        int brgSize = i.intVbl;
+        // Lbbel currentBlock = this.currentBlock;
         if (currentBlock != null) {
             if (compute == FRAMES) {
-                currentBlock.frame.execute(Opcodes.INVOKEDYNAMIC, 0, cw, i);
+                currentBlock.frbme.execute(Opcodes.INVOKEDYNAMIC, 0, cw, i);
             } else {
                 /*
-                 * computes the stack size variation. In order not to recompute
-                 * several times this variation for the same Item, we use the
-                 * intVal field of this item to store this variation, once it
-                 * has been computed. More precisely this intVal field stores
-                 * the sizes of the arguments and of the return value
+                 * computes the stbck size vbribtion. In order not to recompute
+                 * severbl times this vbribtion for the sbme Item, we use the
+                 * intVbl field of this item to store this vbribtion, once it
+                 * hbs been computed. More precisely this intVbl field stores
+                 * the sizes of the brguments bnd of the return vblue
                  * corresponding to desc.
                  */
-                if (argSize == 0) {
-                    // the above sizes have not been computed yet,
+                if (brgSize == 0) {
+                    // the bbove sizes hbve not been computed yet,
                     // so we compute them...
-                    argSize = Type.getArgumentsAndReturnSizes(desc);
-                    // ... and we save them in order
+                    brgSize = Type.getArgumentsAndReturnSizes(desc);
+                    // ... bnd we sbve them in order
                     // not to recompute them in the future
-                    i.intVal = argSize;
+                    i.intVbl = brgSize;
                 }
-                int size = stackSize - (argSize >> 2) + (argSize & 0x03) + 1;
+                int size = stbckSize - (brgSize >> 2) + (brgSize & 0x03) + 1;
 
-                // updates current and max stack sizes
-                if (size > maxStackSize) {
-                    maxStackSize = size;
+                // updbtes current bnd mbx stbck sizes
+                if (size > mbxStbckSize) {
+                    mbxStbckSize = size;
                 }
-                stackSize = size;
+                stbckSize = size;
             }
         }
-        // adds the instruction to the bytecode of the method
+        // bdds the instruction to the bytecode of the method
         code.put12(Opcodes.INVOKEDYNAMIC, i.index);
         code.putShort(0);
     }
 
     @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
-        lastCodeOffset = code.length;
-        Label nextInsn = null;
-        // Label currentBlock = this.currentBlock;
+    public void visitJumpInsn(finbl int opcode, finbl Lbbel lbbel) {
+        lbstCodeOffset = code.length;
+        Lbbel nextInsn = null;
+        // Lbbel currentBlock = this.currentBlock;
         if (currentBlock != null) {
             if (compute == FRAMES) {
-                currentBlock.frame.execute(opcode, 0, null, null);
-                // 'label' is the target of a jump instruction
-                label.getFirst().status |= Label.TARGET;
-                // adds 'label' as a successor of this basic block
-                addSuccessor(Edge.NORMAL, label);
+                currentBlock.frbme.execute(opcode, 0, null, null);
+                // 'lbbel' is the tbrget of b jump instruction
+                lbbel.getFirst().stbtus |= Lbbel.TARGET;
+                // bdds 'lbbel' bs b successor of this bbsic block
+                bddSuccessor(Edge.NORMAL, lbbel);
                 if (opcode != Opcodes.GOTO) {
-                    // creates a Label for the next basic block
-                    nextInsn = new Label();
+                    // crebtes b Lbbel for the next bbsic block
+                    nextInsn = new Lbbel();
                 }
             } else {
                 if (opcode == Opcodes.JSR) {
-                    if ((label.status & Label.SUBROUTINE) == 0) {
-                        label.status |= Label.SUBROUTINE;
+                    if ((lbbel.stbtus & Lbbel.SUBROUTINE) == 0) {
+                        lbbel.stbtus |= Lbbel.SUBROUTINE;
                         ++subroutines;
                     }
-                    currentBlock.status |= Label.JSR;
-                    addSuccessor(stackSize + 1, label);
-                    // creates a Label for the next basic block
-                    nextInsn = new Label();
+                    currentBlock.stbtus |= Lbbel.JSR;
+                    bddSuccessor(stbckSize + 1, lbbel);
+                    // crebtes b Lbbel for the next bbsic block
+                    nextInsn = new Lbbel();
                     /*
-                     * note that, by construction in this method, a JSR block
-                     * has at least two successors in the control flow graph:
-                     * the first one leads the next instruction after the JSR,
-                     * while the second one leads to the JSR target.
+                     * note thbt, by construction in this method, b JSR block
+                     * hbs bt lebst two successors in the control flow grbph:
+                     * the first one lebds the next instruction bfter the JSR,
+                     * while the second one lebds to the JSR tbrget.
                      */
                 } else {
-                    // updates current stack size (max stack size unchanged
-                    // because stack size variation always negative in this
-                    // case)
-                    stackSize += Frame.SIZE[opcode];
-                    addSuccessor(stackSize, label);
+                    // updbtes current stbck size (mbx stbck size unchbnged
+                    // becbuse stbck size vbribtion blwbys negbtive in this
+                    // cbse)
+                    stbckSize += Frbme.SIZE[opcode];
+                    bddSuccessor(stbckSize, lbbel);
                 }
             }
         }
-        // adds the instruction to the bytecode of the method
-        if ((label.status & Label.RESOLVED) != 0
-                && label.position - code.length < Short.MIN_VALUE) {
+        // bdds the instruction to the bytecode of the method
+        if ((lbbel.stbtus & Lbbel.RESOLVED) != 0
+                && lbbel.position - code.length < Short.MIN_VALUE) {
             /*
-             * case of a backward jump with an offset < -32768. In this case we
-             * automatically replace GOTO with GOTO_W, JSR with JSR_W and IFxxx
+             * cbse of b bbckwbrd jump with bn offset < -32768. In this cbse we
+             * butombticblly replbce GOTO with GOTO_W, JSR with JSR_W bnd IFxxx
              * <l> with IFNOTxxx <l'> GOTO_W <l>, where IFNOTxxx is the
-             * "opposite" opcode of IFxxx (i.e., IFNE for IFEQ) and where <l'>
-             * designates the instruction just after the GOTO_W.
+             * "opposite" opcode of IFxxx (i.e., IFNE for IFEQ) bnd where <l'>
+             * designbtes the instruction just bfter the GOTO_W.
              */
             if (opcode == Opcodes.GOTO) {
                 code.putByte(200); // GOTO_W
             } else if (opcode == Opcodes.JSR) {
                 code.putByte(201); // JSR_W
             } else {
-                // if the IF instruction is transformed into IFNOT GOTO_W the
-                // next instruction becomes the target of the IFNOT instruction
+                // if the IF instruction is trbnsformed into IFNOT GOTO_W the
+                // next instruction becomes the tbrget of the IFNOT instruction
                 if (nextInsn != null) {
-                    nextInsn.status |= Label.TARGET;
+                    nextInsn.stbtus |= Lbbel.TARGET;
                 }
                 code.putByte(opcode <= 166 ? ((opcode + 1) ^ 1) - 1
                         : opcode ^ 1);
                 code.putShort(8); // jump offset
                 code.putByte(200); // GOTO_W
             }
-            label.put(this, code, code.length - 1, true);
+            lbbel.put(this, code, code.length - 1, true);
         } else {
             /*
-             * case of a backward jump with an offset >= -32768, or of a forward
-             * jump with, of course, an unknown offset. In these cases we store
-             * the offset in 2 bytes (which will be increased in
+             * cbse of b bbckwbrd jump with bn offset >= -32768, or of b forwbrd
+             * jump with, of course, bn unknown offset. In these cbses we store
+             * the offset in 2 bytes (which will be increbsed in
              * resizeInstructions, if needed).
              */
             code.putByte(opcode);
-            label.put(this, code, code.length - 1, false);
+            lbbel.put(this, code, code.length - 1, fblse);
         }
         if (currentBlock != null) {
             if (nextInsn != null) {
-                // if the jump instruction is not a GOTO, the next instruction
-                // is also a successor of this instruction. Calling visitLabel
-                // adds the label of this next instruction as a successor of the
-                // current block, and starts a new basic block
-                visitLabel(nextInsn);
+                // if the jump instruction is not b GOTO, the next instruction
+                // is blso b successor of this instruction. Cblling visitLbbel
+                // bdds the lbbel of this next instruction bs b successor of the
+                // current block, bnd stbrts b new bbsic block
+                visitLbbel(nextInsn);
             }
             if (opcode == Opcodes.GOTO) {
                 noSuccessor();
@@ -1095,86 +1095,86 @@ class MethodWriter extends MethodVisitor {
     }
 
     @Override
-    public void visitLabel(final Label label) {
-        // resolves previous forward references to label, if any
-        resize |= label.resolve(this, code.length, code.data);
-        // updates currentBlock
-        if ((label.status & Label.DEBUG) != 0) {
+    public void visitLbbel(finbl Lbbel lbbel) {
+        // resolves previous forwbrd references to lbbel, if bny
+        resize |= lbbel.resolve(this, code.length, code.dbtb);
+        // updbtes currentBlock
+        if ((lbbel.stbtus & Lbbel.DEBUG) != 0) {
             return;
         }
         if (compute == FRAMES) {
             if (currentBlock != null) {
-                if (label.position == currentBlock.position) {
-                    // successive labels, do not start a new basic block
-                    currentBlock.status |= (label.status & Label.TARGET);
-                    label.frame = currentBlock.frame;
+                if (lbbel.position == currentBlock.position) {
+                    // successive lbbels, do not stbrt b new bbsic block
+                    currentBlock.stbtus |= (lbbel.stbtus & Lbbel.TARGET);
+                    lbbel.frbme = currentBlock.frbme;
                     return;
                 }
                 // ends current block (with one new successor)
-                addSuccessor(Edge.NORMAL, label);
+                bddSuccessor(Edge.NORMAL, lbbel);
             }
-            // begins a new current block
-            currentBlock = label;
-            if (label.frame == null) {
-                label.frame = new Frame();
-                label.frame.owner = label;
+            // begins b new current block
+            currentBlock = lbbel;
+            if (lbbel.frbme == null) {
+                lbbel.frbme = new Frbme();
+                lbbel.frbme.owner = lbbel;
             }
-            // updates the basic block list
+            // updbtes the bbsic block list
             if (previousBlock != null) {
-                if (label.position == previousBlock.position) {
-                    previousBlock.status |= (label.status & Label.TARGET);
-                    label.frame = previousBlock.frame;
+                if (lbbel.position == previousBlock.position) {
+                    previousBlock.stbtus |= (lbbel.stbtus & Lbbel.TARGET);
+                    lbbel.frbme = previousBlock.frbme;
                     currentBlock = previousBlock;
                     return;
                 }
-                previousBlock.successor = label;
+                previousBlock.successor = lbbel;
             }
-            previousBlock = label;
+            previousBlock = lbbel;
         } else if (compute == MAXS) {
             if (currentBlock != null) {
                 // ends current block (with one new successor)
-                currentBlock.outputStackMax = maxStackSize;
-                addSuccessor(stackSize, label);
+                currentBlock.outputStbckMbx = mbxStbckSize;
+                bddSuccessor(stbckSize, lbbel);
             }
-            // begins a new current block
-            currentBlock = label;
-            // resets the relative current and max stack sizes
-            stackSize = 0;
-            maxStackSize = 0;
-            // updates the basic block list
+            // begins b new current block
+            currentBlock = lbbel;
+            // resets the relbtive current bnd mbx stbck sizes
+            stbckSize = 0;
+            mbxStbckSize = 0;
+            // updbtes the bbsic block list
             if (previousBlock != null) {
-                previousBlock.successor = label;
+                previousBlock.successor = lbbel;
             }
-            previousBlock = label;
+            previousBlock = lbbel;
         }
     }
 
     @Override
-    public void visitLdcInsn(final Object cst) {
-        lastCodeOffset = code.length;
+    public void visitLdcInsn(finbl Object cst) {
+        lbstCodeOffset = code.length;
         Item i = cw.newConstItem(cst);
-        // Label currentBlock = this.currentBlock;
+        // Lbbel currentBlock = this.currentBlock;
         if (currentBlock != null) {
             if (compute == FRAMES) {
-                currentBlock.frame.execute(Opcodes.LDC, 0, cw, i);
+                currentBlock.frbme.execute(Opcodes.LDC, 0, cw, i);
             } else {
                 int size;
-                // computes the stack size variation
-                if (i.type == ClassWriter.LONG || i.type == ClassWriter.DOUBLE) {
-                    size = stackSize + 2;
+                // computes the stbck size vbribtion
+                if (i.type == ClbssWriter.LONG || i.type == ClbssWriter.DOUBLE) {
+                    size = stbckSize + 2;
                 } else {
-                    size = stackSize + 1;
+                    size = stbckSize + 1;
                 }
-                // updates current and max stack sizes
-                if (size > maxStackSize) {
-                    maxStackSize = size;
+                // updbtes current bnd mbx stbck sizes
+                if (size > mbxStbckSize) {
+                    mbxStbckSize = size;
                 }
-                stackSize = size;
+                stbckSize = size;
             }
         }
-        // adds the instruction to the bytecode of the method
+        // bdds the instruction to the bytecode of the method
         int index = i.index;
-        if (i.type == ClassWriter.LONG || i.type == ClassWriter.DOUBLE) {
+        if (i.type == ClbssWriter.LONG || i.type == ClbssWriter.DOUBLE) {
             code.put12(20 /* LDC2_W */, index);
         } else if (index >= 256) {
             code.put12(19 /* LDC_W */, index);
@@ -1184,83 +1184,83 @@ class MethodWriter extends MethodVisitor {
     }
 
     @Override
-    public void visitIincInsn(final int var, final int increment) {
-        lastCodeOffset = code.length;
+    public void visitIincInsn(finbl int vbr, finbl int increment) {
+        lbstCodeOffset = code.length;
         if (currentBlock != null) {
             if (compute == FRAMES) {
-                currentBlock.frame.execute(Opcodes.IINC, var, null, null);
+                currentBlock.frbme.execute(Opcodes.IINC, vbr, null, null);
             }
         }
         if (compute != NOTHING) {
-            // updates max locals
-            int n = var + 1;
-            if (n > maxLocals) {
-                maxLocals = n;
+            // updbtes mbx locbls
+            int n = vbr + 1;
+            if (n > mbxLocbls) {
+                mbxLocbls = n;
             }
         }
-        // adds the instruction to the bytecode of the method
-        if ((var > 255) || (increment > 127) || (increment < -128)) {
-            code.putByte(196 /* WIDE */).put12(Opcodes.IINC, var)
+        // bdds the instruction to the bytecode of the method
+        if ((vbr > 255) || (increment > 127) || (increment < -128)) {
+            code.putByte(196 /* WIDE */).put12(Opcodes.IINC, vbr)
                     .putShort(increment);
         } else {
-            code.putByte(Opcodes.IINC).put11(var, increment);
+            code.putByte(Opcodes.IINC).put11(vbr, increment);
         }
     }
 
     @Override
-    public void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels) {
-        lastCodeOffset = code.length;
-        // adds the instruction to the bytecode of the method
+    public void visitTbbleSwitchInsn(finbl int min, finbl int mbx,
+            finbl Lbbel dflt, finbl Lbbel... lbbels) {
+        lbstCodeOffset = code.length;
+        // bdds the instruction to the bytecode of the method
         int source = code.length;
         code.putByte(Opcodes.TABLESWITCH);
-        code.putByteArray(null, 0, (4 - code.length % 4) % 4);
+        code.putByteArrby(null, 0, (4 - code.length % 4) % 4);
         dflt.put(this, code, source, true);
-        code.putInt(min).putInt(max);
-        for (int i = 0; i < labels.length; ++i) {
-            labels[i].put(this, code, source, true);
+        code.putInt(min).putInt(mbx);
+        for (int i = 0; i < lbbels.length; ++i) {
+            lbbels[i].put(this, code, source, true);
         }
-        // updates currentBlock
-        visitSwitchInsn(dflt, labels);
+        // updbtes currentBlock
+        visitSwitchInsn(dflt, lbbels);
     }
 
     @Override
-    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
-            final Label[] labels) {
-        lastCodeOffset = code.length;
-        // adds the instruction to the bytecode of the method
+    public void visitLookupSwitchInsn(finbl Lbbel dflt, finbl int[] keys,
+            finbl Lbbel[] lbbels) {
+        lbstCodeOffset = code.length;
+        // bdds the instruction to the bytecode of the method
         int source = code.length;
         code.putByte(Opcodes.LOOKUPSWITCH);
-        code.putByteArray(null, 0, (4 - code.length % 4) % 4);
+        code.putByteArrby(null, 0, (4 - code.length % 4) % 4);
         dflt.put(this, code, source, true);
-        code.putInt(labels.length);
-        for (int i = 0; i < labels.length; ++i) {
+        code.putInt(lbbels.length);
+        for (int i = 0; i < lbbels.length; ++i) {
             code.putInt(keys[i]);
-            labels[i].put(this, code, source, true);
+            lbbels[i].put(this, code, source, true);
         }
-        // updates currentBlock
-        visitSwitchInsn(dflt, labels);
+        // updbtes currentBlock
+        visitSwitchInsn(dflt, lbbels);
     }
 
-    private void visitSwitchInsn(final Label dflt, final Label[] labels) {
-        // Label currentBlock = this.currentBlock;
+    privbte void visitSwitchInsn(finbl Lbbel dflt, finbl Lbbel[] lbbels) {
+        // Lbbel currentBlock = this.currentBlock;
         if (currentBlock != null) {
             if (compute == FRAMES) {
-                currentBlock.frame.execute(Opcodes.LOOKUPSWITCH, 0, null, null);
-                // adds current block successors
-                addSuccessor(Edge.NORMAL, dflt);
-                dflt.getFirst().status |= Label.TARGET;
-                for (int i = 0; i < labels.length; ++i) {
-                    addSuccessor(Edge.NORMAL, labels[i]);
-                    labels[i].getFirst().status |= Label.TARGET;
+                currentBlock.frbme.execute(Opcodes.LOOKUPSWITCH, 0, null, null);
+                // bdds current block successors
+                bddSuccessor(Edge.NORMAL, dflt);
+                dflt.getFirst().stbtus |= Lbbel.TARGET;
+                for (int i = 0; i < lbbels.length; ++i) {
+                    bddSuccessor(Edge.NORMAL, lbbels[i]);
+                    lbbels[i].getFirst().stbtus |= Lbbel.TARGET;
                 }
             } else {
-                // updates current stack size (max stack size unchanged)
-                --stackSize;
-                // adds current block successors
-                addSuccessor(stackSize, dflt);
-                for (int i = 0; i < labels.length; ++i) {
-                    addSuccessor(stackSize, labels[i]);
+                // updbtes current stbck size (mbx stbck size unchbnged)
+                --stbckSize;
+                // bdds current block successors
+                bddSuccessor(stbckSize, dflt);
+                for (int i = 0; i < lbbels.length; ++i) {
+                    bddSuccessor(stbckSize, lbbels[i]);
                 }
             }
             // ends current block
@@ -1269,338 +1269,338 @@ class MethodWriter extends MethodVisitor {
     }
 
     @Override
-    public void visitMultiANewArrayInsn(final String desc, final int dims) {
-        lastCodeOffset = code.length;
-        Item i = cw.newClassItem(desc);
-        // Label currentBlock = this.currentBlock;
+    public void visitMultiANewArrbyInsn(finbl String desc, finbl int dims) {
+        lbstCodeOffset = code.length;
+        Item i = cw.newClbssItem(desc);
+        // Lbbel currentBlock = this.currentBlock;
         if (currentBlock != null) {
             if (compute == FRAMES) {
-                currentBlock.frame.execute(Opcodes.MULTIANEWARRAY, dims, cw, i);
+                currentBlock.frbme.execute(Opcodes.MULTIANEWARRAY, dims, cw, i);
             } else {
-                // updates current stack size (max stack size unchanged because
-                // stack size variation always negative or null)
-                stackSize += 1 - dims;
+                // updbtes current stbck size (mbx stbck size unchbnged becbuse
+                // stbck size vbribtion blwbys negbtive or null)
+                stbckSize += 1 - dims;
             }
         }
-        // adds the instruction to the bytecode of the method
+        // bdds the instruction to the bytecode of the method
         code.put12(Opcodes.MULTIANEWARRAY, i.index).putByte(dims);
     }
 
     @Override
-    public AnnotationVisitor visitInsnAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        if (!ClassReader.ANNOTATIONS) {
+    public AnnotbtionVisitor visitInsnAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        if (!ClbssRebder.ANNOTATIONS) {
             return null;
         }
         ByteVector bv = new ByteVector();
-        // write target_type and target_info
-        typeRef = (typeRef & 0xFF0000FF) | (lastCodeOffset << 8);
-        AnnotationWriter.putTarget(typeRef, typePath, bv);
-        // write type, and reserve space for values count
+        // write tbrget_type bnd tbrget_info
+        typeRef = (typeRef & 0xFF0000FF) | (lbstCodeOffset << 8);
+        AnnotbtionWriter.putTbrget(typeRef, typePbth, bv);
+        // write type, bnd reserve spbce for vblues count
         bv.putShort(cw.newUTF8(desc)).putShort(0);
-        AnnotationWriter aw = new AnnotationWriter(cw, true, bv, bv,
+        AnnotbtionWriter bw = new AnnotbtionWriter(cw, true, bv, bv,
                 bv.length - 2);
         if (visible) {
-            aw.next = ctanns;
-            ctanns = aw;
+            bw.next = ctbnns;
+            ctbnns = bw;
         } else {
-            aw.next = ictanns;
-            ictanns = aw;
+            bw.next = ictbnns;
+            ictbnns = bw;
         }
-        return aw;
+        return bw;
     }
 
     @Override
-    public void visitTryCatchBlock(final Label start, final Label end,
-            final Label handler, final String type) {
-        ++handlerCount;
-        Handler h = new Handler();
-        h.start = start;
+    public void visitTryCbtchBlock(finbl Lbbel stbrt, finbl Lbbel end,
+            finbl Lbbel hbndler, finbl String type) {
+        ++hbndlerCount;
+        Hbndler h = new Hbndler();
+        h.stbrt = stbrt;
         h.end = end;
-        h.handler = handler;
+        h.hbndler = hbndler;
         h.desc = type;
-        h.type = type != null ? cw.newClass(type) : 0;
-        if (lastHandler == null) {
-            firstHandler = h;
+        h.type = type != null ? cw.newClbss(type) : 0;
+        if (lbstHbndler == null) {
+            firstHbndler = h;
         } else {
-            lastHandler.next = h;
+            lbstHbndler.next = h;
         }
-        lastHandler = h;
+        lbstHbndler = h;
     }
 
     @Override
-    public AnnotationVisitor visitTryCatchAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        if (!ClassReader.ANNOTATIONS) {
+    public AnnotbtionVisitor visitTryCbtchAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        if (!ClbssRebder.ANNOTATIONS) {
             return null;
         }
         ByteVector bv = new ByteVector();
-        // write target_type and target_info
-        AnnotationWriter.putTarget(typeRef, typePath, bv);
-        // write type, and reserve space for values count
+        // write tbrget_type bnd tbrget_info
+        AnnotbtionWriter.putTbrget(typeRef, typePbth, bv);
+        // write type, bnd reserve spbce for vblues count
         bv.putShort(cw.newUTF8(desc)).putShort(0);
-        AnnotationWriter aw = new AnnotationWriter(cw, true, bv, bv,
+        AnnotbtionWriter bw = new AnnotbtionWriter(cw, true, bv, bv,
                 bv.length - 2);
         if (visible) {
-            aw.next = ctanns;
-            ctanns = aw;
+            bw.next = ctbnns;
+            ctbnns = bw;
         } else {
-            aw.next = ictanns;
-            ictanns = aw;
+            bw.next = ictbnns;
+            ictbnns = bw;
         }
-        return aw;
+        return bw;
     }
 
     @Override
-    public void visitLocalVariable(final String name, final String desc,
-            final String signature, final Label start, final Label end,
-            final int index) {
-        if (signature != null) {
-            if (localVarType == null) {
-                localVarType = new ByteVector();
+    public void visitLocblVbribble(finbl String nbme, finbl String desc,
+            finbl String signbture, finbl Lbbel stbrt, finbl Lbbel end,
+            finbl int index) {
+        if (signbture != null) {
+            if (locblVbrType == null) {
+                locblVbrType = new ByteVector();
             }
-            ++localVarTypeCount;
-            localVarType.putShort(start.position)
-                    .putShort(end.position - start.position)
-                    .putShort(cw.newUTF8(name)).putShort(cw.newUTF8(signature))
+            ++locblVbrTypeCount;
+            locblVbrType.putShort(stbrt.position)
+                    .putShort(end.position - stbrt.position)
+                    .putShort(cw.newUTF8(nbme)).putShort(cw.newUTF8(signbture))
                     .putShort(index);
         }
-        if (localVar == null) {
-            localVar = new ByteVector();
+        if (locblVbr == null) {
+            locblVbr = new ByteVector();
         }
-        ++localVarCount;
-        localVar.putShort(start.position)
-                .putShort(end.position - start.position)
-                .putShort(cw.newUTF8(name)).putShort(cw.newUTF8(desc))
+        ++locblVbrCount;
+        locblVbr.putShort(stbrt.position)
+                .putShort(end.position - stbrt.position)
+                .putShort(cw.newUTF8(nbme)).putShort(cw.newUTF8(desc))
                 .putShort(index);
         if (compute != NOTHING) {
-            // updates max locals
-            char c = desc.charAt(0);
+            // updbtes mbx locbls
+            chbr c = desc.chbrAt(0);
             int n = index + (c == 'J' || c == 'D' ? 2 : 1);
-            if (n > maxLocals) {
-                maxLocals = n;
+            if (n > mbxLocbls) {
+                mbxLocbls = n;
             }
         }
     }
 
     @Override
-    public AnnotationVisitor visitLocalVariableAnnotation(int typeRef,
-            TypePath typePath, Label[] start, Label[] end, int[] index,
-            String desc, boolean visible) {
-        if (!ClassReader.ANNOTATIONS) {
+    public AnnotbtionVisitor visitLocblVbribbleAnnotbtion(int typeRef,
+            TypePbth typePbth, Lbbel[] stbrt, Lbbel[] end, int[] index,
+            String desc, boolebn visible) {
+        if (!ClbssRebder.ANNOTATIONS) {
             return null;
         }
         ByteVector bv = new ByteVector();
-        // write target_type and target_info
-        bv.putByte(typeRef >>> 24).putShort(start.length);
-        for (int i = 0; i < start.length; ++i) {
-            bv.putShort(start[i].position)
-                    .putShort(end[i].position - start[i].position)
+        // write tbrget_type bnd tbrget_info
+        bv.putByte(typeRef >>> 24).putShort(stbrt.length);
+        for (int i = 0; i < stbrt.length; ++i) {
+            bv.putShort(stbrt[i].position)
+                    .putShort(end[i].position - stbrt[i].position)
                     .putShort(index[i]);
         }
-        if (typePath == null) {
+        if (typePbth == null) {
             bv.putByte(0);
         } else {
-            int length = typePath.b[typePath.offset] * 2 + 1;
-            bv.putByteArray(typePath.b, typePath.offset, length);
+            int length = typePbth.b[typePbth.offset] * 2 + 1;
+            bv.putByteArrby(typePbth.b, typePbth.offset, length);
         }
-        // write type, and reserve space for values count
+        // write type, bnd reserve spbce for vblues count
         bv.putShort(cw.newUTF8(desc)).putShort(0);
-        AnnotationWriter aw = new AnnotationWriter(cw, true, bv, bv,
+        AnnotbtionWriter bw = new AnnotbtionWriter(cw, true, bv, bv,
                 bv.length - 2);
         if (visible) {
-            aw.next = ctanns;
-            ctanns = aw;
+            bw.next = ctbnns;
+            ctbnns = bw;
         } else {
-            aw.next = ictanns;
-            ictanns = aw;
+            bw.next = ictbnns;
+            ictbnns = bw;
         }
-        return aw;
+        return bw;
     }
 
     @Override
-    public void visitLineNumber(final int line, final Label start) {
+    public void visitLineNumber(finbl int line, finbl Lbbel stbrt) {
         if (lineNumber == null) {
             lineNumber = new ByteVector();
         }
         ++lineNumberCount;
-        lineNumber.putShort(start.position);
+        lineNumber.putShort(stbrt.position);
         lineNumber.putShort(line);
     }
 
     @Override
-    public void visitMaxs(final int maxStack, final int maxLocals) {
+    public void visitMbxs(finbl int mbxStbck, finbl int mbxLocbls) {
         if (resize) {
-            // replaces the temporary jump opcodes introduced by Label.resolve.
-            if (ClassReader.RESIZE) {
+            // replbces the temporbry jump opcodes introduced by Lbbel.resolve.
+            if (ClbssRebder.RESIZE) {
                 resizeInstructions();
             } else {
-                throw new RuntimeException("Method code too large!");
+                throw new RuntimeException("Method code too lbrge!");
             }
         }
-        if (ClassReader.FRAMES && compute == FRAMES) {
-            // completes the control flow graph with exception handler blocks
-            Handler handler = firstHandler;
-            while (handler != null) {
-                Label l = handler.start.getFirst();
-                Label h = handler.handler.getFirst();
-                Label e = handler.end.getFirst();
+        if (ClbssRebder.FRAMES && compute == FRAMES) {
+            // completes the control flow grbph with exception hbndler blocks
+            Hbndler hbndler = firstHbndler;
+            while (hbndler != null) {
+                Lbbel l = hbndler.stbrt.getFirst();
+                Lbbel h = hbndler.hbndler.getFirst();
+                Lbbel e = hbndler.end.getFirst();
                 // computes the kind of the edges to 'h'
-                String t = handler.desc == null ? "java/lang/Throwable"
-                        : handler.desc;
-                int kind = Frame.OBJECT | cw.addType(t);
-                // h is an exception handler
-                h.status |= Label.TARGET;
-                // adds 'h' as a successor of labels between 'start' and 'end'
+                String t = hbndler.desc == null ? "jbvb/lbng/Throwbble"
+                        : hbndler.desc;
+                int kind = Frbme.OBJECT | cw.bddType(t);
+                // h is bn exception hbndler
+                h.stbtus |= Lbbel.TARGET;
+                // bdds 'h' bs b successor of lbbels between 'stbrt' bnd 'end'
                 while (l != e) {
-                    // creates an edge to 'h'
+                    // crebtes bn edge to 'h'
                     Edge b = new Edge();
                     b.info = kind;
                     b.successor = h;
-                    // adds it to the successors of 'l'
+                    // bdds it to the successors of 'l'
                     b.next = l.successors;
                     l.successors = b;
-                    // goes to the next label
+                    // goes to the next lbbel
                     l = l.successor;
                 }
-                handler = handler.next;
+                hbndler = hbndler.next;
             }
 
-            // creates and visits the first (implicit) frame
-            Frame f = labels.frame;
-            Type[] args = Type.getArgumentTypes(descriptor);
-            f.initInputFrame(cw, access, args, this.maxLocals);
-            visitFrame(f);
+            // crebtes bnd visits the first (implicit) frbme
+            Frbme f = lbbels.frbme;
+            Type[] brgs = Type.getArgumentTypes(descriptor);
+            f.initInputFrbme(cw, bccess, brgs, this.mbxLocbls);
+            visitFrbme(f);
 
             /*
-             * fix point algorithm: mark the first basic block as 'changed'
-             * (i.e. put it in the 'changed' list) and, while there are changed
-             * basic blocks, choose one, mark it as unchanged, and update its
-             * successors (which can be changed in the process).
+             * fix point blgorithm: mbrk the first bbsic block bs 'chbnged'
+             * (i.e. put it in the 'chbnged' list) bnd, while there bre chbnged
+             * bbsic blocks, choose one, mbrk it bs unchbnged, bnd updbte its
+             * successors (which cbn be chbnged in the process).
              */
-            int max = 0;
-            Label changed = labels;
-            while (changed != null) {
-                // removes a basic block from the list of changed basic blocks
-                Label l = changed;
-                changed = changed.next;
+            int mbx = 0;
+            Lbbel chbnged = lbbels;
+            while (chbnged != null) {
+                // removes b bbsic block from the list of chbnged bbsic blocks
+                Lbbel l = chbnged;
+                chbnged = chbnged.next;
                 l.next = null;
-                f = l.frame;
-                // a reachable jump target must be stored in the stack map
-                if ((l.status & Label.TARGET) != 0) {
-                    l.status |= Label.STORE;
+                f = l.frbme;
+                // b rebchbble jump tbrget must be stored in the stbck mbp
+                if ((l.stbtus & Lbbel.TARGET) != 0) {
+                    l.stbtus |= Lbbel.STORE;
                 }
-                // all visited labels are reachable, by definition
-                l.status |= Label.REACHABLE;
-                // updates the (absolute) maximum stack size
-                int blockMax = f.inputStack.length + l.outputStackMax;
-                if (blockMax > max) {
-                    max = blockMax;
+                // bll visited lbbels bre rebchbble, by definition
+                l.stbtus |= Lbbel.REACHABLE;
+                // updbtes the (bbsolute) mbximum stbck size
+                int blockMbx = f.inputStbck.length + l.outputStbckMbx;
+                if (blockMbx > mbx) {
+                    mbx = blockMbx;
                 }
-                // updates the successors of the current basic block
+                // updbtes the successors of the current bbsic block
                 Edge e = l.successors;
                 while (e != null) {
-                    Label n = e.successor.getFirst();
-                    boolean change = f.merge(cw, n.frame, e.info);
-                    if (change && n.next == null) {
-                        // if n has changed and is not already in the 'changed'
-                        // list, adds it to this list
-                        n.next = changed;
-                        changed = n;
+                    Lbbel n = e.successor.getFirst();
+                    boolebn chbnge = f.merge(cw, n.frbme, e.info);
+                    if (chbnge && n.next == null) {
+                        // if n hbs chbnged bnd is not blrebdy in the 'chbnged'
+                        // list, bdds it to this list
+                        n.next = chbnged;
+                        chbnged = n;
                     }
                     e = e.next;
                 }
             }
 
-            // visits all the frames that must be stored in the stack map
-            Label l = labels;
+            // visits bll the frbmes thbt must be stored in the stbck mbp
+            Lbbel l = lbbels;
             while (l != null) {
-                f = l.frame;
-                if ((l.status & Label.STORE) != 0) {
-                    visitFrame(f);
+                f = l.frbme;
+                if ((l.stbtus & Lbbel.STORE) != 0) {
+                    visitFrbme(f);
                 }
-                if ((l.status & Label.REACHABLE) == 0) {
-                    // finds start and end of dead basic block
-                    Label k = l.successor;
-                    int start = l.position;
+                if ((l.stbtus & Lbbel.REACHABLE) == 0) {
+                    // finds stbrt bnd end of debd bbsic block
+                    Lbbel k = l.successor;
+                    int stbrt = l.position;
                     int end = (k == null ? code.length : k.position) - 1;
-                    // if non empty basic block
-                    if (end >= start) {
-                        max = Math.max(max, 1);
-                        // replaces instructions with NOP ... NOP ATHROW
-                        for (int i = start; i < end; ++i) {
-                            code.data[i] = Opcodes.NOP;
+                    // if non empty bbsic block
+                    if (end >= stbrt) {
+                        mbx = Mbth.mbx(mbx, 1);
+                        // replbces instructions with NOP ... NOP ATHROW
+                        for (int i = stbrt; i < end; ++i) {
+                            code.dbtb[i] = Opcodes.NOP;
                         }
-                        code.data[end] = (byte) Opcodes.ATHROW;
-                        // emits a frame for this unreachable block
-                        int frameIndex = startFrame(start, 0, 1);
-                        frame[frameIndex] = Frame.OBJECT
-                                | cw.addType("java/lang/Throwable");
-                        endFrame();
-                        // removes the start-end range from the exception
-                        // handlers
-                        firstHandler = Handler.remove(firstHandler, l, k);
+                        code.dbtb[end] = (byte) Opcodes.ATHROW;
+                        // emits b frbme for this unrebchbble block
+                        int frbmeIndex = stbrtFrbme(stbrt, 0, 1);
+                        frbme[frbmeIndex] = Frbme.OBJECT
+                                | cw.bddType("jbvb/lbng/Throwbble");
+                        endFrbme();
+                        // removes the stbrt-end rbnge from the exception
+                        // hbndlers
+                        firstHbndler = Hbndler.remove(firstHbndler, l, k);
                     }
                 }
                 l = l.successor;
             }
 
-            handler = firstHandler;
-            handlerCount = 0;
-            while (handler != null) {
-                handlerCount += 1;
-                handler = handler.next;
+            hbndler = firstHbndler;
+            hbndlerCount = 0;
+            while (hbndler != null) {
+                hbndlerCount += 1;
+                hbndler = hbndler.next;
             }
 
-            this.maxStack = max;
+            this.mbxStbck = mbx;
         } else if (compute == MAXS) {
-            // completes the control flow graph with exception handler blocks
-            Handler handler = firstHandler;
-            while (handler != null) {
-                Label l = handler.start;
-                Label h = handler.handler;
-                Label e = handler.end;
-                // adds 'h' as a successor of labels between 'start' and 'end'
+            // completes the control flow grbph with exception hbndler blocks
+            Hbndler hbndler = firstHbndler;
+            while (hbndler != null) {
+                Lbbel l = hbndler.stbrt;
+                Lbbel h = hbndler.hbndler;
+                Lbbel e = hbndler.end;
+                // bdds 'h' bs b successor of lbbels between 'stbrt' bnd 'end'
                 while (l != e) {
-                    // creates an edge to 'h'
+                    // crebtes bn edge to 'h'
                     Edge b = new Edge();
                     b.info = Edge.EXCEPTION;
                     b.successor = h;
-                    // adds it to the successors of 'l'
-                    if ((l.status & Label.JSR) == 0) {
+                    // bdds it to the successors of 'l'
+                    if ((l.stbtus & Lbbel.JSR) == 0) {
                         b.next = l.successors;
                         l.successors = b;
                     } else {
-                        // if l is a JSR block, adds b after the first two edges
-                        // to preserve the hypothesis about JSR block successors
+                        // if l is b JSR block, bdds b bfter the first two edges
+                        // to preserve the hypothesis bbout JSR block successors
                         // order (see {@link #visitJumpInsn})
                         b.next = l.successors.next.next;
                         l.successors.next.next = b;
                     }
-                    // goes to the next label
+                    // goes to the next lbbel
                     l = l.successor;
                 }
-                handler = handler.next;
+                hbndler = hbndler.next;
             }
 
             if (subroutines > 0) {
-                // completes the control flow graph with the RET successors
+                // completes the control flow grbph with the RET successors
                 /*
                  * first step: finds the subroutines. This step determines, for
-                 * each basic block, to which subroutine(s) it belongs.
+                 * ebch bbsic block, to which subroutine(s) it belongs.
                  */
-                // finds the basic blocks that belong to the "main" subroutine
+                // finds the bbsic blocks thbt belong to the "mbin" subroutine
                 int id = 0;
-                labels.visitSubroutine(null, 1, subroutines);
-                // finds the basic blocks that belong to the real subroutines
-                Label l = labels;
+                lbbels.visitSubroutine(null, 1, subroutines);
+                // finds the bbsic blocks thbt belong to the rebl subroutines
+                Lbbel l = lbbels;
                 while (l != null) {
-                    if ((l.status & Label.JSR) != 0) {
+                    if ((l.stbtus & Lbbel.JSR) != 0) {
                         // the subroutine is defined by l's TARGET, not by l
-                        Label subroutine = l.successors.next.successor;
-                        // if this subroutine has not been visited yet...
-                        if ((subroutine.status & Label.VISITED) == 0) {
-                            // ...assigns it a new id and finds its basic blocks
+                        Lbbel subroutine = l.successors.next.successor;
+                        // if this subroutine hbs not been visited yet...
+                        if ((subroutine.stbtus & Lbbel.VISITED) == 0) {
+                            // ...bssigns it b new id bnd finds its bbsic blocks
                             id += 1;
                             subroutine.visitSubroutine(null, (id / 32L) << 32
                                     | (1L << (id % 32)), subroutines);
@@ -1609,16 +1609,16 @@ class MethodWriter extends MethodVisitor {
                     l = l.successor;
                 }
                 // second step: finds the successors of RET blocks
-                l = labels;
+                l = lbbels;
                 while (l != null) {
-                    if ((l.status & Label.JSR) != 0) {
-                        Label L = labels;
+                    if ((l.stbtus & Lbbel.JSR) != 0) {
+                        Lbbel L = lbbels;
                         while (L != null) {
-                            L.status &= ~Label.VISITED2;
+                            L.stbtus &= ~Lbbel.VISITED2;
                             L = L.successor;
                         }
                         // the subroutine is defined by l's TARGET, not by l
-                        Label subroutine = l.successors.next.successor;
+                        Lbbel subroutine = l.successors.next.successor;
                         subroutine.visitSubroutine(l, 0, subroutines);
                     }
                     l = l.successor;
@@ -1626,53 +1626,53 @@ class MethodWriter extends MethodVisitor {
             }
 
             /*
-             * control flow analysis algorithm: while the block stack is not
-             * empty, pop a block from this stack, update the max stack size,
-             * compute the true (non relative) begin stack size of the
-             * successors of this block, and push these successors onto the
-             * stack (unless they have already been pushed onto the stack).
-             * Note: by hypothesis, the {@link Label#inputStackTop} of the
-             * blocks in the block stack are the true (non relative) beginning
-             * stack sizes of these blocks.
+             * control flow bnblysis blgorithm: while the block stbck is not
+             * empty, pop b block from this stbck, updbte the mbx stbck size,
+             * compute the true (non relbtive) begin stbck size of the
+             * successors of this block, bnd push these successors onto the
+             * stbck (unless they hbve blrebdy been pushed onto the stbck).
+             * Note: by hypothesis, the {@link Lbbel#inputStbckTop} of the
+             * blocks in the block stbck bre the true (non relbtive) beginning
+             * stbck sizes of these blocks.
              */
-            int max = 0;
-            Label stack = labels;
-            while (stack != null) {
-                // pops a block from the stack
-                Label l = stack;
-                stack = stack.next;
-                // computes the true (non relative) max stack size of this block
-                int start = l.inputStackTop;
-                int blockMax = start + l.outputStackMax;
-                // updates the global max stack size
-                if (blockMax > max) {
-                    max = blockMax;
+            int mbx = 0;
+            Lbbel stbck = lbbels;
+            while (stbck != null) {
+                // pops b block from the stbck
+                Lbbel l = stbck;
+                stbck = stbck.next;
+                // computes the true (non relbtive) mbx stbck size of this block
+                int stbrt = l.inputStbckTop;
+                int blockMbx = stbrt + l.outputStbckMbx;
+                // updbtes the globbl mbx stbck size
+                if (blockMbx > mbx) {
+                    mbx = blockMbx;
                 }
-                // analyzes the successors of the block
+                // bnblyzes the successors of the block
                 Edge b = l.successors;
-                if ((l.status & Label.JSR) != 0) {
-                    // ignores the first edge of JSR blocks (virtual successor)
+                if ((l.stbtus & Lbbel.JSR) != 0) {
+                    // ignores the first edge of JSR blocks (virtubl successor)
                     b = b.next;
                 }
                 while (b != null) {
                     l = b.successor;
-                    // if this successor has not already been pushed...
-                    if ((l.status & Label.PUSHED) == 0) {
-                        // computes its true beginning stack size...
-                        l.inputStackTop = b.info == Edge.EXCEPTION ? 1 : start
+                    // if this successor hbs not blrebdy been pushed...
+                    if ((l.stbtus & Lbbel.PUSHED) == 0) {
+                        // computes its true beginning stbck size...
+                        l.inputStbckTop = b.info == Edge.EXCEPTION ? 1 : stbrt
                                 + b.info;
-                        // ...and pushes it onto the stack
-                        l.status |= Label.PUSHED;
-                        l.next = stack;
-                        stack = l;
+                        // ...bnd pushes it onto the stbck
+                        l.stbtus |= Lbbel.PUSHED;
+                        l.next = stbck;
+                        stbck = l;
                     }
                     b = b.next;
                 }
             }
-            this.maxStack = Math.max(maxStack, max);
+            this.mbxStbck = Mbth.mbx(mbxStbck, mbx);
         } else {
-            this.maxStack = maxStack;
-            this.maxLocals = maxLocals;
+            this.mbxStbck = mbxStbck;
+            this.mbxLocbls = mbxLocbls;
         }
     }
 
@@ -1681,373 +1681,373 @@ class MethodWriter extends MethodVisitor {
     }
 
     // ------------------------------------------------------------------------
-    // Utility methods: control flow analysis algorithm
+    // Utility methods: control flow bnblysis blgorithm
     // ------------------------------------------------------------------------
 
     /**
-     * Adds a successor to the {@link #currentBlock currentBlock} block.
+     * Adds b successor to the {@link #currentBlock currentBlock} block.
      *
-     * @param info
-     *            information about the control flow edge to be added.
-     * @param successor
-     *            the successor block to be added to the current block.
+     * @pbrbm info
+     *            informbtion bbout the control flow edge to be bdded.
+     * @pbrbm successor
+     *            the successor block to be bdded to the current block.
      */
-    private void addSuccessor(final int info, final Label successor) {
-        // creates and initializes an Edge object...
+    privbte void bddSuccessor(finbl int info, finbl Lbbel successor) {
+        // crebtes bnd initiblizes bn Edge object...
         Edge b = new Edge();
         b.info = info;
         b.successor = successor;
-        // ...and adds it to the successor list of the currentBlock block
+        // ...bnd bdds it to the successor list of the currentBlock block
         b.next = currentBlock.successors;
         currentBlock.successors = b;
     }
 
     /**
-     * Ends the current basic block. This method must be used in the case where
-     * the current basic block does not have any successor.
+     * Ends the current bbsic block. This method must be used in the cbse where
+     * the current bbsic block does not hbve bny successor.
      */
-    private void noSuccessor() {
+    privbte void noSuccessor() {
         if (compute == FRAMES) {
-            Label l = new Label();
-            l.frame = new Frame();
-            l.frame.owner = l;
-            l.resolve(this, code.length, code.data);
+            Lbbel l = new Lbbel();
+            l.frbme = new Frbme();
+            l.frbme.owner = l;
+            l.resolve(this, code.length, code.dbtb);
             previousBlock.successor = l;
             previousBlock = l;
         } else {
-            currentBlock.outputStackMax = maxStackSize;
+            currentBlock.outputStbckMbx = mbxStbckSize;
         }
         currentBlock = null;
     }
 
     // ------------------------------------------------------------------------
-    // Utility methods: stack map frames
+    // Utility methods: stbck mbp frbmes
     // ------------------------------------------------------------------------
 
     /**
-     * Visits a frame that has been computed from scratch.
+     * Visits b frbme thbt hbs been computed from scrbtch.
      *
-     * @param f
-     *            the frame that must be visited.
+     * @pbrbm f
+     *            the frbme thbt must be visited.
      */
-    private void visitFrame(final Frame f) {
+    privbte void visitFrbme(finbl Frbme f) {
         int i, t;
         int nTop = 0;
-        int nLocal = 0;
-        int nStack = 0;
-        int[] locals = f.inputLocals;
-        int[] stacks = f.inputStack;
-        // computes the number of locals (ignores TOP types that are just after
-        // a LONG or a DOUBLE, and all trailing TOP types)
-        for (i = 0; i < locals.length; ++i) {
-            t = locals[i];
-            if (t == Frame.TOP) {
+        int nLocbl = 0;
+        int nStbck = 0;
+        int[] locbls = f.inputLocbls;
+        int[] stbcks = f.inputStbck;
+        // computes the number of locbls (ignores TOP types thbt bre just bfter
+        // b LONG or b DOUBLE, bnd bll trbiling TOP types)
+        for (i = 0; i < locbls.length; ++i) {
+            t = locbls[i];
+            if (t == Frbme.TOP) {
                 ++nTop;
             } else {
-                nLocal += nTop + 1;
+                nLocbl += nTop + 1;
                 nTop = 0;
             }
-            if (t == Frame.LONG || t == Frame.DOUBLE) {
+            if (t == Frbme.LONG || t == Frbme.DOUBLE) {
                 ++i;
             }
         }
-        // computes the stack size (ignores TOP types that are just after
-        // a LONG or a DOUBLE)
-        for (i = 0; i < stacks.length; ++i) {
-            t = stacks[i];
-            ++nStack;
-            if (t == Frame.LONG || t == Frame.DOUBLE) {
+        // computes the stbck size (ignores TOP types thbt bre just bfter
+        // b LONG or b DOUBLE)
+        for (i = 0; i < stbcks.length; ++i) {
+            t = stbcks[i];
+            ++nStbck;
+            if (t == Frbme.LONG || t == Frbme.DOUBLE) {
                 ++i;
             }
         }
-        // visits the frame and its content
-        int frameIndex = startFrame(f.owner.position, nLocal, nStack);
-        for (i = 0; nLocal > 0; ++i, --nLocal) {
-            t = locals[i];
-            frame[frameIndex++] = t;
-            if (t == Frame.LONG || t == Frame.DOUBLE) {
+        // visits the frbme bnd its content
+        int frbmeIndex = stbrtFrbme(f.owner.position, nLocbl, nStbck);
+        for (i = 0; nLocbl > 0; ++i, --nLocbl) {
+            t = locbls[i];
+            frbme[frbmeIndex++] = t;
+            if (t == Frbme.LONG || t == Frbme.DOUBLE) {
                 ++i;
             }
         }
-        for (i = 0; i < stacks.length; ++i) {
-            t = stacks[i];
-            frame[frameIndex++] = t;
-            if (t == Frame.LONG || t == Frame.DOUBLE) {
+        for (i = 0; i < stbcks.length; ++i) {
+            t = stbcks[i];
+            frbme[frbmeIndex++] = t;
+            if (t == Frbme.LONG || t == Frbme.DOUBLE) {
                 ++i;
             }
         }
-        endFrame();
+        endFrbme();
     }
 
     /**
-     * Visit the implicit first frame of this method.
+     * Visit the implicit first frbme of this method.
      */
-    private void visitImplicitFirstFrame() {
-        // There can be at most descriptor.length() + 1 locals
-        int frameIndex = startFrame(0, descriptor.length() + 1, 0);
-        if ((access & Opcodes.ACC_STATIC) == 0) {
-            if ((access & ACC_CONSTRUCTOR) == 0) {
-                frame[frameIndex++] = Frame.OBJECT | cw.addType(cw.thisName);
+    privbte void visitImplicitFirstFrbme() {
+        // There cbn be bt most descriptor.length() + 1 locbls
+        int frbmeIndex = stbrtFrbme(0, descriptor.length() + 1, 0);
+        if ((bccess & Opcodes.ACC_STATIC) == 0) {
+            if ((bccess & ACC_CONSTRUCTOR) == 0) {
+                frbme[frbmeIndex++] = Frbme.OBJECT | cw.bddType(cw.thisNbme);
             } else {
-                frame[frameIndex++] = 6; // Opcodes.UNINITIALIZED_THIS;
+                frbme[frbmeIndex++] = 6; // Opcodes.UNINITIALIZED_THIS;
             }
         }
         int i = 1;
         loop: while (true) {
             int j = i;
-            switch (descriptor.charAt(i++)) {
-            case 'Z':
-            case 'C':
-            case 'B':
-            case 'S':
-            case 'I':
-                frame[frameIndex++] = 1; // Opcodes.INTEGER;
-                break;
-            case 'F':
-                frame[frameIndex++] = 2; // Opcodes.FLOAT;
-                break;
-            case 'J':
-                frame[frameIndex++] = 4; // Opcodes.LONG;
-                break;
-            case 'D':
-                frame[frameIndex++] = 3; // Opcodes.DOUBLE;
-                break;
-            case '[':
-                while (descriptor.charAt(i) == '[') {
+            switch (descriptor.chbrAt(i++)) {
+            cbse 'Z':
+            cbse 'C':
+            cbse 'B':
+            cbse 'S':
+            cbse 'I':
+                frbme[frbmeIndex++] = 1; // Opcodes.INTEGER;
+                brebk;
+            cbse 'F':
+                frbme[frbmeIndex++] = 2; // Opcodes.FLOAT;
+                brebk;
+            cbse 'J':
+                frbme[frbmeIndex++] = 4; // Opcodes.LONG;
+                brebk;
+            cbse 'D':
+                frbme[frbmeIndex++] = 3; // Opcodes.DOUBLE;
+                brebk;
+            cbse '[':
+                while (descriptor.chbrAt(i) == '[') {
                     ++i;
                 }
-                if (descriptor.charAt(i) == 'L') {
+                if (descriptor.chbrAt(i) == 'L') {
                     ++i;
-                    while (descriptor.charAt(i) != ';') {
+                    while (descriptor.chbrAt(i) != ';') {
                         ++i;
                     }
                 }
-                frame[frameIndex++] = Frame.OBJECT
-                        | cw.addType(descriptor.substring(j, ++i));
-                break;
-            case 'L':
-                while (descriptor.charAt(i) != ';') {
+                frbme[frbmeIndex++] = Frbme.OBJECT
+                        | cw.bddType(descriptor.substring(j, ++i));
+                brebk;
+            cbse 'L':
+                while (descriptor.chbrAt(i) != ';') {
                     ++i;
                 }
-                frame[frameIndex++] = Frame.OBJECT
-                        | cw.addType(descriptor.substring(j + 1, i++));
-                break;
-            default:
-                break loop;
+                frbme[frbmeIndex++] = Frbme.OBJECT
+                        | cw.bddType(descriptor.substring(j + 1, i++));
+                brebk;
+            defbult:
+                brebk loop;
             }
         }
-        frame[1] = frameIndex - 3;
-        endFrame();
+        frbme[1] = frbmeIndex - 3;
+        endFrbme();
     }
 
     /**
-     * Starts the visit of a stack map frame.
+     * Stbrts the visit of b stbck mbp frbme.
      *
-     * @param offset
-     *            the offset of the instruction to which the frame corresponds.
-     * @param nLocal
-     *            the number of local variables in the frame.
-     * @param nStack
-     *            the number of stack elements in the frame.
-     * @return the index of the next element to be written in this frame.
+     * @pbrbm offset
+     *            the offset of the instruction to which the frbme corresponds.
+     * @pbrbm nLocbl
+     *            the number of locbl vbribbles in the frbme.
+     * @pbrbm nStbck
+     *            the number of stbck elements in the frbme.
+     * @return the index of the next element to be written in this frbme.
      */
-    private int startFrame(final int offset, final int nLocal, final int nStack) {
-        int n = 3 + nLocal + nStack;
-        if (frame == null || frame.length < n) {
-            frame = new int[n];
+    privbte int stbrtFrbme(finbl int offset, finbl int nLocbl, finbl int nStbck) {
+        int n = 3 + nLocbl + nStbck;
+        if (frbme == null || frbme.length < n) {
+            frbme = new int[n];
         }
-        frame[0] = offset;
-        frame[1] = nLocal;
-        frame[2] = nStack;
+        frbme[0] = offset;
+        frbme[1] = nLocbl;
+        frbme[2] = nStbck;
         return 3;
     }
 
     /**
-     * Checks if the visit of the current frame {@link #frame} is finished, and
-     * if yes, write it in the StackMapTable attribute.
+     * Checks if the visit of the current frbme {@link #frbme} is finished, bnd
+     * if yes, write it in the StbckMbpTbble bttribute.
      */
-    private void endFrame() {
-        if (previousFrame != null) { // do not write the first frame
-            if (stackMap == null) {
-                stackMap = new ByteVector();
+    privbte void endFrbme() {
+        if (previousFrbme != null) { // do not write the first frbme
+            if (stbckMbp == null) {
+                stbckMbp = new ByteVector();
             }
-            writeFrame();
-            ++frameCount;
+            writeFrbme();
+            ++frbmeCount;
         }
-        previousFrame = frame;
-        frame = null;
+        previousFrbme = frbme;
+        frbme = null;
     }
 
     /**
-     * Compress and writes the current frame {@link #frame} in the StackMapTable
-     * attribute.
+     * Compress bnd writes the current frbme {@link #frbme} in the StbckMbpTbble
+     * bttribute.
      */
-    private void writeFrame() {
-        int clocalsSize = frame[1];
-        int cstackSize = frame[2];
+    privbte void writeFrbme() {
+        int clocblsSize = frbme[1];
+        int cstbckSize = frbme[2];
         if ((cw.version & 0xFFFF) < Opcodes.V1_6) {
-            stackMap.putShort(frame[0]).putShort(clocalsSize);
-            writeFrameTypes(3, 3 + clocalsSize);
-            stackMap.putShort(cstackSize);
-            writeFrameTypes(3 + clocalsSize, 3 + clocalsSize + cstackSize);
+            stbckMbp.putShort(frbme[0]).putShort(clocblsSize);
+            writeFrbmeTypes(3, 3 + clocblsSize);
+            stbckMbp.putShort(cstbckSize);
+            writeFrbmeTypes(3 + clocblsSize, 3 + clocblsSize + cstbckSize);
             return;
         }
-        int localsSize = previousFrame[1];
+        int locblsSize = previousFrbme[1];
         int type = FULL_FRAME;
         int k = 0;
-        int delta;
-        if (frameCount == 0) {
-            delta = frame[0];
+        int deltb;
+        if (frbmeCount == 0) {
+            deltb = frbme[0];
         } else {
-            delta = frame[0] - previousFrame[0] - 1;
+            deltb = frbme[0] - previousFrbme[0] - 1;
         }
-        if (cstackSize == 0) {
-            k = clocalsSize - localsSize;
+        if (cstbckSize == 0) {
+            k = clocblsSize - locblsSize;
             switch (k) {
-            case -3:
-            case -2:
-            case -1:
+            cbse -3:
+            cbse -2:
+            cbse -1:
                 type = CHOP_FRAME;
-                localsSize = clocalsSize;
-                break;
-            case 0:
-                type = delta < 64 ? SAME_FRAME : SAME_FRAME_EXTENDED;
-                break;
-            case 1:
-            case 2:
-            case 3:
+                locblsSize = clocblsSize;
+                brebk;
+            cbse 0:
+                type = deltb < 64 ? SAME_FRAME : SAME_FRAME_EXTENDED;
+                brebk;
+            cbse 1:
+            cbse 2:
+            cbse 3:
                 type = APPEND_FRAME;
-                break;
+                brebk;
             }
-        } else if (clocalsSize == localsSize && cstackSize == 1) {
-            type = delta < 63 ? SAME_LOCALS_1_STACK_ITEM_FRAME
+        } else if (clocblsSize == locblsSize && cstbckSize == 1) {
+            type = deltb < 63 ? SAME_LOCALS_1_STACK_ITEM_FRAME
                     : SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED;
         }
         if (type != FULL_FRAME) {
-            // verify if locals are the same
+            // verify if locbls bre the sbme
             int l = 3;
-            for (int j = 0; j < localsSize; j++) {
-                if (frame[l] != previousFrame[l]) {
+            for (int j = 0; j < locblsSize; j++) {
+                if (frbme[l] != previousFrbme[l]) {
                     type = FULL_FRAME;
-                    break;
+                    brebk;
                 }
                 l++;
             }
         }
         switch (type) {
-        case SAME_FRAME:
-            stackMap.putByte(delta);
-            break;
-        case SAME_LOCALS_1_STACK_ITEM_FRAME:
-            stackMap.putByte(SAME_LOCALS_1_STACK_ITEM_FRAME + delta);
-            writeFrameTypes(3 + clocalsSize, 4 + clocalsSize);
-            break;
-        case SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED:
-            stackMap.putByte(SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED).putShort(
-                    delta);
-            writeFrameTypes(3 + clocalsSize, 4 + clocalsSize);
-            break;
-        case SAME_FRAME_EXTENDED:
-            stackMap.putByte(SAME_FRAME_EXTENDED).putShort(delta);
-            break;
-        case CHOP_FRAME:
-            stackMap.putByte(SAME_FRAME_EXTENDED + k).putShort(delta);
-            break;
-        case APPEND_FRAME:
-            stackMap.putByte(SAME_FRAME_EXTENDED + k).putShort(delta);
-            writeFrameTypes(3 + localsSize, 3 + clocalsSize);
-            break;
-        // case FULL_FRAME:
-        default:
-            stackMap.putByte(FULL_FRAME).putShort(delta).putShort(clocalsSize);
-            writeFrameTypes(3, 3 + clocalsSize);
-            stackMap.putShort(cstackSize);
-            writeFrameTypes(3 + clocalsSize, 3 + clocalsSize + cstackSize);
+        cbse SAME_FRAME:
+            stbckMbp.putByte(deltb);
+            brebk;
+        cbse SAME_LOCALS_1_STACK_ITEM_FRAME:
+            stbckMbp.putByte(SAME_LOCALS_1_STACK_ITEM_FRAME + deltb);
+            writeFrbmeTypes(3 + clocblsSize, 4 + clocblsSize);
+            brebk;
+        cbse SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED:
+            stbckMbp.putByte(SAME_LOCALS_1_STACK_ITEM_FRAME_EXTENDED).putShort(
+                    deltb);
+            writeFrbmeTypes(3 + clocblsSize, 4 + clocblsSize);
+            brebk;
+        cbse SAME_FRAME_EXTENDED:
+            stbckMbp.putByte(SAME_FRAME_EXTENDED).putShort(deltb);
+            brebk;
+        cbse CHOP_FRAME:
+            stbckMbp.putByte(SAME_FRAME_EXTENDED + k).putShort(deltb);
+            brebk;
+        cbse APPEND_FRAME:
+            stbckMbp.putByte(SAME_FRAME_EXTENDED + k).putShort(deltb);
+            writeFrbmeTypes(3 + locblsSize, 3 + clocblsSize);
+            brebk;
+        // cbse FULL_FRAME:
+        defbult:
+            stbckMbp.putByte(FULL_FRAME).putShort(deltb).putShort(clocblsSize);
+            writeFrbmeTypes(3, 3 + clocblsSize);
+            stbckMbp.putShort(cstbckSize);
+            writeFrbmeTypes(3 + clocblsSize, 3 + clocblsSize + cstbckSize);
         }
     }
 
     /**
-     * Writes some types of the current frame {@link #frame} into the
-     * StackMapTableAttribute. This method converts types from the format used
-     * in {@link Label} to the format used in StackMapTable attributes. In
-     * particular, it converts type table indexes to constant pool indexes.
+     * Writes some types of the current frbme {@link #frbme} into the
+     * StbckMbpTbbleAttribute. This method converts types from the formbt used
+     * in {@link Lbbel} to the formbt used in StbckMbpTbble bttributes. In
+     * pbrticulbr, it converts type tbble indexes to constbnt pool indexes.
      *
-     * @param start
-     *            index of the first type in {@link #frame} to write.
-     * @param end
-     *            index of last type in {@link #frame} to write (exclusive).
+     * @pbrbm stbrt
+     *            index of the first type in {@link #frbme} to write.
+     * @pbrbm end
+     *            index of lbst type in {@link #frbme} to write (exclusive).
      */
-    private void writeFrameTypes(final int start, final int end) {
-        for (int i = start; i < end; ++i) {
-            int t = frame[i];
-            int d = t & Frame.DIM;
+    privbte void writeFrbmeTypes(finbl int stbrt, finbl int end) {
+        for (int i = stbrt; i < end; ++i) {
+            int t = frbme[i];
+            int d = t & Frbme.DIM;
             if (d == 0) {
-                int v = t & Frame.BASE_VALUE;
-                switch (t & Frame.BASE_KIND) {
-                case Frame.OBJECT:
-                    stackMap.putByte(7).putShort(
-                            cw.newClass(cw.typeTable[v].strVal1));
-                    break;
-                case Frame.UNINITIALIZED:
-                    stackMap.putByte(8).putShort(cw.typeTable[v].intVal);
-                    break;
-                default:
-                    stackMap.putByte(v);
+                int v = t & Frbme.BASE_VALUE;
+                switch (t & Frbme.BASE_KIND) {
+                cbse Frbme.OBJECT:
+                    stbckMbp.putByte(7).putShort(
+                            cw.newClbss(cw.typeTbble[v].strVbl1));
+                    brebk;
+                cbse Frbme.UNINITIALIZED:
+                    stbckMbp.putByte(8).putShort(cw.typeTbble[v].intVbl);
+                    brebk;
+                defbult:
+                    stbckMbp.putByte(v);
                 }
             } else {
                 StringBuilder sb = new StringBuilder();
                 d >>= 28;
                 while (d-- > 0) {
-                    sb.append('[');
+                    sb.bppend('[');
                 }
-                if ((t & Frame.BASE_KIND) == Frame.OBJECT) {
-                    sb.append('L');
-                    sb.append(cw.typeTable[t & Frame.BASE_VALUE].strVal1);
-                    sb.append(';');
+                if ((t & Frbme.BASE_KIND) == Frbme.OBJECT) {
+                    sb.bppend('L');
+                    sb.bppend(cw.typeTbble[t & Frbme.BASE_VALUE].strVbl1);
+                    sb.bppend(';');
                 } else {
                     switch (t & 0xF) {
-                    case 1:
-                        sb.append('I');
-                        break;
-                    case 2:
-                        sb.append('F');
-                        break;
-                    case 3:
-                        sb.append('D');
-                        break;
-                    case 9:
-                        sb.append('Z');
-                        break;
-                    case 10:
-                        sb.append('B');
-                        break;
-                    case 11:
-                        sb.append('C');
-                        break;
-                    case 12:
-                        sb.append('S');
-                        break;
-                    default:
-                        sb.append('J');
+                    cbse 1:
+                        sb.bppend('I');
+                        brebk;
+                    cbse 2:
+                        sb.bppend('F');
+                        brebk;
+                    cbse 3:
+                        sb.bppend('D');
+                        brebk;
+                    cbse 9:
+                        sb.bppend('Z');
+                        brebk;
+                    cbse 10:
+                        sb.bppend('B');
+                        brebk;
+                    cbse 11:
+                        sb.bppend('C');
+                        brebk;
+                    cbse 12:
+                        sb.bppend('S');
+                        brebk;
+                    defbult:
+                        sb.bppend('J');
                     }
                 }
-                stackMap.putByte(7).putShort(cw.newClass(sb.toString()));
+                stbckMbp.putByte(7).putShort(cw.newClbss(sb.toString()));
             }
         }
     }
 
-    private void writeFrameType(final Object type) {
-        if (type instanceof String) {
-            stackMap.putByte(7).putShort(cw.newClass((String) type));
-        } else if (type instanceof Integer) {
-            stackMap.putByte(((Integer) type).intValue());
+    privbte void writeFrbmeType(finbl Object type) {
+        if (type instbnceof String) {
+            stbckMbp.putByte(7).putShort(cw.newClbss((String) type));
+        } else if (type instbnceof Integer) {
+            stbckMbp.putByte(((Integer) type).intVblue());
         } else {
-            stackMap.putByte(8).putShort(((Label) type).position);
+            stbckMbp.putByte(8).putShort(((Lbbel) type).position);
         }
     }
 
     // ------------------------------------------------------------------------
-    // Utility methods: dump bytecode array
+    // Utility methods: dump bytecode brrby
     // ------------------------------------------------------------------------
 
     /**
@@ -2055,107 +2055,107 @@ class MethodWriter extends MethodVisitor {
      *
      * @return the size of the bytecode of this method.
      */
-    final int getSize() {
-        if (classReaderOffset != 0) {
-            return 6 + classReaderLength;
+    finbl int getSize() {
+        if (clbssRebderOffset != 0) {
+            return 6 + clbssRebderLength;
         }
         int size = 8;
         if (code.length > 0) {
             if (code.length > 65536) {
-                throw new RuntimeException("Method code too large!");
+                throw new RuntimeException("Method code too lbrge!");
             }
             cw.newUTF8("Code");
-            size += 18 + code.length + 8 * handlerCount;
-            if (localVar != null) {
-                cw.newUTF8("LocalVariableTable");
-                size += 8 + localVar.length;
+            size += 18 + code.length + 8 * hbndlerCount;
+            if (locblVbr != null) {
+                cw.newUTF8("LocblVbribbleTbble");
+                size += 8 + locblVbr.length;
             }
-            if (localVarType != null) {
-                cw.newUTF8("LocalVariableTypeTable");
-                size += 8 + localVarType.length;
+            if (locblVbrType != null) {
+                cw.newUTF8("LocblVbribbleTypeTbble");
+                size += 8 + locblVbrType.length;
             }
             if (lineNumber != null) {
-                cw.newUTF8("LineNumberTable");
+                cw.newUTF8("LineNumberTbble");
                 size += 8 + lineNumber.length;
             }
-            if (stackMap != null) {
-                boolean zip = (cw.version & 0xFFFF) >= Opcodes.V1_6;
-                cw.newUTF8(zip ? "StackMapTable" : "StackMap");
-                size += 8 + stackMap.length;
+            if (stbckMbp != null) {
+                boolebn zip = (cw.version & 0xFFFF) >= Opcodes.V1_6;
+                cw.newUTF8(zip ? "StbckMbpTbble" : "StbckMbp");
+                size += 8 + stbckMbp.length;
             }
-            if (ClassReader.ANNOTATIONS && ctanns != null) {
-                cw.newUTF8("RuntimeVisibleTypeAnnotations");
-                size += 8 + ctanns.getSize();
+            if (ClbssRebder.ANNOTATIONS && ctbnns != null) {
+                cw.newUTF8("RuntimeVisibleTypeAnnotbtions");
+                size += 8 + ctbnns.getSize();
             }
-            if (ClassReader.ANNOTATIONS && ictanns != null) {
-                cw.newUTF8("RuntimeInvisibleTypeAnnotations");
-                size += 8 + ictanns.getSize();
+            if (ClbssRebder.ANNOTATIONS && ictbnns != null) {
+                cw.newUTF8("RuntimeInvisibleTypeAnnotbtions");
+                size += 8 + ictbnns.getSize();
             }
-            if (cattrs != null) {
-                size += cattrs.getSize(cw, code.data, code.length, maxStack,
-                        maxLocals);
+            if (cbttrs != null) {
+                size += cbttrs.getSize(cw, code.dbtb, code.length, mbxStbck,
+                        mbxLocbls);
             }
         }
         if (exceptionCount > 0) {
             cw.newUTF8("Exceptions");
             size += 8 + 2 * exceptionCount;
         }
-        if ((access & Opcodes.ACC_SYNTHETIC) != 0) {
+        if ((bccess & Opcodes.ACC_SYNTHETIC) != 0) {
             if ((cw.version & 0xFFFF) < Opcodes.V1_5
-                    || (access & ClassWriter.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                    || (bccess & ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
                 cw.newUTF8("Synthetic");
                 size += 6;
             }
         }
-        if ((access & Opcodes.ACC_DEPRECATED) != 0) {
-            cw.newUTF8("Deprecated");
+        if ((bccess & Opcodes.ACC_DEPRECATED) != 0) {
+            cw.newUTF8("Deprecbted");
             size += 6;
         }
-        if (ClassReader.SIGNATURES && signature != null) {
-            cw.newUTF8("Signature");
-            cw.newUTF8(signature);
+        if (ClbssRebder.SIGNATURES && signbture != null) {
+            cw.newUTF8("Signbture");
+            cw.newUTF8(signbture);
             size += 8;
         }
-        if (methodParameters != null) {
-            cw.newUTF8("MethodParameters");
-            size += 7 + methodParameters.length;
+        if (methodPbrbmeters != null) {
+            cw.newUTF8("MethodPbrbmeters");
+            size += 7 + methodPbrbmeters.length;
         }
-        if (ClassReader.ANNOTATIONS && annd != null) {
-            cw.newUTF8("AnnotationDefault");
-            size += 6 + annd.length;
+        if (ClbssRebder.ANNOTATIONS && bnnd != null) {
+            cw.newUTF8("AnnotbtionDefbult");
+            size += 6 + bnnd.length;
         }
-        if (ClassReader.ANNOTATIONS && anns != null) {
-            cw.newUTF8("RuntimeVisibleAnnotations");
-            size += 8 + anns.getSize();
+        if (ClbssRebder.ANNOTATIONS && bnns != null) {
+            cw.newUTF8("RuntimeVisibleAnnotbtions");
+            size += 8 + bnns.getSize();
         }
-        if (ClassReader.ANNOTATIONS && ianns != null) {
-            cw.newUTF8("RuntimeInvisibleAnnotations");
-            size += 8 + ianns.getSize();
+        if (ClbssRebder.ANNOTATIONS && ibnns != null) {
+            cw.newUTF8("RuntimeInvisibleAnnotbtions");
+            size += 8 + ibnns.getSize();
         }
-        if (ClassReader.ANNOTATIONS && tanns != null) {
-            cw.newUTF8("RuntimeVisibleTypeAnnotations");
-            size += 8 + tanns.getSize();
+        if (ClbssRebder.ANNOTATIONS && tbnns != null) {
+            cw.newUTF8("RuntimeVisibleTypeAnnotbtions");
+            size += 8 + tbnns.getSize();
         }
-        if (ClassReader.ANNOTATIONS && itanns != null) {
-            cw.newUTF8("RuntimeInvisibleTypeAnnotations");
-            size += 8 + itanns.getSize();
+        if (ClbssRebder.ANNOTATIONS && itbnns != null) {
+            cw.newUTF8("RuntimeInvisibleTypeAnnotbtions");
+            size += 8 + itbnns.getSize();
         }
-        if (ClassReader.ANNOTATIONS && panns != null) {
-            cw.newUTF8("RuntimeVisibleParameterAnnotations");
-            size += 7 + 2 * (panns.length - synthetics);
-            for (int i = panns.length - 1; i >= synthetics; --i) {
-                size += panns[i] == null ? 0 : panns[i].getSize();
+        if (ClbssRebder.ANNOTATIONS && pbnns != null) {
+            cw.newUTF8("RuntimeVisiblePbrbmeterAnnotbtions");
+            size += 7 + 2 * (pbnns.length - synthetics);
+            for (int i = pbnns.length - 1; i >= synthetics; --i) {
+                size += pbnns[i] == null ? 0 : pbnns[i].getSize();
             }
         }
-        if (ClassReader.ANNOTATIONS && ipanns != null) {
-            cw.newUTF8("RuntimeInvisibleParameterAnnotations");
-            size += 7 + 2 * (ipanns.length - synthetics);
-            for (int i = ipanns.length - 1; i >= synthetics; --i) {
-                size += ipanns[i] == null ? 0 : ipanns[i].getSize();
+        if (ClbssRebder.ANNOTATIONS && ipbnns != null) {
+            cw.newUTF8("RuntimeInvisiblePbrbmeterAnnotbtions");
+            size += 7 + 2 * (ipbnns.length - synthetics);
+            for (int i = ipbnns.length - 1; i >= synthetics; --i) {
+                size += ipbnns[i] == null ? 0 : ipbnns[i].getSize();
             }
         }
-        if (attrs != null) {
-            size += attrs.getSize(cw, null, 0, -1, -1);
+        if (bttrs != null) {
+            size += bttrs.getSize(cw, null, 0, -1, -1);
         }
         return size;
     }
@@ -2163,157 +2163,157 @@ class MethodWriter extends MethodVisitor {
     /**
      * Puts the bytecode of this method in the given byte vector.
      *
-     * @param out
+     * @pbrbm out
      *            the byte vector into which the bytecode of this method must be
      *            copied.
      */
-    final void put(final ByteVector out) {
-        final int FACTOR = ClassWriter.TO_ACC_SYNTHETIC;
-        int mask = ACC_CONSTRUCTOR | Opcodes.ACC_DEPRECATED
-                | ClassWriter.ACC_SYNTHETIC_ATTRIBUTE
-                | ((access & ClassWriter.ACC_SYNTHETIC_ATTRIBUTE) / FACTOR);
-        out.putShort(access & ~mask).putShort(name).putShort(desc);
-        if (classReaderOffset != 0) {
-            out.putByteArray(cw.cr.b, classReaderOffset, classReaderLength);
+    finbl void put(finbl ByteVector out) {
+        finbl int FACTOR = ClbssWriter.TO_ACC_SYNTHETIC;
+        int mbsk = ACC_CONSTRUCTOR | Opcodes.ACC_DEPRECATED
+                | ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE
+                | ((bccess & ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE) / FACTOR);
+        out.putShort(bccess & ~mbsk).putShort(nbme).putShort(desc);
+        if (clbssRebderOffset != 0) {
+            out.putByteArrby(cw.cr.b, clbssRebderOffset, clbssRebderLength);
             return;
         }
-        int attributeCount = 0;
+        int bttributeCount = 0;
         if (code.length > 0) {
-            ++attributeCount;
+            ++bttributeCount;
         }
         if (exceptionCount > 0) {
-            ++attributeCount;
+            ++bttributeCount;
         }
-        if ((access & Opcodes.ACC_SYNTHETIC) != 0) {
+        if ((bccess & Opcodes.ACC_SYNTHETIC) != 0) {
             if ((cw.version & 0xFFFF) < Opcodes.V1_5
-                    || (access & ClassWriter.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
-                ++attributeCount;
+                    || (bccess & ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                ++bttributeCount;
             }
         }
-        if ((access & Opcodes.ACC_DEPRECATED) != 0) {
-            ++attributeCount;
+        if ((bccess & Opcodes.ACC_DEPRECATED) != 0) {
+            ++bttributeCount;
         }
-        if (ClassReader.SIGNATURES && signature != null) {
-            ++attributeCount;
+        if (ClbssRebder.SIGNATURES && signbture != null) {
+            ++bttributeCount;
         }
-        if (methodParameters != null) {
-            ++attributeCount;
+        if (methodPbrbmeters != null) {
+            ++bttributeCount;
         }
-        if (ClassReader.ANNOTATIONS && annd != null) {
-            ++attributeCount;
+        if (ClbssRebder.ANNOTATIONS && bnnd != null) {
+            ++bttributeCount;
         }
-        if (ClassReader.ANNOTATIONS && anns != null) {
-            ++attributeCount;
+        if (ClbssRebder.ANNOTATIONS && bnns != null) {
+            ++bttributeCount;
         }
-        if (ClassReader.ANNOTATIONS && ianns != null) {
-            ++attributeCount;
+        if (ClbssRebder.ANNOTATIONS && ibnns != null) {
+            ++bttributeCount;
         }
-        if (ClassReader.ANNOTATIONS && tanns != null) {
-            ++attributeCount;
+        if (ClbssRebder.ANNOTATIONS && tbnns != null) {
+            ++bttributeCount;
         }
-        if (ClassReader.ANNOTATIONS && itanns != null) {
-            ++attributeCount;
+        if (ClbssRebder.ANNOTATIONS && itbnns != null) {
+            ++bttributeCount;
         }
-        if (ClassReader.ANNOTATIONS && panns != null) {
-            ++attributeCount;
+        if (ClbssRebder.ANNOTATIONS && pbnns != null) {
+            ++bttributeCount;
         }
-        if (ClassReader.ANNOTATIONS && ipanns != null) {
-            ++attributeCount;
+        if (ClbssRebder.ANNOTATIONS && ipbnns != null) {
+            ++bttributeCount;
         }
-        if (attrs != null) {
-            attributeCount += attrs.getCount();
+        if (bttrs != null) {
+            bttributeCount += bttrs.getCount();
         }
-        out.putShort(attributeCount);
+        out.putShort(bttributeCount);
         if (code.length > 0) {
-            int size = 12 + code.length + 8 * handlerCount;
-            if (localVar != null) {
-                size += 8 + localVar.length;
+            int size = 12 + code.length + 8 * hbndlerCount;
+            if (locblVbr != null) {
+                size += 8 + locblVbr.length;
             }
-            if (localVarType != null) {
-                size += 8 + localVarType.length;
+            if (locblVbrType != null) {
+                size += 8 + locblVbrType.length;
             }
             if (lineNumber != null) {
                 size += 8 + lineNumber.length;
             }
-            if (stackMap != null) {
-                size += 8 + stackMap.length;
+            if (stbckMbp != null) {
+                size += 8 + stbckMbp.length;
             }
-            if (ClassReader.ANNOTATIONS && ctanns != null) {
-                size += 8 + ctanns.getSize();
+            if (ClbssRebder.ANNOTATIONS && ctbnns != null) {
+                size += 8 + ctbnns.getSize();
             }
-            if (ClassReader.ANNOTATIONS && ictanns != null) {
-                size += 8 + ictanns.getSize();
+            if (ClbssRebder.ANNOTATIONS && ictbnns != null) {
+                size += 8 + ictbnns.getSize();
             }
-            if (cattrs != null) {
-                size += cattrs.getSize(cw, code.data, code.length, maxStack,
-                        maxLocals);
+            if (cbttrs != null) {
+                size += cbttrs.getSize(cw, code.dbtb, code.length, mbxStbck,
+                        mbxLocbls);
             }
             out.putShort(cw.newUTF8("Code")).putInt(size);
-            out.putShort(maxStack).putShort(maxLocals);
-            out.putInt(code.length).putByteArray(code.data, 0, code.length);
-            out.putShort(handlerCount);
-            if (handlerCount > 0) {
-                Handler h = firstHandler;
+            out.putShort(mbxStbck).putShort(mbxLocbls);
+            out.putInt(code.length).putByteArrby(code.dbtb, 0, code.length);
+            out.putShort(hbndlerCount);
+            if (hbndlerCount > 0) {
+                Hbndler h = firstHbndler;
                 while (h != null) {
-                    out.putShort(h.start.position).putShort(h.end.position)
-                            .putShort(h.handler.position).putShort(h.type);
+                    out.putShort(h.stbrt.position).putShort(h.end.position)
+                            .putShort(h.hbndler.position).putShort(h.type);
                     h = h.next;
                 }
             }
-            attributeCount = 0;
-            if (localVar != null) {
-                ++attributeCount;
+            bttributeCount = 0;
+            if (locblVbr != null) {
+                ++bttributeCount;
             }
-            if (localVarType != null) {
-                ++attributeCount;
-            }
-            if (lineNumber != null) {
-                ++attributeCount;
-            }
-            if (stackMap != null) {
-                ++attributeCount;
-            }
-            if (ClassReader.ANNOTATIONS && ctanns != null) {
-                ++attributeCount;
-            }
-            if (ClassReader.ANNOTATIONS && ictanns != null) {
-                ++attributeCount;
-            }
-            if (cattrs != null) {
-                attributeCount += cattrs.getCount();
-            }
-            out.putShort(attributeCount);
-            if (localVar != null) {
-                out.putShort(cw.newUTF8("LocalVariableTable"));
-                out.putInt(localVar.length + 2).putShort(localVarCount);
-                out.putByteArray(localVar.data, 0, localVar.length);
-            }
-            if (localVarType != null) {
-                out.putShort(cw.newUTF8("LocalVariableTypeTable"));
-                out.putInt(localVarType.length + 2).putShort(localVarTypeCount);
-                out.putByteArray(localVarType.data, 0, localVarType.length);
+            if (locblVbrType != null) {
+                ++bttributeCount;
             }
             if (lineNumber != null) {
-                out.putShort(cw.newUTF8("LineNumberTable"));
+                ++bttributeCount;
+            }
+            if (stbckMbp != null) {
+                ++bttributeCount;
+            }
+            if (ClbssRebder.ANNOTATIONS && ctbnns != null) {
+                ++bttributeCount;
+            }
+            if (ClbssRebder.ANNOTATIONS && ictbnns != null) {
+                ++bttributeCount;
+            }
+            if (cbttrs != null) {
+                bttributeCount += cbttrs.getCount();
+            }
+            out.putShort(bttributeCount);
+            if (locblVbr != null) {
+                out.putShort(cw.newUTF8("LocblVbribbleTbble"));
+                out.putInt(locblVbr.length + 2).putShort(locblVbrCount);
+                out.putByteArrby(locblVbr.dbtb, 0, locblVbr.length);
+            }
+            if (locblVbrType != null) {
+                out.putShort(cw.newUTF8("LocblVbribbleTypeTbble"));
+                out.putInt(locblVbrType.length + 2).putShort(locblVbrTypeCount);
+                out.putByteArrby(locblVbrType.dbtb, 0, locblVbrType.length);
+            }
+            if (lineNumber != null) {
+                out.putShort(cw.newUTF8("LineNumberTbble"));
                 out.putInt(lineNumber.length + 2).putShort(lineNumberCount);
-                out.putByteArray(lineNumber.data, 0, lineNumber.length);
+                out.putByteArrby(lineNumber.dbtb, 0, lineNumber.length);
             }
-            if (stackMap != null) {
-                boolean zip = (cw.version & 0xFFFF) >= Opcodes.V1_6;
-                out.putShort(cw.newUTF8(zip ? "StackMapTable" : "StackMap"));
-                out.putInt(stackMap.length + 2).putShort(frameCount);
-                out.putByteArray(stackMap.data, 0, stackMap.length);
+            if (stbckMbp != null) {
+                boolebn zip = (cw.version & 0xFFFF) >= Opcodes.V1_6;
+                out.putShort(cw.newUTF8(zip ? "StbckMbpTbble" : "StbckMbp"));
+                out.putInt(stbckMbp.length + 2).putShort(frbmeCount);
+                out.putByteArrby(stbckMbp.dbtb, 0, stbckMbp.length);
             }
-            if (ClassReader.ANNOTATIONS && ctanns != null) {
-                out.putShort(cw.newUTF8("RuntimeVisibleTypeAnnotations"));
-                ctanns.put(out);
+            if (ClbssRebder.ANNOTATIONS && ctbnns != null) {
+                out.putShort(cw.newUTF8("RuntimeVisibleTypeAnnotbtions"));
+                ctbnns.put(out);
             }
-            if (ClassReader.ANNOTATIONS && ictanns != null) {
-                out.putShort(cw.newUTF8("RuntimeInvisibleTypeAnnotations"));
-                ictanns.put(out);
+            if (ClbssRebder.ANNOTATIONS && ictbnns != null) {
+                out.putShort(cw.newUTF8("RuntimeInvisibleTypeAnnotbtions"));
+                ictbnns.put(out);
             }
-            if (cattrs != null) {
-                cattrs.put(cw, code.data, code.length, maxLocals, maxStack, out);
+            if (cbttrs != null) {
+                cbttrs.put(cw, code.dbtb, code.length, mbxLocbls, mbxStbck, out);
             }
         }
         if (exceptionCount > 0) {
@@ -2324,194 +2324,194 @@ class MethodWriter extends MethodVisitor {
                 out.putShort(exceptions[i]);
             }
         }
-        if ((access & Opcodes.ACC_SYNTHETIC) != 0) {
+        if ((bccess & Opcodes.ACC_SYNTHETIC) != 0) {
             if ((cw.version & 0xFFFF) < Opcodes.V1_5
-                    || (access & ClassWriter.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                    || (bccess & ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
                 out.putShort(cw.newUTF8("Synthetic")).putInt(0);
             }
         }
-        if ((access & Opcodes.ACC_DEPRECATED) != 0) {
-            out.putShort(cw.newUTF8("Deprecated")).putInt(0);
+        if ((bccess & Opcodes.ACC_DEPRECATED) != 0) {
+            out.putShort(cw.newUTF8("Deprecbted")).putInt(0);
         }
-        if (ClassReader.SIGNATURES && signature != null) {
-            out.putShort(cw.newUTF8("Signature")).putInt(2)
-                    .putShort(cw.newUTF8(signature));
+        if (ClbssRebder.SIGNATURES && signbture != null) {
+            out.putShort(cw.newUTF8("Signbture")).putInt(2)
+                    .putShort(cw.newUTF8(signbture));
         }
-        if (methodParameters != null) {
-            out.putShort(cw.newUTF8("MethodParameters"));
-            out.putInt(methodParameters.length + 1).putByte(
-                    methodParametersCount);
-            out.putByteArray(methodParameters.data, 0, methodParameters.length);
+        if (methodPbrbmeters != null) {
+            out.putShort(cw.newUTF8("MethodPbrbmeters"));
+            out.putInt(methodPbrbmeters.length + 1).putByte(
+                    methodPbrbmetersCount);
+            out.putByteArrby(methodPbrbmeters.dbtb, 0, methodPbrbmeters.length);
         }
-        if (ClassReader.ANNOTATIONS && annd != null) {
-            out.putShort(cw.newUTF8("AnnotationDefault"));
-            out.putInt(annd.length);
-            out.putByteArray(annd.data, 0, annd.length);
+        if (ClbssRebder.ANNOTATIONS && bnnd != null) {
+            out.putShort(cw.newUTF8("AnnotbtionDefbult"));
+            out.putInt(bnnd.length);
+            out.putByteArrby(bnnd.dbtb, 0, bnnd.length);
         }
-        if (ClassReader.ANNOTATIONS && anns != null) {
-            out.putShort(cw.newUTF8("RuntimeVisibleAnnotations"));
-            anns.put(out);
+        if (ClbssRebder.ANNOTATIONS && bnns != null) {
+            out.putShort(cw.newUTF8("RuntimeVisibleAnnotbtions"));
+            bnns.put(out);
         }
-        if (ClassReader.ANNOTATIONS && ianns != null) {
-            out.putShort(cw.newUTF8("RuntimeInvisibleAnnotations"));
-            ianns.put(out);
+        if (ClbssRebder.ANNOTATIONS && ibnns != null) {
+            out.putShort(cw.newUTF8("RuntimeInvisibleAnnotbtions"));
+            ibnns.put(out);
         }
-        if (ClassReader.ANNOTATIONS && tanns != null) {
-            out.putShort(cw.newUTF8("RuntimeVisibleTypeAnnotations"));
-            tanns.put(out);
+        if (ClbssRebder.ANNOTATIONS && tbnns != null) {
+            out.putShort(cw.newUTF8("RuntimeVisibleTypeAnnotbtions"));
+            tbnns.put(out);
         }
-        if (ClassReader.ANNOTATIONS && itanns != null) {
-            out.putShort(cw.newUTF8("RuntimeInvisibleTypeAnnotations"));
-            itanns.put(out);
+        if (ClbssRebder.ANNOTATIONS && itbnns != null) {
+            out.putShort(cw.newUTF8("RuntimeInvisibleTypeAnnotbtions"));
+            itbnns.put(out);
         }
-        if (ClassReader.ANNOTATIONS && panns != null) {
-            out.putShort(cw.newUTF8("RuntimeVisibleParameterAnnotations"));
-            AnnotationWriter.put(panns, synthetics, out);
+        if (ClbssRebder.ANNOTATIONS && pbnns != null) {
+            out.putShort(cw.newUTF8("RuntimeVisiblePbrbmeterAnnotbtions"));
+            AnnotbtionWriter.put(pbnns, synthetics, out);
         }
-        if (ClassReader.ANNOTATIONS && ipanns != null) {
-            out.putShort(cw.newUTF8("RuntimeInvisibleParameterAnnotations"));
-            AnnotationWriter.put(ipanns, synthetics, out);
+        if (ClbssRebder.ANNOTATIONS && ipbnns != null) {
+            out.putShort(cw.newUTF8("RuntimeInvisiblePbrbmeterAnnotbtions"));
+            AnnotbtionWriter.put(ipbnns, synthetics, out);
         }
-        if (attrs != null) {
-            attrs.put(cw, null, 0, -1, -1, out);
+        if (bttrs != null) {
+            bttrs.put(cw, null, 0, -1, -1, out);
         }
     }
 
     // ------------------------------------------------------------------------
-    // Utility methods: instruction resizing (used to handle GOTO_W and JSR_W)
+    // Utility methods: instruction resizing (used to hbndle GOTO_W bnd JSR_W)
     // ------------------------------------------------------------------------
 
     /**
-     * Resizes and replaces the temporary instructions inserted by
-     * {@link Label#resolve} for wide forward jumps, while keeping jump offsets
-     * and instruction addresses consistent. This may require to resize other
+     * Resizes bnd replbces the temporbry instructions inserted by
+     * {@link Lbbel#resolve} for wide forwbrd jumps, while keeping jump offsets
+     * bnd instruction bddresses consistent. This mby require to resize other
      * existing instructions, or even to introduce new instructions: for
-     * example, increasing the size of an instruction by 2 at the middle of a
-     * method can increases the offset of an IFEQ instruction from 32766 to
-     * 32768, in which case IFEQ 32766 must be replaced with IFNEQ 8 GOTO_W
-     * 32765. This, in turn, may require to increase the size of another jump
-     * instruction, and so on... All these operations are handled automatically
+     * exbmple, increbsing the size of bn instruction by 2 bt the middle of b
+     * method cbn increbses the offset of bn IFEQ instruction from 32766 to
+     * 32768, in which cbse IFEQ 32766 must be replbced with IFNEQ 8 GOTO_W
+     * 32765. This, in turn, mby require to increbse the size of bnother jump
+     * instruction, bnd so on... All these operbtions bre hbndled butombticblly
      * by this method.
      * <p>
-     * <i>This method must be called after all the method that is being built
-     * has been visited</i>. In particular, the {@link Label Label} objects used
-     * to construct the method are no longer valid after this method has been
-     * called.
+     * <i>This method must be cblled bfter bll the method thbt is being built
+     * hbs been visited</i>. In pbrticulbr, the {@link Lbbel Lbbel} objects used
+     * to construct the method bre no longer vblid bfter this method hbs been
+     * cblled.
      */
-    private void resizeInstructions() {
-        byte[] b = code.data; // bytecode of the method
-        int u, v, label; // indexes in b
+    privbte void resizeInstructions() {
+        byte[] b = code.dbtb; // bytecode of the method
+        int u, v, lbbel; // indexes in b
         int i, j; // loop indexes
         /*
-         * 1st step: As explained above, resizing an instruction may require to
-         * resize another one, which may require to resize yet another one, and
-         * so on. The first step of the algorithm consists in finding all the
-         * instructions that need to be resized, without modifying the code.
-         * This is done by the following "fix point" algorithm:
+         * 1st step: As explbined bbove, resizing bn instruction mby require to
+         * resize bnother one, which mby require to resize yet bnother one, bnd
+         * so on. The first step of the blgorithm consists in finding bll the
+         * instructions thbt need to be resized, without modifying the code.
+         * This is done by the following "fix point" blgorithm:
          *
-         * Parse the code to find the jump instructions whose offset will need
-         * more than 2 bytes to be stored (the future offset is computed from
-         * the current offset and from the number of bytes that will be inserted
-         * or removed between the source and target instructions). For each such
-         * instruction, adds an entry in (a copy of) the indexes and sizes
-         * arrays (if this has not already been done in a previous iteration!).
+         * Pbrse the code to find the jump instructions whose offset will need
+         * more thbn 2 bytes to be stored (the future offset is computed from
+         * the current offset bnd from the number of bytes thbt will be inserted
+         * or removed between the source bnd tbrget instructions). For ebch such
+         * instruction, bdds bn entry in (b copy of) the indexes bnd sizes
+         * brrbys (if this hbs not blrebdy been done in b previous iterbtion!).
          *
-         * If at least one entry has been added during the previous step, go
-         * back to the beginning, otherwise stop.
+         * If bt lebst one entry hbs been bdded during the previous step, go
+         * bbck to the beginning, otherwise stop.
          *
-         * In fact the real algorithm is complicated by the fact that the size
-         * of TABLESWITCH and LOOKUPSWITCH instructions depends on their
-         * position in the bytecode (because of padding). In order to ensure the
-         * convergence of the algorithm, the number of bytes to be added or
-         * removed from these instructions is over estimated during the previous
-         * loop, and computed exactly only after the loop is finished (this
-         * requires another pass to parse the bytecode of the method).
+         * In fbct the rebl blgorithm is complicbted by the fbct thbt the size
+         * of TABLESWITCH bnd LOOKUPSWITCH instructions depends on their
+         * position in the bytecode (becbuse of pbdding). In order to ensure the
+         * convergence of the blgorithm, the number of bytes to be bdded or
+         * removed from these instructions is over estimbted during the previous
+         * loop, bnd computed exbctly only bfter the loop is finished (this
+         * requires bnother pbss to pbrse the bytecode of the method).
          */
-        int[] allIndexes = new int[0]; // copy of indexes
-        int[] allSizes = new int[0]; // copy of sizes
-        boolean[] resize; // instructions to be resized
-        int newOffset; // future offset of a jump instruction
+        int[] bllIndexes = new int[0]; // copy of indexes
+        int[] bllSizes = new int[0]; // copy of sizes
+        boolebn[] resize; // instructions to be resized
+        int newOffset; // future offset of b jump instruction
 
-        resize = new boolean[code.length];
+        resize = new boolebn[code.length];
 
-        // 3 = loop again, 2 = loop ended, 1 = last pass, 0 = done
-        int state = 3;
+        // 3 = loop bgbin, 2 = loop ended, 1 = lbst pbss, 0 = done
+        int stbte = 3;
         do {
-            if (state == 3) {
-                state = 2;
+            if (stbte == 3) {
+                stbte = 2;
             }
             u = 0;
             while (u < b.length) {
                 int opcode = b[u] & 0xFF; // opcode of current instruction
-                int insert = 0; // bytes to be added after this instruction
+                int insert = 0; // bytes to be bdded bfter this instruction
 
-                switch (ClassWriter.TYPE[opcode]) {
-                case ClassWriter.NOARG_INSN:
-                case ClassWriter.IMPLVAR_INSN:
+                switch (ClbssWriter.TYPE[opcode]) {
+                cbse ClbssWriter.NOARG_INSN:
+                cbse ClbssWriter.IMPLVAR_INSN:
                     u += 1;
-                    break;
-                case ClassWriter.LABEL_INSN:
+                    brebk;
+                cbse ClbssWriter.LABEL_INSN:
                     if (opcode > 201) {
-                        // converts temporary opcodes 202 to 217, 218 and
-                        // 219 to IFEQ ... JSR (inclusive), IFNULL and
+                        // converts temporbry opcodes 202 to 217, 218 bnd
+                        // 219 to IFEQ ... JSR (inclusive), IFNULL bnd
                         // IFNONNULL
                         opcode = opcode < 218 ? opcode - 49 : opcode - 20;
-                        label = u + readUnsignedShort(b, u + 1);
+                        lbbel = u + rebdUnsignedShort(b, u + 1);
                     } else {
-                        label = u + readShort(b, u + 1);
+                        lbbel = u + rebdShort(b, u + 1);
                     }
-                    newOffset = getNewOffset(allIndexes, allSizes, u, label);
+                    newOffset = getNewOffset(bllIndexes, bllSizes, u, lbbel);
                     if (newOffset < Short.MIN_VALUE
                             || newOffset > Short.MAX_VALUE) {
                         if (!resize[u]) {
                             if (opcode == Opcodes.GOTO || opcode == Opcodes.JSR) {
-                                // two additional bytes will be required to
-                                // replace this GOTO or JSR instruction with
-                                // a GOTO_W or a JSR_W
+                                // two bdditionbl bytes will be required to
+                                // replbce this GOTO or JSR instruction with
+                                // b GOTO_W or b JSR_W
                                 insert = 2;
                             } else {
-                                // five additional bytes will be required to
-                                // replace this IFxxx <l> instruction with
+                                // five bdditionbl bytes will be required to
+                                // replbce this IFxxx <l> instruction with
                                 // IFNOTxxx <l'> GOTO_W <l>, where IFNOTxxx
                                 // is the "opposite" opcode of IFxxx (i.e.,
-                                // IFNE for IFEQ) and where <l'> designates
-                                // the instruction just after the GOTO_W.
+                                // IFNE for IFEQ) bnd where <l'> designbtes
+                                // the instruction just bfter the GOTO_W.
                                 insert = 5;
                             }
                             resize[u] = true;
                         }
                     }
                     u += 3;
-                    break;
-                case ClassWriter.LABELW_INSN:
+                    brebk;
+                cbse ClbssWriter.LABELW_INSN:
                     u += 5;
-                    break;
-                case ClassWriter.TABL_INSN:
-                    if (state == 1) {
-                        // true number of bytes to be added (or removed)
-                        // from this instruction = (future number of padding
-                        // bytes - current number of padding byte) -
-                        // previously over estimated variation =
+                    brebk;
+                cbse ClbssWriter.TABL_INSN:
+                    if (stbte == 1) {
+                        // true number of bytes to be bdded (or removed)
+                        // from this instruction = (future number of pbdding
+                        // bytes - current number of pbdding byte) -
+                        // previously over estimbted vbribtion =
                         // = ((3 - newOffset%4) - (3 - u%4)) - u%4
                         // = (-newOffset%4 + u%4) - u%4
                         // = -(newOffset & 3)
-                        newOffset = getNewOffset(allIndexes, allSizes, 0, u);
+                        newOffset = getNewOffset(bllIndexes, bllSizes, 0, u);
                         insert = -(newOffset & 3);
                     } else if (!resize[u]) {
-                        // over estimation of the number of bytes to be
-                        // added to this instruction = 3 - current number
-                        // of padding bytes = 3 - (3 - u%4) = u%4 = u & 3
+                        // over estimbtion of the number of bytes to be
+                        // bdded to this instruction = 3 - current number
+                        // of pbdding bytes = 3 - (3 - u%4) = u%4 = u & 3
                         insert = u & 3;
                         resize[u] = true;
                     }
                     // skips instruction
                     u = u + 4 - (u & 3);
-                    u += 4 * (readInt(b, u + 8) - readInt(b, u + 4) + 1) + 12;
-                    break;
-                case ClassWriter.LOOK_INSN:
-                    if (state == 1) {
+                    u += 4 * (rebdInt(b, u + 8) - rebdInt(b, u + 4) + 1) + 12;
+                    brebk;
+                cbse ClbssWriter.LOOK_INSN:
+                    if (stbte == 1) {
                         // like TABL_INSN
-                        newOffset = getNewOffset(allIndexes, allSizes, 0, u);
+                        newOffset = getNewOffset(bllIndexes, bllSizes, 0, u);
                         insert = -(newOffset & 3);
                     } else if (!resize[u]) {
                         // like TABL_INSN
@@ -2520,90 +2520,90 @@ class MethodWriter extends MethodVisitor {
                     }
                     // skips instruction
                     u = u + 4 - (u & 3);
-                    u += 8 * readInt(b, u + 4) + 8;
-                    break;
-                case ClassWriter.WIDE_INSN:
+                    u += 8 * rebdInt(b, u + 4) + 8;
+                    brebk;
+                cbse ClbssWriter.WIDE_INSN:
                     opcode = b[u + 1] & 0xFF;
                     if (opcode == Opcodes.IINC) {
                         u += 6;
                     } else {
                         u += 4;
                     }
-                    break;
-                case ClassWriter.VAR_INSN:
-                case ClassWriter.SBYTE_INSN:
-                case ClassWriter.LDC_INSN:
+                    brebk;
+                cbse ClbssWriter.VAR_INSN:
+                cbse ClbssWriter.SBYTE_INSN:
+                cbse ClbssWriter.LDC_INSN:
                     u += 2;
-                    break;
-                case ClassWriter.SHORT_INSN:
-                case ClassWriter.LDCW_INSN:
-                case ClassWriter.FIELDORMETH_INSN:
-                case ClassWriter.TYPE_INSN:
-                case ClassWriter.IINC_INSN:
+                    brebk;
+                cbse ClbssWriter.SHORT_INSN:
+                cbse ClbssWriter.LDCW_INSN:
+                cbse ClbssWriter.FIELDORMETH_INSN:
+                cbse ClbssWriter.TYPE_INSN:
+                cbse ClbssWriter.IINC_INSN:
                     u += 3;
-                    break;
-                case ClassWriter.ITFMETH_INSN:
-                case ClassWriter.INDYMETH_INSN:
+                    brebk;
+                cbse ClbssWriter.ITFMETH_INSN:
+                cbse ClbssWriter.INDYMETH_INSN:
                     u += 5;
-                    break;
-                // case ClassWriter.MANA_INSN:
-                default:
+                    brebk;
+                // cbse ClbssWriter.MANA_INSN:
+                defbult:
                     u += 4;
-                    break;
+                    brebk;
                 }
                 if (insert != 0) {
-                    // adds a new (u, insert) entry in the allIndexes and
-                    // allSizes arrays
-                    int[] newIndexes = new int[allIndexes.length + 1];
-                    int[] newSizes = new int[allSizes.length + 1];
-                    System.arraycopy(allIndexes, 0, newIndexes, 0,
-                            allIndexes.length);
-                    System.arraycopy(allSizes, 0, newSizes, 0, allSizes.length);
-                    newIndexes[allIndexes.length] = u;
-                    newSizes[allSizes.length] = insert;
-                    allIndexes = newIndexes;
-                    allSizes = newSizes;
+                    // bdds b new (u, insert) entry in the bllIndexes bnd
+                    // bllSizes brrbys
+                    int[] newIndexes = new int[bllIndexes.length + 1];
+                    int[] newSizes = new int[bllSizes.length + 1];
+                    System.brrbycopy(bllIndexes, 0, newIndexes, 0,
+                            bllIndexes.length);
+                    System.brrbycopy(bllSizes, 0, newSizes, 0, bllSizes.length);
+                    newIndexes[bllIndexes.length] = u;
+                    newSizes[bllSizes.length] = insert;
+                    bllIndexes = newIndexes;
+                    bllSizes = newSizes;
                     if (insert > 0) {
-                        state = 3;
+                        stbte = 3;
                     }
                 }
             }
-            if (state < 3) {
-                --state;
+            if (stbte < 3) {
+                --stbte;
             }
-        } while (state != 0);
+        } while (stbte != 0);
 
         // 2nd step:
-        // copies the bytecode of the method into a new bytevector, updates the
-        // offsets, and inserts (or removes) bytes as requested.
+        // copies the bytecode of the method into b new bytevector, updbtes the
+        // offsets, bnd inserts (or removes) bytes bs requested.
 
         ByteVector newCode = new ByteVector(code.length);
 
         u = 0;
         while (u < code.length) {
             int opcode = b[u] & 0xFF;
-            switch (ClassWriter.TYPE[opcode]) {
-            case ClassWriter.NOARG_INSN:
-            case ClassWriter.IMPLVAR_INSN:
+            switch (ClbssWriter.TYPE[opcode]) {
+            cbse ClbssWriter.NOARG_INSN:
+            cbse ClbssWriter.IMPLVAR_INSN:
                 newCode.putByte(opcode);
                 u += 1;
-                break;
-            case ClassWriter.LABEL_INSN:
+                brebk;
+            cbse ClbssWriter.LABEL_INSN:
                 if (opcode > 201) {
-                    // changes temporary opcodes 202 to 217 (inclusive), 218
-                    // and 219 to IFEQ ... JSR (inclusive), IFNULL and
+                    // chbnges temporbry opcodes 202 to 217 (inclusive), 218
+                    // bnd 219 to IFEQ ... JSR (inclusive), IFNULL bnd
                     // IFNONNULL
                     opcode = opcode < 218 ? opcode - 49 : opcode - 20;
-                    label = u + readUnsignedShort(b, u + 1);
+                    lbbel = u + rebdUnsignedShort(b, u + 1);
                 } else {
-                    label = u + readShort(b, u + 1);
+                    lbbel = u + rebdShort(b, u + 1);
                 }
-                newOffset = getNewOffset(allIndexes, allSizes, u, label);
+                newOffset = getNewOffset(bllIndexes, bllSizes, u, lbbel);
                 if (resize[u]) {
-                    // replaces GOTO with GOTO_W, JSR with JSR_W and IFxxx
+                    // replbces GOTO with GOTO_W, JSR with JSR_W bnd IFxxx
                     // <l> with IFNOTxxx <l'> GOTO_W <l>, where IFNOTxxx is
                     // the "opposite" opcode of IFxxx (i.e., IFNE for IFEQ)
-                    // and where <l'> designates the instruction just after
+                    // bnd where <l'> designbtes the instruction just bfter
                     // the GOTO_W.
                     if (opcode == Opcodes.GOTO) {
                         newCode.putByte(200); // GOTO_W
@@ -2614,7 +2614,7 @@ class MethodWriter extends MethodVisitor {
                                 : opcode ^ 1);
                         newCode.putShort(8); // jump offset
                         newCode.putByte(200); // GOTO_W
-                        // newOffset now computed from start of GOTO_W
+                        // newOffset now computed from stbrt of GOTO_W
                         newOffset -= 3;
                     }
                     newCode.putInt(newOffset);
@@ -2623,164 +2623,164 @@ class MethodWriter extends MethodVisitor {
                     newCode.putShort(newOffset);
                 }
                 u += 3;
-                break;
-            case ClassWriter.LABELW_INSN:
-                label = u + readInt(b, u + 1);
-                newOffset = getNewOffset(allIndexes, allSizes, u, label);
+                brebk;
+            cbse ClbssWriter.LABELW_INSN:
+                lbbel = u + rebdInt(b, u + 1);
+                newOffset = getNewOffset(bllIndexes, bllSizes, u, lbbel);
                 newCode.putByte(opcode);
                 newCode.putInt(newOffset);
                 u += 5;
-                break;
-            case ClassWriter.TABL_INSN:
-                // skips 0 to 3 padding bytes
+                brebk;
+            cbse ClbssWriter.TABL_INSN:
+                // skips 0 to 3 pbdding bytes
                 v = u;
                 u = u + 4 - (v & 3);
-                // reads and copies instruction
+                // rebds bnd copies instruction
                 newCode.putByte(Opcodes.TABLESWITCH);
-                newCode.putByteArray(null, 0, (4 - newCode.length % 4) % 4);
-                label = v + readInt(b, u);
+                newCode.putByteArrby(null, 0, (4 - newCode.length % 4) % 4);
+                lbbel = v + rebdInt(b, u);
                 u += 4;
-                newOffset = getNewOffset(allIndexes, allSizes, v, label);
+                newOffset = getNewOffset(bllIndexes, bllSizes, v, lbbel);
                 newCode.putInt(newOffset);
-                j = readInt(b, u);
+                j = rebdInt(b, u);
                 u += 4;
                 newCode.putInt(j);
-                j = readInt(b, u) - j + 1;
+                j = rebdInt(b, u) - j + 1;
                 u += 4;
-                newCode.putInt(readInt(b, u - 4));
+                newCode.putInt(rebdInt(b, u - 4));
                 for (; j > 0; --j) {
-                    label = v + readInt(b, u);
+                    lbbel = v + rebdInt(b, u);
                     u += 4;
-                    newOffset = getNewOffset(allIndexes, allSizes, v, label);
+                    newOffset = getNewOffset(bllIndexes, bllSizes, v, lbbel);
                     newCode.putInt(newOffset);
                 }
-                break;
-            case ClassWriter.LOOK_INSN:
-                // skips 0 to 3 padding bytes
+                brebk;
+            cbse ClbssWriter.LOOK_INSN:
+                // skips 0 to 3 pbdding bytes
                 v = u;
                 u = u + 4 - (v & 3);
-                // reads and copies instruction
+                // rebds bnd copies instruction
                 newCode.putByte(Opcodes.LOOKUPSWITCH);
-                newCode.putByteArray(null, 0, (4 - newCode.length % 4) % 4);
-                label = v + readInt(b, u);
+                newCode.putByteArrby(null, 0, (4 - newCode.length % 4) % 4);
+                lbbel = v + rebdInt(b, u);
                 u += 4;
-                newOffset = getNewOffset(allIndexes, allSizes, v, label);
+                newOffset = getNewOffset(bllIndexes, bllSizes, v, lbbel);
                 newCode.putInt(newOffset);
-                j = readInt(b, u);
+                j = rebdInt(b, u);
                 u += 4;
                 newCode.putInt(j);
                 for (; j > 0; --j) {
-                    newCode.putInt(readInt(b, u));
+                    newCode.putInt(rebdInt(b, u));
                     u += 4;
-                    label = v + readInt(b, u);
+                    lbbel = v + rebdInt(b, u);
                     u += 4;
-                    newOffset = getNewOffset(allIndexes, allSizes, v, label);
+                    newOffset = getNewOffset(bllIndexes, bllSizes, v, lbbel);
                     newCode.putInt(newOffset);
                 }
-                break;
-            case ClassWriter.WIDE_INSN:
+                brebk;
+            cbse ClbssWriter.WIDE_INSN:
                 opcode = b[u + 1] & 0xFF;
                 if (opcode == Opcodes.IINC) {
-                    newCode.putByteArray(b, u, 6);
+                    newCode.putByteArrby(b, u, 6);
                     u += 6;
                 } else {
-                    newCode.putByteArray(b, u, 4);
+                    newCode.putByteArrby(b, u, 4);
                     u += 4;
                 }
-                break;
-            case ClassWriter.VAR_INSN:
-            case ClassWriter.SBYTE_INSN:
-            case ClassWriter.LDC_INSN:
-                newCode.putByteArray(b, u, 2);
+                brebk;
+            cbse ClbssWriter.VAR_INSN:
+            cbse ClbssWriter.SBYTE_INSN:
+            cbse ClbssWriter.LDC_INSN:
+                newCode.putByteArrby(b, u, 2);
                 u += 2;
-                break;
-            case ClassWriter.SHORT_INSN:
-            case ClassWriter.LDCW_INSN:
-            case ClassWriter.FIELDORMETH_INSN:
-            case ClassWriter.TYPE_INSN:
-            case ClassWriter.IINC_INSN:
-                newCode.putByteArray(b, u, 3);
+                brebk;
+            cbse ClbssWriter.SHORT_INSN:
+            cbse ClbssWriter.LDCW_INSN:
+            cbse ClbssWriter.FIELDORMETH_INSN:
+            cbse ClbssWriter.TYPE_INSN:
+            cbse ClbssWriter.IINC_INSN:
+                newCode.putByteArrby(b, u, 3);
                 u += 3;
-                break;
-            case ClassWriter.ITFMETH_INSN:
-            case ClassWriter.INDYMETH_INSN:
-                newCode.putByteArray(b, u, 5);
+                brebk;
+            cbse ClbssWriter.ITFMETH_INSN:
+            cbse ClbssWriter.INDYMETH_INSN:
+                newCode.putByteArrby(b, u, 5);
                 u += 5;
-                break;
-            // case MANA_INSN:
-            default:
-                newCode.putByteArray(b, u, 4);
+                brebk;
+            // cbse MANA_INSN:
+            defbult:
+                newCode.putByteArrby(b, u, 4);
                 u += 4;
-                break;
+                brebk;
             }
         }
 
-        // updates the stack map frame labels
+        // updbtes the stbck mbp frbme lbbels
         if (compute == FRAMES) {
-            Label l = labels;
+            Lbbel l = lbbels;
             while (l != null) {
                 /*
-                 * Detects the labels that are just after an IF instruction that
-                 * has been resized with the IFNOT GOTO_W pattern. These labels
-                 * are now the target of a jump instruction (the IFNOT
-                 * instruction). Note that we need the original label position
-                 * here. getNewOffset must therefore never have been called for
-                 * this label.
+                 * Detects the lbbels thbt bre just bfter bn IF instruction thbt
+                 * hbs been resized with the IFNOT GOTO_W pbttern. These lbbels
+                 * bre now the tbrget of b jump instruction (the IFNOT
+                 * instruction). Note thbt we need the originbl lbbel position
+                 * here. getNewOffset must therefore never hbve been cblled for
+                 * this lbbel.
                  */
                 u = l.position - 3;
                 if (u >= 0 && resize[u]) {
-                    l.status |= Label.TARGET;
+                    l.stbtus |= Lbbel.TARGET;
                 }
-                getNewOffset(allIndexes, allSizes, l);
+                getNewOffset(bllIndexes, bllSizes, l);
                 l = l.successor;
             }
-            // Update the offsets in the uninitialized types
-            for (i = 0; i < cw.typeTable.length; ++i) {
-                Item item = cw.typeTable[i];
-                if (item != null && item.type == ClassWriter.TYPE_UNINIT) {
-                    item.intVal = getNewOffset(allIndexes, allSizes, 0,
-                            item.intVal);
+            // Updbte the offsets in the uninitiblized types
+            for (i = 0; i < cw.typeTbble.length; ++i) {
+                Item item = cw.typeTbble[i];
+                if (item != null && item.type == ClbssWriter.TYPE_UNINIT) {
+                    item.intVbl = getNewOffset(bllIndexes, bllSizes, 0,
+                            item.intVbl);
                 }
             }
-            // The stack map frames are not serialized yet, so we don't need
-            // to update them. They will be serialized in visitMaxs.
-        } else if (frameCount > 0) {
+            // The stbck mbp frbmes bre not seriblized yet, so we don't need
+            // to updbte them. They will be seriblized in visitMbxs.
+        } else if (frbmeCount > 0) {
             /*
-             * Resizing an existing stack map frame table is really hard. Not
-             * only the table must be parsed to update the offets, but new
-             * frames may be needed for jump instructions that were inserted by
-             * this method. And updating the offsets or inserting frames can
-             * change the format of the following frames, in case of packed
-             * frames. In practice the whole table must be recomputed. For this
-             * the frames are marked as potentially invalid. This will cause the
-             * whole class to be reread and rewritten with the COMPUTE_FRAMES
-             * option (see the ClassWriter.toByteArray method). This is not very
-             * efficient but is much easier and requires much less code than any
-             * other method I can think of.
+             * Resizing bn existing stbck mbp frbme tbble is reblly hbrd. Not
+             * only the tbble must be pbrsed to updbte the offets, but new
+             * frbmes mby be needed for jump instructions thbt were inserted by
+             * this method. And updbting the offsets or inserting frbmes cbn
+             * chbnge the formbt of the following frbmes, in cbse of pbcked
+             * frbmes. In prbctice the whole tbble must be recomputed. For this
+             * the frbmes bre mbrked bs potentiblly invblid. This will cbuse the
+             * whole clbss to be rerebd bnd rewritten with the COMPUTE_FRAMES
+             * option (see the ClbssWriter.toByteArrby method). This is not very
+             * efficient but is much ebsier bnd requires much less code thbn bny
+             * other method I cbn think of.
              */
-            cw.invalidFrames = true;
+            cw.invblidFrbmes = true;
         }
-        // updates the exception handler block labels
-        Handler h = firstHandler;
+        // updbtes the exception hbndler block lbbels
+        Hbndler h = firstHbndler;
         while (h != null) {
-            getNewOffset(allIndexes, allSizes, h.start);
-            getNewOffset(allIndexes, allSizes, h.end);
-            getNewOffset(allIndexes, allSizes, h.handler);
+            getNewOffset(bllIndexes, bllSizes, h.stbrt);
+            getNewOffset(bllIndexes, bllSizes, h.end);
+            getNewOffset(bllIndexes, bllSizes, h.hbndler);
             h = h.next;
         }
-        // updates the instructions addresses in the
-        // local var and line number tables
+        // updbtes the instructions bddresses in the
+        // locbl vbr bnd line number tbbles
         for (i = 0; i < 2; ++i) {
-            ByteVector bv = i == 0 ? localVar : localVarType;
+            ByteVector bv = i == 0 ? locblVbr : locblVbrType;
             if (bv != null) {
-                b = bv.data;
+                b = bv.dbtb;
                 u = 0;
                 while (u < bv.length) {
-                    label = readUnsignedShort(b, u);
-                    newOffset = getNewOffset(allIndexes, allSizes, 0, label);
+                    lbbel = rebdUnsignedShort(b, u);
+                    newOffset = getNewOffset(bllIndexes, bllSizes, 0, lbbel);
                     writeShort(b, u, newOffset);
-                    label += readUnsignedShort(b, u + 2);
-                    newOffset = getNewOffset(allIndexes, allSizes, 0, label)
+                    lbbel += rebdUnsignedShort(b, u + 2);
+                    newOffset = getNewOffset(bllIndexes, bllSizes, 0, lbbel)
                             - newOffset;
                     writeShort(b, u + 2, newOffset);
                     u += 10;
@@ -2788,124 +2788,124 @@ class MethodWriter extends MethodVisitor {
             }
         }
         if (lineNumber != null) {
-            b = lineNumber.data;
+            b = lineNumber.dbtb;
             u = 0;
             while (u < lineNumber.length) {
                 writeShort(
                         b,
                         u,
-                        getNewOffset(allIndexes, allSizes, 0,
-                                readUnsignedShort(b, u)));
+                        getNewOffset(bllIndexes, bllSizes, 0,
+                                rebdUnsignedShort(b, u)));
                 u += 4;
             }
         }
-        // updates the labels of the other attributes
-        Attribute attr = cattrs;
-        while (attr != null) {
-            Label[] labels = attr.getLabels();
-            if (labels != null) {
-                for (i = labels.length - 1; i >= 0; --i) {
-                    getNewOffset(allIndexes, allSizes, labels[i]);
+        // updbtes the lbbels of the other bttributes
+        Attribute bttr = cbttrs;
+        while (bttr != null) {
+            Lbbel[] lbbels = bttr.getLbbels();
+            if (lbbels != null) {
+                for (i = lbbels.length - 1; i >= 0; --i) {
+                    getNewOffset(bllIndexes, bllSizes, lbbels[i]);
                 }
             }
-            attr = attr.next;
+            bttr = bttr.next;
         }
 
-        // replaces old bytecodes with new ones
+        // replbces old bytecodes with new ones
         code = newCode;
     }
 
     /**
-     * Reads an unsigned short value in the given byte array.
+     * Rebds bn unsigned short vblue in the given byte brrby.
      *
-     * @param b
-     *            a byte array.
-     * @param index
-     *            the start index of the value to be read.
-     * @return the read value.
+     * @pbrbm b
+     *            b byte brrby.
+     * @pbrbm index
+     *            the stbrt index of the vblue to be rebd.
+     * @return the rebd vblue.
      */
-    static int readUnsignedShort(final byte[] b, final int index) {
+    stbtic int rebdUnsignedShort(finbl byte[] b, finbl int index) {
         return ((b[index] & 0xFF) << 8) | (b[index + 1] & 0xFF);
     }
 
     /**
-     * Reads a signed short value in the given byte array.
+     * Rebds b signed short vblue in the given byte brrby.
      *
-     * @param b
-     *            a byte array.
-     * @param index
-     *            the start index of the value to be read.
-     * @return the read value.
+     * @pbrbm b
+     *            b byte brrby.
+     * @pbrbm index
+     *            the stbrt index of the vblue to be rebd.
+     * @return the rebd vblue.
      */
-    static short readShort(final byte[] b, final int index) {
+    stbtic short rebdShort(finbl byte[] b, finbl int index) {
         return (short) (((b[index] & 0xFF) << 8) | (b[index + 1] & 0xFF));
     }
 
     /**
-     * Reads a signed int value in the given byte array.
+     * Rebds b signed int vblue in the given byte brrby.
      *
-     * @param b
-     *            a byte array.
-     * @param index
-     *            the start index of the value to be read.
-     * @return the read value.
+     * @pbrbm b
+     *            b byte brrby.
+     * @pbrbm index
+     *            the stbrt index of the vblue to be rebd.
+     * @return the rebd vblue.
      */
-    static int readInt(final byte[] b, final int index) {
+    stbtic int rebdInt(finbl byte[] b, finbl int index) {
         return ((b[index] & 0xFF) << 24) | ((b[index + 1] & 0xFF) << 16)
                 | ((b[index + 2] & 0xFF) << 8) | (b[index + 3] & 0xFF);
     }
 
     /**
-     * Writes a short value in the given byte array.
+     * Writes b short vblue in the given byte brrby.
      *
-     * @param b
-     *            a byte array.
-     * @param index
-     *            where the first byte of the short value must be written.
-     * @param s
-     *            the value to be written in the given byte array.
+     * @pbrbm b
+     *            b byte brrby.
+     * @pbrbm index
+     *            where the first byte of the short vblue must be written.
+     * @pbrbm s
+     *            the vblue to be written in the given byte brrby.
      */
-    static void writeShort(final byte[] b, final int index, final int s) {
+    stbtic void writeShort(finbl byte[] b, finbl int index, finbl int s) {
         b[index] = (byte) (s >>> 8);
         b[index + 1] = (byte) s;
     }
 
     /**
-     * Computes the future value of a bytecode offset.
+     * Computes the future vblue of b bytecode offset.
      * <p>
-     * Note: it is possible to have several entries for the same instruction in
-     * the <tt>indexes</tt> and <tt>sizes</tt>: two entries (index=a,size=b) and
-     * (index=a,size=b') are equivalent to a single entry (index=a,size=b+b').
+     * Note: it is possible to hbve severbl entries for the sbme instruction in
+     * the <tt>indexes</tt> bnd <tt>sizes</tt>: two entries (index=b,size=b) bnd
+     * (index=b,size=b') bre equivblent to b single entry (index=b,size=b+b').
      *
-     * @param indexes
-     *            current positions of the instructions to be resized. Each
-     *            instruction must be designated by the index of its <i>last</i>
+     * @pbrbm indexes
+     *            current positions of the instructions to be resized. Ebch
+     *            instruction must be designbted by the index of its <i>lbst</i>
      *            byte, plus one (or, in other words, by the index of the
      *            <i>first</i> byte of the <i>next</i> instruction).
-     * @param sizes
-     *            the number of bytes to be <i>added</i> to the above
-     *            instructions. More precisely, for each i < <tt>len</tt>,
-     *            <tt>sizes</tt>[i] bytes will be added at the end of the
-     *            instruction designated by <tt>indexes</tt>[i] or, if
-     *            <tt>sizes</tt>[i] is negative, the <i>last</i> |
+     * @pbrbm sizes
+     *            the number of bytes to be <i>bdded</i> to the bbove
+     *            instructions. More precisely, for ebch i < <tt>len</tt>,
+     *            <tt>sizes</tt>[i] bytes will be bdded bt the end of the
+     *            instruction designbted by <tt>indexes</tt>[i] or, if
+     *            <tt>sizes</tt>[i] is negbtive, the <i>lbst</i> |
      *            <tt>sizes[i]</tt>| bytes of the instruction will be removed
-     *            (the instruction size <i>must not</i> become negative or
+     *            (the instruction size <i>must not</i> become negbtive or
      *            null).
-     * @param begin
+     * @pbrbm begin
      *            index of the first byte of the source instruction.
-     * @param end
-     *            index of the first byte of the target instruction.
-     * @return the future value of the given bytecode offset.
+     * @pbrbm end
+     *            index of the first byte of the tbrget instruction.
+     * @return the future vblue of the given bytecode offset.
      */
-    static int getNewOffset(final int[] indexes, final int[] sizes,
-            final int begin, final int end) {
+    stbtic int getNewOffset(finbl int[] indexes, finbl int[] sizes,
+            finbl int begin, finbl int end) {
         int offset = end - begin;
         for (int i = 0; i < indexes.length; ++i) {
             if (begin < indexes[i] && indexes[i] <= end) {
-                // forward jump
+                // forwbrd jump
                 offset += sizes[i];
             } else if (end < indexes[i] && indexes[i] <= begin) {
-                // backward jump
+                // bbckwbrd jump
                 offset -= sizes[i];
             }
         }
@@ -2913,30 +2913,30 @@ class MethodWriter extends MethodVisitor {
     }
 
     /**
-     * Updates the offset of the given label.
+     * Updbtes the offset of the given lbbel.
      *
-     * @param indexes
-     *            current positions of the instructions to be resized. Each
-     *            instruction must be designated by the index of its <i>last</i>
+     * @pbrbm indexes
+     *            current positions of the instructions to be resized. Ebch
+     *            instruction must be designbted by the index of its <i>lbst</i>
      *            byte, plus one (or, in other words, by the index of the
      *            <i>first</i> byte of the <i>next</i> instruction).
-     * @param sizes
-     *            the number of bytes to be <i>added</i> to the above
-     *            instructions. More precisely, for each i < <tt>len</tt>,
-     *            <tt>sizes</tt>[i] bytes will be added at the end of the
-     *            instruction designated by <tt>indexes</tt>[i] or, if
-     *            <tt>sizes</tt>[i] is negative, the <i>last</i> |
+     * @pbrbm sizes
+     *            the number of bytes to be <i>bdded</i> to the bbove
+     *            instructions. More precisely, for ebch i < <tt>len</tt>,
+     *            <tt>sizes</tt>[i] bytes will be bdded bt the end of the
+     *            instruction designbted by <tt>indexes</tt>[i] or, if
+     *            <tt>sizes</tt>[i] is negbtive, the <i>lbst</i> |
      *            <tt>sizes[i]</tt>| bytes of the instruction will be removed
-     *            (the instruction size <i>must not</i> become negative or
+     *            (the instruction size <i>must not</i> become negbtive or
      *            null).
-     * @param label
-     *            the label whose offset must be updated.
+     * @pbrbm lbbel
+     *            the lbbel whose offset must be updbted.
      */
-    static void getNewOffset(final int[] indexes, final int[] sizes,
-            final Label label) {
-        if ((label.status & Label.RESIZED) == 0) {
-            label.position = getNewOffset(indexes, sizes, 0, label.position);
-            label.status |= Label.RESIZED;
+    stbtic void getNewOffset(finbl int[] indexes, finbl int[] sizes,
+            finbl Lbbel lbbel) {
+        if ((lbbel.stbtus & Lbbel.RESIZED) == 0) {
+            lbbel.position = getNewOffset(indexes, sizes, 0, lbbel.position);
+            lbbel.stbtus |= Lbbel.RESIZED;
         }
     }
 }

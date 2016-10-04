@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbckbge com.sun.tools.hbt.internbl.server;
 
-import com.sun.tools.hat.internal.model.*;
-import java.util.Iterator;
+import com.sun.tools.hbt.internbl.model.*;
+import jbvb.util.Iterbtor;
 
 /**
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
 
-class AllClassesQuery extends QueryHandler {
+clbss AllClbssesQuery extends QueryHbndler {
 
-    boolean excludePlatform;
-    boolean oqlSupported;
+    boolebn excludePlbtform;
+    boolebn oqlSupported;
 
-    public AllClassesQuery(boolean excludePlatform, boolean oqlSupported) {
-        this.excludePlatform = excludePlatform;
+    public AllClbssesQuery(boolebn excludePlbtform, boolebn oqlSupported) {
+        this.excludePlbtform = excludePlbtform;
         this.oqlSupported = oqlSupported;
     }
 
     public void run() {
-        if (excludePlatform) {
-            startHtml("All Classes (excluding platform)");
+        if (excludePlbtform) {
+            stbrtHtml("All Clbsses (excluding plbtform)");
         } else {
-            startHtml("All Classes (including platform)");
+            stbrtHtml("All Clbsses (including plbtform)");
         }
 
-        Iterator<JavaClass> classes = snapshot.getClasses();
-        String lastPackage = null;
-        while (classes.hasNext()) {
-            JavaClass clazz = classes.next();
-            if (excludePlatform && PlatformClasses.isPlatformClass(clazz)) {
+        Iterbtor<JbvbClbss> clbsses = snbpshot.getClbsses();
+        String lbstPbckbge = null;
+        while (clbsses.hbsNext()) {
+            JbvbClbss clbzz = clbsses.next();
+            if (excludePlbtform && PlbtformClbsses.isPlbtformClbss(clbzz)) {
                 // skip this..
                 continue;
             }
-            String name = clazz.getName();
-            int pos = name.lastIndexOf('.');
+            String nbme = clbzz.getNbme();
+            int pos = nbme.lbstIndexOf('.');
             String pkg;
-            if (name.startsWith("[")) {         // Only in ancient heap dumps
-                pkg = "<Arrays>";
+            if (nbme.stbrtsWith("[")) {         // Only in bncient hebp dumps
+                pkg = "<Arrbys>";
             } else if (pos == -1) {
-                pkg = "<Default Package>";
+                pkg = "<Defbult Pbckbge>";
             } else {
-                pkg = name.substring(0, pos);
+                pkg = nbme.substring(0, pos);
             }
-            if (!pkg.equals(lastPackage)) {
-                out.print("<h2>Package ");
+            if (!pkg.equbls(lbstPbckbge)) {
+                out.print("<h2>Pbckbge ");
                 print(pkg);
                 out.println("</h2>");
             }
-            lastPackage = pkg;
-            printClass(clazz);
-            if (clazz.getId() != -1) {
-                print(" [" + clazz.getIdString() + "]");
+            lbstPbckbge = pkg;
+            printClbss(clbzz);
+            if (clbzz.getId() != -1) {
+                print(" [" + clbzz.getIdString() + "]");
             }
             out.println("<br>");
         }
@@ -93,52 +93,52 @@ class AllClassesQuery extends QueryHandler {
         out.println("<ul>");
 
         out.println("<li>");
-        printAnchorStart();
-        if (excludePlatform) {
-            out.print("allClassesWithPlatform/\">");
-            print("All classes including platform");
+        printAnchorStbrt();
+        if (excludePlbtform) {
+            out.print("bllClbssesWithPlbtform/\">");
+            print("All clbsses including plbtform");
         } else {
             out.print("\">");
-            print("All classes excluding platform");
+            print("All clbsses excluding plbtform");
         }
-        out.println("</a>");
+        out.println("</b>");
 
         out.println("<li>");
-        printAnchorStart();
+        printAnchorStbrt();
         out.print("showRoots/\">");
-        print("Show all members of the rootset");
-        out.println("</a>");
+        print("Show bll members of the rootset");
+        out.println("</b>");
 
         out.println("<li>");
-        printAnchorStart();
-        out.print("showInstanceCounts/includePlatform/\">");
-        print("Show instance counts for all classes (including platform)");
-        out.println("</a>");
+        printAnchorStbrt();
+        out.print("showInstbnceCounts/includePlbtform/\">");
+        print("Show instbnce counts for bll clbsses (including plbtform)");
+        out.println("</b>");
 
         out.println("<li>");
-        printAnchorStart();
-        out.print("showInstanceCounts/\">");
-        print("Show instance counts for all classes (excluding platform)");
-        out.println("</a>");
+        printAnchorStbrt();
+        out.print("showInstbnceCounts/\">");
+        print("Show instbnce counts for bll clbsses (excluding plbtform)");
+        out.println("</b>");
 
         out.println("<li>");
-        printAnchorStart();
+        printAnchorStbrt();
         out.print("histo/\">");
-        print("Show heap histogram");
-        out.println("</a>");
+        print("Show hebp histogrbm");
+        out.println("</b>");
 
         out.println("<li>");
-        printAnchorStart();
-        out.print("finalizerSummary/\">");
-        print("Show finalizer summary");
-        out.println("</a>");
+        printAnchorStbrt();
+        out.print("finblizerSummbry/\">");
+        print("Show finblizer summbry");
+        out.println("</b>");
 
         if (oqlSupported) {
             out.println("<li>");
-            printAnchorStart();
+            printAnchorStbrt();
             out.print("oql/\">");
-            print("Execute Object Query Language (OQL) query");
-            out.println("</a>");
+            print("Execute Object Query Lbngubge (OQL) query");
+            out.println("</b>");
         }
 
         out.println("</ul>");

@@ -5,77 +5,77 @@
 /*
  * jfdctint.c
  *
- * Copyright (C) 1991-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1991-1996, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains a slow-but-accurate integer implementation of the
- * forward DCT (Discrete Cosine Transform).
+ * This file contbins b slow-but-bccurbte integer implementbtion of the
+ * forwbrd DCT (Discrete Cosine Trbnsform).
  *
- * A 2-D DCT can be done by 1-D DCT on each row followed by 1-D DCT
- * on each column.  Direct algorithms are also available, but they are
- * much more complex and seem not to be any faster when reduced to code.
+ * A 2-D DCT cbn be done by 1-D DCT on ebch row followed by 1-D DCT
+ * on ebch column.  Direct blgorithms bre blso bvbilbble, but they bre
+ * much more complex bnd seem not to be bny fbster when reduced to code.
  *
- * This implementation is based on an algorithm described in
- *   C. Loeffler, A. Ligtenberg and G. Moschytz, "Practical Fast 1-D DCT
- *   Algorithms with 11 Multiplications", Proc. Int'l. Conf. on Acoustics,
- *   Speech, and Signal Processing 1989 (ICASSP '89), pp. 988-991.
- * The primary algorithm described there uses 11 multiplies and 29 adds.
- * We use their alternate method with 12 multiplies and 32 adds.
- * The advantage of this method is that no data path contains more than one
- * multiplication; this allows a very simple and accurate implementation in
- * scaled fixed-point arithmetic, with a minimal number of shifts.
+ * This implementbtion is bbsed on bn blgorithm described in
+ *   C. Loeffler, A. Ligtenberg bnd G. Moschytz, "Prbcticbl Fbst 1-D DCT
+ *   Algorithms with 11 Multiplicbtions", Proc. Int'l. Conf. on Acoustics,
+ *   Speech, bnd Signbl Processing 1989 (ICASSP '89), pp. 988-991.
+ * The primbry blgorithm described there uses 11 multiplies bnd 29 bdds.
+ * We use their blternbte method with 12 multiplies bnd 32 bdds.
+ * The bdvbntbge of this method is thbt no dbtb pbth contbins more thbn one
+ * multiplicbtion; this bllows b very simple bnd bccurbte implementbtion in
+ * scbled fixed-point brithmetic, with b minimbl number of shifts.
  */
 
 #define JPEG_INTERNALS
 #include "jinclude.h"
 #include "jpeglib.h"
-#include "jdct.h"               /* Private declarations for DCT subsystem */
+#include "jdct.h"               /* Privbte declbrbtions for DCT subsystem */
 
 #ifdef DCT_ISLOW_SUPPORTED
 
 
 /*
- * This module is specialized to the case DCTSIZE = 8.
+ * This module is speciblized to the cbse DCTSIZE = 8.
  */
 
 #if DCTSIZE != 8
-  Sorry, this code only copes with 8x8 DCTs. /* deliberate syntax err */
+  Sorry, this code only copes with 8x8 DCTs. /* deliberbte syntbx err */
 #endif
 
 
 /*
- * The poop on this scaling stuff is as follows:
+ * The poop on this scbling stuff is bs follows:
  *
- * Each 1-D DCT step produces outputs which are a factor of sqrt(N)
- * larger than the true DCT outputs.  The final outputs are therefore
- * a factor of N larger than desired; since N=8 this can be cured by
- * a simple right shift at the end of the algorithm.  The advantage of
- * this arrangement is that we save two multiplications per 1-D DCT,
- * because the y0 and y4 outputs need not be divided by sqrt(N).
- * In the IJG code, this factor of 8 is removed by the quantization step
+ * Ebch 1-D DCT step produces outputs which bre b fbctor of sqrt(N)
+ * lbrger thbn the true DCT outputs.  The finbl outputs bre therefore
+ * b fbctor of N lbrger thbn desired; since N=8 this cbn be cured by
+ * b simple right shift bt the end of the blgorithm.  The bdvbntbge of
+ * this brrbngement is thbt we sbve two multiplicbtions per 1-D DCT,
+ * becbuse the y0 bnd y4 outputs need not be divided by sqrt(N).
+ * In the IJG code, this fbctor of 8 is removed by the qubntizbtion step
  * (in jcdctmgr.c), NOT in this module.
  *
- * We have to do addition and subtraction of the integer inputs, which
- * is no problem, and multiplication by fractional constants, which is
- * a problem to do in integer arithmetic.  We multiply all the constants
- * by CONST_SCALE and convert them to integer constants (thus retaining
- * CONST_BITS bits of precision in the constants).  After doing a
- * multiplication we have to divide the product by CONST_SCALE, with proper
- * rounding, to produce the correct output.  This division can be done
- * cheaply as a right shift of CONST_BITS bits.  We postpone shifting
- * as long as possible so that partial sums can be added together with
- * full fractional precision.
+ * We hbve to do bddition bnd subtrbction of the integer inputs, which
+ * is no problem, bnd multiplicbtion by frbctionbl constbnts, which is
+ * b problem to do in integer brithmetic.  We multiply bll the constbnts
+ * by CONST_SCALE bnd convert them to integer constbnts (thus retbining
+ * CONST_BITS bits of precision in the constbnts).  After doing b
+ * multiplicbtion we hbve to divide the product by CONST_SCALE, with proper
+ * rounding, to produce the correct output.  This division cbn be done
+ * chebply bs b right shift of CONST_BITS bits.  We postpone shifting
+ * bs long bs possible so thbt pbrtibl sums cbn be bdded together with
+ * full frbctionbl precision.
  *
- * The outputs of the first pass are scaled up by PASS1_BITS bits so that
- * they are represented to better-than-integral precision.  These outputs
- * require BITS_IN_JSAMPLE + PASS1_BITS + 3 bits; this fits in a 16-bit word
- * with the recommended scaling.  (For 12-bit sample data, the intermediate
- * array is INT32 anyway.)
+ * The outputs of the first pbss bre scbled up by PASS1_BITS bits so thbt
+ * they bre represented to better-thbn-integrbl precision.  These outputs
+ * require BITS_IN_JSAMPLE + PASS1_BITS + 3 bits; this fits in b 16-bit word
+ * with the recommended scbling.  (For 12-bit sbmple dbtb, the intermedibte
+ * brrby is INT32 bnywby.)
  *
- * To avoid overflow of the 32-bit intermediate results in pass 2, we must
- * have BITS_IN_JSAMPLE + CONST_BITS + PASS1_BITS <= 26.  Error analysis
- * shows that the values given below are the most effective.
+ * To bvoid overflow of the 32-bit intermedibte results in pbss 2, we must
+ * hbve BITS_IN_JSAMPLE + CONST_BITS + PASS1_BITS <= 26.  Error bnblysis
+ * shows thbt the vblues given below bre the most effective.
  */
 
 #if BITS_IN_JSAMPLE == 8
@@ -83,14 +83,14 @@
 #define PASS1_BITS  2
 #else
 #define CONST_BITS  13
-#define PASS1_BITS  1           /* lose a little precision to avoid overflow */
+#define PASS1_BITS  1           /* lose b little precision to bvoid overflow */
 #endif
 
-/* Some C compilers fail to reduce "FIX(constant)" at compile time, thus
- * causing a lot of useless floating-point operations at run time.
- * To get around this we use the following pre-calculated constants.
- * If you change CONST_BITS you may want to add appropriate values.
- * (With a reasonable C compiler, you can just rely on the FIX() macro...)
+/* Some C compilers fbil to reduce "FIX(constbnt)" bt compile time, thus
+ * cbusing b lot of useless flobting-point operbtions bt run time.
+ * To get bround this we use the following pre-cblculbted constbnts.
+ * If you chbnge CONST_BITS you mby wbnt to bdd bppropribte vblues.
+ * (With b rebsonbble C compiler, you cbn just rely on the FIX() mbcro...)
  */
 
 #if CONST_BITS == 13
@@ -122,51 +122,51 @@
 #endif
 
 
-/* Multiply an INT32 variable by an INT32 constant to yield an INT32 result.
- * For 8-bit samples with the recommended scaling, all the variable
- * and constant values involved are no more than 16 bits wide, so a
- * 16x16->32 bit multiply can be used instead of a full 32x32 multiply.
- * For 12-bit samples, a full 32-bit multiplication will be needed.
+/* Multiply bn INT32 vbribble by bn INT32 constbnt to yield bn INT32 result.
+ * For 8-bit sbmples with the recommended scbling, bll the vbribble
+ * bnd constbnt vblues involved bre no more thbn 16 bits wide, so b
+ * 16x16->32 bit multiply cbn be used instebd of b full 32x32 multiply.
+ * For 12-bit sbmples, b full 32-bit multiplicbtion will be needed.
  */
 
 #if BITS_IN_JSAMPLE == 8
-#define MULTIPLY(var,const)  MULTIPLY16C16(var,const)
+#define MULTIPLY(vbr,const)  MULTIPLY16C16(vbr,const)
 #else
-#define MULTIPLY(var,const)  ((var) * (const))
+#define MULTIPLY(vbr,const)  ((vbr) * (const))
 #endif
 
 
 /*
- * Perform the forward DCT on one block of samples.
+ * Perform the forwbrd DCT on one block of sbmples.
  */
 
 GLOBAL(void)
-jpeg_fdct_islow (DCTELEM * data)
+jpeg_fdct_islow (DCTELEM * dbtb)
 {
   INT32 tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7;
   INT32 tmp10, tmp11, tmp12, tmp13;
   INT32 z1, z2, z3, z4, z5;
-  DCTELEM *dataptr;
+  DCTELEM *dbtbptr;
   int ctr;
   SHIFT_TEMPS
 
-  /* Pass 1: process rows. */
-  /* Note results are scaled up by sqrt(8) compared to a true DCT; */
-  /* furthermore, we scale the results by 2**PASS1_BITS. */
+  /* Pbss 1: process rows. */
+  /* Note results bre scbled up by sqrt(8) compbred to b true DCT; */
+  /* furthermore, we scble the results by 2**PASS1_BITS. */
 
-  dataptr = data;
+  dbtbptr = dbtb;
   for (ctr = DCTSIZE-1; ctr >= 0; ctr--) {
-    tmp0 = dataptr[0] + dataptr[7];
-    tmp7 = dataptr[0] - dataptr[7];
-    tmp1 = dataptr[1] + dataptr[6];
-    tmp6 = dataptr[1] - dataptr[6];
-    tmp2 = dataptr[2] + dataptr[5];
-    tmp5 = dataptr[2] - dataptr[5];
-    tmp3 = dataptr[3] + dataptr[4];
-    tmp4 = dataptr[3] - dataptr[4];
+    tmp0 = dbtbptr[0] + dbtbptr[7];
+    tmp7 = dbtbptr[0] - dbtbptr[7];
+    tmp1 = dbtbptr[1] + dbtbptr[6];
+    tmp6 = dbtbptr[1] - dbtbptr[6];
+    tmp2 = dbtbptr[2] + dbtbptr[5];
+    tmp5 = dbtbptr[2] - dbtbptr[5];
+    tmp3 = dbtbptr[3] + dbtbptr[4];
+    tmp4 = dbtbptr[3] - dbtbptr[4];
 
-    /* Even part per LL&M figure 1 --- note that published figure is faulty;
-     * rotator "sqrt(2)*c1" should be "sqrt(2)*c6".
+    /* Even pbrt per LL&M figure 1 --- note thbt published figure is fbulty;
+     * rotbtor "sqrt(2)*c1" should be "sqrt(2)*c6".
      */
 
     tmp10 = tmp0 + tmp3;
@@ -174,18 +174,18 @@ jpeg_fdct_islow (DCTELEM * data)
     tmp11 = tmp1 + tmp2;
     tmp12 = tmp1 - tmp2;
 
-    dataptr[0] = (DCTELEM) ((tmp10 + tmp11) << PASS1_BITS);
-    dataptr[4] = (DCTELEM) ((tmp10 - tmp11) << PASS1_BITS);
+    dbtbptr[0] = (DCTELEM) ((tmp10 + tmp11) << PASS1_BITS);
+    dbtbptr[4] = (DCTELEM) ((tmp10 - tmp11) << PASS1_BITS);
 
     z1 = MULTIPLY(tmp12 + tmp13, FIX_0_541196100);
-    dataptr[2] = (DCTELEM) DESCALE(z1 + MULTIPLY(tmp13, FIX_0_765366865),
+    dbtbptr[2] = (DCTELEM) DESCALE(z1 + MULTIPLY(tmp13, FIX_0_765366865),
                                    CONST_BITS-PASS1_BITS);
-    dataptr[6] = (DCTELEM) DESCALE(z1 + MULTIPLY(tmp12, - FIX_1_847759065),
+    dbtbptr[6] = (DCTELEM) DESCALE(z1 + MULTIPLY(tmp12, - FIX_1_847759065),
                                    CONST_BITS-PASS1_BITS);
 
-    /* Odd part per figure 8 --- note paper omits factor of sqrt(2).
+    /* Odd pbrt per figure 8 --- note pbper omits fbctor of sqrt(2).
      * cK represents cos(K*pi/16).
-     * i0..i3 in the paper are tmp4..tmp7 here.
+     * i0..i3 in the pbper bre tmp4..tmp7 here.
      */
 
     z1 = tmp4 + tmp7;
@@ -206,32 +206,32 @@ jpeg_fdct_islow (DCTELEM * data)
     z3 += z5;
     z4 += z5;
 
-    dataptr[7] = (DCTELEM) DESCALE(tmp4 + z1 + z3, CONST_BITS-PASS1_BITS);
-    dataptr[5] = (DCTELEM) DESCALE(tmp5 + z2 + z4, CONST_BITS-PASS1_BITS);
-    dataptr[3] = (DCTELEM) DESCALE(tmp6 + z2 + z3, CONST_BITS-PASS1_BITS);
-    dataptr[1] = (DCTELEM) DESCALE(tmp7 + z1 + z4, CONST_BITS-PASS1_BITS);
+    dbtbptr[7] = (DCTELEM) DESCALE(tmp4 + z1 + z3, CONST_BITS-PASS1_BITS);
+    dbtbptr[5] = (DCTELEM) DESCALE(tmp5 + z2 + z4, CONST_BITS-PASS1_BITS);
+    dbtbptr[3] = (DCTELEM) DESCALE(tmp6 + z2 + z3, CONST_BITS-PASS1_BITS);
+    dbtbptr[1] = (DCTELEM) DESCALE(tmp7 + z1 + z4, CONST_BITS-PASS1_BITS);
 
-    dataptr += DCTSIZE;         /* advance pointer to next row */
+    dbtbptr += DCTSIZE;         /* bdvbnce pointer to next row */
   }
 
-  /* Pass 2: process columns.
-   * We remove the PASS1_BITS scaling, but leave the results scaled up
-   * by an overall factor of 8.
+  /* Pbss 2: process columns.
+   * We remove the PASS1_BITS scbling, but lebve the results scbled up
+   * by bn overbll fbctor of 8.
    */
 
-  dataptr = data;
+  dbtbptr = dbtb;
   for (ctr = DCTSIZE-1; ctr >= 0; ctr--) {
-    tmp0 = dataptr[DCTSIZE*0] + dataptr[DCTSIZE*7];
-    tmp7 = dataptr[DCTSIZE*0] - dataptr[DCTSIZE*7];
-    tmp1 = dataptr[DCTSIZE*1] + dataptr[DCTSIZE*6];
-    tmp6 = dataptr[DCTSIZE*1] - dataptr[DCTSIZE*6];
-    tmp2 = dataptr[DCTSIZE*2] + dataptr[DCTSIZE*5];
-    tmp5 = dataptr[DCTSIZE*2] - dataptr[DCTSIZE*5];
-    tmp3 = dataptr[DCTSIZE*3] + dataptr[DCTSIZE*4];
-    tmp4 = dataptr[DCTSIZE*3] - dataptr[DCTSIZE*4];
+    tmp0 = dbtbptr[DCTSIZE*0] + dbtbptr[DCTSIZE*7];
+    tmp7 = dbtbptr[DCTSIZE*0] - dbtbptr[DCTSIZE*7];
+    tmp1 = dbtbptr[DCTSIZE*1] + dbtbptr[DCTSIZE*6];
+    tmp6 = dbtbptr[DCTSIZE*1] - dbtbptr[DCTSIZE*6];
+    tmp2 = dbtbptr[DCTSIZE*2] + dbtbptr[DCTSIZE*5];
+    tmp5 = dbtbptr[DCTSIZE*2] - dbtbptr[DCTSIZE*5];
+    tmp3 = dbtbptr[DCTSIZE*3] + dbtbptr[DCTSIZE*4];
+    tmp4 = dbtbptr[DCTSIZE*3] - dbtbptr[DCTSIZE*4];
 
-    /* Even part per LL&M figure 1 --- note that published figure is faulty;
-     * rotator "sqrt(2)*c1" should be "sqrt(2)*c6".
+    /* Even pbrt per LL&M figure 1 --- note thbt published figure is fbulty;
+     * rotbtor "sqrt(2)*c1" should be "sqrt(2)*c6".
      */
 
     tmp10 = tmp0 + tmp3;
@@ -239,18 +239,18 @@ jpeg_fdct_islow (DCTELEM * data)
     tmp11 = tmp1 + tmp2;
     tmp12 = tmp1 - tmp2;
 
-    dataptr[DCTSIZE*0] = (DCTELEM) DESCALE(tmp10 + tmp11, PASS1_BITS);
-    dataptr[DCTSIZE*4] = (DCTELEM) DESCALE(tmp10 - tmp11, PASS1_BITS);
+    dbtbptr[DCTSIZE*0] = (DCTELEM) DESCALE(tmp10 + tmp11, PASS1_BITS);
+    dbtbptr[DCTSIZE*4] = (DCTELEM) DESCALE(tmp10 - tmp11, PASS1_BITS);
 
     z1 = MULTIPLY(tmp12 + tmp13, FIX_0_541196100);
-    dataptr[DCTSIZE*2] = (DCTELEM) DESCALE(z1 + MULTIPLY(tmp13, FIX_0_765366865),
+    dbtbptr[DCTSIZE*2] = (DCTELEM) DESCALE(z1 + MULTIPLY(tmp13, FIX_0_765366865),
                                            CONST_BITS+PASS1_BITS);
-    dataptr[DCTSIZE*6] = (DCTELEM) DESCALE(z1 + MULTIPLY(tmp12, - FIX_1_847759065),
+    dbtbptr[DCTSIZE*6] = (DCTELEM) DESCALE(z1 + MULTIPLY(tmp12, - FIX_1_847759065),
                                            CONST_BITS+PASS1_BITS);
 
-    /* Odd part per figure 8 --- note paper omits factor of sqrt(2).
+    /* Odd pbrt per figure 8 --- note pbper omits fbctor of sqrt(2).
      * cK represents cos(K*pi/16).
-     * i0..i3 in the paper are tmp4..tmp7 here.
+     * i0..i3 in the pbper bre tmp4..tmp7 here.
      */
 
     z1 = tmp4 + tmp7;
@@ -271,16 +271,16 @@ jpeg_fdct_islow (DCTELEM * data)
     z3 += z5;
     z4 += z5;
 
-    dataptr[DCTSIZE*7] = (DCTELEM) DESCALE(tmp4 + z1 + z3,
+    dbtbptr[DCTSIZE*7] = (DCTELEM) DESCALE(tmp4 + z1 + z3,
                                            CONST_BITS+PASS1_BITS);
-    dataptr[DCTSIZE*5] = (DCTELEM) DESCALE(tmp5 + z2 + z4,
+    dbtbptr[DCTSIZE*5] = (DCTELEM) DESCALE(tmp5 + z2 + z4,
                                            CONST_BITS+PASS1_BITS);
-    dataptr[DCTSIZE*3] = (DCTELEM) DESCALE(tmp6 + z2 + z3,
+    dbtbptr[DCTSIZE*3] = (DCTELEM) DESCALE(tmp6 + z2 + z3,
                                            CONST_BITS+PASS1_BITS);
-    dataptr[DCTSIZE*1] = (DCTELEM) DESCALE(tmp7 + z1 + z4,
+    dbtbptr[DCTSIZE*1] = (DCTELEM) DESCALE(tmp7 + z1 + z4,
                                            CONST_BITS+PASS1_BITS);
 
-    dataptr++;                  /* advance pointer to next column */
+    dbtbptr++;                  /* bdvbnce pointer to next column */
   }
 }
 

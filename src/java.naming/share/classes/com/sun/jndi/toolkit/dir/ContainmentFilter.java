@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /**
-  * Supports checking an attribute set satisfies a filter
-  * that is specified as a set of "matching" attributes.
-  * Checking is done by determining whether the given attribute set
-  * is a superset of the matching ones.
+  * Supports checking bn bttribute set sbtisfies b filter
+  * thbt is specified bs b set of "mbtching" bttributes.
+  * Checking is done by determining whether the given bttribute set
+  * is b superset of the mbtching ones.
   *
-  * @author Rosanna Lee
+  * @buthor Rosbnnb Lee
   */
 
-package com.sun.jndi.toolkit.dir;
+pbckbge com.sun.jndi.toolkit.dir;
 
-import javax.naming.*;
-import javax.naming.directory.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
 
-public class ContainmentFilter implements AttrFilter {
-    private Attributes matchingAttrs;
+public clbss ContbinmentFilter implements AttrFilter {
+    privbte Attributes mbtchingAttrs;
 
-    public ContainmentFilter(Attributes match) {
-        matchingAttrs = match;
+    public ContbinmentFilter(Attributes mbtch) {
+        mbtchingAttrs = mbtch;
     }
 
-    public boolean check(Attributes attrs) throws NamingException {
-        return matchingAttrs == null ||
-            matchingAttrs.size() == 0 ||
-            contains(attrs, matchingAttrs);
+    public boolebn check(Attributes bttrs) throws NbmingException {
+        return mbtchingAttrs == null ||
+            mbtchingAttrs.size() == 0 ||
+            contbins(bttrs, mbtchingAttrs);
     }
 
-    // returns true if superset contains subset
-    public static boolean contains(Attributes superset, Attributes subset)
-        throws NamingException {
+    // returns true if superset contbins subset
+    public stbtic boolebn contbins(Attributes superset, Attributes subset)
+        throws NbmingException {
           if (subset == null)
-            return true;  // an empty set is always a subset
+            return true;  // bn empty set is blwbys b subset
 
-            NamingEnumeration<? extends Attribute> m = subset.getAll();
-            while (m.hasMore()) {
+            NbmingEnumerbtion<? extends Attribute> m = subset.getAll();
+            while (m.hbsMore()) {
                 if (superset == null) {
-                    return false;  // contains nothing
+                    return fblse;  // contbins nothing
                 }
-                Attribute target = m.next();
-                Attribute fromSuper = superset.get(target.getID());
+                Attribute tbrget = m.next();
+                Attribute fromSuper = superset.get(tbrget.getID());
                 if (fromSuper == null) {
-                    return false;
+                    return fblse;
                 } else {
-                    // check whether attribute values match
-                    if (target.size() > 0) {
-                        NamingEnumeration<?> vals = target.getAll();
-                        while (vals.hasMore()) {
-                            if (!fromSuper.contains(vals.next())) {
-                                return false;
+                    // check whether bttribute vblues mbtch
+                    if (tbrget.size() > 0) {
+                        NbmingEnumerbtion<?> vbls = tbrget.getAll();
+                        while (vbls.hbsMore()) {
+                            if (!fromSuper.contbins(vbls.next())) {
+                                return fblse;
                             }
                         }
                     }

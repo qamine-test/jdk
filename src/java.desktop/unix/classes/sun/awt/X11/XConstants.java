@@ -1,677 +1,677 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-final public class XConstants {
+finbl public clbss XConstbnts {
 
-    private XConstants(){}
+    privbte XConstbnts(){}
 
-    public static final int X_PROTOCOL = 11 ; /* current protocol version */
-    public static final int X_PROTOCOL_REVISION = 0 ; /* current minor version */
+    public stbtic finbl int X_PROTOCOL = 11 ; /* current protocol version */
+    public stbtic finbl int X_PROTOCOL_REVISION = 0 ; /* current minor version */
 
     /* Resources */
 
     /*
      * _XSERVER64 must ONLY be defined when compiling X server sources on
      * systems where unsigned long is not 32 bits, must NOT be used in
-     * client or library code.
+     * client or librbry code.
      */
 
     /*
     #ifndef _XSERVER64
     typedef unsigned long XID;
-    typedef unsigned long Mask;
+    typedef unsigned long Mbsk;
     typedef unsigned long Atom;
-    typedef unsigned long VisualID;
+    typedef unsigned long VisublID;
     typedef unsigned long Time;
     #else
     typedef CARD32 XID;
-    typedef CARD32 Mask;
+    typedef CARD32 Mbsk;
     typedef CARD32 Atom;
-    typedef CARD32 VisualID;
+    typedef CARD32 VisublID;
     typedef CARD32 Time;
     #endif
 
     typedef XID Window;
-    typedef XID Drawable;
+    typedef XID Drbwbble;
     typedef XID Font;
-    typedef XID Pixmap;
+    typedef XID Pixmbp;
     typedef XID Cursor;
-    typedef XID Colormap;
+    typedef XID Colormbp;
     typedef XID GContext;
     typedef XID KeySym;
 
-    typedef unsigned char KeyCode;
+    typedef unsigned chbr KeyCode;
      */
     /*****************************************************************
      * RESERVED RESOURCE AND CONSTANT DEFINITIONS
      *****************************************************************/
 
-    public static final long None = 0L ; /* universal null resource or null atom */
+    public stbtic finbl long None = 0L ; /* universbl null resource or null btom */
 
-    /* background pixmap in CreateWindow and ChangeWindowAttributes */
-    public static final long ParentRelative = 1L ;
+    /* bbckground pixmbp in CrebteWindow bnd ChbngeWindowAttributes */
+    public stbtic finbl long PbrentRelbtive = 1L ;
 
-    /* border pixmap in CreateWindow and ChangeWindowAttributes special
-     * VisualID and special window class passed to CreateWindow */
-    public static final long CopyFromParent = 0L ;
+    /* border pixmbp in CrebteWindow bnd ChbngeWindowAttributes specibl
+     * VisublID bnd specibl window clbss pbssed to CrebteWindow */
+    public stbtic finbl long CopyFromPbrent = 0L ;
 
-    public static final long PointerWindow = 0L ; /* destination window in SendEvent */
-    public static final long InputFocus = 1L ; /* destination window in SendEvent */
+    public stbtic finbl long PointerWindow = 0L ; /* destinbtion window in SendEvent */
+    public stbtic finbl long InputFocus = 1L ; /* destinbtion window in SendEvent */
 
-    public static final long PointerRoot = 1L ; /* focus window in SetInputFocus */
+    public stbtic finbl long PointerRoot = 1L ; /* focus window in SetInputFocus */
 
-    public static final long AnyPropertyType = 0L ; /* special Atom, passed to GetProperty */
+    public stbtic finbl long AnyPropertyType = 0L ; /* specibl Atom, pbssed to GetProperty */
 
-    public static final long AnyKey = 0L ; /* special Key Code, passed to GrabKey */
+    public stbtic finbl long AnyKey = 0L ; /* specibl Key Code, pbssed to GrbbKey */
 
-    public static final long AnyButton = 0L ; /* special Button Code, passed to GrabButton */
+    public stbtic finbl long AnyButton = 0L ; /* specibl Button Code, pbssed to GrbbButton */
 
-    public static final long AllTemporary = 0L ; /* special Resource ID passed to KillClient */
+    public stbtic finbl long AllTemporbry = 0L ; /* specibl Resource ID pbssed to KillClient */
 
-    public static final long CurrentTime = 0L ; /* special Time */
+    public stbtic finbl long CurrentTime = 0L ; /* specibl Time */
 
-    public static final long NoSymbol = 0L ; /* special KeySym */
+    public stbtic finbl long NoSymbol = 0L ; /* specibl KeySym */
 
     /*****************************************************************
      * EVENT DEFINITIONS
      *****************************************************************/
 
-    /* Input Event Masks. Used as event-mask window attribute and as arguments
-       to Grab requests.  Not to be confused with event names.  */
+    /* Input Event Mbsks. Used bs event-mbsk window bttribute bnd bs brguments
+       to Grbb requests.  Not to be confused with event nbmes.  */
 
-    public static final long NoEventMask = 0L ;
-    public static final long KeyPressMask = (1L<<0) ;
-    public static final long KeyReleaseMask = (1L<<1) ;
-    public static final long ButtonPressMask = (1L<<2) ;
-    public static final long ButtonReleaseMask = (1L<<3) ;
-    public static final long EnterWindowMask = (1L<<4) ;
-    public static final long LeaveWindowMask = (1L<<5) ;
-    public static final long PointerMotionMask = (1L<<6) ;
-    public static final long PointerMotionHintMask = (1L<<7) ;
-    public static final long Button1MotionMask = (1L<<8) ;
-    public static final long Button2MotionMask = (1L<<9) ;
-    public static final long Button3MotionMask = (1L<<10) ;
-    public static final long Button4MotionMask = (1L<<11) ;
-    public static final long Button5MotionMask = (1L<<12) ;
-    public static final long ButtonMotionMask = (1L<<13) ;
-    public static final long KeymapStateMask = (1L<<14) ;
-    public static final long ExposureMask = (1L<<15) ;
-    public static final long VisibilityChangeMask = (1L<<16) ;
-    public static final long StructureNotifyMask = (1L<<17) ;
-    public static final long ResizeRedirectMask = (1L<<18) ;
-    public static final long SubstructureNotifyMask = (1L<<19) ;
-    public static final long SubstructureRedirectMask = (1L<<20) ;
-    public static final long FocusChangeMask = (1L<<21) ;
-    public static final long PropertyChangeMask = (1L<<22) ;
-    public static final long ColormapChangeMask = (1L<<23) ;
-    public static final long OwnerGrabButtonMask = (1L<<24) ;
+    public stbtic finbl long NoEventMbsk = 0L ;
+    public stbtic finbl long KeyPressMbsk = (1L<<0) ;
+    public stbtic finbl long KeyRelebseMbsk = (1L<<1) ;
+    public stbtic finbl long ButtonPressMbsk = (1L<<2) ;
+    public stbtic finbl long ButtonRelebseMbsk = (1L<<3) ;
+    public stbtic finbl long EnterWindowMbsk = (1L<<4) ;
+    public stbtic finbl long LebveWindowMbsk = (1L<<5) ;
+    public stbtic finbl long PointerMotionMbsk = (1L<<6) ;
+    public stbtic finbl long PointerMotionHintMbsk = (1L<<7) ;
+    public stbtic finbl long Button1MotionMbsk = (1L<<8) ;
+    public stbtic finbl long Button2MotionMbsk = (1L<<9) ;
+    public stbtic finbl long Button3MotionMbsk = (1L<<10) ;
+    public stbtic finbl long Button4MotionMbsk = (1L<<11) ;
+    public stbtic finbl long Button5MotionMbsk = (1L<<12) ;
+    public stbtic finbl long ButtonMotionMbsk = (1L<<13) ;
+    public stbtic finbl long KeymbpStbteMbsk = (1L<<14) ;
+    public stbtic finbl long ExposureMbsk = (1L<<15) ;
+    public stbtic finbl long VisibilityChbngeMbsk = (1L<<16) ;
+    public stbtic finbl long StructureNotifyMbsk = (1L<<17) ;
+    public stbtic finbl long ResizeRedirectMbsk = (1L<<18) ;
+    public stbtic finbl long SubstructureNotifyMbsk = (1L<<19) ;
+    public stbtic finbl long SubstructureRedirectMbsk = (1L<<20) ;
+    public stbtic finbl long FocusChbngeMbsk = (1L<<21) ;
+    public stbtic finbl long PropertyChbngeMbsk = (1L<<22) ;
+    public stbtic finbl long ColormbpChbngeMbsk = (1L<<23) ;
+    public stbtic finbl long OwnerGrbbButtonMbsk = (1L<<24) ;
 
-    public static final int MAX_BUTTONS = 5;
-    public static final int ALL_BUTTONS_MASK = (int) (Button1MotionMask | Button2MotionMask | Button3MotionMask | Button4MotionMask | Button5MotionMask);
+    public stbtic finbl int MAX_BUTTONS = 5;
+    public stbtic finbl int ALL_BUTTONS_MASK = (int) (Button1MotionMbsk | Button2MotionMbsk | Button3MotionMbsk | Button4MotionMbsk | Button5MotionMbsk);
 
-    /* Event names.  Used in "type" field in XEvent structures.  Not to be
-    confused with event masks above.  They start from 2 because 0 and 1
-    are reserved in the protocol for errors and replies. */
+    /* Event nbmes.  Used in "type" field in XEvent structures.  Not to be
+    confused with event mbsks bbove.  They stbrt from 2 becbuse 0 bnd 1
+    bre reserved in the protocol for errors bnd replies. */
 
-    public static final int KeyPress = 2 ;
-    public static final int KeyRelease = 3 ;
-    public static final int ButtonPress = 4 ;
-    public static final int ButtonRelease = 5 ;
-    public static final int MotionNotify = 6 ;
-    public static final int EnterNotify = 7 ;
-    public static final int LeaveNotify = 8 ;
-    public static final int FocusIn = 9 ;
-    public static final int FocusOut = 10 ;
-    public static final int KeymapNotify = 11 ;
-    public static final int Expose = 12 ;
-    public static final int GraphicsExpose = 13 ;
-    public static final int NoExpose = 14 ;
-    public static final int VisibilityNotify = 15 ;
-    public static final int CreateNotify = 16 ;
-    public static final int DestroyNotify = 17 ;
-    public static final int UnmapNotify = 18 ;
-    public static final int MapNotify = 19 ;
-    public static final int MapRequest = 20 ;
-    public static final int ReparentNotify = 21 ;
-    public static final int ConfigureNotify = 22 ;
-    public static final int ConfigureRequest = 23 ;
-    public static final int GravityNotify = 24 ;
-    public static final int ResizeRequest = 25 ;
-    public static final int CirculateNotify = 26 ;
-    public static final int CirculateRequest = 27 ;
-    public static final int PropertyNotify = 28 ;
-    public static final int SelectionClear = 29 ;
-    public static final int SelectionRequest = 30 ;
-    public static final int SelectionNotify = 31 ;
-    public static final int ColormapNotify = 32 ;
-    public static final int ClientMessage = 33 ;
-    public static final int MappingNotify = 34 ;
-    public static final int LASTEvent = 35 ; /* must be bigger than any event # */
-
-
-    /* Key masks. Used as modifiers to GrabButton and GrabKey, results of QueryPointer,
-       state in various key-, mouse-, and button-related events. */
-
-    public static final int ShiftMask = (1<<0) ;
-    public static final int LockMask = (1<<1) ;
-    public static final int ControlMask = (1<<2) ;
-    public static final int Mod1Mask = (1<<3) ;
-    public static final int Mod2Mask = (1<<4) ;
-    public static final int Mod3Mask = (1<<5) ;
-    public static final int Mod4Mask = (1<<6) ;
-    public static final int Mod5Mask = (1<<7) ;
-
-    /* modifier names.  Used to build a SetModifierMapping request or
-       to read a GetModifierMapping request.  These correspond to the
-       masks defined above. */
-    public static final int ShiftMapIndex = 0 ;
-    public static final int LockMapIndex = 1 ;
-    public static final int ControlMapIndex = 2 ;
-    public static final int Mod1MapIndex = 3 ;
-    public static final int Mod2MapIndex = 4 ;
-    public static final int Mod3MapIndex = 5 ;
-    public static final int Mod4MapIndex = 6 ;
-    public static final int Mod5MapIndex = 7 ;
-
-    public static final int AnyModifier = (1<<15) ; /* used in GrabButton, GrabKey */
+    public stbtic finbl int KeyPress = 2 ;
+    public stbtic finbl int KeyRelebse = 3 ;
+    public stbtic finbl int ButtonPress = 4 ;
+    public stbtic finbl int ButtonRelebse = 5 ;
+    public stbtic finbl int MotionNotify = 6 ;
+    public stbtic finbl int EnterNotify = 7 ;
+    public stbtic finbl int LebveNotify = 8 ;
+    public stbtic finbl int FocusIn = 9 ;
+    public stbtic finbl int FocusOut = 10 ;
+    public stbtic finbl int KeymbpNotify = 11 ;
+    public stbtic finbl int Expose = 12 ;
+    public stbtic finbl int GrbphicsExpose = 13 ;
+    public stbtic finbl int NoExpose = 14 ;
+    public stbtic finbl int VisibilityNotify = 15 ;
+    public stbtic finbl int CrebteNotify = 16 ;
+    public stbtic finbl int DestroyNotify = 17 ;
+    public stbtic finbl int UnmbpNotify = 18 ;
+    public stbtic finbl int MbpNotify = 19 ;
+    public stbtic finbl int MbpRequest = 20 ;
+    public stbtic finbl int RepbrentNotify = 21 ;
+    public stbtic finbl int ConfigureNotify = 22 ;
+    public stbtic finbl int ConfigureRequest = 23 ;
+    public stbtic finbl int GrbvityNotify = 24 ;
+    public stbtic finbl int ResizeRequest = 25 ;
+    public stbtic finbl int CirculbteNotify = 26 ;
+    public stbtic finbl int CirculbteRequest = 27 ;
+    public stbtic finbl int PropertyNotify = 28 ;
+    public stbtic finbl int SelectionClebr = 29 ;
+    public stbtic finbl int SelectionRequest = 30 ;
+    public stbtic finbl int SelectionNotify = 31 ;
+    public stbtic finbl int ColormbpNotify = 32 ;
+    public stbtic finbl int ClientMessbge = 33 ;
+    public stbtic finbl int MbppingNotify = 34 ;
+    public stbtic finbl int LASTEvent = 35 ; /* must be bigger thbn bny event # */
 
 
-    /* button names. Used as arguments to GrabButton and as detail in ButtonPress
-       and ButtonRelease events.  Not to be confused with button masks above.
-       Note that 0 is already defined above as "AnyButton".  */
+    /* Key mbsks. Used bs modifiers to GrbbButton bnd GrbbKey, results of QueryPointer,
+       stbte in vbrious key-, mouse-, bnd button-relbted events. */
 
-    public static final int buttons [] = new int [] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
+    public stbtic finbl int ShiftMbsk = (1<<0) ;
+    public stbtic finbl int LockMbsk = (1<<1) ;
+    public stbtic finbl int ControlMbsk = (1<<2) ;
+    public stbtic finbl int Mod1Mbsk = (1<<3) ;
+    public stbtic finbl int Mod2Mbsk = (1<<4) ;
+    public stbtic finbl int Mod3Mbsk = (1<<5) ;
+    public stbtic finbl int Mod4Mbsk = (1<<6) ;
+    public stbtic finbl int Mod5Mbsk = (1<<7) ;
+
+    /* modifier nbmes.  Used to build b SetModifierMbpping request or
+       to rebd b GetModifierMbpping request.  These correspond to the
+       mbsks defined bbove. */
+    public stbtic finbl int ShiftMbpIndex = 0 ;
+    public stbtic finbl int LockMbpIndex = 1 ;
+    public stbtic finbl int ControlMbpIndex = 2 ;
+    public stbtic finbl int Mod1MbpIndex = 3 ;
+    public stbtic finbl int Mod2MbpIndex = 4 ;
+    public stbtic finbl int Mod3MbpIndex = 5 ;
+    public stbtic finbl int Mod4MbpIndex = 6 ;
+    public stbtic finbl int Mod5MbpIndex = 7 ;
+
+    public stbtic finbl int AnyModifier = (1<<15) ; /* used in GrbbButton, GrbbKey */
+
+
+    /* button nbmes. Used bs brguments to GrbbButton bnd bs detbil in ButtonPress
+       bnd ButtonRelebse events.  Not to be confused with button mbsks bbove.
+       Note thbt 0 is blrebdy defined bbove bs "AnyButton".  */
+
+    public stbtic finbl int buttons [] = new int [] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
 
     /* Notify modes */
 
-    public static final int NotifyNormal = 0 ;
-    public static final int NotifyGrab = 1 ;
-    public static final int NotifyUngrab = 2 ;
-    public static final int NotifyWhileGrabbed = 3 ;
+    public stbtic finbl int NotifyNormbl = 0 ;
+    public stbtic finbl int NotifyGrbb = 1 ;
+    public stbtic finbl int NotifyUngrbb = 2 ;
+    public stbtic finbl int NotifyWhileGrbbbed = 3 ;
 
-    public static final int NotifyHint = 1 ; /* for MotionNotify events */
+    public stbtic finbl int NotifyHint = 1 ; /* for MotionNotify events */
 
-    /* Notify detail */
+    /* Notify detbil */
 
-    public static final int NotifyAncestor = 0 ;
-    public static final int NotifyVirtual = 1 ;
-    public static final int NotifyInferior = 2 ;
-    public static final int NotifyNonlinear = 3 ;
-    public static final int NotifyNonlinearVirtual = 4 ;
-    public static final int NotifyPointer = 5 ;
-    public static final int NotifyPointerRoot = 6 ;
-    public static final int NotifyDetailNone = 7 ;
+    public stbtic finbl int NotifyAncestor = 0 ;
+    public stbtic finbl int NotifyVirtubl = 1 ;
+    public stbtic finbl int NotifyInferior = 2 ;
+    public stbtic finbl int NotifyNonlinebr = 3 ;
+    public stbtic finbl int NotifyNonlinebrVirtubl = 4 ;
+    public stbtic finbl int NotifyPointer = 5 ;
+    public stbtic finbl int NotifyPointerRoot = 6 ;
+    public stbtic finbl int NotifyDetbilNone = 7 ;
 
     /* Visibility notify */
 
-    public static final int VisibilityUnobscured = 0 ;
-    public static final int VisibilityPartiallyObscured = 1 ;
-    public static final int VisibilityFullyObscured = 2 ;
+    public stbtic finbl int VisibilityUnobscured = 0 ;
+    public stbtic finbl int VisibilityPbrtibllyObscured = 1 ;
+    public stbtic finbl int VisibilityFullyObscured = 2 ;
 
-    /* Circulation request */
+    /* Circulbtion request */
 
-    public static final int PlaceOnTop = 0 ;
-    public static final int PlaceOnBottom = 1 ;
+    public stbtic finbl int PlbceOnTop = 0 ;
+    public stbtic finbl int PlbceOnBottom = 1 ;
 
-    /* protocol families */
+    /* protocol fbmilies */
 
-    public static final int FamilyInternet = 0 ;
-    public static final int FamilyDECnet = 1 ;
-    public static final int FamilyChaos = 2 ;
+    public stbtic finbl int FbmilyInternet = 0 ;
+    public stbtic finbl int FbmilyDECnet = 1 ;
+    public stbtic finbl int FbmilyChbos = 2 ;
 
-    /* Property notification */
+    /* Property notificbtion */
 
-    public static final int PropertyNewValue = 0 ;
-    public static final int PropertyDelete = 1 ;
+    public stbtic finbl int PropertyNewVblue = 0 ;
+    public stbtic finbl int PropertyDelete = 1 ;
 
-    /* Color Map notification */
+    /* Color Mbp notificbtion */
 
-    public static final int ColormapUninstalled = 0 ;
-    public static final int ColormapInstalled = 1 ;
+    public stbtic finbl int ColormbpUninstblled = 0 ;
+    public stbtic finbl int ColormbpInstblled = 1 ;
 
-    /* GrabPointer, GrabButton, GrabKeyboard, GrabKey Modes */
+    /* GrbbPointer, GrbbButton, GrbbKeybobrd, GrbbKey Modes */
 
-    public static final int GrabModeSync = 0 ;
-    public static final int GrabModeAsync = 1 ;
+    public stbtic finbl int GrbbModeSync = 0 ;
+    public stbtic finbl int GrbbModeAsync = 1 ;
 
-    /* GrabPointer, GrabKeyboard reply status */
+    /* GrbbPointer, GrbbKeybobrd reply stbtus */
 
-    public static final int GrabSuccess = 0 ;
-    public static final int AlreadyGrabbed = 1 ;
-    public static final int GrabInvalidTime = 2 ;
-    public static final int GrabNotViewable = 3 ;
-    public static final int GrabFrozen = 4 ;
+    public stbtic finbl int GrbbSuccess = 0 ;
+    public stbtic finbl int AlrebdyGrbbbed = 1 ;
+    public stbtic finbl int GrbbInvblidTime = 2 ;
+    public stbtic finbl int GrbbNotViewbble = 3 ;
+    public stbtic finbl int GrbbFrozen = 4 ;
 
     /* AllowEvents modes */
 
-    public static final int AsyncPointer = 0 ;
-    public static final int SyncPointer = 1 ;
-    public static final int ReplayPointer = 2 ;
-    public static final int AsyncKeyboard = 3 ;
-    public static final int SyncKeyboard = 4 ;
-    public static final int ReplayKeyboard = 5 ;
-    public static final int AsyncBoth = 6 ;
-    public static final int SyncBoth = 7 ;
+    public stbtic finbl int AsyncPointer = 0 ;
+    public stbtic finbl int SyncPointer = 1 ;
+    public stbtic finbl int ReplbyPointer = 2 ;
+    public stbtic finbl int AsyncKeybobrd = 3 ;
+    public stbtic finbl int SyncKeybobrd = 4 ;
+    public stbtic finbl int ReplbyKeybobrd = 5 ;
+    public stbtic finbl int AsyncBoth = 6 ;
+    public stbtic finbl int SyncBoth = 7 ;
 
     /* Used in SetInputFocus, GetInputFocus */
 
-    public static final int RevertToNone = (int)None ;
-    public static final int RevertToPointerRoot = (int)PointerRoot ;
-    public static final int RevertToParent = 2 ;
+    public stbtic finbl int RevertToNone = (int)None ;
+    public stbtic finbl int RevertToPointerRoot = (int)PointerRoot ;
+    public stbtic finbl int RevertToPbrent = 2 ;
 
     /* Used in XEventsQueued */
-    public static final int QueuedAlready = 0;
-    public static final int QueuedAfterReading = 1;
-    public static final int QueuedAfterFlush = 2;
+    public stbtic finbl int QueuedAlrebdy = 0;
+    public stbtic finbl int QueuedAfterRebding = 1;
+    public stbtic finbl int QueuedAfterFlush = 2;
 
 
     /*****************************************************************
      * ERROR CODES
      *****************************************************************/
 
-    public static final int Success = 0 ; /* everything's okay */
-    public static final int BadRequest = 1 ; /* bad request code */
-    public static final int BadValue = 2 ; /* int parameter out of range */
-    public static final int BadWindow = 3 ; /* parameter not a Window */
-    public static final int BadPixmap = 4 ; /* parameter not a Pixmap */
-    public static final int BadAtom = 5 ; /* parameter not an Atom */
-    public static final int BadCursor = 6 ; /* parameter not a Cursor */
-    public static final int BadFont = 7 ; /* parameter not a Font */
-    public static final int BadMatch = 8 ; /* parameter mismatch */
-    public static final int BadDrawable = 9 ; /* parameter not a Pixmap or Window */
-    public static final int BadAccess = 10 ; /* depending on context:
-                     - key/button already grabbed
-                     - attempt to free an illegal
-                       cmap entry
-                    - attempt to store into a read-only
-                       color map entry.
-                    - attempt to modify the access control
-                       list from other than the local host.
+    public stbtic finbl int Success = 0 ; /* everything's okby */
+    public stbtic finbl int BbdRequest = 1 ; /* bbd request code */
+    public stbtic finbl int BbdVblue = 2 ; /* int pbrbmeter out of rbnge */
+    public stbtic finbl int BbdWindow = 3 ; /* pbrbmeter not b Window */
+    public stbtic finbl int BbdPixmbp = 4 ; /* pbrbmeter not b Pixmbp */
+    public stbtic finbl int BbdAtom = 5 ; /* pbrbmeter not bn Atom */
+    public stbtic finbl int BbdCursor = 6 ; /* pbrbmeter not b Cursor */
+    public stbtic finbl int BbdFont = 7 ; /* pbrbmeter not b Font */
+    public stbtic finbl int BbdMbtch = 8 ; /* pbrbmeter mismbtch */
+    public stbtic finbl int BbdDrbwbble = 9 ; /* pbrbmeter not b Pixmbp or Window */
+    public stbtic finbl int BbdAccess = 10 ; /* depending on context:
+                     - key/button blrebdy grbbbed
+                     - bttempt to free bn illegbl
+                       cmbp entry
+                    - bttempt to store into b rebd-only
+                       color mbp entry.
+                    - bttempt to modify the bccess control
+                       list from other thbn the locbl host.
                     */
-    public static final int BadAlloc = 11 ; /* insufficient resources */
-    public static final int BadColor = 12 ; /* no such colormap */
-    public static final int BadGC = 13 ; /* parameter not a GC */
-    public static final int BadIDChoice = 14 ; /* choice not in range or already used */
-    public static final int BadName = 15 ; /* font or color name doesn't exist */
-    public static final int BadLength = 16 ; /* Request length incorrect */
-    public static final int BadImplementation = 17 ; /* server is defective */
+    public stbtic finbl int BbdAlloc = 11 ; /* insufficient resources */
+    public stbtic finbl int BbdColor = 12 ; /* no such colormbp */
+    public stbtic finbl int BbdGC = 13 ; /* pbrbmeter not b GC */
+    public stbtic finbl int BbdIDChoice = 14 ; /* choice not in rbnge or blrebdy used */
+    public stbtic finbl int BbdNbme = 15 ; /* font or color nbme doesn't exist */
+    public stbtic finbl int BbdLength = 16 ; /* Request length incorrect */
+    public stbtic finbl int BbdImplementbtion = 17 ; /* server is defective */
 
-    public static final int FirstExtensionError = 128 ;
-    public static final int LastExtensionError = 255 ;
+    public stbtic finbl int FirstExtensionError = 128 ;
+    public stbtic finbl int LbstExtensionError = 255 ;
 
     /*****************************************************************
      * WINDOW DEFINITIONS
      *****************************************************************/
 
-    /* Window classes used by CreateWindow */
-    /* Note that CopyFromParent is already defined as 0 above */
+    /* Window clbsses used by CrebteWindow */
+    /* Note thbt CopyFromPbrent is blrebdy defined bs 0 bbove */
 
-    public static final int InputOutput = 1 ;
-    public static final int InputOnly = 2 ;
+    public stbtic finbl int InputOutput = 1 ;
+    public stbtic finbl int InputOnly = 2 ;
 
-    /* Window attributes for CreateWindow and ChangeWindowAttributes */
+    /* Window bttributes for CrebteWindow bnd ChbngeWindowAttributes */
 
-    public static final long CWBackPixmap = (1L<<0) ;
-    public static final long CWBackPixel = (1L<<1) ;
-    public static final long CWBorderPixmap = (1L<<2) ;
-    public static final long CWBorderPixel = (1L<<3) ;
-    public static final long CWBitGravity = (1L<<4) ;
-    public static final long CWWinGravity = (1L<<5) ;
-    public static final long CWBackingStore = (1L<<6) ;
-    public static final long CWBackingPlanes = (1L<<7) ;
-    public static final long CWBackingPixel = (1L<<8) ;
-    public static final long CWOverrideRedirect = (1L<<9) ;
-    public static final long CWSaveUnder = (1L<<10) ;
-    public static final long CWEventMask = (1L<<11) ;
-    public static final long CWDontPropagate = (1L<<12) ;
-    public static final long CWColormap = (1L<<13) ;
-    public static final long CWCursor = (1L<<14) ;
+    public stbtic finbl long CWBbckPixmbp = (1L<<0) ;
+    public stbtic finbl long CWBbckPixel = (1L<<1) ;
+    public stbtic finbl long CWBorderPixmbp = (1L<<2) ;
+    public stbtic finbl long CWBorderPixel = (1L<<3) ;
+    public stbtic finbl long CWBitGrbvity = (1L<<4) ;
+    public stbtic finbl long CWWinGrbvity = (1L<<5) ;
+    public stbtic finbl long CWBbckingStore = (1L<<6) ;
+    public stbtic finbl long CWBbckingPlbnes = (1L<<7) ;
+    public stbtic finbl long CWBbckingPixel = (1L<<8) ;
+    public stbtic finbl long CWOverrideRedirect = (1L<<9) ;
+    public stbtic finbl long CWSbveUnder = (1L<<10) ;
+    public stbtic finbl long CWEventMbsk = (1L<<11) ;
+    public stbtic finbl long CWDontPropbgbte = (1L<<12) ;
+    public stbtic finbl long CWColormbp = (1L<<13) ;
+    public stbtic finbl long CWCursor = (1L<<14) ;
 
     /* ConfigureWindow structure */
 
-    public static final int CWX = (1<<0) ;
-    public static final int CWY = (1<<1) ;
-    public static final int CWWidth = (1<<2) ;
-    public static final int CWHeight = (1<<3) ;
-    public static final int CWBorderWidth = (1<<4) ;
-    public static final int CWSibling = (1<<5) ;
-    public static final int CWStackMode = (1<<6) ;
+    public stbtic finbl int CWX = (1<<0) ;
+    public stbtic finbl int CWY = (1<<1) ;
+    public stbtic finbl int CWWidth = (1<<2) ;
+    public stbtic finbl int CWHeight = (1<<3) ;
+    public stbtic finbl int CWBorderWidth = (1<<4) ;
+    public stbtic finbl int CWSibling = (1<<5) ;
+    public stbtic finbl int CWStbckMode = (1<<6) ;
 
 
-    /* Bit Gravity */
+    /* Bit Grbvity */
 
-    public static final int ForgetGravity = 0 ;
-    public static final int NorthWestGravity = 1 ;
-    public static final int NorthGravity = 2 ;
-    public static final int NorthEastGravity = 3 ;
-    public static final int WestGravity = 4 ;
-    public static final int CenterGravity = 5 ;
-    public static final int EastGravity = 6 ;
-    public static final int SouthWestGravity = 7 ;
-    public static final int SouthGravity = 8 ;
-    public static final int SouthEastGravity = 9 ;
-    public static final int StaticGravity = 10 ;
+    public stbtic finbl int ForgetGrbvity = 0 ;
+    public stbtic finbl int NorthWestGrbvity = 1 ;
+    public stbtic finbl int NorthGrbvity = 2 ;
+    public stbtic finbl int NorthEbstGrbvity = 3 ;
+    public stbtic finbl int WestGrbvity = 4 ;
+    public stbtic finbl int CenterGrbvity = 5 ;
+    public stbtic finbl int EbstGrbvity = 6 ;
+    public stbtic finbl int SouthWestGrbvity = 7 ;
+    public stbtic finbl int SouthGrbvity = 8 ;
+    public stbtic finbl int SouthEbstGrbvity = 9 ;
+    public stbtic finbl int StbticGrbvity = 10 ;
 
-    /* Window gravity + bit gravity above */
+    /* Window grbvity + bit grbvity bbove */
 
-    public static final int UnmapGravity = 0 ;
+    public stbtic finbl int UnmbpGrbvity = 0 ;
 
-    /* Used in CreateWindow for backing-store hint */
+    /* Used in CrebteWindow for bbcking-store hint */
 
-    public static final int NotUseful = 0 ;
-    public static final int WhenMapped = 1 ;
-    public static final int Always = 2 ;
+    public stbtic finbl int NotUseful = 0 ;
+    public stbtic finbl int WhenMbpped = 1 ;
+    public stbtic finbl int Alwbys = 2 ;
 
     /* Used in GetWindowAttributes reply */
 
-    public static final int IsUnmapped = 0 ;
-    public static final int IsUnviewable = 1 ;
-    public static final int IsViewable = 2 ;
+    public stbtic finbl int IsUnmbpped = 0 ;
+    public stbtic finbl int IsUnviewbble = 1 ;
+    public stbtic finbl int IsViewbble = 2 ;
 
-    /* Used in ChangeSaveSet */
+    /* Used in ChbngeSbveSet */
 
-    public static final int SetModeInsert = 0 ;
-    public static final int SetModeDelete = 1 ;
+    public stbtic finbl int SetModeInsert = 0 ;
+    public stbtic finbl int SetModeDelete = 1 ;
 
-    /* Used in ChangeCloseDownMode */
+    /* Used in ChbngeCloseDownMode */
 
-    public static final int DestroyAll = 0 ;
-    public static final int RetainPermanent = 1 ;
-    public static final int RetainTemporary = 2 ;
+    public stbtic finbl int DestroyAll = 0 ;
+    public stbtic finbl int RetbinPermbnent = 1 ;
+    public stbtic finbl int RetbinTemporbry = 2 ;
 
-    /* Window stacking method (in configureWindow) */
+    /* Window stbcking method (in configureWindow) */
 
-    public static final int Above = 0 ;
-    public static final int Below = 1 ;
-    public static final int TopIf = 2 ;
-    public static final int BottomIf = 3 ;
-    public static final int Opposite = 4 ;
+    public stbtic finbl int Above = 0 ;
+    public stbtic finbl int Below = 1 ;
+    public stbtic finbl int TopIf = 2 ;
+    public stbtic finbl int BottomIf = 3 ;
+    public stbtic finbl int Opposite = 4 ;
 
-    /* Circulation direction */
+    /* Circulbtion direction */
 
-    public static final int RaiseLowest = 0 ;
-    public static final int LowerHighest = 1 ;
+    public stbtic finbl int RbiseLowest = 0 ;
+    public stbtic finbl int LowerHighest = 1 ;
 
     /* Property modes */
 
-    public static final int PropModeReplace = 0 ;
-    public static final int PropModePrepend = 1 ;
-    public static final int PropModeAppend = 2 ;
+    public stbtic finbl int PropModeReplbce = 0 ;
+    public stbtic finbl int PropModePrepend = 1 ;
+    public stbtic finbl int PropModeAppend = 2 ;
 
     /*****************************************************************
      * GRAPHICS DEFINITIONS
      *****************************************************************/
 
-    /* graphics functions, as in GC.alu */
+    /* grbphics functions, bs in GC.blu */
 
-    public static final int GXclear = 0x0 ; /* 0 */
-    public static final int GXand = 0x1 ; /* src AND dst */
-    public static final int GXandReverse = 0x2 ; /* src AND NOT dst */
-    public static final int GXcopy = 0x3 ; /* src */
-    public static final int GXandInverted = 0x4 ; /* NOT src AND dst */
-    public static final int GXnoop = 0x5 ; /* dst */
-    public static final int GXxor = 0x6 ; /* src XOR dst */
-    public static final int GXor = 0x7 ; /* src OR dst */
-    public static final int GXnor = 0x8 ; /* NOT src AND NOT dst */
-    public static final int GXequiv = 0x9 ; /* NOT src XOR dst */
-    public static final int GXinvert = 0xa ; /* NOT dst */
-    public static final int GXorReverse = 0xb ; /* src OR NOT dst */
-    public static final int GXcopyInverted = 0xc ; /* NOT src */
-    public static final int GXorInverted = 0xd ; /* NOT src OR dst */
-    public static final int GXnand = 0xe ; /* NOT src OR NOT dst */
-    public static final int GXset = 0xf ; /* 1 */
+    public stbtic finbl int GXclebr = 0x0 ; /* 0 */
+    public stbtic finbl int GXbnd = 0x1 ; /* src AND dst */
+    public stbtic finbl int GXbndReverse = 0x2 ; /* src AND NOT dst */
+    public stbtic finbl int GXcopy = 0x3 ; /* src */
+    public stbtic finbl int GXbndInverted = 0x4 ; /* NOT src AND dst */
+    public stbtic finbl int GXnoop = 0x5 ; /* dst */
+    public stbtic finbl int GXxor = 0x6 ; /* src XOR dst */
+    public stbtic finbl int GXor = 0x7 ; /* src OR dst */
+    public stbtic finbl int GXnor = 0x8 ; /* NOT src AND NOT dst */
+    public stbtic finbl int GXequiv = 0x9 ; /* NOT src XOR dst */
+    public stbtic finbl int GXinvert = 0xb ; /* NOT dst */
+    public stbtic finbl int GXorReverse = 0xb ; /* src OR NOT dst */
+    public stbtic finbl int GXcopyInverted = 0xc ; /* NOT src */
+    public stbtic finbl int GXorInverted = 0xd ; /* NOT src OR dst */
+    public stbtic finbl int GXnbnd = 0xe ; /* NOT src OR NOT dst */
+    public stbtic finbl int GXset = 0xf ; /* 1 */
 
     /* LineStyle */
 
-    public static final int LineSolid = 0 ;
-    public static final int LineOnOffDash = 1 ;
-    public static final int LineDoubleDash = 2 ;
+    public stbtic finbl int LineSolid = 0 ;
+    public stbtic finbl int LineOnOffDbsh = 1 ;
+    public stbtic finbl int LineDoubleDbsh = 2 ;
 
-    /* capStyle */
+    /* cbpStyle */
 
-    public static final int CapNotLast = 0 ;
-    public static final int CapButt = 1 ;
-    public static final int CapRound = 2 ;
-    public static final int CapProjecting = 3 ;
+    public stbtic finbl int CbpNotLbst = 0 ;
+    public stbtic finbl int CbpButt = 1 ;
+    public stbtic finbl int CbpRound = 2 ;
+    public stbtic finbl int CbpProjecting = 3 ;
 
     /* joinStyle */
 
-    public static final int JoinMiter = 0 ;
-    public static final int JoinRound = 1 ;
-    public static final int JoinBevel = 2 ;
+    public stbtic finbl int JoinMiter = 0 ;
+    public stbtic finbl int JoinRound = 1 ;
+    public stbtic finbl int JoinBevel = 2 ;
 
     /* fillStyle */
 
-    public static final int FillSolid = 0 ;
-    public static final int FillTiled = 1 ;
-    public static final int FillStippled = 2 ;
-    public static final int FillOpaqueStippled = 3 ;
+    public stbtic finbl int FillSolid = 0 ;
+    public stbtic finbl int FillTiled = 1 ;
+    public stbtic finbl int FillStippled = 2 ;
+    public stbtic finbl int FillOpbqueStippled = 3 ;
 
     /* fillRule */
 
-    public static final int EvenOddRule = 0 ;
-    public static final int WindingRule = 1 ;
+    public stbtic finbl int EvenOddRule = 0 ;
+    public stbtic finbl int WindingRule = 1 ;
 
     /* subwindow mode */
 
-    public static final int ClipByChildren = 0 ;
-    public static final int IncludeInferiors = 1 ;
+    public stbtic finbl int ClipByChildren = 0 ;
+    public stbtic finbl int IncludeInferiors = 1 ;
 
-    /* SetClipRectangles ordering */
+    /* SetClipRectbngles ordering */
 
-    public static final int Unsorted = 0 ;
-    public static final int YSorted = 1 ;
-    public static final int YXSorted = 2 ;
-    public static final int YXBanded = 3 ;
+    public stbtic finbl int Unsorted = 0 ;
+    public stbtic finbl int YSorted = 1 ;
+    public stbtic finbl int YXSorted = 2 ;
+    public stbtic finbl int YXBbnded = 3 ;
 
-    /* CoordinateMode for drawing routines */
+    /* CoordinbteMode for drbwing routines */
 
-    public static final int CoordModeOrigin = 0 ; /* relative to the origin */
-    public static final int CoordModePrevious = 1 ; /* relative to previous point */
+    public stbtic finbl int CoordModeOrigin = 0 ; /* relbtive to the origin */
+    public stbtic finbl int CoordModePrevious = 1 ; /* relbtive to previous point */
 
-    /* Polygon shapes */
+    /* Polygon shbpes */
 
-    public static final int Complex = 0 ; /* paths may intersect */
-    public static final int Nonconvex = 1 ; /* no paths intersect, but not convex */
-    public static final int Convex = 2 ; /* wholly convex */
+    public stbtic finbl int Complex = 0 ; /* pbths mby intersect */
+    public stbtic finbl int Nonconvex = 1 ; /* no pbths intersect, but not convex */
+    public stbtic finbl int Convex = 2 ; /* wholly convex */
 
     /* Arc modes for PolyFillArc */
 
-    public static final int ArcChord = 0 ; /* join endpoints of arc */
-    public static final int ArcPieSlice = 1 ; /* join endpoints to center of arc */
+    public stbtic finbl int ArcChord = 0 ; /* join endpoints of brc */
+    public stbtic finbl int ArcPieSlice = 1 ; /* join endpoints to center of brc */
 
-    /* GC components: masks used in CreateGC, CopyGC, ChangeGC, OR'ed into
-       GC.stateChanges */
+    /* GC components: mbsks used in CrebteGC, CopyGC, ChbngeGC, OR'ed into
+       GC.stbteChbnges */
 
-    public static final long GCFunction = (1L<<0) ;
-    public static final long GCPlaneMask = (1L<<1) ;
-    public static final long GCForeground = (1L<<2) ;
-    public static final long GCBackground = (1L<<3) ;
-    public static final long GCLineWidth = (1L<<4) ;
-    public static final long GCLineStyle = (1L<<5) ;
-    public static final long GCCapStyle = (1L<<6) ;
-    public static final long GCJoinStyle = (1L<<7) ;
-    public static final long GCFillStyle = (1L<<8) ;
-    public static final long GCFillRule = (1L<<9) ;
-    public static final long GCTile = (1L<<10) ;
-    public static final long GCStipple = (1L<<11) ;
-    public static final long GCTileStipXOrigin = (1L<<12) ;
-    public static final long GCTileStipYOrigin = (1L<<13) ;
-    public static final long GCFont = (1L<<14) ;
-    public static final long GCSubwindowMode = (1L<<15) ;
-    public static final long GCGraphicsExposures = (1L<<16) ;
-    public static final long GCClipXOrigin = (1L<<17) ;
-    public static final long GCClipYOrigin = (1L<<18) ;
-    public static final long GCClipMask = (1L<<19) ;
-    public static final long GCDashOffset = (1L<<20) ;
-    public static final long GCDashList = (1L<<21) ;
-    public static final long GCArcMode = (1L<<22) ;
+    public stbtic finbl long GCFunction = (1L<<0) ;
+    public stbtic finbl long GCPlbneMbsk = (1L<<1) ;
+    public stbtic finbl long GCForeground = (1L<<2) ;
+    public stbtic finbl long GCBbckground = (1L<<3) ;
+    public stbtic finbl long GCLineWidth = (1L<<4) ;
+    public stbtic finbl long GCLineStyle = (1L<<5) ;
+    public stbtic finbl long GCCbpStyle = (1L<<6) ;
+    public stbtic finbl long GCJoinStyle = (1L<<7) ;
+    public stbtic finbl long GCFillStyle = (1L<<8) ;
+    public stbtic finbl long GCFillRule = (1L<<9) ;
+    public stbtic finbl long GCTile = (1L<<10) ;
+    public stbtic finbl long GCStipple = (1L<<11) ;
+    public stbtic finbl long GCTileStipXOrigin = (1L<<12) ;
+    public stbtic finbl long GCTileStipYOrigin = (1L<<13) ;
+    public stbtic finbl long GCFont = (1L<<14) ;
+    public stbtic finbl long GCSubwindowMode = (1L<<15) ;
+    public stbtic finbl long GCGrbphicsExposures = (1L<<16) ;
+    public stbtic finbl long GCClipXOrigin = (1L<<17) ;
+    public stbtic finbl long GCClipYOrigin = (1L<<18) ;
+    public stbtic finbl long GCClipMbsk = (1L<<19) ;
+    public stbtic finbl long GCDbshOffset = (1L<<20) ;
+    public stbtic finbl long GCDbshList = (1L<<21) ;
+    public stbtic finbl long GCArcMode = (1L<<22) ;
 
-    public static final int GCLastBit = 22 ;
+    public stbtic finbl int GCLbstBit = 22 ;
     /*****************************************************************
      * FONTS
      *****************************************************************/
 
-    /* used in QueryFont -- draw direction */
+    /* used in QueryFont -- drbw direction */
 
-    public static final int FontLeftToRight = 0 ;
-    public static final int FontRightToLeft = 1 ;
+    public stbtic finbl int FontLeftToRight = 0 ;
+    public stbtic finbl int FontRightToLeft = 1 ;
 
-    public static final int FontChange = 255 ;
+    public stbtic finbl int FontChbnge = 255 ;
 
     /*****************************************************************
      *  IMAGING
      *****************************************************************/
 
-    /* ImageFormat -- PutImage, GetImage */
+    /* ImbgeFormbt -- PutImbge, GetImbge */
 
-    public static final int XYBitmap = 0 ; /* depth 1, XYFormat */
-    public static final int XYPixmap = 1 ; /* depth == drawable depth */
-    public static final int ZPixmap = 2 ; /* depth == drawable depth */
+    public stbtic finbl int XYBitmbp = 0 ; /* depth 1, XYFormbt */
+    public stbtic finbl int XYPixmbp = 1 ; /* depth == drbwbble depth */
+    public stbtic finbl int ZPixmbp = 2 ; /* depth == drbwbble depth */
 
     /*****************************************************************
      *  COLOR MAP STUFF
      *****************************************************************/
 
-    /* For CreateColormap */
+    /* For CrebteColormbp */
 
-    public static final int AllocNone = 0 ; /* create map with no entries */
-    public static final int AllocAll = 1 ; /* allocate entire map writeable */
+    public stbtic finbl int AllocNone = 0 ; /* crebte mbp with no entries */
+    public stbtic finbl int AllocAll = 1 ; /* bllocbte entire mbp writebble */
 
 
-    /* Flags used in StoreNamedColor, StoreColors */
+    /* Flbgs used in StoreNbmedColor, StoreColors */
 
-    public static final int DoRed = (1<<0) ;
-    public static final int DoGreen = (1<<1) ;
-    public static final int DoBlue = (1<<2) ;
+    public stbtic finbl int DoRed = (1<<0) ;
+    public stbtic finbl int DoGreen = (1<<1) ;
+    public stbtic finbl int DoBlue = (1<<2) ;
 
     /*****************************************************************
      * CURSOR STUFF
      *****************************************************************/
 
-    /* QueryBestSize Class */
+    /* QueryBestSize Clbss */
 
-    public static final int CursorShape = 0 ; /* largest size that can be displayed */
-    public static final int TileShape = 1 ; /* size tiled fastest */
-    public static final int StippleShape = 2 ; /* size stippled fastest */
+    public stbtic finbl int CursorShbpe = 0 ; /* lbrgest size thbt cbn be displbyed */
+    public stbtic finbl int TileShbpe = 1 ; /* size tiled fbstest */
+    public stbtic finbl int StippleShbpe = 2 ; /* size stippled fbstest */
 
     /*****************************************************************
      * KEYBOARD/POINTER STUFF
      *****************************************************************/
 
-    public static final int AutoRepeatModeOff = 0 ;
-    public static final int AutoRepeatModeOn = 1 ;
-    public static final int AutoRepeatModeDefault = 2 ;
+    public stbtic finbl int AutoRepebtModeOff = 0 ;
+    public stbtic finbl int AutoRepebtModeOn = 1 ;
+    public stbtic finbl int AutoRepebtModeDefbult = 2 ;
 
-    public static final int LedModeOff = 0 ;
-    public static final int LedModeOn = 1 ;
+    public stbtic finbl int LedModeOff = 0 ;
+    public stbtic finbl int LedModeOn = 1 ;
 
-    /* masks for ChangeKeyboardControl */
+    /* mbsks for ChbngeKeybobrdControl */
 
-    public static final long KBKeyClickPercent = (1L<<0) ;
-    public static final long KBBellPercent = (1L<<1) ;
-    public static final long KBBellPitch = (1L<<2) ;
-    public static final long KBBellDuration = (1L<<3) ;
-    public static final long KBLed = (1L<<4) ;
-    public static final long KBLedMode = (1L<<5) ;
-    public static final long KBKey = (1L<<6) ;
-    public static final long KBAutoRepeatMode = (1L<<7) ;
+    public stbtic finbl long KBKeyClickPercent = (1L<<0) ;
+    public stbtic finbl long KBBellPercent = (1L<<1) ;
+    public stbtic finbl long KBBellPitch = (1L<<2) ;
+    public stbtic finbl long KBBellDurbtion = (1L<<3) ;
+    public stbtic finbl long KBLed = (1L<<4) ;
+    public stbtic finbl long KBLedMode = (1L<<5) ;
+    public stbtic finbl long KBKey = (1L<<6) ;
+    public stbtic finbl long KBAutoRepebtMode = (1L<<7) ;
 
-    public static final int MappingSuccess = 0 ;
-    public static final int MappingBusy = 1 ;
-    public static final int MappingFailed = 2 ;
+    public stbtic finbl int MbppingSuccess = 0 ;
+    public stbtic finbl int MbppingBusy = 1 ;
+    public stbtic finbl int MbppingFbiled = 2 ;
 
-    public static final int MappingModifier = 0 ;
-    public static final int MappingKeyboard = 1 ;
-    public static final int MappingPointer = 2 ;
+    public stbtic finbl int MbppingModifier = 0 ;
+    public stbtic finbl int MbppingKeybobrd = 1 ;
+    public stbtic finbl int MbppingPointer = 2 ;
 
     /*****************************************************************
      * SCREEN SAVER STUFF
      *****************************************************************/
 
-    public static final int DontPreferBlanking = 0 ;
-    public static final int PreferBlanking = 1 ;
-    public static final int DefaultBlanking = 2 ;
+    public stbtic finbl int DontPreferBlbnking = 0 ;
+    public stbtic finbl int PreferBlbnking = 1 ;
+    public stbtic finbl int DefbultBlbnking = 2 ;
 
-    public static final int DisableScreenSaver = 0 ;
-    public static final int DisableScreenInterval = 0 ;
+    public stbtic finbl int DisbbleScreenSbver = 0 ;
+    public stbtic finbl int DisbbleScreenIntervbl = 0 ;
 
-    public static final int DontAllowExposures = 0 ;
-    public static final int AllowExposures = 1 ;
-    public static final int DefaultExposures = 2 ;
+    public stbtic finbl int DontAllowExposures = 0 ;
+    public stbtic finbl int AllowExposures = 1 ;
+    public stbtic finbl int DefbultExposures = 2 ;
 
-    /* for ForceScreenSaver */
+    /* for ForceScreenSbver */
 
-    public static final int ScreenSaverReset = 0 ;
-    public static final int ScreenSaverActive = 1 ;
+    public stbtic finbl int ScreenSbverReset = 0 ;
+    public stbtic finbl int ScreenSbverActive = 1 ;
 
     /*****************************************************************
      * HOSTS AND CONNECTIONS
      *****************************************************************/
 
-    /* for ChangeHosts */
+    /* for ChbngeHosts */
 
-    public static final int HostInsert = 0 ;
-    public static final int HostDelete = 1 ;
+    public stbtic finbl int HostInsert = 0 ;
+    public stbtic finbl int HostDelete = 1 ;
 
-    /* for ChangeAccessControl */
+    /* for ChbngeAccessControl */
 
-    public static final int EnableAccess = 1 ;
-    public static final int DisableAccess = 0 ;
+    public stbtic finbl int EnbbleAccess = 1 ;
+    public stbtic finbl int DisbbleAccess = 0 ;
 
-    /* Display classes  used in opening the connection
-     * Note that the statically allocated ones are even numbered and the
-     * dynamically changeable ones are odd numbered */
+    /* Displby clbsses  used in opening the connection
+     * Note thbt the stbticblly bllocbted ones bre even numbered bnd the
+     * dynbmicblly chbngebble ones bre odd numbered */
 
-    public static final int StaticGray = 0 ;
-    public static final int GrayScale = 1 ;
-    public static final int StaticColor = 2 ;
-    public static final int PseudoColor = 3 ;
-    public static final int TrueColor = 4 ;
-    public static final int DirectColor = 5 ;
+    public stbtic finbl int StbticGrby = 0 ;
+    public stbtic finbl int GrbyScble = 1 ;
+    public stbtic finbl int StbticColor = 2 ;
+    public stbtic finbl int PseudoColor = 3 ;
+    public stbtic finbl int TrueColor = 4 ;
+    public stbtic finbl int DirectColor = 5 ;
 
 
-    /* Byte order  used in imageByteOrder and bitmapBitOrder */
+    /* Byte order  used in imbgeByteOrder bnd bitmbpBitOrder */
 
-    public static final int LSBFirst = 0 ;
-    public static final int MSBFirst = 1 ;
+    public stbtic finbl int LSBFirst = 0 ;
+    public stbtic finbl int MSBFirst = 1 ;
 
     /* XKB support */
-    public static final int  XkbUseCoreKbd = 0x0100 ;
-    public static final int  XkbNewKeyboardNotify = 0;
-    public static final int  XkbMapNotify = 1;
-    public static final int  XkbStateNotify = 2;
-    public static final long XkbNewKeyboardNotifyMask = (1L << 0);
-    public static final long XkbMapNotifyMask = (1L << 1);
-    public static final long XkbStateNotifyMask = (1L << 2);
-    public static final long XkbGroupStateMask  = (1L << 4);
-    public static final long XkbKeyTypesMask = (1L<<0);
-    public static final long XkbKeySymsMask = (1L<<1);
-    public static final long XkbModifierMapMask = (1L<<2);
-    public static final long XkbVirtualModsMask = (1L<<6); //server map
+    public stbtic finbl int  XkbUseCoreKbd = 0x0100 ;
+    public stbtic finbl int  XkbNewKeybobrdNotify = 0;
+    public stbtic finbl int  XkbMbpNotify = 1;
+    public stbtic finbl int  XkbStbteNotify = 2;
+    public stbtic finbl long XkbNewKeybobrdNotifyMbsk = (1L << 0);
+    public stbtic finbl long XkbMbpNotifyMbsk = (1L << 1);
+    public stbtic finbl long XkbStbteNotifyMbsk = (1L << 2);
+    public stbtic finbl long XkbGroupStbteMbsk  = (1L << 4);
+    public stbtic finbl long XkbKeyTypesMbsk = (1L<<0);
+    public stbtic finbl long XkbKeySymsMbsk = (1L<<1);
+    public stbtic finbl long XkbModifierMbpMbsk = (1L<<2);
+    public stbtic finbl long XkbVirtublModsMbsk = (1L<<6); //server mbp
 
 }

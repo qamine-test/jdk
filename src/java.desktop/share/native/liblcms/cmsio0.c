@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2012 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,245 +53,245 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
-// Generic I/O, tag dictionary management, profile struct
+// Generic I/O, tbg dictionbry mbnbgement, profile struct
 
-// IOhandlers are abstractions used by littleCMS to read from whatever file, stream,
-// memory block or any storage. Each IOhandler provides implementations for read,
-// write, seek and tell functions. LittleCMS code deals with IO across those objects.
-// In this way, is easier to add support for new storage media.
+// IOhbndlers bre bbstrbctions used by littleCMS to rebd from whbtever file, strebm,
+// memory block or bny storbge. Ebch IOhbndler provides implementbtions for rebd,
+// write, seek bnd tell functions. LittleCMS code debls with IO bcross those objects.
+// In this wby, is ebsier to bdd support for new storbge medib.
 
-// NULL stream, for taking care of used space -------------------------------------
+// NULL strebm, for tbking cbre of used spbce -------------------------------------
 
-// NULL IOhandler basically does nothing but keep track on how many bytes have been
-// written. This is handy when creating profiles, where the file size is needed in the
-// header. Then, whole profile is serialized across NULL IOhandler and a second pass
-// writes the bytes to the pertinent IOhandler.
+// NULL IOhbndler bbsicblly does nothing but keep trbck on how mbny bytes hbve been
+// written. This is hbndy when crebting profiles, where the file size is needed in the
+// hebder. Then, whole profile is seriblized bcross NULL IOhbndler bnd b second pbss
+// writes the bytes to the pertinent IOhbndler.
 
 typedef struct {
-    cmsUInt32Number Pointer;         // Points to current location
+    cmsUInt32Number Pointer;         // Points to current locbtion
 } FILENULL;
 
-static
-cmsUInt32Number NULLRead(cmsIOHANDLER* iohandler, void *Buffer, cmsUInt32Number size, cmsUInt32Number count)
+stbtic
+cmsUInt32Number NULLRebd(cmsIOHANDLER* iohbndler, void *Buffer, cmsUInt32Number size, cmsUInt32Number count)
 {
-    FILENULL* ResData = (FILENULL*) iohandler ->stream;
+    FILENULL* ResDbtb = (FILENULL*) iohbndler ->strebm;
 
     cmsUInt32Number len = size * count;
-    ResData -> Pointer += len;
+    ResDbtb -> Pointer += len;
     return count;
 
     cmsUNUSED_PARAMETER(Buffer);
 }
 
-static
-cmsBool  NULLSeek(cmsIOHANDLER* iohandler, cmsUInt32Number offset)
+stbtic
+cmsBool  NULLSeek(cmsIOHANDLER* iohbndler, cmsUInt32Number offset)
 {
-    FILENULL* ResData = (FILENULL*) iohandler ->stream;
+    FILENULL* ResDbtb = (FILENULL*) iohbndler ->strebm;
 
-    ResData ->Pointer = offset;
+    ResDbtb ->Pointer = offset;
     return TRUE;
 }
 
-static
-cmsUInt32Number NULLTell(cmsIOHANDLER* iohandler)
+stbtic
+cmsUInt32Number NULLTell(cmsIOHANDLER* iohbndler)
 {
-    FILENULL* ResData = (FILENULL*) iohandler ->stream;
-    return ResData -> Pointer;
+    FILENULL* ResDbtb = (FILENULL*) iohbndler ->strebm;
+    return ResDbtb -> Pointer;
 }
 
-static
-cmsBool  NULLWrite(cmsIOHANDLER* iohandler, cmsUInt32Number size, const void *Ptr)
+stbtic
+cmsBool  NULLWrite(cmsIOHANDLER* iohbndler, cmsUInt32Number size, const void *Ptr)
 {
-    FILENULL* ResData = (FILENULL*) iohandler ->stream;
+    FILENULL* ResDbtb = (FILENULL*) iohbndler ->strebm;
 
-    ResData ->Pointer += size;
-    if (ResData ->Pointer > iohandler->UsedSpace)
-        iohandler->UsedSpace = ResData ->Pointer;
+    ResDbtb ->Pointer += size;
+    if (ResDbtb ->Pointer > iohbndler->UsedSpbce)
+        iohbndler->UsedSpbce = ResDbtb ->Pointer;
 
     return TRUE;
 
     cmsUNUSED_PARAMETER(Ptr);
 }
 
-static
-cmsBool  NULLClose(cmsIOHANDLER* iohandler)
+stbtic
+cmsBool  NULLClose(cmsIOHANDLER* iohbndler)
 {
-    FILENULL* ResData = (FILENULL*) iohandler ->stream;
+    FILENULL* ResDbtb = (FILENULL*) iohbndler ->strebm;
 
-    _cmsFree(iohandler ->ContextID, ResData);
-    _cmsFree(iohandler ->ContextID, iohandler);
+    _cmsFree(iohbndler ->ContextID, ResDbtb);
+    _cmsFree(iohbndler ->ContextID, iohbndler);
     return TRUE;
 }
 
-// The NULL IOhandler creator
-cmsIOHANDLER*  CMSEXPORT cmsOpenIOhandlerFromNULL(cmsContext ContextID)
+// The NULL IOhbndler crebtor
+cmsIOHANDLER*  CMSEXPORT cmsOpenIOhbndlerFromNULL(cmsContext ContextID)
 {
-    struct _cms_io_handler* iohandler = NULL;
+    struct _cms_io_hbndler* iohbndler = NULL;
     FILENULL* fm = NULL;
 
-    iohandler = (struct _cms_io_handler*) _cmsMallocZero(ContextID, sizeof(struct _cms_io_handler));
-    if (iohandler == NULL) return NULL;
+    iohbndler = (struct _cms_io_hbndler*) _cmsMbllocZero(ContextID, sizeof(struct _cms_io_hbndler));
+    if (iohbndler == NULL) return NULL;
 
-    fm = (FILENULL*) _cmsMallocZero(ContextID, sizeof(FILENULL));
+    fm = (FILENULL*) _cmsMbllocZero(ContextID, sizeof(FILENULL));
     if (fm == NULL) goto Error;
 
     fm ->Pointer = 0;
 
-    iohandler ->ContextID = ContextID;
-    iohandler ->stream  = (void*) fm;
-    iohandler ->UsedSpace = 0;
-    iohandler ->ReportedSize = 0;
-    iohandler ->PhysicalFile[0] = 0;
+    iohbndler ->ContextID = ContextID;
+    iohbndler ->strebm  = (void*) fm;
+    iohbndler ->UsedSpbce = 0;
+    iohbndler ->ReportedSize = 0;
+    iohbndler ->PhysicblFile[0] = 0;
 
-    iohandler ->Read    = NULLRead;
-    iohandler ->Seek    = NULLSeek;
-    iohandler ->Close   = NULLClose;
-    iohandler ->Tell    = NULLTell;
-    iohandler ->Write   = NULLWrite;
+    iohbndler ->Rebd    = NULLRebd;
+    iohbndler ->Seek    = NULLSeek;
+    iohbndler ->Close   = NULLClose;
+    iohbndler ->Tell    = NULLTell;
+    iohbndler ->Write   = NULLWrite;
 
-    return iohandler;
+    return iohbndler;
 
 Error:
-    if (iohandler) _cmsFree(ContextID, iohandler);
+    if (iohbndler) _cmsFree(ContextID, iohbndler);
     return NULL;
 
 }
 
 
-// Memory-based stream --------------------------------------------------------------
+// Memory-bbsed strebm --------------------------------------------------------------
 
-// Those functions implements an iohandler which takes a block of memory as storage medium.
+// Those functions implements bn iohbndler which tbkes b block of memory bs storbge medium.
 
 typedef struct {
-    cmsUInt8Number* Block;    // Points to allocated memory
-    cmsUInt32Number Size;     // Size of allocated memory
-    cmsUInt32Number Pointer;  // Points to current location
+    cmsUInt8Number* Block;    // Points to bllocbted memory
+    cmsUInt32Number Size;     // Size of bllocbted memory
+    cmsUInt32Number Pointer;  // Points to current locbtion
     int FreeBlockOnClose;     // As title
 
 } FILEMEM;
 
-static
-cmsUInt32Number MemoryRead(struct _cms_io_handler* iohandler, void *Buffer, cmsUInt32Number size, cmsUInt32Number count)
+stbtic
+cmsUInt32Number MemoryRebd(struct _cms_io_hbndler* iohbndler, void *Buffer, cmsUInt32Number size, cmsUInt32Number count)
 {
-    FILEMEM* ResData = (FILEMEM*) iohandler ->stream;
+    FILEMEM* ResDbtb = (FILEMEM*) iohbndler ->strebm;
     cmsUInt8Number* Ptr;
     cmsUInt32Number len = size * count;
 
-    if (ResData -> Pointer + len > ResData -> Size){
+    if (ResDbtb -> Pointer + len > ResDbtb -> Size){
 
-        len = (ResData -> Size - ResData -> Pointer);
-        cmsSignalError(iohandler ->ContextID, cmsERROR_READ, "Read from memory error. Got %d bytes, block should be of %d bytes", len, count * size);
+        len = (ResDbtb -> Size - ResDbtb -> Pointer);
+        cmsSignblError(iohbndler ->ContextID, cmsERROR_READ, "Rebd from memory error. Got %d bytes, block should be of %d bytes", len, count * size);
         return 0;
     }
 
-    Ptr  = ResData -> Block;
-    Ptr += ResData -> Pointer;
+    Ptr  = ResDbtb -> Block;
+    Ptr += ResDbtb -> Pointer;
     memmove(Buffer, Ptr, len);
-    ResData -> Pointer += len;
+    ResDbtb -> Pointer += len;
 
     return count;
 }
 
-// SEEK_CUR is assumed
-static
-cmsBool  MemorySeek(struct _cms_io_handler* iohandler, cmsUInt32Number offset)
+// SEEK_CUR is bssumed
+stbtic
+cmsBool  MemorySeek(struct _cms_io_hbndler* iohbndler, cmsUInt32Number offset)
 {
-    FILEMEM* ResData = (FILEMEM*) iohandler ->stream;
+    FILEMEM* ResDbtb = (FILEMEM*) iohbndler ->strebm;
 
-    if (offset > ResData ->Size) {
-        cmsSignalError(iohandler ->ContextID, cmsERROR_SEEK,  "Too few data; probably corrupted profile");
+    if (offset > ResDbtb ->Size) {
+        cmsSignblError(iohbndler ->ContextID, cmsERROR_SEEK,  "Too few dbtb; probbbly corrupted profile");
         return FALSE;
     }
 
-    ResData ->Pointer = offset;
+    ResDbtb ->Pointer = offset;
     return TRUE;
 }
 
 // Tell for memory
-static
-cmsUInt32Number MemoryTell(struct _cms_io_handler* iohandler)
+stbtic
+cmsUInt32Number MemoryTell(struct _cms_io_hbndler* iohbndler)
 {
-    FILEMEM* ResData = (FILEMEM*) iohandler ->stream;
+    FILEMEM* ResDbtb = (FILEMEM*) iohbndler ->strebm;
 
-    if (ResData == NULL) return 0;
-    return ResData -> Pointer;
+    if (ResDbtb == NULL) return 0;
+    return ResDbtb -> Pointer;
 }
 
 
-// Writes data to memory, also keeps used space for further reference.
-static
-cmsBool MemoryWrite(struct _cms_io_handler* iohandler, cmsUInt32Number size, const void *Ptr)
+// Writes dbtb to memory, blso keeps used spbce for further reference.
+stbtic
+cmsBool MemoryWrite(struct _cms_io_hbndler* iohbndler, cmsUInt32Number size, const void *Ptr)
 {
-    FILEMEM* ResData = (FILEMEM*) iohandler ->stream;
+    FILEMEM* ResDbtb = (FILEMEM*) iohbndler ->strebm;
 
-    if (ResData == NULL) return FALSE; // Housekeeping
+    if (ResDbtb == NULL) return FALSE; // Housekeeping
 
-    // Check for available space. Clip.
-    if (iohandler ->UsedSpace + size > ResData->Size) {
-        size = ResData ->Size - iohandler ->UsedSpace;
+    // Check for bvbilbble spbce. Clip.
+    if (iohbndler ->UsedSpbce + size > ResDbtb->Size) {
+        size = ResDbtb ->Size - iohbndler ->UsedSpbce;
     }
 
     if (size == 0) return TRUE;     // Write zero bytes is ok, but does nothing
 
-    memmove(ResData ->Block + ResData ->Pointer, Ptr, size);
-    ResData ->Pointer += size;
-    iohandler->UsedSpace += size;
+    memmove(ResDbtb ->Block + ResDbtb ->Pointer, Ptr, size);
+    ResDbtb ->Pointer += size;
+    iohbndler->UsedSpbce += size;
 
-    if (ResData ->Pointer > iohandler->UsedSpace)
-        iohandler->UsedSpace = ResData ->Pointer;
+    if (ResDbtb ->Pointer > iohbndler->UsedSpbce)
+        iohbndler->UsedSpbce = ResDbtb ->Pointer;
 
     return TRUE;
 }
 
 
-static
-cmsBool  MemoryClose(struct _cms_io_handler* iohandler)
+stbtic
+cmsBool  MemoryClose(struct _cms_io_hbndler* iohbndler)
 {
-    FILEMEM* ResData = (FILEMEM*) iohandler ->stream;
+    FILEMEM* ResDbtb = (FILEMEM*) iohbndler ->strebm;
 
-    if (ResData ->FreeBlockOnClose) {
+    if (ResDbtb ->FreeBlockOnClose) {
 
-        if (ResData ->Block) _cmsFree(iohandler ->ContextID, ResData ->Block);
+        if (ResDbtb ->Block) _cmsFree(iohbndler ->ContextID, ResDbtb ->Block);
     }
 
-    _cmsFree(iohandler ->ContextID, ResData);
-    _cmsFree(iohandler ->ContextID, iohandler);
+    _cmsFree(iohbndler ->ContextID, ResDbtb);
+    _cmsFree(iohbndler ->ContextID, iohbndler);
 
     return TRUE;
 }
 
-// Create a iohandler for memory block. AccessMode=='r' assumes the iohandler is going to read, and makes
-// a copy of the memory block for letting user to free the memory after invoking open profile. In write
+// Crebte b iohbndler for memory block. AccessMode=='r' bssumes the iohbndler is going to rebd, bnd mbkes
+// b copy of the memory block for letting user to free the memory bfter invoking open profile. In write
 // mode ("w"), Buffere points to the begin of memory block to be written.
-cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromMem(cmsContext ContextID, void *Buffer, cmsUInt32Number size, const char* AccessMode)
+cmsIOHANDLER* CMSEXPORT cmsOpenIOhbndlerFromMem(cmsContext ContextID, void *Buffer, cmsUInt32Number size, const chbr* AccessMode)
 {
-    cmsIOHANDLER* iohandler = NULL;
+    cmsIOHANDLER* iohbndler = NULL;
     FILEMEM* fm = NULL;
 
     _cmsAssert(AccessMode != NULL);
 
-    iohandler = (cmsIOHANDLER*) _cmsMallocZero(ContextID, sizeof(cmsIOHANDLER));
-    if (iohandler == NULL) return NULL;
+    iohbndler = (cmsIOHANDLER*) _cmsMbllocZero(ContextID, sizeof(cmsIOHANDLER));
+    if (iohbndler == NULL) return NULL;
 
     switch (*AccessMode) {
 
-    case 'r':
-        fm = (FILEMEM*) _cmsMallocZero(ContextID, sizeof(FILEMEM));
+    cbse 'r':
+        fm = (FILEMEM*) _cmsMbllocZero(ContextID, sizeof(FILEMEM));
         if (fm == NULL) goto Error;
 
         if (Buffer == NULL) {
-            cmsSignalError(ContextID, cmsERROR_READ, "Couldn't read profile from NULL pointer");
+            cmsSignblError(ContextID, cmsERROR_READ, "Couldn't rebd profile from NULL pointer");
             goto Error;
         }
 
-        fm ->Block = (cmsUInt8Number*) _cmsMalloc(ContextID, size);
+        fm ->Block = (cmsUInt8Number*) _cmsMblloc(ContextID, size);
         if (fm ->Block == NULL) {
 
             _cmsFree(ContextID, fm);
-            _cmsFree(ContextID, iohandler);
-            cmsSignalError(ContextID, cmsERROR_READ, "Couldn't allocate %ld bytes for profile", size);
+            _cmsFree(ContextID, iohbndler);
+            cmsSignblError(ContextID, cmsERROR_READ, "Couldn't bllocbte %ld bytes for profile", size);
             return NULL;
         }
 
@@ -300,67 +300,67 @@ cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromMem(cmsContext ContextID, void *Buff
         fm ->FreeBlockOnClose = TRUE;
         fm ->Size    = size;
         fm ->Pointer = 0;
-        iohandler -> ReportedSize = size;
-        break;
+        iohbndler -> ReportedSize = size;
+        brebk;
 
-    case 'w':
-        fm = (FILEMEM*) _cmsMallocZero(ContextID, sizeof(FILEMEM));
+    cbse 'w':
+        fm = (FILEMEM*) _cmsMbllocZero(ContextID, sizeof(FILEMEM));
         if (fm == NULL) goto Error;
 
         fm ->Block = (cmsUInt8Number*) Buffer;
         fm ->FreeBlockOnClose = FALSE;
         fm ->Size    = size;
         fm ->Pointer = 0;
-        iohandler -> ReportedSize = 0;
-        break;
+        iohbndler -> ReportedSize = 0;
+        brebk;
 
-    default:
-        cmsSignalError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unknown access mode '%c'", *AccessMode);
+    defbult:
+        cmsSignblError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unknown bccess mode '%c'", *AccessMode);
         return NULL;
     }
 
-    iohandler ->ContextID = ContextID;
-    iohandler ->stream  = (void*) fm;
-    iohandler ->UsedSpace = 0;
-    iohandler ->PhysicalFile[0] = 0;
+    iohbndler ->ContextID = ContextID;
+    iohbndler ->strebm  = (void*) fm;
+    iohbndler ->UsedSpbce = 0;
+    iohbndler ->PhysicblFile[0] = 0;
 
-    iohandler ->Read    = MemoryRead;
-    iohandler ->Seek    = MemorySeek;
-    iohandler ->Close   = MemoryClose;
-    iohandler ->Tell    = MemoryTell;
-    iohandler ->Write   = MemoryWrite;
+    iohbndler ->Rebd    = MemoryRebd;
+    iohbndler ->Seek    = MemorySeek;
+    iohbndler ->Close   = MemoryClose;
+    iohbndler ->Tell    = MemoryTell;
+    iohbndler ->Write   = MemoryWrite;
 
-    return iohandler;
+    return iohbndler;
 
 Error:
     if (fm) _cmsFree(ContextID, fm);
-    if (iohandler) _cmsFree(ContextID, iohandler);
+    if (iohbndler) _cmsFree(ContextID, iohbndler);
     return NULL;
 }
 
-// File-based stream -------------------------------------------------------
+// File-bbsed strebm -------------------------------------------------------
 
-// Read count elements of size bytes each. Return number of elements read
-static
-cmsUInt32Number FileRead(cmsIOHANDLER* iohandler, void *Buffer, cmsUInt32Number size, cmsUInt32Number count)
+// Rebd count elements of size bytes ebch. Return number of elements rebd
+stbtic
+cmsUInt32Number FileRebd(cmsIOHANDLER* iohbndler, void *Buffer, cmsUInt32Number size, cmsUInt32Number count)
 {
-    cmsUInt32Number nReaded = (cmsUInt32Number) fread(Buffer, size, count, (FILE*) iohandler->stream);
+    cmsUInt32Number nRebded = (cmsUInt32Number) frebd(Buffer, size, count, (FILE*) iohbndler->strebm);
 
-    if (nReaded != count) {
-            cmsSignalError(iohandler ->ContextID, cmsERROR_FILE, "Read error. Got %d bytes, block should be of %d bytes", nReaded * size, count * size);
+    if (nRebded != count) {
+            cmsSignblError(iohbndler ->ContextID, cmsERROR_FILE, "Rebd error. Got %d bytes, block should be of %d bytes", nRebded * size, count * size);
             return 0;
     }
 
-    return nReaded;
+    return nRebded;
 }
 
 // Postion file pointer in the file
-static
-cmsBool  FileSeek(cmsIOHANDLER* iohandler, cmsUInt32Number offset)
+stbtic
+cmsBool  FileSeek(cmsIOHANDLER* iohbndler, cmsUInt32Number offset)
 {
-    if (fseek((FILE*) iohandler ->stream, (long) offset, SEEK_SET) != 0) {
+    if (fseek((FILE*) iohbndler ->strebm, (long) offset, SEEK_SET) != 0) {
 
-       cmsSignalError(iohandler ->ContextID, cmsERROR_FILE, "Seek error; probably corrupted file");
+       cmsSignblError(iohbndler ->ContextID, cmsERROR_FILE, "Seek error; probbbly corrupted file");
        return FALSE;
     }
 
@@ -368,140 +368,140 @@ cmsBool  FileSeek(cmsIOHANDLER* iohandler, cmsUInt32Number offset)
 }
 
 // Returns file pointer position
-static
-cmsUInt32Number FileTell(cmsIOHANDLER* iohandler)
+stbtic
+cmsUInt32Number FileTell(cmsIOHANDLER* iohbndler)
 {
-    return ftell((FILE*)iohandler ->stream);
+    return ftell((FILE*)iohbndler ->strebm);
 }
 
-// Writes data to stream, also keeps used space for further reference. Returns TRUE on success, FALSE on error
-static
-cmsBool  FileWrite(cmsIOHANDLER* iohandler, cmsUInt32Number size, const void* Buffer)
+// Writes dbtb to strebm, blso keeps used spbce for further reference. Returns TRUE on success, FALSE on error
+stbtic
+cmsBool  FileWrite(cmsIOHANDLER* iohbndler, cmsUInt32Number size, const void* Buffer)
 {
-       if (size == 0) return TRUE;  // We allow to write 0 bytes, but nothing is written
+       if (size == 0) return TRUE;  // We bllow to write 0 bytes, but nothing is written
 
-       iohandler->UsedSpace += size;
-       return (fwrite(Buffer, size, 1, (FILE*) iohandler->stream) == 1);
+       iohbndler->UsedSpbce += size;
+       return (fwrite(Buffer, size, 1, (FILE*) iohbndler->strebm) == 1);
 }
 
 // Closes the file
-static
-cmsBool  FileClose(cmsIOHANDLER* iohandler)
+stbtic
+cmsBool  FileClose(cmsIOHANDLER* iohbndler)
 {
-    if (fclose((FILE*) iohandler ->stream) != 0) return FALSE;
-    _cmsFree(iohandler ->ContextID, iohandler);
+    if (fclose((FILE*) iohbndler ->strebm) != 0) return FALSE;
+    _cmsFree(iohbndler ->ContextID, iohbndler);
     return TRUE;
 }
 
-// Create a iohandler for disk based files.
-cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromFile(cmsContext ContextID, const char* FileName, const char* AccessMode)
+// Crebte b iohbndler for disk bbsed files.
+cmsIOHANDLER* CMSEXPORT cmsOpenIOhbndlerFromFile(cmsContext ContextID, const chbr* FileNbme, const chbr* AccessMode)
 {
-    cmsIOHANDLER* iohandler = NULL;
+    cmsIOHANDLER* iohbndler = NULL;
     FILE* fm = NULL;
 
-    _cmsAssert(FileName != NULL);
+    _cmsAssert(FileNbme != NULL);
     _cmsAssert(AccessMode != NULL);
 
-    iohandler = (cmsIOHANDLER*) _cmsMallocZero(ContextID, sizeof(cmsIOHANDLER));
-    if (iohandler == NULL) return NULL;
+    iohbndler = (cmsIOHANDLER*) _cmsMbllocZero(ContextID, sizeof(cmsIOHANDLER));
+    if (iohbndler == NULL) return NULL;
 
     switch (*AccessMode) {
 
-    case 'r':
-        fm = fopen(FileName, "rb");
+    cbse 'r':
+        fm = fopen(FileNbme, "rb");
         if (fm == NULL) {
-            _cmsFree(ContextID, iohandler);
-             cmsSignalError(ContextID, cmsERROR_FILE, "File '%s' not found", FileName);
+            _cmsFree(ContextID, iohbndler);
+             cmsSignblError(ContextID, cmsERROR_FILE, "File '%s' not found", FileNbme);
             return NULL;
         }
-        iohandler -> ReportedSize = cmsfilelength(fm);
-        break;
+        iohbndler -> ReportedSize = cmsfilelength(fm);
+        brebk;
 
-    case 'w':
-        fm = fopen(FileName, "wb");
+    cbse 'w':
+        fm = fopen(FileNbme, "wb");
         if (fm == NULL) {
-            _cmsFree(ContextID, iohandler);
-             cmsSignalError(ContextID, cmsERROR_FILE, "Couldn't create '%s'", FileName);
+            _cmsFree(ContextID, iohbndler);
+             cmsSignblError(ContextID, cmsERROR_FILE, "Couldn't crebte '%s'", FileNbme);
             return NULL;
         }
-        iohandler -> ReportedSize = 0;
-        break;
+        iohbndler -> ReportedSize = 0;
+        brebk;
 
-    default:
-        _cmsFree(ContextID, iohandler);
-         cmsSignalError(ContextID, cmsERROR_FILE, "Unknown access mode '%c'", *AccessMode);
+    defbult:
+        _cmsFree(ContextID, iohbndler);
+         cmsSignblError(ContextID, cmsERROR_FILE, "Unknown bccess mode '%c'", *AccessMode);
         return NULL;
     }
 
-    iohandler ->ContextID = ContextID;
-    iohandler ->stream = (void*) fm;
-    iohandler ->UsedSpace = 0;
+    iohbndler ->ContextID = ContextID;
+    iohbndler ->strebm = (void*) fm;
+    iohbndler ->UsedSpbce = 0;
 
-    // Keep track of the original file
-    strncpy(iohandler -> PhysicalFile, FileName, sizeof(iohandler -> PhysicalFile)-1);
-    iohandler -> PhysicalFile[sizeof(iohandler -> PhysicalFile)-1] = 0;
+    // Keep trbck of the originbl file
+    strncpy(iohbndler -> PhysicblFile, FileNbme, sizeof(iohbndler -> PhysicblFile)-1);
+    iohbndler -> PhysicblFile[sizeof(iohbndler -> PhysicblFile)-1] = 0;
 
-    iohandler ->Read    = FileRead;
-    iohandler ->Seek    = FileSeek;
-    iohandler ->Close   = FileClose;
-    iohandler ->Tell    = FileTell;
-    iohandler ->Write   = FileWrite;
+    iohbndler ->Rebd    = FileRebd;
+    iohbndler ->Seek    = FileSeek;
+    iohbndler ->Close   = FileClose;
+    iohbndler ->Tell    = FileTell;
+    iohbndler ->Write   = FileWrite;
 
-    return iohandler;
+    return iohbndler;
 }
 
-// Create a iohandler for stream based files
-cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromStream(cmsContext ContextID, FILE* Stream)
+// Crebte b iohbndler for strebm bbsed files
+cmsIOHANDLER* CMSEXPORT cmsOpenIOhbndlerFromStrebm(cmsContext ContextID, FILE* Strebm)
 {
-    cmsIOHANDLER* iohandler = NULL;
+    cmsIOHANDLER* iohbndler = NULL;
 
-    iohandler = (cmsIOHANDLER*) _cmsMallocZero(ContextID, sizeof(cmsIOHANDLER));
-    if (iohandler == NULL) return NULL;
+    iohbndler = (cmsIOHANDLER*) _cmsMbllocZero(ContextID, sizeof(cmsIOHANDLER));
+    if (iohbndler == NULL) return NULL;
 
-    iohandler -> ContextID = ContextID;
-    iohandler -> stream = (void*) Stream;
-    iohandler -> UsedSpace = 0;
-    iohandler -> ReportedSize = cmsfilelength(Stream);
-    iohandler -> PhysicalFile[0] = 0;
+    iohbndler -> ContextID = ContextID;
+    iohbndler -> strebm = (void*) Strebm;
+    iohbndler -> UsedSpbce = 0;
+    iohbndler -> ReportedSize = cmsfilelength(Strebm);
+    iohbndler -> PhysicblFile[0] = 0;
 
-    iohandler ->Read    = FileRead;
-    iohandler ->Seek    = FileSeek;
-    iohandler ->Close   = FileClose;
-    iohandler ->Tell    = FileTell;
-    iohandler ->Write   = FileWrite;
+    iohbndler ->Rebd    = FileRebd;
+    iohbndler ->Seek    = FileSeek;
+    iohbndler ->Close   = FileClose;
+    iohbndler ->Tell    = FileTell;
+    iohbndler ->Write   = FileWrite;
 
-    return iohandler;
+    return iohbndler;
 }
 
 
 
-// Close an open IO handler
-cmsBool CMSEXPORT cmsCloseIOhandler(cmsIOHANDLER* io)
+// Close bn open IO hbndler
+cmsBool CMSEXPORT cmsCloseIOhbndler(cmsIOHANDLER* io)
 {
     return io -> Close(io);
 }
 
 // -------------------------------------------------------------------------------------------------------
 
-// Creates an empty structure holding all required parameters
-cmsHPROFILE CMSEXPORT cmsCreateProfilePlaceholder(cmsContext ContextID)
+// Crebtes bn empty structure holding bll required pbrbmeters
+cmsHPROFILE CMSEXPORT cmsCrebteProfilePlbceholder(cmsContext ContextID)
 {
     time_t now = time(NULL);
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) _cmsMallocZero(ContextID, sizeof(_cmsICCPROFILE));
+    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) _cmsMbllocZero(ContextID, sizeof(_cmsICCPROFILE));
     if (Icc == NULL) return NULL;
 
     Icc ->ContextID = ContextID;
 
     // Set it to empty
-    Icc -> TagCount   = 0;
+    Icc -> TbgCount   = 0;
 
-    // Set default version
+    // Set defbult version
     Icc ->Version =  0x02100000;
 
-    // Set creation date/time
-    memmove(&Icc ->Created, gmtime(&now), sizeof(Icc ->Created));
+    // Set crebtion dbte/time
+    memmove(&Icc ->Crebted, gmtime(&now), sizeof(Icc ->Crebted));
 
-    // Return the handle
+    // Return the hbndle
     return (cmsHPROFILE) Icc;
 }
 
@@ -514,120 +514,120 @@ cmsContext CMSEXPORT cmsGetProfileContextID(cmsHPROFILE hProfile)
 }
 
 
-// Return the number of tags
-cmsInt32Number CMSEXPORT cmsGetTagCount(cmsHPROFILE hProfile)
+// Return the number of tbgs
+cmsInt32Number CMSEXPORT cmsGetTbgCount(cmsHPROFILE hProfile)
 {
     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
     if (Icc == NULL) return -1;
 
-    return  Icc->TagCount;
+    return  Icc->TbgCount;
 }
 
-// Return the tag signature of a given tag number
-cmsTagSignature CMSEXPORT cmsGetTagSignature(cmsHPROFILE hProfile, cmsUInt32Number n)
+// Return the tbg signbture of b given tbg number
+cmsTbgSignbture CMSEXPORT cmsGetTbgSignbture(cmsHPROFILE hProfile, cmsUInt32Number n)
 {
     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
 
-    if (n > Icc->TagCount) return (cmsTagSignature) 0;  // Mark as not available
-    if (n >= MAX_TABLE_TAG) return (cmsTagSignature) 0; // As double check
+    if (n > Icc->TbgCount) return (cmsTbgSignbture) 0;  // Mbrk bs not bvbilbble
+    if (n >= MAX_TABLE_TAG) return (cmsTbgSignbture) 0; // As double check
 
-    return Icc ->TagNames[n];
+    return Icc ->TbgNbmes[n];
 }
 
 
-static
-int SearchOneTag(_cmsICCPROFILE* Profile, cmsTagSignature sig)
+stbtic
+int SebrchOneTbg(_cmsICCPROFILE* Profile, cmsTbgSignbture sig)
 {
     cmsUInt32Number i;
 
-    for (i=0; i < Profile -> TagCount; i++) {
+    for (i=0; i < Profile -> TbgCount; i++) {
 
-        if (sig == Profile -> TagNames[i])
+        if (sig == Profile -> TbgNbmes[i])
             return i;
     }
 
     return -1;
 }
 
-// Search for a specific tag in tag dictionary. Returns position or -1 if tag not found.
-// If followlinks is turned on, then the position of the linked tag is returned
-int _cmsSearchTag(_cmsICCPROFILE* Icc, cmsTagSignature sig, cmsBool lFollowLinks)
+// Sebrch for b specific tbg in tbg dictionbry. Returns position or -1 if tbg not found.
+// If followlinks is turned on, then the position of the linked tbg is returned
+int _cmsSebrchTbg(_cmsICCPROFILE* Icc, cmsTbgSignbture sig, cmsBool lFollowLinks)
 {
     int n;
-    cmsTagSignature LinkedSig;
+    cmsTbgSignbture LinkedSig;
 
     do {
 
-        // Search for given tag in ICC profile directory
-        n = SearchOneTag(Icc, sig);
+        // Sebrch for given tbg in ICC profile directory
+        n = SebrchOneTbg(Icc, sig);
         if (n < 0)
             return -1;        // Not found
 
         if (!lFollowLinks)
             return n;         // Found, don't follow links
 
-        // Is this a linked tag?
-        LinkedSig = Icc ->TagLinked[n];
+        // Is this b linked tbg?
+        LinkedSig = Icc ->TbgLinked[n];
 
         // Yes, follow link
-        if (LinkedSig != (cmsTagSignature) 0) {
+        if (LinkedSig != (cmsTbgSignbture) 0) {
             sig = LinkedSig;
         }
 
-    } while (LinkedSig != (cmsTagSignature) 0);
+    } while (LinkedSig != (cmsTbgSignbture) 0);
 
     return n;
 }
 
 
-// Create a new tag entry
+// Crebte b new tbg entry
 
-static
-cmsBool _cmsNewTag(_cmsICCPROFILE* Icc, cmsTagSignature sig, int* NewPos)
+stbtic
+cmsBool _cmsNewTbg(_cmsICCPROFILE* Icc, cmsTbgSignbture sig, int* NewPos)
 {
     int i;
 
-    // Search for the tag
-    i = _cmsSearchTag(Icc, sig, FALSE);
+    // Sebrch for the tbg
+    i = _cmsSebrchTbg(Icc, sig, FALSE);
 
-    // Now let's do it easy. If the tag has been already written, that's an error
+    // Now let's do it ebsy. If the tbg hbs been blrebdy written, thbt's bn error
     if (i >= 0) {
-        cmsSignalError(Icc ->ContextID, cmsERROR_ALREADY_DEFINED, "Tag '%x' already exists", sig);
+        cmsSignblError(Icc ->ContextID, cmsERROR_ALREADY_DEFINED, "Tbg '%x' blrebdy exists", sig);
         return FALSE;
     }
     else  {
 
         // New one
 
-        if (Icc -> TagCount >= MAX_TABLE_TAG) {
-            cmsSignalError(Icc ->ContextID, cmsERROR_RANGE, "Too many tags (%d)", MAX_TABLE_TAG);
+        if (Icc -> TbgCount >= MAX_TABLE_TAG) {
+            cmsSignblError(Icc ->ContextID, cmsERROR_RANGE, "Too mbny tbgs (%d)", MAX_TABLE_TAG);
             return FALSE;
         }
 
-        *NewPos = Icc ->TagCount;
-        Icc -> TagCount++;
+        *NewPos = Icc ->TbgCount;
+        Icc -> TbgCount++;
     }
 
     return TRUE;
 }
 
 
-// Check existance
-cmsBool CMSEXPORT cmsIsTag(cmsHPROFILE hProfile, cmsTagSignature sig)
+// Check existbnce
+cmsBool CMSEXPORT cmsIsTbg(cmsHPROFILE hProfile, cmsTbgSignbture sig)
 {
        _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) (void*) hProfile;
-       return _cmsSearchTag(Icc, sig, FALSE) >= 0;
+       return _cmsSebrchTbg(Icc, sig, FALSE) >= 0;
 }
 
 /*
- * Enforces that the profile version is per. spec.
- * Operates on the big endian bytes from the profile.
- * Called before converting to platform endianness.
- * Byte 0 is BCD major version, so max 9.
+ * Enforces thbt the profile version is per. spec.
+ * Operbtes on the big endibn bytes from the profile.
+ * Cblled before converting to plbtform endibnness.
+ * Byte 0 is BCD mbjor version, so mbx 9.
  * Byte 1 is 2 BCD digits, one per nibble.
  * Reserved bytes 2 & 3 must be 0.
  */
-static cmsUInt32Number _validatedVersion(cmsUInt32Number DWord)
+stbtic cmsUInt32Number _vblidbtedVersion(cmsUInt32Number DWord)
 {
     cmsUInt8Number* pByte = (cmsUInt8Number*)&DWord;
     cmsUInt8Number temp1;
@@ -645,299 +645,299 @@ static cmsUInt32Number _validatedVersion(cmsUInt32Number DWord)
     return DWord;
 }
 
-// Read profile header and validate it
-cmsBool _cmsReadHeader(_cmsICCPROFILE* Icc)
+// Rebd profile hebder bnd vblidbte it
+cmsBool _cmsRebdHebder(_cmsICCPROFILE* Icc)
 {
-    cmsTagEntry Tag;
-    cmsICCHeader Header;
+    cmsTbgEntry Tbg;
+    cmsICCHebder Hebder;
     cmsUInt32Number i, j;
-    cmsUInt32Number HeaderSize;
-    cmsIOHANDLER* io = Icc ->IOhandler;
-    cmsUInt32Number TagCount;
+    cmsUInt32Number HebderSize;
+    cmsIOHANDLER* io = Icc ->IOhbndler;
+    cmsUInt32Number TbgCount;
 
 
-    // Read the header
-    if (io -> Read(io, &Header, sizeof(cmsICCHeader), 1) != 1) {
+    // Rebd the hebder
+    if (io -> Rebd(io, &Hebder, sizeof(cmsICCHebder), 1) != 1) {
         return FALSE;
     }
 
-    // Validate file as an ICC profile
-    if (_cmsAdjustEndianess32(Header.magic) != cmsMagicNumber) {
-        cmsSignalError(Icc ->ContextID, cmsERROR_BAD_SIGNATURE, "not an ICC profile, invalid signature");
+    // Vblidbte file bs bn ICC profile
+    if (_cmsAdjustEndibness32(Hebder.mbgic) != cmsMbgicNumber) {
+        cmsSignblError(Icc ->ContextID, cmsERROR_BAD_SIGNATURE, "not bn ICC profile, invblid signbture");
         return FALSE;
     }
 
-    // Adjust endianess of the used parameters
-    Icc -> DeviceClass     = (cmsProfileClassSignature) _cmsAdjustEndianess32(Header.deviceClass);
-    Icc -> ColorSpace      = (cmsColorSpaceSignature)   _cmsAdjustEndianess32(Header.colorSpace);
-    Icc -> PCS             = (cmsColorSpaceSignature)   _cmsAdjustEndianess32(Header.pcs);
+    // Adjust endibness of the used pbrbmeters
+    Icc -> DeviceClbss     = (cmsProfileClbssSignbture) _cmsAdjustEndibness32(Hebder.deviceClbss);
+    Icc -> ColorSpbce      = (cmsColorSpbceSignbture)   _cmsAdjustEndibness32(Hebder.colorSpbce);
+    Icc -> PCS             = (cmsColorSpbceSignbture)   _cmsAdjustEndibness32(Hebder.pcs);
 
-    Icc -> RenderingIntent = _cmsAdjustEndianess32(Header.renderingIntent);
-    Icc -> flags           = _cmsAdjustEndianess32(Header.flags);
-    Icc -> manufacturer    = _cmsAdjustEndianess32(Header.manufacturer);
-    Icc -> model           = _cmsAdjustEndianess32(Header.model);
-    Icc -> creator         = _cmsAdjustEndianess32(Header.creator);
+    Icc -> RenderingIntent = _cmsAdjustEndibness32(Hebder.renderingIntent);
+    Icc -> flbgs           = _cmsAdjustEndibness32(Hebder.flbgs);
+    Icc -> mbnufbcturer    = _cmsAdjustEndibness32(Hebder.mbnufbcturer);
+    Icc -> model           = _cmsAdjustEndibness32(Hebder.model);
+    Icc -> crebtor         = _cmsAdjustEndibness32(Hebder.crebtor);
 
-    _cmsAdjustEndianess64(&Icc -> attributes, &Header.attributes);
-    Icc -> Version         = _cmsAdjustEndianess32(_validatedVersion(Header.version));
+    _cmsAdjustEndibness64(&Icc -> bttributes, &Hebder.bttributes);
+    Icc -> Version         = _cmsAdjustEndibness32(_vblidbtedVersion(Hebder.version));
 
-    // Get size as reported in header
-    HeaderSize = _cmsAdjustEndianess32(Header.size);
+    // Get size bs reported in hebder
+    HebderSize = _cmsAdjustEndibness32(Hebder.size);
 
-    // Make sure HeaderSize is lower than profile size
-    if (HeaderSize >= Icc ->IOhandler ->ReportedSize)
-            HeaderSize = Icc ->IOhandler ->ReportedSize;
-
-
-    // Get creation date/time
-    _cmsDecodeDateTimeNumber(&Header.date, &Icc ->Created);
-
-    // The profile ID are 32 raw bytes
-    memmove(Icc ->ProfileID.ID32, Header.profileID.ID32, 16);
+    // Mbke sure HebderSize is lower thbn profile size
+    if (HebderSize >= Icc ->IOhbndler ->ReportedSize)
+            HebderSize = Icc ->IOhbndler ->ReportedSize;
 
 
-    // Read tag directory
-    if (!_cmsReadUInt32Number(io, &TagCount)) return FALSE;
-    if (TagCount > MAX_TABLE_TAG) {
+    // Get crebtion dbte/time
+    _cmsDecodeDbteTimeNumber(&Hebder.dbte, &Icc ->Crebted);
 
-        cmsSignalError(Icc ->ContextID, cmsERROR_RANGE, "Too many tags (%d)", TagCount);
+    // The profile ID bre 32 rbw bytes
+    memmove(Icc ->ProfileID.ID32, Hebder.profileID.ID32, 16);
+
+
+    // Rebd tbg directory
+    if (!_cmsRebdUInt32Number(io, &TbgCount)) return FALSE;
+    if (TbgCount > MAX_TABLE_TAG) {
+
+        cmsSignblError(Icc ->ContextID, cmsERROR_RANGE, "Too mbny tbgs (%d)", TbgCount);
         return FALSE;
     }
 
 
-    // Read tag directory
-    Icc -> TagCount = 0;
-    for (i=0; i < TagCount; i++) {
+    // Rebd tbg directory
+    Icc -> TbgCount = 0;
+    for (i=0; i < TbgCount; i++) {
 
-        if (!_cmsReadUInt32Number(io, (cmsUInt32Number *) &Tag.sig)) return FALSE;
-        if (!_cmsReadUInt32Number(io, &Tag.offset)) return FALSE;
-        if (!_cmsReadUInt32Number(io, &Tag.size)) return FALSE;
+        if (!_cmsRebdUInt32Number(io, (cmsUInt32Number *) &Tbg.sig)) return FALSE;
+        if (!_cmsRebdUInt32Number(io, &Tbg.offset)) return FALSE;
+        if (!_cmsRebdUInt32Number(io, &Tbg.size)) return FALSE;
 
-        // Perform some sanity check. Offset + size should fall inside file.
-        if (Tag.offset + Tag.size > HeaderSize ||
-            Tag.offset + Tag.size < Tag.offset)
+        // Perform some sbnity check. Offset + size should fbll inside file.
+        if (Tbg.offset + Tbg.size > HebderSize ||
+            Tbg.offset + Tbg.size < Tbg.offset)
                   continue;
 
-        Icc -> TagNames[Icc ->TagCount]   = Tag.sig;
-        Icc -> TagOffsets[Icc ->TagCount] = Tag.offset;
-        Icc -> TagSizes[Icc ->TagCount]   = Tag.size;
+        Icc -> TbgNbmes[Icc ->TbgCount]   = Tbg.sig;
+        Icc -> TbgOffsets[Icc ->TbgCount] = Tbg.offset;
+        Icc -> TbgSizes[Icc ->TbgCount]   = Tbg.size;
 
-       // Search for links
-        for (j=0; j < Icc ->TagCount; j++) {
+       // Sebrch for links
+        for (j=0; j < Icc ->TbgCount; j++) {
 
-            if ((Icc ->TagOffsets[j] == Tag.offset) &&
-                (Icc ->TagSizes[j]   == Tag.size)) {
+            if ((Icc ->TbgOffsets[j] == Tbg.offset) &&
+                (Icc ->TbgSizes[j]   == Tbg.size)) {
 
-                Icc ->TagLinked[Icc ->TagCount] = Icc ->TagNames[j];
+                Icc ->TbgLinked[Icc ->TbgCount] = Icc ->TbgNbmes[j];
             }
 
         }
 
-        Icc ->TagCount++;
+        Icc ->TbgCount++;
     }
 
     return TRUE;
 }
 
-// Saves profile header
-cmsBool _cmsWriteHeader(_cmsICCPROFILE* Icc, cmsUInt32Number UsedSpace)
+// Sbves profile hebder
+cmsBool _cmsWriteHebder(_cmsICCPROFILE* Icc, cmsUInt32Number UsedSpbce)
 {
-    cmsICCHeader Header;
+    cmsICCHebder Hebder;
     cmsUInt32Number i;
-    cmsTagEntry Tag;
+    cmsTbgEntry Tbg;
     cmsInt32Number Count = 0;
 
-    Header.size        = _cmsAdjustEndianess32(UsedSpace);
-    Header.cmmId       = _cmsAdjustEndianess32(lcmsSignature);
-    Header.version     = _cmsAdjustEndianess32(Icc ->Version);
+    Hebder.size        = _cmsAdjustEndibness32(UsedSpbce);
+    Hebder.cmmId       = _cmsAdjustEndibness32(lcmsSignbture);
+    Hebder.version     = _cmsAdjustEndibness32(Icc ->Version);
 
-    Header.deviceClass = (cmsProfileClassSignature) _cmsAdjustEndianess32(Icc -> DeviceClass);
-    Header.colorSpace  = (cmsColorSpaceSignature) _cmsAdjustEndianess32(Icc -> ColorSpace);
-    Header.pcs         = (cmsColorSpaceSignature) _cmsAdjustEndianess32(Icc -> PCS);
+    Hebder.deviceClbss = (cmsProfileClbssSignbture) _cmsAdjustEndibness32(Icc -> DeviceClbss);
+    Hebder.colorSpbce  = (cmsColorSpbceSignbture) _cmsAdjustEndibness32(Icc -> ColorSpbce);
+    Hebder.pcs         = (cmsColorSpbceSignbture) _cmsAdjustEndibness32(Icc -> PCS);
 
-    //   NOTE: in v4 Timestamp must be in UTC rather than in local time
-    _cmsEncodeDateTimeNumber(&Header.date, &Icc ->Created);
+    //   NOTE: in v4 Timestbmp must be in UTC rbther thbn in locbl time
+    _cmsEncodeDbteTimeNumber(&Hebder.dbte, &Icc ->Crebted);
 
-    Header.magic       = _cmsAdjustEndianess32(cmsMagicNumber);
+    Hebder.mbgic       = _cmsAdjustEndibness32(cmsMbgicNumber);
 
 #ifdef CMS_IS_WINDOWS_
-    Header.platform    = (cmsPlatformSignature) _cmsAdjustEndianess32(cmsSigMicrosoft);
+    Hebder.plbtform    = (cmsPlbtformSignbture) _cmsAdjustEndibness32(cmsSigMicrosoft);
 #else
-    Header.platform    = (cmsPlatformSignature) _cmsAdjustEndianess32(cmsSigMacintosh);
+    Hebder.plbtform    = (cmsPlbtformSignbture) _cmsAdjustEndibness32(cmsSigMbcintosh);
 #endif
 
-    Header.flags        = _cmsAdjustEndianess32(Icc -> flags);
-    Header.manufacturer = _cmsAdjustEndianess32(Icc -> manufacturer);
-    Header.model        = _cmsAdjustEndianess32(Icc -> model);
+    Hebder.flbgs        = _cmsAdjustEndibness32(Icc -> flbgs);
+    Hebder.mbnufbcturer = _cmsAdjustEndibness32(Icc -> mbnufbcturer);
+    Hebder.model        = _cmsAdjustEndibness32(Icc -> model);
 
-    _cmsAdjustEndianess64(&Header.attributes, &Icc -> attributes);
+    _cmsAdjustEndibness64(&Hebder.bttributes, &Icc -> bttributes);
 
-    // Rendering intent in the header (for embedded profiles)
-    Header.renderingIntent = _cmsAdjustEndianess32(Icc -> RenderingIntent);
+    // Rendering intent in the hebder (for embedded profiles)
+    Hebder.renderingIntent = _cmsAdjustEndibness32(Icc -> RenderingIntent);
 
-    // Illuminant is always D50
-    Header.illuminant.X = _cmsAdjustEndianess32(_cmsDoubleTo15Fixed16(cmsD50_XYZ()->X));
-    Header.illuminant.Y = _cmsAdjustEndianess32(_cmsDoubleTo15Fixed16(cmsD50_XYZ()->Y));
-    Header.illuminant.Z = _cmsAdjustEndianess32(_cmsDoubleTo15Fixed16(cmsD50_XYZ()->Z));
+    // Illuminbnt is blwbys D50
+    Hebder.illuminbnt.X = _cmsAdjustEndibness32(_cmsDoubleTo15Fixed16(cmsD50_XYZ()->X));
+    Hebder.illuminbnt.Y = _cmsAdjustEndibness32(_cmsDoubleTo15Fixed16(cmsD50_XYZ()->Y));
+    Hebder.illuminbnt.Z = _cmsAdjustEndibness32(_cmsDoubleTo15Fixed16(cmsD50_XYZ()->Z));
 
-    // Created by LittleCMS (that's me!)
-    Header.creator      = _cmsAdjustEndianess32(lcmsSignature);
+    // Crebted by LittleCMS (thbt's me!)
+    Hebder.crebtor      = _cmsAdjustEndibness32(lcmsSignbture);
 
-    memset(&Header.reserved, 0, sizeof(Header.reserved));
+    memset(&Hebder.reserved, 0, sizeof(Hebder.reserved));
 
-    // Set profile ID. Endianess is always big endian
-    memmove(&Header.profileID, &Icc ->ProfileID, 16);
+    // Set profile ID. Endibness is blwbys big endibn
+    memmove(&Hebder.profileID, &Icc ->ProfileID, 16);
 
-    // Dump the header
-    if (!Icc -> IOhandler->Write(Icc->IOhandler, sizeof(cmsICCHeader), &Header)) return FALSE;
+    // Dump the hebder
+    if (!Icc -> IOhbndler->Write(Icc->IOhbndler, sizeof(cmsICCHebder), &Hebder)) return FALSE;
 
-    // Saves Tag directory
+    // Sbves Tbg directory
 
     // Get true count
-    for (i=0;  i < Icc -> TagCount; i++) {
-        if (Icc ->TagNames[i] != 0)
+    for (i=0;  i < Icc -> TbgCount; i++) {
+        if (Icc ->TbgNbmes[i] != 0)
             Count++;
     }
 
-    // Store number of tags
-    if (!_cmsWriteUInt32Number(Icc ->IOhandler, Count)) return FALSE;
+    // Store number of tbgs
+    if (!_cmsWriteUInt32Number(Icc ->IOhbndler, Count)) return FALSE;
 
-    for (i=0; i < Icc -> TagCount; i++) {
+    for (i=0; i < Icc -> TbgCount; i++) {
 
-        if (Icc ->TagNames[i] == 0) continue;   // It is just a placeholder
+        if (Icc ->TbgNbmes[i] == 0) continue;   // It is just b plbceholder
 
-        Tag.sig    = (cmsTagSignature) _cmsAdjustEndianess32((cmsInt32Number) Icc -> TagNames[i]);
-        Tag.offset = _cmsAdjustEndianess32((cmsInt32Number) Icc -> TagOffsets[i]);
-        Tag.size   = _cmsAdjustEndianess32((cmsInt32Number) Icc -> TagSizes[i]);
+        Tbg.sig    = (cmsTbgSignbture) _cmsAdjustEndibness32((cmsInt32Number) Icc -> TbgNbmes[i]);
+        Tbg.offset = _cmsAdjustEndibness32((cmsInt32Number) Icc -> TbgOffsets[i]);
+        Tbg.size   = _cmsAdjustEndibness32((cmsInt32Number) Icc -> TbgSizes[i]);
 
-        if (!Icc ->IOhandler -> Write(Icc-> IOhandler, sizeof(cmsTagEntry), &Tag)) return FALSE;
+        if (!Icc ->IOhbndler -> Write(Icc-> IOhbndler, sizeof(cmsTbgEntry), &Tbg)) return FALSE;
     }
 
     return TRUE;
 }
 
-// ----------------------------------------------------------------------- Set/Get several struct members
+// ----------------------------------------------------------------------- Set/Get severbl struct members
 
 
-cmsUInt32Number CMSEXPORT cmsGetHeaderRenderingIntent(cmsHPROFILE hProfile)
+cmsUInt32Number CMSEXPORT cmsGetHebderRenderingIntent(cmsHPROFILE hProfile)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
     return Icc -> RenderingIntent;
 }
 
-void CMSEXPORT cmsSetHeaderRenderingIntent(cmsHPROFILE hProfile, cmsUInt32Number RenderingIntent)
+void CMSEXPORT cmsSetHebderRenderingIntent(cmsHPROFILE hProfile, cmsUInt32Number RenderingIntent)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
     Icc -> RenderingIntent = RenderingIntent;
 }
 
-cmsUInt32Number CMSEXPORT cmsGetHeaderFlags(cmsHPROFILE hProfile)
+cmsUInt32Number CMSEXPORT cmsGetHebderFlbgs(cmsHPROFILE hProfile)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return (cmsUInt32Number) Icc -> flags;
+    return (cmsUInt32Number) Icc -> flbgs;
 }
 
-void CMSEXPORT cmsSetHeaderFlags(cmsHPROFILE hProfile, cmsUInt32Number Flags)
+void CMSEXPORT cmsSetHebderFlbgs(cmsHPROFILE hProfile, cmsUInt32Number Flbgs)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> flags = (cmsUInt32Number) Flags;
+    Icc -> flbgs = (cmsUInt32Number) Flbgs;
 }
 
-cmsUInt32Number CMSEXPORT cmsGetHeaderManufacturer(cmsHPROFILE hProfile)
+cmsUInt32Number CMSEXPORT cmsGetHebderMbnufbcturer(cmsHPROFILE hProfile)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return Icc ->manufacturer;
+    return Icc ->mbnufbcturer;
 }
 
-void CMSEXPORT cmsSetHeaderManufacturer(cmsHPROFILE hProfile, cmsUInt32Number manufacturer)
+void CMSEXPORT cmsSetHebderMbnufbcturer(cmsHPROFILE hProfile, cmsUInt32Number mbnufbcturer)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> manufacturer = manufacturer;
+    Icc -> mbnufbcturer = mbnufbcturer;
 }
 
-cmsUInt32Number CMSEXPORT cmsGetHeaderCreator(cmsHPROFILE hProfile)
+cmsUInt32Number CMSEXPORT cmsGetHebderCrebtor(cmsHPROFILE hProfile)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return Icc ->creator;
+    return Icc ->crebtor;
 }
 
-cmsUInt32Number CMSEXPORT cmsGetHeaderModel(cmsHPROFILE hProfile)
+cmsUInt32Number CMSEXPORT cmsGetHebderModel(cmsHPROFILE hProfile)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
     return Icc ->model;
 }
 
-void CMSEXPORT cmsSetHeaderModel(cmsHPROFILE hProfile, cmsUInt32Number model)
+void CMSEXPORT cmsSetHebderModel(cmsHPROFILE hProfile, cmsUInt32Number model)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
     Icc -> model = model;
 }
 
-void CMSEXPORT cmsGetHeaderAttributes(cmsHPROFILE hProfile, cmsUInt64Number* Flags)
+void CMSEXPORT cmsGetHebderAttributes(cmsHPROFILE hProfile, cmsUInt64Number* Flbgs)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    memmove(Flags, &Icc -> attributes, sizeof(cmsUInt64Number));
+    memmove(Flbgs, &Icc -> bttributes, sizeof(cmsUInt64Number));
 }
 
-void CMSEXPORT cmsSetHeaderAttributes(cmsHPROFILE hProfile, cmsUInt64Number Flags)
+void CMSEXPORT cmsSetHebderAttributes(cmsHPROFILE hProfile, cmsUInt64Number Flbgs)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    memmove(&Icc -> attributes, &Flags, sizeof(cmsUInt64Number));
+    memmove(&Icc -> bttributes, &Flbgs, sizeof(cmsUInt64Number));
 }
 
-void CMSEXPORT cmsGetHeaderProfileID(cmsHPROFILE hProfile, cmsUInt8Number* ProfileID)
+void CMSEXPORT cmsGetHebderProfileID(cmsHPROFILE hProfile, cmsUInt8Number* ProfileID)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
     memmove(ProfileID, Icc ->ProfileID.ID8, 16);
 }
 
-void CMSEXPORT cmsSetHeaderProfileID(cmsHPROFILE hProfile, cmsUInt8Number* ProfileID)
+void CMSEXPORT cmsSetHebderProfileID(cmsHPROFILE hProfile, cmsUInt8Number* ProfileID)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
     memmove(&Icc -> ProfileID, ProfileID, 16);
 }
 
-cmsBool  CMSEXPORT cmsGetHeaderCreationDateTime(cmsHPROFILE hProfile, struct tm *Dest)
+cmsBool  CMSEXPORT cmsGetHebderCrebtionDbteTime(cmsHPROFILE hProfile, struct tm *Dest)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    memmove(Dest, &Icc ->Created, sizeof(struct tm));
+    memmove(Dest, &Icc ->Crebted, sizeof(struct tm));
     return TRUE;
 }
 
-cmsColorSpaceSignature CMSEXPORT cmsGetPCS(cmsHPROFILE hProfile)
+cmsColorSpbceSignbture CMSEXPORT cmsGetPCS(cmsHPROFILE hProfile)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
     return Icc -> PCS;
 }
 
-void CMSEXPORT cmsSetPCS(cmsHPROFILE hProfile, cmsColorSpaceSignature pcs)
+void CMSEXPORT cmsSetPCS(cmsHPROFILE hProfile, cmsColorSpbceSignbture pcs)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
     Icc -> PCS = pcs;
 }
 
-cmsColorSpaceSignature CMSEXPORT cmsGetColorSpace(cmsHPROFILE hProfile)
+cmsColorSpbceSignbture CMSEXPORT cmsGetColorSpbce(cmsHPROFILE hProfile)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return Icc -> ColorSpace;
+    return Icc -> ColorSpbce;
 }
 
-void CMSEXPORT cmsSetColorSpace(cmsHPROFILE hProfile, cmsColorSpaceSignature sig)
+void CMSEXPORT cmsSetColorSpbce(cmsHPROFILE hProfile, cmsColorSpbceSignbture sig)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> ColorSpace = sig;
+    Icc -> ColorSpbce = sig;
 }
 
-cmsProfileClassSignature CMSEXPORT cmsGetDeviceClass(cmsHPROFILE hProfile)
+cmsProfileClbssSignbture CMSEXPORT cmsGetDeviceClbss(cmsHPROFILE hProfile)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return Icc -> DeviceClass;
+    return Icc -> DeviceClbss;
 }
 
-void CMSEXPORT cmsSetDeviceClass(cmsHPROFILE hProfile, cmsProfileClassSignature sig)
+void CMSEXPORT cmsSetDeviceClbss(cmsHPROFILE hProfile, cmsProfileClbssSignbture sig)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> DeviceClass = sig;
+    Icc -> DeviceClbss = sig;
 }
 
 cmsUInt32Number CMSEXPORT cmsGetEncodedICCversion(cmsHPROFILE hProfile)
@@ -952,58 +952,58 @@ void CMSEXPORT cmsSetEncodedICCversion(cmsHPROFILE hProfile, cmsUInt32Number Ver
     Icc -> Version = Version;
 }
 
-// Get an hexadecimal number with same digits as v
-static
-cmsUInt32Number BaseToBase(cmsUInt32Number in, int BaseIn, int BaseOut)
+// Get bn hexbdecimbl number with sbme digits bs v
+stbtic
+cmsUInt32Number BbseToBbse(cmsUInt32Number in, int BbseIn, int BbseOut)
 {
-    char Buff[100];
+    chbr Buff[100];
     int i, len;
     cmsUInt32Number out;
 
     for (len=0; in > 0 && len < 100; len++) {
 
-        Buff[len] = (char) (in % BaseIn);
-        in /= BaseIn;
+        Buff[len] = (chbr) (in % BbseIn);
+        in /= BbseIn;
     }
 
     for (i=len-1, out=0; i >= 0; --i) {
-        out = out * BaseOut + Buff[i];
+        out = out * BbseOut + Buff[i];
     }
 
     return out;
 }
 
-void  CMSEXPORT cmsSetProfileVersion(cmsHPROFILE hProfile, cmsFloat64Number Version)
+void  CMSEXPORT cmsSetProfileVersion(cmsHPROFILE hProfile, cmsFlobt64Number Version)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
 
     // 4.2 -> 0x4200000
 
-    Icc -> Version = BaseToBase((cmsUInt32Number) floor(Version * 100.0), 10, 16) << 16;
+    Icc -> Version = BbseToBbse((cmsUInt32Number) floor(Version * 100.0), 10, 16) << 16;
 }
 
-cmsFloat64Number CMSEXPORT cmsGetProfileVersion(cmsHPROFILE hProfile)
+cmsFlobt64Number CMSEXPORT cmsGetProfileVersion(cmsHPROFILE hProfile)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
     cmsUInt32Number n = Icc -> Version >> 16;
 
-    return BaseToBase(n, 16, 10) / 100.0;
+    return BbseToBbse(n, 16, 10) / 100.0;
 }
 // --------------------------------------------------------------------------------------------------------------
 
 
-// Create profile from IOhandler
-cmsHPROFILE CMSEXPORT cmsOpenProfileFromIOhandlerTHR(cmsContext ContextID, cmsIOHANDLER* io)
+// Crebte profile from IOhbndler
+cmsHPROFILE CMSEXPORT cmsOpenProfileFromIOhbndlerTHR(cmsContext ContextID, cmsIOHANDLER* io)
 {
     _cmsICCPROFILE* NewIcc;
-    cmsHPROFILE hEmpty = cmsCreateProfilePlaceholder(ContextID);
+    cmsHPROFILE hEmpty = cmsCrebteProfilePlbceholder(ContextID);
 
     if (hEmpty == NULL) return NULL;
 
     NewIcc = (_cmsICCPROFILE*) hEmpty;
 
-    NewIcc ->IOhandler = io;
-    if (!_cmsReadHeader(NewIcc)) goto Error;
+    NewIcc ->IOhbndler = io;
+    if (!_cmsRebdHebder(NewIcc)) goto Error;
     return hEmpty;
 
 Error:
@@ -1011,18 +1011,18 @@ Error:
     return NULL;
 }
 
-// Create profile from disk file
-cmsHPROFILE CMSEXPORT cmsOpenProfileFromFileTHR(cmsContext ContextID, const char *lpFileName, const char *sAccess)
+// Crebte profile from disk file
+cmsHPROFILE CMSEXPORT cmsOpenProfileFromFileTHR(cmsContext ContextID, const chbr *lpFileNbme, const chbr *sAccess)
 {
     _cmsICCPROFILE* NewIcc;
-    cmsHPROFILE hEmpty = cmsCreateProfilePlaceholder(ContextID);
+    cmsHPROFILE hEmpty = cmsCrebteProfilePlbceholder(ContextID);
 
     if (hEmpty == NULL) return NULL;
 
     NewIcc = (_cmsICCPROFILE*) hEmpty;
 
-    NewIcc ->IOhandler = cmsOpenIOhandlerFromFile(ContextID, lpFileName, sAccess);
-    if (NewIcc ->IOhandler == NULL) goto Error;
+    NewIcc ->IOhbndler = cmsOpenIOhbndlerFromFile(ContextID, lpFileNbme, sAccess);
+    if (NewIcc ->IOhbndler == NULL) goto Error;
 
     if (*sAccess == 'W' || *sAccess == 'w') {
 
@@ -1031,7 +1031,7 @@ cmsHPROFILE CMSEXPORT cmsOpenProfileFromFileTHR(cmsContext ContextID, const char
         return hEmpty;
     }
 
-    if (!_cmsReadHeader(NewIcc)) goto Error;
+    if (!_cmsRebdHebder(NewIcc)) goto Error;
     return hEmpty;
 
 Error:
@@ -1040,23 +1040,23 @@ Error:
 }
 
 
-cmsHPROFILE CMSEXPORT cmsOpenProfileFromFile(const char *ICCProfile, const char *sAccess)
+cmsHPROFILE CMSEXPORT cmsOpenProfileFromFile(const chbr *ICCProfile, const chbr *sAccess)
 {
     return cmsOpenProfileFromFileTHR(NULL, ICCProfile, sAccess);
 }
 
 
-cmsHPROFILE  CMSEXPORT cmsOpenProfileFromStreamTHR(cmsContext ContextID, FILE* ICCProfile, const char *sAccess)
+cmsHPROFILE  CMSEXPORT cmsOpenProfileFromStrebmTHR(cmsContext ContextID, FILE* ICCProfile, const chbr *sAccess)
 {
     _cmsICCPROFILE* NewIcc;
-    cmsHPROFILE hEmpty = cmsCreateProfilePlaceholder(ContextID);
+    cmsHPROFILE hEmpty = cmsCrebteProfilePlbceholder(ContextID);
 
     if (hEmpty == NULL) return NULL;
 
     NewIcc = (_cmsICCPROFILE*) hEmpty;
 
-    NewIcc ->IOhandler = cmsOpenIOhandlerFromStream(ContextID, ICCProfile);
-    if (NewIcc ->IOhandler == NULL) goto Error;
+    NewIcc ->IOhbndler = cmsOpenIOhbndlerFromStrebm(ContextID, ICCProfile);
+    if (NewIcc ->IOhbndler == NULL) goto Error;
 
     if (*sAccess == 'w') {
 
@@ -1064,7 +1064,7 @@ cmsHPROFILE  CMSEXPORT cmsOpenProfileFromStreamTHR(cmsContext ContextID, FILE* I
         return hEmpty;
     }
 
-    if (!_cmsReadHeader(NewIcc)) goto Error;
+    if (!_cmsRebdHebder(NewIcc)) goto Error;
     return hEmpty;
 
 Error:
@@ -1073,9 +1073,9 @@ Error:
 
 }
 
-cmsHPROFILE  CMSEXPORT cmsOpenProfileFromStream(FILE* ICCProfile, const char *sAccess)
+cmsHPROFILE  CMSEXPORT cmsOpenProfileFromStrebm(FILE* ICCProfile, const chbr *sAccess)
 {
-    return cmsOpenProfileFromStreamTHR(NULL, ICCProfile, sAccess);
+    return cmsOpenProfileFromStrebmTHR(NULL, ICCProfile, sAccess);
 }
 
 
@@ -1085,17 +1085,17 @@ cmsHPROFILE CMSEXPORT cmsOpenProfileFromMemTHR(cmsContext ContextID, const void*
     _cmsICCPROFILE* NewIcc;
     cmsHPROFILE hEmpty;
 
-    hEmpty = cmsCreateProfilePlaceholder(ContextID);
+    hEmpty = cmsCrebteProfilePlbceholder(ContextID);
     if (hEmpty == NULL) return NULL;
 
     NewIcc = (_cmsICCPROFILE*) hEmpty;
 
-    // Ok, in this case const void* is casted to void* just because open IO handler
-    // shares read and writting modes. Don't abuse this feature!
-    NewIcc ->IOhandler = cmsOpenIOhandlerFromMem(ContextID, (void*) MemPtr, dwSize, "r");
-    if (NewIcc ->IOhandler == NULL) goto Error;
+    // Ok, in this cbse const void* is cbsted to void* just becbuse open IO hbndler
+    // shbres rebd bnd writting modes. Don't bbuse this febture!
+    NewIcc ->IOhbndler = cmsOpenIOhbndlerFromMem(ContextID, (void*) MemPtr, dwSize, "r");
+    if (NewIcc ->IOhbndler == NULL) goto Error;
 
-    if (!_cmsReadHeader(NewIcc)) goto Error;
+    if (!_cmsRebdHebder(NewIcc)) goto Error;
 
     return hEmpty;
 
@@ -1109,8 +1109,8 @@ cmsHPROFILE CMSEXPORT cmsOpenProfileFromMem(const void* MemPtr, cmsUInt32Number 
     return cmsOpenProfileFromMemTHR(NULL, MemPtr, dwSize);
 }
 
-static
-cmsBool SanityCheck(_cmsICCPROFILE* profile)
+stbtic
+cmsBool SbnityCheck(_cmsICCPROFILE* profile)
 {
     cmsIOHANDLER* io;
 
@@ -1118,7 +1118,7 @@ cmsBool SanityCheck(_cmsICCPROFILE* profile)
         return FALSE;
     }
 
-    io = profile->IOhandler;
+    io = profile->IOhbndler;
     if (!io) {
         return FALSE;
     }
@@ -1128,8 +1128,8 @@ cmsBool SanityCheck(_cmsICCPROFILE* profile)
     {
         return FALSE;
     }
-    if (!io->Read ||
-        !(io->Read==NULLRead || io->Read==MemoryRead || io->Read==FileRead))
+    if (!io->Rebd ||
+        !(io->Rebd==NULLRebd || io->Rebd==MemoryRebd || io->Rebd==FileRebd))
     {
         return FALSE;
     }
@@ -1137,55 +1137,55 @@ cmsBool SanityCheck(_cmsICCPROFILE* profile)
     return TRUE;
 }
 
-// Dump tag contents. If the profile is being modified, untouched tags are copied from FileOrig
-static
-cmsBool SaveTags(_cmsICCPROFILE* Icc, _cmsICCPROFILE* FileOrig)
+// Dump tbg contents. If the profile is being modified, untouched tbgs bre copied from FileOrig
+stbtic
+cmsBool SbveTbgs(_cmsICCPROFILE* Icc, _cmsICCPROFILE* FileOrig)
 {
-    cmsUInt8Number* Data;
+    cmsUInt8Number* Dbtb;
     cmsUInt32Number i;
     cmsUInt32Number Begin;
-    cmsIOHANDLER* io = Icc ->IOhandler;
-    cmsTagDescriptor* TagDescriptor;
-    cmsTagTypeSignature TypeBase;
-    cmsTagTypeSignature Type;
-    cmsTagTypeHandler* TypeHandler;
-    cmsFloat64Number   Version = cmsGetProfileVersion((cmsHPROFILE) Icc);
-    cmsTagTypeHandler LocalTypeHandler;
+    cmsIOHANDLER* io = Icc ->IOhbndler;
+    cmsTbgDescriptor* TbgDescriptor;
+    cmsTbgTypeSignbture TypeBbse;
+    cmsTbgTypeSignbture Type;
+    cmsTbgTypeHbndler* TypeHbndler;
+    cmsFlobt64Number   Version = cmsGetProfileVersion((cmsHPROFILE) Icc);
+    cmsTbgTypeHbndler LocblTypeHbndler;
 
-    for (i=0; i < Icc -> TagCount; i++) {
+    for (i=0; i < Icc -> TbgCount; i++) {
 
-        if (Icc ->TagNames[i] == 0) continue;
+        if (Icc ->TbgNbmes[i] == 0) continue;
 
-        // Linked tags are not written
-        if (Icc ->TagLinked[i] != (cmsTagSignature) 0) continue;
+        // Linked tbgs bre not written
+        if (Icc ->TbgLinked[i] != (cmsTbgSignbture) 0) continue;
 
-        Icc -> TagOffsets[i] = Begin = io ->UsedSpace;
+        Icc -> TbgOffsets[i] = Begin = io ->UsedSpbce;
 
-        Data = (cmsUInt8Number*)  Icc -> TagPtrs[i];
+        Dbtb = (cmsUInt8Number*)  Icc -> TbgPtrs[i];
 
-        if (!Data) {
+        if (!Dbtb) {
 
-            // Reach here if we are copying a tag from a disk-based ICC profile which has not been modified by user.
-            // In this case a blind copy of the block data is performed
-            if (SanityCheck(FileOrig) && Icc -> TagOffsets[i]) {
+            // Rebch here if we bre copying b tbg from b disk-bbsed ICC profile which hbs not been modified by user.
+            // In this cbse b blind copy of the block dbtb is performed
+            if (SbnityCheck(FileOrig) && Icc -> TbgOffsets[i]) {
 
-                cmsUInt32Number TagSize   = FileOrig -> TagSizes[i];
-                cmsUInt32Number TagOffset = FileOrig -> TagOffsets[i];
+                cmsUInt32Number TbgSize   = FileOrig -> TbgSizes[i];
+                cmsUInt32Number TbgOffset = FileOrig -> TbgOffsets[i];
                 void* Mem;
 
-                if (!FileOrig ->IOhandler->Seek(FileOrig ->IOhandler, TagOffset)) return FALSE;
+                if (!FileOrig ->IOhbndler->Seek(FileOrig ->IOhbndler, TbgOffset)) return FALSE;
 
-                Mem = _cmsMalloc(Icc ->ContextID, TagSize);
+                Mem = _cmsMblloc(Icc ->ContextID, TbgSize);
                 if (Mem == NULL) return FALSE;
 
-                if (FileOrig ->IOhandler->Read(FileOrig->IOhandler, Mem, TagSize, 1) != 1) return FALSE;
-                if (!io ->Write(io, TagSize, Mem)) return FALSE;
+                if (FileOrig ->IOhbndler->Rebd(FileOrig->IOhbndler, Mem, TbgSize, 1) != 1) return FALSE;
+                if (!io ->Write(io, TbgSize, Mem)) return FALSE;
                 _cmsFree(Icc ->ContextID, Mem);
 
-                Icc -> TagSizes[i] = (io ->UsedSpace - Begin);
+                Icc -> TbgSizes[i] = (io ->UsedSpbce - Begin);
 
 
-                // Align to 32 bit boundary.
+                // Align to 32 bit boundbry.
                 if (! _cmsWriteAlignment(io))
                     return FALSE;
             }
@@ -1194,54 +1194,54 @@ cmsBool SaveTags(_cmsICCPROFILE* Icc, _cmsICCPROFILE* FileOrig)
         }
 
 
-        // Should this tag be saved as RAW? If so, tagsizes should be specified in advance (no further cooking is done)
-        if (Icc ->TagSaveAsRaw[i]) {
+        // Should this tbg be sbved bs RAW? If so, tbgsizes should be specified in bdvbnce (no further cooking is done)
+        if (Icc ->TbgSbveAsRbw[i]) {
 
-            if (io -> Write(io, Icc ->TagSizes[i], Data) != 1) return FALSE;
+            if (io -> Write(io, Icc ->TbgSizes[i], Dbtb) != 1) return FALSE;
         }
         else {
 
-            // Search for support on this tag
-            TagDescriptor = _cmsGetTagDescriptor(Icc -> TagNames[i]);
-            if (TagDescriptor == NULL) continue;                        // Unsupported, ignore it
+            // Sebrch for support on this tbg
+            TbgDescriptor = _cmsGetTbgDescriptor(Icc -> TbgNbmes[i]);
+            if (TbgDescriptor == NULL) continue;                        // Unsupported, ignore it
 
-            if (TagDescriptor ->DecideType != NULL) {
+            if (TbgDescriptor ->DecideType != NULL) {
 
-                Type = TagDescriptor ->DecideType(Version, Data);
+                Type = TbgDescriptor ->DecideType(Version, Dbtb);
             }
             else {
 
-                Type = TagDescriptor ->SupportedTypes[0];
+                Type = TbgDescriptor ->SupportedTypes[0];
             }
 
-            TypeHandler =  _cmsGetTagTypeHandler(Type);
+            TypeHbndler =  _cmsGetTbgTypeHbndler(Type);
 
-            if (TypeHandler == NULL) {
-                cmsSignalError(Icc ->ContextID, cmsERROR_INTERNAL, "(Internal) no handler for tag %x", Icc -> TagNames[i]);
+            if (TypeHbndler == NULL) {
+                cmsSignblError(Icc ->ContextID, cmsERROR_INTERNAL, "(Internbl) no hbndler for tbg %x", Icc -> TbgNbmes[i]);
                 continue;
             }
 
-            TypeBase = TypeHandler ->Signature;
-            if (!_cmsWriteTypeBase(io, TypeBase))
+            TypeBbse = TypeHbndler ->Signbture;
+            if (!_cmsWriteTypeBbse(io, TypeBbse))
                 return FALSE;
 
-            LocalTypeHandler = *TypeHandler;
-            LocalTypeHandler.ContextID  = Icc ->ContextID;
-            LocalTypeHandler.ICCVersion = Icc ->Version;
-            if (!LocalTypeHandler.WritePtr(&LocalTypeHandler, io, Data, TagDescriptor ->ElemCount)) {
+            LocblTypeHbndler = *TypeHbndler;
+            LocblTypeHbndler.ContextID  = Icc ->ContextID;
+            LocblTypeHbndler.ICCVersion = Icc ->Version;
+            if (!LocblTypeHbndler.WritePtr(&LocblTypeHbndler, io, Dbtb, TbgDescriptor ->ElemCount)) {
 
-                char String[5];
+                chbr String[5];
 
-                _cmsTagSignature2String(String, (cmsTagSignature) TypeBase);
-                cmsSignalError(Icc ->ContextID, cmsERROR_WRITE, "Couldn't write type '%s'", String);
+                _cmsTbgSignbture2String(String, (cmsTbgSignbture) TypeBbse);
+                cmsSignblError(Icc ->ContextID, cmsERROR_WRITE, "Couldn't write type '%s'", String);
                 return FALSE;
             }
         }
 
 
-        Icc -> TagSizes[i] = (io ->UsedSpace - Begin);
+        Icc -> TbgSizes[i] = (io ->UsedSpbce - Begin);
 
-        // Align to 32 bit boundary.
+        // Align to 32 bit boundbry.
         if (! _cmsWriteAlignment(io))
             return FALSE;
     }
@@ -1251,22 +1251,22 @@ cmsBool SaveTags(_cmsICCPROFILE* Icc, _cmsICCPROFILE* FileOrig)
 }
 
 
-// Fill the offset and size fields for all linked tags
-static
+// Fill the offset bnd size fields for bll linked tbgs
+stbtic
 cmsBool SetLinks( _cmsICCPROFILE* Icc)
 {
     cmsUInt32Number i;
 
-    for (i=0; i < Icc -> TagCount; i++) {
+    for (i=0; i < Icc -> TbgCount; i++) {
 
-        cmsTagSignature lnk = Icc ->TagLinked[i];
-        if (lnk != (cmsTagSignature) 0) {
+        cmsTbgSignbture lnk = Icc ->TbgLinked[i];
+        if (lnk != (cmsTbgSignbture) 0) {
 
-            int j = _cmsSearchTag(Icc, lnk, FALSE);
+            int j = _cmsSebrchTbg(Icc, lnk, FALSE);
             if (j >= 0) {
 
-                Icc ->TagOffsets[i] = Icc ->TagOffsets[j];
-                Icc ->TagSizes[i]   = Icc ->TagSizes[j];
+                Icc ->TbgOffsets[i] = Icc ->TbgOffsets[j];
+                Icc ->TbgSizes[i]   = Icc ->TbgSizes[j];
             }
 
         }
@@ -1275,113 +1275,113 @@ cmsBool SetLinks( _cmsICCPROFILE* Icc)
     return TRUE;
 }
 
-// Low-level save to IOHANDLER. It returns the number of bytes used to
-// store the profile, or zero on error. io may be NULL and in this case
-// no data is written--only sizes are calculated
-cmsUInt32Number CMSEXPORT cmsSaveProfileToIOhandler(cmsHPROFILE hProfile, cmsIOHANDLER* io)
+// Low-level sbve to IOHANDLER. It returns the number of bytes used to
+// store the profile, or zero on error. io mby be NULL bnd in this cbse
+// no dbtb is written--only sizes bre cblculbted
+cmsUInt32Number CMSEXPORT cmsSbveProfileToIOhbndler(cmsHPROFILE hProfile, cmsIOHANDLER* io)
 {
     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
     _cmsICCPROFILE Keep;
     cmsIOHANDLER* PrevIO;
-    cmsUInt32Number UsedSpace;
+    cmsUInt32Number UsedSpbce;
     cmsContext ContextID;
 
     memmove(&Keep, Icc, sizeof(_cmsICCPROFILE));
 
     ContextID = cmsGetProfileContextID(hProfile);
-    PrevIO = Icc ->IOhandler = cmsOpenIOhandlerFromNULL(ContextID);
+    PrevIO = Icc ->IOhbndler = cmsOpenIOhbndlerFromNULL(ContextID);
     if (PrevIO == NULL) return 0;
 
-    // Pass #1 does compute offsets
+    // Pbss #1 does compute offsets
 
-    if (!_cmsWriteHeader(Icc, 0)) return 0;
-    if (!SaveTags(Icc, &Keep)) return 0;
+    if (!_cmsWriteHebder(Icc, 0)) return 0;
+    if (!SbveTbgs(Icc, &Keep)) return 0;
 
-    UsedSpace = PrevIO ->UsedSpace;
+    UsedSpbce = PrevIO ->UsedSpbce;
 
-    // Pass #2 does save to iohandler
+    // Pbss #2 does sbve to iohbndler
 
     if (io != NULL) {
-        Icc ->IOhandler = io;
-        if (!SetLinks(Icc)) goto CleanUp;
-        if (!_cmsWriteHeader(Icc, UsedSpace)) goto CleanUp;
-        if (!SaveTags(Icc, &Keep)) goto CleanUp;
+        Icc ->IOhbndler = io;
+        if (!SetLinks(Icc)) goto ClebnUp;
+        if (!_cmsWriteHebder(Icc, UsedSpbce)) goto ClebnUp;
+        if (!SbveTbgs(Icc, &Keep)) goto ClebnUp;
     }
 
     memmove(Icc, &Keep, sizeof(_cmsICCPROFILE));
-    if (!cmsCloseIOhandler(PrevIO)) return 0;
+    if (!cmsCloseIOhbndler(PrevIO)) return 0;
 
-    return UsedSpace;
+    return UsedSpbce;
 
 
-CleanUp:
-    cmsCloseIOhandler(PrevIO);
+ClebnUp:
+    cmsCloseIOhbndler(PrevIO);
     memmove(Icc, &Keep, sizeof(_cmsICCPROFILE));
     return 0;
 }
 
 
-// Low-level save to disk.
-cmsBool  CMSEXPORT cmsSaveProfileToFile(cmsHPROFILE hProfile, const char* FileName)
+// Low-level sbve to disk.
+cmsBool  CMSEXPORT cmsSbveProfileToFile(cmsHPROFILE hProfile, const chbr* FileNbme)
 {
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
-    cmsIOHANDLER* io = cmsOpenIOhandlerFromFile(ContextID, FileName, "w");
+    cmsIOHANDLER* io = cmsOpenIOhbndlerFromFile(ContextID, FileNbme, "w");
     cmsBool rc;
 
     if (io == NULL) return FALSE;
 
-    rc = (cmsSaveProfileToIOhandler(hProfile, io) != 0);
-    rc &= cmsCloseIOhandler(io);
+    rc = (cmsSbveProfileToIOhbndler(hProfile, io) != 0);
+    rc &= cmsCloseIOhbndler(io);
 
     if (rc == FALSE) {          // remove() is C99 per 7.19.4.1
-            remove(FileName);   // We have to IGNORE return value in this case
+            remove(FileNbme);   // We hbve to IGNORE return vblue in this cbse
     }
     return rc;
 }
 
-// Same as anterior, but for streams
-cmsBool CMSEXPORT cmsSaveProfileToStream(cmsHPROFILE hProfile, FILE* Stream)
+// Sbme bs bnterior, but for strebms
+cmsBool CMSEXPORT cmsSbveProfileToStrebm(cmsHPROFILE hProfile, FILE* Strebm)
 {
     cmsBool rc;
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
-    cmsIOHANDLER* io = cmsOpenIOhandlerFromStream(ContextID, Stream);
+    cmsIOHANDLER* io = cmsOpenIOhbndlerFromStrebm(ContextID, Strebm);
 
     if (io == NULL) return FALSE;
 
-    rc = (cmsSaveProfileToIOhandler(hProfile, io) != 0);
-    rc &= cmsCloseIOhandler(io);
+    rc = (cmsSbveProfileToIOhbndler(hProfile, io) != 0);
+    rc &= cmsCloseIOhbndler(io);
 
     return rc;
 }
 
 
-// Same as anterior, but for memory blocks. In this case, a NULL as MemPtr means calculate needed space only
-cmsBool CMSEXPORT cmsSaveProfileToMem(cmsHPROFILE hProfile, void *MemPtr, cmsUInt32Number* BytesNeeded)
+// Sbme bs bnterior, but for memory blocks. In this cbse, b NULL bs MemPtr mebns cblculbte needed spbce only
+cmsBool CMSEXPORT cmsSbveProfileToMem(cmsHPROFILE hProfile, void *MemPtr, cmsUInt32Number* BytesNeeded)
 {
     cmsBool rc;
     cmsIOHANDLER* io;
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
 
-    // Should we just calculate the needed space?
+    // Should we just cblculbte the needed spbce?
     if (MemPtr == NULL) {
 
-           *BytesNeeded =  cmsSaveProfileToIOhandler(hProfile, NULL);
+           *BytesNeeded =  cmsSbveProfileToIOhbndler(hProfile, NULL);
             return (*BytesNeeded == 0 ? FALSE : TRUE);
     }
 
-    // That is a real write operation
-    io =  cmsOpenIOhandlerFromMem(ContextID, MemPtr, *BytesNeeded, "w");
+    // Thbt is b rebl write operbtion
+    io =  cmsOpenIOhbndlerFromMem(ContextID, MemPtr, *BytesNeeded, "w");
     if (io == NULL) return FALSE;
 
-    rc = (cmsSaveProfileToIOhandler(hProfile, io) != 0);
-    rc &= cmsCloseIOhandler(io);
+    rc = (cmsSbveProfileToIOhbndler(hProfile, io) != 0);
+    rc &= cmsCloseIOhbndler(io);
 
     return rc;
 }
 
 
 
-// Closes a profile freeing any involved resources
+// Closes b profile freeing bny involved resources
 cmsBool  CMSEXPORT cmsCloseProfile(cmsHPROFILE hProfile)
 {
     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
@@ -1390,36 +1390,36 @@ cmsBool  CMSEXPORT cmsCloseProfile(cmsHPROFILE hProfile)
 
     if (!Icc) return FALSE;
 
-    // Was open in write mode?
+    // Wbs open in write mode?
     if (Icc ->IsWrite) {
 
         Icc ->IsWrite = FALSE;      // Assure no further writting
-        rc &= cmsSaveProfileToFile(hProfile, Icc ->IOhandler->PhysicalFile);
+        rc &= cmsSbveProfileToFile(hProfile, Icc ->IOhbndler->PhysicblFile);
     }
 
-    for (i=0; i < Icc -> TagCount; i++) {
+    for (i=0; i < Icc -> TbgCount; i++) {
 
-        if (Icc -> TagPtrs[i]) {
+        if (Icc -> TbgPtrs[i]) {
 
-            cmsTagTypeHandler* TypeHandler = Icc ->TagTypeHandlers[i];
+            cmsTbgTypeHbndler* TypeHbndler = Icc ->TbgTypeHbndlers[i];
 
-            if (TypeHandler != NULL) {
-                cmsTagTypeHandler LocalTypeHandler = *TypeHandler;
+            if (TypeHbndler != NULL) {
+                cmsTbgTypeHbndler LocblTypeHbndler = *TypeHbndler;
 
-                LocalTypeHandler.ContextID = Icc ->ContextID;              // As an additional parameters
-                LocalTypeHandler.ICCVersion = Icc ->Version;
-                LocalTypeHandler.FreePtr(&LocalTypeHandler, Icc -> TagPtrs[i]);
+                LocblTypeHbndler.ContextID = Icc ->ContextID;              // As bn bdditionbl pbrbmeters
+                LocblTypeHbndler.ICCVersion = Icc ->Version;
+                LocblTypeHbndler.FreePtr(&LocblTypeHbndler, Icc -> TbgPtrs[i]);
             }
             else
-                _cmsFree(Icc ->ContextID, Icc ->TagPtrs[i]);
+                _cmsFree(Icc ->ContextID, Icc ->TbgPtrs[i]);
         }
     }
 
-    if (Icc ->IOhandler != NULL) {
-        rc &= cmsCloseIOhandler(Icc->IOhandler);
+    if (Icc ->IOhbndler != NULL) {
+        rc &= cmsCloseIOhbndler(Icc->IOhbndler);
     }
 
-    _cmsFree(Icc ->ContextID, Icc);   // Free placeholder memory
+    _cmsFree(Icc ->ContextID, Icc);   // Free plbceholder memory
 
     return rc;
 }
@@ -1428,193 +1428,193 @@ cmsBool  CMSEXPORT cmsCloseProfile(cmsHPROFILE hProfile)
 // -------------------------------------------------------------------------------------------------------------------
 
 
-// Returns TRUE if a given tag is supported by a plug-in
-static
-cmsBool IsTypeSupported(cmsTagDescriptor* TagDescriptor, cmsTagTypeSignature Type)
+// Returns TRUE if b given tbg is supported by b plug-in
+stbtic
+cmsBool IsTypeSupported(cmsTbgDescriptor* TbgDescriptor, cmsTbgTypeSignbture Type)
 {
-    cmsUInt32Number i, nMaxTypes;
+    cmsUInt32Number i, nMbxTypes;
 
-    nMaxTypes = TagDescriptor->nSupportedTypes;
-    if (nMaxTypes >= MAX_TYPES_IN_LCMS_PLUGIN)
-        nMaxTypes = MAX_TYPES_IN_LCMS_PLUGIN;
+    nMbxTypes = TbgDescriptor->nSupportedTypes;
+    if (nMbxTypes >= MAX_TYPES_IN_LCMS_PLUGIN)
+        nMbxTypes = MAX_TYPES_IN_LCMS_PLUGIN;
 
-    for (i=0; i < nMaxTypes; i++) {
-        if (Type == TagDescriptor ->SupportedTypes[i]) return TRUE;
+    for (i=0; i < nMbxTypes; i++) {
+        if (Type == TbgDescriptor ->SupportedTypes[i]) return TRUE;
     }
 
     return FALSE;
 }
 
 
-// That's the main read function
-void* CMSEXPORT cmsReadTag(cmsHPROFILE hProfile, cmsTagSignature sig)
+// Thbt's the mbin rebd function
+void* CMSEXPORT cmsRebdTbg(cmsHPROFILE hProfile, cmsTbgSignbture sig)
 {
     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-    cmsIOHANDLER* io = Icc ->IOhandler;
-    cmsTagTypeHandler* TypeHandler;
-    cmsTagTypeHandler LocalTypeHandler;
-    cmsTagDescriptor*  TagDescriptor;
-    cmsTagTypeSignature BaseType;
-    cmsUInt32Number Offset, TagSize;
+    cmsIOHANDLER* io = Icc ->IOhbndler;
+    cmsTbgTypeHbndler* TypeHbndler;
+    cmsTbgTypeHbndler LocblTypeHbndler;
+    cmsTbgDescriptor*  TbgDescriptor;
+    cmsTbgTypeSignbture BbseType;
+    cmsUInt32Number Offset, TbgSize;
     cmsUInt32Number ElemCount;
     int n;
 
-    n = _cmsSearchTag(Icc, sig, TRUE);
+    n = _cmsSebrchTbg(Icc, sig, TRUE);
     if (n < 0) return NULL;                 // Not found, return NULL
 
 
-    // If the element is already in memory, return the pointer
-    if (Icc -> TagPtrs[n]) {
+    // If the element is blrebdy in memory, return the pointer
+    if (Icc -> TbgPtrs[n]) {
 
-        if (Icc ->TagSaveAsRaw[n]) return NULL;  // We don't support read raw tags as cooked
-        return Icc -> TagPtrs[n];
+        if (Icc ->TbgSbveAsRbw[n]) return NULL;  // We don't support rebd rbw tbgs bs cooked
+        return Icc -> TbgPtrs[n];
     }
 
-    // We need to read it. Get the offset and size to the file
-    Offset    = Icc -> TagOffsets[n];
-    TagSize   = Icc -> TagSizes[n];
+    // We need to rebd it. Get the offset bnd size to the file
+    Offset    = Icc -> TbgOffsets[n];
+    TbgSize   = Icc -> TbgSizes[n];
 
-    // Seek to its location
+    // Seek to its locbtion
     if (!io -> Seek(io, Offset))
         return NULL;
 
-    // Search for support on this tag
-    TagDescriptor = _cmsGetTagDescriptor(sig);
-    if (TagDescriptor == NULL) return NULL;     // Unsupported.
+    // Sebrch for support on this tbg
+    TbgDescriptor = _cmsGetTbgDescriptor(sig);
+    if (TbgDescriptor == NULL) return NULL;     // Unsupported.
 
-    // if supported, get type and check if in list
-    BaseType = _cmsReadTypeBase(io);
-    if (BaseType == 0) return NULL;
+    // if supported, get type bnd check if in list
+    BbseType = _cmsRebdTypeBbse(io);
+    if (BbseType == 0) return NULL;
 
-    if (!IsTypeSupported(TagDescriptor, BaseType)) return NULL;
+    if (!IsTypeSupported(TbgDescriptor, BbseType)) return NULL;
 
-    TagSize  -= 8;                      // Alredy read by the type base logic
+    TbgSize  -= 8;                      // Alredy rebd by the type bbse logic
 
-    // Get type handler
-    TypeHandler = _cmsGetTagTypeHandler(BaseType);
-    if (TypeHandler == NULL) return NULL;
-    LocalTypeHandler = *TypeHandler;
+    // Get type hbndler
+    TypeHbndler = _cmsGetTbgTypeHbndler(BbseType);
+    if (TypeHbndler == NULL) return NULL;
+    LocblTypeHbndler = *TypeHbndler;
 
 
-    // Read the tag
-    Icc -> TagTypeHandlers[n] = TypeHandler;
+    // Rebd the tbg
+    Icc -> TbgTypeHbndlers[n] = TypeHbndler;
 
-    LocalTypeHandler.ContextID = Icc ->ContextID;
-    LocalTypeHandler.ICCVersion = Icc ->Version;
-    Icc -> TagPtrs[n] = LocalTypeHandler.ReadPtr(&LocalTypeHandler, io, &ElemCount, TagSize);
+    LocblTypeHbndler.ContextID = Icc ->ContextID;
+    LocblTypeHbndler.ICCVersion = Icc ->Version;
+    Icc -> TbgPtrs[n] = LocblTypeHbndler.RebdPtr(&LocblTypeHbndler, io, &ElemCount, TbgSize);
 
-    // The tag type is supported, but something wrong happend and we cannot read the tag.
-    // let know the user about this (although it is just a warning)
-    if (Icc -> TagPtrs[n] == NULL) {
+    // The tbg type is supported, but something wrong hbppend bnd we cbnnot rebd the tbg.
+    // let know the user bbout this (blthough it is just b wbrning)
+    if (Icc -> TbgPtrs[n] == NULL) {
 
-        char String[5];
+        chbr String[5];
 
-        _cmsTagSignature2String(String, sig);
-        cmsSignalError(Icc ->ContextID, cmsERROR_CORRUPTION_DETECTED, "Corrupted tag '%s'", String);
+        _cmsTbgSignbture2String(String, sig);
+        cmsSignblError(Icc ->ContextID, cmsERROR_CORRUPTION_DETECTED, "Corrupted tbg '%s'", String);
         return NULL;
     }
 
-    // This is a weird error that may be a symptom of something more serious, the number of
-    // stored item is actually less than the number of required elements.
-    if (ElemCount < TagDescriptor ->ElemCount) {
+    // This is b weird error thbt mby be b symptom of something more serious, the number of
+    // stored item is bctublly less thbn the number of required elements.
+    if (ElemCount < TbgDescriptor ->ElemCount) {
 
-        char String[5];
+        chbr String[5];
 
-        _cmsTagSignature2String(String, sig);
-        cmsSignalError(Icc ->ContextID, cmsERROR_CORRUPTION_DETECTED, "'%s' Inconsistent number of items: expected %d, got %d",
-            String, TagDescriptor ->ElemCount, ElemCount);
+        _cmsTbgSignbture2String(String, sig);
+        cmsSignblError(Icc ->ContextID, cmsERROR_CORRUPTION_DETECTED, "'%s' Inconsistent number of items: expected %d, got %d",
+            String, TbgDescriptor ->ElemCount, ElemCount);
     }
 
 
-    // Return the data
-    return Icc -> TagPtrs[n];
+    // Return the dbtb
+    return Icc -> TbgPtrs[n];
 }
 
 
-// Get true type of data
-cmsTagTypeSignature _cmsGetTagTrueType(cmsHPROFILE hProfile, cmsTagSignature sig)
+// Get true type of dbtb
+cmsTbgTypeSignbture _cmsGetTbgTrueType(cmsHPROFILE hProfile, cmsTbgSignbture sig)
 {
     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-    cmsTagTypeHandler* TypeHandler;
+    cmsTbgTypeHbndler* TypeHbndler;
     int n;
 
-    // Search for given tag in ICC profile directory
-    n = _cmsSearchTag(Icc, sig, TRUE);
-    if (n < 0) return (cmsTagTypeSignature) 0;                // Not found, return NULL
+    // Sebrch for given tbg in ICC profile directory
+    n = _cmsSebrchTbg(Icc, sig, TRUE);
+    if (n < 0) return (cmsTbgTypeSignbture) 0;                // Not found, return NULL
 
-    // Get the handler. The true type is there
-    TypeHandler =  Icc -> TagTypeHandlers[n];
-    return TypeHandler ->Signature;
+    // Get the hbndler. The true type is there
+    TypeHbndler =  Icc -> TbgTypeHbndlers[n];
+    return TypeHbndler ->Signbture;
 }
 
 
-// Write a single tag. This just keeps track of the tak into a list of "to be written". If the tag is already
-// in that list, the previous version is deleted.
-cmsBool CMSEXPORT cmsWriteTag(cmsHPROFILE hProfile, cmsTagSignature sig, const void* data)
+// Write b single tbg. This just keeps trbck of the tbk into b list of "to be written". If the tbg is blrebdy
+// in thbt list, the previous version is deleted.
+cmsBool CMSEXPORT cmsWriteTbg(cmsHPROFILE hProfile, cmsTbgSignbture sig, const void* dbtb)
 {
     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-    cmsTagTypeHandler* TypeHandler = NULL;
-    cmsTagTypeHandler LocalTypeHandler;
-    cmsTagDescriptor* TagDescriptor = NULL;
-    cmsTagTypeSignature Type;
+    cmsTbgTypeHbndler* TypeHbndler = NULL;
+    cmsTbgTypeHbndler LocblTypeHbndler;
+    cmsTbgDescriptor* TbgDescriptor = NULL;
+    cmsTbgTypeSignbture Type;
     int i;
-    cmsFloat64Number Version;
-    char TypeString[5], SigString[5];
+    cmsFlobt64Number Version;
+    chbr TypeString[5], SigString[5];
 
 
-    if (data == NULL) {
+    if (dbtb == NULL) {
 
-         i = _cmsSearchTag(Icc, sig, FALSE);
+         i = _cmsSebrchTbg(Icc, sig, FALSE);
          if (i >= 0)
-             Icc ->TagNames[i] = (cmsTagSignature) 0;
-         // Unsupported by now, reserved for future ampliations (delete)
+             Icc ->TbgNbmes[i] = (cmsTbgSignbture) 0;
+         // Unsupported by now, reserved for future bmplibtions (delete)
          return FALSE;
     }
 
-    i = _cmsSearchTag(Icc, sig, FALSE);
+    i = _cmsSebrchTbg(Icc, sig, FALSE);
     if (i >=0) {
 
-        if (Icc -> TagPtrs[i] != NULL) {
+        if (Icc -> TbgPtrs[i] != NULL) {
 
-            // Already exists. Free previous version
-            if (Icc ->TagSaveAsRaw[i]) {
-                _cmsFree(Icc ->ContextID, Icc ->TagPtrs[i]);
+            // Alrebdy exists. Free previous version
+            if (Icc ->TbgSbveAsRbw[i]) {
+                _cmsFree(Icc ->ContextID, Icc ->TbgPtrs[i]);
             }
             else {
-                TypeHandler = Icc ->TagTypeHandlers[i];
+                TypeHbndler = Icc ->TbgTypeHbndlers[i];
 
-                if (TypeHandler != NULL) {
+                if (TypeHbndler != NULL) {
 
-                    LocalTypeHandler = *TypeHandler;
-                    LocalTypeHandler.ContextID = Icc ->ContextID;              // As an additional parameter
-                    LocalTypeHandler.ICCVersion = Icc ->Version;
-                    LocalTypeHandler.FreePtr(&LocalTypeHandler, Icc -> TagPtrs[i]);
+                    LocblTypeHbndler = *TypeHbndler;
+                    LocblTypeHbndler.ContextID = Icc ->ContextID;              // As bn bdditionbl pbrbmeter
+                    LocblTypeHbndler.ICCVersion = Icc ->Version;
+                    LocblTypeHbndler.FreePtr(&LocblTypeHbndler, Icc -> TbgPtrs[i]);
                 }
             }
         }
     }
     else  {
         // New one
-        i = Icc -> TagCount;
+        i = Icc -> TbgCount;
 
         if (i >= MAX_TABLE_TAG) {
-            cmsSignalError(Icc ->ContextID, cmsERROR_RANGE, "Too many tags (%d)", MAX_TABLE_TAG);
+            cmsSignblError(Icc ->ContextID, cmsERROR_RANGE, "Too mbny tbgs (%d)", MAX_TABLE_TAG);
             return FALSE;
         }
 
-        Icc -> TagCount++;
+        Icc -> TbgCount++;
     }
 
-    // This is not raw
-    Icc ->TagSaveAsRaw[i] = FALSE;
+    // This is not rbw
+    Icc ->TbgSbveAsRbw[i] = FALSE;
 
-    // This is not a link
-    Icc ->TagLinked[i] = (cmsTagSignature) 0;
+    // This is not b link
+    Icc ->TbgLinked[i] = (cmsTbgSignbture) 0;
 
-    // Get information about the TAG.
-    TagDescriptor = _cmsGetTagDescriptor(sig);
-    if (TagDescriptor == NULL){
-         cmsSignalError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported tag '%x'", sig);
+    // Get informbtion bbout the TAG.
+    TbgDescriptor = _cmsGetTbgDescriptor(sig);
+    if (TbgDescriptor == NULL){
+         cmsSignblError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported tbg '%x'", sig);
         return FALSE;
     }
 
@@ -1622,59 +1622,59 @@ cmsBool CMSEXPORT cmsWriteTag(cmsHPROFILE hProfile, cmsTagSignature sig, const v
     // Now we need to know which type to use. It depends on the version.
     Version = cmsGetProfileVersion(hProfile);
 
-    if (TagDescriptor ->DecideType != NULL) {
+    if (TbgDescriptor ->DecideType != NULL) {
 
-        // Let the tag descriptor to decide the type base on depending on
-        // the data. This is useful for example on parametric curves, where
-        // curves specified by a table cannot be saved as parametric and needs
-        // to be casted to single v2-curves, even on v4 profiles.
+        // Let the tbg descriptor to decide the type bbse on depending on
+        // the dbtb. This is useful for exbmple on pbrbmetric curves, where
+        // curves specified by b tbble cbnnot be sbved bs pbrbmetric bnd needs
+        // to be cbsted to single v2-curves, even on v4 profiles.
 
-        Type = TagDescriptor ->DecideType(Version, data);
+        Type = TbgDescriptor ->DecideType(Version, dbtb);
     }
     else {
 
 
-        Type = TagDescriptor ->SupportedTypes[0];
+        Type = TbgDescriptor ->SupportedTypes[0];
     }
 
-    // Does the tag support this type?
-    if (!IsTypeSupported(TagDescriptor, Type)) {
+    // Does the tbg support this type?
+    if (!IsTypeSupported(TbgDescriptor, Type)) {
 
-        _cmsTagSignature2String(TypeString, (cmsTagSignature) Type);
-        _cmsTagSignature2String(SigString,  sig);
+        _cmsTbgSignbture2String(TypeString, (cmsTbgSignbture) Type);
+        _cmsTbgSignbture2String(SigString,  sig);
 
-        cmsSignalError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported type '%s' for tag '%s'", TypeString, SigString);
+        cmsSignblError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported type '%s' for tbg '%s'", TypeString, SigString);
         return FALSE;
     }
 
-    // Does we have a handler for this type?
-    TypeHandler =  _cmsGetTagTypeHandler(Type);
-    if (TypeHandler == NULL) {
+    // Does we hbve b hbndler for this type?
+    TypeHbndler =  _cmsGetTbgTypeHbndler(Type);
+    if (TypeHbndler == NULL) {
 
-        _cmsTagSignature2String(TypeString, (cmsTagSignature) Type);
-        _cmsTagSignature2String(SigString,  sig);
+        _cmsTbgSignbture2String(TypeString, (cmsTbgSignbture) Type);
+        _cmsTbgSignbture2String(SigString,  sig);
 
-        cmsSignalError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported type '%s' for tag '%s'", TypeString, SigString);
-        return FALSE;           // Should never happen
+        cmsSignblError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported type '%s' for tbg '%s'", TypeString, SigString);
+        return FALSE;           // Should never hbppen
     }
 
 
     // Fill fields on icc structure
-    Icc ->TagTypeHandlers[i]  = TypeHandler;
-    Icc ->TagNames[i]         = sig;
-    Icc ->TagSizes[i]         = 0;
-    Icc ->TagOffsets[i]       = 0;
+    Icc ->TbgTypeHbndlers[i]  = TypeHbndler;
+    Icc ->TbgNbmes[i]         = sig;
+    Icc ->TbgSizes[i]         = 0;
+    Icc ->TbgOffsets[i]       = 0;
 
-    LocalTypeHandler = *TypeHandler;
-    LocalTypeHandler.ContextID  = Icc ->ContextID;
-    LocalTypeHandler.ICCVersion = Icc ->Version;
-    Icc ->TagPtrs[i]         = LocalTypeHandler.DupPtr(&LocalTypeHandler, data, TagDescriptor ->ElemCount);
+    LocblTypeHbndler = *TypeHbndler;
+    LocblTypeHbndler.ContextID  = Icc ->ContextID;
+    LocblTypeHbndler.ICCVersion = Icc ->Version;
+    Icc ->TbgPtrs[i]         = LocblTypeHbndler.DupPtr(&LocblTypeHbndler, dbtb, TbgDescriptor ->ElemCount);
 
-    if (Icc ->TagPtrs[i] == NULL)  {
+    if (Icc ->TbgPtrs[i] == NULL)  {
 
-        _cmsTagSignature2String(TypeString, (cmsTagSignature) Type);
-        _cmsTagSignature2String(SigString,  sig);
-        cmsSignalError(Icc ->ContextID, cmsERROR_CORRUPTION_DETECTED, "Malformed struct in type '%s' for tag '%s'", TypeString, SigString);
+        _cmsTbgSignbture2String(TypeString, (cmsTbgSignbture) Type);
+        _cmsTbgSignbture2String(SigString,  sig);
+        cmsSignblError(Icc ->ContextID, cmsERROR_CORRUPTION_DETECTED, "Mblformed struct in type '%s' for tbg '%s'", TypeString, SigString);
 
         return FALSE;
     }
@@ -1682,166 +1682,166 @@ cmsBool CMSEXPORT cmsWriteTag(cmsHPROFILE hProfile, cmsTagSignature sig, const v
     return TRUE;
 }
 
-// Read and write raw data. The only way those function would work and keep consistence with normal read and write
-// is to do an additional step of serialization. That means, readRaw would issue a normal read and then convert the obtained
-// data to raw bytes by using the "write" serialization logic. And vice-versa. I know this may end in situations where
-// raw data written does not exactly correspond with the raw data proposed to cmsWriteRaw data, but this approach allows
-// to write a tag as raw data and the read it as handled.
+// Rebd bnd write rbw dbtb. The only wby those function would work bnd keep consistence with normbl rebd bnd write
+// is to do bn bdditionbl step of seriblizbtion. Thbt mebns, rebdRbw would issue b normbl rebd bnd then convert the obtbined
+// dbtb to rbw bytes by using the "write" seriblizbtion logic. And vice-versb. I know this mby end in situbtions where
+// rbw dbtb written does not exbctly correspond with the rbw dbtb proposed to cmsWriteRbw dbtb, but this bpprobch bllows
+// to write b tbg bs rbw dbtb bnd the rebd it bs hbndled.
 
-cmsInt32Number CMSEXPORT cmsReadRawTag(cmsHPROFILE hProfile, cmsTagSignature sig, void* data, cmsUInt32Number BufferSize)
+cmsInt32Number CMSEXPORT cmsRebdRbwTbg(cmsHPROFILE hProfile, cmsTbgSignbture sig, void* dbtb, cmsUInt32Number BufferSize)
 {
     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
     void *Object;
     int i;
     cmsIOHANDLER* MemIO;
-    cmsTagTypeHandler* TypeHandler = NULL;
-    cmsTagTypeHandler LocalTypeHandler;
-    cmsTagDescriptor* TagDescriptor = NULL;
+    cmsTbgTypeHbndler* TypeHbndler = NULL;
+    cmsTbgTypeHbndler LocblTypeHbndler;
+    cmsTbgDescriptor* TbgDescriptor = NULL;
     cmsUInt32Number rc;
-    cmsUInt32Number Offset, TagSize;
+    cmsUInt32Number Offset, TbgSize;
 
-    // Search for given tag in ICC profile directory
-    i = _cmsSearchTag(Icc, sig, TRUE);
+    // Sebrch for given tbg in ICC profile directory
+    i = _cmsSebrchTbg(Icc, sig, TRUE);
     if (i < 0) return 0;                 // Not found, return 0
 
-    // It is already read?
-    if (Icc -> TagPtrs[i] == NULL) {
+    // It is blrebdy rebd?
+    if (Icc -> TbgPtrs[i] == NULL) {
 
-        // No yet, get original position
-        Offset   = Icc ->TagOffsets[i];
-        TagSize  = Icc ->TagSizes[i];
+        // No yet, get originbl position
+        Offset   = Icc ->TbgOffsets[i];
+        TbgSize  = Icc ->TbgSizes[i];
 
-        // read the data directly, don't keep copy
-        if (data != NULL) {
+        // rebd the dbtb directly, don't keep copy
+        if (dbtb != NULL) {
 
-            if (BufferSize < TagSize)
-                TagSize = BufferSize;
+            if (BufferSize < TbgSize)
+                TbgSize = BufferSize;
 
-            if (!Icc ->IOhandler ->Seek(Icc ->IOhandler, Offset)) return 0;
-            if (!Icc ->IOhandler ->Read(Icc ->IOhandler, data, 1, TagSize)) return 0;
+            if (!Icc ->IOhbndler ->Seek(Icc ->IOhbndler, Offset)) return 0;
+            if (!Icc ->IOhbndler ->Rebd(Icc ->IOhbndler, dbtb, 1, TbgSize)) return 0;
 
-            return TagSize;
+            return TbgSize;
         }
 
-        return Icc ->TagSizes[i];
+        return Icc ->TbgSizes[i];
     }
 
-    // The data has been already read, or written. But wait!, maybe the user choosed to save as
-    // raw data. In this case, return the raw data directly
-    if (Icc ->TagSaveAsRaw[i]) {
+    // The dbtb hbs been blrebdy rebd, or written. But wbit!, mbybe the user choosed to sbve bs
+    // rbw dbtb. In this cbse, return the rbw dbtb directly
+    if (Icc ->TbgSbveAsRbw[i]) {
 
-        if (data != NULL)  {
+        if (dbtb != NULL)  {
 
-            TagSize  = Icc ->TagSizes[i];
-            if (BufferSize < TagSize)
-                TagSize = BufferSize;
+            TbgSize  = Icc ->TbgSizes[i];
+            if (BufferSize < TbgSize)
+                TbgSize = BufferSize;
 
-            memmove(data, Icc ->TagPtrs[i], TagSize);
+            memmove(dbtb, Icc ->TbgPtrs[i], TbgSize);
 
-            return TagSize;
+            return TbgSize;
         }
 
-        return Icc ->TagSizes[i];
+        return Icc ->TbgSizes[i];
     }
 
-    // Already readed, or previously set by cmsWriteTag(). We need to serialize that
-    // data to raw in order to maintain consistency.
-    Object = cmsReadTag(hProfile, sig);
+    // Alrebdy rebded, or previously set by cmsWriteTbg(). We need to seriblize thbt
+    // dbtb to rbw in order to mbintbin consistency.
+    Object = cmsRebdTbg(hProfile, sig);
     if (Object == NULL) return 0;
 
-    // Now we need to serialize to a memory block: just use a memory iohandler
+    // Now we need to seriblize to b memory block: just use b memory iohbndler
 
-    if (data == NULL) {
-        MemIO = cmsOpenIOhandlerFromNULL(cmsGetProfileContextID(hProfile));
+    if (dbtb == NULL) {
+        MemIO = cmsOpenIOhbndlerFromNULL(cmsGetProfileContextID(hProfile));
     } else{
-        MemIO = cmsOpenIOhandlerFromMem(cmsGetProfileContextID(hProfile), data, BufferSize, "w");
+        MemIO = cmsOpenIOhbndlerFromMem(cmsGetProfileContextID(hProfile), dbtb, BufferSize, "w");
     }
     if (MemIO == NULL) return 0;
 
-    // Obtain type handling for the tag
-    TypeHandler = Icc ->TagTypeHandlers[i];
-    TagDescriptor = _cmsGetTagDescriptor(sig);
-    if (TagDescriptor == NULL) {
-        cmsCloseIOhandler(MemIO);
+    // Obtbin type hbndling for the tbg
+    TypeHbndler = Icc ->TbgTypeHbndlers[i];
+    TbgDescriptor = _cmsGetTbgDescriptor(sig);
+    if (TbgDescriptor == NULL) {
+        cmsCloseIOhbndler(MemIO);
         return 0;
     }
 
-    // FIXME: No handling for TypeHandler == NULL here?
-    // Serialize
-    LocalTypeHandler = *TypeHandler;
-    LocalTypeHandler.ContextID  = Icc ->ContextID;
-    LocalTypeHandler.ICCVersion = Icc ->Version;
+    // FIXME: No hbndling for TypeHbndler == NULL here?
+    // Seriblize
+    LocblTypeHbndler = *TypeHbndler;
+    LocblTypeHbndler.ContextID  = Icc ->ContextID;
+    LocblTypeHbndler.ICCVersion = Icc ->Version;
 
-    if (!_cmsWriteTypeBase(MemIO, TypeHandler ->Signature)) {
-        cmsCloseIOhandler(MemIO);
+    if (!_cmsWriteTypeBbse(MemIO, TypeHbndler ->Signbture)) {
+        cmsCloseIOhbndler(MemIO);
         return 0;
     }
 
-    if (!LocalTypeHandler.WritePtr(&LocalTypeHandler, MemIO, Object, TagDescriptor ->ElemCount)) {
-        cmsCloseIOhandler(MemIO);
+    if (!LocblTypeHbndler.WritePtr(&LocblTypeHbndler, MemIO, Object, TbgDescriptor ->ElemCount)) {
+        cmsCloseIOhbndler(MemIO);
         return 0;
     }
 
-    // Get Size and close
+    // Get Size bnd close
     rc = MemIO ->Tell(MemIO);
-    cmsCloseIOhandler(MemIO);      // Ignore return code this time
+    cmsCloseIOhbndler(MemIO);      // Ignore return code this time
 
     return rc;
 }
 
-// Similar to the anterior. This function allows to write directly to the ICC profile any data, without
-// checking anything. As a rule, mixing Raw with cooked doesn't work, so writting a tag as raw and then reading
-// it as cooked without serializing does result into an error. If that is wha you want, you will need to dump
-// the profile to memry or disk and then reopen it.
-cmsBool CMSEXPORT cmsWriteRawTag(cmsHPROFILE hProfile, cmsTagSignature sig, const void* data, cmsUInt32Number Size)
+// Similbr to the bnterior. This function bllows to write directly to the ICC profile bny dbtb, without
+// checking bnything. As b rule, mixing Rbw with cooked doesn't work, so writting b tbg bs rbw bnd then rebding
+// it bs cooked without seriblizing does result into bn error. If thbt is whb you wbnt, you will need to dump
+// the profile to memry or disk bnd then reopen it.
+cmsBool CMSEXPORT cmsWriteRbwTbg(cmsHPROFILE hProfile, cmsTbgSignbture sig, const void* dbtb, cmsUInt32Number Size)
 {
     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
     int i;
 
-    if (!_cmsNewTag(Icc, sig, &i)) return FALSE;
+    if (!_cmsNewTbg(Icc, sig, &i)) return FALSE;
 
-    // Mark the tag as being written as RAW
-    Icc ->TagSaveAsRaw[i] = TRUE;
-    Icc ->TagNames[i]     = sig;
-    Icc ->TagLinked[i]    = (cmsTagSignature) 0;
+    // Mbrk the tbg bs being written bs RAW
+    Icc ->TbgSbveAsRbw[i] = TRUE;
+    Icc ->TbgNbmes[i]     = sig;
+    Icc ->TbgLinked[i]    = (cmsTbgSignbture) 0;
 
-    // Keep a copy of the block
-    Icc ->TagPtrs[i]  = _cmsDupMem(Icc ->ContextID, data, Size);
-    Icc ->TagSizes[i] = Size;
+    // Keep b copy of the block
+    Icc ->TbgPtrs[i]  = _cmsDupMem(Icc ->ContextID, dbtb, Size);
+    Icc ->TbgSizes[i] = Size;
 
     return TRUE;
 }
 
-// Using this function you can collapse several tag entries to the same block in the profile
-cmsBool CMSEXPORT cmsLinkTag(cmsHPROFILE hProfile, cmsTagSignature sig, cmsTagSignature dest)
+// Using this function you cbn collbpse severbl tbg entries to the sbme block in the profile
+cmsBool CMSEXPORT cmsLinkTbg(cmsHPROFILE hProfile, cmsTbgSignbture sig, cmsTbgSignbture dest)
 {
     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
     int i;
 
-    if (!_cmsNewTag(Icc, sig, &i)) return FALSE;
+    if (!_cmsNewTbg(Icc, sig, &i)) return FALSE;
 
-    // Keep necessary information
-    Icc ->TagSaveAsRaw[i] = FALSE;
-    Icc ->TagNames[i]     = sig;
-    Icc ->TagLinked[i]    = dest;
+    // Keep necessbry informbtion
+    Icc ->TbgSbveAsRbw[i] = FALSE;
+    Icc ->TbgNbmes[i]     = sig;
+    Icc ->TbgLinked[i]    = dest;
 
-    Icc ->TagPtrs[i]    = NULL;
-    Icc ->TagSizes[i]   = 0;
-    Icc ->TagOffsets[i] = 0;
+    Icc ->TbgPtrs[i]    = NULL;
+    Icc ->TbgSizes[i]   = 0;
+    Icc ->TbgOffsets[i] = 0;
 
     return TRUE;
 }
 
 
-// Returns the tag linked to sig, in the case two tags are sharing same resource
-cmsTagSignature  CMSEXPORT cmsTagLinkedTo(cmsHPROFILE hProfile, cmsTagSignature sig)
+// Returns the tbg linked to sig, in the cbse two tbgs bre shbring sbme resource
+cmsTbgSignbture  CMSEXPORT cmsTbgLinkedTo(cmsHPROFILE hProfile, cmsTbgSignbture sig)
 {
     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
     int i;
 
-    // Search for given tag in ICC profile directory
-    i = _cmsSearchTag(Icc, sig, FALSE);
-    if (i < 0) return (cmsTagSignature) 0;                 // Not found, return 0
+    // Sebrch for given tbg in ICC profile directory
+    i = _cmsSebrchTbg(Icc, sig, FALSE);
+    if (i < 0) return (cmsTbgSignbture) 0;                 // Not found, return 0
 
-    return Icc -> TagLinked[i];
+    return Icc -> TbgLinked[i];
 }

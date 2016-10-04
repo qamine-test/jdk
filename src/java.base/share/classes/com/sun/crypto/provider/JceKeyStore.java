@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.io.*;
-import java.util.*;
-import java.security.DigestInputStream;
-import java.security.DigestOutputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.Key;
-import java.security.PrivateKey;
-import java.security.KeyStoreSpi;
-import java.security.KeyStoreException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateFactory;
-import java.security.cert.CertificateException;
-import javax.crypto.SealedObject;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.security.DigestInputStrebm;
+import jbvb.security.DigestOutputStrebm;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.Key;
+import jbvb.security.PrivbteKey;
+import jbvb.security.KeyStoreSpi;
+import jbvb.security.KeyStoreException;
+import jbvb.security.UnrecoverbbleKeyException;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.CertificbteFbctory;
+import jbvb.security.cert.CertificbteException;
+import jbvbx.crypto.SebledObject;
 
 /**
- * This class provides the keystore implementation referred to as "jceks".
- * This implementation strongly protects the keystore private keys using
+ * This clbss provides the keystore implementbtion referred to bs "jceks".
+ * This implementbtion strongly protects the keystore privbte keys using
  * triple-DES, where the triple-DES encryption/decryption key is derived from
- * the user's password.
- * The encrypted private keys are stored in the keystore in a standard format,
- * namely the <code>EncryptedPrivateKeyInfo</code> format defined in PKCS #8.
+ * the user's pbssword.
+ * The encrypted privbte keys bre stored in the keystore in b stbndbrd formbt,
+ * nbmely the <code>EncryptedPrivbteKeyInfo</code> formbt defined in PKCS #8.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  *
- * @see java.security.KeyStoreSpi
+ * @see jbvb.security.KeyStoreSpi
  */
 
-public final class JceKeyStore extends KeyStoreSpi {
+public finbl clbss JceKeyStore extends KeyStoreSpi {
 
-    private static final int JCEKS_MAGIC = 0xcececece;
-    private static final int JKS_MAGIC = 0xfeedfeed;
-    private static final int VERSION_1 = 0x01;
-    private static final int VERSION_2 = 0x02;
+    privbte stbtic finbl int JCEKS_MAGIC = 0xcececece;
+    privbte stbtic finbl int JKS_MAGIC = 0xfeedfeed;
+    privbte stbtic finbl int VERSION_1 = 0x01;
+    privbte stbtic finbl int VERSION_2 = 0x02;
 
-    // Private key and supporting certificate chain
-    private static final class PrivateKeyEntry {
-        Date date; // the creation date of this entry
+    // Privbte key bnd supporting certificbte chbin
+    privbte stbtic finbl clbss PrivbteKeyEntry {
+        Dbte dbte; // the crebtion dbte of this entry
         byte[] protectedKey;
-        Certificate chain[];
+        Certificbte chbin[];
     };
 
     // Secret key
-    private static final class SecretKeyEntry {
-        Date date; // the creation date of this entry
-        SealedObject sealedKey;
+    privbte stbtic finbl clbss SecretKeyEntry {
+        Dbte dbte; // the crebtion dbte of this entry
+        SebledObject sebledKey;
     }
 
-    // Trusted certificate
-    private static final class TrustedCertEntry {
-        Date date; // the creation date of this entry
-        Certificate cert;
+    // Trusted certificbte
+    privbte stbtic finbl clbss TrustedCertEntry {
+        Dbte dbte; // the crebtion dbte of this entry
+        Certificbte cert;
     };
 
     /**
-     * Private keys and certificates are stored in a hashtable.
-     * Hash entries are keyed by alias names.
+     * Privbte keys bnd certificbtes bre stored in b hbshtbble.
+     * Hbsh entries bre keyed by blibs nbmes.
      */
-    private Hashtable<String, Object> entries = new Hashtable<String, Object>();
+    privbte Hbshtbble<String, Object> entries = new Hbshtbble<String, Object>();
 
     /**
-     * Returns the key associated with the given alias, using the given
-     * password to recover it.
+     * Returns the key bssocibted with the given blibs, using the given
+     * pbssword to recover it.
      *
-     * @param alias the alias name
-     * @param password the password for recovering the key
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm pbssword the pbssword for recovering the key
      *
-     * @return the requested key, or null if the given alias does not exist
-     * or does not identify a <i>key entry</i>.
+     * @return the requested key, or null if the given blibs does not exist
+     * or does not identify b <i>key entry</i>.
      *
-     * @exception NoSuchAlgorithmException if the algorithm for recovering the
-     * key cannot be found
-     * @exception UnrecoverableKeyException if the key cannot be recovered
-     * (e.g., the given password is wrong).
+     * @exception NoSuchAlgorithmException if the blgorithm for recovering the
+     * key cbnnot be found
+     * @exception UnrecoverbbleKeyException if the key cbnnot be recovered
+     * (e.g., the given pbssword is wrong).
      */
-    public Key engineGetKey(String alias, char[] password)
-        throws NoSuchAlgorithmException, UnrecoverableKeyException
+    public Key engineGetKey(String blibs, chbr[] pbssword)
+        throws NoSuchAlgorithmException, UnrecoverbbleKeyException
     {
         Key key = null;
 
-        Object entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
+        Object entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
 
-        if (!((entry instanceof PrivateKeyEntry) ||
-              (entry instanceof SecretKeyEntry))) {
+        if (!((entry instbnceof PrivbteKeyEntry) ||
+              (entry instbnceof SecretKeyEntry))) {
             return null;
         }
 
-        KeyProtector keyProtector = new KeyProtector(password);
+        KeyProtector keyProtector = new KeyProtector(pbssword);
 
-        if (entry instanceof PrivateKeyEntry) {
-            byte[] encrBytes = ((PrivateKeyEntry)entry).protectedKey;
-            EncryptedPrivateKeyInfo encrInfo;
+        if (entry instbnceof PrivbteKeyEntry) {
+            byte[] encrBytes = ((PrivbteKeyEntry)entry).protectedKey;
+            EncryptedPrivbteKeyInfo encrInfo;
             try {
-                encrInfo = new EncryptedPrivateKeyInfo(encrBytes);
-            } catch (IOException ioe) {
-                throw new UnrecoverableKeyException("Private key not stored "
-                                                    + "as PKCS #8 " +
-                                                    "EncryptedPrivateKeyInfo");
+                encrInfo = new EncryptedPrivbteKeyInfo(encrBytes);
+            } cbtch (IOException ioe) {
+                throw new UnrecoverbbleKeyException("Privbte key not stored "
+                                                    + "bs PKCS #8 " +
+                                                    "EncryptedPrivbteKeyInfo");
             }
             key = keyProtector.recover(encrInfo);
         } else {
             key =
-                keyProtector.unseal(((SecretKeyEntry)entry).sealedKey);
+                keyProtector.unsebl(((SecretKeyEntry)entry).sebledKey);
         }
 
         return key;
     }
 
     /**
-     * Returns the certificate chain associated with the given alias.
+     * Returns the certificbte chbin bssocibted with the given blibs.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the certificate chain (ordered with the user's certificate first
-     * and the root certificate authority last), or null if the given alias
-     * does not exist or does not contain a certificate chain (i.e., the given
-     * alias identifies either a <i>trusted certificate entry</i> or a
-     * <i>key entry</i> without a certificate chain).
+     * @return the certificbte chbin (ordered with the user's certificbte first
+     * bnd the root certificbte buthority lbst), or null if the given blibs
+     * does not exist or does not contbin b certificbte chbin (i.e., the given
+     * blibs identifies either b <i>trusted certificbte entry</i> or b
+     * <i>key entry</i> without b certificbte chbin).
      */
-    public Certificate[] engineGetCertificateChain(String alias)
+    public Certificbte[] engineGetCertificbteChbin(String blibs)
     {
-        Certificate[] chain = null;
+        Certificbte[] chbin = null;
 
-        Object entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
+        Object entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
 
-        if ((entry instanceof PrivateKeyEntry)
-            && (((PrivateKeyEntry)entry).chain != null)) {
-            chain = ((PrivateKeyEntry)entry).chain.clone();
+        if ((entry instbnceof PrivbteKeyEntry)
+            && (((PrivbteKeyEntry)entry).chbin != null)) {
+            chbin = ((PrivbteKeyEntry)entry).chbin.clone();
         }
 
-        return chain;
+        return chbin;
     }
 
     /**
-     * Returns the certificate associated with the given alias.
+     * Returns the certificbte bssocibted with the given blibs.
      *
-     * <p>If the given alias name identifies a
-     * <i>trusted certificate entry</i>, the certificate associated with that
-     * entry is returned. If the given alias name identifies a
-     * <i>key entry</i>, the first element of the certificate chain of that
-     * entry is returned, or null if that entry does not have a certificate
-     * chain.
+     * <p>If the given blibs nbme identifies b
+     * <i>trusted certificbte entry</i>, the certificbte bssocibted with thbt
+     * entry is returned. If the given blibs nbme identifies b
+     * <i>key entry</i>, the first element of the certificbte chbin of thbt
+     * entry is returned, or null if thbt entry does not hbve b certificbte
+     * chbin.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the certificate, or null if the given alias does not exist or
-     * does not contain a certificate.
+     * @return the certificbte, or null if the given blibs does not exist or
+     * does not contbin b certificbte.
      */
-    public Certificate engineGetCertificate(String alias) {
-        Certificate cert = null;
+    public Certificbte engineGetCertificbte(String blibs) {
+        Certificbte cert = null;
 
-        Object entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
+        Object entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
 
         if (entry != null) {
-            if (entry instanceof TrustedCertEntry) {
+            if (entry instbnceof TrustedCertEntry) {
                 cert = ((TrustedCertEntry)entry).cert;
-            } else if ((entry instanceof PrivateKeyEntry) &&
-                       (((PrivateKeyEntry)entry).chain != null)) {
-                cert = ((PrivateKeyEntry)entry).chain[0];
+            } else if ((entry instbnceof PrivbteKeyEntry) &&
+                       (((PrivbteKeyEntry)entry).chbin != null)) {
+                cert = ((PrivbteKeyEntry)entry).chbin[0];
             }
         }
 
@@ -193,208 +193,208 @@ public final class JceKeyStore extends KeyStoreSpi {
     }
 
     /**
-     * Returns the creation date of the entry identified by the given alias.
+     * Returns the crebtion dbte of the entry identified by the given blibs.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the creation date of this entry, or null if the given alias does
+     * @return the crebtion dbte of this entry, or null if the given blibs does
      * not exist
      */
-    public Date engineGetCreationDate(String alias) {
-        Date date = null;
+    public Dbte engineGetCrebtionDbte(String blibs) {
+        Dbte dbte = null;
 
-        Object entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
+        Object entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
 
         if (entry != null) {
-            // We have to create a new instance of java.util.Date because
-            // dates are not immutable
-            if (entry instanceof TrustedCertEntry) {
-                date = new Date(((TrustedCertEntry)entry).date.getTime());
-            } else if (entry instanceof PrivateKeyEntry) {
-                date = new Date(((PrivateKeyEntry)entry).date.getTime());
+            // We hbve to crebte b new instbnce of jbvb.util.Dbte becbuse
+            // dbtes bre not immutbble
+            if (entry instbnceof TrustedCertEntry) {
+                dbte = new Dbte(((TrustedCertEntry)entry).dbte.getTime());
+            } else if (entry instbnceof PrivbteKeyEntry) {
+                dbte = new Dbte(((PrivbteKeyEntry)entry).dbte.getTime());
             } else {
-                date = new Date(((SecretKeyEntry)entry).date.getTime());
+                dbte = new Dbte(((SecretKeyEntry)entry).dbte.getTime());
             }
         }
 
-        return date;
+        return dbte;
     }
 
     /**
-     * Assigns the given key to the given alias, protecting it with the given
-     * password.
+     * Assigns the given key to the given blibs, protecting it with the given
+     * pbssword.
      *
-     * <p>If the given key is of type <code>java.security.PrivateKey</code>,
-     * it must be accompanied by a certificate chain certifying the
+     * <p>If the given key is of type <code>jbvb.security.PrivbteKey</code>,
+     * it must be bccompbnied by b certificbte chbin certifying the
      * corresponding public key.
      *
-     * <p>If the given alias already exists, the keystore information
-     * associated with it is overridden by the given key (and possibly
-     * certificate chain).
+     * <p>If the given blibs blrebdy exists, the keystore informbtion
+     * bssocibted with it is overridden by the given key (bnd possibly
+     * certificbte chbin).
      *
-     * @param alias the alias name
-     * @param key the key to be associated with the alias
-     * @param password the password to protect the key
-     * @param chain the certificate chain for the corresponding public
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm key the key to be bssocibted with the blibs
+     * @pbrbm pbssword the pbssword to protect the key
+     * @pbrbm chbin the certificbte chbin for the corresponding public
      * key (only required if the given key is of type
-     * <code>java.security.PrivateKey</code>).
+     * <code>jbvb.security.PrivbteKey</code>).
      *
-     * @exception KeyStoreException if the given key cannot be protected, or
-     * this operation fails for some other reason
+     * @exception KeyStoreException if the given key cbnnot be protected, or
+     * this operbtion fbils for some other rebson
      */
-    public void engineSetKeyEntry(String alias, Key key, char[] password,
-                                  Certificate[] chain)
+    public void engineSetKeyEntry(String blibs, Key key, chbr[] pbssword,
+                                  Certificbte[] chbin)
         throws KeyStoreException
     {
         synchronized(entries) {
             try {
-                KeyProtector keyProtector = new KeyProtector(password);
+                KeyProtector keyProtector = new KeyProtector(pbssword);
 
-                if (key instanceof PrivateKey) {
-                    PrivateKeyEntry entry = new PrivateKeyEntry();
-                    entry.date = new Date();
+                if (key instbnceof PrivbteKey) {
+                    PrivbteKeyEntry entry = new PrivbteKeyEntry();
+                    entry.dbte = new Dbte();
 
-                    // protect the private key
-                    entry.protectedKey = keyProtector.protect((PrivateKey)key);
+                    // protect the privbte key
+                    entry.protectedKey = keyProtector.protect((PrivbteKey)key);
 
-                    // clone the chain
-                    if ((chain != null) &&
-                        (chain.length !=0)) {
-                        entry.chain = chain.clone();
+                    // clone the chbin
+                    if ((chbin != null) &&
+                        (chbin.length !=0)) {
+                        entry.chbin = chbin.clone();
                     } else {
-                        entry.chain = null;
+                        entry.chbin = null;
                     }
 
                     // store the entry
-                    entries.put(alias.toLowerCase(Locale.ENGLISH), entry);
+                    entries.put(blibs.toLowerCbse(Locble.ENGLISH), entry);
 
                 } else {
                     SecretKeyEntry entry = new SecretKeyEntry();
-                    entry.date = new Date();
+                    entry.dbte = new Dbte();
 
-                    // seal and store the key
-                    entry.sealedKey = keyProtector.seal(key);
-                    entries.put(alias.toLowerCase(Locale.ENGLISH), entry);
+                    // sebl bnd store the key
+                    entry.sebledKey = keyProtector.sebl(key);
+                    entries.put(blibs.toLowerCbse(Locble.ENGLISH), entry);
                 }
 
-            } catch (Exception e) {
-                throw new KeyStoreException(e.getMessage());
+            } cbtch (Exception e) {
+                throw new KeyStoreException(e.getMessbge());
             }
         }
     }
 
     /**
-     * Assigns the given key (that has already been protected) to the given
-     * alias.
+     * Assigns the given key (thbt hbs blrebdy been protected) to the given
+     * blibs.
      *
      * <p>If the protected key is of type
-     * <code>java.security.PrivateKey</code>,
-     * it must be accompanied by a certificate chain certifying the
+     * <code>jbvb.security.PrivbteKey</code>,
+     * it must be bccompbnied by b certificbte chbin certifying the
      * corresponding public key.
      *
-     * <p>If the given alias already exists, the keystore information
-     * associated with it is overridden by the given key (and possibly
-     * certificate chain).
+     * <p>If the given blibs blrebdy exists, the keystore informbtion
+     * bssocibted with it is overridden by the given key (bnd possibly
+     * certificbte chbin).
      *
-     * @param alias the alias name
-     * @param key the key (in protected format) to be associated with the alias
-     * @param chain the certificate chain for the corresponding public
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm key the key (in protected formbt) to be bssocibted with the blibs
+     * @pbrbm chbin the certificbte chbin for the corresponding public
      * key (only useful if the protected key is of type
-     * <code>java.security.PrivateKey</code>).
+     * <code>jbvb.security.PrivbteKey</code>).
      *
-     * @exception KeyStoreException if this operation fails.
+     * @exception KeyStoreException if this operbtion fbils.
      */
-    public void engineSetKeyEntry(String alias, byte[] key,
-                                  Certificate[] chain)
+    public void engineSetKeyEntry(String blibs, byte[] key,
+                                  Certificbte[] chbin)
         throws KeyStoreException
     {
         synchronized(entries) {
-            // We assume it's a private key, because there is no standard
-            // (ASN.1) encoding format for wrapped secret keys
-            PrivateKeyEntry entry = new PrivateKeyEntry();
-            entry.date = new Date();
+            // We bssume it's b privbte key, becbuse there is no stbndbrd
+            // (ASN.1) encoding formbt for wrbpped secret keys
+            PrivbteKeyEntry entry = new PrivbteKeyEntry();
+            entry.dbte = new Dbte();
 
             entry.protectedKey = key.clone();
-            if ((chain != null) &&
-                (chain.length != 0)) {
-                entry.chain = chain.clone();
+            if ((chbin != null) &&
+                (chbin.length != 0)) {
+                entry.chbin = chbin.clone();
             } else {
-                entry.chain = null;
+                entry.chbin = null;
             }
 
-            entries.put(alias.toLowerCase(Locale.ENGLISH), entry);
+            entries.put(blibs.toLowerCbse(Locble.ENGLISH), entry);
         }
     }
 
     /**
-     * Assigns the given certificate to the given alias.
+     * Assigns the given certificbte to the given blibs.
      *
-     * <p>If the given alias already exists in this keystore and identifies a
-     * <i>trusted certificate entry</i>, the certificate associated with it is
-     * overridden by the given certificate.
+     * <p>If the given blibs blrebdy exists in this keystore bnd identifies b
+     * <i>trusted certificbte entry</i>, the certificbte bssocibted with it is
+     * overridden by the given certificbte.
      *
-     * @param alias the alias name
-     * @param cert the certificate
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm cert the certificbte
      *
-     * @exception KeyStoreException if the given alias already exists and does
-     * not identify a <i>trusted certificate entry</i>, or this operation
-     * fails for some other reason.
+     * @exception KeyStoreException if the given blibs blrebdy exists bnd does
+     * not identify b <i>trusted certificbte entry</i>, or this operbtion
+     * fbils for some other rebson.
      */
-    public void engineSetCertificateEntry(String alias, Certificate cert)
+    public void engineSetCertificbteEntry(String blibs, Certificbte cert)
         throws KeyStoreException
     {
         synchronized(entries) {
 
-            Object entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
+            Object entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
             if (entry != null) {
-                if (entry instanceof PrivateKeyEntry) {
-                    throw new KeyStoreException("Cannot overwrite own "
-                                                + "certificate");
-                } else if (entry instanceof SecretKeyEntry) {
-                    throw new KeyStoreException("Cannot overwrite secret key");
+                if (entry instbnceof PrivbteKeyEntry) {
+                    throw new KeyStoreException("Cbnnot overwrite own "
+                                                + "certificbte");
+                } else if (entry instbnceof SecretKeyEntry) {
+                    throw new KeyStoreException("Cbnnot overwrite secret key");
                 }
             }
 
             TrustedCertEntry trustedCertEntry = new TrustedCertEntry();
             trustedCertEntry.cert = cert;
-            trustedCertEntry.date = new Date();
-            entries.put(alias.toLowerCase(Locale.ENGLISH), trustedCertEntry);
+            trustedCertEntry.dbte = new Dbte();
+            entries.put(blibs.toLowerCbse(Locble.ENGLISH), trustedCertEntry);
         }
     }
 
     /**
-     * Deletes the entry identified by the given alias from this keystore.
+     * Deletes the entry identified by the given blibs from this keystore.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @exception KeyStoreException if the entry cannot be removed.
+     * @exception KeyStoreException if the entry cbnnot be removed.
      */
-    public void engineDeleteEntry(String alias)
+    public void engineDeleteEntry(String blibs)
         throws KeyStoreException
     {
         synchronized(entries) {
-            entries.remove(alias.toLowerCase(Locale.ENGLISH));
+            entries.remove(blibs.toLowerCbse(Locble.ENGLISH));
         }
     }
 
     /**
-     * Lists all the alias names of this keystore.
+     * Lists bll the blibs nbmes of this keystore.
      *
-     * @return enumeration of the alias names
+     * @return enumerbtion of the blibs nbmes
      */
-    public Enumeration<String> engineAliases() {
+    public Enumerbtion<String> engineAlibses() {
         return entries.keys();
     }
 
     /**
-     * Checks if the given alias exists in this keystore.
+     * Checks if the given blibs exists in this keystore.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return true if the alias exists, false otherwise
+     * @return true if the blibs exists, fblse otherwise
      */
-    public boolean engineContainsAlias(String alias) {
-        return entries.containsKey(alias.toLowerCase(Locale.ENGLISH));
+    public boolebn engineContbinsAlibs(String blibs) {
+        return entries.contbinsKey(blibs.toLowerCbse(Locble.ENGLISH));
     }
 
     /**
@@ -407,18 +407,18 @@ public final class JceKeyStore extends KeyStoreSpi {
     }
 
     /**
-     * Returns true if the entry identified by the given alias is a
-     * <i>key entry</i>, and false otherwise.
+     * Returns true if the entry identified by the given blibs is b
+     * <i>key entry</i>, bnd fblse otherwise.
      *
-     * @return true if the entry identified by the given alias is a
-     * <i>key entry</i>, false otherwise.
+     * @return true if the entry identified by the given blibs is b
+     * <i>key entry</i>, fblse otherwise.
      */
-    public boolean engineIsKeyEntry(String alias) {
-        boolean isKey = false;
+    public boolebn engineIsKeyEntry(String blibs) {
+        boolebn isKey = fblse;
 
-        Object entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
-        if ((entry instanceof PrivateKeyEntry)
-            || (entry instanceof SecretKeyEntry)) {
+        Object entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
+        if ((entry instbnceof PrivbteKeyEntry)
+            || (entry instbnceof SecretKeyEntry)) {
             isKey = true;
         }
 
@@ -426,102 +426,102 @@ public final class JceKeyStore extends KeyStoreSpi {
     }
 
     /**
-     * Returns true if the entry identified by the given alias is a
-     * <i>trusted certificate entry</i>, and false otherwise.
+     * Returns true if the entry identified by the given blibs is b
+     * <i>trusted certificbte entry</i>, bnd fblse otherwise.
      *
-     * @return true if the entry identified by the given alias is a
-     * <i>trusted certificate entry</i>, false otherwise.
+     * @return true if the entry identified by the given blibs is b
+     * <i>trusted certificbte entry</i>, fblse otherwise.
      */
-    public boolean engineIsCertificateEntry(String alias) {
-        boolean isCert = false;
-        Object entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
-        if (entry instanceof TrustedCertEntry) {
+    public boolebn engineIsCertificbteEntry(String blibs) {
+        boolebn isCert = fblse;
+        Object entry = entries.get(blibs.toLowerCbse(Locble.ENGLISH));
+        if (entry instbnceof TrustedCertEntry) {
             isCert = true;
         }
         return isCert;
     }
 
     /**
-     * Returns the (alias) name of the first keystore entry whose certificate
-     * matches the given certificate.
+     * Returns the (blibs) nbme of the first keystore entry whose certificbte
+     * mbtches the given certificbte.
      *
-     * <p>This method attempts to match the given certificate with each
+     * <p>This method bttempts to mbtch the given certificbte with ebch
      * keystore entry. If the entry being considered
-     * is a <i>trusted certificate entry</i>, the given certificate is
-     * compared to that entry's certificate. If the entry being considered is
-     * a <i>key entry</i>, the given certificate is compared to the first
-     * element of that entry's certificate chain (if a chain exists).
+     * is b <i>trusted certificbte entry</i>, the given certificbte is
+     * compbred to thbt entry's certificbte. If the entry being considered is
+     * b <i>key entry</i>, the given certificbte is compbred to the first
+     * element of thbt entry's certificbte chbin (if b chbin exists).
      *
-     * @param cert the certificate to match with.
+     * @pbrbm cert the certificbte to mbtch with.
      *
-     * @return the (alias) name of the first entry with matching certificate,
+     * @return the (blibs) nbme of the first entry with mbtching certificbte,
      * or null if no such entry exists in this keystore.
      */
-    public String engineGetCertificateAlias(Certificate cert) {
-        Certificate certElem;
+    public String engineGetCertificbteAlibs(Certificbte cert) {
+        Certificbte certElem;
 
-        Enumeration<String> e = entries.keys();
-        while (e.hasMoreElements()) {
-            String alias = e.nextElement();
-            Object entry = entries.get(alias);
-            if (entry instanceof TrustedCertEntry) {
+        Enumerbtion<String> e = entries.keys();
+        while (e.hbsMoreElements()) {
+            String blibs = e.nextElement();
+            Object entry = entries.get(blibs);
+            if (entry instbnceof TrustedCertEntry) {
                 certElem = ((TrustedCertEntry)entry).cert;
-            } else if ((entry instanceof PrivateKeyEntry) &&
-                       (((PrivateKeyEntry)entry).chain != null)) {
-                certElem = ((PrivateKeyEntry)entry).chain[0];
+            } else if ((entry instbnceof PrivbteKeyEntry) &&
+                       (((PrivbteKeyEntry)entry).chbin != null)) {
+                certElem = ((PrivbteKeyEntry)entry).chbin[0];
             } else {
                 continue;
             }
-            if (certElem.equals(cert)) {
-                return alias;
+            if (certElem.equbls(cert)) {
+                return blibs;
             }
         }
         return null;
     }
 
     /**
-     * Stores this keystore to the given output stream, and protects its
-     * integrity with the given password.
+     * Stores this keystore to the given output strebm, bnd protects its
+     * integrity with the given pbssword.
      *
-     * @param stream the output stream to which this keystore is written.
-     * @param password the password to generate the keystore integrity check
+     * @pbrbm strebm the output strebm to which this keystore is written.
+     * @pbrbm pbssword the pbssword to generbte the keystore integrity check
      *
-     * @exception IOException if there was an I/O problem with data
-     * @exception NoSuchAlgorithmException if the appropriate data integrity
-     * algorithm could not be found
-     * @exception CertificateException if any of the certificates included in
-     * the keystore data could not be stored
+     * @exception IOException if there wbs bn I/O problem with dbtb
+     * @exception NoSuchAlgorithmException if the bppropribte dbtb integrity
+     * blgorithm could not be found
+     * @exception CertificbteException if bny of the certificbtes included in
+     * the keystore dbtb could not be stored
      */
-    public void engineStore(OutputStream stream, char[] password)
-        throws IOException, NoSuchAlgorithmException, CertificateException
+    public void engineStore(OutputStrebm strebm, chbr[] pbssword)
+        throws IOException, NoSuchAlgorithmException, CertificbteException
     {
         synchronized(entries) {
             /*
              * KEYSTORE FORMAT:
              *
-             * Magic number (big-endian integer),
-             * Version of this file format (big-endian integer),
+             * Mbgic number (big-endibn integer),
+             * Version of this file formbt (big-endibn integer),
              *
-             * Count (big-endian integer),
-             * followed by "count" instances of either:
+             * Count (big-endibn integer),
+             * followed by "count" instbnces of either:
              *
              *     {
-             *      tag=1 (big-endian integer)
-             *      alias (UTF string)
-             *      timestamp
-             *      encrypted private-key info according to PKCS #8
+             *      tbg=1 (big-endibn integer)
+             *      blibs (UTF string)
+             *      timestbmp
+             *      encrypted privbte-key info bccording to PKCS #8
              *          (integer length followed by encoding)
-             *      cert chain (integer count followed by certs;
-             *          for each cert: type UTF string, followed by integer
+             *      cert chbin (integer count followed by certs;
+             *          for ebch cert: type UTF string, followed by integer
              *              length, followed by encoding)
              *     }
              *
              * or:
              *
              *     {
-             *      tag=2 (big-endian integer)
-             *      alias (UTF string)
-             *      timestamp
+             *      tbg=2 (big-endibn integer)
+             *      blibs (UTF string)
+             *      timestbmp
              *      cert (type UTF string, followed by integer length,
              *          followed by encoding)
              *     }
@@ -529,85 +529,85 @@ public final class JceKeyStore extends KeyStoreSpi {
              * or:
              *
              *     {
-             *      tag=3 (big-endian integer)
-             *      alias (UTF string)
-             *      timestamp
-             *      sealed secret key (in serialized form)
+             *      tbg=3 (big-endibn integer)
+             *      blibs (UTF string)
+             *      timestbmp
+             *      sebled secret key (in seriblized form)
              *     }
              *
-             * ended by a keyed SHA1 hash (bytes only) of
-             *     { password + whitener + preceding body }
+             * ended by b keyed SHA1 hbsh (bytes only) of
+             *     { pbssword + whitener + preceding body }
              */
 
-            // password is mandatory when storing
-            if (password == null) {
-                throw new IllegalArgumentException("password can't be null");
+            // pbssword is mbndbtory when storing
+            if (pbssword == null) {
+                throw new IllegblArgumentException("pbssword cbn't be null");
             }
 
-            byte[] encoded; // the certificate encoding
+            byte[] encoded; // the certificbte encoding
 
-            MessageDigest md = getPreKeyedHash(password);
-            DataOutputStream dos
-                = new DataOutputStream(new DigestOutputStream(stream, md));
-            // NOTE: don't pass dos to oos at this point or it'll corrupt
+            MessbgeDigest md = getPreKeyedHbsh(pbssword);
+            DbtbOutputStrebm dos
+                = new DbtbOutputStrebm(new DigestOutputStrebm(strebm, md));
+            // NOTE: don't pbss dos to oos bt this point or it'll corrupt
             // the keystore!!!
-            ObjectOutputStream oos = null;
+            ObjectOutputStrebm oos = null;
             try {
                 dos.writeInt(JCEKS_MAGIC);
-                dos.writeInt(VERSION_2); // always write the latest version
+                dos.writeInt(VERSION_2); // blwbys write the lbtest version
 
                 dos.writeInt(entries.size());
 
-                Enumeration<String> e = entries.keys();
-                while (e.hasMoreElements()) {
+                Enumerbtion<String> e = entries.keys();
+                while (e.hbsMoreElements()) {
 
-                    String alias = e.nextElement();
-                    Object entry = entries.get(alias);
+                    String blibs = e.nextElement();
+                    Object entry = entries.get(blibs);
 
-                    if (entry instanceof PrivateKeyEntry) {
+                    if (entry instbnceof PrivbteKeyEntry) {
 
-                        PrivateKeyEntry pentry = (PrivateKeyEntry)entry;
+                        PrivbteKeyEntry pentry = (PrivbteKeyEntry)entry;
 
-                        // write PrivateKeyEntry tag
+                        // write PrivbteKeyEntry tbg
                         dos.writeInt(1);
 
-                        // write the alias
-                        dos.writeUTF(alias);
+                        // write the blibs
+                        dos.writeUTF(blibs);
 
-                        // write the (entry creation) date
-                        dos.writeLong(pentry.date.getTime());
+                        // write the (entry crebtion) dbte
+                        dos.writeLong(pentry.dbte.getTime());
 
-                        // write the protected private key
+                        // write the protected privbte key
                         dos.writeInt(pentry.protectedKey.length);
                         dos.write(pentry.protectedKey);
 
-                        // write the certificate chain
-                        int chainLen;
-                        if (pentry.chain == null) {
-                            chainLen = 0;
+                        // write the certificbte chbin
+                        int chbinLen;
+                        if (pentry.chbin == null) {
+                            chbinLen = 0;
                         } else {
-                            chainLen = pentry.chain.length;
+                            chbinLen = pentry.chbin.length;
                         }
-                        dos.writeInt(chainLen);
-                        for (int i = 0; i < chainLen; i++) {
-                            encoded = pentry.chain[i].getEncoded();
-                            dos.writeUTF(pentry.chain[i].getType());
+                        dos.writeInt(chbinLen);
+                        for (int i = 0; i < chbinLen; i++) {
+                            encoded = pentry.chbin[i].getEncoded();
+                            dos.writeUTF(pentry.chbin[i].getType());
                             dos.writeInt(encoded.length);
                             dos.write(encoded);
                         }
 
-                    } else if (entry instanceof TrustedCertEntry) {
+                    } else if (entry instbnceof TrustedCertEntry) {
 
-                        // write TrustedCertEntry tag
+                        // write TrustedCertEntry tbg
                         dos.writeInt(2);
 
-                        // write the alias
-                        dos.writeUTF(alias);
+                        // write the blibs
+                        dos.writeUTF(blibs);
 
-                        // write the (entry creation) date
-                        dos.writeLong(((TrustedCertEntry)entry).date.getTime());
+                        // write the (entry crebtion) dbte
+                        dos.writeLong(((TrustedCertEntry)entry).dbte.getTime());
 
-                        // write the trusted certificate
+                        // write the trusted certificbte
                         encoded = ((TrustedCertEntry)entry).cert.getEncoded();
                         dos.writeUTF(((TrustedCertEntry)entry).cert.getType());
                         dos.writeInt(encoded.length);
@@ -615,33 +615,33 @@ public final class JceKeyStore extends KeyStoreSpi {
 
                     } else {
 
-                        // write SecretKeyEntry tag
+                        // write SecretKeyEntry tbg
                         dos.writeInt(3);
 
-                        // write the alias
-                        dos.writeUTF(alias);
+                        // write the blibs
+                        dos.writeUTF(blibs);
 
-                        // write the (entry creation) date
-                        dos.writeLong(((SecretKeyEntry)entry).date.getTime());
+                        // write the (entry crebtion) dbte
+                        dos.writeLong(((SecretKeyEntry)entry).dbte.getTime());
 
-                        // write the sealed key
-                        oos = new ObjectOutputStream(dos);
-                        oos.writeObject(((SecretKeyEntry)entry).sealedKey);
-                        // NOTE: don't close oos here since we are still
+                        // write the sebled key
+                        oos = new ObjectOutputStrebm(dos);
+                        oos.writeObject(((SecretKeyEntry)entry).sebledKey);
+                        // NOTE: don't close oos here since we bre still
                         // using dos!!!
                     }
                 }
 
                 /*
-                 * Write the keyed hash which is used to detect tampering with
-                 * the keystore (such as deleting or modifying key or
-                 * certificate entries).
+                 * Write the keyed hbsh which is used to detect tbmpering with
+                 * the keystore (such bs deleting or modifying key or
+                 * certificbte entries).
                  */
                 byte digest[] = md.digest();
 
                 dos.write(digest);
                 dos.flush();
-            } finally {
+            } finblly {
                 if (oos != null) {
                     oos.close();
                 } else {
@@ -652,198 +652,198 @@ public final class JceKeyStore extends KeyStoreSpi {
     }
 
     /**
-     * Loads the keystore from the given input stream.
+     * Lobds the keystore from the given input strebm.
      *
-     * <p>If a password is given, it is used to check the integrity of the
-     * keystore data. Otherwise, the integrity of the keystore is not checked.
+     * <p>If b pbssword is given, it is used to check the integrity of the
+     * keystore dbtb. Otherwise, the integrity of the keystore is not checked.
      *
-     * @param stream the input stream from which the keystore is loaded
-     * @param password the (optional) password used to check the integrity of
+     * @pbrbm strebm the input strebm from which the keystore is lobded
+     * @pbrbm pbssword the (optionbl) pbssword used to check the integrity of
      * the keystore.
      *
-     * @exception IOException if there is an I/O or format problem with the
-     * keystore data
-     * @exception NoSuchAlgorithmException if the algorithm used to check
-     * the integrity of the keystore cannot be found
-     * @exception CertificateException if any of the certificates in the
-     * keystore could not be loaded
+     * @exception IOException if there is bn I/O or formbt problem with the
+     * keystore dbtb
+     * @exception NoSuchAlgorithmException if the blgorithm used to check
+     * the integrity of the keystore cbnnot be found
+     * @exception CertificbteException if bny of the certificbtes in the
+     * keystore could not be lobded
      */
-    public void engineLoad(InputStream stream, char[] password)
-        throws IOException, NoSuchAlgorithmException, CertificateException
+    public void engineLobd(InputStrebm strebm, chbr[] pbssword)
+        throws IOException, NoSuchAlgorithmException, CertificbteException
     {
         synchronized(entries) {
-            DataInputStream dis;
-            MessageDigest md = null;
-            CertificateFactory cf = null;
-            Hashtable<String, CertificateFactory> cfs = null;
-            ByteArrayInputStream bais = null;
+            DbtbInputStrebm dis;
+            MessbgeDigest md = null;
+            CertificbteFbctory cf = null;
+            Hbshtbble<String, CertificbteFbctory> cfs = null;
+            ByteArrbyInputStrebm bbis = null;
             byte[] encoded = null;
 
-            if (stream == null)
+            if (strebm == null)
                 return;
 
-            if (password != null) {
-                md = getPreKeyedHash(password);
-                dis = new DataInputStream(new DigestInputStream(stream, md));
+            if (pbssword != null) {
+                md = getPreKeyedHbsh(pbssword);
+                dis = new DbtbInputStrebm(new DigestInputStrebm(strebm, md));
             } else {
-                dis = new DataInputStream(stream);
+                dis = new DbtbInputStrebm(strebm);
             }
-            // NOTE: don't pass dis to ois at this point or it'll fail to load
+            // NOTE: don't pbss dis to ois bt this point or it'll fbil to lobd
             // the keystore!!!
-            ObjectInputStream ois = null;
+            ObjectInputStrebm ois = null;
 
             try {
-                // Body format: see store method
+                // Body formbt: see store method
 
-                int xMagic = dis.readInt();
-                int xVersion = dis.readInt();
+                int xMbgic = dis.rebdInt();
+                int xVersion = dis.rebdInt();
 
-                // Accept the following keystore implementations:
-                // - JCEKS (this implementation), versions 1 and 2
-                // - JKS (Sun's keystore implementation in JDK 1.2),
-                //   versions 1 and 2
-                if (((xMagic != JCEKS_MAGIC) && (xMagic != JKS_MAGIC)) ||
+                // Accept the following keystore implementbtions:
+                // - JCEKS (this implementbtion), versions 1 bnd 2
+                // - JKS (Sun's keystore implementbtion in JDK 1.2),
+                //   versions 1 bnd 2
+                if (((xMbgic != JCEKS_MAGIC) && (xMbgic != JKS_MAGIC)) ||
                     ((xVersion != VERSION_1) && (xVersion != VERSION_2))) {
-                    throw new IOException("Invalid keystore format");
+                    throw new IOException("Invblid keystore formbt");
                 }
 
                 if (xVersion == VERSION_1) {
-                    cf = CertificateFactory.getInstance("X509");
+                    cf = CertificbteFbctory.getInstbnce("X509");
                 } else {
                     // version 2
-                    cfs = new Hashtable<String, CertificateFactory>(3);
+                    cfs = new Hbshtbble<String, CertificbteFbctory>(3);
                 }
 
-                entries.clear();
-                int count = dis.readInt();
+                entries.clebr();
+                int count = dis.rebdInt();
 
                 for (int i = 0; i < count; i++) {
-                    int tag;
-                    String alias;
+                    int tbg;
+                    String blibs;
 
-                    tag = dis.readInt();
+                    tbg = dis.rebdInt();
 
-                    if (tag == 1) { // private-key entry
+                    if (tbg == 1) { // privbte-key entry
 
-                        PrivateKeyEntry entry = new PrivateKeyEntry();
+                        PrivbteKeyEntry entry = new PrivbteKeyEntry();
 
-                        // read the alias
-                        alias = dis.readUTF();
+                        // rebd the blibs
+                        blibs = dis.rebdUTF();
 
-                        // read the (entry creation) date
-                        entry.date = new Date(dis.readLong());
+                        // rebd the (entry crebtion) dbte
+                        entry.dbte = new Dbte(dis.rebdLong());
 
-                        // read the private key
+                        // rebd the privbte key
                         try {
-                            entry.protectedKey = new byte[dis.readInt()];
-                        } catch (OutOfMemoryError e) {
+                            entry.protectedKey = new byte[dis.rebdInt()];
+                        } cbtch (OutOfMemoryError e) {
                             throw new IOException("Keysize too big");
                         }
-                        dis.readFully(entry.protectedKey);
+                        dis.rebdFully(entry.protectedKey);
 
-                        // read the certificate chain
-                        int numOfCerts = dis.readInt();
+                        // rebd the certificbte chbin
+                        int numOfCerts = dis.rebdInt();
                         try {
                             if (numOfCerts > 0) {
-                                entry.chain = new Certificate[numOfCerts];
+                                entry.chbin = new Certificbte[numOfCerts];
                             }
-                        } catch (OutOfMemoryError e) {
-                            throw new IOException("Too many certificates in "
-                                                  + "chain");
+                        } cbtch (OutOfMemoryError e) {
+                            throw new IOException("Too mbny certificbtes in "
+                                                  + "chbin");
                         }
                         for (int j = 0; j < numOfCerts; j++) {
                             if (xVersion == 2) {
-                                // read the certificate type, and instantiate a
-                                // certificate factory of that type (reuse
-                                // existing factory if possible)
-                                String certType = dis.readUTF();
-                                if (cfs.containsKey(certType)) {
-                                // reuse certificate factory
+                                // rebd the certificbte type, bnd instbntibte b
+                                // certificbte fbctory of thbt type (reuse
+                                // existing fbctory if possible)
+                                String certType = dis.rebdUTF();
+                                if (cfs.contbinsKey(certType)) {
+                                // reuse certificbte fbctory
                                     cf = cfs.get(certType);
                                 } else {
-                                // create new certificate factory
-                                    cf = CertificateFactory.getInstance(
+                                // crebte new certificbte fbctory
+                                    cf = CertificbteFbctory.getInstbnce(
                                         certType);
-                                // store the certificate factory so we can
-                                // reuse it later
+                                // store the certificbte fbctory so we cbn
+                                // reuse it lbter
                                     cfs.put(certType, cf);
                                 }
                             }
-                            // instantiate the certificate
+                            // instbntibte the certificbte
                             try {
-                                encoded = new byte[dis.readInt()];
-                            } catch (OutOfMemoryError e) {
-                                throw new IOException("Certificate too big");
+                                encoded = new byte[dis.rebdInt()];
+                            } cbtch (OutOfMemoryError e) {
+                                throw new IOException("Certificbte too big");
                             }
-                            dis.readFully(encoded);
-                            bais = new ByteArrayInputStream(encoded);
-                            entry.chain[j] = cf.generateCertificate(bais);
+                            dis.rebdFully(encoded);
+                            bbis = new ByteArrbyInputStrebm(encoded);
+                            entry.chbin[j] = cf.generbteCertificbte(bbis);
                         }
 
                         // Add the entry to the list
-                        entries.put(alias, entry);
+                        entries.put(blibs, entry);
 
-                    } else if (tag == 2) { // trusted certificate entry
+                    } else if (tbg == 2) { // trusted certificbte entry
 
                         TrustedCertEntry entry = new TrustedCertEntry();
 
-                        // read the alias
-                        alias = dis.readUTF();
+                        // rebd the blibs
+                        blibs = dis.rebdUTF();
 
-                        // read the (entry creation) date
-                        entry.date = new Date(dis.readLong());
+                        // rebd the (entry crebtion) dbte
+                        entry.dbte = new Dbte(dis.rebdLong());
 
-                        // read the trusted certificate
+                        // rebd the trusted certificbte
                         if (xVersion == 2) {
-                            // read the certificate type, and instantiate a
-                            // certificate factory of that type (reuse
-                            // existing factory if possible)
-                            String certType = dis.readUTF();
-                            if (cfs.containsKey(certType)) {
-                                // reuse certificate factory
+                            // rebd the certificbte type, bnd instbntibte b
+                            // certificbte fbctory of thbt type (reuse
+                            // existing fbctory if possible)
+                            String certType = dis.rebdUTF();
+                            if (cfs.contbinsKey(certType)) {
+                                // reuse certificbte fbctory
                                 cf = cfs.get(certType);
                             } else {
-                                // create new certificate factory
-                                cf = CertificateFactory.getInstance(certType);
-                                // store the certificate factory so we can
-                                // reuse it later
+                                // crebte new certificbte fbctory
+                                cf = CertificbteFbctory.getInstbnce(certType);
+                                // store the certificbte fbctory so we cbn
+                                // reuse it lbter
                                 cfs.put(certType, cf);
                             }
                         }
                         try {
-                            encoded = new byte[dis.readInt()];
-                        } catch (OutOfMemoryError e) {
-                            throw new IOException("Certificate too big");
+                            encoded = new byte[dis.rebdInt()];
+                        } cbtch (OutOfMemoryError e) {
+                            throw new IOException("Certificbte too big");
                         }
-                        dis.readFully(encoded);
-                        bais = new ByteArrayInputStream(encoded);
-                        entry.cert = cf.generateCertificate(bais);
+                        dis.rebdFully(encoded);
+                        bbis = new ByteArrbyInputStrebm(encoded);
+                        entry.cert = cf.generbteCertificbte(bbis);
 
                         // Add the entry to the list
-                        entries.put(alias, entry);
+                        entries.put(blibs, entry);
 
-                    } else if (tag == 3) { // secret-key entry
+                    } else if (tbg == 3) { // secret-key entry
 
                         SecretKeyEntry entry = new SecretKeyEntry();
 
-                        // read the alias
-                        alias = dis.readUTF();
+                        // rebd the blibs
+                        blibs = dis.rebdUTF();
 
-                        // read the (entry creation) date
-                        entry.date = new Date(dis.readLong());
+                        // rebd the (entry crebtion) dbte
+                        entry.dbte = new Dbte(dis.rebdLong());
 
-                        // read the sealed key
+                        // rebd the sebled key
                         try {
-                            ois = new ObjectInputStream(dis);
-                            entry.sealedKey = (SealedObject)ois.readObject();
-                            // NOTE: don't close ois here since we are still
+                            ois = new ObjectInputStrebm(dis);
+                            entry.sebledKey = (SebledObject)ois.rebdObject();
+                            // NOTE: don't close ois here since we bre still
                             // using dis!!!
-                        } catch (ClassNotFoundException cnfe) {
-                            throw new IOException(cnfe.getMessage());
+                        } cbtch (ClbssNotFoundException cnfe) {
+                            throw new IOException(cnfe.getMessbge());
                         }
 
                         // Add the entry to the list
-                        entries.put(alias, entry);
+                        entries.put(blibs, entry);
 
                     } else {
                         throw new IOException("Unrecognized keystore entry");
@@ -851,24 +851,24 @@ public final class JceKeyStore extends KeyStoreSpi {
                 }
 
                 /*
-                 * If a password has been provided, we check the keyed digest
-                 * at the end. If this check fails, the store has been tampered
+                 * If b pbssword hbs been provided, we check the keyed digest
+                 * bt the end. If this check fbils, the store hbs been tbmpered
                  * with
                  */
-                if (password != null) {
-                    byte computed[], actual[];
+                if (pbssword != null) {
+                    byte computed[], bctubl[];
                     computed = md.digest();
-                    actual = new byte[computed.length];
-                    dis.readFully(actual);
+                    bctubl = new byte[computed.length];
+                    dis.rebdFully(bctubl);
                     for (int i = 0; i < computed.length; i++) {
-                        if (computed[i] != actual[i]) {
+                        if (computed[i] != bctubl[i]) {
                             throw new IOException(
-                                "Keystore was tampered with, or "
-                                + "password was incorrect");
+                                "Keystore wbs tbmpered with, or "
+                                + "pbssword wbs incorrect");
                         }
                     }
                 }
-            }  finally {
+            }  finblly {
                 if (ois != null) {
                     ois.close();
                 } else {
@@ -879,23 +879,23 @@ public final class JceKeyStore extends KeyStoreSpi {
     }
 
     /**
-     * To guard against tampering with the keystore, we append a keyed
-     * hash with a bit of whitener.
+     * To gubrd bgbinst tbmpering with the keystore, we bppend b keyed
+     * hbsh with b bit of whitener.
      */
-    private MessageDigest getPreKeyedHash(char[] password)
+    privbte MessbgeDigest getPreKeyedHbsh(chbr[] pbssword)
     throws NoSuchAlgorithmException, UnsupportedEncodingException {
         int i, j;
 
-        MessageDigest md = MessageDigest.getInstance("SHA");
-        byte[] passwdBytes = new byte[password.length * 2];
-        for (i=0, j=0; i<password.length; i++) {
-            passwdBytes[j++] = (byte)(password[i] >> 8);
-            passwdBytes[j++] = (byte)password[i];
+        MessbgeDigest md = MessbgeDigest.getInstbnce("SHA");
+        byte[] pbsswdBytes = new byte[pbssword.length * 2];
+        for (i=0, j=0; i<pbssword.length; i++) {
+            pbsswdBytes[j++] = (byte)(pbssword[i] >> 8);
+            pbsswdBytes[j++] = (byte)pbssword[i];
         }
-        md.update(passwdBytes);
-        for (i=0; i<passwdBytes.length; i++)
-            passwdBytes[i] = 0;
-        md.update("Mighty Aphrodite".getBytes("UTF8"));
+        md.updbte(pbsswdBytes);
+        for (i=0; i<pbsswdBytes.length; i++)
+            pbsswdBytes[i] = 0;
+        md.updbte("Mighty Aphrodite".getBytes("UTF8"));
         return md;
     }
 }

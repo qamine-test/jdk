@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.applet;
+pbckbge sun.bpplet;
 
-import java.lang.NullPointerException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.SocketPermission;
-import java.net.URLConnection;
-import java.net.MalformedURLException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.io.File;
-import java.io.FilePermission;
-import java.io.IOException;
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.NoSuchElementException;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.security.CodeSource;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import jbvb.lbng.NullPointerException;
+import jbvb.net.URL;
+import jbvb.net.URLClbssLobder;
+import jbvb.net.SocketPermission;
+import jbvb.net.URLConnection;
+import jbvb.net.MblformedURLException;
+import jbvb.net.InetAddress;
+import jbvb.net.UnknownHostException;
+import jbvb.io.File;
+import jbvb.io.FilePermission;
+import jbvb.io.IOException;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.NoSuchElementException;
+import jbvb.security.AccessController;
+import jbvb.security.AccessControlContext;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.CodeSource;
+import jbvb.security.Permission;
+import jbvb.security.PermissionCollection;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
 import sun.misc.IOUtils;
-import sun.net.www.ParseUtil;
-import sun.security.util.SecurityConstants;
+import sun.net.www.PbrseUtil;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * This class defines the class loader for loading applet classes and
- * resources. It extends URLClassLoader to search the applet code base
- * for the class or resource after checking any loaded JAR files.
+ * This clbss defines the clbss lobder for lobding bpplet clbsses bnd
+ * resources. It extends URLClbssLobder to sebrch the bpplet code bbse
+ * for the clbss or resource bfter checking bny lobded JAR files.
  */
-public class AppletClassLoader extends URLClassLoader {
-    private URL base;   /* applet code base URL */
-    private CodeSource codesource; /* codesource for the base URL */
-    private AccessControlContext acc;
-    private boolean exceptionStatus = false;
+public clbss AppletClbssLobder extends URLClbssLobder {
+    privbte URL bbse;   /* bpplet code bbse URL */
+    privbte CodeSource codesource; /* codesource for the bbse URL */
+    privbte AccessControlContext bcc;
+    privbte boolebn exceptionStbtus = fblse;
 
-    private final Object threadGroupSynchronizer = new Object();
-    private final Object grabReleaseSynchronizer = new Object();
+    privbte finbl Object threbdGroupSynchronizer = new Object();
+    privbte finbl Object grbbRelebseSynchronizer = new Object();
 
-    private boolean codebaseLookup = true;
-    private volatile boolean allowRecursiveDirectoryRead = true;
+    privbte boolebn codebbseLookup = true;
+    privbte volbtile boolebn bllowRecursiveDirectoryRebd = true;
 
     /*
-     * Creates a new AppletClassLoader for the specified base URL.
+     * Crebtes b new AppletClbssLobder for the specified bbse URL.
      */
-    protected AppletClassLoader(URL base) {
+    protected AppletClbssLobder(URL bbse) {
         super(new URL[0]);
-        this.base = base;
+        this.bbse = bbse;
         this.codesource =
-            new CodeSource(base, (java.security.cert.Certificate[]) null);
-        acc = AccessController.getContext();
+            new CodeSource(bbse, (jbvb.security.cert.Certificbte[]) null);
+        bcc = AccessController.getContext();
     }
 
-    public void disableRecursiveDirectoryRead() {
-        allowRecursiveDirectoryRead = false;
+    public void disbbleRecursiveDirectoryRebd() {
+        bllowRecursiveDirectoryRebd = fblse;
     }
 
 
     /**
-     * Set the codebase lookup flag.
+     * Set the codebbse lookup flbg.
      */
-    void setCodebaseLookup(boolean codebaseLookup)  {
-        this.codebaseLookup = codebaseLookup;
+    void setCodebbseLookup(boolebn codebbseLookup)  {
+        this.codebbseLookup = codebbseLookup;
     }
 
     /*
-     * Returns the applet code base URL.
+     * Returns the bpplet code bbse URL.
      */
-    URL getBaseURL() {
-        return base;
+    URL getBbseURL() {
+        return bbse;
     }
 
     /*
-     * Returns the URLs used for loading classes and resources.
+     * Returns the URLs used for lobding clbsses bnd resources.
      */
     public URL[] getURLs() {
-        URL[] jars = super.getURLs();
-        URL[] urls = new URL[jars.length + 1];
-        System.arraycopy(jars, 0, urls, 0, jars.length);
-        urls[urls.length - 1] = base;
+        URL[] jbrs = super.getURLs();
+        URL[] urls = new URL[jbrs.length + 1];
+        System.brrbycopy(jbrs, 0, urls, 0, jbrs.length);
+        urls[urls.length - 1] = bbse;
         return urls;
     }
 
     /*
-     * Adds the specified JAR file to the search path of loaded JAR files.
-     * Changed modifier to protected in order to be able to overwrite addJar()
-     * in PluginClassLoader.java
+     * Adds the specified JAR file to the sebrch pbth of lobded JAR files.
+     * Chbnged modifier to protected in order to be bble to overwrite bddJbr()
+     * in PluginClbssLobder.jbvb
      */
-    protected void addJar(String name) throws IOException {
+    protected void bddJbr(String nbme) throws IOException {
         URL url;
         try {
-            url = new URL(base, name);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("name");
+            url = new URL(bbse, nbme);
+        } cbtch (MblformedURLException e) {
+            throw new IllegblArgumentException("nbme");
         }
-        addURL(url);
+        bddURL(url);
         // DEBUG
         //URL[] urls = getURLs();
         //for (int i = 0; i < urls.length; i++) {
@@ -134,176 +134,176 @@ public class AppletClassLoader extends URLClassLoader {
     }
 
     /*
-     * Override loadClass so that class loading errors can be caught in
-     * order to print better error messages.
+     * Override lobdClbss so thbt clbss lobding errors cbn be cbught in
+     * order to print better error messbges.
      */
-    public synchronized Class<?> loadClass(String name, boolean resolve)
-        throws ClassNotFoundException
+    public synchronized Clbss<?> lobdClbss(String nbme, boolebn resolve)
+        throws ClbssNotFoundException
     {
-        // First check if we have permission to access the package. This
-        // should go away once we've added support for exported packages.
-        int i = name.lastIndexOf('.');
+        // First check if we hbve permission to bccess the pbckbge. This
+        // should go bwby once we've bdded support for exported pbckbges.
+        int i = nbme.lbstIndexOf('.');
         if (i != -1) {
-            SecurityManager sm = System.getSecurityManager();
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null)
-                sm.checkPackageAccess(name.substring(0, i));
+                sm.checkPbckbgeAccess(nbme.substring(0, i));
         }
         try {
-            return super.loadClass(name, resolve);
-        } catch (ClassNotFoundException e) {
-            //printError(name, e.getException());
+            return super.lobdClbss(nbme, resolve);
+        } cbtch (ClbssNotFoundException e) {
+            //printError(nbme, e.getException());
             throw e;
-        } catch (RuntimeException e) {
-            //printError(name, e);
+        } cbtch (RuntimeException e) {
+            //printError(nbme, e);
             throw e;
-        } catch (Error e) {
-            //printError(name, e);
+        } cbtch (Error e) {
+            //printError(nbme, e);
             throw e;
         }
     }
 
     /*
-     * Finds the applet class with the specified name. First searches
-     * loaded JAR files then the applet code base for the class.
+     * Finds the bpplet clbss with the specified nbme. First sebrches
+     * lobded JAR files then the bpplet code bbse for the clbss.
      */
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
+    protected Clbss<?> findClbss(String nbme) throws ClbssNotFoundException {
 
-        int index = name.indexOf(';');
+        int index = nbme.indexOf(';');
         String cookie = "";
         if(index != -1) {
-                cookie = name.substring(index, name.length());
-                name = name.substring(0, index);
+                cookie = nbme.substring(index, nbme.length());
+                nbme = nbme.substring(0, index);
         }
 
-        // check loaded JAR files
+        // check lobded JAR files
         try {
-            return super.findClass(name);
-        } catch (ClassNotFoundException e) {
+            return super.findClbss(nbme);
+        } cbtch (ClbssNotFoundException e) {
         }
 
-        // Otherwise, try loading the class from the code base URL
+        // Otherwise, try lobding the clbss from the code bbse URL
 
-        // 4668479: Option to turn off codebase lookup in AppletClassLoader
-        // during resource requests. [stanley.ho]
-        if (codebaseLookup == false)
-            throw new ClassNotFoundException(name);
+        // 4668479: Option to turn off codebbse lookup in AppletClbssLobder
+        // during resource requests. [stbnley.ho]
+        if (codebbseLookup == fblse)
+            throw new ClbssNotFoundException(nbme);
 
-//      final String path = name.replace('.', '/').concat(".class").concat(cookie);
-        String encodedName = ParseUtil.encodePath(name.replace('.', '/'), false);
-        final String path = (new StringBuffer(encodedName)).append(".class").append(cookie).toString();
+//      finbl String pbth = nbme.replbce('.', '/').concbt(".clbss").concbt(cookie);
+        String encodedNbme = PbrseUtil.encodePbth(nbme.replbce('.', '/'), fblse);
+        finbl String pbth = (new StringBuffer(encodedNbme)).bppend(".clbss").bppend(cookie).toString();
         try {
             byte[] b = AccessController.doPrivileged(
                                new PrivilegedExceptionAction<byte[]>() {
                 public byte[] run() throws IOException {
                    try {
-                        URL finalURL = new URL(base, path);
+                        URL finblURL = new URL(bbse, pbth);
 
-                        // Make sure the codebase won't be modified
-                        if (base.getProtocol().equals(finalURL.getProtocol()) &&
-                            base.getHost().equals(finalURL.getHost()) &&
-                            base.getPort() == finalURL.getPort()) {
-                            return getBytes(finalURL);
+                        // Mbke sure the codebbse won't be modified
+                        if (bbse.getProtocol().equbls(finblURL.getProtocol()) &&
+                            bbse.getHost().equbls(finblURL.getHost()) &&
+                            bbse.getPort() == finblURL.getPort()) {
+                            return getBytes(finblURL);
                         }
                         else {
                             return null;
                         }
-                    } catch (Exception e) {
+                    } cbtch (Exception e) {
                         return null;
                     }
                 }
-            }, acc);
+            }, bcc);
 
             if (b != null) {
-                return defineClass(name, b, 0, b.length, codesource);
+                return defineClbss(nbme, b, 0, b.length, codesource);
             } else {
-                throw new ClassNotFoundException(name);
+                throw new ClbssNotFoundException(nbme);
             }
-        } catch (PrivilegedActionException e) {
-            throw new ClassNotFoundException(name, e.getException());
+        } cbtch (PrivilegedActionException e) {
+            throw new ClbssNotFoundException(nbme, e.getException());
         }
     }
 
     /**
      * Returns the permissions for the given codesource object.
-     * The implementation of this method first calls super.getPermissions,
+     * The implementbtion of this method first cblls super.getPermissions,
      * to get the permissions
-     * granted by the super class, and then adds additional permissions
-     * based on the URL of the codesource.
+     * grbnted by the super clbss, bnd then bdds bdditionbl permissions
+     * bbsed on the URL of the codesource.
      * <p>
      * If the protocol is "file"
-     * and the path specifies a file, permission is granted to read all files
-     * and (recursively) all files and subdirectories contained in
-     * that directory. This is so applets with a codebase of
-     * file:/blah/some.jar can read in file:/blah/, which is needed to
-     * be backward compatible. We also add permission to connect back to
-     * the "localhost".
+     * bnd the pbth specifies b file, permission is grbnted to rebd bll files
+     * bnd (recursively) bll files bnd subdirectories contbined in
+     * thbt directory. This is so bpplets with b codebbse of
+     * file:/blbh/some.jbr cbn rebd in file:/blbh/, which is needed to
+     * be bbckwbrd compbtible. We blso bdd permission to connect bbck to
+     * the "locblhost".
      *
-     * @param codesource the codesource
+     * @pbrbm codesource the codesource
      * @throws NullPointerException if {@code codesource} is {@code null}.
-     * @return the permissions granted to the codesource
+     * @return the permissions grbnted to the codesource
      */
     protected PermissionCollection getPermissions(CodeSource codesource)
     {
-        final PermissionCollection perms = super.getPermissions(codesource);
+        finbl PermissionCollection perms = super.getPermissions(codesource);
 
-        URL url = codesource.getLocation();
+        URL url = codesource.getLocbtion();
 
-        String path = null;
+        String pbth = null;
         Permission p;
 
         try {
             p = url.openConnection().getPermission();
-        } catch (java.io.IOException ioe) {
+        } cbtch (jbvb.io.IOException ioe) {
             p = null;
         }
 
-        if (p instanceof FilePermission) {
-            path = p.getName();
-        } else if ((p == null) && (url.getProtocol().equals("file"))) {
-            path = url.getFile().replace('/', File.separatorChar);
-            path = ParseUtil.decode(path);
+        if (p instbnceof FilePermission) {
+            pbth = p.getNbme();
+        } else if ((p == null) && (url.getProtocol().equbls("file"))) {
+            pbth = url.getFile().replbce('/', File.sepbrbtorChbr);
+            pbth = PbrseUtil.decode(pbth);
         }
 
-        if (path != null) {
-            final String rawPath = path;
-            if (!path.endsWith(File.separator)) {
-                int endIndex = path.lastIndexOf(File.separatorChar);
+        if (pbth != null) {
+            finbl String rbwPbth = pbth;
+            if (!pbth.endsWith(File.sepbrbtor)) {
+                int endIndex = pbth.lbstIndexOf(File.sepbrbtorChbr);
                 if (endIndex != -1) {
-                        path = path.substring(0, endIndex + 1) + "-";
-                        perms.add(new FilePermission(path,
-                            SecurityConstants.FILE_READ_ACTION));
+                        pbth = pbth.substring(0, endIndex + 1) + "-";
+                        perms.bdd(new FilePermission(pbth,
+                            SecurityConstbnts.FILE_READ_ACTION));
                 }
             }
-            final File f = new File(rawPath);
-            final boolean isDirectory = f.isDirectory();
-            // grant codebase recursive read permission
-            // this should only be granted to non-UNC file URL codebase and
-            // the codesource path must either be a directory, or a file
-            // that ends with .jar or .zip
-            if (allowRecursiveDirectoryRead && (isDirectory ||
-                    rawPath.toLowerCase().endsWith(".jar") ||
-                    rawPath.toLowerCase().endsWith(".zip"))) {
+            finbl File f = new File(rbwPbth);
+            finbl boolebn isDirectory = f.isDirectory();
+            // grbnt codebbse recursive rebd permission
+            // this should only be grbnted to non-UNC file URL codebbse bnd
+            // the codesource pbth must either be b directory, or b file
+            // thbt ends with .jbr or .zip
+            if (bllowRecursiveDirectoryRebd && (isDirectory ||
+                    rbwPbth.toLowerCbse().endsWith(".jbr") ||
+                    rbwPbth.toLowerCbse().endsWith(".zip"))) {
 
             Permission bperm;
                 try {
-                    bperm = base.openConnection().getPermission();
-                } catch (java.io.IOException ioe) {
+                    bperm = bbse.openConnection().getPermission();
+                } cbtch (jbvb.io.IOException ioe) {
                     bperm = null;
                 }
-                if (bperm instanceof FilePermission) {
-                    String bpath = bperm.getName();
-                    if (bpath.endsWith(File.separator)) {
-                        bpath += "-";
+                if (bperm instbnceof FilePermission) {
+                    String bpbth = bperm.getNbme();
+                    if (bpbth.endsWith(File.sepbrbtor)) {
+                        bpbth += "-";
                     }
-                    perms.add(new FilePermission(bpath,
-                        SecurityConstants.FILE_READ_ACTION));
-                } else if ((bperm == null) && (base.getProtocol().equals("file"))) {
-                    String bpath = base.getFile().replace('/', File.separatorChar);
-                    bpath = ParseUtil.decode(bpath);
-                    if (bpath.endsWith(File.separator)) {
-                        bpath += "-";
+                    perms.bdd(new FilePermission(bpbth,
+                        SecurityConstbnts.FILE_READ_ACTION));
+                } else if ((bperm == null) && (bbse.getProtocol().equbls("file"))) {
+                    String bpbth = bbse.getFile().replbce('/', File.sepbrbtorChbr);
+                    bpbth = PbrseUtil.decode(bpbth);
+                    if (bpbth.endsWith(File.sepbrbtor)) {
+                        bpbth += "-";
                     }
-                    perms.add(new FilePermission(bpath, SecurityConstants.FILE_READ_ACTION));
+                    perms.bdd(new FilePermission(bpbth, SecurityConstbnts.FILE_READ_ACTION));
                 }
 
             }
@@ -312,95 +312,95 @@ public class AppletClassLoader extends URLClassLoader {
     }
 
     /*
-     * Returns the contents of the specified URL as an array of bytes.
+     * Returns the contents of the specified URL bs bn brrby of bytes.
      */
-    private static byte[] getBytes(URL url) throws IOException {
+    privbte stbtic byte[] getBytes(URL url) throws IOException {
         URLConnection uc = url.openConnection();
-        if (uc instanceof java.net.HttpURLConnection) {
-            java.net.HttpURLConnection huc = (java.net.HttpURLConnection) uc;
+        if (uc instbnceof jbvb.net.HttpURLConnection) {
+            jbvb.net.HttpURLConnection huc = (jbvb.net.HttpURLConnection) uc;
             int code = huc.getResponseCode();
-            if (code >= java.net.HttpURLConnection.HTTP_BAD_REQUEST) {
-                throw new IOException("open HTTP connection failed.");
+            if (code >= jbvb.net.HttpURLConnection.HTTP_BAD_REQUEST) {
+                throw new IOException("open HTTP connection fbiled.");
             }
         }
         int len = uc.getContentLength();
 
-        // Fixed #4507227: Slow performance to load
-        // class and resources. [stanleyh]
+        // Fixed #4507227: Slow performbnce to lobd
+        // clbss bnd resources. [stbnleyh]
         //
-        // Use buffered input stream [stanleyh]
-        InputStream in = new BufferedInputStream(uc.getInputStream());
+        // Use buffered input strebm [stbnleyh]
+        InputStrebm in = new BufferedInputStrebm(uc.getInputStrebm());
 
         byte[] b;
         try {
-            b = IOUtils.readFully(in, len, true);
-        } finally {
+            b = IOUtils.rebdFully(in, len, true);
+        } finblly {
             in.close();
         }
         return b;
     }
 
-    // Object for synchronization around getResourceAsStream()
-    private Object syncResourceAsStream = new Object();
-    private Object syncResourceAsStreamFromJar = new Object();
+    // Object for synchronizbtion bround getResourceAsStrebm()
+    privbte Object syncResourceAsStrebm = new Object();
+    privbte Object syncResourceAsStrebmFromJbr = new Object();
 
-    // Flag to indicate getResourceAsStream() is in call
-    private boolean resourceAsStreamInCall = false;
-    private boolean resourceAsStreamFromJarInCall = false;
+    // Flbg to indicbte getResourceAsStrebm() is in cbll
+    privbte boolebn resourceAsStrebmInCbll = fblse;
+    privbte boolebn resourceAsStrebmFromJbrInCbll = fblse;
 
     /**
-     * Returns an input stream for reading the specified resource.
+     * Returns bn input strebm for rebding the specified resource.
      *
-     * The search order is described in the documentation for {@link
+     * The sebrch order is described in the documentbtion for {@link
      * #getResource(String)}.<p>
      *
-     * @param  name the resource name
-     * @return an input stream for reading the resource, or <code>null</code>
+     * @pbrbm  nbme the resource nbme
+     * @return bn input strebm for rebding the resource, or <code>null</code>
      *         if the resource could not be found
      * @since  1.1
      */
-    public InputStream getResourceAsStream(String name)
+    public InputStrebm getResourceAsStrebm(String nbme)
     {
 
-        if (name == null) {
-            throw new NullPointerException("name");
+        if (nbme == null) {
+            throw new NullPointerException("nbme");
         }
 
         try
         {
-            InputStream is = null;
+            InputStrebm is = null;
 
-            // Fixed #4507227: Slow performance to load
-            // class and resources. [stanleyh]
+            // Fixed #4507227: Slow performbnce to lobd
+            // clbss bnd resources. [stbnleyh]
             //
-            // The following is used to avoid calling
-            // AppletClassLoader.findResource() in
-            // super.getResourceAsStream(). Otherwise,
-            // unnecessary connection will be made.
+            // The following is used to bvoid cblling
+            // AppletClbssLobder.findResource() in
+            // super.getResourceAsStrebm(). Otherwise,
+            // unnecessbry connection will be mbde.
             //
-            synchronized(syncResourceAsStream)
+            synchronized(syncResourceAsStrebm)
             {
-                resourceAsStreamInCall = true;
+                resourceAsStrebmInCbll = true;
 
-                // Call super class
-                is = super.getResourceAsStream(name);
+                // Cbll super clbss
+                is = super.getResourceAsStrebm(nbme);
 
-                resourceAsStreamInCall = false;
+                resourceAsStrebmInCbll = fblse;
             }
 
-            // 4668479: Option to turn off codebase lookup in AppletClassLoader
-            // during resource requests. [stanley.ho]
-            if (codebaseLookup == true && is == null)
+            // 4668479: Option to turn off codebbse lookup in AppletClbssLobder
+            // during resource requests. [stbnley.ho]
+            if (codebbseLookup == true && is == null)
             {
-                // If resource cannot be obtained,
-                // try to download it from codebase
-                URL url = new URL(base, ParseUtil.encodePath(name, false));
-                is = url.openStream();
+                // If resource cbnnot be obtbined,
+                // try to downlobd it from codebbse
+                URL url = new URL(bbse, PbrseUtil.encodePbth(nbme, fblse));
+                is = url.openStrebm();
             }
 
             return is;
         }
-        catch (Exception e)
+        cbtch (Exception e)
         {
             return null;
         }
@@ -408,96 +408,96 @@ public class AppletClassLoader extends URLClassLoader {
 
 
     /**
-     * Returns an input stream for reading the specified resource from the
-     * the loaded jar files.
+     * Returns bn input strebm for rebding the specified resource from the
+     * the lobded jbr files.
      *
-     * The search order is described in the documentation for {@link
+     * The sebrch order is described in the documentbtion for {@link
      * #getResource(String)}.<p>
      *
-     * @param  name the resource name
-     * @return an input stream for reading the resource, or <code>null</code>
+     * @pbrbm  nbme the resource nbme
+     * @return bn input strebm for rebding the resource, or <code>null</code>
      *         if the resource could not be found
      * @since  1.1
      */
-    public InputStream getResourceAsStreamFromJar(String name) {
+    public InputStrebm getResourceAsStrebmFromJbr(String nbme) {
 
-        if (name == null) {
-            throw new NullPointerException("name");
+        if (nbme == null) {
+            throw new NullPointerException("nbme");
         }
 
         try {
-            InputStream is = null;
-            synchronized(syncResourceAsStreamFromJar) {
-                resourceAsStreamFromJarInCall = true;
-                // Call super class
-                is = super.getResourceAsStream(name);
-                resourceAsStreamFromJarInCall = false;
+            InputStrebm is = null;
+            synchronized(syncResourceAsStrebmFromJbr) {
+                resourceAsStrebmFromJbrInCbll = true;
+                // Cbll super clbss
+                is = super.getResourceAsStrebm(nbme);
+                resourceAsStrebmFromJbrInCbll = fblse;
             }
 
             return is;
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             return null;
         }
     }
 
 
     /*
-     * Finds the applet resource with the specified name. First checks
-     * loaded JAR files then the applet code base for the resource.
+     * Finds the bpplet resource with the specified nbme. First checks
+     * lobded JAR files then the bpplet code bbse for the resource.
      */
-    public URL findResource(String name) {
-        // check loaded JAR files
-        URL url = super.findResource(name);
+    public URL findResource(String nbme) {
+        // check lobded JAR files
+        URL url = super.findResource(nbme);
 
-        // 6215746:  Disable META-INF/* lookup from codebase in
-        // applet/plugin classloader. [stanley.ho]
-        if (name.startsWith("META-INF/"))
+        // 6215746:  Disbble META-INF/* lookup from codebbse in
+        // bpplet/plugin clbsslobder. [stbnley.ho]
+        if (nbme.stbrtsWith("META-INF/"))
             return url;
 
-        // 4668479: Option to turn off codebase lookup in AppletClassLoader
-        // during resource requests. [stanley.ho]
-        if (codebaseLookup == false)
+        // 4668479: Option to turn off codebbse lookup in AppletClbssLobder
+        // during resource requests. [stbnley.ho]
+        if (codebbseLookup == fblse)
             return url;
 
         if (url == null)
         {
-            //#4805170, if it is a call from Applet.getImage()
-            //we should check for the image only in the archives
-            boolean insideGetResourceAsStreamFromJar = false;
-                synchronized(syncResourceAsStreamFromJar) {
-                insideGetResourceAsStreamFromJar = resourceAsStreamFromJarInCall;
+            //#4805170, if it is b cbll from Applet.getImbge()
+            //we should check for the imbge only in the brchives
+            boolebn insideGetResourceAsStrebmFromJbr = fblse;
+                synchronized(syncResourceAsStrebmFromJbr) {
+                insideGetResourceAsStrebmFromJbr = resourceAsStrebmFromJbrInCbll;
             }
 
-            if (insideGetResourceAsStreamFromJar) {
+            if (insideGetResourceAsStrebmFromJbr) {
                 return null;
             }
 
-            // Fixed #4507227: Slow performance to load
-            // class and resources. [stanleyh]
+            // Fixed #4507227: Slow performbnce to lobd
+            // clbss bnd resources. [stbnleyh]
             //
-            // Check if getResourceAsStream is called.
+            // Check if getResourceAsStrebm is cblled.
             //
-            boolean insideGetResourceAsStream = false;
+            boolebn insideGetResourceAsStrebm = fblse;
 
-            synchronized(syncResourceAsStream)
+            synchronized(syncResourceAsStrebm)
             {
-                insideGetResourceAsStream = resourceAsStreamInCall;
+                insideGetResourceAsStrebm = resourceAsStrebmInCbll;
             }
 
-            // If getResourceAsStream is called, don't
+            // If getResourceAsStrebm is cblled, don't
             // trigger the following code. Otherwise,
-            // unnecessary connection will be made.
+            // unnecessbry connection will be mbde.
             //
-            if (insideGetResourceAsStream == false)
+            if (insideGetResourceAsStrebm == fblse)
             {
-                // otherwise, try the code base
+                // otherwise, try the code bbse
                 try {
-                    url = new URL(base, ParseUtil.encodePath(name, false));
+                    url = new URL(bbse, PbrseUtil.encodePbth(nbme, fblse));
                     // check if resource exists
                     if(!resourceExists(url))
                         url = null;
-                } catch (Exception e) {
-                    // all exceptions, including security exceptions, are caught
+                } cbtch (Exception e) {
+                    // bll exceptions, including security exceptions, bre cbught
                     url = null;
                 }
             }
@@ -506,82 +506,82 @@ public class AppletClassLoader extends URLClassLoader {
     }
 
 
-    private boolean resourceExists(URL url) {
+    privbte boolebn resourceExists(URL url) {
         // Check if the resource exists.
-        // It almost works to just try to do an openConnection() but
+        // It blmost works to just try to do bn openConnection() but
         // HttpURLConnection will return true on HTTP_BAD_REQUEST
-        // when the requested name ends in ".html", ".htm", and ".txt"
-        // and we want to be able to handle these
+        // when the requested nbme ends in ".html", ".htm", bnd ".txt"
+        // bnd we wbnt to be bble to hbndle these
         //
-        // Also, cannot just open a connection for things like FileURLConnection,
-        // because they succeed when connecting to a nonexistent file.
-        // So, in those cases we open and close an input stream.
-        boolean ok = true;
+        // Also, cbnnot just open b connection for things like FileURLConnection,
+        // becbuse they succeed when connecting to b nonexistent file.
+        // So, in those cbses we open bnd close bn input strebm.
+        boolebn ok = true;
         try {
             URLConnection conn = url.openConnection();
-            if (conn instanceof java.net.HttpURLConnection) {
-                java.net.HttpURLConnection hconn =
-                    (java.net.HttpURLConnection) conn;
+            if (conn instbnceof jbvb.net.HttpURLConnection) {
+                jbvb.net.HttpURLConnection hconn =
+                    (jbvb.net.HttpURLConnection) conn;
 
-                // To reduce overhead, using http HEAD method instead of GET method
+                // To reduce overhebd, using http HEAD method instebd of GET method
                 hconn.setRequestMethod("HEAD");
 
                 int code = hconn.getResponseCode();
-                if (code == java.net.HttpURLConnection.HTTP_OK) {
+                if (code == jbvb.net.HttpURLConnection.HTTP_OK) {
                     return true;
                 }
-                if (code >= java.net.HttpURLConnection.HTTP_BAD_REQUEST) {
-                    return false;
+                if (code >= jbvb.net.HttpURLConnection.HTTP_BAD_REQUEST) {
+                    return fblse;
                 }
             } else {
                 /**
-                 * Fix for #4182052 - stanleyh
+                 * Fix for #4182052 - stbnleyh
                  *
-                 * The same connection should be reused to avoid multiple
+                 * The sbme connection should be reused to bvoid multiple
                  * HTTP connections
                  */
 
-                // our best guess for the other cases
-                InputStream is = conn.getInputStream();
+                // our best guess for the other cbses
+                InputStrebm is = conn.getInputStrebm();
                 is.close();
             }
-        } catch (Exception ex) {
-            ok = false;
+        } cbtch (Exception ex) {
+            ok = fblse;
         }
         return ok;
     }
 
     /*
-     * Returns an enumeration of all the applet resources with the specified
-     * name. First checks loaded JAR files then the applet code base for all
-     * available resources.
+     * Returns bn enumerbtion of bll the bpplet resources with the specified
+     * nbme. First checks lobded JAR files then the bpplet code bbse for bll
+     * bvbilbble resources.
      */
     @Override
-    public Enumeration<URL> findResources(String name) throws IOException {
+    public Enumerbtion<URL> findResources(String nbme) throws IOException {
 
-        final Enumeration<URL> e = super.findResources(name);
+        finbl Enumerbtion<URL> e = super.findResources(nbme);
 
-        // 6215746:  Disable META-INF/* lookup from codebase in
-        // applet/plugin classloader. [stanley.ho]
-        if (name.startsWith("META-INF/"))
+        // 6215746:  Disbble META-INF/* lookup from codebbse in
+        // bpplet/plugin clbsslobder. [stbnley.ho]
+        if (nbme.stbrtsWith("META-INF/"))
             return e;
 
-        // 4668479: Option to turn off codebase lookup in AppletClassLoader
-        // during resource requests. [stanley.ho]
-        if (codebaseLookup == false)
+        // 4668479: Option to turn off codebbse lookup in AppletClbssLobder
+        // during resource requests. [stbnley.ho]
+        if (codebbseLookup == fblse)
             return e;
 
-        URL u = new URL(base, ParseUtil.encodePath(name, false));
+        URL u = new URL(bbse, PbrseUtil.encodePbth(nbme, fblse));
         if (!resourceExists(u)) {
             u = null;
         }
 
-        final URL url = u;
-        return new Enumeration<URL>() {
-            private boolean done;
+        finbl URL url = u;
+        return new Enumerbtion<URL>() {
+            privbte boolebn done;
             public URL nextElement() {
                 if (!done) {
-                    if (e.hasMoreElements()) {
+                    if (e.hbsMoreElements()) {
                         return e.nextElement();
                     }
                     done = true;
@@ -591,257 +591,257 @@ public class AppletClassLoader extends URLClassLoader {
                 }
                 throw new NoSuchElementException();
             }
-            public boolean hasMoreElements() {
-                return !done && (e.hasMoreElements() || url != null);
+            public boolebn hbsMoreElements() {
+                return !done && (e.hbsMoreElements() || url != null);
             }
         };
     }
 
     /*
-     * Load and resolve the file specified by the applet tag CODE
-     * attribute. The argument can either be the relative path
-     * of the class file itself or just the name of the class.
+     * Lobd bnd resolve the file specified by the bpplet tbg CODE
+     * bttribute. The brgument cbn either be the relbtive pbth
+     * of the clbss file itself or just the nbme of the clbss.
      */
-    Class<?> loadCode(String name) throws ClassNotFoundException {
-        // first convert any '/' or native file separator to .
-        name = name.replace('/', '.');
-        name = name.replace(File.separatorChar, '.');
+    Clbss<?> lobdCode(String nbme) throws ClbssNotFoundException {
+        // first convert bny '/' or nbtive file sepbrbtor to .
+        nbme = nbme.replbce('/', '.');
+        nbme = nbme.replbce(File.sepbrbtorChbr, '.');
 
-        // deal with URL rewriting
+        // debl with URL rewriting
         String cookie = null;
-        int index = name.indexOf(';');
+        int index = nbme.indexOf(';');
         if(index != -1) {
-                cookie = name.substring(index, name.length());
-                name = name.substring(0, index);
+                cookie = nbme.substring(index, nbme.length());
+                nbme = nbme.substring(0, index);
         }
 
-        // save that name for later
-        String fullName = name;
-        // then strip off any suffixes
-        if (name.endsWith(".class") || name.endsWith(".java")) {
-            name = name.substring(0, name.lastIndexOf('.'));
+        // sbve thbt nbme for lbter
+        String fullNbme = nbme;
+        // then strip off bny suffixes
+        if (nbme.endsWith(".clbss") || nbme.endsWith(".jbvb")) {
+            nbme = nbme.substring(0, nbme.lbstIndexOf('.'));
         }
         try {
                 if(cookie != null)
-                        name = (new StringBuffer(name)).append(cookie).toString();
-            return loadClass(name);
-        } catch (ClassNotFoundException e) {
+                        nbme = (new StringBuffer(nbme)).bppend(cookie).toString();
+            return lobdClbss(nbme);
+        } cbtch (ClbssNotFoundException e) {
         }
-        // then if it didn't end with .java or .class, or in the
-        // really pathological case of a class named class or java
+        // then if it didn't end with .jbvb or .clbss, or in the
+        // reblly pbthologicbl cbse of b clbss nbmed clbss or jbvb
         if(cookie != null)
-                fullName = (new StringBuffer(fullName)).append(cookie).toString();
+                fullNbme = (new StringBuffer(fullNbme)).bppend(cookie).toString();
 
-        return loadClass(fullName);
+        return lobdClbss(fullNbme);
     }
 
     /*
-     * The threadgroup that the applets loaded by this classloader live
-     * in. In the sun.* implementation of applets, the security manager's
-     * (AppletSecurity) getThreadGroup returns the thread group of the
-     * first applet on the stack, which is the applet's thread group.
+     * The threbdgroup thbt the bpplets lobded by this clbsslobder live
+     * in. In the sun.* implementbtion of bpplets, the security mbnbger's
+     * (AppletSecurity) getThrebdGroup returns the threbd group of the
+     * first bpplet on the stbck, which is the bpplet's threbd group.
      */
-    private AppletThreadGroup threadGroup;
-    private AppContext appContext;
+    privbte AppletThrebdGroup threbdGroup;
+    privbte AppContext bppContext;
 
-    public ThreadGroup getThreadGroup() {
-      synchronized (threadGroupSynchronizer) {
-        if (threadGroup == null || threadGroup.isDestroyed()) {
+    public ThrebdGroup getThrebdGroup() {
+      synchronized (threbdGroupSynchronizer) {
+        if (threbdGroup == null || threbdGroup.isDestroyed()) {
             AccessController.doPrivileged(new PrivilegedAction<Object>() {
                 public Object run() {
-                    threadGroup = new AppletThreadGroup(base + "-threadGroup");
-                    // threadGroup.setDaemon(true);
-                    // threadGroup is now destroyed by AppContext.dispose()
+                    threbdGroup = new AppletThrebdGroup(bbse + "-threbdGroup");
+                    // threbdGroup.setDbemon(true);
+                    // threbdGroup is now destroyed by AppContext.dispose()
 
-                    // Create the new AppContext from within a Thread belonging
-                    // to the newly created ThreadGroup, and wait for the
-                    // creation to complete before returning from this method.
-                    AppContextCreator creatorThread = new AppContextCreator(threadGroup);
+                    // Crebte the new AppContext from within b Threbd belonging
+                    // to the newly crebted ThrebdGroup, bnd wbit for the
+                    // crebtion to complete before returning from this method.
+                    AppContextCrebtor crebtorThrebd = new AppContextCrebtor(threbdGroup);
 
-                    // Since this thread will later be used to launch the
-                    // applet's AWT-event dispatch thread and we want the applet
-                    // code executing the AWT callbacks to use their own class
-                    // loader rather than the system class loader, explicitly
-                    // set the context class loader to the AppletClassLoader.
-                    creatorThread.setContextClassLoader(AppletClassLoader.this);
+                    // Since this threbd will lbter be used to lbunch the
+                    // bpplet's AWT-event dispbtch threbd bnd we wbnt the bpplet
+                    // code executing the AWT cbllbbcks to use their own clbss
+                    // lobder rbther thbn the system clbss lobder, explicitly
+                    // set the context clbss lobder to the AppletClbssLobder.
+                    crebtorThrebd.setContextClbssLobder(AppletClbssLobder.this);
 
-                    creatorThread.start();
+                    crebtorThrebd.stbrt();
                     try {
-                        synchronized(creatorThread.syncObject) {
-                            while (!creatorThread.created) {
-                                creatorThread.syncObject.wait();
+                        synchronized(crebtorThrebd.syncObject) {
+                            while (!crebtorThrebd.crebted) {
+                                crebtorThrebd.syncObject.wbit();
                             }
                         }
-                    } catch (InterruptedException e) { }
-                    appContext = creatorThread.appContext;
+                    } cbtch (InterruptedException e) { }
+                    bppContext = crebtorThrebd.bppContext;
                     return null;
                 }
             });
         }
-        return threadGroup;
+        return threbdGroup;
       }
     }
 
     /*
-     * Get the AppContext, if any, corresponding to this AppletClassLoader.
+     * Get the AppContext, if bny, corresponding to this AppletClbssLobder.
      */
     public AppContext getAppContext()  {
-        return appContext;
+        return bppContext;
     }
 
-    int usageCount = 0;
+    int usbgeCount = 0;
 
     /**
-     * Grab this AppletClassLoader and its ThreadGroup/AppContext, so they
+     * Grbb this AppletClbssLobder bnd its ThrebdGroup/AppContext, so they
      * won't be destroyed.
      */
-public     void grab() {
-        synchronized(grabReleaseSynchronizer) {
-            usageCount++;
+public     void grbb() {
+        synchronized(grbbRelebseSynchronizer) {
+            usbgeCount++;
         }
-        getThreadGroup(); // Make sure ThreadGroup/AppContext exist
+        getThrebdGroup(); // Mbke sure ThrebdGroup/AppContext exist
     }
 
-    protected void setExceptionStatus()
+    protected void setExceptionStbtus()
     {
-        exceptionStatus = true;
+        exceptionStbtus = true;
     }
 
-    public boolean getExceptionStatus()
+    public boolebn getExceptionStbtus()
     {
-        return exceptionStatus;
+        return exceptionStbtus;
     }
 
     /**
-     * Release this AppletClassLoader and its ThreadGroup/AppContext.
-     * If nothing else has grabbed this AppletClassLoader, its ThreadGroup
-     * and AppContext will be destroyed.
+     * Relebse this AppletClbssLobder bnd its ThrebdGroup/AppContext.
+     * If nothing else hbs grbbbed this AppletClbssLobder, its ThrebdGroup
+     * bnd AppContext will be destroyed.
      *
-     * Because this method may destroy the AppletClassLoader's ThreadGroup,
-     * this method should NOT be called from within the AppletClassLoader's
-     * ThreadGroup.
+     * Becbuse this method mby destroy the AppletClbssLobder's ThrebdGroup,
+     * this method should NOT be cblled from within the AppletClbssLobder's
+     * ThrebdGroup.
      *
-     * Changed modifier to protected in order to be able to overwrite this
-     * function in PluginClassLoader.java
+     * Chbnged modifier to protected in order to be bble to overwrite this
+     * function in PluginClbssLobder.jbvb
      */
-    protected void release() {
+    protected void relebse() {
 
         AppContext tempAppContext = null;
 
-        synchronized(grabReleaseSynchronizer) {
-            if (usageCount > 1)  {
-                --usageCount;
+        synchronized(grbbRelebseSynchronizer) {
+            if (usbgeCount > 1)  {
+                --usbgeCount;
             } else {
-                synchronized(threadGroupSynchronizer) {
+                synchronized(threbdGroupSynchronizer) {
                     tempAppContext = resetAppContext();
                 }
             }
         }
 
-        // Dispose appContext outside any sync block to
-        // prevent potential deadlock.
+        // Dispose bppContext outside bny sync block to
+        // prevent potentibl debdlock.
         if (tempAppContext != null)  {
             try {
                 tempAppContext.dispose(); // nuke the world!
-            } catch (IllegalThreadStateException e) { }
+            } cbtch (IllegblThrebdStbteException e) { }
         }
     }
 
     /*
-     * reset classloader's AppContext and ThreadGroup
-     * This method is for subclass PluginClassLoader to
-     * reset superclass's AppContext and ThreadGroup but do
-     * not dispose the AppContext. PluginClassLoader does not
-     * use UsageCount to decide whether to dispose AppContext
+     * reset clbsslobder's AppContext bnd ThrebdGroup
+     * This method is for subclbss PluginClbssLobder to
+     * reset superclbss's AppContext bnd ThrebdGroup but do
+     * not dispose the AppContext. PluginClbssLobder does not
+     * use UsbgeCount to decide whether to dispose AppContext
      *
      * @return previous AppContext
      */
     protected AppContext resetAppContext() {
         AppContext tempAppContext = null;
 
-        synchronized(threadGroupSynchronizer) {
-            // Store app context in temp variable
-            tempAppContext = appContext;
-            usageCount = 0;
-            appContext = null;
-            threadGroup = null;
+        synchronized(threbdGroupSynchronizer) {
+            // Store bpp context in temp vbribble
+            tempAppContext = bppContext;
+            usbgeCount = 0;
+            bppContext = null;
+            threbdGroup = null;
         }
         return tempAppContext;
     }
 
 
-    // Hash map to store applet compatibility info
-    private HashMap<String, Boolean> jdk11AppletInfo = new HashMap<>();
-    private HashMap<String, Boolean> jdk12AppletInfo = new HashMap<>();
+    // Hbsh mbp to store bpplet compbtibility info
+    privbte HbshMbp<String, Boolebn> jdk11AppletInfo = new HbshMbp<>();
+    privbte HbshMbp<String, Boolebn> jdk12AppletInfo = new HbshMbp<>();
 
     /**
-     * Set applet target level as JDK 1.1.
+     * Set bpplet tbrget level bs JDK 1.1.
      *
-     * @param clazz Applet class.
-     * @param bool true if JDK is targeted for JDK 1.1;
-     *             false otherwise.
+     * @pbrbm clbzz Applet clbss.
+     * @pbrbm bool true if JDK is tbrgeted for JDK 1.1;
+     *             fblse otherwise.
      */
-    void setJDK11Target(Class<?> clazz, boolean bool)
+    void setJDK11Tbrget(Clbss<?> clbzz, boolebn bool)
     {
-         jdk11AppletInfo.put(clazz.toString(), Boolean.valueOf(bool));
+         jdk11AppletInfo.put(clbzz.toString(), Boolebn.vblueOf(bool));
     }
 
     /**
-     * Set applet target level as JDK 1.2.
+     * Set bpplet tbrget level bs JDK 1.2.
      *
-     * @param clazz Applet class.
-     * @param bool true if JDK is targeted for JDK 1.2;
-     *             false otherwise.
+     * @pbrbm clbzz Applet clbss.
+     * @pbrbm bool true if JDK is tbrgeted for JDK 1.2;
+     *             fblse otherwise.
      */
-    void setJDK12Target(Class<?> clazz, boolean bool)
+    void setJDK12Tbrget(Clbss<?> clbzz, boolebn bool)
     {
-        jdk12AppletInfo.put(clazz.toString(), Boolean.valueOf(bool));
+        jdk12AppletInfo.put(clbzz.toString(), Boolebn.vblueOf(bool));
     }
 
     /**
-     * Determine if applet is targeted for JDK 1.1.
+     * Determine if bpplet is tbrgeted for JDK 1.1.
      *
-     * @param applet Applet class.
-     * @return TRUE if applet is targeted for JDK 1.1;
-     *         FALSE if applet is not;
-     *         null if applet is unknown.
+     * @pbrbm bpplet Applet clbss.
+     * @return TRUE if bpplet is tbrgeted for JDK 1.1;
+     *         FALSE if bpplet is not;
+     *         null if bpplet is unknown.
      */
-    Boolean isJDK11Target(Class<?> clazz)
+    Boolebn isJDK11Tbrget(Clbss<?> clbzz)
     {
-        return jdk11AppletInfo.get(clazz.toString());
+        return jdk11AppletInfo.get(clbzz.toString());
     }
 
     /**
-     * Determine if applet is targeted for JDK 1.2.
+     * Determine if bpplet is tbrgeted for JDK 1.2.
      *
-     * @param applet Applet class.
-     * @return TRUE if applet is targeted for JDK 1.2;
-     *         FALSE if applet is not;
-     *         null if applet is unknown.
+     * @pbrbm bpplet Applet clbss.
+     * @return TRUE if bpplet is tbrgeted for JDK 1.2;
+     *         FALSE if bpplet is not;
+     *         null if bpplet is unknown.
      */
-    Boolean isJDK12Target(Class<?> clazz)
+    Boolebn isJDK12Tbrget(Clbss<?> clbzz)
     {
-        return jdk12AppletInfo.get(clazz.toString());
+        return jdk12AppletInfo.get(clbzz.toString());
     }
 
-    private static AppletMessageHandler mh =
-        new AppletMessageHandler("appletclassloader");
+    privbte stbtic AppletMessbgeHbndler mh =
+        new AppletMessbgeHbndler("bppletclbsslobder");
 
     /*
-     * Prints a class loading error message.
+     * Prints b clbss lobding error messbge.
      */
-    private static void printError(String name, Throwable e) {
+    privbte stbtic void printError(String nbme, Throwbble e) {
         String s = null;
         if (e == null) {
-            s = mh.getMessage("filenotfound", name);
-        } else if (e instanceof IOException) {
-            s = mh.getMessage("fileioexception", name);
-        } else if (e instanceof ClassFormatError) {
-            s = mh.getMessage("fileformat", name);
-        } else if (e instanceof ThreadDeath) {
-            s = mh.getMessage("filedeath", name);
-        } else if (e instanceof Error) {
-            s = mh.getMessage("fileerror", e.toString(), name);
+            s = mh.getMessbge("filenotfound", nbme);
+        } else if (e instbnceof IOException) {
+            s = mh.getMessbge("fileioexception", nbme);
+        } else if (e instbnceof ClbssFormbtError) {
+            s = mh.getMessbge("fileformbt", nbme);
+        } else if (e instbnceof ThrebdDebth) {
+            s = mh.getMessbge("filedebth", nbme);
+        } else if (e instbnceof Error) {
+            s = mh.getMessbge("fileerror", e.toString(), nbme);
         }
         if (s != null) {
             System.err.println(s);
@@ -850,26 +850,26 @@ public     void grab() {
 }
 
 /*
- * The AppContextCreator class is used to create an AppContext from within
- * a Thread belonging to the new AppContext's ThreadGroup.  To wait for
- * this operation to complete before continuing, wait for the notifyAll()
- * operation on the syncObject to occur.
+ * The AppContextCrebtor clbss is used to crebte bn AppContext from within
+ * b Threbd belonging to the new AppContext's ThrebdGroup.  To wbit for
+ * this operbtion to complete before continuing, wbit for the notifyAll()
+ * operbtion on the syncObject to occur.
  */
-class AppContextCreator extends Thread  {
+clbss AppContextCrebtor extends Threbd  {
     Object syncObject = new Object();
-    AppContext appContext = null;
-    volatile boolean created = false;
+    AppContext bppContext = null;
+    volbtile boolebn crebted = fblse;
 
-    AppContextCreator(ThreadGroup group)  {
-        super(group, "AppContextCreator");
+    AppContextCrebtor(ThrebdGroup group)  {
+        super(group, "AppContextCrebtor");
     }
 
     public void run()  {
-        appContext = SunToolkit.createNewAppContext();
-        created = true;
+        bppContext = SunToolkit.crebteNewAppContext();
+        crebted = true;
         synchronized(syncObject) {
             syncObject.notifyAll();
         }
     } // run()
 
-} // class AppContextCreator
+} // clbss AppContextCrebtor

@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.snmp.agent;
+pbckbge com.sun.jmx.snmp.bgent;
 
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Vector;
 
-import com.sun.jmx.snmp.SnmpVarBind;
+import com.sun.jmx.snmp.SnmpVbrBind;
 import com.sun.jmx.snmp.SnmpPdu;
 import com.sun.jmx.snmp.SnmpEngine;
 
 /**
- * This interface models the part of a SNMP request that involves
- * a specific MIB. One object implementing this interface will be created
- * for every MIB involved in a SNMP request, and that object will be passed
- * to the SnmpMibAgent in charge of handling that MIB.
+ * This interfbce models the pbrt of b SNMP request thbt involves
+ * b specific MIB. One object implementing this interfbce will be crebted
+ * for every MIB involved in b SNMP request, bnd thbt object will be pbssed
+ * to the SnmpMibAgent in chbrge of hbndling thbt MIB.
  *
- * Objects implementing this interface will be allocated by the SNMP engine.
- * You will never need to implement this interface. You will only use it.
+ * Objects implementing this interfbce will be bllocbted by the SNMP engine.
+ * You will never need to implement this interfbce. You will only use it.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
-public interface SnmpMibRequest {
+public interfbce SnmpMibRequest {
     /**
-     * Returns the list of varbind to be handled by the SNMP mib node.
+     * Returns the list of vbrbind to be hbndled by the SNMP mib node.
      *
-     * @return The element of the enumeration are instances of
-     *         {@link com.sun.jmx.snmp.SnmpVarBind}
+     * @return The element of the enumerbtion bre instbnces of
+     *         {@link com.sun.jmx.snmp.SnmpVbrBind}
      */
-    public Enumeration<SnmpVarBind> getElements();
+    public Enumerbtion<SnmpVbrBind> getElements();
 
     /**
-     * Returns the vector of varbind to be handled by the SNMP mib node.
-     * The caller shall not modify this vector.
+     * Returns the vector of vbrbind to be hbndled by the SNMP mib node.
+     * The cbller shbll not modify this vector.
      *
-     * @return The element of the vector are instances of
-     *         {@link com.sun.jmx.snmp.SnmpVarBind}
+     * @return The element of the vector bre instbnces of
+     *         {@link com.sun.jmx.snmp.SnmpVbrBind}
      */
-    public Vector<SnmpVarBind> getSubList();
+    public Vector<SnmpVbrBind> getSubList();
 
     /**
-     * Returns the SNMP protocol version of the original request. If SNMP V1 request are received, the version is upgraded to SNMP V2.
+     * Returns the SNMP protocol version of the originbl request. If SNMP V1 request bre received, the version is upgrbded to SNMP V2.
      *
-     * @return The SNMP protocol version of the original request.
+     * @return The SNMP protocol version of the originbl request.
      */
     public int getVersion();
 
     /**
-     * Returns the SNMP protocol version of the original request. No translation is done on the version. The actual received request SNMP version is returned.
+     * Returns the SNMP protocol version of the originbl request. No trbnslbtion is done on the version. The bctubl received request SNMP version is returned.
      *
-     * @return The SNMP protocol version of the original request.
+     * @return The SNMP protocol version of the originbl request.
      *
      * @since 1.5
      */
     public int getRequestPduVersion();
 
     /**
-     * Returns the local engine. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return the local engine.
+     * Returns the locbl engine. This pbrbmeter is returned only if <CODE> SnmpV3AdbptorServer </CODE> is the bdbptor receiving this request. Otherwise null is returned.
+     * @return the locbl engine.
      *
      * @since 1.5
      */
     public SnmpEngine getEngine();
     /**
-     * Gets the incoming request principal. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return The request principal.
+     * Gets the incoming request principbl. This pbrbmeter is returned only if <CODE> SnmpV3AdbptorServer </CODE> is the bdbptor receiving this request. Otherwise null is returned.
+     * @return The request principbl.
      *
      * @since 1.5
      **/
-    public String getPrincipal();
+    public String getPrincipbl();
     /**
-     * Gets the incoming request security level. This level is defined in {@link com.sun.jmx.snmp.SnmpEngine SnmpEngine}. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise -1 is returned.
+     * Gets the incoming request security level. This level is defined in {@link com.sun.jmx.snmp.SnmpEngine SnmpEngine}. This pbrbmeter is returned only if <CODE> SnmpV3AdbptorServer </CODE> is the bdbptor receiving this request. Otherwise -1 is returned.
      * @return The security level.
      *
      * @since 1.5
      */
     public int getSecurityLevel();
     /**
-     * Gets the incoming request security model. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise -1 is returned.
+     * Gets the incoming request security model. This pbrbmeter is returned only if <CODE> SnmpV3AdbptorServer </CODE> is the bdbptor receiving this request. Otherwise -1 is returned.
      * @return The security model.
      *
      * @since 1.5
      */
     public int getSecurityModel();
     /**
-     * Gets the incoming request context name. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return The context name.
+     * Gets the incoming request context nbme. This pbrbmeter is returned only if <CODE> SnmpV3AdbptorServer </CODE> is the bdbptor receiving this request. Otherwise null is returned.
+     * @return The context nbme.
      *
      * @since 1.5
      */
-    public byte[] getContextName();
+    public byte[] getContextNbme();
     /**
-     * Gets the incoming request context name used by Access Control Model in order to allow or deny the access to OIDs. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return The checked context name.
+     * Gets the incoming request context nbme used by Access Control Model in order to bllow or deny the bccess to OIDs. This pbrbmeter is returned only if <CODE> SnmpV3AdbptorServer </CODE> is the bdbptor receiving this request. Otherwise null is returned.
+     * @return The checked context nbme.
      *
      * @since 1.5
      */
-    public byte[] getAccessContextName();
+    public byte[] getAccessContextNbme();
 
     /**
-     * Returns a handle on a user allocated contextual object.
-     * This contextual object is allocated through the SnmpUserDataFactory
-     * on a per SNMP request basis, and is handed back to the user via
-     * SnmpMibRequest (and derivative) objects. It is never accessed by
-     * the system, but might be handed back in multiple threads. It is thus
-     * the user responsibility to make sure he handles this object in a
-     * thread safe manner.
+     * Returns b hbndle on b user bllocbted contextubl object.
+     * This contextubl object is bllocbted through the SnmpUserDbtbFbctory
+     * on b per SNMP request bbsis, bnd is hbnded bbck to the user vib
+     * SnmpMibRequest (bnd derivbtive) objects. It is never bccessed by
+     * the system, but might be hbnded bbck in multiple threbds. It is thus
+     * the user responsibility to mbke sure he hbndles this object in b
+     * threbd sbfe mbnner.
      */
-    public Object getUserData();
+    public Object getUserDbtb();
 
     /**
-     * Returns the varbind index that should be embedded in an
-     * SnmpStatusException for this particular varbind.
-     * This does not necessarily correspond to the "real"
-     * index value that will be returned in the result PDU.
+     * Returns the vbrbind index thbt should be embedded in bn
+     * SnmpStbtusException for this pbrticulbr vbrbind.
+     * This does not necessbrily correspond to the "rebl"
+     * index vblue thbt will be returned in the result PDU.
      *
-     * @param varbind The varbind for which the index value is
-     *        querried. Note that this varbind <b>must</b> have
-     *        been obtained from the enumeration returned by
+     * @pbrbm vbrbind The vbrbind for which the index vblue is
+     *        querried. Note thbt this vbrbind <b>must</b> hbve
+     *        been obtbined from the enumerbtion returned by
      *        <CODE>getElements()</CODE>, or from the vector
      *        returned by <CODE>getSublist()</CODE>.
      *
-     * @return The varbind index that should be embedded in an
-     *         SnmpStatusException for this particular varbind.
+     * @return The vbrbind index thbt should be embedded in bn
+     *         SnmpStbtusException for this pbrticulbr vbrbind.
      */
-    public int getVarIndex(SnmpVarBind varbind);
+    public int getVbrIndex(SnmpVbrBind vbrbind);
 
     /**
-     * Adds a varbind to this request sublist. This method is used for
-     * internal purposes and you should never need to call it directly.
+     * Adds b vbrbind to this request sublist. This method is used for
+     * internbl purposes bnd you should never need to cbll it directly.
      *
-     * @param varbind The varbind to be added in the sublist.
+     * @pbrbm vbrbind The vbrbind to be bdded in the sublist.
      *
      */
-    public void addVarBind(SnmpVarBind varbind);
+    public void bddVbrBind(SnmpVbrBind vbrbind);
 
 
     /**
-     * Returns the number of elements (varbinds) in this request sublist.
+     * Returns the number of elements (vbrbinds) in this request sublist.
      *
      * @return The number of elements in the sublist.
      *
      **/
     public int getSize();
     /**
-     * Returns the SNMP PDU attached to the request.
+     * Returns the SNMP PDU bttbched to the request.
      * @return The SNMP PDU.
      *
      * @since 1.5

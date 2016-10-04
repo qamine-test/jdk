@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.io.*;
-import static java.io.StreamTokenizer.*;
-import java.math.BigInteger;
-import java.util.*;
+import jbvb.io.*;
+import stbtic jbvb.io.StrebmTokenizer.*;
+import jbvb.mbth.BigInteger;
+import jbvb.util.*;
 
-import java.security.*;
+import jbvb.security.*;
 
-import sun.security.action.GetPropertyAction;
-import sun.security.util.PropertyExpander;
+import sun.security.bction.GetPropertyAction;
+import sun.security.util.PropertyExpbnder;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
-import static sun.security.pkcs11.wrapper.CK_ATTRIBUTE.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
+import stbtic sun.security.pkcs11.wrbpper.CK_ATTRIBUTE.*;
 
-import static sun.security.pkcs11.TemplateManager.*;
+import stbtic sun.security.pkcs11.TemplbteMbnbger.*;
 
 /**
- * Configuration container and file parsing.
+ * Configurbtion contbiner bnd file pbrsing.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class Config {
+finbl clbss Config {
 
-    static final int ERR_HALT       = 1;
-    static final int ERR_IGNORE_ALL = 2;
-    static final int ERR_IGNORE_LIB = 3;
+    stbtic finbl int ERR_HALT       = 1;
+    stbtic finbl int ERR_IGNORE_ALL = 2;
+    stbtic finbl int ERR_IGNORE_LIB = 3;
 
-    // same as allowSingleThreadedModules but controlled via a system property
-    // and applied to all providers. if set to false, no SunPKCS11 instances
-    // will accept single threaded modules regardless of the setting in their
+    // sbme bs bllowSingleThrebdedModules but controlled vib b system property
+    // bnd bpplied to bll providers. if set to fblse, no SunPKCS11 instbnces
+    // will bccept single threbded modules regbrdless of the setting in their
     // config files.
-    private static final boolean staticAllowSingleThreadedModules;
+    privbte stbtic finbl boolebn stbticAllowSingleThrebdedModules;
 
-    static {
-        String p = "sun.security.pkcs11.allowSingleThreadedModules";
+    stbtic {
+        String p = "sun.security.pkcs11.bllowSingleThrebdedModules";
         String s = AccessController.doPrivileged(new GetPropertyAction(p));
-        if ("false".equalsIgnoreCase(s)) {
-            staticAllowSingleThreadedModules = false;
+        if ("fblse".equblsIgnoreCbse(s)) {
+            stbticAllowSingleThrebdedModules = fblse;
         } else {
-            staticAllowSingleThreadedModules = true;
+            stbticAllowSingleThrebdedModules = true;
         }
     }
 
-    // temporary storage for configurations
-    // needed because the SunPKCS11 needs to call the superclass constructor
-    // in provider before accessing any instance variables
-    private final static Map<String,Config> configMap =
-                                        new HashMap<String,Config>();
+    // temporbry storbge for configurbtions
+    // needed becbuse the SunPKCS11 needs to cbll the superclbss constructor
+    // in provider before bccessing bny instbnce vbribbles
+    privbte finbl stbtic Mbp<String,Config> configMbp =
+                                        new HbshMbp<String,Config>();
 
-    static Config getConfig(final String name, final InputStream stream) {
-        Config config = configMap.get(name);
+    stbtic Config getConfig(finbl String nbme, finbl InputStrebm strebm) {
+        Config config = configMbp.get(nbme);
         if (config != null) {
             return config;
         }
         try {
-            config = new Config(name, stream);
-            configMap.put(name, config);
+            config = new Config(nbme, strebm);
+            configMbp.put(nbme, config);
             return config;
-        } catch (Exception e) {
-            throw new ProviderException("Error parsing configuration", e);
+        } cbtch (Exception e) {
+            throw new ProviderException("Error pbrsing configurbtion", e);
         }
     }
 
-    static Config removeConfig(String name) {
-        return configMap.remove(name);
+    stbtic Config removeConfig(String nbme) {
+        return configMbp.remove(nbme);
     }
 
-    private final static boolean DEBUG = false;
+    privbte finbl stbtic boolebn DEBUG = fblse;
 
-    private static void debug(Object o) {
+    privbte stbtic void debug(Object o) {
         if (DEBUG) {
             System.out.println(o);
         }
     }
 
-    // Reader and StringTokenizer used during parsing
-    private Reader reader;
+    // Rebder bnd StringTokenizer used during pbrsing
+    privbte Rebder rebder;
 
-    private StreamTokenizer st;
+    privbte StrebmTokenizer st;
 
-    private Set<String> parsedKeywords;
+    privbte Set<String> pbrsedKeywords;
 
-    // name suffix of the provider
-    private String name;
+    // nbme suffix of the provider
+    privbte String nbme;
 
-    // name of the PKCS#11 library
-    private String library;
+    // nbme of the PKCS#11 librbry
+    privbte String librbry;
 
-    // description to pass to the provider class
-    private String description;
+    // description to pbss to the provider clbss
+    privbte String description;
 
     // slotID of the slot to use
-    private int slotID = -1;
+    privbte int slotID = -1;
 
-    // slot to use, specified as index in the slotlist
-    private int slotListIndex = -1;
+    // slot to use, specified bs index in the slotlist
+    privbte int slotListIndex = -1;
 
-    // set of enabled mechanisms (or null to use default)
-    private Set<Long> enabledMechanisms;
+    // set of enbbled mechbnisms (or null to use defbult)
+    privbte Set<Long> enbbledMechbnisms;
 
-    // set of disabled mechanisms
-    private Set<Long> disabledMechanisms;
+    // set of disbbled mechbnisms
+    privbte Set<Long> disbbledMechbnisms;
 
-    // whether to print debug info during startup
-    private boolean showInfo = false;
+    // whether to print debug info during stbrtup
+    privbte boolebn showInfo = fblse;
 
-    // template manager, initialized from parsed attributes
-    private TemplateManager templateManager;
+    // templbte mbnbger, initiblized from pbrsed bttributes
+    privbte TemplbteMbnbger templbteMbnbger;
 
-    // how to handle error during startup, one of ERR_
-    private int handleStartupErrors = ERR_HALT;
+    // how to hbndle error during stbrtup, one of ERR_
+    privbte int hbndleStbrtupErrors = ERR_HALT;
 
-    // flag indicating whether the P11KeyStore should
-    // be more tolerant of input parameters
-    private boolean keyStoreCompatibilityMode = true;
+    // flbg indicbting whether the P11KeyStore should
+    // be more tolerbnt of input pbrbmeters
+    privbte boolebn keyStoreCompbtibilityMode = true;
 
-    // flag indicating whether we need to explicitly cancel operations
+    // flbg indicbting whether we need to explicitly cbncel operbtions
     // see Token
-    private boolean explicitCancel = true;
+    privbte boolebn explicitCbncel = true;
 
     // how often to test for token insertion, if no token is present
-    private int insertionCheckInterval = 2000;
+    privbte int insertionCheckIntervbl = 2000;
 
-    // flag inidicating whether to omit the call to C_Initialize()
-    // should be used only if we are running within a process that
-    // has already called it (e.g. Plugin inside of Mozilla/NSS)
-    private boolean omitInitialize = false;
+    // flbg inidicbting whether to omit the cbll to C_Initiblize()
+    // should be used only if we bre running within b process thbt
+    // hbs blrebdy cblled it (e.g. Plugin inside of Mozillb/NSS)
+    privbte boolebn omitInitiblize = fblse;
 
-    // whether to allow modules that only support single threaded access.
-    // they cannot be used safely from multiple PKCS#11 consumers in the
-    // same process, for example NSS and SunPKCS11
-    private boolean allowSingleThreadedModules = true;
+    // whether to bllow modules thbt only support single threbded bccess.
+    // they cbnnot be used sbfely from multiple PKCS#11 consumers in the
+    // sbme process, for exbmple NSS bnd SunPKCS11
+    privbte boolebn bllowSingleThrebdedModules = true;
 
-    // name of the C function that returns the PKCS#11 functionlist
-    // This option primarily exists for the deprecated
+    // nbme of the C function thbt returns the PKCS#11 functionlist
+    // This option primbrily exists for the deprecbted
     // Secmod.Module.getProvider() method.
-    private String functionList = "C_GetFunctionList";
+    privbte String functionList = "C_GetFunctionList";
 
-    // whether to use NSS secmod mode. Implicitly set if nssLibraryDirectory,
+    // whether to use NSS secmod mode. Implicitly set if nssLibrbryDirectory,
     // nssSecmodDirectory, or nssModule is specified.
-    private boolean nssUseSecmod;
+    privbte boolebn nssUseSecmod;
 
-    // location of the NSS library files (libnss3.so, etc.)
-    private String nssLibraryDirectory;
+    // locbtion of the NSS librbry files (libnss3.so, etc.)
+    privbte String nssLibrbryDirectory;
 
-    // location of secmod.db
-    private String nssSecmodDirectory;
+    // locbtion of secmod.db
+    privbte String nssSecmodDirectory;
 
     // which NSS module to use
-    private String nssModule;
+    privbte String nssModule;
 
-    private Secmod.DbMode nssDbMode = Secmod.DbMode.READ_WRITE;
+    privbte Secmod.DbMode nssDbMode = Secmod.DbMode.READ_WRITE;
 
-    // Whether the P11KeyStore should specify the CKA_NETSCAPE_DB attribute
-    // when creating private keys. Only valid if nssUseSecmod is true.
-    private boolean nssNetscapeDbWorkaround = true;
+    // Whether the P11KeyStore should specify the CKA_NETSCAPE_DB bttribute
+    // when crebting privbte keys. Only vblid if nssUseSecmod is true.
+    privbte boolebn nssNetscbpeDbWorkbround = true;
 
-    // Special init argument string for the NSS softtoken.
+    // Specibl init brgument string for the NSS softtoken.
     // This is used when using the NSS softtoken directly without secmod mode.
-    private String nssArgs;
+    privbte String nssArgs;
 
-    // whether to use NSS trust attributes for the KeyStore of this provider
-    // this option is for internal use by the SunPKCS11 code only and
-    // works only for NSS providers created via the Secmod API
-    private boolean nssUseSecmodTrust = false;
+    // whether to use NSS trust bttributes for the KeyStore of this provider
+    // this option is for internbl use by the SunPKCS11 code only bnd
+    // works only for NSS providers crebted vib the Secmod API
+    privbte boolebn nssUseSecmodTrust = fblse;
 
-    // Flag to indicate whether the X9.63 encoding for EC points shall be used
-    // (true) or whether that encoding shall be wrapped in an ASN.1 OctetString
-    // (false).
-    private boolean useEcX963Encoding = false;
+    // Flbg to indicbte whether the X9.63 encoding for EC points shbll be used
+    // (true) or whether thbt encoding shbll be wrbpped in bn ASN.1 OctetString
+    // (fblse).
+    privbte boolebn useEcX963Encoding = fblse;
 
-    // Flag to indicate whether NSS should favour performance (false) or
+    // Flbg to indicbte whether NSS should fbvour performbnce (fblse) or
     // memory footprint (true).
-    private boolean nssOptimizeSpace = false;
+    privbte boolebn nssOptimizeSpbce = fblse;
 
-    private Config(String filename, InputStream in) throws IOException {
+    privbte Config(String filenbme, InputStrebm in) throws IOException {
         if (in == null) {
-            if (filename.startsWith("--")) {
+            if (filenbme.stbrtsWith("--")) {
                 // inline config
-                String config = filename.substring(2).replace("\\n", "\n");
-                reader = new StringReader(config);
+                String config = filenbme.substring(2).replbce("\\n", "\n");
+                rebder = new StringRebder(config);
             } else {
-                in = new FileInputStream(expand(filename));
+                in = new FileInputStrebm(expbnd(filenbme));
             }
         }
-        if (reader == null) {
-            reader = new BufferedReader(new InputStreamReader(in));
+        if (rebder == null) {
+            rebder = new BufferedRebder(new InputStrebmRebder(in));
         }
-        parsedKeywords = new HashSet<String>();
-        st = new StreamTokenizer(reader);
+        pbrsedKeywords = new HbshSet<String>();
+        st = new StrebmTokenizer(rebder);
         setupTokenizer();
-        parse();
+        pbrse();
     }
 
-    String getName() {
-        return name;
+    String getNbme() {
+        return nbme;
     }
 
-    String getLibrary() {
-        return library;
+    String getLibrbry() {
+        return librbry;
     }
 
     String getDescription() {
         if (description != null) {
             return description;
         }
-        return "SunPKCS11-" + name + " using library " + library;
+        return "SunPKCS11-" + nbme + " using librbry " + librbry;
     }
 
     int getSlotID() {
@@ -241,68 +241,68 @@ final class Config {
 
     int getSlotListIndex() {
         if ((slotID == -1) && (slotListIndex == -1)) {
-            // if neither is set, default to first slot
+            // if neither is set, defbult to first slot
             return 0;
         } else {
             return slotListIndex;
         }
     }
 
-    boolean getShowInfo() {
+    boolebn getShowInfo() {
         return (SunPKCS11.debug != null) || showInfo;
     }
 
-    TemplateManager getTemplateManager() {
-        if (templateManager == null) {
-            templateManager = new TemplateManager();
+    TemplbteMbnbger getTemplbteMbnbger() {
+        if (templbteMbnbger == null) {
+            templbteMbnbger = new TemplbteMbnbger();
         }
-        return templateManager;
+        return templbteMbnbger;
     }
 
-    boolean isEnabled(long m) {
-        if (enabledMechanisms != null) {
-            return enabledMechanisms.contains(Long.valueOf(m));
+    boolebn isEnbbled(long m) {
+        if (enbbledMechbnisms != null) {
+            return enbbledMechbnisms.contbins(Long.vblueOf(m));
         }
-        if (disabledMechanisms != null) {
-            return !disabledMechanisms.contains(Long.valueOf(m));
+        if (disbbledMechbnisms != null) {
+            return !disbbledMechbnisms.contbins(Long.vblueOf(m));
         }
         return true;
     }
 
-    int getHandleStartupErrors() {
-        return handleStartupErrors;
+    int getHbndleStbrtupErrors() {
+        return hbndleStbrtupErrors;
     }
 
-    boolean getKeyStoreCompatibilityMode() {
-        return keyStoreCompatibilityMode;
+    boolebn getKeyStoreCompbtibilityMode() {
+        return keyStoreCompbtibilityMode;
     }
 
-    boolean getExplicitCancel() {
-        return explicitCancel;
+    boolebn getExplicitCbncel() {
+        return explicitCbncel;
     }
 
-    int getInsertionCheckInterval() {
-        return insertionCheckInterval;
+    int getInsertionCheckIntervbl() {
+        return insertionCheckIntervbl;
     }
 
-    boolean getOmitInitialize() {
-        return omitInitialize;
+    boolebn getOmitInitiblize() {
+        return omitInitiblize;
     }
 
-    boolean getAllowSingleThreadedModules() {
-        return staticAllowSingleThreadedModules && allowSingleThreadedModules;
+    boolebn getAllowSingleThrebdedModules() {
+        return stbticAllowSingleThrebdedModules && bllowSingleThrebdedModules;
     }
 
     String getFunctionList() {
         return functionList;
     }
 
-    boolean getNssUseSecmod() {
+    boolebn getNssUseSecmod() {
         return nssUseSecmod;
     }
 
-    String getNssLibraryDirectory() {
-        return nssLibraryDirectory;
+    String getNssLibrbryDirectory() {
+        return nssLibrbryDirectory;
     }
 
     String getNssSecmodDirectory() {
@@ -317,73 +317,73 @@ final class Config {
         return nssDbMode;
     }
 
-    public boolean getNssNetscapeDbWorkaround() {
-        return nssUseSecmod && nssNetscapeDbWorkaround;
+    public boolebn getNssNetscbpeDbWorkbround() {
+        return nssUseSecmod && nssNetscbpeDbWorkbround;
     }
 
     String getNssArgs() {
         return nssArgs;
     }
 
-    boolean getNssUseSecmodTrust() {
+    boolebn getNssUseSecmodTrust() {
         return nssUseSecmodTrust;
     }
 
-    boolean getUseEcX963Encoding() {
+    boolebn getUseEcX963Encoding() {
         return useEcX963Encoding;
     }
 
-    boolean getNssOptimizeSpace() {
-        return nssOptimizeSpace;
+    boolebn getNssOptimizeSpbce() {
+        return nssOptimizeSpbce;
     }
 
-    private static String expand(final String s) throws IOException {
+    privbte stbtic String expbnd(finbl String s) throws IOException {
         try {
-            return PropertyExpander.expand(s);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            return PropertyExpbnder.expbnd(s);
+        } cbtch (Exception e) {
+            throw new RuntimeException(e.getMessbge());
         }
     }
 
-    private void setupTokenizer() {
-        st.resetSyntax();
-        st.wordChars('a', 'z');
-        st.wordChars('A', 'Z');
-        st.wordChars('0', '9');
-        st.wordChars(':', ':');
-        st.wordChars('.', '.');
-        st.wordChars('_', '_');
-        st.wordChars('-', '-');
-        st.wordChars('/', '/');
-        st.wordChars('\\', '\\');
-        st.wordChars('$', '$');
-        st.wordChars('{', '{'); // need {} for property subst
-        st.wordChars('}', '}');
-        st.wordChars('*', '*');
-        st.wordChars('+', '+');
-        st.wordChars('~', '~');
-        // XXX check ASCII table and add all other characters except special
+    privbte void setupTokenizer() {
+        st.resetSyntbx();
+        st.wordChbrs('b', 'z');
+        st.wordChbrs('A', 'Z');
+        st.wordChbrs('0', '9');
+        st.wordChbrs(':', ':');
+        st.wordChbrs('.', '.');
+        st.wordChbrs('_', '_');
+        st.wordChbrs('-', '-');
+        st.wordChbrs('/', '/');
+        st.wordChbrs('\\', '\\');
+        st.wordChbrs('$', '$');
+        st.wordChbrs('{', '{'); // need {} for property subst
+        st.wordChbrs('}', '}');
+        st.wordChbrs('*', '*');
+        st.wordChbrs('+', '+');
+        st.wordChbrs('~', '~');
+        // XXX check ASCII tbble bnd bdd bll other chbrbcters except specibl
 
-        // special: #="(),
-        st.whitespaceChars(0, ' ');
-        st.commentChar('#');
-        st.eolIsSignificant(true);
-        st.quoteChar('\"');
+        // specibl: #="(),
+        st.whitespbceChbrs(0, ' ');
+        st.commentChbr('#');
+        st.eolIsSignificbnt(true);
+        st.quoteChbr('\"');
     }
 
-    private ConfigurationException excToken(String msg) {
-        return new ConfigurationException(msg + " " + st);
+    privbte ConfigurbtionException excToken(String msg) {
+        return new ConfigurbtionException(msg + " " + st);
     }
 
-    private ConfigurationException excLine(String msg) {
-        return new ConfigurationException(msg + ", line " + st.lineno());
+    privbte ConfigurbtionException excLine(String msg) {
+        return new ConfigurbtionException(msg + ", line " + st.lineno());
     }
 
-    private void parse() throws IOException {
+    privbte void pbrse() throws IOException {
         while (true) {
             int token = nextToken();
             if (token == TT_EOF) {
-                break;
+                brebk;
             }
             if (token == TT_EOL) {
                 continue;
@@ -391,364 +391,364 @@ final class Config {
             if (token != TT_WORD) {
                 throw excToken("Unexpected token:");
             }
-            String word = st.sval;
-            if (word.equals("name")) {
-                name = parseStringEntry(word);
-            } else if (word.equals("library")) {
-                library = parseLibrary(word);
-            } else if (word.equals("description")) {
-                parseDescription(word);
-            } else if (word.equals("slot")) {
-                parseSlotID(word);
-            } else if (word.equals("slotListIndex")) {
-                parseSlotListIndex(word);
-            } else if (word.equals("enabledMechanisms")) {
-                parseEnabledMechanisms(word);
-            } else if (word.equals("disabledMechanisms")) {
-                parseDisabledMechanisms(word);
-            } else if (word.equals("attributes")) {
-                parseAttributes(word);
-            } else if (word.equals("handleStartupErrors")) {
-                parseHandleStartupErrors(word);
-            } else if (word.endsWith("insertionCheckInterval")) {
-                insertionCheckInterval = parseIntegerEntry(word);
-                if (insertionCheckInterval < 100) {
-                    throw excLine(word + " must be at least 100 ms");
+            String word = st.svbl;
+            if (word.equbls("nbme")) {
+                nbme = pbrseStringEntry(word);
+            } else if (word.equbls("librbry")) {
+                librbry = pbrseLibrbry(word);
+            } else if (word.equbls("description")) {
+                pbrseDescription(word);
+            } else if (word.equbls("slot")) {
+                pbrseSlotID(word);
+            } else if (word.equbls("slotListIndex")) {
+                pbrseSlotListIndex(word);
+            } else if (word.equbls("enbbledMechbnisms")) {
+                pbrseEnbbledMechbnisms(word);
+            } else if (word.equbls("disbbledMechbnisms")) {
+                pbrseDisbbledMechbnisms(word);
+            } else if (word.equbls("bttributes")) {
+                pbrseAttributes(word);
+            } else if (word.equbls("hbndleStbrtupErrors")) {
+                pbrseHbndleStbrtupErrors(word);
+            } else if (word.endsWith("insertionCheckIntervbl")) {
+                insertionCheckIntervbl = pbrseIntegerEntry(word);
+                if (insertionCheckIntervbl < 100) {
+                    throw excLine(word + " must be bt lebst 100 ms");
                 }
-            } else if (word.equals("showInfo")) {
-                showInfo = parseBooleanEntry(word);
-            } else if (word.equals("keyStoreCompatibilityMode")) {
-                keyStoreCompatibilityMode = parseBooleanEntry(word);
-            } else if (word.equals("explicitCancel")) {
-                explicitCancel = parseBooleanEntry(word);
-            } else if (word.equals("omitInitialize")) {
-                omitInitialize = parseBooleanEntry(word);
-            } else if (word.equals("allowSingleThreadedModules")) {
-                allowSingleThreadedModules = parseBooleanEntry(word);
-            } else if (word.equals("functionList")) {
-                functionList = parseStringEntry(word);
-            } else if (word.equals("nssUseSecmod")) {
-                nssUseSecmod = parseBooleanEntry(word);
-            } else if (word.equals("nssLibraryDirectory")) {
-                nssLibraryDirectory = parseLibrary(word);
+            } else if (word.equbls("showInfo")) {
+                showInfo = pbrseBoolebnEntry(word);
+            } else if (word.equbls("keyStoreCompbtibilityMode")) {
+                keyStoreCompbtibilityMode = pbrseBoolebnEntry(word);
+            } else if (word.equbls("explicitCbncel")) {
+                explicitCbncel = pbrseBoolebnEntry(word);
+            } else if (word.equbls("omitInitiblize")) {
+                omitInitiblize = pbrseBoolebnEntry(word);
+            } else if (word.equbls("bllowSingleThrebdedModules")) {
+                bllowSingleThrebdedModules = pbrseBoolebnEntry(word);
+            } else if (word.equbls("functionList")) {
+                functionList = pbrseStringEntry(word);
+            } else if (word.equbls("nssUseSecmod")) {
+                nssUseSecmod = pbrseBoolebnEntry(word);
+            } else if (word.equbls("nssLibrbryDirectory")) {
+                nssLibrbryDirectory = pbrseLibrbry(word);
                 nssUseSecmod = true;
-            } else if (word.equals("nssSecmodDirectory")) {
-                nssSecmodDirectory = expand(parseStringEntry(word));
+            } else if (word.equbls("nssSecmodDirectory")) {
+                nssSecmodDirectory = expbnd(pbrseStringEntry(word));
                 nssUseSecmod = true;
-            } else if (word.equals("nssModule")) {
-                nssModule = parseStringEntry(word);
+            } else if (word.equbls("nssModule")) {
+                nssModule = pbrseStringEntry(word);
                 nssUseSecmod = true;
-            } else if (word.equals("nssDbMode")) {
-                String mode = parseStringEntry(word);
-                if (mode.equals("readWrite")) {
+            } else if (word.equbls("nssDbMode")) {
+                String mode = pbrseStringEntry(word);
+                if (mode.equbls("rebdWrite")) {
                     nssDbMode = Secmod.DbMode.READ_WRITE;
-                } else if (mode.equals("readOnly")) {
+                } else if (mode.equbls("rebdOnly")) {
                     nssDbMode = Secmod.DbMode.READ_ONLY;
-                } else if (mode.equals("noDb")) {
+                } else if (mode.equbls("noDb")) {
                     nssDbMode = Secmod.DbMode.NO_DB;
                 } else {
-                    throw excToken("nssDbMode must be one of readWrite, readOnly, and noDb:");
+                    throw excToken("nssDbMode must be one of rebdWrite, rebdOnly, bnd noDb:");
                 }
                 nssUseSecmod = true;
-            } else if (word.equals("nssNetscapeDbWorkaround")) {
-                nssNetscapeDbWorkaround = parseBooleanEntry(word);
+            } else if (word.equbls("nssNetscbpeDbWorkbround")) {
+                nssNetscbpeDbWorkbround = pbrseBoolebnEntry(word);
                 nssUseSecmod = true;
-            } else if (word.equals("nssArgs")) {
-                parseNSSArgs(word);
-            } else if (word.equals("nssUseSecmodTrust")) {
-                nssUseSecmodTrust = parseBooleanEntry(word);
-            } else if (word.equals("useEcX963Encoding")) {
-                useEcX963Encoding = parseBooleanEntry(word);
-            } else if (word.equals("nssOptimizeSpace")) {
-                nssOptimizeSpace = parseBooleanEntry(word);
+            } else if (word.equbls("nssArgs")) {
+                pbrseNSSArgs(word);
+            } else if (word.equbls("nssUseSecmodTrust")) {
+                nssUseSecmodTrust = pbrseBoolebnEntry(word);
+            } else if (word.equbls("useEcX963Encoding")) {
+                useEcX963Encoding = pbrseBoolebnEntry(word);
+            } else if (word.equbls("nssOptimizeSpbce")) {
+                nssOptimizeSpbce = pbrseBoolebnEntry(word);
             } else {
-                throw new ConfigurationException
+                throw new ConfigurbtionException
                         ("Unknown keyword '" + word + "', line " + st.lineno());
             }
-            parsedKeywords.add(word);
+            pbrsedKeywords.bdd(word);
         }
-        reader.close();
-        reader = null;
+        rebder.close();
+        rebder = null;
         st = null;
-        parsedKeywords = null;
-        if (name == null) {
-            throw new ConfigurationException("name must be specified");
+        pbrsedKeywords = null;
+        if (nbme == null) {
+            throw new ConfigurbtionException("nbme must be specified");
         }
-        if (nssUseSecmod == false) {
-            if (library == null) {
-                throw new ConfigurationException("library must be specified");
+        if (nssUseSecmod == fblse) {
+            if (librbry == null) {
+                throw new ConfigurbtionException("librbry must be specified");
             }
         } else {
-            if (library != null) {
-                throw new ConfigurationException
-                    ("library must not be specified in NSS mode");
+            if (librbry != null) {
+                throw new ConfigurbtionException
+                    ("librbry must not be specified in NSS mode");
             }
             if ((slotID != -1) || (slotListIndex != -1)) {
-                throw new ConfigurationException
-                    ("slot and slotListIndex must not be specified in NSS mode");
+                throw new ConfigurbtionException
+                    ("slot bnd slotListIndex must not be specified in NSS mode");
             }
             if (nssArgs != null) {
-                throw new ConfigurationException
+                throw new ConfigurbtionException
                     ("nssArgs must not be specified in NSS mode");
             }
-            if (nssUseSecmodTrust != false) {
-                throw new ConfigurationException("nssUseSecmodTrust is an "
-                    + "internal option and must not be specified in NSS mode");
+            if (nssUseSecmodTrust != fblse) {
+                throw new ConfigurbtionException("nssUseSecmodTrust is bn "
+                    + "internbl option bnd must not be specified in NSS mode");
             }
         }
     }
 
     //
-    // Parsing helper methods
+    // Pbrsing helper methods
     //
 
-    private int nextToken() throws IOException {
+    privbte int nextToken() throws IOException {
         int token = st.nextToken();
         debug(st);
         return token;
     }
 
-    private void parseEquals() throws IOException {
+    privbte void pbrseEqubls() throws IOException {
         int token = nextToken();
         if (token != '=') {
-            throw excToken("Expected '=', read");
+            throw excToken("Expected '=', rebd");
         }
     }
 
-    private void parseOpenBraces() throws IOException {
+    privbte void pbrseOpenBrbces() throws IOException {
         while (true) {
             int token = nextToken();
             if (token == TT_EOL) {
                 continue;
             }
-            if ((token == TT_WORD) && st.sval.equals("{")) {
+            if ((token == TT_WORD) && st.svbl.equbls("{")) {
                 return;
             }
-            throw excToken("Expected '{', read");
+            throw excToken("Expected '{', rebd");
         }
     }
 
-    private boolean isCloseBraces(int token) {
-        return (token == TT_WORD) && st.sval.equals("}");
+    privbte boolebn isCloseBrbces(int token) {
+        return (token == TT_WORD) && st.svbl.equbls("}");
     }
 
-    private String parseWord() throws IOException {
+    privbte String pbrseWord() throws IOException {
         int token = nextToken();
         if (token != TT_WORD) {
-            throw excToken("Unexpected value:");
+            throw excToken("Unexpected vblue:");
         }
-        return st.sval;
+        return st.svbl;
     }
 
-    private String parseStringEntry(String keyword) throws IOException {
+    privbte String pbrseStringEntry(String keyword) throws IOException {
         checkDup(keyword);
-        parseEquals();
+        pbrseEqubls();
 
         int token = nextToken();
         if (token != TT_WORD && token != '\"') {
-            // not a word token nor a string enclosed by double quotes
-            throw excToken("Unexpected value:");
+            // not b word token nor b string enclosed by double quotes
+            throw excToken("Unexpected vblue:");
         }
-        String value = st.sval;
+        String vblue = st.svbl;
 
-        debug(keyword + ": " + value);
-        return value;
+        debug(keyword + ": " + vblue);
+        return vblue;
     }
 
-    private boolean parseBooleanEntry(String keyword) throws IOException {
+    privbte boolebn pbrseBoolebnEntry(String keyword) throws IOException {
         checkDup(keyword);
-        parseEquals();
-        boolean value = parseBoolean();
-        debug(keyword + ": " + value);
-        return value;
+        pbrseEqubls();
+        boolebn vblue = pbrseBoolebn();
+        debug(keyword + ": " + vblue);
+        return vblue;
     }
 
-    private int parseIntegerEntry(String keyword) throws IOException {
+    privbte int pbrseIntegerEntry(String keyword) throws IOException {
         checkDup(keyword);
-        parseEquals();
-        int value = decodeNumber(parseWord());
-        debug(keyword + ": " + value);
-        return value;
+        pbrseEqubls();
+        int vblue = decodeNumber(pbrseWord());
+        debug(keyword + ": " + vblue);
+        return vblue;
     }
 
-    private boolean parseBoolean() throws IOException {
-        String val = parseWord();
-        switch (val) {
-            case "true":
+    privbte boolebn pbrseBoolebn() throws IOException {
+        String vbl = pbrseWord();
+        switch (vbl) {
+            cbse "true":
                 return true;
-            case "false":
-                return false;
-            default:
-                throw excToken("Expected boolean value, read:");
+            cbse "fblse":
+                return fblse;
+            defbult:
+                throw excToken("Expected boolebn vblue, rebd:");
         }
     }
 
-    private String parseLine() throws IOException {
-        String s = parseWord();
+    privbte String pbrseLine() throws IOException {
+        String s = pbrseWord();
         while (true) {
             int token = nextToken();
             if ((token == TT_EOL) || (token == TT_EOF)) {
-                break;
+                brebk;
             }
             if (token != TT_WORD) {
-                throw excToken("Unexpected value");
+                throw excToken("Unexpected vblue");
             }
-            s = s + " " + st.sval;
+            s = s + " " + st.svbl;
         }
         return s;
     }
 
-    private int decodeNumber(String str) throws IOException {
+    privbte int decodeNumber(String str) throws IOException {
         try {
-            if (str.startsWith("0x") || str.startsWith("0X")) {
-                return Integer.parseInt(str.substring(2), 16);
+            if (str.stbrtsWith("0x") || str.stbrtsWith("0X")) {
+                return Integer.pbrseInt(str.substring(2), 16);
             } else {
-                return Integer.parseInt(str);
+                return Integer.pbrseInt(str);
             }
-        } catch (NumberFormatException e) {
-            throw excToken("Expected number, read");
+        } cbtch (NumberFormbtException e) {
+            throw excToken("Expected number, rebd");
         }
     }
 
-    private static boolean isNumber(String s) {
+    privbte stbtic boolebn isNumber(String s) {
         if (s.length() == 0) {
-            return false;
+            return fblse;
         }
-        char ch = s.charAt(0);
+        chbr ch = s.chbrAt(0);
         return ((ch >= '0') && (ch <= '9'));
     }
 
-    private void parseComma() throws IOException {
+    privbte void pbrseCommb() throws IOException {
         int token = nextToken();
         if (token != ',') {
-            throw excToken("Expected ',', read");
+            throw excToken("Expected ',', rebd");
         }
     }
 
-    private static boolean isByteArray(String val) {
-        return val.startsWith("0h");
+    privbte stbtic boolebn isByteArrby(String vbl) {
+        return vbl.stbrtsWith("0h");
     }
 
-    private byte[] decodeByteArray(String str) throws IOException {
-        if (str.startsWith("0h") == false) {
-            throw excToken("Expected byte array value, read");
+    privbte byte[] decodeByteArrby(String str) throws IOException {
+        if (str.stbrtsWith("0h") == fblse) {
+            throw excToken("Expected byte brrby vblue, rebd");
         }
         str = str.substring(2);
-        // XXX proper hex parsing
+        // XXX proper hex pbrsing
         try {
-            return new BigInteger(str, 16).toByteArray();
-        } catch (NumberFormatException e) {
-            throw excToken("Expected byte array value, read");
+            return new BigInteger(str, 16).toByteArrby();
+        } cbtch (NumberFormbtException e) {
+            throw excToken("Expected byte brrby vblue, rebd");
         }
     }
 
-    private void checkDup(String keyword) throws IOException {
-        if (parsedKeywords.contains(keyword)) {
+    privbte void checkDup(String keyword) throws IOException {
+        if (pbrsedKeywords.contbins(keyword)) {
             throw excLine(keyword + " must only be specified once");
         }
     }
 
     //
-    // individual entry parsing methods
+    // individubl entry pbrsing methods
     //
 
-    private String parseLibrary(String keyword) throws IOException {
-        String lib = parseStringEntry(keyword);
-        lib = expand(lib);
+    privbte String pbrseLibrbry(String keyword) throws IOException {
+        String lib = pbrseStringEntry(keyword);
+        lib = expbnd(lib);
         int i = lib.indexOf("/$ISA/");
         if (i != -1) {
-            // replace "/$ISA/" with "/sparcv9/" on 64-bit Solaris SPARC
-            // and with "/amd64/" on Solaris AMD64.
-            // On all other platforms, just turn it into a "/"
-            String osName = System.getProperty("os.name", "");
-            String osArch = System.getProperty("os.arch", "");
+            // replbce "/$ISA/" with "/spbrcv9/" on 64-bit Solbris SPARC
+            // bnd with "/bmd64/" on Solbris AMD64.
+            // On bll other plbtforms, just turn it into b "/"
+            String osNbme = System.getProperty("os.nbme", "");
+            String osArch = System.getProperty("os.brch", "");
             String prefix = lib.substring(0, i);
             String suffix = lib.substring(i + 5);
-            if (osName.equals("SunOS") && osArch.equals("sparcv9")) {
-                lib = prefix + "/sparcv9" + suffix;
-            } else if (osName.equals("SunOS") && osArch.equals("amd64")) {
-                lib = prefix + "/amd64" + suffix;
+            if (osNbme.equbls("SunOS") && osArch.equbls("spbrcv9")) {
+                lib = prefix + "/spbrcv9" + suffix;
+            } else if (osNbme.equbls("SunOS") && osArch.equbls("bmd64")) {
+                lib = prefix + "/bmd64" + suffix;
             } else {
                 lib = prefix + suffix;
             }
         }
         debug(keyword + ": " + lib);
 
-        // Check to see if full path is specified to prevent the DLL
-        // preloading attack
+        // Check to see if full pbth is specified to prevent the DLL
+        // prelobding bttbck
         if (!(new File(lib)).isAbsolute()) {
-            throw new ConfigurationException(
-                "Absolute path required for library value: " + lib);
+            throw new ConfigurbtionException(
+                "Absolute pbth required for librbry vblue: " + lib);
         }
         return lib;
     }
 
-    private void parseDescription(String keyword) throws IOException {
+    privbte void pbrseDescription(String keyword) throws IOException {
         checkDup(keyword);
-        parseEquals();
-        description = parseLine();
+        pbrseEqubls();
+        description = pbrseLine();
         debug("description: " + description);
     }
 
-    private void parseSlotID(String keyword) throws IOException {
+    privbte void pbrseSlotID(String keyword) throws IOException {
         if (slotID >= 0) {
-            throw excLine("Duplicate slot definition");
+            throw excLine("Duplicbte slot definition");
         }
         if (slotListIndex >= 0) {
             throw excLine
-                ("Only one of slot and slotListIndex must be specified");
+                ("Only one of slot bnd slotListIndex must be specified");
         }
-        parseEquals();
-        String slotString = parseWord();
+        pbrseEqubls();
+        String slotString = pbrseWord();
         slotID = decodeNumber(slotString);
         debug("slot: " + slotID);
     }
 
-    private void parseSlotListIndex(String keyword) throws IOException {
+    privbte void pbrseSlotListIndex(String keyword) throws IOException {
         if (slotListIndex >= 0) {
-            throw excLine("Duplicate slotListIndex definition");
+            throw excLine("Duplicbte slotListIndex definition");
         }
         if (slotID >= 0) {
             throw excLine
-                ("Only one of slot and slotListIndex must be specified");
+                ("Only one of slot bnd slotListIndex must be specified");
         }
-        parseEquals();
-        String slotString = parseWord();
+        pbrseEqubls();
+        String slotString = pbrseWord();
         slotListIndex = decodeNumber(slotString);
         debug("slotListIndex: " + slotListIndex);
     }
 
-    private void parseEnabledMechanisms(String keyword) throws IOException {
-        enabledMechanisms = parseMechanisms(keyword);
+    privbte void pbrseEnbbledMechbnisms(String keyword) throws IOException {
+        enbbledMechbnisms = pbrseMechbnisms(keyword);
     }
 
-    private void parseDisabledMechanisms(String keyword) throws IOException {
-        disabledMechanisms = parseMechanisms(keyword);
+    privbte void pbrseDisbbledMechbnisms(String keyword) throws IOException {
+        disbbledMechbnisms = pbrseMechbnisms(keyword);
     }
 
-    private Set<Long> parseMechanisms(String keyword) throws IOException {
+    privbte Set<Long> pbrseMechbnisms(String keyword) throws IOException {
         checkDup(keyword);
-        Set<Long> mechs = new HashSet<Long>();
-        parseEquals();
-        parseOpenBraces();
+        Set<Long> mechs = new HbshSet<Long>();
+        pbrseEqubls();
+        pbrseOpenBrbces();
         while (true) {
             int token = nextToken();
-            if (isCloseBraces(token)) {
-                break;
+            if (isCloseBrbces(token)) {
+                brebk;
             }
             if (token == TT_EOL) {
                 continue;
             }
             if (token != TT_WORD) {
-                throw excToken("Expected mechanism, read");
+                throw excToken("Expected mechbnism, rebd");
             }
-            long mech = parseMechanism(st.sval);
-            mechs.add(Long.valueOf(mech));
+            long mech = pbrseMechbnism(st.svbl);
+            mechs.bdd(Long.vblueOf(mech));
         }
         if (DEBUG) {
-            System.out.print("mechanisms: [");
+            System.out.print("mechbnisms: [");
             for (Long mech : mechs) {
-                System.out.print(Functions.getMechanismName(mech));
+                System.out.print(Functions.getMechbnismNbme(mech));
                 System.out.print(", ");
             }
             System.out.println("]");
@@ -756,70 +756,70 @@ final class Config {
         return mechs;
     }
 
-    private long parseMechanism(String mech) throws IOException {
+    privbte long pbrseMechbnism(String mech) throws IOException {
         if (isNumber(mech)) {
             return decodeNumber(mech);
         } else {
             try {
-                return Functions.getMechanismId(mech);
-            } catch (IllegalArgumentException e) {
-                throw excLine("Unknown mechanism: " + mech);
+                return Functions.getMechbnismId(mech);
+            } cbtch (IllegblArgumentException e) {
+                throw excLine("Unknown mechbnism: " + mech);
             }
         }
     }
 
-    private void parseAttributes(String keyword) throws IOException {
-        if (templateManager == null) {
-            templateManager = new TemplateManager();
+    privbte void pbrseAttributes(String keyword) throws IOException {
+        if (templbteMbnbger == null) {
+            templbteMbnbger = new TemplbteMbnbger();
         }
         int token = nextToken();
         if (token == '=') {
-            String s = parseWord();
-            if (s.equals("compatibility") == false) {
-                throw excLine("Expected 'compatibility', read " + s);
+            String s = pbrseWord();
+            if (s.equbls("compbtibility") == fblse) {
+                throw excLine("Expected 'compbtibility', rebd " + s);
             }
-            setCompatibilityAttributes();
+            setCompbtibilityAttributes();
             return;
         }
         if (token != '(') {
-            throw excToken("Expected '(' or '=', read");
+            throw excToken("Expected '(' or '=', rebd");
         }
-        String op = parseOperation();
-        parseComma();
-        long objectClass = parseObjectClass();
-        parseComma();
-        long keyAlg = parseKeyAlgorithm();
+        String op = pbrseOperbtion();
+        pbrseCommb();
+        long objectClbss = pbrseObjectClbss();
+        pbrseCommb();
+        long keyAlg = pbrseKeyAlgorithm();
         token = nextToken();
         if (token != ')') {
-            throw excToken("Expected ')', read");
+            throw excToken("Expected ')', rebd");
         }
-        parseEquals();
-        parseOpenBraces();
-        List<CK_ATTRIBUTE> attributes = new ArrayList<CK_ATTRIBUTE>();
+        pbrseEqubls();
+        pbrseOpenBrbces();
+        List<CK_ATTRIBUTE> bttributes = new ArrbyList<CK_ATTRIBUTE>();
         while (true) {
             token = nextToken();
-            if (isCloseBraces(token)) {
-                break;
+            if (isCloseBrbces(token)) {
+                brebk;
             }
             if (token == TT_EOL) {
                 continue;
             }
             if (token != TT_WORD) {
-                throw excToken("Expected mechanism, read");
+                throw excToken("Expected mechbnism, rebd");
             }
-            String attributeName = st.sval;
-            long attributeId = decodeAttributeName(attributeName);
-            parseEquals();
-            String attributeValue = parseWord();
-            attributes.add(decodeAttributeValue(attributeId, attributeValue));
+            String bttributeNbme = st.svbl;
+            long bttributeId = decodeAttributeNbme(bttributeNbme);
+            pbrseEqubls();
+            String bttributeVblue = pbrseWord();
+            bttributes.bdd(decodeAttributeVblue(bttributeId, bttributeVblue));
         }
-        templateManager.addTemplate
-                (op, objectClass, keyAlg, attributes.toArray(CK_A0));
+        templbteMbnbger.bddTemplbte
+                (op, objectClbss, keyAlg, bttributes.toArrby(CK_A0));
     }
 
-    private void setCompatibilityAttributes() {
-        // all secret keys
-        templateManager.addTemplate(O_ANY, CKO_SECRET_KEY, PCKK_ANY,
+    privbte void setCompbtibilityAttributes() {
+        // bll secret keys
+        templbteMbnbger.bddTemplbte(O_ANY, CKO_SECRET_KEY, PCKK_ANY,
         new CK_ATTRIBUTE[] {
             TOKEN_FALSE,
             SENSITIVE_FALSE,
@@ -830,9 +830,9 @@ final class Config {
             UNWRAP_TRUE,
         });
 
-        // generic secret keys are special
-        // They are used as MAC keys plus for the SSL/TLS (pre)master secrets
-        templateManager.addTemplate(O_ANY, CKO_SECRET_KEY, CKK_GENERIC_SECRET,
+        // generic secret keys bre specibl
+        // They bre used bs MAC keys plus for the SSL/TLS (pre)mbster secrets
+        templbteMbnbger.bddTemplbte(O_ANY, CKO_SECRET_KEY, CKK_GENERIC_SECRET,
         new CK_ATTRIBUTE[] {
             SIGN_TRUE,
             VERIFY_TRUE,
@@ -843,28 +843,28 @@ final class Config {
             DERIVE_TRUE,
         });
 
-        // all private and public keys
-        templateManager.addTemplate(O_ANY, CKO_PRIVATE_KEY, PCKK_ANY,
+        // bll privbte bnd public keys
+        templbteMbnbger.bddTemplbte(O_ANY, CKO_PRIVATE_KEY, PCKK_ANY,
         new CK_ATTRIBUTE[] {
             TOKEN_FALSE,
             SENSITIVE_FALSE,
             EXTRACTABLE_TRUE,
         });
-        templateManager.addTemplate(O_ANY, CKO_PUBLIC_KEY, PCKK_ANY,
+        templbteMbnbger.bddTemplbte(O_ANY, CKO_PUBLIC_KEY, PCKK_ANY,
         new CK_ATTRIBUTE[] {
             TOKEN_FALSE,
         });
 
-        // additional attributes for RSA private keys
-        templateManager.addTemplate(O_ANY, CKO_PRIVATE_KEY, CKK_RSA,
+        // bdditionbl bttributes for RSA privbte keys
+        templbteMbnbger.bddTemplbte(O_ANY, CKO_PRIVATE_KEY, CKK_RSA,
         new CK_ATTRIBUTE[] {
             DECRYPT_TRUE,
             SIGN_TRUE,
             SIGN_RECOVER_TRUE,
             UNWRAP_TRUE,
         });
-        // additional attributes for RSA public keys
-        templateManager.addTemplate(O_ANY, CKO_PUBLIC_KEY, CKK_RSA,
+        // bdditionbl bttributes for RSA public keys
+        templbteMbnbger.bddTemplbte(O_ANY, CKO_PUBLIC_KEY, CKK_RSA,
         new CK_ATTRIBUTE[] {
             ENCRYPT_TRUE,
             VERIFY_TRUE,
@@ -872,135 +872,135 @@ final class Config {
             WRAP_TRUE,
         });
 
-        // additional attributes for DSA private keys
-        templateManager.addTemplate(O_ANY, CKO_PRIVATE_KEY, CKK_DSA,
+        // bdditionbl bttributes for DSA privbte keys
+        templbteMbnbger.bddTemplbte(O_ANY, CKO_PRIVATE_KEY, CKK_DSA,
         new CK_ATTRIBUTE[] {
             SIGN_TRUE,
         });
-        // additional attributes for DSA public keys
-        templateManager.addTemplate(O_ANY, CKO_PUBLIC_KEY, CKK_DSA,
+        // bdditionbl bttributes for DSA public keys
+        templbteMbnbger.bddTemplbte(O_ANY, CKO_PUBLIC_KEY, CKK_DSA,
         new CK_ATTRIBUTE[] {
             VERIFY_TRUE,
         });
 
-        // additional attributes for DH private keys
-        templateManager.addTemplate(O_ANY, CKO_PRIVATE_KEY, CKK_DH,
+        // bdditionbl bttributes for DH privbte keys
+        templbteMbnbger.bddTemplbte(O_ANY, CKO_PRIVATE_KEY, CKK_DH,
         new CK_ATTRIBUTE[] {
             DERIVE_TRUE,
         });
 
-        // additional attributes for EC private keys
-        templateManager.addTemplate(O_ANY, CKO_PRIVATE_KEY, CKK_EC,
+        // bdditionbl bttributes for EC privbte keys
+        templbteMbnbger.bddTemplbte(O_ANY, CKO_PRIVATE_KEY, CKK_EC,
         new CK_ATTRIBUTE[] {
             SIGN_TRUE,
             DERIVE_TRUE,
         });
-        // additional attributes for EC public keys
-        templateManager.addTemplate(O_ANY, CKO_PUBLIC_KEY, CKK_EC,
+        // bdditionbl bttributes for EC public keys
+        templbteMbnbger.bddTemplbte(O_ANY, CKO_PUBLIC_KEY, CKK_EC,
         new CK_ATTRIBUTE[] {
             VERIFY_TRUE,
         });
     }
 
-    private final static CK_ATTRIBUTE[] CK_A0 = new CK_ATTRIBUTE[0];
+    privbte finbl stbtic CK_ATTRIBUTE[] CK_A0 = new CK_ATTRIBUTE[0];
 
-    private String parseOperation() throws IOException {
-        String op = parseWord();
+    privbte String pbrseOperbtion() throws IOException {
+        String op = pbrseWord();
         switch (op) {
-            case "*":
-                return TemplateManager.O_ANY;
-            case "generate":
-                return TemplateManager.O_GENERATE;
-            case "import":
-                return TemplateManager.O_IMPORT;
-            default:
-                throw excLine("Unknown operation " + op);
+            cbse "*":
+                return TemplbteMbnbger.O_ANY;
+            cbse "generbte":
+                return TemplbteMbnbger.O_GENERATE;
+            cbse "import":
+                return TemplbteMbnbger.O_IMPORT;
+            defbult:
+                throw excLine("Unknown operbtion " + op);
         }
     }
 
-    private long parseObjectClass() throws IOException {
-        String name = parseWord();
+    privbte long pbrseObjectClbss() throws IOException {
+        String nbme = pbrseWord();
         try {
-            return Functions.getObjectClassId(name);
-        } catch (IllegalArgumentException e) {
-            throw excLine("Unknown object class " + name);
+            return Functions.getObjectClbssId(nbme);
+        } cbtch (IllegblArgumentException e) {
+            throw excLine("Unknown object clbss " + nbme);
         }
     }
 
-    private long parseKeyAlgorithm() throws IOException {
-        String name = parseWord();
-        if (isNumber(name)) {
-            return decodeNumber(name);
+    privbte long pbrseKeyAlgorithm() throws IOException {
+        String nbme = pbrseWord();
+        if (isNumber(nbme)) {
+            return decodeNumber(nbme);
         } else {
             try {
-                return Functions.getKeyId(name);
-            } catch (IllegalArgumentException e) {
-                throw excLine("Unknown key algorithm " + name);
+                return Functions.getKeyId(nbme);
+            } cbtch (IllegblArgumentException e) {
+                throw excLine("Unknown key blgorithm " + nbme);
             }
         }
     }
 
-    private long decodeAttributeName(String name) throws IOException {
-        if (isNumber(name)) {
-            return decodeNumber(name);
+    privbte long decodeAttributeNbme(String nbme) throws IOException {
+        if (isNumber(nbme)) {
+            return decodeNumber(nbme);
         } else {
             try {
-                return Functions.getAttributeId(name);
-            } catch (IllegalArgumentException e) {
-                throw excLine("Unknown attribute name " + name);
+                return Functions.getAttributeId(nbme);
+            } cbtch (IllegblArgumentException e) {
+                throw excLine("Unknown bttribute nbme " + nbme);
             }
         }
     }
 
-    private CK_ATTRIBUTE decodeAttributeValue(long id, String value)
+    privbte CK_ATTRIBUTE decodeAttributeVblue(long id, String vblue)
             throws IOException {
-        if (value.equals("null")) {
+        if (vblue.equbls("null")) {
             return new CK_ATTRIBUTE(id);
-        } else if (value.equals("true")) {
+        } else if (vblue.equbls("true")) {
             return new CK_ATTRIBUTE(id, true);
-        } else if (value.equals("false")) {
-            return new CK_ATTRIBUTE(id, false);
-        } else if (isByteArray(value)) {
-            return new CK_ATTRIBUTE(id, decodeByteArray(value));
-        } else if (isNumber(value)) {
-            return new CK_ATTRIBUTE(id, Integer.valueOf(decodeNumber(value)));
+        } else if (vblue.equbls("fblse")) {
+            return new CK_ATTRIBUTE(id, fblse);
+        } else if (isByteArrby(vblue)) {
+            return new CK_ATTRIBUTE(id, decodeByteArrby(vblue));
+        } else if (isNumber(vblue)) {
+            return new CK_ATTRIBUTE(id, Integer.vblueOf(decodeNumber(vblue)));
         } else {
-            throw excLine("Unknown attribute value " + value);
+            throw excLine("Unknown bttribute vblue " + vblue);
         }
     }
 
-    private void parseNSSArgs(String keyword) throws IOException {
+    privbte void pbrseNSSArgs(String keyword) throws IOException {
         checkDup(keyword);
-        parseEquals();
+        pbrseEqubls();
         int token = nextToken();
         if (token != '"') {
             throw excToken("Expected quoted string");
         }
-        nssArgs = expand(st.sval);
+        nssArgs = expbnd(st.svbl);
         debug("nssArgs: " + nssArgs);
     }
 
-    private void parseHandleStartupErrors(String keyword) throws IOException {
+    privbte void pbrseHbndleStbrtupErrors(String keyword) throws IOException {
         checkDup(keyword);
-        parseEquals();
-        String val = parseWord();
-        if (val.equals("ignoreAll")) {
-            handleStartupErrors = ERR_IGNORE_ALL;
-        } else if (val.equals("ignoreMissingLibrary")) {
-            handleStartupErrors = ERR_IGNORE_LIB;
-        } else if (val.equals("halt")) {
-            handleStartupErrors = ERR_HALT;
+        pbrseEqubls();
+        String vbl = pbrseWord();
+        if (vbl.equbls("ignoreAll")) {
+            hbndleStbrtupErrors = ERR_IGNORE_ALL;
+        } else if (vbl.equbls("ignoreMissingLibrbry")) {
+            hbndleStbrtupErrors = ERR_IGNORE_LIB;
+        } else if (vbl.equbls("hblt")) {
+            hbndleStbrtupErrors = ERR_HALT;
         } else {
-            throw excToken("Invalid value for handleStartupErrors:");
+            throw excToken("Invblid vblue for hbndleStbrtupErrors:");
         }
-        debug("handleStartupErrors: " + handleStartupErrors);
+        debug("hbndleStbrtupErrors: " + hbndleStbrtupErrors);
     }
 
 }
 
-class ConfigurationException extends IOException {
-    private static final long serialVersionUID = 254492758807673194L;
-    ConfigurationException(String msg) {
+clbss ConfigurbtionException extends IOException {
+    privbte stbtic finbl long seriblVersionUID = 254492758807673194L;
+    ConfigurbtionException(String msg) {
         super(msg);
     }
 }

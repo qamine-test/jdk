@@ -1,403 +1,403 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.spi;
+pbckbge jbvbx.nbming.spi;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
-import java.net.MalformedURLException;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.StringTokenizer;
+import jbvb.net.MblformedURLException;
 
-import javax.naming.*;
-import com.sun.naming.internal.VersionHelper;
-import com.sun.naming.internal.ResourceManager;
-import com.sun.naming.internal.FactoryEnumeration;
+import jbvbx.nbming.*;
+import com.sun.nbming.internbl.VersionHelper;
+import com.sun.nbming.internbl.ResourceMbnbger;
+import com.sun.nbming.internbl.FbctoryEnumerbtion;
 
 /**
- * This class contains methods for creating context objects
- * and objects referred to by location information in the naming
+ * This clbss contbins methods for crebting context objects
+ * bnd objects referred to by locbtion informbtion in the nbming
  * or directory service.
  *<p>
- * This class cannot be instantiated.  It has only static methods.
+ * This clbss cbnnot be instbntibted.  It hbs only stbtic methods.
  *<p>
- * The mention of URL in the documentation for this class refers to
- * a URL string as defined by RFC 1738 and its related RFCs. It is
- * any string that conforms to the syntax described therein, and
- * may not always have corresponding support in the java.net.URL
- * class or Web browsers.
+ * The mention of URL in the documentbtion for this clbss refers to
+ * b URL string bs defined by RFC 1738 bnd its relbted RFCs. It is
+ * bny string thbt conforms to the syntbx described therein, bnd
+ * mby not blwbys hbve corresponding support in the jbvb.net.URL
+ * clbss or Web browsers.
  *<p>
- * NamingManager is safe for concurrent access by multiple threads.
+ * NbmingMbnbger is sbfe for concurrent bccess by multiple threbds.
  *<p>
- * Except as otherwise noted,
- * a <tt>Name</tt> or environment parameter
- * passed to any method is owned by the caller.
- * The implementation will not modify the object or keep a reference
- * to it, although it may keep a reference to a clone or copy.
+ * Except bs otherwise noted,
+ * b <tt>Nbme</tt> or environment pbrbmeter
+ * pbssed to bny method is owned by the cbller.
+ * The implementbtion will not modify the object or keep b reference
+ * to it, blthough it mby keep b reference to b clone or copy.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
  * @since 1.3
  */
 
-public class NamingManager {
+public clbss NbmingMbnbger {
 
     /*
-     * Disallow anyone from creating one of these.
-     * Made package private so that DirectoryManager can subclass.
+     * Disbllow bnyone from crebting one of these.
+     * Mbde pbckbge privbte so thbt DirectoryMbnbger cbn subclbss.
      */
 
-    NamingManager() {}
+    NbmingMbnbger() {}
 
-    // should be protected and package private
-    static final VersionHelper helper = VersionHelper.getVersionHelper();
+    // should be protected bnd pbckbge privbte
+    stbtic finbl VersionHelper helper = VersionHelper.getVersionHelper();
 
-// --------- object factory stuff
+// --------- object fbctory stuff
 
     /**
-     * Package-private; used by DirectoryManager and NamingManager.
+     * Pbckbge-privbte; used by DirectoryMbnbger bnd NbmingMbnbger.
      */
-    private static ObjectFactoryBuilder object_factory_builder = null;
+    privbte stbtic ObjectFbctoryBuilder object_fbctory_builder = null;
 
     /**
-     * The ObjectFactoryBuilder determines the policy used when
-     * trying to load object factories.
-     * See getObjectInstance() and class ObjectFactory for a description
-     * of the default policy.
-     * setObjectFactoryBuilder() overrides this default policy by installing
-     * an ObjectFactoryBuilder. Subsequent object factories will
-     * be loaded and created using the installed builder.
+     * The ObjectFbctoryBuilder determines the policy used when
+     * trying to lobd object fbctories.
+     * See getObjectInstbnce() bnd clbss ObjectFbctory for b description
+     * of the defbult policy.
+     * setObjectFbctoryBuilder() overrides this defbult policy by instblling
+     * bn ObjectFbctoryBuilder. Subsequent object fbctories will
+     * be lobded bnd crebted using the instblled builder.
      *<p>
-     * The builder can only be installed if the executing thread is allowed
-     * (by the security manager's checkSetFactory() method) to do so.
-     * Once installed, the builder cannot be replaced.
+     * The builder cbn only be instblled if the executing threbd is bllowed
+     * (by the security mbnbger's checkSetFbctory() method) to do so.
+     * Once instblled, the builder cbnnot be replbced.
      *
-     * @param builder The factory builder to install. If null, no builder
-     *                  is installed.
-     * @exception SecurityException builder cannot be installed
-     *          for security reasons.
-     * @exception NamingException builder cannot be installed for
-     *         a non-security-related reason.
-     * @exception IllegalStateException If a factory has already been installed.
-     * @see #getObjectInstance
-     * @see ObjectFactory
-     * @see ObjectFactoryBuilder
-     * @see java.lang.SecurityManager#checkSetFactory
+     * @pbrbm builder The fbctory builder to instbll. If null, no builder
+     *                  is instblled.
+     * @exception SecurityException builder cbnnot be instblled
+     *          for security rebsons.
+     * @exception NbmingException builder cbnnot be instblled for
+     *         b non-security-relbted rebson.
+     * @exception IllegblStbteException If b fbctory hbs blrebdy been instblled.
+     * @see #getObjectInstbnce
+     * @see ObjectFbctory
+     * @see ObjectFbctoryBuilder
+     * @see jbvb.lbng.SecurityMbnbger#checkSetFbctory
      */
-    public static synchronized void setObjectFactoryBuilder(
-            ObjectFactoryBuilder builder) throws NamingException {
-        if (object_factory_builder != null)
-            throw new IllegalStateException("ObjectFactoryBuilder already set");
+    public stbtic synchronized void setObjectFbctoryBuilder(
+            ObjectFbctoryBuilder builder) throws NbmingException {
+        if (object_fbctory_builder != null)
+            throw new IllegblStbteException("ObjectFbctoryBuilder blrebdy set");
 
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkSetFactory();
+            security.checkSetFbctory();
         }
-        object_factory_builder = builder;
+        object_fbctory_builder = builder;
     }
 
     /**
-     * Used for accessing object factory builder.
+     * Used for bccessing object fbctory builder.
      */
-    static synchronized ObjectFactoryBuilder getObjectFactoryBuilder() {
-        return object_factory_builder;
+    stbtic synchronized ObjectFbctoryBuilder getObjectFbctoryBuilder() {
+        return object_fbctory_builder;
     }
 
 
     /**
-     * Retrieves the ObjectFactory for the object identified by a reference,
-     * using the reference's factory class name and factory codebase
-     * to load in the factory's class.
-     * @param ref The non-null reference to use.
-     * @param factoryName The non-null class name of the factory.
-     * @return The object factory for the object identified by ref; null
-     * if unable to load the factory.
+     * Retrieves the ObjectFbctory for the object identified by b reference,
+     * using the reference's fbctory clbss nbme bnd fbctory codebbse
+     * to lobd in the fbctory's clbss.
+     * @pbrbm ref The non-null reference to use.
+     * @pbrbm fbctoryNbme The non-null clbss nbme of the fbctory.
+     * @return The object fbctory for the object identified by ref; null
+     * if unbble to lobd the fbctory.
      */
-    static ObjectFactory getObjectFactoryFromReference(
-        Reference ref, String factoryName)
-        throws IllegalAccessException,
-        InstantiationException,
-        MalformedURLException {
-        Class<?> clas = null;
+    stbtic ObjectFbctory getObjectFbctoryFromReference(
+        Reference ref, String fbctoryNbme)
+        throws IllegblAccessException,
+        InstbntibtionException,
+        MblformedURLException {
+        Clbss<?> clbs = null;
 
-        // Try to use current class loader
+        // Try to use current clbss lobder
         try {
-             clas = helper.loadClass(factoryName);
-        } catch (ClassNotFoundException e) {
-            // ignore and continue
-            // e.printStackTrace();
+             clbs = helper.lobdClbss(fbctoryNbme);
+        } cbtch (ClbssNotFoundException e) {
+            // ignore bnd continue
+            // e.printStbckTrbce();
         }
-        // All other exceptions are passed up.
+        // All other exceptions bre pbssed up.
 
-        // Not in class path; try to use codebase
-        String codebase;
-        if (clas == null &&
-                (codebase = ref.getFactoryClassLocation()) != null) {
+        // Not in clbss pbth; try to use codebbse
+        String codebbse;
+        if (clbs == null &&
+                (codebbse = ref.getFbctoryClbssLocbtion()) != null) {
             try {
-                clas = helper.loadClass(factoryName, codebase);
-            } catch (ClassNotFoundException e) {
+                clbs = helper.lobdClbss(fbctoryNbme, codebbse);
+            } cbtch (ClbssNotFoundException e) {
             }
         }
 
-        return (clas != null) ? (ObjectFactory) clas.newInstance() : null;
+        return (clbs != null) ? (ObjectFbctory) clbs.newInstbnce() : null;
     }
 
 
     /**
-     * Creates an object using the factories specified in the
+     * Crebtes bn object using the fbctories specified in the
      * <tt>Context.OBJECT_FACTORIES</tt> property of the environment
-     * or of the provider resource file associated with <tt>nameCtx</tt>.
+     * or of the provider resource file bssocibted with <tt>nbmeCtx</tt>.
      *
-     * @return factory created; null if cannot create
+     * @return fbctory crebted; null if cbnnot crebte
      */
-    private static Object createObjectFromFactories(Object obj, Name name,
-            Context nameCtx, Hashtable<?,?> environment) throws Exception {
+    privbte stbtic Object crebteObjectFromFbctories(Object obj, Nbme nbme,
+            Context nbmeCtx, Hbshtbble<?,?> environment) throws Exception {
 
-        FactoryEnumeration factories = ResourceManager.getFactories(
-            Context.OBJECT_FACTORIES, environment, nameCtx);
+        FbctoryEnumerbtion fbctories = ResourceMbnbger.getFbctories(
+            Context.OBJECT_FACTORIES, environment, nbmeCtx);
 
-        if (factories == null)
+        if (fbctories == null)
             return null;
 
-        // Try each factory until one succeeds
-        ObjectFactory factory;
-        Object answer = null;
-        while (answer == null && factories.hasMore()) {
-            factory = (ObjectFactory)factories.next();
-            answer = factory.getObjectInstance(obj, name, nameCtx, environment);
+        // Try ebch fbctory until one succeeds
+        ObjectFbctory fbctory;
+        Object bnswer = null;
+        while (bnswer == null && fbctories.hbsMore()) {
+            fbctory = (ObjectFbctory)fbctories.next();
+            bnswer = fbctory.getObjectInstbnce(obj, nbme, nbmeCtx, environment);
         }
-        return answer;
+        return bnswer;
     }
 
-    private static String getURLScheme(String str) {
+    privbte stbtic String getURLScheme(String str) {
         int colon_posn = str.indexOf(':');
-        int slash_posn = str.indexOf('/');
+        int slbsh_posn = str.indexOf('/');
 
-        if (colon_posn > 0 && (slash_posn == -1 || colon_posn < slash_posn))
+        if (colon_posn > 0 && (slbsh_posn == -1 || colon_posn < slbsh_posn))
             return str.substring(0, colon_posn);
         return null;
     }
 
     /**
-     * Creates an instance of an object for the specified object
-     * and environment.
+     * Crebtes bn instbnce of bn object for the specified object
+     * bnd environment.
      * <p>
-     * If an object factory builder has been installed, it is used to
-     * create a factory for creating the object.
-     * Otherwise, the following rules are used to create the object:
+     * If bn object fbctory builder hbs been instblled, it is used to
+     * crebte b fbctory for crebting the object.
+     * Otherwise, the following rules bre used to crebte the object:
      *<ol>
-     * <li>If <code>refInfo</code> is a <code>Reference</code>
-     *    or <code>Referenceable</code> containing a factory class name,
-     *    use the named factory to create the object.
-     *    Return <code>refInfo</code> if the factory cannot be created.
-     *    Under JDK 1.1, if the factory class must be loaded from a location
-     *    specified in the reference, a <tt>SecurityManager</tt> must have
-     *    been installed or the factory creation will fail.
-     *    If an exception is encountered while creating the factory,
-     *    it is passed up to the caller.
-     * <li>If <tt>refInfo</tt> is a <tt>Reference</tt> or
-     *    <tt>Referenceable</tt> with no factory class name,
-     *    and the address or addresses are <tt>StringRefAddr</tt>s with
-     *    address type "URL",
-     *    try the URL context factory corresponding to each URL's scheme id
-     *    to create the object (see <tt>getURLContext()</tt>).
-     *    If that fails, continue to the next step.
-     * <li> Use the object factories specified in
+     * <li>If <code>refInfo</code> is b <code>Reference</code>
+     *    or <code>Referencebble</code> contbining b fbctory clbss nbme,
+     *    use the nbmed fbctory to crebte the object.
+     *    Return <code>refInfo</code> if the fbctory cbnnot be crebted.
+     *    Under JDK 1.1, if the fbctory clbss must be lobded from b locbtion
+     *    specified in the reference, b <tt>SecurityMbnbger</tt> must hbve
+     *    been instblled or the fbctory crebtion will fbil.
+     *    If bn exception is encountered while crebting the fbctory,
+     *    it is pbssed up to the cbller.
+     * <li>If <tt>refInfo</tt> is b <tt>Reference</tt> or
+     *    <tt>Referencebble</tt> with no fbctory clbss nbme,
+     *    bnd the bddress or bddresses bre <tt>StringRefAddr</tt>s with
+     *    bddress type "URL",
+     *    try the URL context fbctory corresponding to ebch URL's scheme id
+     *    to crebte the object (see <tt>getURLContext()</tt>).
+     *    If thbt fbils, continue to the next step.
+     * <li> Use the object fbctories specified in
      *    the <tt>Context.OBJECT_FACTORIES</tt> property of the environment,
-     *    and of the provider resource file associated with
-     *    <tt>nameCtx</tt>, in that order.
-     *    The value of this property is a colon-separated list of factory
-     *    class names that are tried in order, and the first one that succeeds
-     *    in creating an object is the one used.
-     *    If none of the factories can be loaded,
+     *    bnd of the provider resource file bssocibted with
+     *    <tt>nbmeCtx</tt>, in thbt order.
+     *    The vblue of this property is b colon-sepbrbted list of fbctory
+     *    clbss nbmes thbt bre tried in order, bnd the first one thbt succeeds
+     *    in crebting bn object is the one used.
+     *    If none of the fbctories cbn be lobded,
      *    return <code>refInfo</code>.
-     *    If an exception is encountered while creating the object, the
-     *    exception is passed up to the caller.
+     *    If bn exception is encountered while crebting the object, the
+     *    exception is pbssed up to the cbller.
      *</ol>
      *<p>
-     * Service providers that implement the <tt>DirContext</tt>
-     * interface should use
-     * <tt>DirectoryManager.getObjectInstance()</tt>, not this method.
-     * Service providers that implement only the <tt>Context</tt>
-     * interface should use this method.
+     * Service providers thbt implement the <tt>DirContext</tt>
+     * interfbce should use
+     * <tt>DirectoryMbnbger.getObjectInstbnce()</tt>, not this method.
+     * Service providers thbt implement only the <tt>Context</tt>
+     * interfbce should use this method.
      * <p>
-     * Note that an object factory (an object that implements the ObjectFactory
-     * interface) must be public and must have a public constructor that
-     * accepts no arguments.
+     * Note thbt bn object fbctory (bn object thbt implements the ObjectFbctory
+     * interfbce) must be public bnd must hbve b public constructor thbt
+     * bccepts no brguments.
      * <p>
-     * The <code>name</code> and <code>nameCtx</code> parameters may
-     * optionally be used to specify the name of the object being created.
-     * <code>name</code> is the name of the object, relative to context
-     * <code>nameCtx</code>.  This information could be useful to the object
-     * factory or to the object implementation.
-     *  If there are several possible contexts from which the object
-     *  could be named -- as will often be the case -- it is up to
-     *  the caller to select one.  A good rule of thumb is to select the
-     * "deepest" context available.
-     * If <code>nameCtx</code> is null, <code>name</code> is relative
-     * to the default initial context.  If no name is being specified, the
-     * <code>name</code> parameter should be null.
+     * The <code>nbme</code> bnd <code>nbmeCtx</code> pbrbmeters mby
+     * optionblly be used to specify the nbme of the object being crebted.
+     * <code>nbme</code> is the nbme of the object, relbtive to context
+     * <code>nbmeCtx</code>.  This informbtion could be useful to the object
+     * fbctory or to the object implementbtion.
+     *  If there bre severbl possible contexts from which the object
+     *  could be nbmed -- bs will often be the cbse -- it is up to
+     *  the cbller to select one.  A good rule of thumb is to select the
+     * "deepest" context bvbilbble.
+     * If <code>nbmeCtx</code> is null, <code>nbme</code> is relbtive
+     * to the defbult initibl context.  If no nbme is being specified, the
+     * <code>nbme</code> pbrbmeter should be null.
      *
-     * @param refInfo The possibly null object for which to create an object.
-     * @param name The name of this object relative to <code>nameCtx</code>.
-     *          Specifying a name is optional; if it is
-     *          omitted, <code>name</code> should be null.
-     * @param nameCtx The context relative to which the <code>name</code>
-     *          parameter is specified.  If null, <code>name</code> is
-     *          relative to the default initial context.
-     * @param environment The possibly null environment to
-     *          be used in the creation of the object factory and the object.
-     * @return An object created using <code>refInfo</code>; or
-     *          <code>refInfo</code> if an object cannot be created using
-     *          the algorithm described above.
-     * @exception NamingException if a naming exception was encountered
-     *  while attempting to get a URL context, or if one of the
-     *          factories accessed throws a NamingException.
-     * @exception Exception if one of the factories accessed throws an
-     *          exception, or if an error was encountered while loading
-     *          and instantiating the factory and object classes.
-     *          A factory should only throw an exception if it does not want
-     *          other factories to be used in an attempt to create an object.
-     *  See ObjectFactory.getObjectInstance().
+     * @pbrbm refInfo The possibly null object for which to crebte bn object.
+     * @pbrbm nbme The nbme of this object relbtive to <code>nbmeCtx</code>.
+     *          Specifying b nbme is optionbl; if it is
+     *          omitted, <code>nbme</code> should be null.
+     * @pbrbm nbmeCtx The context relbtive to which the <code>nbme</code>
+     *          pbrbmeter is specified.  If null, <code>nbme</code> is
+     *          relbtive to the defbult initibl context.
+     * @pbrbm environment The possibly null environment to
+     *          be used in the crebtion of the object fbctory bnd the object.
+     * @return An object crebted using <code>refInfo</code>; or
+     *          <code>refInfo</code> if bn object cbnnot be crebted using
+     *          the blgorithm described bbove.
+     * @exception NbmingException if b nbming exception wbs encountered
+     *  while bttempting to get b URL context, or if one of the
+     *          fbctories bccessed throws b NbmingException.
+     * @exception Exception if one of the fbctories bccessed throws bn
+     *          exception, or if bn error wbs encountered while lobding
+     *          bnd instbntibting the fbctory bnd object clbsses.
+     *          A fbctory should only throw bn exception if it does not wbnt
+     *          other fbctories to be used in bn bttempt to crebte bn object.
+     *  See ObjectFbctory.getObjectInstbnce().
      * @see #getURLContext
-     * @see ObjectFactory
-     * @see ObjectFactory#getObjectInstance
+     * @see ObjectFbctory
+     * @see ObjectFbctory#getObjectInstbnce
      */
-    public static Object
-        getObjectInstance(Object refInfo, Name name, Context nameCtx,
-                          Hashtable<?,?> environment)
+    public stbtic Object
+        getObjectInstbnce(Object refInfo, Nbme nbme, Context nbmeCtx,
+                          Hbshtbble<?,?> environment)
         throws Exception
     {
 
-        ObjectFactory factory;
+        ObjectFbctory fbctory;
 
-        // Use builder if installed
-        ObjectFactoryBuilder builder = getObjectFactoryBuilder();
+        // Use builder if instblled
+        ObjectFbctoryBuilder builder = getObjectFbctoryBuilder();
         if (builder != null) {
-            // builder must return non-null factory
-            factory = builder.createObjectFactory(refInfo, environment);
-            return factory.getObjectInstance(refInfo, name, nameCtx,
+            // builder must return non-null fbctory
+            fbctory = builder.crebteObjectFbctory(refInfo, environment);
+            return fbctory.getObjectInstbnce(refInfo, nbme, nbmeCtx,
                 environment);
         }
 
         // Use reference if possible
         Reference ref = null;
-        if (refInfo instanceof Reference) {
+        if (refInfo instbnceof Reference) {
             ref = (Reference) refInfo;
-        } else if (refInfo instanceof Referenceable) {
-            ref = ((Referenceable)(refInfo)).getReference();
+        } else if (refInfo instbnceof Referencebble) {
+            ref = ((Referencebble)(refInfo)).getReference();
         }
 
-        Object answer;
+        Object bnswer;
 
         if (ref != null) {
-            String f = ref.getFactoryClassName();
+            String f = ref.getFbctoryClbssNbme();
             if (f != null) {
-                // if reference identifies a factory, use exclusively
+                // if reference identifies b fbctory, use exclusively
 
-                factory = getObjectFactoryFromReference(ref, f);
-                if (factory != null) {
-                    return factory.getObjectInstance(ref, name, nameCtx,
+                fbctory = getObjectFbctoryFromReference(ref, f);
+                if (fbctory != null) {
+                    return fbctory.getObjectInstbnce(ref, nbme, nbmeCtx,
                                                      environment);
                 }
-                // No factory found, so return original refInfo.
-                // Will reach this point if factory class is not in
-                // class path and reference does not contain a URL for it
+                // No fbctory found, so return originbl refInfo.
+                // Will rebch this point if fbctory clbss is not in
+                // clbss pbth bnd reference does not contbin b URL for it
                 return refInfo;
 
             } else {
-                // if reference has no factory, check for addresses
-                // containing URLs
+                // if reference hbs no fbctory, check for bddresses
+                // contbining URLs
 
-                answer = processURLAddrs(ref, name, nameCtx, environment);
-                if (answer != null) {
-                    return answer;
+                bnswer = processURLAddrs(ref, nbme, nbmeCtx, environment);
+                if (bnswer != null) {
+                    return bnswer;
                 }
             }
         }
 
-        // try using any specified factories
-        answer =
-            createObjectFromFactories(refInfo, name, nameCtx, environment);
-        return (answer != null) ? answer : refInfo;
+        // try using bny specified fbctories
+        bnswer =
+            crebteObjectFromFbctories(refInfo, nbme, nbmeCtx, environment);
+        return (bnswer != null) ? bnswer : refInfo;
     }
 
     /*
-     * Ref has no factory.  For each address of type "URL", try its URL
-     * context factory.  Returns null if unsuccessful in creating and
-     * invoking a factory.
+     * Ref hbs no fbctory.  For ebch bddress of type "URL", try its URL
+     * context fbctory.  Returns null if unsuccessful in crebting bnd
+     * invoking b fbctory.
      */
-    static Object processURLAddrs(Reference ref, Name name, Context nameCtx,
-                                  Hashtable<?,?> environment)
-            throws NamingException {
+    stbtic Object processURLAddrs(Reference ref, Nbme nbme, Context nbmeCtx,
+                                  Hbshtbble<?,?> environment)
+            throws NbmingException {
 
         for (int i = 0; i < ref.size(); i++) {
-            RefAddr addr = ref.get(i);
-            if (addr instanceof StringRefAddr &&
-                addr.getType().equalsIgnoreCase("URL")) {
+            RefAddr bddr = ref.get(i);
+            if (bddr instbnceof StringRefAddr &&
+                bddr.getType().equblsIgnoreCbse("URL")) {
 
-                String url = (String)addr.getContent();
-                Object answer = processURL(url, name, nameCtx, environment);
-                if (answer != null) {
-                    return answer;
+                String url = (String)bddr.getContent();
+                Object bnswer = processURL(url, nbme, nbmeCtx, environment);
+                if (bnswer != null) {
+                    return bnswer;
                 }
             }
         }
         return null;
     }
 
-    private static Object processURL(Object refInfo, Name name,
-                                     Context nameCtx, Hashtable<?,?> environment)
-            throws NamingException {
-        Object answer;
+    privbte stbtic Object processURL(Object refInfo, Nbme nbme,
+                                     Context nbmeCtx, Hbshtbble<?,?> environment)
+            throws NbmingException {
+        Object bnswer;
 
-        // If refInfo is a URL string, try to use its URL context factory
-        // If no context found, continue to try object factories.
-        if (refInfo instanceof String) {
+        // If refInfo is b URL string, try to use its URL context fbctory
+        // If no context found, continue to try object fbctories.
+        if (refInfo instbnceof String) {
             String url = (String)refInfo;
             String scheme = getURLScheme(url);
             if (scheme != null) {
-                answer = getURLObject(scheme, refInfo, name, nameCtx,
+                bnswer = getURLObject(scheme, refInfo, nbme, nbmeCtx,
                                       environment);
-                if (answer != null) {
-                    return answer;
+                if (bnswer != null) {
+                    return bnswer;
                 }
             }
         }
 
-        // If refInfo is an array of URL strings,
-        // try to find a context factory for any one of its URLs.
-        // If no context found, continue to try object factories.
-        if (refInfo instanceof String[]) {
+        // If refInfo is bn brrby of URL strings,
+        // try to find b context fbctory for bny one of its URLs.
+        // If no context found, continue to try object fbctories.
+        if (refInfo instbnceof String[]) {
             String[] urls = (String[])refInfo;
             for (int i = 0; i <urls.length; i++) {
                 String scheme = getURLScheme(urls[i]);
                 if (scheme != null) {
-                    answer = getURLObject(scheme, refInfo, name, nameCtx,
+                    bnswer = getURLObject(scheme, refInfo, nbme, nbmeCtx,
                                           environment);
-                    if (answer != null)
-                        return answer;
+                    if (bnswer != null)
+                        return bnswer;
                 }
             }
         }
@@ -406,469 +406,469 @@ public class NamingManager {
 
 
     /**
-     * Retrieves a context identified by <code>obj</code>, using the specified
+     * Retrieves b context identified by <code>obj</code>, using the specified
      * environment.
-     * Used by ContinuationContext.
+     * Used by ContinubtionContext.
      *
-     * @param obj       The object identifying the context.
-     * @param name      The name of the context being returned, relative to
-     *                  <code>nameCtx</code>, or null if no name is being
+     * @pbrbm obj       The object identifying the context.
+     * @pbrbm nbme      The nbme of the context being returned, relbtive to
+     *                  <code>nbmeCtx</code>, or null if no nbme is being
      *                  specified.
-     *                  See the <code>getObjectInstance</code> method for
-     *                  details.
-     * @param nameCtx   The context relative to which <code>name</code> is
-     *                  specified, or null for the default initial context.
-     *                  See the <code>getObjectInstance</code> method for
-     *                  details.
-     * @param environment Environment specifying characteristics of the
+     *                  See the <code>getObjectInstbnce</code> method for
+     *                  detbils.
+     * @pbrbm nbmeCtx   The context relbtive to which <code>nbme</code> is
+     *                  specified, or null for the defbult initibl context.
+     *                  See the <code>getObjectInstbnce</code> method for
+     *                  detbils.
+     * @pbrbm environment Environment specifying chbrbcteristics of the
      *                  resulting context.
      * @return A context identified by <code>obj</code>.
      *
-     * @see #getObjectInstance
+     * @see #getObjectInstbnce
      */
-    static Context getContext(Object obj, Name name, Context nameCtx,
-                              Hashtable<?,?> environment) throws NamingException {
-        Object answer;
+    stbtic Context getContext(Object obj, Nbme nbme, Context nbmeCtx,
+                              Hbshtbble<?,?> environment) throws NbmingException {
+        Object bnswer;
 
-        if (obj instanceof Context) {
+        if (obj instbnceof Context) {
             // %%% Ignore environment for now.  OK since method not public.
             return (Context)obj;
         }
 
         try {
-            answer = getObjectInstance(obj, name, nameCtx, environment);
-        } catch (NamingException e) {
+            bnswer = getObjectInstbnce(obj, nbme, nbmeCtx, environment);
+        } cbtch (NbmingException e) {
             throw e;
-        } catch (Exception e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
+        } cbtch (Exception e) {
+            NbmingException ne = new NbmingException();
+            ne.setRootCbuse(e);
             throw ne;
         }
 
-        return (answer instanceof Context)
-            ? (Context)answer
+        return (bnswer instbnceof Context)
+            ? (Context)bnswer
             : null;
     }
 
-    // Used by ContinuationContext
-    static Resolver getResolver(Object obj, Name name, Context nameCtx,
-                                Hashtable<?,?> environment) throws NamingException {
-        Object answer;
+    // Used by ContinubtionContext
+    stbtic Resolver getResolver(Object obj, Nbme nbme, Context nbmeCtx,
+                                Hbshtbble<?,?> environment) throws NbmingException {
+        Object bnswer;
 
-        if (obj instanceof Resolver) {
+        if (obj instbnceof Resolver) {
             // %%% Ignore environment for now.  OK since method not public.
             return (Resolver)obj;
         }
 
         try {
-            answer = getObjectInstance(obj, name, nameCtx, environment);
-        } catch (NamingException e) {
+            bnswer = getObjectInstbnce(obj, nbme, nbmeCtx, environment);
+        } cbtch (NbmingException e) {
             throw e;
-        } catch (Exception e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
+        } cbtch (Exception e) {
+            NbmingException ne = new NbmingException();
+            ne.setRootCbuse(e);
             throw ne;
         }
 
-        return (answer instanceof Resolver)
-            ? (Resolver)answer
+        return (bnswer instbnceof Resolver)
+            ? (Resolver)bnswer
             : null;
     }
 
 
-    /***************** URL Context implementations ***************/
+    /***************** URL Context implementbtions ***************/
 
     /**
-     * Creates a context for the given URL scheme id.
+     * Crebtes b context for the given URL scheme id.
      * <p>
      * The resulting context is for resolving URLs of the
      * scheme <code>scheme</code>. The resulting context is not tied
-     * to a specific URL. It is able to handle arbitrary URLs with
+     * to b specific URL. It is bble to hbndle brbitrbry URLs with
      * the specified scheme.
      *<p>
-     * The class name of the factory that creates the resulting context
-     * has the naming convention <i>scheme-id</i>URLContextFactory
-     * (e.g. "ftpURLContextFactory" for the "ftp" scheme-id),
-     * in the package specified as follows.
+     * The clbss nbme of the fbctory thbt crebtes the resulting context
+     * hbs the nbming convention <i>scheme-id</i>URLContextFbctory
+     * (e.g. "ftpURLContextFbctory" for the "ftp" scheme-id),
+     * in the pbckbge specified bs follows.
      * The <tt>Context.URL_PKG_PREFIXES</tt> environment property (which
-     * may contain values taken from system properties,
-     * or application resource files)
-     * contains a colon-separated list of package prefixes.
-     * Each package prefix in
-     * the property is tried in the order specified to load the factory class.
-     * The default package prefix is "com.sun.jndi.url" (if none of the
-     * specified packages work, this default is tried).
-     * The complete package name is constructed using the package prefix,
-     * concatenated with the scheme id.
+     * mby contbin vblues tbken from system properties,
+     * or bpplicbtion resource files)
+     * contbins b colon-sepbrbted list of pbckbge prefixes.
+     * Ebch pbckbge prefix in
+     * the property is tried in the order specified to lobd the fbctory clbss.
+     * The defbult pbckbge prefix is "com.sun.jndi.url" (if none of the
+     * specified pbckbges work, this defbult is tried).
+     * The complete pbckbge nbme is constructed using the pbckbge prefix,
+     * concbtenbted with the scheme id.
      *<p>
-     * For example, if the scheme id is "ldap", and the
+     * For exbmple, if the scheme id is "ldbp", bnd the
      * <tt>Context.URL_PKG_PREFIXES</tt> property
-     * contains "com.widget:com.wiz.jndi",
-     * the naming manager would attempt to load the following classes
-     * until one is successfully instantiated:
+     * contbins "com.widget:com.wiz.jndi",
+     * the nbming mbnbger would bttempt to lobd the following clbsses
+     * until one is successfully instbntibted:
      *<ul>
-     * <li>com.widget.ldap.ldapURLContextFactory
-     *  <li>com.wiz.jndi.ldap.ldapURLContextFactory
-     *  <li>com.sun.jndi.url.ldap.ldapURLContextFactory
+     * <li>com.widget.ldbp.ldbpURLContextFbctory
+     *  <li>com.wiz.jndi.ldbp.ldbpURLContextFbctory
+     *  <li>com.sun.jndi.url.ldbp.ldbpURLContextFbctory
      *</ul>
-     * If none of the package prefixes work, null is returned.
+     * If none of the pbckbge prefixes work, null is returned.
      *<p>
-     * If a factory is instantiated, it is invoked with the following
-     * parameters to produce the resulting context.
+     * If b fbctory is instbntibted, it is invoked with the following
+     * pbrbmeters to produce the resulting context.
      * <p>
-     * <code>factory.getObjectInstance(null, environment);</code>
+     * <code>fbctory.getObjectInstbnce(null, environment);</code>
      * <p>
-     * For example, invoking getObjectInstance() as shown above
-     * on a LDAP URL context factory would return a
-     * context that can resolve LDAP urls
-     * (e.g. "ldap://ldap.wiz.com/o=wiz,c=us",
-     * "ldap://ldap.umich.edu/o=umich,c=us", ...).
+     * For exbmple, invoking getObjectInstbnce() bs shown bbove
+     * on b LDAP URL context fbctory would return b
+     * context thbt cbn resolve LDAP urls
+     * (e.g. "ldbp://ldbp.wiz.com/o=wiz,c=us",
+     * "ldbp://ldbp.umich.edu/o=umich,c=us", ...).
      *<p>
-     * Note that an object factory (an object that implements the ObjectFactory
-     * interface) must be public and must have a public constructor that
-     * accepts no arguments.
+     * Note thbt bn object fbctory (bn object thbt implements the ObjectFbctory
+     * interfbce) must be public bnd must hbve b public constructor thbt
+     * bccepts no brguments.
      *
-     * @param scheme    The non-null scheme-id of the URLs supported by the context.
-     * @param environment The possibly null environment properties to be
-     *           used in the creation of the object factory and the context.
+     * @pbrbm scheme    The non-null scheme-id of the URLs supported by the context.
+     * @pbrbm environment The possibly null environment properties to be
+     *           used in the crebtion of the object fbctory bnd the context.
      * @return A context for resolving URLs with the
      *         scheme id <code>scheme</code>;
-     *  <code>null</code> if the factory for creating the
+     *  <code>null</code> if the fbctory for crebting the
      *         context is not found.
-     * @exception NamingException If a naming exception occurs while creating
+     * @exception NbmingException If b nbming exception occurs while crebting
      *          the context.
-     * @see #getObjectInstance
-     * @see ObjectFactory#getObjectInstance
+     * @see #getObjectInstbnce
+     * @see ObjectFbctory#getObjectInstbnce
      */
-    public static Context getURLContext(String scheme,
-                                        Hashtable<?,?> environment)
-        throws NamingException
+    public stbtic Context getURLContext(String scheme,
+                                        Hbshtbble<?,?> environment)
+        throws NbmingException
     {
-        // pass in 'null' to indicate creation of generic context for scheme
-        // (i.e. not specific to a URL).
+        // pbss in 'null' to indicbte crebtion of generic context for scheme
+        // (i.e. not specific to b URL).
 
-            Object answer = getURLObject(scheme, null, null, null, environment);
-            if (answer instanceof Context) {
-                return (Context)answer;
+            Object bnswer = getURLObject(scheme, null, null, null, environment);
+            if (bnswer instbnceof Context) {
+                return (Context)bnswer;
             } else {
                 return null;
             }
     }
 
-    private static final String defaultPkgPrefix = "com.sun.jndi.url";
+    privbte stbtic finbl String defbultPkgPrefix = "com.sun.jndi.url";
 
     /**
-     * Creates an object for the given URL scheme id using
+     * Crebtes bn object for the given URL scheme id using
      * the supplied urlInfo.
      * <p>
-     * If urlInfo is null, the result is a context for resolving URLs
+     * If urlInfo is null, the result is b context for resolving URLs
      * with the scheme id 'scheme'.
-     * If urlInfo is a URL, the result is a context named by the URL.
-     * Names passed to this context is assumed to be relative to this
-     * context (i.e. not a URL). For example, if urlInfo is
-     * "ldap://ldap.wiz.com/o=Wiz,c=us", the resulting context will
-     * be that pointed to by "o=Wiz,c=us" on the server 'ldap.wiz.com'.
-     * Subsequent names that can be passed to this context will be
-     * LDAP names relative to this context (e.g. cn="Barbs Jensen").
-     * If urlInfo is an array of URLs, the URLs are assumed
-     * to be equivalent in terms of the context to which they refer.
-     * The resulting context is like that of the single URL case.
-     * If urlInfo is of any other type, that is handled by the
-     * context factory for the URL scheme.
-     * @param scheme the URL scheme id for the context
-     * @param urlInfo information used to create the context
-     * @param name name of this object relative to <code>nameCtx</code>
-     * @param nameCtx Context whose provider resource file will be searched
-     *          for package prefix values (or null if none)
-     * @param environment Environment properties for creating the context
-     * @see javax.naming.InitialContext
+     * If urlInfo is b URL, the result is b context nbmed by the URL.
+     * Nbmes pbssed to this context is bssumed to be relbtive to this
+     * context (i.e. not b URL). For exbmple, if urlInfo is
+     * "ldbp://ldbp.wiz.com/o=Wiz,c=us", the resulting context will
+     * be thbt pointed to by "o=Wiz,c=us" on the server 'ldbp.wiz.com'.
+     * Subsequent nbmes thbt cbn be pbssed to this context will be
+     * LDAP nbmes relbtive to this context (e.g. cn="Bbrbs Jensen").
+     * If urlInfo is bn brrby of URLs, the URLs bre bssumed
+     * to be equivblent in terms of the context to which they refer.
+     * The resulting context is like thbt of the single URL cbse.
+     * If urlInfo is of bny other type, thbt is hbndled by the
+     * context fbctory for the URL scheme.
+     * @pbrbm scheme the URL scheme id for the context
+     * @pbrbm urlInfo informbtion used to crebte the context
+     * @pbrbm nbme nbme of this object relbtive to <code>nbmeCtx</code>
+     * @pbrbm nbmeCtx Context whose provider resource file will be sebrched
+     *          for pbckbge prefix vblues (or null if none)
+     * @pbrbm environment Environment properties for crebting the context
+     * @see jbvbx.nbming.InitiblContext
      */
-    private static Object getURLObject(String scheme, Object urlInfo,
-                                       Name name, Context nameCtx,
-                                       Hashtable<?,?> environment)
-            throws NamingException {
+    privbte stbtic Object getURLObject(String scheme, Object urlInfo,
+                                       Nbme nbme, Context nbmeCtx,
+                                       Hbshtbble<?,?> environment)
+            throws NbmingException {
 
-        // e.g. "ftpURLContextFactory"
-        ObjectFactory factory = (ObjectFactory)ResourceManager.getFactory(
-            Context.URL_PKG_PREFIXES, environment, nameCtx,
-            "." + scheme + "." + scheme + "URLContextFactory", defaultPkgPrefix);
+        // e.g. "ftpURLContextFbctory"
+        ObjectFbctory fbctory = (ObjectFbctory)ResourceMbnbger.getFbctory(
+            Context.URL_PKG_PREFIXES, environment, nbmeCtx,
+            "." + scheme + "." + scheme + "URLContextFbctory", defbultPkgPrefix);
 
-        if (factory == null)
+        if (fbctory == null)
           return null;
 
-        // Found object factory
+        // Found object fbctory
         try {
-            return factory.getObjectInstance(urlInfo, name, nameCtx, environment);
-        } catch (NamingException e) {
+            return fbctory.getObjectInstbnce(urlInfo, nbme, nbmeCtx, environment);
+        } cbtch (NbmingException e) {
             throw e;
-        } catch (Exception e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
+        } cbtch (Exception e) {
+            NbmingException ne = new NbmingException();
+            ne.setRootCbuse(e);
             throw ne;
         }
 
     }
 
 
-// ------------ Initial Context Factory Stuff
-    private static InitialContextFactoryBuilder initctx_factory_builder = null;
+// ------------ Initibl Context Fbctory Stuff
+    privbte stbtic InitiblContextFbctoryBuilder initctx_fbctory_builder = null;
 
     /**
-     * Use this method for accessing initctx_factory_builder while
-     * inside an unsynchronized method.
+     * Use this method for bccessing initctx_fbctory_builder while
+     * inside bn unsynchronized method.
      */
-    private static synchronized InitialContextFactoryBuilder
-    getInitialContextFactoryBuilder() {
-        return initctx_factory_builder;
+    privbte stbtic synchronized InitiblContextFbctoryBuilder
+    getInitiblContextFbctoryBuilder() {
+        return initctx_fbctory_builder;
     }
 
     /**
-     * Creates an initial context using the specified environment
+     * Crebtes bn initibl context using the specified environment
      * properties.
      *<p>
-     * If an InitialContextFactoryBuilder has been installed,
-     * it is used to create the factory for creating the initial context.
-     * Otherwise, the class specified in the
+     * If bn InitiblContextFbctoryBuilder hbs been instblled,
+     * it is used to crebte the fbctory for crebting the initibl context.
+     * Otherwise, the clbss specified in the
      * <tt>Context.INITIAL_CONTEXT_FACTORY</tt> environment property is used.
-     * Note that an initial context factory (an object that implements the
-     * InitialContextFactory interface) must be public and must have a
-     * public constructor that accepts no arguments.
+     * Note thbt bn initibl context fbctory (bn object thbt implements the
+     * InitiblContextFbctory interfbce) must be public bnd must hbve b
+     * public constructor thbt bccepts no brguments.
      *
-     * @param env The possibly null environment properties used when
-     *                  creating the context.
-     * @return A non-null initial context.
-     * @exception NoInitialContextException If the
+     * @pbrbm env The possibly null environment properties used when
+     *                  crebting the context.
+     * @return A non-null initibl context.
+     * @exception NoInitiblContextException If the
      *          <tt>Context.INITIAL_CONTEXT_FACTORY</tt> property
-     *         is not found or names a nonexistent
-     *         class or a class that cannot be instantiated,
-     *          or if the initial context could not be created for some other
-     *          reason.
-     * @exception NamingException If some other naming exception was encountered.
-     * @see javax.naming.InitialContext
-     * @see javax.naming.directory.InitialDirContext
+     *         is not found or nbmes b nonexistent
+     *         clbss or b clbss thbt cbnnot be instbntibted,
+     *          or if the initibl context could not be crebted for some other
+     *          rebson.
+     * @exception NbmingException If some other nbming exception wbs encountered.
+     * @see jbvbx.nbming.InitiblContext
+     * @see jbvbx.nbming.directory.InitiblDirContext
      */
-    public static Context getInitialContext(Hashtable<?,?> env)
-        throws NamingException {
-        InitialContextFactory factory;
+    public stbtic Context getInitiblContext(Hbshtbble<?,?> env)
+        throws NbmingException {
+        InitiblContextFbctory fbctory;
 
-        InitialContextFactoryBuilder builder = getInitialContextFactoryBuilder();
+        InitiblContextFbctoryBuilder builder = getInitiblContextFbctoryBuilder();
         if (builder == null) {
-            // No factory installed, use property
-            // Get initial context factory class name
+            // No fbctory instblled, use property
+            // Get initibl context fbctory clbss nbme
 
-            String className = env != null ?
+            String clbssNbme = env != null ?
                 (String)env.get(Context.INITIAL_CONTEXT_FACTORY) : null;
-            if (className == null) {
-                NoInitialContextException ne = new NoInitialContextException(
-                    "Need to specify class name in environment or system " +
-                    "property, or in an application resource file: " +
+            if (clbssNbme == null) {
+                NoInitiblContextException ne = new NoInitiblContextException(
+                    "Need to specify clbss nbme in environment or system " +
+                    "property, or in bn bpplicbtion resource file: " +
                     Context.INITIAL_CONTEXT_FACTORY);
                 throw ne;
             }
 
             try {
-                factory = (InitialContextFactory)
-                    helper.loadClass(className).newInstance();
-            } catch(Exception e) {
-                NoInitialContextException ne =
-                    new NoInitialContextException(
-                        "Cannot instantiate class: " + className);
-                ne.setRootCause(e);
+                fbctory = (InitiblContextFbctory)
+                    helper.lobdClbss(clbssNbme).newInstbnce();
+            } cbtch(Exception e) {
+                NoInitiblContextException ne =
+                    new NoInitiblContextException(
+                        "Cbnnot instbntibte clbss: " + clbssNbme);
+                ne.setRootCbuse(e);
                 throw ne;
             }
         } else {
-            factory = builder.createInitialContextFactory(env);
+            fbctory = builder.crebteInitiblContextFbctory(env);
         }
 
-        return factory.getInitialContext(env);
+        return fbctory.getInitiblContext(env);
     }
 
 
     /**
-     * Sets the InitialContextFactory builder to be builder.
+     * Sets the InitiblContextFbctory builder to be builder.
      *
      *<p>
-     * The builder can only be installed if the executing thread is allowed by
-     * the security manager to do so. Once installed, the builder cannot
-     * be replaced.
-     * @param builder The initial context factory builder to install. If null,
+     * The builder cbn only be instblled if the executing threbd is bllowed by
+     * the security mbnbger to do so. Once instblled, the builder cbnnot
+     * be replbced.
+     * @pbrbm builder The initibl context fbctory builder to instbll. If null,
      *                no builder is set.
-     * @exception SecurityException builder cannot be installed for security
-     *                  reasons.
-     * @exception NamingException builder cannot be installed for
-     *         a non-security-related reason.
-     * @exception IllegalStateException If a builder was previous installed.
-     * @see #hasInitialContextFactoryBuilder
-     * @see java.lang.SecurityManager#checkSetFactory
+     * @exception SecurityException builder cbnnot be instblled for security
+     *                  rebsons.
+     * @exception NbmingException builder cbnnot be instblled for
+     *         b non-security-relbted rebson.
+     * @exception IllegblStbteException If b builder wbs previous instblled.
+     * @see #hbsInitiblContextFbctoryBuilder
+     * @see jbvb.lbng.SecurityMbnbger#checkSetFbctory
      */
-    public static synchronized void setInitialContextFactoryBuilder(
-        InitialContextFactoryBuilder builder)
-        throws NamingException {
-            if (initctx_factory_builder != null)
-                throw new IllegalStateException(
-                    "InitialContextFactoryBuilder already set");
+    public stbtic synchronized void setInitiblContextFbctoryBuilder(
+        InitiblContextFbctoryBuilder builder)
+        throws NbmingException {
+            if (initctx_fbctory_builder != null)
+                throw new IllegblStbteException(
+                    "InitiblContextFbctoryBuilder blrebdy set");
 
-            SecurityManager security = System.getSecurityManager();
+            SecurityMbnbger security = System.getSecurityMbnbger();
             if (security != null) {
-                security.checkSetFactory();
+                security.checkSetFbctory();
             }
-            initctx_factory_builder = builder;
+            initctx_fbctory_builder = builder;
     }
 
     /**
-     * Determines whether an initial context factory builder has
+     * Determines whether bn initibl context fbctory builder hbs
      * been set.
-     * @return true if an initial context factory builder has
-     *           been set; false otherwise.
-     * @see #setInitialContextFactoryBuilder
+     * @return true if bn initibl context fbctory builder hbs
+     *           been set; fblse otherwise.
+     * @see #setInitiblContextFbctoryBuilder
      */
-    public static boolean hasInitialContextFactoryBuilder() {
-        return (getInitialContextFactoryBuilder() != null);
+    public stbtic boolebn hbsInitiblContextFbctoryBuilder() {
+        return (getInitiblContextFbctoryBuilder() != null);
     }
 
-// -----  Continuation Context Stuff
+// -----  Continubtion Context Stuff
 
     /**
-     * Constant that holds the name of the environment property into
-     * which <tt>getContinuationContext()</tt> stores the value of its
-     * <tt>CannotProceedException</tt> parameter.
-     * This property is inherited by the continuation context, and may
-     * be used by that context's service provider to inspect the
+     * Constbnt thbt holds the nbme of the environment property into
+     * which <tt>getContinubtionContext()</tt> stores the vblue of its
+     * <tt>CbnnotProceedException</tt> pbrbmeter.
+     * This property is inherited by the continubtion context, bnd mby
+     * be used by thbt context's service provider to inspect the
      * fields of the exception.
      *<p>
-     * The value of this constant is "java.naming.spi.CannotProceedException".
+     * The vblue of this constbnt is "jbvb.nbming.spi.CbnnotProceedException".
      *
-     * @see #getContinuationContext
+     * @see #getContinubtionContext
      * @since 1.3
      */
-    public static final String CPE = "java.naming.spi.CannotProceedException";
+    public stbtic finbl String CPE = "jbvb.nbming.spi.CbnnotProceedException";
 
     /**
-     * Creates a context in which to continue a context operation.
+     * Crebtes b context in which to continue b context operbtion.
      *<p>
-     * In performing an operation on a name that spans multiple
-     * namespaces, a context from one naming system may need to pass
-     * the operation on to the next naming system.  The context
-     * implementation does this by first constructing a
-     * <code>CannotProceedException</code> containing information
-     * pinpointing how far it has proceeded.  It then obtains a
-     * continuation context from JNDI by calling
-     * <code>getContinuationContext</code>.  The context
-     * implementation should then resume the context operation by
-     * invoking the same operation on the continuation context, using
-     * the remainder of the name that has not yet been resolved.
+     * In performing bn operbtion on b nbme thbt spbns multiple
+     * nbmespbces, b context from one nbming system mby need to pbss
+     * the operbtion on to the next nbming system.  The context
+     * implementbtion does this by first constructing b
+     * <code>CbnnotProceedException</code> contbining informbtion
+     * pinpointing how fbr it hbs proceeded.  It then obtbins b
+     * continubtion context from JNDI by cblling
+     * <code>getContinubtionContext</code>.  The context
+     * implementbtion should then resume the context operbtion by
+     * invoking the sbme operbtion on the continubtion context, using
+     * the rembinder of the nbme thbt hbs not yet been resolved.
      *<p>
-     * Before making use of the <tt>cpe</tt> parameter, this method
-     * updates the environment associated with that object by setting
-     * the value of the property <a href="#CPE"><tt>CPE</tt></a>
+     * Before mbking use of the <tt>cpe</tt> pbrbmeter, this method
+     * updbtes the environment bssocibted with thbt object by setting
+     * the vblue of the property <b href="#CPE"><tt>CPE</tt></b>
      * to <tt>cpe</tt>.  This property will be inherited by the
-     * continuation context, and may be used by that context's
+     * continubtion context, bnd mby be used by thbt context's
      * service provider to inspect the fields of this exception.
      *
-     * @param cpe
-     *          The non-null exception that triggered this continuation.
-     * @return A non-null Context object for continuing the operation.
-     * @exception NamingException If a naming exception occurred.
+     * @pbrbm cpe
+     *          The non-null exception thbt triggered this continubtion.
+     * @return A non-null Context object for continuing the operbtion.
+     * @exception NbmingException If b nbming exception occurred.
      */
-    @SuppressWarnings("unchecked")
-    public static Context getContinuationContext(CannotProceedException cpe)
-            throws NamingException {
+    @SuppressWbrnings("unchecked")
+    public stbtic Context getContinubtionContext(CbnnotProceedException cpe)
+            throws NbmingException {
 
-        Hashtable<Object,Object> env = (Hashtable<Object,Object>)cpe.getEnvironment();
+        Hbshtbble<Object,Object> env = (Hbshtbble<Object,Object>)cpe.getEnvironment();
         if (env == null) {
-            env = new Hashtable<>(7);
+            env = new Hbshtbble<>(7);
         } else {
-            // Make a (shallow) copy of the environment.
-            env = (Hashtable<Object,Object>)env.clone();
+            // Mbke b (shbllow) copy of the environment.
+            env = (Hbshtbble<Object,Object>)env.clone();
         }
         env.put(CPE, cpe);
 
-        ContinuationContext cctx = new ContinuationContext(cpe, env);
-        return cctx.getTargetContext();
+        ContinubtionContext cctx = new ContinubtionContext(cpe, env);
+        return cctx.getTbrgetContext();
     }
 
-// ------------ State Factory Stuff
+// ------------ Stbte Fbctory Stuff
 
     /**
-     * Retrieves the state of an object for binding.
+     * Retrieves the stbte of bn object for binding.
      * <p>
-     * Service providers that implement the <tt>DirContext</tt> interface
-     * should use <tt>DirectoryManager.getStateToBind()</tt>, not this method.
-     * Service providers that implement only the <tt>Context</tt> interface
+     * Service providers thbt implement the <tt>DirContext</tt> interfbce
+     * should use <tt>DirectoryMbnbger.getStbteToBind()</tt>, not this method.
+     * Service providers thbt implement only the <tt>Context</tt> interfbce
      * should use this method.
      *<p>
-     * This method uses the specified state factories in
+     * This method uses the specified stbte fbctories in
      * the <tt>Context.STATE_FACTORIES</tt> property from the environment
-     * properties, and from the provider resource file associated with
-     * <tt>nameCtx</tt>, in that order.
-     *    The value of this property is a colon-separated list of factory
-     *    class names that are tried in order, and the first one that succeeds
-     *    in returning the object's state is the one used.
-     * If no object's state can be retrieved in this way, return the
+     * properties, bnd from the provider resource file bssocibted with
+     * <tt>nbmeCtx</tt>, in thbt order.
+     *    The vblue of this property is b colon-sepbrbted list of fbctory
+     *    clbss nbmes thbt bre tried in order, bnd the first one thbt succeeds
+     *    in returning the object's stbte is the one used.
+     * If no object's stbte cbn be retrieved in this wby, return the
      * object itself.
-     *    If an exception is encountered while retrieving the state, the
-     *    exception is passed up to the caller.
+     *    If bn exception is encountered while retrieving the stbte, the
+     *    exception is pbssed up to the cbller.
      * <p>
-     * Note that a state factory
-     * (an object that implements the StateFactory
-     * interface) must be public and must have a public constructor that
-     * accepts no arguments.
+     * Note thbt b stbte fbctory
+     * (bn object thbt implements the StbteFbctory
+     * interfbce) must be public bnd must hbve b public constructor thbt
+     * bccepts no brguments.
      * <p>
-     * The <code>name</code> and <code>nameCtx</code> parameters may
-     * optionally be used to specify the name of the object being created.
-     * See the description of "Name and Context Parameters" in
-     * {@link ObjectFactory#getObjectInstance
-     *          ObjectFactory.getObjectInstance()}
-     * for details.
+     * The <code>nbme</code> bnd <code>nbmeCtx</code> pbrbmeters mby
+     * optionblly be used to specify the nbme of the object being crebted.
+     * See the description of "Nbme bnd Context Pbrbmeters" in
+     * {@link ObjectFbctory#getObjectInstbnce
+     *          ObjectFbctory.getObjectInstbnce()}
+     * for detbils.
      * <p>
-     * This method may return a <tt>Referenceable</tt> object.  The
-     * service provider obtaining this object may choose to store it
-     * directly, or to extract its reference (using
-     * <tt>Referenceable.getReference()</tt>) and store that instead.
+     * This method mby return b <tt>Referencebble</tt> object.  The
+     * service provider obtbining this object mby choose to store it
+     * directly, or to extrbct its reference (using
+     * <tt>Referencebble.getReference()</tt>) bnd store thbt instebd.
      *
-     * @param obj The non-null object for which to get state to bind.
-     * @param name The name of this object relative to <code>nameCtx</code>,
-     *          or null if no name is specified.
-     * @param nameCtx The context relative to which the <code>name</code>
-     *          parameter is specified, or null if <code>name</code> is
-     *          relative to the default initial context.
-     *  @param environment The possibly null environment to
-     *          be used in the creation of the state factory and
-     *  the object's state.
-     * @return The non-null object representing <tt>obj</tt>'s state for
+     * @pbrbm obj The non-null object for which to get stbte to bind.
+     * @pbrbm nbme The nbme of this object relbtive to <code>nbmeCtx</code>,
+     *          or null if no nbme is specified.
+     * @pbrbm nbmeCtx The context relbtive to which the <code>nbme</code>
+     *          pbrbmeter is specified, or null if <code>nbme</code> is
+     *          relbtive to the defbult initibl context.
+     *  @pbrbm environment The possibly null environment to
+     *          be used in the crebtion of the stbte fbctory bnd
+     *  the object's stbte.
+     * @return The non-null object representing <tt>obj</tt>'s stbte for
      *  binding.  It could be the object (<tt>obj</tt>) itself.
-     * @exception NamingException If one of the factories accessed throws an
-     *          exception, or if an error was encountered while loading
-     *          and instantiating the factory and object classes.
-     *          A factory should only throw an exception if it does not want
-     *          other factories to be used in an attempt to create an object.
-     *  See <tt>StateFactory.getStateToBind()</tt>.
-     * @see StateFactory
-     * @see StateFactory#getStateToBind
-     * @see DirectoryManager#getStateToBind
+     * @exception NbmingException If one of the fbctories bccessed throws bn
+     *          exception, or if bn error wbs encountered while lobding
+     *          bnd instbntibting the fbctory bnd object clbsses.
+     *          A fbctory should only throw bn exception if it does not wbnt
+     *          other fbctories to be used in bn bttempt to crebte bn object.
+     *  See <tt>StbteFbctory.getStbteToBind()</tt>.
+     * @see StbteFbctory
+     * @see StbteFbctory#getStbteToBind
+     * @see DirectoryMbnbger#getStbteToBind
      * @since 1.3
      */
-    public static Object
-        getStateToBind(Object obj, Name name, Context nameCtx,
-                       Hashtable<?,?> environment)
-        throws NamingException
+    public stbtic Object
+        getStbteToBind(Object obj, Nbme nbme, Context nbmeCtx,
+                       Hbshtbble<?,?> environment)
+        throws NbmingException
     {
 
-        FactoryEnumeration factories = ResourceManager.getFactories(
-            Context.STATE_FACTORIES, environment, nameCtx);
+        FbctoryEnumerbtion fbctories = ResourceMbnbger.getFbctories(
+            Context.STATE_FACTORIES, environment, nbmeCtx);
 
-        if (factories == null) {
+        if (fbctories == null) {
             return obj;
         }
 
-        // Try each factory until one succeeds
-        StateFactory factory;
-        Object answer = null;
-        while (answer == null && factories.hasMore()) {
-            factory = (StateFactory)factories.next();
-            answer = factory.getStateToBind(obj, name, nameCtx, environment);
+        // Try ebch fbctory until one succeeds
+        StbteFbctory fbctory;
+        Object bnswer = null;
+        while (bnswer == null && fbctories.hbsMore()) {
+            fbctory = (StbteFbctory)fbctories.next();
+            bnswer = fbctory.getStbteToBind(obj, nbme, nbmeCtx, environment);
         }
 
-        return (answer != null) ? answer : obj;
+        return (bnswer != null) ? bnswer : obj;
     }
 }

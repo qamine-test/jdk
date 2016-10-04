@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.print;
+pbckbge jbvb.bwt.print;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * The <code>PageFormat</code> class describes the size and
- * orientation of a page to be printed.
+ * The <code>PbgeFormbt</code> clbss describes the size bnd
+ * orientbtion of b pbge to be printed.
  */
-public class PageFormat implements Cloneable
+public clbss PbgeFormbt implements Clonebble
 {
 
- /* Class Constants */
+ /* Clbss Constbnts */
 
     /**
-     *  The origin is at the bottom left of the paper with
-     *  x running bottom to top and y running left to right.
-     *  Note that this is not the Macintosh landscape but
-     *  is the Window's and PostScript landscape.
+     *  The origin is bt the bottom left of the pbper with
+     *  x running bottom to top bnd y running left to right.
+     *  Note thbt this is not the Mbcintosh lbndscbpe but
+     *  is the Window's bnd PostScript lbndscbpe.
      */
-    @Native public static final int LANDSCAPE = 0;
+    @Nbtive public stbtic finbl int LANDSCAPE = 0;
 
     /**
-     *  The origin is at the top left of the paper with
-     *  x running to the right and y running down the
-     *  paper.
+     *  The origin is bt the top left of the pbper with
+     *  x running to the right bnd y running down the
+     *  pbper.
      */
-    @Native public static final int PORTRAIT = 1;
+    @Nbtive public stbtic finbl int PORTRAIT = 1;
 
     /**
-     *  The origin is at the top right of the paper with x
-     *  running top to bottom and y running right to left.
-     *  Note that this is the Macintosh landscape.
+     *  The origin is bt the top right of the pbper with x
+     *  running top to bottom bnd y running right to left.
+     *  Note thbt this is the Mbcintosh lbndscbpe.
      */
-    @Native public static final int REVERSE_LANDSCAPE = 2;
+    @Nbtive public stbtic finbl int REVERSE_LANDSCAPE = 2;
 
- /* Instance Variables */
+ /* Instbnce Vbribbles */
 
     /**
-     * A description of the physical piece of paper.
+     * A description of the physicbl piece of pbper.
      */
-    private Paper mPaper;
+    privbte Pbper mPbper;
 
     /**
-     * The orientation of the current page. This will be
-     * one of the constants: PORTRIAT, LANDSCAPE, or
+     * The orientbtion of the current pbge. This will be
+     * one of the constbnts: PORTRIAT, LANDSCAPE, or
      * REVERSE_LANDSCAPE,
      */
-    private int mOrientation = PORTRAIT;
+    privbte int mOrientbtion = PORTRAIT;
 
  /* Constructors */
 
     /**
-     * Creates a default, portrait-oriented
-     * <code>PageFormat</code>.
+     * Crebtes b defbult, portrbit-oriented
+     * <code>PbgeFormbt</code>.
      */
-    public PageFormat()
+    public PbgeFormbt()
     {
-        mPaper = new Paper();
+        mPbper = new Pbper();
     }
 
- /* Instance Methods */
+ /* Instbnce Methods */
 
     /**
-     * Makes a copy of this <code>PageFormat</code> with the same
-     * contents as this <code>PageFormat</code>.
-     * @return a copy of this <code>PageFormat</code>.
+     * Mbkes b copy of this <code>PbgeFormbt</code> with the sbme
+     * contents bs this <code>PbgeFormbt</code>.
+     * @return b copy of this <code>PbgeFormbt</code>.
      */
     public Object clone() {
-        PageFormat newPage;
+        PbgeFormbt newPbge;
 
         try {
-            newPage = (PageFormat) super.clone();
-            newPage.mPaper = (Paper)mPaper.clone();
+            newPbge = (PbgeFormbt) super.clone();
+            newPbge.mPbper = (Pbper)mPbper.clone();
 
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            newPage = null;     // should never happen.
+        } cbtch (CloneNotSupportedException e) {
+            e.printStbckTrbce();
+            newPbge = null;     // should never hbppen.
         }
 
-        return newPage;
+        return newPbge;
     }
 
 
     /**
-     * Returns the width, in 1/72nds of an inch, of the page.
-     * This method takes into account the orientation of the
-     * page when determining the width.
-     * @return the width of the page.
+     * Returns the width, in 1/72nds of bn inch, of the pbge.
+     * This method tbkes into bccount the orientbtion of the
+     * pbge when determining the width.
+     * @return the width of the pbge.
      */
     public double getWidth() {
         double width;
-        int orientation = getOrientation();
+        int orientbtion = getOrientbtion();
 
-        if (orientation == PORTRAIT) {
-            width = mPaper.getWidth();
+        if (orientbtion == PORTRAIT) {
+            width = mPbper.getWidth();
         } else {
-            width = mPaper.getHeight();
+            width = mPbper.getHeight();
         }
 
         return width;
     }
 
     /**
-     * Returns the height, in 1/72nds of an inch, of the page.
-     * This method takes into account the orientation of the
-     * page when determining the height.
-     * @return the height of the page.
+     * Returns the height, in 1/72nds of bn inch, of the pbge.
+     * This method tbkes into bccount the orientbtion of the
+     * pbge when determining the height.
+     * @return the height of the pbge.
      */
     public double getHeight() {
         double height;
-        int orientation = getOrientation();
+        int orientbtion = getOrientbtion();
 
-        if (orientation == PORTRAIT) {
-            height = mPaper.getHeight();
+        if (orientbtion == PORTRAIT) {
+            height = mPbper.getHeight();
         } else {
-            height = mPaper.getWidth();
+            height = mPbper.getWidth();
         }
 
         return height;
     }
 
     /**
-     * Returns the x coordinate of the upper left point of the
-     * imageable area of the <code>Paper</code> object
-     * associated with this <code>PageFormat</code>.
-     * This method takes into account the
-     * orientation of the page.
-     * @return the x coordinate of the upper left point of the
-     * imageable area of the <code>Paper</code> object
-     * associated with this <code>PageFormat</code>.
+     * Returns the x coordinbte of the upper left point of the
+     * imbgebble breb of the <code>Pbper</code> object
+     * bssocibted with this <code>PbgeFormbt</code>.
+     * This method tbkes into bccount the
+     * orientbtion of the pbge.
+     * @return the x coordinbte of the upper left point of the
+     * imbgebble breb of the <code>Pbper</code> object
+     * bssocibted with this <code>PbgeFormbt</code>.
      */
-    public double getImageableX() {
+    public double getImbgebbleX() {
         double x;
 
-        switch (getOrientation()) {
+        switch (getOrientbtion()) {
 
-        case LANDSCAPE:
-            x = mPaper.getHeight()
-                - (mPaper.getImageableY() + mPaper.getImageableHeight());
-            break;
+        cbse LANDSCAPE:
+            x = mPbper.getHeight()
+                - (mPbper.getImbgebbleY() + mPbper.getImbgebbleHeight());
+            brebk;
 
-        case PORTRAIT:
-            x = mPaper.getImageableX();
-            break;
+        cbse PORTRAIT:
+            x = mPbper.getImbgebbleX();
+            brebk;
 
-        case REVERSE_LANDSCAPE:
-            x = mPaper.getImageableY();
-            break;
+        cbse REVERSE_LANDSCAPE:
+            x = mPbper.getImbgebbleY();
+            brebk;
 
-        default:
-            /* This should never happen since it signifies that the
-             * PageFormat is in an invalid orientation.
+        defbult:
+            /* This should never hbppen since it signifies thbt the
+             * PbgeFormbt is in bn invblid orientbtion.
              */
-            throw new InternalError("unrecognized orientation");
+            throw new InternblError("unrecognized orientbtion");
 
         }
 
@@ -188,38 +188,38 @@ public class PageFormat implements Cloneable
     }
 
     /**
-     * Returns the y coordinate of the upper left point of the
-     * imageable area of the <code>Paper</code> object
-     * associated with this <code>PageFormat</code>.
-     * This method takes into account the
-     * orientation of the page.
-     * @return the y coordinate of the upper left point of the
-     * imageable area of the <code>Paper</code> object
-     * associated with this <code>PageFormat</code>.
+     * Returns the y coordinbte of the upper left point of the
+     * imbgebble breb of the <code>Pbper</code> object
+     * bssocibted with this <code>PbgeFormbt</code>.
+     * This method tbkes into bccount the
+     * orientbtion of the pbge.
+     * @return the y coordinbte of the upper left point of the
+     * imbgebble breb of the <code>Pbper</code> object
+     * bssocibted with this <code>PbgeFormbt</code>.
      */
-    public double getImageableY() {
+    public double getImbgebbleY() {
         double y;
 
-        switch (getOrientation()) {
+        switch (getOrientbtion()) {
 
-        case LANDSCAPE:
-            y = mPaper.getImageableX();
-            break;
+        cbse LANDSCAPE:
+            y = mPbper.getImbgebbleX();
+            brebk;
 
-        case PORTRAIT:
-            y = mPaper.getImageableY();
-            break;
+        cbse PORTRAIT:
+            y = mPbper.getImbgebbleY();
+            brebk;
 
-        case REVERSE_LANDSCAPE:
-            y = mPaper.getWidth()
-                - (mPaper.getImageableX() + mPaper.getImageableWidth());
-            break;
+        cbse REVERSE_LANDSCAPE:
+            y = mPbper.getWidth()
+                - (mPbper.getImbgebbleX() + mPbper.getImbgebbleWidth());
+            brebk;
 
-        default:
-            /* This should never happen since it signifies that the
-             * PageFormat is in an invalid orientation.
+        defbult:
+            /* This should never hbppen since it signifies thbt the
+             * PbgeFormbt is in bn invblid orientbtion.
              */
-            throw new InternalError("unrecognized orientation");
+            throw new InternblError("unrecognized orientbtion");
 
         }
 
@@ -227,36 +227,36 @@ public class PageFormat implements Cloneable
     }
 
     /**
-     * Returns the width, in 1/72nds of an inch, of the imageable
-     * area of the page. This method takes into account the orientation
-     * of the page.
-     * @return the width of the page.
+     * Returns the width, in 1/72nds of bn inch, of the imbgebble
+     * breb of the pbge. This method tbkes into bccount the orientbtion
+     * of the pbge.
+     * @return the width of the pbge.
      */
-    public double getImageableWidth() {
+    public double getImbgebbleWidth() {
         double width;
 
-        if (getOrientation() == PORTRAIT) {
-            width = mPaper.getImageableWidth();
+        if (getOrientbtion() == PORTRAIT) {
+            width = mPbper.getImbgebbleWidth();
         } else {
-            width = mPaper.getImageableHeight();
+            width = mPbper.getImbgebbleHeight();
         }
 
         return width;
     }
 
     /**
-     * Return the height, in 1/72nds of an inch, of the imageable
-     * area of the page. This method takes into account the orientation
-     * of the page.
-     * @return the height of the page.
+     * Return the height, in 1/72nds of bn inch, of the imbgebble
+     * breb of the pbge. This method tbkes into bccount the orientbtion
+     * of the pbge.
+     * @return the height of the pbge.
      */
-    public double getImageableHeight() {
+    public double getImbgebbleHeight() {
         double height;
 
-        if (getOrientation() == PORTRAIT) {
-            height = mPaper.getImageableHeight();
+        if (getOrientbtion() == PORTRAIT) {
+            height = mPbper.getImbgebbleHeight();
         } else {
-            height = mPaper.getImageableWidth();
+            height = mPbper.getImbgebbleWidth();
         }
 
         return height;
@@ -264,102 +264,102 @@ public class PageFormat implements Cloneable
 
 
     /**
-     * Returns a copy of the {@link Paper} object associated
-     * with this <code>PageFormat</code>.  Changes made to the
-     * <code>Paper</code> object returned from this method do not
-     * affect the <code>Paper</code> object of this
-     * <code>PageFormat</code>.  To update the <code>Paper</code>
-     * object of this <code>PageFormat</code>, create a new
-     * <code>Paper</code> object and set it into this
-     * <code>PageFormat</code> by using the {@link #setPaper(Paper)}
+     * Returns b copy of the {@link Pbper} object bssocibted
+     * with this <code>PbgeFormbt</code>.  Chbnges mbde to the
+     * <code>Pbper</code> object returned from this method do not
+     * bffect the <code>Pbper</code> object of this
+     * <code>PbgeFormbt</code>.  To updbte the <code>Pbper</code>
+     * object of this <code>PbgeFormbt</code>, crebte b new
+     * <code>Pbper</code> object bnd set it into this
+     * <code>PbgeFormbt</code> by using the {@link #setPbper(Pbper)}
      * method.
-     * @return a copy of the <code>Paper</code> object associated
-     *          with this <code>PageFormat</code>.
-     * @see #setPaper
+     * @return b copy of the <code>Pbper</code> object bssocibted
+     *          with this <code>PbgeFormbt</code>.
+     * @see #setPbper
      */
-    public Paper getPaper() {
-        return (Paper)mPaper.clone();
+    public Pbper getPbper() {
+        return (Pbper)mPbper.clone();
     }
 
     /**
-     * Sets the <code>Paper</code> object for this
-     * <code>PageFormat</code>.
-     * @param paper the <code>Paper</code> object to which to set
-     * the <code>Paper</code> object for this <code>PageFormat</code>.
+     * Sets the <code>Pbper</code> object for this
+     * <code>PbgeFormbt</code>.
+     * @pbrbm pbper the <code>Pbper</code> object to which to set
+     * the <code>Pbper</code> object for this <code>PbgeFormbt</code>.
      * @exception NullPointerException
-     *              a null paper instance was passed as a parameter.
-     * @see #getPaper
+     *              b null pbper instbnce wbs pbssed bs b pbrbmeter.
+     * @see #getPbper
      */
-     public void setPaper(Paper paper) {
-         mPaper = (Paper)paper.clone();
+     public void setPbper(Pbper pbper) {
+         mPbper = (Pbper)pbper.clone();
      }
 
     /**
-     * Sets the page orientation. <code>orientation</code> must be
-     * one of the constants: PORTRAIT, LANDSCAPE,
+     * Sets the pbge orientbtion. <code>orientbtion</code> must be
+     * one of the constbnts: PORTRAIT, LANDSCAPE,
      * or REVERSE_LANDSCAPE.
-     * @param orientation the new orientation for the page
-     * @throws IllegalArgumentException if
-     *          an unknown orientation was requested
-     * @see #getOrientation
+     * @pbrbm orientbtion the new orientbtion for the pbge
+     * @throws IllegblArgumentException if
+     *          bn unknown orientbtion wbs requested
+     * @see #getOrientbtion
      */
-    public void setOrientation(int orientation) throws IllegalArgumentException
+    public void setOrientbtion(int orientbtion) throws IllegblArgumentException
     {
-        if (0 <= orientation && orientation <= REVERSE_LANDSCAPE) {
-            mOrientation = orientation;
+        if (0 <= orientbtion && orientbtion <= REVERSE_LANDSCAPE) {
+            mOrientbtion = orientbtion;
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
     }
 
     /**
-     * Returns the orientation of this <code>PageFormat</code>.
-     * @return this <code>PageFormat</code> object's orientation.
-     * @see #setOrientation
+     * Returns the orientbtion of this <code>PbgeFormbt</code>.
+     * @return this <code>PbgeFormbt</code> object's orientbtion.
+     * @see #setOrientbtion
      */
-    public int getOrientation() {
-        return mOrientation;
+    public int getOrientbtion() {
+        return mOrientbtion;
     }
 
     /**
-     * Returns a transformation matrix that translates user
-     * space rendering to the requested orientation
-     * of the page.  The values are placed into the
-     * array as
+     * Returns b trbnsformbtion mbtrix thbt trbnslbtes user
+     * spbce rendering to the requested orientbtion
+     * of the pbge.  The vblues bre plbced into the
+     * brrby bs
      * {&nbsp;m00,&nbsp;m10,&nbsp;m01,&nbsp;m11,&nbsp;m02,&nbsp;m12} in
-     * the form required by the {@link AffineTransform}
+     * the form required by the {@link AffineTrbnsform}
      * constructor.
-     * @return the matrix used to translate user space rendering
-     * to the orientation of the page.
-     * @see java.awt.geom.AffineTransform
+     * @return the mbtrix used to trbnslbte user spbce rendering
+     * to the orientbtion of the pbge.
+     * @see jbvb.bwt.geom.AffineTrbnsform
      */
-    public double[] getMatrix() {
-        double[] matrix = new double[6];
+    public double[] getMbtrix() {
+        double[] mbtrix = new double[6];
 
-        switch (mOrientation) {
+        switch (mOrientbtion) {
 
-        case LANDSCAPE:
-            matrix[0] =  0;     matrix[1] = -1;
-            matrix[2] =  1;     matrix[3] =  0;
-            matrix[4] =  0;     matrix[5] =  mPaper.getHeight();
-            break;
+        cbse LANDSCAPE:
+            mbtrix[0] =  0;     mbtrix[1] = -1;
+            mbtrix[2] =  1;     mbtrix[3] =  0;
+            mbtrix[4] =  0;     mbtrix[5] =  mPbper.getHeight();
+            brebk;
 
-        case PORTRAIT:
-            matrix[0] =  1;     matrix[1] =  0;
-            matrix[2] =  0;     matrix[3] =  1;
-            matrix[4] =  0;     matrix[5] =  0;
-            break;
+        cbse PORTRAIT:
+            mbtrix[0] =  1;     mbtrix[1] =  0;
+            mbtrix[2] =  0;     mbtrix[3] =  1;
+            mbtrix[4] =  0;     mbtrix[5] =  0;
+            brebk;
 
-        case REVERSE_LANDSCAPE:
-            matrix[0] =  0;                     matrix[1] =  1;
-            matrix[2] = -1;                     matrix[3] =  0;
-            matrix[4] =  mPaper.getWidth();     matrix[5] =  0;
-            break;
+        cbse REVERSE_LANDSCAPE:
+            mbtrix[0] =  0;                     mbtrix[1] =  1;
+            mbtrix[2] = -1;                     mbtrix[3] =  0;
+            mbtrix[4] =  mPbper.getWidth();     mbtrix[5] =  0;
+            brebk;
 
-        default:
-            throw new IllegalArgumentException();
+        defbult:
+            throw new IllegblArgumentException();
         }
 
-        return matrix;
+        return mbtrix;
     }
 }

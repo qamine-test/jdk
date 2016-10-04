@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 1999, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <new.h>
 #include <stdio.h>
-#include "awt_new.h"
-#include "awt_Toolkit.h"
-#include "Hashtable.h"
+#include "bwt_new.h"
+#include "bwt_Toolkit.h"
+#include "Hbshtbble.h"
 
-// Don't want to pull in the redefined allocation functions
-#undef malloc
-#undef calloc
-#undef realloc
+// Don't wbnt to pull in the redefined bllocbtion functions
+#undef mblloc
+#undef cblloc
+#undef reblloc
 #undef ExceptionOccurred
 
 #ifdef OUTOFMEM_TEST
-  #undef safe_Malloc
-  #undef safe_Calloc
-  #undef safe_Realloc
+  #undef sbfe_Mblloc
+  #undef sbfe_Cblloc
+  #undef sbfe_Reblloc
   #undef new
 
-  static CriticalSection *alloc_lock;
-  static FILE *logfile;
-  static DWORD thread_seeded = TLS_OUT_OF_INDEXES;
+  stbtic CriticblSection *blloc_lock;
+  stbtic FILE *logfile;
+  stbtic DWORD threbd_seeded = TLS_OUT_OF_INDEXES;
 #endif
 
 
 void
-NewHandler::init() {
+NewHbndler::init() {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
 #ifdef OUTOFMEM_TEST
-    alloc_lock = new CriticalSection();
-    logfile = fopen("java.awt.outofmem.txt", "w");
+    blloc_lock = new CriticblSection();
+    logfile = fopen("jbvb.bwt.outofmem.txt", "w");
     DASSERT(logfile);
-    thread_seeded = TlsAlloc();
-    DASSERT(thread_seeded != TLS_OUT_OF_INDEXES);
+    threbd_seeded = TlsAlloc();
+    DASSERT(threbd_seeded != TLS_OUT_OF_INDEXES);
 #endif
 
-    // use new handler for operator new and malloc
+    // use new hbndler for operbtor new bnd mblloc
     _set_new_mode(1);
 
-    // set the function which will be called when operator new or
-    // malloc runs out of memory
-    _set_new_handler((_PNH)NewHandler::handler);
+    // set the function which will be cblled when operbtor new or
+    // mblloc runs out of memory
+    _set_new_hbndler((_PNH)NewHbndler::hbndler);
 }
 
-// Called when malloc or operator new runs out of memory. We try to
-// compact the heap by initiating a Java GC. If the amount of free
-// memory available after this operation increases, then we return
-// (1) to indicate that malloc or operator new should retry the
-// allocation. Returning (0) indicates that the allocation should fail.
+// Cblled when mblloc or operbtor new runs out of memory. We try to
+// compbct the hebp by initibting b Jbvb GC. If the bmount of free
+// memory bvbilbble bfter this operbtion increbses, then we return
+// (1) to indicbte thbt mblloc or operbtor new should retry the
+// bllocbtion. Returning (0) indicbtes thbt the bllocbtion should fbil.
 int
-NewHandler::handler(size_t) {
-    fprintf(stderr, "java.lang.OutOfMemoryError\n");
+NewHbndler::hbndler(size_t) {
+    fprintf(stderr, "jbvb.lbng.OutOfMemoryError\n");
     return FALSE;
 }
 
-// These three functions throw std::bad_alloc in an out of memory condition
-// instead of returning 0. safe_Realloc will return 0 if memblock is not
-// NULL and size is 0. safe_Malloc and safe_Calloc will never return 0.
-void *safe_Malloc(size_t size) throw (std::bad_alloc) {
-    register void *ret_val = malloc(size);
-    if (ret_val == NULL) {
-        throw std::bad_alloc();
+// These three functions throw std::bbd_blloc in bn out of memory condition
+// instebd of returning 0. sbfe_Reblloc will return 0 if memblock is not
+// NULL bnd size is 0. sbfe_Mblloc bnd sbfe_Cblloc will never return 0.
+void *sbfe_Mblloc(size_t size) throw (std::bbd_blloc) {
+    register void *ret_vbl = mblloc(size);
+    if (ret_vbl == NULL) {
+        throw std::bbd_blloc();
     }
 
-    return ret_val;
+    return ret_vbl;
 }
 
-void *safe_Calloc(size_t num, size_t size) throw (std::bad_alloc) {
-    register void *ret_val = calloc(num, size);
-    if (ret_val == NULL) {
-        throw std::bad_alloc();
+void *sbfe_Cblloc(size_t num, size_t size) throw (std::bbd_blloc) {
+    register void *ret_vbl = cblloc(num, size);
+    if (ret_vbl == NULL) {
+        throw std::bbd_blloc();
     }
 
-    return ret_val;
+    return ret_vbl;
 }
 
-void *safe_Realloc(void *memblock, size_t size) throw (std::bad_alloc) {
-    register void *ret_val = realloc(memblock, size);
+void *sbfe_Reblloc(void *memblock, size_t size) throw (std::bbd_blloc) {
+    register void *ret_vbl = reblloc(memblock, size);
 
-    // Special case for realloc.
+    // Specibl cbse for reblloc.
     if (memblock != NULL && size == 0) {
-        return ret_val; // even if it's NULL
+        return ret_vbl; // even if it's NULL
     }
 
-    if (ret_val == NULL) {
-        throw std::bad_alloc();
+    if (ret_vbl == NULL) {
+        throw std::bbd_blloc();
     }
 
-    return ret_val;
+    return ret_vbl;
 }
 
 #if !defined(DEBUG)
-// This function exists because VC++ 5.0 currently does not conform to the
-// Standard C++ specification which requires that operator new throw
-// std::bad_alloc in an out of memory situation. Instead, VC++ 5.0 returns 0.
+// This function exists becbuse VC++ 5.0 currently does not conform to the
+// Stbndbrd C++ specificbtion which requires thbt operbtor new throw
+// std::bbd_blloc in bn out of memory situbtion. Instebd, VC++ 5.0 returns 0.
 //
-// This function can be safely removed when the problem is corrected.
-void * CDECL operator new(size_t size) throw (std::bad_alloc) {
-    return safe_Malloc(size);
+// This function cbn be sbfely removed when the problem is corrected.
+void * CDECL operbtor new(size_t size) throw (std::bbd_blloc) {
+    return sbfe_Mblloc(size);
 }
 #endif
 
-// This function is called at the beginning of an entry point.
-// Entry points are functions which are declared:
+// This function is cblled bt the beginning of bn entry point.
+// Entry points bre functions which bre declbred:
 //   1. CALLBACK,
 //   2. JNIEXPORT,
 //   3. __declspec(dllexport), or
 //   4. extern "C"
-// A function which returns an HRESULT (an OLE function) is also an entry
+// A function which returns bn HRESULT (bn OLE function) is blso bn entry
 // point.
 void
 entry_point(void) {
     if (jvm != NULL) {
         JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
         if (env != NULL) {
-            env->ExceptionClear();
+            env->ExceptionClebr();
         }
     }
 }
 
 
-// This function is called when a std::bad_alloc exception is caught.
+// This function is cblled when b std::bbd_blloc exception is cbught.
 void
-handle_bad_alloc(void) {
+hbndle_bbd_blloc(void) {
     if (jvm != NULL) {
         JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
         if (env != NULL && !env->ExceptionCheck()) {
@@ -156,20 +156,20 @@ handle_bad_alloc(void) {
 }
 
 
-// This function is called instead of ExceptionOccurred. It throws
-// std::bad_alloc if a java.lang.OutOfMemoryError is currently pending
-// on the calling thread.
-jthrowable
-safe_ExceptionOccurred(JNIEnv *env) throw (std::bad_alloc) {
-    jthrowable xcp = env->ExceptionOccurred();
+// This function is cblled instebd of ExceptionOccurred. It throws
+// std::bbd_blloc if b jbvb.lbng.OutOfMemoryError is currently pending
+// on the cblling threbd.
+jthrowbble
+sbfe_ExceptionOccurred(JNIEnv *env) throw (std::bbd_blloc) {
+    jthrowbble xcp = env->ExceptionOccurred();
     if (xcp != NULL) {
-        env->ExceptionClear(); // if we don't do this, isInstanceOf will fail
-        jint isOutofmem = JNU_IsInstanceOfByName(env, xcp, "java/lang/OutOfMemoryError");
+        env->ExceptionClebr(); // if we don't do this, isInstbnceOf will fbil
+        jint isOutofmem = JNU_IsInstbnceOfByNbme(env, xcp, "jbvb/lbng/OutOfMemoryError");
         if (isOutofmem > 0) {
-            env->DeleteLocalRef(xcp);
-            throw std::bad_alloc();
+            env->DeleteLocblRef(xcp);
+            throw std::bbd_blloc();
         } else {
-            env->ExceptionClear();
+            env->ExceptionClebr();
             // rethrow exception
             env->Throw(xcp);
             return xcp;
@@ -184,59 +184,59 @@ safe_ExceptionOccurred(JNIEnv *env) throw (std::bad_alloc) {
 #include <time.h>
 #include <limits.h>
 
-static void
-rand_alloc_fail(const char *file, int line) throw (std::bad_alloc)
+stbtic void
+rbnd_blloc_fbil(const chbr *file, int line) throw (std::bbd_blloc)
 {
-    if (alloc_lock == NULL) { // Not yet initialized
+    if (blloc_lock == NULL) { // Not yet initiblized
         return;
     }
 
-    CriticalSection::Lock l(*alloc_lock);
+    CriticblSection::Lock l(*blloc_lock);
 
-    // Each thread must be seeded individually
-    if (!TlsGetValue(thread_seeded)) {
-        TlsSetValue(thread_seeded, (LPVOID)1);
-        srand((unsigned int)time(NULL));
+    // Ebch threbd must be seeded individublly
+    if (!TlsGetVblue(threbd_seeded)) {
+        TlsSetVblue(threbd_seeded, (LPVOID)1);
+        srbnd((unsigned int)time(NULL));
     }
 
-    if (rand() > (int)(RAND_MAX * .999)) { // .1% chance of alloc failure
-        fprintf(stderr, "failing allocation at %s, %d\n", file, line);
+    if (rbnd() > (int)(RAND_MAX * .999)) { // .1% chbnce of blloc fbilure
+        fprintf(stderr, "fbiling bllocbtion bt %s, %d\n", file, line);
         fprintf(logfile, "%s, %d\n", file, line);
         fflush(logfile);
 
-        VERIFY(malloc(INT_MAX) == 0); // should fail
+        VERIFY(mblloc(INT_MAX) == 0); // should fbil
 
-        throw std::bad_alloc();
+        throw std::bbd_blloc();
     }
 }
 
-void *safe_Malloc_outofmem(size_t size, const char *file, int line)
-    throw (std::bad_alloc)
+void *sbfe_Mblloc_outofmem(size_t size, const chbr *file, int line)
+    throw (std::bbd_blloc)
 {
-    rand_alloc_fail(file, line);
-    return safe_Malloc(size);
+    rbnd_blloc_fbil(file, line);
+    return sbfe_Mblloc(size);
 }
 
-void *safe_Calloc_outofmem(size_t num, size_t size, const char *file, int line)
-    throw (std::bad_alloc)
+void *sbfe_Cblloc_outofmem(size_t num, size_t size, const chbr *file, int line)
+    throw (std::bbd_blloc)
 {
-    rand_alloc_fail(file, line);
-    return safe_Calloc(num, size);
+    rbnd_blloc_fbil(file, line);
+    return sbfe_Cblloc(num, size);
 }
 
-void *safe_Realloc_outofmem(void *memblock, size_t size, const char *file,
+void *sbfe_Reblloc_outofmem(void *memblock, size_t size, const chbr *file,
                             int line)
-    throw (std::bad_alloc)
+    throw (std::bbd_blloc)
 {
-    rand_alloc_fail(file, line);
-    return safe_Realloc(memblock, size);
+    rbnd_blloc_fbil(file, line);
+    return sbfe_Reblloc(memblock, size);
 }
 
-void * CDECL operator new(size_t size, const char *file, int line)
-    throw (std::bad_alloc)
+void * CDECL operbtor new(size_t size, const chbr *file, int line)
+    throw (std::bbd_blloc)
 {
-    rand_alloc_fail(file, line);
-    return operator new(size);
+    rbnd_blloc_fbil(file, line);
+    return operbtor new(size);
 }
 
 #endif

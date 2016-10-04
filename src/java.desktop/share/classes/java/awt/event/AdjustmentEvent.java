@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.event;
+pbckbge jbvb.bwt.event;
 
-import java.awt.Adjustable;
-import java.awt.AWTEvent;
-import java.lang.annotation.Native;
+import jbvb.bwt.Adjustbble;
+import jbvb.bwt.AWTEvent;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 
 /**
- * The adjustment event emitted by Adjustable objects like
- * {@link java.awt.Scrollbar} and {@link java.awt.ScrollPane}.
- * When the user changes the value of the scrolling component,
- * it receives an instance of {@code AdjustmentEvent}.
+ * The bdjustment event emitted by Adjustbble objects like
+ * {@link jbvb.bwt.Scrollbbr} bnd {@link jbvb.bwt.ScrollPbne}.
+ * When the user chbnges the vblue of the scrolling component,
+ * it receives bn instbnce of {@code AdjustmentEvent}.
  * <p>
- * An unspecified behavior will be caused if the {@code id} parameter
- * of any particular {@code AdjustmentEvent} instance is not
- * in the range from {@code ADJUSTMENT_FIRST} to {@code ADJUSTMENT_LAST}.
+ * An unspecified behbvior will be cbused if the {@code id} pbrbmeter
+ * of bny pbrticulbr {@code AdjustmentEvent} instbnce is not
+ * in the rbnge from {@code ADJUSTMENT_FIRST} to {@code ADJUSTMENT_LAST}.
  * <p>
- * The {@code type} of any {@code AdjustmentEvent} instance takes one of the following
- * values:
+ * The {@code type} of bny {@code AdjustmentEvent} instbnce tbkes one of the following
+ * vblues:
  *                     <ul>
  *                     <li> {@code UNIT_INCREMENT}
  *                     <li> {@code UNIT_DECREMENT}
@@ -49,186 +49,186 @@ import java.lang.annotation.Native;
  *                     <li> {@code BLOCK_DECREMENT}
  *                     <li> {@code TRACK}
  *                     </ul>
- * Assigning the value different from listed above will cause an unspecified behavior.
- * @see java.awt.Adjustable
+ * Assigning the vblue different from listed bbove will cbuse bn unspecified behbvior.
+ * @see jbvb.bwt.Adjustbble
  * @see AdjustmentListener
  *
- * @author Amy Fowler
+ * @buthor Amy Fowler
  * @since 1.1
  */
-public class AdjustmentEvent extends AWTEvent {
+public clbss AdjustmentEvent extends AWTEvent {
 
     /**
-     * Marks the first integer id for the range of adjustment event ids.
+     * Mbrks the first integer id for the rbnge of bdjustment event ids.
      */
-    public static final int ADJUSTMENT_FIRST    = 601;
+    public stbtic finbl int ADJUSTMENT_FIRST    = 601;
 
     /**
-     * Marks the last integer id for the range of adjustment event ids.
+     * Mbrks the lbst integer id for the rbnge of bdjustment event ids.
      */
-    public static final int ADJUSTMENT_LAST     = 601;
+    public stbtic finbl int ADJUSTMENT_LAST     = 601;
 
     /**
-     * The adjustment value changed event.
+     * The bdjustment vblue chbnged event.
      */
-    public static final int ADJUSTMENT_VALUE_CHANGED = ADJUSTMENT_FIRST; //Event.SCROLL_LINE_UP
+    public stbtic finbl int ADJUSTMENT_VALUE_CHANGED = ADJUSTMENT_FIRST; //Event.SCROLL_LINE_UP
 
     /**
-     * The unit increment adjustment type.
+     * The unit increment bdjustment type.
      */
-    @Native public static final int UNIT_INCREMENT      = 1;
+    @Nbtive public stbtic finbl int UNIT_INCREMENT      = 1;
 
     /**
-     * The unit decrement adjustment type.
+     * The unit decrement bdjustment type.
      */
-    @Native public static final int UNIT_DECREMENT      = 2;
+    @Nbtive public stbtic finbl int UNIT_DECREMENT      = 2;
 
     /**
-     * The block decrement adjustment type.
+     * The block decrement bdjustment type.
      */
-    @Native public static final int BLOCK_DECREMENT     = 3;
+    @Nbtive public stbtic finbl int BLOCK_DECREMENT     = 3;
 
     /**
-     * The block increment adjustment type.
+     * The block increment bdjustment type.
      */
-    @Native public static final int BLOCK_INCREMENT     = 4;
+    @Nbtive public stbtic finbl int BLOCK_INCREMENT     = 4;
 
     /**
-     * The absolute tracking adjustment type.
+     * The bbsolute trbcking bdjustment type.
      */
-    @Native public static final int TRACK               = 5;
+    @Nbtive public stbtic finbl int TRACK               = 5;
 
     /**
-     * The adjustable object that fired the event.
+     * The bdjustbble object thbt fired the event.
      *
-     * @serial
-     * @see #getAdjustable
+     * @seribl
+     * @see #getAdjustbble
      */
-    Adjustable adjustable;
+    Adjustbble bdjustbble;
 
     /**
-     * <code>value</code> will contain the new value of the
-     * adjustable object.  This value will always be  in a
-     * range associated adjustable object.
+     * <code>vblue</code> will contbin the new vblue of the
+     * bdjustbble object.  This vblue will blwbys be  in b
+     * rbnge bssocibted bdjustbble object.
      *
-     * @serial
-     * @see #getValue
+     * @seribl
+     * @see #getVblue
      */
-    int value;
+    int vblue;
 
     /**
-     * The <code>adjustmentType</code> describes how the adjustable
-     * object value has changed.
-     * This value can be increased/decreased by a block or unit amount
-     * where the block is associated with page increments/decrements,
-     * and a unit is associated with line increments/decrements.
+     * The <code>bdjustmentType</code> describes how the bdjustbble
+     * object vblue hbs chbnged.
+     * This vblue cbn be increbsed/decrebsed by b block or unit bmount
+     * where the block is bssocibted with pbge increments/decrements,
+     * bnd b unit is bssocibted with line increments/decrements.
      *
-     * @serial
+     * @seribl
      * @see #getAdjustmentType
      */
-    int adjustmentType;
+    int bdjustmentType;
 
 
     /**
      * The <code>isAdjusting</code> is true if the event is one
-     * of the series of multiple adjustment events.
+     * of the series of multiple bdjustment events.
      *
      * @since 1.4
-     * @serial
-     * @see #getValueIsAdjusting
+     * @seribl
+     * @see #getVblueIsAdjusting
      */
-    boolean isAdjusting;
+    boolebn isAdjusting;
 
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = 5700290645205279921L;
+     privbte stbtic finbl long seriblVersionUID = 5700290645205279921L;
 
 
     /**
-     * Constructs an <code>AdjustmentEvent</code> object with the
-     * specified <code>Adjustable</code> source, event type,
-     * adjustment type, and value.
-     * <p> This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
+     * Constructs bn <code>AdjustmentEvent</code> object with the
+     * specified <code>Adjustbble</code> source, event type,
+     * bdjustment type, bnd vblue.
+     * <p> This method throws bn
+     * <code>IllegblArgumentException</code> if <code>source</code>
      * is <code>null</code>.
      *
-     * @param source The <code>Adjustable</code> object where the
-     *               event originated
-     * @param id     An integer indicating the type of event.
-     *                     For information on allowable values, see
-     *                     the class description for {@link AdjustmentEvent}
-     * @param type   An integer indicating the adjustment type.
-     *                     For information on allowable values, see
-     *                     the class description for {@link AdjustmentEvent}
-     * @param value  The current value of the adjustment
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm source The <code>Adjustbble</code> object where the
+     *               event originbted
+     * @pbrbm id     An integer indicbting the type of event.
+     *                     For informbtion on bllowbble vblues, see
+     *                     the clbss description for {@link AdjustmentEvent}
+     * @pbrbm type   An integer indicbting the bdjustment type.
+     *                     For informbtion on bllowbble vblues, see
+     *                     the clbss description for {@link AdjustmentEvent}
+     * @pbrbm vblue  The current vblue of the bdjustment
+     * @throws IllegblArgumentException if <code>source</code> is null
      * @see #getSource()
      * @see #getID()
      * @see #getAdjustmentType()
-     * @see #getValue()
+     * @see #getVblue()
      */
-    public AdjustmentEvent(Adjustable source, int id, int type, int value) {
-        this(source, id, type, value, false);
+    public AdjustmentEvent(Adjustbble source, int id, int type, int vblue) {
+        this(source, id, type, vblue, fblse);
     }
 
     /**
-     * Constructs an <code>AdjustmentEvent</code> object with the
-     * specified Adjustable source, event type, adjustment type, and value.
-     * <p> This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
+     * Constructs bn <code>AdjustmentEvent</code> object with the
+     * specified Adjustbble source, event type, bdjustment type, bnd vblue.
+     * <p> This method throws bn
+     * <code>IllegblArgumentException</code> if <code>source</code>
      * is <code>null</code>.
      *
-     * @param source The <code>Adjustable</code> object where the
-     *               event originated
-     * @param id     An integer indicating the type of event.
-     *                     For information on allowable values, see
-     *                     the class description for {@link AdjustmentEvent}
-     * @param type   An integer indicating the adjustment type.
-     *                     For information on allowable values, see
-     *                     the class description for {@link AdjustmentEvent}
-     * @param value  The current value of the adjustment
-     * @param isAdjusting A boolean that equals <code>true</code> if the event is one
-     *               of a series of multiple adjusting events,
-     *               otherwise <code>false</code>
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm source The <code>Adjustbble</code> object where the
+     *               event originbted
+     * @pbrbm id     An integer indicbting the type of event.
+     *                     For informbtion on bllowbble vblues, see
+     *                     the clbss description for {@link AdjustmentEvent}
+     * @pbrbm type   An integer indicbting the bdjustment type.
+     *                     For informbtion on bllowbble vblues, see
+     *                     the clbss description for {@link AdjustmentEvent}
+     * @pbrbm vblue  The current vblue of the bdjustment
+     * @pbrbm isAdjusting A boolebn thbt equbls <code>true</code> if the event is one
+     *               of b series of multiple bdjusting events,
+     *               otherwise <code>fblse</code>
+     * @throws IllegblArgumentException if <code>source</code> is null
      * @since 1.4
      * @see #getSource()
      * @see #getID()
      * @see #getAdjustmentType()
-     * @see #getValue()
-     * @see #getValueIsAdjusting()
+     * @see #getVblue()
+     * @see #getVblueIsAdjusting()
      */
-    public AdjustmentEvent(Adjustable source, int id, int type, int value, boolean isAdjusting) {
+    public AdjustmentEvent(Adjustbble source, int id, int type, int vblue, boolebn isAdjusting) {
         super(source, id);
-        adjustable = source;
-        this.adjustmentType = type;
-        this.value = value;
+        bdjustbble = source;
+        this.bdjustmentType = type;
+        this.vblue = vblue;
         this.isAdjusting = isAdjusting;
     }
 
     /**
-     * Returns the <code>Adjustable</code> object where this event originated.
+     * Returns the <code>Adjustbble</code> object where this event originbted.
      *
-     * @return the <code>Adjustable</code> object where this event originated
+     * @return the <code>Adjustbble</code> object where this event originbted
      */
-    public Adjustable getAdjustable() {
-        return adjustable;
+    public Adjustbble getAdjustbble() {
+        return bdjustbble;
     }
 
     /**
-     * Returns the current value in the adjustment event.
+     * Returns the current vblue in the bdjustment event.
      *
-     * @return the current value in the adjustment event
+     * @return the current vblue in the bdjustment event
      */
-    public int getValue() {
-        return value;
+    public int getVblue() {
+        return vblue;
     }
 
     /**
-     * Returns the type of adjustment which caused the value changed
-     * event.  It will have one of the following values:
+     * Returns the type of bdjustment which cbused the vblue chbnged
+     * event.  It will hbve one of the following vblues:
      * <ul>
      * <li>{@link #UNIT_INCREMENT}
      * <li>{@link #UNIT_DECREMENT}
@@ -236,56 +236,56 @@ public class AdjustmentEvent extends AWTEvent {
      * <li>{@link #BLOCK_DECREMENT}
      * <li>{@link #TRACK}
      * </ul>
-     * @return one of the adjustment values listed above
+     * @return one of the bdjustment vblues listed bbove
      */
     public int getAdjustmentType() {
-        return adjustmentType;
+        return bdjustmentType;
     }
 
     /**
      * Returns <code>true</code> if this is one of multiple
-     * adjustment events.
+     * bdjustment events.
      *
      * @return <code>true</code> if this is one of multiple
-     *         adjustment events, otherwise returns <code>false</code>
+     *         bdjustment events, otherwise returns <code>fblse</code>
      * @since 1.4
      */
-    public boolean getValueIsAdjusting() {
+    public boolebn getVblueIsAdjusting() {
         return isAdjusting;
     }
 
-    public String paramString() {
+    public String pbrbmString() {
         String typeStr;
         switch(id) {
-          case ADJUSTMENT_VALUE_CHANGED:
+          cbse ADJUSTMENT_VALUE_CHANGED:
               typeStr = "ADJUSTMENT_VALUE_CHANGED";
-              break;
-          default:
+              brebk;
+          defbult:
               typeStr = "unknown type";
         }
-        String adjTypeStr;
-        switch(adjustmentType) {
-          case UNIT_INCREMENT:
-              adjTypeStr = "UNIT_INCREMENT";
-              break;
-          case UNIT_DECREMENT:
-              adjTypeStr = "UNIT_DECREMENT";
-              break;
-          case BLOCK_INCREMENT:
-              adjTypeStr = "BLOCK_INCREMENT";
-              break;
-          case BLOCK_DECREMENT:
-              adjTypeStr = "BLOCK_DECREMENT";
-              break;
-          case TRACK:
-              adjTypeStr = "TRACK";
-              break;
-          default:
-              adjTypeStr = "unknown type";
+        String bdjTypeStr;
+        switch(bdjustmentType) {
+          cbse UNIT_INCREMENT:
+              bdjTypeStr = "UNIT_INCREMENT";
+              brebk;
+          cbse UNIT_DECREMENT:
+              bdjTypeStr = "UNIT_DECREMENT";
+              brebk;
+          cbse BLOCK_INCREMENT:
+              bdjTypeStr = "BLOCK_INCREMENT";
+              brebk;
+          cbse BLOCK_DECREMENT:
+              bdjTypeStr = "BLOCK_DECREMENT";
+              brebk;
+          cbse TRACK:
+              bdjTypeStr = "TRACK";
+              brebk;
+          defbult:
+              bdjTypeStr = "unknown type";
         }
         return typeStr
-            + ",adjType="+adjTypeStr
-            + ",value="+value
+            + ",bdjType="+bdjTypeStr
+            + ",vblue="+vblue
             + ",isAdjusting="+isAdjusting;
     }
 }

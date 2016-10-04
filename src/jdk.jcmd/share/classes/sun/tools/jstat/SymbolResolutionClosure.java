@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
-import java.text.*;
-import sun.jvmstat.monitor.MonitorException;
+import jbvb.text.*;
+import sun.jvmstbt.monitor.MonitorException;
 
 /**
- * A class implementing the Closure interface which is used to resolve
- * all the symbols in the expressions contained in ColumnFormat objects.
+ * A clbss implementing the Closure interfbce which is used to resolve
+ * bll the symbols in the expressions contbined in ColumnFormbt objects.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class SymbolResolutionClosure implements Closure {
-    private static final boolean debug =
-            Boolean.getBoolean("SymbolResolutionClosure.debug");
+public clbss SymbolResolutionClosure implements Closure {
+    privbte stbtic finbl boolebn debug =
+            Boolebn.getBoolebn("SymbolResolutionClosure.debug");
 
-    private ExpressionEvaluator ee;
+    privbte ExpressionEvblubtor ee;
 
-    public SymbolResolutionClosure(ExpressionEvaluator ee) {
+    public SymbolResolutionClosure(ExpressionEvblubtor ee) {
         this.ee = ee;
     }
 
-    public void visit(Object o, boolean hasNext) throws MonitorException {
-        if (! (o instanceof ColumnFormat)) {
+    public void visit(Object o, boolebn hbsNext) throws MonitorException {
+        if (! (o instbnceof ColumnFormbt)) {
             return;
         }
 
-        ColumnFormat c = (ColumnFormat)o;
+        ColumnFormbt c = (ColumnFormbt)o;
         Expression e = c.getExpression();
         String previous = e.toString();
-        e = (Expression)ee.evaluate(e);
+        e = (Expression)ee.evblubte(e);
         if (debug) {
             System.out.print("Expression: " + previous + " resolved to "
                              + e.toString());

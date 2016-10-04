@@ -1,316 +1,316 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamException;
-import java.io.ObjectStreamField;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmException;
+import jbvb.io.ObjectStrebmField;
 
 /**
  *
- * This class implements an IP Socket Address (IP address + port number)
- * It can also be a pair (hostname + port number), in which case an attempt
- * will be made to resolve the hostname. If resolution fails then the address
- * is said to be <I>unresolved</I> but can still be used on some circumstances
- * like connecting through a proxy.
+ * This clbss implements bn IP Socket Address (IP bddress + port number)
+ * It cbn blso be b pbir (hostnbme + port number), in which cbse bn bttempt
+ * will be mbde to resolve the hostnbme. If resolution fbils then the bddress
+ * is sbid to be <I>unresolved</I> but cbn still be used on some circumstbnces
+ * like connecting through b proxy.
  * <p>
- * It provides an immutable object used by sockets for binding, connecting, or
- * as returned values.
+ * It provides bn immutbble object used by sockets for binding, connecting, or
+ * bs returned vblues.
  * <p>
- * The <i>wildcard</i> is a special local IP address. It usually means "any"
- * and can only be used for {@code bind} operations.
+ * The <i>wildcbrd</i> is b specibl locbl IP bddress. It usublly mebns "bny"
+ * bnd cbn only be used for {@code bind} operbtions.
  *
- * @see java.net.Socket
- * @see java.net.ServerSocket
+ * @see jbvb.net.Socket
+ * @see jbvb.net.ServerSocket
  * @since 1.4
  */
-public class InetSocketAddress
+public clbss InetSocketAddress
     extends SocketAddress
 {
-    // Private implementation class pointed to by all public methods.
-    private static class InetSocketAddressHolder {
-        // The hostname of the Socket Address
-        private String hostname;
-        // The IP address of the Socket Address
-        private InetAddress addr;
+    // Privbte implementbtion clbss pointed to by bll public methods.
+    privbte stbtic clbss InetSocketAddressHolder {
+        // The hostnbme of the Socket Address
+        privbte String hostnbme;
+        // The IP bddress of the Socket Address
+        privbte InetAddress bddr;
         // The port number of the Socket Address
-        private int port;
+        privbte int port;
 
-        private InetSocketAddressHolder(String hostname, InetAddress addr, int port) {
-            this.hostname = hostname;
-            this.addr = addr;
+        privbte InetSocketAddressHolder(String hostnbme, InetAddress bddr, int port) {
+            this.hostnbme = hostnbme;
+            this.bddr = bddr;
             this.port = port;
         }
 
-        private int getPort() {
+        privbte int getPort() {
             return port;
         }
 
-        private InetAddress getAddress() {
-            return addr;
+        privbte InetAddress getAddress() {
+            return bddr;
         }
 
-        private String getHostName() {
-            if (hostname != null)
-                return hostname;
-            if (addr != null)
-                return addr.getHostName();
+        privbte String getHostNbme() {
+            if (hostnbme != null)
+                return hostnbme;
+            if (bddr != null)
+                return bddr.getHostNbme();
             return null;
         }
 
-        private String getHostString() {
-            if (hostname != null)
-                return hostname;
-            if (addr != null) {
-                if (addr.holder().getHostName() != null)
-                    return addr.holder().getHostName();
+        privbte String getHostString() {
+            if (hostnbme != null)
+                return hostnbme;
+            if (bddr != null) {
+                if (bddr.holder().getHostNbme() != null)
+                    return bddr.holder().getHostNbme();
                 else
-                    return addr.getHostAddress();
+                    return bddr.getHostAddress();
             }
             return null;
         }
 
-        private boolean isUnresolved() {
-            return addr == null;
+        privbte boolebn isUnresolved() {
+            return bddr == null;
         }
 
         @Override
         public String toString() {
             if (isUnresolved()) {
-                return hostname + ":" + port;
+                return hostnbme + ":" + port;
             } else {
-                return addr.toString() + ":" + port;
+                return bddr.toString() + ":" + port;
             }
         }
 
         @Override
-        public final boolean equals(Object obj) {
-            if (obj == null || !(obj instanceof InetSocketAddressHolder))
-                return false;
-            InetSocketAddressHolder that = (InetSocketAddressHolder)obj;
-            boolean sameIP;
-            if (addr != null)
-                sameIP = addr.equals(that.addr);
-            else if (hostname != null)
-                sameIP = (that.addr == null) &&
-                    hostname.equalsIgnoreCase(that.hostname);
+        public finbl boolebn equbls(Object obj) {
+            if (obj == null || !(obj instbnceof InetSocketAddressHolder))
+                return fblse;
+            InetSocketAddressHolder thbt = (InetSocketAddressHolder)obj;
+            boolebn sbmeIP;
+            if (bddr != null)
+                sbmeIP = bddr.equbls(thbt.bddr);
+            else if (hostnbme != null)
+                sbmeIP = (thbt.bddr == null) &&
+                    hostnbme.equblsIgnoreCbse(thbt.hostnbme);
             else
-                sameIP = (that.addr == null) && (that.hostname == null);
-            return sameIP && (port == that.port);
+                sbmeIP = (thbt.bddr == null) && (thbt.hostnbme == null);
+            return sbmeIP && (port == thbt.port);
         }
 
         @Override
-        public final int hashCode() {
-            if (addr != null)
-                return addr.hashCode() + port;
-            if (hostname != null)
-                return hostname.toLowerCase().hashCode() + port;
+        public finbl int hbshCode() {
+            if (bddr != null)
+                return bddr.hbshCode() + port;
+            if (hostnbme != null)
+                return hostnbme.toLowerCbse().hbshCode() + port;
             return port;
         }
     }
 
-    private final transient InetSocketAddressHolder holder;
+    privbte finbl trbnsient InetSocketAddressHolder holder;
 
-    private static final long serialVersionUID = 5076001401234631237L;
+    privbte stbtic finbl long seriblVersionUID = 5076001401234631237L;
 
-    private static int checkPort(int port) {
+    privbte stbtic int checkPort(int port) {
         if (port < 0 || port > 0xFFFF)
-            throw new IllegalArgumentException("port out of range:" + port);
+            throw new IllegblArgumentException("port out of rbnge:" + port);
         return port;
     }
 
-    private static String checkHost(String hostname) {
-        if (hostname == null)
-            throw new IllegalArgumentException("hostname can't be null");
-        return hostname;
+    privbte stbtic String checkHost(String hostnbme) {
+        if (hostnbme == null)
+            throw new IllegblArgumentException("hostnbme cbn't be null");
+        return hostnbme;
     }
 
     /**
-     * Creates a socket address where the IP address is the wildcard address
-     * and the port number a specified value.
+     * Crebtes b socket bddress where the IP bddress is the wildcbrd bddress
+     * bnd the port number b specified vblue.
      * <p>
-     * A valid port value is between 0 and 65535.
-     * A port number of {@code zero} will let the system pick up an
-     * ephemeral port in a {@code bind} operation.
+     * A vblid port vblue is between 0 bnd 65535.
+     * A port number of {@code zero} will let the system pick up bn
+     * ephemerbl port in b {@code bind} operbtion.
      *
-     * @param   port    The port number
-     * @throws IllegalArgumentException if the port parameter is outside the specified
-     * range of valid port values.
+     * @pbrbm   port    The port number
+     * @throws IllegblArgumentException if the port pbrbmeter is outside the specified
+     * rbnge of vblid port vblues.
      */
     public InetSocketAddress(int port) {
-        this(InetAddress.anyLocalAddress(), port);
+        this(InetAddress.bnyLocblAddress(), port);
     }
 
     /**
      *
-     * Creates a socket address from an IP address and a port number.
+     * Crebtes b socket bddress from bn IP bddress bnd b port number.
      * <p>
-     * A valid port value is between 0 and 65535.
-     * A port number of {@code zero} will let the system pick up an
-     * ephemeral port in a {@code bind} operation.
+     * A vblid port vblue is between 0 bnd 65535.
+     * A port number of {@code zero} will let the system pick up bn
+     * ephemerbl port in b {@code bind} operbtion.
      * <P>
-     * A {@code null} address will assign the <i>wildcard</i> address.
+     * A {@code null} bddress will bssign the <i>wildcbrd</i> bddress.
      *
-     * @param   addr    The IP address
-     * @param   port    The port number
-     * @throws IllegalArgumentException if the port parameter is outside the specified
-     * range of valid port values.
+     * @pbrbm   bddr    The IP bddress
+     * @pbrbm   port    The port number
+     * @throws IllegblArgumentException if the port pbrbmeter is outside the specified
+     * rbnge of vblid port vblues.
      */
-    public InetSocketAddress(InetAddress addr, int port) {
+    public InetSocketAddress(InetAddress bddr, int port) {
         holder = new InetSocketAddressHolder(
                         null,
-                        addr == null ? InetAddress.anyLocalAddress() : addr,
+                        bddr == null ? InetAddress.bnyLocblAddress() : bddr,
                         checkPort(port));
     }
 
     /**
      *
-     * Creates a socket address from a hostname and a port number.
+     * Crebtes b socket bddress from b hostnbme bnd b port number.
      * <p>
-     * An attempt will be made to resolve the hostname into an InetAddress.
-     * If that attempt fails, the address will be flagged as <I>unresolved</I>.
+     * An bttempt will be mbde to resolve the hostnbme into bn InetAddress.
+     * If thbt bttempt fbils, the bddress will be flbgged bs <I>unresolved</I>.
      * <p>
-     * If there is a security manager, its {@code checkConnect} method
-     * is called with the host name as its argument to check the permission
-     * to resolve it. This could result in a SecurityException.
+     * If there is b security mbnbger, its {@code checkConnect} method
+     * is cblled with the host nbme bs its brgument to check the permission
+     * to resolve it. This could result in b SecurityException.
      * <P>
-     * A valid port value is between 0 and 65535.
-     * A port number of {@code zero} will let the system pick up an
-     * ephemeral port in a {@code bind} operation.
+     * A vblid port vblue is between 0 bnd 65535.
+     * A port number of {@code zero} will let the system pick up bn
+     * ephemerbl port in b {@code bind} operbtion.
      *
-     * @param   hostname the Host name
-     * @param   port    The port number
-     * @throws IllegalArgumentException if the port parameter is outside the range
-     * of valid port values, or if the hostname parameter is <TT>null</TT>.
-     * @throws SecurityException if a security manager is present and
-     *                           permission to resolve the host name is
+     * @pbrbm   hostnbme the Host nbme
+     * @pbrbm   port    The port number
+     * @throws IllegblArgumentException if the port pbrbmeter is outside the rbnge
+     * of vblid port vblues, or if the hostnbme pbrbmeter is <TT>null</TT>.
+     * @throws SecurityException if b security mbnbger is present bnd
+     *                           permission to resolve the host nbme is
      *                           denied.
      * @see     #isUnresolved()
      */
-    public InetSocketAddress(String hostname, int port) {
-        checkHost(hostname);
-        InetAddress addr = null;
+    public InetSocketAddress(String hostnbme, int port) {
+        checkHost(hostnbme);
+        InetAddress bddr = null;
         String host = null;
         try {
-            addr = InetAddress.getByName(hostname);
-        } catch(UnknownHostException e) {
-            host = hostname;
+            bddr = InetAddress.getByNbme(hostnbme);
+        } cbtch(UnknownHostException e) {
+            host = hostnbme;
         }
-        holder = new InetSocketAddressHolder(host, addr, checkPort(port));
+        holder = new InetSocketAddressHolder(host, bddr, checkPort(port));
     }
 
-    // private constructor for creating unresolved instances
-    private InetSocketAddress(int port, String hostname) {
-        holder = new InetSocketAddressHolder(hostname, null, port);
+    // privbte constructor for crebting unresolved instbnces
+    privbte InetSocketAddress(int port, String hostnbme) {
+        holder = new InetSocketAddressHolder(hostnbme, null, port);
     }
 
     /**
      *
-     * Creates an unresolved socket address from a hostname and a port number.
+     * Crebtes bn unresolved socket bddress from b hostnbme bnd b port number.
      * <p>
-     * No attempt will be made to resolve the hostname into an InetAddress.
-     * The address will be flagged as <I>unresolved</I>.
+     * No bttempt will be mbde to resolve the hostnbme into bn InetAddress.
+     * The bddress will be flbgged bs <I>unresolved</I>.
      * <p>
-     * A valid port value is between 0 and 65535.
-     * A port number of {@code zero} will let the system pick up an
-     * ephemeral port in a {@code bind} operation.
+     * A vblid port vblue is between 0 bnd 65535.
+     * A port number of {@code zero} will let the system pick up bn
+     * ephemerbl port in b {@code bind} operbtion.
      *
-     * @param   host    the Host name
-     * @param   port    The port number
-     * @throws IllegalArgumentException if the port parameter is outside
-     *                  the range of valid port values, or if the hostname
-     *                  parameter is <TT>null</TT>.
+     * @pbrbm   host    the Host nbme
+     * @pbrbm   port    The port number
+     * @throws IllegblArgumentException if the port pbrbmeter is outside
+     *                  the rbnge of vblid port vblues, or if the hostnbme
+     *                  pbrbmeter is <TT>null</TT>.
      * @see     #isUnresolved()
-     * @return  a {@code InetSocketAddress} representing the unresolved
-     *          socket address
+     * @return  b {@code InetSocketAddress} representing the unresolved
+     *          socket bddress
      * @since 1.5
      */
-    public static InetSocketAddress createUnresolved(String host, int port) {
+    public stbtic InetSocketAddress crebteUnresolved(String host, int port) {
         return new InetSocketAddress(checkPort(port), checkHost(host));
     }
 
     /**
-     * @serialField hostname String
-     * @serialField addr InetAddress
-     * @serialField port int
+     * @seriblField hostnbme String
+     * @seriblField bddr InetAddress
+     * @seriblField port int
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-         new ObjectStreamField("hostname", String.class),
-         new ObjectStreamField("addr", InetAddress.class),
-         new ObjectStreamField("port", int.class)};
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+         new ObjectStrebmField("hostnbme", String.clbss),
+         new ObjectStrebmField("bddr", InetAddress.clbss),
+         new ObjectStrebmField("port", int.clbss)};
 
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
         throws IOException
     {
-        // Don't call defaultWriteObject()
-         ObjectOutputStream.PutField pfields = out.putFields();
-         pfields.put("hostname", holder.hostname);
-         pfields.put("addr", holder.addr);
+        // Don't cbll defbultWriteObject()
+         ObjectOutputStrebm.PutField pfields = out.putFields();
+         pfields.put("hostnbme", holder.hostnbme);
+         pfields.put("bddr", holder.bddr);
          pfields.put("port", holder.port);
          out.writeFields();
      }
 
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException
     {
-        // Don't call defaultReadObject()
-        ObjectInputStream.GetField oisFields = in.readFields();
-        final String oisHostname = (String)oisFields.get("hostname", null);
-        final InetAddress oisAddr = (InetAddress)oisFields.get("addr", null);
-        final int oisPort = oisFields.get("port", -1);
+        // Don't cbll defbultRebdObject()
+        ObjectInputStrebm.GetField oisFields = in.rebdFields();
+        finbl String oisHostnbme = (String)oisFields.get("hostnbme", null);
+        finbl InetAddress oisAddr = (InetAddress)oisFields.get("bddr", null);
+        finbl int oisPort = oisFields.get("port", -1);
 
-        // Check that our invariants are satisfied
+        // Check thbt our invbribnts bre sbtisfied
         checkPort(oisPort);
-        if (oisHostname == null && oisAddr == null)
-            throw new InvalidObjectException("hostname and addr " +
-                                             "can't both be null");
+        if (oisHostnbme == null && oisAddr == null)
+            throw new InvblidObjectException("hostnbme bnd bddr " +
+                                             "cbn't both be null");
 
-        InetSocketAddressHolder h = new InetSocketAddressHolder(oisHostname,
+        InetSocketAddressHolder h = new InetSocketAddressHolder(oisHostnbme,
                                                                 oisAddr,
                                                                 oisPort);
         UNSAFE.putObject(this, FIELDS_OFFSET, h);
     }
 
-    private void readObjectNoData()
-        throws ObjectStreamException
+    privbte void rebdObjectNoDbtb()
+        throws ObjectStrebmException
     {
-        throw new InvalidObjectException("Stream data required");
+        throw new InvblidObjectException("Strebm dbtb required");
     }
 
-    private static final long FIELDS_OFFSET;
-    private static final sun.misc.Unsafe UNSAFE;
-    static {
+    privbte stbtic finbl long FIELDS_OFFSET;
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+    stbtic {
         try {
-            sun.misc.Unsafe unsafe = sun.misc.Unsafe.getUnsafe();
-            FIELDS_OFFSET = unsafe.objectFieldOffset(
-                    InetSocketAddress.class.getDeclaredField("holder"));
-            UNSAFE = unsafe;
-        } catch (ReflectiveOperationException e) {
+            sun.misc.Unsbfe unsbfe = sun.misc.Unsbfe.getUnsbfe();
+            FIELDS_OFFSET = unsbfe.objectFieldOffset(
+                    InetSocketAddress.clbss.getDeclbredField("holder"));
+            UNSAFE = unsbfe;
+        } cbtch (ReflectiveOperbtionException e) {
             throw new Error(e);
         }
     }
@@ -320,7 +320,7 @@ public class InetSocketAddress
      *
      * @return the port number.
      */
-    public final int getPort() {
+    public finbl int getPort() {
         return holder.getPort();
     }
 
@@ -330,50 +330,50 @@ public class InetSocketAddress
      *
      * @return the InetAdress or {@code null} if it is unresolved.
      */
-    public final InetAddress getAddress() {
+    public finbl InetAddress getAddress() {
         return holder.getAddress();
     }
 
     /**
-     * Gets the {@code hostname}.
-     * Note: This method may trigger a name service reverse lookup if the
-     * address was created with a literal IP address.
+     * Gets the {@code hostnbme}.
+     * Note: This method mby trigger b nbme service reverse lookup if the
+     * bddress wbs crebted with b literbl IP bddress.
      *
-     * @return  the hostname part of the address.
+     * @return  the hostnbme pbrt of the bddress.
      */
-    public final String getHostName() {
-        return holder.getHostName();
+    public finbl String getHostNbme() {
+        return holder.getHostNbme();
     }
 
     /**
-     * Returns the hostname, or the String form of the address if it
-     * doesn't have a hostname (it was created using a literal).
-     * This has the benefit of <b>not</b> attempting a reverse lookup.
+     * Returns the hostnbme, or the String form of the bddress if it
+     * doesn't hbve b hostnbme (it wbs crebted using b literbl).
+     * This hbs the benefit of <b>not</b> bttempting b reverse lookup.
      *
-     * @return the hostname, or String representation of the address.
+     * @return the hostnbme, or String representbtion of the bddress.
      * @since 1.7
      */
-    public final String getHostString() {
+    public finbl String getHostString() {
         return holder.getHostString();
     }
 
     /**
-     * Checks whether the address has been resolved or not.
+     * Checks whether the bddress hbs been resolved or not.
      *
-     * @return {@code true} if the hostname couldn't be resolved into
-     *          an {@code InetAddress}.
+     * @return {@code true} if the hostnbme couldn't be resolved into
+     *          bn {@code InetAddress}.
      */
-    public final boolean isUnresolved() {
+    public finbl boolebn isUnresolved() {
         return holder.isUnresolved();
     }
 
     /**
-     * Constructs a string representation of this InetSocketAddress.
-     * This String is constructed by calling toString() on the InetAddress
-     * and concatenating the port number (with a colon). If the address
-     * is unresolved then the part before the colon will only contain the hostname.
+     * Constructs b string representbtion of this InetSocketAddress.
+     * This String is constructed by cblling toString() on the InetAddress
+     * bnd concbtenbting the port number (with b colon). If the bddress
+     * is unresolved then the pbrt before the colon will only contbin the hostnbme.
      *
-     * @return  a string representation of this object.
+     * @return  b string representbtion of this object.
      */
     @Override
     public String toString() {
@@ -381,39 +381,39 @@ public class InetSocketAddress
     }
 
     /**
-     * Compares this object against the specified object.
-     * The result is {@code true} if and only if the argument is
-     * not {@code null} and it represents the same address as
+     * Compbres this object bgbinst the specified object.
+     * The result is {@code true} if bnd only if the brgument is
+     * not {@code null} bnd it represents the sbme bddress bs
      * this object.
      * <p>
-     * Two instances of {@code InetSocketAddress} represent the same
-     * address if both the InetAddresses (or hostnames if it is unresolved) and port
-     * numbers are equal.
-     * If both addresses are unresolved, then the hostname and the port number
-     * are compared.
+     * Two instbnces of {@code InetSocketAddress} represent the sbme
+     * bddress if both the InetAddresses (or hostnbmes if it is unresolved) bnd port
+     * numbers bre equbl.
+     * If both bddresses bre unresolved, then the hostnbme bnd the port number
+     * bre compbred.
      *
-     * Note: Hostnames are case insensitive. e.g. "FooBar" and "foobar" are
-     * considered equal.
+     * Note: Hostnbmes bre cbse insensitive. e.g. "FooBbr" bnd "foobbr" bre
+     * considered equbl.
      *
-     * @param   obj   the object to compare against.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
-     * @see java.net.InetAddress#equals(java.lang.Object)
+     * @pbrbm   obj   the object to compbre bgbinst.
+     * @return  {@code true} if the objects bre the sbme;
+     *          {@code fblse} otherwise.
+     * @see jbvb.net.InetAddress#equbls(jbvb.lbng.Object)
      */
     @Override
-    public final boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof InetSocketAddress))
-            return false;
-        return holder.equals(((InetSocketAddress) obj).holder);
+    public finbl boolebn equbls(Object obj) {
+        if (obj == null || !(obj instbnceof InetSocketAddress))
+            return fblse;
+        return holder.equbls(((InetSocketAddress) obj).holder);
     }
 
     /**
-     * Returns a hashcode for this socket address.
+     * Returns b hbshcode for this socket bddress.
      *
-     * @return  a hash code value for this socket address.
+     * @return  b hbsh code vblue for this socket bddress.
      */
     @Override
-    public final int hashCode() {
-        return holder.hashCode();
+    public finbl int hbshCode() {
+        return holder.hbshCode();
     }
 }

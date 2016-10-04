@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.print;
+pbckbge jbvb.bwt.print;
 
-import java.awt.Graphics;
+import jbvb.bwt.Grbphics;
 
 
 /**
- * The <code>Printable</code> interface is implemented
+ * The <code>Printbble</code> interfbce is implemented
  * by the <code>print</code> methods of the current
- * page painter, which is called by the printing
- * system to render a page.  When building a
- * {@link Pageable}, pairs of {@link PageFormat}
- * instances and instances that implement
- * this interface are used to describe each page. The
- * instance implementing <code>Printable</code> is called to
- * print the page's graphics.
+ * pbge pbinter, which is cblled by the printing
+ * system to render b pbge.  When building b
+ * {@link Pbgebble}, pbirs of {@link PbgeFormbt}
+ * instbnces bnd instbnces thbt implement
+ * this interfbce bre used to describe ebch pbge. The
+ * instbnce implementing <code>Printbble</code> is cblled to
+ * print the pbge's grbphics.
  * <p>
- * A <code>Printable(..)</code> may be set on a <code>PrinterJob</code>.
- * When the client subsequently initiates printing by calling
+ * A <code>Printbble(..)</code> mby be set on b <code>PrinterJob</code>.
+ * When the client subsequently initibtes printing by cblling
  * <code>PrinterJob.print(..)</code> control
  * <p>
- * is handed to the printing system until all pages have been printed.
- * It does this by calling <code>Printable.print(..)</code> until
- * all pages in the document have been printed.
- * In using the <code>Printable</code> interface the printing
- * commits to image the contents of a page whenever
+ * is hbnded to the printing system until bll pbges hbve been printed.
+ * It does this by cblling <code>Printbble.print(..)</code> until
+ * bll pbges in the document hbve been printed.
+ * In using the <code>Printbble</code> interfbce the printing
+ * commits to imbge the contents of b pbge whenever
  * requested by the printing system.
  * <p>
- * The parameters to <code>Printable.print(..)</code> include a
- * <code>PageFormat</code> which describes the printable area of
- * the page, needed for calculating the contents that will fit the
- * page, and the page index, which specifies the zero-based print
- * stream index of the requested page.
+ * The pbrbmeters to <code>Printbble.print(..)</code> include b
+ * <code>PbgeFormbt</code> which describes the printbble breb of
+ * the pbge, needed for cblculbting the contents thbt will fit the
+ * pbge, bnd the pbge index, which specifies the zero-bbsed print
+ * strebm index of the requested pbge.
  * <p>
- * For correct printing behaviour, the following points should be
+ * For correct printing behbviour, the following points should be
  * observed:
  * <ul>
- * <li> The printing system may request a page index more than once.
- * On each occasion equal PageFormat parameters will be supplied.
+ * <li> The printing system mby request b pbge index more thbn once.
+ * On ebch occbsion equbl PbgeFormbt pbrbmeters will be supplied.
  *
- * <li>The printing system will call <code>Printable.print(..)</code>
- * with page indexes which increase monotonically, although as noted above,
- * the <code>Printable</code> should expect multiple calls for a page index
- * and that page indexes may be skipped, when page ranges are specified
- * by the client, or by a user through a print dialog.
+ * <li>The printing system will cbll <code>Printbble.print(..)</code>
+ * with pbge indexes which increbse monotonicblly, blthough bs noted bbove,
+ * the <code>Printbble</code> should expect multiple cblls for b pbge index
+ * bnd thbt pbge indexes mby be skipped, when pbge rbnges bre specified
+ * by the client, or by b user through b print diblog.
  *
- * <li>If multiple collated copies of a document are requested, and the
- * printer cannot natively support this, then the document may be imaged
- * multiple times. Printing will start each copy from the lowest print
- * stream page index page.
+ * <li>If multiple collbted copies of b document bre requested, bnd the
+ * printer cbnnot nbtively support this, then the document mby be imbged
+ * multiple times. Printing will stbrt ebch copy from the lowest print
+ * strebm pbge index pbge.
  *
- * <li>With the exception of re-imaging an entire document for multiple
- * collated copies, the increasing page index order means that when
- * page N is requested if a client needs to calculate page break position,
- * it may safely discard any state related to pages &lt; N, and make current
- * that for page N. "State" usually is just the calculated position in the
- * document that corresponds to the start of the page.
+ * <li>With the exception of re-imbging bn entire document for multiple
+ * collbted copies, the increbsing pbge index order mebns thbt when
+ * pbge N is requested if b client needs to cblculbte pbge brebk position,
+ * it mby sbfely discbrd bny stbte relbted to pbges &lt; N, bnd mbke current
+ * thbt for pbge N. "Stbte" usublly is just the cblculbted position in the
+ * document thbt corresponds to the stbrt of the pbge.
  *
- * <li>When called by the printing system the <code>Printable</code> must
- * inspect and honour the supplied PageFormat parameter as well as the
- * page index.  The format of the page to be drawn is specified by the
- * supplied PageFormat. The size, orientation and imageable area of the page
- * is therefore already determined and rendering must be within this
- * imageable area.
- * This is key to correct printing behaviour, and it has the
- * implication that the client has the responsibility of tracking
- * what content belongs on the specified page.
+ * <li>When cblled by the printing system the <code>Printbble</code> must
+ * inspect bnd honour the supplied PbgeFormbt pbrbmeter bs well bs the
+ * pbge index.  The formbt of the pbge to be drbwn is specified by the
+ * supplied PbgeFormbt. The size, orientbtion bnd imbgebble breb of the pbge
+ * is therefore blrebdy determined bnd rendering must be within this
+ * imbgebble breb.
+ * This is key to correct printing behbviour, bnd it hbs the
+ * implicbtion thbt the client hbs the responsibility of trbcking
+ * whbt content belongs on the specified pbge.
  *
- * <li>When the <code>Printable</code> is obtained from a client-supplied
- * <code>Pageable</code> then the client may provide different PageFormats
- * for each page index. Calculations of page breaks must account for this.
+ * <li>When the <code>Printbble</code> is obtbined from b client-supplied
+ * <code>Pbgebble</code> then the client mby provide different PbgeFormbts
+ * for ebch pbge index. Cblculbtions of pbge brebks must bccount for this.
  * </ul>
- * @see java.awt.print.Pageable
- * @see java.awt.print.PageFormat
- * @see java.awt.print.PrinterJob
+ * @see jbvb.bwt.print.Pbgebble
+ * @see jbvb.bwt.print.PbgeFormbt
+ * @see jbvb.bwt.print.PrinterJob
  */
-public interface Printable {
+public interfbce Printbble {
 
     /**
-     * Returned from {@link #print(Graphics, PageFormat, int)}
-     * to signify that the requested page was rendered.
+     * Returned from {@link #print(Grbphics, PbgeFormbt, int)}
+     * to signify thbt the requested pbge wbs rendered.
      */
     int PAGE_EXISTS = 0;
 
     /**
-     * Returned from <code>print</code> to signify that the
-     * <code>pageIndex</code> is too large and that the requested page
+     * Returned from <code>print</code> to signify thbt the
+     * <code>pbgeIndex</code> is too lbrge bnd thbt the requested pbge
      * does not exist.
      */
     int NO_SUCH_PAGE = 1;
 
     /**
-     * Prints the page at the specified index into the specified
-     * {@link Graphics} context in the specified
-     * format.  A <code>PrinterJob</code> calls the
-     * <code>Printable</code> interface to request that a page be
+     * Prints the pbge bt the specified index into the specified
+     * {@link Grbphics} context in the specified
+     * formbt.  A <code>PrinterJob</code> cblls the
+     * <code>Printbble</code> interfbce to request thbt b pbge be
      * rendered into the context specified by
-     * <code>graphics</code>.  The format of the page to be drawn is
-     * specified by <code>pageFormat</code>.  The zero based index
-     * of the requested page is specified by <code>pageIndex</code>.
-     * If the requested page does not exist then this method returns
+     * <code>grbphics</code>.  The formbt of the pbge to be drbwn is
+     * specified by <code>pbgeFormbt</code>.  The zero bbsed index
+     * of the requested pbge is specified by <code>pbgeIndex</code>.
+     * If the requested pbge does not exist then this method returns
      * NO_SUCH_PAGE; otherwise PAGE_EXISTS is returned.
-     * The <code>Graphics</code> class or subclass implements the
-     * {@link PrinterGraphics} interface to provide additional
-     * information.  If the <code>Printable</code> object
-     * aborts the print job then it throws a {@link PrinterException}.
-     * @param graphics the context into which the page is drawn
-     * @param pageFormat the size and orientation of the page being drawn
-     * @param pageIndex the zero based index of the page to be drawn
-     * @return PAGE_EXISTS if the page is rendered successfully
-     *         or NO_SUCH_PAGE if <code>pageIndex</code> specifies a
-     *         non-existent page.
-     * @exception java.awt.print.PrinterException
-     *         thrown when the print job is terminated.
+     * The <code>Grbphics</code> clbss or subclbss implements the
+     * {@link PrinterGrbphics} interfbce to provide bdditionbl
+     * informbtion.  If the <code>Printbble</code> object
+     * bborts the print job then it throws b {@link PrinterException}.
+     * @pbrbm grbphics the context into which the pbge is drbwn
+     * @pbrbm pbgeFormbt the size bnd orientbtion of the pbge being drbwn
+     * @pbrbm pbgeIndex the zero bbsed index of the pbge to be drbwn
+     * @return PAGE_EXISTS if the pbge is rendered successfully
+     *         or NO_SUCH_PAGE if <code>pbgeIndex</code> specifies b
+     *         non-existent pbge.
+     * @exception jbvb.bwt.print.PrinterException
+     *         thrown when the print job is terminbted.
      */
-    int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
+    int print(Grbphics grbphics, PbgeFormbt pbgeFormbt, int pbgeIndex)
                  throws PrinterException;
 
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -33,127 +33,127 @@
 #include "jni_util.h"
 
 
-JNIEXPORT jboolean JNICALL Java_sun_security_pkcs11_Secmod_nssVersionCheck
-  (JNIEnv *env, jclass thisClass, jlong jHandle, jstring jVersion)
+JNIEXPORT jboolebn JNICALL Jbvb_sun_security_pkcs11_Secmod_nssVersionCheck
+  (JNIEnv *env, jclbss thisClbss, jlong jHbndle, jstring jVersion)
 {
     int res = 0;
     FPTR_VersionCheck versionCheck;
-    const char *requiredVersion;
+    const chbr *requiredVersion;
 
-    versionCheck = (FPTR_VersionCheck)findFunction(env, jHandle,
+    versionCheck = (FPTR_VersionCheck)findFunction(env, jHbndle,
         "NSS_VersionCheck");
     if (versionCheck == NULL) {
         return JNI_FALSE;
     }
 
-    requiredVersion = (*env)->GetStringUTFChars(env, jVersion, NULL);
+    requiredVersion = (*env)->GetStringUTFChbrs(env, jVersion, NULL);
     if (requiredVersion == NULL)  {
         return JNI_FALSE;
     }
 
     res = versionCheck(requiredVersion);
     dprintf2("-version >=%s: %d\n", requiredVersion, res);
-    (*env)->ReleaseStringUTFChars(env, jVersion, requiredVersion);
+    (*env)->RelebseStringUTFChbrs(env, jVersion, requiredVersion);
 
     return (res == 0) ? JNI_FALSE : JNI_TRUE;
 }
 
 /*
- * Initializes NSS.
- * The NSS_INIT_OPTIMIZESPACE flag is supplied by the caller.
- * The NSS_Init* functions are mapped to the NSS_Initialize function.
+ * Initiblizes NSS.
+ * The NSS_INIT_OPTIMIZESPACE flbg is supplied by the cbller.
+ * The NSS_Init* functions bre mbpped to the NSS_Initiblize function.
  */
-JNIEXPORT jboolean JNICALL Java_sun_security_pkcs11_Secmod_nssInitialize
-  (JNIEnv *env, jclass thisClass, jstring jFunctionName, jlong jHandle, jstring jConfigDir, jboolean jNssOptimizeSpace)
+JNIEXPORT jboolebn JNICALL Jbvb_sun_security_pkcs11_Secmod_nssInitiblize
+  (JNIEnv *env, jclbss thisClbss, jstring jFunctionNbme, jlong jHbndle, jstring jConfigDir, jboolebn jNssOptimizeSpbce)
 {
     int res = 0;
-    FPTR_Initialize initialize =
-        (FPTR_Initialize)findFunction(env, jHandle, "NSS_Initialize");
-    unsigned int flags = 0x00;
-    const char *configDir = NULL;
-    const char *functionName = NULL;
+    FPTR_Initiblize initiblize =
+        (FPTR_Initiblize)findFunction(env, jHbndle, "NSS_Initiblize");
+    unsigned int flbgs = 0x00;
+    const chbr *configDir = NULL;
+    const chbr *functionNbme = NULL;
 
-    /* If we cannot initialize, exit now */
-    if (initialize == NULL) {
+    /* If we cbnnot initiblize, exit now */
+    if (initiblize == NULL) {
         res = 1;
-        goto cleanup;
+        goto clebnup;
     }
 
-    functionName = (*env)->GetStringUTFChars(env, jFunctionName, NULL);
-    if (functionName == NULL) {
+    functionNbme = (*env)->GetStringUTFChbrs(env, jFunctionNbme, NULL);
+    if (functionNbme == NULL) {
         res = 1;
-        goto cleanup;
+        goto clebnup;
     }
 
     if (jConfigDir != NULL) {
-        configDir = (*env)->GetStringUTFChars(env, jConfigDir, NULL);
+        configDir = (*env)->GetStringUTFChbrs(env, jConfigDir, NULL);
         if (!configDir) {
             res = 1;
-            goto cleanup;
+            goto clebnup;
         }
     }
 
-    if (jNssOptimizeSpace == JNI_TRUE) {
-        flags = 0x20; // NSS_INIT_OPTIMIZESPACE flag
+    if (jNssOptimizeSpbce == JNI_TRUE) {
+        flbgs = 0x20; // NSS_INIT_OPTIMIZESPACE flbg
     }
 
     /*
-     * If the NSS_Init function is requested then call NSS_Initialize to
-     * open the Cert, Key and Security Module databases, read only.
+     * If the NSS_Init function is requested then cbll NSS_Initiblize to
+     * open the Cert, Key bnd Security Module dbtbbbses, rebd only.
      */
-    if (strcmp("NSS_Init", functionName) == 0) {
-        flags = flags | 0x01; // NSS_INIT_READONLY flag
-        res = initialize(configDir, "", "", "secmod.db", flags);
+    if (strcmp("NSS_Init", functionNbme) == 0) {
+        flbgs = flbgs | 0x01; // NSS_INIT_READONLY flbg
+        res = initiblize(configDir, "", "", "secmod.db", flbgs);
 
     /*
-     * If the NSS_InitReadWrite function is requested then call
-     * NSS_Initialize to open the Cert, Key and Security Module databases,
-     * read/write.
+     * If the NSS_InitRebdWrite function is requested then cbll
+     * NSS_Initiblize to open the Cert, Key bnd Security Module dbtbbbses,
+     * rebd/write.
      */
-    } else if (strcmp("NSS_InitReadWrite", functionName) == 0) {
-        res = initialize(configDir, "", "", "secmod.db", flags);
+    } else if (strcmp("NSS_InitRebdWrite", functionNbme) == 0) {
+        res = initiblize(configDir, "", "", "secmod.db", flbgs);
 
     /*
-     * If the NSS_NoDB_Init function is requested then call
-     * NSS_Initialize without creating Cert, Key or Security Module
-     * databases.
+     * If the NSS_NoDB_Init function is requested then cbll
+     * NSS_Initiblize without crebting Cert, Key or Security Module
+     * dbtbbbses.
      */
-    } else if (strcmp("NSS_NoDB_Init", functionName) == 0) {
-        flags = flags | 0x02  // NSS_INIT_NOCERTDB flag
-                      | 0x04  // NSS_INIT_NOMODDB flag
-                      | 0x08  // NSS_INIT_FORCEOPEN flag
-                      | 0x10; // NSS_INIT_NOROOTINIT flag
-        res = initialize("", "", "", "", flags);
+    } else if (strcmp("NSS_NoDB_Init", functionNbme) == 0) {
+        flbgs = flbgs | 0x02  // NSS_INIT_NOCERTDB flbg
+                      | 0x04  // NSS_INIT_NOMODDB flbg
+                      | 0x08  // NSS_INIT_FORCEOPEN flbg
+                      | 0x10; // NSS_INIT_NOROOTINIT flbg
+        res = initiblize("", "", "", "", flbgs);
 
     } else {
         res = 2;
     }
 
-cleanup:
-    if (functionName != NULL) {
-        (*env)->ReleaseStringUTFChars(env, jFunctionName, functionName);
+clebnup:
+    if (functionNbme != NULL) {
+        (*env)->RelebseStringUTFChbrs(env, jFunctionNbme, functionNbme);
     }
     if (configDir != NULL) {
-        (*env)->ReleaseStringUTFChars(env, jConfigDir, configDir);
+        (*env)->RelebseStringUTFChbrs(env, jConfigDir, configDir);
     }
     dprintf1("-res: %d\n", res);
 
     return (res == 0) ? JNI_TRUE : JNI_FALSE;
 }
 
-JNIEXPORT jobject JNICALL Java_sun_security_pkcs11_Secmod_nssGetModuleList
-  (JNIEnv *env, jclass thisClass, jlong jHandle, jstring jLibDir)
+JNIEXPORT jobject JNICALL Jbvb_sun_security_pkcs11_Secmod_nssGetModuleList
+  (JNIEnv *env, jclbss thisClbss, jlong jHbndle, jstring jLibDir)
 {
     FPTR_GetDBModuleList getModuleList =
-        (FPTR_GetDBModuleList)findFunction(env, jHandle, "SECMOD_GetDefaultModuleList");
+        (FPTR_GetDBModuleList)findFunction(env, jHbndle, "SECMOD_GetDefbultModuleList");
 
     SECMODModuleList *list;
     SECMODModule *module;
-    jclass jListClass, jModuleClass;
+    jclbss jListClbss, jModuleClbss;
     jobject jList, jModule;
     jmethodID jListConstructor, jAdd, jModuleConstructor;
-    jstring jCommonName, jDllName;
-    jboolean jFIPS;
+    jstring jCommonNbme, jDllNbme;
+    jboolebn jFIPS;
     jint i;
 
     if (getModuleList == NULL) {
@@ -166,61 +166,61 @@ JNIEXPORT jobject JNICALL Java_sun_security_pkcs11_Secmod_nssGetModuleList
         return NULL;
     }
 
-    jListClass = (*env)->FindClass(env, "java/util/ArrayList");
-    if (jListClass == NULL) {
+    jListClbss = (*env)->FindClbss(env, "jbvb/util/ArrbyList");
+    if (jListClbss == NULL) {
         return NULL;
     }
-    jListConstructor = (*env)->GetMethodID(env, jListClass, "<init>", "()V");
+    jListConstructor = (*env)->GetMethodID(env, jListClbss, "<init>", "()V");
     if (jListConstructor == NULL) {
         return NULL;
     }
-    jAdd = (*env)->GetMethodID(env, jListClass, "add", "(Ljava/lang/Object;)Z");
+    jAdd = (*env)->GetMethodID(env, jListClbss, "bdd", "(Ljbvb/lbng/Object;)Z");
     if (jAdd == NULL) {
         return NULL;
     }
-    jList = (*env)->NewObject(env, jListClass, jListConstructor);
+    jList = (*env)->NewObject(env, jListClbss, jListConstructor);
     if (jList == NULL) {
         return NULL;
     }
-    jModuleClass = (*env)->FindClass(env, "sun/security/pkcs11/Secmod$Module");
-    if (jModuleClass == NULL) {
+    jModuleClbss = (*env)->FindClbss(env, "sun/security/pkcs11/Secmod$Module");
+    if (jModuleClbss == NULL) {
         return NULL;
     }
-    jModuleConstructor = (*env)->GetMethodID(env, jModuleClass, "<init>",
-        "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZI)V");
+    jModuleConstructor = (*env)->GetMethodID(env, jModuleClbss, "<init>",
+        "(Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;ZI)V");
     if (jModuleConstructor == NULL) {
         return NULL;
     }
 
     while (list != NULL) {
         module = list->module;
-        // assert module != null
-        dprintf1("-commonname: %s\n", module->commonName);
-        dprintf1("-dllname: %s\n", (module->dllName != NULL) ? module->dllName : "NULL");
+        // bssert module != null
+        dprintf1("-commonnbme: %s\n", module->commonNbme);
+        dprintf1("-dllnbme: %s\n", (module->dllNbme != NULL) ? module->dllNbme : "NULL");
         dprintf1("-slots: %d\n", module->slotCount);
-        dprintf1("-loaded: %d\n", module->loaded);
-        dprintf1("-internal: %d\n", module->internal);
+        dprintf1("-lobded: %d\n", module->lobded);
+        dprintf1("-internbl: %d\n", module->internbl);
         dprintf1("-fips: %d\n", module->isFIPS);
-        jCommonName = (*env)->NewStringUTF(env, module->commonName);
-        if (jCommonName == NULL) {
+        jCommonNbme = (*env)->NewStringUTF(env, module->commonNbme);
+        if (jCommonNbme == NULL) {
             return NULL;
         }
-        if (module->dllName == NULL) {
-            jDllName = NULL;
+        if (module->dllNbme == NULL) {
+            jDllNbme = NULL;
         } else {
-            jDllName = (*env)->NewStringUTF(env, module->dllName);
-            if (jDllName == NULL) {
+            jDllNbme = (*env)->NewStringUTF(env, module->dllNbme);
+            if (jDllNbme == NULL) {
                 return NULL;
             }
         }
         jFIPS = module->isFIPS;
         for (i = 0; i < module->slotCount; i++ ) {
-            jModule = (*env)->NewObject(env, jModuleClass, jModuleConstructor,
-                jLibDir, jDllName, jCommonName, jFIPS, i);
+            jModule = (*env)->NewObject(env, jModuleClbss, jModuleConstructor,
+                jLibDir, jDllNbme, jCommonNbme, jFIPS, i);
             if (jModule == NULL) {
                 return NULL;
             }
-            (*env)->CallVoidMethod(env, jList, jAdd, jModule);
+            (*env)->CbllVoidMethod(env, jList, jAdd, jModule);
             if ((*env)->ExceptionCheck(env)) {
                 return NULL;
             }

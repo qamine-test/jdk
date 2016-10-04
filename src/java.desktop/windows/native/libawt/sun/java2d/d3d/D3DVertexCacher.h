@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -36,69 +36,69 @@
     (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX2 | \
     D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) )
 typedef struct _J2DLVERTEX {
-    float x, y, z;
+    flobt x, y, z;
     DWORD color;
-    float tu1, tv1;
-    float tu2, tv2;
+    flobt tu1, tv1;
+    flobt tu2, tv2;
 } J2DLVERTEX;
 
 typedef struct {
-    D3DPRIMITIVETYPE pType; // type of primitives in this batch
-    UINT pNum; // number of primitives of pType in this batch
-} VertexBatch;
+    D3DPRIMITIVETYPE pType; // type of primitives in this bbtch
+    UINT pNum; // number of primitives of pType in this bbtch
+} VertexBbtch;
 
-class D3DContext;
+clbss D3DContext;
 
-class D3DPIPELINE_API D3DVertexCacher {
+clbss D3DPIPELINE_API D3DVertexCbcher {
 public:
     HRESULT Init(D3DContext *pCtx);
-            ~D3DVertexCacher() { ReleaseDefPoolResources(); }
-    void    ReleaseDefPoolResources();
+            ~D3DVertexCbcher() { RelebseDefPoolResources(); }
+    void    RelebseDefPoolResources();
 
     jint    GetColor() { return color; }
     void    SetColor(jint newColor) { color = newColor; }
-    HRESULT DrawLine(int x1, int y1, int x2, int y2);
-    HRESULT DrawPoly(jint nPoints, jboolean isClosed,
-                     jint transX, jint transY,
+    HRESULT DrbwLine(int x1, int y1, int x2, int y2);
+    HRESULT DrbwPoly(jint nPoints, jboolebn isClosed,
+                     jint trbnsX, jint trbnsY,
                      jint *xPoints, jint *yPoints);
-    HRESULT DrawScanlines(jint scanlineCount, jint *scanlines);
-    HRESULT DrawRect(int x1, int y1, int x2, int y2);
+    HRESULT DrbwScbnlines(jint scbnlineCount, jint *scbnlines);
+    HRESULT DrbwRect(int x1, int y1, int x2, int y2);
     HRESULT FillRect(int x1, int y1, int x2, int y2);
-    HRESULT FillParallelogramAA(float fx11, float fy11,
-                                float dx21, float dy21,
-                                float dx12, float dy12);
-    HRESULT DrawParallelogramAA(float ox11, float oy11,
-                                float ox21, float oy21,
-                                float ox12, float oy12,
-                                float ix11, float iy11,
-                                float ix21, float iy21,
-                                float ix12, float iy12);
-    HRESULT FillParallelogram(float fx11, float fy11,
-                              float dx21, float dy21,
-                              float dx12, float dy12);
-    HRESULT FillSpans(jint spansCount, jint *spans);
-    HRESULT DrawTexture(float dx1, float dy1, float dx2, float dy2,
-                        float tx1, float ty1, float tx2, float ty2);
-    HRESULT DrawTexture(float  dx1, float  dy1, float  dx2, float  dy2,
-                        float t1x1, float t1y1, float t1x2, float t1y2,
-                        float t2x1, float t2y1, float t2x2, float t2y2);
-    HRESULT Render(int actionType = APPEND_ACTION);
+    HRESULT FillPbrbllelogrbmAA(flobt fx11, flobt fy11,
+                                flobt dx21, flobt dy21,
+                                flobt dx12, flobt dy12);
+    HRESULT DrbwPbrbllelogrbmAA(flobt ox11, flobt oy11,
+                                flobt ox21, flobt oy21,
+                                flobt ox12, flobt oy12,
+                                flobt ix11, flobt iy11,
+                                flobt ix21, flobt iy21,
+                                flobt ix12, flobt iy12);
+    HRESULT FillPbrbllelogrbm(flobt fx11, flobt fy11,
+                              flobt dx21, flobt dy21,
+                              flobt dx12, flobt dy12);
+    HRESULT FillSpbns(jint spbnsCount, jint *spbns);
+    HRESULT DrbwTexture(flobt dx1, flobt dy1, flobt dx2, flobt dy2,
+                        flobt tx1, flobt ty1, flobt tx2, flobt ty2);
+    HRESULT DrbwTexture(flobt  dx1, flobt  dy1, flobt  dx2, flobt  dy2,
+                        flobt t1x1, flobt t1y1, flobt t1x2, flobt t1y2,
+                        flobt t2x1, flobt t2y1, flobt t2x2, flobt t2y2);
+    HRESULT Render(int bctionType = APPEND_ACTION);
     UINT    GetFreeVertices() { return (MAX_BATCH_SIZE - firstUnusedVertex); }
 
-static
-    HRESULT CreateInstance(D3DContext *pCtx, D3DVertexCacher **ppVC);
+stbtic
+    HRESULT CrebteInstbnce(D3DContext *pCtx, D3DVertexCbcher **ppVC);
 
-private:
-            D3DVertexCacher();
-    HRESULT EnsureCapacity(D3DPRIMITIVETYPE newPType, UINT vNum);
+privbte:
+            D3DVertexCbcher();
+    HRESULT EnsureCbpbcity(D3DPRIMITIVETYPE newPType, UINT vNum);
 
-private:
-    UINT firstPendingBatch;
+privbte:
+    UINT firstPendingBbtch;
     UINT firstPendingVertex;
     UINT firstUnusedVertex;
-    UINT currentBatch;
+    UINT currentBbtch;
     J2DLVERTEX              vertices[MAX_BATCH_SIZE];
-    VertexBatch             batches[MAX_BATCH_SIZE];
+    VertexBbtch             bbtches[MAX_BATCH_SIZE];
     IDirect3DVertexBuffer9  *lpD3DVertexBuffer;
     IDirect3DDevice9        *lpD3DDevice;
     D3DContext              *pCtx;

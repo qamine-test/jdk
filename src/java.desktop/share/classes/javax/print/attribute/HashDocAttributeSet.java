@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.print.attribute;
+pbckbge jbvbx.print.bttribute;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
- * Class HashDocAttributeSet provides an attribute set which
- * inherits its implementation from class {@link HashAttributeSet
- * HashAttributeSet} and enforces the semantic restrictions of interface {@link
+ * Clbss HbshDocAttributeSet provides bn bttribute set which
+ * inherits its implementbtion from clbss {@link HbshAttributeSet
+ * HbshAttributeSet} bnd enforces the sembntic restrictions of interfbce {@link
  * DocAttributeSet DocAttributeSet}.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public class HashDocAttributeSet extends HashAttributeSet
-    implements DocAttributeSet, Serializable {
+public clbss HbshDocAttributeSet extends HbshAttributeSet
+    implements DocAttributeSet, Seriblizbble {
 
-    private static final long serialVersionUID = -1128534486061432528L;
+    privbte stbtic finbl long seriblVersionUID = -1128534486061432528L;
 
     /**
-     * Construct a new, empty hash doc attribute set.
+     * Construct b new, empty hbsh doc bttribute set.
      */
-    public HashDocAttributeSet() {
-        super (DocAttribute.class);
+    public HbshDocAttributeSet() {
+        super (DocAttribute.clbss);
     }
 
     /**
-     * Construct a new hash doc attribute set,
-     * initially populated with the given value.
+     * Construct b new hbsh doc bttribute set,
+     * initiblly populbted with the given vblue.
      *
-     * @param  attribute  Attribute value to add to the set.
+     * @pbrbm  bttribute  Attribute vblue to bdd to the set.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>attribute</CODE> is null.
+     *     (unchecked exception) Thrown if <CODE>bttribute</CODE> is null.
      */
-    public HashDocAttributeSet(DocAttribute attribute) {
-        super (attribute, DocAttribute.class);
+    public HbshDocAttributeSet(DocAttribute bttribute) {
+        super (bttribute, DocAttribute.clbss);
     }
 
     /**
-     * Construct a new hash doc attribute set,
-     * initially populated with the values from the given array.
-     * The new attribute set is populated by
-     * adding the elements of <CODE>attributes</CODE> array to the set in
-     * sequence, starting at index 0. Thus, later array elements may replace
-     * earlier array elements if the array contains duplicate attribute
-     * values or attribute categories.
+     * Construct b new hbsh doc bttribute set,
+     * initiblly populbted with the vblues from the given brrby.
+     * The new bttribute set is populbted by
+     * bdding the elements of <CODE>bttributes</CODE> brrby to the set in
+     * sequence, stbrting bt index 0. Thus, lbter brrby elements mby replbce
+     * ebrlier brrby elements if the brrby contbins duplicbte bttribute
+     * vblues or bttribute cbtegories.
      *
-     * @param  attributes  Array of attribute values to add to the set.
-     *                     If null, an empty attribute set is constructed.
+     * @pbrbm  bttributes  Arrby of bttribute vblues to bdd to the set.
+     *                     If null, bn empty bttribute set is constructed.
      *
      * @exception  NullPointerException
      *  (unchecked exception)
-     * Thrown if any element of <CODE>attributes</CODE> is null.
+     * Thrown if bny element of <CODE>bttributes</CODE> is null.
      */
-    public HashDocAttributeSet(DocAttribute[] attributes) {
-        super (attributes, DocAttribute.class);
+    public HbshDocAttributeSet(DocAttribute[] bttributes) {
+        super (bttributes, DocAttribute.clbss);
     }
 
     /**
-     * Construct a new attribute set, initially populated with the
-     * values from the  given set where the members of the attribute set
-     * are restricted to the <code>DocAttribute</code> interface.
+     * Construct b new bttribute set, initiblly populbted with the
+     * vblues from the  given set where the members of the bttribute set
+     * bre restricted to the <code>DocAttribute</code> interfbce.
      *
-     * @param  attributes set of attribute values to initialise the set. If
-     *                    null, an empty attribute set is constructed.
+     * @pbrbm  bttributes set of bttribute vblues to initiblise the set. If
+     *                    null, bn empty bttribute set is constructed.
      *
-     * @exception  ClassCastException
-     *     (unchecked exception) Thrown if any element of
-     * <CODE>attributes</CODE> is not an instance of
+     * @exception  ClbssCbstException
+     *     (unchecked exception) Thrown if bny element of
+     * <CODE>bttributes</CODE> is not bn instbnce of
      * <CODE>DocAttribute</CODE>.
      */
-    public HashDocAttributeSet(DocAttributeSet attributes) {
-        super(attributes, DocAttribute.class);
+    public HbshDocAttributeSet(DocAttributeSet bttributes) {
+        super(bttributes, DocAttribute.clbss);
     }
 
 }

@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2007-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,1208 +59,1208 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbckbge jbvb.time;
 
-import static java.time.LocalTime.NANOS_PER_SECOND;
-import static java.time.LocalTime.SECONDS_PER_DAY;
-import static java.time.LocalTime.SECONDS_PER_HOUR;
-import static java.time.LocalTime.SECONDS_PER_MINUTE;
-import static java.time.temporal.ChronoField.NANO_OF_SECOND;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.NANOS;
-import static java.time.temporal.ChronoUnit.SECONDS;
+import stbtic jbvb.time.LocblTime.NANOS_PER_SECOND;
+import stbtic jbvb.time.LocblTime.SECONDS_PER_DAY;
+import stbtic jbvb.time.LocblTime.SECONDS_PER_HOUR;
+import stbtic jbvb.time.LocblTime.SECONDS_PER_MINUTE;
+import stbtic jbvb.time.temporbl.ChronoField.NANO_OF_SECOND;
+import stbtic jbvb.time.temporbl.ChronoUnit.DAYS;
+import stbtic jbvb.time.temporbl.ChronoUnit.NANOS;
+import stbtic jbvb.time.temporbl.ChronoUnit.SECONDS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.mbth.BigDecimbl;
+import jbvb.mbth.BigInteger;
+import jbvb.mbth.RoundingMode;
+import jbvb.time.formbt.DbteTimePbrseException;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Objects;
+import jbvb.util.regex.Mbtcher;
+import jbvb.util.regex.Pbttern;
 
 /**
- * A time-based amount of time, such as '34.5 seconds'.
+ * A time-bbsed bmount of time, such bs '34.5 seconds'.
  * <p>
- * This class models a quantity or amount of time in terms of seconds and nanoseconds.
- * It can be accessed using other duration-based units, such as minutes and hours.
- * In addition, the {@link ChronoUnit#DAYS DAYS} unit can be used and is treated as
- * exactly equal to 24 hours, thus ignoring daylight savings effects.
- * See {@link Period} for the date-based equivalent to this class.
+ * This clbss models b qubntity or bmount of time in terms of seconds bnd nbnoseconds.
+ * It cbn be bccessed using other durbtion-bbsed units, such bs minutes bnd hours.
+ * In bddition, the {@link ChronoUnit#DAYS DAYS} unit cbn be used bnd is trebted bs
+ * exbctly equbl to 24 hours, thus ignoring dbylight sbvings effects.
+ * See {@link Period} for the dbte-bbsed equivblent to this clbss.
  * <p>
- * A physical duration could be of infinite length.
- * For practicality, the duration is stored with constraints similar to {@link Instant}.
- * The duration uses nanosecond resolution with a maximum value of the seconds that can
- * be held in a {@code long}. This is greater than the current estimated age of the universe.
+ * A physicbl durbtion could be of infinite length.
+ * For prbcticblity, the durbtion is stored with constrbints similbr to {@link Instbnt}.
+ * The durbtion uses nbnosecond resolution with b mbximum vblue of the seconds thbt cbn
+ * be held in b {@code long}. This is grebter thbn the current estimbted bge of the universe.
  * <p>
- * The range of a duration requires the storage of a number larger than a {@code long}.
- * To achieve this, the class stores a {@code long} representing seconds and an {@code int}
- * representing nanosecond-of-second, which will always be between 0 and 999,999,999.
- * The model is of a directed duration, meaning that the duration may be negative.
+ * The rbnge of b durbtion requires the storbge of b number lbrger thbn b {@code long}.
+ * To bchieve this, the clbss stores b {@code long} representing seconds bnd bn {@code int}
+ * representing nbnosecond-of-second, which will blwbys be between 0 bnd 999,999,999.
+ * The model is of b directed durbtion, mebning thbt the durbtion mby be negbtive.
  * <p>
- * The duration is measured in "seconds", but these are not necessarily identical to
- * the scientific "SI second" definition based on atomic clocks.
- * This difference only impacts durations measured near a leap-second and should not affect
- * most applications.
- * See {@link Instant} for a discussion as to the meaning of the second and time-scales.
+ * The durbtion is mebsured in "seconds", but these bre not necessbrily identicbl to
+ * the scientific "SI second" definition bbsed on btomic clocks.
+ * This difference only impbcts durbtions mebsured nebr b lebp-second bnd should not bffect
+ * most bpplicbtions.
+ * See {@link Instbnt} for b discussion bs to the mebning of the second bnd time-scbles.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code Duration} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * This is b <b href="{@docRoot}/jbvb/lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code Durbtion} mby hbve unpredictbble results bnd should be bvoided.
+ * The {@code equbls} method should be used for compbrisons.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class Duration
-        implements TemporalAmount, Comparable<Duration>, Serializable {
+public finbl clbss Durbtion
+        implements TemporblAmount, Compbrbble<Durbtion>, Seriblizbble {
 
     /**
-     * Constant for a duration of zero.
+     * Constbnt for b durbtion of zero.
      */
-    public static final Duration ZERO = new Duration(0, 0);
+    public stbtic finbl Durbtion ZERO = new Durbtion(0, 0);
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = 3078945930695997490L;
+    privbte stbtic finbl long seriblVersionUID = 3078945930695997490L;
     /**
-     * Constant for nanos per second.
+     * Constbnt for nbnos per second.
      */
-    private static final BigInteger BI_NANOS_PER_SECOND = BigInteger.valueOf(NANOS_PER_SECOND);
+    privbte stbtic finbl BigInteger BI_NANOS_PER_SECOND = BigInteger.vblueOf(NANOS_PER_SECOND);
     /**
-     * The pattern for parsing.
+     * The pbttern for pbrsing.
      */
-    private static final Pattern PATTERN =
-            Pattern.compile("([-+]?)P(?:([-+]?[0-9]+)D)?" +
+    privbte stbtic finbl Pbttern PATTERN =
+            Pbttern.compile("([-+]?)P(?:([-+]?[0-9]+)D)?" +
                     "(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?",
-                    Pattern.CASE_INSENSITIVE);
+                    Pbttern.CASE_INSENSITIVE);
 
     /**
-     * The number of seconds in the duration.
+     * The number of seconds in the durbtion.
      */
-    private final long seconds;
+    privbte finbl long seconds;
     /**
-     * The number of nanoseconds in the duration, expressed as a fraction of the
-     * number of seconds. This is always positive, and never exceeds 999,999,999.
+     * The number of nbnoseconds in the durbtion, expressed bs b frbction of the
+     * number of seconds. This is blwbys positive, bnd never exceeds 999,999,999.
      */
-    private final int nanos;
-
-    //-----------------------------------------------------------------------
-    /**
-     * Obtains a {@code Duration} representing a number of standard 24 hour days.
-     * <p>
-     * The seconds are calculated based on the standard definition of a day,
-     * where each day is 86400 seconds which implies a 24 hour day.
-     * The nanosecond in second field is set to zero.
-     *
-     * @param days  the number of days, positive or negative
-     * @return a {@code Duration}, not null
-     * @throws ArithmeticException if the input days exceeds the capacity of {@code Duration}
-     */
-    public static Duration ofDays(long days) {
-        return create(Math.multiplyExact(days, SECONDS_PER_DAY), 0);
-    }
-
-    /**
-     * Obtains a {@code Duration} representing a number of standard hours.
-     * <p>
-     * The seconds are calculated based on the standard definition of an hour,
-     * where each hour is 3600 seconds.
-     * The nanosecond in second field is set to zero.
-     *
-     * @param hours  the number of hours, positive or negative
-     * @return a {@code Duration}, not null
-     * @throws ArithmeticException if the input hours exceeds the capacity of {@code Duration}
-     */
-    public static Duration ofHours(long hours) {
-        return create(Math.multiplyExact(hours, SECONDS_PER_HOUR), 0);
-    }
-
-    /**
-     * Obtains a {@code Duration} representing a number of standard minutes.
-     * <p>
-     * The seconds are calculated based on the standard definition of a minute,
-     * where each minute is 60 seconds.
-     * The nanosecond in second field is set to zero.
-     *
-     * @param minutes  the number of minutes, positive or negative
-     * @return a {@code Duration}, not null
-     * @throws ArithmeticException if the input minutes exceeds the capacity of {@code Duration}
-     */
-    public static Duration ofMinutes(long minutes) {
-        return create(Math.multiplyExact(minutes, SECONDS_PER_MINUTE), 0);
-    }
+    privbte finbl int nbnos;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a {@code Duration} representing a number of seconds.
+     * Obtbins b {@code Durbtion} representing b number of stbndbrd 24 hour dbys.
      * <p>
-     * The nanosecond in second field is set to zero.
+     * The seconds bre cblculbted bbsed on the stbndbrd definition of b dby,
+     * where ebch dby is 86400 seconds which implies b 24 hour dby.
+     * The nbnosecond in second field is set to zero.
      *
-     * @param seconds  the number of seconds, positive or negative
-     * @return a {@code Duration}, not null
+     * @pbrbm dbys  the number of dbys, positive or negbtive
+     * @return b {@code Durbtion}, not null
+     * @throws ArithmeticException if the input dbys exceeds the cbpbcity of {@code Durbtion}
      */
-    public static Duration ofSeconds(long seconds) {
-        return create(seconds, 0);
+    public stbtic Durbtion ofDbys(long dbys) {
+        return crebte(Mbth.multiplyExbct(dbys, SECONDS_PER_DAY), 0);
     }
 
     /**
-     * Obtains a {@code Duration} representing a number of seconds and an
-     * adjustment in nanoseconds.
+     * Obtbins b {@code Durbtion} representing b number of stbndbrd hours.
      * <p>
-     * This method allows an arbitrary number of nanoseconds to be passed in.
-     * The factory will alter the values of the second and nanosecond in order
-     * to ensure that the stored nanosecond is in the range 0 to 999,999,999.
-     * For example, the following will result in the exactly the same duration:
+     * The seconds bre cblculbted bbsed on the stbndbrd definition of bn hour,
+     * where ebch hour is 3600 seconds.
+     * The nbnosecond in second field is set to zero.
+     *
+     * @pbrbm hours  the number of hours, positive or negbtive
+     * @return b {@code Durbtion}, not null
+     * @throws ArithmeticException if the input hours exceeds the cbpbcity of {@code Durbtion}
+     */
+    public stbtic Durbtion ofHours(long hours) {
+        return crebte(Mbth.multiplyExbct(hours, SECONDS_PER_HOUR), 0);
+    }
+
+    /**
+     * Obtbins b {@code Durbtion} representing b number of stbndbrd minutes.
+     * <p>
+     * The seconds bre cblculbted bbsed on the stbndbrd definition of b minute,
+     * where ebch minute is 60 seconds.
+     * The nbnosecond in second field is set to zero.
+     *
+     * @pbrbm minutes  the number of minutes, positive or negbtive
+     * @return b {@code Durbtion}, not null
+     * @throws ArithmeticException if the input minutes exceeds the cbpbcity of {@code Durbtion}
+     */
+    public stbtic Durbtion ofMinutes(long minutes) {
+        return crebte(Mbth.multiplyExbct(minutes, SECONDS_PER_MINUTE), 0);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins b {@code Durbtion} representing b number of seconds.
+     * <p>
+     * The nbnosecond in second field is set to zero.
+     *
+     * @pbrbm seconds  the number of seconds, positive or negbtive
+     * @return b {@code Durbtion}, not null
+     */
+    public stbtic Durbtion ofSeconds(long seconds) {
+        return crebte(seconds, 0);
+    }
+
+    /**
+     * Obtbins b {@code Durbtion} representing b number of seconds bnd bn
+     * bdjustment in nbnoseconds.
+     * <p>
+     * This method bllows bn brbitrbry number of nbnoseconds to be pbssed in.
+     * The fbctory will blter the vblues of the second bnd nbnosecond in order
+     * to ensure thbt the stored nbnosecond is in the rbnge 0 to 999,999,999.
+     * For exbmple, the following will result in the exbctly the sbme durbtion:
      * <pre>
-     *  Duration.ofSeconds(3, 1);
-     *  Duration.ofSeconds(4, -999_999_999);
-     *  Duration.ofSeconds(2, 1000_000_001);
+     *  Durbtion.ofSeconds(3, 1);
+     *  Durbtion.ofSeconds(4, -999_999_999);
+     *  Durbtion.ofSeconds(2, 1000_000_001);
      * </pre>
      *
-     * @param seconds  the number of seconds, positive or negative
-     * @param nanoAdjustment  the nanosecond adjustment to the number of seconds, positive or negative
-     * @return a {@code Duration}, not null
-     * @throws ArithmeticException if the adjustment causes the seconds to exceed the capacity of {@code Duration}
+     * @pbrbm seconds  the number of seconds, positive or negbtive
+     * @pbrbm nbnoAdjustment  the nbnosecond bdjustment to the number of seconds, positive or negbtive
+     * @return b {@code Durbtion}, not null
+     * @throws ArithmeticException if the bdjustment cbuses the seconds to exceed the cbpbcity of {@code Durbtion}
      */
-    public static Duration ofSeconds(long seconds, long nanoAdjustment) {
-        long secs = Math.addExact(seconds, Math.floorDiv(nanoAdjustment, NANOS_PER_SECOND));
-        int nos = (int) Math.floorMod(nanoAdjustment, NANOS_PER_SECOND);
-        return create(secs, nos);
+    public stbtic Durbtion ofSeconds(long seconds, long nbnoAdjustment) {
+        long secs = Mbth.bddExbct(seconds, Mbth.floorDiv(nbnoAdjustment, NANOS_PER_SECOND));
+        int nos = (int) Mbth.floorMod(nbnoAdjustment, NANOS_PER_SECOND);
+        return crebte(secs, nos);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a {@code Duration} representing a number of milliseconds.
+     * Obtbins b {@code Durbtion} representing b number of milliseconds.
      * <p>
-     * The seconds and nanoseconds are extracted from the specified milliseconds.
+     * The seconds bnd nbnoseconds bre extrbcted from the specified milliseconds.
      *
-     * @param millis  the number of milliseconds, positive or negative
-     * @return a {@code Duration}, not null
+     * @pbrbm millis  the number of milliseconds, positive or negbtive
+     * @return b {@code Durbtion}, not null
      */
-    public static Duration ofMillis(long millis) {
+    public stbtic Durbtion ofMillis(long millis) {
         long secs = millis / 1000;
         int mos = (int) (millis % 1000);
         if (mos < 0) {
             mos += 1000;
             secs--;
         }
-        return create(secs, mos * 1000_000);
+        return crebte(secs, mos * 1000_000);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a {@code Duration} representing a number of nanoseconds.
+     * Obtbins b {@code Durbtion} representing b number of nbnoseconds.
      * <p>
-     * The seconds and nanoseconds are extracted from the specified nanoseconds.
+     * The seconds bnd nbnoseconds bre extrbcted from the specified nbnoseconds.
      *
-     * @param nanos  the number of nanoseconds, positive or negative
-     * @return a {@code Duration}, not null
+     * @pbrbm nbnos  the number of nbnoseconds, positive or negbtive
+     * @return b {@code Durbtion}, not null
      */
-    public static Duration ofNanos(long nanos) {
-        long secs = nanos / NANOS_PER_SECOND;
-        int nos = (int) (nanos % NANOS_PER_SECOND);
+    public stbtic Durbtion ofNbnos(long nbnos) {
+        long secs = nbnos / NANOS_PER_SECOND;
+        int nos = (int) (nbnos % NANOS_PER_SECOND);
         if (nos < 0) {
             nos += NANOS_PER_SECOND;
             secs--;
         }
-        return create(secs, nos);
+        return crebte(secs, nos);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a {@code Duration} representing an amount in the specified unit.
+     * Obtbins b {@code Durbtion} representing bn bmount in the specified unit.
      * <p>
-     * The parameters represent the two parts of a phrase like '6 Hours'. For example:
+     * The pbrbmeters represent the two pbrts of b phrbse like '6 Hours'. For exbmple:
      * <pre>
-     *  Duration.of(3, SECONDS);
-     *  Duration.of(465, HOURS);
+     *  Durbtion.of(3, SECONDS);
+     *  Durbtion.of(465, HOURS);
      * </pre>
-     * Only a subset of units are accepted by this method.
-     * The unit must either have an {@linkplain TemporalUnit#isDurationEstimated() exact duration} or
-     * be {@link ChronoUnit#DAYS} which is treated as 24 hours. Other units throw an exception.
+     * Only b subset of units bre bccepted by this method.
+     * The unit must either hbve bn {@linkplbin TemporblUnit#isDurbtionEstimbted() exbct durbtion} or
+     * be {@link ChronoUnit#DAYS} which is trebted bs 24 hours. Other units throw bn exception.
      *
-     * @param amount  the amount of the duration, measured in terms of the unit, positive or negative
-     * @param unit  the unit that the duration is measured in, must have an exact duration, not null
-     * @return a {@code Duration}, not null
-     * @throws DateTimeException if the period unit has an estimated duration
-     * @throws ArithmeticException if a numeric overflow occurs
+     * @pbrbm bmount  the bmount of the durbtion, mebsured in terms of the unit, positive or negbtive
+     * @pbrbm unit  the unit thbt the durbtion is mebsured in, must hbve bn exbct durbtion, not null
+     * @return b {@code Durbtion}, not null
+     * @throws DbteTimeException if the period unit hbs bn estimbted durbtion
+     * @throws ArithmeticException if b numeric overflow occurs
      */
-    public static Duration of(long amount, TemporalUnit unit) {
-        return ZERO.plus(amount, unit);
+    public stbtic Durbtion of(long bmount, TemporblUnit unit) {
+        return ZERO.plus(bmount, unit);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Duration} from a temporal amount.
+     * Obtbins bn instbnce of {@code Durbtion} from b temporbl bmount.
      * <p>
-     * This obtains a duration based on the specified amount.
-     * A {@code TemporalAmount} represents an  amount of time, which may be
-     * date-based or time-based, which this factory extracts to a duration.
+     * This obtbins b durbtion bbsed on the specified bmount.
+     * A {@code TemporblAmount} represents bn  bmount of time, which mby be
+     * dbte-bbsed or time-bbsed, which this fbctory extrbcts to b durbtion.
      * <p>
-     * The conversion loops around the set of units from the amount and uses
-     * the {@linkplain TemporalUnit#getDuration() duration} of the unit to
-     * calculate the total {@code Duration}.
-     * Only a subset of units are accepted by this method. The unit must either
-     * have an {@linkplain TemporalUnit#isDurationEstimated() exact duration}
-     * or be {@link ChronoUnit#DAYS} which is treated as 24 hours.
-     * If any other units are found then an exception is thrown.
+     * The conversion loops bround the set of units from the bmount bnd uses
+     * the {@linkplbin TemporblUnit#getDurbtion() durbtion} of the unit to
+     * cblculbte the totbl {@code Durbtion}.
+     * Only b subset of units bre bccepted by this method. The unit must either
+     * hbve bn {@linkplbin TemporblUnit#isDurbtionEstimbted() exbct durbtion}
+     * or be {@link ChronoUnit#DAYS} which is trebted bs 24 hours.
+     * If bny other units bre found then bn exception is thrown.
      *
-     * @param amount  the temporal amount to convert, not null
-     * @return the equivalent duration, not null
-     * @throws DateTimeException if unable to convert to a {@code Duration}
+     * @pbrbm bmount  the temporbl bmount to convert, not null
+     * @return the equivblent durbtion, not null
+     * @throws DbteTimeException if unbble to convert to b {@code Durbtion}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public static Duration from(TemporalAmount amount) {
-        Objects.requireNonNull(amount, "amount");
-        Duration duration = ZERO;
-        for (TemporalUnit unit : amount.getUnits()) {
-            duration = duration.plus(amount.get(unit), unit);
+    public stbtic Durbtion from(TemporblAmount bmount) {
+        Objects.requireNonNull(bmount, "bmount");
+        Durbtion durbtion = ZERO;
+        for (TemporblUnit unit : bmount.getUnits()) {
+            durbtion = durbtion.plus(bmount.get(unit), unit);
         }
-        return duration;
+        return durbtion;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a {@code Duration} from a text string such as {@code PnDTnHnMn.nS}.
+     * Obtbins b {@code Durbtion} from b text string such bs {@code PnDTnHnMn.nS}.
      * <p>
-     * This will parse a textual representation of a duration, including the
-     * string produced by {@code toString()}. The formats accepted are based
-     * on the ISO-8601 duration format {@code PnDTnHnMn.nS} with days
-     * considered to be exactly 24 hours.
+     * This will pbrse b textubl representbtion of b durbtion, including the
+     * string produced by {@code toString()}. The formbts bccepted bre bbsed
+     * on the ISO-8601 durbtion formbt {@code PnDTnHnMn.nS} with dbys
+     * considered to be exbctly 24 hours.
      * <p>
-     * The string starts with an optional sign, denoted by the ASCII negative
-     * or positive symbol. If negative, the whole period is negated.
-     * The ASCII letter "P" is next in upper or lower case.
-     * There are then four sections, each consisting of a number and a suffix.
-     * The sections have suffixes in ASCII of "D", "H", "M" and "S" for
-     * days, hours, minutes and seconds, accepted in upper or lower case.
+     * The string stbrts with bn optionbl sign, denoted by the ASCII negbtive
+     * or positive symbol. If negbtive, the whole period is negbted.
+     * The ASCII letter "P" is next in upper or lower cbse.
+     * There bre then four sections, ebch consisting of b number bnd b suffix.
+     * The sections hbve suffixes in ASCII of "D", "H", "M" bnd "S" for
+     * dbys, hours, minutes bnd seconds, bccepted in upper or lower cbse.
      * The suffixes must occur in order. The ASCII letter "T" must occur before
-     * the first occurrence, if any, of an hour, minute or second section.
-     * At least one of the four sections must be present, and if "T" is present
-     * there must be at least one section after the "T".
-     * The number part of each section must consist of one or more ASCII digits.
-     * The number may be prefixed by the ASCII negative or positive symbol.
-     * The number of days, hours and minutes must parse to an {@code long}.
-     * The number of seconds must parse to an {@code long} with optional fraction.
-     * The decimal point may be either a dot or a comma.
-     * The fractional part may have from zero to 9 digits.
+     * the first occurrence, if bny, of bn hour, minute or second section.
+     * At lebst one of the four sections must be present, bnd if "T" is present
+     * there must be bt lebst one section bfter the "T".
+     * The number pbrt of ebch section must consist of one or more ASCII digits.
+     * The number mby be prefixed by the ASCII negbtive or positive symbol.
+     * The number of dbys, hours bnd minutes must pbrse to bn {@code long}.
+     * The number of seconds must pbrse to bn {@code long} with optionbl frbction.
+     * The decimbl point mby be either b dot or b commb.
+     * The frbctionbl pbrt mby hbve from zero to 9 digits.
      * <p>
-     * The leading plus/minus sign, and negative values for other units are
-     * not part of the ISO-8601 standard.
+     * The lebding plus/minus sign, bnd negbtive vblues for other units bre
+     * not pbrt of the ISO-8601 stbndbrd.
      * <p>
-     * Examples:
+     * Exbmples:
      * <pre>
-     *    "PT20.345S" -- parses as "20.345 seconds"
-     *    "PT15M"     -- parses as "15 minutes" (where a minute is 60 seconds)
-     *    "PT10H"     -- parses as "10 hours" (where an hour is 3600 seconds)
-     *    "P2D"       -- parses as "2 days" (where a day is 24 hours or 86400 seconds)
-     *    "P2DT3H4M"  -- parses as "2 days, 3 hours and 4 minutes"
-     *    "P-6H3M"    -- parses as "-6 hours and +3 minutes"
-     *    "-P6H3M"    -- parses as "-6 hours and -3 minutes"
-     *    "-P-6H+3M"  -- parses as "+6 hours and -3 minutes"
+     *    "PT20.345S" -- pbrses bs "20.345 seconds"
+     *    "PT15M"     -- pbrses bs "15 minutes" (where b minute is 60 seconds)
+     *    "PT10H"     -- pbrses bs "10 hours" (where bn hour is 3600 seconds)
+     *    "P2D"       -- pbrses bs "2 dbys" (where b dby is 24 hours or 86400 seconds)
+     *    "P2DT3H4M"  -- pbrses bs "2 dbys, 3 hours bnd 4 minutes"
+     *    "P-6H3M"    -- pbrses bs "-6 hours bnd +3 minutes"
+     *    "-P6H3M"    -- pbrses bs "-6 hours bnd -3 minutes"
+     *    "-P-6H+3M"  -- pbrses bs "+6 hours bnd -3 minutes"
      * </pre>
      *
-     * @param text  the text to parse, not null
-     * @return the parsed duration, not null
-     * @throws DateTimeParseException if the text cannot be parsed to a duration
+     * @pbrbm text  the text to pbrse, not null
+     * @return the pbrsed durbtion, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed to b durbtion
      */
-    public static Duration parse(CharSequence text) {
+    public stbtic Durbtion pbrse(ChbrSequence text) {
         Objects.requireNonNull(text, "text");
-        Matcher matcher = PATTERN.matcher(text);
-        if (matcher.matches()) {
+        Mbtcher mbtcher = PATTERN.mbtcher(text);
+        if (mbtcher.mbtches()) {
             // check for letter T but no time sections
-            if ("T".equals(matcher.group(3)) == false) {
-                boolean negate = "-".equals(matcher.group(1));
-                String dayMatch = matcher.group(2);
-                String hourMatch = matcher.group(4);
-                String minuteMatch = matcher.group(5);
-                String secondMatch = matcher.group(6);
-                String fractionMatch = matcher.group(7);
-                if (dayMatch != null || hourMatch != null || minuteMatch != null || secondMatch != null) {
-                    long daysAsSecs = parseNumber(text, dayMatch, SECONDS_PER_DAY, "days");
-                    long hoursAsSecs = parseNumber(text, hourMatch, SECONDS_PER_HOUR, "hours");
-                    long minsAsSecs = parseNumber(text, minuteMatch, SECONDS_PER_MINUTE, "minutes");
-                    long seconds = parseNumber(text, secondMatch, 1, "seconds");
-                    int nanos = parseFraction(text,  fractionMatch, seconds < 0 ? -1 : 1);
+            if ("T".equbls(mbtcher.group(3)) == fblse) {
+                boolebn negbte = "-".equbls(mbtcher.group(1));
+                String dbyMbtch = mbtcher.group(2);
+                String hourMbtch = mbtcher.group(4);
+                String minuteMbtch = mbtcher.group(5);
+                String secondMbtch = mbtcher.group(6);
+                String frbctionMbtch = mbtcher.group(7);
+                if (dbyMbtch != null || hourMbtch != null || minuteMbtch != null || secondMbtch != null) {
+                    long dbysAsSecs = pbrseNumber(text, dbyMbtch, SECONDS_PER_DAY, "dbys");
+                    long hoursAsSecs = pbrseNumber(text, hourMbtch, SECONDS_PER_HOUR, "hours");
+                    long minsAsSecs = pbrseNumber(text, minuteMbtch, SECONDS_PER_MINUTE, "minutes");
+                    long seconds = pbrseNumber(text, secondMbtch, 1, "seconds");
+                    int nbnos = pbrseFrbction(text,  frbctionMbtch, seconds < 0 ? -1 : 1);
                     try {
-                        return create(negate, daysAsSecs, hoursAsSecs, minsAsSecs, seconds, nanos);
-                    } catch (ArithmeticException ex) {
-                        throw (DateTimeParseException) new DateTimeParseException("Text cannot be parsed to a Duration: overflow", text, 0).initCause(ex);
+                        return crebte(negbte, dbysAsSecs, hoursAsSecs, minsAsSecs, seconds, nbnos);
+                    } cbtch (ArithmeticException ex) {
+                        throw (DbteTimePbrseException) new DbteTimePbrseException("Text cbnnot be pbrsed to b Durbtion: overflow", text, 0).initCbuse(ex);
                     }
                 }
             }
         }
-        throw new DateTimeParseException("Text cannot be parsed to a Duration", text, 0);
+        throw new DbteTimePbrseException("Text cbnnot be pbrsed to b Durbtion", text, 0);
     }
 
-    private static long parseNumber(CharSequence text, String parsed, int multiplier, String errorText) {
+    privbte stbtic long pbrseNumber(ChbrSequence text, String pbrsed, int multiplier, String errorText) {
         // regex limits to [-+]?[0-9]+
-        if (parsed == null) {
+        if (pbrsed == null) {
             return 0;
         }
         try {
-            long val = Long.parseLong(parsed);
-            return Math.multiplyExact(val, multiplier);
-        } catch (NumberFormatException | ArithmeticException ex) {
-            throw (DateTimeParseException) new DateTimeParseException("Text cannot be parsed to a Duration: " + errorText, text, 0).initCause(ex);
+            long vbl = Long.pbrseLong(pbrsed);
+            return Mbth.multiplyExbct(vbl, multiplier);
+        } cbtch (NumberFormbtException | ArithmeticException ex) {
+            throw (DbteTimePbrseException) new DbteTimePbrseException("Text cbnnot be pbrsed to b Durbtion: " + errorText, text, 0).initCbuse(ex);
         }
     }
 
-    private static int parseFraction(CharSequence text, String parsed, int negate) {
+    privbte stbtic int pbrseFrbction(ChbrSequence text, String pbrsed, int negbte) {
         // regex limits to [0-9]{0,9}
-        if (parsed == null || parsed.length() == 0) {
+        if (pbrsed == null || pbrsed.length() == 0) {
             return 0;
         }
         try {
-            parsed = (parsed + "000000000").substring(0, 9);
-            return Integer.parseInt(parsed) * negate;
-        } catch (NumberFormatException | ArithmeticException ex) {
-            throw (DateTimeParseException) new DateTimeParseException("Text cannot be parsed to a Duration: fraction", text, 0).initCause(ex);
+            pbrsed = (pbrsed + "000000000").substring(0, 9);
+            return Integer.pbrseInt(pbrsed) * negbte;
+        } cbtch (NumberFormbtException | ArithmeticException ex) {
+            throw (DbteTimePbrseException) new DbteTimePbrseException("Text cbnnot be pbrsed to b Durbtion: frbction", text, 0).initCbuse(ex);
         }
     }
 
-    private static Duration create(boolean negate, long daysAsSecs, long hoursAsSecs, long minsAsSecs, long secs, int nanos) {
-        long seconds = Math.addExact(daysAsSecs, Math.addExact(hoursAsSecs, Math.addExact(minsAsSecs, secs)));
-        if (negate) {
-            return ofSeconds(seconds, nanos).negated();
+    privbte stbtic Durbtion crebte(boolebn negbte, long dbysAsSecs, long hoursAsSecs, long minsAsSecs, long secs, int nbnos) {
+        long seconds = Mbth.bddExbct(dbysAsSecs, Mbth.bddExbct(hoursAsSecs, Mbth.bddExbct(minsAsSecs, secs)));
+        if (negbte) {
+            return ofSeconds(seconds, nbnos).negbted();
         }
-        return ofSeconds(seconds, nanos);
+        return ofSeconds(seconds, nbnos);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a {@code Duration} representing the duration between two temporal objects.
+     * Obtbins b {@code Durbtion} representing the durbtion between two temporbl objects.
      * <p>
-     * This calculates the duration between two temporal objects. If the objects
-     * are of different types, then the duration is calculated based on the type
-     * of the first object. For example, if the first argument is a {@code LocalTime}
-     * then the second argument is converted to a {@code LocalTime}.
+     * This cblculbtes the durbtion between two temporbl objects. If the objects
+     * bre of different types, then the durbtion is cblculbted bbsed on the type
+     * of the first object. For exbmple, if the first brgument is b {@code LocblTime}
+     * then the second brgument is converted to b {@code LocblTime}.
      * <p>
-     * The specified temporal objects must support the {@link ChronoUnit#SECONDS SECONDS} unit.
-     * For full accuracy, either the {@link ChronoUnit#NANOS NANOS} unit or the
+     * The specified temporbl objects must support the {@link ChronoUnit#SECONDS SECONDS} unit.
+     * For full bccurbcy, either the {@link ChronoUnit#NANOS NANOS} unit or the
      * {@link ChronoField#NANO_OF_SECOND NANO_OF_SECOND} field should be supported.
      * <p>
-     * The result of this method can be a negative period if the end is before the start.
-     * To guarantee to obtain a positive duration call {@link #abs()} on the result.
+     * The result of this method cbn be b negbtive period if the end is before the stbrt.
+     * To gubrbntee to obtbin b positive durbtion cbll {@link #bbs()} on the result.
      *
-     * @param startInclusive  the start instant, inclusive, not null
-     * @param endExclusive  the end instant, exclusive, not null
-     * @return a {@code Duration}, not null
-     * @throws DateTimeException if the seconds between the temporals cannot be obtained
-     * @throws ArithmeticException if the calculation exceeds the capacity of {@code Duration}
+     * @pbrbm stbrtInclusive  the stbrt instbnt, inclusive, not null
+     * @pbrbm endExclusive  the end instbnt, exclusive, not null
+     * @return b {@code Durbtion}, not null
+     * @throws DbteTimeException if the seconds between the temporbls cbnnot be obtbined
+     * @throws ArithmeticException if the cblculbtion exceeds the cbpbcity of {@code Durbtion}
      */
-    public static Duration between(Temporal startInclusive, Temporal endExclusive) {
+    public stbtic Durbtion between(Temporbl stbrtInclusive, Temporbl endExclusive) {
         try {
-            return ofNanos(startInclusive.until(endExclusive, NANOS));
-        } catch (DateTimeException | ArithmeticException ex) {
-            long secs = startInclusive.until(endExclusive, SECONDS);
-            long nanos;
+            return ofNbnos(stbrtInclusive.until(endExclusive, NANOS));
+        } cbtch (DbteTimeException | ArithmeticException ex) {
+            long secs = stbrtInclusive.until(endExclusive, SECONDS);
+            long nbnos;
             try {
-                nanos = endExclusive.getLong(NANO_OF_SECOND) - startInclusive.getLong(NANO_OF_SECOND);
-                if (secs > 0 && nanos < 0) {
+                nbnos = endExclusive.getLong(NANO_OF_SECOND) - stbrtInclusive.getLong(NANO_OF_SECOND);
+                if (secs > 0 && nbnos < 0) {
                     secs++;
-                } else if (secs < 0 && nanos > 0) {
+                } else if (secs < 0 && nbnos > 0) {
                     secs--;
                 }
-            } catch (DateTimeException ex2) {
-                nanos = 0;
+            } cbtch (DbteTimeException ex2) {
+                nbnos = 0;
             }
-            return ofSeconds(secs, nanos);
+            return ofSeconds(secs, nbnos);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Duration} using seconds and nanoseconds.
+     * Obtbins bn instbnce of {@code Durbtion} using seconds bnd nbnoseconds.
      *
-     * @param seconds  the length of the duration in seconds, positive or negative
-     * @param nanoAdjustment  the nanosecond adjustment within the second, from 0 to 999,999,999
+     * @pbrbm seconds  the length of the durbtion in seconds, positive or negbtive
+     * @pbrbm nbnoAdjustment  the nbnosecond bdjustment within the second, from 0 to 999,999,999
      */
-    private static Duration create(long seconds, int nanoAdjustment) {
-        if ((seconds | nanoAdjustment) == 0) {
+    privbte stbtic Durbtion crebte(long seconds, int nbnoAdjustment) {
+        if ((seconds | nbnoAdjustment) == 0) {
             return ZERO;
         }
-        return new Duration(seconds, nanoAdjustment);
+        return new Durbtion(seconds, nbnoAdjustment);
     }
 
     /**
-     * Constructs an instance of {@code Duration} using seconds and nanoseconds.
+     * Constructs bn instbnce of {@code Durbtion} using seconds bnd nbnoseconds.
      *
-     * @param seconds  the length of the duration in seconds, positive or negative
-     * @param nanos  the nanoseconds within the second, from 0 to 999,999,999
+     * @pbrbm seconds  the length of the durbtion in seconds, positive or negbtive
+     * @pbrbm nbnos  the nbnoseconds within the second, from 0 to 999,999,999
      */
-    private Duration(long seconds, int nanos) {
+    privbte Durbtion(long seconds, int nbnos) {
         super();
         this.seconds = seconds;
-        this.nanos = nanos;
+        this.nbnos = nbnos;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the value of the requested unit.
+     * Gets the vblue of the requested unit.
      * <p>
-     * This returns a value for each of the two supported units,
-     * {@link ChronoUnit#SECONDS SECONDS} and {@link ChronoUnit#NANOS NANOS}.
-     * All other units throw an exception.
+     * This returns b vblue for ebch of the two supported units,
+     * {@link ChronoUnit#SECONDS SECONDS} bnd {@link ChronoUnit#NANOS NANOS}.
+     * All other units throw bn exception.
      *
-     * @param unit the {@code TemporalUnit} for which to return the value
-     * @return the long value of the unit
-     * @throws DateTimeException if the unit is not supported
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm unit the {@code TemporblUnit} for which to return the vblue
+     * @return the long vblue of the unit
+     * @throws DbteTimeException if the unit is not supported
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      */
     @Override
-    public long get(TemporalUnit unit) {
+    public long get(TemporblUnit unit) {
         if (unit == SECONDS) {
             return seconds;
         } else if (unit == NANOS) {
-            return nanos;
+            return nbnos;
         } else {
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            throw new UnsupportedTemporblTypeException("Unsupported unit: " + unit);
         }
     }
 
     /**
-     * Gets the set of units supported by this duration.
+     * Gets the set of units supported by this durbtion.
      * <p>
-     * The supported units are {@link ChronoUnit#SECONDS SECONDS},
-     * and {@link ChronoUnit#NANOS NANOS}.
-     * They are returned in the order seconds, nanos.
+     * The supported units bre {@link ChronoUnit#SECONDS SECONDS},
+     * bnd {@link ChronoUnit#NANOS NANOS}.
+     * They bre returned in the order seconds, nbnos.
      * <p>
-     * This set can be used in conjunction with {@link #get(TemporalUnit)}
-     * to access the entire state of the duration.
+     * This set cbn be used in conjunction with {@link #get(TemporblUnit)}
+     * to bccess the entire stbte of the durbtion.
      *
-     * @return a list containing the seconds and nanos units, not null
+     * @return b list contbining the seconds bnd nbnos units, not null
      */
     @Override
-    public List<TemporalUnit> getUnits() {
-        return DurationUnits.UNITS;
+    public List<TemporblUnit> getUnits() {
+        return DurbtionUnits.UNITS;
     }
 
     /**
-     * Private class to delay initialization of this list until needed.
-     * The circular dependency between Duration and ChronoUnit prevents
-     * the simple initialization in Duration.
+     * Privbte clbss to delby initiblizbtion of this list until needed.
+     * The circulbr dependency between Durbtion bnd ChronoUnit prevents
+     * the simple initiblizbtion in Durbtion.
      */
-    private static class DurationUnits {
-        static final List<TemporalUnit> UNITS =
-                Collections.unmodifiableList(Arrays.<TemporalUnit>asList(SECONDS, NANOS));
+    privbte stbtic clbss DurbtionUnits {
+        stbtic finbl List<TemporblUnit> UNITS =
+                Collections.unmodifibbleList(Arrbys.<TemporblUnit>bsList(SECONDS, NANOS));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this duration is zero length.
+     * Checks if this durbtion is zero length.
      * <p>
-     * A {@code Duration} represents a directed distance between two points on
-     * the time-line and can therefore be positive, zero or negative.
+     * A {@code Durbtion} represents b directed distbnce between two points on
+     * the time-line bnd cbn therefore be positive, zero or negbtive.
      * This method checks whether the length is zero.
      *
-     * @return true if this duration has a total length equal to zero
+     * @return true if this durbtion hbs b totbl length equbl to zero
      */
-    public boolean isZero() {
-        return (seconds | nanos) == 0;
+    public boolebn isZero() {
+        return (seconds | nbnos) == 0;
     }
 
     /**
-     * Checks if this duration is negative, excluding zero.
+     * Checks if this durbtion is negbtive, excluding zero.
      * <p>
-     * A {@code Duration} represents a directed distance between two points on
-     * the time-line and can therefore be positive, zero or negative.
-     * This method checks whether the length is less than zero.
+     * A {@code Durbtion} represents b directed distbnce between two points on
+     * the time-line bnd cbn therefore be positive, zero or negbtive.
+     * This method checks whether the length is less thbn zero.
      *
-     * @return true if this duration has a total length less than zero
+     * @return true if this durbtion hbs b totbl length less thbn zero
      */
-    public boolean isNegative() {
+    public boolebn isNegbtive() {
         return seconds < 0;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the number of seconds in this duration.
+     * Gets the number of seconds in this durbtion.
      * <p>
-     * The length of the duration is stored using two fields - seconds and nanoseconds.
-     * The nanoseconds part is a value from 0 to 999,999,999 that is an adjustment to
+     * The length of the durbtion is stored using two fields - seconds bnd nbnoseconds.
+     * The nbnoseconds pbrt is b vblue from 0 to 999,999,999 thbt is bn bdjustment to
      * the length in seconds.
-     * The total duration is defined by calling this method and {@link #getNano()}.
+     * The totbl durbtion is defined by cblling this method bnd {@link #getNbno()}.
      * <p>
-     * A {@code Duration} represents a directed distance between two points on the time-line.
-     * A negative duration is expressed by the negative sign of the seconds part.
-     * A duration of -1 nanosecond is stored as -1 seconds plus 999,999,999 nanoseconds.
+     * A {@code Durbtion} represents b directed distbnce between two points on the time-line.
+     * A negbtive durbtion is expressed by the negbtive sign of the seconds pbrt.
+     * A durbtion of -1 nbnosecond is stored bs -1 seconds plus 999,999,999 nbnoseconds.
      *
-     * @return the whole seconds part of the length of the duration, positive or negative
+     * @return the whole seconds pbrt of the length of the durbtion, positive or negbtive
      */
     public long getSeconds() {
         return seconds;
     }
 
     /**
-     * Gets the number of nanoseconds within the second in this duration.
+     * Gets the number of nbnoseconds within the second in this durbtion.
      * <p>
-     * The length of the duration is stored using two fields - seconds and nanoseconds.
-     * The nanoseconds part is a value from 0 to 999,999,999 that is an adjustment to
+     * The length of the durbtion is stored using two fields - seconds bnd nbnoseconds.
+     * The nbnoseconds pbrt is b vblue from 0 to 999,999,999 thbt is bn bdjustment to
      * the length in seconds.
-     * The total duration is defined by calling this method and {@link #getSeconds()}.
+     * The totbl durbtion is defined by cblling this method bnd {@link #getSeconds()}.
      * <p>
-     * A {@code Duration} represents a directed distance between two points on the time-line.
-     * A negative duration is expressed by the negative sign of the seconds part.
-     * A duration of -1 nanosecond is stored as -1 seconds plus 999,999,999 nanoseconds.
+     * A {@code Durbtion} represents b directed distbnce between two points on the time-line.
+     * A negbtive durbtion is expressed by the negbtive sign of the seconds pbrt.
+     * A durbtion of -1 nbnosecond is stored bs -1 seconds plus 999,999,999 nbnoseconds.
      *
-     * @return the nanoseconds within the second part of the length of the duration, from 0 to 999,999,999
+     * @return the nbnoseconds within the second pbrt of the length of the durbtion, from 0 to 999,999,999
      */
-    public int getNano() {
-        return nanos;
+    public int getNbno() {
+        return nbnos;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this duration with the specified amount of seconds.
+     * Returns b copy of this durbtion with the specified bmount of seconds.
      * <p>
-     * This returns a duration with the specified seconds, retaining the
-     * nano-of-second part of this duration.
+     * This returns b durbtion with the specified seconds, retbining the
+     * nbno-of-second pbrt of this durbtion.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param seconds  the seconds to represent, may be negative
-     * @return a {@code Duration} based on this period with the requested seconds, not null
+     * @pbrbm seconds  the seconds to represent, mby be negbtive
+     * @return b {@code Durbtion} bbsed on this period with the requested seconds, not null
      */
-    public Duration withSeconds(long seconds) {
-        return create(seconds, nanos);
+    public Durbtion withSeconds(long seconds) {
+        return crebte(seconds, nbnos);
     }
 
     /**
-     * Returns a copy of this duration with the specified nano-of-second.
+     * Returns b copy of this durbtion with the specified nbno-of-second.
      * <p>
-     * This returns a duration with the specified nano-of-second, retaining the
-     * seconds part of this duration.
+     * This returns b durbtion with the specified nbno-of-second, retbining the
+     * seconds pbrt of this durbtion.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanoOfSecond  the nano-of-second to represent, from 0 to 999,999,999
-     * @return a {@code Duration} based on this period with the requested nano-of-second, not null
-     * @throws DateTimeException if the nano-of-second is invalid
+     * @pbrbm nbnoOfSecond  the nbno-of-second to represent, from 0 to 999,999,999
+     * @return b {@code Durbtion} bbsed on this period with the requested nbno-of-second, not null
+     * @throws DbteTimeException if the nbno-of-second is invblid
      */
-    public Duration withNanos(int nanoOfSecond) {
-        NANO_OF_SECOND.checkValidIntValue(nanoOfSecond);
-        return create(seconds, nanoOfSecond);
+    public Durbtion withNbnos(int nbnoOfSecond) {
+        NANO_OF_SECOND.checkVblidIntVblue(nbnoOfSecond);
+        return crebte(seconds, nbnoOfSecond);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this duration with the specified duration added.
+     * Returns b copy of this durbtion with the specified durbtion bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param duration  the duration to add, positive or negative, not null
-     * @return a {@code Duration} based on this duration with the specified duration added, not null
+     * @pbrbm durbtion  the durbtion to bdd, positive or negbtive, not null
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified durbtion bdded, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration plus(Duration duration) {
-        return plus(duration.getSeconds(), duration.getNano());
+    public Durbtion plus(Durbtion durbtion) {
+        return plus(durbtion.getSeconds(), durbtion.getNbno());
      }
 
     /**
-     * Returns a copy of this duration with the specified duration added.
+     * Returns b copy of this durbtion with the specified durbtion bdded.
      * <p>
-     * The duration amount is measured in terms of the specified unit.
-     * Only a subset of units are accepted by this method.
-     * The unit must either have an {@linkplain TemporalUnit#isDurationEstimated() exact duration} or
-     * be {@link ChronoUnit#DAYS} which is treated as 24 hours. Other units throw an exception.
+     * The durbtion bmount is mebsured in terms of the specified unit.
+     * Only b subset of units bre bccepted by this method.
+     * The unit must either hbve bn {@linkplbin TemporblUnit#isDurbtionEstimbted() exbct durbtion} or
+     * be {@link ChronoUnit#DAYS} which is trebted bs 24 hours. Other units throw bn exception.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount to add, measured in terms of the unit, positive or negative
-     * @param unit  the unit that the amount is measured in, must have an exact duration, not null
-     * @return a {@code Duration} based on this duration with the specified duration added, not null
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToAdd  the bmount to bdd, mebsured in terms of the unit, positive or negbtive
+     * @pbrbm unit  the unit thbt the bmount is mebsured in, must hbve bn exbct durbtion, not null
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified durbtion bdded, not null
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration plus(long amountToAdd, TemporalUnit unit) {
+    public Durbtion plus(long bmountToAdd, TemporblUnit unit) {
         Objects.requireNonNull(unit, "unit");
         if (unit == DAYS) {
-            return plus(Math.multiplyExact(amountToAdd, SECONDS_PER_DAY), 0);
+            return plus(Mbth.multiplyExbct(bmountToAdd, SECONDS_PER_DAY), 0);
         }
-        if (unit.isDurationEstimated()) {
-            throw new UnsupportedTemporalTypeException("Unit must not have an estimated duration");
+        if (unit.isDurbtionEstimbted()) {
+            throw new UnsupportedTemporblTypeException("Unit must not hbve bn estimbted durbtion");
         }
-        if (amountToAdd == 0) {
+        if (bmountToAdd == 0) {
             return this;
         }
-        if (unit instanceof ChronoUnit) {
+        if (unit instbnceof ChronoUnit) {
             switch ((ChronoUnit) unit) {
-                case NANOS: return plusNanos(amountToAdd);
-                case MICROS: return plusSeconds((amountToAdd / (1000_000L * 1000)) * 1000).plusNanos((amountToAdd % (1000_000L * 1000)) * 1000);
-                case MILLIS: return plusMillis(amountToAdd);
-                case SECONDS: return plusSeconds(amountToAdd);
+                cbse NANOS: return plusNbnos(bmountToAdd);
+                cbse MICROS: return plusSeconds((bmountToAdd / (1000_000L * 1000)) * 1000).plusNbnos((bmountToAdd % (1000_000L * 1000)) * 1000);
+                cbse MILLIS: return plusMillis(bmountToAdd);
+                cbse SECONDS: return plusSeconds(bmountToAdd);
             }
-            return plusSeconds(Math.multiplyExact(unit.getDuration().seconds, amountToAdd));
+            return plusSeconds(Mbth.multiplyExbct(unit.getDurbtion().seconds, bmountToAdd));
         }
-        Duration duration = unit.getDuration().multipliedBy(amountToAdd);
-        return plusSeconds(duration.getSeconds()).plusNanos(duration.getNano());
+        Durbtion durbtion = unit.getDurbtion().multipliedBy(bmountToAdd);
+        return plusSeconds(durbtion.getSeconds()).plusNbnos(durbtion.getNbno());
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this duration with the specified duration in standard 24 hour days added.
+     * Returns b copy of this durbtion with the specified durbtion in stbndbrd 24 hour dbys bdded.
      * <p>
-     * The number of days is multiplied by 86400 to obtain the number of seconds to add.
-     * This is based on the standard definition of a day as 24 hours.
+     * The number of dbys is multiplied by 86400 to obtbin the number of seconds to bdd.
+     * This is bbsed on the stbndbrd definition of b dby bs 24 hours.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param daysToAdd  the days to add, positive or negative
-     * @return a {@code Duration} based on this duration with the specified days added, not null
+     * @pbrbm dbysToAdd  the dbys to bdd, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified dbys bdded, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration plusDays(long daysToAdd) {
-        return plus(Math.multiplyExact(daysToAdd, SECONDS_PER_DAY), 0);
+    public Durbtion plusDbys(long dbysToAdd) {
+        return plus(Mbth.multiplyExbct(dbysToAdd, SECONDS_PER_DAY), 0);
     }
 
     /**
-     * Returns a copy of this duration with the specified duration in hours added.
+     * Returns b copy of this durbtion with the specified durbtion in hours bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param hoursToAdd  the hours to add, positive or negative
-     * @return a {@code Duration} based on this duration with the specified hours added, not null
+     * @pbrbm hoursToAdd  the hours to bdd, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified hours bdded, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration plusHours(long hoursToAdd) {
-        return plus(Math.multiplyExact(hoursToAdd, SECONDS_PER_HOUR), 0);
+    public Durbtion plusHours(long hoursToAdd) {
+        return plus(Mbth.multiplyExbct(hoursToAdd, SECONDS_PER_HOUR), 0);
     }
 
     /**
-     * Returns a copy of this duration with the specified duration in minutes added.
+     * Returns b copy of this durbtion with the specified durbtion in minutes bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param minutesToAdd  the minutes to add, positive or negative
-     * @return a {@code Duration} based on this duration with the specified minutes added, not null
+     * @pbrbm minutesToAdd  the minutes to bdd, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified minutes bdded, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration plusMinutes(long minutesToAdd) {
-        return plus(Math.multiplyExact(minutesToAdd, SECONDS_PER_MINUTE), 0);
+    public Durbtion plusMinutes(long minutesToAdd) {
+        return plus(Mbth.multiplyExbct(minutesToAdd, SECONDS_PER_MINUTE), 0);
     }
 
     /**
-     * Returns a copy of this duration with the specified duration in seconds added.
+     * Returns b copy of this durbtion with the specified durbtion in seconds bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param secondsToAdd  the seconds to add, positive or negative
-     * @return a {@code Duration} based on this duration with the specified seconds added, not null
+     * @pbrbm secondsToAdd  the seconds to bdd, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified seconds bdded, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration plusSeconds(long secondsToAdd) {
+    public Durbtion plusSeconds(long secondsToAdd) {
         return plus(secondsToAdd, 0);
     }
 
     /**
-     * Returns a copy of this duration with the specified duration in milliseconds added.
+     * Returns b copy of this durbtion with the specified durbtion in milliseconds bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param millisToAdd  the milliseconds to add, positive or negative
-     * @return a {@code Duration} based on this duration with the specified milliseconds added, not null
+     * @pbrbm millisToAdd  the milliseconds to bdd, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified milliseconds bdded, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration plusMillis(long millisToAdd) {
+    public Durbtion plusMillis(long millisToAdd) {
         return plus(millisToAdd / 1000, (millisToAdd % 1000) * 1000_000);
     }
 
     /**
-     * Returns a copy of this duration with the specified duration in nanoseconds added.
+     * Returns b copy of this durbtion with the specified durbtion in nbnoseconds bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanosToAdd  the nanoseconds to add, positive or negative
-     * @return a {@code Duration} based on this duration with the specified nanoseconds added, not null
+     * @pbrbm nbnosToAdd  the nbnoseconds to bdd, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified nbnoseconds bdded, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration plusNanos(long nanosToAdd) {
-        return plus(0, nanosToAdd);
+    public Durbtion plusNbnos(long nbnosToAdd) {
+        return plus(0, nbnosToAdd);
     }
 
     /**
-     * Returns a copy of this duration with the specified duration added.
+     * Returns b copy of this durbtion with the specified durbtion bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param secondsToAdd  the seconds to add, positive or negative
-     * @param nanosToAdd  the nanos to add, positive or negative
-     * @return a {@code Duration} based on this duration with the specified seconds added, not null
+     * @pbrbm secondsToAdd  the seconds to bdd, positive or negbtive
+     * @pbrbm nbnosToAdd  the nbnos to bdd, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified seconds bdded, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    private Duration plus(long secondsToAdd, long nanosToAdd) {
-        if ((secondsToAdd | nanosToAdd) == 0) {
+    privbte Durbtion plus(long secondsToAdd, long nbnosToAdd) {
+        if ((secondsToAdd | nbnosToAdd) == 0) {
             return this;
         }
-        long epochSec = Math.addExact(seconds, secondsToAdd);
-        epochSec = Math.addExact(epochSec, nanosToAdd / NANOS_PER_SECOND);
-        nanosToAdd = nanosToAdd % NANOS_PER_SECOND;
-        long nanoAdjustment = nanos + nanosToAdd;  // safe int+NANOS_PER_SECOND
-        return ofSeconds(epochSec, nanoAdjustment);
+        long epochSec = Mbth.bddExbct(seconds, secondsToAdd);
+        epochSec = Mbth.bddExbct(epochSec, nbnosToAdd / NANOS_PER_SECOND);
+        nbnosToAdd = nbnosToAdd % NANOS_PER_SECOND;
+        long nbnoAdjustment = nbnos + nbnosToAdd;  // sbfe int+NANOS_PER_SECOND
+        return ofSeconds(epochSec, nbnoAdjustment);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this duration with the specified duration subtracted.
+     * Returns b copy of this durbtion with the specified durbtion subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param duration  the duration to subtract, positive or negative, not null
-     * @return a {@code Duration} based on this duration with the specified duration subtracted, not null
+     * @pbrbm durbtion  the durbtion to subtrbct, positive or negbtive, not null
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified durbtion subtrbcted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration minus(Duration duration) {
-        long secsToSubtract = duration.getSeconds();
-        int nanosToSubtract = duration.getNano();
-        if (secsToSubtract == Long.MIN_VALUE) {
-            return plus(Long.MAX_VALUE, -nanosToSubtract).plus(1, 0);
+    public Durbtion minus(Durbtion durbtion) {
+        long secsToSubtrbct = durbtion.getSeconds();
+        int nbnosToSubtrbct = durbtion.getNbno();
+        if (secsToSubtrbct == Long.MIN_VALUE) {
+            return plus(Long.MAX_VALUE, -nbnosToSubtrbct).plus(1, 0);
         }
-        return plus(-secsToSubtract, -nanosToSubtract);
+        return plus(-secsToSubtrbct, -nbnosToSubtrbct);
      }
 
     /**
-     * Returns a copy of this duration with the specified duration subtracted.
+     * Returns b copy of this durbtion with the specified durbtion subtrbcted.
      * <p>
-     * The duration amount is measured in terms of the specified unit.
-     * Only a subset of units are accepted by this method.
-     * The unit must either have an {@linkplain TemporalUnit#isDurationEstimated() exact duration} or
-     * be {@link ChronoUnit#DAYS} which is treated as 24 hours. Other units throw an exception.
+     * The durbtion bmount is mebsured in terms of the specified unit.
+     * Only b subset of units bre bccepted by this method.
+     * The unit must either hbve bn {@linkplbin TemporblUnit#isDurbtionEstimbted() exbct durbtion} or
+     * be {@link ChronoUnit#DAYS} which is trebted bs 24 hours. Other units throw bn exception.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount to subtract, measured in terms of the unit, positive or negative
-     * @param unit  the unit that the amount is measured in, must have an exact duration, not null
-     * @return a {@code Duration} based on this duration with the specified duration subtracted, not null
+     * @pbrbm bmountToSubtrbct  the bmount to subtrbct, mebsured in terms of the unit, positive or negbtive
+     * @pbrbm unit  the unit thbt the bmount is mebsured in, must hbve bn exbct durbtion, not null
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified durbtion subtrbcted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+    public Durbtion minus(long bmountToSubtrbct, TemporblUnit unit) {
+        return (bmountToSubtrbct == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-bmountToSubtrbct, unit));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this duration with the specified duration in standard 24 hour days subtracted.
+     * Returns b copy of this durbtion with the specified durbtion in stbndbrd 24 hour dbys subtrbcted.
      * <p>
-     * The number of days is multiplied by 86400 to obtain the number of seconds to subtract.
-     * This is based on the standard definition of a day as 24 hours.
+     * The number of dbys is multiplied by 86400 to obtbin the number of seconds to subtrbct.
+     * This is bbsed on the stbndbrd definition of b dby bs 24 hours.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param daysToSubtract  the days to subtract, positive or negative
-     * @return a {@code Duration} based on this duration with the specified days subtracted, not null
+     * @pbrbm dbysToSubtrbct  the dbys to subtrbct, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified dbys subtrbcted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration minusDays(long daysToSubtract) {
-        return (daysToSubtract == Long.MIN_VALUE ? plusDays(Long.MAX_VALUE).plusDays(1) : plusDays(-daysToSubtract));
+    public Durbtion minusDbys(long dbysToSubtrbct) {
+        return (dbysToSubtrbct == Long.MIN_VALUE ? plusDbys(Long.MAX_VALUE).plusDbys(1) : plusDbys(-dbysToSubtrbct));
     }
 
     /**
-     * Returns a copy of this duration with the specified duration in hours subtracted.
+     * Returns b copy of this durbtion with the specified durbtion in hours subtrbcted.
      * <p>
-     * The number of hours is multiplied by 3600 to obtain the number of seconds to subtract.
+     * The number of hours is multiplied by 3600 to obtbin the number of seconds to subtrbct.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param hoursToSubtract  the hours to subtract, positive or negative
-     * @return a {@code Duration} based on this duration with the specified hours subtracted, not null
+     * @pbrbm hoursToSubtrbct  the hours to subtrbct, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified hours subtrbcted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration minusHours(long hoursToSubtract) {
-        return (hoursToSubtract == Long.MIN_VALUE ? plusHours(Long.MAX_VALUE).plusHours(1) : plusHours(-hoursToSubtract));
+    public Durbtion minusHours(long hoursToSubtrbct) {
+        return (hoursToSubtrbct == Long.MIN_VALUE ? plusHours(Long.MAX_VALUE).plusHours(1) : plusHours(-hoursToSubtrbct));
     }
 
     /**
-     * Returns a copy of this duration with the specified duration in minutes subtracted.
+     * Returns b copy of this durbtion with the specified durbtion in minutes subtrbcted.
      * <p>
-     * The number of hours is multiplied by 60 to obtain the number of seconds to subtract.
+     * The number of hours is multiplied by 60 to obtbin the number of seconds to subtrbct.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param minutesToSubtract  the minutes to subtract, positive or negative
-     * @return a {@code Duration} based on this duration with the specified minutes subtracted, not null
+     * @pbrbm minutesToSubtrbct  the minutes to subtrbct, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified minutes subtrbcted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration minusMinutes(long minutesToSubtract) {
-        return (minutesToSubtract == Long.MIN_VALUE ? plusMinutes(Long.MAX_VALUE).plusMinutes(1) : plusMinutes(-minutesToSubtract));
+    public Durbtion minusMinutes(long minutesToSubtrbct) {
+        return (minutesToSubtrbct == Long.MIN_VALUE ? plusMinutes(Long.MAX_VALUE).plusMinutes(1) : plusMinutes(-minutesToSubtrbct));
     }
 
     /**
-     * Returns a copy of this duration with the specified duration in seconds subtracted.
+     * Returns b copy of this durbtion with the specified durbtion in seconds subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param secondsToSubtract  the seconds to subtract, positive or negative
-     * @return a {@code Duration} based on this duration with the specified seconds subtracted, not null
+     * @pbrbm secondsToSubtrbct  the seconds to subtrbct, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified seconds subtrbcted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration minusSeconds(long secondsToSubtract) {
-        return (secondsToSubtract == Long.MIN_VALUE ? plusSeconds(Long.MAX_VALUE).plusSeconds(1) : plusSeconds(-secondsToSubtract));
+    public Durbtion minusSeconds(long secondsToSubtrbct) {
+        return (secondsToSubtrbct == Long.MIN_VALUE ? plusSeconds(Long.MAX_VALUE).plusSeconds(1) : plusSeconds(-secondsToSubtrbct));
     }
 
     /**
-     * Returns a copy of this duration with the specified duration in milliseconds subtracted.
+     * Returns b copy of this durbtion with the specified durbtion in milliseconds subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param millisToSubtract  the milliseconds to subtract, positive or negative
-     * @return a {@code Duration} based on this duration with the specified milliseconds subtracted, not null
+     * @pbrbm millisToSubtrbct  the milliseconds to subtrbct, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified milliseconds subtrbcted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration minusMillis(long millisToSubtract) {
-        return (millisToSubtract == Long.MIN_VALUE ? plusMillis(Long.MAX_VALUE).plusMillis(1) : plusMillis(-millisToSubtract));
+    public Durbtion minusMillis(long millisToSubtrbct) {
+        return (millisToSubtrbct == Long.MIN_VALUE ? plusMillis(Long.MAX_VALUE).plusMillis(1) : plusMillis(-millisToSubtrbct));
     }
 
     /**
-     * Returns a copy of this duration with the specified duration in nanoseconds subtracted.
+     * Returns b copy of this durbtion with the specified durbtion in nbnoseconds subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanosToSubtract  the nanoseconds to subtract, positive or negative
-     * @return a {@code Duration} based on this duration with the specified nanoseconds subtracted, not null
+     * @pbrbm nbnosToSubtrbct  the nbnoseconds to subtrbct, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion with the specified nbnoseconds subtrbcted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration minusNanos(long nanosToSubtract) {
-        return (nanosToSubtract == Long.MIN_VALUE ? plusNanos(Long.MAX_VALUE).plusNanos(1) : plusNanos(-nanosToSubtract));
+    public Durbtion minusNbnos(long nbnosToSubtrbct) {
+        return (nbnosToSubtrbct == Long.MIN_VALUE ? plusNbnos(Long.MAX_VALUE).plusNbnos(1) : plusNbnos(-nbnosToSubtrbct));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this duration multiplied by the scalar.
+     * Returns b copy of this durbtion multiplied by the scblbr.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param multiplicand  the value to multiply the duration by, positive or negative
-     * @return a {@code Duration} based on this duration multiplied by the specified scalar, not null
+     * @pbrbm multiplicbnd  the vblue to multiply the durbtion by, positive or negbtive
+     * @return b {@code Durbtion} bbsed on this durbtion multiplied by the specified scblbr, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration multipliedBy(long multiplicand) {
-        if (multiplicand == 0) {
+    public Durbtion multipliedBy(long multiplicbnd) {
+        if (multiplicbnd == 0) {
             return ZERO;
         }
-        if (multiplicand == 1) {
+        if (multiplicbnd == 1) {
             return this;
         }
-        return create(toSeconds().multiply(BigDecimal.valueOf(multiplicand)));
+        return crebte(toSeconds().multiply(BigDecimbl.vblueOf(multiplicbnd)));
      }
 
     /**
-     * Returns a copy of this duration divided by the specified value.
+     * Returns b copy of this durbtion divided by the specified vblue.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param divisor  the value to divide the duration by, positive or negative, not zero
-     * @return a {@code Duration} based on this duration divided by the specified divisor, not null
+     * @pbrbm divisor  the vblue to divide the durbtion by, positive or negbtive, not zero
+     * @return b {@code Durbtion} bbsed on this durbtion divided by the specified divisor, not null
      * @throws ArithmeticException if the divisor is zero or if numeric overflow occurs
      */
-    public Duration dividedBy(long divisor) {
+    public Durbtion dividedBy(long divisor) {
         if (divisor == 0) {
-            throw new ArithmeticException("Cannot divide by zero");
+            throw new ArithmeticException("Cbnnot divide by zero");
         }
         if (divisor == 1) {
             return this;
         }
-        return create(toSeconds().divide(BigDecimal.valueOf(divisor), RoundingMode.DOWN));
+        return crebte(toSeconds().divide(BigDecimbl.vblueOf(divisor), RoundingMode.DOWN));
      }
 
     /**
-     * Converts this duration to the total length in seconds and
-     * fractional nanoseconds expressed as a {@code BigDecimal}.
+     * Converts this durbtion to the totbl length in seconds bnd
+     * frbctionbl nbnoseconds expressed bs b {@code BigDecimbl}.
      *
-     * @return the total length of the duration in seconds, with a scale of 9, not null
+     * @return the totbl length of the durbtion in seconds, with b scble of 9, not null
      */
-    private BigDecimal toSeconds() {
-        return BigDecimal.valueOf(seconds).add(BigDecimal.valueOf(nanos, 9));
+    privbte BigDecimbl toSeconds() {
+        return BigDecimbl.vblueOf(seconds).bdd(BigDecimbl.vblueOf(nbnos, 9));
     }
 
     /**
-     * Creates an instance of {@code Duration} from a number of seconds.
+     * Crebtes bn instbnce of {@code Durbtion} from b number of seconds.
      *
-     * @param seconds  the number of seconds, up to scale 9, positive or negative
-     * @return a {@code Duration}, not null
+     * @pbrbm seconds  the number of seconds, up to scble 9, positive or negbtive
+     * @return b {@code Durbtion}, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    private static Duration create(BigDecimal seconds) {
-        BigInteger nanos = seconds.movePointRight(9).toBigIntegerExact();
-        BigInteger[] divRem = nanos.divideAndRemainder(BI_NANOS_PER_SECOND);
+    privbte stbtic Durbtion crebte(BigDecimbl seconds) {
+        BigInteger nbnos = seconds.movePointRight(9).toBigIntegerExbct();
+        BigInteger[] divRem = nbnos.divideAndRembinder(BI_NANOS_PER_SECOND);
         if (divRem[0].bitLength() > 63) {
-            throw new ArithmeticException("Exceeds capacity of Duration: " + nanos);
+            throw new ArithmeticException("Exceeds cbpbcity of Durbtion: " + nbnos);
         }
-        return ofSeconds(divRem[0].longValue(), divRem[1].intValue());
+        return ofSeconds(divRem[0].longVblue(), divRem[1].intVblue());
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this duration with the length negated.
+     * Returns b copy of this durbtion with the length negbted.
      * <p>
-     * This method swaps the sign of the total length of this duration.
-     * For example, {@code PT1.3S} will be returned as {@code PT-1.3S}.
+     * This method swbps the sign of the totbl length of this durbtion.
+     * For exbmple, {@code PT1.3S} will be returned bs {@code PT-1.3S}.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @return a {@code Duration} based on this duration with the amount negated, not null
+     * @return b {@code Durbtion} bbsed on this durbtion with the bmount negbted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration negated() {
+    public Durbtion negbted() {
         return multipliedBy(-1);
     }
 
     /**
-     * Returns a copy of this duration with a positive length.
+     * Returns b copy of this durbtion with b positive length.
      * <p>
-     * This method returns a positive duration by effectively removing the sign from any negative total length.
-     * For example, {@code PT-1.3S} will be returned as {@code PT1.3S}.
+     * This method returns b positive durbtion by effectively removing the sign from bny negbtive totbl length.
+     * For exbmple, {@code PT-1.3S} will be returned bs {@code PT1.3S}.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @return a {@code Duration} based on this duration with an absolute length, not null
+     * @return b {@code Durbtion} bbsed on this durbtion with bn bbsolute length, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Duration abs() {
-        return isNegative() ? negated() : this;
+    public Durbtion bbs() {
+        return isNegbtive() ? negbted() : this;
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Adds this duration to the specified temporal object.
+     * Adds this durbtion to the specified temporbl object.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with this duration added.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with this durbtion bdded.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#plus(TemporalAmount)}.
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#plus(TemporblAmount)}.
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   dateTime = thisDuration.addTo(dateTime);
-     *   dateTime = dateTime.plus(thisDuration);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   dbteTime = thisDurbtion.bddTo(dbteTime);
+     *   dbteTime = dbteTime.plus(thisDurbtion);
      * </pre>
      * <p>
-     * The calculation will add the seconds, then nanos.
-     * Only non-zero amounts will be added.
+     * The cblculbtion will bdd the seconds, then nbnos.
+     * Only non-zero bmounts will be bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the temporal object to adjust, not null
-     * @return an object of the same type with the adjustment made, not null
-     * @throws DateTimeException if unable to add
+     * @pbrbm temporbl  the temporbl object to bdjust, not null
+     * @return bn object of the sbme type with the bdjustment mbde, not null
+     * @throws DbteTimeException if unbble to bdd
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Temporal addTo(Temporal temporal) {
+    public Temporbl bddTo(Temporbl temporbl) {
         if (seconds != 0) {
-            temporal = temporal.plus(seconds, SECONDS);
+            temporbl = temporbl.plus(seconds, SECONDS);
         }
-        if (nanos != 0) {
-            temporal = temporal.plus(nanos, NANOS);
+        if (nbnos != 0) {
+            temporbl = temporbl.plus(nbnos, NANOS);
         }
-        return temporal;
+        return temporbl;
     }
 
     /**
-     * Subtracts this duration from the specified temporal object.
+     * Subtrbcts this durbtion from the specified temporbl object.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with this duration subtracted.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with this durbtion subtrbcted.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#minus(TemporalAmount)}.
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#minus(TemporblAmount)}.
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   dateTime = thisDuration.subtractFrom(dateTime);
-     *   dateTime = dateTime.minus(thisDuration);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   dbteTime = thisDurbtion.subtrbctFrom(dbteTime);
+     *   dbteTime = dbteTime.minus(thisDurbtion);
      * </pre>
      * <p>
-     * The calculation will subtract the seconds, then nanos.
-     * Only non-zero amounts will be added.
+     * The cblculbtion will subtrbct the seconds, then nbnos.
+     * Only non-zero bmounts will be bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the temporal object to adjust, not null
-     * @return an object of the same type with the adjustment made, not null
-     * @throws DateTimeException if unable to subtract
+     * @pbrbm temporbl  the temporbl object to bdjust, not null
+     * @return bn object of the sbme type with the bdjustment mbde, not null
+     * @throws DbteTimeException if unbble to subtrbct
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Temporal subtractFrom(Temporal temporal) {
+    public Temporbl subtrbctFrom(Temporbl temporbl) {
         if (seconds != 0) {
-            temporal = temporal.minus(seconds, SECONDS);
+            temporbl = temporbl.minus(seconds, SECONDS);
         }
-        if (nanos != 0) {
-            temporal = temporal.minus(nanos, NANOS);
+        if (nbnos != 0) {
+            temporbl = temporbl.minus(nbnos, NANOS);
         }
-        return temporal;
+        return temporbl;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the number of days in this duration.
+     * Gets the number of dbys in this durbtion.
      * <p>
-     * This returns the total number of days in the duration by dividing the
+     * This returns the totbl number of dbys in the durbtion by dividing the
      * number of seconds by 86400.
-     * This is based on the standard definition of a day as 24 hours.
+     * This is bbsed on the stbndbrd definition of b dby bs 24 hours.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @return the number of days in the duration, may be negative
+     * @return the number of dbys in the durbtion, mby be negbtive
      */
-    public long toDays() {
+    public long toDbys() {
         return seconds / SECONDS_PER_DAY;
     }
 
     /**
-     * Gets the number of hours in this duration.
+     * Gets the number of hours in this durbtion.
      * <p>
-     * This returns the total number of hours in the duration by dividing the
+     * This returns the totbl number of hours in the durbtion by dividing the
      * number of seconds by 3600.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @return the number of hours in the duration, may be negative
+     * @return the number of hours in the durbtion, mby be negbtive
      */
     public long toHours() {
         return seconds / SECONDS_PER_HOUR;
     }
 
     /**
-     * Gets the number of minutes in this duration.
+     * Gets the number of minutes in this durbtion.
      * <p>
-     * This returns the total number of minutes in the duration by dividing the
+     * This returns the totbl number of minutes in the durbtion by dividing the
      * number of seconds by 60.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @return the number of minutes in the duration, may be negative
+     * @return the number of minutes in the durbtion, mby be negbtive
      */
     public long toMinutes() {
         return seconds / SECONDS_PER_MINUTE;
     }
 
     /**
-     * Converts this duration to the total length in milliseconds.
+     * Converts this durbtion to the totbl length in milliseconds.
      * <p>
-     * If this duration is too large to fit in a {@code long} milliseconds, then an
+     * If this durbtion is too lbrge to fit in b {@code long} milliseconds, then bn
      * exception is thrown.
      * <p>
-     * If this duration has greater than millisecond precision, then the conversion
-     * will drop any excess precision information as though the amount in nanoseconds
-     * was subject to integer division by one million.
+     * If this durbtion hbs grebter thbn millisecond precision, then the conversion
+     * will drop bny excess precision informbtion bs though the bmount in nbnoseconds
+     * wbs subject to integer division by one million.
      *
-     * @return the total length of the duration in milliseconds
+     * @return the totbl length of the durbtion in milliseconds
      * @throws ArithmeticException if numeric overflow occurs
      */
     public long toMillis() {
-        long millis = Math.multiplyExact(seconds, 1000);
-        millis = Math.addExact(millis, nanos / 1000_000);
+        long millis = Mbth.multiplyExbct(seconds, 1000);
+        millis = Mbth.bddExbct(millis, nbnos / 1000_000);
         return millis;
     }
 
     /**
-     * Converts this duration to the total length in nanoseconds expressed as a {@code long}.
+     * Converts this durbtion to the totbl length in nbnoseconds expressed bs b {@code long}.
      * <p>
-     * If this duration is too large to fit in a {@code long} nanoseconds, then an
+     * If this durbtion is too lbrge to fit in b {@code long} nbnoseconds, then bn
      * exception is thrown.
      *
-     * @return the total length of the duration in nanoseconds
+     * @return the totbl length of the durbtion in nbnoseconds
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public long toNanos() {
-        long totalNanos = Math.multiplyExact(seconds, NANOS_PER_SECOND);
-        totalNanos = Math.addExact(totalNanos, nanos);
-        return totalNanos;
+    public long toNbnos() {
+        long totblNbnos = Mbth.multiplyExbct(seconds, NANOS_PER_SECOND);
+        totblNbnos = Mbth.bddExbct(totblNbnos, nbnos);
+        return totblNbnos;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this duration to the specified {@code Duration}.
+     * Compbres this durbtion to the specified {@code Durbtion}.
      * <p>
-     * The comparison is based on the total length of the durations.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * The compbrison is bbsed on the totbl length of the durbtions.
+     * It is "consistent with equbls", bs defined by {@link Compbrbble}.
      *
-     * @param otherDuration  the other duration to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm otherDurbtion  the other durbtion to compbre to, not null
+     * @return the compbrbtor vblue, negbtive if less, positive if grebter
      */
     @Override
-    public int compareTo(Duration otherDuration) {
-        int cmp = Long.compare(seconds, otherDuration.seconds);
+    public int compbreTo(Durbtion otherDurbtion) {
+        int cmp = Long.compbre(seconds, otherDurbtion.seconds);
         if (cmp != 0) {
             return cmp;
         }
-        return nanos - otherDuration.nanos;
+        return nbnos - otherDurbtion.nbnos;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this duration is equal to the specified {@code Duration}.
+     * Checks if this durbtion is equbl to the specified {@code Durbtion}.
      * <p>
-     * The comparison is based on the total length of the durations.
+     * The compbrison is bbsed on the totbl length of the durbtions.
      *
-     * @param otherDuration  the other duration, null returns false
-     * @return true if the other duration is equal to this one
+     * @pbrbm otherDurbtion  the other durbtion, null returns fblse
+     * @return true if the other durbtion is equbl to this one
      */
     @Override
-    public boolean equals(Object otherDuration) {
-        if (this == otherDuration) {
+    public boolebn equbls(Object otherDurbtion) {
+        if (this == otherDurbtion) {
             return true;
         }
-        if (otherDuration instanceof Duration) {
-            Duration other = (Duration) otherDuration;
+        if (otherDurbtion instbnceof Durbtion) {
+            Durbtion other = (Durbtion) otherDurbtion;
             return this.seconds == other.seconds &&
-                   this.nanos == other.nanos;
+                   this.nbnos == other.nbnos;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this duration.
+     * A hbsh code for this durbtion.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    public int hashCode() {
-        return ((int) (seconds ^ (seconds >>> 32))) + (51 * nanos);
+    public int hbshCode() {
+        return ((int) (seconds ^ (seconds >>> 32))) + (51 * nbnos);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * A string representation of this duration using ISO-8601 seconds
-     * based representation, such as {@code PT8H6M12.345S}.
+     * A string representbtion of this durbtion using ISO-8601 seconds
+     * bbsed representbtion, such bs {@code PT8H6M12.345S}.
      * <p>
-     * The format of the returned string will be {@code PTnHnMnS}, where n is
-     * the relevant hours, minutes or seconds part of the duration.
-     * Any fractional seconds are placed after a decimal point i the seconds section.
-     * If a section has a zero value, it is omitted.
-     * The hours, minutes and seconds will all have the same sign.
+     * The formbt of the returned string will be {@code PTnHnMnS}, where n is
+     * the relevbnt hours, minutes or seconds pbrt of the durbtion.
+     * Any frbctionbl seconds bre plbced bfter b decimbl point i the seconds section.
+     * If b section hbs b zero vblue, it is omitted.
+     * The hours, minutes bnd seconds will bll hbve the sbme sign.
      * <p>
-     * Examples:
+     * Exbmples:
      * <pre>
      *    "20.345 seconds"                 -- "PT20.345S
      *    "15 minutes" (15 * 60 seconds)   -- "PT15M"
      *    "10 hours" (10 * 3600 seconds)   -- "PT10H"
-     *    "2 days" (2 * 86400 seconds)     -- "PT48H"
+     *    "2 dbys" (2 * 86400 seconds)     -- "PT48H"
      * </pre>
-     * Note that multiples of 24 hours are not output as days to avoid confusion
+     * Note thbt multiples of 24 hours bre not output bs dbys to bvoid confusion
      * with {@code Period}.
      *
-     * @return an ISO-8601 representation of this duration, not null
+     * @return bn ISO-8601 representbtion of this durbtion, not null
      */
     @Override
     public String toString() {
@@ -1271,77 +1271,77 @@ public final class Duration
         int minutes = (int) ((seconds % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE);
         int secs = (int) (seconds % SECONDS_PER_MINUTE);
         StringBuilder buf = new StringBuilder(24);
-        buf.append("PT");
+        buf.bppend("PT");
         if (hours != 0) {
-            buf.append(hours).append('H');
+            buf.bppend(hours).bppend('H');
         }
         if (minutes != 0) {
-            buf.append(minutes).append('M');
+            buf.bppend(minutes).bppend('M');
         }
-        if (secs == 0 && nanos == 0 && buf.length() > 2) {
+        if (secs == 0 && nbnos == 0 && buf.length() > 2) {
             return buf.toString();
         }
-        if (secs < 0 && nanos > 0) {
+        if (secs < 0 && nbnos > 0) {
             if (secs == -1) {
-                buf.append("-0");
+                buf.bppend("-0");
             } else {
-                buf.append(secs + 1);
+                buf.bppend(secs + 1);
             }
         } else {
-            buf.append(secs);
+            buf.bppend(secs);
         }
-        if (nanos > 0) {
+        if (nbnos > 0) {
             int pos = buf.length();
             if (secs < 0) {
-                buf.append(2 * NANOS_PER_SECOND - nanos);
+                buf.bppend(2 * NANOS_PER_SECOND - nbnos);
             } else {
-                buf.append(nanos + NANOS_PER_SECOND);
+                buf.bppend(nbnos + NANOS_PER_SECOND);
             }
-            while (buf.charAt(buf.length() - 1) == '0') {
+            while (buf.chbrAt(buf.length() - 1) == '0') {
                 buf.setLength(buf.length() - 1);
             }
-            buf.setCharAt(pos, '.');
+            buf.setChbrAt(pos, '.');
         }
-        buf.append('S');
+        buf.bppend('S');
         return buf.toString();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the object using b
+     * <b href="../../seriblized-form.html#jbvb.time.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(1);  // identifies a Duration
+     *  out.writeByte(1);  // identifies b Durbtion
      *  out.writeLong(seconds);
-     *  out.writeInt(nanos);
+     *  out.writeInt(nbnos);
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.DURATION_TYPE, this);
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
+    void writeExternbl(DbtbOutput out) throws IOException {
         out.writeLong(seconds);
-        out.writeInt(nanos);
+        out.writeInt(nbnos);
     }
 
-    static Duration readExternal(DataInput in) throws IOException {
-        long seconds = in.readLong();
-        int nanos = in.readInt();
-        return Duration.ofSeconds(seconds, nanos);
+    stbtic Durbtion rebdExternbl(DbtbInput in) throws IOException {
+        long seconds = in.rebdLong();
+        int nbnos = in.rebdInt();
+        return Durbtion.ofSeconds(seconds, nbnos);
     }
 
 }

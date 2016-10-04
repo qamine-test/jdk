@@ -1,654 +1,654 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.peer.ScrollbarPeer;
-import java.awt.event.*;
-import java.util.EventListener;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import javax.accessibility.*;
+import jbvb.bwt.peer.ScrollbbrPeer;
+import jbvb.bwt.event.*;
+import jbvb.util.EventListener;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvbx.bccessibility.*;
 
 
 /**
- * The <code>Scrollbar</code> class embodies a scroll bar, a
- * familiar user-interface object. A scroll bar provides a
- * convenient means for allowing a user to select from a
- * range of values. The following three vertical
- * scroll bars could be used as slider controls to pick
- * the red, green, and blue components of a color:
+ * The <code>Scrollbbr</code> clbss embodies b scroll bbr, b
+ * fbmilibr user-interfbce object. A scroll bbr provides b
+ * convenient mebns for bllowing b user to select from b
+ * rbnge of vblues. The following three verticbl
+ * scroll bbrs could be used bs slider controls to pick
+ * the red, green, bnd blue components of b color:
  * <p>
- * <img src="doc-files/Scrollbar-1.gif" alt="Image shows 3 vertical sliders, side-by-side."
- * style="float:center; margin: 7px 10px;">
+ * <img src="doc-files/Scrollbbr-1.gif" blt="Imbge shows 3 verticbl sliders, side-by-side."
+ * style="flobt:center; mbrgin: 7px 10px;">
  * <p>
- * Each scroll bar in this example could be created with
- * code similar to the following:
+ * Ebch scroll bbr in this exbmple could be crebted with
+ * code similbr to the following:
  *
  * <hr><blockquote><pre>
- * redSlider=new Scrollbar(Scrollbar.VERTICAL, 0, 1, 0, 255);
- * add(redSlider);
+ * redSlider=new Scrollbbr(Scrollbbr.VERTICAL, 0, 1, 0, 255);
+ * bdd(redSlider);
  * </pre></blockquote><hr>
  * <p>
- * Alternatively, a scroll bar can represent a range of values. For
- * example, if a scroll bar is used for scrolling through text, the
- * width of the "bubble" (also called the "thumb" or "scroll box")
- * can be used to represent the amount of text that is visible.
- * Here is an example of a scroll bar that represents a range:
+ * Alternbtively, b scroll bbr cbn represent b rbnge of vblues. For
+ * exbmple, if b scroll bbr is used for scrolling through text, the
+ * width of the "bubble" (blso cblled the "thumb" or "scroll box")
+ * cbn be used to represent the bmount of text thbt is visible.
+ * Here is bn exbmple of b scroll bbr thbt represents b rbnge:
  * <p>
- * <img src="doc-files/Scrollbar-2.gif"
- * alt="Image shows horizontal slider with starting range of 0 and ending range of 300. The slider thumb is labeled 60."
- * style="float:center; margin: 7px 10px;">
+ * <img src="doc-files/Scrollbbr-2.gif"
+ * blt="Imbge shows horizontbl slider with stbrting rbnge of 0 bnd ending rbnge of 300. The slider thumb is lbbeled 60."
+ * style="flobt:center; mbrgin: 7px 10px;">
  * <p>
- * The value range represented by the bubble in this example
- * is the <em>visible amount</em>. The horizontal scroll bar
- * in this example could be created with code like the following:
+ * The vblue rbnge represented by the bubble in this exbmple
+ * is the <em>visible bmount</em>. The horizontbl scroll bbr
+ * in this exbmple could be crebted with code like the following:
  *
  * <hr><blockquote><pre>
- * ranger = new Scrollbar(Scrollbar.HORIZONTAL, 0, 60, 0, 300);
- * add(ranger);
+ * rbnger = new Scrollbbr(Scrollbbr.HORIZONTAL, 0, 60, 0, 300);
+ * bdd(rbnger);
  * </pre></blockquote><hr>
  * <p>
- * Note that the actual maximum value of the scroll bar is the
- * <code>maximum</code> minus the <code>visible amount</code>.
- * In the previous example, because the <code>maximum</code> is
- * 300 and the <code>visible amount</code> is 60, the actual maximum
- * value is 240.  The range of the scrollbar track is 0 - 300.
- * The left side of the bubble indicates the value of the
- * scroll bar.
+ * Note thbt the bctubl mbximum vblue of the scroll bbr is the
+ * <code>mbximum</code> minus the <code>visible bmount</code>.
+ * In the previous exbmple, becbuse the <code>mbximum</code> is
+ * 300 bnd the <code>visible bmount</code> is 60, the bctubl mbximum
+ * vblue is 240.  The rbnge of the scrollbbr trbck is 0 - 300.
+ * The left side of the bubble indicbtes the vblue of the
+ * scroll bbr.
  * <p>
- * Normally, the user changes the value of the scroll bar by
- * making a gesture with the mouse. For example, the user can
- * drag the scroll bar's bubble up and down, or click in the
- * scroll bar's unit increment or block increment areas. Keyboard
- * gestures can also be mapped to the scroll bar. By convention,
- * the <b>Page&nbsp;Up</b> and <b>Page&nbsp;Down</b>
- * keys are equivalent to clicking in the scroll bar's block
- * increment and block decrement areas.
+ * Normblly, the user chbnges the vblue of the scroll bbr by
+ * mbking b gesture with the mouse. For exbmple, the user cbn
+ * drbg the scroll bbr's bubble up bnd down, or click in the
+ * scroll bbr's unit increment or block increment brebs. Keybobrd
+ * gestures cbn blso be mbpped to the scroll bbr. By convention,
+ * the <b>Pbge&nbsp;Up</b> bnd <b>Pbge&nbsp;Down</b>
+ * keys bre equivblent to clicking in the scroll bbr's block
+ * increment bnd block decrement brebs.
  * <p>
- * When the user changes the value of the scroll bar, the scroll bar
- * receives an instance of <code>AdjustmentEvent</code>.
- * The scroll bar processes this event, passing it along to
- * any registered listeners.
+ * When the user chbnges the vblue of the scroll bbr, the scroll bbr
+ * receives bn instbnce of <code>AdjustmentEvent</code>.
+ * The scroll bbr processes this event, pbssing it blong to
+ * bny registered listeners.
  * <p>
- * Any object that wishes to be notified of changes to the
- * scroll bar's value should implement
- * <code>AdjustmentListener</code>, an interface defined in
- * the package <code>java.awt.event</code>.
- * Listeners can be added and removed dynamically by calling
- * the methods <code>addAdjustmentListener</code> and
+ * Any object thbt wishes to be notified of chbnges to the
+ * scroll bbr's vblue should implement
+ * <code>AdjustmentListener</code>, bn interfbce defined in
+ * the pbckbge <code>jbvb.bwt.event</code>.
+ * Listeners cbn be bdded bnd removed dynbmicblly by cblling
+ * the methods <code>bddAdjustmentListener</code> bnd
  * <code>removeAdjustmentListener</code>.
  * <p>
- * The <code>AdjustmentEvent</code> class defines five types
- * of adjustment event, listed here:
+ * The <code>AdjustmentEvent</code> clbss defines five types
+ * of bdjustment event, listed here:
  *
  * <ul>
  * <li><code>AdjustmentEvent.TRACK</code> is sent out when the
- * user drags the scroll bar's bubble.
+ * user drbgs the scroll bbr's bubble.
  * <li><code>AdjustmentEvent.UNIT_INCREMENT</code> is sent out
- * when the user clicks in the left arrow of a horizontal scroll
- * bar, or the top arrow of a vertical scroll bar, or makes the
- * equivalent gesture from the keyboard.
+ * when the user clicks in the left brrow of b horizontbl scroll
+ * bbr, or the top brrow of b verticbl scroll bbr, or mbkes the
+ * equivblent gesture from the keybobrd.
  * <li><code>AdjustmentEvent.UNIT_DECREMENT</code> is sent out
- * when the user clicks in the right arrow of a horizontal scroll
- * bar, or the bottom arrow of a vertical scroll bar, or makes the
- * equivalent gesture from the keyboard.
+ * when the user clicks in the right brrow of b horizontbl scroll
+ * bbr, or the bottom brrow of b verticbl scroll bbr, or mbkes the
+ * equivblent gesture from the keybobrd.
  * <li><code>AdjustmentEvent.BLOCK_INCREMENT</code> is sent out
- * when the user clicks in the track, to the left of the bubble
- * on a horizontal scroll bar, or above the bubble on a vertical
- * scroll bar. By convention, the <b>Page&nbsp;Up</b>
- * key is equivalent, if the user is using a keyboard that
- * defines a <b>Page&nbsp;Up</b> key.
+ * when the user clicks in the trbck, to the left of the bubble
+ * on b horizontbl scroll bbr, or bbove the bubble on b verticbl
+ * scroll bbr. By convention, the <b>Pbge&nbsp;Up</b>
+ * key is equivblent, if the user is using b keybobrd thbt
+ * defines b <b>Pbge&nbsp;Up</b> key.
  * <li><code>AdjustmentEvent.BLOCK_DECREMENT</code> is sent out
- * when the user clicks in the track, to the right of the bubble
- * on a horizontal scroll bar, or below the bubble on a vertical
- * scroll bar. By convention, the <b>Page&nbsp;Down</b>
- * key is equivalent, if the user is using a keyboard that
- * defines a <b>Page&nbsp;Down</b> key.
+ * when the user clicks in the trbck, to the right of the bubble
+ * on b horizontbl scroll bbr, or below the bubble on b verticbl
+ * scroll bbr. By convention, the <b>Pbge&nbsp;Down</b>
+ * key is equivblent, if the user is using b keybobrd thbt
+ * defines b <b>Pbge&nbsp;Down</b> key.
  * </ul>
  * <p>
- * The JDK&nbsp;1.0 event system is supported for backwards
- * compatibility, but its use with newer versions of the platform is
- * discouraged. The five types of adjustment events introduced
+ * The JDK&nbsp;1.0 event system is supported for bbckwbrds
+ * compbtibility, but its use with newer versions of the plbtform is
+ * discourbged. The five types of bdjustment events introduced
  * with JDK&nbsp;1.1 correspond to the five event types
- * that are associated with scroll bars in previous platform versions.
- * The following list gives the adjustment event type,
- * and the corresponding JDK&nbsp;1.0 event type it replaces.
+ * thbt bre bssocibted with scroll bbrs in previous plbtform versions.
+ * The following list gives the bdjustment event type,
+ * bnd the corresponding JDK&nbsp;1.0 event type it replbces.
  *
  * <ul>
- * <li><code>AdjustmentEvent.TRACK</code> replaces
+ * <li><code>AdjustmentEvent.TRACK</code> replbces
  * <code>Event.SCROLL_ABSOLUTE</code>
- * <li><code>AdjustmentEvent.UNIT_INCREMENT</code> replaces
+ * <li><code>AdjustmentEvent.UNIT_INCREMENT</code> replbces
  * <code>Event.SCROLL_LINE_UP</code>
- * <li><code>AdjustmentEvent.UNIT_DECREMENT</code> replaces
+ * <li><code>AdjustmentEvent.UNIT_DECREMENT</code> replbces
  * <code>Event.SCROLL_LINE_DOWN</code>
- * <li><code>AdjustmentEvent.BLOCK_INCREMENT</code> replaces
+ * <li><code>AdjustmentEvent.BLOCK_INCREMENT</code> replbces
  * <code>Event.SCROLL_PAGE_UP</code>
- * <li><code>AdjustmentEvent.BLOCK_DECREMENT</code> replaces
+ * <li><code>AdjustmentEvent.BLOCK_DECREMENT</code> replbces
  * <code>Event.SCROLL_PAGE_DOWN</code>
  * </ul>
  * <p>
- * <b>Note</b>: We recommend using a <code>Scrollbar</code>
- * for value selection only.  If you want to implement
- * a scrollable component inside a container, we recommend you use
- * a {@link ScrollPane ScrollPane}. If you use a
- * <code>Scrollbar</code> for this purpose, you are likely to
- * encounter issues with painting, key handling, sizing and
+ * <b>Note</b>: We recommend using b <code>Scrollbbr</code>
+ * for vblue selection only.  If you wbnt to implement
+ * b scrollbble component inside b contbiner, we recommend you use
+ * b {@link ScrollPbne ScrollPbne}. If you use b
+ * <code>Scrollbbr</code> for this purpose, you bre likely to
+ * encounter issues with pbinting, key hbndling, sizing bnd
  * positioning.
  *
- * @author      Sami Shaio
- * @see         java.awt.event.AdjustmentEvent
- * @see         java.awt.event.AdjustmentListener
+ * @buthor      Sbmi Shbio
+ * @see         jbvb.bwt.event.AdjustmentEvent
+ * @see         jbvb.bwt.event.AdjustmentListener
  * @since       1.0
  */
-public class Scrollbar extends Component implements Adjustable, Accessible {
+public clbss Scrollbbr extends Component implements Adjustbble, Accessible {
 
     /**
-     * A constant that indicates a horizontal scroll bar.
+     * A constbnt thbt indicbtes b horizontbl scroll bbr.
      */
-    public static final int     HORIZONTAL = 0;
+    public stbtic finbl int     HORIZONTAL = 0;
 
     /**
-     * A constant that indicates a vertical scroll bar.
+     * A constbnt thbt indicbtes b verticbl scroll bbr.
      */
-    public static final int     VERTICAL   = 1;
+    public stbtic finbl int     VERTICAL   = 1;
 
     /**
-     * The value of the <code>Scrollbar</code>.
-     * This property must be greater than or equal to <code>minimum</code>
-     * and less than or equal to
-     * <code>maximum - visibleAmount</code>
+     * The vblue of the <code>Scrollbbr</code>.
+     * This property must be grebter thbn or equbl to <code>minimum</code>
+     * bnd less thbn or equbl to
+     * <code>mbximum - visibleAmount</code>
      *
-     * @serial
-     * @see #getValue
-     * @see #setValue
+     * @seribl
+     * @see #getVblue
+     * @see #setVblue
      */
-    int value;
+    int vblue;
 
     /**
-     * The maximum value of the <code>Scrollbar</code>.
-     * This value must be greater than the <code>minimum</code>
-     * value.<br>
+     * The mbximum vblue of the <code>Scrollbbr</code>.
+     * This vblue must be grebter thbn the <code>minimum</code>
+     * vblue.<br>
      *
-     * @serial
-     * @see #getMaximum
-     * @see #setMaximum
+     * @seribl
+     * @see #getMbximum
+     * @see #setMbximum
      */
-    int maximum;
+    int mbximum;
 
     /**
-     * The minimum value of the <code>Scrollbar</code>.
-     * This value must be less than the <code>maximum</code>
-     * value.<br>
+     * The minimum vblue of the <code>Scrollbbr</code>.
+     * This vblue must be less thbn the <code>mbximum</code>
+     * vblue.<br>
      *
-     * @serial
+     * @seribl
      * @see #getMinimum
      * @see #setMinimum
      */
     int minimum;
 
     /**
-     * The size of the <code>Scrollbar</code>'s bubble.
-     * When a scroll bar is used to select a range of values,
-     * the visibleAmount represents the size of this range.
-     * Depending on platform, this may be visually indicated
+     * The size of the <code>Scrollbbr</code>'s bubble.
+     * When b scroll bbr is used to select b rbnge of vblues,
+     * the visibleAmount represents the size of this rbnge.
+     * Depending on plbtform, this mby be visublly indicbted
      * by the size of the bubble.
      *
-     * @serial
+     * @seribl
      * @see #getVisibleAmount
      * @see #setVisibleAmount
      */
     int visibleAmount;
 
     /**
-     * The <code>Scrollbar</code>'s orientation--being either horizontal
-     * or vertical.
-     * This value should be specified when the scrollbar is created.<BR>
-     * orientation can be either : <code>VERTICAL</code> or
+     * The <code>Scrollbbr</code>'s orientbtion--being either horizontbl
+     * or verticbl.
+     * This vblue should be specified when the scrollbbr is crebted.<BR>
+     * orientbtion cbn be either : <code>VERTICAL</code> or
      * <code>HORIZONTAL</code> only.
      *
-     * @serial
-     * @see #getOrientation
-     * @see #setOrientation
+     * @seribl
+     * @see #getOrientbtion
+     * @see #setOrientbtion
      */
-    int orientation;
+    int orientbtion;
 
     /**
-     * The amount by which the scrollbar value will change when going
-     * up or down by a line.
-     * This value must be greater than zero.
+     * The bmount by which the scrollbbr vblue will chbnge when going
+     * up or down by b line.
+     * This vblue must be grebter thbn zero.
      *
-     * @serial
+     * @seribl
      * @see #getLineIncrement
      * @see #setLineIncrement
      */
     int lineIncrement = 1;
 
     /**
-     * The amount by which the scrollbar value will change when going
-     * up or down by a page.
-     * This value must be greater than zero.
+     * The bmount by which the scrollbbr vblue will chbnge when going
+     * up or down by b pbge.
+     * This vblue must be grebter thbn zero.
      *
-     * @serial
-     * @see #getPageIncrement
-     * @see #setPageIncrement
+     * @seribl
+     * @see #getPbgeIncrement
+     * @see #setPbgeIncrement
      */
-    int pageIncrement = 10;
+    int pbgeIncrement = 10;
 
     /**
-     * The adjusting status of the <code>Scrollbar</code>.
-     * True if the value is in the process of changing as a result of
-     * actions being taken by the user.
+     * The bdjusting stbtus of the <code>Scrollbbr</code>.
+     * True if the vblue is in the process of chbnging bs b result of
+     * bctions being tbken by the user.
      *
-     * @see #getValueIsAdjusting
-     * @see #setValueIsAdjusting
+     * @see #getVblueIsAdjusting
+     * @see #setVblueIsAdjusting
      * @since 1.4
      */
-    transient boolean isAdjusting;
+    trbnsient boolebn isAdjusting;
 
-    transient AdjustmentListener adjustmentListener;
+    trbnsient AdjustmentListener bdjustmentListener;
 
-    private static final String base = "scrollbar";
-    private static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "scrollbbr";
+    privbte stbtic int nbmeCounter = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = 8451667562882310543L;
+    privbte stbtic finbl long seriblVersionUID = 8451667562882310543L;
 
     /**
-     * Initialize JNI field and method IDs.
+     * Initiblize JNI field bnd method IDs.
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
     /**
-     * Constructs a new vertical scroll bar.
-     * The default properties of the scroll bar are listed in
-     * the following table:
+     * Constructs b new verticbl scroll bbr.
+     * The defbult properties of the scroll bbr bre listed in
+     * the following tbble:
      *
-     * <table border=1 summary="Scrollbar default properties">
+     * <tbble border=1 summbry="Scrollbbr defbult properties">
      * <tr>
      *   <th>Property</th>
      *   <th>Description</th>
-     *   <th>Default Value</th>
+     *   <th>Defbult Vblue</th>
      * </tr>
      * <tr>
-     *   <td>orientation</td>
-     *   <td>indicates whether the scroll bar is vertical
-     *   <br>or horizontal</td>
-     *   <td><code>Scrollbar.VERTICAL</code></td>
+     *   <td>orientbtion</td>
+     *   <td>indicbtes whether the scroll bbr is verticbl
+     *   <br>or horizontbl</td>
+     *   <td><code>Scrollbbr.VERTICAL</code></td>
      * </tr>
      * <tr>
-     *   <td>value</td>
-     *   <td>value which controls the location
-     *   <br>of the scroll bar's bubble</td>
+     *   <td>vblue</td>
+     *   <td>vblue which controls the locbtion
+     *   <br>of the scroll bbr's bubble</td>
      *   <td>0</td>
      * </tr>
      * <tr>
-     *   <td>visible amount</td>
-     *   <td>visible amount of the scroll bar's range,
-     *   <br>typically represented by the size of the
-     *   <br>scroll bar's bubble</td>
+     *   <td>visible bmount</td>
+     *   <td>visible bmount of the scroll bbr's rbnge,
+     *   <br>typicblly represented by the size of the
+     *   <br>scroll bbr's bubble</td>
      *   <td>10</td>
      * </tr>
      * <tr>
      *   <td>minimum</td>
-     *   <td>minimum value of the scroll bar</td>
+     *   <td>minimum vblue of the scroll bbr</td>
      *   <td>0</td>
      * </tr>
      * <tr>
-     *   <td>maximum</td>
-     *   <td>maximum value of the scroll bar</td>
+     *   <td>mbximum</td>
+     *   <td>mbximum vblue of the scroll bbr</td>
      *   <td>100</td>
      * </tr>
      * <tr>
      *   <td>unit increment</td>
-     *   <td>amount the value changes when the
+     *   <td>bmount the vblue chbnges when the
      *   <br>Line Up or Line Down key is pressed,
-     *   <br>or when the end arrows of the scrollbar
-     *   <br>are clicked </td>
+     *   <br>or when the end brrows of the scrollbbr
+     *   <br>bre clicked </td>
      *   <td>1</td>
      * </tr>
      * <tr>
      *   <td>block increment</td>
-     *   <td>amount the value changes when the
-     *   <br>Page Up or Page Down key is pressed,
-     *   <br>or when the scrollbar track is clicked
+     *   <td>bmount the vblue chbnges when the
+     *   <br>Pbge Up or Pbge Down key is pressed,
+     *   <br>or when the scrollbbr trbck is clicked
      *   <br>on either side of the bubble </td>
      *   <td>10</td>
      * </tr>
-     * </table>
+     * </tbble>
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public Scrollbar() throws HeadlessException {
+    public Scrollbbr() throws HebdlessException {
         this(VERTICAL, 0, 10, 0, 100);
     }
 
     /**
-     * Constructs a new scroll bar with the specified orientation.
+     * Constructs b new scroll bbr with the specified orientbtion.
      * <p>
-     * The <code>orientation</code> argument must take one of the two
-     * values <code>Scrollbar.HORIZONTAL</code>,
-     * or <code>Scrollbar.VERTICAL</code>,
-     * indicating a horizontal or vertical scroll bar, respectively.
+     * The <code>orientbtion</code> brgument must tbke one of the two
+     * vblues <code>Scrollbbr.HORIZONTAL</code>,
+     * or <code>Scrollbbr.VERTICAL</code>,
+     * indicbting b horizontbl or verticbl scroll bbr, respectively.
      *
-     * @param       orientation   indicates the orientation of the scroll bar
-     * @exception   IllegalArgumentException    when an illegal value for
-     *                    the <code>orientation</code> argument is supplied
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm       orientbtion   indicbtes the orientbtion of the scroll bbr
+     * @exception   IllegblArgumentException    when bn illegbl vblue for
+     *                    the <code>orientbtion</code> brgument is supplied
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public Scrollbar(int orientation) throws HeadlessException {
-        this(orientation, 0, 10, 0, 100);
+    public Scrollbbr(int orientbtion) throws HebdlessException {
+        this(orientbtion, 0, 10, 0, 100);
     }
 
     /**
-     * Constructs a new scroll bar with the specified orientation,
-     * initial value, visible amount, and minimum and maximum values.
+     * Constructs b new scroll bbr with the specified orientbtion,
+     * initibl vblue, visible bmount, bnd minimum bnd mbximum vblues.
      * <p>
-     * The <code>orientation</code> argument must take one of the two
-     * values <code>Scrollbar.HORIZONTAL</code>,
-     * or <code>Scrollbar.VERTICAL</code>,
-     * indicating a horizontal or vertical scroll bar, respectively.
+     * The <code>orientbtion</code> brgument must tbke one of the two
+     * vblues <code>Scrollbbr.HORIZONTAL</code>,
+     * or <code>Scrollbbr.VERTICAL</code>,
+     * indicbting b horizontbl or verticbl scroll bbr, respectively.
      * <p>
-     * The parameters supplied to this constructor are subject to the
-     * constraints described in {@link #setValues(int, int, int, int)}.
+     * The pbrbmeters supplied to this constructor bre subject to the
+     * constrbints described in {@link #setVblues(int, int, int, int)}.
      *
-     * @param     orientation   indicates the orientation of the scroll bar.
-     * @param     value     the initial value of the scroll bar
-     * @param     visible   the visible amount of the scroll bar, typically
+     * @pbrbm     orientbtion   indicbtes the orientbtion of the scroll bbr.
+     * @pbrbm     vblue     the initibl vblue of the scroll bbr
+     * @pbrbm     visible   the visible bmount of the scroll bbr, typicblly
      *                      represented by the size of the bubble
-     * @param     minimum   the minimum value of the scroll bar
-     * @param     maximum   the maximum value of the scroll bar
-     * @exception IllegalArgumentException    when an illegal value for
-     *                    the <code>orientation</code> argument is supplied
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm     minimum   the minimum vblue of the scroll bbr
+     * @pbrbm     mbximum   the mbximum vblue of the scroll bbr
+     * @exception IllegblArgumentException    when bn illegbl vblue for
+     *                    the <code>orientbtion</code> brgument is supplied
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see #setValues
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see #setVblues
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public Scrollbar(int orientation, int value, int visible, int minimum,
-        int maximum) throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        switch (orientation) {
-          case HORIZONTAL:
-          case VERTICAL:
-            this.orientation = orientation;
-            break;
-          default:
-            throw new IllegalArgumentException("illegal scrollbar orientation");
+    public Scrollbbr(int orientbtion, int vblue, int visible, int minimum,
+        int mbximum) throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
+        switch (orientbtion) {
+          cbse HORIZONTAL:
+          cbse VERTICAL:
+            this.orientbtion = orientbtion;
+            brebk;
+          defbult:
+            throw new IllegblArgumentException("illegbl scrollbbr orientbtion");
         }
-        setValues(value, visible, minimum, maximum);
+        setVblues(vblue, visible, minimum, mbximum);
     }
 
     /**
-     * Constructs a name for this component.  Called by <code>getName</code>
-     * when the name is <code>null</code>.
+     * Constructs b nbme for this component.  Cblled by <code>getNbme</code>
+     * when the nbme is <code>null</code>.
      */
-    String constructComponentName() {
-        synchronized (Scrollbar.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (Scrollbbr.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Creates the <code>Scrollbar</code>'s peer.  The peer allows you to modify
-     * the appearance of the <code>Scrollbar</code> without changing any of its
-     * functionality.
+     * Crebtes the <code>Scrollbbr</code>'s peer.  The peer bllows you to modify
+     * the bppebrbnce of the <code>Scrollbbr</code> without chbnging bny of its
+     * functionblity.
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
             if (peer == null)
-                peer = getToolkit().createScrollbar(this);
-            super.addNotify();
+                peer = getToolkit().crebteScrollbbr(this);
+            super.bddNotify();
         }
     }
 
     /**
-     * Returns the orientation of this scroll bar.
+     * Returns the orientbtion of this scroll bbr.
      *
-     * @return    the orientation of this scroll bar, either
-     *               <code>Scrollbar.HORIZONTAL</code> or
-     *               <code>Scrollbar.VERTICAL</code>
-     * @see       java.awt.Scrollbar#setOrientation
+     * @return    the orientbtion of this scroll bbr, either
+     *               <code>Scrollbbr.HORIZONTAL</code> or
+     *               <code>Scrollbbr.VERTICAL</code>
+     * @see       jbvb.bwt.Scrollbbr#setOrientbtion
      */
-    public int getOrientation() {
-        return orientation;
+    public int getOrientbtion() {
+        return orientbtion;
     }
 
     /**
-     * Sets the orientation for this scroll bar.
+     * Sets the orientbtion for this scroll bbr.
      *
-     * @param orientation  the orientation of this scroll bar, either
-     *               <code>Scrollbar.HORIZONTAL</code> or
-     *               <code>Scrollbar.VERTICAL</code>
-     * @see       java.awt.Scrollbar#getOrientation
-     * @exception   IllegalArgumentException  if the value supplied
-     *                   for <code>orientation</code> is not a
-     *                   legal value
+     * @pbrbm orientbtion  the orientbtion of this scroll bbr, either
+     *               <code>Scrollbbr.HORIZONTAL</code> or
+     *               <code>Scrollbbr.VERTICAL</code>
+     * @see       jbvb.bwt.Scrollbbr#getOrientbtion
+     * @exception   IllegblArgumentException  if the vblue supplied
+     *                   for <code>orientbtion</code> is not b
+     *                   legbl vblue
      * @since     1.1
      */
-    public void setOrientation(int orientation) {
+    public void setOrientbtion(int orientbtion) {
         synchronized (getTreeLock()) {
-            if (orientation == this.orientation) {
+            if (orientbtion == this.orientbtion) {
                 return;
             }
-            switch (orientation) {
-                case HORIZONTAL:
-                case VERTICAL:
-                    this.orientation = orientation;
-                    break;
-                default:
-                    throw new IllegalArgumentException("illegal scrollbar orientation");
+            switch (orientbtion) {
+                cbse HORIZONTAL:
+                cbse VERTICAL:
+                    this.orientbtion = orientbtion;
+                    brebk;
+                defbult:
+                    throw new IllegblArgumentException("illegbl scrollbbr orientbtion");
             }
-            /* Create a new peer with the specified orientation. */
+            /* Crebte b new peer with the specified orientbtion. */
             if (peer != null) {
                 removeNotify();
-                addNotify();
-                invalidate();
+                bddNotify();
+                invblidbte();
             }
         }
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
+        if (bccessibleContext != null) {
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    ((orientation == VERTICAL)
-                     ? AccessibleState.HORIZONTAL : AccessibleState.VERTICAL),
-                    ((orientation == VERTICAL)
-                     ? AccessibleState.VERTICAL : AccessibleState.HORIZONTAL));
+                    ((orientbtion == VERTICAL)
+                     ? AccessibleStbte.HORIZONTAL : AccessibleStbte.VERTICAL),
+                    ((orientbtion == VERTICAL)
+                     ? AccessibleStbte.VERTICAL : AccessibleStbte.HORIZONTAL));
         }
     }
 
     /**
-     * Gets the current value of this scroll bar.
+     * Gets the current vblue of this scroll bbr.
      *
-     * @return      the current value of this scroll bar
-     * @see         java.awt.Scrollbar#getMinimum
-     * @see         java.awt.Scrollbar#getMaximum
+     * @return      the current vblue of this scroll bbr
+     * @see         jbvb.bwt.Scrollbbr#getMinimum
+     * @see         jbvb.bwt.Scrollbbr#getMbximum
      */
-    public int getValue() {
-        return value;
+    public int getVblue() {
+        return vblue;
     }
 
     /**
-     * Sets the value of this scroll bar to the specified value.
+     * Sets the vblue of this scroll bbr to the specified vblue.
      * <p>
-     * If the value supplied is less than the current <code>minimum</code>
-     * or greater than the current <code>maximum - visibleAmount</code>,
-     * then either <code>minimum</code> or <code>maximum - visibleAmount</code>
-     * is substituted, as appropriate.
+     * If the vblue supplied is less thbn the current <code>minimum</code>
+     * or grebter thbn the current <code>mbximum - visibleAmount</code>,
+     * then either <code>minimum</code> or <code>mbximum - visibleAmount</code>
+     * is substituted, bs bppropribte.
      * <p>
-     * Normally, a program should change a scroll bar's
-     * value only by calling <code>setValues</code>.
-     * The <code>setValues</code> method simultaneously
-     * and synchronously sets the minimum, maximum, visible amount,
-     * and value properties of a scroll bar, so that they are
-     * mutually consistent.
+     * Normblly, b progrbm should chbnge b scroll bbr's
+     * vblue only by cblling <code>setVblues</code>.
+     * The <code>setVblues</code> method simultbneously
+     * bnd synchronously sets the minimum, mbximum, visible bmount,
+     * bnd vblue properties of b scroll bbr, so thbt they bre
+     * mutublly consistent.
      * <p>
-     * Calling this method does not fire an
+     * Cblling this method does not fire bn
      * <code>AdjustmentEvent</code>.
      *
-     * @param       newValue   the new value of the scroll bar
-     * @see         java.awt.Scrollbar#setValues
-     * @see         java.awt.Scrollbar#getValue
-     * @see         java.awt.Scrollbar#getMinimum
-     * @see         java.awt.Scrollbar#getMaximum
+     * @pbrbm       newVblue   the new vblue of the scroll bbr
+     * @see         jbvb.bwt.Scrollbbr#setVblues
+     * @see         jbvb.bwt.Scrollbbr#getVblue
+     * @see         jbvb.bwt.Scrollbbr#getMinimum
+     * @see         jbvb.bwt.Scrollbbr#getMbximum
      */
-    public void setValue(int newValue) {
-        // Use setValues so that a consistent policy relating
-        // minimum, maximum, visible amount, and value is enforced.
-        setValues(newValue, visibleAmount, minimum, maximum);
+    public void setVblue(int newVblue) {
+        // Use setVblues so thbt b consistent policy relbting
+        // minimum, mbximum, visible bmount, bnd vblue is enforced.
+        setVblues(newVblue, visibleAmount, minimum, mbximum);
     }
 
     /**
-     * Gets the minimum value of this scroll bar.
+     * Gets the minimum vblue of this scroll bbr.
      *
-     * @return      the minimum value of this scroll bar
-     * @see         java.awt.Scrollbar#getValue
-     * @see         java.awt.Scrollbar#getMaximum
+     * @return      the minimum vblue of this scroll bbr
+     * @see         jbvb.bwt.Scrollbbr#getVblue
+     * @see         jbvb.bwt.Scrollbbr#getMbximum
      */
     public int getMinimum() {
         return minimum;
     }
 
     /**
-     * Sets the minimum value of this scroll bar.
+     * Sets the minimum vblue of this scroll bbr.
      * <p>
-     * When <code>setMinimum</code> is called, the minimum value
-     * is changed, and other values (including the maximum, the
-     * visible amount, and the current scroll bar value)
-     * are changed to be consistent with the new minimum.
+     * When <code>setMinimum</code> is cblled, the minimum vblue
+     * is chbnged, bnd other vblues (including the mbximum, the
+     * visible bmount, bnd the current scroll bbr vblue)
+     * bre chbnged to be consistent with the new minimum.
      * <p>
-     * Normally, a program should change a scroll bar's minimum
-     * value only by calling <code>setValues</code>.
-     * The <code>setValues</code> method simultaneously
-     * and synchronously sets the minimum, maximum, visible amount,
-     * and value properties of a scroll bar, so that they are
-     * mutually consistent.
+     * Normblly, b progrbm should chbnge b scroll bbr's minimum
+     * vblue only by cblling <code>setVblues</code>.
+     * The <code>setVblues</code> method simultbneously
+     * bnd synchronously sets the minimum, mbximum, visible bmount,
+     * bnd vblue properties of b scroll bbr, so thbt they bre
+     * mutublly consistent.
      * <p>
-     * Note that setting the minimum value to <code>Integer.MAX_VALUE</code>
-     * will result in the new minimum value being set to
+     * Note thbt setting the minimum vblue to <code>Integer.MAX_VALUE</code>
+     * will result in the new minimum vblue being set to
      * <code>Integer.MAX_VALUE - 1</code>.
      *
-     * @param       newMinimum   the new minimum value for this scroll bar
-     * @see         java.awt.Scrollbar#setValues
-     * @see         java.awt.Scrollbar#setMaximum
+     * @pbrbm       newMinimum   the new minimum vblue for this scroll bbr
+     * @see         jbvb.bwt.Scrollbbr#setVblues
+     * @see         jbvb.bwt.Scrollbbr#setMbximum
      * @since       1.1
      */
     public void setMinimum(int newMinimum) {
-        // No checks are necessary in this method since minimum is
-        // the first variable checked in the setValues function.
+        // No checks bre necessbry in this method since minimum is
+        // the first vbribble checked in the setVblues function.
 
-        // Use setValues so that a consistent policy relating
-        // minimum, maximum, visible amount, and value is enforced.
-        setValues(value, visibleAmount, newMinimum, maximum);
+        // Use setVblues so thbt b consistent policy relbting
+        // minimum, mbximum, visible bmount, bnd vblue is enforced.
+        setVblues(vblue, visibleAmount, newMinimum, mbximum);
     }
 
     /**
-     * Gets the maximum value of this scroll bar.
+     * Gets the mbximum vblue of this scroll bbr.
      *
-     * @return      the maximum value of this scroll bar
-     * @see         java.awt.Scrollbar#getValue
-     * @see         java.awt.Scrollbar#getMinimum
+     * @return      the mbximum vblue of this scroll bbr
+     * @see         jbvb.bwt.Scrollbbr#getVblue
+     * @see         jbvb.bwt.Scrollbbr#getMinimum
      */
-    public int getMaximum() {
-        return maximum;
+    public int getMbximum() {
+        return mbximum;
     }
 
     /**
-     * Sets the maximum value of this scroll bar.
+     * Sets the mbximum vblue of this scroll bbr.
      * <p>
-     * When <code>setMaximum</code> is called, the maximum value
-     * is changed, and other values (including the minimum, the
-     * visible amount, and the current scroll bar value)
-     * are changed to be consistent with the new maximum.
+     * When <code>setMbximum</code> is cblled, the mbximum vblue
+     * is chbnged, bnd other vblues (including the minimum, the
+     * visible bmount, bnd the current scroll bbr vblue)
+     * bre chbnged to be consistent with the new mbximum.
      * <p>
-     * Normally, a program should change a scroll bar's maximum
-     * value only by calling <code>setValues</code>.
-     * The <code>setValues</code> method simultaneously
-     * and synchronously sets the minimum, maximum, visible amount,
-     * and value properties of a scroll bar, so that they are
-     * mutually consistent.
+     * Normblly, b progrbm should chbnge b scroll bbr's mbximum
+     * vblue only by cblling <code>setVblues</code>.
+     * The <code>setVblues</code> method simultbneously
+     * bnd synchronously sets the minimum, mbximum, visible bmount,
+     * bnd vblue properties of b scroll bbr, so thbt they bre
+     * mutublly consistent.
      * <p>
-     * Note that setting the maximum value to <code>Integer.MIN_VALUE</code>
-     * will result in the new maximum value being set to
+     * Note thbt setting the mbximum vblue to <code>Integer.MIN_VALUE</code>
+     * will result in the new mbximum vblue being set to
      * <code>Integer.MIN_VALUE + 1</code>.
      *
-     * @param       newMaximum   the new maximum value
-     *                     for this scroll bar
-     * @see         java.awt.Scrollbar#setValues
-     * @see         java.awt.Scrollbar#setMinimum
+     * @pbrbm       newMbximum   the new mbximum vblue
+     *                     for this scroll bbr
+     * @see         jbvb.bwt.Scrollbbr#setVblues
+     * @see         jbvb.bwt.Scrollbbr#setMinimum
      * @since       1.1
      */
-    public void setMaximum(int newMaximum) {
-        // minimum is checked first in setValues, so we need to
-        // enforce minimum and maximum checks here.
-        if (newMaximum == Integer.MIN_VALUE) {
-            newMaximum = Integer.MIN_VALUE + 1;
+    public void setMbximum(int newMbximum) {
+        // minimum is checked first in setVblues, so we need to
+        // enforce minimum bnd mbximum checks here.
+        if (newMbximum == Integer.MIN_VALUE) {
+            newMbximum = Integer.MIN_VALUE + 1;
         }
 
-        if (minimum >= newMaximum) {
-            minimum = newMaximum - 1;
+        if (minimum >= newMbximum) {
+            minimum = newMbximum - 1;
         }
 
-        // Use setValues so that a consistent policy relating
-        // minimum, maximum, visible amount, and value is enforced.
-        setValues(value, visibleAmount, minimum, newMaximum);
+        // Use setVblues so thbt b consistent policy relbting
+        // minimum, mbximum, visible bmount, bnd vblue is enforced.
+        setVblues(vblue, visibleAmount, minimum, newMbximum);
     }
 
     /**
-     * Gets the visible amount of this scroll bar.
+     * Gets the visible bmount of this scroll bbr.
      * <p>
-     * When a scroll bar is used to select a range of values,
-     * the visible amount is used to represent the range of values
-     * that are currently visible.  The size of the scroll bar's
-     * bubble (also called a thumb or scroll box), usually gives a
-     * visual representation of the relationship of the visible
-     * amount to the range of the scroll bar.
-     * Note that depending on platform, the value of the visible amount property
-     * may not be visually indicated by the size of the bubble.
+     * When b scroll bbr is used to select b rbnge of vblues,
+     * the visible bmount is used to represent the rbnge of vblues
+     * thbt bre currently visible.  The size of the scroll bbr's
+     * bubble (blso cblled b thumb or scroll box), usublly gives b
+     * visubl representbtion of the relbtionship of the visible
+     * bmount to the rbnge of the scroll bbr.
+     * Note thbt depending on plbtform, the vblue of the visible bmount property
+     * mby not be visublly indicbted by the size of the bubble.
      * <p>
-     * The scroll bar's bubble may not be displayed when it is not
-     * moveable (e.g. when it takes up the entire length of the
-     * scroll bar's track, or when the scroll bar is disabled).
-     * Whether the bubble is displayed or not will not affect
-     * the value returned by <code>getVisibleAmount</code>.
+     * The scroll bbr's bubble mby not be displbyed when it is not
+     * movebble (e.g. when it tbkes up the entire length of the
+     * scroll bbr's trbck, or when the scroll bbr is disbbled).
+     * Whether the bubble is displbyed or not will not bffect
+     * the vblue returned by <code>getVisibleAmount</code>.
      *
-     * @return      the visible amount of this scroll bar
-     * @see         java.awt.Scrollbar#setVisibleAmount
+     * @return      the visible bmount of this scroll bbr
+     * @see         jbvb.bwt.Scrollbbr#setVisibleAmount
      * @since       1.1
      */
     public int getVisibleAmount() {
@@ -656,75 +656,75 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
     }
 
     /**
-     * Returns the visible amount of this scroll bar.
+     * Returns the visible bmount of this scroll bbr.
      *
-     * @return the visible amount of this scroll bar
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getVisibleAmount()</code>.
+     * @return the visible bmount of this scroll bbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getVisibleAmount()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public int getVisible() {
         return visibleAmount;
     }
 
     /**
-     * Sets the visible amount of this scroll bar.
+     * Sets the visible bmount of this scroll bbr.
      * <p>
-     * When a scroll bar is used to select a range of values,
-     * the visible amount is used to represent the range of values
-     * that are currently visible.  The size of the scroll bar's
-     * bubble (also called a thumb or scroll box), usually gives a
-     * visual representation of the relationship of the visible
-     * amount to the range of the scroll bar.
-     * Note that depending on platform, the value of the visible amount property
-     * may not be visually indicated by the size of the bubble.
+     * When b scroll bbr is used to select b rbnge of vblues,
+     * the visible bmount is used to represent the rbnge of vblues
+     * thbt bre currently visible.  The size of the scroll bbr's
+     * bubble (blso cblled b thumb or scroll box), usublly gives b
+     * visubl representbtion of the relbtionship of the visible
+     * bmount to the rbnge of the scroll bbr.
+     * Note thbt depending on plbtform, the vblue of the visible bmount property
+     * mby not be visublly indicbted by the size of the bubble.
      * <p>
-     * The scroll bar's bubble may not be displayed when it is not
-     * moveable (e.g. when it takes up the entire length of the
-     * scroll bar's track, or when the scroll bar is disabled).
-     * Whether the bubble is displayed or not will not affect
-     * the value returned by <code>getVisibleAmount</code>.
+     * The scroll bbr's bubble mby not be displbyed when it is not
+     * movebble (e.g. when it tbkes up the entire length of the
+     * scroll bbr's trbck, or when the scroll bbr is disbbled).
+     * Whether the bubble is displbyed or not will not bffect
+     * the vblue returned by <code>getVisibleAmount</code>.
      * <p>
-     * If the visible amount supplied is less than <code>one</code>
-     * or greater than the current <code>maximum - minimum</code>,
-     * then either <code>one</code> or <code>maximum - minimum</code>
-     * is substituted, as appropriate.
+     * If the visible bmount supplied is less thbn <code>one</code>
+     * or grebter thbn the current <code>mbximum - minimum</code>,
+     * then either <code>one</code> or <code>mbximum - minimum</code>
+     * is substituted, bs bppropribte.
      * <p>
-     * Normally, a program should change a scroll bar's
-     * value only by calling <code>setValues</code>.
-     * The <code>setValues</code> method simultaneously
-     * and synchronously sets the minimum, maximum, visible amount,
-     * and value properties of a scroll bar, so that they are
-     * mutually consistent.
+     * Normblly, b progrbm should chbnge b scroll bbr's
+     * vblue only by cblling <code>setVblues</code>.
+     * The <code>setVblues</code> method simultbneously
+     * bnd synchronously sets the minimum, mbximum, visible bmount,
+     * bnd vblue properties of b scroll bbr, so thbt they bre
+     * mutublly consistent.
      *
-     * @param       newAmount the new visible amount
-     * @see         java.awt.Scrollbar#getVisibleAmount
-     * @see         java.awt.Scrollbar#setValues
+     * @pbrbm       newAmount the new visible bmount
+     * @see         jbvb.bwt.Scrollbbr#getVisibleAmount
+     * @see         jbvb.bwt.Scrollbbr#setVblues
      * @since       1.1
      */
     public void setVisibleAmount(int newAmount) {
-        // Use setValues so that a consistent policy relating
-        // minimum, maximum, visible amount, and value is enforced.
-        setValues(value, newAmount, minimum, maximum);
+        // Use setVblues so thbt b consistent policy relbting
+        // minimum, mbximum, visible bmount, bnd vblue is enforced.
+        setVblues(vblue, newAmount, minimum, mbximum);
     }
 
     /**
-     * Sets the unit increment for this scroll bar.
+     * Sets the unit increment for this scroll bbr.
      * <p>
-     * The unit increment is the value that is added or subtracted
-     * when the user activates the unit increment area of the
-     * scroll bar, generally through a mouse or keyboard gesture
-     * that the scroll bar receives as an adjustment event.
-     * The unit increment must be greater than zero.
-     * Attepts to set the unit increment to a value lower than 1
-     * will result in a value of 1 being set.
+     * The unit increment is the vblue thbt is bdded or subtrbcted
+     * when the user bctivbtes the unit increment breb of the
+     * scroll bbr, generblly through b mouse or keybobrd gesture
+     * thbt the scroll bbr receives bs bn bdjustment event.
+     * The unit increment must be grebter thbn zero.
+     * Attepts to set the unit increment to b vblue lower thbn 1
+     * will result in b vblue of 1 being set.
      * <p>
-     * In some operating systems, this property
-     * can be ignored by the underlying controls.
+     * In some operbting systems, this property
+     * cbn be ignored by the underlying controls.
      *
-     * @param        v  the amount by which to increment or decrement
-     *                         the scroll bar's value
-     * @see          java.awt.Scrollbar#getUnitIncrement
+     * @pbrbm        v  the bmount by which to increment or decrement
+     *                         the scroll bbr's vblue
+     * @see          jbvb.bwt.Scrollbbr#getUnitIncrement
      * @since        1.1
      */
     public void setUnitIncrement(int v) {
@@ -732,14 +732,14 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
     }
 
     /**
-     * Sets the unit increment for this scroll bar.
+     * Sets the unit increment for this scroll bbr.
      *
-     * @param  v the increment value
+     * @pbrbm  v the increment vblue
      *
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setUnitIncrement(int)</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>setUnitIncrement(int)</code>.
      */
-    @Deprecated
+    @Deprecbted
     public synchronized void setLineIncrement(int v) {
         int tmp = (v < 1) ? 1 : v;
 
@@ -748,26 +748,26 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
         }
         lineIncrement = tmp;
 
-        ScrollbarPeer peer = (ScrollbarPeer)this.peer;
+        ScrollbbrPeer peer = (ScrollbbrPeer)this.peer;
         if (peer != null) {
             peer.setLineIncrement(lineIncrement);
         }
     }
 
     /**
-     * Gets the unit increment for this scrollbar.
+     * Gets the unit increment for this scrollbbr.
      * <p>
-     * The unit increment is the value that is added or subtracted
-     * when the user activates the unit increment area of the
-     * scroll bar, generally through a mouse or keyboard gesture
-     * that the scroll bar receives as an adjustment event.
-     * The unit increment must be greater than zero.
+     * The unit increment is the vblue thbt is bdded or subtrbcted
+     * when the user bctivbtes the unit increment breb of the
+     * scroll bbr, generblly through b mouse or keybobrd gesture
+     * thbt the scroll bbr receives bs bn bdjustment event.
+     * The unit increment must be grebter thbn zero.
      * <p>
-     * In some operating systems, this property
-     * can be ignored by the underlying controls.
+     * In some operbting systems, this property
+     * cbn be ignored by the underlying controls.
      *
-     * @return      the unit increment of this scroll bar
-     * @see         java.awt.Scrollbar#setUnitIncrement
+     * @return      the unit increment of this scroll bbr
+     * @see         jbvb.bwt.Scrollbbr#setUnitIncrement
      * @since       1.1
      */
     public int getUnitIncrement() {
@@ -775,338 +775,338 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
     }
 
     /**
-     * Returns the unit increment for this scrollbar.
+     * Returns the unit increment for this scrollbbr.
      *
-     * @return the unit increment for this scrollbar
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getUnitIncrement()</code>.
+     * @return the unit increment for this scrollbbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getUnitIncrement()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public int getLineIncrement() {
         return lineIncrement;
     }
 
     /**
-     * Sets the block increment for this scroll bar.
+     * Sets the block increment for this scroll bbr.
      * <p>
-     * The block increment is the value that is added or subtracted
-     * when the user activates the block increment area of the
-     * scroll bar, generally through a mouse or keyboard gesture
-     * that the scroll bar receives as an adjustment event.
-     * The block increment must be greater than zero.
-     * Attepts to set the block increment to a value lower than 1
-     * will result in a value of 1 being set.
+     * The block increment is the vblue thbt is bdded or subtrbcted
+     * when the user bctivbtes the block increment breb of the
+     * scroll bbr, generblly through b mouse or keybobrd gesture
+     * thbt the scroll bbr receives bs bn bdjustment event.
+     * The block increment must be grebter thbn zero.
+     * Attepts to set the block increment to b vblue lower thbn 1
+     * will result in b vblue of 1 being set.
      *
-     * @param        v  the amount by which to increment or decrement
-     *                         the scroll bar's value
-     * @see          java.awt.Scrollbar#getBlockIncrement
+     * @pbrbm        v  the bmount by which to increment or decrement
+     *                         the scroll bbr's vblue
+     * @see          jbvb.bwt.Scrollbbr#getBlockIncrement
      * @since        1.1
      */
     public void setBlockIncrement(int v) {
-        setPageIncrement(v);
+        setPbgeIncrement(v);
     }
 
     /**
-     * Sets the block increment for this scroll bar.
+     * Sets the block increment for this scroll bbr.
      *
-     * @param  v the block increment
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setBlockIncrement()</code>.
+     * @pbrbm  v the block increment
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>setBlockIncrement()</code>.
      */
-    @Deprecated
-    public synchronized void setPageIncrement(int v) {
+    @Deprecbted
+    public synchronized void setPbgeIncrement(int v) {
         int tmp = (v < 1) ? 1 : v;
 
-        if (pageIncrement == tmp) {
+        if (pbgeIncrement == tmp) {
             return;
         }
-        pageIncrement = tmp;
+        pbgeIncrement = tmp;
 
-        ScrollbarPeer peer = (ScrollbarPeer)this.peer;
+        ScrollbbrPeer peer = (ScrollbbrPeer)this.peer;
         if (peer != null) {
-            peer.setPageIncrement(pageIncrement);
+            peer.setPbgeIncrement(pbgeIncrement);
         }
     }
 
     /**
-     * Gets the block increment of this scroll bar.
+     * Gets the block increment of this scroll bbr.
      * <p>
-     * The block increment is the value that is added or subtracted
-     * when the user activates the block increment area of the
-     * scroll bar, generally through a mouse or keyboard gesture
-     * that the scroll bar receives as an adjustment event.
-     * The block increment must be greater than zero.
+     * The block increment is the vblue thbt is bdded or subtrbcted
+     * when the user bctivbtes the block increment breb of the
+     * scroll bbr, generblly through b mouse or keybobrd gesture
+     * thbt the scroll bbr receives bs bn bdjustment event.
+     * The block increment must be grebter thbn zero.
      *
-     * @return      the block increment of this scroll bar
-     * @see         java.awt.Scrollbar#setBlockIncrement
+     * @return      the block increment of this scroll bbr
+     * @see         jbvb.bwt.Scrollbbr#setBlockIncrement
      * @since       1.1
      */
     public int getBlockIncrement() {
-        return getPageIncrement();
+        return getPbgeIncrement();
     }
 
     /**
-     * Returns the block increment of this scroll bar.
+     * Returns the block increment of this scroll bbr.
      *
-     * @return the block increment of this scroll bar
+     * @return the block increment of this scroll bbr
      *
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getBlockIncrement()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getBlockIncrement()</code>.
      */
-    @Deprecated
-    public int getPageIncrement() {
-        return pageIncrement;
+    @Deprecbted
+    public int getPbgeIncrement() {
+        return pbgeIncrement;
     }
 
     /**
-     * Sets the values of four properties for this scroll bar:
-     * <code>value</code>, <code>visibleAmount</code>,
-     * <code>minimum</code>, and <code>maximum</code>.
-     * If the values supplied for these properties are inconsistent
-     * or incorrect, they will be changed to ensure consistency.
+     * Sets the vblues of four properties for this scroll bbr:
+     * <code>vblue</code>, <code>visibleAmount</code>,
+     * <code>minimum</code>, bnd <code>mbximum</code>.
+     * If the vblues supplied for these properties bre inconsistent
+     * or incorrect, they will be chbnged to ensure consistency.
      * <p>
-     * This method simultaneously and synchronously sets the values
-     * of four scroll bar properties, assuring that the values of
-     * these properties are mutually consistent. It enforces the
-     * following constraints:
-     * <code>maximum</code> must be greater than <code>minimum</code>,
-     * <code>maximum - minimum</code> must not be greater
-     *     than <code>Integer.MAX_VALUE</code>,
-     * <code>visibleAmount</code> must be greater than zero.
-     * <code>visibleAmount</code> must not be greater than
-     *     <code>maximum - minimum</code>,
-     * <code>value</code> must not be less than <code>minimum</code>,
-     * and <code>value</code> must not be greater than
-     *     <code>maximum - visibleAmount</code>
+     * This method simultbneously bnd synchronously sets the vblues
+     * of four scroll bbr properties, bssuring thbt the vblues of
+     * these properties bre mutublly consistent. It enforces the
+     * following constrbints:
+     * <code>mbximum</code> must be grebter thbn <code>minimum</code>,
+     * <code>mbximum - minimum</code> must not be grebter
+     *     thbn <code>Integer.MAX_VALUE</code>,
+     * <code>visibleAmount</code> must be grebter thbn zero.
+     * <code>visibleAmount</code> must not be grebter thbn
+     *     <code>mbximum - minimum</code>,
+     * <code>vblue</code> must not be less thbn <code>minimum</code>,
+     * bnd <code>vblue</code> must not be grebter thbn
+     *     <code>mbximum - visibleAmount</code>
      * <p>
-     * Calling this method does not fire an
+     * Cblling this method does not fire bn
      * <code>AdjustmentEvent</code>.
      *
-     * @param      value is the position in the current window
-     * @param      visible is the visible amount of the scroll bar
-     * @param      minimum is the minimum value of the scroll bar
-     * @param      maximum is the maximum value of the scroll bar
+     * @pbrbm      vblue is the position in the current window
+     * @pbrbm      visible is the visible bmount of the scroll bbr
+     * @pbrbm      minimum is the minimum vblue of the scroll bbr
+     * @pbrbm      mbximum is the mbximum vblue of the scroll bbr
      * @see        #setMinimum
-     * @see        #setMaximum
+     * @see        #setMbximum
      * @see        #setVisibleAmount
-     * @see        #setValue
+     * @see        #setVblue
      */
-    public void setValues(int value, int visible, int minimum, int maximum) {
-        int oldValue;
+    public void setVblues(int vblue, int visible, int minimum, int mbximum) {
+        int oldVblue;
         synchronized (this) {
             if (minimum == Integer.MAX_VALUE) {
                 minimum = Integer.MAX_VALUE - 1;
             }
-            if (maximum <= minimum) {
-                maximum = minimum + 1;
+            if (mbximum <= minimum) {
+                mbximum = minimum + 1;
             }
 
-            long maxMinusMin = (long) maximum - (long) minimum;
-            if (maxMinusMin > Integer.MAX_VALUE) {
-                maxMinusMin = Integer.MAX_VALUE;
-                maximum = minimum + (int) maxMinusMin;
+            long mbxMinusMin = (long) mbximum - (long) minimum;
+            if (mbxMinusMin > Integer.MAX_VALUE) {
+                mbxMinusMin = Integer.MAX_VALUE;
+                mbximum = minimum + (int) mbxMinusMin;
             }
-            if (visible > (int) maxMinusMin) {
-                visible = (int) maxMinusMin;
+            if (visible > (int) mbxMinusMin) {
+                visible = (int) mbxMinusMin;
             }
             if (visible < 1) {
                 visible = 1;
             }
 
-            if (value < minimum) {
-                value = minimum;
+            if (vblue < minimum) {
+                vblue = minimum;
             }
-            if (value > maximum - visible) {
-                value = maximum - visible;
+            if (vblue > mbximum - visible) {
+                vblue = mbximum - visible;
             }
 
-            oldValue = this.value;
-            this.value = value;
+            oldVblue = this.vblue;
+            this.vblue = vblue;
             this.visibleAmount = visible;
             this.minimum = minimum;
-            this.maximum = maximum;
-            ScrollbarPeer peer = (ScrollbarPeer)this.peer;
+            this.mbximum = mbximum;
+            ScrollbbrPeer peer = (ScrollbbrPeer)this.peer;
             if (peer != null) {
-                peer.setValues(value, visibleAmount, minimum, maximum);
+                peer.setVblues(vblue, visibleAmount, minimum, mbximum);
             }
         }
 
-        if ((oldValue != value) && (accessibleContext != null))  {
-            accessibleContext.firePropertyChange(
+        if ((oldVblue != vblue) && (bccessibleContext != null))  {
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_VALUE_PROPERTY,
-                    Integer.valueOf(oldValue),
-                    Integer.valueOf(value));
+                    Integer.vblueOf(oldVblue),
+                    Integer.vblueOf(vblue));
         }
     }
 
     /**
-     * Returns true if the value is in the process of changing as a
-     * result of actions being taken by the user.
+     * Returns true if the vblue is in the process of chbnging bs b
+     * result of bctions being tbken by the user.
      *
-     * @return the value of the <code>valueIsAdjusting</code> property
-     * @see #setValueIsAdjusting
+     * @return the vblue of the <code>vblueIsAdjusting</code> property
+     * @see #setVblueIsAdjusting
      * @since 1.4
      */
-    public boolean getValueIsAdjusting() {
+    public boolebn getVblueIsAdjusting() {
         return isAdjusting;
     }
 
     /**
-     * Sets the <code>valueIsAdjusting</code> property.
+     * Sets the <code>vblueIsAdjusting</code> property.
      *
-     * @param b new adjustment-in-progress status
-     * @see #getValueIsAdjusting
+     * @pbrbm b new bdjustment-in-progress stbtus
+     * @see #getVblueIsAdjusting
      * @since 1.4
      */
-    public void setValueIsAdjusting(boolean b) {
-        boolean oldValue;
+    public void setVblueIsAdjusting(boolebn b) {
+        boolebn oldVblue;
 
         synchronized (this) {
-            oldValue = isAdjusting;
+            oldVblue = isAdjusting;
             isAdjusting = b;
         }
 
-        if ((oldValue != b) && (accessibleContext != null)) {
-            accessibleContext.firePropertyChange(
+        if ((oldVblue != b) && (bccessibleContext != null)) {
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    ((oldValue) ? AccessibleState.BUSY : null),
-                    ((b) ? AccessibleState.BUSY : null));
+                    ((oldVblue) ? AccessibleStbte.BUSY : null),
+                    ((b) ? AccessibleStbte.BUSY : null));
         }
     }
 
 
 
     /**
-     * Adds the specified adjustment listener to receive instances of
-     * <code>AdjustmentEvent</code> from this scroll bar.
-     * If l is <code>null</code>, no exception is thrown and no
-     * action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Adds the specified bdjustment listener to receive instbnces of
+     * <code>AdjustmentEvent</code> from this scroll bbr.
+     * If l is <code>null</code>, no exception is thrown bnd no
+     * bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param        l the adjustment listener
+     * @pbrbm        l the bdjustment listener
      * @see          #removeAdjustmentListener
      * @see          #getAdjustmentListeners
-     * @see          java.awt.event.AdjustmentEvent
-     * @see          java.awt.event.AdjustmentListener
+     * @see          jbvb.bwt.event.AdjustmentEvent
+     * @see          jbvb.bwt.event.AdjustmentListener
      * @since        1.1
      */
-    public synchronized void addAdjustmentListener(AdjustmentListener l) {
+    public synchronized void bddAdjustmentListener(AdjustmentListener l) {
         if (l == null) {
             return;
         }
-        adjustmentListener = AWTEventMulticaster.add(adjustmentListener, l);
+        bdjustmentListener = AWTEventMulticbster.bdd(bdjustmentListener, l);
         newEventsOnly = true;
     }
 
     /**
-     * Removes the specified adjustment listener so that it no longer
-     * receives instances of <code>AdjustmentEvent</code> from this scroll bar.
-     * If l is <code>null</code>, no exception is thrown and no action
+     * Removes the specified bdjustment listener so thbt it no longer
+     * receives instbnces of <code>AdjustmentEvent</code> from this scroll bbr.
+     * If l is <code>null</code>, no exception is thrown bnd no bction
      * is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param           l    the adjustment listener
-     * @see             #addAdjustmentListener
+     * @pbrbm           l    the bdjustment listener
+     * @see             #bddAdjustmentListener
      * @see             #getAdjustmentListeners
-     * @see             java.awt.event.AdjustmentEvent
-     * @see             java.awt.event.AdjustmentListener
+     * @see             jbvb.bwt.event.AdjustmentEvent
+     * @see             jbvb.bwt.event.AdjustmentListener
      * @since           1.1
      */
     public synchronized void removeAdjustmentListener(AdjustmentListener l) {
         if (l == null) {
             return;
         }
-        adjustmentListener = AWTEventMulticaster.remove(adjustmentListener, l);
+        bdjustmentListener = AWTEventMulticbster.remove(bdjustmentListener, l);
     }
 
     /**
-     * Returns an array of all the adjustment listeners
-     * registered on this scrollbar.
+     * Returns bn brrby of bll the bdjustment listeners
+     * registered on this scrollbbr.
      *
-     * @return all of this scrollbar's <code>AdjustmentListener</code>s
-     *         or an empty array if no adjustment
-     *         listeners are currently registered
-     * @see             #addAdjustmentListener
+     * @return bll of this scrollbbr's <code>AdjustmentListener</code>s
+     *         or bn empty brrby if no bdjustment
+     *         listeners bre currently registered
+     * @see             #bddAdjustmentListener
      * @see             #removeAdjustmentListener
-     * @see             java.awt.event.AdjustmentEvent
-     * @see             java.awt.event.AdjustmentListener
+     * @see             jbvb.bwt.event.AdjustmentEvent
+     * @see             jbvb.bwt.event.AdjustmentListener
      * @since 1.4
      */
     public synchronized AdjustmentListener[] getAdjustmentListeners() {
-        return getListeners(AdjustmentListener.class);
+        return getListeners(AdjustmentListener.clbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this <code>Scrollbar</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
+     * upon this <code>Scrollbbr</code>.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal,  such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>Scrollbar</code> <code>c</code>
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl,  such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
+     * <code>Scrollbbr</code> <code>c</code>
      * for its mouse listeners with the following code:
      *
-     * <pre>MouseListener[] mls = (MouseListener[])(c.getListeners(MouseListener.class));</pre>
+     * <pre>MouseListener[] mls = (MouseListener[])(c.getListeners(MouseListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this component,
-     *          or an empty array if no such listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         EventListener l = null;
-        if  (listenerType == AdjustmentListener.class) {
-            l = adjustmentListener;
+        if  (listenerType == AdjustmentListener.clbss) {
+            l = bdjustmentListener;
         } else {
             return super.getListeners(listenerType);
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        return AWTEventMulticbster.getListeners(l, listenerType);
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
+    // REMIND: remove when filtering is done bt lower level
+    boolebn eventEnbbled(AWTEvent e) {
         if (e.id == AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED) {
-            if ((eventMask & AWTEvent.ADJUSTMENT_EVENT_MASK) != 0 ||
-                adjustmentListener != null) {
+            if ((eventMbsk & AWTEvent.ADJUSTMENT_EVENT_MASK) != 0 ||
+                bdjustmentListener != null) {
                 return true;
             }
-            return false;
+            return fblse;
         }
-        return super.eventEnabled(e);
+        return super.eventEnbbled(e);
     }
 
     /**
-     * Processes events on this scroll bar. If the event is an
-     * instance of <code>AdjustmentEvent</code>, it invokes the
+     * Processes events on this scroll bbr. If the event is bn
+     * instbnce of <code>AdjustmentEvent</code>, it invokes the
      * <code>processAdjustmentEvent</code> method.
-     * Otherwise, it invokes its superclass's
+     * Otherwise, it invokes its superclbss's
      * <code>processEvent</code> method.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param        e the event
-     * @see          java.awt.event.AdjustmentEvent
-     * @see          java.awt.Scrollbar#processAdjustmentEvent
+     * @pbrbm        e the event
+     * @see          jbvb.bwt.event.AdjustmentEvent
+     * @see          jbvb.bwt.Scrollbbr#processAdjustmentEvent
      * @since        1.1
      */
     protected void processEvent(AWTEvent e) {
-        if (e instanceof AdjustmentEvent) {
+        if (e instbnceof AdjustmentEvent) {
             processAdjustmentEvent((AdjustmentEvent)e);
             return;
         }
@@ -1114,122 +1114,122 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
     }
 
     /**
-     * Processes adjustment events occurring on this
-     * scrollbar by dispatching them to any registered
+     * Processes bdjustment events occurring on this
+     * scrollbbr by dispbtching them to bny registered
      * <code>AdjustmentListener</code> objects.
      * <p>
-     * This method is not called unless adjustment events are
-     * enabled for this component. Adjustment events are enabled
+     * This method is not cblled unless bdjustment events bre
+     * enbbled for this component. Adjustment events bre enbbled
      * when one of the following occurs:
      * <ul>
      * <li>An <code>AdjustmentListener</code> object is registered
-     * via <code>addAdjustmentListener</code>.
-     * <li>Adjustment events are enabled via <code>enableEvents</code>.
+     * vib <code>bddAdjustmentListener</code>.
+     * <li>Adjustment events bre enbbled vib <code>enbbleEvents</code>.
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param       e the adjustment event
-     * @see         java.awt.event.AdjustmentEvent
-     * @see         java.awt.event.AdjustmentListener
-     * @see         java.awt.Scrollbar#addAdjustmentListener
-     * @see         java.awt.Component#enableEvents
+     * @pbrbm       e the bdjustment event
+     * @see         jbvb.bwt.event.AdjustmentEvent
+     * @see         jbvb.bwt.event.AdjustmentListener
+     * @see         jbvb.bwt.Scrollbbr#bddAdjustmentListener
+     * @see         jbvb.bwt.Component#enbbleEvents
      * @since       1.1
      */
     protected void processAdjustmentEvent(AdjustmentEvent e) {
-        AdjustmentListener listener = adjustmentListener;
+        AdjustmentListener listener = bdjustmentListener;
         if (listener != null) {
-            listener.adjustmentValueChanged(e);
+            listener.bdjustmentVblueChbnged(e);
         }
     }
 
     /**
-     * Returns a string representing the state of this <code>Scrollbar</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * Returns b string representing the stbte of this <code>Scrollbbr</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return      the parameter string of this scroll bar
+     * @return      the pbrbmeter string of this scroll bbr
      */
-    protected String paramString() {
-        return super.paramString() +
-            ",val=" + value +
+    protected String pbrbmString() {
+        return super.pbrbmString() +
+            ",vbl=" + vblue +
             ",vis=" + visibleAmount +
             ",min=" + minimum +
-            ",max=" + maximum +
-            ((orientation == VERTICAL) ? ",vert" : ",horz") +
+            ",mbx=" + mbximum +
+            ((orientbtion == VERTICAL) ? ",vert" : ",horz") +
             ",isAdjusting=" + isAdjusting;
     }
 
 
-    /* Serialization support.
+    /* Seriblizbtion support.
      */
 
     /**
-     * The scroll bar's serialized Data Version.
+     * The scroll bbr's seriblized Dbtb Version.
      *
-     * @serial
+     * @seribl
      */
-    private int scrollbarSerializedDataVersion = 1;
+    privbte int scrollbbrSeriblizedDbtbVersion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * a list of serializable <code>AdjustmentListeners</code>
-     * as optional data. The non-serializable listeners are
-     * detected and no attempt is made to serialize them.
+     * Writes defbult seriblizbble fields to strebm.  Writes
+     * b list of seriblizbble <code>AdjustmentListeners</code>
+     * bs optionbl dbtb. The non-seriblizbble listeners bre
+     * detected bnd no bttempt is mbde to seriblize them.
      *
-     * @param s the <code>ObjectOutputStream</code> to write
-     * @serialData <code>null</code> terminated sequence of 0
-     *   or more pairs; the pair consists of a <code>String</code>
-     *   and an <code>Object</code>; the <code>String</code> indicates
-     *   the type of object and is one of the following:
-     *   <code>adjustmentListenerK</code> indicating an
+     * @pbrbm s the <code>ObjectOutputStrebm</code> to write
+     * @seriblDbtb <code>null</code> terminbted sequence of 0
+     *   or more pbirs; the pbir consists of b <code>String</code>
+     *   bnd bn <code>Object</code>; the <code>String</code> indicbtes
+     *   the type of object bnd is one of the following:
+     *   <code>bdjustmentListenerK</code> indicbting bn
      *     <code>AdjustmentListener</code> object
      *
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see java.awt.Component#adjustmentListenerK
-     * @see #readObject(ObjectInputStream)
+     * @see AWTEventMulticbster#sbve(ObjectOutputStrebm, String, EventListener)
+     * @see jbvb.bwt.Component#bdjustmentListenerK
+     * @see #rebdObject(ObjectInputStrebm)
      */
-    private void writeObject(ObjectOutputStream s)
+    privbte void writeObject(ObjectOutputStrebm s)
       throws IOException
     {
-      s.defaultWriteObject();
+      s.defbultWriteObject();
 
-      AWTEventMulticaster.save(s, adjustmentListenerK, adjustmentListener);
+      AWTEventMulticbster.sbve(s, bdjustmentListenerK, bdjustmentListener);
       s.writeObject(null);
     }
 
     /**
-     * Reads the <code>ObjectInputStream</code> and if
-     * it isn't <code>null</code> adds a listener to
-     * receive adjustment events fired by the
-     * <code>Scrollbar</code>.
-     * Unrecognized keys or values will be ignored.
+     * Rebds the <code>ObjectInputStrebm</code> bnd if
+     * it isn't <code>null</code> bdds b listener to
+     * receive bdjustment events fired by the
+     * <code>Scrollbbr</code>.
+     * Unrecognized keys or vblues will be ignored.
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm s the <code>ObjectInputStrebm</code> to rebd
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #writeObject(ObjectOutputStream)
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #writeObject(ObjectOutputStrebm)
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException, HebdlessException
     {
-      GraphicsEnvironment.checkHeadless();
-      s.defaultReadObject();
+      GrbphicsEnvironment.checkHebdless();
+      s.defbultRebdObject();
 
       Object keyOrNull;
-      while(null != (keyOrNull = s.readObject())) {
+      while(null != (keyOrNull = s.rebdObject())) {
         String key = ((String)keyOrNull).intern();
 
-        if (adjustmentListenerK == key)
-          addAdjustmentListener((AdjustmentListener)(s.readObject()));
+        if (bdjustmentListenerK == key)
+          bddAdjustmentListener((AdjustmentListener)(s.rebdObject()));
 
-        else // skip value for unrecognized key
-          s.readObject();
+        else // skip vblue for unrecognized key
+          s.rebdObject();
       }
     }
 
@@ -1239,62 +1239,62 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
 ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
-     * <code>Scrollbar</code>. For scrollbars, the
-     * <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleAWTScrollBar</code>. A new
-     * <code>AccessibleAWTScrollBar</code> instance is created if necessary.
+     * Gets the <code>AccessibleContext</code> bssocibted with this
+     * <code>Scrollbbr</code>. For scrollbbrs, the
+     * <code>AccessibleContext</code> tbkes the form of bn
+     * <code>AccessibleAWTScrollBbr</code>. A new
+     * <code>AccessibleAWTScrollBbr</code> instbnce is crebted if necessbry.
      *
-     * @return an <code>AccessibleAWTScrollBar</code> that serves as the
-     *         <code>AccessibleContext</code> of this <code>ScrollBar</code>
+     * @return bn <code>AccessibleAWTScrollBbr</code> thbt serves bs the
+     *         <code>AccessibleContext</code> of this <code>ScrollBbr</code>
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTScrollBar();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTScrollBbr();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Scrollbar</code> class.  It provides an implementation of
-     * the Java Accessibility API appropriate to scrollbar
-     * user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>Scrollbbr</code> clbss.  It provides bn implementbtion of
+     * the Jbvb Accessibility API bppropribte to scrollbbr
+     * user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleAWTScrollBar extends AccessibleAWTComponent
-        implements AccessibleValue
+    protected clbss AccessibleAWTScrollBbr extends AccessibleAWTComponent
+        implements AccessibleVblue
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = -344337268523697807L;
+        privbte stbtic finbl long seriblVersionUID = -344337268523697807L;
 
         /**
-         * Get the state set of this object.
+         * Get the stbte set of this object.
          *
-         * @return an instance of <code>AccessibleState</code>
-         *     containing the current state of the object
-         * @see AccessibleState
+         * @return bn instbnce of <code>AccessibleStbte</code>
+         *     contbining the current stbte of the object
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            if (getValueIsAdjusting()) {
-                states.add(AccessibleState.BUSY);
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            if (getVblueIsAdjusting()) {
+                stbtes.bdd(AccessibleStbte.BUSY);
             }
-            if (getOrientation() == VERTICAL) {
-                states.add(AccessibleState.VERTICAL);
+            if (getOrientbtion() == VERTICAL) {
+                stbtes.bdd(AccessibleStbte.VERTICAL);
             } else {
-                states.add(AccessibleState.HORIZONTAL);
+                stbtes.bdd(AccessibleStbte.HORIZONTAL);
             }
-            return states;
+            return stbtes;
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of <code>AccessibleRole</code>
+         * @return bn instbnce of <code>AccessibleRole</code>
          *     describing the role of the object
          */
         public AccessibleRole getAccessibleRole() {
@@ -1302,59 +1302,59 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
         }
 
         /**
-         * Get the <code>AccessibleValue</code> associated with this
-         * object.  In the implementation of the Java Accessibility
-         * API for this class, return this object, which is
+         * Get the <code>AccessibleVblue</code> bssocibted with this
+         * object.  In the implementbtion of the Jbvb Accessibility
+         * API for this clbss, return this object, which is
          * responsible for implementing the
-         * <code>AccessibleValue</code> interface on behalf of itself.
+         * <code>AccessibleVblue</code> interfbce on behblf of itself.
          *
          * @return this object
          */
-        public AccessibleValue getAccessibleValue() {
+        public AccessibleVblue getAccessibleVblue() {
             return this;
         }
 
         /**
-         * Get the accessible value of this object.
+         * Get the bccessible vblue of this object.
          *
-         * @return The current value of this object.
+         * @return The current vblue of this object.
          */
-        public Number getCurrentAccessibleValue() {
-            return Integer.valueOf(getValue());
+        public Number getCurrentAccessibleVblue() {
+            return Integer.vblueOf(getVblue());
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Set the vblue of this object bs b Number.
          *
-         * @return True if the value was set.
+         * @return True if the vblue wbs set.
          */
-        public boolean setCurrentAccessibleValue(Number n) {
-            if (n instanceof Integer) {
-                setValue(n.intValue());
+        public boolebn setCurrentAccessibleVblue(Number n) {
+            if (n instbnceof Integer) {
+                setVblue(n.intVblue());
                 return true;
             } else {
-                return false;
+                return fblse;
             }
         }
 
         /**
-         * Get the minimum accessible value of this object.
+         * Get the minimum bccessible vblue of this object.
          *
-         * @return The minimum value of this object.
+         * @return The minimum vblue of this object.
          */
-        public Number getMinimumAccessibleValue() {
-            return Integer.valueOf(getMinimum());
+        public Number getMinimumAccessibleVblue() {
+            return Integer.vblueOf(getMinimum());
         }
 
         /**
-         * Get the maximum accessible value of this object.
+         * Get the mbximum bccessible vblue of this object.
          *
-         * @return The maximum value of this object.
+         * @return The mbximum vblue of this object.
          */
-        public Number getMaximumAccessibleValue() {
-            return Integer.valueOf(getMaximum());
+        public Number getMbximumAccessibleVblue() {
+            return Integer.vblueOf(getMbximum());
         }
 
-    } // AccessibleAWTScrollBar
+    } // AccessibleAWTScrollBbr
 
 }

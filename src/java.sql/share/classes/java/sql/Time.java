@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
-import java.time.Instant;
-import java.time.LocalTime;
+import jbvb.time.Instbnt;
+import jbvb.time.LocblTime;
 
 /**
- * <P>A thin wrapper around the <code>java.util.Date</code> class that allows the JDBC
- * API to identify this as an SQL <code>TIME</code> value. The <code>Time</code>
- * class adds formatting and
- * parsing operations to support the JDBC escape syntax for time
- * values.
- * <p>The date components should be set to the "zero epoch"
- * value of January 1, 1970 and should not be accessed.
+ * <P>A thin wrbpper bround the <code>jbvb.util.Dbte</code> clbss thbt bllows the JDBC
+ * API to identify this bs bn SQL <code>TIME</code> vblue. The <code>Time</code>
+ * clbss bdds formbtting bnd
+ * pbrsing operbtions to support the JDBC escbpe syntbx for time
+ * vblues.
+ * <p>The dbte components should be set to the "zero epoch"
+ * vblue of Jbnubry 1, 1970 bnd should not be bccessed.
  */
-public class Time extends java.util.Date {
+public clbss Time extends jbvb.util.Dbte {
 
     /**
-     * Constructs a <code>Time</code> object initialized with the
-     * given values for the hour, minute, and second.
-     * The driver sets the date components to January 1, 1970.
-     * Any method that attempts to access the date components of a
-     * <code>Time</code> object will throw a
-     * <code>java.lang.IllegalArgumentException</code>.
+     * Constructs b <code>Time</code> object initiblized with the
+     * given vblues for the hour, minute, bnd second.
+     * The driver sets the dbte components to Jbnubry 1, 1970.
+     * Any method thbt bttempts to bccess the dbte components of b
+     * <code>Time</code> object will throw b
+     * <code>jbvb.lbng.IllegblArgumentException</code>.
      * <P>
-     * The result is undefined if a given argument is out of bounds.
+     * The result is undefined if b given brgument is out of bounds.
      *
-     * @param hour 0 to 23
-     * @param minute 0 to 59
-     * @param second 0 to 59
+     * @pbrbm hour 0 to 23
+     * @pbrbm minute 0 to 59
+     * @pbrbm second 0 to 59
      *
-     * @deprecated Use the constructor that takes a milliseconds value
-     *             in place of this constructor
+     * @deprecbted Use the constructor thbt tbkes b milliseconds vblue
+     *             in plbce of this constructor
      */
-    @Deprecated
+    @Deprecbted
     public Time(int hour, int minute, int second) {
         super(70, 0, 1, hour, minute, second);
     }
 
     /**
-     * Constructs a <code>Time</code> object using a milliseconds time value.
+     * Constructs b <code>Time</code> object using b milliseconds time vblue.
      *
-     * @param time milliseconds since January 1, 1970, 00:00:00 GMT;
-     *             a negative number is milliseconds before
-     *               January 1, 1970, 00:00:00 GMT
+     * @pbrbm time milliseconds since Jbnubry 1, 1970, 00:00:00 GMT;
+     *             b negbtive number is milliseconds before
+     *               Jbnubry 1, 1970, 00:00:00 GMT
      */
     public Time(long time) {
         super(time);
     }
 
     /**
-     * Sets a <code>Time</code> object using a milliseconds time value.
+     * Sets b <code>Time</code> object using b milliseconds time vblue.
      *
-     * @param time milliseconds since January 1, 1970, 00:00:00 GMT;
-     *             a negative number is milliseconds before
-     *               January 1, 1970, 00:00:00 GMT
+     * @pbrbm time milliseconds since Jbnubry 1, 1970, 00:00:00 GMT;
+     *             b negbtive number is milliseconds before
+     *               Jbnubry 1, 1970, 00:00:00 GMT
      */
     public void setTime(long time) {
         super.setTime(time);
     }
 
     /**
-     * Converts a string in JDBC time escape format to a <code>Time</code> value.
+     * Converts b string in JDBC time escbpe formbt to b <code>Time</code> vblue.
      *
-     * @param s time in format "hh:mm:ss"
-     * @return a corresponding <code>Time</code> object
+     * @pbrbm s time in formbt "hh:mm:ss"
+     * @return b corresponding <code>Time</code> object
      */
-    public static Time valueOf(String s) {
+    public stbtic Time vblueOf(String s) {
         int hour;
         int minute;
         int second;
         int firstColon;
         int secondColon;
 
-        if (s == null) throw new java.lang.IllegalArgumentException();
+        if (s == null) throw new jbvb.lbng.IllegblArgumentException();
 
         firstColon = s.indexOf(':');
         secondColon = s.indexOf(':', firstColon+1);
         if ((firstColon > 0) & (secondColon > 0) &
             (secondColon < s.length()-1)) {
-            hour = Integer.parseInt(s.substring(0, firstColon));
+            hour = Integer.pbrseInt(s.substring(0, firstColon));
             minute =
-                Integer.parseInt(s.substring(firstColon+1, secondColon));
-            second = Integer.parseInt(s.substring(secondColon+1));
+                Integer.pbrseInt(s.substring(firstColon+1, secondColon));
+            second = Integer.pbrseInt(s.substring(secondColon+1));
         } else {
-            throw new java.lang.IllegalArgumentException();
+            throw new jbvb.lbng.IllegblArgumentException();
         }
 
         return new Time(hour, minute, second);
     }
 
     /**
-     * Formats a time in JDBC time escape format.
+     * Formbts b time in JDBC time escbpe formbt.
      *
-     * @return a <code>String</code> in hh:mm:ss format
+     * @return b <code>String</code> in hh:mm:ss formbt
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     public String toString () {
         int hour = super.getHours();
         int minute = super.getMinutes();
@@ -145,151 +145,151 @@ public class Time extends java.util.Date {
         return (hourString + ":" + minuteString + ":" + secondString);
     }
 
-    // Override all the date operations inherited from java.util.Date;
+    // Override bll the dbte operbtions inherited from jbvb.util.Dbte;
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a year component.
+    * This method is deprecbted bnd should not be used becbuse SQL <code>TIME</code>
+    * vblues do not hbve b yebr component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this
     *           method is invoked
-    * @see #setYear
+    * @see #setYebr
     */
-    @Deprecated
-    public int getYear() {
-        throw new java.lang.IllegalArgumentException();
+    @Deprecbted
+    public int getYebr() {
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a month component.
+    * This method is deprecbted bnd should not be used becbuse SQL <code>TIME</code>
+    * vblues do not hbve b month component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this
     *           method is invoked
     * @see #setMonth
     */
-    @Deprecated
+    @Deprecbted
     public int getMonth() {
-        throw new java.lang.IllegalArgumentException();
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a day component.
+    * This method is deprecbted bnd should not be used becbuse SQL <code>TIME</code>
+    * vblues do not hbve b dby component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this
     *           method is invoked
     */
-    @Deprecated
-    public int getDay() {
-        throw new java.lang.IllegalArgumentException();
+    @Deprecbted
+    public int getDby() {
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a date component.
+    * This method is deprecbted bnd should not be used becbuse SQL <code>TIME</code>
+    * vblues do not hbve b dbte component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this
     *           method is invoked
-    * @see #setDate
+    * @see #setDbte
     */
-    @Deprecated
-    public int getDate() {
-        throw new java.lang.IllegalArgumentException();
+    @Deprecbted
+    public int getDbte() {
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a year component.
+    * This method is deprecbted bnd should not be used becbuse SQL <code>TIME</code>
+    * vblues do not hbve b yebr component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this
     *           method is invoked
-    * @see #getYear
+    * @see #getYebr
     */
-    @Deprecated
-    public void setYear(int i) {
-        throw new java.lang.IllegalArgumentException();
+    @Deprecbted
+    public void setYebr(int i) {
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a month component.
+    * This method is deprecbted bnd should not be used becbuse SQL <code>TIME</code>
+    * vblues do not hbve b month component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this
     *           method is invoked
     * @see #getMonth
     */
-    @Deprecated
+    @Deprecbted
     public void setMonth(int i) {
-        throw new java.lang.IllegalArgumentException();
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a date component.
+    * This method is deprecbted bnd should not be used becbuse SQL <code>TIME</code>
+    * vblues do not hbve b dbte component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this
     *           method is invoked
-    * @see #getDate
+    * @see #getDbte
     */
-    @Deprecated
-    public void setDate(int i) {
-        throw new java.lang.IllegalArgumentException();
+    @Deprecbted
+    public void setDbte(int i) {
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * Private serial version unique ID to ensure serialization
-    * compatibility.
+    * Privbte seribl version unique ID to ensure seriblizbtion
+    * compbtibility.
     */
-    static final long serialVersionUID = 8397324403548013681L;
+    stbtic finbl long seriblVersionUID = 8397324403548013681L;
 
     /**
-     * Obtains an instance of {@code Time} from a {@link LocalTime} object
-     * with the same hour, minute and second time value as the given
-     * {@code LocalTime}. The nanosecond field from {@code LocalTime} is
-     * not part of the newly created {@code Time} object.
+     * Obtbins bn instbnce of {@code Time} from b {@link LocblTime} object
+     * with the sbme hour, minute bnd second time vblue bs the given
+     * {@code LocblTime}. The nbnosecond field from {@code LocblTime} is
+     * not pbrt of the newly crebted {@code Time} object.
      *
-     * @param time a {@code LocalTime} to convert
-     * @return a {@code Time} object
+     * @pbrbm time b {@code LocblTime} to convert
+     * @return b {@code Time} object
      * @exception NullPointerException if {@code time} is null
      * @since 1.8
      */
-    @SuppressWarnings("deprecation")
-    public static Time valueOf(LocalTime time) {
+    @SuppressWbrnings("deprecbtion")
+    public stbtic Time vblueOf(LocblTime time) {
         return new Time(time.getHour(), time.getMinute(), time.getSecond());
     }
 
     /**
-     * Converts this {@code Time} object to a {@code LocalTime}.
+     * Converts this {@code Time} object to b {@code LocblTime}.
      * <p>
-     * The conversion creates a {@code LocalTime} that represents the same
-     * hour, minute, and second time value as this {@code Time}. The
-     * nanosecond {@code LocalTime} field will be set to zero.
+     * The conversion crebtes b {@code LocblTime} thbt represents the sbme
+     * hour, minute, bnd second time vblue bs this {@code Time}. The
+     * nbnosecond {@code LocblTime} field will be set to zero.
      *
-     * @return a {@code LocalTime} object representing the same time value
+     * @return b {@code LocblTime} object representing the sbme time vblue
      * @since 1.8
      */
-    @SuppressWarnings("deprecation")
-    public LocalTime toLocalTime() {
-        return LocalTime.of(getHours(), getMinutes(), getSeconds());
+    @SuppressWbrnings("deprecbtion")
+    public LocblTime toLocblTime() {
+        return LocblTime.of(getHours(), getMinutes(), getSeconds());
     }
 
    /**
-    * This method always throws an UnsupportedOperationException and should
-    * not be used because SQL {@code Time} values do not have a date
+    * This method blwbys throws bn UnsupportedOperbtionException bnd should
+    * not be used becbuse SQL {@code Time} vblues do not hbve b dbte
     * component.
     *
-    * @exception java.lang.UnsupportedOperationException if this method is invoked
+    * @exception jbvb.lbng.UnsupportedOperbtionException if this method is invoked
     */
     @Override
-    public Instant toInstant() {
-        throw new java.lang.UnsupportedOperationException();
+    public Instbnt toInstbnt() {
+        throw new jbvb.lbng.UnsupportedOperbtionException();
     }
 }

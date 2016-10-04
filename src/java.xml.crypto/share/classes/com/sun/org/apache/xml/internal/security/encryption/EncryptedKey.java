@@ -3,57 +3,57 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
 /**
- * The <code>EncryptedKey</code> element is used to transport encryption keys
- * from the originator to a known recipient(s). It may be used as a stand-alone
- * XML document, be placed within an application document, or appear inside an
- * <code>EncryptedData</code> element as a child of a <code>ds:KeyInfo</code>
- * element. The key value is always encrypted to the recipient(s). When
- * <code>EncryptedKey</code> is decrypted the resulting octets are made
- * available to the <code>EncryptionMethod</code> algorithm without any
- * additional processing.
+ * The <code>EncryptedKey</code> element is used to trbnsport encryption keys
+ * from the originbtor to b known recipient(s). It mby be used bs b stbnd-blone
+ * XML document, be plbced within bn bpplicbtion document, or bppebr inside bn
+ * <code>EncryptedDbtb</code> element bs b child of b <code>ds:KeyInfo</code>
+ * element. The key vblue is blwbys encrypted to the recipient(s). When
+ * <code>EncryptedKey</code> is decrypted the resulting octets bre mbde
+ * bvbilbble to the <code>EncryptionMethod</code> blgorithm without bny
+ * bdditionbl processing.
  * <p>
- * Its schema definition is as follows:
+ * Its schemb definition is bs follows:
  * <xmp>
- * <element name='EncryptedKey' type='xenc:EncryptedKeyType'/>
- * <complexType name='EncryptedKeyType'>
+ * <element nbme='EncryptedKey' type='xenc:EncryptedKeyType'/>
+ * <complexType nbme='EncryptedKeyType'>
  *     <complexContent>
- *         <extension base='xenc:EncryptedType'>
+ *         <extension bbse='xenc:EncryptedType'>
  *             <sequence>
  *                 <element ref='xenc:ReferenceList' minOccurs='0'/>
- *                 <element name='CarriedKeyName' type='string' minOccurs='0'/>
+ *                 <element nbme='CbrriedKeyNbme' type='string' minOccurs='0'/>
  *             </sequence>
- *             <attribute name='Recipient' type='string' use='optional'/>
+ *             <bttribute nbme='Recipient' type='string' use='optionbl'/>
  *         </extension>
  *     </complexContent>
  * </complexType>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @buthor Axl Mbttheus
  */
-public interface EncryptedKey extends EncryptedType {
+public interfbce EncryptedKey extends EncryptedType {
 
     /**
-     * Returns a hint as to which recipient this encrypted key value is intended for.
+     * Returns b hint bs to which recipient this encrypted key vblue is intended for.
      *
      * @return the recipient of the <code>EncryptedKey</code>.
      */
@@ -62,52 +62,52 @@ public interface EncryptedKey extends EncryptedType {
     /**
      * Sets the recipient for this <code>EncryptedKey</code>.
      *
-     * @param recipient the recipient for this <code>EncryptedKey</code>.
+     * @pbrbm recipient the recipient for this <code>EncryptedKey</code>.
      */
     void setRecipient(String recipient);
 
     /**
-     * Returns pointers to data and keys encrypted using this key. The reference
-     * list may contain multiple references to <code>EncryptedKey</code> and
-     * <code>EncryptedData</code> elements. This is done using
-     * <code>KeyReference</code> and <code>DataReference</code> elements
+     * Returns pointers to dbtb bnd keys encrypted using this key. The reference
+     * list mby contbin multiple references to <code>EncryptedKey</code> bnd
+     * <code>EncryptedDbtb</code> elements. This is done using
+     * <code>KeyReference</code> bnd <code>DbtbReference</code> elements
      * respectively.
      *
-     * @return an <code>Iterator</code> over all the <code>ReferenceList</code>s
-     *   contained in this <code>EncryptedKey</code>.
+     * @return bn <code>Iterbtor</code> over bll the <code>ReferenceList</code>s
+     *   contbined in this <code>EncryptedKey</code>.
      */
     ReferenceList getReferenceList();
 
     /**
      * Sets the <code>ReferenceList</code> to the <code>EncryptedKey</code>.
      *
-     * @param list a list of pointers to data elements encrypted using this key.
+     * @pbrbm list b list of pointers to dbtb elements encrypted using this key.
      */
     void setReferenceList(ReferenceList list);
 
     /**
-     * Returns a user readable name with the key value. This may then be used to
-     * reference the key using the <code>ds:KeyName</code> element within
-     * <code>ds:KeyInfo</code>. The same <code>CarriedKeyName</code> label,
-     * unlike an ID type, may occur multiple times within a single document. The
-     * value of the key is to be the same in all <code>EncryptedKey</code>
-     * elements identified with the same <code>CarriedKeyName</code> label
-     * within a single XML document.
+     * Returns b user rebdbble nbme with the key vblue. This mby then be used to
+     * reference the key using the <code>ds:KeyNbme</code> element within
+     * <code>ds:KeyInfo</code>. The sbme <code>CbrriedKeyNbme</code> lbbel,
+     * unlike bn ID type, mby occur multiple times within b single document. The
+     * vblue of the key is to be the sbme in bll <code>EncryptedKey</code>
+     * elements identified with the sbme <code>CbrriedKeyNbme</code> lbbel
+     * within b single XML document.
      * <br>
-     * <b>Note</b> that because whitespace is significant in the value of
-     * the <code>ds:KeyName</code> element, whitespace is also significant in
-     * the value of the <code>CarriedKeyName</code> element.
+     * <b>Note</b> thbt becbuse whitespbce is significbnt in the vblue of
+     * the <code>ds:KeyNbme</code> element, whitespbce is blso significbnt in
+     * the vblue of the <code>CbrriedKeyNbme</code> element.
      *
-     * @return over all the carried names contained in
+     * @return over bll the cbrried nbmes contbined in
      *   this <code>EncryptedKey</code>.
      */
-    String getCarriedName();
+    String getCbrriedNbme();
 
     /**
-     * Sets the carried name.
+     * Sets the cbrried nbme.
      *
-     * @param name the carried name.
+     * @pbrbm nbme the cbrried nbme.
      */
-    void setCarriedName(String name);
+    void setCbrriedNbme(String nbme);
 }
 

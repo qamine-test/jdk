@@ -1,521 +1,521 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
-import java.util.Locale;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.NoSuchElementException;
+import jbvb.util.Locble;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Properties;
+import jbvb.util.NoSuchElementException;
 
 /**
-  * The implementation class for CompoundName and CompositeName.
-  * This class is package private.
+  * The implementbtion clbss for CompoundNbme bnd CompositeNbme.
+  * This clbss is pbckbge privbte.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
-  * @author Aravindan Ranganathan
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
+  * @buthor Arbvindbn Rbngbnbthbn
   * @since 1.3
   */
 
-class NameImpl {
-    private static final byte LEFT_TO_RIGHT = 1;
-    private static final byte RIGHT_TO_LEFT = 2;
-    private static final byte FLAT = 0;
+clbss NbmeImpl {
+    privbte stbtic finbl byte LEFT_TO_RIGHT = 1;
+    privbte stbtic finbl byte RIGHT_TO_LEFT = 2;
+    privbte stbtic finbl byte FLAT = 0;
 
-    private Vector<String> components;
+    privbte Vector<String> components;
 
-    private byte syntaxDirection = LEFT_TO_RIGHT;
-    private String syntaxSeparator = "/";
-    private String syntaxSeparator2 = null;
-    private boolean syntaxCaseInsensitive = false;
-    private boolean syntaxTrimBlanks = false;
-    private String syntaxEscape = "\\";
-    private String syntaxBeginQuote1 = "\"";
-    private String syntaxEndQuote1 = "\"";
-    private String syntaxBeginQuote2 = "'";
-    private String syntaxEndQuote2 = "'";
-    private String syntaxAvaSeparator = null;
-    private String syntaxTypevalSeparator = null;
+    privbte byte syntbxDirection = LEFT_TO_RIGHT;
+    privbte String syntbxSepbrbtor = "/";
+    privbte String syntbxSepbrbtor2 = null;
+    privbte boolebn syntbxCbseInsensitive = fblse;
+    privbte boolebn syntbxTrimBlbnks = fblse;
+    privbte String syntbxEscbpe = "\\";
+    privbte String syntbxBeginQuote1 = "\"";
+    privbte String syntbxEndQuote1 = "\"";
+    privbte String syntbxBeginQuote2 = "'";
+    privbte String syntbxEndQuote2 = "'";
+    privbte String syntbxAvbSepbrbtor = null;
+    privbte String syntbxTypevblSepbrbtor = null;
 
-    // escapingStyle gives the method used at creation time for
-    // quoting or escaping characters in the name.  It is set to the
-    // first style of quote or escape encountered if and when the name
-    // is parsed.
-    private static final int STYLE_NONE = 0;
-    private static final int STYLE_QUOTE1 = 1;
-    private static final int STYLE_QUOTE2 = 2;
-    private static final int STYLE_ESCAPE = 3;
-    private int escapingStyle = STYLE_NONE;
+    // escbpingStyle gives the method used bt crebtion time for
+    // quoting or escbping chbrbcters in the nbme.  It is set to the
+    // first style of quote or escbpe encountered if bnd when the nbme
+    // is pbrsed.
+    privbte stbtic finbl int STYLE_NONE = 0;
+    privbte stbtic finbl int STYLE_QUOTE1 = 1;
+    privbte stbtic finbl int STYLE_QUOTE2 = 2;
+    privbte stbtic finbl int STYLE_ESCAPE = 3;
+    privbte int escbpingStyle = STYLE_NONE;
 
-    // Returns true if "match" is not null, and n contains "match" at
+    // Returns true if "mbtch" is not null, bnd n contbins "mbtch" bt
     // position i.
-    private final boolean isA(String n, int i, String match) {
-        return (match != null && n.startsWith(match, i));
+    privbte finbl boolebn isA(String n, int i, String mbtch) {
+        return (mbtch != null && n.stbrtsWith(mbtch, i));
     }
 
-    private final boolean isMeta(String n, int i) {
-        return (isA(n, i, syntaxEscape) ||
-                isA(n, i, syntaxBeginQuote1) ||
-                isA(n, i, syntaxBeginQuote2) ||
-                isSeparator(n, i));
+    privbte finbl boolebn isMetb(String n, int i) {
+        return (isA(n, i, syntbxEscbpe) ||
+                isA(n, i, syntbxBeginQuote1) ||
+                isA(n, i, syntbxBeginQuote2) ||
+                isSepbrbtor(n, i));
     }
 
-    private final boolean isSeparator(String n, int i) {
-        return (isA(n, i, syntaxSeparator) ||
-                isA(n, i, syntaxSeparator2));
+    privbte finbl boolebn isSepbrbtor(String n, int i) {
+        return (isA(n, i, syntbxSepbrbtor) ||
+                isA(n, i, syntbxSepbrbtor2));
     }
 
-    private final int skipSeparator(String name, int i) {
-        if (isA(name, i, syntaxSeparator)) {
-            i += syntaxSeparator.length();
-        } else if (isA(name, i, syntaxSeparator2)) {
-            i += syntaxSeparator2.length();
+    privbte finbl int skipSepbrbtor(String nbme, int i) {
+        if (isA(nbme, i, syntbxSepbrbtor)) {
+            i += syntbxSepbrbtor.length();
+        } else if (isA(nbme, i, syntbxSepbrbtor2)) {
+            i += syntbxSepbrbtor2.length();
         }
         return (i);
     }
 
-    private final int extractComp(String name, int i, int len, Vector<String> comps)
-    throws InvalidNameException {
+    privbte finbl int extrbctComp(String nbme, int i, int len, Vector<String> comps)
+    throws InvblidNbmeException {
         String beginQuote;
         String endQuote;
-        boolean start = true;
-        boolean one = false;
-        StringBuilder answer = new StringBuilder(len);
+        boolebn stbrt = true;
+        boolebn one = fblse;
+        StringBuilder bnswer = new StringBuilder(len);
 
         while (i < len) {
-            // handle quoted strings
-            if (start && ((one = isA(name, i, syntaxBeginQuote1)) ||
-                          isA(name, i, syntaxBeginQuote2))) {
+            // hbndle quoted strings
+            if (stbrt && ((one = isA(nbme, i, syntbxBeginQuote1)) ||
+                          isA(nbme, i, syntbxBeginQuote2))) {
 
-                // record choice of quote chars being used
-                beginQuote = one ? syntaxBeginQuote1 : syntaxBeginQuote2;
-                endQuote = one ? syntaxEndQuote1 : syntaxEndQuote2;
-                if (escapingStyle == STYLE_NONE) {
-                    escapingStyle = one ? STYLE_QUOTE1 : STYLE_QUOTE2;
+                // record choice of quote chbrs being used
+                beginQuote = one ? syntbxBeginQuote1 : syntbxBeginQuote2;
+                endQuote = one ? syntbxEndQuote1 : syntbxEndQuote2;
+                if (escbpingStyle == STYLE_NONE) {
+                    escbpingStyle = one ? STYLE_QUOTE1 : STYLE_QUOTE2;
                 }
 
-                // consume string until matching quote
+                // consume string until mbtching quote
                 for (i += beginQuote.length();
-                     ((i < len) && !name.startsWith(endQuote, i));
+                     ((i < len) && !nbme.stbrtsWith(endQuote, i));
                      i++) {
-                    // skip escape character if it is escaping ending quote
-                    // otherwise leave as is.
-                    if (isA(name, i, syntaxEscape) &&
-                        isA(name, i + syntaxEscape.length(), endQuote)) {
-                        i += syntaxEscape.length();
+                    // skip escbpe chbrbcter if it is escbping ending quote
+                    // otherwise lebve bs is.
+                    if (isA(nbme, i, syntbxEscbpe) &&
+                        isA(nbme, i + syntbxEscbpe.length(), endQuote)) {
+                        i += syntbxEscbpe.length();
                     }
-                    answer.append(name.charAt(i));  // copy char
+                    bnswer.bppend(nbme.chbrAt(i));  // copy chbr
                 }
 
                 // no ending quote found
                 if (i >= len)
                     throw
-                        new InvalidNameException(name + ": no close quote");
+                        new InvblidNbmeException(nbme + ": no close quote");
 //                      new Exception("no close quote");
 
                 i += endQuote.length();
 
-                // verify that end-quote occurs at separator or end of string
-                if (i == len || isSeparator(name, i)) {
-                    break;
+                // verify thbt end-quote occurs bt sepbrbtor or end of string
+                if (i == len || isSepbrbtor(nbme, i)) {
+                    brebk;
                 }
 //              throw (new Exception(
-                throw (new InvalidNameException(name +
-                    ": close quote appears before end of component"));
+                throw (new InvblidNbmeException(nbme +
+                    ": close quote bppebrs before end of component"));
 
-            } else if (isSeparator(name, i)) {
-                break;
+            } else if (isSepbrbtor(nbme, i)) {
+                brebk;
 
-            } else if (isA(name, i, syntaxEscape)) {
-                if (isMeta(name, i + syntaxEscape.length())) {
-                    // if escape precedes meta, consume escape and let
-                    // meta through
-                    i += syntaxEscape.length();
-                    if (escapingStyle == STYLE_NONE) {
-                        escapingStyle = STYLE_ESCAPE;
+            } else if (isA(nbme, i, syntbxEscbpe)) {
+                if (isMetb(nbme, i + syntbxEscbpe.length())) {
+                    // if escbpe precedes metb, consume escbpe bnd let
+                    // metb through
+                    i += syntbxEscbpe.length();
+                    if (escbpingStyle == STYLE_NONE) {
+                        escbpingStyle = STYLE_ESCAPE;
                     }
-                } else if (i + syntaxEscape.length() >= len) {
-                    throw (new InvalidNameException(name +
-                        ": unescaped " + syntaxEscape + " at end of component"));
+                } else if (i + syntbxEscbpe.length() >= len) {
+                    throw (new InvblidNbmeException(nbme +
+                        ": unescbped " + syntbxEscbpe + " bt end of component"));
                 }
-            } else if (isA(name, i, syntaxTypevalSeparator) &&
-        ((one = isA(name, i+syntaxTypevalSeparator.length(), syntaxBeginQuote1)) ||
-            isA(name, i+syntaxTypevalSeparator.length(), syntaxBeginQuote2))) {
-                // Handle quote occurring after typeval separator
-                beginQuote = one ? syntaxBeginQuote1 : syntaxBeginQuote2;
-                endQuote = one ? syntaxEndQuote1 : syntaxEndQuote2;
+            } else if (isA(nbme, i, syntbxTypevblSepbrbtor) &&
+        ((one = isA(nbme, i+syntbxTypevblSepbrbtor.length(), syntbxBeginQuote1)) ||
+            isA(nbme, i+syntbxTypevblSepbrbtor.length(), syntbxBeginQuote2))) {
+                // Hbndle quote occurring bfter typevbl sepbrbtor
+                beginQuote = one ? syntbxBeginQuote1 : syntbxBeginQuote2;
+                endQuote = one ? syntbxEndQuote1 : syntbxEndQuote2;
 
-                i += syntaxTypevalSeparator.length();
-                answer.append(syntaxTypevalSeparator+beginQuote); // add back
+                i += syntbxTypevblSepbrbtor.length();
+                bnswer.bppend(syntbxTypevblSepbrbtor+beginQuote); // bdd bbck
 
-                // consume string until matching quote
+                // consume string until mbtching quote
                 for (i += beginQuote.length();
-                     ((i < len) && !name.startsWith(endQuote, i));
+                     ((i < len) && !nbme.stbrtsWith(endQuote, i));
                      i++) {
-                    // skip escape character if it is escaping ending quote
-                    // otherwise leave as is.
-                    if (isA(name, i, syntaxEscape) &&
-                        isA(name, i + syntaxEscape.length(), endQuote)) {
-                        i += syntaxEscape.length();
+                    // skip escbpe chbrbcter if it is escbping ending quote
+                    // otherwise lebve bs is.
+                    if (isA(nbme, i, syntbxEscbpe) &&
+                        isA(nbme, i + syntbxEscbpe.length(), endQuote)) {
+                        i += syntbxEscbpe.length();
                     }
-                    answer.append(name.charAt(i));  // copy char
+                    bnswer.bppend(nbme.chbrAt(i));  // copy chbr
                 }
 
                 // no ending quote found
                 if (i >= len)
                     throw
-                        new InvalidNameException(name + ": typeval no close quote");
+                        new InvblidNbmeException(nbme + ": typevbl no close quote");
 
                 i += endQuote.length();
-                answer.append(endQuote); // add back
+                bnswer.bppend(endQuote); // bdd bbck
 
-                // verify that end-quote occurs at separator or end of string
-                if (i == len || isSeparator(name, i)) {
-                    break;
+                // verify thbt end-quote occurs bt sepbrbtor or end of string
+                if (i == len || isSepbrbtor(nbme, i)) {
+                    brebk;
                 }
-                throw (new InvalidNameException(name.substring(i) +
-                    ": typeval close quote appears before end of component"));
+                throw (new InvblidNbmeException(nbme.substring(i) +
+                    ": typevbl close quote bppebrs before end of component"));
             }
 
-            answer.append(name.charAt(i++));
-            start = false;
+            bnswer.bppend(nbme.chbrAt(i++));
+            stbrt = fblse;
         }
 
-        if (syntaxDirection == RIGHT_TO_LEFT)
-            comps.insertElementAt(answer.toString(), 0);
+        if (syntbxDirection == RIGHT_TO_LEFT)
+            comps.insertElementAt(bnswer.toString(), 0);
         else
-            comps.addElement(answer.toString());
+            comps.bddElement(bnswer.toString());
         return i;
     }
 
-    private static boolean getBoolean(Properties p, String name) {
-        return toBoolean(p.getProperty(name));
+    privbte stbtic boolebn getBoolebn(Properties p, String nbme) {
+        return toBoolebn(p.getProperty(nbme));
     }
 
-    private static boolean toBoolean(String name) {
-        return ((name != null) &&
-            name.toLowerCase(Locale.ENGLISH).equals("true"));
+    privbte stbtic boolebn toBoolebn(String nbme) {
+        return ((nbme != null) &&
+            nbme.toLowerCbse(Locble.ENGLISH).equbls("true"));
     }
 
-    private final void recordNamingConvention(Properties p) {
-        String syntaxDirectionStr =
-            p.getProperty("jndi.syntax.direction", "flat");
-        if (syntaxDirectionStr.equals("left_to_right")) {
-            syntaxDirection = LEFT_TO_RIGHT;
-        } else if (syntaxDirectionStr.equals("right_to_left")) {
-            syntaxDirection = RIGHT_TO_LEFT;
-        } else if (syntaxDirectionStr.equals("flat")) {
-            syntaxDirection = FLAT;
+    privbte finbl void recordNbmingConvention(Properties p) {
+        String syntbxDirectionStr =
+            p.getProperty("jndi.syntbx.direction", "flbt");
+        if (syntbxDirectionStr.equbls("left_to_right")) {
+            syntbxDirection = LEFT_TO_RIGHT;
+        } else if (syntbxDirectionStr.equbls("right_to_left")) {
+            syntbxDirection = RIGHT_TO_LEFT;
+        } else if (syntbxDirectionStr.equbls("flbt")) {
+            syntbxDirection = FLAT;
         } else {
-            throw new IllegalArgumentException(syntaxDirectionStr +
-                " is not a valid value for the jndi.syntax.direction property");
+            throw new IllegblArgumentException(syntbxDirectionStr +
+                " is not b vblid vblue for the jndi.syntbx.direction property");
         }
 
-        if (syntaxDirection != FLAT) {
-            syntaxSeparator = p.getProperty("jndi.syntax.separator");
-            syntaxSeparator2 = p.getProperty("jndi.syntax.separator2");
-            if (syntaxSeparator == null) {
-                throw new IllegalArgumentException(
-                    "jndi.syntax.separator property required for non-flat syntax");
+        if (syntbxDirection != FLAT) {
+            syntbxSepbrbtor = p.getProperty("jndi.syntbx.sepbrbtor");
+            syntbxSepbrbtor2 = p.getProperty("jndi.syntbx.sepbrbtor2");
+            if (syntbxSepbrbtor == null) {
+                throw new IllegblArgumentException(
+                    "jndi.syntbx.sepbrbtor property required for non-flbt syntbx");
             }
         } else {
-            syntaxSeparator = null;
+            syntbxSepbrbtor = null;
         }
-        syntaxEscape = p.getProperty("jndi.syntax.escape");
+        syntbxEscbpe = p.getProperty("jndi.syntbx.escbpe");
 
-        syntaxCaseInsensitive = getBoolean(p, "jndi.syntax.ignorecase");
-        syntaxTrimBlanks = getBoolean(p, "jndi.syntax.trimblanks");
+        syntbxCbseInsensitive = getBoolebn(p, "jndi.syntbx.ignorecbse");
+        syntbxTrimBlbnks = getBoolebn(p, "jndi.syntbx.trimblbnks");
 
-        syntaxBeginQuote1 = p.getProperty("jndi.syntax.beginquote");
-        syntaxEndQuote1 = p.getProperty("jndi.syntax.endquote");
-        if (syntaxEndQuote1 == null && syntaxBeginQuote1 != null)
-            syntaxEndQuote1 = syntaxBeginQuote1;
-        else if (syntaxBeginQuote1 == null && syntaxEndQuote1 != null)
-            syntaxBeginQuote1 = syntaxEndQuote1;
-        syntaxBeginQuote2 = p.getProperty("jndi.syntax.beginquote2");
-        syntaxEndQuote2 = p.getProperty("jndi.syntax.endquote2");
-        if (syntaxEndQuote2 == null && syntaxBeginQuote2 != null)
-            syntaxEndQuote2 = syntaxBeginQuote2;
-        else if (syntaxBeginQuote2 == null && syntaxEndQuote2 != null)
-            syntaxBeginQuote2 = syntaxEndQuote2;
+        syntbxBeginQuote1 = p.getProperty("jndi.syntbx.beginquote");
+        syntbxEndQuote1 = p.getProperty("jndi.syntbx.endquote");
+        if (syntbxEndQuote1 == null && syntbxBeginQuote1 != null)
+            syntbxEndQuote1 = syntbxBeginQuote1;
+        else if (syntbxBeginQuote1 == null && syntbxEndQuote1 != null)
+            syntbxBeginQuote1 = syntbxEndQuote1;
+        syntbxBeginQuote2 = p.getProperty("jndi.syntbx.beginquote2");
+        syntbxEndQuote2 = p.getProperty("jndi.syntbx.endquote2");
+        if (syntbxEndQuote2 == null && syntbxBeginQuote2 != null)
+            syntbxEndQuote2 = syntbxBeginQuote2;
+        else if (syntbxBeginQuote2 == null && syntbxEndQuote2 != null)
+            syntbxBeginQuote2 = syntbxEndQuote2;
 
-        syntaxAvaSeparator = p.getProperty("jndi.syntax.separator.ava");
-        syntaxTypevalSeparator =
-            p.getProperty("jndi.syntax.separator.typeval");
+        syntbxAvbSepbrbtor = p.getProperty("jndi.syntbx.sepbrbtor.bvb");
+        syntbxTypevblSepbrbtor =
+            p.getProperty("jndi.syntbx.sepbrbtor.typevbl");
     }
 
-    NameImpl(Properties syntax) {
-        if (syntax != null) {
-            recordNamingConvention(syntax);
+    NbmeImpl(Properties syntbx) {
+        if (syntbx != null) {
+            recordNbmingConvention(syntbx);
         }
         components = new Vector<>();
     }
 
-    NameImpl(Properties syntax, String n) throws InvalidNameException {
-        this(syntax);
+    NbmeImpl(Properties syntbx, String n) throws InvblidNbmeException {
+        this(syntbx);
 
-        boolean rToL = (syntaxDirection == RIGHT_TO_LEFT);
-        boolean compsAllEmpty = true;
+        boolebn rToL = (syntbxDirection == RIGHT_TO_LEFT);
+        boolebn compsAllEmpty = true;
         int len = n.length();
 
         for (int i = 0; i < len; ) {
-            i = extractComp(n, i, len, components);
+            i = extrbctComp(n, i, len, components);
 
             String comp = rToL
                 ? components.firstElement()
-                : components.lastElement();
+                : components.lbstElement();
             if (comp.length() >= 1) {
-                compsAllEmpty = false;
+                compsAllEmpty = fblse;
             }
 
             if (i < len) {
-                i = skipSeparator(n, i);
+                i = skipSepbrbtor(n, i);
                 if ((i == len) && !compsAllEmpty) {
-                    // Trailing separator found.  Add an empty component.
+                    // Trbiling sepbrbtor found.  Add bn empty component.
                     if (rToL) {
                         components.insertElementAt("", 0);
                     } else {
-                        components.addElement("");
+                        components.bddElement("");
                     }
                 }
             }
         }
     }
 
-    NameImpl(Properties syntax, Enumeration<String> comps) {
-        this(syntax);
+    NbmeImpl(Properties syntbx, Enumerbtion<String> comps) {
+        this(syntbx);
 
         // %% comps could shrink in the middle.
-        while (comps.hasMoreElements())
-            components.addElement(comps.nextElement());
+        while (comps.hbsMoreElements())
+            components.bddElement(comps.nextElement());
     }
 /*
-    // Determines whether this component needs any escaping.
-    private final boolean escapingNeeded(String comp) {
+    // Determines whether this component needs bny escbping.
+    privbte finbl boolebn escbpingNeeded(String comp) {
         int len = comp.length();
         for (int i = 0; i < len; i++) {
             if (i == 0) {
-                if (isA(comp, 0, syntaxBeginQuote1) ||
-                    isA(comp, 0, syntaxBeginQuote2)) {
+                if (isA(comp, 0, syntbxBeginQuote1) ||
+                    isA(comp, 0, syntbxBeginQuote2)) {
                     return (true);
                 }
             }
-            if (isSeparator(comp, i)) {
+            if (isSepbrbtor(comp, i)) {
                 return (true);
             }
-            if (isA(comp, i, syntaxEscape)) {
-                i += syntaxEscape.length();
-                if (i >= len || isMeta(comp, i)) {
+            if (isA(comp, i, syntbxEscbpe)) {
+                i += syntbxEscbpe.length();
+                if (i >= len || isMetb(comp, i)) {
                     return (true);
                 }
             }
         }
-        return (false);
+        return (fblse);
     }
 */
-    private final String stringifyComp(String comp) {
+    privbte finbl String stringifyComp(String comp) {
         int len = comp.length();
-        boolean escapeSeparator = false, escapeSeparator2 = false;
+        boolebn escbpeSepbrbtor = fblse, escbpeSepbrbtor2 = fblse;
         String beginQuote = null, endQuote = null;
         StringBuffer strbuf = new StringBuffer(len);
 
-        // determine whether there are any separators; if so escape
+        // determine whether there bre bny sepbrbtors; if so escbpe
         // or quote them
-        if (syntaxSeparator != null &&
-            comp.indexOf(syntaxSeparator) >= 0) {
-            if (syntaxBeginQuote1 != null) {
-                beginQuote = syntaxBeginQuote1;
-                endQuote = syntaxEndQuote1;
-            } else if (syntaxBeginQuote2 != null) {
-                beginQuote = syntaxBeginQuote2;
-                endQuote = syntaxEndQuote2;
-            } else if (syntaxEscape != null)
-                escapeSeparator = true;
+        if (syntbxSepbrbtor != null &&
+            comp.indexOf(syntbxSepbrbtor) >= 0) {
+            if (syntbxBeginQuote1 != null) {
+                beginQuote = syntbxBeginQuote1;
+                endQuote = syntbxEndQuote1;
+            } else if (syntbxBeginQuote2 != null) {
+                beginQuote = syntbxBeginQuote2;
+                endQuote = syntbxEndQuote2;
+            } else if (syntbxEscbpe != null)
+                escbpeSepbrbtor = true;
         }
-        if (syntaxSeparator2 != null &&
-            comp.indexOf(syntaxSeparator2) >= 0) {
-            if (syntaxBeginQuote1 != null) {
+        if (syntbxSepbrbtor2 != null &&
+            comp.indexOf(syntbxSepbrbtor2) >= 0) {
+            if (syntbxBeginQuote1 != null) {
                 if (beginQuote == null) {
-                    beginQuote = syntaxBeginQuote1;
-                    endQuote = syntaxEndQuote1;
+                    beginQuote = syntbxBeginQuote1;
+                    endQuote = syntbxEndQuote1;
                 }
-            } else if (syntaxBeginQuote2 != null) {
+            } else if (syntbxBeginQuote2 != null) {
                 if (beginQuote == null) {
-                    beginQuote = syntaxBeginQuote2;
-                    endQuote = syntaxEndQuote2;
+                    beginQuote = syntbxBeginQuote2;
+                    endQuote = syntbxEndQuote2;
                 }
-            } else if (syntaxEscape != null)
-                escapeSeparator2 = true;
+            } else if (syntbxEscbpe != null)
+                escbpeSepbrbtor2 = true;
         }
 
         // if quoting component,
         if (beginQuote != null) {
 
-            // start string off with opening quote
-            strbuf = strbuf.append(beginQuote);
+            // stbrt string off with opening quote
+            strbuf = strbuf.bppend(beginQuote);
 
-            // component is being quoted, so we only need to worry about
-            // escaping end quotes that occur in component
+            // component is being quoted, so we only need to worry bbout
+            // escbping end quotes thbt occur in component
             for (int i = 0; i < len; ) {
-                if (comp.startsWith(endQuote, i)) {
-                    // end-quotes must be escaped when inside a quoted string
-                    strbuf.append(syntaxEscape).append(endQuote);
+                if (comp.stbrtsWith(endQuote, i)) {
+                    // end-quotes must be escbped when inside b quoted string
+                    strbuf.bppend(syntbxEscbpe).bppend(endQuote);
                     i += endQuote.length();
                 } else {
-                    // no special treatment required
-                    strbuf.append(comp.charAt(i++));
+                    // no specibl trebtment required
+                    strbuf.bppend(comp.chbrAt(i++));
                 }
             }
 
             // end with closing quote
-            strbuf.append(endQuote);
+            strbuf.bppend(endQuote);
 
         } else {
 
-            // When component is not quoted, add escape for:
-            // 1. leading quote
-            // 2. an escape preceding any meta char
-            // 3. an escape at the end of a component
-            // 4. separator
+            // When component is not quoted, bdd escbpe for:
+            // 1. lebding quote
+            // 2. bn escbpe preceding bny metb chbr
+            // 3. bn escbpe bt the end of b component
+            // 4. sepbrbtor
 
-            // go through characters in component and escape where necessary
-            boolean start = true;
+            // go through chbrbcters in component bnd escbpe where necessbry
+            boolebn stbrt = true;
             for (int i = 0; i < len; ) {
-                // leading quote must be escaped
-                if (start && isA(comp, i, syntaxBeginQuote1)) {
-                    strbuf.append(syntaxEscape).append(syntaxBeginQuote1);
-                    i += syntaxBeginQuote1.length();
-                } else if (start && isA(comp, i, syntaxBeginQuote2)) {
-                    strbuf.append(syntaxEscape).append(syntaxBeginQuote2);
-                    i += syntaxBeginQuote2.length();
+                // lebding quote must be escbped
+                if (stbrt && isA(comp, i, syntbxBeginQuote1)) {
+                    strbuf.bppend(syntbxEscbpe).bppend(syntbxBeginQuote1);
+                    i += syntbxBeginQuote1.length();
+                } else if (stbrt && isA(comp, i, syntbxBeginQuote2)) {
+                    strbuf.bppend(syntbxEscbpe).bppend(syntbxBeginQuote2);
+                    i += syntbxBeginQuote2.length();
                 } else
 
-                // Escape an escape preceding meta characters, or at end.
-                // Other escapes pass through.
-                if (isA(comp, i, syntaxEscape)) {
-                    if (i + syntaxEscape.length() >= len) {
-                        // escape an ending escape
-                        strbuf.append(syntaxEscape);
-                    } else if (isMeta(comp, i + syntaxEscape.length())) {
-                        // escape meta strings
-                        strbuf.append(syntaxEscape);
+                // Escbpe bn escbpe preceding metb chbrbcters, or bt end.
+                // Other escbpes pbss through.
+                if (isA(comp, i, syntbxEscbpe)) {
+                    if (i + syntbxEscbpe.length() >= len) {
+                        // escbpe bn ending escbpe
+                        strbuf.bppend(syntbxEscbpe);
+                    } else if (isMetb(comp, i + syntbxEscbpe.length())) {
+                        // escbpe metb strings
+                        strbuf.bppend(syntbxEscbpe);
                     }
-                    strbuf.append(syntaxEscape);
-                    i += syntaxEscape.length();
+                    strbuf.bppend(syntbxEscbpe);
+                    i += syntbxEscbpe.length();
                 } else
 
-                // escape unescaped separator
-                if (escapeSeparator && comp.startsWith(syntaxSeparator, i)) {
-                    // escape separator
-                    strbuf.append(syntaxEscape).append(syntaxSeparator);
-                    i += syntaxSeparator.length();
-                } else if (escapeSeparator2 &&
-                           comp.startsWith(syntaxSeparator2, i)) {
-                    // escape separator2
-                    strbuf.append(syntaxEscape).append(syntaxSeparator2);
-                    i += syntaxSeparator2.length();
+                // escbpe unescbped sepbrbtor
+                if (escbpeSepbrbtor && comp.stbrtsWith(syntbxSepbrbtor, i)) {
+                    // escbpe sepbrbtor
+                    strbuf.bppend(syntbxEscbpe).bppend(syntbxSepbrbtor);
+                    i += syntbxSepbrbtor.length();
+                } else if (escbpeSepbrbtor2 &&
+                           comp.stbrtsWith(syntbxSepbrbtor2, i)) {
+                    // escbpe sepbrbtor2
+                    strbuf.bppend(syntbxEscbpe).bppend(syntbxSepbrbtor2);
+                    i += syntbxSepbrbtor2.length();
                 } else {
-                    // no special treatment required
-                    strbuf.append(comp.charAt(i++));
+                    // no specibl trebtment required
+                    strbuf.bppend(comp.chbrAt(i++));
                 }
-                start = false;
+                stbrt = fblse;
             }
         }
         return (strbuf.toString());
     }
 
     public String toString() {
-        StringBuffer answer = new StringBuffer();
+        StringBuffer bnswer = new StringBuffer();
         String comp;
-        boolean compsAllEmpty = true;
+        boolebn compsAllEmpty = true;
         int size = components.size();
 
         for (int i = 0; i < size; i++) {
-            if (syntaxDirection == RIGHT_TO_LEFT) {
+            if (syntbxDirection == RIGHT_TO_LEFT) {
                 comp =
                     stringifyComp(components.elementAt(size - 1 - i));
             } else {
                 comp = stringifyComp(components.elementAt(i));
             }
-            if ((i != 0) && (syntaxSeparator != null))
-                answer.append(syntaxSeparator);
+            if ((i != 0) && (syntbxSepbrbtor != null))
+                bnswer.bppend(syntbxSepbrbtor);
             if (comp.length() >= 1)
-                compsAllEmpty = false;
-            answer = answer.append(comp);
+                compsAllEmpty = fblse;
+            bnswer = bnswer.bppend(comp);
         }
-        if (compsAllEmpty && (size >= 1) && (syntaxSeparator != null))
-            answer = answer.append(syntaxSeparator);
-        return (answer.toString());
+        if (compsAllEmpty && (size >= 1) && (syntbxSepbrbtor != null))
+            bnswer = bnswer.bppend(syntbxSepbrbtor);
+        return (bnswer.toString());
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof NameImpl)) {
-            NameImpl target = (NameImpl)obj;
-            if (target.size() ==  this.size()) {
-                Enumeration<String> mycomps = getAll();
-                Enumeration<String> comps = target.getAll();
-                while (mycomps.hasMoreElements()) {
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof NbmeImpl)) {
+            NbmeImpl tbrget = (NbmeImpl)obj;
+            if (tbrget.size() ==  this.size()) {
+                Enumerbtion<String> mycomps = getAll();
+                Enumerbtion<String> comps = tbrget.getAll();
+                while (mycomps.hbsMoreElements()) {
                     // %% comps could shrink in the middle.
                     String my = mycomps.nextElement();
                     String his = comps.nextElement();
-                    if (syntaxTrimBlanks) {
+                    if (syntbxTrimBlbnks) {
                         my = my.trim();
                         his = his.trim();
                     }
-                    if (syntaxCaseInsensitive) {
-                        if (!(my.equalsIgnoreCase(his)))
-                            return false;
+                    if (syntbxCbseInsensitive) {
+                        if (!(my.equblsIgnoreCbse(his)))
+                            return fblse;
                     } else {
-                        if (!(my.equals(his)))
-                            return false;
+                        if (!(my.equbls(his)))
+                            return fblse;
                     }
                 }
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-      * Compares obj to this NameImpl to determine ordering.
-      * Takes into account syntactic properties such as
-      * elimination of blanks, case-ignore, etc, if relevant.
+      * Compbres obj to this NbmeImpl to determine ordering.
+      * Tbkes into bccount syntbctic properties such bs
+      * eliminbtion of blbnks, cbse-ignore, etc, if relevbnt.
       *
-      * Note: using syntax of this NameImpl and ignoring
-      * that of comparison target.
+      * Note: using syntbx of this NbmeImpl bnd ignoring
+      * thbt of compbrison tbrget.
       */
-    public int compareTo(NameImpl obj) {
+    public int compbreTo(NbmeImpl obj) {
         if (this == obj) {
             return 0;
         }
 
         int len1 = size();
         int len2 = obj.size();
-        int n = Math.min(len1, len2);
+        int n = Mbth.min(len1, len2);
 
         int index1 = 0, index2 = 0;
 
@@ -523,21 +523,21 @@ class NameImpl {
             String comp1 = get(index1++);
             String comp2 = obj.get(index2++);
 
-            // normalize according to syntax
-            if (syntaxTrimBlanks) {
+            // normblize bccording to syntbx
+            if (syntbxTrimBlbnks) {
                 comp1 = comp1.trim();
                 comp2 = comp2.trim();
             }
 
-            int local;
-            if (syntaxCaseInsensitive) {
-                local = comp1.compareToIgnoreCase(comp2);
+            int locbl;
+            if (syntbxCbseInsensitive) {
+                locbl = comp1.compbreToIgnoreCbse(comp2);
             } else {
-                local = comp1.compareTo(comp2);
+                locbl = comp1.compbreTo(comp2);
             }
 
-            if (local != 0) {
-                return local;
+            if (locbl != 0) {
+                return locbl;
             }
         }
 
@@ -548,7 +548,7 @@ class NameImpl {
         return (components.size());
     }
 
-    public Enumeration<String> getAll() {
+    public Enumerbtion<String> getAll() {
         return components.elements();
     }
 
@@ -556,133 +556,133 @@ class NameImpl {
         return components.elementAt(posn);
     }
 
-    public Enumeration<String> getPrefix(int posn) {
+    public Enumerbtion<String> getPrefix(int posn) {
         if (posn < 0 || posn > size()) {
-            throw new ArrayIndexOutOfBoundsException(posn);
+            throw new ArrbyIndexOutOfBoundsException(posn);
         }
-        return new NameImplEnumerator(components, 0, posn);
+        return new NbmeImplEnumerbtor(components, 0, posn);
     }
 
-    public Enumeration<String> getSuffix(int posn) {
+    public Enumerbtion<String> getSuffix(int posn) {
         int cnt = size();
         if (posn < 0 || posn > cnt) {
-            throw new ArrayIndexOutOfBoundsException(posn);
+            throw new ArrbyIndexOutOfBoundsException(posn);
         }
-        return new NameImplEnumerator(components, posn, cnt);
+        return new NbmeImplEnumerbtor(components, posn, cnt);
     }
 
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return (components.isEmpty());
     }
 
-    public boolean startsWith(int posn, Enumeration<String> prefix) {
+    public boolebn stbrtsWith(int posn, Enumerbtion<String> prefix) {
         if (posn < 0 || posn > size()) {
-            return false;
+            return fblse;
         }
         try {
-            Enumeration<String> mycomps = getPrefix(posn);
-            while (mycomps.hasMoreElements()) {
+            Enumerbtion<String> mycomps = getPrefix(posn);
+            while (mycomps.hbsMoreElements()) {
                 String my = mycomps.nextElement();
                 String his = prefix.nextElement();
-                if (syntaxTrimBlanks) {
+                if (syntbxTrimBlbnks) {
                     my = my.trim();
                     his = his.trim();
                 }
-                if (syntaxCaseInsensitive) {
-                    if (!(my.equalsIgnoreCase(his)))
-                        return false;
+                if (syntbxCbseInsensitive) {
+                    if (!(my.equblsIgnoreCbse(his)))
+                        return fblse;
                 } else {
-                    if (!(my.equals(his)))
-                        return false;
+                    if (!(my.equbls(his)))
+                        return fblse;
                 }
             }
-        } catch (NoSuchElementException e) {
-            return false;
+        } cbtch (NoSuchElementException e) {
+            return fblse;
         }
         return true;
     }
 
-    public boolean endsWith(int posn, Enumeration<String> suffix) {
+    public boolebn endsWith(int posn, Enumerbtion<String> suffix) {
         // posn is number of elements in suffix
-        // startIndex is the starting position in this name
-        // at which to start the comparison. It is calculated by
-        // subtracting 'posn' from size()
-        int startIndex = size() - posn;
-        if (startIndex < 0 || startIndex > size()) {
-            return false;
+        // stbrtIndex is the stbrting position in this nbme
+        // bt which to stbrt the compbrison. It is cblculbted by
+        // subtrbcting 'posn' from size()
+        int stbrtIndex = size() - posn;
+        if (stbrtIndex < 0 || stbrtIndex > size()) {
+            return fblse;
         }
         try {
-            Enumeration<String> mycomps = getSuffix(startIndex);
-            while (mycomps.hasMoreElements()) {
+            Enumerbtion<String> mycomps = getSuffix(stbrtIndex);
+            while (mycomps.hbsMoreElements()) {
                 String my = mycomps.nextElement();
                 String his = suffix.nextElement();
-                if (syntaxTrimBlanks) {
+                if (syntbxTrimBlbnks) {
                     my = my.trim();
                     his = his.trim();
                 }
-                if (syntaxCaseInsensitive) {
-                    if (!(my.equalsIgnoreCase(his)))
-                        return false;
+                if (syntbxCbseInsensitive) {
+                    if (!(my.equblsIgnoreCbse(his)))
+                        return fblse;
                 } else {
-                    if (!(my.equals(his)))
-                        return false;
+                    if (!(my.equbls(his)))
+                        return fblse;
                 }
             }
-        } catch (NoSuchElementException e) {
-            return false;
+        } cbtch (NoSuchElementException e) {
+            return fblse;
         }
         return true;
     }
 
-    public boolean addAll(Enumeration<String> comps) throws InvalidNameException {
-        boolean added = false;
-        while (comps.hasMoreElements()) {
+    public boolebn bddAll(Enumerbtion<String> comps) throws InvblidNbmeException {
+        boolebn bdded = fblse;
+        while (comps.hbsMoreElements()) {
             try {
                 String comp = comps.nextElement();
-                if (size() > 0 && syntaxDirection == FLAT) {
-                    throw new InvalidNameException(
-                        "A flat name can only have a single component");
+                if (size() > 0 && syntbxDirection == FLAT) {
+                    throw new InvblidNbmeException(
+                        "A flbt nbme cbn only hbve b single component");
                 }
-                components.addElement(comp);
-                added = true;
-            } catch (NoSuchElementException e) {
-                break;  // "comps" has shrunk.
+                components.bddElement(comp);
+                bdded = true;
+            } cbtch (NoSuchElementException e) {
+                brebk;  // "comps" hbs shrunk.
             }
         }
-        return added;
+        return bdded;
     }
 
-    public boolean addAll(int posn, Enumeration<String> comps)
-    throws InvalidNameException {
-        boolean added = false;
-        for (int i = posn; comps.hasMoreElements(); i++) {
+    public boolebn bddAll(int posn, Enumerbtion<String> comps)
+    throws InvblidNbmeException {
+        boolebn bdded = fblse;
+        for (int i = posn; comps.hbsMoreElements(); i++) {
             try {
                 String comp = comps.nextElement();
-                if (size() > 0 && syntaxDirection == FLAT) {
-                    throw new InvalidNameException(
-                        "A flat name can only have a single component");
+                if (size() > 0 && syntbxDirection == FLAT) {
+                    throw new InvblidNbmeException(
+                        "A flbt nbme cbn only hbve b single component");
                 }
                 components.insertElementAt(comp, i);
-                added = true;
-            } catch (NoSuchElementException e) {
-                break;  // "comps" has shrunk.
+                bdded = true;
+            } cbtch (NoSuchElementException e) {
+                brebk;  // "comps" hbs shrunk.
             }
         }
-        return added;
+        return bdded;
     }
 
-    public void add(String comp) throws InvalidNameException {
-        if (size() > 0 && syntaxDirection == FLAT) {
-            throw new InvalidNameException(
-                "A flat name can only have a single component");
+    public void bdd(String comp) throws InvblidNbmeException {
+        if (size() > 0 && syntbxDirection == FLAT) {
+            throw new InvblidNbmeException(
+                "A flbt nbme cbn only hbve b single component");
         }
-        components.addElement(comp);
+        components.bddElement(comp);
     }
 
-    public void add(int posn, String comp) throws InvalidNameException {
-        if (size() > 0 && syntaxDirection == FLAT) {
-            throw new InvalidNameException(
-                "A flat name can only zero or one component");
+    public void bdd(int posn, String comp) throws InvblidNbmeException {
+        if (size() > 0 && syntbxDirection == FLAT) {
+            throw new InvblidNbmeException(
+                "A flbt nbme cbn only zero or one component");
         }
         components.insertElementAt(comp, posn);
     }
@@ -693,36 +693,36 @@ class NameImpl {
         return r;
     }
 
-    public int hashCode() {
-        int hash = 0;
-        for (Enumeration<String> e = getAll(); e.hasMoreElements();) {
+    public int hbshCode() {
+        int hbsh = 0;
+        for (Enumerbtion<String> e = getAll(); e.hbsMoreElements();) {
             String comp = e.nextElement();
-            if (syntaxTrimBlanks) {
+            if (syntbxTrimBlbnks) {
                 comp = comp.trim();
             }
-            if (syntaxCaseInsensitive) {
-                comp = comp.toLowerCase(Locale.ENGLISH);
+            if (syntbxCbseInsensitive) {
+                comp = comp.toLowerCbse(Locble.ENGLISH);
             }
 
-            hash += comp.hashCode();
+            hbsh += comp.hbshCode();
         }
-        return hash;
+        return hbsh;
     }
 }
 
-final
-class NameImplEnumerator implements Enumeration<String> {
+finbl
+clbss NbmeImplEnumerbtor implements Enumerbtion<String> {
     Vector<String> vector;
     int count;
     int limit;
 
-    NameImplEnumerator(Vector<String> v, int start, int lim) {
+    NbmeImplEnumerbtor(Vector<String> v, int stbrt, int lim) {
         vector = v;
-        count = start;
+        count = stbrt;
         limit = lim;
     }
 
-    public boolean hasMoreElements() {
+    public boolebn hbsMoreElements() {
         return count < limit;
     }
 
@@ -730,6 +730,6 @@ class NameImplEnumerator implements Enumeration<String> {
         if (count < limit) {
             return vector.elementAt(count++);
         }
-        throw new NoSuchElementException("NameImplEnumerator");
+        throw new NoSuchElementException("NbmeImplEnumerbtor");
     }
 }

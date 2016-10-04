@@ -1,687 +1,687 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.nio.channels.spi.*;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.Future;
-import java.io.IOException;
-import java.net.SocketOption;
-import java.net.SocketAddress;
-import java.nio.ByteBuffer;
+import jbvb.nio.chbnnels.spi.*;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.concurrent.Future;
+import jbvb.io.IOException;
+import jbvb.net.SocketOption;
+import jbvb.net.SocketAddress;
+import jbvb.nio.ByteBuffer;
 
 /**
- * An asynchronous channel for stream-oriented connecting sockets.
+ * An bsynchronous chbnnel for strebm-oriented connecting sockets.
  *
- * <p> Asynchronous socket channels are created in one of two ways. A newly-created
- * {@code AsynchronousSocketChannel} is created by invoking one of the {@link
- * #open open} methods defined by this class. A newly-created channel is open but
- * not yet connected. A connected {@code AsynchronousSocketChannel} is created
- * when a connection is made to the socket of an {@link AsynchronousServerSocketChannel}.
- * It is not possible to create an asynchronous socket channel for an arbitrary,
- * pre-existing {@link java.net.Socket socket}.
+ * <p> Asynchronous socket chbnnels bre crebted in one of two wbys. A newly-crebted
+ * {@code AsynchronousSocketChbnnel} is crebted by invoking one of the {@link
+ * #open open} methods defined by this clbss. A newly-crebted chbnnel is open but
+ * not yet connected. A connected {@code AsynchronousSocketChbnnel} is crebted
+ * when b connection is mbde to the socket of bn {@link AsynchronousServerSocketChbnnel}.
+ * It is not possible to crebte bn bsynchronous socket chbnnel for bn brbitrbry,
+ * pre-existing {@link jbvb.net.Socket socket}.
  *
- * <p> A newly-created channel is connected by invoking its {@link #connect connect}
- * method; once connected, a channel remains connected until it is closed.  Whether
- * or not a socket channel is connected may be determined by invoking its {@link
- * #getRemoteAddress getRemoteAddress} method. An attempt to invoke an I/O
- * operation upon an unconnected channel will cause a {@link NotYetConnectedException}
+ * <p> A newly-crebted chbnnel is connected by invoking its {@link #connect connect}
+ * method; once connected, b chbnnel rembins connected until it is closed.  Whether
+ * or not b socket chbnnel is connected mby be determined by invoking its {@link
+ * #getRemoteAddress getRemoteAddress} method. An bttempt to invoke bn I/O
+ * operbtion upon bn unconnected chbnnel will cbuse b {@link NotYetConnectedException}
  * to be thrown.
  *
- * <p> Channels of this type are safe for use by multiple concurrent threads.
- * They support concurrent reading and writing, though at most one read operation
- * and one write operation can be outstanding at any time.
- * If a thread initiates a read operation before a previous read operation has
- * completed then a {@link ReadPendingException} will be thrown. Similarly, an
- * attempt to initiate a write operation before a previous write has completed
- * will throw a {@link WritePendingException}.
+ * <p> Chbnnels of this type bre sbfe for use by multiple concurrent threbds.
+ * They support concurrent rebding bnd writing, though bt most one rebd operbtion
+ * bnd one write operbtion cbn be outstbnding bt bny time.
+ * If b threbd initibtes b rebd operbtion before b previous rebd operbtion hbs
+ * completed then b {@link RebdPendingException} will be thrown. Similbrly, bn
+ * bttempt to initibte b write operbtion before b previous write hbs completed
+ * will throw b {@link WritePendingException}.
  *
- * <p> Socket options are configured using the {@link #setOption(SocketOption,Object)
- * setOption} method. Asynchronous socket channels support the following options:
+ * <p> Socket options bre configured using the {@link #setOption(SocketOption,Object)
+ * setOption} method. Asynchronous socket chbnnels support the following options:
  * <blockquote>
- * <table border summary="Socket options">
+ * <tbble border summbry="Socket options">
  *   <tr>
- *     <th>Option Name</th>
+ *     <th>Option Nbme</th>
  *     <th>Description</th>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_SNDBUF SO_SNDBUF} </td>
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#SO_SNDBUF SO_SNDBUF} </td>
  *     <td> The size of the socket send buffer </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_RCVBUF SO_RCVBUF} </td>
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#SO_RCVBUF SO_RCVBUF} </td>
  *     <td> The size of the socket receive buffer </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_KEEPALIVE SO_KEEPALIVE} </td>
- *     <td> Keep connection alive </td>
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#SO_KEEPALIVE SO_KEEPALIVE} </td>
+ *     <td> Keep connection blive </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_REUSEADDR SO_REUSEADDR} </td>
- *     <td> Re-use address </td>
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#SO_REUSEADDR SO_REUSEADDR} </td>
+ *     <td> Re-use bddress </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#TCP_NODELAY TCP_NODELAY} </td>
- *     <td> Disable the Nagle algorithm </td>
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#TCP_NODELAY TCP_NODELAY} </td>
+ *     <td> Disbble the Nbgle blgorithm </td>
  *   </tr>
- * </table>
+ * </tbble>
  * </blockquote>
- * Additional (implementation specific) options may also be supported.
+ * Additionbl (implementbtion specific) options mby blso be supported.
  *
  * <h2>Timeouts</h2>
  *
- * <p> The {@link #read(ByteBuffer,long,TimeUnit,Object,CompletionHandler) read}
- * and {@link #write(ByteBuffer,long,TimeUnit,Object,CompletionHandler) write}
- * methods defined by this class allow a timeout to be specified when initiating
- * a read or write operation. If the timeout elapses before an operation completes
- * then the operation completes with the exception {@link
- * InterruptedByTimeoutException}. A timeout may leave the channel, or the
- * underlying connection, in an inconsistent state. Where the implementation
- * cannot guarantee that bytes have not been read from the channel then it puts
- * the channel into an implementation specific <em>error state</em>. A subsequent
- * attempt to initiate a {@code read} operation causes an unspecified runtime
- * exception to be thrown. Similarly if a {@code write} operation times out and
- * the implementation cannot guarantee bytes have not been written to the
- * channel then further attempts to {@code write} to the channel cause an
- * unspecified runtime exception to be thrown. When a timeout elapses then the
- * state of the {@link ByteBuffer}, or the sequence of buffers, for the I/O
- * operation is not defined. Buffers should be discarded or at least care must
- * be taken to ensure that the buffers are not accessed while the channel remains
- * open. All methods that accept timeout parameters treat values less than or
- * equal to zero to mean that the I/O operation does not timeout.
+ * <p> The {@link #rebd(ByteBuffer,long,TimeUnit,Object,CompletionHbndler) rebd}
+ * bnd {@link #write(ByteBuffer,long,TimeUnit,Object,CompletionHbndler) write}
+ * methods defined by this clbss bllow b timeout to be specified when initibting
+ * b rebd or write operbtion. If the timeout elbpses before bn operbtion completes
+ * then the operbtion completes with the exception {@link
+ * InterruptedByTimeoutException}. A timeout mby lebve the chbnnel, or the
+ * underlying connection, in bn inconsistent stbte. Where the implementbtion
+ * cbnnot gubrbntee thbt bytes hbve not been rebd from the chbnnel then it puts
+ * the chbnnel into bn implementbtion specific <em>error stbte</em>. A subsequent
+ * bttempt to initibte b {@code rebd} operbtion cbuses bn unspecified runtime
+ * exception to be thrown. Similbrly if b {@code write} operbtion times out bnd
+ * the implementbtion cbnnot gubrbntee bytes hbve not been written to the
+ * chbnnel then further bttempts to {@code write} to the chbnnel cbuse bn
+ * unspecified runtime exception to be thrown. When b timeout elbpses then the
+ * stbte of the {@link ByteBuffer}, or the sequence of buffers, for the I/O
+ * operbtion is not defined. Buffers should be discbrded or bt lebst cbre must
+ * be tbken to ensure thbt the buffers bre not bccessed while the chbnnel rembins
+ * open. All methods thbt bccept timeout pbrbmeters trebt vblues less thbn or
+ * equbl to zero to mebn thbt the I/O operbtion does not timeout.
  *
  * @since 1.7
  */
 
-public abstract class AsynchronousSocketChannel
-    implements AsynchronousByteChannel, NetworkChannel
+public bbstrbct clbss AsynchronousSocketChbnnel
+    implements AsynchronousByteChbnnel, NetworkChbnnel
 {
-    private final AsynchronousChannelProvider provider;
+    privbte finbl AsynchronousChbnnelProvider provider;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
-     * @param  provider
-     *         The provider that created this channel
+     * @pbrbm  provider
+     *         The provider thbt crebted this chbnnel
      */
-    protected AsynchronousSocketChannel(AsynchronousChannelProvider provider) {
+    protected AsynchronousSocketChbnnel(AsynchronousChbnnelProvider provider) {
         this.provider = provider;
     }
 
     /**
-     * Returns the provider that created this channel.
+     * Returns the provider thbt crebted this chbnnel.
      *
-     * @return  The provider that created this channel
+     * @return  The provider thbt crebted this chbnnel
      */
-    public final AsynchronousChannelProvider provider() {
+    public finbl AsynchronousChbnnelProvider provider() {
         return provider;
     }
 
     /**
-     * Opens an asynchronous socket channel.
+     * Opens bn bsynchronous socket chbnnel.
      *
-     * <p> The new channel is created by invoking the {@link
-     * AsynchronousChannelProvider#openAsynchronousSocketChannel
-     * openAsynchronousSocketChannel} method on the {@link
-     * AsynchronousChannelProvider} that created the group. If the group parameter
-     * is {@code null} then the resulting channel is created by the system-wide
-     * default provider, and bound to the <em>default group</em>.
+     * <p> The new chbnnel is crebted by invoking the {@link
+     * AsynchronousChbnnelProvider#openAsynchronousSocketChbnnel
+     * openAsynchronousSocketChbnnel} method on the {@link
+     * AsynchronousChbnnelProvider} thbt crebted the group. If the group pbrbmeter
+     * is {@code null} then the resulting chbnnel is crebted by the system-wide
+     * defbult provider, bnd bound to the <em>defbult group</em>.
      *
-     * @param   group
-     *          The group to which the newly constructed channel should be bound,
-     *          or {@code null} for the default group
+     * @pbrbm   group
+     *          The group to which the newly constructed chbnnel should be bound,
+     *          or {@code null} for the defbult group
      *
-     * @return  A new asynchronous socket channel
+     * @return  A new bsynchronous socket chbnnel
      *
-     * @throws  ShutdownChannelGroupException
-     *          If the channel group is shutdown
+     * @throws  ShutdownChbnnelGroupException
+     *          If the chbnnel group is shutdown
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public static AsynchronousSocketChannel open(AsynchronousChannelGroup group)
+    public stbtic AsynchronousSocketChbnnel open(AsynchronousChbnnelGroup group)
         throws IOException
     {
-        AsynchronousChannelProvider provider = (group == null) ?
-            AsynchronousChannelProvider.provider() : group.provider();
-        return provider.openAsynchronousSocketChannel(group);
+        AsynchronousChbnnelProvider provider = (group == null) ?
+            AsynchronousChbnnelProvider.provider() : group.provider();
+        return provider.openAsynchronousSocketChbnnel(group);
     }
 
     /**
-     * Opens an asynchronous socket channel.
+     * Opens bn bsynchronous socket chbnnel.
      *
-     * <p> This method returns an asynchronous socket channel that is bound to
-     * the <em>default group</em>.This method is equivalent to evaluating the
+     * <p> This method returns bn bsynchronous socket chbnnel thbt is bound to
+     * the <em>defbult group</em>.This method is equivblent to evblubting the
      * expression:
      * <blockquote><pre>
-     * open((AsynchronousChannelGroup)null);
+     * open((AsynchronousChbnnelGroup)null);
      * </pre></blockquote>
      *
-     * @return  A new asynchronous socket channel
+     * @return  A new bsynchronous socket chbnnel
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public static AsynchronousSocketChannel open()
+    public stbtic AsynchronousSocketChbnnel open()
         throws IOException
     {
         return open(null);
     }
 
 
-    // -- socket options and related --
+    // -- socket options bnd relbted --
 
     /**
      * @throws  ConnectionPendingException
-     *          If a connection operation is already in progress on this channel
-     * @throws  AlreadyBoundException               {@inheritDoc}
+     *          If b connection operbtion is blrebdy in progress on this chbnnel
+     * @throws  AlrebdyBoundException               {@inheritDoc}
      * @throws  UnsupportedAddressTypeException     {@inheritDoc}
-     * @throws  ClosedChannelException              {@inheritDoc}
+     * @throws  ClosedChbnnelException              {@inheritDoc}
      * @throws  IOException                         {@inheritDoc}
      * @throws  SecurityException
-     *          If a security manager has been installed and its
-     *          {@link SecurityManager#checkListen checkListen} method denies
-     *          the operation
+     *          If b security mbnbger hbs been instblled bnd its
+     *          {@link SecurityMbnbger#checkListen checkListen} method denies
+     *          the operbtion
      */
     @Override
-    public abstract AsynchronousSocketChannel bind(SocketAddress local)
+    public bbstrbct AsynchronousSocketChbnnel bind(SocketAddress locbl)
         throws IOException;
 
     /**
-     * @throws  IllegalArgumentException                {@inheritDoc}
-     * @throws  ClosedChannelException                  {@inheritDoc}
+     * @throws  IllegblArgumentException                {@inheritDoc}
+     * @throws  ClosedChbnnelException                  {@inheritDoc}
      * @throws  IOException                             {@inheritDoc}
      */
     @Override
-    public abstract <T> AsynchronousSocketChannel setOption(SocketOption<T> name, T value)
+    public bbstrbct <T> AsynchronousSocketChbnnel setOption(SocketOption<T> nbme, T vblue)
         throws IOException;
 
     /**
-     * Shutdown the connection for reading without closing the channel.
+     * Shutdown the connection for rebding without closing the chbnnel.
      *
-     * <p> Once shutdown for reading then further reads on the channel will
-     * return {@code -1}, the end-of-stream indication. If the input side of the
-     * connection is already shutdown then invoking this method has no effect.
-     * The effect on an outstanding read operation is system dependent and
-     * therefore not specified. The effect, if any, when there is data in the
-     * socket receive buffer that has not been read, or data arrives subsequently,
-     * is also system dependent.
+     * <p> Once shutdown for rebding then further rebds on the chbnnel will
+     * return {@code -1}, the end-of-strebm indicbtion. If the input side of the
+     * connection is blrebdy shutdown then invoking this method hbs no effect.
+     * The effect on bn outstbnding rebd operbtion is system dependent bnd
+     * therefore not specified. The effect, if bny, when there is dbtb in the
+     * socket receive buffer thbt hbs not been rebd, or dbtb brrives subsequently,
+     * is blso system dependent.
      *
-     * @return  The channel
+     * @return  The chbnnel
      *
      * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     *          If this chbnnel is not yet connected
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract AsynchronousSocketChannel shutdownInput() throws IOException;
+    public bbstrbct AsynchronousSocketChbnnel shutdownInput() throws IOException;
 
     /**
-     * Shutdown the connection for writing without closing the channel.
+     * Shutdown the connection for writing without closing the chbnnel.
      *
-     * <p> Once shutdown for writing then further attempts to write to the
-     * channel will throw {@link ClosedChannelException}. If the output side of
-     * the connection is already shutdown then invoking this method has no
-     * effect. The effect on an outstanding write operation is system dependent
-     * and therefore not specified.
+     * <p> Once shutdown for writing then further bttempts to write to the
+     * chbnnel will throw {@link ClosedChbnnelException}. If the output side of
+     * the connection is blrebdy shutdown then invoking this method hbs no
+     * effect. The effect on bn outstbnding write operbtion is system dependent
+     * bnd therefore not specified.
      *
-     * @return  The channel
+     * @return  The chbnnel
      *
      * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     *          If this chbnnel is not yet connected
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract AsynchronousSocketChannel shutdownOutput() throws IOException;
+    public bbstrbct AsynchronousSocketChbnnel shutdownOutput() throws IOException;
 
-    // -- state --
+    // -- stbte --
 
     /**
-     * Returns the remote address to which this channel's socket is connected.
+     * Returns the remote bddress to which this chbnnel's socket is connected.
      *
-     * <p> Where the channel is bound and connected to an Internet Protocol
-     * socket address then the return value from this method is of type {@link
-     * java.net.InetSocketAddress}.
+     * <p> Where the chbnnel is bound bnd connected to bn Internet Protocol
+     * socket bddress then the return vblue from this method is of type {@link
+     * jbvb.net.InetSocketAddress}.
      *
-     * @return  The remote address; {@code null} if the channel's socket is not
+     * @return  The remote bddress; {@code null} if the chbnnel's socket is not
      *          connected
      *
-     * @throws  ClosedChannelException
-     *          If the channel is closed
+     * @throws  ClosedChbnnelException
+     *          If the chbnnel is closed
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract SocketAddress getRemoteAddress() throws IOException;
+    public bbstrbct SocketAddress getRemoteAddress() throws IOException;
 
-    // -- asynchronous operations --
+    // -- bsynchronous operbtions --
 
     /**
-     * Connects this channel.
+     * Connects this chbnnel.
      *
-     * <p> This method initiates an operation to connect this channel. The
-     * {@code handler} parameter is a completion handler that is invoked when
-     * the connection is successfully established or connection cannot be
-     * established. If the connection cannot be established then the channel is
+     * <p> This method initibtes bn operbtion to connect this chbnnel. The
+     * {@code hbndler} pbrbmeter is b completion hbndler thbt is invoked when
+     * the connection is successfully estbblished or connection cbnnot be
+     * estbblished. If the connection cbnnot be estbblished then the chbnnel is
      * closed.
      *
-     * <p> This method performs exactly the same security checks as the {@link
-     * java.net.Socket} class.  That is, if a security manager has been
-     * installed then this method verifies that its {@link
-     * java.lang.SecurityManager#checkConnect checkConnect} method permits
-     * connecting to the address and port number of the given remote endpoint.
+     * <p> This method performs exbctly the sbme security checks bs the {@link
+     * jbvb.net.Socket} clbss.  Thbt is, if b security mbnbger hbs been
+     * instblled then this method verifies thbt its {@link
+     * jbvb.lbng.SecurityMbnbger#checkConnect checkConnect} method permits
+     * connecting to the bddress bnd port number of the given remote endpoint.
      *
-     * @param   <A>
-     *          The type of the attachment
-     * @param   remote
-     *          The remote address to which this channel is to be connected
-     * @param   attachment
-     *          The object to attach to the I/O operation; can be {@code null}
-     * @param   handler
-     *          The handler for consuming the result
+     * @pbrbm   <A>
+     *          The type of the bttbchment
+     * @pbrbm   remote
+     *          The remote bddress to which this chbnnel is to be connected
+     * @pbrbm   bttbchment
+     *          The object to bttbch to the I/O operbtion; cbn be {@code null}
+     * @pbrbm   hbndler
+     *          The hbndler for consuming the result
      *
      * @throws  UnresolvedAddressException
-     *          If the given remote address is not fully resolved
+     *          If the given remote bddress is not fully resolved
      * @throws  UnsupportedAddressTypeException
-     *          If the type of the given remote address is not supported
-     * @throws  AlreadyConnectedException
-     *          If this channel is already connected
+     *          If the type of the given remote bddress is not supported
+     * @throws  AlrebdyConnectedException
+     *          If this chbnnel is blrebdy connected
      * @throws  ConnectionPendingException
-     *          If a connection operation is already in progress on this channel
-     * @throws  ShutdownChannelGroupException
-     *          If the channel group has terminated
+     *          If b connection operbtion is blrebdy in progress on this chbnnel
+     * @throws  ShutdownChbnnelGroupException
+     *          If the chbnnel group hbs terminbted
      * @throws  SecurityException
-     *          If a security manager has been installed
-     *          and it does not permit access to the given remote endpoint
+     *          If b security mbnbger hbs been instblled
+     *          bnd it does not permit bccess to the given remote endpoint
      *
      * @see #getRemoteAddress
      */
-    public abstract <A> void connect(SocketAddress remote,
-                                     A attachment,
-                                     CompletionHandler<Void,? super A> handler);
+    public bbstrbct <A> void connect(SocketAddress remote,
+                                     A bttbchment,
+                                     CompletionHbndler<Void,? super A> hbndler);
 
     /**
-     * Connects this channel.
+     * Connects this chbnnel.
      *
-     * <p> This method initiates an operation to connect this channel. This
-     * method behaves in exactly the same manner as the {@link
-     * #connect(SocketAddress, Object, CompletionHandler)} method except that
-     * instead of specifying a completion handler, this method returns a {@code
+     * <p> This method initibtes bn operbtion to connect this chbnnel. This
+     * method behbves in exbctly the sbme mbnner bs the {@link
+     * #connect(SocketAddress, Object, CompletionHbndler)} method except thbt
+     * instebd of specifying b completion hbndler, this method returns b {@code
      * Future} representing the pending result. The {@code Future}'s {@link
      * Future#get() get} method returns {@code null} on successful completion.
      *
-     * @param   remote
-     *          The remote address to which this channel is to be connected
+     * @pbrbm   remote
+     *          The remote bddress to which this chbnnel is to be connected
      *
      * @return  A {@code Future} object representing the pending result
      *
      * @throws  UnresolvedAddressException
-     *          If the given remote address is not fully resolved
+     *          If the given remote bddress is not fully resolved
      * @throws  UnsupportedAddressTypeException
-     *          If the type of the given remote address is not supported
-     * @throws  AlreadyConnectedException
-     *          If this channel is already connected
+     *          If the type of the given remote bddress is not supported
+     * @throws  AlrebdyConnectedException
+     *          If this chbnnel is blrebdy connected
      * @throws  ConnectionPendingException
-     *          If a connection operation is already in progress on this channel
+     *          If b connection operbtion is blrebdy in progress on this chbnnel
      * @throws  SecurityException
-     *          If a security manager has been installed
-     *          and it does not permit access to the given remote endpoint
+     *          If b security mbnbger hbs been instblled
+     *          bnd it does not permit bccess to the given remote endpoint
      */
-    public abstract Future<Void> connect(SocketAddress remote);
+    public bbstrbct Future<Void> connect(SocketAddress remote);
 
     /**
-     * Reads a sequence of bytes from this channel into the given buffer.
+     * Rebds b sequence of bytes from this chbnnel into the given buffer.
      *
-     * <p> This method initiates an asynchronous read operation to read a
-     * sequence of bytes from this channel into the given buffer. The {@code
-     * handler} parameter is a completion handler that is invoked when the read
-     * operation completes (or fails). The result passed to the completion
-     * handler is the number of bytes read or {@code -1} if no bytes could be
-     * read because the channel has reached end-of-stream.
+     * <p> This method initibtes bn bsynchronous rebd operbtion to rebd b
+     * sequence of bytes from this chbnnel into the given buffer. The {@code
+     * hbndler} pbrbmeter is b completion hbndler thbt is invoked when the rebd
+     * operbtion completes (or fbils). The result pbssed to the completion
+     * hbndler is the number of bytes rebd or {@code -1} if no bytes could be
+     * rebd becbuse the chbnnel hbs rebched end-of-strebm.
      *
-     * <p> If a timeout is specified and the timeout elapses before the operation
-     * completes then the operation completes with the exception {@link
-     * InterruptedByTimeoutException}. Where a timeout occurs, and the
-     * implementation cannot guarantee that bytes have not been read, or will not
-     * be read from the channel into the given buffer, then further attempts to
-     * read from the channel will cause an unspecific runtime exception to be
+     * <p> If b timeout is specified bnd the timeout elbpses before the operbtion
+     * completes then the operbtion completes with the exception {@link
+     * InterruptedByTimeoutException}. Where b timeout occurs, bnd the
+     * implementbtion cbnnot gubrbntee thbt bytes hbve not been rebd, or will not
+     * be rebd from the chbnnel into the given buffer, then further bttempts to
+     * rebd from the chbnnel will cbuse bn unspecific runtime exception to be
      * thrown.
      *
-     * <p> Otherwise this method works in the same manner as the {@link
-     * AsynchronousByteChannel#read(ByteBuffer,Object,CompletionHandler)}
+     * <p> Otherwise this method works in the sbme mbnner bs the {@link
+     * AsynchronousByteChbnnel#rebd(ByteBuffer,Object,CompletionHbndler)}
      * method.
      *
-     * @param   <A>
-     *          The type of the attachment
-     * @param   dst
-     *          The buffer into which bytes are to be transferred
-     * @param   timeout
-     *          The maximum time for the I/O operation to complete
-     * @param   unit
-     *          The time unit of the {@code timeout} argument
-     * @param   attachment
-     *          The object to attach to the I/O operation; can be {@code null}
-     * @param   handler
-     *          The handler for consuming the result
+     * @pbrbm   <A>
+     *          The type of the bttbchment
+     * @pbrbm   dst
+     *          The buffer into which bytes bre to be trbnsferred
+     * @pbrbm   timeout
+     *          The mbximum time for the I/O operbtion to complete
+     * @pbrbm   unit
+     *          The time unit of the {@code timeout} brgument
+     * @pbrbm   bttbchment
+     *          The object to bttbch to the I/O operbtion; cbn be {@code null}
+     * @pbrbm   hbndler
+     *          The hbndler for consuming the result
      *
-     * @throws  IllegalArgumentException
-     *          If the buffer is read-only
-     * @throws  ReadPendingException
-     *          If a read operation is already in progress on this channel
+     * @throws  IllegblArgumentException
+     *          If the buffer is rebd-only
+     * @throws  RebdPendingException
+     *          If b rebd operbtion is blrebdy in progress on this chbnnel
      * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
-     * @throws  ShutdownChannelGroupException
-     *          If the channel group has terminated
+     *          If this chbnnel is not yet connected
+     * @throws  ShutdownChbnnelGroupException
+     *          If the chbnnel group hbs terminbted
      */
-    public abstract <A> void read(ByteBuffer dst,
+    public bbstrbct <A> void rebd(ByteBuffer dst,
                                   long timeout,
                                   TimeUnit unit,
-                                  A attachment,
-                                  CompletionHandler<Integer,? super A> handler);
+                                  A bttbchment,
+                                  CompletionHbndler<Integer,? super A> hbndler);
 
     /**
-     * @throws  IllegalArgumentException        {@inheritDoc}
-     * @throws  ReadPendingException            {@inheritDoc}
+     * @throws  IllegblArgumentException        {@inheritDoc}
+     * @throws  RebdPendingException            {@inheritDoc}
      * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
-     * @throws  ShutdownChannelGroupException
-     *          If the channel group has terminated
+     *          If this chbnnel is not yet connected
+     * @throws  ShutdownChbnnelGroupException
+     *          If the chbnnel group hbs terminbted
      */
     @Override
-    public final <A> void read(ByteBuffer dst,
-                               A attachment,
-                               CompletionHandler<Integer,? super A> handler)
+    public finbl <A> void rebd(ByteBuffer dst,
+                               A bttbchment,
+                               CompletionHbndler<Integer,? super A> hbndler)
     {
-        read(dst, 0L, TimeUnit.MILLISECONDS, attachment, handler);
+        rebd(dst, 0L, TimeUnit.MILLISECONDS, bttbchment, hbndler);
     }
 
     /**
-     * @throws  IllegalArgumentException        {@inheritDoc}
-     * @throws  ReadPendingException            {@inheritDoc}
+     * @throws  IllegblArgumentException        {@inheritDoc}
+     * @throws  RebdPendingException            {@inheritDoc}
      * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
+     *          If this chbnnel is not yet connected
      */
     @Override
-    public abstract Future<Integer> read(ByteBuffer dst);
+    public bbstrbct Future<Integer> rebd(ByteBuffer dst);
 
     /**
-     * Reads a sequence of bytes from this channel into a subsequence of the
-     * given buffers. This operation, sometimes called a <em>scattering read</em>,
-     * is often useful when implementing network protocols that group data into
-     * segments consisting of one or more fixed-length headers followed by a
-     * variable-length body. The {@code handler} parameter is a completion
-     * handler that is invoked when the read operation completes (or fails). The
-     * result passed to the completion handler is the number of bytes read or
-     * {@code -1} if no bytes could be read because the channel has reached
-     * end-of-stream.
+     * Rebds b sequence of bytes from this chbnnel into b subsequence of the
+     * given buffers. This operbtion, sometimes cblled b <em>scbttering rebd</em>,
+     * is often useful when implementing network protocols thbt group dbtb into
+     * segments consisting of one or more fixed-length hebders followed by b
+     * vbribble-length body. The {@code hbndler} pbrbmeter is b completion
+     * hbndler thbt is invoked when the rebd operbtion completes (or fbils). The
+     * result pbssed to the completion hbndler is the number of bytes rebd or
+     * {@code -1} if no bytes could be rebd becbuse the chbnnel hbs rebched
+     * end-of-strebm.
      *
-     * <p> This method initiates a read of up to <i>r</i> bytes from this channel,
-     * where <i>r</i> is the total number of bytes remaining in the specified
-     * subsequence of the given buffer array, that is,
+     * <p> This method initibtes b rebd of up to <i>r</i> bytes from this chbnnel,
+     * where <i>r</i> is the totbl number of bytes rembining in the specified
+     * subsequence of the given buffer brrby, thbt is,
      *
      * <blockquote><pre>
-     * dsts[offset].remaining()
-     *     + dsts[offset+1].remaining()
-     *     + ... + dsts[offset+length-1].remaining()</pre></blockquote>
+     * dsts[offset].rembining()
+     *     + dsts[offset+1].rembining()
+     *     + ... + dsts[offset+length-1].rembining()</pre></blockquote>
      *
-     * at the moment that the read is attempted.
+     * bt the moment thbt the rebd is bttempted.
      *
-     * <p> Suppose that a byte sequence of length <i>n</i> is read, where
+     * <p> Suppose thbt b byte sequence of length <i>n</i> is rebd, where
      * <tt>0</tt>&nbsp;<tt>&lt;</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;<i>r</i>.
-     * Up to the first <tt>dsts[offset].remaining()</tt> bytes of this sequence
-     * are transferred into buffer <tt>dsts[offset]</tt>, up to the next
-     * <tt>dsts[offset+1].remaining()</tt> bytes are transferred into buffer
-     * <tt>dsts[offset+1]</tt>, and so forth, until the entire byte sequence
-     * is transferred into the given buffers.  As many bytes as possible are
-     * transferred into each buffer, hence the final position of each updated
-     * buffer, except the last updated buffer, is guaranteed to be equal to
-     * that buffer's limit. The underlying operating system may impose a limit
-     * on the number of buffers that may be used in an I/O operation. Where the
-     * number of buffers (with bytes remaining), exceeds this limit, then the
-     * I/O operation is performed with the maximum number of buffers allowed by
-     * the operating system.
+     * Up to the first <tt>dsts[offset].rembining()</tt> bytes of this sequence
+     * bre trbnsferred into buffer <tt>dsts[offset]</tt>, up to the next
+     * <tt>dsts[offset+1].rembining()</tt> bytes bre trbnsferred into buffer
+     * <tt>dsts[offset+1]</tt>, bnd so forth, until the entire byte sequence
+     * is trbnsferred into the given buffers.  As mbny bytes bs possible bre
+     * trbnsferred into ebch buffer, hence the finbl position of ebch updbted
+     * buffer, except the lbst updbted buffer, is gubrbnteed to be equbl to
+     * thbt buffer's limit. The underlying operbting system mby impose b limit
+     * on the number of buffers thbt mby be used in bn I/O operbtion. Where the
+     * number of buffers (with bytes rembining), exceeds this limit, then the
+     * I/O operbtion is performed with the mbximum number of buffers bllowed by
+     * the operbting system.
      *
-     * <p> If a timeout is specified and the timeout elapses before the operation
+     * <p> If b timeout is specified bnd the timeout elbpses before the operbtion
      * completes then it completes with the exception {@link
-     * InterruptedByTimeoutException}. Where a timeout occurs, and the
-     * implementation cannot guarantee that bytes have not been read, or will not
-     * be read from the channel into the given buffers, then further attempts to
-     * read from the channel will cause an unspecific runtime exception to be
+     * InterruptedByTimeoutException}. Where b timeout occurs, bnd the
+     * implementbtion cbnnot gubrbntee thbt bytes hbve not been rebd, or will not
+     * be rebd from the chbnnel into the given buffers, then further bttempts to
+     * rebd from the chbnnel will cbuse bn unspecific runtime exception to be
      * thrown.
      *
-     * @param   <A>
-     *          The type of the attachment
-     * @param   dsts
-     *          The buffers into which bytes are to be transferred
-     * @param   offset
-     *          The offset within the buffer array of the first buffer into which
-     *          bytes are to be transferred; must be non-negative and no larger than
+     * @pbrbm   <A>
+     *          The type of the bttbchment
+     * @pbrbm   dsts
+     *          The buffers into which bytes bre to be trbnsferred
+     * @pbrbm   offset
+     *          The offset within the buffer brrby of the first buffer into which
+     *          bytes bre to be trbnsferred; must be non-negbtive bnd no lbrger thbn
      *          {@code dsts.length}
-     * @param   length
-     *          The maximum number of buffers to be accessed; must be non-negative
-     *          and no larger than {@code dsts.length - offset}
-     * @param   timeout
-     *          The maximum time for the I/O operation to complete
-     * @param   unit
-     *          The time unit of the {@code timeout} argument
-     * @param   attachment
-     *          The object to attach to the I/O operation; can be {@code null}
-     * @param   handler
-     *          The handler for consuming the result
+     * @pbrbm   length
+     *          The mbximum number of buffers to be bccessed; must be non-negbtive
+     *          bnd no lbrger thbn {@code dsts.length - offset}
+     * @pbrbm   timeout
+     *          The mbximum time for the I/O operbtion to complete
+     * @pbrbm   unit
+     *          The time unit of the {@code timeout} brgument
+     * @pbrbm   bttbchment
+     *          The object to bttbch to the I/O operbtion; cbn be {@code null}
+     * @pbrbm   hbndler
+     *          The hbndler for consuming the result
      *
      * @throws  IndexOutOfBoundsException
-     *          If the pre-conditions for the {@code offset}  and {@code length}
-     *          parameter aren't met
-     * @throws  IllegalArgumentException
-     *          If the buffer is read-only
-     * @throws  ReadPendingException
-     *          If a read operation is already in progress on this channel
+     *          If the pre-conditions for the {@code offset}  bnd {@code length}
+     *          pbrbmeter bren't met
+     * @throws  IllegblArgumentException
+     *          If the buffer is rebd-only
+     * @throws  RebdPendingException
+     *          If b rebd operbtion is blrebdy in progress on this chbnnel
      * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
-     * @throws  ShutdownChannelGroupException
-     *          If the channel group has terminated
+     *          If this chbnnel is not yet connected
+     * @throws  ShutdownChbnnelGroupException
+     *          If the chbnnel group hbs terminbted
      */
-    public abstract <A> void read(ByteBuffer[] dsts,
+    public bbstrbct <A> void rebd(ByteBuffer[] dsts,
                                   int offset,
                                   int length,
                                   long timeout,
                                   TimeUnit unit,
-                                  A attachment,
-                                  CompletionHandler<Long,? super A> handler);
+                                  A bttbchment,
+                                  CompletionHbndler<Long,? super A> hbndler);
 
     /**
-     * Writes a sequence of bytes to this channel from the given buffer.
+     * Writes b sequence of bytes to this chbnnel from the given buffer.
      *
-     * <p> This method initiates an asynchronous write operation to write a
-     * sequence of bytes to this channel from the given buffer. The {@code
-     * handler} parameter is a completion handler that is invoked when the write
-     * operation completes (or fails). The result passed to the completion
-     * handler is the number of bytes written.
+     * <p> This method initibtes bn bsynchronous write operbtion to write b
+     * sequence of bytes to this chbnnel from the given buffer. The {@code
+     * hbndler} pbrbmeter is b completion hbndler thbt is invoked when the write
+     * operbtion completes (or fbils). The result pbssed to the completion
+     * hbndler is the number of bytes written.
      *
-     * <p> If a timeout is specified and the timeout elapses before the operation
+     * <p> If b timeout is specified bnd the timeout elbpses before the operbtion
      * completes then it completes with the exception {@link
-     * InterruptedByTimeoutException}. Where a timeout occurs, and the
-     * implementation cannot guarantee that bytes have not been written, or will
-     * not be written to the channel from the given buffer, then further attempts
-     * to write to the channel will cause an unspecific runtime exception to be
+     * InterruptedByTimeoutException}. Where b timeout occurs, bnd the
+     * implementbtion cbnnot gubrbntee thbt bytes hbve not been written, or will
+     * not be written to the chbnnel from the given buffer, then further bttempts
+     * to write to the chbnnel will cbuse bn unspecific runtime exception to be
      * thrown.
      *
-     * <p> Otherwise this method works in the same manner as the {@link
-     * AsynchronousByteChannel#write(ByteBuffer,Object,CompletionHandler)}
+     * <p> Otherwise this method works in the sbme mbnner bs the {@link
+     * AsynchronousByteChbnnel#write(ByteBuffer,Object,CompletionHbndler)}
      * method.
      *
-     * @param   <A>
-     *          The type of the attachment
-     * @param   src
-     *          The buffer from which bytes are to be retrieved
-     * @param   timeout
-     *          The maximum time for the I/O operation to complete
-     * @param   unit
-     *          The time unit of the {@code timeout} argument
-     * @param   attachment
-     *          The object to attach to the I/O operation; can be {@code null}
-     * @param   handler
-     *          The handler for consuming the result
+     * @pbrbm   <A>
+     *          The type of the bttbchment
+     * @pbrbm   src
+     *          The buffer from which bytes bre to be retrieved
+     * @pbrbm   timeout
+     *          The mbximum time for the I/O operbtion to complete
+     * @pbrbm   unit
+     *          The time unit of the {@code timeout} brgument
+     * @pbrbm   bttbchment
+     *          The object to bttbch to the I/O operbtion; cbn be {@code null}
+     * @pbrbm   hbndler
+     *          The hbndler for consuming the result
      *
      * @throws  WritePendingException
-     *          If a write operation is already in progress on this channel
+     *          If b write operbtion is blrebdy in progress on this chbnnel
      * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
-     * @throws  ShutdownChannelGroupException
-     *          If the channel group has terminated
+     *          If this chbnnel is not yet connected
+     * @throws  ShutdownChbnnelGroupException
+     *          If the chbnnel group hbs terminbted
      */
-    public abstract <A> void write(ByteBuffer src,
+    public bbstrbct <A> void write(ByteBuffer src,
                                    long timeout,
                                    TimeUnit unit,
-                                   A attachment,
-                                   CompletionHandler<Integer,? super A> handler);
+                                   A bttbchment,
+                                   CompletionHbndler<Integer,? super A> hbndler);
 
     /**
      * @throws  WritePendingException          {@inheritDoc}
      * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
-     * @throws  ShutdownChannelGroupException
-     *          If the channel group has terminated
+     *          If this chbnnel is not yet connected
+     * @throws  ShutdownChbnnelGroupException
+     *          If the chbnnel group hbs terminbted
      */
     @Override
-    public final <A> void write(ByteBuffer src,
-                                A attachment,
-                                CompletionHandler<Integer,? super A> handler)
+    public finbl <A> void write(ByteBuffer src,
+                                A bttbchment,
+                                CompletionHbndler<Integer,? super A> hbndler)
 
     {
-        write(src, 0L, TimeUnit.MILLISECONDS, attachment, handler);
+        write(src, 0L, TimeUnit.MILLISECONDS, bttbchment, hbndler);
     }
 
     /**
      * @throws  WritePendingException       {@inheritDoc}
      * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
+     *          If this chbnnel is not yet connected
      */
     @Override
-    public abstract Future<Integer> write(ByteBuffer src);
+    public bbstrbct Future<Integer> write(ByteBuffer src);
 
     /**
-     * Writes a sequence of bytes to this channel from a subsequence of the given
-     * buffers. This operation, sometimes called a <em>gathering write</em>, is
-     * often useful when implementing network protocols that group data into
-     * segments consisting of one or more fixed-length headers followed by a
-     * variable-length body. The {@code handler} parameter is a completion
-     * handler that is invoked when the write operation completes (or fails).
-     * The result passed to the completion handler is the number of bytes written.
+     * Writes b sequence of bytes to this chbnnel from b subsequence of the given
+     * buffers. This operbtion, sometimes cblled b <em>gbthering write</em>, is
+     * often useful when implementing network protocols thbt group dbtb into
+     * segments consisting of one or more fixed-length hebders followed by b
+     * vbribble-length body. The {@code hbndler} pbrbmeter is b completion
+     * hbndler thbt is invoked when the write operbtion completes (or fbils).
+     * The result pbssed to the completion hbndler is the number of bytes written.
      *
-     * <p> This method initiates a write of up to <i>r</i> bytes to this channel,
-     * where <i>r</i> is the total number of bytes remaining in the specified
-     * subsequence of the given buffer array, that is,
+     * <p> This method initibtes b write of up to <i>r</i> bytes to this chbnnel,
+     * where <i>r</i> is the totbl number of bytes rembining in the specified
+     * subsequence of the given buffer brrby, thbt is,
      *
      * <blockquote><pre>
-     * srcs[offset].remaining()
-     *     + srcs[offset+1].remaining()
-     *     + ... + srcs[offset+length-1].remaining()</pre></blockquote>
+     * srcs[offset].rembining()
+     *     + srcs[offset+1].rembining()
+     *     + ... + srcs[offset+length-1].rembining()</pre></blockquote>
      *
-     * at the moment that the write is attempted.
+     * bt the moment thbt the write is bttempted.
      *
-     * <p> Suppose that a byte sequence of length <i>n</i> is written, where
+     * <p> Suppose thbt b byte sequence of length <i>n</i> is written, where
      * <tt>0</tt>&nbsp;<tt>&lt;</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;<i>r</i>.
-     * Up to the first <tt>srcs[offset].remaining()</tt> bytes of this sequence
-     * are written from buffer <tt>srcs[offset]</tt>, up to the next
-     * <tt>srcs[offset+1].remaining()</tt> bytes are written from buffer
-     * <tt>srcs[offset+1]</tt>, and so forth, until the entire byte sequence is
-     * written.  As many bytes as possible are written from each buffer, hence
-     * the final position of each updated buffer, except the last updated
-     * buffer, is guaranteed to be equal to that buffer's limit. The underlying
-     * operating system may impose a limit on the number of buffers that may be
-     * used in an I/O operation. Where the number of buffers (with bytes
-     * remaining), exceeds this limit, then the I/O operation is performed with
-     * the maximum number of buffers allowed by the operating system.
+     * Up to the first <tt>srcs[offset].rembining()</tt> bytes of this sequence
+     * bre written from buffer <tt>srcs[offset]</tt>, up to the next
+     * <tt>srcs[offset+1].rembining()</tt> bytes bre written from buffer
+     * <tt>srcs[offset+1]</tt>, bnd so forth, until the entire byte sequence is
+     * written.  As mbny bytes bs possible bre written from ebch buffer, hence
+     * the finbl position of ebch updbted buffer, except the lbst updbted
+     * buffer, is gubrbnteed to be equbl to thbt buffer's limit. The underlying
+     * operbting system mby impose b limit on the number of buffers thbt mby be
+     * used in bn I/O operbtion. Where the number of buffers (with bytes
+     * rembining), exceeds this limit, then the I/O operbtion is performed with
+     * the mbximum number of buffers bllowed by the operbting system.
      *
-     * <p> If a timeout is specified and the timeout elapses before the operation
+     * <p> If b timeout is specified bnd the timeout elbpses before the operbtion
      * completes then it completes with the exception {@link
-     * InterruptedByTimeoutException}. Where a timeout occurs, and the
-     * implementation cannot guarantee that bytes have not been written, or will
-     * not be written to the channel from the given buffers, then further attempts
-     * to write to the channel will cause an unspecific runtime exception to be
+     * InterruptedByTimeoutException}. Where b timeout occurs, bnd the
+     * implementbtion cbnnot gubrbntee thbt bytes hbve not been written, or will
+     * not be written to the chbnnel from the given buffers, then further bttempts
+     * to write to the chbnnel will cbuse bn unspecific runtime exception to be
      * thrown.
      *
-     * @param   <A>
-     *          The type of the attachment
-     * @param   srcs
-     *          The buffers from which bytes are to be retrieved
-     * @param   offset
-     *          The offset within the buffer array of the first buffer from which
-     *          bytes are to be retrieved; must be non-negative and no larger
-     *          than {@code srcs.length}
-     * @param   length
-     *          The maximum number of buffers to be accessed; must be non-negative
-     *          and no larger than {@code srcs.length - offset}
-     * @param   timeout
-     *          The maximum time for the I/O operation to complete
-     * @param   unit
-     *          The time unit of the {@code timeout} argument
-     * @param   attachment
-     *          The object to attach to the I/O operation; can be {@code null}
-     * @param   handler
-     *          The handler for consuming the result
+     * @pbrbm   <A>
+     *          The type of the bttbchment
+     * @pbrbm   srcs
+     *          The buffers from which bytes bre to be retrieved
+     * @pbrbm   offset
+     *          The offset within the buffer brrby of the first buffer from which
+     *          bytes bre to be retrieved; must be non-negbtive bnd no lbrger
+     *          thbn {@code srcs.length}
+     * @pbrbm   length
+     *          The mbximum number of buffers to be bccessed; must be non-negbtive
+     *          bnd no lbrger thbn {@code srcs.length - offset}
+     * @pbrbm   timeout
+     *          The mbximum time for the I/O operbtion to complete
+     * @pbrbm   unit
+     *          The time unit of the {@code timeout} brgument
+     * @pbrbm   bttbchment
+     *          The object to bttbch to the I/O operbtion; cbn be {@code null}
+     * @pbrbm   hbndler
+     *          The hbndler for consuming the result
      *
      * @throws  IndexOutOfBoundsException
-     *          If the pre-conditions for the {@code offset}  and {@code length}
-     *          parameter aren't met
+     *          If the pre-conditions for the {@code offset}  bnd {@code length}
+     *          pbrbmeter bren't met
      * @throws  WritePendingException
-     *          If a write operation is already in progress on this channel
+     *          If b write operbtion is blrebdy in progress on this chbnnel
      * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
-     * @throws  ShutdownChannelGroupException
-     *          If the channel group has terminated
+     *          If this chbnnel is not yet connected
+     * @throws  ShutdownChbnnelGroupException
+     *          If the chbnnel group hbs terminbted
      */
-    public abstract <A> void write(ByteBuffer[] srcs,
+    public bbstrbct <A> void write(ByteBuffer[] srcs,
                                    int offset,
                                    int length,
                                    long timeout,
                                    TimeUnit unit,
-                                   A attachment,
-                                   CompletionHandler<Long,? super A> handler);
+                                   A bttbchment,
+                                   CompletionHbndler<Long,? super A> hbndler);
 
     /**
      * {@inheritDoc}
      * <p>
-     * If there is a security manager set, its {@code checkConnect} method is
-     * called with the local address and {@code -1} as its arguments to see
-     * if the operation is allowed. If the operation is not allowed,
-     * a {@code SocketAddress} representing the
-     * {@link java.net.InetAddress#getLoopbackAddress loopback} address and the
-     * local port of the channel's socket is returned.
+     * If there is b security mbnbger set, its {@code checkConnect} method is
+     * cblled with the locbl bddress bnd {@code -1} bs its brguments to see
+     * if the operbtion is bllowed. If the operbtion is not bllowed,
+     * b {@code SocketAddress} representing the
+     * {@link jbvb.net.InetAddress#getLoopbbckAddress loopbbck} bddress bnd the
+     * locbl port of the chbnnel's socket is returned.
      *
-     * @return  The {@code SocketAddress} that the socket is bound to, or the
-     *          {@code SocketAddress} representing the loopback address if
-     *          denied by the security manager, or {@code null} if the
-     *          channel's socket is not bound
+     * @return  The {@code SocketAddress} thbt the socket is bound to, or the
+     *          {@code SocketAddress} representing the loopbbck bddress if
+     *          denied by the security mbnbger, or {@code null} if the
+     *          chbnnel's socket is not bound
      *
-     * @throws  ClosedChannelException     {@inheritDoc}
+     * @throws  ClosedChbnnelException     {@inheritDoc}
      * @throws  IOException                {@inheritDoc}
      */
-    public abstract SocketAddress getLocalAddress() throws IOException;
+    public bbstrbct SocketAddress getLocblAddress() throws IOException;
 }

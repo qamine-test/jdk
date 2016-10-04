@@ -1,365 +1,365 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "util.h"
-#include "StackFrameImpl.h"
-#include "inStream.h"
-#include "outStream.h"
-#include "threadControl.h"
-#include "FrameID.h"
+#include "StbckFrbmeImpl.h"
+#include "inStrebm.h"
+#include "outStrebm.h"
+#include "threbdControl.h"
+#include "FrbmeID.h"
 
-static jdwpError
-validateThreadFrame(jthread thread, FrameID frame)
+stbtic jdwpError
+vblidbteThrebdFrbme(jthrebd threbd, FrbmeID frbme)
 {
     jvmtiError error;
     jdwpError  serror;
     jint count;
-    error = threadControl_suspendCount(thread, &count);
+    error = threbdControl_suspendCount(threbd, &count);
     if ( error == JVMTI_ERROR_NONE ) {
         if ( count > 0 ) {
-            serror = validateFrameID(thread, frame);
+            serror = vblidbteFrbmeID(threbd, frbme);
         } else {
             serror = JDWP_ERROR(THREAD_NOT_SUSPENDED);
         }
     } else {
-        serror =  map2jdwpError(error);
+        serror =  mbp2jdwpError(error);
     }
     return serror;
 }
 
-static jdwpError
-writeVariableValue(JNIEnv *env, PacketOutputStream *out, jthread thread,
-                   FrameNumber fnum, jint slot, jbyte typeKey)
+stbtic jdwpError
+writeVbribbleVblue(JNIEnv *env, PbcketOutputStrebm *out, jthrebd threbd,
+                   FrbmeNumber fnum, jint slot, jbyte typeKey)
 {
     jvmtiError error;
-    jvalue value;
+    jvblue vblue;
 
-    if (isObjectTag(typeKey)) {
+    if (isObjectTbg(typeKey)) {
 
         WITH_LOCAL_REFS(env, 1) {
 
-            error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalObject)
-                        (gdata->jvmti, thread, fnum, slot, &value.l);
+            error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblObject)
+                        (gdbtb->jvmti, threbd, fnum, slot, &vblue.l);
 
             if (error != JVMTI_ERROR_NONE) {
-                outStream_setError(out, map2jdwpError(error));
+                outStrebm_setError(out, mbp2jdwpError(error));
             } else {
-                (void)outStream_writeByte(out, specificTypeKey(env, value.l));
-                (void)outStream_writeObjectRef(env, out, value.l);
+                (void)outStrebm_writeByte(out, specificTypeKey(env, vblue.l));
+                (void)outStrebm_writeObjectRef(env, out, vblue.l);
             }
 
         } END_WITH_LOCAL_REFS(env);
 
     } else {
         /*
-         * For primitive types, the type key is bounced back as is.
+         * For primitive types, the type key is bounced bbck bs is.
          */
-        (void)outStream_writeByte(out, typeKey);
+        (void)outStrebm_writeByte(out, typeKey);
         switch (typeKey) {
-            case JDWP_TAG(BYTE): {
-                    jint intValue;
-                    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, &intValue);
-                    (void)outStream_writeByte(out, (jbyte)intValue);
-                    break;
+            cbse JDWP_TAG(BYTE): {
+                    jint intVblue;
+                    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblInt)
+                                (gdbtb->jvmti, threbd, fnum, slot, &intVblue);
+                    (void)outStrebm_writeByte(out, (jbyte)intVblue);
+                    brebk;
                 }
 
-            case JDWP_TAG(CHAR): {
-                    jint intValue;
-                    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, &intValue);
-                    (void)outStream_writeChar(out, (jchar)intValue);
-                    break;
+            cbse JDWP_TAG(CHAR): {
+                    jint intVblue;
+                    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblInt)
+                                (gdbtb->jvmti, threbd, fnum, slot, &intVblue);
+                    (void)outStrebm_writeChbr(out, (jchbr)intVblue);
+                    brebk;
                 }
 
-            case JDWP_TAG(FLOAT):
-                error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalFloat)
-                                (gdata->jvmti, thread, fnum, slot, &value.f);
-                (void)outStream_writeFloat(out, value.f);
-                break;
+            cbse JDWP_TAG(FLOAT):
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblFlobt)
+                                (gdbtb->jvmti, threbd, fnum, slot, &vblue.f);
+                (void)outStrebm_writeFlobt(out, vblue.f);
+                brebk;
 
-            case JDWP_TAG(DOUBLE):
-                error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalDouble)
-                                (gdata->jvmti, thread, fnum, slot, &value.d);
-                (void)outStream_writeDouble(out, value.d);
-                break;
+            cbse JDWP_TAG(DOUBLE):
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblDouble)
+                                (gdbtb->jvmti, threbd, fnum, slot, &vblue.d);
+                (void)outStrebm_writeDouble(out, vblue.d);
+                brebk;
 
-            case JDWP_TAG(INT):
-                error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, &value.i);
-                (void)outStream_writeInt(out, value.i);
-                break;
+            cbse JDWP_TAG(INT):
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblInt)
+                                (gdbtb->jvmti, threbd, fnum, slot, &vblue.i);
+                (void)outStrebm_writeInt(out, vblue.i);
+                brebk;
 
-            case JDWP_TAG(LONG):
-                error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalLong)
-                                (gdata->jvmti, thread, fnum, slot, &value.j);
-                (void)outStream_writeLong(out, value.j);
-                break;
+            cbse JDWP_TAG(LONG):
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblLong)
+                                (gdbtb->jvmti, threbd, fnum, slot, &vblue.j);
+                (void)outStrebm_writeLong(out, vblue.j);
+                brebk;
 
-            case JDWP_TAG(SHORT): {
-                jint intValue;
-                error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, &intValue);
-                (void)outStream_writeShort(out, (jshort)intValue);
-                break;
+            cbse JDWP_TAG(SHORT): {
+                jint intVblue;
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblInt)
+                                (gdbtb->jvmti, threbd, fnum, slot, &intVblue);
+                (void)outStrebm_writeShort(out, (jshort)intVblue);
+                brebk;
             }
 
-            case JDWP_TAG(BOOLEAN):{
-                jint intValue;
-                error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, &intValue);
-                (void)outStream_writeBoolean(out, (jboolean)intValue);
-                break;
+            cbse JDWP_TAG(BOOLEAN):{
+                jint intVblue;
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblInt)
+                                (gdbtb->jvmti, threbd, fnum, slot, &intVblue);
+                (void)outStrebm_writeBoolebn(out, (jboolebn)intVblue);
+                brebk;
             }
 
-            default:
+            defbult:
                 return JDWP_ERROR(INVALID_TAG);
         }
     }
 
-    return map2jdwpError(error);
+    return mbp2jdwpError(error);
 }
 
-static jdwpError
-readVariableValue(JNIEnv *env, PacketInputStream *in, jthread thread,
-                  FrameNumber fnum, jint slot, jbyte typeKey)
+stbtic jdwpError
+rebdVbribbleVblue(JNIEnv *env, PbcketInputStrebm *in, jthrebd threbd,
+                  FrbmeNumber fnum, jint slot, jbyte typeKey)
 {
     jvmtiError error;
-    jvalue value;
+    jvblue vblue;
 
-    if (isObjectTag(typeKey)) {
+    if (isObjectTbg(typeKey)) {
 
-        value.l = inStream_readObjectRef(env, in);
+        vblue.l = inStrebm_rebdObjectRef(env, in);
 
-        error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalObject)
-                        (gdata->jvmti, thread, fnum, slot, value.l);
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetLocblObject)
+                        (gdbtb->jvmti, threbd, fnum, slot, vblue.l);
 
     } else {
         switch (typeKey) {
-            case JDWP_TAG(BYTE):
-                value.b = inStream_readByte(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, value.b);
-                break;
+            cbse JDWP_TAG(BYTE):
+                vblue.b = inStrebm_rebdByte(in);
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetLocblInt)
+                                (gdbtb->jvmti, threbd, fnum, slot, vblue.b);
+                brebk;
 
-            case JDWP_TAG(CHAR):
-                value.c = inStream_readChar(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, value.c);
-                break;
+            cbse JDWP_TAG(CHAR):
+                vblue.c = inStrebm_rebdChbr(in);
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetLocblInt)
+                                (gdbtb->jvmti, threbd, fnum, slot, vblue.c);
+                brebk;
 
-            case JDWP_TAG(FLOAT):
-                value.f = inStream_readFloat(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalFloat)
-                                (gdata->jvmti, thread, fnum, slot, value.f);
-                break;
+            cbse JDWP_TAG(FLOAT):
+                vblue.f = inStrebm_rebdFlobt(in);
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetLocblFlobt)
+                                (gdbtb->jvmti, threbd, fnum, slot, vblue.f);
+                brebk;
 
-            case JDWP_TAG(DOUBLE):
-                value.d = inStream_readDouble(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalDouble)
-                                (gdata->jvmti, thread, fnum, slot, value.d);
-                break;
+            cbse JDWP_TAG(DOUBLE):
+                vblue.d = inStrebm_rebdDouble(in);
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetLocblDouble)
+                                (gdbtb->jvmti, threbd, fnum, slot, vblue.d);
+                brebk;
 
-            case JDWP_TAG(INT):
-                value.i = inStream_readInt(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, value.i);
-                break;
+            cbse JDWP_TAG(INT):
+                vblue.i = inStrebm_rebdInt(in);
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetLocblInt)
+                                (gdbtb->jvmti, threbd, fnum, slot, vblue.i);
+                brebk;
 
-            case JDWP_TAG(LONG):
-                value.j = inStream_readLong(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalLong)
-                                (gdata->jvmti, thread, fnum, slot, value.j);
-                break;
+            cbse JDWP_TAG(LONG):
+                vblue.j = inStrebm_rebdLong(in);
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetLocblLong)
+                                (gdbtb->jvmti, threbd, fnum, slot, vblue.j);
+                brebk;
 
-            case JDWP_TAG(SHORT):
-                value.s = inStream_readShort(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, value.s);
-                break;
+            cbse JDWP_TAG(SHORT):
+                vblue.s = inStrebm_rebdShort(in);
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetLocblInt)
+                                (gdbtb->jvmti, threbd, fnum, slot, vblue.s);
+                brebk;
 
-            case JDWP_TAG(BOOLEAN):
-                value.z = inStream_readBoolean(in);
-                error = JVMTI_FUNC_PTR(gdata->jvmti,SetLocalInt)
-                                (gdata->jvmti, thread, fnum, slot, value.z);
-                break;
+            cbse JDWP_TAG(BOOLEAN):
+                vblue.z = inStrebm_rebdBoolebn(in);
+                error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetLocblInt)
+                                (gdbtb->jvmti, threbd, fnum, slot, vblue.z);
+                brebk;
 
-            default:
+            defbult:
                 return JDWP_ERROR(INVALID_TAG);
         }
     }
 
-    return map2jdwpError(error);
+    return mbp2jdwpError(error);
 }
 
-static jboolean
-getValues(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+getVblues(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
     int i;
     jdwpError serror;
-    jthread thread;
-    FrameID frame;
-    jint variableCount;
+    jthrebd threbd;
+    FrbmeID frbme;
+    jint vbribbleCount;
 
     env = getEnv();
 
-    thread = inStream_readThreadRef(env, in);
-    if (inStream_error(in)) {
+    threbd = inStrebm_rebdThrebdRef(env, in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    frame = inStream_readFrameID(in);
-    if (inStream_error(in)) {
+    frbme = inStrebm_rebdFrbmeID(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    variableCount = inStream_readInt(in);
-    if (inStream_error(in)) {
+    vbribbleCount = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     /*
-     * Validate the frame id
+     * Vblidbte the frbme id
      */
-    serror = validateThreadFrame(thread, frame);
+    serror = vblidbteThrebdFrbme(threbd, frbme);
     if (serror != JDWP_ERROR(NONE)) {
-        outStream_setError(out, serror);
+        outStrebm_setError(out, serror);
         return JNI_TRUE;
     }
 
-    (void)outStream_writeInt(out, variableCount);
-    for (i = 0; (i < variableCount) && !outStream_error(out); i++) {
+    (void)outStrebm_writeInt(out, vbribbleCount);
+    for (i = 0; (i < vbribbleCount) && !outStrebm_error(out); i++) {
         jint slot;
         jbyte typeKey;
-        FrameNumber fnum;
+        FrbmeNumber fnum;
 
-        slot = inStream_readInt(in);
-        if (inStream_error(in))
-            break;
-        typeKey = inStream_readByte(in);
-        if (inStream_error(in))
-            break;
+        slot = inStrebm_rebdInt(in);
+        if (inStrebm_error(in))
+            brebk;
+        typeKey = inStrebm_rebdByte(in);
+        if (inStrebm_error(in))
+            brebk;
 
-        fnum = getFrameNumber(frame);
-        serror = writeVariableValue(env, out, thread, fnum, slot, typeKey);
+        fnum = getFrbmeNumber(frbme);
+        serror = writeVbribbleVblue(env, out, threbd, fnum, slot, typeKey);
         if (serror != JDWP_ERROR(NONE)) {
-            outStream_setError(out, serror);
-            break;
+            outStrebm_setError(out, serror);
+            brebk;
         }
     }
 
     return JNI_TRUE;
 }
 
-static jboolean
-setValues(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+setVblues(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
     jint i;
     jdwpError serror;
-    jthread thread;
-    FrameID frame;
-    jint variableCount;
+    jthrebd threbd;
+    FrbmeID frbme;
+    jint vbribbleCount;
 
     env = getEnv();
 
-    thread = inStream_readThreadRef(env, in);
-    if (inStream_error(in)) {
+    threbd = inStrebm_rebdThrebdRef(env, in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    frame = inStream_readFrameID(in);
-    if (inStream_error(in)) {
+    frbme = inStrebm_rebdFrbmeID(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    variableCount = inStream_readInt(in);
-    if (inStream_error(in)) {
+    vbribbleCount = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     /*
-     * Validate the frame id
+     * Vblidbte the frbme id
      */
-    serror = validateThreadFrame(thread, frame);
+    serror = vblidbteThrebdFrbme(threbd, frbme);
     if (serror != JDWP_ERROR(NONE)) {
-        outStream_setError(out, serror);
+        outStrebm_setError(out, serror);
         return JNI_TRUE;
     }
 
-    for (i = 0; (i < variableCount) && !inStream_error(in); i++) {
+    for (i = 0; (i < vbribbleCount) && !inStrebm_error(in); i++) {
 
         jint slot;
         jbyte typeKey;
-        FrameNumber fnum;
+        FrbmeNumber fnum;
 
-        slot = inStream_readInt(in);
-        if (inStream_error(in)) {
+        slot = inStrebm_rebdInt(in);
+        if (inStrebm_error(in)) {
             return JNI_TRUE;
         }
-        typeKey = inStream_readByte(in);
-        if (inStream_error(in)) {
+        typeKey = inStrebm_rebdByte(in);
+        if (inStrebm_error(in)) {
             return JNI_TRUE;
         }
 
-        fnum = getFrameNumber(frame);
-        serror = readVariableValue(env, in, thread, fnum, slot, typeKey);
+        fnum = getFrbmeNumber(frbme);
+        serror = rebdVbribbleVblue(env, in, threbd, fnum, slot, typeKey);
         if (serror != JDWP_ERROR(NONE))
-            break;
+            brebk;
     }
 
     if (serror != JDWP_ERROR(NONE)) {
-        outStream_setError(out, serror);
+        outStrebm_setError(out, serror);
     }
 
     return JNI_TRUE;
 }
 
-static jboolean
-thisObject(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+thisObject(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
     jdwpError serror;
-    jthread thread;
-    FrameID frame;
+    jthrebd threbd;
+    FrbmeID frbme;
 
     env = getEnv();
 
-    thread = inStream_readThreadRef(env, in);
-    if (inStream_error(in)) {
+    threbd = inStrebm_rebdThrebdRef(env, in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
-    frame = inStream_readFrameID(in);
-    if (inStream_error(in)) {
+    frbme = inStrebm_rebdFrbmeID(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     /*
-     * Validate the frame id
+     * Vblidbte the frbme id
      */
-    serror = validateThreadFrame(thread, frame);
+    serror = vblidbteThrebdFrbme(threbd, frbme);
     if (serror != JDWP_ERROR(NONE)) {
-        outStream_setError(out, serror);
+        outStrebm_setError(out, serror);
         return JNI_TRUE;
     }
 
@@ -367,15 +367,15 @@ thisObject(PacketInputStream *in, PacketOutputStream *out)
 
         jvmtiError error;
         jmethodID method;
-        jlocation location;
-        FrameNumber fnum;
+        jlocbtion locbtion;
+        FrbmeNumber fnum;
 
         /*
-         * Find out if the given frame is for a static or native method.
+         * Find out if the given frbme is for b stbtic or nbtive method.
          */
-        fnum = getFrameNumber(frame);
-        error = JVMTI_FUNC_PTR(gdata->jvmti,GetFrameLocation)
-                (gdata->jvmti, thread, fnum, &method, &location);
+        fnum = getFrbmeNumber(frbme);
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetFrbmeLocbtion)
+                (gdbtb->jvmti, threbd, fnum, &method, &locbtion);
         if (error == JVMTI_ERROR_NONE) {
 
             jint modifiers;
@@ -386,79 +386,79 @@ thisObject(PacketInputStream *in, PacketOutputStream *out)
                 jobject this_object;
 
                 /*
-                 * Return null for static or native methods; otherwise, the JVM
-                 * spec guarantees that "this" is in slot 0
+                 * Return null for stbtic or nbtive methods; otherwise, the JVM
+                 * spec gubrbntees thbt "this" is in slot 0
                  */
                 if (modifiers & (MOD_STATIC | MOD_NATIVE)) {
                     this_object = NULL;
-                    (void)outStream_writeByte(out, specificTypeKey(env, this_object));
-                    (void)outStream_writeObjectRef(env, out, this_object);
+                    (void)outStrebm_writeByte(out, specificTypeKey(env, this_object));
+                    (void)outStrebm_writeObjectRef(env, out, this_object);
                 } else {
-                    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalObject)
-                                (gdata->jvmti, thread, fnum, 0, &this_object);
+                    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblObject)
+                                (gdbtb->jvmti, threbd, fnum, 0, &this_object);
                     if (error == JVMTI_ERROR_NONE) {
-                        (void)outStream_writeByte(out, specificTypeKey(env, this_object));
-                        (void)outStream_writeObjectRef(env, out, this_object);
+                        (void)outStrebm_writeByte(out, specificTypeKey(env, this_object));
+                        (void)outStrebm_writeObjectRef(env, out, this_object);
                     }
                 }
 
             }
         }
-        serror = map2jdwpError(error);
+        serror = mbp2jdwpError(error);
 
     } END_WITH_LOCAL_REFS(env);
 
     if (serror != JDWP_ERROR(NONE))
-        outStream_setError(out, serror);
+        outStrebm_setError(out, serror);
 
     return JNI_TRUE;
 }
 
-static jboolean
-popFrames(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+popFrbmes(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     jvmtiError error;
     jdwpError serror;
-    jthread thread;
-    FrameID frame;
-    FrameNumber fnum;
+    jthrebd threbd;
+    FrbmeID frbme;
+    FrbmeNumber fnum;
 
-    thread = inStream_readThreadRef(getEnv(), in);
-    if (inStream_error(in)) {
+    threbd = inStrebm_rebdThrebdRef(getEnv(), in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
-    frame = inStream_readFrameID(in);
-    if (inStream_error(in)) {
+    frbme = inStrebm_rebdFrbmeID(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     /*
-     * Validate the frame id
+     * Vblidbte the frbme id
      */
-    serror = validateThreadFrame(thread, frame);
+    serror = vblidbteThrebdFrbme(threbd, frbme);
     if (serror != JDWP_ERROR(NONE)) {
-        outStream_setError(out, serror);
+        outStrebm_setError(out, serror);
         return JNI_TRUE;
     }
 
-    if (threadControl_isDebugThread(thread)) {
-        outStream_setError(out, JDWP_ERROR(INVALID_THREAD));
+    if (threbdControl_isDebugThrebd(threbd)) {
+        outStrebm_setError(out, JDWP_ERROR(INVALID_THREAD));
         return JNI_TRUE;
     }
 
-    fnum = getFrameNumber(frame);
-    error = threadControl_popFrames(thread, fnum);
+    fnum = getFrbmeNumber(frbme);
+    error = threbdControl_popFrbmes(threbd, fnum);
     if (error != JVMTI_ERROR_NONE) {
-        serror = map2jdwpError(error);
-        outStream_setError(out, serror);
+        serror = mbp2jdwpError(error);
+        outStrebm_setError(out, serror);
     }
     return JNI_TRUE;
 }
 
-void *StackFrame_Cmds[] = { (void *)0x4
-    ,(void *)getValues
-    ,(void *)setValues
+void *StbckFrbme_Cmds[] = { (void *)0x4
+    ,(void *)getVblues
+    ,(void *)setVblues
     ,(void *)thisObject
-    ,(void *)popFrames
+    ,(void *)popFrbmes
 };

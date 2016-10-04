@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
-import java.io.Serializable;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvb.io.Seriblizbble;
+import jbvb.bebns.*;
 
 
 /**
- * Metal UI for JComboBox
+ * Metbl UI for JComboBox
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see MetalComboBoxEditor
- * @see MetalComboBoxButton
- * @author Tom Santos
+ * @see MetblComboBoxEditor
+ * @see MetblComboBoxButton
+ * @buthor Tom Sbntos
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalComboBoxUI extends BasicComboBoxUI {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss MetblComboBoxUI extends BbsicComboBoxUI {
 
     /**
-     * Constructs an instance of {@code MetalComboBoxUI}.
+     * Constructs bn instbnce of {@code MetblComboBoxUI}.
      *
-     * @param c a component
-     * @return an instance of {@code MetalComboBoxUI}
+     * @pbrbm c b component
+     * @return bn instbnce of {@code MetblComboBoxUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new MetalComboBoxUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new MetblComboBoxUI();
     }
 
-    public void paint(Graphics g, JComponent c) {
-        if (MetalLookAndFeel.usingOcean()) {
-            super.paint(g, c);
+    public void pbint(Grbphics g, JComponent c) {
+        if (MetblLookAndFeel.usingOcebn()) {
+            super.pbint(g, c);
         }
     }
 
     /**
-     * If necessary paints the currently selected item.
+     * If necessbry pbints the currently selected item.
      *
-     * @param g Graphics to paint to
-     * @param bounds Region to paint current value to
-     * @param hasFocus whether or not the JComboBox has focus
-     * @throws NullPointerException if any of the arguments are null.
+     * @pbrbm g Grbphics to pbint to
+     * @pbrbm bounds Region to pbint current vblue to
+     * @pbrbm hbsFocus whether or not the JComboBox hbs focus
+     * @throws NullPointerException if bny of the brguments bre null.
      * @since 1.5
      */
-    public void paintCurrentValue(Graphics g, Rectangle bounds,
-                                  boolean hasFocus) {
-        // This is really only called if we're using ocean.
-        if (MetalLookAndFeel.usingOcean()) {
+    public void pbintCurrentVblue(Grbphics g, Rectbngle bounds,
+                                  boolebn hbsFocus) {
+        // This is reblly only cblled if we're using ocebn.
+        if (MetblLookAndFeel.usingOcebn()) {
             bounds.x += 2;
             bounds.width -= 3;
-            if (arrowButton != null) {
-                Insets buttonInsets = arrowButton.getInsets();
+            if (brrowButton != null) {
+                Insets buttonInsets = brrowButton.getInsets();
                 bounds.y += buttonInsets.top;
                 bounds.height -= (buttonInsets.top + buttonInsets.bottom);
             }
@@ -94,36 +94,36 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
                 bounds.y += 2;
                 bounds.height -= 4;
             }
-            super.paintCurrentValue(g, bounds, hasFocus);
+            super.pbintCurrentVblue(g, bounds, hbsFocus);
         }
         else if (g == null || bounds == null) {
             throw new NullPointerException(
-                "Must supply a non-null Graphics and Rectangle");
+                "Must supply b non-null Grbphics bnd Rectbngle");
         }
     }
 
     /**
-     * If necessary paints the background of the currently selected item.
+     * If necessbry pbints the bbckground of the currently selected item.
      *
-     * @param g Graphics to paint to
-     * @param bounds Region to paint background to
-     * @param hasFocus whether or not the JComboBox has focus
-     * @throws NullPointerException if any of the arguments are null.
+     * @pbrbm g Grbphics to pbint to
+     * @pbrbm bounds Region to pbint bbckground to
+     * @pbrbm hbsFocus whether or not the JComboBox hbs focus
+     * @throws NullPointerException if bny of the brguments bre null.
      * @since 1.5
      */
-    public void paintCurrentValueBackground(Graphics g, Rectangle bounds,
-                                            boolean hasFocus) {
-        // This is really only called if we're using ocean.
-        if (MetalLookAndFeel.usingOcean()) {
-            g.setColor(MetalLookAndFeel.getControlDarkShadow());
-            g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height - 1);
-            g.setColor(MetalLookAndFeel.getControlShadow());
-            g.drawRect(bounds.x + 1, bounds.y + 1, bounds.width - 2,
+    public void pbintCurrentVblueBbckground(Grbphics g, Rectbngle bounds,
+                                            boolebn hbsFocus) {
+        // This is reblly only cblled if we're using ocebn.
+        if (MetblLookAndFeel.usingOcebn()) {
+            g.setColor(MetblLookAndFeel.getControlDbrkShbdow());
+            g.drbwRect(bounds.x, bounds.y, bounds.width, bounds.height - 1);
+            g.setColor(MetblLookAndFeel.getControlShbdow());
+            g.drbwRect(bounds.x + 1, bounds.y + 1, bounds.width - 2,
                        bounds.height - 3);
-            if (hasFocus && !isPopupVisible(comboBox) &&
-                    arrowButton != null) {
-                g.setColor(listBox.getSelectionBackground());
-                Insets buttonInsets = arrowButton.getInsets();
+            if (hbsFocus && !isPopupVisible(comboBox) &&
+                    brrowButton != null) {
+                g.setColor(listBox.getSelectionBbckground());
+                Insets buttonInsets = brrowButton.getInsets();
                 if (buttonInsets.top > 2) {
                     g.fillRect(bounds.x + 2, bounds.y + 2, bounds.width - 3,
                                buttonInsets.top - 2);
@@ -137,158 +137,158 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
         }
         else if (g == null || bounds == null) {
             throw new NullPointerException(
-                "Must supply a non-null Graphics and Rectangle");
+                "Must supply b non-null Grbphics bnd Rectbngle");
         }
     }
 
     /**
-     * Returns the baseline.
+     * Returns the bbseline.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @throws IllegblArgumentException {@inheritDoc}
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        int baseline;
-        if (MetalLookAndFeel.usingOcean() && height >= 4) {
+    public int getBbseline(JComponent c, int width, int height) {
+        int bbseline;
+        if (MetblLookAndFeel.usingOcebn() && height >= 4) {
             height -= 4;
-            baseline = super.getBaseline(c, width, height);
-            if (baseline >= 0) {
-                baseline += 2;
+            bbseline = super.getBbseline(c, width, height);
+            if (bbseline >= 0) {
+                bbseline += 2;
             }
         }
         else {
-            baseline = super.getBaseline(c, width, height);
+            bbseline = super.getBbseline(c, width, height);
         }
-        return baseline;
+        return bbseline;
     }
 
-    protected ComboBoxEditor createEditor() {
-        return new MetalComboBoxEditor.UIResource();
+    protected ComboBoxEditor crebteEditor() {
+        return new MetblComboBoxEditor.UIResource();
     }
 
-    protected ComboPopup createPopup() {
-        return super.createPopup();
+    protected ComboPopup crebtePopup() {
+        return super.crebtePopup();
     }
 
-    protected JButton createArrowButton() {
-        boolean iconOnly = (comboBox.isEditable() ||
-                            MetalLookAndFeel.usingOcean());
-        JButton button = new MetalComboBoxButton( comboBox,
-                                                  new MetalComboBoxIcon(),
+    protected JButton crebteArrowButton() {
+        boolebn iconOnly = (comboBox.isEditbble() ||
+                            MetblLookAndFeel.usingOcebn());
+        JButton button = new MetblComboBoxButton( comboBox,
+                                                  new MetblComboBoxIcon(),
                                                   iconOnly,
-                                                  currentValuePane,
+                                                  currentVbluePbne,
                                                   listBox );
-        button.setMargin( new Insets( 0, 1, 1, 3 ) );
-        if (MetalLookAndFeel.usingOcean()) {
-            // Disabled rollover effect.
-            button.putClientProperty(MetalBorders.NO_BUTTON_ROLLOVER,
-                                     Boolean.TRUE);
+        button.setMbrgin( new Insets( 0, 1, 1, 3 ) );
+        if (MetblLookAndFeel.usingOcebn()) {
+            // Disbbled rollover effect.
+            button.putClientProperty(MetblBorders.NO_BUTTON_ROLLOVER,
+                                     Boolebn.TRUE);
         }
-        updateButtonForOcean(button);
+        updbteButtonForOcebn(button);
         return button;
     }
 
     /**
-     * Resets the necessary state on the ComboBoxButton for ocean.
+     * Resets the necessbry stbte on the ComboBoxButton for ocebn.
      */
-    private void updateButtonForOcean(JButton button) {
-        if (MetalLookAndFeel.usingOcean()) {
-            // Ocean renders the focus in a different way, this
-            // would be redundant.
-            button.setFocusPainted(comboBox.isEditable());
+    privbte void updbteButtonForOcebn(JButton button) {
+        if (MetblLookAndFeel.usingOcebn()) {
+            // Ocebn renders the focus in b different wby, this
+            // would be redundbnt.
+            button.setFocusPbinted(comboBox.isEditbble());
         }
     }
 
-    public PropertyChangeListener createPropertyChangeListener() {
-        return new MetalPropertyChangeListener();
+    public PropertyChbngeListener crebtePropertyChbngeListener() {
+        return new MetblPropertyChbngeListener();
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code MetalComboBoxUI}.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of {@code MetblComboBoxUI}.
      */
-    public class MetalPropertyChangeListener extends BasicComboBoxUI.PropertyChangeHandler {
-        public void propertyChange(PropertyChangeEvent e) {
-            super.propertyChange( e );
-            String propertyName = e.getPropertyName();
+    public clbss MetblPropertyChbngeListener extends BbsicComboBoxUI.PropertyChbngeHbndler {
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            super.propertyChbnge( e );
+            String propertyNbme = e.getPropertyNbme();
 
-            if ( propertyName == "editable" ) {
-                if(arrowButton instanceof MetalComboBoxButton) {
-                            MetalComboBoxButton button = (MetalComboBoxButton)arrowButton;
-                            button.setIconOnly( comboBox.isEditable() ||
-                                    MetalLookAndFeel.usingOcean() );
+            if ( propertyNbme == "editbble" ) {
+                if(brrowButton instbnceof MetblComboBoxButton) {
+                            MetblComboBoxButton button = (MetblComboBoxButton)brrowButton;
+                            button.setIconOnly( comboBox.isEditbble() ||
+                                    MetblLookAndFeel.usingOcebn() );
                 }
-                        comboBox.repaint();
-                updateButtonForOcean(arrowButton);
-            } else if ( propertyName == "background" ) {
-                Color color = (Color)e.getNewValue();
-                arrowButton.setBackground(color);
-                listBox.setBackground(color);
+                        comboBox.repbint();
+                updbteButtonForOcebn(brrowButton);
+            } else if ( propertyNbme == "bbckground" ) {
+                Color color = (Color)e.getNewVblue();
+                brrowButton.setBbckground(color);
+                listBox.setBbckground(color);
 
-            } else if ( propertyName == "foreground" ) {
-                Color color = (Color)e.getNewValue();
-                arrowButton.setForeground(color);
+            } else if ( propertyNbme == "foreground" ) {
+                Color color = (Color)e.getNewVblue();
+                brrowButton.setForeground(color);
                 listBox.setForeground(color);
             }
         }
     }
 
     /**
-     * As of Java 2 platform v1.4 this method is no longer used. Do not call or
-     * override. All the functionality of this method is in the
-     * MetalPropertyChangeListener.
+     * As of Jbvb 2 plbtform v1.4 this method is no longer used. Do not cbll or
+     * override. All the functionblity of this method is in the
+     * MetblPropertyChbngeListener.
      *
-     * @param e an instance of {@code PropertyChangeEvent}
-     * @deprecated As of Java 2 platform v1.4.
+     * @pbrbm e bn instbnce of {@code PropertyChbngeEvent}
+     * @deprecbted As of Jbvb 2 plbtform v1.4.
      */
-    @Deprecated
-    protected void editablePropertyChanged( PropertyChangeEvent e ) { }
+    @Deprecbted
+    protected void editbblePropertyChbnged( PropertyChbngeEvent e ) { }
 
-    protected LayoutManager createLayoutManager() {
-        return new MetalComboBoxLayoutManager();
+    protected LbyoutMbnbger crebteLbyoutMbnbger() {
+        return new MetblComboBoxLbyoutMbnbger();
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code MetalComboBoxUI}.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of {@code MetblComboBoxUI}.
      */
-    public class MetalComboBoxLayoutManager extends BasicComboBoxUI.ComboBoxLayoutManager {
-        public void layoutContainer( Container parent ) {
-            layoutComboBox( parent, this );
+    public clbss MetblComboBoxLbyoutMbnbger extends BbsicComboBoxUI.ComboBoxLbyoutMbnbger {
+        public void lbyoutContbiner( Contbiner pbrent ) {
+            lbyoutComboBox( pbrent, this );
         }
 
         /**
-         * Lays out the parent container.
+         * Lbys out the pbrent contbiner.
          *
-         * @param parent a container
+         * @pbrbm pbrent b contbiner
          */
-        public void superLayout( Container parent ) {
-            super.layoutContainer( parent );
+        public void superLbyout( Contbiner pbrent ) {
+            super.lbyoutContbiner( pbrent );
         }
     }
 
     /**
-     * Lays out the {@code JComboBox} in the {@code parent} container.
+     * Lbys out the {@code JComboBox} in the {@code pbrent} contbiner.
      *
-     * @param parent a container
-     * @param manager an instance of {@code MetalComboBoxLayoutManager}
+     * @pbrbm pbrent b contbiner
+     * @pbrbm mbnbger bn instbnce of {@code MetblComboBoxLbyoutMbnbger}
      */
-    // This is here because of a bug in the compiler.
-    // When a protected-inner-class-savvy compiler comes out we
-    // should move this into MetalComboBoxLayoutManager.
-    public void layoutComboBox( Container parent, MetalComboBoxLayoutManager manager ) {
-        if (comboBox.isEditable() && !MetalLookAndFeel.usingOcean()) {
-            manager.superLayout( parent );
+    // This is here becbuse of b bug in the compiler.
+    // When b protected-inner-clbss-sbvvy compiler comes out we
+    // should move this into MetblComboBoxLbyoutMbnbger.
+    public void lbyoutComboBox( Contbiner pbrent, MetblComboBoxLbyoutMbnbger mbnbger ) {
+        if (comboBox.isEditbble() && !MetblLookAndFeel.usingOcebn()) {
+            mbnbger.superLbyout( pbrent );
             return;
         }
 
-        if (arrowButton != null) {
-            if (MetalLookAndFeel.usingOcean() ) {
+        if (brrowButton != null) {
+            if (MetblLookAndFeel.usingOcebn() ) {
                 Insets insets = comboBox.getInsets();
-                int buttonWidth = arrowButton.getMinimumSize().width;
-                arrowButton.setBounds(MetalUtils.isLeftToRight(comboBox)
+                int buttonWidth = brrowButton.getMinimumSize().width;
+                brrowButton.setBounds(MetblUtils.isLeftToRight(comboBox)
                                 ? (comboBox.getWidth() - insets.right - buttonWidth)
                                 : insets.left,
                             insets.top, buttonWidth,
@@ -298,35 +298,35 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
                 Insets insets = comboBox.getInsets();
                 int width = comboBox.getWidth();
                 int height = comboBox.getHeight();
-                arrowButton.setBounds( insets.left, insets.top,
+                brrowButton.setBounds( insets.left, insets.top,
                                        width - (insets.left + insets.right),
                                        height - (insets.top + insets.bottom) );
             }
         }
 
-        if (editor != null && MetalLookAndFeel.usingOcean()) {
-            Rectangle cvb = rectangleForCurrentValue();
+        if (editor != null && MetblLookAndFeel.usingOcebn()) {
+            Rectbngle cvb = rectbngleForCurrentVblue();
             editor.setBounds(cvb);
         }
     }
 
     /**
-     * As of Java 2 platform v1.4 this method is no
+     * As of Jbvb 2 plbtform v1.4 this method is no
      * longer used.
      *
-     * @deprecated As of Java 2 platform v1.4.
+     * @deprecbted As of Jbvb 2 plbtform v1.4.
      */
-    @Deprecated
+    @Deprecbted
     protected void removeListeners() {
-        if ( propertyChangeListener != null ) {
-            comboBox.removePropertyChangeListener( propertyChangeListener );
+        if ( propertyChbngeListener != null ) {
+            comboBox.removePropertyChbngeListener( propertyChbngeListener );
         }
     }
 
-    // These two methods were overloaded and made public. This was probably a
-    // mistake in the implementation. The functionality that they used to
-    // provide is no longer necessary and should be removed. However,
-    // removing them will create an uncompatible API change.
+    // These two methods were overlobded bnd mbde public. This wbs probbbly b
+    // mistbke in the implementbtion. The functionblity thbt they used to
+    // provide is no longer necessbry bnd should be removed. However,
+    // removing them will crebte bn uncompbtible API chbnge.
 
     public void configureEditor() {
         super.configureEditor();
@@ -338,70 +338,70 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
 
     public Dimension getMinimumSize( JComponent c ) {
         if ( !isMinimumSizeDirty ) {
-            return new Dimension( cachedMinimumSize );
+            return new Dimension( cbchedMinimumSize );
         }
 
         Dimension size = null;
 
-        if ( !comboBox.isEditable() &&
-             arrowButton != null) {
-            Insets buttonInsets = arrowButton.getInsets();
+        if ( !comboBox.isEditbble() &&
+             brrowButton != null) {
+            Insets buttonInsets = brrowButton.getInsets();
             Insets insets = comboBox.getInsets();
 
-            size = getDisplaySize();
+            size = getDisplbySize();
             size.width += insets.left + insets.right;
             size.width += buttonInsets.right;
-            size.width += arrowButton.getMinimumSize().width;
+            size.width += brrowButton.getMinimumSize().width;
             size.height += insets.top + insets.bottom;
             size.height += buttonInsets.top + buttonInsets.bottom;
         }
-        else if ( comboBox.isEditable() &&
-                  arrowButton != null &&
+        else if ( comboBox.isEditbble() &&
+                  brrowButton != null &&
                   editor != null ) {
             size = super.getMinimumSize( c );
-            Insets margin = arrowButton.getMargin();
-            size.height += margin.top + margin.bottom;
-            size.width += margin.left + margin.right;
+            Insets mbrgin = brrowButton.getMbrgin();
+            size.height += mbrgin.top + mbrgin.bottom;
+            size.width += mbrgin.left + mbrgin.right;
         }
         else {
             size = super.getMinimumSize( c );
         }
 
-        cachedMinimumSize.setSize( size.width, size.height );
-        isMinimumSizeDirty = false;
+        cbchedMinimumSize.setSize( size.width, size.height );
+        isMinimumSizeDirty = fblse;
 
-        return new Dimension( cachedMinimumSize );
+        return new Dimension( cbchedMinimumSize );
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code MetalComboBoxUI}.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of {@code MetblComboBoxUI}.
      *
-     * This class is now obsolete and doesn't do anything and
-     * is only included for backwards API compatibility. Do not call or
+     * This clbss is now obsolete bnd doesn't do bnything bnd
+     * is only included for bbckwbrds API compbtibility. Do not cbll or
      * override.
      *
-     * @deprecated As of Java 2 platform v1.4.
+     * @deprecbted As of Jbvb 2 plbtform v1.4.
      */
-    @Deprecated
-    public class MetalComboPopup extends BasicComboPopup {
+    @Deprecbted
+    public clbss MetblComboPopup extends BbsicComboPopup {
 
         /**
-         * Constructs a new instance of {@code MetalComboPopup}.
+         * Constructs b new instbnce of {@code MetblComboPopup}.
          *
-         * @param cBox an instance of {@code JComboBox}
+         * @pbrbm cBox bn instbnce of {@code JComboBox}
          */
-        public MetalComboPopup( JComboBox<Object> cBox) {
+        public MetblComboPopup( JComboBox<Object> cBox) {
             super( cBox );
         }
 
-        // This method was overloaded and made public. This was probably
-        // mistake in the implementation. The functionality that they used to
-        // provide is no longer necessary and should be removed. However,
-        // removing them will create an uncompatible API change.
+        // This method wbs overlobded bnd mbde public. This wbs probbbly
+        // mistbke in the implementbtion. The functionblity thbt they used to
+        // provide is no longer necessbry bnd should be removed. However,
+        // removing them will crebte bn uncompbtible API chbnge.
 
-        public void delegateFocus(MouseEvent e) {
-            super.delegateFocus(e);
+        public void delegbteFocus(MouseEvent e) {
+            super.delegbteFocus(e);
         }
     }
 }

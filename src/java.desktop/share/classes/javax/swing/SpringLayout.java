@@ -1,277 +1,277 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Insets;
-import java.awt.LayoutManager2;
-import java.awt.Rectangle;
-import java.util.*;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.LbyoutMbnbger2;
+import jbvb.bwt.Rectbngle;
+import jbvb.util.*;
 
 /**
- * A <code>SpringLayout</code> lays out the children of its associated container
- * according to a set of constraints.
- * See <a href="http://docs.oracle.com/javase/tutorial/uiswing/layout/spring.html">How to Use SpringLayout</a>
- * in <em>The Java Tutorial</em> for examples of using
- * <code>SpringLayout</code>.
+ * A <code>SpringLbyout</code> lbys out the children of its bssocibted contbiner
+ * bccording to b set of constrbints.
+ * See <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/lbyout/spring.html">How to Use SpringLbyout</b>
+ * in <em>The Jbvb Tutoribl</em> for exbmples of using
+ * <code>SpringLbyout</code>.
  *
  * <p>
- * Each constraint,
- * represented by a <code>Spring</code> object,
- * controls the vertical or horizontal distance
+ * Ebch constrbint,
+ * represented by b <code>Spring</code> object,
+ * controls the verticbl or horizontbl distbnce
  * between two component edges.
- * The edges can belong to
- * any child of the container,
- * or to the container itself.
- * For example,
- * the allowable width of a component
- * can be expressed using a constraint
- * that controls the distance between the west (left) and east (right)
+ * The edges cbn belong to
+ * bny child of the contbiner,
+ * or to the contbiner itself.
+ * For exbmple,
+ * the bllowbble width of b component
+ * cbn be expressed using b constrbint
+ * thbt controls the distbnce between the west (left) bnd ebst (right)
  * edges of the component.
- * The allowable <em>y</em> coordinates for a component
- * can be expressed by constraining the distance between
+ * The bllowbble <em>y</em> coordinbtes for b component
+ * cbn be expressed by constrbining the distbnce between
  * the north (top) edge of the component
- * and the north edge of its container.
+ * bnd the north edge of its contbiner.
  *
  * <P>
- * Every child of a <code>SpringLayout</code>-controlled container,
- * as well as the container itself,
- * has exactly one set of constraints
- * associated with it.
- * These constraints are represented by
- * a <code>SpringLayout.Constraints</code> object.
- * By default,
- * <code>SpringLayout</code> creates constraints
- * that make their associated component
- * have the minimum, preferred, and maximum sizes
+ * Every child of b <code>SpringLbyout</code>-controlled contbiner,
+ * bs well bs the contbiner itself,
+ * hbs exbctly one set of constrbints
+ * bssocibted with it.
+ * These constrbints bre represented by
+ * b <code>SpringLbyout.Constrbints</code> object.
+ * By defbult,
+ * <code>SpringLbyout</code> crebtes constrbints
+ * thbt mbke their bssocibted component
+ * hbve the minimum, preferred, bnd mbximum sizes
  * returned by the component's
- * {@link java.awt.Component#getMinimumSize},
- * {@link java.awt.Component#getPreferredSize}, and
- * {@link java.awt.Component#getMaximumSize}
- * methods. The <em>x</em> and <em>y</em> positions are initially not
- * constrained, so that until you constrain them the <code>Component</code>
- * will be positioned at 0,0 relative to the <code>Insets</code> of the
- * parent <code>Container</code>.
+ * {@link jbvb.bwt.Component#getMinimumSize},
+ * {@link jbvb.bwt.Component#getPreferredSize}, bnd
+ * {@link jbvb.bwt.Component#getMbximumSize}
+ * methods. The <em>x</em> bnd <em>y</em> positions bre initiblly not
+ * constrbined, so thbt until you constrbin them the <code>Component</code>
+ * will be positioned bt 0,0 relbtive to the <code>Insets</code> of the
+ * pbrent <code>Contbiner</code>.
  *
  * <p>
- * You can change
- * a component's constraints in several ways.
- * You can
+ * You cbn chbnge
+ * b component's constrbints in severbl wbys.
+ * You cbn
  * use one of the
- * {@link #putConstraint putConstraint}
+ * {@link #putConstrbint putConstrbint}
  * methods
- * to establish a spring
- * linking the edges of two components within the same container.
- * Or you can get the appropriate <code>SpringLayout.Constraints</code>
+ * to estbblish b spring
+ * linking the edges of two components within the sbme contbiner.
+ * Or you cbn get the bppropribte <code>SpringLbyout.Constrbints</code>
  * object using
- * {@link #getConstraints getConstraints}
- * and then modify one or more of its springs.
- * Or you can get the spring for a particular edge of a component
- * using {@link #getConstraint getConstraint},
- * and modify it.
- * You can also associate
- * your own <code>SpringLayout.Constraints</code> object
- * with a component by specifying the constraints object
- * when you add the component to its container
+ * {@link #getConstrbints getConstrbints}
+ * bnd then modify one or more of its springs.
+ * Or you cbn get the spring for b pbrticulbr edge of b component
+ * using {@link #getConstrbint getConstrbint},
+ * bnd modify it.
+ * You cbn blso bssocibte
+ * your own <code>SpringLbyout.Constrbints</code> object
+ * with b component by specifying the constrbints object
+ * when you bdd the component to its contbiner
  * (using
- * {@link Container#add(Component, Object)}).
+ * {@link Contbiner#bdd(Component, Object)}).
  *
  * <p>
- * The <code>Spring</code> object representing each constraint
- * has a minimum, preferred, maximum, and current value.
- * The current value of the spring
- * is somewhere between the minimum and maximum values,
- * according to the formula given in the
+ * The <code>Spring</code> object representing ebch constrbint
+ * hbs b minimum, preferred, mbximum, bnd current vblue.
+ * The current vblue of the spring
+ * is somewhere between the minimum bnd mbximum vblues,
+ * bccording to the formulb given in the
  * {@link Spring#sum} method description.
- * When the minimum, preferred, and maximum values are the same,
- * the current value is always equal to them;
- * this inflexible spring is called a <em>strut</em>.
- * You can create struts using the factory method
- * {@link Spring#constant(int)}.
- * The <code>Spring</code> class also provides factory methods
- * for creating other kinds of springs,
- * including springs that depend on other springs.
+ * When the minimum, preferred, bnd mbximum vblues bre the sbme,
+ * the current vblue is blwbys equbl to them;
+ * this inflexible spring is cblled b <em>strut</em>.
+ * You cbn crebte struts using the fbctory method
+ * {@link Spring#constbnt(int)}.
+ * The <code>Spring</code> clbss blso provides fbctory methods
+ * for crebting other kinds of springs,
+ * including springs thbt depend on other springs.
  *
  * <p>
- * In a <code>SpringLayout</code>, the position of each edge is dependent on
- * the position of just one other edge. If a constraint is subsequently added
- * to create a new binding for an edge, the previous binding is discarded
- * and the edge remains dependent on a single edge.
- * Springs should only be attached
- * between edges of the container and its immediate children; the behavior
- * of the <code>SpringLayout</code> when presented with constraints linking
- * the edges of components from different containers (either internal or
- * external) is undefined.
+ * In b <code>SpringLbyout</code>, the position of ebch edge is dependent on
+ * the position of just one other edge. If b constrbint is subsequently bdded
+ * to crebte b new binding for bn edge, the previous binding is discbrded
+ * bnd the edge rembins dependent on b single edge.
+ * Springs should only be bttbched
+ * between edges of the contbiner bnd its immedibte children; the behbvior
+ * of the <code>SpringLbyout</code> when presented with constrbints linking
+ * the edges of components from different contbiners (either internbl or
+ * externbl) is undefined.
  *
  * <h3>
- * SpringLayout vs. Other Layout Managers
+ * SpringLbyout vs. Other Lbyout Mbnbgers
  * </h3>
  *
  * <blockquote>
  * <hr>
  * <strong>Note:</strong>
- * Unlike many layout managers,
- * <code>SpringLayout</code> doesn't automatically set the location of
- * the components it manages.
- * If you hand-code a GUI that uses <code>SpringLayout</code>,
- * remember to initialize component locations by constraining the west/east
- * and north/south locations.
+ * Unlike mbny lbyout mbnbgers,
+ * <code>SpringLbyout</code> doesn't butombticblly set the locbtion of
+ * the components it mbnbges.
+ * If you hbnd-code b GUI thbt uses <code>SpringLbyout</code>,
+ * remember to initiblize component locbtions by constrbining the west/ebst
+ * bnd north/south locbtions.
  * <p>
- * Depending on the constraints you use,
- * you may also need to set the size of the container explicitly.
+ * Depending on the constrbints you use,
+ * you mby blso need to set the size of the contbiner explicitly.
  * <hr>
  * </blockquote>
  *
  * <p>
- * Despite the simplicity of <code>SpringLayout</code>,
- * it can emulate the behavior of most other layout managers.
- * For some features,
- * such as the line breaking provided by <code>FlowLayout</code>,
+ * Despite the simplicity of <code>SpringLbyout</code>,
+ * it cbn emulbte the behbvior of most other lbyout mbnbgers.
+ * For some febtures,
+ * such bs the line brebking provided by <code>FlowLbyout</code>,
  * you'll need to
- * create a special-purpose subclass of the <code>Spring</code> class.
+ * crebte b specibl-purpose subclbss of the <code>Spring</code> clbss.
  *
  * <p>
- * <code>SpringLayout</code> also provides a way to solve
- * many of the difficult layout
- * problems that cannot be solved by nesting combinations
- * of <code>Box</code>es. That said, <code>SpringLayout</code> honors the
- * <code>LayoutManager2</code> contract correctly and so can be nested with
- * other layout managers -- a technique that can be preferable to
- * creating the constraints implied by the other layout managers.
+ * <code>SpringLbyout</code> blso provides b wby to solve
+ * mbny of the difficult lbyout
+ * problems thbt cbnnot be solved by nesting combinbtions
+ * of <code>Box</code>es. Thbt sbid, <code>SpringLbyout</code> honors the
+ * <code>LbyoutMbnbger2</code> contrbct correctly bnd so cbn be nested with
+ * other lbyout mbnbgers -- b technique thbt cbn be preferbble to
+ * crebting the constrbints implied by the other lbyout mbnbgers.
  * <p>
- * The asymptotic complexity of the layout operation of a <code>SpringLayout</code>
- * is linear in the number of constraints (and/or components).
+ * The bsymptotic complexity of the lbyout operbtion of b <code>SpringLbyout</code>
+ * is linebr in the number of constrbints (bnd/or components).
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
  * @see Spring
- * @see SpringLayout.Constraints
+ * @see SpringLbyout.Constrbints
  *
- * @author      Philip Milne
- * @author      Scott Violet
- * @author      Joe Winchester
+ * @buthor      Philip Milne
+ * @buthor      Scott Violet
+ * @buthor      Joe Winchester
  * @since       1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class SpringLayout implements LayoutManager2 {
-    private Map<Component, Constraints> componentConstraints = new HashMap<Component, Constraints>();
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss SpringLbyout implements LbyoutMbnbger2 {
+    privbte Mbp<Component, Constrbints> componentConstrbints = new HbshMbp<Component, Constrbints>();
 
-    private Spring cyclicReference = Spring.constant(Spring.UNSET);
-    private Set<Spring> cyclicSprings;
-    private Set<Spring> acyclicSprings;
+    privbte Spring cyclicReference = Spring.constbnt(Spring.UNSET);
+    privbte Set<Spring> cyclicSprings;
+    privbte Set<Spring> bcyclicSprings;
 
 
     /**
-     * Specifies the top edge of a component's bounding rectangle.
+     * Specifies the top edge of b component's bounding rectbngle.
      */
-    public static final String NORTH  = "North";
+    public stbtic finbl String NORTH  = "North";
 
     /**
-     * Specifies the bottom edge of a component's bounding rectangle.
+     * Specifies the bottom edge of b component's bounding rectbngle.
      */
-    public static final String SOUTH  = "South";
+    public stbtic finbl String SOUTH  = "South";
 
     /**
-     * Specifies the right edge of a component's bounding rectangle.
+     * Specifies the right edge of b component's bounding rectbngle.
      */
-    public static final String EAST   = "East";
+    public stbtic finbl String EAST   = "Ebst";
 
     /**
-     * Specifies the left edge of a component's bounding rectangle.
+     * Specifies the left edge of b component's bounding rectbngle.
      */
-    public static final String WEST   = "West";
+    public stbtic finbl String WEST   = "West";
 
     /**
-     * Specifies the horizontal center of a component's bounding rectangle.
+     * Specifies the horizontbl center of b component's bounding rectbngle.
      *
      * @since 1.6
      */
-    public static final String HORIZONTAL_CENTER   = "HorizontalCenter";
+    public stbtic finbl String HORIZONTAL_CENTER   = "HorizontblCenter";
 
     /**
-     * Specifies the vertical center of a component's bounding rectangle.
+     * Specifies the verticbl center of b component's bounding rectbngle.
      *
      * @since 1.6
      */
-    public static final String VERTICAL_CENTER   = "VerticalCenter";
+    public stbtic finbl String VERTICAL_CENTER   = "VerticblCenter";
 
     /**
-     * Specifies the baseline of a component.
+     * Specifies the bbseline of b component.
      *
      * @since 1.6
      */
-    public static final String BASELINE   = "Baseline";
+    public stbtic finbl String BASELINE   = "Bbseline";
 
     /**
-     * Specifies the width of a component's bounding rectangle.
+     * Specifies the width of b component's bounding rectbngle.
      *
      * @since 1.6
      */
-    public static final String WIDTH = "Width";
+    public stbtic finbl String WIDTH = "Width";
 
     /**
-     * Specifies the height of a component's bounding rectangle.
+     * Specifies the height of b component's bounding rectbngle.
      *
      * @since 1.6
      */
-    public static final String HEIGHT = "Height";
+    public stbtic finbl String HEIGHT = "Height";
 
-    private static String[] ALL_HORIZONTAL = {WEST, WIDTH, EAST, HORIZONTAL_CENTER};
+    privbte stbtic String[] ALL_HORIZONTAL = {WEST, WIDTH, EAST, HORIZONTAL_CENTER};
 
-    private static String[] ALL_VERTICAL = {NORTH, HEIGHT, SOUTH, VERTICAL_CENTER, BASELINE};
+    privbte stbtic String[] ALL_VERTICAL = {NORTH, HEIGHT, SOUTH, VERTICAL_CENTER, BASELINE};
 
     /**
-     * A <code>Constraints</code> object holds the
-     * constraints that govern the way a component's size and position
-     * change in a container controlled by a <code>SpringLayout</code>.
-     * A <code>Constraints</code> object is
-     * like a <code>Rectangle</code>, in that it
-     * has <code>x</code>, <code>y</code>,
-     * <code>width</code>, and <code>height</code> properties.
-     * In the <code>Constraints</code> object, however,
-     * these properties have
-     * <code>Spring</code> values instead of integers.
-     * In addition,
-     * a <code>Constraints</code> object
-     * can be manipulated as four edges
-     * -- north, south, east, and west --
-     * using the <code>constraint</code> property.
+     * A <code>Constrbints</code> object holds the
+     * constrbints thbt govern the wby b component's size bnd position
+     * chbnge in b contbiner controlled by b <code>SpringLbyout</code>.
+     * A <code>Constrbints</code> object is
+     * like b <code>Rectbngle</code>, in thbt it
+     * hbs <code>x</code>, <code>y</code>,
+     * <code>width</code>, bnd <code>height</code> properties.
+     * In the <code>Constrbints</code> object, however,
+     * these properties hbve
+     * <code>Spring</code> vblues instebd of integers.
+     * In bddition,
+     * b <code>Constrbints</code> object
+     * cbn be mbnipulbted bs four edges
+     * -- north, south, ebst, bnd west --
+     * using the <code>constrbint</code> property.
      *
      * <p>
-     * The following formulas are always true
-     * for a <code>Constraints</code> object (here WEST and <code>x</code> are synonyms, as are and NORTH and <code>y</code>):
+     * The following formulbs bre blwbys true
+     * for b <code>Constrbints</code> object (here WEST bnd <code>x</code> bre synonyms, bs bre bnd NORTH bnd <code>y</code>):
      *
      * <pre>
      *               EAST = WEST + WIDTH
@@ -281,95 +281,95 @@ public class SpringLayout implements LayoutManager2 {
      *  ABSOLUTE_BASELINE = NORTH + RELATIVE_BASELINE*
      * </pre>
      * <p>
-     * For example, if you have specified the WIDTH and WEST (X) location
-     * the EAST is calculated as WEST + WIDTH.  If you instead specified
-     * the WIDTH and EAST locations the WEST (X) location is then calculated
-     * as EAST - WIDTH.
+     * For exbmple, if you hbve specified the WIDTH bnd WEST (X) locbtion
+     * the EAST is cblculbted bs WEST + WIDTH.  If you instebd specified
+     * the WIDTH bnd EAST locbtions the WEST (X) locbtion is then cblculbted
+     * bs EAST - WIDTH.
      * <p>
-     * [RELATIVE_BASELINE is a private constraint that is set automatically when
-     * the SpringLayout.Constraints(Component) constructor is called or when
-     * a constraints object is registered with a SpringLayout object.]
+     * [RELATIVE_BASELINE is b privbte constrbint thbt is set butombticblly when
+     * the SpringLbyout.Constrbints(Component) constructor is cblled or when
+     * b constrbints object is registered with b SpringLbyout object.]
      * <p>
      * <b>Note</b>: In this document,
-     * operators represent methods
-     * in the <code>Spring</code> class.
-     * For example, "a + b" is equal to
-     * <code>Spring.sum(a, b)</code>,
-     * and "a - b" is equal to
-     * <code>Spring.sum(a, Spring.minus(b))</code>.
+     * operbtors represent methods
+     * in the <code>Spring</code> clbss.
+     * For exbmple, "b + b" is equbl to
+     * <code>Spring.sum(b, b)</code>,
+     * bnd "b - b" is equbl to
+     * <code>Spring.sum(b, Spring.minus(b))</code>.
      * See the
-     * {@link Spring Spring API documentation}
-     * for further details
-     * of spring arithmetic.
+     * {@link Spring Spring API documentbtion}
+     * for further detbils
+     * of spring brithmetic.
      *
      * <p>
      *
-     * Because a <code>Constraints</code> object's properties --
-     * representing its edges, size, and location -- can all be set
-     * independently and yet are interrelated,
-     * a <code>Constraints</code> object can become <em>over-constrained</em>.
-     * For example, if the <code>WEST</code>, <code>WIDTH</code> and
-     * <code>EAST</code> edges are all set, steps must be taken to ensure that
-     * the first of the formulas above holds.  To do this, the
-     * <code>Constraints</code>
-     * object throws away the <em>least recently set</em>
-     * constraint so as to make the formulas hold.
+     * Becbuse b <code>Constrbints</code> object's properties --
+     * representing its edges, size, bnd locbtion -- cbn bll be set
+     * independently bnd yet bre interrelbted,
+     * b <code>Constrbints</code> object cbn become <em>over-constrbined</em>.
+     * For exbmple, if the <code>WEST</code>, <code>WIDTH</code> bnd
+     * <code>EAST</code> edges bre bll set, steps must be tbken to ensure thbt
+     * the first of the formulbs bbove holds.  To do this, the
+     * <code>Constrbints</code>
+     * object throws bwby the <em>lebst recently set</em>
+     * constrbint so bs to mbke the formulbs hold.
      * @since 1.4
      */
-    public static class Constraints {
-       private Spring x;
-       private Spring y;
-       private Spring width;
-       private Spring height;
-       private Spring east;
-       private Spring south;
-        private Spring horizontalCenter;
-        private Spring verticalCenter;
-        private Spring baseline;
+    public stbtic clbss Constrbints {
+       privbte Spring x;
+       privbte Spring y;
+       privbte Spring width;
+       privbte Spring height;
+       privbte Spring ebst;
+       privbte Spring south;
+        privbte Spring horizontblCenter;
+        privbte Spring verticblCenter;
+        privbte Spring bbseline;
 
-        private List<String> horizontalHistory = new ArrayList<String>(2);
-        private List<String> verticalHistory = new ArrayList<String>(2);
+        privbte List<String> horizontblHistory = new ArrbyList<String>(2);
+        privbte List<String> verticblHistory = new ArrbyList<String>(2);
 
-        // Used for baseline calculations
-        private Component c;
+        // Used for bbseline cblculbtions
+        privbte Component c;
 
        /**
-        * Creates an empty <code>Constraints</code> object.
+        * Crebtes bn empty <code>Constrbints</code> object.
         */
-       public Constraints() {
+       public Constrbints() {
        }
 
        /**
-        * Creates a <code>Constraints</code> object with the
-        * specified values for its
-        * <code>x</code> and <code>y</code> properties.
-        * The <code>height</code> and <code>width</code> springs
-        * have <code>null</code> values.
+        * Crebtes b <code>Constrbints</code> object with the
+        * specified vblues for its
+        * <code>x</code> bnd <code>y</code> properties.
+        * The <code>height</code> bnd <code>width</code> springs
+        * hbve <code>null</code> vblues.
         *
-        * @param x  the spring controlling the component's <em>x</em> value
-        * @param y  the spring controlling the component's <em>y</em> value
+        * @pbrbm x  the spring controlling the component's <em>x</em> vblue
+        * @pbrbm y  the spring controlling the component's <em>y</em> vblue
         */
-       public Constraints(Spring x, Spring y) {
+       public Constrbints(Spring x, Spring y) {
            setX(x);
            setY(y);
        }
 
        /**
-        * Creates a <code>Constraints</code> object with the
-        * specified values for its
+        * Crebtes b <code>Constrbints</code> object with the
+        * specified vblues for its
         * <code>x</code>, <code>y</code>, <code>width</code>,
-        * and <code>height</code> properties.
-        * Note: If the <code>SpringLayout</code> class
-        * encounters <code>null</code> values in the
-        * <code>Constraints</code> object of a given component,
-        * it replaces them with suitable defaults.
+        * bnd <code>height</code> properties.
+        * Note: If the <code>SpringLbyout</code> clbss
+        * encounters <code>null</code> vblues in the
+        * <code>Constrbints</code> object of b given component,
+        * it replbces them with suitbble defbults.
         *
-        * @param x  the spring value for the <code>x</code> property
-        * @param y  the spring value for the <code>y</code> property
-        * @param width  the spring value for the <code>width</code> property
-        * @param height  the spring value for the <code>height</code> property
+        * @pbrbm x  the spring vblue for the <code>x</code> property
+        * @pbrbm y  the spring vblue for the <code>y</code> property
+        * @pbrbm width  the spring vblue for the <code>width</code> property
+        * @pbrbm height  the spring vblue for the <code>height</code> property
         */
-       public Constraints(Spring x, Spring y, Spring width, Spring height) {
+       public Constrbints(Spring x, Spring y, Spring width, Spring height) {
            setX(x);
            setY(y);
            setWidth(width);
@@ -377,161 +377,161 @@ public class SpringLayout implements LayoutManager2 {
        }
 
         /**
-         * Creates a <code>Constraints</code> object with
-         * suitable <code>x</code>, <code>y</code>, <code>width</code> and
+         * Crebtes b <code>Constrbints</code> object with
+         * suitbble <code>x</code>, <code>y</code>, <code>width</code> bnd
          * <code>height</code> springs for component, <code>c</code>.
-         * The <code>x</code> and <code>y</code> springs are constant
-         * springs  initialised with the component's location at
-         * the time this method is called. The <code>width</code> and
-         * <code>height</code> springs are special springs, created by
-         * the <code>Spring.width()</code> and <code>Spring.height()</code>
-         * methods, which track the size characteristics of the component
-         * when they change.
+         * The <code>x</code> bnd <code>y</code> springs bre constbnt
+         * springs  initiblised with the component's locbtion bt
+         * the time this method is cblled. The <code>width</code> bnd
+         * <code>height</code> springs bre specibl springs, crebted by
+         * the <code>Spring.width()</code> bnd <code>Spring.height()</code>
+         * methods, which trbck the size chbrbcteristics of the component
+         * when they chbnge.
          *
-         * @param c  the component whose characteristics will be reflected by this Constraints object
+         * @pbrbm c  the component whose chbrbcteristics will be reflected by this Constrbints object
          * @throws NullPointerException if <code>c</code> is null.
          * @since 1.5
          */
-        public Constraints(Component c) {
+        public Constrbints(Component c) {
             this.c = c;
-            setX(Spring.constant(c.getX()));
-            setY(Spring.constant(c.getY()));
+            setX(Spring.constbnt(c.getX()));
+            setY(Spring.constbnt(c.getY()));
             setWidth(Spring.width(c));
             setHeight(Spring.height(c));
         }
 
-        private void pushConstraint(String name, Spring value, boolean horizontal) {
-            boolean valid = true;
-            List<String> history = horizontal ? horizontalHistory :
-                                                verticalHistory;
-            if (history.contains(name)) {
-                history.remove(name);
-                valid = false;
-            } else if (history.size() == 2 && value != null) {
+        privbte void pushConstrbint(String nbme, Spring vblue, boolebn horizontbl) {
+            boolebn vblid = true;
+            List<String> history = horizontbl ? horizontblHistory :
+                                                verticblHistory;
+            if (history.contbins(nbme)) {
+                history.remove(nbme);
+                vblid = fblse;
+            } else if (history.size() == 2 && vblue != null) {
                 history.remove(0);
-                valid = false;
+                vblid = fblse;
             }
-            if (value != null) {
-                history.add(name);
+            if (vblue != null) {
+                history.bdd(nbme);
             }
-            if (!valid) {
-                String[] all = horizontal ? ALL_HORIZONTAL : ALL_VERTICAL;
-                for (String s : all) {
-                    if (!history.contains(s)) {
-                        setConstraint(s, null);
+            if (!vblid) {
+                String[] bll = horizontbl ? ALL_HORIZONTAL : ALL_VERTICAL;
+                for (String s : bll) {
+                    if (!history.contbins(s)) {
+                        setConstrbint(s, null);
                     }
                 }
             }
         }
 
-       private Spring sum(Spring s1, Spring s2) {
+       privbte Spring sum(Spring s1, Spring s2) {
            return (s1 == null || s2 == null) ? null : Spring.sum(s1, s2);
        }
 
-       private Spring difference(Spring s1, Spring s2) {
+       privbte Spring difference(Spring s1, Spring s2) {
            return (s1 == null || s2 == null) ? null : Spring.difference(s1, s2);
        }
 
-        private Spring scale(Spring s, float factor) {
-            return (s == null) ? null : Spring.scale(s, factor);
+        privbte Spring scble(Spring s, flobt fbctor) {
+            return (s == null) ? null : Spring.scble(s, fbctor);
         }
 
-        private int getBaselineFromHeight(int height) {
+        privbte int getBbselineFromHeight(int height) {
             if (height < 0) {
-                // Bad Scott, Bad Scott!
-                return -c.getBaseline(c.getPreferredSize().width,
+                // Bbd Scott, Bbd Scott!
+                return -c.getBbseline(c.getPreferredSize().width,
                                       -height);
             }
-            return c.getBaseline(c.getPreferredSize().width, height);
+            return c.getBbseline(c.getPreferredSize().width, height);
         }
 
-        private int getHeightFromBaseLine(int baseline) {
+        privbte int getHeightFromBbseLine(int bbseline) {
             Dimension prefSize = c.getPreferredSize();
             int prefHeight = prefSize.height;
-            int prefBaseline = c.getBaseline(prefSize.width, prefHeight);
-            if (prefBaseline == baseline) {
-                // If prefBaseline < 0, then no baseline, assume preferred
+            int prefBbseline = c.getBbseline(prefSize.width, prefHeight);
+            if (prefBbseline == bbseline) {
+                // If prefBbseline < 0, then no bbseline, bssume preferred
                 // height.
-                // If prefBaseline == baseline, then specified baseline
-                // matches preferred baseline, return preferred height
+                // If prefBbseline == bbseline, then specified bbseline
+                // mbtches preferred bbseline, return preferred height
                 return prefHeight;
             }
-            // Valid baseline
-            switch(c.getBaselineResizeBehavior()) {
-            case CONSTANT_DESCENT:
-                return prefHeight + (baseline - prefBaseline);
-            case CENTER_OFFSET:
-                return prefHeight + 2 * (baseline - prefBaseline);
-            case CONSTANT_ASCENT:
-                // Component baseline and specified baseline will NEVER
-                // match, fall through to default
-            default: // OTHER
-                // No way to map from baseline to height.
+            // Vblid bbseline
+            switch(c.getBbselineResizeBehbvior()) {
+            cbse CONSTANT_DESCENT:
+                return prefHeight + (bbseline - prefBbseline);
+            cbse CENTER_OFFSET:
+                return prefHeight + 2 * (bbseline - prefBbseline);
+            cbse CONSTANT_ASCENT:
+                // Component bbseline bnd specified bbseline will NEVER
+                // mbtch, fbll through to defbult
+            defbult: // OTHER
+                // No wby to mbp from bbseline to height.
             }
             return Integer.MIN_VALUE;
         }
 
-         private Spring heightToRelativeBaseline(Spring s) {
-            return new Spring.SpringMap(s) {
-                 protected int map(int i) {
-                    return getBaselineFromHeight(i);
+         privbte Spring heightToRelbtiveBbseline(Spring s) {
+            return new Spring.SpringMbp(s) {
+                 protected int mbp(int i) {
+                    return getBbselineFromHeight(i);
                  }
 
                  protected int inv(int i) {
-                     return getHeightFromBaseLine(i);
+                     return getHeightFromBbseLine(i);
                  }
             };
         }
 
-        private Spring relativeBaselineToHeight(Spring s) {
-            return new Spring.SpringMap(s) {
-                protected int map(int i) {
-                    return getHeightFromBaseLine(i);
+        privbte Spring relbtiveBbselineToHeight(Spring s) {
+            return new Spring.SpringMbp(s) {
+                protected int mbp(int i) {
+                    return getHeightFromBbseLine(i);
                  }
 
                  protected int inv(int i) {
-                    return getBaselineFromHeight(i);
+                    return getBbselineFromHeight(i);
                  }
             };
         }
 
-        private boolean defined(List<?> history, String s1, String s2) {
-            return history.contains(s1) && history.contains(s2);
+        privbte boolebn defined(List<?> history, String s1, String s2) {
+            return history.contbins(s1) && history.contbins(s2);
         }
 
        /**
         * Sets the <code>x</code> property,
-        * which controls the <code>x</code> value
-        * of a component's location.
+        * which controls the <code>x</code> vblue
+        * of b component's locbtion.
         *
-        * @param x the spring controlling the <code>x</code> value
-        *          of a component's location
+        * @pbrbm x the spring controlling the <code>x</code> vblue
+        *          of b component's locbtion
         *
         * @see #getX
-        * @see SpringLayout.Constraints
+        * @see SpringLbyout.Constrbints
         */
        public void setX(Spring x) {
            this.x = x;
-           pushConstraint(WEST, x, true);
+           pushConstrbint(WEST, x, true);
        }
 
        /**
-        * Returns the value of the <code>x</code> property.
+        * Returns the vblue of the <code>x</code> property.
         *
-        * @return the spring controlling the <code>x</code> value
-        *         of a component's location
+        * @return the spring controlling the <code>x</code> vblue
+        *         of b component's locbtion
         *
         * @see #setX
-        * @see SpringLayout.Constraints
+        * @see SpringLbyout.Constrbints
         */
        public Spring getX() {
            if (x == null) {
-               if (defined(horizontalHistory, EAST, WIDTH)) {
-                   x = difference(east, width);
-               } else if (defined(horizontalHistory, HORIZONTAL_CENTER, WIDTH)) {
-                   x = difference(horizontalCenter, scale(width, 0.5f));
-               } else if (defined(horizontalHistory, HORIZONTAL_CENTER, EAST)) {
-                   x = difference(scale(horizontalCenter, 2f), east);
+               if (defined(horizontblHistory, EAST, WIDTH)) {
+                   x = difference(ebst, width);
+               } else if (defined(horizontblHistory, HORIZONTAL_CENTER, WIDTH)) {
+                   x = difference(horizontblCenter, scble(width, 0.5f));
+               } else if (defined(horizontblHistory, HORIZONTAL_CENTER, EAST)) {
+                   x = difference(scble(horizontblCenter, 2f), ebst);
                }
            }
            return x;
@@ -539,44 +539,44 @@ public class SpringLayout implements LayoutManager2 {
 
        /**
         * Sets the <code>y</code> property,
-        * which controls the <code>y</code> value
-        * of a component's location.
+        * which controls the <code>y</code> vblue
+        * of b component's locbtion.
         *
-        * @param y the spring controlling the <code>y</code> value
-        *          of a component's location
+        * @pbrbm y the spring controlling the <code>y</code> vblue
+        *          of b component's locbtion
         *
         * @see #getY
-        * @see SpringLayout.Constraints
+        * @see SpringLbyout.Constrbints
         */
        public void setY(Spring y) {
            this.y = y;
-           pushConstraint(NORTH, y, false);
+           pushConstrbint(NORTH, y, fblse);
        }
 
        /**
-        * Returns the value of the <code>y</code> property.
+        * Returns the vblue of the <code>y</code> property.
         *
-        * @return the spring controlling the <code>y</code> value
-        *         of a component's location
+        * @return the spring controlling the <code>y</code> vblue
+        *         of b component's locbtion
         *
         * @see #setY
-        * @see SpringLayout.Constraints
+        * @see SpringLbyout.Constrbints
         */
        public Spring getY() {
            if (y == null) {
-               if (defined(verticalHistory, SOUTH, HEIGHT)) {
+               if (defined(verticblHistory, SOUTH, HEIGHT)) {
                    y = difference(south, height);
-               } else if (defined(verticalHistory, VERTICAL_CENTER, HEIGHT)) {
-                   y = difference(verticalCenter, scale(height, 0.5f));
-               } else if (defined(verticalHistory, VERTICAL_CENTER, SOUTH)) {
-                   y = difference(scale(verticalCenter, 2f), south);
-               } else if (defined(verticalHistory, BASELINE, HEIGHT)) {
-                   y = difference(baseline, heightToRelativeBaseline(height));
-               } else if (defined(verticalHistory, BASELINE, SOUTH)) {
-                   y = scale(difference(baseline, heightToRelativeBaseline(south)), 2f);
+               } else if (defined(verticblHistory, VERTICAL_CENTER, HEIGHT)) {
+                   y = difference(verticblCenter, scble(height, 0.5f));
+               } else if (defined(verticblHistory, VERTICAL_CENTER, SOUTH)) {
+                   y = difference(scble(verticblCenter, 2f), south);
+               } else if (defined(verticblHistory, BASELINE, HEIGHT)) {
+                   y = difference(bbseline, heightToRelbtiveBbseline(height));
+               } else if (defined(verticblHistory, BASELINE, SOUTH)) {
+                   y = scble(difference(bbseline, heightToRelbtiveBbseline(south)), 2f);
 /*
-               } else if (defined(verticalHistory, BASELINE, VERTICAL_CENTER)) {
-                   y = scale(difference(baseline, heightToRelativeBaseline(scale(verticalCenter, 2))), 1f/(1-2*0.5f));
+               } else if (defined(verticblHistory, BASELINE, VERTICAL_CENTER)) {
+                   y = scble(difference(bbseline, heightToRelbtiveBbseline(scble(verticblCenter, 2))), 1f/(1-2*0.5f));
 */
                }
            }
@@ -585,33 +585,33 @@ public class SpringLayout implements LayoutManager2 {
 
        /**
         * Sets the <code>width</code> property,
-        * which controls the width of a component.
+        * which controls the width of b component.
         *
-        * @param width the spring controlling the width of this
-        * <code>Constraints</code> object
+        * @pbrbm width the spring controlling the width of this
+        * <code>Constrbints</code> object
         *
         * @see #getWidth
-        * @see SpringLayout.Constraints
+        * @see SpringLbyout.Constrbints
         */
        public void setWidth(Spring width) {
            this.width = width;
-           pushConstraint(WIDTH, width, true);
+           pushConstrbint(WIDTH, width, true);
        }
 
        /**
-        * Returns the value of the <code>width</code> property.
+        * Returns the vblue of the <code>width</code> property.
         *
-        * @return the spring controlling the width of a component
+        * @return the spring controlling the width of b component
         *
         * @see #setWidth
-        * @see SpringLayout.Constraints
+        * @see SpringLbyout.Constrbints
         */
        public Spring getWidth() {
            if (width == null) {
-               if (horizontalHistory.contains(EAST)) {
-                   width = difference(east, getX());
-               } else if (horizontalHistory.contains(HORIZONTAL_CENTER)) {
-                   width = scale(difference(horizontalCenter, getX()), 2f);
+               if (horizontblHistory.contbins(EAST)) {
+                   width = difference(ebst, getX());
+               } else if (horizontblHistory.contbins(HORIZONTAL_CENTER)) {
+                   width = scble(difference(horizontblCenter, getX()), 2f);
                }
            }
            return width;
@@ -619,125 +619,125 @@ public class SpringLayout implements LayoutManager2 {
 
        /**
         * Sets the <code>height</code> property,
-        * which controls the height of a component.
+        * which controls the height of b component.
         *
-        * @param height the spring controlling the height of this <code>Constraints</code>
+        * @pbrbm height the spring controlling the height of this <code>Constrbints</code>
         * object
         *
         * @see #getHeight
-        * @see SpringLayout.Constraints
+        * @see SpringLbyout.Constrbints
         */
        public void setHeight(Spring height) {
            this.height = height;
-           pushConstraint(HEIGHT, height, false);
+           pushConstrbint(HEIGHT, height, fblse);
        }
 
        /**
-        * Returns the value of the <code>height</code> property.
+        * Returns the vblue of the <code>height</code> property.
         *
-        * @return the spring controlling the height of a component
+        * @return the spring controlling the height of b component
         *
         * @see #setHeight
-        * @see SpringLayout.Constraints
+        * @see SpringLbyout.Constrbints
         */
        public Spring getHeight() {
            if (height == null) {
-               if (verticalHistory.contains(SOUTH)) {
+               if (verticblHistory.contbins(SOUTH)) {
                    height = difference(south, getY());
-               } else if (verticalHistory.contains(VERTICAL_CENTER)) {
-                   height = scale(difference(verticalCenter, getY()), 2f);
-               } else if (verticalHistory.contains(BASELINE)) {
-                   height = relativeBaselineToHeight(difference(baseline, getY()));
+               } else if (verticblHistory.contbins(VERTICAL_CENTER)) {
+                   height = scble(difference(verticblCenter, getY()), 2f);
+               } else if (verticblHistory.contbins(BASELINE)) {
+                   height = relbtiveBbselineToHeight(difference(bbseline, getY()));
                }
            }
            return height;
        }
 
-       private void setEast(Spring east) {
-           this.east = east;
-           pushConstraint(EAST, east, true);
+       privbte void setEbst(Spring ebst) {
+           this.ebst = ebst;
+           pushConstrbint(EAST, ebst, true);
        }
 
-       private Spring getEast() {
-           if (east == null) {
-               east = sum(getX(), getWidth());
+       privbte Spring getEbst() {
+           if (ebst == null) {
+               ebst = sum(getX(), getWidth());
            }
-           return east;
+           return ebst;
        }
 
-       private void setSouth(Spring south) {
+       privbte void setSouth(Spring south) {
            this.south = south;
-           pushConstraint(SOUTH, south, false);
+           pushConstrbint(SOUTH, south, fblse);
        }
 
-       private Spring getSouth() {
+       privbte Spring getSouth() {
            if (south == null) {
                south = sum(getY(), getHeight());
            }
            return south;
        }
 
-        private Spring getHorizontalCenter() {
-            if (horizontalCenter == null) {
-                horizontalCenter = sum(getX(), scale(getWidth(), 0.5f));
+        privbte Spring getHorizontblCenter() {
+            if (horizontblCenter == null) {
+                horizontblCenter = sum(getX(), scble(getWidth(), 0.5f));
             }
-            return horizontalCenter;
+            return horizontblCenter;
         }
 
-        private void setHorizontalCenter(Spring horizontalCenter) {
-            this.horizontalCenter = horizontalCenter;
-            pushConstraint(HORIZONTAL_CENTER, horizontalCenter, true);
+        privbte void setHorizontblCenter(Spring horizontblCenter) {
+            this.horizontblCenter = horizontblCenter;
+            pushConstrbint(HORIZONTAL_CENTER, horizontblCenter, true);
         }
 
-        private Spring getVerticalCenter() {
-            if (verticalCenter == null) {
-                verticalCenter = sum(getY(), scale(getHeight(), 0.5f));
+        privbte Spring getVerticblCenter() {
+            if (verticblCenter == null) {
+                verticblCenter = sum(getY(), scble(getHeight(), 0.5f));
             }
-            return verticalCenter;
+            return verticblCenter;
         }
 
-        private void setVerticalCenter(Spring verticalCenter) {
-            this.verticalCenter = verticalCenter;
-            pushConstraint(VERTICAL_CENTER, verticalCenter, false);
+        privbte void setVerticblCenter(Spring verticblCenter) {
+            this.verticblCenter = verticblCenter;
+            pushConstrbint(VERTICAL_CENTER, verticblCenter, fblse);
         }
 
-        private Spring getBaseline() {
-            if (baseline == null) {
-                baseline = sum(getY(), heightToRelativeBaseline(getHeight()));
+        privbte Spring getBbseline() {
+            if (bbseline == null) {
+                bbseline = sum(getY(), heightToRelbtiveBbseline(getHeight()));
             }
-            return baseline;
+            return bbseline;
         }
 
-        private void setBaseline(Spring baseline) {
-            this.baseline = baseline;
-            pushConstraint(BASELINE, baseline, false);
+        privbte void setBbseline(Spring bbseline) {
+            this.bbseline = bbseline;
+            pushConstrbint(BASELINE, bbseline, fblse);
         }
 
        /**
         * Sets the spring controlling the specified edge.
-        * The edge must have one of the following values:
-        * <code>SpringLayout.NORTH</code>,
-        * <code>SpringLayout.SOUTH</code>,
-        * <code>SpringLayout.EAST</code>,
-        * <code>SpringLayout.WEST</code>,
-        * <code>SpringLayout.HORIZONTAL_CENTER</code>,
-        * <code>SpringLayout.VERTICAL_CENTER</code>,
-        * <code>SpringLayout.BASELINE</code>,
-        * <code>SpringLayout.WIDTH</code> or
-        * <code>SpringLayout.HEIGHT</code>.
-        * For any other <code>String</code> value passed as the edge,
-        * no action is taken. For a <code>null</code> edge, a
+        * The edge must hbve one of the following vblues:
+        * <code>SpringLbyout.NORTH</code>,
+        * <code>SpringLbyout.SOUTH</code>,
+        * <code>SpringLbyout.EAST</code>,
+        * <code>SpringLbyout.WEST</code>,
+        * <code>SpringLbyout.HORIZONTAL_CENTER</code>,
+        * <code>SpringLbyout.VERTICAL_CENTER</code>,
+        * <code>SpringLbyout.BASELINE</code>,
+        * <code>SpringLbyout.WIDTH</code> or
+        * <code>SpringLbyout.HEIGHT</code>.
+        * For bny other <code>String</code> vblue pbssed bs the edge,
+        * no bction is tbken. For b <code>null</code> edge, b
         * <code>NullPointerException</code> is thrown.
         * <p>
-        * <b>Note:</b> This method can affect {@code x} and {@code y} values
-        * previously set for this {@code Constraints}.
+        * <b>Note:</b> This method cbn bffect {@code x} bnd {@code y} vblues
+        * previously set for this {@code Constrbints}.
         *
-        * @param edgeName the edge to be set
-        * @param s the spring controlling the specified edge
+        * @pbrbm edgeNbme the edge to be set
+        * @pbrbm s the spring controlling the specified edge
         *
-        * @throws NullPointerException if <code>edgeName</code> is <code>null</code>
+        * @throws NullPointerException if <code>edgeNbme</code> is <code>null</code>
         *
-        * @see #getConstraint
+        * @see #getConstrbint
         * @see #NORTH
         * @see #SOUTH
         * @see #EAST
@@ -747,56 +747,56 @@ public class SpringLayout implements LayoutManager2 {
         * @see #BASELINE
         * @see #WIDTH
         * @see #HEIGHT
-        * @see SpringLayout.Constraints
+        * @see SpringLbyout.Constrbints
         */
-       public void setConstraint(String edgeName, Spring s) {
-           edgeName = edgeName.intern();
-           if (edgeName == WEST) {
+       public void setConstrbint(String edgeNbme, Spring s) {
+           edgeNbme = edgeNbme.intern();
+           if (edgeNbme == WEST) {
                setX(s);
-           } else if (edgeName == NORTH) {
+           } else if (edgeNbme == NORTH) {
                setY(s);
-           } else if (edgeName == EAST) {
-               setEast(s);
-           } else if (edgeName == SOUTH) {
+           } else if (edgeNbme == EAST) {
+               setEbst(s);
+           } else if (edgeNbme == SOUTH) {
                setSouth(s);
-           } else if (edgeName == HORIZONTAL_CENTER) {
-               setHorizontalCenter(s);
-           } else if (edgeName == WIDTH) {
+           } else if (edgeNbme == HORIZONTAL_CENTER) {
+               setHorizontblCenter(s);
+           } else if (edgeNbme == WIDTH) {
                setWidth(s);
-           } else if (edgeName == HEIGHT) {
+           } else if (edgeNbme == HEIGHT) {
                setHeight(s);
-           } else if (edgeName == VERTICAL_CENTER) {
-               setVerticalCenter(s);
-           } else if (edgeName == BASELINE) {
-               setBaseline(s);
+           } else if (edgeNbme == VERTICAL_CENTER) {
+               setVerticblCenter(s);
+           } else if (edgeNbme == BASELINE) {
+               setBbseline(s);
            }
        }
 
        /**
-        * Returns the value of the specified edge, which may be
-        * a derived value, or even <code>null</code>.
-        * The edge must have one of the following values:
-        * <code>SpringLayout.NORTH</code>,
-        * <code>SpringLayout.SOUTH</code>,
-        * <code>SpringLayout.EAST</code>,
-        * <code>SpringLayout.WEST</code>,
-        * <code>SpringLayout.HORIZONTAL_CENTER</code>,
-        * <code>SpringLayout.VERTICAL_CENTER</code>,
-        * <code>SpringLayout.BASELINE</code>,
-        * <code>SpringLayout.WIDTH</code> or
-        * <code>SpringLayout.HEIGHT</code>.
-        * For any other <code>String</code> value passed as the edge,
+        * Returns the vblue of the specified edge, which mby be
+        * b derived vblue, or even <code>null</code>.
+        * The edge must hbve one of the following vblues:
+        * <code>SpringLbyout.NORTH</code>,
+        * <code>SpringLbyout.SOUTH</code>,
+        * <code>SpringLbyout.EAST</code>,
+        * <code>SpringLbyout.WEST</code>,
+        * <code>SpringLbyout.HORIZONTAL_CENTER</code>,
+        * <code>SpringLbyout.VERTICAL_CENTER</code>,
+        * <code>SpringLbyout.BASELINE</code>,
+        * <code>SpringLbyout.WIDTH</code> or
+        * <code>SpringLbyout.HEIGHT</code>.
+        * For bny other <code>String</code> vblue pbssed bs the edge,
         * <code>null</code> will be returned. Throws
-        * <code>NullPointerException</code> for a <code>null</code> edge.
+        * <code>NullPointerException</code> for b <code>null</code> edge.
         *
-        * @param edgeName the edge whose value
+        * @pbrbm edgeNbme the edge whose vblue
         *                 is to be returned
         *
-        * @return the spring controlling the specified edge, may be <code>null</code>
+        * @return the spring controlling the specified edge, mby be <code>null</code>
         *
-        * @throws NullPointerException if <code>edgeName</code> is <code>null</code>
+        * @throws NullPointerException if <code>edgeNbme</code> is <code>null</code>
         *
-        * @see #setConstraint
+        * @see #setConstrbint
         * @see #NORTH
         * @see #SOUTH
         * @see #EAST
@@ -806,126 +806,126 @@ public class SpringLayout implements LayoutManager2 {
         * @see #BASELINE
         * @see #WIDTH
         * @see #HEIGHT
-        * @see SpringLayout.Constraints
+        * @see SpringLbyout.Constrbints
         */
-       public Spring getConstraint(String edgeName) {
-           edgeName = edgeName.intern();
-           return (edgeName == WEST)  ? getX() :
-                   (edgeName == NORTH) ? getY() :
-                   (edgeName == EAST)  ? getEast() :
-                   (edgeName == SOUTH) ? getSouth() :
-                   (edgeName == WIDTH)  ? getWidth() :
-                   (edgeName == HEIGHT) ? getHeight() :
-                   (edgeName == HORIZONTAL_CENTER) ? getHorizontalCenter() :
-                   (edgeName == VERTICAL_CENTER)  ? getVerticalCenter() :
-                   (edgeName == BASELINE) ? getBaseline() :
+       public Spring getConstrbint(String edgeNbme) {
+           edgeNbme = edgeNbme.intern();
+           return (edgeNbme == WEST)  ? getX() :
+                   (edgeNbme == NORTH) ? getY() :
+                   (edgeNbme == EAST)  ? getEbst() :
+                   (edgeNbme == SOUTH) ? getSouth() :
+                   (edgeNbme == WIDTH)  ? getWidth() :
+                   (edgeNbme == HEIGHT) ? getHeight() :
+                   (edgeNbme == HORIZONTAL_CENTER) ? getHorizontblCenter() :
+                   (edgeNbme == VERTICAL_CENTER)  ? getVerticblCenter() :
+                   (edgeNbme == BASELINE) ? getBbseline() :
                   null;
        }
 
        /*pp*/ void reset() {
-           Spring[] allSprings = {x, y, width, height, east, south,
-               horizontalCenter, verticalCenter, baseline};
-           for (Spring s : allSprings) {
+           Spring[] bllSprings = {x, y, width, height, ebst, south,
+               horizontblCenter, verticblCenter, bbseline};
+           for (Spring s : bllSprings) {
                if (s != null) {
-                   s.setValue(Spring.UNSET);
+                   s.setVblue(Spring.UNSET);
                }
            }
        }
    }
 
-   private static class SpringProxy extends Spring {
-       private String edgeName;
-       private Component c;
-       private SpringLayout l;
+   privbte stbtic clbss SpringProxy extends Spring {
+       privbte String edgeNbme;
+       privbte Component c;
+       privbte SpringLbyout l;
 
-       public SpringProxy(String edgeName, Component c, SpringLayout l) {
-           this.edgeName = edgeName;
+       public SpringProxy(String edgeNbme, Component c, SpringLbyout l) {
+           this.edgeNbme = edgeNbme;
            this.c = c;
            this.l = l;
        }
 
-       private Spring getConstraint() {
-           return l.getConstraints(c).getConstraint(edgeName);
+       privbte Spring getConstrbint() {
+           return l.getConstrbints(c).getConstrbint(edgeNbme);
        }
 
-       public int getMinimumValue() {
-           return getConstraint().getMinimumValue();
+       public int getMinimumVblue() {
+           return getConstrbint().getMinimumVblue();
        }
 
-       public int getPreferredValue() {
-           return getConstraint().getPreferredValue();
+       public int getPreferredVblue() {
+           return getConstrbint().getPreferredVblue();
        }
 
-       public int getMaximumValue() {
-           return getConstraint().getMaximumValue();
+       public int getMbximumVblue() {
+           return getConstrbint().getMbximumVblue();
        }
 
-       public int getValue() {
-           return getConstraint().getValue();
+       public int getVblue() {
+           return getConstrbint().getVblue();
        }
 
-       public void setValue(int size) {
-           getConstraint().setValue(size);
+       public void setVblue(int size) {
+           getConstrbint().setVblue(size);
        }
 
-       /*pp*/ boolean isCyclic(SpringLayout l) {
-           return l.isCyclic(getConstraint());
+       /*pp*/ boolebn isCyclic(SpringLbyout l) {
+           return l.isCyclic(getConstrbint());
        }
 
        public String toString() {
-           return "SpringProxy for " + edgeName + " edge of " + c.getName() + ".";
+           return "SpringProxy for " + edgeNbme + " edge of " + c.getNbme() + ".";
        }
     }
 
     /**
-     * Constructs a new <code>SpringLayout</code>.
+     * Constructs b new <code>SpringLbyout</code>.
      */
-    public SpringLayout() {}
+    public SpringLbyout() {}
 
-    private void resetCyclicStatuses() {
-        cyclicSprings = new HashSet<Spring>();
-        acyclicSprings = new HashSet<Spring>();
+    privbte void resetCyclicStbtuses() {
+        cyclicSprings = new HbshSet<Spring>();
+        bcyclicSprings = new HbshSet<Spring>();
     }
 
-    private void setParent(Container p) {
-        resetCyclicStatuses();
-        Constraints pc = getConstraints(p);
+    privbte void setPbrent(Contbiner p) {
+        resetCyclicStbtuses();
+        Constrbints pc = getConstrbints(p);
 
-        pc.setX(Spring.constant(0));
-        pc.setY(Spring.constant(0));
-        // The applyDefaults() method automatically adds width and
-        // height springs that delegate their calculations to the
-        // getMinimumSize(), getPreferredSize() and getMaximumSize()
-        // methods of the relevant component. In the case of the
-        // parent this will cause an infinite loop since these
-        // methods, in turn, delegate their calculations to the
-        // layout manager. Check for this case and replace the
-        // the springs that would cause this problem with a
-        // constant springs that supply default values.
+        pc.setX(Spring.constbnt(0));
+        pc.setY(Spring.constbnt(0));
+        // The bpplyDefbults() method butombticblly bdds width bnd
+        // height springs thbt delegbte their cblculbtions to the
+        // getMinimumSize(), getPreferredSize() bnd getMbximumSize()
+        // methods of the relevbnt component. In the cbse of the
+        // pbrent this will cbuse bn infinite loop since these
+        // methods, in turn, delegbte their cblculbtions to the
+        // lbyout mbnbger. Check for this cbse bnd replbce the
+        // the springs thbt would cbuse this problem with b
+        // constbnt springs thbt supply defbult vblues.
         Spring width = pc.getWidth();
-        if (width instanceof Spring.WidthSpring && ((Spring.WidthSpring)width).c == p) {
-            pc.setWidth(Spring.constant(0, 0, Integer.MAX_VALUE));
+        if (width instbnceof Spring.WidthSpring && ((Spring.WidthSpring)width).c == p) {
+            pc.setWidth(Spring.constbnt(0, 0, Integer.MAX_VALUE));
         }
         Spring height = pc.getHeight();
-        if (height instanceof Spring.HeightSpring && ((Spring.HeightSpring)height).c == p) {
-            pc.setHeight(Spring.constant(0, 0, Integer.MAX_VALUE));
+        if (height instbnceof Spring.HeightSpring && ((Spring.HeightSpring)height).c == p) {
+            pc.setHeight(Spring.constbnt(0, 0, Integer.MAX_VALUE));
         }
     }
 
-    /*pp*/ boolean isCyclic(Spring s) {
+    /*pp*/ boolebn isCyclic(Spring s) {
         if (s == null) {
-            return false;
+            return fblse;
         }
-        if (cyclicSprings.contains(s)) {
+        if (cyclicSprings.contbins(s)) {
             return true;
         }
-        if (acyclicSprings.contains(s)) {
-            return false;
+        if (bcyclicSprings.contbins(s)) {
+            return fblse;
         }
-        cyclicSprings.add(s);
-        boolean result = s.isCyclic(this);
+        cyclicSprings.bdd(s);
+        boolebn result = s.isCyclic(this);
         if (!result) {
-            acyclicSprings.add(s);
+            bcyclicSprings.bdd(s);
             cyclicSprings.remove(s);
         }
         else {
@@ -934,136 +934,136 @@ public class SpringLayout implements LayoutManager2 {
         return result;
     }
 
-    private Spring abandonCycles(Spring s) {
+    privbte Spring bbbndonCycles(Spring s) {
         return isCyclic(s) ? cyclicReference : s;
     }
 
-    // LayoutManager methods.
+    // LbyoutMbnbger methods.
 
     /**
-     * Has no effect,
-     * since this layout manager does not
-     * use a per-component string.
+     * Hbs no effect,
+     * since this lbyout mbnbger does not
+     * use b per-component string.
      */
-    public void addLayoutComponent(String name, Component c) {}
+    public void bddLbyoutComponent(String nbme, Component c) {}
 
     /**
-     * Removes the constraints associated with the specified component.
+     * Removes the constrbints bssocibted with the specified component.
      *
-     * @param c the component being removed from the container
+     * @pbrbm c the component being removed from the contbiner
      */
-    public void removeLayoutComponent(Component c) {
-        componentConstraints.remove(c);
+    public void removeLbyoutComponent(Component c) {
+        componentConstrbints.remove(c);
     }
 
-    private static Dimension addInsets(int width, int height, Container p) {
+    privbte stbtic Dimension bddInsets(int width, int height, Contbiner p) {
         Insets i = p.getInsets();
         return new Dimension(width + i.left + i.right, height + i.top + i.bottom);
     }
 
-    public Dimension minimumLayoutSize(Container parent) {
-        setParent(parent);
-        Constraints pc = getConstraints(parent);
-        return addInsets(abandonCycles(pc.getWidth()).getMinimumValue(),
-                         abandonCycles(pc.getHeight()).getMinimumValue(),
-                         parent);
+    public Dimension minimumLbyoutSize(Contbiner pbrent) {
+        setPbrent(pbrent);
+        Constrbints pc = getConstrbints(pbrent);
+        return bddInsets(bbbndonCycles(pc.getWidth()).getMinimumVblue(),
+                         bbbndonCycles(pc.getHeight()).getMinimumVblue(),
+                         pbrent);
     }
 
-    public Dimension preferredLayoutSize(Container parent) {
-        setParent(parent);
-        Constraints pc = getConstraints(parent);
-        return addInsets(abandonCycles(pc.getWidth()).getPreferredValue(),
-                         abandonCycles(pc.getHeight()).getPreferredValue(),
-                         parent);
+    public Dimension preferredLbyoutSize(Contbiner pbrent) {
+        setPbrent(pbrent);
+        Constrbints pc = getConstrbints(pbrent);
+        return bddInsets(bbbndonCycles(pc.getWidth()).getPreferredVblue(),
+                         bbbndonCycles(pc.getHeight()).getPreferredVblue(),
+                         pbrent);
     }
 
-    // LayoutManager2 methods.
+    // LbyoutMbnbger2 methods.
 
-    public Dimension maximumLayoutSize(Container parent) {
-        setParent(parent);
-        Constraints pc = getConstraints(parent);
-        return addInsets(abandonCycles(pc.getWidth()).getMaximumValue(),
-                         abandonCycles(pc.getHeight()).getMaximumValue(),
-                         parent);
+    public Dimension mbximumLbyoutSize(Contbiner pbrent) {
+        setPbrent(pbrent);
+        Constrbints pc = getConstrbints(pbrent);
+        return bddInsets(bbbndonCycles(pc.getWidth()).getMbximumVblue(),
+                         bbbndonCycles(pc.getHeight()).getMbximumVblue(),
+                         pbrent);
     }
 
     /**
-     * If <code>constraints</code> is an instance of
-     * <code>SpringLayout.Constraints</code>,
-     * associates the constraints with the specified component.
+     * If <code>constrbints</code> is bn instbnce of
+     * <code>SpringLbyout.Constrbints</code>,
+     * bssocibtes the constrbints with the specified component.
      *
-     * @param   component the component being added
-     * @param   constraints the component's constraints
+     * @pbrbm   component the component being bdded
+     * @pbrbm   constrbints the component's constrbints
      *
-     * @see SpringLayout.Constraints
+     * @see SpringLbyout.Constrbints
      */
-    public void addLayoutComponent(Component component, Object constraints) {
-        if (constraints instanceof Constraints) {
-            putConstraints(component, (Constraints)constraints);
+    public void bddLbyoutComponent(Component component, Object constrbints) {
+        if (constrbints instbnceof Constrbints) {
+            putConstrbints(component, (Constrbints)constrbints);
         }
     }
 
     /**
      * Returns 0.5f (centered).
      */
-    public float getLayoutAlignmentX(Container p) {
+    public flobt getLbyoutAlignmentX(Contbiner p) {
         return 0.5f;
     }
 
     /**
      * Returns 0.5f (centered).
      */
-    public float getLayoutAlignmentY(Container p) {
+    public flobt getLbyoutAlignmentY(Contbiner p) {
         return 0.5f;
     }
 
-    public void invalidateLayout(Container p) {}
+    public void invblidbteLbyout(Contbiner p) {}
 
-    // End of LayoutManger2 methods
+    // End of LbyoutMbnger2 methods
 
    /**
      * Links edge <code>e1</code> of component <code>c1</code> to
      * edge <code>e2</code> of component <code>c2</code>,
-     * with a fixed distance between the edges. This
-     * constraint will cause the assignment
+     * with b fixed distbnce between the edges. This
+     * constrbint will cbuse the bssignment
      * <pre>
-     *     value(e1, c1) = value(e2, c2) + pad</pre>
-     * to take place during all subsequent layout operations.
+     *     vblue(e1, c1) = vblue(e2, c2) + pbd</pre>
+     * to tbke plbce during bll subsequent lbyout operbtions.
      *
-     * @param   e1 the edge of the dependent
-     * @param   c1 the component of the dependent
-     * @param   pad the fixed distance between dependent and anchor
-     * @param   e2 the edge of the anchor
-     * @param   c2 the component of the anchor
+     * @pbrbm   e1 the edge of the dependent
+     * @pbrbm   c1 the component of the dependent
+     * @pbrbm   pbd the fixed distbnce between dependent bnd bnchor
+     * @pbrbm   e2 the edge of the bnchor
+     * @pbrbm   c2 the component of the bnchor
      *
-     * @see #putConstraint(String, Component, Spring, String, Component)
+     * @see #putConstrbint(String, Component, Spring, String, Component)
      */
-    public void putConstraint(String e1, Component c1, int pad, String e2, Component c2) {
-        putConstraint(e1, c1, Spring.constant(pad), e2, c2);
+    public void putConstrbint(String e1, Component c1, int pbd, String e2, Component c2) {
+        putConstrbint(e1, c1, Spring.constbnt(pbd), e2, c2);
     }
 
     /**
      * Links edge <code>e1</code> of component <code>c1</code> to
      * edge <code>e2</code> of component <code>c2</code>. As edge
-     * <code>(e2, c2)</code> changes value, edge <code>(e1, c1)</code> will
-     * be calculated by taking the (spring) sum of <code>(e2, c2)</code>
-     * and <code>s</code>.
-     * Each edge must have one of the following values:
-     * <code>SpringLayout.NORTH</code>,
-     * <code>SpringLayout.SOUTH</code>,
-     * <code>SpringLayout.EAST</code>,
-     * <code>SpringLayout.WEST</code>,
-     * <code>SpringLayout.VERTICAL_CENTER</code>,
-     * <code>SpringLayout.HORIZONTAL_CENTER</code> or
-     * <code>SpringLayout.BASELINE</code>.
+     * <code>(e2, c2)</code> chbnges vblue, edge <code>(e1, c1)</code> will
+     * be cblculbted by tbking the (spring) sum of <code>(e2, c2)</code>
+     * bnd <code>s</code>.
+     * Ebch edge must hbve one of the following vblues:
+     * <code>SpringLbyout.NORTH</code>,
+     * <code>SpringLbyout.SOUTH</code>,
+     * <code>SpringLbyout.EAST</code>,
+     * <code>SpringLbyout.WEST</code>,
+     * <code>SpringLbyout.VERTICAL_CENTER</code>,
+     * <code>SpringLbyout.HORIZONTAL_CENTER</code> or
+     * <code>SpringLbyout.BASELINE</code>.
      *
-     * @param   e1 the edge of the dependent
-     * @param   c1 the component of the dependent
-     * @param   s the spring linking dependent and anchor
-     * @param   e2 the edge of the anchor
-     * @param   c2 the component of the anchor
+     * @pbrbm   e1 the edge of the dependent
+     * @pbrbm   c1 the component of the dependent
+     * @pbrbm   s the spring linking dependent bnd bnchor
+     * @pbrbm   e2 the edge of the bnchor
+     * @pbrbm   c2 the component of the bnchor
      *
-     * @see #putConstraint(String, Component, int, String, Component)
+     * @see #putConstrbint(String, Component, int, String, Component)
      * @see #NORTH
      * @see #SOUTH
      * @see #EAST
@@ -1072,122 +1072,122 @@ public class SpringLayout implements LayoutManager2 {
      * @see #HORIZONTAL_CENTER
      * @see #BASELINE
      */
-    public void putConstraint(String e1, Component c1, Spring s, String e2, Component c2) {
-        putConstraint(e1, c1, Spring.sum(s, getConstraint(e2, c2)));
+    public void putConstrbint(String e1, Component c1, Spring s, String e2, Component c2) {
+        putConstrbint(e1, c1, Spring.sum(s, getConstrbint(e2, c2)));
     }
 
-    private void putConstraint(String e, Component c, Spring s) {
+    privbte void putConstrbint(String e, Component c, Spring s) {
         if (s != null) {
-            getConstraints(c).setConstraint(e, s);
+            getConstrbints(c).setConstrbint(e, s);
         }
      }
 
-    private Constraints applyDefaults(Component c, Constraints constraints) {
-        if (constraints == null) {
-            constraints = new Constraints();
+    privbte Constrbints bpplyDefbults(Component c, Constrbints constrbints) {
+        if (constrbints == null) {
+            constrbints = new Constrbints();
         }
-        if (constraints.c == null) {
-            constraints.c = c;
+        if (constrbints.c == null) {
+            constrbints.c = c;
         }
-        if (constraints.horizontalHistory.size() < 2) {
-            applyDefaults(constraints, WEST, Spring.constant(0), WIDTH,
-                          Spring.width(c), constraints.horizontalHistory);
+        if (constrbints.horizontblHistory.size() < 2) {
+            bpplyDefbults(constrbints, WEST, Spring.constbnt(0), WIDTH,
+                          Spring.width(c), constrbints.horizontblHistory);
         }
-        if (constraints.verticalHistory.size() < 2) {
-            applyDefaults(constraints, NORTH, Spring.constant(0), HEIGHT,
-                          Spring.height(c), constraints.verticalHistory);
+        if (constrbints.verticblHistory.size() < 2) {
+            bpplyDefbults(constrbints, NORTH, Spring.constbnt(0), HEIGHT,
+                          Spring.height(c), constrbints.verticblHistory);
         }
-        return constraints;
+        return constrbints;
     }
 
-    private void applyDefaults(Constraints constraints, String name1,
-                               Spring spring1, String name2, Spring spring2,
+    privbte void bpplyDefbults(Constrbints constrbints, String nbme1,
+                               Spring spring1, String nbme2, Spring spring2,
                                List<String> history) {
         if (history.size() == 0) {
-            constraints.setConstraint(name1, spring1);
-            constraints.setConstraint(name2, spring2);
+            constrbints.setConstrbint(nbme1, spring1);
+            constrbints.setConstrbint(nbme2, spring2);
         } else {
-            // At this point there must be exactly one constraint defined already.
+            // At this point there must be exbctly one constrbint defined blrebdy.
             // Check width/height first.
-            if (constraints.getConstraint(name2) == null) {
-                constraints.setConstraint(name2, spring2);
+            if (constrbints.getConstrbint(nbme2) == null) {
+                constrbints.setConstrbint(nbme2, spring2);
             } else {
-                // If width/height is already defined, install a default for x/y.
-                constraints.setConstraint(name1, spring1);
+                // If width/height is blrebdy defined, instbll b defbult for x/y.
+                constrbints.setConstrbint(nbme1, spring1);
             }
-            // Either way, leave the user's constraint topmost on the stack.
-            Collections.rotate(history, 1);
+            // Either wby, lebve the user's constrbint topmost on the stbck.
+            Collections.rotbte(history, 1);
         }
     }
 
-    private void putConstraints(Component component, Constraints constraints) {
-        componentConstraints.put(component, applyDefaults(component, constraints));
+    privbte void putConstrbints(Component component, Constrbints constrbints) {
+        componentConstrbints.put(component, bpplyDefbults(component, constrbints));
     }
 
     /**
-     * Returns the constraints for the specified component.
-     * Note that,
-     * unlike the <code>GridBagLayout</code>
-     * <code>getConstraints</code> method,
-     * this method does not clone constraints.
-     * If no constraints
-     * have been associated with this component,
+     * Returns the constrbints for the specified component.
+     * Note thbt,
+     * unlike the <code>GridBbgLbyout</code>
+     * <code>getConstrbints</code> method,
+     * this method does not clone constrbints.
+     * If no constrbints
+     * hbve been bssocibted with this component,
      * this method
-     * returns a default constraints object positioned at
-     * 0,0 relative to the parent's Insets and its width/height
-     * constrained to the minimum, maximum, and preferred sizes of the
-     * component. The size characteristics
-     * are not frozen at the time this method is called;
-     * instead this method returns a constraints object
-     * whose characteristics track the characteristics
-     * of the component as they change.
+     * returns b defbult constrbints object positioned bt
+     * 0,0 relbtive to the pbrent's Insets bnd its width/height
+     * constrbined to the minimum, mbximum, bnd preferred sizes of the
+     * component. The size chbrbcteristics
+     * bre not frozen bt the time this method is cblled;
+     * instebd this method returns b constrbints object
+     * whose chbrbcteristics trbck the chbrbcteristics
+     * of the component bs they chbnge.
      *
-     * @param       c the component whose constraints will be returned
+     * @pbrbm       c the component whose constrbints will be returned
      *
-     * @return      the constraints for the specified component
+     * @return      the constrbints for the specified component
      */
-    public Constraints getConstraints(Component c) {
-       Constraints result = componentConstraints.get(c);
+    public Constrbints getConstrbints(Component c) {
+       Constrbints result = componentConstrbints.get(c);
        if (result == null) {
-           if (c instanceof javax.swing.JComponent) {
-                Object cp = ((javax.swing.JComponent)c).getClientProperty(SpringLayout.class);
-                if (cp instanceof Constraints) {
-                    return applyDefaults(c, (Constraints)cp);
+           if (c instbnceof jbvbx.swing.JComponent) {
+                Object cp = ((jbvbx.swing.JComponent)c).getClientProperty(SpringLbyout.clbss);
+                if (cp instbnceof Constrbints) {
+                    return bpplyDefbults(c, (Constrbints)cp);
                 }
             }
-            result = new Constraints();
-            putConstraints(c, result);
+            result = new Constrbints();
+            putConstrbints(c, result);
        }
        return result;
     }
 
     /**
-     * Returns the spring controlling the distance between
+     * Returns the spring controlling the distbnce between
      * the specified edge of
-     * the component and the top or left edge of its parent. This
-     * method, instead of returning the current binding for the
-     * edge, returns a proxy that tracks the characteristics
+     * the component bnd the top or left edge of its pbrent. This
+     * method, instebd of returning the current binding for the
+     * edge, returns b proxy thbt trbcks the chbrbcteristics
      * of the edge even if the edge is subsequently rebound.
-     * Proxies are intended to be used in builder environments
-     * where it is useful to allow the user to define the
-     * constraints for a layout in any order. Proxies do, however,
-     * provide the means to create cyclic dependencies amongst
-     * the constraints of a layout. Such cycles are detected
-     * internally by <code>SpringLayout</code> so that
-     * the layout operation always terminates.
+     * Proxies bre intended to be used in builder environments
+     * where it is useful to bllow the user to define the
+     * constrbints for b lbyout in bny order. Proxies do, however,
+     * provide the mebns to crebte cyclic dependencies bmongst
+     * the constrbints of b lbyout. Such cycles bre detected
+     * internblly by <code>SpringLbyout</code> so thbt
+     * the lbyout operbtion blwbys terminbtes.
      *
-     * @param edgeName must be one of
-     * <code>SpringLayout.NORTH</code>,
-     * <code>SpringLayout.SOUTH</code>,
-     * <code>SpringLayout.EAST</code>,
-     * <code>SpringLayout.WEST</code>,
-     * <code>SpringLayout.VERTICAL_CENTER</code>,
-     * <code>SpringLayout.HORIZONTAL_CENTER</code> or
-     * <code>SpringLayout.BASELINE</code>
-     * @param c the component whose edge spring is desired
+     * @pbrbm edgeNbme must be one of
+     * <code>SpringLbyout.NORTH</code>,
+     * <code>SpringLbyout.SOUTH</code>,
+     * <code>SpringLbyout.EAST</code>,
+     * <code>SpringLbyout.WEST</code>,
+     * <code>SpringLbyout.VERTICAL_CENTER</code>,
+     * <code>SpringLbyout.HORIZONTAL_CENTER</code> or
+     * <code>SpringLbyout.BASELINE</code>
+     * @pbrbm c the component whose edge spring is desired
      *
-     * @return a proxy for the spring controlling the distance between the
-     *         specified edge and the top or left edge of its parent
+     * @return b proxy for the spring controlling the distbnce between the
+     *         specified edge bnd the top or left edge of its pbrent
      *
      * @see #NORTH
      * @see #SOUTH
@@ -1197,37 +1197,37 @@ public class SpringLayout implements LayoutManager2 {
      * @see #HORIZONTAL_CENTER
      * @see #BASELINE
      */
-    public Spring getConstraint(String edgeName, Component c) {
-        // The interning here is unnecessary; it was added for efficiency.
-        edgeName = edgeName.intern();
-        return new SpringProxy(edgeName, c, this);
+    public Spring getConstrbint(String edgeNbme, Component c) {
+        // The interning here is unnecessbry; it wbs bdded for efficiency.
+        edgeNbme = edgeNbme.intern();
+        return new SpringProxy(edgeNbme, c, this);
     }
 
-    public void layoutContainer(Container parent) {
-        setParent(parent);
+    public void lbyoutContbiner(Contbiner pbrent) {
+        setPbrent(pbrent);
 
-        int n = parent.getComponentCount();
-        getConstraints(parent).reset();
+        int n = pbrent.getComponentCount();
+        getConstrbints(pbrent).reset();
         for (int i = 0 ; i < n ; i++) {
-            getConstraints(parent.getComponent(i)).reset();
+            getConstrbints(pbrent.getComponent(i)).reset();
         }
 
-        Insets insets = parent.getInsets();
-        Constraints pc = getConstraints(parent);
-        abandonCycles(pc.getX()).setValue(0);
-        abandonCycles(pc.getY()).setValue(0);
-        abandonCycles(pc.getWidth()).setValue(parent.getWidth() -
+        Insets insets = pbrent.getInsets();
+        Constrbints pc = getConstrbints(pbrent);
+        bbbndonCycles(pc.getX()).setVblue(0);
+        bbbndonCycles(pc.getY()).setVblue(0);
+        bbbndonCycles(pc.getWidth()).setVblue(pbrent.getWidth() -
                                               insets.left - insets.right);
-        abandonCycles(pc.getHeight()).setValue(parent.getHeight() -
+        bbbndonCycles(pc.getHeight()).setVblue(pbrent.getHeight() -
                                                insets.top - insets.bottom);
 
         for (int i = 0 ; i < n ; i++) {
-            Component c = parent.getComponent(i);
-            Constraints cc = getConstraints(c);
-            int x = abandonCycles(cc.getX()).getValue();
-            int y = abandonCycles(cc.getY()).getValue();
-            int width = abandonCycles(cc.getWidth()).getValue();
-            int height = abandonCycles(cc.getHeight()).getValue();
+            Component c = pbrent.getComponent(i);
+            Constrbints cc = getConstrbints(c);
+            int x = bbbndonCycles(cc.getX()).getVblue();
+            int y = bbbndonCycles(cc.getY()).getVblue();
+            int width = bbbndonCycles(cc.getWidth()).getVblue();
+            int height = bbbndonCycles(cc.getHeight()).getVblue();
             c.setBounds(insets.left + x, insets.top + y, width, height);
         }
     }

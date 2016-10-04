@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio;
+pbckbge jbvb.nio;
 
-import java.io.FileDescriptor;
-import sun.misc.Unsafe;
+import jbvb.io.FileDescriptor;
+import sun.misc.Unsbfe;
 
 
 /**
- * A direct byte buffer whose content is a memory-mapped region of a file.
+ * A direct byte buffer whose content is b memory-mbpped region of b file.
  *
- * <p> Mapped byte buffers are created via the {@link
- * java.nio.channels.FileChannel#map FileChannel.map} method.  This class
- * extends the {@link ByteBuffer} class with operations that are specific to
- * memory-mapped file regions.
+ * <p> Mbpped byte buffers bre crebted vib the {@link
+ * jbvb.nio.chbnnels.FileChbnnel#mbp FileChbnnel.mbp} method.  This clbss
+ * extends the {@link ByteBuffer} clbss with operbtions thbt bre specific to
+ * memory-mbpped file regions.
  *
- * <p> A mapped byte buffer and the file mapping that it represents remain
- * valid until the buffer itself is garbage-collected.
+ * <p> A mbpped byte buffer bnd the file mbpping thbt it represents rembin
+ * vblid until the buffer itself is gbrbbge-collected.
  *
- * <p> The content of a mapped byte buffer can change at any time, for example
- * if the content of the corresponding region of the mapped file is changed by
- * this program or another.  Whether or not such changes occur, and when they
- * occur, is operating-system dependent and therefore unspecified.
+ * <p> The content of b mbpped byte buffer cbn chbnge bt bny time, for exbmple
+ * if the content of the corresponding region of the mbpped file is chbnged by
+ * this progrbm or bnother.  Whether or not such chbnges occur, bnd when they
+ * occur, is operbting-system dependent bnd therefore unspecified.
  *
- * <a name="inaccess"></a><p> All or part of a mapped byte buffer may become
- * inaccessible at any time, for example if the mapped file is truncated.  An
- * attempt to access an inaccessible region of a mapped byte buffer will not
- * change the buffer's content and will cause an unspecified exception to be
- * thrown either at the time of the access or at some later time.  It is
- * therefore strongly recommended that appropriate precautions be taken to
- * avoid the manipulation of a mapped file by this program, or by a
- * concurrently running program, except to read or write the file's content.
+ * <b nbme="inbccess"></b><p> All or pbrt of b mbpped byte buffer mby become
+ * inbccessible bt bny time, for exbmple if the mbpped file is truncbted.  An
+ * bttempt to bccess bn inbccessible region of b mbpped byte buffer will not
+ * chbnge the buffer's content bnd will cbuse bn unspecified exception to be
+ * thrown either bt the time of the bccess or bt some lbter time.  It is
+ * therefore strongly recommended thbt bppropribte precbutions be tbken to
+ * bvoid the mbnipulbtion of b mbpped file by this progrbm, or by b
+ * concurrently running progrbm, except to rebd or write the file's content.
  *
- * <p> Mapped byte buffers otherwise behave no differently than ordinary direct
+ * <p> Mbpped byte buffers otherwise behbve no differently thbn ordinbry direct
  * byte buffers. </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public abstract class MappedByteBuffer
+public bbstrbct clbss MbppedByteBuffer
     extends ByteBuffer
 {
 
-    // This is a little bit backwards: By rights MappedByteBuffer should be a
-    // subclass of DirectByteBuffer, but to keep the spec clear and simple, and
-    // for optimization purposes, it's easier to do it the other way around.
-    // This works because DirectByteBuffer is a package-private class.
+    // This is b little bit bbckwbrds: By rights MbppedByteBuffer should be b
+    // subclbss of DirectByteBuffer, but to keep the spec clebr bnd simple, bnd
+    // for optimizbtion purposes, it's ebsier to do it the other wby bround.
+    // This works becbuse DirectByteBuffer is b pbckbge-privbte clbss.
 
-    // For mapped buffers, a FileDescriptor that may be used for mapping
-    // operations if valid; null if the buffer is not mapped.
-    private final FileDescriptor fd;
+    // For mbpped buffers, b FileDescriptor thbt mby be used for mbpping
+    // operbtions if vblid; null if the buffer is not mbpped.
+    privbte finbl FileDescriptor fd;
 
     // This should only be invoked by the DirectByteBuffer constructors
     //
-    MappedByteBuffer(int mark, int pos, int lim, int cap, // package-private
+    MbppedByteBuffer(int mbrk, int pos, int lim, int cbp, // pbckbge-privbte
                      FileDescriptor fd)
     {
-        super(mark, pos, lim, cap);
+        super(mbrk, pos, lim, cbp);
         this.fd = fd;
     }
 
-    MappedByteBuffer(int mark, int pos, int lim, int cap) { // package-private
-        super(mark, pos, lim, cap);
+    MbppedByteBuffer(int mbrk, int pos, int lim, int cbp) { // pbckbge-privbte
+        super(mbrk, pos, lim, cbp);
         this.fd = null;
     }
 
-    private void checkMapped() {
+    privbte void checkMbpped() {
         if (fd == null)
-            // Can only happen if a luser explicitly casts a direct byte buffer
-            throw new UnsupportedOperationException();
+            // Cbn only hbppen if b luser explicitly cbsts b direct byte buffer
+            throw new UnsupportedOperbtionException();
     }
 
-    // Returns the distance (in bytes) of the buffer from the page aligned address
-    // of the mapping. Computed each time to avoid storing in every direct buffer.
-    private long mappingOffset() {
-        int ps = Bits.pageSize();
-        long offset = address % ps;
+    // Returns the distbnce (in bytes) of the buffer from the pbge bligned bddress
+    // of the mbpping. Computed ebch time to bvoid storing in every direct buffer.
+    privbte long mbppingOffset() {
+        int ps = Bits.pbgeSize();
+        long offset = bddress % ps;
         return (offset >= 0) ? offset : (ps + offset);
     }
 
-    private long mappingAddress(long mappingOffset) {
-        return address - mappingOffset;
+    privbte long mbppingAddress(long mbppingOffset) {
+        return bddress - mbppingOffset;
     }
 
-    private long mappingLength(long mappingOffset) {
-        return (long)capacity() + mappingOffset;
+    privbte long mbppingLength(long mbppingOffset) {
+        return (long)cbpbcity() + mbppingOffset;
     }
 
     /**
-     * Tells whether or not this buffer's content is resident in physical
+     * Tells whether or not this buffer's content is resident in physicbl
      * memory.
      *
-     * <p> A return value of <tt>true</tt> implies that it is highly likely
-     * that all of the data in this buffer is resident in physical memory and
-     * may therefore be accessed without incurring any virtual-memory page
-     * faults or I/O operations.  A return value of <tt>false</tt> does not
-     * necessarily imply that the buffer's content is not resident in physical
+     * <p> A return vblue of <tt>true</tt> implies thbt it is highly likely
+     * thbt bll of the dbtb in this buffer is resident in physicbl memory bnd
+     * mby therefore be bccessed without incurring bny virtubl-memory pbge
+     * fbults or I/O operbtions.  A return vblue of <tt>fblse</tt> does not
+     * necessbrily imply thbt the buffer's content is not resident in physicbl
      * memory.
      *
-     * <p> The returned value is a hint, rather than a guarantee, because the
-     * underlying operating system may have paged out some of the buffer's data
-     * by the time that an invocation of this method returns.  </p>
+     * <p> The returned vblue is b hint, rbther thbn b gubrbntee, becbuse the
+     * underlying operbting system mby hbve pbged out some of the buffer's dbtb
+     * by the time thbt bn invocbtion of this method returns.  </p>
      *
-     * @return  <tt>true</tt> if it is likely that this buffer's content
-     *          is resident in physical memory
+     * @return  <tt>true</tt> if it is likely thbt this buffer's content
+     *          is resident in physicbl memory
      */
-    public final boolean isLoaded() {
-        checkMapped();
-        if ((address == 0) || (capacity() == 0))
+    public finbl boolebn isLobded() {
+        checkMbpped();
+        if ((bddress == 0) || (cbpbcity() == 0))
             return true;
-        long offset = mappingOffset();
-        long length = mappingLength(offset);
-        return isLoaded0(mappingAddress(offset), length, Bits.pageCount(length));
+        long offset = mbppingOffset();
+        long length = mbppingLength(offset);
+        return isLobded0(mbppingAddress(offset), length, Bits.pbgeCount(length));
     }
 
-    // not used, but a potential target for a store, see load() for details.
-    private static byte unused;
+    // not used, but b potentibl tbrget for b store, see lobd() for detbils.
+    privbte stbtic byte unused;
 
     /**
-     * Loads this buffer's content into physical memory.
+     * Lobds this buffer's content into physicbl memory.
      *
-     * <p> This method makes a best effort to ensure that, when it returns,
-     * this buffer's content is resident in physical memory.  Invoking this
-     * method may cause some number of page faults and I/O operations to
+     * <p> This method mbkes b best effort to ensure thbt, when it returns,
+     * this buffer's content is resident in physicbl memory.  Invoking this
+     * method mby cbuse some number of pbge fbults bnd I/O operbtions to
      * occur. </p>
      *
      * @return  This buffer
      */
-    public final MappedByteBuffer load() {
-        checkMapped();
-        if ((address == 0) || (capacity() == 0))
+    public finbl MbppedByteBuffer lobd() {
+        checkMbpped();
+        if ((bddress == 0) || (cbpbcity() == 0))
             return this;
-        long offset = mappingOffset();
-        long length = mappingLength(offset);
-        load0(mappingAddress(offset), length);
+        long offset = mbppingOffset();
+        long length = mbppingLength(offset);
+        lobd0(mbppingAddress(offset), length);
 
-        // Read a byte from each page to bring it into memory. A checksum
-        // is computed as we go along to prevent the compiler from otherwise
-        // considering the loop as dead code.
-        Unsafe unsafe = Unsafe.getUnsafe();
-        int ps = Bits.pageSize();
-        int count = Bits.pageCount(length);
-        long a = mappingAddress(offset);
+        // Rebd b byte from ebch pbge to bring it into memory. A checksum
+        // is computed bs we go blong to prevent the compiler from otherwise
+        // considering the loop bs debd code.
+        Unsbfe unsbfe = Unsbfe.getUnsbfe();
+        int ps = Bits.pbgeSize();
+        int count = Bits.pbgeCount(length);
+        long b = mbppingAddress(offset);
         byte x = 0;
         for (int i=0; i<count; i++) {
-            x ^= unsafe.getByte(a);
-            a += ps;
+            x ^= unsbfe.getByte(b);
+            b += ps;
         }
         if (unused != 0)
             unused = x;
@@ -179,33 +179,33 @@ public abstract class MappedByteBuffer
     }
 
     /**
-     * Forces any changes made to this buffer's content to be written to the
-     * storage device containing the mapped file.
+     * Forces bny chbnges mbde to this buffer's content to be written to the
+     * storbge device contbining the mbpped file.
      *
-     * <p> If the file mapped into this buffer resides on a local storage
-     * device then when this method returns it is guaranteed that all changes
-     * made to the buffer since it was created, or since this method was last
-     * invoked, will have been written to that device.
+     * <p> If the file mbpped into this buffer resides on b locbl storbge
+     * device then when this method returns it is gubrbnteed thbt bll chbnges
+     * mbde to the buffer since it wbs crebted, or since this method wbs lbst
+     * invoked, will hbve been written to thbt device.
      *
-     * <p> If the file does not reside on a local device then no such guarantee
-     * is made.
+     * <p> If the file does not reside on b locbl device then no such gubrbntee
+     * is mbde.
      *
-     * <p> If this buffer was not mapped in read/write mode ({@link
-     * java.nio.channels.FileChannel.MapMode#READ_WRITE}) then invoking this
-     * method has no effect. </p>
+     * <p> If this buffer wbs not mbpped in rebd/write mode ({@link
+     * jbvb.nio.chbnnels.FileChbnnel.MbpMode#READ_WRITE}) then invoking this
+     * method hbs no effect. </p>
      *
      * @return  This buffer
      */
-    public final MappedByteBuffer force() {
-        checkMapped();
-        if ((address != 0) && (capacity() != 0)) {
-            long offset = mappingOffset();
-            force0(fd, mappingAddress(offset), mappingLength(offset));
+    public finbl MbppedByteBuffer force() {
+        checkMbpped();
+        if ((bddress != 0) && (cbpbcity() != 0)) {
+            long offset = mbppingOffset();
+            force0(fd, mbppingAddress(offset), mbppingLength(offset));
         }
         return this;
     }
 
-    private native boolean isLoaded0(long address, long length, int pageCount);
-    private native void load0(long address, long length);
-    private native void force0(FileDescriptor fd, long address, long length);
+    privbte nbtive boolebn isLobded0(long bddress, long length, int pbgeCount);
+    privbte nbtive void lobd0(long bddress, long length);
+    privbte nbtive void force0(FileDescriptor fd, long bddress, long length);
 }

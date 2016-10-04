@@ -1,32 +1,32 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_OLE_H
 #define AWT_OLE_H
 
-#include "awt.h"
+#include "bwt.h"
 #include <ole2.h>
 #include <comdef.h>
 #include <comutil.h>
@@ -49,20 +49,20 @@
   #define TRACE_SUFFIX
 #endif
 
-namespace SUN_DBG_NS{
-  LPCTSTR CreateTimeStamp(LPTSTR lpBuffer, size_t iBufferSize);
-  inline void snTraceEmp(LPCTSTR, ...) { }
-  void snvTrace(LPCTSTR lpszFormat, va_list argList);
-  void snTrace(LPCTSTR lpszFormat, ... );
-}//SUN_DBG_NS namespace end
+nbmespbce SUN_DBG_NS{
+  LPCTSTR CrebteTimeStbmp(LPTSTR lpBuffer, size_t iBufferSize);
+  inline void snTrbceEmp(LPCTSTR, ...) { }
+  void snvTrbce(LPCTSTR lpszFormbt, vb_list brgList);
+  void snTrbce(LPCTSTR lpszFormbt, ... );
+}//SUN_DBG_NS nbmespbce end
 
-#define STRACE1       SUN_DBG_NS::snTrace
+#define STRACE1       SUN_DBG_NS::snTrbce
 #ifdef _SUN_DEBUG
-  #define STRACE      SUN_DBG_NS::snTrace
+  #define STRACE      SUN_DBG_NS::snTrbce
 #else
-  #define STRACE      SUN_DBG_NS::snTraceEmp
+  #define STRACE      SUN_DBG_NS::snTrbceEmp
 #endif
-#define STRACE0       SUN_DBG_NS::snTraceEmp
+#define STRACE0       SUN_DBG_NS::snTrbceEmp
 
 struct CLogEntryPoint1 {
     LPCTSTR m_lpTitle;
@@ -87,7 +87,7 @@ struct CLogEntryPoint0 {
 #define OLE_BAD_COOKIE ((DWORD)-1)
 
 #define OLE_TRACENOTIMPL(msg)\
-        STRACE(_T("Warning:%s"), msg);\
+        STRACE(_T("Wbrning:%s"), msg);\
         return E_NOTIMPL;
 
 #define OLE_TRACEOK(msg)\
@@ -109,7 +109,7 @@ struct CLogEntryPoint0 {
         _hr_ = fnc;\
         if (FAILED(_hr_)) {\
             STRACE1(_T("Error:%08x in ") _T(#fnc),  _hr_);\
-            _com_raise_error(_hr_);\
+            _com_rbise_error(_hr_);\
         }
 
 #define OLE_WINERROR2HR(msg, erCode)\
@@ -118,26 +118,26 @@ struct CLogEntryPoint0 {
         _hr_ = HRESULT_FROM_WIN32(_hr_);
 
 #define OLE_THROW_LASTERROR(msg)\
-        OLE_WINERROR2HR(msg, ::GetLastError())\
-        _com_raise_error(_hr_);
+        OLE_WINERROR2HR(msg, ::GetLbstError())\
+        _com_rbise_error(_hr_);
 
 #define OLE_CHECK_NOTNULL(x)\
         if (!(x)) {\
             STRACE1(_T("Null pointer:") _T(#x));\
-            _com_raise_error(_hr_ = E_POINTER);\
+            _com_rbise_error(_hr_ = E_POINTER);\
         }
 
 #define OLE_CHECK_NOTNULLSP(x)\
         if (!bool(x)) {\
             STRACE1(_T("Null pointer:") _T(#x));\
-            _com_raise_error(_hr_ = E_POINTER);\
+            _com_rbise_error(_hr_ = E_POINTER);\
         }
 
 #define OLE_HRW32(fnc)\
         _hr_ = fnc;\
         if (ERROR_SUCCESS != _hr_) {\
             STRACE1(_T("OSError:%d in ") _T(#fnc),  _hr_);\
-            _com_raise_error(_hr_ = HRESULT_FROM_WIN32(_hr_));\
+            _com_rbise_error(_hr_ = HRESULT_FROM_WIN32(_hr_));\
         }
 
 #define OLE_HRW32_BOOL(fnc)\
@@ -146,27 +146,27 @@ struct CLogEntryPoint0 {
         }
 
 #define OLE_CATCH\
-        } catch (_com_error &e) {\
+        } cbtch (_com_error &e) {\
             _hr_ = e.Error();\
-            STRACE1(_T("COM Error:%08x %s"), _hr_, e.ErrorMessage());\
+            STRACE1(_T("COM Error:%08x %s"), _hr_, e.ErrorMessbge());\
         }
 
 #define OLE_CATCH_BAD_ALLOC\
-        } catch (_com_error &e) {\
+        } cbtch (_com_error &e) {\
             _hr_ = e.Error();\
-            STRACE1(_T("COM Error:%08x %s"), _hr_, e.ErrorMessage());\
-        } catch (std::bad_alloc&) {\
+            STRACE1(_T("COM Error:%08x %s"), _hr_, e.ErrorMessbge());\
+        } cbtch (std::bbd_blloc&) {\
             _hr_ = E_OUTOFMEMORY;\
             STRACE1(_T("Error: Out of Memory"));\
         }
 
 #define OLE_CATCH_ALL\
-        } catch (_com_error &e) {\
+        } cbtch (_com_error &e) {\
             _hr_ = e.Error();\
-            STRACE1(_T("COM Error:%08x %s"), _hr_, e.ErrorMessage());\
-        } catch(...) {\
+            STRACE1(_T("COM Error:%08x %s"), _hr_, e.ErrorMessbge());\
+        } cbtch(...) {\
             _hr_ = E_FAIL;\
-            STRACE1(_T("Error: General Pritection Failor"));\
+            STRACE1(_T("Error: Generbl Pritection Fbilor"));\
         }
 
 #define OLE_RETURN_SUCCESS return SUCCEEDED(_hr_);
@@ -175,19 +175,19 @@ struct CLogEntryPoint0 {
 
 #define _B(x)    _bstr_t(x)
 #define _BT(x)    (LPCTSTR)_bstr_t(x)
-#define _V(x)    _variant_t(x)
-#define _VV(vrt) _variant_t(vrt, false)
-#define _VE      _variant_t()
-#define _VB(b)   _variant_t(bool(b))
+#define _V(x)    _vbribnt_t(x)
+#define _VV(vrt) _vbribnt_t(vrt, fblse)
+#define _VE      _vbribnt_t()
+#define _VB(b)   _vbribnt_t(bool(b))
 
 struct OLEHolder
 {
     OLEHolder()
-    : m_hr(::OleInitialize(NULL))
+    : m_hr(::OleInitiblize(NULL))
     {}
 
     ~OLEHolder(){}
-    operator bool() const { return S_OK==SUCCEEDED(m_hr); }
+    operbtor bool() const { return S_OK==SUCCEEDED(m_hr); }
     HRESULT m_hr;
 };
 

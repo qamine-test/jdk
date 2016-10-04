@@ -1,290 +1,290 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
-import java.awt.*;
-import java.beans.ConstructorProperties;
-import java.io.Serializable;
+import jbvb.bwt.*;
+import jbvb.bebns.ConstructorProperties;
+import jbvb.io.Seriblizbble;
 
 /**
- * A layout manager to arrange components over the top
- * of each other.  The requested size of the container
- * will be the largest requested size of the children,
- * taking alignment needs into consideration.
+ * A lbyout mbnbger to brrbnge components over the top
+ * of ebch other.  The requested size of the contbiner
+ * will be the lbrgest requested size of the children,
+ * tbking blignment needs into considerbtion.
  *
- * The alignment is based upon what is needed to properly
- * fit the children in the allocation area.  The children
- * will be placed such that their alignment points are all
- * on top of each other.
+ * The blignment is bbsed upon whbt is needed to properly
+ * fit the children in the bllocbtion breb.  The children
+ * will be plbced such thbt their blignment points bre bll
+ * on top of ebch other.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author   Timothy Prinzing
+ * @buthor   Timothy Prinzing
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class OverlayLayout implements LayoutManager2,Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss OverlbyLbyout implements LbyoutMbnbger2,Seriblizbble {
 
     /**
-     * Constructs a layout manager that performs overlay
-     * arrangement of the children.  The layout manager
-     * created is dedicated to the given container.
+     * Constructs b lbyout mbnbger thbt performs overlby
+     * brrbngement of the children.  The lbyout mbnbger
+     * crebted is dedicbted to the given contbiner.
      *
-     * @param target  the container to do layout against
+     * @pbrbm tbrget  the contbiner to do lbyout bgbinst
      */
-    @ConstructorProperties({"target"})
-    public OverlayLayout(Container target) {
-        this.target = target;
+    @ConstructorProperties({"tbrget"})
+    public OverlbyLbyout(Contbiner tbrget) {
+        this.tbrget = tbrget;
     }
 
     /**
-     * Returns the container that uses this layout manager.
+     * Returns the contbiner thbt uses this lbyout mbnbger.
      *
-     * @return the container that uses this layout manager
+     * @return the contbiner thbt uses this lbyout mbnbger
      *
      * @since 1.6
      */
-    public final Container getTarget() {
-        return this.target;
+    public finbl Contbiner getTbrget() {
+        return this.tbrget;
     }
 
     /**
-     * Indicates a child has changed its layout related information,
-     * which causes any cached calculations to be flushed.
+     * Indicbtes b child hbs chbnged its lbyout relbted informbtion,
+     * which cbuses bny cbched cblculbtions to be flushed.
      *
-     * @param target the container
+     * @pbrbm tbrget the contbiner
      */
-    public void invalidateLayout(Container target) {
-        checkContainer(target);
+    public void invblidbteLbyout(Contbiner tbrget) {
+        checkContbiner(tbrget);
         xChildren = null;
         yChildren = null;
-        xTotal = null;
-        yTotal = null;
+        xTotbl = null;
+        yTotbl = null;
     }
 
     /**
-     * Adds the specified component to the layout. Used by
-     * this class to know when to invalidate layout.
+     * Adds the specified component to the lbyout. Used by
+     * this clbss to know when to invblidbte lbyout.
      *
-     * @param name the name of the component
-     * @param comp the the component to be added
+     * @pbrbm nbme the nbme of the component
+     * @pbrbm comp the the component to be bdded
      */
-    public void addLayoutComponent(String name, Component comp) {
-        invalidateLayout(comp.getParent());
+    public void bddLbyoutComponent(String nbme, Component comp) {
+        invblidbteLbyout(comp.getPbrent());
     }
 
     /**
-     * Removes the specified component from the layout. Used by
-     * this class to know when to invalidate layout.
+     * Removes the specified component from the lbyout. Used by
+     * this clbss to know when to invblidbte lbyout.
      *
-     * @param comp the component to remove
+     * @pbrbm comp the component to remove
      */
-    public void removeLayoutComponent(Component comp) {
-        invalidateLayout(comp.getParent());
+    public void removeLbyoutComponent(Component comp) {
+        invblidbteLbyout(comp.getPbrent());
     }
 
     /**
-     * Adds the specified component to the layout, using the specified
-     * constraint object. Used by this class to know when to invalidate
-     * layout.
+     * Adds the specified component to the lbyout, using the specified
+     * constrbint object. Used by this clbss to know when to invblidbte
+     * lbyout.
      *
-     * @param comp the component to be added
-     * @param constraints  where/how the component is added to the layout.
+     * @pbrbm comp the component to be bdded
+     * @pbrbm constrbints  where/how the component is bdded to the lbyout.
      */
-    public void addLayoutComponent(Component comp, Object constraints) {
-        invalidateLayout(comp.getParent());
+    public void bddLbyoutComponent(Component comp, Object constrbints) {
+        invblidbteLbyout(comp.getPbrent());
     }
 
     /**
-     * Returns the preferred dimensions for this layout given the components
-     * in the specified target container.  Recomputes the layout if it
-     * has been invalidated.  Factors in the current inset setting returned
+     * Returns the preferred dimensions for this lbyout given the components
+     * in the specified tbrget contbiner.  Recomputes the lbyout if it
+     * hbs been invblidbted.  Fbctors in the current inset setting returned
      * by getInsets().
      *
-     * @param target the component which needs to be laid out
-     * @return a Dimension object containing the preferred dimensions
-     * @see #minimumLayoutSize
+     * @pbrbm tbrget the component which needs to be lbid out
+     * @return b Dimension object contbining the preferred dimensions
+     * @see #minimumLbyoutSize
      */
-    public Dimension preferredLayoutSize(Container target) {
-        checkContainer(target);
+    public Dimension preferredLbyoutSize(Contbiner tbrget) {
+        checkContbiner(tbrget);
         checkRequests();
 
-        Dimension size = new Dimension(xTotal.preferred, yTotal.preferred);
-        Insets insets = target.getInsets();
+        Dimension size = new Dimension(xTotbl.preferred, yTotbl.preferred);
+        Insets insets = tbrget.getInsets();
         size.width += insets.left + insets.right;
         size.height += insets.top + insets.bottom;
         return size;
     }
 
     /**
-     * Returns the minimum dimensions needed to lay out the components
-     * contained in the specified target container.  Recomputes the layout
-     * if it has been invalidated, and factors in the current inset setting.
+     * Returns the minimum dimensions needed to lby out the components
+     * contbined in the specified tbrget contbiner.  Recomputes the lbyout
+     * if it hbs been invblidbted, bnd fbctors in the current inset setting.
      *
-     * @param target the component which needs to be laid out
-     * @return a Dimension object containing the minimum dimensions
-     * @see #preferredLayoutSize
+     * @pbrbm tbrget the component which needs to be lbid out
+     * @return b Dimension object contbining the minimum dimensions
+     * @see #preferredLbyoutSize
      */
-    public Dimension minimumLayoutSize(Container target) {
-        checkContainer(target);
+    public Dimension minimumLbyoutSize(Contbiner tbrget) {
+        checkContbiner(tbrget);
         checkRequests();
 
-        Dimension size = new Dimension(xTotal.minimum, yTotal.minimum);
-        Insets insets = target.getInsets();
+        Dimension size = new Dimension(xTotbl.minimum, yTotbl.minimum);
+        Insets insets = tbrget.getInsets();
         size.width += insets.left + insets.right;
         size.height += insets.top + insets.bottom;
         return size;
     }
 
     /**
-     * Returns the maximum dimensions needed to lay out the components
-     * contained in the specified target container.  Recomputes the
-     * layout if it has been invalidated, and factors in the inset setting
+     * Returns the mbximum dimensions needed to lby out the components
+     * contbined in the specified tbrget contbiner.  Recomputes the
+     * lbyout if it hbs been invblidbted, bnd fbctors in the inset setting
      * returned by <code>getInset</code>.
      *
-     * @param target the component that needs to be laid out
-     * @return a <code>Dimension</code> object containing the maximum
+     * @pbrbm tbrget the component thbt needs to be lbid out
+     * @return b <code>Dimension</code> object contbining the mbximum
      *         dimensions
-     * @see #preferredLayoutSize
+     * @see #preferredLbyoutSize
      */
-    public Dimension maximumLayoutSize(Container target) {
-        checkContainer(target);
+    public Dimension mbximumLbyoutSize(Contbiner tbrget) {
+        checkContbiner(tbrget);
         checkRequests();
 
-        Dimension size = new Dimension(xTotal.maximum, yTotal.maximum);
-        Insets insets = target.getInsets();
+        Dimension size = new Dimension(xTotbl.mbximum, yTotbl.mbximum);
+        Insets insets = tbrget.getInsets();
         size.width += insets.left + insets.right;
         size.height += insets.top + insets.bottom;
         return size;
     }
 
     /**
-     * Returns the alignment along the x axis for the container.
+     * Returns the blignment blong the x bxis for the contbiner.
      *
-     * @param target the container
-     * @return the alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f
+     * @pbrbm tbrget the contbiner
+     * @return the blignment &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
      */
-    public float getLayoutAlignmentX(Container target) {
-        checkContainer(target);
+    public flobt getLbyoutAlignmentX(Contbiner tbrget) {
+        checkContbiner(tbrget);
         checkRequests();
-        return xTotal.alignment;
+        return xTotbl.blignment;
     }
 
     /**
-     * Returns the alignment along the y axis for the container.
+     * Returns the blignment blong the y bxis for the contbiner.
      *
-     * @param target the container
-     * @return the alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f
+     * @pbrbm tbrget the contbiner
+     * @return the blignment &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
      */
-    public float getLayoutAlignmentY(Container target) {
-        checkContainer(target);
+    public flobt getLbyoutAlignmentY(Contbiner tbrget) {
+        checkContbiner(tbrget);
         checkRequests();
-        return yTotal.alignment;
+        return yTotbl.blignment;
     }
 
     /**
-     * Called by the AWT when the specified container needs to be laid out.
+     * Cblled by the AWT when the specified contbiner needs to be lbid out.
      *
-     * @param target  the container to lay out
+     * @pbrbm tbrget  the contbiner to lby out
      *
-     * @exception AWTError  if the target isn't the container specified to the
+     * @exception AWTError  if the tbrget isn't the contbiner specified to the
      *                      constructor
      */
-    public void layoutContainer(Container target) {
-        checkContainer(target);
+    public void lbyoutContbiner(Contbiner tbrget) {
+        checkContbiner(tbrget);
         checkRequests();
 
-        int nChildren = target.getComponentCount();
+        int nChildren = tbrget.getComponentCount();
         int[] xOffsets = new int[nChildren];
-        int[] xSpans = new int[nChildren];
+        int[] xSpbns = new int[nChildren];
         int[] yOffsets = new int[nChildren];
-        int[] ySpans = new int[nChildren];
+        int[] ySpbns = new int[nChildren];
 
-        // determine the child placements
-        Dimension alloc = target.getSize();
-        Insets in = target.getInsets();
-        alloc.width -= in.left + in.right;
-        alloc.height -= in.top + in.bottom;
-        SizeRequirements.calculateAlignedPositions(alloc.width, xTotal,
+        // determine the child plbcements
+        Dimension blloc = tbrget.getSize();
+        Insets in = tbrget.getInsets();
+        blloc.width -= in.left + in.right;
+        blloc.height -= in.top + in.bottom;
+        SizeRequirements.cblculbteAlignedPositions(blloc.width, xTotbl,
                                                    xChildren, xOffsets,
-                                                   xSpans);
-        SizeRequirements.calculateAlignedPositions(alloc.height, yTotal,
+                                                   xSpbns);
+        SizeRequirements.cblculbteAlignedPositions(blloc.height, yTotbl,
                                                    yChildren, yOffsets,
-                                                   ySpans);
+                                                   ySpbns);
 
-        // flush changes to the container
+        // flush chbnges to the contbiner
         for (int i = 0; i < nChildren; i++) {
-            Component c = target.getComponent(i);
+            Component c = tbrget.getComponent(i);
             c.setBounds(in.left + xOffsets[i], in.top + yOffsets[i],
-                        xSpans[i], ySpans[i]);
+                        xSpbns[i], ySpbns[i]);
         }
     }
 
-    void checkContainer(Container target) {
-        if (this.target != target) {
-            throw new AWTError("OverlayLayout can't be shared");
+    void checkContbiner(Contbiner tbrget) {
+        if (this.tbrget != tbrget) {
+            throw new AWTError("OverlbyLbyout cbn't be shbred");
         }
     }
 
     void checkRequests() {
         if (xChildren == null || yChildren == null) {
-            // The requests have been invalidated... recalculate
-            // the request information.
-            int n = target.getComponentCount();
+            // The requests hbve been invblidbted... recblculbte
+            // the request informbtion.
+            int n = tbrget.getComponentCount();
             xChildren = new SizeRequirements[n];
             yChildren = new SizeRequirements[n];
             for (int i = 0; i < n; i++) {
-                Component c = target.getComponent(i);
+                Component c = tbrget.getComponent(i);
                 Dimension min = c.getMinimumSize();
                 Dimension typ = c.getPreferredSize();
-                Dimension max = c.getMaximumSize();
+                Dimension mbx = c.getMbximumSize();
                 xChildren[i] = new SizeRequirements(min.width, typ.width,
-                                                    max.width,
+                                                    mbx.width,
                                                     c.getAlignmentX());
                 yChildren[i] = new SizeRequirements(min.height, typ.height,
-                                                    max.height,
+                                                    mbx.height,
                                                     c.getAlignmentY());
             }
 
-            xTotal = SizeRequirements.getAlignedSizeRequirements(xChildren);
-            yTotal = SizeRequirements.getAlignedSizeRequirements(yChildren);
+            xTotbl = SizeRequirements.getAlignedSizeRequirements(xChildren);
+            yTotbl = SizeRequirements.getAlignedSizeRequirements(yChildren);
         }
     }
 
-    private Container target;
-    private SizeRequirements[] xChildren;
-    private SizeRequirements[] yChildren;
-    private SizeRequirements xTotal;
-    private SizeRequirements yTotal;
+    privbte Contbiner tbrget;
+    privbte SizeRequirements[] xChildren;
+    privbte SizeRequirements[] yChildren;
+    privbte SizeRequirements xTotbl;
+    privbte SizeRequirements yTotbl;
 
 }

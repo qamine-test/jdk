@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * The <code>DisplayMode</code> class encapsulates the bit depth, height,
- * width, and refresh rate of a <code>GraphicsDevice</code>. The ability to
- * change graphics device's display mode is platform- and
- * configuration-dependent and may not always be available
- * (see {@link GraphicsDevice#isDisplayChangeSupported}).
+ * The <code>DisplbyMode</code> clbss encbpsulbtes the bit depth, height,
+ * width, bnd refresh rbte of b <code>GrbphicsDevice</code>. The bbility to
+ * chbnge grbphics device's displby mode is plbtform- bnd
+ * configurbtion-dependent bnd mby not blwbys be bvbilbble
+ * (see {@link GrbphicsDevice#isDisplbyChbngeSupported}).
  * <p>
- * For more information on full-screen exclusive mode API, see the
- * <a href="http://docs.oracle.com/javase/tutorial/extra/fullscreen/index.html">
- * Full-Screen Exclusive Mode API Tutorial</a>.
+ * For more informbtion on full-screen exclusive mode API, see the
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/extrb/fullscreen/index.html">
+ * Full-Screen Exclusive Mode API Tutoribl</b>.
  *
- * @see GraphicsDevice
- * @see GraphicsDevice#isDisplayChangeSupported
- * @see GraphicsDevice#getDisplayModes
- * @see GraphicsDevice#setDisplayMode
- * @author Michael Martak
+ * @see GrbphicsDevice
+ * @see GrbphicsDevice#isDisplbyChbngeSupported
+ * @see GrbphicsDevice#getDisplbyModes
+ * @see GrbphicsDevice#setDisplbyMode
+ * @buthor Michbel Mbrtbk
  * @since 1.4
  */
 
-public final class DisplayMode {
+public finbl clbss DisplbyMode {
 
-    private Dimension size;
-    private int bitDepth;
-    private int refreshRate;
+    privbte Dimension size;
+    privbte int bitDepth;
+    privbte int refreshRbte;
 
     /**
-     * Create a new display mode object with the supplied parameters.
-     * @param width the width of the display, in pixels
-     * @param height the height of the display, in pixels
-     * @param bitDepth the bit depth of the display, in bits per
-     *        pixel.  This can be <code>BIT_DEPTH_MULTI</code> if multiple
-     *        bit depths are available.
-     * @param refreshRate the refresh rate of the display, in hertz.
-     *        This can be <code>REFRESH_RATE_UNKNOWN</code> if the
-     *        information is not available.
+     * Crebte b new displby mode object with the supplied pbrbmeters.
+     * @pbrbm width the width of the displby, in pixels
+     * @pbrbm height the height of the displby, in pixels
+     * @pbrbm bitDepth the bit depth of the displby, in bits per
+     *        pixel.  This cbn be <code>BIT_DEPTH_MULTI</code> if multiple
+     *        bit depths bre bvbilbble.
+     * @pbrbm refreshRbte the refresh rbte of the displby, in hertz.
+     *        This cbn be <code>REFRESH_RATE_UNKNOWN</code> if the
+     *        informbtion is not bvbilbble.
      * @see #BIT_DEPTH_MULTI
      * @see #REFRESH_RATE_UNKNOWN
      */
-    public DisplayMode(int width, int height, int bitDepth, int refreshRate) {
+    public DisplbyMode(int width, int height, int bitDepth, int refreshRbte) {
         this.size = new Dimension(width, height);
         this.bitDepth = bitDepth;
-        this.refreshRate = refreshRate;
+        this.refreshRbte = refreshRbte;
     }
 
     /**
-     * Returns the height of the display, in pixels.
-     * @return the height of the display, in pixels
+     * Returns the height of the displby, in pixels.
+     * @return the height of the displby, in pixels
      */
     public int getHeight() {
         return size.height;
     }
 
     /**
-     * Returns the width of the display, in pixels.
-     * @return the width of the display, in pixels
+     * Returns the width of the displby, in pixels.
+     * @return the width of the displby, in pixels
      */
     public int getWidth() {
         return size.width;
     }
 
     /**
-     * Value of the bit depth if multiple bit depths are supported in this
-     * display mode.
+     * Vblue of the bit depth if multiple bit depths bre supported in this
+     * displby mode.
      * @see #getBitDepth
      */
-    @Native public final static int BIT_DEPTH_MULTI = -1;
+    @Nbtive public finbl stbtic int BIT_DEPTH_MULTI = -1;
 
     /**
-     * Returns the bit depth of the display, in bits per pixel.  This may be
-     * <code>BIT_DEPTH_MULTI</code> if multiple bit depths are supported in
-     * this display mode.
+     * Returns the bit depth of the displby, in bits per pixel.  This mby be
+     * <code>BIT_DEPTH_MULTI</code> if multiple bit depths bre supported in
+     * this displby mode.
      *
-     * @return the bit depth of the display, in bits per pixel.
+     * @return the bit depth of the displby, in bits per pixel.
      * @see #BIT_DEPTH_MULTI
      */
     public int getBitDepth() {
@@ -107,55 +107,55 @@ public final class DisplayMode {
     }
 
     /**
-     * Value of the refresh rate if not known.
-     * @see #getRefreshRate
+     * Vblue of the refresh rbte if not known.
+     * @see #getRefreshRbte
      */
-    @Native public final static int REFRESH_RATE_UNKNOWN = 0;
+    @Nbtive public finbl stbtic int REFRESH_RATE_UNKNOWN = 0;
 
     /**
-     * Returns the refresh rate of the display, in hertz.  This may be
-     * <code>REFRESH_RATE_UNKNOWN</code> if the information is not available.
+     * Returns the refresh rbte of the displby, in hertz.  This mby be
+     * <code>REFRESH_RATE_UNKNOWN</code> if the informbtion is not bvbilbble.
      *
-     * @return the refresh rate of the display, in hertz.
+     * @return the refresh rbte of the displby, in hertz.
      * @see #REFRESH_RATE_UNKNOWN
      */
-    public int getRefreshRate() {
-        return refreshRate;
+    public int getRefreshRbte() {
+        return refreshRbte;
     }
 
     /**
-     * Returns whether the two display modes are equal.
+     * Returns whether the two displby modes bre equbl.
      *
-     * @param  dm the display mode to compare to
-     * @return whether the two display modes are equal
+     * @pbrbm  dm the displby mode to compbre to
+     * @return whether the two displby modes bre equbl
      */
-    public boolean equals(DisplayMode dm) {
+    public boolebn equbls(DisplbyMode dm) {
         if (dm == null) {
-            return false;
+            return fblse;
         }
         return (getHeight() == dm.getHeight()
             && getWidth() == dm.getWidth()
             && getBitDepth() == dm.getBitDepth()
-            && getRefreshRate() == dm.getRefreshRate());
+            && getRefreshRbte() == dm.getRefreshRbte());
     }
 
     /**
      * {@inheritDoc}
      */
-    public boolean equals(Object dm) {
-        if (dm instanceof DisplayMode) {
-            return equals((DisplayMode)dm);
+    public boolebn equbls(Object dm) {
+        if (dm instbnceof DisplbyMode) {
+            return equbls((DisplbyMode)dm);
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    public int hashCode() {
+    public int hbshCode() {
         return getWidth() + getHeight() + getBitDepth() * 7
-            + getRefreshRate() * 13;
+            + getRefreshRbte() * 13;
     }
 
 }

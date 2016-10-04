@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
-import java.nio.file.attribute.*;
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.nio.file.bttribute.*;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
 
 /**
- * Helper class to support copying or moving files when the source and target
- * are associated with different providers.
+ * Helper clbss to support copying or moving files when the source bnd tbrget
+ * bre bssocibted with different providers.
  */
 
-class CopyMoveHelper {
-    private CopyMoveHelper() { }
+clbss CopyMoveHelper {
+    privbte CopyMoveHelper() { }
 
     /**
-     * Parses the arguments for a file copy operation.
+     * Pbrses the brguments for b file copy operbtion.
      */
-    private static class CopyOptions {
-        boolean replaceExisting = false;
-        boolean copyAttributes = false;
-        boolean followLinks = true;
+    privbte stbtic clbss CopyOptions {
+        boolebn replbceExisting = fblse;
+        boolebn copyAttributes = fblse;
+        boolebn followLinks = true;
 
-        private CopyOptions() { }
+        privbte CopyOptions() { }
 
-        static CopyOptions parse(CopyOption... options) {
+        stbtic CopyOptions pbrse(CopyOption... options) {
             CopyOptions result = new CopyOptions();
             for (CopyOption option: options) {
-                if (option == StandardCopyOption.REPLACE_EXISTING) {
-                    result.replaceExisting = true;
+                if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                    result.replbceExisting = true;
                     continue;
                 }
                 if (option == LinkOption.NOFOLLOW_LINKS) {
-                    result.followLinks = false;
+                    result.followLinks = fblse;
                     continue;
                 }
-                if (option == StandardCopyOption.COPY_ATTRIBUTES) {
+                if (option == StbndbrdCopyOption.COPY_ATTRIBUTES) {
                     result.copyAttributes = true;
                     continue;
                 }
                 if (option == null)
                     throw new NullPointerException();
-                throw new UnsupportedOperationException("'" + option +
-                    "' is not a recognized copy option");
+                throw new UnsupportedOperbtionException("'" + option +
+                    "' is not b recognized copy option");
             }
             return result;
         }
     }
 
     /**
-     * Converts the given array of options for moving a file to options suitable
-     * for copying the file when a move is implemented as copy + delete.
+     * Converts the given brrby of options for moving b file to options suitbble
+     * for copying the file when b move is implemented bs copy + delete.
      */
-    private static CopyOption[] convertMoveToCopyOptions(CopyOption... options)
+    privbte stbtic CopyOption[] convertMoveToCopyOptions(CopyOption... options)
         throws AtomicMoveNotSupportedException
     {
         int len = options.length;
         CopyOption[] newOptions = new CopyOption[len+2];
         for (int i=0; i<len; i++) {
             CopyOption option = options[i];
-            if (option == StandardCopyOption.ATOMIC_MOVE) {
+            if (option == StbndbrdCopyOption.ATOMIC_MOVE) {
                 throw new AtomicMoveNotSupportedException(null, null,
                     "Atomic move between providers is not supported");
             }
             newOptions[i] = option;
         }
         newOptions[len] = LinkOption.NOFOLLOW_LINKS;
-        newOptions[len+1] = StandardCopyOption.COPY_ATTRIBUTES;
+        newOptions[len+1] = StbndbrdCopyOption.COPY_ATTRIBUTES;
         return newOptions;
     }
 
     /**
-     * Simple copy for use when source and target are associated with different
+     * Simple copy for use when source bnd tbrget bre bssocibted with different
      * providers
      */
-    static void copyToForeignTarget(Path source, Path target,
+    stbtic void copyToForeignTbrget(Pbth source, Pbth tbrget,
                                     CopyOption... options)
         throws IOException
     {
-        CopyOptions opts = CopyOptions.parse(options);
+        CopyOptions opts = CopyOptions.pbrse(options);
         LinkOption[] linkOptions = (opts.followLinks) ? new LinkOption[0] :
             new LinkOption[] { LinkOption.NOFOLLOW_LINKS };
 
-        // attributes of source file
-        BasicFileAttributes attrs = Files.readAttributes(source,
-                                                         BasicFileAttributes.class,
+        // bttributes of source file
+        BbsicFileAttributes bttrs = Files.rebdAttributes(source,
+                                                         BbsicFileAttributes.clbss,
                                                          linkOptions);
-        if (attrs.isSymbolicLink())
+        if (bttrs.isSymbolicLink())
             throw new IOException("Copying of symbolic links not supported");
 
-        // delete target if it exists and REPLACE_EXISTING is specified
-        if (opts.replaceExisting) {
-            Files.deleteIfExists(target);
-        } else if (Files.exists(target))
-            throw new FileAlreadyExistsException(target.toString());
+        // delete tbrget if it exists bnd REPLACE_EXISTING is specified
+        if (opts.replbceExisting) {
+            Files.deleteIfExists(tbrget);
+        } else if (Files.exists(tbrget))
+            throw new FileAlrebdyExistsException(tbrget.toString());
 
-        // create directory or copy file
-        if (attrs.isDirectory()) {
-            Files.createDirectory(target);
+        // crebte directory or copy file
+        if (bttrs.isDirectory()) {
+            Files.crebteDirectory(tbrget);
         } else {
-            try (InputStream in = Files.newInputStream(source)) {
-                Files.copy(in, target);
+            try (InputStrebm in = Files.newInputStrebm(source)) {
+                Files.copy(in, tbrget);
             }
         }
 
-        // copy basic attributes to target
+        // copy bbsic bttributes to tbrget
         if (opts.copyAttributes) {
-            BasicFileAttributeView view =
-                Files.getFileAttributeView(target, BasicFileAttributeView.class);
+            BbsicFileAttributeView view =
+                Files.getFileAttributeView(tbrget, BbsicFileAttributeView.clbss);
             try {
-                view.setTimes(attrs.lastModifiedTime(),
-                              attrs.lastAccessTime(),
-                              attrs.creationTime());
-            } catch (Throwable x) {
-                // rollback
+                view.setTimes(bttrs.lbstModifiedTime(),
+                              bttrs.lbstAccessTime(),
+                              bttrs.crebtionTime());
+            } cbtch (Throwbble x) {
+                // rollbbck
                 try {
-                    Files.delete(target);
-                } catch (Throwable suppressed) {
-                    x.addSuppressed(suppressed);
+                    Files.delete(tbrget);
+                } cbtch (Throwbble suppressed) {
+                    x.bddSuppressed(suppressed);
                 }
                 throw x;
             }
@@ -148,13 +148,13 @@ class CopyMoveHelper {
     }
 
     /**
-     * Simple move implements as copy+delete for use when source and target are
-     * associated with different providers
+     * Simple move implements bs copy+delete for use when source bnd tbrget bre
+     * bssocibted with different providers
      */
-    static void moveToForeignTarget(Path source, Path target,
+    stbtic void moveToForeignTbrget(Pbth source, Pbth tbrget,
                                     CopyOption... options) throws IOException
     {
-        copyToForeignTarget(source, target, convertMoveToCopyOptions(options));
+        copyToForeignTbrget(source, tbrget, convertMoveToCopyOptions(options));
         Files.delete(source);
     }
 }

@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.jgss;
+pbckbge com.sun.security.jgss;
 
-import javax.security.auth.Subject;
-import org.ietf.jgss.GSSName;
-import org.ietf.jgss.GSSCredential;
+import jbvbx.security.buth.Subject;
+import org.ietf.jgss.GSSNbme;
+import org.ietf.jgss.GSSCredentibl;
 
 /**
  * GSS-API Utilities for using in conjunction with Sun Microsystem's
- * implementation of Java GSS-API.
+ * implementbtion of Jbvb GSS-API.
  */
 @jdk.Exported
-public class GSSUtil {
+public clbss GSSUtil {
 
     /**
-     * Use this method to convert a GSSName and GSSCredential into a
-     * Subject. Typically this would be done by a server that wants to
-     * impersonate a client thread at the Java level by setting a client
-     * Subject in the current access control context. If the server is merely
-     * interested in using a principal based policy in its local JVM, then
-     * it only needs to provide the GSSName of the client.
+     * Use this method to convert b GSSNbme bnd GSSCredentibl into b
+     * Subject. Typicblly this would be done by b server thbt wbnts to
+     * impersonbte b client threbd bt the Jbvb level by setting b client
+     * Subject in the current bccess control context. If the server is merely
+     * interested in using b principbl bbsed policy in its locbl JVM, then
+     * it only needs to provide the GSSNbme of the client.
      *
-     * The elements from the GSSName are placed in the principals set of this
-     * Subject and those from the GSSCredential are placed in the private
-     * credentials set of the Subject. Any Kerberos specific elements that
-     * are added to the subject will be instances of the standard Kerberos
-     * implementation classes defined in javax.security.auth.kerberos.
+     * The elements from the GSSNbme bre plbced in the principbls set of this
+     * Subject bnd those from the GSSCredentibl bre plbced in the privbte
+     * credentibls set of the Subject. Any Kerberos specific elements thbt
+     * bre bdded to the subject will be instbnces of the stbndbrd Kerberos
+     * implementbtion clbsses defined in jbvbx.security.buth.kerberos.
      *
-     * @return a Subject with the entries that contain elements from the
-     * given GSSName and GSSCredential.
+     * @return b Subject with the entries thbt contbin elements from the
+     * given GSSNbme bnd GSSCredentibl.
      *
-     * @param principals a GSSName containing one or more mechanism specific
-     * representations of the same entity. These mechanism specific
-     * representations will be populated in the returned Subject's principal
+     * @pbrbm principbls b GSSNbme contbining one or more mechbnism specific
+     * representbtions of the sbme entity. These mechbnism specific
+     * representbtions will be populbted in the returned Subject's principbl
      * set.
      *
-     * @param credentials a GSSCredential containing one or more mechanism
-     * specific credentials for the same entity. These mechanism specific
-     * credentials will be populated in the returned Subject's private
-     * credential set. Passing in a value of null will imply that the private
-     * credential set should be left empty.
+     * @pbrbm credentibls b GSSCredentibl contbining one or more mechbnism
+     * specific credentibls for the sbme entity. These mechbnism specific
+     * credentibls will be populbted in the returned Subject's privbte
+     * credentibl set. Pbssing in b vblue of null will imply thbt the privbte
+     * credentibl set should be left empty.
      */
-    public static Subject createSubject(GSSName principals,
-                                     GSSCredential credentials) {
+    public stbtic Subject crebteSubject(GSSNbme principbls,
+                                     GSSCredentibl credentibls) {
 
-        return  sun.security.jgss.GSSUtil.getSubject(principals,
-                                                     credentials);
+        return  sun.security.jgss.GSSUtil.getSubject(principbls,
+                                                     credentibls);
     }
 }

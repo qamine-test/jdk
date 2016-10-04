@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import sun.awt.SunToolkit;
-import sun.awt.X11GraphicsConfig;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.BufferedImbge;
+import sun.bwt.SunToolkit;
+import sun.bwt.X11GrbphicsConfig;
+import sun.util.logging.PlbtformLogger;
 
 /**
-* A simple vertical scroll bar.
+* A simple verticbl scroll bbr.
 */
-abstract class XScrollbar {
+bbstrbct clbss XScrollbbr {
 
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XScrollbar");
+    privbte stbtic PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XScrollbbr");
     /**
-     * The thread that asynchronously tells the scrollbar to scroll.
-     * @see #startScrolling
+     * The threbd thbt bsynchronously tells the scrollbbr to scroll.
+     * @see #stbrtScrolling
      */
-    private static XScrollRepeater scroller = new XScrollRepeater(null);
+    privbte stbtic XScrollRepebter scroller = new XScrollRepebter(null);
     /*
-     * The repeater that used for concurrent scrolling of the vertical and horizontal scrollbar
-     * And so there is not static keyword
-     * See 6243382 for more information
+     * The repebter thbt used for concurrent scrolling of the verticbl bnd horizontbl scrollbbr
+     * And so there is not stbtic keyword
+     * See 6243382 for more informbtion
      */
-    private XScrollRepeater i_scroller = new XScrollRepeater(null);
+    privbte XScrollRepebter i_scroller = new XScrollRepebter(null);
 
-    // Thumb length is always >= MIN_THUMB_H
-    private final static int MIN_THUMB_H = 5;
+    // Thumb length is blwbys >= MIN_THUMB_H
+    privbte finbl stbtic int MIN_THUMB_H = 5;
 
-    private static final int ARROW_IND = 1;
+    privbte stbtic finbl int ARROW_IND = 1;
 
-    XScrollbarClient sb;
+    XScrollbbrClient sb;
 
-    //Use set methods to set scrollbar parameters
-    private int val;
-    private int min;
-    private int max;
-    private int vis;
+    //Use set methods to set scrollbbr pbrbmeters
+    privbte int vbl;
+    privbte int min;
+    privbte int mbx;
+    privbte int vis;
 
-    private int line;
-    private int page;
-    private boolean needsRepaint = true;
-    private boolean pressed = false;
-    private boolean dragging = false;
+    privbte int line;
+    privbte int pbge;
+    privbte boolebn needsRepbint = true;
+    privbte boolebn pressed = fblse;
+    privbte boolebn drbgging = fblse;
 
     Polygon firstArrow, secondArrow;
 
-    int width, height; // Dimensions of the visible part of the parent window
-    int barWidth, barLength; // Rotation-independent values,
-                             // equal to (width, height) for vertical,
-                             // rotated by 90 for horizontal.
-                             // That is, barLength is always the length between
-                             // the tips of the arrows.
-    int arrowArea;     // The area reserved for the scroll arrows
-    int alignment;
-    public static final int ALIGNMENT_VERTICAL = 1, ALIGNMENT_HORIZONTAL = 2;
+    int width, height; // Dimensions of the visible pbrt of the pbrent window
+    int bbrWidth, bbrLength; // Rotbtion-independent vblues,
+                             // equbl to (width, height) for verticbl,
+                             // rotbted by 90 for horizontbl.
+                             // Thbt is, bbrLength is blwbys the length between
+                             // the tips of the brrows.
+    int brrowAreb;     // The breb reserved for the scroll brrows
+    int blignment;
+    public stbtic finbl int ALIGNMENT_VERTICAL = 1, ALIGNMENT_HORIZONTAL = 2;
 
     int mode;
     Point thumbOffset;
-    private Rectangle prevThumb;
+    privbte Rectbngle prevThumb;
 
-    public XScrollbar(int alignment, XScrollbarClient sb) {
+    public XScrollbbr(int blignment, XScrollbbrClient sb) {
         this.sb = sb;
-        this.alignment = alignment;
+        this.blignment = blignment;
     }
 
-    public boolean needsRepaint() {
-        return needsRepaint;
+    public boolebn needsRepbint() {
+        return needsRepbint;
     }
 
-    void notifyValue(int v) {
-        notifyValue(v, false);
+    void notifyVblue(int v) {
+        notifyVblue(v, fblse);
     }
 
-    void notifyValue(int v, final boolean isAdjusting) {
+    void notifyVblue(int v, finbl boolebn isAdjusting) {
         if (v < min) {
             v = min;
-        } else if (v > max - vis) {
-            v = max - vis;
+        } else if (v > mbx - vis) {
+            v = mbx - vis;
         }
-        final int value = v;
-        final int mode = this.mode;
-        if ((sb != null) && ((value != val)||(!pressed))) {
-            SunToolkit.executeOnEventHandlerThread(sb.getEventSource(), new Runnable() {
+        finbl int vblue = v;
+        finbl int mode = this.mode;
+        if ((sb != null) && ((vblue != vbl)||(!pressed))) {
+            SunToolkit.executeOnEventHbndlerThrebd(sb.getEventSource(), new Runnbble() {
                     public void run() {
-                        sb.notifyValue(XScrollbar.this, mode, value, isAdjusting);
+                        sb.notifyVblue(XScrollbbr.this, mode, vblue, isAdjusting);
                     }
                 });
         }
     }
 
-    abstract protected void rebuildArrows();
+    bbstrbct protected void rebuildArrows();
 
     public void setSize(int width, int height) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("Setting scroll bar " + this + " size to " + width + "x" + height);
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("Setting scroll bbr " + this + " size to " + width + "x" + height);
         }
         this.width = width;
         this.height = height;
     }
 
     /**
-     * Creates oriented directed arrow
+     * Crebtes oriented directed brrow
      */
-    protected Polygon createArrowShape(boolean vertical, boolean up) {
-        Polygon arrow = new Polygon();
-        // TODO: this should be done polymorphically in subclasses
-        // FIXME: arrows overlap the thumb for very wide scrollbars
-        if (vertical) {
+    protected Polygon crebteArrowShbpe(boolebn verticbl, boolebn up) {
+        Polygon brrow = new Polygon();
+        // TODO: this should be done polymorphicblly in subclbsses
+        // FIXME: brrows overlbp the thumb for very wide scrollbbrs
+        if (verticbl) {
             int x = width / 2 - getArrowWidth()/2;
-            int y1 = (up ? ARROW_IND : barLength - ARROW_IND);
-            int y2 = (up ? getArrowWidth() : barLength - getArrowWidth() - ARROW_IND);
-            arrow.addPoint(x + getArrowWidth()/2, y1);
-            arrow.addPoint(x + getArrowWidth(), y2);
-            arrow.addPoint(x, y2);
-            arrow.addPoint(x + getArrowWidth()/2, y1);
+            int y1 = (up ? ARROW_IND : bbrLength - ARROW_IND);
+            int y2 = (up ? getArrowWidth() : bbrLength - getArrowWidth() - ARROW_IND);
+            brrow.bddPoint(x + getArrowWidth()/2, y1);
+            brrow.bddPoint(x + getArrowWidth(), y2);
+            brrow.bddPoint(x, y2);
+            brrow.bddPoint(x + getArrowWidth()/2, y1);
         } else {
             int y = height / 2 - getArrowWidth()/2;
-            int x1 = (up ? ARROW_IND : barLength - ARROW_IND);
-            int x2 = (up ? getArrowWidth() : barLength - getArrowWidth() - ARROW_IND);
-            arrow.addPoint(x1, y + getArrowWidth()/2);
-            arrow.addPoint(x2, y + getArrowWidth());
-            arrow.addPoint(x2, y);
-            arrow.addPoint(x1, y + getArrowWidth()/2);
+            int x1 = (up ? ARROW_IND : bbrLength - ARROW_IND);
+            int x2 = (up ? getArrowWidth() : bbrLength - getArrowWidth() - ARROW_IND);
+            brrow.bddPoint(x1, y + getArrowWidth()/2);
+            brrow.bddPoint(x2, y + getArrowWidth());
+            brrow.bddPoint(x2, y);
+            brrow.bddPoint(x1, y + getArrowWidth()/2);
         }
-        return arrow;
+        return brrow;
     }
 
     /**
-     * Gets the area of the scroll track
+     * Gets the breb of the scroll trbck
      */
-    protected abstract Rectangle getThumbArea();
+    protected bbstrbct Rectbngle getThumbAreb();
 
     /**
-     * paint the scrollbar
-     * @param g the graphics context to paint into
-     * @param colors the colors to use when painting the scrollbar
-     * @param width the width of the scrollbar
-     * @param height the height of the scrollbar
-     * @param paintAll paint the whole scrollbar if true, just the thumb is false
+     * pbint the scrollbbr
+     * @pbrbm g the grbphics context to pbint into
+     * @pbrbm colors the colors to use when pbinting the scrollbbr
+     * @pbrbm width the width of the scrollbbr
+     * @pbrbm height the height of the scrollbbr
+     * @pbrbm pbintAll pbint the whole scrollbbr if true, just the thumb is fblse
      */
-    void paint(Graphics g, Color colors[], boolean paintAll) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("Painting scrollbar " + this);
+    void pbint(Grbphics g, Color colors[], boolebn pbintAll) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("Pbinting scrollbbr " + this);
         }
 
-        boolean useBufferedImage = false;
-        Graphics2D g2 = null;
-        BufferedImage buffer = null;
-        if (!(g instanceof Graphics2D)) {
-            // Fix for 5045936, 5055171. While printing, g is an instance
-            //   of sun.print.ProxyPrintGraphics which extends Graphics.
-            //   So we use a separate buffered image and its graphics is
-            //   always Graphics2D instance
-            X11GraphicsConfig graphicsConfig = (X11GraphicsConfig)(sb.getEventSource().getGraphicsConfiguration());
-            buffer = graphicsConfig.createCompatibleImage(width, height);
-            g2 = buffer.createGraphics();
-            useBufferedImage = true;
+        boolebn useBufferedImbge = fblse;
+        Grbphics2D g2 = null;
+        BufferedImbge buffer = null;
+        if (!(g instbnceof Grbphics2D)) {
+            // Fix for 5045936, 5055171. While printing, g is bn instbnce
+            //   of sun.print.ProxyPrintGrbphics which extends Grbphics.
+            //   So we use b sepbrbte buffered imbge bnd its grbphics is
+            //   blwbys Grbphics2D instbnce
+            X11GrbphicsConfig grbphicsConfig = (X11GrbphicsConfig)(sb.getEventSource().getGrbphicsConfigurbtion());
+            buffer = grbphicsConfig.crebteCompbtibleImbge(width, height);
+            g2 = buffer.crebteGrbphics();
+            useBufferedImbge = true;
         } else {
-            g2 = (Graphics2D)g;
+            g2 = (Grbphics2D)g;
         }
         try {
-            Rectangle thumbRect = calculateThumbRect();
+            Rectbngle thumbRect = cblculbteThumbRect();
 
 //              if (prevH == thumbH && prevY == thumbPosY) {
 //                  return;
@@ -194,23 +194,23 @@ abstract class XScrollbar {
 
             prevThumb = thumbRect;
 
-            // TODO: Share Motif colors
-            Color back = colors[XComponentPeer.BACKGROUND_COLOR];
-            Color selectColor = new Color(MotifColorUtilities.calculateSelectFromBackground(back.getRed(),back.getGreen(),back.getBlue()));
-            Color darkShadow = new Color(MotifColorUtilities.calculateBottomShadowFromBackground(back.getRed(),back.getGreen(),back.getBlue()));
-            Color lightShadow = new Color(MotifColorUtilities.calculateTopShadowFromBackground(back.getRed(),back.getGreen(),back.getBlue()));
+            // TODO: Shbre Motif colors
+            Color bbck = colors[XComponentPeer.BACKGROUND_COLOR];
+            Color selectColor = new Color(MotifColorUtilities.cblculbteSelectFromBbckground(bbck.getRed(),bbck.getGreen(),bbck.getBlue()));
+            Color dbrkShbdow = new Color(MotifColorUtilities.cblculbteBottomShbdowFromBbckground(bbck.getRed(),bbck.getGreen(),bbck.getBlue()));
+            Color lightShbdow = new Color(MotifColorUtilities.cblculbteTopShbdowFromBbckground(bbck.getRed(),bbck.getGreen(),bbck.getBlue()));
 
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XFlush(XToolkit.getDisplay());
-            } finally {
-                XToolkit.awtUnlock();
+                XlibWrbpper.XFlush(XToolkit.getDisplby());
+            } finblly {
+                XToolkit.bwtUnlock();
             }
-            /* paint the background slightly darker */
-            if (paintAll) {
-                // fill the entire background
+            /* pbint the bbckground slightly dbrker */
+            if (pbintAll) {
+                // fill the entire bbckground
                 g2.setColor(selectColor);
-                if (alignment == ALIGNMENT_HORIZONTAL) {
+                if (blignment == ALIGNMENT_HORIZONTAL) {
                     g2.fillRect(0, 0, thumbRect.x, height);
                     g2.fillRect(thumbRect.x + thumbRect.width , 0, width - (thumbRect.x + thumbRect.width), height);
                 } else {
@@ -218,26 +218,26 @@ abstract class XScrollbar {
                     g2.fillRect(0, thumbRect.y + thumbRect.height, width, height - (thumbRect.y + thumbRect.height));
                 }
 
-                // Paint edges
-                // TODO: Share Motif 3d rect drawing
+                // Pbint edges
+                // TODO: Shbre Motif 3d rect drbwing
 
-                g2.setColor(darkShadow);
-                g2.drawLine(0, 0, width-1, 0);           // top
-                g2.drawLine(0, 0, 0, height-1);          // left
+                g2.setColor(dbrkShbdow);
+                g2.drbwLine(0, 0, width-1, 0);           // top
+                g2.drbwLine(0, 0, 0, height-1);          // left
 
-                g2.setColor(lightShadow);
-                g2.drawLine(1, height-1, width-1, height-1); // bottom
-                g2.drawLine(width-1, 1, width-1, height-1);  // right
+                g2.setColor(lightShbdow);
+                g2.drbwLine(1, height-1, width-1, height-1); // bottom
+                g2.drbwLine(width-1, 1, width-1, height-1);  // right
             } else {
-                // Clear all thumb area
+                // Clebr bll thumb breb
                 g2.setColor(selectColor);
-                Rectangle thumbArea = getThumbArea();
-                g2.fill(thumbArea);
+                Rectbngle thumbAreb = getThumbAreb();
+                g2.fill(thumbAreb);
             }
 
-            if (paintAll) {
-                // ************ paint the arrows
-                 paintArrows(g2, colors[XComponentPeer.BACKGROUND_COLOR], darkShadow, lightShadow );
+            if (pbintAll) {
+                // ************ pbint the brrows
+                 pbintArrows(g2, colors[XComponentPeer.BACKGROUND_COLOR], dbrkShbdow, lightShbdow );
 
             }
 
@@ -245,90 +245,90 @@ abstract class XScrollbar {
             g2.setColor(colors[XComponentPeer.BACKGROUND_COLOR]);
             g2.fillRect(thumbRect.x, thumbRect.y, thumbRect.width, thumbRect.height);
 
-            g2.setColor(lightShadow);
-            g2.drawLine(thumbRect.x, thumbRect.y,
+            g2.setColor(lightShbdow);
+            g2.drbwLine(thumbRect.x, thumbRect.y,
                        thumbRect.x + thumbRect.width, thumbRect.y); // top
-            g2.drawLine(thumbRect.x, thumbRect.y,
+            g2.drbwLine(thumbRect.x, thumbRect.y,
                        thumbRect.x, thumbRect.y+thumbRect.height); // left
 
-            g2.setColor(darkShadow);
-            g2.drawLine(thumbRect.x+1,
+            g2.setColor(dbrkShbdow);
+            g2.drbwLine(thumbRect.x+1,
                        thumbRect.y+thumbRect.height,
                        thumbRect.x+thumbRect.width,
                        thumbRect.y+thumbRect.height);  // bottom
-            g2.drawLine(thumbRect.x+thumbRect.width,
+            g2.drbwLine(thumbRect.x+thumbRect.width,
                        thumbRect.y+1,
                        thumbRect.x+thumbRect.width,
                        thumbRect.y+thumbRect.height); // right
-        } finally {
-            if (useBufferedImage) {
+        } finblly {
+            if (useBufferedImbge) {
                 g2.dispose();
             }
         }
-        if (useBufferedImage) {
-            g.drawImage(buffer, 0, 0, null);
+        if (useBufferedImbge) {
+            g.drbwImbge(buffer, 0, 0, null);
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XFlush(XToolkit.getDisplay());
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XFlush(XToolkit.getDisplby());
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-      void paintArrows(Graphics2D g, Color background, Color darkShadow, Color lightShadow) {
+      void pbintArrows(Grbphics2D g, Color bbckground, Color dbrkShbdow, Color lightShbdow) {
 
-          g.setColor(background);
+          g.setColor(bbckground);
 
-        // paint firstArrow
+        // pbint firstArrow
         if (pressed && (mode == AdjustmentEvent.UNIT_DECREMENT)) {
             g.fill(firstArrow);
-            g.setColor(lightShadow);
-            g.drawLine(firstArrow.xpoints[0],firstArrow.ypoints[0],
+            g.setColor(lightShbdow);
+            g.drbwLine(firstArrow.xpoints[0],firstArrow.ypoints[0],
                     firstArrow.xpoints[1],firstArrow.ypoints[1]);
-            g.drawLine(firstArrow.xpoints[1],firstArrow.ypoints[1],
+            g.drbwLine(firstArrow.xpoints[1],firstArrow.ypoints[1],
                     firstArrow.xpoints[2],firstArrow.ypoints[2]);
-            g.setColor(darkShadow);
-            g.drawLine(firstArrow.xpoints[2],firstArrow.ypoints[2],
+            g.setColor(dbrkShbdow);
+            g.drbwLine(firstArrow.xpoints[2],firstArrow.ypoints[2],
                     firstArrow.xpoints[0],firstArrow.ypoints[0]);
 
         }
         else {
             g.fill(firstArrow);
-            g.setColor(darkShadow);
-            g.drawLine(firstArrow.xpoints[0],firstArrow.ypoints[0],
+            g.setColor(dbrkShbdow);
+            g.drbwLine(firstArrow.xpoints[0],firstArrow.ypoints[0],
                     firstArrow.xpoints[1],firstArrow.ypoints[1]);
-            g.drawLine(firstArrow.xpoints[1],firstArrow.ypoints[1],
+            g.drbwLine(firstArrow.xpoints[1],firstArrow.ypoints[1],
                     firstArrow.xpoints[2],firstArrow.ypoints[2]);
-            g.setColor(lightShadow);
-            g.drawLine(firstArrow.xpoints[2],firstArrow.ypoints[2],
+            g.setColor(lightShbdow);
+            g.drbwLine(firstArrow.xpoints[2],firstArrow.ypoints[2],
                     firstArrow.xpoints[0],firstArrow.ypoints[0]);
 
         }
 
-        g.setColor(background);
-        // paint second Arrow
+        g.setColor(bbckground);
+        // pbint second Arrow
         if (pressed && (mode == AdjustmentEvent.UNIT_INCREMENT)) {
             g.fill(secondArrow);
-            g.setColor(lightShadow);
-            g.drawLine(secondArrow.xpoints[0],secondArrow.ypoints[0],
+            g.setColor(lightShbdow);
+            g.drbwLine(secondArrow.xpoints[0],secondArrow.ypoints[0],
                     secondArrow.xpoints[1],secondArrow.ypoints[1]);
-            g.setColor(darkShadow);
-            g.drawLine(secondArrow.xpoints[1],secondArrow.ypoints[1],
+            g.setColor(dbrkShbdow);
+            g.drbwLine(secondArrow.xpoints[1],secondArrow.ypoints[1],
                     secondArrow.xpoints[2],secondArrow.ypoints[2]);
-            g.drawLine(secondArrow.xpoints[2],secondArrow.ypoints[2],
+            g.drbwLine(secondArrow.xpoints[2],secondArrow.ypoints[2],
                     secondArrow.xpoints[0],secondArrow.ypoints[0]);
 
         }
         else {
             g.fill(secondArrow);
-            g.setColor(darkShadow);
-            g.drawLine(secondArrow.xpoints[0],secondArrow.ypoints[0],
+            g.setColor(dbrkShbdow);
+            g.drbwLine(secondArrow.xpoints[0],secondArrow.ypoints[0],
                     secondArrow.xpoints[1],secondArrow.ypoints[1]);
-            g.setColor(lightShadow);
-            g.drawLine(secondArrow.xpoints[1],secondArrow.ypoints[1],
+            g.setColor(lightShbdow);
+            g.drbwLine(secondArrow.xpoints[1],secondArrow.ypoints[1],
                     secondArrow.xpoints[2],secondArrow.ypoints[2]);
-            g.drawLine(secondArrow.xpoints[2],secondArrow.ypoints[2],
+            g.drbwLine(secondArrow.xpoints[2],secondArrow.ypoints[2],
                     secondArrow.xpoints[0],secondArrow.ypoints[0]);
 
         }
@@ -336,47 +336,47 @@ abstract class XScrollbar {
     }
 
     /**
-     * Tell the scroller to start scrolling.
+     * Tell the scroller to stbrt scrolling.
      */
-    void startScrolling() {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("Start scrolling on " + this);
+    void stbrtScrolling() {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("Stbrt scrolling on " + this);
         }
-        // Make sure that we scroll at least once
+        // Mbke sure thbt we scroll bt lebst once
         scroll();
 
-        // wake up the scroll repeater
+        // wbke up the scroll repebter
         if (scroller == null) {
-            // If there isn't a scroller, then create
-            // one and start it.
-            scroller = new XScrollRepeater(this);
+            // If there isn't b scroller, then crebte
+            // one bnd stbrt it.
+            scroller = new XScrollRepebter(this);
         } else {
-            scroller.setScrollbar(this);
+            scroller.setScrollbbr(this);
         }
-        scroller.start();
+        scroller.stbrt();
     }
 
     /**
-     * Tell the instance scroller to start scrolling.
-     * See 6243382 for more information
+     * Tell the instbnce scroller to stbrt scrolling.
+     * See 6243382 for more informbtion
      */
-    void startScrollingInstance() {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("Start scrolling on " + this);
+    void stbrtScrollingInstbnce() {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("Stbrt scrolling on " + this);
         }
-        // Make sure that we scroll at least once
+        // Mbke sure thbt we scroll bt lebst once
         scroll();
 
-        i_scroller.setScrollbar(this);
-        i_scroller.start();
+        i_scroller.setScrollbbr(this);
+        i_scroller.stbrt();
     }
 
     /**
-     * Tell the instance scroller to stop scrolling.
-     * See 6243382 for more information
+     * Tell the instbnce scroller to stop scrolling.
+     * See 6243382 for more informbtion
      */
-    void stopScrollingInstance() {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
+    void stopScrollingInstbnce() {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
             log.finer("Stop scrolling on " + this);
         }
 
@@ -385,7 +385,7 @@ abstract class XScrollbar {
 
     /**
      * The set method for mode property.
-     * See 6243382 for more information
+     * See 6243382 for more informbtion
      */
     public void setMode(int mode){
         this.mode = mode;
@@ -393,64 +393,64 @@ abstract class XScrollbar {
 
     /**
      * Scroll one unit.
-     * @see notifyValue
+     * @see notifyVblue
      */
     void scroll() {
         switch (mode) {
-          case AdjustmentEvent.UNIT_DECREMENT:
-              notifyValue(val - line);
+          cbse AdjustmentEvent.UNIT_DECREMENT:
+              notifyVblue(vbl - line);
               return;
 
-          case AdjustmentEvent.UNIT_INCREMENT:
-              notifyValue(val + line);
+          cbse AdjustmentEvent.UNIT_INCREMENT:
+              notifyVblue(vbl + line);
               return;
 
-          case AdjustmentEvent.BLOCK_DECREMENT:
-              notifyValue(val - page);
+          cbse AdjustmentEvent.BLOCK_DECREMENT:
+              notifyVblue(vbl - pbge);
               return;
 
-          case AdjustmentEvent.BLOCK_INCREMENT:
-              notifyValue(val + page);
+          cbse AdjustmentEvent.BLOCK_INCREMENT:
+              notifyVblue(vbl + pbge);
               return;
         }
         return;
     }
 
-    boolean isInArrow(int x, int y) {
-        // Mouse is considered to be in the arrow if it is anywhere in the
-        // arrow area.
-        int coord = (alignment == ALIGNMENT_HORIZONTAL ? x : y);
-        int arrAreaH = getArrowAreaWidth();
+    boolebn isInArrow(int x, int y) {
+        // Mouse is considered to be in the brrow if it is bnywhere in the
+        // brrow breb.
+        int coord = (blignment == ALIGNMENT_HORIZONTAL ? x : y);
+        int brrArebH = getArrowArebWidth();
 
-        if (coord < arrAreaH || coord > barLength - arrAreaH + 1) {
+        if (coord < brrArebH || coord > bbrLength - brrArebH + 1) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
      * Is x,y in the scroll thumb?
      *
-     * If we ever cache the thumb rect, we may need to clone the result of
-     * calculateThumbRect().
+     * If we ever cbche the thumb rect, we mby need to clone the result of
+     * cblculbteThumbRect().
      */
-    boolean isInThumb(int x, int y) {
-        Rectangle thumbRect = calculateThumbRect();
+    boolebn isInThumb(int x, int y) {
+        Rectbngle thumbRect = cblculbteThumbRect();
 
-        // If the mouse is in the shadow of the thumb or the shadow of the
-        // scroll track, treat it as hitting the thumb.  So, slightly enlarge
-        // our rectangle.
+        // If the mouse is in the shbdow of the thumb or the shbdow of the
+        // scroll trbck, trebt it bs hitting the thumb.  So, slightly enlbrge
+        // our rectbngle.
         thumbRect.x -= 1;
         thumbRect.width += 3;
         thumbRect.height += 1;
-        return thumbRect.contains(x,y);
+        return thumbRect.contbins(x,y);
     }
 
-    abstract boolean beforeThumb(int x, int y);
+    bbstrbct boolebn beforeThumb(int x, int y);
 
     /**
      *
-     * @see java.awt.event.MouseEvent
+     * @see jbvb.bwt.event.MouseEvent
      * MouseEvent.MOUSE_CLICKED
      * MouseEvent.MOUSE_PRESSED
      * MouseEvent.MOUSE_RELEASED
@@ -459,34 +459,34 @@ abstract class XScrollbar {
      * MouseEvent.MOUSE_EXITED
      * MouseEvent.MOUSE_DRAGGED
      */
-    public void handleMouseEvent(int id, int modifiers, int x, int y) {
+    public void hbndleMouseEvent(int id, int modifiers, int x, int y) {
         if ((modifiers & InputEvent.BUTTON1_MASK) == 0) {
             return;
         }
 
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
              String type;
              switch (id) {
-                case MouseEvent.MOUSE_PRESSED:
+                cbse MouseEvent.MOUSE_PRESSED:
                     type = "press";
-                    break;
-                case MouseEvent.MOUSE_RELEASED:
-                    type = "release";
-                    break;
-                case MouseEvent.MOUSE_DRAGGED:
-                    type = "drag";
-                    break;
-                default:
+                    brebk;
+                cbse MouseEvent.MOUSE_RELEASED:
+                    type = "relebse";
+                    brebk;
+                cbse MouseEvent.MOUSE_DRAGGED:
+                    type = "drbg";
+                    brebk;
+                defbult:
                     type = "other";
              }
-             log.finer("Mouse " + type + " event in scroll bar " + this +
+             log.finer("Mouse " + type + " event in scroll bbr " + this +
                                                    "x = " + x + ", y = " + y +
-                                                   ", on arrow: " + isInArrow(x, y) +
+                                                   ", on brrow: " + isInArrow(x, y) +
                                                    ", on thumb: " + isInThumb(x, y) + ", before thumb: " + beforeThumb(x, y)
-                                                   + ", thumb rect" + calculateThumbRect());
+                                                   + ", thumb rect" + cblculbteThumbRect());
         }
         switch (id) {
-          case MouseEvent.MOUSE_PRESSED:
+          cbse MouseEvent.MOUSE_PRESSED:
               if (isInArrow(x, y)) {
                   pressed = true;
                   if (beforeThumb(x, y)) {
@@ -494,9 +494,9 @@ abstract class XScrollbar {
                   } else {
                       mode = AdjustmentEvent.UNIT_INCREMENT;
                   }
-                  sb.repaintScrollbarRequest(this);
-                  startScrolling();
-                  break;
+                  sb.repbintScrollbbrRequest(this);
+                  stbrtScrolling();
+                  brebk;
               }
 
               if (isInThumb(x, y)) {
@@ -507,404 +507,404 @@ abstract class XScrollbar {
                   } else {
                       mode = AdjustmentEvent.BLOCK_INCREMENT;
                   }
-                  startScrolling();
+                  stbrtScrolling();
               }
-              Rectangle pos = calculateThumbRect();
+              Rectbngle pos = cblculbteThumbRect();
               thumbOffset = new Point(x - pos.x, y - pos.y);
-              break;
+              brebk;
 
-          case MouseEvent.MOUSE_RELEASED:
-              pressed = false;
-              sb.repaintScrollbarRequest(this);
+          cbse MouseEvent.MOUSE_RELEASED:
+              pressed = fblse;
+              sb.repbintScrollbbrRequest(this);
               scroller.stop();
-              if(dragging){
-                  handleTrackEvent(x, y, false);
-                  dragging=false;
+              if(drbgging){
+                  hbndleTrbckEvent(x, y, fblse);
+                  drbgging=fblse;
               }
-              break;
+              brebk;
 
-          case MouseEvent.MOUSE_DRAGGED:
-              dragging = true;
-              handleTrackEvent(x, y, true);
+          cbse MouseEvent.MOUSE_DRAGGED:
+              drbgging = true;
+              hbndleTrbckEvent(x, y, true);
         }
     }
 
-    private void handleTrackEvent(int x, int y, boolean isAdjusting){
+    privbte void hbndleTrbckEvent(int x, int y, boolebn isAdjusting){
         if (mode == AdjustmentEvent.TRACK) {
-            notifyValue(calculateCursorOffset(x, y), isAdjusting);
+            notifyVblue(cblculbteCursorOffset(x, y), isAdjusting);
         }
     }
 
-    private int calculateCursorOffset(int x, int y){
-        if (alignment == ALIGNMENT_HORIZONTAL) {
-            if (dragging)
-                return Math.max(0,(int)((x - (thumbOffset.x + getArrowAreaWidth()))/getScaleFactor())) + min;
+    privbte int cblculbteCursorOffset(int x, int y){
+        if (blignment == ALIGNMENT_HORIZONTAL) {
+            if (drbgging)
+                return Mbth.mbx(0,(int)((x - (thumbOffset.x + getArrowArebWidth()))/getScbleFbctor())) + min;
             else
-                return Math.max(0,(int)((x - (getArrowAreaWidth()))/getScaleFactor())) + min;
+                return Mbth.mbx(0,(int)((x - (getArrowArebWidth()))/getScbleFbctor())) + min;
         } else {
-            if (dragging)
-                return Math.max(0,(int)((y - (thumbOffset.y + getArrowAreaWidth()))/getScaleFactor())) + min;
+            if (drbgging)
+                return Mbth.mbx(0,(int)((y - (thumbOffset.y + getArrowArebWidth()))/getScbleFbctor())) + min;
             else
-                return Math.max(0,(int)((y - (getArrowAreaWidth()))/getScaleFactor())) + min;
+                return Mbth.mbx(0,(int)((y - (getArrowArebWidth()))/getScbleFbctor())) + min;
         }
     }
 
 /*
-  private void updateNeedsRepaint() {
-        Rectangle thumbRect = calculateThumbRect();
-        if (!prevThumb.equals(thumbRect)) {
-            needsRepaint = true;
+  privbte void updbteNeedsRepbint() {
+        Rectbngle thumbRect = cblculbteThumbRect();
+        if (!prevThumb.equbls(thumbRect)) {
+            needsRepbint = true;
         }
         prevThumb = thumbRect;
     }
     */
 
     /**
-     * Sets the values for this Scrollbar.
-     * This method enforces the same constraints as in java.awt.Scrollbar:
+     * Sets the vblues for this Scrollbbr.
+     * This method enforces the sbme constrbints bs in jbvb.bwt.Scrollbbr:
      * <UL>
-     * <LI> The maximum must be greater than the minimum </LI>
-     * <LI> The value must be greater than or equal to the minimum
-     *      and less than or equal to the maximum minus the
-     *      visible amount </LI>
-     * <LI> The visible amount must be greater than 1 and less than or equal
-     *      to the difference between the maximum and minimum values. </LI>
+     * <LI> The mbximum must be grebter thbn the minimum </LI>
+     * <LI> The vblue must be grebter thbn or equbl to the minimum
+     *      bnd less thbn or equbl to the mbximum minus the
+     *      visible bmount </LI>
+     * <LI> The visible bmount must be grebter thbn 1 bnd less thbn or equbl
+     *      to the difference between the mbximum bnd minimum vblues. </LI>
      * </UL>
-     * Values which do not meet these criteria are quietly coerced to the
-     * appropriate boundary value.
-     * @param value is the position in the current window.
-     * @param visible is the amount visible per page
-     * @param minimum is the minimum value of the scrollbar
-     * @param maximum is the maximum value of the scrollbar
+     * Vblues which do not meet these criterib bre quietly coerced to the
+     * bppropribte boundbry vblue.
+     * @pbrbm vblue is the position in the current window.
+     * @pbrbm visible is the bmount visible per pbge
+     * @pbrbm minimum is the minimum vblue of the scrollbbr
+     * @pbrbm mbximum is the mbximum vblue of the scrollbbr
      */
-    synchronized void setValues(int value, int visible, int minimum, int maximum) {
-        if (maximum <= minimum) {
-            maximum = minimum + 1;
+    synchronized void setVblues(int vblue, int visible, int minimum, int mbximum) {
+        if (mbximum <= minimum) {
+            mbximum = minimum + 1;
         }
-        if (visible > maximum - minimum) {
-            visible = maximum - minimum;
+        if (visible > mbximum - minimum) {
+            visible = mbximum - minimum;
         }
         if (visible < 1) {
             visible = 1;
         }
-        if (value < minimum) {
-            value = minimum;
+        if (vblue < minimum) {
+            vblue = minimum;
         }
-        if (value > maximum - visible) {
-            value = maximum - visible;
+        if (vblue > mbximum - visible) {
+            vblue = mbximum - visible;
         }
 
-        this.val = value;
+        this.vbl = vblue;
         this.vis = visible;
         this.min = minimum;
-        this.max = maximum;
+        this.mbx = mbximum;
     }
 
     /**
-     * Sets param of this Scrollbar to the specified values.
-     * @param value is the position in the current window.
-     * @param visible is the amount visible per page
-     * @param minimum is the minimum value of the scrollbar
-     * @param maximum is the maximum value of the scrollbar
-     * @param unitSize is the unit size for increment or decrement of the value
-     * @param page is the block size for increment or decrement of the value
-     * @see #setValues
+     * Sets pbrbm of this Scrollbbr to the specified vblues.
+     * @pbrbm vblue is the position in the current window.
+     * @pbrbm visible is the bmount visible per pbge
+     * @pbrbm minimum is the minimum vblue of the scrollbbr
+     * @pbrbm mbximum is the mbximum vblue of the scrollbbr
+     * @pbrbm unitSize is the unit size for increment or decrement of the vblue
+     * @pbrbm pbge is the block size for increment or decrement of the vblue
+     * @see #setVblues
      */
-    synchronized void setValues(int value, int visible, int minimum, int maximum,
+    synchronized void setVblues(int vblue, int visible, int minimum, int mbximum,
                                 int unitSize, int blockSize) {
-        /* Use setValues so that a consistent policy
-         * relating minimum, maximum, and value is enforced.
+        /* Use setVblues so thbt b consistent policy
+         * relbting minimum, mbximum, bnd vblue is enforced.
          */
-        setValues(value, visible, minimum, maximum);
+        setVblues(vblue, visible, minimum, mbximum);
         setUnitIncrement(unitSize);
         setBlockIncrement(blockSize);
     }
 
     /**
-     * Returns the current value of this Scrollbar.
+     * Returns the current vblue of this Scrollbbr.
      * @see #getMinimum
-     * @see #getMaximum
+     * @see #getMbximum
      */
-    int getValue() {
-        return val;
+    int getVblue() {
+        return vbl;
     }
 
     /**
-     * Sets the value of this Scrollbar to the specified value.
-     * @param value the new value of the Scrollbar. If this value is
-     * below the current minimum or above the current maximum minus
-     * the visible amount, it becomes the new one of those values,
+     * Sets the vblue of this Scrollbbr to the specified vblue.
+     * @pbrbm vblue the new vblue of the Scrollbbr. If this vblue is
+     * below the current minimum or bbove the current mbximum minus
+     * the visible bmount, it becomes the new one of those vblues,
      * respectively.
-     * @see #getValue
+     * @see #getVblue
      */
-    synchronized void setValue(int newValue) {
-        /* Use setValues so that a consistent policy
-         * relating minimum, maximum, and value is enforced.
+    synchronized void setVblue(int newVblue) {
+        /* Use setVblues so thbt b consistent policy
+         * relbting minimum, mbximum, bnd vblue is enforced.
          */
-        setValues(newValue, vis, min, max);
+        setVblues(newVblue, vis, min, mbx);
     }
 
     /**
-     * Returns the minimum value of this Scrollbar.
-     * @see #getMaximum
-     * @see #getValue
+     * Returns the minimum vblue of this Scrollbbr.
+     * @see #getMbximum
+     * @see #getVblue
      */
     int getMinimum() {
         return min;
     }
 
     /**
-     * Sets the minimum value for this Scrollbar.
-     * @param minimum the minimum value of the scrollbar
+     * Sets the minimum vblue for this Scrollbbr.
+     * @pbrbm minimum the minimum vblue of the scrollbbr
      */
     synchronized void setMinimum(int newMinimum) {
-        /* Use setValues so that a consistent policy
-         * relating minimum, maximum, and value is enforced.
+        /* Use setVblues so thbt b consistent policy
+         * relbting minimum, mbximum, bnd vblue is enforced.
          */
-        setValues(val, vis, newMinimum, max);
+        setVblues(vbl, vis, newMinimum, mbx);
     }
 
     /**
-     * Returns the maximum value of this Scrollbar.
+     * Returns the mbximum vblue of this Scrollbbr.
      * @see #getMinimum
-     * @see #getValue
+     * @see #getVblue
      */
-    int getMaximum() {
-        return max;
+    int getMbximum() {
+        return mbx;
     }
 
     /**
-     * Sets the maximum value for this Scrollbar.
-     * @param maximum the maximum value of the scrollbar
+     * Sets the mbximum vblue for this Scrollbbr.
+     * @pbrbm mbximum the mbximum vblue of the scrollbbr
      */
-    synchronized void setMaximum(int newMaximum) {
-        /* Use setValues so that a consistent policy
-         * relating minimum, maximum, and value is enforced.
+    synchronized void setMbximum(int newMbximum) {
+        /* Use setVblues so thbt b consistent policy
+         * relbting minimum, mbximum, bnd vblue is enforced.
          */
-        setValues(val, vis, min, newMaximum);
+        setVblues(vbl, vis, min, newMbximum);
     }
 
     /**
-     * Returns the visible amount of this Scrollbar.
+     * Returns the visible bmount of this Scrollbbr.
      */
     int getVisibleAmount() {
         return vis;
     }
 
     /**
-     * Sets the visible amount of this Scrollbar, which is the range
-     * of values represented by the width of the scroll bar's bubble.
-     * @param visible the amount visible per page
+     * Sets the visible bmount of this Scrollbbr, which is the rbnge
+     * of vblues represented by the width of the scroll bbr's bubble.
+     * @pbrbm visible the bmount visible per pbge
      */
     synchronized void setVisibleAmount(int newAmount) {
-        setValues(val, newAmount, min, max);
+        setVblues(vbl, newAmount, min, mbx);
     }
 
     /**
-     * Sets the unit increment for this scrollbar. This is the value
-     * that will be added (subtracted) when the user hits the unit down
-     * (up) gadgets.
-     * @param unitSize is the unit size for increment or decrement of the value
+     * Sets the unit increment for this scrollbbr. This is the vblue
+     * thbt will be bdded (subtrbcted) when the user hits the unit down
+     * (up) gbdgets.
+     * @pbrbm unitSize is the unit size for increment or decrement of the vblue
      */
     synchronized void setUnitIncrement(int unitSize) {
         line = unitSize;
     }
 
     /**
-     * Gets the unit increment for this scrollbar.
+     * Gets the unit increment for this scrollbbr.
      */
     int getUnitIncrement() {
         return line;
     }
 
     /**
-     * Sets the block increment for this scrollbar. This is the value
-     * that will be added (subtracted) when the user hits the block down
-     * (up) gadgets.
-     * @param blockSize is the block size for increment or decrement of the value
+     * Sets the block increment for this scrollbbr. This is the vblue
+     * thbt will be bdded (subtrbcted) when the user hits the block down
+     * (up) gbdgets.
+     * @pbrbm blockSize is the block size for increment or decrement of the vblue
      */
     synchronized void setBlockIncrement(int blockSize) {
-        page = blockSize;
+        pbge = blockSize;
     }
 
     /**
-     * Gets the block increment for this scrollbar.
+     * Gets the block increment for this scrollbbr.
      */
     int getBlockIncrement() {
-        return page;
+        return pbge;
     }
 
     /**
-     * Width of the arrow image
+     * Width of the brrow imbge
      */
     int getArrowWidth() {
-        return getArrowAreaWidth() - 2*ARROW_IND;
+        return getArrowArebWidth() - 2*ARROW_IND;
     }
 
     /**
-     * Width of the area reserved for arrow
+     * Width of the breb reserved for brrow
      */
-    int getArrowAreaWidth() {
-        return arrowArea;
+    int getArrowArebWidth() {
+        return brrowAreb;
     }
 
-    void calculateArrowWidth() {
-        if (barLength < 2*barWidth + MIN_THUMB_H + 2) {
-            arrowArea = (barLength - MIN_THUMB_H + 2*ARROW_IND)/2 - 1;
+    void cblculbteArrowWidth() {
+        if (bbrLength < 2*bbrWidth + MIN_THUMB_H + 2) {
+            brrowAreb = (bbrLength - MIN_THUMB_H + 2*ARROW_IND)/2 - 1;
         }
         else {
-            arrowArea = barWidth - 1;
+            brrowAreb = bbrWidth - 1;
         }
     }
 
     /**
-     * Returns the scale factor for the thumbArea ( thumbAreaH / (max - min)).
-     * @see #getArrowAreaSize
+     * Returns the scble fbctor for the thumbAreb ( thumbArebH / (mbx - min)).
+     * @see #getArrowArebSize
      */
-    private double getScaleFactor(){
-        double f = (double)(barLength - 2*getArrowAreaWidth()) / Math.max(1,(max - min));
+    privbte double getScbleFbctor(){
+        double f = (double)(bbrLength - 2*getArrowArebWidth()) / Mbth.mbx(1,(mbx - min));
         return f;
     }
 
     /**
-     * Method to calculate the scroll thumb's size and position.  This is
-     * based on CalcSliderRect in ScrollBar.c of Motif source.
+     * Method to cblculbte the scroll thumb's size bnd position.  This is
+     * bbsed on CblcSliderRect in ScrollBbr.c of Motif source.
      *
-     * If we ever cache the thumb rect, we'll need to use a clone in
+     * If we ever cbche the thumb rect, we'll need to use b clone in
      * isInThumb().
      */
-    protected Rectangle calculateThumbRect() {
-        float range;
-        float trueSize;  // Area of scroll track
-        float factor;
-        float slideSize;
+    protected Rectbngle cblculbteThumbRect() {
+        flobt rbnge;
+        flobt trueSize;  // Areb of scroll trbck
+        flobt fbctor;
+        flobt slideSize;
         int minSliderWidth;
         int minSliderHeight;
-        int hitTheWall = 0;
-        int arrAreaH = getArrowAreaWidth();
-        Rectangle retVal = new Rectangle(0,0,0,0);
+        int hitTheWbll = 0;
+        int brrArebH = getArrowArebWidth();
+        Rectbngle retVbl = new Rectbngle(0,0,0,0);
 
-        trueSize = barLength - 2*arrAreaH - 1;  // Same if vert or horiz
+        trueSize = bbrLength - 2*brrArebH - 1;  // Sbme if vert or horiz
 
-        if (alignment == ALIGNMENT_HORIZONTAL) {
-            minSliderWidth = MIN_THUMB_H ;  // Base on user-set vis?
+        if (blignment == ALIGNMENT_HORIZONTAL) {
+            minSliderWidth = MIN_THUMB_H ;  // Bbse on user-set vis?
             minSliderHeight = height - 3;
         }
-        else {  // Vertical
+        else {  // Verticbl
             minSliderWidth = width - 3;
             minSliderHeight = MIN_THUMB_H ;
 
         }
 
-        // Total number of user units displayed
-            range = max - min;
+        // Totbl number of user units displbyed
+            rbnge = mbx - min;
 
-        // A naive notion of pixels per user unit
-            factor = trueSize / range;
+        // A nbive notion of pixels per user unit
+            fbctor = trueSize / rbnge;
 
-            // A naive notion of the size of the slider in pixels
-            // in thermo, slider_size is 0 ans is ignored
-            slideSize = vis * factor;
+            // A nbive notion of the size of the slider in pixels
+            // in thermo, slider_size is 0 bns is ignored
+            slideSize = vis * fbctor;
 
-        if (alignment == ALIGNMENT_HORIZONTAL) {
-            // Simulating MAX_SCROLLBAR_DIMENSION macro
-            int localVal = (int) (slideSize + 0.5);
-            int localMin = minSliderWidth;
-            if (localVal > localMin) {
-                retVal.width = localVal;
+        if (blignment == ALIGNMENT_HORIZONTAL) {
+            // Simulbting MAX_SCROLLBAR_DIMENSION mbcro
+            int locblVbl = (int) (slideSize + 0.5);
+            int locblMin = minSliderWidth;
+            if (locblVbl > locblMin) {
+                retVbl.width = locblVbl;
             }
             else {
-                retVal.width = localMin;
-                hitTheWall = localMin;
+                retVbl.width = locblMin;
+                hitTheWbll = locblMin;
             }
-            retVal.height = minSliderHeight;
+            retVbl.height = minSliderHeight;
         }
-        else {  // Vertical
-            retVal.width = minSliderWidth;
+        else {  // Verticbl
+            retVbl.width = minSliderWidth;
 
-            // Simulating MAX_SCROLLBAR_DIMENSION macro
-            int localVal = (int) (slideSize + 0.5);
-            int localMin = minSliderHeight;
-            if (localVal > localMin) {
-                retVal.height = localVal;
+            // Simulbting MAX_SCROLLBAR_DIMENSION mbcro
+            int locblVbl = (int) (slideSize + 0.5);
+            int locblMin = minSliderHeight;
+            if (locblVbl > locblMin) {
+                retVbl.height = locblVbl;
             }
             else {
-                retVal.height = localMin;
-                hitTheWall = localMin;
+                retVbl.height = locblMin;
+                hitTheWbll = locblMin;
             }
         }
 
-        if (hitTheWall != 0) {
-            trueSize -= hitTheWall;  // Actual pixels available
-            range -= vis;            // Actual range
-            factor = trueSize / range;
+        if (hitTheWbll != 0) {
+            trueSize -= hitTheWbll;  // Actubl pixels bvbilbble
+            rbnge -= vis;            // Actubl rbnge
+            fbctor = trueSize / rbnge;
         }
 
-        if (alignment == ALIGNMENT_HORIZONTAL) {
-                    retVal.x = ((int) (((((float) val)
-                        - ((float) min)) * factor) + 0.5))
-                        + arrAreaH;
-                    retVal.y = 1;
+        if (blignment == ALIGNMENT_HORIZONTAL) {
+                    retVbl.x = ((int) (((((flobt) vbl)
+                        - ((flobt) min)) * fbctor) + 0.5))
+                        + brrArebH;
+                    retVbl.y = 1;
 
         }
         else {
-            retVal.x = 1;
-                    retVal.y = ((int) (((((float) val)
-                        - ((float) min)) * factor) + 0.5))
-                        + arrAreaH;
+            retVbl.x = 1;
+                    retVbl.y = ((int) (((((flobt) vbl)
+                        - ((flobt) min)) * fbctor) + 0.5))
+                        + brrArebH;
         }
 
-        // There was one final adjustment here in the Motif function, which was
-        // noted to be for backward-compatibility.  It has been left out for now.
+        // There wbs one finbl bdjustment here in the Motif function, which wbs
+        // noted to be for bbckwbrd-compbtibility.  It hbs been left out for now.
 
-        return retVal;
+        return retVbl;
     }
 
     public String toString() {
-        return getClass() + "[" + width + "x" + height + "," + barWidth + "x" + barLength + "]";
+        return getClbss() + "[" + width + "x" + height + "," + bbrWidth + "x" + bbrLength + "]";
     }
 }
 
 
-class XScrollRepeater implements Runnable {
+clbss XScrollRepebter implements Runnbble {
     /**
-     * Time to pause before the first scroll repeat.
+     * Time to pbuse before the first scroll repebt.
      */
-    static int beginPause = 500;
-    // Reminder - make this a user definable property
-
-    /**
-     * Time to pause between each scroll repeat.
-     */
-    static int repeatPause = 100;
-    // Reminder - make this a user definable property
+    stbtic int beginPbuse = 500;
+    // Reminder - mbke this b user definbble property
 
     /**
-     * The scrollbar that we sending scrolling.
+     * Time to pbuse between ebch scroll repebt.
      */
-    XScrollbar sb;
+    stbtic int repebtPbuse = 100;
+    // Reminder - mbke this b user definbble property
 
     /**
-     * newScroll gets reset when a new scrollbar gets set.
+     * The scrollbbr thbt we sending scrolling.
      */
-    boolean newScroll;
-
-
-    boolean shouldSkip;
+    XScrollbbr sb;
 
     /**
-     * Creates a new scroll repeater.
-     * @param sb the scrollbar that this thread will scroll
+     * newScroll gets reset when b new scrollbbr gets set.
      */
-    XScrollRepeater(XScrollbar sb) {
-        this.setScrollbar(sb);
+    boolebn newScroll;
+
+
+    boolebn shouldSkip;
+
+    /**
+     * Crebtes b new scroll repebter.
+     * @pbrbm sb the scrollbbr thbt this threbd will scroll
+     */
+    XScrollRepebter(XScrollbbr sb) {
+        this.setScrollbbr(sb);
         newScroll = true;
     }
 
-    public void start() {
+    public void stbrt() {
         stop();
-        shouldSkip = false;
-        XToolkit.schedule(this, beginPause);
+        shouldSkip = fblse;
+        XToolkit.schedule(this, beginPbuse);
     }
 
     public void stop() {
@@ -915,10 +915,10 @@ class XScrollRepeater implements Runnable {
     }
 
     /**
-     * Sets the scrollbar.
-     * @param sb the scrollbar that this thread will scroll
+     * Sets the scrollbbr.
+     * @pbrbm sb the scrollbbr thbt this threbd will scroll
      */
-    public synchronized void setScrollbar(XScrollbar sb) {
+    public synchronized void setScrollbbr(XScrollbbr sb) {
         this.sb = sb;
         stop();
         newScroll = true;
@@ -931,7 +931,7 @@ class XScrollRepeater implements Runnable {
             }
         }
         sb.scroll();
-        XToolkit.schedule(this, repeatPause);
+        XToolkit.schedule(this, repebtPbuse);
     }
 
 }

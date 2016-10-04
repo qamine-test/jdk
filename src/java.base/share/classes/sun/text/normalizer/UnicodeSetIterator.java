@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyright IBM Corp. bnd others, 1996-2009 - All Rights Reserved         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
-import java.util.Iterator;
+import jbvb.util.Iterbtor;
 
 /**
- * UnicodeSetIterator iterates over the contents of a UnicodeSet.  It
- * iterates over either code points or code point ranges.  After all
- * code points or ranges have been returned, it returns the
- * multicharacter strings of the UnicodSet, if any.
+ * UnicodeSetIterbtor iterbtes over the contents of b UnicodeSet.  It
+ * iterbtes over either code points or code point rbnges.  After bll
+ * code points or rbnges hbve been returned, it returns the
+ * multichbrbcter strings of the UnicodSet, if bny.
  *
- * <p>To iterate over code points, use a loop like this:
+ * <p>To iterbte over code points, use b loop like this:
  * <pre>
- * UnicodeSetIterator it(set);
+ * UnicodeSetIterbtor it(set);
  * while (set.next()) {
- *   if (set.codepoint != UnicodeSetIterator::IS_STRING) {
+ *   if (set.codepoint != UnicodeSetIterbtor::IS_STRING) {
  *     processCodepoint(set.codepoint);
  *   } else {
  *     processString(set.string);
@@ -56,115 +56,115 @@ import java.util.Iterator;
  * }
  * </pre>
  *
- * <p>To iterate over code point ranges, use a loop like this:
+ * <p>To iterbte over code point rbnges, use b loop like this:
  * <pre>
- * UnicodeSetIterator it(set);
- * while (set.nextRange()) {
- *   if (set.codepoint != UnicodeSetIterator::IS_STRING) {
- *     processCodepointRange(set.codepoint, set.codepointEnd);
+ * UnicodeSetIterbtor it(set);
+ * while (set.nextRbnge()) {
+ *   if (set.codepoint != UnicodeSetIterbtor::IS_STRING) {
+ *     processCodepointRbnge(set.codepoint, set.codepointEnd);
  *   } else {
  *     processString(set.string);
  *   }
  * }
  * </pre>
- * @author M. Davis
- * @stable ICU 2.0
+ * @buthor M. Dbvis
+ * @stbble ICU 2.0
  */
-public class UnicodeSetIterator {
+public clbss UnicodeSetIterbtor {
 
     /**
-     * Value of <tt>codepoint</tt> if the iterator points to a string.
-     * If <tt>codepoint == IS_STRING</tt>, then examine
-     * <tt>string</tt> for the current iteration result.
-     * @stable ICU 2.0
+     * Vblue of <tt>codepoint</tt> if the iterbtor points to b string.
+     * If <tt>codepoint == IS_STRING</tt>, then exbmine
+     * <tt>string</tt> for the current iterbtion result.
+     * @stbble ICU 2.0
      */
-    public static int IS_STRING = -1;
+    public stbtic int IS_STRING = -1;
 
     /**
-     * Current code point, or the special value <tt>IS_STRING</tt>, if
-     * the iterator points to a string.
-     * @stable ICU 2.0
+     * Current code point, or the specibl vblue <tt>IS_STRING</tt>, if
+     * the iterbtor points to b string.
+     * @stbble ICU 2.0
      */
     public int codepoint;
 
     /**
-     * When iterating over ranges using <tt>nextRange()</tt>,
-     * <tt>codepointEnd</tt> contains the inclusive end of the
-     * iteration range, if <tt>codepoint != IS_STRING</tt>.  If
-     * iterating over code points using <tt>next()</tt>, or if
-     * <tt>codepoint == IS_STRING</tt>, then the value of
+     * When iterbting over rbnges using <tt>nextRbnge()</tt>,
+     * <tt>codepointEnd</tt> contbins the inclusive end of the
+     * iterbtion rbnge, if <tt>codepoint != IS_STRING</tt>.  If
+     * iterbting over code points using <tt>next()</tt>, or if
+     * <tt>codepoint == IS_STRING</tt>, then the vblue of
      * <tt>codepointEnd</tt> is undefined.
-     * @stable ICU 2.0
+     * @stbble ICU 2.0
      */
     public int codepointEnd;
 
     /**
      * If <tt>codepoint == IS_STRING</tt>, then <tt>string</tt> points
      * to the current string.  If <tt>codepoint != IS_STRING</tt>, the
-     * value of <tt>string</tt> is undefined.
-     * @stable ICU 2.0
+     * vblue of <tt>string</tt> is undefined.
+     * @stbble ICU 2.0
      */
     public String string;
 
     /**
-     * Create an iterator over the given set.
-     * @param set set to iterate over
-     * @stable ICU 2.0
+     * Crebte bn iterbtor over the given set.
+     * @pbrbm set set to iterbte over
+     * @stbble ICU 2.0
      */
-    public UnicodeSetIterator(UnicodeSet set) {
+    public UnicodeSetIterbtor(UnicodeSet set) {
         reset(set);
     }
 
     /**
-     * Returns the next element in the set, either a code point range
-     * or a string.  If there are no more elements in the set, return
-     * false.  If <tt>codepoint == IS_STRING</tt>, the value is a
-     * string in the <tt>string</tt> field.  Otherwise the value is a
-     * range of one or more code points from <tt>codepoint</tt> to
+     * Returns the next element in the set, either b code point rbnge
+     * or b string.  If there bre no more elements in the set, return
+     * fblse.  If <tt>codepoint == IS_STRING</tt>, the vblue is b
+     * string in the <tt>string</tt> field.  Otherwise the vblue is b
+     * rbnge of one or more code points from <tt>codepoint</tt> to
      * <tt>codepointeEnd</tt> inclusive.
      *
-     * <p>The order of iteration is all code points ranges in sorted
-     * order, followed by all strings sorted order.  Ranges are
-     * disjoint and non-contiguous.  <tt>string</tt> is undefined
-     * unless <tt>codepoint == IS_STRING</tt>.  Do not mix calls to
-     * <tt>next()</tt> and <tt>nextRange()</tt> without calling
-     * <tt>reset()</tt> between them.  The results of doing so are
+     * <p>The order of iterbtion is bll code points rbnges in sorted
+     * order, followed by bll strings sorted order.  Rbnges bre
+     * disjoint bnd non-contiguous.  <tt>string</tt> is undefined
+     * unless <tt>codepoint == IS_STRING</tt>.  Do not mix cblls to
+     * <tt>next()</tt> bnd <tt>nextRbnge()</tt> without cblling
+     * <tt>reset()</tt> between them.  The results of doing so bre
      * undefined.
      *
-     * @return true if there was another element in the set and this
-     * object contains the element.
-     * @stable ICU 2.0
+     * @return true if there wbs bnother element in the set bnd this
+     * object contbins the element.
+     * @stbble ICU 2.0
      */
-    public boolean nextRange() {
+    public boolebn nextRbnge() {
         if (nextElement <= endElement) {
             codepointEnd = endElement;
             codepoint = nextElement;
             nextElement = endElement+1;
             return true;
         }
-        if (range < endRange) {
-            loadRange(++range);
+        if (rbnge < endRbnge) {
+            lobdRbnge(++rbnge);
             codepointEnd = endElement;
             codepoint = nextElement;
             nextElement = endElement+1;
             return true;
         }
 
-        // stringIterator == null iff there are no string elements remaining
+        // stringIterbtor == null iff there bre no string elements rembining
 
-        if (stringIterator == null) return false;
-        codepoint = IS_STRING; // signal that value is actually a string
-        string = stringIterator.next();
-        if (!stringIterator.hasNext()) stringIterator = null;
+        if (stringIterbtor == null) return fblse;
+        codepoint = IS_STRING; // signbl thbt vblue is bctublly b string
+        string = stringIterbtor.next();
+        if (!stringIterbtor.hbsNext()) stringIterbtor = null;
         return true;
     }
 
     /**
-     * Sets this iterator to visit the elements of the given set and
-     * resets it to the start of that set.  The iterator is valid only
-     * so long as <tt>set</tt> is valid.
-     * @param set the set to iterate over.
-     * @stable ICU 2.0
+     * Sets this iterbtor to visit the elements of the given set bnd
+     * resets it to the stbrt of thbt set.  The iterbtor is vblid only
+     * so long bs <tt>set</tt> is vblid.
+     * @pbrbm set the set to iterbte over.
+     * @stbble ICU 2.0
      */
     public void reset(UnicodeSet uset) {
         set = uset;
@@ -172,48 +172,48 @@ public class UnicodeSetIterator {
     }
 
     /**
-     * Resets this iterator to the start of the set.
-     * @stable ICU 2.0
+     * Resets this iterbtor to the stbrt of the set.
+     * @stbble ICU 2.0
      */
     public void reset() {
-        endRange = set.getRangeCount() - 1;
-        range = 0;
+        endRbnge = set.getRbngeCount() - 1;
+        rbnge = 0;
         endElement = -1;
         nextElement = 0;
-        if (endRange >= 0) {
-            loadRange(range);
+        if (endRbnge >= 0) {
+            lobdRbnge(rbnge);
         }
-        stringIterator = null;
+        stringIterbtor = null;
         if (set.strings != null) {
-            stringIterator = set.strings.iterator();
-            if (!stringIterator.hasNext()) stringIterator = null;
+            stringIterbtor = set.strings.iterbtor();
+            if (!stringIterbtor.hbsNext()) stringIterbtor = null;
         }
     }
 
     // ======================= PRIVATES ===========================
 
-    private UnicodeSet set;
-    private int endRange = 0;
-    private int range = 0;
+    privbte UnicodeSet set;
+    privbte int endRbnge = 0;
+    privbte int rbnge = 0;
     /**
-     * @internal
+     * @internbl
      */
     protected int endElement;
     /**
-     * @internal
+     * @internbl
      */
     protected int nextElement;
-    private Iterator<String> stringIterator = null;
+    privbte Iterbtor<String> stringIterbtor = null;
 
     /**
-     * Invariant: stringIterator is null when there are no (more) strings remaining
+     * Invbribnt: stringIterbtor is null when there bre no (more) strings rembining
      */
 
     /**
-     * @internal
+     * @internbl
      */
-    protected void loadRange(int aRange) {
-        nextElement = set.getRangeStart(aRange);
-        endElement = set.getRangeEnd(aRange);
+    protected void lobdRbnge(int bRbnge) {
+        nextElement = set.getRbngeStbrt(bRbnge);
+        endElement = set.getRbngeEnd(bRbnge);
     }
 }

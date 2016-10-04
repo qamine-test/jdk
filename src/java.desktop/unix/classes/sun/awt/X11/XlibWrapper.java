@@ -1,654 +1,654 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.action.GetPropertyAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.security.bction.GetPropertyAction;
 import sun.misc.*;
 
-final public class XlibWrapper
+finbl public clbss XlibWrbpper
 {
-    static Unsafe unsafe = Unsafe.getUnsafe();
-    // strange constants
-    static final int MAXSIZE = 32767;
-    static final int MINSIZE = 1;
+    stbtic Unsbfe unsbfe = Unsbfe.getUnsbfe();
+    // strbnge constbnts
+    stbtic finbl int MAXSIZE = 32767;
+    stbtic finbl int MINSIZE = 1;
 
-    // define a private constructor here to prevent this class and all
-    // its descendants from being created
-    private XlibWrapper()
+    // define b privbte constructor here to prevent this clbss bnd bll
+    // its descendbnts from being crebted
+    privbte XlibWrbpper()
     {
     }
 
 /*
-   Display *XOpenDisplay(display_name)
-   char *display_name;
+   Displby *XOpenDisplby(displby_nbme)
+   chbr *displby_nbme;
 
 */
-    public final static String eventToString[]=
-    {"<none:0>", "<none:1>", "KeyPress", "KeyRelease", "ButtonPress", "ButtonRelease",
-     "MotionNotify", "EnterNotify", "LeaveNotify", "FocusIn", "FocusOut",
-     "KeymapNotify", "Expose", "GraphicsExpose", "NoExpose", "VisibilityNotify",
-     "CreateNotify", "DestroyNotify", "UnmapNotify", "MapNotify", "MapRequest",
-     "ReparentNotify", "ConfigureNotify", "ConfigureRequest", "GravityNotify",
-     "ResizeRequest", "CirculateNotify", "CirculateRequest", "PropertyNotify",
-     "SelectionClear", "SelectionRequest", "SelectionNotify", "ColormapNotify",
-     "ClientMessage", "MappingNotify", "LASTEvent"};
+    public finbl stbtic String eventToString[]=
+    {"<none:0>", "<none:1>", "KeyPress", "KeyRelebse", "ButtonPress", "ButtonRelebse",
+     "MotionNotify", "EnterNotify", "LebveNotify", "FocusIn", "FocusOut",
+     "KeymbpNotify", "Expose", "GrbphicsExpose", "NoExpose", "VisibilityNotify",
+     "CrebteNotify", "DestroyNotify", "UnmbpNotify", "MbpNotify", "MbpRequest",
+     "RepbrentNotify", "ConfigureNotify", "ConfigureRequest", "GrbvityNotify",
+     "ResizeRequest", "CirculbteNotify", "CirculbteRequest", "PropertyNotify",
+     "SelectionClebr", "SelectionRequest", "SelectionNotify", "ColormbpNotify",
+     "ClientMessbge", "MbppingNotify", "LASTEvent"};
 
-    static native void XFree(long ptr);
-    static native void memcpy(long dest_ptr, long src_ptr, long length);
-    static native long getAddress(Object o);
-    static native void copyIntArray(long dest_ptr, Object array, int size_bytes);
-    static native void copyLongArray(long dest_ptr, Object array, int size_bytes);
+    stbtic nbtive void XFree(long ptr);
+    stbtic nbtive void memcpy(long dest_ptr, long src_ptr, long length);
+    stbtic nbtive long getAddress(Object o);
+    stbtic nbtive void copyIntArrby(long dest_ptr, Object brrby, int size_bytes);
+    stbtic nbtive void copyLongArrby(long dest_ptr, Object brrby, int size_bytes);
 
     /**
-     * Gets byte string from str_ptr and copies it into byte array
-     * String should be NULL terminated
+     * Gets byte string from str_ptr bnd copies it into byte brrby
+     * String should be NULL terminbted
      */
-    static native byte[] getStringBytes(long str_ptr);
+    stbtic nbtive byte[] getStringBytes(long str_ptr);
 
-    static  native long XOpenDisplay(long display);
+    stbtic  nbtive long XOpenDisplby(long displby);
 
-    static  native void XCloseDisplay(long display);
+    stbtic  nbtive void XCloseDisplby(long displby);
 
-    static  native long XDisplayString(long display);
+    stbtic  nbtive long XDisplbyString(long displby);
 
-    static  native void XSetCloseDownMode(long display, int close_mode);
+    stbtic  nbtive void XSetCloseDownMode(long displby, int close_mode);
 
-    static  native long DefaultScreen(long display);
+    stbtic  nbtive long DefbultScreen(long displby);
 
-    static native long ScreenOfDisplay(long display, long screen_number);
+    stbtic nbtive long ScreenOfDisplby(long displby, long screen_number);
 
-    static native int DoesBackingStore(long screen);
+    stbtic nbtive int DoesBbckingStore(long screen);
 
-    static native  long DisplayWidth(long display, long screen);
-    static native  long DisplayWidthMM(long display, long screen);
+    stbtic nbtive  long DisplbyWidth(long displby, long screen);
+    stbtic nbtive  long DisplbyWidthMM(long displby, long screen);
 
-    static native long DisplayHeight(long display, long screen);
-    static native long DisplayHeightMM(long display, long screen);
+    stbtic nbtive long DisplbyHeight(long displby, long screen);
+    stbtic nbtive long DisplbyHeightMM(long displby, long screen);
 
-    static  native long RootWindow(long display, long screen_number);
-    static native int ScreenCount(long display);
+    stbtic  nbtive long RootWindow(long displby, long screen_number);
+    stbtic nbtive int ScreenCount(long displby);
 
 
 /*
-   Window XCreateWindow(display, parent, x, y, width, height,
+   Window XCrebteWindow(displby, pbrent, x, y, width, height,
    border_width, depth,
-   class, visual, valuemask, attributes)
-   Display *display;
-   Window parent;
+   clbss, visubl, vbluembsk, bttributes)
+   Displby *displby;
+   Window pbrent;
    int x, y;
    unsigned int width, height;
    unsigned int border_width;
    int depth;
-   unsigned int class;
-   Visual *visual
-   unsigned long valuemask;
-   XSetWindowAttributes *attributes;
+   unsigned int clbss;
+   Visubl *visubl
+   unsigned long vbluembsk;
+   XSetWindowAttributes *bttributes;
 */
 
-    static native long XCreateWindow(long display, long parent, int x,int  y, int width, int height, int border_width, int depth, long wclass, long visual, long valuemask, long attributes);
+    stbtic nbtive long XCrebteWindow(long displby, long pbrent, int x,int  y, int width, int height, int border_width, int depth, long wclbss, long visubl, long vbluembsk, long bttributes);
 
-    static native void XDestroyWindow(long display, long window);
+    stbtic nbtive void XDestroyWindow(long displby, long window);
 
-    static native int XGrabPointer(long display, long grab_window,
-                                   int owner_events, int event_mask, int pointer_mode,
-                                   int keyboard_mode, long confine_to, long cursor, long time);
+    stbtic nbtive int XGrbbPointer(long displby, long grbb_window,
+                                   int owner_events, int event_mbsk, int pointer_mode,
+                                   int keybobrd_mode, long confine_to, long cursor, long time);
 
-    static native void XUngrabPointer(long display, long time);
+    stbtic nbtive void XUngrbbPointer(long displby, long time);
 
-    static native int XGrabKeyboard(long display, long grab_window,
+    stbtic nbtive int XGrbbKeybobrd(long displby, long grbb_window,
                                     int owner_events, int pointer_mode,
-                                    int keyboard_mode, long time);
+                                    int keybobrd_mode, long time);
 
-    static native void XUngrabKeyboard(long display, long time);
+    stbtic nbtive void XUngrbbKeybobrd(long displby, long time);
 
-    static native void XGrabServer(long display);
-    static native void XUngrabServer(long display);
+    stbtic nbtive void XGrbbServer(long displby);
+    stbtic nbtive void XUngrbbServer(long displby);
 
 /*
 
-void XSetWMProperties(display, w, window_name, icon_name,
-argv, argc, normal_hints, wm_hints, class_hints)
-Display *display;
+void XSetWMProperties(displby, w, window_nbme, icon_nbme,
+brgv, brgc, normbl_hints, wm_hints, clbss_hints)
+Displby *displby;
 Window w;
-XTextProperty *window_name;
-XTextProperty *icon_name;
-char **argv;
-int argc;
-XSizeHints *normal_hints;
+XTextProperty *window_nbme;
+XTextProperty *icon_nbme;
+chbr **brgv;
+int brgc;
+XSizeHints *normbl_hints;
 XWMHints *wm_hints;
-XClassHint *class_hints;
+XClbssHint *clbss_hints;
 */
 
 /*
 
-XMapWindow(display, w)
-Display *display;
+XMbpWindow(displby, w)
+Displby *displby;
 Window w;
 */
 
-    static  native void XMapWindow(long display, long window);
-    static  native void XMapRaised(long display, long window);
-    static  native void XRaiseWindow(long display, long window);
+    stbtic  nbtive void XMbpWindow(long displby, long window);
+    stbtic  nbtive void XMbpRbised(long displby, long window);
+    stbtic  nbtive void XRbiseWindow(long displby, long window);
 
-    static native void XLowerWindow(long display, long window);
-    static native void XRestackWindows(long display, long windows, int length);
-    static native void XConfigureWindow(long display, long window,
-            long value_mask, long values);
-    static native void XSetInputFocus(long display, long window);
-    static native void XSetInputFocus2(long display, long window, long time);
-    static native long XGetInputFocus(long display);
+    stbtic nbtive void XLowerWindow(long displby, long window);
+    stbtic nbtive void XRestbckWindows(long displby, long windows, int length);
+    stbtic nbtive void XConfigureWindow(long displby, long window,
+            long vblue_mbsk, long vblues);
+    stbtic nbtive void XSetInputFocus(long displby, long window);
+    stbtic nbtive void XSetInputFocus2(long displby, long window, long time);
+    stbtic nbtive long XGetInputFocus(long displby);
 
 /*
 
-XUnmapWindow(display, w)
-Display *display;
+XUnmbpWindow(displby, w)
+Displby *displby;
 Window w;
 */
 
-    static  native void XUnmapWindow(long display, long window);
+    stbtic  nbtive void XUnmbpWindow(long displby, long window);
 
 
 
 
 /*
-  XSelectInput(display, w, event_mask)
-  Display *display;
+  XSelectInput(displby, w, event_mbsk)
+  Displby *displby;
   Window w;
-  long event_mask;
+  long event_mbsk;
 
 */
-    static  native void XSelectInput(long display, long window, long event_mask);
+    stbtic  nbtive void XSelectInput(long displby, long window, long event_mbsk);
 
     /*
-       XNextEvent(display, event_return)
-       Display *display;
+       XNextEvent(displby, event_return)
+       Displby *displby;
        XEvent *event_return;
 
     */
 
-    static  native void XNextEvent(long display,long ptr);
+    stbtic  nbtive void XNextEvent(long displby,long ptr);
 
     /*
-     XMaskEvent(display, event_mask, event_return)
-           Display *display;
-           long event_mask;
+     XMbskEvent(displby, event_mbsk, event_return)
+           Displby *displby;
+           long event_mbsk;
            XEvent *event_return;
      */
-    static native void XMaskEvent(long display, long event_mask, long event_return);
+    stbtic nbtive void XMbskEvent(long displby, long event_mbsk, long event_return);
 
-    static native void XWindowEvent(long display, long window, long event_mask, long event_return);
+    stbtic nbtive void XWindowEvent(long displby, long window, long event_mbsk, long event_return);
 
     /*
       Bool XFilterEvent(event, w)
            XEvent *event;
            Window w;
     */
-    static native boolean XFilterEvent(long ptr, long window);
+    stbtic nbtive boolebn XFilterEvent(long ptr, long window);
 
 /*
-     Bool XSupportsLocale()
+     Bool XSupportsLocble()
 */
-static native boolean XSupportsLocale();
+stbtic nbtive boolebn XSupportsLocble();
 
 /*
-     char *XSetLocaleModifiers(modifier_list)
-           char *modifier_list;
+     chbr *XSetLocbleModifiers(modifier_list)
+           chbr *modifier_list;
 */
-static native String XSetLocaleModifiers(String modifier_list);
+stbtic nbtive String XSetLocbleModifiers(String modifier_list);
 
 
-    static  native int XTranslateCoordinates(
-                                             long display, long src_w, long dest_w,
+    stbtic  nbtive int XTrbnslbteCoordinbtes(
+                                             long displby, long src_w, long dest_w,
                                              long src_x, long src_y,
                                              long dest_x_return, long dest_y_return,
                                              long child_return);
 
     /*
-       XPeekEvent(display, event_return)
-       Display *display;
+       XPeekEvent(displby, event_return)
+       Displby *displby;
        XEvent *event_return;
 
     */
 
-    static  native void XPeekEvent(long display,long ptr);
+    stbtic  nbtive void XPeekEvent(long displby,long ptr);
 
 /*
-  XFlush(display)
-  Display *display;
+  XFlush(displby)
+  Displby *displby;
 */
 
-    static native void XFlush(long display);
+    stbtic nbtive void XFlush(long displby);
 
 /*
-  XSync(display, discard)
-  Display *display;
-  Bool discard;
+  XSync(displby, discbrd)
+  Displby *displby;
+  Bool discbrd;
 */
 
-    static native void XSync(long display,int discard);
+    stbtic nbtive void XSync(long displby,int discbrd);
 
 
-/*    XMoveResizeWindow(display, w, x, y, width, height)
-      Display *display;
+/*    XMoveResizeWindow(displby, w, x, y, width, height)
+      Displby *displby;
       Window w;
       int x, y;
       unsigned int width, height;
 */
-    static native void XMoveResizeWindow(long display, long window, int x, int y, int width, int height);
-    static native void XResizeWindow(long display, long window, int width, int height);
-    static native void XMoveWindow(long display, long window, int x, int y);
+    stbtic nbtive void XMoveResizeWindow(long displby, long window, int x, int y, int width, int height);
+    stbtic nbtive void XResizeWindow(long displby, long window, int width, int height);
+    stbtic nbtive void XMoveWindow(long displby, long window, int x, int y);
 
     /*
-     Bool XQueryPointer(display, w, root_return, child_return,
+     Bool XQueryPointer(displby, w, root_return, child_return,
      root_x_return, root_y_return,
                           win_x_return, win_y_return,
-     mask_return)
-           Display *display;
+     mbsk_return)
+           Displby *displby;
            Window w;
            Window *root_return, *child_return;
            int *root_x_return, *root_y_return;
            int *win_x_return, *win_y_return;
-           unsigned int *mask_return;
+           unsigned int *mbsk_return;
 */
 
- static native boolean  XQueryPointer (long display, long window, long root_return, long child_return, long root_x_return, long root_y_return, long win_x_return, long win_y_return, long mask_return);
+ stbtic nbtive boolebn  XQueryPointer (long displby, long window, long root_return, long child_return, long root_x_return, long root_y_return, long win_x_return, long win_y_return, long mbsk_return);
 
-/*    XFreeCursor(display, cursor)
-           Display *display;
+/*    XFreeCursor(displby, cursor)
+           Displby *displby;
            Cursor cursor;
 */
 
- static native void XFreeCursor(long display, long cursor);
+ stbtic nbtive void XFreeCursor(long displby, long cursor);
 
 /*
-   XSetWindowBackground(display, w, background_pixel)
-   Display *display;
+   XSetWindowBbckground(displby, w, bbckground_pixel)
+   Displby *displby;
    Window w;
-   unsigned long background_pixel;
+   unsigned long bbckground_pixel;
 */
 
-    static native void XSetWindowBackground(long display, long window, long background_pixel);
+    stbtic nbtive void XSetWindowBbckground(long displby, long window, long bbckground_pixel);
 
-    static native int XEventsQueued(long display, int mode);
+    stbtic nbtive int XEventsQueued(long displby, int mode);
 
 /*
-  Atom XInternAtom(display, atom_name, only_if_exists)
-  Display *display;
-  char *atom_name;
+  Atom XInternAtom(displby, btom_nbme, only_if_exists)
+  Displby *displby;
+  chbr *btom_nbme;
   Bool only_if_exists;
 */
 
-    static native int XInternAtoms(long display, String[] names, boolean only_if_exists, long atoms);
+    stbtic nbtive int XInternAtoms(long displby, String[] nbmes, boolebn only_if_exists, long btoms);
 
-    static native void SetProperty(long display, long window, long atom, String str);
-    static native String GetProperty(long display ,long window, long atom);
-    static native long InternAtom(long display, String string, int only_if_exists);
-    static native int XGetWindowProperty(long display, long window, long atom,
+    stbtic nbtive void SetProperty(long displby, long window, long btom, String str);
+    stbtic nbtive String GetProperty(long displby ,long window, long btom);
+    stbtic nbtive long InternAtom(long displby, String string, int only_if_exists);
+    stbtic nbtive int XGetWindowProperty(long displby, long window, long btom,
                                          long long_offset, long long_length,
-                                         long delete, long req_type, long actualy_type,
-                                         long actualy_format, long nitems_ptr,
-                                         long bytes_after, long data_ptr);
-    native static void XChangePropertyImpl(long display, long window, long atom,
-                                           long type, int format, int mode, long data,
+                                         long delete, long req_type, long bctubly_type,
+                                         long bctubly_formbt, long nitems_ptr,
+                                         long bytes_bfter, long dbtb_ptr);
+    nbtive stbtic void XChbngePropertyImpl(long displby, long window, long btom,
+                                           long type, int formbt, int mode, long dbtb,
                                            int nelements);
-    static void XChangeProperty(long display, long window, long atom,
-                                long type, int format, int mode, long data,
+    stbtic void XChbngeProperty(long displby, long window, long btom,
+                                long type, int formbt, int mode, long dbtb,
                                 int nelements) {
-        // TODO: handling of XChangePropertyImpl return value, if not Success - don't cache
-        if (XPropertyCache.isCachingSupported() &&
+        // TODO: hbndling of XChbngePropertyImpl return vblue, if not Success - don't cbche
+        if (XPropertyCbche.isCbchingSupported() &&
             XToolkit.windowToXWindow(window) != null &&
-            WindowPropertyGetter.isCacheableProperty(XAtom.get(atom)) &&
-            mode == XConstants.PropModeReplace)
+            WindowPropertyGetter.isCbchebbleProperty(XAtom.get(btom)) &&
+            mode == XConstbnts.PropModeReplbce)
         {
-            int length = (format / 8) * nelements;
-            XPropertyCache.storeCache(
-                new XPropertyCache.PropertyCacheEntry(format,
+            int length = (formbt / 8) * nelements;
+            XPropertyCbche.storeCbche(
+                new XPropertyCbche.PropertyCbcheEntry(formbt,
                                                       nelements,
                                                       0,
-                                                      data,
+                                                      dbtb,
                                                       length),
                 window,
-                XAtom.get(atom));
+                XAtom.get(btom));
         }
-        XChangePropertyImpl(display, window, atom, type, format, mode, data, nelements);
+        XChbngePropertyImpl(displby, window, btom, type, formbt, mode, dbtb, nelements);
     }
 
-    static native void XChangePropertyS(long display, long window, long atom,
-                                       long type, int format, int mode, String value);
-    static native void XDeleteProperty(long display, long window, long atom);
+    stbtic nbtive void XChbngePropertyS(long displby, long window, long btom,
+                                       long type, int formbt, int mode, String vblue);
+    stbtic nbtive void XDeleteProperty(long displby, long window, long btom);
 
-    static native void XSetTransientFor(long display, long window, long transient_for_window);
-    static native void XSetWMHints(long display, long window, long wmhints);
-    static native void XGetWMHints(long display, long window, long wmhints);
-    static native long XAllocWMHints();
-    static native int XGetPointerMapping(long display, long map, int buttonNumber);
-    static native String XGetDefault(long display, String program, String option);
-    static native long getScreenOfWindow(long display, long window);
-    static native long XScreenNumberOfScreen(long screen);
-    static native int XIconifyWindow(long display, long window, long screenNumber);
-    static native String ServerVendor(long display);
-    static native int VendorRelease(long display);
-    static native boolean IsXsunKPBehavior(long display);
-    static native boolean IsSunKeyboard(long display);
-    static native boolean IsKanaKeyboard(long display);
+    stbtic nbtive void XSetTrbnsientFor(long displby, long window, long trbnsient_for_window);
+    stbtic nbtive void XSetWMHints(long displby, long window, long wmhints);
+    stbtic nbtive void XGetWMHints(long displby, long window, long wmhints);
+    stbtic nbtive long XAllocWMHints();
+    stbtic nbtive int XGetPointerMbpping(long displby, long mbp, int buttonNumber);
+    stbtic nbtive String XGetDefbult(long displby, String progrbm, String option);
+    stbtic nbtive long getScreenOfWindow(long displby, long window);
+    stbtic nbtive long XScreenNumberOfScreen(long screen);
+    stbtic nbtive int XIconifyWindow(long displby, long window, long screenNumber);
+    stbtic nbtive String ServerVendor(long displby);
+    stbtic nbtive int VendorRelebse(long displby);
+    stbtic nbtive boolebn IsXsunKPBehbvior(long displby);
+    stbtic nbtive boolebn IsSunKeybobrd(long displby);
+    stbtic nbtive boolebn IsKbnbKeybobrd(long displby);
 
-    static native void XBell(long display, int percent);
+    stbtic nbtive void XBell(long displby, int percent);
 
  /*
-          Cursor XCreateFontCursor(display, shape)
-           Display *display;
-           unsigned int shape;
+          Cursor XCrebteFontCursor(displby, shbpe)
+           Displby *displby;
+           unsigned int shbpe;
 
-           we always pass int as shape param.
-           perhaps later we will need to change type of shape to long.
+           we blwbys pbss int bs shbpe pbrbm.
+           perhbps lbter we will need to chbnge type of shbpe to long.
 */
 
-    static native int XCreateFontCursor(long display, int shape);
+    stbtic nbtive int XCrebteFontCursor(long displby, int shbpe);
 
 /*
-     Pixmap XCreateBitmapFromData(display, d, data, width,
+     Pixmbp XCrebteBitmbpFromDbtb(displby, d, dbtb, width,
      height)
-           Display *display;
-           Drawable d;
-           char *data;
+           Displby *displby;
+           Drbwbble d;
+           chbr *dbtb;
            unsigned int width, height;
 */
 
-    static native long XCreateBitmapFromData(long display, long drawable, long data, int width, int height);
+    stbtic nbtive long XCrebteBitmbpFromDbtb(long displby, long drbwbble, long dbtb, int width, int height);
 
  /*
-      XFreePixmap(display, pixmap)
-           Display *display;
-           Pixmap pixmap;
+      XFreePixmbp(displby, pixmbp)
+           Displby *displby;
+           Pixmbp pixmbp;
   */
 
-   static native void XFreePixmap(long display, long pixmap);
+   stbtic nbtive void XFreePixmbp(long displby, long pixmbp);
 
   /*
-     Cursor XCreatePixmapCursor(display, source, mask,
-     foreground_color, background_color, x, y)
-           Display *display;
-           Pixmap source;
-           Pixmap mask;
+     Cursor XCrebtePixmbpCursor(displby, source, mbsk,
+     foreground_color, bbckground_color, x, y)
+           Displby *displby;
+           Pixmbp source;
+           Pixmbp mbsk;
            XColor *foreground_color;
-           XColor *background_color;
+           XColor *bbckground_color;
            unsigned int x, y;
     */
-   static native long XCreatePixmapCursor(long display, long source, long mask, long fore, long back, int x, int y);
+   stbtic nbtive long XCrebtePixmbpCursor(long displby, long source, long mbsk, long fore, long bbck, int x, int y);
 
 
     /*
-         Status XQueryBestCursor(display, d, width, height,
+         Stbtus XQueryBestCursor(displby, d, width, height,
      width_return, height_return)
-           Display *display;
-           Drawable d;
+           Displby *displby;
+           Drbwbble d;
            unsigned int width, height;
            unsigned int *width_return, *height_return;
 
     */
 
-    static native boolean XQueryBestCursor(long display, long drawable, int width, int height, long width_return, long height_return);
+    stbtic nbtive boolebn XQueryBestCursor(long displby, long drbwbble, int width, int height, long width_return, long height_return);
 
 
     /*
-     Status XAllocColor(display, colormap, screen_in_out)
-           Display *display;
-           Colormap colormap;
+     Stbtus XAllocColor(displby, colormbp, screen_in_out)
+           Displby *displby;
+           Colormbp colormbp;
            XColor *screen_in_out;
   */
 
-    static native boolean XAllocColor( long display, long colormap, long screen_in_out);
+    stbtic nbtive boolebn XAllocColor( long displby, long colormbp, long screen_in_out);
 
 
-    static native long SetToolkitErrorHandler();
-    static native void XSetErrorHandler(long handler);
-    static native int CallErrorHandler(long handler, long display, long event_ptr);
+    stbtic nbtive long SetToolkitErrorHbndler();
+    stbtic nbtive void XSetErrorHbndler(long hbndler);
+    stbtic nbtive int CbllErrorHbndler(long hbndler, long displby, long event_ptr);
 
  /*
-      XChangeWindowAttributes(display, w, valuemask, attributes)
-           Display *display;
+      XChbngeWindowAttributes(displby, w, vbluembsk, bttributes)
+           Displby *displby;
            Window w;
-           unsigned long valuemask;
-           XSetWindowAttributes *attributes;
+           unsigned long vbluembsk;
+           XSetWindowAttributes *bttributes;
   */
 
-    static native void XChangeWindowAttributes(long display, long window, long valuemask, long attributes);
-    static native int XGetWindowAttributes(long display, long window, long attr_ptr);
-    static native int XGetGeometry(long display, long drawable, long root_return, long x_return, long y_return,
+    stbtic nbtive void XChbngeWindowAttributes(long displby, long window, long vbluembsk, long bttributes);
+    stbtic nbtive int XGetWindowAttributes(long displby, long window, long bttr_ptr);
+    stbtic nbtive int XGetGeometry(long displby, long drbwbble, long root_return, long x_return, long y_return,
                                    long width_return, long height_return, long border_width_return, long depth_return);
 
-    static native int XGetWMNormalHints(long display, long window, long hints, long supplied_return);
-    static native void XSetWMNormalHints(long display, long window, long hints);
-    static native void XSetMinMaxHints(long display, long window, int x, int y, int width, int height, long flags);
-    static native long XAllocSizeHints();
+    stbtic nbtive int XGetWMNormblHints(long displby, long window, long hints, long supplied_return);
+    stbtic nbtive void XSetWMNormblHints(long displby, long window, long hints);
+    stbtic nbtive void XSetMinMbxHints(long displby, long window, int x, int y, int width, int height, long flbgs);
+    stbtic nbtive long XAllocSizeHints();
 
-    static native int XSendEvent(long display, long window, boolean propagate, long event_mask, long event);
-    static native void XPutBackEvent(long display, long event);
-    static native int XQueryTree(long display, long window, long root_return, long parent_return, long children_return, long nchildren_return);
-    static native long XGetVisualInfo(long display, long vinfo_mask, long vinfo_template, long nitems_return);
-    static native void XReparentWindow(long display, long window, long parent, int x, int y);
+    stbtic nbtive int XSendEvent(long displby, long window, boolebn propbgbte, long event_mbsk, long event);
+    stbtic nbtive void XPutBbckEvent(long displby, long event);
+    stbtic nbtive int XQueryTree(long displby, long window, long root_return, long pbrent_return, long children_return, long nchildren_return);
+    stbtic nbtive long XGetVisublInfo(long displby, long vinfo_mbsk, long vinfo_templbte, long nitems_return);
+    stbtic nbtive void XRepbrentWindow(long displby, long window, long pbrent, int x, int y);
 
-    static native void XConvertSelection(long display, long selection,
-                                         long target, long property,
+    stbtic nbtive void XConvertSelection(long displby, long selection,
+                                         long tbrget, long property,
                                          long requestor, long time);
 
-    static native void XSetSelectionOwner(long display, long selection,
+    stbtic nbtive void XSetSelectionOwner(long displby, long selection,
                                           long owner, long time);
 
-    static native long XGetSelectionOwner(long display, long selection);
+    stbtic nbtive long XGetSelectionOwner(long displby, long selection);
 
-    static native String XGetAtomName(long display, long atom);
+    stbtic nbtive String XGetAtomNbme(long displby, long btom);
 
-    static native long XMaxRequestSize(long display);
+    stbtic nbtive long XMbxRequestSize(long displby);
 
 
-    static native long XCreatePixmap(long display, long drawable, int width, int height, int depth);
-    static native long XCreateImage(long display, long visual_ptr, int depth, int format,
-                                    int offset, long data, int width, int height, int bitmap_pad,
+    stbtic nbtive long XCrebtePixmbp(long displby, long drbwbble, int width, int height, int depth);
+    stbtic nbtive long XCrebteImbge(long displby, long visubl_ptr, int depth, int formbt,
+                                    int offset, long dbtb, int width, int height, int bitmbp_pbd,
                                     int bytes_per_line);
-    static native void XDestroyImage(long image);
-    static native void XPutImage(long display, long drawable, long gc, long image,
+    stbtic nbtive void XDestroyImbge(long imbge);
+    stbtic nbtive void XPutImbge(long displby, long drbwbble, long gc, long imbge,
                                  int src_x, int src_y, int dest_x, int dest_y,
                                  int width, int height);
-    static native long XCreateGC(long display, long drawable, long valuemask, long values);
-    static native void XFreeGC(long display, long gc);
-    static native void XSetWindowBackgroundPixmap(long display, long window, long pixmap);
-    static native void XClearWindow(long display, long window);
-    static native int XGetIconSizes(long display, long window, long ret_sizes, long ret_count);
-    static native int XdbeQueryExtension(long display, long major_version_return,
+    stbtic nbtive long XCrebteGC(long displby, long drbwbble, long vbluembsk, long vblues);
+    stbtic nbtive void XFreeGC(long displby, long gc);
+    stbtic nbtive void XSetWindowBbckgroundPixmbp(long displby, long window, long pixmbp);
+    stbtic nbtive void XClebrWindow(long displby, long window);
+    stbtic nbtive int XGetIconSizes(long displby, long window, long ret_sizes, long ret_count);
+    stbtic nbtive int XdbeQueryExtension(long displby, long mbjor_version_return,
                                          long minor_version_return);
-    static native boolean XQueryExtension(long display, String name, long mop_return,
+    stbtic nbtive boolebn XQueryExtension(long displby, String nbme, long mop_return,
                                          long feve_return, long err_return);
-    static native boolean IsKeypadKey(long keysym);
-    static native long XdbeAllocateBackBufferName(long display, long window, int swap_action);
-    static native int XdbeDeallocateBackBufferName(long display, long buffer);
-    static native int XdbeBeginIdiom(long display);
-    static native int XdbeEndIdiom(long display);
-    static native int XdbeSwapBuffers(long display, long swap_info, int num_windows);
+    stbtic nbtive boolebn IsKeypbdKey(long keysym);
+    stbtic nbtive long XdbeAllocbteBbckBufferNbme(long displby, long window, int swbp_bction);
+    stbtic nbtive int XdbeDebllocbteBbckBufferNbme(long displby, long buffer);
+    stbtic nbtive int XdbeBeginIdiom(long displby);
+    stbtic nbtive int XdbeEndIdiom(long displby);
+    stbtic nbtive int XdbeSwbpBuffers(long displby, long swbp_info, int num_windows);
 
-    static native void XQueryKeymap(long display, long vector);
-    static native long XKeycodeToKeysym(long display, int keycode, int index);
+    stbtic nbtive void XQueryKeymbp(long displby, long vector);
+    stbtic nbtive long XKeycodeToKeysym(long displby, int keycode, int index);
 
-    static native int XKeysymToKeycode(long display, long keysym);
+    stbtic nbtive int XKeysymToKeycode(long displby, long keysym);
 
-    // xkb-related
-    static native int XkbGetEffectiveGroup(long display);
-    static native long XkbKeycodeToKeysym(long display, int keycode, int group, int level);
-    static native void XkbSelectEvents(long display, long device, long bits_to_change, long values_for_bits);
-    static native void XkbSelectEventDetails(long display, long device, long event_type,
-                                              long bits_to_change, long values_for_bits);
-    static native boolean XkbQueryExtension(long display, long opcode_rtrn, long event_rtrn,
-              long error_rtrn, long major_in_out, long minor_in_out);
-    static native boolean XkbLibraryVersion(long lib_major_in_out, long lib_minor_in_out);
-    static native long XkbGetMap(long display, long which, long device_spec);
-    static native long XkbGetUpdatedMap(long display, long which, long xkb);
-    static native void XkbFreeKeyboard(long xkb, long which, boolean free_all);
-    static native boolean XkbTranslateKeyCode(long xkb, int keycode, long mods, long mods_rtrn, long keysym_rtrn);
-    static native void XkbSetDetectableAutoRepeat(long display, boolean detectable);
-
-
-    static native void XConvertCase(long keysym,
-                                    long keysym_lowercase,
-                                    long keysym_uppercase);
-
-    static native long XGetModifierMapping(long display);
-    static native void XFreeModifiermap(long keymap);
-    static native void XRefreshKeyboardMapping(long event);
+    // xkb-relbted
+    stbtic nbtive int XkbGetEffectiveGroup(long displby);
+    stbtic nbtive long XkbKeycodeToKeysym(long displby, int keycode, int group, int level);
+    stbtic nbtive void XkbSelectEvents(long displby, long device, long bits_to_chbnge, long vblues_for_bits);
+    stbtic nbtive void XkbSelectEventDetbils(long displby, long device, long event_type,
+                                              long bits_to_chbnge, long vblues_for_bits);
+    stbtic nbtive boolebn XkbQueryExtension(long displby, long opcode_rtrn, long event_rtrn,
+              long error_rtrn, long mbjor_in_out, long minor_in_out);
+    stbtic nbtive boolebn XkbLibrbryVersion(long lib_mbjor_in_out, long lib_minor_in_out);
+    stbtic nbtive long XkbGetMbp(long displby, long which, long device_spec);
+    stbtic nbtive long XkbGetUpdbtedMbp(long displby, long which, long xkb);
+    stbtic nbtive void XkbFreeKeybobrd(long xkb, long which, boolebn free_bll);
+    stbtic nbtive boolebn XkbTrbnslbteKeyCode(long xkb, int keycode, long mods, long mods_rtrn, long keysym_rtrn);
+    stbtic nbtive void XkbSetDetectbbleAutoRepebt(long displby, boolebn detectbble);
 
 
-    static native void XChangeActivePointerGrab(long display, int mask,
+    stbtic nbtive void XConvertCbse(long keysym,
+                                    long keysym_lowercbse,
+                                    long keysym_uppercbse);
+
+    stbtic nbtive long XGetModifierMbpping(long displby);
+    stbtic nbtive void XFreeModifiermbp(long keymbp);
+    stbtic nbtive void XRefreshKeybobrdMbpping(long event);
+
+
+    stbtic nbtive void XChbngeActivePointerGrbb(long displby, int mbsk,
                                                 long cursor, long time);
 
     /*
-      int (*XSynchronize(Display *display, Bool onoff))();
-          display   Specifies the connection to the X server.
-          onoff     Specifies a Boolean value that indicates whether to enable or disable synchronization.
+      int (*XSynchronize(Displby *displby, Bool onoff))();
+          displby   Specifies the connection to the X server.
+          onoff     Specifies b Boolebn vblue thbt indicbtes whether to enbble or disbble synchronizbtion.
      */
-    public static native int XSynchronize(long display, boolean onoff);
+    public stbtic nbtive int XSynchronize(long displby, boolebn onoff);
 
     /**
-     * Extracts an X event that can be processed in a secondary loop.
-     * Should only be called on the toolkit thread.
-     * Returns false if this secondary event was terminated.
+     * Extrbcts bn X event thbt cbn be processed in b secondbry loop.
+     * Should only be cblled on the toolkit threbd.
+     * Returns fblse if this secondbry event wbs terminbted.
      */
-    static native boolean XNextSecondaryLoopEvent(long display, long ptr);
+    stbtic nbtive boolebn XNextSecondbryLoopEvent(long displby, long ptr);
     /**
-     * Terminates the topmost secondary loop (if any).
-     * Should never be called on the toolkit thread.
+     * Terminbtes the topmost secondbry loop (if bny).
+     * Should never be cblled on the toolkit threbd.
      */
-    static native void ExitSecondaryLoop();
+    stbtic nbtive void ExitSecondbryLoop();
 
     /**
-     * Calls XTextPropertyToStringList on the specified byte array and returns
-     * the array of strings.
+     * Cblls XTextPropertyToStringList on the specified byte brrby bnd returns
+     * the brrby of strings.
      */
-    static native String[] XTextPropertyToStringList(byte[] bytes, long encoding_atom);
+    stbtic nbtive String[] XTextPropertyToStringList(byte[] bytes, long encoding_btom);
 
     /**
      * XSHAPE extension support.
      */
-    static native boolean XShapeQueryExtension(long display, long event_base_return, long error_base_return);
-    static native void SetRectangularShape(long display, long window,
+    stbtic nbtive boolebn XShbpeQueryExtension(long displby, long event_bbse_return, long error_bbse_return);
+    stbtic nbtive void SetRectbngulbrShbpe(long displby, long window,
             int lox, int loy, int hix, int hiy,
-            sun.java2d.pipe.Region region);
-    /** Each int in the bitmap array is one pixel with a 32-bit color:
-     *  R, G, B, and Alpha.
+            sun.jbvb2d.pipe.Region region);
+    /** Ebch int in the bitmbp brrby is one pixel with b 32-bit color:
+     *  R, G, B, bnd Alphb.
      */
-    static native void SetBitmapShape(long display, long window,
-             int width, int height, int[] bitmap);
+    stbtic nbtive void SetBitmbpShbpe(long displby, long window,
+             int width, int height, int[] bitmbp);
 
-    static native void SetZOrder(long display, long window, long above);
+    stbtic nbtive void SetZOrder(long displby, long window, long bbove);
 
-/* Global memory area used for X lib parameter passing */
+/* Globbl memory breb used for X lib pbrbmeter pbssing */
 
-    final static long lbuffer = unsafe.allocateMemory(64);  // array to hold 8 longs
-    final static long ibuffer = unsafe.allocateMemory(32);  // array to hold 8 ints
+    finbl stbtic long lbuffer = unsbfe.bllocbteMemory(64);  // brrby to hold 8 longs
+    finbl stbtic long ibuffer = unsbfe.bllocbteMemory(32);  // brrby to hold 8 ints
 
-    static final long larg1 = lbuffer;
-    static final long larg2 = larg1+8;
-    static final long larg3 = larg2+8;
-    static final long larg4 = larg3+8;
-    static final long larg5 = larg4+8;
-    static final long larg6 = larg5+8;
-    static final long larg7 = larg6+8;
-    static final long larg8 = larg7+8;
+    stbtic finbl long lbrg1 = lbuffer;
+    stbtic finbl long lbrg2 = lbrg1+8;
+    stbtic finbl long lbrg3 = lbrg2+8;
+    stbtic finbl long lbrg4 = lbrg3+8;
+    stbtic finbl long lbrg5 = lbrg4+8;
+    stbtic finbl long lbrg6 = lbrg5+8;
+    stbtic finbl long lbrg7 = lbrg6+8;
+    stbtic finbl long lbrg8 = lbrg7+8;
 
-    static final long iarg1 = ibuffer;
-    static final long iarg2 = iarg1+4;
-    static final long iarg3 = iarg2+4;
-    static final long iarg4 = iarg3+4;
-    static final long iarg5 = iarg4+4;
-    static final long iarg6 = iarg5+4;
-    static final long iarg7 = iarg6+4;
-    static final long iarg8 = iarg7+4;
+    stbtic finbl long ibrg1 = ibuffer;
+    stbtic finbl long ibrg2 = ibrg1+4;
+    stbtic finbl long ibrg3 = ibrg2+4;
+    stbtic finbl long ibrg4 = ibrg3+4;
+    stbtic finbl long ibrg5 = ibrg4+4;
+    stbtic finbl long ibrg6 = ibrg5+4;
+    stbtic finbl long ibrg7 = ibrg6+4;
+    stbtic finbl long ibrg8 = ibrg7+4;
 
 
-    static int dataModel;
-    static final boolean isBuildInternal;
+    stbtic int dbtbModel;
+    stbtic finbl boolebn isBuildInternbl;
 
-    static {
-        String dataModelProp = AccessController.doPrivileged(
-            new GetPropertyAction("sun.arch.data.model"));
+    stbtic {
+        String dbtbModelProp = AccessController.doPrivileged(
+            new GetPropertyAction("sun.brch.dbtb.model"));
         try {
-            dataModel = Integer.parseInt(dataModelProp);
-        } catch (Exception e) {
-            dataModel = 32;
+            dbtbModel = Integer.pbrseInt(dbtbModelProp);
+        } cbtch (Exception e) {
+            dbtbModel = 32;
         }
 
-        isBuildInternal = getBuildInternal();
+        isBuildInternbl = getBuildInternbl();
 
-//      System.loadLibrary("mawt");
+//      System.lobdLibrbry("mbwt");
     }
 
-    static int getDataModel() {
-        return dataModel;
+    stbtic int getDbtbModel() {
+        return dbtbModel;
     }
 
-    static String hintsToString(long flags) {
+    stbtic String hintsToString(long flbgs) {
         StringBuffer buf = new StringBuffer();
-        if ((flags & XUtilConstants.PMaxSize) != 0) {
-            buf.append("PMaxSize ");
+        if ((flbgs & XUtilConstbnts.PMbxSize) != 0) {
+            buf.bppend("PMbxSize ");
         }
-        if ((flags & XUtilConstants.PMinSize) != 0) {
-            buf.append("PMinSize ");
+        if ((flbgs & XUtilConstbnts.PMinSize) != 0) {
+            buf.bppend("PMinSize ");
         }
-        if ((flags & XUtilConstants.USSize) != 0) {
-            buf.append("USSize ");
+        if ((flbgs & XUtilConstbnts.USSize) != 0) {
+            buf.bppend("USSize ");
         }
-        if ((flags & XUtilConstants.USPosition) != 0) {
-            buf.append("USPosition ");
+        if ((flbgs & XUtilConstbnts.USPosition) != 0) {
+            buf.bppend("USPosition ");
         }
-        if ((flags & XUtilConstants.PPosition) != 0) {
-            buf.append("PPosition ");
+        if ((flbgs & XUtilConstbnts.PPosition) != 0) {
+            buf.bppend("PPosition ");
         }
-        if ((flags & XUtilConstants.PSize) != 0) {
-            buf.append("PSize ");
+        if ((flbgs & XUtilConstbnts.PSize) != 0) {
+            buf.bppend("PSize ");
         }
-        if ((flags & XUtilConstants.PWinGravity) != 0) {
-            buf.append("PWinGravity ");
+        if ((flbgs & XUtilConstbnts.PWinGrbvity) != 0) {
+            buf.bppend("PWinGrbvity ");
         }
         return buf.toString();
     }
-    static String getEventToString( int type ) {
+    stbtic String getEventToString( int type ) {
         if( (type >= 0) && (type < eventToString.length)) {
             return eventToString[type];
-        }else if( type == XToolkit.getXKBBaseEventCode() ) {
-            //XXX TODO various xkb types
+        }else if( type == XToolkit.getXKBBbseEventCode() ) {
+            //XXX TODO vbrious xkb types
             return "XkbEvent";
         }
         return eventToString[0];
     }
 
-    private static boolean getBuildInternal() {
-        String javaVersion = AccessController.doPrivileged(
-                                 new GetPropertyAction("java.version"));
-        return javaVersion != null && javaVersion.contains("internal");
+    privbte stbtic boolebn getBuildInternbl() {
+        String jbvbVersion = AccessController.doPrivileged(
+                                 new GetPropertyAction("jbvb.version"));
+        return jbvbVersion != null && jbvbVersion.contbins("internbl");
     }
 
-    static native void PrintXErrorEvent(long display, long event_ptr);
+    stbtic nbtive void PrintXErrorEvent(long displby, long event_ptr);
 }

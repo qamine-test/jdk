@@ -1,373 +1,373 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.security.cert.CertificateException;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.security.cert.CertificbteException;
+import jbvb.util.*;
 
 import sun.misc.HexDumpEncoder;
 
 import sun.security.util.*;
 
 /**
- * This class defines the Extensions attribute for the Certificate.
+ * This clbss defines the Extensions bttribute for the Certificbte.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  * @see CertAttrSet
  */
-public class CertificateExtensions implements CertAttrSet<Extension> {
+public clbss CertificbteExtensions implements CertAttrSet<Extension> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.extensions";
+    public stbtic finbl String IDENT = "x509.info.extensions";
     /**
-     * name
+     * nbme
      */
-    public static final String NAME = "extensions";
+    public stbtic finbl String NAME = "extensions";
 
-    private static final Debug debug = Debug.getInstance("x509");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("x509");
 
-    private Map<String,Extension> map = Collections.synchronizedMap(
-            new TreeMap<String,Extension>());
-    private boolean unsupportedCritExt = false;
+    privbte Mbp<String,Extension> mbp = Collections.synchronizedMbp(
+            new TreeMbp<String,Extension>());
+    privbte boolebn unsupportedCritExt = fblse;
 
-    private Map<String,Extension> unparseableExtensions;
+    privbte Mbp<String,Extension> unpbrsebbleExtensions;
 
     /**
-     * Default constructor.
+     * Defbult constructor.
      */
-    public CertificateExtensions() { }
+    public CertificbteExtensions() { }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crebte the object, decoding the vblues from the pbssed DER strebm.
      *
-     * @param in the DerInputStream to read the Extension from.
+     * @pbrbm in the DerInputStrebm to rebd the Extension from.
      * @exception IOException on decoding errors.
      */
-    public CertificateExtensions(DerInputStream in) throws IOException {
+    public CertificbteExtensions(DerInputStrebm in) throws IOException {
         init(in);
     }
 
     // helper routine
-    private void init(DerInputStream in) throws IOException {
+    privbte void init(DerInputStrebm in) throws IOException {
 
-        DerValue[] exts = in.getSequence(5);
+        DerVblue[] exts = in.getSequence(5);
 
         for (int i = 0; i < exts.length; i++) {
             Extension ext = new Extension(exts[i]);
-            parseExtension(ext);
+            pbrseExtension(ext);
         }
     }
 
-    private static Class<?>[] PARAMS = {Boolean.class, Object.class};
+    privbte stbtic Clbss<?>[] PARAMS = {Boolebn.clbss, Object.clbss};
 
-    // Parse the encoded extension
-    private void parseExtension(Extension ext) throws IOException {
+    // Pbrse the encoded extension
+    privbte void pbrseExtension(Extension ext) throws IOException {
         try {
-            Class<?> extClass = OIDMap.getClass(ext.getExtensionId());
-            if (extClass == null) {   // Unsupported extension
-                if (ext.isCritical()) {
+            Clbss<?> extClbss = OIDMbp.getClbss(ext.getExtensionId());
+            if (extClbss == null) {   // Unsupported extension
+                if (ext.isCriticbl()) {
                     unsupportedCritExt = true;
                 }
-                if (map.put(ext.getExtensionId().toString(), ext) == null) {
+                if (mbp.put(ext.getExtensionId().toString(), ext) == null) {
                     return;
                 } else {
-                    throw new IOException("Duplicate extensions not allowed");
+                    throw new IOException("Duplicbte extensions not bllowed");
                 }
             }
-            Constructor<?> cons = extClass.getConstructor(PARAMS);
+            Constructor<?> cons = extClbss.getConstructor(PARAMS);
 
-            Object[] passed = new Object[] {Boolean.valueOf(ext.isCritical()),
-                    ext.getExtensionValue()};
+            Object[] pbssed = new Object[] {Boolebn.vblueOf(ext.isCriticbl()),
+                    ext.getExtensionVblue()};
                     CertAttrSet<?> certExt = (CertAttrSet<?>)
-                            cons.newInstance(passed);
-                    if (map.put(certExt.getName(), (Extension)certExt) != null) {
-                        throw new IOException("Duplicate extensions not allowed");
+                            cons.newInstbnce(pbssed);
+                    if (mbp.put(certExt.getNbme(), (Extension)certExt) != null) {
+                        throw new IOException("Duplicbte extensions not bllowed");
                     }
-        } catch (InvocationTargetException invk) {
-            Throwable e = invk.getTargetException();
-            if (ext.isCritical() == false) {
-                // ignore errors parsing non-critical extensions
-                if (unparseableExtensions == null) {
-                    unparseableExtensions = new TreeMap<String,Extension>();
+        } cbtch (InvocbtionTbrgetException invk) {
+            Throwbble e = invk.getTbrgetException();
+            if (ext.isCriticbl() == fblse) {
+                // ignore errors pbrsing non-criticbl extensions
+                if (unpbrsebbleExtensions == null) {
+                    unpbrsebbleExtensions = new TreeMbp<String,Extension>();
                 }
-                unparseableExtensions.put(ext.getExtensionId().toString(),
-                        new UnparseableExtension(ext, e));
+                unpbrsebbleExtensions.put(ext.getExtensionId().toString(),
+                        new UnpbrsebbleExtension(ext, e));
                 if (debug != null) {
-                    debug.println("Error parsing extension: " + ext);
-                    e.printStackTrace();
+                    debug.println("Error pbrsing extension: " + ext);
+                    e.printStbckTrbce();
                     HexDumpEncoder h = new HexDumpEncoder();
-                    System.err.println(h.encodeBuffer(ext.getExtensionValue()));
+                    System.err.println(h.encodeBuffer(ext.getExtensionVblue()));
                 }
                 return;
             }
-            if (e instanceof IOException) {
+            if (e instbnceof IOException) {
                 throw (IOException)e;
             } else {
                 throw new IOException(e);
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw e;
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new IOException(e);
         }
     }
 
     /**
-     * Encode the extensions in DER form to the stream, setting
-     * the context specific tag as needed in the X.509 v3 certificate.
+     * Encode the extensions in DER form to the strebm, setting
+     * the context specific tbg bs needed in the X.509 v3 certificbte.
      *
-     * @param out the DerOutputStream to marshal the contents to.
-     * @exception CertificateException on encoding errors.
+     * @pbrbm out the DerOutputStrebm to mbrshbl the contents to.
+     * @exception CertificbteException on encoding errors.
      * @exception IOException on errors.
      */
-    public void encode(OutputStream out)
-    throws CertificateException, IOException {
-        encode(out, false);
+    public void encode(OutputStrebm out)
+    throws CertificbteException, IOException {
+        encode(out, fblse);
     }
 
     /**
-     * Encode the extensions in DER form to the stream.
+     * Encode the extensions in DER form to the strebm.
      *
-     * @param out the DerOutputStream to marshal the contents to.
-     * @param isCertReq if true then no context specific tag is added.
-     * @exception CertificateException on encoding errors.
+     * @pbrbm out the DerOutputStrebm to mbrshbl the contents to.
+     * @pbrbm isCertReq if true then no context specific tbg is bdded.
+     * @exception CertificbteException on encoding errors.
      * @exception IOException on errors.
      */
-    public void encode(OutputStream out, boolean isCertReq)
-    throws CertificateException, IOException {
-        DerOutputStream extOut = new DerOutputStream();
-        Collection<Extension> allExts = map.values();
-        Object[] objs = allExts.toArray();
+    public void encode(OutputStrebm out, boolebn isCertReq)
+    throws CertificbteException, IOException {
+        DerOutputStrebm extOut = new DerOutputStrebm();
+        Collection<Extension> bllExts = mbp.vblues();
+        Object[] objs = bllExts.toArrby();
 
         for (int i = 0; i < objs.length; i++) {
-            if (objs[i] instanceof CertAttrSet)
+            if (objs[i] instbnceof CertAttrSet)
                 ((CertAttrSet)objs[i]).encode(extOut);
-            else if (objs[i] instanceof Extension)
+            else if (objs[i] instbnceof Extension)
                 ((Extension)objs[i]).encode(extOut);
             else
-                throw new CertificateException("Illegal extension object");
+                throw new CertificbteException("Illegbl extension object");
         }
 
-        DerOutputStream seq = new DerOutputStream();
-        seq.write(DerValue.tag_Sequence, extOut);
+        DerOutputStrebm seq = new DerOutputStrebm();
+        seq.write(DerVblue.tbg_Sequence, extOut);
 
-        DerOutputStream tmp;
-        if (!isCertReq) { // certificate
-            tmp = new DerOutputStream();
-            tmp.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)3),
+        DerOutputStrebm tmp;
+        if (!isCertReq) { // certificbte
+            tmp = new DerOutputStrebm();
+            tmp.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)3),
                     seq);
         } else
-            tmp = seq; // pkcs#10 certificateRequest
+            tmp = seq; // pkcs#10 certificbteRequest
 
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
-     * @param name the extension name used in the cache.
-     * @param obj the object to set.
-     * @exception IOException if the object could not be cached.
+     * Set the bttribute vblue.
+     * @pbrbm nbme the extension nbme used in the cbche.
+     * @pbrbm obj the object to set.
+     * @exception IOException if the object could not be cbched.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (obj instanceof Extension) {
-            map.put(name, (Extension)obj);
+    public void set(String nbme, Object obj) throws IOException {
+        if (obj instbnceof Extension) {
+            mbp.put(nbme, (Extension)obj);
         } else {
             throw new IOException("Unknown extension type.");
         }
     }
 
     /**
-     * Get the attribute value.
-     * @param name the extension name used in the lookup.
-     * @exception IOException if named extension is not found.
+     * Get the bttribute vblue.
+     * @pbrbm nbme the extension nbme used in the lookup.
+     * @exception IOException if nbmed extension is not found.
      */
-    public Extension get(String name) throws IOException {
-        Extension obj = map.get(name);
+    public Extension get(String nbme) throws IOException {
+        Extension obj = mbp.get(nbme);
         if (obj == null) {
-            throw new IOException("No extension found with name " + name);
+            throw new IOException("No extension found with nbme " + nbme);
         }
         return (obj);
     }
 
-    // Similar to get(String), but throw no exception, might return null.
+    // Similbr to get(String), but throw no exception, might return null.
     // Used in X509CertImpl::getExtension(OID).
-    Extension getExtension(String name) {
-        return map.get(name);
+    Extension getExtension(String nbme) {
+        return mbp.get(nbme);
     }
 
     /**
-     * Delete the attribute value.
-     * @param name the extension name used in the lookup.
-     * @exception IOException if named extension is not found.
+     * Delete the bttribute vblue.
+     * @pbrbm nbme the extension nbme used in the lookup.
+     * @exception IOException if nbmed extension is not found.
      */
-    public void delete(String name) throws IOException {
-        Object obj = map.get(name);
+    public void delete(String nbme) throws IOException {
+        Object obj = mbp.get(nbme);
         if (obj == null) {
-            throw new IOException("No extension found with name " + name);
+            throw new IOException("No extension found with nbme " + nbme);
         }
-        map.remove(name);
+        mbp.remove(nbme);
     }
 
-    public String getNameByOid(ObjectIdentifier oid) throws IOException {
-        for (String name: map.keySet()) {
-            if (map.get(name).getExtensionId().equals((Object)oid)) {
-                return name;
+    public String getNbmeByOid(ObjectIdentifier oid) throws IOException {
+        for (String nbme: mbp.keySet()) {
+            if (mbp.get(nbme).getExtensionId().equbls((Object)oid)) {
+                return nbme;
             }
         }
         return null;
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<Extension> getElements() {
-        return Collections.enumeration(map.values());
+    public Enumerbtion<Extension> getElements() {
+        return Collections.enumerbtion(mbp.vblues());
     }
 
     /**
-     * Return a collection view of the extensions.
-     * @return a collection view of the extensions in this Certificate.
+     * Return b collection view of the extensions.
+     * @return b collection view of the extensions in this Certificbte.
      */
     public Collection<Extension> getAllExtensions() {
-        return map.values();
+        return mbp.vblues();
     }
 
-    public Map<String,Extension> getUnparseableExtensions() {
-        if (unparseableExtensions == null) {
-            return Collections.emptyMap();
+    public Mbp<String,Extension> getUnpbrsebbleExtensions() {
+        if (unpbrsebbleExtensions == null) {
+            return Collections.emptyMbp();
         } else {
-            return unparseableExtensions;
+            return unpbrsebbleExtensions;
         }
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return NAME;
     }
 
     /**
-     * Return true if a critical extension is found that is
-     * not supported, otherwise return false.
+     * Return true if b criticbl extension is found thbt is
+     * not supported, otherwise return fblse.
      */
-    public boolean hasUnsupportedCriticalExtension() {
+    public boolebn hbsUnsupportedCriticblExtension() {
         return unsupportedCritExt;
     }
 
     /**
-     * Compares this CertificateExtensions for equality with the specified
-     * object. If the <code>other</code> object is an
-     * <code>instanceof</code> <code>CertificateExtensions</code>, then
-     * all the entries are compared with the entries from this.
+     * Compbres this CertificbteExtensions for equblity with the specified
+     * object. If the <code>other</code> object is bn
+     * <code>instbnceof</code> <code>CertificbteExtensions</code>, then
+     * bll the entries bre compbred with the entries from this.
      *
-     * @param other the object to test for equality with this
-     * CertificateExtensions.
-     * @return true iff all the entries match that of the Other,
-     * false otherwise.
+     * @pbrbm other the object to test for equblity with this
+     * CertificbteExtensions.
+     * @return true iff bll the entries mbtch thbt of the Other,
+     * fblse otherwise.
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other)
             return true;
-        if (!(other instanceof CertificateExtensions))
-            return false;
+        if (!(other instbnceof CertificbteExtensions))
+            return fblse;
         Collection<Extension> otherC =
-                ((CertificateExtensions)other).getAllExtensions();
-        Object[] objs = otherC.toArray();
+                ((CertificbteExtensions)other).getAllExtensions();
+        Object[] objs = otherC.toArrby();
 
         int len = objs.length;
-        if (len != map.size())
-            return false;
+        if (len != mbp.size())
+            return fblse;
 
         Extension otherExt, thisExt;
         String key = null;
         for (int i = 0; i < len; i++) {
-            if (objs[i] instanceof CertAttrSet)
-                key = ((CertAttrSet)objs[i]).getName();
+            if (objs[i] instbnceof CertAttrSet)
+                key = ((CertAttrSet)objs[i]).getNbme();
             otherExt = (Extension)objs[i];
             if (key == null)
                 key = otherExt.getExtensionId().toString();
-            thisExt = map.get(key);
+            thisExt = mbp.get(key);
             if (thisExt == null)
-                return false;
-            if (! thisExt.equals(otherExt))
-                return false;
+                return fblse;
+            if (! thisExt.equbls(otherExt))
+                return fblse;
         }
-        return this.getUnparseableExtensions().equals(
-                ((CertificateExtensions)other).getUnparseableExtensions());
+        return this.getUnpbrsebbleExtensions().equbls(
+                ((CertificbteExtensions)other).getUnpbrsebbleExtensions());
     }
 
     /**
-     * Returns a hashcode value for this CertificateExtensions.
+     * Returns b hbshcode vblue for this CertificbteExtensions.
      *
-     * @return the hashcode value.
+     * @return the hbshcode vblue.
      */
-    public int hashCode() {
-        return map.hashCode() + getUnparseableExtensions().hashCode();
+    public int hbshCode() {
+        return mbp.hbshCode() + getUnpbrsebbleExtensions().hbshCode();
     }
 
     /**
-     * Returns a string representation of this <tt>CertificateExtensions</tt>
-     * object in the form of a set of entries, enclosed in braces and separated
-     * by the ASCII characters "<tt>,&nbsp;</tt>" (comma and space).
+     * Returns b string representbtion of this <tt>CertificbteExtensions</tt>
+     * object in the form of b set of entries, enclosed in brbces bnd sepbrbted
+     * by the ASCII chbrbcters "<tt>,&nbsp;</tt>" (commb bnd spbce).
      * <p>Overrides to <tt>toString</tt> method of <tt>Object</tt>.
      *
-     * @return  a string representation of this CertificateExtensions.
+     * @return  b string representbtion of this CertificbteExtensions.
      */
     public String toString() {
-        return map.toString();
+        return mbp.toString();
     }
 
 }
 
-class UnparseableExtension extends Extension {
-    private String name;
-    private Throwable why;
+clbss UnpbrsebbleExtension extends Extension {
+    privbte String nbme;
+    privbte Throwbble why;
 
-    public UnparseableExtension(Extension ext, Throwable why) {
+    public UnpbrsebbleExtension(Extension ext, Throwbble why) {
         super(ext);
 
-        name = "";
+        nbme = "";
         try {
-            Class<?> extClass = OIDMap.getClass(ext.getExtensionId());
-            if (extClass != null) {
-                Field field = extClass.getDeclaredField("NAME");
-                name = (String)(field.get(null)) + " ";
+            Clbss<?> extClbss = OIDMbp.getClbss(ext.getExtensionId());
+            if (extClbss != null) {
+                Field field = extClbss.getDeclbredField("NAME");
+                nbme = (String)(field.get(null)) + " ";
             }
-        } catch (Exception e) {
-            // If we cannot find the name, just ignore it
+        } cbtch (Exception e) {
+            // If we cbnnot find the nbme, just ignore it
         }
 
         this.why = why;
@@ -375,7 +375,7 @@ class UnparseableExtension extends Extension {
 
     @Override public String toString() {
         return super.toString() +
-                "Unparseable " + name + "extension due to\n" + why + "\n\n" +
-                new sun.misc.HexDumpEncoder().encodeBuffer(getExtensionValue());
+                "Unpbrsebble " + nbme + "extension due to\n" + why + "\n\n" +
+                new sun.misc.HexDumpEncoder().encodeBuffer(getExtensionVblue());
     }
 }

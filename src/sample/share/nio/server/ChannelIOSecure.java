@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,29 +30,29 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import javax.net.ssl.*;
-import javax.net.ssl.SSLEngineResult.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.chbnnels.*;
+import jbvbx.net.ssl.*;
+import jbvbx.net.ssl.SSLEngineResult.*;
 
 /**
- * A helper class which performs I/O using the SSLEngine API.
+ * A helper clbss which performs I/O using the SSLEngine API.
  * <P>
- * Each connection has a SocketChannel and a SSLEngine that is
- * used through the lifetime of the Channel.  We allocate byte buffers
- * for use as the outbound and inbound network buffers.
+ * Ebch connection hbs b SocketChbnnel bnd b SSLEngine thbt is
+ * used through the lifetime of the Chbnnel.  We bllocbte byte buffers
+ * for use bs the outbound bnd inbound network buffers.
  *
  * <PRE>
- *               Application Data
+ *               Applicbtion Dbtb
  *               src      requestBB
  *                |           ^
  *                |     |     |
@@ -60,7 +60,7 @@ import javax.net.ssl.SSLEngineResult.*;
  *           +----+-----|-----+----+
  *           |          |          |
  *           |       SSL|Engine    |
- *   wrap()  |          |          |  unwrap()
+ *   wrbp()  |          |          |  unwrbp()
  *           | OUTBOUND | INBOUND  |
  *           |          |          |
  *           +----+-----|-----+----+
@@ -68,580 +68,580 @@ import javax.net.ssl.SSLEngineResult.*;
  *                |     |     |
  *                v           |
  *            outNetBB     inNetBB
- *                   Net data
+ *                   Net dbtb
  * </PRE>
  *
- * These buffers handle all of the intermediary data for the SSL
- * connection.  To make things easy, we'll require outNetBB be
- * completely flushed before trying to wrap any more data, but we
- * could certainly remove that restriction by using larger buffers.
+ * These buffers hbndle bll of the intermedibry dbtb for the SSL
+ * connection.  To mbke things ebsy, we'll require outNetBB be
+ * completely flushed before trying to wrbp bny more dbtb, but we
+ * could certbinly remove thbt restriction by using lbrger buffers.
  * <P>
- * There are many, many ways to handle compute and I/O strategies.
- * What follows is a relatively simple one.  The reader is encouraged
- * to develop the strategy that best fits the application.
+ * There bre mbny, mbny wbys to hbndle compute bnd I/O strbtegies.
+ * Whbt follows is b relbtively simple one.  The rebder is encourbged
+ * to develop the strbtegy thbt best fits the bpplicbtion.
  * <P>
- * In most of the non-blocking operations in this class, we let the
- * Selector tell us when we're ready to attempt an I/O operation (by the
- * application repeatedly calling our methods).  Another option would be
- * to attempt the operation and return from the method when no forward
- * progress can be made.
+ * In most of the non-blocking operbtions in this clbss, we let the
+ * Selector tell us when we're rebdy to bttempt bn I/O operbtion (by the
+ * bpplicbtion repebtedly cblling our methods).  Another option would be
+ * to bttempt the operbtion bnd return from the method when no forwbrd
+ * progress cbn be mbde.
  * <P>
- * There's lots of room for enhancements and improvement in this example.
+ * There's lots of room for enhbncements bnd improvement in this exbmple.
  * <P>
- * We're checking for SSL/TLS end-of-stream truncation attacks via
- * sslEngine.closeInbound().  When you reach the end of a input stream
- * via a read() returning -1 or an IOException, we call
- * sslEngine.closeInbound() to signal to the sslEngine that no more
- * input will be available.  If the peer's close_notify message has not
- * yet been received, this could indicate a trucation attack, in which
- * an attacker is trying to prematurely close the connection.   The
- * closeInbound() will throw an exception if this condition were
+ * We're checking for SSL/TLS end-of-strebm truncbtion bttbcks vib
+ * sslEngine.closeInbound().  When you rebch the end of b input strebm
+ * vib b rebd() returning -1 or bn IOException, we cbll
+ * sslEngine.closeInbound() to signbl to the sslEngine thbt no more
+ * input will be bvbilbble.  If the peer's close_notify messbge hbs not
+ * yet been received, this could indicbte b trucbtion bttbck, in which
+ * bn bttbcker is trying to prembturely close the connection.   The
+ * closeInbound() will throw bn exception if this condition were
  * present.
  *
- * @author Brad R. Wetmore
- * @author Mark Reinhold
+ * @buthor Brbd R. Wetmore
+ * @buthor Mbrk Reinhold
  */
-class ChannelIOSecure extends ChannelIO {
+clbss ChbnnelIOSecure extends ChbnnelIO {
 
-    private SSLEngine sslEngine = null;
+    privbte SSLEngine sslEngine = null;
 
-    private int appBBSize;
-    private int netBBSize;
+    privbte int bppBBSize;
+    privbte int netBBSize;
 
     /*
      * All I/O goes through these buffers.
      * <P>
-     * It might be nice to use a cache of ByteBuffers so we're
-     * not alloc/dealloc'ing ByteBuffer's for each new SSLEngine.
+     * It might be nice to use b cbche of ByteBuffers so we're
+     * not blloc/deblloc'ing ByteBuffer's for ebch new SSLEngine.
      * <P>
-     * We use our superclass' requestBB for our application input buffer.
-     * Outbound application data is supplied to us by our callers.
+     * We use our superclbss' requestBB for our bpplicbtion input buffer.
+     * Outbound bpplicbtion dbtb is supplied to us by our cbllers.
      */
-    private ByteBuffer inNetBB;
-    private ByteBuffer outNetBB;
+    privbte ByteBuffer inNetBB;
+    privbte ByteBuffer outNetBB;
 
     /*
-     * An empty ByteBuffer for use when one isn't available, say
-     * as a source buffer during initial handshake wraps or for close
-     * operations.
+     * An empty ByteBuffer for use when one isn't bvbilbble, sby
+     * bs b source buffer during initibl hbndshbke wrbps or for close
+     * operbtions.
      */
-    private static ByteBuffer hsBB = ByteBuffer.allocate(0);
+    privbte stbtic ByteBuffer hsBB = ByteBuffer.bllocbte(0);
 
     /*
-     * The FileChannel we're currently transferTo'ing (reading).
+     * The FileChbnnel we're currently trbnsferTo'ing (rebding).
      */
-    private ByteBuffer fileChannelBB = null;
+    privbte ByteBuffer fileChbnnelBB = null;
 
     /*
-     * During our initial handshake, keep track of the next
-     * SSLEngine operation that needs to occur:
+     * During our initibl hbndshbke, keep trbck of the next
+     * SSLEngine operbtion thbt needs to occur:
      *
      *     NEED_WRAP/NEED_UNWRAP
      *
-     * Once the initial handshake has completed, we can short circuit
-     * handshake checks with initialHSComplete.
+     * Once the initibl hbndshbke hbs completed, we cbn short circuit
+     * hbndshbke checks with initiblHSComplete.
      */
-    private HandshakeStatus initialHSStatus;
-    private boolean initialHSComplete;
+    privbte HbndshbkeStbtus initiblHSStbtus;
+    privbte boolebn initiblHSComplete;
 
     /*
-     * We have received the shutdown request by our caller, and have
+     * We hbve received the shutdown request by our cbller, bnd hbve
      * closed our outbound side.
      */
-    private boolean shutdown = false;
+    privbte boolebn shutdown = fblse;
 
     /*
-     * Constructor for a secure ChannelIO variant.
+     * Constructor for b secure ChbnnelIO vbribnt.
      */
-    protected ChannelIOSecure(SocketChannel sc, boolean blocking,
+    protected ChbnnelIOSecure(SocketChbnnel sc, boolebn blocking,
             SSLContext sslc) throws IOException {
         super(sc, blocking);
 
         /*
-         * We're a server, so no need to use host/port variant.
+         * We're b server, so no need to use host/port vbribnt.
          *
-         * The first call for a server is a NEED_UNWRAP.
+         * The first cbll for b server is b NEED_UNWRAP.
          */
-        sslEngine = sslc.createSSLEngine();
-        sslEngine.setUseClientMode(false);
-        initialHSStatus = HandshakeStatus.NEED_UNWRAP;
-        initialHSComplete = false;
+        sslEngine = sslc.crebteSSLEngine();
+        sslEngine.setUseClientMode(fblse);
+        initiblHSStbtus = HbndshbkeStbtus.NEED_UNWRAP;
+        initiblHSComplete = fblse;
 
-        // Create a buffer using the normal expected packet size we'll
-        // be getting.  This may change, depending on the peer's
-        // SSL implementation.
-        netBBSize = sslEngine.getSession().getPacketBufferSize();
-        inNetBB = ByteBuffer.allocate(netBBSize);
-        outNetBB = ByteBuffer.allocate(netBBSize);
+        // Crebte b buffer using the normbl expected pbcket size we'll
+        // be getting.  This mby chbnge, depending on the peer's
+        // SSL implementbtion.
+        netBBSize = sslEngine.getSession().getPbcketBufferSize();
+        inNetBB = ByteBuffer.bllocbte(netBBSize);
+        outNetBB = ByteBuffer.bllocbte(netBBSize);
         outNetBB.position(0);
         outNetBB.limit(0);
     }
 
     /*
-     * Static factory method for creating a secure ChannelIO object.
+     * Stbtic fbctory method for crebting b secure ChbnnelIO object.
      * <P>
-     * We need to allocate different sized application data buffers
-     * based on whether we're secure or not.  We can't determine
-     * this until our sslEngine is created.
+     * We need to bllocbte different sized bpplicbtion dbtb buffers
+     * bbsed on whether we're secure or not.  We cbn't determine
+     * this until our sslEngine is crebted.
      */
-    static ChannelIOSecure getInstance(SocketChannel sc, boolean blocking,
+    stbtic ChbnnelIOSecure getInstbnce(SocketChbnnel sc, boolebn blocking,
             SSLContext sslc) throws IOException {
 
-        ChannelIOSecure cio = new ChannelIOSecure(sc, blocking, sslc);
+        ChbnnelIOSecure cio = new ChbnnelIOSecure(sc, blocking, sslc);
 
-        // Create a buffer using the normal expected application size we'll
-        // be getting.  This may change, depending on the peer's
-        // SSL implementation.
-        cio.appBBSize = cio.sslEngine.getSession().getApplicationBufferSize();
-        cio.requestBB = ByteBuffer.allocate(cio.appBBSize);
+        // Crebte b buffer using the normbl expected bpplicbtion size we'll
+        // be getting.  This mby chbnge, depending on the peer's
+        // SSL implementbtion.
+        cio.bppBBSize = cio.sslEngine.getSession().getApplicbtionBufferSize();
+        cio.requestBB = ByteBuffer.bllocbte(cio.bppBBSize);
 
         return cio;
     }
 
     /*
-     * Calls up to the superclass to adjust the buffer size
-     * by an appropriate increment.
+     * Cblls up to the superclbss to bdjust the buffer size
+     * by bn bppropribte increment.
      */
     protected void resizeRequestBB() {
-        resizeRequestBB(appBBSize);
+        resizeRequestBB(bppBBSize);
     }
 
     /*
-     * Adjust the inbount network buffer to an appropriate size.
+     * Adjust the inbount network buffer to bn bppropribte size.
      */
-    private void resizeResponseBB() {
-        ByteBuffer bb = ByteBuffer.allocate(netBBSize);
+    privbte void resizeResponseBB() {
+        ByteBuffer bb = ByteBuffer.bllocbte(netBBSize);
         inNetBB.flip();
         bb.put(inNetBB);
         inNetBB = bb;
     }
 
     /*
-     * Writes bb to the SocketChannel.
+     * Writes bb to the SocketChbnnel.
      * <P>
-     * Returns true when the ByteBuffer has no remaining data.
+     * Returns true when the ByteBuffer hbs no rembining dbtb.
      */
-    private boolean tryFlush(ByteBuffer bb) throws IOException {
+    privbte boolebn tryFlush(ByteBuffer bb) throws IOException {
         super.write(bb);
-        return !bb.hasRemaining();
+        return !bb.hbsRembining();
     }
 
     /*
-     * Perform any handshaking processing.
+     * Perform bny hbndshbking processing.
      * <P>
-     * This variant is for Servers without SelectionKeys (e.g.
+     * This vbribnt is for Servers without SelectionKeys (e.g.
      * blocking).
      */
-    boolean doHandshake() throws IOException {
-        return doHandshake(null);
+    boolebn doHbndshbke() throws IOException {
+        return doHbndshbke(null);
     }
 
     /*
-     * Perform any handshaking processing.
+     * Perform bny hbndshbking processing.
      * <P>
-     * If a SelectionKey is passed, register for selectable
-     * operations.
+     * If b SelectionKey is pbssed, register for selectbble
+     * operbtions.
      * <P>
-     * In the blocking case, our caller will keep calling us until
-     * we finish the handshake.  Our reads/writes will block as expected.
+     * In the blocking cbse, our cbller will keep cblling us until
+     * we finish the hbndshbke.  Our rebds/writes will block bs expected.
      * <P>
-     * In the non-blocking case, we just received the selection notification
-     * that this channel is ready for whatever the operation is, so give
-     * it a try.
+     * In the non-blocking cbse, we just received the selection notificbtion
+     * thbt this chbnnel is rebdy for whbtever the operbtion is, so give
+     * it b try.
      * <P>
      * return:
-     *          true when handshake is done.
-     *          false while handshake is in progress
+     *          true when hbndshbke is done.
+     *          fblse while hbndshbke is in progress
      */
-    boolean doHandshake(SelectionKey sk) throws IOException {
+    boolebn doHbndshbke(SelectionKey sk) throws IOException {
 
         SSLEngineResult result;
 
-        if (initialHSComplete) {
-            return initialHSComplete;
+        if (initiblHSComplete) {
+            return initiblHSComplete;
         }
 
         /*
-         * Flush out the outgoing buffer, if there's anything left in
+         * Flush out the outgoing buffer, if there's bnything left in
          * it.
          */
-        if (outNetBB.hasRemaining()) {
+        if (outNetBB.hbsRembining()) {
 
             if (!tryFlush(outNetBB)) {
-                return false;
+                return fblse;
             }
 
-            // See if we need to switch from write to read mode.
+            // See if we need to switch from write to rebd mode.
 
-            switch (initialHSStatus) {
+            switch (initiblHSStbtus) {
 
             /*
-             * Is this the last buffer?
+             * Is this the lbst buffer?
              */
-            case FINISHED:
-                initialHSComplete = true;
-                // Fall-through to reregister need for a Read.
+            cbse FINISHED:
+                initiblHSComplete = true;
+                // Fbll-through to reregister need for b Rebd.
 
-            case NEED_UNWRAP:
+            cbse NEED_UNWRAP:
                 if (sk != null) {
                     sk.interestOps(SelectionKey.OP_READ);
                 }
-                break;
+                brebk;
             }
 
-            return initialHSComplete;
+            return initiblHSComplete;
         }
 
 
-        switch (initialHSStatus) {
+        switch (initiblHSStbtus) {
 
-        case NEED_UNWRAP:
-            if (sc.read(inNetBB) == -1) {
+        cbse NEED_UNWRAP:
+            if (sc.rebd(inNetBB) == -1) {
                 sslEngine.closeInbound();
-                return initialHSComplete;
+                return initiblHSComplete;
             }
 
 needIO:
-            while (initialHSStatus == HandshakeStatus.NEED_UNWRAP) {
-                resizeRequestBB();    // expected room for unwrap
+            while (initiblHSStbtus == HbndshbkeStbtus.NEED_UNWRAP) {
+                resizeRequestBB();    // expected room for unwrbp
                 inNetBB.flip();
-                result = sslEngine.unwrap(inNetBB, requestBB);
-                inNetBB.compact();
+                result = sslEngine.unwrbp(inNetBB, requestBB);
+                inNetBB.compbct();
 
-                initialHSStatus = result.getHandshakeStatus();
+                initiblHSStbtus = result.getHbndshbkeStbtus();
 
-                switch (result.getStatus()) {
+                switch (result.getStbtus()) {
 
-                case OK:
-                    switch (initialHSStatus) {
-                    case NOT_HANDSHAKING:
+                cbse OK:
+                    switch (initiblHSStbtus) {
+                    cbse NOT_HANDSHAKING:
                         throw new IOException(
-                            "Not handshaking during initial handshake");
+                            "Not hbndshbking during initibl hbndshbke");
 
-                    case NEED_TASK:
-                        initialHSStatus = doTasks();
-                        break;
+                    cbse NEED_TASK:
+                        initiblHSStbtus = doTbsks();
+                        brebk;
 
-                    case FINISHED:
-                        initialHSComplete = true;
-                        break needIO;
+                    cbse FINISHED:
+                        initiblHSComplete = true;
+                        brebk needIO;
                     }
 
-                    break;
+                    brebk;
 
-                case BUFFER_UNDERFLOW:
+                cbse BUFFER_UNDERFLOW:
                     // Resize buffer if needed.
-                    netBBSize = sslEngine.getSession().getPacketBufferSize();
-                    if (netBBSize > inNetBB.capacity()) {
+                    netBBSize = sslEngine.getSession().getPbcketBufferSize();
+                    if (netBBSize > inNetBB.cbpbcity()) {
                         resizeResponseBB();
                     }
 
                     /*
-                     * Need to go reread the Channel for more data.
+                     * Need to go rerebd the Chbnnel for more dbtb.
                      */
                     if (sk != null) {
                         sk.interestOps(SelectionKey.OP_READ);
                     }
-                    break needIO;
+                    brebk needIO;
 
-                case BUFFER_OVERFLOW:
-                    // Reset the application buffer size.
-                    appBBSize =
-                        sslEngine.getSession().getApplicationBufferSize();
-                    break;
+                cbse BUFFER_OVERFLOW:
+                    // Reset the bpplicbtion buffer size.
+                    bppBBSize =
+                        sslEngine.getSession().getApplicbtionBufferSize();
+                    brebk;
 
-                default: //CLOSED:
-                    throw new IOException("Received" + result.getStatus() +
-                        "during initial handshaking");
+                defbult: //CLOSED:
+                    throw new IOException("Received" + result.getStbtus() +
+                        "during initibl hbndshbking");
                 }
             }  // "needIO" block.
 
             /*
-             * Just transitioned from read to write.
+             * Just trbnsitioned from rebd to write.
              */
-            if (initialHSStatus != HandshakeStatus.NEED_WRAP) {
-                break;
+            if (initiblHSStbtus != HbndshbkeStbtus.NEED_WRAP) {
+                brebk;
             }
 
-            // Fall through and fill the write buffers.
+            // Fbll through bnd fill the write buffers.
 
-        case NEED_WRAP:
+        cbse NEED_WRAP:
             /*
-             * The flush above guarantees the out buffer to be empty
+             * The flush bbove gubrbntees the out buffer to be empty
              */
-            outNetBB.clear();
-            result = sslEngine.wrap(hsBB, outNetBB);
+            outNetBB.clebr();
+            result = sslEngine.wrbp(hsBB, outNetBB);
             outNetBB.flip();
 
-            initialHSStatus = result.getHandshakeStatus();
+            initiblHSStbtus = result.getHbndshbkeStbtus();
 
-            switch (result.getStatus()) {
-            case OK:
+            switch (result.getStbtus()) {
+            cbse OK:
 
-                if (initialHSStatus == HandshakeStatus.NEED_TASK) {
-                    initialHSStatus = doTasks();
+                if (initiblHSStbtus == HbndshbkeStbtus.NEED_TASK) {
+                    initiblHSStbtus = doTbsks();
                 }
 
                 if (sk != null) {
                     sk.interestOps(SelectionKey.OP_WRITE);
                 }
 
-                break;
+                brebk;
 
-            default: // BUFFER_OVERFLOW/BUFFER_UNDERFLOW/CLOSED:
-                throw new IOException("Received" + result.getStatus() +
-                        "during initial handshaking");
+            defbult: // BUFFER_OVERFLOW/BUFFER_UNDERFLOW/CLOSED:
+                throw new IOException("Received" + result.getStbtus() +
+                        "during initibl hbndshbking");
             }
-            break;
+            brebk;
 
-        default: // NOT_HANDSHAKING/NEED_TASK/FINISHED
-            throw new RuntimeException("Invalid Handshaking State" +
-                    initialHSStatus);
+        defbult: // NOT_HANDSHAKING/NEED_TASK/FINISHED
+            throw new RuntimeException("Invblid Hbndshbking Stbte" +
+                    initiblHSStbtus);
         } // switch
 
-        return initialHSComplete;
+        return initiblHSComplete;
     }
 
     /*
-     * Do all the outstanding handshake tasks in the current Thread.
+     * Do bll the outstbnding hbndshbke tbsks in the current Threbd.
      */
-    private SSLEngineResult.HandshakeStatus doTasks() {
+    privbte SSLEngineResult.HbndshbkeStbtus doTbsks() {
 
-        Runnable runnable;
+        Runnbble runnbble;
 
         /*
-         * We could run this in a separate thread, but
+         * We could run this in b sepbrbte threbd, but
          * do in the current for now.
          */
-        while ((runnable = sslEngine.getDelegatedTask()) != null) {
-            runnable.run();
+        while ((runnbble = sslEngine.getDelegbtedTbsk()) != null) {
+            runnbble.run();
         }
-        return sslEngine.getHandshakeStatus();
+        return sslEngine.getHbndshbkeStbtus();
     }
 
     /*
-     * Read the channel for more information, then unwrap the
-     * (hopefully application) data we get.
+     * Rebd the chbnnel for more informbtion, then unwrbp the
+     * (hopefully bpplicbtion) dbtb we get.
      * <P>
-     * If we run out of data, we'll return to our caller (possibly using
-     * a Selector) to get notification that more is available.
+     * If we run out of dbtb, we'll return to our cbller (possibly using
+     * b Selector) to get notificbtion thbt more is bvbilbble.
      * <P>
-     * Each call to this method will perform at most one underlying read().
+     * Ebch cbll to this method will perform bt most one underlying rebd().
      */
-    int read() throws IOException {
+    int rebd() throws IOException {
         SSLEngineResult result;
 
-        if (!initialHSComplete) {
-            throw new IllegalStateException();
+        if (!initiblHSComplete) {
+            throw new IllegblStbteException();
         }
 
         int pos = requestBB.position();
 
-        if (sc.read(inNetBB) == -1) {
-            sslEngine.closeInbound();  // probably throws exception
+        if (sc.rebd(inNetBB) == -1) {
+            sslEngine.closeInbound();  // probbbly throws exception
             return -1;
         }
 
         do {
-            resizeRequestBB();    // expected room for unwrap
+            resizeRequestBB();    // expected room for unwrbp
             inNetBB.flip();
-            result = sslEngine.unwrap(inNetBB, requestBB);
-            inNetBB.compact();
+            result = sslEngine.unwrbp(inNetBB, requestBB);
+            inNetBB.compbct();
 
             /*
-             * Could check here for a renegotation, but we're only
-             * doing a simple read/write, and won't have enough state
-             * transitions to do a complete handshake, so ignore that
+             * Could check here for b renegotbtion, but we're only
+             * doing b simple rebd/write, bnd won't hbve enough stbte
+             * trbnsitions to do b complete hbndshbke, so ignore thbt
              * possibility.
              */
-            switch (result.getStatus()) {
+            switch (result.getStbtus()) {
 
-            case BUFFER_OVERFLOW:
-                // Reset the application buffer size.
-                appBBSize = sslEngine.getSession().getApplicationBufferSize();
-                break;
+            cbse BUFFER_OVERFLOW:
+                // Reset the bpplicbtion buffer size.
+                bppBBSize = sslEngine.getSession().getApplicbtionBufferSize();
+                brebk;
 
-            case BUFFER_UNDERFLOW:
+            cbse BUFFER_UNDERFLOW:
                 // Resize buffer if needed.
-                netBBSize = sslEngine.getSession().getPacketBufferSize();
-                if (netBBSize > inNetBB.capacity()) {
+                netBBSize = sslEngine.getSession().getPbcketBufferSize();
+                if (netBBSize > inNetBB.cbpbcity()) {
                     resizeResponseBB();
 
-                    break; // break, next read will support larger buffer.
+                    brebk; // brebk, next rebd will support lbrger buffer.
                 }
-            case OK:
-                if (result.getHandshakeStatus() == HandshakeStatus.NEED_TASK) {
-                    doTasks();
+            cbse OK:
+                if (result.getHbndshbkeStbtus() == HbndshbkeStbtus.NEED_TASK) {
+                    doTbsks();
                 }
-                break;
+                brebk;
 
-            default:
-                throw new IOException("sslEngine error during data read: " +
-                    result.getStatus());
+            defbult:
+                throw new IOException("sslEngine error during dbtb rebd: " +
+                    result.getStbtus());
             }
         } while ((inNetBB.position() != 0) &&
-            result.getStatus() != Status.BUFFER_UNDERFLOW);
+            result.getStbtus() != Stbtus.BUFFER_UNDERFLOW);
 
         return (requestBB.position() - pos);
     }
 
     /*
-     * Try to write out as much as possible from the src buffer.
+     * Try to write out bs much bs possible from the src buffer.
      */
     int write(ByteBuffer src) throws IOException {
 
-        if (!initialHSComplete) {
-            throw new IllegalStateException();
+        if (!initiblHSComplete) {
+            throw new IllegblStbteException();
         }
 
         return doWrite(src);
     }
 
     /*
-     * Try to flush out any existing outbound data, then try to wrap
-     * anything new contained in the src buffer.
+     * Try to flush out bny existing outbound dbtb, then try to wrbp
+     * bnything new contbined in the src buffer.
      * <P>
-     * Return the number of bytes actually consumed from the buffer,
-     * but the data may actually be still sitting in the output buffer,
-     * waiting to be flushed.
+     * Return the number of bytes bctublly consumed from the buffer,
+     * but the dbtb mby bctublly be still sitting in the output buffer,
+     * wbiting to be flushed.
      */
-    private int doWrite(ByteBuffer src) throws IOException {
-        int retValue = 0;
+    privbte int doWrite(ByteBuffer src) throws IOException {
+        int retVblue = 0;
 
-        if (outNetBB.hasRemaining() && !tryFlush(outNetBB)) {
-            return retValue;
+        if (outNetBB.hbsRembining() && !tryFlush(outNetBB)) {
+            return retVblue;
         }
 
         /*
-         * The data buffer is empty, we can reuse the entire buffer.
+         * The dbtb buffer is empty, we cbn reuse the entire buffer.
          */
-        outNetBB.clear();
+        outNetBB.clebr();
 
-        SSLEngineResult result = sslEngine.wrap(src, outNetBB);
-        retValue = result.bytesConsumed();
+        SSLEngineResult result = sslEngine.wrbp(src, outNetBB);
+        retVblue = result.bytesConsumed();
 
         outNetBB.flip();
 
-        switch (result.getStatus()) {
+        switch (result.getStbtus()) {
 
-        case OK:
-            if (result.getHandshakeStatus() == HandshakeStatus.NEED_TASK) {
-                doTasks();
+        cbse OK:
+            if (result.getHbndshbkeStbtus() == HbndshbkeStbtus.NEED_TASK) {
+                doTbsks();
             }
-            break;
+            brebk;
 
-        default:
-            throw new IOException("sslEngine error during data write: " +
-                result.getStatus());
+        defbult:
+            throw new IOException("sslEngine error during dbtb write: " +
+                result.getStbtus());
         }
 
         /*
-         * Try to flush the data, regardless of whether or not
-         * it's been selected.  Odds of a write buffer being full
-         * is less than a read buffer being empty.
+         * Try to flush the dbtb, regbrdless of whether or not
+         * it's been selected.  Odds of b write buffer being full
+         * is less thbn b rebd buffer being empty.
          */
-        if (outNetBB.hasRemaining()) {
+        if (outNetBB.hbsRembining()) {
             tryFlush(outNetBB);
         }
 
-        return retValue;
+        return retVblue;
     }
 
     /*
-     * Perform a FileChannel.TransferTo on the socket channel.
+     * Perform b FileChbnnel.TrbnsferTo on the socket chbnnel.
      * <P>
-     * We have to copy the data into an intermediary app ByteBuffer
+     * We hbve to copy the dbtb into bn intermedibry bpp ByteBuffer
      * first, then send it through the SSLEngine.
      * <P>
-     * We return the number of bytes actually read out of the
-     * filechannel.  However, the data may actually be stuck
-     * in the fileChannelBB or the outNetBB.  The caller
-     * is responsible for making sure to call dataFlush()
+     * We return the number of bytes bctublly rebd out of the
+     * filechbnnel.  However, the dbtb mby bctublly be stuck
+     * in the fileChbnnelBB or the outNetBB.  The cbller
+     * is responsible for mbking sure to cbll dbtbFlush()
      * before shutting down.
      */
-    long transferTo(FileChannel fc, long pos, long len) throws IOException {
+    long trbnsferTo(FileChbnnel fc, long pos, long len) throws IOException {
 
-        if (!initialHSComplete) {
-            throw new IllegalStateException();
+        if (!initiblHSComplete) {
+            throw new IllegblStbteException();
         }
 
-        if (fileChannelBB == null) {
-            fileChannelBB = ByteBuffer.allocate(appBBSize);
-            fileChannelBB.limit(0);
+        if (fileChbnnelBB == null) {
+            fileChbnnelBB = ByteBuffer.bllocbte(bppBBSize);
+            fileChbnnelBB.limit(0);
         }
 
-        fileChannelBB.compact();
-        int fileRead = fc.read(fileChannelBB);
-        fileChannelBB.flip();
+        fileChbnnelBB.compbct();
+        int fileRebd = fc.rebd(fileChbnnelBB);
+        fileChbnnelBB.flip();
 
         /*
-         * We ignore the return value here, we return the
-         * number of bytes actually consumed from the the file.
-         * We'll flush the output buffer before we start shutting down.
+         * We ignore the return vblue here, we return the
+         * number of bytes bctublly consumed from the the file.
+         * We'll flush the output buffer before we stbrt shutting down.
          */
-        doWrite(fileChannelBB);
+        doWrite(fileChbnnelBB);
 
-        return fileRead;
+        return fileRebd;
     }
 
     /*
-     * Flush any remaining data.
+     * Flush bny rembining dbtb.
      * <P>
-     * Return true when the fileChannelBB and outNetBB are empty.
+     * Return true when the fileChbnnelBB bnd outNetBB bre empty.
      */
-    boolean dataFlush() throws IOException {
-        boolean fileFlushed = true;
+    boolebn dbtbFlush() throws IOException {
+        boolebn fileFlushed = true;
 
-        if ((fileChannelBB != null) && fileChannelBB.hasRemaining()) {
-            doWrite(fileChannelBB);
-            fileFlushed = !fileChannelBB.hasRemaining();
-        } else if (outNetBB.hasRemaining()) {
+        if ((fileChbnnelBB != null) && fileChbnnelBB.hbsRembining()) {
+            doWrite(fileChbnnelBB);
+            fileFlushed = !fileChbnnelBB.hbsRembining();
+        } else if (outNetBB.hbsRembining()) {
             tryFlush(outNetBB);
         }
 
-        return (fileFlushed && !outNetBB.hasRemaining());
+        return (fileFlushed && !outNetBB.hbsRembining());
     }
 
     /*
      * Begin the shutdown process.
      * <P>
-     * Close out the SSLEngine if not already done so, then
-     * wrap our outgoing close_notify message and try to send it on.
+     * Close out the SSLEngine if not blrebdy done so, then
+     * wrbp our outgoing close_notify messbge bnd try to send it on.
      * <P>
-     * Return true when we're done passing the shutdown messsages.
+     * Return true when we're done pbssing the shutdown messsbges.
      */
-    boolean shutdown() throws IOException {
+    boolebn shutdown() throws IOException {
 
         if (!shutdown) {
             sslEngine.closeOutbound();
             shutdown = true;
         }
 
-        if (outNetBB.hasRemaining() && tryFlush(outNetBB)) {
-            return false;
+        if (outNetBB.hbsRembining() && tryFlush(outNetBB)) {
+            return fblse;
         }
 
         /*
-         * By RFC 2616, we can "fire and forget" our close_notify
-         * message, so that's what we'll do here.
+         * By RFC 2616, we cbn "fire bnd forget" our close_notify
+         * messbge, so thbt's whbt we'll do here.
          */
-        outNetBB.clear();
-        SSLEngineResult result = sslEngine.wrap(hsBB, outNetBB);
-        if (result.getStatus() != Status.CLOSED) {
-            throw new SSLException("Improper close state");
+        outNetBB.clebr();
+        SSLEngineResult result = sslEngine.wrbp(hsBB, outNetBB);
+        if (result.getStbtus() != Stbtus.CLOSED) {
+            throw new SSLException("Improper close stbte");
         }
         outNetBB.flip();
 
         /*
-         * We won't wait for a select here, but if this doesn't work,
-         * we'll cycle back through on the next select.
+         * We won't wbit for b select here, but if this doesn't work,
+         * we'll cycle bbck through on the next select.
          */
-        if (outNetBB.hasRemaining()) {
+        if (outNetBB.hbsRembining()) {
             tryFlush(outNetBB);
         }
 
-        return (!outNetBB.hasRemaining() &&
-                (result.getHandshakeStatus() != HandshakeStatus.NEED_WRAP));
+        return (!outNetBB.hbsRembining() &&
+                (result.getHbndshbkeStbtus() != HbndshbkeStbtus.NEED_WRAP));
     }
 
     /*

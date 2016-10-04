@@ -1,259 +1,259 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvb.bebns.*;
 
 /**
- * Basic L&amp;F for a minimized window on a desktop.
+ * Bbsic L&bmp;F for b minimized window on b desktop.
  *
- * @author David Kloba
- * @author Steve Wilson
- * @author Rich Schiavi
+ * @buthor Dbvid Klobb
+ * @buthor Steve Wilson
+ * @buthor Rich Schibvi
  */
-public class BasicDesktopIconUI extends DesktopIconUI {
+public clbss BbsicDesktopIconUI extends DesktopIconUI {
 
     /**
-     * The instance of {@code JInternalFrame.JDesktopIcon}.
+     * The instbnce of {@code JInternblFrbme.JDesktopIcon}.
      */
-    protected JInternalFrame.JDesktopIcon desktopIcon;
+    protected JInternblFrbme.JDesktopIcon desktopIcon;
 
     /**
-     * The instance of {@code JInternalFrame}.
+     * The instbnce of {@code JInternblFrbme}.
      */
-    protected JInternalFrame frame;
+    protected JInternblFrbme frbme;
 
     /**
-     * The title pane component used in the desktop icon.
+     * The title pbne component used in the desktop icon.
      *
      * @since 1.5
      */
-    protected JComponent iconPane;
+    protected JComponent iconPbne;
     MouseInputListener mouseInputListener;
 
     /**
-     * Constructs a new instance of {@code BasicDesktopIconUI}.
+     * Constructs b new instbnce of {@code BbsicDesktopIconUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicDesktopIconUI}
+     * @pbrbm c b component
+     * @return b new instbnce of {@code BbsicDesktopIconUI}
      */
-    public static ComponentUI createUI(JComponent c)    {
-        return new BasicDesktopIconUI();
+    public stbtic ComponentUI crebteUI(JComponent c)    {
+        return new BbsicDesktopIconUI();
     }
 
     /**
-     * Constructs a new instance of {@code BasicDesktopIconUI}.
+     * Constructs b new instbnce of {@code BbsicDesktopIconUI}.
      */
-    public BasicDesktopIconUI() {
+    public BbsicDesktopIconUI() {
     }
 
-    public void installUI(JComponent c)   {
-        desktopIcon = (JInternalFrame.JDesktopIcon)c;
-        frame = desktopIcon.getInternalFrame();
-        installDefaults();
-        installComponents();
+    public void instbllUI(JComponent c)   {
+        desktopIcon = (JInternblFrbme.JDesktopIcon)c;
+        frbme = desktopIcon.getInternblFrbme();
+        instbllDefbults();
+        instbllComponents();
 
-        // Update icon layout if frame is already iconified
-        JInternalFrame f = desktopIcon.getInternalFrame();
-        if (f.isIcon() && f.getParent() == null) {
-            JDesktopPane desktop = desktopIcon.getDesktopPane();
+        // Updbte icon lbyout if frbme is blrebdy iconified
+        JInternblFrbme f = desktopIcon.getInternblFrbme();
+        if (f.isIcon() && f.getPbrent() == null) {
+            JDesktopPbne desktop = desktopIcon.getDesktopPbne();
             if (desktop != null) {
-                DesktopManager desktopManager = desktop.getDesktopManager();
-                if (desktopManager instanceof DefaultDesktopManager) {
-                    desktopManager.iconifyFrame(f);
+                DesktopMbnbger desktopMbnbger = desktop.getDesktopMbnbger();
+                if (desktopMbnbger instbnceof DefbultDesktopMbnbger) {
+                    desktopMbnbger.iconifyFrbme(f);
                 }
             }
         }
 
-        installListeners();
-        JLayeredPane.putLayer(desktopIcon, JLayeredPane.getLayer(frame));
+        instbllListeners();
+        JLbyeredPbne.putLbyer(desktopIcon, JLbyeredPbne.getLbyer(frbme));
     }
 
-    public void uninstallUI(JComponent c) {
-        uninstallDefaults();
-        uninstallComponents();
+    public void uninstbllUI(JComponent c) {
+        uninstbllDefbults();
+        uninstbllComponents();
 
-        // Force future UI to relayout icon
-        JInternalFrame f = desktopIcon.getInternalFrame();
+        // Force future UI to relbyout icon
+        JInternblFrbme f = desktopIcon.getInternblFrbme();
         if (f.isIcon()) {
-            JDesktopPane desktop = desktopIcon.getDesktopPane();
+            JDesktopPbne desktop = desktopIcon.getDesktopPbne();
             if (desktop != null) {
-                DesktopManager desktopManager = desktop.getDesktopManager();
-                if (desktopManager instanceof DefaultDesktopManager) {
-                    // This will cause DefaultDesktopManager to layout the icon
-                    f.putClientProperty("wasIconOnce", null);
-                    // Move aside to allow fresh layout of all icons
-                    desktopIcon.setLocation(Integer.MIN_VALUE, 0);
+                DesktopMbnbger desktopMbnbger = desktop.getDesktopMbnbger();
+                if (desktopMbnbger instbnceof DefbultDesktopMbnbger) {
+                    // This will cbuse DefbultDesktopMbnbger to lbyout the icon
+                    f.putClientProperty("wbsIconOnce", null);
+                    // Move bside to bllow fresh lbyout of bll icons
+                    desktopIcon.setLocbtion(Integer.MIN_VALUE, 0);
                 }
             }
         }
 
-        uninstallListeners();
-        frame = null;
+        uninstbllListeners();
+        frbme = null;
         desktopIcon = null;
     }
 
     /**
      * Registers components.
      */
-    protected void installComponents() {
-        iconPane = new BasicInternalFrameTitlePane(frame);
-        desktopIcon.setLayout(new BorderLayout());
-        desktopIcon.add(iconPane, BorderLayout.CENTER);
+    protected void instbllComponents() {
+        iconPbne = new BbsicInternblFrbmeTitlePbne(frbme);
+        desktopIcon.setLbyout(new BorderLbyout());
+        desktopIcon.bdd(iconPbne, BorderLbyout.CENTER);
     }
 
     /**
      * Unregisters components.
      */
-    protected void uninstallComponents() {
-        desktopIcon.remove(iconPane);
-        desktopIcon.setLayout(null);
-        iconPane = null;
+    protected void uninstbllComponents() {
+        desktopIcon.remove(iconPbne);
+        desktopIcon.setLbyout(null);
+        iconPbne = null;
     }
 
     /**
      * Registers listeners.
      */
-    protected void installListeners() {
-        mouseInputListener = createMouseInputListener();
-        desktopIcon.addMouseMotionListener(mouseInputListener);
-        desktopIcon.addMouseListener(mouseInputListener);
+    protected void instbllListeners() {
+        mouseInputListener = crebteMouseInputListener();
+        desktopIcon.bddMouseMotionListener(mouseInputListener);
+        desktopIcon.bddMouseListener(mouseInputListener);
     }
 
     /**
      * Unregisters listeners.
      */
-    protected void uninstallListeners() {
+    protected void uninstbllListeners() {
         desktopIcon.removeMouseMotionListener(mouseInputListener);
         desktopIcon.removeMouseListener(mouseInputListener);
         mouseInputListener = null;
     }
 
     /**
-     * Installs default properties.
+     * Instblls defbult properties.
      */
-    protected void installDefaults() {
-        LookAndFeel.installBorder(desktopIcon, "DesktopIcon.border");
-        LookAndFeel.installProperty(desktopIcon, "opaque", Boolean.TRUE);
+    protected void instbllDefbults() {
+        LookAndFeel.instbllBorder(desktopIcon, "DesktopIcon.border");
+        LookAndFeel.instbllProperty(desktopIcon, "opbque", Boolebn.TRUE);
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls defbult properties.
      */
-    protected void uninstallDefaults() {
-        LookAndFeel.uninstallBorder(desktopIcon);
+    protected void uninstbllDefbults() {
+        LookAndFeel.uninstbllBorder(desktopIcon);
     }
 
     /**
-     * Returns a new instance of {@code MouseInputListener}.
+     * Returns b new instbnce of {@code MouseInputListener}.
      *
-     * @return a new instance of {@code MouseInputListener}
+     * @return b new instbnce of {@code MouseInputListener}
      */
-    protected MouseInputListener createMouseInputListener() {
-        return new MouseInputHandler();
+    protected MouseInputListener crebteMouseInputListener() {
+        return new MouseInputHbndler();
     }
 
     public Dimension getPreferredSize(JComponent c) {
-        return desktopIcon.getLayout().preferredLayoutSize(desktopIcon);
+        return desktopIcon.getLbyout().preferredLbyoutSize(desktopIcon);
     }
 
     public Dimension getMinimumSize(JComponent c) {
-        Dimension dim = new Dimension(iconPane.getMinimumSize());
-        Border border = frame.getBorder();
+        Dimension dim = new Dimension(iconPbne.getMinimumSize());
+        Border border = frbme.getBorder();
 
         if (border != null) {
-            dim.height += border.getBorderInsets(frame).bottom +
-                          border.getBorderInsets(frame).top;
+            dim.height += border.getBorderInsets(frbme).bottom +
+                          border.getBorderInsets(frbme).top;
         }
         return dim;
     }
 
     /**
-     * Desktop icons can not be resized.  Therefore, we should always
+     * Desktop icons cbn not be resized.  Therefore, we should blwbys
      * return the minimum size of the desktop icon.
      *
      * @see #getMinimumSize
      */
-    public Dimension getMaximumSize(JComponent c){
-        return iconPane.getMaximumSize();
+    public Dimension getMbximumSize(JComponent c){
+        return iconPbne.getMbximumSize();
     }
 
     /**
      * Returns the insets.
      *
-     * @param c a component
+     * @pbrbm c b component
      * @return the insets
      */
     public Insets getInsets(JComponent c) {
-        JInternalFrame iframe = desktopIcon.getInternalFrame();
-        Border border = iframe.getBorder();
+        JInternblFrbme ifrbme = desktopIcon.getInternblFrbme();
+        Border border = ifrbme.getBorder();
         if(border != null)
-            return border.getBorderInsets(iframe);
+            return border.getBorderInsets(ifrbme);
 
         return new Insets(0,0,0,0);
     }
 
     /**
-     * De-iconifies the internal frame.
+     * De-iconifies the internbl frbme.
      */
     public void deiconize() {
-        try { frame.setIcon(false); } catch (PropertyVetoException e2) { }
+        try { frbme.setIcon(fblse); } cbtch (PropertyVetoException e2) { }
     }
 
     /**
-     * Listens for mouse movements and acts on them.
+     * Listens for mouse movements bnd bcts on them.
      *
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicDesktopIconUI}.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of {@code BbsicDesktopIconUI}.
      */
-    public class MouseInputHandler extends MouseInputAdapter
+    public clbss MouseInputHbndler extends MouseInputAdbpter
     {
-        // _x & _y are the mousePressed location in absolute coordinate system
+        // _x & _y bre the mousePressed locbtion in bbsolute coordinbte system
         int _x, _y;
-        // __x & __y are the mousePressed location in source view's coordinate system
+        // __x & __y bre the mousePressed locbtion in source view's coordinbte system
         int __x, __y;
-        Rectangle startingBounds;
+        Rectbngle stbrtingBounds;
 
-        public void mouseReleased(MouseEvent e) {
+        public void mouseRelebsed(MouseEvent e) {
             _x = 0;
             _y = 0;
             __x = 0;
             __y = 0;
-            startingBounds = null;
+            stbrtingBounds = null;
 
-            JDesktopPane d;
-            if((d = desktopIcon.getDesktopPane()) != null) {
-                DesktopManager dm = d.getDesktopManager();
-                dm.endDraggingFrame(desktopIcon);
+            JDesktopPbne d;
+            if((d = desktopIcon.getDesktopPbne()) != null) {
+                DesktopMbnbger dm = d.getDesktopMbnbger();
+                dm.endDrbggingFrbme(desktopIcon);
             }
 
         }
@@ -265,21 +265,21 @@ public class BasicDesktopIconUI extends DesktopIconUI {
             __y = e.getY();
             _x = p.x;
             _y = p.y;
-            startingBounds = desktopIcon.getBounds();
+            stbrtingBounds = desktopIcon.getBounds();
 
-            JDesktopPane d;
-            if((d = desktopIcon.getDesktopPane()) != null) {
-                DesktopManager dm = d.getDesktopManager();
-                dm.beginDraggingFrame(desktopIcon);
+            JDesktopPbne d;
+            if((d = desktopIcon.getDesktopPbne()) != null) {
+                DesktopMbnbger dm = d.getDesktopMbnbger();
+                dm.beginDrbggingFrbme(desktopIcon);
             }
 
-            try { frame.setSelected(true); } catch (PropertyVetoException e1) { }
-            if(desktopIcon.getParent() instanceof JLayeredPane) {
-                ((JLayeredPane)desktopIcon.getParent()).moveToFront(desktopIcon);
+            try { frbme.setSelected(true); } cbtch (PropertyVetoException e1) { }
+            if(desktopIcon.getPbrent() instbnceof JLbyeredPbne) {
+                ((JLbyeredPbne)desktopIcon.getPbrent()).moveToFront(desktopIcon);
             }
 
             if(e.getClickCount() > 1) {
-                if(frame.isIconifiable() && frame.isIcon()) {
+                if(frbme.isIconifibble() && frbme.isIcon()) {
                     deiconize();
                 }
             }
@@ -288,28 +288,28 @@ public class BasicDesktopIconUI extends DesktopIconUI {
 
          public void mouseMoved(MouseEvent e) {}
 
-         public void mouseDragged(MouseEvent e) {
+         public void mouseDrbgged(MouseEvent e) {
             Point p;
             int newX, newY, newW, newH;
-            int deltaX;
-            int deltaY;
+            int deltbX;
+            int deltbY;
             Dimension min;
-            Dimension max;
+            Dimension mbx;
             p = SwingUtilities.convertPoint((Component)e.getSource(),
                                         e.getX(), e.getY(), null);
 
                 Insets i = desktopIcon.getInsets();
                 int pWidth, pHeight;
-                pWidth = ((JComponent)desktopIcon.getParent()).getWidth();
-                pHeight = ((JComponent)desktopIcon.getParent()).getHeight();
+                pWidth = ((JComponent)desktopIcon.getPbrent()).getWidth();
+                pHeight = ((JComponent)desktopIcon.getPbrent()).getHeight();
 
-                if (startingBounds == null) {
-                  // (STEVE) Yucky work around for bug ID 4106552
+                if (stbrtingBounds == null) {
+                  // (STEVE) Yucky work bround for bug ID 4106552
                     return;
                 }
-                newX = startingBounds.x - (_x - p.x);
-                newY = startingBounds.y - (_y - p.y);
-                // Make sure we stay in-bounds
+                newX = stbrtingBounds.x - (_x - p.x);
+                newY = stbrtingBounds.y - (_y - p.y);
+                // Mbke sure we stby in-bounds
                 if(newX + i.left <= -__x)
                     newX = -__x - i.left;
                 if(newY + i.top <= -__y)
@@ -319,32 +319,32 @@ public class BasicDesktopIconUI extends DesktopIconUI {
                 if(newY + __y + i.bottom > pHeight)
                     newY =  pHeight - __y - i.bottom;
 
-                JDesktopPane d;
-                if((d = desktopIcon.getDesktopPane()) != null) {
-                    DesktopManager dm = d.getDesktopManager();
-                    dm.dragFrame(desktopIcon, newX, newY);
+                JDesktopPbne d;
+                if((d = desktopIcon.getDesktopPbne()) != null) {
+                    DesktopMbnbger dm = d.getDesktopMbnbger();
+                    dm.drbgFrbme(desktopIcon, newX, newY);
                 } else {
-                    moveAndRepaint(desktopIcon, newX, newY,
+                    moveAndRepbint(desktopIcon, newX, newY,
                                 desktopIcon.getWidth(), desktopIcon.getHeight());
                 }
                 return;
         }
 
         /**
-         * Moves and repaints a component {@code f}.
+         * Moves bnd repbints b component {@code f}.
          *
-         * @param f a component
-         * @param newX a new X coordinate
-         * @param newY a new Y coordinate
-         * @param newWidth a new width
-         * @param newHeight a new height
+         * @pbrbm f b component
+         * @pbrbm newX b new X coordinbte
+         * @pbrbm newY b new Y coordinbte
+         * @pbrbm newWidth b new width
+         * @pbrbm newHeight b new height
          */
-        public void moveAndRepaint(JComponent f, int newX, int newY,
+        public void moveAndRepbint(JComponent f, int newX, int newY,
                                         int newWidth, int newHeight) {
-            Rectangle r = f.getBounds();
+            Rectbngle r = f.getBounds();
             f.setBounds(newX, newY, newWidth, newHeight);
             SwingUtilities.computeUnion(newX, newY, newWidth, newHeight, r);
-            f.getParent().repaint(r.x, r.y, r.width, r.height);
+            f.getPbrent().repbint(r.x, r.y, r.width, r.height);
         }
     }; /// End MotionListener
 

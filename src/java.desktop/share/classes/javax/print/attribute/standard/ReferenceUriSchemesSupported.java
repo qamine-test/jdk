@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.Attribute;
 
 /**
- * Class ReferenceUriSchemesSupported is a printing attribute class
- * an enumeration, that indicates a "URI scheme," such as "http:" or "ftp:",
- * that a printer can use to retrieve print data stored at a URI location.
- * If a printer supports doc flavors with a print data representation class of
- * <CODE>"java.net.URL"</CODE>, the printer uses instances of class
- * ReferenceUriSchemesSupported to advertise the URI schemes it can accept.
- * The acceptable URI schemes are included as service attributes in the
- * lookup service; this lets clients search the
- * for printers that can get print data using a certain URI scheme. The
- * acceptable URI schemes can also be queried using the capability methods in
- * interface <code>PrintService</code>. However,
- * ReferenceUriSchemesSupported attributes are used solely for determining
- * acceptable URI schemes, they are never included in a doc's,
- * print request's, print job's, or print service's attribute set.
+ * Clbss ReferenceUriSchemesSupported is b printing bttribute clbss
+ * bn enumerbtion, thbt indicbtes b "URI scheme," such bs "http:" or "ftp:",
+ * thbt b printer cbn use to retrieve print dbtb stored bt b URI locbtion.
+ * If b printer supports doc flbvors with b print dbtb representbtion clbss of
+ * <CODE>"jbvb.net.URL"</CODE>, the printer uses instbnces of clbss
+ * ReferenceUriSchemesSupported to bdvertise the URI schemes it cbn bccept.
+ * The bcceptbble URI schemes bre included bs service bttributes in the
+ * lookup service; this lets clients sebrch the
+ * for printers thbt cbn get print dbtb using b certbin URI scheme. The
+ * bcceptbble URI schemes cbn blso be queried using the cbpbbility methods in
+ * interfbce <code>PrintService</code>. However,
+ * ReferenceUriSchemesSupported bttributes bre used solely for determining
+ * bcceptbble URI schemes, they bre never included in b doc's,
+ * print request's, print job's, or print service's bttribute set.
  * <P>
- * The Internet Assigned Numbers Authority maintains the
- * <A HREF="http://www.iana.org/assignments/uri-schemes.html">official
+ * The Internet Assigned Numbers Authority mbintbins the
+ * <A HREF="http://www.ibnb.org/bssignments/uri-schemes.html">officibl
  * list of URI schemes</A>.
  * <p>
- * Class ReferenceUriSchemesSupported defines enumeration values for widely
- * used URI schemes. A printer that supports additional URI schemes
- * can define them in a subclass of class ReferenceUriSchemesSupported.
+ * Clbss ReferenceUriSchemesSupported defines enumerbtion vblues for widely
+ * used URI schemes. A printer thbt supports bdditionbl URI schemes
+ * cbn define them in b subclbss of clbss ReferenceUriSchemesSupported.
  * <P>
- * <B>IPP Compatibility:</B>  The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B>  The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> is the IPP bttribute nbme.  The enumerbtion's
+ * integer vblue is the IPP enum vblue.  The <code>toString()</code> method
+ * returns the IPP string representbtion of the bttribute vblue.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public class ReferenceUriSchemesSupported
-    extends EnumSyntax implements Attribute {
+public clbss ReferenceUriSchemesSupported
+    extends EnumSyntbx implements Attribute {
 
-    private static final long serialVersionUID = -8989076942813442805L;
+    privbte stbtic finbl long seriblVersionUID = -8989076942813442805L;
 
     /**
-     * File Transfer Protocol (FTP).
+     * File Trbnsfer Protocol (FTP).
      */
-    public static final ReferenceUriSchemesSupported FTP =
+    public stbtic finbl ReferenceUriSchemesSupported FTP =
         new ReferenceUriSchemesSupported(0);
 
     /**
-     * HyperText Transfer Protocol (HTTP).
+     * HyperText Trbnsfer Protocol (HTTP).
      */
-    public static final ReferenceUriSchemesSupported HTTP = new ReferenceUriSchemesSupported(1);
+    public stbtic finbl ReferenceUriSchemesSupported HTTP = new ReferenceUriSchemesSupported(1);
 
     /**
-     * Secure HyperText Transfer Protocol (HTTPS).
+     * Secure HyperText Trbnsfer Protocol (HTTPS).
      */
-    public static final ReferenceUriSchemesSupported HTTPS = new ReferenceUriSchemesSupported(2);
+    public stbtic finbl ReferenceUriSchemesSupported HTTPS = new ReferenceUriSchemesSupported(2);
 
     /**
      * Gopher Protocol.
      */
-    public static final ReferenceUriSchemesSupported GOPHER = new ReferenceUriSchemesSupported(3);
+    public stbtic finbl ReferenceUriSchemesSupported GOPHER = new ReferenceUriSchemesSupported(3);
 
     /**
      * USENET news.
      */
-    public static final ReferenceUriSchemesSupported NEWS = new ReferenceUriSchemesSupported(4);
+    public stbtic finbl ReferenceUriSchemesSupported NEWS = new ReferenceUriSchemesSupported(4);
 
     /**
-     * USENET news using Network News Transfer Protocol (NNTP).
+     * USENET news using Network News Trbnsfer Protocol (NNTP).
      */
-    public static final ReferenceUriSchemesSupported NNTP = new ReferenceUriSchemesSupported(5);
+    public stbtic finbl ReferenceUriSchemesSupported NNTP = new ReferenceUriSchemesSupported(5);
 
     /**
-     * Wide Area Information Server (WAIS) protocol.
+     * Wide Areb Informbtion Server (WAIS) protocol.
      */
-    public static final ReferenceUriSchemesSupported WAIS = new ReferenceUriSchemesSupported(6);
+    public stbtic finbl ReferenceUriSchemesSupported WAIS = new ReferenceUriSchemesSupported(6);
 
     /**
-     * Host-specific file names.
+     * Host-specific file nbmes.
      */
-    public static final ReferenceUriSchemesSupported FILE = new ReferenceUriSchemesSupported(7);
+    public stbtic finbl ReferenceUriSchemesSupported FILE = new ReferenceUriSchemesSupported(7);
 
     /**
-     * Construct a new reference URI scheme enumeration value with the given
-     * integer value.
+     * Construct b new reference URI scheme enumerbtion vblue with the given
+     * integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected ReferenceUriSchemesSupported(int value) {
-        super (value);
+    protected ReferenceUriSchemesSupported(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
+    privbte stbtic finbl String[] myStringTbble = {
         "ftp",
         "http",
         "https",
         "gopher",
         "news",
         "nntp",
-        "wais",
+        "wbis",
         "file",
     };
 
-    private static final ReferenceUriSchemesSupported[] myEnumValueTable = {
+    privbte stbtic finbl ReferenceUriSchemesSupported[] myEnumVblueTbble = {
         FTP,
         HTTP,
         HTTPS,
@@ -137,45 +137,45 @@ public class ReferenceUriSchemesSupported
     };
 
     /**
-     * Returns the string table for class ReferenceUriSchemesSupported.
+     * Returns the string tbble for clbss ReferenceUriSchemesSupported.
      */
-    protected String[] getStringTable() {
-        return myStringTable.clone();
+    protected String[] getStringTbble() {
+        return myStringTbble.clone();
     }
 
     /**
-     * Returns the enumeration value table for class
+     * Returns the enumerbtion vblue tbble for clbss
      * ReferenceUriSchemesSupported.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return (EnumSyntbx[])myEnumVblueTbble.clone();
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class ReferenceUriSchemesSupported and any vendor-defined
-     * subclasses, the category is class ReferenceUriSchemesSupported itself.
+     * For clbss ReferenceUriSchemesSupported bnd bny vendor-defined
+     * subclbsses, the cbtegory is clbss ReferenceUriSchemesSupported itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return ReferenceUriSchemesSupported.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return ReferenceUriSchemesSupported.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class ReferenceUriSchemesSupported and any vendor-defined
-     * subclasses, the category name is
+     * For clbss ReferenceUriSchemesSupported bnd bny vendor-defined
+     * subclbsses, the cbtegory nbme is
      * <CODE>"reference-uri-schemes-supported"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "reference-uri-schemes-supported";
     }
 

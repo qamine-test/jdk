@@ -1,40 +1,40 @@
-package sun.java2d.x11;
+pbckbge sun.jbvb2d.x11;
 
-import java.awt.image.*;
+import jbvb.bwt.imbge.*;
 
-import sun.awt.*;
-import sun.java2d.*;
-import sun.java2d.loops.*;
-import sun.java2d.pipe.*;
+import sun.bwt.*;
+import sun.jbvb2d.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipe.*;
 
-public abstract class XSurfaceData extends SurfaceData {
-    static boolean isX11SurfaceDataInitialized = false;
+public bbstrbct clbss XSurfbceDbtb extends SurfbceDbtb {
+    stbtic boolebn isX11SurfbceDbtbInitiblized = fblse;
 
-    public static boolean isX11SurfaceDataInitialized() {
-        return isX11SurfaceDataInitialized;
+    public stbtic boolebn isX11SurfbceDbtbInitiblized() {
+        return isX11SurfbceDbtbInitiblized;
     }
 
-    public static void setX11SurfaceDataInitialized() {
-        isX11SurfaceDataInitialized = true;
+    public stbtic void setX11SurfbceDbtbInitiblized() {
+        isX11SurfbceDbtbInitiblized = true;
     }
 
-    public XSurfaceData(SurfaceType surfaceType, ColorModel cm) {
-        super(surfaceType, cm);
+    public XSurfbceDbtb(SurfbceType surfbceType, ColorModel cm) {
+        super(surfbceType, cm);
     }
 
-    protected native void initOps(X11ComponentPeer peer, X11GraphicsConfig gc, int depth);
+    protected nbtive void initOps(X11ComponentPeer peer, X11GrbphicsConfig gc, int depth);
 
-    protected static native long XCreateGC(long pXSData);
+    protected stbtic nbtive long XCrebteGC(long pXSDbtb);
 
-    protected static native void XResetClip(long xgc);
+    protected stbtic nbtive void XResetClip(long xgc);
 
-    protected static native void XSetClip(long xgc, int lox, int loy, int hix, int hiy, Region complexclip);
+    protected stbtic nbtive void XSetClip(long xgc, int lox, int loy, int hix, int hiy, Region complexclip);
 
-    protected native void flushNativeSurface();
+    protected nbtive void flushNbtiveSurfbce();
 
-    protected native boolean isDrawableValid();
+    protected nbtive boolebn isDrbwbbleVblid();
 
-    protected native void setInvalid();
+    protected nbtive void setInvblid();
 
-    protected static native void XSetGraphicsExposures(long xgc, boolean needExposures);
+    protected stbtic nbtive void XSetGrbphicsExposures(long xgc, boolebn needExposures);
 }

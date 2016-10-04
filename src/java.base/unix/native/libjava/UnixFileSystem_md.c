@@ -1,33 +1,33 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include <assert.h>
+#include <bssert.h>
 #include <sys/types.h>
 #include <sys/time.h>
-#include <sys/stat.h>
-#include <sys/statvfs.h>
+#include <sys/stbt.h>
+#include <sys/stbtvfs.h>
 #include <string.h>
 #include <stdlib.h>
 #include <dlfcn.h>
@@ -39,67 +39,67 @@
 #include "jvm.h"
 #include "io_util.h"
 #include "io_util_md.h"
-#include "java_io_FileSystem.h"
-#include "java_io_UnixFileSystem.h"
+#include "jbvb_io_FileSystem.h"
+#include "jbvb_io_UnixFileSystem.h"
 
 #if defined(_ALLBSD_SOURCE)
 #define dirent64 dirent
-#define readdir64_r readdir_r
-#define stat64 stat
-#define statvfs64 statvfs
+#define rebddir64_r rebddir_r
+#define stbt64 stbt
+#define stbtvfs64 stbtvfs
 #endif
 
 /* -- Field IDs -- */
 
-static struct {
-    jfieldID path;
+stbtic struct {
+    jfieldID pbth;
 } ids;
 
 
 JNIEXPORT void JNICALL
-Java_java_io_UnixFileSystem_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_io_UnixFileSystem_initIDs(JNIEnv *env, jclbss cls)
 {
-    jclass fileClass = (*env)->FindClass(env, "java/io/File");
-    if (!fileClass) return;
-    ids.path = (*env)->GetFieldID(env, fileClass,
-                                  "path", "Ljava/lang/String;");
+    jclbss fileClbss = (*env)->FindClbss(env, "jbvb/io/File");
+    if (!fileClbss) return;
+    ids.pbth = (*env)->GetFieldID(env, fileClbss,
+                                  "pbth", "Ljbvb/lbng/String;");
 }
 
-/* -- Path operations -- */
+/* -- Pbth operbtions -- */
 
-extern int canonicalize(char *path, const char *out, int len);
+extern int cbnonicblize(chbr *pbth, const chbr *out, int len);
 
 JNIEXPORT jstring JNICALL
-Java_java_io_UnixFileSystem_canonicalize0(JNIEnv *env, jobject this,
-                                          jstring pathname)
+Jbvb_jbvb_io_UnixFileSystem_cbnonicblize0(JNIEnv *env, jobject this,
+                                          jstring pbthnbme)
 {
     jstring rv = NULL;
 
-    WITH_PLATFORM_STRING(env, pathname, path) {
-        char canonicalPath[JVM_MAXPATHLEN];
-        if (canonicalize((char *)path,
-                         canonicalPath, JVM_MAXPATHLEN) < 0) {
-            JNU_ThrowIOExceptionWithLastError(env, "Bad pathname");
+    WITH_PLATFORM_STRING(env, pbthnbme, pbth) {
+        chbr cbnonicblPbth[JVM_MAXPATHLEN];
+        if (cbnonicblize((chbr *)pbth,
+                         cbnonicblPbth, JVM_MAXPATHLEN) < 0) {
+            JNU_ThrowIOExceptionWithLbstError(env, "Bbd pbthnbme");
         } else {
 #ifdef MACOSX
-            rv = newStringPlatform(env, canonicalPath);
+            rv = newStringPlbtform(env, cbnonicblPbth);
 #else
-            rv = JNU_NewStringPlatform(env, canonicalPath);
+            rv = JNU_NewStringPlbtform(env, cbnonicblPbth);
 #endif
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(env, pbth);
     return rv;
 }
 
 
-/* -- Attribute accessors -- */
+/* -- Attribute bccessors -- */
 
 
-static jboolean
-statMode(const char *path, int *mode)
+stbtic jboolebn
+stbtMode(const chbr *pbth, int *mode)
 {
-    struct stat64 sb;
-    if (stat64(path, &sb) == 0) {
+    struct stbt64 sb;
+    if (stbt64(pbth, &sb) == 0) {
         *mode = sb.st_mode;
         return JNI_TRUE;
     }
@@ -108,235 +108,235 @@ statMode(const char *path, int *mode)
 
 
 JNIEXPORT jint JNICALL
-Java_java_io_UnixFileSystem_getBooleanAttributes0(JNIEnv *env, jobject this,
+Jbvb_jbvb_io_UnixFileSystem_getBoolebnAttributes0(JNIEnv *env, jobject this,
                                                   jobject file)
 {
     jint rv = 0;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
+    WITH_FIELD_PLATFORM_STRING(env, file, ids.pbth, pbth) {
         int mode;
-        if (statMode(path, &mode)) {
+        if (stbtMode(pbth, &mode)) {
             int fmt = mode & S_IFMT;
-            rv = (jint) (java_io_FileSystem_BA_EXISTS
-                  | ((fmt == S_IFREG) ? java_io_FileSystem_BA_REGULAR : 0)
-                  | ((fmt == S_IFDIR) ? java_io_FileSystem_BA_DIRECTORY : 0));
+            rv = (jint) (jbvb_io_FileSystem_BA_EXISTS
+                  | ((fmt == S_IFREG) ? jbvb_io_FileSystem_BA_REGULAR : 0)
+                  | ((fmt == S_IFDIR) ? jbvb_io_FileSystem_BA_DIRECTORY : 0));
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(env, pbth);
     return rv;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_checkAccess(JNIEnv *env, jobject this,
-                                        jobject file, jint a)
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_io_UnixFileSystem_checkAccess(JNIEnv *env, jobject this,
+                                        jobject file, jint b)
 {
-    jboolean rv = JNI_FALSE;
+    jboolebn rv = JNI_FALSE;
     int mode = 0;
-    switch (a) {
-    case java_io_FileSystem_ACCESS_READ:
+    switch (b) {
+    cbse jbvb_io_FileSystem_ACCESS_READ:
         mode = R_OK;
-        break;
-    case java_io_FileSystem_ACCESS_WRITE:
+        brebk;
+    cbse jbvb_io_FileSystem_ACCESS_WRITE:
         mode = W_OK;
-        break;
-    case java_io_FileSystem_ACCESS_EXECUTE:
+        brebk;
+    cbse jbvb_io_FileSystem_ACCESS_EXECUTE:
         mode = X_OK;
-        break;
-    default: assert(0);
+        brebk;
+    defbult: bssert(0);
     }
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        if (access(path, mode) == 0) {
+    WITH_FIELD_PLATFORM_STRING(env, file, ids.pbth, pbth) {
+        if (bccess(pbth, mode) == 0) {
             rv = JNI_TRUE;
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(env, pbth);
     return rv;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_setPermission(JNIEnv *env, jobject this,
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_io_UnixFileSystem_setPermission(JNIEnv *env, jobject this,
                                           jobject file,
-                                          jint access,
-                                          jboolean enable,
-                                          jboolean owneronly)
+                                          jint bccess,
+                                          jboolebn enbble,
+                                          jboolebn owneronly)
 {
-    jboolean rv = JNI_FALSE;
+    jboolebn rv = JNI_FALSE;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        int amode = 0;
+    WITH_FIELD_PLATFORM_STRING(env, file, ids.pbth, pbth) {
+        int bmode = 0;
         int mode;
-        switch (access) {
-        case java_io_FileSystem_ACCESS_READ:
+        switch (bccess) {
+        cbse jbvb_io_FileSystem_ACCESS_READ:
             if (owneronly)
-                amode = S_IRUSR;
+                bmode = S_IRUSR;
             else
-                amode = S_IRUSR | S_IRGRP | S_IROTH;
-            break;
-        case java_io_FileSystem_ACCESS_WRITE:
+                bmode = S_IRUSR | S_IRGRP | S_IROTH;
+            brebk;
+        cbse jbvb_io_FileSystem_ACCESS_WRITE:
             if (owneronly)
-                amode = S_IWUSR;
+                bmode = S_IWUSR;
             else
-                amode = S_IWUSR | S_IWGRP | S_IWOTH;
-            break;
-        case java_io_FileSystem_ACCESS_EXECUTE:
+                bmode = S_IWUSR | S_IWGRP | S_IWOTH;
+            brebk;
+        cbse jbvb_io_FileSystem_ACCESS_EXECUTE:
             if (owneronly)
-                amode = S_IXUSR;
+                bmode = S_IXUSR;
             else
-                amode = S_IXUSR | S_IXGRP | S_IXOTH;
-            break;
-        default:
-            assert(0);
+                bmode = S_IXUSR | S_IXGRP | S_IXOTH;
+            brebk;
+        defbult:
+            bssert(0);
         }
-        if (statMode(path, &mode)) {
-            if (enable)
-                mode |= amode;
+        if (stbtMode(pbth, &mode)) {
+            if (enbble)
+                mode |= bmode;
             else
-                mode &= ~amode;
-            if (chmod(path, mode) >= 0) {
+                mode &= ~bmode;
+            if (chmod(pbth, mode) >= 0) {
                 rv = JNI_TRUE;
             }
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(env, pbth);
     return rv;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_io_UnixFileSystem_getLastModifiedTime(JNIEnv *env, jobject this,
+Jbvb_jbvb_io_UnixFileSystem_getLbstModifiedTime(JNIEnv *env, jobject this,
                                                 jobject file)
 {
     jlong rv = 0;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        struct stat64 sb;
-        if (stat64(path, &sb) == 0) {
+    WITH_FIELD_PLATFORM_STRING(env, file, ids.pbth, pbth) {
+        struct stbt64 sb;
+        if (stbt64(pbth, &sb) == 0) {
             rv = 1000 * (jlong)sb.st_mtime;
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(env, pbth);
     return rv;
 }
 
 
 JNIEXPORT jlong JNICALL
-Java_java_io_UnixFileSystem_getLength(JNIEnv *env, jobject this,
+Jbvb_jbvb_io_UnixFileSystem_getLength(JNIEnv *env, jobject this,
                                       jobject file)
 {
     jlong rv = 0;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        struct stat64 sb;
-        if (stat64(path, &sb) == 0) {
+    WITH_FIELD_PLATFORM_STRING(env, file, ids.pbth, pbth) {
+        struct stbt64 sb;
+        if (stbt64(pbth, &sb) == 0) {
             rv = sb.st_size;
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(env, pbth);
     return rv;
 }
 
 
-/* -- File operations -- */
+/* -- File operbtions -- */
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_createFileExclusively(JNIEnv *env, jclass cls,
-                                                  jstring pathname)
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_io_UnixFileSystem_crebteFileExclusively(JNIEnv *env, jclbss cls,
+                                                  jstring pbthnbme)
 {
-    jboolean rv = JNI_FALSE;
+    jboolebn rv = JNI_FALSE;
 
-    WITH_PLATFORM_STRING(env, pathname, path) {
+    WITH_PLATFORM_STRING(env, pbthnbme, pbth) {
         FD fd;
-        /* The root directory always exists */
-        if (strcmp (path, "/")) {
-            fd = handleOpen(path, O_RDWR | O_CREAT | O_EXCL, 0666);
+        /* The root directory blwbys exists */
+        if (strcmp (pbth, "/")) {
+            fd = hbndleOpen(pbth, O_RDWR | O_CREAT | O_EXCL, 0666);
             if (fd < 0) {
                 if (errno != EEXIST)
-                    JNU_ThrowIOExceptionWithLastError(env, path);
+                    JNU_ThrowIOExceptionWithLbstError(env, pbth);
             } else {
                 if (close(fd) == -1)
-                    JNU_ThrowIOExceptionWithLastError(env, path);
+                    JNU_ThrowIOExceptionWithLbstError(env, pbth);
                 rv = JNI_TRUE;
             }
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(env, pbth);
     return rv;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_delete0(JNIEnv *env, jobject this,
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_io_UnixFileSystem_delete0(JNIEnv *env, jobject this,
                                     jobject file)
 {
-    jboolean rv = JNI_FALSE;
+    jboolebn rv = JNI_FALSE;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        if (remove(path) == 0) {
+    WITH_FIELD_PLATFORM_STRING(env, file, ids.pbth, pbth) {
+        if (remove(pbth) == 0) {
             rv = JNI_TRUE;
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(env, pbth);
     return rv;
 }
 
 
-JNIEXPORT jobjectArray JNICALL
-Java_java_io_UnixFileSystem_list(JNIEnv *env, jobject this,
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_jbvb_io_UnixFileSystem_list(JNIEnv *env, jobject this,
                                  jobject file)
 {
     DIR *dir = NULL;
     struct dirent64 *ptr;
     struct dirent64 *result;
-    int len, maxlen;
-    jobjectArray rv, old;
-    jclass str_class;
+    int len, mbxlen;
+    jobjectArrby rv, old;
+    jclbss str_clbss;
 
-    str_class = JNU_ClassString(env);
-    CHECK_NULL_RETURN(str_class, NULL);
+    str_clbss = JNU_ClbssString(env);
+    CHECK_NULL_RETURN(str_clbss, NULL);
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        dir = opendir(path);
-    } END_PLATFORM_STRING(env, path);
+    WITH_FIELD_PLATFORM_STRING(env, file, ids.pbth, pbth) {
+        dir = opendir(pbth);
+    } END_PLATFORM_STRING(env, pbth);
     if (dir == NULL) return NULL;
 
-    ptr = malloc(sizeof(struct dirent64) + (PATH_MAX + 1));
+    ptr = mblloc(sizeof(struct dirent64) + (PATH_MAX + 1));
     if (ptr == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "heap allocation failed");
+        JNU_ThrowOutOfMemoryError(env, "hebp bllocbtion fbiled");
         closedir(dir);
         return NULL;
     }
 
-    /* Allocate an initial String array */
+    /* Allocbte bn initibl String brrby */
     len = 0;
-    maxlen = 16;
-    rv = (*env)->NewObjectArray(env, maxlen, str_class, NULL);
+    mbxlen = 16;
+    rv = (*env)->NewObjectArrby(env, mbxlen, str_clbss, NULL);
     if (rv == NULL) goto error;
 
-    /* Scan the directory */
-    while ((readdir64_r(dir, ptr, &result) == 0)  && (result != NULL)) {
-        jstring name;
-        if (!strcmp(ptr->d_name, ".") || !strcmp(ptr->d_name, ".."))
+    /* Scbn the directory */
+    while ((rebddir64_r(dir, ptr, &result) == 0)  && (result != NULL)) {
+        jstring nbme;
+        if (!strcmp(ptr->d_nbme, ".") || !strcmp(ptr->d_nbme, ".."))
             continue;
-        if (len == maxlen) {
+        if (len == mbxlen) {
             old = rv;
-            rv = (*env)->NewObjectArray(env, maxlen <<= 1, str_class, NULL);
+            rv = (*env)->NewObjectArrby(env, mbxlen <<= 1, str_clbss, NULL);
             if (rv == NULL) goto error;
-            if (JNU_CopyObjectArray(env, rv, old, len) < 0) goto error;
-            (*env)->DeleteLocalRef(env, old);
+            if (JNU_CopyObjectArrby(env, rv, old, len) < 0) goto error;
+            (*env)->DeleteLocblRef(env, old);
         }
 #ifdef MACOSX
-        name = newStringPlatform(env, ptr->d_name);
+        nbme = newStringPlbtform(env, ptr->d_nbme);
 #else
-        name = JNU_NewStringPlatform(env, ptr->d_name);
+        nbme = JNU_NewStringPlbtform(env, ptr->d_nbme);
 #endif
-        if (name == NULL) goto error;
-        (*env)->SetObjectArrayElement(env, rv, len++, name);
-        (*env)->DeleteLocalRef(env, name);
+        if (nbme == NULL) goto error;
+        (*env)->SetObjectArrbyElement(env, rv, len++, nbme);
+        (*env)->DeleteLocblRef(env, nbme);
     }
     closedir(dir);
     free(ptr);
 
-    /* Copy the final results into an appropriately-sized array */
+    /* Copy the finbl results into bn bppropribtely-sized brrby */
     old = rv;
-    rv = (*env)->NewObjectArray(env, len, str_class, NULL);
+    rv = (*env)->NewObjectArrby(env, len, str_clbss, NULL);
     if (rv == NULL) {
         return NULL;
     }
-    if (JNU_CopyObjectArray(env, rv, old, len) < 0) {
+    if (JNU_CopyObjectArrby(env, rv, old, len) < 0) {
         return NULL;
     }
     return rv;
@@ -348,110 +348,110 @@ Java_java_io_UnixFileSystem_list(JNIEnv *env, jobject this,
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_createDirectory(JNIEnv *env, jobject this,
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_io_UnixFileSystem_crebteDirectory(JNIEnv *env, jobject this,
                                             jobject file)
 {
-    jboolean rv = JNI_FALSE;
+    jboolebn rv = JNI_FALSE;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        if (mkdir(path, 0777) == 0) {
+    WITH_FIELD_PLATFORM_STRING(env, file, ids.pbth, pbth) {
+        if (mkdir(pbth, 0777) == 0) {
             rv = JNI_TRUE;
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(env, pbth);
     return rv;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_rename0(JNIEnv *env, jobject this,
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_io_UnixFileSystem_renbme0(JNIEnv *env, jobject this,
                                     jobject from, jobject to)
 {
-    jboolean rv = JNI_FALSE;
+    jboolebn rv = JNI_FALSE;
 
-    WITH_FIELD_PLATFORM_STRING(env, from, ids.path, fromPath) {
-        WITH_FIELD_PLATFORM_STRING(env, to, ids.path, toPath) {
-            if (rename(fromPath, toPath) == 0) {
+    WITH_FIELD_PLATFORM_STRING(env, from, ids.pbth, fromPbth) {
+        WITH_FIELD_PLATFORM_STRING(env, to, ids.pbth, toPbth) {
+            if (renbme(fromPbth, toPbth) == 0) {
                 rv = JNI_TRUE;
             }
-        } END_PLATFORM_STRING(env, toPath);
-    } END_PLATFORM_STRING(env, fromPath);
+        } END_PLATFORM_STRING(env, toPbth);
+    } END_PLATFORM_STRING(env, fromPbth);
     return rv;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_setLastModifiedTime(JNIEnv *env, jobject this,
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_io_UnixFileSystem_setLbstModifiedTime(JNIEnv *env, jobject this,
                                                 jobject file, jlong time)
 {
-    jboolean rv = JNI_FALSE;
+    jboolebn rv = JNI_FALSE;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        struct stat64 sb;
+    WITH_FIELD_PLATFORM_STRING(env, file, ids.pbth, pbth) {
+        struct stbt64 sb;
 
-        if (stat64(path, &sb) == 0) {
-            struct timeval tv[2];
+        if (stbt64(pbth, &sb) == 0) {
+            struct timevbl tv[2];
 
-            /* Preserve access time */
-            tv[0].tv_sec = sb.st_atime;
+            /* Preserve bccess time */
+            tv[0].tv_sec = sb.st_btime;
             tv[0].tv_usec = 0;
 
-            /* Change last-modified time */
+            /* Chbnge lbst-modified time */
             tv[1].tv_sec = time / 1000;
             tv[1].tv_usec = (time % 1000) * 1000;
 
-            if (utimes(path, tv) == 0)
+            if (utimes(pbth, tv) == 0)
                 rv = JNI_TRUE;
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(env, pbth);
 
     return rv;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_setReadOnly(JNIEnv *env, jobject this,
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_io_UnixFileSystem_setRebdOnly(JNIEnv *env, jobject this,
                                         jobject file)
 {
-    jboolean rv = JNI_FALSE;
+    jboolebn rv = JNI_FALSE;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
+    WITH_FIELD_PLATFORM_STRING(env, file, ids.pbth, pbth) {
         int mode;
-        if (statMode(path, &mode)) {
-            if (chmod(path, mode & ~(S_IWUSR | S_IWGRP | S_IWOTH)) >= 0) {
+        if (stbtMode(pbth, &mode)) {
+            if (chmod(pbth, mode & ~(S_IWUSR | S_IWGRP | S_IWOTH)) >= 0) {
                 rv = JNI_TRUE;
             }
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(env, pbth);
     return rv;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_io_UnixFileSystem_getSpace(JNIEnv *env, jobject this,
+Jbvb_jbvb_io_UnixFileSystem_getSpbce(JNIEnv *env, jobject this,
                                      jobject file, jint t)
 {
     jlong rv = 0L;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        struct statvfs64 fsstat;
-        memset(&fsstat, 0, sizeof(fsstat));
-        if (statvfs64(path, &fsstat) == 0) {
+    WITH_FIELD_PLATFORM_STRING(env, file, ids.pbth, pbth) {
+        struct stbtvfs64 fsstbt;
+        memset(&fsstbt, 0, sizeof(fsstbt));
+        if (stbtvfs64(pbth, &fsstbt) == 0) {
             switch(t) {
-            case java_io_FileSystem_SPACE_TOTAL:
-                rv = jlong_mul(long_to_jlong(fsstat.f_frsize),
-                               long_to_jlong(fsstat.f_blocks));
-                break;
-            case java_io_FileSystem_SPACE_FREE:
-                rv = jlong_mul(long_to_jlong(fsstat.f_frsize),
-                               long_to_jlong(fsstat.f_bfree));
-                break;
-            case java_io_FileSystem_SPACE_USABLE:
-                rv = jlong_mul(long_to_jlong(fsstat.f_frsize),
-                               long_to_jlong(fsstat.f_bavail));
-                break;
-            default:
-                assert(0);
+            cbse jbvb_io_FileSystem_SPACE_TOTAL:
+                rv = jlong_mul(long_to_jlong(fsstbt.f_frsize),
+                               long_to_jlong(fsstbt.f_blocks));
+                brebk;
+            cbse jbvb_io_FileSystem_SPACE_FREE:
+                rv = jlong_mul(long_to_jlong(fsstbt.f_frsize),
+                               long_to_jlong(fsstbt.f_bfree));
+                brebk;
+            cbse jbvb_io_FileSystem_SPACE_USABLE:
+                rv = jlong_mul(long_to_jlong(fsstbt.f_frsize),
+                               long_to_jlong(fsstbt.f_bbvbil));
+                brebk;
+            defbult:
+                bssert(0);
             }
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(env, pbth);
     return rv;
 }

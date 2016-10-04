@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.AWTException;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Rectangle;
-import java.awt.im.spi.InputMethodContext;
-import java.awt.peer.ComponentPeer;
-import sun.awt.X11InputMethod;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.im.spi.InputMethodContext;
+import jbvb.bwt.peer.ComponentPeer;
+import sun.bwt.X11InputMethod;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * Input Method Adapter for XIM (without Motif)
+ * Input Method Adbpter for XIM (without Motif)
  *
- * @author JavaSoft International
+ * @buthor JbvbSoft Internbtionbl
  */
-public class XInputMethod extends X11InputMethod {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XInputMethod");
+public clbss XInputMethod extends X11InputMethod {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XInputMethod");
 
     public XInputMethod() throws AWTException {
         super();
     }
 
     public void setInputMethodContext(InputMethodContext context) {
-        context.enableClientWindowNotification(this, true);
+        context.enbbleClientWindowNotificbtion(this, true);
     }
 
-    public void notifyClientWindowChange(Rectangle location) {
+    public void notifyClientWindowChbnge(Rectbngle locbtion) {
         XComponentPeer peer = (XComponentPeer)getPeer(clientComponentWindow);
         if (peer != null) {
-            adjustStatusWindow(peer.getContentWindow());
+            bdjustStbtusWindow(peer.getContentWindow());
         }
     }
 
-    protected boolean openXIM() {
-        return openXIMNative(XToolkit.getDisplay());
+    protected boolebn openXIM() {
+        return openXIMNbtive(XToolkit.getDisplby());
     }
 
-    protected boolean createXIC() {
+    protected boolebn crebteXIC() {
         XComponentPeer peer = (XComponentPeer)getPeer(clientComponentWindow);
         if (peer == null) {
-            return false;
+            return fblse;
         }
-        return createXICNative(peer.getContentWindow());
+        return crebteXICNbtive(peer.getContentWindow());
     }
 
 
-    private static volatile long xicFocus = 0;
+    privbte stbtic volbtile long xicFocus = 0;
 
     protected void setXICFocus(ComponentPeer peer,
-                                    boolean value, boolean active) {
+                                    boolebn vblue, boolebn bctive) {
         if (peer == null) {
             return;
         }
         xicFocus = ((XComponentPeer)peer).getContentWindow();
-        setXICFocusNative(((XComponentPeer)peer).getContentWindow(),
-                          value,
-                          active);
+        setXICFocusNbtive(((XComponentPeer)peer).getContentWindow(),
+                          vblue,
+                          bctive);
     }
 
-    public static long getXICFocus() {
+    public stbtic long getXICFocus() {
         return xicFocus;
     }
 
 /* XAWT_HACK  FIX ME!
-   do NOT call client code!
+   do NOT cbll client code!
 */
-    protected Container getParent(Component client) {
-        return client.getParent();
+    protected Contbiner getPbrent(Component client) {
+        return client.getPbrent();
     }
 
     /**
      * Returns peer of the given client component. If the given client component
-     * doesn't have peer, peer of the native container of the client is returned.
+     * doesn't hbve peer, peer of the nbtive contbiner of the client is returned.
      */
     protected ComponentPeer getPeer(Component client) {
         XComponentPeer peer;
 
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("Client is " + client);
         }
-        peer = (XComponentPeer)XToolkit.targetToPeer(client);
+        peer = (XComponentPeer)XToolkit.tbrgetToPeer(client);
         while (client != null && peer == null) {
-            client = getParent(client);
-            peer = (XComponentPeer)XToolkit.targetToPeer(client);
+            client = getPbrent(client);
+            peer = (XComponentPeer)XToolkit.tbrgetToPeer(client);
         }
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("Peer is {0}, client is {1}", peer, client);
         }
 
@@ -121,32 +121,32 @@ public class XInputMethod extends X11InputMethod {
     }
 
     /*
-     * Subclasses should override disposeImpl() instead of dispose(). Client
-     * code should always invoke dispose(), never disposeImpl().
+     * Subclbsses should override disposeImpl() instebd of dispose(). Client
+     * code should blwbys invoke dispose(), never disposeImpl().
      */
     protected synchronized void disposeImpl() {
         super.disposeImpl();
         clientComponentWindow = null;
     }
 
-    protected void awtLock() {
-        XToolkit.awtLock();
+    protected void bwtLock() {
+        XToolkit.bwtLock();
     }
 
-    protected void awtUnlock() {
-        XToolkit.awtUnlock();
+    protected void bwtUnlock() {
+        XToolkit.bwtUnlock();
     }
 
-    long getCurrentParentWindow() {
+    long getCurrentPbrentWindow() {
         return ((XWindow)clientComponentWindow.getPeer()).getContentWindow();
     }
 
     /*
-     * Native methods
+     * Nbtive methods
      */
-    private native boolean openXIMNative(long display);
-    private native boolean createXICNative(long window);
-    private native void setXICFocusNative(long window,
-                                    boolean value, boolean active);
-    private native void adjustStatusWindow(long window);
+    privbte nbtive boolebn openXIMNbtive(long displby);
+    privbte nbtive boolebn crebteXICNbtive(long window);
+    privbte nbtive void setXICFocusNbtive(long window,
+                                    boolebn vblue, boolebn bctive);
+    privbte nbtive void bdjustStbtusWindow(long window);
 }

@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.nio.ByteBuffer;
-import java.nio.BufferOverflowException;
-import java.net.*;
-import java.util.concurrent.*;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import sun.misc.Unsafe;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.BufferOverflowException;
+import jbvb.net.*;
+import jbvb.util.concurrent.*;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import sun.misc.Unsbfe;
 
 /**
- * Windows implementation of AsynchronousSocketChannel using overlapped I/O.
+ * Windows implementbtion of AsynchronousSocketChbnnel using overlbpped I/O.
  */
 
-class WindowsAsynchronousSocketChannelImpl
-    extends AsynchronousSocketChannelImpl implements Iocp.OverlappedChannel
+clbss WindowsAsynchronousSocketChbnnelImpl
+    extends AsynchronousSocketChbnnelImpl implements Iocp.OverlbppedChbnnel
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static int addressSize = unsafe.addressSize();
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+    privbte stbtic int bddressSize = unsbfe.bddressSize();
 
-    private static int dependsArch(int value32, int value64) {
-        return (addressSize == 4) ? value32 : value64;
+    privbte stbtic int dependsArch(int vblue32, int vblue64) {
+        return (bddressSize == 4) ? vblue32 : vblue64;
     }
 
     /*
      * typedef struct _WSABUF {
      *     u_long      len;
-     *     char FAR *  buf;
+     *     chbr FAR *  buf;
      * } WSABUF;
      */
-    private static final int SIZEOF_WSABUF  = dependsArch(8, 16);
-    private static final int OFFSETOF_LEN   = 0;
-    private static final int OFFSETOF_BUF   = dependsArch(4, 8);
+    privbte stbtic finbl int SIZEOF_WSABUF  = dependsArch(8, 16);
+    privbte stbtic finbl int OFFSETOF_LEN   = 0;
+    privbte stbtic finbl int OFFSETOF_BUF   = dependsArch(4, 8);
 
-    // maximum vector size for scatter/gather I/O
-    private static final int MAX_WSABUF     = 16;
+    // mbximum vector size for scbtter/gbther I/O
+    privbte stbtic finbl int MAX_WSABUF     = 16;
 
-    private static final int SIZEOF_WSABUFARRAY = MAX_WSABUF * SIZEOF_WSABUF;
-
-
-    // socket handle. Use begin()/end() around each usage of this handle.
-    final long handle;
-
-    // I/O completion port that the socket is associated with
-    private final Iocp iocp;
-
-    // completion key to identify channel when I/O completes
-    private final int completionKey;
-
-    // Pending I/O operations are tied to an OVERLAPPED structure that can only
-    // be released when the I/O completion event is posted to the completion
-    // port. Where I/O operations complete immediately then it is possible
-    // there may be more than two OVERLAPPED structures in use.
-    private final PendingIoCache ioCache;
-
-    // per-channel arrays of WSABUF structures
-    private final long readBufferArray;
-    private final long writeBufferArray;
+    privbte stbtic finbl int SIZEOF_WSABUFARRAY = MAX_WSABUF * SIZEOF_WSABUF;
 
 
-    WindowsAsynchronousSocketChannelImpl(Iocp iocp, boolean failIfGroupShutdown)
+    // socket hbndle. Use begin()/end() bround ebch usbge of this hbndle.
+    finbl long hbndle;
+
+    // I/O completion port thbt the socket is bssocibted with
+    privbte finbl Iocp iocp;
+
+    // completion key to identify chbnnel when I/O completes
+    privbte finbl int completionKey;
+
+    // Pending I/O operbtions bre tied to bn OVERLAPPED structure thbt cbn only
+    // be relebsed when the I/O completion event is posted to the completion
+    // port. Where I/O operbtions complete immedibtely then it is possible
+    // there mby be more thbn two OVERLAPPED structures in use.
+    privbte finbl PendingIoCbche ioCbche;
+
+    // per-chbnnel brrbys of WSABUF structures
+    privbte finbl long rebdBufferArrby;
+    privbte finbl long writeBufferArrby;
+
+
+    WindowsAsynchronousSocketChbnnelImpl(Iocp iocp, boolebn fbilIfGroupShutdown)
         throws IOException
     {
         super(iocp);
 
-        // associate socket with default completion port
-        long h = IOUtil.fdVal(fd);
+        // bssocibte socket with defbult completion port
+        long h = IOUtil.fdVbl(fd);
         int key = 0;
         try {
-            key = iocp.associate(this, h);
-        } catch (ShutdownChannelGroupException x) {
-            if (failIfGroupShutdown) {
+            key = iocp.bssocibte(this, h);
+        } cbtch (ShutdownChbnnelGroupException x) {
+            if (fbilIfGroupShutdown) {
                 closesocket0(h);
                 throw x;
             }
-        } catch (IOException x) {
+        } cbtch (IOException x) {
             closesocket0(h);
             throw x;
         }
 
-        this.handle = h;
+        this.hbndle = h;
         this.iocp = iocp;
         this.completionKey = key;
-        this.ioCache = new PendingIoCache();
+        this.ioCbche = new PendingIoCbche();
 
-        // allocate WSABUF arrays
-        this.readBufferArray = unsafe.allocateMemory(SIZEOF_WSABUFARRAY);
-        this.writeBufferArray = unsafe.allocateMemory(SIZEOF_WSABUFARRAY);
+        // bllocbte WSABUF brrbys
+        this.rebdBufferArrby = unsbfe.bllocbteMemory(SIZEOF_WSABUFARRAY);
+        this.writeBufferArrby = unsbfe.bllocbteMemory(SIZEOF_WSABUFARRAY);
     }
 
-    WindowsAsynchronousSocketChannelImpl(Iocp iocp) throws IOException {
+    WindowsAsynchronousSocketChbnnelImpl(Iocp iocp) throws IOException {
         this(iocp, true);
     }
 
     @Override
-    public AsynchronousChannelGroupImpl group() {
+    public AsynchronousChbnnelGroupImpl group() {
         return iocp;
     }
 
     /**
-     * Invoked by Iocp when an I/O operation competes.
+     * Invoked by Iocp when bn I/O operbtion competes.
      */
     @Override
-    public <V,A> PendingFuture<V,A> getByOverlapped(long overlapped) {
-        return ioCache.remove(overlapped);
+    public <V,A> PendingFuture<V,A> getByOverlbpped(long overlbpped) {
+        return ioCbche.remove(overlbpped);
     }
 
-    // invoked by WindowsAsynchronousServerSocketChannelImpl
-    long handle() {
-        return handle;
+    // invoked by WindowsAsynchronousServerSocketChbnnelImpl
+    long hbndle() {
+        return hbndle;
     }
 
-    // invoked by WindowsAsynchronousServerSocketChannelImpl when new connection
-    // accept
-    void setConnected(InetSocketAddress localAddress,
+    // invoked by WindowsAsynchronousServerSocketChbnnelImpl when new connection
+    // bccept
+    void setConnected(InetSocketAddress locblAddress,
                       InetSocketAddress remoteAddress)
     {
-        synchronized (stateLock) {
-            state = ST_CONNECTED;
-            this.localAddress = localAddress;
+        synchronized (stbteLock) {
+            stbte = ST_CONNECTED;
+            this.locblAddress = locblAddress;
             this.remoteAddress = remoteAddress;
         }
     }
 
     @Override
     void implClose() throws IOException {
-        // close socket (may cause outstanding async I/O operations to fail).
-        closesocket0(handle);
+        // close socket (mby cbuse outstbnding bsync I/O operbtions to fbil).
+        closesocket0(hbndle);
 
-        // waits until all I/O operations have completed
-        ioCache.close();
+        // wbits until bll I/O operbtions hbve completed
+        ioCbche.close();
 
-        // release arrays of WSABUF structures
-        unsafe.freeMemory(readBufferArray);
-        unsafe.freeMemory(writeBufferArray);
+        // relebse brrbys of WSABUF structures
+        unsbfe.freeMemory(rebdBufferArrby);
+        unsbfe.freeMemory(writeBufferArrby);
 
-        // finally disassociate from the completion port (key can be 0 if
-        // channel created when group is shutdown)
+        // finblly disbssocibte from the completion port (key cbn be 0 if
+        // chbnnel crebted when group is shutdown)
         if (completionKey != 0)
-            iocp.disassociate(completionKey);
+            iocp.disbssocibte(completionKey);
     }
 
     @Override
-    public void onCancel(PendingFuture<?,?> task) {
-        if (task.getContext() instanceof ConnectTask)
+    public void onCbncel(PendingFuture<?,?> tbsk) {
+        if (tbsk.getContext() instbnceof ConnectTbsk)
             killConnect();
-        if (task.getContext() instanceof ReadTask)
-            killReading();
-        if (task.getContext() instanceof WriteTask)
+        if (tbsk.getContext() instbnceof RebdTbsk)
+            killRebding();
+        if (tbsk.getContext() instbnceof WriteTbsk)
             killWriting();
     }
 
     /**
-     * Implements the task to initiate a connection and the handler to
-     * consume the result when the connection is established (or fails).
+     * Implements the tbsk to initibte b connection bnd the hbndler to
+     * consume the result when the connection is estbblished (or fbils).
      */
-    private class ConnectTask<A> implements Runnable, Iocp.ResultHandler {
-        private final InetSocketAddress remote;
-        private final PendingFuture<Void,A> result;
+    privbte clbss ConnectTbsk<A> implements Runnbble, Iocp.ResultHbndler {
+        privbte finbl InetSocketAddress remote;
+        privbte finbl PendingFuture<Void,A> result;
 
-        ConnectTask(InetSocketAddress remote, PendingFuture<Void,A> result) {
+        ConnectTbsk(InetSocketAddress remote, PendingFuture<Void,A> result) {
             this.remote = remote;
             this.result = result;
         }
 
-        private void closeChannel() {
+        privbte void closeChbnnel() {
             try {
                 close();
-            } catch (IOException ignore) { }
+            } cbtch (IOException ignore) { }
         }
 
-        private IOException toIOException(Throwable x) {
-            if (x instanceof IOException) {
-                if (x instanceof ClosedChannelException)
+        privbte IOException toIOException(Throwbble x) {
+            if (x instbnceof IOException) {
+                if (x instbnceof ClosedChbnnelException)
                     x = new AsynchronousCloseException();
                 return (IOException)x;
             }
@@ -207,81 +207,81 @@ class WindowsAsynchronousSocketChannelImpl
         }
 
         /**
-         * Invoke after a connection is successfully established.
+         * Invoke bfter b connection is successfully estbblished.
          */
-        private void afterConnect() throws IOException {
-            updateConnectContext(handle);
-            synchronized (stateLock) {
-                state = ST_CONNECTED;
+        privbte void bfterConnect() throws IOException {
+            updbteConnectContext(hbndle);
+            synchronized (stbteLock) {
+                stbte = ST_CONNECTED;
                 remoteAddress = remote;
             }
         }
 
         /**
-         * Task to initiate a connection.
+         * Tbsk to initibte b connection.
          */
         @Override
         public void run() {
-            long overlapped = 0L;
-            Throwable exc = null;
+            long overlbpped = 0L;
+            Throwbble exc = null;
             try {
                 begin();
 
-                // synchronize on result to allow this thread handle the case
-                // where the connection is established immediately.
+                // synchronize on result to bllow this threbd hbndle the cbse
+                // where the connection is estbblished immedibtely.
                 synchronized (result) {
-                    overlapped = ioCache.add(result);
-                    // initiate the connection
-                    int n = connect0(handle, Net.isIPv6Available(), remote.getAddress(),
-                                     remote.getPort(), overlapped);
-                    if (n == IOStatus.UNAVAILABLE) {
+                    overlbpped = ioCbche.bdd(result);
+                    // initibte the connection
+                    int n = connect0(hbndle, Net.isIPv6Avbilbble(), remote.getAddress(),
+                                     remote.getPort(), overlbpped);
+                    if (n == IOStbtus.UNAVAILABLE) {
                         // connection is pending
                         return;
                     }
 
-                    // connection established immediately
-                    afterConnect();
+                    // connection estbblished immedibtely
+                    bfterConnect();
                     result.setResult(null);
                 }
-            } catch (Throwable x) {
-                if (overlapped != 0L)
-                    ioCache.remove(overlapped);
+            } cbtch (Throwbble x) {
+                if (overlbpped != 0L)
+                    ioCbche.remove(overlbpped);
                 exc = x;
-            } finally {
+            } finblly {
                 end();
             }
 
             if (exc != null) {
-                closeChannel();
-                result.setFailure(toIOException(exc));
+                closeChbnnel();
+                result.setFbilure(toIOException(exc));
             }
             Invoker.invoke(result);
         }
 
         /**
-         * Invoked by handler thread when connection established.
+         * Invoked by hbndler threbd when connection estbblished.
          */
         @Override
-        public void completed(int bytesTransferred, boolean canInvokeDirect) {
-            Throwable exc = null;
+        public void completed(int bytesTrbnsferred, boolebn cbnInvokeDirect) {
+            Throwbble exc = null;
             try {
                 begin();
-                afterConnect();
+                bfterConnect();
                 result.setResult(null);
-            } catch (Throwable x) {
-                // channel is closed or unable to finish connect
+            } cbtch (Throwbble x) {
+                // chbnnel is closed or unbble to finish connect
                 exc = x;
-            } finally {
+            } finblly {
                 end();
             }
 
-            // can't close channel while in begin/end block
+            // cbn't close chbnnel while in begin/end block
             if (exc != null) {
-                closeChannel();
-                result.setFailure(toIOException(exc));
+                closeChbnnel();
+                result.setFbilure(toIOException(exc));
             }
 
-            if (canInvokeDirect) {
+            if (cbnInvokeDirect) {
                 Invoker.invokeUnchecked(result);
             } else {
                 Invoker.invoke(result);
@@ -289,293 +289,293 @@ class WindowsAsynchronousSocketChannelImpl
         }
 
         /**
-         * Invoked by handler thread when failed to establish connection.
+         * Invoked by hbndler threbd when fbiled to estbblish connection.
          */
         @Override
-        public void failed(int error, IOException x) {
+        public void fbiled(int error, IOException x) {
             if (isOpen()) {
-                closeChannel();
-                result.setFailure(x);
+                closeChbnnel();
+                result.setFbilure(x);
             } else {
-                result.setFailure(new AsynchronousCloseException());
+                result.setFbilure(new AsynchronousCloseException());
             }
             Invoker.invoke(result);
         }
     }
 
-    private void doPrivilegedBind(final SocketAddress sa) throws IOException {
+    privbte void doPrivilegedBind(finbl SocketAddress sb) throws IOException {
         try {
             AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
                 public Void run() throws IOException {
-                    bind(sa);
+                    bind(sb);
                     return null;
                 }
             });
-        } catch (PrivilegedActionException e) {
+        } cbtch (PrivilegedActionException e) {
             throw (IOException) e.getException();
         }
     }
 
     @Override
     <A> Future<Void> implConnect(SocketAddress remote,
-                                 A attachment,
-                                 CompletionHandler<Void,? super A> handler)
+                                 A bttbchment,
+                                 CompletionHbndler<Void,? super A> hbndler)
     {
         if (!isOpen()) {
-            Throwable exc = new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withFailure(exc);
-            Invoker.invoke(this, handler, attachment, null, exc);
+            Throwbble exc = new ClosedChbnnelException();
+            if (hbndler == null)
+                return CompletedFuture.withFbilure(exc);
+            Invoker.invoke(this, hbndler, bttbchment, null, exc);
             return null;
         }
 
-        InetSocketAddress isa = Net.checkAddress(remote);
+        InetSocketAddress isb = Net.checkAddress(remote);
 
         // permission check
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkConnect(isa.getAddress().getHostAddress(), isa.getPort());
+            sm.checkConnect(isb.getAddress().getHostAddress(), isb.getPort());
 
-        // check and update state
-        // ConnectEx requires the socket to be bound to a local address
+        // check bnd updbte stbte
+        // ConnectEx requires the socket to be bound to b locbl bddress
         IOException bindException = null;
-        synchronized (stateLock) {
-            if (state == ST_CONNECTED)
-                throw new AlreadyConnectedException();
-            if (state == ST_PENDING)
+        synchronized (stbteLock) {
+            if (stbte == ST_CONNECTED)
+                throw new AlrebdyConnectedException();
+            if (stbte == ST_PENDING)
                 throw new ConnectionPendingException();
-            if (localAddress == null) {
+            if (locblAddress == null) {
                 try {
-                    SocketAddress any = new InetSocketAddress(0);
+                    SocketAddress bny = new InetSocketAddress(0);
                     if (sm == null) {
-                        bind(any);
+                        bind(bny);
                     } else {
-                        doPrivilegedBind(any);
+                        doPrivilegedBind(bny);
                     }
-                } catch (IOException x) {
+                } cbtch (IOException x) {
                     bindException = x;
                 }
             }
             if (bindException == null)
-                state = ST_PENDING;
+                stbte = ST_PENDING;
         }
 
-        // handle bind failure
+        // hbndle bind fbilure
         if (bindException != null) {
             try {
                 close();
-            } catch (IOException ignore) { }
-            if (handler == null)
-                return CompletedFuture.withFailure(bindException);
-            Invoker.invoke(this, handler, attachment, null, bindException);
+            } cbtch (IOException ignore) { }
+            if (hbndler == null)
+                return CompletedFuture.withFbilure(bindException);
+            Invoker.invoke(this, hbndler, bttbchment, null, bindException);
             return null;
         }
 
-        // setup task
+        // setup tbsk
         PendingFuture<Void,A> result =
-            new PendingFuture<Void,A>(this, handler, attachment);
-        ConnectTask<A> task = new ConnectTask<A>(isa, result);
-        result.setContext(task);
+            new PendingFuture<Void,A>(this, hbndler, bttbchment);
+        ConnectTbsk<A> tbsk = new ConnectTbsk<A>(isb, result);
+        result.setContext(tbsk);
 
-        // initiate I/O
-        if (Iocp.supportsThreadAgnosticIo()) {
-            task.run();
+        // initibte I/O
+        if (Iocp.supportsThrebdAgnosticIo()) {
+            tbsk.run();
         } else {
-            Invoker.invokeOnThreadInThreadPool(this, task);
+            Invoker.invokeOnThrebdInThrebdPool(this, tbsk);
         }
         return result;
     }
 
     /**
-     * Implements the task to initiate a read and the handler to consume the
-     * result when the read completes.
+     * Implements the tbsk to initibte b rebd bnd the hbndler to consume the
+     * result when the rebd completes.
      */
-    private class ReadTask<V,A> implements Runnable, Iocp.ResultHandler {
-        private final ByteBuffer[] bufs;
-        private final int numBufs;
-        private final boolean scatteringRead;
-        private final PendingFuture<V,A> result;
+    privbte clbss RebdTbsk<V,A> implements Runnbble, Iocp.ResultHbndler {
+        privbte finbl ByteBuffer[] bufs;
+        privbte finbl int numBufs;
+        privbte finbl boolebn scbtteringRebd;
+        privbte finbl PendingFuture<V,A> result;
 
         // set by run method
-        private ByteBuffer[] shadow;
+        privbte ByteBuffer[] shbdow;
 
-        ReadTask(ByteBuffer[] bufs,
-                 boolean scatteringRead,
+        RebdTbsk(ByteBuffer[] bufs,
+                 boolebn scbtteringRebd,
                  PendingFuture<V,A> result)
         {
             this.bufs = bufs;
             this.numBufs = (bufs.length > MAX_WSABUF) ? MAX_WSABUF : bufs.length;
-            this.scatteringRead = scatteringRead;
+            this.scbtteringRebd = scbtteringRebd;
             this.result = result;
         }
 
         /**
-         * Invoked prior to read to prepare the WSABUF array. Where necessary,
+         * Invoked prior to rebd to prepbre the WSABUF brrby. Where necessbry,
          * it substitutes non-direct buffers with direct buffers.
          */
-        void prepareBuffers() {
-            shadow = new ByteBuffer[numBufs];
-            long address = readBufferArray;
+        void prepbreBuffers() {
+            shbdow = new ByteBuffer[numBufs];
+            long bddress = rebdBufferArrby;
             for (int i=0; i<numBufs; i++) {
                 ByteBuffer dst = bufs[i];
                 int pos = dst.position();
                 int lim = dst.limit();
-                assert (pos <= lim);
+                bssert (pos <= lim);
                 int rem = (pos <= lim ? lim - pos : 0);
-                long a;
-                if (!(dst instanceof DirectBuffer)) {
+                long b;
+                if (!(dst instbnceof DirectBuffer)) {
                     // substitute with direct buffer
-                    ByteBuffer bb = Util.getTemporaryDirectBuffer(rem);
-                    shadow[i] = bb;
-                    a = ((DirectBuffer)bb).address();
+                    ByteBuffer bb = Util.getTemporbryDirectBuffer(rem);
+                    shbdow[i] = bb;
+                    b = ((DirectBuffer)bb).bddress();
                 } else {
-                    shadow[i] = dst;
-                    a = ((DirectBuffer)dst).address() + pos;
+                    shbdow[i] = dst;
+                    b = ((DirectBuffer)dst).bddress() + pos;
                 }
-                unsafe.putAddress(address + OFFSETOF_BUF, a);
-                unsafe.putInt(address + OFFSETOF_LEN, rem);
-                address += SIZEOF_WSABUF;
+                unsbfe.putAddress(bddress + OFFSETOF_BUF, b);
+                unsbfe.putInt(bddress + OFFSETOF_LEN, rem);
+                bddress += SIZEOF_WSABUF;
             }
         }
 
         /**
-         * Invoked after a read has completed to update the buffer positions
-         * and release any substituted buffers.
+         * Invoked bfter b rebd hbs completed to updbte the buffer positions
+         * bnd relebse bny substituted buffers.
          */
-        void updateBuffers(int bytesRead) {
+        void updbteBuffers(int bytesRebd) {
             for (int i=0; i<numBufs; i++) {
-                ByteBuffer nextBuffer = shadow[i];
+                ByteBuffer nextBuffer = shbdow[i];
                 int pos = nextBuffer.position();
-                int len = nextBuffer.remaining();
-                if (bytesRead >= len) {
-                    bytesRead -= len;
+                int len = nextBuffer.rembining();
+                if (bytesRebd >= len) {
+                    bytesRebd -= len;
                     int newPosition = pos + len;
                     try {
                         nextBuffer.position(newPosition);
-                    } catch (IllegalArgumentException x) {
-                        // position changed by another
+                    } cbtch (IllegblArgumentException x) {
+                        // position chbnged by bnother
                     }
                 } else { // Buffers not completely filled
-                    if (bytesRead > 0) {
-                        assert(pos + bytesRead < (long)Integer.MAX_VALUE);
-                        int newPosition = pos + bytesRead;
+                    if (bytesRebd > 0) {
+                        bssert(pos + bytesRebd < (long)Integer.MAX_VALUE);
+                        int newPosition = pos + bytesRebd;
                         try {
                             nextBuffer.position(newPosition);
-                        } catch (IllegalArgumentException x) {
-                            // position changed by another
+                        } cbtch (IllegblArgumentException x) {
+                            // position chbnged by bnother
                         }
                     }
-                    break;
+                    brebk;
                 }
             }
 
-            // Put results from shadow into the slow buffers
+            // Put results from shbdow into the slow buffers
             for (int i=0; i<numBufs; i++) {
-                if (!(bufs[i] instanceof DirectBuffer)) {
-                    shadow[i].flip();
+                if (!(bufs[i] instbnceof DirectBuffer)) {
+                    shbdow[i].flip();
                     try {
-                        bufs[i].put(shadow[i]);
-                    } catch (BufferOverflowException x) {
-                        // position changed by another
+                        bufs[i].put(shbdow[i]);
+                    } cbtch (BufferOverflowException x) {
+                        // position chbnged by bnother
                     }
                 }
             }
         }
 
-        void releaseBuffers() {
+        void relebseBuffers() {
             for (int i=0; i<numBufs; i++) {
-                if (!(bufs[i] instanceof DirectBuffer)) {
-                    Util.releaseTemporaryDirectBuffer(shadow[i]);
+                if (!(bufs[i] instbnceof DirectBuffer)) {
+                    Util.relebseTemporbryDirectBuffer(shbdow[i]);
                 }
             }
         }
 
         @Override
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public void run() {
-            long overlapped = 0L;
-            boolean prepared = false;
-            boolean pending = false;
+            long overlbpped = 0L;
+            boolebn prepbred = fblse;
+            boolebn pending = fblse;
 
             try {
                 begin();
 
                 // substitute non-direct buffers
-                prepareBuffers();
-                prepared = true;
+                prepbreBuffers();
+                prepbred = true;
 
-                // get an OVERLAPPED structure (from the cache or allocate)
-                overlapped = ioCache.add(result);
+                // get bn OVERLAPPED structure (from the cbche or bllocbte)
+                overlbpped = ioCbche.bdd(result);
 
-                // initiate read
-                int n = read0(handle, numBufs, readBufferArray, overlapped);
-                if (n == IOStatus.UNAVAILABLE) {
+                // initibte rebd
+                int n = rebd0(hbndle, numBufs, rebdBufferArrby, overlbpped);
+                if (n == IOStbtus.UNAVAILABLE) {
                     // I/O is pending
                     pending = true;
                     return;
                 }
-                if (n == IOStatus.EOF) {
+                if (n == IOStbtus.EOF) {
                     // input shutdown
-                    enableReading();
-                    if (scatteringRead) {
-                        result.setResult((V)Long.valueOf(-1L));
+                    enbbleRebding();
+                    if (scbtteringRebd) {
+                        result.setResult((V)Long.vblueOf(-1L));
                     } else {
-                        result.setResult((V)Integer.valueOf(-1));
+                        result.setResult((V)Integer.vblueOf(-1));
                     }
                 } else {
-                    throw new InternalError("Read completed immediately");
+                    throw new InternblError("Rebd completed immedibtely");
                 }
-            } catch (Throwable x) {
-                // failed to initiate read
-                // reset read flag before releasing waiters
-                enableReading();
-                if (x instanceof ClosedChannelException)
+            } cbtch (Throwbble x) {
+                // fbiled to initibte rebd
+                // reset rebd flbg before relebsing wbiters
+                enbbleRebding();
+                if (x instbnceof ClosedChbnnelException)
                     x = new AsynchronousCloseException();
-                if (!(x instanceof IOException))
+                if (!(x instbnceof IOException))
                     x = new IOException(x);
-                result.setFailure(x);
-            } finally {
-                // release resources if I/O not pending
+                result.setFbilure(x);
+            } finblly {
+                // relebse resources if I/O not pending
                 if (!pending) {
-                    if (overlapped != 0L)
-                        ioCache.remove(overlapped);
-                    if (prepared)
-                        releaseBuffers();
+                    if (overlbpped != 0L)
+                        ioCbche.remove(overlbpped);
+                    if (prepbred)
+                        relebseBuffers();
                 }
                 end();
             }
 
-            // invoke completion handler
+            // invoke completion hbndler
             Invoker.invoke(result);
         }
 
         /**
-         * Executed when the I/O has completed
+         * Executed when the I/O hbs completed
          */
         @Override
-        @SuppressWarnings("unchecked")
-        public void completed(int bytesTransferred, boolean canInvokeDirect) {
-            if (bytesTransferred == 0) {
-                bytesTransferred = -1;  // EOF
+        @SuppressWbrnings("unchecked")
+        public void completed(int bytesTrbnsferred, boolebn cbnInvokeDirect) {
+            if (bytesTrbnsferred == 0) {
+                bytesTrbnsferred = -1;  // EOF
             } else {
-                updateBuffers(bytesTransferred);
+                updbteBuffers(bytesTrbnsferred);
             }
 
-            // return direct buffer to cache if substituted
-            releaseBuffers();
+            // return direct buffer to cbche if substituted
+            relebseBuffers();
 
-            // release waiters if not already released by timeout
+            // relebse wbiters if not blrebdy relebsed by timeout
             synchronized (result) {
                 if (result.isDone())
                     return;
-                enableReading();
-                if (scatteringRead) {
-                    result.setResult((V)Long.valueOf(bytesTransferred));
+                enbbleRebding();
+                if (scbtteringRebd) {
+                    result.setResult((V)Long.vblueOf(bytesTrbnsferred));
                 } else {
-                    result.setResult((V)Integer.valueOf(bytesTransferred));
+                    result.setResult((V)Integer.vblueOf(bytesTrbnsferred));
                 }
             }
-            if (canInvokeDirect) {
+            if (cbnInvokeDirect) {
                 Invoker.invokeUnchecked(result);
             } else {
                 Invoker.invoke(result);
@@ -583,145 +583,145 @@ class WindowsAsynchronousSocketChannelImpl
         }
 
         @Override
-        public void failed(int error, IOException x) {
-            // return direct buffer to cache if substituted
-            releaseBuffers();
+        public void fbiled(int error, IOException x) {
+            // return direct buffer to cbche if substituted
+            relebseBuffers();
 
-            // release waiters if not already released by timeout
+            // relebse wbiters if not blrebdy relebsed by timeout
             if (!isOpen())
                 x = new AsynchronousCloseException();
 
             synchronized (result) {
                 if (result.isDone())
                     return;
-                enableReading();
-                result.setFailure(x);
+                enbbleRebding();
+                result.setFbilure(x);
             }
             Invoker.invoke(result);
         }
 
         /**
-         * Invoked if timeout expires before it is cancelled
+         * Invoked if timeout expires before it is cbncelled
          */
         void timeout() {
-            // synchronize on result as the I/O could complete/fail
+            // synchronize on result bs the I/O could complete/fbil
             synchronized (result) {
                 if (result.isDone())
                     return;
 
-                // kill further reading before releasing waiters
-                enableReading(true);
-                result.setFailure(new InterruptedByTimeoutException());
+                // kill further rebding before relebsing wbiters
+                enbbleRebding(true);
+                result.setFbilure(new InterruptedByTimeoutException());
             }
 
-            // invoke handler without any locks
+            // invoke hbndler without bny locks
             Invoker.invoke(result);
         }
     }
 
     @Override
-    <V extends Number,A> Future<V> implRead(boolean isScatteringRead,
+    <V extends Number,A> Future<V> implRebd(boolebn isScbtteringRebd,
                                             ByteBuffer dst,
                                             ByteBuffer[] dsts,
                                             long timeout,
                                             TimeUnit unit,
-                                            A attachment,
-                                            CompletionHandler<V,? super A> handler)
+                                            A bttbchment,
+                                            CompletionHbndler<V,? super A> hbndler)
     {
-        // setup task
+        // setup tbsk
         PendingFuture<V,A> result =
-            new PendingFuture<V,A>(this, handler, attachment);
+            new PendingFuture<V,A>(this, hbndler, bttbchment);
         ByteBuffer[] bufs;
-        if (isScatteringRead) {
+        if (isScbtteringRebd) {
             bufs = dsts;
         } else {
             bufs = new ByteBuffer[1];
             bufs[0] = dst;
         }
-        final ReadTask<V,A> readTask =
-                new ReadTask<V,A>(bufs, isScatteringRead, result);
-        result.setContext(readTask);
+        finbl RebdTbsk<V,A> rebdTbsk =
+                new RebdTbsk<V,A>(bufs, isScbtteringRebd, result);
+        result.setContext(rebdTbsk);
 
         // schedule timeout
         if (timeout > 0L) {
-            Future<?> timeoutTask = iocp.schedule(new Runnable() {
+            Future<?> timeoutTbsk = iocp.schedule(new Runnbble() {
                 public void run() {
-                    readTask.timeout();
+                    rebdTbsk.timeout();
                 }
             }, timeout, unit);
-            result.setTimeoutTask(timeoutTask);
+            result.setTimeoutTbsk(timeoutTbsk);
         }
 
-        // initiate I/O
-        if (Iocp.supportsThreadAgnosticIo()) {
-            readTask.run();
+        // initibte I/O
+        if (Iocp.supportsThrebdAgnosticIo()) {
+            rebdTbsk.run();
         } else {
-            Invoker.invokeOnThreadInThreadPool(this, readTask);
+            Invoker.invokeOnThrebdInThrebdPool(this, rebdTbsk);
         }
         return result;
     }
 
     /**
-     * Implements the task to initiate a write and the handler to consume the
+     * Implements the tbsk to initibte b write bnd the hbndler to consume the
      * result when the write completes.
      */
-    private class WriteTask<V,A> implements Runnable, Iocp.ResultHandler {
-        private final ByteBuffer[] bufs;
-        private final int numBufs;
-        private final boolean gatheringWrite;
-        private final PendingFuture<V,A> result;
+    privbte clbss WriteTbsk<V,A> implements Runnbble, Iocp.ResultHbndler {
+        privbte finbl ByteBuffer[] bufs;
+        privbte finbl int numBufs;
+        privbte finbl boolebn gbtheringWrite;
+        privbte finbl PendingFuture<V,A> result;
 
         // set by run method
-        private ByteBuffer[] shadow;
+        privbte ByteBuffer[] shbdow;
 
-        WriteTask(ByteBuffer[] bufs,
-                  boolean gatheringWrite,
+        WriteTbsk(ByteBuffer[] bufs,
+                  boolebn gbtheringWrite,
                   PendingFuture<V,A> result)
         {
             this.bufs = bufs;
             this.numBufs = (bufs.length > MAX_WSABUF) ? MAX_WSABUF : bufs.length;
-            this.gatheringWrite = gatheringWrite;
+            this.gbtheringWrite = gbtheringWrite;
             this.result = result;
         }
 
         /**
-         * Invoked prior to write to prepare the WSABUF array. Where necessary,
+         * Invoked prior to write to prepbre the WSABUF brrby. Where necessbry,
          * it substitutes non-direct buffers with direct buffers.
          */
-        void prepareBuffers() {
-            shadow = new ByteBuffer[numBufs];
-            long address = writeBufferArray;
+        void prepbreBuffers() {
+            shbdow = new ByteBuffer[numBufs];
+            long bddress = writeBufferArrby;
             for (int i=0; i<numBufs; i++) {
                 ByteBuffer src = bufs[i];
                 int pos = src.position();
                 int lim = src.limit();
-                assert (pos <= lim);
+                bssert (pos <= lim);
                 int rem = (pos <= lim ? lim - pos : 0);
-                long a;
-                if (!(src instanceof DirectBuffer)) {
+                long b;
+                if (!(src instbnceof DirectBuffer)) {
                     // substitute with direct buffer
-                    ByteBuffer bb = Util.getTemporaryDirectBuffer(rem);
+                    ByteBuffer bb = Util.getTemporbryDirectBuffer(rem);
                     bb.put(src);
                     bb.flip();
-                    src.position(pos);  // leave heap buffer untouched for now
-                    shadow[i] = bb;
-                    a = ((DirectBuffer)bb).address();
+                    src.position(pos);  // lebve hebp buffer untouched for now
+                    shbdow[i] = bb;
+                    b = ((DirectBuffer)bb).bddress();
                 } else {
-                    shadow[i] = src;
-                    a = ((DirectBuffer)src).address() + pos;
+                    shbdow[i] = src;
+                    b = ((DirectBuffer)src).bddress() + pos;
                 }
-                unsafe.putAddress(address + OFFSETOF_BUF, a);
-                unsafe.putInt(address + OFFSETOF_LEN, rem);
-                address += SIZEOF_WSABUF;
+                unsbfe.putAddress(bddress + OFFSETOF_BUF, b);
+                unsbfe.putInt(bddress + OFFSETOF_LEN, rem);
+                bddress += SIZEOF_WSABUF;
             }
         }
 
         /**
-         * Invoked after a write has completed to update the buffer positions
-         * and release any substituted buffers.
+         * Invoked bfter b write hbs completed to updbte the buffer positions
+         * bnd relebse bny substituted buffers.
          */
-        void updateBuffers(int bytesWritten) {
-            // Notify the buffers how many bytes were taken
+        void updbteBuffers(int bytesWritten) {
+            // Notify the buffers how mbny bytes were tbken
             for (int i=0; i<numBufs; i++) {
                 ByteBuffer nextBuffer = bufs[i];
                 int pos = nextBuffer.position();
@@ -732,108 +732,108 @@ class WindowsAsynchronousSocketChannelImpl
                     int newPosition = pos + len;
                     try {
                         nextBuffer.position(newPosition);
-                    } catch (IllegalArgumentException x) {
-                        // position changed by someone else
+                    } cbtch (IllegblArgumentException x) {
+                        // position chbnged by someone else
                     }
                 } else { // Buffers not completely filled
                     if (bytesWritten > 0) {
-                        assert(pos + bytesWritten < (long)Integer.MAX_VALUE);
+                        bssert(pos + bytesWritten < (long)Integer.MAX_VALUE);
                         int newPosition = pos + bytesWritten;
                         try {
                             nextBuffer.position(newPosition);
-                        } catch (IllegalArgumentException x) {
-                            // position changed by someone else
+                        } cbtch (IllegblArgumentException x) {
+                            // position chbnged by someone else
                         }
                     }
-                    break;
+                    brebk;
                 }
             }
         }
 
-        void releaseBuffers() {
+        void relebseBuffers() {
             for (int i=0; i<numBufs; i++) {
-                if (!(bufs[i] instanceof DirectBuffer)) {
-                    Util.releaseTemporaryDirectBuffer(shadow[i]);
+                if (!(bufs[i] instbnceof DirectBuffer)) {
+                    Util.relebseTemporbryDirectBuffer(shbdow[i]);
                 }
             }
         }
 
         @Override
-        //@SuppressWarnings("unchecked")
+        //@SuppressWbrnings("unchecked")
         public void run() {
-            long overlapped = 0L;
-            boolean prepared = false;
-            boolean pending = false;
-            boolean shutdown = false;
+            long overlbpped = 0L;
+            boolebn prepbred = fblse;
+            boolebn pending = fblse;
+            boolebn shutdown = fblse;
 
             try {
                 begin();
 
                 // substitute non-direct buffers
-                prepareBuffers();
-                prepared = true;
+                prepbreBuffers();
+                prepbred = true;
 
-                // get an OVERLAPPED structure (from the cache or allocate)
-                overlapped = ioCache.add(result);
-                int n = write0(handle, numBufs, writeBufferArray, overlapped);
-                if (n == IOStatus.UNAVAILABLE) {
+                // get bn OVERLAPPED structure (from the cbche or bllocbte)
+                overlbpped = ioCbche.bdd(result);
+                int n = write0(hbndle, numBufs, writeBufferArrby, overlbpped);
+                if (n == IOStbtus.UNAVAILABLE) {
                     // I/O is pending
                     pending = true;
                     return;
                 }
-                if (n == IOStatus.EOF) {
-                    // special case for shutdown output
+                if (n == IOStbtus.EOF) {
+                    // specibl cbse for shutdown output
                     shutdown = true;
-                    throw new ClosedChannelException();
+                    throw new ClosedChbnnelException();
                 }
-                // write completed immediately
-                throw new InternalError("Write completed immediately");
-            } catch (Throwable x) {
-                // write failed. Enable writing before releasing waiters.
-                enableWriting();
-                if (!shutdown && (x instanceof ClosedChannelException))
+                // write completed immedibtely
+                throw new InternblError("Write completed immedibtely");
+            } cbtch (Throwbble x) {
+                // write fbiled. Enbble writing before relebsing wbiters.
+                enbbleWriting();
+                if (!shutdown && (x instbnceof ClosedChbnnelException))
                     x = new AsynchronousCloseException();
-                if (!(x instanceof IOException))
+                if (!(x instbnceof IOException))
                     x = new IOException(x);
-                result.setFailure(x);
-            } finally {
-                // release resources if I/O not pending
+                result.setFbilure(x);
+            } finblly {
+                // relebse resources if I/O not pending
                 if (!pending) {
-                    if (overlapped != 0L)
-                        ioCache.remove(overlapped);
-                    if (prepared)
-                        releaseBuffers();
+                    if (overlbpped != 0L)
+                        ioCbche.remove(overlbpped);
+                    if (prepbred)
+                        relebseBuffers();
                 }
                 end();
             }
 
-            // invoke completion handler
+            // invoke completion hbndler
             Invoker.invoke(result);
         }
 
         /**
-         * Executed when the I/O has completed
+         * Executed when the I/O hbs completed
          */
         @Override
-        @SuppressWarnings("unchecked")
-        public void completed(int bytesTransferred, boolean canInvokeDirect) {
-            updateBuffers(bytesTransferred);
+        @SuppressWbrnings("unchecked")
+        public void completed(int bytesTrbnsferred, boolebn cbnInvokeDirect) {
+            updbteBuffers(bytesTrbnsferred);
 
-            // return direct buffer to cache if substituted
-            releaseBuffers();
+            // return direct buffer to cbche if substituted
+            relebseBuffers();
 
-            // release waiters if not already released by timeout
+            // relebse wbiters if not blrebdy relebsed by timeout
             synchronized (result) {
                 if (result.isDone())
                     return;
-                enableWriting();
-                if (gatheringWrite) {
-                    result.setResult((V)Long.valueOf(bytesTransferred));
+                enbbleWriting();
+                if (gbtheringWrite) {
+                    result.setResult((V)Long.vblueOf(bytesTrbnsferred));
                 } else {
-                    result.setResult((V)Integer.valueOf(bytesTransferred));
+                    result.setResult((V)Integer.vblueOf(bytesTrbnsferred));
                 }
             }
-            if (canInvokeDirect) {
+            if (cbnInvokeDirect) {
                 Invoker.invokeUnchecked(result);
             } else {
                 Invoker.invoke(result);
@@ -841,106 +841,106 @@ class WindowsAsynchronousSocketChannelImpl
         }
 
         @Override
-        public void failed(int error, IOException x) {
-            // return direct buffer to cache if substituted
-            releaseBuffers();
+        public void fbiled(int error, IOException x) {
+            // return direct buffer to cbche if substituted
+            relebseBuffers();
 
-            // release waiters if not already released by timeout
+            // relebse wbiters if not blrebdy relebsed by timeout
             if (!isOpen())
                 x = new AsynchronousCloseException();
 
             synchronized (result) {
                 if (result.isDone())
                     return;
-                enableWriting();
-                result.setFailure(x);
+                enbbleWriting();
+                result.setFbilure(x);
             }
             Invoker.invoke(result);
         }
 
         /**
-         * Invoked if timeout expires before it is cancelled
+         * Invoked if timeout expires before it is cbncelled
          */
         void timeout() {
-            // synchronize on result as the I/O could complete/fail
+            // synchronize on result bs the I/O could complete/fbil
             synchronized (result) {
                 if (result.isDone())
                     return;
 
-                // kill further writing before releasing waiters
-                enableWriting(true);
-                result.setFailure(new InterruptedByTimeoutException());
+                // kill further writing before relebsing wbiters
+                enbbleWriting(true);
+                result.setFbilure(new InterruptedByTimeoutException());
             }
 
-            // invoke handler without any locks
+            // invoke hbndler without bny locks
             Invoker.invoke(result);
         }
     }
 
     @Override
-    <V extends Number,A> Future<V> implWrite(boolean gatheringWrite,
+    <V extends Number,A> Future<V> implWrite(boolebn gbtheringWrite,
                                              ByteBuffer src,
                                              ByteBuffer[] srcs,
                                              long timeout,
                                              TimeUnit unit,
-                                             A attachment,
-                                             CompletionHandler<V,? super A> handler)
+                                             A bttbchment,
+                                             CompletionHbndler<V,? super A> hbndler)
     {
-        // setup task
+        // setup tbsk
         PendingFuture<V,A> result =
-            new PendingFuture<V,A>(this, handler, attachment);
+            new PendingFuture<V,A>(this, hbndler, bttbchment);
         ByteBuffer[] bufs;
-        if (gatheringWrite) {
+        if (gbtheringWrite) {
             bufs = srcs;
         } else {
             bufs = new ByteBuffer[1];
             bufs[0] = src;
         }
-        final WriteTask<V,A> writeTask =
-                new WriteTask<V,A>(bufs, gatheringWrite, result);
-        result.setContext(writeTask);
+        finbl WriteTbsk<V,A> writeTbsk =
+                new WriteTbsk<V,A>(bufs, gbtheringWrite, result);
+        result.setContext(writeTbsk);
 
         // schedule timeout
         if (timeout > 0L) {
-            Future<?> timeoutTask = iocp.schedule(new Runnable() {
+            Future<?> timeoutTbsk = iocp.schedule(new Runnbble() {
                 public void run() {
-                    writeTask.timeout();
+                    writeTbsk.timeout();
                 }
             }, timeout, unit);
-            result.setTimeoutTask(timeoutTask);
+            result.setTimeoutTbsk(timeoutTbsk);
         }
 
-        // initiate I/O (can only be done from thread in thread pool)
-        // initiate I/O
-        if (Iocp.supportsThreadAgnosticIo()) {
-            writeTask.run();
+        // initibte I/O (cbn only be done from threbd in threbd pool)
+        // initibte I/O
+        if (Iocp.supportsThrebdAgnosticIo()) {
+            writeTbsk.run();
         } else {
-            Invoker.invokeOnThreadInThreadPool(this, writeTask);
+            Invoker.invokeOnThrebdInThrebdPool(this, writeTbsk);
         }
         return result;
     }
 
-    // -- Native methods --
+    // -- Nbtive methods --
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    private static native int connect0(long socket, boolean preferIPv6,
-        InetAddress remote, int remotePort, long overlapped) throws IOException;
+    privbte stbtic nbtive int connect0(long socket, boolebn preferIPv6,
+        InetAddress remote, int remotePort, long overlbpped) throws IOException;
 
-    private static native void updateConnectContext(long socket) throws IOException;
+    privbte stbtic nbtive void updbteConnectContext(long socket) throws IOException;
 
-    private static native int read0(long socket, int count, long addres, long overlapped)
+    privbte stbtic nbtive int rebd0(long socket, int count, long bddres, long overlbpped)
         throws IOException;
 
-    private static native int write0(long socket, int count, long address,
-        long overlapped) throws IOException;
+    privbte stbtic nbtive int write0(long socket, int count, long bddress,
+        long overlbpped) throws IOException;
 
-    private static native void shutdown0(long socket, int how) throws IOException;
+    privbte stbtic nbtive void shutdown0(long socket, int how) throws IOException;
 
-    private static native void closesocket0(long socket) throws IOException;
+    privbte stbtic nbtive void closesocket0(long socket) throws IOException;
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
         initIDs();
     }
 }

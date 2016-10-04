@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2001, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.chbnnels.spi.*;
 
 
 /**
- * This class is defined here rather than in java.nio.channels.Channels
- * so that code can be shared with SocketAdaptor.
+ * This clbss is defined here rbther thbn in jbvb.nio.chbnnels.Chbnnels
+ * so thbt code cbn be shbred with SocketAdbptor.
  *
- * @author Mike McCloskey
- * @author Mark Reinhold
+ * @buthor Mike McCloskey
+ * @buthor Mbrk Reinhold
  * @since 1.4
  */
 
-public class ChannelInputStream
-    extends InputStream
+public clbss ChbnnelInputStrebm
+    extends InputStrebm
 {
 
-    public static int read(ReadableByteChannel ch, ByteBuffer bb,
-                           boolean block)
+    public stbtic int rebd(RebdbbleByteChbnnel ch, ByteBuffer bb,
+                           boolebn block)
         throws IOException
     {
-        if (ch instanceof SelectableChannel) {
-            SelectableChannel sc = (SelectableChannel)ch;
+        if (ch instbnceof SelectbbleChbnnel) {
+            SelectbbleChbnnel sc = (SelectbbleChbnnel)ch;
             synchronized (sc.blockingLock()) {
-                boolean bm = sc.isBlocking();
+                boolebn bm = sc.isBlocking();
                 if (!bm)
-                    throw new IllegalBlockingModeException();
+                    throw new IllegblBlockingModeException();
                 if (bm != block)
                     sc.configureBlocking(block);
-                int n = ch.read(bb);
+                int n = ch.rebd(bb);
                 if (bm != block)
                     sc.configureBlocking(bm);
                 return n;
             }
         } else {
-            return ch.read(bb);
+            return ch.rebd(bb);
         }
     }
 
-    protected final ReadableByteChannel ch;
-    private ByteBuffer bb = null;
-    private byte[] bs = null;           // Invoker's previous array
-    private byte[] b1 = null;
+    protected finbl RebdbbleByteChbnnel ch;
+    privbte ByteBuffer bb = null;
+    privbte byte[] bs = null;           // Invoker's previous brrby
+    privbte byte[] b1 = null;
 
-    public ChannelInputStream(ReadableByteChannel ch) {
+    public ChbnnelInputStrebm(RebdbbleByteChbnnel ch) {
         this.ch = ch;
     }
 
-    public synchronized int read() throws IOException {
+    public synchronized int rebd() throws IOException {
         if (b1 == null)
             b1 = new byte[1];
-        int n = this.read(b1);
+        int n = this.rebd(b1);
         if (n == 1)
             return b1[0] & 0xff;
         return -1;
     }
 
-    public synchronized int read(byte[] bs, int off, int len)
+    public synchronized int rebd(byte[] bs, int off, int len)
         throws IOException
     {
         if ((off < 0) || (off > bs.length) || (len < 0) ||
@@ -95,25 +95,25 @@ public class ChannelInputStream
 
         ByteBuffer bb = ((this.bs == bs)
                          ? this.bb
-                         : ByteBuffer.wrap(bs));
-        bb.limit(Math.min(off + len, bb.capacity()));
+                         : ByteBuffer.wrbp(bs));
+        bb.limit(Mbth.min(off + len, bb.cbpbcity()));
         bb.position(off);
         this.bb = bb;
         this.bs = bs;
-        return read(bb);
+        return rebd(bb);
     }
 
-    protected int read(ByteBuffer bb)
+    protected int rebd(ByteBuffer bb)
         throws IOException
     {
-        return ChannelInputStream.read(ch, bb, true);
+        return ChbnnelInputStrebm.rebd(ch, bb, true);
     }
 
-    public int available() throws IOException {
-        // special case where the channel is to a file
-        if (ch instanceof SeekableByteChannel) {
-            SeekableByteChannel sbc = (SeekableByteChannel)ch;
-            long rem = Math.max(0, sbc.size() - sbc.position());
+    public int bvbilbble() throws IOException {
+        // specibl cbse where the chbnnel is to b file
+        if (ch instbnceof SeekbbleByteChbnnel) {
+            SeekbbleByteChbnnel sbc = (SeekbbleByteChbnnel)ch;
+            long rem = Mbth.mbx(0, sbc.size() - sbc.position());
             return (rem > Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int)rem;
         }
         return 0;

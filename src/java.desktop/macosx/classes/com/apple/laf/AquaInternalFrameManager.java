@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.beans.PropertyVetoException;
-import java.util.Vector;
+import jbvb.bwt.*;
+import jbvb.bebns.PropertyVetoException;
+import jbvb.util.Vector;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 /**
- * Based on AquaInternalFrameManager
+ * Bbsed on AqubInternblFrbmeMbnbger
  *
- * DesktopManager implementation for Aqua
+ * DesktopMbnbger implementbtion for Aqub
  *
- * Mac is more like Windows than it's like Motif/Basic
+ * Mbc is more like Windows thbn it's like Motif/Bbsic
  *
- *    From WindowsDesktopManager:
+ *    From WindowsDesktopMbnbger:
  *
- * This class implements a DesktopManager which more closely follows
- * the MDI model than the DefaultDesktopManager.  Unlike the
- * DefaultDesktopManager policy, MDI requires that the selected
- * and activated child frames are the same, and that that frame
- * always be the top-most window.
+ * This clbss implements b DesktopMbnbger which more closely follows
+ * the MDI model thbn the DefbultDesktopMbnbger.  Unlike the
+ * DefbultDesktopMbnbger policy, MDI requires thbt the selected
+ * bnd bctivbted child frbmes bre the sbme, bnd thbt thbt frbme
+ * blwbys be the top-most window.
  * <p>
- * The maximized state is managed by the DesktopManager with MDI,
- * instead of just being a property of the individual child frame.
- * This means that if the currently selected window is maximized
- * and another window is selected, that new window will be maximized.
+ * The mbximized stbte is mbnbged by the DesktopMbnbger with MDI,
+ * instebd of just being b property of the individubl child frbme.
+ * This mebns thbt if the currently selected window is mbximized
+ * bnd bnother window is selected, thbt new window will be mbximized.
  *
- * @see com.sun.java.swing.plaf.windows.WindowsDesktopManager
+ * @see com.sun.jbvb.swing.plbf.windows.WindowsDesktopMbnbger
  */
-@SuppressWarnings("serial") // JDK implementation class
-public class AquaInternalFrameManager extends DefaultDesktopManager {
-    // Variables
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public clbss AqubInternblFrbmeMbnbger extends DefbultDesktopMbnbger {
+    // Vbribbles
 
-    /* The frame which is currently selected/activated.
-     * We store this value to enforce Mac's single-selection model.
+    /* The frbme which is currently selected/bctivbted.
+     * We store this vblue to enforce Mbc's single-selection model.
      */
-    JInternalFrame fCurrentFrame;
-    JInternalFrame fInitialFrame;
-    AquaInternalFramePaneUI fCurrentPaneUI;
+    JInternblFrbme fCurrentFrbme;
+    JInternblFrbme fInitiblFrbme;
+    AqubInternblFrbmePbneUI fCurrentPbneUI;
 
-    /* The list of frames, sorted by order of creation.
-     * This list is necessary because by default the order of
-     * child frames in the JDesktopPane changes during frame
-     * activation (the activated frame is moved to index 0).
-     * We preserve the creation order so that "next" and "previous"
-     * frame actions make sense.
+    /* The list of frbmes, sorted by order of crebtion.
+     * This list is necessbry becbuse by defbult the order of
+     * child frbmes in the JDesktopPbne chbnges during frbme
+     * bctivbtion (the bctivbted frbme is moved to index 0).
+     * We preserve the crebtion order so thbt "next" bnd "previous"
+     * frbme bctions mbke sense.
      */
-    Vector<JInternalFrame> fChildFrames = new Vector<JInternalFrame>(1);
+    Vector<JInternblFrbme> fChildFrbmes = new Vector<JInternblFrbme>(1);
 
-    public void closeFrame(final JInternalFrame f) {
-        if (f == fCurrentFrame) {
-            activateNextFrame();
+    public void closeFrbme(finbl JInternblFrbme f) {
+        if (f == fCurrentFrbme) {
+            bctivbteNextFrbme();
         }
-        fChildFrames.removeElement(f);
-        super.closeFrame(f);
+        fChildFrbmes.removeElement(f);
+        super.closeFrbme(f);
     }
 
-    public void deiconifyFrame(final JInternalFrame f) {
-        JInternalFrame.JDesktopIcon desktopIcon;
+    public void deiconifyFrbme(finbl JInternblFrbme f) {
+        JInternblFrbme.JDesktopIcon desktopIcon;
 
         desktopIcon = f.getDesktopIcon();
-        // If the icon moved, move the frame to that spot before expanding it
-        // reshape does delta checks for us
-        f.reshape(desktopIcon.getX(), desktopIcon.getY(), f.getWidth(), f.getHeight());
-        super.deiconifyFrame(f);
+        // If the icon moved, move the frbme to thbt spot before expbnding it
+        // reshbpe does deltb checks for us
+        f.reshbpe(desktopIcon.getX(), desktopIcon.getY(), f.getWidth(), f.getHeight());
+        super.deiconifyFrbme(f);
     }
 
-    void addIcon(final Container c, final JInternalFrame.JDesktopIcon desktopIcon) {
-        c.add(desktopIcon);
+    void bddIcon(finbl Contbiner c, finbl JInternblFrbme.JDesktopIcon desktopIcon) {
+        c.bdd(desktopIcon);
     }
 
-    /** Removes the frame from its parent and adds its desktopIcon to the parent. */
-    public void iconifyFrame(final JInternalFrame f) {
-        // Same as super except doesn't deactivate it
-        JInternalFrame.JDesktopIcon desktopIcon;
-        Container c;
+    /** Removes the frbme from its pbrent bnd bdds its desktopIcon to the pbrent. */
+    public void iconifyFrbme(finbl JInternblFrbme f) {
+        // Sbme bs super except doesn't debctivbte it
+        JInternblFrbme.JDesktopIcon desktopIcon;
+        Contbiner c;
 
         desktopIcon = f.getDesktopIcon();
-        // Position depends on *current* position of frame, unlike super which reuses the first position
-        final Rectangle r = getBoundsForIconOf(f);
+        // Position depends on *current* position of frbme, unlike super which reuses the first position
+        finbl Rectbngle r = getBoundsForIconOf(f);
         desktopIcon.setBounds(r.x, r.y, r.width, r.height);
 
-        c = f.getParent();
+        c = f.getPbrent();
         if (c == null) return;
 
         c.remove(f);
-        addIcon(c, desktopIcon);
-        c.repaint(f.getX(), f.getY(), f.getWidth(), f.getHeight());
+        bddIcon(c, desktopIcon);
+        c.repbint(f.getX(), f.getY(), f.getWidth(), f.getHeight());
     }
 
-    // WindowsDesktopManager code
-    public void activateFrame(final JInternalFrame f) {
+    // WindowsDesktopMbnbger code
+    public void bctivbteFrbme(finbl JInternblFrbme f) {
         try {
-            if (f != null) super.activateFrame(f);
+            if (f != null) super.bctivbteFrbme(f);
 
-            // If this is the first activation, add to child list.
-            if (fChildFrames.indexOf(f) == -1) {
-                fChildFrames.addElement(f);
+            // If this is the first bctivbtion, bdd to child list.
+            if (fChildFrbmes.indexOf(f) == -1) {
+                fChildFrbmes.bddElement(f);
             }
 
-            if (fCurrentFrame != null && f != fCurrentFrame) {
-                if (fCurrentFrame.isSelected()) {
-                    fCurrentFrame.setSelected(false);
+            if (fCurrentFrbme != null && f != fCurrentFrbme) {
+                if (fCurrentFrbme.isSelected()) {
+                    fCurrentFrbme.setSelected(fblse);
                 }
             }
 
@@ -134,27 +134,27 @@ public class AquaInternalFrameManager extends DefaultDesktopManager {
                 f.setSelected(true);
             }
 
-            fCurrentFrame = f;
-        } catch(final PropertyVetoException e) {}
+            fCurrentFrbme = f;
+        } cbtch(finbl PropertyVetoException e) {}
     }
 
-    private void switchFrame(final boolean next) {
-        if (fCurrentFrame == null) {
-            // initialize first frame we find
-            if (fInitialFrame != null) activateFrame(fInitialFrame);
+    privbte void switchFrbme(finbl boolebn next) {
+        if (fCurrentFrbme == null) {
+            // initiblize first frbme we find
+            if (fInitiblFrbme != null) bctivbteFrbme(fInitiblFrbme);
             return;
         }
 
-        final int count = fChildFrames.size();
+        finbl int count = fChildFrbmes.size();
         if (count <= 1) {
-            // No other child frames.
+            // No other child frbmes.
             return;
         }
 
-        final int currentIndex = fChildFrames.indexOf(fCurrentFrame);
+        finbl int currentIndex = fChildFrbmes.indexOf(fCurrentFrbme);
         if (currentIndex == -1) {
-            // the "current frame" is no longer in the list
-            fCurrentFrame = null;
+            // the "current frbme" is no longer in the list
+            fCurrentFrbme = null;
             return;
         }
 
@@ -170,36 +170,36 @@ public class AquaInternalFrameManager extends DefaultDesktopManager {
                 nextIndex = count - 1;
             }
         }
-        final JInternalFrame f = fChildFrames.elementAt(nextIndex);
-        activateFrame(f);
-        fCurrentFrame = f;
+        finbl JInternblFrbme f = fChildFrbmes.elementAt(nextIndex);
+        bctivbteFrbme(f);
+        fCurrentFrbme = f;
     }
 
     /**
-     * Activate the next child JInternalFrame, as determined by
-     * the frames' Z-order.  If there is only one child frame, it
-     * remains activated.  If there are no child frames, nothing
-     * happens.
+     * Activbte the next child JInternblFrbme, bs determined by
+     * the frbmes' Z-order.  If there is only one child frbme, it
+     * rembins bctivbted.  If there bre no child frbmes, nothing
+     * hbppens.
      */
-    public void activateNextFrame() {
-        switchFrame(true);
+    public void bctivbteNextFrbme() {
+        switchFrbme(true);
     }
 
-    /** same as above but will activate a frame if none
-     *  have been selected
+    /** sbme bs bbove but will bctivbte b frbme if none
+     *  hbve been selected
      */
-    public void activateNextFrame(final JInternalFrame f) {
-        fInitialFrame = f;
-        switchFrame(true);
+    public void bctivbteNextFrbme(finbl JInternblFrbme f) {
+        fInitiblFrbme = f;
+        switchFrbme(true);
     }
 
     /**
-     * Activate the previous child JInternalFrame, as determined by
-     * the frames' Z-order.  If there is only one child frame, it
-     * remains activated.  If there are no child frames, nothing
-     * happens.
+     * Activbte the previous child JInternblFrbme, bs determined by
+     * the frbmes' Z-order.  If there is only one child frbme, it
+     * rembins bctivbted.  If there bre no child frbmes, nothing
+     * hbppens.
      */
-    public void activatePreviousFrame() {
-        switchFrame(false);
+    public void bctivbtePreviousFrbme() {
+        switchFrbme(fblse);
     }
 }

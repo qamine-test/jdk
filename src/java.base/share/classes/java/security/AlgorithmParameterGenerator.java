@@ -1,343 +1,343 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
 /**
- * The {@code AlgorithmParameterGenerator} class is used to generate a
+ * The {@code AlgorithmPbrbmeterGenerbtor} clbss is used to generbte b
  * set of
- * parameters to be used with a certain algorithm. Parameter generators
- * are constructed using the {@code getInstance} factory methods
- * (static methods that return instances of a given class).
+ * pbrbmeters to be used with b certbin blgorithm. Pbrbmeter generbtors
+ * bre constructed using the {@code getInstbnce} fbctory methods
+ * (stbtic methods thbt return instbnces of b given clbss).
  *
- * <P>The object that will generate the parameters can be initialized
- * in two different ways: in an algorithm-independent manner, or in an
- * algorithm-specific manner:
+ * <P>The object thbt will generbte the pbrbmeters cbn be initiblized
+ * in two different wbys: in bn blgorithm-independent mbnner, or in bn
+ * blgorithm-specific mbnner:
  *
  * <ul>
- * <li>The algorithm-independent approach uses the fact that all parameter
- * generators share the concept of a "size" and a
- * source of randomness. The measure of size is universally shared
- * by all algorithm parameters, though it is interpreted differently
- * for different algorithms. For example, in the case of parameters for
- * the <i>DSA</i> algorithm, "size" corresponds to the size
+ * <li>The blgorithm-independent bpprobch uses the fbct thbt bll pbrbmeter
+ * generbtors shbre the concept of b "size" bnd b
+ * source of rbndomness. The mebsure of size is universblly shbred
+ * by bll blgorithm pbrbmeters, though it is interpreted differently
+ * for different blgorithms. For exbmple, in the cbse of pbrbmeters for
+ * the <i>DSA</i> blgorithm, "size" corresponds to the size
  * of the prime modulus (in bits).
- * When using this approach, algorithm-specific parameter generation
- * values - if any - default to some standard values, unless they can be
+ * When using this bpprobch, blgorithm-specific pbrbmeter generbtion
+ * vblues - if bny - defbult to some stbndbrd vblues, unless they cbn be
  * derived from the specified size.
  *
- * <li>The other approach initializes a parameter generator object
- * using algorithm-specific semantics, which are represented by a set of
- * algorithm-specific parameter generation values. To generate
- * Diffie-Hellman system parameters, for example, the parameter generation
- * values usually
- * consist of the size of the prime modulus and the size of the
- * random exponent, both specified in number of bits.
+ * <li>The other bpprobch initiblizes b pbrbmeter generbtor object
+ * using blgorithm-specific sembntics, which bre represented by b set of
+ * blgorithm-specific pbrbmeter generbtion vblues. To generbte
+ * Diffie-Hellmbn system pbrbmeters, for exbmple, the pbrbmeter generbtion
+ * vblues usublly
+ * consist of the size of the prime modulus bnd the size of the
+ * rbndom exponent, both specified in number of bits.
  * </ul>
  *
- * <P>In case the client does not explicitly initialize the
- * AlgorithmParameterGenerator
- * (via a call to an {@code init} method), each provider must supply (and
- * document) a default initialization. For example, the Sun provider uses a
- * default modulus prime size of 1024 bits for the generation of DSA
- * parameters.
+ * <P>In cbse the client does not explicitly initiblize the
+ * AlgorithmPbrbmeterGenerbtor
+ * (vib b cbll to bn {@code init} method), ebch provider must supply (bnd
+ * document) b defbult initiblizbtion. For exbmple, the Sun provider uses b
+ * defbult modulus prime size of 1024 bits for the generbtion of DSA
+ * pbrbmeters.
  *
- * <p> Every implementation of the Java platform is required to support the
- * following standard {@code AlgorithmParameterGenerator} algorithms and
- * keysizes in parentheses:
+ * <p> Every implementbtion of the Jbvb plbtform is required to support the
+ * following stbndbrd {@code AlgorithmPbrbmeterGenerbtor} blgorithms bnd
+ * keysizes in pbrentheses:
  * <ul>
- * <li>{@code DiffieHellman} (1024)</li>
+ * <li>{@code DiffieHellmbn} (1024)</li>
  * <li>{@code DSA} (1024)</li>
  * </ul>
- * These algorithms are described in the <a href=
- * "{@docRoot}/../technotes/guides/security/StandardNames.html#AlgorithmParameterGenerator">
- * AlgorithmParameterGenerator section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other algorithms are supported.
+ * These blgorithms bre described in the <b href=
+ * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#AlgorithmPbrbmeterGenerbtor">
+ * AlgorithmPbrbmeterGenerbtor section</b> of the
+ * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion.
+ * Consult the relebse documentbtion for your implementbtion to see if bny
+ * other blgorithms bre supported.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  *
- * @see AlgorithmParameters
- * @see java.security.spec.AlgorithmParameterSpec
+ * @see AlgorithmPbrbmeters
+ * @see jbvb.security.spec.AlgorithmPbrbmeterSpec
  *
  * @since 1.2
  */
 
-public class AlgorithmParameterGenerator {
+public clbss AlgorithmPbrbmeterGenerbtor {
 
     // The provider
-    private Provider provider;
+    privbte Provider provider;
 
-    // The provider implementation (delegate)
-    private AlgorithmParameterGeneratorSpi paramGenSpi;
+    // The provider implementbtion (delegbte)
+    privbte AlgorithmPbrbmeterGenerbtorSpi pbrbmGenSpi;
 
-    // The algorithm
-    private String algorithm;
+    // The blgorithm
+    privbte String blgorithm;
 
     /**
-     * Creates an AlgorithmParameterGenerator object.
+     * Crebtes bn AlgorithmPbrbmeterGenerbtor object.
      *
-     * @param paramGenSpi the delegate
-     * @param provider the provider
-     * @param algorithm the algorithm
+     * @pbrbm pbrbmGenSpi the delegbte
+     * @pbrbm provider the provider
+     * @pbrbm blgorithm the blgorithm
      */
-    protected AlgorithmParameterGenerator
-    (AlgorithmParameterGeneratorSpi paramGenSpi, Provider provider,
-     String algorithm) {
-        this.paramGenSpi = paramGenSpi;
+    protected AlgorithmPbrbmeterGenerbtor
+    (AlgorithmPbrbmeterGenerbtorSpi pbrbmGenSpi, Provider provider,
+     String blgorithm) {
+        this.pbrbmGenSpi = pbrbmGenSpi;
         this.provider = provider;
-        this.algorithm = algorithm;
+        this.blgorithm = blgorithm;
     }
 
     /**
-     * Returns the standard name of the algorithm this parameter
-     * generator is associated with.
+     * Returns the stbndbrd nbme of the blgorithm this pbrbmeter
+     * generbtor is bssocibted with.
      *
-     * @return the string name of the algorithm.
+     * @return the string nbme of the blgorithm.
      */
-    public final String getAlgorithm() {
-        return this.algorithm;
+    public finbl String getAlgorithm() {
+        return this.blgorithm;
     }
 
     /**
-     * Returns an AlgorithmParameterGenerator object for generating
-     * a set of parameters to be used with the specified algorithm.
+     * Returns bn AlgorithmPbrbmeterGenerbtor object for generbting
+     * b set of pbrbmeters to be used with the specified blgorithm.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new AlgorithmParameterGenerator object encapsulating the
-     * AlgorithmParameterGeneratorSpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
+     * <p> This method trbverses the list of registered security Providers,
+     * stbrting with the most preferred Provider.
+     * A new AlgorithmPbrbmeterGenerbtor object encbpsulbting the
+     * AlgorithmPbrbmeterGenerbtorSpi implementbtion from the first
+     * Provider thbt supports the specified blgorithm is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the name of the algorithm this
-     * parameter generator is associated with.
-     * See the AlgorithmParameterGenerator section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#AlgorithmParameterGenerator">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the nbme of the blgorithm this
+     * pbrbmeter generbtor is bssocibted with.
+     * See the AlgorithmPbrbmeterGenerbtor section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#AlgorithmPbrbmeterGenerbtor">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @return the new AlgorithmParameterGenerator object.
+     * @return the new AlgorithmPbrbmeterGenerbtor object.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports an
-     *          AlgorithmParameterGeneratorSpi implementation for the
-     *          specified algorithm.
+     * @exception NoSuchAlgorithmException if no Provider supports bn
+     *          AlgorithmPbrbmeterGenerbtorSpi implementbtion for the
+     *          specified blgorithm.
      *
      * @see Provider
      */
-    public static AlgorithmParameterGenerator getInstance(String algorithm)
+    public stbtic AlgorithmPbrbmeterGenerbtor getInstbnce(String blgorithm)
         throws NoSuchAlgorithmException {
             try {
-                Object[] objs = Security.getImpl(algorithm,
-                                                 "AlgorithmParameterGenerator",
+                Object[] objs = Security.getImpl(blgorithm,
+                                                 "AlgorithmPbrbmeterGenerbtor",
                                                  (String)null);
-                return new AlgorithmParameterGenerator
-                    ((AlgorithmParameterGeneratorSpi)objs[0],
+                return new AlgorithmPbrbmeterGenerbtor
+                    ((AlgorithmPbrbmeterGenerbtorSpi)objs[0],
                      (Provider)objs[1],
-                     algorithm);
-            } catch(NoSuchProviderException e) {
-                throw new NoSuchAlgorithmException(algorithm + " not found");
+                     blgorithm);
+            } cbtch(NoSuchProviderException e) {
+                throw new NoSuchAlgorithmException(blgorithm + " not found");
             }
     }
 
     /**
-     * Returns an AlgorithmParameterGenerator object for generating
-     * a set of parameters to be used with the specified algorithm.
+     * Returns bn AlgorithmPbrbmeterGenerbtor object for generbting
+     * b set of pbrbmeters to be used with the specified blgorithm.
      *
-     * <p> A new AlgorithmParameterGenerator object encapsulating the
-     * AlgorithmParameterGeneratorSpi implementation from the specified provider
+     * <p> A new AlgorithmPbrbmeterGenerbtor object encbpsulbting the
+     * AlgorithmPbrbmeterGenerbtorSpi implementbtion from the specified provider
      * is returned.  The specified provider must be registered
      * in the security provider list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the name of the algorithm this
-     * parameter generator is associated with.
-     * See the AlgorithmParameterGenerator section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#AlgorithmParameterGenerator">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the nbme of the blgorithm this
+     * pbrbmeter generbtor is bssocibted with.
+     * See the AlgorithmPbrbmeterGenerbtor section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#AlgorithmPbrbmeterGenerbtor">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the string name of the Provider.
+     * @pbrbm provider the string nbme of the Provider.
      *
-     * @return the new AlgorithmParameterGenerator object.
+     * @return the new AlgorithmPbrbmeterGenerbtor object.
      *
-     * @exception NoSuchAlgorithmException if an AlgorithmParameterGeneratorSpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
+     * @exception NoSuchAlgorithmException if bn AlgorithmPbrbmeterGenerbtorSpi
+     *          implementbtion for the specified blgorithm is not
+     *          bvbilbble from the specified provider.
      *
      * @exception NoSuchProviderException if the specified provider is not
      *          registered in the security provider list.
      *
-     * @exception IllegalArgumentException if the provider name is null
+     * @exception IllegblArgumentException if the provider nbme is null
      *          or empty.
      *
      * @see Provider
      */
-    public static AlgorithmParameterGenerator getInstance(String algorithm,
+    public stbtic AlgorithmPbrbmeterGenerbtor getInstbnce(String blgorithm,
                                                           String provider)
         throws NoSuchAlgorithmException, NoSuchProviderException
     {
         if (provider == null || provider.length() == 0)
-            throw new IllegalArgumentException("missing provider");
-        Object[] objs = Security.getImpl(algorithm,
-                                         "AlgorithmParameterGenerator",
+            throw new IllegblArgumentException("missing provider");
+        Object[] objs = Security.getImpl(blgorithm,
+                                         "AlgorithmPbrbmeterGenerbtor",
                                          provider);
-        return new AlgorithmParameterGenerator
-            ((AlgorithmParameterGeneratorSpi)objs[0], (Provider)objs[1],
-             algorithm);
+        return new AlgorithmPbrbmeterGenerbtor
+            ((AlgorithmPbrbmeterGenerbtorSpi)objs[0], (Provider)objs[1],
+             blgorithm);
     }
 
     /**
-     * Returns an AlgorithmParameterGenerator object for generating
-     * a set of parameters to be used with the specified algorithm.
+     * Returns bn AlgorithmPbrbmeterGenerbtor object for generbting
+     * b set of pbrbmeters to be used with the specified blgorithm.
      *
-     * <p> A new AlgorithmParameterGenerator object encapsulating the
-     * AlgorithmParameterGeneratorSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A new AlgorithmPbrbmeterGenerbtor object encbpsulbting the
+     * AlgorithmPbrbmeterGenerbtorSpi implementbtion from the specified Provider
+     * object is returned.  Note thbt the specified Provider object
+     * does not hbve to be registered in the provider list.
      *
-     * @param algorithm the string name of the algorithm this
-     * parameter generator is associated with.
-     * See the AlgorithmParameterGenerator section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#AlgorithmParameterGenerator">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the string nbme of the blgorithm this
+     * pbrbmeter generbtor is bssocibted with.
+     * See the AlgorithmPbrbmeterGenerbtor section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#AlgorithmPbrbmeterGenerbtor">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the Provider object.
+     * @pbrbm provider the Provider object.
      *
-     * @return the new AlgorithmParameterGenerator object.
+     * @return the new AlgorithmPbrbmeterGenerbtor object.
      *
-     * @exception NoSuchAlgorithmException if an AlgorithmParameterGeneratorSpi
-     *          implementation for the specified algorithm is not available
+     * @exception NoSuchAlgorithmException if bn AlgorithmPbrbmeterGenerbtorSpi
+     *          implementbtion for the specified blgorithm is not bvbilbble
      *          from the specified Provider object.
      *
-     * @exception IllegalArgumentException if the specified provider is null.
+     * @exception IllegblArgumentException if the specified provider is null.
      *
      * @see Provider
      *
      * @since 1.4
      */
-    public static AlgorithmParameterGenerator getInstance(String algorithm,
+    public stbtic AlgorithmPbrbmeterGenerbtor getInstbnce(String blgorithm,
                                                           Provider provider)
         throws NoSuchAlgorithmException
     {
         if (provider == null)
-            throw new IllegalArgumentException("missing provider");
-        Object[] objs = Security.getImpl(algorithm,
-                                         "AlgorithmParameterGenerator",
+            throw new IllegblArgumentException("missing provider");
+        Object[] objs = Security.getImpl(blgorithm,
+                                         "AlgorithmPbrbmeterGenerbtor",
                                          provider);
-        return new AlgorithmParameterGenerator
-            ((AlgorithmParameterGeneratorSpi)objs[0], (Provider)objs[1],
-             algorithm);
+        return new AlgorithmPbrbmeterGenerbtor
+            ((AlgorithmPbrbmeterGenerbtorSpi)objs[0], (Provider)objs[1],
+             blgorithm);
     }
 
     /**
-     * Returns the provider of this algorithm parameter generator object.
+     * Returns the provider of this blgorithm pbrbmeter generbtor object.
      *
-     * @return the provider of this algorithm parameter generator object
+     * @return the provider of this blgorithm pbrbmeter generbtor object
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         return this.provider;
     }
 
     /**
-     * Initializes this parameter generator for a certain size.
-     * To create the parameters, the {@code SecureRandom}
-     * implementation of the highest-priority installed provider is used as
-     * the source of randomness.
-     * (If none of the installed providers supply an implementation of
-     * {@code SecureRandom}, a system-provided source of randomness is
+     * Initiblizes this pbrbmeter generbtor for b certbin size.
+     * To crebte the pbrbmeters, the {@code SecureRbndom}
+     * implementbtion of the highest-priority instblled provider is used bs
+     * the source of rbndomness.
+     * (If none of the instblled providers supply bn implementbtion of
+     * {@code SecureRbndom}, b system-provided source of rbndomness is
      * used.)
      *
-     * @param size the size (number of bits).
+     * @pbrbm size the size (number of bits).
      */
-    public final void init(int size) {
-        paramGenSpi.engineInit(size, new SecureRandom());
+    public finbl void init(int size) {
+        pbrbmGenSpi.engineInit(size, new SecureRbndom());
     }
 
     /**
-     * Initializes this parameter generator for a certain size and source
-     * of randomness.
+     * Initiblizes this pbrbmeter generbtor for b certbin size bnd source
+     * of rbndomness.
      *
-     * @param size the size (number of bits).
-     * @param random the source of randomness.
+     * @pbrbm size the size (number of bits).
+     * @pbrbm rbndom the source of rbndomness.
      */
-    public final void init(int size, SecureRandom random) {
-        paramGenSpi.engineInit(size, random);
+    public finbl void init(int size, SecureRbndom rbndom) {
+        pbrbmGenSpi.engineInit(size, rbndom);
     }
 
     /**
-     * Initializes this parameter generator with a set of algorithm-specific
-     * parameter generation values.
-     * To generate the parameters, the {@code SecureRandom}
-     * implementation of the highest-priority installed provider is used as
-     * the source of randomness.
-     * (If none of the installed providers supply an implementation of
-     * {@code SecureRandom}, a system-provided source of randomness is
+     * Initiblizes this pbrbmeter generbtor with b set of blgorithm-specific
+     * pbrbmeter generbtion vblues.
+     * To generbte the pbrbmeters, the {@code SecureRbndom}
+     * implementbtion of the highest-priority instblled provider is used bs
+     * the source of rbndomness.
+     * (If none of the instblled providers supply bn implementbtion of
+     * {@code SecureRbndom}, b system-provided source of rbndomness is
      * used.)
      *
-     * @param genParamSpec the set of algorithm-specific parameter generation values.
+     * @pbrbm genPbrbmSpec the set of blgorithm-specific pbrbmeter generbtion vblues.
      *
-     * @exception InvalidAlgorithmParameterException if the given parameter
-     * generation values are inappropriate for this parameter generator.
+     * @exception InvblidAlgorithmPbrbmeterException if the given pbrbmeter
+     * generbtion vblues bre inbppropribte for this pbrbmeter generbtor.
      */
-    public final void init(AlgorithmParameterSpec genParamSpec)
-        throws InvalidAlgorithmParameterException {
-            paramGenSpi.engineInit(genParamSpec, new SecureRandom());
+    public finbl void init(AlgorithmPbrbmeterSpec genPbrbmSpec)
+        throws InvblidAlgorithmPbrbmeterException {
+            pbrbmGenSpi.engineInit(genPbrbmSpec, new SecureRbndom());
     }
 
     /**
-     * Initializes this parameter generator with a set of algorithm-specific
-     * parameter generation values.
+     * Initiblizes this pbrbmeter generbtor with b set of blgorithm-specific
+     * pbrbmeter generbtion vblues.
      *
-     * @param genParamSpec the set of algorithm-specific parameter generation values.
-     * @param random the source of randomness.
+     * @pbrbm genPbrbmSpec the set of blgorithm-specific pbrbmeter generbtion vblues.
+     * @pbrbm rbndom the source of rbndomness.
      *
-     * @exception InvalidAlgorithmParameterException if the given parameter
-     * generation values are inappropriate for this parameter generator.
+     * @exception InvblidAlgorithmPbrbmeterException if the given pbrbmeter
+     * generbtion vblues bre inbppropribte for this pbrbmeter generbtor.
      */
-    public final void init(AlgorithmParameterSpec genParamSpec,
-                           SecureRandom random)
-        throws InvalidAlgorithmParameterException {
-            paramGenSpi.engineInit(genParamSpec, random);
+    public finbl void init(AlgorithmPbrbmeterSpec genPbrbmSpec,
+                           SecureRbndom rbndom)
+        throws InvblidAlgorithmPbrbmeterException {
+            pbrbmGenSpi.engineInit(genPbrbmSpec, rbndom);
     }
 
     /**
-     * Generates the parameters.
+     * Generbtes the pbrbmeters.
      *
-     * @return the new AlgorithmParameters object.
+     * @return the new AlgorithmPbrbmeters object.
      */
-    public final AlgorithmParameters generateParameters() {
-        return paramGenSpi.engineGenerateParameters();
+    public finbl AlgorithmPbrbmeters generbtePbrbmeters() {
+        return pbrbmGenSpi.engineGenerbtePbrbmeters();
     }
 }

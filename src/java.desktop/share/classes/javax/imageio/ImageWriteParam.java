@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio;
+pbckbge jbvbx.imbgeio;
 
-import java.awt.Dimension;
-import java.util.Locale;
+import jbvb.bwt.Dimension;
+import jbvb.util.Locble;
 
 /**
- * A class describing how a stream is to be encoded.  Instances of
- * this class or its subclasses are used to supply prescriptive
- * "how-to" information to instances of <code>ImageWriter</code>.
+ * A clbss describing how b strebm is to be encoded.  Instbnces of
+ * this clbss or its subclbsses bre used to supply prescriptive
+ * "how-to" informbtion to instbnces of <code>ImbgeWriter</code>.
  *
- * <p> A plug-in for a specific image format may define a subclass of
- * this class, and return objects of that class from the
- * <code>getDefaultWriteParam</code> method of its
- * <code>ImageWriter</code> implementation.  For example, the built-in
- * JPEG writer plug-in will return instances of
- * <code>javax.imageio.plugins.jpeg.JPEGImageWriteParam</code>.
+ * <p> A plug-in for b specific imbge formbt mby define b subclbss of
+ * this clbss, bnd return objects of thbt clbss from the
+ * <code>getDefbultWritePbrbm</code> method of its
+ * <code>ImbgeWriter</code> implementbtion.  For exbmple, the built-in
+ * JPEG writer plug-in will return instbnces of
+ * <code>jbvbx.imbgeio.plugins.jpeg.JPEGImbgeWritePbrbm</code>.
  *
- * <p> The region of the image to be written is determined by first
- * intersecting the actual bounds of the image with the rectangle
- * specified by <code>IIOParam.setSourceRegion</code>, if any.  If the
- * resulting rectangle has a width or height of zero, the writer will
- * throw an <code>IIOException</code>. If the intersection is
- * non-empty, writing will commence with the first subsampled pixel
- * and include additional pixels within the intersected bounds
- * according to the horizontal and vertical subsampling factors
- * specified by {@link IIOParam#setSourceSubsampling
- * IIOParam.setSourceSubsampling}.
+ * <p> The region of the imbge to be written is determined by first
+ * intersecting the bctubl bounds of the imbge with the rectbngle
+ * specified by <code>IIOPbrbm.setSourceRegion</code>, if bny.  If the
+ * resulting rectbngle hbs b width or height of zero, the writer will
+ * throw bn <code>IIOException</code>. If the intersection is
+ * non-empty, writing will commence with the first subsbmpled pixel
+ * bnd include bdditionbl pixels within the intersected bounds
+ * bccording to the horizontbl bnd verticbl subsbmpling fbctors
+ * specified by {@link IIOPbrbm#setSourceSubsbmpling
+ * IIOPbrbm.setSourceSubsbmpling}.
  *
- * <p> Individual features such as tiling, progressive encoding, and
- * compression may be set in one of four modes.
- * <code>MODE_DISABLED</code> disables the features;
- * <code>MODE_DEFAULT</code> enables the feature with
- * writer-controlled parameter values; <code>MODE_EXPLICIT</code>
- * enables the feature and allows the use of a <code>set</code> method
- * to provide additional parameters; and
- * <code>MODE_COPY_FROM_METADATA</code> copies relevant parameter
- * values from the stream and image metadata objects passed to the
- * writer.  The default for all features is
- * <code>MODE_COPY_FROM_METADATA</code>.  Non-standard features
- * supplied in subclasses are encouraged, but not required to use a
- * similar scheme.
+ * <p> Individubl febtures such bs tiling, progressive encoding, bnd
+ * compression mby be set in one of four modes.
+ * <code>MODE_DISABLED</code> disbbles the febtures;
+ * <code>MODE_DEFAULT</code> enbbles the febture with
+ * writer-controlled pbrbmeter vblues; <code>MODE_EXPLICIT</code>
+ * enbbles the febture bnd bllows the use of b <code>set</code> method
+ * to provide bdditionbl pbrbmeters; bnd
+ * <code>MODE_COPY_FROM_METADATA</code> copies relevbnt pbrbmeter
+ * vblues from the strebm bnd imbge metbdbtb objects pbssed to the
+ * writer.  The defbult for bll febtures is
+ * <code>MODE_COPY_FROM_METADATA</code>.  Non-stbndbrd febtures
+ * supplied in subclbsses bre encourbged, but not required to use b
+ * similbr scheme.
  *
- * <p> Plug-in writers may extend the functionality of
- * <code>ImageWriteParam</code> by providing a subclass that implements
- * additional, plug-in specific interfaces.  It is up to the plug-in
- * to document what interfaces are available and how they are to be
- * used.  Writers will silently ignore any extended features of an
- * <code>ImageWriteParam</code> subclass of which they are not aware.
- * Also, they may ignore any optional features that they normally
- * disable when creating their own <code>ImageWriteParam</code>
- * instances via <code>getDefaultWriteParam</code>.
+ * <p> Plug-in writers mby extend the functionblity of
+ * <code>ImbgeWritePbrbm</code> by providing b subclbss thbt implements
+ * bdditionbl, plug-in specific interfbces.  It is up to the plug-in
+ * to document whbt interfbces bre bvbilbble bnd how they bre to be
+ * used.  Writers will silently ignore bny extended febtures of bn
+ * <code>ImbgeWritePbrbm</code> subclbss of which they bre not bwbre.
+ * Also, they mby ignore bny optionbl febtures thbt they normblly
+ * disbble when crebting their own <code>ImbgeWritePbrbm</code>
+ * instbnces vib <code>getDefbultWritePbrbm</code>.
  *
- * <p> Note that unless a query method exists for a capability, it must
- * be supported by all <code>ImageWriter</code> implementations
- * (<i>e.g.</i> progressive encoding is optional, but subsampling must be
+ * <p> Note thbt unless b query method exists for b cbpbbility, it must
+ * be supported by bll <code>ImbgeWriter</code> implementbtions
+ * (<i>e.g.</i> progressive encoding is optionbl, but subsbmpling must be
  * supported).
  *
  *
- * @see ImageReadParam
+ * @see ImbgeRebdPbrbm
  */
-public class ImageWriteParam extends IIOParam {
+public clbss ImbgeWritePbrbm extends IIOPbrbm {
 
     /**
-     * A constant value that may be passed into methods such as
+     * A constbnt vblue thbt mby be pbssed into methods such bs
      * <code>setTilingMode</code>, <code>setProgressiveMode</code>,
-     * and <code>setCompressionMode</code> to disable a feature for
-     * future writes.  That is, when this mode is set the stream will
-     * <b>not</b> be tiled, progressive, or compressed, and the
-     * relevant accessor methods will throw an
-     * <code>IllegalStateException</code>.
+     * bnd <code>setCompressionMode</code> to disbble b febture for
+     * future writes.  Thbt is, when this mode is set the strebm will
+     * <b>not</b> be tiled, progressive, or compressed, bnd the
+     * relevbnt bccessor methods will throw bn
+     * <code>IllegblStbteException</code>.
      *
      * @see #MODE_EXPLICIT
      * @see #MODE_COPY_FROM_METADATA
@@ -104,18 +104,18 @@ public class ImageWriteParam extends IIOParam {
      * @see #setCompressionMode
      * @see #getCompressionMode
      */
-    public static final int MODE_DISABLED = 0;
+    public stbtic finbl int MODE_DISABLED = 0;
 
     /**
-     * A constant value that may be passed into methods such as
+     * A constbnt vblue thbt mby be pbssed into methods such bs
      * <code>setTilingMode</code>,
-     * <code>setProgressiveMode</code>, and
-     * <code>setCompressionMode</code> to enable that feature for
-     * future writes.  That is, when this mode is enabled the stream
-     * will be tiled, progressive, or compressed according to a
-     * sensible default chosen internally by the writer in a plug-in
-     * dependent way, and the relevant accessor methods will
-     * throw an <code>IllegalStateException</code>.
+     * <code>setProgressiveMode</code>, bnd
+     * <code>setCompressionMode</code> to enbble thbt febture for
+     * future writes.  Thbt is, when this mode is enbbled the strebm
+     * will be tiled, progressive, or compressed bccording to b
+     * sensible defbult chosen internblly by the writer in b plug-in
+     * dependent wby, bnd the relevbnt bccessor methods will
+     * throw bn <code>IllegblStbteException</code>.
      *
      * @see #MODE_DISABLED
      * @see #MODE_EXPLICIT
@@ -127,16 +127,16 @@ public class ImageWriteParam extends IIOParam {
      * @see #setCompressionMode
      * @see #getCompressionMode
      */
-    public static final int MODE_DEFAULT = 1;
+    public stbtic finbl int MODE_DEFAULT = 1;
 
     /**
-     * A constant value that may be passed into methods such as
+     * A constbnt vblue thbt mby be pbssed into methods such bs
      * <code>setTilingMode</code> or <code>setCompressionMode</code>
-     * to enable a feature for future writes. That is, when this mode
-     * is set the stream will be tiled or compressed according to
-     * additional information supplied to the corresponding
-     * <code>set</code> methods in this class and retrievable from the
-     * corresponding <code>get</code> methods.  Note that this mode is
+     * to enbble b febture for future writes. Thbt is, when this mode
+     * is set the strebm will be tiled or compressed bccording to
+     * bdditionbl informbtion supplied to the corresponding
+     * <code>set</code> methods in this clbss bnd retrievbble from the
+     * corresponding <code>get</code> methods.  Note thbt this mode is
      * not supported for progressive output.
      *
      * @see #MODE_DISABLED
@@ -149,21 +149,21 @@ public class ImageWriteParam extends IIOParam {
      * @see #setCompressionMode
      * @see #getCompressionMode
      */
-    public static final int MODE_EXPLICIT = 2;
+    public stbtic finbl int MODE_EXPLICIT = 2;
 
     /**
-     * A constant value that may be passed into methods such as
+     * A constbnt vblue thbt mby be pbssed into methods such bs
      * <code>setTilingMode</code>, <code>setProgressiveMode</code>, or
-     * <code>setCompressionMode</code> to enable that feature for
-     * future writes.  That is, when this mode is enabled the stream
-     * will be tiled, progressive, or compressed based on the contents
-     * of stream and/or image metadata passed into the write
-     * operation, and any relevant accessor methods will throw an
-     * <code>IllegalStateException</code>.
+     * <code>setCompressionMode</code> to enbble thbt febture for
+     * future writes.  Thbt is, when this mode is enbbled the strebm
+     * will be tiled, progressive, or compressed bbsed on the contents
+     * of strebm bnd/or imbge metbdbtb pbssed into the write
+     * operbtion, bnd bny relevbnt bccessor methods will throw bn
+     * <code>IllegblStbteException</code>.
      *
-     * <p> This is the default mode for all features, so that a read
-     * including metadata followed by a write including metadata will
-     * preserve as much information as possible.
+     * <p> This is the defbult mode for bll febtures, so thbt b rebd
+     * including metbdbtb followed by b write including metbdbtb will
+     * preserve bs much informbtion bs possible.
      *
      * @see #MODE_DISABLED
      * @see #MODE_EXPLICIT
@@ -175,28 +175,28 @@ public class ImageWriteParam extends IIOParam {
      * @see #setCompressionMode
      * @see #getCompressionMode
      */
-    public static final int MODE_COPY_FROM_METADATA = 3;
+    public stbtic finbl int MODE_COPY_FROM_METADATA = 3;
 
-    // If more modes are added, this should be updated.
-    private static final int MAX_MODE = MODE_COPY_FROM_METADATA;
+    // If more modes bre bdded, this should be updbted.
+    privbte stbtic finbl int MAX_MODE = MODE_COPY_FROM_METADATA;
 
     /**
-     * A <code>boolean</code> that is <code>true</code> if this
-     * <code>ImageWriteParam</code> allows tile width and tile height
-     * parameters to be set.  By default, the value is
-     * <code>false</code>.  Subclasses must set the value manually.
+     * A <code>boolebn</code> thbt is <code>true</code> if this
+     * <code>ImbgeWritePbrbm</code> bllows tile width bnd tile height
+     * pbrbmeters to be set.  By defbult, the vblue is
+     * <code>fblse</code>.  Subclbsses must set the vblue mbnublly.
      *
-     * <p> Subclasses that do not support writing tiles should ensure
-     * that this value is set to <code>false</code>.
+     * <p> Subclbsses thbt do not support writing tiles should ensure
+     * thbt this vblue is set to <code>fblse</code>.
      */
-    protected boolean canWriteTiles = false;
+    protected boolebn cbnWriteTiles = fblse;
 
     /**
      * The mode controlling tiling settings, which Must be
-     * set to one of the four <code>MODE_*</code> values.  The default
+     * set to one of the four <code>MODE_*</code> vblues.  The defbult
      * is <code>MODE_COPY_FROM_METADATA</code>.
      *
-     * <p> Subclasses that do not writing tiles may ignore this value.
+     * <p> Subclbsses thbt do not writing tiles mby ignore this vblue.
      *
      * @see #MODE_DISABLED
      * @see #MODE_EXPLICIT
@@ -208,96 +208,96 @@ public class ImageWriteParam extends IIOParam {
     protected int tilingMode = MODE_COPY_FROM_METADATA;
 
     /**
-     * An array of preferred tile size range pairs.  The default value
-     * is <code>null</code>, which indicates that there are no
-     * preferred sizes.  If the value is non-<code>null</code>, it
-     * must have an even length of at least two.
+     * An brrby of preferred tile size rbnge pbirs.  The defbult vblue
+     * is <code>null</code>, which indicbtes thbt there bre no
+     * preferred sizes.  If the vblue is non-<code>null</code>, it
+     * must hbve bn even length of bt lebst two.
      *
-     * <p> Subclasses that do not support writing tiles may ignore
-     * this value.
+     * <p> Subclbsses thbt do not support writing tiles mby ignore
+     * this vblue.
      *
      * @see #getPreferredTileSizes
      */
     protected Dimension[] preferredTileSizes = null;
 
     /**
-     * A <code>boolean</code> that is <code>true</code> if tiling
-     * parameters have been specified.
+     * A <code>boolebn</code> thbt is <code>true</code> if tiling
+     * pbrbmeters hbve been specified.
      *
-     * <p> Subclasses that do not support writing tiles may ignore
-     * this value.
+     * <p> Subclbsses thbt do not support writing tiles mby ignore
+     * this vblue.
      */
-    protected boolean tilingSet = false;
+    protected boolebn tilingSet = fblse;
 
     /**
-     * The width of each tile if tiling has been set, or 0 otherwise.
+     * The width of ebch tile if tiling hbs been set, or 0 otherwise.
      *
-     * <p> Subclasses that do not support tiling may ignore this
-     * value.
+     * <p> Subclbsses thbt do not support tiling mby ignore this
+     * vblue.
      */
     protected int tileWidth = 0;
 
     /**
-     * The height of each tile if tiling has been set, or 0 otherwise.
-     * The initial value is <code>0</code>.
+     * The height of ebch tile if tiling hbs been set, or 0 otherwise.
+     * The initibl vblue is <code>0</code>.
      *
-     * <p> Subclasses that do not support tiling may ignore this
-     * value.
+     * <p> Subclbsses thbt do not support tiling mby ignore this
+     * vblue.
      */
     protected int tileHeight = 0;
 
     /**
-     * A <code>boolean</code> that is <code>true</code> if this
-     * <code>ImageWriteParam</code> allows tiling grid offset
-     * parameters to be set.  By default, the value is
-     * <code>false</code>.  Subclasses must set the value manually.
+     * A <code>boolebn</code> thbt is <code>true</code> if this
+     * <code>ImbgeWritePbrbm</code> bllows tiling grid offset
+     * pbrbmeters to be set.  By defbult, the vblue is
+     * <code>fblse</code>.  Subclbsses must set the vblue mbnublly.
      *
-     * <p> Subclasses that do not support writing tiles, or that
-     * support writing but not offsetting tiles must ensure that this
-     * value is set to <code>false</code>.
+     * <p> Subclbsses thbt do not support writing tiles, or thbt
+     * support writing but not offsetting tiles must ensure thbt this
+     * vblue is set to <code>fblse</code>.
      */
-    protected boolean canOffsetTiles = false;
+    protected boolebn cbnOffsetTiles = fblse;
 
     /**
-     * The amount by which the tile grid origin should be offset
-     * horizontally from the image origin if tiling has been set,
-     * or 0 otherwise.  The initial value is <code>0</code>.
+     * The bmount by which the tile grid origin should be offset
+     * horizontblly from the imbge origin if tiling hbs been set,
+     * or 0 otherwise.  The initibl vblue is <code>0</code>.
      *
-     * <p> Subclasses that do not support offsetting tiles may ignore
-     * this value.
+     * <p> Subclbsses thbt do not support offsetting tiles mby ignore
+     * this vblue.
      */
     protected int tileGridXOffset = 0;
 
     /**
-     * The amount by which the tile grid origin should be offset
-     * vertically from the image origin if tiling has been set,
-     * or 0 otherwise.  The initial value is <code>0</code>.
+     * The bmount by which the tile grid origin should be offset
+     * verticblly from the imbge origin if tiling hbs been set,
+     * or 0 otherwise.  The initibl vblue is <code>0</code>.
      *
-     * <p> Subclasses that do not support offsetting tiles may ignore
-     * this value.
+     * <p> Subclbsses thbt do not support offsetting tiles mby ignore
+     * this vblue.
      */
     protected int tileGridYOffset = 0;
 
     /**
-     * A <code>boolean</code> that is <code>true</code> if this
-     * <code>ImageWriteParam</code> allows images to be written as a
-     * progressive sequence of increasing quality passes.  By default,
-     * the value is <code>false</code>.  Subclasses must set the value
-     * manually.
+     * A <code>boolebn</code> thbt is <code>true</code> if this
+     * <code>ImbgeWritePbrbm</code> bllows imbges to be written bs b
+     * progressive sequence of increbsing qublity pbsses.  By defbult,
+     * the vblue is <code>fblse</code>.  Subclbsses must set the vblue
+     * mbnublly.
      *
-     * <p> Subclasses that do not support progressive encoding must
-     * ensure that this value is set to <code>false</code>.
+     * <p> Subclbsses thbt do not support progressive encoding must
+     * ensure thbt this vblue is set to <code>fblse</code>.
      */
-    protected boolean canWriteProgressive = false;
+    protected boolebn cbnWriteProgressive = fblse;
 
     /**
      * The mode controlling progressive encoding, which must be set to
-     * one of the four <code>MODE_*</code> values, except
-     * <code>MODE_EXPLICIT</code>.  The default is
+     * one of the four <code>MODE_*</code> vblues, except
+     * <code>MODE_EXPLICIT</code>.  The defbult is
      * <code>MODE_COPY_FROM_METADATA</code>.
      *
-     * <p> Subclasses that do not support progressive encoding may
-     * ignore this value.
+     * <p> Subclbsses thbt do not support progressive encoding mby
+     * ignore this vblue.
      *
      * @see #MODE_DISABLED
      * @see #MODE_EXPLICIT
@@ -309,22 +309,22 @@ public class ImageWriteParam extends IIOParam {
     protected int progressiveMode = MODE_COPY_FROM_METADATA;
 
     /**
-     * A <code>boolean</code> that is <code>true</code> if this writer
-     * can write images using compression. By default, the value is
-     * <code>false</code>.  Subclasses must set the value manually.
+     * A <code>boolebn</code> thbt is <code>true</code> if this writer
+     * cbn write imbges using compression. By defbult, the vblue is
+     * <code>fblse</code>.  Subclbsses must set the vblue mbnublly.
      *
-     * <p> Subclasses that do not support compression must ensure that
-     * this value is set to <code>false</code>.
+     * <p> Subclbsses thbt do not support compression must ensure thbt
+     * this vblue is set to <code>fblse</code>.
      */
-    protected boolean canWriteCompressed = false;
+    protected boolebn cbnWriteCompressed = fblse;
 
     /**
      * The mode controlling compression settings, which must be set to
-     * one of the four <code>MODE_*</code> values.  The default is
+     * one of the four <code>MODE_*</code> vblues.  The defbult is
      * <code>MODE_COPY_FROM_METADATA</code>.
      *
-     * <p> Subclasses that do not support compression may ignore this
-     * value.
+     * <p> Subclbsses thbt do not support compression mby ignore this
+     * vblue.
      *
      * @see #MODE_DISABLED
      * @see #MODE_EXPLICIT
@@ -336,61 +336,61 @@ public class ImageWriteParam extends IIOParam {
     protected int compressionMode = MODE_COPY_FROM_METADATA;
 
     /**
-     * An array of <code>String</code>s containing the names of the
-     * available compression types.  Subclasses must set the value
-     * manually.
+     * An brrby of <code>String</code>s contbining the nbmes of the
+     * bvbilbble compression types.  Subclbsses must set the vblue
+     * mbnublly.
      *
-     * <p> Subclasses that do not support compression may ignore this
-     * value.
+     * <p> Subclbsses thbt do not support compression mby ignore this
+     * vblue.
      */
     protected String[] compressionTypes = null;
 
     /**
-     * A <code>String</code> containing the name of the current
+     * A <code>String</code> contbining the nbme of the current
      * compression type, or <code>null</code> if none is set.
      *
-     * <p> Subclasses that do not support compression may ignore this
-     * value.
+     * <p> Subclbsses thbt do not support compression mby ignore this
+     * vblue.
      */
     protected String compressionType = null;
 
     /**
-     * A <code>float</code> containing the current compression quality
-     * setting.  The initial value is <code>1.0F</code>.
+     * A <code>flobt</code> contbining the current compression qublity
+     * setting.  The initibl vblue is <code>1.0F</code>.
      *
-     * <p> Subclasses that do not support compression may ignore this
-     * value.
+     * <p> Subclbsses thbt do not support compression mby ignore this
+     * vblue.
      */
-    protected float compressionQuality = 1.0F;
+    protected flobt compressionQublity = 1.0F;
 
     /**
-     * A <code>Locale</code> to be used to localize compression type
-     * names and quality descriptions, or <code>null</code> to use a
-     * default <code>Locale</code>.  Subclasses must set the value
-     * manually.
+     * A <code>Locble</code> to be used to locblize compression type
+     * nbmes bnd qublity descriptions, or <code>null</code> to use b
+     * defbult <code>Locble</code>.  Subclbsses must set the vblue
+     * mbnublly.
      */
-    protected Locale locale = null;
+    protected Locble locble = null;
 
     /**
-     * Constructs an empty <code>ImageWriteParam</code>.  It is up to
-     * the subclass to set up the instance variables properly.
+     * Constructs bn empty <code>ImbgeWritePbrbm</code>.  It is up to
+     * the subclbss to set up the instbnce vbribbles properly.
      */
-    protected ImageWriteParam() {}
+    protected ImbgeWritePbrbm() {}
 
     /**
-     * Constructs an <code>ImageWriteParam</code> set to use a
-     * given <code>Locale</code>.
+     * Constructs bn <code>ImbgeWritePbrbm</code> set to use b
+     * given <code>Locble</code>.
      *
-     * @param locale a <code>Locale</code> to be used to localize
-     * compression type names and quality descriptions, or
+     * @pbrbm locble b <code>Locble</code> to be used to locblize
+     * compression type nbmes bnd qublity descriptions, or
      * <code>null</code>.
      */
-    public ImageWriteParam(Locale locale) {
-        this.locale = locale;
+    public ImbgeWritePbrbm(Locble locble) {
+        this.locble = locble;
     }
 
-    // Return a deep copy of the array
-    private static Dimension[] clonePreferredTileSizes(Dimension[] sizes) {
+    // Return b deep copy of the brrby
+    privbte stbtic Dimension[] clonePreferredTileSizes(Dimension[] sizes) {
         if (sizes == null) {
             return null;
         }
@@ -402,92 +402,92 @@ public class ImageWriteParam extends IIOParam {
     }
 
     /**
-     * Returns the currently set <code>Locale</code>, or
-     * <code>null</code> if only a default <code>Locale</code> is
+     * Returns the currently set <code>Locble</code>, or
+     * <code>null</code> if only b defbult <code>Locble</code> is
      * supported.
      *
-     * @return the current <code>Locale</code>, or <code>null</code>.
+     * @return the current <code>Locble</code>, or <code>null</code>.
      */
-    public Locale getLocale() {
-        return locale;
+    public Locble getLocble() {
+        return locble;
     }
 
     /**
-     * Returns <code>true</code> if the writer can perform tiling
-     * while writing.  If this method returns <code>false</code>, then
-     * <code>setTiling</code> will throw an
-     * <code>UnsupportedOperationException</code>.
+     * Returns <code>true</code> if the writer cbn perform tiling
+     * while writing.  If this method returns <code>fblse</code>, then
+     * <code>setTiling</code> will throw bn
+     * <code>UnsupportedOperbtionException</code>.
      *
      * @return <code>true</code> if the writer supports tiling.
      *
-     * @see #canOffsetTiles()
+     * @see #cbnOffsetTiles()
      * @see #setTiling(int, int, int, int)
      */
-    public boolean canWriteTiles() {
-        return canWriteTiles;
+    public boolebn cbnWriteTiles() {
+        return cbnWriteTiles;
     }
 
     /**
-     * Returns <code>true</code> if the writer can perform tiling with
+     * Returns <code>true</code> if the writer cbn perform tiling with
      * non-zero grid offsets while writing.  If this method returns
-     * <code>false</code>, then <code>setTiling</code> will throw an
-     * <code>UnsupportedOperationException</code> if the grid offset
-     * arguments are not both zero.  If <code>canWriteTiles</code>
-     * returns <code>false</code>, this method will return
-     * <code>false</code> as well.
+     * <code>fblse</code>, then <code>setTiling</code> will throw bn
+     * <code>UnsupportedOperbtionException</code> if the grid offset
+     * brguments bre not both zero.  If <code>cbnWriteTiles</code>
+     * returns <code>fblse</code>, this method will return
+     * <code>fblse</code> bs well.
      *
      * @return <code>true</code> if the writer supports non-zero tile
      * offsets.
      *
-     * @see #canWriteTiles()
+     * @see #cbnWriteTiles()
      * @see #setTiling(int, int, int, int)
      */
-    public boolean canOffsetTiles() {
-        return canOffsetTiles;
+    public boolebn cbnOffsetTiles() {
+        return cbnOffsetTiles;
     }
 
     /**
-     * Determines whether the image will be tiled in the output
-     * stream and, if it will, how the tiling parameters will be
-     * determined.  The modes are interpreted as follows:
+     * Determines whether the imbge will be tiled in the output
+     * strebm bnd, if it will, how the tiling pbrbmeters will be
+     * determined.  The modes bre interpreted bs follows:
      *
      * <ul>
      *
-     * <li><code>MODE_DISABLED</code> - The image will not be tiled.
-     * <code>setTiling</code> will throw an
-     * <code>IllegalStateException</code>.
+     * <li><code>MODE_DISABLED</code> - The imbge will not be tiled.
+     * <code>setTiling</code> will throw bn
+     * <code>IllegblStbteException</code>.
      *
-     * <li><code>MODE_DEFAULT</code> - The image will be tiled using
-     * default parameters.  <code>setTiling</code> will throw an
-     * <code>IllegalStateException</code>.
+     * <li><code>MODE_DEFAULT</code> - The imbge will be tiled using
+     * defbult pbrbmeters.  <code>setTiling</code> will throw bn
+     * <code>IllegblStbteException</code>.
      *
-     * <li><code>MODE_EXPLICIT</code> - The image will be tiled
-     * according to parameters given in the {@link #setTiling setTiling}
-     * method.  Any previously set tiling parameters are discarded.
+     * <li><code>MODE_EXPLICIT</code> - The imbge will be tiled
+     * bccording to pbrbmeters given in the {@link #setTiling setTiling}
+     * method.  Any previously set tiling pbrbmeters bre discbrded.
      *
-     * <li><code>MODE_COPY_FROM_METADATA</code> - The image will
-     * conform to the metadata object passed in to a write.
-     * <code>setTiling</code> will throw an
-     * <code>IllegalStateException</code>.
+     * <li><code>MODE_COPY_FROM_METADATA</code> - The imbge will
+     * conform to the metbdbtb object pbssed in to b write.
+     * <code>setTiling</code> will throw bn
+     * <code>IllegblStbteException</code>.
      *
      * </ul>
      *
-     * @param mode The mode to use for tiling.
+     * @pbrbm mode The mode to use for tiling.
      *
-     * @exception UnsupportedOperationException if
-     * <code>canWriteTiles</code> returns <code>false</code>.
-     * @exception IllegalArgumentException if <code>mode</code> is not
-     * one of the modes listed above.
+     * @exception UnsupportedOperbtionException if
+     * <code>cbnWriteTiles</code> returns <code>fblse</code>.
+     * @exception IllegblArgumentException if <code>mode</code> is not
+     * one of the modes listed bbove.
      *
      * @see #setTiling
      * @see #getTilingMode
      */
     public void setTilingMode(int mode) {
-        if (canWriteTiles() == false) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+        if (cbnWriteTiles() == fblse) {
+            throw new UnsupportedOperbtionException("Tiling not supported!");
         }
         if (mode < MODE_DISABLED || mode > MAX_MODE) {
-            throw new IllegalArgumentException("Illegal value for mode!");
+            throw new IllegblArgumentException("Illegbl vblue for mode!");
         }
         this.tilingMode = mode;
         if (mode == MODE_EXPLICIT) {
@@ -497,82 +497,82 @@ public class ImageWriteParam extends IIOParam {
 
     /**
      * Returns the current tiling mode, if tiling is supported.
-     * Otherwise throws an <code>UnsupportedOperationException</code>.
+     * Otherwise throws bn <code>UnsupportedOperbtionException</code>.
      *
      * @return the current tiling mode.
      *
-     * @exception UnsupportedOperationException if
-     * <code>canWriteTiles</code> returns <code>false</code>.
+     * @exception UnsupportedOperbtionException if
+     * <code>cbnWriteTiles</code> returns <code>fblse</code>.
      *
      * @see #setTilingMode
      */
     public int getTilingMode() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported");
+        if (!cbnWriteTiles()) {
+            throw new UnsupportedOperbtionException("Tiling not supported");
         }
         return tilingMode;
     }
 
     /**
-     * Returns an array of <code>Dimension</code>s indicating the
-     * legal size ranges for tiles as they will be encoded in the
-     * output file or stream.  The returned array is a copy.
+     * Returns bn brrby of <code>Dimension</code>s indicbting the
+     * legbl size rbnges for tiles bs they will be encoded in the
+     * output file or strebm.  The returned brrby is b copy.
      *
-     * <p> The information is returned as a set of pairs; the first
-     * element of a pair contains an (inclusive) minimum width and
-     * height, and the second element contains an (inclusive) maximum
-     * width and height.  Together, each pair defines a valid range of
-     * sizes.  To specify a fixed size, use the same width and height
-     * for both elements.  To specify an arbitrary range, a value of
-     * <code>null</code> is used in place of an actual array of
+     * <p> The informbtion is returned bs b set of pbirs; the first
+     * element of b pbir contbins bn (inclusive) minimum width bnd
+     * height, bnd the second element contbins bn (inclusive) mbximum
+     * width bnd height.  Together, ebch pbir defines b vblid rbnge of
+     * sizes.  To specify b fixed size, use the sbme width bnd height
+     * for both elements.  To specify bn brbitrbry rbnge, b vblue of
+     * <code>null</code> is used in plbce of bn bctubl brrby of
      * <code>Dimension</code>s.
      *
-     * <p> If no array is specified on the constructor, but tiling is
-     * allowed, then this method returns <code>null</code>.
+     * <p> If no brrby is specified on the constructor, but tiling is
+     * bllowed, then this method returns <code>null</code>.
      *
-     * @exception UnsupportedOperationException if the plug-in does
+     * @exception UnsupportedOperbtionException if the plug-in does
      * not support tiling.
      *
-     * @return an array of <code>Dimension</code>s with an even length
-     * of at least two, or <code>null</code>.
+     * @return bn brrby of <code>Dimension</code>s with bn even length
+     * of bt lebst two, or <code>null</code>.
      */
     public Dimension[] getPreferredTileSizes() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported");
+        if (!cbnWriteTiles()) {
+            throw new UnsupportedOperbtionException("Tiling not supported");
         }
         return clonePreferredTileSizes(preferredTileSizes);
     }
 
     /**
-     * Specifies that the image should be tiled in the output stream.
-     * The <code>tileWidth</code> and <code>tileHeight</code>
-     * parameters specify the width and height of the tiles in the
-     * file.  If the tile width or height is greater than the width or
-     * height of the image, the image is not tiled in that dimension.
+     * Specifies thbt the imbge should be tiled in the output strebm.
+     * The <code>tileWidth</code> bnd <code>tileHeight</code>
+     * pbrbmeters specify the width bnd height of the tiles in the
+     * file.  If the tile width or height is grebter thbn the width or
+     * height of the imbge, the imbge is not tiled in thbt dimension.
      *
-     * <p> If <code>canOffsetTiles</code> returns <code>false</code>,
-     * then the <code>tileGridXOffset</code> and
-     * <code>tileGridYOffset</code> parameters must be zero.
+     * <p> If <code>cbnOffsetTiles</code> returns <code>fblse</code>,
+     * then the <code>tileGridXOffset</code> bnd
+     * <code>tileGridYOffset</code> pbrbmeters must be zero.
      *
-     * @param tileWidth the width of each tile.
-     * @param tileHeight the height of each tile.
-     * @param tileGridXOffset the horizontal offset of the tile grid.
-     * @param tileGridYOffset the vertical offset of the tile grid.
+     * @pbrbm tileWidth the width of ebch tile.
+     * @pbrbm tileHeight the height of ebch tile.
+     * @pbrbm tileGridXOffset the horizontbl offset of the tile grid.
+     * @pbrbm tileGridYOffset the verticbl offset of the tile grid.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @exception UnsupportedOperbtionException if the plug-in does not
      * support tiling.
-     * @exception IllegalStateException if the tiling mode is not
+     * @exception IllegblStbteException if the tiling mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception UnsupportedOperationException if the plug-in does not
-     * support grid offsets, and the grid offsets are not both zero.
-     * @exception IllegalArgumentException if the tile size is not
-     * within one of the allowable ranges returned by
+     * @exception UnsupportedOperbtionException if the plug-in does not
+     * support grid offsets, bnd the grid offsets bre not both zero.
+     * @exception IllegblArgumentException if the tile size is not
+     * within one of the bllowbble rbnges returned by
      * <code>getPreferredTileSizes</code>.
-     * @exception IllegalArgumentException if <code>tileWidth</code>
-     * or <code>tileHeight</code> is less than or equal to 0.
+     * @exception IllegblArgumentException if <code>tileWidth</code>
+     * or <code>tileHeight</code> is less thbn or equbl to 0.
      *
-     * @see #canWriteTiles
-     * @see #canOffsetTiles
+     * @see #cbnWriteTiles
+     * @see #cbnOffsetTiles
      * @see #getTileWidth()
      * @see #getTileHeight()
      * @see #getTileGridXOffset()
@@ -582,35 +582,35 @@ public class ImageWriteParam extends IIOParam {
                           int tileHeight,
                           int tileGridXOffset,
                           int tileGridYOffset) {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+        if (!cbnWriteTiles()) {
+            throw new UnsupportedOperbtionException("Tiling not supported!");
         }
         if (getTilingMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException("Tiling mode not MODE_EXPLICIT!");
+            throw new IllegblStbteException("Tiling mode not MODE_EXPLICIT!");
         }
         if (tileWidth <= 0 || tileHeight <= 0) {
-            throw new IllegalArgumentException
-                ("tile dimensions are non-positive!");
+            throw new IllegblArgumentException
+                ("tile dimensions bre non-positive!");
         }
-        boolean tilesOffset = (tileGridXOffset != 0) || (tileGridYOffset != 0);
-        if (!canOffsetTiles() && tilesOffset) {
-            throw new UnsupportedOperationException("Can't offset tiles!");
+        boolebn tilesOffset = (tileGridXOffset != 0) || (tileGridYOffset != 0);
+        if (!cbnOffsetTiles() && tilesOffset) {
+            throw new UnsupportedOperbtionException("Cbn't offset tiles!");
         }
         if (preferredTileSizes != null) {
-            boolean ok = true;
+            boolebn ok = true;
             for (int i = 0; i < preferredTileSizes.length; i += 2) {
                 Dimension min = preferredTileSizes[i];
-                Dimension max = preferredTileSizes[i+1];
+                Dimension mbx = preferredTileSizes[i+1];
                 if ((tileWidth < min.width) ||
-                    (tileWidth > max.width) ||
+                    (tileWidth > mbx.width) ||
                     (tileHeight < min.height) ||
-                    (tileHeight > max.height)) {
-                    ok = false;
-                    break;
+                    (tileHeight > mbx.height)) {
+                    ok = fblse;
+                    brebk;
                 }
             }
             if (!ok) {
-                throw new IllegalArgumentException("Illegal tile size!");
+                throw new IllegblArgumentException("Illegbl tile size!");
             }
         }
 
@@ -622,29 +622,29 @@ public class ImageWriteParam extends IIOParam {
     }
 
     /**
-     * Removes any previous tile grid parameters specified by calls to
+     * Removes bny previous tile grid pbrbmeters specified by cblls to
      * <code>setTiling</code>.
      *
-     * <p> The default implementation sets the instance variables
+     * <p> The defbult implementbtion sets the instbnce vbribbles
      * <code>tileWidth</code>, <code>tileHeight</code>,
-     * <code>tileGridXOffset</code>, and
+     * <code>tileGridXOffset</code>, bnd
      * <code>tileGridYOffset</code> to <code>0</code>.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @exception UnsupportedOperbtionException if the plug-in does not
      * support tiling.
-     * @exception IllegalStateException if the tiling mode is not
+     * @exception IllegblStbteException if the tiling mode is not
      * <code>MODE_EXPLICIT</code>.
      *
      * @see #setTiling(int, int, int, int)
      */
     public void unsetTiling() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+        if (!cbnWriteTiles()) {
+            throw new UnsupportedOperbtionException("Tiling not supported!");
         }
         if (getTilingMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException("Tiling mode not MODE_EXPLICIT!");
+            throw new IllegblStbteException("Tiling mode not MODE_EXPLICIT!");
         }
-        this.tilingSet = false;
+        this.tilingSet = fblse;
         this.tileWidth = 0;
         this.tileHeight = 0;
         this.tileGridXOffset = 0;
@@ -652,128 +652,128 @@ public class ImageWriteParam extends IIOParam {
     }
 
     /**
-     * Returns the width of each tile in an image as it will be
-     * written to the output stream.  If tiling parameters have not
-     * been set, an <code>IllegalStateException</code> is thrown.
+     * Returns the width of ebch tile in bn imbge bs it will be
+     * written to the output strebm.  If tiling pbrbmeters hbve not
+     * been set, bn <code>IllegblStbteException</code> is thrown.
      *
      * @return the tile width to be used for encoding.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @exception UnsupportedOperbtionException if the plug-in does not
      * support tiling.
-     * @exception IllegalStateException if the tiling mode is not
+     * @exception IllegblStbteException if the tiling mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the tiling parameters have
+     * @exception IllegblStbteException if the tiling pbrbmeters hbve
      * not been set.
      *
      * @see #setTiling(int, int, int, int)
      * @see #getTileHeight()
      */
     public int getTileWidth() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+        if (!cbnWriteTiles()) {
+            throw new UnsupportedOperbtionException("Tiling not supported!");
         }
         if (getTilingMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException("Tiling mode not MODE_EXPLICIT!");
+            throw new IllegblStbteException("Tiling mode not MODE_EXPLICIT!");
         }
         if (!tilingSet) {
-            throw new IllegalStateException("Tiling parameters not set!");
+            throw new IllegblStbteException("Tiling pbrbmeters not set!");
         }
         return tileWidth;
     }
 
     /**
-     * Returns the height of each tile in an image as it will be written to
-     * the output stream.  If tiling parameters have not
-     * been set, an <code>IllegalStateException</code> is thrown.
+     * Returns the height of ebch tile in bn imbge bs it will be written to
+     * the output strebm.  If tiling pbrbmeters hbve not
+     * been set, bn <code>IllegblStbteException</code> is thrown.
      *
      * @return the tile height to be used for encoding.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @exception UnsupportedOperbtionException if the plug-in does not
      * support tiling.
-     * @exception IllegalStateException if the tiling mode is not
+     * @exception IllegblStbteException if the tiling mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the tiling parameters have
+     * @exception IllegblStbteException if the tiling pbrbmeters hbve
      * not been set.
      *
      * @see #setTiling(int, int, int, int)
      * @see #getTileWidth()
      */
     public int getTileHeight() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+        if (!cbnWriteTiles()) {
+            throw new UnsupportedOperbtionException("Tiling not supported!");
         }
         if (getTilingMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException("Tiling mode not MODE_EXPLICIT!");
+            throw new IllegblStbteException("Tiling mode not MODE_EXPLICIT!");
         }
         if (!tilingSet) {
-            throw new IllegalStateException("Tiling parameters not set!");
+            throw new IllegblStbteException("Tiling pbrbmeters not set!");
         }
         return tileHeight;
     }
 
     /**
-     * Returns the horizontal tile grid offset of an image as it will
-     * be written to the output stream.  If tiling parameters have not
-     * been set, an <code>IllegalStateException</code> is thrown.
+     * Returns the horizontbl tile grid offset of bn imbge bs it will
+     * be written to the output strebm.  If tiling pbrbmeters hbve not
+     * been set, bn <code>IllegblStbteException</code> is thrown.
      *
      * @return the tile grid X offset to be used for encoding.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @exception UnsupportedOperbtionException if the plug-in does not
      * support tiling.
-     * @exception IllegalStateException if the tiling mode is not
+     * @exception IllegblStbteException if the tiling mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the tiling parameters have
+     * @exception IllegblStbteException if the tiling pbrbmeters hbve
      * not been set.
      *
      * @see #setTiling(int, int, int, int)
      * @see #getTileGridYOffset()
      */
     public int getTileGridXOffset() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+        if (!cbnWriteTiles()) {
+            throw new UnsupportedOperbtionException("Tiling not supported!");
         }
         if (getTilingMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException("Tiling mode not MODE_EXPLICIT!");
+            throw new IllegblStbteException("Tiling mode not MODE_EXPLICIT!");
         }
         if (!tilingSet) {
-            throw new IllegalStateException("Tiling parameters not set!");
+            throw new IllegblStbteException("Tiling pbrbmeters not set!");
         }
         return tileGridXOffset;
     }
 
     /**
-     * Returns the vertical tile grid offset of an image as it will
-     * be written to the output stream.  If tiling parameters have not
-     * been set, an <code>IllegalStateException</code> is thrown.
+     * Returns the verticbl tile grid offset of bn imbge bs it will
+     * be written to the output strebm.  If tiling pbrbmeters hbve not
+     * been set, bn <code>IllegblStbteException</code> is thrown.
      *
      * @return the tile grid Y offset to be used for encoding.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @exception UnsupportedOperbtionException if the plug-in does not
      * support tiling.
-     * @exception IllegalStateException if the tiling mode is not
+     * @exception IllegblStbteException if the tiling mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the tiling parameters have
+     * @exception IllegblStbteException if the tiling pbrbmeters hbve
      * not been set.
      *
      * @see #setTiling(int, int, int, int)
      * @see #getTileGridXOffset()
      */
     public int getTileGridYOffset() {
-        if (!canWriteTiles()) {
-            throw new UnsupportedOperationException("Tiling not supported!");
+        if (!cbnWriteTiles()) {
+            throw new UnsupportedOperbtionException("Tiling not supported!");
         }
         if (getTilingMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException("Tiling mode not MODE_EXPLICIT!");
+            throw new IllegblStbteException("Tiling mode not MODE_EXPLICIT!");
         }
         if (!tilingSet) {
-            throw new IllegalStateException("Tiling parameters not set!");
+            throw new IllegblStbteException("Tiling pbrbmeters not set!");
         }
         return tileGridYOffset;
     }
 
     /**
-     * Returns <code>true</code> if the writer can write out images
-     * as a series of passes of progressively increasing quality.
+     * Returns <code>true</code> if the writer cbn write out imbges
+     * bs b series of pbsses of progressively increbsing qublity.
      *
      * @return <code>true</code> if the writer supports progressive
      * encoding.
@@ -781,79 +781,79 @@ public class ImageWriteParam extends IIOParam {
      * @see #setProgressiveMode
      * @see #getProgressiveMode
      */
-    public boolean canWriteProgressive() {
-        return canWriteProgressive;
+    public boolebn cbnWriteProgressive() {
+        return cbnWriteProgressive;
     }
 
     /**
-     * Specifies that the writer is to write the image out in a
-     * progressive mode such that the stream will contain a series of
-     * scans of increasing quality.  If progressive encoding is not
-     * supported, an <code>UnsupportedOperationException</code> will
+     * Specifies thbt the writer is to write the imbge out in b
+     * progressive mode such thbt the strebm will contbin b series of
+     * scbns of increbsing qublity.  If progressive encoding is not
+     * supported, bn <code>UnsupportedOperbtionException</code> will
      * be thrown.
      *
-     * <p>  The mode argument determines how
-     * the progression parameters are chosen, and must be either
+     * <p>  The mode brgument determines how
+     * the progression pbrbmeters bre chosen, bnd must be either
      * <code>MODE_DISABLED</code>,
      * <code>MODE_COPY_FROM_METADATA</code>, or
-     * <code>MODE_DEFAULT</code>.  Otherwise an
-     * <code>IllegalArgumentException</code> is thrown.
+     * <code>MODE_DEFAULT</code>.  Otherwise bn
+     * <code>IllegblArgumentException</code> is thrown.
      *
-     * <p> The modes are interpreted as follows:
+     * <p> The modes bre interpreted bs follows:
      *
      * <ul>
      *   <li><code>MODE_DISABLED</code> - No progression.  Use this to
      *   turn off progression.
      *
-     *   <li><code>MODE_COPY_FROM_METADATA</code> - The output image
-     *   will use whatever progression parameters are found in the
-     *   metadata objects passed into the writer.
+     *   <li><code>MODE_COPY_FROM_METADATA</code> - The output imbge
+     *   will use whbtever progression pbrbmeters bre found in the
+     *   metbdbtb objects pbssed into the writer.
      *
-     *   <li><code>MODE_DEFAULT</code> - The image will be written
-     *   progressively, with parameters chosen by the writer.
+     *   <li><code>MODE_DEFAULT</code> - The imbge will be written
+     *   progressively, with pbrbmeters chosen by the writer.
      * </ul>
      *
-     * <p> The default is <code>MODE_COPY_FROM_METADATA</code>.
+     * <p> The defbult is <code>MODE_COPY_FROM_METADATA</code>.
      *
-     * @param mode The mode for setting progression in the output
-     * stream.
+     * @pbrbm mode The mode for setting progression in the output
+     * strebm.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support progressive encoding.
-     * @exception IllegalArgumentException if <code>mode</code> is not
-     * one of the modes listed above.
+     * @exception IllegblArgumentException if <code>mode</code> is not
+     * one of the modes listed bbove.
      *
      * @see #getProgressiveMode
      */
     public void setProgressiveMode(int mode) {
-        if (!canWriteProgressive()) {
-            throw new UnsupportedOperationException(
+        if (!cbnWriteProgressive()) {
+            throw new UnsupportedOperbtionException(
                 "Progressive output not supported");
         }
         if (mode < MODE_DISABLED || mode > MAX_MODE) {
-            throw new IllegalArgumentException("Illegal value for mode!");
+            throw new IllegblArgumentException("Illegbl vblue for mode!");
         }
         if (mode == MODE_EXPLICIT) {
-            throw new IllegalArgumentException(
+            throw new IllegblArgumentException(
                 "MODE_EXPLICIT not supported for progressive output");
         }
         this.progressiveMode = mode;
     }
 
     /**
-     * Returns the current mode for writing the stream in a
-     * progressive manner.
+     * Returns the current mode for writing the strebm in b
+     * progressive mbnner.
      *
      * @return the current mode for progressive encoding.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support progressive encoding.
      *
      * @see #setProgressiveMode
      */
     public int getProgressiveMode() {
-        if (!canWriteProgressive()) {
-            throw new UnsupportedOperationException
+        if (!cbnWriteProgressive()) {
+            throw new UnsupportedOperbtionException
                 ("Progressive output not supported");
         }
         return progressiveMode;
@@ -864,58 +864,58 @@ public class ImageWriteParam extends IIOParam {
      *
      * @return <code>true</code> if the writer supports compression.
      */
-    public boolean canWriteCompressed() {
-        return canWriteCompressed;
+    public boolebn cbnWriteCompressed() {
+        return cbnWriteCompressed;
     }
 
     /**
-     * Specifies whether compression is to be performed, and if so how
-     * compression parameters are to be determined.  The <code>mode</code>
-     * argument must be one of the four modes, interpreted as follows:
+     * Specifies whether compression is to be performed, bnd if so how
+     * compression pbrbmeters bre to be determined.  The <code>mode</code>
+     * brgument must be one of the four modes, interpreted bs follows:
      *
      * <ul>
      *   <li><code>MODE_DISABLED</code> - If the mode is set to
-     *   <code>MODE_DISABLED</code>, methods that query or modify the
-     *   compression type or parameters will throw an
-     *   <code>IllegalStateException</code> (if compression is
-     *   normally supported by the plug-in). Some writers, such as JPEG,
-     *   do not normally offer uncompressed output. In this case, attempting
-     *   to set the mode to <code>MODE_DISABLED</code> will throw an
-     *   <code>UnsupportedOperationException</code> and the mode will not be
-     *   changed.
+     *   <code>MODE_DISABLED</code>, methods thbt query or modify the
+     *   compression type or pbrbmeters will throw bn
+     *   <code>IllegblStbteException</code> (if compression is
+     *   normblly supported by the plug-in). Some writers, such bs JPEG,
+     *   do not normblly offer uncompressed output. In this cbse, bttempting
+     *   to set the mode to <code>MODE_DISABLED</code> will throw bn
+     *   <code>UnsupportedOperbtionException</code> bnd the mode will not be
+     *   chbnged.
      *
      *   <li><code>MODE_EXPLICIT</code> - Compress using the
-     *   compression type and quality settings specified in this
-     *   <code>ImageWriteParam</code>.  Any previously set compression
-     *   parameters are discarded.
+     *   compression type bnd qublity settings specified in this
+     *   <code>ImbgeWritePbrbm</code>.  Any previously set compression
+     *   pbrbmeters bre discbrded.
      *
-     *   <li><code>MODE_COPY_FROM_METADATA</code> - Use whatever
-     *   compression parameters are specified in metadata objects
-     *   passed in to the writer.
+     *   <li><code>MODE_COPY_FROM_METADATA</code> - Use whbtever
+     *   compression pbrbmeters bre specified in metbdbtb objects
+     *   pbssed in to the writer.
      *
-     *   <li><code>MODE_DEFAULT</code> - Use default compression
-     *   parameters.
+     *   <li><code>MODE_DEFAULT</code> - Use defbult compression
+     *   pbrbmeters.
      * </ul>
      *
-     * <p> The default is <code>MODE_COPY_FROM_METADATA</code>.
+     * <p> The defbult is <code>MODE_COPY_FROM_METADATA</code>.
      *
-     * @param mode The mode for setting compression in the output
-     * stream.
+     * @pbrbm mode The mode for setting compression in the output
+     * strebm.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support compression, or does not support the requested mode.
-     * @exception IllegalArgumentException if <code>mode</code> is not
-     * one of the modes listed above.
+     * @exception IllegblArgumentException if <code>mode</code> is not
+     * one of the modes listed bbove.
      *
      * @see #getCompressionMode
      */
     public void setCompressionMode(int mode) {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported.");
         }
         if (mode < MODE_DISABLED || mode > MAX_MODE) {
-            throw new IllegalArgumentException("Illegal value for mode!");
+            throw new IllegblArgumentException("Illegbl vblue for mode!");
         }
         this.compressionMode = mode;
         if (mode == MODE_EXPLICIT) {
@@ -929,48 +929,48 @@ public class ImageWriteParam extends IIOParam {
      *
      * @return the current compression mode.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support compression.
      *
      * @see #setCompressionMode
      */
     public int getCompressionMode() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported.");
         }
         return compressionMode;
     }
 
     /**
-     * Returns a list of available compression types, as an array or
-     * <code>String</code>s, or <code>null</code> if a compression
-     * type may not be chosen using these interfaces.  The array
-     * returned is a copy.
+     * Returns b list of bvbilbble compression types, bs bn brrby or
+     * <code>String</code>s, or <code>null</code> if b compression
+     * type mby not be chosen using these interfbces.  The brrby
+     * returned is b copy.
      *
-     * <p> If the writer only offers a single, mandatory form of
-     * compression, it is not necessary to provide any named
-     * compression types.  Named compression types should only be
-     * used where the user is able to make a meaningful choice
+     * <p> If the writer only offers b single, mbndbtory form of
+     * compression, it is not necessbry to provide bny nbmed
+     * compression types.  Nbmed compression types should only be
+     * used where the user is bble to mbke b mebningful choice
      * between different schemes.
      *
-     * <p> The default implementation checks if compression is
-     * supported and throws an
-     * <code>UnsupportedOperationException</code> if not.  Otherwise,
-     * it returns a clone of the <code>compressionTypes</code>
-     * instance variable if it is non-<code>null</code>, or else
+     * <p> The defbult implementbtion checks if compression is
+     * supported bnd throws bn
+     * <code>UnsupportedOperbtionException</code> if not.  Otherwise,
+     * it returns b clone of the <code>compressionTypes</code>
+     * instbnce vbribble if it is non-<code>null</code>, or else
      * returns <code>null</code>.
      *
-     * @return an array of <code>String</code>s containing the
-     * (non-localized) names of available compression types, or
+     * @return bn brrby of <code>String</code>s contbining the
+     * (non-locblized) nbmes of bvbilbble compression types, or
      * <code>null</code>.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support compression.
      */
     public String[] getCompressionTypes() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported");
         }
         if (compressionTypes == null) {
@@ -980,64 +980,64 @@ public class ImageWriteParam extends IIOParam {
     }
 
     /**
-     * Sets the compression type to one of the values indicated by
-     * <code>getCompressionTypes</code>.  If a value of
-     * <code>null</code> is passed in, any previous setting is
+     * Sets the compression type to one of the vblues indicbted by
+     * <code>getCompressionTypes</code>.  If b vblue of
+     * <code>null</code> is pbssed in, bny previous setting is
      * removed.
      *
-     * <p> The default implementation checks whether compression is
-     * supported and the compression mode is
-     * <code>MODE_EXPLICIT</code>.  If so, it calls
-     * <code>getCompressionTypes</code> and checks if
-     * <code>compressionType</code> is one of the legal values.  If it
-     * is, the <code>compressionType</code> instance variable is set.
+     * <p> The defbult implementbtion checks whether compression is
+     * supported bnd the compression mode is
+     * <code>MODE_EXPLICIT</code>.  If so, it cblls
+     * <code>getCompressionTypes</code> bnd checks if
+     * <code>compressionType</code> is one of the legbl vblues.  If it
+     * is, the <code>compressionType</code> instbnce vbribble is set.
      * If <code>compressionType</code> is <code>null</code>, the
-     * instance variable is set without performing any checking.
+     * instbnce vbribble is set without performing bny checking.
      *
-     * @param compressionType one of the <code>String</code>s returned
+     * @pbrbm compressionType one of the <code>String</code>s returned
      * by <code>getCompressionTypes</code>, or <code>null</code> to
-     * remove any previous setting.
+     * remove bny previous setting.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support compression.
-     * @exception IllegalStateException if the compression mode is not
+     * @exception IllegblStbteException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception UnsupportedOperationException if there are no
-     * settable compression types.
-     * @exception IllegalArgumentException if
+     * @exception UnsupportedOperbtionException if there bre no
+     * settbble compression types.
+     * @exception IllegblArgumentException if
      * <code>compressionType</code> is non-<code>null</code> but is not
-     * one of the values returned by <code>getCompressionTypes</code>.
+     * one of the vblues returned by <code>getCompressionTypes</code>.
      *
      * @see #getCompressionTypes
      * @see #getCompressionType
      * @see #unsetCompression
      */
     public void setCompressionType(String compressionType) {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported");
         }
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
-        String[] legalTypes = getCompressionTypes();
-        if (legalTypes == null) {
-            throw new UnsupportedOperationException(
-                "No settable compression types");
+        String[] legblTypes = getCompressionTypes();
+        if (legblTypes == null) {
+            throw new UnsupportedOperbtionException(
+                "No settbble compression types");
         }
         if (compressionType != null) {
-            boolean found = false;
-            if (legalTypes != null) {
-                for (int i = 0; i < legalTypes.length; i++) {
-                    if (compressionType.equals(legalTypes[i])) {
+            boolebn found = fblse;
+            if (legblTypes != null) {
+                for (int i = 0; i < legblTypes.length; i++) {
+                    if (compressionType.equbls(legblTypes[i])) {
                         found = true;
-                        break;
+                        brebk;
                     }
                 }
             }
             if (!found) {
-                throw new IllegalArgumentException("Unknown compression type!");
+                throw new IllegblArgumentException("Unknown compression type!");
             }
         }
         this.compressionType = compressionType;
@@ -1045,425 +1045,425 @@ public class ImageWriteParam extends IIOParam {
 
     /**
      * Returns the currently set compression type, or
-     * <code>null</code> if none has been set.  The type is returned
-     * as a <code>String</code> from among those returned by
+     * <code>null</code> if none hbs been set.  The type is returned
+     * bs b <code>String</code> from bmong those returned by
      * <code>getCompressionTypes</code>.
-     * If no compression type has been set, <code>null</code> is
+     * If no compression type hbs been set, <code>null</code> is
      * returned.
      *
-     * <p> The default implementation checks whether compression is
-     * supported and the compression mode is
-     * <code>MODE_EXPLICIT</code>.  If so, it returns the value of the
-     * <code>compressionType</code> instance variable.
+     * <p> The defbult implementbtion checks whether compression is
+     * supported bnd the compression mode is
+     * <code>MODE_EXPLICIT</code>.  If so, it returns the vblue of the
+     * <code>compressionType</code> instbnce vbribble.
      *
-     * @return the current compression type as a <code>String</code>,
+     * @return the current compression type bs b <code>String</code>,
      * or <code>null</code> if no type is set.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support compression.
-     * @exception IllegalStateException if the compression mode is not
+     * @exception IllegblStbteException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
      *
      * @see #setCompressionType
      */
     public String getCompressionType() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported.");
         }
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
         return compressionType;
     }
 
     /**
-     * Removes any previous compression type and quality settings.
+     * Removes bny previous compression type bnd qublity settings.
      *
-     * <p> The default implementation sets the instance variable
-     * <code>compressionType</code> to <code>null</code>, and the
-     * instance variable <code>compressionQuality</code> to
+     * <p> The defbult implementbtion sets the instbnce vbribble
+     * <code>compressionType</code> to <code>null</code>, bnd the
+     * instbnce vbribble <code>compressionQublity</code> to
      * <code>1.0F</code>.
      *
-     * @exception UnsupportedOperationException if the plug-in does not
+     * @exception UnsupportedOperbtionException if the plug-in does not
      * support compression.
-     * @exception IllegalStateException if the compression mode is not
+     * @exception IllegblStbteException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
      *
      * @see #setCompressionType
-     * @see #setCompressionQuality
+     * @see #setCompressionQublity
      */
     public void unsetCompression() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported");
         }
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
         this.compressionType = null;
-        this.compressionQuality = 1.0F;
+        this.compressionQublity = 1.0F;
     }
 
     /**
-     * Returns a localized version of the name of the current
-     * compression type, using the <code>Locale</code> returned by
-     * <code>getLocale</code>.
+     * Returns b locblized version of the nbme of the current
+     * compression type, using the <code>Locble</code> returned by
+     * <code>getLocble</code>.
      *
-     * <p> The default implementation checks whether compression is
-     * supported and the compression mode is
+     * <p> The defbult implementbtion checks whether compression is
+     * supported bnd the compression mode is
      * <code>MODE_EXPLICIT</code>.  If so, if
-     * <code>compressionType</code> is <code>non-null</code> the value
-     * of <code>getCompressionType</code> is returned as a
+     * <code>compressionType</code> is <code>non-null</code> the vblue
+     * of <code>getCompressionType</code> is returned bs b
      * convenience.
      *
-     * @return a <code>String</code> containing a localized version of
-     * the name of the current compression type.
+     * @return b <code>String</code> contbining b locblized version of
+     * the nbme of the current compression type.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support compression.
-     * @exception IllegalStateException if the compression mode is not
+     * @exception IllegblStbteException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if no compression type is set.
+     * @exception IllegblStbteException if no compression type is set.
      */
-    public String getLocalizedCompressionTypeName() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+    public String getLocblizedCompressionTypeNbme() {
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported.");
         }
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
         if (getCompressionType() == null) {
-            throw new IllegalStateException("No compression type set!");
+            throw new IllegblStbteException("No compression type set!");
         }
         return getCompressionType();
     }
 
     /**
      * Returns <code>true</code> if the current compression type
-     * provides lossless compression.  If a plug-in provides only
-     * one mandatory compression type, then this method may be
-     * called without calling <code>setCompressionType</code> first.
+     * provides lossless compression.  If b plug-in provides only
+     * one mbndbtory compression type, then this method mby be
+     * cblled without cblling <code>setCompressionType</code> first.
      *
-     * <p> If there are multiple compression types but none has
-     * been set, an <code>IllegalStateException</code> is thrown.
+     * <p> If there bre multiple compression types but none hbs
+     * been set, bn <code>IllegblStbteException</code> is thrown.
      *
-     * <p> The default implementation checks whether compression is
-     * supported and the compression mode is
+     * <p> The defbult implementbtion checks whether compression is
+     * supported bnd the compression mode is
      * <code>MODE_EXPLICIT</code>.  If so, if
      * <code>getCompressionTypes()</code> is <code>null</code> or
      * <code>getCompressionType()</code> is non-<code>null</code>
-     * <code>true</code> is returned as a convenience.
+     * <code>true</code> is returned bs b convenience.
      *
      * @return <code>true</code> if the current compression type is
      * lossless.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support compression.
-     * @exception IllegalStateException if the compression mode is not
+     * @exception IllegblStbteException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the set of legal
-     * compression types is non-<code>null</code> and the current
+     * @exception IllegblStbteException if the set of legbl
+     * compression types is non-<code>null</code> bnd the current
      * compression type is <code>null</code>.
      */
-    public boolean isCompressionLossless() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+    public boolebn isCompressionLossless() {
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported");
         }
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
         if ((getCompressionTypes() != null) &&
             (getCompressionType() == null)) {
-            throw new IllegalStateException("No compression type set!");
+            throw new IllegblStbteException("No compression type set!");
         }
         return true;
     }
 
     /**
-     * Sets the compression quality to a value between <code>0</code>
-     * and <code>1</code>.  Only a single compression quality setting
-     * is supported by default; writers can provide extended versions
-     * of <code>ImageWriteParam</code> that offer more control.  For
-     * lossy compression schemes, the compression quality should
-     * control the tradeoff between file size and image quality (for
-     * example, by choosing quantization tables when writing JPEG
-     * images).  For lossless schemes, the compression quality may be
-     * used to control the tradeoff between file size and time taken
-     * to perform the compression (for example, by optimizing row
-     * filters and setting the ZLIB compression level when writing
-     * PNG images).
+     * Sets the compression qublity to b vblue between <code>0</code>
+     * bnd <code>1</code>.  Only b single compression qublity setting
+     * is supported by defbult; writers cbn provide extended versions
+     * of <code>ImbgeWritePbrbm</code> thbt offer more control.  For
+     * lossy compression schemes, the compression qublity should
+     * control the trbdeoff between file size bnd imbge qublity (for
+     * exbmple, by choosing qubntizbtion tbbles when writing JPEG
+     * imbges).  For lossless schemes, the compression qublity mby be
+     * used to control the trbdeoff between file size bnd time tbken
+     * to perform the compression (for exbmple, by optimizing row
+     * filters bnd setting the ZLIB compression level when writing
+     * PNG imbges).
      *
-     * <p> A compression quality setting of 0.0 is most generically
-     * interpreted as "high compression is important," while a setting of
-     * 1.0 is most generically interpreted as "high image quality is
-     * important."
+     * <p> A compression qublity setting of 0.0 is most genericblly
+     * interpreted bs "high compression is importbnt," while b setting of
+     * 1.0 is most genericblly interpreted bs "high imbge qublity is
+     * importbnt."
      *
-     * <p> If there are multiple compression types but none has been
-     * set, an <code>IllegalStateException</code> is thrown.
+     * <p> If there bre multiple compression types but none hbs been
+     * set, bn <code>IllegblStbteException</code> is thrown.
      *
-     * <p> The default implementation checks that compression is
-     * supported, and that the compression mode is
+     * <p> The defbult implementbtion checks thbt compression is
+     * supported, bnd thbt the compression mode is
      * <code>MODE_EXPLICIT</code>.  If so, if
      * <code>getCompressionTypes()</code> returns <code>null</code> or
      * <code>compressionType</code> is non-<code>null</code> it sets
-     * the <code>compressionQuality</code> instance variable.
+     * the <code>compressionQublity</code> instbnce vbribble.
      *
-     * @param quality a <code>float</code> between <code>0</code>and
-     * <code>1</code> indicating the desired quality level.
+     * @pbrbm qublity b <code>flobt</code> between <code>0</code>bnd
+     * <code>1</code> indicbting the desired qublity level.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support compression.
-     * @exception IllegalStateException if the compression mode is not
+     * @exception IllegblStbteException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the set of legal
-     * compression types is non-<code>null</code> and the current
+     * @exception IllegblStbteException if the set of legbl
+     * compression types is non-<code>null</code> bnd the current
      * compression type is <code>null</code>.
-     * @exception IllegalArgumentException if <code>quality</code> is
-     * not between <code>0</code>and <code>1</code>, inclusive.
+     * @exception IllegblArgumentException if <code>qublity</code> is
+     * not between <code>0</code>bnd <code>1</code>, inclusive.
      *
-     * @see #getCompressionQuality
+     * @see #getCompressionQublity
      */
-    public void setCompressionQuality(float quality) {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+    public void setCompressionQublity(flobt qublity) {
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported");
         }
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
         if (getCompressionTypes() != null && getCompressionType() == null) {
-            throw new IllegalStateException("No compression type set!");
+            throw new IllegblStbteException("No compression type set!");
         }
-        if (quality < 0.0F || quality > 1.0F) {
-            throw new IllegalArgumentException("Quality out-of-bounds!");
+        if (qublity < 0.0F || qublity > 1.0F) {
+            throw new IllegblArgumentException("Qublity out-of-bounds!");
         }
-        this.compressionQuality = quality;
+        this.compressionQublity = qublity;
     }
 
     /**
-     * Returns the current compression quality setting.
+     * Returns the current compression qublity setting.
      *
-     * <p> If there are multiple compression types but none has been
-     * set, an <code>IllegalStateException</code> is thrown.
+     * <p> If there bre multiple compression types but none hbs been
+     * set, bn <code>IllegblStbteException</code> is thrown.
      *
-     * <p> The default implementation checks that compression is
-     * supported and that the compression mode is
+     * <p> The defbult implementbtion checks thbt compression is
+     * supported bnd thbt the compression mode is
      * <code>MODE_EXPLICIT</code>.  If so, if
      * <code>getCompressionTypes()</code> is <code>null</code> or
      * <code>getCompressionType()</code> is non-<code>null</code>, it
-     * returns the value of the <code>compressionQuality</code>
-     * instance variable.
+     * returns the vblue of the <code>compressionQublity</code>
+     * instbnce vbribble.
      *
-     * @return the current compression quality setting.
+     * @return the current compression qublity setting.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support compression.
-     * @exception IllegalStateException if the compression mode is not
+     * @exception IllegblStbteException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the set of legal
-     * compression types is non-<code>null</code> and the current
+     * @exception IllegblStbteException if the set of legbl
+     * compression types is non-<code>null</code> bnd the current
      * compression type is <code>null</code>.
      *
-     * @see #setCompressionQuality
+     * @see #setCompressionQublity
      */
-    public float getCompressionQuality() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+    public flobt getCompressionQublity() {
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported.");
         }
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
         if ((getCompressionTypes() != null) &&
             (getCompressionType() == null)) {
-            throw new IllegalStateException("No compression type set!");
+            throw new IllegblStbteException("No compression type set!");
         }
-        return compressionQuality;
+        return compressionQublity;
     }
 
 
     /**
-     * Returns a <code>float</code> indicating an estimate of the
-     * number of bits of output data for each bit of input image data
-     * at the given quality level.  The value will typically lie
-     * between <code>0</code> and <code>1</code>, with smaller values
-     * indicating more compression.  A special value of
-     * <code>-1.0F</code> is used to indicate that no estimate is
-     * available.
+     * Returns b <code>flobt</code> indicbting bn estimbte of the
+     * number of bits of output dbtb for ebch bit of input imbge dbtb
+     * bt the given qublity level.  The vblue will typicblly lie
+     * between <code>0</code> bnd <code>1</code>, with smbller vblues
+     * indicbting more compression.  A specibl vblue of
+     * <code>-1.0F</code> is used to indicbte thbt no estimbte is
+     * bvbilbble.
      *
-     * <p> If there are multiple compression types but none has been set,
-     * an <code>IllegalStateException</code> is thrown.
+     * <p> If there bre multiple compression types but none hbs been set,
+     * bn <code>IllegblStbteException</code> is thrown.
      *
-     * <p> The default implementation checks that compression is
-     * supported and the compression mode is
+     * <p> The defbult implementbtion checks thbt compression is
+     * supported bnd the compression mode is
      * <code>MODE_EXPLICIT</code>.  If so, if
      * <code>getCompressionTypes()</code> is <code>null</code> or
-     * <code>getCompressionType()</code> is non-<code>null</code>, and
-     * <code>quality</code> is within bounds, it returns
+     * <code>getCompressionType()</code> is non-<code>null</code>, bnd
+     * <code>qublity</code> is within bounds, it returns
      * <code>-1.0</code>.
      *
-     * @param quality the quality setting whose bit rate is to be
+     * @pbrbm qublity the qublity setting whose bit rbte is to be
      * queried.
      *
-     * @return an estimate of the compressed bit rate, or
-     * <code>-1.0F</code> if no estimate is available.
+     * @return bn estimbte of the compressed bit rbte, or
+     * <code>-1.0F</code> if no estimbte is bvbilbble.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support compression.
-     * @exception IllegalStateException if the compression mode is not
+     * @exception IllegblStbteException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the set of legal
-     * compression types is non-<code>null</code> and the current
+     * @exception IllegblStbteException if the set of legbl
+     * compression types is non-<code>null</code> bnd the current
      * compression type is <code>null</code>.
-     * @exception IllegalArgumentException if <code>quality</code> is
-     * not between <code>0</code>and <code>1</code>, inclusive.
+     * @exception IllegblArgumentException if <code>qublity</code> is
+     * not between <code>0</code>bnd <code>1</code>, inclusive.
      */
-    public float getBitRate(float quality) {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+    public flobt getBitRbte(flobt qublity) {
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported.");
         }
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
         if ((getCompressionTypes() != null) &&
             (getCompressionType() == null)) {
-            throw new IllegalStateException("No compression type set!");
+            throw new IllegblStbteException("No compression type set!");
         }
-        if (quality < 0.0F || quality > 1.0F) {
-            throw new IllegalArgumentException("Quality out-of-bounds!");
+        if (qublity < 0.0F || qublity > 1.0F) {
+            throw new IllegblArgumentException("Qublity out-of-bounds!");
         }
         return -1.0F;
     }
 
     /**
-     * Returns an array of <code>String</code>s that may be used along
-     * with <code>getCompressionQualityValues</code> as part of a user
-     * interface for setting or displaying the compression quality
+     * Returns bn brrby of <code>String</code>s thbt mby be used blong
+     * with <code>getCompressionQublityVblues</code> bs pbrt of b user
+     * interfbce for setting or displbying the compression qublity
      * level.  The <code>String</code> with index <code>i</code>
-     * provides a description of the range of quality levels between
-     * <code>getCompressionQualityValues[i]</code> and
-     * <code>getCompressionQualityValues[i + 1]</code>.  Note that the
-     * length of the array returned from
-     * <code>getCompressionQualityValues</code> will always be one
-     * greater than that returned from
-     * <code>getCompressionQualityDescriptions</code>.
+     * provides b description of the rbnge of qublity levels between
+     * <code>getCompressionQublityVblues[i]</code> bnd
+     * <code>getCompressionQublityVblues[i + 1]</code>.  Note thbt the
+     * length of the brrby returned from
+     * <code>getCompressionQublityVblues</code> will blwbys be one
+     * grebter thbn thbt returned from
+     * <code>getCompressionQublityDescriptions</code>.
      *
-     * <p> As an example, the strings "Good", "Better", and "Best"
-     * could be associated with the ranges <code>[0, .33)</code>,
-     * <code>[.33, .66)</code>, and <code>[.66, 1.0]</code>.  In this
-     * case, <code>getCompressionQualityDescriptions</code> would
-     * return <code>{ "Good", "Better", "Best" }</code> and
-     * <code>getCompressionQualityValues</code> would return
+     * <p> As bn exbmple, the strings "Good", "Better", bnd "Best"
+     * could be bssocibted with the rbnges <code>[0, .33)</code>,
+     * <code>[.33, .66)</code>, bnd <code>[.66, 1.0]</code>.  In this
+     * cbse, <code>getCompressionQublityDescriptions</code> would
+     * return <code>{ "Good", "Better", "Best" }</code> bnd
+     * <code>getCompressionQublityVblues</code> would return
      * <code>{ 0.0F, .33F, .66F, 1.0F }</code>.
      *
-     * <p> If no descriptions are available, <code>null</code> is
+     * <p> If no descriptions bre bvbilbble, <code>null</code> is
      * returned.  If <code>null</code> is returned from
-     * <code>getCompressionQualityValues</code>, this method must also
+     * <code>getCompressionQublityVblues</code>, this method must blso
      * return <code>null</code>.
      *
-     * <p> The descriptions should be localized for the
-     * <code>Locale</code> returned by <code>getLocale</code>, if it
+     * <p> The descriptions should be locblized for the
+     * <code>Locble</code> returned by <code>getLocble</code>, if it
      * is non-<code>null</code>.
      *
-     * <p> If there are multiple compression types but none has been set,
-     * an <code>IllegalStateException</code> is thrown.
+     * <p> If there bre multiple compression types but none hbs been set,
+     * bn <code>IllegblStbteException</code> is thrown.
      *
-     * <p> The default implementation checks that compression is
-     * supported and that the compression mode is
+     * <p> The defbult implementbtion checks thbt compression is
+     * supported bnd thbt the compression mode is
      * <code>MODE_EXPLICIT</code>.  If so, if
      * <code>getCompressionTypes()</code> is <code>null</code> or
      * <code>getCompressionType()</code> is non-<code>null</code>, it
      * returns <code>null</code>.
      *
-     * @return an array of <code>String</code>s containing localized
-     * descriptions of the compression quality levels.
+     * @return bn brrby of <code>String</code>s contbining locblized
+     * descriptions of the compression qublity levels.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support compression.
-     * @exception IllegalStateException if the compression mode is not
+     * @exception IllegblStbteException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the set of legal
-     * compression types is non-<code>null</code> and the current
+     * @exception IllegblStbteException if the set of legbl
+     * compression types is non-<code>null</code> bnd the current
      * compression type is <code>null</code>.
      *
-     * @see #getCompressionQualityValues
+     * @see #getCompressionQublityVblues
      */
-    public String[] getCompressionQualityDescriptions() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+    public String[] getCompressionQublityDescriptions() {
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported.");
         }
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
         if ((getCompressionTypes() != null) &&
             (getCompressionType() == null)) {
-            throw new IllegalStateException("No compression type set!");
+            throw new IllegblStbteException("No compression type set!");
         }
         return null;
     }
 
     /**
-     * Returns an array of <code>float</code>s that may be used along
-     * with <code>getCompressionQualityDescriptions</code> as part of a user
-     * interface for setting or displaying the compression quality
-     * level.  See {@link #getCompressionQualityDescriptions
-     * getCompressionQualityDescriptions} for more information.
+     * Returns bn brrby of <code>flobt</code>s thbt mby be used blong
+     * with <code>getCompressionQublityDescriptions</code> bs pbrt of b user
+     * interfbce for setting or displbying the compression qublity
+     * level.  See {@link #getCompressionQublityDescriptions
+     * getCompressionQublityDescriptions} for more informbtion.
      *
-     * <p> If no descriptions are available, <code>null</code> is
+     * <p> If no descriptions bre bvbilbble, <code>null</code> is
      * returned.  If <code>null</code> is returned from
-     * <code>getCompressionQualityDescriptions</code>, this method
-     * must also return <code>null</code>.
+     * <code>getCompressionQublityDescriptions</code>, this method
+     * must blso return <code>null</code>.
      *
-     * <p> If there are multiple compression types but none has been set,
-     * an <code>IllegalStateException</code> is thrown.
+     * <p> If there bre multiple compression types but none hbs been set,
+     * bn <code>IllegblStbteException</code> is thrown.
      *
-     * <p> The default implementation checks that compression is
-     * supported and that the compression mode is
+     * <p> The defbult implementbtion checks thbt compression is
+     * supported bnd thbt the compression mode is
      * <code>MODE_EXPLICIT</code>.  If so, if
      * <code>getCompressionTypes()</code> is <code>null</code> or
      * <code>getCompressionType()</code> is non-<code>null</code>, it
      * returns <code>null</code>.
      *
-     * @return an array of <code>float</code>s indicating the
-     * boundaries between the compression quality levels as described
+     * @return bn brrby of <code>flobt</code>s indicbting the
+     * boundbries between the compression qublity levels bs described
      * by the <code>String</code>s from
-     * <code>getCompressionQualityDescriptions</code>.
+     * <code>getCompressionQublityDescriptions</code>.
      *
-     * @exception UnsupportedOperationException if the writer does not
+     * @exception UnsupportedOperbtionException if the writer does not
      * support compression.
-     * @exception IllegalStateException if the compression mode is not
+     * @exception IllegblStbteException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
-     * @exception IllegalStateException if the set of legal
-     * compression types is non-<code>null</code> and the current
+     * @exception IllegblStbteException if the set of legbl
+     * compression types is non-<code>null</code> bnd the current
      * compression type is <code>null</code>.
      *
-     * @see #getCompressionQualityDescriptions
+     * @see #getCompressionQublityDescriptions
      */
-    public float[] getCompressionQualityValues() {
-        if (!canWriteCompressed()) {
-            throw new UnsupportedOperationException(
+    public flobt[] getCompressionQublityVblues() {
+        if (!cbnWriteCompressed()) {
+            throw new UnsupportedOperbtionException(
                 "Compression not supported.");
         }
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
         if ((getCompressionTypes() != null) &&
             (getCompressionType() == null)) {
-            throw new IllegalStateException("No compression type set!");
+            throw new IllegblStbteException("No compression type set!");
         }
         return null;
     }

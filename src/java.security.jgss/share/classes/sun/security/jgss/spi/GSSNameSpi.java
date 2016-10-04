@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.spi;
+pbckbge sun.security.jgss.spi;
 
 import org.ietf.jgss.*;
-import java.security.Provider;
+import jbvb.security.Provider;
 
 /**
- * This interface is implemented by a mechanism specific name element. A
- * GSSName is conceptually a container class of several name elements from
- * different mechanisms.
+ * This interfbce is implemented by b mechbnism specific nbme element. A
+ * GSSNbme is conceptublly b contbiner clbss of severbl nbme elements from
+ * different mechbnisms.
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  */
 
-public interface GSSNameSpi {
+public interfbce GSSNbmeSpi {
 
     public Provider getProvider();
 
     /**
-     * Equals method for the GSSNameSpi objects.
-     * If either name denotes an anonymous principal, the call should
-     * return false.
+     * Equbls method for the GSSNbmeSpi objects.
+     * If either nbme denotes bn bnonymous principbl, the cbll should
+     * return fblse.
      *
-     * @param name to be compared with
-     * @returns true if they both refer to the same entity, else false
-     * @exception GSSException with major codes of BAD_NAMETYPE,
+     * @pbrbm nbme to be compbred with
+     * @returns true if they both refer to the sbme entity, else fblse
+     * @exception GSSException with mbjor codes of BAD_NAMETYPE,
      *    BAD_NAME, FAILURE
      */
-    public boolean equals(GSSNameSpi name) throws GSSException;
+    public boolebn equbls(GSSNbmeSpi nbme) throws GSSException;
 
     /**
-     * Compares this <code>GSSNameSpi</code> object to another Object
-     * that might be a <code>GSSNameSpi</code>. The behaviour is exactly
-     * the same as in {@link #equals(GSSNameSpi) equals} except that
-     * no GSSException is thrown; instead, false will be returned in the
-     * situation where an error occurs.
+     * Compbres this <code>GSSNbmeSpi</code> object to bnother Object
+     * thbt might be b <code>GSSNbmeSpi</code>. The behbviour is exbctly
+     * the sbme bs in {@link #equbls(GSSNbmeSpi) equbls} except thbt
+     * no GSSException is thrown; instebd, fblse will be returned in the
+     * situbtion where bn error occurs.
      *
-     * @param another the object to be compared to
-     * @returns true if they both refer to the same entity, else false
-     * @see #equals(GSSNameSpi)
+     * @pbrbm bnother the object to be compbred to
+     * @returns true if they both refer to the sbme entity, else fblse
+     * @see #equbls(GSSNbmeSpi)
      */
-    public boolean equals(Object another);
+    public boolebn equbls(Object bnother);
 
     /**
-     * Returns a hashcode value for this GSSNameSpi.
+     * Returns b hbshcode vblue for this GSSNbmeSpi.
      *
-     * @return a hashCode value
+     * @return b hbshCode vblue
      */
-    public int hashCode();
+    public int hbshCode();
 
     /**
-     * Returns a flat name representation for this object. The name
-     * format is defined in RFC 2078.
+     * Returns b flbt nbme representbtion for this object. The nbme
+     * formbt is defined in RFC 2078.
      *
-     * @return the flat name representation for this object
-     * @exception GSSException with major codes NAME_NOT_MN, BAD_NAME,
+     * @return the flbt nbme representbtion for this object
+     * @exception GSSException with mbjor codes NAME_NOT_MN, BAD_NAME,
      *    BAD_NAME, FAILURE.
      */
     public byte[] export() throws GSSException;
 
 
     /**
-     * Get the mechanism type that this NameElement corresponds to.
+     * Get the mechbnism type thbt this NbmeElement corresponds to.
      *
-     * @return the Oid of the mechanism type
+     * @return the Oid of the mechbnism type
      */
-    public Oid getMechanism();
+    public Oid getMechbnism();
 
     /**
-     * Returns a string representation for this name. The printed
-     * name type can be obtained by calling getStringNameType().
+     * Returns b string representbtion for this nbme. The printed
+     * nbme type cbn be obtbined by cblling getStringNbmeType().
      *
-     * @return string form of this name
-     * @see #getStringNameType()
+     * @return string form of this nbme
+     * @see #getStringNbmeType()
      * @overrides Object#toString
      */
     public String toString();
 
 
     /**
-     * Returns the oid describing the format of the printable name.
+     * Returns the oid describing the formbt of the printbble nbme.
      *
-     * @return the Oid for the format of the printed name
+     * @return the Oid for the formbt of the printed nbme
      */
-    public Oid getStringNameType();
+    public Oid getStringNbmeType();
 
     /**
-     * Indicates if this name object represents an Anonymous name.
+     * Indicbtes if this nbme object represents bn Anonymous nbme.
      */
-    public boolean isAnonymousName();
+    public boolebn isAnonymousNbme();
 }

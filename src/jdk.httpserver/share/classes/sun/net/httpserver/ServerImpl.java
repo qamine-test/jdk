@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.httpserver;
+pbckbge sun.net.httpserver;
 
-import java.net.*;
-import java.io.*;
-import java.nio.channels.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import javax.net.ssl.*;
+import jbvb.net.*;
+import jbvb.io.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.*;
+import jbvb.util.logging.Logger;
+import jbvb.util.logging.Level;
+import jbvbx.net.ssl.*;
 import com.sun.net.httpserver.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.net.httpserver.HttpConnection.State;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.net.httpserver.HttpConnection.Stbte;
 
 /**
- * Provides implementation for both HTTP and HTTPS
+ * Provides implementbtion for both HTTP bnd HTTPS
  */
-class ServerImpl implements TimeSource {
+clbss ServerImpl implements TimeSource {
 
-    private String protocol;
-    private boolean https;
-    private Executor executor;
-    private HttpsConfigurator httpsConfig;
-    private SSLContext sslContext;
-    private ContextList contexts;
-    private InetSocketAddress address;
-    private ServerSocketChannel schan;
-    private Selector selector;
-    private SelectionKey listenerKey;
-    private Set<HttpConnection> idleConnections;
-    private Set<HttpConnection> allConnections;
-    /* following two are used to keep track of the times
-     * when a connection/request is first received
-     * and when we start to send the response
+    privbte String protocol;
+    privbte boolebn https;
+    privbte Executor executor;
+    privbte HttpsConfigurbtor httpsConfig;
+    privbte SSLContext sslContext;
+    privbte ContextList contexts;
+    privbte InetSocketAddress bddress;
+    privbte ServerSocketChbnnel schbn;
+    privbte Selector selector;
+    privbte SelectionKey listenerKey;
+    privbte Set<HttpConnection> idleConnections;
+    privbte Set<HttpConnection> bllConnections;
+    /* following two bre used to keep trbck of the times
+     * when b connection/request is first received
+     * bnd when we stbrt to send the response
      */
-    private Set<HttpConnection> reqConnections;
-    private Set<HttpConnection> rspConnections;
-    private List<Event> events;
-    private Object lolock = new Object();
-    private volatile boolean finished = false;
-    private volatile boolean terminating = false;
-    private boolean bound = false;
-    private boolean started = false;
-    private volatile long time;  /* current time */
-    private volatile long subticks = 0;
-    private volatile long ticks; /* number of clock ticks since server started */
-    private HttpServer wrapper;
+    privbte Set<HttpConnection> reqConnections;
+    privbte Set<HttpConnection> rspConnections;
+    privbte List<Event> events;
+    privbte Object lolock = new Object();
+    privbte volbtile boolebn finished = fblse;
+    privbte volbtile boolebn terminbting = fblse;
+    privbte boolebn bound = fblse;
+    privbte boolebn stbrted = fblse;
+    privbte volbtile long time;  /* current time */
+    privbte volbtile long subticks = 0;
+    privbte volbtile long ticks; /* number of clock ticks since server stbrted */
+    privbte HttpServer wrbpper;
 
-    final static int CLOCK_TICK = ServerConfig.getClockTick();
-    final static long IDLE_INTERVAL = ServerConfig.getIdleInterval();
-    final static int MAX_IDLE_CONNECTIONS = ServerConfig.getMaxIdleConnections();
-    final static long TIMER_MILLIS = ServerConfig.getTimerMillis ();
-    final static long MAX_REQ_TIME=getTimeMillis(ServerConfig.getMaxReqTime());
-    final static long MAX_RSP_TIME=getTimeMillis(ServerConfig.getMaxRspTime());
-    final static boolean timer1Enabled = MAX_REQ_TIME != -1 || MAX_RSP_TIME != -1;
+    finbl stbtic int CLOCK_TICK = ServerConfig.getClockTick();
+    finbl stbtic long IDLE_INTERVAL = ServerConfig.getIdleIntervbl();
+    finbl stbtic int MAX_IDLE_CONNECTIONS = ServerConfig.getMbxIdleConnections();
+    finbl stbtic long TIMER_MILLIS = ServerConfig.getTimerMillis ();
+    finbl stbtic long MAX_REQ_TIME=getTimeMillis(ServerConfig.getMbxReqTime());
+    finbl stbtic long MAX_RSP_TIME=getTimeMillis(ServerConfig.getMbxRspTime());
+    finbl stbtic boolebn timer1Enbbled = MAX_REQ_TIME != -1 || MAX_RSP_TIME != -1;
 
-    private Timer timer, timer1;
-    private Logger logger;
+    privbte Timer timer, timer1;
+    privbte Logger logger;
 
     ServerImpl (
-        HttpServer wrapper, String protocol, InetSocketAddress addr, int backlog
+        HttpServer wrbpper, String protocol, InetSocketAddress bddr, int bbcklog
     ) throws IOException {
 
         this.protocol = protocol;
-        this.wrapper = wrapper;
+        this.wrbpper = wrbpper;
         this.logger = Logger.getLogger ("com.sun.net.httpserver");
-        ServerConfig.checkLegacyProperties (logger);
-        https = protocol.equalsIgnoreCase ("https");
-        this.address = addr;
+        ServerConfig.checkLegbcyProperties (logger);
+        https = protocol.equblsIgnoreCbse ("https");
+        this.bddress = bddr;
         contexts = new ContextList();
-        schan = ServerSocketChannel.open();
-        if (addr != null) {
-            ServerSocket socket = schan.socket();
-            socket.bind (addr, backlog);
+        schbn = ServerSocketChbnnel.open();
+        if (bddr != null) {
+            ServerSocket socket = schbn.socket();
+            socket.bind (bddr, bbcklog);
             bound = true;
         }
         selector = Selector.open ();
-        schan.configureBlocking (false);
-        listenerKey = schan.register (selector, SelectionKey.OP_ACCEPT);
-        dispatcher = new Dispatcher();
-        idleConnections = Collections.synchronizedSet (new HashSet<HttpConnection>());
-        allConnections = Collections.synchronizedSet (new HashSet<HttpConnection>());
-        reqConnections = Collections.synchronizedSet (new HashSet<HttpConnection>());
-        rspConnections = Collections.synchronizedSet (new HashSet<HttpConnection>());
+        schbn.configureBlocking (fblse);
+        listenerKey = schbn.register (selector, SelectionKey.OP_ACCEPT);
+        dispbtcher = new Dispbtcher();
+        idleConnections = Collections.synchronizedSet (new HbshSet<HttpConnection>());
+        bllConnections = Collections.synchronizedSet (new HbshSet<HttpConnection>());
+        reqConnections = Collections.synchronizedSet (new HbshSet<HttpConnection>());
+        rspConnections = Collections.synchronizedSet (new HbshSet<HttpConnection>());
         time = System.currentTimeMillis();
         timer = new Timer ("server-timer", true);
-        timer.schedule (new ServerTimerTask(), CLOCK_TICK, CLOCK_TICK);
-        if (timer1Enabled) {
+        timer.schedule (new ServerTimerTbsk(), CLOCK_TICK, CLOCK_TICK);
+        if (timer1Enbbled) {
             timer1 = new Timer ("server-timer1", true);
-            timer1.schedule (new ServerTimerTask1(),TIMER_MILLIS,TIMER_MILLIS);
-            logger.config ("HttpServer timer1 enabled period in ms:  "+TIMER_MILLIS);
+            timer1.schedule (new ServerTimerTbsk1(),TIMER_MILLIS,TIMER_MILLIS);
+            logger.config ("HttpServer timer1 enbbled period in ms:  "+TIMER_MILLIS);
             logger.config ("MAX_REQ_TIME:  "+MAX_REQ_TIME);
             logger.config ("MAX_RSP_TIME:  "+MAX_RSP_TIME);
         }
         events = new LinkedList<Event>();
-        logger.config ("HttpServer created "+protocol+" "+ addr);
+        logger.config ("HttpServer crebted "+protocol+" "+ bddr);
     }
 
-    public void bind (InetSocketAddress addr, int backlog) throws IOException {
+    public void bind (InetSocketAddress bddr, int bbcklog) throws IOException {
         if (bound) {
-            throw new BindException ("HttpServer already bound");
+            throw new BindException ("HttpServer blrebdy bound");
         }
-        if (addr == null) {
-            throw new NullPointerException ("null address");
+        if (bddr == null) {
+            throw new NullPointerException ("null bddress");
         }
-        ServerSocket socket = schan.socket();
-        socket.bind (addr, backlog);
+        ServerSocket socket = schbn.socket();
+        socket.bind (bddr, bbcklog);
         bound = true;
     }
 
-    public void start () {
-        if (!bound || started || finished) {
-            throw new IllegalStateException ("server in wrong state");
+    public void stbrt () {
+        if (!bound || stbrted || finished) {
+            throw new IllegblStbteException ("server in wrong stbte");
         }
         if (executor == null) {
-            executor = new DefaultExecutor();
+            executor = new DefbultExecutor();
         }
-        Thread t = new Thread (dispatcher);
-        started = true;
-        t.start();
+        Threbd t = new Threbd (dispbtcher);
+        stbrted = true;
+        t.stbrt();
     }
 
     public void setExecutor (Executor executor) {
-        if (started) {
-            throw new IllegalStateException ("server already started");
+        if (stbrted) {
+            throw new IllegblStbteException ("server blrebdy stbrted");
         }
         this.executor = executor;
     }
 
-    private static class DefaultExecutor implements Executor {
-        public void execute (Runnable task) {
-            task.run();
+    privbte stbtic clbss DefbultExecutor implements Executor {
+        public void execute (Runnbble tbsk) {
+            tbsk.run();
         }
     }
 
@@ -163,86 +163,86 @@ class ServerImpl implements TimeSource {
         return executor;
     }
 
-    public void setHttpsConfigurator (HttpsConfigurator config) {
+    public void setHttpsConfigurbtor (HttpsConfigurbtor config) {
         if (config == null) {
-            throw new NullPointerException ("null HttpsConfigurator");
+            throw new NullPointerException ("null HttpsConfigurbtor");
         }
-        if (started) {
-            throw new IllegalStateException ("server already started");
+        if (stbrted) {
+            throw new IllegblStbteException ("server blrebdy stbrted");
         }
         this.httpsConfig = config;
         sslContext = config.getSSLContext();
     }
 
-    public HttpsConfigurator getHttpsConfigurator () {
+    public HttpsConfigurbtor getHttpsConfigurbtor () {
         return httpsConfig;
     }
 
-    public void stop (int delay) {
-        if (delay < 0) {
-            throw new IllegalArgumentException ("negative delay parameter");
+    public void stop (int delby) {
+        if (delby < 0) {
+            throw new IllegblArgumentException ("negbtive delby pbrbmeter");
         }
-        terminating = true;
-        try { schan.close(); } catch (IOException e) {}
-        selector.wakeup();
-        long latest = System.currentTimeMillis() + delay * 1000;
-        while (System.currentTimeMillis() < latest) {
-            delay();
+        terminbting = true;
+        try { schbn.close(); } cbtch (IOException e) {}
+        selector.wbkeup();
+        long lbtest = System.currentTimeMillis() + delby * 1000;
+        while (System.currentTimeMillis() < lbtest) {
+            delby();
             if (finished) {
-                break;
+                brebk;
             }
         }
         finished = true;
-        selector.wakeup();
-        synchronized (allConnections) {
-            for (HttpConnection c : allConnections) {
+        selector.wbkeup();
+        synchronized (bllConnections) {
+            for (HttpConnection c : bllConnections) {
                 c.close();
             }
         }
-        allConnections.clear();
-        idleConnections.clear();
-        timer.cancel();
-        if (timer1Enabled) {
-            timer1.cancel();
+        bllConnections.clebr();
+        idleConnections.clebr();
+        timer.cbncel();
+        if (timer1Enbbled) {
+            timer1.cbncel();
         }
     }
 
-    Dispatcher dispatcher;
+    Dispbtcher dispbtcher;
 
-    public synchronized HttpContextImpl createContext (String path, HttpHandler handler) {
-        if (handler == null || path == null) {
-            throw new NullPointerException ("null handler, or path parameter");
+    public synchronized HttpContextImpl crebteContext (String pbth, HttpHbndler hbndler) {
+        if (hbndler == null || pbth == null) {
+            throw new NullPointerException ("null hbndler, or pbth pbrbmeter");
         }
-        HttpContextImpl context = new HttpContextImpl (protocol, path, handler, this);
-        contexts.add (context);
-        logger.config ("context created: " + path);
+        HttpContextImpl context = new HttpContextImpl (protocol, pbth, hbndler, this);
+        contexts.bdd (context);
+        logger.config ("context crebted: " + pbth);
         return context;
     }
 
-    public synchronized HttpContextImpl createContext (String path) {
-        if (path == null) {
-            throw new NullPointerException ("null path parameter");
+    public synchronized HttpContextImpl crebteContext (String pbth) {
+        if (pbth == null) {
+            throw new NullPointerException ("null pbth pbrbmeter");
         }
-        HttpContextImpl context = new HttpContextImpl (protocol, path, null, this);
-        contexts.add (context);
-        logger.config ("context created: " + path);
+        HttpContextImpl context = new HttpContextImpl (protocol, pbth, null, this);
+        contexts.bdd (context);
+        logger.config ("context crebted: " + pbth);
         return context;
     }
 
-    public synchronized void removeContext (String path) throws IllegalArgumentException {
-        if (path == null) {
-            throw new NullPointerException ("null path parameter");
+    public synchronized void removeContext (String pbth) throws IllegblArgumentException {
+        if (pbth == null) {
+            throw new NullPointerException ("null pbth pbrbmeter");
         }
-        contexts.remove (protocol, path);
-        logger.config ("context removed: " + path);
+        contexts.remove (protocol, pbth);
+        logger.config ("context removed: " + pbth);
     }
 
-    public synchronized void removeContext (HttpContext context) throws IllegalArgumentException {
-        if (!(context instanceof HttpContextImpl)) {
-            throw new IllegalArgumentException ("wrong HttpContext type");
+    public synchronized void removeContext (HttpContext context) throws IllegblArgumentException {
+        if (!(context instbnceof HttpContextImpl)) {
+            throw new IllegblArgumentException ("wrong HttpContext type");
         }
         contexts.remove ((HttpContextImpl)context);
-        logger.config ("context removed: " + context.getPath());
+        logger.config ("context removed: " + context.getPbth());
     }
 
     public InetSocketAddress getAddress() {
@@ -250,8 +250,8 @@ class ServerImpl implements TimeSource {
                 new PrivilegedAction<InetSocketAddress>() {
                     public InetSocketAddress run() {
                         return
-                            (InetSocketAddress)schan.socket()
-                                .getLocalSocketAddress();
+                            (InetSocketAddress)schbn.socket()
+                                .getLocblSocketAddress();
                     }
                 });
     }
@@ -260,69 +260,69 @@ class ServerImpl implements TimeSource {
         return selector;
     }
 
-    void addEvent (Event r) {
+    void bddEvent (Event r) {
         synchronized (lolock) {
-            events.add (r);
-            selector.wakeup();
+            events.bdd (r);
+            selector.wbkeup();
         }
     }
 
-    /* main server listener task */
+    /* mbin server listener tbsk */
 
-    class Dispatcher implements Runnable {
+    clbss Dispbtcher implements Runnbble {
 
-        private void handleEvent (Event r) {
-            ExchangeImpl t = r.exchange;
+        privbte void hbndleEvent (Event r) {
+            ExchbngeImpl t = r.exchbnge;
             HttpConnection c = t.getConnection();
             try {
-                if (r instanceof WriteFinishedEvent) {
+                if (r instbnceof WriteFinishedEvent) {
 
-                    int exchanges = endExchange();
-                    if (terminating && exchanges == 0) {
+                    int exchbnges = endExchbnge();
+                    if (terminbting && exchbnges == 0) {
                         finished = true;
                     }
                     responseCompleted (c);
-                    LeftOverInputStream is = t.getOriginalInputStream();
+                    LeftOverInputStrebm is = t.getOriginblInputStrebm();
                     if (!is.isEOF()) {
                         t.close = true;
                     }
                     if (t.close || idleConnections.size() >= MAX_IDLE_CONNECTIONS) {
                         c.close();
-                        allConnections.remove (c);
+                        bllConnections.remove (c);
                     } else {
-                        if (is.isDataBuffered()) {
-                            /* don't re-enable the interestops, just handle it */
-                            requestStarted (c);
-                            handle (c.getChannel(), c);
+                        if (is.isDbtbBuffered()) {
+                            /* don't re-enbble the interestops, just hbndle it */
+                            requestStbrted (c);
+                            hbndle (c.getChbnnel(), c);
                         } else {
-                            connsToRegister.add (c);
+                            connsToRegister.bdd (c);
                         }
                     }
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 logger.log (
-                    Level.FINER, "Dispatcher (1)", e
+                    Level.FINER, "Dispbtcher (1)", e
                 );
                 c.close();
             }
         }
 
-        final LinkedList<HttpConnection> connsToRegister =
+        finbl LinkedList<HttpConnection> connsToRegister =
                 new LinkedList<HttpConnection>();
 
         void reRegister (HttpConnection c) {
             /* re-register with selector */
             try {
-                SocketChannel chan = c.getChannel();
-                chan.configureBlocking (false);
-                SelectionKey key = chan.register (selector, SelectionKey.OP_READ);
-                key.attach (c);
+                SocketChbnnel chbn = c.getChbnnel();
+                chbn.configureBlocking (fblse);
+                SelectionKey key = chbn.register (selector, SelectionKey.OP_READ);
+                key.bttbch (c);
                 c.selectionKey = key;
                 c.time = getTime() + IDLE_INTERVAL;
-                idleConnections.add (c);
-            } catch (IOException e) {
+                idleConnections.bdd (c);
+            } cbtch (IOException e) {
                 dprint(e);
-                logger.log(Level.FINER, "Dispatcher(8)", e);
+                logger.log(Level.FINER, "Dispbtcher(8)", e);
                 c.close();
             }
         }
@@ -340,117 +340,117 @@ class ServerImpl implements TimeSource {
 
                     if (list != null) {
                         for (Event r: list) {
-                            handleEvent (r);
+                            hbndleEvent (r);
                         }
                     }
 
                     for (HttpConnection c : connsToRegister) {
                         reRegister(c);
                     }
-                    connsToRegister.clear();
+                    connsToRegister.clebr();
 
                     selector.select(1000);
 
                     /* process the selected list now  */
                     Set<SelectionKey> selected = selector.selectedKeys();
-                    Iterator<SelectionKey> iter = selected.iterator();
-                    while (iter.hasNext()) {
+                    Iterbtor<SelectionKey> iter = selected.iterbtor();
+                    while (iter.hbsNext()) {
                         SelectionKey key = iter.next();
                         iter.remove ();
-                        if (key.equals (listenerKey)) {
-                            if (terminating) {
+                        if (key.equbls (listenerKey)) {
+                            if (terminbting) {
                                 continue;
                             }
-                            SocketChannel chan = schan.accept();
+                            SocketChbnnel chbn = schbn.bccept();
 
-                            // Set TCP_NODELAY, if appropriate
-                            if (ServerConfig.noDelay()) {
-                                chan.socket().setTcpNoDelay(true);
+                            // Set TCP_NODELAY, if bppropribte
+                            if (ServerConfig.noDelby()) {
+                                chbn.socket().setTcpNoDelby(true);
                             }
 
-                            if (chan == null) {
-                                continue; /* cancel something ? */
+                            if (chbn == null) {
+                                continue; /* cbncel something ? */
                             }
-                            chan.configureBlocking (false);
-                            SelectionKey newkey = chan.register (selector, SelectionKey.OP_READ);
+                            chbn.configureBlocking (fblse);
+                            SelectionKey newkey = chbn.register (selector, SelectionKey.OP_READ);
                             HttpConnection c = new HttpConnection ();
                             c.selectionKey = newkey;
-                            c.setChannel (chan);
-                            newkey.attach (c);
-                            requestStarted (c);
-                            allConnections.add (c);
+                            c.setChbnnel (chbn);
+                            newkey.bttbch (c);
+                            requestStbrted (c);
+                            bllConnections.bdd (c);
                         } else {
                             try {
-                                if (key.isReadable()) {
-                                    boolean closed;
-                                    SocketChannel chan = (SocketChannel)key.channel();
-                                    HttpConnection conn = (HttpConnection)key.attachment();
+                                if (key.isRebdbble()) {
+                                    boolebn closed;
+                                    SocketChbnnel chbn = (SocketChbnnel)key.chbnnel();
+                                    HttpConnection conn = (HttpConnection)key.bttbchment();
 
-                                    key.cancel();
-                                    chan.configureBlocking (true);
+                                    key.cbncel();
+                                    chbn.configureBlocking (true);
                                     if (idleConnections.remove(conn)) {
-                                        // was an idle connection so add it
+                                        // wbs bn idle connection so bdd it
                                         // to reqConnections set.
-                                        requestStarted (conn);
+                                        requestStbrted (conn);
                                     }
-                                    handle (chan, conn);
+                                    hbndle (chbn, conn);
                                 } else {
-                                    assert false;
+                                    bssert fblse;
                                 }
-                            } catch (CancelledKeyException e) {
-                                handleException(key, null);
-                            } catch (IOException e) {
-                                handleException(key, e);
+                            } cbtch (CbncelledKeyException e) {
+                                hbndleException(key, null);
+                            } cbtch (IOException e) {
+                                hbndleException(key, e);
                             }
                         }
                     }
-                    // call the selector just to process the cancelled keys
+                    // cbll the selector just to process the cbncelled keys
                     selector.selectNow();
-                } catch (IOException e) {
-                    logger.log (Level.FINER, "Dispatcher (4)", e);
-                } catch (Exception e) {
-                    logger.log (Level.FINER, "Dispatcher (7)", e);
+                } cbtch (IOException e) {
+                    logger.log (Level.FINER, "Dispbtcher (4)", e);
+                } cbtch (Exception e) {
+                    logger.log (Level.FINER, "Dispbtcher (7)", e);
                 }
             }
-            try {selector.close(); } catch (Exception e) {}
+            try {selector.close(); } cbtch (Exception e) {}
         }
 
-        private void handleException (SelectionKey key, Exception e) {
-            HttpConnection conn = (HttpConnection)key.attachment();
+        privbte void hbndleException (SelectionKey key, Exception e) {
+            HttpConnection conn = (HttpConnection)key.bttbchment();
             if (e != null) {
-                logger.log (Level.FINER, "Dispatcher (2)", e);
+                logger.log (Level.FINER, "Dispbtcher (2)", e);
             }
             closeConnection(conn);
         }
 
-        public void handle (SocketChannel chan, HttpConnection conn)
+        public void hbndle (SocketChbnnel chbn, HttpConnection conn)
         throws IOException
         {
             try {
-                Exchange t = new Exchange (chan, protocol, conn);
+                Exchbnge t = new Exchbnge (chbn, protocol, conn);
                 executor.execute (t);
-            } catch (HttpError e1) {
-                logger.log (Level.FINER, "Dispatcher (4)", e1);
+            } cbtch (HttpError e1) {
+                logger.log (Level.FINER, "Dispbtcher (4)", e1);
                 closeConnection(conn);
-            } catch (IOException e) {
-                logger.log (Level.FINER, "Dispatcher (5)", e);
+            } cbtch (IOException e) {
+                logger.log (Level.FINER, "Dispbtcher (5)", e);
                 closeConnection(conn);
             }
         }
     }
 
-    static boolean debug = ServerConfig.debugEnabled ();
+    stbtic boolebn debug = ServerConfig.debugEnbbled ();
 
-    static synchronized void dprint (String s) {
+    stbtic synchronized void dprint (String s) {
         if (debug) {
             System.out.println (s);
         }
     }
 
-    static synchronized void dprint (Exception e) {
+    stbtic synchronized void dprint (Exception e) {
         if (debug) {
             System.out.println (e);
-            e.printStackTrace();
+            e.printStbckTrbce();
         }
     }
 
@@ -458,40 +458,40 @@ class ServerImpl implements TimeSource {
         return logger;
     }
 
-    private void closeConnection(HttpConnection conn) {
+    privbte void closeConnection(HttpConnection conn) {
         conn.close();
-        allConnections.remove(conn);
-        switch (conn.getState()) {
-        case REQUEST:
+        bllConnections.remove(conn);
+        switch (conn.getStbte()) {
+        cbse REQUEST:
             reqConnections.remove(conn);
-            break;
-        case RESPONSE:
+            brebk;
+        cbse RESPONSE:
             rspConnections.remove(conn);
-            break;
-        case IDLE:
+            brebk;
+        cbse IDLE:
             idleConnections.remove(conn);
-            break;
+            brebk;
         }
-        assert !reqConnections.remove(conn);
-        assert !rspConnections.remove(conn);
-        assert !idleConnections.remove(conn);
+        bssert !reqConnections.remove(conn);
+        bssert !rspConnections.remove(conn);
+        bssert !idleConnections.remove(conn);
     }
 
-        /* per exchange task */
+        /* per exchbnge tbsk */
 
-    class Exchange implements Runnable {
-        SocketChannel chan;
+    clbss Exchbnge implements Runnbble {
+        SocketChbnnel chbn;
         HttpConnection connection;
         HttpContextImpl context;
-        InputStream rawin;
-        OutputStream rawout;
+        InputStrebm rbwin;
+        OutputStrebm rbwout;
         String protocol;
-        ExchangeImpl tx;
+        ExchbngeImpl tx;
         HttpContextImpl ctx;
-        boolean rejected = false;
+        boolebn rejected = fblse;
 
-        Exchange (SocketChannel chan, String protocol, HttpConnection conn) throws IOException {
-            this.chan = chan;
+        Exchbnge (SocketChbnnel chbn, String protocol, HttpConnection conn) throws IOException {
+            this.chbn = chbn;
             this.connection = conn;
             this.protocol = protocol;
         }
@@ -499,220 +499,220 @@ class ServerImpl implements TimeSource {
         public void run () {
             /* context will be null for new connections */
             context = connection.getHttpContext();
-            boolean newconnection;
+            boolebn newconnection;
             SSLEngine engine = null;
             String requestLine = null;
-            SSLStreams sslStreams = null;
+            SSLStrebms sslStrebms = null;
             try {
                 if (context != null ) {
-                    this.rawin = connection.getInputStream();
-                    this.rawout = connection.getRawOutputStream();
-                    newconnection = false;
+                    this.rbwin = connection.getInputStrebm();
+                    this.rbwout = connection.getRbwOutputStrebm();
+                    newconnection = fblse;
                 } else {
-                    /* figure out what kind of connection this is */
+                    /* figure out whbt kind of connection this is */
                     newconnection = true;
                     if (https) {
                         if (sslContext == null) {
-                            logger.warning ("SSL connection received. No https contxt created");
-                            throw new HttpError ("No SSL context established");
+                            logger.wbrning ("SSL connection received. No https contxt crebted");
+                            throw new HttpError ("No SSL context estbblished");
                         }
-                        sslStreams = new SSLStreams (ServerImpl.this, sslContext, chan);
-                        rawin = sslStreams.getInputStream();
-                        rawout = sslStreams.getOutputStream();
-                        engine = sslStreams.getSSLEngine();
-                        connection.sslStreams = sslStreams;
+                        sslStrebms = new SSLStrebms (ServerImpl.this, sslContext, chbn);
+                        rbwin = sslStrebms.getInputStrebm();
+                        rbwout = sslStrebms.getOutputStrebm();
+                        engine = sslStrebms.getSSLEngine();
+                        connection.sslStrebms = sslStrebms;
                     } else {
-                        rawin = new BufferedInputStream(
-                            new Request.ReadStream (
-                                ServerImpl.this, chan
+                        rbwin = new BufferedInputStrebm(
+                            new Request.RebdStrebm (
+                                ServerImpl.this, chbn
                         ));
-                        rawout = new Request.WriteStream (
-                            ServerImpl.this, chan
+                        rbwout = new Request.WriteStrebm (
+                            ServerImpl.this, chbn
                         );
                     }
-                    connection.raw = rawin;
-                    connection.rawout = rawout;
+                    connection.rbw = rbwin;
+                    connection.rbwout = rbwout;
                 }
-                Request req = new Request (rawin, rawout);
+                Request req = new Request (rbwin, rbwout);
                 requestLine = req.requestLine();
                 if (requestLine == null) {
                     /* connection closed */
                     closeConnection(connection);
                     return;
                 }
-                int space = requestLine.indexOf (' ');
-                if (space == -1) {
+                int spbce = requestLine.indexOf (' ');
+                if (spbce == -1) {
                     reject (Code.HTTP_BAD_REQUEST,
-                            requestLine, "Bad request line");
+                            requestLine, "Bbd request line");
                     return;
                 }
-                String method = requestLine.substring (0, space);
-                int start = space+1;
-                space = requestLine.indexOf(' ', start);
-                if (space == -1) {
+                String method = requestLine.substring (0, spbce);
+                int stbrt = spbce+1;
+                spbce = requestLine.indexOf(' ', stbrt);
+                if (spbce == -1) {
                     reject (Code.HTTP_BAD_REQUEST,
-                            requestLine, "Bad request line");
+                            requestLine, "Bbd request line");
                     return;
                 }
-                String uriStr = requestLine.substring (start, space);
+                String uriStr = requestLine.substring (stbrt, spbce);
                 URI uri = new URI (uriStr);
-                start = space+1;
-                String version = requestLine.substring (start);
-                Headers headers = req.headers();
-                String s = headers.getFirst ("Transfer-encoding");
+                stbrt = spbce+1;
+                String version = requestLine.substring (stbrt);
+                Hebders hebders = req.hebders();
+                String s = hebders.getFirst ("Trbnsfer-encoding");
                 long clen = 0L;
-                if (s !=null && s.equalsIgnoreCase ("chunked")) {
+                if (s !=null && s.equblsIgnoreCbse ("chunked")) {
                     clen = -1L;
                 } else {
-                    s = headers.getFirst ("Content-Length");
+                    s = hebders.getFirst ("Content-Length");
                     if (s != null) {
-                        clen = Long.parseLong(s);
+                        clen = Long.pbrseLong(s);
                     }
                     if (clen == 0) {
                         requestCompleted (connection);
                     }
                 }
-                ctx = contexts.findContext (protocol, uri.getPath());
+                ctx = contexts.findContext (protocol, uri.getPbth());
                 if (ctx == null) {
                     reject (Code.HTTP_NOT_FOUND,
                             requestLine, "No context found for request");
                     return;
                 }
                 connection.setContext (ctx);
-                if (ctx.getHandler() == null) {
+                if (ctx.getHbndler() == null) {
                     reject (Code.HTTP_INTERNAL_ERROR,
-                            requestLine, "No handler for context");
+                            requestLine, "No hbndler for context");
                     return;
                 }
-                tx = new ExchangeImpl (
+                tx = new ExchbngeImpl (
                     method, uri, req, clen, connection
                 );
-                String chdr = headers.getFirst("Connection");
-                Headers rheaders = tx.getResponseHeaders();
+                String chdr = hebders.getFirst("Connection");
+                Hebders rhebders = tx.getResponseHebders();
 
-                if (chdr != null && chdr.equalsIgnoreCase ("close")) {
+                if (chdr != null && chdr.equblsIgnoreCbse ("close")) {
                     tx.close = true;
                 }
-                if (version.equalsIgnoreCase ("http/1.0")) {
+                if (version.equblsIgnoreCbse ("http/1.0")) {
                     tx.http10 = true;
                     if (chdr == null) {
                         tx.close = true;
-                        rheaders.set ("Connection", "close");
-                    } else if (chdr.equalsIgnoreCase ("keep-alive")) {
-                        rheaders.set ("Connection", "keep-alive");
-                        int idle=(int)(ServerConfig.getIdleInterval()/1000);
-                        int max=ServerConfig.getMaxIdleConnections();
-                        String val = "timeout="+idle+", max="+max;
-                        rheaders.set ("Keep-Alive", val);
+                        rhebders.set ("Connection", "close");
+                    } else if (chdr.equblsIgnoreCbse ("keep-blive")) {
+                        rhebders.set ("Connection", "keep-blive");
+                        int idle=(int)(ServerConfig.getIdleIntervbl()/1000);
+                        int mbx=ServerConfig.getMbxIdleConnections();
+                        String vbl = "timeout="+idle+", mbx="+mbx;
+                        rhebders.set ("Keep-Alive", vbl);
                     }
                 }
 
                 if (newconnection) {
-                    connection.setParameters (
-                        rawin, rawout, chan, engine, sslStreams,
-                        sslContext, protocol, ctx, rawin
+                    connection.setPbrbmeters (
+                        rbwin, rbwout, chbn, engine, sslStrebms,
+                        sslContext, protocol, ctx, rbwin
                     );
                 }
-                /* check if client sent an Expect 100 Continue.
-                 * In that case, need to send an interim response.
-                 * In future API may be modified to allow app to
+                /* check if client sent bn Expect 100 Continue.
+                 * In thbt cbse, need to send bn interim response.
+                 * In future API mby be modified to bllow bpp to
                  * be involved in this process.
                  */
-                String exp = headers.getFirst("Expect");
-                if (exp != null && exp.equalsIgnoreCase ("100-continue")) {
+                String exp = hebders.getFirst("Expect");
+                if (exp != null && exp.equblsIgnoreCbse ("100-continue")) {
                     logReply (100, requestLine, null);
                     sendReply (
-                        Code.HTTP_CONTINUE, false, null
+                        Code.HTTP_CONTINUE, fblse, null
                     );
                 }
                 /* uf is the list of filters seen/set by the user.
-                 * sf is the list of filters established internally
-                 * and which are not visible to the user. uc and sc
-                 * are the corresponding Filter.Chains.
-                 * They are linked together by a LinkHandler
-                 * so that they can both be invoked in one call.
+                 * sf is the list of filters estbblished internblly
+                 * bnd which bre not visible to the user. uc bnd sc
+                 * bre the corresponding Filter.Chbins.
+                 * They bre linked together by b LinkHbndler
+                 * so thbt they cbn both be invoked in one cbll.
                  */
                 List<Filter> sf = ctx.getSystemFilters();
                 List<Filter> uf = ctx.getFilters();
 
-                Filter.Chain sc = new Filter.Chain(sf, ctx.getHandler());
-                Filter.Chain uc = new Filter.Chain(uf, new LinkHandler (sc));
+                Filter.Chbin sc = new Filter.Chbin(sf, ctx.getHbndler());
+                Filter.Chbin uc = new Filter.Chbin(uf, new LinkHbndler (sc));
 
-                /* set up the two stream references */
+                /* set up the two strebm references */
                 tx.getRequestBody();
                 tx.getResponseBody();
                 if (https) {
-                    uc.doFilter (new HttpsExchangeImpl (tx));
+                    uc.doFilter (new HttpsExchbngeImpl (tx));
                 } else {
-                    uc.doFilter (new HttpExchangeImpl (tx));
+                    uc.doFilter (new HttpExchbngeImpl (tx));
                 }
 
-            } catch (IOException e1) {
-                logger.log (Level.FINER, "ServerImpl.Exchange (1)", e1);
+            } cbtch (IOException e1) {
+                logger.log (Level.FINER, "ServerImpl.Exchbnge (1)", e1);
                 closeConnection(connection);
-            } catch (NumberFormatException e3) {
+            } cbtch (NumberFormbtException e3) {
                 reject (Code.HTTP_BAD_REQUEST,
-                        requestLine, "NumberFormatException thrown");
-            } catch (URISyntaxException e) {
+                        requestLine, "NumberFormbtException thrown");
+            } cbtch (URISyntbxException e) {
                 reject (Code.HTTP_BAD_REQUEST,
-                        requestLine, "URISyntaxException thrown");
-            } catch (Exception e4) {
-                logger.log (Level.FINER, "ServerImpl.Exchange (2)", e4);
+                        requestLine, "URISyntbxException thrown");
+            } cbtch (Exception e4) {
+                logger.log (Level.FINER, "ServerImpl.Exchbnge (2)", e4);
                 closeConnection(connection);
             }
         }
 
-        /* used to link to 2 or more Filter.Chains together */
+        /* used to link to 2 or more Filter.Chbins together */
 
-        class LinkHandler implements HttpHandler {
-            Filter.Chain nextChain;
+        clbss LinkHbndler implements HttpHbndler {
+            Filter.Chbin nextChbin;
 
-            LinkHandler (Filter.Chain nextChain) {
-                this.nextChain = nextChain;
+            LinkHbndler (Filter.Chbin nextChbin) {
+                this.nextChbin = nextChbin;
             }
 
-            public void handle (HttpExchange exchange) throws IOException {
-                nextChain.doFilter (exchange);
+            public void hbndle (HttpExchbnge exchbnge) throws IOException {
+                nextChbin.doFilter (exchbnge);
             }
         }
 
-        void reject (int code, String requestStr, String message) {
+        void reject (int code, String requestStr, String messbge) {
             rejected = true;
-            logReply (code, requestStr, message);
+            logReply (code, requestStr, messbge);
             sendReply (
-                code, false, "<h1>"+code+Code.msg(code)+"</h1>"+message
+                code, fblse, "<h1>"+code+Code.msg(code)+"</h1>"+messbge
             );
             closeConnection(connection);
         }
 
         void sendReply (
-            int code, boolean closeNow, String text)
+            int code, boolebn closeNow, String text)
         {
             try {
                 StringBuilder builder = new StringBuilder (512);
-                builder.append ("HTTP/1.1 ")
-                    .append (code).append (Code.msg(code)).append ("\r\n");
+                builder.bppend ("HTTP/1.1 ")
+                    .bppend (code).bppend (Code.msg(code)).bppend ("\r\n");
 
                 if (text != null && text.length() != 0) {
-                    builder.append ("Content-Length: ")
-                        .append (text.length()).append ("\r\n")
-                        .append ("Content-Type: text/html\r\n");
+                    builder.bppend ("Content-Length: ")
+                        .bppend (text.length()).bppend ("\r\n")
+                        .bppend ("Content-Type: text/html\r\n");
                 } else {
-                    builder.append ("Content-Length: 0\r\n");
+                    builder.bppend ("Content-Length: 0\r\n");
                     text = "";
                 }
                 if (closeNow) {
-                    builder.append ("Connection: close\r\n");
+                    builder.bppend ("Connection: close\r\n");
                 }
-                builder.append ("\r\n").append (text);
+                builder.bppend ("\r\n").bppend (text);
                 String s = builder.toString();
                 byte[] b = s.getBytes("ISO8859_1");
-                rawout.write (b);
-                rawout.flush();
+                rbwout.write (b);
+                rbwout.flush();
                 if (closeNow) {
                     closeConnection(connection);
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 logger.log (Level.FINER, "ServerImpl.sendReply", e);
                 closeConnection(connection);
             }
@@ -721,7 +721,7 @@ class ServerImpl implements TimeSource {
     }
 
     void logReply (int code, String requestStr, String text) {
-        if (!logger.isLoggable(Level.FINE)) {
+        if (!logger.isLoggbble(Level.FINE)) {
             return;
         }
         if (text == null) {
@@ -733,9 +733,9 @@ class ServerImpl implements TimeSource {
         } else {
            r = requestStr;
         }
-        String message = r + " [" + code + " " +
+        String messbge = r + " [" + code + " " +
                     Code.msg(code) + "] ("+text+")";
-        logger.fine (message);
+        logger.fine (messbge);
     }
 
     long getTicks() {
@@ -746,61 +746,61 @@ class ServerImpl implements TimeSource {
         return time;
     }
 
-    void delay () {
-        Thread.yield();
+    void delby () {
+        Threbd.yield();
         try {
-            Thread.sleep (200);
-        } catch (InterruptedException e) {}
+            Threbd.sleep (200);
+        } cbtch (InterruptedException e) {}
     }
 
-    private int exchangeCount = 0;
+    privbte int exchbngeCount = 0;
 
-    synchronized void startExchange () {
-        exchangeCount ++;
+    synchronized void stbrtExchbnge () {
+        exchbngeCount ++;
     }
 
-    synchronized int endExchange () {
-        exchangeCount --;
-        assert exchangeCount >= 0;
-        return exchangeCount;
+    synchronized int endExchbnge () {
+        exchbngeCount --;
+        bssert exchbngeCount >= 0;
+        return exchbngeCount;
     }
 
-    HttpServer getWrapper () {
-        return wrapper;
+    HttpServer getWrbpper () {
+        return wrbpper;
     }
 
-    void requestStarted (HttpConnection c) {
-        c.creationTime = getTime();
-        c.setState (State.REQUEST);
-        reqConnections.add (c);
+    void requestStbrted (HttpConnection c) {
+        c.crebtionTime = getTime();
+        c.setStbte (Stbte.REQUEST);
+        reqConnections.bdd (c);
     }
 
-    // called after a request has been completely read
+    // cblled bfter b request hbs been completely rebd
     // by the server. This stops the timer which would
-    // close the connection if the request doesn't arrive
-    // quickly enough. It then starts the timer
-    // that ensures the client reads the response in a timely
-    // fashion.
+    // close the connection if the request doesn't brrive
+    // quickly enough. It then stbrts the timer
+    // thbt ensures the client rebds the response in b timely
+    // fbshion.
 
     void requestCompleted (HttpConnection c) {
-        assert c.getState() == State.REQUEST;
+        bssert c.getStbte() == Stbte.REQUEST;
         reqConnections.remove (c);
-        c.rspStartedTime = getTime();
-        rspConnections.add (c);
-        c.setState (State.RESPONSE);
+        c.rspStbrtedTime = getTime();
+        rspConnections.bdd (c);
+        c.setStbte (Stbte.RESPONSE);
     }
 
-    // called after response has been sent
+    // cblled bfter response hbs been sent
     void responseCompleted (HttpConnection c) {
-        assert c.getState() == State.RESPONSE;
+        bssert c.getStbte() == Stbte.RESPONSE;
         rspConnections.remove (c);
-        c.setState (State.IDLE);
+        c.setStbte (Stbte.IDLE);
     }
 
     /**
-     * TimerTask run every CLOCK_TICK ms
+     * TimerTbsk run every CLOCK_TICK ms
      */
-    class ServerTimerTask extends TimerTask {
+    clbss ServerTimerTbsk extends TimerTbsk {
         public void run () {
             LinkedList<HttpConnection> toClose = new LinkedList<HttpConnection>();
             time = System.currentTimeMillis();
@@ -808,19 +808,19 @@ class ServerImpl implements TimeSource {
             synchronized (idleConnections) {
                 for (HttpConnection c : idleConnections) {
                     if (c.time <= time) {
-                        toClose.add (c);
+                        toClose.bdd (c);
                     }
                 }
                 for (HttpConnection c : toClose) {
                     idleConnections.remove (c);
-                    allConnections.remove (c);
+                    bllConnections.remove (c);
                     c.close();
                 }
             }
         }
     }
 
-    class ServerTimerTask1 extends TimerTask {
+    clbss ServerTimerTbsk1 extends TimerTbsk {
 
         // runs every TIMER_MILLIS
         public void run () {
@@ -829,14 +829,14 @@ class ServerImpl implements TimeSource {
             synchronized (reqConnections) {
                 if (MAX_REQ_TIME != -1) {
                     for (HttpConnection c : reqConnections) {
-                        if (c.creationTime + TIMER_MILLIS + MAX_REQ_TIME <= time) {
-                            toClose.add (c);
+                        if (c.crebtionTime + TIMER_MILLIS + MAX_REQ_TIME <= time) {
+                            toClose.bdd (c);
                         }
                     }
                     for (HttpConnection c : toClose) {
                         logger.log (Level.FINE, "closing: no request: " + c);
                         reqConnections.remove (c);
-                        allConnections.remove (c);
+                        bllConnections.remove (c);
                         c.close();
                     }
                 }
@@ -845,14 +845,14 @@ class ServerImpl implements TimeSource {
             synchronized (rspConnections) {
                 if (MAX_RSP_TIME != -1) {
                     for (HttpConnection c : rspConnections) {
-                        if (c.rspStartedTime + TIMER_MILLIS +MAX_RSP_TIME <= time) {
-                            toClose.add (c);
+                        if (c.rspStbrtedTime + TIMER_MILLIS +MAX_RSP_TIME <= time) {
+                            toClose.bdd (c);
                         }
                     }
                     for (HttpConnection c : toClose) {
                         logger.log (Level.FINE, "closing: no response: " + c);
                         rspConnections.remove (c);
-                        allConnections.remove (c);
+                        bllConnections.remove (c);
                         c.close();
                     }
                 }
@@ -860,17 +860,17 @@ class ServerImpl implements TimeSource {
         }
     }
 
-    void logStackTrace (String s) {
+    void logStbckTrbce (String s) {
         logger.finest (s);
         StringBuilder b = new StringBuilder ();
-        StackTraceElement[] e = Thread.currentThread().getStackTrace();
+        StbckTrbceElement[] e = Threbd.currentThrebd().getStbckTrbce();
         for (int i=0; i<e.length; i++) {
-            b.append (e[i].toString()).append("\n");
+            b.bppend (e[i].toString()).bppend("\n");
         }
         logger.finest (b.toString());
     }
 
-    static long getTimeMillis(long secs) {
+    stbtic long getTimeMillis(long secs) {
         if (secs == -1) {
             return -1;
         } else {

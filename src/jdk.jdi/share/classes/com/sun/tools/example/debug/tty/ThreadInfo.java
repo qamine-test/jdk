@@ -1,296 +1,296 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbckbge com.sun.tools.exbmple.debug.tty;
 
-import com.sun.jdi.ThreadReference;
-import com.sun.jdi.ThreadGroupReference;
-import com.sun.jdi.IncompatibleThreadStateException;
-import com.sun.jdi.StackFrame;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+import com.sun.jdi.ThrebdReference;
+import com.sun.jdi.ThrebdGroupReference;
+import com.sun.jdi.IncompbtibleThrebdStbteException;
+import com.sun.jdi.StbckFrbme;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
 
-class ThreadInfo {
-    // This is a list of all known ThreadInfo objects. It survives
-    // ThreadInfo.invalidateAll, unlike the other static fields below.
-    private static List<ThreadInfo> threads = Collections.synchronizedList(new ArrayList<ThreadInfo>());
-    private static boolean gotInitialThreads = false;
+clbss ThrebdInfo {
+    // This is b list of bll known ThrebdInfo objects. It survives
+    // ThrebdInfo.invblidbteAll, unlike the other stbtic fields below.
+    privbte stbtic List<ThrebdInfo> threbds = Collections.synchronizedList(new ArrbyList<ThrebdInfo>());
+    privbte stbtic boolebn gotInitiblThrebds = fblse;
 
-    private static ThreadInfo current = null;
-    private static ThreadGroupReference group = null;
+    privbte stbtic ThrebdInfo current = null;
+    privbte stbtic ThrebdGroupReference group = null;
 
-    private final ThreadReference thread;
-    private int currentFrameIndex = 0;
+    privbte finbl ThrebdReference threbd;
+    privbte int currentFrbmeIndex = 0;
 
-    private ThreadInfo(ThreadReference thread) {
-        this.thread = thread;
-        if (thread == null) {
-            MessageOutput.fatalError("Internal error: null ThreadInfo created");
+    privbte ThrebdInfo(ThrebdReference threbd) {
+        this.threbd = threbd;
+        if (threbd == null) {
+            MessbgeOutput.fbtblError("Internbl error: null ThrebdInfo crebted");
         }
     }
 
-    private static void initThreads() {
-        if (!gotInitialThreads) {
-            for (ThreadReference thread : Env.vm().allThreads()) {
-                threads.add(new ThreadInfo(thread));
+    privbte stbtic void initThrebds() {
+        if (!gotInitiblThrebds) {
+            for (ThrebdReference threbd : Env.vm().bllThrebds()) {
+                threbds.bdd(new ThrebdInfo(threbd));
             }
-            gotInitialThreads = true;
+            gotInitiblThrebds = true;
         }
     }
 
-    static void addThread(ThreadReference thread) {
-        synchronized (threads) {
-            initThreads();
-            ThreadInfo ti = new ThreadInfo(thread);
-            // Guard against duplicates. Duplicates can happen during
-            // initialization when a particular thread might be added both
-            // by a thread start event and by the initial call to threads()
-            if (getThreadInfo(thread) == null) {
-                threads.add(ti);
+    stbtic void bddThrebd(ThrebdReference threbd) {
+        synchronized (threbds) {
+            initThrebds();
+            ThrebdInfo ti = new ThrebdInfo(threbd);
+            // Gubrd bgbinst duplicbtes. Duplicbtes cbn hbppen during
+            // initiblizbtion when b pbrticulbr threbd might be bdded both
+            // by b threbd stbrt event bnd by the initibl cbll to threbds()
+            if (getThrebdInfo(threbd) == null) {
+                threbds.bdd(ti);
             }
         }
     }
 
-    static void removeThread(ThreadReference thread) {
-        if (thread.equals(ThreadInfo.current)) {
-            // Current thread has died.
+    stbtic void removeThrebd(ThrebdReference threbd) {
+        if (threbd.equbls(ThrebdInfo.current)) {
+            // Current threbd hbs died.
 
-            // Be careful getting the thread name. If its death happens
-            // as part of VM termination, it may be too late to get the
-            // information, and an exception will be thrown.
-            String currentThreadName;
+            // Be cbreful getting the threbd nbme. If its debth hbppens
+            // bs pbrt of VM terminbtion, it mby be too lbte to get the
+            // informbtion, bnd bn exception will be thrown.
+            String currentThrebdNbme;
             try {
-               currentThreadName = "\"" + thread.name() + "\"";
-            } catch (Exception e) {
-               currentThreadName = "";
+               currentThrebdNbme = "\"" + threbd.nbme() + "\"";
+            } cbtch (Exception e) {
+               currentThrebdNbme = "";
             }
 
-            setCurrentThread(null);
+            setCurrentThrebd(null);
 
-            MessageOutput.println();
-            MessageOutput.println("Current thread died. Execution continuing...",
-                                  currentThreadName);
+            MessbgeOutput.println();
+            MessbgeOutput.println("Current threbd died. Execution continuing...",
+                                  currentThrebdNbme);
         }
-        threads.remove(getThreadInfo(thread));
+        threbds.remove(getThrebdInfo(threbd));
     }
 
-    static List<ThreadInfo> threads() {
-        synchronized(threads) {
-            initThreads();
-            // Make a copy to allow iteration without synchronization
-            return new ArrayList<ThreadInfo>(threads);
+    stbtic List<ThrebdInfo> threbds() {
+        synchronized(threbds) {
+            initThrebds();
+            // Mbke b copy to bllow iterbtion without synchronizbtion
+            return new ArrbyList<ThrebdInfo>(threbds);
         }
     }
 
-    static void invalidateAll() {
+    stbtic void invblidbteAll() {
         current = null;
         group = null;
-        synchronized (threads) {
-            for (ThreadInfo ti : threads()) {
-                ti.invalidate();
+        synchronized (threbds) {
+            for (ThrebdInfo ti : threbds()) {
+                ti.invblidbte();
             }
         }
     }
 
-    static void setThreadGroup(ThreadGroupReference tg) {
+    stbtic void setThrebdGroup(ThrebdGroupReference tg) {
         group = tg;
     }
 
-    static void setCurrentThread(ThreadReference tr) {
+    stbtic void setCurrentThrebd(ThrebdReference tr) {
         if (tr == null) {
-            setCurrentThreadInfo(null);
+            setCurrentThrebdInfo(null);
         } else {
-            ThreadInfo tinfo = getThreadInfo(tr);
-            setCurrentThreadInfo(tinfo);
+            ThrebdInfo tinfo = getThrebdInfo(tr);
+            setCurrentThrebdInfo(tinfo);
         }
     }
 
-    static void setCurrentThreadInfo(ThreadInfo tinfo) {
+    stbtic void setCurrentThrebdInfo(ThrebdInfo tinfo) {
         current = tinfo;
         if (current != null) {
-            current.invalidate();
+            current.invblidbte();
         }
     }
 
     /**
-     * Get the current ThreadInfo object.
+     * Get the current ThrebdInfo object.
      *
-     * @return the ThreadInfo for the current thread.
+     * @return the ThrebdInfo for the current threbd.
      */
-    static ThreadInfo getCurrentThreadInfo() {
+    stbtic ThrebdInfo getCurrentThrebdInfo() {
         return current;
     }
 
     /**
-     * Get the thread from this ThreadInfo object.
+     * Get the threbd from this ThrebdInfo object.
      *
-     * @return the Thread wrapped by this ThreadInfo.
+     * @return the Threbd wrbpped by this ThrebdInfo.
      */
-    ThreadReference getThread() {
-        return thread;
+    ThrebdReference getThrebd() {
+        return threbd;
     }
 
-    static ThreadGroupReference group() {
+    stbtic ThrebdGroupReference group() {
         if (group == null) {
-            // Current thread group defaults to the first top level
-            // thread group.
-            setThreadGroup(Env.vm().topLevelThreadGroups().get(0));
+            // Current threbd group defbults to the first top level
+            // threbd group.
+            setThrebdGroup(Env.vm().topLevelThrebdGroups().get(0));
         }
         return group;
     }
 
-    static ThreadInfo getThreadInfo(long id) {
-        ThreadInfo retInfo = null;
+    stbtic ThrebdInfo getThrebdInfo(long id) {
+        ThrebdInfo retInfo = null;
 
-        synchronized (threads) {
-            for (ThreadInfo ti : threads()) {
-                if (ti.thread.uniqueID() == id) {
+        synchronized (threbds) {
+            for (ThrebdInfo ti : threbds()) {
+                if (ti.threbd.uniqueID() == id) {
                    retInfo = ti;
-                   break;
+                   brebk;
                 }
             }
         }
         return retInfo;
     }
 
-    static ThreadInfo getThreadInfo(ThreadReference tr) {
-        return getThreadInfo(tr.uniqueID());
+    stbtic ThrebdInfo getThrebdInfo(ThrebdReference tr) {
+        return getThrebdInfo(tr.uniqueID());
     }
 
-    static ThreadInfo getThreadInfo(String idToken) {
-        ThreadInfo tinfo = null;
-        if (idToken.startsWith("t@")) {
+    stbtic ThrebdInfo getThrebdInfo(String idToken) {
+        ThrebdInfo tinfo = null;
+        if (idToken.stbrtsWith("t@")) {
             idToken = idToken.substring(2);
         }
         try {
-            long threadId = Long.decode(idToken).longValue();
-            tinfo = getThreadInfo(threadId);
-        } catch (NumberFormatException e) {
+            long threbdId = Long.decode(idToken).longVblue();
+            tinfo = getThrebdInfo(threbdId);
+        } cbtch (NumberFormbtException e) {
             tinfo = null;
         }
         return tinfo;
     }
 
     /**
-     * Get the thread stack frames.
+     * Get the threbd stbck frbmes.
      *
-     * @return a <code>List</code> of the stack frames.
+     * @return b <code>List</code> of the stbck frbmes.
      */
-    List<StackFrame> getStack() throws IncompatibleThreadStateException {
-        return thread.frames();
+    List<StbckFrbme> getStbck() throws IncompbtibleThrebdStbteException {
+        return threbd.frbmes();
     }
 
     /**
-     * Get the current stackframe.
+     * Get the current stbckfrbme.
      *
-     * @return the current stackframe.
+     * @return the current stbckfrbme.
      */
-    StackFrame getCurrentFrame() throws IncompatibleThreadStateException {
-        if (thread.frameCount() == 0) {
+    StbckFrbme getCurrentFrbme() throws IncompbtibleThrebdStbteException {
+        if (threbd.frbmeCount() == 0) {
             return null;
         }
-        return thread.frame(currentFrameIndex);
+        return threbd.frbme(currentFrbmeIndex);
     }
 
     /**
-     * Invalidate the current stackframe index.
+     * Invblidbte the current stbckfrbme index.
      */
-    void invalidate() {
-        currentFrameIndex = 0;
+    void invblidbte() {
+        currentFrbmeIndex = 0;
     }
 
-    /* Throw IncompatibleThreadStateException if not suspended */
-    private void assureSuspended() throws IncompatibleThreadStateException {
-        if (!thread.isSuspended()) {
-            throw new IncompatibleThreadStateException();
+    /* Throw IncompbtibleThrebdStbteException if not suspended */
+    privbte void bssureSuspended() throws IncompbtibleThrebdStbteException {
+        if (!threbd.isSuspended()) {
+            throw new IncompbtibleThrebdStbteException();
         }
     }
 
     /**
-     * Get the current stackframe index.
+     * Get the current stbckfrbme index.
      *
-     * @return the number of the current stackframe.  Frame zero is the
-     * closest to the current program counter
+     * @return the number of the current stbckfrbme.  Frbme zero is the
+     * closest to the current progrbm counter
      */
-    int getCurrentFrameIndex() {
-        return currentFrameIndex;
+    int getCurrentFrbmeIndex() {
+        return currentFrbmeIndex;
     }
 
     /**
-     * Set the current stackframe to a specific frame.
+     * Set the current stbckfrbme to b specific frbme.
      *
-     * @param nFrame    the number of the desired stackframe.  Frame zero is the
-     * closest to the current program counter
-     * @exception IllegalAccessError when the thread isn't
-     * suspended or waiting at a breakpoint
-     * @exception ArrayIndexOutOfBoundsException when the
-     * requested frame is beyond the stack boundary
+     * @pbrbm nFrbme    the number of the desired stbckfrbme.  Frbme zero is the
+     * closest to the current progrbm counter
+     * @exception IllegblAccessError when the threbd isn't
+     * suspended or wbiting bt b brebkpoint
+     * @exception ArrbyIndexOutOfBoundsException when the
+     * requested frbme is beyond the stbck boundbry
      */
-    void setCurrentFrameIndex(int nFrame) throws IncompatibleThreadStateException {
-        assureSuspended();
-        if ((nFrame < 0) || (nFrame >= thread.frameCount())) {
-            throw new ArrayIndexOutOfBoundsException();
+    void setCurrentFrbmeIndex(int nFrbme) throws IncompbtibleThrebdStbteException {
+        bssureSuspended();
+        if ((nFrbme < 0) || (nFrbme >= threbd.frbmeCount())) {
+            throw new ArrbyIndexOutOfBoundsException();
         }
-        currentFrameIndex = nFrame;
+        currentFrbmeIndex = nFrbme;
     }
 
     /**
-     * Change the current stackframe to be one or more frames higher
-     * (as in, away from the current program counter).
+     * Chbnge the current stbckfrbme to be one or more frbmes higher
+     * (bs in, bwby from the current progrbm counter).
      *
-     * @param nFrames   the number of stackframes
-     * @exception IllegalAccessError when the thread isn't
-     * suspended or waiting at a breakpoint
-     * @exception ArrayIndexOutOfBoundsException when the
-     * requested frame is beyond the stack boundary
+     * @pbrbm nFrbmes   the number of stbckfrbmes
+     * @exception IllegblAccessError when the threbd isn't
+     * suspended or wbiting bt b brebkpoint
+     * @exception ArrbyIndexOutOfBoundsException when the
+     * requested frbme is beyond the stbck boundbry
      */
-    void up(int nFrames) throws IncompatibleThreadStateException {
-        setCurrentFrameIndex(currentFrameIndex + nFrames);
+    void up(int nFrbmes) throws IncompbtibleThrebdStbteException {
+        setCurrentFrbmeIndex(currentFrbmeIndex + nFrbmes);
     }
 
     /**
-     * Change the current stackframe to be one or more frames lower
-     * (as in, toward the current program counter).     *
-     * @param nFrames   the number of stackframes
-     * @exception IllegalAccessError when the thread isn't
-     * suspended or waiting at a breakpoint
-     * @exception ArrayIndexOutOfBoundsException when the
-     * requested frame is beyond the stack boundary
+     * Chbnge the current stbckfrbme to be one or more frbmes lower
+     * (bs in, towbrd the current progrbm counter).     *
+     * @pbrbm nFrbmes   the number of stbckfrbmes
+     * @exception IllegblAccessError when the threbd isn't
+     * suspended or wbiting bt b brebkpoint
+     * @exception ArrbyIndexOutOfBoundsException when the
+     * requested frbme is beyond the stbck boundbry
      */
-    void down(int nFrames) throws IncompatibleThreadStateException {
-        setCurrentFrameIndex(currentFrameIndex - nFrames);
+    void down(int nFrbmes) throws IncompbtibleThrebdStbteException {
+        setCurrentFrbmeIndex(currentFrbmeIndex - nFrbmes);
     }
 
 }

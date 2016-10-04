@@ -1,1745 +1,1745 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
 <html>
-<head>
-  <meta content="deepa viswanathan" name="Author">
-  <meta content="Mozilla/4.04 [en] (WinNT; U) [Netscape]"
- name="GENERATOR">
+<hebd>
+  <metb content="deepb viswbnbthbn" nbme="Author">
+  <metb content="Mozillb/4.04 [en] (WinNT; U) [Netscbpe]"
+ nbme="GENERATOR">
   <title>HPROF Agent</title>
-  <meta name="author" content="Kelly O'Hair">
-</head>
-<body alink="#ff0000" bgcolor="#ffffff" link="#0000ee" text="#000000"
- vlink="#551a8b">
-<h1 style="text-align: center;"><a name="mozTocId137594"
- class="mozTocH1"></a><span style="font-weight: bold;"></span>HPROF
+  <metb nbme="buthor" content="Kelly O'Hbir">
+</hebd>
+<body blink="#ff0000" bgcolor="#ffffff" link="#0000ee" text="#000000"
+ vlink="#551b8b">
+<h1 style="text-blign: center;"><b nbme="mozTocId137594"
+ clbss="mozTocH1"></b><spbn style="font-weight: bold;"></spbn>HPROF
 Agent<br>
 </h1>
-<h2><a name="mozTocId558923" class="mozTocH2"></a>Contents</h2>
-<span style="text-decoration: underline;"></span>
+<h2><b nbme="mozTocId558923" clbss="mozTocH2"></b>Contents</h2>
+<spbn style="text-decorbtion: underline;"></spbn>
 <ol id="mozToc">
-<!--mozToc h1 1 h2 2 h3 3 h4 4 h5 5 h6 6--><li><a href="#mozTocId137594">HPROF
-Agent</a>
+<!--mozToc h1 1 h2 2 h3 3 h4 4 h5 5 h6 6--><li><b href="#mozTocId137594">HPROF
+Agent</b>
     <ol>
-      <li><a href="#mozTocId558923">Contents</a></li>
-      <li><a href="#mozTocId550204">Overview</a></li>
-      <li><a href="#mozTocId634758">Start-up</a></li>
-      <li><a href="#mozTocId708821">Heap Allocation
-Profiles (heap=sites) </a></li>
-      <li><a href="#mozTocId634725">Heap Dump (heap=dump)</a></li>
-      <li><a href="#mozTocId546448">CPU Usage Sampling
-Profiles (cpu=samples) </a></li>
-      <li><a href="#mozTocId116568">CPU Usage Times Profile (cpu=times)
-        </a></li>
-      <li><a href="#mozTocId848088">Binary Dump Format
-(format=b)</a>
+      <li><b href="#mozTocId558923">Contents</b></li>
+      <li><b href="#mozTocId550204">Overview</b></li>
+      <li><b href="#mozTocId634758">Stbrt-up</b></li>
+      <li><b href="#mozTocId708821">Hebp Allocbtion
+Profiles (hebp=sites) </b></li>
+      <li><b href="#mozTocId634725">Hebp Dump (hebp=dump)</b></li>
+      <li><b href="#mozTocId546448">CPU Usbge Sbmpling
+Profiles (cpu=sbmples) </b></li>
+      <li><b href="#mozTocId116568">CPU Usbge Times Profile (cpu=times)
+        </b></li>
+      <li><b href="#mozTocId848088">Binbry Dump Formbt
+(formbt=b)</b>
         <ol>
-          <li><a href="#mozTocId348369">Socket Connection and
-Communication</a></li>
+          <li><b href="#mozTocId348369">Socket Connection bnd
+Communicbtion</b></li>
         </ol>
         <ol>
-          <li><a href="#mozTocId348360">Handling of Arrays</a></li>
+          <li><b href="#mozTocId348360">Hbndling of Arrbys</b></li>
         </ol>
       </li>
-      <li><a href="#mozTocId589424">Source Code </a></li>
+      <li><b href="#mozTocId589424">Source Code </b></li>
     </ol>
   </li>
 </ol>
-<span style="text-decoration: underline;"></span>
-<h2><a name="mozTocId550204" class="mozTocH2"></a>Overview</h2>
+<spbn style="text-decorbtion: underline;"></spbn>
+<h2><b nbme="mozTocId550204" clbss="mozTocH2"></b>Overview</h2>
 <p>This document describes the JVM TI Agent HPROF delivered in
-the Java Development Kit (JDK). It is intended as demonstration code
-for JVM TI, and as a functional
-replacement for the older HPROF JVMPI Agent delivered in past releases.<br>
+the Jbvb Development Kit (JDK). It is intended bs demonstrbtion code
+for JVM TI, bnd bs b functionbl
+replbcement for the older HPROF JVMPI Agent delivered in pbst relebses.<br>
 </p>
-Previous 1.4 and earlier releases of the JDK contained an HPROF
-agent built on the experimental JVMPI.&nbsp;
-The newer JVM TI replaces both JVMDI and JVMPI.&nbsp;&nbsp;
-<p><span style="font-weight: bold;">Note</span>: Differences between
-this HPROF implementation and the older JVMPI based HPROF are marked in
-<span style="font-style: italic; color: rgb(255, 0, 0);">RED ITALICS</span>
+Previous 1.4 bnd ebrlier relebses of the JDK contbined bn HPROF
+bgent built on the experimentbl JVMPI.&nbsp;
+The newer JVM TI replbces both JVMDI bnd JVMPI.&nbsp;&nbsp;
+<p><spbn style="font-weight: bold;">Note</spbn>: Differences between
+this HPROF implementbtion bnd the older JVMPI bbsed HPROF bre mbrked in
+<spbn style="font-style: itblic; color: rgb(255, 0, 0);">RED ITALICS</spbn>
 throughout this document.<br>
 </p>
 <br>
-<h2><a name="mozTocId634758" class="mozTocH3"></a>Start-up</h2>
-<p>HPROF is a simple profiler agent shipped with the JDK. It is
-a dynamically-linked
-library that interacts with the JVM TI and
+<h2><b nbme="mozTocId634758" clbss="mozTocH3"></b>Stbrt-up</h2>
+<p>HPROF is b simple profiler bgent shipped with the JDK. It is
+b dynbmicblly-linked
+librbry thbt interbcts with the JVM TI bnd
 writes out profiling
-information either to a file or to a socket in ascii or binary format.
-This information can
-be further processed by a profiler front-end tool.</p>
-<p>It is capable of presenting CPU usage, heap allocation statistics
-and monitor contention
-profiles. In addition it can also report complete heap dumps and states
-of all the monitors and threads in the Java virtual machine.
+informbtion either to b file or to b socket in bscii or binbry formbt.
+This informbtion cbn
+be further processed by b profiler front-end tool.</p>
+<p>It is cbpbble of presenting CPU usbge, hebp bllocbtion stbtistics
+bnd monitor contention
+profiles. In bddition it cbn blso report complete hebp dumps bnd stbtes
+of bll the monitors bnd threbds in the Jbvb virtubl mbchine.
 </p>
-<p>HPROF can be invoked by:
+<p>HPROF cbn be invoked by:
 </p>
-<pre>java -<span style="font-weight: bold;">agentlib:</span><b>hprof</b> ToBeProfiledClass</pre>
+<pre>jbvb -<spbn style="font-weight: bold;">bgentlib:</spbn><b>hprof</b> ToBeProfiledClbss</pre>
 Depending on the type of profiling requested, HPROF instructs the
-virtual machine to send it the relevant JVM TI events and processes
-the event data into profiling information. For example, the following
-command obtains the heap allocation profile:
-<pre>java -agentlib:hprof=heap=sites ToBeProfiledClass</pre>
-Following is the complete list of options that can passed to hprof :
+virtubl mbchine to send it the relevbnt JVM TI events bnd processes
+the event dbtb into profiling informbtion. For exbmple, the following
+commbnd obtbins the hebp bllocbtion profile:
+<pre>jbvb -bgentlib:hprof=hebp=sites ToBeProfiledClbss</pre>
+Following is the complete list of options thbt cbn pbssed to hprof :
 <blockquote>
-  <pre>java -agentlib:hprof=help<br><br>     HPROF: Heap and CPU Profiling Agent (JVMTI Demonstration Code)<br><br>hprof usage: java -agentlib:hprof=[help]|[&lt;option&gt;=&lt;value&gt;, ...]<br><br>Option Name and Value  Description                    Default<br>---------------------  -----------                    -------<br>heap=dump|sites|all    heap profiling                 all<br>cpu=samples|times|old  CPU usage                      off<br>monitor=y|n            monitor contention             n<br>format=a|b             text(txt) or binary output     a<br>file=&lt;file&gt;            write data to file             java.hprof[{.txt}]<br>net=&lt;host&gt;:&lt;port&gt;      send data over a socket        off<br>depth=&lt;size&gt;           stack trace depth              4<br>interval=&lt;ms&gt;          sample interval in ms          10<br>cutoff=&lt;value&gt;         output cutoff point            0.0001<br>lineno=y|n             line number in traces?         y<br>thread=y|n             thread in traces?              n<br>doe=y|n                dump on exit?                  y<br>msa=y|n                Solaris micro state accounting n<br>force=y|n              force output to &lt;file&gt;         y<br>verbose=y|n            print messages about dumps     y<br><br>Obsolete Options<br>----------------<br>gc_okay=y|n<br><br>Examples<br>--------<br>  - Get sample cpu information every 20 millisec, with a stack depth of 3:<br>      java -agentlib:hprof=cpu=samples,interval=20,depth=3 classname<br>  - Get heap usage information based on the allocation sites:<br>      java -agentlib:hprof=heap=sites classname<br><br>Notes<br>-----<br>  - The option format=b cannot be used with monitor=y.<br>  - The option format=b cannot be used with cpu=old|times.<br>  - Use of the -Xrunhprof interface can still be used, e.g.<br>       java -Xrunhprof:[help]|[&lt;option&gt;=&lt;value&gt;, ...]<br>    will behave exactly the same as:<br>       java -agentlib:hprof=[help]|[&lt;option&gt;=&lt;value&gt;, ...]<br><br>Warnings<br>--------<br>  - This is demonstration code for the JVMTI interface and use of BCI,<br>    it is not an official product or formal part of the JDK.<br>  - The -Xrunhprof interface will be removed in a future release.<br>  - The option format=b is considered experimental, this format may change<br>    in a future release.<br></pre>
+  <pre>jbvb -bgentlib:hprof=help<br><br>     HPROF: Hebp bnd CPU Profiling Agent (JVMTI Demonstrbtion Code)<br><br>hprof usbge: jbvb -bgentlib:hprof=[help]|[&lt;option&gt;=&lt;vblue&gt;, ...]<br><br>Option Nbme bnd Vblue  Description                    Defbult<br>---------------------  -----------                    -------<br>hebp=dump|sites|bll    hebp profiling                 bll<br>cpu=sbmples|times|old  CPU usbge                      off<br>monitor=y|n            monitor contention             n<br>formbt=b|b             text(txt) or binbry output     b<br>file=&lt;file&gt;            write dbtb to file             jbvb.hprof[{.txt}]<br>net=&lt;host&gt;:&lt;port&gt;      send dbtb over b socket        off<br>depth=&lt;size&gt;           stbck trbce depth              4<br>intervbl=&lt;ms&gt;          sbmple intervbl in ms          10<br>cutoff=&lt;vblue&gt;         output cutoff point            0.0001<br>lineno=y|n             line number in trbces?         y<br>threbd=y|n             threbd in trbces?              n<br>doe=y|n                dump on exit?                  y<br>msb=y|n                Solbris micro stbte bccounting n<br>force=y|n              force output to &lt;file&gt;         y<br>verbose=y|n            print messbges bbout dumps     y<br><br>Obsolete Options<br>----------------<br>gc_okby=y|n<br><br>Exbmples<br>--------<br>  - Get sbmple cpu informbtion every 20 millisec, with b stbck depth of 3:<br>      jbvb -bgentlib:hprof=cpu=sbmples,intervbl=20,depth=3 clbssnbme<br>  - Get hebp usbge informbtion bbsed on the bllocbtion sites:<br>      jbvb -bgentlib:hprof=hebp=sites clbssnbme<br><br>Notes<br>-----<br>  - The option formbt=b cbnnot be used with monitor=y.<br>  - The option formbt=b cbnnot be used with cpu=old|times.<br>  - Use of the -Xrunhprof interfbce cbn still be used, e.g.<br>       jbvb -Xrunhprof:[help]|[&lt;option&gt;=&lt;vblue&gt;, ...]<br>    will behbve exbctly the sbme bs:<br>       jbvb -bgentlib:hprof=[help]|[&lt;option&gt;=&lt;vblue&gt;, ...]<br><br>Wbrnings<br>--------<br>  - This is demonstrbtion code for the JVMTI interfbce bnd use of BCI,<br>    it is not bn officibl product or formbl pbrt of the JDK.<br>  - The -Xrunhprof interfbce will be removed in b future relebse.<br>  - The option formbt=b is considered experimentbl, this formbt mby chbnge<br>    in b future relebse.<br></pre>
 </blockquote>
-<p>By default, heap profiling information (sites and dump) is written
+<p>By defbult, hebp profiling informbtion (sites bnd dump) is written
 out
-to java.hprof.txt (ascii).&nbsp;
-The monitor=y|n option has proven to be problematic and may be replaced
+to jbvb.hprof.txt (bscii).&nbsp;
+The monitor=y|n option hbs proven to be problembtic bnd mby be replbced
 with something more useful.<br>
 </p>
-<p>The output in most cases will contain ID's for traces, threads,
-objects, etc.&nbsp; Each type of ID will typically start with a
-different number than the other ID's, e.g. traces might start with
+<p>The output in most cbses will contbin ID's for trbces, threbds,
+objects, etc.&nbsp; Ebch type of ID will typicblly stbrt with b
+different number thbn the other ID's, e.g. trbces might stbrt with
 300000.<br>
 </p>
-<p><span style="font-weight: bold;">Note</span>: <span
- style="font-style: italic; color: rgb(255, 0, 0);">The gc_okay option
-is no longer supported.</span><br>
+<p><spbn style="font-weight: bold;">Note</spbn>: <spbn
+ style="font-style: itblic; color: rgb(255, 0, 0);">The gc_okby option
+is no longer supported.</spbn><br>
 </p>
-<h2><a name="mozTocId708821" class="mozTocH4"></a>Heap Allocation
-Profiles (heap=sites)<br>
+<h2><b nbme="mozTocId708821" clbss="mozTocH4"></b>Hebp Allocbtion
+Profiles (hebp=sites)<br>
 </h2>
-Following is the heap allocation profile generated by running the Java
+Following is the hebp bllocbtion profile generbted by running the Jbvb
 compiler
-(<code>javac</code>) on a set of input files. Only parts of the
-profiler output are shown here.
+(<code>jbvbc</code>) on b set of input files. Only pbrts of the
+profiler output bre shown here.
 <p></p>
-<pre>Command used: javac -J-agentlib:hprof=heap=sites Hello.java<br><br>SITES BEGIN (ordered by live bytes) Fri Feb  6 13:13:42 2004<br>          percent          live          alloc'ed  stack class<br> rank   self  accum     bytes objs     bytes  objs trace name<br>    1 44.13% 44.13%   1117360 13967  1117360 13967 301926 java.util.zip.ZipEntry<br>    2  8.83% 52.95%    223472 13967   223472 13967 301927 com.sun.tools.javac.util.List<br>    3  5.18% 58.13%    131088    1    131088     1 300996 byte[]<br>    4  5.18% 63.31%    131088    1    131088     1 300995 com.sun.tools.javac.util.Name[]<br>  <br></pre>
-A crucial piece of information in heap profile is the amount of
-allocation that occurs
-in various parts of the program. The <code>SITES</code> record above
-tells us that 44.13% of the total space was allocated for
-java.util.zip.ZipEntry objects. Note that the amount of live data is
-only a fraction
-of the total allocation that has occurred at a given site; the rest has
-been garbage collected.
-<p>A good way to relate allocation sites to the source code is to
+<pre>Commbnd used: jbvbc -J-bgentlib:hprof=hebp=sites Hello.jbvb<br><br>SITES BEGIN (ordered by live bytes) Fri Feb  6 13:13:42 2004<br>          percent          live          blloc'ed  stbck clbss<br> rbnk   self  bccum     bytes objs     bytes  objs trbce nbme<br>    1 44.13% 44.13%   1117360 13967  1117360 13967 301926 jbvb.util.zip.ZipEntry<br>    2  8.83% 52.95%    223472 13967   223472 13967 301927 com.sun.tools.jbvbc.util.List<br>    3  5.18% 58.13%    131088    1    131088     1 300996 byte[]<br>    4  5.18% 63.31%    131088    1    131088     1 300995 com.sun.tools.jbvbc.util.Nbme[]<br>  <br></pre>
+A crucibl piece of informbtion in hebp profile is the bmount of
+bllocbtion thbt occurs
+in vbrious pbrts of the progrbm. The <code>SITES</code> record bbove
+tells us thbt 44.13% of the totbl spbce wbs bllocbted for
+jbvb.util.zip.ZipEntry objects. Note thbt the bmount of live dbtb is
+only b frbction
+of the totbl bllocbtion thbt hbs occurred bt b given site; the rest hbs
+been gbrbbge collected.
+<p>A good wby to relbte bllocbtion sites to the source code is to
 record
-the dynamic stack traces that led to the heap allocation. Following is
-another part of the profiler output that illustrates the stack traces
-referred to by the four allocation sites in output shown above.
-<span style="font-family: monospace;"><br>
-</span></p>
-<pre><span style="font-family: monospace;"></span>TRACE 301926:<br>        java.util.zip.ZipEntry.&lt;init&gt;(ZipEntry.java:101)<br>        java.util.zip.ZipFile+3.nextElement(ZipFile.java:417)<br>        com.sun.tools.javac.jvm.ClassReader.openArchive(ClassReader.java:1374)<br>        com.sun.tools.javac.jvm.ClassReader.list(ClassReader.java:1631)<br><br>TRACE 301927:<br>        com.sun.tools.javac.util.List.&lt;init&gt;(List.java:42)<br>        com.sun.tools.javac.util.List.&lt;init&gt;(List.java:50)<br>        com.sun.tools.javac.util.ListBuffer.append(ListBuffer.java:94)<br>        com.sun.tools.javac.jvm.ClassReader.openArchive(ClassReader.java:1374)<br><br>TRACE 300996:<br>        com.sun.tools.javac.util.Name$Table.&lt;init&gt;(Name.java:379)<br>        com.sun.tools.javac.util.Name$Table.&lt;init&gt;(Name.java:481)<br>        com.sun.tools.javac.util.Name$Table.make(Name.java:332)<br>        com.sun.tools.javac.util.Name$Table.instance(Name.java:349)<br><br>TRACE 300995:<br>        com.sun.tools.javac.util.Name$Table.&lt;init&gt;(Name.java:378)<br>        com.sun.tools.javac.util.Name$Table.&lt;init&gt;(Name.java:481)<br>        com.sun.tools.javac.util.Name$Table.make(Name.java:332)<br>        com.sun.tools.javac.util.Name$Table.instance(Name.java:349)<init><init><init><br></init></init></init></pre>
+the dynbmic stbck trbces thbt led to the hebp bllocbtion. Following is
+bnother pbrt of the profiler output thbt illustrbtes the stbck trbces
+referred to by the four bllocbtion sites in output shown bbove.
+<spbn style="font-fbmily: monospbce;"><br>
+</spbn></p>
+<pre><spbn style="font-fbmily: monospbce;"></spbn>TRACE 301926:<br>        jbvb.util.zip.ZipEntry.&lt;init&gt;(ZipEntry.jbvb:101)<br>        jbvb.util.zip.ZipFile+3.nextElement(ZipFile.jbvb:417)<br>        com.sun.tools.jbvbc.jvm.ClbssRebder.openArchive(ClbssRebder.jbvb:1374)<br>        com.sun.tools.jbvbc.jvm.ClbssRebder.list(ClbssRebder.jbvb:1631)<br><br>TRACE 301927:<br>        com.sun.tools.jbvbc.util.List.&lt;init&gt;(List.jbvb:42)<br>        com.sun.tools.jbvbc.util.List.&lt;init&gt;(List.jbvb:50)<br>        com.sun.tools.jbvbc.util.ListBuffer.bppend(ListBuffer.jbvb:94)<br>        com.sun.tools.jbvbc.jvm.ClbssRebder.openArchive(ClbssRebder.jbvb:1374)<br><br>TRACE 300996:<br>        com.sun.tools.jbvbc.util.Nbme$Tbble.&lt;init&gt;(Nbme.jbvb:379)<br>        com.sun.tools.jbvbc.util.Nbme$Tbble.&lt;init&gt;(Nbme.jbvb:481)<br>        com.sun.tools.jbvbc.util.Nbme$Tbble.mbke(Nbme.jbvb:332)<br>        com.sun.tools.jbvbc.util.Nbme$Tbble.instbnce(Nbme.jbvb:349)<br><br>TRACE 300995:<br>        com.sun.tools.jbvbc.util.Nbme$Tbble.&lt;init&gt;(Nbme.jbvb:378)<br>        com.sun.tools.jbvbc.util.Nbme$Tbble.&lt;init&gt;(Nbme.jbvb:481)<br>        com.sun.tools.jbvbc.util.Nbme$Tbble.mbke(Nbme.jbvb:332)<br>        com.sun.tools.jbvbc.util.Nbme$Tbble.instbnce(Nbme.jbvb:349)<init><init><init><br></init></init></init></pre>
 <blockquote></blockquote>
 <p>
-Each frame in the stack trace contains class name, method name, source
-file name, and the line number. The user can set the maximum number
-of frames collected by the HPROF agent. The default limit is 4. Stack
-traces reveal not only which methods performed heap allocation, but
-also which methods were ultimately responsible for making calls that
-resulted in memory allocation. <br>
+Ebch frbme in the stbck trbce contbins clbss nbme, method nbme, source
+file nbme, bnd the line number. The user cbn set the mbximum number
+of frbmes collected by the HPROF bgent. The defbult limit is 4. Stbck
+trbces revebl not only which methods performed hebp bllocbtion, but
+blso which methods were ultimbtely responsible for mbking cblls thbt
+resulted in memory bllocbtion. <br>
 </p>
-<h2><a name="mozTocId634725" class="mozTocH2"></a>Heap Dump (heap=dump)</h2>
-A complete dump of the current live objects in the heap can be obtained
+<h2><b nbme="mozTocId634725" clbss="mozTocH2"></b>Hebp Dump (hebp=dump)</h2>
+A complete dump of the current live objects in the hebp cbn be obtbined
 with:<br>
-<pre>Command used: javac -J-agentlib:hprof=heap=dump Hello.java<br></pre>
-This is a very large output file, but can be viewed and searched in any
+<pre>Commbnd used: jbvbc -J-bgentlib:hprof=hebp=dump Hello.jbvb<br></pre>
+This is b very lbrge output file, but cbn be viewed bnd sebrched in bny
 editor.<br>
 <br>
-<h2><a name="mozTocId546448" class="mozTocH4"></a>CPU Usage Sampling
-Profiles (cpu=samples)<br>
+<h2><b nbme="mozTocId546448" clbss="mozTocH4"></b>CPU Usbge Sbmpling
+Profiles (cpu=sbmples)<br>
 </h2>
-HPROF can collect CPU usage information by sampling threads. Following
-is part of the output collected from a run
-of the <code>javac</code> compiler.
+HPROF cbn collect CPU usbge informbtion by sbmpling threbds. Following
+is pbrt of the output collected from b run
+of the <code>jbvbc</code> compiler.
 <p></p>
-<pre>Command used: javac -J-agentlib:hprof=cpu=samples Hello.java<br><br>CPU SAMPLES BEGIN (total = 462) Fri Feb  6 13:33:07 2004<br>rank   self  accum   count trace method<br>   1 49.57% 49.57%     229 300187 java.util.zip.ZipFile.getNextEntry<br>   2  6.93% 56.49%      32 300190 java.util.zip.ZipEntry.initFields<br>   3  4.76% 61.26%      22 300122 java.lang.ClassLoader.defineClass2<br>   4  2.81% 64.07%      13 300188 java.util.zip.ZipFile.freeEntry<br>   5  1.95% 66.02%       9 300129 java.util.Vector.addElement<br>   6  1.73% 67.75%       8 300124 java.util.zip.ZipFile.getEntry<br>   7  1.52% 69.26%       7 300125 java.lang.ClassLoader.findBootstrapClass<br>   8  0.87% 70.13%       4 300172 com.sun.tools.javac.main.JavaCompiler.&lt;init&gt;<br>   9  0.65% 70.78%       3 300030 java.util.zip.ZipFile.open<br>  10  0.65% 71.43%       3 300175 com.sun.tools.javac.main.JavaCompiler.&lt;init&gt;<br><init>
+<pre>Commbnd used: jbvbc -J-bgentlib:hprof=cpu=sbmples Hello.jbvb<br><br>CPU SAMPLES BEGIN (totbl = 462) Fri Feb  6 13:33:07 2004<br>rbnk   self  bccum   count trbce method<br>   1 49.57% 49.57%     229 300187 jbvb.util.zip.ZipFile.getNextEntry<br>   2  6.93% 56.49%      32 300190 jbvb.util.zip.ZipEntry.initFields<br>   3  4.76% 61.26%      22 300122 jbvb.lbng.ClbssLobder.defineClbss2<br>   4  2.81% 64.07%      13 300188 jbvb.util.zip.ZipFile.freeEntry<br>   5  1.95% 66.02%       9 300129 jbvb.util.Vector.bddElement<br>   6  1.73% 67.75%       8 300124 jbvb.util.zip.ZipFile.getEntry<br>   7  1.52% 69.26%       7 300125 jbvb.lbng.ClbssLobder.findBootstrbpClbss<br>   8  0.87% 70.13%       4 300172 com.sun.tools.jbvbc.mbin.JbvbCompiler.&lt;init&gt;<br>   9  0.65% 70.78%       3 300030 jbvb.util.zip.ZipFile.open<br>  10  0.65% 71.43%       3 300175 com.sun.tools.jbvbc.mbin.JbvbCompiler.&lt;init&gt;<br><init>
 ...
 CPU SAMPLES END
 </init></pre>
 <blockquote>
 </blockquote>
 <p>
-The HPROF agent periodically samples the stack of all running threads
-to record the most frequently active stack traces. The <code>count</code>
-field above indicates how many times a particular stack trace was found
-to be active. These stack traces correspond to the CPU usage hot spots
-in the application.<br>
+The HPROF bgent periodicblly sbmples the stbck of bll running threbds
+to record the most frequently bctive stbck trbces. The <code>count</code>
+field bbove indicbtes how mbny times b pbrticulbr stbck trbce wbs found
+to be bctive. These stbck trbces correspond to the CPU usbge hot spots
+in the bpplicbtion.<br>
 </p>
-<h2><a name="mozTocId116568" class="mozTocH2"></a>CPU Usage Times
+<h2><b nbme="mozTocId116568" clbss="mozTocH2"></b>CPU Usbge Times
 Profile (cpu=times)<br>
 </h2>
-HPROF can collect CPU usage information by injecting code into every
-method entry and exit, keeping track of exact method call counts and
-the time spent in each method. This uses Byte Code Injection (BCI) and
-runs considerably slower than cpu=samples. Following is part of the
-output collected from a run
-of the <code>javac</code> compiler.
+HPROF cbn collect CPU usbge informbtion by injecting code into every
+method entry bnd exit, keeping trbck of exbct method cbll counts bnd
+the time spent in ebch method. This uses Byte Code Injection (BCI) bnd
+runs considerbbly slower thbn cpu=sbmples. Following is pbrt of the
+output collected from b run
+of the <code>jbvbc</code> compiler.
 <p></p>
-<pre>Command used: javac -J-agentlib:hprof=cpu=times Hello.java<br><br>CPU TIME (ms) BEGIN (total = 2082665289) Fri Feb  6 13:43:42 2004<br>rank   self  accum   count trace method<br>   1  3.70%  3.70%       1 311243 com.sun.tools.javac.Main.compile<br>   2  3.64%  7.34%       1 311242 com.sun.tools.javac.main.Main.compile<br>   3  3.64% 10.97%       1 311241 com.sun.tools.javac.main.Main.compile<br>   4  3.11% 14.08%       1 311173 com.sun.tools.javac.main.JavaCompiler.compile<br>   5  2.54% 16.62%       8 306183 com.sun.tools.javac.jvm.ClassReader.listAll<br>   6  2.53% 19.15%      36 306182 com.sun.tools.javac.jvm.ClassReader.list<br>   7  2.03% 21.18%       1 307195 com.sun.tools.javac.comp.Enter.main<br>   8  2.03% 23.21%       1 307194 com.sun.tools.javac.comp.Enter.complete<br>   9  1.68% 24.90%       1 306392 com.sun.tools.javac.comp.Enter.classEnter<br>  10  1.68% 26.58%       1 306388 com.sun.tools.javac.comp.Enter.classEnter<br><br>...<br>CPU TIME (ms) END</pre>
-Here the count represents the true count of the times this method was
-entered, and the percentages represent a measure of thread CPU time
+<pre>Commbnd used: jbvbc -J-bgentlib:hprof=cpu=times Hello.jbvb<br><br>CPU TIME (ms) BEGIN (totbl = 2082665289) Fri Feb  6 13:43:42 2004<br>rbnk   self  bccum   count trbce method<br>   1  3.70%  3.70%       1 311243 com.sun.tools.jbvbc.Mbin.compile<br>   2  3.64%  7.34%       1 311242 com.sun.tools.jbvbc.mbin.Mbin.compile<br>   3  3.64% 10.97%       1 311241 com.sun.tools.jbvbc.mbin.Mbin.compile<br>   4  3.11% 14.08%       1 311173 com.sun.tools.jbvbc.mbin.JbvbCompiler.compile<br>   5  2.54% 16.62%       8 306183 com.sun.tools.jbvbc.jvm.ClbssRebder.listAll<br>   6  2.53% 19.15%      36 306182 com.sun.tools.jbvbc.jvm.ClbssRebder.list<br>   7  2.03% 21.18%       1 307195 com.sun.tools.jbvbc.comp.Enter.mbin<br>   8  2.03% 23.21%       1 307194 com.sun.tools.jbvbc.comp.Enter.complete<br>   9  1.68% 24.90%       1 306392 com.sun.tools.jbvbc.comp.Enter.clbssEnter<br>  10  1.68% 26.58%       1 306388 com.sun.tools.jbvbc.comp.Enter.clbssEnter<br><br>...<br>CPU TIME (ms) END</pre>
+Here the count represents the true count of the times this method wbs
+entered, bnd the percentbges represent b mebsure of threbd CPU time
 spent in those methods.<br>
 <br>
-<h2><a class="mozTocH3" name="mozTocId848088"></a>Binary Dump Format
-(format=b)</h2>
-The basic fields in the binary output are u1 (1 byte), u2 (2 byte), u4
-(4 byte), and u8 (8 byte). An ID in this implementation is a u4,
-however the size of an ID is really determined by the "size of
-identifiers" field in the header.<br>
+<h2><b clbss="mozTocH3" nbme="mozTocId848088"></b>Binbry Dump Formbt
+(formbt=b)</h2>
+The bbsic fields in the binbry output bre u1 (1 byte), u2 (2 byte), u4
+(4 byte), bnd u8 (8 byte). An ID in this implementbtion is b u4,
+however the size of bn ID is reblly determined by the "size of
+identifiers" field in the hebder.<br>
 <br>
-<span style="font-weight: bold;">WARNING</span>: This format is still
-considered highly experimental, however, all attempts were made to
-match the format of past HPROF implementations.<br>
+<spbn style="font-weight: bold;">WARNING</spbn>: This formbt is still
+considered highly experimentbl, however, bll bttempts were mbde to
+mbtch the formbt of pbst HPROF implementbtions.<br>
 <br>
-The binary output begins with the information:<br>
+The binbry output begins with the informbtion:<br>
 <br>
-<table style="text-align: left; width: 100%; height: 124px;" border="1"
- cellpadding="2" cellspacing="2">
+<tbble style="text-blign: left; width: 100%; height: 124px;" border="1"
+ cellpbdding="2" cellspbcing="2">
   <tbody>
     <tr>
-      <td style="vertical-align: top;">[u1]*<br>
+      <td style="verticbl-blign: top;">[u1]*<br>
       </td>
-      <td style="vertical-align: top;">An initial NULL terminated
-series of bytes representing the format name and version, in this
-implementation and historically, the string "JAVA PROFILE 1.0.1" (18
-u1 bytes) followed by a NULL byte. If the TAG "HEAP DUMP SEGMENT" is
+      <td style="verticbl-blign: top;">An initibl NULL terminbted
+series of bytes representing the formbt nbme bnd version, in this
+implementbtion bnd historicblly, the string "JAVA PROFILE 1.0.1" (18
+u1 bytes) followed by b NULL byte. If the TAG "HEAP DUMP SEGMENT" is
 used this string will be "JAVA PROFILE 1.0.2". </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">u4<br>
+      <td style="verticbl-blign: top;">u4<br>
       </td>
-      <td style="vertical-align: top;">size of identifiers. Identifiers
-are used to represent UTF8 strings, objects, stack traces, etc. They
-can have the same size as host pointers or sizeof(void*), but are not
-required to be.<span style="color: rgb(0, 0, 0);"></span></td>
+      <td style="verticbl-blign: top;">size of identifiers. Identifiers
+bre used to represent UTF8 strings, objects, stbck trbces, etc. They
+cbn hbve the sbme size bs host pointers or sizeof(void*), but bre not
+required to be.<spbn style="color: rgb(0, 0, 0);"></spbn></td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">u4<br>
+      <td style="verticbl-blign: top;">u4<br>
       </td>
-      <td style="vertical-align: top;">high word of number of
+      <td style="verticbl-blign: top;">high word of number of
 milliseconds since 0:00 GMT, 1/1/70</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">u4<br>
+      <td style="verticbl-blign: top;">u4<br>
       </td>
-      <td style="vertical-align: top;">low word of number of
+      <td style="verticbl-blign: top;">low word of number of
 milliseconds since 0:00 GMT, 1/1/70</td>
     </tr>
   </tbody>
-</table>
+</tbble>
 <br>
-Followed by a se<span style="font-family: monospace;"></span>quence of
-records that look like:<br>
+Followed by b se<spbn style="font-fbmily: monospbce;"></spbn>quence of
+records thbt look like:<br>
 <br>
-<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
- cellspacing="2">
+<tbble style="text-blign: left; width: 100%;" border="1" cellpbdding="2"
+ cellspbcing="2">
   <tbody>
     <tr>
-      <td style="vertical-align: top;">u1<br>
+      <td style="verticbl-blign: top;">u1<br>
       </td>
-      <td style="vertical-align: top;">TAG: denoting the type of the
+      <td style="verticbl-blign: top;">TAG: denoting the type of the
 record</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">u4<br>
+      <td style="verticbl-blign: top;">u4<br>
       </td>
-      <td style="vertical-align: top;">TIME: number of microseconds
+      <td style="verticbl-blign: top;">TIME: number of microseconds
 since the
-time stamp in the header<br>
+time stbmp in the hebder<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">u4<br>
+      <td style="verticbl-blign: top;">u4<br>
       </td>
-      <td style="vertical-align: top;">LENGTH: number of bytes that
+      <td style="verticbl-blign: top;">LENGTH: number of bytes thbt
 follow this
-u4 field and belong to this record<br>
+u4 field bnd belong to this record<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">[u1]*<br>
+      <td style="verticbl-blign: top;">[u1]*<br>
       </td>
-      <td style="vertical-align: top;">BODY: as many bytes as specified
+      <td style="verticbl-blign: top;">BODY: bs mbny bytes bs specified
 in
-the above u4 field<br>
+the bbove u4 field<br>
       </td>
     </tr>
   </tbody>
-</table>
+</tbble>
 <br>
 <br>
-The following TAGs are supported:<br>
+The following TAGs bre supported:<br>
 <br>
-<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
- cellspacing="2">
+<tbble style="text-blign: left; width: 100%;" border="1" cellpbdding="2"
+ cellspbcing="2">
   <tbody>
     <tr>
-      <td style="vertical-align: top;">STRING IN UTF8<br>
+      <td style="verticbl-blign: top;">STRING IN UTF8<br>
       </td>
-      <td style="vertical-align: top;">0x01<br>
+      <td style="verticbl-blign: top;">0x01<br>
       </td>
-      <td style="vertical-align: top;">
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">ID<br>
+            <td style="verticbl-blign: top;">ID<br>
             </td>
-            <td style="vertical-align: top;">ID for this string<br>
+            <td style="verticbl-blign: top;">ID for this string<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">[u1]*<br>
+            <td style="verticbl-blign: top;">[u1]*<br>
             </td>
-            <td style="vertical-align: top;">UTF8 characters for string
-(NOT NULL terminated)<br>
+            <td style="verticbl-blign: top;">UTF8 chbrbcters for string
+(NOT NULL terminbted)<br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       <br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">LOAD CLASS<br>
+      <td style="verticbl-blign: top;">LOAD CLASS<br>
       </td>
-      <td style="vertical-align: top;">0x02<br>
+      <td style="verticbl-blign: top;">0x02<br>
       </td>
-      <td style="vertical-align: top;">
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">class serial number
-(always &gt; 0)<br>
-            </td>
-          </tr>
-          <tr>
-            <td style="vertical-align: top;">ID<br>
-            </td>
-            <td style="vertical-align: top;">class object ID<br>
+            <td style="verticbl-blign: top;">clbss seribl number
+(blwbys &gt; 0)<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">ID<br>
             </td>
-            <td style="vertical-align: top;">stack trace serial number<br>
+            <td style="verticbl-blign: top;">clbss object ID<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">ID<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">class name string ID<br>
+            <td style="verticbl-blign: top;">stbck trbce seribl number<br>
+            </td>
+          </tr>
+          <tr>
+            <td style="verticbl-blign: top;">ID<br>
+            </td>
+            <td style="verticbl-blign: top;">clbss nbme string ID<br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       <br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">UNLOAD CLASS<br>
+      <td style="verticbl-blign: top;">UNLOAD CLASS<br>
       </td>
-      <td style="vertical-align: top;">0x03<br>
+      <td style="verticbl-blign: top;">0x03<br>
       </td>
-      <td style="vertical-align: top;">
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">class serial number<br>
+            <td style="verticbl-blign: top;">clbss seribl number<br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       <br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">STACK FRAME<br>
+      <td style="verticbl-blign: top;">STACK FRAME<br>
       </td>
-      <td style="vertical-align: top;">0x04<br>
+      <td style="verticbl-blign: top;">0x04<br>
       </td>
-      <td style="vertical-align: top;">
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">ID<br>
+            <td style="verticbl-blign: top;">ID<br>
             </td>
-            <td style="vertical-align: top;">stack frame ID<br>
-            </td>
-          </tr>
-          <tr>
-            <td style="vertical-align: top;">ID<br>
-            </td>
-            <td style="vertical-align: top;">method name string ID<br>
+            <td style="verticbl-blign: top;">stbck frbme ID<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">ID<br>
+            <td style="verticbl-blign: top;">ID<br>
             </td>
-            <td style="vertical-align: top;">method signature string ID<br>
-            </td>
-          </tr>
-          <tr>
-            <td style="vertical-align: top;">ID<br>
-            </td>
-            <td style="vertical-align: top;">source file name string ID<br>
+            <td style="verticbl-blign: top;">method nbme string ID<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">ID<br>
             </td>
-            <td style="vertical-align: top;">class serial number<br>
+            <td style="verticbl-blign: top;">method signbture string ID<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">ID<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">source file nbme string ID<br>
+            </td>
+          </tr>
+          <tr>
+            <td style="verticbl-blign: top;">u4<br>
+            </td>
+            <td style="verticbl-blign: top;">clbss seribl number<br>
+            </td>
+          </tr>
+          <tr>
+            <td style="verticbl-blign: top;">u4<br>
+            </td>
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">&gt; 0<br>
+                  <td style="verticbl-blign: top;">&gt; 0<br>
                   </td>
-                  <td style="vertical-align: top;">line number<br>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="vertical-align: top;">0<br>
-                  </td>
-                  <td style="vertical-align: top;">no line information
-available<br>
+                  <td style="verticbl-blign: top;">line number<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">-1<br>
+                  <td style="verticbl-blign: top;">0<br>
                   </td>
-                  <td style="vertical-align: top;">unknown location<br>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="vertical-align: top;">-2<br>
-                  </td>
-                  <td style="vertical-align: top;">compiled method (<span
- style="font-style: italic; color: rgb(255, 0, 0);">Not implemented</span>)<br>
+                  <td style="verticbl-blign: top;">no line informbtion
+bvbilbble<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">-3<br>
+                  <td style="verticbl-blign: top;">-1<br>
                   </td>
-                  <td style="vertical-align: top;">native method (<span
- style="color: rgb(255, 0, 0); font-style: italic;">Not implemented</span>)<br>
+                  <td style="verticbl-blign: top;">unknown locbtion<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="verticbl-blign: top;">-2<br>
+                  </td>
+                  <td style="verticbl-blign: top;">compiled method (<spbn
+ style="font-style: itblic; color: rgb(255, 0, 0);">Not implemented</spbn>)<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="verticbl-blign: top;">-3<br>
+                  </td>
+                  <td style="verticbl-blign: top;">nbtive method (<spbn
+ style="color: rgb(255, 0, 0); font-style: itblic;">Not implemented</spbn>)<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       <br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">STACK TRACE<br>
+      <td style="verticbl-blign: top;">STACK TRACE<br>
       </td>
-      <td style="vertical-align: top;">0x05<br>
+      <td style="verticbl-blign: top;">0x05<br>
       </td>
-      <td style="vertical-align: top;">
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">stack trace serial number<br>
-            </td>
-          </tr>
-          <tr>
-            <td style="vertical-align: top;">u4<br>
-            </td>
-            <td style="vertical-align: top;">thread serial number<br>
+            <td style="verticbl-blign: top;">stbck trbce seribl number<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">number of frames<br>
+            <td style="verticbl-blign: top;">threbd seribl number<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">[ID]*<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">series of stack frame ID's<br>
+            <td style="verticbl-blign: top;">number of frbmes<br>
+            </td>
+          </tr>
+          <tr>
+            <td style="verticbl-blign: top;">[ID]*<br>
+            </td>
+            <td style="verticbl-blign: top;">series of stbck frbme ID's<br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       <br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">ALLOC SITES<br>
+      <td style="verticbl-blign: top;">ALLOC SITES<br>
       </td>
-      <td style="vertical-align: top;">0x06<br>
+      <td style="verticbl-blign: top;">0x06<br>
       </td>
-      <td style="vertical-align: top;">
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">u2<br>
+            <td style="verticbl-blign: top;">u2<br>
             </td>
-            <td style="vertical-align: top;">Bit mask flags:<br>
-            <table style="text-align: left; width: 441px; height: 74px;"
- border="1" cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">Bit mbsk flbgs:<br>
+            <tbble style="text-blign: left; width: 441px; height: 74px;"
+ border="1" cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">0x1<br>
+                  <td style="verticbl-blign: top;">0x1<br>
                   </td>
-                  <td style="vertical-align: top;">incremental vs.
+                  <td style="verticbl-blign: top;">incrementbl vs.
 complete<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">0x2<br>
+                  <td style="verticbl-blign: top;">0x2<br>
                   </td>
-                  <td style="vertical-align: top; text-align: left;">sorted
-by allocation vs. line<br>
+                  <td style="verticbl-blign: top; text-blign: left;">sorted
+by bllocbtion vs. line<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">0x4<br>
+                  <td style="verticbl-blign: top;">0x4<br>
                   </td>
-                  <td style="vertical-align: top;">whether to force GC
-(<span style="font-style: italic; color: rgb(255, 0, 0);">Not
-Implemented</span>)<br>
+                  <td style="verticbl-blign: top;">whether to force GC
+(<spbn style="font-style: itblic; color: rgb(255, 0, 0);">Not
+Implemented</spbn>)<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">cutoff ratio (floating
+            <td style="verticbl-blign: top;">cutoff rbtio (flobting
 point)<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">total live bytes<br>
-            </td>
-          </tr>
-          <tr>
-            <td style="vertical-align: top;">u4<br>
-            </td>
-            <td style="vertical-align: top;">total live instances<br>
+            <td style="verticbl-blign: top;">totbl live bytes<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u8<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">total bytes allocated<br>
-            </td>
-          </tr>
-          <tr>
-            <td style="vertical-align: top;">u8<br>
-            </td>
-            <td style="vertical-align: top;">total instances allocated<br>
+            <td style="verticbl-blign: top;">totbl live instbnces<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u8<br>
             </td>
-            <td style="vertical-align: top;">number of sites that
+            <td style="verticbl-blign: top;">totbl bytes bllocbted<br>
+            </td>
+          </tr>
+          <tr>
+            <td style="verticbl-blign: top;">u8<br>
+            </td>
+            <td style="verticbl-blign: top;">totbl instbnces bllocbted<br>
+            </td>
+          </tr>
+          <tr>
+            <td style="verticbl-blign: top;">u4<br>
+            </td>
+            <td style="verticbl-blign: top;">number of sites thbt
 follow:<br>
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">u1<br>
+                  <td style="verticbl-blign: top;">u1<br>
                   </td>
-                  <td style="vertical-align: top;">array indicator: 0
-means not an array, non-zero means an array of this type (See <a
- href="#Basic_Type">Basic Type</a>)<br>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="vertical-align: top;">u4<br>
-                  </td>
-                  <td style="vertical-align: top;">class serial number<br>
+                  <td style="verticbl-blign: top;">brrby indicbtor: 0
+mebns not bn brrby, non-zero mebns bn brrby of this type (See <b
+ href="#Bbsic_Type">Bbsic Type</b>)<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">stack trace serial
+                  <td style="verticbl-blign: top;">clbss seribl number<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="verticbl-blign: top;">u4<br>
+                  </td>
+                  <td style="verticbl-blign: top;">stbck trbce seribl
 number<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">number of live bytes<br>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="vertical-align: top;">u4<br>
-                  </td>
-                  <td style="vertical-align: top;">number of live
-instances<br>
+                  <td style="verticbl-blign: top;">number of live bytes<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">number of bytes
-allocated<br>
+                  <td style="verticbl-blign: top;">number of live
+instbnces<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">number of instances
-allocated<br>
+                  <td style="verticbl-blign: top;">number of bytes
+bllocbted<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="verticbl-blign: top;">u4<br>
+                  </td>
+                  <td style="verticbl-blign: top;">number of instbnces
+bllocbted<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       <br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">HEAP SUMMARY<br>
+      <td style="verticbl-blign: top;">HEAP SUMMARY<br>
       </td>
-      <td style="vertical-align: top;">0x07<br>
+      <td style="verticbl-blign: top;">0x07<br>
       </td>
-      <td style="vertical-align: top;">
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">total live bytes<br>
-            </td>
-          </tr>
-          <tr>
-            <td style="vertical-align: top;">u4<br>
-            </td>
-            <td style="vertical-align: top;">total live instances<br>
+            <td style="verticbl-blign: top;">totbl live bytes<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u8<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">total bytes allocated<br>
+            <td style="verticbl-blign: top;">totbl live instbnces<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u8<br>
+            <td style="verticbl-blign: top;">u8<br>
             </td>
-            <td style="vertical-align: top;">total instances allocated<br>
+            <td style="verticbl-blign: top;">totbl bytes bllocbted<br>
+            </td>
+          </tr>
+          <tr>
+            <td style="verticbl-blign: top;">u8<br>
+            </td>
+            <td style="verticbl-blign: top;">totbl instbnces bllocbted<br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       <br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">START THREAD<br>
+      <td style="verticbl-blign: top;">START THREAD<br>
       </td>
-      <td style="vertical-align: top;">0x0A<br>
+      <td style="verticbl-blign: top;">0x0A<br>
       </td>
-      <td style="vertical-align: top;">
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">thread serial number<br>
-            </td>
-          </tr>
-          <tr>
-            <td style="vertical-align: top;">ID<br>
-            </td>
-            <td style="vertical-align: top;">thread object ID<br>
+            <td style="verticbl-blign: top;">threbd seribl number<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">ID<br>
             </td>
-            <td style="vertical-align: top;">stack trace serial number<br>
-            </td>
-          </tr>
-          <tr>
-            <td style="vertical-align: top;">ID<br>
-            </td>
-            <td style="vertical-align: top;">thread name string ID<br>
+            <td style="verticbl-blign: top;">threbd object ID<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">ID<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">thread group name ID<br>
+            <td style="verticbl-blign: top;">stbck trbce seribl number<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">ID<br>
+            <td style="verticbl-blign: top;">ID<br>
             </td>
-            <td style="vertical-align: top;">thread parent group name ID<br>
+            <td style="verticbl-blign: top;">threbd nbme string ID<br>
+            </td>
+          </tr>
+          <tr>
+            <td style="verticbl-blign: top;">ID<br>
+            </td>
+            <td style="verticbl-blign: top;">threbd group nbme ID<br>
+            </td>
+          </tr>
+          <tr>
+            <td style="verticbl-blign: top;">ID<br>
+            </td>
+            <td style="verticbl-blign: top;">threbd pbrent group nbme ID<br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       <br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">END THREAD<br>
+      <td style="verticbl-blign: top;">END THREAD<br>
       </td>
-      <td style="vertical-align: top;">0x0B<br>
+      <td style="verticbl-blign: top;">0x0B<br>
       </td>
-      <td style="vertical-align: top;">
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">thread serial number<br>
+            <td style="verticbl-blign: top;">threbd seribl number<br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       <br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">HEAP DUMP<br>
-      <span style="font-style: italic;">or</span><br>
+      <td style="verticbl-blign: top;">HEAP DUMP<br>
+      <spbn style="font-style: itblic;">or</spbn><br>
 HEAP DUMP SEGMENT<br>
       </td>
-      <td style="vertical-align: top;">0x0C<br>
-      <span style="font-style: italic;">or</span><br>
+      <td style="verticbl-blign: top;">0x0C<br>
+      <spbn style="font-style: itblic;">or</spbn><br>
 0x1C<br>
       </td>
-      <td style="vertical-align: top;">Contains any number of sub-tags,
-each begins a u1 field (no order implied here):<br>
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">Contbins bny number of sub-tbgs,
+ebch begins b u1 field (no order implied here):<br>
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">ROOT UNKNOWN<br>
+            <td style="verticbl-blign: top;">ROOT UNKNOWN<br>
             </td>
-            <td style="vertical-align: top;">0xFF<br>
+            <td style="verticbl-blign: top;">0xFF<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">object ID<br>
+                  <td style="verticbl-blign: top;">object ID<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">ROOT JNI GLOBAL<br>
+            <td style="verticbl-blign: top;">ROOT JNI GLOBAL<br>
             </td>
-            <td style="vertical-align: top;">0x01<br>
+            <td style="verticbl-blign: top;">0x01<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">object ID<br>
+                  <td style="verticbl-blign: top;">object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">JNI global ref ID<br>
+                  <td style="verticbl-blign: top;">JNI globbl ref ID<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">ROOT JNI LOCAL<br>
+            <td style="verticbl-blign: top;">ROOT JNI LOCAL<br>
             </td>
-            <td style="vertical-align: top;">0x02<br>
+            <td style="verticbl-blign: top;">0x02<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">object ID<br>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="vertical-align: top;">u4<br>
-                  </td>
-                  <td style="vertical-align: top;">thread serial number<br>
+                  <td style="verticbl-blign: top;">object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">frame number in
-stack trace (-1 for empty)<br>
+                  <td style="verticbl-blign: top;">threbd seribl number<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="verticbl-blign: top;">u4<br>
+                  </td>
+                  <td style="verticbl-blign: top;">frbme number in
+stbck trbce (-1 for empty)<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">ROOT JAVA FRAME<br>
+            <td style="verticbl-blign: top;">ROOT JAVA FRAME<br>
             </td>
-            <td style="vertical-align: top;">0x03<br>
+            <td style="verticbl-blign: top;">0x03<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">object ID<br>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="vertical-align: top;">u4<br>
-                  </td>
-                  <td style="vertical-align: top;">thread serial number<br>
+                  <td style="verticbl-blign: top;">object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">frame number in
-stack trace (-1 for empty)</td>
+                  <td style="verticbl-blign: top;">threbd seribl number<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="verticbl-blign: top;">u4<br>
+                  </td>
+                  <td style="verticbl-blign: top;">frbme number in
+stbck trbce (-1 for empty)</td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">ROOT NATIVE STACK<br>
+            <td style="verticbl-blign: top;">ROOT NATIVE STACK<br>
             </td>
-            <td style="vertical-align: top;">0x04<br>
+            <td style="verticbl-blign: top;">0x04<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">object ID<br>
+                  <td style="verticbl-blign: top;">object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">thread serial number<br>
+                  <td style="verticbl-blign: top;">threbd seribl number<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">ROOT STICKY CLASS<br>
+            <td style="verticbl-blign: top;">ROOT STICKY CLASS<br>
             </td>
-            <td style="vertical-align: top;">0x05<br>
+            <td style="verticbl-blign: top;">0x05<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">object ID<br>
+                  <td style="verticbl-blign: top;">object ID<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">ROOT THREAD BLOCK<br>
+            <td style="verticbl-blign: top;">ROOT THREAD BLOCK<br>
             </td>
-            <td style="vertical-align: top;">0x06<br>
+            <td style="verticbl-blign: top;">0x06<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">object ID<br>
+                  <td style="verticbl-blign: top;">object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">thread serial number<br>
+                  <td style="verticbl-blign: top;">threbd seribl number<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">ROOT MONITOR USED<br>
+            <td style="verticbl-blign: top;">ROOT MONITOR USED<br>
             </td>
-            <td style="vertical-align: top;">0x07<br>
+            <td style="verticbl-blign: top;">0x07<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">object ID<br>
+                  <td style="verticbl-blign: top;">object ID<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">ROOT THREAD OBJECT<br>
+            <td style="verticbl-blign: top;">ROOT THREAD OBJECT<br>
             </td>
-            <td style="vertical-align: top;">0x08<br>
+            <td style="verticbl-blign: top;">0x08<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">thread object ID<br>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="vertical-align: top;">u4<br>
-                  </td>
-                  <td style="vertical-align: top;">thread serial number<br>
+                  <td style="verticbl-blign: top;">threbd object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">stack trace serial
+                  <td style="verticbl-blign: top;">threbd seribl number<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="verticbl-blign: top;">u4<br>
+                  </td>
+                  <td style="verticbl-blign: top;">stbck trbce seribl
 number<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">CLASS DUMP<br>
+            <td style="verticbl-blign: top;">CLASS DUMP<br>
             </td>
-            <td style="vertical-align: top;">0x20<br>
+            <td style="verticbl-blign: top;">0x20<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">class object ID<br>
+                  <td style="verticbl-blign: top;">clbss object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">stack trace serial
+                  <td style="verticbl-blign: top;">stbck trbce seribl
 number<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">super class object ID<br>
+                  <td style="verticbl-blign: top;">super clbss object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">class loader object
+                  <td style="verticbl-blign: top;">clbss lobder object
 ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">signers object ID<br>
+                  <td style="verticbl-blign: top;">signers object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">protection domain
+                  <td style="verticbl-blign: top;">protection dombin
 object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">reserved<br>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="vertical-align: top;">ID<br>
-                  </td>
-                  <td style="vertical-align: top;">reserved<br>
+                  <td style="verticbl-blign: top;">reserved<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">instance size (in
+                  <td style="verticbl-blign: top;">reserved<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="verticbl-blign: top;">u4<br>
+                  </td>
+                  <td style="verticbl-blign: top;">instbnce size (in
 bytes)<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u2<br>
+                  <td style="verticbl-blign: top;">u2<br>
                   </td>
-                  <td style="vertical-align: top;">size of constant
-pool and number of records that follow:<br>
-                  <table style="text-align: left; width: 100%;"
- border="1" cellpadding="2" cellspacing="2">
+                  <td style="verticbl-blign: top;">size of constbnt
+pool bnd number of records thbt follow:<br>
+                  <tbble style="text-blign: left; width: 100%;"
+ border="1" cellpbdding="2" cellspbcing="2">
                     <tbody>
                       <tr>
-                        <td style="vertical-align: top;">u2<br>
+                        <td style="verticbl-blign: top;">u2<br>
                         </td>
-                        <td style="vertical-align: top;">constant pool
+                        <td style="verticbl-blign: top;">constbnt pool
 index<br>
                         </td>
                       </tr>
                       <tr>
-                        <td style="vertical-align: top;">u1<br>
+                        <td style="verticbl-blign: top;">u1<br>
                         </td>
-                        <td style="vertical-align: top;">type of entry:
-(See <a href="#Basic_Type">Basic Type</a>)<br>
+                        <td style="verticbl-blign: top;">type of entry:
+(See <b href="#Bbsic_Type">Bbsic Type</b>)<br>
                         </td>
                       </tr>
                       <tr>
-                        <td style="vertical-align: top;">value<br>
+                        <td style="verticbl-blign: top;">vblue<br>
                         </td>
-                        <td style="vertical-align: top;">value of entry
-(u1, u2, u4, or u8 based on type of entry)<span
- style="font-style: italic; color: rgb(255, 0, 0);"></span><br>
+                        <td style="verticbl-blign: top;">vblue of entry
+(u1, u2, u4, or u8 bbsed on type of entry)<spbn
+ style="font-style: itblic; color: rgb(255, 0, 0);"></spbn><br>
                         </td>
                       </tr>
                     </tbody>
-                  </table>
+                  </tbble>
                   <br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u2<br>
+                  <td style="verticbl-blign: top;">u2<br>
                   </td>
-                  <td style="vertical-align: top;">Number of static
+                  <td style="verticbl-blign: top;">Number of stbtic
 fields:<br>
-                  <table style="text-align: left; width: 100%;"
- border="1" cellpadding="2" cellspacing="2">
+                  <tbble style="text-blign: left; width: 100%;"
+ border="1" cellpbdding="2" cellspbcing="2">
                     <tbody>
                       <tr>
-                        <td style="vertical-align: top;">ID<br>
+                        <td style="verticbl-blign: top;">ID<br>
                         </td>
-                        <td style="vertical-align: top;">static field
-name string ID<br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;">u1<br>
-                        </td>
-                        <td style="vertical-align: top;">type of field:
-(See <a href="#Basic_Type">Basic Type</a>)<br>
+                        <td style="verticbl-blign: top;">stbtic field
+nbme string ID<br>
                         </td>
                       </tr>
                       <tr>
-                        <td style="vertical-align: top;">value<br>
+                        <td style="verticbl-blign: top;">u1<br>
                         </td>
-                        <td style="vertical-align: top;">value of entry
-(u1, u2, u4, or u8 based on type of field) <span
- style="font-style: italic; color: rgb(255, 0, 0);"></span><br>
+                        <td style="verticbl-blign: top;">type of field:
+(See <b href="#Bbsic_Type">Bbsic Type</b>)<br>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="verticbl-blign: top;">vblue<br>
+                        </td>
+                        <td style="verticbl-blign: top;">vblue of entry
+(u1, u2, u4, or u8 bbsed on type of field) <spbn
+ style="font-style: itblic; color: rgb(255, 0, 0);"></spbn><br>
                         </td>
                       </tr>
                     </tbody>
-                  </table>
+                  </tbble>
                   <br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u2<br>
+                  <td style="verticbl-blign: top;">u2<br>
                   </td>
-                  <td style="vertical-align: top;">Number of instance
-fields (not including super class's)<br>
-                  <table style="text-align: left; width: 100%;"
- border="1" cellpadding="2" cellspacing="2">
+                  <td style="verticbl-blign: top;">Number of instbnce
+fields (not including super clbss's)<br>
+                  <tbble style="text-blign: left; width: 100%;"
+ border="1" cellpbdding="2" cellspbcing="2">
                     <tbody>
                       <tr>
-                        <td style="vertical-align: top;">ID<br>
+                        <td style="verticbl-blign: top;">ID<br>
                         </td>
-                        <td style="vertical-align: top;">field name
+                        <td style="verticbl-blign: top;">field nbme
 string ID<br>
                         </td>
                       </tr>
                       <tr>
-                        <td style="vertical-align: top;">u1<br>
+                        <td style="verticbl-blign: top;">u1<br>
                         </td>
-                        <td style="vertical-align: top;">type of field:
-(See <a href="#Basic_Type">Basic Type</a>)<br>
+                        <td style="verticbl-blign: top;">type of field:
+(See <b href="#Bbsic_Type">Bbsic Type</b>)<br>
                         </td>
                       </tr>
                     </tbody>
-                  </table>
+                  </tbble>
                   <br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">INSTANCE DUMP<br>
+            <td style="verticbl-blign: top;">INSTANCE DUMP<br>
             </td>
-            <td style="vertical-align: top;">0x21<br>
+            <td style="verticbl-blign: top;">0x21<br>
             </td>
-            <td style="vertical-align: top;"><br>
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;"><br>
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">object ID<br>
+                  <td style="verticbl-blign: top;">object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">stack trace serial
+                  <td style="verticbl-blign: top;">stbck trbce seribl
 number<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">class object ID<br>
+                  <td style="verticbl-blign: top;">clbss object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">number of bytes that
+                  <td style="verticbl-blign: top;">number of bytes thbt
 follow<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">[value]*<br>
+                  <td style="verticbl-blign: top;">[vblue]*<br>
                   </td>
-                  <td style="vertical-align: top;">instance field
-values (this class, followed by super class, etc)<span
- style="font-style: italic; color: rgb(255, 0, 0);"></span><br>
+                  <td style="verticbl-blign: top;">instbnce field
+vblues (this clbss, followed by super clbss, etc)<spbn
+ style="font-style: itblic; color: rgb(255, 0, 0);"></spbn><br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">OBJECT ARRAY DUMP<br>
+            <td style="verticbl-blign: top;">OBJECT ARRAY DUMP<br>
             </td>
-            <td style="vertical-align: top;">0x22<br>
+            <td style="verticbl-blign: top;">0x22<br>
             </td>
-            <td style="vertical-align: top;"><br>
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;"><br>
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">array object ID<br>
+                  <td style="verticbl-blign: top;">brrby object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">stack trace serial
+                  <td style="verticbl-blign: top;">stbck trbce seribl
 number<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">number of elements<br>
+                  <td style="verticbl-blign: top;">number of elements<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">array class object
+                  <td style="verticbl-blign: top;">brrby clbss object
 ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">[ID]*<br>
+                  <td style="verticbl-blign: top;">[ID]*<br>
                   </td>
-                  <td style="vertical-align: top;">elements<br>
+                  <td style="verticbl-blign: top;">elements<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">PRIMITIVE ARRAY DUMP<br>
+            <td style="verticbl-blign: top;">PRIMITIVE ARRAY DUMP<br>
             </td>
-            <td style="vertical-align: top;">0x23<br>
+            <td style="verticbl-blign: top;">0x23<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">ID<br>
+                  <td style="verticbl-blign: top;">ID<br>
                   </td>
-                  <td style="vertical-align: top;">array object ID<br>
+                  <td style="verticbl-blign: top;">brrby object ID<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">stack trace serial
+                  <td style="verticbl-blign: top;">stbck trbce seribl
 number<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">number of elements<br>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="vertical-align: top;">u1<br>
-                  </td>
-                  <td style="vertical-align: top;">element type (See <a
- href="#Basic_Type">Basic Type</a>)<br>
+                  <td style="verticbl-blign: top;">number of elements<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">[u1]*<br>
+                  <td style="verticbl-blign: top;">u1<br>
                   </td>
-                  <td style="vertical-align: top;">elements (packed
-array) </td>
+                  <td style="verticbl-blign: top;">element type (See <b
+ href="#Bbsic_Type">Bbsic Type</b>)<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="verticbl-blign: top;">[u1]*<br>
+                  </td>
+                  <td style="verticbl-blign: top;">elements (pbcked
+brrby) </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       <br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">HEAP DUMP END<br>
+      <td style="verticbl-blign: top;">HEAP DUMP END<br>
       </td>
-      <td style="vertical-align: top;">0x2C<br>
+      <td style="verticbl-blign: top;">0x2C<br>
       </td>
-      <td style="vertical-align: top;">Terminates a series of HEAP DUMP
-SEGMENTS.&nbsp; Concatenation of HEAP DUMP SEGMENTS equals a HEAP DUMP.<br>
+      <td style="verticbl-blign: top;">Terminbtes b series of HEAP DUMP
+SEGMENTS.&nbsp; Concbtenbtion of HEAP DUMP SEGMENTS equbls b HEAP DUMP.<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">CPU SAMPLES<br>
+      <td style="verticbl-blign: top;">CPU SAMPLES<br>
       </td>
-      <td style="vertical-align: top;">0x0D<br>
+      <td style="verticbl-blign: top;">0x0D<br>
       </td>
-      <td style="vertical-align: top;">
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">total number of samples<br>
+            <td style="verticbl-blign: top;">totbl number of sbmples<br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">number of traces that
+            <td style="verticbl-blign: top;">number of trbces thbt
 follow:<br>
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">number of samples<br>
+                  <td style="verticbl-blign: top;">number of sbmples<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">stack trace serial
+                  <td style="verticbl-blign: top;">stbck trbce seribl
 number<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       <br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">CONTROL SETTINGS<br>
+      <td style="verticbl-blign: top;">CONTROL SETTINGS<br>
       </td>
-      <td style="vertical-align: top;">0x0E<br>
+      <td style="verticbl-blign: top;">0x0E<br>
       </td>
-      <td style="vertical-align: top;">
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">u4<br>
+            <td style="verticbl-blign: top;">u4<br>
             </td>
-            <td style="vertical-align: top;">Bit mask flags:<br>
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">Bit mbsk flbgs:<br>
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">0x1<br>
+                  <td style="verticbl-blign: top;">0x1<br>
                   </td>
-                  <td style="vertical-align: top;">alloc traces on/off<br>
+                  <td style="verticbl-blign: top;">blloc trbces on/off<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">0x2<br>
+                  <td style="verticbl-blign: top;">0x2<br>
                   </td>
-                  <td style="vertical-align: top;">cpu sampling on/off<br>
+                  <td style="verticbl-blign: top;">cpu sbmpling on/off<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">u2<br>
+            <td style="verticbl-blign: top;">u2<br>
             </td>
-            <td style="vertical-align: top;">stack trace depth<br>
+            <td style="verticbl-blign: top;">stbck trbce depth<br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       <br>
       </td>
     </tr>
   </tbody>
-</table>
-<span style="font-weight: bold;"><br>
-</span><a name="Basic_Type"></a>Basic Type
-<table style="text-align: left; width: 296px; height: 221px;" border="1"
- cellpadding="2" cellspacing="2">
+</tbble>
+<spbn style="font-weight: bold;"><br>
+</spbn><b nbme="Bbsic_Type"></b>Bbsic Type
+<tbble style="text-blign: left; width: 296px; height: 221px;" border="1"
+ cellpbdding="2" cellspbcing="2">
   <tbody>
     <tr>
-      <td style="vertical-align: top;">2<br>
+      <td style="verticbl-blign: top;">2<br>
       </td>
-      <td style="vertical-align: top;">object<br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">4<br>
-      </td>
-      <td style="vertical-align: top;">boolean<br>
+      <td style="verticbl-blign: top;">object<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">5<br>
+      <td style="verticbl-blign: top;">4<br>
       </td>
-      <td style="vertical-align: top;">char<br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">6<br>
-      </td>
-      <td style="vertical-align: top;">float<br>
+      <td style="verticbl-blign: top;">boolebn<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">7<br>
+      <td style="verticbl-blign: top;">5<br>
       </td>
-      <td style="vertical-align: top;">double<br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">8<br>
-      </td>
-      <td style="vertical-align: top;">byte<br>
+      <td style="verticbl-blign: top;">chbr<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">9<br>
+      <td style="verticbl-blign: top;">6<br>
       </td>
-      <td style="vertical-align: top;">short<br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">10<br>
-      </td>
-      <td style="vertical-align: top;">int<br>
+      <td style="verticbl-blign: top;">flobt<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">11<br>
+      <td style="verticbl-blign: top;">7<br>
       </td>
-      <td style="vertical-align: top;">long<br>
+      <td style="verticbl-blign: top;">double<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="verticbl-blign: top;">8<br>
+      </td>
+      <td style="verticbl-blign: top;">byte<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="verticbl-blign: top;">9<br>
+      </td>
+      <td style="verticbl-blign: top;">short<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="verticbl-blign: top;">10<br>
+      </td>
+      <td style="verticbl-blign: top;">int<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="verticbl-blign: top;">11<br>
+      </td>
+      <td style="verticbl-blign: top;">long<br>
       </td>
     </tr>
   </tbody>
-</table>
-<h3><a name="mozTocId348360" class="mozTocH3"></a>Handling of Arrays</h3>
+</tbble>
+<h3><b nbme="mozTocId348360" clbss="mozTocH3"></b>Hbndling of Arrbys</h3>
 <br>
-There will be a "LOAD CLASS" tag for type type of each array
-in the dump. In the LOAD CLASS record, the class name string ID
-will refer to a string with a human-readable name of the array
-type that is formatted as the type name would be in Java source
-code. Thus, the LOAD CLASS record for the type char[] will
-be "char[]", for short[][][] will be "short[][][]" and for
+There will be b "LOAD CLASS" tbg for type type of ebch brrby
+in the dump. In the LOAD CLASS record, the clbss nbme string ID
+will refer to b string with b humbn-rebdbble nbme of the brrby
+type thbt is formbtted bs the type nbme would be in Jbvb source
+code. Thus, the LOAD CLASS record for the type chbr[] will
+be "chbr[]", for short[][][] will be "short[][][]" bnd for
 MyType[] will be "MyType[]".
 <br>
-<h3><a name="mozTocId348369" class="mozTocH3"></a>Socket Connection and
-Communication</h3>
+<h3><b nbme="mozTocId348369" clbss="mozTocH3"></b>Socket Connection bnd
+Communicbtion</h3>
 <br>
-<span style="font-weight: bold;">WARNING</span>: This command format is
+<spbn style="font-weight: bold;">WARNING</spbn>: This commbnd formbt is
 still
-considered highly experimental, however, all attempts were made to
-match the format of past HPROF implementations.<br>
+considered highly experimentbl, however, bll bttempts were mbde to
+mbtch the formbt of pbst HPROF implementbtions.<br>
 <br>
 <br>
-Commands can be sent to HPROF via the socket connection, the accepted
-COMMAND TAGS are:<br>
+Commbnds cbn be sent to HPROF vib the socket connection, the bccepted
+COMMAND TAGS bre:<br>
 <br>
-<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
- cellspacing="2">
+<tbble style="text-blign: left; width: 100%;" border="1" cellpbdding="2"
+ cellspbcing="2">
   <tbody>
     <tr>
-      <td style="vertical-align: top;">FORCE GC (<span
- style="font-style: italic; color: rgb(255, 0, 0);">Not implemented</span>)<br>
+      <td style="verticbl-blign: top;">FORCE GC (<spbn
+ style="font-style: itblic; color: rgb(255, 0, 0);">Not implemented</spbn>)<br>
       </td>
-      <td style="vertical-align: top;">0x01<br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">DUMP HEAP<br>
-      </td>
-      <td style="vertical-align: top;">0x02<br>
+      <td style="verticbl-blign: top;">0x01<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">ALLOC SITES<br>
+      <td style="verticbl-blign: top;">DUMP HEAP<br>
       </td>
-      <td style="vertical-align: top;">0x03<br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">HEAP SUMMARY<br>
-      </td>
-      <td style="vertical-align: top;">0x04<br>
+      <td style="verticbl-blign: top;">0x02<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">EXIT THE VM<br>
+      <td style="verticbl-blign: top;">ALLOC SITES<br>
       </td>
-      <td style="vertical-align: top;">0x05<br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">DUMP TRACES<br>
-      </td>
-      <td style="vertical-align: top;">0x06<br>
+      <td style="verticbl-blign: top;">0x03<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">CPU SAMPLES<br>
+      <td style="verticbl-blign: top;">HEAP SUMMARY<br>
       </td>
-      <td style="vertical-align: top;">0x07<br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">CONTROL<br>
-      </td>
-      <td style="vertical-align: top;">0x08<br>
+      <td style="verticbl-blign: top;">0x04<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">EOF (used to terminate socket
+      <td style="verticbl-blign: top;">EXIT THE VM<br>
+      </td>
+      <td style="verticbl-blign: top;">0x05<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="verticbl-blign: top;">DUMP TRACES<br>
+      </td>
+      <td style="verticbl-blign: top;">0x06<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="verticbl-blign: top;">CPU SAMPLES<br>
+      </td>
+      <td style="verticbl-blign: top;">0x07<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="verticbl-blign: top;">CONTROL<br>
+      </td>
+      <td style="verticbl-blign: top;">0x08<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="verticbl-blign: top;">EOF (used to terminbte socket
 connection)<br>
       </td>
-      <td style="vertical-align: top;">0xFF<br>
+      <td style="verticbl-blign: top;">0xFF<br>
       </td>
     </tr>
   </tbody>
-</table>
+</tbble>
 <br>
-The commands take the form:<br>
+The commbnds tbke the form:<br>
 <br>
-<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
- cellspacing="2">
+<tbble style="text-blign: left; width: 100%;" border="1" cellpbdding="2"
+ cellspbcing="2">
   <tbody>
     <tr>
-      <td style="vertical-align: top;">u1<br>
+      <td style="verticbl-blign: top;">u1<br>
       </td>
-      <td style="vertical-align: top;">COMMAND TAG<br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">u4<br>
-      </td>
-      <td style="vertical-align: top;">serial number<br>
+      <td style="verticbl-blign: top;">COMMAND TAG<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">u4<br>
+      <td style="verticbl-blign: top;">u4<br>
       </td>
-      <td style="vertical-align: top;">number of bytes that follow<br>
+      <td style="verticbl-blign: top;">seribl number<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">[u1]*<br>
+      <td style="verticbl-blign: top;">u4<br>
       </td>
-      <td style="vertical-align: top;">
-      <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+      <td style="verticbl-blign: top;">number of bytes thbt follow<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="verticbl-blign: top;">[u1]*<br>
+      </td>
+      <td style="verticbl-blign: top;">
+      <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">ALLOC SITES<br>
+            <td style="verticbl-blign: top;">ALLOC SITES<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">u2<br>
+                  <td style="verticbl-blign: top;">u2<br>
                   </td>
-                  <td style="vertical-align: top;">Flags:<br>
+                  <td style="verticbl-blign: top;">Flbgs:<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">cutoff ratio
-(floating point between 0.0 and 1.0)<br>
+                  <td style="verticbl-blign: top;">cutoff rbtio
+(flobting point between 0.0 bnd 1.0)<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">CPU SAMPLES<br>
+            <td style="verticbl-blign: top;">CPU SAMPLES<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">u2<br>
+                  <td style="verticbl-blign: top;">u2<br>
                   </td>
-                  <td style="vertical-align: top;">ignored<br>
+                  <td style="verticbl-blign: top;">ignored<br>
                   </td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;">u4<br>
+                  <td style="verticbl-blign: top;">u4<br>
                   </td>
-                  <td style="vertical-align: top;">cutoff ratio
-(floating point between 0.0 and 1.0)<br>
+                  <td style="verticbl-blign: top;">cutoff rbtio
+(flobting point between 0.0 bnd 1.0)<br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">CONTROL<br>
+            <td style="verticbl-blign: top;">CONTROL<br>
             </td>
-            <td style="vertical-align: top;">
-            <table style="text-align: left; width: 100%;" border="1"
- cellpadding="2" cellspacing="2">
+            <td style="verticbl-blign: top;">
+            <tbble style="text-blign: left; width: 100%;" border="1"
+ cellpbdding="2" cellspbcing="2">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;">u2<br>
+                  <td style="verticbl-blign: top;">u2<br>
                   </td>
-                  <td style="vertical-align: top;">Sub option:<br>
-                  <table style="text-align: left; width: 100%;"
- border="1" cellpadding="2" cellspacing="2">
+                  <td style="verticbl-blign: top;">Sub option:<br>
+                  <tbble style="text-blign: left; width: 100%;"
+ border="1" cellpbdding="2" cellspbcing="2">
                     <tbody>
                       <tr>
-                        <td style="vertical-align: top;">0x1<br>
+                        <td style="verticbl-blign: top;">0x1<br>
                         </td>
-                        <td style="vertical-align: top;">Turn alloc
-traces on<br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;">0x2<br>
-                        </td>
-                        <td style="vertical-align: top;">Turn alloc
-traces off<br>
+                        <td style="verticbl-blign: top;">Turn blloc
+trbces on<br>
                         </td>
                       </tr>
                       <tr>
-                        <td style="vertical-align: top;">0x3<br>
+                        <td style="verticbl-blign: top;">0x2<br>
                         </td>
-                        <td style="vertical-align: top;">Turn CPU
-sampling on:<br>
-                        <table style="text-align: left; width: 100%;"
- border="1" cellpadding="2" cellspacing="2">
+                        <td style="verticbl-blign: top;">Turn blloc
+trbces off<br>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="verticbl-blign: top;">0x3<br>
+                        </td>
+                        <td style="verticbl-blign: top;">Turn CPU
+sbmpling on:<br>
+                        <tbble style="text-blign: left; width: 100%;"
+ border="1" cellpbdding="2" cellspbcing="2">
                           <tbody>
                             <tr>
-                              <td style="vertical-align: top;">ID<br>
+                              <td style="verticbl-blign: top;">ID<br>
                               </td>
-                              <td style="vertical-align: top;">thread
-object ID (0 for all threads)<br>
+                              <td style="verticbl-blign: top;">threbd
+object ID (0 for bll threbds)<br>
                               </td>
                             </tr>
                           </tbody>
-                        </table>
+                        </tbble>
                         <br>
                         </td>
                       </tr>
                       <tr>
-                        <td style="vertical-align: top;">0x4<br>
+                        <td style="verticbl-blign: top;">0x4<br>
                         </td>
-                        <td style="vertical-align: top;">Turn CPU
-sampling off:<br>
-                        <table style="text-align: left; width: 100%;"
- border="1" cellpadding="2" cellspacing="2">
+                        <td style="verticbl-blign: top;">Turn CPU
+sbmpling off:<br>
+                        <tbble style="text-blign: left; width: 100%;"
+ border="1" cellpbdding="2" cellspbcing="2">
                           <tbody>
                             <tr>
-                              <td style="vertical-align: top;">ID<br>
+                              <td style="verticbl-blign: top;">ID<br>
                               </td>
-                              <td style="vertical-align: top;">thread
-object ID (0 for all threads)</td>
+                              <td style="verticbl-blign: top;">threbd
+object ID (0 for bll threbds)</td>
                             </tr>
                           </tbody>
-                        </table>
+                        </tbble>
                         <br>
                         </td>
                       </tr>
                       <tr>
-                        <td style="vertical-align: top;">0x5<br>
+                        <td style="verticbl-blign: top;">0x5<br>
                         </td>
-                        <td style="vertical-align: top;">Clear CPU
-sampling<br>
+                        <td style="verticbl-blign: top;">Clebr CPU
+sbmpling<br>
                         </td>
                       </tr>
                       <tr>
-                        <td style="vertical-align: top;">0x6<br>
+                        <td style="verticbl-blign: top;">0x6<br>
                         </td>
-                        <td style="vertical-align: top;">Set max stack
+                        <td style="verticbl-blign: top;">Set mbx stbck
 depth:<br>
-                        <table style="text-align: left; width: 100%;"
- border="1" cellpadding="2" cellspacing="2">
+                        <tbble style="text-blign: left; width: 100%;"
+ border="1" cellpbdding="2" cellspbcing="2">
                           <tbody>
                             <tr>
-                              <td style="vertical-align: top;">u2<br>
+                              <td style="verticbl-blign: top;">u2<br>
                               </td>
-                              <td style="vertical-align: top;">New max
-stack depth<br>
+                              <td style="verticbl-blign: top;">New mbx
+stbck depth<br>
                               </td>
                             </tr>
                           </tbody>
-                        </table>
+                        </tbble>
                         <br>
                         </td>
                       </tr>
                     </tbody>
-                  </table>
+                  </tbble>
                   <br>
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </tbble>
             <br>
             </td>
           </tr>
         </tbody>
-      </table>
+      </tbble>
       </td>
     </tr>
   </tbody>
-</table>
+</tbble>
 <br>
 <p></p>
-<h2><a name="mozTocId589424" class="mozTocH4"></a>Source Code<br>
+<h2><b nbme="mozTocId589424" clbss="mozTocH4"></b>Source Code<br>
 </h2>
-The source to HPROF is available in the JDK download in the
+The source to HPROF is bvbilbble in the JDK downlobd in the
 demo/jvmti/hprof directory.
-<p><font size="-1"><b>*As used on this web site, the terms "Java
-Virtual Machine" or "JVM" mean a virtual machine for the Java platform.</b></font>
+<p><font size="-1"><b>*As used on this web site, the terms "Jbvb
+Virtubl Mbchine" or "JVM" mebn b virtubl mbchine for the Jbvb plbtform.</b></font>
 </p>
 <p></p>
-<hr><!-- hhmts start -->
-Last modified: 2005<!-- hhmts end -->
+<hr><!-- hhmts stbrt -->
+Lbst modified: 2005<!-- hhmts end -->
 </body>
 </html>

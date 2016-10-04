@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2001, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * SegmentCache caches <code>Segment</code>s to avoid continually creating
- * and destroying of <code>Segment</code>s. A common use of this class would
+ * SegmentCbche cbches <code>Segment</code>s to bvoid continublly crebting
+ * bnd destroying of <code>Segment</code>s. A common use of this clbss would
  * be:
  * <pre>
- *   Segment segment = segmentCache.getSegment();
+ *   Segment segment = segmentCbche.getSegment();
  *   // do something with segment
  *   ...
- *   segmentCache.releaseSegment(segment);
+ *   segmentCbche.relebseSegment(segment);
  * </pre>
  *
  */
-class SegmentCache {
+clbss SegmentCbche {
     /**
-     * A global cache.
+     * A globbl cbche.
      */
-    private static SegmentCache sharedCache = new SegmentCache();
+    privbte stbtic SegmentCbche shbredCbche = new SegmentCbche();
 
     /**
      * A list of the currently unused Segments.
      */
-    private List<Segment> segments;
+    privbte List<Segment> segments;
 
 
     /**
-     * Returns the shared SegmentCache.
+     * Returns the shbred SegmentCbche.
      */
-    public static SegmentCache getSharedInstance() {
-        return sharedCache;
+    public stbtic SegmentCbche getShbredInstbnce() {
+        return shbredCbche;
     }
 
     /**
-     * A convenience method to get a Segment from the shared
-     * <code>SegmentCache</code>.
+     * A convenience method to get b Segment from the shbred
+     * <code>SegmentCbche</code>.
      */
-    public static Segment getSharedSegment() {
-        return getSharedInstance().getSegment();
+    public stbtic Segment getShbredSegment() {
+        return getShbredInstbnce().getSegment();
     }
 
     /**
-     * A convenience method to release a Segment to the shared
-     * <code>SegmentCache</code>.
+     * A convenience method to relebse b Segment to the shbred
+     * <code>SegmentCbche</code>.
      */
-    public static void releaseSharedSegment(Segment segment) {
-        getSharedInstance().releaseSegment(segment);
+    public stbtic void relebseShbredSegment(Segment segment) {
+        getShbredInstbnce().relebseSegment(segment);
     }
 
 
 
     /**
-     * Creates and returns a SegmentCache.
+     * Crebtes bnd returns b SegmentCbche.
      */
-    public SegmentCache() {
-        segments = new ArrayList<Segment>(11);
+    public SegmentCbche() {
+        segments = new ArrbyList<Segment>(11);
     }
 
     /**
-     * Returns a <code>Segment</code>. When done, the <code>Segment</code>
-     * should be recycled by invoking <code>releaseSegment</code>.
+     * Returns b <code>Segment</code>. When done, the <code>Segment</code>
+     * should be recycled by invoking <code>relebseSegment</code>.
      */
     public Segment getSegment() {
         synchronized(this) {
@@ -95,33 +95,33 @@ class SegmentCache {
                 return segments.remove(size - 1);
             }
         }
-        return new CachedSegment();
+        return new CbchedSegment();
     }
 
     /**
-     * Releases a Segment. You should not use a Segment after you release it,
-     * and you should NEVER release the same Segment more than once, eg:
+     * Relebses b Segment. You should not use b Segment bfter you relebse it,
+     * bnd you should NEVER relebse the sbme Segment more thbn once, eg:
      * <pre>
-     *   segmentCache.releaseSegment(segment);
-     *   segmentCache.releaseSegment(segment);
+     *   segmentCbche.relebseSegment(segment);
+     *   segmentCbche.relebseSegment(segment);
      * </pre>
-     * Will likely result in very bad things happening!
+     * Will likely result in very bbd things hbppening!
      */
-    public void releaseSegment(Segment segment) {
-        if (segment instanceof CachedSegment) {
+    public void relebseSegment(Segment segment) {
+        if (segment instbnceof CbchedSegment) {
             synchronized(this) {
-                segment.array = null;
+                segment.brrby = null;
                 segment.count = 0;
-                segments.add(segment);
+                segments.bdd(segment);
             }
         }
     }
 
 
     /**
-     * CachedSegment is used as a tagging interface to determine if
-     * a Segment can successfully be shared.
+     * CbchedSegment is used bs b tbgging interfbce to determine if
+     * b Segment cbn successfully be shbred.
      */
-    private static class CachedSegment extends Segment {
+    privbte stbtic clbss CbchedSegment extends Segment {
     }
 }

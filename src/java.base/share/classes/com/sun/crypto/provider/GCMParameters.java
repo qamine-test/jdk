@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.io.IOException;
-import java.security.AlgorithmParametersSpi;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import javax.crypto.spec.GCMParameterSpec;
+import jbvb.io.IOException;
+import jbvb.security.AlgorithmPbrbmetersSpi;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.InvblidPbrbmeterSpecException;
+import jbvbx.crypto.spec.GCMPbrbmeterSpec;
 import sun.misc.HexDumpEncoder;
 import sun.security.util.*;
 
 /**
- * This class implements the parameter set used with
- * GCM encryption, which is defined in RFC 5084 as follows:
+ * This clbss implements the pbrbmeter set used with
+ * GCM encryption, which is defined in RFC 5084 bs follows:
  *
  * <pre>
- *    GCMParameters ::= SEQUENCE {
- *      aes-iv      OCTET STRING, -- recommended size is 12 octets
- *      aes-tLen    AES-GCM-ICVlen DEFAULT 12 }
+ *    GCMPbrbmeters ::= SEQUENCE {
+ *      bes-iv      OCTET STRING, -- recommended size is 12 octets
+ *      bes-tLen    AES-GCM-ICVlen DEFAULT 12 }
  *
  *    AES-GCM-ICVlen ::= INTEGER (12 | 13 | 14 | 15 | 16)
  *
  * </pre>
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  * @since 1.8
  */
-public final class GCMParameters extends AlgorithmParametersSpi {
+public finbl clbss GCMPbrbmeters extends AlgorithmPbrbmetersSpi {
 
     // the iv
-    private byte[] iv;
-    // the tag length in bytes
-    private int tLen;
+    privbte byte[] iv;
+    // the tbg length in bytes
+    privbte int tLen;
 
-    public GCMParameters() {}
+    public GCMPbrbmeters() {}
 
-    protected void engineInit(AlgorithmParameterSpec paramSpec)
-        throws InvalidParameterSpecException {
+    protected void engineInit(AlgorithmPbrbmeterSpec pbrbmSpec)
+        throws InvblidPbrbmeterSpecException {
 
-        if (!(paramSpec instanceof GCMParameterSpec)) {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter specification");
+        if (!(pbrbmSpec instbnceof GCMPbrbmeterSpec)) {
+            throw new InvblidPbrbmeterSpecException
+                ("Inbppropribte pbrbmeter specificbtion");
         }
-        GCMParameterSpec gps = (GCMParameterSpec) paramSpec;
+        GCMPbrbmeterSpec gps = (GCMPbrbmeterSpec) pbrbmSpec;
         // need to convert from bits to bytes for ASN.1 encoding
         this.tLen = gps.getTLen()/8;
         this.iv = gps.getIV();
     }
 
     protected void engineInit(byte[] encoded) throws IOException {
-        DerValue val = new DerValue(encoded);
-        // check if IV or params
-        if (val.tag == DerValue.tag_Sequence) {
-            byte[] iv = val.data.getOctetString();
+        DerVblue vbl = new DerVblue(encoded);
+        // check if IV or pbrbms
+        if (vbl.tbg == DerVblue.tbg_Sequence) {
+            byte[] iv = vbl.dbtb.getOctetString();
             int tLen;
-            if (val.data.available() != 0) {
-                tLen = val.data.getInteger();
+            if (vbl.dbtb.bvbilbble() != 0) {
+                tLen = vbl.dbtb.getInteger();
                 if (tLen < 12 || tLen > 16 ) {
                     throw new IOException
-                        ("GCM parameter parsing error: unsupported tag len: " +
+                        ("GCM pbrbmeter pbrsing error: unsupported tbg len: " +
                          tLen);
                 }
-                if (val.data.available() != 0) {
+                if (vbl.dbtb.bvbilbble() != 0) {
                     throw new IOException
-                        ("GCM parameter parsing error: extra data");
+                        ("GCM pbrbmeter pbrsing error: extrb dbtb");
                 }
             } else {
                 tLen = 12;
@@ -94,7 +94,7 @@ public final class GCMParameters extends AlgorithmParametersSpi {
             this.iv = iv.clone();
             this.tLen = tLen;
         } else {
-            throw new IOException("GCM parameter parsing error: no SEQ tag");
+            throw new IOException("GCM pbrbmeter pbrsing error: no SEQ tbg");
         }
     }
 
@@ -103,26 +103,26 @@ public final class GCMParameters extends AlgorithmParametersSpi {
         engineInit(encoded);
     }
 
-    protected <T extends AlgorithmParameterSpec>
-            T engineGetParameterSpec(Class<T> paramSpec)
-        throws InvalidParameterSpecException {
+    protected <T extends AlgorithmPbrbmeterSpec>
+            T engineGetPbrbmeterSpec(Clbss<T> pbrbmSpec)
+        throws InvblidPbrbmeterSpecException {
 
-        if (GCMParameterSpec.class.isAssignableFrom(paramSpec)) {
-            return paramSpec.cast(new GCMParameterSpec(tLen * 8, iv));
+        if (GCMPbrbmeterSpec.clbss.isAssignbbleFrom(pbrbmSpec)) {
+            return pbrbmSpec.cbst(new GCMPbrbmeterSpec(tLen * 8, iv));
         } else {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter specification");
+            throw new InvblidPbrbmeterSpecException
+                ("Inbppropribte pbrbmeter specificbtion");
         }
     }
 
     protected byte[] engineGetEncoded() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream bytes = new DerOutputStream();
+        DerOutputStrebm out = new DerOutputStrebm();
+        DerOutputStrebm bytes = new DerOutputStrebm();
 
         bytes.putOctetString(iv);
         bytes.putInteger(tLen);
-        out.write(DerValue.tag_Sequence, bytes);
-        return out.toByteArray();
+        out.write(DerVblue.tbg_Sequence, bytes);
+        return out.toByteArrby();
     }
 
     protected byte[] engineGetEncoded(String encodingMethod)
@@ -131,16 +131,16 @@ public final class GCMParameters extends AlgorithmParametersSpi {
     }
 
     /*
-     * Returns a formatted string describing the parameters.
+     * Returns b formbtted string describing the pbrbmeters.
      */
     protected String engineToString() {
-        String LINE_SEP = System.getProperty("line.separator");
+        String LINE_SEP = System.getProperty("line.sepbrbtor");
         HexDumpEncoder encoder = new HexDumpEncoder();
         StringBuilder sb
             = new StringBuilder(LINE_SEP + "    iv:" + LINE_SEP + "["
                 + encoder.encodeBuffer(iv) + "]");
 
-        sb.append(LINE_SEP + "tLen(bits):" + LINE_SEP + tLen*8 + LINE_SEP);
+        sb.bppend(LINE_SEP + "tLen(bits):" + LINE_SEP + tLen*8 + LINE_SEP);
         return sb.toString();
     }
 }

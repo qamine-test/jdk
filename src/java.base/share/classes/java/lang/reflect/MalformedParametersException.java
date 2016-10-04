@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
 /**
- * Thrown when {@link java.lang.reflect.Executable#getParameters the
- * java.lang.reflect package} attempts to read method parameters from
- * a class file and determines that one or more parameters are
- * malformed.
+ * Thrown when {@link jbvb.lbng.reflect.Executbble#getPbrbmeters the
+ * jbvb.lbng.reflect pbckbge} bttempts to rebd method pbrbmeters from
+ * b clbss file bnd determines thbt one or more pbrbmeters bre
+ * mblformed.
  *
- * <p>The following is a list of conditions under which this exception
- * can be thrown:
+ * <p>The following is b list of conditions under which this exception
+ * cbn be thrown:
  * <ul>
- * <li> The number of parameters (parameter_count) is wrong for the method
- * <li> A constant pool index is out of bounds.
- * <li> A constant pool index does not refer to a UTF-8 entry
- * <li> A parameter's name is "", or contains an illegal character
- * <li> The flags field contains an illegal flag (something other than
+ * <li> The number of pbrbmeters (pbrbmeter_count) is wrong for the method
+ * <li> A constbnt pool index is out of bounds.
+ * <li> A constbnt pool index does not refer to b UTF-8 entry
+ * <li> A pbrbmeter's nbme is "", or contbins bn illegbl chbrbcter
+ * <li> The flbgs field contbins bn illegbl flbg (something other thbn
  *     FINAL, SYNTHETIC, or MANDATED)
  * </ul>
  *
- * See {@link java.lang.reflect.Executable#getParameters} for more
- * information.
+ * See {@link jbvb.lbng.reflect.Executbble#getPbrbmeters} for more
+ * informbtion.
  *
- * @see java.lang.reflect.Executable#getParameters
+ * @see jbvb.lbng.reflect.Executbble#getPbrbmeters
  * @since 1.8
  */
-public class MalformedParametersException extends RuntimeException {
+public clbss MblformedPbrbmetersException extends RuntimeException {
 
     /**
-     * Version for serialization.
+     * Version for seriblizbtion.
      */
-    private static final long serialVersionUID = 20130919L;
+    privbte stbtic finbl long seriblVersionUID = 20130919L;
 
     /**
-     * Create a {@code MalformedParametersException} with an empty
-     * reason.
+     * Crebte b {@code MblformedPbrbmetersException} with bn empty
+     * rebson.
      */
-    public MalformedParametersException() {}
+    public MblformedPbrbmetersException() {}
 
     /**
-     * Create a {@code MalformedParametersException}.
+     * Crebte b {@code MblformedPbrbmetersException}.
      *
-     * @param reason The reason for the exception.
+     * @pbrbm rebson The rebson for the exception.
      */
-    public MalformedParametersException(String reason) {
-        super(reason);
+    public MblformedPbrbmetersException(String rebson) {
+        super(rebson);
     }
 }

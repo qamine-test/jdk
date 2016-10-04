@@ -1,26 +1,26 @@
 
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,62 +28,62 @@
  * Return the logrithm of x
  *
  * Method :
- *   1. Argument Reduction: find k and f such that
+ *   1. Argument Reduction: find k bnd f such thbt
  *                      x = 2^k * (1+f),
  *         where  sqrt(2)/2 < 1+f < sqrt(2) .
  *
- *   2. Approximation of log(1+f).
- *      Let s = f/(2+f) ; based on log(1+f) = log(1+s) - log(1-s)
+ *   2. Approximbtion of log(1+f).
+ *      Let s = f/(2+f) ; bbsed on log(1+f) = log(1+s) - log(1-s)
  *               = 2s + 2/3 s**3 + 2/5 s**5 + .....,
  *               = 2s + s*R
- *      We use a special Reme algorithm on [0,0.1716] to generate
- *      a polynomial of degree 14 to approximate R The maximum error
- *      of this polynomial approximation is bounded by 2**-58.45. In
+ *      We use b specibl Reme blgorithm on [0,0.1716] to generbte
+ *      b polynomibl of degree 14 to bpproximbte R The mbximum error
+ *      of this polynomibl bpproximbtion is bounded by 2**-58.45. In
  *      other words,
  *                      2      4      6      8      10      12      14
  *          R(z) ~ Lg1*s +Lg2*s +Lg3*s +Lg4*s +Lg5*s  +Lg6*s  +Lg7*s
- *      (the values of Lg1 to Lg7 are listed in the program)
- *      and
+ *      (the vblues of Lg1 to Lg7 bre listed in the progrbm)
+ *      bnd
  *          |      2          14          |     -58.45
  *          | Lg1*s +...+Lg7*s    -  R(z) | <= 2
  *          |                             |
- *      Note that 2s = f - s*f = f - hfsq + s*hfsq, where hfsq = f*f/2.
- *      In order to guarantee error in log below 1ulp, we compute log
+ *      Note thbt 2s = f - s*f = f - hfsq + s*hfsq, where hfsq = f*f/2.
+ *      In order to gubrbntee error in log below 1ulp, we compute log
  *      by
- *              log(1+f) = f - s*(f - R)        (if f is not too large)
- *              log(1+f) = f - (hfsq - s*(hfsq+R)).     (better accuracy)
+ *              log(1+f) = f - s*(f - R)        (if f is not too lbrge)
+ *              log(1+f) = f - (hfsq - s*(hfsq+R)).     (better bccurbcy)
  *
- *      3. Finally,  log(x) = k*ln2 + log(1+f).
+ *      3. Finblly,  log(x) = k*ln2 + log(1+f).
  *                          = k*ln2_hi+(f-(hfsq-(s*(hfsq+R)+k*ln2_lo)))
- *         Here ln2 is split into two floating point number:
+ *         Here ln2 is split into two flobting point number:
  *                      ln2_hi + ln2_lo,
- *         where n*ln2_hi is always exact for |n| < 2000.
+ *         where n*ln2_hi is blwbys exbct for |n| < 2000.
  *
- * Special cases:
- *      log(x) is NaN with signal if x < 0 (including -INF) ;
- *      log(+INF) is +INF; log(0) is -INF with signal;
- *      log(NaN) is that NaN with no signal.
+ * Specibl cbses:
+ *      log(x) is NbN with signbl if x < 0 (including -INF) ;
+ *      log(+INF) is +INF; log(0) is -INF with signbl;
+ *      log(NbN) is thbt NbN with no signbl.
  *
- * Accuracy:
- *      according to an error analysis, the error is always less than
- *      1 ulp (unit in the last place).
+ * Accurbcy:
+ *      bccording to bn error bnblysis, the error is blwbys less thbn
+ *      1 ulp (unit in the lbst plbce).
  *
- * Constants:
- * The hexadecimal values are the intended ones for the following
- * constants. The decimal values may be used, provided that the
- * compiler will convert from decimal to binary accurately enough
- * to produce the hexadecimal values shown.
+ * Constbnts:
+ * The hexbdecimbl vblues bre the intended ones for the following
+ * constbnts. The decimbl vblues mby be used, provided thbt the
+ * compiler will convert from decimbl to binbry bccurbtely enough
+ * to produce the hexbdecimbl vblues shown.
  */
 
 #include "fdlibm.h"
 
 #ifdef __STDC__
-static const double
+stbtic const double
 #else
-static double
+stbtic double
 #endif
 ln2_hi  =  6.93147180369123816490e-01,  /* 3fe62e42 fee00000 */
-ln2_lo  =  1.90821492927058770002e-10,  /* 3dea39ef 35793c76 */
+ln2_lo  =  1.90821492927058770002e-10,  /* 3deb39ef 35793c76 */
 two54   =  1.80143985094819840000e+16,  /* 43500000 00000000 */
 Lg1 = 6.666666666666735130e-01,  /* 3FE55555 55555593 */
 Lg2 = 3.999999999940941908e-01,  /* 3FD99999 9997FA04 */
@@ -93,7 +93,7 @@ Lg5 = 1.818357216161805012e-01,  /* 3FC74664 96CB03DE */
 Lg6 = 1.531383769920937332e-01,  /* 3FC39A09 D078C69F */
 Lg7 = 1.479819860511658591e-01;  /* 3FC2F112 DF3E5244 */
 
-static double zero   =  0.0;
+stbtic double zero   =  0.0;
 
 #ifdef __STDC__
         double __ieee754_log(double x)
@@ -113,15 +113,15 @@ static double zero   =  0.0;
         if (hx < 0x00100000) {                  /* x < 2**-1022  */
             if (((hx&0x7fffffff)|lx)==0)
                 return -two54/zero;             /* log(+-0)=-inf */
-            if (hx<0) return (x-x)/zero;        /* log(-#) = NaN */
-            k -= 54; x *= two54; /* subnormal number, scale up x */
+            if (hx<0) return (x-x)/zero;        /* log(-#) = NbN */
+            k -= 54; x *= two54; /* subnormbl number, scble up x */
             hx = __HI(x);               /* high word of x */
         }
         if (hx >= 0x7ff00000) return x+x;
         k += (hx>>20)-1023;
         hx &= 0x000fffff;
         i = (hx+0x95f64)&0x100000;
-        __HI(x) = hx|(i^0x3ff00000);    /* normalize x or x/2 */
+        __HI(x) = hx|(i^0x3ff00000);    /* normblize x or x/2 */
         k += (i>>20);
         f = x-1.0;
         if((0x000fffff&(2+hx))<3) {     /* |f| < 2**-20 */
@@ -136,7 +136,7 @@ static double zero   =  0.0;
         s = f/(2.0+f);
         dk = (double)k;
         z = s*s;
-        i = hx-0x6147a;
+        i = hx-0x6147b;
         w = z*z;
         j = 0x6b851-hx;
         t1= w*(Lg2+w*(Lg4+w*Lg6));

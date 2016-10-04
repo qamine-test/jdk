@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap.pool;
+pbckbge com.sun.jndi.ldbp.pool;
 
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.LinkedList;
 
-import java.io.PrintStream;
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import javax.naming.NamingException;
+import jbvb.io.PrintStrebm;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvbx.nbming.NbmingException;
 
 /**
- * A map of pool ids to Connections.
- * Key is an object that uniquely identifies a PooledConnection request
- * (typically information needed to create the connection).
- * The definitions of the key's equals() and hashCode() methods are
- * vital to its unique identification in a Pool.
+ * A mbp of pool ids to Connections.
+ * Key is bn object thbt uniquely identifies b PooledConnection request
+ * (typicblly informbtion needed to crebte the connection).
+ * The definitions of the key's equbls() bnd hbshCode() methods bre
+ * vitbl to its unique identificbtion in b Pool.
  *
- * Value is a ConnectionsRef, which is a reference to Connections,
- * a list of equivalent connections.
+ * Vblue is b ConnectionsRef, which is b reference to Connections,
+ * b list of equivblent connections.
  *
- * Supports methods that
- * - retrieves (or creates as necessary) a connection from the pool
+ * Supports methods thbt
+ * - retrieves (or crebtes bs necessbry) b connection from the pool
  * - removes expired connections from the pool
  *
- * Connections cleanup:
- * A WeakHashMap is used for mapping the pool ids and Connections.
- * A SoftReference from the value to the key is kept to hold the map
- * entry as long as possible. This allows the GC to remove Connections
- * from the Pool under situations of VM running out of resources.
- * To take an appropriate action of 'closing the connections' before the GC
- * reclaims the ConnectionsRef objects, the ConnectionsRef objects are made
- * weakly reachable through a list of weak references registered with
- * a reference queue.
- * Upon an entry gets removed from the WeakHashMap, the ConnectionsRef (value
- * in the map) object is weakly reachable. When another sweep of
- * clearing the weak references is made by the GC it puts the corresponding
- * ConnectionsWeakRef object into the reference queue.
- * The reference queue is monitored lazily for reclaimable Connections
- * whenever a pooled connection is requested or a call to remove the expired
- * connections is made. The monitoring is done regularly when idle connection
- * timeout is set as the PoolCleaner removes expired connections periodically.
- * As determined by experimentation, cleanup of resources using the
- * ReferenceQueue mechanism is reliable and has more immediate effect than the
- * finalizer approach.
+ * Connections clebnup:
+ * A WebkHbshMbp is used for mbpping the pool ids bnd Connections.
+ * A SoftReference from the vblue to the key is kept to hold the mbp
+ * entry bs long bs possible. This bllows the GC to remove Connections
+ * from the Pool under situbtions of VM running out of resources.
+ * To tbke bn bppropribte bction of 'closing the connections' before the GC
+ * reclbims the ConnectionsRef objects, the ConnectionsRef objects bre mbde
+ * webkly rebchbble through b list of webk references registered with
+ * b reference queue.
+ * Upon bn entry gets removed from the WebkHbshMbp, the ConnectionsRef (vblue
+ * in the mbp) object is webkly rebchbble. When bnother sweep of
+ * clebring the webk references is mbde by the GC it puts the corresponding
+ * ConnectionsWebkRef object into the reference queue.
+ * The reference queue is monitored lbzily for reclbimbble Connections
+ * whenever b pooled connection is requested or b cbll to remove the expired
+ * connections is mbde. The monitoring is done regulbrly when idle connection
+ * timeout is set bs the PoolClebner removes expired connections periodicblly.
+ * As determined by experimentbtion, clebnup of resources using the
+ * ReferenceQueue mechbnism is relibble bnd hbs more immedibte effect thbn the
+ * finblizer bpprobch.
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
 
-final public class Pool {
+finbl public clbss Pool {
 
-    static final boolean debug = com.sun.jndi.ldap.LdapPoolManager.debug;
+    stbtic finbl boolebn debug = com.sun.jndi.ldbp.LdbpPoolMbnbger.debug;
 
     /*
-     * Used for connections cleanup
+     * Used for connections clebnup
      */
-    private static final ReferenceQueue<ConnectionsRef> queue =
+    privbte stbtic finbl ReferenceQueue<ConnectionsRef> queue =
         new ReferenceQueue<>();
-    private static final Collection<Reference<ConnectionsRef>> weakRefs =
+    privbte stbtic finbl Collection<Reference<ConnectionsRef>> webkRefs =
         Collections.synchronizedList(new LinkedList<Reference<ConnectionsRef>>());
 
-    final private int maxSize;    // max num of identical conn per pool
-    final private int prefSize;   // preferred num of identical conn per pool
-    final private int initSize;   // initial number of identical conn to create
-    final private Map<Object, ConnectionsRef> map;
+    finbl privbte int mbxSize;    // mbx num of identicbl conn per pool
+    finbl privbte int prefSize;   // preferred num of identicbl conn per pool
+    finbl privbte int initSize;   // initibl number of identicbl conn to crebte
+    finbl privbte Mbp<Object, ConnectionsRef> mbp;
 
-    public Pool(int initSize, int prefSize, int maxSize) {
-        map = new WeakHashMap<>();
+    public Pool(int initSize, int prefSize, int mbxSize) {
+        mbp = new WebkHbshMbp<>();
         this.prefSize = prefSize;
-        this.maxSize = maxSize;
+        this.mbxSize = mbxSize;
         this.initSize = initSize;
     }
 
     /**
-     * Gets a pooled connection for id. The pooled connection might be
-     * newly created, as governed by the maxSize and prefSize settings.
-     * If a pooled connection is unavailable and cannot be created due
-     * to the maxSize constraint, this call blocks until the constraint
-     * is removed or until 'timeout' ms has elapsed.
+     * Gets b pooled connection for id. The pooled connection might be
+     * newly crebted, bs governed by the mbxSize bnd prefSize settings.
+     * If b pooled connection is unbvbilbble bnd cbnnot be crebted due
+     * to the mbxSize constrbint, this cbll blocks until the constrbint
+     * is removed or until 'timeout' ms hbs elbpsed.
      *
-     * @param id identity of the connection to get
-     * @param timeout the number of milliseconds to wait before giving up
-     * @param factory the factory to use for creating the connection if
-     *          creation is necessary
-     * @return a pooled connection
-     * @throws NamingException the connection could not be created due to
-     *                          an error.
+     * @pbrbm id identity of the connection to get
+     * @pbrbm timeout the number of milliseconds to wbit before giving up
+     * @pbrbm fbctory the fbctory to use for crebting the connection if
+     *          crebtion is necessbry
+     * @return b pooled connection
+     * @throws NbmingException the connection could not be crebted due to
+     *                          bn error.
      */
     public PooledConnection getPooledConnection(Object id, long timeout,
-        PooledConnectionFactory factory) throws NamingException {
+        PooledConnectionFbctory fbctory) throws NbmingException {
 
         d("get(): ", id);
-        d("size: ", map.size());
+        d("size: ", mbp.size());
 
-        expungeStaleConnections();
+        expungeStbleConnections();
 
         Connections conns;
-        synchronized (map) {
+        synchronized (mbp) {
             conns = getConnections(id);
             if (conns == null) {
-                d("get(): creating new connections list for ", id);
+                d("get(): crebting new connections list for ", id);
 
-                // No connections for this id so create a new list
-                conns = new Connections(id, initSize, prefSize, maxSize,
-                    factory);
+                // No connections for this id so crebte b new list
+                conns = new Connections(id, initSize, prefSize, mbxSize,
+                    fbctory);
                 ConnectionsRef connsRef = new ConnectionsRef(conns);
-                map.put(id, connsRef);
+                mbp.put(id, connsRef);
 
-                // Create a weak reference to ConnectionsRef
-                Reference<ConnectionsRef> weakRef =
-                        new ConnectionsWeakRef(connsRef, queue);
+                // Crebte b webk reference to ConnectionsRef
+                Reference<ConnectionsRef> webkRef =
+                        new ConnectionsWebkRef(connsRef, queue);
 
-                // Keep the weak reference through the element of a linked list
-                weakRefs.add(weakRef);
+                // Keep the webk reference through the element of b linked list
+                webkRefs.bdd(webkRef);
             }
         }
 
-        d("get(): size after: ", map.size());
+        d("get(): size bfter: ", mbp.size());
 
-        return conns.get(timeout, factory); // get one connection from list
+        return conns.get(timeout, fbctory); // get one connection from list
     }
 
-    private Connections getConnections(Object id) {
-        ConnectionsRef ref = map.get(id);
+    privbte Connections getConnections(Object id) {
+        ConnectionsRef ref = mbp.get(id);
         return (ref != null) ? ref.getConnections() : null;
     }
 
     /**
-     * Goes through the connections in this Pool and expires ones that
-     * have been idle before 'threshold'. An expired connection is closed
-     * and then removed from the pool (removePooledConnection() will eventually
-     * be called, and the list of pools itself removed if it becomes empty).
+     * Goes through the connections in this Pool bnd expires ones thbt
+     * hbve been idle before 'threshold'. An expired connection is closed
+     * bnd then removed from the pool (removePooledConnection() will eventublly
+     * be cblled, bnd the list of pools itself removed if it becomes empty).
      *
-     * @param threshold connections idle before 'threshold' should be closed
-     *          and removed.
+     * @pbrbm threshold connections idle before 'threshold' should be closed
+     *          bnd removed.
      */
     public void expire(long threshold) {
-        synchronized (map) {
-            Iterator<ConnectionsRef> iter = map.values().iterator();
+        synchronized (mbp) {
+            Iterbtor<ConnectionsRef> iter = mbp.vblues().iterbtor();
             Connections conns;
-            while (iter.hasNext()) {
+            while (iter.hbsNext()) {
                 conns = iter.next().getConnections();
                 if (conns.expire(threshold)) {
                     d("expire(): removing ", conns);
@@ -174,63 +174,63 @@ final public class Pool {
                 }
             }
         }
-        expungeStaleConnections();
+        expungeStbleConnections();
     }
 
     /*
-     * Closes the connections contained in the ConnectionsRef object that
-     * is going to be reclaimed by the GC. Called by getPooledConnection()
-     * and expire() methods of this class.
+     * Closes the connections contbined in the ConnectionsRef object thbt
+     * is going to be reclbimed by the GC. Cblled by getPooledConnection()
+     * bnd expire() methods of this clbss.
      */
-    private static void expungeStaleConnections() {
-        ConnectionsWeakRef releaseRef = null;
-        while ((releaseRef = (ConnectionsWeakRef) queue.poll())
+    privbte stbtic void expungeStbleConnections() {
+        ConnectionsWebkRef relebseRef = null;
+        while ((relebseRef = (ConnectionsWebkRef) queue.poll())
                                         != null) {
-            Connections conns = releaseRef.getConnections();
+            Connections conns = relebseRef.getConnections();
 
             if (debug) {
                 System.err.println(
-                        "weak reference cleanup: Closing Connections:" + conns);
+                        "webk reference clebnup: Closing Connections:" + conns);
             }
 
-            // cleanup
+            // clebnup
             conns.close();
-            weakRefs.remove(releaseRef);
-            releaseRef.clear();
+            webkRefs.remove(relebseRef);
+            relebseRef.clebr();
          }
     }
 
 
-    public void showStats(PrintStream out) {
+    public void showStbts(PrintStrebm out) {
         Object id;
         Connections conns;
 
-        out.println("===== Pool start ======================");
-        out.println("maximum pool size: " + maxSize);
+        out.println("===== Pool stbrt ======================");
+        out.println("mbximum pool size: " + mbxSize);
         out.println("preferred pool size: " + prefSize);
-        out.println("initial pool size: " + initSize);
-        out.println("current pool size: " + map.size());
+        out.println("initibl pool size: " + initSize);
+        out.println("current pool size: " + mbp.size());
 
-        for (Map.Entry<Object, ConnectionsRef> entry : map.entrySet()) {
+        for (Mbp.Entry<Object, ConnectionsRef> entry : mbp.entrySet()) {
             id = entry.getKey();
-            conns = entry.getValue().getConnections();
-            out.println("   " + id + ":" + conns.getStats());
+            conns = entry.getVblue().getConnections();
+            out.println("   " + id + ":" + conns.getStbts());
         }
 
         out.println("====== Pool end =====================");
     }
 
     public String toString() {
-        return super.toString() + " " + map.toString();
+        return super.toString() + " " + mbp.toString();
     }
 
-    private void d(String msg, int i) {
+    privbte void d(String msg, int i) {
         if (debug) {
             System.err.println(this + "." + msg + i);
         }
     }
 
-    private void d(String msg, Object obj) {
+    privbte void d(String msg, Object obj) {
         if (debug) {
             System.err.println(this + "." + msg + obj);
         }

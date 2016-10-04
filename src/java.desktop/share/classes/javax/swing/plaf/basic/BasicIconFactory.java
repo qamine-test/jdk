@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import javax.swing.*;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIResource;
 
-import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Polygon;
-import java.io.Serializable;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Polygon;
+import jbvb.io.Seriblizbble;
 
 /**
- * Factory object that can vend Icons appropriate for the basic L &amp; F.
+ * Fbctory object thbt cbn vend Icons bppropribte for the bbsic L &bmp; F.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author David Kloba
- * @author Georges Saab
+ * @buthor Dbvid Klobb
+ * @buthor Georges Sbbb
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicIconFactory implements Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss BbsicIconFbctory implements Seriblizbble
 {
-    private static Icon frame_icon;
-    private static Icon checkBoxIcon;
-    private static Icon radioButtonIcon;
-    private static Icon checkBoxMenuItemIcon;
-    private static Icon radioButtonMenuItemIcon;
-    private static Icon menuItemCheckIcon;
-    private static Icon menuItemArrowIcon;
-    private static Icon menuArrowIcon;
+    privbte stbtic Icon frbme_icon;
+    privbte stbtic Icon checkBoxIcon;
+    privbte stbtic Icon rbdioButtonIcon;
+    privbte stbtic Icon checkBoxMenuItemIcon;
+    privbte stbtic Icon rbdioButtonMenuItemIcon;
+    privbte stbtic Icon menuItemCheckIcon;
+    privbte stbtic Icon menuItemArrowIcon;
+    privbte stbtic Icon menuArrowIcon;
 
     /**
-     * Returns a menu item check icon.
+     * Returns b menu item check icon.
      *
-     * @return a menu item check icon
+     * @return b menu item check icon
      */
-    public static Icon getMenuItemCheckIcon() {
+    public stbtic Icon getMenuItemCheckIcon() {
         if (menuItemCheckIcon == null) {
             menuItemCheckIcon = new MenuItemCheckIcon();
         }
@@ -74,11 +74,11 @@ public class BasicIconFactory implements Serializable
     }
 
     /**
-     * Returns a menu item arrow icon.
+     * Returns b menu item brrow icon.
      *
-     * @return a menu item arrow icon
+     * @return b menu item brrow icon
      */
-    public static Icon getMenuItemArrowIcon() {
+    public stbtic Icon getMenuItemArrowIcon() {
         if (menuItemArrowIcon == null) {
             menuItemArrowIcon = new MenuItemArrowIcon();
         }
@@ -86,11 +86,11 @@ public class BasicIconFactory implements Serializable
     }
 
     /**
-     * Returns a menu arrow icon.
+     * Returns b menu brrow icon.
      *
-     * @return a menu arrow icon
+     * @return b menu brrow icon
      */
-    public static Icon getMenuArrowIcon() {
+    public stbtic Icon getMenuArrowIcon() {
         if (menuArrowIcon == null) {
             menuArrowIcon = new MenuArrowIcon();
         }
@@ -98,11 +98,11 @@ public class BasicIconFactory implements Serializable
     }
 
     /**
-     * Returns a check box icon.
+     * Returns b check box icon.
      *
-     * @return a check box icon
+     * @return b check box icon
      */
-    public static Icon getCheckBoxIcon() {
+    public stbtic Icon getCheckBoxIcon() {
         if (checkBoxIcon == null) {
             checkBoxIcon = new CheckBoxIcon();
         }
@@ -110,23 +110,23 @@ public class BasicIconFactory implements Serializable
     }
 
     /**
-     * Returns a radio button icon.
+     * Returns b rbdio button icon.
      *
-     * @return a radio button icon
+     * @return b rbdio button icon
      */
-    public static Icon getRadioButtonIcon() {
-        if (radioButtonIcon == null) {
-            radioButtonIcon = new RadioButtonIcon();
+    public stbtic Icon getRbdioButtonIcon() {
+        if (rbdioButtonIcon == null) {
+            rbdioButtonIcon = new RbdioButtonIcon();
         }
-        return radioButtonIcon;
+        return rbdioButtonIcon;
     }
 
     /**
-     * Returns a check box menu item icon.
+     * Returns b check box menu item icon.
      *
-     * @return a check box menu item icon
+     * @return b check box menu item icon
      */
-    public static Icon getCheckBoxMenuItemIcon() {
+    public stbtic Icon getCheckBoxMenuItemIcon() {
         if (checkBoxMenuItemIcon == null) {
             checkBoxMenuItemIcon = new CheckBoxMenuItemIcon();
         }
@@ -134,41 +134,41 @@ public class BasicIconFactory implements Serializable
     }
 
     /**
-     * Returns a radio button menu item icon.
+     * Returns b rbdio button menu item icon.
      *
-     * @return a radio button menu item icon
+     * @return b rbdio button menu item icon
      */
-    public static Icon getRadioButtonMenuItemIcon() {
-        if (radioButtonMenuItemIcon == null) {
-            radioButtonMenuItemIcon = new RadioButtonMenuItemIcon();
+    public stbtic Icon getRbdioButtonMenuItemIcon() {
+        if (rbdioButtonMenuItemIcon == null) {
+            rbdioButtonMenuItemIcon = new RbdioButtonMenuItemIcon();
         }
-        return radioButtonMenuItemIcon;
+        return rbdioButtonMenuItemIcon;
     }
 
     /**
-     * Returns an empty frame icon.
+     * Returns bn empty frbme icon.
      *
-     * @return an empty frame icon
+     * @return bn empty frbme icon
      */
-    public static Icon createEmptyFrameIcon() {
-        if(frame_icon == null)
-            frame_icon = new EmptyFrameIcon();
-        return frame_icon;
+    public stbtic Icon crebteEmptyFrbmeIcon() {
+        if(frbme_icon == null)
+            frbme_icon = new EmptyFrbmeIcon();
+        return frbme_icon;
     }
 
-    private static class EmptyFrameIcon implements Icon, Serializable {
+    privbte stbtic clbss EmptyFrbmeIcon implements Icon, Seriblizbble {
         int height = 16;
         int width = 14;
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
         }
         public int getIconWidth() { return width; }
         public int getIconHeight() { return height; }
     };
 
-    private static class CheckBoxIcon implements Icon, Serializable
+    privbte stbtic clbss CheckBoxIcon implements Icon, Seriblizbble
     {
-        final static int csize = 13;
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        finbl stbtic int csize = 13;
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
         }
 
         public int getIconWidth() {
@@ -180,9 +180,9 @@ public class BasicIconFactory implements Serializable
         }
     }
 
-    private static class RadioButtonIcon implements Icon, UIResource, Serializable
+    privbte stbtic clbss RbdioButtonIcon implements Icon, UIResource, Seriblizbble
     {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
         }
 
         public int getIconWidth() {
@@ -192,72 +192,72 @@ public class BasicIconFactory implements Serializable
         public int getIconHeight() {
             return 13;
         }
-    } // end class RadioButtonIcon
+    } // end clbss RbdioButtonIcon
 
 
-    private static class CheckBoxMenuItemIcon implements Icon, UIResource, Serializable
+    privbte stbtic clbss CheckBoxMenuItemIcon implements Icon, UIResource, Seriblizbble
     {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            AbstractButton b = (AbstractButton) c;
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
+            AbstrbctButton b = (AbstrbctButton) c;
             ButtonModel model = b.getModel();
-            boolean isSelected = model.isSelected();
+            boolebn isSelected = model.isSelected();
             if (isSelected) {
-                g.drawLine(x+7, y+1, x+7, y+3);
-                g.drawLine(x+6, y+2, x+6, y+4);
-                g.drawLine(x+5, y+3, x+5, y+5);
-                g.drawLine(x+4, y+4, x+4, y+6);
-                g.drawLine(x+3, y+5, x+3, y+7);
-                g.drawLine(x+2, y+4, x+2, y+6);
-                g.drawLine(x+1, y+3, x+1, y+5);
+                g.drbwLine(x+7, y+1, x+7, y+3);
+                g.drbwLine(x+6, y+2, x+6, y+4);
+                g.drbwLine(x+5, y+3, x+5, y+5);
+                g.drbwLine(x+4, y+4, x+4, y+6);
+                g.drbwLine(x+3, y+5, x+3, y+7);
+                g.drbwLine(x+2, y+4, x+2, y+6);
+                g.drbwLine(x+1, y+3, x+1, y+5);
             }
         }
         public int getIconWidth() { return 9; }
         public int getIconHeight() { return 9; }
 
-    } // End class CheckBoxMenuItemIcon
+    } // End clbss CheckBoxMenuItemIcon
 
 
-    private static class RadioButtonMenuItemIcon implements Icon, UIResource, Serializable
+    privbte stbtic clbss RbdioButtonMenuItemIcon implements Icon, UIResource, Seriblizbble
     {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            AbstractButton b = (AbstractButton) c;
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
+            AbstrbctButton b = (AbstrbctButton) c;
             ButtonModel model = b.getModel();
             if (b.isSelected() == true) {
-                g.fillOval(x+1, y+1, getIconWidth(), getIconHeight());
+                g.fillOvbl(x+1, y+1, getIconWidth(), getIconHeight());
             }
         }
         public int getIconWidth() { return 6; }
         public int getIconHeight() { return 6; }
 
-    } // End class RadioButtonMenuItemIcon
+    } // End clbss RbdioButtonMenuItemIcon
 
 
-    private static class MenuItemCheckIcon implements Icon, UIResource, Serializable{
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+    privbte stbtic clbss MenuItemCheckIcon implements Icon, UIResource, Seriblizbble{
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
         }
         public int getIconWidth() { return 9; }
         public int getIconHeight() { return 9; }
 
-    } // End class MenuItemCheckIcon
+    } // End clbss MenuItemCheckIcon
 
-    private static class MenuItemArrowIcon implements Icon, UIResource, Serializable {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+    privbte stbtic clbss MenuItemArrowIcon implements Icon, UIResource, Seriblizbble {
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
         }
         public int getIconWidth() { return 4; }
         public int getIconHeight() { return 8; }
 
-    } // End class MenuItemArrowIcon
+    } // End clbss MenuItemArrowIcon
 
-    private static class MenuArrowIcon implements Icon, UIResource, Serializable {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+    privbte stbtic clbss MenuArrowIcon implements Icon, UIResource, Seriblizbble {
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
             Polygon p = new Polygon();
-            p.addPoint(x, y);
-            p.addPoint(x+getIconWidth(), y+getIconHeight()/2);
-            p.addPoint(x, y+getIconHeight());
+            p.bddPoint(x, y);
+            p.bddPoint(x+getIconWidth(), y+getIconHeight()/2);
+            p.bddPoint(x, y+getIconHeight());
             g.fillPolygon(p);
 
         }
         public int getIconWidth() { return 4; }
         public int getIconHeight() { return 8; }
-    } // End class MenuArrowIcon
+    } // End clbss MenuArrowIcon
 }

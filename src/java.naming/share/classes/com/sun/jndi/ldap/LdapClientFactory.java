@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2002, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.io.OutputStream;
-import javax.naming.InterruptedNamingException;
-import javax.naming.CommunicationException;
-import javax.naming.NamingException;
+import jbvb.io.OutputStrebm;
+import jbvbx.nbming.InterruptedNbmingException;
+import jbvbx.nbming.CommunicbtionException;
+import jbvbx.nbming.NbmingException;
 
-import com.sun.jndi.ldap.pool.PoolCallback;
-import com.sun.jndi.ldap.pool.PooledConnection;
-import com.sun.jndi.ldap.pool.PooledConnectionFactory;
+import com.sun.jndi.ldbp.pool.PoolCbllbbck;
+import com.sun.jndi.ldbp.pool.PooledConnection;
+import com.sun.jndi.ldbp.pool.PooledConnectionFbctory;
 
 /**
- * Creates an LdapClient. Encapsulates the parameters required to create
- * an LdapClient and provides methods for returning appropriate exceptions
- * to throw when acquiring a pooled LdapClient fails.
+ * Crebtes bn LdbpClient. Encbpsulbtes the pbrbmeters required to crebte
+ * bn LdbpClient bnd provides methods for returning bppropribte exceptions
+ * to throw when bcquiring b pooled LdbpClient fbils.
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
-final class LdapClientFactory implements PooledConnectionFactory {
-    final private String host;
-    final private int port;
-    final private String socketFactory;
-    final private int connTimeout;
-    final private int readTimeout;
-    final private OutputStream trace;
+finbl clbss LdbpClientFbctory implements PooledConnectionFbctory {
+    finbl privbte String host;
+    finbl privbte int port;
+    finbl privbte String socketFbctory;
+    finbl privbte int connTimeout;
+    finbl privbte int rebdTimeout;
+    finbl privbte OutputStrebm trbce;
 
-    LdapClientFactory(String host, int port, String socketFactory,
-        int connTimeout, int readTimeout, OutputStream trace) {
+    LdbpClientFbctory(String host, int port, String socketFbctory,
+        int connTimeout, int rebdTimeout, OutputStrebm trbce) {
         this.host = host;
         this.port = port;
-        this.socketFactory = socketFactory;
+        this.socketFbctory = socketFbctory;
         this.connTimeout = connTimeout;
-        this.readTimeout = readTimeout;
-        this.trace = trace;
+        this.rebdTimeout = rebdTimeout;
+        this.trbce = trbce;
     }
 
-    public PooledConnection createPooledConnection(PoolCallback pcb)
-        throws NamingException {
-        return new LdapClient(host, port, socketFactory,
-                connTimeout, readTimeout, trace, pcb);
+    public PooledConnection crebtePooledConnection(PoolCbllbbck pcb)
+        throws NbmingException {
+        return new LdbpClient(host, port, socketFbctory,
+                connTimeout, rebdTimeout, trbce, pcb);
     }
 
     public String toString() {

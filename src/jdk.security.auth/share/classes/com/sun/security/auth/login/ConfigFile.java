@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.auth.login;
+pbckbge com.sun.security.buth.login;
 
-import javax.security.auth.login.AppConfigurationEntry;
-import javax.security.auth.login.Configuration;
-import java.net.URI;
+import jbvbx.security.buth.login.AppConfigurbtionEntry;
+import jbvbx.security.buth.login.Configurbtion;
+import jbvb.net.URI;
 
-// NOTE: As of JDK 8, this class instantiates
-// sun.security.provider.ConfigFile.Spi and forwards all methods to that
-// implementation. All implementation fixes and enhancements should be made to
-// sun.security.provider.ConfigFile.Spi and not this class.
-// See JDK-8005117 for more information.
+// NOTE: As of JDK 8, this clbss instbntibtes
+// sun.security.provider.ConfigFile.Spi bnd forwbrds bll methods to thbt
+// implementbtion. All implementbtion fixes bnd enhbncements should be mbde to
+// sun.security.provider.ConfigFile.Spi bnd not this clbss.
+// See JDK-8005117 for more informbtion.
 
 /**
- * This class represents a default implementation for
- * {@code javax.security.auth.login.Configuration}.
+ * This clbss represents b defbult implementbtion for
+ * {@code jbvbx.security.buth.login.Configurbtion}.
  *
- * <p> This object stores the runtime login configuration representation,
- * and is the amalgamation of multiple static login
- * configurations that resides in files.
- * The algorithm for locating the login configuration file(s) and reading their
- * information into this {@code Configuration} object is:
+ * <p> This object stores the runtime login configurbtion representbtion,
+ * bnd is the bmblgbmbtion of multiple stbtic login
+ * configurbtions thbt resides in files.
+ * The blgorithm for locbting the login configurbtion file(s) bnd rebding their
+ * informbtion into this {@code Configurbtion} object is:
  *
  * <ol>
  * <li>
  *   Loop through the security properties,
  *   <i>login.config.url.1</i>, <i>login.config.url.2</i>, ...,
  *   <i>login.config.url.X</i>.
- *   Each property value specifies a {@code URL} pointing to a
- *   login configuration file to be loaded.  Read in and load
- *   each configuration.
+ *   Ebch property vblue specifies b {@code URL} pointing to b
+ *   login configurbtion file to be lobded.  Rebd in bnd lobd
+ *   ebch configurbtion.
  *
  * <li>
- *   The {@code java.lang.System} property
- *   <i>java.security.auth.login.config</i>
- *   may also be set to a {@code URL} pointing to another
- *   login configuration file
- *   (which is the case when a user uses the -D switch at runtime).
- *   If this property is defined, and its use is allowed by the
+ *   The {@code jbvb.lbng.System} property
+ *   <i>jbvb.security.buth.login.config</i>
+ *   mby blso be set to b {@code URL} pointing to bnother
+ *   login configurbtion file
+ *   (which is the cbse when b user uses the -D switch bt runtime).
+ *   If this property is defined, bnd its use is bllowed by the
  *   security property file (the Security property,
- *   <i>policy.allowSystemProperty</i> is set to <i>true</i>),
- *   also load that login configuration.
+ *   <i>policy.bllowSystemProperty</i> is set to <i>true</i>),
+ *   blso lobd thbt login configurbtion.
  *
  * <li>
- *   If the <i>java.security.auth.login.config</i> property is defined using
- *   "==" (rather than "="), then ignore all other specified
- *   login configurations and only load this configuration.
+ *   If the <i>jbvb.security.buth.login.config</i> property is defined using
+ *   "==" (rbther thbn "="), then ignore bll other specified
+ *   login configurbtions bnd only lobd this configurbtion.
  *
  * <li>
- *   If no system or security properties were set, try to read from the file,
- *   ${user.home}/.java.login.config, where ${user.home} is the value
+ *   If no system or security properties were set, try to rebd from the file,
+ *   ${user.home}/.jbvb.login.config, where ${user.home} is the vblue
  *   represented by the "user.home" System property.
  * </ol>
  *
- * <p> The configuration syntax supported by this implementation
- * is exactly that syntax specified in the
- * {@code javax.security.auth.login.Configuration} class.
+ * <p> The configurbtion syntbx supported by this implementbtion
+ * is exbctly thbt syntbx specified in the
+ * {@code jbvbx.security.buth.login.Configurbtion} clbss.
  *
- * @see javax.security.auth.login.LoginContext
- * @see java.security.Security security properties
+ * @see jbvbx.security.buth.login.LoginContext
+ * @see jbvb.security.Security security properties
  */
 @jdk.Exported
-public class ConfigFile extends Configuration {
+public clbss ConfigFile extends Configurbtion {
 
-    private final sun.security.provider.ConfigFile.Spi spi;
+    privbte finbl sun.security.provider.ConfigFile.Spi spi;
 
     /**
-     * Create a new {@code Configuration} object.
+     * Crebte b new {@code Configurbtion} object.
      *
-     * @throws SecurityException if the {@code Configuration} can not be
-     *                           initialized
+     * @throws SecurityException if the {@code Configurbtion} cbn not be
+     *                           initiblized
      */
     public ConfigFile() {
         spi = new sun.security.provider.ConfigFile.Spi();
     }
 
     /**
-     * Create a new {@code Configuration} object from the specified {@code URI}.
+     * Crebte b new {@code Configurbtion} object from the specified {@code URI}.
      *
-     * @param uri the {@code URI}
-     * @throws SecurityException if the {@code Configuration} can not be
-     *                           initialized
+     * @pbrbm uri the {@code URI}
+     * @throws SecurityException if the {@code Configurbtion} cbn not be
+     *                           initiblized
      * @throws NullPointerException if {@code uri} is null
      */
     public ConfigFile(URI uri) {
@@ -111,28 +111,28 @@ public class ConfigFile extends Configuration {
     }
 
     /**
-     * Retrieve an entry from the {@code Configuration} using an application
-     * name as an index.
+     * Retrieve bn entry from the {@code Configurbtion} using bn bpplicbtion
+     * nbme bs bn index.
      *
-     * @param applicationName the name used to index the {@code Configuration}
-     * @return an array of {@code AppConfigurationEntry} which correspond to
-     *         the stacked configuration of {@code LoginModule}s for this
-     *         application, or null if this application has no configured
+     * @pbrbm bpplicbtionNbme the nbme used to index the {@code Configurbtion}
+     * @return bn brrby of {@code AppConfigurbtionEntry} which correspond to
+     *         the stbcked configurbtion of {@code LoginModule}s for this
+     *         bpplicbtion, or null if this bpplicbtion hbs no configured
      *         {@code LoginModule}s.
      */
     @Override
-    public AppConfigurationEntry[] getAppConfigurationEntry
-        (String applicationName) {
+    public AppConfigurbtionEntry[] getAppConfigurbtionEntry
+        (String bpplicbtionNbme) {
 
-        return spi.engineGetAppConfigurationEntry(applicationName);
+        return spi.engineGetAppConfigurbtionEntry(bpplicbtionNbme);
     }
 
     /**
-     * Refresh and reload the {@code Configuration} by re-reading all of the
-     * login configurations.
+     * Refresh bnd relobd the {@code Configurbtion} by re-rebding bll of the
+     * login configurbtions.
      *
-     * @throws SecurityException if the caller does not have permission
-     *                           to refresh the {@code Configuration}
+     * @throws SecurityException if the cbller does not hbve permission
+     *                           to refresh the {@code Configurbtion}
      */
     @Override
     public void refresh() {

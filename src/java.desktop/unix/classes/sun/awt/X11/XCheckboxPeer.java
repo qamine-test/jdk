@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
-import java.awt.geom.AffineTransform;
-import java.util.Objects;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvbx.swing.plbf.bbsic.BbsicGrbphicsUtils;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.util.Objects;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-class XCheckboxPeer extends XComponentPeer implements CheckboxPeer {
+clbss XCheckboxPeer extends XComponentPeer implements CheckboxPeer {
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XCheckboxPeer");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XCheckboxPeer");
 
-    private static final Insets focusInsets = new Insets(0,0,0,0);
-    private static final Insets borderInsets = new Insets(2,2,2,2);
-    private static final int checkBoxInsetFromText = 2;
+    privbte stbtic finbl Insets focusInsets = new Insets(0,0,0,0);
+    privbte stbtic finbl Insets borderInsets = new Insets(2,2,2,2);
+    privbte stbtic finbl int checkBoxInsetFromText = 2;
 
-    //The check mark is less common than a plain "depressed" button,
-    //so don't use the checkmark.
-    // The checkmark shape:
-    private static final double MASTER_SIZE = 128.0;
-    private static final Polygon MASTER_CHECKMARK = new Polygon(
+    //The check mbrk is less common thbn b plbin "depressed" button,
+    //so don't use the checkmbrk.
+    // The checkmbrk shbpe:
+    privbte stbtic finbl double MASTER_SIZE = 128.0;
+    privbte stbtic finbl Polygon MASTER_CHECKMARK = new Polygon(
         new int[] {1, 25,56,124,124,85, 64},  // X-coords
         new int[] {59,35,67,  0, 12,66,123},  // Y-coords
       7);
 
-    private Shape myCheckMark;
+    privbte Shbpe myCheckMbrk;
 
-    private Color focusColor = SystemColor.windowText;
+    privbte Color focusColor = SystemColor.windowText;
 
-    private boolean pressed;
-    private boolean armed;
-    private boolean selected;
+    privbte boolebn pressed;
+    privbte boolebn brmed;
+    privbte boolebn selected;
 
-    private Rectangle textRect;
-    private Rectangle focusRect;
-    private int checkBoxSize;
-    private int cbX;
-    private int cbY;
+    privbte Rectbngle textRect;
+    privbte Rectbngle focusRect;
+    privbte int checkBoxSize;
+    privbte int cbX;
+    privbte int cbY;
 
-    String label;
+    String lbbel;
     CheckboxGroup checkBoxGroup;
 
-    XCheckboxPeer(Checkbox target) {
-        super(target);
-        pressed = false;
-        armed = false;
-        selected = target.getState();
-        label = target.getLabel();
-        if ( label == null ) {
-            label = "";
+    XCheckboxPeer(Checkbox tbrget) {
+        super(tbrget);
+        pressed = fblse;
+        brmed = fblse;
+        selected = tbrget.getStbte();
+        lbbel = tbrget.getLbbel();
+        if ( lbbel == null ) {
+            lbbel = "";
         }
-        checkBoxGroup = target.getCheckboxGroup();
-        updateMotifColors(getPeerBackground());
+        checkBoxGroup = tbrget.getCheckboxGroup();
+        updbteMotifColors(getPeerBbckground());
     }
 
-    public void preInit(XCreateWindowParams params) {
-        // Put this here so it is executed before layout() is called from
+    public void preInit(XCrebteWindowPbrbms pbrbms) {
+        // Put this here so it is executed before lbyout() is cblled from
         // setFont() in XComponent.postInit()
-        textRect = new Rectangle();
-        focusRect = new Rectangle();
-        super.preInit(params);
+        textRect = new Rectbngle();
+        focusRect = new Rectbngle();
+        super.preInit(pbrbms);
     }
 
-    public boolean isFocusable() { return true; }
+    public boolebn isFocusbble() { return true; }
 
-    public void focusGained(FocusEvent e) {
-        // TODO: only need to paint the focus bit
-        super.focusGained(e);
-        repaint();
+    public void focusGbined(FocusEvent e) {
+        // TODO: only need to pbint the focus bit
+        super.focusGbined(e);
+        repbint();
     }
 
     public void focusLost(FocusEvent e) {
-        // TODO: only need to paint the focus bit?
+        // TODO: only need to pbint the focus bit?
         super.focusLost(e);
-        repaint();
+        repbint();
     }
 
 
-    void handleJavaKeyEvent(KeyEvent e) {
+    void hbndleJbvbKeyEvent(KeyEvent e) {
         int i = e.getID();
         switch (i) {
-          case KeyEvent.KEY_PRESSED:
+          cbse KeyEvent.KEY_PRESSED:
               keyPressed(e);
-              break;
-          case KeyEvent.KEY_RELEASED:
-              keyReleased(e);
-              break;
-          case KeyEvent.KEY_TYPED:
+              brebk;
+          cbse KeyEvent.KEY_RELEASED:
+              keyRelebsed(e);
+              brebk;
+          cbse KeyEvent.KEY_TYPED:
               keyTyped(e);
-              break;
+              brebk;
         }
     }
 
@@ -126,47 +126,47 @@ class XCheckboxPeer extends XComponentPeer implements CheckboxPeer {
         if (e.getKeyCode() == KeyEvent.VK_SPACE)
         {
             //pressed=true;
-            //armed=true;
+            //brmed=true;
             //selected=!selected;
-            action(!selected);
-            //repaint();  // Gets the repaint from action()
+            bction(!selected);
+            //repbint();  // Gets the repbint from bction()
         }
 
     }
 
-    public void keyReleased(KeyEvent e) {}
+    public void keyRelebsed(KeyEvent e) {}
 
     @Override
-    public void setLabel(String label) {
-        if (label == null) {
-            label = "";
+    public void setLbbel(String lbbel) {
+        if (lbbel == null) {
+            lbbel = "";
         }
-        if (!label.equals(this.label)) {
-            this.label = label;
-            layout();
-            repaint();
+        if (!lbbel.equbls(this.lbbel)) {
+            this.lbbel = lbbel;
+            lbyout();
+            repbint();
         }
     }
 
-    void handleJavaMouseEvent(MouseEvent e) {
-        super.handleJavaMouseEvent(e);
+    void hbndleJbvbMouseEvent(MouseEvent e) {
+        super.hbndleJbvbMouseEvent(e);
         int i = e.getID();
         switch (i) {
-          case MouseEvent.MOUSE_PRESSED:
+          cbse MouseEvent.MOUSE_PRESSED:
               mousePressed(e);
-              break;
-          case MouseEvent.MOUSE_RELEASED:
-              mouseReleased(e);
-              break;
-          case MouseEvent.MOUSE_ENTERED:
+              brebk;
+          cbse MouseEvent.MOUSE_RELEASED:
+              mouseRelebsed(e);
+              brebk;
+          cbse MouseEvent.MOUSE_ENTERED:
               mouseEntered(e);
-              break;
-          case MouseEvent.MOUSE_EXITED:
+              brebk;
+          cbse MouseEvent.MOUSE_EXITED:
               mouseExited(e);
-              break;
-          case MouseEvent.MOUSE_CLICKED:
+              brebk;
+          cbse MouseEvent.MOUSE_CLICKED:
               mouseClicked(e);
-              break;
+              brebk;
         }
     }
 
@@ -174,68 +174,68 @@ class XCheckboxPeer extends XComponentPeer implements CheckboxPeer {
         if (XToolkit.isLeftMouseButton(e)) {
             Checkbox cb = (Checkbox) e.getSource();
 
-            if (cb.contains(e.getX(), e.getY())) {
-                if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                    log.finer("mousePressed() on " + target.getName() + " : armed = " + armed + ", pressed = " + pressed
-                              + ", selected = " + selected + ", enabled = " + isEnabled());
+            if (cb.contbins(e.getX(), e.getY())) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    log.finer("mousePressed() on " + tbrget.getNbme() + " : brmed = " + brmed + ", pressed = " + pressed
+                              + ", selected = " + selected + ", enbbled = " + isEnbbled());
                 }
-                if (!isEnabled()) {
-                    // Disabled buttons ignore all input...
+                if (!isEnbbled()) {
+                    // Disbbled buttons ignore bll input...
                     return;
                 }
-                if (!armed) {
-                    armed = true;
+                if (!brmed) {
+                    brmed = true;
                 }
                 pressed = true;
-                repaint();
+                repbint();
             }
         }
     }
 
-    public void mouseReleased(MouseEvent e) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("mouseReleased() on " + target.getName() + ": armed = " + armed + ", pressed = " + pressed
-                      + ", selected = " + selected + ", enabled = " + isEnabled());
+    public void mouseRelebsed(MouseEvent e) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("mouseRelebsed() on " + tbrget.getNbme() + ": brmed = " + brmed + ", pressed = " + pressed
+                      + ", selected = " + selected + ", enbbled = " + isEnbbled());
         }
-        boolean sendEvent = false;
+        boolebn sendEvent = fblse;
         if (XToolkit.isLeftMouseButton(e)) {
-            // TODO: Multiclick Threshold? - see BasicButtonListener.java
-            if (armed) {
+            // TODO: Multiclick Threshold? - see BbsicButtonListener.jbvb
+            if (brmed) {
                 //selected = !selected;
-                // send action event
-                //action(e.getWhen(),e.getModifiers());
+                // send bction event
+                //bction(e.getWhen(),e.getModifiers());
                 sendEvent = true;
             }
-            pressed = false;
-            armed = false;
+            pressed = fblse;
+            brmed = fblse;
             if (sendEvent) {
-                action(!selected);  // Also gets repaint in action()
+                bction(!selected);  // Also gets repbint in bction()
             }
             else {
-                repaint();
+                repbint();
             }
         }
     }
 
     public void mouseEntered(MouseEvent e) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("mouseEntered() on " + target.getName() + ": armed = " + armed + ", pressed = " + pressed
-                      + ", selected = " + selected + ", enabled = " + isEnabled());
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("mouseEntered() on " + tbrget.getNbme() + ": brmed = " + brmed + ", pressed = " + pressed
+                      + ", selected = " + selected + ", enbbled = " + isEnbbled());
         }
         if (pressed) {
-            armed = true;
-            repaint();
+            brmed = true;
+            repbint();
         }
     }
 
     public void mouseExited(MouseEvent e) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("mouseExited() on " + target.getName() + ": armed = " + armed + ", pressed = " + pressed
-                      + ", selected = " + selected + ", enabled = " + isEnabled());
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("mouseExited() on " + tbrget.getNbme() + ": brmed = " + brmed + ", pressed = " + pressed
+                      + ", selected = " + selected + ", enbbled = " + isEnbbled());
         }
-        if (armed) {
-            armed = false;
-            repaint();
+        if (brmed) {
+            brmed = fblse;
+            repbint();
         }
     }
 
@@ -243,54 +243,54 @@ class XCheckboxPeer extends XComponentPeer implements CheckboxPeer {
 
     public Dimension getMinimumSize() {
         /*
-         * Spacing (number of pixels between check mark and label text) is
-         * currently set to 0, but in case it ever changes we have to add
-         * it. 8 is a heuristic number. Indicator size depends on font
+         * Spbcing (number of pixels between check mbrk bnd lbbel text) is
+         * currently set to 0, but in cbse it ever chbnges we hbve to bdd
+         * it. 8 is b heuristic number. Indicbtor size depends on font
          * height, so we don't need to include it in checkbox's height
-         * calculation.
+         * cblculbtion.
          */
         FontMetrics fm = getFontMetrics(getPeerFont());
 
-        int wdth = fm.stringWidth(label) + getCheckboxSize(fm) + (2 * checkBoxInsetFromText) + 8;
-        int hght = Math.max(fm.getHeight() + 8, 15);
+        int wdth = fm.stringWidth(lbbel) + getCheckboxSize(fm) + (2 * checkBoxInsetFromText) + 8;
+        int hght = Mbth.mbx(fm.getHeight() + 8, 15);
 
         return new Dimension(wdth, hght);
     }
 
-    private int getCheckboxSize(FontMetrics fm) {
-        // the motif way of sizing is a bit inscutible, but this
-        // is a fair approximation
+    privbte int getCheckboxSize(FontMetrics fm) {
+        // the motif wby of sizing is b bit inscutible, but this
+        // is b fbir bpproximbtion
         return (fm.getHeight() * 76 / 100) - 1;
     }
 
-    public void setBackground(Color c) {
-        updateMotifColors(c);
-        super.setBackground(c);
+    public void setBbckground(Color c) {
+        updbteMotifColors(c);
+        super.setBbckground(c);
     }
 
     /*
-     * Layout the checkbox/radio button and text label
+     * Lbyout the checkbox/rbdio button bnd text lbbel
      */
-    public void layout() {
+    public void lbyout() {
         Dimension size = getPeerSize();
         Font f = getPeerFont();
         FontMetrics fm = getFontMetrics(f);
-        String text = label;
+        String text = lbbel;
 
         checkBoxSize = getCheckboxSize(fm);
 
-        // Note - Motif appears to use an left inset that is slightly
-        // scaled to the checkbox/font size.
+        // Note - Motif bppebrs to use bn left inset thbt is slightly
+        // scbled to the checkbox/font size.
         cbX = borderInsets.left + checkBoxInsetFromText;
         cbY = size.height / 2 - checkBoxSize / 2;
         int minTextX = borderInsets.left + 2 * checkBoxInsetFromText + checkBoxSize;
-        // FIXME: will need to account for alignment?
-        // FIXME: call layout() on alignment changes
+        // FIXME: will need to bccount for blignment?
+        // FIXME: cbll lbyout() on blignment chbnges
         //textRect.width = fm.stringWidth(text);
         textRect.width = fm.stringWidth(text == null ? "" : text);
         textRect.height = fm.getHeight();
 
-        textRect.x = Math.max(minTextX, size.width / 2 - textRect.width / 2);
+        textRect.x = Mbth.mbx(minTextX, size.width / 2 - textRect.width / 2);
         textRect.y = (size.height - textRect.height) / 2;
 
         focusRect.x = focusInsets.left;
@@ -299,179 +299,179 @@ class XCheckboxPeer extends XComponentPeer implements CheckboxPeer {
         focusRect.height = size.height-(focusInsets.top+focusInsets.bottom)-1;
 
         double fsize = (double) checkBoxSize;
-        myCheckMark = AffineTransform.getScaleInstance(fsize / MASTER_SIZE, fsize / MASTER_SIZE).createTransformedShape(MASTER_CHECKMARK);
+        myCheckMbrk = AffineTrbnsform.getScbleInstbnce(fsize / MASTER_SIZE, fsize / MASTER_SIZE).crebteTrbnsformedShbpe(MASTER_CHECKMARK);
     }
     @Override
-    void paintPeer(final Graphics g) {
-        //layout();
+    void pbintPeer(finbl Grbphics g) {
+        //lbyout();
         Dimension size = getPeerSize();
         Font f = getPeerFont();
         flush();
-        g.setColor(getPeerBackground());   // erase the existing button
+        g.setColor(getPeerBbckground());   // erbse the existing button
         g.fillRect(0,0, size.width, size.height);
-        if (label != null) {
+        if (lbbel != null) {
             g.setFont(f);
-            paintText(g, textRect, label);
+            pbintText(g, textRect, lbbel);
         }
 
-        if (hasFocus()) {
-            paintFocus(g,
+        if (hbsFocus()) {
+            pbintFocus(g,
                        focusRect.x,
                        focusRect.y,
                        focusRect.width,
                        focusRect.height);
         }
-        // Paint the checkbox or radio button
+        // Pbint the checkbox or rbdio button
         if (checkBoxGroup == null) {
-            paintCheckbox(g, cbX, cbY, checkBoxSize, checkBoxSize);
+            pbintCheckbox(g, cbX, cbY, checkBoxSize, checkBoxSize);
         }
         else {
-            paintRadioButton(g, cbX, cbY, checkBoxSize, checkBoxSize);
+            pbintRbdioButton(g, cbX, cbY, checkBoxSize, checkBoxSize);
         }
         flush();
     }
 
-    // You'll note this looks suspiciously like paintBorder
-    public void paintCheckbox(Graphics g,
+    // You'll note this looks suspiciously like pbintBorder
+    public void pbintCheckbox(Grbphics g,
                               int x, int y, int w, int h) {
-        boolean useBufferedImage = false;
-        BufferedImage buffer = null;
-        Graphics2D g2 = null;
+        boolebn useBufferedImbge = fblse;
+        BufferedImbge buffer = null;
+        Grbphics2D g2 = null;
         int rx = x;
         int ry = y;
-        if (!(g instanceof Graphics2D)) {
-            // Fix for 5045936. While printing, g is an instance of
-            //   sun.print.ProxyPrintGraphics which extends Graphics. So
-            //   we use a separate buffered image and its graphics is
-            //   always Graphics2D instance
-            buffer = graphicsConfig.createCompatibleImage(w, h);
-            g2 = buffer.createGraphics();
-            useBufferedImage = true;
+        if (!(g instbnceof Grbphics2D)) {
+            // Fix for 5045936. While printing, g is bn instbnce of
+            //   sun.print.ProxyPrintGrbphics which extends Grbphics. So
+            //   we use b sepbrbte buffered imbge bnd its grbphics is
+            //   blwbys Grbphics2D instbnce
+            buffer = grbphicsConfig.crebteCompbtibleImbge(w, h);
+            g2 = buffer.crebteGrbphics();
+            useBufferedImbge = true;
             rx = 0;
             ry = 0;
         }
         else {
-            g2 = (Graphics2D)g;
+            g2 = (Grbphics2D)g;
         }
         try {
-            drawMotif3DRect(g2, rx, ry, w-1, h-1, armed | selected);
+            drbwMotif3DRect(g2, rx, ry, w-1, h-1, brmed | selected);
 
-            // then paint the check
-            g2.setColor((armed | selected) ? selectColor : getPeerBackground());
+            // then pbint the check
+            g2.setColor((brmed | selected) ? selectColor : getPeerBbckground());
             g2.fillRect(rx+1, ry+1, w-2, h-2);
 
-            if (armed | selected) {
-                //Paint the check
+            if (brmed | selected) {
+                //Pbint the check
 
                 // FIXME: is this the right color?
                 g2.setColor(getPeerForeground());
 
-                AffineTransform af = g2.getTransform();
-                g2.setTransform(AffineTransform.getTranslateInstance(rx,ry));
-                g2.fill(myCheckMark);
-                g2.setTransform(af);
+                AffineTrbnsform bf = g2.getTrbnsform();
+                g2.setTrbnsform(AffineTrbnsform.getTrbnslbteInstbnce(rx,ry));
+                g2.fill(myCheckMbrk);
+                g2.setTrbnsform(bf);
             }
-        } finally {
-            if (useBufferedImage) {
+        } finblly {
+            if (useBufferedImbge) {
                 g2.dispose();
             }
         }
-        if (useBufferedImage) {
-            g.drawImage(buffer, x, y, null);
+        if (useBufferedImbge) {
+            g.drbwImbge(buffer, x, y, null);
         }
     }
 
-    public void paintRadioButton(Graphics g, int x, int y, int w, int h) {
+    public void pbintRbdioButton(Grbphics g, int x, int y, int w, int h) {
 
-        g.setColor((armed | selected) ? darkShadow : lightShadow);
-        g.drawArc(x-1, y-1, w+2, h+2, 45, 180);
+        g.setColor((brmed | selected) ? dbrkShbdow : lightShbdow);
+        g.drbwArc(x-1, y-1, w+2, h+2, 45, 180);
 
-        g.setColor((armed | selected) ? lightShadow : darkShadow);
-        g.drawArc(x-1, y-1, w+2, h+2, 45, -180);
+        g.setColor((brmed | selected) ? lightShbdow : dbrkShbdow);
+        g.drbwArc(x-1, y-1, w+2, h+2, 45, -180);
 
-        if (armed | selected) {
+        if (brmed | selected) {
             g.setColor(selectColor);
             g.fillArc(x+1, y+1, w-1, h-1, 0, 360);
         }
     }
 
-    protected void paintText(Graphics g, Rectangle textRect, String text) {
+    protected void pbintText(Grbphics g, Rectbngle textRect, String text) {
         FontMetrics fm = g.getFontMetrics();
 
         int mnemonicIndex = -1;
 
-        if(isEnabled()) {
-            /*** paint the text normally */
+        if(isEnbbled()) {
+            /*** pbint the text normblly */
             g.setColor(getPeerForeground());
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g,text,mnemonicIndex , textRect.x , textRect.y + fm.getAscent() );
+            BbsicGrbphicsUtils.drbwStringUnderlineChbrAt(g,text,mnemonicIndex , textRect.x , textRect.y + fm.getAscent() );
         }
         else {
-            /*** paint the text disabled ***/
-            g.setColor(getPeerBackground().brighter());
+            /*** pbint the text disbbled ***/
+            g.setColor(getPeerBbckground().brighter());
 
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g,text, mnemonicIndex,
+            BbsicGrbphicsUtils.drbwStringUnderlineChbrAt(g,text, mnemonicIndex,
                                                          textRect.x, textRect.y + fm.getAscent());
-            g.setColor(getPeerBackground().darker());
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g,text, mnemonicIndex,
+            g.setColor(getPeerBbckground().dbrker());
+            BbsicGrbphicsUtils.drbwStringUnderlineChbrAt(g,text, mnemonicIndex,
                                                          textRect.x - 1, textRect.y + fm.getAscent() - 1);
         }
     }
 
-    // TODO: copied directly from XButtonPeer.  Should probabaly be shared
-    protected void paintFocus(Graphics g, int x, int y, int w, int h) {
+    // TODO: copied directly from XButtonPeer.  Should probbbbly be shbred
+    protected void pbintFocus(Grbphics g, int x, int y, int w, int h) {
         g.setColor(focusColor);
-        g.drawRect(x,y,w,h);
+        g.drbwRect(x,y,w,h);
     }
 
     @Override
-    public void setState(boolean state) {
-        if (selected != state) {
-            selected = state;
-            repaint();
+    public void setStbte(boolebn stbte) {
+        if (selected != stbte) {
+            selected = stbte;
+            repbint();
         }
     }
 
     @Override
-    public void setCheckboxGroup(final CheckboxGroup g) {
-        if (!Objects.equals(g, checkBoxGroup)) {
-            // If changed from grouped/ungrouped, need to repaint()
+    public void setCheckboxGroup(finbl CheckboxGroup g) {
+        if (!Objects.equbls(g, checkBoxGroup)) {
+            // If chbnged from grouped/ungrouped, need to repbint()
             checkBoxGroup = g;
-            repaint();
+            repbint();
         }
     }
 
-    // NOTE: This method is called by privileged threads.
+    // NOTE: This method is cblled by privileged threbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
     // From MCheckboxPeer
-    void action(boolean state) {
-        final Checkbox cb = (Checkbox)target;
-        final boolean newState = state;
-        XToolkit.executeOnEventHandlerThread(cb, new Runnable() {
+    void bction(boolebn stbte) {
+        finbl Checkbox cb = (Checkbox)tbrget;
+        finbl boolebn newStbte = stbte;
+        XToolkit.executeOnEventHbndlerThrebd(cb, new Runnbble() {
                 public void run() {
                     CheckboxGroup cbg = checkBoxGroup;
                     // Bugid 4039594. If this is the current Checkbox in
-                    // a CheckboxGroup, then return to prevent deselection.
-                    // Otherwise, it's logical state will be turned off,
-                    // but it will appear on.
+                    // b CheckboxGroup, then return to prevent deselection.
+                    // Otherwise, it's logicbl stbte will be turned off,
+                    // but it will bppebr on.
                     if ((cbg != null) && (cbg.getSelectedCheckbox() == cb) &&
-                        cb.getState()) {
-                        //inUpCall = false;
-                        cb.setState(true);
+                        cb.getStbte()) {
+                        //inUpCbll = fblse;
+                        cb.setStbte(true);
                         return;
                     }
-                    // All clear - set the new state
-                    cb.setState(newState);
-                    notifyStateChanged(newState);
+                    // All clebr - set the new stbte
+                    cb.setStbte(newStbte);
+                    notifyStbteChbnged(newStbte);
                 }
             });
     }
 
-    void notifyStateChanged(boolean state) {
-        Checkbox cb = (Checkbox) target;
+    void notifyStbteChbnged(boolebn stbte) {
+        Checkbox cb = (Checkbox) tbrget;
         ItemEvent e = new ItemEvent(cb,
                                     ItemEvent.ITEM_STATE_CHANGED,
-                                    cb.getLabel(),
-                                    state ? ItemEvent.SELECTED : ItemEvent.DESELECTED);
+                                    cb.getLbbel(),
+                                    stbte ? ItemEvent.SELECTED : ItemEvent.DESELECTED);
         postEvent(e);
     }
 }

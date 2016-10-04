@@ -1,195 +1,195 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.LongSummaryStatistics;
-import java.util.Objects;
-import java.util.OptionalDouble;
-import java.util.OptionalLong;
-import java.util.PrimitiveIterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.IntFunction;
-import java.util.function.LongBinaryOperator;
-import java.util.function.LongConsumer;
-import java.util.function.LongFunction;
-import java.util.function.LongPredicate;
-import java.util.function.LongToDoubleFunction;
-import java.util.function.LongToIntFunction;
-import java.util.function.LongUnaryOperator;
-import java.util.function.ObjLongConsumer;
-import java.util.function.Supplier;
+import jbvb.util.LongSummbryStbtistics;
+import jbvb.util.Objects;
+import jbvb.util.OptionblDouble;
+import jbvb.util.OptionblLong;
+import jbvb.util.PrimitiveIterbtor;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.BinbryOperbtor;
+import jbvb.util.function.IntFunction;
+import jbvb.util.function.LongBinbryOperbtor;
+import jbvb.util.function.LongConsumer;
+import jbvb.util.function.LongFunction;
+import jbvb.util.function.LongPredicbte;
+import jbvb.util.function.LongToDoubleFunction;
+import jbvb.util.function.LongToIntFunction;
+import jbvb.util.function.LongUnbryOperbtor;
+import jbvb.util.function.ObjLongConsumer;
+import jbvb.util.function.Supplier;
 
 /**
- * Abstract base class for an intermediate pipeline stage or pipeline source
- * stage implementing whose elements are of type {@code long}.
+ * Abstrbct bbse clbss for bn intermedibte pipeline stbge or pipeline source
+ * stbge implementing whose elements bre of type {@code long}.
  *
- * @param <E_IN> type of elements in the upstream source
+ * @pbrbm <E_IN> type of elements in the upstrebm source
  * @since 1.8
  */
-abstract class LongPipeline<E_IN>
-        extends AbstractPipeline<E_IN, Long, LongStream>
-        implements LongStream {
+bbstrbct clbss LongPipeline<E_IN>
+        extends AbstrbctPipeline<E_IN, Long, LongStrebm>
+        implements LongStrebm {
 
     /**
-     * Constructor for the head of a stream pipeline.
+     * Constructor for the hebd of b strebm pipeline.
      *
-     * @param source {@code Supplier<Spliterator>} describing the stream source
-     * @param sourceFlags the source flags for the stream source, described in
-     *        {@link StreamOpFlag}
-     * @param parallel {@code true} if the pipeline is parallel
+     * @pbrbm source {@code Supplier<Spliterbtor>} describing the strebm source
+     * @pbrbm sourceFlbgs the source flbgs for the strebm source, described in
+     *        {@link StrebmOpFlbg}
+     * @pbrbm pbrbllel {@code true} if the pipeline is pbrbllel
      */
-    LongPipeline(Supplier<? extends Spliterator<Long>> source,
-                 int sourceFlags, boolean parallel) {
-        super(source, sourceFlags, parallel);
+    LongPipeline(Supplier<? extends Spliterbtor<Long>> source,
+                 int sourceFlbgs, boolebn pbrbllel) {
+        super(source, sourceFlbgs, pbrbllel);
     }
 
     /**
-     * Constructor for the head of a stream pipeline.
+     * Constructor for the hebd of b strebm pipeline.
      *
-     * @param source {@code Spliterator} describing the stream source
-     * @param sourceFlags the source flags for the stream source, described in
-     *        {@link StreamOpFlag}
-     * @param parallel {@code true} if the pipeline is parallel
+     * @pbrbm source {@code Spliterbtor} describing the strebm source
+     * @pbrbm sourceFlbgs the source flbgs for the strebm source, described in
+     *        {@link StrebmOpFlbg}
+     * @pbrbm pbrbllel {@code true} if the pipeline is pbrbllel
      */
-    LongPipeline(Spliterator<Long> source,
-                 int sourceFlags, boolean parallel) {
-        super(source, sourceFlags, parallel);
+    LongPipeline(Spliterbtor<Long> source,
+                 int sourceFlbgs, boolebn pbrbllel) {
+        super(source, sourceFlbgs, pbrbllel);
     }
 
     /**
-     * Constructor for appending an intermediate operation onto an existing pipeline.
+     * Constructor for bppending bn intermedibte operbtion onto bn existing pipeline.
      *
-     * @param upstream the upstream element source.
-     * @param opFlags the operation flags
+     * @pbrbm upstrebm the upstrebm element source.
+     * @pbrbm opFlbgs the operbtion flbgs
      */
-    LongPipeline(AbstractPipeline<?, E_IN, ?> upstream, int opFlags) {
-        super(upstream, opFlags);
+    LongPipeline(AbstrbctPipeline<?, E_IN, ?> upstrebm, int opFlbgs) {
+        super(upstrebm, opFlbgs);
     }
 
     /**
-     * Adapt a {@code Sink<Long> to an {@code LongConsumer}, ideally simply
-     * by casting.
+     * Adbpt b {@code Sink<Long> to bn {@code LongConsumer}, ideblly simply
+     * by cbsting.
      */
-    private static LongConsumer adapt(Sink<Long> sink) {
-        if (sink instanceof LongConsumer) {
+    privbte stbtic LongConsumer bdbpt(Sink<Long> sink) {
+        if (sink instbnceof LongConsumer) {
             return (LongConsumer) sink;
         } else {
             if (Tripwire.ENABLED)
-                Tripwire.trip(AbstractPipeline.class,
-                              "using LongStream.adapt(Sink<Long> s)");
-            return sink::accept;
+                Tripwire.trip(AbstrbctPipeline.clbss,
+                              "using LongStrebm.bdbpt(Sink<Long> s)");
+            return sink::bccept;
         }
     }
 
     /**
-     * Adapt a {@code Spliterator<Long>} to a {@code Spliterator.OfLong}.
+     * Adbpt b {@code Spliterbtor<Long>} to b {@code Spliterbtor.OfLong}.
      *
      * @implNote
-     * The implementation attempts to cast to a Spliterator.OfLong, and throws
-     * an exception if this cast is not possible.
+     * The implementbtion bttempts to cbst to b Spliterbtor.OfLong, bnd throws
+     * bn exception if this cbst is not possible.
      */
-    private static Spliterator.OfLong adapt(Spliterator<Long> s) {
-        if (s instanceof Spliterator.OfLong) {
-            return (Spliterator.OfLong) s;
+    privbte stbtic Spliterbtor.OfLong bdbpt(Spliterbtor<Long> s) {
+        if (s instbnceof Spliterbtor.OfLong) {
+            return (Spliterbtor.OfLong) s;
         } else {
             if (Tripwire.ENABLED)
-                Tripwire.trip(AbstractPipeline.class,
-                              "using LongStream.adapt(Spliterator<Long> s)");
-            throw new UnsupportedOperationException("LongStream.adapt(Spliterator<Long> s)");
+                Tripwire.trip(AbstrbctPipeline.clbss,
+                              "using LongStrebm.bdbpt(Spliterbtor<Long> s)");
+            throw new UnsupportedOperbtionException("LongStrebm.bdbpt(Spliterbtor<Long> s)");
         }
     }
 
 
-    // Shape-specific methods
+    // Shbpe-specific methods
 
     @Override
-    final StreamShape getOutputShape() {
-        return StreamShape.LONG_VALUE;
+    finbl StrebmShbpe getOutputShbpe() {
+        return StrebmShbpe.LONG_VALUE;
     }
 
     @Override
-    final <P_IN> Node<Long> evaluateToNode(PipelineHelper<Long> helper,
-                                           Spliterator<P_IN> spliterator,
-                                           boolean flattenTree,
-                                           IntFunction<Long[]> generator) {
-        return Nodes.collectLong(helper, spliterator, flattenTree);
+    finbl <P_IN> Node<Long> evblubteToNode(PipelineHelper<Long> helper,
+                                           Spliterbtor<P_IN> spliterbtor,
+                                           boolebn flbttenTree,
+                                           IntFunction<Long[]> generbtor) {
+        return Nodes.collectLong(helper, spliterbtor, flbttenTree);
     }
 
     @Override
-    final <P_IN> Spliterator<Long> wrap(PipelineHelper<Long> ph,
-                                        Supplier<Spliterator<P_IN>> supplier,
-                                        boolean isParallel) {
-        return new StreamSpliterators.LongWrappingSpliterator<>(ph, supplier, isParallel);
+    finbl <P_IN> Spliterbtor<Long> wrbp(PipelineHelper<Long> ph,
+                                        Supplier<Spliterbtor<P_IN>> supplier,
+                                        boolebn isPbrbllel) {
+        return new StrebmSpliterbtors.LongWrbppingSpliterbtor<>(ph, supplier, isPbrbllel);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    final Spliterator.OfLong lazySpliterator(Supplier<? extends Spliterator<Long>> supplier) {
-        return new StreamSpliterators.DelegatingSpliterator.OfLong((Supplier<Spliterator.OfLong>) supplier);
+    @SuppressWbrnings("unchecked")
+    finbl Spliterbtor.OfLong lbzySpliterbtor(Supplier<? extends Spliterbtor<Long>> supplier) {
+        return new StrebmSpliterbtors.DelegbtingSpliterbtor.OfLong((Supplier<Spliterbtor.OfLong>) supplier);
     }
 
     @Override
-    final void forEachWithCancel(Spliterator<Long> spliterator, Sink<Long> sink) {
-        Spliterator.OfLong spl = adapt(spliterator);
-        LongConsumer adaptedSink =  adapt(sink);
-        do { } while (!sink.cancellationRequested() && spl.tryAdvance(adaptedSink));
+    finbl void forEbchWithCbncel(Spliterbtor<Long> spliterbtor, Sink<Long> sink) {
+        Spliterbtor.OfLong spl = bdbpt(spliterbtor);
+        LongConsumer bdbptedSink =  bdbpt(sink);
+        do { } while (!sink.cbncellbtionRequested() && spl.tryAdvbnce(bdbptedSink));
     }
 
     @Override
-    final Node.Builder<Long> makeNodeBuilder(long exactSizeIfKnown, IntFunction<Long[]> generator) {
-        return Nodes.longBuilder(exactSizeIfKnown);
+    finbl Node.Builder<Long> mbkeNodeBuilder(long exbctSizeIfKnown, IntFunction<Long[]> generbtor) {
+        return Nodes.longBuilder(exbctSizeIfKnown);
     }
 
 
-    // LongStream
+    // LongStrebm
 
     @Override
-    public final PrimitiveIterator.OfLong iterator() {
-        return Spliterators.iterator(spliterator());
+    public finbl PrimitiveIterbtor.OfLong iterbtor() {
+        return Spliterbtors.iterbtor(spliterbtor());
     }
 
     @Override
-    public final Spliterator.OfLong spliterator() {
-        return adapt(super.spliterator());
+    public finbl Spliterbtor.OfLong spliterbtor() {
+        return bdbpt(super.spliterbtor());
     }
 
-    // Stateless intermediate ops from LongStream
+    // Stbteless intermedibte ops from LongStrebm
 
     @Override
-    public final DoubleStream asDoubleStream() {
-        return new DoublePipeline.StatelessOp<Long>(this, StreamShape.LONG_VALUE,
-                                                    StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    public finbl DoubleStrebm bsDoubleStrebm() {
+        return new DoublePipeline.StbtelessOp<Long>(this, StrebmShbpe.LONG_VALUE,
+                                                    StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<Long> opWrapSink(int flags, Sink<Double> sink) {
-                return new Sink.ChainedLong<Double>(sink) {
+            Sink<Long> opWrbpSink(int flbgs, Sink<Double> sink) {
+                return new Sink.ChbinedLong<Double>(sink) {
                     @Override
-                    public void accept(long t) {
-                        downstream.accept((double) t);
+                    public void bccept(long t) {
+                        downstrebm.bccept((double) t);
                     }
                 };
             }
@@ -197,21 +197,21 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    public final Stream<Long> boxed() {
-        return mapToObj(Long::valueOf);
+    public finbl Strebm<Long> boxed() {
+        return mbpToObj(Long::vblueOf);
     }
 
     @Override
-    public final LongStream map(LongUnaryOperator mapper) {
-        Objects.requireNonNull(mapper);
-        return new StatelessOp<Long>(this, StreamShape.LONG_VALUE,
-                                     StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    public finbl LongStrebm mbp(LongUnbryOperbtor mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new StbtelessOp<Long>(this, StrebmShbpe.LONG_VALUE,
+                                     StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<Long> opWrapSink(int flags, Sink<Long> sink) {
-                return new Sink.ChainedLong<Long>(sink) {
+            Sink<Long> opWrbpSink(int flbgs, Sink<Long> sink) {
+                return new Sink.ChbinedLong<Long>(sink) {
                     @Override
-                    public void accept(long t) {
-                        downstream.accept(mapper.applyAsLong(t));
+                    public void bccept(long t) {
+                        downstrebm.bccept(mbpper.bpplyAsLong(t));
                     }
                 };
             }
@@ -219,16 +219,16 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    public final <U> Stream<U> mapToObj(LongFunction<? extends U> mapper) {
-        Objects.requireNonNull(mapper);
-        return new ReferencePipeline.StatelessOp<Long, U>(this, StreamShape.LONG_VALUE,
-                                                          StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    public finbl <U> Strebm<U> mbpToObj(LongFunction<? extends U> mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new ReferencePipeline.StbtelessOp<Long, U>(this, StrebmShbpe.LONG_VALUE,
+                                                          StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<Long> opWrapSink(int flags, Sink<U> sink) {
-                return new Sink.ChainedLong<U>(sink) {
+            Sink<Long> opWrbpSink(int flbgs, Sink<U> sink) {
+                return new Sink.ChbinedLong<U>(sink) {
                     @Override
-                    public void accept(long t) {
-                        downstream.accept(mapper.apply(t));
+                    public void bccept(long t) {
+                        downstrebm.bccept(mbpper.bpply(t));
                     }
                 };
             }
@@ -236,16 +236,16 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    public final IntStream mapToInt(LongToIntFunction mapper) {
-        Objects.requireNonNull(mapper);
-        return new IntPipeline.StatelessOp<Long>(this, StreamShape.LONG_VALUE,
-                                                 StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    public finbl IntStrebm mbpToInt(LongToIntFunction mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new IntPipeline.StbtelessOp<Long>(this, StrebmShbpe.LONG_VALUE,
+                                                 StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<Long> opWrapSink(int flags, Sink<Integer> sink) {
-                return new Sink.ChainedLong<Integer>(sink) {
+            Sink<Long> opWrbpSink(int flbgs, Sink<Integer> sink) {
+                return new Sink.ChbinedLong<Integer>(sink) {
                     @Override
-                    public void accept(long t) {
-                        downstream.accept(mapper.applyAsInt(t));
+                    public void bccept(long t) {
+                        downstrebm.bccept(mbpper.bpplyAsInt(t));
                     }
                 };
             }
@@ -253,16 +253,16 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    public final DoubleStream mapToDouble(LongToDoubleFunction mapper) {
-        Objects.requireNonNull(mapper);
-        return new DoublePipeline.StatelessOp<Long>(this, StreamShape.LONG_VALUE,
-                                                    StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    public finbl DoubleStrebm mbpToDouble(LongToDoubleFunction mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new DoublePipeline.StbtelessOp<Long>(this, StrebmShbpe.LONG_VALUE,
+                                                    StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<Long> opWrapSink(int flags, Sink<Double> sink) {
-                return new Sink.ChainedLong<Double>(sink) {
+            Sink<Long> opWrbpSink(int flbgs, Sink<Double> sink) {
+                return new Sink.ChbinedLong<Double>(sink) {
                     @Override
-                    public void accept(long t) {
-                        downstream.accept(mapper.applyAsDouble(t));
+                    public void bccept(long t) {
+                        downstrebm.bccept(mbpper.bpplyAsDouble(t));
                     }
                 };
             }
@@ -270,24 +270,24 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    public final LongStream flatMap(LongFunction<? extends LongStream> mapper) {
-        Objects.requireNonNull(mapper);
-        return new StatelessOp<Long>(this, StreamShape.LONG_VALUE,
-                                     StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
+    public finbl LongStrebm flbtMbp(LongFunction<? extends LongStrebm> mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new StbtelessOp<Long>(this, StrebmShbpe.LONG_VALUE,
+                                     StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT | StrebmOpFlbg.NOT_SIZED) {
             @Override
-            Sink<Long> opWrapSink(int flags, Sink<Long> sink) {
-                return new Sink.ChainedLong<Long>(sink) {
+            Sink<Long> opWrbpSink(int flbgs, Sink<Long> sink) {
+                return new Sink.ChbinedLong<Long>(sink) {
                     @Override
                     public void begin(long size) {
-                        downstream.begin(-1);
+                        downstrebm.begin(-1);
                     }
 
                     @Override
-                    public void accept(long t) {
-                        try (LongStream result = mapper.apply(t)) {
-                            // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
+                    public void bccept(long t) {
+                        try (LongStrebm result = mbpper.bpply(t)) {
+                            // We cbn do better thbt this too; optimize for depth=0 cbse bnd just grbb spliterbtor bnd forEbch it
                             if (result != null)
-                                result.sequential().forEach(i -> downstream.accept(i));
+                                result.sequentibl().forEbch(i -> downstrebm.bccept(i));
                         }
                     }
                 };
@@ -296,34 +296,34 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    public LongStream unordered() {
+    public LongStrebm unordered() {
         if (!isOrdered())
             return this;
-        return new StatelessOp<Long>(this, StreamShape.LONG_VALUE, StreamOpFlag.NOT_ORDERED) {
+        return new StbtelessOp<Long>(this, StrebmShbpe.LONG_VALUE, StrebmOpFlbg.NOT_ORDERED) {
             @Override
-            Sink<Long> opWrapSink(int flags, Sink<Long> sink) {
+            Sink<Long> opWrbpSink(int flbgs, Sink<Long> sink) {
                 return sink;
             }
         };
     }
 
     @Override
-    public final LongStream filter(LongPredicate predicate) {
-        Objects.requireNonNull(predicate);
-        return new StatelessOp<Long>(this, StreamShape.LONG_VALUE,
-                                     StreamOpFlag.NOT_SIZED) {
+    public finbl LongStrebm filter(LongPredicbte predicbte) {
+        Objects.requireNonNull(predicbte);
+        return new StbtelessOp<Long>(this, StrebmShbpe.LONG_VALUE,
+                                     StrebmOpFlbg.NOT_SIZED) {
             @Override
-            Sink<Long> opWrapSink(int flags, Sink<Long> sink) {
-                return new Sink.ChainedLong<Long>(sink) {
+            Sink<Long> opWrbpSink(int flbgs, Sink<Long> sink) {
+                return new Sink.ChbinedLong<Long>(sink) {
                     @Override
                     public void begin(long size) {
-                        downstream.begin(-1);
+                        downstrebm.begin(-1);
                     }
 
                     @Override
-                    public void accept(long t) {
-                        if (predicate.test(t))
-                            downstream.accept(t);
+                    public void bccept(long t) {
+                        if (predicbte.test(t))
+                            downstrebm.bccept(t);
                     }
                 };
             }
@@ -331,85 +331,85 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    public final LongStream peek(LongConsumer action) {
-        Objects.requireNonNull(action);
-        return new StatelessOp<Long>(this, StreamShape.LONG_VALUE,
+    public finbl LongStrebm peek(LongConsumer bction) {
+        Objects.requireNonNull(bction);
+        return new StbtelessOp<Long>(this, StrebmShbpe.LONG_VALUE,
                                      0) {
             @Override
-            Sink<Long> opWrapSink(int flags, Sink<Long> sink) {
-                return new Sink.ChainedLong<Long>(sink) {
+            Sink<Long> opWrbpSink(int flbgs, Sink<Long> sink) {
+                return new Sink.ChbinedLong<Long>(sink) {
                     @Override
-                    public void accept(long t) {
-                        action.accept(t);
-                        downstream.accept(t);
+                    public void bccept(long t) {
+                        bction.bccept(t);
+                        downstrebm.bccept(t);
                     }
                 };
             }
         };
     }
 
-    // Stateful intermediate ops from LongStream
+    // Stbteful intermedibte ops from LongStrebm
 
     @Override
-    public final LongStream limit(long maxSize) {
-        if (maxSize < 0)
-            throw new IllegalArgumentException(Long.toString(maxSize));
-        return SliceOps.makeLong(this, 0, maxSize);
+    public finbl LongStrebm limit(long mbxSize) {
+        if (mbxSize < 0)
+            throw new IllegblArgumentException(Long.toString(mbxSize));
+        return SliceOps.mbkeLong(this, 0, mbxSize);
     }
 
     @Override
-    public final LongStream skip(long n) {
+    public finbl LongStrebm skip(long n) {
         if (n < 0)
-            throw new IllegalArgumentException(Long.toString(n));
+            throw new IllegblArgumentException(Long.toString(n));
         if (n == 0)
             return this;
         else
-            return SliceOps.makeLong(this, n, -1);
+            return SliceOps.mbkeLong(this, n, -1);
     }
 
     @Override
-    public final LongStream sorted() {
-        return SortedOps.makeLong(this);
+    public finbl LongStrebm sorted() {
+        return SortedOps.mbkeLong(this);
     }
 
     @Override
-    public final LongStream distinct() {
-        // While functional and quick to implement, this approach is not very efficient.
-        // An efficient version requires a long-specific map/set implementation.
-        return boxed().distinct().mapToLong(i -> (long) i);
+    public finbl LongStrebm distinct() {
+        // While functionbl bnd quick to implement, this bpprobch is not very efficient.
+        // An efficient version requires b long-specific mbp/set implementbtion.
+        return boxed().distinct().mbpToLong(i -> (long) i);
     }
 
-    // Terminal ops from LongStream
+    // Terminbl ops from LongStrebm
 
     @Override
-    public void forEach(LongConsumer action) {
-        evaluate(ForEachOps.makeLong(action, false));
-    }
-
-    @Override
-    public void forEachOrdered(LongConsumer action) {
-        evaluate(ForEachOps.makeLong(action, true));
+    public void forEbch(LongConsumer bction) {
+        evblubte(ForEbchOps.mbkeLong(bction, fblse));
     }
 
     @Override
-    public final long sum() {
-        // use better algorithm to compensate for intermediate overflow?
+    public void forEbchOrdered(LongConsumer bction) {
+        evblubte(ForEbchOps.mbkeLong(bction, true));
+    }
+
+    @Override
+    public finbl long sum() {
+        // use better blgorithm to compensbte for intermedibte overflow?
         return reduce(0, Long::sum);
     }
 
     @Override
-    public final OptionalLong min() {
-        return reduce(Math::min);
+    public finbl OptionblLong min() {
+        return reduce(Mbth::min);
     }
 
     @Override
-    public final OptionalLong max() {
-        return reduce(Math::max);
+    public finbl OptionblLong mbx() {
+        return reduce(Mbth::mbx);
     }
 
     @Override
-    public final OptionalDouble average() {
-        long[] avg = collect(() -> new long[2],
+    public finbl OptionblDouble bverbge() {
+        long[] bvg = collect(() -> new long[2],
                              (ll, i) -> {
                                  ll[0]++;
                                  ll[1] += i;
@@ -418,198 +418,198 @@ abstract class LongPipeline<E_IN>
                                  ll[0] += rr[0];
                                  ll[1] += rr[1];
                              });
-        return avg[0] > 0
-               ? OptionalDouble.of((double) avg[1] / avg[0])
-               : OptionalDouble.empty();
+        return bvg[0] > 0
+               ? OptionblDouble.of((double) bvg[1] / bvg[0])
+               : OptionblDouble.empty();
     }
 
     @Override
-    public final long count() {
-        return map(e -> 1L).sum();
+    public finbl long count() {
+        return mbp(e -> 1L).sum();
     }
 
     @Override
-    public final LongSummaryStatistics summaryStatistics() {
-        return collect(LongSummaryStatistics::new, LongSummaryStatistics::accept,
-                       LongSummaryStatistics::combine);
+    public finbl LongSummbryStbtistics summbryStbtistics() {
+        return collect(LongSummbryStbtistics::new, LongSummbryStbtistics::bccept,
+                       LongSummbryStbtistics::combine);
     }
 
     @Override
-    public final long reduce(long identity, LongBinaryOperator op) {
-        return evaluate(ReduceOps.makeLong(identity, op));
+    public finbl long reduce(long identity, LongBinbryOperbtor op) {
+        return evblubte(ReduceOps.mbkeLong(identity, op));
     }
 
     @Override
-    public final OptionalLong reduce(LongBinaryOperator op) {
-        return evaluate(ReduceOps.makeLong(op));
+    public finbl OptionblLong reduce(LongBinbryOperbtor op) {
+        return evblubte(ReduceOps.mbkeLong(op));
     }
 
     @Override
-    public final <R> R collect(Supplier<R> supplier,
-                               ObjLongConsumer<R> accumulator,
+    public finbl <R> R collect(Supplier<R> supplier,
+                               ObjLongConsumer<R> bccumulbtor,
                                BiConsumer<R, R> combiner) {
         Objects.requireNonNull(combiner);
-        BinaryOperator<R> operator = (left, right) -> {
-            combiner.accept(left, right);
+        BinbryOperbtor<R> operbtor = (left, right) -> {
+            combiner.bccept(left, right);
             return left;
         };
-        return evaluate(ReduceOps.makeLong(supplier, accumulator, operator));
+        return evblubte(ReduceOps.mbkeLong(supplier, bccumulbtor, operbtor));
     }
 
     @Override
-    public final boolean anyMatch(LongPredicate predicate) {
-        return evaluate(MatchOps.makeLong(predicate, MatchOps.MatchKind.ANY));
+    public finbl boolebn bnyMbtch(LongPredicbte predicbte) {
+        return evblubte(MbtchOps.mbkeLong(predicbte, MbtchOps.MbtchKind.ANY));
     }
 
     @Override
-    public final boolean allMatch(LongPredicate predicate) {
-        return evaluate(MatchOps.makeLong(predicate, MatchOps.MatchKind.ALL));
+    public finbl boolebn bllMbtch(LongPredicbte predicbte) {
+        return evblubte(MbtchOps.mbkeLong(predicbte, MbtchOps.MbtchKind.ALL));
     }
 
     @Override
-    public final boolean noneMatch(LongPredicate predicate) {
-        return evaluate(MatchOps.makeLong(predicate, MatchOps.MatchKind.NONE));
+    public finbl boolebn noneMbtch(LongPredicbte predicbte) {
+        return evblubte(MbtchOps.mbkeLong(predicbte, MbtchOps.MbtchKind.NONE));
     }
 
     @Override
-    public final OptionalLong findFirst() {
-        return evaluate(FindOps.makeLong(true));
+    public finbl OptionblLong findFirst() {
+        return evblubte(FindOps.mbkeLong(true));
     }
 
     @Override
-    public final OptionalLong findAny() {
-        return evaluate(FindOps.makeLong(false));
+    public finbl OptionblLong findAny() {
+        return evblubte(FindOps.mbkeLong(fblse));
     }
 
     @Override
-    public final long[] toArray() {
-        return Nodes.flattenLong((Node.OfLong) evaluateToArrayNode(Long[]::new))
-                .asPrimitiveArray();
+    public finbl long[] toArrby() {
+        return Nodes.flbttenLong((Node.OfLong) evblubteToArrbyNode(Long[]::new))
+                .bsPrimitiveArrby();
     }
 
 
     //
 
     /**
-     * Source stage of a LongPipeline.
+     * Source stbge of b LongPipeline.
      *
-     * @param <E_IN> type of elements in the upstream source
+     * @pbrbm <E_IN> type of elements in the upstrebm source
      * @since 1.8
      */
-    static class Head<E_IN> extends LongPipeline<E_IN> {
+    stbtic clbss Hebd<E_IN> extends LongPipeline<E_IN> {
         /**
-         * Constructor for the source stage of a LongStream.
+         * Constructor for the source stbge of b LongStrebm.
          *
-         * @param source {@code Supplier<Spliterator>} describing the stream
+         * @pbrbm source {@code Supplier<Spliterbtor>} describing the strebm
          *               source
-         * @param sourceFlags the source flags for the stream source, described
-         *                    in {@link StreamOpFlag}
-         * @param parallel {@code true} if the pipeline is parallel
+         * @pbrbm sourceFlbgs the source flbgs for the strebm source, described
+         *                    in {@link StrebmOpFlbg}
+         * @pbrbm pbrbllel {@code true} if the pipeline is pbrbllel
          */
-        Head(Supplier<? extends Spliterator<Long>> source,
-             int sourceFlags, boolean parallel) {
-            super(source, sourceFlags, parallel);
+        Hebd(Supplier<? extends Spliterbtor<Long>> source,
+             int sourceFlbgs, boolebn pbrbllel) {
+            super(source, sourceFlbgs, pbrbllel);
         }
 
         /**
-         * Constructor for the source stage of a LongStream.
+         * Constructor for the source stbge of b LongStrebm.
          *
-         * @param source {@code Spliterator} describing the stream source
-         * @param sourceFlags the source flags for the stream source, described
-         *                    in {@link StreamOpFlag}
-         * @param parallel {@code true} if the pipeline is parallel
+         * @pbrbm source {@code Spliterbtor} describing the strebm source
+         * @pbrbm sourceFlbgs the source flbgs for the strebm source, described
+         *                    in {@link StrebmOpFlbg}
+         * @pbrbm pbrbllel {@code true} if the pipeline is pbrbllel
          */
-        Head(Spliterator<Long> source,
-             int sourceFlags, boolean parallel) {
-            super(source, sourceFlags, parallel);
+        Hebd(Spliterbtor<Long> source,
+             int sourceFlbgs, boolebn pbrbllel) {
+            super(source, sourceFlbgs, pbrbllel);
         }
 
         @Override
-        final boolean opIsStateful() {
-            throw new UnsupportedOperationException();
+        finbl boolebn opIsStbteful() {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        final Sink<E_IN> opWrapSink(int flags, Sink<Long> sink) {
-            throw new UnsupportedOperationException();
+        finbl Sink<E_IN> opWrbpSink(int flbgs, Sink<Long> sink) {
+            throw new UnsupportedOperbtionException();
         }
 
-        // Optimized sequential terminal operations for the head of the pipeline
+        // Optimized sequentibl terminbl operbtions for the hebd of the pipeline
 
         @Override
-        public void forEach(LongConsumer action) {
-            if (!isParallel()) {
-                adapt(sourceStageSpliterator()).forEachRemaining(action);
+        public void forEbch(LongConsumer bction) {
+            if (!isPbrbllel()) {
+                bdbpt(sourceStbgeSpliterbtor()).forEbchRembining(bction);
             } else {
-                super.forEach(action);
+                super.forEbch(bction);
             }
         }
 
         @Override
-        public void forEachOrdered(LongConsumer action) {
-            if (!isParallel()) {
-                adapt(sourceStageSpliterator()).forEachRemaining(action);
+        public void forEbchOrdered(LongConsumer bction) {
+            if (!isPbrbllel()) {
+                bdbpt(sourceStbgeSpliterbtor()).forEbchRembining(bction);
             } else {
-                super.forEachOrdered(action);
+                super.forEbchOrdered(bction);
             }
         }
     }
 
-    /** Base class for a stateless intermediate stage of a LongStream.
+    /** Bbse clbss for b stbteless intermedibte stbge of b LongStrebm.
      *
-     * @param <E_IN> type of elements in the upstream source
+     * @pbrbm <E_IN> type of elements in the upstrebm source
      * @since 1.8
      */
-    abstract static class StatelessOp<E_IN> extends LongPipeline<E_IN> {
+    bbstrbct stbtic clbss StbtelessOp<E_IN> extends LongPipeline<E_IN> {
         /**
-         * Construct a new LongStream by appending a stateless intermediate
-         * operation to an existing stream.
-         * @param upstream The upstream pipeline stage
-         * @param inputShape The stream shape for the upstream pipeline stage
-         * @param opFlags Operation flags for the new stage
+         * Construct b new LongStrebm by bppending b stbteless intermedibte
+         * operbtion to bn existing strebm.
+         * @pbrbm upstrebm The upstrebm pipeline stbge
+         * @pbrbm inputShbpe The strebm shbpe for the upstrebm pipeline stbge
+         * @pbrbm opFlbgs Operbtion flbgs for the new stbge
          */
-        StatelessOp(AbstractPipeline<?, E_IN, ?> upstream,
-                    StreamShape inputShape,
-                    int opFlags) {
-            super(upstream, opFlags);
-            assert upstream.getOutputShape() == inputShape;
+        StbtelessOp(AbstrbctPipeline<?, E_IN, ?> upstrebm,
+                    StrebmShbpe inputShbpe,
+                    int opFlbgs) {
+            super(upstrebm, opFlbgs);
+            bssert upstrebm.getOutputShbpe() == inputShbpe;
         }
 
         @Override
-        final boolean opIsStateful() {
-            return false;
+        finbl boolebn opIsStbteful() {
+            return fblse;
         }
     }
 
     /**
-     * Base class for a stateful intermediate stage of a LongStream.
+     * Bbse clbss for b stbteful intermedibte stbge of b LongStrebm.
      *
-     * @param <E_IN> type of elements in the upstream source
+     * @pbrbm <E_IN> type of elements in the upstrebm source
      * @since 1.8
      */
-    abstract static class StatefulOp<E_IN> extends LongPipeline<E_IN> {
+    bbstrbct stbtic clbss StbtefulOp<E_IN> extends LongPipeline<E_IN> {
         /**
-         * Construct a new LongStream by appending a stateful intermediate
-         * operation to an existing stream.
-         * @param upstream The upstream pipeline stage
-         * @param inputShape The stream shape for the upstream pipeline stage
-         * @param opFlags Operation flags for the new stage
+         * Construct b new LongStrebm by bppending b stbteful intermedibte
+         * operbtion to bn existing strebm.
+         * @pbrbm upstrebm The upstrebm pipeline stbge
+         * @pbrbm inputShbpe The strebm shbpe for the upstrebm pipeline stbge
+         * @pbrbm opFlbgs Operbtion flbgs for the new stbge
          */
-        StatefulOp(AbstractPipeline<?, E_IN, ?> upstream,
-                   StreamShape inputShape,
-                   int opFlags) {
-            super(upstream, opFlags);
-            assert upstream.getOutputShape() == inputShape;
+        StbtefulOp(AbstrbctPipeline<?, E_IN, ?> upstrebm,
+                   StrebmShbpe inputShbpe,
+                   int opFlbgs) {
+            super(upstrebm, opFlbgs);
+            bssert upstrebm.getOutputShbpe() == inputShbpe;
         }
 
         @Override
-        final boolean opIsStateful() {
+        finbl boolebn opIsStbteful() {
             return true;
         }
 
         @Override
-        abstract <P_IN> Node<Long> opEvaluateParallel(PipelineHelper<Long> helper,
-                                                      Spliterator<P_IN> spliterator,
-                                                      IntFunction<Long[]> generator);
+        bbstrbct <P_IN> Node<Long> opEvblubtePbrbllel(PipelineHelper<Long> helper,
+                                                      Spliterbtor<P_IN> spliterbtor,
+                                                      IntFunction<Long[]> generbtor);
     }
 }

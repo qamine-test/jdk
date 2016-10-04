@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -32,68 +32,68 @@
 #include <jvm.h>
 #include <jni_util.h>
 
-#include "awt_Object.h"
-#include "awt_Component.h"
-#include "awt_Window.h"
+#include "bwt_Object.h"
+#include "bwt_Component.h"
+#include "bwt_Window.h"
 
-class AwtCursor;
+clbss AwtCursor;
 
 /**
- * Drag Source code
+ * Drbg Source code
  */
 
-class AwtDragSource : virtual public IDropSource, virtual public IDataObject {
+clbss AwtDrbgSource : virtubl public IDropSource, virtubl public IDbtbObject {
     public:
 
-        AwtDragSource(JNIEnv* env, jobject peer, jobject component,
-                      jobject transferable, jobject trigger,
-                      jint actions, jlongArray formats, jobject formatMap);
+        AwtDrbgSource(JNIEnv* env, jobject peer, jobject component,
+                      jobject trbnsferbble, jobject trigger,
+                      jint bctions, jlongArrby formbts, jobject formbtMbp);
 
-        virtual ~AwtDragSource();
+        virtubl ~AwtDrbgSource();
 
         // IUnknown
 
-        virtual HRESULT __stdcall QueryInterface(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject);
+        virtubl HRESULT __stdcbll QueryInterfbce(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject);
 
-        virtual ULONG   __stdcall AddRef(void);
-        virtual ULONG   __stdcall Release(void);
+        virtubl ULONG   __stdcbll AddRef(void);
+        virtubl ULONG   __stdcbll Relebse(void);
 
         // IDropSource
 
-        virtual HRESULT __stdcall QueryContinueDrag(BOOL fEscapeKeyPressed, DWORD grfKeyState);
+        virtubl HRESULT __stdcbll QueryContinueDrbg(BOOL fEscbpeKeyPressed, DWORD grfKeyStbte);
 
-        virtual HRESULT __stdcall GiveFeedback(DWORD dwEffect);
+        virtubl HRESULT __stdcbll GiveFeedbbck(DWORD dwEffect);
 
-        // IDataObject
+        // IDbtbObject
 
-        virtual HRESULT __stdcall GetData(FORMATETC __RPC_FAR *pFormatEtc, STGMEDIUM __RPC_FAR *pmedium);
-        virtual HRESULT __stdcall GetDataHere(FORMATETC __RPC_FAR *pFormatEtc, STGMEDIUM __RPC_FAR *pmedium);
+        virtubl HRESULT __stdcbll GetDbtb(FORMATETC __RPC_FAR *pFormbtEtc, STGMEDIUM __RPC_FAR *pmedium);
+        virtubl HRESULT __stdcbll GetDbtbHere(FORMATETC __RPC_FAR *pFormbtEtc, STGMEDIUM __RPC_FAR *pmedium);
 
-        virtual HRESULT __stdcall QueryGetData(FORMATETC __RPC_FAR *pFormatEtc);
+        virtubl HRESULT __stdcbll QueryGetDbtb(FORMATETC __RPC_FAR *pFormbtEtc);
 
-        virtual HRESULT __stdcall GetCanonicalFormatEtc(FORMATETC __RPC_FAR *pFormatEtcIn, FORMATETC __RPC_FAR *pFormatEtcOut);
+        virtubl HRESULT __stdcbll GetCbnonicblFormbtEtc(FORMATETC __RPC_FAR *pFormbtEtcIn, FORMATETC __RPC_FAR *pFormbtEtcOut);
 
-        virtual HRESULT __stdcall SetData(FORMATETC __RPC_FAR *pFormatEtc, STGMEDIUM __RPC_FAR *pmedium, BOOL fRelease);
+        virtubl HRESULT __stdcbll SetDbtb(FORMATETC __RPC_FAR *pFormbtEtc, STGMEDIUM __RPC_FAR *pmedium, BOOL fRelebse);
 
-        virtual HRESULT __stdcall EnumFormatEtc(DWORD dwDirection, IEnumFORMATETC *__RPC_FAR *ppenumFormatEtc);
+        virtubl HRESULT __stdcbll EnumFormbtEtc(DWORD dwDirection, IEnumFORMATETC *__RPC_FAR *ppenumFormbtEtc);
 
-        virtual HRESULT __stdcall DAdvise(FORMATETC __RPC_FAR *pFormatEtc, DWORD advf, IAdviseSink __RPC_FAR *pAdvSink, DWORD __RPC_FAR *pdwConnection);
-        virtual HRESULT __stdcall DUnadvise(DWORD dwConnection);
-        virtual HRESULT __stdcall EnumDAdvise(IEnumSTATDATA __RPC_FAR *__RPC_FAR *ppenumAdvise);
+        virtubl HRESULT __stdcbll DAdvise(FORMATETC __RPC_FAR *pFormbtEtc, DWORD bdvf, IAdviseSink __RPC_FAR *pAdvSink, DWORD __RPC_FAR *pdwConnection);
+        virtubl HRESULT __stdcbll DUnbdvise(DWORD dwConnection);
+        virtubl HRESULT __stdcbll EnumDAdvise(IEnumSTATDATA __RPC_FAR *__RPC_FAR *ppenumAdvise);
 
 
-        // AwtDragSource
+        // AwtDrbgSource
 
-        static void StartDrag(
-            AwtDragSource* self,
+        stbtic void StbrtDrbg(
+            AwtDrbgSource* self,
             jobject cursor,
-            jintArray imageData,
-            jint imageWidth,
-            jint imageHeight,
+            jintArrby imbgeDbtb,
+            jint imbgeWidth,
+            jint imbgeHeight,
             jint x,
             jint y);
 
-        HRESULT ChangeCursor();
+        HRESULT ChbngeCursor();
         void SetCursor(jobject cursor);
 
         INLINE unsigned int getNTypes() { return m_ntypes; }
@@ -102,144 +102,144 @@ class AwtDragSource : virtual public IDropSource, virtual public IDataObject {
 
         INLINE jobject GetPeer() { return m_peer; }
 
-        INLINE void Signal() { ::ReleaseMutex(m_mutex); }
+        INLINE void Signbl() { ::RelebseMutex(m_mutex); }
 
-        virtual HRESULT __stdcall GetProcessId(FORMATETC __RPC_FAR *pFormatEtc, STGMEDIUM __RPC_FAR *pmedium);
+        virtubl HRESULT __stdcbll GetProcessId(FORMATETC __RPC_FAR *pFormbtEtc, STGMEDIUM __RPC_FAR *pmedium);
 
     protected:
-        INLINE void WaitUntilSignalled(BOOL retain) {
+        INLINE void WbitUntilSignblled(BOOL retbin) {
             do {
                 // nothing ...
-            } while(::WaitForSingleObject(m_mutex, INFINITE) == WAIT_FAILED);
+            } while(::WbitForSingleObject(m_mutex, INFINITE) == WAIT_FAILED);
 
-            if (!retain) ::ReleaseMutex(m_mutex);
+            if (!retbin) ::RelebseMutex(m_mutex);
         }
 
-        static void _DoDragDrop(void* param);
+        stbtic void _DoDrbgDrop(void* pbrbm);
 
-        HRESULT __stdcall MatchFormatEtc(FORMATETC __RPC_FAR *pFormatEtcIn, FORMATETC *cacheEnt);
+        HRESULT __stdcbll MbtchFormbtEtc(FORMATETC __RPC_FAR *pFormbtEtcIn, FORMATETC *cbcheEnt);
 
-   private:
+   privbte:
 
-        void LoadCache(jlongArray formats);
-        void UnloadCache();
+        void LobdCbche(jlongArrby formbts);
+        void UnlobdCbche();
 
-        static int __cdecl _compar(const void *, const void *);
+        stbtic int __cdecl _compbr(const void *, const void *);
 
-        static void call_dSCenter(JNIEnv* env, jobject self, jint targetActions,
+        stbtic void cbll_dSCenter(JNIEnv* env, jobject self, jint tbrgetActions,
                                   jint modifiers, jint x, jint y);
-        static void call_dSCmotion(JNIEnv* env, jobject self,
-                                   jint targetActions, jint modifiers,
+        stbtic void cbll_dSCmotion(JNIEnv* env, jobject self,
+                                   jint tbrgetActions, jint modifiers,
                                    jint x, jint y);
-        static void call_dSCchanged(JNIEnv* env, jobject self,
-                                    jint targetActions, jint modifiers,
+        stbtic void cbll_dSCchbnged(JNIEnv* env, jobject self,
+                                    jint tbrgetActions, jint modifiers,
                                     jint x, jint y);
-        static void call_dSCmouseMoved(JNIEnv* env, jobject self,
-                                       jint targetActions, jint modifiers,
+        stbtic void cbll_dSCmouseMoved(JNIEnv* env, jobject self,
+                                       jint tbrgetActions, jint modifiers,
                                        jint x, jint y);
-        static void call_dSCexit(JNIEnv* env, jobject self, jint x, jint y);
-        static void call_dSCddfinished(JNIEnv* env, jobject self,
-                                       jboolean success, jint operations,
+        stbtic void cbll_dSCexit(JNIEnv* env, jobject self, jint x, jint y);
+        stbtic void cbll_dSCddfinished(JNIEnv* env, jobject self,
+                                       jboolebn success, jint operbtions,
                                        jint x, jint y);
     protected:
 
-        class ADSIEnumFormatEtc : public virtual IEnumFORMATETC {
+        clbss ADSIEnumFormbtEtc : public virtubl IEnumFORMATETC {
             public:
-                ADSIEnumFormatEtc(AwtDragSource* parent);
+                ADSIEnumFormbtEtc(AwtDrbgSource* pbrent);
 
-                virtual ~ADSIEnumFormatEtc();
+                virtubl ~ADSIEnumFormbtEtc();
 
                 // IUnknown
 
-                virtual HRESULT __stdcall QueryInterface(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject);
+                virtubl HRESULT __stdcbll QueryInterfbce(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject);
 
-                virtual ULONG   __stdcall AddRef(void);
-                virtual ULONG   __stdcall Release(void);
+                virtubl ULONG   __stdcbll AddRef(void);
+                virtubl ULONG   __stdcbll Relebse(void);
 
                 // IEnumFORMATETC
 
-                virtual HRESULT _stdcall Next(ULONG celt, FORMATETC __RPC_FAR *rgelt, ULONG __RPC_FAR *pceltFetched);
-                virtual HRESULT _stdcall Skip(ULONG celt);
-                virtual HRESULT _stdcall Reset();
-                virtual HRESULT _stdcall Clone(IEnumFORMATETC __RPC_FAR *__RPC_FAR *ppenum);
+                virtubl HRESULT _stdcbll Next(ULONG celt, FORMATETC __RPC_FAR *rgelt, ULONG __RPC_FAR *pceltFetched);
+                virtubl HRESULT _stdcbll Skip(ULONG celt);
+                virtubl HRESULT _stdcbll Reset();
+                virtubl HRESULT _stdcbll Clone(IEnumFORMATETC __RPC_FAR *__RPC_FAR *ppenum);
 
-            private:
-                AwtDragSource*  m_parent;
+            privbte:
+                AwtDrbgSource*  m_pbrent;
                 ULONG           m_refs;
 
                 unsigned int    m_idx;
         };
 
-        class ADSIStreamProxy : public virtual IStream {
-            private:
-                ADSIStreamProxy(ADSIStreamProxy* cloneof);
+        clbss ADSIStrebmProxy : public virtubl IStrebm {
+            privbte:
+                ADSIStrebmProxy(ADSIStrebmProxy* cloneof);
 
             public:
-                ADSIStreamProxy(AwtDragSource* parent, jbyteArray buffer, jint len);
+                ADSIStrebmProxy(AwtDrbgSource* pbrent, jbyteArrby buffer, jint len);
 
-                virtual ~ADSIStreamProxy();
+                virtubl ~ADSIStrebmProxy();
 
                 // IUnknown
 
-                virtual HRESULT __stdcall QueryInterface(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject);
+                virtubl HRESULT __stdcbll QueryInterfbce(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject);
 
-                virtual ULONG   __stdcall AddRef(void);
-                virtual ULONG   __stdcall Release(void);
+                virtubl ULONG   __stdcbll AddRef(void);
+                virtubl ULONG   __stdcbll Relebse(void);
 
-                // IStream
+                // IStrebm
 
 
-                virtual  HRESULT __stdcall Read(void __RPC_FAR *pv, ULONG cb, ULONG __RPC_FAR *pcbRead);
+                virtubl  HRESULT __stdcbll Rebd(void __RPC_FAR *pv, ULONG cb, ULONG __RPC_FAR *pcbRebd);
 
-                virtual  HRESULT __stdcall Write(const void __RPC_FAR *pv, ULONG cb, ULONG __RPC_FAR *pcbWritten);
+                virtubl  HRESULT __stdcbll Write(const void __RPC_FAR *pv, ULONG cb, ULONG __RPC_FAR *pcbWritten);
 
-                virtual  HRESULT __stdcall Seek(LARGE_INTEGER dlibMove, DWORD dwOrigin, ULARGE_INTEGER __RPC_FAR *plibNewPosition);
+                virtubl  HRESULT __stdcbll Seek(LARGE_INTEGER dlibMove, DWORD dwOrigin, ULARGE_INTEGER __RPC_FAR *plibNewPosition);
 
-                virtual HRESULT __stdcall SetSize(ULARGE_INTEGER libNewSize);
+                virtubl HRESULT __stdcbll SetSize(ULARGE_INTEGER libNewSize);
 
-                virtual  HRESULT __stdcall CopyTo(IStream __RPC_FAR *pstm, ULARGE_INTEGER cb, ULARGE_INTEGER __RPC_FAR *pcbRead, ULARGE_INTEGER __RPC_FAR *pcbWritten);
+                virtubl  HRESULT __stdcbll CopyTo(IStrebm __RPC_FAR *pstm, ULARGE_INTEGER cb, ULARGE_INTEGER __RPC_FAR *pcbRebd, ULARGE_INTEGER __RPC_FAR *pcbWritten);
 
-                virtual HRESULT __stdcall Commit(DWORD grfCommitFlags);
+                virtubl HRESULT __stdcbll Commit(DWORD grfCommitFlbgs);
 
-                virtual HRESULT __stdcall Revert();
+                virtubl HRESULT __stdcbll Revert();
 
-                virtual HRESULT __stdcall LockRegion(ULARGE_INTEGER libOffset, ULARGE_INTEGER cb, DWORD dwLockType);
+                virtubl HRESULT __stdcbll LockRegion(ULARGE_INTEGER libOffset, ULARGE_INTEGER cb, DWORD dwLockType);
 
-                virtual HRESULT __stdcall UnlockRegion(ULARGE_INTEGER libOffset, ULARGE_INTEGER cb, DWORD dwLockType);
+                virtubl HRESULT __stdcbll UnlockRegion(ULARGE_INTEGER libOffset, ULARGE_INTEGER cb, DWORD dwLockType);
 
-                virtual HRESULT __stdcall Stat(STATSTG __RPC_FAR *pstatstg, DWORD grfStatFlag);
+                virtubl HRESULT __stdcbll Stbt(STATSTG __RPC_FAR *pstbtstg, DWORD grfStbtFlbg);
 
-                virtual HRESULT __stdcall Clone(IStream __RPC_FAR *__RPC_FAR *ppstm);
+                virtubl HRESULT __stdcbll Clone(IStrebm __RPC_FAR *__RPC_FAR *ppstm);
             protected:
-                AwtDragSource*   m_parent;
+                AwtDrbgSource*   m_pbrent;
 
-                signed   char*   m_buffer;
+                signed   chbr*   m_buffer;
                 unsigned int     m_off;
                 unsigned int     m_blen;
 
-                STATSTG          m_statstg;
+                STATSTG          m_stbtstg;
 
-                ADSIStreamProxy* m_cloneof;
+                ADSIStrebmProxy* m_cloneof;
 
                 ULONG            m_refs;
         };
 
     public:
-        static const UINT PROCESS_ID_FORMAT;
+        stbtic const UINT PROCESS_ID_FORMAT;
 
-    private:
+    privbte:
 
-        // instance vars ...
+        // instbnce vbrs ...
 
         jobject         m_peer;
 
         jint            m_initmods;
-        jint            m_lastmods;
+        jint            m_lbstmods;
 
-        HWND            m_droptarget;
+        HWND            m_droptbrget;
         int             m_enterpending;
 
-        jint            m_actions;
+        jint            m_bctions;
 
         FORMATETC*      m_types;
         unsigned int    m_ntypes;
@@ -251,28 +251,28 @@ class AwtDragSource : virtual public IDropSource, virtual public IDataObject {
         HANDLE          m_mutex;
 
         jobject         m_component;
-        jobject         m_transferable;
-        jobject         m_formatMap;
+        jobject         m_trbnsferbble;
+        jobject         m_formbtMbp;
 
-        POINT           m_dragPoint;
+        POINT           m_drbgPoint;
         POINT           m_dropPoint;
         BOOL            m_fNC;
         BOOL            m_bRestoreNodropCustomCursor;//CR 6480706 - MS Bug on hold
 
         DWORD           m_dwPerformedDropEffect;
 
-        // static's ...
+        // stbtic's ...
 
-        static jclass           dSCClazz;
-        static jclass           awtIEClazz;
+        stbtic jclbss           dSCClbzz;
+        stbtic jclbss           bwtIEClbzz;
 
-        static jmethodID        dSCdragenter;
-        static jmethodID        dSCdragmotion;
-        static jmethodID        dSCopschanged;
-        static jmethodID        dSCdragexit;
-        static jmethodID        dSCddfinish;
+        stbtic jmethodID        dSCdrbgenter;
+        stbtic jmethodID        dSCdrbgmotion;
+        stbtic jmethodID        dSCopschbnged;
+        stbtic jmethodID        dSCdrbgexit;
+        stbtic jmethodID        dSCddfinish;
 
-        static jfieldID         awtIEmods;
+        stbtic jfieldID         bwtIEmods;
 };
 
 extern const CLIPFORMAT CF_PERFORMEDDROPEFFECT;

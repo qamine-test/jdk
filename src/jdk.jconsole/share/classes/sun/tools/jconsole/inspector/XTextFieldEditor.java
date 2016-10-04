@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.util.EventObject;
-import javax.swing.JMenuItem;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.EventListenerList;
-import javax.swing.table.TableCellEditor;
+import jbvb.bwt.Component;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.FocusAdbpter;
+import jbvb.bwt.event.FocusEvent;
+import jbvb.bwt.event.FocusListener;
+import jbvb.util.EventObject;
+import jbvbx.swing.JMenuItem;
+import jbvbx.swing.JTbble;
+import jbvbx.swing.JTextField;
+import jbvbx.swing.event.CellEditorListener;
+import jbvbx.swing.event.ChbngeEvent;
+import jbvbx.swing.event.EventListenerList;
+import jbvbx.swing.tbble.TbbleCellEditor;
 
-@SuppressWarnings("serial")
-public class XTextFieldEditor extends XTextField implements TableCellEditor {
+@SuppressWbrnings("seribl")
+public clbss XTextFieldEditor extends XTextField implements TbbleCellEditor {
 
     protected EventListenerList evtListenerList = new EventListenerList();
-    protected ChangeEvent changeEvent = new ChangeEvent(this);
+    protected ChbngeEvent chbngeEvent = new ChbngeEvent(this);
 
-    private FocusListener editorFocusListener = new FocusAdapter() {
+    privbte FocusListener editorFocusListener = new FocusAdbpter() {
         @Override
         public void focusLost(FocusEvent e) {
             // fireEditingStopped();
-            // must not call fireEditingStopped() here!
+            // must not cbll fireEditingStopped() here!
         }
     };
 
     public XTextFieldEditor() {
         super();
-        textField.addFocusListener(editorFocusListener);
+        textField.bddFocusListener(editorFocusListener);
     }
 
     //edition stopped ou JMenuItem selection & JTextField selection
     @Override
-    public void  actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if ((e.getSource() instanceof JMenuItem) ||
-            (e.getSource() instanceof JTextField)) {
+    public void  bctionPerformed(ActionEvent e) {
+        super.bctionPerformed(e);
+        if ((e.getSource() instbnceof JMenuItem) ||
+            (e.getSource() instbnceof JTextField)) {
             fireEditingStopped();
         }
     }
 
-    //edition stopped on drag & drop success
+    //edition stopped on drbg & drop success
     protected void dropSuccess() {
         fireEditingStopped();
     }
 
-    //TableCellEditor implementation
+    //TbbleCellEditor implementbtion
 
-    public void addCellEditorListener(CellEditorListener listener) {
-        evtListenerList.add(CellEditorListener.class,listener);
+    public void bddCellEditorListener(CellEditorListener listener) {
+        evtListenerList.bdd(CellEditorListener.clbss,listener);
     }
 
     public void removeCellEditorListener(CellEditorListener listener) {
-        evtListenerList.remove(CellEditorListener.class, listener);
+        evtListenerList.remove(CellEditorListener.clbss, listener);
     }
 
     protected void fireEditingStopped() {
         CellEditorListener listener;
         Object[] listeners = evtListenerList.getListenerList();
         for (int i=0;i< listeners.length;i++) {
-            if (listeners[i] == CellEditorListener.class) {
+            if (listeners[i] == CellEditorListener.clbss) {
                 listener = (CellEditorListener) listeners[i+1];
-                listener.editingStopped(changeEvent);
+                listener.editingStopped(chbngeEvent);
             }
         }
     }
 
-    protected void fireEditingCanceled() {
+    protected void fireEditingCbnceled() {
         CellEditorListener listener;
         Object[] listeners = evtListenerList.getListenerList();
         for (int i=0;i< listeners.length;i++) {
-            if (listeners[i] == CellEditorListener.class) {
+            if (listeners[i] == CellEditorListener.clbss) {
                 listener = (CellEditorListener) listeners[i+1];
-                listener.editingCanceled(changeEvent);
+                listener.editingCbnceled(chbngeEvent);
             }
         }
     }
 
-    public void cancelCellEditing() {
-        fireEditingCanceled();
+    public void cbncelCellEditing() {
+        fireEditingCbnceled();
     }
 
-    public boolean stopCellEditing() {
+    public boolebn stopCellEditing() {
         fireEditingStopped();
         return true;
     }
 
-    public boolean isCellEditable(EventObject event) {
+    public boolebn isCellEditbble(EventObject event) {
         return true;
     }
 
-    public boolean shouldSelectCell(EventObject event) {
+    public boolebn shouldSelectCell(EventObject event) {
         return true;
     }
 
-    public Object getCellEditorValue() {
-        Object object = getValue();
+    public Object getCellEditorVblue() {
+        Object object = getVblue();
 
-        if (object instanceof XObject) {
+        if (object instbnceof XObject) {
             return ((XObject) object).getObject();
         }
         else {
@@ -133,22 +133,22 @@ public class XTextFieldEditor extends XTextField implements TableCellEditor {
         }
     }
 
-    public Component getTableCellEditorComponent(JTable table,
-                                                 Object value,
-                                                 boolean isSelected,
+    public Component getTbbleCellEditorComponent(JTbble tbble,
+                                                 Object vblue,
+                                                 boolebn isSelected,
                                                  int row,
                                                  int column) {
-        String className;
-        if (table instanceof XTable) {
-            XTable mytable = (XTable) table;
-            className = mytable.getClassName(row);
+        String clbssNbme;
+        if (tbble instbnceof XTbble) {
+            XTbble mytbble = (XTbble) tbble;
+            clbssNbme = mytbble.getClbssNbme(row);
         } else {
-            className = String.class.getName();
+            clbssNbme = String.clbss.getNbme();
         }
         try {
-            init(value,Utils.getClass(className));
+            init(vblue,Utils.getClbss(clbssNbme));
         }
-        catch(Exception e) {}
+        cbtch(Exception e) {}
 
         return this;
     }

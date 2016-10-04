@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jarsigner;
+pbckbge com.sun.jbrsigner;
 
-import java.net.URI;
-import java.security.cert.X509Certificate;
-import java.util.zip.ZipFile;
+import jbvb.net.URI;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.zip.ZipFile;
 
 /**
- * This interface encapsulates the parameters for a ContentSigner object.
+ * This interfbce encbpsulbtes the pbrbmeters for b ContentSigner object.
  *
  * @since 1.5
- * @author Vincent Ryan
+ * @buthor Vincent Rybn
  */
 @jdk.Exported
-public interface ContentSignerParameters {
+public interfbce ContentSignerPbrbmeters {
 
     /**
-     * Retrieves the command-line arguments passed to the jarsigner tool.
+     * Retrieves the commbnd-line brguments pbssed to the jbrsigner tool.
      *
-     * @return The command-line arguments. May be null.
+     * @return The commbnd-line brguments. Mby be null.
      */
-    public String[] getCommandLine();
+    public String[] getCommbndLine();
 
     /**
-     * Retrieves the identifier for a Timestamping Authority (TSA).
+     * Retrieves the identifier for b Timestbmping Authority (TSA).
      *
-     * @return The TSA identifier. May be null.
+     * @return The TSA identifier. Mby be null.
      */
-    public URI getTimestampingAuthority();
+    public URI getTimestbmpingAuthority();
 
     /**
-     * Retrieves the certificate for a Timestamping Authority (TSA).
+     * Retrieves the certificbte for b Timestbmping Authority (TSA).
      *
-     * @return The TSA certificate. May be null.
+     * @return The TSA certificbte. Mby be null.
      */
-    public X509Certificate getTimestampingAuthorityCertificate();
+    public X509Certificbte getTimestbmpingAuthorityCertificbte();
 
     /**
-     * Retrieves the TSAPolicyID for a Timestamping Authority (TSA).
+     * Retrieves the TSAPolicyID for b Timestbmping Authority (TSA).
      *
-     * @return The TSAPolicyID. May be null.
+     * @return The TSAPolicyID. Mby be null.
      */
-    public default String getTSAPolicyID() {
+    public defbult String getTSAPolicyID() {
         return null;
     }
 
     /**
-     * Retreives the message digest algorithm that is used to generate
-     * the message imprint to be sent to the TSA server.
+     * Retreives the messbge digest blgorithm thbt is used to generbte
+     * the messbge imprint to be sent to the TSA server.
      *
      * @since 1.9
-     * @return The non-null string of the message digest algorithm name.
+     * @return The non-null string of the messbge digest blgorithm nbme.
      */
-    public default String getTSADigestAlg() {
+    public defbult String getTSADigestAlg() {
         return "SHA-256";
     }
 
     /**
-     * Retrieves the JAR file's signature.
+     * Retrieves the JAR file's signbture.
      *
-     * @return The non-null array of signature bytes.
+     * @return The non-null brrby of signbture bytes.
      */
-    public byte[] getSignature();
+    public byte[] getSignbture();
 
     /**
-     * Retrieves the name of the signature algorithm.
+     * Retrieves the nbme of the signbture blgorithm.
      *
-     * @return The non-null string name of the signature algorithm.
+     * @return The non-null string nbme of the signbture blgorithm.
      */
-    public String getSignatureAlgorithm();
+    public String getSignbtureAlgorithm();
 
     /**
-     * Retrieves the signer's X.509 certificate chain.
+     * Retrieves the signer's X.509 certificbte chbin.
      *
-     * @return The non-null array of X.509 public-key certificates.
+     * @return The non-null brrby of X.509 public-key certificbtes.
      */
-    public X509Certificate[] getSignerCertificateChain();
+    public X509Certificbte[] getSignerCertificbteChbin();
 
     /**
-     * Retrieves the content that was signed.
-     * The content is the JAR file's signature file.
+     * Retrieves the content thbt wbs signed.
+     * The content is the JAR file's signbture file.
      *
-     * @return The content bytes. May be null.
+     * @return The content bytes. Mby be null.
      */
     public byte[] getContent();
 
     /**
-     * Retrieves the original source ZIP file before it was signed.
+     * Retrieves the originbl source ZIP file before it wbs signed.
      *
-     * @return The original ZIP file. May be null.
+     * @return The originbl ZIP file. Mby be null.
      */
     public ZipFile getSource();
 }

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,39 +56,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbckbge jdk.internbl.org.objectweb.bsm.util;
 
-import java.io.PrintWriter;
+import jbvb.io.PrintWriter;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.FieldVisitor;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor;
+import jdk.internbl.org.objectweb.bsm.Attribute;
+import jdk.internbl.org.objectweb.bsm.ClbssVisitor;
+import jdk.internbl.org.objectweb.bsm.FieldVisitor;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.TypePbth;
 
 /**
- * A {@link ClassVisitor} that prints the classes it visits with a
- * {@link Printer}. This class visitor can be used in the middle of a class
- * visitor chain to trace the class that is visited at a given point in this
- * chain. This may be useful for debugging purposes.
+ * A {@link ClbssVisitor} thbt prints the clbsses it visits with b
+ * {@link Printer}. This clbss visitor cbn be used in the middle of b clbss
+ * visitor chbin to trbce the clbss thbt is visited bt b given point in this
+ * chbin. This mby be useful for debugging purposes.
  * <p>
- * The trace printed when visiting the <tt>Hello</tt> class is the following:
+ * The trbce printed when visiting the <tt>Hello</tt> clbss is the following:
  * <p>
  * <blockquote>
  *
  * <pre>
- * // class version 49.0 (49) // access flags 0x21 public class Hello {
+ * // clbss version 49.0 (49) // bccess flbgs 0x21 public clbss Hello {
  *
- * // compiled from: Hello.java
+ * // compiled from: Hello.jbvb
  *
- * // access flags 0x1 public &lt;init&gt; ()V ALOAD 0 INVOKESPECIAL
- * java/lang/Object &lt;init&gt; ()V RETURN MAXSTACK = 1 MAXLOCALS = 1
+ * // bccess flbgs 0x1 public &lt;init&gt; ()V ALOAD 0 INVOKESPECIAL
+ * jbvb/lbng/Object &lt;init&gt; ()V RETURN MAXSTACK = 1 MAXLOCALS = 1
  *
- * // access flags 0x9 public static main ([Ljava/lang/String;)V GETSTATIC
- * java/lang/System out Ljava/io/PrintStream; LDC &quot;hello&quot;
- * INVOKEVIRTUAL java/io/PrintStream println (Ljava/lang/String;)V RETURN
+ * // bccess flbgs 0x9 public stbtic mbin ([Ljbvb/lbng/String;)V GETSTATIC
+ * jbvb/lbng/System out Ljbvb/io/PrintStrebm; LDC &quot;hello&quot;
+ * INVOKEVIRTUAL jbvb/io/PrintStrebm println (Ljbvb/lbng/String;)V RETURN
  * MAXSTACK = 2 MAXLOCALS = 1 }
  * </pre>
  *
@@ -97,9 +97,9 @@ import jdk.internal.org.objectweb.asm.TypePath;
  * <blockquote>
  *
  * <pre>
- * public class Hello {
+ * public clbss Hello {
  *
- *     public static void main(String[] args) {
+ *     public stbtic void mbin(String[] brgs) {
  *         System.out.println(&quot;hello&quot;);
  *     }
  * }
@@ -107,139 +107,139 @@ import jdk.internal.org.objectweb.asm.TypePath;
  *
  * </blockquote>
  *
- * @author Eric Bruneton
- * @author Eugene Kuleshov
+ * @buthor Eric Bruneton
+ * @buthor Eugene Kuleshov
  */
-public final class TraceClassVisitor extends ClassVisitor {
+public finbl clbss TrbceClbssVisitor extends ClbssVisitor {
 
     /**
-     * The print writer to be used to print the class. May be null.
+     * The print writer to be used to print the clbss. Mby be null.
      */
-    private final PrintWriter pw;
+    privbte finbl PrintWriter pw;
 
     /**
-     * The object that actually converts visit events into text.
+     * The object thbt bctublly converts visit events into text.
      */
-    public final Printer p;
+    public finbl Printer p;
 
     /**
-     * Constructs a new {@link TraceClassVisitor}.
+     * Constructs b new {@link TrbceClbssVisitor}.
      *
-     * @param pw
-     *            the print writer to be used to print the class.
+     * @pbrbm pw
+     *            the print writer to be used to print the clbss.
      */
-    public TraceClassVisitor(final PrintWriter pw) {
+    public TrbceClbssVisitor(finbl PrintWriter pw) {
         this(null, pw);
     }
 
     /**
-     * Constructs a new {@link TraceClassVisitor}.
+     * Constructs b new {@link TrbceClbssVisitor}.
      *
-     * @param cv
-     *            the {@link ClassVisitor} to which this visitor delegates
-     *            calls. May be <tt>null</tt>.
-     * @param pw
-     *            the print writer to be used to print the class.
+     * @pbrbm cv
+     *            the {@link ClbssVisitor} to which this visitor delegbtes
+     *            cblls. Mby be <tt>null</tt>.
+     * @pbrbm pw
+     *            the print writer to be used to print the clbss.
      */
-    public TraceClassVisitor(final ClassVisitor cv, final PrintWriter pw) {
+    public TrbceClbssVisitor(finbl ClbssVisitor cv, finbl PrintWriter pw) {
         this(cv, new Textifier(), pw);
     }
 
     /**
-     * Constructs a new {@link TraceClassVisitor}.
+     * Constructs b new {@link TrbceClbssVisitor}.
      *
-     * @param cv
-     *            the {@link ClassVisitor} to which this visitor delegates
-     *            calls. May be <tt>null</tt>.
-     * @param p
-     *            the object that actually converts visit events into text.
-     * @param pw
-     *            the print writer to be used to print the class. May be null if
-     *            you simply want to use the result via
-     *            {@link Printer#getText()}, instead of printing it.
+     * @pbrbm cv
+     *            the {@link ClbssVisitor} to which this visitor delegbtes
+     *            cblls. Mby be <tt>null</tt>.
+     * @pbrbm p
+     *            the object thbt bctublly converts visit events into text.
+     * @pbrbm pw
+     *            the print writer to be used to print the clbss. Mby be null if
+     *            you simply wbnt to use the result vib
+     *            {@link Printer#getText()}, instebd of printing it.
      */
-    public TraceClassVisitor(final ClassVisitor cv, final Printer p,
-            final PrintWriter pw) {
+    public TrbceClbssVisitor(finbl ClbssVisitor cv, finbl Printer p,
+            finbl PrintWriter pw) {
         super(Opcodes.ASM5, cv);
         this.pw = pw;
         this.p = p;
     }
 
     @Override
-    public void visit(final int version, final int access, final String name,
-            final String signature, final String superName,
-            final String[] interfaces) {
-        p.visit(version, access, name, signature, superName, interfaces);
-        super.visit(version, access, name, signature, superName, interfaces);
+    public void visit(finbl int version, finbl int bccess, finbl String nbme,
+            finbl String signbture, finbl String superNbme,
+            finbl String[] interfbces) {
+        p.visit(version, bccess, nbme, signbture, superNbme, interfbces);
+        super.visit(version, bccess, nbme, signbture, superNbme, interfbces);
     }
 
     @Override
-    public void visitSource(final String file, final String debug) {
+    public void visitSource(finbl String file, finbl String debug) {
         p.visitSource(file, debug);
         super.visitSource(file, debug);
     }
 
     @Override
-    public void visitOuterClass(final String owner, final String name,
-            final String desc) {
-        p.visitOuterClass(owner, name, desc);
-        super.visitOuterClass(owner, name, desc);
+    public void visitOuterClbss(finbl String owner, finbl String nbme,
+            finbl String desc) {
+        p.visitOuterClbss(owner, nbme, desc);
+        super.visitOuterClbss(owner, nbme, desc);
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        Printer p = this.p.visitClassAnnotation(desc, visible);
-        AnnotationVisitor av = cv == null ? null : cv.visitAnnotation(desc,
+    public AnnotbtionVisitor visitAnnotbtion(finbl String desc,
+            finbl boolebn visible) {
+        Printer p = this.p.visitClbssAnnotbtion(desc, visible);
+        AnnotbtionVisitor bv = cv == null ? null : cv.visitAnnotbtion(desc,
                 visible);
-        return new TraceAnnotationVisitor(av, p);
+        return new TrbceAnnotbtionVisitor(bv, p);
     }
 
     @Override
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        Printer p = this.p.visitClassTypeAnnotation(typeRef, typePath, desc,
+    public AnnotbtionVisitor visitTypeAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        Printer p = this.p.visitClbssTypeAnnotbtion(typeRef, typePbth, desc,
                 visible);
-        AnnotationVisitor av = cv == null ? null : cv.visitTypeAnnotation(
-                typeRef, typePath, desc, visible);
-        return new TraceAnnotationVisitor(av, p);
+        AnnotbtionVisitor bv = cv == null ? null : cv.visitTypeAnnotbtion(
+                typeRef, typePbth, desc, visible);
+        return new TrbceAnnotbtionVisitor(bv, p);
     }
 
     @Override
-    public void visitAttribute(final Attribute attr) {
-        p.visitClassAttribute(attr);
-        super.visitAttribute(attr);
+    public void visitAttribute(finbl Attribute bttr) {
+        p.visitClbssAttribute(bttr);
+        super.visitAttribute(bttr);
     }
 
     @Override
-    public void visitInnerClass(final String name, final String outerName,
-            final String innerName, final int access) {
-        p.visitInnerClass(name, outerName, innerName, access);
-        super.visitInnerClass(name, outerName, innerName, access);
+    public void visitInnerClbss(finbl String nbme, finbl String outerNbme,
+            finbl String innerNbme, finbl int bccess) {
+        p.visitInnerClbss(nbme, outerNbme, innerNbme, bccess);
+        super.visitInnerClbss(nbme, outerNbme, innerNbme, bccess);
     }
 
     @Override
-    public FieldVisitor visitField(final int access, final String name,
-            final String desc, final String signature, final Object value) {
-        Printer p = this.p.visitField(access, name, desc, signature, value);
-        FieldVisitor fv = cv == null ? null : cv.visitField(access, name, desc,
-                signature, value);
-        return new TraceFieldVisitor(fv, p);
+    public FieldVisitor visitField(finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl Object vblue) {
+        Printer p = this.p.visitField(bccess, nbme, desc, signbture, vblue);
+        FieldVisitor fv = cv == null ? null : cv.visitField(bccess, nbme, desc,
+                signbture, vblue);
+        return new TrbceFieldVisitor(fv, p);
     }
 
     @Override
-    public MethodVisitor visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions) {
-        Printer p = this.p.visitMethod(access, name, desc, signature,
+    public MethodVisitor visitMethod(finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl String[] exceptions) {
+        Printer p = this.p.visitMethod(bccess, nbme, desc, signbture,
                 exceptions);
-        MethodVisitor mv = cv == null ? null : cv.visitMethod(access, name,
-                desc, signature, exceptions);
-        return new TraceMethodVisitor(mv, p);
+        MethodVisitor mv = cv == null ? null : cv.visitMethod(bccess, nbme,
+                desc, signbture, exceptions);
+        return new TrbceMethodVisitor(mv, p);
     }
 
     @Override
     public void visitEnd() {
-        p.visitClassEnd();
+        p.visitClbssEnd();
         if (pw != null) {
             p.print(pw);
             pw.flush();

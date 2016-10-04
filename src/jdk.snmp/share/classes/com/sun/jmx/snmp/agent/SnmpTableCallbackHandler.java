@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.snmp.agent;
+pbckbge com.sun.jmx.snmp.bgent;
 
-import javax.management.ObjectName;
-import com.sun.jmx.snmp.SnmpStatusException;
+import jbvbx.mbnbgement.ObjectNbme;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.agent.SnmpMibTable;
+import com.sun.jmx.snmp.bgent.SnmpMibTbble;
 
 /**
- * This interface ensures the synchronization between Metadata table objects
- * and bean-like table objects.
+ * This interfbce ensures the synchronizbtion between Metbdbtb tbble objects
+ * bnd bebn-like tbble objects.
  *
- * It is used between mibgen generated table meta and table classes.
+ * It is used between mibgen generbted tbble metb bnd tbble clbsses.
  * <p><b><i>
- * You should never need to use this interface directly.
+ * You should never need to use this interfbce directly.
  * </p></b></i>
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  **/
-public interface SnmpTableCallbackHandler {
+public interfbce SnmpTbbleCbllbbckHbndler {
     /**
-     * This method is called by the SNMP runtime after a new entry
-     * has been added to the table.
+     * This method is cblled by the SNMP runtime bfter b new entry
+     * hbs been bdded to the tbble.
      *
-     * If an SnmpStatusException is raised, the entry will be removed
-     * and the operation will be aborted. In this case, the removeEntryCb()
-     * callback will not be called.
+     * If bn SnmpStbtusException is rbised, the entry will be removed
+     * bnd the operbtion will be bborted. In this cbse, the removeEntryCb()
+     * cbllbbck will not be cblled.
      *
      * <p><b><i>
      * You should never need to use this method directly.
      * </p></b></i>
      *
      **/
-    public void addEntryCb(int pos, SnmpOid row, ObjectName name,
-                           Object entry, SnmpMibTable meta)
-        throws SnmpStatusException;
+    public void bddEntryCb(int pos, SnmpOid row, ObjectNbme nbme,
+                           Object entry, SnmpMibTbble metb)
+        throws SnmpStbtusException;
 
     /**
-     * This method is called by the SNMP runtime after a new entry
-     * has been removed from the table.
+     * This method is cblled by the SNMP runtime bfter b new entry
+     * hbs been removed from the tbble.
      *
-     * If raised, SnmpStatusException will be ignored.
+     * If rbised, SnmpStbtusException will be ignored.
      *
      * <p><b><i>
      * You should never need to use this method directly.
      * </p></b></i>
      *
      **/
-    public void removeEntryCb(int pos, SnmpOid row, ObjectName name,
-                              Object entry, SnmpMibTable meta)
-        throws SnmpStatusException;
+    public void removeEntryCb(int pos, SnmpOid row, ObjectNbme nbme,
+                              Object entry, SnmpMibTbble metb)
+        throws SnmpStbtusException;
 }

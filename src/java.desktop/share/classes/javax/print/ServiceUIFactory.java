@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print;
+pbckbge jbvbx.print;
 
 /**
- * Services may optionally provide UIs which allow different styles
- * of interaction in different roles.
- * One role may be end-user browsing and setting of print options.
- * Another role may be administering the print service.
+ * Services mby optionblly provide UIs which bllow different styles
+ * of interbction in different roles.
+ * One role mby be end-user browsing bnd setting of print options.
+ * Another role mby be bdministering the print service.
  * <p>
- * Although the Print Service API does not presently provide standardised
- * support for administering a print service, monitoring of the print
- * service is possible and a UI may provide for private update mechanisms.
+ * Although the Print Service API does not presently provide stbndbrdised
+ * support for bdministering b print service, monitoring of the print
+ * service is possible bnd b UI mby provide for privbte updbte mechbnisms.
  * <p>
- * The basic design intent is to allow applications to lazily locate and
- * initialize services only when needed without any API dependencies
- * except in an environment in which they are used.
+ * The bbsic design intent is to bllow bpplicbtions to lbzily locbte bnd
+ * initiblize services only when needed without bny API dependencies
+ * except in bn environment in which they bre used.
  * <p>
- * Swing UIs are preferred as they provide a more consistent {@literal L&F}
- * and can support accessibility APIs.
+ * Swing UIs bre preferred bs they provide b more consistent {@literbl L&F}
+ * bnd cbn support bccessibility APIs.
  * <p>
- * Example usage:
+ * Exbmple usbge:
  * <pre>
- *  ServiceUIFactory factory = printService.getServiceUIFactory();
- *  if (factory != null) {
- *      JComponent swingui = (JComponent)factory.getUI(
- *                                         ServiceUIFactory.MAIN_UIROLE,
- *                                         ServiceUIFactory.JCOMPONENT_UI);
+ *  ServiceUIFbctory fbctory = printService.getServiceUIFbctory();
+ *  if (fbctory != null) {
+ *      JComponent swingui = (JComponent)fbctory.getUI(
+ *                                         ServiceUIFbctory.MAIN_UIROLE,
+ *                                         ServiceUIFbctory.JCOMPONENT_UI);
  *      if (swingui != null) {
- *          tabbedpane.add("Custom UI", swingui);
+ *          tbbbedpbne.bdd("Custom UI", swingui);
  *      }
  *  }
  * </pre>
  */
 
-public abstract class ServiceUIFactory {
+public bbstrbct clbss ServiceUIFbctory {
 
     /**
-     * Denotes a UI implemented as a Swing component.
-     * The value of the String is the fully qualified classname :
-     * "javax.swing.JComponent".
+     * Denotes b UI implemented bs b Swing component.
+     * The vblue of the String is the fully qublified clbssnbme :
+     * "jbvbx.swing.JComponent".
      */
-    public static final String JCOMPONENT_UI = "javax.swing.JComponent";
+    public stbtic finbl String JCOMPONENT_UI = "jbvbx.swing.JComponent";
 
     /**
-     * Denotes a UI implemented as an AWT panel.
-     * The value of the String is the fully qualified classname :
-     * "java.awt.Panel"
+     * Denotes b UI implemented bs bn AWT pbnel.
+     * The vblue of the String is the fully qublified clbssnbme :
+     * "jbvb.bwt.Pbnel"
      */
-    public static final String PANEL_UI = "java.awt.Panel";
+    public stbtic finbl String PANEL_UI = "jbvb.bwt.Pbnel";
 
     /**
-     * Denotes a UI implemented as an AWT dialog.
-     * The value of the String is the fully qualified classname :
-     * "java.awt.Dialog"
+     * Denotes b UI implemented bs bn AWT diblog.
+     * The vblue of the String is the fully qublified clbssnbme :
+     * "jbvb.bwt.Diblog"
      */
-    public static final String DIALOG_UI = "java.awt.Dialog";
+    public stbtic finbl String DIALOG_UI = "jbvb.bwt.Diblog";
 
     /**
-     * Denotes a UI implemented as a Swing dialog.
-     * The value of the String is the fully qualified classname :
-     * "javax.swing.JDialog"
+     * Denotes b UI implemented bs b Swing diblog.
+     * The vblue of the String is the fully qublified clbssnbme :
+     * "jbvbx.swing.JDiblog"
      */
-    public static final String JDIALOG_UI = "javax.swing.JDialog";
+    public stbtic finbl String JDIALOG_UI = "jbvbx.swing.JDiblog";
 
     /**
-     * Denotes a UI which performs an informative "About" role.
+     * Denotes b UI which performs bn informbtive "About" role.
      */
-    public static final int ABOUT_UIROLE = 1;
+    public stbtic finbl int ABOUT_UIROLE = 1;
 
     /**
-     * Denotes a UI which performs an administrative role.
+     * Denotes b UI which performs bn bdministrbtive role.
      */
-    public static final int ADMIN_UIROLE = 2;
+    public stbtic finbl int ADMIN_UIROLE = 2;
 
     /**
-     * Denotes a UI which performs the normal end user role.
+     * Denotes b UI which performs the normbl end user role.
      */
-    public static final int MAIN_UIROLE = 3;
+    public stbtic finbl int MAIN_UIROLE = 3;
 
     /**
-     * Not a valid role but role id's greater than this may be used
-     * for private roles supported by a service. Knowledge of the
-     * function performed by this role is required to make proper use
+     * Not b vblid role but role id's grebter thbn this mby be used
+     * for privbte roles supported by b service. Knowledge of the
+     * function performed by this role is required to mbke proper use
      * of it.
      */
-    public static final int RESERVED_UIROLE = 99;
+    public stbtic finbl int RESERVED_UIROLE = 99;
     /**
-     * Get a UI object which may be cast to the requested UI type
-     * by the application and used in its user interface.
+     * Get b UI object which mby be cbst to the requested UI type
+     * by the bpplicbtion bnd used in its user interfbce.
      *
-     * @param role requested. Must be one of the standard roles or
-     * a private role supported by this factory.
-     * @param ui type in which the role is requested.
-     * @return the UI role or null if the requested UI role is not available
-     * from this factory
-     * @throws IllegalArgumentException if the role or ui is neither
-     * one of the standard ones, nor a private one
-     * supported by the factory.
+     * @pbrbm role requested. Must be one of the stbndbrd roles or
+     * b privbte role supported by this fbctory.
+     * @pbrbm ui type in which the role is requested.
+     * @return the UI role or null if the requested UI role is not bvbilbble
+     * from this fbctory
+     * @throws IllegblArgumentException if the role or ui is neither
+     * one of the stbndbrd ones, nor b privbte one
+     * supported by the fbctory.
      */
-    public abstract Object getUI(int role, String ui) ;
+    public bbstrbct Object getUI(int role, String ui) ;
 
     /**
-     * Given a UI role obtained from this factory obtain the UI
-     * types available from this factory which implement this role.
-     * The returned Strings should refer to the static variables defined
-     * in this class so that applications can use equality of reference
+     * Given b UI role obtbined from this fbctory obtbin the UI
+     * types bvbilbble from this fbctory which implement this role.
+     * The returned Strings should refer to the stbtic vbribbles defined
+     * in this clbss so thbt bpplicbtions cbn use equblity of reference
      * ("==").
-     * @param role to be looked up.
-     * @return the UI types supported by this class for the specified role,
-     * null if no UIs are available for the role.
-     * @throws IllegalArgumentException is the role is a non-standard
-     * role not supported by this factory.
+     * @pbrbm role to be looked up.
+     * @return the UI types supported by this clbss for the specified role,
+     * null if no UIs bre bvbilbble for the role.
+     * @throws IllegblArgumentException is the role is b non-stbndbrd
+     * role not supported by this fbctory.
      */
-    public abstract String[] getUIClassNamesForRole(int role) ;
+    public bbstrbct String[] getUIClbssNbmesForRole(int role) ;
 
 
 

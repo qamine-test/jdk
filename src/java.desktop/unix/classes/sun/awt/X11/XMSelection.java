@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
  /*
-   * This code is ported to XAWT from MAWT based on awt_mgrsel.c
-   * code written originally by Valeriy Ushakov
+   * This code is ported to XAWT from MAWT bbsed on bwt_mgrsel.c
+   * code written originblly by Vbleriy Ushbkov
    * Author : Bino George
    */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.util.*;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.*;
+import sun.util.logging.PlbtformLogger;
 
-public class  XMSelection {
+public clbss  XMSelection {
 
     /*
-     * A method for a subsytem to express its interest in a certain
-     * manager selection.
+     * A method for b subsytem to express its interest in b certbin
+     * mbnbger selection.
      *
-     * If owner changes, the ownerChanged of the XMSelectionListener
-     * will be called with the screen
-     * number and the new owning window when onwership is established, or
+     * If owner chbnges, the ownerChbnged of the XMSelectionListener
+     * will be cblled with the screen
+     * number bnd the new owning window when onwership is estbblished, or
      * None if the owner is gone.
      *
-     * Events in extra_mask are selected for on owning windows (exsiting
-     * ones and on new owners when established) and otherEvent of the
-     * XMWSelectionListener will be called with the screen number and an event.
+     * Events in extrb_mbsk bre selected for on owning windows (exsiting
+     * ones bnd on new owners when estbblished) bnd otherEvent of the
+     * XMWSelectionListener will be cblled with the screen number bnd bn event.
      *
-     * The function returns an array of current owners.  The size of the
-     * array is ScreenCount(awt_display).  The array is "owned" by this
-     * module and should be considered by the caller as read-only.
+     * The function returns bn brrby of current owners.  The size of the
+     * brrby is ScreenCount(bwt_displby).  The brrby is "owned" by this
+     * module bnd should be considered by the cbller bs rebd-only.
      */
 
 
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XMSelection");
-    /* Name of the selection */
-    String selectionName;
+    privbte stbtic PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XMSelection");
+    /* Nbme of the selection */
+    String selectionNbme;
 
-    /* list of listeners to be called for events */
+    /* list of listeners to be cblled for events */
     Vector<XMSelectionListener> listeners;
 
-    /* X atom array (one per screen) for this selection */
-    XAtom atoms[];
+    /* X btom brrby (one per screen) for this selection */
+    XAtom btoms[];
 
     /* Window ids of selection owners */
     long owners[];
 
-    /* event mask to set */
-    long eventMask;
+    /* event mbsk to set */
+    long eventMbsk;
 
-    static int numScreens;
+    stbtic int numScreens;
 
-    static XAtom XA_MANAGER;
+    stbtic XAtom XA_MANAGER;
 
-    static HashMap<Long, XMSelection> selectionMap;
+    stbtic HbshMbp<Long, XMSelection> selectionMbp;
 
-    static {
-        long display = XToolkit.getDisplay();
-        XToolkit.awtLock();
+    stbtic {
+        long displby = XToolkit.getDisplby();
+        XToolkit.bwtLock();
         try {
-            numScreens = XlibWrapper.ScreenCount(display);
-        } finally {
-            XToolkit.awtUnlock();
+            numScreens = XlibWrbpper.ScreenCount(displby);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
         XA_MANAGER = XAtom.get("MANAGER");
         for (int screen = 0; screen < numScreens ; screen ++) {
-            initScreen(display,screen);
+            initScreen(displby,screen);
         }
 
-        selectionMap = new HashMap<>();
+        selectionMbp = new HbshMbp<>();
     }
 
-    static void initScreen(long display, final int screen) {
-        XToolkit.awtLock();
+    stbtic void initScreen(long displby, finbl int screen) {
+        XToolkit.bwtLock();
         try {
-            long root = XlibWrapper.RootWindow(display,screen);
-            XlibWrapper.XSelectInput(display, root, XConstants.StructureNotifyMask);
-            XToolkit.addEventDispatcher(root,
-                    new XEventDispatcher() {
-                        public void dispatchEvent(XEvent ev) {
+            long root = XlibWrbpper.RootWindow(displby,screen);
+            XlibWrbpper.XSelectInput(displby, root, XConstbnts.StructureNotifyMbsk);
+            XToolkit.bddEventDispbtcher(root,
+                    new XEventDispbtcher() {
+                        public void dispbtchEvent(XEvent ev) {
                                 processRootEvent(ev, screen);
                             }
                         });
 
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
@@ -115,153 +115,153 @@ public class  XMSelection {
         return numScreens;
     }
 
-    void select(long extra_mask) {
-        eventMask = extra_mask;
+    void select(long extrb_mbsk) {
+        eventMbsk = extrb_mbsk;
         for (int screen = 0; screen < numScreens ; screen ++) {
-            selectPerScreen(screen,extra_mask);
+            selectPerScreen(screen,extrb_mbsk);
         }
     }
 
-    void resetOwner(long owner, final int screen) {
-        XToolkit.awtLock();
+    void resetOwner(long owner, finbl int screen) {
+        XToolkit.bwtLock();
         try {
-            long display = XToolkit.getDisplay();
+            long displby = XToolkit.getDisplby();
             synchronized(this) {
                 setOwner(owner, screen);
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                     log.fine("New Selection Owner for screen " + screen + " = " + owner );
                 }
-                XlibWrapper.XSelectInput(display, owner, XConstants.StructureNotifyMask | eventMask);
-                XToolkit.addEventDispatcher(owner,
-                        new XEventDispatcher() {
-                            public void dispatchEvent(XEvent ev) {
-                                dispatchSelectionEvent(ev, screen);
+                XlibWrbpper.XSelectInput(displby, owner, XConstbnts.StructureNotifyMbsk | eventMbsk);
+                XToolkit.bddEventDispbtcher(owner,
+                        new XEventDispbtcher() {
+                            public void dispbtchEvent(XEvent ev) {
+                                dispbtchSelectionEvent(ev, screen);
                             }
                         });
 
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    void selectPerScreen(final int screen, long extra_mask) {
-        XToolkit.awtLock();
+    void selectPerScreen(finbl int screen, long extrb_mbsk) {
+        XToolkit.bwtLock();
         try {
             try {
-                long display = XToolkit.getDisplay();
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("Grabbing XServer");
+                long displby = XToolkit.getDisplby();
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("Grbbbing XServer");
                 }
-                XlibWrapper.XGrabServer(display);
+                XlibWrbpper.XGrbbServer(displby);
 
                 synchronized(this) {
-                    String selection_name = getName()+"_S"+screen;
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("Screen = " + screen + " selection name = " + selection_name);
+                    String selection_nbme = getNbme()+"_S"+screen;
+                    if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                        log.fine("Screen = " + screen + " selection nbme = " + selection_nbme);
                     }
-                    XAtom atom = XAtom.get(selection_name);
-                    selectionMap.put(Long.valueOf(atom.getAtom()),this); // add mapping from atom to the instance of XMSelection
-                    setAtom(atom,screen);
-                    long owner = XlibWrapper.XGetSelectionOwner(display, atom.getAtom());
+                    XAtom btom = XAtom.get(selection_nbme);
+                    selectionMbp.put(Long.vblueOf(btom.getAtom()),this); // bdd mbpping from btom to the instbnce of XMSelection
+                    setAtom(btom,screen);
+                    long owner = XlibWrbpper.XGetSelectionOwner(displby, btom.getAtom());
                     if (owner != 0) {
                         setOwner(owner, screen);
-                        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+                        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                             log.fine("Selection Owner for screen " + screen + " = " + owner );
                         }
-                        XlibWrapper.XSelectInput(display, owner, XConstants.StructureNotifyMask | extra_mask);
-                        XToolkit.addEventDispatcher(owner,
-                                new XEventDispatcher() {
-                                        public void dispatchEvent(XEvent ev) {
-                                            dispatchSelectionEvent(ev, screen);
+                        XlibWrbpper.XSelectInput(displby, owner, XConstbnts.StructureNotifyMbsk | extrb_mbsk);
+                        XToolkit.bddEventDispbtcher(owner,
+                                new XEventDispbtcher() {
+                                        public void dispbtchEvent(XEvent ev) {
+                                            dispbtchSelectionEvent(ev, screen);
                                         }
                                     });
                     }
                 }
             }
-            catch (Exception e) {
-                e.printStackTrace();
+            cbtch (Exception e) {
+                e.printStbckTrbce();
             }
-            finally {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("UnGrabbing XServer");
+            finblly {
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("UnGrbbbing XServer");
                 }
-                XlibWrapper.XUngrabServer(XToolkit.getDisplay());
+                XlibWrbpper.XUngrbbServer(XToolkit.getDisplby());
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
 
-    static boolean processClientMessage(XEvent xev, int screen) {
-        XClientMessageEvent xce = xev.get_xclient();
-        if (xce.get_message_type() == XA_MANAGER.getAtom()) {
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("client messags = " + xce);
+    stbtic boolebn processClientMessbge(XEvent xev, int screen) {
+        XClientMessbgeEvent xce = xev.get_xclient();
+        if (xce.get_messbge_type() == XA_MANAGER.getAtom()) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                log.fine("client messbgs = " + xce);
             }
-            long timestamp = xce.get_data(0);
-            long atom = xce.get_data(1);
-            long owner = xce.get_data(2);
-            long data = xce.get_data(3);
+            long timestbmp = xce.get_dbtb(0);
+            long btom = xce.get_dbtb(1);
+            long owner = xce.get_dbtb(2);
+            long dbtb = xce.get_dbtb(3);
 
-            XMSelection sel = getInstance(atom);
+            XMSelection sel = getInstbnce(btom);
             if (sel != null) {
                 sel.resetOwner(owner,screen);
-                sel.dispatchOwnerChangedEvent(xev,screen,owner,data, timestamp);
+                sel.dispbtchOwnerChbngedEvent(xev,screen,owner,dbtb, timestbmp);
             }
         }
-        return false;
+        return fblse;
     }
 
-    static  boolean processRootEvent(XEvent xev, int screen) {
+    stbtic  boolebn processRootEvent(XEvent xev, int screen) {
         switch (xev.get_type()) {
-            case XConstants.ClientMessage: {
-                return processClientMessage(xev, screen);
+            cbse XConstbnts.ClientMessbge: {
+                return processClientMessbge(xev, screen);
             }
         }
 
-        return false;
+        return fblse;
 
     }
 
 
-    static XMSelection getInstance(long selection) {
-        return selectionMap.get(Long.valueOf(selection));
+    stbtic XMSelection getInstbnce(long selection) {
+        return selectionMbp.get(Long.vblueOf(selection));
     }
 
 
     /*
-     * Default constructor specifies PropertyChangeMask as well
+     * Defbult constructor specifies PropertyChbngeMbsk bs well
      */
 
-    public XMSelection (String selname) {
-        this(selname, XConstants.PropertyChangeMask);
+    public XMSelection (String selnbme) {
+        this(selnbme, XConstbnts.PropertyChbngeMbsk);
     }
 
 
    /*
-    * Some users may not need to know about selection changes,
-    * just owner ship changes, They would specify a zero extra mask.
+    * Some users mby not need to know bbout selection chbnges,
+    * just owner ship chbnges, They would specify b zero extrb mbsk.
     */
 
-    public XMSelection (String selname, long extraMask) {
+    public XMSelection (String selnbme, long extrbMbsk) {
 
         synchronized (this) {
-            selectionName = selname;
-            atoms = new XAtom[getNumberOfScreens()];
+            selectionNbme = selnbme;
+            btoms = new XAtom[getNumberOfScreens()];
             owners = new long[getNumberOfScreens()];
         }
-        select(extraMask);
+        select(extrbMbsk);
     }
 
 
 
-    public synchronized void addSelectionListener(XMSelectionListener listener) {
+    public synchronized void bddSelectionListener(XMSelectionListener listener) {
         if (listeners == null) {
             listeners = new Vector<>();
         }
-        listeners.add(listener);
+        listeners.bdd(listener);
     }
 
     public synchronized void removeSelectionListener(XMSelectionListener listener) {
@@ -275,15 +275,15 @@ public class  XMSelection {
     }
 
     synchronized XAtom getAtom(int screen) {
-        if (atoms != null) {
-            return atoms[screen];
+        if (btoms != null) {
+            return btoms[screen];
         }
         return null;
     }
 
-    synchronized void setAtom(XAtom a, int screen) {
-        if (atoms != null) {
-            atoms[screen] = a;
+    synchronized void setAtom(XAtom b, int screen) {
+        if (btoms != null) {
+            btoms[screen] = b;
         }
     }
 
@@ -300,59 +300,59 @@ public class  XMSelection {
         }
     }
 
-    synchronized String getName() {
-        return selectionName;
+    synchronized String getNbme() {
+        return selectionNbme;
     }
 
 
-    synchronized void dispatchSelectionChanged( XPropertyEvent ev, int screen) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Selection Changed : Screen = " + screen + "Event =" + ev);
+    synchronized void dispbtchSelectionChbnged( XPropertyEvent ev, int screen) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Selection Chbnged : Screen = " + screen + "Event =" + ev);
         }
         if (listeners != null) {
-            Iterator<XMSelectionListener> iter = listeners.iterator();
-            while (iter.hasNext()) {
+            Iterbtor<XMSelectionListener> iter = listeners.iterbtor();
+            while (iter.hbsNext()) {
                 XMSelectionListener disp = iter.next();
-                disp.selectionChanged(screen, this, ev.get_window(), ev);
+                disp.selectionChbnged(screen, this, ev.get_window(), ev);
             }
         }
     }
 
-    synchronized void dispatchOwnerDeath(XDestroyWindowEvent de, int screen) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Owner dead : Screen = " + screen + "Event =" + de);
+    synchronized void dispbtchOwnerDebth(XDestroyWindowEvent de, int screen) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Owner debd : Screen = " + screen + "Event =" + de);
         }
         if (listeners != null) {
-            Iterator<XMSelectionListener> iter = listeners.iterator();
-            while (iter.hasNext()) {
+            Iterbtor<XMSelectionListener> iter = listeners.iterbtor();
+            while (iter.hbsNext()) {
                 XMSelectionListener disp = iter.next();
-                disp.ownerDeath(screen, this, de.get_window());
+                disp.ownerDebth(screen, this, de.get_window());
 
             }
         }
     }
 
-    void dispatchSelectionEvent(XEvent xev, int screen) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+    void dispbtchSelectionEvent(XEvent xev, int screen) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("Event =" + xev);
         }
-        if (xev.get_type() == XConstants.DestroyNotify) {
+        if (xev.get_type() == XConstbnts.DestroyNotify) {
             XDestroyWindowEvent de = xev.get_xdestroywindow();
-            dispatchOwnerDeath( de, screen);
+            dispbtchOwnerDebth( de, screen);
         }
-        else if (xev.get_type() == XConstants.PropertyNotify)  {
+        else if (xev.get_type() == XConstbnts.PropertyNotify)  {
             XPropertyEvent xpe = xev.get_xproperty();
-            dispatchSelectionChanged( xpe, screen);
+            dispbtchSelectionChbnged( xpe, screen);
         }
     }
 
 
-    synchronized void dispatchOwnerChangedEvent(XEvent ev, int screen, long owner, long data, long timestamp) {
+    synchronized void dispbtchOwnerChbngedEvent(XEvent ev, int screen, long owner, long dbtb, long timestbmp) {
         if (listeners != null) {
-            Iterator<XMSelectionListener> iter = listeners.iterator();
-            while (iter.hasNext()) {
+            Iterbtor<XMSelectionListener> iter = listeners.iterbtor();
+            while (iter.hbsNext()) {
                 XMSelectionListener disp = iter.next();
-                disp.ownerChanged(screen,this, owner, data, timestamp);
+                disp.ownerChbnged(screen,this, owner, dbtb, timestbmp);
             }
         }
     }

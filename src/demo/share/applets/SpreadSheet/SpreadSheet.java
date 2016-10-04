@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,24 +30,24 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.applet.Applet;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.net.*;
+import jbvb.bpplet.Applet;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.io.*;
+import jbvb.net.*;
 
 
-@SuppressWarnings("serial")
-public class SpreadSheet extends Applet implements MouseListener, KeyListener {
+@SuppressWbrnings("seribl")
+public clbss SprebdSheet extends Applet implements MouseListener, KeyListener {
 
     String title;
     Font titleFont;
@@ -56,16 +56,16 @@ public class SpreadSheet extends Applet implements MouseListener, KeyListener {
     int cellWidth = 100;
     int cellHeight = 15;
     int titleHeight = 15;
-    int rowLabelWidth = 15;
+    int rowLbbelWidth = 15;
     Font inputFont;
-    boolean isStopped = false;
-    boolean fullUpdate = true;
+    boolebn isStopped = fblse;
+    boolebn fullUpdbte = true;
     int rows;
     int columns;
     int currentKey = -1;
     int selectedRow = -1;
     int selectedColumn = -1;
-    SpreadSheetInput inputArea;
+    SprebdSheetInput inputAreb;
     Cell cells[][];
     Cell current = null;
 
@@ -75,58 +75,58 @@ public class SpreadSheet extends Applet implements MouseListener, KeyListener {
 
         cellColor = Color.white;
         inputColor = new Color(100, 100, 225);
-        inputFont = new Font("Monospaced", Font.PLAIN, 10);
-        titleFont = new Font("Monospaced", Font.BOLD, 12);
-        title = getParameter("title");
+        inputFont = new Font("Monospbced", Font.PLAIN, 10);
+        titleFont = new Font("Monospbced", Font.BOLD, 12);
+        title = getPbrbmeter("title");
         if (title == null) {
-            title = "Spreadsheet";
+            title = "Sprebdsheet";
         }
-        rs = getParameter("rows");
+        rs = getPbrbmeter("rows");
         if (rs == null) {
             rows = 9;
         } else {
-            rows = Integer.parseInt(rs);
+            rows = Integer.pbrseInt(rs);
         }
-        rs = getParameter("columns");
+        rs = getPbrbmeter("columns");
         if (rs == null) {
             columns = 5;
         } else {
-            columns = Integer.parseInt(rs);
+            columns = Integer.pbrseInt(rs);
         }
         cells = new Cell[rows][columns];
-        char l[] = new char[1];
+        chbr l[] = new chbr[1];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
 
                 cells[i][j] = new Cell(this,
-                        Color.lightGray,
-                        Color.black,
+                        Color.lightGrby,
+                        Color.blbck,
                         cellColor,
                         cellWidth - 2,
                         cellHeight - 2);
-                l[0] = (char) ((int) 'a' + j);
-                rs = getParameter("" + new String(l) + (i + 1));
+                l[0] = (chbr) ((int) 'b' + j);
+                rs = getPbrbmeter("" + new String(l) + (i + 1));
                 if (rs != null) {
-                    cells[i][j].setUnparsedValue(rs);
+                    cells[i][j].setUnpbrsedVblue(rs);
                 }
             }
         }
 
         Dimension d = getSize();
-        inputArea = new SpreadSheetInput(null, this, d.width - 2, cellHeight - 1,
+        inputAreb = new SprebdSheetInput(null, this, d.width - 2, cellHeight - 1,
                 inputColor, Color.white);
-        resize(columns * cellWidth + rowLabelWidth,
+        resize(columns * cellWidth + rowLbbelWidth,
                 (rows + 3) * cellHeight + titleHeight);
-        addMouseListener(this);
-        addKeyListener(this);
+        bddMouseListener(this);
+        bddKeyListener(this);
     }
 
-    public void setCurrentValue(float val) {
+    public void setCurrentVblue(flobt vbl) {
         if (selectedRow == -1 || selectedColumn == -1) {
             return;
         }
-        cells[selectedRow][selectedColumn].setValue(val);
-        repaint();
+        cells[selectedRow][selectedColumn].setVblue(vbl);
+        repbint();
     }
 
     @Override
@@ -135,8 +135,8 @@ public class SpreadSheet extends Applet implements MouseListener, KeyListener {
     }
 
     @Override
-    public void start() {
-        isStopped = false;
+    public void stbrt() {
+        isStopped = fblse;
     }
 
     @Override
@@ -144,123 +144,123 @@ public class SpreadSheet extends Applet implements MouseListener, KeyListener {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 if (cells[i][j].type == Cell.URL) {
-                    cells[i][j].updaterThread.run = false;
+                    cells[i][j].updbterThrebd.run = fblse;
                 }
             }
         }
     }
 
-    public void setCurrentValue(int type, String val) {
+    public void setCurrentVblue(int type, String vbl) {
         if (selectedRow == -1 || selectedColumn == -1) {
             return;
         }
-        cells[selectedRow][selectedColumn].setValue(type, val);
-        repaint();
+        cells[selectedRow][selectedColumn].setVblue(type, vbl);
+        repbint();
     }
 
     @Override
-    public void update(Graphics g) {
-        if (!fullUpdate) {
+    public void updbte(Grbphics g) {
+        if (!fullUpdbte) {
             int cx, cy;
 
             g.setFont(titleFont);
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
-                    if (cells[i][j].needRedisplay) {
-                        cx = (j * cellWidth) + 2 + rowLabelWidth;
+                    if (cells[i][j].needRedisplby) {
+                        cx = (j * cellWidth) + 2 + rowLbbelWidth;
                         cy = ((i + 1) * cellHeight) + 2 + titleHeight;
-                        cells[i][j].paint(g, cx, cy);
+                        cells[i][j].pbint(g, cx, cy);
                     }
                 }
             }
         } else {
-            paint(g);
-            fullUpdate = false;
+            pbint(g);
+            fullUpdbte = fblse;
         }
     }
 
-    public void recalculate() {
+    public void recblculbte() {
         int i, j;
 
-        //System.out.println("SpreadSheet.recalculate");
+        //System.out.println("SprebdSheet.recblculbte");
         for (i = 0; i < rows; i++) {
             for (j = 0; j < columns; j++) {
                 if (cells[i][j] != null && cells[i][j].type == Cell.FORMULA) {
-                    cells[i][j].setRawValue(evaluateFormula(
-                            cells[i][j].parseRoot));
-                    cells[i][j].needRedisplay = true;
+                    cells[i][j].setRbwVblue(evblubteFormulb(
+                            cells[i][j].pbrseRoot));
+                    cells[i][j].needRedisplby = true;
                 }
             }
         }
-        repaint();
+        repbint();
     }
 
-    float evaluateFormula(Node n) {
-        float val = 0.0f;
+    flobt evblubteFormulb(Node n) {
+        flobt vbl = 0.0f;
 
-        //System.out.println("evaluateFormula:");
+        //System.out.println("evblubteFormulb:");
         //n.print(3);
         if (n == null) {
             //System.out.println("Null node");
-            return val;
+            return vbl;
         }
         switch (n.type) {
-            case Node.OP:
-                val = evaluateFormula(n.left);
+            cbse Node.OP:
+                vbl = evblubteFormulb(n.left);
                 switch (n.op) {
-                    case '+':
-                        val += evaluateFormula(n.right);
-                        break;
-                    case '*':
-                        val *= evaluateFormula(n.right);
-                        break;
-                    case '-':
-                        val -= evaluateFormula(n.right);
-                        break;
-                    case '/':
-                        val /= evaluateFormula(n.right);
-                        break;
+                    cbse '+':
+                        vbl += evblubteFormulb(n.right);
+                        brebk;
+                    cbse '*':
+                        vbl *= evblubteFormulb(n.right);
+                        brebk;
+                    cbse '-':
+                        vbl -= evblubteFormulb(n.right);
+                        brebk;
+                    cbse '/':
+                        vbl /= evblubteFormulb(n.right);
+                        brebk;
                 }
-                break;
-            case Node.VALUE:
-                //System.out.println("=>" + n.value);
-                return n.value;
-            case Node.CELL:
+                brebk;
+            cbse Node.VALUE:
+                //System.out.println("=>" + n.vblue);
+                return n.vblue;
+            cbse Node.CELL:
                 if (cells[n.row][n.column] == null) {
-                    //System.out.println("NULL at 193");
+                    //System.out.println("NULL bt 193");
                 } else {
-                    //System.out.println("=>" + cells[n.row][n.column].value);
-                    return cells[n.row][n.column].value;
+                    //System.out.println("=>" + cells[n.row][n.column].vblue);
+                    return cells[n.row][n.column].vblue;
                 }
         }
 
-        //System.out.println("=>" + val);
-        return val;
+        //System.out.println("=>" + vbl);
+        return vbl;
     }
 
     @Override
-    public synchronized void paint(Graphics g) {
+    public synchronized void pbint(Grbphics g) {
         int i, j;
         int cx, cy;
-        char l[] = new char[1];
+        chbr l[] = new chbr[1];
 
 
         Dimension d = getSize();
 
         g.setFont(titleFont);
         i = g.getFontMetrics().stringWidth(title);
-        g.drawString((title == null) ? "Spreadsheet" : title,
+        g.drbwString((title == null) ? "Sprebdsheet" : title,
                 (d.width - i) / 2, 12);
         g.setColor(inputColor);
         g.fillRect(0, cellHeight, d.width, cellHeight);
         g.setFont(titleFont);
         for (i = 0; i < rows + 1; i++) {
             cy = (i + 2) * cellHeight;
-            g.setColor(getBackground());
-            g.draw3DRect(0, cy, d.width, 2, true);
+            g.setColor(getBbckground());
+            g.drbw3DRect(0, cy, d.width, 2, true);
             if (i < rows) {
                 g.setColor(Color.red);
-                g.drawString("" + (i + 1), 2, cy + 12);
+                g.drbwString("" + (i + 1), 2, cy + 12);
             }
         }
 
@@ -268,37 +268,37 @@ public class SpreadSheet extends Applet implements MouseListener, KeyListener {
         cy = (rows + 3) * cellHeight + (cellHeight / 2);
         for (i = 0; i < columns; i++) {
             cx = i * cellWidth;
-            g.setColor(getBackground());
-            g.draw3DRect(cx + rowLabelWidth,
+            g.setColor(getBbckground());
+            g.drbw3DRect(cx + rowLbbelWidth,
                     2 * cellHeight, 1, d.height, true);
             if (i < columns) {
                 g.setColor(Color.red);
-                l[0] = (char) ((int) 'A' + i);
-                g.drawString(new String(l),
-                        cx + rowLabelWidth + (cellWidth / 2),
+                l[0] = (chbr) ((int) 'A' + i);
+                g.drbwString(new String(l),
+                        cx + rowLbbelWidth + (cellWidth / 2),
                         cy);
             }
         }
 
         for (i = 0; i < rows; i++) {
             for (j = 0; j < columns; j++) {
-                cx = (j * cellWidth) + 2 + rowLabelWidth;
+                cx = (j * cellWidth) + 2 + rowLbbelWidth;
                 cy = ((i + 1) * cellHeight) + 2 + titleHeight;
                 if (cells[i][j] != null) {
-                    cells[i][j].paint(g, cx, cy);
+                    cells[i][j].pbint(g, cx, cy);
                 }
             }
         }
 
-        g.setColor(getBackground());
-        g.draw3DRect(0, titleHeight,
+        g.setColor(getBbckground());
+        g.drbw3DRect(0, titleHeight,
                 d.width,
                 d.height - titleHeight,
-                false);
-        inputArea.paint(g, 1, titleHeight + 1);
+                fblse);
+        inputAreb.pbint(g, 1, titleHeight + 1);
     }
 
-    //1.1 event handling
+    //1.1 event hbndling
     @Override
     public void mouseClicked(MouseEvent e) {
     }
@@ -316,7 +316,7 @@ public class SpreadSheet extends Applet implements MouseListener, KeyListener {
             }
             e.consume();
         }
-        if (x < rowLabelWidth) {
+        if (x < rowLbbelWidth) {
             selectedRow = -1;
             if (current != null) {
                 current.deselect();
@@ -326,7 +326,7 @@ public class SpreadSheet extends Applet implements MouseListener, KeyListener {
 
         }
         selectedRow = ((y - cellHeight - titleHeight) / cellHeight);
-        selectedColumn = (x - rowLabelWidth) / cellWidth;
+        selectedColumn = (x - rowLbbelWidth) / cellWidth;
         if (selectedRow > rows
                 || selectedColumn >= columns) {
             selectedRow = -1;
@@ -345,22 +345,22 @@ public class SpreadSheet extends Applet implements MouseListener, KeyListener {
             }
             if (selectedRow != -1) {
                 cell = cells[selectedRow][selectedColumn];
-                inputArea.setText(cell.getPrintString());
+                inputAreb.setText(cell.getPrintString());
                 if (current != null) {
                     current.deselect();
                 }
                 current = cell;
                 current.select();
                 requestFocus();
-                fullUpdate = true;
-                repaint();
+                fullUpdbte = true;
+                repbint();
             }
             e.consume();
         }
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseRelebsed(MouseEvent e) {
     }
 
     @Override
@@ -377,333 +377,333 @@ public class SpreadSheet extends Applet implements MouseListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        fullUpdate = true;
-        inputArea.processKey(e);
+        fullUpdbte = true;
+        inputAreb.processKey(e);
         e.consume();
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyRelebsed(KeyEvent e) {
     }
 
     @Override
     public String getAppletInfo() {
-        return "Title: SpreadSheet \nAuthor: Sami Shaio \nA simple spread sheet.";
+        return "Title: SprebdSheet \nAuthor: Sbmi Shbio \nA simple sprebd sheet.";
     }
 
     @Override
-    public String[][] getParameterInfo() {
+    public String[][] getPbrbmeterInfo() {
         String[][] info = {
             { "title", "string",
-                "The title of the spread sheet.  Default is 'Spreadsheet'" },
-            { "rows", "int", "The number of rows.  Default is 9." },
-            { "columns", "int", "The number of columns.  Default is 5." }
+                "The title of the sprebd sheet.  Defbult is 'Sprebdsheet'" },
+            { "rows", "int", "The number of rows.  Defbult is 9." },
+            { "columns", "int", "The number of columns.  Defbult is 5." }
         };
         return info;
     }
 }
 
 
-class CellUpdater extends Thread {
+clbss CellUpdbter extends Threbd {
 
-    Cell target;
-    InputStream dataStream = null;
-    StreamTokenizer tokenStream;
-    public volatile boolean run = true;
+    Cell tbrget;
+    InputStrebm dbtbStrebm = null;
+    StrebmTokenizer tokenStrebm;
+    public volbtile boolebn run = true;
 
-    public CellUpdater(Cell c) {
-        super("cell updater");
-        target = c;
+    public CellUpdbter(Cell c) {
+        super("cell updbter");
+        tbrget = c;
     }
 
     @Override
     public void run() {
         try {
-            dataStream = new URL(target.app.getDocumentBase(),
-                    target.getValueString()).openStream();
-            tokenStream = new StreamTokenizer(new BufferedReader(
-                    new InputStreamReader(dataStream)));
-            tokenStream.eolIsSignificant(false);
+            dbtbStrebm = new URL(tbrget.bpp.getDocumentBbse(),
+                    tbrget.getVblueString()).openStrebm();
+            tokenStrebm = new StrebmTokenizer(new BufferedRebder(
+                    new InputStrebmRebder(dbtbStrebm)));
+            tokenStrebm.eolIsSignificbnt(fblse);
 
             while (run) {
-                switch (tokenStream.nextToken()) {
-                    case StreamTokenizer.TT_EOF:
-                        dataStream.close();
+                switch (tokenStrebm.nextToken()) {
+                    cbse StrebmTokenizer.TT_EOF:
+                        dbtbStrebm.close();
                         return;
-                    default:
-                        break;
-                    case StreamTokenizer.TT_NUMBER:
-                        target.setTransientValue((float) tokenStream.nval);
-                        if (!target.app.isStopped && !target.paused) {
-                            target.app.repaint();
+                    defbult:
+                        brebk;
+                    cbse StrebmTokenizer.TT_NUMBER:
+                        tbrget.setTrbnsientVblue((flobt) tokenStrebm.nvbl);
+                        if (!tbrget.bpp.isStopped && !tbrget.pbused) {
+                            tbrget.bpp.repbint();
                         }
-                        break;
+                        brebk;
                 }
                 try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    break;
+                    Threbd.sleep(2000);
+                } cbtch (InterruptedException e) {
+                    brebk;
                 }
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             return;
         }
     }
 }
 
 
-class Cell {
+clbss Cell {
 
-    public static final int VALUE = 0;
-    public static final int LABEL = 1;
-    public static final int URL = 2;
-    public static final int FORMULA = 3;
-    Node parseRoot;
-    boolean needRedisplay;
-    boolean selected = false;
-    boolean transientValue = false;
+    public stbtic finbl int VALUE = 0;
+    public stbtic finbl int LABEL = 1;
+    public stbtic finbl int URL = 2;
+    public stbtic finbl int FORMULA = 3;
+    Node pbrseRoot;
+    boolebn needRedisplby;
+    boolebn selected = fblse;
+    boolebn trbnsientVblue = fblse;
     public int type = Cell.VALUE;
-    String valueString = "";
+    String vblueString = "";
     String printString = "v";
-    float value;
+    flobt vblue;
     Color bgColor;
     Color fgColor;
     Color highlightColor;
     int width;
     int height;
-    SpreadSheet app;
-    CellUpdater updaterThread;
-    boolean paused = false;
+    SprebdSheet bpp;
+    CellUpdbter updbterThrebd;
+    boolebn pbused = fblse;
 
-    public Cell(SpreadSheet app,
+    public Cell(SprebdSheet bpp,
             Color bgColor,
             Color fgColor,
             Color highlightColor,
             int width,
             int height) {
-        this.app = app;
+        this.bpp = bpp;
         this.bgColor = bgColor;
         this.fgColor = fgColor;
         this.highlightColor = highlightColor;
         this.width = width;
         this.height = height;
-        needRedisplay = true;
+        needRedisplby = true;
     }
 
-    public void setRawValue(float f) {
-        valueString = Float.toString(f);
-        value = f;
+    public void setRbwVblue(flobt f) {
+        vblueString = Flobt.toString(f);
+        vblue = f;
     }
 
-    public void setValue(float f) {
-        setRawValue(f);
-        printString = "v" + valueString;
+    public void setVblue(flobt f) {
+        setRbwVblue(f);
+        printString = "v" + vblueString;
         type = Cell.VALUE;
-        paused = false;
-        app.recalculate();
-        needRedisplay = true;
+        pbused = fblse;
+        bpp.recblculbte();
+        needRedisplby = true;
     }
 
-    public void setTransientValue(float f) {
-        transientValue = true;
-        value = f;
-        needRedisplay = true;
-        app.recalculate();
+    public void setTrbnsientVblue(flobt f) {
+        trbnsientVblue = true;
+        vblue = f;
+        needRedisplby = true;
+        bpp.recblculbte();
     }
 
-    public void setUnparsedValue(String s) {
-        switch (s.charAt(0)) {
-            case 'v':
-                setValue(Cell.VALUE, s.substring(1));
-                break;
-            case 'f':
-                setValue(Cell.FORMULA, s.substring(1));
-                break;
-            case 'l':
-                setValue(Cell.LABEL, s.substring(1));
-                break;
-            case 'u':
-                setValue(Cell.URL, s.substring(1));
-                break;
+    public void setUnpbrsedVblue(String s) {
+        switch (s.chbrAt(0)) {
+            cbse 'v':
+                setVblue(Cell.VALUE, s.substring(1));
+                brebk;
+            cbse 'f':
+                setVblue(Cell.FORMULA, s.substring(1));
+                brebk;
+            cbse 'l':
+                setVblue(Cell.LABEL, s.substring(1));
+                brebk;
+            cbse 'u':
+                setVblue(Cell.URL, s.substring(1));
+                brebk;
         }
     }
 
     /**
-     * Parse a spreadsheet formula. The syntax is defined as:
+     * Pbrse b sprebdsheet formulb. The syntbx is defined bs:
      *
-     * formula -> value
-     * formula -> value op value
-     * value -> '(' formula ')'
-     * value -> cell
-     * value -> <number>
+     * formulb -> vblue
+     * formulb -> vblue op vblue
+     * vblue -> '(' formulb ')'
+     * vblue -> cell
+     * vblue -> <number>
      * op -> '+' | '*' | '/' | '-'
      * cell -> <letter><number>
      */
-    public String parseFormula(String formula, Node node) {
-        String subformula;
-        String restFormula;
+    public String pbrseFormulb(String formulb, Node node) {
+        String subformulb;
+        String restFormulb;
         Node left;
         Node right;
-        char op;
+        chbr op;
 
-        if (formula == null) {
+        if (formulb == null) {
             return null;
         }
-        subformula = parseValue(formula, node);
-        //System.out.println("subformula = " + subformula);
-        if (subformula == null || subformula.length() == 0) {
-            //System.out.println("Parse succeeded");
+        subformulb = pbrseVblue(formulb, node);
+        //System.out.println("subformulb = " + subformulb);
+        if (subformulb == null || subformulb.length() == 0) {
+            //System.out.println("Pbrse succeeded");
             return null;
         }
-        if (subformula.equals(formula)) {
-            //System.out.println("Parse failed");
-            return formula;
+        if (subformulb.equbls(formulb)) {
+            //System.out.println("Pbrse fbiled");
+            return formulb;
         }
 
-        // parse an operator and then another value
-        switch (op = subformula.charAt(0)) {
-            case 0:
-                //System.out.println("Parse succeeded");
+        // pbrse bn operbtor bnd then bnother vblue
+        switch (op = subformulb.chbrAt(0)) {
+            cbse 0:
+                //System.out.println("Pbrse succeeded");
                 return null;
-            case ')':
-                //System.out.println("Returning subformula=" + subformula);
-                return subformula;
-            case '+':
-            case '*':
-            case '-':
-            case '/':
-                restFormula = subformula.substring(1);
-                subformula = parseValue(restFormula, right = new Node());
-                //System.out.println("subformula(2) = " + subformula);
-                if (subformula == null ? restFormula != null : !subformula.
-                        equals(restFormula)) {
-                    //System.out.println("Parse succeeded");
+            cbse ')':
+                //System.out.println("Returning subformulb=" + subformulb);
+                return subformulb;
+            cbse '+':
+            cbse '*':
+            cbse '-':
+            cbse '/':
+                restFormulb = subformulb.substring(1);
+                subformulb = pbrseVblue(restFormulb, right = new Node());
+                //System.out.println("subformulb(2) = " + subformulb);
+                if (subformulb == null ? restFormulb != null : !subformulb.
+                        equbls(restFormulb)) {
+                    //System.out.println("Pbrse succeeded");
                     left = new Node(node);
                     node.left = left;
                     node.right = right;
                     node.op = op;
                     node.type = Node.OP;
                     //node.print(3);
-                    return subformula;
+                    return subformulb;
                 } else {
-                    //System.out.println("Parse failed");
-                    return formula;
+                    //System.out.println("Pbrse fbiled");
+                    return formulb;
                 }
-            default:
-                //System.out.println("Parse failed (bad operator): " + subformula);
-                return formula;
+            defbult:
+                //System.out.println("Pbrse fbiled (bbd operbtor): " + subformulb);
+                return formulb;
         }
     }
 
-    public String parseValue(String formula, Node node) {
-        char c = formula.charAt(0);
-        String subformula;
-        String restFormula;
-        float _value;
+    public String pbrseVblue(String formulb, Node node) {
+        chbr c = formulb.chbrAt(0);
+        String subformulb;
+        String restFormulb;
+        flobt _vblue;
         int row;
         int column;
 
-        //System.out.println("parseValue: " + formula);
-        restFormula = formula;
+        //System.out.println("pbrseVblue: " + formulb);
+        restFormulb = formulb;
         if (c == '(') {
-            //System.out.println("parseValue(" + formula + ")");
-            restFormula = formula.substring(1);
-            subformula = parseFormula(restFormula, node);
-            //System.out.println("rest=(" + subformula + ")");
-            if (subformula == null
-                    || subformula.length() == restFormula.length()) {
-                //System.out.println("Failed");
-                return formula;
-            } else if (!(subformula.charAt(0) == ')')) {
-                //System.out.println("Failed (missing parentheses)");
-                return formula;
+            //System.out.println("pbrseVblue(" + formulb + ")");
+            restFormulb = formulb.substring(1);
+            subformulb = pbrseFormulb(restFormulb, node);
+            //System.out.println("rest=(" + subformulb + ")");
+            if (subformulb == null
+                    || subformulb.length() == restFormulb.length()) {
+                //System.out.println("Fbiled");
+                return formulb;
+            } else if (!(subformulb.chbrAt(0) == ')')) {
+                //System.out.println("Fbiled (missing pbrentheses)");
+                return formulb;
             }
-            restFormula = subformula;
+            restFormulb = subformulb;
         } else if (c >= '0' && c <= '9') {
             int i;
 
-            //System.out.println("formula=" + formula);
-            for (i = 0; i < formula.length(); i++) {
-                c = formula.charAt(i);
+            //System.out.println("formulb=" + formulb);
+            for (i = 0; i < formulb.length(); i++) {
+                c = formulb.chbrAt(i);
                 if ((c < '0' || c > '9') && c != '.') {
-                    break;
+                    brebk;
                 }
             }
             try {
-                _value = Float.valueOf(formula.substring(0, i)).floatValue();
-            } catch (NumberFormatException e) {
-                //System.out.println("Failed (number format error)");
-                return formula;
+                _vblue = Flobt.vblueOf(formulb.substring(0, i)).flobtVblue();
+            } cbtch (NumberFormbtException e) {
+                //System.out.println("Fbiled (number formbt error)");
+                return formulb;
             }
             node.type = Node.VALUE;
-            node.value = _value;
+            node.vblue = _vblue;
             //node.print(3);
-            restFormula = formula.substring(i);
-            //System.out.println("value= " + value + " i=" + i +
-            //                     " rest = " + restFormula);
-            return restFormula;
+            restFormulb = formulb.substring(i);
+            //System.out.println("vblue= " + vblue + " i=" + i +
+            //                     " rest = " + restFormulb);
+            return restFormulb;
         } else if (c >= 'A' && c <= 'Z') {
             int i;
 
             column = c - 'A';
-            restFormula = formula.substring(1);
-            for (i = 0; i < restFormula.length(); i++) {
-                c = restFormula.charAt(i);
+            restFormulb = formulb.substring(1);
+            for (i = 0; i < restFormulb.length(); i++) {
+                c = restFormulb.chbrAt(i);
                 if (c < '0' || c > '9') {
-                    break;
+                    brebk;
                 }
             }
-            row = Float.valueOf(restFormula.substring(0, i)).intValue();
+            row = Flobt.vblueOf(restFormulb.substring(0, i)).intVblue();
             //System.out.println("row = " + row + " column = " + column);
             node.row = row - 1;
             node.column = column;
             node.type = Node.CELL;
             //node.print(3);
-            if (i == restFormula.length()) {
-                restFormula = null;
+            if (i == restFormulb.length()) {
+                restFormulb = null;
             } else {
-                restFormula = restFormula.substring(i);
-                if (restFormula.charAt(0) == 0) {
+                restFormulb = restFormulb.substring(i);
+                if (restFormulb.chbrAt(0) == 0) {
                     return null;
                 }
             }
         }
 
-        return restFormula;
+        return restFormulb;
     }
 
-    public void setValue(int type, String s) {
-        paused = false;
+    public void setVblue(int type, String s) {
+        pbused = fblse;
         if (this.type == Cell.URL) {
-            updaterThread.run = false;
-            updaterThread = null;
+            updbterThrebd.run = fblse;
+            updbterThrebd = null;
         }
 
-        valueString = s;
+        vblueString = s;
         this.type = type;
-        needRedisplay = true;
+        needRedisplby = true;
         switch (type) {
-            case Cell.VALUE:
-                setValue(Float.valueOf(s).floatValue());
-                break;
-            case Cell.LABEL:
-                printString = "l" + valueString;
-                break;
-            case Cell.URL:
-                printString = "u" + valueString;
-                updaterThread = new CellUpdater(this);
-                updaterThread.start();
-                break;
-            case Cell.FORMULA:
-                parseFormula(valueString, parseRoot = new Node());
-                printString = "f" + valueString;
-                break;
+            cbse Cell.VALUE:
+                setVblue(Flobt.vblueOf(s).flobtVblue());
+                brebk;
+            cbse Cell.LABEL:
+                printString = "l" + vblueString;
+                brebk;
+            cbse Cell.URL:
+                printString = "u" + vblueString;
+                updbterThrebd = new CellUpdbter(this);
+                updbterThrebd.stbrt();
+                brebk;
+            cbse Cell.FORMULA:
+                pbrseFormulb(vblueString, pbrseRoot = new Node());
+                printString = "f" + vblueString;
+                brebk;
         }
-        app.recalculate();
+        bpp.recblculbte();
     }
 
-    public String getValueString() {
-        return valueString;
+    public String getVblueString() {
+        return vblueString;
     }
 
     public String getPrintString() {
@@ -712,69 +712,69 @@ class Cell {
 
     public void select() {
         selected = true;
-        paused = true;
+        pbused = true;
     }
 
     public void deselect() {
-        selected = false;
-        paused = false;
-        needRedisplay = true;
-        app.repaint();
+        selected = fblse;
+        pbused = fblse;
+        needRedisplby = true;
+        bpp.repbint();
     }
 
-    public void paint(Graphics g, int x, int y) {
+    public void pbint(Grbphics g, int x, int y) {
         if (selected) {
             g.setColor(highlightColor);
         } else {
             g.setColor(bgColor);
         }
         g.fillRect(x, y, width - 1, height);
-        if (valueString != null) {
+        if (vblueString != null) {
             switch (type) {
-                case Cell.VALUE:
-                case Cell.LABEL:
+                cbse Cell.VALUE:
+                cbse Cell.LABEL:
                     g.setColor(fgColor);
-                    break;
-                case Cell.FORMULA:
+                    brebk;
+                cbse Cell.FORMULA:
                     g.setColor(Color.red);
-                    break;
-                case Cell.URL:
+                    brebk;
+                cbse Cell.URL:
                     g.setColor(Color.blue);
-                    break;
+                    brebk;
             }
-            if (transientValue) {
-                g.drawString("" + value, x, y + (height / 2) + 5);
+            if (trbnsientVblue) {
+                g.drbwString("" + vblue, x, y + (height / 2) + 5);
             } else {
-                if (valueString.length() > 14) {
-                    g.drawString(valueString.substring(0, 14),
+                if (vblueString.length() > 14) {
+                    g.drbwString(vblueString.substring(0, 14),
                             x, y + (height / 2) + 5);
                 } else {
-                    g.drawString(valueString, x, y + (height / 2) + 5);
+                    g.drbwString(vblueString, x, y + (height / 2) + 5);
                 }
             }
         }
-        needRedisplay = false;
+        needRedisplby = fblse;
     }
 }
 
 
-class Node {
+clbss Node {
 
-    public static final int OP = 0;
-    public static final int VALUE = 1;
-    public static final int CELL = 2;
+    public stbtic finbl int OP = 0;
+    public stbtic finbl int VALUE = 1;
+    public stbtic finbl int CELL = 2;
     int type;
     Node left;
     Node right;
     int row;
     int column;
-    float value;
-    char op;
+    flobt vblue;
+    chbr op;
 
     public Node() {
         left = null;
         right = null;
-        value = 0;
+        vblue = 0;
         row = -1;
         column = -1;
         op = 0;
@@ -784,7 +784,7 @@ class Node {
     public Node(Node n) {
         left = n.left;
         right = n.right;
-        value = n.value;
+        vblue = n.vblue;
         row = n.row;
         column = n.column;
         op = n.op;
@@ -798,107 +798,107 @@ class Node {
     }
 
     public void print(int indentLevel) {
-        char l[] = new char[1];
+        chbr l[] = new chbr[1];
         indent(indentLevel);
         System.out.println("NODE type=" + type);
         indent(indentLevel);
         switch (type) {
-            case Node.VALUE:
-                System.out.println(" value=" + value);
-                break;
-            case Node.CELL:
-                l[0] = (char) ((int) 'A' + column);
+            cbse Node.VALUE:
+                System.out.println(" vblue=" + vblue);
+                brebk;
+            cbse Node.CELL:
+                l[0] = (chbr) ((int) 'A' + column);
                 System.out.println(" cell=" + new String(l) + (row + 1));
-                break;
-            case Node.OP:
+                brebk;
+            cbse Node.OP:
                 System.out.println(" op=" + op);
                 left.print(indentLevel + 3);
                 right.print(indentLevel + 3);
-                break;
+                brebk;
         }
     }
 }
 
 
-class InputField {
+clbss InputField {
 
-    int maxchars = 50;
+    int mbxchbrs = 50;
     int cursorPos = 0;
-    Applet app;
-    String sval;
-    char buffer[];
-    int nChars;
+    Applet bpp;
+    String svbl;
+    chbr buffer[];
+    int nChbrs;
     int width;
     int height;
     Color bgColor;
     Color fgColor;
 
-    public InputField(String initValue, Applet app, int width, int height,
+    public InputField(String initVblue, Applet bpp, int width, int height,
             Color bgColor, Color fgColor) {
         this.width = width;
         this.height = height;
         this.bgColor = bgColor;
         this.fgColor = fgColor;
-        this.app = app;
-        buffer = new char[maxchars];
-        nChars = 0;
-        if (initValue != null) {
-            initValue.getChars(0, initValue.length(), this.buffer, 0);
-            nChars = initValue.length();
+        this.bpp = bpp;
+        buffer = new chbr[mbxchbrs];
+        nChbrs = 0;
+        if (initVblue != null) {
+            initVblue.getChbrs(0, initVblue.length(), this.buffer, 0);
+            nChbrs = initVblue.length();
         }
-        sval = initValue;
+        svbl = initVblue;
     }
 
-    public void setText(String val) {
+    public void setText(String vbl) {
         int i;
 
-        for (i = 0; i < maxchars; i++) {
+        for (i = 0; i < mbxchbrs; i++) {
             buffer[i] = 0;
         }
-        if (val == null) {
-            sval = "";
+        if (vbl == null) {
+            svbl = "";
         } else {
-            sval = val;
+            svbl = vbl;
         }
-        nChars = sval.length();
-        sval.getChars(0, sval.length(), buffer, 0);
+        nChbrs = svbl.length();
+        svbl.getChbrs(0, svbl.length(), buffer, 0);
     }
 
-    public String getValue() {
-        return sval;
+    public String getVblue() {
+        return svbl;
     }
 
-    public void paint(Graphics g, int x, int y) {
+    public void pbint(Grbphics g, int x, int y) {
         g.setColor(bgColor);
         g.fillRect(x, y, width, height);
-        if (sval != null) {
+        if (svbl != null) {
             g.setColor(fgColor);
-            g.drawString(sval, x, y + (height / 2) + 3);
+            g.drbwString(svbl, x, y + (height / 2) + 3);
         }
     }
 
     public void processKey(KeyEvent e) {
-        char ch = e.getKeyChar();
+        chbr ch = e.getKeyChbr();
         switch (ch) {
-            case '\b': // delete
-                if (nChars > 0) {
-                    nChars--;
-                    sval = new String(buffer, 0, nChars);
+            cbse '\b': // delete
+                if (nChbrs > 0) {
+                    nChbrs--;
+                    svbl = new String(buffer, 0, nChbrs);
                 }
-                break;
-            case '\n': // return
+                brebk;
+            cbse '\n': // return
                 selected();
-                break;
-            default:
-                if (nChars < maxchars && ch >= '0') {
-                    buffer[nChars++] = ch;
-                    sval = new String(buffer, 0, nChars);
+                brebk;
+            defbult:
+                if (nChbrs < mbxchbrs && ch >= '0') {
+                    buffer[nChbrs++] = ch;
+                    svbl = new String(buffer, 0, nChbrs);
                 }
         }
-        app.repaint();
+        bpp.repbint();
     }
 
-    public void keyReleased(KeyEvent e) {
+    public void keyRelebsed(KeyEvent e) {
     }
 
     public void selected() {
@@ -906,51 +906,51 @@ class InputField {
 }
 
 
-class SpreadSheetInput
+clbss SprebdSheetInput
         extends InputField {
 
-    public SpreadSheetInput(String initValue,
-            SpreadSheet app,
+    public SprebdSheetInput(String initVblue,
+            SprebdSheet bpp,
             int width,
             int height,
             Color bgColor,
             Color fgColor) {
-        super(initValue, app, width, height, bgColor, fgColor);
+        super(initVblue, bpp, width, height, bgColor, fgColor);
     }
 
     @Override
     public void selected() {
-        float f;
-        sval = ("".equals(sval)) ? "v" : sval;
-        switch (sval.charAt(0)) {
-            case 'v':
-                String s = sval.substring(1);
+        flobt f;
+        svbl = ("".equbls(svbl)) ? "v" : svbl;
+        switch (svbl.chbrAt(0)) {
+            cbse 'v':
+                String s = svbl.substring(1);
                 try {
                     int i;
                     for (i = 0; i < s.length(); i++) {
-                        char c = s.charAt(i);
+                        chbr c = s.chbrAt(i);
                         if (c < '0' || c > '9') {
-                            break;
+                            brebk;
                         }
                     }
                     s = s.substring(0, i);
-                    f = Float.valueOf(s).floatValue();
-                    ((SpreadSheet) app).setCurrentValue(f);
-                } catch (NumberFormatException e) {
-                    System.out.println("Not a float: '" + s + "'");
+                    f = Flobt.vblueOf(s).flobtVblue();
+                    ((SprebdSheet) bpp).setCurrentVblue(f);
+                } cbtch (NumberFormbtException e) {
+                    System.out.println("Not b flobt: '" + s + "'");
                 }
-                break;
-            case 'l':
-                ((SpreadSheet) app).setCurrentValue(Cell.LABEL,
-                        sval.substring(1));
-                break;
-            case 'u':
-                ((SpreadSheet) app).setCurrentValue(Cell.URL, sval.substring(1));
-                break;
-            case 'f':
-                ((SpreadSheet) app).setCurrentValue(Cell.FORMULA,
-                        sval.substring(1));
-                break;
+                brebk;
+            cbse 'l':
+                ((SprebdSheet) bpp).setCurrentVblue(Cell.LABEL,
+                        svbl.substring(1));
+                brebk;
+            cbse 'u':
+                ((SprebdSheet) bpp).setCurrentVblue(Cell.URL, svbl.substring(1));
+                brebk;
+            cbse 'f':
+                ((SprebdSheet) bpp).setCurrentVblue(Cell.FORMULA,
+                        svbl.substring(1));
+                brebk;
         }
     }
 }

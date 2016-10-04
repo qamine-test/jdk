@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * This class provides a skeletal implementation of the <tt>List</tt>
- * interface to minimize the effort required to implement this interface
- * backed by a "sequential access" data store (such as a linked list).  For
- * random access data (such as an array), <tt>AbstractList</tt> should be used
- * in preference to this class.<p>
+ * This clbss provides b skeletbl implementbtion of the <tt>List</tt>
+ * interfbce to minimize the effort required to implement this interfbce
+ * bbcked by b "sequentibl bccess" dbtb store (such bs b linked list).  For
+ * rbndom bccess dbtb (such bs bn brrby), <tt>AbstrbctList</tt> should be used
+ * in preference to this clbss.<p>
  *
- * This class is the opposite of the <tt>AbstractList</tt> class in the sense
- * that it implements the "random access" methods (<tt>get(int index)</tt>,
- * <tt>set(int index, E element)</tt>, <tt>add(int index, E element)</tt> and
- * <tt>remove(int index)</tt>) on top of the list's list iterator, instead of
- * the other way around.<p>
+ * This clbss is the opposite of the <tt>AbstrbctList</tt> clbss in the sense
+ * thbt it implements the "rbndom bccess" methods (<tt>get(int index)</tt>,
+ * <tt>set(int index, E element)</tt>, <tt>bdd(int index, E element)</tt> bnd
+ * <tt>remove(int index)</tt>) on top of the list's list iterbtor, instebd of
+ * the other wby bround.<p>
  *
- * To implement a list the programmer needs only to extend this class and
- * provide implementations for the <tt>listIterator</tt> and <tt>size</tt>
- * methods.  For an unmodifiable list, the programmer need only implement the
- * list iterator's <tt>hasNext</tt>, <tt>next</tt>, <tt>hasPrevious</tt>,
- * <tt>previous</tt> and <tt>index</tt> methods.<p>
+ * To implement b list the progrbmmer needs only to extend this clbss bnd
+ * provide implementbtions for the <tt>listIterbtor</tt> bnd <tt>size</tt>
+ * methods.  For bn unmodifibble list, the progrbmmer need only implement the
+ * list iterbtor's <tt>hbsNext</tt>, <tt>next</tt>, <tt>hbsPrevious</tt>,
+ * <tt>previous</tt> bnd <tt>index</tt> methods.<p>
  *
- * For a modifiable list the programmer should additionally implement the list
- * iterator's <tt>set</tt> method.  For a variable-size list the programmer
- * should additionally implement the list iterator's <tt>remove</tt> and
- * <tt>add</tt> methods.<p>
+ * For b modifibble list the progrbmmer should bdditionblly implement the list
+ * iterbtor's <tt>set</tt> method.  For b vbribble-size list the progrbmmer
+ * should bdditionblly implement the list iterbtor's <tt>remove</tt> bnd
+ * <tt>bdd</tt> methods.<p>
  *
- * The programmer should generally provide a void (no argument) and collection
- * constructor, as per the recommendation in the <tt>Collection</tt> interface
- * specification.<p>
+ * The progrbmmer should generblly provide b void (no brgument) bnd collection
+ * constructor, bs per the recommendbtion in the <tt>Collection</tt> interfbce
+ * specificbtion.<p>
  *
- * This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
+ * @buthor  Josh Bloch
+ * @buthor  Nebl Gbfter
  * @see Collection
  * @see List
- * @see AbstractList
- * @see AbstractCollection
+ * @see AbstrbctList
+ * @see AbstrbctCollection
  * @since 1.2
  */
 
-public abstract class AbstractSequentialList<E> extends AbstractList<E> {
+public bbstrbct clbss AbstrbctSequentiblList<E> extends AbstrbctList<E> {
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
+     * Sole constructor.  (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
-    protected AbstractSequentialList() {
+    protected AbstrbctSequentiblList() {
     }
 
     /**
-     * Returns the element at the specified position in this list.
+     * Returns the element bt the specified position in this list.
      *
-     * <p>This implementation first gets a list iterator pointing to the
-     * indexed element (with <tt>listIterator(index)</tt>).  Then, it gets
-     * the element using <tt>ListIterator.next</tt> and returns it.
+     * <p>This implementbtion first gets b list iterbtor pointing to the
+     * indexed element (with <tt>listIterbtor(index)</tt>).  Then, it gets
+     * the element using <tt>ListIterbtor.next</tt> bnd returns it.
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     public E get(int index) {
         try {
-            return listIterator(index).next();
-        } catch (NoSuchElementException exc) {
+            return listIterbtor(index).next();
+        } cbtch (NoSuchElementException exc) {
             throw new IndexOutOfBoundsException("Index: "+index);
         }
     }
 
     /**
-     * Replaces the element at the specified position in this list with the
-     * specified element (optional operation).
+     * Replbces the element bt the specified position in this list with the
+     * specified element (optionbl operbtion).
      *
-     * <p>This implementation first gets a list iterator pointing to the
-     * indexed element (with <tt>listIterator(index)</tt>).  Then, it gets
-     * the current element using <tt>ListIterator.next</tt> and replaces it
-     * with <tt>ListIterator.set</tt>.
+     * <p>This implementbtion first gets b list iterbtor pointing to the
+     * indexed element (with <tt>listIterbtor(index)</tt>).  Then, it gets
+     * the current element using <tt>ListIterbtor.next</tt> bnd replbces it
+     * with <tt>ListIterbtor.set</tt>.
      *
-     * <p>Note that this implementation will throw an
-     * <tt>UnsupportedOperationException</tt> if the list iterator does not
-     * implement the <tt>set</tt> operation.
+     * <p>Note thbt this implementbtion will throw bn
+     * <tt>UnsupportedOperbtionException</tt> if the list iterbtor does not
+     * implement the <tt>set</tt> operbtion.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @throws IllegblArgumentException      {@inheritDoc}
      * @throws IndexOutOfBoundsException     {@inheritDoc}
      */
     public E set(int index, E element) {
         try {
-            ListIterator<E> e = listIterator(index);
-            E oldVal = e.next();
+            ListIterbtor<E> e = listIterbtor(index);
+            E oldVbl = e.next();
             e.set(element);
-            return oldVal;
-        } catch (NoSuchElementException exc) {
+            return oldVbl;
+        } cbtch (NoSuchElementException exc) {
             throw new IndexOutOfBoundsException("Index: "+index);
         }
     }
 
     /**
-     * Inserts the specified element at the specified position in this list
-     * (optional operation).  Shifts the element currently at that position
-     * (if any) and any subsequent elements to the right (adds one to their
+     * Inserts the specified element bt the specified position in this list
+     * (optionbl operbtion).  Shifts the element currently bt thbt position
+     * (if bny) bnd bny subsequent elements to the right (bdds one to their
      * indices).
      *
-     * <p>This implementation first gets a list iterator pointing to the
-     * indexed element (with <tt>listIterator(index)</tt>).  Then, it
-     * inserts the specified element with <tt>ListIterator.add</tt>.
+     * <p>This implementbtion first gets b list iterbtor pointing to the
+     * indexed element (with <tt>listIterbtor(index)</tt>).  Then, it
+     * inserts the specified element with <tt>ListIterbtor.bdd</tt>.
      *
-     * <p>Note that this implementation will throw an
-     * <tt>UnsupportedOperationException</tt> if the list iterator does not
-     * implement the <tt>add</tt> operation.
+     * <p>Note thbt this implementbtion will throw bn
+     * <tt>UnsupportedOperbtionException</tt> if the list iterbtor does not
+     * implement the <tt>bdd</tt> operbtion.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @throws IllegblArgumentException      {@inheritDoc}
      * @throws IndexOutOfBoundsException     {@inheritDoc}
      */
-    public void add(int index, E element) {
+    public void bdd(int index, E element) {
         try {
-            listIterator(index).add(element);
-        } catch (NoSuchElementException exc) {
+            listIterbtor(index).bdd(element);
+        } cbtch (NoSuchElementException exc) {
             throw new IndexOutOfBoundsException("Index: "+index);
         }
     }
 
     /**
-     * Removes the element at the specified position in this list (optional
-     * operation).  Shifts any subsequent elements to the left (subtracts one
-     * from their indices).  Returns the element that was removed from the
+     * Removes the element bt the specified position in this list (optionbl
+     * operbtion).  Shifts bny subsequent elements to the left (subtrbcts one
+     * from their indices).  Returns the element thbt wbs removed from the
      * list.
      *
-     * <p>This implementation first gets a list iterator pointing to the
-     * indexed element (with <tt>listIterator(index)</tt>).  Then, it removes
-     * the element with <tt>ListIterator.remove</tt>.
+     * <p>This implementbtion first gets b list iterbtor pointing to the
+     * indexed element (with <tt>listIterbtor(index)</tt>).  Then, it removes
+     * the element with <tt>ListIterbtor.remove</tt>.
      *
-     * <p>Note that this implementation will throw an
-     * <tt>UnsupportedOperationException</tt> if the list iterator does not
-     * implement the <tt>remove</tt> operation.
+     * <p>Note thbt this implementbtion will throw bn
+     * <tt>UnsupportedOperbtionException</tt> if the list iterbtor does not
+     * implement the <tt>remove</tt> operbtion.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
      * @throws IndexOutOfBoundsException     {@inheritDoc}
      */
     public E remove(int index) {
         try {
-            ListIterator<E> e = listIterator(index);
-            E outCast = e.next();
+            ListIterbtor<E> e = listIterbtor(index);
+            E outCbst = e.next();
             e.remove();
-            return outCast;
-        } catch (NoSuchElementException exc) {
+            return outCbst;
+        } cbtch (NoSuchElementException exc) {
             throw new IndexOutOfBoundsException("Index: "+index);
         }
     }
 
 
-    // Bulk Operations
+    // Bulk Operbtions
 
     /**
-     * Inserts all of the elements in the specified collection into this
-     * list at the specified position (optional operation).  Shifts the
-     * element currently at that position (if any) and any subsequent
-     * elements to the right (increases their indices).  The new elements
-     * will appear in this list in the order that they are returned by the
-     * specified collection's iterator.  The behavior of this operation is
+     * Inserts bll of the elements in the specified collection into this
+     * list bt the specified position (optionbl operbtion).  Shifts the
+     * element currently bt thbt position (if bny) bnd bny subsequent
+     * elements to the right (increbses their indices).  The new elements
+     * will bppebr in this list in the order thbt they bre returned by the
+     * specified collection's iterbtor.  The behbvior of this operbtion is
      * undefined if the specified collection is modified while the
-     * operation is in progress.  (Note that this will occur if the specified
-     * collection is this list, and it's nonempty.)
+     * operbtion is in progress.  (Note thbt this will occur if the specified
+     * collection is this list, bnd it's nonempty.)
      *
-     * <p>This implementation gets an iterator over the specified collection and
-     * a list iterator over this list pointing to the indexed element (with
-     * <tt>listIterator(index)</tt>).  Then, it iterates over the specified
-     * collection, inserting the elements obtained from the iterator into this
-     * list, one at a time, using <tt>ListIterator.add</tt> followed by
-     * <tt>ListIterator.next</tt> (to skip over the added element).
+     * <p>This implementbtion gets bn iterbtor over the specified collection bnd
+     * b list iterbtor over this list pointing to the indexed element (with
+     * <tt>listIterbtor(index)</tt>).  Then, it iterbtes over the specified
+     * collection, inserting the elements obtbined from the iterbtor into this
+     * list, one bt b time, using <tt>ListIterbtor.bdd</tt> followed by
+     * <tt>ListIterbtor.next</tt> (to skip over the bdded element).
      *
-     * <p>Note that this implementation will throw an
-     * <tt>UnsupportedOperationException</tt> if the list iterator returned by
-     * the <tt>listIterator</tt> method does not implement the <tt>add</tt>
-     * operation.
+     * <p>Note thbt this implementbtion will throw bn
+     * <tt>UnsupportedOperbtionException</tt> if the list iterbtor returned by
+     * the <tt>listIterbtor</tt> method does not implement the <tt>bdd</tt>
+     * operbtion.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @throws IllegblArgumentException      {@inheritDoc}
      * @throws IndexOutOfBoundsException     {@inheritDoc}
      */
-    public boolean addAll(int index, Collection<? extends E> c) {
+    public boolebn bddAll(int index, Collection<? extends E> c) {
         try {
-            boolean modified = false;
-            ListIterator<E> e1 = listIterator(index);
+            boolebn modified = fblse;
+            ListIterbtor<E> e1 = listIterbtor(index);
             for (E e : c) {
-                e1.add(e);
+                e1.bdd(e);
                 modified = true;
             }
             return modified;
-        } catch (NoSuchElementException exc) {
+        } cbtch (NoSuchElementException exc) {
             throw new IndexOutOfBoundsException("Index: "+index);
         }
     }
 
 
-    // Iterators
+    // Iterbtors
 
     /**
-     * Returns an iterator over the elements in this list (in proper
+     * Returns bn iterbtor over the elements in this list (in proper
      * sequence).<p>
      *
-     * This implementation merely returns a list iterator over the list.
+     * This implementbtion merely returns b list iterbtor over the list.
      *
-     * @return an iterator over the elements in this list (in proper sequence)
+     * @return bn iterbtor over the elements in this list (in proper sequence)
      */
-    public Iterator<E> iterator() {
-        return listIterator();
+    public Iterbtor<E> iterbtor() {
+        return listIterbtor();
     }
 
     /**
-     * Returns a list iterator over the elements in this list (in proper
+     * Returns b list iterbtor over the elements in this list (in proper
      * sequence).
      *
-     * @param  index index of first element to be returned from the list
-     *         iterator (by a call to the <code>next</code> method)
-     * @return a list iterator over the elements in this list (in proper
+     * @pbrbm  index index of first element to be returned from the list
+     *         iterbtor (by b cbll to the <code>next</code> method)
+     * @return b list iterbtor over the elements in this list (in proper
      *         sequence)
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
-    public abstract ListIterator<E> listIterator(int index);
+    public bbstrbct ListIterbtor<E> listIterbtor(int index);
 }

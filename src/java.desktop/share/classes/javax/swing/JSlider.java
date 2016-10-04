@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.IOException;
 
-import java.awt.*;
-import java.util.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.bebns.*;
 
 
 /**
- * A component that lets the user graphically select a value by sliding
- * a knob within a bounded interval. The knob is always positioned
- * at the points that match integer values within the specified interval.
+ * A component thbt lets the user grbphicblly select b vblue by sliding
+ * b knob within b bounded intervbl. The knob is blwbys positioned
+ * bt the points thbt mbtch integer vblues within the specified intervbl.
  * <p>
- * The slider can show both
- * major tick marks, and minor tick marks between the major ones.  The number of
- * values between the tick marks is controlled with
- * <code>setMajorTickSpacing</code> and <code>setMinorTickSpacing</code>.
- * Painting of tick marks is controlled by {@code setPaintTicks}.
+ * The slider cbn show both
+ * mbjor tick mbrks, bnd minor tick mbrks between the mbjor ones.  The number of
+ * vblues between the tick mbrks is controlled with
+ * <code>setMbjorTickSpbcing</code> bnd <code>setMinorTickSpbcing</code>.
+ * Pbinting of tick mbrks is controlled by {@code setPbintTicks}.
  * <p>
- * Sliders can also print text labels at regular intervals (or at
- * arbitrary locations) along the slider track.  Painting of labels is
- * controlled by {@code setLabelTable} and {@code setPaintLabels}.
+ * Sliders cbn blso print text lbbels bt regulbr intervbls (or bt
+ * brbitrbry locbtions) blong the slider trbck.  Pbinting of lbbels is
+ * controlled by {@code setLbbelTbble} bnd {@code setPbintLbbels}.
  * <p>
- * For further information and examples see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/slider.html">How to Use Sliders</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For further informbtion bnd exbmples see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/slider.html">How to Use Sliders</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *      attribute: isContainer false
- *    description: A component that supports selecting a integer value from a range.
+ * @bebninfo
+ *      bttribute: isContbiner fblse
+ *    description: A component thbt supports selecting b integer vblue from b rbnge.
  *
- * @author David Kloba
+ * @buthor Dbvid Klobb
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JSlider extends JComponent implements SwingConstants, Accessible {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JSlider extends JComponent implements SwingConstbnts, Accessible {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "SliderUI";
+    privbte stbtic finbl String uiClbssID = "SliderUI";
 
-    private boolean paintTicks = false;
-    private boolean paintTrack = true;
-    private boolean paintLabels = false;
-    private boolean isInverted = false;
+    privbte boolebn pbintTicks = fblse;
+    privbte boolebn pbintTrbck = true;
+    privbte boolebn pbintLbbels = fblse;
+    privbte boolebn isInverted = fblse;
 
     /**
-     * The data model that handles the numeric maximum value,
-     * minimum value, and current-position value for the slider.
+     * The dbtb model thbt hbndles the numeric mbximum vblue,
+     * minimum vblue, bnd current-position vblue for the slider.
      */
-    protected BoundedRangeModel sliderModel;
+    protected BoundedRbngeModel sliderModel;
 
     /**
-     * The number of values between the major tick marks -- the
-     * larger marks that break up the minor tick marks.
+     * The number of vblues between the mbjor tick mbrks -- the
+     * lbrger mbrks thbt brebk up the minor tick mbrks.
      */
-    protected int majorTickSpacing;
+    protected int mbjorTickSpbcing;
 
     /**
-     * The number of values between the minor tick marks -- the
-     * smaller marks that occur between the major tick marks.
-     * @see #setMinorTickSpacing
+     * The number of vblues between the minor tick mbrks -- the
+     * smbller mbrks thbt occur between the mbjor tick mbrks.
+     * @see #setMinorTickSpbcing
      */
-    protected int minorTickSpacing;
+    protected int minorTickSpbcing;
 
     /**
-     * If true, the knob (and the data value it represents)
-     * resolve to the closest tick mark next to where the user
-     * positioned the knob.  The default is false.
-     * @see #setSnapToTicks
+     * If true, the knob (bnd the dbtb vblue it represents)
+     * resolve to the closest tick mbrk next to where the user
+     * positioned the knob.  The defbult is fblse.
+     * @see #setSnbpToTicks
      */
-    protected boolean snapToTicks = false;
+    protected boolebn snbpToTicks = fblse;
 
     /**
-     * If true, the knob (and the data value it represents)
-     * resolve to the closest slider value next to where the user
+     * If true, the knob (bnd the dbtb vblue it represents)
+     * resolve to the closest slider vblue next to where the user
      * positioned the knob.
      */
-    boolean snapToValue = true;
+    boolebn snbpToVblue = true;
 
     /**
-     * Whether the slider is horizontal or vertical
-     * The default is horizontal.
+     * Whether the slider is horizontbl or verticbl
+     * The defbult is horizontbl.
      *
-     * @see #setOrientation
+     * @see #setOrientbtion
      */
-    protected int orientation;
+    protected int orientbtion;
 
 
     /**
-     * {@code Dictionary} of what labels to draw at which values
+     * {@code Dictionbry} of whbt lbbels to drbw bt which vblues
      */
-    private Dictionary<Integer, JComponent> labelTable;
+    privbte Dictionbry<Integer, JComponent> lbbelTbble;
 
 
     /**
-     * The changeListener (no suffix) is the listener we add to the
-     * slider's model.  This listener is initialized to the
-     * {@code ChangeListener} returned from {@code createChangeListener},
-     * which by default just forwards events
-     * to {@code ChangeListener}s (if any) added directly to the slider.
+     * The chbngeListener (no suffix) is the listener we bdd to the
+     * slider's model.  This listener is initiblized to the
+     * {@code ChbngeListener} returned from {@code crebteChbngeListener},
+     * which by defbult just forwbrds events
+     * to {@code ChbngeListener}s (if bny) bdded directly to the slider.
      *
-     * @see #addChangeListener
-     * @see #createChangeListener
+     * @see #bddChbngeListener
+     * @see #crebteChbngeListener
      */
-    protected ChangeListener changeListener = createChangeListener();
+    protected ChbngeListener chbngeListener = crebteChbngeListener();
 
 
     /**
-     * Only one <code>ChangeEvent</code> is needed per slider instance since the
-     * event's only (read-only) state is the source property.  The source
-     * of events generated here is always "this". The event is lazily
-     * created the first time that an event notification is fired.
+     * Only one <code>ChbngeEvent</code> is needed per slider instbnce since the
+     * event's only (rebd-only) stbte is the source property.  The source
+     * of events generbted here is blwbys "this". The event is lbzily
+     * crebted the first time thbt bn event notificbtion is fired.
      *
-     * @see #fireStateChanged
+     * @see #fireStbteChbnged
      */
-    protected transient ChangeEvent changeEvent = null;
+    protected trbnsient ChbngeEvent chbngeEvent = null;
 
 
-    private void checkOrientation(int orientation) {
-        switch (orientation) {
-        case VERTICAL:
-        case HORIZONTAL:
-            break;
-        default:
-            throw new IllegalArgumentException("orientation must be one of: VERTICAL, HORIZONTAL");
+    privbte void checkOrientbtion(int orientbtion) {
+        switch (orientbtion) {
+        cbse VERTICAL:
+        cbse HORIZONTAL:
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("orientbtion must be one of: VERTICAL, HORIZONTAL");
         }
     }
 
 
     /**
-     * Creates a horizontal slider with the range 0 to 100 and
-     * an initial value of 50.
+     * Crebtes b horizontbl slider with the rbnge 0 to 100 bnd
+     * bn initibl vblue of 50.
      */
     public JSlider() {
         this(HORIZONTAL, 0, 100, 50);
@@ -186,116 +186,116 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
 
 
     /**
-     * Creates a slider using the specified orientation with the
-     * range {@code 0} to {@code 100} and an initial value of {@code 50}.
-     * The orientation can be
-     * either <code>SwingConstants.VERTICAL</code> or
-     * <code>SwingConstants.HORIZONTAL</code>.
+     * Crebtes b slider using the specified orientbtion with the
+     * rbnge {@code 0} to {@code 100} bnd bn initibl vblue of {@code 50}.
+     * The orientbtion cbn be
+     * either <code>SwingConstbnts.VERTICAL</code> or
+     * <code>SwingConstbnts.HORIZONTAL</code>.
      *
-     * @param  orientation  the orientation of the slider
-     * @throws IllegalArgumentException if orientation is not one of {@code VERTICAL}, {@code HORIZONTAL}
-     * @see #setOrientation
+     * @pbrbm  orientbtion  the orientbtion of the slider
+     * @throws IllegblArgumentException if orientbtion is not one of {@code VERTICAL}, {@code HORIZONTAL}
+     * @see #setOrientbtion
      */
-    public JSlider(int orientation) {
-        this(orientation, 0, 100, 50);
+    public JSlider(int orientbtion) {
+        this(orientbtion, 0, 100, 50);
     }
 
 
     /**
-     * Creates a horizontal slider using the specified min and max
-     * with an initial value equal to the average of the min plus max.
+     * Crebtes b horizontbl slider using the specified min bnd mbx
+     * with bn initibl vblue equbl to the bverbge of the min plus mbx.
      * <p>
-     * The <code>BoundedRangeModel</code> that holds the slider's data
-     * handles any issues that may arise from improperly setting the
-     * minimum and maximum values on the slider.  See the
-     * {@code BoundedRangeModel} documentation for details.
+     * The <code>BoundedRbngeModel</code> thbt holds the slider's dbtb
+     * hbndles bny issues thbt mby brise from improperly setting the
+     * minimum bnd mbximum vblues on the slider.  See the
+     * {@code BoundedRbngeModel} documentbtion for detbils.
      *
-     * @param min  the minimum value of the slider
-     * @param max  the maximum value of the slider
+     * @pbrbm min  the minimum vblue of the slider
+     * @pbrbm mbx  the mbximum vblue of the slider
      *
-     * @see BoundedRangeModel
+     * @see BoundedRbngeModel
      * @see #setMinimum
-     * @see #setMaximum
+     * @see #setMbximum
      */
-    public JSlider(int min, int max) {
-        this(HORIZONTAL, min, max, (min + max) / 2);
+    public JSlider(int min, int mbx) {
+        this(HORIZONTAL, min, mbx, (min + mbx) / 2);
     }
 
 
     /**
-     * Creates a horizontal slider using the specified min, max and value.
+     * Crebtes b horizontbl slider using the specified min, mbx bnd vblue.
      * <p>
-     * The <code>BoundedRangeModel</code> that holds the slider's data
-     * handles any issues that may arise from improperly setting the
-     * minimum, initial, and maximum values on the slider.  See the
-     * {@code BoundedRangeModel} documentation for details.
+     * The <code>BoundedRbngeModel</code> thbt holds the slider's dbtb
+     * hbndles bny issues thbt mby brise from improperly setting the
+     * minimum, initibl, bnd mbximum vblues on the slider.  See the
+     * {@code BoundedRbngeModel} documentbtion for detbils.
      *
-     * @param min  the minimum value of the slider
-     * @param max  the maximum value of the slider
-     * @param value  the initial value of the slider
+     * @pbrbm min  the minimum vblue of the slider
+     * @pbrbm mbx  the mbximum vblue of the slider
+     * @pbrbm vblue  the initibl vblue of the slider
      *
-     * @see BoundedRangeModel
+     * @see BoundedRbngeModel
      * @see #setMinimum
-     * @see #setMaximum
-     * @see #setValue
+     * @see #setMbximum
+     * @see #setVblue
      */
-    public JSlider(int min, int max, int value) {
-        this(HORIZONTAL, min, max, value);
+    public JSlider(int min, int mbx, int vblue) {
+        this(HORIZONTAL, min, mbx, vblue);
     }
 
 
     /**
-     * Creates a slider with the specified orientation and the
-     * specified minimum, maximum, and initial values.
-     * The orientation can be
-     * either <code>SwingConstants.VERTICAL</code> or
-     * <code>SwingConstants.HORIZONTAL</code>.
+     * Crebtes b slider with the specified orientbtion bnd the
+     * specified minimum, mbximum, bnd initibl vblues.
+     * The orientbtion cbn be
+     * either <code>SwingConstbnts.VERTICAL</code> or
+     * <code>SwingConstbnts.HORIZONTAL</code>.
      * <p>
-     * The <code>BoundedRangeModel</code> that holds the slider's data
-     * handles any issues that may arise from improperly setting the
-     * minimum, initial, and maximum values on the slider.  See the
-     * {@code BoundedRangeModel} documentation for details.
+     * The <code>BoundedRbngeModel</code> thbt holds the slider's dbtb
+     * hbndles bny issues thbt mby brise from improperly setting the
+     * minimum, initibl, bnd mbximum vblues on the slider.  See the
+     * {@code BoundedRbngeModel} documentbtion for detbils.
      *
-     * @param orientation  the orientation of the slider
-     * @param min  the minimum value of the slider
-     * @param max  the maximum value of the slider
-     * @param value  the initial value of the slider
+     * @pbrbm orientbtion  the orientbtion of the slider
+     * @pbrbm min  the minimum vblue of the slider
+     * @pbrbm mbx  the mbximum vblue of the slider
+     * @pbrbm vblue  the initibl vblue of the slider
      *
-     * @throws IllegalArgumentException if orientation is not one of {@code VERTICAL}, {@code HORIZONTAL}
+     * @throws IllegblArgumentException if orientbtion is not one of {@code VERTICAL}, {@code HORIZONTAL}
      *
-     * @see BoundedRangeModel
-     * @see #setOrientation
+     * @see BoundedRbngeModel
+     * @see #setOrientbtion
      * @see #setMinimum
-     * @see #setMaximum
-     * @see #setValue
+     * @see #setMbximum
+     * @see #setVblue
      */
-    public JSlider(int orientation, int min, int max, int value)
+    public JSlider(int orientbtion, int min, int mbx, int vblue)
     {
-        checkOrientation(orientation);
-        this.orientation = orientation;
-        setModel(new DefaultBoundedRangeModel(value, 0, min, max));
-        updateUI();
+        checkOrientbtion(orientbtion);
+        this.orientbtion = orientbtion;
+        setModel(new DefbultBoundedRbngeModel(vblue, 0, min, mbx));
+        updbteUI();
     }
 
 
     /**
-     * Creates a horizontal slider using the specified
-     * BoundedRangeModel.
+     * Crebtes b horizontbl slider using the specified
+     * BoundedRbngeModel.
      *
-     * @param brm a {@code BoundedRangeModel} for the slider
+     * @pbrbm brm b {@code BoundedRbngeModel} for the slider
      */
-    public JSlider(BoundedRangeModel brm)
+    public JSlider(BoundedRbngeModel brm)
     {
-        this.orientation = JSlider.HORIZONTAL;
+        this.orientbtion = JSlider.HORIZONTAL;
         setModel(brm);
-        updateUI();
+        updbteUI();
     }
 
 
     /**
-     * Gets the UI object which implements the L&amp;F for this component.
+     * Gets the UI object which implements the L&bmp;F for this component.
      *
-     * @return the SliderUI object that implements the Slider L&amp;F
+     * @return the SliderUI object thbt implements the Slider L&bmp;F
      */
     public SliderUI getUI() {
         return(SliderUI)ui;
@@ -303,15 +303,15 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
 
 
     /**
-     * Sets the UI object which implements the L&amp;F for this component.
+     * Sets the UI object which implements the L&bmp;F for this component.
      *
-     * @param ui the SliderUI L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui the SliderUI L&bmp;F object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the slider's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the slider's LookAndFeel.
      */
     public void setUI(SliderUI ui) {
         super.setUI(ui);
@@ -319,239 +319,239 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
 
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Resets the UI property to b vblue from the current look bnd feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((SliderUI)UIManager.getUI(this));
-        // The labels preferred size may be derived from the font
-        // of the slider, so we must update the UI of the slider first, then
-        // that of labels.  This way when setSize is called the right
+    public void updbteUI() {
+        setUI((SliderUI)UIMbnbger.getUI(this));
+        // The lbbels preferred size mby be derived from the font
+        // of the slider, so we must updbte the UI of the slider first, then
+        // thbt of lbbels.  This wby when setSize is cblled the right
         // font is used.
-        updateLabelUIs();
+        updbteLbbelUIs();
     }
 
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Returns the nbme of the L&bmp;F clbss thbt renders this component.
      *
      * @return "SliderUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
-     * We pass Change events along to the listeners with the
-     * the slider (instead of the model itself) as the event source.
+     * We pbss Chbnge events blong to the listeners with the
+     * the slider (instebd of the model itself) bs the event source.
      */
-    private class ModelListener implements ChangeListener, Serializable {
-        public void stateChanged(ChangeEvent e) {
-            fireStateChanged();
+    privbte clbss ModelListener implements ChbngeListener, Seriblizbble {
+        public void stbteChbnged(ChbngeEvent e) {
+            fireStbteChbnged();
         }
     }
 
 
     /**
-     * Subclasses that want to handle {@code ChangeEvent}s
+     * Subclbsses thbt wbnt to hbndle {@code ChbngeEvent}s
      * from the model differently
-     * can override this to return
-     * an instance of a custom <code>ChangeListener</code> implementation.
-     * The default {@code ChangeListener} simply calls the
-     * {@code fireStateChanged} method to forward {@code ChangeEvent}s
-     * to the {@code ChangeListener}s that have been added directly to the
+     * cbn override this to return
+     * bn instbnce of b custom <code>ChbngeListener</code> implementbtion.
+     * The defbult {@code ChbngeListener} simply cblls the
+     * {@code fireStbteChbnged} method to forwbrd {@code ChbngeEvent}s
+     * to the {@code ChbngeListener}s thbt hbve been bdded directly to the
      * slider.
      *
-     * @return a instance of new {@code ChangeListener}
-     * @see #changeListener
-     * @see #fireStateChanged
-     * @see javax.swing.event.ChangeListener
-     * @see javax.swing.BoundedRangeModel
+     * @return b instbnce of new {@code ChbngeListener}
+     * @see #chbngeListener
+     * @see #fireStbteChbnged
+     * @see jbvbx.swing.event.ChbngeListener
+     * @see jbvbx.swing.BoundedRbngeModel
      */
-    protected ChangeListener createChangeListener() {
+    protected ChbngeListener crebteChbngeListener() {
         return new ModelListener();
     }
 
 
     /**
-     * Adds a ChangeListener to the slider.
+     * Adds b ChbngeListener to the slider.
      *
-     * @param l the ChangeListener to add
-     * @see #fireStateChanged
-     * @see #removeChangeListener
+     * @pbrbm l the ChbngeListener to bdd
+     * @see #fireStbteChbnged
+     * @see #removeChbngeListener
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    public void bddChbngeListener(ChbngeListener l) {
+        listenerList.bdd(ChbngeListener.clbss, l);
     }
 
 
     /**
-     * Removes a ChangeListener from the slider.
+     * Removes b ChbngeListener from the slider.
      *
-     * @param l the ChangeListener to remove
-     * @see #fireStateChanged
-     * @see #addChangeListener
+     * @pbrbm l the ChbngeListener to remove
+     * @see #fireStbteChbnged
+     * @see #bddChbngeListener
 
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    public void removeChbngeListener(ChbngeListener l) {
+        listenerList.remove(ChbngeListener.clbss, l);
     }
 
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this JSlider with addChangeListener().
+     * Returns bn brrby of bll the <code>ChbngeListener</code>s bdded
+     * to this JSlider with bddChbngeListener().
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>ChbngeListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    public ChbngeListener[] getChbngeListeners() {
+        return listenerList.getListeners(ChbngeListener.clbss);
     }
 
 
     /**
-     * Send a {@code ChangeEvent}, whose source is this {@code JSlider}, to
-     * all {@code ChangeListener}s that have registered interest in
-     * {@code ChangeEvent}s.
-     * This method is called each time a {@code ChangeEvent} is received from
+     * Send b {@code ChbngeEvent}, whose source is this {@code JSlider}, to
+     * bll {@code ChbngeListener}s thbt hbve registered interest in
+     * {@code ChbngeEvent}s.
+     * This method is cblled ebch time b {@code ChbngeEvent} is received from
      * the model.
      * <p>
-     * The event instance is created if necessary, and stored in
-     * {@code changeEvent}.
+     * The event instbnce is crebted if necessbry, bnd stored in
+     * {@code chbngeEvent}.
      *
-     * @see #addChangeListener
+     * @see #bddChbngeListener
      * @see EventListenerList
      */
-    protected void fireStateChanged() {
+    protected void fireStbteChbnged() {
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i]==ChangeListener.class) {
-                if (changeEvent == null) {
-                    changeEvent = new ChangeEvent(this);
+            if (listeners[i]==ChbngeListener.clbss) {
+                if (chbngeEvent == null) {
+                    chbngeEvent = new ChbngeEvent(this);
                 }
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+                ((ChbngeListener)listeners[i+1]).stbteChbnged(chbngeEvent);
             }
         }
     }
 
 
     /**
-     * Returns the {@code BoundedRangeModel} that handles the slider's three
-     * fundamental properties: minimum, maximum, value.
+     * Returns the {@code BoundedRbngeModel} thbt hbndles the slider's three
+     * fundbmentbl properties: minimum, mbximum, vblue.
      *
-     * @return the data model for this component
+     * @return the dbtb model for this component
      * @see #setModel
-     * @see    BoundedRangeModel
+     * @see    BoundedRbngeModel
      */
-    public BoundedRangeModel getModel() {
+    public BoundedRbngeModel getModel() {
         return sliderModel;
     }
 
 
     /**
-     * Sets the {@code BoundedRangeModel} that handles the slider's three
-     * fundamental properties: minimum, maximum, value.
+     * Sets the {@code BoundedRbngeModel} thbt hbndles the slider's three
+     * fundbmentbl properties: minimum, mbximum, vblue.
      *<p>
-     * Attempts to pass a {@code null} model to this method result in
-     * undefined behavior, and, most likely, exceptions.
+     * Attempts to pbss b {@code null} model to this method result in
+     * undefined behbvior, bnd, most likely, exceptions.
      *
-     * @param  newModel the new, {@code non-null} <code>BoundedRangeModel</code> to use
+     * @pbrbm  newModel the new, {@code non-null} <code>BoundedRbngeModel</code> to use
      *
      * @see #getModel
-     * @see    BoundedRangeModel
-     * @beaninfo
+     * @see    BoundedRbngeModel
+     * @bebninfo
      *       bound: true
-     * description: The sliders BoundedRangeModel.
+     * description: The sliders BoundedRbngeModel.
      */
-    public void setModel(BoundedRangeModel newModel)
+    public void setModel(BoundedRbngeModel newModel)
     {
-        BoundedRangeModel oldModel = getModel();
+        BoundedRbngeModel oldModel = getModel();
 
         if (oldModel != null) {
-            oldModel.removeChangeListener(changeListener);
+            oldModel.removeChbngeListener(chbngeListener);
         }
 
         sliderModel = newModel;
 
         if (newModel != null) {
-            newModel.addChangeListener(changeListener);
+            newModel.bddChbngeListener(chbngeListener);
         }
 
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
+        if (bccessibleContext != null) {
+            bccessibleContext.firePropertyChbnge(
                                                 AccessibleContext.ACCESSIBLE_VALUE_PROPERTY,
                                                 (oldModel == null
-                                                 ? null : Integer.valueOf(oldModel.getValue())),
+                                                 ? null : Integer.vblueOf(oldModel.getVblue())),
                                                 (newModel == null
-                                                 ? null : Integer.valueOf(newModel.getValue())));
+                                                 ? null : Integer.vblueOf(newModel.getVblue())));
         }
 
-        firePropertyChange("model", oldModel, sliderModel);
+        firePropertyChbnge("model", oldModel, sliderModel);
     }
 
 
     /**
-     * Returns the slider's current value
-     * from the {@code BoundedRangeModel}.
+     * Returns the slider's current vblue
+     * from the {@code BoundedRbngeModel}.
      *
-     * @return  the current value of the slider
-     * @see     #setValue
-     * @see     BoundedRangeModel#getValue
+     * @return  the current vblue of the slider
+     * @see     #setVblue
+     * @see     BoundedRbngeModel#getVblue
      */
-    public int getValue() {
-        return getModel().getValue();
+    public int getVblue() {
+        return getModel().getVblue();
     }
 
     /**
-     * Sets the slider's current value to {@code n}.  This method
-     * forwards the new value to the model.
+     * Sets the slider's current vblue to {@code n}.  This method
+     * forwbrds the new vblue to the model.
      * <p>
-     * The data model (an instance of {@code BoundedRangeModel})
-     * handles any mathematical
-     * issues arising from assigning faulty values.  See the
-     * {@code BoundedRangeModel} documentation for details.
+     * The dbtb model (bn instbnce of {@code BoundedRbngeModel})
+     * hbndles bny mbthembticbl
+     * issues brising from bssigning fbulty vblues.  See the
+     * {@code BoundedRbngeModel} documentbtion for detbils.
      * <p>
-     * If the new value is different from the previous value,
-     * all change listeners are notified.
+     * If the new vblue is different from the previous vblue,
+     * bll chbnge listeners bre notified.
      *
-     * @param   n       the new value
-     * @see     #getValue
-     * @see     #addChangeListener
-     * @see     BoundedRangeModel#setValue
-     * @beaninfo
+     * @pbrbm   n       the new vblue
+     * @see     #getVblue
+     * @see     #bddChbngeListener
+     * @see     BoundedRbngeModel#setVblue
+     * @bebninfo
      *   preferred: true
-     * description: The sliders current value.
+     * description: The sliders current vblue.
      */
-    public void setValue(int n) {
-        BoundedRangeModel m = getModel();
-        int oldValue = m.getValue();
-        if (oldValue == n) {
+    public void setVblue(int n) {
+        BoundedRbngeModel m = getModel();
+        int oldVblue = m.getVblue();
+        if (oldVblue == n) {
             return;
         }
-        m.setValue(n);
+        m.setVblue(n);
 
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
+        if (bccessibleContext != null) {
+            bccessibleContext.firePropertyChbnge(
                                                 AccessibleContext.ACCESSIBLE_VALUE_PROPERTY,
-                                                Integer.valueOf(oldValue),
-                                                Integer.valueOf(m.getValue()));
+                                                Integer.vblueOf(oldVblue),
+                                                Integer.vblueOf(m.getVblue()));
         }
     }
 
 
     /**
-     * Returns the minimum value supported by the slider
-     * from the <code>BoundedRangeModel</code>.
+     * Returns the minimum vblue supported by the slider
+     * from the <code>BoundedRbngeModel</code>.
      *
-     * @return the value of the model's minimum property
+     * @return the vblue of the model's minimum property
      * @see #setMinimum
-     * @see     BoundedRangeModel#getMinimum
+     * @see     BoundedRbngeModel#getMinimum
      */
     public int getMinimum() {
         return getModel().getMinimum();
@@ -559,120 +559,120 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
 
 
     /**
-     * Sets the slider's minimum value to {@code minimum}.  This method
-     * forwards the new minimum value to the model.
+     * Sets the slider's minimum vblue to {@code minimum}.  This method
+     * forwbrds the new minimum vblue to the model.
      * <p>
-     * The data model (an instance of {@code BoundedRangeModel})
-     * handles any mathematical
-     * issues arising from assigning faulty values.  See the
-     * {@code BoundedRangeModel} documentation for details.
+     * The dbtb model (bn instbnce of {@code BoundedRbngeModel})
+     * hbndles bny mbthembticbl
+     * issues brising from bssigning fbulty vblues.  See the
+     * {@code BoundedRbngeModel} documentbtion for detbils.
      * <p>
-     * If the new minimum value is different from the previous minimum value,
-     * all change listeners are notified.
+     * If the new minimum vblue is different from the previous minimum vblue,
+     * bll chbnge listeners bre notified.
      *
-     * @param minimum  the new minimum
+     * @pbrbm minimum  the new minimum
      * @see #getMinimum
-     * @see    #addChangeListener
-     * @see BoundedRangeModel#setMinimum
-     * @beaninfo
+     * @see    #bddChbngeListener
+     * @see BoundedRbngeModel#setMinimum
+     * @bebninfo
      *       bound: true
      *   preferred: true
-     * description: The sliders minimum value.
+     * description: The sliders minimum vblue.
      */
     public void setMinimum(int minimum) {
         int oldMin = getModel().getMinimum();
         getModel().setMinimum(minimum);
-        firePropertyChange( "minimum", Integer.valueOf( oldMin ), Integer.valueOf( minimum ) );
+        firePropertyChbnge( "minimum", Integer.vblueOf( oldMin ), Integer.vblueOf( minimum ) );
     }
 
 
     /**
-     * Returns the maximum value supported by the slider
-     * from the <code>BoundedRangeModel</code>.
+     * Returns the mbximum vblue supported by the slider
+     * from the <code>BoundedRbngeModel</code>.
      *
-     * @return the value of the model's maximum property
-     * @see #setMaximum
-     * @see BoundedRangeModel#getMaximum
+     * @return the vblue of the model's mbximum property
+     * @see #setMbximum
+     * @see BoundedRbngeModel#getMbximum
      */
-    public int getMaximum() {
-        return getModel().getMaximum();
+    public int getMbximum() {
+        return getModel().getMbximum();
     }
 
 
     /**
-     * Sets the slider's maximum value to {@code maximum}.  This method
-     * forwards the new maximum value to the model.
+     * Sets the slider's mbximum vblue to {@code mbximum}.  This method
+     * forwbrds the new mbximum vblue to the model.
      * <p>
-     * The data model (an instance of {@code BoundedRangeModel})
-     * handles any mathematical
-     * issues arising from assigning faulty values.  See the
-     * {@code BoundedRangeModel} documentation for details.
+     * The dbtb model (bn instbnce of {@code BoundedRbngeModel})
+     * hbndles bny mbthembticbl
+     * issues brising from bssigning fbulty vblues.  See the
+     * {@code BoundedRbngeModel} documentbtion for detbils.
      * <p>
-     * If the new maximum value is different from the previous maximum value,
-     * all change listeners are notified.
+     * If the new mbximum vblue is different from the previous mbximum vblue,
+     * bll chbnge listeners bre notified.
      *
-     * @param maximum  the new maximum
-     * @see #getMaximum
-     * @see #addChangeListener
-     * @see BoundedRangeModel#setMaximum
-     * @beaninfo
+     * @pbrbm mbximum  the new mbximum
+     * @see #getMbximum
+     * @see #bddChbngeListener
+     * @see BoundedRbngeModel#setMbximum
+     * @bebninfo
      *       bound: true
      *   preferred: true
-     * description: The sliders maximum value.
+     * description: The sliders mbximum vblue.
      */
-    public void setMaximum(int maximum) {
-        int oldMax = getModel().getMaximum();
-        getModel().setMaximum(maximum);
-        firePropertyChange( "maximum", Integer.valueOf( oldMax ), Integer.valueOf( maximum ) );
+    public void setMbximum(int mbximum) {
+        int oldMbx = getModel().getMbximum();
+        getModel().setMbximum(mbximum);
+        firePropertyChbnge( "mbximum", Integer.vblueOf( oldMbx ), Integer.vblueOf( mbximum ) );
     }
 
 
     /**
-     * Returns the {@code valueIsAdjusting} property from the model.  For
-     * details on how this is used, see the {@code setValueIsAdjusting}
-     * documentation.
+     * Returns the {@code vblueIsAdjusting} property from the model.  For
+     * detbils on how this is used, see the {@code setVblueIsAdjusting}
+     * documentbtion.
      *
-     * @return the value of the model's {@code valueIsAdjusting} property
-     * @see #setValueIsAdjusting
+     * @return the vblue of the model's {@code vblueIsAdjusting} property
+     * @see #setVblueIsAdjusting
      */
-    public boolean getValueIsAdjusting() {
-        return getModel().getValueIsAdjusting();
+    public boolebn getVblueIsAdjusting() {
+        return getModel().getVblueIsAdjusting();
     }
 
 
     /**
-     * Sets the model's {@code valueIsAdjusting} property.  Slider look and
-     * feel implementations should set this property to {@code true} when
-     * a knob drag begins, and to {@code false} when the drag ends.
+     * Sets the model's {@code vblueIsAdjusting} property.  Slider look bnd
+     * feel implementbtions should set this property to {@code true} when
+     * b knob drbg begins, bnd to {@code fblse} when the drbg ends.
      *
-     * @param b the new value for the {@code valueIsAdjusting} property
-     * @see   #getValueIsAdjusting
-     * @see   BoundedRangeModel#setValueIsAdjusting
-     * @beaninfo
+     * @pbrbm b the new vblue for the {@code vblueIsAdjusting} property
+     * @see   #getVblueIsAdjusting
+     * @see   BoundedRbngeModel#setVblueIsAdjusting
+     * @bebninfo
      *      expert: true
-     * description: True if the slider knob is being dragged.
+     * description: True if the slider knob is being drbgged.
      */
-    public void setValueIsAdjusting(boolean b) {
-        BoundedRangeModel m = getModel();
-        boolean oldValue = m.getValueIsAdjusting();
-        m.setValueIsAdjusting(b);
+    public void setVblueIsAdjusting(boolebn b) {
+        BoundedRbngeModel m = getModel();
+        boolebn oldVblue = m.getVblueIsAdjusting();
+        m.setVblueIsAdjusting(b);
 
-        if ((oldValue != b) && (accessibleContext != null)) {
-            accessibleContext.firePropertyChange(
+        if ((oldVblue != b) && (bccessibleContext != null)) {
+            bccessibleContext.firePropertyChbnge(
                                                 AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                                                ((oldValue) ? AccessibleState.BUSY : null),
-                                                ((b) ? AccessibleState.BUSY : null));
+                                                ((oldVblue) ? AccessibleStbte.BUSY : null),
+                                                ((b) ? AccessibleStbte.BUSY : null));
         }
     }
 
 
     /**
-     * Returns the "extent" from the <code>BoundedRangeModel</code>.
-     * This represents the range of values "covered" by the knob.
+     * Returns the "extent" from the <code>BoundedRbngeModel</code>.
+     * This represents the rbnge of vblues "covered" by the knob.
      *
-     * @return an int representing the extent
+     * @return bn int representing the extent
      * @see #setExtent
-     * @see BoundedRangeModel#getExtent
+     * @see BoundedRbngeModel#getExtent
      */
     public int getExtent() {
         return getModel().getExtent();
@@ -680,25 +680,25 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
 
 
     /**
-     * Sets the size of the range "covered" by the knob.  Most look
-     * and feel implementations will change the value by this amount
+     * Sets the size of the rbnge "covered" by the knob.  Most look
+     * bnd feel implementbtions will chbnge the vblue by this bmount
      * if the user clicks on either side of the knob.  This method just
-     * forwards the new extent value to the model.
+     * forwbrds the new extent vblue to the model.
      * <p>
-     * The data model (an instance of {@code BoundedRangeModel})
-     * handles any mathematical
-     * issues arising from assigning faulty values.  See the
-     * {@code BoundedRangeModel} documentation for details.
+     * The dbtb model (bn instbnce of {@code BoundedRbngeModel})
+     * hbndles bny mbthembticbl
+     * issues brising from bssigning fbulty vblues.  See the
+     * {@code BoundedRbngeModel} documentbtion for detbils.
      * <p>
-     * If the new extent value is different from the previous extent value,
-     * all change listeners are notified.
+     * If the new extent vblue is different from the previous extent vblue,
+     * bll chbnge listeners bre notified.
      *
-     * @param extent the new extent
+     * @pbrbm extent the new extent
      * @see   #getExtent
-     * @see   BoundedRangeModel#setExtent
-     * @beaninfo
+     * @see   BoundedRbngeModel#setExtent
+     * @bebninfo
      *      expert: true
-     * description: Size of the range covered by the knob.
+     * description: Size of the rbnge covered by the knob.
      */
     public void setExtent(int extent) {
         getModel().setExtent(extent);
@@ -706,49 +706,49 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
 
 
     /**
-     * Return this slider's vertical or horizontal orientation.
-     * @return {@code SwingConstants.VERTICAL} or
-     *  {@code SwingConstants.HORIZONTAL}
-     * @see #setOrientation
+     * Return this slider's verticbl or horizontbl orientbtion.
+     * @return {@code SwingConstbnts.VERTICAL} or
+     *  {@code SwingConstbnts.HORIZONTAL}
+     * @see #setOrientbtion
      */
-    public int getOrientation() {
-        return orientation;
+    public int getOrientbtion() {
+        return orientbtion;
     }
 
 
     /**
-     * Set the slider's orientation to either {@code SwingConstants.VERTICAL} or
-     * {@code SwingConstants.HORIZONTAL}.
+     * Set the slider's orientbtion to either {@code SwingConstbnts.VERTICAL} or
+     * {@code SwingConstbnts.HORIZONTAL}.
      *
-     * @param orientation {@code HORIZONTAL} or {@code VERTICAL}
-     * @throws IllegalArgumentException if orientation is not one of {@code VERTICAL}, {@code HORIZONTAL}
-     * @see #getOrientation
-     * @beaninfo
+     * @pbrbm orientbtion {@code HORIZONTAL} or {@code VERTICAL}
+     * @throws IllegblArgumentException if orientbtion is not one of {@code VERTICAL}, {@code HORIZONTAL}
+     * @see #getOrientbtion
+     * @bebninfo
      *    preferred: true
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Set the scrollbars orientation to either VERTICAL or HORIZONTAL.
+     *    bttribute: visublUpdbte true
+     *  description: Set the scrollbbrs orientbtion to either VERTICAL or HORIZONTAL.
      *         enum: VERTICAL JSlider.VERTICAL
      *               HORIZONTAL JSlider.HORIZONTAL
      *
      */
-    public void setOrientation(int orientation)
+    public void setOrientbtion(int orientbtion)
     {
-        checkOrientation(orientation);
-        int oldValue = this.orientation;
-        this.orientation = orientation;
-        firePropertyChange("orientation", oldValue, orientation);
+        checkOrientbtion(orientbtion);
+        int oldVblue = this.orientbtion;
+        this.orientbtion = orientbtion;
+        firePropertyChbnge("orientbtion", oldVblue, orientbtion);
 
-        if ((oldValue != orientation) && (accessibleContext != null)) {
-            accessibleContext.firePropertyChange(
+        if ((oldVblue != orientbtion) && (bccessibleContext != null)) {
+            bccessibleContext.firePropertyChbnge(
                                                 AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                                                ((oldValue == VERTICAL)
-                                                 ? AccessibleState.VERTICAL : AccessibleState.HORIZONTAL),
-                                                ((orientation == VERTICAL)
-                                                 ? AccessibleState.VERTICAL : AccessibleState.HORIZONTAL));
+                                                ((oldVblue == VERTICAL)
+                                                 ? AccessibleStbte.VERTICAL : AccessibleStbte.HORIZONTAL),
+                                                ((orientbtion == VERTICAL)
+                                                 ? AccessibleStbte.VERTICAL : AccessibleStbte.HORIZONTAL));
         }
-        if (orientation != oldValue) {
-            revalidate();
+        if (orientbtion != oldVblue) {
+            revblidbte();
         }
     }
 
@@ -760,117 +760,117 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
      */
     public void setFont(Font font) {
         super.setFont(font);
-        updateLabelSizes();
+        updbteLbbelSizes();
     }
 
     /**
      * {@inheritDoc}
      * @since 1.7
      */
-    public boolean imageUpdate(Image img, int infoflags, int x, int y, int w, int h) {
+    public boolebn imbgeUpdbte(Imbge img, int infoflbgs, int x, int y, int w, int h) {
         if (!isShowing()) {
-            return false;
+            return fblse;
         }
 
-        // Check that there is a label with such image
-        Enumeration<JComponent> elements = labelTable.elements();
+        // Check thbt there is b lbbel with such imbge
+        Enumerbtion<JComponent> elements = lbbelTbble.elements();
 
-        while (elements.hasMoreElements()) {
+        while (elements.hbsMoreElements()) {
             JComponent component = elements.nextElement();
 
-            if (component instanceof JLabel) {
-                JLabel label = (JLabel) component;
+            if (component instbnceof JLbbel) {
+                JLbbel lbbel = (JLbbel) component;
 
-                if (SwingUtilities.doesIconReferenceImage(label.getIcon(), img) ||
-                        SwingUtilities.doesIconReferenceImage(label.getDisabledIcon(), img)) {
-                    return super.imageUpdate(img, infoflags, x, y, w, h);
+                if (SwingUtilities.doesIconReferenceImbge(lbbel.getIcon(), img) ||
+                        SwingUtilities.doesIconReferenceImbge(lbbel.getDisbbledIcon(), img)) {
+                    return super.imbgeUpdbte(img, infoflbgs, x, y, w, h);
                 }
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the dictionary of what labels to draw at which values.
+     * Returns the dictionbry of whbt lbbels to drbw bt which vblues.
      *
-     * @return the <code>Dictionary</code> containing labels and
-     *    where to draw them
+     * @return the <code>Dictionbry</code> contbining lbbels bnd
+     *    where to drbw them
      */
-    public Dictionary<Integer, JComponent> getLabelTable() {
+    public Dictionbry<Integer, JComponent> getLbbelTbble() {
 /*
-        if ( labelTable == null && getMajorTickSpacing() > 0 ) {
-            setLabelTable( createStandardLabels( getMajorTickSpacing() ) );
+        if ( lbbelTbble == null && getMbjorTickSpbcing() > 0 ) {
+            setLbbelTbble( crebteStbndbrdLbbels( getMbjorTickSpbcing() ) );
         }
 */
-        return labelTable;
+        return lbbelTbble;
     }
 
 
     /**
-     * Used to specify what label will be drawn at any given value.
-     * The key-value pairs are of this format:
-     * <code>{ Integer value, java.swing.JComponent label }</code>.
+     * Used to specify whbt lbbel will be drbwn bt bny given vblue.
+     * The key-vblue pbirs bre of this formbt:
+     * <code>{ Integer vblue, jbvb.swing.JComponent lbbel }</code>.
      * <p>
-     * An easy way to generate a standard table of value labels is by using the
-     * {@code createStandardLabels} method.
+     * An ebsy wby to generbte b stbndbrd tbble of vblue lbbels is by using the
+     * {@code crebteStbndbrdLbbels} method.
      * <p>
-     * Once the labels have been set, this method calls {@link #updateLabelUIs}.
-     * Note that the labels are only painted if the {@code paintLabels}
+     * Once the lbbels hbve been set, this method cblls {@link #updbteLbbelUIs}.
+     * Note thbt the lbbels bre only pbinted if the {@code pbintLbbels}
      * property is {@code true}.
      *
-     * @param labels new {@code Dictionary} of labels, or {@code null} to
-     *        remove all labels
-     * @see #createStandardLabels(int)
-     * @see #getLabelTable
-     * @see #setPaintLabels
-     * @beaninfo
+     * @pbrbm lbbels new {@code Dictionbry} of lbbels, or {@code null} to
+     *        remove bll lbbels
+     * @see #crebteStbndbrdLbbels(int)
+     * @see #getLbbelTbble
+     * @see #setPbintLbbels
+     * @bebninfo
      *       hidden: true
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Specifies what labels will be drawn for any given value.
+     *    bttribute: visublUpdbte true
+     *  description: Specifies whbt lbbels will be drbwn for bny given vblue.
      */
-    public void setLabelTable( Dictionary<Integer, JComponent> labels ) {
-        Dictionary<Integer, JComponent> oldTable = labelTable;
-        labelTable = labels;
-        updateLabelUIs();
-        firePropertyChange("labelTable", oldTable, labelTable );
-        if (labels != oldTable) {
-            revalidate();
-            repaint();
+    public void setLbbelTbble( Dictionbry<Integer, JComponent> lbbels ) {
+        Dictionbry<Integer, JComponent> oldTbble = lbbelTbble;
+        lbbelTbble = lbbels;
+        updbteLbbelUIs();
+        firePropertyChbnge("lbbelTbble", oldTbble, lbbelTbble );
+        if (lbbels != oldTbble) {
+            revblidbte();
+            repbint();
         }
     }
 
 
     /**
-     * Updates the UIs for the labels in the label table by calling
-     * {@code updateUI} on each label.  The UIs are updated from
-     * the current look and feel.  The labels are also set to their
+     * Updbtes the UIs for the lbbels in the lbbel tbble by cblling
+     * {@code updbteUI} on ebch lbbel.  The UIs bre updbted from
+     * the current look bnd feel.  The lbbels bre blso set to their
      * preferred size.
      *
-     * @see #setLabelTable
-     * @see JComponent#updateUI
+     * @see #setLbbelTbble
+     * @see JComponent#updbteUI
      */
-    protected void updateLabelUIs() {
-        Dictionary<Integer, JComponent> labelTable = getLabelTable();
+    protected void updbteLbbelUIs() {
+        Dictionbry<Integer, JComponent> lbbelTbble = getLbbelTbble();
 
-        if (labelTable == null) {
+        if (lbbelTbble == null) {
             return;
         }
-        Enumeration<Integer> labels = labelTable.keys();
-        while ( labels.hasMoreElements() ) {
-            JComponent component = labelTable.get(labels.nextElement());
-            component.updateUI();
+        Enumerbtion<Integer> lbbels = lbbelTbble.keys();
+        while ( lbbels.hbsMoreElements() ) {
+            JComponent component = lbbelTbble.get(lbbels.nextElement());
+            component.updbteUI();
             component.setSize(component.getPreferredSize());
         }
     }
 
-    private void updateLabelSizes() {
-        Dictionary<Integer, JComponent> labelTable = getLabelTable();
-        if (labelTable != null) {
-            Enumeration<JComponent> labels = labelTable.elements();
-            while (labels.hasMoreElements()) {
-                JComponent component = labels.nextElement();
+    privbte void updbteLbbelSizes() {
+        Dictionbry<Integer, JComponent> lbbelTbble = getLbbelTbble();
+        if (lbbelTbble != null) {
+            Enumerbtion<JComponent> lbbels = lbbelTbble.elements();
+            while (lbbels.hbsMoreElements()) {
+                JComponent component = lbbels.nextElement();
                 component.setSize(component.getPreferredSize());
             }
         }
@@ -878,77 +878,77 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
 
 
     /**
-     * Creates a {@code Hashtable} of numerical text labels, starting at the
-     * slider minimum, and using the increment specified.
-     * For example, if you call <code>createStandardLabels( 10 )</code>
-     * and the slider minimum is zero,
-     * then labels will be created for the values 0, 10, 20, 30, and so on.
+     * Crebtes b {@code Hbshtbble} of numericbl text lbbels, stbrting bt the
+     * slider minimum, bnd using the increment specified.
+     * For exbmple, if you cbll <code>crebteStbndbrdLbbels( 10 )</code>
+     * bnd the slider minimum is zero,
+     * then lbbels will be crebted for the vblues 0, 10, 20, 30, bnd so on.
      * <p>
-     * For the labels to be drawn on the slider, the returned {@code Hashtable}
-     * must be passed into {@code setLabelTable}, and {@code setPaintLabels}
+     * For the lbbels to be drbwn on the slider, the returned {@code Hbshtbble}
+     * must be pbssed into {@code setLbbelTbble}, bnd {@code setPbintLbbels}
      * must be set to {@code true}.
      * <p>
-     * For further details on the makeup of the returned {@code Hashtable}, see
-     * the {@code setLabelTable} documentation.
+     * For further detbils on the mbkeup of the returned {@code Hbshtbble}, see
+     * the {@code setLbbelTbble} documentbtion.
      *
-     * @param  increment  distance between labels in the generated hashtable
-     * @return a new {@code Hashtable} of labels
-     * @see #setLabelTable
-     * @see #setPaintLabels
-     * @throws IllegalArgumentException if {@code increment} is less than or
-     *          equal to zero
+     * @pbrbm  increment  distbnce between lbbels in the generbted hbshtbble
+     * @return b new {@code Hbshtbble} of lbbels
+     * @see #setLbbelTbble
+     * @see #setPbintLbbels
+     * @throws IllegblArgumentException if {@code increment} is less thbn or
+     *          equbl to zero
      */
-    public Hashtable<Integer, JComponent> createStandardLabels( int increment ) {
-        return createStandardLabels( increment, getMinimum() );
+    public Hbshtbble<Integer, JComponent> crebteStbndbrdLbbels( int increment ) {
+        return crebteStbndbrdLbbels( increment, getMinimum() );
     }
 
 
     /**
-     * Creates a {@code Hashtable} of numerical text labels, starting at the
-     * starting point specified, and using the increment specified.
-     * For example, if you call
-     * <code>createStandardLabels( 10, 2 )</code>,
-     * then labels will be created for the values 2, 12, 22, 32, and so on.
+     * Crebtes b {@code Hbshtbble} of numericbl text lbbels, stbrting bt the
+     * stbrting point specified, bnd using the increment specified.
+     * For exbmple, if you cbll
+     * <code>crebteStbndbrdLbbels( 10, 2 )</code>,
+     * then lbbels will be crebted for the vblues 2, 12, 22, 32, bnd so on.
      * <p>
-     * For the labels to be drawn on the slider, the returned {@code Hashtable}
-     * must be passed into {@code setLabelTable}, and {@code setPaintLabels}
+     * For the lbbels to be drbwn on the slider, the returned {@code Hbshtbble}
+     * must be pbssed into {@code setLbbelTbble}, bnd {@code setPbintLbbels}
      * must be set to {@code true}.
      * <p>
-     * For further details on the makeup of the returned {@code Hashtable}, see
-     * the {@code setLabelTable} documentation.
+     * For further detbils on the mbkeup of the returned {@code Hbshtbble}, see
+     * the {@code setLbbelTbble} documentbtion.
      *
-     * @param  increment  distance between labels in the generated hashtable
-     * @param  start      value at which the labels will begin
-     * @return a new {@code Hashtable} of labels
-     * @see #setLabelTable
-     * @see #setPaintLabels
-     * @exception IllegalArgumentException if {@code start} is
-     *          out of range, or if {@code increment} is less than or equal
+     * @pbrbm  increment  distbnce between lbbels in the generbted hbshtbble
+     * @pbrbm  stbrt      vblue bt which the lbbels will begin
+     * @return b new {@code Hbshtbble} of lbbels
+     * @see #setLbbelTbble
+     * @see #setPbintLbbels
+     * @exception IllegblArgumentException if {@code stbrt} is
+     *          out of rbnge, or if {@code increment} is less thbn or equbl
      *          to zero
      */
-    public Hashtable<Integer, JComponent> createStandardLabels( int increment, int start ) {
-        if ( start > getMaximum() || start < getMinimum() ) {
-            throw new IllegalArgumentException( "Slider label start point out of range." );
+    public Hbshtbble<Integer, JComponent> crebteStbndbrdLbbels( int increment, int stbrt ) {
+        if ( stbrt > getMbximum() || stbrt < getMinimum() ) {
+            throw new IllegblArgumentException( "Slider lbbel stbrt point out of rbnge." );
         }
 
         if ( increment <= 0 ) {
-            throw new IllegalArgumentException( "Label incremement must be > 0" );
+            throw new IllegblArgumentException( "Lbbel incremement must be > 0" );
         }
 
-        class SmartHashtable extends Hashtable<Integer, JComponent> implements PropertyChangeListener {
+        clbss SmbrtHbshtbble extends Hbshtbble<Integer, JComponent> implements PropertyChbngeListener {
             int increment = 0;
-            int start = 0;
-            boolean startAtMin = false;
+            int stbrt = 0;
+            boolebn stbrtAtMin = fblse;
 
-            class LabelUIResource extends JLabel implements UIResource {
-                public LabelUIResource( String text, int alignment ) {
-                    super( text, alignment );
-                    setName("Slider.label");
+            clbss LbbelUIResource extends JLbbel implements UIResource {
+                public LbbelUIResource( String text, int blignment ) {
+                    super( text, blignment );
+                    setNbme("Slider.lbbel");
                 }
 
                 public Font getFont() {
                     Font font = super.getFont();
-                    if (font != null && !(font instanceof UIResource)) {
+                    if (font != null && !(font instbnceof UIResource)) {
                         return font;
                     }
                     return JSlider.this.getFont();
@@ -956,448 +956,448 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
 
                 public Color getForeground() {
                     Color fg = super.getForeground();
-                    if (fg != null && !(fg instanceof UIResource)) {
+                    if (fg != null && !(fg instbnceof UIResource)) {
                         return fg;
                     }
-                    if (!(JSlider.this.getForeground() instanceof UIResource)) {
+                    if (!(JSlider.this.getForeground() instbnceof UIResource)) {
                         return JSlider.this.getForeground();
                     }
                     return fg;
                 }
             }
 
-            public SmartHashtable( int increment, int start ) {
+            public SmbrtHbshtbble( int increment, int stbrt ) {
                 super();
                 this.increment = increment;
-                this.start = start;
-                startAtMin = start == getMinimum();
-                createLabels();
+                this.stbrt = stbrt;
+                stbrtAtMin = stbrt == getMinimum();
+                crebteLbbels();
             }
 
-            public void propertyChange( PropertyChangeEvent e ) {
-                if ( e.getPropertyName().equals( "minimum" ) && startAtMin ) {
-                    start = getMinimum();
+            public void propertyChbnge( PropertyChbngeEvent e ) {
+                if ( e.getPropertyNbme().equbls( "minimum" ) && stbrtAtMin ) {
+                    stbrt = getMinimum();
                 }
 
-                if ( e.getPropertyName().equals( "minimum" ) ||
-                     e.getPropertyName().equals( "maximum" ) ) {
+                if ( e.getPropertyNbme().equbls( "minimum" ) ||
+                     e.getPropertyNbme().equbls( "mbximum" ) ) {
 
-                    Enumeration<Integer> keys = getLabelTable().keys();
-                    Hashtable<Integer, JComponent> hashtable = new Hashtable<>();
+                    Enumerbtion<Integer> keys = getLbbelTbble().keys();
+                    Hbshtbble<Integer, JComponent> hbshtbble = new Hbshtbble<>();
 
-                    // Save the labels that were added by the developer
-                    while ( keys.hasMoreElements() ) {
+                    // Sbve the lbbels thbt were bdded by the developer
+                    while ( keys.hbsMoreElements() ) {
                         Integer key = keys.nextElement();
-                        JComponent value = labelTable.get(key);
-                        if ( !(value instanceof LabelUIResource) ) {
-                            hashtable.put( key, value );
+                        JComponent vblue = lbbelTbble.get(key);
+                        if ( !(vblue instbnceof LbbelUIResource) ) {
+                            hbshtbble.put( key, vblue );
                         }
                     }
 
-                    clear();
-                    createLabels();
+                    clebr();
+                    crebteLbbels();
 
-                    // Add the saved labels
-                    keys = hashtable.keys();
-                    while ( keys.hasMoreElements() ) {
+                    // Add the sbved lbbels
+                    keys = hbshtbble.keys();
+                    while ( keys.hbsMoreElements() ) {
                         Integer key = keys.nextElement();
-                        put( key, hashtable.get( key ) );
+                        put( key, hbshtbble.get( key ) );
                     }
 
-                    ((JSlider)e.getSource()).setLabelTable( this );
+                    ((JSlider)e.getSource()).setLbbelTbble( this );
                 }
             }
 
-            void createLabels() {
-                for ( int labelIndex = start; labelIndex <= getMaximum(); labelIndex += increment ) {
-                    put( Integer.valueOf( labelIndex ), new LabelUIResource( ""+labelIndex, JLabel.CENTER ) );
+            void crebteLbbels() {
+                for ( int lbbelIndex = stbrt; lbbelIndex <= getMbximum(); lbbelIndex += increment ) {
+                    put( Integer.vblueOf( lbbelIndex ), new LbbelUIResource( ""+lbbelIndex, JLbbel.CENTER ) );
                 }
             }
         }
 
-        SmartHashtable table = new SmartHashtable( increment, start );
+        SmbrtHbshtbble tbble = new SmbrtHbshtbble( increment, stbrt );
 
-        Dictionary<Integer, JComponent> labelTable = getLabelTable();
+        Dictionbry<Integer, JComponent> lbbelTbble = getLbbelTbble();
 
-        if (labelTable != null && (labelTable instanceof PropertyChangeListener)) {
-            removePropertyChangeListener((PropertyChangeListener) labelTable);
+        if (lbbelTbble != null && (lbbelTbble instbnceof PropertyChbngeListener)) {
+            removePropertyChbngeListener((PropertyChbngeListener) lbbelTbble);
         }
 
-        addPropertyChangeListener( table );
+        bddPropertyChbngeListener( tbble );
 
-        return table;
+        return tbble;
     }
 
 
     /**
-     * Returns true if the value-range shown for the slider is reversed,
+     * Returns true if the vblue-rbnge shown for the slider is reversed,
      *
-     * @return true if the slider values are reversed from their normal order
+     * @return true if the slider vblues bre reversed from their normbl order
      * @see #setInverted
      */
-    public boolean getInverted() {
+    public boolebn getInverted() {
         return isInverted;
     }
 
 
     /**
-     * Specify true to reverse the value-range shown for the slider and false to
-     * put the value range in the normal order.  The order depends on the
-     * slider's <code>ComponentOrientation</code> property.  Normal (non-inverted)
-     * horizontal sliders with a <code>ComponentOrientation</code> value of
-     * <code>LEFT_TO_RIGHT</code> have their maximum on the right.
-     * Normal horizontal sliders with a <code>ComponentOrientation</code> value of
-     * <code>RIGHT_TO_LEFT</code> have their maximum on the left.  Normal vertical
-     * sliders have their maximum on the top.  These labels are reversed when the
+     * Specify true to reverse the vblue-rbnge shown for the slider bnd fblse to
+     * put the vblue rbnge in the normbl order.  The order depends on the
+     * slider's <code>ComponentOrientbtion</code> property.  Normbl (non-inverted)
+     * horizontbl sliders with b <code>ComponentOrientbtion</code> vblue of
+     * <code>LEFT_TO_RIGHT</code> hbve their mbximum on the right.
+     * Normbl horizontbl sliders with b <code>ComponentOrientbtion</code> vblue of
+     * <code>RIGHT_TO_LEFT</code> hbve their mbximum on the left.  Normbl verticbl
+     * sliders hbve their mbximum on the top.  These lbbels bre reversed when the
      * slider is inverted.
      * <p>
-     * By default, the value of this property is {@code false}.
+     * By defbult, the vblue of this property is {@code fblse}.
      *
-     * @param b  true to reverse the slider values from their normal order
-     * @beaninfo
+     * @pbrbm b  true to reverse the slider vblues from their normbl order
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: If true reverses the slider values from their normal order
+     *    bttribute: visublUpdbte true
+     *  description: If true reverses the slider vblues from their normbl order
      *
      */
-    public void setInverted( boolean b ) {
-        boolean oldValue = isInverted;
+    public void setInverted( boolebn b ) {
+        boolebn oldVblue = isInverted;
         isInverted = b;
-        firePropertyChange("inverted", oldValue, isInverted);
-        if (b != oldValue) {
-            repaint();
+        firePropertyChbnge("inverted", oldVblue, isInverted);
+        if (b != oldVblue) {
+            repbint();
         }
     }
 
 
     /**
-     * This method returns the major tick spacing.  The number that is returned
-     * represents the distance, measured in values, between each major tick mark.
-     * If you have a slider with a range from 0 to 50 and the major tick spacing
-     * is set to 10, you will get major ticks next to the following values:
+     * This method returns the mbjor tick spbcing.  The number thbt is returned
+     * represents the distbnce, mebsured in vblues, between ebch mbjor tick mbrk.
+     * If you hbve b slider with b rbnge from 0 to 50 bnd the mbjor tick spbcing
+     * is set to 10, you will get mbjor ticks next to the following vblues:
      * 0, 10, 20, 30, 40, 50.
      *
-     * @return the number of values between major ticks
-     * @see #setMajorTickSpacing
+     * @return the number of vblues between mbjor ticks
+     * @see #setMbjorTickSpbcing
      */
-    public int getMajorTickSpacing() {
-        return majorTickSpacing;
+    public int getMbjorTickSpbcing() {
+        return mbjorTickSpbcing;
     }
 
 
     /**
-     * This method sets the major tick spacing.  The number that is passed in
-     * represents the distance, measured in values, between each major tick mark.
-     * If you have a slider with a range from 0 to 50 and the major tick spacing
-     * is set to 10, you will get major ticks next to the following values:
+     * This method sets the mbjor tick spbcing.  The number thbt is pbssed in
+     * represents the distbnce, mebsured in vblues, between ebch mbjor tick mbrk.
+     * If you hbve b slider with b rbnge from 0 to 50 bnd the mbjor tick spbcing
+     * is set to 10, you will get mbjor ticks next to the following vblues:
      * 0, 10, 20, 30, 40, 50.
      * <p>
-     * In order for major ticks to be painted, {@code setPaintTicks} must be
+     * In order for mbjor ticks to be pbinted, {@code setPbintTicks} must be
      * set to {@code true}.
      * <p>
-     * This method will also set up a label table for you.
-     * If there is not already a label table, and the major tick spacing is
-     * {@code > 0}, and {@code getPaintLabels} returns
-     * {@code true}, a standard label table will be generated (by calling
-     * {@code createStandardLabels}) with labels at the major tick marks.
-     * For the example above, you would get text labels: "0",
+     * This method will blso set up b lbbel tbble for you.
+     * If there is not blrebdy b lbbel tbble, bnd the mbjor tick spbcing is
+     * {@code > 0}, bnd {@code getPbintLbbels} returns
+     * {@code true}, b stbndbrd lbbel tbble will be generbted (by cblling
+     * {@code crebteStbndbrdLbbels}) with lbbels bt the mbjor tick mbrks.
+     * For the exbmple bbove, you would get text lbbels: "0",
      * "10", "20", "30", "40", "50".
-     * The label table is then set on the slider by calling
-     * {@code setLabelTable}.
+     * The lbbel tbble is then set on the slider by cblling
+     * {@code setLbbelTbble}.
      *
-     * @param  n  new value for the {@code majorTickSpacing} property
-     * @see #getMajorTickSpacing
-     * @see #setPaintTicks
-     * @see #setLabelTable
-     * @see #createStandardLabels(int)
-     * @beaninfo
+     * @pbrbm  n  new vblue for the {@code mbjorTickSpbcing} property
+     * @see #getMbjorTickSpbcing
+     * @see #setPbintTicks
+     * @see #setLbbelTbble
+     * @see #crebteStbndbrdLbbels(int)
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Sets the number of values between major tick marks.
+     *    bttribute: visublUpdbte true
+     *  description: Sets the number of vblues between mbjor tick mbrks.
      *
      */
-    public void setMajorTickSpacing(int n) {
-        int oldValue = majorTickSpacing;
-        majorTickSpacing = n;
-        if ( labelTable == null && getMajorTickSpacing() > 0 && getPaintLabels() ) {
-            setLabelTable( createStandardLabels( getMajorTickSpacing() ) );
+    public void setMbjorTickSpbcing(int n) {
+        int oldVblue = mbjorTickSpbcing;
+        mbjorTickSpbcing = n;
+        if ( lbbelTbble == null && getMbjorTickSpbcing() > 0 && getPbintLbbels() ) {
+            setLbbelTbble( crebteStbndbrdLbbels( getMbjorTickSpbcing() ) );
         }
-        firePropertyChange("majorTickSpacing", oldValue, majorTickSpacing);
-        if (majorTickSpacing != oldValue && getPaintTicks()) {
-            repaint();
+        firePropertyChbnge("mbjorTickSpbcing", oldVblue, mbjorTickSpbcing);
+        if (mbjorTickSpbcing != oldVblue && getPbintTicks()) {
+            repbint();
         }
     }
 
 
 
     /**
-     * This method returns the minor tick spacing.  The number that is returned
-     * represents the distance, measured in values, between each minor tick mark.
-     * If you have a slider with a range from 0 to 50 and the minor tick spacing
-     * is set to 10, you will get minor ticks next to the following values:
+     * This method returns the minor tick spbcing.  The number thbt is returned
+     * represents the distbnce, mebsured in vblues, between ebch minor tick mbrk.
+     * If you hbve b slider with b rbnge from 0 to 50 bnd the minor tick spbcing
+     * is set to 10, you will get minor ticks next to the following vblues:
      * 0, 10, 20, 30, 40, 50.
      *
-     * @return the number of values between minor ticks
-     * @see #getMinorTickSpacing
+     * @return the number of vblues between minor ticks
+     * @see #getMinorTickSpbcing
      */
-    public int getMinorTickSpacing() {
-        return minorTickSpacing;
+    public int getMinorTickSpbcing() {
+        return minorTickSpbcing;
     }
 
 
     /**
-     * This method sets the minor tick spacing.  The number that is passed in
-     * represents the distance, measured in values, between each minor tick mark.
-     * If you have a slider with a range from 0 to 50 and the minor tick spacing
-     * is set to 10, you will get minor ticks next to the following values:
+     * This method sets the minor tick spbcing.  The number thbt is pbssed in
+     * represents the distbnce, mebsured in vblues, between ebch minor tick mbrk.
+     * If you hbve b slider with b rbnge from 0 to 50 bnd the minor tick spbcing
+     * is set to 10, you will get minor ticks next to the following vblues:
      * 0, 10, 20, 30, 40, 50.
      * <p>
-     * In order for minor ticks to be painted, {@code setPaintTicks} must be
+     * In order for minor ticks to be pbinted, {@code setPbintTicks} must be
      * set to {@code true}.
      *
-     * @param  n  new value for the {@code minorTickSpacing} property
-     * @see #getMinorTickSpacing
-     * @see #setPaintTicks
-     * @beaninfo
+     * @pbrbm  n  new vblue for the {@code minorTickSpbcing} property
+     * @see #getMinorTickSpbcing
+     * @see #setPbintTicks
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Sets the number of values between minor tick marks.
+     *    bttribute: visublUpdbte true
+     *  description: Sets the number of vblues between minor tick mbrks.
      */
-    public void setMinorTickSpacing(int n) {
-        int oldValue = minorTickSpacing;
-        minorTickSpacing = n;
-        firePropertyChange("minorTickSpacing", oldValue, minorTickSpacing);
-        if (minorTickSpacing != oldValue && getPaintTicks()) {
-            repaint();
+    public void setMinorTickSpbcing(int n) {
+        int oldVblue = minorTickSpbcing;
+        minorTickSpbcing = n;
+        firePropertyChbnge("minorTickSpbcing", oldVblue, minorTickSpbcing);
+        if (minorTickSpbcing != oldVblue && getPbintTicks()) {
+            repbint();
         }
     }
 
 
     /**
-     * Returns true if the knob (and the data value it represents)
-     * resolve to the closest tick mark next to where the user
+     * Returns true if the knob (bnd the dbtb vblue it represents)
+     * resolve to the closest tick mbrk next to where the user
      * positioned the knob.
      *
-     * @return true if the value snaps to the nearest tick mark, else false
-     * @see #setSnapToTicks
+     * @return true if the vblue snbps to the nebrest tick mbrk, else fblse
+     * @see #setSnbpToTicks
      */
-    public boolean getSnapToTicks() {
-        return snapToTicks;
+    public boolebn getSnbpToTicks() {
+        return snbpToTicks;
     }
 
 
     /**
-     * Returns true if the knob (and the data value it represents)
-     * resolve to the closest slider value next to where the user
+     * Returns true if the knob (bnd the dbtb vblue it represents)
+     * resolve to the closest slider vblue next to where the user
      * positioned the knob.
      *
-     * @return true if the value snaps to the nearest slider value, else false
-     * @see #setSnapToValue
+     * @return true if the vblue snbps to the nebrest slider vblue, else fblse
+     * @see #setSnbpToVblue
      */
-    boolean getSnapToValue() {
-        return snapToValue;
+    boolebn getSnbpToVblue() {
+        return snbpToVblue;
     }
 
 
     /**
-     * Specifying true makes the knob (and the data value it represents)
-     * resolve to the closest tick mark next to where the user
+     * Specifying true mbkes the knob (bnd the dbtb vblue it represents)
+     * resolve to the closest tick mbrk next to where the user
      * positioned the knob.
-     * By default, this property is {@code false}.
+     * By defbult, this property is {@code fblse}.
      *
-     * @param b  true to snap the knob to the nearest tick mark
-     * @see #getSnapToTicks
-     * @beaninfo
+     * @pbrbm b  true to snbp the knob to the nebrest tick mbrk
+     * @see #getSnbpToTicks
+     * @bebninfo
      *       bound: true
-     * description: If true snap the knob to the nearest tick mark.
+     * description: If true snbp the knob to the nebrest tick mbrk.
      */
-    public void setSnapToTicks(boolean b) {
-        boolean oldValue = snapToTicks;
-        snapToTicks = b;
-        firePropertyChange("snapToTicks", oldValue, snapToTicks);
+    public void setSnbpToTicks(boolebn b) {
+        boolebn oldVblue = snbpToTicks;
+        snbpToTicks = b;
+        firePropertyChbnge("snbpToTicks", oldVblue, snbpToTicks);
     }
 
 
     /**
-     * Specifying true makes the knob (and the data value it represents)
-     * resolve to the closest slider value next to where the user
-     * positioned the knob. If the {@code snapToTicks} property has also been
-     * set to {@code true}, the snap-to-ticks behavior will prevail.
-     * By default, the snapToValue property is {@code true}.
+     * Specifying true mbkes the knob (bnd the dbtb vblue it represents)
+     * resolve to the closest slider vblue next to where the user
+     * positioned the knob. If the {@code snbpToTicks} property hbs blso been
+     * set to {@code true}, the snbp-to-ticks behbvior will prevbil.
+     * By defbult, the snbpToVblue property is {@code true}.
      *
-     * @param b  true to snap the knob to the nearest slider value
-     * @see #getSnapToValue
-     * @see #setSnapToTicks
-     * @beaninfo
+     * @pbrbm b  true to snbp the knob to the nebrest slider vblue
+     * @see #getSnbpToVblue
+     * @see #setSnbpToTicks
+     * @bebninfo
      *       bound: true
-     * description: If true snap the knob to the nearest slider value.
+     * description: If true snbp the knob to the nebrest slider vblue.
      */
-    void setSnapToValue(boolean b) {
-        boolean oldValue = snapToValue;
-        snapToValue = b;
-        firePropertyChange("snapToValue", oldValue, snapToValue);
+    void setSnbpToVblue(boolebn b) {
+        boolebn oldVblue = snbpToVblue;
+        snbpToVblue = b;
+        firePropertyChbnge("snbpToVblue", oldVblue, snbpToVblue);
     }
 
 
     /**
-     * Tells if tick marks are to be painted.
-     * @return true if tick marks are painted, else false
-     * @see #setPaintTicks
+     * Tells if tick mbrks bre to be pbinted.
+     * @return true if tick mbrks bre pbinted, else fblse
+     * @see #setPbintTicks
      */
-    public boolean getPaintTicks() {
-        return paintTicks;
+    public boolebn getPbintTicks() {
+        return pbintTicks;
     }
 
 
     /**
-     * Determines whether tick marks are painted on the slider.
-     * By default, this property is {@code false}.
+     * Determines whether tick mbrks bre pbinted on the slider.
+     * By defbult, this property is {@code fblse}.
      *
-     * @param  b  whether or not tick marks should be painted
-     * @see #getPaintTicks
-     * @beaninfo
+     * @pbrbm  b  whether or not tick mbrks should be pbinted
+     * @see #getPbintTicks
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: If true tick marks are painted on the slider.
+     *    bttribute: visublUpdbte true
+     *  description: If true tick mbrks bre pbinted on the slider.
      */
-    public void setPaintTicks(boolean b) {
-        boolean oldValue = paintTicks;
-        paintTicks = b;
-        firePropertyChange("paintTicks", oldValue, paintTicks);
-        if (paintTicks != oldValue) {
-            revalidate();
-            repaint();
+    public void setPbintTicks(boolebn b) {
+        boolebn oldVblue = pbintTicks;
+        pbintTicks = b;
+        firePropertyChbnge("pbintTicks", oldVblue, pbintTicks);
+        if (pbintTicks != oldVblue) {
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Tells if the track (area the slider slides in) is to be painted.
-     * @return true if track is painted, else false
-     * @see #setPaintTrack
+     * Tells if the trbck (breb the slider slides in) is to be pbinted.
+     * @return true if trbck is pbinted, else fblse
+     * @see #setPbintTrbck
      */
-    public boolean getPaintTrack() {
-        return paintTrack;
+    public boolebn getPbintTrbck() {
+        return pbintTrbck;
     }
 
 
     /**
-     * Determines whether the track is painted on the slider.
-     * By default, this property is {@code true}.
+     * Determines whether the trbck is pbinted on the slider.
+     * By defbult, this property is {@code true}.
      *
-     * @param  b  whether or not to paint the slider track
-     * @see #getPaintTrack
-     * @beaninfo
+     * @pbrbm  b  whether or not to pbint the slider trbck
+     * @see #getPbintTrbck
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: If true, the track is painted on the slider.
+     *    bttribute: visublUpdbte true
+     *  description: If true, the trbck is pbinted on the slider.
      */
-    public void setPaintTrack(boolean b) {
-        boolean oldValue = paintTrack;
-        paintTrack = b;
-        firePropertyChange("paintTrack", oldValue, paintTrack);
-        if (paintTrack != oldValue) {
-            repaint();
+    public void setPbintTrbck(boolebn b) {
+        boolebn oldVblue = pbintTrbck;
+        pbintTrbck = b;
+        firePropertyChbnge("pbintTrbck", oldVblue, pbintTrbck);
+        if (pbintTrbck != oldVblue) {
+            repbint();
         }
     }
 
 
     /**
-     * Tells if labels are to be painted.
-     * @return true if labels are painted, else false
-     * @see #setPaintLabels
+     * Tells if lbbels bre to be pbinted.
+     * @return true if lbbels bre pbinted, else fblse
+     * @see #setPbintLbbels
      */
-    public boolean getPaintLabels() {
-        return paintLabels;
+    public boolebn getPbintLbbels() {
+        return pbintLbbels;
     }
 
 
     /**
-     * Determines whether labels are painted on the slider.
+     * Determines whether lbbels bre pbinted on the slider.
      * <p>
-     * This method will also set up a label table for you.
-     * If there is not already a label table, and the major tick spacing is
+     * This method will blso set up b lbbel tbble for you.
+     * If there is not blrebdy b lbbel tbble, bnd the mbjor tick spbcing is
      * {@code > 0},
-     * a standard label table will be generated (by calling
-     * {@code createStandardLabels}) with labels at the major tick marks.
-     * The label table is then set on the slider by calling
-     * {@code setLabelTable}.
+     * b stbndbrd lbbel tbble will be generbted (by cblling
+     * {@code crebteStbndbrdLbbels}) with lbbels bt the mbjor tick mbrks.
+     * The lbbel tbble is then set on the slider by cblling
+     * {@code setLbbelTbble}.
      * <p>
-     * By default, this property is {@code false}.
+     * By defbult, this property is {@code fblse}.
      *
-     * @param  b  whether or not to paint labels
-     * @see #getPaintLabels
-     * @see #getLabelTable
-     * @see #createStandardLabels(int)
-     * @beaninfo
+     * @pbrbm  b  whether or not to pbint lbbels
+     * @see #getPbintLbbels
+     * @see #getLbbelTbble
+     * @see #crebteStbndbrdLbbels(int)
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: If true labels are painted on the slider.
+     *    bttribute: visublUpdbte true
+     *  description: If true lbbels bre pbinted on the slider.
      */
-    public void setPaintLabels(boolean b) {
-        boolean oldValue = paintLabels;
-        paintLabels = b;
-        if ( labelTable == null && getMajorTickSpacing() > 0 ) {
-            setLabelTable( createStandardLabels( getMajorTickSpacing() ) );
+    public void setPbintLbbels(boolebn b) {
+        boolebn oldVblue = pbintLbbels;
+        pbintLbbels = b;
+        if ( lbbelTbble == null && getMbjorTickSpbcing() > 0 ) {
+            setLbbelTbble( crebteStbndbrdLbbels( getMbjorTickSpbcing() ) );
         }
-        firePropertyChange("paintLabels", oldValue, paintLabels);
-        if (paintLabels != oldValue) {
-            revalidate();
-            repaint();
+        firePropertyChbnge("pbintLbbels", oldVblue, pbintLbbels);
+        if (pbintLbbels != oldVblue) {
+            revblidbte();
+            repbint();
         }
     }
 
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * See rebdObject() bnd writeObject() in JComponent for more
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this JSlider. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this JSlider. This method
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this JSlider.
+     * @return  b string representbtion of this JSlider.
      */
-    protected String paramString() {
-        String paintTicksString = (paintTicks ?
-                                   "true" : "false");
-        String paintTrackString = (paintTrack ?
-                                   "true" : "false");
-        String paintLabelsString = (paintLabels ?
-                                    "true" : "false");
+    protected String pbrbmString() {
+        String pbintTicksString = (pbintTicks ?
+                                   "true" : "fblse");
+        String pbintTrbckString = (pbintTrbck ?
+                                   "true" : "fblse");
+        String pbintLbbelsString = (pbintLbbels ?
+                                    "true" : "fblse");
         String isInvertedString = (isInverted ?
-                                   "true" : "false");
-        String snapToTicksString = (snapToTicks ?
-                                    "true" : "false");
-        String snapToValueString = (snapToValue ?
-                                    "true" : "false");
-        String orientationString = (orientation == HORIZONTAL ?
+                                   "true" : "fblse");
+        String snbpToTicksString = (snbpToTicks ?
+                                    "true" : "fblse");
+        String snbpToVblueString = (snbpToVblue ?
+                                    "true" : "fblse");
+        String orientbtionString = (orientbtion == HORIZONTAL ?
                                     "HORIZONTAL" : "VERTICAL");
 
-        return super.paramString() +
+        return super.pbrbmString() +
         ",isInverted=" + isInvertedString +
-        ",majorTickSpacing=" + majorTickSpacing +
-        ",minorTickSpacing=" + minorTickSpacing +
-        ",orientation=" + orientationString +
-        ",paintLabels=" + paintLabelsString +
-        ",paintTicks=" + paintTicksString +
-        ",paintTrack=" + paintTrackString +
-        ",snapToTicks=" + snapToTicksString +
-        ",snapToValue=" + snapToValueString;
+        ",mbjorTickSpbcing=" + mbjorTickSpbcing +
+        ",minorTickSpbcing=" + minorTickSpbcing +
+        ",orientbtion=" + orientbtionString +
+        ",pbintLbbels=" + pbintLbbelsString +
+        ",pbintTicks=" + pbintTicksString +
+        ",pbintTrbck=" + pbintTrbckString +
+        ",snbpToTicks=" + snbpToTicksString +
+        ",snbpToVblue=" + snbpToVblueString;
     }
 
 
@@ -1406,122 +1406,122 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JSlider.
-     * For sliders, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this JSlider.
+     * For sliders, the AccessibleContext tbkes the form of bn
      * AccessibleJSlider.
-     * A new AccessibleJSlider instance is created if necessary.
+     * A new AccessibleJSlider instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJSlider that serves as the
+     * @return bn AccessibleJSlider thbt serves bs the
      *         AccessibleContext of this JSlider
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJSlider();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJSlider();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JSlider</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to slider user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>JSlider</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to slider user-interfbce elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJSlider extends AccessibleJComponent
-    implements AccessibleValue {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJSlider extends AccessibleJComponent
+    implements AccessibleVblue {
 
         /**
-         * Get the state set of this object.
+         * Get the stbte set of this object.
          *
-         * @return an instance of AccessibleState containing the current state
+         * @return bn instbnce of AccessibleStbte contbining the current stbte
          * of the object
-         * @see AccessibleState
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            if (getValueIsAdjusting()) {
-                states.add(AccessibleState.BUSY);
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            if (getVblueIsAdjusting()) {
+                stbtes.bdd(AccessibleStbte.BUSY);
             }
-            if (getOrientation() == VERTICAL) {
-                states.add(AccessibleState.VERTICAL);
+            if (getOrientbtion() == VERTICAL) {
+                stbtes.bdd(AccessibleStbte.VERTICAL);
             }
             else {
-                states.add(AccessibleState.HORIZONTAL);
+                stbtes.bdd(AccessibleStbte.HORIZONTAL);
             }
-            return states;
+            return stbtes;
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the object
+         * @return bn instbnce of AccessibleRole describing the role of the object
          */
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SLIDER;
         }
 
         /**
-         * Get the AccessibleValue associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleVblue bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleValue interface on behalf of itself.
+         * AccessibleVblue interfbce on behblf of itself.
          *
          * @return this object
          */
-        public AccessibleValue getAccessibleValue() {
+        public AccessibleVblue getAccessibleVblue() {
             return this;
         }
 
         /**
-         * Get the accessible value of this object.
+         * Get the bccessible vblue of this object.
          *
-         * @return The current value of this object.
+         * @return The current vblue of this object.
          */
-        public Number getCurrentAccessibleValue() {
-            return Integer.valueOf(getValue());
+        public Number getCurrentAccessibleVblue() {
+            return Integer.vblueOf(getVblue());
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Set the vblue of this object bs b Number.
          *
-         * @return True if the value was set.
+         * @return True if the vblue wbs set.
          */
-        public boolean setCurrentAccessibleValue(Number n) {
+        public boolebn setCurrentAccessibleVblue(Number n) {
             // TIGER - 4422535
             if (n == null) {
-                return false;
+                return fblse;
             }
-            setValue(n.intValue());
+            setVblue(n.intVblue());
             return true;
         }
 
         /**
-         * Get the minimum accessible value of this object.
+         * Get the minimum bccessible vblue of this object.
          *
-         * @return The minimum value of this object.
+         * @return The minimum vblue of this object.
          */
-        public Number getMinimumAccessibleValue() {
-            return Integer.valueOf(getMinimum());
+        public Number getMinimumAccessibleVblue() {
+            return Integer.vblueOf(getMinimum());
         }
 
         /**
-         * Get the maximum accessible value of this object.
+         * Get the mbximum bccessible vblue of this object.
          *
-         * @return The maximum value of this object.
+         * @return The mbximum vblue of this object.
          */
-        public Number getMaximumAccessibleValue() {
+        public Number getMbximumAccessibleVblue() {
             // TIGER - 4422362
-            BoundedRangeModel model = JSlider.this.getModel();
-            return Integer.valueOf(model.getMaximum() - model.getExtent());
+            BoundedRbngeModel model = JSlider.this.getModel();
+            return Integer.vblueOf(model.getMbximum() - model.getExtent());
         }
     } // AccessibleJSlider
 }

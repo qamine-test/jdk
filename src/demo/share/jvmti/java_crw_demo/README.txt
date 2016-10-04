@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2004, 2007, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2004, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Redistribution bnd use in source bnd binbry forms, with or without
+# modificbtion, bre permitted provided thbt the following conditions
+# bre met:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Redistributions of source code must retbin the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Redistributions in binbry form must reproduce the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer in the
+#     documentbtion bnd/or other mbteribls provided with the distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Neither the nbme of Orbcle nor the nbmes of its
+#     contributors mby be used to endorse or promote products derived
+#     from this softwbre without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,49 +29,49 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-java_crw_demo Library
+jbvb_crw_demo Librbry
 
-The library java_crw_demo is a small C library that is used by HPROF
-and other agent libraries to do some very basic bytecode 
-insertion (BCI) of class files.  This is not an agent 
-library but a general purpose library that can be used to do some 
+The librbry jbvb_crw_demo is b smbll C librbry thbt is used by HPROF
+bnd other bgent librbries to do some very bbsic bytecode 
+insertion (BCI) of clbss files.  This is not bn bgent 
+librbry but b generbl purpose librbry thbt cbn be used to do some 
 very limited bytecode insertion.
 
-In the demo sources, look for the use of java_crw_demo.h and
-the C function java_crw_demo().  The java_crw_demo library is provided 
-as part of the JRE.
+In the demo sources, look for the use of jbvb_crw_demo.h bnd
+the C function jbvb_crw_demo().  The jbvb_crw_demo librbry is provided 
+bs pbrt of the JRE.
 
-The basic BCI that this library does includes:
+The bbsic BCI thbt this librbry does includes:
 
-    * On entry to the java.lang.Object init method (signature "()V"), 
-      a invokestatic call to tclass.obj_init_method(object); is inserted. 
+    * On entry to the jbvb.lbng.Object init method (signbture "()V"), 
+      b invokestbtic cbll to tclbss.obj_init_method(object); is inserted. 
 
-    * On any newarray type opcode, immediately following it, the array 
-      object is duplicated on the stack and an invokestatic call to
-      tclass.newarray_method(object); is inserted. 
+    * On bny newbrrby type opcode, immedibtely following it, the brrby 
+      object is duplicbted on the stbck bnd bn invokestbtic cbll to
+      tclbss.newbrrby_method(object); is inserted. 
 
-    * On entry to all methods, a invokestatic call to 
-      tclass.call_method(cnum,mnum); is inserted. The agent can map the 
-      two integers (cnum,mnum) to a method in a class, the cnum is the 
-      number provided to the java_crw_demo library when the classfile was 
+    * On entry to bll methods, b invokestbtic cbll to 
+      tclbss.cbll_method(cnum,mnum); is inserted. The bgent cbn mbp the 
+      two integers (cnum,mnum) to b method in b clbss, the cnum is the 
+      number provided to the jbvb_crw_demo librbry when the clbssfile wbs 
       modified.
 
-    * On return from any method (any return opcode), a invokestatic call to
-      tclass.return_method(cnum,mnum); is inserted.  
+    * On return from bny method (bny return opcode), b invokestbtic cbll to
+      tclbss.return_method(cnum,mnum); is inserted.  
 
-Some methods are not modified at all, init methods and finalize methods 
-whose length is 1 will not be modified.  Classes that are designated 
-"system" will not have their clinit methods modified. In addition, the 
-method java.lang.Thread.currentThread() is not modified.
+Some methods bre not modified bt bll, init methods bnd finblize methods 
+whose length is 1 will not be modified.  Clbsses thbt bre designbted 
+"system" will not hbve their clinit methods modified. In bddition, the 
+method jbvb.lbng.Threbd.currentThrebd() is not modified.
 
-No methods or fields will be added to any class, however new constant 
-pool entries will be added at the end of the original constant pool table.
-The exception, line, and local variable tables for each method is adjusted 
-for the modification. The bytecodes are compressed to use smaller offsets 
-and the fewest 'wide' opcodes. 
+No methods or fields will be bdded to bny clbss, however new constbnt 
+pool entries will be bdded bt the end of the originbl constbnt pool tbble.
+The exception, line, bnd locbl vbribble tbbles for ebch method is bdjusted 
+for the modificbtion. The bytecodes bre compressed to use smbller offsets 
+bnd the fewest 'wide' opcodes. 
 
-All attempts are made to minimize the number of bytecodes at each insertion 
-site, however, classes with N return opcodes or N newarray opcodes will get 
-N insertions.  And only the necessary modification dictated by the input 
-arguments to java_crw_demo are actually made.
+All bttempts bre mbde to minimize the number of bytecodes bt ebch insertion 
+site, however, clbsses with N return opcodes or N newbrrby opcodes will get 
+N insertions.  And only the necessbry modificbtion dictbted by the input 
+brguments to jbvb_crw_demo bre bctublly mbde.
 

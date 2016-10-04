@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*-
- *      news stream opener
+ *      news strebm opener
  */
 
-package sun.net.www;
+pbckbge sun.net.www;
 
-import java.io.*;
-import java.util.Collections;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.Collections;
+import jbvb.util.*;
 
-/** An RFC 844 or MIME message header.  Includes methods
-    for parsing headers from incoming streams, fetching
-    values, setting values, and printing headers.
-    Key values of null are legal: they indicate lines in
-    the header that don't have a valid key, but do have
-    a value (this isn't legal according to the standard,
-    but lines like this are everywhere). */
+/** An RFC 844 or MIME messbge hebder.  Includes methods
+    for pbrsing hebders from incoming strebms, fetching
+    vblues, setting vblues, bnd printing hebders.
+    Key vblues of null bre legbl: they indicbte lines in
+    the hebder thbt don't hbve b vblid key, but do hbve
+    b vblue (this isn't legbl bccording to the stbndbrd,
+    but lines like this bre everywhere). */
 public
-class MessageHeader {
-    private String keys[];
-    private String values[];
-    private int nkeys;
+clbss MessbgeHebder {
+    privbte String keys[];
+    privbte String vblues[];
+    privbte int nkeys;
 
-    public MessageHeader () {
+    public MessbgeHebder () {
         grow();
     }
 
-    public MessageHeader (InputStream is) throws java.io.IOException {
-        parseHeader(is);
+    public MessbgeHebder (InputStrebm is) throws jbvb.io.IOException {
+        pbrseHebder(is);
     }
 
     /**
-     * Returns list of header names in a comma separated list
+     * Returns list of hebder nbmes in b commb sepbrbted list
      */
-    public synchronized String getHeaderNamesInList() {
+    public synchronized String getHebderNbmesInList() {
         StringJoiner joiner = new StringJoiner(",");
         for (int i=0; i<nkeys; i++) {
-            joiner.add(keys[i]);
+            joiner.bdd(keys[i]);
         }
         return joiner.toString();
     }
 
     /**
-     * Reset a message header (all key/values removed)
+     * Reset b messbge hebder (bll key/vblues removed)
      */
     public synchronized void reset() {
         keys = null;
-        values = null;
+        vblues = null;
         nkeys = 0;
         grow();
     }
 
     /**
-     * Find the value that corresponds to this key.
+     * Find the vblue thbt corresponds to this key.
      * It finds only the first occurrence of the key.
-     * @param k the key to find.
+     * @pbrbm k the key to find.
      * @return null if not found.
      */
-    public synchronized String findValue(String k) {
+    public synchronized String findVblue(String k) {
         if (k == null) {
             for (int i = nkeys; --i >= 0;)
                 if (keys[i] == null)
-                    return values[i];
+                    return vblues[i];
         } else
             for (int i = nkeys; --i >= 0;) {
-                if (k.equalsIgnoreCase(keys[i]))
-                    return values[i];
+                if (k.equblsIgnoreCbse(keys[i]))
+                    return vblues[i];
             }
         return null;
     }
 
-    // return the location of the key
+    // return the locbtion of the key
     public synchronized int getKey(String k) {
         for (int i = nkeys; --i >= 0;)
             if ((keys[i] == k) ||
-                (k != null && k.equalsIgnoreCase(keys[i])))
+                (k != null && k.equblsIgnoreCbse(keys[i])))
                 return i;
         return -1;
     }
@@ -108,67 +108,67 @@ class MessageHeader {
         return keys[n];
     }
 
-    public synchronized String getValue(int n) {
+    public synchronized String getVblue(int n) {
         if (n < 0 || n >= nkeys) return null;
-        return values[n];
+        return vblues[n];
     }
 
-    /** Deprecated: Use multiValueIterator() instead.
+    /** Deprecbted: Use multiVblueIterbtor() instebd.
      *
-     *  Find the next value that corresponds to this key.
-     *  It finds the first value that follows v. To iterate
-     *  over all the values of a key use:
+     *  Find the next vblue thbt corresponds to this key.
+     *  It finds the first vblue thbt follows v. To iterbte
+     *  over bll the vblues of b key use:
      *  <pre>
-     *          for(String v=h.findValue(k); v!=null; v=h.findNextValue(k, v)) {
+     *          for(String v=h.findVblue(k); v!=null; v=h.findNextVblue(k, v)) {
      *              ...
      *          }
      *  </pre>
      */
-    public synchronized String findNextValue(String k, String v) {
-        boolean foundV = false;
+    public synchronized String findNextVblue(String k, String v) {
+        boolebn foundV = fblse;
         if (k == null) {
             for (int i = nkeys; --i >= 0;)
                 if (keys[i] == null)
                     if (foundV)
-                        return values[i];
-                    else if (values[i] == v)
+                        return vblues[i];
+                    else if (vblues[i] == v)
                         foundV = true;
         } else
             for (int i = nkeys; --i >= 0;)
-                if (k.equalsIgnoreCase(keys[i]))
+                if (k.equblsIgnoreCbse(keys[i]))
                     if (foundV)
-                        return values[i];
-                    else if (values[i] == v)
+                        return vblues[i];
+                    else if (vblues[i] == v)
                         foundV = true;
         return null;
     }
 
     /**
-     * Removes bare Negotiate and Kerberos headers when an "NTLM ..."
-     * appears. All Performed on headers with key being k.
-     * @return true if there is a change
+     * Removes bbre Negotibte bnd Kerberos hebders when bn "NTLM ..."
+     * bppebrs. All Performed on hebders with key being k.
+     * @return true if there is b chbnge
      */
-    public boolean filterNTLMResponses(String k) {
-        boolean found = false;
+    public boolebn filterNTLMResponses(String k) {
+        boolebn found = fblse;
         for (int i=0; i<nkeys; i++) {
-            if (k.equalsIgnoreCase(keys[i])
-                    && values[i] != null && values[i].length() > 5
-                    && values[i].substring(0, 5).equalsIgnoreCase("NTLM ")) {
+            if (k.equblsIgnoreCbse(keys[i])
+                    && vblues[i] != null && vblues[i].length() > 5
+                    && vblues[i].substring(0, 5).equblsIgnoreCbse("NTLM ")) {
                 found = true;
-                break;
+                brebk;
             }
         }
         if (found) {
             int j = 0;
             for (int i=0; i<nkeys; i++) {
-                if (k.equalsIgnoreCase(keys[i]) && (
-                        "Negotiate".equalsIgnoreCase(values[i]) ||
-                        "Kerberos".equalsIgnoreCase(values[i]))) {
+                if (k.equblsIgnoreCbse(keys[i]) && (
+                        "Negotibte".equblsIgnoreCbse(vblues[i]) ||
+                        "Kerberos".equblsIgnoreCbse(vblues[i]))) {
                     continue;
                 }
                 if (i != j) {
                     keys[j] = keys[i];
-                    values[j] = values[i];
+                    vblues[j] = vblues[i];
                 }
                 j++;
             }
@@ -177,43 +177,43 @@ class MessageHeader {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    class HeaderIterator implements Iterator<String> {
+    clbss HebderIterbtor implements Iterbtor<String> {
         int index = 0;
         int next = -1;
         String key;
-        boolean haveNext = false;
+        boolebn hbveNext = fblse;
         Object lock;
 
-        public HeaderIterator (String k, Object lock) {
+        public HebderIterbtor (String k, Object lock) {
             key = k;
             this.lock = lock;
         }
-        public boolean hasNext () {
+        public boolebn hbsNext () {
             synchronized (lock) {
-                if (haveNext) {
+                if (hbveNext) {
                     return true;
                 }
                 while (index < nkeys) {
-                    if (key.equalsIgnoreCase (keys[index])) {
-                        haveNext = true;
+                    if (key.equblsIgnoreCbse (keys[index])) {
+                        hbveNext = true;
                         next = index++;
                         return true;
                     }
                     index ++;
                 }
-                return false;
+                return fblse;
             }
         }
         public String next() {
             synchronized (lock) {
-                if (haveNext) {
-                    haveNext = false;
-                    return values [next];
+                if (hbveNext) {
+                    hbveNext = fblse;
+                    return vblues [next];
                 }
-                if (hasNext()) {
+                if (hbsNext()) {
                     return next();
                 } else {
                     throw new NoSuchElementException ("No more elements");
@@ -221,111 +221,111 @@ class MessageHeader {
             }
         }
         public void remove () {
-            throw new UnsupportedOperationException ("remove not allowed");
+            throw new UnsupportedOperbtionException ("remove not bllowed");
         }
     }
 
     /**
-     * return an Iterator that returns all values of a particular
+     * return bn Iterbtor thbt returns bll vblues of b pbrticulbr
      * key in sequence
      */
-    public Iterator<String> multiValueIterator (String k) {
-        return new HeaderIterator (k, this);
+    public Iterbtor<String> multiVblueIterbtor (String k) {
+        return new HebderIterbtor (k, this);
     }
 
-    public synchronized Map<String, List<String>> getHeaders() {
-        return getHeaders(null);
+    public synchronized Mbp<String, List<String>> getHebders() {
+        return getHebders(null);
     }
 
-    public synchronized Map<String, List<String>> getHeaders(String[] excludeList) {
-        return filterAndAddHeaders(excludeList, null);
+    public synchronized Mbp<String, List<String>> getHebders(String[] excludeList) {
+        return filterAndAddHebders(excludeList, null);
     }
 
-    public synchronized Map<String, List<String>> filterAndAddHeaders(
-            String[] excludeList, Map<String, List<String>>  include) {
-        boolean skipIt = false;
-        Map<String, List<String>> m = new HashMap<String, List<String>>();
+    public synchronized Mbp<String, List<String>> filterAndAddHebders(
+            String[] excludeList, Mbp<String, List<String>>  include) {
+        boolebn skipIt = fblse;
+        Mbp<String, List<String>> m = new HbshMbp<String, List<String>>();
         for (int i = nkeys; --i >= 0;) {
             if (excludeList != null) {
                 // check if the key is in the excludeList.
-                // if so, don't include it in the Map.
+                // if so, don't include it in the Mbp.
                 for (int j = 0; j < excludeList.length; j++) {
                     if ((excludeList[j] != null) &&
-                        (excludeList[j].equalsIgnoreCase(keys[i]))) {
+                        (excludeList[j].equblsIgnoreCbse(keys[i]))) {
                         skipIt = true;
-                        break;
+                        brebk;
                     }
                 }
             }
             if (!skipIt) {
                 List<String> l = m.get(keys[i]);
                 if (l == null) {
-                    l = new ArrayList<String>();
+                    l = new ArrbyList<String>();
                     m.put(keys[i], l);
                 }
-                l.add(values[i]);
+                l.bdd(vblues[i]);
             } else {
-                // reset the flag
-                skipIt = false;
+                // reset the flbg
+                skipIt = fblse;
             }
         }
 
         if (include != null) {
-                for (Map.Entry<String,List<String>> entry: include.entrySet()) {
+                for (Mbp.Entry<String,List<String>> entry: include.entrySet()) {
                 List<String> l = m.get(entry.getKey());
                 if (l == null) {
-                    l = new ArrayList<String>();
+                    l = new ArrbyList<String>();
                     m.put(entry.getKey(), l);
                 }
-                l.addAll(entry.getValue());
+                l.bddAll(entry.getVblue());
             }
         }
 
         for (String key : m.keySet()) {
-            m.put(key, Collections.unmodifiableList(m.get(key)));
+            m.put(key, Collections.unmodifibbleList(m.get(key)));
         }
 
-        return Collections.unmodifiableMap(m);
+        return Collections.unmodifibbleMbp(m);
     }
 
-    /** Prints the key-value pairs represented by this
-        header.  Also prints the RFC required blank line
-        at the end. Omits pairs with a null key. */
-    public synchronized void print(PrintStream p) {
+    /** Prints the key-vblue pbirs represented by this
+        hebder.  Also prints the RFC required blbnk line
+        bt the end. Omits pbirs with b null key. */
+    public synchronized void print(PrintStrebm p) {
         for (int i = 0; i < nkeys; i++)
             if (keys[i] != null) {
                 p.print(keys[i] +
-                    (values[i] != null ? ": "+values[i]: "") + "\r\n");
+                    (vblues[i] != null ? ": "+vblues[i]: "") + "\r\n");
             }
         p.print("\r\n");
         p.flush();
     }
 
-    /** Adds a key value pair to the end of the
-        header.  Duplicates are allowed */
-    public synchronized void add(String k, String v) {
+    /** Adds b key vblue pbir to the end of the
+        hebder.  Duplicbtes bre bllowed */
+    public synchronized void bdd(String k, String v) {
         grow();
         keys[nkeys] = k;
-        values[nkeys] = v;
+        vblues[nkeys] = v;
         nkeys++;
     }
 
-    /** Prepends a key value pair to the beginning of the
-        header.  Duplicates are allowed */
+    /** Prepends b key vblue pbir to the beginning of the
+        hebder.  Duplicbtes bre bllowed */
     public synchronized void prepend(String k, String v) {
         grow();
         for (int i = nkeys; i > 0; i--) {
             keys[i] = keys[i-1];
-            values[i] = values[i-1];
+            vblues[i] = vblues[i-1];
         }
         keys[0] = k;
-        values[0] = v;
+        vblues[0] = v;
         nkeys++;
     }
 
-    /** Overwrite the previous key/val pair at location 'i'
+    /** Overwrite the previous key/vbl pbir bt locbtion 'i'
      * with the new k/v.  If the index didn't exist before
-     * the key/val is simply tacked onto the end.
+     * the key/vbl is simply tbcked onto the end.
      */
 
     public synchronized void set(int i, String k, String v) {
@@ -333,35 +333,35 @@ class MessageHeader {
         if (i < 0) {
             return;
         } else if (i >= nkeys) {
-            add(k, v);
+            bdd(k, v);
         } else {
             keys[i] = k;
-            values[i] = v;
+            vblues[i] = v;
         }
     }
 
 
-    /** grow the key/value arrays as needed */
+    /** grow the key/vblue brrbys bs needed */
 
-    private void grow() {
+    privbte void grow() {
         if (keys == null || nkeys >= keys.length) {
             String[] nk = new String[nkeys + 4];
             String[] nv = new String[nkeys + 4];
             if (keys != null)
-                System.arraycopy(keys, 0, nk, 0, nkeys);
-            if (values != null)
-                System.arraycopy(values, 0, nv, 0, nkeys);
+                System.brrbycopy(keys, 0, nk, 0, nkeys);
+            if (vblues != null)
+                System.brrbycopy(vblues, 0, nv, 0, nkeys);
             keys = nk;
-            values = nv;
+            vblues = nv;
         }
     }
 
     /**
-     * Remove the key from the header. If there are multiple values under
-     * the same key, they are all removed.
+     * Remove the key from the hebder. If there bre multiple vblues under
+     * the sbme key, they bre bll removed.
      * Nothing is done if the key doesn't exist.
-     * After a remove, the other pairs' order are not changed.
-     * @param k the key to remove
+     * After b remove, the other pbirs' order bre not chbnged.
+     * @pbrbm k the key to remove
      */
     public synchronized void remove(String k) {
         if(k == null) {
@@ -369,17 +369,17 @@ class MessageHeader {
                 while (keys[i] == null && i < nkeys) {
                     for(int j=i; j<nkeys-1; j++) {
                         keys[j] = keys[j+1];
-                        values[j] = values[j+1];
+                        vblues[j] = vblues[j+1];
                     }
                     nkeys--;
                 }
             }
         } else {
             for (int i = 0; i < nkeys; i++) {
-                while (k.equalsIgnoreCase(keys[i]) && i < nkeys) {
+                while (k.equblsIgnoreCbse(keys[i]) && i < nkeys) {
                     for(int j=i; j<nkeys-1; j++) {
                         keys[j] = keys[j+1];
-                        values[j] = values[j+1];
+                        vblues[j] = vblues[j+1];
                     }
                     nkeys--;
                 }
@@ -387,44 +387,44 @@ class MessageHeader {
         }
     }
 
-    /** Sets the value of a key.  If the key already
-        exists in the header, it's value will be
-        changed.  Otherwise a new key/value pair will
-        be added to the end of the header. */
+    /** Sets the vblue of b key.  If the key blrebdy
+        exists in the hebder, it's vblue will be
+        chbnged.  Otherwise b new key/vblue pbir will
+        be bdded to the end of the hebder. */
     public synchronized void set(String k, String v) {
         for (int i = nkeys; --i >= 0;)
-            if (k.equalsIgnoreCase(keys[i])) {
-                values[i] = v;
+            if (k.equblsIgnoreCbse(keys[i])) {
+                vblues[i] = v;
                 return;
             }
-        add(k, v);
+        bdd(k, v);
     }
 
-    /** Set's the value of a key only if there is no
-     *  key with that value already.
+    /** Set's the vblue of b key only if there is no
+     *  key with thbt vblue blrebdy.
      */
 
     public synchronized void setIfNotSet(String k, String v) {
-        if (findValue(k) == null) {
-            add(k, v);
+        if (findVblue(k) == null) {
+            bdd(k, v);
         }
     }
 
-    /** Convert a message-id string to canonical form (strips off
-        leading and trailing <>s) */
-    public static String canonicalID(String id) {
+    /** Convert b messbge-id string to cbnonicbl form (strips off
+        lebding bnd trbiling <>s) */
+    public stbtic String cbnonicblID(String id) {
         if (id == null)
             return "";
         int st = 0;
         int len = id.length();
-        boolean substr = false;
+        boolebn substr = fblse;
         int c;
-        while (st < len && ((c = id.charAt(st)) == '<' ||
+        while (st < len && ((c = id.chbrAt(st)) == '<' ||
                             c <= ' ')) {
             st++;
             substr = true;
         }
-        while (st < len && ((c = id.charAt(len - 1)) == '>' ||
+        while (st < len && ((c = id.chbrAt(len - 1)) == '>' ||
                             c <= ' ')) {
             len--;
             substr = true;
@@ -432,61 +432,61 @@ class MessageHeader {
         return substr ? id.substring(st, len) : id;
     }
 
-    /** Parse a MIME header from an input stream. */
-    public void parseHeader(InputStream is) throws java.io.IOException {
+    /** Pbrse b MIME hebder from bn input strebm. */
+    public void pbrseHebder(InputStrebm is) throws jbvb.io.IOException {
         synchronized (this) {
             nkeys = 0;
         }
-        mergeHeader(is);
+        mergeHebder(is);
     }
 
-    /** Parse and merge a MIME header from an input stream. */
-    @SuppressWarnings("fallthrough")
-    public void mergeHeader(InputStream is) throws java.io.IOException {
+    /** Pbrse bnd merge b MIME hebder from bn input strebm. */
+    @SuppressWbrnings("fbllthrough")
+    public void mergeHebder(InputStrebm is) throws jbvb.io.IOException {
         if (is == null)
             return;
-        char s[] = new char[10];
-        int firstc = is.read();
+        chbr s[] = new chbr[10];
+        int firstc = is.rebd();
         while (firstc != '\n' && firstc != '\r' && firstc >= 0) {
             int len = 0;
             int keyend = -1;
             int c;
-            boolean inKey = firstc > ' ';
-            s[len++] = (char) firstc;
-    parseloop:{
-                while ((c = is.read()) >= 0) {
+            boolebn inKey = firstc > ' ';
+            s[len++] = (chbr) firstc;
+    pbrseloop:{
+                while ((c = is.rebd()) >= 0) {
                     switch (c) {
-                      case ':':
+                      cbse ':':
                         if (inKey && len > 0)
                             keyend = len;
-                        inKey = false;
-                        break;
-                      case '\t':
+                        inKey = fblse;
+                        brebk;
+                      cbse '\t':
                         c = ' ';
-                      /*fall through*/
-                      case ' ':
-                        inKey = false;
-                        break;
-                      case '\r':
-                      case '\n':
-                        firstc = is.read();
+                      /*fbll through*/
+                      cbse ' ':
+                        inKey = fblse;
+                        brebk;
+                      cbse '\r':
+                      cbse '\n':
+                        firstc = is.rebd();
                         if (c == '\r' && firstc == '\n') {
-                            firstc = is.read();
+                            firstc = is.rebd();
                             if (firstc == '\r')
-                                firstc = is.read();
+                                firstc = is.rebd();
                         }
                         if (firstc == '\n' || firstc == '\r' || firstc > ' ')
-                            break parseloop;
-                        /* continuation */
+                            brebk pbrseloop;
+                        /* continubtion */
                         c = ' ';
-                        break;
+                        brebk;
                     }
                     if (len >= s.length) {
-                        char ns[] = new char[s.length * 2];
-                        System.arraycopy(s, 0, ns, 0, len);
+                        chbr ns[] = new chbr[s.length * 2];
+                        System.brrbycopy(s, 0, ns, 0, len);
                         s = ns;
                     }
-                    s[len++] = (char) c;
+                    s[len++] = (chbr) c;
                 }
                 firstc = -1;
             }
@@ -497,7 +497,7 @@ class MessageHeader {
                 k = null;
                 keyend = 0;
             } else {
-                k = String.copyValueOf(s, 0, keyend);
+                k = String.copyVblueOf(s, 0, keyend);
                 if (keyend < len && s[keyend] == ':')
                     keyend++;
                 while (keyend < len && s[keyend] <= ' ')
@@ -507,15 +507,15 @@ class MessageHeader {
             if (keyend >= len)
                 v = new String();
             else
-                v = String.copyValueOf(s, keyend, len - keyend);
-            add(k, v);
+                v = String.copyVblueOf(s, keyend, len - keyend);
+            bdd(k, v);
         }
     }
 
     public synchronized String toString() {
-        String result = super.toString() + nkeys + " pairs: ";
+        String result = super.toString() + nkeys + " pbirs: ";
         for (int i = 0; i < keys.length && i < nkeys; i++) {
-            result += "{"+keys[i]+": "+values[i]+"}";
+            result += "{"+keys[i]+": "+vblues[i]+"}";
         }
         return result;
     }

@@ -3,211 +3,211 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="st"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="st"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="af" draft="unconfirmed">Seburu</language>
-			<language type="am" draft="unconfirmed">Se-amhari</language>
-			<language type="ar" draft="unconfirmed">Se-arab</language>
-			<language type="az" draft="unconfirmed">Se-azerbaijani</language>
-			<language type="be" draft="unconfirmed">Se-belarusia</language>
-			<language type="bg" draft="unconfirmed">Se-bulgaria</language>
-			<language type="bh" draft="unconfirmed">Se-bihari</language>
-			<language type="bn" draft="unconfirmed">Se-bengali</language>
-			<language type="br" draft="unconfirmed">Breton</language>
-			<language type="bs" draft="unconfirmed">Se-bosnia</language>
-			<language type="ca" draft="unconfirmed">Se-catalia</language>
-			<language type="cs" draft="unconfirmed">Se-czech</language>
-			<language type="cy" draft="unconfirmed">Se-welsh</language>
-			<language type="da" draft="unconfirmed">Se-dutch</language>
-			<language type="de" draft="unconfirmed">Se-jeremane</language>
-			<language type="el" draft="unconfirmed">Se-greek</language>
-			<language type="en" draft="unconfirmed">Senyesemane</language>
-			<language type="eo" draft="unconfirmed">Se-esperanto</language>
-			<language type="es" draft="unconfirmed">Sespain</language>
-			<language type="et" draft="unconfirmed">Se-estonia</language>
-			<language type="eu" draft="unconfirmed">Se-basque</language>
-			<language type="fa" draft="unconfirmed">Se-persia</language>
-			<language type="fi" draft="unconfirmed">Se-finnish</language>
-			<language type="fil" draft="unconfirmed">Se-tagalog</language>
-			<language type="fo" draft="unconfirmed">Se-foroese</language>
-			<language type="fr" draft="unconfirmed">Se-french</language>
-			<language type="fy" draft="unconfirmed">Se-frisia</language>
-			<language type="ga" draft="unconfirmed">Se-irish</language>
-			<language type="gd" draft="unconfirmed">Se-scots gaelic</language>
-			<language type="gl" draft="unconfirmed">Se-galicia</language>
-			<language type="gn" draft="unconfirmed">Guarani</language>
-			<language type="gu" draft="unconfirmed">Se-gujarati</language>
-			<language type="he" draft="unconfirmed">Se-hebrew</language>
-			<language type="hi" draft="unconfirmed">Se-hindi</language>
-			<language type="hr" draft="unconfirmed">Se-croatia</language>
-			<language type="hu" draft="unconfirmed">Se-hungaria</language>
-			<language type="ia" draft="unconfirmed">Se-interlingua</language>
-			<language type="id" draft="unconfirmed">Se-indonesia</language>
-			<language type="is" draft="unconfirmed">Se-iceland</language>
-			<language type="it" draft="unconfirmed">Se-tariana</language>
-			<language type="ja" draft="unconfirmed">Se-japane</language>
-			<language type="jv" draft="unconfirmed">Se-javane</language>
-			<language type="ka" draft="unconfirmed">Se-geogia</language>
-			<language type="kn" draft="unconfirmed">Se-kannada</language>
-			<language type="ko" draft="unconfirmed">Se-korea</language>
-			<language type="ku" draft="unconfirmed">Kurdish</language>
-			<language type="ky" draft="unconfirmed">Kyrgyz</language>
-			<language type="la" draft="unconfirmed">Se-latino</language>
-			<language type="lt" draft="unconfirmed">Se-Lithuano</language>
-			<language type="mk" draft="unconfirmed">Se-masedonia</language>
-			<language type="ml" draft="unconfirmed">Se-malayalam</language>
-			<language type="mr" draft="unconfirmed">Se-marathi</language>
-			<language type="ms" draft="unconfirmed">Se-malay</language>
-			<language type="mt" draft="unconfirmed">Se-maltese</language>
-			<language type="ne" draft="unconfirmed">Se-nepali</language>
-			<language type="nl" draft="unconfirmed">Dutch</language>
-			<language type="nn" draft="unconfirmed">Se-norway (Nynorsk)</language>
-			<language type="no" draft="unconfirmed">Se-norway</language>
-			<language type="oc" draft="unconfirmed">Se-occitan</language>
-			<language type="or" draft="unconfirmed">Oriya</language>
-			<language type="pa" draft="unconfirmed">Se-punjabi</language>
-			<language type="pl" draft="unconfirmed">Se-polish</language>
-			<language type="ps" draft="unconfirmed">Pashto</language>
-			<language type="pt" draft="unconfirmed">Se-portugal</language>
-			<language type="pt_BR" draft="unconfirmed">Seputukesi (sa Brazil)</language>
-			<language type="pt_PT" draft="unconfirmed">Se-portugal (Portugal)</language>
-			<language type="ro" draft="unconfirmed">Se-romania</language>
-			<language type="ru" draft="unconfirmed">Se-rushia</language>
-			<language type="sh" draft="unconfirmed">Serbo-Croatian</language>
-			<language type="si" draft="unconfirmed">Se-sinhali</language>
-			<language type="sk" draft="unconfirmed">Se-slovak</language>
-			<language type="sl" draft="unconfirmed">Se-slovania</language>
-			<language type="sq" draft="unconfirmed">Se-albanian</language>
-			<language type="sr" draft="unconfirmed">Se-serbian</language>
-			<language type="st" draft="contributed">Sesotho</language>
-			<language type="su" draft="unconfirmed">Se-sundanese</language>
-			<language type="sv" draft="unconfirmed">Se-sweden</language>
-			<language type="sw" draft="unconfirmed">Se-swahili</language>
-			<language type="ta" draft="unconfirmed">Se-tamil</language>
-			<language type="te" draft="unconfirmed">Se-telegu</language>
-			<language type="th" draft="unconfirmed">Se-thai</language>
-			<language type="ti" draft="unconfirmed">Se-tigrinya</language>
-			<language type="tk" draft="unconfirmed">Turkmen</language>
-			<language type="tlh" draft="unconfirmed">Se-klingon</language>
-			<language type="tr" draft="unconfirmed">Se-theki</language>
-			<language type="tw" draft="unconfirmed">Twi</language>
-			<language type="uk" draft="unconfirmed">Se-ukrania</language>
-			<language type="ur" draft="unconfirmed">Se-urdu</language>
-			<language type="uz" draft="unconfirmed">Se-uzbek</language>
-			<language type="vi" draft="unconfirmed">Se-vietnam</language>
-			<language type="xh" draft="unconfirmed">se Xhosa</language>
-			<language type="yi" draft="unconfirmed">Yiddish</language>
-			<language type="zu" draft="unconfirmed">se Zulu</language>
-		</languages>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a b d e f g h i j k l m n o p q r s t u w y]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[c v x z]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
-	</characters>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bf" drbft="unconfirmed">Seburu</lbngubge>
+			<lbngubge type="bm" drbft="unconfirmed">Se-bmhbri</lbngubge>
+			<lbngubge type="br" drbft="unconfirmed">Se-brbb</lbngubge>
+			<lbngubge type="bz" drbft="unconfirmed">Se-bzerbbijbni</lbngubge>
+			<lbngubge type="be" drbft="unconfirmed">Se-belbrusib</lbngubge>
+			<lbngubge type="bg" drbft="unconfirmed">Se-bulgbrib</lbngubge>
+			<lbngubge type="bh" drbft="unconfirmed">Se-bihbri</lbngubge>
+			<lbngubge type="bn" drbft="unconfirmed">Se-bengbli</lbngubge>
+			<lbngubge type="br" drbft="unconfirmed">Breton</lbngubge>
+			<lbngubge type="bs" drbft="unconfirmed">Se-bosnib</lbngubge>
+			<lbngubge type="cb" drbft="unconfirmed">Se-cbtblib</lbngubge>
+			<lbngubge type="cs" drbft="unconfirmed">Se-czech</lbngubge>
+			<lbngubge type="cy" drbft="unconfirmed">Se-welsh</lbngubge>
+			<lbngubge type="db" drbft="unconfirmed">Se-dutch</lbngubge>
+			<lbngubge type="de" drbft="unconfirmed">Se-jerembne</lbngubge>
+			<lbngubge type="el" drbft="unconfirmed">Se-greek</lbngubge>
+			<lbngubge type="en" drbft="unconfirmed">Senyesembne</lbngubge>
+			<lbngubge type="eo" drbft="unconfirmed">Se-esperbnto</lbngubge>
+			<lbngubge type="es" drbft="unconfirmed">Sespbin</lbngubge>
+			<lbngubge type="et" drbft="unconfirmed">Se-estonib</lbngubge>
+			<lbngubge type="eu" drbft="unconfirmed">Se-bbsque</lbngubge>
+			<lbngubge type="fb" drbft="unconfirmed">Se-persib</lbngubge>
+			<lbngubge type="fi" drbft="unconfirmed">Se-finnish</lbngubge>
+			<lbngubge type="fil" drbft="unconfirmed">Se-tbgblog</lbngubge>
+			<lbngubge type="fo" drbft="unconfirmed">Se-foroese</lbngubge>
+			<lbngubge type="fr" drbft="unconfirmed">Se-french</lbngubge>
+			<lbngubge type="fy" drbft="unconfirmed">Se-frisib</lbngubge>
+			<lbngubge type="gb" drbft="unconfirmed">Se-irish</lbngubge>
+			<lbngubge type="gd" drbft="unconfirmed">Se-scots gbelic</lbngubge>
+			<lbngubge type="gl" drbft="unconfirmed">Se-gblicib</lbngubge>
+			<lbngubge type="gn" drbft="unconfirmed">Gubrbni</lbngubge>
+			<lbngubge type="gu" drbft="unconfirmed">Se-gujbrbti</lbngubge>
+			<lbngubge type="he" drbft="unconfirmed">Se-hebrew</lbngubge>
+			<lbngubge type="hi" drbft="unconfirmed">Se-hindi</lbngubge>
+			<lbngubge type="hr" drbft="unconfirmed">Se-crobtib</lbngubge>
+			<lbngubge type="hu" drbft="unconfirmed">Se-hungbrib</lbngubge>
+			<lbngubge type="ib" drbft="unconfirmed">Se-interlingub</lbngubge>
+			<lbngubge type="id" drbft="unconfirmed">Se-indonesib</lbngubge>
+			<lbngubge type="is" drbft="unconfirmed">Se-icelbnd</lbngubge>
+			<lbngubge type="it" drbft="unconfirmed">Se-tbribnb</lbngubge>
+			<lbngubge type="jb" drbft="unconfirmed">Se-jbpbne</lbngubge>
+			<lbngubge type="jv" drbft="unconfirmed">Se-jbvbne</lbngubge>
+			<lbngubge type="kb" drbft="unconfirmed">Se-geogib</lbngubge>
+			<lbngubge type="kn" drbft="unconfirmed">Se-kbnnbdb</lbngubge>
+			<lbngubge type="ko" drbft="unconfirmed">Se-koreb</lbngubge>
+			<lbngubge type="ku" drbft="unconfirmed">Kurdish</lbngubge>
+			<lbngubge type="ky" drbft="unconfirmed">Kyrgyz</lbngubge>
+			<lbngubge type="lb" drbft="unconfirmed">Se-lbtino</lbngubge>
+			<lbngubge type="lt" drbft="unconfirmed">Se-Lithubno</lbngubge>
+			<lbngubge type="mk" drbft="unconfirmed">Se-mbsedonib</lbngubge>
+			<lbngubge type="ml" drbft="unconfirmed">Se-mblbyblbm</lbngubge>
+			<lbngubge type="mr" drbft="unconfirmed">Se-mbrbthi</lbngubge>
+			<lbngubge type="ms" drbft="unconfirmed">Se-mblby</lbngubge>
+			<lbngubge type="mt" drbft="unconfirmed">Se-mbltese</lbngubge>
+			<lbngubge type="ne" drbft="unconfirmed">Se-nepbli</lbngubge>
+			<lbngubge type="nl" drbft="unconfirmed">Dutch</lbngubge>
+			<lbngubge type="nn" drbft="unconfirmed">Se-norwby (Nynorsk)</lbngubge>
+			<lbngubge type="no" drbft="unconfirmed">Se-norwby</lbngubge>
+			<lbngubge type="oc" drbft="unconfirmed">Se-occitbn</lbngubge>
+			<lbngubge type="or" drbft="unconfirmed">Oriyb</lbngubge>
+			<lbngubge type="pb" drbft="unconfirmed">Se-punjbbi</lbngubge>
+			<lbngubge type="pl" drbft="unconfirmed">Se-polish</lbngubge>
+			<lbngubge type="ps" drbft="unconfirmed">Pbshto</lbngubge>
+			<lbngubge type="pt" drbft="unconfirmed">Se-portugbl</lbngubge>
+			<lbngubge type="pt_BR" drbft="unconfirmed">Seputukesi (sb Brbzil)</lbngubge>
+			<lbngubge type="pt_PT" drbft="unconfirmed">Se-portugbl (Portugbl)</lbngubge>
+			<lbngubge type="ro" drbft="unconfirmed">Se-rombnib</lbngubge>
+			<lbngubge type="ru" drbft="unconfirmed">Se-rushib</lbngubge>
+			<lbngubge type="sh" drbft="unconfirmed">Serbo-Crobtibn</lbngubge>
+			<lbngubge type="si" drbft="unconfirmed">Se-sinhbli</lbngubge>
+			<lbngubge type="sk" drbft="unconfirmed">Se-slovbk</lbngubge>
+			<lbngubge type="sl" drbft="unconfirmed">Se-slovbnib</lbngubge>
+			<lbngubge type="sq" drbft="unconfirmed">Se-blbbnibn</lbngubge>
+			<lbngubge type="sr" drbft="unconfirmed">Se-serbibn</lbngubge>
+			<lbngubge type="st" drbft="contributed">Sesotho</lbngubge>
+			<lbngubge type="su" drbft="unconfirmed">Se-sundbnese</lbngubge>
+			<lbngubge type="sv" drbft="unconfirmed">Se-sweden</lbngubge>
+			<lbngubge type="sw" drbft="unconfirmed">Se-swbhili</lbngubge>
+			<lbngubge type="tb" drbft="unconfirmed">Se-tbmil</lbngubge>
+			<lbngubge type="te" drbft="unconfirmed">Se-telegu</lbngubge>
+			<lbngubge type="th" drbft="unconfirmed">Se-thbi</lbngubge>
+			<lbngubge type="ti" drbft="unconfirmed">Se-tigrinyb</lbngubge>
+			<lbngubge type="tk" drbft="unconfirmed">Turkmen</lbngubge>
+			<lbngubge type="tlh" drbft="unconfirmed">Se-klingon</lbngubge>
+			<lbngubge type="tr" drbft="unconfirmed">Se-theki</lbngubge>
+			<lbngubge type="tw" drbft="unconfirmed">Twi</lbngubge>
+			<lbngubge type="uk" drbft="unconfirmed">Se-ukrbnib</lbngubge>
+			<lbngubge type="ur" drbft="unconfirmed">Se-urdu</lbngubge>
+			<lbngubge type="uz" drbft="unconfirmed">Se-uzbek</lbngubge>
+			<lbngubge type="vi" drbft="unconfirmed">Se-vietnbm</lbngubge>
+			<lbngubge type="xh" drbft="unconfirmed">se Xhosb</lbngubge>
+			<lbngubge type="yi" drbft="unconfirmed">Yiddish</lbngubge>
+			<lbngubge type="zu" drbft="unconfirmed">se Zulu</lbngubge>
+		</lbngubges>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b b d e f g h i j k l m n o p q r s t u w y]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[c v x z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="currencySymbol">[b b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart draft="unconfirmed">‘</quotationStart>
-		<quotationEnd draft="unconfirmed">’</quotationEnd>
-		<alternateQuotationStart draft="unconfirmed">“</alternateQuotationStart>
-		<alternateQuotationEnd draft="unconfirmed">”</alternateQuotationEnd>
+		<quotbtionStbrt drbft="unconfirmed">‘</quotbtionStbrt>
+		<quotbtionEnd drbft="unconfirmed">’</quotbtionEnd>
+		<blternbteQuotbtionStbrt drbft="unconfirmed">“</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd drbft="unconfirmed">”</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="unconfirmed">Phe</month>
-							<month type="2" draft="unconfirmed">Kol</month>
-							<month type="3" draft="unconfirmed">Ube</month>
-							<month type="4" draft="unconfirmed">Mme</month>
-							<month type="5" draft="unconfirmed">Mot</month>
-							<month type="6" draft="unconfirmed">Jan</month>
-							<month type="7" draft="unconfirmed">Upu</month>
-							<month type="8" draft="unconfirmed">Pha</month>
-							<month type="9" draft="unconfirmed">Leo</month>
-							<month type="10" draft="unconfirmed">Mph</month>
-							<month type="11" draft="unconfirmed">Pun</month>
-							<month type="12" draft="unconfirmed">Tsh</month>
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
+							<month type="1" drbft="unconfirmed">Phe</month>
+							<month type="2" drbft="unconfirmed">Kol</month>
+							<month type="3" drbft="unconfirmed">Ube</month>
+							<month type="4" drbft="unconfirmed">Mme</month>
+							<month type="5" drbft="unconfirmed">Mot</month>
+							<month type="6" drbft="unconfirmed">Jbn</month>
+							<month type="7" drbft="unconfirmed">Upu</month>
+							<month type="8" drbft="unconfirmed">Phb</month>
+							<month type="9" drbft="unconfirmed">Leo</month>
+							<month type="10" drbft="unconfirmed">Mph</month>
+							<month type="11" drbft="unconfirmed">Pun</month>
+							<month type="12" drbft="unconfirmed">Tsh</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1" draft="unconfirmed">Phesekgong</month>
-							<month type="2" draft="unconfirmed">Hlakola</month>
-							<month type="3" draft="unconfirmed">Hlakubele</month>
-							<month type="4" draft="unconfirmed">Mmese</month>
-							<month type="5" draft="unconfirmed">Motsheanong</month>
-							<month type="6" draft="unconfirmed">Phupjane</month>
-							<month type="7" draft="unconfirmed">Phupu</month>
-							<month type="8" draft="unconfirmed">Phata</month>
-							<month type="9" draft="unconfirmed">Leotshe</month>
-							<month type="10" draft="unconfirmed">Mphalane</month>
-							<month type="11" draft="unconfirmed">Pundungwane</month>
-							<month type="12" draft="unconfirmed">Tshitwe</month>
+							<month type="1" drbft="unconfirmed">Phesekgong</month>
+							<month type="2" drbft="unconfirmed">Hlbkolb</month>
+							<month type="3" drbft="unconfirmed">Hlbkubele</month>
+							<month type="4" drbft="unconfirmed">Mmese</month>
+							<month type="5" drbft="unconfirmed">Motshebnong</month>
+							<month type="6" drbft="unconfirmed">Phupjbne</month>
+							<month type="7" drbft="unconfirmed">Phupu</month>
+							<month type="8" drbft="unconfirmed">Phbtb</month>
+							<month type="9" drbft="unconfirmed">Leotshe</month>
+							<month type="10" drbft="unconfirmed">Mphblbne</month>
+							<month type="11" drbft="unconfirmed">Pundungwbne</month>
+							<month type="12" drbft="unconfirmed">Tshitwe</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">Son</day>
-							<day type="mon" draft="unconfirmed">Mma</day>
-							<day type="tue" draft="unconfirmed">Bed</day>
-							<day type="wed" draft="unconfirmed">Rar</day>
-							<day type="thu" draft="unconfirmed">Ne</day>
-							<day type="fri" draft="unconfirmed">Hla</day>
-							<day type="sat" draft="unconfirmed">Moq</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">Sontaha</day>
-							<day type="mon" draft="unconfirmed">Mmantaha</day>
-							<day type="tue" draft="unconfirmed">Labobedi</day>
-							<day type="wed" draft="unconfirmed">Laboraru</day>
-							<day type="thu" draft="unconfirmed">Labone</day>
-							<day type="fri" draft="unconfirmed">Labohlane</day>
-							<day type="sat" draft="unconfirmed">Moqebelo</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-			</calendar>
-		</calendars>
-	</dates>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun" drbft="unconfirmed">Son</dby>
+							<dby type="mon" drbft="unconfirmed">Mmb</dby>
+							<dby type="tue" drbft="unconfirmed">Bed</dby>
+							<dby type="wed" drbft="unconfirmed">Rbr</dby>
+							<dby type="thu" drbft="unconfirmed">Ne</dby>
+							<dby type="fri" drbft="unconfirmed">Hlb</dby>
+							<dby type="sbt" drbft="unconfirmed">Moq</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun" drbft="unconfirmed">Sontbhb</dby>
+							<dby type="mon" drbft="unconfirmed">Mmbntbhb</dby>
+							<dby type="tue" drbft="unconfirmed">Lbbobedi</dby>
+							<dby type="wed" drbft="unconfirmed">Lbborbru</dby>
+							<dby type="thu" drbft="unconfirmed">Lbbone</dby>
+							<dby type="fri" drbft="unconfirmed">Lbbohlbne</dby>
+							<dby type="sbt" drbft="unconfirmed">Moqebelo</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>,</decimbl>
 			<group> </group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<scientificFormats numberSystem="latn">
-			<scientificFormatLength>
-				<scientificFormat>
-					<pattern>#E0</pattern>
-				</scientificFormat>
-			</scientificFormatLength>
-		</scientificFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength>
+				<decimblFormbt>
+					<pbttern>#,##0.###</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<scientificFormbts numberSystem="lbtn">
+			<scientificFormbtLength>
+				<scientificFormbt>
+					<pbttern>#E0</pbttern>
+				</scientificFormbt>
+			</scientificFormbtLength>
+		</scientificFormbts>
+		<percentFormbts numberSystem="lbtn">
+			<percentFormbtLength>
+				<percentFormbt>
+					<pbttern>#,##0%</pbttern>
+				</percentFormbt>
+			</percentFormbtLength>
+		</percentFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤#,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="ZAR">
 				<symbol>R</symbol>

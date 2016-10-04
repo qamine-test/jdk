@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.auth.module;
+pbckbge com.sun.security.buth.module;
 
 /**
- * <p> This class implementation retrieves and makes available Solaris
- * UID/GID/groups information for the current user.
+ * <p> This clbss implementbtion retrieves bnd mbkes bvbilbble Solbris
+ * UID/GID/groups informbtion for the current user.
  *
- * @deprecated replaced by {@link UnixSystem}.
+ * @deprecbted replbced by {@link UnixSystem}.
  */
-@jdk.Exported(false)
-@Deprecated
-public class SolarisSystem {
+@jdk.Exported(fblse)
+@Deprecbted
+public clbss SolbrisSystem {
 
-    private native void getSolarisInfo();
+    privbte nbtive void getSolbrisInfo();
 
-    protected String username;
+    protected String usernbme;
     protected long uid;
     protected long gid;
     protected long[] groups;
 
     /**
-     * Instantiate a <code>SolarisSystem</code> and load
-     * the native library to access the underlying system information.
+     * Instbntibte b <code>SolbrisSystem</code> bnd lobd
+     * the nbtive librbry to bccess the underlying system informbtion.
      */
-    public SolarisSystem() {
-        System.loadLibrary("jaas_unix");
-        getSolarisInfo();
+    public SolbrisSystem() {
+        System.lobdLibrbry("jbbs_unix");
+        getSolbrisInfo();
     }
 
     /**
-     * Get the username for the current Solaris user.
+     * Get the usernbme for the current Solbris user.
      *
      * <p>
      *
-     * @return the username for the current Solaris user.
+     * @return the usernbme for the current Solbris user.
      */
-    public String getUsername() {
-        return username;
+    public String getUsernbme() {
+        return usernbme;
     }
 
     /**
-     * Get the UID for the current Solaris user.
+     * Get the UID for the current Solbris user.
      *
      * <p>
      *
-     * @return the UID for the current Solaris user.
+     * @return the UID for the current Solbris user.
      */
     public long getUid() {
         return uid;
     }
 
     /**
-     * Get the GID for the current Solaris user.
+     * Get the GID for the current Solbris user.
      *
      * <p>
      *
-     * @return the GID for the current Solaris user.
+     * @return the GID for the current Solbris user.
      */
     public long getGid() {
         return gid;
     }
 
     /**
-     * Get the supplementary groups for the current Solaris user.
+     * Get the supplementbry groups for the current Solbris user.
      *
      * <p>
      *
-     * @return the supplementary groups for the current Solaris user.
+     * @return the supplementbry groups for the current Solbris user.
      */
     public long[] getGroups() {
         return groups == null ? null : groups.clone();

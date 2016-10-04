@@ -1,21 +1,21 @@
 @echo off
 REM
-REM Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+REM Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
 REM
-REM Redistribution and use in source and binary forms, with or without
-REM modification, are permitted provided that the following conditions
-REM are met:
+REM Redistribution bnd use in source bnd binbry forms, with or without
+REM modificbtion, bre permitted provided thbt the following conditions
+REM bre met:
 REM
-REM   - Redistributions of source code must retain the above copyright
-REM     notice, this list of conditions and the following disclaimer.
+REM   - Redistributions of source code must retbin the bbove copyright
+REM     notice, this list of conditions bnd the following disclbimer.
 REM
-REM   - Redistributions in binary form must reproduce the above copyright
-REM     notice, this list of conditions and the following disclaimer in the
-REM     documentation and/or other materials provided with the distribution.
+REM   - Redistributions in binbry form must reproduce the bbove copyright
+REM     notice, this list of conditions bnd the following disclbimer in the
+REM     documentbtion bnd/or other mbteribls provided with the distribution.
 REM
-REM   - Neither the name of Oracle nor the names of its
-REM     contributors may be used to endorse or promote products derived
-REM     from this software without specific prior written permission.
+REM   - Neither the nbme of Orbcle nor the nbmes of its
+REM     contributors mby be used to endorse or promote products derived
+REM     from this softwbre without specific prior written permission.
 REM
 REM THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 REM IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,5 +31,5 @@ REM SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 REM
 
 
-jrunscript -J-Dcom.sun.management.jmxremote.port=1090 -J-Dcom.sun.management.jmxremote.ssl=false -J-Dcom.sun.management.jmxremote.authenticate=false memory.js
+jrunscript -J-Dcom.sun.mbnbgement.jmxremote.port=1090 -J-Dcom.sun.mbnbgement.jmxremote.ssl=fblse -J-Dcom.sun.mbnbgement.jmxremote.buthenticbte=fblse memory.js
 

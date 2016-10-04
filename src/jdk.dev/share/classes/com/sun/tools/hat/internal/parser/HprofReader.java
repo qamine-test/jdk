@@ -1,891 +1,891 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.parser;
+pbckbge com.sun.tools.hbt.internbl.pbrser;
 
-import java.io.*;
-import java.util.Date;
-import java.util.Hashtable;
-import com.sun.tools.hat.internal.model.ArrayTypeCodes;
-import com.sun.tools.hat.internal.model.*;
+import jbvb.io.*;
+import jbvb.util.Dbte;
+import jbvb.util.Hbshtbble;
+import com.sun.tools.hbt.internbl.model.ArrbyTypeCodes;
+import com.sun.tools.hbt.internbl.model.*;
 
 /**
- * Object that's used to read a hprof file.
+ * Object thbt's used to rebd b hprof file.
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
-public class HprofReader extends Reader /* imports */ implements ArrayTypeCodes {
+public clbss HprofRebder extends Rebder /* imports */ implements ArrbyTypeCodes {
 
-    final static int MAGIC_NUMBER = 0x4a415641;
-    // That's "JAVA", the first part of "JAVA PROFILE ..."
-    private final static String[] VERSIONS = {
+    finbl stbtic int MAGIC_NUMBER = 0x4b415641;
+    // Thbt's "JAVA", the first pbrt of "JAVA PROFILE ..."
+    privbte finbl stbtic String[] VERSIONS = {
             " PROFILE 1.0\0",
             " PROFILE 1.0.1\0",
             " PROFILE 1.0.2\0",
     };
 
-    private final static int VERSION_JDK12BETA3 = 0;
-    private final static int VERSION_JDK12BETA4 = 1;
-    private final static int VERSION_JDK6       = 2;
-    // These version numbers are indices into VERSIONS.  The instance data
-    // member version is set to one of these, and it drives decisions when
-    // reading the file.
+    privbte finbl stbtic int VERSION_JDK12BETA3 = 0;
+    privbte finbl stbtic int VERSION_JDK12BETA4 = 1;
+    privbte finbl stbtic int VERSION_JDK6       = 2;
+    // These version numbers bre indices into VERSIONS.  The instbnce dbtb
+    // member version is set to one of these, bnd it drives decisions when
+    // rebding the file.
     //
-    // Version 1.0.1 added HPROF_GC_PRIM_ARRAY_DUMP, which requires no
-    // version-sensitive parsing.
+    // Version 1.0.1 bdded HPROF_GC_PRIM_ARRAY_DUMP, which requires no
+    // version-sensitive pbrsing.
     //
-    // Version 1.0.1 changed the type of a constant pool entry from a signature
-    // to a typecode.
+    // Version 1.0.1 chbnged the type of b constbnt pool entry from b signbture
+    // to b typecode.
     //
-    // Version 1.0.2 added HPROF_HEAP_DUMP_SEGMENT and HPROF_HEAP_DUMP_END
-    // to allow a large heap to be dumped as a sequence of heap dump segments.
+    // Version 1.0.2 bdded HPROF_HEAP_DUMP_SEGMENT bnd HPROF_HEAP_DUMP_END
+    // to bllow b lbrge hebp to be dumped bs b sequence of hebp dump segments.
     //
-    // The HPROF agent in J2SE 1.2 through to 5.0 generate a version 1.0.1
-    // file. In Java SE 6.0 the version is either 1.0.1 or 1.0.2 depending on
-    // the size of the heap (normally it will be 1.0.1 but for multi-GB
-    // heaps the heap dump will not fit in a HPROF_HEAP_DUMP record so the
-    // dump is generated as version 1.0.2).
+    // The HPROF bgent in J2SE 1.2 through to 5.0 generbte b version 1.0.1
+    // file. In Jbvb SE 6.0 the version is either 1.0.1 or 1.0.2 depending on
+    // the size of the hebp (normblly it will be 1.0.1 but for multi-GB
+    // hebps the hebp dump will not fit in b HPROF_HEAP_DUMP record so the
+    // dump is generbted bs version 1.0.2).
 
     //
     // Record types:
     //
-    static final int HPROF_UTF8          = 0x01;
-    static final int HPROF_LOAD_CLASS    = 0x02;
-    static final int HPROF_UNLOAD_CLASS  = 0x03;
-    static final int HPROF_FRAME         = 0x04;
-    static final int HPROF_TRACE         = 0x05;
-    static final int HPROF_ALLOC_SITES   = 0x06;
-    static final int HPROF_HEAP_SUMMARY  = 0x07;
+    stbtic finbl int HPROF_UTF8          = 0x01;
+    stbtic finbl int HPROF_LOAD_CLASS    = 0x02;
+    stbtic finbl int HPROF_UNLOAD_CLASS  = 0x03;
+    stbtic finbl int HPROF_FRAME         = 0x04;
+    stbtic finbl int HPROF_TRACE         = 0x05;
+    stbtic finbl int HPROF_ALLOC_SITES   = 0x06;
+    stbtic finbl int HPROF_HEAP_SUMMARY  = 0x07;
 
-    static final int HPROF_START_THREAD  = 0x0a;
-    static final int HPROF_END_THREAD    = 0x0b;
+    stbtic finbl int HPROF_START_THREAD  = 0x0b;
+    stbtic finbl int HPROF_END_THREAD    = 0x0b;
 
-    static final int HPROF_HEAP_DUMP     = 0x0c;
+    stbtic finbl int HPROF_HEAP_DUMP     = 0x0c;
 
-    static final int HPROF_CPU_SAMPLES   = 0x0d;
-    static final int HPROF_CONTROL_SETTINGS = 0x0e;
-    static final int HPROF_LOCKSTATS_WAIT_TIME = 0x10;
-    static final int HPROF_LOCKSTATS_HOLD_TIME = 0x11;
+    stbtic finbl int HPROF_CPU_SAMPLES   = 0x0d;
+    stbtic finbl int HPROF_CONTROL_SETTINGS = 0x0e;
+    stbtic finbl int HPROF_LOCKSTATS_WAIT_TIME = 0x10;
+    stbtic finbl int HPROF_LOCKSTATS_HOLD_TIME = 0x11;
 
-    static final int HPROF_GC_ROOT_UNKNOWN       = 0xff;
-    static final int HPROF_GC_ROOT_JNI_GLOBAL    = 0x01;
-    static final int HPROF_GC_ROOT_JNI_LOCAL     = 0x02;
-    static final int HPROF_GC_ROOT_JAVA_FRAME    = 0x03;
-    static final int HPROF_GC_ROOT_NATIVE_STACK  = 0x04;
-    static final int HPROF_GC_ROOT_STICKY_CLASS  = 0x05;
-    static final int HPROF_GC_ROOT_THREAD_BLOCK  = 0x06;
-    static final int HPROF_GC_ROOT_MONITOR_USED  = 0x07;
-    static final int HPROF_GC_ROOT_THREAD_OBJ    = 0x08;
+    stbtic finbl int HPROF_GC_ROOT_UNKNOWN       = 0xff;
+    stbtic finbl int HPROF_GC_ROOT_JNI_GLOBAL    = 0x01;
+    stbtic finbl int HPROF_GC_ROOT_JNI_LOCAL     = 0x02;
+    stbtic finbl int HPROF_GC_ROOT_JAVA_FRAME    = 0x03;
+    stbtic finbl int HPROF_GC_ROOT_NATIVE_STACK  = 0x04;
+    stbtic finbl int HPROF_GC_ROOT_STICKY_CLASS  = 0x05;
+    stbtic finbl int HPROF_GC_ROOT_THREAD_BLOCK  = 0x06;
+    stbtic finbl int HPROF_GC_ROOT_MONITOR_USED  = 0x07;
+    stbtic finbl int HPROF_GC_ROOT_THREAD_OBJ    = 0x08;
 
-    static final int HPROF_GC_CLASS_DUMP         = 0x20;
-    static final int HPROF_GC_INSTANCE_DUMP      = 0x21;
-    static final int HPROF_GC_OBJ_ARRAY_DUMP         = 0x22;
-    static final int HPROF_GC_PRIM_ARRAY_DUMP         = 0x23;
+    stbtic finbl int HPROF_GC_CLASS_DUMP         = 0x20;
+    stbtic finbl int HPROF_GC_INSTANCE_DUMP      = 0x21;
+    stbtic finbl int HPROF_GC_OBJ_ARRAY_DUMP         = 0x22;
+    stbtic finbl int HPROF_GC_PRIM_ARRAY_DUMP         = 0x23;
 
-    static final int HPROF_HEAP_DUMP_SEGMENT     = 0x1c;
-    static final int HPROF_HEAP_DUMP_END         = 0x2c;
+    stbtic finbl int HPROF_HEAP_DUMP_SEGMENT     = 0x1c;
+    stbtic finbl int HPROF_HEAP_DUMP_END         = 0x2c;
 
-    private final static int T_CLASS = 2;
+    privbte finbl stbtic int T_CLASS = 2;
 
-    private int version;        // The version of .hprof being read
+    privbte int version;        // The version of .hprof being rebd
 
-    private int debugLevel;
-    private long currPos;        // Current position in the file
+    privbte int debugLevel;
+    privbte long currPos;        // Current position in the file
 
-    private int dumpsToSkip;
-    private boolean callStack;  // If true, read the call stack of objects
+    privbte int dumpsToSkip;
+    privbte boolebn cbllStbck;  // If true, rebd the cbll stbck of objects
 
-    private int identifierSize;         // Size, in bytes, of identifiers.
-    private Hashtable<Long, String> names;
+    privbte int identifierSize;         // Size, in bytes, of identifiers.
+    privbte Hbshtbble<Long, String> nbmes;
 
-    // Hashtable<Integer, ThreadObject>, used to map the thread sequence number
-    // (aka "serial number") to the thread object ID for
-    // HPROF_GC_ROOT_THREAD_OBJ.  ThreadObject is a trivial inner class,
-    // at the end of this file.
-    private Hashtable<Integer, ThreadObject> threadObjects;
+    // Hbshtbble<Integer, ThrebdObject>, used to mbp the threbd sequence number
+    // (bkb "seribl number") to the threbd object ID for
+    // HPROF_GC_ROOT_THREAD_OBJ.  ThrebdObject is b trivibl inner clbss,
+    // bt the end of this file.
+    privbte Hbshtbble<Integer, ThrebdObject> threbdObjects;
 
-    // Hashtable<Long, String>, maps class object ID to class name
+    // Hbshtbble<Long, String>, mbps clbss object ID to clbss nbme
     // (with / converted to .)
-    private Hashtable<Long, String> classNameFromObjectID;
+    privbte Hbshtbble<Long, String> clbssNbmeFromObjectID;
 
-    // Hashtable<Integer, Integer>, maps class serial # to class object ID
-    private Hashtable<Integer, String> classNameFromSerialNo;
+    // Hbshtbble<Integer, Integer>, mbps clbss seribl # to clbss object ID
+    privbte Hbshtbble<Integer, String> clbssNbmeFromSeriblNo;
 
-    // Hashtable<Long, StackFrame> maps stack frame ID to StackFrame.
-    // Null if we're not tracking them.
-    private Hashtable<Long, StackFrame> stackFrames;
+    // Hbshtbble<Long, StbckFrbme> mbps stbck frbme ID to StbckFrbme.
+    // Null if we're not trbcking them.
+    privbte Hbshtbble<Long, StbckFrbme> stbckFrbmes;
 
-    // Hashtable<Integer, StackTrace> maps stack frame ID to StackTrace
-    // Null if we're not tracking them.
-    private Hashtable<Integer, StackTrace> stackTraces;
+    // Hbshtbble<Integer, StbckTrbce> mbps stbck frbme ID to StbckTrbce
+    // Null if we're not trbcking them.
+    privbte Hbshtbble<Integer, StbckTrbce> stbckTrbces;
 
-    private Snapshot snapshot;
+    privbte Snbpshot snbpshot;
 
-    public HprofReader(String fileName, PositionDataInputStream in,
-                       int dumpNumber, boolean callStack, int debugLevel)
+    public HprofRebder(String fileNbme, PositionDbtbInputStrebm in,
+                       int dumpNumber, boolebn cbllStbck, int debugLevel)
                        throws IOException {
         super(in);
-        RandomAccessFile file = new RandomAccessFile(fileName, "r");
-        this.snapshot = new Snapshot(MappedReadBuffer.create(file));
+        RbndomAccessFile file = new RbndomAccessFile(fileNbme, "r");
+        this.snbpshot = new Snbpshot(MbppedRebdBuffer.crebte(file));
         this.dumpsToSkip = dumpNumber - 1;
-        this.callStack = callStack;
+        this.cbllStbck = cbllStbck;
         this.debugLevel = debugLevel;
-        names = new Hashtable<Long, String>();
-        threadObjects = new Hashtable<Integer, ThreadObject>(43);
-        classNameFromObjectID = new Hashtable<Long, String>();
-        if (callStack) {
-            stackFrames = new Hashtable<Long, StackFrame>(43);
-            stackTraces = new Hashtable<Integer, StackTrace>(43);
-            classNameFromSerialNo = new Hashtable<Integer, String>();
+        nbmes = new Hbshtbble<Long, String>();
+        threbdObjects = new Hbshtbble<Integer, ThrebdObject>(43);
+        clbssNbmeFromObjectID = new Hbshtbble<Long, String>();
+        if (cbllStbck) {
+            stbckFrbmes = new Hbshtbble<Long, StbckFrbme>(43);
+            stbckTrbces = new Hbshtbble<Integer, StbckTrbce>(43);
+            clbssNbmeFromSeriblNo = new Hbshtbble<Integer, String>();
         }
     }
 
-    public Snapshot read() throws IOException {
-        currPos = 4;    // 4 because of the magic number
-        version = readVersionHeader();
-        identifierSize = in.readInt();
-        snapshot.setIdentifierSize(identifierSize);
+    public Snbpshot rebd() throws IOException {
+        currPos = 4;    // 4 becbuse of the mbgic number
+        version = rebdVersionHebder();
+        identifierSize = in.rebdInt();
+        snbpshot.setIdentifierSize(identifierSize);
         if (version >= VERSION_JDK12BETA4) {
-            snapshot.setNewStyleArrayClass(true);
+            snbpshot.setNewStyleArrbyClbss(true);
         } else {
-            snapshot.setNewStyleArrayClass(false);
+            snbpshot.setNewStyleArrbyClbss(fblse);
         }
 
         currPos += 4;
         if (identifierSize != 4 && identifierSize != 8) {
-            throw new IOException("I'm sorry, but I can't deal with an identifier size of " + identifierSize + ".  I can only deal with 4 or 8.");
+            throw new IOException("I'm sorry, but I cbn't debl with bn identifier size of " + identifierSize + ".  I cbn only debl with 4 or 8.");
         }
-        System.out.println("Dump file created " + (new Date(in.readLong())));
+        System.out.println("Dump file crebted " + (new Dbte(in.rebdLong())));
         currPos += 8;
 
         for (;;) {
             int type;
             try {
-                type = in.readUnsignedByte();
-            } catch (EOFException ignored) {
-                break;
+                type = in.rebdUnsignedByte();
+            } cbtch (EOFException ignored) {
+                brebk;
             }
-            in.readInt();       // Timestamp of this record
-            // Length of record: readInt() will return negative value for record
-            // length >2GB.  so store 32bit value in long to keep it unsigned.
-            long length = in.readInt() & 0xffffffffL;
+            in.rebdInt();       // Timestbmp of this record
+            // Length of record: rebdInt() will return negbtive vblue for record
+            // length >2GB.  so store 32bit vblue in long to keep it unsigned.
+            long length = in.rebdInt() & 0xffffffffL;
             if (debugLevel > 0) {
-                System.out.println("Read record type " + type
+                System.out.println("Rebd record type " + type
                                    + ", length " + length
-                                   + " at position " + toHex(currPos));
+                                   + " bt position " + toHex(currPos));
             }
             if (length < 0) {
-                throw new IOException("Bad record length of " + length
-                                      + " at byte " + toHex(currPos+5)
+                throw new IOException("Bbd record length of " + length
+                                      + " bt byte " + toHex(currPos+5)
                                       + " of file.");
             }
             currPos += 9 + length;
             switch (type) {
-                case HPROF_UTF8: {
-                    long id = readID();
-                    byte[] chars = new byte[(int)length - identifierSize];
-                    in.readFully(chars);
-                    names.put(id, new String(chars));
-                    break;
+                cbse HPROF_UTF8: {
+                    long id = rebdID();
+                    byte[] chbrs = new byte[(int)length - identifierSize];
+                    in.rebdFully(chbrs);
+                    nbmes.put(id, new String(chbrs));
+                    brebk;
                 }
-                case HPROF_LOAD_CLASS: {
-                    int serialNo = in.readInt();        // Not used
-                    long classID = readID();
-                    int stackTraceSerialNo = in.readInt();
-                    long classNameID = readID();
-                    Long classIdI = classID;
-                    String nm = getNameFromID(classNameID).replace('/', '.');
-                    classNameFromObjectID.put(classIdI, nm);
-                    if (classNameFromSerialNo != null) {
-                        classNameFromSerialNo.put(serialNo, nm);
+                cbse HPROF_LOAD_CLASS: {
+                    int seriblNo = in.rebdInt();        // Not used
+                    long clbssID = rebdID();
+                    int stbckTrbceSeriblNo = in.rebdInt();
+                    long clbssNbmeID = rebdID();
+                    Long clbssIdI = clbssID;
+                    String nm = getNbmeFromID(clbssNbmeID).replbce('/', '.');
+                    clbssNbmeFromObjectID.put(clbssIdI, nm);
+                    if (clbssNbmeFromSeriblNo != null) {
+                        clbssNbmeFromSeriblNo.put(seriblNo, nm);
                     }
-                    break;
+                    brebk;
                 }
 
-                case HPROF_HEAP_DUMP: {
+                cbse HPROF_HEAP_DUMP: {
                     if (dumpsToSkip <= 0) {
                         try {
-                            readHeapDump(length, currPos);
-                        } catch (EOFException exp) {
-                            handleEOF(exp, snapshot);
+                            rebdHebpDump(length, currPos);
+                        } cbtch (EOFException exp) {
+                            hbndleEOF(exp, snbpshot);
                         }
                         if (debugLevel > 0) {
-                            System.out.println("    Finished processing instances in heap dump.");
+                            System.out.println("    Finished processing instbnces in hebp dump.");
                         }
-                        return snapshot;
+                        return snbpshot;
                     } else {
                         dumpsToSkip--;
                         skipBytes(length);
                     }
-                    break;
+                    brebk;
                 }
 
-                case HPROF_HEAP_DUMP_END: {
+                cbse HPROF_HEAP_DUMP_END: {
                     if (version >= VERSION_JDK6) {
                         if (dumpsToSkip <= 0) {
                             skipBytes(length);  // should be no-op
-                            return snapshot;
+                            return snbpshot;
                         } else {
-                            // skip this dump (of the end record for a sequence of dump segments)
+                            // skip this dump (of the end record for b sequence of dump segments)
                             dumpsToSkip--;
                         }
                     } else {
                         // HPROF_HEAP_DUMP_END only recognized in >= 1.0.2
-                        warn("Ignoring unrecognized record type " + type);
+                        wbrn("Ignoring unrecognized record type " + type);
                     }
                     skipBytes(length);  // should be no-op
-                    break;
+                    brebk;
                 }
 
-                case HPROF_HEAP_DUMP_SEGMENT: {
+                cbse HPROF_HEAP_DUMP_SEGMENT: {
                     if (version >= VERSION_JDK6) {
                         if (dumpsToSkip <= 0) {
                             try {
-                                // read the dump segment
-                                readHeapDump(length, currPos);
-                            } catch (EOFException exp) {
-                                handleEOF(exp, snapshot);
+                                // rebd the dump segment
+                                rebdHebpDump(length, currPos);
+                            } cbtch (EOFException exp) {
+                                hbndleEOF(exp, snbpshot);
                             }
                         } else {
-                            // all segments comprising the heap dump will be skipped
+                            // bll segments comprising the hebp dump will be skipped
                             skipBytes(length);
                         }
                     } else {
                         // HPROF_HEAP_DUMP_SEGMENT only recognized in >= 1.0.2
-                        warn("Ignoring unrecognized record type " + type);
+                        wbrn("Ignoring unrecognized record type " + type);
                         skipBytes(length);
                     }
-                    break;
+                    brebk;
                 }
 
-                case HPROF_FRAME: {
-                    if (stackFrames == null) {
+                cbse HPROF_FRAME: {
+                    if (stbckFrbmes == null) {
                         skipBytes(length);
                     } else {
-                        long id = readID();
-                        String methodName = getNameFromID(readID());
-                        String methodSig = getNameFromID(readID());
-                        String sourceFile = getNameFromID(readID());
-                        int classSer = in.readInt();
-                        String className = classNameFromSerialNo.get(classSer);
-                        int lineNumber = in.readInt();
-                        if (lineNumber < StackFrame.LINE_NUMBER_NATIVE) {
-                            warn("Weird stack frame line number:  " + lineNumber);
-                            lineNumber = StackFrame.LINE_NUMBER_UNKNOWN;
+                        long id = rebdID();
+                        String methodNbme = getNbmeFromID(rebdID());
+                        String methodSig = getNbmeFromID(rebdID());
+                        String sourceFile = getNbmeFromID(rebdID());
+                        int clbssSer = in.rebdInt();
+                        String clbssNbme = clbssNbmeFromSeriblNo.get(clbssSer);
+                        int lineNumber = in.rebdInt();
+                        if (lineNumber < StbckFrbme.LINE_NUMBER_NATIVE) {
+                            wbrn("Weird stbck frbme line number:  " + lineNumber);
+                            lineNumber = StbckFrbme.LINE_NUMBER_UNKNOWN;
                         }
-                        stackFrames.put(id,
-                                        new StackFrame(methodName, methodSig,
-                                                       className, sourceFile,
+                        stbckFrbmes.put(id,
+                                        new StbckFrbme(methodNbme, methodSig,
+                                                       clbssNbme, sourceFile,
                                                        lineNumber));
                     }
-                    break;
+                    brebk;
                 }
-                case HPROF_TRACE: {
-                    if (stackTraces == null) {
+                cbse HPROF_TRACE: {
+                    if (stbckTrbces == null) {
                         skipBytes(length);
                     } else {
-                        int serialNo = in.readInt();
-                        int threadSeq = in.readInt();   // Not used
-                        StackFrame[] frames = new StackFrame[in.readInt()];
-                        for (int i = 0; i < frames.length; i++) {
-                            long fid = readID();
-                            frames[i] = stackFrames.get(fid);
-                            if (frames[i] == null) {
-                                throw new IOException("Stack frame " + toHex(fid) + " not found");
+                        int seriblNo = in.rebdInt();
+                        int threbdSeq = in.rebdInt();   // Not used
+                        StbckFrbme[] frbmes = new StbckFrbme[in.rebdInt()];
+                        for (int i = 0; i < frbmes.length; i++) {
+                            long fid = rebdID();
+                            frbmes[i] = stbckFrbmes.get(fid);
+                            if (frbmes[i] == null) {
+                                throw new IOException("Stbck frbme " + toHex(fid) + " not found");
                             }
                         }
-                        stackTraces.put(serialNo,
-                                        new StackTrace(frames));
+                        stbckTrbces.put(seriblNo,
+                                        new StbckTrbce(frbmes));
                     }
-                    break;
+                    brebk;
                 }
-                case HPROF_UNLOAD_CLASS:
-                case HPROF_ALLOC_SITES:
-                case HPROF_START_THREAD:
-                case HPROF_END_THREAD:
-                case HPROF_HEAP_SUMMARY:
-                case HPROF_CPU_SAMPLES:
-                case HPROF_CONTROL_SETTINGS:
-                case HPROF_LOCKSTATS_WAIT_TIME:
-                case HPROF_LOCKSTATS_HOLD_TIME:
+                cbse HPROF_UNLOAD_CLASS:
+                cbse HPROF_ALLOC_SITES:
+                cbse HPROF_START_THREAD:
+                cbse HPROF_END_THREAD:
+                cbse HPROF_HEAP_SUMMARY:
+                cbse HPROF_CPU_SAMPLES:
+                cbse HPROF_CONTROL_SETTINGS:
+                cbse HPROF_LOCKSTATS_WAIT_TIME:
+                cbse HPROF_LOCKSTATS_HOLD_TIME:
                 {
                     // Ignore these record types
                     skipBytes(length);
-                    break;
+                    brebk;
                 }
-                default: {
+                defbult: {
                     skipBytes(length);
-                    warn("Ignoring unrecognized record type " + type);
+                    wbrn("Ignoring unrecognized record type " + type);
                 }
             }
         }
 
-        return snapshot;
+        return snbpshot;
     }
 
-    private void skipBytes(long length) throws IOException {
+    privbte void skipBytes(long length) throws IOException {
         in.skipBytes((int)length);
     }
 
-    private int readVersionHeader() throws IOException {
-        int candidatesLeft = VERSIONS.length;
-        boolean[] matched = new boolean[VERSIONS.length];
-        for (int i = 0; i < candidatesLeft; i++) {
-            matched[i] = true;
+    privbte int rebdVersionHebder() throws IOException {
+        int cbndidbtesLeft = VERSIONS.length;
+        boolebn[] mbtched = new boolebn[VERSIONS.length];
+        for (int i = 0; i < cbndidbtesLeft; i++) {
+            mbtched[i] = true;
         }
 
         int pos = 0;
-        while (candidatesLeft > 0) {
-            char c = (char) in.readByte();
+        while (cbndidbtesLeft > 0) {
+            chbr c = (chbr) in.rebdByte();
             currPos++;
             for (int i = 0; i < VERSIONS.length; i++) {
-                if (matched[i]) {
-                    if (c != VERSIONS[i].charAt(pos)) {   // Not matched
-                        matched[i] = false;
-                        --candidatesLeft;
-                    } else if (pos == VERSIONS[i].length() - 1) {  // Full match
+                if (mbtched[i]) {
+                    if (c != VERSIONS[i].chbrAt(pos)) {   // Not mbtched
+                        mbtched[i] = fblse;
+                        --cbndidbtesLeft;
+                    } else if (pos == VERSIONS[i].length() - 1) {  // Full mbtch
                         return i;
                     }
                 }
             }
             ++pos;
         }
-        throw new IOException("Version string not recognized at byte " + (pos+3));
+        throw new IOException("Version string not recognized bt byte " + (pos+3));
     }
 
-    private void readHeapDump(long bytesLeft, long posAtEnd) throws IOException {
+    privbte void rebdHebpDump(long bytesLeft, long posAtEnd) throws IOException {
         while (bytesLeft > 0) {
-            int type = in.readUnsignedByte();
+            int type = in.rebdUnsignedByte();
             if (debugLevel > 0) {
-                System.out.println("    Read heap sub-record type " + type
-                                   + " at position "
+                System.out.println("    Rebd hebp sub-record type " + type
+                                   + " bt position "
                                    + toHex(posAtEnd - bytesLeft));
             }
             bytesLeft--;
             switch(type) {
-                case HPROF_GC_ROOT_UNKNOWN: {
-                    long id = readID();
+                cbse HPROF_GC_ROOT_UNKNOWN: {
+                    long id = rebdID();
                     bytesLeft -= identifierSize;
-                    snapshot.addRoot(new Root(id, 0, Root.UNKNOWN, ""));
-                    break;
+                    snbpshot.bddRoot(new Root(id, 0, Root.UNKNOWN, ""));
+                    brebk;
                 }
-                case HPROF_GC_ROOT_THREAD_OBJ: {
-                    long id = readID();
-                    int threadSeq = in.readInt();
-                    int stackSeq = in.readInt();
+                cbse HPROF_GC_ROOT_THREAD_OBJ: {
+                    long id = rebdID();
+                    int threbdSeq = in.rebdInt();
+                    int stbckSeq = in.rebdInt();
                     bytesLeft -= identifierSize + 8;
-                    threadObjects.put(threadSeq,
-                                      new ThreadObject(id, stackSeq));
-                    break;
+                    threbdObjects.put(threbdSeq,
+                                      new ThrebdObject(id, stbckSeq));
+                    brebk;
                 }
-                case HPROF_GC_ROOT_JNI_GLOBAL: {
-                    long id = readID();
-                    long globalRefId = readID();        // Ignored, for now
+                cbse HPROF_GC_ROOT_JNI_GLOBAL: {
+                    long id = rebdID();
+                    long globblRefId = rebdID();        // Ignored, for now
                     bytesLeft -= 2*identifierSize;
-                    snapshot.addRoot(new Root(id, 0, Root.NATIVE_STATIC, ""));
-                    break;
+                    snbpshot.bddRoot(new Root(id, 0, Root.NATIVE_STATIC, ""));
+                    brebk;
                 }
-                case HPROF_GC_ROOT_JNI_LOCAL: {
-                    long id = readID();
-                    int threadSeq = in.readInt();
-                    int depth = in.readInt();
+                cbse HPROF_GC_ROOT_JNI_LOCAL: {
+                    long id = rebdID();
+                    int threbdSeq = in.rebdInt();
+                    int depth = in.rebdInt();
                     bytesLeft -= identifierSize + 8;
-                    ThreadObject to = getThreadObjectFromSequence(threadSeq);
-                    StackTrace st = getStackTraceFromSerial(to.stackSeq);
+                    ThrebdObject to = getThrebdObjectFromSequence(threbdSeq);
+                    StbckTrbce st = getStbckTrbceFromSeribl(to.stbckSeq);
                     if (st != null) {
-                        st = st.traceForDepth(depth+1);
+                        st = st.trbceForDepth(depth+1);
                     }
-                    snapshot.addRoot(new Root(id, to.threadId,
+                    snbpshot.bddRoot(new Root(id, to.threbdId,
                                               Root.NATIVE_LOCAL, "", st));
-                    break;
+                    brebk;
                 }
-                case HPROF_GC_ROOT_JAVA_FRAME: {
-                    long id = readID();
-                    int threadSeq = in.readInt();
-                    int depth = in.readInt();
+                cbse HPROF_GC_ROOT_JAVA_FRAME: {
+                    long id = rebdID();
+                    int threbdSeq = in.rebdInt();
+                    int depth = in.rebdInt();
                     bytesLeft -= identifierSize + 8;
-                    ThreadObject to = getThreadObjectFromSequence(threadSeq);
-                    StackTrace st = getStackTraceFromSerial(to.stackSeq);
+                    ThrebdObject to = getThrebdObjectFromSequence(threbdSeq);
+                    StbckTrbce st = getStbckTrbceFromSeribl(to.stbckSeq);
                     if (st != null) {
-                        st = st.traceForDepth(depth+1);
+                        st = st.trbceForDepth(depth+1);
                     }
-                    snapshot.addRoot(new Root(id, to.threadId,
+                    snbpshot.bddRoot(new Root(id, to.threbdId,
                                               Root.JAVA_LOCAL, "", st));
-                    break;
+                    brebk;
                 }
-                case HPROF_GC_ROOT_NATIVE_STACK: {
-                    long id = readID();
-                    int threadSeq = in.readInt();
+                cbse HPROF_GC_ROOT_NATIVE_STACK: {
+                    long id = rebdID();
+                    int threbdSeq = in.rebdInt();
                     bytesLeft -= identifierSize + 4;
-                    ThreadObject to = getThreadObjectFromSequence(threadSeq);
-                    StackTrace st = getStackTraceFromSerial(to.stackSeq);
-                    snapshot.addRoot(new Root(id, to.threadId,
+                    ThrebdObject to = getThrebdObjectFromSequence(threbdSeq);
+                    StbckTrbce st = getStbckTrbceFromSeribl(to.stbckSeq);
+                    snbpshot.bddRoot(new Root(id, to.threbdId,
                                               Root.NATIVE_STACK, "", st));
-                    break;
+                    brebk;
                 }
-                case HPROF_GC_ROOT_STICKY_CLASS: {
-                    long id = readID();
+                cbse HPROF_GC_ROOT_STICKY_CLASS: {
+                    long id = rebdID();
                     bytesLeft -= identifierSize;
-                    snapshot.addRoot(new Root(id, 0, Root.SYSTEM_CLASS, ""));
-                    break;
+                    snbpshot.bddRoot(new Root(id, 0, Root.SYSTEM_CLASS, ""));
+                    brebk;
                 }
-                case HPROF_GC_ROOT_THREAD_BLOCK: {
-                    long id = readID();
-                    int threadSeq = in.readInt();
+                cbse HPROF_GC_ROOT_THREAD_BLOCK: {
+                    long id = rebdID();
+                    int threbdSeq = in.rebdInt();
                     bytesLeft -= identifierSize + 4;
-                    ThreadObject to = getThreadObjectFromSequence(threadSeq);
-                    StackTrace st = getStackTraceFromSerial(to.stackSeq);
-                    snapshot.addRoot(new Root(id, to.threadId,
+                    ThrebdObject to = getThrebdObjectFromSequence(threbdSeq);
+                    StbckTrbce st = getStbckTrbceFromSeribl(to.stbckSeq);
+                    snbpshot.bddRoot(new Root(id, to.threbdId,
                                      Root.THREAD_BLOCK, "", st));
-                    break;
+                    brebk;
                 }
-                case HPROF_GC_ROOT_MONITOR_USED: {
-                    long id = readID();
+                cbse HPROF_GC_ROOT_MONITOR_USED: {
+                    long id = rebdID();
                     bytesLeft -= identifierSize;
-                    snapshot.addRoot(new Root(id, 0, Root.BUSY_MONITOR, ""));
-                    break;
+                    snbpshot.bddRoot(new Root(id, 0, Root.BUSY_MONITOR, ""));
+                    brebk;
                 }
-                case HPROF_GC_CLASS_DUMP: {
-                    int bytesRead = readClass();
-                    bytesLeft -= bytesRead;
-                    break;
+                cbse HPROF_GC_CLASS_DUMP: {
+                    int bytesRebd = rebdClbss();
+                    bytesLeft -= bytesRebd;
+                    brebk;
                 }
-                case HPROF_GC_INSTANCE_DUMP: {
-                    int bytesRead = readInstance();
-                    bytesLeft -= bytesRead;
-                    break;
+                cbse HPROF_GC_INSTANCE_DUMP: {
+                    int bytesRebd = rebdInstbnce();
+                    bytesLeft -= bytesRebd;
+                    brebk;
                 }
-                case HPROF_GC_OBJ_ARRAY_DUMP: {
-                    int bytesRead = readArray(false);
-                    bytesLeft -= bytesRead;
-                    break;
+                cbse HPROF_GC_OBJ_ARRAY_DUMP: {
+                    int bytesRebd = rebdArrby(fblse);
+                    bytesLeft -= bytesRebd;
+                    brebk;
                 }
-                case HPROF_GC_PRIM_ARRAY_DUMP: {
-                    int bytesRead = readArray(true);
-                    bytesLeft -= bytesRead;
-                    break;
+                cbse HPROF_GC_PRIM_ARRAY_DUMP: {
+                    int bytesRebd = rebdArrby(true);
+                    bytesLeft -= bytesRebd;
+                    brebk;
                 }
-                default: {
-                    throw new IOException("Unrecognized heap dump sub-record type:  " + type);
+                defbult: {
+                    throw new IOException("Unrecognized hebp dump sub-record type:  " + type);
                 }
             }
         }
         if (bytesLeft != 0) {
-            warn("Error reading heap dump or heap dump segment:  Byte count is " + bytesLeft + " instead of 0");
+            wbrn("Error rebding hebp dump or hebp dump segment:  Byte count is " + bytesLeft + " instebd of 0");
             skipBytes(bytesLeft);
         }
         if (debugLevel > 0) {
-            System.out.println("    Finished heap sub-records.");
+            System.out.println("    Finished hebp sub-records.");
         }
     }
 
-    private long readID() throws IOException {
+    privbte long rebdID() throws IOException {
         return (identifierSize == 4)?
-            (Snapshot.SMALL_ID_MASK & (long)in.readInt()) : in.readLong();
+            (Snbpshot.SMALL_ID_MASK & (long)in.rebdInt()) : in.rebdLong();
     }
 
     //
-    // Read a java value.  If result is non-null, it's expected to be an
-    // array of one element.  We use it to fake multiple return values.
-    // @returns the number of bytes read
+    // Rebd b jbvb vblue.  If result is non-null, it's expected to be bn
+    // brrby of one element.  We use it to fbke multiple return vblues.
+    // @returns the number of bytes rebd
     //
-    private int readValue(JavaThing[] resultArr) throws IOException {
-        byte type = in.readByte();
-        return 1 + readValueForType(type, resultArr);
+    privbte int rebdVblue(JbvbThing[] resultArr) throws IOException {
+        byte type = in.rebdByte();
+        return 1 + rebdVblueForType(type, resultArr);
     }
 
-    private int readValueForType(byte type, JavaThing[] resultArr)
+    privbte int rebdVblueForType(byte type, JbvbThing[] resultArr)
             throws IOException {
         if (version >= VERSION_JDK12BETA4) {
-            type = signatureFromTypeId(type);
+            type = signbtureFromTypeId(type);
         }
-        return readValueForTypeSignature(type, resultArr);
+        return rebdVblueForTypeSignbture(type, resultArr);
     }
 
-    private int readValueForTypeSignature(byte type, JavaThing[] resultArr)
+    privbte int rebdVblueForTypeSignbture(byte type, JbvbThing[] resultArr)
             throws IOException {
         switch (type) {
-            case '[':
-            case 'L': {
-                long id = readID();
+            cbse '[':
+            cbse 'L': {
+                long id = rebdID();
                 if (resultArr != null) {
-                    resultArr[0] = new JavaObjectRef(id);
+                    resultArr[0] = new JbvbObjectRef(id);
                 }
                 return identifierSize;
             }
-            case 'Z': {
-                int b = in.readByte();
+            cbse 'Z': {
+                int b = in.rebdByte();
                 if (b != 0 && b != 1) {
-                    warn("Illegal boolean value read");
+                    wbrn("Illegbl boolebn vblue rebd");
                 }
                 if (resultArr != null) {
-                    resultArr[0] = new JavaBoolean(b != 0);
+                    resultArr[0] = new JbvbBoolebn(b != 0);
                 }
                 return 1;
             }
-            case 'B': {
-                byte b = in.readByte();
+            cbse 'B': {
+                byte b = in.rebdByte();
                 if (resultArr != null) {
-                    resultArr[0] = new JavaByte(b);
+                    resultArr[0] = new JbvbByte(b);
                 }
                 return 1;
             }
-            case 'S': {
-                short s = in.readShort();
+            cbse 'S': {
+                short s = in.rebdShort();
                 if (resultArr != null) {
-                    resultArr[0] = new JavaShort(s);
+                    resultArr[0] = new JbvbShort(s);
                 }
                 return 2;
             }
-            case 'C': {
-                char ch = in.readChar();
+            cbse 'C': {
+                chbr ch = in.rebdChbr();
                 if (resultArr != null) {
-                    resultArr[0] = new JavaChar(ch);
+                    resultArr[0] = new JbvbChbr(ch);
                 }
                 return 2;
             }
-            case 'I': {
-                int val = in.readInt();
+            cbse 'I': {
+                int vbl = in.rebdInt();
                 if (resultArr != null) {
-                    resultArr[0] = new JavaInt(val);
+                    resultArr[0] = new JbvbInt(vbl);
                 }
                 return 4;
             }
-            case 'J': {
-                long val = in.readLong();
+            cbse 'J': {
+                long vbl = in.rebdLong();
                 if (resultArr != null) {
-                    resultArr[0] = new JavaLong(val);
+                    resultArr[0] = new JbvbLong(vbl);
                 }
                 return 8;
             }
-            case 'F': {
-                float val = in.readFloat();
+            cbse 'F': {
+                flobt vbl = in.rebdFlobt();
                 if (resultArr != null) {
-                    resultArr[0] = new JavaFloat(val);
+                    resultArr[0] = new JbvbFlobt(vbl);
                 }
                 return 4;
             }
-            case 'D': {
-                double val = in.readDouble();
+            cbse 'D': {
+                double vbl = in.rebdDouble();
                 if (resultArr != null) {
-                    resultArr[0] = new JavaDouble(val);
+                    resultArr[0] = new JbvbDouble(vbl);
                 }
                 return 8;
             }
-            default: {
-                throw new IOException("Bad value signature:  " + type);
+            defbult: {
+                throw new IOException("Bbd vblue signbture:  " + type);
             }
         }
     }
 
-    private ThreadObject getThreadObjectFromSequence(int threadSeq)
+    privbte ThrebdObject getThrebdObjectFromSequence(int threbdSeq)
             throws IOException {
-        ThreadObject to = threadObjects.get(threadSeq);
+        ThrebdObject to = threbdObjects.get(threbdSeq);
         if (to == null) {
-            throw new IOException("Thread " + threadSeq +
-                                  " not found for JNI local ref");
+            throw new IOException("Threbd " + threbdSeq +
+                                  " not found for JNI locbl ref");
         }
         return to;
     }
 
-    private String getNameFromID(long id) throws IOException {
-        return getNameFromID(Long.valueOf(id));
+    privbte String getNbmeFromID(long id) throws IOException {
+        return getNbmeFromID(Long.vblueOf(id));
     }
 
-    private String getNameFromID(Long id) throws IOException {
-        if (id.longValue() == 0L) {
+    privbte String getNbmeFromID(Long id) throws IOException {
+        if (id.longVblue() == 0L) {
             return "";
         }
-        String result = names.get(id);
+        String result = nbmes.get(id);
         if (result == null) {
-            warn("Name not found at " + toHex(id.longValue()));
-            return "unresolved name " + toHex(id.longValue());
+            wbrn("Nbme not found bt " + toHex(id.longVblue()));
+            return "unresolved nbme " + toHex(id.longVblue());
         }
         return result;
     }
 
-    private StackTrace getStackTraceFromSerial(int ser) throws IOException {
-        if (stackTraces == null) {
+    privbte StbckTrbce getStbckTrbceFromSeribl(int ser) throws IOException {
+        if (stbckTrbces == null) {
             return null;
         }
-        StackTrace result = stackTraces.get(ser);
+        StbckTrbce result = stbckTrbces.get(ser);
         if (result == null) {
-            warn("Stack trace not found for serial # " + ser);
+            wbrn("Stbck trbce not found for seribl # " + ser);
         }
         return result;
     }
 
     //
-    // Handle a HPROF_GC_CLASS_DUMP
-    // Return number of bytes read
+    // Hbndle b HPROF_GC_CLASS_DUMP
+    // Return number of bytes rebd
     //
-    private int readClass() throws IOException {
-        long id = readID();
-        StackTrace stackTrace = getStackTraceFromSerial(in.readInt());
-        long superId = readID();
-        long classLoaderId = readID();
-        long signersId = readID();
-        long protDomainId = readID();
-        long reserved1 = readID();
-        long reserved2 = readID();
-        int instanceSize = in.readInt();
-        int bytesRead = 7 * identifierSize + 8;
+    privbte int rebdClbss() throws IOException {
+        long id = rebdID();
+        StbckTrbce stbckTrbce = getStbckTrbceFromSeribl(in.rebdInt());
+        long superId = rebdID();
+        long clbssLobderId = rebdID();
+        long signersId = rebdID();
+        long protDombinId = rebdID();
+        long reserved1 = rebdID();
+        long reserved2 = rebdID();
+        int instbnceSize = in.rebdInt();
+        int bytesRebd = 7 * identifierSize + 8;
 
-        int numConstPoolEntries = in.readUnsignedShort();
-        bytesRead += 2;
+        int numConstPoolEntries = in.rebdUnsignedShort();
+        bytesRebd += 2;
         for (int i = 0; i < numConstPoolEntries; i++) {
-            int index = in.readUnsignedShort(); // unused
-            bytesRead += 2;
-            bytesRead += readValue(null);       // We ignore the values
+            int index = in.rebdUnsignedShort(); // unused
+            bytesRebd += 2;
+            bytesRebd += rebdVblue(null);       // We ignore the vblues
         }
 
-        int numStatics = in.readUnsignedShort();
-        bytesRead += 2;
-        JavaThing[] valueBin = new JavaThing[1];
-        JavaStatic[] statics = new JavaStatic[numStatics];
-        for (int i = 0; i < numStatics; i++) {
-            long nameId = readID();
-            bytesRead += identifierSize;
-            byte type = in.readByte();
-            bytesRead++;
-            bytesRead += readValueForType(type, valueBin);
-            String fieldName = getNameFromID(nameId);
+        int numStbtics = in.rebdUnsignedShort();
+        bytesRebd += 2;
+        JbvbThing[] vblueBin = new JbvbThing[1];
+        JbvbStbtic[] stbtics = new JbvbStbtic[numStbtics];
+        for (int i = 0; i < numStbtics; i++) {
+            long nbmeId = rebdID();
+            bytesRebd += identifierSize;
+            byte type = in.rebdByte();
+            bytesRebd++;
+            bytesRebd += rebdVblueForType(type, vblueBin);
+            String fieldNbme = getNbmeFromID(nbmeId);
             if (version >= VERSION_JDK12BETA4) {
-                type = signatureFromTypeId(type);
+                type = signbtureFromTypeId(type);
             }
-            String signature = "" + ((char) type);
-            JavaField f = new JavaField(fieldName, signature);
-            statics[i] = new JavaStatic(f, valueBin[0]);
+            String signbture = "" + ((chbr) type);
+            JbvbField f = new JbvbField(fieldNbme, signbture);
+            stbtics[i] = new JbvbStbtic(f, vblueBin[0]);
         }
 
-        int numFields = in.readUnsignedShort();
-        bytesRead += 2;
-        JavaField[] fields = new JavaField[numFields];
+        int numFields = in.rebdUnsignedShort();
+        bytesRebd += 2;
+        JbvbField[] fields = new JbvbField[numFields];
         for (int i = 0; i < numFields; i++) {
-            long nameId = readID();
-            bytesRead += identifierSize;
-            byte type = in.readByte();
-            bytesRead++;
-            String fieldName = getNameFromID(nameId);
+            long nbmeId = rebdID();
+            bytesRebd += identifierSize;
+            byte type = in.rebdByte();
+            bytesRebd++;
+            String fieldNbme = getNbmeFromID(nbmeId);
             if (version >= VERSION_JDK12BETA4) {
-                type = signatureFromTypeId(type);
+                type = signbtureFromTypeId(type);
             }
-            String signature = "" + ((char) type);
-            fields[i] = new JavaField(fieldName, signature);
+            String signbture = "" + ((chbr) type);
+            fields[i] = new JbvbField(fieldNbme, signbture);
         }
-        String name = classNameFromObjectID.get(id);
-        if (name == null) {
-            warn("Class name not found for " + toHex(id));
-            name = "unknown-name@" + toHex(id);
+        String nbme = clbssNbmeFromObjectID.get(id);
+        if (nbme == null) {
+            wbrn("Clbss nbme not found for " + toHex(id));
+            nbme = "unknown-nbme@" + toHex(id);
         }
-        JavaClass c = new JavaClass(id, name, superId, classLoaderId, signersId,
-                                    protDomainId, fields, statics,
-                                    instanceSize);
-        snapshot.addClass(id, c);
-        snapshot.setSiteTrace(c, stackTrace);
+        JbvbClbss c = new JbvbClbss(id, nbme, superId, clbssLobderId, signersId,
+                                    protDombinId, fields, stbtics,
+                                    instbnceSize);
+        snbpshot.bddClbss(id, c);
+        snbpshot.setSiteTrbce(c, stbckTrbce);
 
-        return bytesRead;
+        return bytesRebd;
     }
 
-    private String toHex(long addr) {
-        return com.sun.tools.hat.internal.util.Misc.toHex(addr);
+    privbte String toHex(long bddr) {
+        return com.sun.tools.hbt.internbl.util.Misc.toHex(bddr);
     }
 
     //
-    // Handle a HPROF_GC_INSTANCE_DUMP
-    // Return number of bytes read
+    // Hbndle b HPROF_GC_INSTANCE_DUMP
+    // Return number of bytes rebd
     //
-    private int readInstance() throws IOException {
-        long start = in.position();
-        long id = readID();
-        StackTrace stackTrace = getStackTraceFromSerial(in.readInt());
-        long classID = readID();
-        int bytesFollowing = in.readInt();
-        int bytesRead = (2 * identifierSize) + 8 + bytesFollowing;
-        JavaObject jobj = new JavaObject(classID, start);
+    privbte int rebdInstbnce() throws IOException {
+        long stbrt = in.position();
+        long id = rebdID();
+        StbckTrbce stbckTrbce = getStbckTrbceFromSeribl(in.rebdInt());
+        long clbssID = rebdID();
+        int bytesFollowing = in.rebdInt();
+        int bytesRebd = (2 * identifierSize) + 8 + bytesFollowing;
+        JbvbObject jobj = new JbvbObject(clbssID, stbrt);
         skipBytes(bytesFollowing);
-        snapshot.addHeapObject(id, jobj);
-        snapshot.setSiteTrace(jobj, stackTrace);
-        return bytesRead;
+        snbpshot.bddHebpObject(id, jobj);
+        snbpshot.setSiteTrbce(jobj, stbckTrbce);
+        return bytesRebd;
     }
 
     //
-    // Handle a HPROF_GC_OBJ_ARRAY_DUMP or HPROF_GC_PRIM_ARRAY_DUMP
-    // Return number of bytes read
+    // Hbndle b HPROF_GC_OBJ_ARRAY_DUMP or HPROF_GC_PRIM_ARRAY_DUMP
+    // Return number of bytes rebd
     //
-    private int readArray(boolean isPrimitive) throws IOException {
-        long start = in.position();
-        long id = readID();
-        StackTrace stackTrace = getStackTraceFromSerial(in.readInt());
-        int num = in.readInt();
-        int bytesRead = identifierSize + 8;
-        long elementClassID;
+    privbte int rebdArrby(boolebn isPrimitive) throws IOException {
+        long stbrt = in.position();
+        long id = rebdID();
+        StbckTrbce stbckTrbce = getStbckTrbceFromSeribl(in.rebdInt());
+        int num = in.rebdInt();
+        int bytesRebd = identifierSize + 8;
+        long elementClbssID;
         if (isPrimitive) {
-            elementClassID = in.readByte();
-            bytesRead++;
+            elementClbssID = in.rebdByte();
+            bytesRebd++;
         } else {
-            elementClassID = readID();
-            bytesRead += identifierSize;
+            elementClbssID = rebdID();
+            bytesRebd += identifierSize;
         }
 
-        // Check for primitive arrays:
-        byte primitiveSignature = 0x00;
+        // Check for primitive brrbys:
+        byte primitiveSignbture = 0x00;
         int elSize = 0;
         if (isPrimitive || version < VERSION_JDK12BETA4) {
-            switch ((int)elementClassID) {
-                case T_BOOLEAN: {
-                    primitiveSignature = (byte) 'Z';
+            switch ((int)elementClbssID) {
+                cbse T_BOOLEAN: {
+                    primitiveSignbture = (byte) 'Z';
                     elSize = 1;
-                    break;
+                    brebk;
                 }
-                case T_CHAR: {
-                    primitiveSignature = (byte) 'C';
+                cbse T_CHAR: {
+                    primitiveSignbture = (byte) 'C';
                     elSize = 2;
-                    break;
+                    brebk;
                 }
-                case T_FLOAT: {
-                    primitiveSignature = (byte) 'F';
+                cbse T_FLOAT: {
+                    primitiveSignbture = (byte) 'F';
                     elSize = 4;
-                    break;
+                    brebk;
                 }
-                case T_DOUBLE: {
-                    primitiveSignature = (byte) 'D';
+                cbse T_DOUBLE: {
+                    primitiveSignbture = (byte) 'D';
                     elSize = 8;
-                    break;
+                    brebk;
                 }
-                case T_BYTE: {
-                    primitiveSignature = (byte) 'B';
+                cbse T_BYTE: {
+                    primitiveSignbture = (byte) 'B';
                     elSize = 1;
-                    break;
+                    brebk;
                 }
-                case T_SHORT: {
-                    primitiveSignature = (byte) 'S';
+                cbse T_SHORT: {
+                    primitiveSignbture = (byte) 'S';
                     elSize = 2;
-                    break;
+                    brebk;
                 }
-                case T_INT: {
-                    primitiveSignature = (byte) 'I';
+                cbse T_INT: {
+                    primitiveSignbture = (byte) 'I';
                     elSize = 4;
-                    break;
+                    brebk;
                 }
-                case T_LONG: {
-                    primitiveSignature = (byte) 'J';
+                cbse T_LONG: {
+                    primitiveSignbture = (byte) 'J';
                     elSize = 8;
-                    break;
+                    brebk;
                 }
             }
-            if (version >= VERSION_JDK12BETA4 && primitiveSignature == 0x00) {
+            if (version >= VERSION_JDK12BETA4 && primitiveSignbture == 0x00) {
                 throw new IOException("Unrecognized typecode:  "
-                                        + elementClassID);
+                                        + elementClbssID);
             }
         }
-        if (primitiveSignature != 0x00) {
+        if (primitiveSignbture != 0x00) {
             int size = elSize * num;
-            bytesRead += size;
-            JavaValueArray va = new JavaValueArray(primitiveSignature, start);
+            bytesRebd += size;
+            JbvbVblueArrby vb = new JbvbVblueArrby(primitiveSignbture, stbrt);
             skipBytes(size);
-            snapshot.addHeapObject(id, va);
-            snapshot.setSiteTrace(va, stackTrace);
+            snbpshot.bddHebpObject(id, vb);
+            snbpshot.setSiteTrbce(vb, stbckTrbce);
         } else {
             int sz = num * identifierSize;
-            bytesRead += sz;
-            JavaObjectArray arr = new JavaObjectArray(elementClassID, start);
+            bytesRebd += sz;
+            JbvbObjectArrby brr = new JbvbObjectArrby(elementClbssID, stbrt);
             skipBytes(sz);
-            snapshot.addHeapObject(id, arr);
-            snapshot.setSiteTrace(arr, stackTrace);
+            snbpshot.bddHebpObject(id, brr);
+            snbpshot.setSiteTrbce(brr, stbckTrbce);
         }
-        return bytesRead;
+        return bytesRebd;
     }
 
-    private byte signatureFromTypeId(byte typeId) throws IOException {
+    privbte byte signbtureFromTypeId(byte typeId) throws IOException {
         switch (typeId) {
-            case T_CLASS: {
+            cbse T_CLASS: {
                 return (byte) 'L';
             }
-            case T_BOOLEAN: {
+            cbse T_BOOLEAN: {
                 return (byte) 'Z';
             }
-            case T_CHAR: {
+            cbse T_CHAR: {
                 return (byte) 'C';
             }
-            case T_FLOAT: {
+            cbse T_FLOAT: {
                 return (byte) 'F';
             }
-            case T_DOUBLE: {
+            cbse T_DOUBLE: {
                 return (byte) 'D';
             }
-            case T_BYTE: {
+            cbse T_BYTE: {
                 return (byte) 'B';
             }
-            case T_SHORT: {
+            cbse T_SHORT: {
                 return (byte) 'S';
             }
-            case T_INT: {
+            cbse T_INT: {
                 return (byte) 'I';
             }
-            case T_LONG: {
+            cbse T_LONG: {
                 return (byte) 'J';
             }
-            default: {
-                throw new IOException("Invalid type id of " + typeId);
+            defbult: {
+                throw new IOException("Invblid type id of " + typeId);
             }
         }
     }
 
-    private void handleEOF(EOFException exp, Snapshot snapshot) {
+    privbte void hbndleEOF(EOFException exp, Snbpshot snbpshot) {
         if (debugLevel > 0) {
-            exp.printStackTrace();
+            exp.printStbckTrbce();
         }
-        warn("Unexpected EOF. Will miss information...");
-        // we have EOF, we have to tolerate missing references
-        snapshot.setUnresolvedObjectsOK(true);
+        wbrn("Unexpected EOF. Will miss informbtion...");
+        // we hbve EOF, we hbve to tolerbte missing references
+        snbpshot.setUnresolvedObjectsOK(true);
     }
 
-    private void warn(String msg) {
+    privbte void wbrn(String msg) {
         System.out.println("WARNING: " + msg);
     }
 
     //
-    // A trivial data-holder class for HPROF_GC_ROOT_THREAD_OBJ.
+    // A trivibl dbtb-holder clbss for HPROF_GC_ROOT_THREAD_OBJ.
     //
-    private class ThreadObject {
+    privbte clbss ThrebdObject {
 
-        long threadId;
-        int stackSeq;
+        long threbdId;
+        int stbckSeq;
 
-        ThreadObject(long threadId, int stackSeq) {
-            this.threadId = threadId;
-            this.stackSeq = stackSeq;
+        ThrebdObject(long threbdId, int stbckSeq) {
+            this.threbdId = threbdId;
+            this.stbckSeq = stbckSeq;
         }
     }
 

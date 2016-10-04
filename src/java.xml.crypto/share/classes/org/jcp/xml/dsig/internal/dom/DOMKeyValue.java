@@ -3,99 +3,99 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMKeyValue.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMKeyVblue.jbvb 1333415 2012-05-03 12:03:51Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.keyinfo.KeyVblue;
 
-// import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.KeyException;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.PublicKey;
-import java.security.interfaces.DSAParams;
-import java.security.interfaces.DSAPublicKey;
-import java.security.interfaces.ECPublicKey;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.DSAPublicKeySpec;
-import java.security.spec.ECParameterSpec;
-import java.security.spec.ECPoint;
-import java.security.spec.ECPublicKeySpec;
-import java.security.spec.EllipticCurve;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.security.spec.RSAPublicKeySpec;
+// import jbvb.io.IOException;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
+import jbvb.security.AccessController;
+import jbvb.security.KeyException;
+import jbvb.security.KeyFbctory;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PublicKey;
+import jbvb.security.interfbces.DSAPbrbms;
+import jbvb.security.interfbces.DSAPublicKey;
+import jbvb.security.interfbces.ECPublicKey;
+import jbvb.security.interfbces.RSAPublicKey;
+import jbvb.security.spec.DSAPublicKeySpec;
+import jbvb.security.spec.ECPbrbmeterSpec;
+import jbvb.security.spec.ECPoint;
+import jbvb.security.spec.ECPublicKeySpec;
+import jbvb.security.spec.EllipticCurve;
+import jbvb.security.spec.InvblidKeySpecException;
+import jbvb.security.spec.KeySpec;
+import jbvb.security.spec.RSAPublicKeySpec;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.Bbse64DecodingException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Bbse64;
 
 /**
- * DOM-based implementation of KeyValue.
+ * DOM-bbsed implementbtion of KeyVblue.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public abstract class DOMKeyValue extends DOMStructure implements KeyValue {
+public bbstrbct clbss DOMKeyVblue extends DOMStructure implements KeyVblue {
 
-    private static final String XMLDSIG_11_XMLNS
+    privbte stbtic finbl String XMLDSIG_11_XMLNS
         = "http://www.w3.org/2009/xmldsig11#";
-    private final PublicKey publicKey;
+    privbte finbl PublicKey publicKey;
 
-    public DOMKeyValue(PublicKey key) throws KeyException {
+    public DOMKeyVblue(PublicKey key) throws KeyException {
         if (key == null) {
-            throw new NullPointerException("key cannot be null");
+            throw new NullPointerException("key cbnnot be null");
         }
         this.publicKey = key;
     }
 
     /**
-     * Creates a <code>DOMKeyValue</code> from an element.
+     * Crebtes b <code>DOMKeyVblue</code> from bn element.
      *
-     * @param kvtElem a KeyValue child element
+     * @pbrbm kvtElem b KeyVblue child element
      */
-    public DOMKeyValue(Element kvtElem) throws MarshalException {
-        this.publicKey = unmarshalKeyValue(kvtElem);
+    public DOMKeyVblue(Element kvtElem) throws MbrshblException {
+        this.publicKey = unmbrshblKeyVblue(kvtElem);
     }
 
-    static KeyValue unmarshal(Element kvElem) throws MarshalException {
+    stbtic KeyVblue unmbrshbl(Element kvElem) throws MbrshblException {
         Element kvtElem = DOMUtils.getFirstChildElement(kvElem);
-        if (kvtElem.getLocalName().equals("DSAKeyValue")) {
+        if (kvtElem.getLocblNbme().equbls("DSAKeyVblue")) {
             return new DSA(kvtElem);
-        } else if (kvtElem.getLocalName().equals("RSAKeyValue")) {
+        } else if (kvtElem.getLocblNbme().equbls("RSAKeyVblue")) {
             return new RSA(kvtElem);
-        } else if (kvtElem.getLocalName().equals("ECKeyValue")) {
+        } else if (kvtElem.getLocblNbme().equbls("ECKeyVblue")) {
             return new EC(kvtElem);
         } else {
             return new Unknown(kvtElem);
@@ -104,401 +104,401 @@ public abstract class DOMKeyValue extends DOMStructure implements KeyValue {
 
     public PublicKey getPublicKey() throws KeyException {
         if (publicKey == null) {
-            throw new KeyException("can't convert KeyValue to PublicKey");
+            throw new KeyException("cbn't convert KeyVblue to PublicKey");
         } else {
             return publicKey;
         }
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    public void mbrshbl(Node pbrent, String dsPrefix, DOMCryptoContext context)
+        throws MbrshblException
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
+        Document ownerDoc = DOMUtils.getOwnerDocument(pbrent);
 
-        // create KeyValue element
-        Element kvElem = DOMUtils.createElement(ownerDoc, "KeyValue",
-                                                XMLSignature.XMLNS, dsPrefix);
-        marshalPublicKey(kvElem, ownerDoc, dsPrefix, context);
+        // crebte KeyVblue element
+        Element kvElem = DOMUtils.crebteElement(ownerDoc, "KeyVblue",
+                                                XMLSignbture.XMLNS, dsPrefix);
+        mbrshblPublicKey(kvElem, ownerDoc, dsPrefix, context);
 
-        parent.appendChild(kvElem);
+        pbrent.bppendChild(kvElem);
     }
 
-    abstract void marshalPublicKey(Node parent, Document doc, String dsPrefix,
-        DOMCryptoContext context) throws MarshalException;
+    bbstrbct void mbrshblPublicKey(Node pbrent, Document doc, String dsPrefix,
+        DOMCryptoContext context) throws MbrshblException;
 
-    abstract PublicKey unmarshalKeyValue(Element kvtElem)
-        throws MarshalException;
+    bbstrbct PublicKey unmbrshblKeyVblue(Element kvtElem)
+        throws MbrshblException;
 
-    private static PublicKey generatePublicKey(KeyFactory kf, KeySpec keyspec) {
+    privbte stbtic PublicKey generbtePublicKey(KeyFbctory kf, KeySpec keyspec) {
         try {
-            return kf.generatePublic(keyspec);
-        } catch (InvalidKeySpecException e) {
+            return kf.generbtePublic(keyspec);
+        } cbtch (InvblidKeySpecException e) {
             //@@@ should dump exception to log
             return null;
         }
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof KeyValue)) {
-            return false;
+        if (!(obj instbnceof KeyVblue)) {
+            return fblse;
         }
         try {
-            KeyValue kv = (KeyValue)obj;
+            KeyVblue kv = (KeyVblue)obj;
             if (publicKey == null ) {
                 if (kv.getPublicKey() != null) {
-                    return false;
+                    return fblse;
                 }
-            } else if (!publicKey.equals(kv.getPublicKey())) {
-                return false;
+            } else if (!publicKey.equbls(kv.getPublicKey())) {
+                return fblse;
             }
-        } catch (KeyException ke) {
-            // no practical way to determine if the keys are equal
-            return false;
+        } cbtch (KeyException ke) {
+            // no prbcticbl wby to determine if the keys bre equbl
+            return fblse;
         }
 
         return true;
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
         if (publicKey != null) {
-            result = 31 * result + publicKey.hashCode();
+            result = 31 * result + publicKey.hbshCode();
         }
 
         return result;
     }
 
-    static final class RSA extends DOMKeyValue {
-        // RSAKeyValue CryptoBinaries
-        private DOMCryptoBinary modulus, exponent;
-        private KeyFactory rsakf;
+    stbtic finbl clbss RSA extends DOMKeyVblue {
+        // RSAKeyVblue CryptoBinbries
+        privbte DOMCryptoBinbry modulus, exponent;
+        privbte KeyFbctory rsbkf;
 
         RSA(PublicKey key) throws KeyException {
             super(key);
             RSAPublicKey rkey = (RSAPublicKey)key;
-            exponent = new DOMCryptoBinary(rkey.getPublicExponent());
-            modulus = new DOMCryptoBinary(rkey.getModulus());
+            exponent = new DOMCryptoBinbry(rkey.getPublicExponent());
+            modulus = new DOMCryptoBinbry(rkey.getModulus());
         }
 
-        RSA(Element elem) throws MarshalException {
+        RSA(Element elem) throws MbrshblException {
             super(elem);
         }
 
-        void marshalPublicKey(Node parent, Document doc, String dsPrefix,
-            DOMCryptoContext context) throws MarshalException {
-            Element rsaElem = DOMUtils.createElement(doc, "RSAKeyValue",
-                                                     XMLSignature.XMLNS,
+        void mbrshblPublicKey(Node pbrent, Document doc, String dsPrefix,
+            DOMCryptoContext context) throws MbrshblException {
+            Element rsbElem = DOMUtils.crebteElement(doc, "RSAKeyVblue",
+                                                     XMLSignbture.XMLNS,
                                                      dsPrefix);
-            Element modulusElem = DOMUtils.createElement(doc, "Modulus",
-                                                         XMLSignature.XMLNS,
+            Element modulusElem = DOMUtils.crebteElement(doc, "Modulus",
+                                                         XMLSignbture.XMLNS,
                                                          dsPrefix);
-            Element exponentElem = DOMUtils.createElement(doc, "Exponent",
-                                                          XMLSignature.XMLNS,
+            Element exponentElem = DOMUtils.crebteElement(doc, "Exponent",
+                                                          XMLSignbture.XMLNS,
                                                           dsPrefix);
-            modulus.marshal(modulusElem, dsPrefix, context);
-            exponent.marshal(exponentElem, dsPrefix, context);
-            rsaElem.appendChild(modulusElem);
-            rsaElem.appendChild(exponentElem);
-            parent.appendChild(rsaElem);
+            modulus.mbrshbl(modulusElem, dsPrefix, context);
+            exponent.mbrshbl(exponentElem, dsPrefix, context);
+            rsbElem.bppendChild(modulusElem);
+            rsbElem.bppendChild(exponentElem);
+            pbrent.bppendChild(rsbElem);
         }
 
-        PublicKey unmarshalKeyValue(Element kvtElem)
-            throws MarshalException
+        PublicKey unmbrshblKeyVblue(Element kvtElem)
+            throws MbrshblException
         {
-            if (rsakf == null) {
+            if (rsbkf == null) {
                 try {
-                    rsakf = KeyFactory.getInstance("RSA");
-                } catch (NoSuchAlgorithmException e) {
+                    rsbkf = KeyFbctory.getInstbnce("RSA");
+                } cbtch (NoSuchAlgorithmException e) {
                     throw new RuntimeException
-                        ("unable to create RSA KeyFactory: " + e.getMessage());
+                        ("unbble to crebte RSA KeyFbctory: " + e.getMessbge());
                 }
             }
             Element modulusElem = DOMUtils.getFirstChildElement(kvtElem,
                                                                 "Modulus");
-            modulus = new DOMCryptoBinary(modulusElem.getFirstChild());
+            modulus = new DOMCryptoBinbry(modulusElem.getFirstChild());
             Element exponentElem = DOMUtils.getNextSiblingElement(modulusElem,
                                                                   "Exponent");
-            exponent = new DOMCryptoBinary(exponentElem.getFirstChild());
+            exponent = new DOMCryptoBinbry(exponentElem.getFirstChild());
             RSAPublicKeySpec spec = new RSAPublicKeySpec(modulus.getBigNum(),
                                                          exponent.getBigNum());
-            return generatePublicKey(rsakf, spec);
+            return generbtePublicKey(rsbkf, spec);
         }
     }
 
-    static final class DSA extends DOMKeyValue {
-        // DSAKeyValue CryptoBinaries
-        private DOMCryptoBinary p, q, g, y, j; //, seed, pgen;
-        private KeyFactory dsakf;
+    stbtic finbl clbss DSA extends DOMKeyVblue {
+        // DSAKeyVblue CryptoBinbries
+        privbte DOMCryptoBinbry p, q, g, y, j; //, seed, pgen;
+        privbte KeyFbctory dsbkf;
 
         DSA(PublicKey key) throws KeyException {
             super(key);
             DSAPublicKey dkey = (DSAPublicKey) key;
-            DSAParams params = dkey.getParams();
-            p = new DOMCryptoBinary(params.getP());
-            q = new DOMCryptoBinary(params.getQ());
-            g = new DOMCryptoBinary(params.getG());
-            y = new DOMCryptoBinary(dkey.getY());
+            DSAPbrbms pbrbms = dkey.getPbrbms();
+            p = new DOMCryptoBinbry(pbrbms.getP());
+            q = new DOMCryptoBinbry(pbrbms.getQ());
+            g = new DOMCryptoBinbry(pbrbms.getG());
+            y = new DOMCryptoBinbry(dkey.getY());
         }
 
-        DSA(Element elem) throws MarshalException {
+        DSA(Element elem) throws MbrshblException {
             super(elem);
         }
 
-        void marshalPublicKey(Node parent, Document doc, String dsPrefix,
+        void mbrshblPublicKey(Node pbrent, Document doc, String dsPrefix,
                               DOMCryptoContext context)
-            throws MarshalException
+            throws MbrshblException
         {
-            Element dsaElem = DOMUtils.createElement(doc, "DSAKeyValue",
-                                                     XMLSignature.XMLNS,
+            Element dsbElem = DOMUtils.crebteElement(doc, "DSAKeyVblue",
+                                                     XMLSignbture.XMLNS,
                                                      dsPrefix);
-            // parameters J, Seed & PgenCounter are not included
-            Element pElem = DOMUtils.createElement(doc, "P", XMLSignature.XMLNS,
+            // pbrbmeters J, Seed & PgenCounter bre not included
+            Element pElem = DOMUtils.crebteElement(doc, "P", XMLSignbture.XMLNS,
                                                    dsPrefix);
-            Element qElem = DOMUtils.createElement(doc, "Q", XMLSignature.XMLNS,
+            Element qElem = DOMUtils.crebteElement(doc, "Q", XMLSignbture.XMLNS,
                                                    dsPrefix);
-            Element gElem = DOMUtils.createElement(doc, "G", XMLSignature.XMLNS,
+            Element gElem = DOMUtils.crebteElement(doc, "G", XMLSignbture.XMLNS,
                                                    dsPrefix);
-            Element yElem = DOMUtils.createElement(doc, "Y", XMLSignature.XMLNS,
+            Element yElem = DOMUtils.crebteElement(doc, "Y", XMLSignbture.XMLNS,
                                                    dsPrefix);
-            p.marshal(pElem, dsPrefix, context);
-            q.marshal(qElem, dsPrefix, context);
-            g.marshal(gElem, dsPrefix, context);
-            y.marshal(yElem, dsPrefix, context);
-            dsaElem.appendChild(pElem);
-            dsaElem.appendChild(qElem);
-            dsaElem.appendChild(gElem);
-            dsaElem.appendChild(yElem);
-            parent.appendChild(dsaElem);
+            p.mbrshbl(pElem, dsPrefix, context);
+            q.mbrshbl(qElem, dsPrefix, context);
+            g.mbrshbl(gElem, dsPrefix, context);
+            y.mbrshbl(yElem, dsPrefix, context);
+            dsbElem.bppendChild(pElem);
+            dsbElem.bppendChild(qElem);
+            dsbElem.bppendChild(gElem);
+            dsbElem.bppendChild(yElem);
+            pbrent.bppendChild(dsbElem);
         }
 
-        PublicKey unmarshalKeyValue(Element kvtElem)
-            throws MarshalException
+        PublicKey unmbrshblKeyVblue(Element kvtElem)
+            throws MbrshblException
         {
-            if (dsakf == null) {
+            if (dsbkf == null) {
                 try {
-                    dsakf = KeyFactory.getInstance("DSA");
-                } catch (NoSuchAlgorithmException e) {
+                    dsbkf = KeyFbctory.getInstbnce("DSA");
+                } cbtch (NoSuchAlgorithmException e) {
                     throw new RuntimeException
-                        ("unable to create DSA KeyFactory: " + e.getMessage());
+                        ("unbble to crebte DSA KeyFbctory: " + e.getMessbge());
                 }
             }
             Element curElem = DOMUtils.getFirstChildElement(kvtElem);
-            // check for P and Q
-            if (curElem.getLocalName().equals("P")) {
-                p = new DOMCryptoBinary(curElem.getFirstChild());
+            // check for P bnd Q
+            if (curElem.getLocblNbme().equbls("P")) {
+                p = new DOMCryptoBinbry(curElem.getFirstChild());
                 curElem = DOMUtils.getNextSiblingElement(curElem, "Q");
-                q = new DOMCryptoBinary(curElem.getFirstChild());
+                q = new DOMCryptoBinbry(curElem.getFirstChild());
                 curElem = DOMUtils.getNextSiblingElement(curElem);
             }
-            if (curElem.getLocalName().equals("G")) {
-                g = new DOMCryptoBinary(curElem.getFirstChild());
+            if (curElem.getLocblNbme().equbls("G")) {
+                g = new DOMCryptoBinbry(curElem.getFirstChild());
                 curElem = DOMUtils.getNextSiblingElement(curElem, "Y");
             }
-            y = new DOMCryptoBinary(curElem.getFirstChild());
+            y = new DOMCryptoBinbry(curElem.getFirstChild());
             curElem = DOMUtils.getNextSiblingElement(curElem);
-            if (curElem != null && curElem.getLocalName().equals("J")) {
-                j = new DOMCryptoBinary(curElem.getFirstChild());
+            if (curElem != null && curElem.getLocblNbme().equbls("J")) {
+                j = new DOMCryptoBinbry(curElem.getFirstChild());
                 // curElem = DOMUtils.getNextSiblingElement(curElem);
             }
             /*
             if (curElem != null) {
-                seed = new DOMCryptoBinary(curElem.getFirstChild());
+                seed = new DOMCryptoBinbry(curElem.getFirstChild());
                 curElem = DOMUtils.getNextSiblingElement(curElem);
-                pgen = new DOMCryptoBinary(curElem.getFirstChild());
+                pgen = new DOMCryptoBinbry(curElem.getFirstChild());
             }
             */
-            //@@@ do we care about j, pgenCounter or seed?
+            //@@@ do we cbre bbout j, pgenCounter or seed?
             DSAPublicKeySpec spec = new DSAPublicKeySpec(y.getBigNum(),
                                                          p.getBigNum(),
                                                          q.getBigNum(),
                                                          g.getBigNum());
-            return generatePublicKey(dsakf, spec);
+            return generbtePublicKey(dsbkf, spec);
         }
     }
 
-    static final class EC extends DOMKeyValue {
-        // ECKeyValue CryptoBinaries
-        private byte[] ecPublicKey;
-        private KeyFactory eckf;
-        private ECParameterSpec ecParams;
-        private Method encodePoint, decodePoint, getCurveName,
-                       getECParameterSpec;
+    stbtic finbl clbss EC extends DOMKeyVblue {
+        // ECKeyVblue CryptoBinbries
+        privbte byte[] ecPublicKey;
+        privbte KeyFbctory eckf;
+        privbte ECPbrbmeterSpec ecPbrbms;
+        privbte Method encodePoint, decodePoint, getCurveNbme,
+                       getECPbrbmeterSpec;
 
         EC(PublicKey key) throws KeyException {
             super(key);
             ECPublicKey ecKey = (ECPublicKey)key;
             ECPoint ecPoint = ecKey.getW();
-            ecParams = ecKey.getParams();
+            ecPbrbms = ecKey.getPbrbms();
             try {
                 AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Void>() {
                         public Void run() throws
-                            ClassNotFoundException, NoSuchMethodException
+                            ClbssNotFoundException, NoSuchMethodException
                         {
                             getMethods();
                             return null;
                         }
                     }
                 );
-            } catch (PrivilegedActionException pae) {
-                throw new KeyException("ECKeyValue not supported",
-                                        pae.getException());
+            } cbtch (PrivilegedActionException pbe) {
+                throw new KeyException("ECKeyVblue not supported",
+                                        pbe.getException());
             }
-            Object[] args = new Object[] { ecPoint, ecParams.getCurve() };
+            Object[] brgs = new Object[] { ecPoint, ecPbrbms.getCurve() };
             try {
-                ecPublicKey = (byte[])encodePoint.invoke(null, args);
-            } catch (IllegalAccessException iae) {
-                throw new KeyException(iae);
-            } catch (InvocationTargetException ite) {
+                ecPublicKey = (byte[])encodePoint.invoke(null, brgs);
+            } cbtch (IllegblAccessException ibe) {
+                throw new KeyException(ibe);
+            } cbtch (InvocbtionTbrgetException ite) {
                 throw new KeyException(ite);
             }
         }
 
-        EC(Element dmElem) throws MarshalException {
+        EC(Element dmElem) throws MbrshblException {
             super(dmElem);
         }
 
-        void getMethods() throws ClassNotFoundException, NoSuchMethodException {
-            Class<?> c  = Class.forName("sun.security.util.ECParameters");
-            Class<?>[] params = new Class<?>[] { ECPoint.class,
-                                                 EllipticCurve.class };
-            encodePoint = c.getMethod("encodePoint", params);
-            params = new Class<?>[] { ECParameterSpec.class };
-            getCurveName = c.getMethod("getCurveName", params);
-            params = new Class<?>[] { byte[].class, EllipticCurve.class };
-            decodePoint = c.getMethod("decodePoint", params);
-            c  = Class.forName("sun.security.util.NamedCurve");
-            params = new Class<?>[] { String.class };
-            getECParameterSpec = c.getMethod("getECParameterSpec", params);
+        void getMethods() throws ClbssNotFoundException, NoSuchMethodException {
+            Clbss<?> c  = Clbss.forNbme("sun.security.util.ECPbrbmeters");
+            Clbss<?>[] pbrbms = new Clbss<?>[] { ECPoint.clbss,
+                                                 EllipticCurve.clbss };
+            encodePoint = c.getMethod("encodePoint", pbrbms);
+            pbrbms = new Clbss<?>[] { ECPbrbmeterSpec.clbss };
+            getCurveNbme = c.getMethod("getCurveNbme", pbrbms);
+            pbrbms = new Clbss<?>[] { byte[].clbss, EllipticCurve.clbss };
+            decodePoint = c.getMethod("decodePoint", pbrbms);
+            c  = Clbss.forNbme("sun.security.util.NbmedCurve");
+            pbrbms = new Clbss<?>[] { String.clbss };
+            getECPbrbmeterSpec = c.getMethod("getECPbrbmeterSpec", pbrbms);
         }
 
-        void marshalPublicKey(Node parent, Document doc, String dsPrefix,
+        void mbrshblPublicKey(Node pbrent, Document doc, String dsPrefix,
                               DOMCryptoContext context)
-            throws MarshalException
+            throws MbrshblException
         {
             String prefix = DOMUtils.getNSPrefix(context, XMLDSIG_11_XMLNS);
-            Element ecKeyValueElem = DOMUtils.createElement(doc, "ECKeyValue",
+            Element ecKeyVblueElem = DOMUtils.crebteElement(doc, "ECKeyVblue",
                                                             XMLDSIG_11_XMLNS,
                                                             prefix);
-            Element namedCurveElem = DOMUtils.createElement(doc, "NamedCurve",
+            Element nbmedCurveElem = DOMUtils.crebteElement(doc, "NbmedCurve",
                                                             XMLDSIG_11_XMLNS,
                                                             prefix);
-            Element publicKeyElem = DOMUtils.createElement(doc, "PublicKey",
+            Element publicKeyElem = DOMUtils.crebteElement(doc, "PublicKey",
                                                            XMLDSIG_11_XMLNS,
                                                            prefix);
-            Object[] args = new Object[] { ecParams };
+            Object[] brgs = new Object[] { ecPbrbms };
             try {
-                String oid = (String) getCurveName.invoke(null, args);
-                DOMUtils.setAttribute(namedCurveElem, "URI", "urn:oid:" + oid);
-            } catch (IllegalAccessException iae) {
-                throw new MarshalException(iae);
-            } catch (InvocationTargetException ite) {
-                throw new MarshalException(ite);
+                String oid = (String) getCurveNbme.invoke(null, brgs);
+                DOMUtils.setAttribute(nbmedCurveElem, "URI", "urn:oid:" + oid);
+            } cbtch (IllegblAccessException ibe) {
+                throw new MbrshblException(ibe);
+            } cbtch (InvocbtionTbrgetException ite) {
+                throw new MbrshblException(ite);
             }
-            String qname = (prefix == null || prefix.length() == 0)
+            String qnbme = (prefix == null || prefix.length() == 0)
                        ? "xmlns" : "xmlns:" + prefix;
-            namedCurveElem.setAttributeNS("http://www.w3.org/2000/xmlns/",
-                                          qname, XMLDSIG_11_XMLNS);
-            ecKeyValueElem.appendChild(namedCurveElem);
-            String encoded = Base64.encode(ecPublicKey);
-            publicKeyElem.appendChild
-                (DOMUtils.getOwnerDocument(publicKeyElem).createTextNode(encoded));
-            ecKeyValueElem.appendChild(publicKeyElem);
-            parent.appendChild(ecKeyValueElem);
+            nbmedCurveElem.setAttributeNS("http://www.w3.org/2000/xmlns/",
+                                          qnbme, XMLDSIG_11_XMLNS);
+            ecKeyVblueElem.bppendChild(nbmedCurveElem);
+            String encoded = Bbse64.encode(ecPublicKey);
+            publicKeyElem.bppendChild
+                (DOMUtils.getOwnerDocument(publicKeyElem).crebteTextNode(encoded));
+            ecKeyVblueElem.bppendChild(publicKeyElem);
+            pbrent.bppendChild(ecKeyVblueElem);
         }
 
-        PublicKey unmarshalKeyValue(Element kvtElem)
-            throws MarshalException
+        PublicKey unmbrshblKeyVblue(Element kvtElem)
+            throws MbrshblException
         {
             if (eckf == null) {
                 try {
-                    eckf = KeyFactory.getInstance("EC");
-                } catch (NoSuchAlgorithmException e) {
+                    eckf = KeyFbctory.getInstbnce("EC");
+                } cbtch (NoSuchAlgorithmException e) {
                     throw new RuntimeException
-                        ("unable to create EC KeyFactory: " + e.getMessage());
+                        ("unbble to crebte EC KeyFbctory: " + e.getMessbge());
                 }
             }
             try {
                 AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Void>() {
                         public Void run() throws
-                            ClassNotFoundException, NoSuchMethodException
+                            ClbssNotFoundException, NoSuchMethodException
                         {
                             getMethods();
                             return null;
                         }
                     }
                 );
-            } catch (PrivilegedActionException pae) {
-                throw new MarshalException("ECKeyValue not supported",
-                                           pae.getException());
+            } cbtch (PrivilegedActionException pbe) {
+                throw new MbrshblException("ECKeyVblue not supported",
+                                           pbe.getException());
             }
-            ECParameterSpec ecParams = null;
+            ECPbrbmeterSpec ecPbrbms = null;
             Element curElem = DOMUtils.getFirstChildElement(kvtElem);
-            if (curElem.getLocalName().equals("ECParameters")) {
-                throw new UnsupportedOperationException
-                    ("ECParameters not supported");
-            } else if (curElem.getLocalName().equals("NamedCurve")) {
-                String uri = DOMUtils.getAttributeValue(curElem, "URI");
+            if (curElem.getLocblNbme().equbls("ECPbrbmeters")) {
+                throw new UnsupportedOperbtionException
+                    ("ECPbrbmeters not supported");
+            } else if (curElem.getLocblNbme().equbls("NbmedCurve")) {
+                String uri = DOMUtils.getAttributeVblue(curElem, "URI");
                 // strip off "urn:oid"
-                if (uri.startsWith("urn:oid:")) {
+                if (uri.stbrtsWith("urn:oid:")) {
                     String oid = uri.substring(8);
                     try {
-                        Object[] args = new Object[] { oid };
-                        ecParams = (ECParameterSpec)
-                                    getECParameterSpec.invoke(null, args);
-                    } catch (IllegalAccessException iae) {
-                        throw new MarshalException(iae);
-                    } catch (InvocationTargetException ite) {
-                        throw new MarshalException(ite);
+                        Object[] brgs = new Object[] { oid };
+                        ecPbrbms = (ECPbrbmeterSpec)
+                                    getECPbrbmeterSpec.invoke(null, brgs);
+                    } cbtch (IllegblAccessException ibe) {
+                        throw new MbrshblException(ibe);
+                    } cbtch (InvocbtionTbrgetException ite) {
+                        throw new MbrshblException(ite);
                     }
                 } else {
-                    throw new MarshalException("Invalid NamedCurve URI");
+                    throw new MbrshblException("Invblid NbmedCurve URI");
                 }
             } else {
-                throw new MarshalException("Invalid ECKeyValue");
+                throw new MbrshblException("Invblid ECKeyVblue");
             }
             curElem = DOMUtils.getNextSiblingElement(curElem, "PublicKey");
             ECPoint ecPoint = null;
             try {
-                Object[] args = new Object[] { Base64.decode(curElem),
-                                               ecParams.getCurve() };
-                ecPoint = (ECPoint)decodePoint.invoke(null, args);
-            } catch (Base64DecodingException bde) {
-                throw new MarshalException("Invalid EC PublicKey", bde);
-            } catch (IllegalAccessException iae) {
-                throw new MarshalException(iae);
-            } catch (InvocationTargetException ite) {
-                throw new MarshalException(ite);
+                Object[] brgs = new Object[] { Bbse64.decode(curElem),
+                                               ecPbrbms.getCurve() };
+                ecPoint = (ECPoint)decodePoint.invoke(null, brgs);
+            } cbtch (Bbse64DecodingException bde) {
+                throw new MbrshblException("Invblid EC PublicKey", bde);
+            } cbtch (IllegblAccessException ibe) {
+                throw new MbrshblException(ibe);
+            } cbtch (InvocbtionTbrgetException ite) {
+                throw new MbrshblException(ite);
             }
 /*
-                ecPoint = sun.security.util.ECParameters.decodePoint(
-                    Base64.decode(curElem), ecParams.getCurve());
+                ecPoint = sun.security.util.ECPbrbmeters.decodePoint(
+                    Bbse64.decode(curElem), ecPbrbms.getCurve());
 */
-            ECPublicKeySpec spec = new ECPublicKeySpec(ecPoint, ecParams);
-            return generatePublicKey(eckf, spec);
+            ECPublicKeySpec spec = new ECPublicKeySpec(ecPoint, ecPbrbms);
+            return generbtePublicKey(eckf, spec);
         }
     }
 
-    static final class Unknown extends DOMKeyValue {
-        private javax.xml.crypto.dom.DOMStructure externalPublicKey;
-        Unknown(Element elem) throws MarshalException {
+    stbtic finbl clbss Unknown extends DOMKeyVblue {
+        privbte jbvbx.xml.crypto.dom.DOMStructure externblPublicKey;
+        Unknown(Element elem) throws MbrshblException {
             super(elem);
         }
-        PublicKey unmarshalKeyValue(Element kvElem) throws MarshalException {
-            externalPublicKey = new javax.xml.crypto.dom.DOMStructure(kvElem);
+        PublicKey unmbrshblKeyVblue(Element kvElem) throws MbrshblException {
+            externblPublicKey = new jbvbx.xml.crypto.dom.DOMStructure(kvElem);
             return null;
         }
-        void marshalPublicKey(Node parent, Document doc, String dsPrefix,
+        void mbrshblPublicKey(Node pbrent, Document doc, String dsPrefix,
                               DOMCryptoContext context)
-            throws MarshalException
+            throws MbrshblException
         {
-            parent.appendChild(externalPublicKey.getNode());
+            pbrent.bppendChild(externblPublicKey.getNode());
         }
     }
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -31,113 +31,113 @@
 #include <jni.h>
 #include <jni_util.h>
 
-#include "awt_Object.h"
-#include "awt_Component.h"
-#include "awt_Window.h"
+#include "bwt_Object.h"
+#include "bwt_Component.h"
+#include "bwt_Window.h"
 
-extern "C" void awt_dnd_initialize();
+extern "C" void bwt_dnd_initiblize();
 
 /**
- * AwtDropTarget class: native peer IDropTarget implementation
+ * AwtDropTbrget clbss: nbtive peer IDropTbrget implementbtion
  */
 
-class AwtDropTarget : virtual public IDropTarget {
+clbss AwtDropTbrget : virtubl public IDropTbrget {
     public:
-        AwtDropTarget(JNIEnv* env, AwtComponent* component);
+        AwtDropTbrget(JNIEnv* env, AwtComponent* component);
 
-        virtual ~AwtDropTarget();
+        virtubl ~AwtDropTbrget();
 
         // IUnknown
 
-        virtual HRESULT __stdcall QueryInterface(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject);
+        virtubl HRESULT __stdcbll QueryInterfbce(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject);
 
-        virtual ULONG   __stdcall AddRef(void);
-        virtual ULONG   __stdcall Release(void);
+        virtubl ULONG   __stdcbll AddRef(void);
+        virtubl ULONG   __stdcbll Relebse(void);
 
-        // IDropTarget
+        // IDropTbrget
 
-        virtual HRESULT __stdcall DragEnter(IDataObject __RPC_FAR *pDataObject, DWORD grfKeyState, POINTL pt, DWORD __RPC_FAR *pdwEffect);
-        virtual HRESULT __stdcall DragOver(DWORD grfKeyState, POINTL pt, DWORD __RPC_FAR *pdwEffect);
-        virtual HRESULT __stdcall DragLeave(void);
+        virtubl HRESULT __stdcbll DrbgEnter(IDbtbObject __RPC_FAR *pDbtbObject, DWORD grfKeyStbte, POINTL pt, DWORD __RPC_FAR *pdwEffect);
+        virtubl HRESULT __stdcbll DrbgOver(DWORD grfKeyStbte, POINTL pt, DWORD __RPC_FAR *pdwEffect);
+        virtubl HRESULT __stdcbll DrbgLebve(void);
 
-        virtual HRESULT __stdcall Drop(IDataObject __RPC_FAR *pDataObject, DWORD grfKeyState, POINTL pt, DWORD __RPC_FAR *pdwEffect);
+        virtubl HRESULT __stdcbll Drop(IDbtbObject __RPC_FAR *pDbtbObject, DWORD grfKeyStbte, POINTL pt, DWORD __RPC_FAR *pdwEffect);
 
-        // AwtDropTarget
+        // AwtDropTbrget
 
-        virtual jobject DoGetData(jlong format);
+        virtubl jobject DoGetDbtb(jlong formbt);
 
-        virtual void DoDropDone(jboolean success, jint action);
+        virtubl void DoDropDone(jboolebn success, jint bction);
 
-        INLINE void Signal() { ::ReleaseMutex(m_mutex); }
+        INLINE void Signbl() { ::RelebseMutex(m_mutex); }
 
-        virtual void RegisterTarget(WORD wParam);
+        virtubl void RegisterTbrget(WORD wPbrbm);
 
-        INLINE static void SetCurrentDnDDataObject(IDataObject* pDataObject) {
-            DASSERT(sm_pCurrentDnDDataObject != NULL || pDataObject != NULL);
-            sm_pCurrentDnDDataObject = pDataObject;
+        INLINE stbtic void SetCurrentDnDDbtbObject(IDbtbObject* pDbtbObject) {
+            DASSERT(sm_pCurrentDnDDbtbObject != NULL || pDbtbObject != NULL);
+            sm_pCurrentDnDDbtbObject = pDbtbObject;
         }
 
-        INLINE static BOOL IsCurrentDnDDataObject(IDataObject* pDataObject) {
-            return sm_pCurrentDnDDataObject == pDataObject ? TRUE : FALSE;
+        INLINE stbtic BOOL IsCurrentDnDDbtbObject(IDbtbObject* pDbtbObject) {
+            return sm_pCurrentDnDDbtbObject == pDbtbObject ? TRUE : FALSE;
         }
 
-        INLINE static BOOL IsLocalDnD() {
-            return IsLocalDataObject(sm_pCurrentDnDDataObject);
+        INLINE stbtic BOOL IsLocblDnD() {
+            return IsLocblDbtbObject(sm_pCurrentDnDDbtbObject);
         }
 
-        static BOOL IsLocalDataObject(IDataObject __RPC_FAR *pDataObject);
+        stbtic BOOL IsLocblDbtbObject(IDbtbObject __RPC_FAR *pDbtbObject);
     protected:
 
-        INLINE void WaitUntilSignalled(BOOL retain) {
+        INLINE void WbitUntilSignblled(BOOL retbin) {
             do {
                 // nothing ...
-            } while (::WaitForSingleObject(m_mutex, INFINITE) == WAIT_FAILED);
+            } while (::WbitForSingleObject(m_mutex, INFINITE) == WAIT_FAILED);
 
-            if (!retain) ::ReleaseMutex(m_mutex);
+            if (!retbin) ::RelebseMutex(m_mutex);
         }
 
-        virtual jobject GetData(jlong format);
+        virtubl jobject GetDbtb(jlong formbt);
 
-        virtual void DropDone(jboolean success, jint action);
+        virtubl void DropDone(jboolebn success, jint bction);
 
-        virtual void DragCleanup(void);
+        virtubl void DrbgClebnup(void);
 
-        virtual void LoadCache(IDataObject*);
+        virtubl void LobdCbche(IDbtbObject*);
 
-        virtual void UnloadCache();
+        virtubl void UnlobdCbche();
 
-        virtual HRESULT ExtractNativeData(jlong fmt, LONG lIndex, STGMEDIUM *pmedium);
-        virtual HRESULT SaveIndexToFile(LPCTSTR pFileName, UINT lIndex);
-        virtual jobject ConvertNativeData(JNIEnv* env, jlong fmt, STGMEDIUM *pmedium);
-        virtual jobject ConvertMemoryMappedData(JNIEnv* env, jlong fmt, STGMEDIUM *pmedium);
+        virtubl HRESULT ExtrbctNbtiveDbtb(jlong fmt, LONG lIndex, STGMEDIUM *pmedium);
+        virtubl HRESULT SbveIndexToFile(LPCTSTR pFileNbme, UINT lIndex);
+        virtubl jobject ConvertNbtiveDbtb(JNIEnv* env, jlong fmt, STGMEDIUM *pmedium);
+        virtubl jobject ConvertMemoryMbppedDbtb(JNIEnv* env, jlong fmt, STGMEDIUM *pmedium);
 
-    private:
-        typedef struct _RegisterTargetRec {
-            AwtDropTarget*      dropTarget;
+    privbte:
+        typedef struct _RegisterTbrgetRec {
+            AwtDropTbrget*      dropTbrget;
             BOOL                show;
-        } RegisterTargetRec, *RegisterTargetPtr;
+        } RegisterTbrgetRec, *RegisterTbrgetPtr;
 
-        static void _RegisterTarget(void* param);
+        stbtic void _RegisterTbrget(void* pbrbm);
 
-        typedef struct _GetDataRec {
-            AwtDropTarget* dropTarget;
-            jlong          format;
+        typedef struct _GetDbtbRec {
+            AwtDropTbrget* dropTbrget;
+            jlong          formbt;
             jobject*       ret;
-        } GetDataRec, *GetDataPtr;
+        } GetDbtbRec, *GetDbtbPtr;
 
-        static void _GetData(void* param);
+        stbtic void _GetDbtb(void* pbrbm);
 
         typedef struct _DropDoneRec {
-            AwtDropTarget* dropTarget;
-            jboolean       success;
-            jint           action;
+            AwtDropTbrget* dropTbrget;
+            jboolebn       success;
+            jint           bction;
         } DropDoneRec, *DropDonePtr;
 
-        static void _DropDone(void* param);
+        stbtic void _DropDone(void* pbrbm);
 
         AwtComponent*         m_component;
         HWND                  m_window;
-        jobject               m_target;
+        jobject               m_tbrget;
 
         unsigned int          m_refs;
 
@@ -145,127 +145,127 @@ class AwtDropTarget : virtual public IDropTarget {
 
         WORD                  m_registered; // is drop site registered?
 
-        FORMATETC*            m_formats;
-        unsigned int          m_nformats;
+        FORMATETC*            m_formbts;
+        unsigned int          m_nformbts;
 
-        jlongArray            m_cfFormats;
+        jlongArrby            m_cfFormbts;
 
-        jboolean              m_dropSuccess;
+        jboolebn              m_dropSuccess;
         jint                  m_dropActions;
 
         HANDLE                m_mutex;
 
-        // external COM references
+        // externbl COM references
 
-        IDataObject              *m_dataObject;
-        IDropTargetHelper        *m_pIDropTargetHelper;
+        IDbtbObject              *m_dbtbObject;
+        IDropTbrgetHelper        *m_pIDropTbrgetHelper;
 
-        // static members
+        // stbtic members
 
-        static IDataObject       *sm_pCurrentDnDDataObject;
+        stbtic IDbtbObject       *sm_pCurrentDnDDbtbObject;
 
         // method references
 
-        static jobject call_dTCcreate(JNIEnv* env);
-        static jint call_dTCenter(JNIEnv* env, jobject self, jobject component,
-                                  jint x, jint y, jint dropAction, jint actions,
-                                  jlongArray formats, jlong nativeCtxt);
-        static void call_dTCexit(JNIEnv* env, jobject self, jobject component,
-                                 jlong nativeCtxt);
-        static jint call_dTCmotion(JNIEnv* env, jobject self, jobject component,
+        stbtic jobject cbll_dTCcrebte(JNIEnv* env);
+        stbtic jint cbll_dTCenter(JNIEnv* env, jobject self, jobject component,
+                                  jint x, jint y, jint dropAction, jint bctions,
+                                  jlongArrby formbts, jlong nbtiveCtxt);
+        stbtic void cbll_dTCexit(JNIEnv* env, jobject self, jobject component,
+                                 jlong nbtiveCtxt);
+        stbtic jint cbll_dTCmotion(JNIEnv* env, jobject self, jobject component,
                                    jint x, jint y, jint dropAction,
-                                   jint actions, jlongArray formats,
-                                   jlong nativeCtxt);
-        static void call_dTCdrop(JNIEnv* env, jobject self, jobject component,
-                                 jint x, jint y, jint dropAction, jint actions,
-                                 jlongArray formats, jlong nativeCtxt);
+                                   jint bctions, jlongArrby formbts,
+                                   jlong nbtiveCtxt);
+        stbtic void cbll_dTCdrop(JNIEnv* env, jobject self, jobject component,
+                                 jint x, jint y, jint dropAction, jint bctions,
+                                 jlongArrby formbts, jlong nbtiveCtxt);
 
-        static jobject call_dTCgetfs(JNIEnv* env, jstring fileName,
+        stbtic jobject cbll_dTCgetfs(JNIEnv* env, jstring fileNbme,
                                      jlong stgmedium);
-        static jobject call_dTCgetis(JNIEnv* env, jlong istream);
+        stbtic jobject cbll_dTCgetis(JNIEnv* env, jlong istrebm);
 
-        static const unsigned int CACHE_INCR;
+        stbtic const unsigned int CACHE_INCR;
 
-        static int __cdecl _compar(const void *, const void *);
+        stbtic int __cdecl _compbr(const void *, const void *);
 };
 
 
 /**
- * WDTCPIStreamWrapper: cheap wrapper class for incoming IStream drops, maps
- * onto WDropTargetContextPeerIStream class
+ * WDTCPIStrebmWrbpper: chebp wrbpper clbss for incoming IStrebm drops, mbps
+ * onto WDropTbrgetContextPeerIStrebm clbss
  */
 
-class WDTCPIStreamWrapper {
+clbss WDTCPIStrebmWrbpper {
     public:
-        WDTCPIStreamWrapper(STGMEDIUM* stgmedium);
+        WDTCPIStrebmWrbpper(STGMEDIUM* stgmedium);
 
-        virtual ~WDTCPIStreamWrapper();
+        virtubl ~WDTCPIStrebmWrbpper();
 
-        static jint DoAvailable(WDTCPIStreamWrapper* istream);
-        static jint DoRead(WDTCPIStreamWrapper* istream);
-        static jint DoReadBytes(WDTCPIStreamWrapper* istream, jbyteArray buf, jint off, jint len);
-        static void DoClose(WDTCPIStreamWrapper* istream);
+        stbtic jint DoAvbilbble(WDTCPIStrebmWrbpper* istrebm);
+        stbtic jint DoRebd(WDTCPIStrebmWrbpper* istrebm);
+        stbtic jint DoRebdBytes(WDTCPIStrebmWrbpper* istrebm, jbyteArrby buf, jint off, jint len);
+        stbtic void DoClose(WDTCPIStrebmWrbpper* istrebm);
 
 
-        virtual jint Available();
-        virtual jint Read();
-        virtual jint ReadBytes(jbyteArray buf, jint off, jint len);
-        virtual void Close();
+        virtubl jint Avbilbble();
+        virtubl jint Rebd();
+        virtubl jint RebdBytes(jbyteArrby buf, jint off, jint len);
+        virtubl void Close();
 
-        INLINE void Signal() { ::ReleaseMutex(m_mutex); }
+        INLINE void Signbl() { ::RelebseMutex(m_mutex); }
    protected:
 
-        INLINE void WaitUntilSignalled(BOOL retain) {
+        INLINE void WbitUntilSignblled(BOOL retbin) {
             do {
                 // nothing ...
-            } while (::WaitForSingleObject(m_mutex, INFINITE) == WAIT_FAILED);
+            } while (::WbitForSingleObject(m_mutex, INFINITE) == WAIT_FAILED);
 
-            if (!retain) ::ReleaseMutex(m_mutex);
+            if (!retbin) ::RelebseMutex(m_mutex);
         }
 
-        typedef struct _WDTCPIStreamWrapperRec {
-            WDTCPIStreamWrapper* istream;
+        typedef struct _WDTCPIStrebmWrbpperRec {
+            WDTCPIStrebmWrbpper* istrebm;
             jint                 ret;
-        } WDTCPIStreamWrapperRec, *WDTCPIStreamWrapperPtr;
+        } WDTCPIStrebmWrbpperRec, *WDTCPIStrebmWrbpperPtr;
 
-        static void _Available(void* param);
+        stbtic void _Avbilbble(void* pbrbm);
 
-        static void _Read     (void* Param);
+        stbtic void _Rebd     (void* Pbrbm);
 
-        typedef struct _WDTCPIStreamWrapperReadBytesRec {
-            WDTCPIStreamWrapper* istream;
+        typedef struct _WDTCPIStrebmWrbpperRebdBytesRec {
+            WDTCPIStrebmWrbpper* istrebm;
             jint                 ret;
-            jbyteArray           array;
+            jbyteArrby           brrby;
             jint                 off;
             jint                 len;
-        } WDTCPIStreamWrapperReadBytesRec, *WDTCPIStreamWrapperReadBytesPtr;
+        } WDTCPIStrebmWrbpperRebdBytesRec, *WDTCPIStrebmWrbpperRebdBytesPtr;
 
-        static void _ReadBytes(void* param);
+        stbtic void _RebdBytes(void* pbrbm);
 
-        static void _Close    (void* param);
+        stbtic void _Close    (void* pbrbm);
 
-    private:
-        IStream*        m_istream;
+    privbte:
+        IStrebm*        m_istrebm;
         STGMEDIUM       m_stgmedium;
-        STATSTG         m_statstg;
+        STATSTG         m_stbtstg;
         HANDLE          m_mutex;
 
-        static jclass javaIOExceptionClazz;
+        stbtic jclbss jbvbIOExceptionClbzz;
 };
 
-class AwtInterfaceLocker
+clbss AwtInterfbceLocker
 {
 protected:
     IUnknown *m_pIUnknown;
 public:
-    AwtInterfaceLocker(IUnknown *pIUnknown)
+    AwtInterfbceLocker(IUnknown *pIUnknown)
     : m_pIUnknown( pIUnknown )
     {
         m_pIUnknown->AddRef();
     }
-    ~AwtInterfaceLocker()
+    ~AwtInterfbceLocker()
     {
-        m_pIUnknown->Release();
+        m_pIUnknown->Relebse();
     }
 };
 

@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import java.util.LinkedList;
-import java.util.Iterator;
+import jbvb.util.LinkedList;
+import jbvb.util.Iterbtor;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-import sun.awt.EmbeddedFrame;
-import sun.awt.SunToolkit;
+import sun.bwt.EmbeddedFrbme;
+import sun.bwt.SunToolkit;
 
-import static sun.awt.X11.XConstants.*;
+import stbtic sun.bwt.X11.XConstbnts.*;
 
-public class XEmbeddedFramePeer extends XFramePeer {
+public clbss XEmbeddedFrbmePeer extends XFrbmePeer {
 
-    private static final PlatformLogger xembedLog = PlatformLogger.getLogger("sun.awt.X11.xembed.XEmbeddedFramePeer");
+    privbte stbtic finbl PlbtformLogger xembedLog = PlbtformLogger.getLogger("sun.bwt.X11.xembed.XEmbeddedFrbmePeer");
 
     LinkedList<AWTKeyStroke> strokes;
 
-    XEmbedClientHelper embedder; // Caution - can be null if XEmbed is not supported
-    public XEmbeddedFramePeer(EmbeddedFrame target) {
-        // Don't specify PARENT_WINDOW param here. Instead we reparent
-        // this embedded frame peer to the proper parent window after
-        // an XEventDispatcher is registered to handle XEmbed events
-        super(new XCreateWindowParams(new Object[] {
-            TARGET, target,
-            VISIBLE, Boolean.TRUE,
-            EMBEDDED, Boolean.TRUE}));
+    XEmbedClientHelper embedder; // Cbution - cbn be null if XEmbed is not supported
+    public XEmbeddedFrbmePeer(EmbeddedFrbme tbrget) {
+        // Don't specify PARENT_WINDOW pbrbm here. Instebd we repbrent
+        // this embedded frbme peer to the proper pbrent window bfter
+        // bn XEventDispbtcher is registered to hbndle XEmbed events
+        super(new XCrebteWindowPbrbms(new Object[] {
+            TARGET, tbrget,
+            VISIBLE, Boolebn.TRUE,
+            EMBEDDED, Boolebn.TRUE}));
     }
 
-    public void preInit(XCreateWindowParams params) {
-        super.preInit(params);
+    public void preInit(XCrebteWindowPbrbms pbrbms) {
+        super.preInit(pbrbms);
         strokes = new LinkedList<AWTKeyStroke>();
         if (supportsXEmbed()) {
             embedder = new XEmbedClientHelper();
         }
     }
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
+    void postInit(XCrebteWindowPbrbms pbrbms) {
+        super.postInit(pbrbms);
         if (embedder != null) {
-            // install X11 event dispatcher
+            // instbll X11 event dispbtcher
             embedder.setClient(this);
-            // reparent to XEmbed server
-            embedder.install();
-        } else if (getParentWindowHandle() != 0) {
-            XToolkit.awtLock();
+            // repbrent to XEmbed server
+            embedder.instbll();
+        } else if (getPbrentWindowHbndle() != 0) {
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XReparentWindow(XToolkit.getDisplay(),
+                XlibWrbpper.XRepbrentWindow(XToolkit.getDisplby(),
                                             getWindow(),
-                                            getParentWindowHandle(),
+                                            getPbrentWindowHbndle(),
                                             0, 0);
-            } finally {
-                XToolkit.awtUnlock();
+            } finblly {
+                XToolkit.bwtUnlock();
             }
         }
     }
@@ -84,29 +84,29 @@ public class XEmbeddedFramePeer extends XFramePeer {
     @Override
     public void dispose() {
         if (embedder != null) {
-            // uninstall X11 event dispatcher
+            // uninstbll X11 event dispbtcher
             embedder.setClient(null);
         }
         super.dispose();
     }
 
-    public void updateMinimumSize() {
+    public void updbteMinimumSize() {
     }
 
-    protected String getWMName() {
-        return "JavaEmbeddedFrame";
+    protected String getWMNbme() {
+        return "JbvbEmbeddedFrbme";
     }
 
-    final long getParentWindowHandle() {
-        return ((XEmbeddedFrame)target).handle;
+    finbl long getPbrentWindowHbndle() {
+        return ((XEmbeddedFrbme)tbrget).hbndle;
     }
 
-    boolean supportsXEmbed() {
-        return ((EmbeddedFrame)target).supportsXEmbed();
+    boolebn supportsXEmbed() {
+        return ((EmbeddedFrbme)tbrget).supportsXEmbed();
     }
 
-    public boolean requestWindowFocus(long time, boolean timeProvided) {
-        // Should check for active state of host application
+    public boolebn requestWindowFocus(long time, boolebn timeProvided) {
+        // Should check for bctive stbte of host bpplicbtion
         if (embedder != null && embedder.isActive()) {
             xembedLog.fine("Requesting focus from embedding host");
             return embedder.requestFocus();
@@ -116,176 +116,176 @@ public class XEmbeddedFramePeer extends XFramePeer {
         }
     }
 
-    protected void requestInitialFocus() {
+    protected void requestInitiblFocus() {
         if (embedder != null && supportsXEmbed()) {
             embedder.requestFocus();
         } else {
-            super.requestInitialFocus();
+            super.requestInitiblFocus();
         }
     }
 
-    protected boolean isEventDisabled(XEvent e) {
+    protected boolebn isEventDisbbled(XEvent e) {
         if (embedder != null && embedder.isActive()) {
             switch (e.get_type()) {
-              case XConstants.FocusIn:
-              case XConstants.FocusOut:
+              cbse XConstbnts.FocusIn:
+              cbse XConstbnts.FocusOut:
                   return true;
             }
         }
-        return super.isEventDisabled(e);
+        return super.isEventDisbbled(e);
     }
 
-    public void handleConfigureNotifyEvent(XEvent xev)
+    public void hbndleConfigureNotifyEvent(XEvent xev)
     {
-        assert (SunToolkit.isAWTLockHeldByCurrentThread());
+        bssert (SunToolkit.isAWTLockHeldByCurrentThrebd());
         XConfigureEvent xe = xev.get_xconfigure();
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
+        if (xembedLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             xembedLog.fine(xe.toString());
         }
 
         // fix for 5063031
-        // if we use super.handleConfigureNotifyEvent() we would get wrong
-        // size and position because embedded frame really is NOT a decorated one
-        checkIfOnNewScreen(toGlobal(new Rectangle(xe.get_x(),
+        // if we use super.hbndleConfigureNotifyEvent() we would get wrong
+        // size bnd position becbuse embedded frbme reblly is NOT b decorbted one
+        checkIfOnNewScreen(toGlobbl(new Rectbngle(xe.get_x(),
                 xe.get_y(),
                 xe.get_width(),
                 xe.get_height())));
 
-        Rectangle oldBounds = getBounds();
+        Rectbngle oldBounds = getBounds();
 
-        synchronized (getStateLock()) {
+        synchronized (getStbteLock()) {
             x = xe.get_x();
             y = xe.get_y();
             width = xe.get_width();
             height = xe.get_height();
 
             dimensions.setClientSize(width, height);
-            dimensions.setLocation(x, y);
+            dimensions.setLocbtion(x, y);
         }
 
-        if (!getLocation().equals(oldBounds.getLocation())) {
-            handleMoved(dimensions);
+        if (!getLocbtion().equbls(oldBounds.getLocbtion())) {
+            hbndleMoved(dimensions);
         }
         reconfigureContentWindow(dimensions);
     }
 
-    protected void traverseOutForward() {
+    protected void trbverseOutForwbrd() {
         if (embedder != null && embedder.isActive()) {
-            if (embedder.isApplicationActive()) {
-                xembedLog.fine("Traversing out Forward");
-                embedder.traverseOutForward();
+            if (embedder.isApplicbtionActive()) {
+                xembedLog.fine("Trbversing out Forwbrd");
+                embedder.trbverseOutForwbrd();
             }
         }
     }
 
-    protected void traverseOutBackward() {
+    protected void trbverseOutBbckwbrd() {
         if (embedder != null && embedder.isActive()) {
-            if (embedder.isApplicationActive()) {
-                xembedLog.fine("Traversing out Backward");
-                embedder.traverseOutBackward();
+            if (embedder.isApplicbtionActive()) {
+                xembedLog.fine("Trbversing out Bbckwbrd");
+                embedder.trbverseOutBbckwbrd();
             }
         }
     }
 
-    // don't use getLocationOnScreen() inherited from XDecoratedPeer
-    public Point getLocationOnScreen() {
-        XToolkit.awtLock();
+    // don't use getLocbtionOnScreen() inherited from XDecorbtedPeer
+    public Point getLocbtionOnScreen() {
+        XToolkit.bwtLock();
         try {
-            return toGlobal(0, 0);
-        } finally {
-            XToolkit.awtUnlock();
+            return toGlobbl(0, 0);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    // don't use getBounds() inherited from XDecoratedPeer
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+    // don't use getBounds() inherited from XDecorbtedPeer
+    public Rectbngle getBounds() {
+        return new Rectbngle(x, y, width, height);
     }
 
-    public void setBoundsPrivate(int x, int y, int width, int height) {
+    public void setBoundsPrivbte(int x, int y, int width, int height) {
         setBounds(x, y, width, height, SET_BOUNDS | NO_EMBEDDED_CHECK);
     }
 
-    public Rectangle getBoundsPrivate() {
+    public Rectbngle getBoundsPrivbte() {
         int x = 0, y = 0;
         int w = 0, h = 0;
-        XWindowAttributes attr = new XWindowAttributes();
+        XWindowAttributes bttr = new XWindowAttributes();
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                getWindow(), attr.pData);
-            x = attr.get_x();
-            y = attr.get_y();
-            w = attr.get_width();
-            h = attr.get_height();
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XGetWindowAttributes(XToolkit.getDisplby(),
+                getWindow(), bttr.pDbtb);
+            x = bttr.get_x();
+            y = bttr.get_y();
+            w = bttr.get_width();
+            h = bttr.get_height();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
-        attr.dispose();
+        bttr.dispose();
 
-        return new Rectangle(x, y, w, h);
+        return new Rectbngle(x, y, w, h);
     }
-    void registerAccelerator(AWTKeyStroke stroke) {
+    void registerAccelerbtor(AWTKeyStroke stroke) {
         if (stroke == null) return;
-        strokes.add(stroke);
+        strokes.bdd(stroke);
         if (embedder != null && embedder.isActive()) {
-            embedder.registerAccelerator(stroke, strokes.size()-1);
+            embedder.registerAccelerbtor(stroke, strokes.size()-1);
         }
     }
 
-    void unregisterAccelerator(AWTKeyStroke stroke) {
+    void unregisterAccelerbtor(AWTKeyStroke stroke) {
         if (stroke == null) return;
         if (embedder != null && embedder.isActive()) {
             int index = strokes.indexOf(stroke);
-            embedder.unregisterAccelerator(index);
+            embedder.unregisterAccelerbtor(index);
         }
     }
 
-    void notifyStarted() {
-        // Register accelerators
+    void notifyStbrted() {
+        // Register bccelerbtors
         if (embedder != null && embedder.isActive()) {
             int i = 0;
-            Iterator<AWTKeyStroke> iter = strokes.iterator();
-            while (iter.hasNext()) {
-                embedder.registerAccelerator(iter.next(), i++);
+            Iterbtor<AWTKeyStroke> iter = strokes.iterbtor();
+            while (iter.hbsNext()) {
+                embedder.registerAccelerbtor(iter.next(), i++);
             }
         }
-        // Now we know that the the embedder is an XEmbed server, so we
-        // reregister the drop target to enable XDnD protocol support via
+        // Now we know thbt the the embedder is bn XEmbed server, so we
+        // reregister the drop tbrget to enbble XDnD protocol support vib
         // XEmbed.
-        updateDropTarget();
+        updbteDropTbrget();
     }
     void notifyStopped() {
         if (embedder != null && embedder.isActive()) {
             for (int i = strokes.size() - 1; i >= 0; i--) {
-                embedder.unregisterAccelerator(i);
+                embedder.unregisterAccelerbtor(i);
             }
         }
     }
 
-    long getFocusTargetWindow() {
+    long getFocusTbrgetWindow() {
         return getWindow();
     }
 
-    boolean isXEmbedActive() {
+    boolebn isXEmbedActive() {
         return embedder != null && embedder.isActive();
     }
 
     public int getAbsoluteX()
     {
-        Point absoluteLoc = XlibUtil.translateCoordinates(getWindow(),
-                                                          XToolkit.getDefaultRootWindow(),
+        Point bbsoluteLoc = XlibUtil.trbnslbteCoordinbtes(getWindow(),
+                                                          XToolkit.getDefbultRootWindow(),
                                                           new Point(0, 0));
-        return absoluteLoc != null ? absoluteLoc.x : 0;
+        return bbsoluteLoc != null ? bbsoluteLoc.x : 0;
     }
 
     public int getAbsoluteY()
     {
-        Point absoluteLoc = XlibUtil.translateCoordinates(getWindow(),
-                                                          XToolkit.getDefaultRootWindow(),
+        Point bbsoluteLoc = XlibUtil.trbnslbteCoordinbtes(getWindow(),
+                                                          XToolkit.getDefbultRootWindow(),
                                                           new Point(0, 0));
-        return absoluteLoc != null ? absoluteLoc.y : 0;
+        return bbsoluteLoc != null ? bbsoluteLoc.y : 0;
     }
 
     public int getWidth() {
@@ -299,27 +299,27 @@ public class XEmbeddedFramePeer extends XFramePeer {
         return new Dimension(width, height);
     }
 
-    // override XWindowPeer's method to let the embedded frame to block
-    // the containing window
-    public void setModalBlocked(Dialog blocker, boolean blocked) {
-        super.setModalBlocked(blocker, blocked);
+    // override XWindowPeer's method to let the embedded frbme to block
+    // the contbining window
+    public void setModblBlocked(Diblog blocker, boolebn blocked) {
+        super.setModblBlocked(blocker, blocked);
 
-        EmbeddedFrame frame = (EmbeddedFrame)target;
-        frame.notifyModalBlocked(blocker, blocked);
+        EmbeddedFrbme frbme = (EmbeddedFrbme)tbrget;
+        frbme.notifyModblBlocked(blocker, blocked);
     }
 
-    public void synthesizeFocusInOut(boolean doFocus) {
-        XFocusChangeEvent xev = new XFocusChangeEvent();
+    public void synthesizeFocusInOut(boolebn doFocus) {
+        XFocusChbngeEvent xev = new XFocusChbngeEvent();
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
             xev.set_type(doFocus ? FocusIn : FocusOut);
             xev.set_window(getFocusProxy().getWindow());
-            xev.set_mode(NotifyNormal);
-            XlibWrapper.XSendEvent(XToolkit.getDisplay(), getFocusProxy().getWindow(), false,
-                                   NoEventMask, xev.pData);
-        } finally {
-            XToolkit.awtUnlock();
+            xev.set_mode(NotifyNormbl);
+            XlibWrbpper.XSendEvent(XToolkit.getDisplby(), getFocusProxy().getWindow(), fblse,
+                                   NoEventMbsk, xev.pDbtb);
+        } finblly {
+            XToolkit.bwtUnlock();
             xev.dispose();
         }
     }

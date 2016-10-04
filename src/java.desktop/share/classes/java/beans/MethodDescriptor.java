@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.lang.ref.Reference;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.ArrayList;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
 /**
- * A MethodDescriptor describes a particular method that a Java Bean
- * supports for external access from other components.
+ * A MethodDescriptor describes b pbrticulbr method thbt b Jbvb Bebn
+ * supports for externbl bccess from other components.
  *
  * @since 1.1
  */
 
-public class MethodDescriptor extends FeatureDescriptor {
+public clbss MethodDescriptor extends FebtureDescriptor {
 
-    private final MethodRef methodRef = new MethodRef();
+    privbte finbl MethodRef methodRef = new MethodRef();
 
-    private String[] paramNames;
+    privbte String[] pbrbmNbmes;
 
-    private List<WeakReference<Class<?>>> params;
+    privbte List<WebkReference<Clbss<?>>> pbrbms;
 
-    private ParameterDescriptor parameterDescriptors[];
+    privbte PbrbmeterDescriptor pbrbmeterDescriptors[];
 
     /**
-     * Constructs a <code>MethodDescriptor</code> from a
+     * Constructs b <code>MethodDescriptor</code> from b
      * <code>Method</code>.
      *
-     * @param method    The low-level method information.
+     * @pbrbm method    The low-level method informbtion.
      */
     public MethodDescriptor(Method method) {
         this(method, null);
@@ -60,47 +60,47 @@ public class MethodDescriptor extends FeatureDescriptor {
 
 
     /**
-     * Constructs a <code>MethodDescriptor</code> from a
-     * <code>Method</code> providing descriptive information for each
-     * of the method's parameters.
+     * Constructs b <code>MethodDescriptor</code> from b
+     * <code>Method</code> providing descriptive informbtion for ebch
+     * of the method's pbrbmeters.
      *
-     * @param method    The low-level method information.
-     * @param parameterDescriptors  Descriptive information for each of the
-     *                          method's parameters.
+     * @pbrbm method    The low-level method informbtion.
+     * @pbrbm pbrbmeterDescriptors  Descriptive informbtion for ebch of the
+     *                          method's pbrbmeters.
      */
     public MethodDescriptor(Method method,
-                ParameterDescriptor parameterDescriptors[]) {
-        setName(method.getName());
+                PbrbmeterDescriptor pbrbmeterDescriptors[]) {
+        setNbme(method.getNbme());
         setMethod(method);
-        this.parameterDescriptors = (parameterDescriptors != null)
-                ? parameterDescriptors.clone()
+        this.pbrbmeterDescriptors = (pbrbmeterDescriptors != null)
+                ? pbrbmeterDescriptors.clone()
                 : null;
     }
 
     /**
-     * Gets the method that this MethodDescriptor encapsulates.
+     * Gets the method thbt this MethodDescriptor encbpsulbtes.
      *
      * @return The low-level description of the method
      */
     public synchronized Method getMethod() {
         Method method = this.methodRef.get();
         if (method == null) {
-            Class<?> cls = getClass0();
-            String name = getName();
-            if ((cls != null) && (name != null)) {
-                Class<?>[] params = getParams();
-                if (params == null) {
+            Clbss<?> cls = getClbss0();
+            String nbme = getNbme();
+            if ((cls != null) && (nbme != null)) {
+                Clbss<?>[] pbrbms = getPbrbms();
+                if (pbrbms == null) {
                     for (int i = 0; i < 3; i++) {
-                        // Find methods for up to 2 params. We are guessing here.
-                        // This block should never execute unless the classloader
-                        // that loaded the argument classes disappears.
-                        method = Introspector.findMethod(cls, name, i, null);
+                        // Find methods for up to 2 pbrbms. We bre guessing here.
+                        // This block should never execute unless the clbsslobder
+                        // thbt lobded the brgument clbsses disbppebrs.
+                        method = Introspector.findMethod(cls, nbme, i, null);
                         if (method != null) {
-                            break;
+                            brebk;
                         }
                     }
                 } else {
-                    method = Introspector.findMethod(cls, name, params.length, params);
+                    method = Introspector.findMethod(cls, nbme, pbrbms.length, pbrbms);
                 }
                 setMethod(method);
             }
@@ -108,40 +108,40 @@ public class MethodDescriptor extends FeatureDescriptor {
         return method;
     }
 
-    private synchronized void setMethod(Method method) {
+    privbte synchronized void setMethod(Method method) {
         if (method == null) {
             return;
         }
-        if (getClass0() == null) {
-            setClass0(method.getDeclaringClass());
+        if (getClbss0() == null) {
+            setClbss0(method.getDeclbringClbss());
         }
-        setParams(getParameterTypes(getClass0(), method));
+        setPbrbms(getPbrbmeterTypes(getClbss0(), method));
         this.methodRef.set(method);
     }
 
-    private synchronized void setParams(Class<?>[] param) {
-        if (param == null) {
+    privbte synchronized void setPbrbms(Clbss<?>[] pbrbm) {
+        if (pbrbm == null) {
             return;
         }
-        paramNames = new String[param.length];
-        params = new ArrayList<>(param.length);
-        for (int i = 0; i < param.length; i++) {
-            paramNames[i] = param[i].getName();
-            params.add(new WeakReference<Class<?>>(param[i]));
+        pbrbmNbmes = new String[pbrbm.length];
+        pbrbms = new ArrbyList<>(pbrbm.length);
+        for (int i = 0; i < pbrbm.length; i++) {
+            pbrbmNbmes[i] = pbrbm[i].getNbme();
+            pbrbms.bdd(new WebkReference<Clbss<?>>(pbrbm[i]));
         }
     }
 
-    // pp getParamNames used as an optimization to avoid method.getParameterTypes.
-    String[] getParamNames() {
-        return paramNames;
+    // pp getPbrbmNbmes used bs bn optimizbtion to bvoid method.getPbrbmeterTypes.
+    String[] getPbrbmNbmes() {
+        return pbrbmNbmes;
     }
 
-    private synchronized Class<?>[] getParams() {
-        Class<?>[] clss = new Class<?>[params.size()];
+    privbte synchronized Clbss<?>[] getPbrbms() {
+        Clbss<?>[] clss = new Clbss<?>[pbrbms.size()];
 
-        for (int i = 0; i < params.size(); i++) {
-            Reference<? extends Class<?>> ref = (Reference<? extends Class<?>>)params.get(i);
-            Class<?> cls = ref.get();
+        for (int i = 0; i < pbrbms.size(); i++) {
+            Reference<? extends Clbss<?>> ref = (Reference<? extends Clbss<?>>)pbrbms.get(i);
+            Clbss<?> cls = ref.get();
             if (cls == null) {
                 return null;
             } else {
@@ -152,19 +152,19 @@ public class MethodDescriptor extends FeatureDescriptor {
     }
 
     /**
-     * Gets the ParameterDescriptor for each of this MethodDescriptor's
-     * method's parameters.
+     * Gets the PbrbmeterDescriptor for ebch of this MethodDescriptor's
+     * method's pbrbmeters.
      *
-     * @return The locale-independent names of the parameters.  May return
-     *          a null array if the parameter names aren't known.
+     * @return The locble-independent nbmes of the pbrbmeters.  Mby return
+     *          b null brrby if the pbrbmeter nbmes bren't known.
      */
-    public ParameterDescriptor[] getParameterDescriptors() {
-        return (this.parameterDescriptors != null)
-                ? this.parameterDescriptors.clone()
+    public PbrbmeterDescriptor[] getPbrbmeterDescriptors() {
+        return (this.pbrbmeterDescriptors != null)
+                ? this.pbrbmeterDescriptors.clone()
                 : null;
     }
 
-    private static Method resolve(Method oldMethod, Method newMethod) {
+    privbte stbtic Method resolve(Method oldMethod, Method newMethod) {
         if (oldMethod == null) {
             return newMethod;
         }
@@ -175,61 +175,61 @@ public class MethodDescriptor extends FeatureDescriptor {
     }
 
     /*
-     * Package-private constructor
+     * Pbckbge-privbte constructor
      * Merge two method descriptors.  Where they conflict, give the
-     * second argument (y) priority over the first argument (x).
-     * @param x  The first (lower priority) MethodDescriptor
-     * @param y  The second (higher priority) MethodDescriptor
+     * second brgument (y) priority over the first brgument (x).
+     * @pbrbm x  The first (lower priority) MethodDescriptor
+     * @pbrbm y  The second (higher priority) MethodDescriptor
      */
 
     MethodDescriptor(MethodDescriptor x, MethodDescriptor y) {
         super(x, y);
 
         this.methodRef.set(resolve(x.methodRef.get(), y.methodRef.get()));
-        params = x.params;
-        if (y.params != null) {
-            params = y.params;
+        pbrbms = x.pbrbms;
+        if (y.pbrbms != null) {
+            pbrbms = y.pbrbms;
         }
-        paramNames = x.paramNames;
-        if (y.paramNames != null) {
-            paramNames = y.paramNames;
+        pbrbmNbmes = x.pbrbmNbmes;
+        if (y.pbrbmNbmes != null) {
+            pbrbmNbmes = y.pbrbmNbmes;
         }
 
-        parameterDescriptors = x.parameterDescriptors;
-        if (y.parameterDescriptors != null) {
-            parameterDescriptors = y.parameterDescriptors;
+        pbrbmeterDescriptors = x.pbrbmeterDescriptors;
+        if (y.pbrbmeterDescriptors != null) {
+            pbrbmeterDescriptors = y.pbrbmeterDescriptors;
         }
     }
 
     /*
-     * Package-private dup constructor
-     * This must isolate the new object from any changes to the old object.
+     * Pbckbge-privbte dup constructor
+     * This must isolbte the new object from bny chbnges to the old object.
      */
     MethodDescriptor(MethodDescriptor old) {
         super(old);
 
         this.methodRef.set(old.getMethod());
-        params = old.params;
-        paramNames = old.paramNames;
+        pbrbms = old.pbrbms;
+        pbrbmNbmes = old.pbrbmNbmes;
 
-        if (old.parameterDescriptors != null) {
-            int len = old.parameterDescriptors.length;
-            parameterDescriptors = new ParameterDescriptor[len];
+        if (old.pbrbmeterDescriptors != null) {
+            int len = old.pbrbmeterDescriptors.length;
+            pbrbmeterDescriptors = new PbrbmeterDescriptor[len];
             for (int i = 0; i < len ; i++) {
-                parameterDescriptors[i] = new ParameterDescriptor(old.parameterDescriptors[i]);
+                pbrbmeterDescriptors[i] = new PbrbmeterDescriptor(old.pbrbmeterDescriptors[i]);
             }
         }
     }
 
-    void appendTo(StringBuilder sb) {
-        appendTo(sb, "method", this.methodRef.get());
-        if (this.parameterDescriptors != null) {
-            sb.append("; parameterDescriptors={");
-            for (ParameterDescriptor pd : this.parameterDescriptors) {
-                sb.append(pd).append(", ");
+    void bppendTo(StringBuilder sb) {
+        bppendTo(sb, "method", this.methodRef.get());
+        if (this.pbrbmeterDescriptors != null) {
+            sb.bppend("; pbrbmeterDescriptors={");
+            for (PbrbmeterDescriptor pd : this.pbrbmeterDescriptors) {
+                sb.bppend(pd).bppend(", ");
             }
             sb.setLength(sb.length() - 2);
-            sb.append("}");
+            sb.bppend("}");
         }
     }
 }

@@ -3,117 +3,117 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions;
 
-import java.security.Key;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.security.Key;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import javax.crypto.SecretKey;
+import jbvbx.crypto.SecretKey;
 
-import com.sun.org.apache.xml.internal.security.encryption.EncryptedKey;
-import com.sun.org.apache.xml.internal.security.encryption.XMLCipher;
-import com.sun.org.apache.xml.internal.security.encryption.XMLEncryptionException;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverSpi;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
-import com.sun.org.apache.xml.internal.security.utils.EncryptionConstants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.encryption.EncryptedKey;
+import com.sun.org.bpbche.xml.internbl.security.encryption.XMLCipher;
+import com.sun.org.bpbche.xml.internbl.security.encryption.XMLEncryptionException;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolver;
+import com.sun.org.bpbche.xml.internbl.security.utils.EncryptionConstbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Element;
 
 /**
- * The <code>EncryptedKeyResolver</code> is not a generic resolver.  It can
- * only be for specific instantiations, as the key being unwrapped will
- * always be of a particular type and will always have been wrapped by
- * another key which needs to be recursively resolved.
+ * The <code>EncryptedKeyResolver</code> is not b generic resolver.  It cbn
+ * only be for specific instbntibtions, bs the key being unwrbpped will
+ * blwbys be of b pbrticulbr type bnd will blwbys hbve been wrbpped by
+ * bnother key which needs to be recursively resolved.
  *
- * The <code>EncryptedKeyResolver</code> can therefore only be instantiated
- * with an algorithm.  It can also be instantiated with a key (the KEK) or
- * will search the static KeyResolvers to find the appropriate key.
+ * The <code>EncryptedKeyResolver</code> cbn therefore only be instbntibted
+ * with bn blgorithm.  It cbn blso be instbntibted with b key (the KEK) or
+ * will sebrch the stbtic KeyResolvers to find the bppropribte key.
  *
- * @author Berin Lautenbach
+ * @buthor Berin Lbutenbbch
  */
-public class EncryptedKeyResolver extends KeyResolverSpi {
+public clbss EncryptedKeyResolver extends KeyResolverSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(EncryptedKeyResolver.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(EncryptedKeyResolver.clbss.getNbme());
 
-    private Key kek;
-    private String algorithm;
-    private List<KeyResolverSpi> internalKeyResolvers;
+    privbte Key kek;
+    privbte String blgorithm;
+    privbte List<KeyResolverSpi> internblKeyResolvers;
 
     /**
-     * Constructor for use when a KEK needs to be derived from a KeyInfo
+     * Constructor for use when b KEK needs to be derived from b KeyInfo
      * list
-     * @param algorithm
+     * @pbrbm blgorithm
      */
-    public EncryptedKeyResolver(String algorithm) {
+    public EncryptedKeyResolver(String blgorithm) {
         kek = null;
-        this.algorithm = algorithm;
+        this.blgorithm = blgorithm;
     }
 
     /**
-     * Constructor used for when a KEK has been set
-     * @param algorithm
-     * @param kek
+     * Constructor used for when b KEK hbs been set
+     * @pbrbm blgorithm
+     * @pbrbm kek
      */
-    public EncryptedKeyResolver(String algorithm, Key kek) {
-        this.algorithm = algorithm;
+    public EncryptedKeyResolver(String blgorithm, Key kek) {
+        this.blgorithm = blgorithm;
         this.kek = kek;
     }
 
     /**
-     * This method is used to add a custom {@link KeyResolverSpi} to help
+     * This method is used to bdd b custom {@link KeyResolverSpi} to help
      * resolve the KEK.
      *
-     * @param realKeyResolver
+     * @pbrbm reblKeyResolver
      */
-    public void registerInternalKeyResolver(KeyResolverSpi realKeyResolver) {
-        if (internalKeyResolvers == null) {
-            internalKeyResolvers = new ArrayList<KeyResolverSpi>();
+    public void registerInternblKeyResolver(KeyResolverSpi reblKeyResolver) {
+        if (internblKeyResolvers == null) {
+            internblKeyResolvers = new ArrbyList<KeyResolverSpi>();
         }
-        internalKeyResolvers.add(realKeyResolver);
+        internblKeyResolvers.bdd(reblKeyResolver);
     }
 
     /** @inheritDoc */
     public PublicKey engineLookupAndResolvePublicKey(
-        Element element, String BaseURI, StorageResolver storage
+        Element element, String BbseURI, StorbgeResolver storbge
     ) {
         return null;
     }
 
     /** @inheritDoc */
-    public X509Certificate engineLookupResolveX509Certificate(
-        Element element, String BaseURI, StorageResolver storage
+    public X509Certificbte engineLookupResolveX509Certificbte(
+        Element element, String BbseURI, StorbgeResolver storbge
     ) {
         return null;
     }
 
     /** @inheritDoc */
-    public javax.crypto.SecretKey engineLookupAndResolveSecretKey(
-        Element element, String BaseURI, StorageResolver storage
+    public jbvbx.crypto.SecretKey engineLookupAndResolveSecretKey(
+        Element element, String BbseURI, StorbgeResolver storbge
     ) {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "EncryptedKeyResolver - Can I resolve " + element.getTagName());
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "EncryptedKeyResolver - Cbn I resolve " + element.getTbgNbme());
         }
 
         if (element == null) {
@@ -121,26 +121,26 @@ public class EncryptedKeyResolver extends KeyResolverSpi {
         }
 
         SecretKey key = null;
-        boolean isEncryptedKey =
-            XMLUtils.elementIsInEncryptionSpace(element, EncryptionConstants._TAG_ENCRYPTEDKEY);
+        boolebn isEncryptedKey =
+            XMLUtils.elementIsInEncryptionSpbce(element, EncryptionConstbnts._TAG_ENCRYPTEDKEY);
         if (isEncryptedKey) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Passed an Encrypted Key");
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "Pbssed bn Encrypted Key");
             }
             try {
-                XMLCipher cipher = XMLCipher.getInstance();
+                XMLCipher cipher = XMLCipher.getInstbnce();
                 cipher.init(XMLCipher.UNWRAP_MODE, kek);
-                if (internalKeyResolvers != null) {
-                    int size = internalKeyResolvers.size();
+                if (internblKeyResolvers != null) {
+                    int size = internblKeyResolvers.size();
                     for (int i = 0; i < size; i++) {
-                        cipher.registerInternalKeyResolver(internalKeyResolvers.get(i));
+                        cipher.registerInternblKeyResolver(internblKeyResolvers.get(i));
                     }
                 }
-                EncryptedKey ek = cipher.loadEncryptedKey(element);
-                key = (SecretKey) cipher.decryptKey(ek, algorithm);
-            } catch (XMLEncryptionException e) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, e.getMessage(), e);
+                EncryptedKey ek = cipher.lobdEncryptedKey(element);
+                key = (SecretKey) cipher.decryptKey(ek, blgorithm);
+            } cbtch (XMLEncryptionException e) {
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, e.getMessbge(), e);
                 }
             }
         }

@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -36,21 +36,21 @@
 
 U_NAMESPACE_BEGIN
 
-class LEGlyphStorage;
+clbss LEGlyphStorbge;
 
-class U_LAYOUT_API CanonShaping /* not : public UObject because all members are static */
+clbss U_LAYOUT_API CbnonShbping /* not : public UObject becbuse bll members bre stbtic */
 {
 public:
-    static const le_uint8 glyphSubstitutionTable[];
-    static const size_t   glyphSubstitutionTableLen;
-    static const le_uint8 glyphDefinitionTable[];
-    static const size_t   glyphDefinitionTableLen;
+    stbtic const le_uint8 glyphSubstitutionTbble[];
+    stbtic const size_t   glyphSubstitutionTbbleLen;
+    stbtic const le_uint8 glyphDefinitionTbble[];
+    stbtic const size_t   glyphDefinitionTbbleLen;
 
-    static void reorderMarks(const LEUnicode *inChars, le_int32 charCount, le_bool rightToLeft,
-                                   LEUnicode *outChars, LEGlyphStorage &glyphStorage);
+    stbtic void reorderMbrks(const LEUnicode *inChbrs, le_int32 chbrCount, le_bool rightToLeft,
+                                   LEUnicode *outChbrs, LEGlyphStorbge &glyphStorbge);
 
-private:
-    static void sortMarks(le_int32 *indices, const le_int32 *combiningClasses, le_int32 index, le_int32 limit);
+privbte:
+    stbtic void sortMbrks(le_int32 *indices, const le_int32 *combiningClbsses, le_int32 index, le_int32 limit);
 };
 
 U_NAMESPACE_END

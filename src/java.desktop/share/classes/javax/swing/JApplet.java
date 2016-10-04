@@ -1,490 +1,490 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.applet.Applet;
-import java.beans.PropertyChangeListener;
-import java.util.Locale;
-import java.util.Vector;
-import java.io.Serializable;
-import javax.accessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bpplet.Applet;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.util.Locble;
+import jbvb.util.Vector;
+import jbvb.io.Seriblizbble;
+import jbvbx.bccessibility.*;
 
 /**
- * An extended version of <code>java.applet.Applet</code> that adds support for
- * the JFC/Swing component architecture.
- * You can find task-oriented documentation about using <code>JApplet</code>
- * in <em>The Java Tutorial</em>,
+ * An extended version of <code>jbvb.bpplet.Applet</code> thbt bdds support for
+ * the JFC/Swing component brchitecture.
+ * You cbn find tbsk-oriented documentbtion bbout using <code>JApplet</code>
+ * in <em>The Jbvb Tutoribl</em>,
  * in the section
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/applet.html">How to Make Applets</a>.
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/bpplet.html">How to Mbke Applets</b>.
  * <p>
- * The <code>JApplet</code> class is slightly incompatible with
- * <code>java.applet.Applet</code>.  <code>JApplet</code> contains a
- * <code>JRootPane</code> as its only child.  The <code>contentPane</code>
- * should be the parent of any children of the <code>JApplet</code>.
- * As a convenience, the {@code add}, {@code remove}, and {@code setLayout}
- * methods of this class are overridden, so that they delegate calls
- * to the corresponding methods of the {@code ContentPane}.
- * For example, you can add a child component to an applet as follows:
+ * The <code>JApplet</code> clbss is slightly incompbtible with
+ * <code>jbvb.bpplet.Applet</code>.  <code>JApplet</code> contbins b
+ * <code>JRootPbne</code> bs its only child.  The <code>contentPbne</code>
+ * should be the pbrent of bny children of the <code>JApplet</code>.
+ * As b convenience, the {@code bdd}, {@code remove}, bnd {@code setLbyout}
+ * methods of this clbss bre overridden, so thbt they delegbte cblls
+ * to the corresponding methods of the {@code ContentPbne}.
+ * For exbmple, you cbn bdd b child component to bn bpplet bs follows:
  * <pre>
- *       applet.add(child);
+ *       bpplet.bdd(child);
  * </pre>
  *
- * And the child will be added to the <code>contentPane</code>.
- * The <code>contentPane</code> will always be non-<code>null</code>.
- * Attempting to set it to <code>null</code> will cause the
- * <code>JApplet</code> to throw an exception. The default
- * <code>contentPane</code> will have a <code>BorderLayout</code>
- * manager set on it.
- * Refer to {@link javax.swing.RootPaneContainer}
- * for details on adding, removing and setting the <code>LayoutManager</code>
- * of a <code>JApplet</code>.
+ * And the child will be bdded to the <code>contentPbne</code>.
+ * The <code>contentPbne</code> will blwbys be non-<code>null</code>.
+ * Attempting to set it to <code>null</code> will cbuse the
+ * <code>JApplet</code> to throw bn exception. The defbult
+ * <code>contentPbne</code> will hbve b <code>BorderLbyout</code>
+ * mbnbger set on it.
+ * Refer to {@link jbvbx.swing.RootPbneContbiner}
+ * for detbils on bdding, removing bnd setting the <code>LbyoutMbnbger</code>
+ * of b <code>JApplet</code>.
  * <p>
- * Please see the <code>JRootPane</code> documentation for a
- * complete description of the <code>contentPane</code>, <code>glassPane</code>,
- * and <code>layeredPane</code> properties.
+ * Plebse see the <code>JRootPbne</code> documentbtion for b
+ * complete description of the <code>contentPbne</code>, <code>glbssPbne</code>,
+ * bnd <code>lbyeredPbne</code> properties.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see javax.swing.RootPaneContainer
- * @beaninfo
- *      attribute: isContainer true
- *      attribute: containerDelegate getContentPane
- *    description: Swing's Applet subclass.
+ * @see jbvbx.swing.RootPbneContbiner
+ * @bebninfo
+ *      bttribute: isContbiner true
+ *      bttribute: contbinerDelegbte getContentPbne
+ *    description: Swing's Applet subclbss.
  *
- * @author Arnaud Weber
+ * @buthor Arnbud Weber
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JApplet extends Applet implements Accessible,
-                                               RootPaneContainer,
-                               TransferHandler.HasGetTransferHandler
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JApplet extends Applet implements Accessible,
+                                               RootPbneContbiner,
+                               TrbnsferHbndler.HbsGetTrbnsferHbndler
 {
     /**
-     * @see #getRootPane
-     * @see #setRootPane
+     * @see #getRootPbne
+     * @see #setRootPbne
      */
-    protected JRootPane rootPane;
+    protected JRootPbne rootPbne;
 
     /**
-     * If true then calls to <code>add</code> and <code>setLayout</code>
-     * will be forwarded to the <code>contentPane</code>. This is initially
-     * false, but is set to true when the <code>JApplet</code> is constructed.
+     * If true then cblls to <code>bdd</code> bnd <code>setLbyout</code>
+     * will be forwbrded to the <code>contentPbne</code>. This is initiblly
+     * fblse, but is set to true when the <code>JApplet</code> is constructed.
      *
-     * @see #isRootPaneCheckingEnabled
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #isRootPbneCheckingEnbbled
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected boolean rootPaneCheckingEnabled = false;
+    protected boolebn rootPbneCheckingEnbbled = fblse;
 
     /**
-     * The <code>TransferHandler</code> for this applet.
+     * The <code>TrbnsferHbndler</code> for this bpplet.
      */
-    private TransferHandler transferHandler;
+    privbte TrbnsferHbndler trbnsferHbndler;
 
     /**
-     * Creates a swing applet instance.
+     * Crebtes b swing bpplet instbnce.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * This constructor sets the component's locble property to the vblue
+     * returned by <code>JComponent.getDefbultLocble</code>.
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      */
-    public JApplet() throws HeadlessException {
+    public JApplet() throws HebdlessException {
         super();
-        // Check the timerQ and restart if necessary.
-        TimerQueue q = TimerQueue.sharedInstance();
+        // Check the timerQ bnd restbrt if necessbry.
+        TimerQueue q = TimerQueue.shbredInstbnce();
         if(q != null) {
-            q.startIfNeeded();
+            q.stbrtIfNeeded();
         }
 
-        /* Workaround for bug 4155072.  The shared double buffer image
-         * may hang on to a reference to this applet; unfortunately
-         * Image.getGraphics() will continue to call JApplet.getForeground()
-         * and getBackground() even after this applet has been destroyed.
-         * So we ensure that these properties are non-null here.
+        /* Workbround for bug 4155072.  The shbred double buffer imbge
+         * mby hbng on to b reference to this bpplet; unfortunbtely
+         * Imbge.getGrbphics() will continue to cbll JApplet.getForeground()
+         * bnd getBbckground() even bfter this bpplet hbs been destroyed.
+         * So we ensure thbt these properties bre non-null here.
          */
-        setForeground(Color.black);
-        setBackground(Color.white);
+        setForeground(Color.blbck);
+        setBbckground(Color.white);
 
-        setLocale( JComponent.getDefaultLocale() );
-        setLayout(new BorderLayout());
-        setRootPane(createRootPane());
-        setRootPaneCheckingEnabled(true);
+        setLocble( JComponent.getDefbultLocble() );
+        setLbyout(new BorderLbyout());
+        setRootPbne(crebteRootPbne());
+        setRootPbneCheckingEnbbled(true);
 
-        setFocusTraversalPolicyProvider(true);
-        sun.awt.SunToolkit.checkAndSetPolicy(this);
+        setFocusTrbversblPolicyProvider(true);
+        sun.bwt.SunToolkit.checkAndSetPolicy(this);
 
-        enableEvents(AWTEvent.KEY_EVENT_MASK);
+        enbbleEvents(AWTEvent.KEY_EVENT_MASK);
     }
 
     /**
-     * Called by the constructor methods to create the default rootPane.
+     * Cblled by the constructor methods to crebte the defbult rootPbne.
      *
-     * @return  a new {@code JRootPane}
+     * @return  b new {@code JRootPbne}
      */
-    protected JRootPane createRootPane() {
-        JRootPane rp = new JRootPane();
-        // NOTE: this uses setOpaque vs LookAndFeel.installProperty as there
-        // is NO reason for the RootPane not to be opaque. For painting to
-        // work the contentPane must be opaque, therefor the RootPane can
-        // also be opaque.
-        rp.setOpaque(true);
+    protected JRootPbne crebteRootPbne() {
+        JRootPbne rp = new JRootPbne();
+        // NOTE: this uses setOpbque vs LookAndFeel.instbllProperty bs there
+        // is NO rebson for the RootPbne not to be opbque. For pbinting to
+        // work the contentPbne must be opbque, therefor the RootPbne cbn
+        // blso be opbque.
+        rp.setOpbque(true);
         return rp;
     }
 
     /**
-     * Sets the {@code transferHandler} property, which is a mechanism to
-     * support transfer of data into this component. Use {@code null}
-     * if the component does not support data transfer operations.
+     * Sets the {@code trbnsferHbndler} property, which is b mechbnism to
+     * support trbnsfer of dbtb into this component. Use {@code null}
+     * if the component does not support dbtb trbnsfer operbtions.
      * <p>
-     * If the system property {@code suppressSwingDropSupport} is {@code false}
-     * (the default) and the current drop target on this component is either
-     * {@code null} or not a user-set drop target, this method will change the
-     * drop target as follows: If {@code newHandler} is {@code null} it will
-     * clear the drop target. If not {@code null} it will install a new
-     * {@code DropTarget}.
+     * If the system property {@code suppressSwingDropSupport} is {@code fblse}
+     * (the defbult) bnd the current drop tbrget on this component is either
+     * {@code null} or not b user-set drop tbrget, this method will chbnge the
+     * drop tbrget bs follows: If {@code newHbndler} is {@code null} it will
+     * clebr the drop tbrget. If not {@code null} it will instbll b new
+     * {@code DropTbrget}.
      * <p>
-     * Note: When used with {@code JApplet}, {@code TransferHandler} only
-     * provides data import capability, as the data export related methods
-     * are currently typed to {@code JComponent}.
+     * Note: When used with {@code JApplet}, {@code TrbnsferHbndler} only
+     * provides dbtb import cbpbbility, bs the dbtb export relbted methods
+     * bre currently typed to {@code JComponent}.
      * <p>
-     * Please see
-     * <a href="http://docs.oracle.com/javase/tutorial/uiswing/dnd/index.html">
-     * How to Use Drag and Drop and Data Transfer</a>, a section in
-     * <em>The Java Tutorial</em>, for more information.
+     * Plebse see
+     * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/dnd/index.html">
+     * How to Use Drbg bnd Drop bnd Dbtb Trbnsfer</b>, b section in
+     * <em>The Jbvb Tutoribl</em>, for more informbtion.
      *
-     * @param newHandler the new {@code TransferHandler}
+     * @pbrbm newHbndler the new {@code TrbnsferHbndler}
      *
-     * @see TransferHandler
-     * @see #getTransferHandler
-     * @see java.awt.Component#setDropTarget
+     * @see TrbnsferHbndler
+     * @see #getTrbnsferHbndler
+     * @see jbvb.bwt.Component#setDropTbrget
      * @since 1.6
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *  description: Mechanism for transfer of data into the component
+     *  description: Mechbnism for trbnsfer of dbtb into the component
      */
-    public void setTransferHandler(TransferHandler newHandler) {
-        TransferHandler oldHandler = transferHandler;
-        transferHandler = newHandler;
-        SwingUtilities.installSwingDropTargetAsNecessary(this, transferHandler);
-        firePropertyChange("transferHandler", oldHandler, newHandler);
+    public void setTrbnsferHbndler(TrbnsferHbndler newHbndler) {
+        TrbnsferHbndler oldHbndler = trbnsferHbndler;
+        trbnsferHbndler = newHbndler;
+        SwingUtilities.instbllSwingDropTbrgetAsNecessbry(this, trbnsferHbndler);
+        firePropertyChbnge("trbnsferHbndler", oldHbndler, newHbndler);
     }
 
     /**
-     * Gets the <code>transferHandler</code> property.
+     * Gets the <code>trbnsferHbndler</code> property.
      *
-     * @return the value of the <code>transferHandler</code> property
+     * @return the vblue of the <code>trbnsferHbndler</code> property
      *
-     * @see TransferHandler
-     * @see #setTransferHandler
+     * @see TrbnsferHbndler
+     * @see #setTrbnsferHbndler
      * @since 1.6
      */
-    public TransferHandler getTransferHandler() {
-        return transferHandler;
+    public TrbnsferHbndler getTrbnsferHbndler() {
+        return trbnsferHbndler;
     }
 
     /**
-     * Just calls <code>paint(g)</code>.  This method was overridden to
-     * prevent an unnecessary call to clear the background.
+     * Just cblls <code>pbint(g)</code>.  This method wbs overridden to
+     * prevent bn unnecessbry cbll to clebr the bbckground.
      */
-    public void update(Graphics g) {
-        paint(g);
+    public void updbte(Grbphics g) {
+        pbint(g);
     }
 
    /**
-    * Sets the menubar for this applet.
-    * @param menuBar the menubar being placed in the applet
+    * Sets the menubbr for this bpplet.
+    * @pbrbm menuBbr the menubbr being plbced in the bpplet
     *
-    * @see #getJMenuBar
+    * @see #getJMenuBbr
     *
-    * @beaninfo
+    * @bebninfo
     *      hidden: true
-    * description: The menubar for accessing pulldown menus from this applet.
+    * description: The menubbr for bccessing pulldown menus from this bpplet.
     */
-    public void setJMenuBar(JMenuBar menuBar) {
-        getRootPane().setMenuBar(menuBar);
+    public void setJMenuBbr(JMenuBbr menuBbr) {
+        getRootPbne().setMenuBbr(menuBbr);
     }
 
    /**
-    * Returns the menubar set on this applet.
+    * Returns the menubbr set on this bpplet.
     *
-    * @return the menubar set on this applet
-    * @see #setJMenuBar
+    * @return the menubbr set on this bpplet
+    * @see #setJMenuBbr
     */
-    public JMenuBar getJMenuBar() {
-        return getRootPane().getMenuBar();
+    public JMenuBbr getJMenuBbr() {
+        return getRootPbne().getMenuBbr();
     }
 
 
     /**
-     * Returns whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Returns whether cblls to <code>bdd</code> bnd
+     * <code>setLbyout</code> bre forwbrded to the <code>contentPbne</code>.
      *
-     * @return true if <code>add</code> and <code>setLayout</code>
-     *         are forwarded; false otherwise
+     * @return true if <code>bdd</code> bnd <code>setLbyout</code>
+     *         bre forwbrded; fblse otherwise
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #bddImpl
+     * @see #setLbyout
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
+    protected boolebn isRootPbneCheckingEnbbled() {
+        return rootPbneCheckingEnbbled;
     }
 
 
     /**
-     * Sets whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Sets whether cblls to <code>bdd</code> bnd
+     * <code>setLbyout</code> bre forwbrded to the <code>contentPbne</code>.
      *
-     * @param enabled  true if <code>add</code> and <code>setLayout</code>
-     *        are forwarded, false if they should operate directly on the
+     * @pbrbm enbbled  true if <code>bdd</code> bnd <code>setLbyout</code>
+     *        bre forwbrded, fblse if they should operbte directly on the
      *        <code>JApplet</code>.
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #isRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
-     * @beaninfo
+     * @see #bddImpl
+     * @see #setLbyout
+     * @see #isRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
+     * @bebninfo
      *      hidden: true
-     * description: Whether the add and setLayout methods are forwarded
+     * description: Whether the bdd bnd setLbyout methods bre forwbrded
      */
-    protected void setRootPaneCheckingEnabled(boolean enabled) {
-        rootPaneCheckingEnabled = enabled;
+    protected void setRootPbneCheckingEnbbled(boolebn enbbled) {
+        rootPbneCheckingEnbbled = enbbled;
     }
 
 
     /**
      * Adds the specified child <code>Component</code>.
-     * This method is overridden to conditionally forward calls to the
-     * <code>contentPane</code>.
-     * By default, children are added to the <code>contentPane</code> instead
-     * of the frame, refer to {@link javax.swing.RootPaneContainer} for
-     * details.
+     * This method is overridden to conditionblly forwbrd cblls to the
+     * <code>contentPbne</code>.
+     * By defbult, children bre bdded to the <code>contentPbne</code> instebd
+     * of the frbme, refer to {@link jbvbx.swing.RootPbneContbiner} for
+     * detbils.
      *
-     * @param comp the component to be enhanced
-     * @param constraints the constraints to be respected
-     * @param index the index
-     * @exception IllegalArgumentException if <code>index</code> is invalid
-     * @exception IllegalArgumentException if adding the container's parent
+     * @pbrbm comp the component to be enhbnced
+     * @pbrbm constrbints the constrbints to be respected
+     * @pbrbm index the index
+     * @exception IllegblArgumentException if <code>index</code> is invblid
+     * @exception IllegblArgumentException if bdding the contbiner's pbrent
      *                  to itself
-     * @exception IllegalArgumentException if adding a window to a container
+     * @exception IllegblArgumentException if bdding b window to b contbiner
      *
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected void addImpl(Component comp, Object constraints, int index)
+    protected void bddImpl(Component comp, Object constrbints, int index)
     {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().add(comp, constraints, index);
+        if(isRootPbneCheckingEnbbled()) {
+            getContentPbne().bdd(comp, constrbints, index);
         }
         else {
-            super.addImpl(comp, constraints, index);
+            super.bddImpl(comp, constrbints, index);
         }
     }
 
     /**
-     * Removes the specified component from the container. If
-     * <code>comp</code> is not the <code>rootPane</code>, this will forward
-     * the call to the <code>contentPane</code>. This will do nothing if
-     * <code>comp</code> is not a child of the <code>JFrame</code> or
-     * <code>contentPane</code>.
+     * Removes the specified component from the contbiner. If
+     * <code>comp</code> is not the <code>rootPbne</code>, this will forwbrd
+     * the cbll to the <code>contentPbne</code>. This will do nothing if
+     * <code>comp</code> is not b child of the <code>JFrbme</code> or
+     * <code>contentPbne</code>.
      *
-     * @param comp the component to be removed
+     * @pbrbm comp the component to be removed
      * @throws NullPointerException if <code>comp</code> is null
-     * @see #add
-     * @see javax.swing.RootPaneContainer
+     * @see #bdd
+     * @see jbvbx.swing.RootPbneContbiner
      */
     public void remove(Component comp) {
-        if (comp == rootPane) {
+        if (comp == rootPbne) {
             super.remove(comp);
         } else {
-            getContentPane().remove(comp);
+            getContentPbne().remove(comp);
         }
     }
 
 
     /**
-     * Sets the <code>LayoutManager</code>.
-     * Overridden to conditionally forward the call to the
-     * <code>contentPane</code>.
-     * Refer to {@link javax.swing.RootPaneContainer} for
-     * more information.
+     * Sets the <code>LbyoutMbnbger</code>.
+     * Overridden to conditionblly forwbrd the cbll to the
+     * <code>contentPbne</code>.
+     * Refer to {@link jbvbx.swing.RootPbneContbiner} for
+     * more informbtion.
      *
-     * @param manager the <code>LayoutManager</code>
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @pbrbm mbnbger the <code>LbyoutMbnbger</code>
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    public void setLayout(LayoutManager manager) {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().setLayout(manager);
+    public void setLbyout(LbyoutMbnbger mbnbger) {
+        if(isRootPbneCheckingEnbbled()) {
+            getContentPbne().setLbyout(mbnbger);
         }
         else {
-            super.setLayout(manager);
+            super.setLbyout(mbnbger);
         }
     }
 
 
     /**
-     * Returns the rootPane object for this applet.
+     * Returns the rootPbne object for this bpplet.
      *
-     * @see #setRootPane
-     * @see RootPaneContainer#getRootPane
+     * @see #setRootPbne
+     * @see RootPbneContbiner#getRootPbne
      */
-    public JRootPane getRootPane() {
-        return rootPane;
+    public JRootPbne getRootPbne() {
+        return rootPbne;
     }
 
 
     /**
-     * Sets the rootPane property.  This method is called by the constructor.
-     * @param root the rootPane object for this applet
+     * Sets the rootPbne property.  This method is cblled by the constructor.
+     * @pbrbm root the rootPbne object for this bpplet
      *
-     * @see #getRootPane
+     * @see #getRootPbne
      *
-     * @beaninfo
+     * @bebninfo
      *   hidden: true
-     * description: the RootPane object for this applet.
+     * description: the RootPbne object for this bpplet.
      */
-    protected void setRootPane(JRootPane root) {
-        if(rootPane != null) {
-            remove(rootPane);
+    protected void setRootPbne(JRootPbne root) {
+        if(rootPbne != null) {
+            remove(rootPbne);
         }
-        rootPane = root;
-        if(rootPane != null) {
-            boolean checkingEnabled = isRootPaneCheckingEnabled();
+        rootPbne = root;
+        if(rootPbne != null) {
+            boolebn checkingEnbbled = isRootPbneCheckingEnbbled();
             try {
-                setRootPaneCheckingEnabled(false);
-                add(rootPane, BorderLayout.CENTER);
+                setRootPbneCheckingEnbbled(fblse);
+                bdd(rootPbne, BorderLbyout.CENTER);
             }
-            finally {
-                setRootPaneCheckingEnabled(checkingEnabled);
+            finblly {
+                setRootPbneCheckingEnbbled(checkingEnbbled);
             }
         }
     }
 
 
     /**
-     * Returns the contentPane object for this applet.
+     * Returns the contentPbne object for this bpplet.
      *
-     * @see #setContentPane
-     * @see RootPaneContainer#getContentPane
+     * @see #setContentPbne
+     * @see RootPbneContbiner#getContentPbne
      */
-    public Container getContentPane() {
-        return getRootPane().getContentPane();
+    public Contbiner getContentPbne() {
+        return getRootPbne().getContentPbne();
     }
 
    /**
-     * Sets the contentPane property.  This method is called by the constructor.
-     * @param contentPane the contentPane object for this applet
+     * Sets the contentPbne property.  This method is cblled by the constructor.
+     * @pbrbm contentPbne the contentPbne object for this bpplet
      *
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the content pane parameter is null
-     * @see #getContentPane
-     * @see RootPaneContainer#setContentPane
+     * @exception jbvb.bwt.IllegblComponentStbteException (b runtime
+     *            exception) if the content pbne pbrbmeter is null
+     * @see #getContentPbne
+     * @see RootPbneContbiner#setContentPbne
      *
-     * @beaninfo
+     * @bebninfo
      *     hidden: true
-     *     description: The client area of the applet where child
-     *                  components are normally inserted.
+     *     description: The client breb of the bpplet where child
+     *                  components bre normblly inserted.
      */
-    public void setContentPane(Container contentPane) {
-        getRootPane().setContentPane(contentPane);
+    public void setContentPbne(Contbiner contentPbne) {
+        getRootPbne().setContentPbne(contentPbne);
     }
 
     /**
-     * Returns the layeredPane object for this applet.
+     * Returns the lbyeredPbne object for this bpplet.
      *
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the layered pane parameter is null
-     * @see #setLayeredPane
-     * @see RootPaneContainer#getLayeredPane
+     * @exception jbvb.bwt.IllegblComponentStbteException (b runtime
+     *            exception) if the lbyered pbne pbrbmeter is null
+     * @see #setLbyeredPbne
+     * @see RootPbneContbiner#getLbyeredPbne
      */
-    public JLayeredPane getLayeredPane() {
-        return getRootPane().getLayeredPane();
+    public JLbyeredPbne getLbyeredPbne() {
+        return getRootPbne().getLbyeredPbne();
     }
 
     /**
-     * Sets the layeredPane property.  This method is called by the constructor.
-     * @param layeredPane the layeredPane object for this applet
+     * Sets the lbyeredPbne property.  This method is cblled by the constructor.
+     * @pbrbm lbyeredPbne the lbyeredPbne object for this bpplet
      *
-     * @see #getLayeredPane
-     * @see RootPaneContainer#setLayeredPane
+     * @see #getLbyeredPbne
+     * @see RootPbneContbiner#setLbyeredPbne
      *
-     * @beaninfo
+     * @bebninfo
      *     hidden: true
-     *     description: The pane which holds the various applet layers.
+     *     description: The pbne which holds the vbrious bpplet lbyers.
      */
-    public void setLayeredPane(JLayeredPane layeredPane) {
-        getRootPane().setLayeredPane(layeredPane);
+    public void setLbyeredPbne(JLbyeredPbne lbyeredPbne) {
+        getRootPbne().setLbyeredPbne(lbyeredPbne);
     }
 
     /**
-     * Returns the glassPane object for this applet.
+     * Returns the glbssPbne object for this bpplet.
      *
-     * @see #setGlassPane
-     * @see RootPaneContainer#getGlassPane
+     * @see #setGlbssPbne
+     * @see RootPbneContbiner#getGlbssPbne
      */
-    public Component getGlassPane() {
-        return getRootPane().getGlassPane();
+    public Component getGlbssPbne() {
+        return getRootPbne().getGlbssPbne();
     }
 
     /**
-     * Sets the glassPane property.
-     * This method is called by the constructor.
-     * @param glassPane the glassPane object for this applet
+     * Sets the glbssPbne property.
+     * This method is cblled by the constructor.
+     * @pbrbm glbssPbne the glbssPbne object for this bpplet
      *
-     * @see #getGlassPane
-     * @see RootPaneContainer#setGlassPane
+     * @see #getGlbssPbne
+     * @see RootPbneContbiner#setGlbssPbne
      *
-     * @beaninfo
+     * @bebninfo
      *     hidden: true
-     *     description: A transparent pane used for menu rendering.
+     *     description: A trbnspbrent pbne used for menu rendering.
      */
-    public void setGlassPane(Component glassPane) {
-        getRootPane().setGlassPane(glassPane);
+    public void setGlbssPbne(Component glbssPbne) {
+        getRootPbne().setGlbssPbne(glbssPbne);
     }
 
     /**
@@ -492,52 +492,52 @@ public class JApplet extends Applet implements Accessible,
      *
      * @since 1.6
      */
-    public Graphics getGraphics() {
-        JComponent.getGraphicsInvoked(this);
-        return super.getGraphics();
+    public Grbphics getGrbphics() {
+        JComponent.getGrbphicsInvoked(this);
+        return super.getGrbphics();
     }
 
     /**
-     * Repaints the specified rectangle of this component within
-     * <code>time</code> milliseconds.  Refer to <code>RepaintManager</code>
-     * for details on how the repaint is handled.
+     * Repbints the specified rectbngle of this component within
+     * <code>time</code> milliseconds.  Refer to <code>RepbintMbnbger</code>
+     * for detbils on how the repbint is hbndled.
      *
-     * @param     time   maximum time in milliseconds before update
-     * @param     x    the <i>x</i> coordinate
-     * @param     y    the <i>y</i> coordinate
-     * @param     width    the width
-     * @param     height   the height
-     * @see       RepaintManager
+     * @pbrbm     time   mbximum time in milliseconds before updbte
+     * @pbrbm     x    the <i>x</i> coordinbte
+     * @pbrbm     y    the <i>y</i> coordinbte
+     * @pbrbm     width    the width
+     * @pbrbm     height   the height
+     * @see       RepbintMbnbger
      * @since     1.6
      */
-    public void repaint(long time, int x, int y, int width, int height) {
-        if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
-            RepaintManager.currentManager(this).addDirtyRegion(
+    public void repbint(long time, int x, int y, int width, int height) {
+        if (RepbintMbnbger.HANDLE_TOP_LEVEL_PAINT) {
+            RepbintMbnbger.currentMbnbger(this).bddDirtyRegion(
                               this, x, y, width, height);
         }
         else {
-            super.repaint(time, x, y, width, height);
+            super.repbint(time, x, y, width, height);
         }
     }
 
     /**
-     * Returns a string representation of this JApplet. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this JApplet. This method
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this JApplet.
+     * @return  b string representbtion of this JApplet.
      */
-    protected String paramString() {
-        String rootPaneString = (rootPane != null ?
-                                 rootPane.toString() : "");
-        String rootPaneCheckingEnabledString = (rootPaneCheckingEnabled ?
-                                                "true" : "false");
+    protected String pbrbmString() {
+        String rootPbneString = (rootPbne != null ?
+                                 rootPbne.toString() : "");
+        String rootPbneCheckingEnbbledString = (rootPbneCheckingEnbbled ?
+                                                "true" : "fblse");
 
-        return super.paramString() +
-        ",rootPane=" + rootPaneString +
-        ",rootPaneCheckingEnabled=" + rootPaneCheckingEnabledString;
+        return super.pbrbmString() +
+        ",rootPbne=" + rootPbneString +
+        ",rootPbneCheckingEnbbled=" + rootPbneCheckingEnbbledString;
     }
 
 
@@ -547,31 +547,31 @@ public class JApplet extends Applet implements Accessible,
 ////////////////
 
     /**
-     * {@code AccessibleContext} associated with this {@code JApplet}
+     * {@code AccessibleContext} bssocibted with this {@code JApplet}
      */
-    protected AccessibleContext accessibleContext = null;
+    protected AccessibleContext bccessibleContext = null;
 
     /**
-     * Gets the AccessibleContext associated with this JApplet.
-     * For JApplets, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this JApplet.
+     * For JApplets, the AccessibleContext tbkes the form of bn
      * AccessibleJApplet.
-     * A new AccessibleJApplet instance is created if necessary.
+     * A new AccessibleJApplet instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJApplet that serves as the
+     * @return bn AccessibleJApplet thbt serves bs the
      *         AccessibleContext of this JApplet
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJApplet();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJApplet();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JApplet</code> class.
+     * This clbss implements bccessibility support for the
+     * <code>JApplet</code> clbss.
      */
-    protected class AccessibleJApplet extends AccessibleApplet {
-        // everything moved to new parent, AccessibleApplet
+    protected clbss AccessibleJApplet extends AccessibleApplet {
+        // everything moved to new pbrent, AccessibleApplet
     }
 }

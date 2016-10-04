@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.event;
+pbckbge jbvbx.nbming.event;
 
-import javax.naming.NamingException;
+import jbvbx.nbming.NbmingException;
 
 /**
-  * This class represents an event fired when the procedures/processes
-  * used to collect information for notifying listeners of
-  * <tt>NamingEvent</tt>s threw a <tt>NamingException</tt>.
-  * This can happen, for example, if the server which the listener is using
-  * aborts subsequent to the <tt>addNamingListener()</tt> call.
+  * This clbss represents bn event fired when the procedures/processes
+  * used to collect informbtion for notifying listeners of
+  * <tt>NbmingEvent</tt>s threw b <tt>NbmingException</tt>.
+  * This cbn hbppen, for exbmple, if the server which the listener is using
+  * bborts subsequent to the <tt>bddNbmingListener()</tt> cbll.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
-  * @see NamingListener#namingExceptionThrown
+  * @see NbmingListener#nbmingExceptionThrown
   * @see EventContext
   * @since 1.3
   */
 
-public class NamingExceptionEvent extends java.util.EventObject {
+public clbss NbmingExceptionEvent extends jbvb.util.EventObject {
     /**
-     * Contains the exception that was thrown
-     * @serial
+     * Contbins the exception thbt wbs thrown
+     * @seribl
      */
-    private NamingException exception;
+    privbte NbmingException exception;
 
     /**
-     * Constructs an instance of <tt>NamingExceptionEvent</tt> using
-     * the context in which the <tt>NamingException</tt> was thrown and the exception
-     * that was thrown.
+     * Constructs bn instbnce of <tt>NbmingExceptionEvent</tt> using
+     * the context in which the <tt>NbmingException</tt> wbs thrown bnd the exception
+     * thbt wbs thrown.
      *
-     * @param source The non-null context in which the exception was thrown.
-     * @param exc    The non-null <tt>NamingException</tt> that was thrown.
+     * @pbrbm source The non-null context in which the exception wbs thrown.
+     * @pbrbm exc    The non-null <tt>NbmingException</tt> thbt wbs thrown.
      *
      */
-    public NamingExceptionEvent(EventContext source, NamingException exc) {
+    public NbmingExceptionEvent(EventContext source, NbmingException exc) {
         super(source);
         exception = exc;
     }
 
     /**
-     * Retrieves the exception that was thrown.
-     * @return The exception that was thrown.
+     * Retrieves the exception thbt wbs thrown.
+     * @return The exception thbt wbs thrown.
      */
-    public NamingException getException() {
+    public NbmingException getException() {
         return exception;
     }
 
     /**
-     * Retrieves the <tt>EventContext</tt> that fired this event.
-     * This returns the same object as <tt>EventObject.getSource()</tt>.
-     * @return The non-null <tt>EventContext</tt> that fired this event.
+     * Retrieves the <tt>EventContext</tt> thbt fired this event.
+     * This returns the sbme object bs <tt>EventObject.getSource()</tt>.
+     * @return The non-null <tt>EventContext</tt> thbt fired this event.
      */
     public EventContext getEventContext() {
         return (EventContext)getSource();
     }
 
     /**
-     * Invokes the <tt>namingExceptionThrown()</tt> method on
-     * a listener using this event.
-     * @param listener The non-null naming listener on which to invoke
+     * Invokes the <tt>nbmingExceptionThrown()</tt> method on
+     * b listener using this event.
+     * @pbrbm listener The non-null nbming listener on which to invoke
      * the method.
      */
-    public void dispatch(NamingListener listener) {
-        listener.namingExceptionThrown(this);
+    public void dispbtch(NbmingListener listener) {
+        listener.nbmingExceptionThrown(this);
     }
 
-    private static final long serialVersionUID = -4877678086134736336L;
+    privbte stbtic finbl long seriblVersionUID = -4877678086134736336L;
 }

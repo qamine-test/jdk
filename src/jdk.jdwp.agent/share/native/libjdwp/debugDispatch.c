@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "util.h"
-#include "transport.h"
-#include "debugDispatch.h"
-#include "VirtualMachineImpl.h"
+#include "trbnsport.h"
+#include "debugDispbtch.h"
+#include "VirtublMbchineImpl.h"
 #include "ReferenceTypeImpl.h"
-#include "ClassTypeImpl.h"
-#include "InterfaceTypeImpl.h"
-#include "ArrayTypeImpl.h"
+#include "ClbssTypeImpl.h"
+#include "InterfbceTypeImpl.h"
+#include "ArrbyTypeImpl.h"
 #include "FieldImpl.h"
 #include "MethodImpl.h"
 #include "ObjectReferenceImpl.h"
 #include "StringReferenceImpl.h"
-#include "ThreadReferenceImpl.h"
-#include "ThreadGroupReferenceImpl.h"
-#include "ClassLoaderReferenceImpl.h"
-#include "ClassObjectReferenceImpl.h"
-#include "ArrayReferenceImpl.h"
+#include "ThrebdReferenceImpl.h"
+#include "ThrebdGroupReferenceImpl.h"
+#include "ClbssLobderReferenceImpl.h"
+#include "ClbssObjectReferenceImpl.h"
+#include "ArrbyReferenceImpl.h"
 #include "EventRequestImpl.h"
-#include "StackFrameImpl.h"
+#include "StbckFrbmeImpl.h"
 
-static void **l1Array;
+stbtic void **l1Arrby;
 
 void
-debugDispatch_initialize(void)
+debugDispbtch_initiblize(void)
 {
     /*
-     * Create the level-one (CommandSet) dispatch table.
-     * Zero the table so that unknown CommandSets do not
-     * cause random errors.
+     * Crebte the level-one (CommbndSet) dispbtch tbble.
+     * Zero the tbble so thbt unknown CommbndSets do not
+     * cbuse rbndom errors.
      */
-    l1Array = jvmtiAllocate((JDWP_HIGHEST_COMMAND_SET+1) * sizeof(void *));
+    l1Arrby = jvmtiAllocbte((JDWP_HIGHEST_COMMAND_SET+1) * sizeof(void *));
 
-    if (l1Array == NULL) {
-        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"command set array");
+    if (l1Arrby == NULL) {
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"commbnd set brrby");
     }
 
-    (void)memset(l1Array, 0, (JDWP_HIGHEST_COMMAND_SET+1) * sizeof(void *));
+    (void)memset(l1Arrby, 0, (JDWP_HIGHEST_COMMAND_SET+1) * sizeof(void *));
 
     /*
-     * Create the level-two (Command) dispatch tables to the
-     * corresponding slots in the CommandSet dispatch table..
+     * Crebte the level-two (Commbnd) dispbtch tbbles to the
+     * corresponding slots in the CommbndSet dispbtch tbble..
      */
-    l1Array[JDWP_COMMAND_SET(VirtualMachine)] = (void *)VirtualMachine_Cmds;
-    l1Array[JDWP_COMMAND_SET(ReferenceType)] = (void *)ReferenceType_Cmds;
-    l1Array[JDWP_COMMAND_SET(ClassType)] = (void *)ClassType_Cmds;
-    l1Array[JDWP_COMMAND_SET(InterfaceType)] = (void *)InterfaceType_Cmds;
-    l1Array[JDWP_COMMAND_SET(ArrayType)] = (void *)ArrayType_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(VirtublMbchine)] = (void *)VirtublMbchine_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(ReferenceType)] = (void *)ReferenceType_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(ClbssType)] = (void *)ClbssType_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(InterfbceType)] = (void *)InterfbceType_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(ArrbyType)] = (void *)ArrbyType_Cmds;
 
-    l1Array[JDWP_COMMAND_SET(Field)] = (void *)Field_Cmds;
-    l1Array[JDWP_COMMAND_SET(Method)] = (void *)Method_Cmds;
-    l1Array[JDWP_COMMAND_SET(ObjectReference)] = (void *)ObjectReference_Cmds;
-    l1Array[JDWP_COMMAND_SET(StringReference)] = (void *)StringReference_Cmds;
-    l1Array[JDWP_COMMAND_SET(ThreadReference)] = (void *)ThreadReference_Cmds;
-    l1Array[JDWP_COMMAND_SET(ThreadGroupReference)] = (void *)ThreadGroupReference_Cmds;
-    l1Array[JDWP_COMMAND_SET(ClassLoaderReference)] = (void *)ClassLoaderReference_Cmds;
-    l1Array[JDWP_COMMAND_SET(ArrayReference)] = (void *)ArrayReference_Cmds;
-    l1Array[JDWP_COMMAND_SET(EventRequest)] = (void *)EventRequest_Cmds;
-    l1Array[JDWP_COMMAND_SET(StackFrame)] = (void *)StackFrame_Cmds;
-    l1Array[JDWP_COMMAND_SET(ClassObjectReference)] = (void *)ClassObjectReference_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(Field)] = (void *)Field_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(Method)] = (void *)Method_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(ObjectReference)] = (void *)ObjectReference_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(StringReference)] = (void *)StringReference_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(ThrebdReference)] = (void *)ThrebdReference_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(ThrebdGroupReference)] = (void *)ThrebdGroupReference_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(ClbssLobderReference)] = (void *)ClbssLobderReference_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(ArrbyReference)] = (void *)ArrbyReference_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(EventRequest)] = (void *)EventRequest_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(StbckFrbme)] = (void *)StbckFrbme_Cmds;
+    l1Arrby[JDWP_COMMAND_SET(ClbssObjectReference)] = (void *)ClbssObjectReference_Cmds;
 }
 
 void
-debugDispatch_reset(void)
+debugDispbtch_reset(void)
 {
 }
 
-CommandHandler
-debugDispatch_getHandler(int cmdSet, int cmd)
+CommbndHbndler
+debugDispbtch_getHbndler(int cmdSet, int cmd)
 {
-    void **l2Array;
+    void **l2Arrby;
 
     if (cmdSet > JDWP_HIGHEST_COMMAND_SET) {
         return NULL;
     }
 
-    l2Array = (void **)l1Array[cmdSet];
+    l2Arrby = (void **)l1Arrby[cmdSet];
 
     /*
-     * If there is no such CommandSet or the Command
-     * is greater than the nummber of commands (the first
-     * element) in the CommandSet, indicate this is invalid.
+     * If there is no such CommbndSet or the Commbnd
+     * is grebter thbn the nummber of commbnds (the first
+     * element) in the CommbndSet, indicbte this is invblid.
      */
     /*LINTED*/
-    if (l2Array == NULL || cmd > (int)(intptr_t)(void*)l2Array[0]) {
+    if (l2Arrby == NULL || cmd > (int)(intptr_t)(void*)l2Arrby[0]) {
         return NULL;
     }
 
-    return (CommandHandler)l2Array[cmd];
+    return (CommbndHbndler)l2Arrby[cmd];
 }

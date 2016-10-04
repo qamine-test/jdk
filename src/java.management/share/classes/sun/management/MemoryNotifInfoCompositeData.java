@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.lang.management.MemoryNotificationInfo;
-import java.lang.management.MemoryUsage;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.OpenDataException;
+import jbvb.lbng.mbnbgement.MemoryNotificbtionInfo;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.CompositeType;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbSupport;
+import jbvbx.mbnbgement.openmbebn.OpenDbtbException;
 
 /**
- * A CompositeData for MemoryNotificationInfo for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositeDbtb for MemoryNotificbtionInfo for the locbl mbnbgement support.
+ * This clbss bvoids the performbnce penblty pbid to the
+ * construction of b CompositeDbtb use in the locbl cbse.
  */
-public class MemoryNotifInfoCompositeData extends LazyCompositeData {
-    private final MemoryNotificationInfo memoryNotifInfo;
+public clbss MemoryNotifInfoCompositeDbtb extends LbzyCompositeDbtb {
+    privbte finbl MemoryNotificbtionInfo memoryNotifInfo;
 
-    private MemoryNotifInfoCompositeData(MemoryNotificationInfo info) {
+    privbte MemoryNotifInfoCompositeDbtb(MemoryNotificbtionInfo info) {
         this.memoryNotifInfo = info;
     }
 
-    public MemoryNotificationInfo getMemoryNotifInfo() {
+    public MemoryNotificbtionInfo getMemoryNotifInfo() {
         return memoryNotifInfo;
     }
 
-    public static CompositeData toCompositeData(MemoryNotificationInfo info) {
-        MemoryNotifInfoCompositeData mnicd =
-            new MemoryNotifInfoCompositeData(info);
-        return mnicd.getCompositeData();
+    public stbtic CompositeDbtb toCompositeDbtb(MemoryNotificbtionInfo info) {
+        MemoryNotifInfoCompositeDbtb mnicd =
+            new MemoryNotifInfoCompositeDbtb(info);
+        return mnicd.getCompositeDbtb();
     }
 
-    protected CompositeData getCompositeData() {
+    protected CompositeDbtb getCompositeDbtb() {
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // memoryNotifInfoItemNames!
-        final Object[] memoryNotifInfoItemValues = {
-            memoryNotifInfo.getPoolName(),
-            MemoryUsageCompositeData.toCompositeData(memoryNotifInfo.getUsage()),
+        // memoryNotifInfoItemNbmes!
+        finbl Object[] memoryNotifInfoItemVblues = {
+            memoryNotifInfo.getPoolNbme(),
+            MemoryUsbgeCompositeDbtb.toCompositeDbtb(memoryNotifInfo.getUsbge()),
             memoryNotifInfo.getCount(),
         };
 
         try {
-            return new CompositeDataSupport(memoryNotifInfoCompositeType,
-                                            memoryNotifInfoItemNames,
-                                            memoryNotifInfoItemValues);
-        } catch (OpenDataException e) {
-            // Should never reach here
+            return new CompositeDbtbSupport(memoryNotifInfoCompositeType,
+                                            memoryNotifInfoItemNbmes,
+                                            memoryNotifInfoItemVblues);
+        } cbtch (OpenDbtbException e) {
+            // Should never rebch here
             throw new AssertionError(e);
         }
     }
 
-    private static final CompositeType memoryNotifInfoCompositeType;
-    static {
+    privbte stbtic finbl CompositeType memoryNotifInfoCompositeType;
+    stbtic {
         try {
             memoryNotifInfoCompositeType = (CompositeType)
-                MappedMXBeanType.toOpenType(MemoryNotificationInfo.class);
-        } catch (OpenDataException e) {
-            // Should never reach here
+                MbppedMXBebnType.toOpenType(MemoryNotificbtionInfo.clbss);
+        } cbtch (OpenDbtbException e) {
+            // Should never rebch here
             throw new AssertionError(e);
         }
     }
 
-    private static final String POOL_NAME = "poolName";
-    private static final String USAGE     = "usage";
-    private static final String COUNT     = "count";
-    private static final String[] memoryNotifInfoItemNames = {
+    privbte stbtic finbl String POOL_NAME = "poolNbme";
+    privbte stbtic finbl String USAGE     = "usbge";
+    privbte stbtic finbl String COUNT     = "count";
+    privbte stbtic finbl String[] memoryNotifInfoItemNbmes = {
         POOL_NAME,
         USAGE,
         COUNT,
     };
 
 
-    public static String getPoolName(CompositeData cd) {
-        String poolname = getString(cd, POOL_NAME);
-        if (poolname == null) {
-            throw new IllegalArgumentException("Invalid composite data: " +
-                "Attribute " + POOL_NAME + " has null value");
+    public stbtic String getPoolNbme(CompositeDbtb cd) {
+        String poolnbme = getString(cd, POOL_NAME);
+        if (poolnbme == null) {
+            throw new IllegblArgumentException("Invblid composite dbtb: " +
+                "Attribute " + POOL_NAME + " hbs null vblue");
         }
-        return poolname;
+        return poolnbme;
     }
 
-    public static MemoryUsage getUsage(CompositeData cd) {
-        CompositeData usageData = (CompositeData) cd.get(USAGE);
-        return MemoryUsage.from(usageData);
+    public stbtic MemoryUsbge getUsbge(CompositeDbtb cd) {
+        CompositeDbtb usbgeDbtb = (CompositeDbtb) cd.get(USAGE);
+        return MemoryUsbge.from(usbgeDbtb);
     }
 
-    public static long getCount(CompositeData cd) {
+    public stbtic long getCount(CompositeDbtb cd) {
         return getLong(cd, COUNT);
     }
 
-    /** Validate if the input CompositeData has the expected
-     * CompositeType (i.e. contain all attributes with expected
-     * names and types).
+    /** Vblidbte if the input CompositeDbtb hbs the expected
+     * CompositeType (i.e. contbin bll bttributes with expected
+     * nbmes bnd types).
      */
-    public static void validateCompositeData(CompositeData cd) {
+    public stbtic void vblidbteCompositeDbtb(CompositeDbtb cd) {
         if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+            throw new NullPointerException("Null CompositeDbtb");
         }
 
-        if (!isTypeMatched(memoryNotifInfoCompositeType, cd.getCompositeType())) {
-            throw new IllegalArgumentException(
-                "Unexpected composite type for MemoryNotificationInfo");
+        if (!isTypeMbtched(memoryNotifInfoCompositeType, cd.getCompositeType())) {
+            throw new IllegblArgumentException(
+                "Unexpected composite type for MemoryNotificbtionInfo");
         }
     }
 
-    private static final long serialVersionUID = -1805123446483771291L;
+    privbte stbtic finbl long seriblVersionUID = -1805123446483771291L;
 }

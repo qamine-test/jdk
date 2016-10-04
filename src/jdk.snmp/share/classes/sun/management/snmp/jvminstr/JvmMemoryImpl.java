@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import com.sun.jmx.snmp.SnmpStatusException;
+import jbvbx.mbnbgement.MBebnServer;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpDefinitions;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
+import com.sun.jmx.snmp.bgent.SnmpMib;
 
-import java.util.Map;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryUsage;
-import java.lang.management.MemoryType;
-import java.lang.management.MemoryMXBean;
-import javax.management.openmbean.CompositeData;
+import jbvb.util.Mbp;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import jbvb.lbng.mbnbgement.MemoryType;
+import jbvb.lbng.mbnbgement.MemoryMXBebn;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
 
-import sun.management.snmp.jvmmib.JvmMemoryMBean;
-import sun.management.snmp.jvmmib.EnumJvmMemoryGCCall;
-import sun.management.snmp.jvmmib.EnumJvmMemoryGCVerboseLevel;
-import sun.management.snmp.util.MibLogger;
-import sun.management.snmp.util.JvmContextFactory;
+import sun.mbnbgement.snmp.jvmmib.JvmMemoryMBebn;
+import sun.mbnbgement.snmp.jvmmib.EnumJvmMemoryGCCbll;
+import sun.mbnbgement.snmp.jvmmib.EnumJvmMemoryGCVerboseLevel;
+import sun.mbnbgement.snmp.util.MibLogger;
+import sun.mbnbgement.snmp.util.JvmContextFbctory;
 
 /**
- * The class is used for implementing the "JvmMemory" group.
+ * The clbss is used for implementing the "JvmMemory" group.
  */
-public class JvmMemoryImpl implements JvmMemoryMBean {
+public clbss JvmMemoryImpl implements JvmMemoryMBebn {
 
     /**
-     * Variable for storing the value of "JvmMemoryGCCall".
+     * Vbribble for storing the vblue of "JvmMemoryGCCbll".
      *
-     * "This object makes it possible to remotelly trigger the
-     * Garbage Collector in the JVM.
+     * "This object mbkes it possible to remotelly trigger the
+     * Gbrbbge Collector in the JVM.
      *
-     * This object's syntax is an enumeration which defines:
+     * This object's syntbx is bn enumerbtion which defines:
      *
-     * * Two state values, that can be returned from a GET request:
+     * * Two stbte vblues, thbt cbn be returned from b GET request:
      *
-     * unsupported(1): means that remote invocation of gc() is not
-     * supported by the SNMP agent.
-     * supported(2)  : means that remote invocation of gc() is supported
-     * by the SNMP agent.
+     * unsupported(1): mebns thbt remote invocbtion of gc() is not
+     * supported by the SNMP bgent.
+     * supported(2)  : mebns thbt remote invocbtion of gc() is supported
+     * by the SNMP bgent.
      *
-     * * One action value, that can be provided in a SET request to
-     * trigger the garbage collector:
+     * * One bction vblue, thbt cbn be provided in b SET request to
+     * trigger the gbrbbge collector:
      *
-     * start(3)      : means that a manager wishes to trigger
-     * garbage collection.
+     * stbrt(3)      : mebns thbt b mbnbger wishes to trigger
+     * gbrbbge collection.
      *
-     * * Two result value, that will be returned as a result of a
-     * SET request when remote invocation of gc is supported
-     * by the SNMP agent:
+     * * Two result vblue, thbt will be returned bs b result of b
+     * SET request when remote invocbtion of gc is supported
+     * by the SNMP bgent:
      *
-     * started(4)       : means that garbage collection was
-     * successfully triggered. It does not mean
-     * however that the action was successfullly
+     * stbrted(4)       : mebns thbt gbrbbge collection wbs
+     * successfully triggered. It does not mebn
+     * however thbt the bction wbs successfullly
      * completed: gc might still be running when
-     * this value is returned.
-     * failed(5)     : means that garbage collection couldn't be
+     * this vblue is returned.
+     * fbiled(5)     : mebns thbt gbrbbge collection couldn't be
      * triggered.
      *
-     * * If remote invocation is not supported by the SNMP agent, then
-     * unsupported(1) will always be returned as a result of either
-     * a GET request, or a SET request with start(3) as input value.
+     * * If remote invocbtion is not supported by the SNMP bgent, then
+     * unsupported(1) will blwbys be returned bs b result of either
+     * b GET request, or b SET request with stbrt(3) bs input vblue.
      *
-     * * If a SET request with anything but start(3) is received, then
-     * the agent will return a wrongValue error.
+     * * If b SET request with bnything but stbrt(3) is received, then
+     * the bgent will return b wrongVblue error.
      *
-     * See java.management.MemoryMXBean.gc()
+     * See jbvb.mbnbgement.MemoryMXBebn.gc()
      * "
      *
      */
-    final static EnumJvmMemoryGCCall JvmMemoryGCCallSupported
-        = new EnumJvmMemoryGCCall("supported");
-    final static EnumJvmMemoryGCCall JvmMemoryGCCallStart
-        = new EnumJvmMemoryGCCall("start");
-    final static EnumJvmMemoryGCCall JvmMemoryGCCallFailed
-        = new EnumJvmMemoryGCCall("failed");
-    final static EnumJvmMemoryGCCall JvmMemoryGCCallStarted
-        = new EnumJvmMemoryGCCall("started");
+    finbl stbtic EnumJvmMemoryGCCbll JvmMemoryGCCbllSupported
+        = new EnumJvmMemoryGCCbll("supported");
+    finbl stbtic EnumJvmMemoryGCCbll JvmMemoryGCCbllStbrt
+        = new EnumJvmMemoryGCCbll("stbrt");
+    finbl stbtic EnumJvmMemoryGCCbll JvmMemoryGCCbllFbiled
+        = new EnumJvmMemoryGCCbll("fbiled");
+    finbl stbtic EnumJvmMemoryGCCbll JvmMemoryGCCbllStbrted
+        = new EnumJvmMemoryGCCbll("stbrted");
 
     /**
-     * Variable for storing the value of "JvmMemoryGCVerboseLevel".
+     * Vbribble for storing the vblue of "JvmMemoryGCVerboseLevel".
      *
-     * "State of the -verbose:gc state.
+     * "Stbte of the -verbose:gc stbte.
      *
-     * verbose: if the -verbose:gc flag is on,
+     * verbose: if the -verbose:gc flbg is on,
      * silent:  otherwise.
      *
-     * See java.management.MemoryMXBean.isVerbose(),
-     * java.management.MemoryMXBean.setVerbose()
+     * See jbvb.mbnbgement.MemoryMXBebn.isVerbose(),
+     * jbvb.mbnbgement.MemoryMXBebn.setVerbose()
      * "
      *
      */
-    final static EnumJvmMemoryGCVerboseLevel JvmMemoryGCVerboseLevelVerbose =
+    finbl stbtic EnumJvmMemoryGCVerboseLevel JvmMemoryGCVerboseLevelVerbose =
         new EnumJvmMemoryGCVerboseLevel("verbose");
-    final static EnumJvmMemoryGCVerboseLevel JvmMemoryGCVerboseLevelSilent =
+    finbl stbtic EnumJvmMemoryGCVerboseLevel JvmMemoryGCVerboseLevelSilent =
         new EnumJvmMemoryGCVerboseLevel("silent");
 
     /**
      * Constructor for the "JvmMemory" group.
-     * If the group contains a table, the entries created through an
-     * SNMP SET will not be registered in Java DMK.
+     * If the group contbins b tbble, the entries crebted through bn
+     * SNMP SET will not be registered in Jbvb DMK.
      */
     public JvmMemoryImpl(SnmpMib myMib) {
     }
@@ -134,258 +134,258 @@ public class JvmMemoryImpl implements JvmMemoryMBean {
 
     /**
      * Constructor for the "JvmMemory" group.
-     * If the group contains a table, the entries created through an
-     * SNMP SET will be AUTOMATICALLY REGISTERED in Java DMK.
+     * If the group contbins b tbble, the entries crebted through bn
+     * SNMP SET will be AUTOMATICALLY REGISTERED in Jbvb DMK.
      */
-    public JvmMemoryImpl(SnmpMib myMib, MBeanServer server) {
-        // no entry will be registered since the table is virtual.
+    public JvmMemoryImpl(SnmpMib myMib, MBebnServer server) {
+        // no entry will be registered since the tbble is virtubl.
     }
 
-    final static String heapMemoryTag = "jvmMemory.getHeapMemoryUsage";
-    final static String nonHeapMemoryTag = "jvmMemory.getNonHeapMemoryUsage";
+    finbl stbtic String hebpMemoryTbg = "jvmMemory.getHebpMemoryUsbge";
+    finbl stbtic String nonHebpMemoryTbg = "jvmMemory.getNonHebpMemoryUsbge";
 
-    private MemoryUsage getMemoryUsage(MemoryType type) {
+    privbte MemoryUsbge getMemoryUsbge(MemoryType type) {
         if (type == MemoryType.HEAP) {
-            return ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
+            return MbnbgementFbctory.getMemoryMXBebn().getHebpMemoryUsbge();
         } else {
-            return ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage();
+            return MbnbgementFbctory.getMemoryMXBebn().getNonHebpMemoryUsbge();
         }
     }
 
-    MemoryUsage getNonHeapMemoryUsage() {
+    MemoryUsbge getNonHebpMemoryUsbge() {
         try {
-            final Map<Object, Object> m = JvmContextFactory.getUserData();
+            finbl Mbp<Object, Object> m = JvmContextFbctory.getUserDbtb();
 
             if (m != null) {
-                final MemoryUsage cached = (MemoryUsage)
-                    m.get(nonHeapMemoryTag);
-                if (cached != null) {
-                    log.debug("getNonHeapMemoryUsage",
-                          "jvmMemory.getNonHeapMemoryUsage found in cache.");
-                    return cached;
+                finbl MemoryUsbge cbched = (MemoryUsbge)
+                    m.get(nonHebpMemoryTbg);
+                if (cbched != null) {
+                    log.debug("getNonHebpMemoryUsbge",
+                          "jvmMemory.getNonHebpMemoryUsbge found in cbche.");
+                    return cbched;
                 }
 
-                final MemoryUsage u = getMemoryUsage(MemoryType.NON_HEAP);
+                finbl MemoryUsbge u = getMemoryUsbge(MemoryType.NON_HEAP);
 
-                //  getNonHeapMemoryUsage() never returns null.
+                //  getNonHebpMemoryUsbge() never returns null.
                 //
-                // if (u == null) u=MemoryUsage.INVALID;
+                // if (u == null) u=MemoryUsbge.INVALID;
 
-                m.put(nonHeapMemoryTag,u);
+                m.put(nonHebpMemoryTbg,u);
                 return u;
             }
             // Should never come here.
             // Log error!
-            log.trace("getNonHeapMemoryUsage",
+            log.trbce("getNonHebpMemoryUsbge",
                       "ERROR: should never come here!");
-            return getMemoryUsage(MemoryType.NON_HEAP);
-        } catch (RuntimeException x) {
-            log.trace("getNonHeapMemoryUsage",
-                  "Failed to get NonHeapMemoryUsage: " + x);
-            log.debug("getNonHeapMemoryUsage",x);
+            return getMemoryUsbge(MemoryType.NON_HEAP);
+        } cbtch (RuntimeException x) {
+            log.trbce("getNonHebpMemoryUsbge",
+                  "Fbiled to get NonHebpMemoryUsbge: " + x);
+            log.debug("getNonHebpMemoryUsbge",x);
             throw x;
         }
 
     }
 
-    MemoryUsage getHeapMemoryUsage() {
+    MemoryUsbge getHebpMemoryUsbge() {
         try {
-            final Map<Object, Object> m = JvmContextFactory.getUserData();
+            finbl Mbp<Object, Object> m = JvmContextFbctory.getUserDbtb();
 
             if (m != null) {
-                final MemoryUsage cached = (MemoryUsage)m.get(heapMemoryTag);
-                if (cached != null) {
-                    log.debug("getHeapMemoryUsage",
-                          "jvmMemory.getHeapMemoryUsage found in cache.");
-                    return cached;
+                finbl MemoryUsbge cbched = (MemoryUsbge)m.get(hebpMemoryTbg);
+                if (cbched != null) {
+                    log.debug("getHebpMemoryUsbge",
+                          "jvmMemory.getHebpMemoryUsbge found in cbche.");
+                    return cbched;
                 }
 
-                final MemoryUsage u = getMemoryUsage(MemoryType.HEAP);
+                finbl MemoryUsbge u = getMemoryUsbge(MemoryType.HEAP);
 
-                // getHeapMemoryUsage() never returns null.
+                // getHebpMemoryUsbge() never returns null.
                 //
-                // if (u == null) u=MemoryUsage.INVALID;
+                // if (u == null) u=MemoryUsbge.INVALID;
 
-                m.put(heapMemoryTag,u);
+                m.put(hebpMemoryTbg,u);
                 return u;
             }
 
             // Should never come here.
             // Log error!
-            log.trace("getHeapMemoryUsage", "ERROR: should never come here!");
-            return getMemoryUsage(MemoryType.HEAP);
-        } catch (RuntimeException x) {
-            log.trace("getHeapMemoryUsage",
-                  "Failed to get HeapMemoryUsage: " + x);
-            log.debug("getHeapMemoryUsage",x);
+            log.trbce("getHebpMemoryUsbge", "ERROR: should never come here!");
+            return getMemoryUsbge(MemoryType.HEAP);
+        } cbtch (RuntimeException x) {
+            log.trbce("getHebpMemoryUsbge",
+                  "Fbiled to get HebpMemoryUsbge: " + x);
+            log.debug("getHebpMemoryUsbge",x);
             throw x;
         }
     }
 
-    static final Long Long0 = 0L;
+    stbtic finbl Long Long0 = 0L;
 
     /**
-     * Getter for the "JvmMemoryNonHeapMaxSize" variable.
+     * Getter for the "JvmMemoryNonHebpMbxSize" vbribble.
      */
-    public Long getJvmMemoryNonHeapMaxSize()
-        throws SnmpStatusException {
-        final long val = getNonHeapMemoryUsage().getMax();
-        if (val > -1) return  val;
+    public Long getJvmMemoryNonHebpMbxSize()
+        throws SnmpStbtusException {
+        finbl long vbl = getNonHebpMemoryUsbge().getMbx();
+        if (vbl > -1) return  vbl;
         else return Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryNonHeapCommitted" variable.
+     * Getter for the "JvmMemoryNonHebpCommitted" vbribble.
      */
-    public Long getJvmMemoryNonHeapCommitted() throws SnmpStatusException {
-        final long val = getNonHeapMemoryUsage().getCommitted();
-        if (val > -1) return val;
+    public Long getJvmMemoryNonHebpCommitted() throws SnmpStbtusException {
+        finbl long vbl = getNonHebpMemoryUsbge().getCommitted();
+        if (vbl > -1) return vbl;
         else return Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryNonHeapUsed" variable.
+     * Getter for the "JvmMemoryNonHebpUsed" vbribble.
      */
-    public Long getJvmMemoryNonHeapUsed() throws SnmpStatusException {
-        final long val = getNonHeapMemoryUsage().getUsed();
-        if (val > -1) return val;
+    public Long getJvmMemoryNonHebpUsed() throws SnmpStbtusException {
+        finbl long vbl = getNonHebpMemoryUsbge().getUsed();
+        if (vbl > -1) return vbl;
         else return Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryNonHeapInitSize" variable.
+     * Getter for the "JvmMemoryNonHebpInitSize" vbribble.
      */
-    public Long getJvmMemoryNonHeapInitSize() throws SnmpStatusException {
-        final long val = getNonHeapMemoryUsage().getInit();
-        if (val > -1) return val;
+    public Long getJvmMemoryNonHebpInitSize() throws SnmpStbtusException {
+        finbl long vbl = getNonHebpMemoryUsbge().getInit();
+        if (vbl > -1) return vbl;
         else return Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryHeapMaxSize" variable.
+     * Getter for the "JvmMemoryHebpMbxSize" vbribble.
      */
-    public Long getJvmMemoryHeapMaxSize() throws SnmpStatusException {
-        final long val = getHeapMemoryUsage().getMax();
-        if (val > -1) return val;
+    public Long getJvmMemoryHebpMbxSize() throws SnmpStbtusException {
+        finbl long vbl = getHebpMemoryUsbge().getMbx();
+        if (vbl > -1) return vbl;
         else return Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryGCCall" variable.
+     * Getter for the "JvmMemoryGCCbll" vbribble.
      */
-    public EnumJvmMemoryGCCall getJvmMemoryGCCall()
-        throws SnmpStatusException {
-        final Map<Object,Object> m = JvmContextFactory.getUserData();
+    public EnumJvmMemoryGCCbll getJvmMemoryGCCbll()
+        throws SnmpStbtusException {
+        finbl Mbp<Object,Object> m = JvmContextFbctory.getUserDbtb();
 
         if (m != null) {
-            final EnumJvmMemoryGCCall cached
-                = (EnumJvmMemoryGCCall) m.get("jvmMemory.getJvmMemoryGCCall");
-            if (cached != null) return cached;
+            finbl EnumJvmMemoryGCCbll cbched
+                = (EnumJvmMemoryGCCbll) m.get("jvmMemory.getJvmMemoryGCCbll");
+            if (cbched != null) return cbched;
         }
-        return JvmMemoryGCCallSupported;
+        return JvmMemoryGCCbllSupported;
     }
 
     /**
-     * Setter for the "JvmMemoryGCCall" variable.
+     * Setter for the "JvmMemoryGCCbll" vbribble.
      */
-    public void setJvmMemoryGCCall(EnumJvmMemoryGCCall x)
-        throws SnmpStatusException {
-        if (x.intValue() == JvmMemoryGCCallStart.intValue()) {
-            final Map<Object, Object> m = JvmContextFactory.getUserData();
+    public void setJvmMemoryGCCbll(EnumJvmMemoryGCCbll x)
+        throws SnmpStbtusException {
+        if (x.intVblue() == JvmMemoryGCCbllStbrt.intVblue()) {
+            finbl Mbp<Object, Object> m = JvmContextFbctory.getUserDbtb();
 
             try {
-                ManagementFactory.getMemoryMXBean().gc();
-                if (m != null) m.put("jvmMemory.getJvmMemoryGCCall",
-                                     JvmMemoryGCCallStarted);
-            } catch (Exception ex) {
-                if (m != null) m.put("jvmMemory.getJvmMemoryGCCall",
-                                     JvmMemoryGCCallFailed);
+                MbnbgementFbctory.getMemoryMXBebn().gc();
+                if (m != null) m.put("jvmMemory.getJvmMemoryGCCbll",
+                                     JvmMemoryGCCbllStbrted);
+            } cbtch (Exception ex) {
+                if (m != null) m.put("jvmMemory.getJvmMemoryGCCbll",
+                                     JvmMemoryGCCbllFbiled);
             }
             return;
         }
-        throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
+        throw new SnmpStbtusException(SnmpDefinitions.snmpRspWrongVblue);
     }
 
     /**
-     * Checker for the "JvmMemoryGCCall" variable.
+     * Checker for the "JvmMemoryGCCbll" vbribble.
      */
-    public void checkJvmMemoryGCCall(EnumJvmMemoryGCCall x)
-        throws SnmpStatusException {
-        if (x.intValue() != JvmMemoryGCCallStart.intValue())
-        throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
+    public void checkJvmMemoryGCCbll(EnumJvmMemoryGCCbll x)
+        throws SnmpStbtusException {
+        if (x.intVblue() != JvmMemoryGCCbllStbrt.intVblue())
+        throw new SnmpStbtusException(SnmpDefinitions.snmpRspWrongVblue);
     }
 
     /**
-     * Getter for the "JvmMemoryHeapCommitted" variable.
+     * Getter for the "JvmMemoryHebpCommitted" vbribble.
      */
-    public Long getJvmMemoryHeapCommitted() throws SnmpStatusException {
-        final long val = getHeapMemoryUsage().getCommitted();
-        if (val > -1) return val;
+    public Long getJvmMemoryHebpCommitted() throws SnmpStbtusException {
+        finbl long vbl = getHebpMemoryUsbge().getCommitted();
+        if (vbl > -1) return vbl;
         else return Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryGCVerboseLevel" variable.
+     * Getter for the "JvmMemoryGCVerboseLevel" vbribble.
      */
     public EnumJvmMemoryGCVerboseLevel getJvmMemoryGCVerboseLevel()
-        throws SnmpStatusException {
-        if (ManagementFactory.getMemoryMXBean().isVerbose())
+        throws SnmpStbtusException {
+        if (MbnbgementFbctory.getMemoryMXBebn().isVerbose())
             return JvmMemoryGCVerboseLevelVerbose;
         else
             return JvmMemoryGCVerboseLevelSilent;
     }
 
     /**
-     * Setter for the "JvmMemoryGCVerboseLevel" variable.
+     * Setter for the "JvmMemoryGCVerboseLevel" vbribble.
      */
     public void setJvmMemoryGCVerboseLevel(EnumJvmMemoryGCVerboseLevel x)
-        throws SnmpStatusException {
-        if (JvmMemoryGCVerboseLevelVerbose.intValue() == x.intValue())
-            ManagementFactory.getMemoryMXBean().setVerbose(true);
+        throws SnmpStbtusException {
+        if (JvmMemoryGCVerboseLevelVerbose.intVblue() == x.intVblue())
+            MbnbgementFbctory.getMemoryMXBebn().setVerbose(true);
         else
-            ManagementFactory.getMemoryMXBean().setVerbose(false);
+            MbnbgementFbctory.getMemoryMXBebn().setVerbose(fblse);
     }
 
     /**
-     * Checker for the "JvmMemoryGCVerboseLevel" variable.
+     * Checker for the "JvmMemoryGCVerboseLevel" vbribble.
      */
     public void checkJvmMemoryGCVerboseLevel(EnumJvmMemoryGCVerboseLevel x)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
         // Nothing to check...
     }
 
     /**
-     * Getter for the "JvmMemoryHeapUsed" variable.
+     * Getter for the "JvmMemoryHebpUsed" vbribble.
      */
-    public Long getJvmMemoryHeapUsed() throws SnmpStatusException {
-        final long val = getHeapMemoryUsage().getUsed();
-        if (val > -1) return val;
+    public Long getJvmMemoryHebpUsed() throws SnmpStbtusException {
+        finbl long vbl = getHebpMemoryUsbge().getUsed();
+        if (vbl > -1) return vbl;
         else return Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryHeapInitSize" variable.
+     * Getter for the "JvmMemoryHebpInitSize" vbribble.
      */
-    public Long getJvmMemoryHeapInitSize() throws SnmpStatusException {
-        final long val = getHeapMemoryUsage().getInit();
-        if (val > -1) return val;
+    public Long getJvmMemoryHebpInitSize() throws SnmpStbtusException {
+        finbl long vbl = getHebpMemoryUsbge().getInit();
+        if (vbl > -1) return vbl;
         else return Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryPendingFinalCount" variable.
+     * Getter for the "JvmMemoryPendingFinblCount" vbribble.
      */
-    public Long getJvmMemoryPendingFinalCount()
-        throws SnmpStatusException {
-        final long val = ManagementFactory.getMemoryMXBean().
-            getObjectPendingFinalizationCount();
+    public Long getJvmMemoryPendingFinblCount()
+        throws SnmpStbtusException {
+        finbl long vbl = MbnbgementFbctory.getMemoryMXBebn().
+            getObjectPendingFinblizbtionCount();
 
-        if (val > -1) return Long.valueOf((int) val);
+        if (vbl > -1) return Long.vblueOf((int) vbl);
 
-        // Should never happen... but stay safe all the same.
+        // Should never hbppen... but stby sbfe bll the sbme.
         //
         else return 0L;
     }
 
-    static final MibLogger log = new MibLogger(JvmMemoryImpl.class);
+    stbtic finbl MibLogger log = new MibLogger(JvmMemoryImpl.clbss);
 }

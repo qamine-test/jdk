@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
-import java.util.Vector;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.util.Vector;
+import jbvb.util.Locble;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
 
 /**
- * Class AccessibleRelationSet determines a component's relation set.  The
- * relation set of a component is a set of AccessibleRelation objects that
- * describe the component's relationships with other components.
+ * Clbss AccessibleRelbtionSet determines b component's relbtion set.  The
+ * relbtion set of b component is b set of AccessibleRelbtion objects thbt
+ * describe the component's relbtionships with other components.
  *
- * @see AccessibleRelation
+ * @see AccessibleRelbtion
  *
- * @author      Lynn Monsanto
+ * @buthor      Lynn Monsbnto
  * @since 1.3
  */
-public class AccessibleRelationSet {
+public clbss AccessibleRelbtionSet {
 
     /**
-     * Each entry in the Vector represents an AccessibleRelation.
-     * @see #add
-     * @see #addAll
+     * Ebch entry in the Vector represents bn AccessibleRelbtion.
+     * @see #bdd
+     * @see #bddAll
      * @see #remove
-     * @see #contains
+     * @see #contbins
      * @see #get
      * @see #size
-     * @see #toArray
-     * @see #clear
+     * @see #toArrby
+     * @see #clebr
      */
-    protected Vector<AccessibleRelation> relations = null;
+    protected Vector<AccessibleRelbtion> relbtions = null;
 
     /**
-     * Creates a new empty relation set.
+     * Crebtes b new empty relbtion set.
      */
-    public AccessibleRelationSet() {
-        relations = null;
+    public AccessibleRelbtionSet() {
+        relbtions = null;
     }
 
     /**
-     * Creates a new relation with the initial set of relations contained in
-     * the array of relations passed in.  Duplicate entries are ignored.
+     * Crebtes b new relbtion with the initibl set of relbtions contbined in
+     * the brrby of relbtions pbssed in.  Duplicbte entries bre ignored.
      *
-     * @param relations an array of AccessibleRelation describing the
-     * relation set.
+     * @pbrbm relbtions bn brrby of AccessibleRelbtion describing the
+     * relbtion set.
      */
-    public AccessibleRelationSet(AccessibleRelation[] relations) {
-        if (relations.length != 0) {
-            this.relations = new Vector<>(relations.length);
-            for (int i = 0; i < relations.length; i++) {
-                add(relations[i]);
+    public AccessibleRelbtionSet(AccessibleRelbtion[] relbtions) {
+        if (relbtions.length != 0) {
+            this.relbtions = new Vector<>(relbtions.length);
+            for (int i = 0; i < relbtions.length; i++) {
+                bdd(relbtions[i]);
             }
         }
     }
 
     /**
-     * Adds a new relation to the current relation set.  If the relation
-     * is already in the relation set, the target(s) of the specified
-     * relation is merged with the target(s) of the existing relation.
-     * Otherwise,  the new relation is added to the relation set.
+     * Adds b new relbtion to the current relbtion set.  If the relbtion
+     * is blrebdy in the relbtion set, the tbrget(s) of the specified
+     * relbtion is merged with the tbrget(s) of the existing relbtion.
+     * Otherwise,  the new relbtion is bdded to the relbtion set.
      *
-     * @param relation the relation to add to the relation set
-     * @return true if relation is added to the relation set; false if the
-     * relation set is unchanged
+     * @pbrbm relbtion the relbtion to bdd to the relbtion set
+     * @return true if relbtion is bdded to the relbtion set; fblse if the
+     * relbtion set is unchbnged
      */
-    public boolean add(AccessibleRelation relation) {
-        if (relations == null) {
-            relations = new Vector<>();
+    public boolebn bdd(AccessibleRelbtion relbtion) {
+        if (relbtions == null) {
+            relbtions = new Vector<>();
         }
 
-        // Merge the relation targets if the key exists
-        AccessibleRelation existingRelation = get(relation.getKey());
-        if (existingRelation == null) {
-            relations.addElement(relation);
+        // Merge the relbtion tbrgets if the key exists
+        AccessibleRelbtion existingRelbtion = get(relbtion.getKey());
+        if (existingRelbtion == null) {
+            relbtions.bddElement(relbtion);
             return true;
         } else {
-            Object [] existingTarget = existingRelation.getTarget();
-            Object [] newTarget = relation.getTarget();
-            int mergedLength = existingTarget.length + newTarget.length;
-            Object [] mergedTarget = new Object[mergedLength];
-            for (int i = 0; i < existingTarget.length; i++) {
-                mergedTarget[i] = existingTarget[i];
+            Object [] existingTbrget = existingRelbtion.getTbrget();
+            Object [] newTbrget = relbtion.getTbrget();
+            int mergedLength = existingTbrget.length + newTbrget.length;
+            Object [] mergedTbrget = new Object[mergedLength];
+            for (int i = 0; i < existingTbrget.length; i++) {
+                mergedTbrget[i] = existingTbrget[i];
             }
-            for (int i = existingTarget.length, j = 0;
+            for (int i = existingTbrget.length, j = 0;
                  i < mergedLength;
                  i++, j++) {
-                mergedTarget[i] = newTarget[j];
+                mergedTbrget[i] = newTbrget[j];
             }
-            existingRelation.setTarget(mergedTarget);
+            existingRelbtion.setTbrget(mergedTbrget);
         }
         return true;
     }
 
     /**
-     * Adds all of the relations to the existing relation set.  Duplicate
-     * entries are ignored.
+     * Adds bll of the relbtions to the existing relbtion set.  Duplicbte
+     * entries bre ignored.
      *
-     * @param relations  AccessibleRelation array describing the relation set.
+     * @pbrbm relbtions  AccessibleRelbtion brrby describing the relbtion set.
      */
-    public void addAll(AccessibleRelation[] relations) {
-        if (relations.length != 0) {
-            if (this.relations == null) {
-                this.relations = new Vector<>(relations.length);
+    public void bddAll(AccessibleRelbtion[] relbtions) {
+        if (relbtions.length != 0) {
+            if (this.relbtions == null) {
+                this.relbtions = new Vector<>(relbtions.length);
             }
-            for (int i = 0; i < relations.length; i++) {
-                add(relations[i]);
+            for (int i = 0; i < relbtions.length; i++) {
+                bdd(relbtions[i]);
             }
         }
     }
 
     /**
-     * Removes a relation from the current relation set.  If the relation
-     * is not in the set, the relation set will be unchanged and the
-     * return value will be false.  If the relation is in the relation
-     * set, it will be removed from the set and the return value will be
+     * Removes b relbtion from the current relbtion set.  If the relbtion
+     * is not in the set, the relbtion set will be unchbnged bnd the
+     * return vblue will be fblse.  If the relbtion is in the relbtion
+     * set, it will be removed from the set bnd the return vblue will be
      * true.
      *
-     * @param relation the relation to remove from the relation set
-     * @return true if the relation is in the relation set; false if the
-     * relation set is unchanged
+     * @pbrbm relbtion the relbtion to remove from the relbtion set
+     * @return true if the relbtion is in the relbtion set; fblse if the
+     * relbtion set is unchbnged
      */
-    public boolean remove(AccessibleRelation relation) {
-        if (relations == null) {
-            return false;
+    public boolebn remove(AccessibleRelbtion relbtion) {
+        if (relbtions == null) {
+            return fblse;
         } else {
-            return relations.removeElement(relation);
+            return relbtions.removeElement(relbtion);
         }
     }
 
     /**
-     * Removes all the relations from the current relation set.
+     * Removes bll the relbtions from the current relbtion set.
      */
-    public void clear() {
-        if (relations != null) {
-            relations.removeAllElements();
+    public void clebr() {
+        if (relbtions != null) {
+            relbtions.removeAllElements();
         }
     }
 
     /**
-     * Returns the number of relations in the relation set.
-     * @return the number of relations in the relation set
+     * Returns the number of relbtions in the relbtion set.
+     * @return the number of relbtions in the relbtion set
      */
     public int size() {
-        if (relations == null) {
+        if (relbtions == null) {
             return 0;
         } else {
-            return relations.size();
+            return relbtions.size();
         }
     }
 
     /**
-     * Returns whether the relation set contains a relation
-     * that matches the specified key.
-     * @param key the AccessibleRelation key
-     * @return true if the relation is in the relation set; otherwise false
+     * Returns whether the relbtion set contbins b relbtion
+     * thbt mbtches the specified key.
+     * @pbrbm key the AccessibleRelbtion key
+     * @return true if the relbtion is in the relbtion set; otherwise fblse
      */
-    public boolean contains(String key) {
+    public boolebn contbins(String key) {
         return get(key) != null;
     }
 
     /**
-     * Returns the relation that matches the specified key.
-     * @param key the AccessibleRelation key
-     * @return the relation, if one exists, that matches the specified key.
+     * Returns the relbtion thbt mbtches the specified key.
+     * @pbrbm key the AccessibleRelbtion key
+     * @return the relbtion, if one exists, thbt mbtches the specified key.
      * Otherwise, null is returned.
      */
-    public AccessibleRelation get(String key) {
-        if (relations == null) {
+    public AccessibleRelbtion get(String key) {
+        if (relbtions == null) {
             return null;
         } else {
-            int len = relations.size();
+            int len = relbtions.size();
             for (int i = 0; i < len; i++) {
-                AccessibleRelation relation = relations.elementAt(i);
-                if (relation != null && relation.getKey().equals(key)) {
-                    return relation;
+                AccessibleRelbtion relbtion = relbtions.elementAt(i);
+                if (relbtion != null && relbtion.getKey().equbls(key)) {
+                    return relbtion;
                 }
             }
             return null;
@@ -205,36 +205,36 @@ public class AccessibleRelationSet {
     }
 
     /**
-     * Returns the current relation set as an array of AccessibleRelation
-     * @return AccessibleRelation array contacting the current relation.
+     * Returns the current relbtion set bs bn brrby of AccessibleRelbtion
+     * @return AccessibleRelbtion brrby contbcting the current relbtion.
      */
-    public AccessibleRelation[] toArray() {
-        if (relations == null) {
-            return new AccessibleRelation[0];
+    public AccessibleRelbtion[] toArrby() {
+        if (relbtions == null) {
+            return new AccessibleRelbtion[0];
         } else {
-            AccessibleRelation[] relationArray
-                = new AccessibleRelation[relations.size()];
-            for (int i = 0; i < relationArray.length; i++) {
-                relationArray[i] = relations.elementAt(i);
+            AccessibleRelbtion[] relbtionArrby
+                = new AccessibleRelbtion[relbtions.size()];
+            for (int i = 0; i < relbtionArrby.length; i++) {
+                relbtionArrby[i] = relbtions.elementAt(i);
             }
-            return relationArray;
+            return relbtionArrby;
         }
     }
 
     /**
-     * Creates a localized String representing all the relations in the set
-     * using the default locale.
+     * Crebtes b locblized String representing bll the relbtions in the set
+     * using the defbult locble.
      *
-     * @return comma separated localized String
-     * @see AccessibleBundle#toDisplayString
+     * @return commb sepbrbted locblized String
+     * @see AccessibleBundle#toDisplbyString
      */
     public String toString() {
         String ret = "";
-        if ((relations != null) && (relations.size() > 0)) {
-            ret = (relations.elementAt(0)).toDisplayString();
-            for (int i = 1; i < relations.size(); i++) {
+        if ((relbtions != null) && (relbtions.size() > 0)) {
+            ret = (relbtions.elementAt(0)).toDisplbyString();
+            for (int i = 1; i < relbtions.size(); i++) {
                 ret = ret + ","
-                        + (relations.elementAt(i)).toDisplayString();
+                        + (relbtions.elementAt(i)).toDisplbyString();
             }
         }
         return ret;

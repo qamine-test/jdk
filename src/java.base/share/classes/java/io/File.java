@@ -1,654 +1,654 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.net.URI;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.ArrayList;
-import java.security.AccessController;
-import java.security.SecureRandom;
-import java.nio.file.Path;
-import java.nio.file.FileSystems;
-import sun.security.action.GetPropertyAction;
+import jbvb.net.URI;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URISyntbxException;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.security.AccessController;
+import jbvb.security.SecureRbndom;
+import jbvb.nio.file.Pbth;
+import jbvb.nio.file.FileSystems;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * An abstract representation of file and directory pathnames.
+ * An bbstrbct representbtion of file bnd directory pbthnbmes.
  *
- * <p> User interfaces and operating systems use system-dependent <em>pathname
- * strings</em> to name files and directories.  This class presents an
- * abstract, system-independent view of hierarchical pathnames.  An
- * <em>abstract pathname</em> has two components:
+ * <p> User interfbces bnd operbting systems use system-dependent <em>pbthnbme
+ * strings</em> to nbme files bnd directories.  This clbss presents bn
+ * bbstrbct, system-independent view of hierbrchicbl pbthnbmes.  An
+ * <em>bbstrbct pbthnbme</em> hbs two components:
  *
  * <ol>
- * <li> An optional system-dependent <em>prefix</em> string,
- *      such as a disk-drive specifier, <code>"/"</code>&nbsp;for the UNIX root
- *      directory, or <code>"\\\\"</code>&nbsp;for a Microsoft Windows UNC pathname, and
- * <li> A sequence of zero or more string <em>names</em>.
+ * <li> An optionbl system-dependent <em>prefix</em> string,
+ *      such bs b disk-drive specifier, <code>"/"</code>&nbsp;for the UNIX root
+ *      directory, or <code>"\\\\"</code>&nbsp;for b Microsoft Windows UNC pbthnbme, bnd
+ * <li> A sequence of zero or more string <em>nbmes</em>.
  * </ol>
  *
- * The first name in an abstract pathname may be a directory name or, in the
- * case of Microsoft Windows UNC pathnames, a hostname.  Each subsequent name
- * in an abstract pathname denotes a directory; the last name may denote
- * either a directory or a file.  The <em>empty</em> abstract pathname has no
- * prefix and an empty name sequence.
+ * The first nbme in bn bbstrbct pbthnbme mby be b directory nbme or, in the
+ * cbse of Microsoft Windows UNC pbthnbmes, b hostnbme.  Ebch subsequent nbme
+ * in bn bbstrbct pbthnbme denotes b directory; the lbst nbme mby denote
+ * either b directory or b file.  The <em>empty</em> bbstrbct pbthnbme hbs no
+ * prefix bnd bn empty nbme sequence.
  *
- * <p> The conversion of a pathname string to or from an abstract pathname is
- * inherently system-dependent.  When an abstract pathname is converted into a
- * pathname string, each name is separated from the next by a single copy of
- * the default <em>separator character</em>.  The default name-separator
- * character is defined by the system property <code>file.separator</code>, and
- * is made available in the public static fields <code>{@link
- * #separator}</code> and <code>{@link #separatorChar}</code> of this class.
- * When a pathname string is converted into an abstract pathname, the names
- * within it may be separated by the default name-separator character or by any
- * other name-separator character that is supported by the underlying system.
+ * <p> The conversion of b pbthnbme string to or from bn bbstrbct pbthnbme is
+ * inherently system-dependent.  When bn bbstrbct pbthnbme is converted into b
+ * pbthnbme string, ebch nbme is sepbrbted from the next by b single copy of
+ * the defbult <em>sepbrbtor chbrbcter</em>.  The defbult nbme-sepbrbtor
+ * chbrbcter is defined by the system property <code>file.sepbrbtor</code>, bnd
+ * is mbde bvbilbble in the public stbtic fields <code>{@link
+ * #sepbrbtor}</code> bnd <code>{@link #sepbrbtorChbr}</code> of this clbss.
+ * When b pbthnbme string is converted into bn bbstrbct pbthnbme, the nbmes
+ * within it mby be sepbrbted by the defbult nbme-sepbrbtor chbrbcter or by bny
+ * other nbme-sepbrbtor chbrbcter thbt is supported by the underlying system.
  *
- * <p> A pathname, whether abstract or in string form, may be either
- * <em>absolute</em> or <em>relative</em>.  An absolute pathname is complete in
- * that no other information is required in order to locate the file that it
- * denotes.  A relative pathname, in contrast, must be interpreted in terms of
- * information taken from some other pathname.  By default the classes in the
- * <code>java.io</code> package always resolve relative pathnames against the
- * current user directory.  This directory is named by the system property
- * <code>user.dir</code>, and is typically the directory in which the Java
- * virtual machine was invoked.
+ * <p> A pbthnbme, whether bbstrbct or in string form, mby be either
+ * <em>bbsolute</em> or <em>relbtive</em>.  An bbsolute pbthnbme is complete in
+ * thbt no other informbtion is required in order to locbte the file thbt it
+ * denotes.  A relbtive pbthnbme, in contrbst, must be interpreted in terms of
+ * informbtion tbken from some other pbthnbme.  By defbult the clbsses in the
+ * <code>jbvb.io</code> pbckbge blwbys resolve relbtive pbthnbmes bgbinst the
+ * current user directory.  This directory is nbmed by the system property
+ * <code>user.dir</code>, bnd is typicblly the directory in which the Jbvb
+ * virtubl mbchine wbs invoked.
  *
- * <p> The <em>parent</em> of an abstract pathname may be obtained by invoking
- * the {@link #getParent} method of this class and consists of the pathname's
- * prefix and each name in the pathname's name sequence except for the last.
- * Each directory's absolute pathname is an ancestor of any <tt>File</tt>
- * object with an absolute abstract pathname which begins with the directory's
- * absolute pathname.  For example, the directory denoted by the abstract
- * pathname <tt>"/usr"</tt> is an ancestor of the directory denoted by the
- * pathname <tt>"/usr/local/bin"</tt>.
+ * <p> The <em>pbrent</em> of bn bbstrbct pbthnbme mby be obtbined by invoking
+ * the {@link #getPbrent} method of this clbss bnd consists of the pbthnbme's
+ * prefix bnd ebch nbme in the pbthnbme's nbme sequence except for the lbst.
+ * Ebch directory's bbsolute pbthnbme is bn bncestor of bny <tt>File</tt>
+ * object with bn bbsolute bbstrbct pbthnbme which begins with the directory's
+ * bbsolute pbthnbme.  For exbmple, the directory denoted by the bbstrbct
+ * pbthnbme <tt>"/usr"</tt> is bn bncestor of the directory denoted by the
+ * pbthnbme <tt>"/usr/locbl/bin"</tt>.
  *
- * <p> The prefix concept is used to handle root directories on UNIX platforms,
- * and drive specifiers, root directories and UNC pathnames on Microsoft Windows platforms,
- * as follows:
+ * <p> The prefix concept is used to hbndle root directories on UNIX plbtforms,
+ * bnd drive specifiers, root directories bnd UNC pbthnbmes on Microsoft Windows plbtforms,
+ * bs follows:
  *
  * <ul>
  *
- * <li> For UNIX platforms, the prefix of an absolute pathname is always
- * <code>"/"</code>.  Relative pathnames have no prefix.  The abstract pathname
- * denoting the root directory has the prefix <code>"/"</code> and an empty
- * name sequence.
+ * <li> For UNIX plbtforms, the prefix of bn bbsolute pbthnbme is blwbys
+ * <code>"/"</code>.  Relbtive pbthnbmes hbve no prefix.  The bbstrbct pbthnbme
+ * denoting the root directory hbs the prefix <code>"/"</code> bnd bn empty
+ * nbme sequence.
  *
- * <li> For Microsoft Windows platforms, the prefix of a pathname that contains a drive
- * specifier consists of the drive letter followed by <code>":"</code> and
- * possibly followed by <code>"\\"</code> if the pathname is absolute.  The
- * prefix of a UNC pathname is <code>"\\\\"</code>; the hostname and the share
- * name are the first two names in the name sequence.  A relative pathname that
- * does not specify a drive has no prefix.
+ * <li> For Microsoft Windows plbtforms, the prefix of b pbthnbme thbt contbins b drive
+ * specifier consists of the drive letter followed by <code>":"</code> bnd
+ * possibly followed by <code>"\\"</code> if the pbthnbme is bbsolute.  The
+ * prefix of b UNC pbthnbme is <code>"\\\\"</code>; the hostnbme bnd the shbre
+ * nbme bre the first two nbmes in the nbme sequence.  A relbtive pbthnbme thbt
+ * does not specify b drive hbs no prefix.
  *
  * </ul>
  *
- * <p> Instances of this class may or may not denote an actual file-system
- * object such as a file or a directory.  If it does denote such an object
- * then that object resides in a <i>partition</i>.  A partition is an
- * operating system-specific portion of storage for a file system.  A single
- * storage device (e.g. a physical disk-drive, flash memory, CD-ROM) may
- * contain multiple partitions.  The object, if any, will reside on the
- * partition <a name="partName">named</a> by some ancestor of the absolute
- * form of this pathname.
+ * <p> Instbnces of this clbss mby or mby not denote bn bctubl file-system
+ * object such bs b file or b directory.  If it does denote such bn object
+ * then thbt object resides in b <i>pbrtition</i>.  A pbrtition is bn
+ * operbting system-specific portion of storbge for b file system.  A single
+ * storbge device (e.g. b physicbl disk-drive, flbsh memory, CD-ROM) mby
+ * contbin multiple pbrtitions.  The object, if bny, will reside on the
+ * pbrtition <b nbme="pbrtNbme">nbmed</b> by some bncestor of the bbsolute
+ * form of this pbthnbme.
  *
- * <p> A file system may implement restrictions to certain operations on the
- * actual file-system object, such as reading, writing, and executing.  These
- * restrictions are collectively known as <i>access permissions</i>.  The file
- * system may have multiple sets of access permissions on a single object.
- * For example, one set may apply to the object's <i>owner</i>, and another
- * may apply to all other users.  The access permissions on an object may
- * cause some methods in this class to fail.
+ * <p> A file system mby implement restrictions to certbin operbtions on the
+ * bctubl file-system object, such bs rebding, writing, bnd executing.  These
+ * restrictions bre collectively known bs <i>bccess permissions</i>.  The file
+ * system mby hbve multiple sets of bccess permissions on b single object.
+ * For exbmple, one set mby bpply to the object's <i>owner</i>, bnd bnother
+ * mby bpply to bll other users.  The bccess permissions on bn object mby
+ * cbuse some methods in this clbss to fbil.
  *
- * <p> Instances of the <code>File</code> class are immutable; that is, once
- * created, the abstract pathname represented by a <code>File</code> object
- * will never change.
+ * <p> Instbnces of the <code>File</code> clbss bre immutbble; thbt is, once
+ * crebted, the bbstrbct pbthnbme represented by b <code>File</code> object
+ * will never chbnge.
  *
- * <h3>Interoperability with {@code java.nio.file} package</h3>
+ * <h3>Interoperbbility with {@code jbvb.nio.file} pbckbge</h3>
  *
- * <p> The <a href="../../java/nio/file/package-summary.html">{@code java.nio.file}</a>
- * package defines interfaces and classes for the Java virtual machine to access
- * files, file attributes, and file systems. This API may be used to overcome
- * many of the limitations of the {@code java.io.File} class.
- * The {@link #toPath toPath} method may be used to obtain a {@link
- * Path} that uses the abstract path represented by a {@code File} object to
- * locate a file. The resulting {@code Path} may be used with the {@link
- * java.nio.file.Files} class to provide more efficient and extensive access to
- * additional file operations, file attributes, and I/O exceptions to help
- * diagnose errors when an operation on a file fails.
+ * <p> The <b href="../../jbvb/nio/file/pbckbge-summbry.html">{@code jbvb.nio.file}</b>
+ * pbckbge defines interfbces bnd clbsses for the Jbvb virtubl mbchine to bccess
+ * files, file bttributes, bnd file systems. This API mby be used to overcome
+ * mbny of the limitbtions of the {@code jbvb.io.File} clbss.
+ * The {@link #toPbth toPbth} method mby be used to obtbin b {@link
+ * Pbth} thbt uses the bbstrbct pbth represented by b {@code File} object to
+ * locbte b file. The resulting {@code Pbth} mby be used with the {@link
+ * jbvb.nio.file.Files} clbss to provide more efficient bnd extensive bccess to
+ * bdditionbl file operbtions, file bttributes, bnd I/O exceptions to help
+ * dibgnose errors when bn operbtion on b file fbils.
  *
- * @author  unascribed
+ * @buthor  unbscribed
  * @since   1.0
  */
 
-public class File
-    implements Serializable, Comparable<File>
+public clbss File
+    implements Seriblizbble, Compbrbble<File>
 {
 
     /**
-     * The FileSystem object representing the platform's local file system.
+     * The FileSystem object representing the plbtform's locbl file system.
      */
-    private static final FileSystem fs = DefaultFileSystem.getFileSystem();
+    privbte stbtic finbl FileSystem fs = DefbultFileSystem.getFileSystem();
 
     /**
-     * This abstract pathname's normalized pathname string. A normalized
-     * pathname string uses the default name-separator character and does not
-     * contain any duplicate or redundant separators.
+     * This bbstrbct pbthnbme's normblized pbthnbme string. A normblized
+     * pbthnbme string uses the defbult nbme-sepbrbtor chbrbcter bnd does not
+     * contbin bny duplicbte or redundbnt sepbrbtors.
      *
-     * @serial
+     * @seribl
      */
-    private final String path;
+    privbte finbl String pbth;
 
     /**
-     * Enum type that indicates the status of a file path.
+     * Enum type thbt indicbtes the stbtus of b file pbth.
      */
-    private static enum PathStatus { INVALID, CHECKED };
+    privbte stbtic enum PbthStbtus { INVALID, CHECKED };
 
     /**
-     * The flag indicating whether the file path is invalid.
+     * The flbg indicbting whether the file pbth is invblid.
      */
-    private transient PathStatus status = null;
+    privbte trbnsient PbthStbtus stbtus = null;
 
     /**
-     * Check if the file has an invalid path. Currently, the inspection of
-     * a file path is very limited, and it only covers Nul character check.
-     * Returning true means the path is definitely invalid/garbage. But
-     * returning false does not guarantee that the path is valid.
+     * Check if the file hbs bn invblid pbth. Currently, the inspection of
+     * b file pbth is very limited, bnd it only covers Nul chbrbcter check.
+     * Returning true mebns the pbth is definitely invblid/gbrbbge. But
+     * returning fblse does not gubrbntee thbt the pbth is vblid.
      *
-     * @return true if the file path is invalid.
+     * @return true if the file pbth is invblid.
      */
-    final boolean isInvalid() {
-        if (status == null) {
-            status = (this.path.indexOf('\u0000') < 0) ? PathStatus.CHECKED
-                                                       : PathStatus.INVALID;
+    finbl boolebn isInvblid() {
+        if (stbtus == null) {
+            stbtus = (this.pbth.indexOf('\u0000') < 0) ? PbthStbtus.CHECKED
+                                                       : PbthStbtus.INVALID;
         }
-        return status == PathStatus.INVALID;
+        return stbtus == PbthStbtus.INVALID;
     }
 
     /**
-     * The length of this abstract pathname's prefix, or zero if it has no
+     * The length of this bbstrbct pbthnbme's prefix, or zero if it hbs no
      * prefix.
      */
-    private final transient int prefixLength;
+    privbte finbl trbnsient int prefixLength;
 
     /**
-     * Returns the length of this abstract pathname's prefix.
-     * For use by FileSystem classes.
+     * Returns the length of this bbstrbct pbthnbme's prefix.
+     * For use by FileSystem clbsses.
      */
     int getPrefixLength() {
         return prefixLength;
     }
 
     /**
-     * The system-dependent default name-separator character.  This field is
-     * initialized to contain the first character of the value of the system
-     * property <code>file.separator</code>.  On UNIX systems the value of this
+     * The system-dependent defbult nbme-sepbrbtor chbrbcter.  This field is
+     * initiblized to contbin the first chbrbcter of the vblue of the system
+     * property <code>file.sepbrbtor</code>.  On UNIX systems the vblue of this
      * field is <code>'/'</code>; on Microsoft Windows systems it is <code>'\\'</code>.
      *
-     * @see     java.lang.System#getProperty(java.lang.String)
+     * @see     jbvb.lbng.System#getProperty(jbvb.lbng.String)
      */
-    public static final char separatorChar = fs.getSeparator();
+    public stbtic finbl chbr sepbrbtorChbr = fs.getSepbrbtor();
 
     /**
-     * The system-dependent default name-separator character, represented as a
-     * string for convenience.  This string contains a single character, namely
-     * <code>{@link #separatorChar}</code>.
+     * The system-dependent defbult nbme-sepbrbtor chbrbcter, represented bs b
+     * string for convenience.  This string contbins b single chbrbcter, nbmely
+     * <code>{@link #sepbrbtorChbr}</code>.
      */
-    public static final String separator = "" + separatorChar;
+    public stbtic finbl String sepbrbtor = "" + sepbrbtorChbr;
 
     /**
-     * The system-dependent path-separator character.  This field is
-     * initialized to contain the first character of the value of the system
-     * property <code>path.separator</code>.  This character is used to
-     * separate filenames in a sequence of files given as a <em>path list</em>.
-     * On UNIX systems, this character is <code>':'</code>; on Microsoft Windows systems it
+     * The system-dependent pbth-sepbrbtor chbrbcter.  This field is
+     * initiblized to contbin the first chbrbcter of the vblue of the system
+     * property <code>pbth.sepbrbtor</code>.  This chbrbcter is used to
+     * sepbrbte filenbmes in b sequence of files given bs b <em>pbth list</em>.
+     * On UNIX systems, this chbrbcter is <code>':'</code>; on Microsoft Windows systems it
      * is <code>';'</code>.
      *
-     * @see     java.lang.System#getProperty(java.lang.String)
+     * @see     jbvb.lbng.System#getProperty(jbvb.lbng.String)
      */
-    public static final char pathSeparatorChar = fs.getPathSeparator();
+    public stbtic finbl chbr pbthSepbrbtorChbr = fs.getPbthSepbrbtor();
 
     /**
-     * The system-dependent path-separator character, represented as a string
-     * for convenience.  This string contains a single character, namely
-     * <code>{@link #pathSeparatorChar}</code>.
+     * The system-dependent pbth-sepbrbtor chbrbcter, represented bs b string
+     * for convenience.  This string contbins b single chbrbcter, nbmely
+     * <code>{@link #pbthSepbrbtorChbr}</code>.
      */
-    public static final String pathSeparator = "" + pathSeparatorChar;
+    public stbtic finbl String pbthSepbrbtor = "" + pbthSepbrbtorChbr;
 
 
     /* -- Constructors -- */
 
     /**
-     * Internal constructor for already-normalized pathname strings.
+     * Internbl constructor for blrebdy-normblized pbthnbme strings.
      */
-    private File(String pathname, int prefixLength) {
-        this.path = pathname;
+    privbte File(String pbthnbme, int prefixLength) {
+        this.pbth = pbthnbme;
         this.prefixLength = prefixLength;
     }
 
     /**
-     * Internal constructor for already-normalized pathname strings.
-     * The parameter order is used to disambiguate this method from the
+     * Internbl constructor for blrebdy-normblized pbthnbme strings.
+     * The pbrbmeter order is used to disbmbigubte this method from the
      * public(File, String) constructor.
      */
-    private File(String child, File parent) {
-        assert parent.path != null;
-        assert (!parent.path.equals(""));
-        this.path = fs.resolve(parent.path, child);
-        this.prefixLength = parent.prefixLength;
+    privbte File(String child, File pbrent) {
+        bssert pbrent.pbth != null;
+        bssert (!pbrent.pbth.equbls(""));
+        this.pbth = fs.resolve(pbrent.pbth, child);
+        this.prefixLength = pbrent.prefixLength;
     }
 
     /**
-     * Creates a new <code>File</code> instance by converting the given
-     * pathname string into an abstract pathname.  If the given string is
-     * the empty string, then the result is the empty abstract pathname.
+     * Crebtes b new <code>File</code> instbnce by converting the given
+     * pbthnbme string into bn bbstrbct pbthnbme.  If the given string is
+     * the empty string, then the result is the empty bbstrbct pbthnbme.
      *
-     * @param   pathname  A pathname string
+     * @pbrbm   pbthnbme  A pbthnbme string
      * @throws  NullPointerException
-     *          If the <code>pathname</code> argument is <code>null</code>
+     *          If the <code>pbthnbme</code> brgument is <code>null</code>
      */
-    public File(String pathname) {
-        if (pathname == null) {
+    public File(String pbthnbme) {
+        if (pbthnbme == null) {
             throw new NullPointerException();
         }
-        this.path = fs.normalize(pathname);
-        this.prefixLength = fs.prefixLength(this.path);
+        this.pbth = fs.normblize(pbthnbme);
+        this.prefixLength = fs.prefixLength(this.pbth);
     }
 
-    /* Note: The two-argument File constructors do not interpret an empty
-       parent abstract pathname as the current user directory.  An empty parent
-       instead causes the child to be resolved against the system-dependent
-       directory defined by the FileSystem.getDefaultParent method.  On Unix
-       this default is "/", while on Microsoft Windows it is "\\".  This is required for
-       compatibility with the original behavior of this class. */
+    /* Note: The two-brgument File constructors do not interpret bn empty
+       pbrent bbstrbct pbthnbme bs the current user directory.  An empty pbrent
+       instebd cbuses the child to be resolved bgbinst the system-dependent
+       directory defined by the FileSystem.getDefbultPbrent method.  On Unix
+       this defbult is "/", while on Microsoft Windows it is "\\".  This is required for
+       compbtibility with the originbl behbvior of this clbss. */
 
     /**
-     * Creates a new <code>File</code> instance from a parent pathname string
-     * and a child pathname string.
+     * Crebtes b new <code>File</code> instbnce from b pbrent pbthnbme string
+     * bnd b child pbthnbme string.
      *
-     * <p> If <code>parent</code> is <code>null</code> then the new
-     * <code>File</code> instance is created as if by invoking the
-     * single-argument <code>File</code> constructor on the given
-     * <code>child</code> pathname string.
+     * <p> If <code>pbrent</code> is <code>null</code> then the new
+     * <code>File</code> instbnce is crebted bs if by invoking the
+     * single-brgument <code>File</code> constructor on the given
+     * <code>child</code> pbthnbme string.
      *
-     * <p> Otherwise the <code>parent</code> pathname string is taken to denote
-     * a directory, and the <code>child</code> pathname string is taken to
-     * denote either a directory or a file.  If the <code>child</code> pathname
-     * string is absolute then it is converted into a relative pathname in a
-     * system-dependent way.  If <code>parent</code> is the empty string then
-     * the new <code>File</code> instance is created by converting
-     * <code>child</code> into an abstract pathname and resolving the result
-     * against a system-dependent default directory.  Otherwise each pathname
-     * string is converted into an abstract pathname and the child abstract
-     * pathname is resolved against the parent.
+     * <p> Otherwise the <code>pbrent</code> pbthnbme string is tbken to denote
+     * b directory, bnd the <code>child</code> pbthnbme string is tbken to
+     * denote either b directory or b file.  If the <code>child</code> pbthnbme
+     * string is bbsolute then it is converted into b relbtive pbthnbme in b
+     * system-dependent wby.  If <code>pbrent</code> is the empty string then
+     * the new <code>File</code> instbnce is crebted by converting
+     * <code>child</code> into bn bbstrbct pbthnbme bnd resolving the result
+     * bgbinst b system-dependent defbult directory.  Otherwise ebch pbthnbme
+     * string is converted into bn bbstrbct pbthnbme bnd the child bbstrbct
+     * pbthnbme is resolved bgbinst the pbrent.
      *
-     * @param   parent  The parent pathname string
-     * @param   child   The child pathname string
-     * @throws  NullPointerException
-     *          If <code>child</code> is <code>null</code>
-     */
-    public File(String parent, String child) {
-        if (child == null) {
-            throw new NullPointerException();
-        }
-        if (parent != null) {
-            if (parent.equals("")) {
-                this.path = fs.resolve(fs.getDefaultParent(),
-                                       fs.normalize(child));
-            } else {
-                this.path = fs.resolve(fs.normalize(parent),
-                                       fs.normalize(child));
-            }
-        } else {
-            this.path = fs.normalize(child);
-        }
-        this.prefixLength = fs.prefixLength(this.path);
-    }
-
-    /**
-     * Creates a new <code>File</code> instance from a parent abstract
-     * pathname and a child pathname string.
-     *
-     * <p> If <code>parent</code> is <code>null</code> then the new
-     * <code>File</code> instance is created as if by invoking the
-     * single-argument <code>File</code> constructor on the given
-     * <code>child</code> pathname string.
-     *
-     * <p> Otherwise the <code>parent</code> abstract pathname is taken to
-     * denote a directory, and the <code>child</code> pathname string is taken
-     * to denote either a directory or a file.  If the <code>child</code>
-     * pathname string is absolute then it is converted into a relative
-     * pathname in a system-dependent way.  If <code>parent</code> is the empty
-     * abstract pathname then the new <code>File</code> instance is created by
-     * converting <code>child</code> into an abstract pathname and resolving
-     * the result against a system-dependent default directory.  Otherwise each
-     * pathname string is converted into an abstract pathname and the child
-     * abstract pathname is resolved against the parent.
-     *
-     * @param   parent  The parent abstract pathname
-     * @param   child   The child pathname string
+     * @pbrbm   pbrent  The pbrent pbthnbme string
+     * @pbrbm   child   The child pbthnbme string
      * @throws  NullPointerException
      *          If <code>child</code> is <code>null</code>
      */
-    public File(File parent, String child) {
+    public File(String pbrent, String child) {
         if (child == null) {
             throw new NullPointerException();
         }
-        if (parent != null) {
-            if (parent.path.equals("")) {
-                this.path = fs.resolve(fs.getDefaultParent(),
-                                       fs.normalize(child));
+        if (pbrent != null) {
+            if (pbrent.equbls("")) {
+                this.pbth = fs.resolve(fs.getDefbultPbrent(),
+                                       fs.normblize(child));
             } else {
-                this.path = fs.resolve(parent.path,
-                                       fs.normalize(child));
+                this.pbth = fs.resolve(fs.normblize(pbrent),
+                                       fs.normblize(child));
             }
         } else {
-            this.path = fs.normalize(child);
+            this.pbth = fs.normblize(child);
         }
-        this.prefixLength = fs.prefixLength(this.path);
+        this.prefixLength = fs.prefixLength(this.pbth);
     }
 
     /**
-     * Creates a new <tt>File</tt> instance by converting the given
-     * <tt>file:</tt> URI into an abstract pathname.
+     * Crebtes b new <code>File</code> instbnce from b pbrent bbstrbct
+     * pbthnbme bnd b child pbthnbme string.
      *
-     * <p> The exact form of a <tt>file:</tt> URI is system-dependent, hence
-     * the transformation performed by this constructor is also
+     * <p> If <code>pbrent</code> is <code>null</code> then the new
+     * <code>File</code> instbnce is crebted bs if by invoking the
+     * single-brgument <code>File</code> constructor on the given
+     * <code>child</code> pbthnbme string.
+     *
+     * <p> Otherwise the <code>pbrent</code> bbstrbct pbthnbme is tbken to
+     * denote b directory, bnd the <code>child</code> pbthnbme string is tbken
+     * to denote either b directory or b file.  If the <code>child</code>
+     * pbthnbme string is bbsolute then it is converted into b relbtive
+     * pbthnbme in b system-dependent wby.  If <code>pbrent</code> is the empty
+     * bbstrbct pbthnbme then the new <code>File</code> instbnce is crebted by
+     * converting <code>child</code> into bn bbstrbct pbthnbme bnd resolving
+     * the result bgbinst b system-dependent defbult directory.  Otherwise ebch
+     * pbthnbme string is converted into bn bbstrbct pbthnbme bnd the child
+     * bbstrbct pbthnbme is resolved bgbinst the pbrent.
+     *
+     * @pbrbm   pbrent  The pbrent bbstrbct pbthnbme
+     * @pbrbm   child   The child pbthnbme string
+     * @throws  NullPointerException
+     *          If <code>child</code> is <code>null</code>
+     */
+    public File(File pbrent, String child) {
+        if (child == null) {
+            throw new NullPointerException();
+        }
+        if (pbrent != null) {
+            if (pbrent.pbth.equbls("")) {
+                this.pbth = fs.resolve(fs.getDefbultPbrent(),
+                                       fs.normblize(child));
+            } else {
+                this.pbth = fs.resolve(pbrent.pbth,
+                                       fs.normblize(child));
+            }
+        } else {
+            this.pbth = fs.normblize(child);
+        }
+        this.prefixLength = fs.prefixLength(this.pbth);
+    }
+
+    /**
+     * Crebtes b new <tt>File</tt> instbnce by converting the given
+     * <tt>file:</tt> URI into bn bbstrbct pbthnbme.
+     *
+     * <p> The exbct form of b <tt>file:</tt> URI is system-dependent, hence
+     * the trbnsformbtion performed by this constructor is blso
      * system-dependent.
      *
-     * <p> For a given abstract pathname <i>f</i> it is guaranteed that
+     * <p> For b given bbstrbct pbthnbme <i>f</i> it is gubrbnteed thbt
      *
      * <blockquote><tt>
-     * new File(</tt><i>&nbsp;f</i><tt>.{@link #toURI() toURI}()).equals(</tt><i>&nbsp;f</i><tt>.{@link #getAbsoluteFile() getAbsoluteFile}())
+     * new File(</tt><i>&nbsp;f</i><tt>.{@link #toURI() toURI}()).equbls(</tt><i>&nbsp;f</i><tt>.{@link #getAbsoluteFile() getAbsoluteFile}())
      * </tt></blockquote>
      *
-     * so long as the original abstract pathname, the URI, and the new abstract
-     * pathname are all created in (possibly different invocations of) the same
-     * Java virtual machine.  This relationship typically does not hold,
-     * however, when a <tt>file:</tt> URI that is created in a virtual machine
-     * on one operating system is converted into an abstract pathname in a
-     * virtual machine on a different operating system.
+     * so long bs the originbl bbstrbct pbthnbme, the URI, bnd the new bbstrbct
+     * pbthnbme bre bll crebted in (possibly different invocbtions of) the sbme
+     * Jbvb virtubl mbchine.  This relbtionship typicblly does not hold,
+     * however, when b <tt>file:</tt> URI thbt is crebted in b virtubl mbchine
+     * on one operbting system is converted into bn bbstrbct pbthnbme in b
+     * virtubl mbchine on b different operbting system.
      *
-     * @param  uri
-     *         An absolute, hierarchical URI with a scheme equal to
-     *         <tt>"file"</tt>, a non-empty path component, and undefined
-     *         authority, query, and fragment components
+     * @pbrbm  uri
+     *         An bbsolute, hierbrchicbl URI with b scheme equbl to
+     *         <tt>"file"</tt>, b non-empty pbth component, bnd undefined
+     *         buthority, query, bnd frbgment components
      *
      * @throws  NullPointerException
      *          If <tt>uri</tt> is <tt>null</tt>
      *
-     * @throws  IllegalArgumentException
-     *          If the preconditions on the parameter do not hold
+     * @throws  IllegblArgumentException
+     *          If the preconditions on the pbrbmeter do not hold
      *
      * @see #toURI()
-     * @see java.net.URI
+     * @see jbvb.net.URI
      * @since 1.4
      */
     public File(URI uri) {
 
-        // Check our many preconditions
+        // Check our mbny preconditions
         if (!uri.isAbsolute())
-            throw new IllegalArgumentException("URI is not absolute");
-        if (uri.isOpaque())
-            throw new IllegalArgumentException("URI is not hierarchical");
+            throw new IllegblArgumentException("URI is not bbsolute");
+        if (uri.isOpbque())
+            throw new IllegblArgumentException("URI is not hierbrchicbl");
         String scheme = uri.getScheme();
-        if ((scheme == null) || !scheme.equalsIgnoreCase("file"))
-            throw new IllegalArgumentException("URI scheme is not \"file\"");
+        if ((scheme == null) || !scheme.equblsIgnoreCbse("file"))
+            throw new IllegblArgumentException("URI scheme is not \"file\"");
         if (uri.getAuthority() != null)
-            throw new IllegalArgumentException("URI has an authority component");
-        if (uri.getFragment() != null)
-            throw new IllegalArgumentException("URI has a fragment component");
+            throw new IllegblArgumentException("URI hbs bn buthority component");
+        if (uri.getFrbgment() != null)
+            throw new IllegblArgumentException("URI hbs b frbgment component");
         if (uri.getQuery() != null)
-            throw new IllegalArgumentException("URI has a query component");
-        String p = uri.getPath();
-        if (p.equals(""))
-            throw new IllegalArgumentException("URI path component is empty");
+            throw new IllegblArgumentException("URI hbs b query component");
+        String p = uri.getPbth();
+        if (p.equbls(""))
+            throw new IllegblArgumentException("URI pbth component is empty");
 
-        // Okay, now initialize
-        p = fs.fromURIPath(p);
-        if (File.separatorChar != '/')
-            p = p.replace('/', File.separatorChar);
-        this.path = fs.normalize(p);
-        this.prefixLength = fs.prefixLength(this.path);
+        // Okby, now initiblize
+        p = fs.fromURIPbth(p);
+        if (File.sepbrbtorChbr != '/')
+            p = p.replbce('/', File.sepbrbtorChbr);
+        this.pbth = fs.normblize(p);
+        this.prefixLength = fs.prefixLength(this.pbth);
     }
 
 
-    /* -- Path-component accessors -- */
+    /* -- Pbth-component bccessors -- */
 
     /**
-     * Returns the name of the file or directory denoted by this abstract
-     * pathname.  This is just the last name in the pathname's name
-     * sequence.  If the pathname's name sequence is empty, then the empty
+     * Returns the nbme of the file or directory denoted by this bbstrbct
+     * pbthnbme.  This is just the lbst nbme in the pbthnbme's nbme
+     * sequence.  If the pbthnbme's nbme sequence is empty, then the empty
      * string is returned.
      *
-     * @return  The name of the file or directory denoted by this abstract
-     *          pathname, or the empty string if this pathname's name sequence
+     * @return  The nbme of the file or directory denoted by this bbstrbct
+     *          pbthnbme, or the empty string if this pbthnbme's nbme sequence
      *          is empty
      */
-    public String getName() {
-        int index = path.lastIndexOf(separatorChar);
-        if (index < prefixLength) return path.substring(prefixLength);
-        return path.substring(index + 1);
+    public String getNbme() {
+        int index = pbth.lbstIndexOf(sepbrbtorChbr);
+        if (index < prefixLength) return pbth.substring(prefixLength);
+        return pbth.substring(index + 1);
     }
 
     /**
-     * Returns the pathname string of this abstract pathname's parent, or
-     * <code>null</code> if this pathname does not name a parent directory.
+     * Returns the pbthnbme string of this bbstrbct pbthnbme's pbrent, or
+     * <code>null</code> if this pbthnbme does not nbme b pbrent directory.
      *
-     * <p> The <em>parent</em> of an abstract pathname consists of the
-     * pathname's prefix, if any, and each name in the pathname's name
-     * sequence except for the last.  If the name sequence is empty then
-     * the pathname does not name a parent directory.
+     * <p> The <em>pbrent</em> of bn bbstrbct pbthnbme consists of the
+     * pbthnbme's prefix, if bny, bnd ebch nbme in the pbthnbme's nbme
+     * sequence except for the lbst.  If the nbme sequence is empty then
+     * the pbthnbme does not nbme b pbrent directory.
      *
-     * @return  The pathname string of the parent directory named by this
-     *          abstract pathname, or <code>null</code> if this pathname
-     *          does not name a parent
+     * @return  The pbthnbme string of the pbrent directory nbmed by this
+     *          bbstrbct pbthnbme, or <code>null</code> if this pbthnbme
+     *          does not nbme b pbrent
      */
-    public String getParent() {
-        int index = path.lastIndexOf(separatorChar);
+    public String getPbrent() {
+        int index = pbth.lbstIndexOf(sepbrbtorChbr);
         if (index < prefixLength) {
-            if ((prefixLength > 0) && (path.length() > prefixLength))
-                return path.substring(0, prefixLength);
+            if ((prefixLength > 0) && (pbth.length() > prefixLength))
+                return pbth.substring(0, prefixLength);
             return null;
         }
-        return path.substring(0, index);
+        return pbth.substring(0, index);
     }
 
     /**
-     * Returns the abstract pathname of this abstract pathname's parent,
-     * or <code>null</code> if this pathname does not name a parent
+     * Returns the bbstrbct pbthnbme of this bbstrbct pbthnbme's pbrent,
+     * or <code>null</code> if this pbthnbme does not nbme b pbrent
      * directory.
      *
-     * <p> The <em>parent</em> of an abstract pathname consists of the
-     * pathname's prefix, if any, and each name in the pathname's name
-     * sequence except for the last.  If the name sequence is empty then
-     * the pathname does not name a parent directory.
+     * <p> The <em>pbrent</em> of bn bbstrbct pbthnbme consists of the
+     * pbthnbme's prefix, if bny, bnd ebch nbme in the pbthnbme's nbme
+     * sequence except for the lbst.  If the nbme sequence is empty then
+     * the pbthnbme does not nbme b pbrent directory.
      *
-     * @return  The abstract pathname of the parent directory named by this
-     *          abstract pathname, or <code>null</code> if this pathname
-     *          does not name a parent
+     * @return  The bbstrbct pbthnbme of the pbrent directory nbmed by this
+     *          bbstrbct pbthnbme, or <code>null</code> if this pbthnbme
+     *          does not nbme b pbrent
      *
      * @since 1.2
      */
-    public File getParentFile() {
-        String p = this.getParent();
+    public File getPbrentFile() {
+        String p = this.getPbrent();
         if (p == null) return null;
         return new File(p, this.prefixLength);
     }
 
     /**
-     * Converts this abstract pathname into a pathname string.  The resulting
-     * string uses the {@link #separator default name-separator character} to
-     * separate the names in the name sequence.
+     * Converts this bbstrbct pbthnbme into b pbthnbme string.  The resulting
+     * string uses the {@link #sepbrbtor defbult nbme-sepbrbtor chbrbcter} to
+     * sepbrbte the nbmes in the nbme sequence.
      *
-     * @return  The string form of this abstract pathname
+     * @return  The string form of this bbstrbct pbthnbme
      */
-    public String getPath() {
-        return path;
+    public String getPbth() {
+        return pbth;
     }
 
 
-    /* -- Path operations -- */
+    /* -- Pbth operbtions -- */
 
     /**
-     * Tests whether this abstract pathname is absolute.  The definition of
-     * absolute pathname is system dependent.  On UNIX systems, a pathname is
-     * absolute if its prefix is <code>"/"</code>.  On Microsoft Windows systems, a
-     * pathname is absolute if its prefix is a drive specifier followed by
+     * Tests whether this bbstrbct pbthnbme is bbsolute.  The definition of
+     * bbsolute pbthnbme is system dependent.  On UNIX systems, b pbthnbme is
+     * bbsolute if its prefix is <code>"/"</code>.  On Microsoft Windows systems, b
+     * pbthnbme is bbsolute if its prefix is b drive specifier followed by
      * <code>"\\"</code>, or if its prefix is <code>"\\\\"</code>.
      *
-     * @return  <code>true</code> if this abstract pathname is absolute,
-     *          <code>false</code> otherwise
+     * @return  <code>true</code> if this bbstrbct pbthnbme is bbsolute,
+     *          <code>fblse</code> otherwise
      */
-    public boolean isAbsolute() {
+    public boolebn isAbsolute() {
         return fs.isAbsolute(this);
     }
 
     /**
-     * Returns the absolute pathname string of this abstract pathname.
+     * Returns the bbsolute pbthnbme string of this bbstrbct pbthnbme.
      *
-     * <p> If this abstract pathname is already absolute, then the pathname
-     * string is simply returned as if by the <code>{@link #getPath}</code>
-     * method.  If this abstract pathname is the empty abstract pathname then
-     * the pathname string of the current user directory, which is named by the
+     * <p> If this bbstrbct pbthnbme is blrebdy bbsolute, then the pbthnbme
+     * string is simply returned bs if by the <code>{@link #getPbth}</code>
+     * method.  If this bbstrbct pbthnbme is the empty bbstrbct pbthnbme then
+     * the pbthnbme string of the current user directory, which is nbmed by the
      * system property <code>user.dir</code>, is returned.  Otherwise this
-     * pathname is resolved in a system-dependent way.  On UNIX systems, a
-     * relative pathname is made absolute by resolving it against the current
-     * user directory.  On Microsoft Windows systems, a relative pathname is made absolute
-     * by resolving it against the current directory of the drive named by the
-     * pathname, if any; if not, it is resolved against the current user
+     * pbthnbme is resolved in b system-dependent wby.  On UNIX systems, b
+     * relbtive pbthnbme is mbde bbsolute by resolving it bgbinst the current
+     * user directory.  On Microsoft Windows systems, b relbtive pbthnbme is mbde bbsolute
+     * by resolving it bgbinst the current directory of the drive nbmed by the
+     * pbthnbme, if bny; if not, it is resolved bgbinst the current user
      * directory.
      *
-     * @return  The absolute pathname string denoting the same file or
-     *          directory as this abstract pathname
+     * @return  The bbsolute pbthnbme string denoting the sbme file or
+     *          directory bs this bbstrbct pbthnbme
      *
      * @throws  SecurityException
-     *          If a required system property value cannot be accessed.
+     *          If b required system property vblue cbnnot be bccessed.
      *
-     * @see     java.io.File#isAbsolute()
+     * @see     jbvb.io.File#isAbsolute()
      */
-    public String getAbsolutePath() {
+    public String getAbsolutePbth() {
         return fs.resolve(this);
     }
 
     /**
-     * Returns the absolute form of this abstract pathname.  Equivalent to
-     * <code>new&nbsp;File(this.{@link #getAbsolutePath})</code>.
+     * Returns the bbsolute form of this bbstrbct pbthnbme.  Equivblent to
+     * <code>new&nbsp;File(this.{@link #getAbsolutePbth})</code>.
      *
-     * @return  The absolute abstract pathname denoting the same file or
-     *          directory as this abstract pathname
+     * @return  The bbsolute bbstrbct pbthnbme denoting the sbme file or
+     *          directory bs this bbstrbct pbthnbme
      *
      * @throws  SecurityException
-     *          If a required system property value cannot be accessed.
+     *          If b required system property vblue cbnnot be bccessed.
      *
      * @since 1.2
      */
     public File getAbsoluteFile() {
-        String absPath = getAbsolutePath();
-        return new File(absPath, fs.prefixLength(absPath));
+        String bbsPbth = getAbsolutePbth();
+        return new File(bbsPbth, fs.prefixLength(bbsPbth));
     }
 
     /**
-     * Returns the canonical pathname string of this abstract pathname.
+     * Returns the cbnonicbl pbthnbme string of this bbstrbct pbthnbme.
      *
-     * <p> A canonical pathname is both absolute and unique.  The precise
-     * definition of canonical form is system-dependent.  This method first
-     * converts this pathname to absolute form if necessary, as if by invoking the
-     * {@link #getAbsolutePath} method, and then maps it to its unique form in a
-     * system-dependent way.  This typically involves removing redundant names
-     * such as <tt>"."</tt> and <tt>".."</tt> from the pathname, resolving
-     * symbolic links (on UNIX platforms), and converting drive letters to a
-     * standard case (on Microsoft Windows platforms).
+     * <p> A cbnonicbl pbthnbme is both bbsolute bnd unique.  The precise
+     * definition of cbnonicbl form is system-dependent.  This method first
+     * converts this pbthnbme to bbsolute form if necessbry, bs if by invoking the
+     * {@link #getAbsolutePbth} method, bnd then mbps it to its unique form in b
+     * system-dependent wby.  This typicblly involves removing redundbnt nbmes
+     * such bs <tt>"."</tt> bnd <tt>".."</tt> from the pbthnbme, resolving
+     * symbolic links (on UNIX plbtforms), bnd converting drive letters to b
+     * stbndbrd cbse (on Microsoft Windows plbtforms).
      *
-     * <p> Every pathname that denotes an existing file or directory has a
-     * unique canonical form.  Every pathname that denotes a nonexistent file
-     * or directory also has a unique canonical form.  The canonical form of
-     * the pathname of a nonexistent file or directory may be different from
-     * the canonical form of the same pathname after the file or directory is
-     * created.  Similarly, the canonical form of the pathname of an existing
-     * file or directory may be different from the canonical form of the same
-     * pathname after the file or directory is deleted.
+     * <p> Every pbthnbme thbt denotes bn existing file or directory hbs b
+     * unique cbnonicbl form.  Every pbthnbme thbt denotes b nonexistent file
+     * or directory blso hbs b unique cbnonicbl form.  The cbnonicbl form of
+     * the pbthnbme of b nonexistent file or directory mby be different from
+     * the cbnonicbl form of the sbme pbthnbme bfter the file or directory is
+     * crebted.  Similbrly, the cbnonicbl form of the pbthnbme of bn existing
+     * file or directory mby be different from the cbnonicbl form of the sbme
+     * pbthnbme bfter the file or directory is deleted.
      *
-     * @return  The canonical pathname string denoting the same file or
-     *          directory as this abstract pathname
+     * @return  The cbnonicbl pbthnbme string denoting the sbme file or
+     *          directory bs this bbstrbct pbthnbme
      *
      * @throws  IOException
-     *          If an I/O error occurs, which is possible because the
-     *          construction of the canonical pathname may require
+     *          If bn I/O error occurs, which is possible becbuse the
+     *          construction of the cbnonicbl pbthnbme mby require
      *          filesystem queries
      *
      * @throws  SecurityException
-     *          If a required system property value cannot be accessed, or
-     *          if a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead}</code> method denies
-     *          read access to the file
+     *          If b required system property vblue cbnnot be bccessed, or
+     *          if b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkRebd}</code> method denies
+     *          rebd bccess to the file
      *
      * @since   1.1
-     * @see     Path#toRealPath
+     * @see     Pbth#toReblPbth
      */
-    public String getCanonicalPath() throws IOException {
-        if (isInvalid()) {
-            throw new IOException("Invalid file path");
+    public String getCbnonicblPbth() throws IOException {
+        if (isInvblid()) {
+            throw new IOException("Invblid file pbth");
         }
-        return fs.canonicalize(fs.resolve(this));
+        return fs.cbnonicblize(fs.resolve(this));
     }
 
     /**
-     * Returns the canonical form of this abstract pathname.  Equivalent to
-     * <code>new&nbsp;File(this.{@link #getCanonicalPath})</code>.
+     * Returns the cbnonicbl form of this bbstrbct pbthnbme.  Equivblent to
+     * <code>new&nbsp;File(this.{@link #getCbnonicblPbth})</code>.
      *
-     * @return  The canonical pathname string denoting the same file or
-     *          directory as this abstract pathname
+     * @return  The cbnonicbl pbthnbme string denoting the sbme file or
+     *          directory bs this bbstrbct pbthnbme
      *
      * @throws  IOException
-     *          If an I/O error occurs, which is possible because the
-     *          construction of the canonical pathname may require
+     *          If bn I/O error occurs, which is possible becbuse the
+     *          construction of the cbnonicbl pbthnbme mby require
      *          filesystem queries
      *
      * @throws  SecurityException
-     *          If a required system property value cannot be accessed, or
-     *          if a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead}</code> method denies
-     *          read access to the file
+     *          If b required system property vblue cbnnot be bccessed, or
+     *          if b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkRebd}</code> method denies
+     *          rebd bccess to the file
      *
      * @since 1.2
-     * @see     Path#toRealPath
+     * @see     Pbth#toReblPbth
      */
-    public File getCanonicalFile() throws IOException {
-        String canonPath = getCanonicalPath();
-        return new File(canonPath, fs.prefixLength(canonPath));
+    public File getCbnonicblFile() throws IOException {
+        String cbnonPbth = getCbnonicblPbth();
+        return new File(cbnonPbth, fs.prefixLength(cbnonPbth));
     }
 
-    private static String slashify(String path, boolean isDirectory) {
-        String p = path;
-        if (File.separatorChar != '/')
-            p = p.replace(File.separatorChar, '/');
-        if (!p.startsWith("/"))
+    privbte stbtic String slbshify(String pbth, boolebn isDirectory) {
+        String p = pbth;
+        if (File.sepbrbtorChbr != '/')
+            p = p.replbce(File.sepbrbtorChbr, '/');
+        if (!p.stbrtsWith("/"))
             p = "/" + p;
         if (!p.endsWith("/") && isDirectory)
             p = p + "/";
@@ -656,549 +656,549 @@ public class File
     }
 
     /**
-     * Converts this abstract pathname into a <code>file:</code> URL.  The
-     * exact form of the URL is system-dependent.  If it can be determined that
-     * the file denoted by this abstract pathname is a directory, then the
-     * resulting URL will end with a slash.
+     * Converts this bbstrbct pbthnbme into b <code>file:</code> URL.  The
+     * exbct form of the URL is system-dependent.  If it cbn be determined thbt
+     * the file denoted by this bbstrbct pbthnbme is b directory, then the
+     * resulting URL will end with b slbsh.
      *
-     * @return  A URL object representing the equivalent file URL
+     * @return  A URL object representing the equivblent file URL
      *
-     * @throws  MalformedURLException
-     *          If the path cannot be parsed as a URL
+     * @throws  MblformedURLException
+     *          If the pbth cbnnot be pbrsed bs b URL
      *
      * @see     #toURI()
-     * @see     java.net.URI
-     * @see     java.net.URI#toURL()
-     * @see     java.net.URL
+     * @see     jbvb.net.URI
+     * @see     jbvb.net.URI#toURL()
+     * @see     jbvb.net.URL
      * @since   1.2
      *
-     * @deprecated This method does not automatically escape characters that
-     * are illegal in URLs.  It is recommended that new code convert an
-     * abstract pathname into a URL by first converting it into a URI, via the
-     * {@link #toURI() toURI} method, and then converting the URI into a URL
-     * via the {@link java.net.URI#toURL() URI.toURL} method.
+     * @deprecbted This method does not butombticblly escbpe chbrbcters thbt
+     * bre illegbl in URLs.  It is recommended thbt new code convert bn
+     * bbstrbct pbthnbme into b URL by first converting it into b URI, vib the
+     * {@link #toURI() toURI} method, bnd then converting the URI into b URL
+     * vib the {@link jbvb.net.URI#toURL() URI.toURL} method.
      */
-    @Deprecated
-    public URL toURL() throws MalformedURLException {
-        if (isInvalid()) {
-            throw new MalformedURLException("Invalid file path");
+    @Deprecbted
+    public URL toURL() throws MblformedURLException {
+        if (isInvblid()) {
+            throw new MblformedURLException("Invblid file pbth");
         }
-        return new URL("file", "", slashify(getAbsolutePath(), isDirectory()));
+        return new URL("file", "", slbshify(getAbsolutePbth(), isDirectory()));
     }
 
     /**
-     * Constructs a <tt>file:</tt> URI that represents this abstract pathname.
+     * Constructs b <tt>file:</tt> URI thbt represents this bbstrbct pbthnbme.
      *
-     * <p> The exact form of the URI is system-dependent.  If it can be
-     * determined that the file denoted by this abstract pathname is a
-     * directory, then the resulting URI will end with a slash.
+     * <p> The exbct form of the URI is system-dependent.  If it cbn be
+     * determined thbt the file denoted by this bbstrbct pbthnbme is b
+     * directory, then the resulting URI will end with b slbsh.
      *
-     * <p> For a given abstract pathname <i>f</i>, it is guaranteed that
+     * <p> For b given bbstrbct pbthnbme <i>f</i>, it is gubrbnteed thbt
      *
      * <blockquote><tt>
-     * new {@link #File(java.net.URI) File}(</tt><i>&nbsp;f</i><tt>.toURI()).equals(</tt><i>&nbsp;f</i><tt>.{@link #getAbsoluteFile() getAbsoluteFile}())
+     * new {@link #File(jbvb.net.URI) File}(</tt><i>&nbsp;f</i><tt>.toURI()).equbls(</tt><i>&nbsp;f</i><tt>.{@link #getAbsoluteFile() getAbsoluteFile}())
      * </tt></blockquote>
      *
-     * so long as the original abstract pathname, the URI, and the new abstract
-     * pathname are all created in (possibly different invocations of) the same
-     * Java virtual machine.  Due to the system-dependent nature of abstract
-     * pathnames, however, this relationship typically does not hold when a
-     * <tt>file:</tt> URI that is created in a virtual machine on one operating
-     * system is converted into an abstract pathname in a virtual machine on a
-     * different operating system.
+     * so long bs the originbl bbstrbct pbthnbme, the URI, bnd the new bbstrbct
+     * pbthnbme bre bll crebted in (possibly different invocbtions of) the sbme
+     * Jbvb virtubl mbchine.  Due to the system-dependent nbture of bbstrbct
+     * pbthnbmes, however, this relbtionship typicblly does not hold when b
+     * <tt>file:</tt> URI thbt is crebted in b virtubl mbchine on one operbting
+     * system is converted into bn bbstrbct pbthnbme in b virtubl mbchine on b
+     * different operbting system.
      *
-     * <p> Note that when this abstract pathname represents a UNC pathname then
-     * all components of the UNC (including the server name component) are encoded
-     * in the {@code URI} path. The authority component is undefined, meaning
-     * that it is represented as {@code null}. The {@link Path} class defines the
-     * {@link Path#toUri toUri} method to encode the server name in the authority
-     * component of the resulting {@code URI}. The {@link #toPath toPath} method
-     * may be used to obtain a {@code Path} representing this abstract pathname.
+     * <p> Note thbt when this bbstrbct pbthnbme represents b UNC pbthnbme then
+     * bll components of the UNC (including the server nbme component) bre encoded
+     * in the {@code URI} pbth. The buthority component is undefined, mebning
+     * thbt it is represented bs {@code null}. The {@link Pbth} clbss defines the
+     * {@link Pbth#toUri toUri} method to encode the server nbme in the buthority
+     * component of the resulting {@code URI}. The {@link #toPbth toPbth} method
+     * mby be used to obtbin b {@code Pbth} representing this bbstrbct pbthnbme.
      *
-     * @return  An absolute, hierarchical URI with a scheme equal to
-     *          <tt>"file"</tt>, a path representing this abstract pathname,
-     *          and undefined authority, query, and fragment components
-     * @throws SecurityException If a required system property value cannot
-     * be accessed.
+     * @return  An bbsolute, hierbrchicbl URI with b scheme equbl to
+     *          <tt>"file"</tt>, b pbth representing this bbstrbct pbthnbme,
+     *          bnd undefined buthority, query, bnd frbgment components
+     * @throws SecurityException If b required system property vblue cbnnot
+     * be bccessed.
      *
-     * @see #File(java.net.URI)
-     * @see java.net.URI
-     * @see java.net.URI#toURL()
+     * @see #File(jbvb.net.URI)
+     * @see jbvb.net.URI
+     * @see jbvb.net.URI#toURL()
      * @since 1.4
      */
     public URI toURI() {
         try {
             File f = getAbsoluteFile();
-            String sp = slashify(f.getPath(), f.isDirectory());
-            if (sp.startsWith("//"))
+            String sp = slbshify(f.getPbth(), f.isDirectory());
+            if (sp.stbrtsWith("//"))
                 sp = "//" + sp;
             return new URI("file", null, sp, null);
-        } catch (URISyntaxException x) {
-            throw new Error(x);         // Can't happen
+        } cbtch (URISyntbxException x) {
+            throw new Error(x);         // Cbn't hbppen
         }
     }
 
 
-    /* -- Attribute accessors -- */
+    /* -- Attribute bccessors -- */
 
     /**
-     * Tests whether the application can read the file denoted by this
-     * abstract pathname. On some platforms it may be possible to start the
-     * Java virtual machine with special privileges that allow it to read
-     * files that are marked as unreadable. Consequently this method may return
-     * {@code true} even though the file does not have read permissions.
+     * Tests whether the bpplicbtion cbn rebd the file denoted by this
+     * bbstrbct pbthnbme. On some plbtforms it mby be possible to stbrt the
+     * Jbvb virtubl mbchine with specibl privileges thbt bllow it to rebd
+     * files thbt bre mbrked bs unrebdbble. Consequently this method mby return
+     * {@code true} even though the file does not hbve rebd permissions.
      *
-     * @return  <code>true</code> if and only if the file specified by this
-     *          abstract pathname exists <em>and</em> can be read by the
-     *          application; <code>false</code> otherwise
+     * @return  <code>true</code> if bnd only if the file specified by this
+     *          bbstrbct pbthnbme exists <em>bnd</em> cbn be rebd by the
+     *          bpplicbtion; <code>fblse</code> otherwise
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)}</code>
+     *          method denies rebd bccess to the file
      */
-    public boolean canRead() {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn cbnRebd() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkRead(path);
+            security.checkRebd(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
         return fs.checkAccess(this, FileSystem.ACCESS_READ);
     }
 
     /**
-     * Tests whether the application can modify the file denoted by this
-     * abstract pathname. On some platforms it may be possible to start the
-     * Java virtual machine with special privileges that allow it to modify
-     * files that are marked read-only. Consequently this method may return
-     * {@code true} even though the file is marked read-only.
+     * Tests whether the bpplicbtion cbn modify the file denoted by this
+     * bbstrbct pbthnbme. On some plbtforms it mby be possible to stbrt the
+     * Jbvb virtubl mbchine with specibl privileges thbt bllow it to modify
+     * files thbt bre mbrked rebd-only. Consequently this method mby return
+     * {@code true} even though the file is mbrked rebd-only.
      *
-     * @return  <code>true</code> if and only if the file system actually
-     *          contains a file denoted by this abstract pathname <em>and</em>
-     *          the application is allowed to write to the file;
-     *          <code>false</code> otherwise.
+     * @return  <code>true</code> if bnd only if the file system bctublly
+     *          contbins b file denoted by this bbstrbct pbthnbme <em>bnd</em>
+     *          the bpplicbtion is bllowed to write to the file;
+     *          <code>fblse</code> otherwise.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method denies write bccess to the file
      */
-    public boolean canWrite() {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn cbnWrite() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkWrite(path);
+            security.checkWrite(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
         return fs.checkAccess(this, FileSystem.ACCESS_WRITE);
     }
 
     /**
-     * Tests whether the file or directory denoted by this abstract pathname
+     * Tests whether the file or directory denoted by this bbstrbct pbthnbme
      * exists.
      *
-     * @return  <code>true</code> if and only if the file or directory denoted
-     *          by this abstract pathname exists; <code>false</code> otherwise
+     * @return  <code>true</code> if bnd only if the file or directory denoted
+     *          by this bbstrbct pbthnbme exists; <code>fblse</code> otherwise
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file or directory
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)}</code>
+     *          method denies rebd bccess to the file or directory
      */
-    public boolean exists() {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn exists() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkRead(path);
+            security.checkRebd(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
-        return ((fs.getBooleanAttributes(this) & FileSystem.BA_EXISTS) != 0);
+        return ((fs.getBoolebnAttributes(this) & FileSystem.BA_EXISTS) != 0);
     }
 
     /**
-     * Tests whether the file denoted by this abstract pathname is a
+     * Tests whether the file denoted by this bbstrbct pbthnbme is b
      * directory.
      *
-     * <p> Where it is required to distinguish an I/O exception from the case
-     * that the file is not a directory, or where several attributes of the
-     * same file are required at the same time, then the {@link
-     * java.nio.file.Files#readAttributes(Path,Class,LinkOption[])
-     * Files.readAttributes} method may be used.
+     * <p> Where it is required to distinguish bn I/O exception from the cbse
+     * thbt the file is not b directory, or where severbl bttributes of the
+     * sbme file bre required bt the sbme time, then the {@link
+     * jbvb.nio.file.Files#rebdAttributes(Pbth,Clbss,LinkOption[])
+     * Files.rebdAttributes} method mby be used.
      *
-     * @return <code>true</code> if and only if the file denoted by this
-     *          abstract pathname exists <em>and</em> is a directory;
-     *          <code>false</code> otherwise
+     * @return <code>true</code> if bnd only if the file denoted by this
+     *          bbstrbct pbthnbme exists <em>bnd</em> is b directory;
+     *          <code>fblse</code> otherwise
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)}</code>
+     *          method denies rebd bccess to the file
      */
-    public boolean isDirectory() {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn isDirectory() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkRead(path);
+            security.checkRebd(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
-        return ((fs.getBooleanAttributes(this) & FileSystem.BA_DIRECTORY)
+        return ((fs.getBoolebnAttributes(this) & FileSystem.BA_DIRECTORY)
                 != 0);
     }
 
     /**
-     * Tests whether the file denoted by this abstract pathname is a normal
-     * file.  A file is <em>normal</em> if it is not a directory and, in
-     * addition, satisfies other system-dependent criteria.  Any non-directory
-     * file created by a Java application is guaranteed to be a normal file.
+     * Tests whether the file denoted by this bbstrbct pbthnbme is b normbl
+     * file.  A file is <em>normbl</em> if it is not b directory bnd, in
+     * bddition, sbtisfies other system-dependent criterib.  Any non-directory
+     * file crebted by b Jbvb bpplicbtion is gubrbnteed to be b normbl file.
      *
-     * <p> Where it is required to distinguish an I/O exception from the case
-     * that the file is not a normal file, or where several attributes of the
-     * same file are required at the same time, then the {@link
-     * java.nio.file.Files#readAttributes(Path,Class,LinkOption[])
-     * Files.readAttributes} method may be used.
+     * <p> Where it is required to distinguish bn I/O exception from the cbse
+     * thbt the file is not b normbl file, or where severbl bttributes of the
+     * sbme file bre required bt the sbme time, then the {@link
+     * jbvb.nio.file.Files#rebdAttributes(Pbth,Clbss,LinkOption[])
+     * Files.rebdAttributes} method mby be used.
      *
-     * @return  <code>true</code> if and only if the file denoted by this
-     *          abstract pathname exists <em>and</em> is a normal file;
-     *          <code>false</code> otherwise
+     * @return  <code>true</code> if bnd only if the file denoted by this
+     *          bbstrbct pbthnbme exists <em>bnd</em> is b normbl file;
+     *          <code>fblse</code> otherwise
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)}</code>
+     *          method denies rebd bccess to the file
      */
-    public boolean isFile() {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn isFile() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkRead(path);
+            security.checkRebd(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
-        return ((fs.getBooleanAttributes(this) & FileSystem.BA_REGULAR) != 0);
+        return ((fs.getBoolebnAttributes(this) & FileSystem.BA_REGULAR) != 0);
     }
 
     /**
-     * Tests whether the file named by this abstract pathname is a hidden
-     * file.  The exact definition of <em>hidden</em> is system-dependent.  On
-     * UNIX systems, a file is considered to be hidden if its name begins with
-     * a period character (<code>'.'</code>).  On Microsoft Windows systems, a file is
-     * considered to be hidden if it has been marked as such in the filesystem.
+     * Tests whether the file nbmed by this bbstrbct pbthnbme is b hidden
+     * file.  The exbct definition of <em>hidden</em> is system-dependent.  On
+     * UNIX systems, b file is considered to be hidden if its nbme begins with
+     * b period chbrbcter (<code>'.'</code>).  On Microsoft Windows systems, b file is
+     * considered to be hidden if it hbs been mbrked bs such in the filesystem.
      *
-     * @return  <code>true</code> if and only if the file denoted by this
-     *          abstract pathname is hidden according to the conventions of the
-     *          underlying platform
+     * @return  <code>true</code> if bnd only if the file denoted by this
+     *          bbstrbct pbthnbme is hidden bccording to the conventions of the
+     *          underlying plbtform
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)}</code>
+     *          method denies rebd bccess to the file
      *
      * @since 1.2
      */
-    public boolean isHidden() {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn isHidden() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkRead(path);
+            security.checkRebd(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
-        return ((fs.getBooleanAttributes(this) & FileSystem.BA_HIDDEN) != 0);
+        return ((fs.getBoolebnAttributes(this) & FileSystem.BA_HIDDEN) != 0);
     }
 
     /**
-     * Returns the time that the file denoted by this abstract pathname was
-     * last modified.
+     * Returns the time thbt the file denoted by this bbstrbct pbthnbme wbs
+     * lbst modified.
      *
-     * <p> Where it is required to distinguish an I/O exception from the case
-     * where {@code 0L} is returned, or where several attributes of the
-     * same file are required at the same time, or where the time of last
-     * access or the creation time are required, then the {@link
-     * java.nio.file.Files#readAttributes(Path,Class,LinkOption[])
-     * Files.readAttributes} method may be used.
+     * <p> Where it is required to distinguish bn I/O exception from the cbse
+     * where {@code 0L} is returned, or where severbl bttributes of the
+     * sbme file bre required bt the sbme time, or where the time of lbst
+     * bccess or the crebtion time bre required, then the {@link
+     * jbvb.nio.file.Files#rebdAttributes(Pbth,Clbss,LinkOption[])
+     * Files.rebdAttributes} method mby be used.
      *
-     * @return  A <code>long</code> value representing the time the file was
-     *          last modified, measured in milliseconds since the epoch
-     *          (00:00:00 GMT, January 1, 1970), or <code>0L</code> if the
-     *          file does not exist or if an I/O error occurs
+     * @return  A <code>long</code> vblue representing the time the file wbs
+     *          lbst modified, mebsured in milliseconds since the epoch
+     *          (00:00:00 GMT, Jbnubry 1, 1970), or <code>0L</code> if the
+     *          file does not exist or if bn I/O error occurs
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)}</code>
+     *          method denies rebd bccess to the file
      */
-    public long lastModified() {
-        SecurityManager security = System.getSecurityManager();
+    public long lbstModified() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkRead(path);
+            security.checkRebd(pbth);
         }
-        if (isInvalid()) {
+        if (isInvblid()) {
             return 0L;
         }
-        return fs.getLastModifiedTime(this);
+        return fs.getLbstModifiedTime(this);
     }
 
     /**
-     * Returns the length of the file denoted by this abstract pathname.
-     * The return value is unspecified if this pathname denotes a directory.
+     * Returns the length of the file denoted by this bbstrbct pbthnbme.
+     * The return vblue is unspecified if this pbthnbme denotes b directory.
      *
-     * <p> Where it is required to distinguish an I/O exception from the case
-     * that {@code 0L} is returned, or where several attributes of the same file
-     * are required at the same time, then the {@link
-     * java.nio.file.Files#readAttributes(Path,Class,LinkOption[])
-     * Files.readAttributes} method may be used.
+     * <p> Where it is required to distinguish bn I/O exception from the cbse
+     * thbt {@code 0L} is returned, or where severbl bttributes of the sbme file
+     * bre required bt the sbme time, then the {@link
+     * jbvb.nio.file.Files#rebdAttributes(Pbth,Clbss,LinkOption[])
+     * Files.rebdAttributes} method mby be used.
      *
-     * @return  The length, in bytes, of the file denoted by this abstract
-     *          pathname, or <code>0L</code> if the file does not exist.  Some
-     *          operating systems may return <code>0L</code> for pathnames
-     *          denoting system-dependent entities such as devices or pipes.
+     * @return  The length, in bytes, of the file denoted by this bbstrbct
+     *          pbthnbme, or <code>0L</code> if the file does not exist.  Some
+     *          operbting systems mby return <code>0L</code> for pbthnbmes
+     *          denoting system-dependent entities such bs devices or pipes.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method denies read access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)}</code>
+     *          method denies rebd bccess to the file
      */
     public long length() {
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkRead(path);
+            security.checkRebd(pbth);
         }
-        if (isInvalid()) {
+        if (isInvblid()) {
             return 0L;
         }
         return fs.getLength(this);
     }
 
 
-    /* -- File operations -- */
+    /* -- File operbtions -- */
 
     /**
-     * Atomically creates a new, empty file named by this abstract pathname if
-     * and only if a file with this name does not yet exist.  The check for the
-     * existence of the file and the creation of the file if it does not exist
-     * are a single operation that is atomic with respect to all other
-     * filesystem activities that might affect the file.
+     * Atomicblly crebtes b new, empty file nbmed by this bbstrbct pbthnbme if
+     * bnd only if b file with this nbme does not yet exist.  The check for the
+     * existence of the file bnd the crebtion of the file if it does not exist
+     * bre b single operbtion thbt is btomic with respect to bll other
+     * filesystem bctivities thbt might bffect the file.
      * <P>
-     * Note: this method should <i>not</i> be used for file-locking, as
-     * the resulting protocol cannot be made to work reliably. The
-     * {@link java.nio.channels.FileLock FileLock}
-     * facility should be used instead.
+     * Note: this method should <i>not</i> be used for file-locking, bs
+     * the resulting protocol cbnnot be mbde to work relibbly. The
+     * {@link jbvb.nio.chbnnels.FileLock FileLock}
+     * fbcility should be used instebd.
      *
-     * @return  <code>true</code> if the named file does not exist and was
-     *          successfully created; <code>false</code> if the named file
-     *          already exists
+     * @return  <code>true</code> if the nbmed file does not exist bnd wbs
+     *          successfully crebted; <code>fblse</code> if the nbmed file
+     *          blrebdy exists
      *
      * @throws  IOException
-     *          If an I/O error occurred
+     *          If bn I/O error occurred
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method denies write bccess to the file
      *
      * @since 1.2
      */
-    public boolean createNewFile() throws IOException {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) security.checkWrite(path);
-        if (isInvalid()) {
-            throw new IOException("Invalid file path");
+    public boolebn crebteNewFile() throws IOException {
+        SecurityMbnbger security = System.getSecurityMbnbger();
+        if (security != null) security.checkWrite(pbth);
+        if (isInvblid()) {
+            throw new IOException("Invblid file pbth");
         }
-        return fs.createFileExclusively(path);
+        return fs.crebteFileExclusively(pbth);
     }
 
     /**
-     * Deletes the file or directory denoted by this abstract pathname.  If
-     * this pathname denotes a directory, then the directory must be empty in
+     * Deletes the file or directory denoted by this bbstrbct pbthnbme.  If
+     * this pbthnbme denotes b directory, then the directory must be empty in
      * order to be deleted.
      *
-     * <p> Note that the {@link java.nio.file.Files} class defines the {@link
-     * java.nio.file.Files#delete(Path) delete} method to throw an {@link IOException}
-     * when a file cannot be deleted. This is useful for error reporting and to
-     * diagnose why a file cannot be deleted.
+     * <p> Note thbt the {@link jbvb.nio.file.Files} clbss defines the {@link
+     * jbvb.nio.file.Files#delete(Pbth) delete} method to throw bn {@link IOException}
+     * when b file cbnnot be deleted. This is useful for error reporting bnd to
+     * dibgnose why b file cbnnot be deleted.
      *
-     * @return  <code>true</code> if and only if the file or directory is
-     *          successfully deleted; <code>false</code> otherwise
+     * @return  <code>true</code> if bnd only if the file or directory is
+     *          successfully deleted; <code>fblse</code> otherwise
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkDelete}</code> method denies
-     *          delete access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkDelete}</code> method denies
+     *          delete bccess to the file
      */
-    public boolean delete() {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn delete() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkDelete(path);
+            security.checkDelete(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
         return fs.delete(this);
     }
 
     /**
-     * Requests that the file or directory denoted by this abstract
-     * pathname be deleted when the virtual machine terminates.
-     * Files (or directories) are deleted in the reverse order that
-     * they are registered. Invoking this method to delete a file or
-     * directory that is already registered for deletion has no effect.
-     * Deletion will be attempted only for normal termination of the
-     * virtual machine, as defined by the Java Language Specification.
+     * Requests thbt the file or directory denoted by this bbstrbct
+     * pbthnbme be deleted when the virtubl mbchine terminbtes.
+     * Files (or directories) bre deleted in the reverse order thbt
+     * they bre registered. Invoking this method to delete b file or
+     * directory thbt is blrebdy registered for deletion hbs no effect.
+     * Deletion will be bttempted only for normbl terminbtion of the
+     * virtubl mbchine, bs defined by the Jbvb Lbngubge Specificbtion.
      *
-     * <p> Once deletion has been requested, it is not possible to cancel the
-     * request.  This method should therefore be used with care.
+     * <p> Once deletion hbs been requested, it is not possible to cbncel the
+     * request.  This method should therefore be used with cbre.
      *
      * <P>
-     * Note: this method should <i>not</i> be used for file-locking, as
-     * the resulting protocol cannot be made to work reliably. The
-     * {@link java.nio.channels.FileLock FileLock}
-     * facility should be used instead.
+     * Note: this method should <i>not</i> be used for file-locking, bs
+     * the resulting protocol cbnnot be mbde to work relibbly. The
+     * {@link jbvb.nio.chbnnels.FileLock FileLock}
+     * fbcility should be used instebd.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkDelete}</code> method denies
-     *          delete access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkDelete}</code> method denies
+     *          delete bccess to the file
      *
      * @see #delete
      *
      * @since 1.2
      */
     public void deleteOnExit() {
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkDelete(path);
+            security.checkDelete(pbth);
         }
-        if (isInvalid()) {
+        if (isInvblid()) {
             return;
         }
-        DeleteOnExitHook.add(path);
+        DeleteOnExitHook.bdd(pbth);
     }
 
     /**
-     * Returns an array of strings naming the files and directories in the
-     * directory denoted by this abstract pathname.
+     * Returns bn brrby of strings nbming the files bnd directories in the
+     * directory denoted by this bbstrbct pbthnbme.
      *
-     * <p> If this abstract pathname does not denote a directory, then this
-     * method returns {@code null}.  Otherwise an array of strings is
-     * returned, one for each file or directory in the directory.  Names
-     * denoting the directory itself and the directory's parent directory are
-     * not included in the result.  Each string is a file name rather than a
-     * complete path.
+     * <p> If this bbstrbct pbthnbme does not denote b directory, then this
+     * method returns {@code null}.  Otherwise bn brrby of strings is
+     * returned, one for ebch file or directory in the directory.  Nbmes
+     * denoting the directory itself bnd the directory's pbrent directory bre
+     * not included in the result.  Ebch string is b file nbme rbther thbn b
+     * complete pbth.
      *
-     * <p> There is no guarantee that the name strings in the resulting array
-     * will appear in any specific order; they are not, in particular,
-     * guaranteed to appear in alphabetical order.
+     * <p> There is no gubrbntee thbt the nbme strings in the resulting brrby
+     * will bppebr in bny specific order; they bre not, in pbrticulbr,
+     * gubrbnteed to bppebr in blphbbeticbl order.
      *
-     * <p> Note that the {@link java.nio.file.Files} class defines the {@link
-     * java.nio.file.Files#newDirectoryStream(Path) newDirectoryStream} method to
-     * open a directory and iterate over the names of the files in the directory.
-     * This may use less resources when working with very large directories, and
-     * may be more responsive when working with remote directories.
+     * <p> Note thbt the {@link jbvb.nio.file.Files} clbss defines the {@link
+     * jbvb.nio.file.Files#newDirectoryStrebm(Pbth) newDirectoryStrebm} method to
+     * open b directory bnd iterbte over the nbmes of the files in the directory.
+     * This mby use less resources when working with very lbrge directories, bnd
+     * mby be more responsive when working with remote directories.
      *
-     * @return  An array of strings naming the files and directories in the
-     *          directory denoted by this abstract pathname.  The array will be
+     * @return  An brrby of strings nbming the files bnd directories in the
+     *          directory denoted by this bbstrbct pbthnbme.  The brrby will be
      *          empty if the directory is empty.  Returns {@code null} if
-     *          this abstract pathname does not denote a directory, or if an
+     *          this bbstrbct pbthnbme does not denote b directory, or if bn
      *          I/O error occurs.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its {@link
-     *          SecurityManager#checkRead(String)} method denies read access to
+     *          If b security mbnbger exists bnd its {@link
+     *          SecurityMbnbger#checkRebd(String)} method denies rebd bccess to
      *          the directory
      */
     public String[] list() {
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkRead(path);
+            security.checkRebd(pbth);
         }
-        if (isInvalid()) {
+        if (isInvblid()) {
             return null;
         }
         return fs.list(this);
     }
 
     /**
-     * Returns an array of strings naming the files and directories in the
-     * directory denoted by this abstract pathname that satisfy the specified
-     * filter.  The behavior of this method is the same as that of the
-     * {@link #list()} method, except that the strings in the returned array
-     * must satisfy the filter.  If the given {@code filter} is {@code null}
-     * then all names are accepted.  Otherwise, a name satisfies the filter if
-     * and only if the value {@code true} results when the {@link
-     * FilenameFilter#accept FilenameFilter.accept(File,&nbsp;String)} method
-     * of the filter is invoked on this abstract pathname and the name of a
-     * file or directory in the directory that it denotes.
+     * Returns bn brrby of strings nbming the files bnd directories in the
+     * directory denoted by this bbstrbct pbthnbme thbt sbtisfy the specified
+     * filter.  The behbvior of this method is the sbme bs thbt of the
+     * {@link #list()} method, except thbt the strings in the returned brrby
+     * must sbtisfy the filter.  If the given {@code filter} is {@code null}
+     * then bll nbmes bre bccepted.  Otherwise, b nbme sbtisfies the filter if
+     * bnd only if the vblue {@code true} results when the {@link
+     * FilenbmeFilter#bccept FilenbmeFilter.bccept(File,&nbsp;String)} method
+     * of the filter is invoked on this bbstrbct pbthnbme bnd the nbme of b
+     * file or directory in the directory thbt it denotes.
      *
-     * @param  filter
-     *         A filename filter
+     * @pbrbm  filter
+     *         A filenbme filter
      *
-     * @return  An array of strings naming the files and directories in the
-     *          directory denoted by this abstract pathname that were accepted
-     *          by the given {@code filter}.  The array will be empty if the
-     *          directory is empty or if no names were accepted by the filter.
-     *          Returns {@code null} if this abstract pathname does not denote
-     *          a directory, or if an I/O error occurs.
+     * @return  An brrby of strings nbming the files bnd directories in the
+     *          directory denoted by this bbstrbct pbthnbme thbt were bccepted
+     *          by the given {@code filter}.  The brrby will be empty if the
+     *          directory is empty or if no nbmes were bccepted by the filter.
+     *          Returns {@code null} if this bbstrbct pbthnbme does not denote
+     *          b directory, or if bn I/O error occurs.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its {@link
-     *          SecurityManager#checkRead(String)} method denies read access to
+     *          If b security mbnbger exists bnd its {@link
+     *          SecurityMbnbger#checkRebd(String)} method denies rebd bccess to
      *          the directory
      *
-     * @see java.nio.file.Files#newDirectoryStream(Path,String)
+     * @see jbvb.nio.file.Files#newDirectoryStrebm(Pbth,String)
      */
-    public String[] list(FilenameFilter filter) {
-        String names[] = list();
-        if ((names == null) || (filter == null)) {
-            return names;
+    public String[] list(FilenbmeFilter filter) {
+        String nbmes[] = list();
+        if ((nbmes == null) || (filter == null)) {
+            return nbmes;
         }
-        List<String> v = new ArrayList<>();
-        for (int i = 0 ; i < names.length ; i++) {
-            if (filter.accept(this, names[i])) {
-                v.add(names[i]);
+        List<String> v = new ArrbyList<>();
+        for (int i = 0 ; i < nbmes.length ; i++) {
+            if (filter.bccept(this, nbmes[i])) {
+                v.bdd(nbmes[i]);
             }
         }
-        return v.toArray(new String[v.size()]);
+        return v.toArrby(new String[v.size()]);
     }
 
     /**
-     * Returns an array of abstract pathnames denoting the files in the
-     * directory denoted by this abstract pathname.
+     * Returns bn brrby of bbstrbct pbthnbmes denoting the files in the
+     * directory denoted by this bbstrbct pbthnbme.
      *
-     * <p> If this abstract pathname does not denote a directory, then this
-     * method returns {@code null}.  Otherwise an array of {@code File} objects
-     * is returned, one for each file or directory in the directory.  Pathnames
-     * denoting the directory itself and the directory's parent directory are
-     * not included in the result.  Each resulting abstract pathname is
-     * constructed from this abstract pathname using the {@link #File(File,
+     * <p> If this bbstrbct pbthnbme does not denote b directory, then this
+     * method returns {@code null}.  Otherwise bn brrby of {@code File} objects
+     * is returned, one for ebch file or directory in the directory.  Pbthnbmes
+     * denoting the directory itself bnd the directory's pbrent directory bre
+     * not included in the result.  Ebch resulting bbstrbct pbthnbme is
+     * constructed from this bbstrbct pbthnbme using the {@link #File(File,
      * String) File(File,&nbsp;String)} constructor.  Therefore if this
-     * pathname is absolute then each resulting pathname is absolute; if this
-     * pathname is relative then each resulting pathname will be relative to
-     * the same directory.
+     * pbthnbme is bbsolute then ebch resulting pbthnbme is bbsolute; if this
+     * pbthnbme is relbtive then ebch resulting pbthnbme will be relbtive to
+     * the sbme directory.
      *
-     * <p> There is no guarantee that the name strings in the resulting array
-     * will appear in any specific order; they are not, in particular,
-     * guaranteed to appear in alphabetical order.
+     * <p> There is no gubrbntee thbt the nbme strings in the resulting brrby
+     * will bppebr in bny specific order; they bre not, in pbrticulbr,
+     * gubrbnteed to bppebr in blphbbeticbl order.
      *
-     * <p> Note that the {@link java.nio.file.Files} class defines the {@link
-     * java.nio.file.Files#newDirectoryStream(Path) newDirectoryStream} method
-     * to open a directory and iterate over the names of the files in the
-     * directory. This may use less resources when working with very large
+     * <p> Note thbt the {@link jbvb.nio.file.Files} clbss defines the {@link
+     * jbvb.nio.file.Files#newDirectoryStrebm(Pbth) newDirectoryStrebm} method
+     * to open b directory bnd iterbte over the nbmes of the files in the
+     * directory. This mby use less resources when working with very lbrge
      * directories.
      *
-     * @return  An array of abstract pathnames denoting the files and
-     *          directories in the directory denoted by this abstract pathname.
-     *          The array will be empty if the directory is empty.  Returns
-     *          {@code null} if this abstract pathname does not denote a
-     *          directory, or if an I/O error occurs.
+     * @return  An brrby of bbstrbct pbthnbmes denoting the files bnd
+     *          directories in the directory denoted by this bbstrbct pbthnbme.
+     *          The brrby will be empty if the directory is empty.  Returns
+     *          {@code null} if this bbstrbct pbthnbme does not denote b
+     *          directory, or if bn I/O error occurs.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its {@link
-     *          SecurityManager#checkRead(String)} method denies read access to
+     *          If b security mbnbger exists bnd its {@link
+     *          SecurityMbnbger#checkRebd(String)} method denies rebd bccess to
      *          the directory
      *
      * @since  1.2
@@ -1215,1026 +1215,1026 @@ public class File
     }
 
     /**
-     * Returns an array of abstract pathnames denoting the files and
-     * directories in the directory denoted by this abstract pathname that
-     * satisfy the specified filter.  The behavior of this method is the same
-     * as that of the {@link #listFiles()} method, except that the pathnames in
-     * the returned array must satisfy the filter.  If the given {@code filter}
-     * is {@code null} then all pathnames are accepted.  Otherwise, a pathname
-     * satisfies the filter if and only if the value {@code true} results when
-     * the {@link FilenameFilter#accept
-     * FilenameFilter.accept(File,&nbsp;String)} method of the filter is
-     * invoked on this abstract pathname and the name of a file or directory in
-     * the directory that it denotes.
+     * Returns bn brrby of bbstrbct pbthnbmes denoting the files bnd
+     * directories in the directory denoted by this bbstrbct pbthnbme thbt
+     * sbtisfy the specified filter.  The behbvior of this method is the sbme
+     * bs thbt of the {@link #listFiles()} method, except thbt the pbthnbmes in
+     * the returned brrby must sbtisfy the filter.  If the given {@code filter}
+     * is {@code null} then bll pbthnbmes bre bccepted.  Otherwise, b pbthnbme
+     * sbtisfies the filter if bnd only if the vblue {@code true} results when
+     * the {@link FilenbmeFilter#bccept
+     * FilenbmeFilter.bccept(File,&nbsp;String)} method of the filter is
+     * invoked on this bbstrbct pbthnbme bnd the nbme of b file or directory in
+     * the directory thbt it denotes.
      *
-     * @param  filter
-     *         A filename filter
+     * @pbrbm  filter
+     *         A filenbme filter
      *
-     * @return  An array of abstract pathnames denoting the files and
-     *          directories in the directory denoted by this abstract pathname.
-     *          The array will be empty if the directory is empty.  Returns
-     *          {@code null} if this abstract pathname does not denote a
-     *          directory, or if an I/O error occurs.
+     * @return  An brrby of bbstrbct pbthnbmes denoting the files bnd
+     *          directories in the directory denoted by this bbstrbct pbthnbme.
+     *          The brrby will be empty if the directory is empty.  Returns
+     *          {@code null} if this bbstrbct pbthnbme does not denote b
+     *          directory, or if bn I/O error occurs.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its {@link
-     *          SecurityManager#checkRead(String)} method denies read access to
+     *          If b security mbnbger exists bnd its {@link
+     *          SecurityMbnbger#checkRebd(String)} method denies rebd bccess to
      *          the directory
      *
      * @since  1.2
-     * @see java.nio.file.Files#newDirectoryStream(Path,String)
+     * @see jbvb.nio.file.Files#newDirectoryStrebm(Pbth,String)
      */
-    public File[] listFiles(FilenameFilter filter) {
+    public File[] listFiles(FilenbmeFilter filter) {
         String ss[] = list();
         if (ss == null) return null;
-        ArrayList<File> files = new ArrayList<>();
+        ArrbyList<File> files = new ArrbyList<>();
         for (String s : ss)
-            if ((filter == null) || filter.accept(this, s))
-                files.add(new File(s, this));
-        return files.toArray(new File[files.size()]);
+            if ((filter == null) || filter.bccept(this, s))
+                files.bdd(new File(s, this));
+        return files.toArrby(new File[files.size()]);
     }
 
     /**
-     * Returns an array of abstract pathnames denoting the files and
-     * directories in the directory denoted by this abstract pathname that
-     * satisfy the specified filter.  The behavior of this method is the same
-     * as that of the {@link #listFiles()} method, except that the pathnames in
-     * the returned array must satisfy the filter.  If the given {@code filter}
-     * is {@code null} then all pathnames are accepted.  Otherwise, a pathname
-     * satisfies the filter if and only if the value {@code true} results when
-     * the {@link FileFilter#accept FileFilter.accept(File)} method of the
-     * filter is invoked on the pathname.
+     * Returns bn brrby of bbstrbct pbthnbmes denoting the files bnd
+     * directories in the directory denoted by this bbstrbct pbthnbme thbt
+     * sbtisfy the specified filter.  The behbvior of this method is the sbme
+     * bs thbt of the {@link #listFiles()} method, except thbt the pbthnbmes in
+     * the returned brrby must sbtisfy the filter.  If the given {@code filter}
+     * is {@code null} then bll pbthnbmes bre bccepted.  Otherwise, b pbthnbme
+     * sbtisfies the filter if bnd only if the vblue {@code true} results when
+     * the {@link FileFilter#bccept FileFilter.bccept(File)} method of the
+     * filter is invoked on the pbthnbme.
      *
-     * @param  filter
+     * @pbrbm  filter
      *         A file filter
      *
-     * @return  An array of abstract pathnames denoting the files and
-     *          directories in the directory denoted by this abstract pathname.
-     *          The array will be empty if the directory is empty.  Returns
-     *          {@code null} if this abstract pathname does not denote a
-     *          directory, or if an I/O error occurs.
+     * @return  An brrby of bbstrbct pbthnbmes denoting the files bnd
+     *          directories in the directory denoted by this bbstrbct pbthnbme.
+     *          The brrby will be empty if the directory is empty.  Returns
+     *          {@code null} if this bbstrbct pbthnbme does not denote b
+     *          directory, or if bn I/O error occurs.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its {@link
-     *          SecurityManager#checkRead(String)} method denies read access to
+     *          If b security mbnbger exists bnd its {@link
+     *          SecurityMbnbger#checkRebd(String)} method denies rebd bccess to
      *          the directory
      *
      * @since  1.2
-     * @see java.nio.file.Files#newDirectoryStream(Path,java.nio.file.DirectoryStream.Filter)
+     * @see jbvb.nio.file.Files#newDirectoryStrebm(Pbth,jbvb.nio.file.DirectoryStrebm.Filter)
      */
     public File[] listFiles(FileFilter filter) {
         String ss[] = list();
         if (ss == null) return null;
-        ArrayList<File> files = new ArrayList<>();
+        ArrbyList<File> files = new ArrbyList<>();
         for (String s : ss) {
             File f = new File(s, this);
-            if ((filter == null) || filter.accept(f))
-                files.add(f);
+            if ((filter == null) || filter.bccept(f))
+                files.bdd(f);
         }
-        return files.toArray(new File[files.size()]);
+        return files.toArrby(new File[files.size()]);
     }
 
     /**
-     * Creates the directory named by this abstract pathname.
+     * Crebtes the directory nbmed by this bbstrbct pbthnbme.
      *
-     * @return  <code>true</code> if and only if the directory was
-     *          created; <code>false</code> otherwise
+     * @return  <code>true</code> if bnd only if the directory wbs
+     *          crebted; <code>fblse</code> otherwise
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method does not permit the named directory to be created
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method does not permit the nbmed directory to be crebted
      */
-    public boolean mkdir() {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn mkdir() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkWrite(path);
+            security.checkWrite(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
-        return fs.createDirectory(this);
+        return fs.crebteDirectory(this);
     }
 
     /**
-     * Creates the directory named by this abstract pathname, including any
-     * necessary but nonexistent parent directories.  Note that if this
-     * operation fails it may have succeeded in creating some of the necessary
-     * parent directories.
+     * Crebtes the directory nbmed by this bbstrbct pbthnbme, including bny
+     * necessbry but nonexistent pbrent directories.  Note thbt if this
+     * operbtion fbils it mby hbve succeeded in crebting some of the necessbry
+     * pbrent directories.
      *
-     * @return  <code>true</code> if and only if the directory was created,
-     *          along with all necessary parent directories; <code>false</code>
+     * @return  <code>true</code> if bnd only if the directory wbs crebted,
+     *          blong with bll necessbry pbrent directories; <code>fblse</code>
      *          otherwise
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
-     *          method does not permit verification of the existence of the
-     *          named directory and all necessary parent directories; or if
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)}</code>
+     *          method does not permit verificbtion of the existence of the
+     *          nbmed directory bnd bll necessbry pbrent directories; or if
      *          the <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method does not permit the named directory and all necessary
-     *          parent directories to be created
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method does not permit the nbmed directory bnd bll necessbry
+     *          pbrent directories to be crebted
      */
-    public boolean mkdirs() {
+    public boolebn mkdirs() {
         if (exists()) {
-            return false;
+            return fblse;
         }
         if (mkdir()) {
             return true;
         }
-        File canonFile = null;
+        File cbnonFile = null;
         try {
-            canonFile = getCanonicalFile();
-        } catch (IOException e) {
-            return false;
+            cbnonFile = getCbnonicblFile();
+        } cbtch (IOException e) {
+            return fblse;
         }
 
-        File parent = canonFile.getParentFile();
-        return (parent != null && (parent.mkdirs() || parent.exists()) &&
-                canonFile.mkdir());
+        File pbrent = cbnonFile.getPbrentFile();
+        return (pbrent != null && (pbrent.mkdirs() || pbrent.exists()) &&
+                cbnonFile.mkdir());
     }
 
     /**
-     * Renames the file denoted by this abstract pathname.
+     * Renbmes the file denoted by this bbstrbct pbthnbme.
      *
-     * <p> Many aspects of the behavior of this method are inherently
-     * platform-dependent: The rename operation might not be able to move a
-     * file from one filesystem to another, it might not be atomic, and it
-     * might not succeed if a file with the destination abstract pathname
-     * already exists.  The return value should always be checked to make sure
-     * that the rename operation was successful.
+     * <p> Mbny bspects of the behbvior of this method bre inherently
+     * plbtform-dependent: The renbme operbtion might not be bble to move b
+     * file from one filesystem to bnother, it might not be btomic, bnd it
+     * might not succeed if b file with the destinbtion bbstrbct pbthnbme
+     * blrebdy exists.  The return vblue should blwbys be checked to mbke sure
+     * thbt the renbme operbtion wbs successful.
      *
-     * <p> Note that the {@link java.nio.file.Files} class defines the {@link
-     * java.nio.file.Files#move move} method to move or rename a file in a
-     * platform independent manner.
+     * <p> Note thbt the {@link jbvb.nio.file.Files} clbss defines the {@link
+     * jbvb.nio.file.Files#move move} method to move or renbme b file in b
+     * plbtform independent mbnner.
      *
-     * @param  dest  The new abstract pathname for the named file
+     * @pbrbm  dest  The new bbstrbct pbthnbme for the nbmed file
      *
-     * @return  <code>true</code> if and only if the renaming succeeded;
-     *          <code>false</code> otherwise
+     * @return  <code>true</code> if bnd only if the renbming succeeded;
+     *          <code>fblse</code> otherwise
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to either the old or new pathnames
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method denies write bccess to either the old or new pbthnbmes
      *
      * @throws  NullPointerException
-     *          If parameter <code>dest</code> is <code>null</code>
+     *          If pbrbmeter <code>dest</code> is <code>null</code>
      */
-    public boolean renameTo(File dest) {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn renbmeTo(File dest) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkWrite(path);
-            security.checkWrite(dest.path);
+            security.checkWrite(pbth);
+            security.checkWrite(dest.pbth);
         }
         if (dest == null) {
             throw new NullPointerException();
         }
-        if (this.isInvalid() || dest.isInvalid()) {
-            return false;
+        if (this.isInvblid() || dest.isInvblid()) {
+            return fblse;
         }
-        return fs.rename(this, dest);
+        return fs.renbme(this, dest);
     }
 
     /**
-     * Sets the last-modified time of the file or directory named by this
-     * abstract pathname.
+     * Sets the lbst-modified time of the file or directory nbmed by this
+     * bbstrbct pbthnbme.
      *
-     * <p> All platforms support file-modification times to the nearest second,
-     * but some provide more precision.  The argument will be truncated to fit
-     * the supported precision.  If the operation succeeds and no intervening
-     * operations on the file take place, then the next invocation of the
-     * <code>{@link #lastModified}</code> method will return the (possibly
-     * truncated) <code>time</code> argument that was passed to this method.
+     * <p> All plbtforms support file-modificbtion times to the nebrest second,
+     * but some provide more precision.  The brgument will be truncbted to fit
+     * the supported precision.  If the operbtion succeeds bnd no intervening
+     * operbtions on the file tbke plbce, then the next invocbtion of the
+     * <code>{@link #lbstModified}</code> method will return the (possibly
+     * truncbted) <code>time</code> brgument thbt wbs pbssed to this method.
      *
-     * @param  time  The new last-modified time, measured in milliseconds since
-     *               the epoch (00:00:00 GMT, January 1, 1970)
+     * @pbrbm  time  The new lbst-modified time, mebsured in milliseconds since
+     *               the epoch (00:00:00 GMT, Jbnubry 1, 1970)
      *
-     * @return <code>true</code> if and only if the operation succeeded;
-     *          <code>false</code> otherwise
+     * @return <code>true</code> if bnd only if the operbtion succeeded;
+     *          <code>fblse</code> otherwise
      *
-     * @throws  IllegalArgumentException  If the argument is negative
+     * @throws  IllegblArgumentException  If the brgument is negbtive
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the named file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method denies write bccess to the nbmed file
      *
      * @since 1.2
      */
-    public boolean setLastModified(long time) {
-        if (time < 0) throw new IllegalArgumentException("Negative time");
-        SecurityManager security = System.getSecurityManager();
+    public boolebn setLbstModified(long time) {
+        if (time < 0) throw new IllegblArgumentException("Negbtive time");
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkWrite(path);
+            security.checkWrite(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
-        return fs.setLastModifiedTime(this, time);
+        return fs.setLbstModifiedTime(this, time);
     }
 
     /**
-     * Marks the file or directory named by this abstract pathname so that
-     * only read operations are allowed. After invoking this method the file
-     * or directory will not change until it is either deleted or marked
-     * to allow write access. On some platforms it may be possible to start the
-     * Java virtual machine with special privileges that allow it to modify
-     * files that are marked read-only. Whether or not a read-only file or
-     * directory may be deleted depends upon the underlying system.
+     * Mbrks the file or directory nbmed by this bbstrbct pbthnbme so thbt
+     * only rebd operbtions bre bllowed. After invoking this method the file
+     * or directory will not chbnge until it is either deleted or mbrked
+     * to bllow write bccess. On some plbtforms it mby be possible to stbrt the
+     * Jbvb virtubl mbchine with specibl privileges thbt bllow it to modify
+     * files thbt bre mbrked rebd-only. Whether or not b rebd-only file or
+     * directory mby be deleted depends upon the underlying system.
      *
-     * @return <code>true</code> if and only if the operation succeeded;
-     *          <code>false</code> otherwise
+     * @return <code>true</code> if bnd only if the operbtion succeeded;
+     *          <code>fblse</code> otherwise
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the named file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method denies write bccess to the nbmed file
      *
      * @since 1.2
      */
-    public boolean setReadOnly() {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn setRebdOnly() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkWrite(path);
+            security.checkWrite(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
-        return fs.setReadOnly(this);
+        return fs.setRebdOnly(this);
     }
 
     /**
-     * Sets the owner's or everybody's write permission for this abstract
-     * pathname. On some platforms it may be possible to start the Java virtual
-     * machine with special privileges that allow it to modify files that
-     * disallow write operations.
+     * Sets the owner's or everybody's write permission for this bbstrbct
+     * pbthnbme. On some plbtforms it mby be possible to stbrt the Jbvb virtubl
+     * mbchine with specibl privileges thbt bllow it to modify files thbt
+     * disbllow write operbtions.
      *
-     * <p> The {@link java.nio.file.Files} class defines methods that operate on
-     * file attributes including file permissions. This may be used when finer
-     * manipulation of file permissions is required.
+     * <p> The {@link jbvb.nio.file.Files} clbss defines methods thbt operbte on
+     * file bttributes including file permissions. This mby be used when finer
+     * mbnipulbtion of file permissions is required.
      *
-     * @param   writable
-     *          If <code>true</code>, sets the access permission to allow write
-     *          operations; if <code>false</code> to disallow write operations
+     * @pbrbm   writbble
+     *          If <code>true</code>, sets the bccess permission to bllow write
+     *          operbtions; if <code>fblse</code> to disbllow write operbtions
      *
-     * @param   ownerOnly
-     *          If <code>true</code>, the write permission applies only to the
-     *          owner's write permission; otherwise, it applies to everybody.  If
-     *          the underlying file system can not distinguish the owner's write
-     *          permission from that of others, then the permission will apply to
-     *          everybody, regardless of this value.
+     * @pbrbm   ownerOnly
+     *          If <code>true</code>, the write permission bpplies only to the
+     *          owner's write permission; otherwise, it bpplies to everybody.  If
+     *          the underlying file system cbn not distinguish the owner's write
+     *          permission from thbt of others, then the permission will bpply to
+     *          everybody, regbrdless of this vblue.
      *
-     * @return  <code>true</code> if and only if the operation succeeded. The
-     *          operation will fail if the user does not have permission to change
-     *          the access permissions of this abstract pathname.
+     * @return  <code>true</code> if bnd only if the operbtion succeeded. The
+     *          operbtion will fbil if the user does not hbve permission to chbnge
+     *          the bccess permissions of this bbstrbct pbthnbme.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the named file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method denies write bccess to the nbmed file
      *
      * @since 1.6
      */
-    public boolean setWritable(boolean writable, boolean ownerOnly) {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn setWritbble(boolebn writbble, boolebn ownerOnly) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkWrite(path);
+            security.checkWrite(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
-        return fs.setPermission(this, FileSystem.ACCESS_WRITE, writable, ownerOnly);
+        return fs.setPermission(this, FileSystem.ACCESS_WRITE, writbble, ownerOnly);
     }
 
     /**
-     * A convenience method to set the owner's write permission for this abstract
-     * pathname. On some platforms it may be possible to start the Java virtual
-     * machine with special privileges that allow it to modify files that
-     * disallow write operations.
+     * A convenience method to set the owner's write permission for this bbstrbct
+     * pbthnbme. On some plbtforms it mby be possible to stbrt the Jbvb virtubl
+     * mbchine with specibl privileges thbt bllow it to modify files thbt
+     * disbllow write operbtions.
      *
-     * <p> An invocation of this method of the form <tt>file.setWritable(arg)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>file.setWritbble(brg)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
-     *     file.setWritable(arg, true) </pre>
+     *     file.setWritbble(brg, true) </pre>
      *
-     * @param   writable
-     *          If <code>true</code>, sets the access permission to allow write
-     *          operations; if <code>false</code> to disallow write operations
+     * @pbrbm   writbble
+     *          If <code>true</code>, sets the bccess permission to bllow write
+     *          operbtions; if <code>fblse</code> to disbllow write operbtions
      *
-     * @return  <code>true</code> if and only if the operation succeeded.  The
-     *          operation will fail if the user does not have permission to
-     *          change the access permissions of this abstract pathname.
+     * @return  <code>true</code> if bnd only if the operbtion succeeded.  The
+     *          operbtion will fbil if the user does not hbve permission to
+     *          chbnge the bccess permissions of this bbstrbct pbthnbme.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method denies write bccess to the file
      *
      * @since 1.6
      */
-    public boolean setWritable(boolean writable) {
-        return setWritable(writable, true);
+    public boolebn setWritbble(boolebn writbble) {
+        return setWritbble(writbble, true);
     }
 
     /**
-     * Sets the owner's or everybody's read permission for this abstract
-     * pathname. On some platforms it may be possible to start the Java virtual
-     * machine with special privileges that allow it to read files that are
-     * marked as unreadable.
+     * Sets the owner's or everybody's rebd permission for this bbstrbct
+     * pbthnbme. On some plbtforms it mby be possible to stbrt the Jbvb virtubl
+     * mbchine with specibl privileges thbt bllow it to rebd files thbt bre
+     * mbrked bs unrebdbble.
      *
-     * <p> The {@link java.nio.file.Files} class defines methods that operate on
-     * file attributes including file permissions. This may be used when finer
-     * manipulation of file permissions is required.
+     * <p> The {@link jbvb.nio.file.Files} clbss defines methods thbt operbte on
+     * file bttributes including file permissions. This mby be used when finer
+     * mbnipulbtion of file permissions is required.
      *
-     * @param   readable
-     *          If <code>true</code>, sets the access permission to allow read
-     *          operations; if <code>false</code> to disallow read operations
+     * @pbrbm   rebdbble
+     *          If <code>true</code>, sets the bccess permission to bllow rebd
+     *          operbtions; if <code>fblse</code> to disbllow rebd operbtions
      *
-     * @param   ownerOnly
-     *          If <code>true</code>, the read permission applies only to the
-     *          owner's read permission; otherwise, it applies to everybody.  If
-     *          the underlying file system can not distinguish the owner's read
-     *          permission from that of others, then the permission will apply to
-     *          everybody, regardless of this value.
+     * @pbrbm   ownerOnly
+     *          If <code>true</code>, the rebd permission bpplies only to the
+     *          owner's rebd permission; otherwise, it bpplies to everybody.  If
+     *          the underlying file system cbn not distinguish the owner's rebd
+     *          permission from thbt of others, then the permission will bpply to
+     *          everybody, regbrdless of this vblue.
      *
-     * @return  <code>true</code> if and only if the operation succeeded.  The
-     *          operation will fail if the user does not have permission to
-     *          change the access permissions of this abstract pathname.  If
-     *          <code>readable</code> is <code>false</code> and the underlying
-     *          file system does not implement a read permission, then the
-     *          operation will fail.
+     * @return  <code>true</code> if bnd only if the operbtion succeeded.  The
+     *          operbtion will fbil if the user does not hbve permission to
+     *          chbnge the bccess permissions of this bbstrbct pbthnbme.  If
+     *          <code>rebdbble</code> is <code>fblse</code> bnd the underlying
+     *          file system does not implement b rebd permission, then the
+     *          operbtion will fbil.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method denies write bccess to the file
      *
      * @since 1.6
      */
-    public boolean setReadable(boolean readable, boolean ownerOnly) {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn setRebdbble(boolebn rebdbble, boolebn ownerOnly) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkWrite(path);
+            security.checkWrite(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
-        return fs.setPermission(this, FileSystem.ACCESS_READ, readable, ownerOnly);
+        return fs.setPermission(this, FileSystem.ACCESS_READ, rebdbble, ownerOnly);
     }
 
     /**
-     * A convenience method to set the owner's read permission for this abstract
-     * pathname. On some platforms it may be possible to start the Java virtual
-     * machine with special privileges that allow it to read files that that are
-     * marked as unreadable.
+     * A convenience method to set the owner's rebd permission for this bbstrbct
+     * pbthnbme. On some plbtforms it mby be possible to stbrt the Jbvb virtubl
+     * mbchine with specibl privileges thbt bllow it to rebd files thbt thbt bre
+     * mbrked bs unrebdbble.
      *
-     * <p>An invocation of this method of the form <tt>file.setReadable(arg)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p>An invocbtion of this method of the form <tt>file.setRebdbble(brg)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
-     *     file.setReadable(arg, true) </pre>
+     *     file.setRebdbble(brg, true) </pre>
      *
-     * @param  readable
-     *          If <code>true</code>, sets the access permission to allow read
-     *          operations; if <code>false</code> to disallow read operations
+     * @pbrbm  rebdbble
+     *          If <code>true</code>, sets the bccess permission to bllow rebd
+     *          operbtions; if <code>fblse</code> to disbllow rebd operbtions
      *
-     * @return  <code>true</code> if and only if the operation succeeded.  The
-     *          operation will fail if the user does not have permission to
-     *          change the access permissions of this abstract pathname.  If
-     *          <code>readable</code> is <code>false</code> and the underlying
-     *          file system does not implement a read permission, then the
-     *          operation will fail.
+     * @return  <code>true</code> if bnd only if the operbtion succeeded.  The
+     *          operbtion will fbil if the user does not hbve permission to
+     *          chbnge the bccess permissions of this bbstrbct pbthnbme.  If
+     *          <code>rebdbble</code> is <code>fblse</code> bnd the underlying
+     *          file system does not implement b rebd permission, then the
+     *          operbtion will fbil.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method denies write bccess to the file
      *
      * @since 1.6
      */
-    public boolean setReadable(boolean readable) {
-        return setReadable(readable, true);
+    public boolebn setRebdbble(boolebn rebdbble) {
+        return setRebdbble(rebdbble, true);
     }
 
     /**
-     * Sets the owner's or everybody's execute permission for this abstract
-     * pathname. On some platforms it may be possible to start the Java virtual
-     * machine with special privileges that allow it to execute files that are
-     * not marked executable.
+     * Sets the owner's or everybody's execute permission for this bbstrbct
+     * pbthnbme. On some plbtforms it mby be possible to stbrt the Jbvb virtubl
+     * mbchine with specibl privileges thbt bllow it to execute files thbt bre
+     * not mbrked executbble.
      *
-     * <p> The {@link java.nio.file.Files} class defines methods that operate on
-     * file attributes including file permissions. This may be used when finer
-     * manipulation of file permissions is required.
+     * <p> The {@link jbvb.nio.file.Files} clbss defines methods thbt operbte on
+     * file bttributes including file permissions. This mby be used when finer
+     * mbnipulbtion of file permissions is required.
      *
-     * @param   executable
-     *          If <code>true</code>, sets the access permission to allow execute
-     *          operations; if <code>false</code> to disallow execute operations
+     * @pbrbm   executbble
+     *          If <code>true</code>, sets the bccess permission to bllow execute
+     *          operbtions; if <code>fblse</code> to disbllow execute operbtions
      *
-     * @param   ownerOnly
-     *          If <code>true</code>, the execute permission applies only to the
-     *          owner's execute permission; otherwise, it applies to everybody.
-     *          If the underlying file system can not distinguish the owner's
-     *          execute permission from that of others, then the permission will
-     *          apply to everybody, regardless of this value.
+     * @pbrbm   ownerOnly
+     *          If <code>true</code>, the execute permission bpplies only to the
+     *          owner's execute permission; otherwise, it bpplies to everybody.
+     *          If the underlying file system cbn not distinguish the owner's
+     *          execute permission from thbt of others, then the permission will
+     *          bpply to everybody, regbrdless of this vblue.
      *
-     * @return  <code>true</code> if and only if the operation succeeded.  The
-     *          operation will fail if the user does not have permission to
-     *          change the access permissions of this abstract pathname.  If
-     *          <code>executable</code> is <code>false</code> and the underlying
-     *          file system does not implement an execute permission, then the
-     *          operation will fail.
+     * @return  <code>true</code> if bnd only if the operbtion succeeded.  The
+     *          operbtion will fbil if the user does not hbve permission to
+     *          chbnge the bccess permissions of this bbstrbct pbthnbme.  If
+     *          <code>executbble</code> is <code>fblse</code> bnd the underlying
+     *          file system does not implement bn execute permission, then the
+     *          operbtion will fbil.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method denies write bccess to the file
      *
      * @since 1.6
      */
-    public boolean setExecutable(boolean executable, boolean ownerOnly) {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn setExecutbble(boolebn executbble, boolebn ownerOnly) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkWrite(path);
+            security.checkWrite(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
-        return fs.setPermission(this, FileSystem.ACCESS_EXECUTE, executable, ownerOnly);
+        return fs.setPermission(this, FileSystem.ACCESS_EXECUTE, executbble, ownerOnly);
     }
 
     /**
      * A convenience method to set the owner's execute permission for this
-     * abstract pathname. On some platforms it may be possible to start the Java
-     * virtual machine with special privileges that allow it to execute files
-     * that are not marked executable.
+     * bbstrbct pbthnbme. On some plbtforms it mby be possible to stbrt the Jbvb
+     * virtubl mbchine with specibl privileges thbt bllow it to execute files
+     * thbt bre not mbrked executbble.
      *
-     * <p>An invocation of this method of the form <tt>file.setExcutable(arg)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p>An invocbtion of this method of the form <tt>file.setExcutbble(brg)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
-     *     file.setExecutable(arg, true) </pre>
+     *     file.setExecutbble(brg, true) </pre>
      *
-     * @param   executable
-     *          If <code>true</code>, sets the access permission to allow execute
-     *          operations; if <code>false</code> to disallow execute operations
+     * @pbrbm   executbble
+     *          If <code>true</code>, sets the bccess permission to bllow execute
+     *          operbtions; if <code>fblse</code> to disbllow execute operbtions
      *
-     * @return   <code>true</code> if and only if the operation succeeded.  The
-     *           operation will fail if the user does not have permission to
-     *           change the access permissions of this abstract pathname.  If
-     *           <code>executable</code> is <code>false</code> and the underlying
-     *           file system does not implement an execute permission, then the
-     *           operation will fail.
+     * @return   <code>true</code> if bnd only if the operbtion succeeded.  The
+     *           operbtion will fbil if the user does not hbve permission to
+     *           chbnge the bccess permissions of this bbstrbct pbthnbme.  If
+     *           <code>executbble</code> is <code>fblse</code> bnd the underlying
+     *           file system does not implement bn execute permission, then the
+     *           operbtion will fbil.
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method denies write access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method denies write bccess to the file
      *
      * @since 1.6
      */
-    public boolean setExecutable(boolean executable) {
-        return setExecutable(executable, true);
+    public boolebn setExecutbble(boolebn executbble) {
+        return setExecutbble(executbble, true);
     }
 
     /**
-     * Tests whether the application can execute the file denoted by this
-     * abstract pathname. On some platforms it may be possible to start the
-     * Java virtual machine with special privileges that allow it to execute
-     * files that are not marked executable. Consequently this method may return
-     * {@code true} even though the file does not have execute permissions.
+     * Tests whether the bpplicbtion cbn execute the file denoted by this
+     * bbstrbct pbthnbme. On some plbtforms it mby be possible to stbrt the
+     * Jbvb virtubl mbchine with specibl privileges thbt bllow it to execute
+     * files thbt bre not mbrked executbble. Consequently this method mby return
+     * {@code true} even though the file does not hbve execute permissions.
      *
-     * @return  <code>true</code> if and only if the abstract pathname exists
-     *          <em>and</em> the application is allowed to execute the file
+     * @return  <code>true</code> if bnd only if the bbstrbct pbthnbme exists
+     *          <em>bnd</em> the bpplicbtion is bllowed to execute the file
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkExec(java.lang.String)}</code>
-     *          method denies execute access to the file
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkExec(jbvb.lbng.String)}</code>
+     *          method denies execute bccess to the file
      *
      * @since 1.6
      */
-    public boolean canExecute() {
-        SecurityManager security = System.getSecurityManager();
+    public boolebn cbnExecute() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkExec(path);
+            security.checkExec(pbth);
         }
-        if (isInvalid()) {
-            return false;
+        if (isInvblid()) {
+            return fblse;
         }
         return fs.checkAccess(this, FileSystem.ACCESS_EXECUTE);
     }
 
 
-    /* -- Filesystem interface -- */
+    /* -- Filesystem interfbce -- */
 
     /**
-     * List the available filesystem roots.
+     * List the bvbilbble filesystem roots.
      *
-     * <p> A particular Java platform may support zero or more
-     * hierarchically-organized file systems.  Each file system has a
-     * {@code root} directory from which all other files in that file system
-     * can be reached.  Windows platforms, for example, have a root directory
-     * for each active drive; UNIX platforms have a single root directory,
-     * namely {@code "/"}.  The set of available filesystem roots is affected
-     * by various system-level operations such as the insertion or ejection of
-     * removable media and the disconnecting or unmounting of physical or
-     * virtual disk drives.
+     * <p> A pbrticulbr Jbvb plbtform mby support zero or more
+     * hierbrchicblly-orgbnized file systems.  Ebch file system hbs b
+     * {@code root} directory from which bll other files in thbt file system
+     * cbn be rebched.  Windows plbtforms, for exbmple, hbve b root directory
+     * for ebch bctive drive; UNIX plbtforms hbve b single root directory,
+     * nbmely {@code "/"}.  The set of bvbilbble filesystem roots is bffected
+     * by vbrious system-level operbtions such bs the insertion or ejection of
+     * removbble medib bnd the disconnecting or unmounting of physicbl or
+     * virtubl disk drives.
      *
-     * <p> This method returns an array of {@code File} objects that denote the
-     * root directories of the available filesystem roots.  It is guaranteed
-     * that the canonical pathname of any file physically present on the local
-     * machine will begin with one of the roots returned by this method.
+     * <p> This method returns bn brrby of {@code File} objects thbt denote the
+     * root directories of the bvbilbble filesystem roots.  It is gubrbnteed
+     * thbt the cbnonicbl pbthnbme of bny file physicblly present on the locbl
+     * mbchine will begin with one of the roots returned by this method.
      *
-     * <p> The canonical pathname of a file that resides on some other machine
-     * and is accessed via a remote-filesystem protocol such as SMB or NFS may
-     * or may not begin with one of the roots returned by this method.  If the
-     * pathname of a remote file is syntactically indistinguishable from the
-     * pathname of a local file then it will begin with one of the roots
-     * returned by this method.  Thus, for example, {@code File} objects
-     * denoting the root directories of the mapped network drives of a Windows
-     * platform will be returned by this method, while {@code File} objects
-     * containing UNC pathnames will not be returned by this method.
+     * <p> The cbnonicbl pbthnbme of b file thbt resides on some other mbchine
+     * bnd is bccessed vib b remote-filesystem protocol such bs SMB or NFS mby
+     * or mby not begin with one of the roots returned by this method.  If the
+     * pbthnbme of b remote file is syntbcticblly indistinguishbble from the
+     * pbthnbme of b locbl file then it will begin with one of the roots
+     * returned by this method.  Thus, for exbmple, {@code File} objects
+     * denoting the root directories of the mbpped network drives of b Windows
+     * plbtform will be returned by this method, while {@code File} objects
+     * contbining UNC pbthnbmes will not be returned by this method.
      *
-     * <p> Unlike most methods in this class, this method does not throw
-     * security exceptions.  If a security manager exists and its {@link
-     * SecurityManager#checkRead(String)} method denies read access to a
-     * particular root directory, then that directory will not appear in the
+     * <p> Unlike most methods in this clbss, this method does not throw
+     * security exceptions.  If b security mbnbger exists bnd its {@link
+     * SecurityMbnbger#checkRebd(String)} method denies rebd bccess to b
+     * pbrticulbr root directory, then thbt directory will not bppebr in the
      * result.
      *
-     * @return  An array of {@code File} objects denoting the available
+     * @return  An brrby of {@code File} objects denoting the bvbilbble
      *          filesystem roots, or {@code null} if the set of roots could not
-     *          be determined.  The array will be empty if there are no
+     *          be determined.  The brrby will be empty if there bre no
      *          filesystem roots.
      *
      * @since  1.2
-     * @see java.nio.file.FileStore
+     * @see jbvb.nio.file.FileStore
      */
-    public static File[] listRoots() {
+    public stbtic File[] listRoots() {
         return fs.listRoots();
     }
 
 
-    /* -- Disk usage -- */
+    /* -- Disk usbge -- */
 
     /**
-     * Returns the size of the partition <a href="#partName">named</a> by this
-     * abstract pathname.
+     * Returns the size of the pbrtition <b href="#pbrtNbme">nbmed</b> by this
+     * bbstrbct pbthnbme.
      *
-     * @return  The size, in bytes, of the partition or <tt>0L</tt> if this
-     *          abstract pathname does not name a partition
+     * @return  The size, in bytes, of the pbrtition or <tt>0L</tt> if this
+     *          bbstrbct pbthnbme does not nbme b pbrtition
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
+     *          If b security mbnbger hbs been instblled bnd it denies
      *          {@link RuntimePermission}<tt>("getFileSystemAttributes")</tt>
-     *          or its {@link SecurityManager#checkRead(String)} method denies
-     *          read access to the file named by this abstract pathname
+     *          or its {@link SecurityMbnbger#checkRebd(String)} method denies
+     *          rebd bccess to the file nbmed by this bbstrbct pbthnbme
      *
      * @since  1.6
      */
-    public long getTotalSpace() {
-        SecurityManager sm = System.getSecurityManager();
+    public long getTotblSpbce() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new RuntimePermission("getFileSystemAttributes"));
-            sm.checkRead(path);
+            sm.checkRebd(pbth);
         }
-        if (isInvalid()) {
+        if (isInvblid()) {
             return 0L;
         }
-        return fs.getSpace(this, FileSystem.SPACE_TOTAL);
+        return fs.getSpbce(this, FileSystem.SPACE_TOTAL);
     }
 
     /**
-     * Returns the number of unallocated bytes in the partition <a
-     * href="#partName">named</a> by this abstract path name.
+     * Returns the number of unbllocbted bytes in the pbrtition <b
+     * href="#pbrtNbme">nbmed</b> by this bbstrbct pbth nbme.
      *
-     * <p> The returned number of unallocated bytes is a hint, but not
-     * a guarantee, that it is possible to use most or any of these
-     * bytes.  The number of unallocated bytes is most likely to be
-     * accurate immediately after this call.  It is likely to be made
-     * inaccurate by any external I/O operations including those made
-     * on the system outside of this virtual machine.  This method
-     * makes no guarantee that write operations to this file system
+     * <p> The returned number of unbllocbted bytes is b hint, but not
+     * b gubrbntee, thbt it is possible to use most or bny of these
+     * bytes.  The number of unbllocbted bytes is most likely to be
+     * bccurbte immedibtely bfter this cbll.  It is likely to be mbde
+     * inbccurbte by bny externbl I/O operbtions including those mbde
+     * on the system outside of this virtubl mbchine.  This method
+     * mbkes no gubrbntee thbt write operbtions to this file system
      * will succeed.
      *
-     * @return  The number of unallocated bytes on the partition or <tt>0L</tt>
-     *          if the abstract pathname does not name a partition.  This
-     *          value will be less than or equal to the total file system size
-     *          returned by {@link #getTotalSpace}.
+     * @return  The number of unbllocbted bytes on the pbrtition or <tt>0L</tt>
+     *          if the bbstrbct pbthnbme does not nbme b pbrtition.  This
+     *          vblue will be less thbn or equbl to the totbl file system size
+     *          returned by {@link #getTotblSpbce}.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
+     *          If b security mbnbger hbs been instblled bnd it denies
      *          {@link RuntimePermission}<tt>("getFileSystemAttributes")</tt>
-     *          or its {@link SecurityManager#checkRead(String)} method denies
-     *          read access to the file named by this abstract pathname
+     *          or its {@link SecurityMbnbger#checkRebd(String)} method denies
+     *          rebd bccess to the file nbmed by this bbstrbct pbthnbme
      *
      * @since  1.6
      */
-    public long getFreeSpace() {
-        SecurityManager sm = System.getSecurityManager();
+    public long getFreeSpbce() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new RuntimePermission("getFileSystemAttributes"));
-            sm.checkRead(path);
+            sm.checkRebd(pbth);
         }
-        if (isInvalid()) {
+        if (isInvblid()) {
             return 0L;
         }
-        return fs.getSpace(this, FileSystem.SPACE_FREE);
+        return fs.getSpbce(this, FileSystem.SPACE_FREE);
     }
 
     /**
-     * Returns the number of bytes available to this virtual machine on the
-     * partition <a href="#partName">named</a> by this abstract pathname.  When
-     * possible, this method checks for write permissions and other operating
-     * system restrictions and will therefore usually provide a more accurate
-     * estimate of how much new data can actually be written than {@link
-     * #getFreeSpace}.
+     * Returns the number of bytes bvbilbble to this virtubl mbchine on the
+     * pbrtition <b href="#pbrtNbme">nbmed</b> by this bbstrbct pbthnbme.  When
+     * possible, this method checks for write permissions bnd other operbting
+     * system restrictions bnd will therefore usublly provide b more bccurbte
+     * estimbte of how much new dbtb cbn bctublly be written thbn {@link
+     * #getFreeSpbce}.
      *
-     * <p> The returned number of available bytes is a hint, but not a
-     * guarantee, that it is possible to use most or any of these bytes.  The
-     * number of unallocated bytes is most likely to be accurate immediately
-     * after this call.  It is likely to be made inaccurate by any external
-     * I/O operations including those made on the system outside of this
-     * virtual machine.  This method makes no guarantee that write operations
+     * <p> The returned number of bvbilbble bytes is b hint, but not b
+     * gubrbntee, thbt it is possible to use most or bny of these bytes.  The
+     * number of unbllocbted bytes is most likely to be bccurbte immedibtely
+     * bfter this cbll.  It is likely to be mbde inbccurbte by bny externbl
+     * I/O operbtions including those mbde on the system outside of this
+     * virtubl mbchine.  This method mbkes no gubrbntee thbt write operbtions
      * to this file system will succeed.
      *
-     * @return  The number of available bytes on the partition or <tt>0L</tt>
-     *          if the abstract pathname does not name a partition.  On
-     *          systems where this information is not available, this method
-     *          will be equivalent to a call to {@link #getFreeSpace}.
+     * @return  The number of bvbilbble bytes on the pbrtition or <tt>0L</tt>
+     *          if the bbstrbct pbthnbme does not nbme b pbrtition.  On
+     *          systems where this informbtion is not bvbilbble, this method
+     *          will be equivblent to b cbll to {@link #getFreeSpbce}.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
+     *          If b security mbnbger hbs been instblled bnd it denies
      *          {@link RuntimePermission}<tt>("getFileSystemAttributes")</tt>
-     *          or its {@link SecurityManager#checkRead(String)} method denies
-     *          read access to the file named by this abstract pathname
+     *          or its {@link SecurityMbnbger#checkRebd(String)} method denies
+     *          rebd bccess to the file nbmed by this bbstrbct pbthnbme
      *
      * @since  1.6
      */
-    public long getUsableSpace() {
-        SecurityManager sm = System.getSecurityManager();
+    public long getUsbbleSpbce() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new RuntimePermission("getFileSystemAttributes"));
-            sm.checkRead(path);
+            sm.checkRebd(pbth);
         }
-        if (isInvalid()) {
+        if (isInvblid()) {
             return 0L;
         }
-        return fs.getSpace(this, FileSystem.SPACE_USABLE);
+        return fs.getSpbce(this, FileSystem.SPACE_USABLE);
     }
 
-    /* -- Temporary files -- */
+    /* -- Temporbry files -- */
 
-    private static class TempDirectory {
-        private TempDirectory() { }
+    privbte stbtic clbss TempDirectory {
+        privbte TempDirectory() { }
 
-        // temporary directory location
-        private static final File tmpdir = new File(AccessController
-            .doPrivileged(new GetPropertyAction("java.io.tmpdir")));
-        static File location() {
+        // temporbry directory locbtion
+        privbte stbtic finbl File tmpdir = new File(AccessController
+            .doPrivileged(new GetPropertyAction("jbvb.io.tmpdir")));
+        stbtic File locbtion() {
             return tmpdir;
         }
 
-        // file name generation
-        private static final SecureRandom random = new SecureRandom();
-        static File generateFile(String prefix, String suffix, File dir)
+        // file nbme generbtion
+        privbte stbtic finbl SecureRbndom rbndom = new SecureRbndom();
+        stbtic File generbteFile(String prefix, String suffix, File dir)
             throws IOException
         {
-            long n = random.nextLong();
+            long n = rbndom.nextLong();
             if (n == Long.MIN_VALUE) {
-                n = 0;      // corner case
+                n = 0;      // corner cbse
             } else {
-                n = Math.abs(n);
+                n = Mbth.bbs(n);
             }
 
-            // Use only the file name from the supplied prefix
-            prefix = (new File(prefix)).getName();
+            // Use only the file nbme from the supplied prefix
+            prefix = (new File(prefix)).getNbme();
 
-            String name = prefix + Long.toString(n) + suffix;
-            File f = new File(dir, name);
-            if (!name.equals(f.getName()) || f.isInvalid()) {
-                if (System.getSecurityManager() != null)
-                    throw new IOException("Unable to create temporary file");
+            String nbme = prefix + Long.toString(n) + suffix;
+            File f = new File(dir, nbme);
+            if (!nbme.equbls(f.getNbme()) || f.isInvblid()) {
+                if (System.getSecurityMbnbger() != null)
+                    throw new IOException("Unbble to crebte temporbry file");
                 else
-                    throw new IOException("Unable to create temporary file, " + f);
+                    throw new IOException("Unbble to crebte temporbry file, " + f);
             }
             return f;
         }
     }
 
     /**
-     * <p> Creates a new empty file in the specified directory, using the
-     * given prefix and suffix strings to generate its name.  If this method
-     * returns successfully then it is guaranteed that:
+     * <p> Crebtes b new empty file in the specified directory, using the
+     * given prefix bnd suffix strings to generbte its nbme.  If this method
+     * returns successfully then it is gubrbnteed thbt:
      *
      * <ol>
-     * <li> The file denoted by the returned abstract pathname did not exist
-     *      before this method was invoked, and
-     * <li> Neither this method nor any of its variants will return the same
-     *      abstract pathname again in the current invocation of the virtual
-     *      machine.
+     * <li> The file denoted by the returned bbstrbct pbthnbme did not exist
+     *      before this method wbs invoked, bnd
+     * <li> Neither this method nor bny of its vbribnts will return the sbme
+     *      bbstrbct pbthnbme bgbin in the current invocbtion of the virtubl
+     *      mbchine.
      * </ol>
      *
-     * This method provides only part of a temporary-file facility.  To arrange
-     * for a file created by this method to be deleted automatically, use the
+     * This method provides only pbrt of b temporbry-file fbcility.  To brrbnge
+     * for b file crebted by this method to be deleted butombticblly, use the
      * <code>{@link #deleteOnExit}</code> method.
      *
-     * <p> The <code>prefix</code> argument must be at least three characters
-     * long.  It is recommended that the prefix be a short, meaningful string
-     * such as <code>"hjb"</code> or <code>"mail"</code>.  The
-     * <code>suffix</code> argument may be <code>null</code>, in which case the
+     * <p> The <code>prefix</code> brgument must be bt lebst three chbrbcters
+     * long.  It is recommended thbt the prefix be b short, mebningful string
+     * such bs <code>"hjb"</code> or <code>"mbil"</code>.  The
+     * <code>suffix</code> brgument mby be <code>null</code>, in which cbse the
      * suffix <code>".tmp"</code> will be used.
      *
-     * <p> To create the new file, the prefix and the suffix may first be
-     * adjusted to fit the limitations of the underlying platform.  If the
-     * prefix is too long then it will be truncated, but its first three
-     * characters will always be preserved.  If the suffix is too long then it
-     * too will be truncated, but if it begins with a period character
-     * (<code>'.'</code>) then the period and the first three characters
-     * following it will always be preserved.  Once these adjustments have been
-     * made the name of the new file will be generated by concatenating the
-     * prefix, five or more internally-generated characters, and the suffix.
+     * <p> To crebte the new file, the prefix bnd the suffix mby first be
+     * bdjusted to fit the limitbtions of the underlying plbtform.  If the
+     * prefix is too long then it will be truncbted, but its first three
+     * chbrbcters will blwbys be preserved.  If the suffix is too long then it
+     * too will be truncbted, but if it begins with b period chbrbcter
+     * (<code>'.'</code>) then the period bnd the first three chbrbcters
+     * following it will blwbys be preserved.  Once these bdjustments hbve been
+     * mbde the nbme of the new file will be generbted by concbtenbting the
+     * prefix, five or more internblly-generbted chbrbcters, bnd the suffix.
      *
-     * <p> If the <code>directory</code> argument is <code>null</code> then the
-     * system-dependent default temporary-file directory will be used.  The
-     * default temporary-file directory is specified by the system property
-     * <code>java.io.tmpdir</code>.  On UNIX systems the default value of this
-     * property is typically <code>"/tmp"</code> or <code>"/var/tmp"</code>; on
-     * Microsoft Windows systems it is typically <code>"C:\\WINNT\\TEMP"</code>.  A different
-     * value may be given to this system property when the Java virtual machine
-     * is invoked, but programmatic changes to this property are not guaranteed
-     * to have any effect upon the temporary directory used by this method.
+     * <p> If the <code>directory</code> brgument is <code>null</code> then the
+     * system-dependent defbult temporbry-file directory will be used.  The
+     * defbult temporbry-file directory is specified by the system property
+     * <code>jbvb.io.tmpdir</code>.  On UNIX systems the defbult vblue of this
+     * property is typicblly <code>"/tmp"</code> or <code>"/vbr/tmp"</code>; on
+     * Microsoft Windows systems it is typicblly <code>"C:\\WINNT\\TEMP"</code>.  A different
+     * vblue mby be given to this system property when the Jbvb virtubl mbchine
+     * is invoked, but progrbmmbtic chbnges to this property bre not gubrbnteed
+     * to hbve bny effect upon the temporbry directory used by this method.
      *
-     * @param  prefix     The prefix string to be used in generating the file's
-     *                    name; must be at least three characters long
+     * @pbrbm  prefix     The prefix string to be used in generbting the file's
+     *                    nbme; must be bt lebst three chbrbcters long
      *
-     * @param  suffix     The suffix string to be used in generating the file's
-     *                    name; may be <code>null</code>, in which case the
+     * @pbrbm  suffix     The suffix string to be used in generbting the file's
+     *                    nbme; mby be <code>null</code>, in which cbse the
      *                    suffix <code>".tmp"</code> will be used
      *
-     * @param  directory  The directory in which the file is to be created, or
-     *                    <code>null</code> if the default temporary-file
+     * @pbrbm  directory  The directory in which the file is to be crebted, or
+     *                    <code>null</code> if the defbult temporbry-file
      *                    directory is to be used
      *
-     * @return  An abstract pathname denoting a newly-created empty file
+     * @return  An bbstrbct pbthnbme denoting b newly-crebted empty file
      *
-     * @throws  IllegalArgumentException
-     *          If the <code>prefix</code> argument contains fewer than three
-     *          characters
+     * @throws  IllegblArgumentException
+     *          If the <code>prefix</code> brgument contbins fewer thbn three
+     *          chbrbcters
      *
-     * @throws  IOException  If a file could not be created
+     * @throws  IOException  If b file could not be crebted
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method does not allow a file to be created
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method does not bllow b file to be crebted
      *
      * @since 1.2
      */
-    public static File createTempFile(String prefix, String suffix,
+    public stbtic File crebteTempFile(String prefix, String suffix,
                                       File directory)
         throws IOException
     {
         if (prefix.length() < 3) {
-            throw new IllegalArgumentException("Prefix string \"" + prefix +
-                "\" too short: length must be at least 3");
+            throw new IllegblArgumentException("Prefix string \"" + prefix +
+                "\" too short: length must be bt lebst 3");
         }
         if (suffix == null)
             suffix = ".tmp";
 
         File tmpdir = (directory != null) ? directory
-                                          : TempDirectory.location();
-        SecurityManager sm = System.getSecurityManager();
+                                          : TempDirectory.locbtion();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         File f;
         do {
-            f = TempDirectory.generateFile(prefix, suffix, tmpdir);
+            f = TempDirectory.generbteFile(prefix, suffix, tmpdir);
 
             if (sm != null) {
                 try {
-                    sm.checkWrite(f.getPath());
-                } catch (SecurityException se) {
-                    // don't reveal temporary directory location
+                    sm.checkWrite(f.getPbth());
+                } cbtch (SecurityException se) {
+                    // don't revebl temporbry directory locbtion
                     if (directory == null)
-                        throw new SecurityException("Unable to create temporary file");
+                        throw new SecurityException("Unbble to crebte temporbry file");
                     throw se;
                 }
             }
-        } while ((fs.getBooleanAttributes(f) & FileSystem.BA_EXISTS) != 0);
+        } while ((fs.getBoolebnAttributes(f) & FileSystem.BA_EXISTS) != 0);
 
-        if (!fs.createFileExclusively(f.getPath()))
-            throw new IOException("Unable to create temporary file");
+        if (!fs.crebteFileExclusively(f.getPbth()))
+            throw new IOException("Unbble to crebte temporbry file");
 
         return f;
     }
 
     /**
-     * Creates an empty file in the default temporary-file directory, using
-     * the given prefix and suffix to generate its name. Invoking this method
-     * is equivalent to invoking <code>{@link #createTempFile(java.lang.String,
-     * java.lang.String, java.io.File)
-     * createTempFile(prefix,&nbsp;suffix,&nbsp;null)}</code>.
+     * Crebtes bn empty file in the defbult temporbry-file directory, using
+     * the given prefix bnd suffix to generbte its nbme. Invoking this method
+     * is equivblent to invoking <code>{@link #crebteTempFile(jbvb.lbng.String,
+     * jbvb.lbng.String, jbvb.io.File)
+     * crebteTempFile(prefix,&nbsp;suffix,&nbsp;null)}</code>.
      *
      * <p> The {@link
-     * java.nio.file.Files#createTempFile(String,String,java.nio.file.attribute.FileAttribute[])
-     * Files.createTempFile} method provides an alternative method to create an
-     * empty file in the temporary-file directory. Files created by that method
-     * may have more restrictive access permissions to files created by this
-     * method and so may be more suited to security-sensitive applications.
+     * jbvb.nio.file.Files#crebteTempFile(String,String,jbvb.nio.file.bttribute.FileAttribute[])
+     * Files.crebteTempFile} method provides bn blternbtive method to crebte bn
+     * empty file in the temporbry-file directory. Files crebted by thbt method
+     * mby hbve more restrictive bccess permissions to files crebted by this
+     * method bnd so mby be more suited to security-sensitive bpplicbtions.
      *
-     * @param  prefix     The prefix string to be used in generating the file's
-     *                    name; must be at least three characters long
+     * @pbrbm  prefix     The prefix string to be used in generbting the file's
+     *                    nbme; must be bt lebst three chbrbcters long
      *
-     * @param  suffix     The suffix string to be used in generating the file's
-     *                    name; may be <code>null</code>, in which case the
+     * @pbrbm  suffix     The suffix string to be used in generbting the file's
+     *                    nbme; mby be <code>null</code>, in which cbse the
      *                    suffix <code>".tmp"</code> will be used
      *
-     * @return  An abstract pathname denoting a newly-created empty file
+     * @return  An bbstrbct pbthnbme denoting b newly-crebted empty file
      *
-     * @throws  IllegalArgumentException
-     *          If the <code>prefix</code> argument contains fewer than three
-     *          characters
+     * @throws  IllegblArgumentException
+     *          If the <code>prefix</code> brgument contbins fewer thbn three
+     *          chbrbcters
      *
-     * @throws  IOException  If a file could not be created
+     * @throws  IOException  If b file could not be crebted
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <code>{@link
-     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
-     *          method does not allow a file to be created
+     *          If b security mbnbger exists bnd its <code>{@link
+     *          jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}</code>
+     *          method does not bllow b file to be crebted
      *
      * @since 1.2
-     * @see java.nio.file.Files#createTempDirectory(String,FileAttribute[])
+     * @see jbvb.nio.file.Files#crebteTempDirectory(String,FileAttribute[])
      */
-    public static File createTempFile(String prefix, String suffix)
+    public stbtic File crebteTempFile(String prefix, String suffix)
         throws IOException
     {
-        return createTempFile(prefix, suffix, null);
+        return crebteTempFile(prefix, suffix, null);
     }
 
-    /* -- Basic infrastructure -- */
+    /* -- Bbsic infrbstructure -- */
 
     /**
-     * Compares two abstract pathnames lexicographically.  The ordering
+     * Compbres two bbstrbct pbthnbmes lexicogrbphicblly.  The ordering
      * defined by this method depends upon the underlying system.  On UNIX
-     * systems, alphabetic case is significant in comparing pathnames; on Microsoft Windows
+     * systems, blphbbetic cbse is significbnt in compbring pbthnbmes; on Microsoft Windows
      * systems it is not.
      *
-     * @param   pathname  The abstract pathname to be compared to this abstract
-     *                    pathname
+     * @pbrbm   pbthnbme  The bbstrbct pbthnbme to be compbred to this bbstrbct
+     *                    pbthnbme
      *
-     * @return  Zero if the argument is equal to this abstract pathname, a
-     *          value less than zero if this abstract pathname is
-     *          lexicographically less than the argument, or a value greater
-     *          than zero if this abstract pathname is lexicographically
-     *          greater than the argument
+     * @return  Zero if the brgument is equbl to this bbstrbct pbthnbme, b
+     *          vblue less thbn zero if this bbstrbct pbthnbme is
+     *          lexicogrbphicblly less thbn the brgument, or b vblue grebter
+     *          thbn zero if this bbstrbct pbthnbme is lexicogrbphicblly
+     *          grebter thbn the brgument
      *
      * @since   1.2
      */
-    public int compareTo(File pathname) {
-        return fs.compare(this, pathname);
+    public int compbreTo(File pbthnbme) {
+        return fs.compbre(this, pbthnbme);
     }
 
     /**
-     * Tests this abstract pathname for equality with the given object.
-     * Returns <code>true</code> if and only if the argument is not
-     * <code>null</code> and is an abstract pathname that denotes the same file
-     * or directory as this abstract pathname.  Whether or not two abstract
-     * pathnames are equal depends upon the underlying system.  On UNIX
-     * systems, alphabetic case is significant in comparing pathnames; on Microsoft Windows
+     * Tests this bbstrbct pbthnbme for equblity with the given object.
+     * Returns <code>true</code> if bnd only if the brgument is not
+     * <code>null</code> bnd is bn bbstrbct pbthnbme thbt denotes the sbme file
+     * or directory bs this bbstrbct pbthnbme.  Whether or not two bbstrbct
+     * pbthnbmes bre equbl depends upon the underlying system.  On UNIX
+     * systems, blphbbetic cbse is significbnt in compbring pbthnbmes; on Microsoft Windows
      * systems it is not.
      *
-     * @param   obj   The object to be compared with this abstract pathname
+     * @pbrbm   obj   The object to be compbred with this bbstrbct pbthnbme
      *
-     * @return  <code>true</code> if and only if the objects are the same;
-     *          <code>false</code> otherwise
+     * @return  <code>true</code> if bnd only if the objects bre the sbme;
+     *          <code>fblse</code> otherwise
      */
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof File)) {
-            return compareTo((File)obj) == 0;
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof File)) {
+            return compbreTo((File)obj) == 0;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Computes a hash code for this abstract pathname.  Because equality of
-     * abstract pathnames is inherently system-dependent, so is the computation
-     * of their hash codes.  On UNIX systems, the hash code of an abstract
-     * pathname is equal to the exclusive <em>or</em> of the hash code
-     * of its pathname string and the decimal value
-     * <code>1234321</code>.  On Microsoft Windows systems, the hash
-     * code is equal to the exclusive <em>or</em> of the hash code of
-     * its pathname string converted to lower case and the decimal
-     * value <code>1234321</code>.  Locale is not taken into account on
-     * lowercasing the pathname string.
+     * Computes b hbsh code for this bbstrbct pbthnbme.  Becbuse equblity of
+     * bbstrbct pbthnbmes is inherently system-dependent, so is the computbtion
+     * of their hbsh codes.  On UNIX systems, the hbsh code of bn bbstrbct
+     * pbthnbme is equbl to the exclusive <em>or</em> of the hbsh code
+     * of its pbthnbme string bnd the decimbl vblue
+     * <code>1234321</code>.  On Microsoft Windows systems, the hbsh
+     * code is equbl to the exclusive <em>or</em> of the hbsh code of
+     * its pbthnbme string converted to lower cbse bnd the decimbl
+     * vblue <code>1234321</code>.  Locble is not tbken into bccount on
+     * lowercbsing the pbthnbme string.
      *
-     * @return  A hash code for this abstract pathname
+     * @return  A hbsh code for this bbstrbct pbthnbme
      */
-    public int hashCode() {
-        return fs.hashCode(this);
+    public int hbshCode() {
+        return fs.hbshCode(this);
     }
 
     /**
-     * Returns the pathname string of this abstract pathname.  This is just the
-     * string returned by the <code>{@link #getPath}</code> method.
+     * Returns the pbthnbme string of this bbstrbct pbthnbme.  This is just the
+     * string returned by the <code>{@link #getPbth}</code> method.
      *
-     * @return  The string form of this abstract pathname
+     * @return  The string form of this bbstrbct pbthnbme
      */
     public String toString() {
-        return getPath();
+        return getPbth();
     }
 
     /**
-     * WriteObject is called to save this filename.
-     * The separator character is saved also so it can be replaced
-     * in case the path is reconstituted on a different host type.
+     * WriteObject is cblled to sbve this filenbme.
+     * The sepbrbtor chbrbcter is sbved blso so it cbn be replbced
+     * in cbse the pbth is reconstituted on b different host type.
      * <p>
-     * @serialData  Default fields followed by separator character.
+     * @seriblDbtb  Defbult fields followed by sepbrbtor chbrbcter.
      */
-    private synchronized void writeObject(java.io.ObjectOutputStream s)
+    privbte synchronized void writeObject(jbvb.io.ObjectOutputStrebm s)
         throws IOException
     {
-        s.defaultWriteObject();
-        s.writeChar(separatorChar); // Add the separator character
+        s.defbultWriteObject();
+        s.writeChbr(sepbrbtorChbr); // Add the sepbrbtor chbrbcter
     }
 
     /**
-     * readObject is called to restore this filename.
-     * The original separator character is read.  If it is different
-     * than the separator character on this system, then the old separator
-     * is replaced by the local separator.
+     * rebdObject is cblled to restore this filenbme.
+     * The originbl sepbrbtor chbrbcter is rebd.  If it is different
+     * thbn the sepbrbtor chbrbcter on this system, then the old sepbrbtor
+     * is replbced by the locbl sepbrbtor.
      */
-    private synchronized void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbte synchronized void rebdObject(jbvb.io.ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException
     {
-        ObjectInputStream.GetField fields = s.readFields();
-        String pathField = (String)fields.get("path", null);
-        char sep = s.readChar(); // read the previous separator char
-        if (sep != separatorChar)
-            pathField = pathField.replace(sep, separatorChar);
-        String path = fs.normalize(pathField);
-        UNSAFE.putObject(this, PATH_OFFSET, path);
-        UNSAFE.putIntVolatile(this, PREFIX_LENGTH_OFFSET, fs.prefixLength(path));
+        ObjectInputStrebm.GetField fields = s.rebdFields();
+        String pbthField = (String)fields.get("pbth", null);
+        chbr sep = s.rebdChbr(); // rebd the previous sepbrbtor chbr
+        if (sep != sepbrbtorChbr)
+            pbthField = pbthField.replbce(sep, sepbrbtorChbr);
+        String pbth = fs.normblize(pbthField);
+        UNSAFE.putObject(this, PATH_OFFSET, pbth);
+        UNSAFE.putIntVolbtile(this, PREFIX_LENGTH_OFFSET, fs.prefixLength(pbth));
     }
 
-    private static final long PATH_OFFSET;
-    private static final long PREFIX_LENGTH_OFFSET;
-    private static final sun.misc.Unsafe UNSAFE;
-    static {
+    privbte stbtic finbl long PATH_OFFSET;
+    privbte stbtic finbl long PREFIX_LENGTH_OFFSET;
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+    stbtic {
         try {
-            sun.misc.Unsafe unsafe = sun.misc.Unsafe.getUnsafe();
-            PATH_OFFSET = unsafe.objectFieldOffset(
-                    File.class.getDeclaredField("path"));
-            PREFIX_LENGTH_OFFSET = unsafe.objectFieldOffset(
-                    File.class.getDeclaredField("prefixLength"));
-            UNSAFE = unsafe;
-        } catch (ReflectiveOperationException e) {
+            sun.misc.Unsbfe unsbfe = sun.misc.Unsbfe.getUnsbfe();
+            PATH_OFFSET = unsbfe.objectFieldOffset(
+                    File.clbss.getDeclbredField("pbth"));
+            PREFIX_LENGTH_OFFSET = unsbfe.objectFieldOffset(
+                    File.clbss.getDeclbredField("prefixLength"));
+            UNSAFE = unsbfe;
+        } cbtch (ReflectiveOperbtionException e) {
             throw new Error(e);
         }
     }
 
 
-    /** use serialVersionUID from JDK 1.0.2 for interoperability */
-    private static final long serialVersionUID = 301077366599181567L;
+    /** use seriblVersionUID from JDK 1.0.2 for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = 301077366599181567L;
 
-    // -- Integration with java.nio.file --
+    // -- Integrbtion with jbvb.nio.file --
 
-    private volatile transient Path filePath;
+    privbte volbtile trbnsient Pbth filePbth;
 
     /**
-     * Returns a {@link Path java.nio.file.Path} object constructed from the
-     * this abstract path. The resulting {@code Path} is associated with the
-     * {@link java.nio.file.FileSystems#getDefault default-filesystem}.
+     * Returns b {@link Pbth jbvb.nio.file.Pbth} object constructed from the
+     * this bbstrbct pbth. The resulting {@code Pbth} is bssocibted with the
+     * {@link jbvb.nio.file.FileSystems#getDefbult defbult-filesystem}.
      *
-     * <p> The first invocation of this method works as if invoking it were
-     * equivalent to evaluating the expression:
+     * <p> The first invocbtion of this method works bs if invoking it were
+     * equivblent to evblubting the expression:
      * <blockquote><pre>
-     * {@link java.nio.file.FileSystems#getDefault FileSystems.getDefault}().{@link
-     * java.nio.file.FileSystem#getPath getPath}(this.{@link #getPath getPath}());
+     * {@link jbvb.nio.file.FileSystems#getDefbult FileSystems.getDefbult}().{@link
+     * jbvb.nio.file.FileSystem#getPbth getPbth}(this.{@link #getPbth getPbth}());
      * </pre></blockquote>
-     * Subsequent invocations of this method return the same {@code Path}.
+     * Subsequent invocbtions of this method return the sbme {@code Pbth}.
      *
-     * <p> If this abstract pathname is the empty abstract pathname then this
-     * method returns a {@code Path} that may be used to access the current
+     * <p> If this bbstrbct pbthnbme is the empty bbstrbct pbthnbme then this
+     * method returns b {@code Pbth} thbt mby be used to bccess the current
      * user directory.
      *
-     * @return  a {@code Path} constructed from this abstract path
+     * @return  b {@code Pbth} constructed from this bbstrbct pbth
      *
-     * @throws  java.nio.file.InvalidPathException
-     *          if a {@code Path} object cannot be constructed from the abstract
-     *          path (see {@link java.nio.file.FileSystem#getPath FileSystem.getPath})
+     * @throws  jbvb.nio.file.InvblidPbthException
+     *          if b {@code Pbth} object cbnnot be constructed from the bbstrbct
+     *          pbth (see {@link jbvb.nio.file.FileSystem#getPbth FileSystem.getPbth})
      *
      * @since   1.7
-     * @see Path#toFile
+     * @see Pbth#toFile
      */
-    public Path toPath() {
-        Path result = filePath;
+    public Pbth toPbth() {
+        Pbth result = filePbth;
         if (result == null) {
             synchronized (this) {
-                result = filePath;
+                result = filePbth;
                 if (result == null) {
-                    result = FileSystems.getDefault().getPath(path);
-                    filePath = result;
+                    result = FileSystems.getDefbult().getPbth(pbth);
+                    filePbth = result;
                 }
             }
         }

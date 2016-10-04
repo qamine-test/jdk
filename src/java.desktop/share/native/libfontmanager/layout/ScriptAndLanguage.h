@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -34,46 +34,46 @@
 
 /**
  * \file
- * \internal
+ * \internbl
  */
 
 #include "LETypes.h"
-#include "OpenTypeTables.h"
+#include "OpenTypeTbbles.h"
 
 U_NAMESPACE_BEGIN
 
-typedef TagAndOffsetRecord LangSysRecord;
+typedef TbgAndOffsetRecord LbngSysRecord;
 
-struct LangSysTable
+struct LbngSysTbble
 {
     Offset    lookupOrderOffset;
-    le_uint16 reqFeatureIndex;
-    le_uint16 featureCount;
-    le_uint16 featureIndexArray[ANY_NUMBER];
+    le_uint16 reqFebtureIndex;
+    le_uint16 febtureCount;
+    le_uint16 febtureIndexArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(LangSysTable, featureIndexArray)
+LE_VAR_ARRAY(LbngSysTbble, febtureIndexArrby)
 
-struct ScriptTable
+struct ScriptTbble
 {
-    Offset              defaultLangSysTableOffset;
-    le_uint16           langSysCount;
-    LangSysRecord       langSysRecordArray[ANY_NUMBER];
+    Offset              defbultLbngSysTbbleOffset;
+    le_uint16           lbngSysCount;
+    LbngSysRecord       lbngSysRecordArrby[ANY_NUMBER];
 
-  LEReferenceTo<LangSysTable>  findLanguage(const LETableReference &base, LETag languageTag, LEErrorCode &success, le_bool exactMatch = FALSE) const;
+  LEReferenceTo<LbngSysTbble>  findLbngubge(const LETbbleReference &bbse, LETbg lbngubgeTbg, LEErrorCode &success, le_bool exbctMbtch = FALSE) const;
 };
-LE_VAR_ARRAY(ScriptTable, langSysRecordArray)
+LE_VAR_ARRAY(ScriptTbble, lbngSysRecordArrby)
 
-typedef TagAndOffsetRecord ScriptRecord;
+typedef TbgAndOffsetRecord ScriptRecord;
 
-struct ScriptListTable
+struct ScriptListTbble
 {
     le_uint16           scriptCount;
-    ScriptRecord        scriptRecordArray[ANY_NUMBER];
+    ScriptRecord        scriptRecordArrby[ANY_NUMBER];
 
-  LEReferenceTo<ScriptTable>   findScript(const LETableReference &base, LETag scriptTag, LEErrorCode &success) const;
-  LEReferenceTo<LangSysTable>  findLanguage(const LETableReference &base, LETag scriptTag, LETag languageTag, LEErrorCode &success, le_bool exactMatch = FALSE) const;
+  LEReferenceTo<ScriptTbble>   findScript(const LETbbleReference &bbse, LETbg scriptTbg, LEErrorCode &success) const;
+  LEReferenceTo<LbngSysTbble>  findLbngubge(const LETbbleReference &bbse, LETbg scriptTbg, LETbg lbngubgeTbg, LEErrorCode &success, le_bool exbctMbtch = FALSE) const;
 };
-LE_VAR_ARRAY(ScriptListTable, scriptRecordArray)
+LE_VAR_ARRAY(ScriptListTbble, scriptRecordArrby)
 
 U_NAMESPACE_END
 #endif

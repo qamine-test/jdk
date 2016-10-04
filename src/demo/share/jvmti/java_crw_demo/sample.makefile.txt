@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Redistribution bnd use in source bnd binbry forms, with or without
+# modificbtion, bre permitted provided thbt the following conditions
+# bre met:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Redistributions of source code must retbin the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Redistributions in binbry form must reproduce the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer in the
+#     documentbtion bnd/or other mbteribls provided with the distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Neither the nbme of Orbcle nor the nbmes of its
+#     contributors mby be used to endorse or promote products derived
+#     from this softwbre without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,70 +31,70 @@
 
 ########################################################################
 #
-# Sample GNU Makefile for building
+# Sbmple GNU Mbkefile for building
 #
-#  Example uses:    
-#       gnumake JDK=<java_home> OSNAME=solaris [OPT=true] [LIBARCH=sparc]
-#       gnumake JDK=<java_home> OSNAME=solaris [OPT=true] [LIBARCH=sparcv9]
-#       gnumake JDK=<java_home> OSNAME=linux   [OPT=true]
-#       gnumake JDK=<java_home> OSNAME=win32   [OPT=true]
+#  Exbmple uses:    
+#       gnumbke JDK=<jbvb_home> OSNAME=solbris [OPT=true] [LIBARCH=spbrc]
+#       gnumbke JDK=<jbvb_home> OSNAME=solbris [OPT=true] [LIBARCH=spbrcv9]
+#       gnumbke JDK=<jbvb_home> OSNAME=linux   [OPT=true]
+#       gnumbke JDK=<jbvb_home> OSNAME=win32   [OPT=true]
 #
 ########################################################################
 
 # Source lists
-LIBNAME=java_crw_demo
-SOURCES=java_crw_demo.c
+LIBNAME=jbvb_crw_demo
+SOURCES=jbvb_crw_demo.c
 
-# Solaris Sun C Compiler Version 5.5
-ifeq ($(OSNAME), solaris)
-    # Sun Solaris Compiler options needed
+# Solbris Sun C Compiler Version 5.5
+ifeq ($(OSNAME), solbris)
+    # Sun Solbris Compiler options needed
     COMMON_FLAGS=-mt -KPIC
-    # Options that help find errors
-    COMMON_FLAGS+= -Xa -v -xstrconst -xc99=%none
-    # Check LIBARCH for any special compiler options
-    LIBARCH=$(shell uname -p)
-    ifeq ($(LIBARCH), sparc)
-        COMMON_FLAGS+=-xarch=v8 -xregs=no%appl
+    # Options thbt help find errors
+    COMMON_FLAGS+= -Xb -v -xstrconst -xc99=%none
+    # Check LIBARCH for bny specibl compiler options
+    LIBARCH=$(shell unbme -p)
+    ifeq ($(LIBARCH), spbrc)
+        COMMON_FLAGS+=-xbrch=v8 -xregs=no%bppl
     endif
-    ifeq ($(LIBARCH), sparcv9)
-        COMMON_FLAGS+=-xarch=v9 -xregs=no%appl
+    ifeq ($(LIBARCH), spbrcv9)
+        COMMON_FLAGS+=-xbrch=v9 -xregs=no%bppl
     endif
     ifeq ($(OPT), true)
         CFLAGS=-xO2 $(COMMON_FLAGS) 
     else
         CFLAGS=-g $(COMMON_FLAGS)
     endif
-    # Object files needed to create library
+    # Object files needed to crebte librbry
     OBJECTS=$(SOURCES:%.c=%.o)
-    # Library name and options needed to build it
+    # Librbry nbme bnd options needed to build it
     LIBRARY=lib$(LIBNAME).so
     LDFLAGS=-z defs -ztext
-    # Libraries we are dependent on
+    # Librbries we bre dependent on
     LIBRARIES=-lc
-    # Building a shared library
+    # Building b shbred librbry
     LINK_SHARED=$(LINK.c) -G -o $@
 endif
 
 # Linux GNU C Compiler
 ifeq ($(OSNAME), linux)
     # GNU Compiler options needed to build it
-    COMMON_FLAGS=-fno-strict-aliasing -fPIC -fno-omit-frame-pointer
-    # Options that help find errors
-    COMMON_FLAGS+= -W -Wall  -Wno-unused -Wno-parentheses
+    COMMON_FLAGS=-fno-strict-blibsing -fPIC -fno-omit-frbme-pointer
+    # Options thbt help find errors
+    COMMON_FLAGS+= -W -Wbll  -Wno-unused -Wno-pbrentheses
     ifeq ($(OPT), true)
         CFLAGS=-O2 $(COMMON_FLAGS) 
     else
         CFLAGS=-g $(COMMON_FLAGS) 
     endif
-    # Object files needed to create library
+    # Object files needed to crebte librbry
     OBJECTS=$(SOURCES:%.c=%.o)
-    # Library name and options needed to build it
+    # Librbry nbme bnd options needed to build it
     LIBRARY=lib$(LIBNAME).so
-    LDFLAGS=-Wl,-soname=$(LIBRARY) -static-libgcc
-    # Libraries we are dependent on
+    LDFLAGS=-Wl,-sonbme=$(LIBRARY) -stbtic-libgcc
+    # Librbries we bre dependent on
     LIBRARIES=-lc
-    # Building a shared library
-    LINK_SHARED=$(LINK.c) -shared -o $@
+    # Building b shbred librbry
+    LINK_SHARED=$(LINK.c) -shbred -o $@
 endif
 
 # Windows Microsoft C/C++ Optimizing Compiler Version 12
@@ -102,21 +102,21 @@ ifeq ($(OSNAME), win32)
     CC=cl
     # Compiler options needed to build it
     COMMON_FLAGS=-Gy -DWIN32
-    # Options that help find errors
+    # Options thbt help find errors
     COMMON_FLAGS+=-W0 -WX
     ifeq ($(OPT), true)
         CFLAGS= -Ox -Op -Zi $(COMMON_FLAGS) 
     else
         CFLAGS= -Od -Zi $(COMMON_FLAGS) 
     endif
-    # Object files needed to create library
+    # Object files needed to crebte librbry
     OBJECTS=$(SOURCES:%.c=%.obj)
-    # Library name and options needed to build it
+    # Librbry nbme bnd options needed to build it
     LIBRARY=$(LIBNAME).dll
     LDFLAGS=
-    # Libraries we are dependent on
+    # Librbries we bre dependent on
     LIBRARIES=
-    # Building a shared library
+    # Building b shbred librbry
     LINK_SHARED=link -dll -out:$@
 endif
 
@@ -124,19 +124,19 @@ endif
 CFLAGS += -I.
 CFLAGS += -I$(JDK)/include -I$(JDK)/include/$(OSNAME)
 
-# Default rule (build both native library and jar file)
-all: $(LIBRARY)
+# Defbult rule (build both nbtive librbry bnd jbr file)
+bll: $(LIBRARY)
 
-# Build native library
+# Build nbtive librbry
 $(LIBRARY): $(OBJECTS)
 	$(LINK_SHARED) $(OBJECTS) $(LIBRARIES)
 
-# Cleanup the built bits
-clean:
-	rm -f -r classes
+# Clebnup the built bits
+clebn:
+	rm -f -r clbsses
 	rm -f $(LIBRARY) $(OBJECTS)
 
-# Compilation rule only needed on Windows
+# Compilbtion rule only needed on Windows
 ifeq ($(OSNAME), win32)
 %.obj: %.c
 	$(COMPILE.c) $<

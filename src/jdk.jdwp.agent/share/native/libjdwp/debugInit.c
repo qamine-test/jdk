@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,24 +27,24 @@
 
 #include "util.h"
 #include "commonRef.h"
-#include "debugDispatch.h"
-#include "eventHandler.h"
+#include "debugDispbtch.h"
+#include "eventHbndler.h"
 #include "eventHelper.h"
-#include "threadControl.h"
+#include "threbdControl.h"
 #include "stepControl.h"
-#include "transport.h"
-#include "classTrack.h"
+#include "trbnsport.h"
+#include "clbssTrbck.h"
 #include "debugLoop.h"
-#include "bag.h"
+#include "bbg.h"
 #include "invoker.h"
 #include "sys.h"
 
-/* How the options get to OnLoad: */
+/* How the options get to OnLobd: */
 #define XDEBUG "-Xdebug"
 #define XRUN "-Xrunjdwp"
-#define AGENTLIB "-agentlib:jdwp"
+#define AGENTLIB "-bgentlib:jdwp"
 
-/* Debug version defaults */
+/* Debug version defbults */
 #ifdef DEBUG
     #define DEFAULT_ASSERT_ON           JNI_TRUE
     #define DEFAULT_ASSERT_FATAL        JNI_TRUE
@@ -55,538 +55,538 @@
     #define DEFAULT_LOGFILE             NULL
 #endif
 
-static jboolean vmInitialized;
-static jrawMonitorID initMonitor;
-static jboolean initComplete;
-static jbyte currentSessionID;
+stbtic jboolebn vmInitiblized;
+stbtic jrbwMonitorID initMonitor;
+stbtic jboolebn initComplete;
+stbtic jbyte currentSessionID;
 
 /*
- * Options set through the OnLoad options string. All of these values
- * are set once at VM startup and never reset.
+ * Options set through the OnLobd options string. All of these vblues
+ * bre set once bt VM stbrtup bnd never reset.
  */
-static jboolean isServer = JNI_FALSE;     /* Listens for connecting debuggers? */
-static jboolean isStrict = JNI_FALSE;     /* Unused */
-static jboolean useStandardAlloc = JNI_FALSE;  /* Use standard malloc/free? */
-static struct bag *transports;            /* of TransportSpec */
+stbtic jboolebn isServer = JNI_FALSE;     /* Listens for connecting debuggers? */
+stbtic jboolebn isStrict = JNI_FALSE;     /* Unused */
+stbtic jboolebn useStbndbrdAlloc = JNI_FALSE;  /* Use stbndbrd mblloc/free? */
+stbtic struct bbg *trbnsports;            /* of TrbnsportSpec */
 
-static jboolean initOnStartup = JNI_TRUE;   /* init immediately */
-static char *initOnException = NULL;        /* init when this exception thrown */
-static jboolean initOnUncaught = JNI_FALSE; /* init when uncaught exc thrown */
+stbtic jboolebn initOnStbrtup = JNI_TRUE;   /* init immedibtely */
+stbtic chbr *initOnException = NULL;        /* init when this exception thrown */
+stbtic jboolebn initOnUncbught = JNI_FALSE; /* init when uncbught exc thrown */
 
-static char *launchOnInit = NULL;           /* launch this app during init */
-static jboolean suspendOnInit = JNI_TRUE;   /* suspend all app threads after init */
-static jboolean dopause = JNI_FALSE;        /* pause for debugger attach */
-static jboolean docoredump = JNI_FALSE;     /* core dump on exit */
-static char *logfile = NULL;                /* Name of logfile (if logging) */
-static unsigned logflags = 0;               /* Log flags */
+stbtic chbr *lbunchOnInit = NULL;           /* lbunch this bpp during init */
+stbtic jboolebn suspendOnInit = JNI_TRUE;   /* suspend bll bpp threbds bfter init */
+stbtic jboolebn dopbuse = JNI_FALSE;        /* pbuse for debugger bttbch */
+stbtic jboolebn docoredump = JNI_FALSE;     /* core dump on exit */
+stbtic chbr *logfile = NULL;                /* Nbme of logfile (if logging) */
+stbtic unsigned logflbgs = 0;               /* Log flbgs */
 
-static char *names;                         /* strings derived from OnLoad options */
+stbtic chbr *nbmes;                         /* strings derived from OnLobd options */
 
 /*
- * Elements of the transports bag
+ * Elements of the trbnsports bbg
  */
-typedef struct TransportSpec {
-    char *name;
-    char *address;
+typedef struct TrbnsportSpec {
+    chbr *nbme;
+    chbr *bddress;
     long timeout;
-} TransportSpec;
+} TrbnsportSpec;
 
 /*
- * Forward Refs
+ * Forwbrd Refs
  */
-static void JNICALL cbEarlyVMInit(jvmtiEnv*, JNIEnv *, jthread);
-static void JNICALL cbEarlyVMDeath(jvmtiEnv*, JNIEnv *);
-static void JNICALL cbEarlyException(jvmtiEnv*, JNIEnv *,
-            jthread, jmethodID, jlocation, jobject, jmethodID, jlocation);
+stbtic void JNICALL cbEbrlyVMInit(jvmtiEnv*, JNIEnv *, jthrebd);
+stbtic void JNICALL cbEbrlyVMDebth(jvmtiEnv*, JNIEnv *);
+stbtic void JNICALL cbEbrlyException(jvmtiEnv*, JNIEnv *,
+            jthrebd, jmethodID, jlocbtion, jobject, jmethodID, jlocbtion);
 
-static void initialize(JNIEnv *env, jthread thread, EventIndex triggering_ei);
-static jboolean parseOptions(char *str);
+stbtic void initiblize(JNIEnv *env, jthrebd threbd, EventIndex triggering_ei);
+stbtic jboolebn pbrseOptions(chbr *str);
 
 /*
- * Phase 1: Initial load.
+ * Phbse 1: Initibl lobd.
  *
- * OnLoad is called by the VM immediately after the back-end
- * library is loaded. We can do very little in this function since
- * the VM has not completed initialization. So, we parse the JDWP
- * options and set up a simple initial event callbacks for JVMTI events.
- * When a triggering event occurs, that callback will begin debugger initialization.
+ * OnLobd is cblled by the VM immedibtely bfter the bbck-end
+ * librbry is lobded. We cbn do very little in this function since
+ * the VM hbs not completed initiblizbtion. So, we pbrse the JDWP
+ * options bnd set up b simple initibl event cbllbbcks for JVMTI events.
+ * When b triggering event occurs, thbt cbllbbck will begin debugger initiblizbtion.
  */
 
-/* Get a static area to hold the Global Data */
-static BackendGlobalData *
-get_gdata(void)
+/* Get b stbtic breb to hold the Globbl Dbtb */
+stbtic BbckendGlobblDbtb *
+get_gdbtb(void)
 {
-    static BackendGlobalData s;
-    (void)memset(&s, 0, sizeof(BackendGlobalData));
+    stbtic BbckendGlobblDbtb s;
+    (void)memset(&s, 0, sizeof(BbckendGlobblDbtb));
     return &s;
 }
 
-static jvmtiError
-set_event_notification(jvmtiEventMode mode, EventIndex ei)
+stbtic jvmtiError
+set_event_notificbtion(jvmtiEventMode mode, EventIndex ei)
 {
     jvmtiError error;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,SetEventNotificationMode)
-                (gdata->jvmti, mode, eventIndex2jvmti(ei), NULL);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetEventNotificbtionMode)
+                (gdbtb->jvmti, mode, eventIndex2jvmti(ei), NULL);
     if (error != JVMTI_ERROR_NONE) {
-        ERROR_MESSAGE(("JDWP unable to configure initial JVMTI event %s: %s(%d)",
+        ERROR_MESSAGE(("JDWP unbble to configure initibl JVMTI event %s: %s(%d)",
                     eventText(ei), jvmtiErrorText(error), error));
     }
     return error;
 }
 
 typedef struct {
-    int major;
+    int mbjor;
     int minor;
 } version_type;
 
 typedef struct {
     version_type runtime;
     version_type compiletime;
-} compatible_versions_type;
+} compbtible_versions_type;
 
 /*
- * List of explicitly compatible JVMTI versions, specified as
- * { runtime version, compile-time version } pairs. -1 is a wildcard.
+ * List of explicitly compbtible JVMTI versions, specified bs
+ * { runtime version, compile-time version } pbirs. -1 is b wildcbrd.
  */
-static int nof_compatible_versions = 3;
-static compatible_versions_type compatible_versions_list[] = {
+stbtic int nof_compbtible_versions = 3;
+stbtic compbtible_versions_type compbtible_versions_list[] = {
     /*
-     * FIXUP: Allow version 0 to be compatible with anything
-     * Special check for FCS of 1.0.
+     * FIXUP: Allow version 0 to be compbtible with bnything
+     * Specibl check for FCS of 1.0.
      */
     { {  0, -1 }, { -1, -1 } },
     { { -1, -1 }, {  0, -1 } },
     /*
-     * 1.2 is runtime compatible with 1.1 -- just make sure to check the
-     * version before using any new 1.2 features
+     * 1.2 is runtime compbtible with 1.1 -- just mbke sure to check the
+     * version before using bny new 1.2 febtures
      */
     { {  1,  1 }, {  1,  2 } }
 };
 
 
-/* Logic to determine JVMTI version compatibility */
-static jboolean
-compatible_versions(jint major_runtime,     jint minor_runtime,
-                    jint major_compiletime, jint minor_compiletime)
+/* Logic to determine JVMTI version compbtibility */
+stbtic jboolebn
+compbtible_versions(jint mbjor_runtime,     jint minor_runtime,
+                    jint mbjor_compiletime, jint minor_compiletime)
 {
     /*
-     * First check to see if versions are explicitly compatible via the
-     * list specified above.
+     * First check to see if versions bre explicitly compbtible vib the
+     * list specified bbove.
      */
     int i;
-    for (i = 0; i < nof_compatible_versions; ++i) {
-        version_type runtime = compatible_versions_list[i].runtime;
-        version_type comptime = compatible_versions_list[i].compiletime;
+    for (i = 0; i < nof_compbtible_versions; ++i) {
+        version_type runtime = compbtible_versions_list[i].runtime;
+        version_type comptime = compbtible_versions_list[i].compiletime;
 
-        if ((major_runtime     == runtime.major  || runtime.major  == -1) &&
+        if ((mbjor_runtime     == runtime.mbjor  || runtime.mbjor  == -1) &&
             (minor_runtime     == runtime.minor  || runtime.minor  == -1) &&
-            (major_compiletime == comptime.major || comptime.major == -1) &&
+            (mbjor_compiletime == comptime.mbjor || comptime.mbjor == -1) &&
             (minor_compiletime == comptime.minor || comptime.minor == -1)) {
             return JNI_TRUE;
         }
     }
 
-    return major_runtime == major_compiletime &&
+    return mbjor_runtime == mbjor_compiletime &&
            minor_runtime >= minor_compiletime;
 }
 
-/* OnLoad startup:
- *   Returning JNI_ERR will cause the java_g VM to core dump, be careful.
+/* OnLobd stbrtup:
+ *   Returning JNI_ERR will cbuse the jbvb_g VM to core dump, be cbreful.
  */
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
+Agent_OnLobd(JbvbVM *vm, chbr *options, void *reserved)
 {
     jvmtiError error;
-    jvmtiCapabilities needed_capabilities;
-    jvmtiCapabilities potential_capabilities;
-    jint              jvmtiCompileTimeMajorVersion;
+    jvmtiCbpbbilities needed_cbpbbilities;
+    jvmtiCbpbbilities potentibl_cbpbbilities;
+    jint              jvmtiCompileTimeMbjorVersion;
     jint              jvmtiCompileTimeMinorVersion;
     jint              jvmtiCompileTimeMicroVersion;
 
-    /* See if it's already loaded */
-    if ( gdata!=NULL && gdata->isLoaded==JNI_TRUE ) {
-        ERROR_MESSAGE(("Cannot load this JVM TI agent twice, check your java command line for duplicate jdwp options."));
+    /* See if it's blrebdy lobded */
+    if ( gdbtb!=NULL && gdbtb->isLobded==JNI_TRUE ) {
+        ERROR_MESSAGE(("Cbnnot lobd this JVM TI bgent twice, check your jbvb commbnd line for duplicbte jdwp options."));
         return JNI_ERR;
     }
 
-    /* If gdata is defined and the VM died, why are we here? */
-    if ( gdata!=NULL && gdata->vmDead ) {
-        ERROR_MESSAGE(("JDWP unable to load, VM died"));
+    /* If gdbtb is defined bnd the VM died, why bre we here? */
+    if ( gdbtb!=NULL && gdbtb->vmDebd ) {
+        ERROR_MESSAGE(("JDWP unbble to lobd, VM died"));
         return JNI_ERR;
     }
 
-    /* Get global data area */
-    gdata = get_gdata();
-    if (gdata == NULL) {
-        ERROR_MESSAGE(("JDWP unable to allocate memory"));
+    /* Get globbl dbtb breb */
+    gdbtb = get_gdbtb();
+    if (gdbtb == NULL) {
+        ERROR_MESSAGE(("JDWP unbble to bllocbte memory"));
         return JNI_ERR;
     }
-    gdata->isLoaded = JNI_TRUE;
+    gdbtb->isLobded = JNI_TRUE;
 
-    /* Start filling in gdata */
-    gdata->jvm = vm;
-    vmInitialized = JNI_FALSE;
-    gdata->vmDead = JNI_FALSE;
+    /* Stbrt filling in gdbtb */
+    gdbtb->jvm = vm;
+    vmInitiblized = JNI_FALSE;
+    gdbtb->vmDebd = JNI_FALSE;
 
-    /* Get the JVMTI Env, IMPORTANT: Do this first! For jvmtiAllocate(). */
+    /* Get the JVMTI Env, IMPORTANT: Do this first! For jvmtiAllocbte(). */
     error = JVM_FUNC_PTR(vm,GetEnv)
-                (vm, (void **)&(gdata->jvmti), JVMTI_VERSION_1);
+                (vm, (void **)&(gdbtb->jvmti), JVMTI_VERSION_1);
     if (error != JNI_OK) {
-        ERROR_MESSAGE(("JDWP unable to access JVMTI Version 1 (0x%x),"
-                         " is your J2SE a 1.5 or newer version?"
+        ERROR_MESSAGE(("JDWP unbble to bccess JVMTI Version 1 (0x%x),"
+                         " is your J2SE b 1.5 or newer version?"
                          " JNIEnv's GetEnv() returned %d",
                          JVMTI_VERSION_1, error));
         forceExit(1); /* Kill entire process, no core dump */
     }
 
-    /* Check to make sure the version of jvmti.h we compiled with
-     *      matches the runtime version we are using.
+    /* Check to mbke sure the version of jvmti.h we compiled with
+     *      mbtches the runtime version we bre using.
      */
-    jvmtiCompileTimeMajorVersion  = ( JVMTI_VERSION & JVMTI_VERSION_MASK_MAJOR )
+    jvmtiCompileTimeMbjorVersion  = ( JVMTI_VERSION & JVMTI_VERSION_MASK_MAJOR )
                                         >> JVMTI_VERSION_SHIFT_MAJOR;
     jvmtiCompileTimeMinorVersion  = ( JVMTI_VERSION & JVMTI_VERSION_MASK_MINOR )
                                         >> JVMTI_VERSION_SHIFT_MINOR;
     jvmtiCompileTimeMicroVersion  = ( JVMTI_VERSION & JVMTI_VERSION_MASK_MICRO )
                                         >> JVMTI_VERSION_SHIFT_MICRO;
 
-    /* Check for compatibility */
-    if ( !compatible_versions(jvmtiMajorVersion(), jvmtiMinorVersion(),
-                jvmtiCompileTimeMajorVersion, jvmtiCompileTimeMinorVersion) ) {
+    /* Check for compbtibility */
+    if ( !compbtible_versions(jvmtiMbjorVersion(), jvmtiMinorVersion(),
+                jvmtiCompileTimeMbjorVersion, jvmtiCompileTimeMinorVersion) ) {
 
-        ERROR_MESSAGE(("This jdwp native library will not work with this VM's "
+        ERROR_MESSAGE(("This jdwp nbtive librbry will not work with this VM's "
                        "version of JVMTI (%d.%d.%d), it needs JVMTI %d.%d[.%d].",
-                       jvmtiMajorVersion(),
+                       jvmtiMbjorVersion(),
                        jvmtiMinorVersion(),
                        jvmtiMicroVersion(),
-                       jvmtiCompileTimeMajorVersion,
+                       jvmtiCompileTimeMbjorVersion,
                        jvmtiCompileTimeMinorVersion,
                        jvmtiCompileTimeMicroVersion));
 
-        /* Do not let VM get a fatal error, we don't want a core dump here. */
-        forceExit(1); /* Kill entire process, no core dump wanted */
+        /* Do not let VM get b fbtbl error, we don't wbnt b core dump here. */
+        forceExit(1); /* Kill entire process, no core dump wbnted */
     }
 
-    /* Parse input options */
-    if (!parseOptions(options)) {
-        /* No message necessary, should have been printed out already */
-        /* Do not let VM get a fatal error, we don't want a core dump here. */
-        forceExit(1); /* Kill entire process, no core dump wanted */
+    /* Pbrse input options */
+    if (!pbrseOptions(options)) {
+        /* No messbge necessbry, should hbve been printed out blrebdy */
+        /* Do not let VM get b fbtbl error, we don't wbnt b core dump here. */
+        forceExit(1); /* Kill entire process, no core dump wbnted */
     }
 
-    LOG_MISC(("Onload: %s", options));
+    LOG_MISC(("Onlobd: %s", options));
 
-    /* Get potential capabilities */
-    (void)memset(&potential_capabilities,0,sizeof(potential_capabilities));
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetPotentialCapabilities)
-                (gdata->jvmti, &potential_capabilities);
+    /* Get potentibl cbpbbilities */
+    (void)memset(&potentibl_cbpbbilities,0,sizeof(potentibl_cbpbbilities));
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetPotentiblCbpbbilities)
+                (gdbtb->jvmti, &potentibl_cbpbbilities);
     if (error != JVMTI_ERROR_NONE) {
-        ERROR_MESSAGE(("JDWP unable to get potential JVMTI capabilities: %s(%d)",
+        ERROR_MESSAGE(("JDWP unbble to get potentibl JVMTI cbpbbilities: %s(%d)",
                         jvmtiErrorText(error), error));
         return JNI_ERR;
     }
 
-    /* Fill in ones that we must have */
-    (void)memset(&needed_capabilities,0,sizeof(needed_capabilities));
-    needed_capabilities.can_access_local_variables              = 1;
-    needed_capabilities.can_generate_single_step_events         = 1;
-    needed_capabilities.can_generate_exception_events           = 1;
-    needed_capabilities.can_generate_frame_pop_events           = 1;
-    needed_capabilities.can_generate_breakpoint_events          = 1;
-    needed_capabilities.can_suspend                             = 1;
-    needed_capabilities.can_generate_method_entry_events        = 1;
-    needed_capabilities.can_generate_method_exit_events         = 1;
-    needed_capabilities.can_generate_garbage_collection_events  = 1;
-    needed_capabilities.can_maintain_original_method_order      = 1;
-    needed_capabilities.can_generate_monitor_events             = 1;
-    needed_capabilities.can_tag_objects                         = 1;
+    /* Fill in ones thbt we must hbve */
+    (void)memset(&needed_cbpbbilities,0,sizeof(needed_cbpbbilities));
+    needed_cbpbbilities.cbn_bccess_locbl_vbribbles              = 1;
+    needed_cbpbbilities.cbn_generbte_single_step_events         = 1;
+    needed_cbpbbilities.cbn_generbte_exception_events           = 1;
+    needed_cbpbbilities.cbn_generbte_frbme_pop_events           = 1;
+    needed_cbpbbilities.cbn_generbte_brebkpoint_events          = 1;
+    needed_cbpbbilities.cbn_suspend                             = 1;
+    needed_cbpbbilities.cbn_generbte_method_entry_events        = 1;
+    needed_cbpbbilities.cbn_generbte_method_exit_events         = 1;
+    needed_cbpbbilities.cbn_generbte_gbrbbge_collection_events  = 1;
+    needed_cbpbbilities.cbn_mbintbin_originbl_method_order      = 1;
+    needed_cbpbbilities.cbn_generbte_monitor_events             = 1;
+    needed_cbpbbilities.cbn_tbg_objects                         = 1;
 
-    /* And what potential ones that would be nice to have */
-    needed_capabilities.can_force_early_return
-                = potential_capabilities.can_force_early_return;
-    needed_capabilities.can_generate_field_modification_events
-                = potential_capabilities.can_generate_field_modification_events;
-    needed_capabilities.can_generate_field_access_events
-                = potential_capabilities.can_generate_field_access_events;
-    needed_capabilities.can_get_bytecodes
-                = potential_capabilities.can_get_bytecodes;
-    needed_capabilities.can_get_synthetic_attribute
-                = potential_capabilities.can_get_synthetic_attribute;
-    needed_capabilities.can_get_owned_monitor_info
-                = potential_capabilities.can_get_owned_monitor_info;
-    needed_capabilities.can_get_current_contended_monitor
-                = potential_capabilities.can_get_current_contended_monitor;
-    needed_capabilities.can_get_monitor_info
-                = potential_capabilities.can_get_monitor_info;
-    needed_capabilities.can_pop_frame
-                = potential_capabilities.can_pop_frame;
-    needed_capabilities.can_redefine_classes
-                = potential_capabilities.can_redefine_classes;
-    needed_capabilities.can_redefine_any_class
-                = potential_capabilities.can_redefine_any_class;
-    needed_capabilities.can_get_owned_monitor_stack_depth_info
-        = potential_capabilities.can_get_owned_monitor_stack_depth_info;
-    needed_capabilities.can_get_constant_pool
-                = potential_capabilities.can_get_constant_pool;
+    /* And whbt potentibl ones thbt would be nice to hbve */
+    needed_cbpbbilities.cbn_force_ebrly_return
+                = potentibl_cbpbbilities.cbn_force_ebrly_return;
+    needed_cbpbbilities.cbn_generbte_field_modificbtion_events
+                = potentibl_cbpbbilities.cbn_generbte_field_modificbtion_events;
+    needed_cbpbbilities.cbn_generbte_field_bccess_events
+                = potentibl_cbpbbilities.cbn_generbte_field_bccess_events;
+    needed_cbpbbilities.cbn_get_bytecodes
+                = potentibl_cbpbbilities.cbn_get_bytecodes;
+    needed_cbpbbilities.cbn_get_synthetic_bttribute
+                = potentibl_cbpbbilities.cbn_get_synthetic_bttribute;
+    needed_cbpbbilities.cbn_get_owned_monitor_info
+                = potentibl_cbpbbilities.cbn_get_owned_monitor_info;
+    needed_cbpbbilities.cbn_get_current_contended_monitor
+                = potentibl_cbpbbilities.cbn_get_current_contended_monitor;
+    needed_cbpbbilities.cbn_get_monitor_info
+                = potentibl_cbpbbilities.cbn_get_monitor_info;
+    needed_cbpbbilities.cbn_pop_frbme
+                = potentibl_cbpbbilities.cbn_pop_frbme;
+    needed_cbpbbilities.cbn_redefine_clbsses
+                = potentibl_cbpbbilities.cbn_redefine_clbsses;
+    needed_cbpbbilities.cbn_redefine_bny_clbss
+                = potentibl_cbpbbilities.cbn_redefine_bny_clbss;
+    needed_cbpbbilities.cbn_get_owned_monitor_stbck_depth_info
+        = potentibl_cbpbbilities.cbn_get_owned_monitor_stbck_depth_info;
+    needed_cbpbbilities.cbn_get_constbnt_pool
+                = potentibl_cbpbbilities.cbn_get_constbnt_pool;
     {
-        needed_capabilities.can_get_source_debug_extension      = 1;
-        needed_capabilities.can_get_source_file_name            = 1;
-        needed_capabilities.can_get_line_numbers                = 1;
-        needed_capabilities.can_signal_thread
-                = potential_capabilities.can_signal_thread;
+        needed_cbpbbilities.cbn_get_source_debug_extension      = 1;
+        needed_cbpbbilities.cbn_get_source_file_nbme            = 1;
+        needed_cbpbbilities.cbn_get_line_numbers                = 1;
+        needed_cbpbbilities.cbn_signbl_threbd
+                = potentibl_cbpbbilities.cbn_signbl_threbd;
     }
 
-    /* Add the capabilities */
-    error = JVMTI_FUNC_PTR(gdata->jvmti,AddCapabilities)
-                (gdata->jvmti, &needed_capabilities);
+    /* Add the cbpbbilities */
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,AddCbpbbilities)
+                (gdbtb->jvmti, &needed_cbpbbilities);
     if (error != JVMTI_ERROR_NONE) {
-        ERROR_MESSAGE(("JDWP unable to get necessary JVMTI capabilities."));
-        forceExit(1); /* Kill entire process, no core dump wanted */
+        ERROR_MESSAGE(("JDWP unbble to get necessbry JVMTI cbpbbilities."));
+        forceExit(1); /* Kill entire process, no core dump wbnted */
     }
 
-    /* Initialize event number mapping tables */
+    /* Initiblize event number mbpping tbbles */
     eventIndexInit();
 
-    /* Set the initial JVMTI event notifications */
-    error = set_event_notification(JVMTI_ENABLE, EI_VM_DEATH);
+    /* Set the initibl JVMTI event notificbtions */
+    error = set_event_notificbtion(JVMTI_ENABLE, EI_VM_DEATH);
     if (error != JVMTI_ERROR_NONE) {
         return JNI_ERR;
     }
-    error = set_event_notification(JVMTI_ENABLE, EI_VM_INIT);
+    error = set_event_notificbtion(JVMTI_ENABLE, EI_VM_INIT);
     if (error != JVMTI_ERROR_NONE) {
         return JNI_ERR;
     }
-    if (initOnUncaught || (initOnException != NULL)) {
-        error = set_event_notification(JVMTI_ENABLE, EI_EXCEPTION);
+    if (initOnUncbught || (initOnException != NULL)) {
+        error = set_event_notificbtion(JVMTI_ENABLE, EI_EXCEPTION);
         if (error != JVMTI_ERROR_NONE) {
             return JNI_ERR;
         }
     }
 
-    /* Set callbacks just for 3 functions */
-    (void)memset(&(gdata->callbacks),0,sizeof(gdata->callbacks));
-    gdata->callbacks.VMInit             = &cbEarlyVMInit;
-    gdata->callbacks.VMDeath            = &cbEarlyVMDeath;
-    gdata->callbacks.Exception  = &cbEarlyException;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,SetEventCallbacks)
-                (gdata->jvmti, &(gdata->callbacks), sizeof(gdata->callbacks));
+    /* Set cbllbbcks just for 3 functions */
+    (void)memset(&(gdbtb->cbllbbcks),0,sizeof(gdbtb->cbllbbcks));
+    gdbtb->cbllbbcks.VMInit             = &cbEbrlyVMInit;
+    gdbtb->cbllbbcks.VMDebth            = &cbEbrlyVMDebth;
+    gdbtb->cbllbbcks.Exception  = &cbEbrlyException;
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetEventCbllbbcks)
+                (gdbtb->jvmti, &(gdbtb->cbllbbcks), sizeof(gdbtb->cbllbbcks));
     if (error != JVMTI_ERROR_NONE) {
-        ERROR_MESSAGE(("JDWP unable to set JVMTI event callbacks: %s(%d)",
+        ERROR_MESSAGE(("JDWP unbble to set JVMTI event cbllbbcks: %s(%d)",
                         jvmtiErrorText(error), error));
         return JNI_ERR;
     }
 
-    LOG_MISC(("OnLoad: DONE"));
+    LOG_MISC(("OnLobd: DONE"));
     return JNI_OK;
 }
 
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm)
+Agent_OnUnlobd(JbvbVM *vm)
 {
 
-    gdata->isLoaded = JNI_FALSE;
+    gdbtb->isLobded = JNI_FALSE;
 
-    /* Cleanup, but make sure VM is alive before using JNI, and
-     *   make sure JVMTI environment is ok before deallocating
-     *   memory allocated through JVMTI, which all of it is.
+    /* Clebnup, but mbke sure VM is blive before using JNI, bnd
+     *   mbke sure JVMTI environment is ok before debllocbting
+     *   memory bllocbted through JVMTI, which bll of it is.
      */
 
     /*
-     * Close transport before exit
+     * Close trbnsport before exit
      */
-    if (transport_is_open()) {
-        transport_close();
+    if (trbnsport_is_open()) {
+        trbnsport_close();
     }
 }
 
 /*
- * Phase 2: Initial events. Phase 2 consists of waiting for the
- * event that triggers full initialization. Under normal circumstances
- * (initOnStartup == TRUE) this is the JVMTI_EVENT_VM_INIT event.
- * Otherwise, we delay initialization until the app throws a
- * particular exception. The triggering event invokes
- * the bulk of the initialization, including creation of threads and
- * monitors, transport setup, and installation of a new event callback which
- * handles the complete set of events.
+ * Phbse 2: Initibl events. Phbse 2 consists of wbiting for the
+ * event thbt triggers full initiblizbtion. Under normbl circumstbnces
+ * (initOnStbrtup == TRUE) this is the JVMTI_EVENT_VM_INIT event.
+ * Otherwise, we delby initiblizbtion until the bpp throws b
+ * pbrticulbr exception. The triggering event invokes
+ * the bulk of the initiblizbtion, including crebtion of threbds bnd
+ * monitors, trbnsport setup, bnd instbllbtion of b new event cbllbbck which
+ * hbndles the complete set of events.
  *
- * Since the triggering event comes in on an application thread, some of the
- * initialization is difficult to do here. Specifically, this thread along
- * with all other app threads may need to be suspended until a debugger
- * connects. These kinds of tasks are left to the third phase which is
- * invoked by one of the spawned debugger threads, the event handler.
+ * Since the triggering event comes in on bn bpplicbtion threbd, some of the
+ * initiblizbtion is difficult to do here. Specificblly, this threbd blong
+ * with bll other bpp threbds mby need to be suspended until b debugger
+ * connects. These kinds of tbsks bre left to the third phbse which is
+ * invoked by one of the spbwned debugger threbds, the event hbndler.
  */
 
 /*
- * Wait for a triggering event; then kick off debugger
- * initialization. A different event callback will be installed by
- * debugger initialization, and this function will not be called
- * again.
+ * Wbit for b triggering event; then kick off debugger
+ * initiblizbtion. A different event cbllbbck will be instblled by
+ * debugger initiblizbtion, bnd this function will not be cblled
+ * bgbin.
  */
 
     /*
      * TO DO: Decide whether we need to protect this code with
-     * a lock. It might be too early to create a monitor safely (?).
+     * b lock. It might be too ebrly to crebte b monitor sbfely (?).
      */
 
-static void JNICALL
-cbEarlyVMInit(jvmtiEnv *jvmti_env, JNIEnv *env, jthread thread)
+stbtic void JNICALL
+cbEbrlyVMInit(jvmtiEnv *jvmti_env, JNIEnv *env, jthrebd threbd)
 {
-    LOG_CB(("cbEarlyVMInit"));
-    if ( gdata->vmDead ) {
-        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM dead at VM_INIT time");
+    LOG_CB(("cbEbrlyVMInit"));
+    if ( gdbtb->vmDebd ) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM debd bt VM_INIT time");
     }
-    if (initOnStartup)
-        initialize(env, thread, EI_VM_INIT);
-    vmInitialized = JNI_TRUE;
-    LOG_MISC(("END cbEarlyVMInit"));
+    if (initOnStbrtup)
+        initiblize(env, threbd, EI_VM_INIT);
+    vmInitiblized = JNI_TRUE;
+    LOG_MISC(("END cbEbrlyVMInit"));
 }
 
-static void
+stbtic void
 disposeEnvironment(jvmtiEnv *jvmti_env)
 {
     jvmtiError error;
 
     error = JVMTI_FUNC_PTR(jvmti_env,DisposeEnvironment)(jvmti_env);
     if ( error == JVMTI_ERROR_MUST_POSSESS_CAPABILITY )
-        error = JVMTI_ERROR_NONE;  /* Hack!  FIXUP when JVMTI has disposeEnv */
-    /* What should error return say? */
+        error = JVMTI_ERROR_NONE;  /* Hbck!  FIXUP when JVMTI hbs disposeEnv */
+    /* Whbt should error return sby? */
     if (error != JVMTI_ERROR_NONE) {
-        ERROR_MESSAGE(("JDWP unable to dispose of JVMTI environment: %s(%d)",
+        ERROR_MESSAGE(("JDWP unbble to dispose of JVMTI environment: %s(%d)",
                         jvmtiErrorText(error), error));
     }
-    gdata->jvmti = NULL;
+    gdbtb->jvmti = NULL;
 }
 
-static void JNICALL
-cbEarlyVMDeath(jvmtiEnv *jvmti_env, JNIEnv *env)
+stbtic void JNICALL
+cbEbrlyVMDebth(jvmtiEnv *jvmti_env, JNIEnv *env)
 {
-    LOG_CB(("cbEarlyVMDeath"));
-    if ( gdata->vmDead ) {
-        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM died more than once");
+    LOG_CB(("cbEbrlyVMDebth"));
+    if ( gdbtb->vmDebd ) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM died more thbn once");
     }
     disposeEnvironment(jvmti_env);
-    gdata->jvmti = NULL;
-    gdata->jvm = NULL;
-    gdata->vmDead = JNI_TRUE;
-    LOG_MISC(("END cbEarlyVMDeath"));
+    gdbtb->jvmti = NULL;
+    gdbtb->jvm = NULL;
+    gdbtb->vmDebd = JNI_TRUE;
+    LOG_MISC(("END cbEbrlyVMDebth"));
 }
 
-static void JNICALL
-cbEarlyException(jvmtiEnv *jvmti_env, JNIEnv *env,
-        jthread thread, jmethodID method, jlocation location,
+stbtic void JNICALL
+cbEbrlyException(jvmtiEnv *jvmti_env, JNIEnv *env,
+        jthrebd threbd, jmethodID method, jlocbtion locbtion,
         jobject exception,
-        jmethodID catch_method, jlocation catch_location)
+        jmethodID cbtch_method, jlocbtion cbtch_locbtion)
 {
     jvmtiError error;
-    jthrowable currentException;
+    jthrowbble currentException;
 
-    LOG_CB(("cbEarlyException: thread=%p", thread));
+    LOG_CB(("cbEbrlyException: threbd=%p", threbd));
 
-    if ( gdata->vmDead ) {
-        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM dead at initial Exception event");
+    if ( gdbtb->vmDebd ) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM debd bt initibl Exception event");
     }
-    if (!vmInitialized)  {
-        LOG_MISC(("VM is not initialized yet"));
+    if (!vmInitiblized)  {
+        LOG_MISC(("VM is not initiblized yet"));
         return;
     }
 
     /*
-     * We want to preserve any current exception that might get wiped
-     * out during event handling (e.g. JNI calls). We have to rely on
-     * space for the local reference on the current frame because
-     * doing a PushLocalFrame here might itself generate an exception.
+     * We wbnt to preserve bny current exception thbt might get wiped
+     * out during event hbndling (e.g. JNI cblls). We hbve to rely on
+     * spbce for the locbl reference on the current frbme becbuse
+     * doing b PushLocblFrbme here might itself generbte bn exception.
      */
 
     currentException = JNI_FUNC_PTR(env,ExceptionOccurred)(env);
-    JNI_FUNC_PTR(env,ExceptionClear)(env);
+    JNI_FUNC_PTR(env,ExceptionClebr)(env);
 
-    if (initOnUncaught && catch_method == NULL) {
+    if (initOnUncbught && cbtch_method == NULL) {
 
-        LOG_MISC(("Initializing on uncaught exception"));
-        initialize(env, thread, EI_EXCEPTION);
+        LOG_MISC(("Initiblizing on uncbught exception"));
+        initiblize(env, threbd, EI_EXCEPTION);
 
     } else if (initOnException != NULL) {
 
-        jclass clazz;
+        jclbss clbzz;
 
-        /* Get class of exception thrown */
-        clazz = JNI_FUNC_PTR(env,GetObjectClass)(env, exception);
-        if ( clazz != NULL ) {
-            char *signature = NULL;
+        /* Get clbss of exception thrown */
+        clbzz = JNI_FUNC_PTR(env,GetObjectClbss)(env, exception);
+        if ( clbzz != NULL ) {
+            chbr *signbture = NULL;
             /* initing on throw, check */
-            error = classSignature(clazz, &signature, NULL);
+            error = clbssSignbture(clbzz, &signbture, NULL);
             LOG_MISC(("Checking specific exception: looking for %s, got %s",
-                        initOnException, signature));
+                        initOnException, signbture));
             if ( (error==JVMTI_ERROR_NONE) &&
-                (strcmp(signature, initOnException) == 0)) {
-                LOG_MISC(("Initializing on specific exception"));
-                initialize(env, thread, EI_EXCEPTION);
+                (strcmp(signbture, initOnException) == 0)) {
+                LOG_MISC(("Initiblizing on specific exception"));
+                initiblize(env, threbd, EI_EXCEPTION);
             } else {
-                error = AGENT_ERROR_INTERNAL; /* Just to cause restore */
+                error = AGENT_ERROR_INTERNAL; /* Just to cbuse restore */
             }
-            if ( signature != NULL ) {
-                jvmtiDeallocate(signature);
+            if ( signbture != NULL ) {
+                jvmtiDebllocbte(signbture);
             }
         } else {
-            error = AGENT_ERROR_INTERNAL; /* Just to cause restore */
+            error = AGENT_ERROR_INTERNAL; /* Just to cbuse restore */
         }
 
-        /* If initialize didn't happen, we need to restore things */
+        /* If initiblize didn't hbppen, we need to restore things */
         if ( error != JVMTI_ERROR_NONE ) {
             /*
-             * Restore exception state from before callback call
+             * Restore exception stbte from before cbllbbck cbll
              */
-            LOG_MISC(("No initialization, didn't find right exception"));
+            LOG_MISC(("No initiblizbtion, didn't find right exception"));
             if (currentException != NULL) {
                 JNI_FUNC_PTR(env,Throw)(env, currentException);
             } else {
-                JNI_FUNC_PTR(env,ExceptionClear)(env);
+                JNI_FUNC_PTR(env,ExceptionClebr)(env);
             }
         }
 
     }
 
-    LOG_MISC(("END cbEarlyException"));
+    LOG_MISC(("END cbEbrlyException"));
 
 }
 
-typedef struct EnumerateArg {
-    jboolean isServer;
+typedef struct EnumerbteArg {
+    jboolebn isServer;
     jdwpError error;
-    jint startCount;
-} EnumerateArg;
+    jint stbrtCount;
+} EnumerbteArg;
 
-static jboolean
-startTransport(void *item, void *arg)
+stbtic jboolebn
+stbrtTrbnsport(void *item, void *brg)
 {
-    TransportSpec *transport = item;
-    EnumerateArg *enumArg = arg;
+    TrbnsportSpec *trbnsport = item;
+    EnumerbteArg *enumArg = brg;
     jdwpError serror;
 
-    LOG_MISC(("Begin startTransport"));
-    serror = transport_startTransport(enumArg->isServer, transport->name,
-                                     transport->address, transport->timeout);
+    LOG_MISC(("Begin stbrtTrbnsport"));
+    serror = trbnsport_stbrtTrbnsport(enumArg->isServer, trbnsport->nbme,
+                                     trbnsport->bddress, trbnsport->timeout);
     if (serror != JDWP_ERROR(NONE)) {
-        ERROR_MESSAGE(("JDWP Transport %s failed to initialize, %s(%d)",
-                transport->name, jdwpErrorText(serror), serror));
+        ERROR_MESSAGE(("JDWP Trbnsport %s fbiled to initiblize, %s(%d)",
+                trbnsport->nbme, jdwpErrorText(serror), serror));
         enumArg->error = serror;
     } else {
-        /* (Don't overwrite any previous error) */
+        /* (Don't overwrite bny previous error) */
 
-        enumArg->startCount++;
+        enumArg->stbrtCount++;
     }
 
-    LOG_MISC(("End startTransport"));
+    LOG_MISC(("End stbrtTrbnsport"));
 
-    return JNI_TRUE;   /* Always continue, even if there was an error */
+    return JNI_TRUE;   /* Alwbys continue, even if there wbs bn error */
 }
 
-static void
-signalInitComplete(void)
+stbtic void
+signblInitComplete(void)
 {
     /*
-     * Initialization is complete
+     * Initiblizbtion is complete
      */
-    LOG_MISC(("signal initialization complete"));
+    LOG_MISC(("signbl initiblizbtion complete"));
     debugMonitorEnter(initMonitor);
     initComplete = JNI_TRUE;
     debugMonitorNotifyAll(initMonitor);
@@ -594,47 +594,47 @@ signalInitComplete(void)
 }
 
 /*
- * Determine if  initialization is complete.
+ * Determine if  initiblizbtion is complete.
  */
-jboolean
+jboolebn
 debugInit_isInitComplete(void)
 {
     return initComplete;
 }
 
 /*
- * Wait for all initialization to complete.
+ * Wbit for bll initiblizbtion to complete.
  */
 void
-debugInit_waitInitComplete(void)
+debugInit_wbitInitComplete(void)
 {
     debugMonitorEnter(initMonitor);
     while (!initComplete) {
-        debugMonitorWait(initMonitor);
+        debugMonitorWbit(initMonitor);
     }
     debugMonitorExit(initMonitor);
 }
 
-/* All process exit() calls come from here */
+/* All process exit() cblls come from here */
 void
 forceExit(int exit_code)
 {
-    /* make sure the transport is closed down before we exit() */
-    transport_close();
+    /* mbke sure the trbnsport is closed down before we exit() */
+    trbnsport_close();
     exit(exit_code);
 }
 
-/* All JVM fatal error exits lead here (e.g. we need to kill the VM). */
-static void
-jniFatalError(JNIEnv *env, const char *msg, jvmtiError error, int exit_code)
+/* All JVM fbtbl error exits lebd here (e.g. we need to kill the VM). */
+stbtic void
+jniFbtblError(JNIEnv *env, const chbr *msg, jvmtiError error, int exit_code)
 {
-    JavaVM *vm;
-    char buf[512];
+    JbvbVM *vm;
+    chbr buf[512];
 
-    gdata->vmDead = JNI_TRUE;
+    gdbtb->vmDebd = JNI_TRUE;
     if ( msg==NULL )
         msg = "UNKNOWN REASON";
-    vm = gdata->jvm;
+    vm = gdbtb->jvm;
     if ( env==NULL && vm!=NULL ) {
         jint rc = (*((*vm)->GetEnv))(vm, (void **)&env, JNI_VERSION_1_2);
         if (rc != JNI_OK ) {
@@ -648,191 +648,191 @@ jniFatalError(JNIEnv *env, const char *msg, jvmtiError error, int exit_code)
         (void)snprintf(buf, sizeof(buf), "JDWP %s", buf);
     }
     if (env != NULL) {
-        (*((*env)->FatalError))(env, buf);
+        (*((*env)->FbtblError))(env, buf);
     } else {
-        /* Should rarely ever reach here, means VM is really dead */
-        print_message(stderr, "ERROR: JDWP: ", "\n",
-                "Can't call JNI FatalError(NULL, \"%s\")", buf);
+        /* Should rbrely ever rebch here, mebns VM is reblly debd */
+        print_messbge(stderr, "ERROR: JDWP: ", "\n",
+                "Cbn't cbll JNI FbtblError(NULL, \"%s\")", buf);
     }
     forceExit(exit_code);
 }
 
 /*
- * Initialize debugger back end modules
+ * Initiblize debugger bbck end modules
  */
-static void
-initialize(JNIEnv *env, jthread thread, EventIndex triggering_ei)
+stbtic void
+initiblize(JNIEnv *env, jthrebd threbd, EventIndex triggering_ei)
 {
     jvmtiError error;
-    EnumerateArg arg;
+    EnumerbteArg brg;
     jbyte suspendPolicy;
 
-    LOG_MISC(("Begin initialize()"));
+    LOG_MISC(("Begin initiblize()"));
     currentSessionID = 0;
     initComplete = JNI_FALSE;
 
-    if ( gdata->vmDead ) {
-        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM dead at initialize() time");
+    if ( gdbtb->vmDebd ) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM debd bt initiblize() time");
     }
 
-    /* Turn off the initial JVMTI event notifications */
-    error = set_event_notification(JVMTI_DISABLE, EI_EXCEPTION);
+    /* Turn off the initibl JVMTI event notificbtions */
+    error = set_event_notificbtion(JVMTI_DISABLE, EI_EXCEPTION);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "unable to disable JVMTI event notification");
+        EXIT_ERROR(error, "unbble to disbble JVMTI event notificbtion");
     }
-    error = set_event_notification(JVMTI_DISABLE, EI_VM_INIT);
+    error = set_event_notificbtion(JVMTI_DISABLE, EI_VM_INIT);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "unable to disable JVMTI event notification");
+        EXIT_ERROR(error, "unbble to disbble JVMTI event notificbtion");
     }
-    error = set_event_notification(JVMTI_DISABLE, EI_VM_DEATH);
+    error = set_event_notificbtion(JVMTI_DISABLE, EI_VM_DEATH);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "unable to disable JVMTI event notification");
-    }
-
-    /* Remove initial event callbacks */
-    (void)memset(&(gdata->callbacks),0,sizeof(gdata->callbacks));
-    error = JVMTI_FUNC_PTR(gdata->jvmti,SetEventCallbacks)
-                (gdata->jvmti, &(gdata->callbacks), sizeof(gdata->callbacks));
-    if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "unable to clear JVMTI callbacks");
+        EXIT_ERROR(error, "unbble to disbble JVMTI event notificbtion");
     }
 
-    commonRef_initialize();
-    util_initialize(env);
-    threadControl_initialize();
-    stepControl_initialize();
-    invoker_initialize();
-    debugDispatch_initialize();
-    classTrack_initialize(env);
-    debugLoop_initialize();
+    /* Remove initibl event cbllbbcks */
+    (void)memset(&(gdbtb->cbllbbcks),0,sizeof(gdbtb->cbllbbcks));
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetEventCbllbbcks)
+                (gdbtb->jvmti, &(gdbtb->cbllbbcks), sizeof(gdbtb->cbllbbcks));
+    if (error != JVMTI_ERROR_NONE) {
+        EXIT_ERROR(error, "unbble to clebr JVMTI cbllbbcks");
+    }
 
-    initMonitor = debugMonitorCreate("JDWP Initialization Monitor");
+    commonRef_initiblize();
+    util_initiblize(env);
+    threbdControl_initiblize();
+    stepControl_initiblize();
+    invoker_initiblize();
+    debugDispbtch_initiblize();
+    clbssTrbck_initiblize(env);
+    debugLoop_initiblize();
+
+    initMonitor = debugMonitorCrebte("JDWP Initiblizbtion Monitor");
 
 
     /*
-     * Initialize transports
+     * Initiblize trbnsports
      */
-    arg.isServer = isServer;
-    arg.error = JDWP_ERROR(NONE);
-    arg.startCount = 0;
+    brg.isServer = isServer;
+    brg.error = JDWP_ERROR(NONE);
+    brg.stbrtCount = 0;
 
-    transport_initialize();
-    (void)bagEnumerateOver(transports, startTransport, &arg);
+    trbnsport_initiblize();
+    (void)bbgEnumerbteOver(trbnsports, stbrtTrbnsport, &brg);
 
     /*
-     * Exit with an error only if
-     * 1) none of the transports was successfully started, and
-     * 2) the application has not yet started running
+     * Exit with bn error only if
+     * 1) none of the trbnsports wbs successfully stbrted, bnd
+     * 2) the bpplicbtion hbs not yet stbrted running
      */
-    if ((arg.error != JDWP_ERROR(NONE)) &&
-        (arg.startCount == 0) &&
-        initOnStartup) {
-        EXIT_ERROR(map2jvmtiError(arg.error), "No transports initialized");
+    if ((brg.error != JDWP_ERROR(NONE)) &&
+        (brg.stbrtCount == 0) &&
+        initOnStbrtup) {
+        EXIT_ERROR(mbp2jvmtiError(brg.error), "No trbnsports initiblized");
     }
 
-    eventHandler_initialize(currentSessionID);
+    eventHbndler_initiblize(currentSessionID);
 
-    signalInitComplete();
+    signblInitComplete();
 
-    transport_waitForConnection();
+    trbnsport_wbitForConnection();
 
     suspendPolicy = suspendOnInit ? JDWP_SUSPEND_POLICY(ALL)
                                   : JDWP_SUSPEND_POLICY(NONE);
     if (triggering_ei == EI_VM_INIT) {
         LOG_MISC(("triggering_ei == EI_VM_INIT"));
-        eventHelper_reportVMInit(env, currentSessionID, thread, suspendPolicy);
+        eventHelper_reportVMInit(env, currentSessionID, threbd, suspendPolicy);
     } else {
         /*
-         * TO DO: Kludgy way of getting the triggering event to the
-         * just-attached debugger. It would be nice to make this a little
-         * cleaner. There is also a race condition where other events
-         * can get in the queue (from other not-yet-suspended threads)
-         * before this one does. (Also need to handle allocation error below?)
+         * TO DO: Kludgy wby of getting the triggering event to the
+         * just-bttbched debugger. It would be nice to mbke this b little
+         * clebner. There is blso b rbce condition where other events
+         * cbn get in the queue (from other not-yet-suspended threbds)
+         * before this one does. (Also need to hbndle bllocbtion error below?)
          */
         EventInfo info;
-        struct bag *initEventBag;
+        struct bbg *initEventBbg;
         LOG_MISC(("triggering_ei != EI_VM_INIT"));
-        initEventBag = eventHelper_createEventBag();
+        initEventBbg = eventHelper_crebteEventBbg();
         (void)memset(&info,0,sizeof(info));
         info.ei = triggering_ei;
-        eventHelper_recordEvent(&info, 0, suspendPolicy, initEventBag);
-        (void)eventHelper_reportEvents(currentSessionID, initEventBag);
-        bagDestroyBag(initEventBag);
+        eventHelper_recordEvent(&info, 0, suspendPolicy, initEventBbg);
+        (void)eventHelper_reportEvents(currentSessionID, initEventBbg);
+        bbgDestroyBbg(initEventBbg);
     }
 
-    if ( gdata->vmDead ) {
-        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM dead before initialize() completes");
+    if ( gdbtb->vmDebd ) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"VM debd before initiblize() completes");
     }
-    LOG_MISC(("End initialize()"));
+    LOG_MISC(("End initiblize()"));
 }
 
 /*
- * Restore all static data to the initialized state so that another
- * debugger can connect properly later.
+ * Restore bll stbtic dbtb to the initiblized stbte so thbt bnother
+ * debugger cbn connect properly lbter.
  */
 void
 debugInit_reset(JNIEnv *env)
 {
-    EnumerateArg arg;
+    EnumerbteArg brg;
 
     LOG_MISC(("debugInit_reset() beginning"));
 
     currentSessionID++;
     initComplete = JNI_FALSE;
 
-    eventHandler_reset(currentSessionID);
-    transport_reset();
-    debugDispatch_reset();
+    eventHbndler_reset(currentSessionID);
+    trbnsport_reset();
+    debugDispbtch_reset();
     invoker_reset();
     stepControl_reset();
-    threadControl_reset();
+    threbdControl_reset();
     util_reset();
     commonRef_reset(env);
-    classTrack_reset();
+    clbssTrbck_reset();
 
     /*
-     * If this is a server, we are now ready to accept another connection.
-     * If it's a client, then we've cleaned up some (more should be added
-     * later) and we're done.
+     * If this is b server, we bre now rebdy to bccept bnother connection.
+     * If it's b client, then we've clebned up some (more should be bdded
+     * lbter) bnd we're done.
      */
     if (isServer) {
-        arg.isServer = JNI_TRUE;
-        arg.error = JDWP_ERROR(NONE);
-        arg.startCount = 0;
-        (void)bagEnumerateOver(transports, startTransport, &arg);
+        brg.isServer = JNI_TRUE;
+        brg.error = JDWP_ERROR(NONE);
+        brg.stbrtCount = 0;
+        (void)bbgEnumerbteOver(trbnsports, stbrtTrbnsport, &brg);
 
-        signalInitComplete();
+        signblInitComplete();
 
-        transport_waitForConnection();
+        trbnsport_wbitForConnection();
     } else {
-        signalInitComplete(); /* Why? */
+        signblInitComplete(); /* Why? */
     }
 
     LOG_MISC(("debugInit_reset() completed."));
 }
 
 
-char *
-debugInit_launchOnInit(void)
+chbr *
+debugInit_lbunchOnInit(void)
 {
-    return launchOnInit;
+    return lbunchOnInit;
 }
 
-jboolean
+jboolebn
 debugInit_suspendOnInit(void)
 {
     return suspendOnInit;
 }
 
 /*
- * code below is shamelessly swiped from hprof.
+ * code below is shbmelessly swiped from hprof.
  */
 
-static int
-get_tok(char **src, char *buf, int buflen, char sep)
+stbtic int
+get_tok(chbr **src, chbr *buf, int buflen, chbr sep)
 {
     int i;
-    char *p = *src;
+    chbr *p = *src;
     for (i = 0; i < buflen; i++) {
         if (p[i] == 0 || p[i] == sep) {
             buf[i] = 0;
@@ -848,83 +848,83 @@ get_tok(char **src, char *buf, int buflen, char sep)
     return 0;
 }
 
-static void
-printUsage(void)
+stbtic void
+printUsbge(void)
 {
      TTY_MESSAGE((
- "               Java Debugger JDWP Agent Library\n"
+ "               Jbvb Debugger JDWP Agent Librbry\n"
  "               --------------------------------\n"
  "\n"
- "  (see http://java.sun.com/products/jpda for more information)\n"
+ "  (see http://jbvb.sun.com/products/jpdb for more informbtion)\n"
  "\n"
- "jdwp usage: java " AGENTLIB "=[help]|[<option>=<value>, ...]\n"
+ "jdwp usbge: jbvb " AGENTLIB "=[help]|[<option>=<vblue>, ...]\n"
  "\n"
- "Option Name and Value            Description                       Default\n"
+ "Option Nbme bnd Vblue            Description                       Defbult\n"
  "---------------------            -----------                       -------\n"
- "suspend=y|n                      wait on startup?                  y\n"
- "transport=<name>                 transport spec                    none\n"
- "address=<listen/attach address>  transport spec                    \"\"\n"
+ "suspend=y|n                      wbit on stbrtup?                  y\n"
+ "trbnsport=<nbme>                 trbnsport spec                    none\n"
+ "bddress=<listen/bttbch bddress>  trbnsport spec                    \"\"\n"
  "server=y|n                       listen for debugger?              n\n"
- "launch=<command line>            run debugger on event             none\n"
- "onthrow=<exception name>         debug on throw                    none\n"
- "onuncaught=y|n                   debug on any uncaught?            n\n"
- "timeout=<timeout value>          for listen/attach in milliseconds n\n"
+ "lbunch=<commbnd line>            run debugger on event             none\n"
+ "onthrow=<exception nbme>         debug on throw                    none\n"
+ "onuncbught=y|n                   debug on bny uncbught?            n\n"
+ "timeout=<timeout vblue>          for listen/bttbch in milliseconds n\n"
  "mutf8=y|n                        output modified utf-8             n\n"
- "quiet=y|n                        control over terminal messages    n\n"
+ "quiet=y|n                        control over terminbl messbges    n\n"
  "\n"
  "Obsolete Options\n"
  "----------------\n"
  "strict=y|n\n"
- "stdalloc=y|n\n"
+ "stdblloc=y|n\n"
  "\n"
- "Examples\n"
+ "Exbmples\n"
  "--------\n"
- "  - Using sockets connect to a debugger at a specific address:\n"
- "    java " AGENTLIB "=transport=dt_socket,address=localhost:8000 ...\n"
- "  - Using sockets listen for a debugger to attach:\n"
- "    java " AGENTLIB "=transport=dt_socket,server=y,suspend=y ...\n"
+ "  - Using sockets connect to b debugger bt b specific bddress:\n"
+ "    jbvb " AGENTLIB "=trbnsport=dt_socket,bddress=locblhost:8000 ...\n"
+ "  - Using sockets listen for b debugger to bttbch:\n"
+ "    jbvb " AGENTLIB "=trbnsport=dt_socket,server=y,suspend=y ...\n"
  "\n"
  "Notes\n"
  "-----\n"
- "  - A timeout value of 0 (the default) is no timeout.\n"
+ "  - A timeout vblue of 0 (the defbult) is no timeout.\n"
  "\n"
- "Warnings\n"
+ "Wbrnings\n"
  "--------\n"
- "  - The older " XRUN " interface can still be used, but will be removed in\n"
- "    a future release, for example:\n"
- "        java " XDEBUG " " XRUN ":[help]|[<option>=<value>, ...]\n"
+ "  - The older " XRUN " interfbce cbn still be used, but will be removed in\n"
+ "    b future relebse, for exbmple:\n"
+ "        jbvb " XDEBUG " " XRUN ":[help]|[<option>=<vblue>, ...]\n"
     ));
 
 #ifdef DEBUG
 
      TTY_MESSAGE((
  "\n"
- "Debugging Options            Description                       Default\n"
+ "Debugging Options            Description                       Defbult\n"
  "-----------------            -----------                       -------\n"
- "pause=y|n                    pause to debug PID                n\n"
- "coredump=y|n                 coredump at exit                  n\n"
- "errorexit=y|n                exit on any error                 n\n"
- "logfile=filename             name of log file                  none\n"
- "logflags=flags               log flags (bitmask)               none\n"
- "                               JVM calls     = 0x001\n"
- "                               JNI calls     = 0x002\n"
- "                               JVMTI calls   = 0x004\n"
+ "pbuse=y|n                    pbuse to debug PID                n\n"
+ "coredump=y|n                 coredump bt exit                  n\n"
+ "errorexit=y|n                exit on bny error                 n\n"
+ "logfile=filenbme             nbme of log file                  none\n"
+ "logflbgs=flbgs               log flbgs (bitmbsk)               none\n"
+ "                               JVM cblls     = 0x001\n"
+ "                               JNI cblls     = 0x002\n"
+ "                               JVMTI cblls   = 0x004\n"
  "                               misc events   = 0x008\n"
  "                               step logs     = 0x010\n"
- "                               locations     = 0x020\n"
- "                               callbacks     = 0x040\n"
+ "                               locbtions     = 0x020\n"
+ "                               cbllbbcks     = 0x040\n"
  "                               errors        = 0x080\n"
  "                               everything    = 0xfff\n"
- "debugflags=flags             debug flags (bitmask)           none\n"
+ "debugflbgs=flbgs             debug flbgs (bitmbsk)           none\n"
  "                               USE_ITERATE_THROUGH_HEAP 0x01\n"
  "\n"
- "Environment Variables\n"
+ "Environment Vbribbles\n"
  "---------------------\n"
  "_JAVA_JDWP_OPTIONS\n"
- "    Options can be added externally via this environment variable.\n"
- "    Anything contained in it will get a comma prepended to it (if needed),\n"
- "    then it will be added to the end of the options supplied via the\n"
- "    " XRUN " or " AGENTLIB " command line option.\n"
+ "    Options cbn be bdded externblly vib this environment vbribble.\n"
+ "    Anything contbined in it will get b commb prepended to it (if needed),\n"
+ "    then it will be bdded to the end of the options supplied vib the\n"
+ "    " XRUN " or " AGENTLIB " commbnd line option.\n"
     ));
 
 #endif
@@ -933,186 +933,186 @@ printUsage(void)
 
 }
 
-static jboolean checkAddress(void *bagItem, void *arg)
+stbtic jboolebn checkAddress(void *bbgItem, void *brg)
 {
-    TransportSpec *spec = (TransportSpec *)bagItem;
-    if (spec->address == NULL) {
-        ERROR_MESSAGE(("JDWP Non-server transport %s must have a connection "
-                "address specified through the 'address=' option",
-                spec->name));
+    TrbnsportSpec *spec = (TrbnsportSpec *)bbgItem;
+    if (spec->bddress == NULL) {
+        ERROR_MESSAGE(("JDWP Non-server trbnsport %s must hbve b connection "
+                "bddress specified through the 'bddress=' option",
+                spec->nbme));
         return JNI_FALSE;
     } else {
         return JNI_TRUE;
     }
 }
 
-static  char *
-add_to_options(char *options, char *new_options)
+stbtic  chbr *
+bdd_to_options(chbr *options, chbr *new_options)
 {
-    size_t originalLength;
-    char *combinedOptions;
+    size_t originblLength;
+    chbr *combinedOptions;
 
     /*
-     * Allocate enough space for both strings and
-     * comma in between.
+     * Allocbte enough spbce for both strings bnd
+     * commb in between.
      */
-    originalLength = strlen(options);
-    combinedOptions = jvmtiAllocate((jint)originalLength + 1 +
+    originblLength = strlen(options);
+    combinedOptions = jvmtiAllocbte((jint)originblLength + 1 +
                                 (jint)strlen(new_options) + 1);
     if (combinedOptions == NULL) {
         return NULL;
     }
 
     (void)strcpy(combinedOptions, options);
-    (void)strcat(combinedOptions, ",");
-    (void)strcat(combinedOptions, new_options);
+    (void)strcbt(combinedOptions, ",");
+    (void)strcbt(combinedOptions, new_options);
 
     return combinedOptions;
 }
 
-static jboolean
-get_boolean(char **pstr, jboolean *answer)
+stbtic jboolebn
+get_boolebn(chbr **pstr, jboolebn *bnswer)
 {
-    char buf[80];
-    *answer = JNI_FALSE;
+    chbr buf[80];
+    *bnswer = JNI_FALSE;
     /*LINTED*/
     if (get_tok(pstr, buf, (int)sizeof(buf), ',')) {
         if (strcmp(buf, "y") == 0) {
-            *answer = JNI_TRUE;
+            *bnswer = JNI_TRUE;
             return JNI_TRUE;
         } else if (strcmp(buf, "n") == 0) {
-            *answer = JNI_FALSE;
+            *bnswer = JNI_FALSE;
             return JNI_TRUE;
         }
     }
     return JNI_FALSE;
 }
 
-/* atexit() callback */
-static void
-atexit_finish_logging(void)
+/* btexit() cbllbbck */
+stbtic void
+btexit_finish_logging(void)
 {
-    /* Normal exit(0) (not _exit()) may only reach here */
-    finish_logging(0);  /* Only first call matters */
+    /* Normbl exit(0) (not _exit()) mby only rebch here */
+    finish_logging(0);  /* Only first cbll mbtters */
 }
 
-static jboolean
-parseOptions(char *options)
+stbtic jboolebn
+pbrseOptions(chbr *options)
 {
-    TransportSpec *currentTransport = NULL;
-    char *end;
-    char *current;
+    TrbnsportSpec *currentTrbnsport = NULL;
+    chbr *end;
+    chbr *current;
     int length;
-    char *str;
-    char *errmsg;
+    chbr *str;
+    chbr *errmsg;
 
-    /* Set defaults */
-    gdata->assertOn     = DEFAULT_ASSERT_ON;
-    gdata->assertFatal  = DEFAULT_ASSERT_FATAL;
+    /* Set defbults */
+    gdbtb->bssertOn     = DEFAULT_ASSERT_ON;
+    gdbtb->bssertFbtbl  = DEFAULT_ASSERT_FATAL;
     logfile             = DEFAULT_LOGFILE;
 
-    /* Options being NULL will end up being an error. */
+    /* Options being NULL will end up being bn error. */
     if (options == NULL) {
         options = "";
     }
 
-    /* Check for "help" BEFORE we add any environmental settings */
+    /* Check for "help" BEFORE we bdd bny environmentbl settings */
     if ((strcmp(options, "help")) == 0) {
-        printUsage();
-        forceExit(0); /* Kill entire process, no core dump wanted */
+        printUsbge();
+        forceExit(0); /* Kill entire process, no core dump wbnted */
     }
 
-    /* These buffers are never freed */
+    /* These buffers bre never freed */
     {
-        char *envOptions;
+        chbr *envOptions;
 
         /*
-         * Add environmentally specified options.
+         * Add environmentblly specified options.
          */
         envOptions = getenv("_JAVA_JDWP_OPTIONS");
         if (envOptions != NULL) {
-            options = add_to_options(options, envOptions);
+            options = bdd_to_options(options, envOptions);
             if ( options==NULL ) {
                 EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"options");
             }
         }
 
         /*
-         * Allocate a buffer for names derived from option strings. It should
-         * never be longer than the original options string itself.
-         * Also keep a copy of the options in gdata->options.
+         * Allocbte b buffer for nbmes derived from option strings. It should
+         * never be longer thbn the originbl options string itself.
+         * Also keep b copy of the options in gdbtb->options.
          */
         length = (int)strlen(options);
-        gdata->options = jvmtiAllocate(length + 1);
-        if (gdata->options == NULL) {
+        gdbtb->options = jvmtiAllocbte(length + 1);
+        if (gdbtb->options == NULL) {
             EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"options");
         }
-        (void)strcpy(gdata->options, options);
-        names = jvmtiAllocate(length + 1);
-        if (names == NULL) {
+        (void)strcpy(gdbtb->options, options);
+        nbmes = jvmtiAllocbte(length + 1);
+        if (nbmes == NULL) {
             EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"options");
         }
 
-        transports = bagCreateBag(sizeof(TransportSpec), 3);
-        if (transports == NULL) {
-            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"transports");
+        trbnsports = bbgCrebteBbg(sizeof(TrbnsportSpec), 3);
+        if (trbnsports == NULL) {
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"trbnsports");
         }
 
     }
 
-    current = names;
-    end = names + length;
+    current = nbmes;
+    end = nbmes + length;
     str = options;
 
     while (*str) {
-        char buf[100];
+        chbr buf[100];
         /*LINTED*/
         if (!get_tok(&str, buf, (int)sizeof(buf), '=')) {
-            goto syntax_error;
+            goto syntbx_error;
         }
-        if (strcmp(buf, "transport") == 0) {
-            currentTransport = bagAdd(transports);
+        if (strcmp(buf, "trbnsport") == 0) {
+            currentTrbnsport = bbgAdd(trbnsports);
             /*LINTED*/
             if (!get_tok(&str, current, (int)(end - current), ',')) {
-                goto syntax_error;
+                goto syntbx_error;
             }
-            currentTransport->name = current;
+            currentTrbnsport->nbme = current;
             current += strlen(current) + 1;
-        } else if (strcmp(buf, "address") == 0) {
-            if (currentTransport == NULL) {
-                errmsg = "address specified without transport";
-                goto bad_option_with_errmsg;
+        } else if (strcmp(buf, "bddress") == 0) {
+            if (currentTrbnsport == NULL) {
+                errmsg = "bddress specified without trbnsport";
+                goto bbd_option_with_errmsg;
             }
             /*LINTED*/
             if (!get_tok(&str, current, (int)(end - current), ',')) {
-                goto syntax_error;
+                goto syntbx_error;
             }
-            currentTransport->address = current;
+            currentTrbnsport->bddress = current;
             current += strlen(current) + 1;
         } else if (strcmp(buf, "timeout") == 0) {
-            if (currentTransport == NULL) {
-                errmsg = "timeout specified without transport";
-                goto bad_option_with_errmsg;
+            if (currentTrbnsport == NULL) {
+                errmsg = "timeout specified without trbnsport";
+                goto bbd_option_with_errmsg;
             }
             /*LINTED*/
             if (!get_tok(&str, current, (int)(end - current), ',')) {
-                goto syntax_error;
+                goto syntbx_error;
             }
-            currentTransport->timeout = atol(current);
+            currentTrbnsport->timeout = btol(current);
             current += strlen(current) + 1;
-        } else if (strcmp(buf, "launch") == 0) {
+        } else if (strcmp(buf, "lbunch") == 0) {
             /*LINTED*/
             if (!get_tok(&str, current, (int)(end - current), ',')) {
-                goto syntax_error;
+                goto syntbx_error;
             }
-            launchOnInit = current;
+            lbunchOnInit = current;
             current += strlen(current) + 1;
         } else if (strcmp(buf, "onthrow") == 0) {
-            /* Read class name and convert in place to a signature */
+            /* Rebd clbss nbme bnd convert in plbce to b signbture */
             *current = 'L';
             /*LINTED*/
             if (!get_tok(&str, current + 1, (int)(end - current - 1), ',')) {
-                goto syntax_error;
+                goto syntbx_error;
             }
             initOnException = current;
             while (*current != '\0') {
@@ -1123,173 +1123,173 @@ parseOptions(char *options)
             }
             *current++ = ';';
             *current++ = '\0';
-        } else if (strcmp(buf, "assert") == 0) {
+        } else if (strcmp(buf, "bssert") == 0) {
             /*LINTED*/
             if (!get_tok(&str, current, (int)(end - current), ',')) {
-                goto syntax_error;
+                goto syntbx_error;
             }
             if (strcmp(current, "y") == 0) {
-                gdata->assertOn = JNI_TRUE;
-                gdata->assertFatal = JNI_FALSE;
-            } else if (strcmp(current, "fatal") == 0) {
-                gdata->assertOn = JNI_TRUE;
-                gdata->assertFatal = JNI_TRUE;
+                gdbtb->bssertOn = JNI_TRUE;
+                gdbtb->bssertFbtbl = JNI_FALSE;
+            } else if (strcmp(current, "fbtbl") == 0) {
+                gdbtb->bssertOn = JNI_TRUE;
+                gdbtb->bssertFbtbl = JNI_TRUE;
             } else if (strcmp(current, "n") == 0) {
-                gdata->assertOn = JNI_FALSE;
-                gdata->assertFatal = JNI_FALSE;
+                gdbtb->bssertOn = JNI_FALSE;
+                gdbtb->bssertFbtbl = JNI_FALSE;
             } else {
-                goto syntax_error;
+                goto syntbx_error;
             }
             current += strlen(current) + 1;
-        } else if (strcmp(buf, "pause") == 0) {
-            if ( !get_boolean(&str, &dopause) ) {
-                goto syntax_error;
+        } else if (strcmp(buf, "pbuse") == 0) {
+            if ( !get_boolebn(&str, &dopbuse) ) {
+                goto syntbx_error;
             }
-            if ( dopause ) {
-                do_pause();
+            if ( dopbuse ) {
+                do_pbuse();
             }
         } else if (strcmp(buf, "coredump") == 0) {
-            if ( !get_boolean(&str, &docoredump) ) {
-                goto syntax_error;
+            if ( !get_boolebn(&str, &docoredump) ) {
+                goto syntbx_error;
             }
         } else if (strcmp(buf, "errorexit") == 0) {
-            if ( !get_boolean(&str, &(gdata->doerrorexit)) ) {
-                goto syntax_error;
+            if ( !get_boolebn(&str, &(gdbtb->doerrorexit)) ) {
+                goto syntbx_error;
             }
-        } else if (strcmp(buf, "exitpause") == 0) {
-            errmsg = "The exitpause option removed, use -XX:OnError";
-            goto bad_option_with_errmsg;
-        } else if (strcmp(buf, "precrash") == 0) {
-            errmsg = "The precrash option removed, use -XX:OnError";
-            goto bad_option_with_errmsg;
+        } else if (strcmp(buf, "exitpbuse") == 0) {
+            errmsg = "The exitpbuse option removed, use -XX:OnError";
+            goto bbd_option_with_errmsg;
+        } else if (strcmp(buf, "precrbsh") == 0) {
+            errmsg = "The precrbsh option removed, use -XX:OnError";
+            goto bbd_option_with_errmsg;
         } else if (strcmp(buf, "logfile") == 0) {
             /*LINTED*/
             if (!get_tok(&str, current, (int)(end - current), ',')) {
-                goto syntax_error;
+                goto syntbx_error;
             }
             logfile = current;
             current += strlen(current) + 1;
-        } else if (strcmp(buf, "logflags") == 0) {
+        } else if (strcmp(buf, "logflbgs") == 0) {
             /*LINTED*/
             if (!get_tok(&str, current, (int)(end - current), ',')) {
-                goto syntax_error;
+                goto syntbx_error;
             }
             /*LINTED*/
-            logflags = (unsigned)strtol(current, NULL, 0);
-        } else if (strcmp(buf, "debugflags") == 0) {
+            logflbgs = (unsigned)strtol(current, NULL, 0);
+        } else if (strcmp(buf, "debugflbgs") == 0) {
             /*LINTED*/
             if (!get_tok(&str, current, (int)(end - current), ',')) {
-                goto syntax_error;
+                goto syntbx_error;
             }
             /*LINTED*/
-            gdata->debugflags = (unsigned)strtol(current, NULL, 0);
+            gdbtb->debugflbgs = (unsigned)strtol(current, NULL, 0);
         } else if ( strcmp(buf, "suspend")==0 ) {
-            if ( !get_boolean(&str, &suspendOnInit) ) {
-                goto syntax_error;
+            if ( !get_boolebn(&str, &suspendOnInit) ) {
+                goto syntbx_error;
             }
         } else if ( strcmp(buf, "server")==0 ) {
-            if ( !get_boolean(&str, &isServer) ) {
-                goto syntax_error;
+            if ( !get_boolebn(&str, &isServer) ) {
+                goto syntbx_error;
             }
-        } else if ( strcmp(buf, "strict")==0 ) { /* Obsolete, but accept it */
-            if ( !get_boolean(&str, &isStrict) ) {
-                goto syntax_error;
+        } else if ( strcmp(buf, "strict")==0 ) { /* Obsolete, but bccept it */
+            if ( !get_boolebn(&str, &isStrict) ) {
+                goto syntbx_error;
             }
         } else if ( strcmp(buf, "quiet")==0 ) {
-            if ( !get_boolean(&str, &(gdata->quiet)) ) {
-                goto syntax_error;
+            if ( !get_boolebn(&str, &(gdbtb->quiet)) ) {
+                goto syntbx_error;
             }
-        } else if ( strcmp(buf, "onuncaught")==0 ) {
-            if ( !get_boolean(&str, &initOnUncaught) ) {
-                goto syntax_error;
+        } else if ( strcmp(buf, "onuncbught")==0 ) {
+            if ( !get_boolebn(&str, &initOnUncbught) ) {
+                goto syntbx_error;
             }
         } else if ( strcmp(buf, "mutf8")==0 ) {
-            if ( !get_boolean(&str, &(gdata->modifiedUtf8)) ) {
-                goto syntax_error;
+            if ( !get_boolebn(&str, &(gdbtb->modifiedUtf8)) ) {
+                goto syntbx_error;
             }
-        } else if ( strcmp(buf, "stdalloc")==0 ) { /* Obsolete, but accept it */
-            if ( !get_boolean(&str, &useStandardAlloc) ) {
-                goto syntax_error;
+        } else if ( strcmp(buf, "stdblloc")==0 ) { /* Obsolete, but bccept it */
+            if ( !get_boolebn(&str, &useStbndbrdAlloc) ) {
+                goto syntbx_error;
             }
         } else {
-            goto syntax_error;
+            goto syntbx_error;
         }
     }
 
     /* Setup logging now */
     if ( logfile!=NULL ) {
-        setup_logging(logfile, logflags);
-        (void)atexit(&atexit_finish_logging);
+        setup_logging(logfile, logflbgs);
+        (void)btexit(&btexit_finish_logging);
     }
 
-    if (bagSize(transports) == 0) {
-        errmsg = "no transport specified";
-        goto bad_option_with_errmsg;
+    if (bbgSize(trbnsports) == 0) {
+        errmsg = "no trbnsport specified";
+        goto bbd_option_with_errmsg;
     }
 
     /*
-     * TO DO: Remove when multiple transports are allowed. (replace with
+     * TO DO: Remove when multiple trbnsports bre bllowed. (replbce with
      * check below.
      */
-    if (bagSize(transports) > 1) {
-        errmsg = "multiple transports are not supported in this release";
-        goto bad_option_with_errmsg;
+    if (bbgSize(trbnsports) > 1) {
+        errmsg = "multiple trbnsports bre not supported in this relebse";
+        goto bbd_option_with_errmsg;
     }
 
 
     if (!isServer) {
-        jboolean specified = bagEnumerateOver(transports, checkAddress, NULL);
+        jboolebn specified = bbgEnumerbteOver(trbnsports, checkAddress, NULL);
         if (!specified) {
-            /* message already printed */
-            goto bad_option_no_msg;
+            /* messbge blrebdy printed */
+            goto bbd_option_no_msg;
         }
     }
 
     /*
-     * The user has selected to wait for an exception before init happens
+     * The user hbs selected to wbit for bn exception before init hbppens
      */
-    if ((initOnException != NULL) || (initOnUncaught)) {
-        initOnStartup = JNI_FALSE;
+    if ((initOnException != NULL) || (initOnUncbught)) {
+        initOnStbrtup = JNI_FALSE;
 
-        if (launchOnInit == NULL) {
+        if (lbunchOnInit == NULL) {
             /*
-             * These rely on the launch=/usr/bin/foo
-             * suboption, so it is an error if user did not
+             * These rely on the lbunch=/usr/bin/foo
+             * suboption, so it is bn error if user did not
              * provide one.
              */
-            errmsg = "Specify launch=<command line> when using onthrow or onuncaught suboption";
-            goto bad_option_with_errmsg;
+            errmsg = "Specify lbunch=<commbnd line> when using onthrow or onuncbught suboption";
+            goto bbd_option_with_errmsg;
         }
     }
 
     return JNI_TRUE;
 
-syntax_error:
-    ERROR_MESSAGE(("JDWP option syntax error: %s=%s", AGENTLIB, options));
+syntbx_error:
+    ERROR_MESSAGE(("JDWP option syntbx error: %s=%s", AGENTLIB, options));
     return JNI_FALSE;
 
-bad_option_with_errmsg:
+bbd_option_with_errmsg:
     ERROR_MESSAGE(("JDWP %s: %s=%s", errmsg, AGENTLIB, options));
     return JNI_FALSE;
 
-bad_option_no_msg:
-    ERROR_MESSAGE(("JDWP %s: %s=%s", "invalid option", AGENTLIB, options));
+bbd_option_no_msg:
+    ERROR_MESSAGE(("JDWP %s: %s=%s", "invblid option", AGENTLIB, options));
     return JNI_FALSE;
 }
 
-/* All normal exit doors lead here */
+/* All normbl exit doors lebd here */
 void
-debugInit_exit(jvmtiError error, const char *msg)
+debugInit_exit(jvmtiError error, const chbr *msg)
 {
     int exit_code = 0;
 
-    /* Pick an error code */
+    /* Pick bn error code */
     if ( error != JVMTI_ERROR_NONE ) {
         exit_code = 1;
         if ( docoredump ) {
-            LOG_MISC(("Dumping core as requested by command line"));
+            LOG_MISC(("Dumping core bs requested by commbnd line"));
             finish_logging(exit_code);
-            abort();
+            bbort();
         }
     }
 
@@ -1299,25 +1299,25 @@ debugInit_exit(jvmtiError error, const char *msg)
 
     LOG_MISC(("Exiting with error %s(%d): %s", jvmtiErrorText(error), error, msg));
 
-    if (gdata != NULL) {
-        gdata->vmDead = JNI_TRUE;
+    if (gdbtb != NULL) {
+        gdbtb->vmDebd = JNI_TRUE;
 
-        /* Let's try and cleanup the JVMTI, if we even have one */
-        if ( gdata->jvmti != NULL ) {
-            /* Dispose of jvmti (gdata->jvmti becomes NULL) */
-            disposeEnvironment(gdata->jvmti);
+        /* Let's try bnd clebnup the JVMTI, if we even hbve one */
+        if ( gdbtb->jvmti != NULL ) {
+            /* Dispose of jvmti (gdbtb->jvmti becomes NULL) */
+            disposeEnvironment(gdbtb->jvmti);
         }
     }
 
-    /* Finish up logging. We reach here if JDWP is doing the exiting. */
-    finish_logging(exit_code);  /* Only first call matters */
+    /* Finish up logging. We rebch here if JDWP is doing the exiting. */
+    finish_logging(exit_code);  /* Only first cbll mbtters */
 
-    /* Let's give the JNI a FatalError if non-exit 0, which is historic way */
+    /* Let's give the JNI b FbtblError if non-exit 0, which is historic wby */
     if ( exit_code != 0 ) {
         JNIEnv *env = NULL;
-        jniFatalError(env, msg, error, exit_code);
+        jniFbtblError(env, msg, error, exit_code);
     }
 
-    /* Last chance to die, this kills the entire process. */
+    /* Lbst chbnce to die, this kills the entire process. */
     forceExit(exit_code);
 }

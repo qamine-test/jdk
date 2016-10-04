@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.IOException;
-import java.security.AccessController;
-import java.util.BitSet;
-import java.util.Map;
-import java.util.HashMap;
-import sun.security.action.GetIntegerAction;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.util.BitSet;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import sun.security.bction.GetIntegerAction;
 
 
 /**
- * Manipulates a native array of pollfd structs on Solaris:
+ * Mbnipulbtes b nbtive brrby of pollfd structs on Solbris:
  *
  * typedef struct pollfd {
  *    int fd;
@@ -42,98 +42,98 @@ import sun.security.action.GetIntegerAction;
  *    short revents;
  * } pollfd_t;
  *
- * @author Mike McCloskey
+ * @buthor Mike McCloskey
  * @since 1.4
  */
 
-class DevPollArrayWrapper {
+clbss DevPollArrbyWrbpper {
 
-    // Event masks
-    static final short POLLIN       = 0x0001;
-    static final short POLLPRI      = 0x0002;
-    static final short POLLOUT      = 0x0004;
-    static final short POLLRDNORM   = 0x0040;
-    static final short POLLWRNORM   = POLLOUT;
-    static final short POLLRDBAND   = 0x0080;
-    static final short POLLWRBAND   = 0x0100;
-    static final short POLLNORM     = POLLRDNORM;
-    static final short POLLERR      = 0x0008;
-    static final short POLLHUP      = 0x0010;
-    static final short POLLNVAL     = 0x0020;
-    static final short POLLREMOVE   = 0x0800;
-    static final short POLLCONN     = POLLOUT;
+    // Event mbsks
+    stbtic finbl short POLLIN       = 0x0001;
+    stbtic finbl short POLLPRI      = 0x0002;
+    stbtic finbl short POLLOUT      = 0x0004;
+    stbtic finbl short POLLRDNORM   = 0x0040;
+    stbtic finbl short POLLWRNORM   = POLLOUT;
+    stbtic finbl short POLLRDBAND   = 0x0080;
+    stbtic finbl short POLLWRBAND   = 0x0100;
+    stbtic finbl short POLLNORM     = POLLRDNORM;
+    stbtic finbl short POLLERR      = 0x0008;
+    stbtic finbl short POLLHUP      = 0x0010;
+    stbtic finbl short POLLNVAL     = 0x0020;
+    stbtic finbl short POLLREMOVE   = 0x0800;
+    stbtic finbl short POLLCONN     = POLLOUT;
 
-    // Miscellaneous constants
-    static final short SIZE_POLLFD   = 8;
-    static final short FD_OFFSET     = 0;
-    static final short EVENT_OFFSET  = 4;
-    static final short REVENT_OFFSET = 6;
+    // Miscellbneous constbnts
+    stbtic finbl short SIZE_POLLFD   = 8;
+    stbtic finbl short FD_OFFSET     = 0;
+    stbtic finbl short EVENT_OFFSET  = 4;
+    stbtic finbl short REVENT_OFFSET = 6;
 
-    // Special value to indicate that an update should be ignored
-    static final byte  IGNORE        = (byte)-1;
+    // Specibl vblue to indicbte thbt bn updbte should be ignored
+    stbtic finbl byte  IGNORE        = (byte)-1;
 
-    // Maximum number of open file descriptors
-    static final int   OPEN_MAX      = IOUtil.fdLimit();
+    // Mbximum number of open file descriptors
+    stbtic finbl int   OPEN_MAX      = IOUtil.fdLimit();
 
-    // Number of pollfd structures to create.
-    // dpwrite/ioctl(DP_POLL) allows up to OPEN_MAX-1
-    static final int   NUM_POLLFDS   = Math.min(OPEN_MAX-1, 8192);
+    // Number of pollfd structures to crebte.
+    // dpwrite/ioctl(DP_POLL) bllows up to OPEN_MAX-1
+    stbtic finbl int   NUM_POLLFDS   = Mbth.min(OPEN_MAX-1, 8192);
 
-    // Initial size of arrays for fd registration changes
-    private static final int INITIAL_PENDING_UPDATE_SIZE = 64;
+    // Initibl size of brrbys for fd registrbtion chbnges
+    privbte stbtic finbl int INITIAL_PENDING_UPDATE_SIZE = 64;
 
-    // maximum size of updatesLow
-    private static final int MAX_UPDATE_ARRAY_SIZE = AccessController.doPrivileged(
-        new GetIntegerAction("sun.nio.ch.maxUpdateArraySize", Math.min(OPEN_MAX, 64*1024)));
+    // mbximum size of updbtesLow
+    privbte stbtic finbl int MAX_UPDATE_ARRAY_SIZE = AccessController.doPrivileged(
+        new GetIntegerAction("sun.nio.ch.mbxUpdbteArrbySize", Mbth.min(OPEN_MAX, 64*1024)));
 
-    // The pollfd array for results from devpoll driver
-    private final AllocatedNativeObject pollArray;
+    // The pollfd brrby for results from devpoll driver
+    privbte finbl AllocbtedNbtiveObject pollArrby;
 
-    // Base address of the native pollArray
-    private final long pollArrayAddress;
+    // Bbse bddress of the nbtive pollArrby
+    privbte finbl long pollArrbyAddress;
 
     // The fd of the devpoll driver
-    private int wfd;
+    privbte int wfd;
 
     // The fd of the interrupt line going out
-    private int outgoingInterruptFD;
+    privbte int outgoingInterruptFD;
 
     // The fd of the interrupt line coming in
-    private int incomingInterruptFD;
+    privbte int incomingInterruptFD;
 
     // The index of the interrupt FD
-    private int interruptedIndex;
+    privbte int interruptedIndex;
 
-    // Number of updated pollfd entries
-    int updated;
+    // Number of updbted pollfd entries
+    int updbted;
 
-    // object to synchronize fd registration changes
-    private final Object updateLock = new Object();
+    // object to synchronize fd registrbtion chbnges
+    privbte finbl Object updbteLock = new Object();
 
-    // number of file descriptors with registration changes pending
-    private int updateCount;
+    // number of file descriptors with registrbtion chbnges pending
+    privbte int updbteCount;
 
-    // file descriptors with registration changes pending
-    private int[] updateDescriptors = new int[INITIAL_PENDING_UPDATE_SIZE];
+    // file descriptors with registrbtion chbnges pending
+    privbte int[] updbteDescriptors = new int[INITIAL_PENDING_UPDATE_SIZE];
 
-    // events for file descriptors with registration changes pending, indexed
-    // by file descriptor and stored as bytes for efficiency reasons. For
-    // file descriptors higher than MAX_UPDATE_ARRAY_SIZE (unlimited case at
-    // least then the update is stored in a map.
-    private final byte[] eventsLow = new byte[MAX_UPDATE_ARRAY_SIZE];
-    private Map<Integer,Byte> eventsHigh;
+    // events for file descriptors with registrbtion chbnges pending, indexed
+    // by file descriptor bnd stored bs bytes for efficiency rebsons. For
+    // file descriptors higher thbn MAX_UPDATE_ARRAY_SIZE (unlimited cbse bt
+    // lebst then the updbte is stored in b mbp.
+    privbte finbl byte[] eventsLow = new byte[MAX_UPDATE_ARRAY_SIZE];
+    privbte Mbp<Integer,Byte> eventsHigh;
 
-    // Used by release and updateRegistrations to track whether a file
+    // Used by relebse bnd updbteRegistrbtions to trbck whether b file
     // descriptor is registered with /dev/poll.
-    private final BitSet registered = new BitSet();
+    privbte finbl BitSet registered = new BitSet();
 
-    DevPollArrayWrapper() {
-        int allocationSize = NUM_POLLFDS * SIZE_POLLFD;
-        pollArray = new AllocatedNativeObject(allocationSize, true);
-        pollArrayAddress = pollArray.address();
+    DevPollArrbyWrbpper() {
+        int bllocbtionSize = NUM_POLLFDS * SIZE_POLLFD;
+        pollArrby = new AllocbtedNbtiveObject(bllocbtionSize, true);
+        pollArrbyAddress = pollArrby.bddress();
         wfd = init();
         if (OPEN_MAX > MAX_UPDATE_ARRAY_SIZE)
-            eventsHigh = new HashMap<>();
+            eventsHigh = new HbshMbp<>();
     }
 
     void initInterrupt(int fd0, int fd1) {
@@ -144,157 +144,157 @@ class DevPollArrayWrapper {
 
     void putReventOps(int i, int revent) {
         int offset = SIZE_POLLFD * i + REVENT_OFFSET;
-        pollArray.putShort(offset, (short)revent);
+        pollArrby.putShort(offset, (short)revent);
     }
 
     int getEventOps(int i) {
         int offset = SIZE_POLLFD * i + EVENT_OFFSET;
-        return pollArray.getShort(offset);
+        return pollArrby.getShort(offset);
     }
 
     int getReventOps(int i) {
         int offset = SIZE_POLLFD * i + REVENT_OFFSET;
-        return pollArray.getShort(offset);
+        return pollArrby.getShort(offset);
     }
 
     int getDescriptor(int i) {
         int offset = SIZE_POLLFD * i + FD_OFFSET;
-        return pollArray.getInt(offset);
+        return pollArrby.getInt(offset);
     }
 
-    private void setUpdateEvents(int fd, byte events) {
+    privbte void setUpdbteEvents(int fd, byte events) {
         if (fd < MAX_UPDATE_ARRAY_SIZE) {
             eventsLow[fd] = events;
         } else {
-            eventsHigh.put(Integer.valueOf(fd), Byte.valueOf(events));
+            eventsHigh.put(Integer.vblueOf(fd), Byte.vblueOf(events));
         }
     }
 
-    private byte getUpdateEvents(int fd) {
+    privbte byte getUpdbteEvents(int fd) {
         if (fd < MAX_UPDATE_ARRAY_SIZE) {
             return eventsLow[fd];
         } else {
-            Byte result = eventsHigh.get(Integer.valueOf(fd));
+            Byte result = eventsHigh.get(Integer.vblueOf(fd));
             // result should never be null
-            return result.byteValue();
+            return result.byteVblue();
         }
     }
 
-    void setInterest(int fd, int mask) {
-        synchronized (updateLock) {
-            // record the file descriptor and events, expanding the
-            // respective arrays first if necessary.
-            int oldCapacity = updateDescriptors.length;
-            if (updateCount == oldCapacity) {
-                int newCapacity = oldCapacity + INITIAL_PENDING_UPDATE_SIZE;
-                int[] newDescriptors = new int[newCapacity];
-                System.arraycopy(updateDescriptors, 0, newDescriptors, 0, oldCapacity);
-                updateDescriptors = newDescriptors;
+    void setInterest(int fd, int mbsk) {
+        synchronized (updbteLock) {
+            // record the file descriptor bnd events, expbnding the
+            // respective brrbys first if necessbry.
+            int oldCbpbcity = updbteDescriptors.length;
+            if (updbteCount == oldCbpbcity) {
+                int newCbpbcity = oldCbpbcity + INITIAL_PENDING_UPDATE_SIZE;
+                int[] newDescriptors = new int[newCbpbcity];
+                System.brrbycopy(updbteDescriptors, 0, newDescriptors, 0, oldCbpbcity);
+                updbteDescriptors = newDescriptors;
             }
-            updateDescriptors[updateCount++] = fd;
+            updbteDescriptors[updbteCount++] = fd;
 
-            // events are stored as bytes for efficiency reasons
-            byte b = (byte)mask;
-            assert (b == mask) && (b != IGNORE);
-            setUpdateEvents(fd, b);
+            // events bre stored bs bytes for efficiency rebsons
+            byte b = (byte)mbsk;
+            bssert (b == mbsk) && (b != IGNORE);
+            setUpdbteEvents(fd, b);
         }
     }
 
-    void release(int fd) {
-        synchronized (updateLock) {
-            // ignore any pending update for this file descriptor
-            setUpdateEvents(fd, IGNORE);
+    void relebse(int fd) {
+        synchronized (updbteLock) {
+            // ignore bny pending updbte for this file descriptor
+            setUpdbteEvents(fd, IGNORE);
 
             // remove from /dev/poll
             if (registered.get(fd)) {
                 register(wfd, fd, POLLREMOVE);
-                registered.clear(fd);
+                registered.clebr(fd);
             }
         }
     }
 
     void closeDevPollFD() throws IOException {
-        FileDispatcherImpl.closeIntFD(wfd);
-        pollArray.free();
+        FileDispbtcherImpl.closeIntFD(wfd);
+        pollArrby.free();
     }
 
     int poll(long timeout) throws IOException {
-        updateRegistrations();
-        updated = poll0(pollArrayAddress, NUM_POLLFDS, timeout, wfd);
-        for (int i=0; i<updated; i++) {
+        updbteRegistrbtions();
+        updbted = poll0(pollArrbyAddress, NUM_POLLFDS, timeout, wfd);
+        for (int i=0; i<updbted; i++) {
             if (getDescriptor(i) == incomingInterruptFD) {
                 interruptedIndex = i;
                 interrupted = true;
-                break;
+                brebk;
             }
         }
-        return updated;
+        return updbted;
     }
 
-    void updateRegistrations() throws IOException {
-        synchronized (updateLock) {
-            // Populate pollfd array with updated masks
+    void updbteRegistrbtions() throws IOException {
+        synchronized (updbteLock) {
+            // Populbte pollfd brrby with updbted mbsks
             int j = 0;
             int index = 0;
-            while (j < updateCount) {
-                int fd = updateDescriptors[j];
-                short events = getUpdateEvents(fd);
-                boolean wasRegistered = registered.get(fd);
+            while (j < updbteCount) {
+                int fd = updbteDescriptors[j];
+                short events = getUpdbteEvents(fd);
+                boolebn wbsRegistered = registered.get(fd);
 
                 // events = 0 => POLLREMOVE or do-nothing
                 if (events != IGNORE) {
                     if (events == 0) {
-                        if (wasRegistered) {
+                        if (wbsRegistered) {
                             events = POLLREMOVE;
-                            registered.clear(fd);
+                            registered.clebr(fd);
                         } else {
                             events = IGNORE;
                         }
                     } else {
-                        if (!wasRegistered) {
+                        if (!wbsRegistered) {
                             registered.set(fd);
                         }
                     }
                 }
 
-                // populate pollfd array with updated event
+                // populbte pollfd brrby with updbted event
                 if (events != IGNORE) {
-                    // insert POLLREMOVE if changing events
-                    if (wasRegistered && events != POLLREMOVE) {
-                        putPollFD(pollArray, index, fd, POLLREMOVE);
+                    // insert POLLREMOVE if chbnging events
+                    if (wbsRegistered && events != POLLREMOVE) {
+                        putPollFD(pollArrby, index, fd, POLLREMOVE);
                         index++;
                     }
-                    putPollFD(pollArray, index, fd, events);
+                    putPollFD(pollArrby, index, fd, events);
                     index++;
                     if (index >= (NUM_POLLFDS-1)) {
-                        registerMultiple(wfd, pollArray.address(), index);
+                        registerMultiple(wfd, pollArrby.bddress(), index);
                         index = 0;
                     }
 
-                    // events for this fd now up to date
-                    setUpdateEvents(fd, IGNORE);
+                    // events for this fd now up to dbte
+                    setUpdbteEvents(fd, IGNORE);
                 }
                 j++;
             }
 
-            // write any remaining updates
+            // write bny rembining updbtes
             if (index > 0)
-                registerMultiple(wfd, pollArray.address(), index);
+                registerMultiple(wfd, pollArrby.bddress(), index);
 
-            updateCount = 0;
+            updbteCount = 0;
         }
     }
 
-    private void putPollFD(AllocatedNativeObject array, int index, int fd,
+    privbte void putPollFD(AllocbtedNbtiveObject brrby, int index, int fd,
                            short event)
     {
         int structIndex = SIZE_POLLFD * index;
-        array.putInt(structIndex + FD_OFFSET, fd);
-        array.putShort(structIndex + EVENT_OFFSET, event);
-        array.putShort(structIndex + REVENT_OFFSET, (short)0);
+        brrby.putInt(structIndex + FD_OFFSET, fd);
+        brrby.putShort(structIndex + EVENT_OFFSET, event);
+        brrby.putShort(structIndex + REVENT_OFFSET, (short)0);
     }
 
-    boolean interrupted = false;
+    boolebn interrupted = fblse;
 
     public void interrupt() {
         interrupt(outgoingInterruptFD);
@@ -304,23 +304,23 @@ class DevPollArrayWrapper {
         return interruptedIndex;
     }
 
-    boolean interrupted() {
+    boolebn interrupted() {
         return interrupted;
     }
 
-    void clearInterrupted() {
-        interrupted = false;
+    void clebrInterrupted() {
+        interrupted = fblse;
     }
 
-    private native int init();
-    private native void register(int wfd, int fd, int mask);
-    private native void registerMultiple(int wfd, long address, int len)
+    privbte nbtive int init();
+    privbte nbtive void register(int wfd, int fd, int mbsk);
+    privbte nbtive void registerMultiple(int wfd, long bddress, int len)
         throws IOException;
-    private native int poll0(long pollAddress, int numfds, long timeout,
+    privbte nbtive int poll0(long pollAddress, int numfds, long timeout,
                              int wfd);
-    private static native void interrupt(int fd);
+    privbte stbtic nbtive void interrupt(int fd);
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
     }
 }

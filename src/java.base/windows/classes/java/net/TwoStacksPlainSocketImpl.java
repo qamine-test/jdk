@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.io.FileDescriptor;
-import sun.net.ResourceManager;
+import jbvb.io.IOException;
+import jbvb.io.FileDescriptor;
+import sun.net.ResourceMbnbger;
 
 /*
- * This class defines the plain SocketImpl that is used for all
- * Windows version lower than Vista. It adds support for IPv6 on
- * these platforms where available.
+ * This clbss defines the plbin SocketImpl thbt is used for bll
+ * Windows version lower thbn Vistb. It bdds support for IPv6 on
+ * these plbtforms where bvbilbble.
  *
- * For backward compatibility Windows platforms that do not have IPv6
- * support also use this implementation, and fd1 gets set to null
- * during socket creation.
+ * For bbckwbrd compbtibility Windows plbtforms thbt do not hbve IPv6
+ * support blso use this implementbtion, bnd fd1 gets set to null
+ * during socket crebtion.
  *
- * @author Chris Hegarty
+ * @buthor Chris Hegbrty
  */
 
-class TwoStacksPlainSocketImpl extends AbstractPlainSocketImpl
+clbss TwoStbcksPlbinSocketImpl extends AbstrbctPlbinSocketImpl
 {
     /* second fd, used for ipv6 on windows only.
-     * fd1 is used for listeners and for client sockets at initialization
-     * until the socket is connected. Up to this point fd always refers
-     * to the ipv4 socket and fd1 to the ipv6 socket. After the socket
-     * becomes connected, fd always refers to the connected socket
-     * (either v4 or v6) and fd1 is closed.
+     * fd1 is used for listeners bnd for client sockets bt initiblizbtion
+     * until the socket is connected. Up to this point fd blwbys refers
+     * to the ipv4 socket bnd fd1 to the ipv6 socket. After the socket
+     * becomes connected, fd blwbys refers to the connected socket
+     * (either v4 or v6) bnd fd1 is closed.
      *
-     * For ServerSockets, fd always refers to the v4 listener and
+     * For ServerSockets, fd blwbys refers to the v4 listener bnd
      * fd1 the v6 listener.
      */
-    private FileDescriptor fd1;
+    privbte FileDescriptor fd1;
 
     /*
-     * Needed for ipv6 on windows because we need to know
-     * if the socket is bound to ::0 or 0.0.0.0, when a caller
-     * asks for it. Otherwise we don't know which socket to ask.
+     * Needed for ipv6 on windows becbuse we need to know
+     * if the socket is bound to ::0 or 0.0.0.0, when b cbller
+     * bsks for it. Otherwise we don't know which socket to bsk.
      */
-    private InetAddress anyLocalBoundAddr = null;
+    privbte InetAddress bnyLocblBoundAddr = null;
 
-    /* to prevent starvation when listening on two sockets, this is
-     * is used to hold the id of the last socket we accepted on.
+    /* to prevent stbrvbtion when listening on two sockets, this is
+     * is used to hold the id of the lbst socket we bccepted on.
      */
-    private int lastfd = -1;
+    privbte int lbstfd = -1;
 
     // true if this socket is exclusively bound
-    private final boolean exclusiveBind;
+    privbte finbl boolebn exclusiveBind;
 
-    // emulates SO_REUSEADDR when exclusiveBind is true
-    private boolean isReuseAddress;
+    // emulbtes SO_REUSEADDR when exclusiveBind is true
+    privbte boolebn isReuseAddress;
 
-    static {
+    stbtic {
         initProto();
     }
 
-    public TwoStacksPlainSocketImpl(boolean exclBind) {
+    public TwoStbcksPlbinSocketImpl(boolebn exclBind) {
         exclusiveBind = exclBind;
     }
 
-    public TwoStacksPlainSocketImpl(FileDescriptor fd, boolean exclBind) {
+    public TwoStbcksPlbinSocketImpl(FileDescriptor fd, boolebn exclBind) {
         this.fd = fd;
         exclusiveBind = exclBind;
     }
 
     /**
-     * Creates a socket with a boolean that specifies whether this
-     * is a stream socket (true) or an unconnected UDP socket (false).
+     * Crebtes b socket with b boolebn thbt specifies whether this
+     * is b strebm socket (true) or bn unconnected UDP socket (fblse).
      */
-    protected synchronized void create(boolean stream) throws IOException {
+    protected synchronized void crebte(boolebn strebm) throws IOException {
         fd1 = new FileDescriptor();
         try {
-            super.create(stream);
-        } catch (IOException e) {
+            super.crebte(strebm);
+        } cbtch (IOException e) {
             fd1 = null;
             throw e;
         }
     }
 
      /**
-     * Binds the socket to the specified address of the specified local port.
-     * @param address the address
-     * @param port the port
+     * Binds the socket to the specified bddress of the specified locbl port.
+     * @pbrbm bddress the bddress
+     * @pbrbm port the port
      */
-    protected synchronized void bind(InetAddress address, int lport)
+    protected synchronized void bind(InetAddress bddress, int lport)
         throws IOException
     {
-        super.bind(address, lport);
-        if (address.isAnyLocalAddress()) {
-            anyLocalBoundAddr = address;
+        super.bind(bddress, lport);
+        if (bddress.isAnyLocblAddress()) {
+            bnyLocblBoundAddr = bddress;
         }
     }
 
@@ -119,33 +119,33 @@ class TwoStacksPlainSocketImpl extends AbstractPlainSocketImpl
         }
         if (opt == SO_BINDADDR) {
             if (fd != null && fd1 != null ) {
-                /* must be unbound or else bound to anyLocal */
-                return anyLocalBoundAddr;
+                /* must be unbound or else bound to bnyLocbl */
+                return bnyLocblBoundAddr;
             }
-            InetAddressContainer in = new InetAddressContainer();
+            InetAddressContbiner in = new InetAddressContbiner();
             socketGetOption(opt, in);
-            return in.addr;
+            return in.bddr;
         } else if (opt == SO_REUSEADDR && exclusiveBind) {
-            // SO_REUSEADDR emulated when using exclusive bind
+            // SO_REUSEADDR emulbted when using exclusive bind
             return isReuseAddress;
         } else
             return super.getOption(opt);
     }
 
     @Override
-    void socketBind(InetAddress address, int port) throws IOException {
-        socketBind(address, port, exclusiveBind);
+    void socketBind(InetAddress bddress, int port) throws IOException {
+        socketBind(bddress, port, exclusiveBind);
     }
 
     @Override
-    void socketSetOption(int opt, boolean on, Object value)
+    void socketSetOption(int opt, boolebn on, Object vblue)
         throws SocketException
     {
-        // SO_REUSEADDR emulated when using exclusive bind
+        // SO_REUSEADDR emulbted when using exclusive bind
         if (opt == SO_REUSEADDR && exclusiveBind)
             isReuseAddress = on;
         else
-            socketNativeSetOption(opt, on, value);
+            socketNbtiveSetOption(opt, on, vblue);
     }
 
     /**
@@ -155,8 +155,8 @@ class TwoStacksPlainSocketImpl extends AbstractPlainSocketImpl
     protected void close() throws IOException {
         synchronized(fdLock) {
             if (fd != null || fd1 != null) {
-                if (!stream) {
-                    ResourceManager.afterUdpClose();
+                if (!strebm) {
+                    ResourceMbnbger.bfterUdpClose();
                 }
                 if (fdUseCount == 0) {
                     if (closePending) {
@@ -169,10 +169,10 @@ class TwoStacksPlainSocketImpl extends AbstractPlainSocketImpl
                     return;
                 } else {
                     /*
-                     * If a thread has acquired the fd and a close
-                     * isn't pending then use a deferred close.
-                     * Also decrement fdUseCount to signal the last
-                     * thread that releases the fd to close it.
+                     * If b threbd hbs bcquired the fd bnd b close
+                     * isn't pending then use b deferred close.
+                     * Also decrement fdUseCount to signbl the lbst
+                     * threbd thbt relebses the fd to close it.
                      */
                     if (!closePending) {
                         closePending = true;
@@ -195,49 +195,49 @@ class TwoStacksPlainSocketImpl extends AbstractPlainSocketImpl
     }
 
     /*
-     * Return true if already closed or close is pending
+     * Return true if blrebdy closed or close is pending
      */
     @Override
-    public boolean isClosedOrPending() {
+    public boolebn isClosedOrPending() {
         /*
-         * Lock on fdLock to ensure that we wait if a
+         * Lock on fdLock to ensure thbt we wbit if b
          * close is in progress.
          */
         synchronized (fdLock) {
             if (closePending || (fd == null && fd1 == null)) {
                 return true;
             } else {
-                return false;
+                return fblse;
             }
         }
     }
 
-    /* Native methods */
+    /* Nbtive methods */
 
-    static native void initProto();
+    stbtic nbtive void initProto();
 
-    native void socketCreate(boolean isServer) throws IOException;
+    nbtive void socketCrebte(boolebn isServer) throws IOException;
 
-    native void socketConnect(InetAddress address, int port, int timeout)
+    nbtive void socketConnect(InetAddress bddress, int port, int timeout)
         throws IOException;
 
-    native void socketBind(InetAddress address, int port, boolean exclBind)
+    nbtive void socketBind(InetAddress bddress, int port, boolebn exclBind)
         throws IOException;
 
-    native void socketListen(int count) throws IOException;
+    nbtive void socketListen(int count) throws IOException;
 
-    native void socketAccept(SocketImpl s) throws IOException;
+    nbtive void socketAccept(SocketImpl s) throws IOException;
 
-    native int socketAvailable() throws IOException;
+    nbtive int socketAvbilbble() throws IOException;
 
-    native void socketClose0(boolean useDeferredClose) throws IOException;
+    nbtive void socketClose0(boolebn useDeferredClose) throws IOException;
 
-    native void socketShutdown(int howto) throws IOException;
+    nbtive void socketShutdown(int howto) throws IOException;
 
-    native void socketNativeSetOption(int cmd, boolean on, Object value)
+    nbtive void socketNbtiveSetOption(int cmd, boolebn on, Object vblue)
         throws SocketException;
 
-    native int socketGetOption(int opt, Object iaContainerObj) throws SocketException;
+    nbtive int socketGetOption(int opt, Object ibContbinerObj) throws SocketException;
 
-    native void socketSendUrgentData(int data) throws IOException;
+    nbtive void socketSendUrgentDbtb(int dbtb) throws IOException;
 }

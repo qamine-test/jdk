@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,83 +28,83 @@
 #include <string.h>
 #ifdef MACOSX
 #include <unistd.h>
-#include <sys/param.h>
+#include <sys/pbrbm.h>
 #else
-#include <malloc.h>
+#include <mblloc.h>
 #endif
 #include <mlib_types.h>
 #include <mlib_sys_proto.h>
-#include "mlib_SysMath.h"
+#include "mlib_SysMbth.h"
 
 /***************************************************************/
 
 #if ! defined ( __MEDIALIB_OLD_NAMES )
 #if defined ( __SUNPRO_C )
 
-#pragma weak mlib_memmove = __mlib_memmove
-#pragma weak mlib_malloc = __mlib_malloc
-#pragma weak mlib_realloc = __mlib_realloc
-#pragma weak mlib_free = __mlib_free
-#pragma weak mlib_memset = __mlib_memset
-#pragma weak mlib_memcpy = __mlib_memcpy
+#prbgmb webk mlib_memmove = __mlib_memmove
+#prbgmb webk mlib_mblloc = __mlib_mblloc
+#prbgmb webk mlib_reblloc = __mlib_reblloc
+#prbgmb webk mlib_free = __mlib_free
+#prbgmb webk mlib_memset = __mlib_memset
+#prbgmb webk mlib_memcpy = __mlib_memcpy
 
 #ifdef MLIB_NO_LIBSUNMATH
-#pragma weak mlib_sincosf = __mlib_sincosf
+#prbgmb webk mlib_sincosf = __mlib_sincosf
 #endif /* MLIB_NO_LIBSUNMATH */
 
 #elif defined ( __GNUC__ ) /* defined ( __SUNPRO_C ) */
 
   __typeof__ ( __mlib_memmove) mlib_memmove
-    __attribute__ ((weak,alias("__mlib_memmove")));
-  __typeof__ ( __mlib_malloc) mlib_malloc
-    __attribute__ ((weak,alias("__mlib_malloc")));
-  __typeof__ ( __mlib_realloc) mlib_realloc
-    __attribute__ ((weak,alias("__mlib_realloc")));
+    __bttribute__ ((webk,blibs("__mlib_memmove")));
+  __typeof__ ( __mlib_mblloc) mlib_mblloc
+    __bttribute__ ((webk,blibs("__mlib_mblloc")));
+  __typeof__ ( __mlib_reblloc) mlib_reblloc
+    __bttribute__ ((webk,blibs("__mlib_reblloc")));
   __typeof__ ( __mlib_free) mlib_free
-    __attribute__ ((weak,alias("__mlib_free")));
+    __bttribute__ ((webk,blibs("__mlib_free")));
   __typeof__ ( __mlib_memset) mlib_memset
-    __attribute__ ((weak,alias("__mlib_memset")));
+    __bttribute__ ((webk,blibs("__mlib_memset")));
   __typeof__ ( __mlib_memcpy) mlib_memcpy
-    __attribute__ ((weak,alias("__mlib_memcpy")));
+    __bttribute__ ((webk,blibs("__mlib_memcpy")));
 
 #ifdef MLIB_NO_LIBSUNMATH
 
-void __mlib_sincosf (float x, float *s, float *c);
+void __mlib_sincosf (flobt x, flobt *s, flobt *c);
 
 __typeof__ ( __mlib_sincosf) mlib_sincosf
-    __attribute__ ((weak,alias("__mlib_sincosf")));
+    __bttribute__ ((webk,blibs("__mlib_sincosf")));
 #endif /* MLIB_NO_LIBSUNMATH */
 
 #else /* defined ( __SUNPRO_C ) */
 
-#error  "unknown platform"
+#error  "unknown plbtform"
 
 #endif /* defined ( __SUNPRO_C ) */
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
 
 /***************************************************************/
 
-void *__mlib_malloc(mlib_u32 size)
+void *__mlib_mblloc(mlib_u32 size)
 {
 #if defined(_MSC_VER) || defined(AIX)
   /*
-   * Currently, all MS C compilers for Win32 platforms default to 8 byte
-   * alignment. -- from stdlib.h of MS VC++5.0.
+   * Currently, bll MS C compilers for Win32 plbtforms defbult to 8 byte
+   * blignment. -- from stdlib.h of MS VC++5.0.
    *
-   * On AIX, the malloc subroutine returns a pointer to space suitably
-   * aligned for the storage of any type of object (see 'man malloc').
+   * On AIX, the mblloc subroutine returns b pointer to spbce suitbbly
+   * bligned for the storbge of bny type of object (see 'mbn mblloc').
    */
-  return (void *) malloc(size);
+  return (void *) mblloc(size);
 #elif defined(MACOSX)
-  return valloc(size);
+  return vblloc(size);
 #else
-  return (void *) memalign(8, size);
+  return (void *) memblign(8, size);
 #endif /* _MSC_VER */
 }
 
-void *__mlib_realloc(void *ptr, mlib_u32 size)
+void *__mlib_reblloc(void *ptr, mlib_u32 size)
 {
-  return realloc(ptr, size);
+  return reblloc(ptr, size);
 }
 
 void __mlib_free(void *ptr)

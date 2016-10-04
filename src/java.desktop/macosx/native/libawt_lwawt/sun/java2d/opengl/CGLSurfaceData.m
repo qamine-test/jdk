@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #import <stdlib.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
-#import "sun_java2d_opengl_CGLSurfaceData.h"
+#import "sun_jbvb2d_opengl_CGLSurfbceDbtb.h"
 
 #import "jni.h"
 #import "jni_util.h"
 #import "OGLRenderQueue.h"
-#import "CGLGraphicsConfig.h"
-#import "CGLSurfaceData.h"
-#import "CGLLayer.h"
-#import "ThreadUtilities.h"
+#import "CGLGrbphicsConfig.h"
+#import "CGLSurfbceDbtb.h"
+#import "CGLLbyer.h"
+#import "ThrebdUtilities.h"
 
-/* JDK's glext.h is already included and will prevent the Apple glext.h
+/* JDK's glext.h is blrebdy included bnd will prevent the Apple glext.h
  * being included, so define the externs directly
  */
-extern void glBindFramebufferEXT(GLenum target, GLuint framebuffer);
-extern CGLError CGLTexImageIOSurface2D(
-        CGLContextObj ctx, GLenum target, GLenum internal_format,
-        GLsizei width, GLsizei height, GLenum format, GLenum type,
-        IOSurfaceRef ioSurface, GLuint plane);
+extern void glBindFrbmebufferEXT(GLenum tbrget, GLuint frbmebuffer);
+extern CGLError CGLTexImbgeIOSurfbce2D(
+        CGLContextObj ctx, GLenum tbrget, GLenum internbl_formbt,
+        GLsizei width, GLsizei height, GLenum formbt, GLenum type,
+        IOSurfbceRef ioSurfbce, GLuint plbne);
 
 /**
- * The methods in this file implement the native windowing system specific
- * layer (CGL) for the OpenGL-based Java 2D pipeline.
+ * The methods in this file implement the nbtive windowing system specific
+ * lbyer (CGL) for the OpenGL-bbsed Jbvb 2D pipeline.
  */
 
-#pragma mark -
-#pragma mark "--- Mac OS X specific methods for GL pipeline ---"
+#prbgmb mbrk -
+#prbgmb mbrk "--- Mbc OS X specific methods for GL pipeline ---"
 
-// TODO: hack that's called from OGLRenderQueue to test out unlockFocus behavior
+// TODO: hbck thbt's cblled from OGLRenderQueue to test out unlockFocus behbvior
 #if 0
 void
 OGLSD_UnlockFocus(OGLContext *oglc, OGLSDOps *dstOps)
 {
     CGLCtxInfo *ctxinfo = (CGLCtxInfo *)oglc->ctxInfo;
     CGLSDOps *cglsdo = (CGLSDOps *)dstOps->privOps;
-    fprintf(stderr, "about to unlock focus: %p %p\n",
-            cglsdo->peerData, ctxinfo->context);
+    fprintf(stderr, "bbout to unlock focus: %p %p\n",
+            cglsdo->peerDbtb, ctxinfo->context);
 
-    NSOpenGLView *nsView = cglsdo->peerData;
+    NSOpenGLView *nsView = cglsdo->peerDbtb;
     if (nsView != NULL) {
 JNF_COCOA_ENTER(env);
         [nsView unlockFocus];
@@ -73,18 +73,18 @@ JNF_COCOA_EXIT(env);
 #endif
 
 /**
- * Makes the given context current to its associated "scratch" surface.  If
- * the operation is successful, this method will return JNI_TRUE; otherwise,
+ * Mbkes the given context current to its bssocibted "scrbtch" surfbce.  If
+ * the operbtion is successful, this method will return JNI_TRUE; otherwise,
  * returns JNI_FALSE.
  */
-static jboolean
-CGLSD_MakeCurrentToScratch(JNIEnv *env, OGLContext *oglc)
+stbtic jboolebn
+CGLSD_MbkeCurrentToScrbtch(JNIEnv *env, OGLContext *oglc)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "CGLSD_MakeCurrentToScratch");
+    J2dTrbceLn(J2D_TRACE_INFO, "CGLSD_MbkeCurrentToScrbtch");
 
     if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "CGLSD_MakeCurrentToScratch: context is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "CGLSD_MbkeCurrentToScrbtch: context is null");
         return JNI_FALSE;
     }
 
@@ -92,15 +92,15 @@ JNF_COCOA_ENTER(env);
 
     CGLCtxInfo *ctxinfo = (CGLCtxInfo *)oglc->ctxInfo;
 #if USE_NSVIEW_FOR_SCRATCH
-    [ctxinfo->context makeCurrentContext];
-    [ctxinfo->context setView: ctxinfo->scratchSurface];
+    [ctxinfo->context mbkeCurrentContext];
+    [ctxinfo->context setView: ctxinfo->scrbtchSurfbce];
 #else
-    [ctxinfo->context clearDrawable];
-    [ctxinfo->context makeCurrentContext];
-    [ctxinfo->context setPixelBuffer: ctxinfo->scratchSurface
-            cubeMapFace: 0
-            mipMapLevel: 0
-            currentVirtualScreen: [ctxinfo->context currentVirtualScreen]];
+    [ctxinfo->context clebrDrbwbble];
+    [ctxinfo->context mbkeCurrentContext];
+    [ctxinfo->context setPixelBuffer: ctxinfo->scrbtchSurfbce
+            cubeMbpFbce: 0
+            mipMbpLevel: 0
+            currentVirtublScreen: [ctxinfo->context currentVirtublScreen]];
 #endif
 
 JNF_COCOA_EXIT(env);
@@ -109,60 +109,60 @@ JNF_COCOA_EXIT(env);
 }
 
 /**
- * This function disposes of any native windowing system resources associated
- * with this surface.  For instance, if the given OGLSDOps is of type
- * OGLSD_PBUFFER, this method implementation will destroy the actual pbuffer
- * surface.
+ * This function disposes of bny nbtive windowing system resources bssocibted
+ * with this surfbce.  For instbnce, if the given OGLSDOps is of type
+ * OGLSD_PBUFFER, this method implementbtion will destroy the bctubl pbuffer
+ * surfbce.
  */
 void
-OGLSD_DestroyOGLSurface(JNIEnv *env, OGLSDOps *oglsdo)
+OGLSD_DestroyOGLSurfbce(JNIEnv *env, OGLSDOps *oglsdo)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_DestroyOGLSurface");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_DestroyOGLSurfbce");
 
 JNF_COCOA_ENTER(env);
 
     CGLSDOps *cglsdo = (CGLSDOps *)oglsdo->privOps;
-    if (oglsdo->drawableType == OGLSD_PBUFFER) {
+    if (oglsdo->drbwbbleType == OGLSD_PBUFFER) {
         if (oglsdo->textureID != 0) {
             j2d_glDeleteTextures(1, &oglsdo->textureID);
             oglsdo->textureID = 0;
         }
         if (cglsdo->pbuffer != NULL) {
-            [cglsdo->pbuffer release];
+            [cglsdo->pbuffer relebse];
             cglsdo->pbuffer = NULL;
         }
-    } else if (oglsdo->drawableType == OGLSD_WINDOW) {
-        // detach the NSView from the NSOpenGLContext
-        CGLGraphicsConfigInfo *cglInfo = cglsdo->configInfo;
+    } else if (oglsdo->drbwbbleType == OGLSD_WINDOW) {
+        // detbch the NSView from the NSOpenGLContext
+        CGLGrbphicsConfigInfo *cglInfo = cglsdo->configInfo;
         OGLContext *oglc = cglInfo->context;
         CGLCtxInfo *ctxinfo = (CGLCtxInfo *)oglc->ctxInfo;
-        [ctxinfo->context clearDrawable];
+        [ctxinfo->context clebrDrbwbble];
     }
 
-    oglsdo->drawableType = OGLSD_UNDEFINED;
+    oglsdo->drbwbbleType = OGLSD_UNDEFINED;
 
 JNF_COCOA_EXIT(env);
 }
 
 /**
- * Returns a pointer (as a jlong) to the native CGLGraphicsConfigInfo
- * associated with the given OGLSDOps.  This method can be called from
- * shared code to retrieve the native GraphicsConfig data in a platform-
- * independent manner.
+ * Returns b pointer (bs b jlong) to the nbtive CGLGrbphicsConfigInfo
+ * bssocibted with the given OGLSDOps.  This method cbn be cblled from
+ * shbred code to retrieve the nbtive GrbphicsConfig dbtb in b plbtform-
+ * independent mbnner.
  */
 jlong
-OGLSD_GetNativeConfigInfo(OGLSDOps *oglsdo)
+OGLSD_GetNbtiveConfigInfo(OGLSDOps *oglsdo)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_GetNativeConfigInfo");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_GetNbtiveConfigInfo");
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "OGLSD_GetNativeConfigInfo: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "OGLSD_GetNbtiveConfigInfo: ops bre null");
         return 0L;
     }
 
     CGLSDOps *cglsdo = (CGLSDOps *)oglsdo->privOps;
     if (cglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "OGLSD_GetNativeConfigInfo: cgl ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "OGLSD_GetNbtiveConfigInfo: cgl ops bre null");
         return 0L;
     }
 
@@ -170,19 +170,19 @@ OGLSD_GetNativeConfigInfo(OGLSDOps *oglsdo)
 }
 
 /**
- * Makes the given GraphicsConfig's context current to its associated
- * "scratch" surface.  If there is a problem making the context current,
- * this method will return NULL; otherwise, returns a pointer to the
- * OGLContext that is associated with the given GraphicsConfig.
+ * Mbkes the given GrbphicsConfig's context current to its bssocibted
+ * "scrbtch" surfbce.  If there is b problem mbking the context current,
+ * this method will return NULL; otherwise, returns b pointer to the
+ * OGLContext thbt is bssocibted with the given GrbphicsConfig.
  */
 OGLContext *
-OGLSD_SetScratchSurface(JNIEnv *env, jlong pConfigInfo)
+OGLSD_SetScrbtchSurfbce(JNIEnv *env, jlong pConfigInfo)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_SetScratchContext");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_SetScrbtchContext");
 
-    CGLGraphicsConfigInfo *cglInfo = (CGLGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    CGLGrbphicsConfigInfo *cglInfo = (CGLGrbphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
     if (cglInfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "OGLSD_SetScratchContext: cgl config info is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "OGLSD_SetScrbtchContext: cgl config info is null");
         return NULL;
     }
 
@@ -191,29 +191,29 @@ OGLSD_SetScratchSurface(JNIEnv *env, jlong pConfigInfo)
 
 JNF_COCOA_ENTER(env);
 
-    // avoid changing the context's target view whenever possible, since
-    // calling setView causes flickering; as long as our context is current
-    // to some view, it's not necessary to switch to the scratch surface
+    // bvoid chbnging the context's tbrget view whenever possible, since
+    // cblling setView cbuses flickering; bs long bs our context is current
+    // to some view, it's not necessbry to switch to the scrbtch surfbce
     if ([ctxinfo->context view] == nil) {
-        // it seems to be necessary to explicitly flush between context changes
+        // it seems to be necessbry to explicitly flush between context chbnges
         OGLContext *currentContext = OGLRenderQueue_GetCurrentContext();
         if (currentContext != NULL) {
             j2d_glFlush();
         }
 
-        if (!CGLSD_MakeCurrentToScratch(env, oglc)) {
+        if (!CGLSD_MbkeCurrentToScrbtch(env, oglc)) {
             return NULL;
         }
-    // make sure our context is current
+    // mbke sure our context is current
     } else if ([NSOpenGLContext currentContext] != ctxinfo->context) {
-        [ctxinfo->context makeCurrentContext];
+        [ctxinfo->context mbkeCurrentContext];
     }
 
     if (OGLC_IS_CAP_PRESENT(oglc, CAPS_EXT_FBOBJECT)) {
-        // the GL_EXT_framebuffer_object extension is present, so this call
-        // will ensure that we are bound to the scratch surface (and not
-        // some other framebuffer object)
-        j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+        // the GL_EXT_frbmebuffer_object extension is present, so this cbll
+        // will ensure thbt we bre bound to the scrbtch surfbce (bnd not
+        // some other frbmebuffer object)
+        j2d_glBindFrbmebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     }
 
 JNF_COCOA_EXIT(env);
@@ -222,89 +222,89 @@ JNF_COCOA_EXIT(env);
 }
 
 /**
- * Makes a context current to the given source and destination
- * surfaces.  If there is a problem making the context current, this method
- * will return NULL; otherwise, returns a pointer to the OGLContext that is
- * associated with the destination surface.
+ * Mbkes b context current to the given source bnd destinbtion
+ * surfbces.  If there is b problem mbking the context current, this method
+ * will return NULL; otherwise, returns b pointer to the OGLContext thbt is
+ * bssocibted with the destinbtion surfbce.
  */
 OGLContext *
-OGLSD_MakeOGLContextCurrent(JNIEnv *env, OGLSDOps *srcOps, OGLSDOps *dstOps)
+OGLSD_MbkeOGLContextCurrent(JNIEnv *env, OGLSDOps *srcOps, OGLSDOps *dstOps)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_MakeOGLContextCurrent");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_MbkeOGLContextCurrent");
 
     CGLSDOps *dstCGLOps = (CGLSDOps *)dstOps->privOps;
 
-    J2dTraceLn4(J2D_TRACE_VERBOSE, "  src: %d %p dst: %d %p", srcOps->drawableType, srcOps, dstOps->drawableType, dstOps);
+    J2dTrbceLn4(J2D_TRACE_VERBOSE, "  src: %d %p dst: %d %p", srcOps->drbwbbleType, srcOps, dstOps->drbwbbleType, dstOps);
 
     OGLContext *oglc = dstCGLOps->configInfo->context;
     if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "OGLSD_MakeOGLContextCurrent: context is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "OGLSD_MbkeOGLContextCurrent: context is null");
         return NULL;
     }
 
     CGLCtxInfo *ctxinfo = (CGLCtxInfo *)oglc->ctxInfo;
 
-    // it seems to be necessary to explicitly flush between context changes
+    // it seems to be necessbry to explicitly flush between context chbnges
     OGLContext *currentContext = OGLRenderQueue_GetCurrentContext();
     if (currentContext != NULL) {
         j2d_glFlush();
     }
 
-    if (dstOps->drawableType == OGLSD_FBOBJECT) {
-        // first make sure we have a current context (if the context isn't
-        // already current to some drawable, we will make it current to
-        // its scratch surface)
+    if (dstOps->drbwbbleType == OGLSD_FBOBJECT) {
+        // first mbke sure we hbve b current context (if the context isn't
+        // blrebdy current to some drbwbble, we will mbke it current to
+        // its scrbtch surfbce)
         if (oglc != currentContext) {
-            if (!CGLSD_MakeCurrentToScratch(env, oglc)) {
+            if (!CGLSD_MbkeCurrentToScrbtch(env, oglc)) {
                 return NULL;
             }
         }
 
-        // now bind to the fbobject associated with the destination surface;
-        // this means that all rendering will go into the fbobject destination
-        // (note that we unbind the currently bound texture first; this is
-        // recommended procedure when binding an fbobject)
+        // now bind to the fbobject bssocibted with the destinbtion surfbce;
+        // this mebns thbt bll rendering will go into the fbobject destinbtion
+        // (note thbt we unbind the currently bound texture first; this is
+        // recommended procedure when binding bn fbobject)
         j2d_glBindTexture(GL_TEXTURE_2D, 0);
-        j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, dstOps->fbobjectID);
+        j2d_glBindFrbmebufferEXT(GL_FRAMEBUFFER_EXT, dstOps->fbobjectID);
 
         return oglc;
     }
 
 JNF_COCOA_ENTER(env);
 
-    // set the current surface
-    if (dstOps->drawableType == OGLSD_PBUFFER) {
-        // REMIND: pbuffers are not fully tested yet...
-        [ctxinfo->context clearDrawable];
-        [ctxinfo->context makeCurrentContext];
+    // set the current surfbce
+    if (dstOps->drbwbbleType == OGLSD_PBUFFER) {
+        // REMIND: pbuffers bre not fully tested yet...
+        [ctxinfo->context clebrDrbwbble];
+        [ctxinfo->context mbkeCurrentContext];
         [ctxinfo->context setPixelBuffer: dstCGLOps->pbuffer
-                cubeMapFace: 0
-                mipMapLevel: 0
-                currentVirtualScreen: [ctxinfo->context currentVirtualScreen]];
+                cubeMbpFbce: 0
+                mipMbpLevel: 0
+                currentVirtublScreen: [ctxinfo->context currentVirtublScreen]];
     } else {
         CGLSDOps *cglsdo = (CGLSDOps *)dstOps->privOps;
-        NSView *nsView = (NSView *)cglsdo->peerData;
+        NSView *nsView = (NSView *)cglsdo->peerDbtb;
 
         if ([ctxinfo->context view] != nsView) {
-            [ctxinfo->context makeCurrentContext];
+            [ctxinfo->context mbkeCurrentContext];
             [ctxinfo->context setView: nsView];
         }
     }
 
     if (OGLC_IS_CAP_PRESENT(oglc, CAPS_EXT_FBOBJECT)) {
-        // the GL_EXT_framebuffer_object extension is present, so we
-        // must bind to the default (windowing system provided)
-        // framebuffer
-        j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+        // the GL_EXT_frbmebuffer_object extension is present, so we
+        // must bind to the defbult (windowing system provided)
+        // frbmebuffer
+        j2d_glBindFrbmebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     }
 
-    if ((srcOps != dstOps) && (srcOps->drawableType == OGLSD_PBUFFER)) {
-        // bind pbuffer to the render texture object (since we are preparing
+    if ((srcOps != dstOps) && (srcOps->drbwbbleType == OGLSD_PBUFFER)) {
+        // bind pbuffer to the render texture object (since we bre prepbring
         // to copy from the pbuffer)
         CGLSDOps *srcCGLOps = (CGLSDOps *)srcOps->privOps;
         j2d_glBindTexture(GL_TEXTURE_2D, srcOps->textureID);
         [ctxinfo->context
-                setTextureImageToPixelBuffer: srcCGLOps->pbuffer
+                setTextureImbgeToPixelBuffer: srcCGLOps->pbuffer
                 colorBuffer: GL_FRONT];
     }
 
@@ -314,49 +314,49 @@ JNF_COCOA_EXIT(env);
 }
 
 /**
- * This function initializes a native window surface and caches the window
- * bounds in the given OGLSDOps.  Returns JNI_TRUE if the operation was
+ * This function initiblizes b nbtive window surfbce bnd cbches the window
+ * bounds in the given OGLSDOps.  Returns JNI_TRUE if the operbtion wbs
  * successful; JNI_FALSE otherwise.
  */
-jboolean
+jboolebn
 OGLSD_InitOGLWindow(JNIEnv *env, OGLSDOps *oglsdo)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_InitOGLWindow");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_InitOGLWindow");
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "OGLSD_InitOGLWindow: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "OGLSD_InitOGLWindow: ops bre null");
         return JNI_FALSE;
     }
 
     CGLSDOps *cglsdo = (CGLSDOps *)oglsdo->privOps;
     if (cglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "OGLSD_InitOGLWindow: cgl ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "OGLSD_InitOGLWindow: cgl ops bre null");
         return JNI_FALSE;
     }
 
-    AWTView *v = cglsdo->peerData;
+    AWTView *v = cglsdo->peerDbtb;
     if (v == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "OGLSD_InitOGLWindow: view is invalid");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "OGLSD_InitOGLWindow: view is invblid");
         return JNI_FALSE;
     }
 
 JNF_COCOA_ENTER(env);
-    NSRect surfaceBounds = [v bounds];
-    oglsdo->drawableType = OGLSD_WINDOW;
-    oglsdo->isOpaque = JNI_TRUE;
-    oglsdo->width = surfaceBounds.size.width;
-    oglsdo->height = surfaceBounds.size.height;
+    NSRect surfbceBounds = [v bounds];
+    oglsdo->drbwbbleType = OGLSD_WINDOW;
+    oglsdo->isOpbque = JNI_TRUE;
+    oglsdo->width = surfbceBounds.size.width;
+    oglsdo->height = surfbceBounds.size.height;
 JNF_COCOA_EXIT(env);
 
-    J2dTraceLn2(J2D_TRACE_VERBOSE, "  created window: w=%d h=%d", oglsdo->width, oglsdo->height);
+    J2dTrbceLn2(J2D_TRACE_VERBOSE, "  crebted window: w=%d h=%d", oglsdo->width, oglsdo->height);
 
     return JNI_TRUE;
 }
 
 void
-OGLSD_SwapBuffers(JNIEnv *env, jlong pPeerData)
+OGLSD_SwbpBuffers(JNIEnv *env, jlong pPeerDbtb)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_SwapBuffers");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_SwbpBuffers");
 
 JNF_COCOA_ENTER(env);
     [[NSOpenGLContext currentContext] flushBuffer];
@@ -366,29 +366,29 @@ JNF_COCOA_EXIT(env);
 void
 OGLSD_Flush(JNIEnv *env)
 {
-    OGLSDOps *dstOps = OGLRenderQueue_GetCurrentDestination();
+    OGLSDOps *dstOps = OGLRenderQueue_GetCurrentDestinbtion();
     if (dstOps != NULL) {
         CGLSDOps *dstCGLOps = (CGLSDOps *)dstOps->privOps;
-        CGLLayer *layer = (CGLLayer*)dstCGLOps->layer;
-        if (layer != NULL) {
-            [JNFRunLoop performOnMainThreadWaiting:NO withBlock:^(){
+        CGLLbyer *lbyer = (CGLLbyer*)dstCGLOps->lbyer;
+        if (lbyer != NULL) {
+            [JNFRunLoop performOnMbinThrebdWbiting:NO withBlock:^(){
                 AWT_ASSERT_APPKIT_THREAD;
-                [layer setNeedsDisplay];
+                [lbyer setNeedsDisplby];
 
 #ifdef REMOTELAYER
-                /* If there's a remote layer (being used for testing)
-                 * then we want to have that also receive the texture.
-                 * First sync. up its dimensions with that of the layer
-                 * we have attached to the local window and tell it that
-                 * it also needs to copy the texture.
+                /* If there's b remote lbyer (being used for testing)
+                 * then we wbnt to hbve thbt blso receive the texture.
+                 * First sync. up its dimensions with thbt of the lbyer
+                 * we hbve bttbched to the locbl window bnd tell it thbt
+                 * it blso needs to copy the texture.
                  */
-                if (layer.remoteLayer != nil) {
-                    CGLLayer* remoteLayer = layer.remoteLayer;
-                    remoteLayer.target = GL_TEXTURE_2D;
-                    remoteLayer.textureID = layer.textureID;
-                    remoteLayer.textureWidth = layer.textureWidth;
-                    remoteLayer.textureHeight = layer.textureHeight;
-                    [remoteLayer setNeedsDisplay];
+                if (lbyer.remoteLbyer != nil) {
+                    CGLLbyer* remoteLbyer = lbyer.remoteLbyer;
+                    remoteLbyer.tbrget = GL_TEXTURE_2D;
+                    remoteLbyer.textureID = lbyer.textureID;
+                    remoteLbyer.textureWidth = lbyer.textureWidth;
+                    remoteLbyer.textureHeight = lbyer.textureHeight;
+                    [remoteLbyer setNeedsDisplby];
                 }
 #endif /* REMOTELAYER */
             }];
@@ -396,49 +396,49 @@ OGLSD_Flush(JNIEnv *env)
     }
 }
 
-#pragma mark -
-#pragma mark "--- CGLSurfaceData methods ---"
+#prbgmb mbrk -
+#prbgmb mbrk "--- CGLSurfbceDbtb methods ---"
 
 extern LockFunc        OGLSD_Lock;
-extern GetRasInfoFunc  OGLSD_GetRasInfo;
+extern GetRbsInfoFunc  OGLSD_GetRbsInfo;
 extern UnlockFunc      OGLSD_Unlock;
 extern DisposeFunc     OGLSD_Dispose;
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_CGLSurfaceData_initOps
+Jbvb_sun_jbvb2d_opengl_CGLSurfbceDbtb_initOps
     (JNIEnv *env, jobject cglsd,
-     jlong pConfigInfo, jlong pPeerData, jlong layerPtr,
-     jint xoff, jint yoff, jboolean isOpaque)
+     jlong pConfigInfo, jlong pPeerDbtb, jlong lbyerPtr,
+     jint xoff, jint yoff, jboolebn isOpbque)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "CGLSurfaceData_initOps");
-    J2dTraceLn1(J2D_TRACE_INFO, "  pPeerData=%p", jlong_to_ptr(pPeerData));
-    J2dTraceLn2(J2D_TRACE_INFO, "  xoff=%d, yoff=%d", (int)xoff, (int)yoff);
+    J2dTrbceLn(J2D_TRACE_INFO, "CGLSurfbceDbtb_initOps");
+    J2dTrbceLn1(J2D_TRACE_INFO, "  pPeerDbtb=%p", jlong_to_ptr(pPeerDbtb));
+    J2dTrbceLn2(J2D_TRACE_INFO, "  xoff=%d, yoff=%d", (int)xoff, (int)yoff);
 
     OGLSDOps *oglsdo = (OGLSDOps *)
-        SurfaceData_InitOps(env, cglsd, sizeof(OGLSDOps));
-    CGLSDOps *cglsdo = (CGLSDOps *)malloc(sizeof(CGLSDOps));
+        SurfbceDbtb_InitOps(env, cglsd, sizeof(OGLSDOps));
+    CGLSDOps *cglsdo = (CGLSDOps *)mblloc(sizeof(CGLSDOps));
     if (cglsdo == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "creating native cgl ops");
+        JNU_ThrowOutOfMemoryError(env, "crebting nbtive cgl ops");
         return;
     }
 
     oglsdo->privOps = cglsdo;
 
     oglsdo->sdOps.Lock               = OGLSD_Lock;
-    oglsdo->sdOps.GetRasInfo         = OGLSD_GetRasInfo;
+    oglsdo->sdOps.GetRbsInfo         = OGLSD_GetRbsInfo;
     oglsdo->sdOps.Unlock             = OGLSD_Unlock;
     oglsdo->sdOps.Dispose            = OGLSD_Dispose;
 
-    oglsdo->drawableType = OGLSD_UNDEFINED;
-    oglsdo->activeBuffer = GL_FRONT;
+    oglsdo->drbwbbleType = OGLSD_UNDEFINED;
+    oglsdo->bctiveBuffer = GL_FRONT;
     oglsdo->needsInit = JNI_TRUE;
     oglsdo->xOffset = xoff;
     oglsdo->yOffset = yoff;
-    oglsdo->isOpaque = isOpaque;
+    oglsdo->isOpbque = isOpbque;
 
-    cglsdo->peerData = (AWTView *)jlong_to_ptr(pPeerData);
-    cglsdo->layer = (CGLLayer *)jlong_to_ptr(layerPtr);
-    cglsdo->configInfo = (CGLGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    cglsdo->peerDbtb = (AWTView *)jlong_to_ptr(pPeerDbtb);
+    cglsdo->lbyer = (CGLLbyer *)jlong_to_ptr(lbyerPtr);
+    cglsdo->configInfo = (CGLGrbphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
 
     if (cglsdo->configInfo == NULL) {
         free(cglsdo);
@@ -447,93 +447,93 @@ Java_sun_java2d_opengl_CGLSurfaceData_initOps
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_CGLSurfaceData_clearWindow
+Jbvb_sun_jbvb2d_opengl_CGLSurfbceDbtb_clebrWindow
 (JNIEnv *env, jobject cglsd)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "CGLSurfaceData_clearWindow");
+    J2dTrbceLn(J2D_TRACE_INFO, "CGLSurfbceDbtb_clebrWindow");
 
-    OGLSDOps *oglsdo = (OGLSDOps*) SurfaceData_GetOps(env, cglsd);
+    OGLSDOps *oglsdo = (OGLSDOps*) SurfbceDbtb_GetOps(env, cglsd);
     CGLSDOps *cglsdo = (CGLSDOps*) oglsdo->privOps;
 
-    cglsdo->peerData = NULL;
-    cglsdo->layer = NULL;
+    cglsdo->peerDbtb = NULL;
+    cglsdo->lbyer = NULL;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_opengl_CGLSurfaceData_initPbuffer
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_jbvb2d_opengl_CGLSurfbceDbtb_initPbuffer
     (JNIEnv *env, jobject cglsd,
-     jlong pData, jlong pConfigInfo, jboolean isOpaque,
+     jlong pDbtb, jlong pConfigInfo, jboolebn isOpbque,
      jint width, jint height)
 {
-    J2dTraceLn3(J2D_TRACE_INFO, "CGLSurfaceData_initPbuffer: w=%d h=%d opq=%d", width, height, isOpaque);
+    J2dTrbceLn3(J2D_TRACE_INFO, "CGLSurfbceDbtb_initPbuffer: w=%d h=%d opq=%d", width, height, isOpbque);
 
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLSurfaceData_initPbuffer: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "CGLSurfbceDbtb_initPbuffer: ops bre null");
         return JNI_FALSE;
     }
 
     CGLSDOps *cglsdo = (CGLSDOps *)oglsdo->privOps;
     if (cglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLSurfaceData_initPbuffer: cgl ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "CGLSurfbceDbtb_initPbuffer: cgl ops bre null");
         return JNI_FALSE;
     }
 
-    CGLGraphicsConfigInfo *cglInfo = (CGLGraphicsConfigInfo *)
+    CGLGrbphicsConfigInfo *cglInfo = (CGLGrbphicsConfigInfo *)
         jlong_to_ptr(pConfigInfo);
     if (cglInfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLSurfaceData_initPbuffer: cgl config info is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "CGLSurfbceDbtb_initPbuffer: cgl config info is null");
         return JNI_FALSE;
     }
 
-    // find the maximum allowable texture dimensions (this value ultimately
-    // determines our maximum pbuffer size)
-    int pbMax = 0;
-    j2d_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &pbMax);
+    // find the mbximum bllowbble texture dimensions (this vblue ultimbtely
+    // determines our mbximum pbuffer size)
+    int pbMbx = 0;
+    j2d_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &pbMbx);
 
     int pbWidth = 0;
     int pbHeight = 0;
     if (OGLC_IS_CAP_PRESENT(cglInfo->context, CAPS_TEXNONPOW2)) {
         // use non-power-of-two dimensions directly
-        pbWidth = (width <= pbMax) ? width : 0;
-        pbHeight = (height <= pbMax) ? height : 0;
+        pbWidth = (width <= pbMbx) ? width : 0;
+        pbHeight = (height <= pbMbx) ? height : 0;
     } else {
-        // find the appropriate power-of-two dimensions
-        pbWidth = OGLSD_NextPowerOfTwo(width, pbMax);
-        pbHeight = OGLSD_NextPowerOfTwo(height, pbMax);
+        // find the bppropribte power-of-two dimensions
+        pbWidth = OGLSD_NextPowerOfTwo(width, pbMbx);
+        pbHeight = OGLSD_NextPowerOfTwo(height, pbMbx);
     }
 
-    J2dTraceLn3(J2D_TRACE_VERBOSE, "  desired pbuffer dimensions: w=%d h=%d max=%d", pbWidth, pbHeight, pbMax);
+    J2dTrbceLn3(J2D_TRACE_VERBOSE, "  desired pbuffer dimensions: w=%d h=%d mbx=%d", pbWidth, pbHeight, pbMbx);
 
-    // if either dimension is 0, we cannot allocate a pbuffer/texture with the
+    // if either dimension is 0, we cbnnot bllocbte b pbuffer/texture with the
     // requested dimensions
     if (pbWidth == 0 || pbHeight == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLSurfaceData_initPbuffer: dimensions too large");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "CGLSurfbceDbtb_initPbuffer: dimensions too lbrge");
         return JNI_FALSE;
     }
 
-    int format = isOpaque ? GL_RGB : GL_RGBA;
+    int formbt = isOpbque ? GL_RGB : GL_RGBA;
 
 JNF_COCOA_ENTER(env);
 
     cglsdo->pbuffer =
-        [[NSOpenGLPixelBuffer alloc]
-            initWithTextureTarget: GL_TEXTURE_2D
-            textureInternalFormat: format
-            textureMaxMipMapLevel: 0
+        [[NSOpenGLPixelBuffer blloc]
+            initWithTextureTbrget: GL_TEXTURE_2D
+            textureInternblFormbt: formbt
+            textureMbxMipMbpLevel: 0
             pixelsWide: pbWidth
             pixelsHigh: pbHeight];
     if (cglsdo->pbuffer == nil) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLSurfaceData_initPbuffer: could not create pbuffer");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "CGLSurfbceDbtb_initPbuffer: could not crebte pbuffer");
         return JNI_FALSE;
     }
 
-    // make sure the actual dimensions match those that we requested
-    GLsizei actualWidth  = [cglsdo->pbuffer pixelsWide];
-    GLsizei actualHeight = [cglsdo->pbuffer pixelsHigh];
-    if (actualWidth != pbWidth || actualHeight != pbHeight) {
-        J2dRlsTraceLn2(J2D_TRACE_ERROR, "CGLSurfaceData_initPbuffer: actual (w=%d h=%d) != requested", actualWidth, actualHeight);
-        [cglsdo->pbuffer release];
+    // mbke sure the bctubl dimensions mbtch those thbt we requested
+    GLsizei bctublWidth  = [cglsdo->pbuffer pixelsWide];
+    GLsizei bctublHeight = [cglsdo->pbuffer pixelsHigh];
+    if (bctublWidth != pbWidth || bctublHeight != pbHeight) {
+        J2dRlsTrbceLn2(J2D_TRACE_ERROR, "CGLSurfbceDbtb_initPbuffer: bctubl (w=%d h=%d) != requested", bctublWidth, bctublHeight);
+        [cglsdo->pbuffer relebse];
         return JNI_FALSE;
     }
 
@@ -541,14 +541,14 @@ JNF_COCOA_ENTER(env);
     j2d_glGenTextures(1, &texID);
     j2d_glBindTexture(GL_TEXTURE_2D, texID);
 
-    oglsdo->drawableType = OGLSD_PBUFFER;
-    oglsdo->isOpaque = isOpaque;
+    oglsdo->drbwbbleType = OGLSD_PBUFFER;
+    oglsdo->isOpbque = isOpbque;
     oglsdo->width = width;
     oglsdo->height = height;
     oglsdo->textureID = texID;
     oglsdo->textureWidth = pbWidth;
     oglsdo->textureHeight = pbHeight;
-    oglsdo->activeBuffer = GL_FRONT;
+    oglsdo->bctiveBuffer = GL_FRONT;
     oglsdo->needsInit = JNI_TRUE;
 
     OGLSD_INIT_TEXTURE_FILTER(oglsdo, GL_NEAREST);
@@ -558,37 +558,37 @@ JNF_COCOA_EXIT(env);
     return JNI_TRUE;
 }
 
-#pragma mark -
-#pragma mark "--- CGLSurfaceData methods - Mac OS X specific ---"
+#prbgmb mbrk -
+#prbgmb mbrk "--- CGLSurfbceDbtb methods - Mbc OS X specific ---"
 
-// Must be called on the QFT...
+// Must be cblled on the QFT...
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_CGLSurfaceData_validate
-    (JNIEnv *env, jobject jsurfacedata,
-     jint xoff, jint yoff, jint width, jint height, jboolean isOpaque)
+Jbvb_sun_jbvb2d_opengl_CGLSurfbceDbtb_vblidbte
+    (JNIEnv *env, jobject jsurfbcedbtb,
+     jint xoff, jint yoff, jint width, jint height, jboolebn isOpbque)
 {
-    J2dTraceLn2(J2D_TRACE_INFO, "CGLSurfaceData_validate: w=%d h=%d", width, height);
+    J2dTrbceLn2(J2D_TRACE_INFO, "CGLSurfbceDbtb_vblidbte: w=%d h=%d", width, height);
 
-    OGLSDOps *oglsdo = (OGLSDOps*)SurfaceData_GetOps(env, jsurfacedata);
+    OGLSDOps *oglsdo = (OGLSDOps*)SurfbceDbtb_GetOps(env, jsurfbcedbtb);
     oglsdo->needsInit = JNI_TRUE;
     oglsdo->xOffset = xoff;
     oglsdo->yOffset = yoff;
 
     oglsdo->width = width;
     oglsdo->height = height;
-    oglsdo->isOpaque = isOpaque;
+    oglsdo->isOpbque = isOpbque;
 
-    if (oglsdo->drawableType == OGLSD_WINDOW) {
-        OGLContext_SetSurfaces(env, ptr_to_jlong(oglsdo), ptr_to_jlong(oglsdo));
+    if (oglsdo->drbwbbleType == OGLSD_WINDOW) {
+        OGLContext_SetSurfbces(env, ptr_to_jlong(oglsdo), ptr_to_jlong(oglsdo));
 
-        // we have to explicitly tell the NSOpenGLContext that its target
-        // drawable has changed size
+        // we hbve to explicitly tell the NSOpenGLContext thbt its tbrget
+        // drbwbble hbs chbnged size
         CGLSDOps *cglsdo = (CGLSDOps *)oglsdo->privOps;
         OGLContext *oglc = cglsdo->configInfo->context;
         CGLCtxInfo *ctxinfo = (CGLCtxInfo *)oglc->ctxInfo;
 
 JNF_COCOA_ENTER(env);
-        [ctxinfo->context update];
+        [ctxinfo->context updbte];
 JNF_COCOA_EXIT(env);
     }
 }

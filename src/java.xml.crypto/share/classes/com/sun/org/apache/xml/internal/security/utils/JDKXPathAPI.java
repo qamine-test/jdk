@@ -3,129 +3,129 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils;
 
-import javax.xml.XMLConstants;
-import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import javax.xml.xpath.XPathFactoryConfigurationException;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.trbnsform.TrbnsformerException;
+import jbvbx.xml.xpbth.XPbth;
+import jbvbx.xml.xpbth.XPbthConstbnts;
+import jbvbx.xml.xpbth.XPbthExpression;
+import jbvbx.xml.xpbth.XPbthExpressionException;
+import jbvbx.xml.xpbth.XPbthFbctory;
+import jbvbx.xml.xpbth.XPbthFbctoryConfigurbtionException;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * An implementation for XPath evaluation that uses the JDK API.
+ * An implementbtion for XPbth evblubtion thbt uses the JDK API.
  */
-public class JDKXPathAPI implements XPathAPI {
+public clbss JDKXPbthAPI implements XPbthAPI {
 
-    private XPathFactory xpf;
+    privbte XPbthFbctory xpf;
 
-    private String xpathStr;
+    privbte String xpbthStr;
 
-    private XPathExpression xpathExpression;
+    privbte XPbthExpression xpbthExpression;
 
     /**
-     *  Use an XPath string to select a nodelist.
-     *  XPath namespace prefixes are resolved from the namespaceNode.
+     *  Use bn XPbth string to select b nodelist.
+     *  XPbth nbmespbce prefixes bre resolved from the nbmespbceNode.
      *
-     *  @param contextNode The node to start searching from.
-     *  @param xpathnode
-     *  @param str
-     *  @param namespaceNode The node from which prefixes in the XPath will be resolved to namespaces.
-     *  @return A NodeIterator, should never be null.
+     *  @pbrbm contextNode The node to stbrt sebrching from.
+     *  @pbrbm xpbthnode
+     *  @pbrbm str
+     *  @pbrbm nbmespbceNode The node from which prefixes in the XPbth will be resolved to nbmespbces.
+     *  @return A NodeIterbtor, should never be null.
      *
-     * @throws TransformerException
+     * @throws TrbnsformerException
      */
     public NodeList selectNodeList(
-        Node contextNode, Node xpathnode, String str, Node namespaceNode
-    ) throws TransformerException {
-        if (!str.equals(xpathStr) || xpathExpression == null) {
+        Node contextNode, Node xpbthnode, String str, Node nbmespbceNode
+    ) throws TrbnsformerException {
+        if (!str.equbls(xpbthStr) || xpbthExpression == null) {
             if (xpf == null) {
-                xpf = XPathFactory.newInstance();
+                xpf = XPbthFbctory.newInstbnce();
                 try {
-                    xpf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-                } catch (XPathFactoryConfigurationException ex) {
-                    throw new TransformerException("empty", ex);
+                    xpf.setFebture(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolebn.TRUE);
+                } cbtch (XPbthFbctoryConfigurbtionException ex) {
+                    throw new TrbnsformerException("empty", ex);
                 }
             }
-            XPath xpath = xpf.newXPath();
-            xpath.setNamespaceContext(new DOMNamespaceContext(namespaceNode));
-            xpathStr = str;
+            XPbth xpbth = xpf.newXPbth();
+            xpbth.setNbmespbceContext(new DOMNbmespbceContext(nbmespbceNode));
+            xpbthStr = str;
             try {
-                xpathExpression = xpath.compile(xpathStr);
-            } catch (XPathExpressionException ex) {
-                throw new TransformerException("empty", ex);
+                xpbthExpression = xpbth.compile(xpbthStr);
+            } cbtch (XPbthExpressionException ex) {
+                throw new TrbnsformerException("empty", ex);
             }
         }
         try {
-            return (NodeList)xpathExpression.evaluate(contextNode, XPathConstants.NODESET);
-        } catch (XPathExpressionException ex) {
-            throw new TransformerException("empty", ex);
+            return (NodeList)xpbthExpression.evblubte(contextNode, XPbthConstbnts.NODESET);
+        } cbtch (XPbthExpressionException ex) {
+            throw new TrbnsformerException("empty", ex);
         }
     }
 
     /**
-     * Evaluate an XPath string and return true if the output is to be included or not.
-     *  @param contextNode The node to start searching from.
-     *  @param xpathnode The XPath node
-     *  @param str The XPath expression
-     *  @param namespaceNode The node from which prefixes in the XPath will be resolved to namespaces.
+     * Evblubte bn XPbth string bnd return true if the output is to be included or not.
+     *  @pbrbm contextNode The node to stbrt sebrching from.
+     *  @pbrbm xpbthnode The XPbth node
+     *  @pbrbm str The XPbth expression
+     *  @pbrbm nbmespbceNode The node from which prefixes in the XPbth will be resolved to nbmespbces.
      */
-    public boolean evaluate(Node contextNode, Node xpathnode, String str, Node namespaceNode)
-        throws TransformerException {
-        if (!str.equals(xpathStr) || xpathExpression == null) {
+    public boolebn evblubte(Node contextNode, Node xpbthnode, String str, Node nbmespbceNode)
+        throws TrbnsformerException {
+        if (!str.equbls(xpbthStr) || xpbthExpression == null) {
             if (xpf == null) {
-                xpf = XPathFactory.newInstance();
+                xpf = XPbthFbctory.newInstbnce();
                 try {
-                    xpf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-                } catch (XPathFactoryConfigurationException ex) {
-                    throw new TransformerException("empty", ex);
+                    xpf.setFebture(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolebn.TRUE);
+                } cbtch (XPbthFbctoryConfigurbtionException ex) {
+                    throw new TrbnsformerException("empty", ex);
                 }
             }
-            XPath xpath = xpf.newXPath();
-            xpath.setNamespaceContext(new DOMNamespaceContext(namespaceNode));
-            xpathStr = str;
+            XPbth xpbth = xpf.newXPbth();
+            xpbth.setNbmespbceContext(new DOMNbmespbceContext(nbmespbceNode));
+            xpbthStr = str;
             try {
-                xpathExpression = xpath.compile(xpathStr);
-            } catch (XPathExpressionException ex) {
-                throw new TransformerException("empty", ex);
+                xpbthExpression = xpbth.compile(xpbthStr);
+            } cbtch (XPbthExpressionException ex) {
+                throw new TrbnsformerException("empty", ex);
             }
         }
         try {
-            Boolean result = (Boolean)xpathExpression.evaluate(contextNode, XPathConstants.BOOLEAN);
-            return result.booleanValue();
-        } catch (XPathExpressionException ex) {
-            throw new TransformerException("empty", ex);
+            Boolebn result = (Boolebn)xpbthExpression.evblubte(contextNode, XPbthConstbnts.BOOLEAN);
+            return result.boolebnVblue();
+        } cbtch (XPbthExpressionException ex) {
+            throw new TrbnsformerException("empty", ex);
         }
     }
 
     /**
-     * Clear any context information from this object
+     * Clebr bny context informbtion from this object
      */
-    public void clear() {
-        xpathStr = null;
-        xpathExpression = null;
+    public void clebr() {
+        xpbthStr = null;
+        xpbthExpression = null;
         xpf = null;
     }
 

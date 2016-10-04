@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 
 /**
- * <code>JPanel</code> is a generic lightweight container.
- * For examples and task-oriented documentation for JPanel, see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/panel.html">How to Use Panels</a>,
- * a section in <em>The Java Tutorial</em>.
+ * <code>JPbnel</code> is b generic lightweight contbiner.
+ * For exbmples bnd tbsk-oriented documentbtion for JPbnel, see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/pbnel.html">How to Use Pbnels</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- * description: A generic lightweight container.
+ * @bebninfo
+ * description: A generic lightweight contbiner.
  *
- * @author Arnaud Weber
- * @author Steve Wilson
+ * @buthor Arnbud Weber
+ * @buthor Steve Wilson
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JPanel extends JComponent implements Accessible
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JPbnel extends JComponent implements Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "PanelUI";
+    privbte stbtic finbl String uiClbssID = "PbnelUI";
 
     /**
-     * Creates a new JPanel with the specified layout manager and buffering
-     * strategy.
+     * Crebtes b new JPbnel with the specified lbyout mbnbger bnd buffering
+     * strbtegy.
      *
-     * @param layout  the LayoutManager to use
-     * @param isDoubleBuffered  a boolean, true for double-buffering, which
-     *        uses additional memory space to achieve fast, flicker-free
-     *        updates
+     * @pbrbm lbyout  the LbyoutMbnbger to use
+     * @pbrbm isDoubleBuffered  b boolebn, true for double-buffering, which
+     *        uses bdditionbl memory spbce to bchieve fbst, flicker-free
+     *        updbtes
      */
-    public JPanel(LayoutManager layout, boolean isDoubleBuffered) {
-        setLayout(layout);
+    public JPbnel(LbyoutMbnbger lbyout, boolebn isDoubleBuffered) {
+        setLbyout(lbyout);
         setDoubleBuffered(isDoubleBuffered);
-        setUIProperty("opaque", Boolean.TRUE);
-        updateUI();
+        setUIProperty("opbque", Boolebn.TRUE);
+        updbteUI();
     }
 
     /**
-     * Create a new buffered JPanel with the specified layout manager
+     * Crebte b new buffered JPbnel with the specified lbyout mbnbger
      *
-     * @param layout  the LayoutManager to use
+     * @pbrbm lbyout  the LbyoutMbnbger to use
      */
-    public JPanel(LayoutManager layout) {
-        this(layout, true);
+    public JPbnel(LbyoutMbnbger lbyout) {
+        this(lbyout, true);
     }
 
     /**
-     * Creates a new <code>JPanel</code> with <code>FlowLayout</code>
-     * and the specified buffering strategy.
-     * If <code>isDoubleBuffered</code> is true, the <code>JPanel</code>
-     * will use a double buffer.
+     * Crebtes b new <code>JPbnel</code> with <code>FlowLbyout</code>
+     * bnd the specified buffering strbtegy.
+     * If <code>isDoubleBuffered</code> is true, the <code>JPbnel</code>
+     * will use b double buffer.
      *
-     * @param isDoubleBuffered  a boolean, true for double-buffering, which
-     *        uses additional memory space to achieve fast, flicker-free
-     *        updates
+     * @pbrbm isDoubleBuffered  b boolebn, true for double-buffering, which
+     *        uses bdditionbl memory spbce to bchieve fbst, flicker-free
+     *        updbtes
      */
-    public JPanel(boolean isDoubleBuffered) {
-        this(new FlowLayout(), isDoubleBuffered);
+    public JPbnel(boolebn isDoubleBuffered) {
+        this(new FlowLbyout(), isDoubleBuffered);
     }
 
     /**
-     * Creates a new <code>JPanel</code> with a double buffer
-     * and a flow layout.
+     * Crebtes b new <code>JPbnel</code> with b double buffer
+     * bnd b flow lbyout.
      */
-    public JPanel() {
+    public JPbnel() {
         this(true);
     }
 
     /**
-     * Resets the UI property with a value from the current look and feel.
+     * Resets the UI property with b vblue from the current look bnd feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((PanelUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((PbnelUI)UIMbnbger.getUI(this));
     }
 
     /**
-     * Returns the look and feel (L&amp;amp;F) object that renders this component.
+     * Returns the look bnd feel (L&bmp;bmp;F) object thbt renders this component.
      *
-     * @return the PanelUI object that renders this component
+     * @return the PbnelUI object thbt renders this component
      * @since 1.4
      */
-    public PanelUI getUI() {
-        return (PanelUI)ui;
+    public PbnelUI getUI() {
+        return (PbnelUI)ui;
     }
 
 
     /**
-     * Sets the look and feel (L&amp;F) object that renders this component.
+     * Sets the look bnd feel (L&bmp;F) object thbt renders this component.
      *
-     * @param ui  the PanelUI L&amp;F object
-     * @see UIDefaults#getUI
+     * @pbrbm ui  the PbnelUI L&bmp;F object
+     * @see UIDefbults#getUI
      * @since 1.4
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
-    public void setUI(PanelUI ui) {
+    public void setUI(PbnelUI ui) {
         super.setUI(ui);
     }
 
     /**
-     * Returns a string that specifies the name of the L&amp;F class
-     * that renders this component.
+     * Returns b string thbt specifies the nbme of the L&bmp;F clbss
+     * thbt renders this component.
      *
-     * @return "PanelUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @return "PbnelUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        expert: true
-     *   description: A string that specifies the name of the L&amp;F class.
+     *   description: A string thbt specifies the nbme of the L&bmp;F clbss.
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * See rebdObject() bnd writeObject() in JComponent for more
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this JPanel. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this JPbnel. This method
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this JPanel.
+     * @return  b string representbtion of this JPbnel.
      */
-    protected String paramString() {
-        return super.paramString();
+    protected String pbrbmString() {
+        return super.pbrbmString();
     }
 
 /////////////////
@@ -205,43 +205,43 @@ public class JPanel extends JComponent implements Accessible
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JPanel.
-     * For JPanels, the AccessibleContext takes the form of an
-     * AccessibleJPanel.
-     * A new AccessibleJPanel instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JPbnel.
+     * For JPbnels, the AccessibleContext tbkes the form of bn
+     * AccessibleJPbnel.
+     * A new AccessibleJPbnel instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJPanel that serves as the
-     *         AccessibleContext of this JPanel
+     * @return bn AccessibleJPbnel thbt serves bs the
+     *         AccessibleContext of this JPbnel
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJPanel();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJPbnel();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JPanel</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to panel user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JPbnel</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to pbnel user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJPanel extends AccessibleJComponent {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJPbnel extends AccessibleJComponent {
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          */
         public AccessibleRole getAccessibleRole() {

@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Vector;
-import java.util.List;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.util.Vector;
+import jbvb.util.List;
 
-import com.sun.tools.example.debug.bdi.*;
+import com.sun.tools.exbmple.debug.bdi.*;
 
-//### This is currently just a placeholder!
+//### This is currently just b plbceholder!
 
-class JDBMenuBar extends JMenuBar {
+clbss JDBMenuBbr extends JMenuBbr {
 
     Environment env;
 
-    ExecutionManager runtime;
-    ClassManager classManager;
-    SourceManager sourceManager;
+    ExecutionMbnbger runtime;
+    ClbssMbnbger clbssMbnbger;
+    SourceMbnbger sourceMbnbger;
 
-    CommandInterpreter interpreter;
+    CommbndInterpreter interpreter;
 
-    JDBMenuBar(Environment env) {
+    JDBMenuBbr(Environment env) {
         this.env = env;
-        this.runtime = env.getExecutionManager();
-        this.classManager = env.getClassManager();
-        this.sourceManager = env.getSourceManager();
-        this.interpreter = new CommandInterpreter(env, true);
+        this.runtime = env.getExecutionMbnbger();
+        this.clbssMbnbger = env.getClbssMbnbger();
+        this.sourceMbnbger = env.getSourceMbnbger();
+        this.interpreter = new CommbndInterpreter(env, true);
 
         JMenu fileMenu = new JMenu("File");
 
         JMenuItem openItem = new JMenuItem("Open...", 'O');
-        openItem.addActionListener(new ActionListener() {
+        openItem.bddActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                openCommand();
+            public void bctionPerformed(ActionEvent e) {
+                openCommbnd();
             }
         });
-        fileMenu.add(openItem);
-        addTool(fileMenu, "Exit debugger", "Exit", "exit");
+        fileMenu.bdd(openItem);
+        bddTool(fileMenu, "Exit debugger", "Exit", "exit");
 
-        JMenu cmdMenu = new JMenu("Commands");
+        JMenu cmdMenu = new JMenu("Commbnds");
 
-        addTool(cmdMenu, "Step into next line", "Step", "step");
-        addTool(cmdMenu, "Step over next line", "Next", "next");
-        cmdMenu.addSeparator();
+        bddTool(cmdMenu, "Step into next line", "Step", "step");
+        bddTool(cmdMenu, "Step over next line", "Next", "next");
+        cmdMenu.bddSepbrbtor();
 
-        addTool(cmdMenu, "Step into next instruction",
+        bddTool(cmdMenu, "Step into next instruction",
                 "Step Instruction", "stepi");
-        addTool(cmdMenu, "Step over next instruction",
+        bddTool(cmdMenu, "Step over next instruction",
                 "Next Instruction", "nexti");
-        cmdMenu.addSeparator();
+        cmdMenu.bddSepbrbtor();
 
-        addTool(cmdMenu, "Step out of current method call",
+        bddTool(cmdMenu, "Step out of current method cbll",
                 "Step Up", "step up");
-        cmdMenu.addSeparator();
+        cmdMenu.bddSepbrbtor();
 
-        addTool(cmdMenu, "Suspend execution", "Interrupt", "interrupt");
-        addTool(cmdMenu, "Continue execution", "Continue", "cont");
-        cmdMenu.addSeparator();
+        bddTool(cmdMenu, "Suspend execution", "Interrupt", "interrupt");
+        bddTool(cmdMenu, "Continue execution", "Continue", "cont");
+        cmdMenu.bddSepbrbtor();
 
-        addTool(cmdMenu, "Display current stack", "Where", "where");
-        cmdMenu.addSeparator();
+        bddTool(cmdMenu, "Displby current stbck", "Where", "where");
+        cmdMenu.bddSepbrbtor();
 
-        addTool(cmdMenu, "Move up one stack frame", "Up", "up");
-        addTool(cmdMenu, "Move down one stack frame", "Down", "down");
-        cmdMenu.addSeparator();
+        bddTool(cmdMenu, "Move up one stbck frbme", "Up", "up");
+        bddTool(cmdMenu, "Move down one stbck frbme", "Down", "down");
+        cmdMenu.bddSepbrbtor();
 
         JMenuItem monitorItem = new JMenuItem("Monitor Expression...", 'M');
-        monitorItem.addActionListener(new ActionListener() {
+        monitorItem.bddActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                monitorCommand();
+            public void bctionPerformed(ActionEvent e) {
+                monitorCommbnd();
             }
         });
-        cmdMenu.add(monitorItem);
+        cmdMenu.bdd(monitorItem);
 
         JMenuItem unmonitorItem = new JMenuItem("Unmonitor Expression...");
-        unmonitorItem.addActionListener(new ActionListener() {
+        unmonitorItem.bddActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                unmonitorCommand();
+            public void bctionPerformed(ActionEvent e) {
+                unmonitorCommbnd();
             }
         });
-        cmdMenu.add(unmonitorItem);
+        cmdMenu.bdd(unmonitorItem);
 
-        JMenu breakpointMenu = new JMenu("Breakpoint");
+        JMenu brebkpointMenu = new JMenu("Brebkpoint");
         JMenuItem stopItem = new JMenuItem("Stop in...", 'S');
-        stopItem.addActionListener(new ActionListener() {
+        stopItem.bddActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                buildBreakpoint();
+            public void bctionPerformed(ActionEvent e) {
+                buildBrebkpoint();
             }
         });
-        breakpointMenu.add(stopItem);
+        brebkpointMenu.bdd(stopItem);
 
         JMenu helpMenu = new JMenu("Help");
-        addTool(helpMenu, "Display command list", "Help", "help");
+        bddTool(helpMenu, "Displby commbnd list", "Help", "help");
 
-        this.add(fileMenu);
-        this.add(cmdMenu);
-//      this.add(breakpointMenu);
-        this.add(helpMenu);
+        this.bdd(fileMenu);
+        this.bdd(cmdMenu);
+//      this.bdd(brebkpointMenu);
+        this.bdd(helpMenu);
     }
 
-    private void buildBreakpoint() {
-        Frame frame = JOptionPane.getRootFrame();
-        JDialog dialog = new JDialog(frame, "Specify Breakpoint");
-        Container contents = dialog.getContentPane();
-        Vector<String> classes = new Vector<String>();
-        classes.add("Foo");
-        classes.add("Bar");
-        JList list = new JList(classes);
-        JScrollPane scrollPane = new JScrollPane(list);
-        contents.add(scrollPane);
-        dialog.show();
+    privbte void buildBrebkpoint() {
+        Frbme frbme = JOptionPbne.getRootFrbme();
+        JDiblog diblog = new JDiblog(frbme, "Specify Brebkpoint");
+        Contbiner contents = diblog.getContentPbne();
+        Vector<String> clbsses = new Vector<String>();
+        clbsses.bdd("Foo");
+        clbsses.bdd("Bbr");
+        JList list = new JList(clbsses);
+        JScrollPbne scrollPbne = new JScrollPbne(list);
+        contents.bdd(scrollPbne);
+        diblog.show();
 
     }
 
-    private void monitorCommand() {
-        String expr = (String)JOptionPane.showInputDialog(null,
+    privbte void monitorCommbnd() {
+        String expr = (String)JOptionPbne.showInputDiblog(null,
                            "Expression to monitor:", "Add Monitor",
-                           JOptionPane.QUESTION_MESSAGE, null, null, null);
+                           JOptionPbne.QUESTION_MESSAGE, null, null, null);
         if (expr != null) {
-            interpreter.executeCommand("monitor " + expr);
+            interpreter.executeCommbnd("monitor " + expr);
         }
     }
 
-    private void unmonitorCommand() {
+    privbte void unmonitorCommbnd() {
         List monitors = env.getMonitorListModel().monitors();
-        String expr = (String)JOptionPane.showInputDialog(null,
+        String expr = (String)JOptionPbne.showInputDiblog(null,
                            "Expression to unmonitor:", "Remove Monitor",
-                           JOptionPane.QUESTION_MESSAGE, null,
-                           monitors.toArray(),
+                           JOptionPbne.QUESTION_MESSAGE, null,
+                           monitors.toArrby(),
                            monitors.get(monitors.size()-1));
         if (expr != null) {
-            interpreter.executeCommand("unmonitor " + expr);
+            interpreter.executeCommbnd("unmonitor " + expr);
         }
     }
 
-    private void openCommand() {
+    privbte void openCommbnd() {
         JFileChooser chooser = new JFileChooser();
-        JDBFileFilter filter = new JDBFileFilter("java", "Java source code");
+        JDBFileFilter filter = new JDBFileFilter("jbvb", "Jbvb source code");
         chooser.setFileFilter(filter);
-        int result = chooser.showOpenDialog(this);
+        int result = chooser.showOpenDiblog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
-            System.out.println("Chose file: " + chooser.getSelectedFile().getName());
+            System.out.println("Chose file: " + chooser.getSelectedFile().getNbme());
         }
     }
 
-    private void addTool(JMenu menu, String toolTip, String labelText,
-                         String command) {
-        JMenuItem mi = new JMenuItem(labelText);
+    privbte void bddTool(JMenu menu, String toolTip, String lbbelText,
+                         String commbnd) {
+        JMenuItem mi = new JMenuItem(lbbelText);
         mi.setToolTipText(toolTip);
-        final String cmd = command;
-        mi.addActionListener(new ActionListener() {
+        finbl String cmd = commbnd;
+        mi.bddActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                interpreter.executeCommand(cmd);
+            public void bctionPerformed(ActionEvent e) {
+                interpreter.executeCommbnd(cmd);
             }
         });
-        menu.add(mi);
+        menu.bdd(mi);
     }
 
 }

@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans;
+pbckbge jbvb.bebns;
 
-import com.sun.beans.finder.BeanInfoFinder;
-import com.sun.beans.finder.PropertyEditorFinder;
+import com.sun.bebns.finder.BebnInfoFinder;
+import com.sun.bebns.finder.PropertyEditorFinder;
 
-import java.awt.GraphicsEnvironment;
-import java.util.Map;
-import java.util.WeakHashMap;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
 
 /**
- * The {@code ThreadGroupContext} is an application-dependent
- * context referenced by the specific {@link ThreadGroup}.
- * This is a replacement for the {@link sun.awt.AppContext}.
+ * The {@code ThrebdGroupContext} is bn bpplicbtion-dependent
+ * context referenced by the specific {@link ThrebdGroup}.
+ * This is b replbcement for the {@link sun.bwt.AppContext}.
  *
- * @author  Sergey Malenkov
+ * @buthor  Sergey Mblenkov
  */
-final class ThreadGroupContext {
+finbl clbss ThrebdGroupContext {
 
-    private static final WeakIdentityMap<ThreadGroupContext> contexts = new WeakIdentityMap<ThreadGroupContext>() {
-        protected ThreadGroupContext create(Object key) {
-            return new ThreadGroupContext();
+    privbte stbtic finbl WebkIdentityMbp<ThrebdGroupContext> contexts = new WebkIdentityMbp<ThrebdGroupContext>() {
+        protected ThrebdGroupContext crebte(Object key) {
+            return new ThrebdGroupContext();
         }
     };
 
     /**
-     * Returns the appropriate {@code ThreadGroupContext} for the caller,
-     * as determined by its {@code ThreadGroup}.
+     * Returns the bppropribte {@code ThrebdGroupContext} for the cbller,
+     * bs determined by its {@code ThrebdGroup}.
      *
-     * @return  the application-dependent context
+     * @return  the bpplicbtion-dependent context
      */
-    static ThreadGroupContext getContext() {
-        return contexts.get(Thread.currentThread().getThreadGroup());
+    stbtic ThrebdGroupContext getContext() {
+        return contexts.get(Threbd.currentThrebd().getThrebdGroup());
     }
 
-    private volatile boolean isDesignTime;
-    private volatile Boolean isGuiAvailable;
+    privbte volbtile boolebn isDesignTime;
+    privbte volbtile Boolebn isGuiAvbilbble;
 
-    private Map<Class<?>, BeanInfo> beanInfoCache;
-    private BeanInfoFinder beanInfoFinder;
-    private PropertyEditorFinder propertyEditorFinder;
+    privbte Mbp<Clbss<?>, BebnInfo> bebnInfoCbche;
+    privbte BebnInfoFinder bebnInfoFinder;
+    privbte PropertyEditorFinder propertyEditorFinder;
 
-    private ThreadGroupContext() {
+    privbte ThrebdGroupContext() {
     }
 
-    boolean isDesignTime() {
+    boolebn isDesignTime() {
         return this.isDesignTime;
     }
 
-    void setDesignTime(boolean isDesignTime) {
+    void setDesignTime(boolebn isDesignTime) {
         this.isDesignTime = isDesignTime;
     }
 
 
-    boolean isGuiAvailable() {
-        Boolean isGuiAvailable = this.isGuiAvailable;
-        return (isGuiAvailable != null)
-                ? isGuiAvailable.booleanValue()
-                : !GraphicsEnvironment.isHeadless();
+    boolebn isGuiAvbilbble() {
+        Boolebn isGuiAvbilbble = this.isGuiAvbilbble;
+        return (isGuiAvbilbble != null)
+                ? isGuiAvbilbble.boolebnVblue()
+                : !GrbphicsEnvironment.isHebdless();
     }
 
-    void setGuiAvailable(boolean isGuiAvailable) {
-        this.isGuiAvailable = Boolean.valueOf(isGuiAvailable);
+    void setGuiAvbilbble(boolebn isGuiAvbilbble) {
+        this.isGuiAvbilbble = Boolebn.vblueOf(isGuiAvbilbble);
     }
 
 
-    BeanInfo getBeanInfo(Class<?> type) {
-        return (this.beanInfoCache != null)
-                ? this.beanInfoCache.get(type)
+    BebnInfo getBebnInfo(Clbss<?> type) {
+        return (this.bebnInfoCbche != null)
+                ? this.bebnInfoCbche.get(type)
                 : null;
     }
 
-    BeanInfo putBeanInfo(Class<?> type, BeanInfo info) {
-        if (this.beanInfoCache == null) {
-            this.beanInfoCache = new WeakHashMap<>();
+    BebnInfo putBebnInfo(Clbss<?> type, BebnInfo info) {
+        if (this.bebnInfoCbche == null) {
+            this.bebnInfoCbche = new WebkHbshMbp<>();
         }
-        return this.beanInfoCache.put(type, info);
+        return this.bebnInfoCbche.put(type, info);
     }
 
-    void removeBeanInfo(Class<?> type) {
-        if (this.beanInfoCache != null) {
-            this.beanInfoCache.remove(type);
-        }
-    }
-
-    void clearBeanInfoCache() {
-        if (this.beanInfoCache != null) {
-            this.beanInfoCache.clear();
+    void removeBebnInfo(Clbss<?> type) {
+        if (this.bebnInfoCbche != null) {
+            this.bebnInfoCbche.remove(type);
         }
     }
 
-
-    synchronized BeanInfoFinder getBeanInfoFinder() {
-        if (this.beanInfoFinder == null) {
-            this.beanInfoFinder = new BeanInfoFinder();
+    void clebrBebnInfoCbche() {
+        if (this.bebnInfoCbche != null) {
+            this.bebnInfoCbche.clebr();
         }
-        return this.beanInfoFinder;
+    }
+
+
+    synchronized BebnInfoFinder getBebnInfoFinder() {
+        if (this.bebnInfoFinder == null) {
+            this.bebnInfoFinder = new BebnInfoFinder();
+        }
+        return this.bebnInfoFinder;
     }
 
     synchronized PropertyEditorFinder getPropertyEditorFinder() {

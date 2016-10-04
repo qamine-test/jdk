@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.security.auth.callback;
+pbckbge jbvbx.security.buth.cbllbbck;
 
 /**
- * <p> Implementations of this interface are passed to a
- * {@code CallbackHandler}, allowing underlying security services
- * the ability to interact with a calling application to retrieve specific
- * authentication data such as usernames and passwords, or to display
- * certain information, such as error and warning messages.
+ * <p> Implementbtions of this interfbce bre pbssed to b
+ * {@code CbllbbckHbndler}, bllowing underlying security services
+ * the bbility to interbct with b cblling bpplicbtion to retrieve specific
+ * buthenticbtion dbtb such bs usernbmes bnd pbsswords, or to displby
+ * certbin informbtion, such bs error bnd wbrning messbges.
  *
- * <p> {@code Callback} implementations do not retrieve or
- * display the information requested by underlying security services.
- * {@code Callback} implementations simply provide the means
- * to pass such requests to applications, and for applications,
- * if appropriate, to return requested information back to the
+ * <p> {@code Cbllbbck} implementbtions do not retrieve or
+ * displby the informbtion requested by underlying security services.
+ * {@code Cbllbbck} implementbtions simply provide the mebns
+ * to pbss such requests to bpplicbtions, bnd for bpplicbtions,
+ * if bppropribte, to return requested informbtion bbck to the
  * underlying security services.
  *
- * @see javax.security.auth.callback.CallbackHandler
- * @see javax.security.auth.callback.ChoiceCallback
- * @see javax.security.auth.callback.ConfirmationCallback
- * @see javax.security.auth.callback.LanguageCallback
- * @see javax.security.auth.callback.NameCallback
- * @see javax.security.auth.callback.PasswordCallback
- * @see javax.security.auth.callback.TextInputCallback
- * @see javax.security.auth.callback.TextOutputCallback
+ * @see jbvbx.security.buth.cbllbbck.CbllbbckHbndler
+ * @see jbvbx.security.buth.cbllbbck.ChoiceCbllbbck
+ * @see jbvbx.security.buth.cbllbbck.ConfirmbtionCbllbbck
+ * @see jbvbx.security.buth.cbllbbck.LbngubgeCbllbbck
+ * @see jbvbx.security.buth.cbllbbck.NbmeCbllbbck
+ * @see jbvbx.security.buth.cbllbbck.PbsswordCbllbbck
+ * @see jbvbx.security.buth.cbllbbck.TextInputCbllbbck
+ * @see jbvbx.security.buth.cbllbbck.TextOutputCbllbbck
  */
-public interface Callback { }
+public interfbce Cbllbbck { }

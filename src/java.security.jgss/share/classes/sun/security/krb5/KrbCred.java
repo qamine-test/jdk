@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5;
+pbckbge sun.security.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.KeyUsage;
-import java.io.IOException;
-import sun.security.util.DerValue;
+import sun.security.krb5.internbl.*;
+import sun.security.krb5.internbl.crypto.KeyUsbge;
+import jbvb.io.IOException;
+import sun.security.util.DerVblue;
 
 /**
- * This class encapsulates the KRB-CRED message that a client uses to
- * send its delegated credentials to a server.
+ * This clbss encbpsulbtes the KRB-CRED messbge thbt b client uses to
+ * send its delegbted credentibls to b server.
  *
- * Supports delegation of one ticket only.
- * @author Mayank Upadhyay
+ * Supports delegbtion of one ticket only.
+ * @buthor Mbybnk Upbdhyby
  */
-public class KrbCred {
+public clbss KrbCred {
 
-    private static boolean DEBUG = Krb5.DEBUG;
+    privbte stbtic boolebn DEBUG = Krb5.DEBUG;
 
-    private byte[] obuf = null;
-    private KRBCred credMessg = null;
-    private Ticket ticket = null;
-    private EncKrbCredPart encPart = null;
-    private Credentials creds = null;
-    private KerberosTime timeStamp = null;
+    privbte byte[] obuf = null;
+    privbte KRBCred credMessg = null;
+    privbte Ticket ticket = null;
+    privbte EncKrbCredPbrt encPbrt = null;
+    privbte Credentibls creds = null;
+    privbte KerberosTime timeStbmp = null;
 
-         // Used in InitialToken with null key
-    public KrbCred(Credentials tgt,
-                   Credentials serviceTicket,
+         // Used in InitiblToken with null key
+    public KrbCred(Credentibls tgt,
+                   Credentibls serviceTicket,
                    EncryptionKey key)
         throws KrbException, IOException {
 
-        PrincipalName client = tgt.getClient();
-        PrincipalName tgService = tgt.getServer();
-        PrincipalName server = serviceTicket.getServer();
-        if (!serviceTicket.getClient().equals(client))
+        PrincipblNbme client = tgt.getClient();
+        PrincipblNbme tgService = tgt.getServer();
+        PrincipblNbme server = serviceTicket.getServer();
+        if (!serviceTicket.getClient().equbls(client))
             throw new KrbException(Krb5.KRB_ERR_GENERIC,
-                                "Client principal does not match");
+                                "Client principbl does not mbtch");
 
-        // XXX Check Windows flag OK-TO-FORWARD-TO
+        // XXX Check Windows flbg OK-TO-FORWARD-TO
 
-        // Invoke TGS-REQ to get a forwarded TGT for the peer
+        // Invoke TGS-REQ to get b forwbrded TGT for the peer
 
         KDCOptions options = new KDCOptions();
         options.set(KDCOptions.FORWARDED, true);
         options.set(KDCOptions.FORWARDABLE, true);
 
         HostAddresses sAddrs = null;
-        // XXX Also NT_GSS_KRB5_PRINCIPAL can be a host based principal
-        // GSSName.NT_HOSTBASED_SERVICE should display with KRB_NT_SRV_HST
-        if (server.getNameType() == PrincipalName.KRB_NT_SRV_HST)
+        // XXX Also NT_GSS_KRB5_PRINCIPAL cbn be b host bbsed principbl
+        // GSSNbme.NT_HOSTBASED_SERVICE should displby with KRB_NT_SRV_HST
+        if (server.getNbmeType() == PrincipblNbme.KRB_NT_SRV_HST)
             sAddrs=  new HostAddresses(server);
 
         KrbTgsReq tgsReq = new KrbTgsReq(options, tgt, tgService,
                                          null, null, null, null, sAddrs, null, null, null);
-        credMessg = createMessage(tgsReq.sendAndGetCreds(), key);
+        credMessg = crebteMessbge(tgsReq.sendAndGetCreds(), key);
 
-        obuf = credMessg.asn1Encode();
+        obuf = credMessg.bsn1Encode();
     }
 
-    KRBCred createMessage(Credentials delegatedCreds, EncryptionKey key)
+    KRBCred crebteMessbge(Credentibls delegbtedCreds, EncryptionKey key)
         throws KrbException, IOException {
 
         EncryptionKey sessionKey
-            = delegatedCreds.getSessionKey();
-        PrincipalName princ = delegatedCreds.getClient();
-        Realm realm = princ.getRealm();
-        PrincipalName tgService = delegatedCreds.getServer();
+            = delegbtedCreds.getSessionKey();
+        PrincipblNbme princ = delegbtedCreds.getClient();
+        Reblm reblm = princ.getReblm();
+        PrincipblNbme tgService = delegbtedCreds.getServer();
 
         KrbCredInfo credInfo = new KrbCredInfo(sessionKey,
-                                               princ, delegatedCreds.flags, delegatedCreds.authTime,
-                                               delegatedCreds.startTime, delegatedCreds.endTime,
-                                               delegatedCreds.renewTill, tgService,
-                                               delegatedCreds.cAddr);
+                                               princ, delegbtedCreds.flbgs, delegbtedCreds.buthTime,
+                                               delegbtedCreds.stbrtTime, delegbtedCreds.endTime,
+                                               delegbtedCreds.renewTill, tgService,
+                                               delegbtedCreds.cAddr);
 
-        timeStamp = KerberosTime.now();
+        timeStbmp = KerberosTime.now();
         KrbCredInfo[] credInfos = {credInfo};
-        EncKrbCredPart encPart =
-            new EncKrbCredPart(credInfos,
-                               timeStamp, null, null, null, null);
+        EncKrbCredPbrt encPbrt =
+            new EncKrbCredPbrt(credInfos,
+                               timeStbmp, null, null, null, null);
 
-        EncryptedData encEncPart = new EncryptedData(key,
-            encPart.asn1Encode(), KeyUsage.KU_ENC_KRB_CRED_PART);
+        EncryptedDbtb encEncPbrt = new EncryptedDbtb(key,
+            encPbrt.bsn1Encode(), KeyUsbge.KU_ENC_KRB_CRED_PART);
 
-        Ticket[] tickets = {delegatedCreds.ticket};
+        Ticket[] tickets = {delegbtedCreds.ticket};
 
-        credMessg = new KRBCred(tickets, encEncPart);
+        credMessg = new KRBCred(tickets, encEncPbrt);
 
         return credMessg;
     }
 
-    // Used in InitialToken, NULL_KEY might be used
-    public KrbCred(byte[] asn1Message, EncryptionKey key)
+    // Used in InitiblToken, NULL_KEY might be used
+    public KrbCred(byte[] bsn1Messbge, EncryptionKey key)
         throws KrbException, IOException {
 
-        credMessg = new KRBCred(asn1Message);
+        credMessg = new KRBCred(bsn1Messbge);
 
         ticket = credMessg.tickets[0];
 
-        if (credMessg.encPart.getEType() == 0) {
+        if (credMessg.encPbrt.getEType() == 0) {
             key = EncryptionKey.NULL_KEY;
         }
-        byte[] temp = credMessg.encPart.decrypt(key,
-            KeyUsage.KU_ENC_KRB_CRED_PART);
-        byte[] plainText = credMessg.encPart.reset(temp);
-        DerValue encoding = new DerValue(plainText);
-        EncKrbCredPart encPart = new EncKrbCredPart(encoding);
+        byte[] temp = credMessg.encPbrt.decrypt(key,
+            KeyUsbge.KU_ENC_KRB_CRED_PART);
+        byte[] plbinText = credMessg.encPbrt.reset(temp);
+        DerVblue encoding = new DerVblue(plbinText);
+        EncKrbCredPbrt encPbrt = new EncKrbCredPbrt(encoding);
 
-        timeStamp = encPart.timeStamp;
+        timeStbmp = encPbrt.timeStbmp;
 
-        KrbCredInfo credInfo = encPart.ticketInfo[0];
+        KrbCredInfo credInfo = encPbrt.ticketInfo[0];
         EncryptionKey credInfoKey = credInfo.key;
-        PrincipalName pname = credInfo.pname;
-        TicketFlags flags = credInfo.flags;
-        KerberosTime authtime = credInfo.authtime;
-        KerberosTime starttime = credInfo.starttime;
+        PrincipblNbme pnbme = credInfo.pnbme;
+        TicketFlbgs flbgs = credInfo.flbgs;
+        KerberosTime buthtime = credInfo.buthtime;
+        KerberosTime stbrttime = credInfo.stbrttime;
         KerberosTime endtime = credInfo.endtime;
         KerberosTime renewTill = credInfo.renewTill;
-        PrincipalName sname = credInfo.sname;
-        HostAddresses caddr = credInfo.caddr;
+        PrincipblNbme snbme = credInfo.snbme;
+        HostAddresses cbddr = credInfo.cbddr;
 
         if (DEBUG) {
-            System.out.println(">>>Delegated Creds have pname=" + pname
-                               + " sname=" + sname
-                               + " authtime=" + authtime
-                               + " starttime=" + starttime
+            System.out.println(">>>Delegbted Creds hbve pnbme=" + pnbme
+                               + " snbme=" + snbme
+                               + " buthtime=" + buthtime
+                               + " stbrttime=" + stbrttime
                                + " endtime=" + endtime
                                + "renewTill=" + renewTill);
         }
-        creds = new Credentials(ticket, pname, sname, credInfoKey,
-                                flags, authtime, starttime, endtime, renewTill, caddr);
+        creds = new Credentibls(ticket, pnbme, snbme, credInfoKey,
+                                flbgs, buthtime, stbrttime, endtime, renewTill, cbddr);
     }
 
     /**
-     * Returns the delegated credentials from the peer.
+     * Returns the delegbted credentibls from the peer.
      */
-    public Credentials[] getDelegatedCreds() {
+    public Credentibls[] getDelegbtedCreds() {
 
-        Credentials[] allCreds = {creds};
-        return allCreds;
+        Credentibls[] bllCreds = {creds};
+        return bllCreds;
     }
 
     /**
-     * Returns the ASN.1 encoding that should be sent to the peer.
+     * Returns the ASN.1 encoding thbt should be sent to the peer.
      */
-    public byte[] getMessage() {
+    public byte[] getMessbge() {
         return obuf;
     }
 }

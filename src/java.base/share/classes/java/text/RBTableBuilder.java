@@ -1,246 +1,246 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996-1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.util.Vector;
-import sun.text.UCompactIntArray;
-import sun.text.IntHashtable;
-import sun.text.ComposedCharIter;
-import sun.text.CollatorUtilities;
-import sun.text.normalizer.NormalizerImpl;
+import jbvb.util.Vector;
+import sun.text.UCompbctIntArrby;
+import sun.text.IntHbshtbble;
+import sun.text.ComposedChbrIter;
+import sun.text.CollbtorUtilities;
+import sun.text.normblizer.NormblizerImpl;
 
 /**
- * This class contains all the code to parse a RuleBasedCollator pattern
- * and build a RBCollationTables object from it.  A particular instance
- * of tis class exists only during the actual build process-- once an
- * RBCollationTables object has been built, the RBTableBuilder object
- * goes away.  This object carries all of the state which is only needed
- * during the build process, plus a "shadow" copy of all of the state
- * that will go into the tables object itself.  This object communicates
- * with RBCollationTables through a separate class, RBCollationTables.BuildAPI,
- * this is an inner class of RBCollationTables and provides a separate
- * private API for communication with RBTableBuilder.
- * This class isn't just an inner class of RBCollationTables itself because
- * of its large size.  For source-code readability, it seemed better for the
- * builder to have its own source file.
+ * This clbss contbins bll the code to pbrse b RuleBbsedCollbtor pbttern
+ * bnd build b RBCollbtionTbbles object from it.  A pbrticulbr instbnce
+ * of tis clbss exists only during the bctubl build process-- once bn
+ * RBCollbtionTbbles object hbs been built, the RBTbbleBuilder object
+ * goes bwby.  This object cbrries bll of the stbte which is only needed
+ * during the build process, plus b "shbdow" copy of bll of the stbte
+ * thbt will go into the tbbles object itself.  This object communicbtes
+ * with RBCollbtionTbbles through b sepbrbte clbss, RBCollbtionTbbles.BuildAPI,
+ * this is bn inner clbss of RBCollbtionTbbles bnd provides b sepbrbte
+ * privbte API for communicbtion with RBTbbleBuilder.
+ * This clbss isn't just bn inner clbss of RBCollbtionTbbles itself becbuse
+ * of its lbrge size.  For source-code rebdbbility, it seemed better for the
+ * builder to hbve its own source file.
  */
-final class RBTableBuilder {
+finbl clbss RBTbbleBuilder {
 
-    public RBTableBuilder(RBCollationTables.BuildAPI tables) {
-        this.tables = tables;
+    public RBTbbleBuilder(RBCollbtionTbbles.BuildAPI tbbles) {
+        this.tbbles = tbbles;
     }
 
     /**
-     * Create a table-based collation object with the given rules.
-     * This is the main function that actually builds the tables and
-     * stores them back in the RBCollationTables object.  It is called
-     * ONLY by the RBCollationTables constructor.
-     * @see RuleBasedCollator#RuleBasedCollator
-     * @exception ParseException If the rules format is incorrect.
+     * Crebte b tbble-bbsed collbtion object with the given rules.
+     * This is the mbin function thbt bctublly builds the tbbles bnd
+     * stores them bbck in the RBCollbtionTbbles object.  It is cblled
+     * ONLY by the RBCollbtionTbbles constructor.
+     * @see RuleBbsedCollbtor#RuleBbsedCollbtor
+     * @exception PbrseException If the rules formbt is incorrect.
      */
 
-    public void build(String pattern, int decmp) throws ParseException
+    public void build(String pbttern, int decmp) throws PbrseException
     {
-        boolean isSource = true;
+        boolebn isSource = true;
         int i = 0;
-        String expChars;
-        String groupChars;
-        if (pattern.length() == 0)
-            throw new ParseException("Build rules empty.", 0);
+        String expChbrs;
+        String groupChbrs;
+        if (pbttern.length() == 0)
+            throw new PbrseException("Build rules empty.", 0);
 
-        // This array maps Unicode characters to their collation ordering
-        mapping = new UCompactIntArray(RBCollationTables.UNMAPPED);
-        // Normalize the build rules.  Find occurances of all decomposed characters
-        // and normalize the rules before feeding into the builder.  By "normalize",
-        // we mean that all precomposed Unicode characters must be converted into
-        // a base character and one or more combining characters (such as accents).
-        // When there are multiple combining characters attached to a base character,
-        // the combining characters must be in their canonical order
+        // This brrby mbps Unicode chbrbcters to their collbtion ordering
+        mbpping = new UCompbctIntArrby(RBCollbtionTbbles.UNMAPPED);
+        // Normblize the build rules.  Find occurbnces of bll decomposed chbrbcters
+        // bnd normblize the rules before feeding into the builder.  By "normblize",
+        // we mebn thbt bll precomposed Unicode chbrbcters must be converted into
+        // b bbse chbrbcter bnd one or more combining chbrbcters (such bs bccents).
+        // When there bre multiple combining chbrbcters bttbched to b bbse chbrbcter,
+        // the combining chbrbcters must be in their cbnonicbl order
         //
-        // sherman/Note:
-        //(1)decmp will be NO_DECOMPOSITION only in ko locale to prevent decompose
-        //hangual syllables to jamos, so we can actually just call decompose with
-        //normalizer's IGNORE_HANGUL option turned on
+        // shermbn/Note:
+        //(1)decmp will be NO_DECOMPOSITION only in ko locble to prevent decompose
+        //hbngubl syllbbles to jbmos, so we cbn bctublly just cbll decompose with
+        //normblizer's IGNORE_HANGUL option turned on
         //
-        //(2)just call the "special version" in NormalizerImpl directly
-        //pattern = Normalizer.decompose(pattern, false, Normalizer.IGNORE_HANGUL, true);
+        //(2)just cbll the "specibl version" in NormblizerImpl directly
+        //pbttern = Normblizer.decompose(pbttern, fblse, Normblizer.IGNORE_HANGUL, true);
         //
-        //Normalizer.Mode mode = CollatorUtilities.toNormalizerMode(decmp);
-        //pattern = Normalizer.normalize(pattern, mode, 0, true);
+        //Normblizer.Mode mode = CollbtorUtilities.toNormblizerMode(decmp);
+        //pbttern = Normblizer.normblize(pbttern, mode, 0, true);
 
-        pattern = NormalizerImpl.canonicalDecomposeWithSingleQuotation(pattern);
+        pbttern = NormblizerImpl.cbnonicblDecomposeWithSingleQuotbtion(pbttern);
 
-        // Build the merged collation entries
-        // Since rules can be specified in any order in the string
+        // Build the merged collbtion entries
+        // Since rules cbn be specified in bny order in the string
         // (e.g. "c , C < d , D < e , E .... C < CH")
-        // this splits all of the rules in the string out into separate
-        // objects and then sorts them.  In the above example, it merges the
+        // this splits bll of the rules in the string out into sepbrbte
+        // objects bnd then sorts them.  In the bbove exbmple, it merges the
         // "C < CH" rule in just before the "C < D" rule.
         //
 
-        mPattern = new MergeCollation(pattern);
+        mPbttern = new MergeCollbtion(pbttern);
 
         int order = 0;
 
-        // Now walk though each entry and add it to my own tables
-        for (i = 0; i < mPattern.getCount(); ++i)
+        // Now wblk though ebch entry bnd bdd it to my own tbbles
+        for (i = 0; i < mPbttern.getCount(); ++i)
         {
-            PatternEntry entry = mPattern.getItemAt(i);
+            PbtternEntry entry = mPbttern.getItemAt(i);
             if (entry != null) {
-                groupChars = entry.getChars();
-                if (groupChars.length() > 1) {
-                    switch(groupChars.charAt(groupChars.length()-1)) {
-                    case '@':
+                groupChbrs = entry.getChbrs();
+                if (groupChbrs.length() > 1) {
+                    switch(groupChbrs.chbrAt(groupChbrs.length()-1)) {
+                    cbse '@':
                         frenchSec = true;
-                        groupChars = groupChars.substring(0, groupChars.length()-1);
-                        break;
-                    case '!':
-                        seAsianSwapping = true;
-                        groupChars = groupChars.substring(0, groupChars.length()-1);
-                        break;
+                        groupChbrs = groupChbrs.substring(0, groupChbrs.length()-1);
+                        brebk;
+                    cbse '!':
+                        seAsibnSwbpping = true;
+                        groupChbrs = groupChbrs.substring(0, groupChbrs.length()-1);
+                        brebk;
                     }
                 }
 
                 order = increment(entry.getStrength(), order);
-                expChars = entry.getExtension();
+                expChbrs = entry.getExtension();
 
-                if (expChars.length() != 0) {
-                    addExpandOrder(groupChars, expChars, order);
-                } else if (groupChars.length() > 1) {
-                    char ch = groupChars.charAt(0);
-                    if (Character.isHighSurrogate(ch) && groupChars.length() == 2) {
-                        addOrder(Character.toCodePoint(ch, groupChars.charAt(1)), order);
+                if (expChbrs.length() != 0) {
+                    bddExpbndOrder(groupChbrs, expChbrs, order);
+                } else if (groupChbrs.length() > 1) {
+                    chbr ch = groupChbrs.chbrAt(0);
+                    if (Chbrbcter.isHighSurrogbte(ch) && groupChbrs.length() == 2) {
+                        bddOrder(Chbrbcter.toCodePoint(ch, groupChbrs.chbrAt(1)), order);
                     } else {
-                        addContractOrder(groupChars, order);
+                        bddContrbctOrder(groupChbrs, order);
                     }
                 } else {
-                    char ch = groupChars.charAt(0);
-                    addOrder(ch, order);
+                    chbr ch = groupChbrs.chbrAt(0);
+                    bddOrder(ch, order);
                 }
             }
         }
-        addComposedChars();
+        bddComposedChbrs();
 
         commit();
-        mapping.compact();
+        mbpping.compbct();
         /*
-        System.out.println("mappingSize=" + mapping.getKSize());
+        System.out.println("mbppingSize=" + mbpping.getKSize());
         for (int j = 0; j < 0xffff; j++) {
-            int value = mapping.elementAt(j);
-            if (value != RBCollationTables.UNMAPPED)
+            int vblue = mbpping.elementAt(j);
+            if (vblue != RBCollbtionTbbles.UNMAPPED)
                 System.out.println("index=" + Integer.toString(j, 16)
-                           + ", value=" + Integer.toString(value, 16));
+                           + ", vblue=" + Integer.toString(vblue, 16));
         }
         */
-        tables.fillInTables(frenchSec, seAsianSwapping, mapping, contractTable, expandTable,
-                    contractFlags, maxSecOrder, maxTerOrder);
+        tbbles.fillInTbbles(frenchSec, seAsibnSwbpping, mbpping, contrbctTbble, expbndTbble,
+                    contrbctFlbgs, mbxSecOrder, mbxTerOrder);
     }
 
-    /** Add expanding entries for pre-composed unicode characters so that this
-     * collator can be used reasonably well with decomposition turned off.
+    /** Add expbnding entries for pre-composed unicode chbrbcters so thbt this
+     * collbtor cbn be used rebsonbbly well with decomposition turned off.
      */
-    private void addComposedChars() throws ParseException {
-        // Iterate through all of the pre-composed characters in Unicode
-        ComposedCharIter iter = new ComposedCharIter();
+    privbte void bddComposedChbrs() throws PbrseException {
+        // Iterbte through bll of the pre-composed chbrbcters in Unicode
+        ComposedChbrIter iter = new ComposedChbrIter();
         int c;
-        while ((c = iter.next()) != ComposedCharIter.DONE) {
-            if (getCharOrder(c) == RBCollationTables.UNMAPPED) {
+        while ((c = iter.next()) != ComposedChbrIter.DONE) {
+            if (getChbrOrder(c) == RBCollbtionTbbles.UNMAPPED) {
                 //
-                // We don't already have an ordering for this pre-composed character.
+                // We don't blrebdy hbve bn ordering for this pre-composed chbrbcter.
                 //
-                // First, see if the decomposed string is already in our
-                // tables as a single contracting-string ordering.
-                // If so, just map the precomposed character to that order.
+                // First, see if the decomposed string is blrebdy in our
+                // tbbles bs b single contrbcting-string ordering.
+                // If so, just mbp the precomposed chbrbcter to thbt order.
                 //
-                // TODO: What we should really be doing here is trying to find the
-                // longest initial substring of the decomposition that is present
-                // in the tables as a contracting character sequence, and find its
-                // ordering.  Then do this recursively with the remaining chars
-                // so that we build a list of orderings, and add that list to
-                // the expansion table.
-                // That would be more correct but also significantly slower, so
-                // I'm not totally sure it's worth doing.
+                // TODO: Whbt we should reblly be doing here is trying to find the
+                // longest initibl substring of the decomposition thbt is present
+                // in the tbbles bs b contrbcting chbrbcter sequence, bnd find its
+                // ordering.  Then do this recursively with the rembining chbrs
+                // so thbt we build b list of orderings, bnd bdd thbt list to
+                // the expbnsion tbble.
+                // Thbt would be more correct but blso significbntly slower, so
+                // I'm not totblly sure it's worth doing.
                 //
                 String s = iter.decomposition();
 
-                //sherman/Note: if this is 1 character decomposed string, the
-                //only thing need to do is to check if this decomposed character
-                //has an entry in our order table, this order is not necessary
-                //to be a contraction order, if it does have one, add an entry
-                //for the precomposed character by using the same order, the
-                //previous impl unnecessarily adds a single character expansion
+                //shermbn/Note: if this is 1 chbrbcter decomposed string, the
+                //only thing need to do is to check if this decomposed chbrbcter
+                //hbs bn entry in our order tbble, this order is not necessbry
+                //to be b contrbction order, if it does hbve one, bdd bn entry
+                //for the precomposed chbrbcter by using the sbme order, the
+                //previous impl unnecessbrily bdds b single chbrbcter expbnsion
                 //entry.
                 if (s.length() == 1) {
-                    int order = getCharOrder(s.charAt(0));
-                    if (order != RBCollationTables.UNMAPPED) {
-                        addOrder(c, order);
+                    int order = getChbrOrder(s.chbrAt(0));
+                    if (order != RBCollbtionTbbles.UNMAPPED) {
+                        bddOrder(c, order);
                     }
                     continue;
                 } else if (s.length() == 2) {
-                    char ch0 = s.charAt(0);
-                    if (Character.isHighSurrogate(ch0)) {
-                        int order = getCharOrder(s.codePointAt(0));
-                        if (order != RBCollationTables.UNMAPPED) {
-                            addOrder(c, order);
+                    chbr ch0 = s.chbrAt(0);
+                    if (Chbrbcter.isHighSurrogbte(ch0)) {
+                        int order = getChbrOrder(s.codePointAt(0));
+                        if (order != RBCollbtionTbbles.UNMAPPED) {
+                            bddOrder(c, order);
                         }
                         continue;
                     }
                 }
-                int contractOrder = getContractOrder(s);
-                if (contractOrder != RBCollationTables.UNMAPPED) {
-                    addOrder(c, contractOrder);
+                int contrbctOrder = getContrbctOrder(s);
+                if (contrbctOrder != RBCollbtionTbbles.UNMAPPED) {
+                    bddOrder(c, contrbctOrder);
                 } else {
                     //
-                    // We don't have a contracting ordering for the entire string
-                    // that results from the decomposition, but if we have orders
-                    // for each individual character, we can add an expanding
-                    // table entry for the pre-composed character
+                    // We don't hbve b contrbcting ordering for the entire string
+                    // thbt results from the decomposition, but if we hbve orders
+                    // for ebch individubl chbrbcter, we cbn bdd bn expbnding
+                    // tbble entry for the pre-composed chbrbcter
                     //
-                    boolean allThere = true;
+                    boolebn bllThere = true;
                     for (int i = 0; i < s.length(); i++) {
-                        if (getCharOrder(s.charAt(i)) == RBCollationTables.UNMAPPED) {
-                            allThere = false;
-                            break;
+                        if (getChbrOrder(s.chbrAt(i)) == RBCollbtionTbbles.UNMAPPED) {
+                            bllThere = fblse;
+                            brebk;
                         }
                     }
-                    if (allThere) {
-                        addExpandOrder(c, s, RBCollationTables.UNMAPPED);
+                    if (bllThere) {
+                        bddExpbndOrder(c, s, RBCollbtionTbbles.UNMAPPED);
                     }
                 }
             }
@@ -248,37 +248,37 @@ final class RBTableBuilder {
     }
 
     /**
-     * Look up for unmapped values in the expanded character table.
+     * Look up for unmbpped vblues in the expbnded chbrbcter tbble.
      *
-     * When the expanding character tables are built by addExpandOrder,
-     * it doesn't know what the final ordering of each character
-     * in the expansion will be.  Instead, it just puts the raw character
-     * code into the table, adding CHARINDEX as a flag.  Now that we've
-     * finished building the mapping table, we can go back and look up
-     * that character to see what its real collation order is and
-     * stick that into the expansion table.  That lets us avoid doing
-     * a two-stage lookup later.
+     * When the expbnding chbrbcter tbbles bre built by bddExpbndOrder,
+     * it doesn't know whbt the finbl ordering of ebch chbrbcter
+     * in the expbnsion will be.  Instebd, it just puts the rbw chbrbcter
+     * code into the tbble, bdding CHARINDEX bs b flbg.  Now thbt we've
+     * finished building the mbpping tbble, we cbn go bbck bnd look up
+     * thbt chbrbcter to see whbt its rebl collbtion order is bnd
+     * stick thbt into the expbnsion tbble.  Thbt lets us bvoid doing
+     * b two-stbge lookup lbter.
      */
-    private final void commit()
+    privbte finbl void commit()
     {
-        if (expandTable != null) {
-            for (int i = 0; i < expandTable.size(); i++) {
-                int[] valueList = expandTable.elementAt(i);
-                for (int j = 0; j < valueList.length; j++) {
-                    int order = valueList[j];
-                    if (order < RBCollationTables.EXPANDCHARINDEX && order > CHARINDEX) {
-                        // found a expanding character that isn't filled in yet
+        if (expbndTbble != null) {
+            for (int i = 0; i < expbndTbble.size(); i++) {
+                int[] vblueList = expbndTbble.elementAt(i);
+                for (int j = 0; j < vblueList.length; j++) {
+                    int order = vblueList[j];
+                    if (order < RBCollbtionTbbles.EXPANDCHARINDEX && order > CHARINDEX) {
+                        // found b expbnding chbrbcter thbt isn't filled in yet
                         int ch = order - CHARINDEX;
 
-                        // Get the real values for the non-filled entry
-                        int realValue = getCharOrder(ch);
+                        // Get the rebl vblues for the non-filled entry
+                        int reblVblue = getChbrOrder(ch);
 
-                        if (realValue == RBCollationTables.UNMAPPED) {
-                            // The real value is still unmapped, maybe it's ignorable
-                            valueList[j] = IGNORABLEMASK & ch;
+                        if (reblVblue == RBCollbtionTbbles.UNMAPPED) {
+                            // The rebl vblue is still unmbpped, mbybe it's ignorbble
+                            vblueList[j] = IGNORABLEMASK & ch;
                         } else {
-                            // just fill in the value
-                            valueList[j] = realValue;
+                            // just fill in the vblue
+                            vblueList[j] = reblVblue;
                         }
                     }
                 }
@@ -286,185 +286,185 @@ final class RBTableBuilder {
         }
     }
     /**
-     *  Increment of the last order based on the comparison level.
+     *  Increment of the lbst order bbsed on the compbrison level.
      */
-    private final int increment(int aStrength, int lastValue)
+    privbte finbl int increment(int bStrength, int lbstVblue)
     {
-        switch(aStrength)
+        switch(bStrength)
         {
-        case Collator.PRIMARY:
-            // increment priamry order  and mask off secondary and tertiary difference
-            lastValue += PRIMARYORDERINCREMENT;
-            lastValue &= RBCollationTables.PRIMARYORDERMASK;
+        cbse Collbtor.PRIMARY:
+            // increment pribmry order  bnd mbsk off secondbry bnd tertibry difference
+            lbstVblue += PRIMARYORDERINCREMENT;
+            lbstVblue &= RBCollbtionTbbles.PRIMARYORDERMASK;
             isOverIgnore = true;
-            break;
-        case Collator.SECONDARY:
-            // increment secondary order and mask off tertiary difference
-            lastValue += SECONDARYORDERINCREMENT;
-            lastValue &= RBCollationTables.SECONDARYDIFFERENCEONLY;
-            // record max # of ignorable chars with secondary difference
+            brebk;
+        cbse Collbtor.SECONDARY:
+            // increment secondbry order bnd mbsk off tertibry difference
+            lbstVblue += SECONDARYORDERINCREMENT;
+            lbstVblue &= RBCollbtionTbbles.SECONDARYDIFFERENCEONLY;
+            // record mbx # of ignorbble chbrs with secondbry difference
             if (!isOverIgnore)
-                maxSecOrder++;
-            break;
-        case Collator.TERTIARY:
-            // increment tertiary order
-            lastValue += TERTIARYORDERINCREMENT;
-            // record max # of ignorable chars with tertiary difference
+                mbxSecOrder++;
+            brebk;
+        cbse Collbtor.TERTIARY:
+            // increment tertibry order
+            lbstVblue += TERTIARYORDERINCREMENT;
+            // record mbx # of ignorbble chbrs with tertibry difference
             if (!isOverIgnore)
-                maxTerOrder++;
-            break;
+                mbxTerOrder++;
+            brebk;
         }
-        return lastValue;
+        return lbstVblue;
     }
 
     /**
-     *  Adds a character and its designated order into the collation table.
+     *  Adds b chbrbcter bnd its designbted order into the collbtion tbble.
      */
-    private final void addOrder(int ch, int anOrder)
+    privbte finbl void bddOrder(int ch, int bnOrder)
     {
-        // See if the char already has an order in the mapping table
-        int order = mapping.elementAt(ch);
+        // See if the chbr blrebdy hbs bn order in the mbpping tbble
+        int order = mbpping.elementAt(ch);
 
-        if (order >= RBCollationTables.CONTRACTCHARINDEX) {
-            // There's already an entry for this character that points to a contracting
-            // character table.  Instead of adding the character directly to the mapping
-            // table, we must add it to the contract table instead.
+        if (order >= RBCollbtionTbbles.CONTRACTCHARINDEX) {
+            // There's blrebdy bn entry for this chbrbcter thbt points to b contrbcting
+            // chbrbcter tbble.  Instebd of bdding the chbrbcter directly to the mbpping
+            // tbble, we must bdd it to the contrbct tbble instebd.
             int length = 1;
-            if (Character.isSupplementaryCodePoint(ch)) {
-                length = Character.toChars(ch, keyBuf, 0);
+            if (Chbrbcter.isSupplementbryCodePoint(ch)) {
+                length = Chbrbcter.toChbrs(ch, keyBuf, 0);
             } else {
-                keyBuf[0] = (char)ch;
+                keyBuf[0] = (chbr)ch;
             }
-            addContractOrder(new String(keyBuf, 0, length), anOrder);
+            bddContrbctOrder(new String(keyBuf, 0, length), bnOrder);
         } else {
-            // add the entry to the mapping table,
-            // the same later entry replaces the previous one
-            mapping.setElementAt(ch, anOrder);
+            // bdd the entry to the mbpping tbble,
+            // the sbme lbter entry replbces the previous one
+            mbpping.setElementAt(ch, bnOrder);
         }
     }
 
-    private final void addContractOrder(String groupChars, int anOrder) {
-        addContractOrder(groupChars, anOrder, true);
+    privbte finbl void bddContrbctOrder(String groupChbrs, int bnOrder) {
+        bddContrbctOrder(groupChbrs, bnOrder, true);
     }
 
     /**
-     *  Adds the contracting string into the collation table.
+     *  Adds the contrbcting string into the collbtion tbble.
      */
-    private final void addContractOrder(String groupChars, int anOrder,
-                                          boolean fwd)
+    privbte finbl void bddContrbctOrder(String groupChbrs, int bnOrder,
+                                          boolebn fwd)
     {
-        if (contractTable == null) {
-            contractTable = new Vector<>(INITIALTABLESIZE);
+        if (contrbctTbble == null) {
+            contrbctTbble = new Vector<>(INITIALTABLESIZE);
         }
 
-        //initial character
-        int ch = groupChars.codePointAt(0);
+        //initibl chbrbcter
+        int ch = groupChbrs.codePointAt(0);
         /*
-        char ch0 = groupChars.charAt(0);
-        int ch = Character.isHighSurrogate(ch0)?
-          Character.toCodePoint(ch0, groupChars.charAt(1)):ch0;
+        chbr ch0 = groupChbrs.chbrAt(0);
+        int ch = Chbrbcter.isHighSurrogbte(ch0)?
+          Chbrbcter.toCodePoint(ch0, groupChbrs.chbrAt(1)):ch0;
           */
-        // See if the initial character of the string already has a contract table.
-        int entry = mapping.elementAt(ch);
-        Vector<EntryPair> entryTable = getContractValuesImpl(entry - RBCollationTables.CONTRACTCHARINDEX);
+        // See if the initibl chbrbcter of the string blrebdy hbs b contrbct tbble.
+        int entry = mbpping.elementAt(ch);
+        Vector<EntryPbir> entryTbble = getContrbctVbluesImpl(entry - RBCollbtionTbbles.CONTRACTCHARINDEX);
 
-        if (entryTable == null) {
-            // We need to create a new table of contract entries for this base char
-            int tableIndex = RBCollationTables.CONTRACTCHARINDEX + contractTable.size();
-            entryTable = new Vector<>(INITIALTABLESIZE);
-            contractTable.addElement(entryTable);
+        if (entryTbble == null) {
+            // We need to crebte b new tbble of contrbct entries for this bbse chbr
+            int tbbleIndex = RBCollbtionTbbles.CONTRACTCHARINDEX + contrbctTbble.size();
+            entryTbble = new Vector<>(INITIALTABLESIZE);
+            contrbctTbble.bddElement(entryTbble);
 
-            // Add the initial character's current ordering first. then
-            // update its mapping to point to this contract table
-            entryTable.addElement(new EntryPair(groupChars.substring(0,Character.charCount(ch)), entry));
-            mapping.setElementAt(ch, tableIndex);
+            // Add the initibl chbrbcter's current ordering first. then
+            // updbte its mbpping to point to this contrbct tbble
+            entryTbble.bddElement(new EntryPbir(groupChbrs.substring(0,Chbrbcter.chbrCount(ch)), entry));
+            mbpping.setElementAt(ch, tbbleIndex);
         }
 
-        // Now add (or replace) this string in the table
-        int index = RBCollationTables.getEntry(entryTable, groupChars, fwd);
-        if (index != RBCollationTables.UNMAPPED) {
-            EntryPair pair = entryTable.elementAt(index);
-            pair.value = anOrder;
+        // Now bdd (or replbce) this string in the tbble
+        int index = RBCollbtionTbbles.getEntry(entryTbble, groupChbrs, fwd);
+        if (index != RBCollbtionTbbles.UNMAPPED) {
+            EntryPbir pbir = entryTbble.elementAt(index);
+            pbir.vblue = bnOrder;
         } else {
-            EntryPair pair = entryTable.lastElement();
+            EntryPbir pbir = entryTbble.lbstElement();
 
-            // NOTE:  This little bit of logic is here to speed CollationElementIterator
-            // .nextContractChar().  This code ensures that the longest sequence in
-            // this list is always the _last_ one in the list.  This keeps
-            // nextContractChar() from having to search the entire list for the longest
+            // NOTE:  This little bit of logic is here to speed CollbtionElementIterbtor
+            // .nextContrbctChbr().  This code ensures thbt the longest sequence in
+            // this list is blwbys the _lbst_ one in the list.  This keeps
+            // nextContrbctChbr() from hbving to sebrch the entire list for the longest
             // sequence.
-            if (groupChars.length() > pair.entryName.length()) {
-                entryTable.addElement(new EntryPair(groupChars, anOrder, fwd));
+            if (groupChbrs.length() > pbir.entryNbme.length()) {
+                entryTbble.bddElement(new EntryPbir(groupChbrs, bnOrder, fwd));
             } else {
-                entryTable.insertElementAt(new EntryPair(groupChars, anOrder,
-                        fwd), entryTable.size() - 1);
+                entryTbble.insertElementAt(new EntryPbir(groupChbrs, bnOrder,
+                        fwd), entryTbble.size() - 1);
             }
         }
 
-        // If this was a forward mapping for a contracting string, also add a
-        // reverse mapping for it, so that CollationElementIterator.previous
-        // can work right
-        if (fwd && groupChars.length() > 1) {
-            addContractFlags(groupChars);
-            addContractOrder(new StringBuffer(groupChars).reverse().toString(),
-                             anOrder, false);
+        // If this wbs b forwbrd mbpping for b contrbcting string, blso bdd b
+        // reverse mbpping for it, so thbt CollbtionElementIterbtor.previous
+        // cbn work right
+        if (fwd && groupChbrs.length() > 1) {
+            bddContrbctFlbgs(groupChbrs);
+            bddContrbctOrder(new StringBuffer(groupChbrs).reverse().toString(),
+                             bnOrder, fblse);
         }
     }
 
     /**
-     * If the given string has been specified as a contracting string
-     * in this collation table, return its ordering.
+     * If the given string hbs been specified bs b contrbcting string
+     * in this collbtion tbble, return its ordering.
      * Otherwise return UNMAPPED.
      */
-    private int getContractOrder(String groupChars)
+    privbte int getContrbctOrder(String groupChbrs)
     {
-        int result = RBCollationTables.UNMAPPED;
-        if (contractTable != null) {
-            int ch = groupChars.codePointAt(0);
+        int result = RBCollbtionTbbles.UNMAPPED;
+        if (contrbctTbble != null) {
+            int ch = groupChbrs.codePointAt(0);
             /*
-            char ch0 = groupChars.charAt(0);
-            int ch = Character.isHighSurrogate(ch0)?
-              Character.toCodePoint(ch0, groupChars.charAt(1)):ch0;
+            chbr ch0 = groupChbrs.chbrAt(0);
+            int ch = Chbrbcter.isHighSurrogbte(ch0)?
+              Chbrbcter.toCodePoint(ch0, groupChbrs.chbrAt(1)):ch0;
               */
-            Vector<EntryPair> entryTable = getContractValues(ch);
-            if (entryTable != null) {
-                int index = RBCollationTables.getEntry(entryTable, groupChars, true);
-                if (index != RBCollationTables.UNMAPPED) {
-                    EntryPair pair = entryTable.elementAt(index);
-                    result = pair.value;
+            Vector<EntryPbir> entryTbble = getContrbctVblues(ch);
+            if (entryTbble != null) {
+                int index = RBCollbtionTbbles.getEntry(entryTbble, groupChbrs, true);
+                if (index != RBCollbtionTbbles.UNMAPPED) {
+                    EntryPbir pbir = entryTbble.elementAt(index);
+                    result = pbir.vblue;
                 }
             }
         }
         return result;
     }
 
-    private final int getCharOrder(int ch) {
-        int order = mapping.elementAt(ch);
+    privbte finbl int getChbrOrder(int ch) {
+        int order = mbpping.elementAt(ch);
 
-        if (order >= RBCollationTables.CONTRACTCHARINDEX) {
-            Vector<EntryPair> groupList = getContractValuesImpl(order - RBCollationTables.CONTRACTCHARINDEX);
-            EntryPair pair = groupList.firstElement();
-            order = pair.value;
+        if (order >= RBCollbtionTbbles.CONTRACTCHARINDEX) {
+            Vector<EntryPbir> groupList = getContrbctVbluesImpl(order - RBCollbtionTbbles.CONTRACTCHARINDEX);
+            EntryPbir pbir = groupList.firstElement();
+            order = pbir.vblue;
         }
         return order;
     }
 
     /**
-     *  Get the entry of hash table of the contracting string in the collation
-     *  table.
-     *  @param ch the starting character of the contracting string
+     *  Get the entry of hbsh tbble of the contrbcting string in the collbtion
+     *  tbble.
+     *  @pbrbm ch the stbrting chbrbcter of the contrbcting string
      */
-    private Vector<EntryPair> getContractValues(int ch)
+    privbte Vector<EntryPbir> getContrbctVblues(int ch)
     {
-        int index = mapping.elementAt(ch);
-        return getContractValuesImpl(index - RBCollationTables.CONTRACTCHARINDEX);
+        int index = mbpping.elementAt(ch);
+        return getContrbctVbluesImpl(index - RBCollbtionTbbles.CONTRACTCHARINDEX);
     }
 
-    private Vector<EntryPair> getContractValuesImpl(int index)
+    privbte Vector<EntryPbir> getContrbctVbluesImpl(int index)
     {
         if (index >= 0)
         {
-            return contractTable.elementAt(index);
+            return contrbctTbble.elementAt(index);
         }
         else // not found
         {
@@ -473,146 +473,146 @@ final class RBTableBuilder {
     }
 
     /**
-     *  Adds the expanding string into the collation table.
+     *  Adds the expbnding string into the collbtion tbble.
      */
-    private final void addExpandOrder(String contractChars,
-                                String expandChars,
-                                int anOrder) throws ParseException
+    privbte finbl void bddExpbndOrder(String contrbctChbrs,
+                                String expbndChbrs,
+                                int bnOrder) throws PbrseException
     {
-        // Create an expansion table entry
-        int tableIndex = addExpansion(anOrder, expandChars);
+        // Crebte bn expbnsion tbble entry
+        int tbbleIndex = bddExpbnsion(bnOrder, expbndChbrs);
 
-        // And add its index into the main mapping table
-        if (contractChars.length() > 1) {
-            char ch = contractChars.charAt(0);
-            if (Character.isHighSurrogate(ch) && contractChars.length() == 2) {
-                char ch2 = contractChars.charAt(1);
-                if (Character.isLowSurrogate(ch2)) {
-                    //only add into table when it is a legal surrogate
-                    addOrder(Character.toCodePoint(ch, ch2), tableIndex);
+        // And bdd its index into the mbin mbpping tbble
+        if (contrbctChbrs.length() > 1) {
+            chbr ch = contrbctChbrs.chbrAt(0);
+            if (Chbrbcter.isHighSurrogbte(ch) && contrbctChbrs.length() == 2) {
+                chbr ch2 = contrbctChbrs.chbrAt(1);
+                if (Chbrbcter.isLowSurrogbte(ch2)) {
+                    //only bdd into tbble when it is b legbl surrogbte
+                    bddOrder(Chbrbcter.toCodePoint(ch, ch2), tbbleIndex);
                 }
             } else {
-                addContractOrder(contractChars, tableIndex);
+                bddContrbctOrder(contrbctChbrs, tbbleIndex);
             }
         } else {
-            addOrder(contractChars.charAt(0), tableIndex);
+            bddOrder(contrbctChbrs.chbrAt(0), tbbleIndex);
         }
     }
 
-    private final void addExpandOrder(int ch, String expandChars, int anOrder)
-      throws ParseException
+    privbte finbl void bddExpbndOrder(int ch, String expbndChbrs, int bnOrder)
+      throws PbrseException
     {
-        int tableIndex = addExpansion(anOrder, expandChars);
-        addOrder(ch, tableIndex);
+        int tbbleIndex = bddExpbnsion(bnOrder, expbndChbrs);
+        bddOrder(ch, tbbleIndex);
     }
 
     /**
-     * Create a new entry in the expansion table that contains the orderings
-     * for the given characers.  If anOrder is valid, it is added to the
-     * beginning of the expanded list of orders.
+     * Crebte b new entry in the expbnsion tbble thbt contbins the orderings
+     * for the given chbrbcers.  If bnOrder is vblid, it is bdded to the
+     * beginning of the expbnded list of orders.
      */
-    private int addExpansion(int anOrder, String expandChars) {
-        if (expandTable == null) {
-            expandTable = new Vector<>(INITIALTABLESIZE);
+    privbte int bddExpbnsion(int bnOrder, String expbndChbrs) {
+        if (expbndTbble == null) {
+            expbndTbble = new Vector<>(INITIALTABLESIZE);
         }
 
-        // If anOrder is valid, we want to add it at the beginning of the list
-        int offset = (anOrder == RBCollationTables.UNMAPPED) ? 0 : 1;
+        // If bnOrder is vblid, we wbnt to bdd it bt the beginning of the list
+        int offset = (bnOrder == RBCollbtionTbbles.UNMAPPED) ? 0 : 1;
 
-        int[] valueList = new int[expandChars.length() + offset];
+        int[] vblueList = new int[expbndChbrs.length() + offset];
         if (offset == 1) {
-            valueList[0] = anOrder;
+            vblueList[0] = bnOrder;
         }
 
         int j = offset;
-        for (int i = 0; i < expandChars.length(); i++) {
-            char ch0 = expandChars.charAt(i);
-            char ch1;
+        for (int i = 0; i < expbndChbrs.length(); i++) {
+            chbr ch0 = expbndChbrs.chbrAt(i);
+            chbr ch1;
             int ch;
-            if (Character.isHighSurrogate(ch0)) {
-                if (++i == expandChars.length() ||
-                    !Character.isLowSurrogate(ch1=expandChars.charAt(i))) {
-                    //ether we are missing the low surrogate or the next char
-                    //is not a legal low surrogate, so stop loop
-                    break;
+            if (Chbrbcter.isHighSurrogbte(ch0)) {
+                if (++i == expbndChbrs.length() ||
+                    !Chbrbcter.isLowSurrogbte(ch1=expbndChbrs.chbrAt(i))) {
+                    //ether we bre missing the low surrogbte or the next chbr
+                    //is not b legbl low surrogbte, so stop loop
+                    brebk;
                 }
-                ch = Character.toCodePoint(ch0, ch1);
+                ch = Chbrbcter.toCodePoint(ch0, ch1);
 
             } else {
                 ch = ch0;
             }
 
-            int mapValue = getCharOrder(ch);
+            int mbpVblue = getChbrOrder(ch);
 
-            if (mapValue != RBCollationTables.UNMAPPED) {
-                valueList[j++] = mapValue;
+            if (mbpVblue != RBCollbtionTbbles.UNMAPPED) {
+                vblueList[j++] = mbpVblue;
             } else {
-                // can't find it in the table, will be filled in by commit().
-                valueList[j++] = CHARINDEX + ch;
+                // cbn't find it in the tbble, will be filled in by commit().
+                vblueList[j++] = CHARINDEX + ch;
             }
         }
-        if (j < valueList.length) {
-            //we had at least one supplementary character, the size of valueList
-            //is bigger than it really needs...
+        if (j < vblueList.length) {
+            //we hbd bt lebst one supplementbry chbrbcter, the size of vblueList
+            //is bigger thbn it reblly needs...
             int[] tmpBuf = new int[j];
             while (--j >= 0) {
-                tmpBuf[j] = valueList[j];
+                tmpBuf[j] = vblueList[j];
             }
-            valueList = tmpBuf;
+            vblueList = tmpBuf;
         }
-        // Add the expanding char list into the expansion table.
-        int tableIndex = RBCollationTables.EXPANDCHARINDEX + expandTable.size();
-        expandTable.addElement(valueList);
+        // Add the expbnding chbr list into the expbnsion tbble.
+        int tbbleIndex = RBCollbtionTbbles.EXPANDCHARINDEX + expbndTbble.size();
+        expbndTbble.bddElement(vblueList);
 
-        return tableIndex;
+        return tbbleIndex;
     }
 
-    private void addContractFlags(String chars) {
-        char c0;
+    privbte void bddContrbctFlbgs(String chbrs) {
+        chbr c0;
         int c;
-        int len = chars.length();
+        int len = chbrs.length();
         for (int i = 0; i < len; i++) {
-            c0 = chars.charAt(i);
-            c = Character.isHighSurrogate(c0)
-                          ?Character.toCodePoint(c0, chars.charAt(++i))
+            c0 = chbrs.chbrAt(i);
+            c = Chbrbcter.isHighSurrogbte(c0)
+                          ?Chbrbcter.toCodePoint(c0, chbrs.chbrAt(++i))
                           :c0;
-            contractFlags.put(c, 1);
+            contrbctFlbgs.put(c, 1);
         }
     }
 
     // ==============================================================
-    // constants
+    // constbnts
     // ==============================================================
-    final static int CHARINDEX = 0x70000000;  // need look up in .commit()
+    finbl stbtic int CHARINDEX = 0x70000000;  // need look up in .commit()
 
-    private final static int IGNORABLEMASK = 0x0000ffff;
-    private final static int PRIMARYORDERINCREMENT = 0x00010000;
-    private final static int SECONDARYORDERINCREMENT = 0x00000100;
-    private final static int TERTIARYORDERINCREMENT = 0x00000001;
-    private final static int INITIALTABLESIZE = 20;
-    private final static int MAXKEYSIZE = 5;
+    privbte finbl stbtic int IGNORABLEMASK = 0x0000ffff;
+    privbte finbl stbtic int PRIMARYORDERINCREMENT = 0x00010000;
+    privbte finbl stbtic int SECONDARYORDERINCREMENT = 0x00000100;
+    privbte finbl stbtic int TERTIARYORDERINCREMENT = 0x00000001;
+    privbte finbl stbtic int INITIALTABLESIZE = 20;
+    privbte finbl stbtic int MAXKEYSIZE = 5;
 
     // ==============================================================
-    // instance variables
+    // instbnce vbribbles
     // ==============================================================
 
-    // variables used by the build process
-    private RBCollationTables.BuildAPI tables = null;
-    private MergeCollation mPattern = null;
-    private boolean isOverIgnore = false;
-    private char[] keyBuf = new char[MAXKEYSIZE];
-    private IntHashtable contractFlags = new IntHashtable(100);
+    // vbribbles used by the build process
+    privbte RBCollbtionTbbles.BuildAPI tbbles = null;
+    privbte MergeCollbtion mPbttern = null;
+    privbte boolebn isOverIgnore = fblse;
+    privbte chbr[] keyBuf = new chbr[MAXKEYSIZE];
+    privbte IntHbshtbble contrbctFlbgs = new IntHbshtbble(100);
 
-    // "shadow" copies of the instance variables in RBCollationTables
-    // (the values in these variables are copied back into RBCollationTables
-    // at the end of the build process)
-    private boolean frenchSec = false;
-    private boolean seAsianSwapping = false;
+    // "shbdow" copies of the instbnce vbribbles in RBCollbtionTbbles
+    // (the vblues in these vbribbles bre copied bbck into RBCollbtionTbbles
+    // bt the end of the build process)
+    privbte boolebn frenchSec = fblse;
+    privbte boolebn seAsibnSwbpping = fblse;
 
-    private UCompactIntArray mapping = null;
-    private Vector<Vector<EntryPair>>   contractTable = null;
-    private Vector<int[]>   expandTable = null;
+    privbte UCompbctIntArrby mbpping = null;
+    privbte Vector<Vector<EntryPbir>>   contrbctTbble = null;
+    privbte Vector<int[]>   expbndTbble = null;
 
-    private short maxSecOrder = 0;
-    private short maxTerOrder = 0;
+    privbte short mbxSecOrder = 0;
+    privbte short mbxTerOrder = 0;
 }

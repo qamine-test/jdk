@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.generics.factory;
+pbckbge sun.reflect.generics.fbctory;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.GenericDeclaration;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.GenericDeclbrbtion;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.PbrbmeterizedType;
+import jbvb.lbng.reflect.Type;
+import jbvb.lbng.reflect.TypeVbribble;
+import jbvb.lbng.reflect.WildcbrdType;
 
 
 import sun.reflect.generics.reflectiveObjects.*;
 import sun.reflect.generics.scope.Scope;
-import sun.reflect.generics.tree.FieldTypeSignature;
+import sun.reflect.generics.tree.FieldTypeSignbture;
 
 
 /**
- * Factory for reflective generic type objects for use by
- * core reflection (java.lang.reflect).
+ * Fbctory for reflective generic type objects for use by
+ * core reflection (jbvb.lbng.reflect).
  */
-public class CoreReflectionFactory implements GenericsFactory {
-    private GenericDeclaration decl;
-    private Scope scope;
+public clbss CoreReflectionFbctory implements GenericsFbctory {
+    privbte GenericDeclbrbtion decl;
+    privbte Scope scope;
 
-    private CoreReflectionFactory(GenericDeclaration d, Scope s) {
+    privbte CoreReflectionFbctory(GenericDeclbrbtion d, Scope s) {
         decl = d;
         scope = s;
     }
 
-    private GenericDeclaration getDecl(){ return decl;}
+    privbte GenericDeclbrbtion getDecl(){ return decl;}
 
-    private Scope getScope(){ return scope;}
+    privbte Scope getScope(){ return scope;}
 
 
-    private ClassLoader getDeclsLoader() {
-        if (decl instanceof Class) {return ((Class) decl).getClassLoader();}
-        if (decl instanceof Method) {
-            return ((Method) decl).getDeclaringClass().getClassLoader();
+    privbte ClbssLobder getDeclsLobder() {
+        if (decl instbnceof Clbss) {return ((Clbss) decl).getClbssLobder();}
+        if (decl instbnceof Method) {
+            return ((Method) decl).getDeclbringClbss().getClbssLobder();
         }
-        assert decl instanceof Constructor : "Constructor expected";
-        return ((Constructor) decl).getDeclaringClass().getClassLoader();
+        bssert decl instbnceof Constructor : "Constructor expected";
+        return ((Constructor) decl).getDeclbringClbss().getClbssLobder();
 
     }
 
     /**
-     * Factory for this class. Returns an instance of
-     * <tt>CoreReflectionFactory</tt> for the declaration and scope
+     * Fbctory for this clbss. Returns bn instbnce of
+     * <tt>CoreReflectionFbctory</tt> for the declbrbtion bnd scope
      * provided.
-     * This factory will produce reflective objects of the appropriate
-     * kind. Classes produced will be those that would be loaded by the
-     * defining class loader of the declaration <tt>d</tt> (if <tt>d</tt>
-     * is a type declaration, or by the defining loader of the declaring
-     * class of <tt>d</tt>  otherwise.
-     * <p> Type variables will be created or lookup as necessary in the
+     * This fbctory will produce reflective objects of the bppropribte
+     * kind. Clbsses produced will be those thbt would be lobded by the
+     * defining clbss lobder of the declbrbtion <tt>d</tt> (if <tt>d</tt>
+     * is b type declbrbtion, or by the defining lobder of the declbring
+     * clbss of <tt>d</tt>  otherwise.
+     * <p> Type vbribbles will be crebted or lookup bs necessbry in the
      * scope <tt> s</tt>.
-     * @param d - the generic declaration (class, interface, method or
-     * constructor) that thsi factory services
-     * @param s  the scope in which the factory will allocate and search for
-     * type variables
-     * @return an instance of <tt>CoreReflectionFactory</tt>
+     * @pbrbm d - the generic declbrbtion (clbss, interfbce, method or
+     * constructor) thbt thsi fbctory services
+     * @pbrbm s  the scope in which the fbctory will bllocbte bnd sebrch for
+     * type vbribbles
+     * @return bn instbnce of <tt>CoreReflectionFbctory</tt>
      */
-    public static CoreReflectionFactory make(GenericDeclaration d, Scope s) {
-        return new CoreReflectionFactory(d, s);
+    public stbtic CoreReflectionFbctory mbke(GenericDeclbrbtion d, Scope s) {
+        return new CoreReflectionFbctory(d, s);
     }
 
-    public TypeVariable<?> makeTypeVariable(String name,
-                                            FieldTypeSignature[] bounds){
-        return TypeVariableImpl.make(getDecl(), name, bounds, this);
+    public TypeVbribble<?> mbkeTypeVbribble(String nbme,
+                                            FieldTypeSignbture[] bounds){
+        return TypeVbribbleImpl.mbke(getDecl(), nbme, bounds, this);
     }
 
-    public WildcardType makeWildcard(FieldTypeSignature[] ubs,
-                                     FieldTypeSignature[] lbs) {
-        return WildcardTypeImpl.make(ubs, lbs, this);
+    public WildcbrdType mbkeWildcbrd(FieldTypeSignbture[] ubs,
+                                     FieldTypeSignbture[] lbs) {
+        return WildcbrdTypeImpl.mbke(ubs, lbs, this);
     }
 
-    public ParameterizedType makeParameterizedType(Type declaration,
+    public PbrbmeterizedType mbkePbrbmeterizedType(Type declbrbtion,
                                                    Type[] typeArgs,
                                                    Type owner) {
-        return ParameterizedTypeImpl.make((Class<?>) declaration,
+        return PbrbmeterizedTypeImpl.mbke((Clbss<?>) declbrbtion,
                                           typeArgs, owner);
     }
 
-    public TypeVariable<?> findTypeVariable(String name){
-        return getScope().lookup(name);
+    public TypeVbribble<?> findTypeVbribble(String nbme){
+        return getScope().lookup(nbme);
     }
 
-    public Type makeNamedType(String name){
-        try {return Class.forName(name, false, // don't initialize
-                                  getDeclsLoader());}
-        catch (ClassNotFoundException c) {
-            throw new TypeNotPresentException(name, c);
+    public Type mbkeNbmedType(String nbme){
+        try {return Clbss.forNbme(nbme, fblse, // don't initiblize
+                                  getDeclsLobder());}
+        cbtch (ClbssNotFoundException c) {
+            throw new TypeNotPresentException(nbme, c);
         }
     }
 
-    public Type makeArrayType(Type componentType){
-        if (componentType instanceof Class<?>)
-            return Array.newInstance((Class<?>) componentType, 0).getClass();
+    public Type mbkeArrbyType(Type componentType){
+        if (componentType instbnceof Clbss<?>)
+            return Arrby.newInstbnce((Clbss<?>) componentType, 0).getClbss();
         else
-            return GenericArrayTypeImpl.make(componentType);
+            return GenericArrbyTypeImpl.mbke(componentType);
     }
 
-    public Type makeByte(){return byte.class;}
-    public Type makeBool(){return boolean.class;}
-    public Type makeShort(){return short.class;}
-    public Type makeChar(){return char.class;}
-    public Type makeInt(){return int.class;}
-    public Type makeLong(){return long.class;}
-    public Type makeFloat(){return float.class;}
-    public Type makeDouble(){return double.class;}
+    public Type mbkeByte(){return byte.clbss;}
+    public Type mbkeBool(){return boolebn.clbss;}
+    public Type mbkeShort(){return short.clbss;}
+    public Type mbkeChbr(){return chbr.clbss;}
+    public Type mbkeInt(){return int.clbss;}
+    public Type mbkeLong(){return long.clbss;}
+    public Type mbkeFlobt(){return flobt.clbss;}
+    public Type mbkeDouble(){return double.clbss;}
 
-    public Type makeVoid(){return void.class;}
+    public Type mbkeVoid(){return void.clbss;}
 }

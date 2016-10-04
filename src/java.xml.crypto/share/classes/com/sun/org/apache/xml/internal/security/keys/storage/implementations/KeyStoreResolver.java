@@ -3,93 +3,93 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.storage.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.storbge.implementbtions;
 
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.cert.Certificate;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import jbvb.security.KeyStore;
+import jbvb.security.KeyStoreException;
+import jbvb.security.cert.Certificbte;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
 
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolverException;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolverException;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolverSpi;
 
 /**
- * Makes the Certificates from a JAVA {@link KeyStore} object available to the
- * {@link com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver}.
+ * Mbkes the Certificbtes from b JAVA {@link KeyStore} object bvbilbble to the
+ * {@link com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolver}.
  */
-public class KeyStoreResolver extends StorageResolverSpi {
+public clbss KeyStoreResolver extends StorbgeResolverSpi {
 
     /** Field keyStore */
-    private KeyStore keyStore = null;
+    privbte KeyStore keyStore = null;
 
     /**
      * Constructor KeyStoreResolver
      *
-     * @param keyStore is the keystore which contains the Certificates
-     * @throws StorageResolverException
+     * @pbrbm keyStore is the keystore which contbins the Certificbtes
+     * @throws StorbgeResolverException
      */
-    public KeyStoreResolver(KeyStore keyStore) throws StorageResolverException {
+    public KeyStoreResolver(KeyStore keyStore) throws StorbgeResolverException {
         this.keyStore = keyStore;
-        // Do a quick check on the keystore
+        // Do b quick check on the keystore
         try {
-            keyStore.aliases();
-        } catch (KeyStoreException ex) {
-            throw new StorageResolverException("generic.EmptyMessage", ex);
+            keyStore.blibses();
+        } cbtch (KeyStoreException ex) {
+            throw new StorbgeResolverException("generic.EmptyMessbge", ex);
         }
     }
 
     /** @inheritDoc */
-    public Iterator<Certificate> getIterator() {
-        return new KeyStoreIterator(this.keyStore);
+    public Iterbtor<Certificbte> getIterbtor() {
+        return new KeyStoreIterbtor(this.keyStore);
     }
 
     /**
-     * Class KeyStoreIterator
+     * Clbss KeyStoreIterbtor
      */
-    static class KeyStoreIterator implements Iterator<Certificate> {
+    stbtic clbss KeyStoreIterbtor implements Iterbtor<Certificbte> {
 
         /** Field keyStore */
         KeyStore keyStore = null;
 
-        /** Field aliases */
-        Enumeration<String> aliases = null;
+        /** Field blibses */
+        Enumerbtion<String> blibses = null;
 
         /** Field nextCert */
-        Certificate nextCert = null;
+        Certificbte nextCert = null;
 
         /**
-         * Constructor KeyStoreIterator
+         * Constructor KeyStoreIterbtor
          *
-         * @param keyStore
+         * @pbrbm keyStore
          */
-        public KeyStoreIterator(KeyStore keyStore) {
+        public KeyStoreIterbtor(KeyStore keyStore) {
             try {
                 this.keyStore = keyStore;
-                this.aliases = this.keyStore.aliases();
-            } catch (KeyStoreException ex) {
-                // empty Enumeration
-                this.aliases = new Enumeration<String>() {
-                    public boolean hasMoreElements() {
-                        return false;
+                this.blibses = this.keyStore.blibses();
+            } cbtch (KeyStoreException ex) {
+                // empty Enumerbtion
+                this.blibses = new Enumerbtion<String>() {
+                    public boolebn hbsMoreElements() {
+                        return fblse;
                     }
                     public String nextElement() {
                         return null;
@@ -99,7 +99,7 @@ public class KeyStoreResolver extends StorageResolverSpi {
         }
 
         /** @inheritDoc */
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             if (nextCert == null) {
                 nextCert = findNextCert();
             }
@@ -108,9 +108,9 @@ public class KeyStoreResolver extends StorageResolverSpi {
         }
 
         /** @inheritDoc */
-        public Certificate next() {
+        public Certificbte next() {
             if (nextCert == null) {
-                // maybe caller did not call hasNext()
+                // mbybe cbller did not cbll hbsNext()
                 nextCert = findNextCert();
 
                 if (nextCert == null) {
@@ -118,7 +118,7 @@ public class KeyStoreResolver extends StorageResolverSpi {
                 }
             }
 
-            Certificate ret = nextCert;
+            Certificbte ret = nextCert;
             nextCert = null;
             return ret;
         }
@@ -127,20 +127,20 @@ public class KeyStoreResolver extends StorageResolverSpi {
          * Method remove
          */
         public void remove() {
-            throw new UnsupportedOperationException("Can't remove keys from KeyStore");
+            throw new UnsupportedOperbtionException("Cbn't remove keys from KeyStore");
         }
 
-        // Find the next entry that contains a certificate and return it.
-        // In particular, this skips over entries containing symmetric keys.
-        private Certificate findNextCert() {
-            while (this.aliases.hasMoreElements()) {
-                String alias = this.aliases.nextElement();
+        // Find the next entry thbt contbins b certificbte bnd return it.
+        // In pbrticulbr, this skips over entries contbining symmetric keys.
+        privbte Certificbte findNextCert() {
+            while (this.blibses.hbsMoreElements()) {
+                String blibs = this.blibses.nextElement();
                 try {
-                    Certificate cert = this.keyStore.getCertificate(alias);
+                    Certificbte cert = this.keyStore.getCertificbte(blibs);
                     if (cert != null) {
                         return cert;
                     }
-                } catch (KeyStoreException ex) {
+                } cbtch (KeyStoreException ex) {
                     return null;
                 }
             }

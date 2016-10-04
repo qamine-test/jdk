@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,35 +27,35 @@
 
 #include "AnyByte.h"
 #include "UshortIndexed.h"
-#include "AlphaMacros.h"
+#include "AlphbMbcros.h"
 
 #include "IntArgb.h"
 #include "IntArgbBm.h"
 #include "IntArgbPre.h"
 #include "IntRgb.h"
 #include "ThreeByteBgr.h"
-#include "ByteGray.h"
-#include "Index12Gray.h"
+#include "ByteGrby.h"
+#include "Index12Grby.h"
 
 /*
- * This file declares, registers, and defines the various graphics
- * primitive loops to manipulate surfaces of type "UshortIndexed".
+ * This file declbres, registers, bnd defines the vbrious grbphics
+ * primitive loops to mbnipulbte surfbces of type "UshortIndexed".
  *
- * See also LoopMacros.h
+ * See blso LoopMbcros.h
  */
 
 RegisterFunc RegisterUshortIndexed;
 
 DECLARE_CONVERT_BLIT(IntArgb, UshortIndexed);
 DECLARE_CONVERT_BLIT(ThreeByteBgr, UshortIndexed);
-DECLARE_CONVERT_BLIT(ByteGray, UshortIndexed);
+DECLARE_CONVERT_BLIT(ByteGrby, UshortIndexed);
 DECLARE_CONVERT_BLIT(UshortIndexed, UshortIndexed);
-DECLARE_CONVERT_BLIT(Index12Gray, UshortIndexed);
+DECLARE_CONVERT_BLIT(Index12Grby, UshortIndexed);
 DECLARE_CONVERT_BLIT(UshortIndexed, IntArgb);
 DECLARE_SCALE_BLIT(IntArgb, UshortIndexed);
 DECLARE_SCALE_BLIT(ThreeByteBgr, UshortIndexed);
-DECLARE_SCALE_BLIT(ByteGray, UshortIndexed);
-DECLARE_SCALE_BLIT(Index12Gray, UshortIndexed);
+DECLARE_SCALE_BLIT(ByteGrby, UshortIndexed);
+DECLARE_SCALE_BLIT(Index12Grby, UshortIndexed);
 DECLARE_SCALE_BLIT(UshortIndexed, UshortIndexed);
 DECLARE_SCALE_BLIT(UshortIndexed, IntArgb);
 DECLARE_XPAR_CONVERT_BLIT(ByteIndexedBm, UshortIndexed);
@@ -72,15 +72,15 @@ DECLARE_ALPHA_MASKBLIT(IntArgbPre, UshortIndexed);
 DECLARE_ALPHA_MASKBLIT(IntRgb, UshortIndexed);
 DECLARE_SOLID_DRAWGLYPHLISTAA(UshortIndexed);
 
-NativePrimitive UshortIndexedPrimitives[] = {
+NbtivePrimitive UshortIndexedPrimitives[] = {
     REGISTER_CONVERT_BLIT(IntArgb, UshortIndexed),
     REGISTER_CONVERT_BLIT_EQUIV(IntRgb, UshortIndexed,
                                 NAME_CONVERT_BLIT(IntArgb, UshortIndexed)),
     REGISTER_CONVERT_BLIT_EQUIV(IntArgbBm, UshortIndexed,
                                 NAME_CONVERT_BLIT(IntArgb, UshortIndexed)),
     REGISTER_CONVERT_BLIT(ThreeByteBgr, UshortIndexed),
-    REGISTER_CONVERT_BLIT(ByteGray, UshortIndexed),
-    REGISTER_CONVERT_BLIT(Index12Gray, UshortIndexed),
+    REGISTER_CONVERT_BLIT(ByteGrby, UshortIndexed),
+    REGISTER_CONVERT_BLIT(Index12Grby, UshortIndexed),
     REGISTER_CONVERT_BLIT_FLAGS(UshortIndexed, UshortIndexed, 0, SD_LOCK_LUT),
     REGISTER_CONVERT_BLIT(UshortIndexed, IntArgb),
     REGISTER_CONVERT_BLIT_EQUIV(UshortIndexed, IntRgb,
@@ -91,8 +91,8 @@ NativePrimitive UshortIndexedPrimitives[] = {
     REGISTER_SCALE_BLIT_EQUIV(IntArgbBm, UshortIndexed,
                               NAME_SCALE_BLIT(IntArgb, UshortIndexed)),
     REGISTER_SCALE_BLIT(ThreeByteBgr, UshortIndexed),
-    REGISTER_SCALE_BLIT(ByteGray, UshortIndexed),
-    REGISTER_SCALE_BLIT(Index12Gray, UshortIndexed),
+    REGISTER_SCALE_BLIT(ByteGrby, UshortIndexed),
+    REGISTER_SCALE_BLIT(Index12Grby, UshortIndexed),
     REGISTER_SCALE_BLIT_FLAGS(UshortIndexed, UshortIndexed, 0, SD_LOCK_LUT),
     REGISTER_SCALE_BLIT(UshortIndexed, IntArgb),
     REGISTER_SCALE_BLIT_EQUIV(UshortIndexed, IntRgb,
@@ -112,20 +112,20 @@ NativePrimitive UshortIndexedPrimitives[] = {
     REGISTER_SOLID_DRAWGLYPHLISTAA(UshortIndexed),
 };
 
-extern jint PixelForByteIndexed(SurfaceDataRasInfo *pRasInfo, jint rgb);
-extern jboolean checkSameLut(jint *SrcReadLut, jint *DstReadLut,
-                             SurfaceDataRasInfo *pSrcInfo,
-                             SurfaceDataRasInfo *pDstInfo);
+extern jint PixelForByteIndexed(SurfbceDbtbRbsInfo *pRbsInfo, jint rgb);
+extern jboolebn checkSbmeLut(jint *SrcRebdLut, jint *DstRebdLut,
+                             SurfbceDbtbRbsInfo *pSrcInfo,
+                             SurfbceDbtbRbsInfo *pDstInfo);
 
-jboolean RegisterUshortIndexed(JNIEnv *env)
+jboolebn RegisterUshortIndexed(JNIEnv *env)
 {
     return RegisterPrimitives(env, UshortIndexedPrimitives,
-                              ArraySize(UshortIndexedPrimitives));
+                              ArrbySize(UshortIndexedPrimitives));
 }
 
-jint PixelForUshortIndexed(SurfaceDataRasInfo *pRasInfo, jint rgb)
+jint PixelForUshortIndexed(SurfbceDbtbRbsInfo *pRbsInfo, jint rgb)
 {
-    return PixelForByteIndexed(pRasInfo, rgb);
+    return PixelForByteIndexed(pRbsInfo, rgb);
 }
 
 
@@ -133,45 +133,45 @@ DEFINE_CONVERT_BLIT(IntArgb, UshortIndexed, 3ByteRgb)
 
 DEFINE_CONVERT_BLIT(ThreeByteBgr, UshortIndexed, 3ByteRgb)
 
-DEFINE_CONVERT_BLIT(ByteGray, UshortIndexed, 3ByteRgb)
+DEFINE_CONVERT_BLIT(ByteGrby, UshortIndexed, 3ByteRgb)
 
-DEFINE_CONVERT_BLIT(Index12Gray, UshortIndexed, 3ByteRgb)
+DEFINE_CONVERT_BLIT(Index12Grby, UshortIndexed, 3ByteRgb)
 
 DEFINE_CONVERT_BLIT_LUT(UshortIndexed, IntArgb, ConvertOnTheFly)
 
 DEFINE_SCALE_BLIT_LUT(UshortIndexed, IntArgb, ConvertOnTheFly)
 
 void NAME_CONVERT_BLIT(UshortIndexed, UshortIndexed)
-    (void *srcBase, void *dstBase,
+    (void *srcBbse, void *dstBbse,
      juint width, juint height,
-     SurfaceDataRasInfo *pSrcInfo,
-     SurfaceDataRasInfo *pDstInfo,
-     NativePrimitive *pPrim,
+     SurfbceDbtbRbsInfo *pSrcInfo,
+     SurfbceDbtbRbsInfo *pDstInfo,
+     NbtivePrimitive *pPrim,
      CompositeInfo *pCompInfo)
 {
-    DeclareUshortIndexedLoadVars(SrcRead)
-    DeclareUshortIndexedLoadVars(DstRead)
-    jint srcScan = pSrcInfo->scanStride;
-    jint dstScan = pDstInfo->scanStride;
+    DeclbreUshortIndexedLobdVbrs(SrcRebd)
+    DeclbreUshortIndexedLobdVbrs(DstRebd)
+    jint srcScbn = pSrcInfo->scbnStride;
+    jint dstScbn = pDstInfo->scbnStride;
     jint bytesToCopy = width * pDstInfo->pixelStride;
 
-    InitUshortIndexedLoadVars(SrcRead, pSrcInfo);
-    InitUshortIndexedLoadVars(DstRead, pDstInfo);
+    InitUshortIndexedLobdVbrs(SrcRebd, pSrcInfo);
+    InitUshortIndexedLobdVbrs(DstRebd, pDstInfo);
 
-    if (checkSameLut(SrcReadLut, DstReadLut, pSrcInfo, pDstInfo)) {
+    if (checkSbmeLut(SrcRebdLut, DstRebdLut, pSrcInfo, pDstInfo)) {
         do {
-            memcpy(dstBase, srcBase, bytesToCopy);
-            srcBase = PtrAddBytes(srcBase, srcScan);
-            dstBase = PtrAddBytes(dstBase, dstScan);
+            memcpy(dstBbse, srcBbse, bytesToCopy);
+            srcBbse = PtrAddBytes(srcBbse, srcScbn);
+            dstBbse = PtrAddBytes(dstBbse, dstScbn);
         } while (--height > 0);
     } else {
-        DeclareUshortIndexedStoreVars(DstWrite);
+        DeclbreUshortIndexedStoreVbrs(DstWrite);
 
-        BlitLoopWidthHeight(UshortIndexed, pSrc, srcBase, pSrcInfo,
-                            UshortIndexed, pDst, dstBase, pDstInfo, DstWrite,
+        BlitLoopWidthHeight(UshortIndexed, pSrc, srcBbse, pSrcInfo,
+                            UshortIndexed, pDst, dstBbse, pDstInfo, DstWrite,
                             width, height,
-                            ConvertVia3ByteRgb
-                                (pSrc, UshortIndexed, SrcRead,
+                            ConvertVib3ByteRgb
+                                (pSrc, UshortIndexed, SrcRebd,
                                  pDst, UshortIndexed, DstWrite, 0, 0));
     }
 }
@@ -180,41 +180,41 @@ DEFINE_SCALE_BLIT(IntArgb, UshortIndexed, 3ByteRgb)
 
 DEFINE_SCALE_BLIT(ThreeByteBgr, UshortIndexed, 3ByteRgb)
 
-DEFINE_SCALE_BLIT(ByteGray, UshortIndexed, 3ByteRgb)
+DEFINE_SCALE_BLIT(ByteGrby, UshortIndexed, 3ByteRgb)
 
-DEFINE_SCALE_BLIT(Index12Gray, UshortIndexed, 3ByteRgb)
+DEFINE_SCALE_BLIT(Index12Grby, UshortIndexed, 3ByteRgb)
 
 void NAME_SCALE_BLIT(UshortIndexed, UshortIndexed)
-    (void *srcBase, void *dstBase,
+    (void *srcBbse, void *dstBbse,
      juint width, juint height,
      jint sxloc, jint syloc,
      jint sxinc, jint syinc, jint shift,
-     SurfaceDataRasInfo *pSrcInfo,
-     SurfaceDataRasInfo *pDstInfo,
-     NativePrimitive *pPrim,
+     SurfbceDbtbRbsInfo *pSrcInfo,
+     SurfbceDbtbRbsInfo *pDstInfo,
+     NbtivePrimitive *pPrim,
      CompositeInfo *pCompInfo)
 {
-    DeclareUshortIndexedLoadVars(SrcRead)
-    DeclareUshortIndexedLoadVars(DstRead)
-    jint srcScan = pSrcInfo->scanStride;
-    jint dstScan = pDstInfo->scanStride;
-    DeclareUshortIndexedStoreVars(DstWrite)
+    DeclbreUshortIndexedLobdVbrs(SrcRebd)
+    DeclbreUshortIndexedLobdVbrs(DstRebd)
+    jint srcScbn = pSrcInfo->scbnStride;
+    jint dstScbn = pDstInfo->scbnStride;
+    DeclbreUshortIndexedStoreVbrs(DstWrite)
 
-    InitUshortIndexedLoadVars(SrcRead, pSrcInfo);
-    InitUshortIndexedLoadVars(DstRead, pDstInfo);
+    InitUshortIndexedLobdVbrs(SrcRebd, pSrcInfo);
+    InitUshortIndexedLobdVbrs(DstRebd, pDstInfo);
 
-    if (checkSameLut(SrcReadLut, DstReadLut, pSrcInfo, pDstInfo)) {
-        BlitLoopScaleWidthHeight(UshortIndexed, pSrc, srcBase, pSrcInfo,
-                                 UshortIndexed, pDst, dstBase, pDstInfo, DstWrite,
+    if (checkSbmeLut(SrcRebdLut, DstRebdLut, pSrcInfo, pDstInfo)) {
+        BlitLoopScbleWidthHeight(UshortIndexed, pSrc, srcBbse, pSrcInfo,
+                                 UshortIndexed, pDst, dstBbse, pDstInfo, DstWrite,
                                  x, width, height,
                                  sxloc, syloc, sxinc, syinc, shift,
                                  pDst[0] = pSrc[x]);
     } else {
-        BlitLoopScaleWidthHeight(UshortIndexed, pSrc, srcBase, pSrcInfo,
-                                 UshortIndexed, pDst, dstBase, pDstInfo, DstWrite,
+        BlitLoopScbleWidthHeight(UshortIndexed, pSrc, srcBbse, pSrcInfo,
+                                 UshortIndexed, pDst, dstBbse, pDstInfo, DstWrite,
                                  x, width, height,
                                  sxloc, syloc, sxinc, syinc, shift,
-                                 ConvertVia3ByteRgb(pSrc, UshortIndexed, SrcRead,
+                                 ConvertVib3ByteRgb(pSrc, UshortIndexed, SrcRebd,
                                                     pDst, UshortIndexed, DstWrite,
                                                     x, 0));
     }

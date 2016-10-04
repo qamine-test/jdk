@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.geom;
+pbckbge jbvb.bwt.geom;
 
-import java.awt.Shape;
-import java.awt.Rectangle;
-import java.io.Serializable;
-import sun.awt.geom.Curve;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.Rectbngle;
+import jbvb.io.Seriblizbble;
+import sun.bwt.geom.Curve;
 
 /**
- * The <code>QuadCurve2D</code> class defines a quadratic parametric curve
- * segment in {@code (x,y)} coordinate space.
+ * The <code>QubdCurve2D</code> clbss defines b qubdrbtic pbrbmetric curve
+ * segment in {@code (x,y)} coordinbte spbce.
  * <p>
- * This class is only the abstract superclass for all objects that
- * store a 2D quadratic curve segment.
- * The actual storage representation of the coordinates is left to
- * the subclass.
+ * This clbss is only the bbstrbct superclbss for bll objects thbt
+ * store b 2D qubdrbtic curve segment.
+ * The bctubl storbge representbtion of the coordinbtes is left to
+ * the subclbss.
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  * @since 1.2
  */
-public abstract class QuadCurve2D implements Shape, Cloneable {
+public bbstrbct clbss QubdCurve2D implements Shbpe, Clonebble {
 
     /**
-     * A quadratic parametric curve segment specified with
-     * {@code float} coordinates.
+     * A qubdrbtic pbrbmetric curve segment specified with
+     * {@code flobt} coordinbtes.
      *
      * @since 1.2
      */
-    public static class Float extends QuadCurve2D implements Serializable {
+    public stbtic clbss Flobt extends QubdCurve2D implements Seriblizbble {
         /**
-         * The X coordinate of the start point of the quadratic curve
+         * The X coordinbte of the stbrt point of the qubdrbtic curve
          * segment.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float x1;
+        public flobt x1;
 
         /**
-         * The Y coordinate of the start point of the quadratic curve
+         * The Y coordinbte of the stbrt point of the qubdrbtic curve
          * segment.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float y1;
+        public flobt y1;
 
         /**
-         * The X coordinate of the control point of the quadratic curve
+         * The X coordinbte of the control point of the qubdrbtic curve
          * segment.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float ctrlx;
+        public flobt ctrlx;
 
         /**
-         * The Y coordinate of the control point of the quadratic curve
+         * The Y coordinbte of the control point of the qubdrbtic curve
          * segment.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float ctrly;
+        public flobt ctrly;
 
         /**
-         * The X coordinate of the end point of the quadratic curve
+         * The X coordinbte of the end point of the qubdrbtic curve
          * segment.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float x2;
+        public flobt x2;
 
         /**
-         * The Y coordinate of the end point of the quadratic curve
+         * The Y coordinbte of the end point of the qubdrbtic curve
          * segment.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float y2;
+        public flobt y2;
 
         /**
-         * Constructs and initializes a <code>QuadCurve2D</code> with
-         * coordinates (0, 0, 0, 0, 0, 0).
+         * Constructs bnd initiblizes b <code>QubdCurve2D</code> with
+         * coordinbtes (0, 0, 0, 0, 0, 0).
          * @since 1.2
          */
-        public Float() {
+        public Flobt() {
         }
 
         /**
-         * Constructs and initializes a <code>QuadCurve2D</code> from the
-         * specified {@code float} coordinates.
+         * Constructs bnd initiblizes b <code>QubdCurve2D</code> from the
+         * specified {@code flobt} coordinbtes.
          *
-         * @param x1 the X coordinate of the start point
-         * @param y1 the Y coordinate of the start point
-         * @param ctrlx the X coordinate of the control point
-         * @param ctrly the Y coordinate of the control point
-         * @param x2 the X coordinate of the end point
-         * @param y2 the Y coordinate of the end point
+         * @pbrbm x1 the X coordinbte of the stbrt point
+         * @pbrbm y1 the Y coordinbte of the stbrt point
+         * @pbrbm ctrlx the X coordinbte of the control point
+         * @pbrbm ctrly the Y coordinbte of the control point
+         * @pbrbm x2 the X coordinbte of the end point
+         * @pbrbm y2 the Y coordinbte of the end point
          * @since 1.2
          */
-        public Float(float x1, float y1,
-                     float ctrlx, float ctrly,
-                     float x2, float y2)
+        public Flobt(flobt x1, flobt y1,
+                     flobt ctrlx, flobt ctrly,
+                     flobt x2, flobt y2)
         {
             setCurve(x1, y1, ctrlx, ctrly, x2, y2);
         }
@@ -147,7 +147,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
          * @since 1.2
          */
         public Point2D getP1() {
-            return new Point2D.Float(x1, y1);
+            return new Point2D.Flobt(x1, y1);
         }
 
         /**
@@ -171,7 +171,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
          * @since 1.2
          */
         public Point2D getCtrlPt() {
-            return new Point2D.Float(ctrlx, ctrly);
+            return new Point2D.Flobt(ctrlx, ctrly);
         }
 
         /**
@@ -195,7 +195,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
          * @since 1.2
          */
         public Point2D getP2() {
-            return new Point2D.Float(x2, y2);
+            return new Point2D.Flobt(x2, y2);
         }
 
         /**
@@ -206,29 +206,29 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
                              double ctrlx, double ctrly,
                              double x2, double y2)
         {
-            this.x1    = (float) x1;
-            this.y1    = (float) y1;
-            this.ctrlx = (float) ctrlx;
-            this.ctrly = (float) ctrly;
-            this.x2    = (float) x2;
-            this.y2    = (float) y2;
+            this.x1    = (flobt) x1;
+            this.y1    = (flobt) y1;
+            this.ctrlx = (flobt) ctrlx;
+            this.ctrly = (flobt) ctrly;
+            this.x2    = (flobt) x2;
+            this.y2    = (flobt) y2;
         }
 
         /**
-         * Sets the location of the end points and control point of this curve
-         * to the specified {@code float} coordinates.
+         * Sets the locbtion of the end points bnd control point of this curve
+         * to the specified {@code flobt} coordinbtes.
          *
-         * @param x1 the X coordinate of the start point
-         * @param y1 the Y coordinate of the start point
-         * @param ctrlx the X coordinate of the control point
-         * @param ctrly the Y coordinate of the control point
-         * @param x2 the X coordinate of the end point
-         * @param y2 the Y coordinate of the end point
+         * @pbrbm x1 the X coordinbte of the stbrt point
+         * @pbrbm y1 the Y coordinbte of the stbrt point
+         * @pbrbm ctrlx the X coordinbte of the control point
+         * @pbrbm ctrly the Y coordinbte of the control point
+         * @pbrbm x2 the X coordinbte of the end point
+         * @pbrbm y2 the Y coordinbte of the end point
          * @since 1.2
          */
-        public void setCurve(float x1, float y1,
-                             float ctrlx, float ctrly,
-                             float x2, float y2)
+        public void setCurve(flobt x1, flobt y1,
+                             flobt ctrlx, flobt ctrly,
+                             flobt x2, flobt y2)
         {
             this.x1    = x1;
             this.y1    = y1;
@@ -242,94 +242,94 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D getBounds2D() {
-            float left   = Math.min(Math.min(x1, x2), ctrlx);
-            float top    = Math.min(Math.min(y1, y2), ctrly);
-            float right  = Math.max(Math.max(x1, x2), ctrlx);
-            float bottom = Math.max(Math.max(y1, y2), ctrly);
-            return new Rectangle2D.Float(left, top,
+        public Rectbngle2D getBounds2D() {
+            flobt left   = Mbth.min(Mbth.min(x1, x2), ctrlx);
+            flobt top    = Mbth.min(Mbth.min(y1, y2), ctrly);
+            flobt right  = Mbth.mbx(Mbth.mbx(x1, x2), ctrlx);
+            flobt bottom = Mbth.mbx(Mbth.mbx(y1, y2), ctrly);
+            return new Rectbngle2D.Flobt(left, top,
                                          right - left, bottom - top);
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 seriblVersionUID
          */
-        private static final long serialVersionUID = -8511188402130719609L;
+        privbte stbtic finbl long seriblVersionUID = -8511188402130719609L;
     }
 
     /**
-     * A quadratic parametric curve segment specified with
-     * {@code double} coordinates.
+     * A qubdrbtic pbrbmetric curve segment specified with
+     * {@code double} coordinbtes.
      *
      * @since 1.2
      */
-    public static class Double extends QuadCurve2D implements Serializable {
+    public stbtic clbss Double extends QubdCurve2D implements Seriblizbble {
         /**
-         * The X coordinate of the start point of the quadratic curve
+         * The X coordinbte of the stbrt point of the qubdrbtic curve
          * segment.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double x1;
 
         /**
-         * The Y coordinate of the start point of the quadratic curve
+         * The Y coordinbte of the stbrt point of the qubdrbtic curve
          * segment.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double y1;
 
         /**
-         * The X coordinate of the control point of the quadratic curve
+         * The X coordinbte of the control point of the qubdrbtic curve
          * segment.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double ctrlx;
 
         /**
-         * The Y coordinate of the control point of the quadratic curve
+         * The Y coordinbte of the control point of the qubdrbtic curve
          * segment.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double ctrly;
 
         /**
-         * The X coordinate of the end point of the quadratic curve
+         * The X coordinbte of the end point of the qubdrbtic curve
          * segment.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double x2;
 
         /**
-         * The Y coordinate of the end point of the quadratic curve
+         * The Y coordinbte of the end point of the qubdrbtic curve
          * segment.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double y2;
 
         /**
-         * Constructs and initializes a <code>QuadCurve2D</code> with
-         * coordinates (0, 0, 0, 0, 0, 0).
+         * Constructs bnd initiblizes b <code>QubdCurve2D</code> with
+         * coordinbtes (0, 0, 0, 0, 0, 0).
          * @since 1.2
          */
         public Double() {
         }
 
         /**
-         * Constructs and initializes a <code>QuadCurve2D</code> from the
-         * specified {@code double} coordinates.
+         * Constructs bnd initiblizes b <code>QubdCurve2D</code> from the
+         * specified {@code double} coordinbtes.
          *
-         * @param x1 the X coordinate of the start point
-         * @param y1 the Y coordinate of the start point
-         * @param ctrlx the X coordinate of the control point
-         * @param ctrly the Y coordinate of the control point
-         * @param x2 the X coordinate of the end point
-         * @param y2 the Y coordinate of the end point
+         * @pbrbm x1 the X coordinbte of the stbrt point
+         * @pbrbm y1 the Y coordinbte of the stbrt point
+         * @pbrbm ctrlx the X coordinbte of the control point
+         * @pbrbm ctrly the Y coordinbte of the control point
+         * @pbrbm x2 the X coordinbte of the end point
+         * @pbrbm y2 the Y coordinbte of the end point
          * @since 1.2
          */
         public Double(double x1, double y1,
@@ -431,131 +431,131 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D getBounds2D() {
-            double left   = Math.min(Math.min(x1, x2), ctrlx);
-            double top    = Math.min(Math.min(y1, y2), ctrly);
-            double right  = Math.max(Math.max(x1, x2), ctrlx);
-            double bottom = Math.max(Math.max(y1, y2), ctrly);
-            return new Rectangle2D.Double(left, top,
+        public Rectbngle2D getBounds2D() {
+            double left   = Mbth.min(Mbth.min(x1, x2), ctrlx);
+            double top    = Mbth.min(Mbth.min(y1, y2), ctrly);
+            double right  = Mbth.mbx(Mbth.mbx(x1, x2), ctrlx);
+            double bottom = Mbth.mbx(Mbth.mbx(y1, y2), ctrly);
+            return new Rectbngle2D.Double(left, top,
                                           right - left, bottom - top);
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 seriblVersionUID
          */
-        private static final long serialVersionUID = 4217149928428559721L;
+        privbte stbtic finbl long seriblVersionUID = 4217149928428559721L;
     }
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
-     * Type-specific implementation subclasses are available for
-     * instantiation and provide a number of formats for storing
-     * the information necessary to satisfy the various accessor
+     * This is bn bbstrbct clbss thbt cbnnot be instbntibted directly.
+     * Type-specific implementbtion subclbsses bre bvbilbble for
+     * instbntibtion bnd provide b number of formbts for storing
+     * the informbtion necessbry to sbtisfy the vbrious bccessor
      * methods below.
      *
-     * @see java.awt.geom.QuadCurve2D.Float
-     * @see java.awt.geom.QuadCurve2D.Double
+     * @see jbvb.bwt.geom.QubdCurve2D.Flobt
+     * @see jbvb.bwt.geom.QubdCurve2D.Double
      * @since 1.2
      */
-    protected QuadCurve2D() {
+    protected QubdCurve2D() {
     }
 
     /**
-     * Returns the X coordinate of the start point in
+     * Returns the X coordinbte of the stbrt point in
      * <code>double</code> in precision.
-     * @return the X coordinate of the start point.
+     * @return the X coordinbte of the stbrt point.
      * @since 1.2
      */
-    public abstract double getX1();
+    public bbstrbct double getX1();
 
     /**
-     * Returns the Y coordinate of the start point in
+     * Returns the Y coordinbte of the stbrt point in
      * <code>double</code> precision.
-     * @return the Y coordinate of the start point.
+     * @return the Y coordinbte of the stbrt point.
      * @since 1.2
      */
-    public abstract double getY1();
+    public bbstrbct double getY1();
 
     /**
-     * Returns the start point.
-     * @return a <code>Point2D</code> that is the start point of this
-     *          <code>QuadCurve2D</code>.
+     * Returns the stbrt point.
+     * @return b <code>Point2D</code> thbt is the stbrt point of this
+     *          <code>QubdCurve2D</code>.
      * @since 1.2
      */
-    public abstract Point2D getP1();
+    public bbstrbct Point2D getP1();
 
     /**
-     * Returns the X coordinate of the control point in
+     * Returns the X coordinbte of the control point in
      * <code>double</code> precision.
-     * @return X coordinate the control point
+     * @return X coordinbte the control point
      * @since 1.2
      */
-    public abstract double getCtrlX();
+    public bbstrbct double getCtrlX();
 
     /**
-     * Returns the Y coordinate of the control point in
+     * Returns the Y coordinbte of the control point in
      * <code>double</code> precision.
-     * @return the Y coordinate of the control point.
+     * @return the Y coordinbte of the control point.
      * @since 1.2
      */
-    public abstract double getCtrlY();
+    public bbstrbct double getCtrlY();
 
     /**
      * Returns the control point.
-     * @return a <code>Point2D</code> that is the control point of this
+     * @return b <code>Point2D</code> thbt is the control point of this
      *          <code>Point2D</code>.
      * @since 1.2
      */
-    public abstract Point2D getCtrlPt();
+    public bbstrbct Point2D getCtrlPt();
 
     /**
-     * Returns the X coordinate of the end point in
+     * Returns the X coordinbte of the end point in
      * <code>double</code> precision.
-     * @return the x coordinate of the end point.
+     * @return the x coordinbte of the end point.
      * @since 1.2
      */
-    public abstract double getX2();
+    public bbstrbct double getX2();
 
     /**
-     * Returns the Y coordinate of the end point in
+     * Returns the Y coordinbte of the end point in
      * <code>double</code> precision.
-     * @return the Y coordinate of the end point.
+     * @return the Y coordinbte of the end point.
      * @since 1.2
      */
-    public abstract double getY2();
+    public bbstrbct double getY2();
 
     /**
      * Returns the end point.
-     * @return a <code>Point</code> object that is the end point
+     * @return b <code>Point</code> object thbt is the end point
      *          of this <code>Point2D</code>.
      * @since 1.2
      */
-    public abstract Point2D getP2();
+    public bbstrbct Point2D getP2();
 
     /**
-     * Sets the location of the end points and control point of this curve
-     * to the specified <code>double</code> coordinates.
+     * Sets the locbtion of the end points bnd control point of this curve
+     * to the specified <code>double</code> coordinbtes.
      *
-     * @param x1 the X coordinate of the start point
-     * @param y1 the Y coordinate of the start point
-     * @param ctrlx the X coordinate of the control point
-     * @param ctrly the Y coordinate of the control point
-     * @param x2 the X coordinate of the end point
-     * @param y2 the Y coordinate of the end point
+     * @pbrbm x1 the X coordinbte of the stbrt point
+     * @pbrbm y1 the Y coordinbte of the stbrt point
+     * @pbrbm ctrlx the X coordinbte of the control point
+     * @pbrbm ctrly the Y coordinbte of the control point
+     * @pbrbm x2 the X coordinbte of the end point
+     * @pbrbm y2 the Y coordinbte of the end point
      * @since 1.2
      */
-    public abstract void setCurve(double x1, double y1,
+    public bbstrbct void setCurve(double x1, double y1,
                                   double ctrlx, double ctrly,
                                   double x2, double y2);
 
     /**
-     * Sets the location of the end points and control points of this
-     * <code>QuadCurve2D</code> to the <code>double</code> coordinates at
-     * the specified offset in the specified array.
-     * @param coords the array containing coordinate values
-     * @param offset the index into the array from which to start
-     *          getting the coordinate values and assigning them to this
-     *          <code>QuadCurve2D</code>
+     * Sets the locbtion of the end points bnd control points of this
+     * <code>QubdCurve2D</code> to the <code>double</code> coordinbtes bt
+     * the specified offset in the specified brrby.
+     * @pbrbm coords the brrby contbining coordinbte vblues
+     * @pbrbm offset the index into the brrby from which to stbrt
+     *          getting the coordinbte vblues bnd bssigning them to this
+     *          <code>QubdCurve2D</code>
      * @since 1.2
      */
     public void setCurve(double[] coords, int offset) {
@@ -565,12 +565,12 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
     }
 
     /**
-     * Sets the location of the end points and control point of this
-     * <code>QuadCurve2D</code> to the specified <code>Point2D</code>
-     * coordinates.
-     * @param p1 the start point
-     * @param cp the control point
-     * @param p2 the end point
+     * Sets the locbtion of the end points bnd control point of this
+     * <code>QubdCurve2D</code> to the specified <code>Point2D</code>
+     * coordinbtes.
+     * @pbrbm p1 the stbrt point
+     * @pbrbm cp the control point
+     * @pbrbm p2 the end point
      * @since 1.2
      */
     public void setCurve(Point2D p1, Point2D cp, Point2D p2) {
@@ -580,15 +580,15 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
     }
 
     /**
-     * Sets the location of the end points and control points of this
-     * <code>QuadCurve2D</code> to the coordinates of the
-     * <code>Point2D</code> objects at the specified offset in
-     * the specified array.
-     * @param pts an array containing <code>Point2D</code> that define
-     *          coordinate values
-     * @param offset the index into <code>pts</code> from which to start
-     *          getting the coordinate values and assigning them to this
-     *          <code>QuadCurve2D</code>
+     * Sets the locbtion of the end points bnd control points of this
+     * <code>QubdCurve2D</code> to the coordinbtes of the
+     * <code>Point2D</code> objects bt the specified offset in
+     * the specified brrby.
+     * @pbrbm pts bn brrby contbining <code>Point2D</code> thbt define
+     *          coordinbte vblues
+     * @pbrbm offset the index into <code>pts</code> from which to stbrt
+     *          getting the coordinbte vblues bnd bssigning them to this
+     *          <code>QubdCurve2D</code>
      * @since 1.2
      */
     public void setCurve(Point2D[] pts, int offset) {
@@ -598,157 +598,157 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
     }
 
     /**
-     * Sets the location of the end points and control point of this
-     * <code>QuadCurve2D</code> to the same as those in the specified
-     * <code>QuadCurve2D</code>.
-     * @param c the specified <code>QuadCurve2D</code>
+     * Sets the locbtion of the end points bnd control point of this
+     * <code>QubdCurve2D</code> to the sbme bs those in the specified
+     * <code>QubdCurve2D</code>.
+     * @pbrbm c the specified <code>QubdCurve2D</code>
      * @since 1.2
      */
-    public void setCurve(QuadCurve2D c) {
+    public void setCurve(QubdCurve2D c) {
         setCurve(c.getX1(), c.getY1(),
                  c.getCtrlX(), c.getCtrlY(),
                  c.getX2(), c.getY2());
     }
 
     /**
-     * Returns the square of the flatness, or maximum distance of a
+     * Returns the squbre of the flbtness, or mbximum distbnce of b
      * control point from the line connecting the end points, of the
-     * quadratic curve specified by the indicated control points.
+     * qubdrbtic curve specified by the indicbted control points.
      *
-     * @param x1 the X coordinate of the start point
-     * @param y1 the Y coordinate of the start point
-     * @param ctrlx the X coordinate of the control point
-     * @param ctrly the Y coordinate of the control point
-     * @param x2 the X coordinate of the end point
-     * @param y2 the Y coordinate of the end point
-     * @return the square of the flatness of the quadratic curve
-     *          defined by the specified coordinates.
+     * @pbrbm x1 the X coordinbte of the stbrt point
+     * @pbrbm y1 the Y coordinbte of the stbrt point
+     * @pbrbm ctrlx the X coordinbte of the control point
+     * @pbrbm ctrly the Y coordinbte of the control point
+     * @pbrbm x2 the X coordinbte of the end point
+     * @pbrbm y2 the Y coordinbte of the end point
+     * @return the squbre of the flbtness of the qubdrbtic curve
+     *          defined by the specified coordinbtes.
      * @since 1.2
      */
-    public static double getFlatnessSq(double x1, double y1,
+    public stbtic double getFlbtnessSq(double x1, double y1,
                                        double ctrlx, double ctrly,
                                        double x2, double y2) {
         return Line2D.ptSegDistSq(x1, y1, x2, y2, ctrlx, ctrly);
     }
 
     /**
-     * Returns the flatness, or maximum distance of a
+     * Returns the flbtness, or mbximum distbnce of b
      * control point from the line connecting the end points, of the
-     * quadratic curve specified by the indicated control points.
+     * qubdrbtic curve specified by the indicbted control points.
      *
-     * @param x1 the X coordinate of the start point
-     * @param y1 the Y coordinate of the start point
-     * @param ctrlx the X coordinate of the control point
-     * @param ctrly the Y coordinate of the control point
-     * @param x2 the X coordinate of the end point
-     * @param y2 the Y coordinate of the end point
-     * @return the flatness of the quadratic curve defined by the
-     *          specified coordinates.
+     * @pbrbm x1 the X coordinbte of the stbrt point
+     * @pbrbm y1 the Y coordinbte of the stbrt point
+     * @pbrbm ctrlx the X coordinbte of the control point
+     * @pbrbm ctrly the Y coordinbte of the control point
+     * @pbrbm x2 the X coordinbte of the end point
+     * @pbrbm y2 the Y coordinbte of the end point
+     * @return the flbtness of the qubdrbtic curve defined by the
+     *          specified coordinbtes.
      * @since 1.2
      */
-    public static double getFlatness(double x1, double y1,
+    public stbtic double getFlbtness(double x1, double y1,
                                      double ctrlx, double ctrly,
                                      double x2, double y2) {
         return Line2D.ptSegDist(x1, y1, x2, y2, ctrlx, ctrly);
     }
 
     /**
-     * Returns the square of the flatness, or maximum distance of a
+     * Returns the squbre of the flbtness, or mbximum distbnce of b
      * control point from the line connecting the end points, of the
-     * quadratic curve specified by the control points stored in the
-     * indicated array at the indicated index.
-     * @param coords an array containing coordinate values
-     * @param offset the index into <code>coords</code> from which to
-     *          to start getting the values from the array
-     * @return the flatness of the quadratic curve that is defined by the
-     *          values in the specified array at the specified index.
+     * qubdrbtic curve specified by the control points stored in the
+     * indicbted brrby bt the indicbted index.
+     * @pbrbm coords bn brrby contbining coordinbte vblues
+     * @pbrbm offset the index into <code>coords</code> from which to
+     *          to stbrt getting the vblues from the brrby
+     * @return the flbtness of the qubdrbtic curve thbt is defined by the
+     *          vblues in the specified brrby bt the specified index.
      * @since 1.2
      */
-    public static double getFlatnessSq(double coords[], int offset) {
+    public stbtic double getFlbtnessSq(double coords[], int offset) {
         return Line2D.ptSegDistSq(coords[offset + 0], coords[offset + 1],
                                   coords[offset + 4], coords[offset + 5],
                                   coords[offset + 2], coords[offset + 3]);
     }
 
     /**
-     * Returns the flatness, or maximum distance of a
+     * Returns the flbtness, or mbximum distbnce of b
      * control point from the line connecting the end points, of the
-     * quadratic curve specified by the control points stored in the
-     * indicated array at the indicated index.
-     * @param coords an array containing coordinate values
-     * @param offset the index into <code>coords</code> from which to
-     *          start getting the coordinate values
-     * @return the flatness of a quadratic curve defined by the
-     *          specified array at the specified offset.
+     * qubdrbtic curve specified by the control points stored in the
+     * indicbted brrby bt the indicbted index.
+     * @pbrbm coords bn brrby contbining coordinbte vblues
+     * @pbrbm offset the index into <code>coords</code> from which to
+     *          stbrt getting the coordinbte vblues
+     * @return the flbtness of b qubdrbtic curve defined by the
+     *          specified brrby bt the specified offset.
      * @since 1.2
      */
-    public static double getFlatness(double coords[], int offset) {
+    public stbtic double getFlbtness(double coords[], int offset) {
         return Line2D.ptSegDist(coords[offset + 0], coords[offset + 1],
                                 coords[offset + 4], coords[offset + 5],
                                 coords[offset + 2], coords[offset + 3]);
     }
 
     /**
-     * Returns the square of the flatness, or maximum distance of a
+     * Returns the squbre of the flbtness, or mbximum distbnce of b
      * control point from the line connecting the end points, of this
-     * <code>QuadCurve2D</code>.
-     * @return the square of the flatness of this
-     *          <code>QuadCurve2D</code>.
+     * <code>QubdCurve2D</code>.
+     * @return the squbre of the flbtness of this
+     *          <code>QubdCurve2D</code>.
      * @since 1.2
      */
-    public double getFlatnessSq() {
+    public double getFlbtnessSq() {
         return Line2D.ptSegDistSq(getX1(), getY1(),
                                   getX2(), getY2(),
                                   getCtrlX(), getCtrlY());
     }
 
     /**
-     * Returns the flatness, or maximum distance of a
+     * Returns the flbtness, or mbximum distbnce of b
      * control point from the line connecting the end points, of this
-     * <code>QuadCurve2D</code>.
-     * @return the flatness of this <code>QuadCurve2D</code>.
+     * <code>QubdCurve2D</code>.
+     * @return the flbtness of this <code>QubdCurve2D</code>.
      * @since 1.2
      */
-    public double getFlatness() {
+    public double getFlbtness() {
         return Line2D.ptSegDist(getX1(), getY1(),
                                 getX2(), getY2(),
                                 getCtrlX(), getCtrlY());
     }
 
     /**
-     * Subdivides this <code>QuadCurve2D</code> and stores the resulting
-     * two subdivided curves into the <code>left</code> and
-     * <code>right</code> curve parameters.
-     * Either or both of the <code>left</code> and <code>right</code>
-     * objects can be the same as this <code>QuadCurve2D</code> or
+     * Subdivides this <code>QubdCurve2D</code> bnd stores the resulting
+     * two subdivided curves into the <code>left</code> bnd
+     * <code>right</code> curve pbrbmeters.
+     * Either or both of the <code>left</code> bnd <code>right</code>
+     * objects cbn be the sbme bs this <code>QubdCurve2D</code> or
      * <code>null</code>.
-     * @param left the <code>QuadCurve2D</code> object for storing the
-     * left or first half of the subdivided curve
-     * @param right the <code>QuadCurve2D</code> object for storing the
-     * right or second half of the subdivided curve
+     * @pbrbm left the <code>QubdCurve2D</code> object for storing the
+     * left or first hblf of the subdivided curve
+     * @pbrbm right the <code>QubdCurve2D</code> object for storing the
+     * right or second hblf of the subdivided curve
      * @since 1.2
      */
-    public void subdivide(QuadCurve2D left, QuadCurve2D right) {
+    public void subdivide(QubdCurve2D left, QubdCurve2D right) {
         subdivide(this, left, right);
     }
 
     /**
-     * Subdivides the quadratic curve specified by the <code>src</code>
-     * parameter and stores the resulting two subdivided curves into the
-     * <code>left</code> and <code>right</code> curve parameters.
-     * Either or both of the <code>left</code> and <code>right</code>
-     * objects can be the same as the <code>src</code> object or
+     * Subdivides the qubdrbtic curve specified by the <code>src</code>
+     * pbrbmeter bnd stores the resulting two subdivided curves into the
+     * <code>left</code> bnd <code>right</code> curve pbrbmeters.
+     * Either or both of the <code>left</code> bnd <code>right</code>
+     * objects cbn be the sbme bs the <code>src</code> object or
      * <code>null</code>.
-     * @param src the quadratic curve to be subdivided
-     * @param left the <code>QuadCurve2D</code> object for storing the
-     *          left or first half of the subdivided curve
-     * @param right the <code>QuadCurve2D</code> object for storing the
-     *          right or second half of the subdivided curve
+     * @pbrbm src the qubdrbtic curve to be subdivided
+     * @pbrbm left the <code>QubdCurve2D</code> object for storing the
+     *          left or first hblf of the subdivided curve
+     * @pbrbm right the <code>QubdCurve2D</code> object for storing the
+     *          right or second hblf of the subdivided curve
      * @since 1.2
      */
-    public static void subdivide(QuadCurve2D src,
-                                 QuadCurve2D left,
-                                 QuadCurve2D right) {
+    public stbtic void subdivide(QubdCurve2D src,
+                                 QubdCurve2D left,
+                                 QubdCurve2D right) {
         double x1 = src.getX1();
         double y1 = src.getY1();
         double ctrlx = src.getCtrlX();
@@ -770,34 +770,34 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
     }
 
     /**
-     * Subdivides the quadratic curve specified by the coordinates
-     * stored in the <code>src</code> array at indices
+     * Subdivides the qubdrbtic curve specified by the coordinbtes
+     * stored in the <code>src</code> brrby bt indices
      * <code>srcoff</code> through <code>srcoff</code>&nbsp;+&nbsp;5
-     * and stores the resulting two subdivided curves into the two
-     * result arrays at the corresponding indices.
-     * Either or both of the <code>left</code> and <code>right</code>
-     * arrays can be <code>null</code> or a reference to the same array
-     * and offset as the <code>src</code> array.
-     * Note that the last point in the first subdivided curve is the
-     * same as the first point in the second subdivided curve.  Thus,
-     * it is possible to pass the same array for <code>left</code> and
-     * <code>right</code> and to use offsets such that
-     * <code>rightoff</code> equals <code>leftoff</code> + 4 in order
-     * to avoid allocating extra storage for this common point.
-     * @param src the array holding the coordinates for the source curve
-     * @param srcoff the offset into the array of the beginning of the
-     * the 6 source coordinates
-     * @param left the array for storing the coordinates for the first
-     * half of the subdivided curve
-     * @param leftoff the offset into the array of the beginning of the
-     * the 6 left coordinates
-     * @param right the array for storing the coordinates for the second
-     * half of the subdivided curve
-     * @param rightoff the offset into the array of the beginning of the
-     * the 6 right coordinates
+     * bnd stores the resulting two subdivided curves into the two
+     * result brrbys bt the corresponding indices.
+     * Either or both of the <code>left</code> bnd <code>right</code>
+     * brrbys cbn be <code>null</code> or b reference to the sbme brrby
+     * bnd offset bs the <code>src</code> brrby.
+     * Note thbt the lbst point in the first subdivided curve is the
+     * sbme bs the first point in the second subdivided curve.  Thus,
+     * it is possible to pbss the sbme brrby for <code>left</code> bnd
+     * <code>right</code> bnd to use offsets such thbt
+     * <code>rightoff</code> equbls <code>leftoff</code> + 4 in order
+     * to bvoid bllocbting extrb storbge for this common point.
+     * @pbrbm src the brrby holding the coordinbtes for the source curve
+     * @pbrbm srcoff the offset into the brrby of the beginning of the
+     * the 6 source coordinbtes
+     * @pbrbm left the brrby for storing the coordinbtes for the first
+     * hblf of the subdivided curve
+     * @pbrbm leftoff the offset into the brrby of the beginning of the
+     * the 6 left coordinbtes
+     * @pbrbm right the brrby for storing the coordinbtes for the second
+     * hblf of the subdivided curve
+     * @pbrbm rightoff the offset into the brrby of the beginning of the
+     * the 6 right coordinbtes
      * @since 1.2
      */
-    public static void subdivide(double src[], int srcoff,
+    public stbtic void subdivide(double src[], int srcoff,
                                  double left[], int leftoff,
                                  double right[], int rightoff) {
         double x1 = src[srcoff + 0];
@@ -835,77 +835,77 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
     }
 
     /**
-     * Solves the quadratic whose coefficients are in the <code>eqn</code>
-     * array and places the non-complex roots back into the same array,
-     * returning the number of roots.  The quadratic solved is represented
-     * by the equation:
+     * Solves the qubdrbtic whose coefficients bre in the <code>eqn</code>
+     * brrby bnd plbces the non-complex roots bbck into the sbme brrby,
+     * returning the number of roots.  The qubdrbtic solved is represented
+     * by the equbtion:
      * <pre>
      *     eqn = {C, B, A};
-     *     ax^2 + bx + c = 0
+     *     bx^2 + bx + c = 0
      * </pre>
-     * A return value of <code>-1</code> is used to distinguish a constant
-     * equation, which might be always 0 or never 0, from an equation that
-     * has no zeroes.
-     * @param eqn the array that contains the quadratic coefficients
-     * @return the number of roots, or <code>-1</code> if the equation is
-     *          a constant
+     * A return vblue of <code>-1</code> is used to distinguish b constbnt
+     * equbtion, which might be blwbys 0 or never 0, from bn equbtion thbt
+     * hbs no zeroes.
+     * @pbrbm eqn the brrby thbt contbins the qubdrbtic coefficients
+     * @return the number of roots, or <code>-1</code> if the equbtion is
+     *          b constbnt
      * @since 1.2
      */
-    public static int solveQuadratic(double eqn[]) {
-        return solveQuadratic(eqn, eqn);
+    public stbtic int solveQubdrbtic(double eqn[]) {
+        return solveQubdrbtic(eqn, eqn);
     }
 
     /**
-     * Solves the quadratic whose coefficients are in the <code>eqn</code>
-     * array and places the non-complex roots into the <code>res</code>
-     * array, returning the number of roots.
-     * The quadratic solved is represented by the equation:
+     * Solves the qubdrbtic whose coefficients bre in the <code>eqn</code>
+     * brrby bnd plbces the non-complex roots into the <code>res</code>
+     * brrby, returning the number of roots.
+     * The qubdrbtic solved is represented by the equbtion:
      * <pre>
      *     eqn = {C, B, A};
-     *     ax^2 + bx + c = 0
+     *     bx^2 + bx + c = 0
      * </pre>
-     * A return value of <code>-1</code> is used to distinguish a constant
-     * equation, which might be always 0 or never 0, from an equation that
-     * has no zeroes.
-     * @param eqn the specified array of coefficients to use to solve
-     *        the quadratic equation
-     * @param res the array that contains the non-complex roots
-     *        resulting from the solution of the quadratic equation
-     * @return the number of roots, or <code>-1</code> if the equation is
-     *  a constant.
+     * A return vblue of <code>-1</code> is used to distinguish b constbnt
+     * equbtion, which might be blwbys 0 or never 0, from bn equbtion thbt
+     * hbs no zeroes.
+     * @pbrbm eqn the specified brrby of coefficients to use to solve
+     *        the qubdrbtic equbtion
+     * @pbrbm res the brrby thbt contbins the non-complex roots
+     *        resulting from the solution of the qubdrbtic equbtion
+     * @return the number of roots, or <code>-1</code> if the equbtion is
+     *  b constbnt.
      * @since 1.3
      */
-    public static int solveQuadratic(double eqn[], double res[]) {
-        double a = eqn[2];
+    public stbtic int solveQubdrbtic(double eqn[], double res[]) {
+        double b = eqn[2];
         double b = eqn[1];
         double c = eqn[0];
         int roots = 0;
-        if (a == 0.0) {
-            // The quadratic parabola has degenerated to a line.
+        if (b == 0.0) {
+            // The qubdrbtic pbrbbolb hbs degenerbted to b line.
             if (b == 0.0) {
-                // The line has degenerated to a constant.
+                // The line hbs degenerbted to b constbnt.
                 return -1;
             }
             res[roots++] = -c / b;
         } else {
-            // From Numerical Recipes, 5.6, Quadratic and Cubic Equations
-            double d = b * b - 4.0 * a * c;
+            // From Numericbl Recipes, 5.6, Qubdrbtic bnd Cubic Equbtions
+            double d = b * b - 4.0 * b * c;
             if (d < 0.0) {
-                // If d < 0.0, then there are no roots
+                // If d < 0.0, then there bre no roots
                 return 0;
             }
-            d = Math.sqrt(d);
-            // For accuracy, calculate one root using:
-            //     (-b +/- d) / 2a
-            // and the other using:
+            d = Mbth.sqrt(d);
+            // For bccurbcy, cblculbte one root using:
+            //     (-b +/- d) / 2b
+            // bnd the other using:
             //     2c / (-b +/- d)
-            // Choose the sign of the +/- so that b+d gets larger in magnitude
+            // Choose the sign of the +/- so thbt b+d gets lbrger in mbgnitude
             if (b < 0.0) {
                 d = -d;
             }
             double q = (b + d) / -2.0;
-            // We already tested a for being 0 above
-            res[roots++] = q / a;
+            // We blrebdy tested b for being 0 bbove
+            res[roots++] = q / b;
             if (q != 0.0) {
                 res[roots++] = c / q;
             }
@@ -917,7 +917,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y) {
+    public boolebn contbins(double x, double y) {
 
         double x1 = getX1();
         double y1 = getY1();
@@ -927,10 +927,10 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
         double y2 = getY2();
 
         /*
-         * We have a convex shape bounded by quad curve Pc(t)
-         * and ine Pl(t).
+         * We hbve b convex shbpe bounded by qubd curve Pc(t)
+         * bnd ine Pl(t).
          *
-         *     P1 = (x1, y1) - start point of curve
+         *     P1 = (x1, y1) - stbrt point of curve
          *     P2 = (x2, y2) - end point of curve
          *     Pc = (xc, yc) - control point
          *
@@ -941,17 +941,17 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
          *
          *     P = (x, y) - point of interest
          *
-         * Let's look at second derivative of quad curve equation:
+         * Let's look bt second derivbtive of qubd curve equbtion:
          *
          *     Pq''(t) = 2 * (P1 - 2 * Pc + P2) = Pq''
-         *     It's constant vector.
+         *     It's constbnt vector.
          *
-         * Let's draw a line through P to be parallel to this
-         * vector and find the intersection of the quad curve
-         * and the line.
+         * Let's drbw b line through P to be pbrbllel to this
+         * vector bnd find the intersection of the qubd curve
+         * bnd the line.
          *
-         * Pq(t) is point of intersection if system of equations
-         * below has the solution.
+         * Pq(t) is point of intersection if system of equbtions
+         * below hbs the solution.
          *
          *     L(s) = P + Pq''*s == Pq(t)
          *     Pq''*s + (P - Pq(t)) == 0
@@ -959,38 +959,38 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
          *     | xq''*s + (x - xq(t)) == 0
          *     | yq''*s + (y - yq(t)) == 0
          *
-         * This system has the solution if rank of its matrix equals to 1.
-         * That is, determinant of the matrix should be zero.
+         * This system hbs the solution if rbnk of its mbtrix equbls to 1.
+         * Thbt is, determinbnt of the mbtrix should be zero.
          *
          *     (y - yq(t))*xq'' == (x - xq(t))*yq''
          *
-         * Let's solve this equation with 't' variable.
+         * Let's solve this equbtion with 't' vbribble.
          * Also let kx = x1 - 2*xc + x2
          *          ky = y1 - 2*yc + y2
          *
          *     t0q = (1/2)*((x - x1)*ky - (y - y1)*kx) /
          *                 ((xc - x1)*ky - (yc - y1)*kx)
          *
-         * Let's do the same for our line Pl(t):
+         * Let's do the sbme for our line Pl(t):
          *
          *     t0l = ((x - x1)*ky - (y - y1)*kx) /
          *           ((x2 - x1)*ky - (y2 - y1)*kx)
          *
-         * It's easy to check that t0q == t0l. This fact means
-         * we can compute t0 only one time.
+         * It's ebsy to check thbt t0q == t0l. This fbct mebns
+         * we cbn compute t0 only one time.
          *
-         * In case t0 < 0 or t0 > 1, we have an intersections outside
-         * of shape bounds. So, P is definitely out of shape.
+         * In cbse t0 < 0 or t0 > 1, we hbve bn intersections outside
+         * of shbpe bounds. So, P is definitely out of shbpe.
          *
-         * In case t0 is inside [0:1], we should calculate Pq(t0)
-         * and Pl(t0). We have three points for now, and all of them
+         * In cbse t0 is inside [0:1], we should cblculbte Pq(t0)
+         * bnd Pl(t0). We hbve three points for now, bnd bll of them
          * lie on one line. So, we just need to detect, is our point
          * of interest between points of intersections or not.
          *
-         * If the denominator in the t0q and t0l equations is
-         * zero, then the points must be collinear and so the
-         * curve is degenerate and encloses no area.  Thus the
-         * result is false.
+         * If the denominbtor in the t0q bnd t0l equbtions is
+         * zero, then the points must be collinebr bnd so the
+         * curve is degenerbte bnd encloses no breb.  Thus the
+         * result is fblse.
          */
         double kx = x1 - 2 * xc + x2;
         double ky = y1 - 2 * yc + y2;
@@ -1001,7 +1001,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
 
         double t0 = (dx * ky - dy * kx) / (dxl * ky - dyl * kx);
         if (t0 < 0 || t0 > 1 || t0 != t0) {
-            return false;
+            return fblse;
         }
 
         double xb = kx * t0 * t0 + 2 * (xc - x1) * t0 + x1;
@@ -1019,73 +1019,73 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(Point2D p) {
-        return contains(p.getX(), p.getY());
+    public boolebn contbins(Point2D p) {
+        return contbins(p.getX(), p.getY());
     }
 
     /**
-     * Fill an array with the coefficients of the parametric equation
-     * in t, ready for solving against val with solveQuadratic.
-     * We currently have:
-     *     val = Py(t) = C1*(1-t)^2 + 2*CP*t*(1-t) + C2*t^2
+     * Fill bn brrby with the coefficients of the pbrbmetric equbtion
+     * in t, rebdy for solving bgbinst vbl with solveQubdrbtic.
+     * We currently hbve:
+     *     vbl = Py(t) = C1*(1-t)^2 + 2*CP*t*(1-t) + C2*t^2
      *                 = C1 - 2*C1*t + C1*t^2 + 2*CP*t - 2*CP*t^2 + C2*t^2
      *                 = C1 + (2*CP - 2*C1)*t + (C1 - 2*CP + C2)*t^2
-     *               0 = (C1 - val) + (2*CP - 2*C1)*t + (C1 - 2*CP + C2)*t^2
+     *               0 = (C1 - vbl) + (2*CP - 2*C1)*t + (C1 - 2*CP + C2)*t^2
      *               0 = C + Bt + At^2
-     *     C = C1 - val
+     *     C = C1 - vbl
      *     B = 2*CP - 2*C1
      *     A = C1 - 2*CP + C2
      */
-    private static void fillEqn(double eqn[], double val,
+    privbte stbtic void fillEqn(double eqn[], double vbl,
                                 double c1, double cp, double c2) {
-        eqn[0] = c1 - val;
+        eqn[0] = c1 - vbl;
         eqn[1] = cp + cp - c1 - c1;
         eqn[2] = c1 - cp - cp + c2;
         return;
     }
 
     /**
-     * Evaluate the t values in the first num slots of the vals[] array
-     * and place the evaluated values back into the same array.  Only
-     * evaluate t values that are within the range &lt;0, 1&gt;, including
-     * the 0 and 1 ends of the range iff the include0 or include1
-     * booleans are true.  If an "inflection" equation is handed in,
-     * then any points which represent a point of inflection for that
-     * quadratic equation are also ignored.
+     * Evblubte the t vblues in the first num slots of the vbls[] brrby
+     * bnd plbce the evblubted vblues bbck into the sbme brrby.  Only
+     * evblubte t vblues thbt bre within the rbnge &lt;0, 1&gt;, including
+     * the 0 bnd 1 ends of the rbnge iff the include0 or include1
+     * boolebns bre true.  If bn "inflection" equbtion is hbnded in,
+     * then bny points which represent b point of inflection for thbt
+     * qubdrbtic equbtion bre blso ignored.
      */
-    private static int evalQuadratic(double vals[], int num,
-                                     boolean include0,
-                                     boolean include1,
+    privbte stbtic int evblQubdrbtic(double vbls[], int num,
+                                     boolebn include0,
+                                     boolebn include1,
                                      double inflect[],
                                      double c1, double ctrl, double c2) {
         int j = 0;
         for (int i = 0; i < num; i++) {
-            double t = vals[i];
+            double t = vbls[i];
             if ((include0 ? t >= 0 : t > 0) &&
                 (include1 ? t <= 1 : t < 1) &&
                 (inflect == null ||
                  inflect[1] + 2*inflect[2]*t != 0))
             {
                 double u = 1 - t;
-                vals[j++] = c1*u*u + 2*ctrl*t*u + c2*t*t;
+                vbls[j++] = c1*u*u + 2*ctrl*t*u + c2*t*t;
             }
         }
         return j;
     }
 
-    private static final int BELOW = -2;
-    private static final int LOWEDGE = -1;
-    private static final int INSIDE = 0;
-    private static final int HIGHEDGE = 1;
-    private static final int ABOVE = 2;
+    privbte stbtic finbl int BELOW = -2;
+    privbte stbtic finbl int LOWEDGE = -1;
+    privbte stbtic finbl int INSIDE = 0;
+    privbte stbtic finbl int HIGHEDGE = 1;
+    privbte stbtic finbl int ABOVE = 2;
 
     /**
-     * Determine where coord lies with respect to the range from
-     * low to high.  It is assumed that low &lt;= high.  The return
-     * value is one of the 5 values BELOW, LOWEDGE, INSIDE, HIGHEDGE,
+     * Determine where coord lies with respect to the rbnge from
+     * low to high.  It is bssumed thbt low &lt;= high.  The return
+     * vblue is one of the 5 vblues BELOW, LOWEDGE, INSIDE, HIGHEDGE,
      * or ABOVE.
      */
-    private static int getTag(double coord, double low, double high) {
+    privbte stbtic int getTbg(double coord, double low, double high) {
         if (coord <= low) {
             return (coord < low ? BELOW : LOWEDGE);
         }
@@ -1096,24 +1096,24 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
     }
 
     /**
-     * Determine if the pttag represents a coordinate that is already
-     * in its test range, or is on the border with either of the two
-     * opttags representing another coordinate that is "towards the
-     * inside" of that test range.  In other words, are either of the
-     * two "opt" points "drawing the pt inward"?
+     * Determine if the pttbg represents b coordinbte thbt is blrebdy
+     * in its test rbnge, or is on the border with either of the two
+     * opttbgs representing bnother coordinbte thbt is "towbrds the
+     * inside" of thbt test rbnge.  In other words, bre either of the
+     * two "opt" points "drbwing the pt inwbrd"?
      */
-    private static boolean inwards(int pttag, int opt1tag, int opt2tag) {
-        switch (pttag) {
-        case BELOW:
-        case ABOVE:
-        default:
-            return false;
-        case LOWEDGE:
-            return (opt1tag >= INSIDE || opt2tag >= INSIDE);
-        case INSIDE:
+    privbte stbtic boolebn inwbrds(int pttbg, int opt1tbg, int opt2tbg) {
+        switch (pttbg) {
+        cbse BELOW:
+        cbse ABOVE:
+        defbult:
+            return fblse;
+        cbse LOWEDGE:
+            return (opt1tbg >= INSIDE || opt2tbg >= INSIDE);
+        cbse INSIDE:
             return true;
-        case HIGHEDGE:
-            return (opt1tag <= INSIDE || opt2tag <= INSIDE);
+        cbse HIGHEDGE:
+            return (opt1tbg <= INSIDE || opt2tbg <= INSIDE);
         }
     }
 
@@ -1121,191 +1121,191 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(double x, double y, double w, double h) {
-        // Trivially reject non-existant rectangles
+    public boolebn intersects(double x, double y, double w, double h) {
+        // Triviblly reject non-existbnt rectbngles
         if (w <= 0 || h <= 0) {
-            return false;
+            return fblse;
         }
 
-        // Trivially accept if either endpoint is inside the rectangle
-        // (not on its border since it may end there and not go inside)
-        // Record where they lie with respect to the rectangle.
+        // Triviblly bccept if either endpoint is inside the rectbngle
+        // (not on its border since it mby end there bnd not go inside)
+        // Record where they lie with respect to the rectbngle.
         //     -1 => left, 0 => inside, 1 => right
         double x1 = getX1();
         double y1 = getY1();
-        int x1tag = getTag(x1, x, x+w);
-        int y1tag = getTag(y1, y, y+h);
-        if (x1tag == INSIDE && y1tag == INSIDE) {
+        int x1tbg = getTbg(x1, x, x+w);
+        int y1tbg = getTbg(y1, y, y+h);
+        if (x1tbg == INSIDE && y1tbg == INSIDE) {
             return true;
         }
         double x2 = getX2();
         double y2 = getY2();
-        int x2tag = getTag(x2, x, x+w);
-        int y2tag = getTag(y2, y, y+h);
-        if (x2tag == INSIDE && y2tag == INSIDE) {
+        int x2tbg = getTbg(x2, x, x+w);
+        int y2tbg = getTbg(y2, y, y+h);
+        if (x2tbg == INSIDE && y2tbg == INSIDE) {
             return true;
         }
         double ctrlx = getCtrlX();
         double ctrly = getCtrlY();
-        int ctrlxtag = getTag(ctrlx, x, x+w);
-        int ctrlytag = getTag(ctrly, y, y+h);
+        int ctrlxtbg = getTbg(ctrlx, x, x+w);
+        int ctrlytbg = getTbg(ctrly, y, y+h);
 
-        // Trivially reject if all points are entirely to one side of
-        // the rectangle.
-        if (x1tag < INSIDE && x2tag < INSIDE && ctrlxtag < INSIDE) {
-            return false;       // All points left
+        // Triviblly reject if bll points bre entirely to one side of
+        // the rectbngle.
+        if (x1tbg < INSIDE && x2tbg < INSIDE && ctrlxtbg < INSIDE) {
+            return fblse;       // All points left
         }
-        if (y1tag < INSIDE && y2tag < INSIDE && ctrlytag < INSIDE) {
-            return false;       // All points above
+        if (y1tbg < INSIDE && y2tbg < INSIDE && ctrlytbg < INSIDE) {
+            return fblse;       // All points bbove
         }
-        if (x1tag > INSIDE && x2tag > INSIDE && ctrlxtag > INSIDE) {
-            return false;       // All points right
+        if (x1tbg > INSIDE && x2tbg > INSIDE && ctrlxtbg > INSIDE) {
+            return fblse;       // All points right
         }
-        if (y1tag > INSIDE && y2tag > INSIDE && ctrlytag > INSIDE) {
-            return false;       // All points below
+        if (y1tbg > INSIDE && y2tbg > INSIDE && ctrlytbg > INSIDE) {
+            return fblse;       // All points below
         }
 
         // Test for endpoints on the edge where either the segment
-        // or the curve is headed "inwards" from them
-        // Note: These tests are a superset of the fast endpoint tests
-        //       above and thus repeat those tests, but take more time
-        //       and cover more cases
-        if (inwards(x1tag, x2tag, ctrlxtag) &&
-            inwards(y1tag, y2tag, ctrlytag))
+        // or the curve is hebded "inwbrds" from them
+        // Note: These tests bre b superset of the fbst endpoint tests
+        //       bbove bnd thus repebt those tests, but tbke more time
+        //       bnd cover more cbses
+        if (inwbrds(x1tbg, x2tbg, ctrlxtbg) &&
+            inwbrds(y1tbg, y2tbg, ctrlytbg))
         {
             // First endpoint on border with either edge moving inside
             return true;
         }
-        if (inwards(x2tag, x1tag, ctrlxtag) &&
-            inwards(y2tag, y1tag, ctrlytag))
+        if (inwbrds(x2tbg, x1tbg, ctrlxtbg) &&
+            inwbrds(y2tbg, y1tbg, ctrlytbg))
         {
             // Second endpoint on border with either edge moving inside
             return true;
         }
 
-        // Trivially accept if endpoints span directly across the rectangle
-        boolean xoverlap = (x1tag * x2tag <= 0);
-        boolean yoverlap = (y1tag * y2tag <= 0);
-        if (x1tag == INSIDE && x2tag == INSIDE && yoverlap) {
+        // Triviblly bccept if endpoints spbn directly bcross the rectbngle
+        boolebn xoverlbp = (x1tbg * x2tbg <= 0);
+        boolebn yoverlbp = (y1tbg * y2tbg <= 0);
+        if (x1tbg == INSIDE && x2tbg == INSIDE && yoverlbp) {
             return true;
         }
-        if (y1tag == INSIDE && y2tag == INSIDE && xoverlap) {
+        if (y1tbg == INSIDE && y2tbg == INSIDE && xoverlbp) {
             return true;
         }
 
-        // We now know that both endpoints are outside the rectangle
-        // but the 3 points are not all on one side of the rectangle.
-        // Therefore the curve cannot be contained inside the rectangle,
-        // but the rectangle might be contained inside the curve, or
-        // the curve might intersect the boundary of the rectangle.
+        // We now know thbt both endpoints bre outside the rectbngle
+        // but the 3 points bre not bll on one side of the rectbngle.
+        // Therefore the curve cbnnot be contbined inside the rectbngle,
+        // but the rectbngle might be contbined inside the curve, or
+        // the curve might intersect the boundbry of the rectbngle.
 
         double[] eqn = new double[3];
         double[] res = new double[3];
-        if (!yoverlap) {
-            // Both Y coordinates for the closing segment are above or
-            // below the rectangle which means that we can only intersect
-            // if the curve crosses the top (or bottom) of the rectangle
-            // in more than one place and if those crossing locations
-            // span the horizontal range of the rectangle.
-            fillEqn(eqn, (y1tag < INSIDE ? y : y+h), y1, ctrly, y2);
-            return (solveQuadratic(eqn, res) == 2 &&
-                    evalQuadratic(res, 2, true, true, null,
+        if (!yoverlbp) {
+            // Both Y coordinbtes for the closing segment bre bbove or
+            // below the rectbngle which mebns thbt we cbn only intersect
+            // if the curve crosses the top (or bottom) of the rectbngle
+            // in more thbn one plbce bnd if those crossing locbtions
+            // spbn the horizontbl rbnge of the rectbngle.
+            fillEqn(eqn, (y1tbg < INSIDE ? y : y+h), y1, ctrly, y2);
+            return (solveQubdrbtic(eqn, res) == 2 &&
+                    evblQubdrbtic(res, 2, true, true, null,
                                   x1, ctrlx, x2) == 2 &&
-                    getTag(res[0], x, x+w) * getTag(res[1], x, x+w) <= 0);
+                    getTbg(res[0], x, x+w) * getTbg(res[1], x, x+w) <= 0);
         }
 
-        // Y ranges overlap.  Now we examine the X ranges
-        if (!xoverlap) {
-            // Both X coordinates for the closing segment are left of
-            // or right of the rectangle which means that we can only
+        // Y rbnges overlbp.  Now we exbmine the X rbnges
+        if (!xoverlbp) {
+            // Both X coordinbtes for the closing segment bre left of
+            // or right of the rectbngle which mebns thbt we cbn only
             // intersect if the curve crosses the left (or right) edge
-            // of the rectangle in more than one place and if those
-            // crossing locations span the vertical range of the rectangle.
-            fillEqn(eqn, (x1tag < INSIDE ? x : x+w), x1, ctrlx, x2);
-            return (solveQuadratic(eqn, res) == 2 &&
-                    evalQuadratic(res, 2, true, true, null,
+            // of the rectbngle in more thbn one plbce bnd if those
+            // crossing locbtions spbn the verticbl rbnge of the rectbngle.
+            fillEqn(eqn, (x1tbg < INSIDE ? x : x+w), x1, ctrlx, x2);
+            return (solveQubdrbtic(eqn, res) == 2 &&
+                    evblQubdrbtic(res, 2, true, true, null,
                                   y1, ctrly, y2) == 2 &&
-                    getTag(res[0], y, y+h) * getTag(res[1], y, y+h) <= 0);
+                    getTbg(res[0], y, y+h) * getTbg(res[1], y, y+h) <= 0);
         }
 
-        // The X and Y ranges of the endpoints overlap the X and Y
-        // ranges of the rectangle, now find out how the endpoint
-        // line segment intersects the Y range of the rectangle
+        // The X bnd Y rbnges of the endpoints overlbp the X bnd Y
+        // rbnges of the rectbngle, now find out how the endpoint
+        // line segment intersects the Y rbnge of the rectbngle
         double dx = x2 - x1;
         double dy = y2 - y1;
         double k = y2 * x1 - x2 * y1;
-        int c1tag, c2tag;
-        if (y1tag == INSIDE) {
-            c1tag = x1tag;
+        int c1tbg, c2tbg;
+        if (y1tbg == INSIDE) {
+            c1tbg = x1tbg;
         } else {
-            c1tag = getTag((k + dx * (y1tag < INSIDE ? y : y+h)) / dy, x, x+w);
+            c1tbg = getTbg((k + dx * (y1tbg < INSIDE ? y : y+h)) / dy, x, x+w);
         }
-        if (y2tag == INSIDE) {
-            c2tag = x2tag;
+        if (y2tbg == INSIDE) {
+            c2tbg = x2tbg;
         } else {
-            c2tag = getTag((k + dx * (y2tag < INSIDE ? y : y+h)) / dy, x, x+w);
+            c2tbg = getTbg((k + dx * (y2tbg < INSIDE ? y : y+h)) / dy, x, x+w);
         }
-        // If the part of the line segment that intersects the Y range
-        // of the rectangle crosses it horizontally - trivially accept
-        if (c1tag * c2tag <= 0) {
+        // If the pbrt of the line segment thbt intersects the Y rbnge
+        // of the rectbngle crosses it horizontblly - triviblly bccept
+        if (c1tbg * c2tbg <= 0) {
             return true;
         }
 
-        // Now we know that both the X and Y ranges intersect and that
-        // the endpoint line segment does not directly cross the rectangle.
+        // Now we know thbt both the X bnd Y rbnges intersect bnd thbt
+        // the endpoint line segment does not directly cross the rectbngle.
         //
-        // We can almost treat this case like one of the cases above
-        // where both endpoints are to one side, except that we will
-        // only get one intersection of the curve with the vertical
-        // side of the rectangle.  This is because the endpoint segment
-        // accounts for the other intersection.
+        // We cbn blmost trebt this cbse like one of the cbses bbove
+        // where both endpoints bre to one side, except thbt we will
+        // only get one intersection of the curve with the verticbl
+        // side of the rectbngle.  This is becbuse the endpoint segment
+        // bccounts for the other intersection.
         //
-        // (Remember there is overlap in both the X and Y ranges which
-        //  means that the segment must cross at least one vertical edge
-        //  of the rectangle - in particular, the "near vertical side" -
-        //  leaving only one intersection for the curve.)
+        // (Remember there is overlbp in both the X bnd Y rbnges which
+        //  mebns thbt the segment must cross bt lebst one verticbl edge
+        //  of the rectbngle - in pbrticulbr, the "nebr verticbl side" -
+        //  lebving only one intersection for the curve.)
         //
-        // Now we calculate the y tags of the two intersections on the
-        // "near vertical side" of the rectangle.  We will have one with
-        // the endpoint segment, and one with the curve.  If those two
-        // vertical intersections overlap the Y range of the rectangle,
-        // we have an intersection.  Otherwise, we don't.
+        // Now we cblculbte the y tbgs of the two intersections on the
+        // "nebr verticbl side" of the rectbngle.  We will hbve one with
+        // the endpoint segment, bnd one with the curve.  If those two
+        // verticbl intersections overlbp the Y rbnge of the rectbngle,
+        // we hbve bn intersection.  Otherwise, we don't.
 
-        // c1tag = vertical intersection class of the endpoint segment
+        // c1tbg = verticbl intersection clbss of the endpoint segment
         //
-        // Choose the y tag of the endpoint that was not on the same
-        // side of the rectangle as the subsegment calculated above.
-        // Note that we can "steal" the existing Y tag of that endpoint
-        // since it will be provably the same as the vertical intersection.
-        c1tag = ((c1tag * x1tag <= 0) ? y1tag : y2tag);
+        // Choose the y tbg of the endpoint thbt wbs not on the sbme
+        // side of the rectbngle bs the subsegment cblculbted bbove.
+        // Note thbt we cbn "stebl" the existing Y tbg of thbt endpoint
+        // since it will be provbbly the sbme bs the verticbl intersection.
+        c1tbg = ((c1tbg * x1tbg <= 0) ? y1tbg : y2tbg);
 
-        // c2tag = vertical intersection class of the curve
+        // c2tbg = verticbl intersection clbss of the curve
         //
-        // We have to calculate this one the straightforward way.
-        // Note that the c2tag can still tell us which vertical edge
-        // to test against.
-        fillEqn(eqn, (c2tag < INSIDE ? x : x+w), x1, ctrlx, x2);
-        int num = solveQuadratic(eqn, res);
+        // We hbve to cblculbte this one the strbightforwbrd wby.
+        // Note thbt the c2tbg cbn still tell us which verticbl edge
+        // to test bgbinst.
+        fillEqn(eqn, (c2tbg < INSIDE ? x : x+w), x1, ctrlx, x2);
+        int num = solveQubdrbtic(eqn, res);
 
-        // Note: We should be able to assert(num == 2); since the
-        // X range "crosses" (not touches) the vertical boundary,
-        // but we pass num to evalQuadratic for completeness.
-        evalQuadratic(res, num, true, true, null, y1, ctrly, y2);
+        // Note: We should be bble to bssert(num == 2); since the
+        // X rbnge "crosses" (not touches) the verticbl boundbry,
+        // but we pbss num to evblQubdrbtic for completeness.
+        evblQubdrbtic(res, num, true, true, null, y1, ctrly, y2);
 
-        // Note: We can assert(num evals == 1); since one of the
-        // 2 crossings will be out of the [0,1] range.
-        c2tag = getTag(res[0], y, y+h);
+        // Note: We cbn bssert(num evbls == 1); since one of the
+        // 2 crossings will be out of the [0,1] rbnge.
+        c2tbg = getTbg(res[0], y, y+h);
 
-        // Finally, we have an intersection if the two crossings
-        // overlap the Y range of the rectangle.
-        return (c1tag * c2tag <= 0);
+        // Finblly, we hbve bn intersection if the two crossings
+        // overlbp the Y rbnge of the rectbngle.
+        return (c1tbg * c2tbg <= 0);
     }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(Rectangle2D r) {
+    public boolebn intersects(Rectbngle2D r) {
         return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
@@ -1313,89 +1313,89 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y, double w, double h) {
+    public boolebn contbins(double x, double y, double w, double h) {
         if (w <= 0 || h <= 0) {
-            return false;
+            return fblse;
         }
-        // Assertion: Quadratic curves closed by connecting their
-        // endpoints are always convex.
-        return (contains(x, y) &&
-                contains(x + w, y) &&
-                contains(x + w, y + h) &&
-                contains(x, y + h));
+        // Assertion: Qubdrbtic curves closed by connecting their
+        // endpoints bre blwbys convex.
+        return (contbins(x, y) &&
+                contbins(x + w, y) &&
+                contbins(x + w, y + h) &&
+                contbins(x, y + h));
     }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(Rectangle2D r) {
-        return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    public boolebn contbins(Rectbngle2D r) {
+        return contbins(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public Rectangle getBounds() {
+    public Rectbngle getBounds() {
         return getBounds2D().getBounds();
     }
 
     /**
-     * Returns an iteration object that defines the boundary of the
-     * shape of this <code>QuadCurve2D</code>.
-     * The iterator for this class is not multi-threaded safe,
-     * which means that this <code>QuadCurve2D</code> class does not
-     * guarantee that modifications to the geometry of this
-     * <code>QuadCurve2D</code> object do not affect any iterations of
-     * that geometry that are already in process.
-     * @param at an optional {@link AffineTransform} to apply to the
-     *          shape boundary
-     * @return a {@link PathIterator} object that defines the boundary
-     *          of the shape.
+     * Returns bn iterbtion object thbt defines the boundbry of the
+     * shbpe of this <code>QubdCurve2D</code>.
+     * The iterbtor for this clbss is not multi-threbded sbfe,
+     * which mebns thbt this <code>QubdCurve2D</code> clbss does not
+     * gubrbntee thbt modificbtions to the geometry of this
+     * <code>QubdCurve2D</code> object do not bffect bny iterbtions of
+     * thbt geometry thbt bre blrebdy in process.
+     * @pbrbm bt bn optionbl {@link AffineTrbnsform} to bpply to the
+     *          shbpe boundbry
+     * @return b {@link PbthIterbtor} object thbt defines the boundbry
+     *          of the shbpe.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at) {
-        return new QuadIterator(this, at);
+    public PbthIterbtor getPbthIterbtor(AffineTrbnsform bt) {
+        return new QubdIterbtor(this, bt);
     }
 
     /**
-     * Returns an iteration object that defines the boundary of the
-     * flattened shape of this <code>QuadCurve2D</code>.
-     * The iterator for this class is not multi-threaded safe,
-     * which means that this <code>QuadCurve2D</code> class does not
-     * guarantee that modifications to the geometry of this
-     * <code>QuadCurve2D</code> object do not affect any iterations of
-     * that geometry that are already in process.
-     * @param at an optional <code>AffineTransform</code> to apply
-     *          to the boundary of the shape
-     * @param flatness the maximum distance that the control points for a
-     *          subdivided curve can be with respect to a line connecting
+     * Returns bn iterbtion object thbt defines the boundbry of the
+     * flbttened shbpe of this <code>QubdCurve2D</code>.
+     * The iterbtor for this clbss is not multi-threbded sbfe,
+     * which mebns thbt this <code>QubdCurve2D</code> clbss does not
+     * gubrbntee thbt modificbtions to the geometry of this
+     * <code>QubdCurve2D</code> object do not bffect bny iterbtions of
+     * thbt geometry thbt bre blrebdy in process.
+     * @pbrbm bt bn optionbl <code>AffineTrbnsform</code> to bpply
+     *          to the boundbry of the shbpe
+     * @pbrbm flbtness the mbximum distbnce thbt the control points for b
+     *          subdivided curve cbn be with respect to b line connecting
      *          the end points of this curve before this curve is
-     *          replaced by a straight line connecting the end points.
-     * @return a <code>PathIterator</code> object that defines the
-     *          flattened boundary of the shape.
+     *          replbced by b strbight line connecting the end points.
+     * @return b <code>PbthIterbtor</code> object thbt defines the
+     *          flbttened boundbry of the shbpe.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at, double flatness) {
-        return new FlatteningPathIterator(getPathIterator(at), flatness);
+    public PbthIterbtor getPbthIterbtor(AffineTrbnsform bt, double flbtness) {
+        return new FlbtteningPbthIterbtor(getPbthIterbtor(bt), flbtness);
     }
 
     /**
-     * Creates a new object of the same class and with the same contents
-     * as this object.
+     * Crebtes b new object of the sbme clbss bnd with the sbme contents
+     * bs this object.
      *
-     * @return     a clone of this instance.
+     * @return     b clone of this instbnce.
      * @exception  OutOfMemoryError            if there is not enough memory.
-     * @see        java.lang.Cloneable
+     * @see        jbvb.lbng.Clonebble
      * @since      1.2
      */
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError(e);
         }
     }
 }

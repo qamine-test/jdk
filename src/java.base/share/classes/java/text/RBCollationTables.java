@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996-1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.util.Vector;
-import sun.text.UCompactIntArray;
-import sun.text.IntHashtable;
+import jbvb.util.Vector;
+import sun.text.UCompbctIntArrby;
+import sun.text.IntHbshtbble;
 
 /**
- * This class contains the static state of a RuleBasedCollator: The various
- * tables that are used by the collation routines.  Several RuleBasedCollators
- * can share a single RBCollationTables object, easing memory requirements and
- * improving performance.
+ * This clbss contbins the stbtic stbte of b RuleBbsedCollbtor: The vbrious
+ * tbbles thbt bre used by the collbtion routines.  Severbl RuleBbsedCollbtors
+ * cbn shbre b single RBCollbtionTbbles object, ebsing memory requirements bnd
+ * improving performbnce.
  */
-final class RBCollationTables {
+finbl clbss RBCollbtionTbbles {
     //===========================================================================================
-    //  The following diagram shows the data structure of the RBCollationTables object.
-    //  Suppose we have the rule, where 'o-umlaut' is the unicode char 0x00F6.
-    //  "a, A < b, B < c, C, ch, cH, Ch, CH < d, D ... < o, O; 'o-umlaut'/E, 'O-umlaut'/E ...".
-    //  What the rule says is, sorts 'ch'ligatures and 'c' only with tertiary difference and
-    //  sorts 'o-umlaut' as if it's always expanded with 'e'.
+    //  The following dibgrbm shows the dbtb structure of the RBCollbtionTbbles object.
+    //  Suppose we hbve the rule, where 'o-umlbut' is the unicode chbr 0x00F6.
+    //  "b, A < b, B < c, C, ch, cH, Ch, CH < d, D ... < o, O; 'o-umlbut'/E, 'O-umlbut'/E ...".
+    //  Whbt the rule sbys is, sorts 'ch'ligbtures bnd 'c' only with tertibry difference bnd
+    //  sorts 'o-umlbut' bs if it's blwbys expbnded with 'e'.
     //
-    // mapping table                     contracting list           expanding list
-    // (contains all unicode char
+    // mbpping tbble                     contrbcting list           expbnding list
+    // (contbins bll unicode chbr
     //  entries)                   ___    ____________       _________________________
-    //  ________                +>|_*_|->|'c' |v('c') |  +>|v('o')|v('umlaut')|v('e')|
+    //  ________                +>|_*_|->|'c' |v('c') |  +>|v('o')|v('umlbut')|v('e')|
     // |_\u0001_|-> v('\u0001') | |_:_|  |------------|  | |-------------------------|
     // |_\u0002_|-> v('\u0002') | |_:_|  |'ch'|v('ch')|  | |             :           |
     // |____:___|               | |_:_|  |------------|  | |-------------------------|
     // |____:___|               |        |'cH'|v('cH')|  | |             :           |
-    // |__'a'___|-> v('a')      |        |------------|  | |-------------------------|
+    // |__'b'___|-> v('b')      |        |------------|  | |-------------------------|
     // |__'b'___|-> v('b')      |        |'Ch'|v('Ch')|  | |             :           |
     // |____:___|               |        |------------|  | |-------------------------|
     // |____:___|               |        |'CH'|v('CH')|  | |             :           |
     // |___'c'__|----------------         ------------   | |-------------------------|
     // |____:___|                                        | |             :           |
-    // |o-umlaut|----------------------------------------  |_________________________|
+    // |o-umlbut|----------------------------------------  |_________________________|
     // |____:___|
     //
-    // Noted by Helena Shih on 6/23/97
+    // Noted by Helenb Shih on 6/23/97
     //============================================================================================
 
-    public RBCollationTables(String rules, int decmp) throws ParseException {
+    public RBCollbtionTbbles(String rules, int decmp) throws PbrseException {
         this.rules = rules;
 
-        RBTableBuilder builder = new RBTableBuilder(new BuildAPI());
+        RBTbbleBuilder builder = new RBTbbleBuilder(new BuildAPI());
         builder.build(rules, decmp); // this object is filled in through
                                             // the BuildAPI object
     }
 
-    final class BuildAPI {
+    finbl clbss BuildAPI {
         /**
-         * Private constructor.  Prevents anyone else besides RBTableBuilder
-         * from gaining direct access to the internals of this class.
+         * Privbte constructor.  Prevents bnyone else besides RBTbbleBuilder
+         * from gbining direct bccess to the internbls of this clbss.
          */
-        private BuildAPI() {
+        privbte BuildAPI() {
         }
 
         /**
-         * This function is used by RBTableBuilder to fill in all the members of this
-         * object.  (Effectively, the builder class functions as a "friend" of this
-         * class, but to avoid changing too much of the logic, it carries around "shadow"
-         * copies of all these variables until the end of the build process and then
-         * copies them en masse into the actual tables object once all the construction
-         * logic is complete.  This function does that "copying en masse".
-         * @param f2ary The value for frenchSec (the French-secondary flag)
-         * @param swap The value for SE Asian swapping rule
-         * @param map The collator's character-mapping table (the value for mapping)
-         * @param cTbl The collator's contracting-character table (the value for contractTable)
-         * @param eTbl The collator's expanding-character table (the value for expandTable)
-         * @param cFlgs The hash table of characters that participate in contracting-
-         *              character sequences (the value for contractFlags)
-         * @param mso The value for maxSecOrder
-         * @param mto The value for maxTerOrder
+         * This function is used by RBTbbleBuilder to fill in bll the members of this
+         * object.  (Effectively, the builder clbss functions bs b "friend" of this
+         * clbss, but to bvoid chbnging too much of the logic, it cbrries bround "shbdow"
+         * copies of bll these vbribbles until the end of the build process bnd then
+         * copies them en mbsse into the bctubl tbbles object once bll the construction
+         * logic is complete.  This function does thbt "copying en mbsse".
+         * @pbrbm f2bry The vblue for frenchSec (the French-secondbry flbg)
+         * @pbrbm swbp The vblue for SE Asibn swbpping rule
+         * @pbrbm mbp The collbtor's chbrbcter-mbpping tbble (the vblue for mbpping)
+         * @pbrbm cTbl The collbtor's contrbcting-chbrbcter tbble (the vblue for contrbctTbble)
+         * @pbrbm eTbl The collbtor's expbnding-chbrbcter tbble (the vblue for expbndTbble)
+         * @pbrbm cFlgs The hbsh tbble of chbrbcters thbt pbrticipbte in contrbcting-
+         *              chbrbcter sequences (the vblue for contrbctFlbgs)
+         * @pbrbm mso The vblue for mbxSecOrder
+         * @pbrbm mto The vblue for mbxTerOrder
          */
-        void fillInTables(boolean f2ary,
-                          boolean swap,
-                          UCompactIntArray map,
-                          Vector<Vector<EntryPair>> cTbl,
+        void fillInTbbles(boolebn f2bry,
+                          boolebn swbp,
+                          UCompbctIntArrby mbp,
+                          Vector<Vector<EntryPbir>> cTbl,
                           Vector<int[]> eTbl,
-                          IntHashtable cFlgs,
+                          IntHbshtbble cFlgs,
                           short mso,
                           short mto) {
-            frenchSec = f2ary;
-            seAsianSwapping = swap;
-            mapping = map;
-            contractTable = cTbl;
-            expandTable = eTbl;
-            contractFlags = cFlgs;
-            maxSecOrder = mso;
-            maxTerOrder = mto;
+            frenchSec = f2bry;
+            seAsibnSwbpping = swbp;
+            mbpping = mbp;
+            contrbctTbble = cTbl;
+            expbndTbble = eTbl;
+            contrbctFlbgs = cFlgs;
+            mbxSecOrder = mso;
+            mbxTerOrder = mto;
         }
     }
 
     /**
-     * Gets the table-based rules for the collation object.
-     * @return returns the collation rules that the table collation object
-     * was created from.
+     * Gets the tbble-bbsed rules for the collbtion object.
+     * @return returns the collbtion rules thbt the tbble collbtion object
+     * wbs crebted from.
      */
     public String getRules()
     {
         return rules;
     }
 
-    public boolean isFrenchSec() {
+    public boolebn isFrenchSec() {
         return frenchSec;
     }
 
-    public boolean isSEAsianSwapping() {
-        return seAsianSwapping;
+    public boolebn isSEAsibnSwbpping() {
+        return seAsibnSwbpping;
     }
 
     // ==============================================================
-    // internal (for use by CollationElementIterator)
+    // internbl (for use by CollbtionElementIterbtor)
     // ==============================================================
 
     /**
-     *  Get the entry of hash table of the contracting string in the collation
-     *  table.
-     *  @param ch the starting character of the contracting string
+     *  Get the entry of hbsh tbble of the contrbcting string in the collbtion
+     *  tbble.
+     *  @pbrbm ch the stbrting chbrbcter of the contrbcting string
      */
-    Vector<EntryPair> getContractValues(int ch)
+    Vector<EntryPbir> getContrbctVblues(int ch)
     {
-        int index = mapping.elementAt(ch);
-        return getContractValuesImpl(index - CONTRACTCHARINDEX);
+        int index = mbpping.elementAt(ch);
+        return getContrbctVbluesImpl(index - CONTRACTCHARINDEX);
     }
 
-    //get contract values from contractTable by index
-    private Vector<EntryPair> getContractValuesImpl(int index)
+    //get contrbct vblues from contrbctTbble by index
+    privbte Vector<EntryPbir> getContrbctVbluesImpl(int index)
     {
         if (index >= 0)
         {
-            return contractTable.elementAt(index);
+            return contrbctTbble.elementAt(index);
         }
         else // not found
         {
@@ -175,36 +175,36 @@ final class RBCollationTables {
     }
 
     /**
-     * Returns true if this character appears anywhere in a contracting
-     * character sequence.  (Used by CollationElementIterator.setOffset().)
+     * Returns true if this chbrbcter bppebrs bnywhere in b contrbcting
+     * chbrbcter sequence.  (Used by CollbtionElementIterbtor.setOffset().)
      */
-    boolean usedInContractSeq(int c) {
-        return contractFlags.get(c) == 1;
+    boolebn usedInContrbctSeq(int c) {
+        return contrbctFlbgs.get(c) == 1;
     }
 
     /**
-      * Return the maximum length of any expansion sequences that end
-      * with the specified comparison order.
+      * Return the mbximum length of bny expbnsion sequences thbt end
+      * with the specified compbrison order.
       *
-      * @param order a collation order returned by previous or next.
-      * @return the maximum length of any expansion seuences ending
+      * @pbrbm order b collbtion order returned by previous or next.
+      * @return the mbximum length of bny expbnsion seuences ending
       *         with the specified order.
       *
-      * @see CollationElementIterator#getMaxExpansion
+      * @see CollbtionElementIterbtor#getMbxExpbnsion
       */
-    int getMaxExpansion(int order) {
+    int getMbxExpbnsion(int order) {
         int result = 1;
 
-        if (expandTable != null) {
-            // Right now this does a linear search through the entire
-            // expansion table.  If a collator had a large number of expansions,
-            // this could cause a performance problem, but in practise that
-            // rarely happens
-            for (int i = 0; i < expandTable.size(); i++) {
-                int[] valueList = expandTable.elementAt(i);
-                int length = valueList.length;
+        if (expbndTbble != null) {
+            // Right now this does b linebr sebrch through the entire
+            // expbnsion tbble.  If b collbtor hbd b lbrge number of expbnsions,
+            // this could cbuse b performbnce problem, but in prbctise thbt
+            // rbrely hbppens
+            for (int i = 0; i < expbndTbble.size(); i++) {
+                int[] vblueList = expbndTbble.elementAt(i);
+                int length = vblueList.length;
 
-                if (length > result && valueList[length-1] == order) {
+                if (length > result && vblueList[length-1] == order) {
                     result = length;
                 }
             }
@@ -214,54 +214,54 @@ final class RBCollationTables {
     }
 
     /**
-     * Get the entry of hash table of the expanding string in the collation
-     * table.
-     * @param idx the index of the expanding string value list
+     * Get the entry of hbsh tbble of the expbnding string in the collbtion
+     * tbble.
+     * @pbrbm idx the index of the expbnding string vblue list
      */
-    final int[] getExpandValueList(int idx) {
-        return expandTable.elementAt(idx - EXPANDCHARINDEX);
+    finbl int[] getExpbndVblueList(int idx) {
+        return expbndTbble.elementAt(idx - EXPANDCHARINDEX);
     }
 
     /**
-     * Get the comarison order of a character from the collation table.
-     * @return the comparison order of a character.
+     * Get the combrison order of b chbrbcter from the collbtion tbble.
+     * @return the compbrison order of b chbrbcter.
      */
     int getUnicodeOrder(int ch) {
-        return mapping.elementAt(ch);
+        return mbpping.elementAt(ch);
     }
 
-    short getMaxSecOrder() {
-        return maxSecOrder;
+    short getMbxSecOrder() {
+        return mbxSecOrder;
     }
 
-    short getMaxTerOrder() {
-        return maxTerOrder;
+    short getMbxTerOrder() {
+        return mbxTerOrder;
     }
 
     /**
-     * Reverse a string.
+     * Reverse b string.
      */
-    //shemran/Note: this is used for secondary order value reverse, no
-    //              need to consider supplementary pair.
-    static void reverse (StringBuffer result, int from, int to)
+    //shemrbn/Note: this is used for secondbry order vblue reverse, no
+    //              need to consider supplementbry pbir.
+    stbtic void reverse (StringBuffer result, int from, int to)
     {
         int i = from;
-        char swap;
+        chbr swbp;
 
         int j = to - 1;
         while (i < j) {
-            swap =  result.charAt(i);
-            result.setCharAt(i, result.charAt(j));
-            result.setCharAt(j, swap);
+            swbp =  result.chbrAt(i);
+            result.setChbrAt(i, result.chbrAt(j));
+            result.setChbrAt(j, swbp);
             i++;
             j--;
         }
     }
 
-    final static int getEntry(Vector<EntryPair> list, String name, boolean fwd) {
+    finbl stbtic int getEntry(Vector<EntryPbir> list, String nbme, boolebn fwd) {
         for (int i = 0; i < list.size(); i++) {
-            EntryPair pair = list.elementAt(i);
-            if (pair.fwd == fwd && pair.entryName.equals(name)) {
+            EntryPbir pbir = list.elementAt(i);
+            if (pbir.fwd == fwd && pbir.entryNbme.equbls(nbme)) {
                 return i;
             }
         }
@@ -269,33 +269,33 @@ final class RBCollationTables {
     }
 
     // ==============================================================
-    // constants
+    // constbnts
     // ==============================================================
-    //sherman/Todo: is the value big enough?????
-    final static int EXPANDCHARINDEX = 0x7E000000; // Expand index follows
-    final static int CONTRACTCHARINDEX = 0x7F000000;  // contract indexes follow
-    final static int UNMAPPED = 0xFFFFFFFF;
+    //shermbn/Todo: is the vblue big enough?????
+    finbl stbtic int EXPANDCHARINDEX = 0x7E000000; // Expbnd index follows
+    finbl stbtic int CONTRACTCHARINDEX = 0x7F000000;  // contrbct indexes follow
+    finbl stbtic int UNMAPPED = 0xFFFFFFFF;
 
-    final static int PRIMARYORDERMASK = 0xffff0000;
-    final static int SECONDARYORDERMASK = 0x0000ff00;
-    final static int TERTIARYORDERMASK = 0x000000ff;
-    final static int PRIMARYDIFFERENCEONLY = 0xffff0000;
-    final static int SECONDARYDIFFERENCEONLY = 0xffffff00;
-    final static int PRIMARYORDERSHIFT = 16;
-    final static int SECONDARYORDERSHIFT = 8;
+    finbl stbtic int PRIMARYORDERMASK = 0xffff0000;
+    finbl stbtic int SECONDARYORDERMASK = 0x0000ff00;
+    finbl stbtic int TERTIARYORDERMASK = 0x000000ff;
+    finbl stbtic int PRIMARYDIFFERENCEONLY = 0xffff0000;
+    finbl stbtic int SECONDARYDIFFERENCEONLY = 0xffffff00;
+    finbl stbtic int PRIMARYORDERSHIFT = 16;
+    finbl stbtic int SECONDARYORDERSHIFT = 8;
 
     // ==============================================================
-    // instance variables
+    // instbnce vbribbles
     // ==============================================================
-    private String rules = null;
-    private boolean frenchSec = false;
-    private boolean seAsianSwapping = false;
+    privbte String rules = null;
+    privbte boolebn frenchSec = fblse;
+    privbte boolebn seAsibnSwbpping = fblse;
 
-    private UCompactIntArray mapping = null;
-    private Vector<Vector<EntryPair>> contractTable = null;
-    private Vector<int[]> expandTable = null;
-    private IntHashtable contractFlags = null;
+    privbte UCompbctIntArrby mbpping = null;
+    privbte Vector<Vector<EntryPbir>> contrbctTbble = null;
+    privbte Vector<int[]> expbndTbble = null;
+    privbte IntHbshtbble contrbctFlbgs = null;
 
-    private short maxSecOrder = 0;
-    private short maxTerOrder = 0;
+    privbte short mbxSecOrder = 0;
+    privbte short mbxTerOrder = 0;
 }

@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef CDropTarget_h
-#define CDropTarget_h
+#ifndef CDropTbrget_h
+#define CDropTbrget_h
 
 #import <AppKit/AppKit.h>
 #import <jni.h>
 
-@class ControlModel;
+@clbss ControlModel;
 
-@class CDropTarget;
+@clbss CDropTbrget;
 
-@protocol CDropTargetHolder
-- (void) setDropTarget:(CDropTarget *)target;
+@protocol CDropTbrgetHolder
+- (void) setDropTbrget:(CDropTbrget *)tbrget;
 @end
 
-@interface CDropTarget : NSObject {
-@private
-    NSView<CDropTargetHolder>* fView;
+@interfbce CDropTbrget : NSObject {
+@privbte
+    NSView<CDropTbrgetHolder>* fView;
     jobject            fComponent;
-    jobject            fDropTarget;
-    jobject            fDropTargetContextPeer;
+    jobject            fDropTbrget;
+    jobject            fDropTbrgetContextPeer;
 }
 
-+ (CDropTarget *) currentDropTarget;
++ (CDropTbrget *) currentDropTbrget;
 
 // Common methods:
-- (id)init:(jobject)dropTarget component:(jobject)jcomponent control:(id)control;
-- (void)controlModelControlValid;
+- (id)init:(jobject)dropTbrget component:(jobject)jcomponent control:(id)control;
+- (void)controlModelControlVblid;
 - (void)removeFromView:(JNIEnv *)env;
 
-- (NSInteger)getDraggingSequenceNumber;
-- (jobject)copyDraggingDataForFormat:(jlong)format;
-- (void)javaDraggingEnded:(jlong)draggingSequenceNumber success:(BOOL)jsuccess action:(jint)jdropaction;
+- (NSInteger)getDrbggingSequenceNumber;
+- (jobject)copyDrbggingDbtbForFormbt:(jlong)formbt;
+- (void)jbvbDrbggingEnded:(jlong)drbggingSequenceNumber success:(BOOL)jsuccess bction:(jint)jdropbction;
 
-// dnd APIs (see AppKit/NSDragging.h, NSDraggingDestination):
-- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender;
-- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender;
-- (void)draggingExited:(id <NSDraggingInfo>)sender;
-- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender;
-- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender;
-- (void)concludeDragOperation:(id <NSDraggingInfo>)sender;
-- (void)draggingEnded:(id <NSDraggingInfo>)sender;
+// dnd APIs (see AppKit/NSDrbgging.h, NSDrbggingDestinbtion):
+- (NSDrbgOperbtion)drbggingEntered:(id <NSDrbggingInfo>)sender;
+- (NSDrbgOperbtion)drbggingUpdbted:(id <NSDrbggingInfo>)sender;
+- (void)drbggingExited:(id <NSDrbggingInfo>)sender;
+- (BOOL)prepbreForDrbgOperbtion:(id <NSDrbggingInfo>)sender;
+- (BOOL)performDrbgOperbtion:(id <NSDrbggingInfo>)sender;
+- (void)concludeDrbgOperbtion:(id <NSDrbggingInfo>)sender;
+- (void)drbggingEnded:(id <NSDrbggingInfo>)sender;
 
-- (jint)currentJavaActions;
+- (jint)currentJbvbActions;
 
 @end
 
-#endif // CDropTarget_h
+#endif // CDropTbrget_h

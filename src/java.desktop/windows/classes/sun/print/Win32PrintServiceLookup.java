@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import javax.print.DocFlavor;
-import javax.print.MultiDocPrintService;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.HashPrintServiceAttributeSet;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.PrintServiceAttribute;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.print.attribute.standard.PrinterName;
+import jbvb.io.BufferedRebder;
+import jbvb.io.InputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvbx.print.DocFlbvor;
+import jbvbx.print.MultiDocPrintService;
+import jbvbx.print.PrintService;
+import jbvbx.print.PrintServiceLookup;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.AttributeSet;
+import jbvbx.print.bttribute.HbshPrintRequestAttributeSet;
+import jbvbx.print.bttribute.HbshPrintServiceAttributeSet;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintRequestAttributeSet;
+import jbvbx.print.bttribute.PrintServiceAttribute;
+import jbvbx.print.bttribute.PrintServiceAttributeSet;
+import jbvbx.print.bttribute.stbndbrd.PrinterNbme;
 
-public class Win32PrintServiceLookup extends PrintServiceLookup {
+public clbss Win32PrintServiceLookup extends PrintServiceLookup {
 
-    private String defaultPrinter;
-    private PrintService defaultPrintService;
-    private String[] printers; /* excludes the default printer */
-    private PrintService[] printServices; /* includes the default printer */
+    privbte String defbultPrinter;
+    privbte PrintService defbultPrintService;
+    privbte String[] printers; /* excludes the defbult printer */
+    privbte PrintService[] printServices; /* includes the defbult printer */
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("awt");
+                    System.lobdLibrbry("bwt");
                     return null;
                 }
             });
     }
 
     /* The singleton win32 print lookup service.
-     * Code that is aware of this field and wants to use it must first
-     * see if its null, and if so instantiate it by calling a method such as
-     * javax.print.PrintServiceLookup.defaultPrintService() so that the
-     * same instance is stored there.
+     * Code thbt is bwbre of this field bnd wbnts to use it must first
+     * see if its null, bnd if so instbntibte it by cblling b method such bs
+     * jbvbx.print.PrintServiceLookup.defbultPrintService() so thbt the
+     * sbme instbnce is stored there.
      */
-    private static Win32PrintServiceLookup win32PrintLUS;
+    privbte stbtic Win32PrintServiceLookup win32PrintLUS;
 
-    /* Think carefully before calling this. Preferably don't call it. */
-    public static Win32PrintServiceLookup getWin32PrintLUS() {
+    /* Think cbrefully before cblling this. Preferbbly don't cbll it. */
+    public stbtic Win32PrintServiceLookup getWin32PrintLUS() {
         if (win32PrintLUS == null) {
-            /* This call is internally synchronized.
-             * When it returns an instance of this class will have
-             * been instantiated - else there's a JDK internal error.
+            /* This cbll is internblly synchronized.
+             * When it returns bn instbnce of this clbss will hbve
+             * been instbntibted - else there's b JDK internbl error.
              */
-            PrintServiceLookup.lookupDefaultPrintService();
+            PrintServiceLookup.lookupDefbultPrintService();
         }
         return win32PrintLUS;
     }
@@ -89,27 +89,27 @@ public class Win32PrintServiceLookup extends PrintServiceLookup {
         if (win32PrintLUS == null) {
             win32PrintLUS = this;
 
-            String osName = AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("os.name"));
-            // There's no capability for Win98 to refresh printers.
+            String osNbme = AccessController.doPrivileged(
+                new sun.security.bction.GetPropertyAction("os.nbme"));
+            // There's no cbpbbility for Win98 to refresh printers.
             // See "OpenPrinter" for more info.
-            if (osName != null && osName.startsWith("Windows 98")) {
+            if (osNbme != null && osNbme.stbrtsWith("Windows 98")) {
                 return;
             }
-            // start the printer listener thread
-            PrinterChangeListener thr = new PrinterChangeListener();
-            thr.setDaemon(true);
-            thr.start();
-        } /* else condition ought to never happen! */
+            // stbrt the printer listener threbd
+            PrinterChbngeListener thr = new PrinterChbngeListener();
+            thr.setDbemon(true);
+            thr.stbrt();
+        } /* else condition ought to never hbppen! */
     }
 
-    /* Want the PrintService which is default print service to have
-     * equality of reference with the equivalent in list of print services
-     * This isn't required by the API and there's a risk doing this will
-     * lead people to assume its guaranteed.
+    /* Wbnt the PrintService which is defbult print service to hbve
+     * equblity of reference with the equivblent in list of print services
+     * This isn't required by the API bnd there's b risk doing this will
+     * lebd people to bssume its gubrbnteed.
      */
     public synchronized PrintService[] getPrintServices() {
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPrintJobAccess();
         }
@@ -119,20 +119,20 @@ public class Win32PrintServiceLookup extends PrintServiceLookup {
         return printServices;
     }
 
-    private synchronized void refreshServices() {
-        printers = getAllPrinterNames();
+    privbte synchronized void refreshServices() {
+        printers = getAllPrinterNbmes();
         if (printers == null) {
-            // In Windows it is safe to assume no default if printers == null so we
-            // don't get the default.
+            // In Windows it is sbfe to bssume no defbult if printers == null so we
+            // don't get the defbult.
             printServices = new PrintService[0];
             return;
         }
 
         PrintService[] newServices = new PrintService[printers.length];
-        PrintService defService = getDefaultPrintService();
+        PrintService defService = getDefbultPrintService();
         for (int p = 0; p < printers.length; p++) {
             if (defService != null &&
-                printers[p].equals(defService.getName())) {
+                printers[p].equbls(defService.getNbme())) {
                 newServices[p] = defService;
             } else {
                 if (printServices == null) {
@@ -141,10 +141,10 @@ public class Win32PrintServiceLookup extends PrintServiceLookup {
                     int j;
                     for (j = 0; j < printServices.length; j++) {
                         if ((printServices[j]!= null) &&
-                            (printers[p].equals(printServices[j].getName()))) {
+                            (printers[p].equbls(printServices[j].getNbme()))) {
                             newServices[p] = printServices[j];
                             printServices[j] = null;
-                            break;
+                            brebk;
                         }
                     }
                     if (j == printServices.length) {
@@ -154,12 +154,12 @@ public class Win32PrintServiceLookup extends PrintServiceLookup {
             }
         }
 
-        // Look for deleted services and invalidate these
+        // Look for deleted services bnd invblidbte these
         if (printServices != null) {
             for (int j=0; j < printServices.length; j++) {
-                if ((printServices[j] instanceof Win32PrintService) &&
-                    (!printServices[j].equals(defaultPrintService))) {
-                    ((Win32PrintService)printServices[j]).invalidateService();
+                if ((printServices[j] instbnceof Win32PrintService) &&
+                    (!printServices[j].equbls(defbultPrintService))) {
+                    ((Win32PrintService)printServices[j]).invblidbteService();
                 }
             }
         }
@@ -167,15 +167,15 @@ public class Win32PrintServiceLookup extends PrintServiceLookup {
     }
 
 
-    public synchronized PrintService getPrintServiceByName(String name) {
+    public synchronized PrintService getPrintServiceByNbme(String nbme) {
 
-        if (name == null || name.equals("")) {
+        if (nbme == null || nbme.equbls("")) {
             return null;
         } else {
-            /* getPrintServices() is now very fast. */
+            /* getPrintServices() is now very fbst. */
             PrintService[] printServices = getPrintServices();
             for (int i=0; i<printServices.length; i++) {
-                if (printServices[i].getName().equals(name)) {
+                if (printServices[i].getNbme().equbls(nbme)) {
                     return printServices[i];
                 }
             }
@@ -183,58 +183,58 @@ public class Win32PrintServiceLookup extends PrintServiceLookup {
         }
     }
 
-    @SuppressWarnings("unchecked") // Cast to Class<PrintServiceAttribute>
-    boolean matchingService(PrintService service,
+    @SuppressWbrnings("unchecked") // Cbst to Clbss<PrintServiceAttribute>
+    boolebn mbtchingService(PrintService service,
                             PrintServiceAttributeSet serviceSet) {
         if (serviceSet != null) {
-            Attribute [] attrs =  serviceSet.toArray();
+            Attribute [] bttrs =  serviceSet.toArrby();
             Attribute serviceAttr;
-            for (int i=0; i<attrs.length; i++) {
+            for (int i=0; i<bttrs.length; i++) {
                 serviceAttr
-                    = service.getAttribute((Class<PrintServiceAttribute>)attrs[i].getCategory());
-                if (serviceAttr == null || !serviceAttr.equals(attrs[i])) {
-                    return false;
+                    = service.getAttribute((Clbss<PrintServiceAttribute>)bttrs[i].getCbtegory());
+                if (serviceAttr == null || !serviceAttr.equbls(bttrs[i])) {
+                    return fblse;
                 }
             }
         }
         return true;
     }
 
-    public PrintService[] getPrintServices(DocFlavor flavor,
-                                           AttributeSet attributes) {
+    public PrintService[] getPrintServices(DocFlbvor flbvor,
+                                           AttributeSet bttributes) {
 
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
           security.checkPrintJobAccess();
         }
         PrintRequestAttributeSet requestSet = null;
         PrintServiceAttributeSet serviceSet = null;
 
-        if (attributes != null && !attributes.isEmpty()) {
+        if (bttributes != null && !bttributes.isEmpty()) {
 
-            requestSet = new HashPrintRequestAttributeSet();
-            serviceSet = new HashPrintServiceAttributeSet();
+            requestSet = new HbshPrintRequestAttributeSet();
+            serviceSet = new HbshPrintServiceAttributeSet();
 
-            Attribute[] attrs = attributes.toArray();
-            for (int i=0; i<attrs.length; i++) {
-                if (attrs[i] instanceof PrintRequestAttribute) {
-                    requestSet.add(attrs[i]);
-                } else if (attrs[i] instanceof PrintServiceAttribute) {
-                    serviceSet.add(attrs[i]);
+            Attribute[] bttrs = bttributes.toArrby();
+            for (int i=0; i<bttrs.length; i++) {
+                if (bttrs[i] instbnceof PrintRequestAttribute) {
+                    requestSet.bdd(bttrs[i]);
+                } else if (bttrs[i] instbnceof PrintServiceAttribute) {
+                    serviceSet.bdd(bttrs[i]);
                 }
             }
         }
 
         /*
-         * Special case: If client is asking for a particular printer
-         * (by name) then we can save time by getting just that service
-         * to check against the rest of the specified attributes.
+         * Specibl cbse: If client is bsking for b pbrticulbr printer
+         * (by nbme) then we cbn sbve time by getting just thbt service
+         * to check bgbinst the rest of the specified bttributes.
          */
         PrintService[] services = null;
-        if (serviceSet != null && serviceSet.get(PrinterName.class) != null) {
-            PrinterName name = (PrinterName)serviceSet.get(PrinterName.class);
-            PrintService service = getPrintServiceByName(name.getValue());
-            if (service == null || !matchingService(service, serviceSet)) {
+        if (serviceSet != null && serviceSet.get(PrinterNbme.clbss) != null) {
+            PrinterNbme nbme = (PrinterNbme)serviceSet.get(PrinterNbme.clbss);
+            PrintService service = getPrintServiceByNbme(nbme.getVblue());
+            if (service == null || !mbtchingService(service, serviceSet)) {
                 services = new PrintService[0];
             } else {
                 services = new PrintService[1];
@@ -247,28 +247,28 @@ public class Win32PrintServiceLookup extends PrintServiceLookup {
         if (services.length == 0) {
             return services;
         } else {
-            ArrayList<PrintService> matchingServices = new ArrayList<>();
+            ArrbyList<PrintService> mbtchingServices = new ArrbyList<>();
             for (int i=0; i<services.length; i++) {
                 try {
                     if (services[i].
-                        getUnsupportedAttributes(flavor, requestSet) == null) {
-                        matchingServices.add(services[i]);
+                        getUnsupportedAttributes(flbvor, requestSet) == null) {
+                        mbtchingServices.bdd(services[i]);
                     }
-                } catch (IllegalArgumentException e) {
+                } cbtch (IllegblArgumentException e) {
                 }
             }
-            services = new PrintService[matchingServices.size()];
-            return matchingServices.toArray(services);
+            services = new PrintService[mbtchingServices.size()];
+            return mbtchingServices.toArrby(services);
         }
     }
 
     /*
-     * return empty array as don't support multi docs
+     * return empty brrby bs don't support multi docs
      */
     public MultiDocPrintService[]
-        getMultiDocPrintServices(DocFlavor[] flavors,
-                                 AttributeSet attributes) {
-        SecurityManager security = System.getSecurityManager();
+        getMultiDocPrintServices(DocFlbvor[] flbvors,
+                                 AttributeSet bttributes) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
           security.checkPrintJobAccess();
         }
@@ -276,74 +276,74 @@ public class Win32PrintServiceLookup extends PrintServiceLookup {
     }
 
 
-    public synchronized PrintService getDefaultPrintService() {
-        SecurityManager security = System.getSecurityManager();
+    public synchronized PrintService getDefbultPrintService() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
           security.checkPrintJobAccess();
         }
 
 
-        // Windows does not have notification for a change in default
-        // so we always get the latest.
-        defaultPrinter = getDefaultPrinterName();
-        if (defaultPrinter == null) {
+        // Windows does not hbve notificbtion for b chbnge in defbult
+        // so we blwbys get the lbtest.
+        defbultPrinter = getDefbultPrinterNbme();
+        if (defbultPrinter == null) {
             return null;
         }
 
-        if ((defaultPrintService != null) &&
-            defaultPrintService.getName().equals(defaultPrinter)) {
+        if ((defbultPrintService != null) &&
+            defbultPrintService.getNbme().equbls(defbultPrinter)) {
 
-            return defaultPrintService;
+            return defbultPrintService;
         }
 
-         // Not the same as default so proceed to get new PrintService.
+         // Not the sbme bs defbult so proceed to get new PrintService.
 
-        // clear defaultPrintService
-        defaultPrintService = null;
+        // clebr defbultPrintService
+        defbultPrintService = null;
 
         if (printServices != null) {
             for (int j=0; j<printServices.length; j++) {
-                if (defaultPrinter.equals(printServices[j].getName())) {
-                    defaultPrintService = printServices[j];
-                    break;
+                if (defbultPrinter.equbls(printServices[j].getNbme())) {
+                    defbultPrintService = printServices[j];
+                    brebk;
                 }
             }
         }
 
-        if (defaultPrintService == null) {
-            defaultPrintService = new Win32PrintService(defaultPrinter);
+        if (defbultPrintService == null) {
+            defbultPrintService = new Win32PrintService(defbultPrinter);
         }
-        return defaultPrintService;
+        return defbultPrintService;
     }
 
-    class PrinterChangeListener extends Thread {
+    clbss PrinterChbngeListener extends Threbd {
         long chgObj;
-        PrinterChangeListener() {
-            chgObj = notifyFirstPrinterChange(null);
+        PrinterChbngeListener() {
+            chgObj = notifyFirstPrinterChbnge(null);
         }
 
         public void run() {
             if (chgObj != -1) {
                 while (true) {
-                    // wait for configuration to change
-                    if (notifyPrinterChange(chgObj) != 0) {
+                    // wbit for configurbtion to chbnge
+                    if (notifyPrinterChbnge(chgObj) != 0) {
                         try {
                             refreshServices();
-                        } catch (SecurityException se) {
-                            break;
+                        } cbtch (SecurityException se) {
+                            brebk;
                         }
                     } else {
-                        notifyClosePrinterChange(chgObj);
-                        break;
+                        notifyClosePrinterChbnge(chgObj);
+                        brebk;
                     }
                 }
             }
         }
     }
 
-    private native String getDefaultPrinterName();
-    private native String[] getAllPrinterNames();
-    private native long notifyFirstPrinterChange(String printer);
-    private native void notifyClosePrinterChange(long chgObj);
-    private native int notifyPrinterChange(long chgObj);
+    privbte nbtive String getDefbultPrinterNbme();
+    privbte nbtive String[] getAllPrinterNbmes();
+    privbte nbtive long notifyFirstPrinterChbnge(String printer);
+    privbte nbtive void notifyClosePrinterChbnge(long chgObj);
+    privbte nbtive int notifyPrinterChbnge(long chgObj);
 }

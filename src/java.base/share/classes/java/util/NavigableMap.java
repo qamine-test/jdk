@@ -1,424 +1,424 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea and Josh Bloch with assistance from members of JCP
- * JSR-166 Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb bnd Josh Bloch with bssistbnce from members of JCP
+ * JSR-166 Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * A {@link SortedMap} extended with navigation methods returning the
- * closest matches for given search targets. Methods
+ * A {@link SortedMbp} extended with nbvigbtion methods returning the
+ * closest mbtches for given sebrch tbrgets. Methods
  * {@code lowerEntry}, {@code floorEntry}, {@code ceilingEntry},
- * and {@code higherEntry} return {@code Map.Entry} objects
- * associated with keys respectively less than, less than or equal,
- * greater than or equal, and greater than a given key, returning
- * {@code null} if there is no such key.  Similarly, methods
- * {@code lowerKey}, {@code floorKey}, {@code ceilingKey}, and
- * {@code higherKey} return only the associated keys. All of these
- * methods are designed for locating, not traversing entries.
+ * bnd {@code higherEntry} return {@code Mbp.Entry} objects
+ * bssocibted with keys respectively less thbn, less thbn or equbl,
+ * grebter thbn or equbl, bnd grebter thbn b given key, returning
+ * {@code null} if there is no such key.  Similbrly, methods
+ * {@code lowerKey}, {@code floorKey}, {@code ceilingKey}, bnd
+ * {@code higherKey} return only the bssocibted keys. All of these
+ * methods bre designed for locbting, not trbversing entries.
  *
- * <p>A {@code NavigableMap} may be accessed and traversed in either
- * ascending or descending key order.  The {@code descendingMap}
- * method returns a view of the map with the senses of all relational
- * and directional methods inverted. The performance of ascending
- * operations and views is likely to be faster than that of descending
- * ones.  Methods {@code subMap}, {@code headMap},
- * and {@code tailMap} differ from the like-named {@code
- * SortedMap} methods in accepting additional arguments describing
- * whether lower and upper bounds are inclusive versus exclusive.
- * Submaps of any {@code NavigableMap} must implement the {@code
- * NavigableMap} interface.
+ * <p>A {@code NbvigbbleMbp} mby be bccessed bnd trbversed in either
+ * bscending or descending key order.  The {@code descendingMbp}
+ * method returns b view of the mbp with the senses of bll relbtionbl
+ * bnd directionbl methods inverted. The performbnce of bscending
+ * operbtions bnd views is likely to be fbster thbn thbt of descending
+ * ones.  Methods {@code subMbp}, {@code hebdMbp},
+ * bnd {@code tbilMbp} differ from the like-nbmed {@code
+ * SortedMbp} methods in bccepting bdditionbl brguments describing
+ * whether lower bnd upper bounds bre inclusive versus exclusive.
+ * Submbps of bny {@code NbvigbbleMbp} must implement the {@code
+ * NbvigbbleMbp} interfbce.
  *
- * <p>This interface additionally defines methods {@code firstEntry},
- * {@code pollFirstEntry}, {@code lastEntry}, and
- * {@code pollLastEntry} that return and/or remove the least and
- * greatest mappings, if any exist, else returning {@code null}.
+ * <p>This interfbce bdditionblly defines methods {@code firstEntry},
+ * {@code pollFirstEntry}, {@code lbstEntry}, bnd
+ * {@code pollLbstEntry} thbt return bnd/or remove the lebst bnd
+ * grebtest mbppings, if bny exist, else returning {@code null}.
  *
- * <p>Implementations of entry-returning methods are expected to
- * return {@code Map.Entry} pairs representing snapshots of mappings
- * at the time they were produced, and thus generally do <em>not</em>
- * support the optional {@code Entry.setValue} method. Note however
- * that it is possible to change mappings in the associated map using
+ * <p>Implementbtions of entry-returning methods bre expected to
+ * return {@code Mbp.Entry} pbirs representing snbpshots of mbppings
+ * bt the time they were produced, bnd thus generblly do <em>not</em>
+ * support the optionbl {@code Entry.setVblue} method. Note however
+ * thbt it is possible to chbnge mbppings in the bssocibted mbp using
  * method {@code put}.
  *
  * <p>Methods
- * {@link #subMap(Object, Object) subMap(K, K)},
- * {@link #headMap(Object) headMap(K)}, and
- * {@link #tailMap(Object) tailMap(K)}
- * are specified to return {@code SortedMap} to allow existing
- * implementations of {@code SortedMap} to be compatibly retrofitted to
- * implement {@code NavigableMap}, but extensions and implementations
- * of this interface are encouraged to override these methods to return
- * {@code NavigableMap}.  Similarly,
- * {@link #keySet()} can be overriden to return {@code NavigableSet}.
+ * {@link #subMbp(Object, Object) subMbp(K, K)},
+ * {@link #hebdMbp(Object) hebdMbp(K)}, bnd
+ * {@link #tbilMbp(Object) tbilMbp(K)}
+ * bre specified to return {@code SortedMbp} to bllow existing
+ * implementbtions of {@code SortedMbp} to be compbtibly retrofitted to
+ * implement {@code NbvigbbleMbp}, but extensions bnd implementbtions
+ * of this interfbce bre encourbged to override these methods to return
+ * {@code NbvigbbleMbp}.  Similbrly,
+ * {@link #keySet()} cbn be overriden to return {@code NbvigbbleSet}.
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This interfbce is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @author Doug Lea
- * @author Josh Bloch
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
+ * @buthor Doug Leb
+ * @buthor Josh Bloch
+ * @pbrbm <K> the type of keys mbintbined by this mbp
+ * @pbrbm <V> the type of mbpped vblues
  * @since 1.6
  */
-public interface NavigableMap<K,V> extends SortedMap<K,V> {
+public interfbce NbvigbbleMbp<K,V> extends SortedMbp<K,V> {
     /**
-     * Returns a key-value mapping associated with the greatest key
-     * strictly less than the given key, or {@code null} if there is
+     * Returns b key-vblue mbpping bssocibted with the grebtest key
+     * strictly less thbn the given key, or {@code null} if there is
      * no such key.
      *
-     * @param key the key
-     * @return an entry with the greatest key less than {@code key},
+     * @pbrbm key the key
+     * @return bn entry with the grebtest key less thbn {@code key},
      *         or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
      * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     *         bnd this mbp does not permit null keys
      */
-    Map.Entry<K,V> lowerEntry(K key);
+    Mbp.Entry<K,V> lowerEntry(K key);
 
     /**
-     * Returns the greatest key strictly less than the given key, or
+     * Returns the grebtest key strictly less thbn the given key, or
      * {@code null} if there is no such key.
      *
-     * @param key the key
-     * @return the greatest key less than {@code key},
+     * @pbrbm key the key
+     * @return the grebtest key less thbn {@code key},
      *         or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
      * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     *         bnd this mbp does not permit null keys
      */
     K lowerKey(K key);
 
     /**
-     * Returns a key-value mapping associated with the greatest key
-     * less than or equal to the given key, or {@code null} if there
+     * Returns b key-vblue mbpping bssocibted with the grebtest key
+     * less thbn or equbl to the given key, or {@code null} if there
      * is no such key.
      *
-     * @param key the key
-     * @return an entry with the greatest key less than or equal to
+     * @pbrbm key the key
+     * @return bn entry with the grebtest key less thbn or equbl to
      *         {@code key}, or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
      * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     *         bnd this mbp does not permit null keys
      */
-    Map.Entry<K,V> floorEntry(K key);
+    Mbp.Entry<K,V> floorEntry(K key);
 
     /**
-     * Returns the greatest key less than or equal to the given key,
+     * Returns the grebtest key less thbn or equbl to the given key,
      * or {@code null} if there is no such key.
      *
-     * @param key the key
-     * @return the greatest key less than or equal to {@code key},
+     * @pbrbm key the key
+     * @return the grebtest key less thbn or equbl to {@code key},
      *         or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
      * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     *         bnd this mbp does not permit null keys
      */
     K floorKey(K key);
 
     /**
-     * Returns a key-value mapping associated with the least key
-     * greater than or equal to the given key, or {@code null} if
+     * Returns b key-vblue mbpping bssocibted with the lebst key
+     * grebter thbn or equbl to the given key, or {@code null} if
      * there is no such key.
      *
-     * @param key the key
-     * @return an entry with the least key greater than or equal to
+     * @pbrbm key the key
+     * @return bn entry with the lebst key grebter thbn or equbl to
      *         {@code key}, or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
      * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     *         bnd this mbp does not permit null keys
      */
-    Map.Entry<K,V> ceilingEntry(K key);
+    Mbp.Entry<K,V> ceilingEntry(K key);
 
     /**
-     * Returns the least key greater than or equal to the given key,
+     * Returns the lebst key grebter thbn or equbl to the given key,
      * or {@code null} if there is no such key.
      *
-     * @param key the key
-     * @return the least key greater than or equal to {@code key},
+     * @pbrbm key the key
+     * @return the lebst key grebter thbn or equbl to {@code key},
      *         or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
      * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     *         bnd this mbp does not permit null keys
      */
     K ceilingKey(K key);
 
     /**
-     * Returns a key-value mapping associated with the least key
-     * strictly greater than the given key, or {@code null} if there
+     * Returns b key-vblue mbpping bssocibted with the lebst key
+     * strictly grebter thbn the given key, or {@code null} if there
      * is no such key.
      *
-     * @param key the key
-     * @return an entry with the least key greater than {@code key},
+     * @pbrbm key the key
+     * @return bn entry with the lebst key grebter thbn {@code key},
      *         or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
      * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     *         bnd this mbp does not permit null keys
      */
-    Map.Entry<K,V> higherEntry(K key);
+    Mbp.Entry<K,V> higherEntry(K key);
 
     /**
-     * Returns the least key strictly greater than the given key, or
+     * Returns the lebst key strictly grebter thbn the given key, or
      * {@code null} if there is no such key.
      *
-     * @param key the key
-     * @return the least key greater than {@code key},
+     * @pbrbm key the key
+     * @return the lebst key grebter thbn {@code key},
      *         or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
      * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     *         bnd this mbp does not permit null keys
      */
     K higherKey(K key);
 
     /**
-     * Returns a key-value mapping associated with the least
-     * key in this map, or {@code null} if the map is empty.
+     * Returns b key-vblue mbpping bssocibted with the lebst
+     * key in this mbp, or {@code null} if the mbp is empty.
      *
-     * @return an entry with the least key,
-     *         or {@code null} if this map is empty
+     * @return bn entry with the lebst key,
+     *         or {@code null} if this mbp is empty
      */
-    Map.Entry<K,V> firstEntry();
+    Mbp.Entry<K,V> firstEntry();
 
     /**
-     * Returns a key-value mapping associated with the greatest
-     * key in this map, or {@code null} if the map is empty.
+     * Returns b key-vblue mbpping bssocibted with the grebtest
+     * key in this mbp, or {@code null} if the mbp is empty.
      *
-     * @return an entry with the greatest key,
-     *         or {@code null} if this map is empty
+     * @return bn entry with the grebtest key,
+     *         or {@code null} if this mbp is empty
      */
-    Map.Entry<K,V> lastEntry();
+    Mbp.Entry<K,V> lbstEntry();
 
     /**
-     * Removes and returns a key-value mapping associated with
-     * the least key in this map, or {@code null} if the map is empty.
+     * Removes bnd returns b key-vblue mbpping bssocibted with
+     * the lebst key in this mbp, or {@code null} if the mbp is empty.
      *
-     * @return the removed first entry of this map,
-     *         or {@code null} if this map is empty
+     * @return the removed first entry of this mbp,
+     *         or {@code null} if this mbp is empty
      */
-    Map.Entry<K,V> pollFirstEntry();
+    Mbp.Entry<K,V> pollFirstEntry();
 
     /**
-     * Removes and returns a key-value mapping associated with
-     * the greatest key in this map, or {@code null} if the map is empty.
+     * Removes bnd returns b key-vblue mbpping bssocibted with
+     * the grebtest key in this mbp, or {@code null} if the mbp is empty.
      *
-     * @return the removed last entry of this map,
-     *         or {@code null} if this map is empty
+     * @return the removed lbst entry of this mbp,
+     *         or {@code null} if this mbp is empty
      */
-    Map.Entry<K,V> pollLastEntry();
+    Mbp.Entry<K,V> pollLbstEntry();
 
     /**
-     * Returns a reverse order view of the mappings contained in this map.
-     * The descending map is backed by this map, so changes to the map are
-     * reflected in the descending map, and vice-versa.  If either map is
-     * modified while an iteration over a collection view of either map
-     * is in progress (except through the iterator's own {@code remove}
-     * operation), the results of the iteration are undefined.
+     * Returns b reverse order view of the mbppings contbined in this mbp.
+     * The descending mbp is bbcked by this mbp, so chbnges to the mbp bre
+     * reflected in the descending mbp, bnd vice-versb.  If either mbp is
+     * modified while bn iterbtion over b collection view of either mbp
+     * is in progress (except through the iterbtor's own {@code remove}
+     * operbtion), the results of the iterbtion bre undefined.
      *
-     * <p>The returned map has an ordering equivalent to
-     * <tt>{@link Collections#reverseOrder(Comparator) Collections.reverseOrder}(comparator())</tt>.
-     * The expression {@code m.descendingMap().descendingMap()} returns a
-     * view of {@code m} essentially equivalent to {@code m}.
+     * <p>The returned mbp hbs bn ordering equivblent to
+     * <tt>{@link Collections#reverseOrder(Compbrbtor) Collections.reverseOrder}(compbrbtor())</tt>.
+     * The expression {@code m.descendingMbp().descendingMbp()} returns b
+     * view of {@code m} essentiblly equivblent to {@code m}.
      *
-     * @return a reverse order view of this map
+     * @return b reverse order view of this mbp
      */
-    NavigableMap<K,V> descendingMap();
+    NbvigbbleMbp<K,V> descendingMbp();
 
     /**
-     * Returns a {@link NavigableSet} view of the keys contained in this map.
-     * The set's iterator returns the keys in ascending order.
-     * The set is backed by the map, so changes to the map are reflected in
-     * the set, and vice-versa.  If the map is modified while an iteration
-     * over the set is in progress (except through the iterator's own {@code
-     * remove} operation), the results of the iteration are undefined.  The
-     * set supports element removal, which removes the corresponding mapping
-     * from the map, via the {@code Iterator.remove}, {@code Set.remove},
-     * {@code removeAll}, {@code retainAll}, and {@code clear} operations.
-     * It does not support the {@code add} or {@code addAll} operations.
+     * Returns b {@link NbvigbbleSet} view of the keys contbined in this mbp.
+     * The set's iterbtor returns the keys in bscending order.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre reflected in
+     * the set, bnd vice-versb.  If the mbp is modified while bn iterbtion
+     * over the set is in progress (except through the iterbtor's own {@code
+     * remove} operbtion), the results of the iterbtion bre undefined.  The
+     * set supports element removbl, which removes the corresponding mbpping
+     * from the mbp, vib the {@code Iterbtor.remove}, {@code Set.remove},
+     * {@code removeAll}, {@code retbinAll}, bnd {@code clebr} operbtions.
+     * It does not support the {@code bdd} or {@code bddAll} operbtions.
      *
-     * @return a navigable set view of the keys in this map
+     * @return b nbvigbble set view of the keys in this mbp
      */
-    NavigableSet<K> navigableKeySet();
+    NbvigbbleSet<K> nbvigbbleKeySet();
 
     /**
-     * Returns a reverse order {@link NavigableSet} view of the keys contained in this map.
-     * The set's iterator returns the keys in descending order.
-     * The set is backed by the map, so changes to the map are reflected in
-     * the set, and vice-versa.  If the map is modified while an iteration
-     * over the set is in progress (except through the iterator's own {@code
-     * remove} operation), the results of the iteration are undefined.  The
-     * set supports element removal, which removes the corresponding mapping
-     * from the map, via the {@code Iterator.remove}, {@code Set.remove},
-     * {@code removeAll}, {@code retainAll}, and {@code clear} operations.
-     * It does not support the {@code add} or {@code addAll} operations.
+     * Returns b reverse order {@link NbvigbbleSet} view of the keys contbined in this mbp.
+     * The set's iterbtor returns the keys in descending order.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre reflected in
+     * the set, bnd vice-versb.  If the mbp is modified while bn iterbtion
+     * over the set is in progress (except through the iterbtor's own {@code
+     * remove} operbtion), the results of the iterbtion bre undefined.  The
+     * set supports element removbl, which removes the corresponding mbpping
+     * from the mbp, vib the {@code Iterbtor.remove}, {@code Set.remove},
+     * {@code removeAll}, {@code retbinAll}, bnd {@code clebr} operbtions.
+     * It does not support the {@code bdd} or {@code bddAll} operbtions.
      *
-     * @return a reverse order navigable set view of the keys in this map
+     * @return b reverse order nbvigbble set view of the keys in this mbp
      */
-    NavigableSet<K> descendingKeySet();
+    NbvigbbleSet<K> descendingKeySet();
 
     /**
-     * Returns a view of the portion of this map whose keys range from
-     * {@code fromKey} to {@code toKey}.  If {@code fromKey} and
-     * {@code toKey} are equal, the returned map is empty unless
-     * {@code fromInclusive} and {@code toInclusive} are both true.  The
-     * returned map is backed by this map, so changes in the returned map are
-     * reflected in this map, and vice-versa.  The returned map supports all
-     * optional map operations that this map supports.
+     * Returns b view of the portion of this mbp whose keys rbnge from
+     * {@code fromKey} to {@code toKey}.  If {@code fromKey} bnd
+     * {@code toKey} bre equbl, the returned mbp is empty unless
+     * {@code fromInclusive} bnd {@code toInclusive} bre both true.  The
+     * returned mbp is bbcked by this mbp, so chbnges in the returned mbp bre
+     * reflected in this mbp, bnd vice-versb.  The returned mbp supports bll
+     * optionbl mbp operbtions thbt this mbp supports.
      *
-     * <p>The returned map will throw an {@code IllegalArgumentException}
-     * on an attempt to insert a key outside of its range, or to construct a
-     * submap either of whose endpoints lie outside its range.
+     * <p>The returned mbp will throw bn {@code IllegblArgumentException}
+     * on bn bttempt to insert b key outside of its rbnge, or to construct b
+     * submbp either of whose endpoints lie outside its rbnge.
      *
-     * @param fromKey low endpoint of the keys in the returned map
-     * @param fromInclusive {@code true} if the low endpoint
+     * @pbrbm fromKey low endpoint of the keys in the returned mbp
+     * @pbrbm fromInclusive {@code true} if the low endpoint
      *        is to be included in the returned view
-     * @param toKey high endpoint of the keys in the returned map
-     * @param toInclusive {@code true} if the high endpoint
+     * @pbrbm toKey high endpoint of the keys in the returned mbp
+     * @pbrbm toInclusive {@code true} if the high endpoint
      *        is to be included in the returned view
-     * @return a view of the portion of this map whose keys range from
+     * @return b view of the portion of this mbp whose keys rbnge from
      *         {@code fromKey} to {@code toKey}
-     * @throws ClassCastException if {@code fromKey} and {@code toKey}
-     *         cannot be compared to one another using this map's comparator
-     *         (or, if the map has no comparator, using natural ordering).
-     *         Implementations may, but are not required to, throw this
+     * @throws ClbssCbstException if {@code fromKey} bnd {@code toKey}
+     *         cbnnot be compbred to one bnother using this mbp's compbrbtor
+     *         (or, if the mbp hbs no compbrbtor, using nbturbl ordering).
+     *         Implementbtions mby, but bre not required to, throw this
      *         exception if {@code fromKey} or {@code toKey}
-     *         cannot be compared to keys currently in the map.
+     *         cbnnot be compbred to keys currently in the mbp.
      * @throws NullPointerException if {@code fromKey} or {@code toKey}
-     *         is null and this map does not permit null keys
-     * @throws IllegalArgumentException if {@code fromKey} is greater than
-     *         {@code toKey}; or if this map itself has a restricted
-     *         range, and {@code fromKey} or {@code toKey} lies
-     *         outside the bounds of the range
+     *         is null bnd this mbp does not permit null keys
+     * @throws IllegblArgumentException if {@code fromKey} is grebter thbn
+     *         {@code toKey}; or if this mbp itself hbs b restricted
+     *         rbnge, bnd {@code fromKey} or {@code toKey} lies
+     *         outside the bounds of the rbnge
      */
-    NavigableMap<K,V> subMap(K fromKey, boolean fromInclusive,
-                             K toKey,   boolean toInclusive);
+    NbvigbbleMbp<K,V> subMbp(K fromKey, boolebn fromInclusive,
+                             K toKey,   boolebn toInclusive);
 
     /**
-     * Returns a view of the portion of this map whose keys are less than (or
-     * equal to, if {@code inclusive} is true) {@code toKey}.  The returned
-     * map is backed by this map, so changes in the returned map are reflected
-     * in this map, and vice-versa.  The returned map supports all optional
-     * map operations that this map supports.
+     * Returns b view of the portion of this mbp whose keys bre less thbn (or
+     * equbl to, if {@code inclusive} is true) {@code toKey}.  The returned
+     * mbp is bbcked by this mbp, so chbnges in the returned mbp bre reflected
+     * in this mbp, bnd vice-versb.  The returned mbp supports bll optionbl
+     * mbp operbtions thbt this mbp supports.
      *
-     * <p>The returned map will throw an {@code IllegalArgumentException}
-     * on an attempt to insert a key outside its range.
+     * <p>The returned mbp will throw bn {@code IllegblArgumentException}
+     * on bn bttempt to insert b key outside its rbnge.
      *
-     * @param toKey high endpoint of the keys in the returned map
-     * @param inclusive {@code true} if the high endpoint
+     * @pbrbm toKey high endpoint of the keys in the returned mbp
+     * @pbrbm inclusive {@code true} if the high endpoint
      *        is to be included in the returned view
-     * @return a view of the portion of this map whose keys are less than
-     *         (or equal to, if {@code inclusive} is true) {@code toKey}
-     * @throws ClassCastException if {@code toKey} is not compatible
-     *         with this map's comparator (or, if the map has no comparator,
-     *         if {@code toKey} does not implement {@link Comparable}).
-     *         Implementations may, but are not required to, throw this
-     *         exception if {@code toKey} cannot be compared to keys
-     *         currently in the map.
+     * @return b view of the portion of this mbp whose keys bre less thbn
+     *         (or equbl to, if {@code inclusive} is true) {@code toKey}
+     * @throws ClbssCbstException if {@code toKey} is not compbtible
+     *         with this mbp's compbrbtor (or, if the mbp hbs no compbrbtor,
+     *         if {@code toKey} does not implement {@link Compbrbble}).
+     *         Implementbtions mby, but bre not required to, throw this
+     *         exception if {@code toKey} cbnnot be compbred to keys
+     *         currently in the mbp.
      * @throws NullPointerException if {@code toKey} is null
-     *         and this map does not permit null keys
-     * @throws IllegalArgumentException if this map itself has a
-     *         restricted range, and {@code toKey} lies outside the
-     *         bounds of the range
+     *         bnd this mbp does not permit null keys
+     * @throws IllegblArgumentException if this mbp itself hbs b
+     *         restricted rbnge, bnd {@code toKey} lies outside the
+     *         bounds of the rbnge
      */
-    NavigableMap<K,V> headMap(K toKey, boolean inclusive);
+    NbvigbbleMbp<K,V> hebdMbp(K toKey, boolebn inclusive);
 
     /**
-     * Returns a view of the portion of this map whose keys are greater than (or
-     * equal to, if {@code inclusive} is true) {@code fromKey}.  The returned
-     * map is backed by this map, so changes in the returned map are reflected
-     * in this map, and vice-versa.  The returned map supports all optional
-     * map operations that this map supports.
+     * Returns b view of the portion of this mbp whose keys bre grebter thbn (or
+     * equbl to, if {@code inclusive} is true) {@code fromKey}.  The returned
+     * mbp is bbcked by this mbp, so chbnges in the returned mbp bre reflected
+     * in this mbp, bnd vice-versb.  The returned mbp supports bll optionbl
+     * mbp operbtions thbt this mbp supports.
      *
-     * <p>The returned map will throw an {@code IllegalArgumentException}
-     * on an attempt to insert a key outside its range.
+     * <p>The returned mbp will throw bn {@code IllegblArgumentException}
+     * on bn bttempt to insert b key outside its rbnge.
      *
-     * @param fromKey low endpoint of the keys in the returned map
-     * @param inclusive {@code true} if the low endpoint
+     * @pbrbm fromKey low endpoint of the keys in the returned mbp
+     * @pbrbm inclusive {@code true} if the low endpoint
      *        is to be included in the returned view
-     * @return a view of the portion of this map whose keys are greater than
-     *         (or equal to, if {@code inclusive} is true) {@code fromKey}
-     * @throws ClassCastException if {@code fromKey} is not compatible
-     *         with this map's comparator (or, if the map has no comparator,
-     *         if {@code fromKey} does not implement {@link Comparable}).
-     *         Implementations may, but are not required to, throw this
-     *         exception if {@code fromKey} cannot be compared to keys
-     *         currently in the map.
+     * @return b view of the portion of this mbp whose keys bre grebter thbn
+     *         (or equbl to, if {@code inclusive} is true) {@code fromKey}
+     * @throws ClbssCbstException if {@code fromKey} is not compbtible
+     *         with this mbp's compbrbtor (or, if the mbp hbs no compbrbtor,
+     *         if {@code fromKey} does not implement {@link Compbrbble}).
+     *         Implementbtions mby, but bre not required to, throw this
+     *         exception if {@code fromKey} cbnnot be compbred to keys
+     *         currently in the mbp.
      * @throws NullPointerException if {@code fromKey} is null
-     *         and this map does not permit null keys
-     * @throws IllegalArgumentException if this map itself has a
-     *         restricted range, and {@code fromKey} lies outside the
-     *         bounds of the range
+     *         bnd this mbp does not permit null keys
+     * @throws IllegblArgumentException if this mbp itself hbs b
+     *         restricted rbnge, bnd {@code fromKey} lies outside the
+     *         bounds of the rbnge
      */
-    NavigableMap<K,V> tailMap(K fromKey, boolean inclusive);
+    NbvigbbleMbp<K,V> tbilMbp(K fromKey, boolebn inclusive);
 
     /**
      * {@inheritDoc}
      *
-     * <p>Equivalent to {@code subMap(fromKey, true, toKey, false)}.
+     * <p>Equivblent to {@code subMbp(fromKey, true, toKey, fblse)}.
      *
-     * @throws ClassCastException       {@inheritDoc}
+     * @throws ClbssCbstException       {@inheritDoc}
      * @throws NullPointerException     {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    SortedMap<K,V> subMap(K fromKey, K toKey);
+    SortedMbp<K,V> subMbp(K fromKey, K toKey);
 
     /**
      * {@inheritDoc}
      *
-     * <p>Equivalent to {@code headMap(toKey, false)}.
+     * <p>Equivblent to {@code hebdMbp(toKey, fblse)}.
      *
-     * @throws ClassCastException       {@inheritDoc}
+     * @throws ClbssCbstException       {@inheritDoc}
      * @throws NullPointerException     {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    SortedMap<K,V> headMap(K toKey);
+    SortedMbp<K,V> hebdMbp(K toKey);
 
     /**
      * {@inheritDoc}
      *
-     * <p>Equivalent to {@code tailMap(fromKey, true)}.
+     * <p>Equivblent to {@code tbilMbp(fromKey, true)}.
      *
-     * @throws ClassCastException       {@inheritDoc}
+     * @throws ClbssCbstException       {@inheritDoc}
      * @throws NullPointerException     {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    SortedMap<K,V> tailMap(K fromKey);
+    SortedMbp<K,V> tbilMbp(K fromKey);
 }

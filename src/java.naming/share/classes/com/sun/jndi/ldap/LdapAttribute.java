@@ -1,212 +1,212 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Vector;
-import javax.naming.*;
-import javax.naming.directory.*;
+import jbvb.io.IOException;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
 
 /**
-  * This subclass is used by LDAP to implement the schema calls.
-  * Basically, it keeps track of which context it is an attribute of
-  * so it can get the schema for that context.
+  * This subclbss is used by LDAP to implement the schemb cblls.
+  * Bbsicblly, it keeps trbck of which context it is bn bttribute of
+  * so it cbn get the schemb for thbt context.
   *
-  * @author Jon Ruiz
+  * @buthor Jon Ruiz
   */
-final class LdapAttribute extends BasicAttribute {
+finbl clbss LdbpAttribute extends BbsicAttribute {
 
-    static final long serialVersionUID = -4288716561020779584L;
+    stbtic finbl long seriblVersionUID = -4288716561020779584L;
 
-    private transient DirContext baseCtx = null;
-    private Name rdn = new CompositeName();
+    privbte trbnsient DirContext bbseCtx = null;
+    privbte Nbme rdn = new CompositeNbme();
 
-    // these two are used to reconstruct the baseCtx if this attribute has
-    // been serialized (
-    private String baseCtxURL;
-    private Hashtable<String, ? super String> baseCtxEnv;
+    // these two bre used to reconstruct the bbseCtx if this bttribute hbs
+    // been seriblized (
+    privbte String bbseCtxURL;
+    privbte Hbshtbble<String, ? super String> bbseCtxEnv;
 
-    @SuppressWarnings("unchecked") // clone()
+    @SuppressWbrnings("unchecked") // clone()
     public Object clone() {
-        LdapAttribute attr = new LdapAttribute(this.attrID, baseCtx, rdn);
-        attr.values = (Vector<Object>)values.clone();
-        return attr;
+        LdbpAttribute bttr = new LdbpAttribute(this.bttrID, bbseCtx, rdn);
+        bttr.vblues = (Vector<Object>)vblues.clone();
+        return bttr;
     }
 
     /**
-      * Adds a new value to this attribute.
+      * Adds b new vblue to this bttribute.
       *
-      * @param attrVal The value to be added. If null, a null value is added to
-      *                the attribute.
-      * @return true Always returns true.
+      * @pbrbm bttrVbl The vblue to be bdded. If null, b null vblue is bdded to
+      *                the bttribute.
+      * @return true Alwbys returns true.
       */
-    public boolean add(Object attrVal) {
-        // LDAP attributes don't contain duplicate values so there's no need
-        // to check if the value already exists before adding it.
-        values.addElement(attrVal);
+    public boolebn bdd(Object bttrVbl) {
+        // LDAP bttributes don't contbin duplicbte vblues so there's no need
+        // to check if the vblue blrebdy exists before bdding it.
+        vblues.bddElement(bttrVbl);
         return true;
     }
 
     /**
-      * Constructs a new instance of an attribute.
+      * Constructs b new instbnce of bn bttribute.
       *
-      * @param id The attribute's id. It cannot be null.
+      * @pbrbm id The bttribute's id. It cbnnot be null.
       */
-    LdapAttribute(String id) {
+    LdbpAttribute(String id) {
         super(id);
     }
 
     /**
-      * Constructs a new instance of an attribute.
+      * Constructs b new instbnce of bn bttribute.
       *
-      * @param id The attribute's id. It cannot be null.
-      * @param baseCtx  the baseCtx object of this attribute
-      * @param rdn      the RDN of the entry (relative to baseCtx)
+      * @pbrbm id The bttribute's id. It cbnnot be null.
+      * @pbrbm bbseCtx  the bbseCtx object of this bttribute
+      * @pbrbm rdn      the RDN of the entry (relbtive to bbseCtx)
       */
-    private LdapAttribute(String id, DirContext baseCtx, Name rdn) {
+    privbte LdbpAttribute(String id, DirContext bbseCtx, Nbme rdn) {
         super(id);
-        this.baseCtx = baseCtx;
+        this.bbseCtx = bbseCtx;
         this.rdn = rdn;
     }
 
      /**
-      * Sets the baseCtx and rdn used to find the attribute's schema
-      * Used by LdapCtx.setParents().
+      * Sets the bbseCtx bnd rdn used to find the bttribute's schemb
+      * Used by LdbpCtx.setPbrents().
       */
-    void setParent(DirContext baseCtx, Name rdn) {
-        this.baseCtx = baseCtx;
+    void setPbrent(DirContext bbseCtx, Nbme rdn) {
+        this.bbseCtx = bbseCtx;
         this.rdn = rdn;
     }
 
     /**
-     * returns the ctx this attribute came from. This call allows
-     * LDAPAttribute to be serializable. 'baseCtx' is transient so if
-     * it is null, the `baseCtxURL` is used to reconstruct the context
-     * to which calls are made.
+     * returns the ctx this bttribute cbme from. This cbll bllows
+     * LDAPAttribute to be seriblizbble. 'bbseCtx' is trbnsient so if
+     * it is null, the `bbseCtxURL` is used to reconstruct the context
+     * to which cblls bre mbde.
      */
-    private DirContext getBaseCtx() throws NamingException {
-        if(baseCtx == null) {
-            if (baseCtxEnv == null) {
-                baseCtxEnv = new Hashtable<String, String>(3);
+    privbte DirContext getBbseCtx() throws NbmingException {
+        if(bbseCtx == null) {
+            if (bbseCtxEnv == null) {
+                bbseCtxEnv = new Hbshtbble<String, String>(3);
             }
-            baseCtxEnv.put(Context.INITIAL_CONTEXT_FACTORY,
-                             "com.sun.jndi.ldap.LdapCtxFactory");
-            baseCtxEnv.put(Context.PROVIDER_URL,baseCtxURL);
-            baseCtx = (new InitialDirContext(baseCtxEnv));
+            bbseCtxEnv.put(Context.INITIAL_CONTEXT_FACTORY,
+                             "com.sun.jndi.ldbp.LdbpCtxFbctory");
+            bbseCtxEnv.put(Context.PROVIDER_URL,bbseCtxURL);
+            bbseCtx = (new InitiblDirContext(bbseCtxEnv));
         }
-        return baseCtx;
+        return bbseCtx;
     }
 
     /**
-     * This is called when the object is serialized. It is
-     * overridden so that the appropriate class variables can be set
-     * to re-construct the baseCtx when deserialized. Setting these
-     * variables is costly, so it is only done if the object
-     * is actually serialized.
+     * This is cblled when the object is seriblized. It is
+     * overridden so thbt the bppropribte clbss vbribbles cbn be set
+     * to re-construct the bbseCtx when deseriblized. Setting these
+     * vbribbles is costly, so it is only done if the object
+     * is bctublly seriblized.
      */
-    private void writeObject(java.io.ObjectOutputStream out)
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm out)
         throws IOException {
 
-        // setup internal state
-        this.setBaseCtxInfo();
+        // setup internbl stbte
+        this.setBbseCtxInfo();
 
-        // let the ObjectOutputStream do the real work of serialization
-        out.defaultWriteObject();
+        // let the ObjectOutputStrebm do the rebl work of seriblizbtion
+        out.defbultWriteObject();
     }
 
     /**
-     * sets the information needed to reconstruct the baseCtx if
-     * we are serialized. This must be called _before_ the object is
-     * serialized!!!
+     * sets the informbtion needed to reconstruct the bbseCtx if
+     * we bre seriblized. This must be cblled _before_ the object is
+     * seriblized!!!
      */
-    @SuppressWarnings("unchecked") // clone()
-    private void setBaseCtxInfo() {
-        Hashtable<String, Object> realEnv = null;
-        Hashtable<String, Object> secureEnv = null;
+    @SuppressWbrnings("unchecked") // clone()
+    privbte void setBbseCtxInfo() {
+        Hbshtbble<String, Object> reblEnv = null;
+        Hbshtbble<String, Object> secureEnv = null;
 
-        if (baseCtx != null) {
-            realEnv = ((LdapCtx)baseCtx).envprops;
-            this.baseCtxURL = ((LdapCtx)baseCtx).getURL();
+        if (bbseCtx != null) {
+            reblEnv = ((LdbpCtx)bbseCtx).envprops;
+            this.bbseCtxURL = ((LdbpCtx)bbseCtx).getURL();
         }
 
-        if(realEnv != null && realEnv.size() > 0 ) {
-            // remove any security credentials - otherwise the serialized form
-            // would store them in the clear
-            for (String key : realEnv.keySet()){
+        if(reblEnv != null && reblEnv.size() > 0 ) {
+            // remove bny security credentibls - otherwise the seriblized form
+            // would store them in the clebr
+            for (String key : reblEnv.keySet()){
                 if (key.indexOf("security") != -1 ) {
 
-                    //if we need to remove props, we must do it to a clone
+                    //if we need to remove props, we must do it to b clone
                     //of the environment. cloning is expensive, so we only do
-                    //it if we have to.
+                    //it if we hbve to.
                     if(secureEnv == null) {
-                        secureEnv = (Hashtable<String, Object>)realEnv.clone();
+                        secureEnv = (Hbshtbble<String, Object>)reblEnv.clone();
                     }
                     secureEnv.remove(key);
                 }
             }
         }
 
-        // set baseCtxEnv depending on whether we removed props or not
-        this.baseCtxEnv = (secureEnv == null ? realEnv : secureEnv);
+        // set bbseCtxEnv depending on whether we removed props or not
+        this.bbseCtxEnv = (secureEnv == null ? reblEnv : secureEnv);
     }
 
     /**
-      * Retrieves the syntax definition associated with this attribute.
-      * @return This attribute's syntax definition.
+      * Retrieves the syntbx definition bssocibted with this bttribute.
+      * @return This bttribute's syntbx definition.
       */
-    public DirContext getAttributeSyntaxDefinition() throws NamingException {
-        // get the syntax id from the attribute def
-        DirContext schema = getBaseCtx().getSchema(rdn);
-        DirContext attrDef = (DirContext)schema.lookup(
-            LdapSchemaParser.ATTRIBUTE_DEFINITION_NAME + "/" + getID());
+    public DirContext getAttributeSyntbxDefinition() throws NbmingException {
+        // get the syntbx id from the bttribute def
+        DirContext schemb = getBbseCtx().getSchemb(rdn);
+        DirContext bttrDef = (DirContext)schemb.lookup(
+            LdbpSchembPbrser.ATTRIBUTE_DEFINITION_NAME + "/" + getID());
 
-        Attribute syntaxAttr = attrDef.getAttributes("").get("SYNTAX");
+        Attribute syntbxAttr = bttrDef.getAttributes("").get("SYNTAX");
 
-        if(syntaxAttr == null || syntaxAttr.size() == 0) {
-            throw new NameNotFoundException(
-                getID() + " does not have a syntax associated with it");
+        if(syntbxAttr == null || syntbxAttr.size() == 0) {
+            throw new NbmeNotFoundException(
+                getID() + " does not hbve b syntbx bssocibted with it");
         }
 
-        String syntaxName = (String)syntaxAttr.get();
+        String syntbxNbme = (String)syntbxAttr.get();
 
-        // look in the schema tree for the syntax definition
-        return (DirContext)schema.lookup(
-            LdapSchemaParser.SYNTAX_DEFINITION_NAME + "/" + syntaxName);
+        // look in the schemb tree for the syntbx definition
+        return (DirContext)schemb.lookup(
+            LdbpSchembPbrser.SYNTAX_DEFINITION_NAME + "/" + syntbxNbme);
     }
 
     /**
-      * Retrieves this attribute's schema definition.
+      * Retrieves this bttribute's schemb definition.
       *
-      * @return This attribute's schema definition.
+      * @return This bttribute's schemb definition.
       */
-    public DirContext getAttributeDefinition() throws NamingException {
-        DirContext schema = getBaseCtx().getSchema(rdn);
+    public DirContext getAttributeDefinition() throws NbmingException {
+        DirContext schemb = getBbseCtx().getSchemb(rdn);
 
-        return (DirContext)schema.lookup(
-            LdapSchemaParser.ATTRIBUTE_DEFINITION_NAME + "/" + getID());
+        return (DirContext)schemb.lookup(
+            LdbpSchembPbrser.ATTRIBUTE_DEFINITION_NAME + "/" + getID());
     }
 }

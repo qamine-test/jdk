@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels.spi;
+pbckbge jbvb.nio.chbnnels.spi;
 
-import java.io.IOException;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.util.HashSet;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.nio.chbnnels.SelectionKey;
+import jbvb.nio.chbnnels.Selector;
+import jbvb.util.HbshSet;
+import jbvb.util.Set;
 import sun.nio.ch.Interruptible;
-import java.util.concurrent.atomic.AtomicBoolean;
+import jbvb.util.concurrent.btomic.AtomicBoolebn;
 
 
 /**
- * Base implementation class for selectors.
+ * Bbse implementbtion clbss for selectors.
  *
- * <p> This class encapsulates the low-level machinery required to implement
- * the interruption of selection operations.  A concrete selector class must
- * invoke the {@link #begin begin} and {@link #end end} methods before and
- * after, respectively, invoking an I/O operation that might block
- * indefinitely.  In order to ensure that the {@link #end end} method is always
- * invoked, these methods should be used within a
- * <tt>try</tt>&nbsp;...&nbsp;<tt>finally</tt> block:
+ * <p> This clbss encbpsulbtes the low-level mbchinery required to implement
+ * the interruption of selection operbtions.  A concrete selector clbss must
+ * invoke the {@link #begin begin} bnd {@link #end end} methods before bnd
+ * bfter, respectively, invoking bn I/O operbtion thbt might block
+ * indefinitely.  In order to ensure thbt the {@link #end end} method is blwbys
+ * invoked, these methods should be used within b
+ * <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> block:
  *
  * <blockquote><pre>
  * try {
  *     begin();
- *     // Perform blocking I/O operation here
+ *     // Perform blocking I/O operbtion here
  *     ...
- * } finally {
+ * } finblly {
  *     end();
  * }</pre></blockquote>
  *
- * <p> This class also defines methods for maintaining a selector's
- * cancelled-key set and for removing a key from its channel's key set, and
- * declares the abstract {@link #register register} method that is invoked by a
- * selectable channel's {@link AbstractSelectableChannel#register register}
- * method in order to perform the actual work of registering a channel.  </p>
+ * <p> This clbss blso defines methods for mbintbining b selector's
+ * cbncelled-key set bnd for removing b key from its chbnnel's key set, bnd
+ * declbres the bbstrbct {@link #register register} method thbt is invoked by b
+ * selectbble chbnnel's {@link AbstrbctSelectbbleChbnnel#register register}
+ * method in order to perform the bctubl work of registering b chbnnel.  </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public abstract class AbstractSelector
+public bbstrbct clbss AbstrbctSelector
     extends Selector
 {
 
-    private AtomicBoolean selectorOpen = new AtomicBoolean(true);
+    privbte AtomicBoolebn selectorOpen = new AtomicBoolebn(true);
 
-    // The provider that created this selector
-    private final SelectorProvider provider;
+    // The provider thbt crebted this selector
+    privbte finbl SelectorProvider provider;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
-     * @param  provider
-     *         The provider that created this selector
+     * @pbrbm  provider
+     *         The provider thbt crebted this selector
      */
-    protected AbstractSelector(SelectorProvider provider) {
+    protected AbstrbctSelector(SelectorProvider provider) {
         this.provider = provider;
     }
 
-    private final Set<SelectionKey> cancelledKeys = new HashSet<SelectionKey>();
+    privbte finbl Set<SelectionKey> cbncelledKeys = new HbshSet<SelectionKey>();
 
-    void cancel(SelectionKey k) {                       // package-private
-        synchronized (cancelledKeys) {
-            cancelledKeys.add(k);
+    void cbncel(SelectionKey k) {                       // pbckbge-privbte
+        synchronized (cbncelledKeys) {
+            cbncelledKeys.bdd(k);
         }
     }
 
     /**
      * Closes this selector.
      *
-     * <p> If the selector has already been closed then this method returns
-     * immediately.  Otherwise it marks the selector as closed and then invokes
+     * <p> If the selector hbs blrebdy been closed then this method returns
+     * immedibtely.  Otherwise it mbrks the selector bs closed bnd then invokes
      * the {@link #implCloseSelector implCloseSelector} method in order to
-     * complete the close operation.  </p>
+     * complete the close operbtion.  </p>
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public final void close() throws IOException {
-        boolean open = selectorOpen.getAndSet(false);
+    public finbl void close() throws IOException {
+        boolebn open = selectorOpen.getAndSet(fblse);
         if (!open)
             return;
         implCloseSelector();
@@ -115,120 +115,120 @@ public abstract class AbstractSelector
      * Closes this selector.
      *
      * <p> This method is invoked by the {@link #close close} method in order
-     * to perform the actual work of closing the selector.  This method is only
-     * invoked if the selector has not yet been closed, and it is never invoked
-     * more than once.
+     * to perform the bctubl work of closing the selector.  This method is only
+     * invoked if the selector hbs not yet been closed, bnd it is never invoked
+     * more thbn once.
      *
-     * <p> An implementation of this method must arrange for any other thread
-     * that is blocked in a selection operation upon this selector to return
-     * immediately as if by invoking the {@link
-     * java.nio.channels.Selector#wakeup wakeup} method. </p>
+     * <p> An implementbtion of this method must brrbnge for bny other threbd
+     * thbt is blocked in b selection operbtion upon this selector to return
+     * immedibtely bs if by invoking the {@link
+     * jbvb.nio.chbnnels.Selector#wbkeup wbkeup} method. </p>
      *
      * @throws  IOException
-     *          If an I/O error occurs while closing the selector
+     *          If bn I/O error occurs while closing the selector
      */
-    protected abstract void implCloseSelector() throws IOException;
+    protected bbstrbct void implCloseSelector() throws IOException;
 
-    public final boolean isOpen() {
+    public finbl boolebn isOpen() {
         return selectorOpen.get();
     }
 
     /**
-     * Returns the provider that created this channel.
+     * Returns the provider thbt crebted this chbnnel.
      *
-     * @return  The provider that created this channel
+     * @return  The provider thbt crebted this chbnnel
      */
-    public final SelectorProvider provider() {
+    public finbl SelectorProvider provider() {
         return provider;
     }
 
     /**
-     * Retrieves this selector's cancelled-key set.
+     * Retrieves this selector's cbncelled-key set.
      *
      * <p> This set should only be used while synchronized upon it.  </p>
      *
-     * @return  The cancelled-key set
+     * @return  The cbncelled-key set
      */
-    protected final Set<SelectionKey> cancelledKeys() {
-        return cancelledKeys;
+    protected finbl Set<SelectionKey> cbncelledKeys() {
+        return cbncelledKeys;
     }
 
     /**
-     * Registers the given channel with this selector.
+     * Registers the given chbnnel with this selector.
      *
-     * <p> This method is invoked by a channel's {@link
-     * AbstractSelectableChannel#register register} method in order to perform
-     * the actual work of registering the channel with this selector.  </p>
+     * <p> This method is invoked by b chbnnel's {@link
+     * AbstrbctSelectbbleChbnnel#register register} method in order to perform
+     * the bctubl work of registering the chbnnel with this selector.  </p>
      *
-     * @param  ch
-     *         The channel to be registered
+     * @pbrbm  ch
+     *         The chbnnel to be registered
      *
-     * @param  ops
-     *         The initial interest set, which must be valid
+     * @pbrbm  ops
+     *         The initibl interest set, which must be vblid
      *
-     * @param  att
-     *         The initial attachment for the resulting key
+     * @pbrbm  btt
+     *         The initibl bttbchment for the resulting key
      *
-     * @return  A new key representing the registration of the given channel
+     * @return  A new key representing the registrbtion of the given chbnnel
      *          with this selector
      */
-    protected abstract SelectionKey register(AbstractSelectableChannel ch,
-                                             int ops, Object att);
+    protected bbstrbct SelectionKey register(AbstrbctSelectbbleChbnnel ch,
+                                             int ops, Object btt);
 
     /**
-     * Removes the given key from its channel's key set.
+     * Removes the given key from its chbnnel's key set.
      *
-     * <p> This method must be invoked by the selector for each channel that it
+     * <p> This method must be invoked by the selector for ebch chbnnel thbt it
      * deregisters.  </p>
      *
-     * @param  key
+     * @pbrbm  key
      *         The selection key to be removed
      */
-    protected final void deregister(AbstractSelectionKey key) {
-        ((AbstractSelectableChannel)key.channel()).removeKey(key);
+    protected finbl void deregister(AbstrbctSelectionKey key) {
+        ((AbstrbctSelectbbleChbnnel)key.chbnnel()).removeKey(key);
     }
 
 
-    // -- Interruption machinery --
+    // -- Interruption mbchinery --
 
-    private Interruptible interruptor = null;
+    privbte Interruptible interruptor = null;
 
     /**
-     * Marks the beginning of an I/O operation that might block indefinitely.
+     * Mbrks the beginning of bn I/O operbtion thbt might block indefinitely.
      *
-     * <p> This method should be invoked in tandem with the {@link #end end}
-     * method, using a <tt>try</tt>&nbsp;...&nbsp;<tt>finally</tt> block as
-     * shown <a href="#be">above</a>, in order to implement interruption for
+     * <p> This method should be invoked in tbndem with the {@link #end end}
+     * method, using b <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> block bs
+     * shown <b href="#be">bbove</b>, in order to implement interruption for
      * this selector.
      *
-     * <p> Invoking this method arranges for the selector's {@link
-     * Selector#wakeup wakeup} method to be invoked if a thread's {@link
-     * Thread#interrupt interrupt} method is invoked while the thread is
-     * blocked in an I/O operation upon the selector.  </p>
+     * <p> Invoking this method brrbnges for the selector's {@link
+     * Selector#wbkeup wbkeup} method to be invoked if b threbd's {@link
+     * Threbd#interrupt interrupt} method is invoked while the threbd is
+     * blocked in bn I/O operbtion upon the selector.  </p>
      */
-    protected final void begin() {
+    protected finbl void begin() {
         if (interruptor == null) {
             interruptor = new Interruptible() {
-                    public void interrupt(Thread ignore) {
-                        AbstractSelector.this.wakeup();
+                    public void interrupt(Threbd ignore) {
+                        AbstrbctSelector.this.wbkeup();
                     }};
         }
-        AbstractInterruptibleChannel.blockedOn(interruptor);
-        Thread me = Thread.currentThread();
+        AbstrbctInterruptibleChbnnel.blockedOn(interruptor);
+        Threbd me = Threbd.currentThrebd();
         if (me.isInterrupted())
             interruptor.interrupt(me);
     }
 
     /**
-     * Marks the end of an I/O operation that might block indefinitely.
+     * Mbrks the end of bn I/O operbtion thbt might block indefinitely.
      *
-     * <p> This method should be invoked in tandem with the {@link #begin begin}
-     * method, using a <tt>try</tt>&nbsp;...&nbsp;<tt>finally</tt> block as
-     * shown <a href="#be">above</a>, in order to implement interruption for
+     * <p> This method should be invoked in tbndem with the {@link #begin begin}
+     * method, using b <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> block bs
+     * shown <b href="#be">bbove</b>, in order to implement interruption for
      * this selector.  </p>
      */
-    protected final void end() {
-        AbstractInterruptibleChannel.blockedOn(null);
+    protected finbl void end() {
+        AbstrbctInterruptibleChbnnel.blockedOn(null);
     }
 
 }

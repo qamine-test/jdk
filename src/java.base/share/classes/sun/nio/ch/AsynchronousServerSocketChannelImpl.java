@@ -1,260 +1,260 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.net.SocketAddress;
-import java.net.SocketOption;
-import java.net.StandardSocketOptions;
-import java.net.InetSocketAddress;
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collections;
-import java.util.concurrent.Future;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import jbvb.nio.chbnnels.*;
+import jbvb.net.SocketAddress;
+import jbvb.net.SocketOption;
+import jbvb.net.StbndbrdSocketOptions;
+import jbvb.net.InetSocketAddress;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
+import jbvb.util.Collections;
+import jbvb.util.concurrent.Future;
+import jbvb.util.concurrent.locks.RebdWriteLock;
+import jbvb.util.concurrent.locks.ReentrbntRebdWriteLock;
 import sun.net.NetHooks;
 
 /**
- * Base implementation of AsynchronousServerSocketChannel.
+ * Bbse implementbtion of AsynchronousServerSocketChbnnel.
  */
 
-abstract class AsynchronousServerSocketChannelImpl
-    extends AsynchronousServerSocketChannel
-    implements Cancellable, Groupable
+bbstrbct clbss AsynchronousServerSocketChbnnelImpl
+    extends AsynchronousServerSocketChbnnel
+    implements Cbncellbble, Groupbble
 {
-    protected final FileDescriptor fd;
+    protected finbl FileDescriptor fd;
 
-    // the local address to which the channel's socket is bound
-    protected volatile InetSocketAddress localAddress = null;
+    // the locbl bddress to which the chbnnel's socket is bound
+    protected volbtile InetSocketAddress locblAddress = null;
 
-    // need this lock to set local address
-    private final Object stateLock = new Object();
+    // need this lock to set locbl bddress
+    privbte finbl Object stbteLock = new Object();
 
     // close support
-    private ReadWriteLock closeLock = new ReentrantReadWriteLock();
-    private volatile boolean open = true;
+    privbte RebdWriteLock closeLock = new ReentrbntRebdWriteLock();
+    privbte volbtile boolebn open = true;
 
-    // set true when accept operation is cancelled
-    private volatile boolean acceptKilled;
+    // set true when bccept operbtion is cbncelled
+    privbte volbtile boolebn bcceptKilled;
 
-    // set true when exclusive binding is on and SO_REUSEADDR is emulated
-    private boolean isReuseAddress;
+    // set true when exclusive binding is on bnd SO_REUSEADDR is emulbted
+    privbte boolebn isReuseAddress;
 
-    AsynchronousServerSocketChannelImpl(AsynchronousChannelGroupImpl group) {
+    AsynchronousServerSocketChbnnelImpl(AsynchronousChbnnelGroupImpl group) {
         super(group.provider());
         this.fd = Net.serverSocket(true);
     }
 
     @Override
-    public final boolean isOpen() {
+    public finbl boolebn isOpen() {
         return open;
     }
 
     /**
-     * Marks beginning of access to file descriptor/handle
+     * Mbrks beginning of bccess to file descriptor/hbndle
      */
-    final void begin() throws IOException {
-        closeLock.readLock().lock();
+    finbl void begin() throws IOException {
+        closeLock.rebdLock().lock();
         if (!isOpen())
-            throw new ClosedChannelException();
+            throw new ClosedChbnnelException();
     }
 
     /**
-     * Marks end of access to file descriptor/handle
+     * Mbrks end of bccess to file descriptor/hbndle
      */
-    final void end() {
-        closeLock.readLock().unlock();
+    finbl void end() {
+        closeLock.rebdLock().unlock();
     }
 
     /**
-     * Invoked to close file descriptor/handle.
+     * Invoked to close file descriptor/hbndle.
      */
-    abstract void implClose() throws IOException;
+    bbstrbct void implClose() throws IOException;
 
     @Override
-    public final void close() throws IOException {
-        // synchronize with any threads using file descriptor/handle
+    public finbl void close() throws IOException {
+        // synchronize with bny threbds using file descriptor/hbndle
         closeLock.writeLock().lock();
         try {
             if (!open)
-                return;     // already closed
-            open = false;
-        } finally {
+                return;     // blrebdy closed
+            open = fblse;
+        } finblly {
             closeLock.writeLock().unlock();
         }
         implClose();
     }
 
     /**
-     * Invoked by accept to accept connection
+     * Invoked by bccept to bccept connection
      */
-    abstract Future<AsynchronousSocketChannel>
-        implAccept(Object attachment,
-                   CompletionHandler<AsynchronousSocketChannel,Object> handler);
+    bbstrbct Future<AsynchronousSocketChbnnel>
+        implAccept(Object bttbchment,
+                   CompletionHbndler<AsynchronousSocketChbnnel,Object> hbndler);
 
 
     @Override
-    public final Future<AsynchronousSocketChannel> accept() {
+    public finbl Future<AsynchronousSocketChbnnel> bccept() {
         return implAccept(null, null);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public final <A> void accept(A attachment,
-                                 CompletionHandler<AsynchronousSocketChannel,? super A> handler)
+    @SuppressWbrnings("unchecked")
+    public finbl <A> void bccept(A bttbchment,
+                                 CompletionHbndler<AsynchronousSocketChbnnel,? super A> hbndler)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        implAccept(attachment, (CompletionHandler<AsynchronousSocketChannel,Object>)handler);
+        if (hbndler == null)
+            throw new NullPointerException("'hbndler' is null");
+        implAccept(bttbchment, (CompletionHbndler<AsynchronousSocketChbnnel,Object>)hbndler);
     }
 
-    final boolean isAcceptKilled() {
-        return acceptKilled;
-    }
-
-    @Override
-    public final void onCancel(PendingFuture<?,?> task) {
-        acceptKilled = true;
+    finbl boolebn isAcceptKilled() {
+        return bcceptKilled;
     }
 
     @Override
-    public final AsynchronousServerSocketChannel bind(SocketAddress local, int backlog)
+    public finbl void onCbncel(PendingFuture<?,?> tbsk) {
+        bcceptKilled = true;
+    }
+
+    @Override
+    public finbl AsynchronousServerSocketChbnnel bind(SocketAddress locbl, int bbcklog)
         throws IOException
     {
-        InetSocketAddress isa = (local == null) ? new InetSocketAddress(0) :
-            Net.checkAddress(local);
-        SecurityManager sm = System.getSecurityManager();
+        InetSocketAddress isb = (locbl == null) ? new InetSocketAddress(0) :
+            Net.checkAddress(locbl);
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkListen(isa.getPort());
+            sm.checkListen(isb.getPort());
 
         try {
             begin();
-            synchronized (stateLock) {
-                if (localAddress != null)
-                    throw new AlreadyBoundException();
-                NetHooks.beforeTcpBind(fd, isa.getAddress(), isa.getPort());
-                Net.bind(fd, isa.getAddress(), isa.getPort());
-                Net.listen(fd, backlog < 1 ? 50 : backlog);
-                localAddress = Net.localAddress(fd);
+            synchronized (stbteLock) {
+                if (locblAddress != null)
+                    throw new AlrebdyBoundException();
+                NetHooks.beforeTcpBind(fd, isb.getAddress(), isb.getPort());
+                Net.bind(fd, isb.getAddress(), isb.getPort());
+                Net.listen(fd, bbcklog < 1 ? 50 : bbcklog);
+                locblAddress = Net.locblAddress(fd);
             }
-        } finally {
+        } finblly {
             end();
         }
         return this;
     }
 
     @Override
-    public final SocketAddress getLocalAddress() throws IOException {
+    public finbl SocketAddress getLocblAddress() throws IOException {
         if (!isOpen())
-            throw new ClosedChannelException();
-        return Net.getRevealedLocalAddress(localAddress);
+            throw new ClosedChbnnelException();
+        return Net.getRevebledLocblAddress(locblAddress);
     }
 
     @Override
-    public final <T> AsynchronousServerSocketChannel setOption(SocketOption<T> name,
-                                                               T value)
+    public finbl <T> AsynchronousServerSocketChbnnel setOption(SocketOption<T> nbme,
+                                                               T vblue)
         throws IOException
     {
-        if (name == null)
+        if (nbme == null)
             throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (!supportedOptions().contbins(nbme))
+            throw new UnsupportedOperbtionException("'" + nbme + "' not supported");
 
         try {
             begin();
-            if (name == StandardSocketOptions.SO_REUSEADDR &&
+            if (nbme == StbndbrdSocketOptions.SO_REUSEADDR &&
                     Net.useExclusiveBind())
             {
-                // SO_REUSEADDR emulated when using exclusive bind
-                isReuseAddress = (Boolean)value;
+                // SO_REUSEADDR emulbted when using exclusive bind
+                isReuseAddress = (Boolebn)vblue;
             } else {
-                Net.setSocketOption(fd, Net.UNSPEC, name, value);
+                Net.setSocketOption(fd, Net.UNSPEC, nbme, vblue);
             }
             return this;
-        } finally {
+        } finblly {
             end();
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public final <T> T getOption(SocketOption<T> name) throws IOException {
-        if (name == null)
+    @SuppressWbrnings("unchecked")
+    public finbl <T> T getOption(SocketOption<T> nbme) throws IOException {
+        if (nbme == null)
             throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (!supportedOptions().contbins(nbme))
+            throw new UnsupportedOperbtionException("'" + nbme + "' not supported");
 
         try {
             begin();
-            if (name == StandardSocketOptions.SO_REUSEADDR &&
+            if (nbme == StbndbrdSocketOptions.SO_REUSEADDR &&
                     Net.useExclusiveBind())
             {
-                // SO_REUSEADDR emulated when using exclusive bind
-                return (T)Boolean.valueOf(isReuseAddress);
+                // SO_REUSEADDR emulbted when using exclusive bind
+                return (T)Boolebn.vblueOf(isReuseAddress);
             }
-            return (T) Net.getSocketOption(fd, Net.UNSPEC, name);
-        } finally {
+            return (T) Net.getSocketOption(fd, Net.UNSPEC, nbme);
+        } finblly {
             end();
         }
     }
 
-    private static class DefaultOptionsHolder {
-        static final Set<SocketOption<?>> defaultOptions = defaultOptions();
+    privbte stbtic clbss DefbultOptionsHolder {
+        stbtic finbl Set<SocketOption<?>> defbultOptions = defbultOptions();
 
-        private static Set<SocketOption<?>> defaultOptions() {
-            HashSet<SocketOption<?>> set = new HashSet<SocketOption<?>>(2);
-            set.add(StandardSocketOptions.SO_RCVBUF);
-            set.add(StandardSocketOptions.SO_REUSEADDR);
-            return Collections.unmodifiableSet(set);
+        privbte stbtic Set<SocketOption<?>> defbultOptions() {
+            HbshSet<SocketOption<?>> set = new HbshSet<SocketOption<?>>(2);
+            set.bdd(StbndbrdSocketOptions.SO_RCVBUF);
+            set.bdd(StbndbrdSocketOptions.SO_REUSEADDR);
+            return Collections.unmodifibbleSet(set);
         }
     }
 
     @Override
-    public final Set<SocketOption<?>> supportedOptions() {
-        return DefaultOptionsHolder.defaultOptions;
+    public finbl Set<SocketOption<?>> supportedOptions() {
+        return DefbultOptionsHolder.defbultOptions;
     }
 
     @Override
-    public final String toString() {
+    public finbl String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getClass().getName());
-        sb.append('[');
+        sb.bppend(this.getClbss().getNbme());
+        sb.bppend('[');
         if (!isOpen())
-            sb.append("closed");
+            sb.bppend("closed");
         else {
-            if (localAddress == null) {
-                sb.append("unbound");
+            if (locblAddress == null) {
+                sb.bppend("unbound");
             } else {
-                sb.append(Net.getRevealedLocalAddressAsString(localAddress));
+                sb.bppend(Net.getRevebledLocblAddressAsString(locblAddress));
             }
         }
-        sb.append(']');
+        sb.bppend(']');
         return sb.toString();
     }
 }

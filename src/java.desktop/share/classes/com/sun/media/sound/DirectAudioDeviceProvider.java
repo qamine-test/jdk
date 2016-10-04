@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.sampled.Mixer;
-import javax.sound.sampled.spi.MixerProvider;
+import jbvbx.sound.sbmpled.Mixer;
+import jbvbx.sound.sbmpled.spi.MixerProvider;
 
 
 /**
  * DirectAudioDevice provider.
  *
- * @author Florian Bomers
+ * @buthor Floribn Bomers
  */
-public final class DirectAudioDeviceProvider extends MixerProvider {
+public finbl clbss DirectAudioDeviceProvider extends MixerProvider {
 
     // STATIC VARIABLES
 
     /**
-     * Set of info objects for all port input devices on the system.
+     * Set of info objects for bll port input devices on the system.
      */
-    private static DirectAudioDeviceInfo[] infos;
+    privbte stbtic DirectAudioDeviceInfo[] infos;
 
     /**
-     * Set of all port input devices on the system.
+     * Set of bll port input devices on the system.
      */
-    private static DirectAudioDevice[] devices;
+    privbte stbtic DirectAudioDevice[] devices;
 
 
     // STATIC
 
-    static {
-        // initialize
-        Platform.initialize();
+    stbtic {
+        // initiblize
+        Plbtform.initiblize();
     }
 
 
@@ -61,11 +61,11 @@ public final class DirectAudioDeviceProvider extends MixerProvider {
 
 
     /**
-     * Required public no-arg constructor.
+     * Required public no-brg constructor.
      */
     public DirectAudioDeviceProvider() {
-        synchronized (DirectAudioDeviceProvider.class) {
-            if (Platform.isDirectAudioEnabled()) {
+        synchronized (DirectAudioDeviceProvider.clbss) {
+            if (Plbtform.isDirectAudioEnbbled()) {
                 init();
             } else {
                 infos = new DirectAudioDeviceInfo[0];
@@ -74,13 +74,13 @@ public final class DirectAudioDeviceProvider extends MixerProvider {
         }
     }
 
-    private static void init() {
+    privbte stbtic void init() {
         // get the number of input devices
         int numDevices = nGetNumDevices();
 
         if (infos == null || infos.length != numDevices) {
-            if (Printer.trace) Printer.trace("DirectAudioDeviceProvider: init()");
-            // initialize the arrays
+            if (Printer.trbce) Printer.trbce("DirectAudioDeviceProvider: init()");
+            // initiblize the brrbys
             infos = new DirectAudioDeviceInfo[numDevices];
             devices = new DirectAudioDevice[numDevices];
 
@@ -88,23 +88,23 @@ public final class DirectAudioDeviceProvider extends MixerProvider {
             for (int i = 0; i < infos.length; i++) {
                 infos[i] = nNewDirectAudioDeviceInfo(i);
             }
-            if (Printer.trace) Printer.trace("DirectAudioDeviceProvider: init(): found numDevices: " + numDevices);
+            if (Printer.trbce) Printer.trbce("DirectAudioDeviceProvider: init(): found numDevices: " + numDevices);
         }
     }
 
     public Mixer.Info[] getMixerInfo() {
-        synchronized (DirectAudioDeviceProvider.class) {
-            Mixer.Info[] localArray = new Mixer.Info[infos.length];
-            System.arraycopy(infos, 0, localArray, 0, infos.length);
-            return localArray;
+        synchronized (DirectAudioDeviceProvider.clbss) {
+            Mixer.Info[] locblArrby = new Mixer.Info[infos.length];
+            System.brrbycopy(infos, 0, locblArrby, 0, infos.length);
+            return locblArrby;
         }
     }
 
 
     public Mixer getMixer(Mixer.Info info) {
-        synchronized (DirectAudioDeviceProvider.class) {
-            // if the default device is asked, we provide the mixer
-            // with SourceDataLine's
+        synchronized (DirectAudioDeviceProvider.clbss) {
+            // if the defbult device is bsked, we provide the mixer
+            // with SourceDbtbLine's
             if (info == null) {
                 for (int i = 0; i < infos.length; i++) {
                     Mixer mixer = getDevice(infos[i]);
@@ -113,19 +113,19 @@ public final class DirectAudioDeviceProvider extends MixerProvider {
                     }
                 }
             }
-            // otherwise get the first mixer that matches
+            // otherwise get the first mixer thbt mbtches
             // the requested info object
             for (int i = 0; i < infos.length; i++) {
-                if (infos[i].equals(info)) {
+                if (infos[i].equbls(info)) {
                     return getDevice(infos[i]);
                 }
             }
         }
-        throw new IllegalArgumentException("Mixer " + info.toString() + " not supported by this provider.");
+        throw new IllegblArgumentException("Mixer " + info.toString() + " not supported by this provider.");
     }
 
 
-    private static Mixer getDevice(DirectAudioDeviceInfo info) {
+    privbte stbtic Mixer getDevice(DirectAudioDeviceInfo info) {
         int index = info.getIndex();
         if (devices[index] == null) {
             devices[index] = new DirectAudioDevice(info);
@@ -137,23 +137,23 @@ public final class DirectAudioDeviceProvider extends MixerProvider {
 
 
     /**
-     * Info class for DirectAudioDevices.  Adds an index value and a string for
-     * making native references to a particular device.
-     * This constructor is called from native.
+     * Info clbss for DirectAudioDevices.  Adds bn index vblue bnd b string for
+     * mbking nbtive references to b pbrticulbr device.
+     * This constructor is cblled from nbtive.
      */
-    static final class DirectAudioDeviceInfo extends Mixer.Info {
-        private final int index;
-        private final int maxSimulLines;
+    stbtic finbl clbss DirectAudioDeviceInfo extends Mixer.Info {
+        privbte finbl int index;
+        privbte finbl int mbxSimulLines;
 
-        // For ALSA, the deviceID contains the encoded card index, device index, and sub-device-index
-        private final int deviceID;
+        // For ALSA, the deviceID contbins the encoded cbrd index, device index, bnd sub-device-index
+        privbte finbl int deviceID;
 
-        private DirectAudioDeviceInfo(int index, int deviceID, int maxSimulLines,
-                                      String name, String vendor,
+        privbte DirectAudioDeviceInfo(int index, int deviceID, int mbxSimulLines,
+                                      String nbme, String vendor,
                                       String description, String version) {
-            super(name, vendor, "Direct Audio Device: "+description, version);
+            super(nbme, vendor, "Direct Audio Device: "+description, version);
             this.index = index;
-            this.maxSimulLines = maxSimulLines;
+            this.mbxSimulLines = mbxSimulLines;
             this.deviceID = deviceID;
         }
 
@@ -161,17 +161,17 @@ public final class DirectAudioDeviceProvider extends MixerProvider {
             return index;
         }
 
-        int getMaxSimulLines() {
-            return maxSimulLines;
+        int getMbxSimulLines() {
+            return mbxSimulLines;
         }
 
         int getDeviceID() {
             return deviceID;
         }
-    } // class DirectAudioDeviceInfo
+    } // clbss DirectAudioDeviceInfo
 
     // NATIVE METHODS
-    private static native int nGetNumDevices();
+    privbte stbtic nbtive int nGetNumDevices();
     // index: [0..nGetNumDevices()-1]
-    private static native DirectAudioDeviceInfo nNewDirectAudioDeviceInfo(int deviceIndex);
+    privbte stbtic nbtive DirectAudioDeviceInfo nNewDirectAudioDeviceInfo(int deviceIndex);
 }

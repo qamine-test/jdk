@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collections;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Collections;
 
-import javax.sound.midi.*;
+import jbvbx.sound.midi.*;
 
 
 /**
- * Abstract AbstractMidiDevice class representing functionality shared by
- * MidiInDevice and MidiOutDevice objects.
+ * Abstrbct AbstrbctMidiDevice clbss representing functionblity shbred by
+ * MidiInDevice bnd MidiOutDevice objects.
  *
- * @author David Rivas
- * @author Kara Kytle
- * @author Matthias Pfisterer
- * @author Florian Bomers
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytle
+ * @buthor Mbtthibs Pfisterer
+ * @buthor Floribn Bomers
  */
-abstract class AbstractMidiDevice implements MidiDevice, ReferenceCountingDevice {
+bbstrbct clbss AbstrbctMidiDevice implements MidiDevice, ReferenceCountingDevice {
 
     // STATIC VARIABLES
-    private static final boolean TRACE_TRANSMITTER = false;
+    privbte stbtic finbl boolebn TRACE_TRANSMITTER = fblse;
 
     // INSTANCE VARIABLES
 
-    private ArrayList<Receiver> receiverList;
+    privbte ArrbyList<Receiver> receiverList;
 
-    private TransmitterList transmitterList;
+    privbte TrbnsmitterList trbnsmitterList;
 
-    // lock to protect receiverList and transmitterList
-    // from simultaneous creation and destruction
-    // reduces possibility of deadlock, compared to
-    // synchronizing to the class instance
-    private final Object traRecLock = new Object();
+    // lock to protect receiverList bnd trbnsmitterList
+    // from simultbneous crebtion bnd destruction
+    // reduces possibility of debdlock, compbred to
+    // synchronizing to the clbss instbnce
+    privbte finbl Object trbRecLock = new Object();
 
     // DEVICE ATTRIBUTES
 
-    private final MidiDevice.Info info;
+    privbte finbl MidiDevice.Info info;
 
 
     // DEVICE STATE
 
-    private boolean open          = false;
-    private int openRefCount;
+    privbte boolebn open          = fblse;
+    privbte int openRefCount;
 
-    /** List of Receivers and Transmitters that opened the device implicitely.
+    /** List of Receivers bnd Trbnsmitters thbt opened the device implicitely.
      */
-    private List<Object> openKeepingObjects;
+    privbte List<Object> openKeepingObjects;
 
     /**
-     * This is the device handle returned from native code
+     * This is the device hbndle returned from nbtive code
      */
     protected long id                   = 0;
 
@@ -83,106 +83,106 @@ abstract class AbstractMidiDevice implements MidiDevice, ReferenceCountingDevice
 
 
     /**
-     * Constructs an AbstractMidiDevice with the specified info object.
-     * @param info the description of the device
+     * Constructs bn AbstrbctMidiDevice with the specified info object.
+     * @pbrbm info the description of the device
      */
     /*
-     * The initial mode and and only supported mode default to OMNI_ON_POLY.
+     * The initibl mode bnd bnd only supported mode defbult to OMNI_ON_POLY.
      */
-    protected AbstractMidiDevice(MidiDevice.Info info) {
+    protected AbstrbctMidiDevice(MidiDevice.Info info) {
 
-        if(Printer.trace) Printer.trace(">> AbstractMidiDevice CONSTRUCTOR");
+        if(Printer.trbce) Printer.trbce(">> AbstrbctMidiDevice CONSTRUCTOR");
 
         this.info = info;
         openRefCount = 0;
 
-        if(Printer.trace) Printer.trace("<< AbstractMidiDevice CONSTRUCTOR completed");
+        if(Printer.trbce) Printer.trbce("<< AbstrbctMidiDevice CONSTRUCTOR completed");
     }
 
 
     // MIDI DEVICE METHODS
 
-    public final MidiDevice.Info getDeviceInfo() {
+    public finbl MidiDevice.Info getDeviceInfo() {
         return info;
     }
 
-    /** Open the device from an application program.
-     * Setting the open reference count to -1 here prevents Transmitters and Receivers that
-     * opened the the device implicitly from closing it. The only way to close the device after
-     * this call is a call to close().
+    /** Open the device from bn bpplicbtion progrbm.
+     * Setting the open reference count to -1 here prevents Trbnsmitters bnd Receivers thbt
+     * opened the the device implicitly from closing it. The only wby to close the device bfter
+     * this cbll is b cbll to close().
      */
-    public final void open() throws MidiUnavailableException {
-        if (Printer.trace) Printer.trace("> AbstractMidiDevice: open()");
+    public finbl void open() throws MidiUnbvbilbbleException {
+        if (Printer.trbce) Printer.trbce("> AbstrbctMidiDevice: open()");
         synchronized(this) {
             openRefCount = -1;
             doOpen();
         }
-        if (Printer.trace) Printer.trace("< AbstractMidiDevice: open() completed");
+        if (Printer.trbce) Printer.trbce("< AbstrbctMidiDevice: open() completed");
     }
 
 
 
     /** Open the device implicitly.
-     * This method is intended to be used by AbstractReceiver
-     * and BasicTransmitter. Actually, it is called by getReceiverReferenceCounting() and
-     * getTransmitterReferenceCounting(). These, in turn, are called by MidiSytem on calls to
-     * getReceiver() and getTransmitter(). The former methods should pass the Receiver or
-     * Transmitter just created as the object parameter to this method. Storing references to
-     * these objects is necessary to be able to decide later (when it comes to closing) if
-     * R/T's are ones that opened the device implicitly.
+     * This method is intended to be used by AbstrbctReceiver
+     * bnd BbsicTrbnsmitter. Actublly, it is cblled by getReceiverReferenceCounting() bnd
+     * getTrbnsmitterReferenceCounting(). These, in turn, bre cblled by MidiSytem on cblls to
+     * getReceiver() bnd getTrbnsmitter(). The former methods should pbss the Receiver or
+     * Trbnsmitter just crebted bs the object pbrbmeter to this method. Storing references to
+     * these objects is necessbry to be bble to decide lbter (when it comes to closing) if
+     * R/T's bre ones thbt opened the device implicitly.
      *
-     * @object The Receiver or Transmitter instance that triggered this implicit open.
+     * @object The Receiver or Trbnsmitter instbnce thbt triggered this implicit open.
      */
-    private void openInternal(Object object) throws MidiUnavailableException {
-        if (Printer.trace) Printer.trace("> AbstractMidiDevice: openInternal()");
+    privbte void openInternbl(Object object) throws MidiUnbvbilbbleException {
+        if (Printer.trbce) Printer.trbce("> AbstrbctMidiDevice: openInternbl()");
         synchronized(this) {
             if (openRefCount != -1) {
                 openRefCount++;
-                getOpenKeepingObjects().add(object);
+                getOpenKeepingObjects().bdd(object);
             }
-            // double calls to doOpens() will be catched by the open flag.
+            // double cblls to doOpens() will be cbtched by the open flbg.
             doOpen();
         }
-        if (Printer.trace) Printer.trace("< AbstractMidiDevice: openInternal() completed");
+        if (Printer.trbce) Printer.trbce("< AbstrbctMidiDevice: openInternbl() completed");
     }
 
 
-    private void doOpen() throws MidiUnavailableException {
-        if (Printer.trace) Printer.trace("> AbstractMidiDevice: doOpen()");
+    privbte void doOpen() throws MidiUnbvbilbbleException {
+        if (Printer.trbce) Printer.trbce("> AbstrbctMidiDevice: doOpen()");
         synchronized(this) {
             if (! isOpen()) {
                 implOpen();
                 open = true;
             }
         }
-        if (Printer.trace) Printer.trace("< AbstractMidiDevice: doOpen() completed");
+        if (Printer.trbce) Printer.trbce("< AbstrbctMidiDevice: doOpen() completed");
     }
 
 
-    public final void close() {
-        if (Printer.trace) Printer.trace("> AbstractMidiDevice: close()");
+    public finbl void close() {
+        if (Printer.trbce) Printer.trbce("> AbstrbctMidiDevice: close()");
         synchronized (this) {
             doClose();
             openRefCount = 0;
         }
-        if (Printer.trace) Printer.trace("< AbstractMidiDevice: close() completed");
+        if (Printer.trbce) Printer.trbce("< AbstrbctMidiDevice: close() completed");
     }
 
 
-    /** Close the device for an object that implicitely opened it.
-     * This method is intended to be used by Transmitter.close() and Receiver.close().
-     * Those methods should pass this for the object parameter. Since Transmitters or Receivers
-     * do not know if their device has been opened implicitely because of them, they call this
-     * method in any case. This method now is able to seperate Receivers/Transmitters that opened
-     * the device implicitely from those that didn't by looking up the R/T in the
-     * openKeepingObjects list. Only if the R/T is contained there, the reference count is
+    /** Close the device for bn object thbt implicitely opened it.
+     * This method is intended to be used by Trbnsmitter.close() bnd Receiver.close().
+     * Those methods should pbss this for the object pbrbmeter. Since Trbnsmitters or Receivers
+     * do not know if their device hbs been opened implicitely becbuse of them, they cbll this
+     * method in bny cbse. This method now is bble to seperbte Receivers/Trbnsmitters thbt opened
+     * the device implicitely from those thbt didn't by looking up the R/T in the
+     * openKeepingObjects list. Only if the R/T is contbined there, the reference count is
      * reduced.
      *
-     * @param object The object that might have been opening the device implicitely (for now,
-     * this may be a Transmitter or receiver).
+     * @pbrbm object The object thbt might hbve been opening the device implicitely (for now,
+     * this mby be b Trbnsmitter or receiver).
      */
-    public final void closeInternal(Object object) {
-        if (Printer.trace) Printer.trace("> AbstractMidiDevice: closeInternal()");
+    public finbl void closeInternbl(Object object) {
+        if (Printer.trbce) Printer.trbce("> AbstrbctMidiDevice: closeInternbl()");
         synchronized(this) {
             if (getOpenKeepingObjects().remove(object)) {
                 if (openRefCount > 0) {
@@ -193,47 +193,47 @@ abstract class AbstractMidiDevice implements MidiDevice, ReferenceCountingDevice
                 }
             }
         }
-        if (Printer.trace) Printer.trace("< AbstractMidiDevice: closeInternal() completed");
+        if (Printer.trbce) Printer.trbce("< AbstrbctMidiDevice: closeInternbl() completed");
     }
 
 
-    public final void doClose() {
-        if (Printer.trace) Printer.trace("> AbstractMidiDevice: doClose()");
+    public finbl void doClose() {
+        if (Printer.trbce) Printer.trbce("> AbstrbctMidiDevice: doClose()");
         synchronized(this) {
             if (isOpen()) {
                 implClose();
-                open = false;
+                open = fblse;
             }
         }
-        if (Printer.trace) Printer.trace("< AbstractMidiDevice: doClose() completed");
+        if (Printer.trbce) Printer.trbce("< AbstrbctMidiDevice: doClose() completed");
     }
 
 
-    public final boolean isOpen() {
+    public finbl boolebn isOpen() {
         return open;
     }
 
 
     protected void implClose() {
-        synchronized (traRecLock) {
+        synchronized (trbRecLock) {
             if (receiverList != null) {
-                // close all receivers
+                // close bll receivers
                 for(int i = 0; i < receiverList.size(); i++) {
                     receiverList.get(i).close();
                 }
-                receiverList.clear();
+                receiverList.clebr();
             }
-            if (transmitterList != null) {
-                // close all transmitters
-                transmitterList.close();
+            if (trbnsmitterList != null) {
+                // close bll trbnsmitters
+                trbnsmitterList.close();
             }
         }
     }
 
 
     /**
-     * This implementation always returns -1.
-     * Devices that actually provide this should over-ride
+     * This implementbtion blwbys returns -1.
+     * Devices thbt bctublly provide this should over-ride
      * this method.
      */
     public long getMicrosecondPosition() {
@@ -241,12 +241,12 @@ abstract class AbstractMidiDevice implements MidiDevice, ReferenceCountingDevice
     }
 
 
-    /** Return the maximum number of Receivers supported by this device.
-        Depending on the return value of hasReceivers(), this method returns either 0 or -1.
-        Subclasses should rather override hasReceivers() than override this method.
+    /** Return the mbximum number of Receivers supported by this device.
+        Depending on the return vblue of hbsReceivers(), this method returns either 0 or -1.
+        Subclbsses should rbther override hbsReceivers() thbn override this method.
      */
-    public final int getMaxReceivers() {
-        if (hasReceivers()) {
+    public finbl int getMbxReceivers() {
+        if (hbsReceivers()) {
             return -1;
         } else {
             return 0;
@@ -254,12 +254,12 @@ abstract class AbstractMidiDevice implements MidiDevice, ReferenceCountingDevice
     }
 
 
-    /** Return the maximum number of Transmitters supported by this device.
-        Depending on the return value of hasTransmitters(), this method returns either 0 or -1.
-        Subclasses should override hasTransmitters().
+    /** Return the mbximum number of Trbnsmitters supported by this device.
+        Depending on the return vblue of hbsTrbnsmitters(), this method returns either 0 or -1.
+        Subclbsses should override hbsTrbnsmitters().
      */
-    public final int getMaxTransmitters() {
-        if (hasTransmitters()) {
+    public finbl int getMbxTrbnsmitters() {
+        if (hbsTrbnsmitters()) {
             return -1;
         } else {
             return 0;
@@ -267,31 +267,31 @@ abstract class AbstractMidiDevice implements MidiDevice, ReferenceCountingDevice
     }
 
 
-    /** Retrieve a Receiver for this device.
-        This method returns the value returned by createReceiver(), if it doesn't throw
-        an exception. Subclasses should rather override createReceiver() than override
+    /** Retrieve b Receiver for this device.
+        This method returns the vblue returned by crebteReceiver(), if it doesn't throw
+        bn exception. Subclbsses should rbther override crebteReceiver() thbn override
         this method.
-        If createReceiver returns a Receiver, it is added to the internal list
+        If crebteReceiver returns b Receiver, it is bdded to the internbl list
         of Receivers (see getReceiversList)
      */
-    public final Receiver getReceiver() throws MidiUnavailableException {
+    public finbl Receiver getReceiver() throws MidiUnbvbilbbleException {
         Receiver receiver;
-        synchronized (traRecLock) {
-            receiver = createReceiver(); // may throw MidiUnavailableException
-            getReceiverList().add(receiver);
+        synchronized (trbRecLock) {
+            receiver = crebteReceiver(); // mby throw MidiUnbvbilbbleException
+            getReceiverList().bdd(receiver);
         }
         return receiver;
     }
 
 
-    @SuppressWarnings("unchecked") // Cast of result of clone
-    public final List<Receiver> getReceivers() {
+    @SuppressWbrnings("unchecked") // Cbst of result of clone
+    public finbl List<Receiver> getReceivers() {
         List<Receiver> recs;
-        synchronized (traRecLock) {
+        synchronized (trbRecLock) {
             if (receiverList == null) {
-                recs = Collections.unmodifiableList(new ArrayList<Receiver>(0));
+                recs = Collections.unmodifibbleList(new ArrbyList<Receiver>(0));
             } else {
-                recs = Collections.unmodifiableList
+                recs = Collections.unmodifibbleList
                     ((List<Receiver>) (receiverList.clone()));
             }
         }
@@ -300,83 +300,83 @@ abstract class AbstractMidiDevice implements MidiDevice, ReferenceCountingDevice
 
 
     /**
-     * This implementation uses createTransmitter, which may throw an exception.
-     * If a transmitter is returned in createTransmitter, it is added to the internal
-     * TransmitterList
+     * This implementbtion uses crebteTrbnsmitter, which mby throw bn exception.
+     * If b trbnsmitter is returned in crebteTrbnsmitter, it is bdded to the internbl
+     * TrbnsmitterList
      */
-    public final Transmitter getTransmitter() throws MidiUnavailableException {
-        Transmitter transmitter;
-        synchronized (traRecLock) {
-            transmitter = createTransmitter(); // may throw MidiUnavailableException
-            getTransmitterList().add(transmitter);
+    public finbl Trbnsmitter getTrbnsmitter() throws MidiUnbvbilbbleException {
+        Trbnsmitter trbnsmitter;
+        synchronized (trbRecLock) {
+            trbnsmitter = crebteTrbnsmitter(); // mby throw MidiUnbvbilbbleException
+            getTrbnsmitterList().bdd(trbnsmitter);
         }
-        return transmitter;
+        return trbnsmitter;
     }
 
 
-    @SuppressWarnings("unchecked") // Cast of result of clone
-    public final List<Transmitter> getTransmitters() {
-        List<Transmitter> tras;
-        synchronized (traRecLock) {
-            if (transmitterList == null
-                || transmitterList.transmitters.size() == 0) {
-                tras = Collections.unmodifiableList(new ArrayList<Transmitter>(0));
+    @SuppressWbrnings("unchecked") // Cbst of result of clone
+    public finbl List<Trbnsmitter> getTrbnsmitters() {
+        List<Trbnsmitter> trbs;
+        synchronized (trbRecLock) {
+            if (trbnsmitterList == null
+                || trbnsmitterList.trbnsmitters.size() == 0) {
+                trbs = Collections.unmodifibbleList(new ArrbyList<Trbnsmitter>(0));
             } else {
-                tras = Collections.unmodifiableList((List<Transmitter>) (transmitterList.transmitters.clone()));
+                trbs = Collections.unmodifibbleList((List<Trbnsmitter>) (trbnsmitterList.trbnsmitters.clone()));
             }
         }
-        return tras;
+        return trbs;
     }
 
 
     // HELPER METHODS
 
-    final long getId() {
+    finbl long getId() {
         return id;
     }
 
 
     // REFERENCE COUNTING
 
-    /** Retrieve a Receiver and open the device implicitly.
-        This method is called by MidiSystem.getReceiver().
+    /** Retrieve b Receiver bnd open the device implicitly.
+        This method is cblled by MidiSystem.getReceiver().
      */
-    public final Receiver getReceiverReferenceCounting()
-            throws MidiUnavailableException {
-        /* Keep this order of commands! If getReceiver() throws an exception,
-           openInternal() should not be called!
+    public finbl Receiver getReceiverReferenceCounting()
+            throws MidiUnbvbilbbleException {
+        /* Keep this order of commbnds! If getReceiver() throws bn exception,
+           openInternbl() should not be cblled!
         */
         Receiver receiver;
-        synchronized (traRecLock) {
+        synchronized (trbRecLock) {
             receiver = getReceiver();
-            AbstractMidiDevice.this.openInternal(receiver);
+            AbstrbctMidiDevice.this.openInternbl(receiver);
         }
         return receiver;
     }
 
 
-    /** Retrieve a Transmitter and open the device implicitly.
-        This method is called by MidiSystem.getTransmitter().
+    /** Retrieve b Trbnsmitter bnd open the device implicitly.
+        This method is cblled by MidiSystem.getTrbnsmitter().
      */
-    public final Transmitter getTransmitterReferenceCounting()
-            throws MidiUnavailableException {
-        /* Keep this order of commands! If getTransmitter() throws an exception,
-           openInternal() should not be called!
+    public finbl Trbnsmitter getTrbnsmitterReferenceCounting()
+            throws MidiUnbvbilbbleException {
+        /* Keep this order of commbnds! If getTrbnsmitter() throws bn exception,
+           openInternbl() should not be cblled!
         */
-        Transmitter transmitter;
-        synchronized (traRecLock) {
-            transmitter = getTransmitter();
-            AbstractMidiDevice.this.openInternal(transmitter);
+        Trbnsmitter trbnsmitter;
+        synchronized (trbRecLock) {
+            trbnsmitter = getTrbnsmitter();
+            AbstrbctMidiDevice.this.openInternbl(trbnsmitter);
         }
-        return transmitter;
+        return trbnsmitter;
     }
 
 
-    /** Return the list of objects that have opened the device implicitely.
+    /** Return the list of objects thbt hbve opened the device implicitely.
      */
-    private synchronized List<Object> getOpenKeepingObjects() {
+    privbte synchronized List<Object> getOpenKeepingObjects() {
         if (openKeepingObjects == null) {
-            openKeepingObjects = new ArrayList<>();
+            openKeepingObjects = new ArrbyList<>();
         }
         return openKeepingObjects;
     }
@@ -386,12 +386,12 @@ abstract class AbstractMidiDevice implements MidiDevice, ReferenceCountingDevice
     // RECEIVER HANDLING METHODS
 
 
-    /** Return the internal list of Receivers, possibly creating it first.
+    /** Return the internbl list of Receivers, possibly crebting it first.
      */
-    private List<Receiver> getReceiverList() {
-        synchronized (traRecLock) {
+    privbte List<Receiver> getReceiverList() {
+        synchronized (trbRecLock) {
             if (receiverList == null) {
-                receiverList = new ArrayList<Receiver>();
+                receiverList = new ArrbyList<Receiver>();
             }
         }
         return receiverList;
@@ -399,234 +399,234 @@ abstract class AbstractMidiDevice implements MidiDevice, ReferenceCountingDevice
 
 
     /** Returns if this device supports Receivers.
-        Subclasses that use Receivers should override this method to
-        return true. They also should override createReceiver().
+        Subclbsses thbt use Receivers should override this method to
+        return true. They blso should override crebteReceiver().
 
-        @return true, if the device supports Receivers, false otherwise.
+        @return true, if the device supports Receivers, fblse otherwise.
     */
-    protected boolean hasReceivers() {
-        return false;
+    protected boolebn hbsReceivers() {
+        return fblse;
     }
 
 
-    /** Create a Receiver object.
-        throwing an exception here means that Receivers aren't enabled.
-        Subclasses that use Receivers should override this method with
-        one that returns objects implementing Receiver.
-        Classes overriding this method should also override hasReceivers()
+    /** Crebte b Receiver object.
+        throwing bn exception here mebns thbt Receivers bren't enbbled.
+        Subclbsses thbt use Receivers should override this method with
+        one thbt returns objects implementing Receiver.
+        Clbsses overriding this method should blso override hbsReceivers()
         to return true.
     */
-    protected Receiver createReceiver() throws MidiUnavailableException {
-        throw new MidiUnavailableException("MIDI IN receiver not available");
+    protected Receiver crebteReceiver() throws MidiUnbvbilbbleException {
+        throw new MidiUnbvbilbbleException("MIDI IN receiver not bvbilbble");
     }
 
 
 
     // TRANSMITTER HANDLING
 
-    /** Return the internal list of Transmitters, possibly creating it first.
+    /** Return the internbl list of Trbnsmitters, possibly crebting it first.
      */
-    final TransmitterList getTransmitterList() {
-        synchronized (traRecLock) {
-            if (transmitterList == null) {
-                transmitterList = new TransmitterList();
+    finbl TrbnsmitterList getTrbnsmitterList() {
+        synchronized (trbRecLock) {
+            if (trbnsmitterList == null) {
+                trbnsmitterList = new TrbnsmitterList();
             }
         }
-        return transmitterList;
+        return trbnsmitterList;
     }
 
 
-    /** Returns if this device supports Transmitters.
-        Subclasses that use Transmitters should override this method to
-        return true. They also should override createTransmitter().
+    /** Returns if this device supports Trbnsmitters.
+        Subclbsses thbt use Trbnsmitters should override this method to
+        return true. They blso should override crebteTrbnsmitter().
 
-        @return true, if the device supports Transmitters, false otherwise.
+        @return true, if the device supports Trbnsmitters, fblse otherwise.
     */
-    protected boolean hasTransmitters() {
-        return false;
+    protected boolebn hbsTrbnsmitters() {
+        return fblse;
     }
 
 
-    /** Create a Transmitter object.
-        throwing an exception here means that Transmitters aren't enabled.
-        Subclasses that use Transmitters should override this method with
-        one that returns objects implementing Transmitters.
-        Classes overriding this method should also override hasTransmitters()
+    /** Crebte b Trbnsmitter object.
+        throwing bn exception here mebns thbt Trbnsmitters bren't enbbled.
+        Subclbsses thbt use Trbnsmitters should override this method with
+        one thbt returns objects implementing Trbnsmitters.
+        Clbsses overriding this method should blso override hbsTrbnsmitters()
         to return true.
     */
-    protected Transmitter createTransmitter() throws MidiUnavailableException {
-        throw new MidiUnavailableException("MIDI OUT transmitter not available");
+    protected Trbnsmitter crebteTrbnsmitter() throws MidiUnbvbilbbleException {
+        throw new MidiUnbvbilbbleException("MIDI OUT trbnsmitter not bvbilbble");
     }
 
     // ABSTRACT METHODS
 
-    protected abstract void implOpen() throws MidiUnavailableException;
+    protected bbstrbct void implOpen() throws MidiUnbvbilbbleException;
 
 
     /**
-     * close this device if discarded by the garbage collector
+     * close this device if discbrded by the gbrbbge collector
      */
-    protected final void finalize() {
+    protected finbl void finblize() {
         close();
     }
 
     // INNER CLASSES
 
-    /** Base class for Receivers.
-        Subclasses that use Receivers must use this base class, since it
-        contains magic necessary to manage implicit closing the device.
-        This is necessary for Receivers retrieved via MidiSystem.getReceiver()
+    /** Bbse clbss for Receivers.
+        Subclbsses thbt use Receivers must use this bbse clbss, since it
+        contbins mbgic necessbry to mbnbge implicit closing the device.
+        This is necessbry for Receivers retrieved vib MidiSystem.getReceiver()
         (which opens the device implicitely).
      */
-    abstract class AbstractReceiver implements MidiDeviceReceiver {
-        private boolean open = true;
+    bbstrbct clbss AbstrbctReceiver implements MidiDeviceReceiver {
+        privbte boolebn open = true;
 
 
-        /** Deliver a MidiMessage.
-            This method contains magic related to the closed state of a
-            Receiver. Therefore, subclasses should not override this method.
-            Instead, they should implement implSend().
+        /** Deliver b MidiMessbge.
+            This method contbins mbgic relbted to the closed stbte of b
+            Receiver. Therefore, subclbsses should not override this method.
+            Instebd, they should implement implSend().
         */
         @Override
-        public final synchronized void send(final MidiMessage message,
-                                            final long timeStamp) {
+        public finbl synchronized void send(finbl MidiMessbge messbge,
+                                            finbl long timeStbmp) {
             if (!open) {
-                throw new IllegalStateException("Receiver is not open");
+                throw new IllegblStbteException("Receiver is not open");
             }
-            implSend(message, timeStamp);
+            implSend(messbge, timeStbmp);
         }
 
-        abstract void implSend(MidiMessage message, long timeStamp);
+        bbstrbct void implSend(MidiMessbge messbge, long timeStbmp);
 
         /** Close the Receiver.
-         * Here, the call to the magic method closeInternal() takes place.
-         * Therefore, subclasses that override this method must call
+         * Here, the cbll to the mbgic method closeInternbl() tbkes plbce.
+         * Therefore, subclbsses thbt override this method must cbll
          * 'super.close()'.
          */
         @Override
-        public final void close() {
-            open = false;
-            synchronized (AbstractMidiDevice.this.traRecLock) {
-                AbstractMidiDevice.this.getReceiverList().remove(this);
+        public finbl void close() {
+            open = fblse;
+            synchronized (AbstrbctMidiDevice.this.trbRecLock) {
+                AbstrbctMidiDevice.this.getReceiverList().remove(this);
             }
-            AbstractMidiDevice.this.closeInternal(this);
+            AbstrbctMidiDevice.this.closeInternbl(this);
         }
 
         @Override
-        public final MidiDevice getMidiDevice() {
-            return AbstractMidiDevice.this;
+        public finbl MidiDevice getMidiDevice() {
+            return AbstrbctMidiDevice.this;
         }
 
-        final boolean isOpen() {
+        finbl boolebn isOpen() {
             return open;
         }
 
-        //$$fb is that a good idea?
-        //protected void finalize() {
+        //$$fb is thbt b good ideb?
+        //protected void finblize() {
         //    close();
         //}
 
-    } // class AbstractReceiver
+    } // clbss AbstrbctReceiver
 
 
     /**
-     * Transmitter base class.
-     * This class especially makes sure the device is closed if it
-     * has been opened implicitly by a call to MidiSystem.getTransmitter().
-     * The logic of doing so is actually in closeInternal().
+     * Trbnsmitter bbse clbss.
+     * This clbss especiblly mbkes sure the device is closed if it
+     * hbs been opened implicitly by b cbll to MidiSystem.getTrbnsmitter().
+     * The logic of doing so is bctublly in closeInternbl().
      *
-     * Also, it has some optimizations regarding sending to the Receivers,
-     * for known Receivers, and managing itself in the TransmitterList.
+     * Also, it hbs some optimizbtions regbrding sending to the Receivers,
+     * for known Receivers, bnd mbnbging itself in the TrbnsmitterList.
      */
-    class BasicTransmitter implements MidiDeviceTransmitter {
+    clbss BbsicTrbnsmitter implements MidiDeviceTrbnsmitter {
 
-        private Receiver receiver = null;
-        TransmitterList tlist = null;
+        privbte Receiver receiver = null;
+        TrbnsmitterList tlist = null;
 
-        protected BasicTransmitter() {
+        protected BbsicTrbnsmitter() {
         }
 
-        private void setTransmitterList(TransmitterList tlist) {
+        privbte void setTrbnsmitterList(TrbnsmitterList tlist) {
             this.tlist = tlist;
         }
 
-        public final void setReceiver(Receiver receiver) {
+        public finbl void setReceiver(Receiver receiver) {
             if (tlist != null && this.receiver != receiver) {
-                if (Printer.debug) Printer.debug("Transmitter "+toString()+": set receiver "+receiver);
-                tlist.receiverChanged(this, this.receiver, receiver);
+                if (Printer.debug) Printer.debug("Trbnsmitter "+toString()+": set receiver "+receiver);
+                tlist.receiverChbnged(this, this.receiver, receiver);
                 this.receiver = receiver;
             }
         }
 
-        public final Receiver getReceiver() {
+        public finbl Receiver getReceiver() {
             return receiver;
         }
 
 
-        /** Close the Transmitter.
-         * Here, the call to the magic method closeInternal() takes place.
-         * Therefore, subclasses that override this method must call
+        /** Close the Trbnsmitter.
+         * Here, the cbll to the mbgic method closeInternbl() tbkes plbce.
+         * Therefore, subclbsses thbt override this method must cbll
          * 'super.close()'.
          */
-        public final void close() {
-            AbstractMidiDevice.this.closeInternal(this);
+        public finbl void close() {
+            AbstrbctMidiDevice.this.closeInternbl(this);
             if (tlist != null) {
-                tlist.receiverChanged(this, this.receiver, null);
+                tlist.receiverChbnged(this, this.receiver, null);
                 tlist.remove(this);
                 tlist = null;
             }
         }
 
-        public final MidiDevice getMidiDevice() {
-            return AbstractMidiDevice.this;
+        public finbl MidiDevice getMidiDevice() {
+            return AbstrbctMidiDevice.this;
         }
 
-    } // class BasicTransmitter
+    } // clbss BbsicTrbnsmitter
 
 
     /**
-     * a class to manage a list of transmitters
+     * b clbss to mbnbge b list of trbnsmitters
      */
-    final class TransmitterList {
+    finbl clbss TrbnsmitterList {
 
-        private final ArrayList<Transmitter> transmitters = new ArrayList<Transmitter>();
-        private MidiOutDevice.MidiOutReceiver midiOutReceiver;
+        privbte finbl ArrbyList<Trbnsmitter> trbnsmitters = new ArrbyList<Trbnsmitter>();
+        privbte MidiOutDevice.MidiOutReceiver midiOutReceiver;
 
-        // how many transmitters must be present for optimized
-        // handling
-        private int optimizedReceiverCount = 0;
+        // how mbny trbnsmitters must be present for optimized
+        // hbndling
+        privbte int optimizedReceiverCount = 0;
 
 
-        private void add(Transmitter t) {
-            synchronized(transmitters) {
-                transmitters.add(t);
+        privbte void bdd(Trbnsmitter t) {
+            synchronized(trbnsmitters) {
+                trbnsmitters.bdd(t);
             }
-            if (t instanceof BasicTransmitter) {
-                ((BasicTransmitter) t).setTransmitterList(this);
+            if (t instbnceof BbsicTrbnsmitter) {
+                ((BbsicTrbnsmitter) t).setTrbnsmitterList(this);
             }
-            if (Printer.debug) Printer.debug("--added transmitter "+t);
+            if (Printer.debug) Printer.debug("--bdded trbnsmitter "+t);
         }
 
-        private void remove(Transmitter t) {
-            synchronized(transmitters) {
-                int index = transmitters.indexOf(t);
+        privbte void remove(Trbnsmitter t) {
+            synchronized(trbnsmitters) {
+                int index = trbnsmitters.indexOf(t);
                 if (index >= 0) {
-                    transmitters.remove(index);
-                    if (Printer.debug) Printer.debug("--removed transmitter "+t);
+                    trbnsmitters.remove(index);
+                    if (Printer.debug) Printer.debug("--removed trbnsmitter "+t);
                 }
             }
         }
 
-        private void receiverChanged(BasicTransmitter t,
+        privbte void receiverChbnged(BbsicTrbnsmitter t,
                                      Receiver oldR,
                                      Receiver newR) {
-            synchronized(transmitters) {
-                // some optimization
+            synchronized(trbnsmitters) {
+                // some optimizbtion
                 if (midiOutReceiver == oldR) {
                     midiOutReceiver = null;
                 }
                 if (newR != null) {
-                    if ((newR instanceof MidiOutDevice.MidiOutReceiver)
+                    if ((newR instbnceof MidiOutDevice.MidiOutReceiver)
                         && (midiOutReceiver == null)) {
                         midiOutReceiver = ((MidiOutDevice.MidiOutReceiver) newR);
                     }
@@ -634,113 +634,113 @@ abstract class AbstractMidiDevice implements MidiDevice, ReferenceCountingDevice
                 optimizedReceiverCount =
                       ((midiOutReceiver!=null)?1:0);
             }
-            // more potential for optimization here
+            // more potentibl for optimizbtion here
         }
 
 
-        /** closes all transmitters and empties the list */
+        /** closes bll trbnsmitters bnd empties the list */
         void close() {
-            synchronized (transmitters) {
-                for(int i = 0; i < transmitters.size(); i++) {
-                    transmitters.get(i).close();
+            synchronized (trbnsmitters) {
+                for(int i = 0; i < trbnsmitters.size(); i++) {
+                    trbnsmitters.get(i).close();
                 }
-                transmitters.clear();
+                trbnsmitters.clebr();
             }
-            if (Printer.trace) Printer.trace("TransmitterList.close() succeeded");
+            if (Printer.trbce) Printer.trbce("TrbnsmitterList.close() succeeded");
         }
 
 
 
         /**
-        * Send this message to all receivers
-        * status = packedMessage & 0xFF
-        * data1 = (packedMessage & 0xFF00) >> 8;
-        * data1 = (packedMessage & 0xFF0000) >> 16;
+        * Send this messbge to bll receivers
+        * stbtus = pbckedMessbge & 0xFF
+        * dbtb1 = (pbckedMessbge & 0xFF00) >> 8;
+        * dbtb1 = (pbckedMessbge & 0xFF0000) >> 16;
         */
-        void sendMessage(int packedMessage, long timeStamp) {
+        void sendMessbge(int pbckedMessbge, long timeStbmp) {
             try {
-                synchronized(transmitters) {
-                    int size = transmitters.size();
+                synchronized(trbnsmitters) {
+                    int size = trbnsmitters.size();
                     if (optimizedReceiverCount == size) {
                         if (midiOutReceiver != null) {
-                            if (TRACE_TRANSMITTER) Printer.println("Sending packed message to MidiOutReceiver");
-                            midiOutReceiver.sendPackedMidiMessage(packedMessage, timeStamp);
+                            if (TRACE_TRANSMITTER) Printer.println("Sending pbcked messbge to MidiOutReceiver");
+                            midiOutReceiver.sendPbckedMidiMessbge(pbckedMessbge, timeStbmp);
                         }
                     } else {
-                        if (TRACE_TRANSMITTER) Printer.println("Sending packed message to "+size+" transmitter's receivers");
+                        if (TRACE_TRANSMITTER) Printer.println("Sending pbcked messbge to "+size+" trbnsmitter's receivers");
                         for (int i = 0; i < size; i++) {
-                            Receiver receiver = transmitters.get(i).getReceiver();
+                            Receiver receiver = trbnsmitters.get(i).getReceiver();
                             if (receiver != null) {
                                 if (optimizedReceiverCount > 0) {
-                                    if (receiver instanceof MidiOutDevice.MidiOutReceiver) {
-                                        ((MidiOutDevice.MidiOutReceiver) receiver).sendPackedMidiMessage(packedMessage, timeStamp);
+                                    if (receiver instbnceof MidiOutDevice.MidiOutReceiver) {
+                                        ((MidiOutDevice.MidiOutReceiver) receiver).sendPbckedMidiMessbge(pbckedMessbge, timeStbmp);
                                     } else {
-                                        receiver.send(new FastShortMessage(packedMessage), timeStamp);
+                                        receiver.send(new FbstShortMessbge(pbckedMessbge), timeStbmp);
                                     }
                                 } else {
-                                    receiver.send(new FastShortMessage(packedMessage), timeStamp);
+                                    receiver.send(new FbstShortMessbge(pbckedMessbge), timeStbmp);
                                 }
                             }
                         }
                     }
                 }
-            } catch (InvalidMidiDataException e) {
-                // this happens when invalid data comes over the wire. Ignore it.
+            } cbtch (InvblidMidiDbtbException e) {
+                // this hbppens when invblid dbtb comes over the wire. Ignore it.
             }
         }
 
-        void sendMessage(byte[] data, long timeStamp) {
+        void sendMessbge(byte[] dbtb, long timeStbmp) {
             try {
-                synchronized(transmitters) {
-                    int size = transmitters.size();
-                    if (TRACE_TRANSMITTER) Printer.println("Sending long message to "+size+" transmitter's receivers");
+                synchronized(trbnsmitters) {
+                    int size = trbnsmitters.size();
+                    if (TRACE_TRANSMITTER) Printer.println("Sending long messbge to "+size+" trbnsmitter's receivers");
                     for (int i = 0; i < size; i++) {
-                        Receiver receiver = transmitters.get(i).getReceiver();
+                        Receiver receiver = trbnsmitters.get(i).getReceiver();
                         if (receiver != null) {
-                            //$$fb 2002-04-02: SysexMessages are mutable, so
-                            // an application could change the contents of this object,
-                            // or try to use the object later. So we can't get around object creation
-                            // But the array need not be unique for each FastSysexMessage object,
-                            // because it cannot be modified.
-                            receiver.send(new FastSysexMessage(data), timeStamp);
+                            //$$fb 2002-04-02: SysexMessbges bre mutbble, so
+                            // bn bpplicbtion could chbnge the contents of this object,
+                            // or try to use the object lbter. So we cbn't get bround object crebtion
+                            // But the brrby need not be unique for ebch FbstSysexMessbge object,
+                            // becbuse it cbnnot be modified.
+                            receiver.send(new FbstSysexMessbge(dbtb), timeStbmp);
                         }
                     }
                 }
-            } catch (InvalidMidiDataException e) {
-                // this happens when invalid data comes over the wire. Ignore it.
+            } cbtch (InvblidMidiDbtbException e) {
+                // this hbppens when invblid dbtb comes over the wire. Ignore it.
                 return;
             }
         }
 
 
         /**
-        * Send this message to all transmitters
+        * Send this messbge to bll trbnsmitters
         */
-        void sendMessage(MidiMessage message, long timeStamp) {
-            if (message instanceof FastShortMessage) {
-                sendMessage(((FastShortMessage) message).getPackedMsg(), timeStamp);
+        void sendMessbge(MidiMessbge messbge, long timeStbmp) {
+            if (messbge instbnceof FbstShortMessbge) {
+                sendMessbge(((FbstShortMessbge) messbge).getPbckedMsg(), timeStbmp);
                 return;
             }
-            synchronized(transmitters) {
-                int size = transmitters.size();
+            synchronized(trbnsmitters) {
+                int size = trbnsmitters.size();
                 if (optimizedReceiverCount == size) {
                     if (midiOutReceiver != null) {
-                        if (TRACE_TRANSMITTER) Printer.println("Sending MIDI message to MidiOutReceiver");
-                        midiOutReceiver.send(message, timeStamp);
+                        if (TRACE_TRANSMITTER) Printer.println("Sending MIDI messbge to MidiOutReceiver");
+                        midiOutReceiver.send(messbge, timeStbmp);
                     }
                 } else {
-                    if (TRACE_TRANSMITTER) Printer.println("Sending MIDI message to "+size+" transmitter's receivers");
+                    if (TRACE_TRANSMITTER) Printer.println("Sending MIDI messbge to "+size+" trbnsmitter's receivers");
                     for (int i = 0; i < size; i++) {
-                        Receiver receiver = transmitters.get(i).getReceiver();
+                        Receiver receiver = trbnsmitters.get(i).getReceiver();
                         if (receiver != null) {
-                            //$$fb 2002-04-02: ShortMessages are mutable, so
-                            // an application could change the contents of this object,
-                            // or try to use the object later.
-                            // We violate this spec here, to avoid costly (and gc-intensive)
-                            // object creation for potentially hundred of messages per second.
-                            // The spec should be changed to allow Immutable MidiMessages
-                            // (i.e. throws InvalidStateException or so in setMessage)
-                            receiver.send(message, timeStamp);
+                            //$$fb 2002-04-02: ShortMessbges bre mutbble, so
+                            // bn bpplicbtion could chbnge the contents of this object,
+                            // or try to use the object lbter.
+                            // We violbte this spec here, to bvoid costly (bnd gc-intensive)
+                            // object crebtion for potentiblly hundred of messbges per second.
+                            // The spec should be chbnged to bllow Immutbble MidiMessbges
+                            // (i.e. throws InvblidStbteException or so in setMessbge)
+                            receiver.send(messbge, timeStbmp);
                         }
                     }
                 }
@@ -748,6 +748,6 @@ abstract class AbstractMidiDevice implements MidiDevice, ReferenceCountingDevice
         }
 
 
-    } // TransmitterList
+    } // TrbnsmitterList
 
 }

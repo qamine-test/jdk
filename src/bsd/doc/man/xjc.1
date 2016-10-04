@@ -1,232 +1,232 @@
 '\" t
-.\"  Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Java Web Services Tools
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
+.\"     SectDesc: Jbvb Web Services Tools
 .\"     Title: xjc.1
 .\"
 .if n .pl 99999
-.TH xjc 1 "21 November 2013" "JDK 8" "Java Web Services Tools"
+.TH xjc 1 "21 November 2013" "JDK 8" "Jbvb Web Services Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-xjc \- Compiles an XML schema file into fully annotated Java classes\&.
+xjc \- Compiles bn XML schemb file into fully bnnotbted Jbvb clbsses\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBxjc\fR [ \fIoptions\fR ] \fBschema\fR \fIfile/URL/dir/jar\fR \&.\&.\&. [\fB\-b\fR \fIbindinfo\fR ] \&.\&.\&.
+\fBxjc\fR [ \fIoptions\fR ] \fBschemb\fR \fIfile/URL/dir/jbr\fR \&.\&.\&. [\fB\-b\fR \fIbindinfo\fR ] \&.\&.\&.
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+The commbnd-line options\&. See Options\&.
 .TP     
-schema \fIfile/URL/dir/jar \&.\&.\&.\fR
-The location of the XML schema file\&. If \f3dir\fR is specified, then all schema files in it are compiled\&. If \f3jar\fR is specified, then the \f3/META-INF/sun-jaxb\&.episode\fR binding file is compiled\&.
+schemb \fIfile/URL/dir/jbr \&.\&.\&.\fR
+The locbtion of the XML schemb file\&. If \f3dir\fR is specified, then bll schemb files in it bre compiled\&. If \f3jbr\fR is specified, then the \f3/META-INF/sun-jbxb\&.episode\fR binding file is compiled\&.
 .TP
 -b \fIbindinfo\fR
 .br
-The location of the bindings files\&.
+The locbtion of the bindings files\&.
 .SH DESCRIPTION    
-Start the binding compiler with the appropriate \f3xjc\fR shell script in the bin directory for your platform\&. There is also an Ant task to run the binding complier\&. See Using the XJC with Ant at http://jaxb\&.java\&.net/nonav/2\&.1\&.3/docs/xjcTask\&.html
+Stbrt the binding compiler with the bppropribte \f3xjc\fR shell script in the bin directory for your plbtform\&. There is blso bn Ant tbsk to run the binding complier\&. See Using the XJC with Ant bt http://jbxb\&.jbvb\&.net/nonbv/2\&.1\&.3/docs/xjcTbsk\&.html
 .SH OPTIONS    
 .TP 0.2i    
 \(bu
-See also Nonstandard Options
+See blso Nonstbndbrd Options
 .TP 0.2i    
 \(bu
-See also Deprecated and Removed Options
+See blso Deprecbted bnd Removed Options
 .TP
 -nv
 .br
-By default, the XJC binding compiler performs strict validation of the source schema before processing it\&. Use this option to disable strict schema validation\&. This does not mean that the binding compiler will not perform any validation, but means that it will perform a less-strict validation\&.
+By defbult, the XJC binding compiler performs strict vblidbtion of the source schemb before processing it\&. Use this option to disbble strict schemb vblidbtion\&. This does not mebn thbt the binding compiler will not perform bny vblidbtion, but mebns thbt it will perform b less-strict vblidbtion\&.
 .TP
 -extension
 .br
-By default, the XJC binding compiler strictly enforces the rules outlined in the Compatibility chapter of the JAXB Specification\&. Appendix E\&.2 defines a set of W3C XML Schema features that are not completely supported by JAXB v1\&.0\&. In some cases, you may be allowed to use them in the \f3-extension\fR mode enabled by this switch\&. In the default (strict) mode, you are also limited to using only the binding customization defined in the specification\&. By using the \f3-extension\fR switch, you will be allowed to use the JAXB Vendor Extensions\&.
+By defbult, the XJC binding compiler strictly enforces the rules outlined in the Compbtibility chbpter of the JAXB Specificbtion\&. Appendix E\&.2 defines b set of W3C XML Schemb febtures thbt bre not completely supported by JAXB v1\&.0\&. In some cbses, you mby be bllowed to use them in the \f3-extension\fR mode enbbled by this switch\&. In the defbult (strict) mode, you bre blso limited to using only the binding customizbtion defined in the specificbtion\&. By using the \f3-extension\fR switch, you will be bllowed to use the JAXB Vendor Extensions\&.
 .TP
 -b \fIfile\fR
 .br
-Specifies one or more external binding files to process\&. Each binding file must have its own \f3-b\fR switch\&. The syntax of the external binding files is flexible\&. You can have a single binding file that contains customization for multiple schemas or you can break the customization into multiple bindings files: \f3xjc schema1\&.xsd schema2\&.xsd schema3\&.xsd -b bindings123\&.xjb\fR\f3xjc schema1\&.xsd schema2\&.xsd schema3\&.xsd -b bindings1\&.xjb -b bindings2\&.xjb -b bindings3\&.xjb\fR\&. In addition, the ordering of the schema files and binding files on the command line does not matter\&.
+Specifies one or more externbl binding files to process\&. Ebch binding file must hbve its own \f3-b\fR switch\&. The syntbx of the externbl binding files is flexible\&. You cbn hbve b single binding file thbt contbins customizbtion for multiple schembs or you cbn brebk the customizbtion into multiple bindings files: \f3xjc schemb1\&.xsd schemb2\&.xsd schemb3\&.xsd -b bindings123\&.xjb\fR\f3xjc schemb1\&.xsd schemb2\&.xsd schemb3\&.xsd -b bindings1\&.xjb -b bindings2\&.xjb -b bindings3\&.xjb\fR\&. In bddition, the ordering of the schemb files bnd binding files on the commbnd line does not mbtter\&.
 .TP
 -d \fIdir\fR
 .br
-By default, the XJC binding compiler generates the Java content classes in the current directory\&. Use this option to specify an alternate output directory\&. The output directory must already exist\&. The XJC binding compiler does not create it for you\&.
+By defbult, the XJC binding compiler generbtes the Jbvb content clbsses in the current directory\&. Use this option to specify bn blternbte output directory\&. The output directory must blrebdy exist\&. The XJC binding compiler does not crebte it for you\&.
 .TP
 -p \fIpkg\fR
 .br
-When you specify a target package with this command-line option, it overrides any binding customization for the package name and the default package name algorithm defined in the specification\&.
+When you specify b tbrget pbckbge with this commbnd-line option, it overrides bny binding customizbtion for the pbckbge nbme bnd the defbult pbckbge nbme blgorithm defined in the specificbtion\&.
 .TP
 -httpproxy \fIproxy\fR
 .br
-Specifies the HTTP or HTTPS proxy in the format \fI[user[:password]@]proxyHost[:proxyPort]\fR\&. The old \f3-host\fR and \f3-port\fR options are still supported by the RI for backward compatibility, but they were deprecated\&. The password specified with this option is an argument that is visible to other users who use the top command\&. For greater security, use the \f3-httpproxyfile\fR option\&.
+Specifies the HTTP or HTTPS proxy in the formbt \fI[user[:pbssword]@]proxyHost[:proxyPort]\fR\&. The old \f3-host\fR bnd \f3-port\fR options bre still supported by the RI for bbckwbrd compbtibility, but they were deprecbted\&. The pbssword specified with this option is bn brgument thbt is visible to other users who use the top commbnd\&. For grebter security, use the \f3-httpproxyfile\fR option\&.
 .TP
 -httpproxyfile file
 .br
-Specifies the HTTP or HTTPS proxy with a file\&. The same format as the \f3-httpproxy\fR option, but the password specified in the file is not visible to other users\&.
+Specifies the HTTP or HTTPS proxy with b file\&. The sbme formbt bs the \f3-httpproxy\fR option, but the pbssword specified in the file is not visible to other users\&.
 .TP
--classpath arg
+-clbsspbth brg
 .br
-Specifies where to find client application class files used by the \fIjxb:javaType\fR and xjc:\fIsuperClass\fR customization\&.
+Specifies where to find client bpplicbtion clbss files used by the \fIjxb:jbvbType\fR bnd xjc:\fIsuperClbss\fR customizbtion\&.
 .TP
--catalog file
+-cbtblog file
 .br
-Specifies catalog files to resolve external entity references\&. Supports the TR9401, XCatalog, and OASIS XML Catalog formats\&. See XML Entity and URI Resolvers at http://xerces\&.apache\&.org/xml-commons/components/resolver/resolver-article\&.html
+Specifies cbtblog files to resolve externbl entity references\&. Supports the TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. See XML Entity bnd URI Resolvers bt http://xerces\&.bpbche\&.org/xml-commons/components/resolver/resolver-brticle\&.html
 .TP
--readOnly
+-rebdOnly
 .br
-By default, the XJC binding compiler does not write-protect the Java source files it generates\&. Use this option to force the XJC binding compiler to mark the generated Java sources as read-only\&.
+By defbult, the XJC binding compiler does not write-protect the Jbvb source files it generbtes\&. Use this option to force the XJC binding compiler to mbrk the generbted Jbvb sources bs rebd-only\&.
 .TP
--npa
+-npb
 .br
-Suppresses the generation of package level annotations into \f3**/package-info\&.java\fR\&. Using this switch causes the generated code to internalize those annotations into the other generated classes\&.
+Suppresses the generbtion of pbckbge level bnnotbtions into \f3**/pbckbge-info\&.jbvb\fR\&. Using this switch cbuses the generbted code to internblize those bnnotbtions into the other generbted clbsses\&.
 .TP
--no-header
+-no-hebder
 .br
-Suppresses the generation of a file header comment that includes some note and time stamp\&. Using this makes the generated code more compatible with the \f3diff\fR command\&.
+Suppresses the generbtion of b file hebder comment thbt includes some note bnd time stbmp\&. Using this mbkes the generbted code more compbtible with the \f3diff\fR commbnd\&.
 .TP
--target 2\&.0
+-tbrget 2\&.0
 .br
-Avoids generating code that relies on any JAXB 2\&.1 features\&. This will allow the generated code to run with JAXB 2\&.0 runtime environment (such as Java SE 6)\&.
+Avoids generbting code thbt relies on bny JAXB 2\&.1 febtures\&. This will bllow the generbted code to run with JAXB 2\&.0 runtime environment (such bs Jbvb SE 6)\&.
 .TP
--xmlschema
+-xmlschemb
 .br
-Treats input schemas as W3C XML Schema (default)\&. If you do not specify this switch, then your input schemas are treated as though they are W3C XML Schemas\&.
+Trebts input schembs bs W3C XML Schemb (defbult)\&. If you do not specify this switch, then your input schembs bre trebted bs though they bre W3C XML Schembs\&.
 .TP
--relaxing
+-relbxing
 .br
-Treats input schemas as RELAX NG (experimental and unsupported)\&. Support for RELAX NG schemas is provided as a JAXB Vendor Extension\&.
+Trebts input schembs bs RELAX NG (experimentbl bnd unsupported)\&. Support for RELAX NG schembs is provided bs b JAXB Vendor Extension\&.
 .TP
--relaxing-compact
+-relbxing-compbct
 .br
-Treat input schemas as RELAX NG compact syntax (experimental and unsupported)\&. Support for RELAX NG schemas is provided as a JAXB Vendor Extension\&.
+Trebt input schembs bs RELAX NG compbct syntbx (experimentbl bnd unsupported)\&. Support for RELAX NG schembs is provided bs b JAXB Vendor Extension\&.
 .TP
 -dtd
 .br
-Treats input schemas as XML DTD (experimental and unsupported)\&. Support for RELAX NG schemas is provided as a JAXB Vendor Extension\&.
+Trebts input schembs bs XML DTD (experimentbl bnd unsupported)\&. Support for RELAX NG schembs is provided bs b JAXB Vendor Extension\&.
 .TP
 -wsdl
 .br
-Treats input as WSDL and compiles schemas inside it (experimental and unsupported)\&.
+Trebts input bs WSDL bnd compiles schembs inside it (experimentbl bnd unsupported)\&.
 .TP
 -quiet
 .br
-Suppress compiler output, such as progress information and warnings\&.
+Suppress compiler output, such bs progress informbtion bnd wbrnings\&.
 .TP
 -verbose
 .br
-Be extra verbose, such as printing informational messages or displaying stack traces upon some errors\&.
+Be extrb verbose, such bs printing informbtionbl messbges or displbying stbck trbces upon some errors\&.
 .TP
 -help
 .br
-Displays a brief summary of the compiler switches\&.
+Displbys b brief summbry of the compiler switches\&.
 .TP
 -version
 .br
-Displays the compiler version information\&.
+Displbys the compiler version informbtion\&.
 .TP     
-\fIschema file/URL/dir\fR
-Specifies one or more schema files to compile\&. If you specify a directory, then the \f3xjc\fR command scans it for all schema files and compiles them\&.
+\fIschemb file/URL/dir\fR
+Specifies one or more schemb files to compile\&. If you specify b directory, then the \f3xjc\fR commbnd scbns it for bll schemb files bnd compiles them\&.
 .SS NONSTANDARD\ OPTIONS    
 .TP
--XLocator
+-XLocbtor
 .br
-Causes the generated code to expose SAX Locator information about the source XML in the Java bean instances after unmarshalling\&.
+Cbuses the generbted code to expose SAX Locbtor informbtion bbout the source XML in the Jbvb bebn instbnces bfter unmbrshblling\&.
 .TP
 -Xsync-methods
 .br
-Causes all of the generated method signatures to include the \f3synchronized\fR keyword\&.
+Cbuses bll of the generbted method signbtures to include the \f3synchronized\fR keyword\&.
 .TP
--mark-generated
+-mbrk-generbted
 .br
-Marks the generated code with the annotation \f3@javax\&.annotation\&.Generated\fR\&.
+Mbrks the generbted code with the bnnotbtion \f3@jbvbx\&.bnnotbtion\&.Generbted\fR\&.
 .TP
 -episode file
 .br
-Generates the specified episode file for separate compilation\&.
+Generbtes the specified episode file for sepbrbte compilbtion\&.
 .SS DEPRECATED\ AND\ REMOVED\ OPTIONS    
 .TP
 -host & -port
 .br
-These options are replaced with the \f3-httpproxy\fR option\&. For backward compatibility, these options are supported, but will not be documented and might be removed from future releases\&.
+These options bre replbced with the \f3-httpproxy\fR option\&. For bbckwbrd compbtibility, these options bre supported, but will not be documented bnd might be removed from future relebses\&.
 .TP
 -use-runtime
 .br
-Because the JAXB 2\&.0 specification has defined a portable runtime environment, it is no longer necessary for the JAXB RI to generate \f3**/impl/runtime\fRpackages\&. Therefore, this switch is obsolete and was removed\&.
+Becbuse the JAXB 2\&.0 specificbtion hbs defined b portbble runtime environment, it is no longer necessbry for the JAXB RI to generbte \f3**/impl/runtime\fRpbckbges\&. Therefore, this switch is obsolete bnd wbs removed\&.
 .TP
 -source
 .br
-The \f3-source\fR compatibility switch was introduced in the first JAXB 2\&.0 Early Access release\&. This switch is removed from future releases of JAXB 2\&.0\&. If you need to generate 1\&.0\&.x code, then use an installation of the 1\&.0\&.x code base\&.
+The \f3-source\fR compbtibility switch wbs introduced in the first JAXB 2\&.0 Ebrly Access relebse\&. This switch is removed from future relebses of JAXB 2\&.0\&. If you need to generbte 1\&.0\&.x code, then use bn instbllbtion of the 1\&.0\&.x code bbse\&.
 .SH COMPILER\ RESTRICTIONS    
-In general, it is safest to compile all related schemas as a single unit with the same binding compiler switches\&. Keep the following list of restrictions in mind when running the \f3xjc\fR command\&. Most of these issues only apply when you compile multiple schemas with multiple invocations of the \f3xjc\fR command\&.
+In generbl, it is sbfest to compile bll relbted schembs bs b single unit with the sbme binding compiler switches\&. Keep the following list of restrictions in mind when running the \f3xjc\fR commbnd\&. Most of these issues only bpply when you compile multiple schembs with multiple invocbtions of the \f3xjc\fR commbnd\&.
 .PP
-To compile multiple schemas at the same time, keep the following precedence rules for the target Java package name in mind:
+To compile multiple schembs bt the sbme time, keep the following precedence rules for the tbrget Jbvb pbckbge nbme in mind:
 .TP 0.4i    
 1\&.
-The \f3-p\fR option has the highest precedence\&.
+The \f3-p\fR option hbs the highest precedence\&.
 .TP 0.4i    
 2\&.
-\fIjaxb:package\fR customization\&.
+\fIjbxb:pbckbge\fR customizbtion\&.
 .TP 0.4i    
 3\&.
-If \f3targetNamespace\fR is declared, then apply the \f3t\fR\f3argetNamespace\fR to the Java package name algorithm defined in the specification\&.
+If \f3tbrgetNbmespbce\fR is declbred, then bpply the \f3t\fR\f3brgetNbmespbce\fR to the Jbvb pbckbge nbme blgorithm defined in the specificbtion\&.
 .TP 0.4i    
 4\&.
-If no \f3targetNamespace\fR is declared, then use a hard coded package named \f3generated\fR\&.
+If no \f3tbrgetNbmespbce\fR is declbred, then use b hbrd coded pbckbge nbmed \f3generbted\fR\&.
 .PP
-You cannot have more than one \fIjaxb:schemaBindings\fR per name space, so it is impossible to have two schemas in the same target name space compiled into different Java packages\&.
+You cbnnot hbve more thbn one \fIjbxb:schembBindings\fR per nbme spbce, so it is impossible to hbve two schembs in the sbme tbrget nbme spbce compiled into different Jbvb pbckbges\&.
 .PP
-All schemas being compiled into the same Java package must be submitted to the XJC binding compiler at the same time\&. They cannot be compiled independently and work as expected\&.
+All schembs being compiled into the sbme Jbvb pbckbge must be submitted to the XJC binding compiler bt the sbme time\&. They cbnnot be compiled independently bnd work bs expected\&.
 .PP
-Element substitution groups that are spread across multiple schema files must be compiled at the same time\&.
+Element substitution groups thbt bre sprebd bcross multiple schemb files must be compiled bt the sbme time\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-Binding Compiler (xjc) at http://jaxb\&.java\&.net/nonav/2\&.2\&.3u1/docs/xjc\&.html
+Binding Compiler (xjc) bt http://jbxb\&.jbvb\&.net/nonbv/2\&.2\&.3u1/docs/xjc\&.html
 .TP 0.2i    
 \(bu
-Java Architecture for XML Binding (JAXB) at http://www\&.oracle\&.com/technetwork/articles/javase/index-140168\&.html
+Jbvb Architecture for XML Binding (JAXB) bt http://www\&.orbcle\&.com/technetwork/brticles/jbvbse/index-140168\&.html
 .RE
 .br
 'pl 8.5i

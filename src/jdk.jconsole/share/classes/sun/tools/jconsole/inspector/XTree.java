@@ -1,519 +1,519 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-import java.io.IOException;
-import java.util.*;
-import javax.management.*;
-import javax.swing.*;
-import javax.swing.tree.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
+import jbvbx.mbnbgement.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tree.*;
 import sun.tools.jconsole.JConsole;
-import sun.tools.jconsole.MBeansTab;
-import sun.tools.jconsole.Messages;
+import sun.tools.jconsole.MBebnsTbb;
+import sun.tools.jconsole.Messbges;
 import sun.tools.jconsole.inspector.XNodeInfo;
-import static sun.tools.jconsole.inspector.XNodeInfo.Type;
+import stbtic sun.tools.jconsole.inspector.XNodeInfo.Type;
 
-@SuppressWarnings("serial")
-public class XTree extends JTree {
+@SuppressWbrnings("seribl")
+public clbss XTree extends JTree {
 
-    private static final List<String> orderedKeyPropertyList =
-            new ArrayList<String>();
+    privbte stbtic finbl List<String> orderedKeyPropertyList =
+            new ArrbyList<String>();
 
-    static {
+    stbtic {
         String keyPropertyList =
-                System.getProperty("com.sun.tools.jconsole.mbeans.keyPropertyList");
+                System.getProperty("com.sun.tools.jconsole.mbebns.keyPropertyList");
         if (keyPropertyList == null) {
-            orderedKeyPropertyList.add("type");
-            orderedKeyPropertyList.add("j2eeType");
+            orderedKeyPropertyList.bdd("type");
+            orderedKeyPropertyList.bdd("j2eeType");
         } else {
             StringTokenizer st = new StringTokenizer(keyPropertyList, ",");
-            while (st.hasMoreTokens()) {
-                orderedKeyPropertyList.add(st.nextToken());
+            while (st.hbsMoreTokens()) {
+                orderedKeyPropertyList.bdd(st.nextToken());
             }
         }
     }
-    private MBeansTab mbeansTab;
-    private Map<String, DefaultMutableTreeNode> nodes =
-            new HashMap<String, DefaultMutableTreeNode>();
+    privbte MBebnsTbb mbebnsTbb;
+    privbte Mbp<String, DefbultMutbbleTreeNode> nodes =
+            new HbshMbp<String, DefbultMutbbleTreeNode>();
 
-    public XTree(MBeansTab mbeansTab) {
-        this(new DefaultMutableTreeNode("MBeanTreeRootNode"), mbeansTab);
+    public XTree(MBebnsTbb mbebnsTbb) {
+        this(new DefbultMutbbleTreeNode("MBebnTreeRootNode"), mbebnsTbb);
     }
 
-    public XTree(TreeNode root, MBeansTab mbeansTab) {
+    public XTree(TreeNode root, MBebnsTbb mbebnsTbb) {
         super(root, true);
-        this.mbeansTab = mbeansTab;
-        setRootVisible(false);
-        setShowsRootHandles(true);
-        ToolTipManager.sharedInstance().registerComponent(this);
+        this.mbebnsTbb = mbebnsTbb;
+        setRootVisible(fblse);
+        setShowsRootHbndles(true);
+        ToolTipMbnbger.shbredInstbnce().registerComponent(this);
     }
 
     /**
-     * This method removes the node from its parent
+     * This method removes the node from its pbrent
      */
-    // Call on EDT
-    private synchronized void removeChildNode(DefaultMutableTreeNode child) {
-        DefaultTreeModel model = (DefaultTreeModel) getModel();
-        model.removeNodeFromParent(child);
+    // Cbll on EDT
+    privbte synchronized void removeChildNode(DefbultMutbbleTreeNode child) {
+        DefbultTreeModel model = (DefbultTreeModel) getModel();
+        model.removeNodeFromPbrent(child);
     }
 
     /**
-     * This method adds the child to the specified parent node
-     * at specific index.
+     * This method bdds the child to the specified pbrent node
+     * bt specific index.
      */
-    // Call on EDT
-    private synchronized void addChildNode(
-            DefaultMutableTreeNode parent,
-            DefaultMutableTreeNode child,
+    // Cbll on EDT
+    privbte synchronized void bddChildNode(
+            DefbultMutbbleTreeNode pbrent,
+            DefbultMutbbleTreeNode child,
             int index) {
-        DefaultTreeModel model = (DefaultTreeModel) getModel();
-        model.insertNodeInto(child, parent, index);
+        DefbultTreeModel model = (DefbultTreeModel) getModel();
+        model.insertNodeInto(child, pbrent, index);
     }
 
     /**
-     * This method adds the child to the specified parent node.
-     * The index where the child is to be added depends on the
-     * child node being Comparable or not. If the child node is
-     * not Comparable then it is added at the end, i.e. right
-     * after the current parent's children.
+     * This method bdds the child to the specified pbrent node.
+     * The index where the child is to be bdded depends on the
+     * child node being Compbrbble or not. If the child node is
+     * not Compbrbble then it is bdded bt the end, i.e. right
+     * bfter the current pbrent's children.
      */
-    // Call on EDT
-    private synchronized void addChildNode(
-            DefaultMutableTreeNode parent, DefaultMutableTreeNode child) {
-        int childCount = parent.getChildCount();
+    // Cbll on EDT
+    privbte synchronized void bddChildNode(
+            DefbultMutbbleTreeNode pbrent, DefbultMutbbleTreeNode child) {
+        int childCount = pbrent.getChildCount();
         if (childCount == 0) {
-            addChildNode(parent, child, 0);
+            bddChildNode(pbrent, child, 0);
             return;
         }
-        if (child instanceof ComparableDefaultMutableTreeNode) {
-            ComparableDefaultMutableTreeNode comparableChild =
-                    (ComparableDefaultMutableTreeNode) child;
+        if (child instbnceof CompbrbbleDefbultMutbbleTreeNode) {
+            CompbrbbleDefbultMutbbleTreeNode compbrbbleChild =
+                    (CompbrbbleDefbultMutbbleTreeNode) child;
             for (int i = childCount - 1; i >= 0; i--) {
-                DefaultMutableTreeNode brother =
-                        (DefaultMutableTreeNode) parent.getChildAt(i);
-                // expr1: child node must be inserted after metadata nodes
+                DefbultMutbbleTreeNode brother =
+                        (DefbultMutbbleTreeNode) pbrent.getChildAt(i);
+                // expr1: child node must be inserted bfter metbdbtb nodes
                 // - OR -
                 // expr2: "child >= brother"
-                if ((i <= 2 && isMetadataNode(brother)) ||
-                        comparableChild.compareTo(brother) >= 0) {
-                    addChildNode(parent, child, i + 1);
+                if ((i <= 2 && isMetbdbtbNode(brother)) ||
+                        compbrbbleChild.compbreTo(brother) >= 0) {
+                    bddChildNode(pbrent, child, i + 1);
                     return;
                 }
             }
-            // "child < all brothers", add at the beginning
-            addChildNode(parent, child, 0);
+            // "child < bll brothers", bdd bt the beginning
+            bddChildNode(pbrent, child, 0);
             return;
         }
-        // "child not comparable", add at the end
-        addChildNode(parent, child, childCount);
+        // "child not compbrbble", bdd bt the end
+        bddChildNode(pbrent, child, childCount);
     }
 
     /**
-     * This method removes all the displayed nodes from the tree,
-     * but does not affect actual MBeanServer contents.
+     * This method removes bll the displbyed nodes from the tree,
+     * but does not bffect bctubl MBebnServer contents.
      */
-    // Call on EDT
+    // Cbll on EDT
     @Override
     public synchronized void removeAll() {
-        DefaultTreeModel model = (DefaultTreeModel) getModel();
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
+        DefbultTreeModel model = (DefbultTreeModel) getModel();
+        DefbultMutbbleTreeNode root = (DefbultMutbbleTreeNode) model.getRoot();
         root.removeAllChildren();
-        model.nodeStructureChanged(root);
-        nodes.clear();
+        model.nodeStructureChbnged(root);
+        nodes.clebr();
     }
 
-    // Call on EDT
-    public synchronized void removeMBeanFromView(ObjectName mbean) {
-        // We assume here that MBeans are removed one by one (on MBean
-        // unregistered notification). Deletes the tree node associated
-        // with the given MBean and recursively all the node parents
-        // which are leaves and non XMBean.
+    // Cbll on EDT
+    public synchronized void removeMBebnFromView(ObjectNbme mbebn) {
+        // We bssume here thbt MBebns bre removed one by one (on MBebn
+        // unregistered notificbtion). Deletes the tree node bssocibted
+        // with the given MBebn bnd recursively bll the node pbrents
+        // which bre lebves bnd non XMBebn.
         //
-        DefaultMutableTreeNode node = null;
-        Dn dn = new Dn(mbean);
+        DefbultMutbbleTreeNode node = null;
+        Dn dn = new Dn(mbebn);
         if (dn.getTokenCount() > 0) {
-            DefaultTreeModel model = (DefaultTreeModel) getModel();
+            DefbultTreeModel model = (DefbultTreeModel) getModel();
             Token token = dn.getToken(0);
-            String hashKey = dn.getHashKey(token);
-            node = nodes.get(hashKey);
+            String hbshKey = dn.getHbshKey(token);
+            node = nodes.get(hbshKey);
             if ((node != null) && (!node.isRoot())) {
-                if (hasNonMetadataNodes(node)) {
-                    removeMetadataNodes(node);
-                    String label = token.getValue();
+                if (hbsNonMetbdbtbNodes(node)) {
+                    removeMetbdbtbNodes(node);
+                    String lbbel = token.getVblue();
                     XNodeInfo userObject = new XNodeInfo(
-                            Type.NONMBEAN, label,
-                            label, token.getTokenValue());
-                    changeNodeValue(node, userObject);
+                            Type.NONMBEAN, lbbel,
+                            lbbel, token.getTokenVblue());
+                    chbngeNodeVblue(node, userObject);
                 } else {
-                    DefaultMutableTreeNode parent =
-                            (DefaultMutableTreeNode) node.getParent();
-                    model.removeNodeFromParent(node);
-                    nodes.remove(hashKey);
-                    removeParentFromView(dn, 1, parent);
+                    DefbultMutbbleTreeNode pbrent =
+                            (DefbultMutbbleTreeNode) node.getPbrent();
+                    model.removeNodeFromPbrent(node);
+                    nodes.remove(hbshKey);
+                    removePbrentFromView(dn, 1, pbrent);
                 }
             }
         }
     }
 
     /**
-     * Returns true if any of the children nodes is a non MBean metadata node.
+     * Returns true if bny of the children nodes is b non MBebn metbdbtb node.
      */
-    private boolean hasNonMetadataNodes(DefaultMutableTreeNode node) {
-        for (Enumeration<?> e = node.children(); e.hasMoreElements();) {
-            DefaultMutableTreeNode n = (DefaultMutableTreeNode) e.nextElement();
+    privbte boolebn hbsNonMetbdbtbNodes(DefbultMutbbleTreeNode node) {
+        for (Enumerbtion<?> e = node.children(); e.hbsMoreElements();) {
+            DefbultMutbbleTreeNode n = (DefbultMutbbleTreeNode) e.nextElement();
             Object uo = n.getUserObject();
-            if (uo instanceof XNodeInfo) {
+            if (uo instbnceof XNodeInfo) {
                 switch (((XNodeInfo) uo).getType()) {
-                    case ATTRIBUTES:
-                    case NOTIFICATIONS:
-                    case OPERATIONS:
-                        break;
-                    default:
+                    cbse ATTRIBUTES:
+                    cbse NOTIFICATIONS:
+                    cbse OPERATIONS:
+                        brebk;
+                    defbult:
                         return true;
                 }
             } else {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if any of the children nodes is an MBean metadata node.
+     * Returns true if bny of the children nodes is bn MBebn metbdbtb node.
      */
-    public boolean hasMetadataNodes(DefaultMutableTreeNode node) {
-        for (Enumeration<?> e = node.children(); e.hasMoreElements();) {
-            DefaultMutableTreeNode n = (DefaultMutableTreeNode) e.nextElement();
+    public boolebn hbsMetbdbtbNodes(DefbultMutbbleTreeNode node) {
+        for (Enumerbtion<?> e = node.children(); e.hbsMoreElements();) {
+            DefbultMutbbleTreeNode n = (DefbultMutbbleTreeNode) e.nextElement();
             Object uo = n.getUserObject();
-            if (uo instanceof XNodeInfo) {
+            if (uo instbnceof XNodeInfo) {
                 switch (((XNodeInfo) uo).getType()) {
-                    case ATTRIBUTES:
-                    case NOTIFICATIONS:
-                    case OPERATIONS:
+                    cbse ATTRIBUTES:
+                    cbse NOTIFICATIONS:
+                    cbse OPERATIONS:
                         return true;
-                    default:
-                        break;
+                    defbult:
+                        brebk;
                 }
             } else {
-                return false;
+                return fblse;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if the given node is an MBean metadata node.
+     * Returns true if the given node is bn MBebn metbdbtb node.
      */
-    public boolean isMetadataNode(DefaultMutableTreeNode node) {
+    public boolebn isMetbdbtbNode(DefbultMutbbleTreeNode node) {
         Object uo = node.getUserObject();
-        if (uo instanceof XNodeInfo) {
+        if (uo instbnceof XNodeInfo) {
             switch (((XNodeInfo) uo).getType()) {
-                case ATTRIBUTES:
-                case NOTIFICATIONS:
-                case OPERATIONS:
+                cbse ATTRIBUTES:
+                cbse NOTIFICATIONS:
+                cbse OPERATIONS:
                     return true;
-                default:
-                    return false;
+                defbult:
+                    return fblse;
             }
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Remove the metadata nodes associated with a given MBean node.
+     * Remove the metbdbtb nodes bssocibted with b given MBebn node.
      */
-    // Call on EDT
-    private void removeMetadataNodes(DefaultMutableTreeNode node) {
-        Set<DefaultMutableTreeNode> metadataNodes =
-                new HashSet<DefaultMutableTreeNode>();
-        DefaultTreeModel model = (DefaultTreeModel) getModel();
-        for (Enumeration<?> e = node.children(); e.hasMoreElements();) {
-            DefaultMutableTreeNode n = (DefaultMutableTreeNode) e.nextElement();
+    // Cbll on EDT
+    privbte void removeMetbdbtbNodes(DefbultMutbbleTreeNode node) {
+        Set<DefbultMutbbleTreeNode> metbdbtbNodes =
+                new HbshSet<DefbultMutbbleTreeNode>();
+        DefbultTreeModel model = (DefbultTreeModel) getModel();
+        for (Enumerbtion<?> e = node.children(); e.hbsMoreElements();) {
+            DefbultMutbbleTreeNode n = (DefbultMutbbleTreeNode) e.nextElement();
             Object uo = n.getUserObject();
-            if (uo instanceof XNodeInfo) {
+            if (uo instbnceof XNodeInfo) {
                 switch (((XNodeInfo) uo).getType()) {
-                    case ATTRIBUTES:
-                    case NOTIFICATIONS:
-                    case OPERATIONS:
-                        metadataNodes.add(n);
-                        break;
-                    default:
-                        break;
+                    cbse ATTRIBUTES:
+                    cbse NOTIFICATIONS:
+                    cbse OPERATIONS:
+                        metbdbtbNodes.bdd(n);
+                        brebk;
+                    defbult:
+                        brebk;
                 }
             }
         }
-        for (DefaultMutableTreeNode n : metadataNodes) {
-            model.removeNodeFromParent(n);
+        for (DefbultMutbbleTreeNode n : metbdbtbNodes) {
+            model.removeNodeFromPbrent(n);
         }
     }
 
     /**
-     * Removes only the parent nodes which are non MBean and leaf.
-     * This method assumes the child nodes have been removed before.
+     * Removes only the pbrent nodes which bre non MBebn bnd lebf.
+     * This method bssumes the child nodes hbve been removed before.
      */
-    // Call on EDT
-    private DefaultMutableTreeNode removeParentFromView(
-            Dn dn, int index, DefaultMutableTreeNode node) {
-        if ((!node.isRoot()) && node.isLeaf() &&
-                (!(((XNodeInfo) node.getUserObject()).getType().equals(Type.MBEAN)))) {
-            DefaultMutableTreeNode parent =
-                    (DefaultMutableTreeNode) node.getParent();
+    // Cbll on EDT
+    privbte DefbultMutbbleTreeNode removePbrentFromView(
+            Dn dn, int index, DefbultMutbbleTreeNode node) {
+        if ((!node.isRoot()) && node.isLebf() &&
+                (!(((XNodeInfo) node.getUserObject()).getType().equbls(Type.MBEAN)))) {
+            DefbultMutbbleTreeNode pbrent =
+                    (DefbultMutbbleTreeNode) node.getPbrent();
             removeChildNode(node);
-            String hashKey = dn.getHashKey(dn.getToken(index));
-            nodes.remove(hashKey);
-            removeParentFromView(dn, index + 1, parent);
+            String hbshKey = dn.getHbshKey(dn.getToken(index));
+            nodes.remove(hbshKey);
+            removePbrentFromView(dn, index + 1, pbrent);
         }
         return node;
     }
 
-    // Call on EDT
-    public synchronized void addMBeansToView(Set<ObjectName> mbeans) {
+    // Cbll on EDT
+    public synchronized void bddMBebnsToView(Set<ObjectNbme> mbebns) {
         Set<Dn> dns = new TreeSet<Dn>();
-        for (ObjectName mbean : mbeans) {
-            Dn dn = new Dn(mbean);
-            dns.add(dn);
+        for (ObjectNbme mbebn : mbebns) {
+            Dn dn = new Dn(mbebn);
+            dns.bdd(dn);
         }
         for (Dn dn : dns) {
-            ObjectName mbean = dn.getObjectName();
-            XMBean xmbean = new XMBean(mbean, mbeansTab);
-            addMBeanToView(mbean, xmbean, dn);
+            ObjectNbme mbebn = dn.getObjectNbme();
+            XMBebn xmbebn = new XMBebn(mbebn, mbebnsTbb);
+            bddMBebnToView(mbebn, xmbebn, dn);
         }
     }
 
-    // Call on EDT
-    public synchronized void addMBeanToView(ObjectName mbean) {
-        // Build XMBean for the given MBean
+    // Cbll on EDT
+    public synchronized void bddMBebnToView(ObjectNbme mbebn) {
+        // Build XMBebn for the given MBebn
         //
-        XMBean xmbean = new XMBean(mbean, mbeansTab);
-        // Build Dn for the given MBean
+        XMBebn xmbebn = new XMBebn(mbebn, mbebnsTbb);
+        // Build Dn for the given MBebn
         //
-        Dn dn = new Dn(mbean);
-        // Add the new nodes to the MBean tree from leaf to root
+        Dn dn = new Dn(mbebn);
+        // Add the new nodes to the MBebn tree from lebf to root
         //
-        addMBeanToView(mbean, xmbean, dn);
+        bddMBebnToView(mbebn, xmbebn, dn);
     }
 
-    // Call on EDT
-    private synchronized void addMBeanToView(
-            ObjectName mbean, XMBean xmbean, Dn dn) {
+    // Cbll on EDT
+    privbte synchronized void bddMBebnToView(
+            ObjectNbme mbebn, XMBebn xmbebn, Dn dn) {
 
-        DefaultMutableTreeNode childNode = null;
-        DefaultMutableTreeNode parentNode = null;
+        DefbultMutbbleTreeNode childNode = null;
+        DefbultMutbbleTreeNode pbrentNode = null;
 
-        // Add the node or replace its user object if already added
+        // Add the node or replbce its user object if blrebdy bdded
         //
         Token token = dn.getToken(0);
-        String hashKey = dn.getHashKey(token);
-        if (nodes.containsKey(hashKey)) {
-            // Found existing node previously created when adding another node
+        String hbshKey = dn.getHbshKey(token);
+        if (nodes.contbinsKey(hbshKey)) {
+            // Found existing node previously crebted when bdding bnother node
             //
-            childNode = nodes.get(hashKey);
-            // Replace user object to reflect that this node is an MBean
+            childNode = nodes.get(hbshKey);
+            // Replbce user object to reflect thbt this node is bn MBebn
             //
-            Object data = createNodeValue(xmbean, token);
-            String label = data.toString();
+            Object dbtb = crebteNodeVblue(xmbebn, token);
+            String lbbel = dbtb.toString();
             XNodeInfo userObject =
-                    new XNodeInfo(Type.MBEAN, data, label, mbean.toString());
-            changeNodeValue(childNode, userObject);
+                    new XNodeInfo(Type.MBEAN, dbtb, lbbel, mbebn.toString());
+            chbngeNodeVblue(childNode, userObject);
             return;
         }
 
-        // Create new leaf node
+        // Crebte new lebf node
         //
-        childNode = createDnNode(dn, token, xmbean);
-        nodes.put(hashKey, childNode);
+        childNode = crebteDnNode(dn, token, xmbebn);
+        nodes.put(hbshKey, childNode);
 
-        // Add intermediate non MBean nodes
+        // Add intermedibte non MBebn nodes
         //
         for (int i = 1; i < dn.getTokenCount(); i++) {
             token = dn.getToken(i);
-            hashKey = dn.getHashKey(token);
-            if (nodes.containsKey(hashKey)) {
-                // Intermediate node already present, add new node as child
+            hbshKey = dn.getHbshKey(token);
+            if (nodes.contbinsKey(hbshKey)) {
+                // Intermedibte node blrebdy present, bdd new node bs child
                 //
-                parentNode = nodes.get(hashKey);
-                addChildNode(parentNode, childNode);
+                pbrentNode = nodes.get(hbshKey);
+                bddChildNode(pbrentNode, childNode);
                 return;
             } else {
-                // Create new intermediate node
+                // Crebte new intermedibte node
                 //
-                if ("domain".equals(token.getTokenType())) {
-                    parentNode = createDomainNode(dn, token);
-                    DefaultMutableTreeNode root =
-                            (DefaultMutableTreeNode) getModel().getRoot();
-                    addChildNode(root, parentNode);
+                if ("dombin".equbls(token.getTokenType())) {
+                    pbrentNode = crebteDombinNode(dn, token);
+                    DefbultMutbbleTreeNode root =
+                            (DefbultMutbbleTreeNode) getModel().getRoot();
+                    bddChildNode(root, pbrentNode);
                 } else {
-                    parentNode = createSubDnNode(dn, token);
+                    pbrentNode = crebteSubDnNode(dn, token);
                 }
-                nodes.put(hashKey, parentNode);
-                addChildNode(parentNode, childNode);
+                nodes.put(hbshKey, pbrentNode);
+                bddChildNode(pbrentNode, childNode);
             }
-            childNode = parentNode;
+            childNode = pbrentNode;
         }
     }
 
-    // Call on EDT
-    private synchronized void changeNodeValue(
-            DefaultMutableTreeNode node, XNodeInfo nodeValue) {
-        if (node instanceof ComparableDefaultMutableTreeNode) {
-            // should it stay at the same place?
-            DefaultMutableTreeNode clone =
-                    (DefaultMutableTreeNode) node.clone();
-            clone.setUserObject(nodeValue);
-            if (((ComparableDefaultMutableTreeNode) node).compareTo(clone) == 0) {
-                // the order in the tree didn't change
-                node.setUserObject(nodeValue);
-                DefaultTreeModel model = (DefaultTreeModel) getModel();
-                model.nodeChanged(node);
+    // Cbll on EDT
+    privbte synchronized void chbngeNodeVblue(
+            DefbultMutbbleTreeNode node, XNodeInfo nodeVblue) {
+        if (node instbnceof CompbrbbleDefbultMutbbleTreeNode) {
+            // should it stby bt the sbme plbce?
+            DefbultMutbbleTreeNode clone =
+                    (DefbultMutbbleTreeNode) node.clone();
+            clone.setUserObject(nodeVblue);
+            if (((CompbrbbleDefbultMutbbleTreeNode) node).compbreTo(clone) == 0) {
+                // the order in the tree didn't chbnge
+                node.setUserObject(nodeVblue);
+                DefbultTreeModel model = (DefbultTreeModel) getModel();
+                model.nodeChbnged(node);
             } else {
-                // delete the node and re-order it in case the
-                // node value modifies the order in the tree
-                DefaultMutableTreeNode parent =
-                        (DefaultMutableTreeNode) node.getParent();
+                // delete the node bnd re-order it in cbse the
+                // node vblue modifies the order in the tree
+                DefbultMutbbleTreeNode pbrent =
+                        (DefbultMutbbleTreeNode) node.getPbrent();
                 removeChildNode(node);
-                node.setUserObject(nodeValue);
-                addChildNode(parent, node);
+                node.setUserObject(nodeVblue);
+                bddChildNode(pbrent, node);
             }
         } else {
-            // not comparable stays at the same place
-            node.setUserObject(nodeValue);
-            DefaultTreeModel model = (DefaultTreeModel) getModel();
-            model.nodeChanged(node);
+            // not compbrbble stbys bt the sbme plbce
+            node.setUserObject(nodeVblue);
+            DefbultTreeModel model = (DefbultTreeModel) getModel();
+            model.nodeChbnged(node);
         }
-        // Load the MBean metadata if type is MBEAN
-        if (nodeValue.getType().equals(Type.MBEAN)) {
-            removeMetadataNodes(node);
-            TreeNode[] treeNodes = node.getPath();
-            TreePath path = new TreePath(treeNodes);
-            if (isExpanded(path)) {
-                addMetadataNodes(node);
+        // Lobd the MBebn metbdbtb if type is MBEAN
+        if (nodeVblue.getType().equbls(Type.MBEAN)) {
+            removeMetbdbtbNodes(node);
+            TreeNode[] treeNodes = node.getPbth();
+            TreePbth pbth = new TreePbth(treeNodes);
+            if (isExpbnded(pbth)) {
+                bddMetbdbtbNodes(node);
             }
         }
-        // Clear the current selection and set it
-        // again so valueChanged() gets called
-        if (node == getLastSelectedPathComponent()) {
-            TreePath selectionPath = getSelectionPath();
-            clearSelection();
-            setSelectionPath(selectionPath);
+        // Clebr the current selection bnd set it
+        // bgbin so vblueChbnged() gets cblled
+        if (node == getLbstSelectedPbthComponent()) {
+            TreePbth selectionPbth = getSelectionPbth();
+            clebrSelection();
+            setSelectionPbth(selectionPbth);
         }
     }
 
     /**
-     * Creates the domain node.
+     * Crebtes the dombin node.
      */
-    private DefaultMutableTreeNode createDomainNode(Dn dn, Token token) {
-        DefaultMutableTreeNode node = new ComparableDefaultMutableTreeNode();
-        String label = dn.getDomain();
+    privbte DefbultMutbbleTreeNode crebteDombinNode(Dn dn, Token token) {
+        DefbultMutbbleTreeNode node = new CompbrbbleDefbultMutbbleTreeNode();
+        String lbbel = dn.getDombin();
         XNodeInfo userObject =
-                new XNodeInfo(Type.NONMBEAN, label, label, label);
+                new XNodeInfo(Type.NONMBEAN, lbbel, lbbel, lbbel);
         node.setUserObject(userObject);
         return node;
     }
 
     /**
-     * Creates the node corresponding to the whole Dn, i.e. an MBean.
+     * Crebtes the node corresponding to the whole Dn, i.e. bn MBebn.
      */
-    private DefaultMutableTreeNode createDnNode(
-            Dn dn, Token token, XMBean xmbean) {
-        DefaultMutableTreeNode node = new ComparableDefaultMutableTreeNode();
-        Object data = createNodeValue(xmbean, token);
-        String label = data.toString();
-        XNodeInfo userObject = new XNodeInfo(Type.MBEAN, data, label,
-                xmbean.getObjectName().toString());
+    privbte DefbultMutbbleTreeNode crebteDnNode(
+            Dn dn, Token token, XMBebn xmbebn) {
+        DefbultMutbbleTreeNode node = new CompbrbbleDefbultMutbbleTreeNode();
+        Object dbtb = crebteNodeVblue(xmbebn, token);
+        String lbbel = dbtb.toString();
+        XNodeInfo userObject = new XNodeInfo(Type.MBEAN, dbtb, lbbel,
+                xmbebn.getObjectNbme().toString());
         node.setUserObject(userObject);
         return node;
     }
 
     /**
-     * Creates the node corresponding to a subDn, i.e. a non-MBean
-     * intermediate node.
+     * Crebtes the node corresponding to b subDn, i.e. b non-MBebn
+     * intermedibte node.
      */
-    private DefaultMutableTreeNode createSubDnNode(Dn dn, Token token) {
-        DefaultMutableTreeNode node = new ComparableDefaultMutableTreeNode();
-        String label = isKeyValueView() ? token.getTokenValue() : token.getValue();
+    privbte DefbultMutbbleTreeNode crebteSubDnNode(Dn dn, Token token) {
+        DefbultMutbbleTreeNode node = new CompbrbbleDefbultMutbbleTreeNode();
+        String lbbel = isKeyVblueView() ? token.getTokenVblue() : token.getVblue();
         XNodeInfo userObject =
-                new XNodeInfo(Type.NONMBEAN, label, label, token.getTokenValue());
+                new XNodeInfo(Type.NONMBEAN, lbbel, lbbel, token.getTokenVblue());
         node.setUserObject(userObject);
         return node;
     }
 
-    private Object createNodeValue(XMBean xmbean, Token token) {
-        String label = isKeyValueView() ? token.getTokenValue() : token.getValue();
-        xmbean.setText(label);
-        return xmbean;
+    privbte Object crebteNodeVblue(XMBebn xmbebn, Token token) {
+        String lbbel = isKeyVblueView() ? token.getTokenVblue() : token.getVblue();
+        xmbebn.setText(lbbel);
+        return xmbebn;
     }
 
     /**
-     * Parses the MBean ObjectName comma-separated properties string and puts
-     * the individual key/value pairs into the map. Key order in the properties
-     * string is preserved by the map.
+     * Pbrses the MBebn ObjectNbme commb-sepbrbted properties string bnd puts
+     * the individubl key/vblue pbirs into the mbp. Key order in the properties
+     * string is preserved by the mbp.
      */
-    private static Map<String, String> extractKeyValuePairs(
-            String props, ObjectName mbean) {
-        Map<String, String> map = new LinkedHashMap<String, String>();
+    privbte stbtic Mbp<String, String> extrbctKeyVbluePbirs(
+            String props, ObjectNbme mbebn) {
+        Mbp<String, String> mbp = new LinkedHbshMbp<String, String>();
         int eq = props.indexOf('=');
         while (eq != -1) {
             String key = props.substring(0, eq);
-            String value = mbean.getKeyProperty(key);
-            map.put(key, value);
-            props = props.substring(key.length() + 1 + value.length());
-            if (props.startsWith(",")) {
+            String vblue = mbebn.getKeyProperty(key);
+            mbp.put(key, vblue);
+            props = props.substring(key.length() + 1 + vblue.length());
+            if (props.stbrtsWith(",")) {
                 props = props.substring(1);
             }
             eq = props.indexOf('=');
         }
-        return map;
+        return mbp;
     }
 
     /**
-     * Returns the ordered key property list that will be used to build the
-     * MBean tree. If the "com.sun.tools.jconsole.mbeans.keyPropertyList" system
+     * Returns the ordered key property list thbt will be used to build the
+     * MBebn tree. If the "com.sun.tools.jconsole.mbebns.keyPropertyList" system
      * property is not specified, then the ordered key property list used
-     * to build the MBean tree will be the one returned by the method
-     * ObjectName.getKeyPropertyListString() with "type" as first key,
-     * and "j2eeType" as second key, if present. If any of the keys specified
-     * in the comma-separated key property list does not apply to the given
-     * MBean then it will be discarded.
+     * to build the MBebn tree will be the one returned by the method
+     * ObjectNbme.getKeyPropertyListString() with "type" bs first key,
+     * bnd "j2eeType" bs second key, if present. If bny of the keys specified
+     * in the commb-sepbrbted key property list does not bpply to the given
+     * MBebn then it will be discbrded.
      */
-    private static String getKeyPropertyListString(ObjectName mbean) {
-        String props = mbean.getKeyPropertyListString();
-        Map<String, String> map = extractKeyValuePairs(props, mbean);
+    privbte stbtic String getKeyPropertyListString(ObjectNbme mbebn) {
+        String props = mbebn.getKeyPropertyListString();
+        Mbp<String, String> mbp = extrbctKeyVbluePbirs(props, mbebn);
         StringBuilder sb = new StringBuilder();
-        // Add the key/value pairs to the buffer following the
+        // Add the key/vblue pbirs to the buffer following the
         // key order defined by the "orderedKeyPropertyList"
         for (String key : orderedKeyPropertyList) {
-            if (map.containsKey(key)) {
-                sb.append(key + "=" + map.get(key) + ",");
-                map.remove(key);
+            if (mbp.contbinsKey(key)) {
+                sb.bppend(key + "=" + mbp.get(key) + ",");
+                mbp.remove(key);
             }
         }
-        // Add the remaining key/value pairs to the buffer
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            sb.append(entry.getKey() + "=" + entry.getValue() + ",");
+        // Add the rembining key/vblue pbirs to the buffer
+        for (Mbp.Entry<String, String> entry : mbp.entrySet()) {
+            sb.bppend(entry.getKey() + "=" + entry.getVblue() + ",");
         }
         String orderedKeyPropertyListString = sb.toString();
         orderedKeyPropertyListString = orderedKeyPropertyListString.substring(
@@ -521,41 +521,41 @@ public class XTree extends JTree {
         return orderedKeyPropertyListString;
     }
 
-    // Call on EDT
-    public void addMetadataNodes(DefaultMutableTreeNode node) {
-        XMBean mbean = (XMBean) ((XNodeInfo) node.getUserObject()).getData();
-        DefaultTreeModel model = (DefaultTreeModel) getModel();
-        MBeanInfoNodesSwingWorker sw =
-                new MBeanInfoNodesSwingWorker(model, node, mbean);
+    // Cbll on EDT
+    public void bddMetbdbtbNodes(DefbultMutbbleTreeNode node) {
+        XMBebn mbebn = (XMBebn) ((XNodeInfo) node.getUserObject()).getDbtb();
+        DefbultTreeModel model = (DefbultTreeModel) getModel();
+        MBebnInfoNodesSwingWorker sw =
+                new MBebnInfoNodesSwingWorker(model, node, mbebn);
         if (sw != null) {
             sw.execute();
         }
     }
 
-    private static class MBeanInfoNodesSwingWorker
+    privbte stbtic clbss MBebnInfoNodesSwingWorker
             extends SwingWorker<Object[], Void> {
 
-        private final DefaultTreeModel model;
-        private final DefaultMutableTreeNode node;
-        private final XMBean mbean;
+        privbte finbl DefbultTreeModel model;
+        privbte finbl DefbultMutbbleTreeNode node;
+        privbte finbl XMBebn mbebn;
 
-        public MBeanInfoNodesSwingWorker(
-                DefaultTreeModel model,
-                DefaultMutableTreeNode node,
-                XMBean mbean) {
+        public MBebnInfoNodesSwingWorker(
+                DefbultTreeModel model,
+                DefbultMutbbleTreeNode node,
+                XMBebn mbebn) {
             this.model = model;
             this.node = node;
-            this.mbean = mbean;
+            this.mbebn = mbebn;
         }
 
         @Override
-        public Object[] doInBackground() throws InstanceNotFoundException,
+        public Object[] doInBbckground() throws InstbnceNotFoundException,
                 IntrospectionException, ReflectionException, IOException {
             Object result[] = new Object[2];
-            // Retrieve MBeanInfo for this MBean
-            result[0] = mbean.getMBeanInfo();
-            // Check if this MBean is a notification emitter
-            result[1] = mbean.isBroadcaster();
+            // Retrieve MBebnInfo for this MBebn
+            result[0] = mbebn.getMBebnInfo();
+            // Check if this MBebn is b notificbtion emitter
+            result[1] = mbebn.isBrobdcbster();
             return result;
         }
 
@@ -563,189 +563,189 @@ public class XTree extends JTree {
         protected void done() {
             try {
                 Object result[] = get();
-                MBeanInfo mbeanInfo = (MBeanInfo) result[0];
-                Boolean isBroadcaster = (Boolean) result[1];
-                if (mbeanInfo != null) {
-                    addMBeanInfoNodes(model, node, mbean, mbeanInfo, isBroadcaster);
+                MBebnInfo mbebnInfo = (MBebnInfo) result[0];
+                Boolebn isBrobdcbster = (Boolebn) result[1];
+                if (mbebnInfo != null) {
+                    bddMBebnInfoNodes(model, node, mbebn, mbebnInfo, isBrobdcbster);
                 }
-            } catch (Exception e) {
-                Throwable t = Utils.getActualException(e);
+            } cbtch (Exception e) {
+                Throwbble t = Utils.getActublException(e);
                 if (JConsole.isDebug()) {
-                    t.printStackTrace();
+                    t.printStbckTrbce();
                 }
             }
         }
 
-        // Call on EDT
-        private void addMBeanInfoNodes(
-                DefaultTreeModel tree, DefaultMutableTreeNode node,
-                XMBean mbean, MBeanInfo mbeanInfo, Boolean isBroadcaster) {
-            MBeanAttributeInfo[] ai = mbeanInfo.getAttributes();
-            MBeanOperationInfo[] oi = mbeanInfo.getOperations();
-            MBeanNotificationInfo[] ni = mbeanInfo.getNotifications();
+        // Cbll on EDT
+        privbte void bddMBebnInfoNodes(
+                DefbultTreeModel tree, DefbultMutbbleTreeNode node,
+                XMBebn mbebn, MBebnInfo mbebnInfo, Boolebn isBrobdcbster) {
+            MBebnAttributeInfo[] bi = mbebnInfo.getAttributes();
+            MBebnOperbtionInfo[] oi = mbebnInfo.getOperbtions();
+            MBebnNotificbtionInfo[] ni = mbebnInfo.getNotificbtions();
 
-            // Insert the Attributes/Operations/Notifications metadata nodes as
-            // the three first children of this MBean node. This is only useful
-            // when this MBean node denotes an MBean but it's not a leaf in the
-            // MBean tree
+            // Insert the Attributes/Operbtions/Notificbtions metbdbtb nodes bs
+            // the three first children of this MBebn node. This is only useful
+            // when this MBebn node denotes bn MBebn but it's not b lebf in the
+            // MBebn tree
             //
             int childIndex = 0;
 
-            // MBeanAttributeInfo node
+            // MBebnAttributeInfo node
             //
-            if (ai != null && ai.length > 0) {
-                DefaultMutableTreeNode attributes = new DefaultMutableTreeNode();
-                XNodeInfo attributesUO = new XNodeInfo(Type.ATTRIBUTES, mbean,
-                        Messages.ATTRIBUTES, null);
-                attributes.setUserObject(attributesUO);
-                node.insert(attributes, childIndex++);
-                for (MBeanAttributeInfo mbai : ai) {
-                    DefaultMutableTreeNode attribute = new DefaultMutableTreeNode();
-                    XNodeInfo attributeUO = new XNodeInfo(Type.ATTRIBUTE,
-                            new Object[]{mbean, mbai}, mbai.getName(), null);
-                    attribute.setUserObject(attributeUO);
-                    attribute.setAllowsChildren(false);
-                    attributes.add(attribute);
+            if (bi != null && bi.length > 0) {
+                DefbultMutbbleTreeNode bttributes = new DefbultMutbbleTreeNode();
+                XNodeInfo bttributesUO = new XNodeInfo(Type.ATTRIBUTES, mbebn,
+                        Messbges.ATTRIBUTES, null);
+                bttributes.setUserObject(bttributesUO);
+                node.insert(bttributes, childIndex++);
+                for (MBebnAttributeInfo mbbi : bi) {
+                    DefbultMutbbleTreeNode bttribute = new DefbultMutbbleTreeNode();
+                    XNodeInfo bttributeUO = new XNodeInfo(Type.ATTRIBUTE,
+                            new Object[]{mbebn, mbbi}, mbbi.getNbme(), null);
+                    bttribute.setUserObject(bttributeUO);
+                    bttribute.setAllowsChildren(fblse);
+                    bttributes.bdd(bttribute);
                 }
             }
-            // MBeanOperationInfo node
+            // MBebnOperbtionInfo node
             //
             if (oi != null && oi.length > 0) {
-                DefaultMutableTreeNode operations = new DefaultMutableTreeNode();
-                XNodeInfo operationsUO = new XNodeInfo(Type.OPERATIONS, mbean,
-                        Messages.OPERATIONS, null);
-                operations.setUserObject(operationsUO);
-                node.insert(operations, childIndex++);
-                for (MBeanOperationInfo mboi : oi) {
-                    // Compute the operation's tool tip text:
-                    // "operationname(param1type,param2type,...)"
+                DefbultMutbbleTreeNode operbtions = new DefbultMutbbleTreeNode();
+                XNodeInfo operbtionsUO = new XNodeInfo(Type.OPERATIONS, mbebn,
+                        Messbges.OPERATIONS, null);
+                operbtions.setUserObject(operbtionsUO);
+                node.insert(operbtions, childIndex++);
+                for (MBebnOperbtionInfo mboi : oi) {
+                    // Compute the operbtion's tool tip text:
+                    // "operbtionnbme(pbrbm1type,pbrbm2type,...)"
                     //
                     StringBuilder sb = new StringBuilder();
-                    for (MBeanParameterInfo mbpi : mboi.getSignature()) {
-                        sb.append(mbpi.getType() + ",");
+                    for (MBebnPbrbmeterInfo mbpi : mboi.getSignbture()) {
+                        sb.bppend(mbpi.getType() + ",");
                     }
-                    String signature = sb.toString();
-                    if (signature.length() > 0) {
-                        // Remove the trailing ','
+                    String signbture = sb.toString();
+                    if (signbture.length() > 0) {
+                        // Remove the trbiling ','
                         //
-                        signature = signature.substring(0, signature.length() - 1);
+                        signbture = signbture.substring(0, signbture.length() - 1);
                     }
-                    String toolTipText = mboi.getName() + "(" + signature + ")";
-                    // Create operation node
+                    String toolTipText = mboi.getNbme() + "(" + signbture + ")";
+                    // Crebte operbtion node
                     //
-                    DefaultMutableTreeNode operation = new DefaultMutableTreeNode();
-                    XNodeInfo operationUO = new XNodeInfo(Type.OPERATION,
-                            new Object[]{mbean, mboi}, mboi.getName(), toolTipText);
-                    operation.setUserObject(operationUO);
-                    operation.setAllowsChildren(false);
-                    operations.add(operation);
+                    DefbultMutbbleTreeNode operbtion = new DefbultMutbbleTreeNode();
+                    XNodeInfo operbtionUO = new XNodeInfo(Type.OPERATION,
+                            new Object[]{mbebn, mboi}, mboi.getNbme(), toolTipText);
+                    operbtion.setUserObject(operbtionUO);
+                    operbtion.setAllowsChildren(fblse);
+                    operbtions.bdd(operbtion);
                 }
             }
-            // MBeanNotificationInfo node
+            // MBebnNotificbtionInfo node
             //
-            if (isBroadcaster != null && isBroadcaster.booleanValue()) {
-                DefaultMutableTreeNode notifications = new DefaultMutableTreeNode();
-                XNodeInfo notificationsUO = new XNodeInfo(Type.NOTIFICATIONS, mbean,
-                        Messages.NOTIFICATIONS, null);
-                notifications.setUserObject(notificationsUO);
-                node.insert(notifications, childIndex++);
+            if (isBrobdcbster != null && isBrobdcbster.boolebnVblue()) {
+                DefbultMutbbleTreeNode notificbtions = new DefbultMutbbleTreeNode();
+                XNodeInfo notificbtionsUO = new XNodeInfo(Type.NOTIFICATIONS, mbebn,
+                        Messbges.NOTIFICATIONS, null);
+                notificbtions.setUserObject(notificbtionsUO);
+                node.insert(notificbtions, childIndex++);
                 if (ni != null && ni.length > 0) {
-                    for (MBeanNotificationInfo mbni : ni) {
-                        DefaultMutableTreeNode notification =
-                                new DefaultMutableTreeNode();
-                        XNodeInfo notificationUO = new XNodeInfo(Type.NOTIFICATION,
-                                mbni, mbni.getName(), null);
-                        notification.setUserObject(notificationUO);
-                        notification.setAllowsChildren(false);
-                        notifications.add(notification);
+                    for (MBebnNotificbtionInfo mbni : ni) {
+                        DefbultMutbbleTreeNode notificbtion =
+                                new DefbultMutbbleTreeNode();
+                        XNodeInfo notificbtionUO = new XNodeInfo(Type.NOTIFICATION,
+                                mbni, mbni.getNbme(), null);
+                        notificbtion.setUserObject(notificbtionUO);
+                        notificbtion.setAllowsChildren(fblse);
+                        notificbtions.bdd(notificbtion);
                     }
                 }
             }
-            // Update tree model
+            // Updbte tree model
             //
-            model.reload(node);
+            model.relobd(node);
         }
     }
     //
     // Tree preferences
     //
-    private static boolean treeView;
-    private static boolean treeViewInit = false;
+    privbte stbtic boolebn treeView;
+    privbte stbtic boolebn treeViewInit = fblse;
 
-    private static boolean isTreeView() {
+    privbte stbtic boolebn isTreeView() {
         if (!treeViewInit) {
-            treeView = getTreeViewValue();
+            treeView = getTreeViewVblue();
             treeViewInit = true;
         }
         return treeView;
     }
 
-    private static boolean getTreeViewValue() {
+    privbte stbtic boolebn getTreeViewVblue() {
         String tv = System.getProperty("treeView");
-        return ((tv == null) ? true : !(tv.equals("false")));
+        return ((tv == null) ? true : !(tv.equbls("fblse")));
     }
     //
-    // MBean key-value preferences
+    // MBebn key-vblue preferences
     //
-    private boolean keyValueView = Boolean.getBoolean("keyValueView");
+    privbte boolebn keyVblueView = Boolebn.getBoolebn("keyVblueView");
 
-    private boolean isKeyValueView() {
-        return keyValueView;
+    privbte boolebn isKeyVblueView() {
+        return keyVblueView;
     }
 
     //
-    // Utility classes
+    // Utility clbsses
     //
-    private static class ComparableDefaultMutableTreeNode
-            extends DefaultMutableTreeNode
-            implements Comparable<DefaultMutableTreeNode> {
+    privbte stbtic clbss CompbrbbleDefbultMutbbleTreeNode
+            extends DefbultMutbbleTreeNode
+            implements Compbrbble<DefbultMutbbleTreeNode> {
 
-        public int compareTo(DefaultMutableTreeNode node) {
-            return (this.toString().compareTo(node.toString()));
+        public int compbreTo(DefbultMutbbleTreeNode node) {
+            return (this.toString().compbreTo(node.toString()));
         }
     }
 
-    private static class Dn implements Comparable<Dn> {
+    privbte stbtic clbss Dn implements Compbrbble<Dn> {
 
-        private ObjectName mbean;
-        private String domain;
-        private String keyPropertyList;
-        private String hashDn;
-        private List<Token> tokens = new ArrayList<Token>();
+        privbte ObjectNbme mbebn;
+        privbte String dombin;
+        privbte String keyPropertyList;
+        privbte String hbshDn;
+        privbte List<Token> tokens = new ArrbyList<Token>();
 
-        public Dn(ObjectName mbean) {
-            this.mbean = mbean;
-            this.domain = mbean.getDomain();
-            this.keyPropertyList = getKeyPropertyListString(mbean);
+        public Dn(ObjectNbme mbebn) {
+            this.mbebn = mbebn;
+            this.dombin = mbebn.getDombin();
+            this.keyPropertyList = getKeyPropertyListString(mbebn);
 
             if (isTreeView()) {
                 // Tree view
-                Map<String, String> map =
-                        extractKeyValuePairs(keyPropertyList, mbean);
-                for (Map.Entry<String, String> entry : map.entrySet()) {
-                    tokens.add(new Token("key", entry.getKey() + "=" + entry.getValue()));
+                Mbp<String, String> mbp =
+                        extrbctKeyVbluePbirs(keyPropertyList, mbebn);
+                for (Mbp.Entry<String, String> entry : mbp.entrySet()) {
+                    tokens.bdd(new Token("key", entry.getKey() + "=" + entry.getVblue()));
                 }
             } else {
-                // Flat view
-                tokens.add(new Token("key", "properties=" + keyPropertyList));
+                // Flbt view
+                tokens.bdd(new Token("key", "properties=" + keyPropertyList));
             }
 
-            // Add the domain as the first token in the Dn
-            tokens.add(0, new Token("domain", "domain=" + domain));
+            // Add the dombin bs the first token in the Dn
+            tokens.bdd(0, new Token("dombin", "dombin=" + dombin));
 
-            // Reverse the Dn (from leaf to root)
+            // Reverse the Dn (from lebf to root)
             Collections.reverse(tokens);
 
-            // Compute hash for Dn
-            computeHashDn();
+            // Compute hbsh for Dn
+            computeHbshDn();
         }
 
-        public ObjectName getObjectName() {
-            return mbean;
+        public ObjectNbme getObjectNbme() {
+            return mbebn;
         }
 
-        public String getDomain() {
-            return domain;
+        public String getDombin() {
+            return dombin;
         }
 
         public String getKeyPropertyList() {
@@ -760,74 +760,74 @@ public class XTree extends JTree {
             return tokens.size();
         }
 
-        public String getHashDn() {
-            return hashDn;
+        public String getHbshDn() {
+            return hbshDn;
         }
 
-        public String getHashKey(Token token) {
-            final int begin = hashDn.indexOf(token.getTokenValue());
-            return hashDn.substring(begin, hashDn.length());
+        public String getHbshKey(Token token) {
+            finbl int begin = hbshDn.indexOf(token.getTokenVblue());
+            return hbshDn.substring(begin, hbshDn.length());
         }
 
-        private void computeHashDn() {
+        privbte void computeHbshDn() {
             if (tokens.isEmpty()) {
                 return;
             }
-            final StringBuilder hdn = new StringBuilder();
+            finbl StringBuilder hdn = new StringBuilder();
             for (int i = 0; i < tokens.size(); i++) {
-                hdn.append(tokens.get(i).getTokenValue());
-                hdn.append(",");
+                hdn.bppend(tokens.get(i).getTokenVblue());
+                hdn.bppend(",");
             }
-            hashDn = hdn.substring(0, hdn.length() - 1);
+            hbshDn = hdn.substring(0, hdn.length() - 1);
         }
 
         @Override
         public String toString() {
-            return domain + ":" + keyPropertyList;
+            return dombin + ":" + keyPropertyList;
         }
 
-        public int compareTo(Dn dn) {
-            return this.toString().compareTo(dn.toString());
+        public int compbreTo(Dn dn) {
+            return this.toString().compbreTo(dn.toString());
         }
     }
 
-    private static class Token {
+    privbte stbtic clbss Token {
 
-        private String tokenType;
-        private String tokenValue;
-        private String key;
-        private String value;
+        privbte String tokenType;
+        privbte String tokenVblue;
+        privbte String key;
+        privbte String vblue;
 
-        public Token(String tokenType, String tokenValue) {
+        public Token(String tokenType, String tokenVblue) {
             this.tokenType = tokenType;
-            this.tokenValue = tokenValue;
-            buildKeyValue();
+            this.tokenVblue = tokenVblue;
+            buildKeyVblue();
         }
 
         public String getTokenType() {
             return tokenType;
         }
 
-        public String getTokenValue() {
-            return tokenValue;
+        public String getTokenVblue() {
+            return tokenVblue;
         }
 
         public String getKey() {
             return key;
         }
 
-        public String getValue() {
-            return value;
+        public String getVblue() {
+            return vblue;
         }
 
-        private void buildKeyValue() {
-            int index = tokenValue.indexOf('=');
+        privbte void buildKeyVblue() {
+            int index = tokenVblue.indexOf('=');
             if (index < 0) {
-                key = tokenValue;
-                value = tokenValue;
+                key = tokenVblue;
+                vblue = tokenVblue;
             } else {
-                key = tokenValue.substring(0, index);
-                value = tokenValue.substring(index + 1, tokenValue.length());
+                key = tokenVblue.substring(0, index);
+                vblue = tokenVblue.substring(index + 1, tokenVblue.length());
             }
         }
     }

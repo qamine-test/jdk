@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* Error message and general message handling functions. */
+/* Error messbge bnd generbl messbge hbndling functions. */
 
-/* NOTE: We assume that most strings passed around this library are
- *       UTF-8 (modified or standard) and not platform encoding.
- *       Before sending any strings to the "system" (e.g. OS system
- *       calls, or system input/output functions like fprintf) we need
- *       to make sure that the strings are transformed from UTF-8 to
- *       the platform encoding accepted by the system.
- *       UTF-8 and most encodings have simple ASCII or ISO-Latin
- *       characters as a subset, so in most cases the strings really
- *       don't need to be converted, but we don't know that easily.
- *       Parts of messages can be non-ASCII in some cases, so they may
- *       include classnames, methodnames, signatures, or other pieces
- *       that could contain non-ASCII characters, either from JNI or
+/* NOTE: We bssume thbt most strings pbssed bround this librbry bre
+ *       UTF-8 (modified or stbndbrd) bnd not plbtform encoding.
+ *       Before sending bny strings to the "system" (e.g. OS system
+ *       cblls, or system input/output functions like fprintf) we need
+ *       to mbke sure thbt the strings bre trbnsformed from UTF-8 to
+ *       the plbtform encoding bccepted by the system.
+ *       UTF-8 bnd most encodings hbve simple ASCII or ISO-Lbtin
+ *       chbrbcters bs b subset, so in most cbses the strings reblly
+ *       don't need to be converted, but we don't know thbt ebsily.
+ *       Pbrts of messbges cbn be non-ASCII in some cbses, so they mby
+ *       include clbssnbmes, methodnbmes, signbtures, or other pieces
+ *       thbt could contbin non-ASCII chbrbcters, either from JNI or
  *       JVMTI (which both return modified UTF-8 strings).
- *       (It's possible that the platform encoding IS UTF-8, but we
- *       assume not, just to be safe).
+ *       (It's possible thbt the plbtform encoding IS UTF-8, but we
+ *       bssume not, just to be sbfe).
  *
  */
 
-#include <stdarg.h>
+#include <stdbrg.h>
 #include <errno.h>
 
 #include "util.h"
 #include "utf_util.h"
 #include "proc_md.h"
 
-/* Maximim length of a message */
+/* Mbximim length of b messbge */
 #define MAX_MESSAGE_LEN MAXPATHLEN*2+512
 
-/* Print message in platform encoding (assume all input is UTF-8 safe)
- *    NOTE: This function is at the lowest level of the call tree.
- *          Do not use the ERROR* macros here.
+/* Print messbge in plbtform encoding (bssume bll input is UTF-8 sbfe)
+ *    NOTE: This function is bt the lowest level of the cbll tree.
+ *          Do not use the ERROR* mbcros here.
  */
-static void
-vprint_message(FILE *fp, const char *prefix, const char *suffix,
-               const char *format, va_list ap)
+stbtic void
+vprint_messbge(FILE *fp, const chbr *prefix, const chbr *suffix,
+               const chbr *formbt, vb_list bp)
 {
     jbyte  utf8buf[MAX_MESSAGE_LEN+1];
     int    len;
-    char   pbuf[MAX_MESSAGE_LEN+1];
+    chbr   pbuf[MAX_MESSAGE_LEN+1];
 
     /* Fill buffer with single UTF-8 string */
-    (void)vsnprintf((char*)utf8buf, MAX_MESSAGE_LEN, format, ap);
+    (void)vsnprintf((chbr*)utf8buf, MAX_MESSAGE_LEN, formbt, bp);
     utf8buf[MAX_MESSAGE_LEN] = 0;
-    len = (int)strlen((char*)utf8buf);
+    len = (int)strlen((chbr*)utf8buf);
 
-    /* Convert to platform encoding (ignore errors, dangerous area) */
-    (void)utf8ToPlatform(utf8buf, len, pbuf, MAX_MESSAGE_LEN);
+    /* Convert to plbtform encoding (ignore errors, dbngerous breb) */
+    (void)utf8ToPlbtform(utf8buf, len, pbuf, MAX_MESSAGE_LEN);
 
     (void)fprintf(fp, "%s%s%s", prefix, pbuf, suffix);
 }
 
-/* Print message in platform encoding (assume all input is UTF-8 safe)
- *    NOTE: This function is at the lowest level of the call tree.
- *          Do not use the ERROR* macros here.
+/* Print messbge in plbtform encoding (bssume bll input is UTF-8 sbfe)
+ *    NOTE: This function is bt the lowest level of the cbll tree.
+ *          Do not use the ERROR* mbcros here.
  */
 void
-print_message(FILE *fp, const char *prefix,  const char *suffix,
-              const char *format, ...)
+print_messbge(FILE *fp, const chbr *prefix,  const chbr *suffix,
+              const chbr *formbt, ...)
 {
-    va_list ap;
+    vb_list bp;
 
-    va_start(ap, format);
-    vprint_message(fp, prefix, suffix, format, ap);
-    va_end(ap);
+    vb_stbrt(bp, formbt);
+    vprint_messbge(fp, prefix, suffix, formbt, bp);
+    vb_end(bp);
 }
 
-/* Generate error message */
+/* Generbte error messbge */
 void
-error_message(const char *format, ...)
+error_messbge(const chbr *formbt, ...)
 {
-    va_list ap;
+    vb_list bp;
 
-    va_start(ap, format);
-    vprint_message(stderr, "ERROR: ", "\n", format, ap);
-    va_end(ap);
-    if ( gdata->doerrorexit ) {
+    vb_stbrt(bp, formbt);
+    vprint_messbge(stderr, "ERROR: ", "\n", formbt, bp);
+    vb_end(bp);
+    if ( gdbtb->doerrorexit ) {
         EXIT_ERROR(AGENT_ERROR_INTERNAL,"Requested errorexit=y exit()");
     }
 }
 
-/* Print plain message to stdout. */
+/* Print plbin messbge to stdout. */
 void
-tty_message(const char *format, ...)
+tty_messbge(const chbr *formbt, ...)
 {
-    va_list ap;
+    vb_list bp;
 
-    va_start(ap, format);
-    vprint_message(stdout, "", "\n", format, ap);
-    va_end(ap);
+    vb_stbrt(bp, formbt);
+    vprint_messbge(stdout, "", "\n", formbt, bp);
+    vb_end(bp);
     (void)fflush(stdout);
 }
 
-/* Print assertion error message to stderr. */
+/* Print bssertion error messbge to stderr. */
 void
-jdiAssertionFailed(char *fileName, int lineNumber, char *msg)
+jdiAssertionFbiled(chbr *fileNbme, int lineNumber, chbr *msg)
 {
-    LOG_MISC(("ASSERT FAILED: %s : %d - %s\n", fileName, lineNumber, msg));
-    print_message(stderr, "ASSERT FAILED: ", "\n",
-        "%s : %d - %s", fileName, lineNumber, msg);
-    if (gdata && gdata->assertFatal) {
-        EXIT_ERROR(AGENT_ERROR_INTERNAL,"Assertion Failed");
+    LOG_MISC(("ASSERT FAILED: %s : %d - %s\n", fileNbme, lineNumber, msg));
+    print_messbge(stderr, "ASSERT FAILED: ", "\n",
+        "%s : %d - %s", fileNbme, lineNumber, msg);
+    if (gdbtb && gdbtb->bssertFbtbl) {
+        EXIT_ERROR(AGENT_ERROR_INTERNAL,"Assertion Fbiled");
     }
 }
 
-/* Macro for case on switch, returns string for name. */
-#define CASE_RETURN_TEXT(name) case name: return #name;
+/* Mbcro for cbse on switch, returns string for nbme. */
+#define CASE_RETURN_TEXT(nbme) cbse nbme: return #nbme;
 
-/* Mapping of JVMTI errors to their name */
-const char *
+/* Mbpping of JVMTI errors to their nbme */
+const chbr *
 jvmtiErrorText(jvmtiError error)
 {
     switch ((int)error) {
@@ -211,11 +211,11 @@ jvmtiErrorText(jvmtiError error)
         CASE_RETURN_TEXT(AGENT_ERROR_INVALID_OBJECT)
         CASE_RETURN_TEXT(AGENT_ERROR_NO_MORE_FRAMES)
 
-        default: return  "ERROR_unknown";
+        defbult: return  "ERROR_unknown";
     }
 }
 
-const char *
+const chbr *
 eventText(int i)
 {
     switch ( i ) {
@@ -235,14 +235,14 @@ eventText(int i)
         CASE_RETURN_TEXT(EI_VM_INIT)
         CASE_RETURN_TEXT(EI_VM_DEATH)
         CASE_RETURN_TEXT(EI_GC_FINISH)
-        default: return "EVENT_unknown";
+        defbult: return "EVENT_unknown";
     }
 }
 
-/* Macro for case on switch, returns string for name. */
-#define CASE_RETURN_JDWP_ERROR_TEXT(name) case JDWP_ERROR(name): return #name;
+/* Mbcro for cbse on switch, returns string for nbme. */
+#define CASE_RETURN_JDWP_ERROR_TEXT(nbme) cbse JDWP_ERROR(nbme): return #nbme;
 
-const char *
+const chbr *
 jdwpErrorText(jdwpError serror)
 {
     switch ( serror ) {
@@ -302,29 +302,29 @@ jdwpErrorText(jdwpError serror)
         CASE_RETURN_JDWP_ERROR_TEXT(TRANSPORT_INIT)
         CASE_RETURN_JDWP_ERROR_TEXT(NATIVE_METHOD)
         CASE_RETURN_JDWP_ERROR_TEXT(INVALID_COUNT)
-        default: return "JDWP_ERROR_unknown";
+        defbult: return "JDWP_ERROR_unknown";
     }
 }
 
-static int p = 1;
+stbtic int p = 1;
 
 void
-do_pause(void)
+do_pbuse(void)
 {
     THREAD_T tid = GET_THREAD_ID();
     PID_T pid    = GETPID();
-    int timeleft = 600; /* 10 minutes max */
-    int interval = 10;  /* 10 second message check */
+    int timeleft = 600; /* 10 minutes mbx */
+    int intervbl = 10;  /* 10 second messbge check */
 
     /*LINTED*/
-    tty_message("DEBUGGING: JDWP pause for PID %d, THREAD %d (0x%x)",
+    tty_messbge("DEBUGGING: JDWP pbuse for PID %d, THREAD %d (0x%x)",
                     /*LINTED*/
                     (int)(intptr_t)pid, (int)(intptr_t)tid, (int)(intptr_t)tid);
     while ( p && timeleft > 0 ) {
-        (void)sleep(interval); /* 'assign p = 0;' to get out of loop */
-        timeleft -= interval;
+        (void)sleep(intervbl); /* 'bssign p = 0;' to get out of loop */
+        timeleft -= intervbl;
     }
     if ( timeleft <= 0 ) {
-        tty_message("DEBUGGING: JDWP pause got tired of waiting and gave up.");
+        tty_messbge("DEBUGGING: JDWP pbuse got tired of wbiting bnd gbve up.");
     }
 }

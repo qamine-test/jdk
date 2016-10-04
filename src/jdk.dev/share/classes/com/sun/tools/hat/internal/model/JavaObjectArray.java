@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbckbge com.sun.tools.hbt.internbl.model;
 
-import java.io.IOException;
-import com.sun.tools.hat.internal.parser.ReadBuffer;
+import jbvb.io.IOException;
+import com.sun.tools.hbt.internbl.pbrser.RebdBuffer;
 
 /**
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
-public class JavaObjectArray extends JavaLazyReadObject {
+public clbss JbvbObjectArrby extends JbvbLbzyRebdObject {
 
-    private Object clazz;  // Long before resolve, the class after resolve
+    privbte Object clbzz;  // Long before resolve, the clbss bfter resolve
 
-    public JavaObjectArray(long classID, long offset) {
+    public JbvbObjectArrby(long clbssID, long offset) {
         super(offset);
-        this.clazz = makeId(classID);
+        this.clbzz = mbkeId(clbssID);
     }
 
-    public JavaClass getClazz() {
-        return (JavaClass) clazz;
+    public JbvbClbss getClbzz() {
+        return (JbvbClbss) clbzz;
     }
 
-    public void resolve(Snapshot snapshot) {
-        if (clazz instanceof JavaClass) {
+    public void resolve(Snbpshot snbpshot) {
+        if (clbzz instbnceof JbvbClbss) {
             return;
         }
-        long classID = getIdValue((Number)clazz);
-        if (snapshot.isNewStyleArrayClass()) {
-            // Modern heap dumps do this
-            JavaThing t = snapshot.findThing(classID);
-            if (t instanceof JavaClass) {
-                clazz = (JavaClass) t;
+        long clbssID = getIdVblue((Number)clbzz);
+        if (snbpshot.isNewStyleArrbyClbss()) {
+            // Modern hebp dumps do this
+            JbvbThing t = snbpshot.findThing(clbssID);
+            if (t instbnceof JbvbClbss) {
+                clbzz = (JbvbClbss) t;
             }
         }
-        if (!(clazz instanceof JavaClass)) {
-            JavaThing t = snapshot.findThing(classID);
-            if (t != null && t instanceof JavaClass) {
-                JavaClass el = (JavaClass) t;
-                String nm = el.getName();
-                if (!nm.startsWith("[")) {
-                    nm = "L" + el.getName() + ";";
+        if (!(clbzz instbnceof JbvbClbss)) {
+            JbvbThing t = snbpshot.findThing(clbssID);
+            if (t != null && t instbnceof JbvbClbss) {
+                JbvbClbss el = (JbvbClbss) t;
+                String nm = el.getNbme();
+                if (!nm.stbrtsWith("[")) {
+                    nm = "L" + el.getNbme() + ";";
                 }
-                clazz = snapshot.getArrayClass(nm);
+                clbzz = snbpshot.getArrbyClbss(nm);
             }
         }
 
-        if (!(clazz instanceof JavaClass)) {
-            clazz = snapshot.getOtherArrayType();
+        if (!(clbzz instbnceof JbvbClbss)) {
+            clbzz = snbpshot.getOtherArrbyType();
         }
-        ((JavaClass)clazz).addInstance(this);
-        super.resolve(snapshot);
+        ((JbvbClbss)clbzz).bddInstbnce(this);
+        super.resolve(snbpshot);
     }
 
-    public JavaThing[] getValues() {
+    public JbvbThing[] getVblues() {
         return getElements();
     }
 
-    public JavaThing[] getElements() {
-        Snapshot snapshot = getClazz().getSnapshot();
-        byte[] data = getValue();
-        final int idSize = snapshot.getIdentifierSize();
-        final int numElements = data.length / idSize;
-        JavaThing[] elements = new JavaThing[numElements];
+    public JbvbThing[] getElements() {
+        Snbpshot snbpshot = getClbzz().getSnbpshot();
+        byte[] dbtb = getVblue();
+        finbl int idSize = snbpshot.getIdentifierSize();
+        finbl int numElements = dbtb.length / idSize;
+        JbvbThing[] elements = new JbvbThing[numElements];
         int index = 0;
         for (int i = 0; i < elements.length; i++) {
-            long id = objectIdAt(index, data);
+            long id = objectIdAt(index, dbtb);
             index += idSize;
-            elements[i] = snapshot.findThing(id);
+            elements[i] = snbpshot.findThing(id);
         }
         return elements;
     }
 
-    public int compareTo(JavaThing other) {
-        if (other instanceof JavaObjectArray) {
+    public int compbreTo(JbvbThing other) {
+        if (other instbnceof JbvbObjectArrby) {
             return 0;
         }
-        return super.compareTo(other);
+        return super.compbreTo(other);
     }
 
     public int getLength() {
-        return getValueLength() / getClazz().getIdentifierSize();
+        return getVblueLength() / getClbzz().getIdentifierSize();
     }
 
-    public void visitReferencedObjects(JavaHeapObjectVisitor v) {
+    public void visitReferencedObjects(JbvbHebpObjectVisitor v) {
         super.visitReferencedObjects(v);
-        JavaThing[] elements = getElements();
+        JbvbThing[] elements = getElements();
         for (int i = 0; i < elements.length; i++) {
-            if (elements[i] != null && elements[i] instanceof JavaHeapObject) {
-                v.visit((JavaHeapObject) elements[i]);
+            if (elements[i] != null && elements[i] instbnceof JbvbHebpObject) {
+                v.visit((JbvbHebpObject) elements[i]);
             }
         }
     }
 
     /**
-     * Describe the reference that this thing has to target.  This will only
-     * be called if target is in the array returned by getChildrenForRootset.
+     * Describe the reference thbt this thing hbs to tbrget.  This will only
+     * be cblled if tbrget is in the brrby returned by getChildrenForRootset.
      */
-    public String describeReferenceTo(JavaThing target, Snapshot ss) {
-        JavaThing[] elements = getElements();
+    public String describeReferenceTo(JbvbThing tbrget, Snbpshot ss) {
+        JbvbThing[] elements = getElements();
         for (int i = 0; i < elements.length; i++) {
-            if (elements[i] == target) {
+            if (elements[i] == tbrget) {
                 return "Element " + i + " of " + this;
             }
         }
-        return super.describeReferenceTo(target, ss);
+        return super.describeReferenceTo(tbrget, ss);
     }
 
     /*
-     * Java object array record (HPROF_GC_OBJ_ARRAY_DUMP)
-     * looks as below:
+     * Jbvb object brrby record (HPROF_GC_OBJ_ARRAY_DUMP)
+     * looks bs below:
      *
      *     object ID
-     *     stack trace serial number (int)
-     *     array length (int)
-     *     array class ID
-     *     array element IDs
+     *     stbck trbce seribl number (int)
+     *     brrby length (int)
+     *     brrby clbss ID
+     *     brrby element IDs
      */
-    protected final int readValueLength() throws IOException {
-        JavaClass cl = getClazz();
-        ReadBuffer buf = cl.getReadBuffer();
+    protected finbl int rebdVblueLength() throws IOException {
+        JbvbClbss cl = getClbzz();
+        RebdBuffer buf = cl.getRebdBuffer();
         int idSize = cl.getIdentifierSize();
         long offset = getOffset() + idSize + 4;
         int len = buf.getInt(offset);
         return len * cl.getIdentifierSize();
     }
 
-    protected final byte[] readValue() throws IOException {
-        JavaClass cl = getClazz();
-        ReadBuffer buf = cl.getReadBuffer();
+    protected finbl byte[] rebdVblue() throws IOException {
+        JbvbClbss cl = getClbzz();
+        RebdBuffer buf = cl.getRebdBuffer();
         int idSize = cl.getIdentifierSize();
         long offset = getOffset() + idSize + 4;
         int len = buf.getInt(offset);
         if (len == 0) {
-            return Snapshot.EMPTY_BYTE_ARRAY;
+            return Snbpshot.EMPTY_BYTE_ARRAY;
         } else {
             byte[] res = new byte[len * idSize];
             buf.get(offset + 4 + idSize, res);

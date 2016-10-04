@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.snmp.internal;
+pbckbge com.sun.jmx.snmp.internbl;
 
-import java.net.InetAddress;
+import jbvb.net.InetAddress;
 
-import com.sun.jmx.snmp.SnmpSecurityParameters;
+import com.sun.jmx.snmp.SnmpSecurityPbrbmeters;
 import com.sun.jmx.snmp.SnmpTooBigException;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpPdu;
 import com.sun.jmx.snmp.SnmpMsg;
 
 import com.sun.jmx.snmp.SnmpUnknownSecModelException;
-import com.sun.jmx.snmp.SnmpBadSecurityLevelException;
+import com.sun.jmx.snmp.SnmpBbdSecurityLevelException;
 
 /**
-<P> An <CODE>SnmpIncomingRequest</CODE> handles both sides of an incoming SNMP request:
+<P> An <CODE>SnmpIncomingRequest</CODE> hbndles both sides of bn incoming SNMP request:
 <ul>
-<li> The request. Unmarshalling of the received message. </li>
-<li> The response. Marshalling of the message to send. </li>
+<li> The request. Unmbrshblling of the received messbge. </li>
+<li> The response. Mbrshblling of the messbge to send. </li>
 </ul>
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  * @since 1.5
  */
-public interface SnmpIncomingRequest {
+public interfbce SnmpIncomingRequest {
     /**
-     * Once the incoming request decoded, returns the decoded security parameters.
-     * @return The decoded security parameters.
+     * Once the incoming request decoded, returns the decoded security pbrbmeters.
+     * @return The decoded security pbrbmeters.
      */
-    public SnmpSecurityParameters getSecurityParameters();
+    public SnmpSecurityPbrbmeters getSecurityPbrbmeters();
      /**
-     * Tests if a report is expected.
-     * @return boolean indicating if a report is to be sent.
+     * Tests if b report is expected.
+     * @return boolebn indicbting if b report is to be sent.
      */
-    public boolean isReport();
+    public boolebn isReport();
     /**
-     * Tests if a response is expected.
-     * @return boolean indicating if a response is to be sent.
+     * Tests if b response is expected.
+     * @return boolebn indicbting if b response is to be sent.
      */
-    public boolean isResponse();
+    public boolebn isResponse();
 
     /**
-     * Tells this request that no response will be sent.
+     * Tells this request thbt no response will be sent.
      */
     public void noResponse();
     /**
-     * Gets the incoming request principal.
-     * @return The request principal.
+     * Gets the incoming request principbl.
+     * @return The request principbl.
      **/
-    public String getPrincipal();
+    public String getPrincipbl();
     /**
      * Gets the incoming request security level. This level is defined in {@link com.sun.jmx.snmp.SnmpEngine SnmpEngine}.
      * @return The security level.
@@ -82,83 +82,83 @@ public interface SnmpIncomingRequest {
      */
     public int getSecurityModel();
     /**
-     * Gets the incoming request context name.
-     * @return The context name.
+     * Gets the incoming request context nbme.
+     * @return The context nbme.
      */
-    public byte[] getContextName();
+    public byte[] getContextNbme();
     /**
      * Gets the incoming request context engine Id.
      * @return The context engine Id.
      */
     public byte[] getContextEngineId();
     /**
-     * Gets the incoming request context name used by Access Control Model in order to allow or deny the access to OIDs.
+     * Gets the incoming request context nbme used by Access Control Model in order to bllow or deny the bccess to OIDs.
      */
     public byte[] getAccessContext();
     /**
-     * Encodes the response message to send and puts the result in the specified byte array.
+     * Encodes the response messbge to send bnd puts the result in the specified byte brrby.
      *
-     * @param outputBytes An array to receive the resulting encoding.
+     * @pbrbm outputBytes An brrby to receive the resulting encoding.
      *
-     * @exception ArrayIndexOutOfBoundsException If the result does not fit
-     *                                           into the specified array.
+     * @exception ArrbyIndexOutOfBoundsException If the result does not fit
+     *                                           into the specified brrby.
      */
-    public int encodeMessage(byte[] outputBytes)
+    public int encodeMessbge(byte[] outputBytes)
         throws SnmpTooBigException;
 
     /**
-     * Decodes the specified bytes and initializes the request with the incoming message.
+     * Decodes the specified bytes bnd initiblizes the request with the incoming messbge.
      *
-     * @param inputBytes The bytes to be decoded.
+     * @pbrbm inputBytes The bytes to be decoded.
      *
-     * @exception SnmpStatusException If the specified bytes are not a valid encoding or if the security applied to this request failed and no report is to be sent (typically trap PDU).
+     * @exception SnmpStbtusException If the specified bytes bre not b vblid encoding or if the security bpplied to this request fbiled bnd no report is to be sent (typicblly trbp PDU).
      */
-    public void decodeMessage(byte[] inputBytes,
+    public void decodeMessbge(byte[] inputBytes,
                               int byteCount,
-                              InetAddress address,
+                              InetAddress bddress,
                               int port)
-        throws SnmpStatusException, SnmpUnknownSecModelException,
-               SnmpBadSecurityLevelException;
+        throws SnmpStbtusException, SnmpUnknownSecModelException,
+               SnmpBbdSecurityLevelException;
 
      /**
-     * Initializes the response to send with the passed Pdu.
+     * Initiblizes the response to send with the pbssed Pdu.
      * <P>
-     * If the encoding length exceeds <CODE>maxDataLength</CODE>,
-     * the method throws an exception.
+     * If the encoding length exceeds <CODE>mbxDbtbLength</CODE>,
+     * the method throws bn exception.
      *
-     * @param p The PDU to be encoded.
-     * @param maxDataLength The maximum length permitted for the data field.
+     * @pbrbm p The PDU to be encoded.
+     * @pbrbm mbxDbtbLength The mbximum length permitted for the dbtb field.
      *
-     * @exception SnmpStatusException If the specified <CODE>pdu</CODE>
-     *     is not valid.
+     * @exception SnmpStbtusException If the specified <CODE>pdu</CODE>
+     *     is not vblid.
      * @exception SnmpTooBigException If the resulting encoding does not fit
-     * into <CODE>maxDataLength</CODE> bytes.
-     * @exception ArrayIndexOutOfBoundsException If the encoding exceeds
-     *   <CODE>maxDataLength</CODE>.
+     * into <CODE>mbxDbtbLength</CODE> bytes.
+     * @exception ArrbyIndexOutOfBoundsException If the encoding exceeds
+     *   <CODE>mbxDbtbLength</CODE>.
      */
     public SnmpMsg encodeSnmpPdu(SnmpPdu p,
-                                 int maxDataLength)
-        throws SnmpStatusException, SnmpTooBigException;
+                                 int mbxDbtbLength)
+        throws SnmpStbtusException, SnmpTooBigException;
 
     /**
-     * Gets the request PDU encoded in the received message.
+     * Gets the request PDU encoded in the received messbge.
      * <P>
-     * This method decodes the data field and returns the resulting PDU.
+     * This method decodes the dbtb field bnd returns the resulting PDU.
      *
      * @return The resulting PDU.
-     * @exception SnmpStatusException If the encoding is not valid.
+     * @exception SnmpStbtusException If the encoding is not vblid.
      */
     public SnmpPdu decodeSnmpPdu()
-        throws SnmpStatusException;
+        throws SnmpStbtusException;
 
     /**
-     * Returns a stringified form of the received message.
-     * @return The message state string.
+     * Returns b stringified form of the received messbge.
+     * @return The messbge stbte string.
      */
-    public String printRequestMessage();
+    public String printRequestMessbge();
     /**
-     * Returns a stringified form of the message to send.
-     * @return The message state string.
+     * Returns b stringified form of the messbge to send.
+     * @return The messbge stbte string.
      */
-    public String printResponseMessage();
+    public String printResponseMessbge();
 }

@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.function.IntFunction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objects;
+import jbvb.util.Spliterbtor;
+import jbvb.util.function.IntFunction;
 
 
 /**
- * Factory methods for transforming streams into sorted streams.
+ * Fbctory methods for trbnsforming strebms into sorted strebms.
  *
  * @since 1.8
  */
-final class SortedOps {
+finbl clbss SortedOps {
 
-    private SortedOps() { }
+    privbte SortedOps() { }
 
     /**
-     * Appends a "sorted" operation to the provided stream.
+     * Appends b "sorted" operbtion to the provided strebm.
      *
-     * @param <T> the type of both input and output elements
-     * @param upstream a reference stream with element type T
+     * @pbrbm <T> the type of both input bnd output elements
+     * @pbrbm upstrebm b reference strebm with element type T
      */
-    static <T> Stream<T> makeRef(AbstractPipeline<?, T, ?> upstream) {
-        return new OfRef<>(upstream);
+    stbtic <T> Strebm<T> mbkeRef(AbstrbctPipeline<?, T, ?> upstrebm) {
+        return new OfRef<>(upstrebm);
     }
 
     /**
-     * Appends a "sorted" operation to the provided stream.
+     * Appends b "sorted" operbtion to the provided strebm.
      *
-     * @param <T> the type of both input and output elements
-     * @param upstream a reference stream with element type T
-     * @param comparator the comparator to order elements by
+     * @pbrbm <T> the type of both input bnd output elements
+     * @pbrbm upstrebm b reference strebm with element type T
+     * @pbrbm compbrbtor the compbrbtor to order elements by
      */
-    static <T> Stream<T> makeRef(AbstractPipeline<?, T, ?> upstream,
-                                Comparator<? super T> comparator) {
-        return new OfRef<>(upstream, comparator);
+    stbtic <T> Strebm<T> mbkeRef(AbstrbctPipeline<?, T, ?> upstrebm,
+                                Compbrbtor<? super T> compbrbtor) {
+        return new OfRef<>(upstrebm, compbrbtor);
     }
 
     /**
-     * Appends a "sorted" operation to the provided stream.
+     * Appends b "sorted" operbtion to the provided strebm.
      *
-     * @param <T> the type of both input and output elements
-     * @param upstream a reference stream with element type T
+     * @pbrbm <T> the type of both input bnd output elements
+     * @pbrbm upstrebm b reference strebm with element type T
      */
-    static <T> IntStream makeInt(AbstractPipeline<?, Integer, ?> upstream) {
-        return new OfInt(upstream);
+    stbtic <T> IntStrebm mbkeInt(AbstrbctPipeline<?, Integer, ?> upstrebm) {
+        return new OfInt(upstrebm);
     }
 
     /**
-     * Appends a "sorted" operation to the provided stream.
+     * Appends b "sorted" operbtion to the provided strebm.
      *
-     * @param <T> the type of both input and output elements
-     * @param upstream a reference stream with element type T
+     * @pbrbm <T> the type of both input bnd output elements
+     * @pbrbm upstrebm b reference strebm with element type T
      */
-    static <T> LongStream makeLong(AbstractPipeline<?, Long, ?> upstream) {
-        return new OfLong(upstream);
+    stbtic <T> LongStrebm mbkeLong(AbstrbctPipeline<?, Long, ?> upstrebm) {
+        return new OfLong(upstrebm);
     }
 
     /**
-     * Appends a "sorted" operation to the provided stream.
+     * Appends b "sorted" operbtion to the provided strebm.
      *
-     * @param <T> the type of both input and output elements
-     * @param upstream a reference stream with element type T
+     * @pbrbm <T> the type of both input bnd output elements
+     * @pbrbm upstrebm b reference strebm with element type T
      */
-    static <T> DoubleStream makeDouble(AbstractPipeline<?, Double, ?> upstream) {
-        return new OfDouble(upstream);
+    stbtic <T> DoubleStrebm mbkeDouble(AbstrbctPipeline<?, Double, ?> upstrebm) {
+        return new OfDouble(upstrebm);
     }
 
     /**
-     * Specialized subtype for sorting reference streams
+     * Speciblized subtype for sorting reference strebms
      */
-    private static final class OfRef<T> extends ReferencePipeline.StatefulOp<T, T> {
+    privbte stbtic finbl clbss OfRef<T> extends ReferencePipeline.StbtefulOp<T, T> {
         /**
-         * Comparator used for sorting
+         * Compbrbtor used for sorting
          */
-        private final boolean isNaturalSort;
-        private final Comparator<? super T> comparator;
+        privbte finbl boolebn isNbturblSort;
+        privbte finbl Compbrbtor<? super T> compbrbtor;
 
         /**
-         * Sort using natural order of {@literal <T>} which must be
-         * {@code Comparable}.
+         * Sort using nbturbl order of {@literbl <T>} which must be
+         * {@code Compbrbble}.
          */
-        OfRef(AbstractPipeline<?, T, ?> upstream) {
-            super(upstream, StreamShape.REFERENCE,
-                  StreamOpFlag.IS_ORDERED | StreamOpFlag.IS_SORTED);
-            this.isNaturalSort = true;
-            // Will throw CCE when we try to sort if T is not Comparable
-            @SuppressWarnings("unchecked")
-            Comparator<? super T> comp = (Comparator<? super T>) Comparator.naturalOrder();
-            this.comparator = comp;
+        OfRef(AbstrbctPipeline<?, T, ?> upstrebm) {
+            super(upstrebm, StrebmShbpe.REFERENCE,
+                  StrebmOpFlbg.IS_ORDERED | StrebmOpFlbg.IS_SORTED);
+            this.isNbturblSort = true;
+            // Will throw CCE when we try to sort if T is not Compbrbble
+            @SuppressWbrnings("unchecked")
+            Compbrbtor<? super T> comp = (Compbrbtor<? super T>) Compbrbtor.nbturblOrder();
+            this.compbrbtor = comp;
         }
 
         /**
-         * Sort using the provided comparator.
+         * Sort using the provided compbrbtor.
          *
-         * @param comparator The comparator to be used to evaluate ordering.
+         * @pbrbm compbrbtor The compbrbtor to be used to evblubte ordering.
          */
-        OfRef(AbstractPipeline<?, T, ?> upstream, Comparator<? super T> comparator) {
-            super(upstream, StreamShape.REFERENCE,
-                  StreamOpFlag.IS_ORDERED | StreamOpFlag.NOT_SORTED);
-            this.isNaturalSort = false;
-            this.comparator = Objects.requireNonNull(comparator);
+        OfRef(AbstrbctPipeline<?, T, ?> upstrebm, Compbrbtor<? super T> compbrbtor) {
+            super(upstrebm, StrebmShbpe.REFERENCE,
+                  StrebmOpFlbg.IS_ORDERED | StrebmOpFlbg.NOT_SORTED);
+            this.isNbturblSort = fblse;
+            this.compbrbtor = Objects.requireNonNull(compbrbtor);
         }
 
         @Override
-        public Sink<T> opWrapSink(int flags, Sink<T> sink) {
+        public Sink<T> opWrbpSink(int flbgs, Sink<T> sink) {
             Objects.requireNonNull(sink);
 
-            // If the input is already naturally sorted and this operation
-            // also naturally sorted then this is a no-op
-            if (StreamOpFlag.SORTED.isKnown(flags) && isNaturalSort)
+            // If the input is blrebdy nbturblly sorted bnd this operbtion
+            // blso nbturblly sorted then this is b no-op
+            if (StrebmOpFlbg.SORTED.isKnown(flbgs) && isNbturblSort)
                 return sink;
-            else if (StreamOpFlag.SIZED.isKnown(flags))
-                return new SizedRefSortingSink<>(sink, comparator);
+            else if (StrebmOpFlbg.SIZED.isKnown(flbgs))
+                return new SizedRefSortingSink<>(sink, compbrbtor);
             else
-                return new RefSortingSink<>(sink, comparator);
+                return new RefSortingSink<>(sink, compbrbtor);
         }
 
         @Override
-        public <P_IN> Node<T> opEvaluateParallel(PipelineHelper<T> helper,
-                                                 Spliterator<P_IN> spliterator,
-                                                 IntFunction<T[]> generator) {
-            // If the input is already naturally sorted and this operation
-            // naturally sorts then collect the output
-            if (StreamOpFlag.SORTED.isKnown(helper.getStreamAndOpFlags()) && isNaturalSort) {
-                return helper.evaluate(spliterator, false, generator);
+        public <P_IN> Node<T> opEvblubtePbrbllel(PipelineHelper<T> helper,
+                                                 Spliterbtor<P_IN> spliterbtor,
+                                                 IntFunction<T[]> generbtor) {
+            // If the input is blrebdy nbturblly sorted bnd this operbtion
+            // nbturblly sorts then collect the output
+            if (StrebmOpFlbg.SORTED.isKnown(helper.getStrebmAndOpFlbgs()) && isNbturblSort) {
+                return helper.evblubte(spliterbtor, fblse, generbtor);
             }
             else {
-                // @@@ Weak two-pass parallel implementation; parallel collect, parallel sort
-                T[] flattenedData = helper.evaluate(spliterator, true, generator).asArray(generator);
-                Arrays.parallelSort(flattenedData, comparator);
-                return Nodes.node(flattenedData);
+                // @@@ Webk two-pbss pbrbllel implementbtion; pbrbllel collect, pbrbllel sort
+                T[] flbttenedDbtb = helper.evblubte(spliterbtor, true, generbtor).bsArrby(generbtor);
+                Arrbys.pbrbllelSort(flbttenedDbtb, compbrbtor);
+                return Nodes.node(flbttenedDbtb);
             }
         }
     }
 
     /**
-     * Specialized subtype for sorting int streams.
+     * Speciblized subtype for sorting int strebms.
      */
-    private static final class OfInt extends IntPipeline.StatefulOp<Integer> {
-        OfInt(AbstractPipeline<?, Integer, ?> upstream) {
-            super(upstream, StreamShape.INT_VALUE,
-                  StreamOpFlag.IS_ORDERED | StreamOpFlag.IS_SORTED);
+    privbte stbtic finbl clbss OfInt extends IntPipeline.StbtefulOp<Integer> {
+        OfInt(AbstrbctPipeline<?, Integer, ?> upstrebm) {
+            super(upstrebm, StrebmShbpe.INT_VALUE,
+                  StrebmOpFlbg.IS_ORDERED | StrebmOpFlbg.IS_SORTED);
         }
 
         @Override
-        public Sink<Integer> opWrapSink(int flags, Sink<Integer> sink) {
+        public Sink<Integer> opWrbpSink(int flbgs, Sink<Integer> sink) {
             Objects.requireNonNull(sink);
 
-            if (StreamOpFlag.SORTED.isKnown(flags))
+            if (StrebmOpFlbg.SORTED.isKnown(flbgs))
                 return sink;
-            else if (StreamOpFlag.SIZED.isKnown(flags))
+            else if (StrebmOpFlbg.SIZED.isKnown(flbgs))
                 return new SizedIntSortingSink(sink);
             else
                 return new IntSortingSink(sink);
         }
 
         @Override
-        public <P_IN> Node<Integer> opEvaluateParallel(PipelineHelper<Integer> helper,
-                                                       Spliterator<P_IN> spliterator,
-                                                       IntFunction<Integer[]> generator) {
-            if (StreamOpFlag.SORTED.isKnown(helper.getStreamAndOpFlags())) {
-                return helper.evaluate(spliterator, false, generator);
+        public <P_IN> Node<Integer> opEvblubtePbrbllel(PipelineHelper<Integer> helper,
+                                                       Spliterbtor<P_IN> spliterbtor,
+                                                       IntFunction<Integer[]> generbtor) {
+            if (StrebmOpFlbg.SORTED.isKnown(helper.getStrebmAndOpFlbgs())) {
+                return helper.evblubte(spliterbtor, fblse, generbtor);
             }
             else {
-                Node.OfInt n = (Node.OfInt) helper.evaluate(spliterator, true, generator);
+                Node.OfInt n = (Node.OfInt) helper.evblubte(spliterbtor, true, generbtor);
 
-                int[] content = n.asPrimitiveArray();
-                Arrays.parallelSort(content);
+                int[] content = n.bsPrimitiveArrby();
+                Arrbys.pbrbllelSort(content);
 
                 return Nodes.node(content);
             }
@@ -201,38 +201,38 @@ final class SortedOps {
     }
 
     /**
-     * Specialized subtype for sorting long streams.
+     * Speciblized subtype for sorting long strebms.
      */
-    private static final class OfLong extends LongPipeline.StatefulOp<Long> {
-        OfLong(AbstractPipeline<?, Long, ?> upstream) {
-            super(upstream, StreamShape.LONG_VALUE,
-                  StreamOpFlag.IS_ORDERED | StreamOpFlag.IS_SORTED);
+    privbte stbtic finbl clbss OfLong extends LongPipeline.StbtefulOp<Long> {
+        OfLong(AbstrbctPipeline<?, Long, ?> upstrebm) {
+            super(upstrebm, StrebmShbpe.LONG_VALUE,
+                  StrebmOpFlbg.IS_ORDERED | StrebmOpFlbg.IS_SORTED);
         }
 
         @Override
-        public Sink<Long> opWrapSink(int flags, Sink<Long> sink) {
+        public Sink<Long> opWrbpSink(int flbgs, Sink<Long> sink) {
             Objects.requireNonNull(sink);
 
-            if (StreamOpFlag.SORTED.isKnown(flags))
+            if (StrebmOpFlbg.SORTED.isKnown(flbgs))
                 return sink;
-            else if (StreamOpFlag.SIZED.isKnown(flags))
+            else if (StrebmOpFlbg.SIZED.isKnown(flbgs))
                 return new SizedLongSortingSink(sink);
             else
                 return new LongSortingSink(sink);
         }
 
         @Override
-        public <P_IN> Node<Long> opEvaluateParallel(PipelineHelper<Long> helper,
-                                                    Spliterator<P_IN> spliterator,
-                                                    IntFunction<Long[]> generator) {
-            if (StreamOpFlag.SORTED.isKnown(helper.getStreamAndOpFlags())) {
-                return helper.evaluate(spliterator, false, generator);
+        public <P_IN> Node<Long> opEvblubtePbrbllel(PipelineHelper<Long> helper,
+                                                    Spliterbtor<P_IN> spliterbtor,
+                                                    IntFunction<Long[]> generbtor) {
+            if (StrebmOpFlbg.SORTED.isKnown(helper.getStrebmAndOpFlbgs())) {
+                return helper.evblubte(spliterbtor, fblse, generbtor);
             }
             else {
-                Node.OfLong n = (Node.OfLong) helper.evaluate(spliterator, true, generator);
+                Node.OfLong n = (Node.OfLong) helper.evblubte(spliterbtor, true, generbtor);
 
-                long[] content = n.asPrimitiveArray();
-                Arrays.parallelSort(content);
+                long[] content = n.bsPrimitiveArrby();
+                Arrbys.pbrbllelSort(content);
 
                 return Nodes.node(content);
             }
@@ -240,38 +240,38 @@ final class SortedOps {
     }
 
     /**
-     * Specialized subtype for sorting double streams.
+     * Speciblized subtype for sorting double strebms.
      */
-    private static final class OfDouble extends DoublePipeline.StatefulOp<Double> {
-        OfDouble(AbstractPipeline<?, Double, ?> upstream) {
-            super(upstream, StreamShape.DOUBLE_VALUE,
-                  StreamOpFlag.IS_ORDERED | StreamOpFlag.IS_SORTED);
+    privbte stbtic finbl clbss OfDouble extends DoublePipeline.StbtefulOp<Double> {
+        OfDouble(AbstrbctPipeline<?, Double, ?> upstrebm) {
+            super(upstrebm, StrebmShbpe.DOUBLE_VALUE,
+                  StrebmOpFlbg.IS_ORDERED | StrebmOpFlbg.IS_SORTED);
         }
 
         @Override
-        public Sink<Double> opWrapSink(int flags, Sink<Double> sink) {
+        public Sink<Double> opWrbpSink(int flbgs, Sink<Double> sink) {
             Objects.requireNonNull(sink);
 
-            if (StreamOpFlag.SORTED.isKnown(flags))
+            if (StrebmOpFlbg.SORTED.isKnown(flbgs))
                 return sink;
-            else if (StreamOpFlag.SIZED.isKnown(flags))
+            else if (StrebmOpFlbg.SIZED.isKnown(flbgs))
                 return new SizedDoubleSortingSink(sink);
             else
                 return new DoubleSortingSink(sink);
         }
 
         @Override
-        public <P_IN> Node<Double> opEvaluateParallel(PipelineHelper<Double> helper,
-                                                      Spliterator<P_IN> spliterator,
-                                                      IntFunction<Double[]> generator) {
-            if (StreamOpFlag.SORTED.isKnown(helper.getStreamAndOpFlags())) {
-                return helper.evaluate(spliterator, false, generator);
+        public <P_IN> Node<Double> opEvblubtePbrbllel(PipelineHelper<Double> helper,
+                                                      Spliterbtor<P_IN> spliterbtor,
+                                                      IntFunction<Double[]> generbtor) {
+            if (StrebmOpFlbg.SORTED.isKnown(helper.getStrebmAndOpFlbgs())) {
+                return helper.evblubte(spliterbtor, fblse, generbtor);
             }
             else {
-                Node.OfDouble n = (Node.OfDouble) helper.evaluate(spliterator, true, generator);
+                Node.OfDouble n = (Node.OfDouble) helper.evblubte(spliterbtor, true, generbtor);
 
-                double[] content = n.asPrimitiveArray();
-                Arrays.parallelSort(content);
+                double[] content = n.bsPrimitiveArrby();
+                Arrbys.pbrbllelSort(content);
 
                 return Nodes.node(content);
             }
@@ -279,194 +279,194 @@ final class SortedOps {
     }
 
     /**
-     * Abstract {@link Sink} for implementing sort on reference streams.
+     * Abstrbct {@link Sink} for implementing sort on reference strebms.
      *
      * <p>
-     * Note: documentation below applies to reference and all primitive sinks.
+     * Note: documentbtion below bpplies to reference bnd bll primitive sinks.
      * <p>
-     * Sorting sinks first accept all elements, buffering then into an array
-     * or a re-sizable data structure, if the size of the pipeline is known or
-     * unknown respectively.  At the end of the sink protocol those elements are
-     * sorted and then pushed downstream.
-     * This class records if {@link #cancellationRequested} is called.  If so it
-     * can be inferred that the source pushing source elements into the pipeline
-     * knows that the pipeline is short-circuiting.  In such cases sub-classes
-     * pushing elements downstream will preserve the short-circuiting protocol
-     * by calling {@code downstream.cancellationRequested()} and checking the
-     * result is {@code false} before an element is pushed.
+     * Sorting sinks first bccept bll elements, buffering then into bn brrby
+     * or b re-sizbble dbtb structure, if the size of the pipeline is known or
+     * unknown respectively.  At the end of the sink protocol those elements bre
+     * sorted bnd then pushed downstrebm.
+     * This clbss records if {@link #cbncellbtionRequested} is cblled.  If so it
+     * cbn be inferred thbt the source pushing source elements into the pipeline
+     * knows thbt the pipeline is short-circuiting.  In such cbses sub-clbsses
+     * pushing elements downstrebm will preserve the short-circuiting protocol
+     * by cblling {@code downstrebm.cbncellbtionRequested()} bnd checking the
+     * result is {@code fblse} before bn element is pushed.
      * <p>
-     * Note that the above behaviour is an optimization for sorting with
-     * sequential streams.  It is not an error that more elements, than strictly
-     * required to produce a result, may flow through the pipeline.  This can
-     * occur, in general (not restricted to just sorting), for short-circuiting
-     * parallel pipelines.
+     * Note thbt the bbove behbviour is bn optimizbtion for sorting with
+     * sequentibl strebms.  It is not bn error thbt more elements, thbn strictly
+     * required to produce b result, mby flow through the pipeline.  This cbn
+     * occur, in generbl (not restricted to just sorting), for short-circuiting
+     * pbrbllel pipelines.
      */
-    private static abstract class AbstractRefSortingSink<T> extends Sink.ChainedReference<T, T> {
-        protected final Comparator<? super T> comparator;
-        // @@@ could be a lazy final value, if/when support is added
-        protected boolean cancellationWasRequested;
+    privbte stbtic bbstrbct clbss AbstrbctRefSortingSink<T> extends Sink.ChbinedReference<T, T> {
+        protected finbl Compbrbtor<? super T> compbrbtor;
+        // @@@ could be b lbzy finbl vblue, if/when support is bdded
+        protected boolebn cbncellbtionWbsRequested;
 
-        AbstractRefSortingSink(Sink<? super T> downstream, Comparator<? super T> comparator) {
-            super(downstream);
-            this.comparator = comparator;
+        AbstrbctRefSortingSink(Sink<? super T> downstrebm, Compbrbtor<? super T> compbrbtor) {
+            super(downstrebm);
+            this.compbrbtor = compbrbtor;
         }
 
         /**
-         * Records is cancellation is requested so short-circuiting behaviour
-         * can be preserved when the sorted elements are pushed downstream.
+         * Records is cbncellbtion is requested so short-circuiting behbviour
+         * cbn be preserved when the sorted elements bre pushed downstrebm.
          *
-         * @return false, as this sink never short-circuits.
+         * @return fblse, bs this sink never short-circuits.
          */
         @Override
-        public final boolean cancellationRequested() {
-            cancellationWasRequested = true;
-            return false;
+        public finbl boolebn cbncellbtionRequested() {
+            cbncellbtionWbsRequested = true;
+            return fblse;
         }
     }
 
     /**
-     * {@link Sink} for implementing sort on SIZED reference streams.
+     * {@link Sink} for implementing sort on SIZED reference strebms.
      */
-    private static final class SizedRefSortingSink<T> extends AbstractRefSortingSink<T> {
-        private T[] array;
-        private int offset;
+    privbte stbtic finbl clbss SizedRefSortingSink<T> extends AbstrbctRefSortingSink<T> {
+        privbte T[] brrby;
+        privbte int offset;
 
-        SizedRefSortingSink(Sink<? super T> sink, Comparator<? super T> comparator) {
-            super(sink, comparator);
+        SizedRefSortingSink(Sink<? super T> sink, Compbrbtor<? super T> compbrbtor) {
+            super(sink, compbrbtor);
         }
 
         @Override
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public void begin(long size) {
             if (size >= Nodes.MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(Nodes.BAD_SIZE);
-            array = (T[]) new Object[(int) size];
+                throw new IllegblArgumentException(Nodes.BAD_SIZE);
+            brrby = (T[]) new Object[(int) size];
         }
 
         @Override
         public void end() {
-            Arrays.sort(array, 0, offset, comparator);
-            downstream.begin(offset);
-            if (!cancellationWasRequested) {
+            Arrbys.sort(brrby, 0, offset, compbrbtor);
+            downstrebm.begin(offset);
+            if (!cbncellbtionWbsRequested) {
                 for (int i = 0; i < offset; i++)
-                    downstream.accept(array[i]);
+                    downstrebm.bccept(brrby[i]);
             }
             else {
-                for (int i = 0; i < offset && !downstream.cancellationRequested(); i++)
-                    downstream.accept(array[i]);
+                for (int i = 0; i < offset && !downstrebm.cbncellbtionRequested(); i++)
+                    downstrebm.bccept(brrby[i]);
             }
-            downstream.end();
-            array = null;
+            downstrebm.end();
+            brrby = null;
         }
 
         @Override
-        public void accept(T t) {
-            array[offset++] = t;
+        public void bccept(T t) {
+            brrby[offset++] = t;
         }
     }
 
     /**
-     * {@link Sink} for implementing sort on reference streams.
+     * {@link Sink} for implementing sort on reference strebms.
      */
-    private static final class RefSortingSink<T> extends AbstractRefSortingSink<T> {
-        private ArrayList<T> list;
+    privbte stbtic finbl clbss RefSortingSink<T> extends AbstrbctRefSortingSink<T> {
+        privbte ArrbyList<T> list;
 
-        RefSortingSink(Sink<? super T> sink, Comparator<? super T> comparator) {
-            super(sink, comparator);
+        RefSortingSink(Sink<? super T> sink, Compbrbtor<? super T> compbrbtor) {
+            super(sink, compbrbtor);
         }
 
         @Override
         public void begin(long size) {
             if (size >= Nodes.MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(Nodes.BAD_SIZE);
-            list = (size >= 0) ? new ArrayList<>((int) size) : new ArrayList<>();
+                throw new IllegblArgumentException(Nodes.BAD_SIZE);
+            list = (size >= 0) ? new ArrbyList<>((int) size) : new ArrbyList<>();
         }
 
         @Override
         public void end() {
-            list.sort(comparator);
-            downstream.begin(list.size());
-            if (!cancellationWasRequested) {
-                list.forEach(downstream::accept);
+            list.sort(compbrbtor);
+            downstrebm.begin(list.size());
+            if (!cbncellbtionWbsRequested) {
+                list.forEbch(downstrebm::bccept);
             }
             else {
                 for (T t : list) {
-                    if (downstream.cancellationRequested()) break;
-                    downstream.accept(t);
+                    if (downstrebm.cbncellbtionRequested()) brebk;
+                    downstrebm.bccept(t);
                 }
             }
-            downstream.end();
+            downstrebm.end();
             list = null;
         }
 
         @Override
-        public void accept(T t) {
-            list.add(t);
+        public void bccept(T t) {
+            list.bdd(t);
         }
     }
 
     /**
-     * Abstract {@link Sink} for implementing sort on int streams.
+     * Abstrbct {@link Sink} for implementing sort on int strebms.
      */
-    private static abstract class AbstractIntSortingSink extends Sink.ChainedInt<Integer> {
-        protected boolean cancellationWasRequested;
+    privbte stbtic bbstrbct clbss AbstrbctIntSortingSink extends Sink.ChbinedInt<Integer> {
+        protected boolebn cbncellbtionWbsRequested;
 
-        AbstractIntSortingSink(Sink<? super Integer> downstream) {
-            super(downstream);
+        AbstrbctIntSortingSink(Sink<? super Integer> downstrebm) {
+            super(downstrebm);
         }
 
         @Override
-        public final boolean cancellationRequested() {
-            cancellationWasRequested = true;
-            return false;
+        public finbl boolebn cbncellbtionRequested() {
+            cbncellbtionWbsRequested = true;
+            return fblse;
         }
     }
 
     /**
-     * {@link Sink} for implementing sort on SIZED int streams.
+     * {@link Sink} for implementing sort on SIZED int strebms.
      */
-    private static final class SizedIntSortingSink extends AbstractIntSortingSink {
-        private int[] array;
-        private int offset;
+    privbte stbtic finbl clbss SizedIntSortingSink extends AbstrbctIntSortingSink {
+        privbte int[] brrby;
+        privbte int offset;
 
-        SizedIntSortingSink(Sink<? super Integer> downstream) {
-            super(downstream);
+        SizedIntSortingSink(Sink<? super Integer> downstrebm) {
+            super(downstrebm);
         }
 
         @Override
         public void begin(long size) {
             if (size >= Nodes.MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(Nodes.BAD_SIZE);
-            array = new int[(int) size];
+                throw new IllegblArgumentException(Nodes.BAD_SIZE);
+            brrby = new int[(int) size];
         }
 
         @Override
         public void end() {
-            Arrays.sort(array, 0, offset);
-            downstream.begin(offset);
-            if (!cancellationWasRequested) {
+            Arrbys.sort(brrby, 0, offset);
+            downstrebm.begin(offset);
+            if (!cbncellbtionWbsRequested) {
                 for (int i = 0; i < offset; i++)
-                    downstream.accept(array[i]);
+                    downstrebm.bccept(brrby[i]);
             }
             else {
-                for (int i = 0; i < offset && !downstream.cancellationRequested(); i++)
-                    downstream.accept(array[i]);
+                for (int i = 0; i < offset && !downstrebm.cbncellbtionRequested(); i++)
+                    downstrebm.bccept(brrby[i]);
             }
-            downstream.end();
-            array = null;
+            downstrebm.end();
+            brrby = null;
         }
 
         @Override
-        public void accept(int t) {
-            array[offset++] = t;
+        public void bccept(int t) {
+            brrby[offset++] = t;
         }
     }
 
     /**
-     * {@link Sink} for implementing sort on int streams.
+     * {@link Sink} for implementing sort on int strebms.
      */
-    private static final class IntSortingSink extends AbstractIntSortingSink {
-        private SpinedBuffer.OfInt b;
+    privbte stbtic finbl clbss IntSortingSink extends AbstrbctIntSortingSink {
+        privbte SpinedBuffer.OfInt b;
 
         IntSortingSink(Sink<? super Integer> sink) {
             super(sink);
@@ -475,96 +475,96 @@ final class SortedOps {
         @Override
         public void begin(long size) {
             if (size >= Nodes.MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(Nodes.BAD_SIZE);
+                throw new IllegblArgumentException(Nodes.BAD_SIZE);
             b = (size > 0) ? new SpinedBuffer.OfInt((int) size) : new SpinedBuffer.OfInt();
         }
 
         @Override
         public void end() {
-            int[] ints = b.asPrimitiveArray();
-            Arrays.sort(ints);
-            downstream.begin(ints.length);
-            if (!cancellationWasRequested) {
-                for (int anInt : ints)
-                    downstream.accept(anInt);
+            int[] ints = b.bsPrimitiveArrby();
+            Arrbys.sort(ints);
+            downstrebm.begin(ints.length);
+            if (!cbncellbtionWbsRequested) {
+                for (int bnInt : ints)
+                    downstrebm.bccept(bnInt);
             }
             else {
-                for (int anInt : ints) {
-                    if (downstream.cancellationRequested()) break;
-                    downstream.accept(anInt);
+                for (int bnInt : ints) {
+                    if (downstrebm.cbncellbtionRequested()) brebk;
+                    downstrebm.bccept(bnInt);
                 }
             }
-            downstream.end();
+            downstrebm.end();
         }
 
         @Override
-        public void accept(int t) {
-            b.accept(t);
+        public void bccept(int t) {
+            b.bccept(t);
         }
     }
 
     /**
-     * Abstract {@link Sink} for implementing sort on long streams.
+     * Abstrbct {@link Sink} for implementing sort on long strebms.
      */
-    private static abstract class AbstractLongSortingSink extends Sink.ChainedLong<Long> {
-        protected boolean cancellationWasRequested;
+    privbte stbtic bbstrbct clbss AbstrbctLongSortingSink extends Sink.ChbinedLong<Long> {
+        protected boolebn cbncellbtionWbsRequested;
 
-        AbstractLongSortingSink(Sink<? super Long> downstream) {
-            super(downstream);
+        AbstrbctLongSortingSink(Sink<? super Long> downstrebm) {
+            super(downstrebm);
         }
 
         @Override
-        public final boolean cancellationRequested() {
-            cancellationWasRequested = true;
-            return false;
+        public finbl boolebn cbncellbtionRequested() {
+            cbncellbtionWbsRequested = true;
+            return fblse;
         }
     }
 
     /**
-     * {@link Sink} for implementing sort on SIZED long streams.
+     * {@link Sink} for implementing sort on SIZED long strebms.
      */
-    private static final class SizedLongSortingSink extends AbstractLongSortingSink {
-        private long[] array;
-        private int offset;
+    privbte stbtic finbl clbss SizedLongSortingSink extends AbstrbctLongSortingSink {
+        privbte long[] brrby;
+        privbte int offset;
 
-        SizedLongSortingSink(Sink<? super Long> downstream) {
-            super(downstream);
+        SizedLongSortingSink(Sink<? super Long> downstrebm) {
+            super(downstrebm);
         }
 
         @Override
         public void begin(long size) {
             if (size >= Nodes.MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(Nodes.BAD_SIZE);
-            array = new long[(int) size];
+                throw new IllegblArgumentException(Nodes.BAD_SIZE);
+            brrby = new long[(int) size];
         }
 
         @Override
         public void end() {
-            Arrays.sort(array, 0, offset);
-            downstream.begin(offset);
-            if (!cancellationWasRequested) {
+            Arrbys.sort(brrby, 0, offset);
+            downstrebm.begin(offset);
+            if (!cbncellbtionWbsRequested) {
                 for (int i = 0; i < offset; i++)
-                    downstream.accept(array[i]);
+                    downstrebm.bccept(brrby[i]);
             }
             else {
-                for (int i = 0; i < offset && !downstream.cancellationRequested(); i++)
-                    downstream.accept(array[i]);
+                for (int i = 0; i < offset && !downstrebm.cbncellbtionRequested(); i++)
+                    downstrebm.bccept(brrby[i]);
             }
-            downstream.end();
-            array = null;
+            downstrebm.end();
+            brrby = null;
         }
 
         @Override
-        public void accept(long t) {
-            array[offset++] = t;
+        public void bccept(long t) {
+            brrby[offset++] = t;
         }
     }
 
     /**
-     * {@link Sink} for implementing sort on long streams.
+     * {@link Sink} for implementing sort on long strebms.
      */
-    private static final class LongSortingSink extends AbstractLongSortingSink {
-        private SpinedBuffer.OfLong b;
+    privbte stbtic finbl clbss LongSortingSink extends AbstrbctLongSortingSink {
+        privbte SpinedBuffer.OfLong b;
 
         LongSortingSink(Sink<? super Long> sink) {
             super(sink);
@@ -573,96 +573,96 @@ final class SortedOps {
         @Override
         public void begin(long size) {
             if (size >= Nodes.MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(Nodes.BAD_SIZE);
+                throw new IllegblArgumentException(Nodes.BAD_SIZE);
             b = (size > 0) ? new SpinedBuffer.OfLong((int) size) : new SpinedBuffer.OfLong();
         }
 
         @Override
         public void end() {
-            long[] longs = b.asPrimitiveArray();
-            Arrays.sort(longs);
-            downstream.begin(longs.length);
-            if (!cancellationWasRequested) {
-                for (long aLong : longs)
-                    downstream.accept(aLong);
+            long[] longs = b.bsPrimitiveArrby();
+            Arrbys.sort(longs);
+            downstrebm.begin(longs.length);
+            if (!cbncellbtionWbsRequested) {
+                for (long bLong : longs)
+                    downstrebm.bccept(bLong);
             }
             else {
-                for (long aLong : longs) {
-                    if (downstream.cancellationRequested()) break;
-                    downstream.accept(aLong);
+                for (long bLong : longs) {
+                    if (downstrebm.cbncellbtionRequested()) brebk;
+                    downstrebm.bccept(bLong);
                 }
             }
-            downstream.end();
+            downstrebm.end();
         }
 
         @Override
-        public void accept(long t) {
-            b.accept(t);
+        public void bccept(long t) {
+            b.bccept(t);
         }
     }
 
     /**
-     * Abstract {@link Sink} for implementing sort on long streams.
+     * Abstrbct {@link Sink} for implementing sort on long strebms.
      */
-    private static abstract class AbstractDoubleSortingSink extends Sink.ChainedDouble<Double> {
-        protected boolean cancellationWasRequested;
+    privbte stbtic bbstrbct clbss AbstrbctDoubleSortingSink extends Sink.ChbinedDouble<Double> {
+        protected boolebn cbncellbtionWbsRequested;
 
-        AbstractDoubleSortingSink(Sink<? super Double> downstream) {
-            super(downstream);
+        AbstrbctDoubleSortingSink(Sink<? super Double> downstrebm) {
+            super(downstrebm);
         }
 
         @Override
-        public final boolean cancellationRequested() {
-            cancellationWasRequested = true;
-            return false;
+        public finbl boolebn cbncellbtionRequested() {
+            cbncellbtionWbsRequested = true;
+            return fblse;
         }
     }
 
     /**
-     * {@link Sink} for implementing sort on SIZED double streams.
+     * {@link Sink} for implementing sort on SIZED double strebms.
      */
-    private static final class SizedDoubleSortingSink extends AbstractDoubleSortingSink {
-        private double[] array;
-        private int offset;
+    privbte stbtic finbl clbss SizedDoubleSortingSink extends AbstrbctDoubleSortingSink {
+        privbte double[] brrby;
+        privbte int offset;
 
-        SizedDoubleSortingSink(Sink<? super Double> downstream) {
-            super(downstream);
+        SizedDoubleSortingSink(Sink<? super Double> downstrebm) {
+            super(downstrebm);
         }
 
         @Override
         public void begin(long size) {
             if (size >= Nodes.MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(Nodes.BAD_SIZE);
-            array = new double[(int) size];
+                throw new IllegblArgumentException(Nodes.BAD_SIZE);
+            brrby = new double[(int) size];
         }
 
         @Override
         public void end() {
-            Arrays.sort(array, 0, offset);
-            downstream.begin(offset);
-            if (!cancellationWasRequested) {
+            Arrbys.sort(brrby, 0, offset);
+            downstrebm.begin(offset);
+            if (!cbncellbtionWbsRequested) {
                 for (int i = 0; i < offset; i++)
-                    downstream.accept(array[i]);
+                    downstrebm.bccept(brrby[i]);
             }
             else {
-                for (int i = 0; i < offset && !downstream.cancellationRequested(); i++)
-                    downstream.accept(array[i]);
+                for (int i = 0; i < offset && !downstrebm.cbncellbtionRequested(); i++)
+                    downstrebm.bccept(brrby[i]);
             }
-            downstream.end();
-            array = null;
+            downstrebm.end();
+            brrby = null;
         }
 
         @Override
-        public void accept(double t) {
-            array[offset++] = t;
+        public void bccept(double t) {
+            brrby[offset++] = t;
         }
     }
 
     /**
-     * {@link Sink} for implementing sort on double streams.
+     * {@link Sink} for implementing sort on double strebms.
      */
-    private static final class DoubleSortingSink extends AbstractDoubleSortingSink {
-        private SpinedBuffer.OfDouble b;
+    privbte stbtic finbl clbss DoubleSortingSink extends AbstrbctDoubleSortingSink {
+        privbte SpinedBuffer.OfDouble b;
 
         DoubleSortingSink(Sink<? super Double> sink) {
             super(sink);
@@ -671,31 +671,31 @@ final class SortedOps {
         @Override
         public void begin(long size) {
             if (size >= Nodes.MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(Nodes.BAD_SIZE);
+                throw new IllegblArgumentException(Nodes.BAD_SIZE);
             b = (size > 0) ? new SpinedBuffer.OfDouble((int) size) : new SpinedBuffer.OfDouble();
         }
 
         @Override
         public void end() {
-            double[] doubles = b.asPrimitiveArray();
-            Arrays.sort(doubles);
-            downstream.begin(doubles.length);
-            if (!cancellationWasRequested) {
-                for (double aDouble : doubles)
-                    downstream.accept(aDouble);
+            double[] doubles = b.bsPrimitiveArrby();
+            Arrbys.sort(doubles);
+            downstrebm.begin(doubles.length);
+            if (!cbncellbtionWbsRequested) {
+                for (double bDouble : doubles)
+                    downstrebm.bccept(bDouble);
             }
             else {
-                for (double aDouble : doubles) {
-                    if (downstream.cancellationRequested()) break;
-                    downstream.accept(aDouble);
+                for (double bDouble : doubles) {
+                    if (downstrebm.cbncellbtionRequested()) brebk;
+                    downstrebm.bccept(bDouble);
                 }
             }
-            downstream.end();
+            downstrebm.end();
         }
 
         @Override
-        public void accept(double t) {
-            b.accept(t);
+        public void bccept(double t) {
+            b.bccept(t);
         }
     }
 }

@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.decoder;
+pbckbge com.sun.bebns.decoder;
 
-import java.beans.XMLDecoder;
+import jbvb.bebns.XMLDecoder;
 
 /**
- * This class is intended to handle &lt;java&gt; element.
- * Each element that appears in the body of this element
- * is evaluated in the context of the decoder itself.
- * Typically this outer context is used to retrieve the owner of the decoder,
- * which can be set before reading the archive.
- * <p>The following attributes are supported:
+ * This clbss is intended to hbndle &lt;jbvb&gt; element.
+ * Ebch element thbt bppebrs in the body of this element
+ * is evblubted in the context of the decoder itself.
+ * Typicblly this outer context is used to retrieve the owner of the decoder,
+ * which cbn be set before rebding the brchive.
+ * <p>The following bttributes bre supported:
  * <dl>
  * <dt>version
- * <dd>the Java version (not supported)
- * <dt>class
- * <dd>the type of preferable parser (not supported)
+ * <dd>the Jbvb version (not supported)
+ * <dt>clbss
+ * <dd>the type of preferbble pbrser (not supported)
  * <dt>id
- * <dd>the identifier of the variable that is intended to store the result
+ * <dd>the identifier of the vbribble thbt is intended to store the result
  * </dl>
  *
- * @see DocumentHandler#getOwner
- * @see DocumentHandler#setOwner
+ * @see DocumentHbndler#getOwner
+ * @see DocumentHbndler#setOwner
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-final class JavaElementHandler extends ElementHandler {
-    private Class<?> type;
-    private ValueObject value;
+finbl clbss JbvbElementHbndler extends ElementHbndler {
+    privbte Clbss<?> type;
+    privbte VblueObject vblue;
 
     /**
-     * Parses attributes of the element.
-     * The following attributes are supported:
+     * Pbrses bttributes of the element.
+     * The following bttributes bre supported:
      * <dl>
      * <dt>version
-     * <dd>the Java version (not supported)
-     * <dt>class
-     * <dd>the type of preferable parser (not supported)
+     * <dd>the Jbvb version (not supported)
+     * <dt>clbss
+     * <dd>the type of preferbble pbrser (not supported)
      * <dt>id
-     * <dd>the identifier of the variable that is intended to store the result
+     * <dd>the identifier of the vbribble thbt is intended to store the result
      * </dl>
      *
-     * @param name   the attribute name
-     * @param value  the attribute value
+     * @pbrbm nbme   the bttribute nbme
+     * @pbrbm vblue  the bttribute vblue
      */
     @Override
-    public void addAttribute(String name, String value) {
-        if (name.equals("version")) { // NON-NLS: the attribute name
-            // unsupported attribute
-        } else if (name.equals("class")) { // NON-NLS: the attribute name
-            // check class for owner
-            this.type = getOwner().findClass(value);
+    public void bddAttribute(String nbme, String vblue) {
+        if (nbme.equbls("version")) { // NON-NLS: the bttribute nbme
+            // unsupported bttribute
+        } else if (nbme.equbls("clbss")) { // NON-NLS: the bttribute nbme
+            // check clbss for owner
+            this.type = getOwner().findClbss(vblue);
         } else {
-            super.addAttribute(name, value);
+            super.bddAttribute(nbme, vblue);
         }
     }
 
     /**
-     * Adds the argument to the list of readed objects.
+     * Adds the brgument to the list of rebded objects.
      *
-     * @param argument  the value of the element that contained in this one
+     * @pbrbm brgument  the vblue of the element thbt contbined in this one
      */
     @Override
-    protected void addArgument(Object argument) {
-        getOwner().addObject(argument);
+    protected void bddArgument(Object brgument) {
+        getOwner().bddObject(brgument);
     }
 
     /**
-     * Tests whether the value of this element can be used
-     * as an argument of the element that contained in this one.
+     * Tests whether the vblue of this element cbn be used
+     * bs bn brgument of the element thbt contbined in this one.
      *
-     * @return {@code true} if the value of this element should be used
-     *         as an argument of the element that contained in this one,
-     *         {@code false} otherwise
+     * @return {@code true} if the vblue of this element should be used
+     *         bs bn brgument of the element thbt contbined in this one,
+     *         {@code fblse} otherwise
      */
     @Override
-    protected boolean isArgument() {
-        return false; // do not use owner as object
+    protected boolebn isArgument() {
+        return fblse; // do not use owner bs object
     }
 
     /**
-     * Returns the value of this element.
+     * Returns the vblue of this element.
      *
-     * @return the value of this element
+     * @return the vblue of this element
      */
     @Override
-    protected ValueObject getValueObject() {
-        if (this.value == null) {
-            this.value = ValueObjectImpl.create(getValue());
+    protected VblueObject getVblueObject() {
+        if (this.vblue == null) {
+            this.vblue = VblueObjectImpl.crebte(getVblue());
         }
-        return this.value;
+        return this.vblue;
     }
 
     /**
-     * Returns the owner of the owner document handler
-     * as a value of &lt;java&gt; element.
+     * Returns the owner of the owner document hbndler
+     * bs b vblue of &lt;jbvb&gt; element.
      *
-     * @return the owner of the owner document handler
+     * @return the owner of the owner document hbndler
      */
-    private Object getValue() {
+    privbte Object getVblue() {
         Object owner = getOwner().getOwner();
-        if ((this.type == null) || isValid(owner)) {
+        if ((this.type == null) || isVblid(owner)) {
             return owner;
         }
-        if (owner instanceof XMLDecoder) {
+        if (owner instbnceof XMLDecoder) {
             XMLDecoder decoder = (XMLDecoder) owner;
             owner = decoder.getOwner();
-            if (isValid(owner)) {
+            if (isVblid(owner)) {
                 return owner;
             }
         }
-        throw new IllegalStateException("Unexpected owner class: " + owner.getClass().getName());
+        throw new IllegblStbteException("Unexpected owner clbss: " + owner.getClbss().getNbme());
     }
 
     /**
-     * Validates the owner of the &lt;java&gt; element.
-     * The owner is valid if it is {@code null} or an instance
-     * of the class specified by the {@code class} attribute.
+     * Vblidbtes the owner of the &lt;jbvb&gt; element.
+     * The owner is vblid if it is {@code null} or bn instbnce
+     * of the clbss specified by the {@code clbss} bttribute.
      *
-     * @param owner  the owner of the &lt;java&gt; element
-     * @return {@code true} if the {@code owner} is valid;
-     *         {@code false} otherwise
+     * @pbrbm owner  the owner of the &lt;jbvb&gt; element
+     * @return {@code true} if the {@code owner} is vblid;
+     *         {@code fblse} otherwise
      */
-    private boolean isValid(Object owner) {
-        return (owner == null) || this.type.isInstance(owner);
+    privbte boolebn isVblid(Object owner) {
+        return (owner == null) || this.type.isInstbnce(owner);
     }
 }

@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import com.sun.beans.decoder.DocumentHandler;
+import com.sun.bebns.decoder.DocumentHbndler;
 
-import java.io.Closeable;
-import java.io.InputStream;
-import java.io.IOException;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.Closebble;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import org.xml.sax.InputSource;
-import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sbx.InputSource;
+import org.xml.sbx.helpers.DefbultHbndler;
 
 /**
- * The <code>XMLDecoder</code> class is used to read XML documents
- * created using the <code>XMLEncoder</code> and is used just like
- * the <code>ObjectInputStream</code>. For example, one can use
- * the following fragment to read the first object defined
- * in an XML document written by the <code>XMLEncoder</code>
- * class:
+ * The <code>XMLDecoder</code> clbss is used to rebd XML documents
+ * crebted using the <code>XMLEncoder</code> bnd is used just like
+ * the <code>ObjectInputStrebm</code>. For exbmple, one cbn use
+ * the following frbgment to rebd the first object defined
+ * in bn XML document written by the <code>XMLEncoder</code>
+ * clbss:
  * <pre>
  *       XMLDecoder d = new XMLDecoder(
- *                          new BufferedInputStream(
- *                              new FileInputStream("Test.xml")));
- *       Object result = d.readObject();
+ *                          new BufferedInputStrebm(
+ *                              new FileInputStrebm("Test.xml")));
+ *       Object result = d.rebdObject();
  *       d.close();
  * </pre>
  *
  *<p>
- * For more information you might also want to check out
- * <a
- href="http://java.sun.com/products/jfc/tsc/articles/persistence3">Long Term Persistence of JavaBeans Components: XML Schema</a>,
- * an article in <em>The Swing Connection.</em>
+ * For more informbtion you might blso wbnt to check out
+ * <b
+ href="http://jbvb.sun.com/products/jfc/tsc/brticles/persistence3">Long Term Persistence of JbvbBebns Components: XML Schemb</b>,
+ * bn brticle in <em>The Swing Connection.</em>
  * @see XMLEncoder
- * @see java.io.ObjectInputStream
+ * @see jbvb.io.ObjectInputStrebm
  *
  * @since 1.4
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  */
-public class XMLDecoder implements AutoCloseable {
-    private final AccessControlContext acc = AccessController.getContext();
-    private final DocumentHandler handler = new DocumentHandler();
-    private final InputSource input;
-    private Object owner;
-    private Object[] array;
-    private int index;
+public clbss XMLDecoder implements AutoClosebble {
+    privbte finbl AccessControlContext bcc = AccessController.getContext();
+    privbte finbl DocumentHbndler hbndler = new DocumentHbndler();
+    privbte finbl InputSource input;
+    privbte Object owner;
+    privbte Object[] brrby;
+    privbte int index;
 
     /**
-     * Creates a new input stream for reading archives
-     * created by the <code>XMLEncoder</code> class.
+     * Crebtes b new input strebm for rebding brchives
+     * crebted by the <code>XMLEncoder</code> clbss.
      *
-     * @param in The underlying stream.
+     * @pbrbm in The underlying strebm.
      *
-     * @see XMLEncoder#XMLEncoder(java.io.OutputStream)
+     * @see XMLEncoder#XMLEncoder(jbvb.io.OutputStrebm)
      */
-    public XMLDecoder(InputStream in) {
+    public XMLDecoder(InputStrebm in) {
         this(in, null);
     }
 
     /**
-     * Creates a new input stream for reading archives
-     * created by the <code>XMLEncoder</code> class.
+     * Crebtes b new input strebm for rebding brchives
+     * crebted by the <code>XMLEncoder</code> clbss.
      *
-     * @param in The underlying stream.
-     * @param owner The owner of this stream.
+     * @pbrbm in The underlying strebm.
+     * @pbrbm owner The owner of this strebm.
      *
      */
-    public XMLDecoder(InputStream in, Object owner) {
+    public XMLDecoder(InputStrebm in, Object owner) {
         this(in, owner, null);
     }
 
     /**
-     * Creates a new input stream for reading archives
-     * created by the <code>XMLEncoder</code> class.
+     * Crebtes b new input strebm for rebding brchives
+     * crebted by the <code>XMLEncoder</code> clbss.
      *
-     * @param in the underlying stream.
-     * @param owner the owner of this stream.
-     * @param exceptionListener the exception handler for the stream;
-     *        if <code>null</code> the default exception listener will be used.
+     * @pbrbm in the underlying strebm.
+     * @pbrbm owner the owner of this strebm.
+     * @pbrbm exceptionListener the exception hbndler for the strebm;
+     *        if <code>null</code> the defbult exception listener will be used.
      */
-    public XMLDecoder(InputStream in, Object owner, ExceptionListener exceptionListener) {
+    public XMLDecoder(InputStrebm in, Object owner, ExceptionListener exceptionListener) {
         this(in, owner, exceptionListener, null);
     }
 
     /**
-     * Creates a new input stream for reading archives
-     * created by the <code>XMLEncoder</code> class.
+     * Crebtes b new input strebm for rebding brchives
+     * crebted by the <code>XMLEncoder</code> clbss.
      *
-     * @param in the underlying stream.  <code>null</code> may be passed without
+     * @pbrbm in the underlying strebm.  <code>null</code> mby be pbssed without
      *        error, though the resulting XMLDecoder will be useless
-     * @param owner the owner of this stream.  <code>null</code> is a legal
-     *        value
-     * @param exceptionListener the exception handler for the stream, or
-     *        <code>null</code> to use the default
-     * @param cl the class loader used for instantiating objects.
-     *        <code>null</code> indicates that the default class loader should
+     * @pbrbm owner the owner of this strebm.  <code>null</code> is b legbl
+     *        vblue
+     * @pbrbm exceptionListener the exception hbndler for the strebm, or
+     *        <code>null</code> to use the defbult
+     * @pbrbm cl the clbss lobder used for instbntibting objects.
+     *        <code>null</code> indicbtes thbt the defbult clbss lobder should
      *        be used
      * @since 1.5
      */
-    public XMLDecoder(InputStream in, Object owner,
-                      ExceptionListener exceptionListener, ClassLoader cl) {
+    public XMLDecoder(InputStrebm in, Object owner,
+                      ExceptionListener exceptionListener, ClbssLobder cl) {
         this(new InputSource(in), owner, exceptionListener, cl);
     }
 
 
     /**
-     * Creates a new decoder to parse XML archives
-     * created by the {@code XMLEncoder} class.
+     * Crebtes b new decoder to pbrse XML brchives
+     * crebted by the {@code XMLEncoder} clbss.
      * If the input source {@code is} is {@code null},
-     * no exception is thrown and no parsing is performed.
-     * This behavior is similar to behavior of other constructors
-     * that use {@code InputStream} as a parameter.
+     * no exception is thrown bnd no pbrsing is performed.
+     * This behbvior is similbr to behbvior of other constructors
+     * thbt use {@code InputStrebm} bs b pbrbmeter.
      *
-     * @param is  the input source to parse
+     * @pbrbm is  the input source to pbrse
      *
      * @since 1.7
      */
@@ -146,116 +146,116 @@ public class XMLDecoder implements AutoCloseable {
     }
 
     /**
-     * Creates a new decoder to parse XML archives
-     * created by the {@code XMLEncoder} class.
+     * Crebtes b new decoder to pbrse XML brchives
+     * crebted by the {@code XMLEncoder} clbss.
      *
-     * @param is     the input source to parse
-     * @param owner  the owner of this decoder
-     * @param el     the exception handler for the parser,
-     *               or {@code null} to use the default exception handler
-     * @param cl     the class loader used for instantiating objects,
-     *               or {@code null} to use the default class loader
+     * @pbrbm is     the input source to pbrse
+     * @pbrbm owner  the owner of this decoder
+     * @pbrbm el     the exception hbndler for the pbrser,
+     *               or {@code null} to use the defbult exception hbndler
+     * @pbrbm cl     the clbss lobder used for instbntibting objects,
+     *               or {@code null} to use the defbult clbss lobder
      *
      * @since 1.7
      */
-    private XMLDecoder(InputSource is, Object owner, ExceptionListener el, ClassLoader cl) {
+    privbte XMLDecoder(InputSource is, Object owner, ExceptionListener el, ClbssLobder cl) {
         this.input = is;
         this.owner = owner;
         setExceptionListener(el);
-        this.handler.setClassLoader(cl);
-        this.handler.setOwner(this);
+        this.hbndler.setClbssLobder(cl);
+        this.hbndler.setOwner(this);
     }
 
     /**
-     * This method closes the input stream associated
-     * with this stream.
+     * This method closes the input strebm bssocibted
+     * with this strebm.
      */
     public void close() {
-        if (parsingComplete()) {
-            close(this.input.getCharacterStream());
-            close(this.input.getByteStream());
+        if (pbrsingComplete()) {
+            close(this.input.getChbrbcterStrebm());
+            close(this.input.getByteStrebm());
         }
     }
 
-    private void close(Closeable in) {
+    privbte void close(Closebble in) {
         if (in != null) {
             try {
                 in.close();
             }
-            catch (IOException e) {
+            cbtch (IOException e) {
                 getExceptionListener().exceptionThrown(e);
             }
         }
     }
 
-    private boolean parsingComplete() {
+    privbte boolebn pbrsingComplete() {
         if (this.input == null) {
-            return false;
+            return fblse;
         }
-        if (this.array == null) {
-            if ((this.acc == null) && (null != System.getSecurityManager())) {
+        if (this.brrby == null) {
+            if ((this.bcc == null) && (null != System.getSecurityMbnbger())) {
                 throw new SecurityException("AccessControlContext is not set");
             }
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 public Void run() {
-                    XMLDecoder.this.handler.parse(XMLDecoder.this.input);
+                    XMLDecoder.this.hbndler.pbrse(XMLDecoder.this.input);
                     return null;
                 }
-            }, this.acc);
-            this.array = this.handler.getObjects();
+            }, this.bcc);
+            this.brrby = this.hbndler.getObjects();
         }
         return true;
     }
 
     /**
-     * Sets the exception handler for this stream to <code>exceptionListener</code>.
-     * The exception handler is notified when this stream catches recoverable
+     * Sets the exception hbndler for this strebm to <code>exceptionListener</code>.
+     * The exception hbndler is notified when this strebm cbtches recoverbble
      * exceptions.
      *
-     * @param exceptionListener The exception handler for this stream;
-     * if <code>null</code> the default exception listener will be used.
+     * @pbrbm exceptionListener The exception hbndler for this strebm;
+     * if <code>null</code> the defbult exception listener will be used.
      *
      * @see #getExceptionListener
      */
     public void setExceptionListener(ExceptionListener exceptionListener) {
         if (exceptionListener == null) {
-            exceptionListener = Statement.defaultExceptionListener;
+            exceptionListener = Stbtement.defbultExceptionListener;
         }
-        this.handler.setExceptionListener(exceptionListener);
+        this.hbndler.setExceptionListener(exceptionListener);
     }
 
     /**
-     * Gets the exception handler for this stream.
+     * Gets the exception hbndler for this strebm.
      *
-     * @return The exception handler for this stream.
-     *     Will return the default exception listener if this has not explicitly been set.
+     * @return The exception hbndler for this strebm.
+     *     Will return the defbult exception listener if this hbs not explicitly been set.
      *
      * @see #setExceptionListener
      */
     public ExceptionListener getExceptionListener() {
-        return this.handler.getExceptionListener();
+        return this.hbndler.getExceptionListener();
     }
 
     /**
-     * Reads the next object from the underlying input stream.
+     * Rebds the next object from the underlying input strebm.
      *
-     * @return the next object read
+     * @return the next object rebd
      *
-     * @throws ArrayIndexOutOfBoundsException if the stream contains no objects
+     * @throws ArrbyIndexOutOfBoundsException if the strebm contbins no objects
      *         (or no more objects)
      *
      * @see XMLEncoder#writeObject
      */
-    public Object readObject() {
-        return (parsingComplete())
-                ? this.array[this.index++]
+    public Object rebdObject() {
+        return (pbrsingComplete())
+                ? this.brrby[this.index++]
                 : null;
     }
 
     /**
      * Sets the owner of this decoder to <code>owner</code>.
      *
-     * @param owner The owner of this decoder.
+     * @pbrbm owner The owner of this decoder.
      *
      * @see #getOwner
      */
@@ -275,32 +275,32 @@ public class XMLDecoder implements AutoCloseable {
     }
 
     /**
-     * Creates a new handler for SAX parser
-     * that can be used to parse embedded XML archives
-     * created by the {@code XMLEncoder} class.
+     * Crebtes b new hbndler for SAX pbrser
+     * thbt cbn be used to pbrse embedded XML brchives
+     * crebted by the {@code XMLEncoder} clbss.
      *
-     * The {@code owner} should be used if parsed XML document contains
-     * the method call within context of the &lt;java&gt; element.
-     * The {@code null} value may cause illegal parsing in such case.
-     * The same problem may occur, if the {@code owner} class
-     * does not contain expected method to call. See details <a
-     * href="http://java.sun.com/products/jfc/tsc/articles/persistence3/">here</a>.
+     * The {@code owner} should be used if pbrsed XML document contbins
+     * the method cbll within context of the &lt;jbvb&gt; element.
+     * The {@code null} vblue mby cbuse illegbl pbrsing in such cbse.
+     * The sbme problem mby occur, if the {@code owner} clbss
+     * does not contbin expected method to cbll. See detbils <b
+     * href="http://jbvb.sun.com/products/jfc/tsc/brticles/persistence3/">here</b>.
      *
-     * @param owner  the owner of the default handler
-     *               that can be used as a value of &lt;java&gt; element
-     * @param el     the exception handler for the parser,
-     *               or {@code null} to use the default exception handler
-     * @param cl     the class loader used for instantiating objects,
-     *               or {@code null} to use the default class loader
-     * @return an instance of {@code DefaultHandler} for SAX parser
+     * @pbrbm owner  the owner of the defbult hbndler
+     *               thbt cbn be used bs b vblue of &lt;jbvb&gt; element
+     * @pbrbm el     the exception hbndler for the pbrser,
+     *               or {@code null} to use the defbult exception hbndler
+     * @pbrbm cl     the clbss lobder used for instbntibting objects,
+     *               or {@code null} to use the defbult clbss lobder
+     * @return bn instbnce of {@code DefbultHbndler} for SAX pbrser
      *
      * @since 1.7
      */
-    public static DefaultHandler createHandler(Object owner, ExceptionListener el, ClassLoader cl) {
-        DocumentHandler handler = new DocumentHandler();
-        handler.setOwner(owner);
-        handler.setExceptionListener(el);
-        handler.setClassLoader(cl);
-        return handler;
+    public stbtic DefbultHbndler crebteHbndler(Object owner, ExceptionListener el, ClbssLobder cl) {
+        DocumentHbndler hbndler = new DocumentHbndler();
+        hbndler.setOwner(owner);
+        hbndler.setExceptionListener(el);
+        hbndler.setClbssLobder(cl);
+        return hbndler;
     }
 }

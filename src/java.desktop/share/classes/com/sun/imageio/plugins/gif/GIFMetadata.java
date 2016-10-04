@@ -1,290 +1,290 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbckbge com.sun.imbgeio.plugins.gif;
 
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
+import jbvbx.imbgeio.metbdbtb.IIOInvblidTreeException;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbtImpl;
 import org.w3c.dom.Node;
 
 /**
- * Class which adds utility DOM element attribute access methods to
- * <code>IIOMetadata</code> for subclass use.
+ * Clbss which bdds utility DOM element bttribute bccess methods to
+ * <code>IIOMetbdbtb</code> for subclbss use.
  */
-abstract class GIFMetadata extends IIOMetadata {
+bbstrbct clbss GIFMetbdbtb extends IIOMetbdbtb {
 
     /**
-     * Represents an undefined value of integer attributes.
+     * Represents bn undefined vblue of integer bttributes.
      */
-    static final int UNDEFINED_INTEGER_VALUE = -1;
+    stbtic finbl int UNDEFINED_INTEGER_VALUE = -1;
 
     //
-    // Note: These attribute methods were shamelessly lifted from
-    // com.sun.imageio.plugins.png.PNGMetadata and modified.
+    // Note: These bttribute methods were shbmelessly lifted from
+    // com.sun.imbgeio.plugins.png.PNGMetbdbtb bnd modified.
     //
 
-    // Shorthand for throwing an IIOInvalidTreeException
-    protected static void fatal(Node node, String reason)
-      throws IIOInvalidTreeException {
-        throw new IIOInvalidTreeException(reason, node);
+    // Shorthbnd for throwing bn IIOInvblidTreeException
+    protected stbtic void fbtbl(Node node, String rebson)
+      throws IIOInvblidTreeException {
+        throw new IIOInvblidTreeException(rebson, node);
     }
 
-    // Get an integer-valued attribute
-    protected static String getStringAttribute(Node node, String name,
-                                               String defaultValue,
-                                               boolean required,
-                                               String[] range)
-      throws IIOInvalidTreeException {
-        Node attr = node.getAttributes().getNamedItem(name);
-        if (attr == null) {
+    // Get bn integer-vblued bttribute
+    protected stbtic String getStringAttribute(Node node, String nbme,
+                                               String defbultVblue,
+                                               boolebn required,
+                                               String[] rbnge)
+      throws IIOInvblidTreeException {
+        Node bttr = node.getAttributes().getNbmedItem(nbme);
+        if (bttr == null) {
             if (!required) {
-                return defaultValue;
+                return defbultVblue;
             } else {
-                fatal(node, "Required attribute " + name + " not present!");
+                fbtbl(node, "Required bttribute " + nbme + " not present!");
             }
         }
-        String value = attr.getNodeValue();
+        String vblue = bttr.getNodeVblue();
 
-        if (range != null) {
-            if (value == null) {
-                fatal(node,
-                      "Null value for "+node.getNodeName()+
-                      " attribute "+name+"!");
+        if (rbnge != null) {
+            if (vblue == null) {
+                fbtbl(node,
+                      "Null vblue for "+node.getNodeNbme()+
+                      " bttribute "+nbme+"!");
             }
-            boolean validValue = false;
-            int len = range.length;
+            boolebn vblidVblue = fblse;
+            int len = rbnge.length;
             for (int i = 0; i < len; i++) {
-                if (value.equals(range[i])) {
-                    validValue = true;
-                    break;
+                if (vblue.equbls(rbnge[i])) {
+                    vblidVblue = true;
+                    brebk;
                 }
             }
-            if (!validValue) {
-                fatal(node,
-                      "Bad value for "+node.getNodeName()+
-                      " attribute "+name+"!");
+            if (!vblidVblue) {
+                fbtbl(node,
+                      "Bbd vblue for "+node.getNodeNbme()+
+                      " bttribute "+nbme+"!");
             }
         }
 
-        return value;
+        return vblue;
     }
 
 
-    // Get an integer-valued attribute
-    protected static int getIntAttribute(Node node, String name,
-                                         int defaultValue, boolean required,
-                                         boolean bounded, int min, int max)
-      throws IIOInvalidTreeException {
-        String value = getStringAttribute(node, name, null, required, null);
-        if (value == null || "".equals(value)) {
-            return defaultValue;
+    // Get bn integer-vblued bttribute
+    protected stbtic int getIntAttribute(Node node, String nbme,
+                                         int defbultVblue, boolebn required,
+                                         boolebn bounded, int min, int mbx)
+      throws IIOInvblidTreeException {
+        String vblue = getStringAttribute(node, nbme, null, required, null);
+        if (vblue == null || "".equbls(vblue)) {
+            return defbultVblue;
         }
 
-        int intValue = defaultValue;
+        int intVblue = defbultVblue;
         try {
-            intValue = Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            fatal(node,
-                  "Bad value for "+node.getNodeName()+
-                  " attribute "+name+"!");
+            intVblue = Integer.pbrseInt(vblue);
+        } cbtch (NumberFormbtException e) {
+            fbtbl(node,
+                  "Bbd vblue for "+node.getNodeNbme()+
+                  " bttribute "+nbme+"!");
         }
-        if (bounded && (intValue < min || intValue > max)) {
-            fatal(node,
-                  "Bad value for "+node.getNodeName()+
-                  " attribute "+name+"!");
+        if (bounded && (intVblue < min || intVblue > mbx)) {
+            fbtbl(node,
+                  "Bbd vblue for "+node.getNodeNbme()+
+                  " bttribute "+nbme+"!");
         }
-        return intValue;
+        return intVblue;
     }
 
-    // Get a float-valued attribute
-    protected static float getFloatAttribute(Node node, String name,
-                                             float defaultValue,
-                                             boolean required)
-      throws IIOInvalidTreeException {
-        String value = getStringAttribute(node, name, null, required, null);
-        if (value == null) {
-            return defaultValue;
+    // Get b flobt-vblued bttribute
+    protected stbtic flobt getFlobtAttribute(Node node, String nbme,
+                                             flobt defbultVblue,
+                                             boolebn required)
+      throws IIOInvblidTreeException {
+        String vblue = getStringAttribute(node, nbme, null, required, null);
+        if (vblue == null) {
+            return defbultVblue;
         }
-        return Float.parseFloat(value);
+        return Flobt.pbrseFlobt(vblue);
     }
 
-    // Get a required integer-valued attribute
-    protected static int getIntAttribute(Node node, String name,
-                                         boolean bounded, int min, int max)
-      throws IIOInvalidTreeException {
-        return getIntAttribute(node, name, -1, true, bounded, min, max);
+    // Get b required integer-vblued bttribute
+    protected stbtic int getIntAttribute(Node node, String nbme,
+                                         boolebn bounded, int min, int mbx)
+      throws IIOInvblidTreeException {
+        return getIntAttribute(node, nbme, -1, true, bounded, min, mbx);
     }
 
-    // Get a required float-valued attribute
-    protected static float getFloatAttribute(Node node, String name)
-      throws IIOInvalidTreeException {
-        return getFloatAttribute(node, name, -1.0F, true);
+    // Get b required flobt-vblued bttribute
+    protected stbtic flobt getFlobtAttribute(Node node, String nbme)
+      throws IIOInvblidTreeException {
+        return getFlobtAttribute(node, nbme, -1.0F, true);
     }
 
-    // Get a boolean-valued attribute
-    protected static boolean getBooleanAttribute(Node node, String name,
-                                                 boolean defaultValue,
-                                                 boolean required)
-      throws IIOInvalidTreeException {
-        Node attr = node.getAttributes().getNamedItem(name);
-        if (attr == null) {
+    // Get b boolebn-vblued bttribute
+    protected stbtic boolebn getBoolebnAttribute(Node node, String nbme,
+                                                 boolebn defbultVblue,
+                                                 boolebn required)
+      throws IIOInvblidTreeException {
+        Node bttr = node.getAttributes().getNbmedItem(nbme);
+        if (bttr == null) {
             if (!required) {
-                return defaultValue;
+                return defbultVblue;
             } else {
-                fatal(node, "Required attribute " + name + " not present!");
+                fbtbl(node, "Required bttribute " + nbme + " not present!");
             }
         }
-        String value = attr.getNodeValue();
-        // Allow lower case booleans for backward compatibility, #5082756
-        if (value.equals("TRUE") || value.equals("true")) {
+        String vblue = bttr.getNodeVblue();
+        // Allow lower cbse boolebns for bbckwbrd compbtibility, #5082756
+        if (vblue.equbls("TRUE") || vblue.equbls("true")) {
             return true;
-        } else if (value.equals("FALSE") || value.equals("false")) {
-            return false;
+        } else if (vblue.equbls("FALSE") || vblue.equbls("fblse")) {
+            return fblse;
         } else {
-            fatal(node, "Attribute " + name + " must be 'TRUE' or 'FALSE'!");
-            return false;
+            fbtbl(node, "Attribute " + nbme + " must be 'TRUE' or 'FALSE'!");
+            return fblse;
         }
     }
 
-    // Get a required boolean-valued attribute
-    protected static boolean getBooleanAttribute(Node node, String name)
-      throws IIOInvalidTreeException {
-        return getBooleanAttribute(node, name, false, true);
+    // Get b required boolebn-vblued bttribute
+    protected stbtic boolebn getBoolebnAttribute(Node node, String nbme)
+      throws IIOInvblidTreeException {
+        return getBoolebnAttribute(node, nbme, fblse, true);
     }
 
-    // Get an enumerated attribute as an index into a String array
-    protected static int getEnumeratedAttribute(Node node,
-                                                String name,
-                                                String[] legalNames,
-                                                int defaultValue,
-                                                boolean required)
-      throws IIOInvalidTreeException {
-        Node attr = node.getAttributes().getNamedItem(name);
-        if (attr == null) {
+    // Get bn enumerbted bttribute bs bn index into b String brrby
+    protected stbtic int getEnumerbtedAttribute(Node node,
+                                                String nbme,
+                                                String[] legblNbmes,
+                                                int defbultVblue,
+                                                boolebn required)
+      throws IIOInvblidTreeException {
+        Node bttr = node.getAttributes().getNbmedItem(nbme);
+        if (bttr == null) {
             if (!required) {
-                return defaultValue;
+                return defbultVblue;
             } else {
-                fatal(node, "Required attribute " + name + " not present!");
+                fbtbl(node, "Required bttribute " + nbme + " not present!");
             }
         }
-        String value = attr.getNodeValue();
-        for (int i = 0; i < legalNames.length; i++) {
-            if(value.equals(legalNames[i])) {
+        String vblue = bttr.getNodeVblue();
+        for (int i = 0; i < legblNbmes.length; i++) {
+            if(vblue.equbls(legblNbmes[i])) {
                 return i;
             }
         }
 
-        fatal(node, "Illegal value for attribute " + name + "!");
+        fbtbl(node, "Illegbl vblue for bttribute " + nbme + "!");
         return -1;
     }
 
-    // Get a required enumerated attribute as an index into a String array
-    protected static int getEnumeratedAttribute(Node node,
-                                                String name,
-                                                String[] legalNames)
-      throws IIOInvalidTreeException {
-        return getEnumeratedAttribute(node, name, legalNames, -1, true);
+    // Get b required enumerbted bttribute bs bn index into b String brrby
+    protected stbtic int getEnumerbtedAttribute(Node node,
+                                                String nbme,
+                                                String[] legblNbmes)
+      throws IIOInvblidTreeException {
+        return getEnumerbtedAttribute(node, nbme, legblNbmes, -1, true);
     }
 
-    // Get a String-valued attribute
-    protected static String getAttribute(Node node, String name,
-                                         String defaultValue, boolean required)
-      throws IIOInvalidTreeException {
-        Node attr = node.getAttributes().getNamedItem(name);
-        if (attr == null) {
+    // Get b String-vblued bttribute
+    protected stbtic String getAttribute(Node node, String nbme,
+                                         String defbultVblue, boolebn required)
+      throws IIOInvblidTreeException {
+        Node bttr = node.getAttributes().getNbmedItem(nbme);
+        if (bttr == null) {
             if (!required) {
-                return defaultValue;
+                return defbultVblue;
             } else {
-                fatal(node, "Required attribute " + name + " not present!");
+                fbtbl(node, "Required bttribute " + nbme + " not present!");
             }
         }
-        return attr.getNodeValue();
+        return bttr.getNodeVblue();
     }
 
-    // Get a required String-valued attribute
-    protected static String getAttribute(Node node, String name)
-      throws IIOInvalidTreeException {
-        return getAttribute(node, name, null, true);
+    // Get b required String-vblued bttribute
+    protected stbtic String getAttribute(Node node, String nbme)
+      throws IIOInvblidTreeException {
+        return getAttribute(node, nbme, null, true);
     }
 
-    protected GIFMetadata(boolean standardMetadataFormatSupported,
-                          String nativeMetadataFormatName,
-                          String nativeMetadataFormatClassName,
-                          String[] extraMetadataFormatNames,
-                          String[] extraMetadataFormatClassNames) {
-        super(standardMetadataFormatSupported,
-              nativeMetadataFormatName,
-              nativeMetadataFormatClassName,
-              extraMetadataFormatNames,
-              extraMetadataFormatClassNames);
+    protected GIFMetbdbtb(boolebn stbndbrdMetbdbtbFormbtSupported,
+                          String nbtiveMetbdbtbFormbtNbme,
+                          String nbtiveMetbdbtbFormbtClbssNbme,
+                          String[] extrbMetbdbtbFormbtNbmes,
+                          String[] extrbMetbdbtbFormbtClbssNbmes) {
+        super(stbndbrdMetbdbtbFormbtSupported,
+              nbtiveMetbdbtbFormbtNbme,
+              nbtiveMetbdbtbFormbtClbssNbme,
+              extrbMetbdbtbFormbtNbmes,
+              extrbMetbdbtbFormbtClbssNbmes);
     }
 
-    public void mergeTree(String formatName, Node root)
-      throws IIOInvalidTreeException {
-        if (formatName.equals(nativeMetadataFormatName)) {
+    public void mergeTree(String formbtNbme, Node root)
+      throws IIOInvblidTreeException {
+        if (formbtNbme.equbls(nbtiveMetbdbtbFormbtNbme)) {
             if (root == null) {
-                throw new IllegalArgumentException("root == null!");
+                throw new IllegblArgumentException("root == null!");
             }
-            mergeNativeTree(root);
-        } else if (formatName.equals
-                  (IIOMetadataFormatImpl.standardMetadataFormatName)) {
+            mergeNbtiveTree(root);
+        } else if (formbtNbme.equbls
+                  (IIOMetbdbtbFormbtImpl.stbndbrdMetbdbtbFormbtNbme)) {
             if (root == null) {
-                throw new IllegalArgumentException("root == null!");
+                throw new IllegblArgumentException("root == null!");
             }
-            mergeStandardTree(root);
+            mergeStbndbrdTree(root);
         } else {
-            throw new IllegalArgumentException("Not a recognized format!");
+            throw new IllegblArgumentException("Not b recognized formbt!");
         }
     }
 
-    protected byte[] getColorTable(Node colorTableNode,
-                                   String entryNodeName,
-                                   boolean lengthExpected,
+    protected byte[] getColorTbble(Node colorTbbleNode,
+                                   String entryNodeNbme,
+                                   boolebn lengthExpected,
                                    int expectedLength)
-      throws IIOInvalidTreeException {
+      throws IIOInvblidTreeException {
         byte[] red = new byte[256];
         byte[] green  = new byte[256];
         byte[] blue = new byte[256];
-        int maxIndex = -1;
+        int mbxIndex = -1;
 
-        Node entry = colorTableNode.getFirstChild();
+        Node entry = colorTbbleNode.getFirstChild();
         if (entry == null) {
-            fatal(colorTableNode, "Palette has no entries!");
+            fbtbl(colorTbbleNode, "Pblette hbs no entries!");
         }
 
         while (entry != null) {
-            if (!entry.getNodeName().equals(entryNodeName)) {
-                fatal(colorTableNode,
-                      "Only a "+entryNodeName+" may be a child of a "+
-                      entry.getNodeName()+"!");
+            if (!entry.getNodeNbme().equbls(entryNodeNbme)) {
+                fbtbl(colorTbbleNode,
+                      "Only b "+entryNodeNbme+" mby be b child of b "+
+                      entry.getNodeNbme()+"!");
             }
 
             int index = getIntAttribute(entry, "index", true, 0, 255);
-            if (index > maxIndex) {
-                maxIndex = index;
+            if (index > mbxIndex) {
+                mbxIndex = index;
             }
             red[index] = (byte)getIntAttribute(entry, "red", true, 0, 255);
             green[index] = (byte)getIntAttribute(entry, "green", true, 0, 255);
@@ -293,25 +293,25 @@ abstract class GIFMetadata extends IIOMetadata {
             entry = entry.getNextSibling();
         }
 
-        int numEntries = maxIndex + 1;
+        int numEntries = mbxIndex + 1;
 
         if (lengthExpected && numEntries != expectedLength) {
-            fatal(colorTableNode, "Unexpected length for palette!");
+            fbtbl(colorTbbleNode, "Unexpected length for pblette!");
         }
 
-        byte[] colorTable = new byte[3*numEntries];
+        byte[] colorTbble = new byte[3*numEntries];
         for (int i = 0, j = 0; i < numEntries; i++) {
-            colorTable[j++] = red[i];
-            colorTable[j++] = green[i];
-            colorTable[j++] = blue[i];
+            colorTbble[j++] = red[i];
+            colorTbble[j++] = green[i];
+            colorTbble[j++] = blue[i];
         }
 
-        return colorTable;
+        return colorTbble;
     }
 
-    protected abstract void mergeNativeTree(Node root)
-      throws IIOInvalidTreeException;
+    protected bbstrbct void mergeNbtiveTree(Node root)
+      throws IIOInvblidTreeException;
 
-   protected abstract void mergeStandardTree(Node root)
-      throws IIOInvalidTreeException;
+   protected bbstrbct void mergeStbndbrdTree(Node root)
+      throws IIOInvblidTreeException;
 }

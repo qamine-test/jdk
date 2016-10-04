@@ -1,749 +1,749 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.lang.ref.SoftReference;
-import java.text.*;
-import java.text.spi.DateFormatProvider;
-import java.text.spi.DateFormatSymbolsProvider;
-import java.text.spi.DecimalFormatSymbolsProvider;
-import java.text.spi.NumberFormatProvider;
-import java.util.Collections;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle.Control;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicReferenceArray;
-import java.util.spi.CalendarDataProvider;
-import java.util.spi.CalendarNameProvider;
-import java.util.spi.CurrencyNameProvider;
-import java.util.spi.LocaleNameProvider;
-import java.util.spi.TimeZoneNameProvider;
-import sun.util.spi.CalendarProvider;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.text.*;
+import jbvb.text.spi.DbteFormbtProvider;
+import jbvb.text.spi.DbteFormbtSymbolsProvider;
+import jbvb.text.spi.DecimblFormbtSymbolsProvider;
+import jbvb.text.spi.NumberFormbtProvider;
+import jbvb.util.Collections;
+import jbvb.util.Cblendbr;
+import jbvb.util.HbshSet;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.ResourceBundle.Control;
+import jbvb.util.Set;
+import jbvb.util.TimeZone;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.concurrent.btomic.AtomicReferenceArrby;
+import jbvb.util.spi.CblendbrDbtbProvider;
+import jbvb.util.spi.CblendbrNbmeProvider;
+import jbvb.util.spi.CurrencyNbmeProvider;
+import jbvb.util.spi.LocbleNbmeProvider;
+import jbvb.util.spi.TimeZoneNbmeProvider;
+import sun.util.spi.CblendbrProvider;
 
 /**
- * LocaleProviderAdapter implementation for the Mac OS X locale data
+ * LocbleProviderAdbpter implementbtion for the Mbc OS X locble dbtb
  *
- * @author Naoto Sato
+ * @buthor Nboto Sbto
  */
-public class HostLocaleProviderAdapterImpl {
+public clbss HostLocbleProviderAdbpterImpl {
 
-    // per supported locale instances
-    private static ConcurrentMap<Locale, SoftReference<AtomicReferenceArray<String>>> dateFormatPatternsMap =
-        new ConcurrentHashMap<>(2);
-    private static ConcurrentMap<Locale, SoftReference<AtomicReferenceArray<String>>> numberFormatPatternsMap =
-        new ConcurrentHashMap<>(2);
-    private static ConcurrentMap<Locale, SoftReference<DateFormatSymbols>> dateFormatSymbolsMap =
-        new ConcurrentHashMap<>(2);
-    private static ConcurrentMap<Locale, SoftReference<DecimalFormatSymbols>> decimalFormatSymbolsMap =
-        new ConcurrentHashMap<>(2);
+    // per supported locble instbnces
+    privbte stbtic ConcurrentMbp<Locble, SoftReference<AtomicReferenceArrby<String>>> dbteFormbtPbtternsMbp =
+        new ConcurrentHbshMbp<>(2);
+    privbte stbtic ConcurrentMbp<Locble, SoftReference<AtomicReferenceArrby<String>>> numberFormbtPbtternsMbp =
+        new ConcurrentHbshMbp<>(2);
+    privbte stbtic ConcurrentMbp<Locble, SoftReference<DbteFormbtSymbols>> dbteFormbtSymbolsMbp =
+        new ConcurrentHbshMbp<>(2);
+    privbte stbtic ConcurrentMbp<Locble, SoftReference<DecimblFormbtSymbols>> decimblFormbtSymbolsMbp =
+        new ConcurrentHbshMbp<>(2);
 
-    // locale categories
-    private static final int CAT_DISPLAY = 0;
-    private static final int CAT_FORMAT  = 1;
+    // locble cbtegories
+    privbte stbtic finbl int CAT_DISPLAY = 0;
+    privbte stbtic finbl int CAT_FORMAT  = 1;
 
-    // NumberFormat styles
-    private static final int NF_NUMBER   = 0;
-    private static final int NF_CURRENCY = 1;
-    private static final int NF_PERCENT  = 2;
-    private static final int NF_INTEGER  = 3;
-    private static final int NF_MAX = NF_INTEGER;
+    // NumberFormbt styles
+    privbte stbtic finbl int NF_NUMBER   = 0;
+    privbte stbtic finbl int NF_CURRENCY = 1;
+    privbte stbtic finbl int NF_PERCENT  = 2;
+    privbte stbtic finbl int NF_INTEGER  = 3;
+    privbte stbtic finbl int NF_MAX = NF_INTEGER;
 
-    // CalendarData value types
-    private static final int CD_FIRSTDAYOFWEEK = 0;
-    private static final int CD_MINIMALDAYSINFIRSTWEEK = 1;
+    // CblendbrDbtb vblue types
+    privbte stbtic finbl int CD_FIRSTDAYOFWEEK = 0;
+    privbte stbtic finbl int CD_MINIMALDAYSINFIRSTWEEK = 1;
 
-    // Locale/Currency display name types
-    private static final int DN_LOCALE_LANGUAGE = 0;
-    private static final int DN_LOCALE_SCRIPT   = 1;
-    private static final int DN_LOCALE_REGION   = 2;
-    private static final int DN_LOCALE_VARIANT  = 3;
-    private static final int DN_CURRENCY_CODE   = 4;
-    private static final int DN_CURRENCY_SYMBOL = 5;
+    // Locble/Currency displby nbme types
+    privbte stbtic finbl int DN_LOCALE_LANGUAGE = 0;
+    privbte stbtic finbl int DN_LOCALE_SCRIPT   = 1;
+    privbte stbtic finbl int DN_LOCALE_REGION   = 2;
+    privbte stbtic finbl int DN_LOCALE_VARIANT  = 3;
+    privbte stbtic finbl int DN_CURRENCY_CODE   = 4;
+    privbte stbtic finbl int DN_CURRENCY_SYMBOL = 5;
 
-    // TimeZone display name types
-    private static final int DN_TZ_SHORT_STANDARD = 0;
-    private static final int DN_TZ_SHORT_DST      = 1;
-    private static final int DN_TZ_LONG_STANDARD  = 2;
-    private static final int DN_TZ_LONG_DST       = 3;
+    // TimeZone displby nbme types
+    privbte stbtic finbl int DN_TZ_SHORT_STANDARD = 0;
+    privbte stbtic finbl int DN_TZ_SHORT_DST      = 1;
+    privbte stbtic finbl int DN_TZ_LONG_STANDARD  = 2;
+    privbte stbtic finbl int DN_TZ_LONG_DST       = 3;
 
-    private static final Set<Locale> supportedLocaleSet;
-    static {
-        Set<Locale> tmpSet = new HashSet<>();
-        // Assuming the default locales do not include any extensions, so
+    privbte stbtic finbl Set<Locble> supportedLocbleSet;
+    stbtic {
+        Set<Locble> tmpSet = new HbshSet<>();
+        // Assuming the defbult locbles do not include bny extensions, so
         // no stripping is needed here.
-        Locale l = convertMacOSXLocaleToJavaLocale(getDefaultLocale(CAT_FORMAT));
-        tmpSet.addAll(Control.getNoFallbackControl(Control.FORMAT_DEFAULT).getCandidateLocales("", l));
-        l = convertMacOSXLocaleToJavaLocale(getDefaultLocale(CAT_DISPLAY));
-        tmpSet.addAll(Control.getNoFallbackControl(Control.FORMAT_DEFAULT).getCandidateLocales("", l));
-        supportedLocaleSet = Collections.unmodifiableSet(tmpSet);
+        Locble l = convertMbcOSXLocbleToJbvbLocble(getDefbultLocble(CAT_FORMAT));
+        tmpSet.bddAll(Control.getNoFbllbbckControl(Control.FORMAT_DEFAULT).getCbndidbteLocbles("", l));
+        l = convertMbcOSXLocbleToJbvbLocble(getDefbultLocble(CAT_DISPLAY));
+        tmpSet.bddAll(Control.getNoFbllbbckControl(Control.FORMAT_DEFAULT).getCbndidbteLocbles("", l));
+        supportedLocbleSet = Collections.unmodifibbleSet(tmpSet);
     }
-    private final static Locale[] supportedLocale = supportedLocaleSet.toArray(new Locale[0]);
+    privbte finbl stbtic Locble[] supportedLocble = supportedLocbleSet.toArrby(new Locble[0]);
 
-    @SuppressWarnings("fallthrough")
-    private static Locale convertMacOSXLocaleToJavaLocale(String macosxloc) {
-        // MacOSX may return ICU notation, here is the quote from CFLocale doc:
-        // "The corresponding value is a CFString containing the POSIX locale
-        // identifier as used by ICU, such as "ja_JP". If you have a variant
-        // locale or a different currency or calendar, it can be as complex as
-        // "en_US_POSIX@calendar=japanese;currency=EUR" or
-        // "az_Cyrl_AZ@calendar=buddhist;currency=JPY".
-        String[] tmp = macosxloc.split("@");
-        String langTag = tmp[0].replace('_', '-');
+    @SuppressWbrnings("fbllthrough")
+    privbte stbtic Locble convertMbcOSXLocbleToJbvbLocble(String mbcosxloc) {
+        // MbcOSX mby return ICU notbtion, here is the quote from CFLocble doc:
+        // "The corresponding vblue is b CFString contbining the POSIX locble
+        // identifier bs used by ICU, such bs "jb_JP". If you hbve b vbribnt
+        // locble or b different currency or cblendbr, it cbn be bs complex bs
+        // "en_US_POSIX@cblendbr=jbpbnese;currency=EUR" or
+        // "bz_Cyrl_AZ@cblendbr=buddhist;currency=JPY".
+        String[] tmp = mbcosxloc.split("@");
+        String lbngTbg = tmp[0].replbce('_', '-');
         if (tmp.length > 1) {
             String[] ext = tmp[1].split(";");
-            for (String keyval : ext) {
-                // We are only interested in "calendar" value for now.
-                if (keyval.startsWith("calendar=")) {
-                    String calid = keyval.substring(keyval.indexOf('=')+1);
-                    switch (calid) {
-                        case "gregorian":
-                            langTag += "-u-ca-gregory";
-                            break;
-                        case "japanese":
-                            // Tweak for ja_JP_JP
-                            if (tmp[0].equals("ja_JP")) {
-                                return JRELocaleConstants.JA_JP_JP;
+            for (String keyvbl : ext) {
+                // We bre only interested in "cblendbr" vblue for now.
+                if (keyvbl.stbrtsWith("cblendbr=")) {
+                    String cblid = keyvbl.substring(keyvbl.indexOf('=')+1);
+                    switch (cblid) {
+                        cbse "gregoribn":
+                            lbngTbg += "-u-cb-gregory";
+                            brebk;
+                        cbse "jbpbnese":
+                            // Twebk for jb_JP_JP
+                            if (tmp[0].equbls("jb_JP")) {
+                                return JRELocbleConstbnts.JA_JP_JP;
                             }
 
-                            // fall through
+                            // fbll through
 
-                        default:
-                            langTag += "-u-ca-" + calid;
-                            break;
+                        defbult:
+                            lbngTbg += "-u-cb-" + cblid;
+                            brebk;
                     }
                 }
             }
         }
 
-        return Locale.forLanguageTag(langTag);
+        return Locble.forLbngubgeTbg(lbngTbg);
     }
 
-    public static DateFormatProvider getDateFormatProvider() {
-        return new DateFormatProvider() {
+    public stbtic DbteFormbtProvider getDbteFormbtProvider() {
+        return new DbteFormbtProvider() {
 
             @Override
-            public Locale[] getAvailableLocales() {
-                return getSupportedCalendarLocales();
+            public Locble[] getAvbilbbleLocbles() {
+                return getSupportedCblendbrLocbles();
             }
 
             @Override
-            public boolean isSupportedLocale(Locale locale) {
-                return isSupportedCalendarLocale(locale);
+            public boolebn isSupportedLocble(Locble locble) {
+                return isSupportedCblendbrLocble(locble);
             }
 
             @Override
-            public DateFormat getDateInstance(int style, Locale locale) {
-                return new SimpleDateFormat(getDateTimePattern(style, -1, locale),
-                                            getCalendarLocale(locale));
+            public DbteFormbt getDbteInstbnce(int style, Locble locble) {
+                return new SimpleDbteFormbt(getDbteTimePbttern(style, -1, locble),
+                                            getCblendbrLocble(locble));
             }
 
             @Override
-            public DateFormat getTimeInstance(int style, Locale locale) {
-                return new SimpleDateFormat(getDateTimePattern(-1, style, locale),
-                                            getCalendarLocale(locale));
+            public DbteFormbt getTimeInstbnce(int style, Locble locble) {
+                return new SimpleDbteFormbt(getDbteTimePbttern(-1, style, locble),
+                                            getCblendbrLocble(locble));
             }
 
             @Override
-            public DateFormat getDateTimeInstance(int dateStyle,
-                    int timeStyle, Locale locale) {
-                return new SimpleDateFormat(getDateTimePattern(dateStyle, timeStyle, locale),
-                                            getCalendarLocale(locale));
+            public DbteFormbt getDbteTimeInstbnce(int dbteStyle,
+                    int timeStyle, Locble locble) {
+                return new SimpleDbteFormbt(getDbteTimePbttern(dbteStyle, timeStyle, locble),
+                                            getCblendbrLocble(locble));
             }
 
-            private String getDateTimePattern(int dateStyle, int timeStyle, Locale locale) {
-                AtomicReferenceArray<String> dateFormatPatterns;
-                SoftReference<AtomicReferenceArray<String>> ref = dateFormatPatternsMap.get(locale);
+            privbte String getDbteTimePbttern(int dbteStyle, int timeStyle, Locble locble) {
+                AtomicReferenceArrby<String> dbteFormbtPbtterns;
+                SoftReference<AtomicReferenceArrby<String>> ref = dbteFormbtPbtternsMbp.get(locble);
 
-                if (ref == null || (dateFormatPatterns = ref.get()) == null) {
-                    dateFormatPatterns = new AtomicReferenceArray<>(5 * 5);
-                    ref = new SoftReference<>(dateFormatPatterns);
-                    dateFormatPatternsMap.put(locale, ref);
+                if (ref == null || (dbteFormbtPbtterns = ref.get()) == null) {
+                    dbteFormbtPbtterns = new AtomicReferenceArrby<>(5 * 5);
+                    ref = new SoftReference<>(dbteFormbtPbtterns);
+                    dbteFormbtPbtternsMbp.put(locble, ref);
                 }
 
-                int index = (dateStyle + 1) * 5 + timeStyle + 1;
-                String pattern = dateFormatPatterns.get(index);
-                if (pattern == null) {
-                    String langTag = locale.toLanguageTag();
-                    pattern = translateDateFormatLetters(getCalendarID(langTag),
-                            getDateTimePatternNative(dateStyle, timeStyle, langTag));
-                    if (!dateFormatPatterns.compareAndSet(index, null, pattern)) {
-                        pattern = dateFormatPatterns.get(index);
+                int index = (dbteStyle + 1) * 5 + timeStyle + 1;
+                String pbttern = dbteFormbtPbtterns.get(index);
+                if (pbttern == null) {
+                    String lbngTbg = locble.toLbngubgeTbg();
+                    pbttern = trbnslbteDbteFormbtLetters(getCblendbrID(lbngTbg),
+                            getDbteTimePbtternNbtive(dbteStyle, timeStyle, lbngTbg));
+                    if (!dbteFormbtPbtterns.compbreAndSet(index, null, pbttern)) {
+                        pbttern = dbteFormbtPbtterns.get(index);
                     }
                 }
 
-                return pattern;
+                return pbttern;
             }
         };
     }
 
-    public static DateFormatSymbolsProvider getDateFormatSymbolsProvider() {
-        return new DateFormatSymbolsProvider() {
+    public stbtic DbteFormbtSymbolsProvider getDbteFormbtSymbolsProvider() {
+        return new DbteFormbtSymbolsProvider() {
             @Override
-            public Locale[] getAvailableLocales() {
-                if (isSupportedLocale(Locale.getDefault(Locale.Category.FORMAT))) {
-                    return supportedLocale;
+            public Locble[] getAvbilbbleLocbles() {
+                if (isSupportedLocble(Locble.getDefbult(Locble.Cbtegory.FORMAT))) {
+                    return supportedLocble;
                 }
-                return new Locale[0];
+                return new Locble[0];
             }
 
             @Override
-            public boolean isSupportedLocale(Locale locale) {
-                // Only supports the locale with Gregorian calendar
-                Locale base = locale.stripExtensions();
-                if (supportedLocaleSet.contains(base)) {
-                    return getCalendarID(locale.toLanguageTag()).equals("gregorian");
+            public boolebn isSupportedLocble(Locble locble) {
+                // Only supports the locble with Gregoribn cblendbr
+                Locble bbse = locble.stripExtensions();
+                if (supportedLocbleSet.contbins(bbse)) {
+                    return getCblendbrID(locble.toLbngubgeTbg()).equbls("gregoribn");
                 }
-                return false;
+                return fblse;
             }
 
             @Override
-            public DateFormatSymbols getInstance(Locale locale) {
-                DateFormatSymbols dateFormatSymbols;
-                SoftReference<DateFormatSymbols> ref = dateFormatSymbolsMap.get(locale);
+            public DbteFormbtSymbols getInstbnce(Locble locble) {
+                DbteFormbtSymbols dbteFormbtSymbols;
+                SoftReference<DbteFormbtSymbols> ref = dbteFormbtSymbolsMbp.get(locble);
 
-                if (ref == null || (dateFormatSymbols = ref.get()) == null) {
-                    dateFormatSymbols = new DateFormatSymbols(locale);
-                    String langTag = locale.toLanguageTag();
-                    dateFormatSymbols.setAmPmStrings(getAmPmStrings(langTag, dateFormatSymbols.getAmPmStrings()));
-                    dateFormatSymbols.setEras(getEras(langTag, dateFormatSymbols.getEras()));
-                    dateFormatSymbols.setMonths(getMonths(langTag, dateFormatSymbols.getMonths()));
-                    dateFormatSymbols.setShortMonths(getShortMonths(langTag, dateFormatSymbols.getShortMonths()));
-                    dateFormatSymbols.setWeekdays(getWeekdays(langTag, dateFormatSymbols.getWeekdays()));
-                    dateFormatSymbols.setShortWeekdays(getShortWeekdays(langTag, dateFormatSymbols.getShortWeekdays()));
-                    ref = new SoftReference<>(dateFormatSymbols);
-                    dateFormatSymbolsMap.put(locale, ref);
+                if (ref == null || (dbteFormbtSymbols = ref.get()) == null) {
+                    dbteFormbtSymbols = new DbteFormbtSymbols(locble);
+                    String lbngTbg = locble.toLbngubgeTbg();
+                    dbteFormbtSymbols.setAmPmStrings(getAmPmStrings(lbngTbg, dbteFormbtSymbols.getAmPmStrings()));
+                    dbteFormbtSymbols.setErbs(getErbs(lbngTbg, dbteFormbtSymbols.getErbs()));
+                    dbteFormbtSymbols.setMonths(getMonths(lbngTbg, dbteFormbtSymbols.getMonths()));
+                    dbteFormbtSymbols.setShortMonths(getShortMonths(lbngTbg, dbteFormbtSymbols.getShortMonths()));
+                    dbteFormbtSymbols.setWeekdbys(getWeekdbys(lbngTbg, dbteFormbtSymbols.getWeekdbys()));
+                    dbteFormbtSymbols.setShortWeekdbys(getShortWeekdbys(lbngTbg, dbteFormbtSymbols.getShortWeekdbys()));
+                    ref = new SoftReference<>(dbteFormbtSymbols);
+                    dbteFormbtSymbolsMbp.put(locble, ref);
                 }
-                return (DateFormatSymbols)dateFormatSymbols.clone();
+                return (DbteFormbtSymbols)dbteFormbtSymbols.clone();
             }
         };
     }
 
-    public static NumberFormatProvider getNumberFormatProvider() {
-        return new NumberFormatProvider() {
+    public stbtic NumberFormbtProvider getNumberFormbtProvider() {
+        return new NumberFormbtProvider() {
             @Override
-            public Locale[] getAvailableLocales() {
-                return supportedLocale;
+            public Locble[] getAvbilbbleLocbles() {
+                return supportedLocble;
             }
 
             @Override
-            public boolean isSupportedLocale(Locale locale) {
+            public boolebn isSupportedLocble(Locble locble) {
                 // Ignore the extensions for now
-                return supportedLocaleSet.contains(locale.stripExtensions());
+                return supportedLocbleSet.contbins(locble.stripExtensions());
             }
 
             @Override
-            public NumberFormat getCurrencyInstance(Locale locale) {
-                return new DecimalFormat(getNumberPattern(NF_CURRENCY, locale),
-                    DecimalFormatSymbols.getInstance(locale));
+            public NumberFormbt getCurrencyInstbnce(Locble locble) {
+                return new DecimblFormbt(getNumberPbttern(NF_CURRENCY, locble),
+                    DecimblFormbtSymbols.getInstbnce(locble));
             }
 
             @Override
-            public NumberFormat getIntegerInstance(Locale locale) {
-                return new DecimalFormat(getNumberPattern(NF_INTEGER, locale),
-                    DecimalFormatSymbols.getInstance(locale));
+            public NumberFormbt getIntegerInstbnce(Locble locble) {
+                return new DecimblFormbt(getNumberPbttern(NF_INTEGER, locble),
+                    DecimblFormbtSymbols.getInstbnce(locble));
             }
 
             @Override
-            public NumberFormat getNumberInstance(Locale locale) {
-                return new DecimalFormat(getNumberPattern(NF_NUMBER, locale),
-                    DecimalFormatSymbols.getInstance(locale));
+            public NumberFormbt getNumberInstbnce(Locble locble) {
+                return new DecimblFormbt(getNumberPbttern(NF_NUMBER, locble),
+                    DecimblFormbtSymbols.getInstbnce(locble));
             }
 
             @Override
-            public NumberFormat getPercentInstance(Locale locale) {
-                return new DecimalFormat(getNumberPattern(NF_PERCENT, locale),
-                    DecimalFormatSymbols.getInstance(locale));
+            public NumberFormbt getPercentInstbnce(Locble locble) {
+                return new DecimblFormbt(getNumberPbttern(NF_PERCENT, locble),
+                    DecimblFormbtSymbols.getInstbnce(locble));
             }
 
-            private String getNumberPattern(int style, Locale locale) {
-                AtomicReferenceArray<String> numberFormatPatterns;
-                SoftReference<AtomicReferenceArray<String>> ref = numberFormatPatternsMap.get(locale);
+            privbte String getNumberPbttern(int style, Locble locble) {
+                AtomicReferenceArrby<String> numberFormbtPbtterns;
+                SoftReference<AtomicReferenceArrby<String>> ref = numberFormbtPbtternsMbp.get(locble);
 
-                if (ref == null || (numberFormatPatterns = ref.get()) == null) {
-                    numberFormatPatterns = new AtomicReferenceArray<>(4);
-                    ref = new SoftReference<>(numberFormatPatterns);
-                    numberFormatPatternsMap.put(locale, ref);
+                if (ref == null || (numberFormbtPbtterns = ref.get()) == null) {
+                    numberFormbtPbtterns = new AtomicReferenceArrby<>(4);
+                    ref = new SoftReference<>(numberFormbtPbtterns);
+                    numberFormbtPbtternsMbp.put(locble, ref);
                 }
 
-                String pattern = numberFormatPatterns.get(style);
-                if (pattern == null) {
-                    pattern = getNumberPatternNative(style, locale.toLanguageTag());
-                    if (!numberFormatPatterns.compareAndSet(style, null, pattern)) {
-                        pattern = numberFormatPatterns.get(style);
+                String pbttern = numberFormbtPbtterns.get(style);
+                if (pbttern == null) {
+                    pbttern = getNumberPbtternNbtive(style, locble.toLbngubgeTbg());
+                    if (!numberFormbtPbtterns.compbreAndSet(style, null, pbttern)) {
+                        pbttern = numberFormbtPbtterns.get(style);
                     }
                 }
 
-                return pattern;
+                return pbttern;
             }
         };
     }
 
-    public static DecimalFormatSymbolsProvider getDecimalFormatSymbolsProvider() {
-        return new DecimalFormatSymbolsProvider() {
+    public stbtic DecimblFormbtSymbolsProvider getDecimblFormbtSymbolsProvider() {
+        return new DecimblFormbtSymbolsProvider() {
 
             @Override
-            public Locale[] getAvailableLocales() {
-                return supportedLocale;
+            public Locble[] getAvbilbbleLocbles() {
+                return supportedLocble;
             }
 
             @Override
-            public boolean isSupportedLocale(Locale locale) {
+            public boolebn isSupportedLocble(Locble locble) {
                 // Ignore the extensions for now
-                return supportedLocaleSet.contains(locale.stripExtensions());
+                return supportedLocbleSet.contbins(locble.stripExtensions());
             }
 
             @Override
-            public DecimalFormatSymbols getInstance(Locale locale) {
-                DecimalFormatSymbols decimalFormatSymbols;
-                SoftReference<DecimalFormatSymbols> ref = decimalFormatSymbolsMap.get(locale);
+            public DecimblFormbtSymbols getInstbnce(Locble locble) {
+                DecimblFormbtSymbols decimblFormbtSymbols;
+                SoftReference<DecimblFormbtSymbols> ref = decimblFormbtSymbolsMbp.get(locble);
 
-                if (ref == null || (decimalFormatSymbols = ref.get()) == null) {
-                    decimalFormatSymbols = new DecimalFormatSymbols(locale);
-                    String langTag = locale.toLanguageTag();
+                if (ref == null || (decimblFormbtSymbols = ref.get()) == null) {
+                    decimblFormbtSymbols = new DecimblFormbtSymbols(locble);
+                    String lbngTbg = locble.toLbngubgeTbg();
 
-                    // DecimalFormatSymbols.setInternationalCurrencySymbol() has
-                    // a side effect of setting the currency symbol as well. So
-                    // the calling order is relevant here.
-                    decimalFormatSymbols.setInternationalCurrencySymbol(getInternationalCurrencySymbol(langTag, decimalFormatSymbols.getInternationalCurrencySymbol()));
-                    decimalFormatSymbols.setCurrencySymbol(getCurrencySymbol(langTag, decimalFormatSymbols.getCurrencySymbol()));
-                    decimalFormatSymbols.setDecimalSeparator(getDecimalSeparator(langTag, decimalFormatSymbols.getDecimalSeparator()));
-                    decimalFormatSymbols.setGroupingSeparator(getGroupingSeparator(langTag, decimalFormatSymbols.getGroupingSeparator()));
-                    decimalFormatSymbols.setInfinity(getInfinity(langTag, decimalFormatSymbols.getInfinity()));
-                    decimalFormatSymbols.setMinusSign(getMinusSign(langTag, decimalFormatSymbols.getMinusSign()));
-                    decimalFormatSymbols.setMonetaryDecimalSeparator(getMonetaryDecimalSeparator(langTag, decimalFormatSymbols.getMonetaryDecimalSeparator()));
-                    decimalFormatSymbols.setNaN(getNaN(langTag, decimalFormatSymbols.getNaN()));
-                    decimalFormatSymbols.setPercent(getPercent(langTag, decimalFormatSymbols.getPercent()));
-                    decimalFormatSymbols.setPerMill(getPerMill(langTag, decimalFormatSymbols.getPerMill()));
-                    decimalFormatSymbols.setZeroDigit(getZeroDigit(langTag, decimalFormatSymbols.getZeroDigit()));
-                    decimalFormatSymbols.setExponentSeparator(getExponentSeparator(langTag, decimalFormatSymbols.getExponentSeparator()));
-                    ref = new SoftReference<>(decimalFormatSymbols);
-                    decimalFormatSymbolsMap.put(locale, ref);
+                    // DecimblFormbtSymbols.setInternbtionblCurrencySymbol() hbs
+                    // b side effect of setting the currency symbol bs well. So
+                    // the cblling order is relevbnt here.
+                    decimblFormbtSymbols.setInternbtionblCurrencySymbol(getInternbtionblCurrencySymbol(lbngTbg, decimblFormbtSymbols.getInternbtionblCurrencySymbol()));
+                    decimblFormbtSymbols.setCurrencySymbol(getCurrencySymbol(lbngTbg, decimblFormbtSymbols.getCurrencySymbol()));
+                    decimblFormbtSymbols.setDecimblSepbrbtor(getDecimblSepbrbtor(lbngTbg, decimblFormbtSymbols.getDecimblSepbrbtor()));
+                    decimblFormbtSymbols.setGroupingSepbrbtor(getGroupingSepbrbtor(lbngTbg, decimblFormbtSymbols.getGroupingSepbrbtor()));
+                    decimblFormbtSymbols.setInfinity(getInfinity(lbngTbg, decimblFormbtSymbols.getInfinity()));
+                    decimblFormbtSymbols.setMinusSign(getMinusSign(lbngTbg, decimblFormbtSymbols.getMinusSign()));
+                    decimblFormbtSymbols.setMonetbryDecimblSepbrbtor(getMonetbryDecimblSepbrbtor(lbngTbg, decimblFormbtSymbols.getMonetbryDecimblSepbrbtor()));
+                    decimblFormbtSymbols.setNbN(getNbN(lbngTbg, decimblFormbtSymbols.getNbN()));
+                    decimblFormbtSymbols.setPercent(getPercent(lbngTbg, decimblFormbtSymbols.getPercent()));
+                    decimblFormbtSymbols.setPerMill(getPerMill(lbngTbg, decimblFormbtSymbols.getPerMill()));
+                    decimblFormbtSymbols.setZeroDigit(getZeroDigit(lbngTbg, decimblFormbtSymbols.getZeroDigit()));
+                    decimblFormbtSymbols.setExponentSepbrbtor(getExponentSepbrbtor(lbngTbg, decimblFormbtSymbols.getExponentSepbrbtor()));
+                    ref = new SoftReference<>(decimblFormbtSymbols);
+                    decimblFormbtSymbolsMbp.put(locble, ref);
                 }
-                return (DecimalFormatSymbols)decimalFormatSymbols.clone();
+                return (DecimblFormbtSymbols)decimblFormbtSymbols.clone();
             }
         };
     }
 
-    public static CalendarDataProvider getCalendarDataProvider() {
-        return new CalendarDataProvider() {
+    public stbtic CblendbrDbtbProvider getCblendbrDbtbProvider() {
+        return new CblendbrDbtbProvider() {
             @Override
-            public Locale[] getAvailableLocales() {
-                return getSupportedCalendarLocales();
+            public Locble[] getAvbilbbleLocbles() {
+                return getSupportedCblendbrLocbles();
             }
 
             @Override
-            public boolean isSupportedLocale(Locale locale) {
-                return isSupportedCalendarLocale(locale);
+            public boolebn isSupportedLocble(Locble locble) {
+                return isSupportedCblendbrLocble(locble);
             }
 
             @Override
-            public int getFirstDayOfWeek(Locale locale) {
-                return getCalendarInt(locale.toLanguageTag(), CD_FIRSTDAYOFWEEK);
+            public int getFirstDbyOfWeek(Locble locble) {
+                return getCblendbrInt(locble.toLbngubgeTbg(), CD_FIRSTDAYOFWEEK);
             }
 
             @Override
-            public int getMinimalDaysInFirstWeek(Locale locale) {
-                return getCalendarInt(locale.toLanguageTag(), CD_MINIMALDAYSINFIRSTWEEK);
+            public int getMinimblDbysInFirstWeek(Locble locble) {
+                return getCblendbrInt(locble.toLbngubgeTbg(), CD_MINIMALDAYSINFIRSTWEEK);
             }
         };
     }
 
-    public static CalendarNameProvider getCalendarNameProvider() {
-        return new CalendarNameProvider() {
+    public stbtic CblendbrNbmeProvider getCblendbrNbmeProvider() {
+        return new CblendbrNbmeProvider() {
             @Override
-            public Locale[] getAvailableLocales() {
-                return getSupportedCalendarLocales();
+            public Locble[] getAvbilbbleLocbles() {
+                return getSupportedCblendbrLocbles();
             }
 
             @Override
-            public boolean isSupportedLocale(Locale locale) {
-                return isSupportedCalendarLocale(locale);
+            public boolebn isSupportedLocble(Locble locble) {
+                return isSupportedCblendbrLocble(locble);
             }
 
             @Override
-            public String getDisplayName(String calType, int field, int value,
-                                         int style, Locale locale) {
+            public String getDisplbyNbme(String cblType, int field, int vblue,
+                                         int style, Locble locble) {
                 return null;
             }
 
             @Override
-            public Map<String, Integer> getDisplayNames(String calType,
-                                         int field, int style, Locale locale) {
+            public Mbp<String, Integer> getDisplbyNbmes(String cblType,
+                                         int field, int style, Locble locble) {
                 return null;
             }
         };
     }
 
-    public static CalendarProvider getCalendarProvider() {
-        return new CalendarProvider() {
+    public stbtic CblendbrProvider getCblendbrProvider() {
+        return new CblendbrProvider() {
             @Override
-            public Locale[] getAvailableLocales() {
-                return getSupportedCalendarLocales();
+            public Locble[] getAvbilbbleLocbles() {
+                return getSupportedCblendbrLocbles();
             }
 
             @Override
-            public boolean isSupportedLocale(Locale locale) {
-                return isSupportedCalendarLocale(locale);
+            public boolebn isSupportedLocble(Locble locble) {
+                return isSupportedCblendbrLocble(locble);
             }
 
             @Override
-            public Calendar getInstance(TimeZone zone, Locale locale) {
-                return new Calendar.Builder()
-                             .setLocale(locale)
-                             .setCalendarType(getCalendarID(locale.toLanguageTag()))
+            public Cblendbr getInstbnce(TimeZone zone, Locble locble) {
+                return new Cblendbr.Builder()
+                             .setLocble(locble)
+                             .setCblendbrType(getCblendbrID(locble.toLbngubgeTbg()))
                              .setTimeZone(zone)
-                             .setInstant(System.currentTimeMillis())
+                             .setInstbnt(System.currentTimeMillis())
                              .build();
             }
         };
     }
 
-    public static CurrencyNameProvider getCurrencyNameProvider() {
-        return new CurrencyNameProvider() {
+    public stbtic CurrencyNbmeProvider getCurrencyNbmeProvider() {
+        return new CurrencyNbmeProvider() {
             @Override
-            public Locale[] getAvailableLocales() {
-                return supportedLocale;
+            public Locble[] getAvbilbbleLocbles() {
+                return supportedLocble;
             }
 
             @Override
-            public boolean isSupportedLocale(Locale locale) {
+            public boolebn isSupportedLocble(Locble locble) {
                 // Ignore the extensions for now
-                return supportedLocaleSet.contains(locale.stripExtensions());
+                return supportedLocbleSet.contbins(locble.stripExtensions());
             }
 
             @Override
-            public String getDisplayName(String code, Locale locale) {
-                return getDisplayString(locale.toLanguageTag(), DN_CURRENCY_CODE, code);
+            public String getDisplbyNbme(String code, Locble locble) {
+                return getDisplbyString(locble.toLbngubgeTbg(), DN_CURRENCY_CODE, code);
             }
 
             @Override
-            public String getSymbol(String code, Locale locale) {
-                return getDisplayString(locale.toLanguageTag(), DN_CURRENCY_SYMBOL, code);
+            public String getSymbol(String code, Locble locble) {
+                return getDisplbyString(locble.toLbngubgeTbg(), DN_CURRENCY_SYMBOL, code);
             }
         };
     }
 
-    public static LocaleNameProvider getLocaleNameProvider() {
-        return new LocaleNameProvider() {
+    public stbtic LocbleNbmeProvider getLocbleNbmeProvider() {
+        return new LocbleNbmeProvider() {
             @Override
-            public Locale[] getAvailableLocales() {
-                return supportedLocale;
+            public Locble[] getAvbilbbleLocbles() {
+                return supportedLocble;
             }
 
             @Override
-            public boolean isSupportedLocale(Locale locale) {
+            public boolebn isSupportedLocble(Locble locble) {
                 // Ignore the extensions for now
-                return supportedLocaleSet.contains(locale.stripExtensions());
+                return supportedLocbleSet.contbins(locble.stripExtensions());
             }
 
             @Override
-            public String getDisplayLanguage(String languageCode, Locale locale) {
-                return getDisplayString(locale.toLanguageTag(), DN_LOCALE_LANGUAGE, languageCode);
+            public String getDisplbyLbngubge(String lbngubgeCode, Locble locble) {
+                return getDisplbyString(locble.toLbngubgeTbg(), DN_LOCALE_LANGUAGE, lbngubgeCode);
             }
 
             @Override
-            public String getDisplayCountry(String countryCode, Locale locale) {
-                return getDisplayString(locale.toLanguageTag(), DN_LOCALE_REGION, countryCode);
+            public String getDisplbyCountry(String countryCode, Locble locble) {
+                return getDisplbyString(locble.toLbngubgeTbg(), DN_LOCALE_REGION, countryCode);
             }
 
             @Override
-            public String getDisplayScript(String scriptCode, Locale locale) {
-                return getDisplayString(locale.toLanguageTag(), DN_LOCALE_SCRIPT, scriptCode);
+            public String getDisplbyScript(String scriptCode, Locble locble) {
+                return getDisplbyString(locble.toLbngubgeTbg(), DN_LOCALE_SCRIPT, scriptCode);
             }
 
             @Override
-            public String getDisplayVariant(String variantCode, Locale locale) {
-                return getDisplayString(locale.toLanguageTag(), DN_LOCALE_VARIANT, variantCode);
+            public String getDisplbyVbribnt(String vbribntCode, Locble locble) {
+                return getDisplbyString(locble.toLbngubgeTbg(), DN_LOCALE_VARIANT, vbribntCode);
             }
         };
     }
 
-    public static TimeZoneNameProvider getTimeZoneNameProvider() {
-        return new TimeZoneNameProvider() {
+    public stbtic TimeZoneNbmeProvider getTimeZoneNbmeProvider() {
+        return new TimeZoneNbmeProvider() {
             @Override
-            public Locale[] getAvailableLocales() {
-                return supportedLocale;
+            public Locble[] getAvbilbbleLocbles() {
+                return supportedLocble;
             }
 
             @Override
-            public boolean isSupportedLocale(Locale locale) {
+            public boolebn isSupportedLocble(Locble locble) {
                 // Ignore the extensions for now
-                return supportedLocaleSet.contains(locale.stripExtensions());
+                return supportedLocbleSet.contbins(locble.stripExtensions());
             }
 
             @Override
-            public String getDisplayName(String ID, boolean daylight, int style, Locale locale) {
-                return getTimeZoneDisplayString(locale.toLanguageTag(), style * 2 + (daylight ? 1 : 0), ID);
+            public String getDisplbyNbme(String ID, boolebn dbylight, int style, Locble locble) {
+                return getTimeZoneDisplbyString(locble.toLbngubgeTbg(), style * 2 + (dbylight ? 1 : 0), ID);
             }
         };
     }
 
-    private static Locale[] getSupportedCalendarLocales() {
-        if (supportedLocale.length != 0 &&
-            supportedLocaleSet.contains(Locale.JAPAN) &&
-            isJapaneseCalendar()) {
-            Locale[] sup = new Locale[supportedLocale.length+1];
-            sup[0] = JRELocaleConstants.JA_JP_JP;
-            System.arraycopy(supportedLocale, 0, sup, 1, supportedLocale.length);
+    privbte stbtic Locble[] getSupportedCblendbrLocbles() {
+        if (supportedLocble.length != 0 &&
+            supportedLocbleSet.contbins(Locble.JAPAN) &&
+            isJbpbneseCblendbr()) {
+            Locble[] sup = new Locble[supportedLocble.length+1];
+            sup[0] = JRELocbleConstbnts.JA_JP_JP;
+            System.brrbycopy(supportedLocble, 0, sup, 1, supportedLocble.length);
             return sup;
         }
-        return supportedLocale;
+        return supportedLocble;
     }
 
-    private static boolean isSupportedCalendarLocale(Locale locale) {
-        Locale base = locale;
+    privbte stbtic boolebn isSupportedCblendbrLocble(Locble locble) {
+        Locble bbse = locble;
 
-        if (base.hasExtensions() || base.getVariant() != "") {
-            base = new Locale.Builder()
-                            .setLocale(locale)
-                            .clearExtensions()
+        if (bbse.hbsExtensions() || bbse.getVbribnt() != "") {
+            bbse = new Locble.Builder()
+                            .setLocble(locble)
+                            .clebrExtensions()
                             .build();
         }
 
-        if (!supportedLocaleSet.contains(base)) {
-            return false;
+        if (!supportedLocbleSet.contbins(bbse)) {
+            return fblse;
         }
 
-        String requestedCalType = locale.getUnicodeLocaleType("ca");
-        String nativeCalType =
-            getCalendarID(base.toLanguageTag()).replaceFirst("gregorian", "gregory");
+        String requestedCblType = locble.getUnicodeLocbleType("cb");
+        String nbtiveCblType =
+            getCblendbrID(bbse.toLbngubgeTbg()).replbceFirst("gregoribn", "gregory");
 
-        if (requestedCalType == null) {
-            return Calendar.getAvailableCalendarTypes().contains(nativeCalType);
+        if (requestedCblType == null) {
+            return Cblendbr.getAvbilbbleCblendbrTypes().contbins(nbtiveCblType);
         } else {
-            return requestedCalType.equals(nativeCalType);
+            return requestedCblType.equbls(nbtiveCblType);
         }
     }
 
-    private static boolean isJapaneseCalendar() {
-        return getCalendarID("ja-JP").equals("japanese");
+    privbte stbtic boolebn isJbpbneseCblendbr() {
+        return getCblendbrID("jb-JP").equbls("jbpbnese");
     }
 
-    private static Locale getCalendarLocale(Locale locale) {
-        String nativeCalType = getCalendarID(locale.toLanguageTag())
-                     .replaceFirst("gregorian", "gregory");
-        if (Calendar.getAvailableCalendarTypes().contains(nativeCalType)) {
-            return new Locale.Builder()
-                           .setLocale(locale)
-                           .setUnicodeLocaleKeyword("ca", nativeCalType)
+    privbte stbtic Locble getCblendbrLocble(Locble locble) {
+        String nbtiveCblType = getCblendbrID(locble.toLbngubgeTbg())
+                     .replbceFirst("gregoribn", "gregory");
+        if (Cblendbr.getAvbilbbleCblendbrTypes().contbins(nbtiveCblType)) {
+            return new Locble.Builder()
+                           .setLocble(locble)
+                           .setUnicodeLocbleKeyword("cb", nbtiveCblType)
                            .build();
         } else {
-            return locale;
+            return locble;
         }
     }
 
-    // The following methods are copied from CLDRConverter build tool.
-    private static String translateDateFormatLetters(String calendarType, String cldrFormat) {
-        String pattern = cldrFormat;
-        int length = pattern.length();
-        boolean inQuote = false;
-        StringBuilder jrePattern = new StringBuilder(length);
+    // The following methods bre copied from CLDRConverter build tool.
+    privbte stbtic String trbnslbteDbteFormbtLetters(String cblendbrType, String cldrFormbt) {
+        String pbttern = cldrFormbt;
+        int length = pbttern.length();
+        boolebn inQuote = fblse;
+        StringBuilder jrePbttern = new StringBuilder(length);
         int count = 0;
-        char lastLetter = 0;
+        chbr lbstLetter = 0;
 
         for (int i = 0; i < length; i++) {
-            char c = pattern.charAt(i);
+            chbr c = pbttern.chbrAt(i);
 
             if (c == '\'') {
-                // '' is treated as a single quote regardless of being
-                // in a quoted section.
+                // '' is trebted bs b single quote regbrdless of being
+                // in b quoted section.
                 if ((i + 1) < length) {
-                    char nextc = pattern.charAt(i + 1);
+                    chbr nextc = pbttern.chbrAt(i + 1);
                     if (nextc == '\'') {
                         i++;
                         if (count != 0) {
-                            convert(calendarType, lastLetter, count, jrePattern);
-                            lastLetter = 0;
+                            convert(cblendbrType, lbstLetter, count, jrePbttern);
+                            lbstLetter = 0;
                             count = 0;
                         }
-                        jrePattern.append("''");
+                        jrePbttern.bppend("''");
                         continue;
                     }
                 }
                 if (!inQuote) {
                     if (count != 0) {
-                        convert(calendarType, lastLetter, count, jrePattern);
-                        lastLetter = 0;
+                        convert(cblendbrType, lbstLetter, count, jrePbttern);
+                        lbstLetter = 0;
                         count = 0;
                     }
                     inQuote = true;
                 } else {
-                    inQuote = false;
+                    inQuote = fblse;
                 }
-                jrePattern.append(c);
+                jrePbttern.bppend(c);
                 continue;
             }
             if (inQuote) {
-                jrePattern.append(c);
+                jrePbttern.bppend(c);
                 continue;
             }
-            if (!(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z')) {
+            if (!(c >= 'b' && c <= 'z' || c >= 'A' && c <= 'Z')) {
                 if (count != 0) {
-                    convert(calendarType, lastLetter, count, jrePattern);
-                    lastLetter = 0;
+                    convert(cblendbrType, lbstLetter, count, jrePbttern);
+                    lbstLetter = 0;
                     count = 0;
                 }
-                jrePattern.append(c);
+                jrePbttern.bppend(c);
                 continue;
             }
 
-            if (lastLetter == 0 || lastLetter == c) {
-                lastLetter = c;
+            if (lbstLetter == 0 || lbstLetter == c) {
+                lbstLetter = c;
                 count++;
                 continue;
             }
-            convert(calendarType, lastLetter, count, jrePattern);
-            lastLetter = c;
+            convert(cblendbrType, lbstLetter, count, jrePbttern);
+            lbstLetter = c;
             count = 1;
         }
 
         if (count != 0) {
-            convert(calendarType, lastLetter, count, jrePattern);
+            convert(cblendbrType, lbstLetter, count, jrePbttern);
         }
-        if (cldrFormat.contentEquals(jrePattern)) {
-            return cldrFormat;
+        if (cldrFormbt.contentEqubls(jrePbttern)) {
+            return cldrFormbt;
         }
-        return jrePattern.toString();
+        return jrePbttern.toString();
     }
 
-    private static void convert(String calendarType, char cldrLetter, int count, StringBuilder sb) {
+    privbte stbtic void convert(String cblendbrType, chbr cldrLetter, int count, StringBuilder sb) {
         switch (cldrLetter) {
-        case 'G':
-            if (!calendarType.equals("gregorian")) {
-                // Adjust the number of 'G's for JRE SimpleDateFormat
+        cbse 'G':
+            if (!cblendbrType.equbls("gregoribn")) {
+                // Adjust the number of 'G's for JRE SimpleDbteFormbt
                 if (count == 5) {
-                    // CLDR narrow -> JRE short
+                    // CLDR nbrrow -> JRE short
                     count = 1;
                 } else if (count == 1) {
-                    // CLDR abbr -> JRE long
+                    // CLDR bbbr -> JRE long
                     count = 4;
                 }
             }
-            appendN(cldrLetter, count, sb);
-            break;
+            bppendN(cldrLetter, count, sb);
+            brebk;
 
-        // TODO: support 'c' and 'e' in JRE SimpleDateFormat
-        // Use 'u' and 'E' for now.
-        case 'c':
-        case 'e':
+        // TODO: support 'c' bnd 'e' in JRE SimpleDbteFormbt
+        // Use 'u' bnd 'E' for now.
+        cbse 'c':
+        cbse 'e':
             switch (count) {
-            case 1:
-                sb.append('u');
-                break;
-            case 3:
-            case 4:
-                appendN('E', count, sb);
-                break;
-            case 5:
-                appendN('E', 3, sb);
-                break;
+            cbse 1:
+                sb.bppend('u');
+                brebk;
+            cbse 3:
+            cbse 4:
+                bppendN('E', count, sb);
+                brebk;
+            cbse 5:
+                bppendN('E', 3, sb);
+                brebk;
             }
-            break;
+            brebk;
 
-        case 'v':
-        case 'V':
-            appendN('z', count, sb);
-            break;
+        cbse 'v':
+        cbse 'V':
+            bppendN('z', count, sb);
+            brebk;
 
-        case 'Z':
+        cbse 'Z':
             if (count == 4 || count == 5) {
-                sb.append("XXX");
+                sb.bppend("XXX");
             }
-            break;
+            brebk;
 
-        case 'u':
-        case 'U':
-        case 'q':
-        case 'Q':
-        case 'l':
-        case 'g':
-        case 'j':
-        case 'A':
-            // Unsupported letter. Just append it within quotes
-            sb.append('\'');
-            sb.append(cldrLetter);
-            sb.append('\'');
-            break;
+        cbse 'u':
+        cbse 'U':
+        cbse 'q':
+        cbse 'Q':
+        cbse 'l':
+        cbse 'g':
+        cbse 'j':
+        cbse 'A':
+            // Unsupported letter. Just bppend it within quotes
+            sb.bppend('\'');
+            sb.bppend(cldrLetter);
+            sb.bppend('\'');
+            brebk;
 
-        default:
-            appendN(cldrLetter, count, sb);
-            break;
+        defbult:
+            bppendN(cldrLetter, count, sb);
+            brebk;
         }
     }
 
-    private static void appendN(char c, int n, StringBuilder sb) {
+    privbte stbtic void bppendN(chbr c, int n, StringBuilder sb) {
         for (int i = 0; i < n; i++) {
-            sb.append(c);
+            sb.bppend(c);
         }
     }
 
-    // initialize
-    private static native String getDefaultLocale(int cat);
+    // initiblize
+    privbte stbtic nbtive String getDefbultLocble(int cbt);
 
-    // For DateFormatProvider
-    private static native String getDateTimePatternNative(int dateStyle, int timeStyle, String langtag);
-    private static native String getCalendarID(String langTag);
+    // For DbteFormbtProvider
+    privbte stbtic nbtive String getDbteTimePbtternNbtive(int dbteStyle, int timeStyle, String lbngtbg);
+    privbte stbtic nbtive String getCblendbrID(String lbngTbg);
 
-    // For NumberFormatProvider
-    private static native String getNumberPatternNative(int style, String langtag);
+    // For NumberFormbtProvider
+    privbte stbtic nbtive String getNumberPbtternNbtive(int style, String lbngtbg);
 
-    // For DateFormatSymbolsProvider
-    private static native String[] getAmPmStrings(String langTag, String[] ampm);
-    private static native String[] getEras(String langTag, String[] eras);
-    private static native String[] getMonths(String langTag, String[] months);
-    private static native String[] getShortMonths(String langTag, String[] smonths);
-    private static native String[] getWeekdays(String langTag, String[] wdays);
-    private static native String[] getShortWeekdays(String langTag, String[] swdays);
+    // For DbteFormbtSymbolsProvider
+    privbte stbtic nbtive String[] getAmPmStrings(String lbngTbg, String[] bmpm);
+    privbte stbtic nbtive String[] getErbs(String lbngTbg, String[] erbs);
+    privbte stbtic nbtive String[] getMonths(String lbngTbg, String[] months);
+    privbte stbtic nbtive String[] getShortMonths(String lbngTbg, String[] smonths);
+    privbte stbtic nbtive String[] getWeekdbys(String lbngTbg, String[] wdbys);
+    privbte stbtic nbtive String[] getShortWeekdbys(String lbngTbg, String[] swdbys);
 
-    // For DecimalFormatSymbolsProvider
-    private static native String getCurrencySymbol(String langTag, String currencySymbol);
-    private static native char getDecimalSeparator(String langTag, char decimalSeparator);
-    private static native char getGroupingSeparator(String langTag, char groupingSeparator);
-    private static native String getInfinity(String langTag, String infinity);
-    private static native String getInternationalCurrencySymbol(String langTag, String internationalCurrencySymbol);
-    private static native char getMinusSign(String langTag, char minusSign);
-    private static native char getMonetaryDecimalSeparator(String langTag, char monetaryDecimalSeparator);
-    private static native String getNaN(String langTag, String nan);
-    private static native char getPercent(String langTag, char percent);
-    private static native char getPerMill(String langTag, char perMill);
-    private static native char getZeroDigit(String langTag, char zeroDigit);
-    private static native String getExponentSeparator(String langTag, String exponent);
+    // For DecimblFormbtSymbolsProvider
+    privbte stbtic nbtive String getCurrencySymbol(String lbngTbg, String currencySymbol);
+    privbte stbtic nbtive chbr getDecimblSepbrbtor(String lbngTbg, chbr decimblSepbrbtor);
+    privbte stbtic nbtive chbr getGroupingSepbrbtor(String lbngTbg, chbr groupingSepbrbtor);
+    privbte stbtic nbtive String getInfinity(String lbngTbg, String infinity);
+    privbte stbtic nbtive String getInternbtionblCurrencySymbol(String lbngTbg, String internbtionblCurrencySymbol);
+    privbte stbtic nbtive chbr getMinusSign(String lbngTbg, chbr minusSign);
+    privbte stbtic nbtive chbr getMonetbryDecimblSepbrbtor(String lbngTbg, chbr monetbryDecimblSepbrbtor);
+    privbte stbtic nbtive String getNbN(String lbngTbg, String nbn);
+    privbte stbtic nbtive chbr getPercent(String lbngTbg, chbr percent);
+    privbte stbtic nbtive chbr getPerMill(String lbngTbg, chbr perMill);
+    privbte stbtic nbtive chbr getZeroDigit(String lbngTbg, chbr zeroDigit);
+    privbte stbtic nbtive String getExponentSepbrbtor(String lbngTbg, String exponent);
 
-    // For CalendarDataProvider
-    private static native int getCalendarInt(String langTag, int type);
+    // For CblendbrDbtbProvider
+    privbte stbtic nbtive int getCblendbrInt(String lbngTbg, int type);
 
-    // For Locale/CurrencyNameProvider
-    private static native String getDisplayString(String langTag, int key, String value);
+    // For Locble/CurrencyNbmeProvider
+    privbte stbtic nbtive String getDisplbyString(String lbngTbg, int key, String vblue);
 
-    // For TimeZoneNameProvider
-    private static native String getTimeZoneDisplayString(String langTag, int style, String value);
+    // For TimeZoneNbmeProvider
+    privbte stbtic nbtive String getTimeZoneDisplbyString(String lbngTbg, int style, String vblue);
 }

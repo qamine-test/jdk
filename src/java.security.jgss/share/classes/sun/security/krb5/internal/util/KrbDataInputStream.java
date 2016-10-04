@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.util;
+pbckbge sun.security.krb5.internbl.util;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
 
 /**
- * This class implements a buffered input stream. It provides methods to read a chunck
- * of data from underlying data stream.
+ * This clbss implements b buffered input strebm. It provides methods to rebd b chunck
+ * of dbtb from underlying dbtb strebm.
  *
- * @author Yanni Zhang
+ * @buthor Ybnni Zhbng
  *
  */
-public class KrbDataInputStream extends BufferedInputStream{
-    private boolean bigEndian = true;
+public clbss KrbDbtbInputStrebm extends BufferedInputStrebm{
+    privbte boolebn bigEndibn = true;
 
-    public void setNativeByteOrder() {
-        if (java.nio.ByteOrder.nativeOrder().
-                equals(java.nio.ByteOrder.BIG_ENDIAN)) {
-            bigEndian = true;
+    public void setNbtiveByteOrder() {
+        if (jbvb.nio.ByteOrder.nbtiveOrder().
+                equbls(jbvb.nio.ByteOrder.BIG_ENDIAN)) {
+            bigEndibn = true;
         } else {
-            bigEndian = false;
+            bigEndibn = fblse;
         }
     }
-    public KrbDataInputStream(InputStream is){
+    public KrbDbtbInputStrebm(InputStrebm is){
         super(is);
     }
     /**
-     * Reads up to the specific number of bytes from this input stream.
-     * @param num the number of bytes to be read.
-     * @return the int value of this byte array.
+     * Rebds up to the specific number of bytes from this input strebm.
+     * @pbrbm num the number of bytes to be rebd.
+     * @return the int vblue of this byte brrby.
      * @exception IOException.
      */
-    public int read(int num) throws IOException{
+    public int rebd(int num) throws IOException{
         byte[] bytes = new byte[num];
-        read(bytes, 0, num);
+        rebd(bytes, 0, num);
         int result = 0;
         for (int i = 0; i < num; i++) {
-            if (bigEndian) {
+            if (bigEndibn) {
                 result |= (bytes[i] & 0xff) << (num - i - 1) * 8;
             } else {
                 result |= (bytes[i] & 0xff) << i * 8;
@@ -76,9 +76,9 @@ public class KrbDataInputStream extends BufferedInputStream{
         return result;
     }
 
-    public int readVersion() throws IOException {
-        // always read in big-endian mode
-        int result = (read() & 0xff) << 8;
-        return result | (read() & 0xff);
+    public int rebdVersion() throws IOException {
+        // blwbys rebd in big-endibn mode
+        int result = (rebd() & 0xff) << 8;
+        return result | (rebd() & 0xff);
     }
 }

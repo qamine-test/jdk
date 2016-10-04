@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.security.Principal;
+import jbvb.security.Principbl;
 
 /**
- * In SSL, sessions are used to describe an ongoing relationship between
- * two entities.  Each SSL connection involves one session at a time, but
- * that session may be used on many connections between those entities,
- * simultaneously or sequentially.  The session used on a connection may
- * also be replaced by a different session.  Sessions are created, or
- * rejoined, as part of the SSL handshaking protocol. Sessions may be
- * invalidated due to policies affecting security or resource usage,
- * or by an application explicitly calling <code>invalidate</code>.
- * Session management policies are typically used to tune performance.
+ * In SSL, sessions bre used to describe bn ongoing relbtionship between
+ * two entities.  Ebch SSL connection involves one session bt b time, but
+ * thbt session mby be used on mbny connections between those entities,
+ * simultbneously or sequentiblly.  The session used on b connection mby
+ * blso be replbced by b different session.  Sessions bre crebted, or
+ * rejoined, bs pbrt of the SSL hbndshbking protocol. Sessions mby be
+ * invblidbted due to policies bffecting security or resource usbge,
+ * or by bn bpplicbtion explicitly cblling <code>invblidbte</code>.
+ * Session mbnbgement policies bre typicblly used to tune performbnce.
  *
- * <P> In addition to the standard session attributes, SSL sessions expose
- * these read-only attributes:  <UL>
+ * <P> In bddition to the stbndbrd session bttributes, SSL sessions expose
+ * these rebd-only bttributes:  <UL>
  *
- *      <LI> <em>Peer Identity.</em>  Sessions are between a particular
- *      client and a particular server.  The identity of the peer may
- *      have been established as part of session setup.  Peers are
- *      generally identified by X.509 certificate chains.
+ *      <LI> <em>Peer Identity.</em>  Sessions bre between b pbrticulbr
+ *      client bnd b pbrticulbr server.  The identity of the peer mby
+ *      hbve been estbblished bs pbrt of session setup.  Peers bre
+ *      generblly identified by X.509 certificbte chbins.
  *
- *      <LI> <em>Cipher Suite Name.</em>  Cipher suites describe the
- *      kind of cryptographic protection that's used by connections
- *      in a particular session.
+ *      <LI> <em>Cipher Suite Nbme.</em>  Cipher suites describe the
+ *      kind of cryptogrbphic protection thbt's used by connections
+ *      in b pbrticulbr session.
  *
- *      <LI> <em>Peer Host.</em>  All connections in a session are
- *      between the same two hosts.  The address of the host on the other
- *      side of the connection is available.
+ *      <LI> <em>Peer Host.</em>  All connections in b session bre
+ *      between the sbme two hosts.  The bddress of the host on the other
+ *      side of the connection is bvbilbble.
  *
  *      </UL>
  *
- * <P> Sessions may be explicitly invalidated.  Invalidation may also
- * be done implicitly, when faced with certain kinds of errors.
+ * <P> Sessions mby be explicitly invblidbted.  Invblidbtion mby blso
+ * be done implicitly, when fbced with certbin kinds of errors.
  *
  * @since 1.4
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-public interface SSLSession {
+public interfbce SSLSession {
 
     /**
-     * Returns the identifier assigned to this Session.
+     * Returns the identifier bssigned to this Session.
      *
      * @return the Session identifier
      */
@@ -75,336 +75,336 @@ public interface SSLSession {
     /**
      * Returns the context in which this session is bound.
      * <P>
-     * This context may be unavailable in some environments,
-     * in which case this method returns null.
+     * This context mby be unbvbilbble in some environments,
+     * in which cbse this method returns null.
      * <P>
-     * If the context is available and there is a
-     * security manager installed, the caller may require
-     * permission to access it or a security exception may be thrown.
-     * In a Java environment, the security manager's
-     * <code>checkPermission</code> method is called with a
+     * If the context is bvbilbble bnd there is b
+     * security mbnbger instblled, the cbller mby require
+     * permission to bccess it or b security exception mby be thrown.
+     * In b Jbvb environment, the security mbnbger's
+     * <code>checkPermission</code> method is cblled with b
      * <code>SSLPermission("getSSLSessionContext")</code> permission.
      *
-     * @throws SecurityException if the calling thread does not have
+     * @throws SecurityException if the cblling threbd does not hbve
      *         permission to get SSL session context.
      * @return the session context used for this session, or null
-     * if the context is unavailable.
+     * if the context is unbvbilbble.
      */
     public SSLSessionContext getSessionContext();
 
 
     /**
-     * Returns the time at which this Session representation was created,
-     * in milliseconds since midnight, January 1, 1970 UTC.
+     * Returns the time bt which this Session representbtion wbs crebted,
+     * in milliseconds since midnight, Jbnubry 1, 1970 UTC.
      *
-     * @return the time this Session was created
+     * @return the time this Session wbs crebted
      */
-    public long getCreationTime();
+    public long getCrebtionTime();
 
 
     /**
-     * Returns the last time this Session representation was accessed by the
-     * session level infrastructure, in milliseconds since
-     * midnight, January 1, 1970 UTC.
+     * Returns the lbst time this Session representbtion wbs bccessed by the
+     * session level infrbstructure, in milliseconds since
+     * midnight, Jbnubry 1, 1970 UTC.
      * <P>
-     * Access indicates a new connection being established using session data.
-     * Application level operations, such as getting or setting a value
-     * associated with the session, are not reflected in this access time.
+     * Access indicbtes b new connection being estbblished using session dbtb.
+     * Applicbtion level operbtions, such bs getting or setting b vblue
+     * bssocibted with the session, bre not reflected in this bccess time.
      *
-     * <P> This information is particularly useful in session management
-     * policies.  For example, a session manager thread could leave all
-     * sessions in a given context which haven't been used in a long time;
-     * or, the sessions might be sorted according to age to optimize some task.
+     * <P> This informbtion is pbrticulbrly useful in session mbnbgement
+     * policies.  For exbmple, b session mbnbger threbd could lebve bll
+     * sessions in b given context which hbven't been used in b long time;
+     * or, the sessions might be sorted bccording to bge to optimize some tbsk.
      *
-     * @return the last time this Session was accessed
+     * @return the lbst time this Session wbs bccessed
      */
-    public long getLastAccessedTime();
+    public long getLbstAccessedTime();
 
 
     /**
-     * Invalidates the session.
+     * Invblidbtes the session.
      * <P>
-     * Future connections will not be able to
-     * resume or join this session.  However, any existing connection
-     * using this session can continue to use the session until the
+     * Future connections will not be bble to
+     * resume or join this session.  However, bny existing connection
+     * using this session cbn continue to use the session until the
      * connection is closed.
      *
-     * @see #isValid()
+     * @see #isVblid()
      */
-    public void invalidate();
+    public void invblidbte();
 
 
     /**
-     * Returns whether this session is valid and available for resuming or
+     * Returns whether this session is vblid bnd bvbilbble for resuming or
      * joining.
      *
-     * @return true if this session may be rejoined.
-     * @see #invalidate()
+     * @return true if this session mby be rejoined.
+     * @see #invblidbte()
      *
      * @since 1.5
      */
-    public boolean isValid();
+    public boolebn isVblid();
 
 
     /**
      *
-     * Binds the specified <code>value</code> object into the
-     * session's application layer data
-     * with the given <code>name</code>.
+     * Binds the specified <code>vblue</code> object into the
+     * session's bpplicbtion lbyer dbtb
+     * with the given <code>nbme</code>.
      * <P>
-     * Any existing binding using the same <code>name</code> is
-     * replaced.  If the new (or existing) <code>value</code> implements the
-     * <code>SSLSessionBindingListener</code> interface, the object
-     * represented by <code>value</code> is notified appropriately.
+     * Any existing binding using the sbme <code>nbme</code> is
+     * replbced.  If the new (or existing) <code>vblue</code> implements the
+     * <code>SSLSessionBindingListener</code> interfbce, the object
+     * represented by <code>vblue</code> is notified bppropribtely.
      * <p>
-     * For security reasons, the same named values may not be
-     * visible across different access control contexts.
+     * For security rebsons, the sbme nbmed vblues mby not be
+     * visible bcross different bccess control contexts.
      *
-     * @param name the name to which the data object will be bound.
-     *          This may not be null.
-     * @param value the data object to be bound. This may not be null.
-     * @throws IllegalArgumentException if either argument is null.
+     * @pbrbm nbme the nbme to which the dbtb object will be bound.
+     *          This mby not be null.
+     * @pbrbm vblue the dbtb object to be bound. This mby not be null.
+     * @throws IllegblArgumentException if either brgument is null.
      */
-    public void putValue(String name, Object value);
+    public void putVblue(String nbme, Object vblue);
 
 
     /**
-     * Returns the object bound to the given name in the session's
-     * application layer data.  Returns null if there is no such binding.
+     * Returns the object bound to the given nbme in the session's
+     * bpplicbtion lbyer dbtb.  Returns null if there is no such binding.
      * <p>
-     * For security reasons, the same named values may not be
-     * visible across different access control contexts.
+     * For security rebsons, the sbme nbmed vblues mby not be
+     * visible bcross different bccess control contexts.
      *
-     * @param name the name of the binding to find.
-     * @return the value bound to that name, or null if the binding does
+     * @pbrbm nbme the nbme of the binding to find.
+     * @return the vblue bound to thbt nbme, or null if the binding does
      *          not exist.
-     * @throws IllegalArgumentException if the argument is null.
+     * @throws IllegblArgumentException if the brgument is null.
      */
-    public Object getValue(String name);
+    public Object getVblue(String nbme);
 
 
     /**
-     * Removes the object bound to the given name in the session's
-     * application layer data.  Does nothing if there is no object
-     * bound to the given name.  If the bound existing object
-     * implements the <code>SessionBindingListener</code> interface,
-     * it is notified appropriately.
+     * Removes the object bound to the given nbme in the session's
+     * bpplicbtion lbyer dbtb.  Does nothing if there is no object
+     * bound to the given nbme.  If the bound existing object
+     * implements the <code>SessionBindingListener</code> interfbce,
+     * it is notified bppropribtely.
      * <p>
-     * For security reasons, the same named values may not be
-     * visible across different access control contexts.
+     * For security rebsons, the sbme nbmed vblues mby not be
+     * visible bcross different bccess control contexts.
      *
-     * @param name the name of the object to remove visible
-     *          across different access control contexts
-     * @throws IllegalArgumentException if the argument is null.
+     * @pbrbm nbme the nbme of the object to remove visible
+     *          bcross different bccess control contexts
+     * @throws IllegblArgumentException if the brgument is null.
      */
-    public void removeValue(String name);
+    public void removeVblue(String nbme);
 
 
     /**
-     * Returns an array of the names of all the application layer
-     * data objects bound into the Session.
+     * Returns bn brrby of the nbmes of bll the bpplicbtion lbyer
+     * dbtb objects bound into the Session.
      * <p>
-     * For security reasons, the same named values may not be
-     * visible across different access control contexts.
+     * For security rebsons, the sbme nbmed vblues mby not be
+     * visible bcross different bccess control contexts.
      *
-     * @return a non-null (possibly empty) array of names of the objects
+     * @return b non-null (possibly empty) brrby of nbmes of the objects
      *  bound to this Session.
      */
-    public String [] getValueNames();
+    public String [] getVblueNbmes();
 
     /**
-     * Returns the identity of the peer which was established as part
+     * Returns the identity of the peer which wbs estbblished bs pbrt
      * of defining the session.
      * <P>
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Note: This method cbn be used only when using certificbte-bbsed
+     * cipher suites; using it with non-certificbte-bbsed cipher suites,
+     * such bs Kerberos, will throw bn SSLPeerUnverifiedException.
      *
-     * @return an ordered array of peer certificates,
-     *          with the peer's own certificate first followed by any
-     *          certificate authorities.
-     * @exception SSLPeerUnverifiedException if the peer's identity has not
+     * @return bn ordered brrby of peer certificbtes,
+     *          with the peer's own certificbte first followed by bny
+     *          certificbte buthorities.
+     * @exception SSLPeerUnverifiedException if the peer's identity hbs not
      *          been verified
-     * @see #getPeerPrincipal()
+     * @see #getPeerPrincipbl()
      */
-    public java.security.cert.Certificate [] getPeerCertificates()
+    public jbvb.security.cert.Certificbte [] getPeerCertificbtes()
             throws SSLPeerUnverifiedException;
 
     /**
-     * Returns the certificate(s) that were sent to the peer during
-     * handshaking.
+     * Returns the certificbte(s) thbt were sent to the peer during
+     * hbndshbking.
      * <P>
-     * Note: This method is useful only when using certificate-based
+     * Note: This method is useful only when using certificbte-bbsed
      * cipher suites.
      * <P>
-     * When multiple certificates are available for use in a
-     * handshake, the implementation chooses what it considers the
-     * "best" certificate chain available, and transmits that to
-     * the other side.  This method allows the caller to know
-     * which certificate chain was actually used.
+     * When multiple certificbtes bre bvbilbble for use in b
+     * hbndshbke, the implementbtion chooses whbt it considers the
+     * "best" certificbte chbin bvbilbble, bnd trbnsmits thbt to
+     * the other side.  This method bllows the cbller to know
+     * which certificbte chbin wbs bctublly used.
      *
-     * @return an ordered array of certificates,
-     * with the local certificate first followed by any
-     * certificate authorities.  If no certificates were sent,
+     * @return bn ordered brrby of certificbtes,
+     * with the locbl certificbte first followed by bny
+     * certificbte buthorities.  If no certificbtes were sent,
      * then null is returned.
      *
-     * @see #getLocalPrincipal()
+     * @see #getLocblPrincipbl()
      */
-    public java.security.cert.Certificate [] getLocalCertificates();
+    public jbvb.security.cert.Certificbte [] getLocblCertificbtes();
 
     /**
-     * Returns the identity of the peer which was identified as part
+     * Returns the identity of the peer which wbs identified bs pbrt
      * of defining the session.
      * <P>
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Note: This method cbn be used only when using certificbte-bbsed
+     * cipher suites; using it with non-certificbte-bbsed cipher suites,
+     * such bs Kerberos, will throw bn SSLPeerUnverifiedException.
      *
-     * <p><em>Note: this method exists for compatibility with previous
-     * releases. New applications should use
-     * {@link #getPeerCertificates} instead.</em></p>
+     * <p><em>Note: this method exists for compbtibility with previous
+     * relebses. New bpplicbtions should use
+     * {@link #getPeerCertificbtes} instebd.</em></p>
      *
-     * @return an ordered array of peer X.509 certificates,
-     *          with the peer's own certificate first followed by any
-     *          certificate authorities.  (The certificates are in
-     *          the original JSSE certificate
-     *          {@link javax.security.cert.X509Certificate} format.)
+     * @return bn ordered brrby of peer X.509 certificbtes,
+     *          with the peer's own certificbte first followed by bny
+     *          certificbte buthorities.  (The certificbtes bre in
+     *          the originbl JSSE certificbte
+     *          {@link jbvbx.security.cert.X509Certificbte} formbt.)
      * @exception SSLPeerUnverifiedException if the peer's identity
-     *          has not been verified
-     * @see #getPeerPrincipal()
+     *          hbs not been verified
+     * @see #getPeerPrincipbl()
      */
-    public javax.security.cert.X509Certificate [] getPeerCertificateChain()
+    public jbvbx.security.cert.X509Certificbte [] getPeerCertificbteChbin()
             throws SSLPeerUnverifiedException;
 
     /**
-     * Returns the identity of the peer which was established as part of
+     * Returns the identity of the peer which wbs estbblished bs pbrt of
      * defining the session.
      *
-     * @return the peer's principal. Returns an X500Principal of the
-     * end-entity certiticate for X509-based cipher suites, and
-     * KerberosPrincipal for Kerberos cipher suites.
+     * @return the peer's principbl. Returns bn X500Principbl of the
+     * end-entity certiticbte for X509-bbsed cipher suites, bnd
+     * KerberosPrincipbl for Kerberos cipher suites.
      *
-     * @throws SSLPeerUnverifiedException if the peer's identity has not
+     * @throws SSLPeerUnverifiedException if the peer's identity hbs not
      *          been verified
      *
-     * @see #getPeerCertificates()
-     * @see #getLocalPrincipal()
+     * @see #getPeerCertificbtes()
+     * @see #getLocblPrincipbl()
      *
      * @since 1.5
      */
-    public Principal getPeerPrincipal()
+    public Principbl getPeerPrincipbl()
             throws SSLPeerUnverifiedException;
 
     /**
-     * Returns the principal that was sent to the peer during handshaking.
+     * Returns the principbl thbt wbs sent to the peer during hbndshbking.
      *
-     * @return the principal sent to the peer. Returns an X500Principal
-     * of the end-entity certificate for X509-based cipher suites, and
-     * KerberosPrincipal for Kerberos cipher suites. If no principal was
+     * @return the principbl sent to the peer. Returns bn X500Principbl
+     * of the end-entity certificbte for X509-bbsed cipher suites, bnd
+     * KerberosPrincipbl for Kerberos cipher suites. If no principbl wbs
      * sent, then null is returned.
      *
-     * @see #getLocalCertificates()
-     * @see #getPeerPrincipal()
+     * @see #getLocblCertificbtes()
+     * @see #getPeerPrincipbl()
      *
      * @since 1.5
      */
-    public Principal getLocalPrincipal();
+    public Principbl getLocblPrincipbl();
 
     /**
-     * Returns the name of the SSL cipher suite which is used for all
+     * Returns the nbme of the SSL cipher suite which is used for bll
      * connections in the session.
      *
      * <P> This defines the level of protection
-     * provided to the data sent on the connection, including the kind
-     * of encryption used and most aspects of how authentication is done.
+     * provided to the dbtb sent on the connection, including the kind
+     * of encryption used bnd most bspects of how buthenticbtion is done.
      *
-     * @return the name of the session's cipher suite
+     * @return the nbme of the session's cipher suite
      */
     public String getCipherSuite();
 
     /**
-     * Returns the standard name of the protocol used for all
+     * Returns the stbndbrd nbme of the protocol used for bll
      * connections in the session.
      *
      * <P> This defines the protocol used in the connection.
      *
-     * @return the standard name of the protocol used for all
+     * @return the stbndbrd nbme of the protocol used for bll
      * connections in the session.
      */
     public String getProtocol();
 
     /**
-     * Returns the host name of the peer in this session.
+     * Returns the host nbme of the peer in this session.
      * <P>
-     * For the server, this is the client's host;  and for
-     * the client, it is the server's host. The name may not be
-     * a fully qualified host name or even a host name at all as
-     * it may represent a string encoding of the peer's network address.
-     * If such a name is desired, it might
-     * be resolved through a name service based on the value returned
+     * For the server, this is the client's host;  bnd for
+     * the client, it is the server's host. The nbme mby not be
+     * b fully qublified host nbme or even b host nbme bt bll bs
+     * it mby represent b string encoding of the peer's network bddress.
+     * If such b nbme is desired, it might
+     * be resolved through b nbme service bbsed on the vblue returned
      * by this method.
      * <P>
-     * This value is not authenticated and should not be relied upon.
-     * It is mainly used as a hint for <code>SSLSession</code> caching
-     * strategies.
+     * This vblue is not buthenticbted bnd should not be relied upon.
+     * It is mbinly used bs b hint for <code>SSLSession</code> cbching
+     * strbtegies.
      *
-     * @return  the host name of the peer host, or null if no information
-     *          is available.
+     * @return  the host nbme of the peer host, or null if no informbtion
+     *          is bvbilbble.
      */
     public String getPeerHost();
 
     /**
      * Returns the port number of the peer in this session.
      * <P>
-     * For the server, this is the client's port number;  and for
+     * For the server, this is the client's port number;  bnd for
      * the client, it is the server's port number.
      * <P>
-     * This value is not authenticated and should not be relied upon.
-     * It is mainly used as a hint for <code>SSLSession</code> caching
-     * strategies.
+     * This vblue is not buthenticbted bnd should not be relied upon.
+     * It is mbinly used bs b hint for <code>SSLSession</code> cbching
+     * strbtegies.
      *
-     * @return  the port number of the peer host, or -1 if no information
-     *          is available.
+     * @return  the port number of the peer host, or -1 if no informbtion
+     *          is bvbilbble.
      *
      * @since 1.5
      */
     public int getPeerPort();
 
     /**
-     * Gets the current size of the largest SSL/TLS packet that is expected
+     * Gets the current size of the lbrgest SSL/TLS pbcket thbt is expected
      * when using this session.
      * <P>
-     * A <code>SSLEngine</code> using this session may generate SSL/TLS
-     * packets of any size up to and including the value returned by this
+     * A <code>SSLEngine</code> using this session mby generbte SSL/TLS
+     * pbckets of bny size up to bnd including the vblue returned by this
      * method. All <code>SSLEngine</code> network buffers should be sized
-     * at least this large to avoid insufficient space problems when
-     * performing <code>wrap</code> and <code>unwrap</code> calls.
+     * bt lebst this lbrge to bvoid insufficient spbce problems when
+     * performing <code>wrbp</code> bnd <code>unwrbp</code> cblls.
      *
-     * @return  the current maximum expected network packet size
+     * @return  the current mbximum expected network pbcket size
      *
-     * @see SSLEngine#wrap(ByteBuffer, ByteBuffer)
-     * @see SSLEngine#unwrap(ByteBuffer, ByteBuffer)
+     * @see SSLEngine#wrbp(ByteBuffer, ByteBuffer)
+     * @see SSLEngine#unwrbp(ByteBuffer, ByteBuffer)
      *
      * @since 1.5
      */
-    public int getPacketBufferSize();
+    public int getPbcketBufferSize();
 
 
     /**
-     * Gets the current size of the largest application data that is
+     * Gets the current size of the lbrgest bpplicbtion dbtb thbt is
      * expected when using this session.
      * <P>
-     * <code>SSLEngine</code> application data buffers must be large
-     * enough to hold the application data from any inbound network
-     * application data packet received.  Typically, outbound
-     * application data buffers can be of any size.
+     * <code>SSLEngine</code> bpplicbtion dbtb buffers must be lbrge
+     * enough to hold the bpplicbtion dbtb from bny inbound network
+     * bpplicbtion dbtb pbcket received.  Typicblly, outbound
+     * bpplicbtion dbtb buffers cbn be of bny size.
      *
-     * @return  the current maximum expected application packet size
+     * @return  the current mbximum expected bpplicbtion pbcket size
      *
-     * @see SSLEngine#wrap(ByteBuffer, ByteBuffer)
-     * @see SSLEngine#unwrap(ByteBuffer, ByteBuffer)
+     * @see SSLEngine#wrbp(ByteBuffer, ByteBuffer)
+     * @see SSLEngine#unwrbp(ByteBuffer, ByteBuffer)
      *
      * @since 1.5
      */
-    public int getApplicationBufferSize();
+    public int getApplicbtionBufferSize();
 }

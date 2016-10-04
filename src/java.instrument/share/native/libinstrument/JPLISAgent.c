@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -34,140 +34,140 @@
 #include    "JPLISAgent.h"
 #include    "JPLISAssert.h"
 #include    "Utilities.h"
-#include    "Reentrancy.h"
-#include    "JavaExceptions.h"
+#include    "Reentrbncy.h"
+#include    "JbvbExceptions.h"
 
 #include    "EncodingSupport.h"
 #include    "FileSystemSupport.h"    /* For MAXPATHLEN & uintptr_t */
 
-#include    "sun_instrument_InstrumentationImpl.h"
+#include    "sun_instrument_InstrumentbtionImpl.h"
 
 /*
- *  The JPLISAgent manages the initialization all of the Java programming language Agents.
- *  It also supports the native method bridge between the JPLIS and the JVMTI.
- *  It maintains a single JVMTI Env that all JPL agents share.
- *  It parses command line requests and creates individual Java agents.
+ *  The JPLISAgent mbnbges the initiblizbtion bll of the Jbvb progrbmming lbngubge Agents.
+ *  It blso supports the nbtive method bridge between the JPLIS bnd the JVMTI.
+ *  It mbintbins b single JVMTI Env thbt bll JPL bgents shbre.
+ *  It pbrses commbnd line requests bnd crebtes individubl Jbvb bgents.
  */
 
 
 /*
- *  private prototypes
+ *  privbte prototypes
  */
 
-/* Allocates an unformatted JPLIS agent data structure. Returns NULL if allocation fails. */
+/* Allocbtes bn unformbtted JPLIS bgent dbtb structure. Returns NULL if bllocbtion fbils. */
 JPLISAgent *
-allocateJPLISAgent(jvmtiEnv *       jvmtiEnv);
+bllocbteJPLISAgent(jvmtiEnv *       jvmtiEnv);
 
-/* Initializes an already-allocated JPLIS agent data structure. */
-JPLISInitializationError
-initializeJPLISAgent(   JPLISAgent *    agent,
-                        JavaVM *        vm,
+/* Initiblizes bn blrebdy-bllocbted JPLIS bgent dbtb structure. */
+JPLISInitiblizbtionError
+initiblizeJPLISAgent(   JPLISAgent *    bgent,
+                        JbvbVM *        vm,
                         jvmtiEnv *      jvmtienv);
-/* De-allocates a JPLIS agent data structure. Only used in partial-failure cases at startup;
- * in normal usage the JPLIS agent lives forever
+/* De-bllocbtes b JPLIS bgent dbtb structure. Only used in pbrtibl-fbilure cbses bt stbrtup;
+ * in normbl usbge the JPLIS bgent lives forever
  */
 void
-deallocateJPLISAgent(   jvmtiEnv *      jvmtienv,
-                        JPLISAgent *    agent);
+debllocbteJPLISAgent(   jvmtiEnv *      jvmtienv,
+                        JPLISAgent *    bgent);
 
-/* Does one-time work to interrogate the JVM about capabilities and cache the answers. */
+/* Does one-time work to interrogbte the JVM bbout cbpbbilities bnd cbche the bnswers. */
 void
-checkCapabilities(JPLISAgent * agent);
+checkCbpbbilities(JPLISAgent * bgent);
 
-/* Takes the elements of the command string (agent class name and options string) and
- * create java strings for them.
- * Returns true if a classname was found. Makes no promises beyond the textual; says nothing about whether
- * the class exists or can be loaded.
- * If return value is true, sets outputClassname to a non-NULL local JNI reference.
- * If return value is true, sets outputOptionsString either to NULL or to a non-NULL local JNI reference.
- * If return value is false, neither output parameter is set.
+/* Tbkes the elements of the commbnd string (bgent clbss nbme bnd options string) bnd
+ * crebte jbvb strings for them.
+ * Returns true if b clbssnbme wbs found. Mbkes no promises beyond the textubl; sbys nothing bbout whether
+ * the clbss exists or cbn be lobded.
+ * If return vblue is true, sets outputClbssnbme to b non-NULL locbl JNI reference.
+ * If return vblue is true, sets outputOptionsString either to NULL or to b non-NULL locbl JNI reference.
+ * If return vblue is fblse, neither output pbrbmeter is set.
  */
-jboolean
-commandStringIntoJavaStrings(  JNIEnv *        jnienv,
-                               const char *    classname,
-                               const char *    optionsString,
-                               jstring *       outputClassname,
+jboolebn
+commbndStringIntoJbvbStrings(  JNIEnv *        jnienv,
+                               const chbr *    clbssnbme,
+                               const chbr *    optionsString,
+                               jstring *       outputClbssnbme,
                                jstring *       outputOptionsString);
 
-/* Start one Java agent from the supplied parameters.
- * Most of the logic lives in a helper function that lives over in Java code--
- * we pass parameters out to Java and use our own Java helper to actually
- * load the agent and call the premain.
- * Returns true if the Java agent class is loaded and the premain/agentmain method completes
- * with no exceptions, false otherwise.
+/* Stbrt one Jbvb bgent from the supplied pbrbmeters.
+ * Most of the logic lives in b helper function thbt lives over in Jbvb code--
+ * we pbss pbrbmeters out to Jbvb bnd use our own Jbvb helper to bctublly
+ * lobd the bgent bnd cbll the prembin.
+ * Returns true if the Jbvb bgent clbss is lobded bnd the prembin/bgentmbin method completes
+ * with no exceptions, fblse otherwise.
  */
-jboolean
-invokeJavaAgentMainMethod( JNIEnv *    jnienv,
-                           jobject     instrumentationImpl,
-                           jmethodID   agentMainMethod,
-                           jstring     className,
+jboolebn
+invokeJbvbAgentMbinMethod( JNIEnv *    jnienv,
+                           jobject     instrumentbtionImpl,
+                           jmethodID   bgentMbinMethod,
+                           jstring     clbssNbme,
                            jstring     optionsString);
 
-/* Once we have loaded the Java agent and called the premain,
- * we can release the copies we have been keeping of the command line
- * data (agent class name and option strings).
+/* Once we hbve lobded the Jbvb bgent bnd cblled the prembin,
+ * we cbn relebse the copies we hbve been keeping of the commbnd line
+ * dbtb (bgent clbss nbme bnd option strings).
  */
 void
-deallocateCommandLineData(JPLISAgent * agent);
+debllocbteCommbndLineDbtb(JPLISAgent * bgent);
 
 /*
- *  Common support for various class list fetchers.
+ *  Common support for vbrious clbss list fetchers.
  */
-typedef jvmtiError (*ClassListFetcher)
+typedef jvmtiError (*ClbssListFetcher)
     (   jvmtiEnv *  jvmtiEnv,
-        jobject     classLoader,
-        jint *      classCount,
-        jclass **   classes);
+        jobject     clbssLobder,
+        jint *      clbssCount,
+        jclbss **   clbsses);
 
-/* Fetcher that ignores the class loader parameter, and uses the JVMTI to get a list of all classes.
- * Returns a jvmtiError according to the underlying JVMTI service.
+/* Fetcher thbt ignores the clbss lobder pbrbmeter, bnd uses the JVMTI to get b list of bll clbsses.
+ * Returns b jvmtiError bccording to the underlying JVMTI service.
  */
 jvmtiError
-getAllLoadedClassesClassListFetcher(    jvmtiEnv *  jvmtiEnv,
-                                        jobject     classLoader,
-                                        jint *      classCount,
-                                        jclass **   classes);
+getAllLobdedClbssesClbssListFetcher(    jvmtiEnv *  jvmtiEnv,
+                                        jobject     clbssLobder,
+                                        jint *      clbssCount,
+                                        jclbss **   clbsses);
 
-/* Fetcher that uses the class loader parameter, and uses the JVMTI to get a list of all classes
- * for which the supplied loader is the initiating loader.
- * Returns a jvmtiError according to the underlying JVMTI service.
+/* Fetcher thbt uses the clbss lobder pbrbmeter, bnd uses the JVMTI to get b list of bll clbsses
+ * for which the supplied lobder is the initibting lobder.
+ * Returns b jvmtiError bccording to the underlying JVMTI service.
  */
 jvmtiError
-getInitiatedClassesClassListFetcher(    jvmtiEnv *  jvmtiEnv,
-                                        jobject     classLoader,
-                                        jint *      classCount,
-                                        jclass **   classes);
+getInitibtedClbssesClbssListFetcher(    jvmtiEnv *  jvmtiEnv,
+                                        jobject     clbssLobder,
+                                        jint *      clbssCount,
+                                        jclbss **   clbsses);
 
 /*
- * Common guts for two native methods, which are the same except for the policy for fetching
- * the list of classes.
- * Either returns a local JNI reference to an array of references to java.lang.Class.
- * Can throw, if it does will alter the JNIEnv with an outstanding exception.
+ * Common guts for two nbtive methods, which bre the sbme except for the policy for fetching
+ * the list of clbsses.
+ * Either returns b locbl JNI reference to bn brrby of references to jbvb.lbng.Clbss.
+ * Cbn throw, if it does will blter the JNIEnv with bn outstbnding exception.
  */
-jobjectArray
-commonGetClassList( JNIEnv *            jnienv,
-                    JPLISAgent *        agent,
-                    jobject             classLoader,
-                    ClassListFetcher    fetcher);
+jobjectArrby
+commonGetClbssList( JNIEnv *            jnienv,
+                    JPLISAgent *        bgent,
+                    jobject             clbssLobder,
+                    ClbssListFetcher    fetcher);
 
 
 /*
  *  Misc. utilities.
  */
 
-/* Checked exception mapper used by the redefine classes implementation.
- * Allows ClassNotFoundException or UnmodifiableClassException; maps others
- * to InternalError. Can return NULL in an error case.
+/* Checked exception mbpper used by the redefine clbsses implementbtion.
+ * Allows ClbssNotFoundException or UnmodifibbleClbssException; mbps others
+ * to InternblError. Cbn return NULL in bn error cbse.
  */
-jthrowable
-redefineClassMapper(    JNIEnv *    jnienv,
-                        jthrowable  throwableToMap);
+jthrowbble
+redefineClbssMbpper(    JNIEnv *    jnienv,
+                        jthrowbble  throwbbleToMbp);
 
-/* Turns a buffer of jclass * into a Java array whose elements are java.lang.Class.
- * Can throw, if it does will alter the JNIEnv with an outstanding exception.
+/* Turns b buffer of jclbss * into b Jbvb brrby whose elements bre jbvb.lbng.Clbss.
+ * Cbn throw, if it does will blter the JNIEnv with bn outstbnding exception.
  */
-jobjectArray
-getObjectArrayFromClasses(JNIEnv* jnienv, jclass* classes, jint classCount);
+jobjectArrby
+getObjectArrbyFromClbsses(JNIEnv* jnienv, jclbss* clbsses, jint clbssCount);
 
 
 JPLISEnvironment *
@@ -175,15 +175,15 @@ getJPLISEnvironment(jvmtiEnv * jvmtienv) {
     JPLISEnvironment * environment  = NULL;
     jvmtiError         jvmtierror   = JVMTI_ERROR_NONE;
 
-    jvmtierror = (*jvmtienv)->GetEnvironmentLocalStorage(
+    jvmtierror = (*jvmtienv)->GetEnvironmentLocblStorbge(
                                             jvmtienv,
                                             (void**)&environment);
-    /* can be called from any phase */
-    jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+    /* cbn be cblled from bny phbse */
+    jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
 
     if (jvmtierror == JVMTI_ERROR_NONE) {
-        jplis_assert(environment != NULL);
-        jplis_assert(environment->mJVMTIEnv == jvmtienv);
+        jplis_bssert(environment != NULL);
+        jplis_bssert(environment->mJVMTIEnv == jvmtienv);
     } else {
         environment = NULL;
     }
@@ -191,47 +191,47 @@ getJPLISEnvironment(jvmtiEnv * jvmtienv) {
 }
 
 /*
- *  OnLoad processing code.
+ *  OnLobd processing code.
  */
 
 /*
- *  Creates a new JPLISAgent.
- *  Returns error if the agent cannot be created and initialized.
- *  The JPLISAgent* pointed to by agent_ptr is set to the new broker,
- *  or NULL if an error has occurred.
+ *  Crebtes b new JPLISAgent.
+ *  Returns error if the bgent cbnnot be crebted bnd initiblized.
+ *  The JPLISAgent* pointed to by bgent_ptr is set to the new broker,
+ *  or NULL if bn error hbs occurred.
  */
-JPLISInitializationError
-createNewJPLISAgent(JavaVM * vm, JPLISAgent **agent_ptr) {
-    JPLISInitializationError initerror       = JPLIS_INIT_ERROR_NONE;
+JPLISInitiblizbtionError
+crebteNewJPLISAgent(JbvbVM * vm, JPLISAgent **bgent_ptr) {
+    JPLISInitiblizbtionError initerror       = JPLIS_INIT_ERROR_NONE;
     jvmtiEnv *               jvmtienv        = NULL;
     jint                     jnierror        = JNI_OK;
 
-    *agent_ptr = NULL;
+    *bgent_ptr = NULL;
     jnierror = (*vm)->GetEnv(  vm,
                                (void **) &jvmtienv,
                                JVMTI_VERSION_1_1);
     if ( jnierror != JNI_OK ) {
         initerror = JPLIS_INIT_ERROR_CANNOT_CREATE_NATIVE_AGENT;
     } else {
-        JPLISAgent * agent = allocateJPLISAgent(jvmtienv);
-        if ( agent == NULL ) {
+        JPLISAgent * bgent = bllocbteJPLISAgent(jvmtienv);
+        if ( bgent == NULL ) {
             initerror = JPLIS_INIT_ERROR_ALLOCATION_FAILURE;
         } else {
-            initerror = initializeJPLISAgent(  agent,
+            initerror = initiblizeJPLISAgent(  bgent,
                                                vm,
                                                jvmtienv);
             if ( initerror == JPLIS_INIT_ERROR_NONE ) {
-                *agent_ptr = agent;
+                *bgent_ptr = bgent;
             } else {
-                deallocateJPLISAgent(jvmtienv, agent);
+                debllocbteJPLISAgent(jvmtienv, bgent);
             }
         }
 
-        /* don't leak envs */
+        /* don't lebk envs */
         if ( initerror != JPLIS_INIT_ERROR_NONE ) {
             jvmtiError jvmtierror = (*jvmtienv)->DisposeEnvironment(jvmtienv);
-            /* can be called from any phase */
-            jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+            /* cbn be cblled from bny phbse */
+            jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
         }
     }
 
@@ -239,116 +239,116 @@ createNewJPLISAgent(JavaVM * vm, JPLISAgent **agent_ptr) {
 }
 
 /*
- *  Allocates a JPLISAgent. Returns NULL if it cannot be allocated
+ *  Allocbtes b JPLISAgent. Returns NULL if it cbnnot be bllocbted
  */
 JPLISAgent *
-allocateJPLISAgent(jvmtiEnv * jvmtienv) {
-  return (JPLISAgent *) allocate( jvmtienv,
+bllocbteJPLISAgent(jvmtiEnv * jvmtienv) {
+  return (JPLISAgent *) bllocbte( jvmtienv,
                                     sizeof(JPLISAgent));
 }
 
-JPLISInitializationError
-initializeJPLISAgent(   JPLISAgent *    agent,
-                        JavaVM *        vm,
+JPLISInitiblizbtionError
+initiblizeJPLISAgent(   JPLISAgent *    bgent,
+                        JbvbVM *        vm,
                         jvmtiEnv *      jvmtienv) {
     jvmtiError      jvmtierror = JVMTI_ERROR_NONE;
-    jvmtiPhase      phase;
+    jvmtiPhbse      phbse;
 
-    agent->mJVM                                      = vm;
-    agent->mNormalEnvironment.mJVMTIEnv              = jvmtienv;
-    agent->mNormalEnvironment.mAgent                 = agent;
-    agent->mNormalEnvironment.mIsRetransformer       = JNI_FALSE;
-    agent->mRetransformEnvironment.mJVMTIEnv         = NULL;        /* NULL until needed */
-    agent->mRetransformEnvironment.mAgent            = agent;
-    agent->mRetransformEnvironment.mIsRetransformer  = JNI_FALSE;   /* JNI_FALSE until mJVMTIEnv is set */
-    agent->mAgentmainCaller                          = NULL;
-    agent->mInstrumentationImpl                      = NULL;
-    agent->mPremainCaller                            = NULL;
-    agent->mTransform                                = NULL;
-    agent->mRedefineAvailable                        = JNI_FALSE;   /* assume no for now */
-    agent->mRedefineAdded                            = JNI_FALSE;
-    agent->mNativeMethodPrefixAvailable              = JNI_FALSE;   /* assume no for now */
-    agent->mNativeMethodPrefixAdded                  = JNI_FALSE;
-    agent->mAgentClassName                           = NULL;
-    agent->mOptionsString                            = NULL;
+    bgent->mJVM                                      = vm;
+    bgent->mNormblEnvironment.mJVMTIEnv              = jvmtienv;
+    bgent->mNormblEnvironment.mAgent                 = bgent;
+    bgent->mNormblEnvironment.mIsRetrbnsformer       = JNI_FALSE;
+    bgent->mRetrbnsformEnvironment.mJVMTIEnv         = NULL;        /* NULL until needed */
+    bgent->mRetrbnsformEnvironment.mAgent            = bgent;
+    bgent->mRetrbnsformEnvironment.mIsRetrbnsformer  = JNI_FALSE;   /* JNI_FALSE until mJVMTIEnv is set */
+    bgent->mAgentmbinCbller                          = NULL;
+    bgent->mInstrumentbtionImpl                      = NULL;
+    bgent->mPrembinCbller                            = NULL;
+    bgent->mTrbnsform                                = NULL;
+    bgent->mRedefineAvbilbble                        = JNI_FALSE;   /* bssume no for now */
+    bgent->mRedefineAdded                            = JNI_FALSE;
+    bgent->mNbtiveMethodPrefixAvbilbble              = JNI_FALSE;   /* bssume no for now */
+    bgent->mNbtiveMethodPrefixAdded                  = JNI_FALSE;
+    bgent->mAgentClbssNbme                           = NULL;
+    bgent->mOptionsString                            = NULL;
 
-    /* make sure we can recover either handle in either direction.
-     * the agent has a ref to the jvmti; make it mutual
+    /* mbke sure we cbn recover either hbndle in either direction.
+     * the bgent hbs b ref to the jvmti; mbke it mutubl
      */
-    jvmtierror = (*jvmtienv)->SetEnvironmentLocalStorage(
+    jvmtierror = (*jvmtienv)->SetEnvironmentLocblStorbge(
                                             jvmtienv,
-                                            &(agent->mNormalEnvironment));
-    /* can be called from any phase */
-    jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+                                            &(bgent->mNormblEnvironment));
+    /* cbn be cblled from bny phbse */
+    jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
 
-    /* check what capabilities are available */
-    checkCapabilities(agent);
+    /* check whbt cbpbbilities bre bvbilbble */
+    checkCbpbbilities(bgent);
 
-    /* check phase - if live phase then we don't need the VMInit event */
-    jvmtierror = (*jvmtienv)->GetPhase(jvmtienv, &phase);
-    /* can be called from any phase */
-    jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
-    if (phase == JVMTI_PHASE_LIVE) {
+    /* check phbse - if live phbse then we don't need the VMInit event */
+    jvmtierror = (*jvmtienv)->GetPhbse(jvmtienv, &phbse);
+    /* cbn be cblled from bny phbse */
+    jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
+    if (phbse == JVMTI_PHASE_LIVE) {
         return JPLIS_INIT_ERROR_NONE;
     }
 
-    if (phase != JVMTI_PHASE_ONLOAD) {
-        /* called too early or called too late; either way bail out */
+    if (phbse != JVMTI_PHASE_ONLOAD) {
+        /* cblled too ebrly or cblled too lbte; either wby bbil out */
         return JPLIS_INIT_ERROR_FAILURE;
     }
 
     /* now turn on the VMInit event */
     if ( jvmtierror == JVMTI_ERROR_NONE ) {
-        jvmtiEventCallbacks callbacks;
-        memset(&callbacks, 0, sizeof(callbacks));
-        callbacks.VMInit = &eventHandlerVMInit;
+        jvmtiEventCbllbbcks cbllbbcks;
+        memset(&cbllbbcks, 0, sizeof(cbllbbcks));
+        cbllbbcks.VMInit = &eventHbndlerVMInit;
 
-        jvmtierror = (*jvmtienv)->SetEventCallbacks( jvmtienv,
-                                                     &callbacks,
-                                                     sizeof(callbacks));
-        check_phase_ret_blob(jvmtierror, JPLIS_INIT_ERROR_FAILURE);
-        jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+        jvmtierror = (*jvmtienv)->SetEventCbllbbcks( jvmtienv,
+                                                     &cbllbbcks,
+                                                     sizeof(cbllbbcks));
+        check_phbse_ret_blob(jvmtierror, JPLIS_INIT_ERROR_FAILURE);
+        jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
     }
 
     if ( jvmtierror == JVMTI_ERROR_NONE ) {
-        jvmtierror = (*jvmtienv)->SetEventNotificationMode(
+        jvmtierror = (*jvmtienv)->SetEventNotificbtionMode(
                                                 jvmtienv,
                                                 JVMTI_ENABLE,
                                                 JVMTI_EVENT_VM_INIT,
-                                                NULL /* all threads */);
-        check_phase_ret_blob(jvmtierror, JPLIS_INIT_ERROR_FAILURE);
-        jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+                                                NULL /* bll threbds */);
+        check_phbse_ret_blob(jvmtierror, JPLIS_INIT_ERROR_FAILURE);
+        jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
     }
 
     return (jvmtierror == JVMTI_ERROR_NONE)? JPLIS_INIT_ERROR_NONE : JPLIS_INIT_ERROR_FAILURE;
 }
 
 void
-deallocateJPLISAgent(jvmtiEnv * jvmtienv, JPLISAgent * agent) {
-    deallocate(jvmtienv, agent);
+debllocbteJPLISAgent(jvmtiEnv * jvmtienv, JPLISAgent * bgent) {
+    debllocbte(jvmtienv, bgent);
 }
 
 
-JPLISInitializationError
-recordCommandLineData(  JPLISAgent *    agent,
-                        const char *    agentClassName,
-                        const char *    optionsString ) {
-    JPLISInitializationError    initerror   = JPLIS_INIT_ERROR_NONE;
-    char *      ourCopyOfAgentClassName     = NULL;
-    char *      ourCopyOfOptionsString      = NULL;
+JPLISInitiblizbtionError
+recordCommbndLineDbtb(  JPLISAgent *    bgent,
+                        const chbr *    bgentClbssNbme,
+                        const chbr *    optionsString ) {
+    JPLISInitiblizbtionError    initerror   = JPLIS_INIT_ERROR_NONE;
+    chbr *      ourCopyOfAgentClbssNbme     = NULL;
+    chbr *      ourCopyOfOptionsString      = NULL;
 
-    /* if no actual params, bail out now */
-    if ((agentClassName == NULL) || (*agentClassName == 0)) {
+    /* if no bctubl pbrbms, bbil out now */
+    if ((bgentClbssNbme == NULL) || (*bgentClbssNbme == 0)) {
         initerror = JPLIS_INIT_ERROR_AGENT_CLASS_NOT_SPECIFIED;
     } else {
-        ourCopyOfAgentClassName = allocate(jvmti(agent), strlen(agentClassName)+1);
-        if (ourCopyOfAgentClassName == NULL) {
+        ourCopyOfAgentClbssNbme = bllocbte(jvmti(bgent), strlen(bgentClbssNbme)+1);
+        if (ourCopyOfAgentClbssNbme == NULL) {
             initerror = JPLIS_INIT_ERROR_ALLOCATION_FAILURE;
         } else {
             if (optionsString != NULL) {
-                ourCopyOfOptionsString = allocate(jvmti(agent), strlen(optionsString)+1);
+                ourCopyOfOptionsString = bllocbte(jvmti(bgent), strlen(optionsString)+1);
                 if (ourCopyOfOptionsString == NULL) {
-                    deallocate(jvmti(agent), ourCopyOfAgentClassName);
+                    debllocbte(jvmti(bgent), ourCopyOfAgentClbssNbme);
                     initerror = JPLIS_INIT_ERROR_ALLOCATION_FAILURE;
                 }
             }
@@ -356,12 +356,12 @@ recordCommandLineData(  JPLISAgent *    agent,
     }
 
     if (initerror == JPLIS_INIT_ERROR_NONE) {
-        strcpy(ourCopyOfAgentClassName, agentClassName);
+        strcpy(ourCopyOfAgentClbssNbme, bgentClbssNbme);
         if (optionsString != NULL) {
             strcpy(ourCopyOfOptionsString, optionsString);
         }
-        agent->mAgentClassName = ourCopyOfAgentClassName;
-        agent->mOptionsString = ourCopyOfOptionsString;
+        bgent->mAgentClbssNbme = ourCopyOfAgentClbssNbme;
+        bgent->mOptionsString = ourCopyOfOptionsString;
     }
 
     return initerror;
@@ -373,84 +373,84 @@ recordCommandLineData(  JPLISAgent *    agent,
 
 
 /*
- * If this call fails, the JVM launch will ultimately be aborted,
- * so we don't have to be super-careful to clean up in partial failure
- * cases.
+ * If this cbll fbils, the JVM lbunch will ultimbtely be bborted,
+ * so we don't hbve to be super-cbreful to clebn up in pbrtibl fbilure
+ * cbses.
  */
-jboolean
-processJavaStart(   JPLISAgent *    agent,
+jboolebn
+processJbvbStbrt(   JPLISAgent *    bgent,
                     JNIEnv *        jnienv) {
-    jboolean    result;
+    jboolebn    result;
 
     /*
-     *  OK, Java is up now. We can start everything that needs Java.
+     *  OK, Jbvb is up now. We cbn stbrt everything thbt needs Jbvb.
      */
 
     /*
-     *  First make our emergency fallback InternalError throwable.
+     *  First mbke our emergency fbllbbck InternblError throwbble.
      */
-    result = initializeFallbackError(jnienv);
-    jplis_assert(result);
+    result = initiblizeFbllbbckError(jnienv);
+    jplis_bssert(result);
 
     /*
-     *  Now make the InstrumentationImpl instance.
+     *  Now mbke the InstrumentbtionImpl instbnce.
      */
     if ( result ) {
-        result = createInstrumentationImpl(jnienv, agent);
-        jplis_assert(result);
+        result = crebteInstrumentbtionImpl(jnienv, bgent);
+        jplis_bssert(result);
     }
 
 
     /*
-     *  Then turn off the VMInit handler and turn on the ClassFileLoadHook.
-     *  This way it is on before anyone registers a transformer.
+     *  Then turn off the VMInit hbndler bnd turn on the ClbssFileLobdHook.
+     *  This wby it is on before bnyone registers b trbnsformer.
      */
     if ( result ) {
-        result = setLivePhaseEventHandlers(agent);
-        jplis_assert(result);
+        result = setLivePhbseEventHbndlers(bgent);
+        jplis_bssert(result);
     }
 
     /*
-     *  Load the Java agent, and call the premain.
+     *  Lobd the Jbvb bgent, bnd cbll the prembin.
      */
     if ( result ) {
-        result = startJavaAgent(agent, jnienv,
-                                agent->mAgentClassName, agent->mOptionsString,
-                                agent->mPremainCaller);
+        result = stbrtJbvbAgent(bgent, jnienv,
+                                bgent->mAgentClbssNbme, bgent->mOptionsString,
+                                bgent->mPrembinCbller);
     }
 
     /*
-     * Finally surrender all of the tracking data that we don't need any more.
-     * If something is wrong, skip it, we will be aborting the JVM anyway.
+     * Finblly surrender bll of the trbcking dbtb thbt we don't need bny more.
+     * If something is wrong, skip it, we will be bborting the JVM bnywby.
      */
     if ( result ) {
-        deallocateCommandLineData(agent);
+        debllocbteCommbndLineDbtb(bgent);
     }
 
     return result;
 }
 
-jboolean
-startJavaAgent( JPLISAgent *    agent,
+jboolebn
+stbrtJbvbAgent( JPLISAgent *    bgent,
                 JNIEnv *        jnienv,
-                const char *    classname,
-                const char *    optionsString,
-                jmethodID       agentMainMethod) {
-    jboolean    success = JNI_FALSE;
-    jstring classNameObject = NULL;
+                const chbr *    clbssnbme,
+                const chbr *    optionsString,
+                jmethodID       bgentMbinMethod) {
+    jboolebn    success = JNI_FALSE;
+    jstring clbssNbmeObject = NULL;
     jstring optionsStringObject = NULL;
 
-    success = commandStringIntoJavaStrings(    jnienv,
-                                               classname,
+    success = commbndStringIntoJbvbStrings(    jnienv,
+                                               clbssnbme,
                                                optionsString,
-                                               &classNameObject,
+                                               &clbssNbmeObject,
                                                &optionsStringObject);
 
     if (success) {
-        success = invokeJavaAgentMainMethod(   jnienv,
-                                               agent->mInstrumentationImpl,
-                                               agentMainMethod,
-                                               classNameObject,
+        success = invokeJbvbAgentMbinMethod(   jnienv,
+                                               bgent->mInstrumentbtionImpl,
+                                               bgentMbinMethod,
+                                               clbssNbmeObject,
                                                optionsStringObject);
     }
 
@@ -458,439 +458,439 @@ startJavaAgent( JPLISAgent *    agent,
 }
 
 void
-deallocateCommandLineData( JPLISAgent * agent) {
-    deallocate(jvmti(agent), (void*)agent->mAgentClassName);
-    deallocate(jvmti(agent), (void*)agent->mOptionsString);
+debllocbteCommbndLineDbtb( JPLISAgent * bgent) {
+    debllocbte(jvmti(bgent), (void*)bgent->mAgentClbssNbme);
+    debllocbte(jvmti(bgent), (void*)bgent->mOptionsString);
 
-    /* zero things out so it is easier to see what is going on */
-    agent->mAgentClassName = NULL;
-    agent->mOptionsString = NULL;
+    /* zero things out so it is ebsier to see whbt is going on */
+    bgent->mAgentClbssNbme = NULL;
+    bgent->mOptionsString = NULL;
 }
 
 /*
- * Create the java.lang.instrument.Instrumentation instance
- * and access information for it (method IDs, etc)
+ * Crebte the jbvb.lbng.instrument.Instrumentbtion instbnce
+ * bnd bccess informbtion for it (method IDs, etc)
  */
-jboolean
-createInstrumentationImpl( JNIEnv *        jnienv,
-                           JPLISAgent *    agent) {
-    jclass      implClass               = NULL;
-    jboolean    errorOutstanding        = JNI_FALSE;
+jboolebn
+crebteInstrumentbtionImpl( JNIEnv *        jnienv,
+                           JPLISAgent *    bgent) {
+    jclbss      implClbss               = NULL;
+    jboolebn    errorOutstbnding        = JNI_FALSE;
     jobject     resultImpl              = NULL;
-    jmethodID   premainCallerMethodID   = NULL;
-    jmethodID   agentmainCallerMethodID = NULL;
-    jmethodID   transformMethodID       = NULL;
+    jmethodID   prembinCbllerMethodID   = NULL;
+    jmethodID   bgentmbinCbllerMethodID = NULL;
+    jmethodID   trbnsformMethodID       = NULL;
     jmethodID   constructorID           = NULL;
-    jobject     localReference          = NULL;
+    jobject     locblReference          = NULL;
 
-    /* First find the class of our implementation */
-    implClass = (*jnienv)->FindClass(   jnienv,
+    /* First find the clbss of our implementbtion */
+    implClbss = (*jnienv)->FindClbss(   jnienv,
                                         JPLIS_INSTRUMENTIMPL_CLASSNAME);
-    errorOutstanding = checkForAndClearThrowable(jnienv);
-    errorOutstanding = errorOutstanding || (implClass == NULL);
-    jplis_assert_msg(!errorOutstanding, "find class on InstrumentationImpl failed");
+    errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+    errorOutstbnding = errorOutstbnding || (implClbss == NULL);
+    jplis_bssert_msg(!errorOutstbnding, "find clbss on InstrumentbtionImpl fbiled");
 
-    if ( !errorOutstanding ) {
+    if ( !errorOutstbnding ) {
         constructorID = (*jnienv)->GetMethodID( jnienv,
-                                                implClass,
+                                                implClbss,
                                                 JPLIS_INSTRUMENTIMPL_CONSTRUCTOR_METHODNAME,
                                                 JPLIS_INSTRUMENTIMPL_CONSTRUCTOR_METHODSIGNATURE);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        errorOutstanding = errorOutstanding || (constructorID == NULL);
-        jplis_assert_msg(!errorOutstanding, "find constructor on InstrumentationImpl failed");
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+        errorOutstbnding = errorOutstbnding || (constructorID == NULL);
+        jplis_bssert_msg(!errorOutstbnding, "find constructor on InstrumentbtionImpl fbiled");
         }
 
-    if ( !errorOutstanding ) {
-        jlong   peerReferenceAsScalar = (jlong)(intptr_t) agent;
-        localReference = (*jnienv)->NewObject(  jnienv,
-                                                implClass,
+    if ( !errorOutstbnding ) {
+        jlong   peerReferenceAsScblbr = (jlong)(intptr_t) bgent;
+        locblReference = (*jnienv)->NewObject(  jnienv,
+                                                implClbss,
                                                 constructorID,
-                                                peerReferenceAsScalar,
-                                                agent->mRedefineAdded,
-                                                agent->mNativeMethodPrefixAdded);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        errorOutstanding = errorOutstanding || (localReference == NULL);
-        jplis_assert_msg(!errorOutstanding, "call constructor on InstrumentationImpl failed");
+                                                peerReferenceAsScblbr,
+                                                bgent->mRedefineAdded,
+                                                bgent->mNbtiveMethodPrefixAdded);
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+        errorOutstbnding = errorOutstbnding || (locblReference == NULL);
+        jplis_bssert_msg(!errorOutstbnding, "cbll constructor on InstrumentbtionImpl fbiled");
     }
 
-    if ( !errorOutstanding ) {
-        resultImpl = (*jnienv)->NewGlobalRef(jnienv, localReference);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        jplis_assert_msg(!errorOutstanding, "copy local ref to global ref");
+    if ( !errorOutstbnding ) {
+        resultImpl = (*jnienv)->NewGlobblRef(jnienv, locblReference);
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+        jplis_bssert_msg(!errorOutstbnding, "copy locbl ref to globbl ref");
     }
 
-    /* Now look up the method ID for the pre-main caller (we will need this more than once) */
-    if ( !errorOutstanding ) {
-        premainCallerMethodID = (*jnienv)->GetMethodID( jnienv,
-                                                        implClass,
+    /* Now look up the method ID for the pre-mbin cbller (we will need this more thbn once) */
+    if ( !errorOutstbnding ) {
+        prembinCbllerMethodID = (*jnienv)->GetMethodID( jnienv,
+                                                        implClbss,
                                                         JPLIS_INSTRUMENTIMPL_PREMAININVOKER_METHODNAME,
                                                         JPLIS_INSTRUMENTIMPL_PREMAININVOKER_METHODSIGNATURE);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        errorOutstanding = errorOutstanding || (premainCallerMethodID == NULL);
-        jplis_assert_msg(!errorOutstanding, "can't find premain invoker methodID");
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+        errorOutstbnding = errorOutstbnding || (prembinCbllerMethodID == NULL);
+        jplis_bssert_msg(!errorOutstbnding, "cbn't find prembin invoker methodID");
     }
 
-    /* Now look up the method ID for the agent-main caller */
-    if ( !errorOutstanding ) {
-        agentmainCallerMethodID = (*jnienv)->GetMethodID( jnienv,
-                                                          implClass,
+    /* Now look up the method ID for the bgent-mbin cbller */
+    if ( !errorOutstbnding ) {
+        bgentmbinCbllerMethodID = (*jnienv)->GetMethodID( jnienv,
+                                                          implClbss,
                                                           JPLIS_INSTRUMENTIMPL_AGENTMAININVOKER_METHODNAME,
                                                           JPLIS_INSTRUMENTIMPL_AGENTMAININVOKER_METHODSIGNATURE);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        errorOutstanding = errorOutstanding || (agentmainCallerMethodID == NULL);
-        jplis_assert_msg(!errorOutstanding, "can't find agentmain invoker methodID");
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+        errorOutstbnding = errorOutstbnding || (bgentmbinCbllerMethodID == NULL);
+        jplis_bssert_msg(!errorOutstbnding, "cbn't find bgentmbin invoker methodID");
     }
 
-    /* Now look up the method ID for the transform method (we will need this constantly) */
-    if ( !errorOutstanding ) {
-        transformMethodID = (*jnienv)->GetMethodID( jnienv,
-                                                    implClass,
+    /* Now look up the method ID for the trbnsform method (we will need this constbntly) */
+    if ( !errorOutstbnding ) {
+        trbnsformMethodID = (*jnienv)->GetMethodID( jnienv,
+                                                    implClbss,
                                                     JPLIS_INSTRUMENTIMPL_TRANSFORM_METHODNAME,
                                                     JPLIS_INSTRUMENTIMPL_TRANSFORM_METHODSIGNATURE);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        errorOutstanding = errorOutstanding || (transformMethodID == NULL);
-        jplis_assert_msg(!errorOutstanding, "can't find transform methodID");
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+        errorOutstbnding = errorOutstbnding || (trbnsformMethodID == NULL);
+        jplis_bssert_msg(!errorOutstbnding, "cbn't find trbnsform methodID");
     }
 
-    if ( !errorOutstanding ) {
-        agent->mInstrumentationImpl = resultImpl;
-        agent->mPremainCaller       = premainCallerMethodID;
-        agent->mAgentmainCaller     = agentmainCallerMethodID;
-        agent->mTransform           = transformMethodID;
+    if ( !errorOutstbnding ) {
+        bgent->mInstrumentbtionImpl = resultImpl;
+        bgent->mPrembinCbller       = prembinCbllerMethodID;
+        bgent->mAgentmbinCbller     = bgentmbinCbllerMethodID;
+        bgent->mTrbnsform           = trbnsformMethodID;
     }
 
-    return !errorOutstanding;
+    return !errorOutstbnding;
 }
 
-jboolean
-commandStringIntoJavaStrings(  JNIEnv *        jnienv,
-                               const char *    classname,
-                               const char *    optionsString,
-                               jstring *       outputClassname,
+jboolebn
+commbndStringIntoJbvbStrings(  JNIEnv *        jnienv,
+                               const chbr *    clbssnbme,
+                               const chbr *    optionsString,
+                               jstring *       outputClbssnbme,
                                jstring *       outputOptionsString) {
-    jstring     classnameJavaString     = NULL;
-    jstring     optionsJavaString       = NULL;
-    jboolean    errorOutstanding        = JNI_TRUE;
+    jstring     clbssnbmeJbvbString     = NULL;
+    jstring     optionsJbvbString       = NULL;
+    jboolebn    errorOutstbnding        = JNI_TRUE;
 
-    classnameJavaString = (*jnienv)->NewStringUTF(jnienv, classname);
-    errorOutstanding = checkForAndClearThrowable(jnienv);
-    jplis_assert_msg(!errorOutstanding, "can't create class name java string");
+    clbssnbmeJbvbString = (*jnienv)->NewStringUTF(jnienv, clbssnbme);
+    errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+    jplis_bssert_msg(!errorOutstbnding, "cbn't crebte clbss nbme jbvb string");
 
-    if ( !errorOutstanding ) {
+    if ( !errorOutstbnding ) {
         if ( optionsString != NULL) {
-            optionsJavaString = (*jnienv)->NewStringUTF(jnienv, optionsString);
-            errorOutstanding = checkForAndClearThrowable(jnienv);
-            jplis_assert_msg(!errorOutstanding, "can't create options java string");
+            optionsJbvbString = (*jnienv)->NewStringUTF(jnienv, optionsString);
+            errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+            jplis_bssert_msg(!errorOutstbnding, "cbn't crebte options jbvb string");
         }
 
-        if ( !errorOutstanding ) {
-            *outputClassname        = classnameJavaString;
-            *outputOptionsString    = optionsJavaString;
+        if ( !errorOutstbnding ) {
+            *outputClbssnbme        = clbssnbmeJbvbString;
+            *outputOptionsString    = optionsJbvbString;
         }
     }
 
-    return !errorOutstanding;
+    return !errorOutstbnding;
 }
 
 
-jboolean
-invokeJavaAgentMainMethod( JNIEnv *    jnienv,
-                           jobject     instrumentationImpl,
-                           jmethodID   mainCallingMethod,
-                           jstring     className,
+jboolebn
+invokeJbvbAgentMbinMethod( JNIEnv *    jnienv,
+                           jobject     instrumentbtionImpl,
+                           jmethodID   mbinCbllingMethod,
+                           jstring     clbssNbme,
                            jstring     optionsString) {
-    jboolean errorOutstanding = JNI_FALSE;
+    jboolebn errorOutstbnding = JNI_FALSE;
 
-    jplis_assert(mainCallingMethod != NULL);
-    if ( mainCallingMethod != NULL ) {
-        (*jnienv)->CallVoidMethod(  jnienv,
-                                    instrumentationImpl,
-                                    mainCallingMethod,
-                                    className,
+    jplis_bssert(mbinCbllingMethod != NULL);
+    if ( mbinCbllingMethod != NULL ) {
+        (*jnienv)->CbllVoidMethod(  jnienv,
+                                    instrumentbtionImpl,
+                                    mbinCbllingMethod,
+                                    clbssNbme,
                                     optionsString);
-        errorOutstanding = checkForThrowable(jnienv);
-        if ( errorOutstanding ) {
-            logThrowable(jnienv);
+        errorOutstbnding = checkForThrowbble(jnienv);
+        if ( errorOutstbnding ) {
+            logThrowbble(jnienv);
         }
-        checkForAndClearThrowable(jnienv);
+        checkForAndClebrThrowbble(jnienv);
     }
-    return !errorOutstanding;
+    return !errorOutstbnding;
 }
 
-jboolean
-setLivePhaseEventHandlers(  JPLISAgent * agent) {
-    jvmtiEventCallbacks callbacks;
-    jvmtiEnv *          jvmtienv = jvmti(agent);
+jboolebn
+setLivePhbseEventHbndlers(  JPLISAgent * bgent) {
+    jvmtiEventCbllbbcks cbllbbcks;
+    jvmtiEnv *          jvmtienv = jvmti(bgent);
     jvmtiError          jvmtierror;
 
-    /* first swap out the handlers (switch from the VMInit handler, which we do not need,
-     * to the ClassFileLoadHook handler, which is what the agents need from now on)
+    /* first swbp out the hbndlers (switch from the VMInit hbndler, which we do not need,
+     * to the ClbssFileLobdHook hbndler, which is whbt the bgents need from now on)
      */
-    memset(&callbacks, 0, sizeof(callbacks));
-    callbacks.ClassFileLoadHook = &eventHandlerClassFileLoadHook;
+    memset(&cbllbbcks, 0, sizeof(cbllbbcks));
+    cbllbbcks.ClbssFileLobdHook = &eventHbndlerClbssFileLobdHook;
 
-    jvmtierror = (*jvmtienv)->SetEventCallbacks( jvmtienv,
-                                                 &callbacks,
-                                                 sizeof(callbacks));
-    check_phase_ret_false(jvmtierror);
-    jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+    jvmtierror = (*jvmtienv)->SetEventCbllbbcks( jvmtienv,
+                                                 &cbllbbcks,
+                                                 sizeof(cbllbbcks));
+    check_phbse_ret_fblse(jvmtierror);
+    jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
 
 
     if ( jvmtierror == JVMTI_ERROR_NONE ) {
         /* turn off VMInit */
-        jvmtierror = (*jvmtienv)->SetEventNotificationMode(
+        jvmtierror = (*jvmtienv)->SetEventNotificbtionMode(
                                                     jvmtienv,
                                                     JVMTI_DISABLE,
                                                     JVMTI_EVENT_VM_INIT,
-                                                    NULL /* all threads */);
-        check_phase_ret_false(jvmtierror);
-        jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+                                                    NULL /* bll threbds */);
+        check_phbse_ret_fblse(jvmtierror);
+        jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
     }
 
     if ( jvmtierror == JVMTI_ERROR_NONE ) {
-        /* turn on ClassFileLoadHook */
-        jvmtierror = (*jvmtienv)->SetEventNotificationMode(
+        /* turn on ClbssFileLobdHook */
+        jvmtierror = (*jvmtienv)->SetEventNotificbtionMode(
                                                     jvmtienv,
                                                     JVMTI_ENABLE,
                                                     JVMTI_EVENT_CLASS_FILE_LOAD_HOOK,
-                                                    NULL /* all threads */);
-        check_phase_ret_false(jvmtierror);
-        jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+                                                    NULL /* bll threbds */);
+        check_phbse_ret_fblse(jvmtierror);
+        jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
     }
 
     return (jvmtierror == JVMTI_ERROR_NONE);
 }
 
 /**
- *  Check if the can_redefine_classes capability is available.
+ *  Check if the cbn_redefine_clbsses cbpbbility is bvbilbble.
  */
 void
-checkCapabilities(JPLISAgent * agent) {
-    jvmtiEnv *          jvmtienv = jvmti(agent);
-    jvmtiCapabilities   potentialCapabilities;
+checkCbpbbilities(JPLISAgent * bgent) {
+    jvmtiEnv *          jvmtienv = jvmti(bgent);
+    jvmtiCbpbbilities   potentiblCbpbbilities;
     jvmtiError          jvmtierror;
 
-    memset(&potentialCapabilities, 0, sizeof(potentialCapabilities));
+    memset(&potentiblCbpbbilities, 0, sizeof(potentiblCbpbbilities));
 
-    jvmtierror = (*jvmtienv)->GetPotentialCapabilities(jvmtienv, &potentialCapabilities);
-    check_phase_ret(jvmtierror);
-    jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+    jvmtierror = (*jvmtienv)->GetPotentiblCbpbbilities(jvmtienv, &potentiblCbpbbilities);
+    check_phbse_ret(jvmtierror);
+    jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
 
     if ( jvmtierror == JVMTI_ERROR_NONE ) {
-        if ( potentialCapabilities.can_redefine_classes == 1 ) {
-            agent->mRedefineAvailable = JNI_TRUE;
+        if ( potentiblCbpbbilities.cbn_redefine_clbsses == 1 ) {
+            bgent->mRedefineAvbilbble = JNI_TRUE;
         }
-        if ( potentialCapabilities.can_set_native_method_prefix == 1 ) {
-            agent->mNativeMethodPrefixAvailable = JNI_TRUE;
+        if ( potentiblCbpbbilities.cbn_set_nbtive_method_prefix == 1 ) {
+            bgent->mNbtiveMethodPrefixAvbilbble = JNI_TRUE;
         }
     }
 }
 
 /**
- * Enable native method prefix in one JVM TI environment
+ * Enbble nbtive method prefix in one JVM TI environment
  */
 void
-enableNativeMethodPrefixCapability(jvmtiEnv * jvmtienv) {
-    jvmtiCapabilities   desiredCapabilities;
+enbbleNbtiveMethodPrefixCbpbbility(jvmtiEnv * jvmtienv) {
+    jvmtiCbpbbilities   desiredCbpbbilities;
     jvmtiError          jvmtierror;
 
-        jvmtierror = (*jvmtienv)->GetCapabilities(jvmtienv, &desiredCapabilities);
-        /* can be called from any phase */
-        jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
-        desiredCapabilities.can_set_native_method_prefix = 1;
-        jvmtierror = (*jvmtienv)->AddCapabilities(jvmtienv, &desiredCapabilities);
-        check_phase_ret(jvmtierror);
-        jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+        jvmtierror = (*jvmtienv)->GetCbpbbilities(jvmtienv, &desiredCbpbbilities);
+        /* cbn be cblled from bny phbse */
+        jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
+        desiredCbpbbilities.cbn_set_nbtive_method_prefix = 1;
+        jvmtierror = (*jvmtienv)->AddCbpbbilities(jvmtienv, &desiredCbpbbilities);
+        check_phbse_ret(jvmtierror);
+        jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
 }
 
 
 /**
- * Add the can_set_native_method_prefix capability
+ * Add the cbn_set_nbtive_method_prefix cbpbbility
  */
 void
-addNativeMethodPrefixCapability(JPLISAgent * agent) {
-    if (agent->mNativeMethodPrefixAvailable && !agent->mNativeMethodPrefixAdded) {
-        jvmtiEnv * jvmtienv = agent->mNormalEnvironment.mJVMTIEnv;
-        enableNativeMethodPrefixCapability(jvmtienv);
+bddNbtiveMethodPrefixCbpbbility(JPLISAgent * bgent) {
+    if (bgent->mNbtiveMethodPrefixAvbilbble && !bgent->mNbtiveMethodPrefixAdded) {
+        jvmtiEnv * jvmtienv = bgent->mNormblEnvironment.mJVMTIEnv;
+        enbbleNbtiveMethodPrefixCbpbbility(jvmtienv);
 
-        jvmtienv = agent->mRetransformEnvironment.mJVMTIEnv;
+        jvmtienv = bgent->mRetrbnsformEnvironment.mJVMTIEnv;
         if (jvmtienv != NULL) {
-            enableNativeMethodPrefixCapability(jvmtienv);
+            enbbleNbtiveMethodPrefixCbpbbility(jvmtienv);
         }
-        agent->mNativeMethodPrefixAdded = JNI_TRUE;
+        bgent->mNbtiveMethodPrefixAdded = JNI_TRUE;
     }
 }
 
 /**
- * Add the can_maintain_original_method_order capability (for testing)
+ * Add the cbn_mbintbin_originbl_method_order cbpbbility (for testing)
  */
 void
-addOriginalMethodOrderCapability(JPLISAgent * agent) {
-    jvmtiEnv *          jvmtienv = jvmti(agent);
-    jvmtiCapabilities   desiredCapabilities;
+bddOriginblMethodOrderCbpbbility(JPLISAgent * bgent) {
+    jvmtiEnv *          jvmtienv = jvmti(bgent);
+    jvmtiCbpbbilities   desiredCbpbbilities;
     jvmtiError          jvmtierror;
 
-    jvmtierror = (*jvmtienv)->GetCapabilities(jvmtienv, &desiredCapabilities);
-    /* can be called from any phase */
-    jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
-    desiredCapabilities.can_maintain_original_method_order = 1;
-    jvmtierror = (*jvmtienv)->AddCapabilities(jvmtienv, &desiredCapabilities);
-    check_phase_ret(jvmtierror);
-    jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+    jvmtierror = (*jvmtienv)->GetCbpbbilities(jvmtienv, &desiredCbpbbilities);
+    /* cbn be cblled from bny phbse */
+    jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
+    desiredCbpbbilities.cbn_mbintbin_originbl_method_order = 1;
+    jvmtierror = (*jvmtienv)->AddCbpbbilities(jvmtienv, &desiredCbpbbilities);
+    check_phbse_ret(jvmtierror);
+    jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
 }
 
 /**
- * Add the can_redefine_classes capability
+ * Add the cbn_redefine_clbsses cbpbbility
  */
 void
-addRedefineClassesCapability(JPLISAgent * agent) {
-    jvmtiEnv *          jvmtienv = jvmti(agent);
-    jvmtiCapabilities   desiredCapabilities;
+bddRedefineClbssesCbpbbility(JPLISAgent * bgent) {
+    jvmtiEnv *          jvmtienv = jvmti(bgent);
+    jvmtiCbpbbilities   desiredCbpbbilities;
     jvmtiError          jvmtierror;
 
-    if (agent->mRedefineAvailable && !agent->mRedefineAdded) {
-        jvmtierror = (*jvmtienv)->GetCapabilities(jvmtienv, &desiredCapabilities);
-        /* can be called from any phase */
-        jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
-        desiredCapabilities.can_redefine_classes = 1;
-        jvmtierror = (*jvmtienv)->AddCapabilities(jvmtienv, &desiredCapabilities);
-        check_phase_ret(jvmtierror);
+    if (bgent->mRedefineAvbilbble && !bgent->mRedefineAdded) {
+        jvmtierror = (*jvmtienv)->GetCbpbbilities(jvmtienv, &desiredCbpbbilities);
+        /* cbn be cblled from bny phbse */
+        jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
+        desiredCbpbbilities.cbn_redefine_clbsses = 1;
+        jvmtierror = (*jvmtienv)->AddCbpbbilities(jvmtienv, &desiredCbpbbilities);
+        check_phbse_ret(jvmtierror);
 
         /*
-         * With mixed premain/agentmain agents then it's possible that the
-         * capability was potentially available in the onload phase but
-         * subsequently unavailable in the live phase.
+         * With mixed prembin/bgentmbin bgents then it's possible thbt the
+         * cbpbbility wbs potentiblly bvbilbble in the onlobd phbse but
+         * subsequently unbvbilbble in the live phbse.
          */
-        jplis_assert(jvmtierror == JVMTI_ERROR_NONE ||
+        jplis_bssert(jvmtierror == JVMTI_ERROR_NONE ||
                      jvmtierror == JVMTI_ERROR_NOT_AVAILABLE);
         if (jvmtierror == JVMTI_ERROR_NONE) {
-            agent->mRedefineAdded = JNI_TRUE;
+            bgent->mRedefineAdded = JNI_TRUE;
         }
     }
 }
 
 
 /*
- *  Support for the JVMTI callbacks
+ *  Support for the JVMTI cbllbbcks
  */
 
 void
-transformClassFile(             JPLISAgent *            agent,
+trbnsformClbssFile(             JPLISAgent *            bgent,
                                 JNIEnv *                jnienv,
-                                jobject                 loaderObject,
-                                const char*             name,
-                                jclass                  classBeingRedefined,
-                                jobject                 protectionDomain,
-                                jint                    class_data_len,
-                                const unsigned char*    class_data,
-                                jint*                   new_class_data_len,
-                                unsigned char**         new_class_data,
-                                jboolean                is_retransformer) {
-    jboolean        errorOutstanding        = JNI_FALSE;
-    jstring         classNameStringObject   = NULL;
-    jarray          classFileBufferObject   = NULL;
-    jarray          transformedBufferObject = NULL;
-    jsize           transformedBufferSize   = 0;
-    unsigned char * resultBuffer            = NULL;
-    jboolean        shouldRun               = JNI_FALSE;
+                                jobject                 lobderObject,
+                                const chbr*             nbme,
+                                jclbss                  clbssBeingRedefined,
+                                jobject                 protectionDombin,
+                                jint                    clbss_dbtb_len,
+                                const unsigned chbr*    clbss_dbtb,
+                                jint*                   new_clbss_dbtb_len,
+                                unsigned chbr**         new_clbss_dbtb,
+                                jboolebn                is_retrbnsformer) {
+    jboolebn        errorOutstbnding        = JNI_FALSE;
+    jstring         clbssNbmeStringObject   = NULL;
+    jbrrby          clbssFileBufferObject   = NULL;
+    jbrrby          trbnsformedBufferObject = NULL;
+    jsize           trbnsformedBufferSize   = 0;
+    unsigned chbr * resultBuffer            = NULL;
+    jboolebn        shouldRun               = JNI_FALSE;
 
-    /* only do this if we aren't already in the middle of processing a class on this thread */
-    shouldRun = tryToAcquireReentrancyToken(
-                                jvmti(agent),
-                                NULL);  /* this thread */
+    /* only do this if we bren't blrebdy in the middle of processing b clbss on this threbd */
+    shouldRun = tryToAcquireReentrbncyToken(
+                                jvmti(bgent),
+                                NULL);  /* this threbd */
 
     if ( shouldRun ) {
-        /* first marshall all the parameters */
-        classNameStringObject = (*jnienv)->NewStringUTF(jnienv,
-                                                        name);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        jplis_assert_msg(!errorOutstanding, "can't create name string");
+        /* first mbrshbll bll the pbrbmeters */
+        clbssNbmeStringObject = (*jnienv)->NewStringUTF(jnienv,
+                                                        nbme);
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+        jplis_bssert_msg(!errorOutstbnding, "cbn't crebte nbme string");
 
-        if ( !errorOutstanding ) {
-            classFileBufferObject = (*jnienv)->NewByteArray(jnienv,
-                                                            class_data_len);
-            errorOutstanding = checkForAndClearThrowable(jnienv);
-            jplis_assert_msg(!errorOutstanding, "can't create byte arrau");
+        if ( !errorOutstbnding ) {
+            clbssFileBufferObject = (*jnienv)->NewByteArrby(jnienv,
+                                                            clbss_dbtb_len);
+            errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+            jplis_bssert_msg(!errorOutstbnding, "cbn't crebte byte brrbu");
         }
 
-        if ( !errorOutstanding ) {
-            jbyte * typedBuffer = (jbyte *) class_data; /* nasty cast, dumb JNI interface, const missing */
-                                                        /* The sign cast is safe. The const cast is dumb. */
-            (*jnienv)->SetByteArrayRegion(  jnienv,
-                                            classFileBufferObject,
+        if ( !errorOutstbnding ) {
+            jbyte * typedBuffer = (jbyte *) clbss_dbtb; /* nbsty cbst, dumb JNI interfbce, const missing */
+                                                        /* The sign cbst is sbfe. The const cbst is dumb. */
+            (*jnienv)->SetByteArrbyRegion(  jnienv,
+                                            clbssFileBufferObject,
                                             0,
-                                            class_data_len,
+                                            clbss_dbtb_len,
                                             typedBuffer);
-            errorOutstanding = checkForAndClearThrowable(jnienv);
-            jplis_assert_msg(!errorOutstanding, "can't set byte array region");
+            errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+            jplis_bssert_msg(!errorOutstbnding, "cbn't set byte brrby region");
         }
 
-        /*  now call the JPL agents to do the transforming */
-        /*  potential future optimization: may want to skip this if there are none */
-        if ( !errorOutstanding ) {
-            jplis_assert(agent->mInstrumentationImpl != NULL);
-            jplis_assert(agent->mTransform != NULL);
-            transformedBufferObject = (*jnienv)->CallObjectMethod(
+        /*  now cbll the JPL bgents to do the trbnsforming */
+        /*  potentibl future optimizbtion: mby wbnt to skip this if there bre none */
+        if ( !errorOutstbnding ) {
+            jplis_bssert(bgent->mInstrumentbtionImpl != NULL);
+            jplis_bssert(bgent->mTrbnsform != NULL);
+            trbnsformedBufferObject = (*jnienv)->CbllObjectMethod(
                                                 jnienv,
-                                                agent->mInstrumentationImpl,
-                                                agent->mTransform,
-                                                loaderObject,
-                                                classNameStringObject,
-                                                classBeingRedefined,
-                                                protectionDomain,
-                                                classFileBufferObject,
-                                                is_retransformer);
-            errorOutstanding = checkForAndClearThrowable(jnienv);
-            jplis_assert_msg(!errorOutstanding, "transform method call failed");
+                                                bgent->mInstrumentbtionImpl,
+                                                bgent->mTrbnsform,
+                                                lobderObject,
+                                                clbssNbmeStringObject,
+                                                clbssBeingRedefined,
+                                                protectionDombin,
+                                                clbssFileBufferObject,
+                                                is_retrbnsformer);
+            errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+            jplis_bssert_msg(!errorOutstbnding, "trbnsform method cbll fbiled");
         }
 
-        /* Finally, unmarshall the parameters (if someone touched the buffer, tell the JVM) */
-        if ( !errorOutstanding ) {
-            if ( transformedBufferObject != NULL ) {
-                transformedBufferSize = (*jnienv)->GetArrayLength(  jnienv,
-                                                                    transformedBufferObject);
-                errorOutstanding = checkForAndClearThrowable(jnienv);
-                jplis_assert_msg(!errorOutstanding, "can't get array length");
+        /* Finblly, unmbrshbll the pbrbmeters (if someone touched the buffer, tell the JVM) */
+        if ( !errorOutstbnding ) {
+            if ( trbnsformedBufferObject != NULL ) {
+                trbnsformedBufferSize = (*jnienv)->GetArrbyLength(  jnienv,
+                                                                    trbnsformedBufferObject);
+                errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+                jplis_bssert_msg(!errorOutstbnding, "cbn't get brrby length");
 
-                if ( !errorOutstanding ) {
-                    /* allocate the response buffer with the JVMTI allocate call.
-                     *  This is what the JVMTI spec says to do for Class File Load hook responses
+                if ( !errorOutstbnding ) {
+                    /* bllocbte the response buffer with the JVMTI bllocbte cbll.
+                     *  This is whbt the JVMTI spec sbys to do for Clbss File Lobd hook responses
                      */
-                    jvmtiError  allocError = (*(jvmti(agent)))->Allocate(jvmti(agent),
-                                                                             transformedBufferSize,
+                    jvmtiError  bllocError = (*(jvmti(bgent)))->Allocbte(jvmti(bgent),
+                                                                             trbnsformedBufferSize,
                                                                              &resultBuffer);
-                    errorOutstanding = (allocError != JVMTI_ERROR_NONE);
-                    jplis_assert_msg(!errorOutstanding, "can't allocate result buffer");
+                    errorOutstbnding = (bllocError != JVMTI_ERROR_NONE);
+                    jplis_bssert_msg(!errorOutstbnding, "cbn't bllocbte result buffer");
                 }
 
-                if ( !errorOutstanding ) {
-                    (*jnienv)->GetByteArrayRegion(  jnienv,
-                                                    transformedBufferObject,
+                if ( !errorOutstbnding ) {
+                    (*jnienv)->GetByteArrbyRegion(  jnienv,
+                                                    trbnsformedBufferObject,
                                                     0,
-                                                    transformedBufferSize,
+                                                    trbnsformedBufferSize,
                                                     (jbyte *) resultBuffer);
-                    errorOutstanding = checkForAndClearThrowable(jnienv);
-                    jplis_assert_msg(!errorOutstanding, "can't get byte array region");
+                    errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+                    jplis_bssert_msg(!errorOutstbnding, "cbn't get byte brrby region");
 
-                    /* in this case, we will not return the buffer to the JVMTI,
-                     * so we need to deallocate it ourselves
+                    /* in this cbse, we will not return the buffer to the JVMTI,
+                     * so we need to debllocbte it ourselves
                      */
-                    if ( errorOutstanding ) {
-                        deallocate( jvmti(agent),
+                    if ( errorOutstbnding ) {
+                        debllocbte( jvmti(bgent),
                                    (void*)resultBuffer);
                     }
                 }
 
-                if ( !errorOutstanding ) {
-                    *new_class_data_len = (transformedBufferSize);
-                    *new_class_data     = resultBuffer;
+                if ( !errorOutstbnding ) {
+                    *new_clbss_dbtb_len = (trbnsformedBufferSize);
+                    *new_clbss_dbtb     = resultBuffer;
                 }
             }
         }
 
-        /* release the token */
-        releaseReentrancyToken( jvmti(agent),
-                                NULL);      /* this thread */
+        /* relebse the token */
+        relebseReentrbncyToken( jvmti(bgent),
+                                NULL);      /* this threbd */
 
     }
 
@@ -898,135 +898,135 @@ transformClassFile(             JPLISAgent *            agent,
 }
 
 /*
- *  Misc. internal utilities.
+ *  Misc. internbl utilities.
  */
 
 /*
- *  The only checked exceptions we can throw are ClassNotFoundException and
- *  UnmodifiableClassException. All others map to InternalError.
+ *  The only checked exceptions we cbn throw bre ClbssNotFoundException bnd
+ *  UnmodifibbleClbssException. All others mbp to InternblError.
  */
-jthrowable
-redefineClassMapper(    JNIEnv *    jnienv,
-                        jthrowable  throwableToMap) {
-    jthrowable  mappedThrowable = NULL;
+jthrowbble
+redefineClbssMbpper(    JNIEnv *    jnienv,
+                        jthrowbble  throwbbleToMbp) {
+    jthrowbble  mbppedThrowbble = NULL;
 
-    jplis_assert(isSafeForJNICalls(jnienv));
-    jplis_assert(!isUnchecked(jnienv, throwableToMap));
+    jplis_bssert(isSbfeForJNICblls(jnienv));
+    jplis_bssert(!isUnchecked(jnienv, throwbbleToMbp));
 
-    if ( isInstanceofClassName( jnienv,
-                                throwableToMap,
-                                "java/lang/ClassNotFoundException") ) {
-        mappedThrowable = throwableToMap;
+    if ( isInstbnceofClbssNbme( jnienv,
+                                throwbbleToMbp,
+                                "jbvb/lbng/ClbssNotFoundException") ) {
+        mbppedThrowbble = throwbbleToMbp;
     } else {
-        if ( isInstanceofClassName( jnienv,
-                                throwableToMap,
-                                "java/lang/instrument/UnmodifiableClassException")) {
-            mappedThrowable = throwableToMap;
+        if ( isInstbnceofClbssNbme( jnienv,
+                                throwbbleToMbp,
+                                "jbvb/lbng/instrument/UnmodifibbleClbssException")) {
+            mbppedThrowbble = throwbbleToMbp;
         } else {
-            jstring message = NULL;
+            jstring messbge = NULL;
 
-            message = getMessageFromThrowable(jnienv, throwableToMap);
-            mappedThrowable = createInternalError(jnienv, message);
+            messbge = getMessbgeFromThrowbble(jnienv, throwbbleToMbp);
+            mbppedThrowbble = crebteInternblError(jnienv, messbge);
         }
     }
 
-    jplis_assert(isSafeForJNICalls(jnienv));
-    return mappedThrowable;
+    jplis_bssert(isSbfeForJNICblls(jnienv));
+    return mbppedThrowbble;
 }
 
-jobjectArray
-getObjectArrayFromClasses(JNIEnv* jnienv, jclass* classes, jint classCount) {
-    jclass          classArrayClass = NULL;
-    jobjectArray    localArray      = NULL;
-    jint            classIndex      = 0;
-    jboolean        errorOccurred   = JNI_FALSE;
+jobjectArrby
+getObjectArrbyFromClbsses(JNIEnv* jnienv, jclbss* clbsses, jint clbssCount) {
+    jclbss          clbssArrbyClbss = NULL;
+    jobjectArrby    locblArrby      = NULL;
+    jint            clbssIndex      = 0;
+    jboolebn        errorOccurred   = JNI_FALSE;
 
-    /* get the class array class */
-    classArrayClass = (*jnienv)->FindClass(jnienv, "java/lang/Class");
-    errorOccurred = checkForThrowable(jnienv);
+    /* get the clbss brrby clbss */
+    clbssArrbyClbss = (*jnienv)->FindClbss(jnienv, "jbvb/lbng/Clbss");
+    errorOccurred = checkForThrowbble(jnienv);
 
     if (!errorOccurred) {
-        jplis_assert_msg(classArrayClass != NULL, "FindClass returned null class");
+        jplis_bssert_msg(clbssArrbyClbss != NULL, "FindClbss returned null clbss");
 
-        /* create the array for the classes */
-        localArray = (*jnienv)->NewObjectArray(jnienv, classCount, classArrayClass, NULL);
-        errorOccurred = checkForThrowable(jnienv);
+        /* crebte the brrby for the clbsses */
+        locblArrby = (*jnienv)->NewObjectArrby(jnienv, clbssCount, clbssArrbyClbss, NULL);
+        errorOccurred = checkForThrowbble(jnienv);
 
         if (!errorOccurred) {
-            jplis_assert_msg(localArray != NULL, "NewObjectArray returned null array");
+            jplis_bssert_msg(locblArrby != NULL, "NewObjectArrby returned null brrby");
 
-            /* now copy refs to all the classes and put them into the array */
-            for (classIndex = 0; classIndex < classCount; classIndex++) {
-                /* put class into array */
-                (*jnienv)->SetObjectArrayElement(jnienv, localArray, classIndex, classes[classIndex]);
-                errorOccurred = checkForThrowable(jnienv);
+            /* now copy refs to bll the clbsses bnd put them into the brrby */
+            for (clbssIndex = 0; clbssIndex < clbssCount; clbssIndex++) {
+                /* put clbss into brrby */
+                (*jnienv)->SetObjectArrbyElement(jnienv, locblArrby, clbssIndex, clbsses[clbssIndex]);
+                errorOccurred = checkForThrowbble(jnienv);
 
                 if (errorOccurred) {
-                    localArray = NULL;
-                    break;
+                    locblArrby = NULL;
+                    brebk;
                 }
             }
         }
     }
 
-    return localArray;
+    return locblArrby;
 }
 
 
-/* Return the environment with the retransformation capability.
- * Create it if it doesn't exist.
- * Return NULL if it can't be created.
+/* Return the environment with the retrbnsformbtion cbpbbility.
+ * Crebte it if it doesn't exist.
+ * Return NULL if it cbn't be crebted.
  */
 jvmtiEnv *
-retransformableEnvironment(JPLISAgent * agent) {
-    jvmtiEnv *          retransformerEnv     = NULL;
+retrbnsformbbleEnvironment(JPLISAgent * bgent) {
+    jvmtiEnv *          retrbnsformerEnv     = NULL;
     jint                jnierror             = JNI_OK;
-    jvmtiCapabilities   desiredCapabilities;
-    jvmtiEventCallbacks callbacks;
+    jvmtiCbpbbilities   desiredCbpbbilities;
+    jvmtiEventCbllbbcks cbllbbcks;
     jvmtiError          jvmtierror;
 
-    if (agent->mRetransformEnvironment.mJVMTIEnv != NULL) {
-        return agent->mRetransformEnvironment.mJVMTIEnv;
+    if (bgent->mRetrbnsformEnvironment.mJVMTIEnv != NULL) {
+        return bgent->mRetrbnsformEnvironment.mJVMTIEnv;
     }
-    jnierror = (*agent->mJVM)->GetEnv(  agent->mJVM,
-                               (void **) &retransformerEnv,
+    jnierror = (*bgent->mJVM)->GetEnv(  bgent->mJVM,
+                               (void **) &retrbnsformerEnv,
                                JVMTI_VERSION_1_1);
     if ( jnierror != JNI_OK ) {
         return NULL;
     }
-    jvmtierror = (*retransformerEnv)->GetCapabilities(retransformerEnv, &desiredCapabilities);
-    jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
-    desiredCapabilities.can_retransform_classes = 1;
-    if (agent->mNativeMethodPrefixAdded) {
-        desiredCapabilities.can_set_native_method_prefix = 1;
+    jvmtierror = (*retrbnsformerEnv)->GetCbpbbilities(retrbnsformerEnv, &desiredCbpbbilities);
+    jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
+    desiredCbpbbilities.cbn_retrbnsform_clbsses = 1;
+    if (bgent->mNbtiveMethodPrefixAdded) {
+        desiredCbpbbilities.cbn_set_nbtive_method_prefix = 1;
     }
 
-    jvmtierror = (*retransformerEnv)->AddCapabilities(retransformerEnv, &desiredCapabilities);
+    jvmtierror = (*retrbnsformerEnv)->AddCbpbbilities(retrbnsformerEnv, &desiredCbpbbilities);
     if (jvmtierror != JVMTI_ERROR_NONE) {
-         /* cannot get the capability, dispose of the retransforming environment */
-        jvmtierror = (*retransformerEnv)->DisposeEnvironment(retransformerEnv);
-        jplis_assert(jvmtierror == JVMTI_ERROR_NOT_AVAILABLE);
+         /* cbnnot get the cbpbbility, dispose of the retrbnsforming environment */
+        jvmtierror = (*retrbnsformerEnv)->DisposeEnvironment(retrbnsformerEnv);
+        jplis_bssert(jvmtierror == JVMTI_ERROR_NOT_AVAILABLE);
         return NULL;
     }
-    memset(&callbacks, 0, sizeof(callbacks));
-    callbacks.ClassFileLoadHook = &eventHandlerClassFileLoadHook;
+    memset(&cbllbbcks, 0, sizeof(cbllbbcks));
+    cbllbbcks.ClbssFileLobdHook = &eventHbndlerClbssFileLobdHook;
 
-    jvmtierror = (*retransformerEnv)->SetEventCallbacks(retransformerEnv,
-                                                        &callbacks,
-                                                        sizeof(callbacks));
-    jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+    jvmtierror = (*retrbnsformerEnv)->SetEventCbllbbcks(retrbnsformerEnv,
+                                                        &cbllbbcks,
+                                                        sizeof(cbllbbcks));
+    jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
     if (jvmtierror == JVMTI_ERROR_NONE) {
-        // install the retransforming environment
-        agent->mRetransformEnvironment.mJVMTIEnv = retransformerEnv;
-        agent->mRetransformEnvironment.mIsRetransformer = JNI_TRUE;
+        // instbll the retrbnsforming environment
+        bgent->mRetrbnsformEnvironment.mJVMTIEnv = retrbnsformerEnv;
+        bgent->mRetrbnsformEnvironment.mIsRetrbnsformer = JNI_TRUE;
 
-        // Make it for ClassFileLoadHook handling
-        jvmtierror = (*retransformerEnv)->SetEnvironmentLocalStorage(
-                                                       retransformerEnv,
-                                                       &(agent->mRetransformEnvironment));
-        jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+        // Mbke it for ClbssFileLobdHook hbndling
+        jvmtierror = (*retrbnsformerEnv)->SetEnvironmentLocblStorbge(
+                                                       retrbnsformerEnv,
+                                                       &(bgent->mRetrbnsformEnvironment));
+        jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
         if (jvmtierror == JVMTI_ERROR_NONE) {
-            return retransformerEnv;
+            return retrbnsformerEnv;
         }
     }
     return NULL;
@@ -1034,82 +1034,82 @@ retransformableEnvironment(JPLISAgent * agent) {
 
 
 /*
- *  Underpinnings for native methods
+ *  Underpinnings for nbtive methods
  */
 
-jboolean
-isModifiableClass(JNIEnv * jnienv, JPLISAgent * agent, jclass clazz) {
-    jvmtiEnv *          jvmtienv = jvmti(agent);
+jboolebn
+isModifibbleClbss(JNIEnv * jnienv, JPLISAgent * bgent, jclbss clbzz) {
+    jvmtiEnv *          jvmtienv = jvmti(bgent);
     jvmtiError          jvmtierror;
-    jboolean            is_modifiable = JNI_FALSE;
+    jboolebn            is_modifibble = JNI_FALSE;
 
-    jvmtierror = (*jvmtienv)->IsModifiableClass( jvmtienv,
-                                                 clazz,
-                                                 &is_modifiable);
-    check_phase_ret_false(jvmtierror);
-    jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+    jvmtierror = (*jvmtienv)->IsModifibbleClbss( jvmtienv,
+                                                 clbzz,
+                                                 &is_modifibble);
+    check_phbse_ret_fblse(jvmtierror);
+    jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
 
-    return is_modifiable;
+    return is_modifibble;
 }
 
-jboolean
-isRetransformClassesSupported(JNIEnv * jnienv, JPLISAgent * agent) {
-    return agent->mRetransformEnvironment.mIsRetransformer;
+jboolebn
+isRetrbnsformClbssesSupported(JNIEnv * jnienv, JPLISAgent * bgent) {
+    return bgent->mRetrbnsformEnvironment.mIsRetrbnsformer;
 }
 
 void
-setHasRetransformableTransformers(JNIEnv * jnienv, JPLISAgent * agent, jboolean has) {
-    jvmtiEnv *          retransformerEnv     = retransformableEnvironment(agent);
+setHbsRetrbnsformbbleTrbnsformers(JNIEnv * jnienv, JPLISAgent * bgent, jboolebn hbs) {
+    jvmtiEnv *          retrbnsformerEnv     = retrbnsformbbleEnvironment(bgent);
     jvmtiError          jvmtierror;
 
-    jplis_assert(retransformerEnv != NULL);
-    jvmtierror = (*retransformerEnv)->SetEventNotificationMode(
-                                                    retransformerEnv,
-                                                    has? JVMTI_ENABLE : JVMTI_DISABLE,
+    jplis_bssert(retrbnsformerEnv != NULL);
+    jvmtierror = (*retrbnsformerEnv)->SetEventNotificbtionMode(
+                                                    retrbnsformerEnv,
+                                                    hbs? JVMTI_ENABLE : JVMTI_DISABLE,
                                                     JVMTI_EVENT_CLASS_FILE_LOAD_HOOK,
-                                                    NULL /* all threads */);
-    jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+                                                    NULL /* bll threbds */);
+    jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
 }
 
 void
-retransformClasses(JNIEnv * jnienv, JPLISAgent * agent, jobjectArray classes) {
-    jvmtiEnv *  retransformerEnv     = retransformableEnvironment(agent);
-    jboolean    errorOccurred        = JNI_FALSE;
+retrbnsformClbsses(JNIEnv * jnienv, JPLISAgent * bgent, jobjectArrby clbsses) {
+    jvmtiEnv *  retrbnsformerEnv     = retrbnsformbbleEnvironment(bgent);
+    jboolebn    errorOccurred        = JNI_FALSE;
     jvmtiError  errorCode            = JVMTI_ERROR_NONE;
-    jsize       numClasses           = 0;
-    jclass *    classArray           = NULL;
+    jsize       numClbsses           = 0;
+    jclbss *    clbssArrby           = NULL;
 
-    /* This is supposed to be checked by caller, but just to be sure */
-    if (retransformerEnv == NULL) {
-        jplis_assert(retransformerEnv != NULL);
+    /* This is supposed to be checked by cbller, but just to be sure */
+    if (retrbnsformerEnv == NULL) {
+        jplis_bssert(retrbnsformerEnv != NULL);
         errorOccurred = JNI_TRUE;
         errorCode = JVMTI_ERROR_MUST_POSSESS_CAPABILITY;
     }
 
-    /* This was supposed to be checked by caller too */
-    if (!errorOccurred && classes == NULL) {
-        jplis_assert(classes != NULL);
+    /* This wbs supposed to be checked by cbller too */
+    if (!errorOccurred && clbsses == NULL) {
+        jplis_bssert(clbsses != NULL);
         errorOccurred = JNI_TRUE;
         errorCode = JVMTI_ERROR_NULL_POINTER;
     }
 
     if (!errorOccurred) {
-        numClasses = (*jnienv)->GetArrayLength(jnienv, classes);
-        errorOccurred = checkForThrowable(jnienv);
-        jplis_assert(!errorOccurred);
+        numClbsses = (*jnienv)->GetArrbyLength(jnienv, clbsses);
+        errorOccurred = checkForThrowbble(jnienv);
+        jplis_bssert(!errorOccurred);
 
-        if (!errorOccurred && numClasses == 0) {
-            jplis_assert(numClasses != 0);
+        if (!errorOccurred && numClbsses == 0) {
+            jplis_bssert(numClbsses != 0);
             errorOccurred = JNI_TRUE;
             errorCode = JVMTI_ERROR_NULL_POINTER;
         }
     }
 
     if (!errorOccurred) {
-        classArray = (jclass *) allocate(retransformerEnv,
-                                         numClasses * sizeof(jclass));
-        errorOccurred = (classArray == NULL);
-        jplis_assert(!errorOccurred);
+        clbssArrby = (jclbss *) bllocbte(retrbnsformerEnv,
+                                         numClbsses * sizeof(jclbss));
+        errorOccurred = (clbssArrby == NULL);
+        jplis_bssert(!errorOccurred);
         if (errorOccurred) {
             errorCode = JVMTI_ERROR_OUT_OF_MEMORY;
         }
@@ -1117,438 +1117,438 @@ retransformClasses(JNIEnv * jnienv, JPLISAgent * agent, jobjectArray classes) {
 
     if (!errorOccurred) {
         jint index;
-        for (index = 0; index < numClasses; index++) {
-            classArray[index] = (*jnienv)->GetObjectArrayElement(jnienv, classes, index);
-            errorOccurred = checkForThrowable(jnienv);
-            jplis_assert(!errorOccurred);
+        for (index = 0; index < numClbsses; index++) {
+            clbssArrby[index] = (*jnienv)->GetObjectArrbyElement(jnienv, clbsses, index);
+            errorOccurred = checkForThrowbble(jnienv);
+            jplis_bssert(!errorOccurred);
             if (errorOccurred) {
-                break;
+                brebk;
             }
 
-            if (classArray[index] == NULL) {
-                jplis_assert(classArray[index] != NULL);
+            if (clbssArrby[index] == NULL) {
+                jplis_bssert(clbssArrby[index] != NULL);
                 errorOccurred = JNI_TRUE;
                 errorCode = JVMTI_ERROR_NULL_POINTER;
-                break;
+                brebk;
             }
         }
     }
 
     if (!errorOccurred) {
-        errorCode = (*retransformerEnv)->RetransformClasses(retransformerEnv,
-                                                            numClasses, classArray);
+        errorCode = (*retrbnsformerEnv)->RetrbnsformClbsses(retrbnsformerEnv,
+                                                            numClbsses, clbssArrby);
         errorOccurred = (errorCode != JVMTI_ERROR_NONE);
     }
 
-    /* Give back the buffer if we allocated it.  Throw any exceptions after.
+    /* Give bbck the buffer if we bllocbted it.  Throw bny exceptions bfter.
      */
-    if (classArray != NULL) {
-        deallocate(retransformerEnv, (void*)classArray);
+    if (clbssArrby != NULL) {
+        debllocbte(retrbnsformerEnv, (void*)clbssArrby);
     }
 
     if (errorCode != JVMTI_ERROR_NONE) {
-        createAndThrowThrowableFromJVMTIErrorCode(jnienv, errorCode);
+        crebteAndThrowThrowbbleFromJVMTIErrorCode(jnienv, errorCode);
     }
 
-    mapThrownThrowableIfNecessary(jnienv, redefineClassMapper);
+    mbpThrownThrowbbleIfNecessbry(jnienv, redefineClbssMbpper);
 }
 
 /*
- *  Java code must not call this with a null list or a zero-length list.
+ *  Jbvb code must not cbll this with b null list or b zero-length list.
  */
 void
-redefineClasses(JNIEnv * jnienv, JPLISAgent * agent, jobjectArray classDefinitions) {
-    jvmtiEnv*   jvmtienv                        = jvmti(agent);
-    jboolean    errorOccurred                   = JNI_FALSE;
-    jclass      classDefClass                   = NULL;
-    jmethodID   getDefinitionClassMethodID      = NULL;
-    jmethodID   getDefinitionClassFileMethodID  = NULL;
-    jvmtiClassDefinition* classDefs             = NULL;
-    jbyteArray* targetFiles                     = NULL;
+redefineClbsses(JNIEnv * jnienv, JPLISAgent * bgent, jobjectArrby clbssDefinitions) {
+    jvmtiEnv*   jvmtienv                        = jvmti(bgent);
+    jboolebn    errorOccurred                   = JNI_FALSE;
+    jclbss      clbssDefClbss                   = NULL;
+    jmethodID   getDefinitionClbssMethodID      = NULL;
+    jmethodID   getDefinitionClbssFileMethodID  = NULL;
+    jvmtiClbssDefinition* clbssDefs             = NULL;
+    jbyteArrby* tbrgetFiles                     = NULL;
     jsize       numDefs                         = 0;
 
-    jplis_assert(classDefinitions != NULL);
+    jplis_bssert(clbssDefinitions != NULL);
 
-    numDefs = (*jnienv)->GetArrayLength(jnienv, classDefinitions);
-    errorOccurred = checkForThrowable(jnienv);
-    jplis_assert(!errorOccurred);
+    numDefs = (*jnienv)->GetArrbyLength(jnienv, clbssDefinitions);
+    errorOccurred = checkForThrowbble(jnienv);
+    jplis_bssert(!errorOccurred);
 
     if (!errorOccurred) {
-        jplis_assert(numDefs > 0);
-        /* get method IDs for methods to call on class definitions */
-        classDefClass = (*jnienv)->FindClass(jnienv, "java/lang/instrument/ClassDefinition");
-        errorOccurred = checkForThrowable(jnienv);
-        jplis_assert(!errorOccurred);
+        jplis_bssert(numDefs > 0);
+        /* get method IDs for methods to cbll on clbss definitions */
+        clbssDefClbss = (*jnienv)->FindClbss(jnienv, "jbvb/lbng/instrument/ClbssDefinition");
+        errorOccurred = checkForThrowbble(jnienv);
+        jplis_bssert(!errorOccurred);
     }
 
     if (!errorOccurred) {
-        getDefinitionClassMethodID = (*jnienv)->GetMethodID(    jnienv,
-                                                classDefClass,
-                                                "getDefinitionClass",
-                                                "()Ljava/lang/Class;");
-        errorOccurred = checkForThrowable(jnienv);
-        jplis_assert(!errorOccurred);
+        getDefinitionClbssMethodID = (*jnienv)->GetMethodID(    jnienv,
+                                                clbssDefClbss,
+                                                "getDefinitionClbss",
+                                                "()Ljbvb/lbng/Clbss;");
+        errorOccurred = checkForThrowbble(jnienv);
+        jplis_bssert(!errorOccurred);
     }
 
     if (!errorOccurred) {
-        getDefinitionClassFileMethodID = (*jnienv)->GetMethodID(    jnienv,
-                                                    classDefClass,
-                                                    "getDefinitionClassFile",
+        getDefinitionClbssFileMethodID = (*jnienv)->GetMethodID(    jnienv,
+                                                    clbssDefClbss,
+                                                    "getDefinitionClbssFile",
                                                     "()[B");
-        errorOccurred = checkForThrowable(jnienv);
-        jplis_assert(!errorOccurred);
+        errorOccurred = checkForThrowbble(jnienv);
+        jplis_bssert(!errorOccurred);
     }
 
     if (!errorOccurred) {
-        classDefs = (jvmtiClassDefinition *) allocate(
+        clbssDefs = (jvmtiClbssDefinition *) bllocbte(
                                                 jvmtienv,
-                                                numDefs * sizeof(jvmtiClassDefinition));
-        errorOccurred = (classDefs == NULL);
-        jplis_assert(!errorOccurred);
+                                                numDefs * sizeof(jvmtiClbssDefinition));
+        errorOccurred = (clbssDefs == NULL);
+        jplis_bssert(!errorOccurred);
         if ( errorOccurred ) {
-            createAndThrowThrowableFromJVMTIErrorCode(jnienv, JVMTI_ERROR_OUT_OF_MEMORY);
+            crebteAndThrowThrowbbleFromJVMTIErrorCode(jnienv, JVMTI_ERROR_OUT_OF_MEMORY);
         }
 
         else {
             /*
-             * We have to save the targetFile values that we compute so
-             * that we can release the class_bytes arrays that are
-             * returned by GetByteArrayElements(). In case of a JNI
-             * error, we can't (easily) recompute the targetFile values
-             * and we still want to free any memory we allocated.
+             * We hbve to sbve the tbrgetFile vblues thbt we compute so
+             * thbt we cbn relebse the clbss_bytes brrbys thbt bre
+             * returned by GetByteArrbyElements(). In cbse of b JNI
+             * error, we cbn't (ebsily) recompute the tbrgetFile vblues
+             * bnd we still wbnt to free bny memory we bllocbted.
              */
-            targetFiles = (jbyteArray *) allocate(jvmtienv,
-                                                  numDefs * sizeof(jbyteArray));
-            errorOccurred = (targetFiles == NULL);
-            jplis_assert(!errorOccurred);
+            tbrgetFiles = (jbyteArrby *) bllocbte(jvmtienv,
+                                                  numDefs * sizeof(jbyteArrby));
+            errorOccurred = (tbrgetFiles == NULL);
+            jplis_bssert(!errorOccurred);
             if ( errorOccurred ) {
-                deallocate(jvmtienv, (void*)classDefs);
-                createAndThrowThrowableFromJVMTIErrorCode(jnienv,
+                debllocbte(jvmtienv, (void*)clbssDefs);
+                crebteAndThrowThrowbbleFromJVMTIErrorCode(jnienv,
                     JVMTI_ERROR_OUT_OF_MEMORY);
             }
             else {
                 jint i, j;
 
-                // clear classDefs so we can correctly free memory during errors
-                memset(classDefs, 0, numDefs * sizeof(jvmtiClassDefinition));
+                // clebr clbssDefs so we cbn correctly free memory during errors
+                memset(clbssDefs, 0, numDefs * sizeof(jvmtiClbssDefinition));
 
                 for (i = 0; i < numDefs; i++) {
-                    jclass      classDef    = NULL;
+                    jclbss      clbssDef    = NULL;
 
-                    classDef = (*jnienv)->GetObjectArrayElement(jnienv, classDefinitions, i);
-                    errorOccurred = checkForThrowable(jnienv);
-                    jplis_assert(!errorOccurred);
+                    clbssDef = (*jnienv)->GetObjectArrbyElement(jnienv, clbssDefinitions, i);
+                    errorOccurred = checkForThrowbble(jnienv);
+                    jplis_bssert(!errorOccurred);
                     if (errorOccurred) {
-                        break;
+                        brebk;
                     }
 
-                    classDefs[i].klass = (*jnienv)->CallObjectMethod(jnienv, classDef, getDefinitionClassMethodID);
-                    errorOccurred = checkForThrowable(jnienv);
-                    jplis_assert(!errorOccurred);
+                    clbssDefs[i].klbss = (*jnienv)->CbllObjectMethod(jnienv, clbssDef, getDefinitionClbssMethodID);
+                    errorOccurred = checkForThrowbble(jnienv);
+                    jplis_bssert(!errorOccurred);
                     if (errorOccurred) {
-                        break;
+                        brebk;
                     }
 
-                    targetFiles[i] = (*jnienv)->CallObjectMethod(jnienv, classDef, getDefinitionClassFileMethodID);
-                    errorOccurred = checkForThrowable(jnienv);
-                    jplis_assert(!errorOccurred);
+                    tbrgetFiles[i] = (*jnienv)->CbllObjectMethod(jnienv, clbssDef, getDefinitionClbssFileMethodID);
+                    errorOccurred = checkForThrowbble(jnienv);
+                    jplis_bssert(!errorOccurred);
                     if (errorOccurred) {
-                        break;
+                        brebk;
                     }
 
-                    classDefs[i].class_byte_count = (*jnienv)->GetArrayLength(jnienv, targetFiles[i]);
-                    errorOccurred = checkForThrowable(jnienv);
-                    jplis_assert(!errorOccurred);
+                    clbssDefs[i].clbss_byte_count = (*jnienv)->GetArrbyLength(jnienv, tbrgetFiles[i]);
+                    errorOccurred = checkForThrowbble(jnienv);
+                    jplis_bssert(!errorOccurred);
                     if (errorOccurred) {
-                        break;
+                        brebk;
                     }
 
                     /*
-                     * Allocate class_bytes last so we don't have to free
-                     * memory on a partial row error.
+                     * Allocbte clbss_bytes lbst so we don't hbve to free
+                     * memory on b pbrtibl row error.
                      */
-                    classDefs[i].class_bytes = (unsigned char*)(*jnienv)->GetByteArrayElements(jnienv, targetFiles[i], NULL);
-                    errorOccurred = checkForThrowable(jnienv);
-                    jplis_assert(!errorOccurred);
+                    clbssDefs[i].clbss_bytes = (unsigned chbr*)(*jnienv)->GetByteArrbyElements(jnienv, tbrgetFiles[i], NULL);
+                    errorOccurred = checkForThrowbble(jnienv);
+                    jplis_bssert(!errorOccurred);
                     if (errorOccurred) {
-                        break;
+                        brebk;
                     }
                 }
 
                 if (!errorOccurred) {
                     jvmtiError  errorCode = JVMTI_ERROR_NONE;
-                    errorCode = (*jvmtienv)->RedefineClasses(jvmtienv, numDefs, classDefs);
+                    errorCode = (*jvmtienv)->RedefineClbsses(jvmtienv, numDefs, clbssDefs);
                     if (errorCode == JVMTI_ERROR_WRONG_PHASE) {
-                        /* insulate caller from the wrong phase error */
+                        /* insulbte cbller from the wrong phbse error */
                         errorCode = JVMTI_ERROR_NONE;
                     } else {
                         errorOccurred = (errorCode != JVMTI_ERROR_NONE);
                         if ( errorOccurred ) {
-                            createAndThrowThrowableFromJVMTIErrorCode(jnienv, errorCode);
+                            crebteAndThrowThrowbbleFromJVMTIErrorCode(jnienv, errorCode);
                         }
                     }
                 }
 
                 /*
-                 * Cleanup memory that we allocated above. If we had a
-                 * JNI error, a JVM/TI error or no errors, index 'i'
-                 * tracks how far we got in processing the classDefs
-                 * array. Note:  ReleaseByteArrayElements() is safe to
-                 * call with a JNI exception pending.
+                 * Clebnup memory thbt we bllocbted bbove. If we hbd b
+                 * JNI error, b JVM/TI error or no errors, index 'i'
+                 * trbcks how fbr we got in processing the clbssDefs
+                 * brrby. Note:  RelebseByteArrbyElements() is sbfe to
+                 * cbll with b JNI exception pending.
                  */
                 for (j = 0; j < i; j++) {
-                    if ((jbyte *)classDefs[j].class_bytes != NULL) {
-                        (*jnienv)->ReleaseByteArrayElements(jnienv,
-                            targetFiles[j], (jbyte *)classDefs[j].class_bytes,
-                            0 /* copy back and free */);
+                    if ((jbyte *)clbssDefs[j].clbss_bytes != NULL) {
+                        (*jnienv)->RelebseByteArrbyElements(jnienv,
+                            tbrgetFiles[j], (jbyte *)clbssDefs[j].clbss_bytes,
+                            0 /* copy bbck bnd free */);
                         /*
-                         * Only check for error if we didn't already have one
+                         * Only check for error if we didn't blrebdy hbve one
                          * so we don't overwrite errorOccurred.
                          */
                         if (!errorOccurred) {
-                            errorOccurred = checkForThrowable(jnienv);
-                            jplis_assert(!errorOccurred);
+                            errorOccurred = checkForThrowbble(jnienv);
+                            jplis_bssert(!errorOccurred);
                         }
                     }
                 }
-                deallocate(jvmtienv, (void*)targetFiles);
-                deallocate(jvmtienv, (void*)classDefs);
+                debllocbte(jvmtienv, (void*)tbrgetFiles);
+                debllocbte(jvmtienv, (void*)clbssDefs);
             }
         }
     }
 
-    mapThrownThrowableIfNecessary(jnienv, redefineClassMapper);
+    mbpThrownThrowbbleIfNecessbry(jnienv, redefineClbssMbpper);
 }
 
-/* Cheesy sharing. ClassLoader may be null. */
-jobjectArray
-commonGetClassList( JNIEnv *            jnienv,
-                    JPLISAgent *        agent,
-                    jobject             classLoader,
-                    ClassListFetcher    fetcher) {
-    jvmtiEnv *      jvmtienv        = jvmti(agent);
-    jboolean        errorOccurred   = JNI_FALSE;
+/* Cheesy shbring. ClbssLobder mby be null. */
+jobjectArrby
+commonGetClbssList( JNIEnv *            jnienv,
+                    JPLISAgent *        bgent,
+                    jobject             clbssLobder,
+                    ClbssListFetcher    fetcher) {
+    jvmtiEnv *      jvmtienv        = jvmti(bgent);
+    jboolebn        errorOccurred   = JNI_FALSE;
     jvmtiError      jvmtierror      = JVMTI_ERROR_NONE;
-    jint            classCount      = 0;
-    jclass *        classes         = NULL;
-    jobjectArray    localArray      = NULL;
+    jint            clbssCount      = 0;
+    jclbss *        clbsses         = NULL;
+    jobjectArrby    locblArrby      = NULL;
 
-    /* retrieve the classes from the JVMTI agent */
+    /* retrieve the clbsses from the JVMTI bgent */
     jvmtierror = (*fetcher)( jvmtienv,
-                        classLoader,
-                        &classCount,
-                        &classes);
-    check_phase_ret_blob(jvmtierror, localArray);
+                        clbssLobder,
+                        &clbssCount,
+                        &clbsses);
+    check_phbse_ret_blob(jvmtierror, locblArrby);
     errorOccurred = (jvmtierror != JVMTI_ERROR_NONE);
-    jplis_assert(!errorOccurred);
+    jplis_bssert(!errorOccurred);
 
     if ( errorOccurred ) {
-        createAndThrowThrowableFromJVMTIErrorCode(jnienv, jvmtierror);
+        crebteAndThrowThrowbbleFromJVMTIErrorCode(jnienv, jvmtierror);
     } else {
-        localArray = getObjectArrayFromClasses( jnienv,
-                                                classes,
-                                                classCount);
-        errorOccurred = checkForThrowable(jnienv);
-        jplis_assert(!errorOccurred);
+        locblArrby = getObjectArrbyFromClbsses( jnienv,
+                                                clbsses,
+                                                clbssCount);
+        errorOccurred = checkForThrowbble(jnienv);
+        jplis_bssert(!errorOccurred);
 
-        /* do this whether or not we saw a problem */
-        deallocate(jvmtienv, (void*)classes);
+        /* do this whether or not we sbw b problem */
+        debllocbte(jvmtienv, (void*)clbsses);
     }
 
-    mapThrownThrowableIfNecessary(jnienv, mapAllCheckedToInternalErrorMapper);
-    return localArray;
+    mbpThrownThrowbbleIfNecessbry(jnienv, mbpAllCheckedToInternblErrorMbpper);
+    return locblArrby;
 
 }
 
 jvmtiError
-getAllLoadedClassesClassListFetcher(    jvmtiEnv *  jvmtienv,
-                                        jobject     classLoader,
-                                        jint *      classCount,
-                                        jclass **   classes) {
-    return (*jvmtienv)->GetLoadedClasses(jvmtienv, classCount, classes);
+getAllLobdedClbssesClbssListFetcher(    jvmtiEnv *  jvmtienv,
+                                        jobject     clbssLobder,
+                                        jint *      clbssCount,
+                                        jclbss **   clbsses) {
+    return (*jvmtienv)->GetLobdedClbsses(jvmtienv, clbssCount, clbsses);
 }
 
-jobjectArray
-getAllLoadedClasses(JNIEnv * jnienv, JPLISAgent * agent) {
-    return commonGetClassList(  jnienv,
-                                agent,
+jobjectArrby
+getAllLobdedClbsses(JNIEnv * jnienv, JPLISAgent * bgent) {
+    return commonGetClbssList(  jnienv,
+                                bgent,
                                 NULL,
-                                getAllLoadedClassesClassListFetcher);
+                                getAllLobdedClbssesClbssListFetcher);
 }
 
 jvmtiError
-getInitiatedClassesClassListFetcher(    jvmtiEnv *  jvmtienv,
-                                        jobject     classLoader,
-                                        jint *      classCount,
-                                        jclass **   classes) {
-    return (*jvmtienv)->GetClassLoaderClasses(jvmtienv, classLoader, classCount, classes);
+getInitibtedClbssesClbssListFetcher(    jvmtiEnv *  jvmtienv,
+                                        jobject     clbssLobder,
+                                        jint *      clbssCount,
+                                        jclbss **   clbsses) {
+    return (*jvmtienv)->GetClbssLobderClbsses(jvmtienv, clbssLobder, clbssCount, clbsses);
 }
 
 
-jobjectArray
-getInitiatedClasses(JNIEnv * jnienv, JPLISAgent * agent, jobject classLoader) {
-    return commonGetClassList(  jnienv,
-                                agent,
-                                classLoader,
-                                getInitiatedClassesClassListFetcher);
+jobjectArrby
+getInitibtedClbsses(JNIEnv * jnienv, JPLISAgent * bgent, jobject clbssLobder) {
+    return commonGetClbssList(  jnienv,
+                                bgent,
+                                clbssLobder,
+                                getInitibtedClbssesClbssListFetcher);
 }
 
 jlong
-getObjectSize(JNIEnv * jnienv, JPLISAgent * agent, jobject objectToSize) {
-    jvmtiEnv *  jvmtienv    = jvmti(agent);
+getObjectSize(JNIEnv * jnienv, JPLISAgent * bgent, jobject objectToSize) {
+    jvmtiEnv *  jvmtienv    = jvmti(bgent);
     jlong       objectSize  = -1;
     jvmtiError  jvmtierror  = JVMTI_ERROR_NONE;
 
     jvmtierror = (*jvmtienv)->GetObjectSize(jvmtienv, objectToSize, &objectSize);
-    check_phase_ret_0(jvmtierror);
-    jplis_assert(jvmtierror == JVMTI_ERROR_NONE);
+    check_phbse_ret_0(jvmtierror);
+    jplis_bssert(jvmtierror == JVMTI_ERROR_NONE);
     if ( jvmtierror != JVMTI_ERROR_NONE ) {
-        createAndThrowThrowableFromJVMTIErrorCode(jnienv, jvmtierror);
+        crebteAndThrowThrowbbleFromJVMTIErrorCode(jnienv, jvmtierror);
     }
 
-    mapThrownThrowableIfNecessary(jnienv, mapAllCheckedToInternalErrorMapper);
+    mbpThrownThrowbbleIfNecessbry(jnienv, mbpAllCheckedToInternblErrorMbpper);
     return objectSize;
 }
 
 void
-appendToClassLoaderSearch(JNIEnv * jnienv, JPLISAgent * agent, jstring jarFile, jboolean isBootLoader)
+bppendToClbssLobderSebrch(JNIEnv * jnienv, JPLISAgent * bgent, jstring jbrFile, jboolebn isBootLobder)
 {
-    jvmtiEnv *  jvmtienv    = jvmti(agent);
-    jboolean    errorOutstanding;
+    jvmtiEnv *  jvmtienv    = jvmti(bgent);
+    jboolebn    errorOutstbnding;
     jvmtiError  jvmtierror;
-    const char* utf8Chars;
+    const chbr* utf8Chbrs;
     jsize       utf8Len;
-    jboolean    isCopy;
-    char        platformChars[MAXPATHLEN];
-    int         platformLen;
+    jboolebn    isCopy;
+    chbr        plbtformChbrs[MAXPATHLEN];
+    int         plbtformLen;
 
-    utf8Len = (*jnienv)->GetStringUTFLength(jnienv, jarFile);
-    errorOutstanding = checkForAndClearThrowable(jnienv);
+    utf8Len = (*jnienv)->GetStringUTFLength(jnienv, jbrFile);
+    errorOutstbnding = checkForAndClebrThrowbble(jnienv);
 
-    if (!errorOutstanding) {
-        utf8Chars = (*jnienv)->GetStringUTFChars(jnienv, jarFile, &isCopy);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
+    if (!errorOutstbnding) {
+        utf8Chbrs = (*jnienv)->GetStringUTFChbrs(jnienv, jbrFile, &isCopy);
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
 
-        if (!errorOutstanding && utf8Chars != NULL) {
+        if (!errorOutstbnding && utf8Chbrs != NULL) {
             /*
              * JVMTI spec'ed to use modified UTF8. At this time this is not implemented
-             * the platform encoding is used.
+             * the plbtform encoding is used.
              */
-            platformLen = convertUft8ToPlatformString((char*)utf8Chars, utf8Len, platformChars, MAXPATHLEN);
-            if (platformLen < 0) {
-                createAndThrowInternalError(jnienv);
+            plbtformLen = convertUft8ToPlbtformString((chbr*)utf8Chbrs, utf8Len, plbtformChbrs, MAXPATHLEN);
+            if (plbtformLen < 0) {
+                crebteAndThrowInternblError(jnienv);
                 return;
             }
 
-            (*jnienv)->ReleaseStringUTFChars(jnienv, jarFile, utf8Chars);
-            errorOutstanding = checkForAndClearThrowable(jnienv);
+            (*jnienv)->RelebseStringUTFChbrs(jnienv, jbrFile, utf8Chbrs);
+            errorOutstbnding = checkForAndClebrThrowbble(jnienv);
 
-            if (!errorOutstanding) {
+            if (!errorOutstbnding) {
 
-                if (isBootLoader) {
-                    jvmtierror = (*jvmtienv)->AddToBootstrapClassLoaderSearch(jvmtienv, platformChars);
+                if (isBootLobder) {
+                    jvmtierror = (*jvmtienv)->AddToBootstrbpClbssLobderSebrch(jvmtienv, plbtformChbrs);
                 } else {
-                    jvmtierror = (*jvmtienv)->AddToSystemClassLoaderSearch(jvmtienv, platformChars);
+                    jvmtierror = (*jvmtienv)->AddToSystemClbssLobderSebrch(jvmtienv, plbtformChbrs);
                 }
-                check_phase_ret(jvmtierror);
+                check_phbse_ret(jvmtierror);
 
                 if ( jvmtierror != JVMTI_ERROR_NONE ) {
-                    createAndThrowThrowableFromJVMTIErrorCode(jnienv, jvmtierror);
+                    crebteAndThrowThrowbbleFromJVMTIErrorCode(jnienv, jvmtierror);
                 }
             }
         }
     }
 
-    mapThrownThrowableIfNecessary(jnienv, mapAllCheckedToInternalErrorMapper);
+    mbpThrownThrowbbleIfNecessbry(jnienv, mbpAllCheckedToInternblErrorMbpper);
 }
 
 /*
- *  Set the prefixes used to wrap native methods (so they can be instrumented).
- *  Each transform can set a prefix, any that have been set come in as prefixArray.
- *  Convert them in native strings in a native array then call JVM TI.
- *  One a given call, this function handles either the prefixes for retransformable
- *  transforms or for normal transforms.
+ *  Set the prefixes used to wrbp nbtive methods (so they cbn be instrumented).
+ *  Ebch trbnsform cbn set b prefix, bny thbt hbve been set come in bs prefixArrby.
+ *  Convert them in nbtive strings in b nbtive brrby then cbll JVM TI.
+ *  One b given cbll, this function hbndles either the prefixes for retrbnsformbble
+ *  trbnsforms or for normbl trbnsforms.
  */
 void
-setNativeMethodPrefixes(JNIEnv * jnienv, JPLISAgent * agent, jobjectArray prefixArray,
-                        jboolean isRetransformable) {
+setNbtiveMethodPrefixes(JNIEnv * jnienv, JPLISAgent * bgent, jobjectArrby prefixArrby,
+                        jboolebn isRetrbnsformbble) {
     jvmtiEnv*   jvmtienv;
     jvmtiError  err                             = JVMTI_ERROR_NONE;
-    jsize       arraySize;
-    jboolean    errorOccurred                   = JNI_FALSE;
+    jsize       brrbySize;
+    jboolebn    errorOccurred                   = JNI_FALSE;
 
-    jplis_assert(prefixArray != NULL);
+    jplis_bssert(prefixArrby != NULL);
 
-    if (isRetransformable) {
-        jvmtienv = agent->mRetransformEnvironment.mJVMTIEnv;
+    if (isRetrbnsformbble) {
+        jvmtienv = bgent->mRetrbnsformEnvironment.mJVMTIEnv;
     } else {
-        jvmtienv = agent->mNormalEnvironment.mJVMTIEnv;
+        jvmtienv = bgent->mNormblEnvironment.mJVMTIEnv;
     }
-    arraySize = (*jnienv)->GetArrayLength(jnienv, prefixArray);
-    errorOccurred = checkForThrowable(jnienv);
-    jplis_assert(!errorOccurred);
+    brrbySize = (*jnienv)->GetArrbyLength(jnienv, prefixArrby);
+    errorOccurred = checkForThrowbble(jnienv);
+    jplis_bssert(!errorOccurred);
 
     if (!errorOccurred) {
-        /* allocate the native to hold the native prefixes */
-        const char** prefixes = (const char**) allocate(jvmtienv,
-                                                        arraySize * sizeof(char*));
-        /* since JNI ReleaseStringUTFChars needs the jstring from which the native
-         * string was allocated, we store them in a parallel array */
-        jstring* originForRelease = (jstring*) allocate(jvmtienv,
-                                                        arraySize * sizeof(jstring));
-        errorOccurred = (prefixes == NULL || originForRelease == NULL);
-        jplis_assert(!errorOccurred);
+        /* bllocbte the nbtive to hold the nbtive prefixes */
+        const chbr** prefixes = (const chbr**) bllocbte(jvmtienv,
+                                                        brrbySize * sizeof(chbr*));
+        /* since JNI RelebseStringUTFChbrs needs the jstring from which the nbtive
+         * string wbs bllocbted, we store them in b pbrbllel brrby */
+        jstring* originForRelebse = (jstring*) bllocbte(jvmtienv,
+                                                        brrbySize * sizeof(jstring));
+        errorOccurred = (prefixes == NULL || originForRelebse == NULL);
+        jplis_bssert(!errorOccurred);
         if ( errorOccurred ) {
-            createAndThrowThrowableFromJVMTIErrorCode(jnienv, JVMTI_ERROR_OUT_OF_MEMORY);
+            crebteAndThrowThrowbbleFromJVMTIErrorCode(jnienv, JVMTI_ERROR_OUT_OF_MEMORY);
         }
         else {
             jint inx = 0;
             jint i;
-            for (i = 0; i < arraySize; i++) {
+            for (i = 0; i < brrbySize; i++) {
                 jstring      prefixStr  = NULL;
-                const char*  prefix;
+                const chbr*  prefix;
                 jsize        prefixLen;
-                jboolean     isCopy;
+                jboolebn     isCopy;
 
-                prefixStr = (jstring) ((*jnienv)->GetObjectArrayElement(jnienv,
-                                                                        prefixArray, i));
-                errorOccurred = checkForThrowable(jnienv);
-                jplis_assert(!errorOccurred);
+                prefixStr = (jstring) ((*jnienv)->GetObjectArrbyElement(jnienv,
+                                                                        prefixArrby, i));
+                errorOccurred = checkForThrowbble(jnienv);
+                jplis_bssert(!errorOccurred);
                 if (errorOccurred) {
-                    break;
+                    brebk;
                 }
                 if (prefixStr == NULL) {
                     continue;
                 }
 
                 prefixLen = (*jnienv)->GetStringUTFLength(jnienv, prefixStr);
-                errorOccurred = checkForThrowable(jnienv);
-                jplis_assert(!errorOccurred);
+                errorOccurred = checkForThrowbble(jnienv);
+                jplis_bssert(!errorOccurred);
                 if (errorOccurred) {
-                    break;
+                    brebk;
                 }
 
                 if (prefixLen > 0) {
-                    prefix = (*jnienv)->GetStringUTFChars(jnienv, prefixStr, &isCopy);
-                    errorOccurred = checkForThrowable(jnienv);
-                    jplis_assert(!errorOccurred);
+                    prefix = (*jnienv)->GetStringUTFChbrs(jnienv, prefixStr, &isCopy);
+                    errorOccurred = checkForThrowbble(jnienv);
+                    jplis_bssert(!errorOccurred);
                     if (!errorOccurred && prefix != NULL) {
                         prefixes[inx] = prefix;
-                        originForRelease[inx] = prefixStr;
+                        originForRelebse[inx] = prefixStr;
                         ++inx;
                     }
                 }
             }
 
-            err = (*jvmtienv)->SetNativeMethodPrefixes(jvmtienv, inx, (char**)prefixes);
-            /* can be called from any phase */
-            jplis_assert(err == JVMTI_ERROR_NONE);
+            err = (*jvmtienv)->SetNbtiveMethodPrefixes(jvmtienv, inx, (chbr**)prefixes);
+            /* cbn be cblled from bny phbse */
+            jplis_bssert(err == JVMTI_ERROR_NONE);
 
             for (i = 0; i < inx; i++) {
-              (*jnienv)->ReleaseStringUTFChars(jnienv, originForRelease[i], prefixes[i]);
+              (*jnienv)->RelebseStringUTFChbrs(jnienv, originForRelebse[i], prefixes[i]);
             }
         }
-        deallocate(jvmtienv, (void*)prefixes);
-        deallocate(jvmtienv, (void*)originForRelease);
+        debllocbte(jvmtienv, (void*)prefixes);
+        debllocbte(jvmtienv, (void*)originForRelebse);
     }
 }

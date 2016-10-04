@@ -1,572 +1,572 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import sun.awt.*;
-import java.util.*;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import sun.bwt.*;
+import jbvb.util.*;
+import sun.util.logging.PlbtformLogger;
 
-public class XBaseWindow {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XBaseWindow");
-    private static final PlatformLogger insLog = PlatformLogger.getLogger("sun.awt.X11.insets.XBaseWindow");
-    private static final PlatformLogger eventLog = PlatformLogger.getLogger("sun.awt.X11.event.XBaseWindow");
-    private static final PlatformLogger focusLog = PlatformLogger.getLogger("sun.awt.X11.focus.XBaseWindow");
-    private static final PlatformLogger grabLog = PlatformLogger.getLogger("sun.awt.X11.grab.XBaseWindow");
+public clbss XBbseWindow {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XBbseWindow");
+    privbte stbtic finbl PlbtformLogger insLog = PlbtformLogger.getLogger("sun.bwt.X11.insets.XBbseWindow");
+    privbte stbtic finbl PlbtformLogger eventLog = PlbtformLogger.getLogger("sun.bwt.X11.event.XBbseWindow");
+    privbte stbtic finbl PlbtformLogger focusLog = PlbtformLogger.getLogger("sun.bwt.X11.focus.XBbseWindow");
+    privbte stbtic finbl PlbtformLogger grbbLog = PlbtformLogger.getLogger("sun.bwt.X11.grbb.XBbseWindow");
 
-    public static final String
-        PARENT_WINDOW = "parent window", // parent window, Long
-        BOUNDS = "bounds", // bounds of the window, Rectangle
-        OVERRIDE_REDIRECT = "overrideRedirect", // override_redirect setting, Boolean
-        EVENT_MASK = "event mask", // event mask, Integer
-        VALUE_MASK = "value mask", // value mask, Long
-        BORDER_PIXEL = "border pixel", // border pixel value, Integer
-        COLORMAP = "color map", // color map, Long
-        DEPTH = "visual depth", // depth, Integer
-        VISUAL_CLASS = "visual class", // visual class, Integer
-        VISUAL = "visual", // visual, Long
-        EMBEDDED = "embedded", // is embedded?, Boolean
-        DELAYED = "delayed", // is creation delayed?, Boolean
-        PARENT = "parent", // parent peer
-        BACKGROUND_PIXMAP = "pixmap", // background pixmap
-        VISIBLE = "visible", // whether it is visible by default
-        SAVE_UNDER = "save under", // save content under this window
-        BACKING_STORE = "backing store", // enables double buffering
-        BIT_GRAVITY = "bit gravity"; // copy old content on geometry change
-    private XCreateWindowParams delayedParams;
+    public stbtic finbl String
+        PARENT_WINDOW = "pbrent window", // pbrent window, Long
+        BOUNDS = "bounds", // bounds of the window, Rectbngle
+        OVERRIDE_REDIRECT = "overrideRedirect", // override_redirect setting, Boolebn
+        EVENT_MASK = "event mbsk", // event mbsk, Integer
+        VALUE_MASK = "vblue mbsk", // vblue mbsk, Long
+        BORDER_PIXEL = "border pixel", // border pixel vblue, Integer
+        COLORMAP = "color mbp", // color mbp, Long
+        DEPTH = "visubl depth", // depth, Integer
+        VISUAL_CLASS = "visubl clbss", // visubl clbss, Integer
+        VISUAL = "visubl", // visubl, Long
+        EMBEDDED = "embedded", // is embedded?, Boolebn
+        DELAYED = "delbyed", // is crebtion delbyed?, Boolebn
+        PARENT = "pbrent", // pbrent peer
+        BACKGROUND_PIXMAP = "pixmbp", // bbckground pixmbp
+        VISIBLE = "visible", // whether it is visible by defbult
+        SAVE_UNDER = "sbve under", // sbve content under this window
+        BACKING_STORE = "bbcking store", // enbbles double buffering
+        BIT_GRAVITY = "bit grbvity"; // copy old content on geometry chbnge
+    privbte XCrebteWindowPbrbms delbyedPbrbms;
 
-    Set<Long> children = new HashSet<Long>();
+    Set<Long> children = new HbshSet<Long>();
     long window;
-    boolean visible;
-    boolean mapped;
-    boolean embedded;
-    Rectangle maxBounds;
-    volatile XBaseWindow parentWindow;
+    boolebn visible;
+    boolebn mbpped;
+    boolebn embedded;
+    Rectbngle mbxBounds;
+    volbtile XBbseWindow pbrentWindow;
 
-    private boolean disposed;
+    privbte boolebn disposed;
 
-    private long screen;
-    private XSizeHints hints;
-    private XWMHints wmHints;
+    privbte long screen;
+    privbte XSizeHints hints;
+    privbte XWMHints wmHints;
 
-    final static int MIN_SIZE = 1;
-    final static int DEF_LOCATION = 1;
+    finbl stbtic int MIN_SIZE = 1;
+    finbl stbtic int DEF_LOCATION = 1;
 
-    private static XAtom wm_client_leader;
+    privbte stbtic XAtom wm_client_lebder;
 
-    static enum InitialiseState {
+    stbtic enum InitibliseStbte {
         INITIALISING,
         NOT_INITIALISED,
         INITIALISED,
         FAILED_INITIALISATION
     };
 
-    private InitialiseState initialising;
+    privbte InitibliseStbte initiblising;
 
     int x;
     int y;
     int width;
     int height;
 
-    void awtLock() {
-        XToolkit.awtLock();
+    void bwtLock() {
+        XToolkit.bwtLock();
     }
 
-    void awtUnlock() {
-        XToolkit.awtUnlock();
+    void bwtUnlock() {
+        XToolkit.bwtUnlock();
     }
 
-    void awtLockNotifyAll() {
-        XToolkit.awtLockNotifyAll();
+    void bwtLockNotifyAll() {
+        XToolkit.bwtLockNotifyAll();
     }
 
-    void awtLockWait() throws InterruptedException {
-        XToolkit.awtLockWait();
+    void bwtLockWbit() throws InterruptedException {
+        XToolkit.bwtLockWbit();
     }
 
     // To prevent errors from overriding obsolete methods
-    protected final void init(long parentWindow, Rectangle bounds) {}
-    protected final void preInit() {}
-    protected final void postInit() {}
+    protected finbl void init(long pbrentWindow, Rectbngle bounds) {}
+    protected finbl void preInit() {}
+    protected finbl void postInit() {}
 
-    // internal lock for synchronizing state changes and paint calls, initialized in preInit.
-    // the order with other locks: AWTLock -> stateLock
-    static class StateLock extends Object { }
-    protected StateLock state_lock;
+    // internbl lock for synchronizing stbte chbnges bnd pbint cblls, initiblized in preInit.
+    // the order with other locks: AWTLock -> stbteLock
+    stbtic clbss StbteLock extends Object { }
+    protected StbteLock stbte_lock;
 
     /**
-     * Called for delayed inits during construction
+     * Cblled for delbyed inits during construction
      */
-    void instantPreInit(XCreateWindowParams params) {
-        state_lock = new StateLock();
-        initialising = InitialiseState.NOT_INITIALISED;
+    void instbntPreInit(XCrebteWindowPbrbms pbrbms) {
+        stbte_lock = new StbteLock();
+        initiblising = InitibliseStbte.NOT_INITIALISED;
     }
 
     /**
-     * Called before window creation, descendants should override to initialize the data,
-     * initialize params.
+     * Cblled before window crebtion, descendbnts should override to initiblize the dbtb,
+     * initiblize pbrbms.
      */
-    void preInit(XCreateWindowParams params) {
-        state_lock = new StateLock();
-        initialising = InitialiseState.NOT_INITIALISED;
-        embedded = Boolean.TRUE.equals(params.get(EMBEDDED));
-        visible = Boolean.TRUE.equals(params.get(VISIBLE));
+    void preInit(XCrebteWindowPbrbms pbrbms) {
+        stbte_lock = new StbteLock();
+        initiblising = InitibliseStbte.NOT_INITIALISED;
+        embedded = Boolebn.TRUE.equbls(pbrbms.get(EMBEDDED));
+        visible = Boolebn.TRUE.equbls(pbrbms.get(VISIBLE));
 
-        Object parent = params.get(PARENT);
-        if (parent instanceof XBaseWindow) {
-            parentWindow = (XBaseWindow)parent;
+        Object pbrent = pbrbms.get(PARENT);
+        if (pbrent instbnceof XBbseWindow) {
+            pbrentWindow = (XBbseWindow)pbrent;
         } else {
-            Long parentWindowID = (Long)params.get(PARENT_WINDOW);
-            if (parentWindowID != null) {
-                parentWindow = XToolkit.windowToXWindow(parentWindowID);
+            Long pbrentWindowID = (Long)pbrbms.get(PARENT_WINDOW);
+            if (pbrentWindowID != null) {
+                pbrentWindow = XToolkit.windowToXWindow(pbrentWindowID);
             }
         }
 
-        Long eventMask = (Long)params.get(EVENT_MASK);
-        if (eventMask != null) {
-            long mask = eventMask.longValue();
-            mask |= XConstants.SubstructureNotifyMask;
-            params.put(EVENT_MASK, mask);
+        Long eventMbsk = (Long)pbrbms.get(EVENT_MASK);
+        if (eventMbsk != null) {
+            long mbsk = eventMbsk.longVblue();
+            mbsk |= XConstbnts.SubstructureNotifyMbsk;
+            pbrbms.put(EVENT_MASK, mbsk);
         }
 
         screen = -1;
     }
 
     /**
-     * Called after window creation, descendants should override to initialize Window
-     * with class-specific values and perform post-initialization actions.
+     * Cblled bfter window crebtion, descendbnts should override to initiblize Window
+     * with clbss-specific vblues bnd perform post-initiblizbtion bctions.
      */
-    void postInit(XCreateWindowParams params) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("WM name is " + getWMName());
+    void postInit(XCrebteWindowPbrbms pbrbms) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("WM nbme is " + getWMNbme());
         }
-        updateWMName();
+        updbteWMNbme();
 
         // Set WM_CLIENT_LEADER property
-        initClientLeader();
+        initClientLebder();
     }
 
     /**
-     * Creates window using parameters <code>params</code>
-     * If params contain flag DELAYED doesn't do anything.
-     * Note: Descendants can call this method to create the window
-     * at the time different to instance construction.
+     * Crebtes window using pbrbmeters <code>pbrbms</code>
+     * If pbrbms contbin flbg DELAYED doesn't do bnything.
+     * Note: Descendbnts cbn cbll this method to crebte the window
+     * bt the time different to instbnce construction.
      */
-    protected final void init(XCreateWindowParams params) {
-        awtLock();
-        initialising = InitialiseState.INITIALISING;
-        awtUnlock();
+    protected finbl void init(XCrebteWindowPbrbms pbrbms) {
+        bwtLock();
+        initiblising = InitibliseStbte.INITIALISING;
+        bwtUnlock();
 
         try {
-            if (!Boolean.TRUE.equals(params.get(DELAYED))) {
-                preInit(params);
-                create(params);
-                postInit(params);
+            if (!Boolebn.TRUE.equbls(pbrbms.get(DELAYED))) {
+                preInit(pbrbms);
+                crebte(pbrbms);
+                postInit(pbrbms);
             } else {
-                instantPreInit(params);
-                delayedParams = params;
+                instbntPreInit(pbrbms);
+                delbyedPbrbms = pbrbms;
             }
-            awtLock();
-            initialising = InitialiseState.INITIALISED;
-            awtLockNotifyAll();
-            awtUnlock();
-        } catch (RuntimeException re) {
-            awtLock();
-            initialising = InitialiseState.FAILED_INITIALISATION;
-            awtLockNotifyAll();
-            awtUnlock();
+            bwtLock();
+            initiblising = InitibliseStbte.INITIALISED;
+            bwtLockNotifyAll();
+            bwtUnlock();
+        } cbtch (RuntimeException re) {
+            bwtLock();
+            initiblising = InitibliseStbte.FAILED_INITIALISATION;
+            bwtLockNotifyAll();
+            bwtUnlock();
             throw re;
-        } catch (Throwable t) {
-            log.warning("Exception during peer initialization", t);
-            awtLock();
-            initialising = InitialiseState.FAILED_INITIALISATION;
-            awtLockNotifyAll();
-            awtUnlock();
+        } cbtch (Throwbble t) {
+            log.wbrning("Exception during peer initiblizbtion", t);
+            bwtLock();
+            initiblising = InitibliseStbte.FAILED_INITIALISATION;
+            bwtLockNotifyAll();
+            bwtUnlock();
         }
     }
 
-    public boolean checkInitialised() {
-        awtLock();
+    public boolebn checkInitiblised() {
+        bwtLock();
         try {
-            switch (initialising) {
-              case INITIALISED:
+            switch (initiblising) {
+              cbse INITIALISED:
                   return true;
-              case INITIALISING:
+              cbse INITIALISING:
                   try {
-                      while (initialising != InitialiseState.INITIALISED) {
-                          awtLockWait();
+                      while (initiblising != InitibliseStbte.INITIALISED) {
+                          bwtLockWbit();
                       }
-                  } catch (InterruptedException ie) {
-                      return false;
+                  } cbtch (InterruptedException ie) {
+                      return fblse;
                   }
                   return true;
-              case NOT_INITIALISED:
-              case FAILED_INITIALISATION:
-                  return false;
-              default:
-                  return false;
+              cbse NOT_INITIALISED:
+              cbse FAILED_INITIALISATION:
+                  return fblse;
+              defbult:
+                  return fblse;
             }
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlock();
         }
     }
 
     /*
-     * Creates an invisible InputOnly window without an associated Component.
+     * Crebtes bn invisible InputOnly window without bn bssocibted Component.
      */
-    XBaseWindow() {
-        this(new XCreateWindowParams());
+    XBbseWindow() {
+        this(new XCrebteWindowPbrbms());
     }
 
     /**
-     * Creates normal child window
+     * Crebtes normbl child window
      */
-    XBaseWindow(long parentWindow, Rectangle bounds) {
-        this(new XCreateWindowParams(new Object[] {
+    XBbseWindow(long pbrentWindow, Rectbngle bounds) {
+        this(new XCrebteWindowPbrbms(new Object[] {
             BOUNDS, bounds,
-            PARENT_WINDOW, Long.valueOf(parentWindow)}));
+            PARENT_WINDOW, Long.vblueOf(pbrentWindow)}));
     }
 
     /**
-     * Creates top-level window
+     * Crebtes top-level window
      */
-    XBaseWindow(Rectangle bounds) {
-        this(new XCreateWindowParams(new Object[] {
+    XBbseWindow(Rectbngle bounds) {
+        this(new XCrebteWindowPbrbms(new Object[] {
             BOUNDS, bounds
         }));
     }
 
-    public XBaseWindow (XCreateWindowParams params) {
-        init(params);
+    public XBbseWindow (XCrebteWindowPbrbms pbrbms) {
+        init(pbrbms);
     }
 
-    /* This create is used by the XEmbeddedFramePeer since it has to create the window
-       as a child of the netscape window. This netscape window is passed in as wid */
-    XBaseWindow(long parentWindow) {
-        this(new XCreateWindowParams(new Object[] {
-            PARENT_WINDOW, Long.valueOf(parentWindow),
-            EMBEDDED, Boolean.TRUE
+    /* This crebte is used by the XEmbeddedFrbmePeer since it hbs to crebte the window
+       bs b child of the netscbpe window. This netscbpe window is pbssed in bs wid */
+    XBbseWindow(long pbrentWindow) {
+        this(new XCrebteWindowPbrbms(new Object[] {
+            PARENT_WINDOW, Long.vblueOf(pbrentWindow),
+            EMBEDDED, Boolebn.TRUE
         }));
     }
 
     /**
-     * Verifies that all required parameters are set. If not, sets them to default values.
-     * Verifies values of critical parameters, adjust their values when needed.
-     * @throws IllegalArgumentException if params is null
+     * Verifies thbt bll required pbrbmeters bre set. If not, sets them to defbult vblues.
+     * Verifies vblues of criticbl pbrbmeters, bdjust their vblues when needed.
+     * @throws IllegblArgumentException if pbrbms is null
      */
-    protected void checkParams(XCreateWindowParams params) {
-        if (params == null) {
-            throw new IllegalArgumentException("Window creation parameters are null");
+    protected void checkPbrbms(XCrebteWindowPbrbms pbrbms) {
+        if (pbrbms == null) {
+            throw new IllegblArgumentException("Window crebtion pbrbmeters bre null");
         }
-        params.putIfNull(PARENT_WINDOW, Long.valueOf(XToolkit.getDefaultRootWindow()));
-        params.putIfNull(BOUNDS, new Rectangle(DEF_LOCATION, DEF_LOCATION, MIN_SIZE, MIN_SIZE));
-        params.putIfNull(DEPTH, Integer.valueOf((int)XConstants.CopyFromParent));
-        params.putIfNull(VISUAL, Long.valueOf(XConstants.CopyFromParent));
-        params.putIfNull(VISUAL_CLASS, Integer.valueOf(XConstants.InputOnly));
-        params.putIfNull(VALUE_MASK, Long.valueOf(XConstants.CWEventMask));
-        Rectangle bounds = (Rectangle)params.get(BOUNDS);
-        bounds.width = Math.max(MIN_SIZE, bounds.width);
-        bounds.height = Math.max(MIN_SIZE, bounds.height);
+        pbrbms.putIfNull(PARENT_WINDOW, Long.vblueOf(XToolkit.getDefbultRootWindow()));
+        pbrbms.putIfNull(BOUNDS, new Rectbngle(DEF_LOCATION, DEF_LOCATION, MIN_SIZE, MIN_SIZE));
+        pbrbms.putIfNull(DEPTH, Integer.vblueOf((int)XConstbnts.CopyFromPbrent));
+        pbrbms.putIfNull(VISUAL, Long.vblueOf(XConstbnts.CopyFromPbrent));
+        pbrbms.putIfNull(VISUAL_CLASS, Integer.vblueOf(XConstbnts.InputOnly));
+        pbrbms.putIfNull(VALUE_MASK, Long.vblueOf(XConstbnts.CWEventMbsk));
+        Rectbngle bounds = (Rectbngle)pbrbms.get(BOUNDS);
+        bounds.width = Mbth.mbx(MIN_SIZE, bounds.width);
+        bounds.height = Mbth.mbx(MIN_SIZE, bounds.height);
 
-        Long eventMaskObj = (Long)params.get(EVENT_MASK);
-        long eventMask = eventMaskObj != null ? eventMaskObj.longValue() : 0;
-        // We use our own synthetic grab see XAwtState.getGrabWindow()
+        Long eventMbskObj = (Long)pbrbms.get(EVENT_MASK);
+        long eventMbsk = eventMbskObj != null ? eventMbskObj.longVblue() : 0;
+        // We use our own synthetic grbb see XAwtStbte.getGrbbWindow()
         // (see X vol. 1, 8.3.3.2)
-        eventMask |= XConstants.PropertyChangeMask | XConstants.OwnerGrabButtonMask;
-        params.put(EVENT_MASK, Long.valueOf(eventMask));
+        eventMbsk |= XConstbnts.PropertyChbngeMbsk | XConstbnts.OwnerGrbbButtonMbsk;
+        pbrbms.put(EVENT_MASK, Long.vblueOf(eventMbsk));
     }
 
     /**
-     * Creates window with parameters specified by <code>params</code>
+     * Crebtes window with pbrbmeters specified by <code>pbrbms</code>
      * @see #init
      */
-    private final void create(XCreateWindowParams params) {
-        XToolkit.awtLock();
+    privbte finbl void crebte(XCrebteWindowPbrbms pbrbms) {
+        XToolkit.bwtLock();
         try {
-            XSetWindowAttributes xattr = new XSetWindowAttributes();
+            XSetWindowAttributes xbttr = new XSetWindowAttributes();
             try {
-                checkParams(params);
+                checkPbrbms(pbrbms);
 
-                long value_mask = ((Long)params.get(VALUE_MASK)).longValue();
+                long vblue_mbsk = ((Long)pbrbms.get(VALUE_MASK)).longVblue();
 
-                Long eventMask = (Long)params.get(EVENT_MASK);
-                xattr.set_event_mask(eventMask.longValue());
-                value_mask |= XConstants.CWEventMask;
+                Long eventMbsk = (Long)pbrbms.get(EVENT_MASK);
+                xbttr.set_event_mbsk(eventMbsk.longVblue());
+                vblue_mbsk |= XConstbnts.CWEventMbsk;
 
-                Long border_pixel = (Long)params.get(BORDER_PIXEL);
+                Long border_pixel = (Long)pbrbms.get(BORDER_PIXEL);
                 if (border_pixel != null) {
-                    xattr.set_border_pixel(border_pixel.longValue());
-                    value_mask |= XConstants.CWBorderPixel;
+                    xbttr.set_border_pixel(border_pixel.longVblue());
+                    vblue_mbsk |= XConstbnts.CWBorderPixel;
                 }
 
-                Long colormap = (Long)params.get(COLORMAP);
-                if (colormap != null) {
-                    xattr.set_colormap(colormap.longValue());
-                    value_mask |= XConstants.CWColormap;
+                Long colormbp = (Long)pbrbms.get(COLORMAP);
+                if (colormbp != null) {
+                    xbttr.set_colormbp(colormbp.longVblue());
+                    vblue_mbsk |= XConstbnts.CWColormbp;
                 }
-                Long background_pixmap = (Long)params.get(BACKGROUND_PIXMAP);
-                if (background_pixmap != null) {
-                    xattr.set_background_pixmap(background_pixmap.longValue());
-                    value_mask |= XConstants.CWBackPixmap;
+                Long bbckground_pixmbp = (Long)pbrbms.get(BACKGROUND_PIXMAP);
+                if (bbckground_pixmbp != null) {
+                    xbttr.set_bbckground_pixmbp(bbckground_pixmbp.longVblue());
+                    vblue_mbsk |= XConstbnts.CWBbckPixmbp;
                 }
 
-                Long parentWindow = (Long)params.get(PARENT_WINDOW);
-                Rectangle bounds = (Rectangle)params.get(BOUNDS);
-                Integer depth = (Integer)params.get(DEPTH);
-                Integer visual_class = (Integer)params.get(VISUAL_CLASS);
-                Long visual = (Long)params.get(VISUAL);
-                Boolean overrideRedirect = (Boolean)params.get(OVERRIDE_REDIRECT);
+                Long pbrentWindow = (Long)pbrbms.get(PARENT_WINDOW);
+                Rectbngle bounds = (Rectbngle)pbrbms.get(BOUNDS);
+                Integer depth = (Integer)pbrbms.get(DEPTH);
+                Integer visubl_clbss = (Integer)pbrbms.get(VISUAL_CLASS);
+                Long visubl = (Long)pbrbms.get(VISUAL);
+                Boolebn overrideRedirect = (Boolebn)pbrbms.get(OVERRIDE_REDIRECT);
                 if (overrideRedirect != null) {
-                    xattr.set_override_redirect(overrideRedirect.booleanValue());
-                    value_mask |= XConstants.CWOverrideRedirect;
+                    xbttr.set_override_redirect(overrideRedirect.boolebnVblue());
+                    vblue_mbsk |= XConstbnts.CWOverrideRedirect;
                 }
 
-                Boolean saveUnder = (Boolean)params.get(SAVE_UNDER);
-                if (saveUnder != null) {
-                    xattr.set_save_under(saveUnder.booleanValue());
-                    value_mask |= XConstants.CWSaveUnder;
+                Boolebn sbveUnder = (Boolebn)pbrbms.get(SAVE_UNDER);
+                if (sbveUnder != null) {
+                    xbttr.set_sbve_under(sbveUnder.boolebnVblue());
+                    vblue_mbsk |= XConstbnts.CWSbveUnder;
                 }
 
-                Integer backingStore = (Integer)params.get(BACKING_STORE);
-                if (backingStore != null) {
-                    xattr.set_backing_store(backingStore.intValue());
-                    value_mask |= XConstants.CWBackingStore;
+                Integer bbckingStore = (Integer)pbrbms.get(BACKING_STORE);
+                if (bbckingStore != null) {
+                    xbttr.set_bbcking_store(bbckingStore.intVblue());
+                    vblue_mbsk |= XConstbnts.CWBbckingStore;
                 }
 
-                Integer bitGravity = (Integer)params.get(BIT_GRAVITY);
-                if (bitGravity != null) {
-                    xattr.set_bit_gravity(bitGravity.intValue());
-                    value_mask |= XConstants.CWBitGravity;
+                Integer bitGrbvity = (Integer)pbrbms.get(BIT_GRAVITY);
+                if (bitGrbvity != null) {
+                    xbttr.set_bit_grbvity(bitGrbvity.intVblue());
+                    vblue_mbsk |= XConstbnts.CWBitGrbvity;
                 }
 
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("Creating window for " + this + " with the following attributes: \n" + params);
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("Crebting window for " + this + " with the following bttributes: \n" + pbrbms);
                 }
-                window = XlibWrapper.XCreateWindow(XToolkit.getDisplay(),
-                                   parentWindow.longValue(),
-                                   bounds.x, bounds.y, // location
+                window = XlibWrbpper.XCrebteWindow(XToolkit.getDisplby(),
+                                   pbrentWindow.longVblue(),
+                                   bounds.x, bounds.y, // locbtion
                                    bounds.width, bounds.height, // size
                                    0, // border
-                                   depth.intValue(), // depth
-                                   visual_class.intValue(), // class
-                                   visual.longValue(), // visual
-                                   value_mask,  // value mask
-                                   xattr.pData); // attributes
+                                   depth.intVblue(), // depth
+                                   visubl_clbss.intVblue(), // clbss
+                                   visubl.longVblue(), // visubl
+                                   vblue_mbsk,  // vblue mbsk
+                                   xbttr.pDbtb); // bttributes
 
                 if (window == 0) {
-                    throw new IllegalStateException("Couldn't create window because of wrong parameters. Run with NOISY_AWT to see details");
+                    throw new IllegblStbteException("Couldn't crebte window becbuse of wrong pbrbmeters. Run with NOISY_AWT to see detbils");
                 }
-                XToolkit.addToWinMap(window, this);
-            } finally {
-                xattr.dispose();
+                XToolkit.bddToWinMbp(window, this);
+            } finblly {
+                xbttr.dispose();
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    public XCreateWindowParams getDelayedParams() {
-        return delayedParams;
+    public XCrebteWindowPbrbms getDelbyedPbrbms() {
+        return delbyedPbrbms;
     }
 
-    protected String getWMName() {
-        return XToolkit.getCorrectXIDString(getClass().getName());
+    protected String getWMNbme() {
+        return XToolkit.getCorrectXIDString(getClbss().getNbme());
     }
 
-    protected void initClientLeader() {
-        XToolkit.awtLock();
+    protected void initClientLebder() {
+        XToolkit.bwtLock();
         try {
-            if (wm_client_leader == null) {
-                wm_client_leader = XAtom.get("WM_CLIENT_LEADER");
+            if (wm_client_lebder == null) {
+                wm_client_lebder = XAtom.get("WM_CLIENT_LEADER");
             }
-            wm_client_leader.setWindowProperty(this, getXAWTRootWindow());
-        } finally {
-            XToolkit.awtUnlock();
+            wm_client_lebder.setWindowProperty(this, getXAWTRootWindow());
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    static XRootWindow getXAWTRootWindow() {
-        return XRootWindow.getInstance();
+    stbtic XRootWindow getXAWTRootWindow() {
+        return XRootWindow.getInstbnce();
     }
 
     void destroy() {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
             if (hints != null) {
-                XlibWrapper.XFree(hints.pData);
+                XlibWrbpper.XFree(hints.pDbtb);
                 hints = null;
             }
-            XToolkit.removeFromWinMap(getWindow(), this);
-            XlibWrapper.XDestroyWindow(XToolkit.getDisplay(), getWindow());
-            if (XPropertyCache.isCachingSupported()) {
-                XPropertyCache.clearCache(window);
+            XToolkit.removeFromWinMbp(getWindow(), this);
+            XlibWrbpper.XDestroyWindow(XToolkit.getDisplby(), getWindow());
+            if (XPropertyCbche.isCbchingSupported()) {
+                XPropertyCbche.clebrCbche(window);
             }
             window = -1;
             if( !isDisposed() ) {
                 setDisposed( true );
             }
 
-            XAwtState.getGrabWindow(); // Magic - getGrabWindow clear state if grabbing window is disposed of.
-        } finally {
-            XToolkit.awtUnlock();
+            XAwtStbte.getGrbbWindow(); // Mbgic - getGrbbWindow clebr stbte if grbbbing window is disposed of.
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     void flush() {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XFlush(XToolkit.getDisplay());
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XFlush(XToolkit.getDisplby());
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
      * Helper function to set W
      */
-    public final void setWMHints(XWMHints hints) {
-        XToolkit.awtLock();
+    public finbl void setWMHints(XWMHints hints) {
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XSetWMHints(XToolkit.getDisplay(), getWindow(), hints.pData);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XSetWMHints(XToolkit.getDisplby(), getWindow(), hints.pDbtb);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     public XWMHints getWMHints() {
         if (wmHints == null) {
-            wmHints = new XWMHints(XlibWrapper.XAllocWMHints());
-//              XlibWrapper.XGetWMHints(XToolkit.getDisplay(),
+            wmHints = new XWMHints(XlibWrbpper.XAllocWMHints());
+//              XlibWrbpper.XGetWMHints(XToolkit.getDisplby(),
 //                                      getWindow(),
-//                                      wmHints.pData);
+//                                      wmHints.pDbtb);
         }
         return wmHints;
     }
 
 
     /*
-     * Call this method under AWTLock.
-     * The lock should be acquired untill all operations with XSizeHints are completed.
+     * Cbll this method under AWTLock.
+     * The lock should be bcquired untill bll operbtions with XSizeHints bre completed.
      */
     public XSizeHints getHints() {
         if (hints == null) {
-            long p_hints = XlibWrapper.XAllocSizeHints();
+            long p_hints = XlibWrbpper.XAllocSizeHints();
             hints = new XSizeHints(p_hints);
-//              XlibWrapper.XGetWMNormalHints(XToolkit.getDisplay(), getWindow(), p_hints, XlibWrapper.larg1);
-            // TODO: Shouldn't we listen for WM updates on this property?
+//              XlibWrbpper.XGetWMNormblHints(XToolkit.getDisplby(), getWindow(), p_hints, XlibWrbpper.lbrg1);
+            // TODO: Shouldn't we listen for WM updbtes on this property?
         }
         return hints;
     }
 
-    public void setSizeHints(long flags, int x, int y, int width, int height) {
-        if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-            insLog.finer("Setting hints, flags " + XlibWrapper.hintsToString(flags));
+    public void setSizeHints(long flbgs, int x, int y, int width, int height) {
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+            insLog.finer("Setting hints, flbgs " + XlibWrbpper.hintsToString(flbgs));
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
             XSizeHints hints = getHints();
-            // Note: if PPosition is not set in flags this means that
-            // we want to reset PPosition in hints.  This is necessary
-            // for locationByPlatform functionality
-            if ((flags & XUtilConstants.PPosition) != 0) {
+            // Note: if PPosition is not set in flbgs this mebns thbt
+            // we wbnt to reset PPosition in hints.  This is necessbry
+            // for locbtionByPlbtform functionblity
+            if ((flbgs & XUtilConstbnts.PPosition) != 0) {
                 hints.set_x(x);
                 hints.set_y(y);
             }
-            if ((flags & XUtilConstants.PSize) != 0) {
+            if ((flbgs & XUtilConstbnts.PSize) != 0) {
                 hints.set_width(width);
                 hints.set_height(height);
-            } else if ((hints.get_flags() & XUtilConstants.PSize) != 0) {
-                flags |= XUtilConstants.PSize;
+            } else if ((hints.get_flbgs() & XUtilConstbnts.PSize) != 0) {
+                flbgs |= XUtilConstbnts.PSize;
             }
-            if ((flags & XUtilConstants.PMinSize) != 0) {
+            if ((flbgs & XUtilConstbnts.PMinSize) != 0) {
                 hints.set_min_width(width);
                 hints.set_min_height(height);
-            } else if ((hints.get_flags() & XUtilConstants.PMinSize) != 0) {
-                flags |= XUtilConstants.PMinSize;
-                //Fix for 4320050: Minimum size for java.awt.Frame is not being enforced.
-                //We don't need to reset minimum size if it's already set
+            } else if ((hints.get_flbgs() & XUtilConstbnts.PMinSize) != 0) {
+                flbgs |= XUtilConstbnts.PMinSize;
+                //Fix for 4320050: Minimum size for jbvb.bwt.Frbme is not being enforced.
+                //We don't need to reset minimum size if it's blrebdy set
             }
-            if ((flags & XUtilConstants.PMaxSize) != 0) {
-                if (maxBounds != null) {
-                    if (maxBounds.width != Integer.MAX_VALUE) {
-                        hints.set_max_width(maxBounds.width);
+            if ((flbgs & XUtilConstbnts.PMbxSize) != 0) {
+                if (mbxBounds != null) {
+                    if (mbxBounds.width != Integer.MAX_VALUE) {
+                        hints.set_mbx_width(mbxBounds.width);
                     } else {
-                        hints.set_max_width(XToolkit.getDefaultScreenWidth());
+                        hints.set_mbx_width(XToolkit.getDefbultScreenWidth());
                     }
-                    if (maxBounds.height != Integer.MAX_VALUE) {
-                        hints.set_max_height(maxBounds.height);
+                    if (mbxBounds.height != Integer.MAX_VALUE) {
+                        hints.set_mbx_height(mbxBounds.height);
                     } else {
-                        hints.set_max_height(XToolkit.getDefaultScreenHeight());
+                        hints.set_mbx_height(XToolkit.getDefbultScreenHeight());
                     }
                 } else {
-                    hints.set_max_width(width);
-                    hints.set_max_height(height);
+                    hints.set_mbx_width(width);
+                    hints.set_mbx_height(height);
                 }
-            } else if ((hints.get_flags() & XUtilConstants.PMaxSize) != 0) {
-                flags |= XUtilConstants.PMaxSize;
-                if (maxBounds != null) {
-                    if (maxBounds.width != Integer.MAX_VALUE) {
-                        hints.set_max_width(maxBounds.width);
+            } else if ((hints.get_flbgs() & XUtilConstbnts.PMbxSize) != 0) {
+                flbgs |= XUtilConstbnts.PMbxSize;
+                if (mbxBounds != null) {
+                    if (mbxBounds.width != Integer.MAX_VALUE) {
+                        hints.set_mbx_width(mbxBounds.width);
                     } else {
-                        hints.set_max_width(XToolkit.getDefaultScreenWidth());
+                        hints.set_mbx_width(XToolkit.getDefbultScreenWidth());
                     }
-                    if (maxBounds.height != Integer.MAX_VALUE) {
-                        hints.set_max_height(maxBounds.height);
+                    if (mbxBounds.height != Integer.MAX_VALUE) {
+                        hints.set_mbx_height(mbxBounds.height);
                     } else {
-                        hints.set_max_height(XToolkit.getDefaultScreenHeight());
+                        hints.set_mbx_height(XToolkit.getDefbultScreenHeight());
                     }
                 } else {
-                    // Leave intact
+                    // Lebve intbct
                 }
             }
-            flags |= XUtilConstants.PWinGravity;
-            hints.set_flags(flags);
-            hints.set_win_gravity(XConstants.NorthWestGravity);
-            if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-                insLog.finer("Setting hints, resulted flags " + XlibWrapper.hintsToString(flags) +
-                             ", values " + hints);
+            flbgs |= XUtilConstbnts.PWinGrbvity;
+            hints.set_flbgs(flbgs);
+            hints.set_win_grbvity(XConstbnts.NorthWestGrbvity);
+            if (insLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                insLog.finer("Setting hints, resulted flbgs " + XlibWrbpper.hintsToString(flbgs) +
+                             ", vblues " + hints);
             }
-            XlibWrapper.XSetWMNormalHints(XToolkit.getDisplay(), getWindow(), hints.pData);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XSetWMNormblHints(XToolkit.getDisplby(), getWindow(), hints.pDbtb);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    public boolean isMinSizeSet() {
+    public boolebn isMinSizeSet() {
         XSizeHints hints = getHints();
-        long flags = hints.get_flags();
-        return ((flags & XUtilConstants.PMinSize) == XUtilConstants.PMinSize);
+        long flbgs = hints.get_flbgs();
+        return ((flbgs & XUtilConstbnts.PMinSize) == XUtilConstbnts.PMinSize);
     }
 
     /**
-     * This lock object can be used to protect instance data from concurrent access
-     * by two threads. If both state lock and AWT lock are taken, AWT Lock should be taken first.
+     * This lock object cbn be used to protect instbnce dbtb from concurrent bccess
+     * by two threbds. If both stbte lock bnd AWT lock bre tbken, AWT Lock should be tbken first.
      */
-    Object getStateLock() {
-        return state_lock;
+    Object getStbteLock() {
+        return stbte_lock;
     }
 
     public long getWindow() {
@@ -576,12 +576,12 @@ public class XBaseWindow {
         return window;
     }
 
-    public XBaseWindow getContentXWindow() {
+    public XBbseWindow getContentXWindow() {
         return XToolkit.windowToXWindow(getContentWindow());
     }
 
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+    public Rectbngle getBounds() {
+        return new Rectbngle(x, y, width, height);
     }
     public Dimension getSize() {
         return new Dimension(width, height);
@@ -589,162 +589,162 @@ public class XBaseWindow {
 
 
     public void toFront() {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XRaiseWindow(XToolkit.getDisplay(), getWindow());
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XRbiseWindow(XToolkit.getDisplby(), getWindow());
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
     public void xRequestFocus(long time) {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
+            if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
                 focusLog.finer("XSetInputFocus on " + Long.toHexString(getWindow()) + " with time " + time);
             }
-            XlibWrapper.XSetInputFocus2(XToolkit.getDisplay(), getWindow(), time);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XSetInputFocus2(XToolkit.getDisplby(), getWindow(), time);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
     public void xRequestFocus() {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
+            if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
                 focusLog.finer("XSetInputFocus on " + Long.toHexString(getWindow()));
             }
-             XlibWrapper.XSetInputFocus(XToolkit.getDisplay(), getWindow());
-        } finally {
-            XToolkit.awtUnlock();
+             XlibWrbpper.XSetInputFocus(XToolkit.getDisplby(), getWindow());
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    public static long xGetInputFocus() {
-        XToolkit.awtLock();
+    public stbtic long xGetInputFocus() {
+        XToolkit.bwtLock();
         try {
-            return XlibWrapper.XGetInputFocus(XToolkit.getDisplay());
-        } finally {
-            XToolkit.awtUnlock();
+            return XlibWrbpper.XGetInputFocus(XToolkit.getDisplby());
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    public void xSetVisible(boolean visible) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+    public void xSetVisible(boolebn visible) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("Setting visible on " + this + " to " + visible);
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
             this.visible = visible;
             if (visible) {
-                XlibWrapper.XMapWindow(XToolkit.getDisplay(), getWindow());
+                XlibWrbpper.XMbpWindow(XToolkit.getDisplby(), getWindow());
             }
             else {
-                XlibWrapper.XUnmapWindow(XToolkit.getDisplay(), getWindow());
+                XlibWrbpper.XUnmbpWindow(XToolkit.getDisplby(), getWindow());
             }
-            XlibWrapper.XFlush(XToolkit.getDisplay());
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XFlush(XToolkit.getDisplby());
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    boolean isMapped() {
-        return mapped;
+    boolebn isMbpped() {
+        return mbpped;
     }
 
-    void updateWMName() {
-        String name = getWMName();
-        XToolkit.awtLock();
+    void updbteWMNbme() {
+        String nbme = getWMNbme();
+        XToolkit.bwtLock();
         try {
-            if (name == null) {
-                name = " ";
+            if (nbme == null) {
+                nbme = " ";
             }
-            XAtom nameAtom = XAtom.get(XAtom.XA_WM_NAME);
-            nameAtom.setProperty(getWindow(), name);
-            XAtom netNameAtom = XAtom.get("_NET_WM_NAME");
-            netNameAtom.setPropertyUTF8(getWindow(), name);
-        } finally {
-            XToolkit.awtUnlock();
+            XAtom nbmeAtom = XAtom.get(XAtom.XA_WM_NAME);
+            nbmeAtom.setProperty(getWindow(), nbme);
+            XAtom netNbmeAtom = XAtom.get("_NET_WM_NAME");
+            netNbmeAtom.setPropertyUTF8(getWindow(), nbme);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
-    void setWMClass(String[] cl) {
+    void setWMClbss(String[] cl) {
         if (cl.length != 2) {
-            throw new IllegalArgumentException("WM_CLASS_NAME consists of exactly two strings");
+            throw new IllegblArgumentException("WM_CLASS_NAME consists of exbctly two strings");
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            XAtom xa = XAtom.get(XAtom.XA_WM_CLASS);
-            xa.setProperty8(getWindow(), cl[0] + '\0' + cl[1]);
-        } finally {
-            XToolkit.awtUnlock();
+            XAtom xb = XAtom.get(XAtom.XA_WM_CLASS);
+            xb.setProperty8(getWindow(), cl[0] + '\0' + cl[1]);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    boolean isVisible() {
+    boolebn isVisible() {
         return visible;
     }
 
-    static long getScreenOfWindow(long window) {
-        XToolkit.awtLock();
+    stbtic long getScreenOfWindow(long window) {
+        XToolkit.bwtLock();
         try {
-            return XlibWrapper.getScreenOfWindow(XToolkit.getDisplay(), window);
-        } finally {
-            XToolkit.awtUnlock();
+            return XlibWrbpper.getScreenOfWindow(XToolkit.getDisplby(), window);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
     long getScreenNumber() {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            return XlibWrapper.XScreenNumberOfScreen(getScreen());
-        } finally {
-            XToolkit.awtUnlock();
+            return XlibWrbpper.XScreenNumberOfScreen(getScreen());
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     long getScreen() {
-        if (screen == -1) { // Not initialized
+        if (screen == -1) { // Not initiblized
             screen = getScreenOfWindow(window);
         }
         return screen;
     }
 
-    public void xSetBounds(Rectangle bounds) {
+    public void xSetBounds(Rectbngle bounds) {
         xSetBounds(bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
     public void xSetBounds(int x, int y, int width, int height) {
         if (getWindow() == 0) {
-            insLog.warning("Attempt to resize uncreated window");
-            throw new IllegalStateException("Attempt to resize uncreated window");
+            insLog.wbrning("Attempt to resize uncrebted window");
+            throw new IllegblStbteException("Attempt to resize uncrebted window");
         }
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             insLog.fine("Setting bounds on " + this + " to (" + x + ", " + y + "), " + width + "x" + height);
         }
-        width = Math.max(MIN_SIZE, width);
-        height = Math.max(MIN_SIZE, height);
-        XToolkit.awtLock();
+        width = Mbth.mbx(MIN_SIZE, width);
+        height = Mbth.mbx(MIN_SIZE, height);
+        XToolkit.bwtLock();
         try {
-             XlibWrapper.XMoveResizeWindow(XToolkit.getDisplay(), getWindow(), x,y,width,height);
-        } finally {
-            XToolkit.awtUnlock();
+             XlibWrbpper.XMoveResizeWindow(XToolkit.getDisplby(), getWindow(), x,y,width,height);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
-     * Translate coordinates from one window into another.  Optimized
-     * for XAWT - uses cached data when possible.  Preferable over
-     * pure XTranslateCoordinates.
-     * @return coordinates relative to dst, or null if error happened
+     * Trbnslbte coordinbtes from one window into bnother.  Optimized
+     * for XAWT - uses cbched dbtb when possible.  Preferbble over
+     * pure XTrbnslbteCoordinbtes.
+     * @return coordinbtes relbtive to dst, or null if error hbppened
      */
-    static Point toOtherWindow(long src, long dst, int x, int y) {
+    stbtic Point toOtherWindow(long src, long dst, int x, int y) {
         Point rpt = new Point(0, 0);
 
-        // Check if both windows belong to XAWT - then no X calls are necessary
+        // Check if both windows belong to XAWT - then no X cblls bre necessbry
 
-        XBaseWindow srcPeer = XToolkit.windowToXWindow(src);
-        XBaseWindow dstPeer = XToolkit.windowToXWindow(dst);
+        XBbseWindow srcPeer = XToolkit.windowToXWindow(src);
+        XBbseWindow dstPeer = XToolkit.windowToXWindow(dst);
 
         if (srcPeer != null && dstPeer != null) {
-            // (x, y) is relative to src
+            // (x, y) is relbtive to src
             rpt.x = x + srcPeer.getAbsoluteX() - dstPeer.getAbsoluteX();
             rpt.y = y + srcPeer.getAbsoluteY() - dstPeer.getAbsoluteY();
         } else if (dstPeer != null && XlibUtil.isRoot(src, dstPeer.getScreenNumber())) {
@@ -756,25 +756,25 @@ public class XBaseWindow {
             rpt.x = x + srcPeer.getAbsoluteX();
             rpt.y = y + srcPeer.getAbsoluteY();
         } else {
-            rpt = XlibUtil.translateCoordinates(src, dst, new Point(x, y));
+            rpt = XlibUtil.trbnslbteCoordinbtes(src, dst, new Point(x, y));
         }
         return rpt;
     }
 
     /*
-     * Convert to global coordinates.
+     * Convert to globbl coordinbtes.
      */
-    Rectangle toGlobal(Rectangle rec) {
-        Point p = toGlobal(rec.getLocation());
-        Rectangle newRec = new Rectangle(rec);
+    Rectbngle toGlobbl(Rectbngle rec) {
+        Point p = toGlobbl(rec.getLocbtion());
+        Rectbngle newRec = new Rectbngle(rec);
         if (p != null) {
-            newRec.setLocation(p);
+            newRec.setLocbtion(p);
         }
         return newRec;
     }
 
-    Point toGlobal(Point pt) {
-        Point p = toGlobal(pt.x, pt.y);
+    Point toGlobbl(Point pt) {
+        Point p = toGlobbl(pt.x, pt.y);
         if (p != null) {
             return p;
         } else {
@@ -782,14 +782,14 @@ public class XBaseWindow {
         }
     }
 
-    Point toGlobal(int x, int y) {
+    Point toGlobbl(int x, int y) {
         long root;
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            root = XlibWrapper.RootWindow(XToolkit.getDisplay(),
+            root = XlibWrbpper.RootWindow(XToolkit.getDisplby(),
                     getScreenNumber());
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
         Point p = toOtherWindow(getContentWindow(), root, x, y);
         if (p != null) {
@@ -800,10 +800,10 @@ public class XBaseWindow {
     }
 
     /*
-     * Convert to local coordinates.
+     * Convert to locbl coordinbtes.
      */
-    Point toLocal(Point pt) {
-        Point p = toLocal(pt.x, pt.y);
+    Point toLocbl(Point pt) {
+        Point p = toLocbl(pt.x, pt.y);
         if (p != null) {
             return p;
         } else {
@@ -811,14 +811,14 @@ public class XBaseWindow {
         }
     }
 
-    Point toLocal(int x, int y) {
+    Point toLocbl(int x, int y) {
         long root;
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            root = XlibWrapper.RootWindow(XToolkit.getDisplay(),
+            root = XlibWrbpper.RootWindow(XToolkit.getDisplby(),
                     getScreenNumber());
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
         Point p = toOtherWindow(root, getContentWindow(), x, y);
         if (p != null) {
@@ -829,217 +829,217 @@ public class XBaseWindow {
     }
 
     /**
-     * We should always grab both keyboard and pointer to control event flow
-     * on popups. This also simplifies synthetic grab implementation.
-     * The active grab overrides activated automatic grab.
+     * We should blwbys grbb both keybobrd bnd pointer to control event flow
+     * on popups. This blso simplifies synthetic grbb implementbtion.
+     * The bctive grbb overrides bctivbted butombtic grbb.
      */
-    public boolean grabInput() {
-        if (grabLog.isLoggable(PlatformLogger.Level.FINE)) {
-            grabLog.fine("Grab input on {0}", this);
+    public boolebn grbbInput() {
+        if (grbbLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+            grbbLog.fine("Grbb input on {0}", this);
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            if (XAwtState.getGrabWindow() == this &&
-                XAwtState.isManualGrab())
+            if (XAwtStbte.getGrbbWindow() == this &&
+                XAwtStbte.isMbnublGrbb())
             {
-                grabLog.fine("    Already Grabbed");
+                grbbLog.fine("    Alrebdy Grbbbed");
                 return true;
             }
-            //6273031: PIT. Choice drop down does not close once it is right clicked to show a popup menu
-            //remember previous window having grab and if it's not null ungrab it.
-            XBaseWindow prevGrabWindow = XAwtState.getGrabWindow();
-            final int eventMask = (int) (XConstants.ButtonPressMask | XConstants.ButtonReleaseMask
-                | XConstants.EnterWindowMask | XConstants.LeaveWindowMask | XConstants.PointerMotionMask
-                | XConstants.ButtonMotionMask);
-            final int ownerEvents = 1;
+            //6273031: PIT. Choice drop down does not close once it is right clicked to show b popup menu
+            //remember previous window hbving grbb bnd if it's not null ungrbb it.
+            XBbseWindow prevGrbbWindow = XAwtStbte.getGrbbWindow();
+            finbl int eventMbsk = (int) (XConstbnts.ButtonPressMbsk | XConstbnts.ButtonRelebseMbsk
+                | XConstbnts.EnterWindowMbsk | XConstbnts.LebveWindowMbsk | XConstbnts.PointerMotionMbsk
+                | XConstbnts.ButtonMotionMbsk);
+            finbl int ownerEvents = 1;
 
 
-            //6714678: IDE (Netbeans, Eclipse, JDeveloper) Debugger hangs
+            //6714678: IDE (Netbebns, Eclipse, JDeveloper) Debugger hbngs
             //process on Linux
-            //The user must pass the sun.awt.disablegrab property to disable
-            //taking grabs. This prevents hanging of the GUI when a breakpoint
-            //is hit while a popup window taking the grab is open.
-            if (!XToolkit.getSunAwtDisableGrab()) {
-                int ptrGrab = XlibWrapper.XGrabPointer(XToolkit.getDisplay(),
-                        getContentWindow(), ownerEvents, eventMask, XConstants.GrabModeAsync,
-                        XConstants.GrabModeAsync, XConstants.None, (XWM.isMotif() ? XToolkit.arrowCursor : XConstants.None),
-                        XConstants.CurrentTime);
-                // Check grab results to be consistent with X server grab
-                if (ptrGrab != XConstants.GrabSuccess) {
-                    XlibWrapper.XUngrabPointer(XToolkit.getDisplay(), XConstants.CurrentTime);
-                    XAwtState.setGrabWindow(null);
-                    grabLog.fine("    Grab Failure - mouse");
-                    return false;
+            //The user must pbss the sun.bwt.disbblegrbb property to disbble
+            //tbking grbbs. This prevents hbnging of the GUI when b brebkpoint
+            //is hit while b popup window tbking the grbb is open.
+            if (!XToolkit.getSunAwtDisbbleGrbb()) {
+                int ptrGrbb = XlibWrbpper.XGrbbPointer(XToolkit.getDisplby(),
+                        getContentWindow(), ownerEvents, eventMbsk, XConstbnts.GrbbModeAsync,
+                        XConstbnts.GrbbModeAsync, XConstbnts.None, (XWM.isMotif() ? XToolkit.brrowCursor : XConstbnts.None),
+                        XConstbnts.CurrentTime);
+                // Check grbb results to be consistent with X server grbb
+                if (ptrGrbb != XConstbnts.GrbbSuccess) {
+                    XlibWrbpper.XUngrbbPointer(XToolkit.getDisplby(), XConstbnts.CurrentTime);
+                    XAwtStbte.setGrbbWindow(null);
+                    grbbLog.fine("    Grbb Fbilure - mouse");
+                    return fblse;
                 }
 
-                int keyGrab = XlibWrapper.XGrabKeyboard(XToolkit.getDisplay(),
-                        getContentWindow(), ownerEvents, XConstants.GrabModeAsync, XConstants.GrabModeAsync,
-                        XConstants.CurrentTime);
-                if (keyGrab != XConstants.GrabSuccess) {
-                    XlibWrapper.XUngrabPointer(XToolkit.getDisplay(), XConstants.CurrentTime);
-                    XlibWrapper.XUngrabKeyboard(XToolkit.getDisplay(), XConstants.CurrentTime);
-                    XAwtState.setGrabWindow(null);
-                    grabLog.fine("    Grab Failure - keyboard");
-                    return false;
+                int keyGrbb = XlibWrbpper.XGrbbKeybobrd(XToolkit.getDisplby(),
+                        getContentWindow(), ownerEvents, XConstbnts.GrbbModeAsync, XConstbnts.GrbbModeAsync,
+                        XConstbnts.CurrentTime);
+                if (keyGrbb != XConstbnts.GrbbSuccess) {
+                    XlibWrbpper.XUngrbbPointer(XToolkit.getDisplby(), XConstbnts.CurrentTime);
+                    XlibWrbpper.XUngrbbKeybobrd(XToolkit.getDisplby(), XConstbnts.CurrentTime);
+                    XAwtStbte.setGrbbWindow(null);
+                    grbbLog.fine("    Grbb Fbilure - keybobrd");
+                    return fblse;
                 }
             }
-            if (prevGrabWindow != null) {
-                prevGrabWindow.ungrabInputImpl();
+            if (prevGrbbWindow != null) {
+                prevGrbbWindow.ungrbbInputImpl();
             }
-            XAwtState.setGrabWindow(this);
-            grabLog.fine("    Grab - success");
+            XAwtStbte.setGrbbWindow(this);
+            grbbLog.fine("    Grbb - success");
             return true;
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    static void ungrabInput() {
-        XToolkit.awtLock();
+    stbtic void ungrbbInput() {
+        XToolkit.bwtLock();
         try {
-            XBaseWindow grabWindow = XAwtState.getGrabWindow();
-            if (grabLog.isLoggable(PlatformLogger.Level.FINE)) {
-                grabLog.fine("UnGrab input on {0}", grabWindow);
+            XBbseWindow grbbWindow = XAwtStbte.getGrbbWindow();
+            if (grbbLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+                grbbLog.fine("UnGrbb input on {0}", grbbWindow);
             }
-            if (grabWindow != null) {
-                grabWindow.ungrabInputImpl();
-                if (!XToolkit.getSunAwtDisableGrab()) {
-                    XlibWrapper.XUngrabPointer(XToolkit.getDisplay(), XConstants.CurrentTime);
-                    XlibWrapper.XUngrabKeyboard(XToolkit.getDisplay(), XConstants.CurrentTime);
+            if (grbbWindow != null) {
+                grbbWindow.ungrbbInputImpl();
+                if (!XToolkit.getSunAwtDisbbleGrbb()) {
+                    XlibWrbpper.XUngrbbPointer(XToolkit.getDisplby(), XConstbnts.CurrentTime);
+                    XlibWrbpper.XUngrbbKeybobrd(XToolkit.getDisplby(), XConstbnts.CurrentTime);
                 }
-                XAwtState.setGrabWindow(null);
-                // we need to call XFlush() here to force ungrab
-                // see 6384219 for details
-                XlibWrapper.XFlush(XToolkit.getDisplay());
+                XAwtStbte.setGrbbWindow(null);
+                // we need to cbll XFlush() here to force ungrbb
+                // see 6384219 for detbils
+                XlibWrbpper.XFlush(XToolkit.getDisplby());
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    // called from ungrabInput, used in popup windows to hide theirselfs in ungrabbing
-    void ungrabInputImpl() {
+    // cblled from ungrbbInput, used in popup windows to hide theirselfs in ungrbbbing
+    void ungrbbInputImpl() {
     }
 
-    static void checkSecurity() {
-        if (XToolkit.isSecurityWarningEnabled() && XToolkit.isToolkitThread()) {
-            StackTraceElement stack[] = (new Throwable()).getStackTrace();
-            log.warning(stack[1] + ": Security violation: calling user code on toolkit thread");
+    stbtic void checkSecurity() {
+        if (XToolkit.isSecurityWbrningEnbbled() && XToolkit.isToolkitThrebd()) {
+            StbckTrbceElement stbck[] = (new Throwbble()).getStbckTrbce();
+            log.wbrning(stbck[1] + ": Security violbtion: cblling user code on toolkit threbd");
         }
     }
 
     public Set<Long> getChildren() {
-        synchronized (getStateLock()) {
-            return new HashSet<Long>(children);
+        synchronized (getStbteLock()) {
+            return new HbshSet<Long>(children);
         }
     }
 
-    // -------------- Event handling ----------------
-    public void handleMapNotifyEvent(XEvent xev) {
-        mapped = true;
+    // -------------- Event hbndling ----------------
+    public void hbndleMbpNotifyEvent(XEvent xev) {
+        mbpped = true;
     }
-    public void handleUnmapNotifyEvent(XEvent xev) {
-        mapped = false;
+    public void hbndleUnmbpNotifyEvent(XEvent xev) {
+        mbpped = fblse;
     }
-    public void handleReparentNotifyEvent(XEvent xev) {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINER)) {
-            XReparentEvent msg = xev.get_xreparent();
+    public void hbndleRepbrentNotifyEvent(XEvent xev) {
+        if (eventLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+            XRepbrentEvent msg = xev.get_xrepbrent();
             eventLog.finer(msg.toString());
         }
     }
-    public void handlePropertyNotify(XEvent xev) {
+    public void hbndlePropertyNotify(XEvent xev) {
         XPropertyEvent msg = xev.get_xproperty();
-        if (XPropertyCache.isCachingSupported()) {
-            XPropertyCache.clearCache(window, XAtom.get(msg.get_atom()));
+        if (XPropertyCbche.isCbchingSupported()) {
+            XPropertyCbche.clebrCbche(window, XAtom.get(msg.get_btom()));
         }
-        if (eventLog.isLoggable(PlatformLogger.Level.FINER)) {
+        if (eventLog.isLoggbble(PlbtformLogger.Level.FINER)) {
             eventLog.finer("{0}", msg);
         }
     }
 
-    public void handleDestroyNotify(XEvent xev) {
-        XAnyEvent xany = xev.get_xany();
-        if (xany.get_window() == getWindow()) {
-            XToolkit.removeFromWinMap(getWindow(), this);
-            if (XPropertyCache.isCachingSupported()) {
-                XPropertyCache.clearCache(getWindow());
+    public void hbndleDestroyNotify(XEvent xev) {
+        XAnyEvent xbny = xev.get_xbny();
+        if (xbny.get_window() == getWindow()) {
+            XToolkit.removeFromWinMbp(getWindow(), this);
+            if (XPropertyCbche.isCbchingSupported()) {
+                XPropertyCbche.clebrCbche(getWindow());
             }
         }
-        if (xany.get_window() != getWindow()) {
-            synchronized (getStateLock()) {
-                children.remove(xany.get_window());
-            }
-        }
-    }
-
-    public void handleCreateNotify(XEvent xev) {
-        XAnyEvent xany = xev.get_xany();
-        if (xany.get_window() != getWindow()) {
-            synchronized (getStateLock()) {
-                children.add(xany.get_window());
+        if (xbny.get_window() != getWindow()) {
+            synchronized (getStbteLock()) {
+                children.remove(xbny.get_window());
             }
         }
     }
 
-    public void handleClientMessage(XEvent xev) {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINER)) {
-            XClientMessageEvent msg = xev.get_xclient();
+    public void hbndleCrebteNotify(XEvent xev) {
+        XAnyEvent xbny = xev.get_xbny();
+        if (xbny.get_window() != getWindow()) {
+            synchronized (getStbteLock()) {
+                children.bdd(xbny.get_window());
+            }
+        }
+    }
+
+    public void hbndleClientMessbge(XEvent xev) {
+        if (eventLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+            XClientMessbgeEvent msg = xev.get_xclient();
             eventLog.finer(msg.toString());
         }
     }
 
-    public void handleVisibilityEvent(XEvent xev) {
+    public void hbndleVisibilityEvent(XEvent xev) {
     }
-    public void handleKeyPress(XEvent xev) {
+    public void hbndleKeyPress(XEvent xev) {
     }
-    public void handleKeyRelease(XEvent xev) {
+    public void hbndleKeyRelebse(XEvent xev) {
     }
-    public void handleExposeEvent(XEvent xev) {
+    public void hbndleExposeEvent(XEvent xev) {
     }
     /**
-     * Activate automatic grab on first ButtonPress,
-     * deactivate on full mouse release
+     * Activbte butombtic grbb on first ButtonPress,
+     * debctivbte on full mouse relebse
      */
-    public void handleButtonPressRelease(XEvent xev) {
+    public void hbndleButtonPressRelebse(XEvent xev) {
         XButtonEvent xbe = xev.get_xbutton();
         /*
-         * Ignore the buttons above 20 due to the bit limit for
+         * Ignore the buttons bbove 20 due to the bit limit for
          * InputEvent.BUTTON_DOWN_MASK.
          * One more bit is reserved for FIRST_HIGH_BIT.
          */
         if (xbe.get_button() > SunToolkit.MAX_BUTTONS_SUPPORTED) {
             return;
         }
-        int buttonState = 0;
-        buttonState = xbe.get_state() & XConstants.ALL_BUTTONS_MASK;
+        int buttonStbte = 0;
+        buttonStbte = xbe.get_stbte() & XConstbnts.ALL_BUTTONS_MASK;
         switch (xev.get_type()) {
-        case XConstants.ButtonPress:
-            if (buttonState == 0) {
-                XWindowPeer parent = getToplevelXWindow();
+        cbse XConstbnts.ButtonPress:
+            if (buttonStbte == 0) {
+                XWindowPeer pbrent = getToplevelXWindow();
                 // See 6385277, 6981400.
-                if (parent != null && parent.isFocusableWindow()) {
-                    // A click in a client area drops the actual focused window retaining.
-                    parent.setActualFocusedWindow(null);
-                    parent.requestWindowFocus(xbe.get_time(), true);
+                if (pbrent != null && pbrent.isFocusbbleWindow()) {
+                    // A click in b client breb drops the bctubl focused window retbining.
+                    pbrent.setActublFocusedWindow(null);
+                    pbrent.requestWindowFocus(xbe.get_time(), true);
                 }
-                XAwtState.setAutoGrabWindow(this);
+                XAwtStbte.setAutoGrbbWindow(this);
             }
-            break;
-        case XConstants.ButtonRelease:
-            if (isFullRelease(buttonState, xbe.get_button())) {
-                XAwtState.setAutoGrabWindow(null);
+            brebk;
+        cbse XConstbnts.ButtonRelebse:
+            if (isFullRelebse(buttonStbte, xbe.get_button())) {
+                XAwtStbte.setAutoGrbbWindow(null);
             }
-            break;
+            brebk;
         }
     }
-    public void handleMotionNotify(XEvent xev) {
+    public void hbndleMotionNotify(XEvent xev) {
     }
-    public void handleXCrossingEvent(XEvent xev) {
+    public void hbndleXCrossingEvent(XEvent xev) {
     }
-    public void handleConfigureNotifyEvent(XEvent xev) {
+    public void hbndleConfigureNotifyEvent(XEvent xev) {
         XConfigureEvent xe = xev.get_xconfigure();
-        if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINER)) {
             insLog.finer("Configure, {0}", xe);
         }
         x = xe.get_x();
@@ -1048,51 +1048,51 @@ public class XBaseWindow {
         height = xe.get_height();
     }
     /**
-     * Checks ButtonRelease released all Mouse buttons
+     * Checks ButtonRelebse relebsed bll Mouse buttons
      */
-    static boolean isFullRelease(int buttonState, int button) {
-        final int buttonsNumber = XToolkit.getNumberOfButtonsForMask();
+    stbtic boolebn isFullRelebse(int buttonStbte, int button) {
+        finbl int buttonsNumber = XToolkit.getNumberOfButtonsForMbsk();
 
         if (button < 0 || button > buttonsNumber) {
-            return buttonState == 0;
+            return buttonStbte == 0;
         } else {
-            return buttonState == XlibUtil.getButtonMask(button);
+            return buttonStbte == XlibUtil.getButtonMbsk(button);
         }
     }
 
-    static boolean isGrabbedEvent(XEvent ev, XBaseWindow target) {
+    stbtic boolebn isGrbbbedEvent(XEvent ev, XBbseWindow tbrget) {
         switch (ev.get_type()) {
-          case XConstants.ButtonPress:
-          case XConstants.ButtonRelease:
-          case XConstants.MotionNotify:
-          case XConstants.KeyPress:
-          case XConstants.KeyRelease:
+          cbse XConstbnts.ButtonPress:
+          cbse XConstbnts.ButtonRelebse:
+          cbse XConstbnts.MotionNotify:
+          cbse XConstbnts.KeyPress:
+          cbse XConstbnts.KeyRelebse:
               return true;
-          case XConstants.LeaveNotify:
-          case XConstants.EnterNotify:
-              // We shouldn't dispatch this events to the grabbed components (see 6317481)
-              // But this logic is important if the grabbed component is top-level (see realSync)
-              return (target instanceof XWindowPeer);
-          default:
-              return false;
+          cbse XConstbnts.LebveNotify:
+          cbse XConstbnts.EnterNotify:
+              // We shouldn't dispbtch this events to the grbbbed components (see 6317481)
+              // But this logic is importbnt if the grbbbed component is top-level (see reblSync)
+              return (tbrget instbnceof XWindowPeer);
+          defbult:
+              return fblse;
         }
     }
     /**
-     * Dispatches event to the grab Window or event source window depending
-     * on whether the grab is active and on the event type
+     * Dispbtches event to the grbb Window or event source window depending
+     * on whether the grbb is bctive bnd on the event type
      */
-    static void dispatchToWindow(XEvent ev) {
-        XBaseWindow target = XAwtState.getGrabWindow();
-        if (target == null || !isGrabbedEvent(ev, target)) {
-            target = XToolkit.windowToXWindow(ev.get_xany().get_window());
+    stbtic void dispbtchToWindow(XEvent ev) {
+        XBbseWindow tbrget = XAwtStbte.getGrbbWindow();
+        if (tbrget == null || !isGrbbbedEvent(ev, tbrget)) {
+            tbrget = XToolkit.windowToXWindow(ev.get_xbny().get_window());
         }
-        if (target != null && target.checkInitialised()) {
-            target.dispatchEvent(ev);
+        if (tbrget != null && tbrget.checkInitiblised()) {
+            tbrget.dispbtchEvent(ev);
         }
     }
 
-    public void dispatchEvent(XEvent xev) {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINEST)) {
+    public void dispbtchEvent(XEvent xev) {
+        if (eventLog.isLoggbble(PlbtformLogger.Level.FINEST)) {
             eventLog.finest(xev.toString());
         }
         int type = xev.get_type();
@@ -1103,59 +1103,59 @@ public class XBaseWindow {
 
         switch (type)
         {
-          case XConstants.VisibilityNotify:
-              handleVisibilityEvent(xev);
-              break;
-          case XConstants.ClientMessage:
-              handleClientMessage(xev);
-              break;
-          case XConstants.Expose :
-          case XConstants.GraphicsExpose :
-              handleExposeEvent(xev);
-              break;
-          case XConstants.ButtonPress:
-          case XConstants.ButtonRelease:
-              handleButtonPressRelease(xev);
-              break;
+          cbse XConstbnts.VisibilityNotify:
+              hbndleVisibilityEvent(xev);
+              brebk;
+          cbse XConstbnts.ClientMessbge:
+              hbndleClientMessbge(xev);
+              brebk;
+          cbse XConstbnts.Expose :
+          cbse XConstbnts.GrbphicsExpose :
+              hbndleExposeEvent(xev);
+              brebk;
+          cbse XConstbnts.ButtonPress:
+          cbse XConstbnts.ButtonRelebse:
+              hbndleButtonPressRelebse(xev);
+              brebk;
 
-          case XConstants.MotionNotify:
-              handleMotionNotify(xev);
-              break;
-          case XConstants.KeyPress:
-              handleKeyPress(xev);
-              break;
-          case XConstants.KeyRelease:
-              handleKeyRelease(xev);
-              break;
-          case XConstants.EnterNotify:
-          case XConstants.LeaveNotify:
-              handleXCrossingEvent(xev);
-              break;
-          case XConstants.ConfigureNotify:
-              handleConfigureNotifyEvent(xev);
-              break;
-          case XConstants.MapNotify:
-              handleMapNotifyEvent(xev);
-              break;
-          case XConstants.UnmapNotify:
-              handleUnmapNotifyEvent(xev);
-              break;
-          case XConstants.ReparentNotify:
-              handleReparentNotifyEvent(xev);
-              break;
-          case XConstants.PropertyNotify:
-              handlePropertyNotify(xev);
-              break;
-          case XConstants.DestroyNotify:
-              handleDestroyNotify(xev);
-              break;
-          case XConstants.CreateNotify:
-              handleCreateNotify(xev);
-              break;
+          cbse XConstbnts.MotionNotify:
+              hbndleMotionNotify(xev);
+              brebk;
+          cbse XConstbnts.KeyPress:
+              hbndleKeyPress(xev);
+              brebk;
+          cbse XConstbnts.KeyRelebse:
+              hbndleKeyRelebse(xev);
+              brebk;
+          cbse XConstbnts.EnterNotify:
+          cbse XConstbnts.LebveNotify:
+              hbndleXCrossingEvent(xev);
+              brebk;
+          cbse XConstbnts.ConfigureNotify:
+              hbndleConfigureNotifyEvent(xev);
+              brebk;
+          cbse XConstbnts.MbpNotify:
+              hbndleMbpNotifyEvent(xev);
+              brebk;
+          cbse XConstbnts.UnmbpNotify:
+              hbndleUnmbpNotifyEvent(xev);
+              brebk;
+          cbse XConstbnts.RepbrentNotify:
+              hbndleRepbrentNotifyEvent(xev);
+              brebk;
+          cbse XConstbnts.PropertyNotify:
+              hbndlePropertyNotify(xev);
+              brebk;
+          cbse XConstbnts.DestroyNotify:
+              hbndleDestroyNotify(xev);
+              brebk;
+          cbse XConstbnts.CrebteNotify:
+              hbndleCrebteNotify(xev);
+              brebk;
         }
     }
-    protected boolean isEventDisabled(XEvent e) {
-        return false;
+    protected boolebn isEventDisbbled(XEvent e) {
+        return fblse;
     }
 
     int getX() {
@@ -1174,26 +1174,26 @@ public class XBaseWindow {
         return height;
     }
 
-    void setDisposed(boolean d) {
+    void setDisposed(boolebn d) {
         disposed = d;
     }
 
-    boolean isDisposed() {
+    boolebn isDisposed() {
         return disposed;
     }
 
     public int getAbsoluteX() {
-        XBaseWindow pw = getParentWindow();
+        XBbseWindow pw = getPbrentWindow();
         if (pw != null) {
             return pw.getAbsoluteX() + getX();
         } else {
-            // Overridden for top-levels as their (x,y) is Java (x, y), not native location
+            // Overridden for top-levels bs their (x,y) is Jbvb (x, y), not nbtive locbtion
             return getX();
         }
     }
 
     public int getAbsoluteY() {
-        XBaseWindow pw = getParentWindow();
+        XBbseWindow pw = getPbrentWindow();
         if (pw != null) {
             return pw.getAbsoluteY() + getY();
         } else {
@@ -1201,14 +1201,14 @@ public class XBaseWindow {
         }
     }
 
-    public XBaseWindow getParentWindow() {
-        return parentWindow;
+    public XBbseWindow getPbrentWindow() {
+        return pbrentWindow;
     }
 
     public XWindowPeer getToplevelXWindow() {
-        XBaseWindow bw = this;
-        while (bw != null && !(bw instanceof XWindowPeer)) {
-            bw = bw.getParentWindow();
+        XBbseWindow bw = this;
+        while (bw != null && !(bw instbnceof XWindowPeer)) {
+            bw = bw.getPbrentWindow();
         }
         return (XWindowPeer)bw;
     }
@@ -1217,16 +1217,16 @@ public class XBaseWindow {
     }
 
     /**
-     * Returns whether the given point is inside of the window.  Coordinates are local.
+     * Returns whether the given point is inside of the window.  Coordinbtes bre locbl.
      */
-    public boolean contains(int x, int y) {
+    public boolebn contbins(int x, int y) {
         return x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
     }
 
     /**
-     * Returns whether the given point is inside of the window.  Coordinates are global.
+     * Returns whether the given point is inside of the window.  Coordinbtes bre globbl.
      */
-    public boolean containsGlobal(int x, int y) {
+    public boolebn contbinsGlobbl(int x, int y) {
         return x >= getAbsoluteX() && y >= getAbsoluteY() && x < (getAbsoluteX()+getWidth()) && y < (getAbsoluteY()+getHeight());
     }
 

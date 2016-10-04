@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.Collections;
+import jbvb.util.Dbte;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvbx.security.buth.x500.X500Principbl;
 
 import sun.security.util.ObjectIdentifier;
-import sun.security.x509.InvalidityDateExtension;
+import sun.security.x509.InvblidityDbteExtension;
 
 /**
- * An exception that indicates an X.509 certificate is revoked. A
- * {@code CertificateRevokedException} contains additional information
- * about the revoked certificate, such as the date on which the
- * certificate was revoked and the reason it was revoked.
+ * An exception thbt indicbtes bn X.509 certificbte is revoked. A
+ * {@code CertificbteRevokedException} contbins bdditionbl informbtion
+ * bbout the revoked certificbte, such bs the dbte on which the
+ * certificbte wbs revoked bnd the rebson it wbs revoked.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  * @since 1.7
- * @see CertPathValidatorException
+ * @see CertPbthVblidbtorException
  */
-public class CertificateRevokedException extends CertificateException {
+public clbss CertificbteRevokedException extends CertificbteException {
 
-    private static final long serialVersionUID = 7839996631571608627L;
+    privbte stbtic finbl long seriblVersionUID = 7839996631571608627L;
 
     /**
-     * @serial the date on which the certificate was revoked
+     * @seribl the dbte on which the certificbte wbs revoked
      */
-    private Date revocationDate;
+    privbte Dbte revocbtionDbte;
     /**
-     * @serial the revocation reason
+     * @seribl the revocbtion rebson
      */
-    private final CRLReason reason;
+    privbte finbl CRLRebson rebson;
     /**
-     * @serial the {@code X500Principal} that represents the name of the
-     * authority that signed the certificate's revocation status information
+     * @seribl the {@code X500Principbl} thbt represents the nbme of the
+     * buthority thbt signed the certificbte's revocbtion stbtus informbtion
      */
-    private final X500Principal authority;
+    privbte finbl X500Principbl buthority;
 
-    private transient Map<String, Extension> extensions;
+    privbte trbnsient Mbp<String, Extension> extensions;
 
     /**
-     * Constructs a {@code CertificateRevokedException} with
-     * the specified revocation date, reason code, authority name, and map
+     * Constructs b {@code CertificbteRevokedException} with
+     * the specified revocbtion dbte, rebson code, buthority nbme, bnd mbp
      * of extensions.
      *
-     * @param revocationDate the date on which the certificate was revoked. The
-     *    date is copied to protect against subsequent modification.
-     * @param reason the revocation reason
-     * @param extensions a map of X.509 Extensions. Each key is an OID String
-     *    that maps to the corresponding Extension. The map is copied to
-     *    prevent subsequent modification.
-     * @param authority the {@code X500Principal} that represents the name
-     *    of the authority that signed the certificate's revocation status
-     *    information
-     * @throws NullPointerException if {@code revocationDate},
-     *    {@code reason}, {@code authority}, or
+     * @pbrbm revocbtionDbte the dbte on which the certificbte wbs revoked. The
+     *    dbte is copied to protect bgbinst subsequent modificbtion.
+     * @pbrbm rebson the revocbtion rebson
+     * @pbrbm extensions b mbp of X.509 Extensions. Ebch key is bn OID String
+     *    thbt mbps to the corresponding Extension. The mbp is copied to
+     *    prevent subsequent modificbtion.
+     * @pbrbm buthority the {@code X500Principbl} thbt represents the nbme
+     *    of the buthority thbt signed the certificbte's revocbtion stbtus
+     *    informbtion
+     * @throws NullPointerException if {@code revocbtionDbte},
+     *    {@code rebson}, {@code buthority}, or
      *    {@code extensions} is {@code null}
      */
-    public CertificateRevokedException(Date revocationDate, CRLReason reason,
-        X500Principal authority, Map<String, Extension> extensions) {
-        if (revocationDate == null || reason == null || authority == null ||
+    public CertificbteRevokedException(Dbte revocbtionDbte, CRLRebson rebson,
+        X500Principbl buthority, Mbp<String, Extension> extensions) {
+        if (revocbtionDbte == null || rebson == null || buthority == null ||
             extensions == null) {
             throw new NullPointerException();
         }
-        this.revocationDate = new Date(revocationDate.getTime());
-        this.reason = reason;
-        this.authority = authority;
-        this.extensions = new HashMap<String, Extension>(extensions);
+        this.revocbtionDbte = new Dbte(revocbtionDbte.getTime());
+        this.rebson = rebson;
+        this.buthority = buthority;
+        this.extensions = new HbshMbp<String, Extension>(extensions);
     }
 
     /**
-     * Returns the date on which the certificate was revoked. A new copy is
-     * returned each time the method is invoked to protect against subsequent
-     * modification.
+     * Returns the dbte on which the certificbte wbs revoked. A new copy is
+     * returned ebch time the method is invoked to protect bgbinst subsequent
+     * modificbtion.
      *
-     * @return the revocation date
+     * @return the revocbtion dbte
      */
-    public Date getRevocationDate() {
-        return (Date) revocationDate.clone();
+    public Dbte getRevocbtionDbte() {
+        return (Dbte) revocbtionDbte.clone();
     }
 
     /**
-     * Returns the reason the certificate was revoked.
+     * Returns the rebson the certificbte wbs revoked.
      *
-     * @return the revocation reason
+     * @return the revocbtion rebson
      */
-    public CRLReason getRevocationReason() {
-        return reason;
+    public CRLRebson getRevocbtionRebson() {
+        return rebson;
     }
 
     /**
-     * Returns the name of the authority that signed the certificate's
-     * revocation status information.
+     * Returns the nbme of the buthority thbt signed the certificbte's
+     * revocbtion stbtus informbtion.
      *
-     * @return the {@code X500Principal} that represents the name of the
-     *     authority that signed the certificate's revocation status information
+     * @return the {@code X500Principbl} thbt represents the nbme of the
+     *     buthority thbt signed the certificbte's revocbtion stbtus informbtion
      */
-    public X500Principal getAuthorityName() {
-        return authority;
+    public X500Principbl getAuthorityNbme() {
+        return buthority;
     }
 
     /**
-     * Returns the invalidity date, as specified in the Invalidity Date
-     * extension of this {@code CertificateRevokedException}. The
-     * invalidity date is the date on which it is known or suspected that the
-     * private key was compromised or that the certificate otherwise became
-     * invalid. This implementation calls {@code getExtensions()} and
-     * checks the returned map for an entry for the Invalidity Date extension
-     * OID ("2.5.29.24"). If found, it returns the invalidity date in the
-     * extension; otherwise null. A new Date object is returned each time the
-     * method is invoked to protect against subsequent modification.
+     * Returns the invblidity dbte, bs specified in the Invblidity Dbte
+     * extension of this {@code CertificbteRevokedException}. The
+     * invblidity dbte is the dbte on which it is known or suspected thbt the
+     * privbte key wbs compromised or thbt the certificbte otherwise becbme
+     * invblid. This implementbtion cblls {@code getExtensions()} bnd
+     * checks the returned mbp for bn entry for the Invblidity Dbte extension
+     * OID ("2.5.29.24"). If found, it returns the invblidity dbte in the
+     * extension; otherwise null. A new Dbte object is returned ebch time the
+     * method is invoked to protect bgbinst subsequent modificbtion.
      *
-     * @return the invalidity date, or {@code null} if not specified
+     * @return the invblidity dbte, or {@code null} if not specified
      */
-    public Date getInvalidityDate() {
+    public Dbte getInvblidityDbte() {
         Extension ext = getExtensions().get("2.5.29.24");
         if (ext == null) {
             return null;
         } else {
             try {
-                Date invalidity = InvalidityDateExtension.toImpl(ext).get("DATE");
-                return new Date(invalidity.getTime());
-            } catch (IOException ioe) {
+                Dbte invblidity = InvblidityDbteExtension.toImpl(ext).get("DATE");
+                return new Dbte(invblidity.getTime());
+            } cbtch (IOException ioe) {
                 return null;
             }
         }
     }
 
     /**
-     * Returns a map of X.509 extensions containing additional information
-     * about the revoked certificate, such as the Invalidity Date
-     * Extension. Each key is an OID String that maps to the corresponding
+     * Returns b mbp of X.509 extensions contbining bdditionbl informbtion
+     * bbout the revoked certificbte, such bs the Invblidity Dbte
+     * Extension. Ebch key is bn OID String thbt mbps to the corresponding
      * Extension.
      *
-     * @return an unmodifiable map of X.509 extensions, or an empty map
-     *    if there are no extensions
+     * @return bn unmodifibble mbp of X.509 extensions, or bn empty mbp
+     *    if there bre no extensions
      */
-    public Map<String, Extension> getExtensions() {
-        return Collections.unmodifiableMap(extensions);
+    public Mbp<String, Extension> getExtensions() {
+        return Collections.unmodifibbleMbp(extensions);
     }
 
     @Override
-    public String getMessage() {
-        return "Certificate has been revoked, reason: "
-               + reason + ", revocation date: " + revocationDate
-               + ", authority: " + authority + ", extensions: " + extensions;
+    public String getMessbge() {
+        return "Certificbte hbs been revoked, rebson: "
+               + rebson + ", revocbtion dbte: " + revocbtionDbte
+               + ", buthority: " + buthority + ", extensions: " + extensions;
     }
 
     /**
-     * Serialize this {@code CertificateRevokedException} instance.
+     * Seriblize this {@code CertificbteRevokedException} instbnce.
      *
-     * @serialData the size of the extensions map (int), followed by all of
-     * the extensions in the map, in no particular order. For each extension,
-     * the following data is emitted: the OID String (Object), the criticality
-     * flag (boolean), the length of the encoded extension value byte array
-     * (int), and the encoded extension value bytes.
+     * @seriblDbtb the size of the extensions mbp (int), followed by bll of
+     * the extensions in the mbp, in no pbrticulbr order. For ebch extension,
+     * the following dbtb is emitted: the OID String (Object), the criticblity
+     * flbg (boolebn), the length of the encoded extension vblue byte brrby
+     * (int), bnd the encoded extension vblue bytes.
      */
-    private void writeObject(ObjectOutputStream oos) throws IOException {
-        // Write out the non-transient fields
-        // (revocationDate, reason, authority)
-        oos.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm oos) throws IOException {
+        // Write out the non-trbnsient fields
+        // (revocbtionDbte, rebson, buthority)
+        oos.defbultWriteObject();
 
-        // Write out the size (number of mappings) of the extensions map
+        // Write out the size (number of mbppings) of the extensions mbp
         oos.writeInt(extensions.size());
 
-        // For each extension in the map, the following are emitted (in order):
-        // the OID String (Object), the criticality flag (boolean), the length
-        // of the encoded extension value byte array (int), and the encoded
-        // extension value byte array. The extensions themselves are emitted
-        // in no particular order.
-        for (Map.Entry<String, Extension> entry : extensions.entrySet()) {
-            Extension ext = entry.getValue();
+        // For ebch extension in the mbp, the following bre emitted (in order):
+        // the OID String (Object), the criticblity flbg (boolebn), the length
+        // of the encoded extension vblue byte brrby (int), bnd the encoded
+        // extension vblue byte brrby. The extensions themselves bre emitted
+        // in no pbrticulbr order.
+        for (Mbp.Entry<String, Extension> entry : extensions.entrySet()) {
+            Extension ext = entry.getVblue();
             oos.writeObject(ext.getId());
-            oos.writeBoolean(ext.isCritical());
-            byte[] extVal = ext.getValue();
-            oos.writeInt(extVal.length);
-            oos.write(extVal);
+            oos.writeBoolebn(ext.isCriticbl());
+            byte[] extVbl = ext.getVblue();
+            oos.writeInt(extVbl.length);
+            oos.write(extVbl);
         }
     }
 
     /**
-     * Deserialize the {@code CertificateRevokedException} instance.
+     * Deseriblize the {@code CertificbteRevokedException} instbnce.
      */
-    private void readObject(ObjectInputStream ois)
-        throws IOException, ClassNotFoundException {
-        // Read in the non-transient fields
-        // (revocationDate, reason, authority)
-        ois.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm ois)
+        throws IOException, ClbssNotFoundException {
+        // Rebd in the non-trbnsient fields
+        // (revocbtionDbte, rebson, buthority)
+        ois.defbultRebdObject();
 
-        // Defensively copy the revocation date
-        revocationDate = new Date(revocationDate.getTime());
+        // Defensively copy the revocbtion dbte
+        revocbtionDbte = new Dbte(revocbtionDbte.getTime());
 
-        // Read in the size (number of mappings) of the extensions map
-        // and create the extensions map
-        int size = ois.readInt();
+        // Rebd in the size (number of mbppings) of the extensions mbp
+        // bnd crebte the extensions mbp
+        int size = ois.rebdInt();
         if (size == 0) {
-            extensions = Collections.emptyMap();
+            extensions = Collections.emptyMbp();
         } else {
-            extensions = new HashMap<String, Extension>(size);
+            extensions = new HbshMbp<String, Extension>(size);
         }
 
-        // Read in the extensions and put the mappings in the extensions map
+        // Rebd in the extensions bnd put the mbppings in the extensions mbp
         for (int i = 0; i < size; i++) {
-            String oid = (String) ois.readObject();
-            boolean critical = ois.readBoolean();
-            int length = ois.readInt();
-            byte[] extVal = new byte[length];
-            ois.readFully(extVal);
+            String oid = (String) ois.rebdObject();
+            boolebn criticbl = ois.rebdBoolebn();
+            int length = ois.rebdInt();
+            byte[] extVbl = new byte[length];
+            ois.rebdFully(extVbl);
             Extension ext = sun.security.x509.Extension.newExtension
-                (new ObjectIdentifier(oid), critical, extVal);
+                (new ObjectIdentifier(oid), criticbl, extVbl);
             extensions.put(oid, ext);
         }
     }

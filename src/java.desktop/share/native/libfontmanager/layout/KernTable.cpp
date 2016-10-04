@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,11 +30,11 @@
  *
  */
 
-#include "KernTable.h"
-#include "LEFontInstance.h"
-#include "LEGlyphStorage.h"
+#include "KernTbble.h"
+#include "LEFontInstbnce.h"
+#include "LEGlyphStorbge.h"
 
-#include "LESwaps.h"
+#include "LESwbps.h"
 #include "OpenTypeUtilities.h"
 
 #include <stdio.h>
@@ -43,37 +43,37 @@
 
 U_NAMESPACE_BEGIN
 
-struct PairInfo {
-  le_uint32 key;   // sigh, MSVC compiler gags on union here
-  le_int16  value; // fword, kern value in funits
+struct PbirInfo {
+  le_uint32 key;   // sigh, MSVC compiler gbgs on union here
+  le_int16  vblue; // fword, kern vblue in funits
 };
 #define KERN_PAIRINFO_SIZE 6
-LE_CORRECT_SIZE(PairInfo, KERN_PAIRINFO_SIZE)
-struct Subtable_0 {
-  le_uint16 nPairs;
-  le_uint16 searchRange;
+LE_CORRECT_SIZE(PbirInfo, KERN_PAIRINFO_SIZE)
+struct Subtbble_0 {
+  le_uint16 nPbirs;
+  le_uint16 sebrchRbnge;
   le_uint16 entrySelector;
-  le_uint16 rangeShift;
+  le_uint16 rbngeShift;
 };
 #define KERN_SUBTABLE_0_HEADER_SIZE 8
-LE_CORRECT_SIZE(Subtable_0, KERN_SUBTABLE_0_HEADER_SIZE)
+LE_CORRECT_SIZE(Subtbble_0, KERN_SUBTABLE_0_HEADER_SIZE)
 
-// Kern table version 0 only
-struct SubtableHeader {
+// Kern tbble version 0 only
+struct SubtbbleHebder {
   le_uint16 version;
   le_uint16 length;
-  le_uint16 coverage;
+  le_uint16 coverbge;
 };
 #define KERN_SUBTABLE_HEADER_SIZE 6
-LE_CORRECT_SIZE(SubtableHeader, KERN_SUBTABLE_HEADER_SIZE)
+LE_CORRECT_SIZE(SubtbbleHebder, KERN_SUBTABLE_HEADER_SIZE)
 
-// Version 0 only, version 1 has different layout
-struct KernTableHeader {
+// Version 0 only, version 1 hbs different lbyout
+struct KernTbbleHebder {
   le_uint16 version;
-  le_uint16 nTables;
+  le_uint16 nTbbles;
 };
 #define KERN_TABLE_HEADER_SIZE 4
-LE_CORRECT_SIZE(KernTableHeader, KERN_TABLE_HEADER_SIZE)
+LE_CORRECT_SIZE(KernTbbleHebder, KERN_TABLE_HEADER_SIZE)
 
 #define COVERAGE_HORIZONTAL 0x1
 #define COVERAGE_MINIMUM 0x2
@@ -81,35 +81,35 @@ LE_CORRECT_SIZE(KernTableHeader, KERN_TABLE_HEADER_SIZE)
 #define COVERAGE_OVERRIDE 0x8
 
 /*
- * This implementation has support for only one subtable, so if the font has
- * multiple subtables, only the first will be used.  If this turns out to
- * be a problem in practice we should add it.
+ * This implementbtion hbs support for only one subtbble, so if the font hbs
+ * multiple subtbbles, only the first will be used.  If this turns out to
+ * be b problem in prbctice we should bdd it.
  *
- * This also supports only version 0 of the kern table header, only
- * Apple supports the latter.
+ * This blso supports only version 0 of the kern tbble hebder, only
+ * Apple supports the lbtter.
  *
- * This implementation isn't careful about the kern table flags, and
- * might invoke kerning when it is not supposed to.  That too I'm
- * leaving for a bug fix.
+ * This implementbtion isn't cbreful bbout the kern tbble flbgs, bnd
+ * might invoke kerning when it is not supposed to.  Thbt too I'm
+ * lebving for b bug fix.
  *
- * TODO: support multiple subtables
- * TODO: respect header flags
+ * TODO: support multiple subtbbles
+ * TODO: respect hebder flbgs
  */
-KernTable::KernTable(const LETableReference& base, LEErrorCode &success)
-  : pairsSwapped(NULL), fTable(base)
+KernTbble::KernTbble(const LETbbleReference& bbse, LEErrorCode &success)
+  : pbirsSwbpped(NULL), fTbble(bbse)
 {
-  if(LE_FAILURE(success) || (fTable.isEmpty())) {
+  if(LE_FAILURE(success) || (fTbble.isEmpty())) {
 #if DEBUG_KERN_TABLE
-    fprintf(stderr, "no kern data\n");
+    fprintf(stderr, "no kern dbtb\n");
 #endif
     return;
   }
-  LEReferenceTo<KernTableHeader> header(fTable, success);
+  LEReferenceTo<KernTbbleHebder> hebder(fTbble, success);
 
 #if DEBUG_KERN_TABLE
-  // dump first 32 bytes of header
+  // dump first 32 bytes of hebder
   for (int i = 0; i < 64; ++i) {
-    fprintf(stderr, "%0.2x ", ((const char*)header.getAlias())[i]&0xff);
+    fprintf(stderr, "%0.2x ", ((const chbr*)hebder.getAlibs())[i]&0xff);
     if (((i+1)&0xf) == 0) {
       fprintf(stderr, "\n");
     } else if (((i+1)&0x7) == 0) {
@@ -120,79 +120,79 @@ KernTable::KernTable(const LETableReference& base, LEErrorCode &success)
 
   if(LE_FAILURE(success)) return;
 
-  if (!header.isEmpty() && header->version == 0 && SWAPW(header->nTables) > 0) {
-    LEReferenceTo<SubtableHeader> subhead(header, success, KERN_TABLE_HEADER_SIZE);
+  if (!hebder.isEmpty() && hebder->version == 0 && SWAPW(hebder->nTbbles) > 0) {
+    LEReferenceTo<SubtbbleHebder> subhebd(hebder, success, KERN_TABLE_HEADER_SIZE);
 
-    if (LE_SUCCESS(success) && !subhead.isEmpty() && subhead->version == 0) {
-      coverage = SWAPW(subhead->coverage);
-      if (coverage & COVERAGE_HORIZONTAL) { // only handle horizontal kerning
-        LEReferenceTo<Subtable_0> table(subhead, success, KERN_SUBTABLE_HEADER_SIZE);
+    if (LE_SUCCESS(success) && !subhebd.isEmpty() && subhebd->version == 0) {
+      coverbge = SWAPW(subhebd->coverbge);
+      if (coverbge & COVERAGE_HORIZONTAL) { // only hbndle horizontbl kerning
+        LEReferenceTo<Subtbble_0> tbble(subhebd, success, KERN_SUBTABLE_HEADER_SIZE);
 
-        if(table.isEmpty() || LE_FAILURE(success)) return;
+        if(tbble.isEmpty() || LE_FAILURE(success)) return;
 
-        nPairs        = SWAPW(table->nPairs);
+        nPbirs        = SWAPW(tbble->nPbirs);
 
-#if 0   // some old fonts have bad values here...
-        searchRange   = SWAPW(table->searchRange);
-        entrySelector = SWAPW(table->entrySelector);
-        rangeShift    = SWAPW(table->rangeShift);
+#if 0   // some old fonts hbve bbd vblues here...
+        sebrchRbnge   = SWAPW(tbble->sebrchRbnge);
+        entrySelector = SWAPW(tbble->entrySelector);
+        rbngeShift    = SWAPW(tbble->rbngeShift);
 #else
-        entrySelector = OpenTypeUtilities::highBit(nPairs);
-        searchRange   = (1 << entrySelector) * KERN_PAIRINFO_SIZE;
-        rangeShift    = (nPairs * KERN_PAIRINFO_SIZE) - searchRange;
+        entrySelector = OpenTypeUtilities::highBit(nPbirs);
+        sebrchRbnge   = (1 << entrySelector) * KERN_PAIRINFO_SIZE;
+        rbngeShift    = (nPbirs * KERN_PAIRINFO_SIZE) - sebrchRbnge;
 #endif
 
-        if(LE_SUCCESS(success) && nPairs>0) {
-          // pairsSwapped is an instance member, and table is on the stack.
-          // set 'pairsSwapped' based on table.getAlias(). This will range check it.
+        if(LE_SUCCESS(success) && nPbirs>0) {
+          // pbirsSwbpped is bn instbnce member, bnd tbble is on the stbck.
+          // set 'pbirsSwbpped' bbsed on tbble.getAlibs(). This will rbnge check it.
 
-          pairsSwapped = (PairInfo*)(fTable.getFont()->getKernPairs());
-          if (pairsSwapped == NULL) {
-            LEReferenceToArrayOf<PairInfo>pairs =
-              LEReferenceToArrayOf<PairInfo>(fTable, // based on overall table
+          pbirsSwbpped = (PbirInfo*)(fTbble.getFont()->getKernPbirs());
+          if (pbirsSwbpped == NULL) {
+            LEReferenceToArrbyOf<PbirInfo>pbirs =
+              LEReferenceToArrbyOf<PbirInfo>(fTbble, // bbsed on overbll tbble
                                              success,
-                                             (const PairInfo*)table.getAlias(),  // subtable 0 + ..
-                                             KERN_SUBTABLE_0_HEADER_SIZE,  // .. offset of header size
-                                             nPairs); // count
-            if (LE_SUCCESS(success) && pairs.isValid()) {
-              pairsSwapped =  (PairInfo*)(malloc(nPairs*sizeof(PairInfo)));
-              PairInfo *p = (PairInfo*)pairsSwapped;
-              for (int i = 0; LE_SUCCESS(success) && i < nPairs; i++, p++) {
-                memcpy(p, pairs.getAlias(i,success), KERN_PAIRINFO_SIZE);
+                                             (const PbirInfo*)tbble.getAlibs(),  // subtbble 0 + ..
+                                             KERN_SUBTABLE_0_HEADER_SIZE,  // .. offset of hebder size
+                                             nPbirs); // count
+            if (LE_SUCCESS(success) && pbirs.isVblid()) {
+              pbirsSwbpped =  (PbirInfo*)(mblloc(nPbirs*sizeof(PbirInfo)));
+              PbirInfo *p = (PbirInfo*)pbirsSwbpped;
+              for (int i = 0; LE_SUCCESS(success) && i < nPbirs; i++, p++) {
+                memcpy(p, pbirs.getAlibs(i,success), KERN_PAIRINFO_SIZE);
                 p->key = SWAPL(p->key);
               }
-              fTable.getFont()->setKernPairs((void*)pairsSwapped); // store it
+              fTbble.getFont()->setKernPbirs((void*)pbirsSwbpped); // store it
             }
           }
         }
 
 #if 0
-        fprintf(stderr, "coverage: %0.4x nPairs: %d pairs %p\n", coverage, nPairs, pairsSwapped);
-        fprintf(stderr, "  searchRange: %d entrySelector: %d rangeShift: %d\n", searchRange, entrySelector, rangeShift);
-        fprintf(stderr, "[[ ignored font table entries: range %d selector %d shift %d ]]\n", SWAPW(table->searchRange), SWAPW(table->entrySelector), SWAPW(table->rangeShift));
+        fprintf(stderr, "coverbge: %0.4x nPbirs: %d pbirs %p\n", coverbge, nPbirs, pbirsSwbpped);
+        fprintf(stderr, "  sebrchRbnge: %d entrySelector: %d rbngeShift: %d\n", sebrchRbnge, entrySelector, rbngeShift);
+        fprintf(stderr, "[[ ignored font tbble entries: rbnge %d selector %d shift %d ]]\n", SWAPW(tbble->sebrchRbnge), SWAPW(tbble->entrySelector), SWAPW(tbble->rbngeShift));
 #endif
 #if DEBUG_KERN_TABLE
-        fprintf(stderr, "coverage: %0.4x nPairs: %d pairs 0x%x\n", coverage, nPairs, pairsSwapped);
+        fprintf(stderr, "coverbge: %0.4x nPbirs: %d pbirs 0x%x\n", coverbge, nPbirs, pbirsSwbpped);
         fprintf(stderr,
-          "  searchRange(pairs): %d entrySelector: %d rangeShift(pairs): %d\n",
-          searchRange, entrySelector, rangeShift);
+          "  sebrchRbnge(pbirs): %d entrySelector: %d rbngeShift(pbirs): %d\n",
+          sebrchRbnge, entrySelector, rbngeShift);
 
         if (LE_SUCCESS(success)) {
-          // dump part of the pair list
-          char ids[256];
+          // dump pbrt of the pbir list
+          chbr ids[256];
           for (int i = 256; --i >= 0;) {
-            LEGlyphID id = font->mapCharToGlyph(i);
+            LEGlyphID id = font->mbpChbrToGlyph(i);
             if (id < 256) {
-              ids[id] = (char)i;
+              ids[id] = (chbr)i;
             }
           }
-          PairInfo *p = pairsSwapped;
-          for (int i = 0; i < nPairs; ++i, p++) {
+          PbirInfo *p = pbirsSwbpped;
+          for (int i = 0; i < nPbirs; ++i, p++) {
             le_uint32 k = p->key;
             le_uint16 left = (k >> 16) & 0xffff;
             le_uint16 right = k & 0xffff;
             if (left < 256 && right < 256) {
-              char c = ids[left];
+              chbr c = ids[left];
               if (c > 0x20 && c < 0x7f) {
                 fprintf(stderr, "%c/", c & 0xff);
               } else {
@@ -215,72 +215,72 @@ KernTable::KernTable(const LETableReference& base, LEErrorCode &success)
 
 
 /*
- * Process the glyph positions.  The positions array has two floats for each
- * glyph, plus a trailing pair to mark the end of the last glyph.
+ * Process the glyph positions.  The positions brrby hbs two flobts for ebch
+ * glyph, plus b trbiling pbir to mbrk the end of the lbst glyph.
  */
-void KernTable::process(LEGlyphStorage& storage, LEErrorCode &success)
+void KernTbble::process(LEGlyphStorbge& storbge, LEErrorCode &success)
 {
   if(LE_FAILURE(success)) return;
 
-  if (pairsSwapped) {
+  if (pbirsSwbpped) {
     success = LE_NO_ERROR;
 
-    le_uint32 key = storage[0]; // no need to mask off high bits
-    float adjust = 0;
+    le_uint32 key = storbge[0]; // no need to mbsk off high bits
+    flobt bdjust = 0;
 
-    for (int i = 1, e = storage.getGlyphCount(); LE_SUCCESS(success)&&  i < e; ++i) {
-      key = key << 16 | (storage[i] & 0xffff);
+    for (int i = 1, e = storbge.getGlyphCount(); LE_SUCCESS(success)&&  i < e; ++i) {
+      key = key << 16 | (storbge[i] & 0xffff);
 
-      // argh, to do a binary search, we need to have the pair list in sorted order
-      // but it is not in sorted order on win32 platforms because of the endianness difference
-      // so either I have to swap the element each time I examine it, or I have to swap
-      // all the elements ahead of time and store them in the font
+      // brgh, to do b binbry sebrch, we need to hbve the pbir list in sorted order
+      // but it is not in sorted order on win32 plbtforms becbuse of the endibnness difference
+      // so either I hbve to swbp the element ebch time I exbmine it, or I hbve to swbp
+      // bll the elements bhebd of time bnd store them in the font
 
-      const PairInfo* p = pairsSwapped;
-      const PairInfo* tp = (const PairInfo*)(p + (rangeShift/KERN_PAIRINFO_SIZE)); /* rangeshift is in original table bytes */
+      const PbirInfo* p = pbirsSwbpped;
+      const PbirInfo* tp = (const PbirInfo*)(p + (rbngeShift/KERN_PAIRINFO_SIZE)); /* rbngeshift is in originbl tbble bytes */
       if (key > tp->key) {
         p = tp;
       }
 
 #if DEBUG_KERN_TABLE
-      fprintf(stderr, "binary search for %0.8x\n", key);
+      fprintf(stderr, "binbry sebrch for %0.8x\n", key);
 #endif
 
-      le_uint32 probe = searchRange;
+      le_uint32 probe = sebrchRbnge;
       while (probe > 1) {
         probe >>= 1;
-        tp = (const PairInfo*)(p + (probe/KERN_PAIRINFO_SIZE));
+        tp = (const PbirInfo*)(p + (probe/KERN_PAIRINFO_SIZE));
         le_uint32 tkey = tp->key;
 #if DEBUG_KERN_TABLE
-        fprintf(stdout, "   %.3d (%0.8x)\n", (tp - pairsSwapped), tkey);
+        fprintf(stdout, "   %.3d (%0.8x)\n", (tp - pbirsSwbpped), tkey);
 #endif
         if (tkey <= key) {
           if (tkey == key) {
-            le_int16 value = SWAPW(tp->value);
+            le_int16 vblue = SWAPW(tp->vblue);
 #if DEBUG_KERN_TABLE
-            fprintf(stdout, "binary found kerning pair %x:%x at %d, value: 0x%x (%g)\n",
-                    storage[i-1], storage[i], i, value & 0xffff, font->xUnitsToPoints(value));
+            fprintf(stdout, "binbry found kerning pbir %x:%x bt %d, vblue: 0x%x (%g)\n",
+                    storbge[i-1], storbge[i], i, vblue & 0xffff, font->xUnitsToPoints(vblue));
             fflush(stdout);
 #endif
-            // Have to undo the device transform.
-            // REMIND either find a way to do this only if there is a
-            // device transform, or a faster way, such as moving the
-            // entire kern table up to Java.
+            // Hbve to undo the device trbnsform.
+            // REMIND either find b wby to do this only if there is b
+            // device trbnsform, or b fbster wby, such bs moving the
+            // entire kern tbble up to Jbvb.
             LEPoint pt;
-            pt.fX = fTable.getFont()->xUnitsToPoints(value);
+            pt.fX = fTbble.getFont()->xUnitsToPoints(vblue);
             pt.fY = 0;
 
-            fTable.getFont()->getKerningAdjustment(pt);
-            adjust += pt.fX;
-            break;
+            fTbble.getFont()->getKerningAdjustment(pt);
+            bdjust += pt.fX;
+            brebk;
           }
           p = tp;
         }
       }
 
-      storage.adjustPosition(i, adjust, 0, success);
+      storbge.bdjustPosition(i, bdjust, 0, success);
     }
-    storage.adjustPosition(storage.getGlyphCount(), adjust, 0, success);
+    storbge.bdjustPosition(storbge.getGlyphCount(), bdjust, 0, success);
   }
 }
 

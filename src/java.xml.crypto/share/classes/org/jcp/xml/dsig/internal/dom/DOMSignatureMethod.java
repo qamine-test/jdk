@@ -3,258 +3,258 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMSignatureMethod.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMSignbtureMethod.jbvb 1333415 2012-05-03 12:03:51Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.spec.SignatureMethodParameterSpec;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.spec.SignbtureMethodPbrbmeterSpec;
 
-import java.io.IOException;
-import java.security.*;
-import java.security.interfaces.DSAKey;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.io.IOException;
+import jbvb.security.*;
+import jbvb.security.interfbces.DSAKey;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 import org.w3c.dom.Element;
 
-import com.sun.org.apache.xml.internal.security.algorithms.implementations.SignatureECDSA;
-import com.sun.org.apache.xml.internal.security.utils.JavaUtils;
-import org.jcp.xml.dsig.internal.SignerOutputStream;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.implementbtions.SignbtureECDSA;
+import com.sun.org.bpbche.xml.internbl.security.utils.JbvbUtils;
+import org.jcp.xml.dsig.internbl.SignerOutputStrebm;
 
 /**
- * DOM-based abstract implementation of SignatureMethod.
+ * DOM-bbsed bbstrbct implementbtion of SignbtureMethod.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
+public bbstrbct clbss DOMSignbtureMethod extends AbstrbctDOMSignbtureMethod {
 
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger("org.jcp.xml.dsig.internal.dom");
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger("org.jcp.xml.dsig.internbl.dom");
 
-    private SignatureMethodParameterSpec params;
-    private Signature signature;
+    privbte SignbtureMethodPbrbmeterSpec pbrbms;
+    privbte Signbture signbture;
 
-    // see RFC 4051 for these algorithm definitions
-    static final String RSA_SHA256 =
-        "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
-    static final String RSA_SHA384 =
-        "http://www.w3.org/2001/04/xmldsig-more#rsa-sha384";
-    static final String RSA_SHA512 =
-        "http://www.w3.org/2001/04/xmldsig-more#rsa-sha512";
-    static final String ECDSA_SHA1 =
-        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha1";
-    static final String ECDSA_SHA256 =
-        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256";
-    static final String ECDSA_SHA384 =
-        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha384";
-    static final String ECDSA_SHA512 =
-        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512";
-    static final String DSA_SHA256 =
-        "http://www.w3.org/2009/xmldsig11#dsa-sha256";
+    // see RFC 4051 for these blgorithm definitions
+    stbtic finbl String RSA_SHA256 =
+        "http://www.w3.org/2001/04/xmldsig-more#rsb-shb256";
+    stbtic finbl String RSA_SHA384 =
+        "http://www.w3.org/2001/04/xmldsig-more#rsb-shb384";
+    stbtic finbl String RSA_SHA512 =
+        "http://www.w3.org/2001/04/xmldsig-more#rsb-shb512";
+    stbtic finbl String ECDSA_SHA1 =
+        "http://www.w3.org/2001/04/xmldsig-more#ecdsb-shb1";
+    stbtic finbl String ECDSA_SHA256 =
+        "http://www.w3.org/2001/04/xmldsig-more#ecdsb-shb256";
+    stbtic finbl String ECDSA_SHA384 =
+        "http://www.w3.org/2001/04/xmldsig-more#ecdsb-shb384";
+    stbtic finbl String ECDSA_SHA512 =
+        "http://www.w3.org/2001/04/xmldsig-more#ecdsb-shb512";
+    stbtic finbl String DSA_SHA256 =
+        "http://www.w3.org/2009/xmldsig11#dsb-shb256";
 
     /**
-     * Creates a <code>DOMSignatureMethod</code>.
+     * Crebtes b <code>DOMSignbtureMethod</code>.
      *
-     * @param params the algorithm-specific params (may be <code>null</code>)
-     * @throws InvalidAlgorithmParameterException if the parameters are not
-     *    appropriate for this signature method
+     * @pbrbm pbrbms the blgorithm-specific pbrbms (mby be <code>null</code>)
+     * @throws InvblidAlgorithmPbrbmeterException if the pbrbmeters bre not
+     *    bppropribte for this signbture method
      */
-    DOMSignatureMethod(AlgorithmParameterSpec params)
-        throws InvalidAlgorithmParameterException
+    DOMSignbtureMethod(AlgorithmPbrbmeterSpec pbrbms)
+        throws InvblidAlgorithmPbrbmeterException
     {
-        if (params != null &&
-            !(params instanceof SignatureMethodParameterSpec)) {
-            throw new InvalidAlgorithmParameterException
-                ("params must be of type SignatureMethodParameterSpec");
+        if (pbrbms != null &&
+            !(pbrbms instbnceof SignbtureMethodPbrbmeterSpec)) {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("pbrbms must be of type SignbtureMethodPbrbmeterSpec");
         }
-        checkParams((SignatureMethodParameterSpec)params);
-        this.params = (SignatureMethodParameterSpec)params;
+        checkPbrbms((SignbtureMethodPbrbmeterSpec)pbrbms);
+        this.pbrbms = (SignbtureMethodPbrbmeterSpec)pbrbms;
     }
 
     /**
-     * Creates a <code>DOMSignatureMethod</code> from an element. This ctor
-     * invokes the {@link #unmarshalParams unmarshalParams} method to
-     * unmarshal any algorithm-specific input parameters.
+     * Crebtes b <code>DOMSignbtureMethod</code> from bn element. This ctor
+     * invokes the {@link #unmbrshblPbrbms unmbrshblPbrbms} method to
+     * unmbrshbl bny blgorithm-specific input pbrbmeters.
      *
-     * @param smElem a SignatureMethod element
+     * @pbrbm smElem b SignbtureMethod element
      */
-    DOMSignatureMethod(Element smElem) throws MarshalException {
-        Element paramsElem = DOMUtils.getFirstChildElement(smElem);
-        if (paramsElem != null) {
-            params = unmarshalParams(paramsElem);
+    DOMSignbtureMethod(Element smElem) throws MbrshblException {
+        Element pbrbmsElem = DOMUtils.getFirstChildElement(smElem);
+        if (pbrbmsElem != null) {
+            pbrbms = unmbrshblPbrbms(pbrbmsElem);
         }
         try {
-            checkParams(params);
-        } catch (InvalidAlgorithmParameterException iape) {
-            throw new MarshalException(iape);
+            checkPbrbms(pbrbms);
+        } cbtch (InvblidAlgorithmPbrbmeterException ibpe) {
+            throw new MbrshblException(ibpe);
         }
     }
 
-    static SignatureMethod unmarshal(Element smElem) throws MarshalException {
-        String alg = DOMUtils.getAttributeValue(smElem, "Algorithm");
-        if (alg.equals(SignatureMethod.RSA_SHA1)) {
+    stbtic SignbtureMethod unmbrshbl(Element smElem) throws MbrshblException {
+        String blg = DOMUtils.getAttributeVblue(smElem, "Algorithm");
+        if (blg.equbls(SignbtureMethod.RSA_SHA1)) {
             return new SHA1withRSA(smElem);
-        } else if (alg.equals(RSA_SHA256)) {
+        } else if (blg.equbls(RSA_SHA256)) {
             return new SHA256withRSA(smElem);
-        } else if (alg.equals(RSA_SHA384)) {
+        } else if (blg.equbls(RSA_SHA384)) {
             return new SHA384withRSA(smElem);
-        } else if (alg.equals(RSA_SHA512)) {
+        } else if (blg.equbls(RSA_SHA512)) {
             return new SHA512withRSA(smElem);
-        } else if (alg.equals(SignatureMethod.DSA_SHA1)) {
+        } else if (blg.equbls(SignbtureMethod.DSA_SHA1)) {
             return new SHA1withDSA(smElem);
-        } else if (alg.equals(DSA_SHA256)) {
+        } else if (blg.equbls(DSA_SHA256)) {
             return new SHA256withDSA(smElem);
-        } else if (alg.equals(ECDSA_SHA1)) {
+        } else if (blg.equbls(ECDSA_SHA1)) {
             return new SHA1withECDSA(smElem);
-        } else if (alg.equals(ECDSA_SHA256)) {
+        } else if (blg.equbls(ECDSA_SHA256)) {
             return new SHA256withECDSA(smElem);
-        } else if (alg.equals(ECDSA_SHA384)) {
+        } else if (blg.equbls(ECDSA_SHA384)) {
             return new SHA384withECDSA(smElem);
-        } else if (alg.equals(ECDSA_SHA512)) {
+        } else if (blg.equbls(ECDSA_SHA512)) {
             return new SHA512withECDSA(smElem);
-        } else if (alg.equals(SignatureMethod.HMAC_SHA1)) {
-            return new DOMHMACSignatureMethod.SHA1(smElem);
-        } else if (alg.equals(DOMHMACSignatureMethod.HMAC_SHA256)) {
-            return new DOMHMACSignatureMethod.SHA256(smElem);
-        } else if (alg.equals(DOMHMACSignatureMethod.HMAC_SHA384)) {
-            return new DOMHMACSignatureMethod.SHA384(smElem);
-        } else if (alg.equals(DOMHMACSignatureMethod.HMAC_SHA512)) {
-            return new DOMHMACSignatureMethod.SHA512(smElem);
+        } else if (blg.equbls(SignbtureMethod.HMAC_SHA1)) {
+            return new DOMHMACSignbtureMethod.SHA1(smElem);
+        } else if (blg.equbls(DOMHMACSignbtureMethod.HMAC_SHA256)) {
+            return new DOMHMACSignbtureMethod.SHA256(smElem);
+        } else if (blg.equbls(DOMHMACSignbtureMethod.HMAC_SHA384)) {
+            return new DOMHMACSignbtureMethod.SHA384(smElem);
+        } else if (blg.equbls(DOMHMACSignbtureMethod.HMAC_SHA512)) {
+            return new DOMHMACSignbtureMethod.SHA512(smElem);
         } else {
-            throw new MarshalException
-                ("unsupported SignatureMethod algorithm: " + alg);
+            throw new MbrshblException
+                ("unsupported SignbtureMethod blgorithm: " + blg);
         }
     }
 
-    public final AlgorithmParameterSpec getParameterSpec() {
-        return params;
+    public finbl AlgorithmPbrbmeterSpec getPbrbmeterSpec() {
+        return pbrbms;
     }
 
-    boolean verify(Key key, SignedInfo si, byte[] sig,
-                   XMLValidateContext context)
-        throws InvalidKeyException, SignatureException, XMLSignatureException
+    boolebn verify(Key key, SignedInfo si, byte[] sig,
+                   XMLVblidbteContext context)
+        throws InvblidKeyException, SignbtureException, XMLSignbtureException
     {
         if (key == null || si == null || sig == null) {
             throw new NullPointerException();
         }
 
-        if (!(key instanceof PublicKey)) {
-            throw new InvalidKeyException("key must be PublicKey");
+        if (!(key instbnceof PublicKey)) {
+            throw new InvblidKeyException("key must be PublicKey");
         }
-        if (signature == null) {
+        if (signbture == null) {
             try {
                 Provider p = (Provider)context.getProperty
-                    ("org.jcp.xml.dsig.internal.dom.SignatureProvider");
-                signature = (p == null)
-                    ? Signature.getInstance(getJCAAlgorithm())
-                    : Signature.getInstance(getJCAAlgorithm(), p);
-            } catch (NoSuchAlgorithmException nsae) {
-                throw new XMLSignatureException(nsae);
+                    ("org.jcp.xml.dsig.internbl.dom.SignbtureProvider");
+                signbture = (p == null)
+                    ? Signbture.getInstbnce(getJCAAlgorithm())
+                    : Signbture.getInstbnce(getJCAAlgorithm(), p);
+            } cbtch (NoSuchAlgorithmException nsbe) {
+                throw new XMLSignbtureException(nsbe);
             }
         }
-        signature.initVerify((PublicKey)key);
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Signature provider:" + signature.getProvider());
-            log.log(java.util.logging.Level.FINE, "verifying with key: " + key);
+        signbture.initVerify((PublicKey)key);
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Signbture provider:" + signbture.getProvider());
+            log.log(jbvb.util.logging.Level.FINE, "verifying with key: " + key);
         }
-        ((DOMSignedInfo)si).canonicalize(context,
-                                         new SignerOutputStream(signature));
+        ((DOMSignedInfo)si).cbnonicblize(context,
+                                         new SignerOutputStrebm(signbture));
 
         try {
             Type type = getAlgorithmType();
             if (type == Type.DSA) {
-                int size = ((DSAKey)key).getParams().getQ().bitLength();
-                return signature.verify(JavaUtils.convertDsaXMLDSIGtoASN1(sig,
+                int size = ((DSAKey)key).getPbrbms().getQ().bitLength();
+                return signbture.verify(JbvbUtils.convertDsbXMLDSIGtoASN1(sig,
                                                                        size/8));
             } else if (type == Type.ECDSA) {
-                return signature.verify(SignatureECDSA.convertXMLDSIGtoASN1(sig));
+                return signbture.verify(SignbtureECDSA.convertXMLDSIGtoASN1(sig));
             } else {
-                return signature.verify(sig);
+                return signbture.verify(sig);
             }
-        } catch (IOException ioe) {
-            throw new XMLSignatureException(ioe);
+        } cbtch (IOException ioe) {
+            throw new XMLSignbtureException(ioe);
         }
     }
 
     byte[] sign(Key key, SignedInfo si, XMLSignContext context)
-        throws InvalidKeyException, XMLSignatureException
+        throws InvblidKeyException, XMLSignbtureException
     {
         if (key == null || si == null) {
             throw new NullPointerException();
         }
 
-        if (!(key instanceof PrivateKey)) {
-            throw new InvalidKeyException("key must be PrivateKey");
+        if (!(key instbnceof PrivbteKey)) {
+            throw new InvblidKeyException("key must be PrivbteKey");
         }
-        if (signature == null) {
+        if (signbture == null) {
             try {
                 Provider p = (Provider)context.getProperty
-                    ("org.jcp.xml.dsig.internal.dom.SignatureProvider");
-                signature = (p == null)
-                    ? Signature.getInstance(getJCAAlgorithm())
-                    : Signature.getInstance(getJCAAlgorithm(), p);
-            } catch (NoSuchAlgorithmException nsae) {
-                throw new XMLSignatureException(nsae);
+                    ("org.jcp.xml.dsig.internbl.dom.SignbtureProvider");
+                signbture = (p == null)
+                    ? Signbture.getInstbnce(getJCAAlgorithm())
+                    : Signbture.getInstbnce(getJCAAlgorithm(), p);
+            } cbtch (NoSuchAlgorithmException nsbe) {
+                throw new XMLSignbtureException(nsbe);
             }
         }
-        signature.initSign((PrivateKey)key);
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Signature provider:" + signature.getProvider());
-            log.log(java.util.logging.Level.FINE, "Signing with key: " + key);
+        signbture.initSign((PrivbteKey)key);
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Signbture provider:" + signbture.getProvider());
+            log.log(jbvb.util.logging.Level.FINE, "Signing with key: " + key);
         }
 
-        ((DOMSignedInfo)si).canonicalize(context,
-                                         new SignerOutputStream(signature));
+        ((DOMSignedInfo)si).cbnonicblize(context,
+                                         new SignerOutputStrebm(signbture));
 
         try {
             Type type = getAlgorithmType();
             if (type == Type.DSA) {
-                int size = ((DSAKey)key).getParams().getQ().bitLength();
-                return JavaUtils.convertDsaASN1toXMLDSIG(signature.sign(),
+                int size = ((DSAKey)key).getPbrbms().getQ().bitLength();
+                return JbvbUtils.convertDsbASN1toXMLDSIG(signbture.sign(),
                                                          size/8);
             } else if (type == Type.ECDSA) {
-                return SignatureECDSA.convertASN1toXMLDSIG(signature.sign());
+                return SignbtureECDSA.convertASN1toXMLDSIG(signbture.sign());
             } else {
-                return signature.sign();
+                return signbture.sign();
             }
-        } catch (SignatureException se) {
-            throw new XMLSignatureException(se);
-        } catch (IOException ioe) {
-            throw new XMLSignatureException(ioe);
+        } cbtch (SignbtureException se) {
+            throw new XMLSignbtureException(se);
+        } cbtch (IOException ioe) {
+            throw new XMLSignbtureException(ioe);
         }
     }
 
-    static final class SHA1withRSA extends DOMSignatureMethod {
-        SHA1withRSA(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtic finbl clbss SHA1withRSA extends DOMSignbtureMethod {
+        SHA1withRSA(AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+            super(pbrbms);
         }
-        SHA1withRSA(Element dmElem) throws MarshalException {
+        SHA1withRSA(Element dmElem) throws MbrshblException {
             super(dmElem);
         }
         public String getAlgorithm() {
-            return SignatureMethod.RSA_SHA1;
+            return SignbtureMethod.RSA_SHA1;
         }
         String getJCAAlgorithm() {
             return "SHA1withRSA";
@@ -264,12 +264,12 @@ public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
         }
     }
 
-    static final class SHA256withRSA extends DOMSignatureMethod {
-        SHA256withRSA(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtic finbl clbss SHA256withRSA extends DOMSignbtureMethod {
+        SHA256withRSA(AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+            super(pbrbms);
         }
-        SHA256withRSA(Element dmElem) throws MarshalException {
+        SHA256withRSA(Element dmElem) throws MbrshblException {
             super(dmElem);
         }
         public String getAlgorithm() {
@@ -283,12 +283,12 @@ public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
         }
     }
 
-    static final class SHA384withRSA extends DOMSignatureMethod {
-        SHA384withRSA(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtic finbl clbss SHA384withRSA extends DOMSignbtureMethod {
+        SHA384withRSA(AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+            super(pbrbms);
         }
-        SHA384withRSA(Element dmElem) throws MarshalException {
+        SHA384withRSA(Element dmElem) throws MbrshblException {
             super(dmElem);
         }
         public String getAlgorithm() {
@@ -302,12 +302,12 @@ public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
         }
     }
 
-    static final class SHA512withRSA extends DOMSignatureMethod {
-        SHA512withRSA(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtic finbl clbss SHA512withRSA extends DOMSignbtureMethod {
+        SHA512withRSA(AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+            super(pbrbms);
         }
-        SHA512withRSA(Element dmElem) throws MarshalException {
+        SHA512withRSA(Element dmElem) throws MbrshblException {
             super(dmElem);
         }
         public String getAlgorithm() {
@@ -321,16 +321,16 @@ public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
         }
     }
 
-    static final class SHA1withDSA extends DOMSignatureMethod {
-        SHA1withDSA(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtic finbl clbss SHA1withDSA extends DOMSignbtureMethod {
+        SHA1withDSA(AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+            super(pbrbms);
         }
-        SHA1withDSA(Element dmElem) throws MarshalException {
+        SHA1withDSA(Element dmElem) throws MbrshblException {
             super(dmElem);
         }
         public String getAlgorithm() {
-            return SignatureMethod.DSA_SHA1;
+            return SignbtureMethod.DSA_SHA1;
         }
         String getJCAAlgorithm() {
             return "SHA1withDSA";
@@ -340,12 +340,12 @@ public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
         }
     }
 
-    static final class SHA256withDSA extends DOMSignatureMethod {
-        SHA256withDSA(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtic finbl clbss SHA256withDSA extends DOMSignbtureMethod {
+        SHA256withDSA(AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+            super(pbrbms);
         }
-        SHA256withDSA(Element dmElem) throws MarshalException {
+        SHA256withDSA(Element dmElem) throws MbrshblException {
             super(dmElem);
         }
         public String getAlgorithm() {
@@ -359,12 +359,12 @@ public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
         }
     }
 
-    static final class SHA1withECDSA extends DOMSignatureMethod {
-        SHA1withECDSA(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtic finbl clbss SHA1withECDSA extends DOMSignbtureMethod {
+        SHA1withECDSA(AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+            super(pbrbms);
         }
-        SHA1withECDSA(Element dmElem) throws MarshalException {
+        SHA1withECDSA(Element dmElem) throws MbrshblException {
             super(dmElem);
         }
         public String getAlgorithm() {
@@ -378,12 +378,12 @@ public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
         }
     }
 
-    static final class SHA256withECDSA extends DOMSignatureMethod {
-        SHA256withECDSA(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtic finbl clbss SHA256withECDSA extends DOMSignbtureMethod {
+        SHA256withECDSA(AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+            super(pbrbms);
         }
-        SHA256withECDSA(Element dmElem) throws MarshalException {
+        SHA256withECDSA(Element dmElem) throws MbrshblException {
             super(dmElem);
         }
         public String getAlgorithm() {
@@ -397,12 +397,12 @@ public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
         }
     }
 
-    static final class SHA384withECDSA extends DOMSignatureMethod {
-        SHA384withECDSA(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtic finbl clbss SHA384withECDSA extends DOMSignbtureMethod {
+        SHA384withECDSA(AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+            super(pbrbms);
         }
-        SHA384withECDSA(Element dmElem) throws MarshalException {
+        SHA384withECDSA(Element dmElem) throws MbrshblException {
             super(dmElem);
         }
         public String getAlgorithm() {
@@ -416,12 +416,12 @@ public abstract class DOMSignatureMethod extends AbstractDOMSignatureMethod {
         }
     }
 
-    static final class SHA512withECDSA extends DOMSignatureMethod {
-        SHA512withECDSA(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtic finbl clbss SHA512withECDSA extends DOMSignbtureMethod {
+        SHA512withECDSA(AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+            super(pbrbms);
         }
-        SHA512withECDSA(Element dmElem) throws MarshalException {
+        SHA512withECDSA(Element dmElem) throws MbrshblException {
             super(dmElem);
         }
         public String getAlgorithm() {

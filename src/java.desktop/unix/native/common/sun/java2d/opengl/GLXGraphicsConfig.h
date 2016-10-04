@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef GLXGraphicsConfig_h_Included
-#define GLXGraphicsConfig_h_Included
+#ifndef GLXGrbphicsConfig_h_Included
+#define GLXGrbphicsConfig_h_Included
 
 #include "jni.h"
 #include "J2D_GL/glx.h"
-#include "OGLSurfaceData.h"
+#include "OGLSurfbceDbtb.h"
 #include "OGLContext.h"
 
 #ifdef HEADLESS
-#define GLXGraphicsConfigInfo void
+#define GLXGrbphicsConfigInfo void
 #define GLXCtxInfo void
 #else /* HEADLESS */
 
 /**
- * The GLXGraphicsConfigInfo structure contains information specific to a
- * given GLXGraphicsConfig (visual).  Each AwtGraphicsConfigData struct
- * associated with a GLXGraphicsConfig contains a pointer to a
- * GLXGraphicsConfigInfo struct (if it is actually an X11GraphicsConfig, that
- * pointer value will be NULL).
+ * The GLXGrbphicsConfigInfo structure contbins informbtion specific to b
+ * given GLXGrbphicsConfig (visubl).  Ebch AwtGrbphicsConfigDbtb struct
+ * bssocibted with b GLXGrbphicsConfig contbins b pointer to b
+ * GLXGrbphicsConfigInfo struct (if it is bctublly bn X11GrbphicsConfig, thbt
+ * pointer vblue will be NULL).
  *
- *     jint screen, visual;
- * The X11 screen and visual IDs for the associated GLXGraphicsConfig.
+ *     jint screen, visubl;
+ * The X11 screen bnd visubl IDs for the bssocibted GLXGrbphicsConfig.
  *
  *     OGLContext *context;
- * The context associated with this GLXGraphicsConfig.
+ * The context bssocibted with this GLXGrbphicsConfig.
  *
  *     GLXFBConfig fbconfig;
- * A handle used in many GLX methods for querying certain attributes of the
- * GraphicsConfig (visual), creating new GLXContexts, and creating
- * GLXDrawable surfaces (pbuffers, etc).  Each GraphicsConfig has one
- * associated GLXFBConfig.
+ * A hbndle used in mbny GLX methods for querying certbin bttributes of the
+ * GrbphicsConfig (visubl), crebting new GLXContexts, bnd crebting
+ * GLXDrbwbble surfbces (pbuffers, etc).  Ebch GrbphicsConfig hbs one
+ * bssocibted GLXFBConfig.
  */
-typedef struct _GLXGraphicsConfigInfo {
+typedef struct _GLXGrbphicsConfigInfo {
     jint          screen;
-    jint          visual;
+    jint          visubl;
     OGLContext    *context;
     GLXFBConfig   fbconfig;
-} GLXGraphicsConfigInfo;
+} GLXGrbphicsConfigInfo;
 
 /**
- * The GLXCtxInfo structure contains the native GLXContext information
- * required by and is encapsulated by the platform-independent OGLContext
+ * The GLXCtxInfo structure contbins the nbtive GLXContext informbtion
+ * required by bnd is encbpsulbted by the plbtform-independent OGLContext
  * structure.
  *
  *     GLXContext context;
- * The core native GLX context.  Rendering commands have no effect until a
- * GLXContext is made current (active).
+ * The core nbtive GLX context.  Rendering commbnds hbve no effect until b
+ * GLXContext is mbde current (bctive).
  *
  *     GLXFBConfig fbconfig;
- * This is the same GLXFBConfig that is stored in the GLXGraphicsConfigInfo
- * whence this GLXContext was created.  It is provided here for convenience.
+ * This is the sbme GLXFBConfig thbt is stored in the GLXGrbphicsConfigInfo
+ * whence this GLXContext wbs crebted.  It is provided here for convenience.
  *
- *     GLXPbuffer  scratchSurface;
- * The scratch surface, which is used to make a context current when we do
- * not otherwise have a reference to an OpenGL surface for the purposes of
- * making a context current.
+ *     GLXPbuffer  scrbtchSurfbce;
+ * The scrbtch surfbce, which is used to mbke b context current when we do
+ * not otherwise hbve b reference to bn OpenGL surfbce for the purposes of
+ * mbking b context current.
  */
 typedef struct _GLXCtxInfo {
     GLXContext  context;
     GLXFBConfig fbconfig;
-    GLXPbuffer  scratchSurface;
+    GLXPbuffer  scrbtchSurfbce;
 } GLXCtxInfo;
 
-jboolean GLXGC_IsGLXAvailable();
-VisualID GLXGC_FindBestVisual(JNIEnv *env, jint screen);
+jboolebn GLXGC_IsGLXAvbilbble();
+VisublID GLXGC_FindBestVisubl(JNIEnv *env, jint screen);
 
 #endif /* HEADLESS */
 
-#endif /* GLXGraphicsConfig_h_Included */
+#endif /* GLXGrbphicsConfig_h_Included */

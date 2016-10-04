@@ -1,29 +1,29 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "splashscreen_impl.h"
+#include "splbshscreen_impl.h"
 
 #include "jpeglib.h"
 #include "jerror.h"
@@ -31,47 +31,47 @@
 #include <setjmp.h>
 
 #ifdef __APPLE__
-/* use setjmp/longjmp versions that do not save/restore the signal mask */
+/* use setjmp/longjmp versions thbt do not sbve/restore the signbl mbsk */
 #define setjmp _setjmp
 #define longjmp _longjmp
 #endif
 
-/* stream input handling */
+/* strebm input hbndling */
 
 typedef struct
 {
     struct jpeg_source_mgr pub; /* public fields */
-    SplashStream * stream;      /* source stream */
-    JOCTET *buffer;             /* start of buffer */
-    boolean start_of_file;      /* have we gotten any data yet? */
-} stream_source_mgr;
+    SplbshStrebm * strebm;      /* source strebm */
+    JOCTET *buffer;             /* stbrt of buffer */
+    boolebn stbrt_of_file;      /* hbve we gotten bny dbtb yet? */
+} strebm_source_mgr;
 
-typedef stream_source_mgr *stream_src_ptr;
+typedef strebm_source_mgr *strebm_src_ptr;
 
-#define INPUT_BUF_SIZE  4096    /* choose an efficiently fread'able size */
+#define INPUT_BUF_SIZE  4096    /* choose bn efficiently frebd'bble size */
 
 METHODDEF(void)
-stream_init_source(j_decompress_ptr cinfo)
+strebm_init_source(j_decompress_ptr cinfo)
 {
-    stream_src_ptr src = (stream_src_ptr) cinfo->src;
+    strebm_src_ptr src = (strebm_src_ptr) cinfo->src;
 
-    src->start_of_file = TRUE;
+    src->stbrt_of_file = TRUE;
 }
 
-METHODDEF(boolean)
-stream_fill_input_buffer(j_decompress_ptr cinfo)
+METHODDEF(boolebn)
+strebm_fill_input_buffer(j_decompress_ptr cinfo)
 {
-    stream_src_ptr src = (stream_src_ptr) cinfo->src;
+    strebm_src_ptr src = (strebm_src_ptr) cinfo->src;
     size_t nbytes;
 
 
-    nbytes = src->stream->read(src->stream, src->buffer, INPUT_BUF_SIZE);
+    nbytes = src->strebm->rebd(src->strebm, src->buffer, INPUT_BUF_SIZE);
 
     if (nbytes <= 0) {
-        if (src->start_of_file) /* Treat empty input file as fatal error */
+        if (src->stbrt_of_file) /* Trebt empty input file bs fbtbl error */
             ERREXIT(cinfo, JERR_INPUT_EMPTY);
         WARNMS(cinfo, JWRN_JPEG_EOF);
-        /* Insert a fake EOI marker */
+        /* Insert b fbke EOI mbrker */
         src->buffer[0] = (JOCTET) 0xFF;
         src->buffer[1] = (JOCTET) JPEG_EOI;
         nbytes = 2;
@@ -79,20 +79,20 @@ stream_fill_input_buffer(j_decompress_ptr cinfo)
 
     src->pub.next_input_byte = src->buffer;
     src->pub.bytes_in_buffer = nbytes;
-    src->start_of_file = FALSE;
+    src->stbrt_of_file = FALSE;
 
     return TRUE;
 }
 
 METHODDEF(void)
-    stream_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
+    strebm_skip_input_dbtb(j_decompress_ptr cinfo, long num_bytes)
 {
-    stream_src_ptr src = (stream_src_ptr) cinfo->src;
+    strebm_src_ptr src = (strebm_src_ptr) cinfo->src;
 
     if (num_bytes > 0) {
         while (num_bytes > (long) src->pub.bytes_in_buffer) {
             num_bytes -= (long) src->pub.bytes_in_buffer;
-            (void) stream_fill_input_buffer(cinfo);
+            (void) strebm_fill_input_buffer(cinfo);
         }
         src->pub.next_input_byte += (size_t) num_bytes;
         src->pub.bytes_in_buffer -= (size_t) num_bytes;
@@ -100,111 +100,111 @@ METHODDEF(void)
 }
 
 METHODDEF(void)
-stream_term_source(j_decompress_ptr cinfo)
+strebm_term_source(j_decompress_ptr cinfo)
 {
 }
 
-static void
-set_stream_src(j_decompress_ptr cinfo, SplashStream * stream)
+stbtic void
+set_strebm_src(j_decompress_ptr cinfo, SplbshStrebm * strebm)
 {
-    stream_src_ptr src;
+    strebm_src_ptr src;
 
     if (cinfo->src == NULL) {   /* first time for this JPEG object? */
         cinfo->src = (struct jpeg_source_mgr *)
-            (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo,
-            JPOOL_PERMANENT, sizeof(stream_source_mgr));
-        src = (stream_src_ptr) cinfo->src;
+            (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo,
+            JPOOL_PERMANENT, sizeof(strebm_source_mgr));
+        src = (strebm_src_ptr) cinfo->src;
         src->buffer = (JOCTET *)
-            (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo,
+            (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo,
             JPOOL_PERMANENT, INPUT_BUF_SIZE * sizeof(JOCTET));
     }
 
-    src = (stream_src_ptr) cinfo->src;
-    src->pub.init_source = stream_init_source;
-    src->pub.fill_input_buffer = stream_fill_input_buffer;
-    src->pub.skip_input_data = stream_skip_input_data;
-    src->pub.resync_to_restart = jpeg_resync_to_restart;        /* use default method */
-    src->pub.term_source = stream_term_source;
-    src->stream = stream;
-    src->pub.bytes_in_buffer = 0;       /* forces fill_input_buffer on first read */
-    src->pub.next_input_byte = NULL;    /* until buffer loaded */
+    src = (strebm_src_ptr) cinfo->src;
+    src->pub.init_source = strebm_init_source;
+    src->pub.fill_input_buffer = strebm_fill_input_buffer;
+    src->pub.skip_input_dbtb = strebm_skip_input_dbtb;
+    src->pub.resync_to_restbrt = jpeg_resync_to_restbrt;        /* use defbult method */
+    src->pub.term_source = strebm_term_source;
+    src->strebm = strebm;
+    src->pub.bytes_in_buffer = 0;       /* forces fill_input_buffer on first rebd */
+    src->pub.next_input_byte = NULL;    /* until buffer lobded */
 }
 
 int
-SplashDecodeJpeg(Splash * splash, struct jpeg_decompress_struct *cinfo)
+SplbshDecodeJpeg(Splbsh * splbsh, struct jpeg_decompress_struct *cinfo)
 {
     int rowStride, stride;
     JSAMPARRAY buffer;
-    ImageFormat srcFormat;
+    ImbgeFormbt srcFormbt;
 
-    jpeg_read_header(cinfo, TRUE);
+    jpeg_rebd_hebder(cinfo, TRUE);
 
-    // SplashScreen jpeg converter expects data in RGB format only
-    cinfo->out_color_space = JCS_RGB;
+    // SplbshScreen jpeg converter expects dbtb in RGB formbt only
+    cinfo->out_color_spbce = JCS_RGB;
 
-    jpeg_start_decompress(cinfo);
+    jpeg_stbrt_decompress(cinfo);
 
-    SplashCleanup(splash);
+    SplbshClebnup(splbsh);
 
-    splash->width = cinfo->output_width;
-    splash->height = cinfo->output_height;
+    splbsh->width = cinfo->output_width;
+    splbsh->height = cinfo->output_height;
 
-    if (!SAFE_TO_ALLOC(splash->imageFormat.depthBytes, splash->width)) {
+    if (!SAFE_TO_ALLOC(splbsh->imbgeFormbt.depthBytes, splbsh->width)) {
         return 0;
     }
-    stride = splash->width * splash->imageFormat.depthBytes;
+    stride = splbsh->width * splbsh->imbgeFormbt.depthBytes;
 
-    if (!SAFE_TO_ALLOC(stride, splash->height)) {
+    if (!SAFE_TO_ALLOC(stride, splbsh->height)) {
         return 0;
     }
     if (!SAFE_TO_ALLOC(cinfo->output_width, cinfo->output_components)) {
         return 0;
     }
 
-    splash->frameCount = 1;
-    splash->frames = (SplashImage *) malloc(sizeof(SplashImage) *
-        splash->frameCount);
-    if (splash->frames == NULL) {
+    splbsh->frbmeCount = 1;
+    splbsh->frbmes = (SplbshImbge *) mblloc(sizeof(SplbshImbge) *
+        splbsh->frbmeCount);
+    if (splbsh->frbmes == NULL) {
         return 0;
     }
-    memset(splash->frames, 0, sizeof(SplashImage) *
-        splash->frameCount);
+    memset(splbsh->frbmes, 0, sizeof(SplbshImbge) *
+        splbsh->frbmeCount);
 
-    splash->loopCount = 1;
-    splash->frames[0].delay = 0;
-    splash->frames[0].bitmapBits = malloc(stride * splash->height);
-    if (splash->frames[0].bitmapBits == NULL) {
-        free(splash->frames);
+    splbsh->loopCount = 1;
+    splbsh->frbmes[0].delby = 0;
+    splbsh->frbmes[0].bitmbpBits = mblloc(stride * splbsh->height);
+    if (splbsh->frbmes[0].bitmbpBits == NULL) {
+        free(splbsh->frbmes);
         return 0;
     }
 
     rowStride = cinfo->output_width * cinfo->output_components;
 
-    buffer = (*cinfo->mem->alloc_sarray)
+    buffer = (*cinfo->mem->blloc_sbrrby)
         ((j_common_ptr) cinfo, JPOOL_IMAGE, rowStride, 1);
     if (buffer == NULL) {
-        free(splash->frames[0].bitmapBits);
-        free(splash->frames);
+        free(splbsh->frbmes[0].bitmbpBits);
+        free(splbsh->frbmes);
         return 0;
     }
 
-    initFormat(&srcFormat, 0x00FF0000, 0x0000FF00, 0x000000FF, 0x00000000);
-    srcFormat.byteOrder = BYTE_ORDER_LSBFIRST;
-    srcFormat.depthBytes = 3;
-    srcFormat.fixedBits = 0xFF000000;
+    initFormbt(&srcFormbt, 0x00FF0000, 0x0000FF00, 0x000000FF, 0x00000000);
+    srcFormbt.byteOrder = BYTE_ORDER_LSBFIRST;
+    srcFormbt.depthBytes = 3;
+    srcFormbt.fixedBits = 0xFF000000;
 
-    splash->maskRequired = 0;   // reset maskRequired as JPEG can't be transparent
+    splbsh->mbskRequired = 0;   // reset mbskRequired bs JPEG cbn't be trbnspbrent
 
-    while (cinfo->output_scanline < cinfo->output_height) {
-        rgbquad_t *out =
-            (rgbquad_t *) ((byte_t *) splash->frames[0].bitmapBits +
-                cinfo->output_scanline * stride);
+    while (cinfo->output_scbnline < cinfo->output_height) {
+        rgbqubd_t *out =
+            (rgbqubd_t *) ((byte_t *) splbsh->frbmes[0].bitmbpBits +
+                cinfo->output_scbnline * stride);
 
-        jpeg_read_scanlines(cinfo, buffer, 1);
+        jpeg_rebd_scbnlines(cinfo, buffer, 1);
         convertLine(buffer[0], sizeof(JSAMPLE) * 3, out,
-            splash->imageFormat.depthBytes, cinfo->output_width, &srcFormat,
-            &splash->imageFormat, CVT_COPY, NULL, 0, NULL,
-            cinfo->output_scanline, 0);
+            splbsh->imbgeFormbt.depthBytes, cinfo->output_width, &srcFormbt,
+            &splbsh->imbgeFormbt, CVT_COPY, NULL, 0, NULL,
+            cinfo->output_scbnline, 0);
     }
     jpeg_finish_decompress(cinfo);
 
@@ -214,27 +214,27 @@ SplashDecodeJpeg(Splash * splash, struct jpeg_decompress_struct *cinfo)
 struct my_error_mgr
 {
     struct jpeg_error_mgr pub;  /* "public" fields */
-    jmp_buf setjmp_buffer;      /* for return to caller */
+    jmp_buf setjmp_buffer;      /* for return to cbller */
 };
 
 typedef struct my_error_mgr *my_error_ptr;
 
-static void
+stbtic void
 my_error_exit(j_common_ptr cinfo)
 {
-    /* cinfo->err really points to a my_error_mgr struct, so coerce pointer */
+    /* cinfo->err reblly points to b my_error_mgr struct, so coerce pointer */
     my_error_ptr myerr = (my_error_ptr) cinfo->err;
 
-    /* Always display the message. */
-    /* We could postpone this until after returning, if we chose. */
-    (*cinfo->err->output_message) (cinfo);
+    /* Alwbys displby the messbge. */
+    /* We could postpone this until bfter returning, if we chose. */
+    (*cinfo->err->output_messbge) (cinfo);
 
     /* Return control to the setjmp point */
     longjmp(myerr->setjmp_buffer, 1);
 }
 
 int
-SplashDecodeJpegStream(Splash * splash, SplashStream * stream)
+SplbshDecodeJpegStrebm(Splbsh * splbsh, SplbshStrebm * strebm)
 {
     struct jpeg_decompress_struct cinfo;
     int success = 0;
@@ -246,9 +246,9 @@ SplashDecodeJpegStream(Splash * splash, SplashStream * stream)
     if (setjmp(jerr.setjmp_buffer)) {
         goto done;
     }
-    jpeg_create_decompress(&cinfo);
-    set_stream_src(&cinfo, stream);
-    success = SplashDecodeJpeg(splash, &cinfo);
+    jpeg_crebte_decompress(&cinfo);
+    set_strebm_src(&cinfo, strebm);
+    success = SplbshDecodeJpeg(splbsh, &cinfo);
 
   done:
     jpeg_destroy_decompress(&cinfo);

@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.util.EventObject;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.util.EventObject;
 
-import java.security.AccessController;
+import jbvb.security.AccessController;
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
 
 /**
- * <p>The Notification class represents a notification emitted by an
- * MBean.  It contains a reference to the source MBean: if the
- * notification has been forwarded through the MBean server, and the
- * original source of the notification was a reference to the emitting
- * MBean object, then the MBean server replaces it by the MBean's
- * ObjectName.  If the listener has registered directly with the
- * MBean, this is either the object name or a direct reference to the
- * MBean.</p>
+ * <p>The Notificbtion clbss represents b notificbtion emitted by bn
+ * MBebn.  It contbins b reference to the source MBebn: if the
+ * notificbtion hbs been forwbrded through the MBebn server, bnd the
+ * originbl source of the notificbtion wbs b reference to the emitting
+ * MBebn object, then the MBebn server replbces it by the MBebn's
+ * ObjectNbme.  If the listener hbs registered directly with the
+ * MBebn, this is either the object nbme or b direct reference to the
+ * MBebn.</p>
  *
- * <p>It is strongly recommended that notification senders use the
- * object name rather than a reference to the MBean object as the
+ * <p>It is strongly recommended thbt notificbtion senders use the
+ * object nbme rbther thbn b reference to the MBebn object bs the
  * source.</p>
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-7516092053498031989L</code>.
+ * <p>The <b>seriblVersionUID</b> of this clbss is <code>-7516092053498031989L</code>.
  *
  * @since 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID is not constant
-public class Notification extends EventObject {
+@SuppressWbrnings("seribl")  // seriblVersionUID is not constbnt
+public clbss Notificbtion extends EventObject {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form depends
+    // on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 1716977971058914352L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = 1716977971058914352L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -7516092053498031989L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = -7516092053498031989L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-        new ObjectStreamField("message", String.class),
-        new ObjectStreamField("sequenceNumber", Long.TYPE),
-        new ObjectStreamField("source", Object.class),
-        new ObjectStreamField("sourceObjectName", ObjectName.class),
-        new ObjectStreamField("timeStamp", Long.TYPE),
-        new ObjectStreamField("type", String.class),
-        new ObjectStreamField("userData", Object.class)
+        new ObjectStrebmField("messbge", String.clbss),
+        new ObjectStrebmField("sequenceNumber", Long.TYPE),
+        new ObjectStrebmField("source", Object.clbss),
+        new ObjectStrebmField("sourceObjectNbme", ObjectNbme.clbss),
+        new ObjectStrebmField("timeStbmp", Long.TYPE),
+        new ObjectStrebmField("type", String.clbss),
+        new ObjectStrebmField("userDbtb", Object.clbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-        new ObjectStreamField("message", String.class),
-        new ObjectStreamField("sequenceNumber", Long.TYPE),
-        new ObjectStreamField("source", Object.class),
-        new ObjectStreamField("timeStamp", Long.TYPE),
-        new ObjectStreamField("type", String.class),
-        new ObjectStreamField("userData", Object.class)
+        new ObjectStrebmField("messbge", String.clbss),
+        new ObjectStrebmField("sequenceNumber", Long.TYPE),
+        new ObjectStrebmField("source", Object.clbss),
+        new ObjectStrebmField("timeStbmp", Long.TYPE),
+        new ObjectStrebmField("type", String.clbss),
+        new ObjectStrebmField("userDbtb", Object.clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
     /**
-     * @serialField type String The notification type.
-     *              A string expressed in a dot notation similar to Java properties.
-     *              An example of a notification type is network.alarm.router
-     * @serialField sequenceNumber long The notification sequence number.
-     *              A serial number which identify particular instance
-     *              of notification in the context of the notification source.
-     * @serialField timeStamp long The notification timestamp.
-     *              Indicating when the notification was generated
-     * @serialField userData Object The notification user data.
-     *              Used for whatever other data the notification
-     *              source wishes to communicate to its consumers
-     * @serialField message String The notification message.
-     * @serialField source Object The object on which the notification initially occurred.
+     * @seriblField type String The notificbtion type.
+     *              A string expressed in b dot notbtion similbr to Jbvb properties.
+     *              An exbmple of b notificbtion type is network.blbrm.router
+     * @seriblField sequenceNumber long The notificbtion sequence number.
+     *              A seribl number which identify pbrticulbr instbnce
+     *              of notificbtion in the context of the notificbtion source.
+     * @seriblField timeStbmp long The notificbtion timestbmp.
+     *              Indicbting when the notificbtion wbs generbted
+     * @seriblField userDbtb Object The notificbtion user dbtb.
+     *              Used for whbtever other dbtb the notificbtion
+     *              source wishes to communicbte to its consumers
+     * @seriblField messbge String The notificbtion messbge.
+     * @seriblField source Object The object on which the notificbtion initiblly occurred.
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte stbtic boolebn compbt = fblse;
+    stbtic {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: exception means no compat with 1.0, too bad
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            String form = AccessController.doPrivileged(bct);
+            compbt = (form != null && form.equbls("1.0"));
+        } cbtch (Exception e) {
+            // OK: exception mebns no compbt with 1.0, too bbd
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
     /**
-     * @serial The notification type.
-     *         A string expressed in a dot notation similar to Java properties.
-     *         An example of a notification type is network.alarm.router
+     * @seribl The notificbtion type.
+     *         A string expressed in b dot notbtion similbr to Jbvb properties.
+     *         An exbmple of b notificbtion type is network.blbrm.router
      */
-    private String type;
+    privbte String type;
 
     /**
-     * @serial The notification sequence number.
-     *         A serial number which identify particular instance
-     *         of notification in the context of the notification source.
+     * @seribl The notificbtion sequence number.
+     *         A seribl number which identify pbrticulbr instbnce
+     *         of notificbtion in the context of the notificbtion source.
      */
-    private long sequenceNumber;
+    privbte long sequenceNumber;
 
     /**
-     * @serial The notification timestamp.
-     *         Indicating when the notification was generated
+     * @seribl The notificbtion timestbmp.
+     *         Indicbting when the notificbtion wbs generbted
      */
-    private long timeStamp;
+    privbte long timeStbmp;
 
     /**
-     * @serial The notification user data.
-     *         Used for whatever other data the notification
-     *         source wishes to communicate to its consumers
+     * @seribl The notificbtion user dbtb.
+     *         Used for whbtever other dbtb the notificbtion
+     *         source wishes to communicbte to its consumers
      */
-    private Object userData = null;
+    privbte Object userDbtb = null;
 
     /**
-     * @serial The notification message.
+     * @seribl The notificbtion messbge.
      */
-    private String message  = "";
+    privbte String messbge  = "";
 
     /**
      * <p>This field hides the {@link EventObject#source} field in the
-     * parent class to make it non-transient and therefore part of the
-     * serialized form.</p>
+     * pbrent clbss to mbke it non-trbnsient bnd therefore pbrt of the
+     * seriblized form.</p>
      *
-     * @serial The object on which the notification initially occurred.
+     * @seribl The object on which the notificbtion initiblly occurred.
      */
     protected Object source = null;
 
 
     /**
-     * Creates a Notification object.
-     * The notification timeStamp is set to the current date.
+     * Crebtes b Notificbtion object.
+     * The notificbtion timeStbmp is set to the current dbte.
      *
-     * @param type The notification type.
-     * @param source The notification source.
-     * @param sequenceNumber The notification sequence number within the source object.
+     * @pbrbm type The notificbtion type.
+     * @pbrbm source The notificbtion source.
+     * @pbrbm sequenceNumber The notificbtion sequence number within the source object.
      *
      */
-    public Notification(String type, Object source, long sequenceNumber) {
+    public Notificbtion(String type, Object source, long sequenceNumber) {
         super (source) ;
         this.source = source;
         this.type = type;
         this.sequenceNumber = sequenceNumber ;
-        this.timeStamp = (new java.util.Date()).getTime() ;
+        this.timeStbmp = (new jbvb.util.Dbte()).getTime() ;
     }
 
     /**
-     * Creates a Notification object.
-     * The notification timeStamp is set to the current date.
+     * Crebtes b Notificbtion object.
+     * The notificbtion timeStbmp is set to the current dbte.
      *
-     * @param type The notification type.
-     * @param source The notification source.
-     * @param sequenceNumber The notification sequence number within the source object.
-     * @param message The detailed message.
+     * @pbrbm type The notificbtion type.
+     * @pbrbm source The notificbtion source.
+     * @pbrbm sequenceNumber The notificbtion sequence number within the source object.
+     * @pbrbm messbge The detbiled messbge.
      *
      */
-    public Notification(String type, Object source, long sequenceNumber, String message) {
+    public Notificbtion(String type, Object source, long sequenceNumber, String messbge) {
         super (source) ;
         this.source = source;
         this.type = type;
         this.sequenceNumber = sequenceNumber ;
-        this.timeStamp = (new java.util.Date()).getTime() ;
-        this.message = message ;
+        this.timeStbmp = (new jbvb.util.Dbte()).getTime() ;
+        this.messbge = messbge ;
     }
 
     /**
-     * Creates a Notification object.
+     * Crebtes b Notificbtion object.
      *
-     * @param type The notification type.
-     * @param source The notification source.
-     * @param sequenceNumber The notification sequence number within the source object.
-     * @param timeStamp The notification emission date.
+     * @pbrbm type The notificbtion type.
+     * @pbrbm source The notificbtion source.
+     * @pbrbm sequenceNumber The notificbtion sequence number within the source object.
+     * @pbrbm timeStbmp The notificbtion emission dbte.
      *
      */
-    public Notification(String type, Object source, long sequenceNumber, long timeStamp) {
+    public Notificbtion(String type, Object source, long sequenceNumber, long timeStbmp) {
         super (source) ;
         this.source = source;
         this.type = type ;
         this.sequenceNumber = sequenceNumber ;
-        this.timeStamp = timeStamp ;
+        this.timeStbmp = timeStbmp ;
     }
 
     /**
-     * Creates a Notification object.
+     * Crebtes b Notificbtion object.
      *
-     * @param type The notification type.
-     * @param source The notification source.
-     * @param sequenceNumber The notification sequence number within the source object.
-     * @param timeStamp The notification emission date.
-     * @param message The detailed message.
+     * @pbrbm type The notificbtion type.
+     * @pbrbm source The notificbtion source.
+     * @pbrbm sequenceNumber The notificbtion sequence number within the source object.
+     * @pbrbm timeStbmp The notificbtion emission dbte.
+     * @pbrbm messbge The detbiled messbge.
      *
      */
-    public Notification(String type, Object source, long sequenceNumber, long timeStamp, String message) {
+    public Notificbtion(String type, Object source, long sequenceNumber, long timeStbmp, String messbge) {
         super (source) ;
         this.source = source;
         this.type = type ;
         this.sequenceNumber = sequenceNumber ;
-        this.timeStamp = timeStamp ;
-        this.message = message ;
+        this.timeStbmp = timeStbmp ;
+        this.messbge = messbge ;
     }
 
     /**
      * Sets the source.
      *
-     * @param source the new source for this object.
+     * @pbrbm source the new source for this object.
      *
      * @see EventObject#getSource
      */
@@ -256,12 +256,12 @@ public class Notification extends EventObject {
     }
 
     /**
-     * Get the notification sequence number.
+     * Get the notificbtion sequence number.
      *
-     * @return The notification sequence number within the source object. It's a serial number
-     * identifying a particular instance of notification in the context of the notification source.
-     * The notification model does not assume that notifications will be received in the same order
-     * that they are sent. The sequence number helps listeners to sort received notifications.
+     * @return The notificbtion sequence number within the source object. It's b seribl number
+     * identifying b pbrticulbr instbnce of notificbtion in the context of the notificbtion source.
+     * The notificbtion model does not bssume thbt notificbtions will be received in the sbme order
+     * thbt they bre sent. The sequence number helps listeners to sort received notificbtions.
      *
      * @see #setSequenceNumber
      */
@@ -270,11 +270,11 @@ public class Notification extends EventObject {
     }
 
     /**
-     * Set the notification sequence number.
+     * Set the notificbtion sequence number.
      *
-     * @param sequenceNumber The notification sequence number within the source object. It is
-     * a serial number identifying a particular instance of notification in the
-     * context of the notification source.
+     * @pbrbm sequenceNumber The notificbtion sequence number within the source object. It is
+     * b seribl number identifying b pbrticulbr instbnce of notificbtion in the
+     * context of the notificbtion source.
      *
      * @see #getSequenceNumber
      */
@@ -283,115 +283,115 @@ public class Notification extends EventObject {
     }
 
     /**
-     * Get the notification type.
+     * Get the notificbtion type.
      *
-     * @return The notification type. It's a string expressed in a dot notation
-     * similar to Java properties. It is recommended that the notification type
-     * should follow the reverse-domain-name convention used by Java package
-     * names.  An example of a notification type is com.example.alarm.router.
+     * @return The notificbtion type. It's b string expressed in b dot notbtion
+     * similbr to Jbvb properties. It is recommended thbt the notificbtion type
+     * should follow the reverse-dombin-nbme convention used by Jbvb pbckbge
+     * nbmes.  An exbmple of b notificbtion type is com.exbmple.blbrm.router.
      */
     public String getType() {
         return type ;
     }
 
     /**
-     * Get the notification timestamp.
+     * Get the notificbtion timestbmp.
      *
-     * @return The notification timestamp.
+     * @return The notificbtion timestbmp.
      *
-     * @see #setTimeStamp
+     * @see #setTimeStbmp
      */
-    public long getTimeStamp() {
-        return timeStamp ;
+    public long getTimeStbmp() {
+        return timeStbmp ;
     }
 
     /**
-     * Set the notification timestamp.
+     * Set the notificbtion timestbmp.
      *
-     * @param timeStamp The notification timestamp. It indicates when the notification was generated.
+     * @pbrbm timeStbmp The notificbtion timestbmp. It indicbtes when the notificbtion wbs generbted.
      *
-     * @see #getTimeStamp
+     * @see #getTimeStbmp
      */
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimeStbmp(long timeStbmp) {
+        this.timeStbmp = timeStbmp;
     }
 
     /**
-     * Get the notification message.
+     * Get the notificbtion messbge.
      *
-     * @return The message string of this notification object.
+     * @return The messbge string of this notificbtion object.
      *
      */
-    public String getMessage() {
-        return message ;
+    public String getMessbge() {
+        return messbge ;
     }
 
     /**
-     * Get the user data.
+     * Get the user dbtb.
      *
-     * @return The user data object. It is used for whatever data
-     * the notification source wishes to communicate to its consumers.
+     * @return The user dbtb object. It is used for whbtever dbtb
+     * the notificbtion source wishes to communicbte to its consumers.
      *
-     * @see #setUserData
+     * @see #setUserDbtb
      */
-    public Object getUserData() {
-        return userData ;
+    public Object getUserDbtb() {
+        return userDbtb ;
     }
 
     /**
-     * Set the user data.
+     * Set the user dbtb.
      *
-     * @param userData The user data object. It is used for whatever data
-     * the notification source wishes to communicate to its consumers.
+     * @pbrbm userDbtb The user dbtb object. It is used for whbtever dbtb
+     * the notificbtion source wishes to communicbte to its consumers.
      *
-     * @see #getUserData
+     * @see #getUserDbtb
      */
-    public void setUserData(Object userData) {
+    public void setUserDbtb(Object userDbtb) {
 
-        this.userData = userData ;
+        this.userDbtb = userDbtb ;
     }
 
     /**
-     * Returns a String representation of this notification.
+     * Returns b String representbtion of this notificbtion.
      *
-     * @return A String representation of this notification.
+     * @return A String representbtion of this notificbtion.
      */
     @Override
     public String toString() {
-        return super.toString()+"[type="+type+"][message="+message+"]";
+        return super.toString()+"[type="+type+"][messbge="+messbge+"]";
     }
 
     /**
-     * Deserializes a {@link Notification} from an {@link ObjectInputStream}.
+     * Deseriblizes b {@link Notificbtion} from bn {@link ObjectInputStrebm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      // New serial form ignores extra field "sourceObjectName"
-      in.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+      // New seribl form ignores extrb field "sourceObjectNbme"
+      in.defbultRebdObject();
       super.source = source;
     }
 
 
     /**
-     * Serializes a {@link Notification} to an {@link ObjectOutputStream}.
+     * Seriblizes b {@link Notificbtion} to bn {@link ObjectOutputStrebm}.
      */
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
             throws IOException {
-        if (compat) {
-            // Serializes this instance in the old serial form
+        if (compbt) {
+            // Seriblizes this instbnce in the old seribl form
             //
-            ObjectOutputStream.PutField fields = out.putFields();
+            ObjectOutputStrebm.PutField fields = out.putFields();
             fields.put("type", type);
             fields.put("sequenceNumber", sequenceNumber);
-            fields.put("timeStamp", timeStamp);
-            fields.put("userData", userData);
-            fields.put("message", message);
+            fields.put("timeStbmp", timeStbmp);
+            fields.put("userDbtb", userDbtb);
+            fields.put("messbge", messbge);
             fields.put("source", source);
             out.writeFields();
         } else {
-            // Serializes this instance in the new serial form
+            // Seriblizes this instbnce in the new seribl form
             //
-            out.defaultWriteObject();
+            out.defbultWriteObject();
         }
     }
 }

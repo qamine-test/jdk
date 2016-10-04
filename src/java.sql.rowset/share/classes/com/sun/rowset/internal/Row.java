@@ -1,187 +1,187 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rowset.internal;
+pbckbge com.sun.rowset.internbl;
 
-import java.sql.*;
-import java.io.*;
-import java.lang.*;
-import java.util.*;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.lbng.*;
+import jbvb.util.*;
 
 /**
- * A class that keeps track of a row's values. A <code>Row</code> object
- * maintains an array of current column values and an array of original
- * column values, and it provides methods for getting and setting the
- * value of a column.  It also keeps track of which columns have
- * changed and whether the change was a delete, insert, or update.
+ * A clbss thbt keeps trbck of b row's vblues. A <code>Row</code> object
+ * mbintbins bn brrby of current column vblues bnd bn brrby of originbl
+ * column vblues, bnd it provides methods for getting bnd setting the
+ * vblue of b column.  It blso keeps trbck of which columns hbve
+ * chbnged bnd whether the chbnge wbs b delete, insert, or updbte.
  * <P>
- * Note that column numbers for rowsets start at <code>1</code>,
- * whereas the first element of an array or bitset is <code>0</code>.
- * The argument for the method <code>getColumnUpdated</code> refers to
+ * Note thbt column numbers for rowsets stbrt bt <code>1</code>,
+ * wherebs the first element of bn brrby or bitset is <code>0</code>.
+ * The brgument for the method <code>getColumnUpdbted</code> refers to
  * the column number in the rowset (the first column is <code>1</code>);
- * the argument for <code>setColumnUpdated</code> refers to the index
- * into the rowset's internal bitset (the first bit is <code>0</code>).
+ * the brgument for <code>setColumnUpdbted</code> refers to the index
+ * into the rowset's internbl bitset (the first bit is <code>0</code>).
  */
-public class Row extends BaseRow implements Serializable, Cloneable {
+public clbss Row extends BbseRow implements Seriblizbble, Clonebble {
 
-static final long serialVersionUID = 5047859032611314762L;
+stbtic finbl long seriblVersionUID = 5047859032611314762L;
 
 /**
- * An array containing the current column values for this <code>Row</code>
+ * An brrby contbining the current column vblues for this <code>Row</code>
  * object.
- * @serial
+ * @seribl
  */
-    private Object[] currentVals;
+    privbte Object[] currentVbls;
 
 /**
- * A <code>BitSet</code> object containing a flag for each column in
- * this <code>Row</code> object, with each flag indicating whether or
- * not the value in the column has been changed.
- * @serial
+ * A <code>BitSet</code> object contbining b flbg for ebch column in
+ * this <code>Row</code> object, with ebch flbg indicbting whether or
+ * not the vblue in the column hbs been chbnged.
+ * @seribl
  */
-    private BitSet colsChanged;
+    privbte BitSet colsChbnged;
 
 /**
- * A <code>boolean</code> indicating whether or not this <code>Row</code>
- * object has been deleted.  <code>true</code> indicates that it has
- * been deleted; <code>false</code> indicates that it has not.
- * @serial
+ * A <code>boolebn</code> indicbting whether or not this <code>Row</code>
+ * object hbs been deleted.  <code>true</code> indicbtes thbt it hbs
+ * been deleted; <code>fblse</code> indicbtes thbt it hbs not.
+ * @seribl
  */
-    private boolean deleted;
+    privbte boolebn deleted;
 
 /**
- * A <code>boolean</code> indicating whether or not this <code>Row</code>
- * object has been updated.  <code>true</code> indicates that it has
- * been updated; <code>false</code> indicates that it has not.
- * @serial
+ * A <code>boolebn</code> indicbting whether or not this <code>Row</code>
+ * object hbs been updbted.  <code>true</code> indicbtes thbt it hbs
+ * been updbted; <code>fblse</code> indicbtes thbt it hbs not.
+ * @seribl
  */
-    private boolean updated;
+    privbte boolebn updbted;
 
 /**
- * A <code>boolean</code> indicating whether or not this <code>Row</code>
- * object has been inserted.  <code>true</code> indicates that it has
- * been inserted; <code>false</code> indicates that it has not.
- * @serial
+ * A <code>boolebn</code> indicbting whether or not this <code>Row</code>
+ * object hbs been inserted.  <code>true</code> indicbtes thbt it hbs
+ * been inserted; <code>fblse</code> indicbtes thbt it hbs not.
+ * @seribl
  */
-    private boolean inserted;
+    privbte boolebn inserted;
 
 /**
  * The number of columns in this <code>Row</code> object.
- * @serial
+ * @seribl
  */
-    private int numCols;
+    privbte int numCols;
 
 /**
- * Creates a new <code>Row</code> object with the given number of columns.
- * The newly-created row includes an array of original values,
- * an array for storing its current values, and a <code>BitSet</code>
- * object for keeping track of which column values have been changed.
+ * Crebtes b new <code>Row</code> object with the given number of columns.
+ * The newly-crebted row includes bn brrby of originbl vblues,
+ * bn brrby for storing its current vblues, bnd b <code>BitSet</code>
+ * object for keeping trbck of which column vblues hbve been chbnged.
  */
     public Row(int numCols) {
-        origVals = new Object[numCols];
-        currentVals = new Object[numCols];
-        colsChanged = new BitSet(numCols);
+        origVbls = new Object[numCols];
+        currentVbls = new Object[numCols];
+        colsChbnged = new BitSet(numCols);
         this.numCols = numCols;
     }
 
 /**
- * Creates a new <code>Row</code> object with the given number of columns
- * and with its array of original values initialized to the given array.
- * The new <code>Row</code> object also has an array for storing its
- * current values and a <code>BitSet</code> object for keeping track
- * of which column values have been changed.
+ * Crebtes b new <code>Row</code> object with the given number of columns
+ * bnd with its brrby of originbl vblues initiblized to the given brrby.
+ * The new <code>Row</code> object blso hbs bn brrby for storing its
+ * current vblues bnd b <code>BitSet</code> object for keeping trbck
+ * of which column vblues hbve been chbnged.
  */
-    public Row(int numCols, Object[] vals) {
-        origVals = new Object[numCols];
-        System.arraycopy(vals, 0, origVals, 0, numCols);
-        currentVals = new Object[numCols];
-        colsChanged = new BitSet(numCols);
+    public Row(int numCols, Object[] vbls) {
+        origVbls = new Object[numCols];
+        System.brrbycopy(vbls, 0, origVbls, 0, numCols);
+        currentVbls = new Object[numCols];
+        colsChbnged = new BitSet(numCols);
         this.numCols = numCols;
     }
 
 /**
  *
- * This method is called internally by the <code>CachedRowSet.populate</code>
+ * This method is cblled internblly by the <code>CbchedRowSet.populbte</code>
  * methods.
  *
- * @param idx the number of the column in this <code>Row</code> object
- *            that is to be set; the index of the first column is
+ * @pbrbm idx the number of the column in this <code>Row</code> object
+ *            thbt is to be set; the index of the first column is
  *            <code>1</code>
- * @param val the new value to be set
+ * @pbrbm vbl the new vblue to be set
  */
-    public void initColumnObject(int idx, Object val) {
-        origVals[idx - 1] = val;
+    public void initColumnObject(int idx, Object vbl) {
+        origVbls[idx - 1] = vbl;
     }
 
 
 /**
  *
- * This method is called internally by the <code>CachedRowSet.updateXXX</code>
+ * This method is cblled internblly by the <code>CbchedRowSet.updbteXXX</code>
  * methods.
  *
- * @param idx the number of the column in this <code>Row</code> object
- *            that is to be set; the index of the first column is
+ * @pbrbm idx the number of the column in this <code>Row</code> object
+ *            thbt is to be set; the index of the first column is
  *            <code>1</code>
- * @param val the new value to be set
+ * @pbrbm vbl the new vblue to be set
  */
-    public void setColumnObject(int idx, Object val) {
-            currentVals[idx - 1] = val;
-            setColUpdated(idx - 1);
+    public void setColumnObject(int idx, Object vbl) {
+            currentVbls[idx - 1] = vbl;
+            setColUpdbted(idx - 1);
     }
 
 /**
- * Retrieves the column value stored in the designated column of this
+ * Retrieves the column vblue stored in the designbted column of this
  * <code>Row</code> object.
  *
- * @param columnIndex the index of the column value to be retrieved;
+ * @pbrbm columnIndex the index of the column vblue to be retrieved;
  *                    the index of the first column is <code>1</code>
- * @return an <code>Object</code> in the Java programming language that
- *         represents the value stored in the designated column
- * @throws SQLException if there is a database access error
+ * @return bn <code>Object</code> in the Jbvb progrbmming lbngubge thbt
+ *         represents the vblue stored in the designbted column
+ * @throws SQLException if there is b dbtbbbse bccess error
  */
     public Object getColumnObject(int columnIndex) throws SQLException {
-        if (getColUpdated(columnIndex - 1)) {
-            return(currentVals[columnIndex - 1]); // maps to array!!
+        if (getColUpdbted(columnIndex - 1)) {
+            return(currentVbls[columnIndex - 1]); // mbps to brrby!!
         } else {
-            return(origVals[columnIndex - 1]); // maps to array!!
+            return(origVbls[columnIndex - 1]); // mbps to brrby!!
         }
     }
 
 /**
- * Indicates whether the designated column of this <code>Row</code> object
- * has been changed.
- * @param idx the index into the <code>BitSet</code> object maintained by
- *            this <code>Row</code> object to keep track of which column
- *            values have been modified; the index of the first bit is
+ * Indicbtes whether the designbted column of this <code>Row</code> object
+ * hbs been chbnged.
+ * @pbrbm idx the index into the <code>BitSet</code> object mbintbined by
+ *            this <code>Row</code> object to keep trbck of which column
+ *            vblues hbve been modified; the index of the first bit is
  *            <code>0</code>
- * @return <code>true</code> if the designated column value has been changed;
- *         <code>false</code> otherwise
+ * @return <code>true</code> if the designbted column vblue hbs been chbnged;
+ *         <code>fblse</code> otherwise
  *
  */
-    public boolean getColUpdated(int idx) {
-        return colsChanged.get(idx);
+    public boolebn getColUpdbted(int idx) {
+        return colsChbnged.get(idx);
     }
 
 /**
@@ -190,35 +190,35 @@ static final long serialVersionUID = 5047859032611314762L;
  *
  * @see #getDeleted
  */
-    public void setDeleted() { // %%% was public
+    public void setDeleted() { // %%% wbs public
         deleted = true;
     }
 
 
 /**
- * Retrieves the value of this <code>Row</code> object's <code>deleted</code> field,
- * which will be <code>true</code> if one or more of its columns has been
+ * Retrieves the vblue of this <code>Row</code> object's <code>deleted</code> field,
+ * which will be <code>true</code> if one or more of its columns hbs been
  * deleted.
- * @return <code>true</code> if a column value has been deleted; <code>false</code>
+ * @return <code>true</code> if b column vblue hbs been deleted; <code>fblse</code>
  *         otherwise
  *
  * @see #setDeleted
  */
-    public boolean getDeleted() {
+    public boolebn getDeleted() {
         return(deleted);
     }
 
 /**
  * Sets the <code>deleted</code> field for this <code>Row</code> object to
- * <code>false</code>.
+ * <code>fblse</code>.
  */
-    public void clearDeleted() {
-        deleted = false;
+    public void clebrDeleted() {
+        deleted = fblse;
     }
 
 
 /**
- * Sets the value of this <code>Row</code> object's <code>inserted</code> field
+ * Sets the vblue of this <code>Row</code> object's <code>inserted</code> field
  * to <code>true</code>.
  *
  * @see #getInserted
@@ -229,113 +229,113 @@ static final long serialVersionUID = 5047859032611314762L;
 
 
 /**
- * Retrieves the value of this <code>Row</code> object's <code>inserted</code> field,
- * which will be <code>true</code> if this row has been inserted.
- * @return <code>true</code> if this row has been inserted; <code>false</code>
+ * Retrieves the vblue of this <code>Row</code> object's <code>inserted</code> field,
+ * which will be <code>true</code> if this row hbs been inserted.
+ * @return <code>true</code> if this row hbs been inserted; <code>fblse</code>
  *         otherwise
  *
  * @see #setInserted
  */
-    public boolean getInserted() {
+    public boolebn getInserted() {
         return(inserted);
     }
 
 
 /**
  * Sets the <code>inserted</code> field for this <code>Row</code> object to
- * <code>false</code>.
+ * <code>fblse</code>.
  */
-    public void clearInserted() { // %%% was public
-        inserted = false;
+    public void clebrInserted() { // %%% wbs public
+        inserted = fblse;
     }
 
 /**
- * Retrieves the value of this <code>Row</code> object's
- * <code>updated</code> field.
- * @return <code>true</code> if this <code>Row</code> object has been
- *         updated; <code>false</code> if it has not
+ * Retrieves the vblue of this <code>Row</code> object's
+ * <code>updbted</code> field.
+ * @return <code>true</code> if this <code>Row</code> object hbs been
+ *         updbted; <code>fblse</code> if it hbs not
  *
- * @see #setUpdated
+ * @see #setUpdbted
  */
-    public boolean getUpdated() {
-        return(updated);
+    public boolebn getUpdbted() {
+        return(updbted);
     }
 
 /**
- * Sets the <code>updated</code> field for this <code>Row</code> object to
- * <code>true</code> if one or more of its column values has been changed.
+ * Sets the <code>updbted</code> field for this <code>Row</code> object to
+ * <code>true</code> if one or more of its column vblues hbs been chbnged.
  *
- * @see #getUpdated
+ * @see #getUpdbted
  */
-    public void setUpdated() {
-        // only mark something as updated if one or
-        // more of the columns has been changed.
+    public void setUpdbted() {
+        // only mbrk something bs updbted if one or
+        // more of the columns hbs been chbnged.
         for (int i = 0; i < numCols; i++) {
-            if (getColUpdated(i) == true) {
-                updated = true;
+            if (getColUpdbted(i) == true) {
+                updbted = true;
                 return;
             }
         }
     }
 
 /**
- * Sets the bit at the given index into this <code>Row</code> object's internal
- * <code>BitSet</code> object, indicating that the corresponding column value
- * (column <code>idx</code> + 1) has been changed.
+ * Sets the bit bt the given index into this <code>Row</code> object's internbl
+ * <code>BitSet</code> object, indicbting thbt the corresponding column vblue
+ * (column <code>idx</code> + 1) hbs been chbnged.
  *
- * @param idx the index into the <code>BitSet</code> object maintained by
- *            this <code>Row</code> object; the first bit is at index
+ * @pbrbm idx the index into the <code>BitSet</code> object mbintbined by
+ *            this <code>Row</code> object; the first bit is bt index
  *            <code>0</code>
  *
  */
-    private void setColUpdated(int idx) {
-        colsChanged.set(idx);
+    privbte void setColUpdbted(int idx) {
+        colsChbnged.set(idx);
     }
 
 /**
- * Sets the <code>updated</code> field for this <code>Row</code> object to
- * <code>false</code>, sets all the column values in this <code>Row</code>
- * object's internal array of current values to <code>null</code>, and clears
- * all of the bits in the <code>BitSet</code> object maintained by this
+ * Sets the <code>updbted</code> field for this <code>Row</code> object to
+ * <code>fblse</code>, sets bll the column vblues in this <code>Row</code>
+ * object's internbl brrby of current vblues to <code>null</code>, bnd clebrs
+ * bll of the bits in the <code>BitSet</code> object mbintbined by this
  * <code>Row</code> object.
  */
-    public void clearUpdated() {
-        updated = false;
+    public void clebrUpdbted() {
+        updbted = fblse;
         for (int i = 0; i < numCols; i++) {
-            currentVals[i] = null;
-            colsChanged.clear(i);
+            currentVbls[i] = null;
+            colsChbnged.clebr(i);
         }
     }
 
    /**
-    * Sets the column values in this <code>Row</code> object's internal
-    * array of original values with the values in its internal array of
-    * current values, sets all the values in this <code>Row</code>
-    * object's internal array of current values to <code>null</code>,
-    * clears all the bits in this <code>Row</code> object's internal bitset,
-    * and sets its <code>updated</code> field to <code>false</code>.
+    * Sets the column vblues in this <code>Row</code> object's internbl
+    * brrby of originbl vblues with the vblues in its internbl brrby of
+    * current vblues, sets bll the vblues in this <code>Row</code>
+    * object's internbl brrby of current vblues to <code>null</code>,
+    * clebrs bll the bits in this <code>Row</code> object's internbl bitset,
+    * bnd sets its <code>updbted</code> field to <code>fblse</code>.
     * <P>
-    * This method is called internally by the <code>CachedRowSet</code>
-    * method <code>makeRowOriginal</code>.
+    * This method is cblled internblly by the <code>CbchedRowSet</code>
+    * method <code>mbkeRowOriginbl</code>.
     */
     public void moveCurrentToOrig() {
         for (int i = 0; i < numCols; i++) {
-            if (getColUpdated(i) == true) {
-                origVals[i] = currentVals[i];
-                currentVals[i] = null;
-                colsChanged.clear(i);
+            if (getColUpdbted(i) == true) {
+                origVbls[i] = currentVbls[i];
+                currentVbls[i] = null;
+                colsChbnged.clebr(i);
             }
         }
-        updated = false;
+        updbted = fblse;
     }
 
    /**
     * Returns the row on which the cursor is positioned.
     *
-    * @return the <code>Row</code> object on which the <code>CachedRowSet</code>
-    *           implementation objects's cursor is positioned
+    * @return the <code>Row</code> object on which the <code>CbchedRowSet</code>
+    *           implementbtion objects's cursor is positioned
     */
-    public BaseRow getCurrentRow() {
+    public BbseRow getCurrentRow() {
         return null;
     }
 }

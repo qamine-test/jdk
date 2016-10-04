@@ -1,82 +1,82 @@
 
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  */
 
-package sun.nio.cs.ext;
+pbckbge sun.nio.cs.ext;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import static sun.nio.cs.CharsetMapping.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.CoderResult;
+import stbtic sun.nio.cs.ChbrsetMbpping.*;
 
-// EBCDIC DBCS-only Korean
-public class IBM834 extends Charset
+// EBCDIC DBCS-only Korebn
+public clbss IBM834 extends Chbrset
 {
     public IBM834() {
-        super("x-IBM834", ExtendedCharsets.aliasesFor("x-IBM834"));
+        super("x-IBM834", ExtendedChbrsets.blibsesFor("x-IBM834"));
     }
 
-    public boolean contains(Charset cs) {
-        return (cs instanceof IBM834);
+    public boolebn contbins(Chbrset cs) {
+        return (cs instbnceof IBM834);
     }
 
-    public CharsetDecoder newDecoder() {
+    public ChbrsetDecoder newDecoder() {
         IBM933.initb2c();
         return new DoubleByte.Decoder_DBCSONLY(
-            this, IBM933.b2c, null, 0x40, 0xfe);  // hardcode the b2min/max
+            this, IBM933.b2c, null, 0x40, 0xfe);  // hbrdcode the b2min/mbx
     }
 
-    public CharsetEncoder newEncoder() {
+    public ChbrsetEncoder newEncoder() {
         IBM933.initc2b();
         return new Encoder(this);
     }
 
-    protected static class Encoder extends DoubleByte.Encoder_DBCSONLY {
-        public Encoder(Charset cs) {
+    protected stbtic clbss Encoder extends DoubleByte.Encoder_DBCSONLY {
+        public Encoder(Chbrset cs) {
             super(cs, new byte[] {(byte)0xfe, (byte)0xfe},
                   IBM933.c2b, IBM933.c2bIndex);
         }
 
-        public int encodeChar(char ch) {
-            int bb = super.encodeChar(ch);
+        public int encodeChbr(chbr ch) {
+            int bb = super.encodeChbr(ch);
             if (bb == UNMAPPABLE_ENCODING) {
-                // Cp834 has 6 additional non-roundtrip char->bytes
-                // mappings, see#6379808
+                // Cp834 hbs 6 bdditionbl non-roundtrip chbr->bytes
+                // mbppings, see#6379808
                 if (ch == '\u00b7') {
                     return 0x4143;
-                } else if (ch == '\u00ad') {
+                } else if (ch == '\u00bd') {
                     return 0x4148;
                 } else if (ch == '\u2015') {
                     return 0x4149;
                 } else if (ch == '\u223c') {
-                    return 0x42a1;
+                    return 0x42b1;
                 } else if (ch == '\uff5e') {
                     return 0x4954;
                 } else if (ch == '\u2299') {
@@ -86,11 +86,11 @@ public class IBM834 extends Charset
             return bb;
         }
 
-        public boolean isLegalReplacement(byte[] repl) {
+        public boolebn isLegblReplbcement(byte[] repl) {
             if (repl.length == 2 &&
                 repl[0] == (byte)0xfe && repl[1] == (byte)0xfe)
                 return true;
-            return super.isLegalReplacement(repl);
+            return super.isLegblReplbcement(repl);
         }
 
     }

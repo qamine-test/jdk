@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,42 +30,42 @@
  */
 
 #include "LETypes.h"
-#include "OpenTypeTables.h"
+#include "OpenTypeTbbles.h"
 #include "OpenTypeUtilities.h"
-#include "CoverageTables.h"
-#include "LESwaps.h"
+#include "CoverbgeTbbles.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-le_int32 CoverageTable::getGlyphCoverage(const LETableReference &base, LEGlyphID glyphID, LEErrorCode &success) const
+le_int32 CoverbgeTbble::getGlyphCoverbge(const LETbbleReference &bbse, LEGlyphID glyphID, LEErrorCode &success) const
 {
   if(LE_FAILURE(success)) return -1;
 
-    switch(SWAPW(coverageFormat))
+    switch(SWAPW(coverbgeFormbt))
     {
-    case 0:
+    cbse 0:
         return -1;
 
-    case 1:
+    cbse 1:
     {
-      LEReferenceTo<CoverageFormat1Table> f1Table(base, success);
+      LEReferenceTo<CoverbgeFormbt1Tbble> f1Tbble(bbse, success);
 
-      return f1Table->getGlyphCoverage(f1Table, glyphID, success);
+      return f1Tbble->getGlyphCoverbge(f1Tbble, glyphID, success);
     }
 
-    case 2:
+    cbse 2:
     {
-      LEReferenceTo<CoverageFormat2Table> f2Table(base, success);
+      LEReferenceTo<CoverbgeFormbt2Tbble> f2Tbble(bbse, success);
 
-      return f2Table->getGlyphCoverage(f2Table, glyphID, success);
+      return f2Tbble->getGlyphCoverbge(f2Tbble, glyphID, success);
     }
 
-    default:
+    defbult:
         return -1;
     }
 }
 
-le_int32 CoverageFormat1Table::getGlyphCoverage(LEReferenceTo<CoverageFormat1Table> &base, LEGlyphID glyphID, LEErrorCode &success) const
+le_int32 CoverbgeFormbt1Tbble::getGlyphCoverbge(LEReferenceTo<CoverbgeFormbt1Tbble> &bbse, LEGlyphID glyphID, LEErrorCode &success) const
 {
   if(LE_FAILURE(success)) return -1;
 
@@ -73,7 +73,7 @@ le_int32 CoverageFormat1Table::getGlyphCoverage(LEReferenceTo<CoverageFormat1Tab
     le_uint16 count = SWAPW(glyphCount);
     le_uint8 bit = OpenTypeUtilities::highBit(count);
     le_uint16 power = 1 << bit;
-    le_uint16 extra = count - power;
+    le_uint16 extrb = count - power;
     le_uint16 probe = power;
     le_uint16 index = 0;
 
@@ -81,48 +81,48 @@ le_int32 CoverageFormat1Table::getGlyphCoverage(LEReferenceTo<CoverageFormat1Tab
       return -1;
     }
 
-    LEReferenceToArrayOf<TTGlyphID>(base, success, glyphArray, count);
-    if(LE_FAILURE(success)) return -1;  // range checks array
+    LEReferenceToArrbyOf<TTGlyphID>(bbse, success, glyphArrby, count);
+    if(LE_FAILURE(success)) return -1;  // rbnge checks brrby
 
 
-    if (SWAPW(glyphArray[extra]) <= ttGlyphID) {
-      index = extra;
+    if (SWAPW(glyphArrby[extrb]) <= ttGlyphID) {
+      index = extrb;
     }
 
     while (probe > (1 << 0)) {
       probe >>= 1;
 
-      if (SWAPW(glyphArray[index + probe]) <= ttGlyphID) {
+      if (SWAPW(glyphArrby[index + probe]) <= ttGlyphID) {
         index += probe;
       }
     }
 
-    if (SWAPW(glyphArray[index]) == ttGlyphID) {
+    if (SWAPW(glyphArrby[index]) == ttGlyphID) {
       return index;
     }
 
     return -1;
 }
 
-le_int32 CoverageFormat2Table::getGlyphCoverage(LEReferenceTo<CoverageFormat2Table> &base, LEGlyphID glyphID, LEErrorCode &success) const
+le_int32 CoverbgeFormbt2Tbble::getGlyphCoverbge(LEReferenceTo<CoverbgeFormbt2Tbble> &bbse, LEGlyphID glyphID, LEErrorCode &success) const
 {
   if(LE_FAILURE(success)) return -1;
 
     TTGlyphID ttGlyphID = (TTGlyphID) LE_GET_GLYPH(glyphID);
-    le_uint16 count = SWAPW(rangeCount);
+    le_uint16 count = SWAPW(rbngeCount);
 
-    LEReferenceToArrayOf<GlyphRangeRecord> rangeRecordArrayRef(base, success, rangeRecordArray, count);
-    le_int32 rangeIndex =
-        OpenTypeUtilities::getGlyphRangeIndex(ttGlyphID, rangeRecordArrayRef, success);
+    LEReferenceToArrbyOf<GlyphRbngeRecord> rbngeRecordArrbyRef(bbse, success, rbngeRecordArrby, count);
+    le_int32 rbngeIndex =
+        OpenTypeUtilities::getGlyphRbngeIndex(ttGlyphID, rbngeRecordArrbyRef, success);
 
-    if (rangeIndex < 0 || LE_FAILURE(success)) { // could fail if array out of bounds
+    if (rbngeIndex < 0 || LE_FAILURE(success)) { // could fbil if brrby out of bounds
         return -1;
     }
 
-    TTGlyphID firstInRange = SWAPW(rangeRecordArray[rangeIndex].firstGlyph);
-    le_uint16  startCoverageIndex = SWAPW(rangeRecordArray[rangeIndex].rangeValue);
+    TTGlyphID firstInRbnge = SWAPW(rbngeRecordArrby[rbngeIndex].firstGlyph);
+    le_uint16  stbrtCoverbgeIndex = SWAPW(rbngeRecordArrby[rbngeIndex].rbngeVblue);
 
-    return startCoverageIndex + (ttGlyphID - firstInRange);
+    return stbrtCoverbgeIndex + (ttGlyphID - firstInRbnge);
 }
 
 U_NAMESPACE_END

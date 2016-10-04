@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
@@ -27,120 +27,120 @@
  * (C) Copyright IBM Corp. 1998, All Rights Reserved
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.BasicStroke;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.Stroke;
+import jbvb.bwt.BbsicStroke;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.Stroke;
 
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.geom.Line2D;
 
-import java.awt.font.TextAttribute;
+import jbvb.bwt.font.TextAttribute;
 
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
 
 /**
- * This class provides drawing and bounds-measurement of
- * underlines.  Additionally, it has a factory method for
- * obtaining underlines from values of underline attributes.
+ * This clbss provides drbwing bnd bounds-mebsurement of
+ * underlines.  Additionblly, it hbs b fbctory method for
+ * obtbining underlines from vblues of underline bttributes.
  */
 
-abstract class Underline {
+bbstrbct clbss Underline {
 
     /**
-     * Draws the underline into g2d.  The thickness should be obtained
-     * from a LineMetrics object.  Note that some underlines ignore the
-     * thickness parameter.
-     * The underline is drawn from (x1, y) to (x2, y).
+     * Drbws the underline into g2d.  The thickness should be obtbined
+     * from b LineMetrics object.  Note thbt some underlines ignore the
+     * thickness pbrbmeter.
+     * The underline is drbwn from (x1, y) to (x2, y).
      */
-    abstract void drawUnderline(Graphics2D g2d,
-                                float thickness,
-                                float x1,
-                                float x2,
-                                float y);
+    bbstrbct void drbwUnderline(Grbphics2D g2d,
+                                flobt thickness,
+                                flobt x1,
+                                flobt x2,
+                                flobt y);
 
     /**
-     * Returns the bottom of the bounding rectangle for this underline.
+     * Returns the bottom of the bounding rectbngle for this underline.
      */
-    abstract float getLowerDrawLimit(float thickness);
+    bbstrbct flobt getLowerDrbwLimit(flobt thickness);
 
     /**
-     * Returns a Shape representing the underline.  The thickness should be obtained
-     * from a LineMetrics object.  Note that some underlines ignore the
-     * thickness parameter.
+     * Returns b Shbpe representing the underline.  The thickness should be obtbined
+     * from b LineMetrics object.  Note thbt some underlines ignore the
+     * thickness pbrbmeter.
      */
-    abstract Shape getUnderlineShape(float thickness,
-                                     float x1,
-                                     float x2,
-                                     float y);
+    bbstrbct Shbpe getUnderlineShbpe(flobt thickness,
+                                     flobt x1,
+                                     flobt x2,
+                                     flobt y);
 
-     // Implementation of underline for standard and Input Method underlines.
-     // These classes are private.
+     // Implementbtion of underline for stbndbrd bnd Input Method underlines.
+     // These clbsses bre privbte.
 
-    // IM Underlines ignore thickness param, and instead use
+    // IM Underlines ignore thickness pbrbm, bnd instebd use
     // DEFAULT_THICKNESS
-    private static final float DEFAULT_THICKNESS = 1.0f;
+    privbte stbtic finbl flobt DEFAULT_THICKNESS = 1.0f;
 
-    // StandardUnderline's constructor takes a boolean param indicating
-    // whether to override the default thickness.  These values clarify
-    // the semantics of the parameter.
-    private static final boolean USE_THICKNESS = true;
-    private static final boolean IGNORE_THICKNESS = false;
+    // StbndbrdUnderline's constructor tbkes b boolebn pbrbm indicbting
+    // whether to override the defbult thickness.  These vblues clbrify
+    // the sembntics of the pbrbmeter.
+    privbte stbtic finbl boolebn USE_THICKNESS = true;
+    privbte stbtic finbl boolebn IGNORE_THICKNESS = fblse;
 
-    // Implementation of standard underline and all input method underlines
+    // Implementbtion of stbndbrd underline bnd bll input method underlines
     // except UNDERLINE_LOW_GRAY.
-    private static final class StandardUnderline extends Underline {
+    privbte stbtic finbl clbss StbndbrdUnderline extends Underline {
 
-        // the amount by which to move the underline
-        private float shift;
+        // the bmount by which to move the underline
+        privbte flobt shift;
 
-        // the actual line thickness is this value times
+        // the bctubl line thickness is this vblue times
         // the requested thickness
-        private float thicknessMultiplier;
+        privbte flobt thicknessMultiplier;
 
-        // if non-null, underline is drawn with a BasicStroke
-        // with this dash pattern
-        private float[] dashPattern;
+        // if non-null, underline is drbwn with b BbsicStroke
+        // with this dbsh pbttern
+        privbte flobt[] dbshPbttern;
 
-        // if false, all underlines are DEFAULT_THICKNESS thick
-        // if true, use thickness param
-        private boolean useThickness;
+        // if fblse, bll underlines bre DEFAULT_THICKNESS thick
+        // if true, use thickness pbrbm
+        privbte boolebn useThickness;
 
-        // cached BasicStroke
-        private BasicStroke cachedStroke;
+        // cbched BbsicStroke
+        privbte BbsicStroke cbchedStroke;
 
-        StandardUnderline(float shift,
-                          float thicknessMultiplier,
-                          float[] dashPattern,
-                          boolean useThickness) {
+        StbndbrdUnderline(flobt shift,
+                          flobt thicknessMultiplier,
+                          flobt[] dbshPbttern,
+                          boolebn useThickness) {
 
             this.shift = shift;
             this.thicknessMultiplier = thicknessMultiplier;
-            this.dashPattern = dashPattern;
+            this.dbshPbttern = dbshPbttern;
             this.useThickness = useThickness;
-            this.cachedStroke = null;
+            this.cbchedStroke = null;
         }
 
-        private BasicStroke createStroke(float lineThickness) {
+        privbte BbsicStroke crebteStroke(flobt lineThickness) {
 
-            if (dashPattern == null) {
-                return new BasicStroke(lineThickness,
-                                       BasicStroke.CAP_BUTT,
-                                       BasicStroke.JOIN_MITER);
+            if (dbshPbttern == null) {
+                return new BbsicStroke(lineThickness,
+                                       BbsicStroke.CAP_BUTT,
+                                       BbsicStroke.JOIN_MITER);
             }
             else {
-                return new BasicStroke(lineThickness,
-                                       BasicStroke.CAP_BUTT,
-                                       BasicStroke.JOIN_MITER,
+                return new BbsicStroke(lineThickness,
+                                       BbsicStroke.CAP_BUTT,
+                                       BbsicStroke.JOIN_MITER,
                                        10.0f,
-                                       dashPattern,
+                                       dbshPbttern,
                                        0);
             }
         }
 
-        private float getLineThickness(float thickness) {
+        privbte flobt getLineThickness(flobt thickness) {
 
             if (useThickness) {
                 return thickness * thicknessMultiplier;
@@ -150,159 +150,159 @@ abstract class Underline {
             }
         }
 
-        private Stroke getStroke(float thickness) {
+        privbte Stroke getStroke(flobt thickness) {
 
-            float lineThickness = getLineThickness(thickness);
-            BasicStroke stroke = cachedStroke;
+            flobt lineThickness = getLineThickness(thickness);
+            BbsicStroke stroke = cbchedStroke;
             if (stroke == null ||
                     stroke.getLineWidth() != lineThickness) {
 
-                stroke = createStroke(lineThickness);
-                cachedStroke = stroke;
+                stroke = crebteStroke(lineThickness);
+                cbchedStroke = stroke;
             }
 
             return stroke;
         }
 
-        void drawUnderline(Graphics2D g2d,
-                           float thickness,
-                           float x1,
-                           float x2,
-                           float y) {
+        void drbwUnderline(Grbphics2D g2d,
+                           flobt thickness,
+                           flobt x1,
+                           flobt x2,
+                           flobt y) {
 
 
-            Stroke saveStroke = g2d.getStroke();
+            Stroke sbveStroke = g2d.getStroke();
             g2d.setStroke(getStroke(thickness));
-            g2d.draw(new Line2D.Float(x1, y + shift, x2, y + shift));
-            g2d.setStroke(saveStroke);
+            g2d.drbw(new Line2D.Flobt(x1, y + shift, x2, y + shift));
+            g2d.setStroke(sbveStroke);
         }
 
-        float getLowerDrawLimit(float thickness) {
+        flobt getLowerDrbwLimit(flobt thickness) {
 
             return shift + getLineThickness(thickness);
         }
 
-        Shape getUnderlineShape(float thickness,
-                                float x1,
-                                float x2,
-                                float y) {
+        Shbpe getUnderlineShbpe(flobt thickness,
+                                flobt x1,
+                                flobt x2,
+                                flobt y) {
 
             Stroke ulStroke = getStroke(thickness);
-            Line2D line = new Line2D.Float(x1, y + shift, x2, y + shift);
-            return ulStroke.createStrokedShape(line);
+            Line2D line = new Line2D.Flobt(x1, y + shift, x2, y + shift);
+            return ulStroke.crebteStrokedShbpe(line);
         }
     }
 
-    // Implementation of UNDERLINE_LOW_GRAY.
-    private static class IMGrayUnderline extends Underline {
+    // Implementbtion of UNDERLINE_LOW_GRAY.
+    privbte stbtic clbss IMGrbyUnderline extends Underline {
 
-        private BasicStroke stroke;
+        privbte BbsicStroke stroke;
 
-        IMGrayUnderline() {
-            stroke = new BasicStroke(DEFAULT_THICKNESS,
-                                     BasicStroke.CAP_BUTT,
-                                     BasicStroke.JOIN_MITER,
+        IMGrbyUnderline() {
+            stroke = new BbsicStroke(DEFAULT_THICKNESS,
+                                     BbsicStroke.CAP_BUTT,
+                                     BbsicStroke.JOIN_MITER,
                                      10.0f,
-                                     new float[] {1, 1},
+                                     new flobt[] {1, 1},
                                      0);
         }
 
-        void drawUnderline(Graphics2D g2d,
-                           float thickness,
-                           float x1,
-                           float x2,
-                           float y) {
+        void drbwUnderline(Grbphics2D g2d,
+                           flobt thickness,
+                           flobt x1,
+                           flobt x2,
+                           flobt y) {
 
-            Stroke saveStroke = g2d.getStroke();
+            Stroke sbveStroke = g2d.getStroke();
             g2d.setStroke(stroke);
 
-            Line2D.Float drawLine = new Line2D.Float(x1, y, x2, y);
-            g2d.draw(drawLine);
+            Line2D.Flobt drbwLine = new Line2D.Flobt(x1, y, x2, y);
+            g2d.drbw(drbwLine);
 
-            drawLine.y1 += DEFAULT_THICKNESS;
-            drawLine.y2 += DEFAULT_THICKNESS;
-            drawLine.x1 += DEFAULT_THICKNESS;
+            drbwLine.y1 += DEFAULT_THICKNESS;
+            drbwLine.y2 += DEFAULT_THICKNESS;
+            drbwLine.x1 += DEFAULT_THICKNESS;
 
-            g2d.draw(drawLine);
+            g2d.drbw(drbwLine);
 
-            g2d.setStroke(saveStroke);
+            g2d.setStroke(sbveStroke);
         }
 
-        float getLowerDrawLimit(float thickness) {
+        flobt getLowerDrbwLimit(flobt thickness) {
 
             return DEFAULT_THICKNESS * 2;
         }
 
-        Shape getUnderlineShape(float thickness,
-                                float x1,
-                                float x2,
-                                float y) {
+        Shbpe getUnderlineShbpe(flobt thickness,
+                                flobt x1,
+                                flobt x2,
+                                flobt y) {
 
-            GeneralPath gp = new GeneralPath();
+            GenerblPbth gp = new GenerblPbth();
 
-            Line2D.Float line = new Line2D.Float(x1, y, x2, y);
-            gp.append(stroke.createStrokedShape(line), false);
+            Line2D.Flobt line = new Line2D.Flobt(x1, y, x2, y);
+            gp.bppend(stroke.crebteStrokedShbpe(line), fblse);
 
             line.y1 += DEFAULT_THICKNESS;
             line.y2 += DEFAULT_THICKNESS;
             line.x1 += DEFAULT_THICKNESS;
 
-            gp.append(stroke.createStrokedShape(line), false);
+            gp.bppend(stroke.crebteStrokedShbpe(line), fblse);
 
             return gp;
         }
     }
 
-     // Keep a map of underlines, one for each type
-     // of underline.  The Underline objects are Flyweights
-     // (shared across multiple clients), so they should be immutable.
-     // If this implementation changes then clone underline
-     // instances in getUnderline before returning them.
-    private static final ConcurrentHashMap<Object, Underline>
-        UNDERLINES = new ConcurrentHashMap<Object, Underline>(6);
-    private static final Underline[] UNDERLINE_LIST;
+     // Keep b mbp of underlines, one for ebch type
+     // of underline.  The Underline objects bre Flyweights
+     // (shbred bcross multiple clients), so they should be immutbble.
+     // If this implementbtion chbnges then clone underline
+     // instbnces in getUnderline before returning them.
+    privbte stbtic finbl ConcurrentHbshMbp<Object, Underline>
+        UNDERLINES = new ConcurrentHbshMbp<Object, Underline>(6);
+    privbte stbtic finbl Underline[] UNDERLINE_LIST;
 
-    static {
+    stbtic {
         Underline[] uls = new Underline[6];
 
-        uls[0] = new StandardUnderline(0, 1, null, USE_THICKNESS);
+        uls[0] = new StbndbrdUnderline(0, 1, null, USE_THICKNESS);
         UNDERLINES.put(TextAttribute.UNDERLINE_ON, uls[0]);
 
-        uls[1] = new StandardUnderline(1, 1, null, IGNORE_THICKNESS);
+        uls[1] = new StbndbrdUnderline(1, 1, null, IGNORE_THICKNESS);
         UNDERLINES.put(TextAttribute.UNDERLINE_LOW_ONE_PIXEL, uls[1]);
 
-        uls[2] = new StandardUnderline(1, 2, null, IGNORE_THICKNESS);
+        uls[2] = new StbndbrdUnderline(1, 2, null, IGNORE_THICKNESS);
         UNDERLINES.put(TextAttribute.UNDERLINE_LOW_TWO_PIXEL, uls[2]);
 
-        uls[3] = new StandardUnderline(1, 1, new float[] { 1, 1 }, IGNORE_THICKNESS);
+        uls[3] = new StbndbrdUnderline(1, 1, new flobt[] { 1, 1 }, IGNORE_THICKNESS);
         UNDERLINES.put(TextAttribute.UNDERLINE_LOW_DOTTED, uls[3]);
 
-        uls[4] = new IMGrayUnderline();
+        uls[4] = new IMGrbyUnderline();
         UNDERLINES.put(TextAttribute.UNDERLINE_LOW_GRAY, uls[4]);
 
-        uls[5] = new StandardUnderline(1, 1, new float[] { 4, 4 }, IGNORE_THICKNESS);
+        uls[5] = new StbndbrdUnderline(1, 1, new flobt[] { 4, 4 }, IGNORE_THICKNESS);
         UNDERLINES.put(TextAttribute.UNDERLINE_LOW_DASHED, uls[5]);
 
         UNDERLINE_LIST = uls;
     }
 
     /**
-     * Return the Underline for the given value of
+     * Return the Underline for the given vblue of
      * TextAttribute.INPUT_METHOD_UNDERLINE or
      * TextAttribute.UNDERLINE.
-     * If value is not an input method underline value or
+     * If vblue is not bn input method underline vblue or
      * TextAttribute.UNDERLINE_ON, null is returned.
      */
-    static Underline getUnderline(Object value) {
+    stbtic Underline getUnderline(Object vblue) {
 
-        if (value == null) {
+        if (vblue == null) {
             return null;
         }
 
-        return UNDERLINES.get(value);
+        return UNDERLINES.get(vblue);
     }
 
-    static Underline getUnderline(int index) {
+    stbtic Underline getUnderline(int index) {
         return index < 0 ? null : UNDERLINE_LIST[index];
     }
 }

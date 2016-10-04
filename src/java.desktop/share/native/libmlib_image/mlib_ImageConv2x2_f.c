@@ -1,41 +1,41 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTION
- *      Internal functions for mlib_ImageConv2x2 on U8/S16/U16 types
- *      and MLIB_EDGE_DST_NO_WRITE mask.
+ *      Internbl functions for mlib_ImbgeConv2x2 on U8/S16/U16 types
+ *      bnd MLIB_EDGE_DST_NO_WRITE mbsk.
  */
 
-#include "mlib_image.h"
-#include "mlib_ImageConv.h"
-#include "mlib_c_ImageConv.h"
+#include "mlib_imbge.h"
+#include "mlib_ImbgeConv.h"
+#include "mlib_c_ImbgeConv.h"
 
 /***************************************************************/
-#ifdef i386 /* do not copy by mlib_d64 data type for x86 */
+#ifdef i386 /* do not copy by mlib_d64 dbtb type for x86 */
 
 typedef struct {
   mlib_s32 int0, int1;
@@ -47,30 +47,30 @@ typedef struct {
 
 #define TYPE_64BIT mlib_d64
 
-#endif /* i386 ( do not copy by mlib_d64 data type for x86 ) */
+#endif /* i386 ( do not copy by mlib_d64 dbtb type for x86 ) */
 
 /***************************************************************/
 #define LOAD_KERNEL_INTO_DOUBLE()                                        \
-  while (scalef_expon > 30) {                                            \
-    scalef /= (1 << 30);                                                 \
-    scalef_expon -= 30;                                                  \
+  while (scblef_expon > 30) {                                            \
+    scblef /= (1 << 30);                                                 \
+    scblef_expon -= 30;                                                  \
   }                                                                      \
                                                                          \
-  scalef /= (1 << scalef_expon);                                         \
+  scblef /= (1 << scblef_expon);                                         \
                                                                          \
   /* keep kernel in regs */                                              \
-  k0 = scalef * kern[0];  k1 = scalef * kern[1];  k2 = scalef * kern[2]; \
-  k3 = scalef * kern[3]
+  k0 = scblef * kern[0];  k1 = scblef * kern[1];  k2 = scblef * kern[2]; \
+  k3 = scblef * kern[3]
 
 /***************************************************************/
 #define GET_SRC_DST_PARAMETERS(type)                            \
-  hgt = mlib_ImageGetHeight(src);                               \
-  wid = mlib_ImageGetWidth(src);                                \
-  nchannel = mlib_ImageGetChannels(src);                        \
-  sll = mlib_ImageGetStride(src) / sizeof(type);                \
-  dll = mlib_ImageGetStride(dst) / sizeof(type);                \
-  adr_src = (type *)mlib_ImageGetData(src);                     \
-  adr_dst = (type *)mlib_ImageGetData(dst)
+  hgt = mlib_ImbgeGetHeight(src);                               \
+  wid = mlib_ImbgeGetWidth(src);                                \
+  nchbnnel = mlib_ImbgeGetChbnnels(src);                        \
+  sll = mlib_ImbgeGetStride(src) / sizeof(type);                \
+  dll = mlib_ImbgeGetStride(dst) / sizeof(type);                \
+  bdr_src = (type *)mlib_ImbgeGetDbtb(src);                     \
+  bdr_dst = (type *)mlib_ImbgeGetDbtb(dst)
 
 /***************************************************************/
 #ifndef MLIB_USE_FTOI_CLAMPING
@@ -88,20 +88,20 @@ typedef struct {
 /***************************************************************/
 #if defined(_LITTLE_ENDIAN) && !defined(_NO_LONGLONG)
 
-/* NB: Explicit cast to DTYPE is necessary to avoid warning from Microsoft VC compiler.
-      And we need to explicitly define cast behavior if source exceeds destination range.
-      (it is undefined according to C99 spec). We use mask here because this macro is typically
-      used to extract bit regions. */
+/* NB: Explicit cbst to DTYPE is necessbry to bvoid wbrning from Microsoft VC compiler.
+      And we need to explicitly define cbst behbvior if source exceeds destinbtion rbnge.
+      (it is undefined bccording to C99 spec). We use mbsk here becbuse this mbcro is typicblly
+      used to extrbct bit regions. */
 
 #define STORE2(res0, res1)                                      \
   dp[0    ] = (DTYPE) ((res1) & DTYPE_MASK);                      \
-  dp[chan1] = (DTYPE) ((res0) & DTYPE_MASK)
+  dp[chbn1] = (DTYPE) ((res0) & DTYPE_MASK)
 
 #else
 
 #define STORE2(res0, res1)                                      \
   dp[0    ] = (DTYPE) ((res0) & DTYPE_MASK);                      \
-  dp[chan1] = (DTYPE) ((res1) & DTYPE_MASK)
+  dp[chbn1] = (DTYPE) ((res1) & DTYPE_MASK)
 
 #endif /* defined(_LITTLE_ENDIAN) && !defined(_NO_LONGLONG) */
 
@@ -110,19 +110,19 @@ typedef struct {
 
 #define LOAD_BUFF(buff)                                         \
   buff[i    ] = sp[0];                                          \
-  buff[i + 1] = sp[chan1]
+  buff[i + 1] = sp[chbn1]
 
 #else /* _NO_LONGLONG */
 
 #ifdef _LITTLE_ENDIAN
 
 #define LOAD_BUFF(buff)                                         \
-  *(mlib_s64*)(buff + i) = (((mlib_s64)sp[chan1]) << 32) | ((mlib_s64)sp[0] & 0xffffffff)
+  *(mlib_s64*)(buff + i) = (((mlib_s64)sp[chbn1]) << 32) | ((mlib_s64)sp[0] & 0xffffffff)
 
 #else /* _LITTLE_ENDIAN */
 
 #define LOAD_BUFF(buff)                                         \
-  *(mlib_s64*)(buff + i) = (((mlib_s64)sp[0]) << 32) | ((mlib_s64)sp[chan1] & 0xffffffff)
+  *(mlib_s64*)(buff + i) = (((mlib_s64)sp[0]) << 32) | ((mlib_s64)sp[chbn1] & 0xffffffff)
 
 #endif /* _LITTLE_ENDIAN */
 
@@ -144,16 +144,16 @@ typedef union {
 /***************************************************************/
 #define XOR_80(x) x ^= 0x80
 
-void mlib_ImageXor80_aa(mlib_u8  *dl,
+void mlib_ImbgeXor80_bb(mlib_u8  *dl,
                         mlib_s32 wid,
                         mlib_s32 hgt,
                         mlib_s32 str)
 {
   mlib_u8  *dp, *dend;
 #ifdef _NO_LONGLONG
-  mlib_u32 cadd = 0x80808080;
+  mlib_u32 cbdd = 0x80808080;
 #else /* _NO_LONGLONG */
-  mlib_u64 cadd = MLIB_U64_CONST(0x8080808080808080);
+  mlib_u64 cbdd = MLIB_U64_CONST(0x8080808080808080);
 #endif /* _NO_LONGLONG */
   mlib_s32 j;
 
@@ -165,17 +165,17 @@ void mlib_ImageXor80_aa(mlib_u8  *dl,
   for (j = 0; j < hgt; j++) {
     dend = dl + wid;
 
-    for (dp = dl; ((mlib_addr)dp & 7) && (dp < dend); dp++) XOR_80(dp[0]);
+    for (dp = dl; ((mlib_bddr)dp & 7) && (dp < dend); dp++) XOR_80(dp[0]);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dp <= (dend - 8); dp += 8) {
 #ifdef _NO_LONGLONG
-      *((mlib_s32*)dp) ^= cadd;
-      *((mlib_s32*)dp+1) ^= cadd;
+      *((mlib_s32*)dp) ^= cbdd;
+      *((mlib_s32*)dp+1) ^= cbdd;
 #else /* _NO_LONGLONG */
-      *((mlib_u64*)dp) ^= cadd;
+      *((mlib_u64*)dp) ^= cbdd;
 #endif /* _NO_LONGLONG */
     }
 
@@ -186,24 +186,24 @@ void mlib_ImageXor80_aa(mlib_u8  *dl,
 }
 
 /***************************************************************/
-void mlib_ImageXor80(mlib_u8  *dl,
+void mlib_ImbgeXor80(mlib_u8  *dl,
                      mlib_s32 wid,
                      mlib_s32 hgt,
                      mlib_s32 str,
-                     mlib_s32 nchan,
-                     mlib_s32 cmask)
+                     mlib_s32 nchbn,
+                     mlib_s32 cmbsk)
 {
   mlib_s32 i, j, c;
 
   for (j = 0; j < hgt; j++) {
-    for (c = 0; c < nchan; c++) {
-      if (cmask & (1 << (nchan - 1 - c))) {
+    for (c = 0; c < nchbn; c++) {
+      if (cmbsk & (1 << (nchbn - 1 - c))) {
         mlib_u8 *dp = dl + c;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
-        for (i = 0; i < wid; i++) XOR_80(dp[i*nchan]);
+        for (i = 0; i < wid; i++) XOR_80(dp[i*nchbn]);
       }
     }
 
@@ -215,21 +215,21 @@ void mlib_ImageXor80(mlib_u8  *dl,
 #define DTYPE mlib_s16
 #define DTYPE_MASK 0xffff
 
-mlib_status mlib_c_conv2x2nw_s16(mlib_image       *dst,
-                                 const mlib_image *src,
+mlib_stbtus mlib_c_conv2x2nw_s16(mlib_imbge       *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32   *kern,
-                                 mlib_s32         scalef_expon,
-                                 mlib_s32         cmask)
+                                 mlib_s32         scblef_expon,
+                                 mlib_s32         cmbsk)
 {
-  mlib_d64 buff_arr[2*BUFF_LINE];
-  mlib_s32 *pbuff = (mlib_s32*)buff_arr, *buffo, *buff0, *buff1, *buff2, *buffT;
-  DTYPE    *adr_src, *sl, *sp, *sl1;
-  DTYPE    *adr_dst, *dl, *dp;
-  mlib_d64 k0, k1, k2, k3, scalef = 65536.0;
+  mlib_d64 buff_brr[2*BUFF_LINE];
+  mlib_s32 *pbuff = (mlib_s32*)buff_brr, *buffo, *buff0, *buff1, *buff2, *buffT;
+  DTYPE    *bdr_src, *sl, *sp, *sl1;
+  DTYPE    *bdr_dst, *dl, *dp;
+  mlib_d64 k0, k1, k2, k3, scblef = 65536.0;
   mlib_d64 p00, p01, p02,
            p10, p11, p12;
   mlib_s32 wid, hgt, sll, dll, wid1;
-  mlib_s32 nchannel, chan1, chan2;
+  mlib_s32 nchbnnel, chbn1, chbn2;
   mlib_s32 i, j, c;
   LOAD_KERNEL_INTO_DOUBLE();
   GET_SRC_DST_PARAMETERS(DTYPE);
@@ -237,7 +237,7 @@ mlib_status mlib_c_conv2x2nw_s16(mlib_image       *dst,
   wid1 = (wid + 1) &~ 1;
 
   if (wid1 > BUFF_LINE) {
-    pbuff = mlib_malloc(4*sizeof(mlib_s32)*wid1);
+    pbuff = mlib_mblloc(4*sizeof(mlib_s32)*wid1);
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
@@ -247,25 +247,25 @@ mlib_status mlib_c_conv2x2nw_s16(mlib_image       *dst,
   buff1 = buff0 + wid1;
   buff2 = buff1 + wid1;
 
-  chan1 = nchannel;
-  chan2 = chan1 + chan1;
+  chbn1 = nchbnnel;
+  chbn2 = chbn1 + chbn1;
 
   wid -= D_KER;
   hgt -= D_KER;
 
-  for (c = 0; c < nchannel; c++) {
-    if (!(cmask & (1 << (nchannel - 1 - c)))) continue;
+  for (c = 0; c < nchbnnel; c++) {
+    if (!(cmbsk & (1 << (nchbnnel - 1 - c)))) continue;
 
-    sl = adr_src + c;
-    dl = adr_dst + c;
+    sl = bdr_src + c;
+    dl = bdr_dst + c;
 
     sl1 = sl + sll;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < wid + D_KER; i++) {
-      buff0[i - 1] = (mlib_s32)sl[i*chan1];
-      buff1[i - 1] = (mlib_s32)sl1[i*chan1];
+      buff0[i - 1] = (mlib_s32)sl[i*chbn1];
+      buff1[i - 1] = (mlib_s32)sl1[i*chbn1];
     }
 
     sl += (D_KER + 1)*sll;
@@ -275,13 +275,13 @@ mlib_status mlib_c_conv2x2nw_s16(mlib_image       *dst,
       dp = dl;
 
       buff2[-1] = (mlib_s32)sp[0];
-      sp += chan1;
+      sp += chbn1;
 
       p02 = buff0[-1];
       p12 = buff1[-1];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 2); i += 2) {
 #ifdef _NO_LONGLONG
@@ -319,8 +319,8 @@ mlib_status mlib_c_conv2x2nw_s16(mlib_image       *dst,
 
 #endif /* _NO_LONGLONG */
 
-        sp += chan2;
-        dp += chan2;
+        sp += chbn2;
+        dp += chbn2;
       }
 
       for (; i < wid; i++) {
@@ -332,8 +332,8 @@ mlib_status mlib_c_conv2x2nw_s16(mlib_image       *dst,
         buffo[i] = CLAMP_S32(p00 * k0 + p01 * k1 + p10 * k2 + p11 * k3);
         dp[0] = buffo[i] >> 16;
 
-        sp += chan1;
-        dp += chan1;
+        sp += chbn1;
+        dp += chbn1;
       }
 
       sl += sll;
@@ -346,31 +346,31 @@ mlib_status mlib_c_conv2x2nw_s16(mlib_image       *dst,
     }
   }
 
-  if (pbuff != (mlib_s32*)buff_arr) mlib_free(pbuff);
+  if (pbuff != (mlib_s32*)buff_brr) mlib_free(pbuff);
 
   return MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status mlib_c_conv2x2ext_s16(mlib_image       *dst,
-                                  const mlib_image *src,
+mlib_stbtus mlib_c_conv2x2ext_s16(mlib_imbge       *dst,
+                                  const mlib_imbge *src,
                                   mlib_s32         dx_l,
                                   mlib_s32         dx_r,
                                   mlib_s32         dy_t,
                                   mlib_s32         dy_b,
                                   const mlib_s32   *kern,
-                                  mlib_s32         scalef_expon,
-                                  mlib_s32         cmask)
+                                  mlib_s32         scblef_expon,
+                                  mlib_s32         cmbsk)
 {
-  mlib_d64 buff_arr[2*BUFF_LINE];
-  mlib_s32 *pbuff = (mlib_s32*)buff_arr, *buffo, *buff0, *buff1, *buff2, *buffT;
-  DTYPE    *adr_src, *sl, *sp, *sl1;
-  DTYPE    *adr_dst, *dl, *dp;
-  mlib_d64 k0, k1, k2, k3, scalef = 65536.0;
+  mlib_d64 buff_brr[2*BUFF_LINE];
+  mlib_s32 *pbuff = (mlib_s32*)buff_brr, *buffo, *buff0, *buff1, *buff2, *buffT;
+  DTYPE    *bdr_src, *sl, *sp, *sl1;
+  DTYPE    *bdr_dst, *dl, *dp;
+  mlib_d64 k0, k1, k2, k3, scblef = 65536.0;
   mlib_d64 p00, p01, p02,
            p10, p11, p12;
   mlib_s32 wid, hgt, sll, dll, wid1;
-  mlib_s32 nchannel, chan1, chan2;
+  mlib_s32 nchbnnel, chbn1, chbn2;
   mlib_s32 i, j, c, swid;
   LOAD_KERNEL_INTO_DOUBLE();
   GET_SRC_DST_PARAMETERS(DTYPE);
@@ -380,7 +380,7 @@ mlib_status mlib_c_conv2x2ext_s16(mlib_image       *dst,
   wid1 = (swid + 1) &~ 1;
 
   if (wid1 > BUFF_LINE) {
-    pbuff = mlib_malloc(4*sizeof(mlib_s32)*wid1);
+    pbuff = mlib_mblloc(4*sizeof(mlib_s32)*wid1);
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
@@ -392,24 +392,24 @@ mlib_status mlib_c_conv2x2ext_s16(mlib_image       *dst,
 
   swid -= dx_r;
 
-  chan1 = nchannel;
-  chan2 = chan1 + chan1;
+  chbn1 = nchbnnel;
+  chbn2 = chbn1 + chbn1;
 
-  for (c = 0; c < nchannel; c++) {
-    if (!(cmask & (1 << (nchannel - 1 - c)))) continue;
+  for (c = 0; c < nchbnnel; c++) {
+    if (!(cmbsk & (1 << (nchbnnel - 1 - c)))) continue;
 
-    sl = adr_src + c;
-    dl = adr_dst + c;
+    sl = bdr_src + c;
+    dl = bdr_dst + c;
 
     if ((hgt - dy_b) > 0) sl1 = sl + sll;
     else sl1 = sl;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < swid; i++) {
-      buff0[i - 1] = (mlib_s32)sl[i*chan1];
-      buff1[i - 1] = (mlib_s32)sl1[i*chan1];
+      buff0[i - 1] = (mlib_s32)sl[i*chbn1];
+      buff1[i - 1] = (mlib_s32)sl1[i*chbn1];
     }
 
     if (dx_r != 0) {
@@ -425,13 +425,13 @@ mlib_status mlib_c_conv2x2ext_s16(mlib_image       *dst,
       dp = dl;
 
       buff2[-1] = (mlib_s32)sp[0];
-      sp += chan1;
+      sp += chbn1;
 
       p02 = buff0[-1];
       p12 = buff1[-1];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 2); i += 2) {
 #ifdef _NO_LONGLONG
@@ -469,8 +469,8 @@ mlib_status mlib_c_conv2x2ext_s16(mlib_image       *dst,
 
 #endif /* _NO_LONGLONG */
 
-        sp += chan2;
-        dp += chan2;
+        sp += chbn2;
+        dp += chbn2;
       }
 
       for (; i < wid; i++) {
@@ -482,8 +482,8 @@ mlib_status mlib_c_conv2x2ext_s16(mlib_image       *dst,
         buffo[i] = CLAMP_S32(p00 * k0 + p01 * k1 + p10 * k2 + p11 * k3);
         dp[0] = buffo[i] >> 16;
 
-        sp += chan1;
-        dp += chan1;
+        sp += chbn1;
+        dp += chbn1;
       }
 
       if (dx_r != 0) buff2[swid - 1] = buff2[swid - 2];
@@ -498,7 +498,7 @@ mlib_status mlib_c_conv2x2ext_s16(mlib_image       *dst,
     }
   }
 
-  if (pbuff != (mlib_s32*)buff_arr) mlib_free(pbuff);
+  if (pbuff != (mlib_s32*)buff_brr) mlib_free(pbuff);
 
   return MLIB_SUCCESS;
 }
@@ -507,21 +507,21 @@ mlib_status mlib_c_conv2x2ext_s16(mlib_image       *dst,
 #undef  DTYPE
 #define DTYPE mlib_u16
 
-mlib_status mlib_c_conv2x2nw_u16(mlib_image       *dst,
-                                 const mlib_image *src,
+mlib_stbtus mlib_c_conv2x2nw_u16(mlib_imbge       *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32   *kern,
-                                 mlib_s32         scalef_expon,
-                                 mlib_s32         cmask)
+                                 mlib_s32         scblef_expon,
+                                 mlib_s32         cmbsk)
 {
-  mlib_d64 buff_arr[2*BUFF_LINE];
-  mlib_s32 *pbuff = (mlib_s32*)buff_arr, *buffo, *buff0, *buff1, *buff2, *buffT;
-  DTYPE    *adr_src, *sl, *sp, *sl1;
-  DTYPE    *adr_dst, *dl, *dp;
-  mlib_d64 k0, k1, k2, k3, scalef = 65536.0;
+  mlib_d64 buff_brr[2*BUFF_LINE];
+  mlib_s32 *pbuff = (mlib_s32*)buff_brr, *buffo, *buff0, *buff1, *buff2, *buffT;
+  DTYPE    *bdr_src, *sl, *sp, *sl1;
+  DTYPE    *bdr_dst, *dl, *dp;
+  mlib_d64 k0, k1, k2, k3, scblef = 65536.0;
   mlib_d64 p00, p01, p02,
            p10, p11, p12;
   mlib_s32 wid, hgt, sll, dll, wid1;
-  mlib_s32 nchannel, chan1, chan2;
+  mlib_s32 nchbnnel, chbn1, chbn2;
   mlib_s32 i, j, c;
   mlib_d64 doff = 0x7FFF8000;
   LOAD_KERNEL_INTO_DOUBLE();
@@ -530,7 +530,7 @@ mlib_status mlib_c_conv2x2nw_u16(mlib_image       *dst,
   wid1 = (wid + 1) &~ 1;
 
   if (wid1 > BUFF_LINE) {
-    pbuff = mlib_malloc(4*sizeof(mlib_s32)*wid1);
+    pbuff = mlib_mblloc(4*sizeof(mlib_s32)*wid1);
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
@@ -540,25 +540,25 @@ mlib_status mlib_c_conv2x2nw_u16(mlib_image       *dst,
   buff1 = buff0 + wid1;
   buff2 = buff1 + wid1;
 
-  chan1 = nchannel;
-  chan2 = chan1 + chan1;
+  chbn1 = nchbnnel;
+  chbn2 = chbn1 + chbn1;
 
   wid -= D_KER;
   hgt -= D_KER;
 
-  for (c = 0; c < nchannel; c++) {
-    if (!(cmask & (1 << (nchannel - 1 - c)))) continue;
+  for (c = 0; c < nchbnnel; c++) {
+    if (!(cmbsk & (1 << (nchbnnel - 1 - c)))) continue;
 
-    sl = adr_src + c;
-    dl = adr_dst + c;
+    sl = bdr_src + c;
+    dl = bdr_dst + c;
 
     sl1 = sl + sll;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < wid + D_KER; i++) {
-      buff0[i - 1] = (mlib_s32)sl[i*chan1];
-      buff1[i - 1] = (mlib_s32)sl1[i*chan1];
+      buff0[i - 1] = (mlib_s32)sl[i*chbn1];
+      buff1[i - 1] = (mlib_s32)sl1[i*chbn1];
     }
 
     sl += (D_KER + 1)*sll;
@@ -568,13 +568,13 @@ mlib_status mlib_c_conv2x2nw_u16(mlib_image       *dst,
       dp = dl;
 
       buff2[-1] = (mlib_s32)sp[0];
-      sp += chan1;
+      sp += chbn1;
 
       p02 = buff0[-1];
       p12 = buff1[-1];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 2); i += 2) {
 #ifdef _NO_LONGLONG
@@ -615,8 +615,8 @@ mlib_status mlib_c_conv2x2nw_u16(mlib_image       *dst,
 
 #endif /* _NO_LONGLONG */
 
-        sp += chan2;
-        dp += chan2;
+        sp += chbn2;
+        dp += chbn2;
       }
 
       for (; i < wid; i++) {
@@ -628,8 +628,8 @@ mlib_status mlib_c_conv2x2nw_u16(mlib_image       *dst,
         buffo[i] = CLAMP_S32(p00 * k0 + p01 * k1 + p10 * k2 + p11 * k3 - doff);
         dp[0] = (buffo[i] >> 16) ^ 0x8000;
 
-        sp += chan1;
-        dp += chan1;
+        sp += chbn1;
+        dp += chbn1;
       }
 
       sl += sll;
@@ -642,31 +642,31 @@ mlib_status mlib_c_conv2x2nw_u16(mlib_image       *dst,
     }
   }
 
-  if (pbuff != (mlib_s32*)buff_arr) mlib_free(pbuff);
+  if (pbuff != (mlib_s32*)buff_brr) mlib_free(pbuff);
 
   return MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status mlib_c_conv2x2ext_u16(mlib_image       *dst,
-                                  const mlib_image *src,
+mlib_stbtus mlib_c_conv2x2ext_u16(mlib_imbge       *dst,
+                                  const mlib_imbge *src,
                                   mlib_s32         dx_l,
                                   mlib_s32         dx_r,
                                   mlib_s32         dy_t,
                                   mlib_s32         dy_b,
                                   const mlib_s32   *kern,
-                                  mlib_s32         scalef_expon,
-                                  mlib_s32         cmask)
+                                  mlib_s32         scblef_expon,
+                                  mlib_s32         cmbsk)
 {
-  mlib_d64 buff_arr[2*BUFF_LINE];
-  mlib_s32 *pbuff = (mlib_s32*)buff_arr, *buffo, *buff0, *buff1, *buff2, *buffT;
-  DTYPE    *adr_src, *sl, *sp, *sl1;
-  DTYPE    *adr_dst, *dl, *dp;
-  mlib_d64 k0, k1, k2, k3, scalef = 65536.0;
+  mlib_d64 buff_brr[2*BUFF_LINE];
+  mlib_s32 *pbuff = (mlib_s32*)buff_brr, *buffo, *buff0, *buff1, *buff2, *buffT;
+  DTYPE    *bdr_src, *sl, *sp, *sl1;
+  DTYPE    *bdr_dst, *dl, *dp;
+  mlib_d64 k0, k1, k2, k3, scblef = 65536.0;
   mlib_d64 p00, p01, p02,
            p10, p11, p12;
   mlib_s32 wid, hgt, sll, dll, wid1;
-  mlib_s32 nchannel, chan1, chan2;
+  mlib_s32 nchbnnel, chbn1, chbn2;
   mlib_s32 i, j, c, swid;
   mlib_d64 doff = 0x7FFF8000;
   LOAD_KERNEL_INTO_DOUBLE();
@@ -677,7 +677,7 @@ mlib_status mlib_c_conv2x2ext_u16(mlib_image       *dst,
   wid1 = (swid + 1) &~ 1;
 
   if (wid1 > BUFF_LINE) {
-    pbuff = mlib_malloc(4*sizeof(mlib_s32)*wid1);
+    pbuff = mlib_mblloc(4*sizeof(mlib_s32)*wid1);
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
@@ -689,24 +689,24 @@ mlib_status mlib_c_conv2x2ext_u16(mlib_image       *dst,
 
   swid -= dx_r;
 
-  chan1 = nchannel;
-  chan2 = chan1 + chan1;
+  chbn1 = nchbnnel;
+  chbn2 = chbn1 + chbn1;
 
-  for (c = 0; c < nchannel; c++) {
-    if (!(cmask & (1 << (nchannel - 1 - c)))) continue;
+  for (c = 0; c < nchbnnel; c++) {
+    if (!(cmbsk & (1 << (nchbnnel - 1 - c)))) continue;
 
-    sl = adr_src + c;
-    dl = adr_dst + c;
+    sl = bdr_src + c;
+    dl = bdr_dst + c;
 
     if ((hgt - dy_b) > 0) sl1 = sl + sll;
     else sl1 = sl;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < swid; i++) {
-      buff0[i - 1] = (mlib_s32)sl[i*chan1];
-      buff1[i - 1] = (mlib_s32)sl1[i*chan1];
+      buff0[i - 1] = (mlib_s32)sl[i*chbn1];
+      buff1[i - 1] = (mlib_s32)sl1[i*chbn1];
     }
 
     if (dx_r != 0) {
@@ -722,13 +722,13 @@ mlib_status mlib_c_conv2x2ext_u16(mlib_image       *dst,
       dp = dl;
 
       buff2[-1] = (mlib_s32)sp[0];
-      sp += chan1;
+      sp += chbn1;
 
       p02 = buff0[-1];
       p12 = buff1[-1];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 2); i += 2) {
 #ifdef _NO_LONGLONG
@@ -769,8 +769,8 @@ mlib_status mlib_c_conv2x2ext_u16(mlib_image       *dst,
 
 #endif /* _NO_LONGLONG */
 
-        sp += chan2;
-        dp += chan2;
+        sp += chbn2;
+        dp += chbn2;
       }
 
       for (; i < wid; i++) {
@@ -782,8 +782,8 @@ mlib_status mlib_c_conv2x2ext_u16(mlib_image       *dst,
         buffo[i] = CLAMP_S32(p00 * k0 + p01 * k1 + p10 * k2 + p11 * k3 - doff);
         dp[0] = (buffo[i] >> 16) ^ 0x8000;
 
-        sp += chan1;
-        dp += chan1;
+        sp += chbn1;
+        dp += chbn1;
       }
 
       if (dx_r != 0) buff2[swid - 1] = buff2[swid - 2];
@@ -798,7 +798,7 @@ mlib_status mlib_c_conv2x2ext_u16(mlib_image       *dst,
     }
   }
 
-  if (pbuff != (mlib_s32*)buff_arr) mlib_free(pbuff);
+  if (pbuff != (mlib_s32*)buff_brr) mlib_free(pbuff);
 
   return MLIB_SUCCESS;
 }
@@ -807,21 +807,21 @@ mlib_status mlib_c_conv2x2ext_u16(mlib_image       *dst,
 #undef  DTYPE
 #define DTYPE mlib_u8
 
-mlib_status mlib_c_conv2x2nw_u8(mlib_image       *dst,
-                                const mlib_image *src,
+mlib_stbtus mlib_c_conv2x2nw_u8(mlib_imbge       *dst,
+                                const mlib_imbge *src,
                                 const mlib_s32   *kern,
-                                mlib_s32         scalef_expon,
-                                mlib_s32         cmask)
+                                mlib_s32         scblef_expon,
+                                mlib_s32         cmbsk)
 {
-  mlib_d64 buff_arr[2*BUFF_LINE];
-  mlib_s32 *pbuff = (mlib_s32*)buff_arr, *buffo, *buff0, *buff1, *buff2, *buffT;
-  DTYPE    *adr_src, *sl, *sp, *sl1;
-  DTYPE    *adr_dst, *dl, *dp;
-  mlib_d64 k0, k1, k2, k3, scalef = (1 << 24);
+  mlib_d64 buff_brr[2*BUFF_LINE];
+  mlib_s32 *pbuff = (mlib_s32*)buff_brr, *buffo, *buff0, *buff1, *buff2, *buffT;
+  DTYPE    *bdr_src, *sl, *sp, *sl1;
+  DTYPE    *bdr_dst, *dl, *dp;
+  mlib_d64 k0, k1, k2, k3, scblef = (1 << 24);
   mlib_d64 p00, p01, p02,
            p10, p11, p12;
   mlib_s32 wid, hgt, sll, dll, wid1;
-  mlib_s32 nchannel, chan1, chan2;
+  mlib_s32 nchbnnel, chbn1, chbn2;
   mlib_s32 i, j, c;
   LOAD_KERNEL_INTO_DOUBLE();
   GET_SRC_DST_PARAMETERS(DTYPE);
@@ -829,7 +829,7 @@ mlib_status mlib_c_conv2x2nw_u8(mlib_image       *dst,
   wid1 = (wid + 1) &~ 1;
 
   if (wid1 > BUFF_LINE) {
-    pbuff = mlib_malloc(4*sizeof(mlib_s32)*wid1);
+    pbuff = mlib_mblloc(4*sizeof(mlib_s32)*wid1);
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
@@ -839,25 +839,25 @@ mlib_status mlib_c_conv2x2nw_u8(mlib_image       *dst,
   buff1 = buff0 + wid1;
   buff2 = buff1 + wid1;
 
-  chan1 = nchannel;
-  chan2 = chan1 + chan1;
+  chbn1 = nchbnnel;
+  chbn2 = chbn1 + chbn1;
 
   wid -= D_KER;
   hgt -= D_KER;
 
-  for (c = 0; c < nchannel; c++) {
-    if (!(cmask & (1 << (nchannel - 1 - c)))) continue;
+  for (c = 0; c < nchbnnel; c++) {
+    if (!(cmbsk & (1 << (nchbnnel - 1 - c)))) continue;
 
-    sl = adr_src + c;
-    dl = adr_dst + c;
+    sl = bdr_src + c;
+    dl = bdr_dst + c;
 
     sl1 = sl + sll;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < wid + D_KER; i++) {
-      buff0[i - 1] = (mlib_s32)sl[i*chan1];
-      buff1[i - 1] = (mlib_s32)sl1[i*chan1];
+      buff0[i - 1] = (mlib_s32)sl[i*chbn1];
+      buff1[i - 1] = (mlib_s32)sl1[i*chbn1];
     }
 
     sl += (D_KER + 1)*sll;
@@ -867,13 +867,13 @@ mlib_status mlib_c_conv2x2nw_u8(mlib_image       *dst,
       dp = dl;
 
       buff2[-1] = (mlib_s32)sp[0];
-      sp += chan1;
+      sp += chbn1;
 
       p02 = buff0[-1];
       p12 = buff1[-1];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 2); i += 2) {
 #ifdef _NO_LONGLONG
@@ -911,8 +911,8 @@ mlib_status mlib_c_conv2x2nw_u8(mlib_image       *dst,
 
 #endif /* _NO_LONGLONG */
 
-        sp += chan2;
-        dp += chan2;
+        sp += chbn2;
+        dp += chbn2;
       }
 
       for (; i < wid; i++) {
@@ -924,8 +924,8 @@ mlib_status mlib_c_conv2x2nw_u8(mlib_image       *dst,
         buffo[i] = CLAMP_S32(p00 * k0 + p01 * k1 + p10 * k2 + p11 * k3 - (1u << 31));
         dp[0] = (buffo[i] >> 24);
 
-        sp += chan1;
-        dp += chan1;
+        sp += chbn1;
+        dp += chbn1;
       }
 
       sl += sll;
@@ -939,40 +939,40 @@ mlib_status mlib_c_conv2x2nw_u8(mlib_image       *dst,
   }
 
   {
-    mlib_s32 amask = (1 << nchannel) - 1;
+    mlib_s32 bmbsk = (1 << nchbnnel) - 1;
 
-    if ((cmask & amask) != amask) {
-      mlib_ImageXor80(adr_dst, wid, hgt, dll, nchannel, cmask);
+    if ((cmbsk & bmbsk) != bmbsk) {
+      mlib_ImbgeXor80(bdr_dst, wid, hgt, dll, nchbnnel, cmbsk);
     } else {
-      mlib_ImageXor80_aa(adr_dst, wid*nchannel, hgt, dll);
+      mlib_ImbgeXor80_bb(bdr_dst, wid*nchbnnel, hgt, dll);
     }
   }
 
-  if (pbuff != (mlib_s32*)buff_arr) mlib_free(pbuff);
+  if (pbuff != (mlib_s32*)buff_brr) mlib_free(pbuff);
 
   return MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status mlib_c_conv2x2ext_u8(mlib_image       *dst,
-                                 const mlib_image *src,
+mlib_stbtus mlib_c_conv2x2ext_u8(mlib_imbge       *dst,
+                                 const mlib_imbge *src,
                                  mlib_s32         dx_l,
                                  mlib_s32         dx_r,
                                  mlib_s32         dy_t,
                                  mlib_s32         dy_b,
                                  const mlib_s32   *kern,
-                                 mlib_s32         scalef_expon,
-                                 mlib_s32         cmask)
+                                 mlib_s32         scblef_expon,
+                                 mlib_s32         cmbsk)
 {
-  mlib_d64 buff_arr[4*BUFF_LINE];
-  mlib_s32 *pbuff = (mlib_s32*)buff_arr, *buffo, *buff0, *buff1, *buff2, *buffT;
-  DTYPE    *adr_src, *sl, *sp, *sl1;
-  DTYPE    *adr_dst, *dl, *dp;
-  mlib_d64 k0, k1, k2, k3, scalef = (1 << 24);
+  mlib_d64 buff_brr[4*BUFF_LINE];
+  mlib_s32 *pbuff = (mlib_s32*)buff_brr, *buffo, *buff0, *buff1, *buff2, *buffT;
+  DTYPE    *bdr_src, *sl, *sp, *sl1;
+  DTYPE    *bdr_dst, *dl, *dp;
+  mlib_d64 k0, k1, k2, k3, scblef = (1 << 24);
   mlib_d64 p00, p01, p02,
            p10, p11, p12;
   mlib_s32 wid, hgt, sll, dll, wid1;
-  mlib_s32 nchannel, chan1, chan2;
+  mlib_s32 nchbnnel, chbn1, chbn2;
   mlib_s32 i, j, c, swid;
   LOAD_KERNEL_INTO_DOUBLE();
   GET_SRC_DST_PARAMETERS(DTYPE);
@@ -982,7 +982,7 @@ mlib_status mlib_c_conv2x2ext_u8(mlib_image       *dst,
   wid1 = (swid + 1) &~ 1;
 
   if (wid1 > BUFF_LINE) {
-    pbuff = mlib_malloc(4*sizeof(mlib_s32)*wid1);
+    pbuff = mlib_mblloc(4*sizeof(mlib_s32)*wid1);
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
@@ -992,26 +992,26 @@ mlib_status mlib_c_conv2x2ext_u8(mlib_image       *dst,
   buff1 = buff0 + wid1;
   buff2 = buff1 + wid1;
 
-  chan1 = nchannel;
-  chan2 = chan1 + chan1;
+  chbn1 = nchbnnel;
+  chbn2 = chbn1 + chbn1;
 
   swid -= dx_r;
 
-  for (c = 0; c < nchannel; c++) {
-    if (!(cmask & (1 << (nchannel - 1 - c)))) continue;
+  for (c = 0; c < nchbnnel; c++) {
+    if (!(cmbsk & (1 << (nchbnnel - 1 - c)))) continue;
 
-    sl = adr_src + c;
-    dl = adr_dst + c;
+    sl = bdr_src + c;
+    dl = bdr_dst + c;
 
     if ((hgt - dy_b) > 0) sl1 = sl + sll;
     else sl1 = sl;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < swid; i++) {
-      buff0[i - 1] = (mlib_s32)sl[i*chan1];
-      buff1[i - 1] = (mlib_s32)sl1[i*chan1];
+      buff0[i - 1] = (mlib_s32)sl[i*chbn1];
+      buff1[i - 1] = (mlib_s32)sl1[i*chbn1];
     }
 
     if (dx_r != 0) {
@@ -1027,13 +1027,13 @@ mlib_status mlib_c_conv2x2ext_u8(mlib_image       *dst,
       dp = dl;
 
       buff2[-1] = (mlib_s32)sp[0];
-      sp += chan1;
+      sp += chbn1;
 
       p02 = buff0[-1];
       p12 = buff1[-1];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 2); i += 2) {
 #ifdef _NO_LONGLONG
@@ -1071,8 +1071,8 @@ mlib_status mlib_c_conv2x2ext_u8(mlib_image       *dst,
 
 #endif /* _NO_LONGLONG */
 
-        sp += chan2;
-        dp += chan2;
+        sp += chbn2;
+        dp += chbn2;
       }
 
       for (; i < wid; i++) {
@@ -1084,8 +1084,8 @@ mlib_status mlib_c_conv2x2ext_u8(mlib_image       *dst,
         buffo[i] = CLAMP_S32(p00 * k0 + p01 * k1 + p10 * k2 + p11 * k3 - (1u << 31));
         dp[0] = (buffo[i] >> 24);
 
-        sp += chan1;
-        dp += chan1;
+        sp += chbn1;
+        dp += chbn1;
       }
 
       if (dx_r != 0) buff2[swid - 1] = buff2[swid - 2];
@@ -1101,16 +1101,16 @@ mlib_status mlib_c_conv2x2ext_u8(mlib_image       *dst,
   }
 
   {
-    mlib_s32 amask = (1 << nchannel) - 1;
+    mlib_s32 bmbsk = (1 << nchbnnel) - 1;
 
-    if ((cmask & amask) != amask) {
-      mlib_ImageXor80(adr_dst, wid, hgt, dll, nchannel, cmask);
+    if ((cmbsk & bmbsk) != bmbsk) {
+      mlib_ImbgeXor80(bdr_dst, wid, hgt, dll, nchbnnel, cmbsk);
     } else {
-      mlib_ImageXor80_aa(adr_dst, wid*nchannel, hgt, dll);
+      mlib_ImbgeXor80_bb(bdr_dst, wid*nchbnnel, hgt, dll);
     }
   }
 
-  if (pbuff != (mlib_s32*)buff_arr) mlib_free(pbuff);
+  if (pbuff != (mlib_s32*)buff_brr) mlib_free(pbuff);
 
   return MLIB_SUCCESS;
 }

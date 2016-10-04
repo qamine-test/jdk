@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -54,362 +54,362 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import static java.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_MONTH;
-import static java.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_YEAR;
-import static java.time.temporal.ChronoField.ALIGNED_WEEK_OF_MONTH;
-import static java.time.temporal.ChronoField.ALIGNED_WEEK_OF_YEAR;
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.ALIGNED_DAY_OF_WEEK_IN_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.ALIGNED_DAY_OF_WEEK_IN_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.ALIGNED_WEEK_OF_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.ALIGNED_WEEK_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.MONTH_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.YEAR;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.Clock;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Period;
-import java.time.ZoneId;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Calendar;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.Clock;
+import jbvb.time.DbteTimeException;
+import jbvb.time.LocblDbte;
+import jbvb.time.LocblTime;
+import jbvb.time.Period;
+import jbvb.time.ZoneId;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.util.Cblendbr;
+import jbvb.util.Objects;
 
-import sun.util.calendar.CalendarDate;
-import sun.util.calendar.LocalGregorianCalendar;
+import sun.util.cblendbr.CblendbrDbte;
+import sun.util.cblendbr.LocblGregoribnCblendbr;
 
 /**
- * A date in the Japanese Imperial calendar system.
+ * A dbte in the Jbpbnese Imperibl cblendbr system.
  * <p>
- * This date operates using the {@linkplain JapaneseChronology Japanese Imperial calendar}.
- * This calendar system is primarily used in Japan.
+ * This dbte operbtes using the {@linkplbin JbpbneseChronology Jbpbnese Imperibl cblendbr}.
+ * This cblendbr system is primbrily used in Jbpbn.
  * <p>
- * The Japanese Imperial calendar system is the same as the ISO calendar system
- * apart from the era-based year numbering. The proleptic-year is defined to be
- * equal to the ISO proleptic-year.
+ * The Jbpbnese Imperibl cblendbr system is the sbme bs the ISO cblendbr system
+ * bpbrt from the erb-bbsed yebr numbering. The proleptic-yebr is defined to be
+ * equbl to the ISO proleptic-yebr.
  * <p>
- * Japan introduced the Gregorian calendar starting with Meiji 6.
- * Only Meiji and later eras are supported;
- * dates before Meiji 6, January 1 are not supported.
+ * Jbpbn introduced the Gregoribn cblendbr stbrting with Meiji 6.
+ * Only Meiji bnd lbter erbs bre supported;
+ * dbtes before Meiji 6, Jbnubry 1 bre not supported.
  * <p>
- * For example, the Japanese year "Heisei 24" corresponds to ISO year "2012".<br>
- * Calling {@code japaneseDate.get(YEAR_OF_ERA)} will return 24.<br>
- * Calling {@code japaneseDate.get(YEAR)} will return 2012.<br>
- * Calling {@code japaneseDate.get(ERA)} will return 2, corresponding to
- * {@code JapaneseChronology.ERA_HEISEI}.<br>
+ * For exbmple, the Jbpbnese yebr "Heisei 24" corresponds to ISO yebr "2012".<br>
+ * Cblling {@code jbpbneseDbte.get(YEAR_OF_ERA)} will return 24.<br>
+ * Cblling {@code jbpbneseDbte.get(YEAR)} will return 2012.<br>
+ * Cblling {@code jbpbneseDbte.get(ERA)} will return 2, corresponding to
+ * {@code JbpbneseChronology.ERA_HEISEI}.<br>
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code JapaneseDate} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * This is b <b href="{@docRoot}/jbvb/lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code JbpbneseDbte} mby hbve unpredictbble results bnd should be bvoided.
+ * The {@code equbls} method should be used for compbrisons.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class JapaneseDate
-        extends ChronoLocalDateImpl<JapaneseDate>
-        implements ChronoLocalDate, Serializable {
+public finbl clbss JbpbneseDbte
+        extends ChronoLocblDbteImpl<JbpbneseDbte>
+        implements ChronoLocblDbte, Seriblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = -305327627230580483L;
+    privbte stbtic finbl long seriblVersionUID = -305327627230580483L;
 
     /**
-     * The underlying ISO local date.
+     * The underlying ISO locbl dbte.
      */
-    private final transient LocalDate isoDate;
+    privbte finbl trbnsient LocblDbte isoDbte;
     /**
-     * The JapaneseEra of this date.
+     * The JbpbneseErb of this dbte.
      */
-    private transient JapaneseEra era;
+    privbte trbnsient JbpbneseErb erb;
     /**
-     * The Japanese imperial calendar year of this date.
+     * The Jbpbnese imperibl cblendbr yebr of this dbte.
      */
-    private transient int yearOfEra;
+    privbte trbnsient int yebrOfErb;
 
     /**
-     * The first day supported by the JapaneseChronology is Meiji 6, January 1st.
+     * The first dby supported by the JbpbneseChronology is Meiji 6, Jbnubry 1st.
      */
-    static final LocalDate MEIJI_6_ISODATE = LocalDate.of(1873, 1, 1);
+    stbtic finbl LocblDbte MEIJI_6_ISODATE = LocblDbte.of(1873, 1, 1);
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains the current {@code JapaneseDate} from the system clock in the default time-zone.
+     * Obtbins the current {@code JbpbneseDbte} from the system clock in the defbult time-zone.
      * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current date.
+     * This will query the {@link Clock#systemDefbultZone() system clock} in the defbult
+     * time-zone to obtbin the current dbte.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @return the current date using the system clock and default time-zone, not null
+     * @return the current dbte using the system clock bnd defbult time-zone, not null
      */
-    public static JapaneseDate now() {
-        return now(Clock.systemDefaultZone());
+    public stbtic JbpbneseDbte now() {
+        return now(Clock.systemDefbultZone());
     }
 
     /**
-     * Obtains the current {@code JapaneseDate} from the system clock in the specified time-zone.
+     * Obtbins the current {@code JbpbneseDbte} from the system clock in the specified time-zone.
      * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current date.
-     * Specifying the time-zone avoids dependence on the default time-zone.
+     * This will query the {@link Clock#system(ZoneId) system clock} to obtbin the current dbte.
+     * Specifying the time-zone bvoids dependence on the defbult time-zone.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @param zone  the zone ID to use, not null
-     * @return the current date using the system clock, not null
+     * @pbrbm zone  the zone ID to use, not null
+     * @return the current dbte using the system clock, not null
      */
-    public static JapaneseDate now(ZoneId zone) {
+    public stbtic JbpbneseDbte now(ZoneId zone) {
         return now(Clock.system(zone));
     }
 
     /**
-     * Obtains the current {@code JapaneseDate} from the specified clock.
+     * Obtbins the current {@code JbpbneseDbte} from the specified clock.
      * <p>
-     * This will query the specified clock to obtain the current date - today.
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@linkplain Clock dependency injection}.
+     * This will query the specified clock to obtbin the current dbte - todby.
+     * Using this method bllows the use of bn blternbte clock for testing.
+     * The blternbte clock mby be introduced using {@linkplbin Clock dependency injection}.
      *
-     * @param clock  the clock to use, not null
-     * @return the current date, not null
-     * @throws DateTimeException if the current date cannot be obtained
+     * @pbrbm clock  the clock to use, not null
+     * @return the current dbte, not null
+     * @throws DbteTimeException if the current dbte cbnnot be obtbined
      */
-    public static JapaneseDate now(Clock clock) {
-        return new JapaneseDate(LocalDate.now(clock));
+    public stbtic JbpbneseDbte now(Clock clock) {
+        return new JbpbneseDbte(LocblDbte.now(clock));
     }
 
     /**
-     * Obtains a {@code JapaneseDate} representing a date in the Japanese calendar
-     * system from the era, year-of-era, month-of-year and day-of-month fields.
+     * Obtbins b {@code JbpbneseDbte} representing b dbte in the Jbpbnese cblendbr
+     * system from the erb, yebr-of-erb, month-of-yebr bnd dby-of-month fields.
      * <p>
-     * This returns a {@code JapaneseDate} with the specified fields.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
+     * This returns b {@code JbpbneseDbte} with the specified fields.
+     * The dby must be vblid for the yebr bnd month, otherwise bn exception will be thrown.
      * <p>
-     * The Japanese month and day-of-month are the same as those in the
-     * ISO calendar system. They are not reset when the era changes.
-     * For example:
+     * The Jbpbnese month bnd dby-of-month bre the sbme bs those in the
+     * ISO cblendbr system. They bre not reset when the erb chbnges.
+     * For exbmple:
      * <pre>
-     *  6th Jan Showa 64 = ISO 1989-01-06
-     *  7th Jan Showa 64 = ISO 1989-01-07
-     *  8th Jan Heisei 1 = ISO 1989-01-08
-     *  9th Jan Heisei 1 = ISO 1989-01-09
+     *  6th Jbn Showb 64 = ISO 1989-01-06
+     *  7th Jbn Showb 64 = ISO 1989-01-07
+     *  8th Jbn Heisei 1 = ISO 1989-01-08
+     *  9th Jbn Heisei 1 = ISO 1989-01-09
      * </pre>
      *
-     * @param era  the Japanese era, not null
-     * @param yearOfEra  the Japanese year-of-era
-     * @param month  the Japanese month-of-year, from 1 to 12
-     * @param dayOfMonth  the Japanese day-of-month, from 1 to 31
-     * @return the date in Japanese calendar system, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year,
-     *  or if the date is not a Japanese era
+     * @pbrbm erb  the Jbpbnese erb, not null
+     * @pbrbm yebrOfErb  the Jbpbnese yebr-of-erb
+     * @pbrbm month  the Jbpbnese month-of-yebr, from 1 to 12
+     * @pbrbm dbyOfMonth  the Jbpbnese dby-of-month, from 1 to 31
+     * @return the dbte in Jbpbnese cblendbr system, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge,
+     *  or if the dby-of-month is invblid for the month-yebr,
+     *  or if the dbte is not b Jbpbnese erb
      */
-    public static JapaneseDate of(JapaneseEra era, int yearOfEra, int month, int dayOfMonth) {
-        Objects.requireNonNull(era, "era");
-        LocalGregorianCalendar.Date jdate = JapaneseChronology.JCAL.newCalendarDate(null);
-        jdate.setEra(era.getPrivateEra()).setDate(yearOfEra, month, dayOfMonth);
-        if (!JapaneseChronology.JCAL.validate(jdate)) {
-            throw new DateTimeException("year, month, and day not valid for Era");
+    public stbtic JbpbneseDbte of(JbpbneseErb erb, int yebrOfErb, int month, int dbyOfMonth) {
+        Objects.requireNonNull(erb, "erb");
+        LocblGregoribnCblendbr.Dbte jdbte = JbpbneseChronology.JCAL.newCblendbrDbte(null);
+        jdbte.setErb(erb.getPrivbteErb()).setDbte(yebrOfErb, month, dbyOfMonth);
+        if (!JbpbneseChronology.JCAL.vblidbte(jdbte)) {
+            throw new DbteTimeException("yebr, month, bnd dby not vblid for Erb");
         }
-        LocalDate date = LocalDate.of(jdate.getNormalizedYear(), month, dayOfMonth);
-        return new JapaneseDate(era, yearOfEra, date);
+        LocblDbte dbte = LocblDbte.of(jdbte.getNormblizedYebr(), month, dbyOfMonth);
+        return new JbpbneseDbte(erb, yebrOfErb, dbte);
     }
 
     /**
-     * Obtains a {@code JapaneseDate} representing a date in the Japanese calendar
-     * system from the proleptic-year, month-of-year and day-of-month fields.
+     * Obtbins b {@code JbpbneseDbte} representing b dbte in the Jbpbnese cblendbr
+     * system from the proleptic-yebr, month-of-yebr bnd dby-of-month fields.
      * <p>
-     * This returns a {@code JapaneseDate} with the specified fields.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
+     * This returns b {@code JbpbneseDbte} with the specified fields.
+     * The dby must be vblid for the yebr bnd month, otherwise bn exception will be thrown.
      * <p>
-     * The Japanese proleptic year, month and day-of-month are the same as those
-     * in the ISO calendar system. They are not reset when the era changes.
+     * The Jbpbnese proleptic yebr, month bnd dby-of-month bre the sbme bs those
+     * in the ISO cblendbr system. They bre not reset when the erb chbnges.
      *
-     * @param prolepticYear  the Japanese proleptic-year
-     * @param month  the Japanese month-of-year, from 1 to 12
-     * @param dayOfMonth  the Japanese day-of-month, from 1 to 31
-     * @return the date in Japanese calendar system, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm prolepticYebr  the Jbpbnese proleptic-yebr
+     * @pbrbm month  the Jbpbnese month-of-yebr, from 1 to 12
+     * @pbrbm dbyOfMonth  the Jbpbnese dby-of-month, from 1 to 31
+     * @return the dbte in Jbpbnese cblendbr system, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge,
+     *  or if the dby-of-month is invblid for the month-yebr
      */
-    public static JapaneseDate of(int prolepticYear, int month, int dayOfMonth) {
-        return new JapaneseDate(LocalDate.of(prolepticYear, month, dayOfMonth));
+    public stbtic JbpbneseDbte of(int prolepticYebr, int month, int dbyOfMonth) {
+        return new JbpbneseDbte(LocblDbte.of(prolepticYebr, month, dbyOfMonth));
     }
 
     /**
-     * Obtains a {@code JapaneseDate} representing a date in the Japanese calendar
-     * system from the era, year-of-era and day-of-year fields.
+     * Obtbins b {@code JbpbneseDbte} representing b dbte in the Jbpbnese cblendbr
+     * system from the erb, yebr-of-erb bnd dby-of-yebr fields.
      * <p>
-     * This returns a {@code JapaneseDate} with the specified fields.
-     * The day must be valid for the year, otherwise an exception will be thrown.
+     * This returns b {@code JbpbneseDbte} with the specified fields.
+     * The dby must be vblid for the yebr, otherwise bn exception will be thrown.
      * <p>
-     * The day-of-year in this factory is expressed relative to the start of the year-of-era.
-     * This definition changes the normal meaning of day-of-year only in those years
-     * where the year-of-era is reset to one due to a change in the era.
-     * For example:
+     * The dby-of-yebr in this fbctory is expressed relbtive to the stbrt of the yebr-of-erb.
+     * This definition chbnges the normbl mebning of dby-of-yebr only in those yebrs
+     * where the yebr-of-erb is reset to one due to b chbnge in the erb.
+     * For exbmple:
      * <pre>
-     *  6th Jan Showa 64 = day-of-year 6
-     *  7th Jan Showa 64 = day-of-year 7
-     *  8th Jan Heisei 1 = day-of-year 1
-     *  9th Jan Heisei 1 = day-of-year 2
+     *  6th Jbn Showb 64 = dby-of-yebr 6
+     *  7th Jbn Showb 64 = dby-of-yebr 7
+     *  8th Jbn Heisei 1 = dby-of-yebr 1
+     *  9th Jbn Heisei 1 = dby-of-yebr 2
      * </pre>
      *
-     * @param era  the Japanese era, not null
-     * @param yearOfEra  the Japanese year-of-era
-     * @param dayOfYear  the chronology day-of-year, from 1 to 366
-     * @return the date in Japanese calendar system, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-year is invalid for the year
+     * @pbrbm erb  the Jbpbnese erb, not null
+     * @pbrbm yebrOfErb  the Jbpbnese yebr-of-erb
+     * @pbrbm dbyOfYebr  the chronology dby-of-yebr, from 1 to 366
+     * @return the dbte in Jbpbnese cblendbr system, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge,
+     *  or if the dby-of-yebr is invblid for the yebr
      */
-    static JapaneseDate ofYearDay(JapaneseEra era, int yearOfEra, int dayOfYear) {
-        Objects.requireNonNull(era, "era");
-        CalendarDate firstDay = era.getPrivateEra().getSinceDate();
-        LocalGregorianCalendar.Date jdate = JapaneseChronology.JCAL.newCalendarDate(null);
-        jdate.setEra(era.getPrivateEra());
-        if (yearOfEra == 1) {
-            jdate.setDate(yearOfEra, firstDay.getMonth(), firstDay.getDayOfMonth() + dayOfYear - 1);
+    stbtic JbpbneseDbte ofYebrDby(JbpbneseErb erb, int yebrOfErb, int dbyOfYebr) {
+        Objects.requireNonNull(erb, "erb");
+        CblendbrDbte firstDby = erb.getPrivbteErb().getSinceDbte();
+        LocblGregoribnCblendbr.Dbte jdbte = JbpbneseChronology.JCAL.newCblendbrDbte(null);
+        jdbte.setErb(erb.getPrivbteErb());
+        if (yebrOfErb == 1) {
+            jdbte.setDbte(yebrOfErb, firstDby.getMonth(), firstDby.getDbyOfMonth() + dbyOfYebr - 1);
         } else {
-            jdate.setDate(yearOfEra, 1, dayOfYear);
+            jdbte.setDbte(yebrOfErb, 1, dbyOfYebr);
         }
-        JapaneseChronology.JCAL.normalize(jdate);
-        if (era.getPrivateEra() != jdate.getEra() || yearOfEra != jdate.getYear()) {
-            throw new DateTimeException("Invalid parameters");
+        JbpbneseChronology.JCAL.normblize(jdbte);
+        if (erb.getPrivbteErb() != jdbte.getErb() || yebrOfErb != jdbte.getYebr()) {
+            throw new DbteTimeException("Invblid pbrbmeters");
         }
-        LocalDate localdate = LocalDate.of(jdate.getNormalizedYear(),
-                                      jdate.getMonth(), jdate.getDayOfMonth());
-        return new JapaneseDate(era, yearOfEra, localdate);
+        LocblDbte locbldbte = LocblDbte.of(jdbte.getNormblizedYebr(),
+                                      jdbte.getMonth(), jdbte.getDbyOfMonth());
+        return new JbpbneseDbte(erb, yebrOfErb, locbldbte);
     }
 
     /**
-     * Obtains a {@code JapaneseDate} from a temporal object.
+     * Obtbins b {@code JbpbneseDbte} from b temporbl object.
      * <p>
-     * This obtains a date in the Japanese calendar system based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code JapaneseDate}.
+     * This obtbins b dbte in the Jbpbnese cblendbr system bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code JbpbneseDbte}.
      * <p>
-     * The conversion typically uses the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
-     * field, which is standardized across calendar systems.
+     * The conversion typicblly uses the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
+     * field, which is stbndbrdized bcross cblendbr systems.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code JapaneseDate::from}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code JbpbneseDbte::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the date in Japanese calendar system, not null
-     * @throws DateTimeException if unable to convert to a {@code JapaneseDate}
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the dbte in Jbpbnese cblendbr system, not null
+     * @throws DbteTimeException if unbble to convert to b {@code JbpbneseDbte}
      */
-    public static JapaneseDate from(TemporalAccessor temporal) {
-        return JapaneseChronology.INSTANCE.date(temporal);
+    public stbtic JbpbneseDbte from(TemporblAccessor temporbl) {
+        return JbpbneseChronology.INSTANCE.dbte(temporbl);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Creates an instance from an ISO date.
+     * Crebtes bn instbnce from bn ISO dbte.
      *
-     * @param isoDate  the standard local date, validated not null
+     * @pbrbm isoDbte  the stbndbrd locbl dbte, vblidbted not null
      */
-    JapaneseDate(LocalDate isoDate) {
-        if (isoDate.isBefore(MEIJI_6_ISODATE)) {
-            throw new DateTimeException("JapaneseDate before Meiji 6 is not supported");
+    JbpbneseDbte(LocblDbte isoDbte) {
+        if (isoDbte.isBefore(MEIJI_6_ISODATE)) {
+            throw new DbteTimeException("JbpbneseDbte before Meiji 6 is not supported");
         }
-        LocalGregorianCalendar.Date jdate = toPrivateJapaneseDate(isoDate);
-        this.era = JapaneseEra.toJapaneseEra(jdate.getEra());
-        this.yearOfEra = jdate.getYear();
-        this.isoDate = isoDate;
+        LocblGregoribnCblendbr.Dbte jdbte = toPrivbteJbpbneseDbte(isoDbte);
+        this.erb = JbpbneseErb.toJbpbneseErb(jdbte.getErb());
+        this.yebrOfErb = jdbte.getYebr();
+        this.isoDbte = isoDbte;
     }
 
     /**
-     * Constructs a {@code JapaneseDate}. This constructor does NOT validate the given parameters,
-     * and {@code era} and {@code year} must agree with {@code isoDate}.
+     * Constructs b {@code JbpbneseDbte}. This constructor does NOT vblidbte the given pbrbmeters,
+     * bnd {@code erb} bnd {@code yebr} must bgree with {@code isoDbte}.
      *
-     * @param era  the era, validated not null
-     * @param year  the year-of-era, validated
-     * @param isoDate  the standard local date, validated not null
+     * @pbrbm erb  the erb, vblidbted not null
+     * @pbrbm yebr  the yebr-of-erb, vblidbted
+     * @pbrbm isoDbte  the stbndbrd locbl dbte, vblidbted not null
      */
-    JapaneseDate(JapaneseEra era, int year, LocalDate isoDate) {
-        if (isoDate.isBefore(MEIJI_6_ISODATE)) {
-            throw new DateTimeException("JapaneseDate before Meiji 6 is not supported");
+    JbpbneseDbte(JbpbneseErb erb, int yebr, LocblDbte isoDbte) {
+        if (isoDbte.isBefore(MEIJI_6_ISODATE)) {
+            throw new DbteTimeException("JbpbneseDbte before Meiji 6 is not supported");
         }
-        this.era = era;
-        this.yearOfEra = year;
-        this.isoDate = isoDate;
+        this.erb = erb;
+        this.yebrOfErb = yebr;
+        this.isoDbte = isoDbte;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the chronology of this date, which is the Japanese calendar system.
+     * Gets the chronology of this dbte, which is the Jbpbnese cblendbr system.
      * <p>
-     * The {@code Chronology} represents the calendar system in use.
-     * The era and other fields in {@link ChronoField} are defined by the chronology.
+     * The {@code Chronology} represents the cblendbr system in use.
+     * The erb bnd other fields in {@link ChronoField} bre defined by the chronology.
      *
-     * @return the Japanese chronology, not null
+     * @return the Jbpbnese chronology, not null
      */
     @Override
-    public JapaneseChronology getChronology() {
-        return JapaneseChronology.INSTANCE;
+    public JbpbneseChronology getChronology() {
+        return JbpbneseChronology.INSTANCE;
     }
 
     /**
-     * Gets the era applicable at this date.
+     * Gets the erb bpplicbble bt this dbte.
      * <p>
-     * The Japanese calendar system has multiple eras defined by {@link JapaneseEra}.
+     * The Jbpbnese cblendbr system hbs multiple erbs defined by {@link JbpbneseErb}.
      *
-     * @return the era applicable at this date, not null
+     * @return the erb bpplicbble bt this dbte, not null
      */
     @Override
-    public JapaneseEra getEra() {
-        return era;
+    public JbpbneseErb getErb() {
+        return erb;
     }
 
     /**
-     * Returns the length of the month represented by this date.
+     * Returns the length of the month represented by this dbte.
      * <p>
-     * This returns the length of the month in days.
-     * Month lengths match those of the ISO calendar system.
+     * This returns the length of the month in dbys.
+     * Month lengths mbtch those of the ISO cblendbr system.
      *
-     * @return the length of the month in days
+     * @return the length of the month in dbys
      */
     @Override
     public int lengthOfMonth() {
-        return isoDate.lengthOfMonth();
+        return isoDbte.lengthOfMonth();
     }
 
     @Override
-    public int lengthOfYear() {
-        Calendar jcal = Calendar.getInstance(JapaneseChronology.LOCALE);
-        jcal.set(Calendar.ERA, era.getValue() + JapaneseEra.ERA_OFFSET);
-        jcal.set(yearOfEra, isoDate.getMonthValue() - 1, isoDate.getDayOfMonth());
-        return  jcal.getActualMaximum(Calendar.DAY_OF_YEAR);
+    public int lengthOfYebr() {
+        Cblendbr jcbl = Cblendbr.getInstbnce(JbpbneseChronology.LOCALE);
+        jcbl.set(Cblendbr.ERA, erb.getVblue() + JbpbneseErb.ERA_OFFSET);
+        jcbl.set(yebrOfErb, isoDbte.getMonthVblue() - 1, isoDbte.getDbyOfMonth());
+        return  jcbl.getActublMbximum(Cblendbr.DAY_OF_YEAR);
     }
 
     //-----------------------------------------------------------------------
     /**
      * Checks if the specified field is supported.
      * <p>
-     * This checks if this date can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range} and
-     * {@link #get(TemporalField) get} methods will throw an exception.
+     * This checks if this dbte cbn be queried for the specified field.
+     * If fblse, then cblling the {@link #rbnge(TemporblField) rbnge} bnd
+     * {@link #get(TemporblField) get} methods will throw bn exception.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The supported fields are:
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The supported fields bre:
      * <ul>
      * <li>{@code DAY_OF_WEEK}
      * <li>{@code DAY_OF_MONTH}
@@ -421,337 +421,337 @@ public final class JapaneseDate
      * <li>{@code YEAR}
      * <li>{@code ERA}
      * </ul>
-     * All other {@code ChronoField} instances will return false.
+     * All other {@code ChronoField} instbnces will return fblse.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.isSupportedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this date, false if not
+     * @pbrbm field  the field to check, null returns fblse
+     * @return true if the field is supported on this dbte, fblse if not
      */
     @Override
-    public boolean isSupported(TemporalField field) {
+    public boolebn isSupported(TemporblField field) {
         if (field == ALIGNED_DAY_OF_WEEK_IN_MONTH || field == ALIGNED_DAY_OF_WEEK_IN_YEAR ||
                 field == ALIGNED_WEEK_OF_MONTH || field == ALIGNED_WEEK_OF_YEAR) {
-            return false;
+            return fblse;
         }
-        return ChronoLocalDate.super.isSupported(field);
+        return ChronoLocblDbte.super.isSupported(field);
     }
 
     @Override
-    public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public VblueRbnge rbnge(TemporblField field) {
+        if (field instbnceof ChronoField) {
             if (isSupported(field)) {
                 ChronoField f = (ChronoField) field;
                 switch (f) {
-                    case DAY_OF_MONTH: return ValueRange.of(1, lengthOfMonth());
-                    case DAY_OF_YEAR: return ValueRange.of(1, lengthOfYear());
-                    case YEAR_OF_ERA: {
-                        Calendar jcal = Calendar.getInstance(JapaneseChronology.LOCALE);
-                        jcal.set(Calendar.ERA, era.getValue() + JapaneseEra.ERA_OFFSET);
-                        jcal.set(yearOfEra, isoDate.getMonthValue() - 1, isoDate.getDayOfMonth());
-                        return ValueRange.of(1, jcal.getActualMaximum(Calendar.YEAR));
+                    cbse DAY_OF_MONTH: return VblueRbnge.of(1, lengthOfMonth());
+                    cbse DAY_OF_YEAR: return VblueRbnge.of(1, lengthOfYebr());
+                    cbse YEAR_OF_ERA: {
+                        Cblendbr jcbl = Cblendbr.getInstbnce(JbpbneseChronology.LOCALE);
+                        jcbl.set(Cblendbr.ERA, erb.getVblue() + JbpbneseErb.ERA_OFFSET);
+                        jcbl.set(yebrOfErb, isoDbte.getMonthVblue() - 1, isoDbte.getDbyOfMonth());
+                        return VblueRbnge.of(1, jcbl.getActublMbximum(Cblendbr.YEAR));
                     }
                 }
-                return getChronology().range(f);
+                return getChronology().rbnge(f);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
-        return field.rangeRefinedBy(this);
+        return field.rbngeRefinedBy(this);
     }
 
     @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
-            // same as ISO:
+    public long getLong(TemporblField field) {
+        if (field instbnceof ChronoField) {
+            // sbme bs ISO:
             // DAY_OF_WEEK, DAY_OF_MONTH, EPOCH_DAY, MONTH_OF_YEAR, PROLEPTIC_MONTH, YEAR
             //
-            // calendar specific fields
+            // cblendbr specific fields
             // DAY_OF_YEAR, YEAR_OF_ERA, ERA
             switch ((ChronoField) field) {
-                case ALIGNED_DAY_OF_WEEK_IN_MONTH:
-                case ALIGNED_DAY_OF_WEEK_IN_YEAR:
-                case ALIGNED_WEEK_OF_MONTH:
-                case ALIGNED_WEEK_OF_YEAR:
-                    throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-                case YEAR_OF_ERA:
-                    return yearOfEra;
-                case ERA:
-                    return era.getValue();
-                case DAY_OF_YEAR:
-                    Calendar jcal = Calendar.getInstance(JapaneseChronology.LOCALE);
-                    jcal.set(Calendar.ERA, era.getValue() + JapaneseEra.ERA_OFFSET);
-                    jcal.set(yearOfEra, isoDate.getMonthValue() - 1, isoDate.getDayOfMonth());
-                    return jcal.get(Calendar.DAY_OF_YEAR);
+                cbse ALIGNED_DAY_OF_WEEK_IN_MONTH:
+                cbse ALIGNED_DAY_OF_WEEK_IN_YEAR:
+                cbse ALIGNED_WEEK_OF_MONTH:
+                cbse ALIGNED_WEEK_OF_YEAR:
+                    throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
+                cbse YEAR_OF_ERA:
+                    return yebrOfErb;
+                cbse ERA:
+                    return erb.getVblue();
+                cbse DAY_OF_YEAR:
+                    Cblendbr jcbl = Cblendbr.getInstbnce(JbpbneseChronology.LOCALE);
+                    jcbl.set(Cblendbr.ERA, erb.getVblue() + JbpbneseErb.ERA_OFFSET);
+                    jcbl.set(yebrOfErb, isoDbte.getMonthVblue() - 1, isoDbte.getDbyOfMonth());
+                    return jcbl.get(Cblendbr.DAY_OF_YEAR);
             }
-            return isoDate.getLong(field);
+            return isoDbte.getLong(field);
         }
         return field.getFrom(this);
     }
 
     /**
-     * Returns a {@code LocalGregorianCalendar.Date} converted from the given {@code isoDate}.
+     * Returns b {@code LocblGregoribnCblendbr.Dbte} converted from the given {@code isoDbte}.
      *
-     * @param isoDate  the local date, not null
-     * @return a {@code LocalGregorianCalendar.Date}, not null
+     * @pbrbm isoDbte  the locbl dbte, not null
+     * @return b {@code LocblGregoribnCblendbr.Dbte}, not null
      */
-    private static LocalGregorianCalendar.Date toPrivateJapaneseDate(LocalDate isoDate) {
-        LocalGregorianCalendar.Date jdate = JapaneseChronology.JCAL.newCalendarDate(null);
-        sun.util.calendar.Era sunEra = JapaneseEra.privateEraFrom(isoDate);
-        int year = isoDate.getYear();
-        if (sunEra != null) {
-            year -= sunEra.getSinceDate().getYear() - 1;
+    privbte stbtic LocblGregoribnCblendbr.Dbte toPrivbteJbpbneseDbte(LocblDbte isoDbte) {
+        LocblGregoribnCblendbr.Dbte jdbte = JbpbneseChronology.JCAL.newCblendbrDbte(null);
+        sun.util.cblendbr.Erb sunErb = JbpbneseErb.privbteErbFrom(isoDbte);
+        int yebr = isoDbte.getYebr();
+        if (sunErb != null) {
+            yebr -= sunErb.getSinceDbte().getYebr() - 1;
         }
-        jdate.setEra(sunEra).setYear(year).setMonth(isoDate.getMonthValue()).setDayOfMonth(isoDate.getDayOfMonth());
-        JapaneseChronology.JCAL.normalize(jdate);
-        return jdate;
+        jdbte.setErb(sunErb).setYebr(yebr).setMonth(isoDbte.getMonthVblue()).setDbyOfMonth(isoDbte.getDbyOfMonth());
+        JbpbneseChronology.JCAL.normblize(jdbte);
+        return jdbte;
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public JapaneseDate with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
+    public JbpbneseDbte with(TemporblField field, long newVblue) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            if (getLong(f) == newValue) {  // getLong() validates for supported fields
+            if (getLong(f) == newVblue) {  // getLong() vblidbtes for supported fields
                 return this;
             }
             switch (f) {
-                case YEAR_OF_ERA:
-                case YEAR:
-                case ERA: {
-                    int nvalue = getChronology().range(f).checkValidIntValue(newValue, f);
+                cbse YEAR_OF_ERA:
+                cbse YEAR:
+                cbse ERA: {
+                    int nvblue = getChronology().rbnge(f).checkVblidIntVblue(newVblue, f);
                     switch (f) {
-                        case YEAR_OF_ERA:
-                            return this.withYear(nvalue);
-                        case YEAR:
-                            return with(isoDate.withYear(nvalue));
-                        case ERA: {
-                            return this.withYear(JapaneseEra.of(nvalue), yearOfEra);
+                        cbse YEAR_OF_ERA:
+                            return this.withYebr(nvblue);
+                        cbse YEAR:
+                            return with(isoDbte.withYebr(nvblue));
+                        cbse ERA: {
+                            return this.withYebr(JbpbneseErb.of(nvblue), yebrOfErb);
                         }
                     }
                 }
             }
-            // YEAR, PROLEPTIC_MONTH and others are same as ISO
-            return with(isoDate.with(field, newValue));
+            // YEAR, PROLEPTIC_MONTH bnd others bre sbme bs ISO
+            return with(isoDbte.with(field, newVblue));
         }
-        return super.with(field, newValue);
+        return super.with(field, newVblue);
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    public  JapaneseDate with(TemporalAdjuster adjuster) {
-        return super.with(adjuster);
+    public  JbpbneseDbte with(TemporblAdjuster bdjuster) {
+        return super.with(bdjuster);
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    public JapaneseDate plus(TemporalAmount amount) {
-        return super.plus(amount);
+    public JbpbneseDbte plus(TemporblAmount bmount) {
+        return super.plus(bmount);
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    public JapaneseDate minus(TemporalAmount amount) {
-        return super.minus(amount);
+    public JbpbneseDbte minus(TemporblAmount bmount) {
+        return super.minus(bmount);
     }
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this date with the year altered.
+     * Returns b copy of this dbte with the yebr bltered.
      * <p>
-     * This method changes the year of the date.
-     * If the month-day is invalid for the year, then the previous valid day
-     * will be selected instead.
+     * This method chbnges the yebr of the dbte.
+     * If the month-dby is invblid for the yebr, then the previous vblid dby
+     * will be selected instebd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param era  the era to set in the result, not null
-     * @param yearOfEra  the year-of-era to set in the returned date
-     * @return a {@code JapaneseDate} based on this date with the requested year, never null
-     * @throws DateTimeException if {@code year} is invalid
+     * @pbrbm erb  the erb to set in the result, not null
+     * @pbrbm yebrOfErb  the yebr-of-erb to set in the returned dbte
+     * @return b {@code JbpbneseDbte} bbsed on this dbte with the requested yebr, never null
+     * @throws DbteTimeException if {@code yebr} is invblid
      */
-    private JapaneseDate withYear(JapaneseEra era, int yearOfEra) {
-        int year = JapaneseChronology.INSTANCE.prolepticYear(era, yearOfEra);
-        return with(isoDate.withYear(year));
+    privbte JbpbneseDbte withYebr(JbpbneseErb erb, int yebrOfErb) {
+        int yebr = JbpbneseChronology.INSTANCE.prolepticYebr(erb, yebrOfErb);
+        return with(isoDbte.withYebr(yebr));
     }
 
     /**
-     * Returns a copy of this date with the year-of-era altered.
+     * Returns b copy of this dbte with the yebr-of-erb bltered.
      * <p>
-     * This method changes the year-of-era of the date.
-     * If the month-day is invalid for the year, then the previous valid day
-     * will be selected instead.
+     * This method chbnges the yebr-of-erb of the dbte.
+     * If the month-dby is invblid for the yebr, then the previous vblid dby
+     * will be selected instebd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param year  the year to set in the returned date
-     * @return a {@code JapaneseDate} based on this date with the requested year-of-era, never null
-     * @throws DateTimeException if {@code year} is invalid
+     * @pbrbm yebr  the yebr to set in the returned dbte
+     * @return b {@code JbpbneseDbte} bbsed on this dbte with the requested yebr-of-erb, never null
+     * @throws DbteTimeException if {@code yebr} is invblid
      */
-    private JapaneseDate withYear(int year) {
-        return withYear(getEra(), year);
+    privbte JbpbneseDbte withYebr(int yebr) {
+        return withYebr(getErb(), yebr);
     }
 
     //-----------------------------------------------------------------------
     @Override
-    JapaneseDate plusYears(long years) {
-        return with(isoDate.plusYears(years));
+    JbpbneseDbte plusYebrs(long yebrs) {
+        return with(isoDbte.plusYebrs(yebrs));
     }
 
     @Override
-    JapaneseDate plusMonths(long months) {
-        return with(isoDate.plusMonths(months));
+    JbpbneseDbte plusMonths(long months) {
+        return with(isoDbte.plusMonths(months));
     }
 
     @Override
-    JapaneseDate plusWeeks(long weeksToAdd) {
-        return with(isoDate.plusWeeks(weeksToAdd));
+    JbpbneseDbte plusWeeks(long weeksToAdd) {
+        return with(isoDbte.plusWeeks(weeksToAdd));
     }
 
     @Override
-    JapaneseDate plusDays(long days) {
-        return with(isoDate.plusDays(days));
+    JbpbneseDbte plusDbys(long dbys) {
+        return with(isoDbte.plusDbys(dbys));
     }
 
     @Override
-    public JapaneseDate plus(long amountToAdd, TemporalUnit unit) {
-        return super.plus(amountToAdd, unit);
+    public JbpbneseDbte plus(long bmountToAdd, TemporblUnit unit) {
+        return super.plus(bmountToAdd, unit);
     }
 
     @Override
-    public JapaneseDate minus(long amountToAdd, TemporalUnit unit) {
-        return super.minus(amountToAdd, unit);
+    public JbpbneseDbte minus(long bmountToAdd, TemporblUnit unit) {
+        return super.minus(bmountToAdd, unit);
     }
 
     @Override
-    JapaneseDate minusYears(long yearsToSubtract) {
-        return super.minusYears(yearsToSubtract);
+    JbpbneseDbte minusYebrs(long yebrsToSubtrbct) {
+        return super.minusYebrs(yebrsToSubtrbct);
     }
 
     @Override
-    JapaneseDate minusMonths(long monthsToSubtract) {
-        return super.minusMonths(monthsToSubtract);
+    JbpbneseDbte minusMonths(long monthsToSubtrbct) {
+        return super.minusMonths(monthsToSubtrbct);
     }
 
     @Override
-    JapaneseDate minusWeeks(long weeksToSubtract) {
-        return super.minusWeeks(weeksToSubtract);
+    JbpbneseDbte minusWeeks(long weeksToSubtrbct) {
+        return super.minusWeeks(weeksToSubtrbct);
     }
 
     @Override
-    JapaneseDate minusDays(long daysToSubtract) {
-        return super.minusDays(daysToSubtract);
+    JbpbneseDbte minusDbys(long dbysToSubtrbct) {
+        return super.minusDbys(dbysToSubtrbct);
     }
 
-    private JapaneseDate with(LocalDate newDate) {
-        return (newDate.equals(isoDate) ? this : new JapaneseDate(newDate));
+    privbte JbpbneseDbte with(LocblDbte newDbte) {
+        return (newDbte.equbls(isoDbte) ? this : new JbpbneseDbte(newDbte));
     }
 
-    @Override        // for javadoc and covariant return type
-    @SuppressWarnings("unchecked")
-    public final ChronoLocalDateTime<JapaneseDate> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<JapaneseDate>)super.atTime(localTime);
+    @Override        // for jbvbdoc bnd covbribnt return type
+    @SuppressWbrnings("unchecked")
+    public finbl ChronoLocblDbteTime<JbpbneseDbte> btTime(LocblTime locblTime) {
+        return (ChronoLocblDbteTime<JbpbneseDbte>)super.btTime(locblTime);
     }
 
     @Override
-    public ChronoPeriod until(ChronoLocalDate endDate) {
-        Period period = isoDate.until(endDate);
-        return getChronology().period(period.getYears(), period.getMonths(), period.getDays());
+    public ChronoPeriod until(ChronoLocblDbte endDbte) {
+        Period period = isoDbte.until(endDbte);
+        return getChronology().period(period.getYebrs(), period.getMonths(), period.getDbys());
     }
 
-    @Override  // override for performance
-    public long toEpochDay() {
-        return isoDate.toEpochDay();
+    @Override  // override for performbnce
+    public long toEpochDby() {
+        return isoDbte.toEpochDby();
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Compares this date to another date, including the chronology.
+     * Compbres this dbte to bnother dbte, including the chronology.
      * <p>
-     * Compares this {@code JapaneseDate} with another ensuring that the date is the same.
+     * Compbres this {@code JbpbneseDbte} with bnother ensuring thbt the dbte is the sbme.
      * <p>
-     * Only objects of type {@code JapaneseDate} are compared, other types return false.
-     * To compare the dates of two {@code TemporalAccessor} instances, including dates
-     * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
+     * Only objects of type {@code JbpbneseDbte} bre compbred, other types return fblse.
+     * To compbre the dbtes of two {@code TemporblAccessor} instbnces, including dbtes
+     * in two different chronologies, use {@link ChronoField#EPOCH_DAY} bs b compbrbtor.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other dbte
      */
-    @Override  // override for performance
-    public boolean equals(Object obj) {
+    @Override  // override for performbnce
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof JapaneseDate) {
-            JapaneseDate otherDate = (JapaneseDate) obj;
-            return this.isoDate.equals(otherDate.isoDate);
+        if (obj instbnceof JbpbneseDbte) {
+            JbpbneseDbte otherDbte = (JbpbneseDbte) obj;
+            return this.isoDbte.equbls(otherDbte.isoDbte);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this date.
+     * A hbsh code for this dbte.
      *
-     * @return a suitable hash code based only on the Chronology and the date
+     * @return b suitbble hbsh code bbsed only on the Chronology bnd the dbte
      */
-    @Override  // override for performance
-    public int hashCode() {
-        return getChronology().getId().hashCode() ^ isoDate.hashCode();
+    @Override  // override for performbnce
+    public int hbshCode() {
+        return getChronology().getId().hbshCode() ^ isoDbte.hbshCode();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
     /**
-     * Writes the object using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the object using b
+     * <b href="../../../seriblized-form.html#jbvb.time.chrono.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(4);                 // identifies a JapaneseDate
+     *  out.writeByte(4);                 // identifies b JbpbneseDbte
      *  out.writeInt(get(YEAR));
      *  out.writeByte(get(MONTH_OF_YEAR));
      *  out.writeByte(get(DAY_OF_MONTH));
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.JAPANESE_DATE_TYPE, this);
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        // JapaneseChronology is implicit in the JAPANESE_DATE_TYPE
+    void writeExternbl(DbtbOutput out) throws IOException {
+        // JbpbneseChronology is implicit in the JAPANESE_DATE_TYPE
         out.writeInt(get(YEAR));
         out.writeByte(get(MONTH_OF_YEAR));
         out.writeByte(get(DAY_OF_MONTH));
     }
 
-    static JapaneseDate readExternal(DataInput in) throws IOException {
-        int year = in.readInt();
-        int month = in.readByte();
-        int dayOfMonth = in.readByte();
-        return JapaneseChronology.INSTANCE.date(year, month, dayOfMonth);
+    stbtic JbpbneseDbte rebdExternbl(DbtbInput in) throws IOException {
+        int yebr = in.rebdInt();
+        int month = in.rebdByte();
+        int dbyOfMonth = in.rebdByte();
+        return JbpbneseChronology.INSTANCE.dbte(yebr, month, dbyOfMonth);
     }
 
 }

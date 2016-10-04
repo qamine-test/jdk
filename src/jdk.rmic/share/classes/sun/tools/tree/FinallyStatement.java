@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1994, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import sun.tools.asm.TryData;
-import sun.tools.asm.CatchData;
-import java.io.PrintStream;
-import java.util.Hashtable;
-import java.util.Enumeration;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.Lbbel;
+import sun.tools.bsm.TryDbtb;
+import sun.tools.bsm.CbtchDbtb;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class FinallyStatement extends Statement {
-    Statement body;
-    Statement finalbody;
-    boolean finallyCanFinish; // does finalBody never return?
-    boolean needReturnSlot;   // set by inner return statement
-    Statement init;           // try object expression  or declaration from parser
-    LocalMember tryTemp;      // temp holding the try object, if any
+clbss FinbllyStbtement extends Stbtement {
+    Stbtement body;
+    Stbtement finblbody;
+    boolebn finbllyCbnFinish; // does finblBody never return?
+    boolebn needReturnSlot;   // set by inner return stbtement
+    Stbtement init;           // try object expression  or declbrbtion from pbrser
+    LocblMember tryTemp;      // temp holding the try object, if bny
 
     /**
      * Constructor
      */
-    public FinallyStatement(long where, Statement body, Statement finalbody) {
+    public FinbllyStbtement(long where, Stbtement body, Stbtement finblbody) {
         super(FINALLY, where);
         this.body = body;
-        this.finalbody = finalbody;
+        this.finblbody = finblbody;
     }
 
 //    /**
 //     * Constructor for  try (init) {body}
 //     */
-//    public FinallyStatement(long where, Statement init, Statement body, int junk) {
+//    public FinbllyStbtement(long where, Stbtement init, Stbtement body, int junk) {
 //      this(where, body, null);
 //      this.init = init;
 //    }
 
     /**
-     * Check statement
+     * Check stbtement
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        vset = reach(env, vset);
-        Hashtable<Object, Object> newexp = new Hashtable<>();
+    Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        vset = rebch(env, vset);
+        Hbshtbble<Object, Object> newexp = new Hbshtbble<>();
 
-        // Handle the proposed 'try (init) { stmts } finally { stmts }' syntax.
-        // This feature has not been adopted, and support is presently disabled.
+        // Hbndle the proposed 'try (init) { stmts } finblly { stmts }' syntbx.
+        // This febture hbs not been bdopted, bnd support is presently disbbled.
         /*-----------------------------------------------------------*
         if (init != null) {
-            ClassDefinition sourceClass = ctx.field.getClassDefinition();
+            ClbssDefinition sourceClbss = ctx.field.getClbssDefinition();
             Expression tryExpr = null;
-            DeclarationStatement tryDecl = null;
+            DeclbrbtionStbtement tryDecl = null;
             long where = init.getWhere();
-            // find out whether init is a simple expression or a declaration
+            // find out whether init is b simple expression or b declbrbtion
             if (init.getOp() == EXPRESSION) {
-                tryExpr = ((ExpressionStatement)init).expr;
+                tryExpr = ((ExpressionStbtement)init).expr;
                 init = null;    // restore it below
-                vset = tryExpr.checkValue(env, ctx, vset, exp);
+                vset = tryExpr.checkVblue(env, ctx, vset, exp);
             } else if (init.getOp() == DECLARATION) {
-                tryDecl = (DeclarationStatement) init;
+                tryDecl = (DeclbrbtionStbtement) init;
                 init = null;    // restore it below
-                vset = tryDecl.checkBlockStatement(env, ctx, vset, exp);
-                if (tryDecl.args.length != 1) {
-                    env.error(where, "invalid.decl");
+                vset = tryDecl.checkBlockStbtement(env, ctx, vset, exp);
+                if (tryDecl.brgs.length != 1) {
+                    env.error(where, "invblid.decl");
                 } else {
-                    LocalMember field =
-                        ((VarDeclarationStatement) tryDecl.args[0]).field;
+                    LocblMember field =
+                        ((VbrDeclbrbtionStbtement) tryDecl.brgs[0]).field;
                     tryExpr = new IdentifierExpression(where, field);
                     tryExpr.type = field.getType();
                 }
             } else {
-                env.error(where, "invalid.expr");
+                env.error(where, "invblid.expr");
                 vset = init.check(env, ctx, vset, exp);
             }
             Type type = (tryExpr == null) ? Type.tError : tryExpr.getType();
@@ -107,96 +107,96 @@ class FinallyStatement extends Statement {
             MemberDefinition tryExit = null;
             if (!type.isType(TC_CLASS)) {
                 if (!type.isType(TC_ERROR)) {
-                    env.error(where, "invalid.method.invoke", type);
+                    env.error(where, "invblid.method.invoke", type);
                 }
             } else {
                 Identifier idTryEnter = Identifier.lookup("tryEnter");
                 Identifier idTryExit = Identifier.lookup("tryExit");
                 Type tTryMethod = Type.tMethod(Type.tVoid);
                 try {
-                    ClassDefinition tryClass = env.getClassDefinition(type);
-                    tryEnter = tryClass.matchMethod(env, sourceClass, idTryEnter);
-                    tryExit = tryClass.matchMethod(env, sourceClass, idTryExit);
-                    if (tryEnter != null && !tryEnter.getType().equals(tTryMethod)) {
+                    ClbssDefinition tryClbss = env.getClbssDefinition(type);
+                    tryEnter = tryClbss.mbtchMethod(env, sourceClbss, idTryEnter);
+                    tryExit = tryClbss.mbtchMethod(env, sourceClbss, idTryExit);
+                    if (tryEnter != null && !tryEnter.getType().equbls(tTryMethod)) {
                         tryEnter = null;
                     }
-                    if (tryExit != null && !tryExit.getType().equals(tTryMethod)) {
+                    if (tryExit != null && !tryExit.getType().equbls(tTryMethod)) {
                         tryExit = null;
                     }
-                } catch (ClassNotFound ee) {
-                    env.error(where, "class.not.found", ee.name, ctx.field);
-                } catch (AmbiguousMember ee) {
-                    Identifier id = ee.field1.getName();
-                    env.error(where, "ambig.field", id, ee.field1, ee.field2);
+                } cbtch (ClbssNotFound ee) {
+                    env.error(where, "clbss.not.found", ee.nbme, ctx.field);
+                } cbtch (AmbiguousMember ee) {
+                    Identifier id = ee.field1.getNbme();
+                    env.error(where, "bmbig.field", id, ee.field1, ee.field2);
                 }
             }
             if (tryEnter == null || tryExit == null) {
-                // Make a better (more didactic) error here!
-                env.error(where, "invalid.method.invoke", type);
+                // Mbke b better (more didbctic) error here!
+                env.error(where, "invblid.method.invoke", type);
             } else {
-                tryTemp = new LocalMember(where, sourceClass, 0,
+                tryTemp = new LocblMember(where, sourceClbss, 0,
                                           type, Identifier.lookup("<try_object>"));
                 ctx = new Context(ctx, this);
-                ctx.declare(env, tryTemp);
+                ctx.declbre(env, tryTemp);
 
                 Expression e;
                 e = new IdentifierExpression(where, tryTemp);
                 e = new AssignExpression(where, e, tryExpr);
                 e = new MethodExpression(where, e, tryEnter, new Expression[0]);
                 e.type = Type.tVoid;
-                Statement enterCall = new ExpressionStatement(where, e);
-                // store it on the init, for code generation
+                Stbtement enterCbll = new ExpressionStbtement(where, e);
+                // store it on the init, for code generbtion
                 if (tryDecl != null) {
-                    Statement args2[] = { tryDecl.args[0], enterCall };
-                    tryDecl.args = args2;
+                    Stbtement brgs2[] = { tryDecl.brgs[0], enterCbll };
+                    tryDecl.brgs = brgs2;
                     init = tryDecl;
                 } else {
-                    init = enterCall;
+                    init = enterCbll;
                 }
                 e = new IdentifierExpression(where, tryTemp);
                 e = new MethodExpression(where, e, tryExit, new Expression[0]);
                 e.type = Type.tVoid;
-                Statement exitCall = new ExpressionStatement(where, e);
-                finalbody = exitCall;
+                Stbtement exitCbll = new ExpressionStbtement(where, e);
+                finblbody = exitCbll;
             }
         }
         *-----------------------------------------------------------*/
 
-        // Check the try part. We reach the end of the try part either by
-        // finishing normally, or doing a break to the label of the try/finally.
-        // NOTE: I don't think newctx1.vsBreak is ever used -- see TryStatement.
+        // Check the try pbrt. We rebch the end of the try pbrt either by
+        // finishing normblly, or doing b brebk to the lbbel of the try/finblly.
+        // NOTE: I don't think newctx1.vsBrebk is ever used -- see TryStbtement.
         CheckContext newctx1 = new CheckContext(ctx, this);
         Vset vset1 = body.check(env, newctx1, vset.copy(), newexp)
-            .join(newctx1.vsBreak);
-        // Check the finally part.
+            .join(newctx1.vsBrebk);
+        // Check the finblly pbrt.
         CheckContext newctx2 = new CheckContext(ctx, this);
-        // Should never access this field.  The null indicates the finally part.
+        // Should never bccess this field.  The null indicbtes the finblly pbrt.
         newctx2.vsContinue = null;
-        Vset vset2 = finalbody.check(env, newctx2, vset, exp);
-        finallyCanFinish = !vset2.isDeadEnd();
-        vset2 = vset2.join(newctx2.vsBreak);
-        // If !finallyCanFinish, then the only possible exceptions that can
-        // occur at this point are the ones preceding the try/finally, or
-        // the ones generated by the finally.  Anything in the try is
-        // irrelevant. Otherwise, we have to merge in all the exceptions
-        // generated by the body into exp.
-        if (finallyCanFinish) {
-            // Add newexp's back into exp; cf. ThrowStatement.check().
-            for (Enumeration<?> e = newexp.keys() ; e.hasMoreElements() ; ) {
+        Vset vset2 = finblbody.check(env, newctx2, vset, exp);
+        finbllyCbnFinish = !vset2.isDebdEnd();
+        vset2 = vset2.join(newctx2.vsBrebk);
+        // If !finbllyCbnFinish, then the only possible exceptions thbt cbn
+        // occur bt this point bre the ones preceding the try/finblly, or
+        // the ones generbted by the finblly.  Anything in the try is
+        // irrelevbnt. Otherwise, we hbve to merge in bll the exceptions
+        // generbted by the body into exp.
+        if (finbllyCbnFinish) {
+            // Add newexp's bbck into exp; cf. ThrowStbtement.check().
+            for (Enumerbtion<?> e = newexp.keys() ; e.hbsMoreElements() ; ) {
                 Object def = e.nextElement();
                 exp.put(def, newexp.get(def));
             }
         }
-        return ctx.removeAdditionalVars(vset1.addDAandJoinDU(vset2));
+        return ctx.removeAdditionblVbrs(vset1.bddDAbndJoinDU(vset2));
     }
 
     /**
      * Inline
      */
-    public Statement inline(Environment env, Context ctx) {
+    public Stbtement inline(Environment env, Context ctx) {
         if (tryTemp != null) {
             ctx = new Context(ctx, this);
-            ctx.declare(env, tryTemp);
+            ctx.declbre(env, tryTemp);
         }
         if (init != null) {
             init = init.inline(env, ctx);
@@ -204,40 +204,40 @@ class FinallyStatement extends Statement {
         if (body != null) {
             body = body.inline(env, ctx);
         }
-        if (finalbody != null) {
-            finalbody = finalbody.inline(env, ctx);
+        if (finblbody != null) {
+            finblbody = finblbody.inline(env, ctx);
         }
         if (body == null) {
-            return eliminate(env, finalbody);
+            return eliminbte(env, finblbody);
         }
-        if (finalbody == null) {
-            return eliminate(env, body);
+        if (finblbody == null) {
+            return eliminbte(env, body);
         }
         return this;
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crebte b copy of the stbtement for method inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        FinallyStatement s = (FinallyStatement)clone();
+    public Stbtement copyInline(Context ctx, boolebn vblNeeded) {
+        FinbllyStbtement s = (FinbllyStbtement)clone();
         if (tryTemp != null) {
             s.tryTemp = tryTemp.copyInline(ctx);
         }
         if (init != null) {
-            s.init = init.copyInline(ctx, valNeeded);
+            s.init = init.copyInline(ctx, vblNeeded);
         }
         if (body != null) {
-            s.body = body.copyInline(ctx, valNeeded);
+            s.body = body.copyInline(ctx, vblNeeded);
         }
-        if (finalbody != null) {
-            s.finalbody = finalbody.copyInline(ctx, valNeeded);
+        if (finblbody != null) {
+            s.finblbody = finblbody.copyInline(ctx, vblNeeded);
         }
         return s;
      }
 
     /**
-     * Compute cost of inlining this statement
+     * Compute cost of inlining this stbtement
      */
     public int costInline(int thresh, Environment env, Context ctx){
         int cost = 4;
@@ -249,8 +249,8 @@ class FinallyStatement extends Statement {
             cost += body.costInline(thresh, env,ctx);
             if (cost >= thresh) return cost;
         }
-        if (finalbody != null) {
-            cost += finalbody.costInline(thresh, env,ctx);
+        if (finblbody != null) {
+            cost += finblbody.costInline(thresh, env,ctx);
         }
         return cost;
     }
@@ -258,91 +258,91 @@ class FinallyStatement extends Statement {
     /**
      * Code
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
+    public void code(Environment env, Context ctx, Assembler bsm) {
         ctx = new Context(ctx);
         Integer num1 = null, num2 = null;
-        Label endLabel = new Label();
+        Lbbel endLbbel = new Lbbel();
 
         if (tryTemp != null) {
-            ctx.declare(env, tryTemp);
+            ctx.declbre(env, tryTemp);
         }
         if (init != null) {
             CodeContext exprctx = new CodeContext(ctx, this);
-            init.code(env, exprctx, asm);
+            init.code(env, exprctx, bsm);
         }
 
-        if (finallyCanFinish) {
-            LocalMember f1, f2;
-            ClassDefinition thisClass = ctx.field.getClassDefinition();
+        if (finbllyCbnFinish) {
+            LocblMember f1, f2;
+            ClbssDefinition thisClbss = ctx.field.getClbssDefinition();
 
             if (needReturnSlot) {
                 Type returnType = ctx.field.getType().getReturnType();
-                LocalMember localfield = new LocalMember(0, thisClass, 0,
+                LocblMember locblfield = new LocblMember(0, thisClbss, 0,
                                                        returnType,
-                                                       idFinallyReturnValue);
-                ctx.declare(env, localfield);
-                Environment.debugOutput("Assigning return slot to " + localfield.number);
+                                                       idFinbllyReturnVblue);
+                ctx.declbre(env, locblfield);
+                Environment.debugOutput("Assigning return slot to " + locblfield.number);
             }
 
-            // allocate space for the exception and return address
-            f1 = new LocalMember(where, thisClass, 0, Type.tObject, null);
-            f2 = new LocalMember(where, thisClass, 0, Type.tInt, null);
-            num1 = ctx.declare(env, f1);
-            num2 = ctx.declare(env, f2);
+            // bllocbte spbce for the exception bnd return bddress
+            f1 = new LocblMember(where, thisClbss, 0, Type.tObject, null);
+            f2 = new LocblMember(where, thisClbss, 0, Type.tInt, null);
+            num1 = ctx.declbre(env, f1);
+            num2 = ctx.declbre(env, f2);
         }
 
-        TryData td = new TryData();
-        td.add(null);
+        TryDbtb td = new TryDbtb();
+        td.bdd(null);
 
-        // Main body
+        // Mbin body
         CodeContext bodyctx = new CodeContext(ctx, this);
-        asm.add(where, opc_try, td); // start of protected code
-        body.code(env, bodyctx, asm);
-        asm.add(bodyctx.breakLabel);
-        asm.add(td.getEndLabel());   // end of protected code
+        bsm.bdd(where, opc_try, td); // stbrt of protected code
+        body.code(env, bodyctx, bsm);
+        bsm.bdd(bodyctx.brebkLbbel);
+        bsm.bdd(td.getEndLbbel());   // end of protected code
 
-        // Cleanup afer body
-        if (finallyCanFinish) {
-            asm.add(where, opc_jsr, bodyctx.contLabel);
-            asm.add(where, opc_goto, endLabel);
+        // Clebnup bfer body
+        if (finbllyCbnFinish) {
+            bsm.bdd(where, opc_jsr, bodyctx.contLbbel);
+            bsm.bdd(where, opc_goto, endLbbel);
         } else {
-            // just goto the cleanup code.  It will never return.
-            asm.add(where, opc_goto, bodyctx.contLabel);
+            // just goto the clebnup code.  It will never return.
+            bsm.bdd(where, opc_goto, bodyctx.contLbbel);
         }
 
-        // Catch code
-        CatchData cd = td.getCatch(0);
-        asm.add(cd.getLabel());
-        if (finallyCanFinish) {
-            asm.add(where, opc_astore, num1); // store exception
-            asm.add(where, opc_jsr, bodyctx.contLabel);
-            asm.add(where, opc_aload, num1); // rethrow exception
-            asm.add(where, opc_athrow);
+        // Cbtch code
+        CbtchDbtb cd = td.getCbtch(0);
+        bsm.bdd(cd.getLbbel());
+        if (finbllyCbnFinish) {
+            bsm.bdd(where, opc_bstore, num1); // store exception
+            bsm.bdd(where, opc_jsr, bodyctx.contLbbel);
+            bsm.bdd(where, opc_blobd, num1); // rethrow exception
+            bsm.bdd(where, opc_bthrow);
         } else {
-            // pop exception off stack.  Fall through to finally code
-            asm.add(where, opc_pop);
+            // pop exception off stbck.  Fbll through to finblly code
+            bsm.bdd(where, opc_pop);
         }
 
-        // The finally part, which is marked by the contLabel.  Update
-        //    breakLabel: since break's in the finally are different
-        //    contLabel:  to null to indicate no longer in the protected code.
-        asm.add(bodyctx.contLabel);
-        bodyctx.contLabel = null;
-        bodyctx.breakLabel = endLabel;
-        if (finallyCanFinish) {
-            asm.add(where, opc_astore, num2);  // save the return address
-            finalbody.code(env, bodyctx, asm); // execute the cleanup code
-            asm.add(where, opc_ret, num2);     // return
+        // The finblly pbrt, which is mbrked by the contLbbel.  Updbte
+        //    brebkLbbel: since brebk's in the finblly bre different
+        //    contLbbel:  to null to indicbte no longer in the protected code.
+        bsm.bdd(bodyctx.contLbbel);
+        bodyctx.contLbbel = null;
+        bodyctx.brebkLbbel = endLbbel;
+        if (finbllyCbnFinish) {
+            bsm.bdd(where, opc_bstore, num2);  // sbve the return bddress
+            finblbody.code(env, bodyctx, bsm); // execute the clebnup code
+            bsm.bdd(where, opc_ret, num2);     // return
         } else {
-            finalbody.code(env, bodyctx, asm); // execute the cleanup code
+            finblbody.code(env, bodyctx, bsm); // execute the clebnup code
         }
-        asm.add(endLabel);                     // breaks come here
+        bsm.bdd(endLbbel);                     // brebks come here
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
+    public void print(PrintStrebm out, int indent) {
         super.print(out, indent);
         out.print("try ");
         if (body != null) {
@@ -350,9 +350,9 @@ class FinallyStatement extends Statement {
         } else {
             out.print("<empty>");
         }
-        out.print(" finally ");
-        if (finalbody != null) {
-            finalbody.print(out, indent);
+        out.print(" finblly ");
+        if (finblbody != null) {
+            finblbody.print(out, indent);
         } else {
             out.print("<empty>");
         }

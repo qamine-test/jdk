@@ -1,258 +1,258 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.concurrent.btomic.AtomicReferenceFieldUpdbter;
 
 /**
- * <P>An exception that provides information on a database access
+ * <P>An exception thbt provides informbtion on b dbtbbbse bccess
  * error or other errors.
  *
- * <P>Each <code>SQLException</code> provides several kinds of information:
+ * <P>Ebch <code>SQLException</code> provides severbl kinds of informbtion:
  * <UL>
- *   <LI> a string describing the error.  This is used as the Java Exception
- *       message, available via the method <code>getMesasge</code>.
- *   <LI> a "SQLstate" string, which follows either the XOPEN SQLstate conventions
+ *   <LI> b string describing the error.  This is used bs the Jbvb Exception
+ *       messbge, bvbilbble vib the method <code>getMesbsge</code>.
+ *   <LI> b "SQLstbte" string, which follows either the XOPEN SQLstbte conventions
  *        or the SQL:2003 conventions.
- *       The values of the SQLState string are described in the appropriate spec.
- *       The <code>DatabaseMetaData</code> method <code>getSQLStateType</code>
- *       can be used to discover whether the driver returns the XOPEN type or
+ *       The vblues of the SQLStbte string bre described in the bppropribte spec.
+ *       The <code>DbtbbbseMetbDbtb</code> method <code>getSQLStbteType</code>
+ *       cbn be used to discover whether the driver returns the XOPEN type or
  *       the SQL:2003 type.
- *   <LI> an integer error code that is specific to each vendor.  Normally this will
- *       be the actual error code returned by the underlying database.
- *   <LI> a chain to a next Exception.  This can be used to provide additional
- *       error information.
- *   <LI> the causal relationship, if any for this <code>SQLException</code>.
+ *   <LI> bn integer error code thbt is specific to ebch vendor.  Normblly this will
+ *       be the bctubl error code returned by the underlying dbtbbbse.
+ *   <LI> b chbin to b next Exception.  This cbn be used to provide bdditionbl
+ *       error informbtion.
+ *   <LI> the cbusbl relbtionship, if bny for this <code>SQLException</code>.
  * </UL>
  */
-public class SQLException extends java.lang.Exception
-                          implements Iterable<Throwable> {
+public clbss SQLException extends jbvb.lbng.Exception
+                          implements Iterbble<Throwbble> {
 
     /**
-     *  Constructs a <code>SQLException</code> object with a given
-     * <code>reason</code>, <code>SQLState</code>  and
+     *  Constructs b <code>SQLException</code> object with b given
+     * <code>rebson</code>, <code>SQLStbte</code>  bnd
      * <code>vendorCode</code>.
      *
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method.
+     * The <code>cbuse</code> is not initiblized, bnd mby subsequently be
+     * initiblized by b cbll to the
+     * {@link Throwbble#initCbuse(jbvb.lbng.Throwbble)} method.
      *
-     * @param reason a description of the exception
-     * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-     * @param vendorCode a database vendor-specific exception code
+     * @pbrbm rebson b description of the exception
+     * @pbrbm SQLStbte bn XOPEN or SQL:2003 code identifying the exception
+     * @pbrbm vendorCode b dbtbbbse vendor-specific exception code
      */
-    public SQLException(String reason, String SQLState, int vendorCode) {
-        super(reason);
-        this.SQLState = SQLState;
+    public SQLException(String rebson, String SQLStbte, int vendorCode) {
+        super(rebson);
+        this.SQLStbte = SQLStbte;
         this.vendorCode = vendorCode;
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                DriverManager.println("SQLState(" + SQLState +
+        if (!(this instbnceof SQLWbrning)) {
+            if (DriverMbnbger.getLogWriter() != null) {
+                DriverMbnbger.println("SQLStbte(" + SQLStbte +
                                                 ") vendor code(" + vendorCode + ")");
-                printStackTrace(DriverManager.getLogWriter());
+                printStbckTrbce(DriverMbnbger.getLogWriter());
             }
         }
     }
 
 
     /**
-     * Constructs a <code>SQLException</code> object with a given
-     * <code>reason</code> and <code>SQLState</code>.
+     * Constructs b <code>SQLException</code> object with b given
+     * <code>rebson</code> bnd <code>SQLStbte</code>.
      *
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method. The vendor code
-     * is initialized to 0.
+     * The <code>cbuse</code> is not initiblized, bnd mby subsequently be
+     * initiblized by b cbll to the
+     * {@link Throwbble#initCbuse(jbvb.lbng.Throwbble)} method. The vendor code
+     * is initiblized to 0.
      *
-     * @param reason a description of the exception
-     * @param SQLState an XOPEN or SQL:2003 code identifying the exception
+     * @pbrbm rebson b description of the exception
+     * @pbrbm SQLStbte bn XOPEN or SQL:2003 code identifying the exception
      */
-    public SQLException(String reason, String SQLState) {
-        super(reason);
-        this.SQLState = SQLState;
+    public SQLException(String rebson, String SQLStbte) {
+        super(rebson);
+        this.SQLStbte = SQLStbte;
         this.vendorCode = 0;
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                printStackTrace(DriverManager.getLogWriter());
-                DriverManager.println("SQLException: SQLState(" + SQLState + ")");
+        if (!(this instbnceof SQLWbrning)) {
+            if (DriverMbnbger.getLogWriter() != null) {
+                printStbckTrbce(DriverMbnbger.getLogWriter());
+                DriverMbnbger.println("SQLException: SQLStbte(" + SQLStbte + ")");
             }
         }
     }
 
     /**
-     *  Constructs a <code>SQLException</code> object with a given
-     * <code>reason</code>. The  <code>SQLState</code>  is initialized to
-     * <code>null</code> and the vendor code is initialized to 0.
+     *  Constructs b <code>SQLException</code> object with b given
+     * <code>rebson</code>. The  <code>SQLStbte</code>  is initiblized to
+     * <code>null</code> bnd the vendor code is initiblized to 0.
      *
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method.
+     * The <code>cbuse</code> is not initiblized, bnd mby subsequently be
+     * initiblized by b cbll to the
+     * {@link Throwbble#initCbuse(jbvb.lbng.Throwbble)} method.
      *
-     * @param reason a description of the exception
+     * @pbrbm rebson b description of the exception
      */
-    public SQLException(String reason) {
-        super(reason);
-        this.SQLState = null;
+    public SQLException(String rebson) {
+        super(rebson);
+        this.SQLStbte = null;
         this.vendorCode = 0;
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                printStackTrace(DriverManager.getLogWriter());
+        if (!(this instbnceof SQLWbrning)) {
+            if (DriverMbnbger.getLogWriter() != null) {
+                printStbckTrbce(DriverMbnbger.getLogWriter());
             }
         }
     }
 
     /**
-     * Constructs a <code>SQLException</code> object.
-     * The <code>reason</code>, <code>SQLState</code> are initialized
-     * to <code>null</code> and the vendor code is initialized to 0.
+     * Constructs b <code>SQLException</code> object.
+     * The <code>rebson</code>, <code>SQLStbte</code> bre initiblized
+     * to <code>null</code> bnd the vendor code is initiblized to 0.
      *
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method.
+     * The <code>cbuse</code> is not initiblized, bnd mby subsequently be
+     * initiblized by b cbll to the
+     * {@link Throwbble#initCbuse(jbvb.lbng.Throwbble)} method.
      *
      */
     public SQLException() {
         super();
-        this.SQLState = null;
+        this.SQLStbte = null;
         this.vendorCode = 0;
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                printStackTrace(DriverManager.getLogWriter());
+        if (!(this instbnceof SQLWbrning)) {
+            if (DriverMbnbger.getLogWriter() != null) {
+                printStbckTrbce(DriverMbnbger.getLogWriter());
             }
         }
     }
 
     /**
-     *  Constructs a <code>SQLException</code> object with a given
-     * <code>cause</code>.
-     * The <code>SQLState</code> is initialized
-     * to <code>null</code> and the vendor code is initialized to 0.
-     * The <code>reason</code>  is initialized to <code>null</code> if
-     * <code>cause==null</code> or to <code>cause.toString()</code> if
-     * <code>cause!=null</code>.
+     *  Constructs b <code>SQLException</code> object with b given
+     * <code>cbuse</code>.
+     * The <code>SQLStbte</code> is initiblized
+     * to <code>null</code> bnd the vendor code is initiblized to 0.
+     * The <code>rebson</code>  is initiblized to <code>null</code> if
+     * <code>cbuse==null</code> or to <code>cbuse.toString()</code> if
+     * <code>cbuse!=null</code>.
      *
-     * @param cause the underlying reason for this <code>SQLException</code>
-     * (which is saved for later retrieval by the <code>getCause()</code> method);
-     * may be null indicating the cause is non-existent or unknown.
+     * @pbrbm cbuse the underlying rebson for this <code>SQLException</code>
+     * (which is sbved for lbter retrievbl by the <code>getCbuse()</code> method);
+     * mby be null indicbting the cbuse is non-existent or unknown.
      * @since 1.6
      */
-    public SQLException(Throwable cause) {
-        super(cause);
+    public SQLException(Throwbble cbuse) {
+        super(cbuse);
 
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                printStackTrace(DriverManager.getLogWriter());
+        if (!(this instbnceof SQLWbrning)) {
+            if (DriverMbnbger.getLogWriter() != null) {
+                printStbckTrbce(DriverMbnbger.getLogWriter());
             }
         }
     }
 
     /**
-     * Constructs a <code>SQLException</code> object with a given
-     * <code>reason</code> and  <code>cause</code>.
-     * The <code>SQLState</code> is  initialized to <code>null</code>
-     * and the vendor code is initialized to 0.
+     * Constructs b <code>SQLException</code> object with b given
+     * <code>rebson</code> bnd  <code>cbuse</code>.
+     * The <code>SQLStbte</code> is  initiblized to <code>null</code>
+     * bnd the vendor code is initiblized to 0.
      *
-     * @param reason a description of the exception.
-     * @param cause the underlying reason for this <code>SQLException</code>
-     * (which is saved for later retrieval by the <code>getCause()</code> method);
-     * may be null indicating the cause is non-existent or unknown.
+     * @pbrbm rebson b description of the exception.
+     * @pbrbm cbuse the underlying rebson for this <code>SQLException</code>
+     * (which is sbved for lbter retrievbl by the <code>getCbuse()</code> method);
+     * mby be null indicbting the cbuse is non-existent or unknown.
      * @since 1.6
      */
-    public SQLException(String reason, Throwable cause) {
-        super(reason,cause);
+    public SQLException(String rebson, Throwbble cbuse) {
+        super(rebson,cbuse);
 
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                    printStackTrace(DriverManager.getLogWriter());
+        if (!(this instbnceof SQLWbrning)) {
+            if (DriverMbnbger.getLogWriter() != null) {
+                    printStbckTrbce(DriverMbnbger.getLogWriter());
             }
         }
     }
 
     /**
-     * Constructs a <code>SQLException</code> object with a given
-     * <code>reason</code>, <code>SQLState</code> and  <code>cause</code>.
-     * The vendor code is initialized to 0.
+     * Constructs b <code>SQLException</code> object with b given
+     * <code>rebson</code>, <code>SQLStbte</code> bnd  <code>cbuse</code>.
+     * The vendor code is initiblized to 0.
      *
-     * @param reason a description of the exception.
-     * @param sqlState an XOPEN or SQL:2003 code identifying the exception
-     * @param cause the underlying reason for this <code>SQLException</code>
-     * (which is saved for later retrieval by the
-     * <code>getCause()</code> method); may be null indicating
-     *     the cause is non-existent or unknown.
+     * @pbrbm rebson b description of the exception.
+     * @pbrbm sqlStbte bn XOPEN or SQL:2003 code identifying the exception
+     * @pbrbm cbuse the underlying rebson for this <code>SQLException</code>
+     * (which is sbved for lbter retrievbl by the
+     * <code>getCbuse()</code> method); mby be null indicbting
+     *     the cbuse is non-existent or unknown.
      * @since 1.6
      */
-    public SQLException(String reason, String sqlState, Throwable cause) {
-        super(reason,cause);
+    public SQLException(String rebson, String sqlStbte, Throwbble cbuse) {
+        super(rebson,cbuse);
 
-        this.SQLState = sqlState;
+        this.SQLStbte = sqlStbte;
         this.vendorCode = 0;
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                printStackTrace(DriverManager.getLogWriter());
-                DriverManager.println("SQLState(" + SQLState + ")");
+        if (!(this instbnceof SQLWbrning)) {
+            if (DriverMbnbger.getLogWriter() != null) {
+                printStbckTrbce(DriverMbnbger.getLogWriter());
+                DriverMbnbger.println("SQLStbte(" + SQLStbte + ")");
             }
         }
     }
 
     /**
-     * Constructs a <code>SQLException</code> object with a given
-     * <code>reason</code>, <code>SQLState</code>, <code>vendorCode</code>
-     * and  <code>cause</code>.
+     * Constructs b <code>SQLException</code> object with b given
+     * <code>rebson</code>, <code>SQLStbte</code>, <code>vendorCode</code>
+     * bnd  <code>cbuse</code>.
      *
-     * @param reason a description of the exception
-     * @param sqlState an XOPEN or SQL:2003 code identifying the exception
-     * @param vendorCode a database vendor-specific exception code
-     * @param cause the underlying reason for this <code>SQLException</code>
-     * (which is saved for later retrieval by the <code>getCause()</code> method);
-     * may be null indicating the cause is non-existent or unknown.
+     * @pbrbm rebson b description of the exception
+     * @pbrbm sqlStbte bn XOPEN or SQL:2003 code identifying the exception
+     * @pbrbm vendorCode b dbtbbbse vendor-specific exception code
+     * @pbrbm cbuse the underlying rebson for this <code>SQLException</code>
+     * (which is sbved for lbter retrievbl by the <code>getCbuse()</code> method);
+     * mby be null indicbting the cbuse is non-existent or unknown.
      * @since 1.6
      */
-    public SQLException(String reason, String sqlState, int vendorCode, Throwable cause) {
-        super(reason,cause);
+    public SQLException(String rebson, String sqlStbte, int vendorCode, Throwbble cbuse) {
+        super(rebson,cbuse);
 
-        this.SQLState = sqlState;
+        this.SQLStbte = sqlStbte;
         this.vendorCode = vendorCode;
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                DriverManager.println("SQLState(" + SQLState +
+        if (!(this instbnceof SQLWbrning)) {
+            if (DriverMbnbger.getLogWriter() != null) {
+                DriverMbnbger.println("SQLStbte(" + SQLStbte +
                                                 ") vendor code(" + vendorCode + ")");
-                printStackTrace(DriverManager.getLogWriter());
+                printStbckTrbce(DriverMbnbger.getLogWriter());
             }
         }
     }
 
     /**
-     * Retrieves the SQLState for this <code>SQLException</code> object.
+     * Retrieves the SQLStbte for this <code>SQLException</code> object.
      *
-     * @return the SQLState value
+     * @return the SQLStbte vblue
      */
-    public String getSQLState() {
-        return (SQLState);
+    public String getSQLStbte() {
+        return (SQLStbte);
     }
 
     /**
@@ -266,11 +266,11 @@ public class SQLException extends java.lang.Exception
     }
 
     /**
-     * Retrieves the exception chained to this
+     * Retrieves the exception chbined to this
      * <code>SQLException</code> object by setNextException(SQLException ex).
      *
-     * @return the next <code>SQLException</code> object in the chain;
-     *         <code>null</code> if there are none
+     * @return the next <code>SQLException</code> object in the chbin;
+     *         <code>null</code> if there bre none
      * @see #setNextException
      */
     public SQLException getNextException() {
@@ -278,10 +278,10 @@ public class SQLException extends java.lang.Exception
     }
 
     /**
-     * Adds an <code>SQLException</code> object to the end of the chain.
+     * Adds bn <code>SQLException</code> object to the end of the chbin.
      *
-     * @param ex the new exception that will be added to the end of
-     *            the <code>SQLException</code> chain
+     * @pbrbm ex the new exception thbt will be bdded to the end of
+     *            the <code>SQLException</code> chbin
      * @see #getNextException
      */
     public void setNextException(SQLException ex) {
@@ -294,7 +294,7 @@ public class SQLException extends java.lang.Exception
                 continue;
             }
 
-            if (nextUpdater.compareAndSet(current,null,ex)) {
+            if (nextUpdbter.compbreAndSet(current,null,ex)) {
                 return;
             }
             current=current.next;
@@ -302,51 +302,51 @@ public class SQLException extends java.lang.Exception
     }
 
     /**
-     * Returns an iterator over the chained SQLExceptions.  The iterator will
-     * be used to iterate over each SQLException and its underlying cause
-     * (if any).
+     * Returns bn iterbtor over the chbined SQLExceptions.  The iterbtor will
+     * be used to iterbte over ebch SQLException bnd its underlying cbuse
+     * (if bny).
      *
-     * @return an iterator over the chained SQLExceptions and causes in the proper
+     * @return bn iterbtor over the chbined SQLExceptions bnd cbuses in the proper
      * order
      *
      * @since 1.6
      */
-    public Iterator<Throwable> iterator() {
+    public Iterbtor<Throwbble> iterbtor() {
 
-       return new Iterator<Throwable>() {
+       return new Iterbtor<Throwbble>() {
 
            SQLException firstException = SQLException.this;
            SQLException nextException = firstException.getNextException();
-           Throwable cause = firstException.getCause();
+           Throwbble cbuse = firstException.getCbuse();
 
-           public boolean hasNext() {
-               if(firstException != null || nextException != null || cause != null)
+           public boolebn hbsNext() {
+               if(firstException != null || nextException != null || cbuse != null)
                    return true;
-               return false;
+               return fblse;
            }
 
-           public Throwable next() {
-               Throwable throwable = null;
+           public Throwbble next() {
+               Throwbble throwbble = null;
                if(firstException != null){
-                   throwable = firstException;
+                   throwbble = firstException;
                    firstException = null;
                }
-               else if(cause != null){
-                   throwable = cause;
-                   cause = cause.getCause();
+               else if(cbuse != null){
+                   throwbble = cbuse;
+                   cbuse = cbuse.getCbuse();
                }
                else if(nextException != null){
-                   throwable = nextException;
-                   cause = nextException.getCause();
+                   throwbble = nextException;
+                   cbuse = nextException.getCbuse();
                    nextException = nextException.getNextException();
                }
                else
                    throw new NoSuchElementException();
-               return throwable;
+               return throwbble;
            }
 
            public void remove() {
-               throw new UnsupportedOperationException();
+               throw new UnsupportedOperbtionException();
            }
 
        };
@@ -354,22 +354,22 @@ public class SQLException extends java.lang.Exception
     }
 
     /**
-         * @serial
+         * @seribl
          */
-    private String SQLState;
+    privbte String SQLStbte;
 
         /**
-         * @serial
+         * @seribl
          */
-    private int vendorCode;
+    privbte int vendorCode;
 
         /**
-         * @serial
+         * @seribl
          */
-    private volatile SQLException next;
+    privbte volbtile SQLException next;
 
-    private static final AtomicReferenceFieldUpdater<SQLException,SQLException> nextUpdater =
-            AtomicReferenceFieldUpdater.newUpdater(SQLException.class,SQLException.class,"next");
+    privbte stbtic finbl AtomicReferenceFieldUpdbter<SQLException,SQLException> nextUpdbter =
+            AtomicReferenceFieldUpdbter.newUpdbter(SQLException.clbss,SQLException.clbss,"next");
 
-    private static final long serialVersionUID = 2135244094396331484L;
+    privbte stbtic finbl long seriblVersionUID = 2135244094396331484L;
 }

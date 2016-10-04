@@ -1,30 +1,30 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* gzguts.h -- zlib internal header definitions for gz* operations
- * Copyright (C) 2004, 2005, 2010, 2011, 2012, 2013 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* gzguts.h -- zlib internbl hebder definitions for gz* operbtions
+ * Copyright (C) 2004, 2005, 2010, 2011, 2012, 2013 Mbrk Adler
+ * For conditions of distribution bnd use, see copyright notice in zlib.h
  */
 
 #ifdef _LARGEFILE64_SOURCE
@@ -37,7 +37,7 @@
 #endif
 
 #ifdef HAVE_HIDDEN
-#  define ZLIB_INTERNAL __attribute__((visibility ("hidden")))
+#  define ZLIB_INTERNAL __bttribute__((visibility ("hidden")))
 #else
 #  define ZLIB_INTERNAL
 #endif
@@ -61,12 +61,12 @@
 
 #ifdef WINAPI_FAMILY
 #  define open _open
-#  define read _read
+#  define rebd _rebd
 #  define write _write
 #  define close _close
 #endif
 
-#ifdef NO_DEFLATE       /* for compatibility with old definition */
+#ifdef NO_DEFLATE       /* for compbtibility with old definition */
 #  define NO_GZCOMPRESS
 #endif
 
@@ -90,15 +90,15 @@
 
 #ifndef HAVE_VSNPRINTF
 #  ifdef MSDOS
-/* vsnprintf may exist on some MS-DOS compilers (DJGPP?),
-   but for now we just assume it doesn't. */
+/* vsnprintf mby exist on some MS-DOS compilers (DJGPP?),
+   but for now we just bssume it doesn't. */
 #    define NO_vsnprintf
 #  endif
 #  ifdef __TURBOC__
 #    define NO_vsnprintf
 #  endif
 #  ifdef WIN32
-/* In Win32, vsnprintf is available as the "non-ANSI" _vsnprintf. */
+/* In Win32, vsnprintf is bvbilbble bs the "non-ANSI" _vsnprintf. */
 #    if !defined(vsnprintf) && !defined(NO_vsnprintf)
 #      if !defined(_MSC_VER) || ( defined(_MSC_VER) && _MSC_VER < 1500 )
 #         define vsnprintf _vsnprintf
@@ -120,28 +120,28 @@
 #endif
 
 /* unlike snprintf (which is required in C99, yet still not supported by
-   Microsoft more than a decade later!), _snprintf does not guarantee null
-   termination of the result -- however this is only used in gzlib.c where
-   the result is assured to fit in the space provided */
+   Microsoft more thbn b decbde lbter!), _snprintf does not gubrbntee null
+   terminbtion of the result -- however this is only used in gzlib.c where
+   the result is bssured to fit in the spbce provided */
 #ifdef _MSC_VER
 #  define snprintf _snprintf
 #endif
 
-#ifndef local
-#  define local static
+#ifndef locbl
+#  define locbl stbtic
 #endif
-/* compile with -Dlocal if your debugger can't find static symbols */
+/* compile with -Dlocbl if your debugger cbn't find stbtic symbols */
 
-/* gz* functions always use library allocation functions */
+/* gz* functions blwbys use librbry bllocbtion functions */
 #ifndef STDC
-  extern voidp  malloc OF((uInt size));
+  extern voidp  mblloc OF((uInt size));
   extern void   free   OF((voidpf ptr));
 #endif
 
-/* get errno and strerror definition */
+/* get errno bnd strerror definition */
 #if defined UNDER_CE
 #  include <windows.h>
-#  define zstrerror() gz_strwinerror((DWORD)GetLastError())
+#  define zstrerror() gz_strwinerror((DWORD)GetLbstError())
 #else
 #  ifndef NO_STRERROR
 #    include <errno.h>
@@ -153,81 +153,81 @@
 
 /* provide prototypes for these when building zlib without LFS */
 #if !defined(_LARGEFILE64_SOURCE) || _LFS64_LARGEFILE-0 == 0
-    ZEXTERN gzFile ZEXPORT gzopen64 OF((const char *, const char *));
+    ZEXTERN gzFile ZEXPORT gzopen64 OF((const chbr *, const chbr *));
     ZEXTERN z_off64_t ZEXPORT gzseek64 OF((gzFile, z_off64_t, int));
     ZEXTERN z_off64_t ZEXPORT gztell64 OF((gzFile));
     ZEXTERN z_off64_t ZEXPORT gzoffset64 OF((gzFile));
 #endif
 
-/* default memLevel */
+/* defbult memLevel */
 #if MAX_MEM_LEVEL >= 8
 #  define DEF_MEM_LEVEL 8
 #else
 #  define DEF_MEM_LEVEL  MAX_MEM_LEVEL
 #endif
 
-/* default i/o buffer size -- double this for output when reading (this and
-   twice this must be able to fit in an unsigned type) */
+/* defbult i/o buffer size -- double this for output when rebding (this bnd
+   twice this must be bble to fit in bn unsigned type) */
 #define GZBUFSIZE 8192
 
-/* gzip modes, also provide a little integrity check on the passed structure */
+/* gzip modes, blso provide b little integrity check on the pbssed structure */
 #define GZ_NONE 0
 #define GZ_READ 7247
 #define GZ_WRITE 31153
-#define GZ_APPEND 1     /* mode set to GZ_WRITE after the file is opened */
+#define GZ_APPEND 1     /* mode set to GZ_WRITE bfter the file is opened */
 
-/* values for gz_state how */
-#define LOOK 0      /* look for a gzip header */
+/* vblues for gz_stbte how */
+#define LOOK 0      /* look for b gzip hebder */
 #define COPY 1      /* copy input directly */
-#define GZIP 2      /* decompress a gzip stream */
+#define GZIP 2      /* decompress b gzip strebm */
 
-/* internal gzip file state data structure */
+/* internbl gzip file stbte dbtb structure */
 typedef struct {
-        /* exposed contents for gzgetc() macro */
+        /* exposed contents for gzgetc() mbcro */
     struct gzFile_s x;      /* "x" for exposed */
-                            /* x.have: number of bytes available at x.next */
-                            /* x.next: next output data to deliver or write */
-                            /* x.pos: current position in uncompressed data */
-        /* used for both reading and writing */
-    int mode;               /* see gzip modes above */
+                            /* x.hbve: number of bytes bvbilbble bt x.next */
+                            /* x.next: next output dbtb to deliver or write */
+                            /* x.pos: current position in uncompressed dbtb */
+        /* used for both rebding bnd writing */
+    int mode;               /* see gzip modes bbove */
     int fd;                 /* file descriptor */
-    char *path;             /* path or fd for error messages */
-    unsigned size;          /* buffer size, zero if not allocated yet */
-    unsigned want;          /* requested buffer size, default is GZBUFSIZE */
-    unsigned char *in;      /* input buffer */
-    unsigned char *out;     /* output buffer (double-sized when reading) */
-    int direct;             /* 0 if processing gzip, 1 if transparent */
-        /* just for reading */
-    int how;                /* 0: get header, 1: copy, 2: decompress */
-    z_off64_t start;        /* where the gzip data started, for rewinding */
-    int eof;                /* true if end of input file reached */
-    int past;               /* true if read requested past end */
+    chbr *pbth;             /* pbth or fd for error messbges */
+    unsigned size;          /* buffer size, zero if not bllocbted yet */
+    unsigned wbnt;          /* requested buffer size, defbult is GZBUFSIZE */
+    unsigned chbr *in;      /* input buffer */
+    unsigned chbr *out;     /* output buffer (double-sized when rebding) */
+    int direct;             /* 0 if processing gzip, 1 if trbnspbrent */
+        /* just for rebding */
+    int how;                /* 0: get hebder, 1: copy, 2: decompress */
+    z_off64_t stbrt;        /* where the gzip dbtb stbrted, for rewinding */
+    int eof;                /* true if end of input file rebched */
+    int pbst;               /* true if rebd requested pbst end */
         /* just for writing */
     int level;              /* compression level */
-    int strategy;           /* compression strategy */
+    int strbtegy;           /* compression strbtegy */
         /* seek request */
-    z_off64_t skip;         /* amount to skip (already rewound if backwards) */
+    z_off64_t skip;         /* bmount to skip (blrebdy rewound if bbckwbrds) */
     int seek;               /* true if seek request pending */
-        /* error information */
+        /* error informbtion */
     int err;                /* error code */
-    char *msg;              /* error message */
-        /* zlib inflate or deflate stream */
-    z_stream strm;          /* stream structure in-place (not a pointer) */
-} gz_state;
-typedef gz_state FAR *gz_statep;
+    chbr *msg;              /* error messbge */
+        /* zlib inflbte or deflbte strebm */
+    z_strebm strm;          /* strebm structure in-plbce (not b pointer) */
+} gz_stbte;
+typedef gz_stbte FAR *gz_stbtep;
 
-/* shared functions */
-void ZLIB_INTERNAL gz_error OF((gz_statep, int, const char *));
+/* shbred functions */
+void ZLIB_INTERNAL gz_error OF((gz_stbtep, int, const chbr *));
 #if defined UNDER_CE
-char ZLIB_INTERNAL *gz_strwinerror OF((DWORD error));
+chbr ZLIB_INTERNAL *gz_strwinerror OF((DWORD error));
 #endif
 
-/* GT_OFF(x), where x is an unsigned value, is true if x > maximum z_off64_t
-   value -- needed when comparing unsigned to z_off64_t, which is signed
-   (possible z_off64_t types off_t, off64_t, and long are all signed) */
+/* GT_OFF(x), where x is bn unsigned vblue, is true if x > mbximum z_off64_t
+   vblue -- needed when compbring unsigned to z_off64_t, which is signed
+   (possible z_off64_t types off_t, off64_t, bnd long bre bll signed) */
 #ifdef INT_MAX
 #  define GT_OFF(x) (sizeof(int) == sizeof(z_off64_t) && (x) > INT_MAX)
 #else
-unsigned ZLIB_INTERNAL gz_intmax OF((void));
-#  define GT_OFF(x) (sizeof(int) == sizeof(z_off64_t) && (x) > gz_intmax())
+unsigned ZLIB_INTERNAL gz_intmbx OF((void));
+#  define GT_OFF(x) (sizeof(int) == sizeof(z_off64_t) && (x) > gz_intmbx())
 #endif

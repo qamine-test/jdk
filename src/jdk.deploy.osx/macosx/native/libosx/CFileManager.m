@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "com_apple_eio_FileManager.h"
+#import "com_bpple_eio_FileMbnbger.h"
 
-#import <Cocoa/Cocoa.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <Cocob/Cocob.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
-#import "ThreadUtilities.h"
+#import "ThrebdUtilities.h"
 
 
 /*
- * Class:     com_apple_eio_FileManager
- * Method:    _setFileTypeAndCreator
- * Signature: (Ljava/lang/String;II)V
+ * Clbss:     com_bpple_eio_FileMbnbger
+ * Method:    _setFileTypeAndCrebtor
+ * Signbture: (Ljbvb/lbng/String;II)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eio_FileManager__1setFileTypeAndCreator
-(JNIEnv *env, jclass clz, jstring javaFilename, jint type, jint creator)
+JNIEXPORT void JNICALL Jbvb_com_bpple_eio_FileMbnbger__1setFileTypeAndCrebtor
+(JNIEnv *env, jclbss clz, jstring jbvbFilenbme, jint type, jint crebtor)
 {
 JNF_COCOA_ENTER(env);
-        NSString *filename = JNFNormalizedNSStringForPath(env, javaFilename);
-        NSDictionary *attr = [NSDictionary dictionaryWithObjectsAndKeys:
+        NSString *filenbme = JNFNormblizedNSStringForPbth(env, jbvbFilenbme);
+        NSDictionbry *bttr = [NSDictionbry dictionbryWithObjectsAndKeys:
                                                         [NSNumber numberWithInt:type], NSFileHFSTypeCode,
-                                                        [NSNumber numberWithInt:creator], NSFileHFSCreatorCode, nil];
-    [[NSFileManager defaultManager] changeFileAttributes:attr atPath:filename];
+                                                        [NSNumber numberWithInt:crebtor], NSFileHFSCrebtorCode, nil];
+    [[NSFileMbnbger defbultMbnbger] chbngeFileAttributes:bttr btPbth:filenbme];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eio_FileManager
+ * Clbss:     com_bpple_eio_FileMbnbger
  * Method:    _setFileType
- * Signature: (Ljava/lang/String;I)V
+ * Signbture: (Ljbvb/lbng/String;I)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eio_FileManager__1setFileType
-(JNIEnv *env, jclass ckz, jstring javaFilename, jint type)
+JNIEXPORT void JNICALL Jbvb_com_bpple_eio_FileMbnbger__1setFileType
+(JNIEnv *env, jclbss ckz, jstring jbvbFilenbme, jint type)
 {
 JNF_COCOA_ENTER(env);
-        NSString *filename = JNFNormalizedNSStringForPath(env, javaFilename);
-        NSDictionary *attr = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:type] forKey:NSFileHFSTypeCode];
-    [[NSFileManager defaultManager] changeFileAttributes:attr atPath:filename];
+        NSString *filenbme = JNFNormblizedNSStringForPbth(env, jbvbFilenbme);
+        NSDictionbry *bttr = [NSDictionbry dictionbryWithObject:[NSNumber numberWithInt:type] forKey:NSFileHFSTypeCode];
+    [[NSFileMbnbger defbultMbnbger] chbngeFileAttributes:bttr btPbth:filenbme];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eio_FileManager
- * Method:    _setFileCreator
- * Signature: (Ljava/lang/String;I)V
+ * Clbss:     com_bpple_eio_FileMbnbger
+ * Method:    _setFileCrebtor
+ * Signbture: (Ljbvb/lbng/String;I)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eio_FileManager__1setFileCreator
-(JNIEnv *env, jclass clz, jstring javaFilename, jint creator)
+JNIEXPORT void JNICALL Jbvb_com_bpple_eio_FileMbnbger__1setFileCrebtor
+(JNIEnv *env, jclbss clz, jstring jbvbFilenbme, jint crebtor)
 {
 JNF_COCOA_ENTER(env);
-        NSString *filename = JNFNormalizedNSStringForPath(env, javaFilename);
-        NSDictionary *attr = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:creator] forKey:NSFileHFSCreatorCode];
-    [[NSFileManager defaultManager] changeFileAttributes:attr atPath:filename];
+        NSString *filenbme = JNFNormblizedNSStringForPbth(env, jbvbFilenbme);
+        NSDictionbry *bttr = [NSDictionbry dictionbryWithObject:[NSNumber numberWithInt:crebtor] forKey:NSFileHFSCrebtorCode];
+    [[NSFileMbnbger defbultMbnbger] chbngeFileAttributes:bttr btPbth:filenbme];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eio_FileManager
+ * Clbss:     com_bpple_eio_FileMbnbger
  * Method:    _getFileType
- * Signature: (Ljava/lang/String;)I
+ * Signbture: (Ljbvb/lbng/String;)I
  */
-JNIEXPORT jint JNICALL Java_com_apple_eio_FileManager__1getFileType
-(JNIEnv *env, jclass clz, jstring javaFilename)
+JNIEXPORT jint JNICALL Jbvb_com_bpple_eio_FileMbnbger__1getFileType
+(JNIEnv *env, jclbss clz, jstring jbvbFilenbme)
 {
     jint type = 0;
 JNF_COCOA_ENTER(env);
-        NSString *filename = JNFNormalizedNSStringForPath(env, javaFilename);
-    NSDictionary *attributes = [[NSFileManager defaultManager] fileAttributesAtPath:filename traverseLink:YES];
-    NSNumber *val = [attributes objectForKey:NSFileHFSTypeCode];
-    type = [val intValue];
+        NSString *filenbme = JNFNormblizedNSStringForPbth(env, jbvbFilenbme);
+    NSDictionbry *bttributes = [[NSFileMbnbger defbultMbnbger] fileAttributesAtPbth:filenbme trbverseLink:YES];
+    NSNumber *vbl = [bttributes objectForKey:NSFileHFSTypeCode];
+    type = [vbl intVblue];
 JNF_COCOA_EXIT(env);
     return type;
 }
 
 /*
- * Class:     com_apple_eio_FileManager
- * Method:    _getFileCreator
- * Signature: (Ljava/lang/String;)I
+ * Clbss:     com_bpple_eio_FileMbnbger
+ * Method:    _getFileCrebtor
+ * Signbture: (Ljbvb/lbng/String;)I
  */
-JNIEXPORT jint JNICALL Java_com_apple_eio_FileManager__1getFileCreator
-  (JNIEnv *env, jclass clz, jstring javaFilename)
+JNIEXPORT jint JNICALL Jbvb_com_bpple_eio_FileMbnbger__1getFileCrebtor
+  (JNIEnv *env, jclbss clz, jstring jbvbFilenbme)
 {
-    jint creator = 0;
+    jint crebtor = 0;
 JNF_COCOA_ENTER(env);
-        NSString *filename = JNFNormalizedNSStringForPath(env, javaFilename);
-    NSDictionary *attributes = [[NSFileManager defaultManager] fileAttributesAtPath:filename traverseLink:YES];
-    NSNumber *val = [attributes objectForKey:NSFileHFSCreatorCode];
-    creator = [val intValue];
+        NSString *filenbme = JNFNormblizedNSStringForPbth(env, jbvbFilenbme);
+    NSDictionbry *bttributes = [[NSFileMbnbger defbultMbnbger] fileAttributesAtPbth:filenbme trbverseLink:YES];
+    NSNumber *vbl = [bttributes objectForKey:NSFileHFSCrebtorCode];
+    crebtor = [vbl intVblue];
 JNF_COCOA_EXIT(env);
-    return creator;
+    return crebtor;
 }
 
 /*
- * Class:     com_apple_eio_FileManager
+ * Clbss:     com_bpple_eio_FileMbnbger
  * Method:    _findFolder
- * Signature: (SIZ)Ljava/lang/String;
+ * Signbture: (SIZ)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_com_apple_eio_FileManager__1findFolder__SIZ
-(JNIEnv *env, jclass clz, jshort domain, jint folderType, jboolean createIfNeeded)
+JNIEXPORT jstring JNICALL Jbvb_com_bpple_eio_FileMbnbger__1findFolder__SIZ
+(JNIEnv *env, jclbss clz, jshort dombin, jint folderType, jboolebn crebteIfNeeded)
 {
-    jstring filename = nil;
+    jstring filenbme = nil;
 JNF_COCOA_ENTER(env);
 
     FSRef foundRef;
-    createIfNeeded = createIfNeeded || (folderType == kTemporaryFolderType) || (folderType == kChewableItemsFolderType);
-    if (FSFindFolder((SInt16)domain, (OSType)folderType, (Boolean)createIfNeeded, &foundRef) == noErr) {
-        char path[PATH_MAX];
-        if (FSRefMakePath(&foundRef, (UInt8 *)path, sizeof(path)) == noErr) {
-            NSString *filenameString = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:path length:strlen(path)];
-            filename = JNFNormalizedJavaStringForPath(env, filenameString);
+    crebteIfNeeded = crebteIfNeeded || (folderType == kTemporbryFolderType) || (folderType == kChewbbleItemsFolderType);
+    if (FSFindFolder((SInt16)dombin, (OSType)folderType, (Boolebn)crebteIfNeeded, &foundRef) == noErr) {
+        chbr pbth[PATH_MAX];
+        if (FSRefMbkePbth(&foundRef, (UInt8 *)pbth, sizeof(pbth)) == noErr) {
+            NSString *filenbmeString = [[NSFileMbnbger defbultMbnbger] stringWithFileSystemRepresentbtion:pbth length:strlen(pbth)];
+            filenbme = JNFNormblizedJbvbStringForPbth(env, filenbmeString);
         }
     }
 
 JNF_COCOA_EXIT(env);
-    return filename;
+    return filenbme;
 }
 
 
 /*
- * Class:     com_apple_eio_FileManager
+ * Clbss:     com_bpple_eio_FileMbnbger
  * Method:    _openURL
- * Signature: (Ljava/lang/String;)V
+ * Signbture: (Ljbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eio_FileManager__1openURL
-(JNIEnv *env, jclass clz, jstring urlString)
+JNIEXPORT void JNICALL Jbvb_com_bpple_eio_FileMbnbger__1openURL
+(JNIEnv *env, jclbss clz, jstring urlString)
 {
 JNF_COCOA_ENTER(env);
 
-    NSURL *url = [NSURL URLWithString:JNFNormalizedNSStringForPath(env, urlString)];
+    NSURL *url = [NSURL URLWithString:JNFNormblizedNSStringForPbth(env, urlString)];
 
-        // Radar 3208005: Run this on the main thread; file:// style URLs will hang otherwise.
-    [JNFRunLoop performOnMainThreadWaiting:NO withBlock:^(){
-        [[NSWorkspace sharedWorkspace] openURL:url];
+        // Rbdbr 3208005: Run this on the mbin threbd; file:// style URLs will hbng otherwise.
+    [JNFRunLoop performOnMbinThrebdWbiting:NO withBlock:^(){
+        [[NSWorkspbce shbredWorkspbce] openURL:url];
     }];
 
 JNF_COCOA_EXIT(env);
@@ -162,96 +162,96 @@ JNF_COCOA_EXIT(env);
 
 
 /*
- * Class:     com_apple_eio_FileManager
- * Method:    getNativeResourceFromBundle
- * Signature: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ * Clbss:     com_bpple_eio_FileMbnbger
+ * Method:    getNbtiveResourceFromBundle
+ * Signbture: (Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_com_apple_eio_FileManager_getNativeResourceFromBundle
-(JNIEnv *env, jclass clz, jstring javaResourceName, jstring javaSubDirName, jstring javaTypeName)
+JNIEXPORT jstring JNICALL Jbvb_com_bpple_eio_FileMbnbger_getNbtiveResourceFromBundle
+(JNIEnv *env, jclbss clz, jstring jbvbResourceNbme, jstring jbvbSubDirNbme, jstring jbvbTypeNbme)
 {
-    jstring filename = NULL;
+    jstring filenbme = NULL;
 JNF_COCOA_ENTER(env);
 
-    NSString *resourceName = JNFNormalizedNSStringForPath(env, javaResourceName);
-        NSString *subDirectory = JNFNormalizedNSStringForPath(env, javaSubDirName);
-        NSString *typeName = JNFNormalizedNSStringForPath(env, javaTypeName);
+    NSString *resourceNbme = JNFNormblizedNSStringForPbth(env, jbvbResourceNbme);
+        NSString *subDirectory = JNFNormblizedNSStringForPbth(env, jbvbSubDirNbme);
+        NSString *typeNbme = JNFNormblizedNSStringForPbth(env, jbvbTypeNbme);
 
-    NSString *path = [[NSBundle mainBundle] pathForResource:resourceName
-                                                     ofType:typeName
+    NSString *pbth = [[NSBundle mbinBundle] pbthForResource:resourceNbme
+                                                     ofType:typeNbme
                                                 inDirectory:subDirectory];
 
-    filename = JNFNormalizedJavaStringForPath(env, path);
+    filenbme = JNFNormblizedJbvbStringForPbth(env, pbth);
 
 JNF_COCOA_EXIT(env);
-    return filename;
+    return filenbme;
 }
 
 
 /*
- * Class:     com_apple_eio_FileManager
- * Method:    getNativePathToApplicationBundle
- * Signature: ()Ljava/lang/String;
+ * Clbss:     com_bpple_eio_FileMbnbger
+ * Method:    getNbtivePbthToApplicbtionBundle
+ * Signbture: ()Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_com_apple_eio_FileManager_getNativePathToApplicationBundle
-(JNIEnv *env, jclass clazz)
+JNIEXPORT jstring JNICALL Jbvb_com_bpple_eio_FileMbnbger_getNbtivePbthToApplicbtionBundle
+(JNIEnv *env, jclbss clbzz)
 {
-        jstring filename = nil;
+        jstring filenbme = nil;
 JNF_COCOA_ENTER(env);
 
-        NSBundle *mainBundle = [NSBundle mainBundle];
-        filename = JNFNormalizedJavaStringForPath(env, [mainBundle bundlePath]);
+        NSBundle *mbinBundle = [NSBundle mbinBundle];
+        filenbme = JNFNormblizedJbvbStringForPbth(env, [mbinBundle bundlePbth]);
 
 JNF_COCOA_EXIT(env);
-        return filename;
+        return filenbme;
 }
 
 
 /*
- * Class:     com_apple_eio_FileManager
- * Method:    __moveToTrash
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     com_bpple_eio_FileMbnbger
+ * Method:    __moveToTrbsh
+ * Signbture: (Ljbvb/lbng/String;)V
  */
 
-JNIEXPORT jboolean JNICALL Java_com_apple_eio_FileManager__1moveToTrash
-(JNIEnv *env, jclass clz, jstring url)
+JNIEXPORT jboolebn JNICALL Jbvb_com_bpple_eio_FileMbnbger__1moveToTrbsh
+(JNIEnv *env, jclbss clz, jstring url)
 {
-        __block jboolean returnValue = JNI_FALSE;
+        __block jboolebn returnVblue = JNI_FALSE;
 JNF_COCOA_ENTER(env);
 
-    NSString *path = JNFNormalizedNSStringForPath(env, url);
-    [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^(){
+    NSString *pbth = JNFNormblizedNSStringForPbth(env, url);
+    [JNFRunLoop performOnMbinThrebdWbiting:YES withBlock:^(){
         NSInteger res = 0;
-        [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation
-                                                     source:[path stringByDeletingLastPathComponent]
-                                                destination:nil
-                                                      files:[NSArray arrayWithObject:[path lastPathComponent]]
-                                                        tag:&res];
-        returnValue = (res == 0);
+        [[NSWorkspbce shbredWorkspbce] performFileOperbtion:NSWorkspbceRecycleOperbtion
+                                                     source:[pbth stringByDeletingLbstPbthComponent]
+                                                destinbtion:nil
+                                                      files:[NSArrby brrbyWithObject:[pbth lbstPbthComponent]]
+                                                        tbg:&res];
+        returnVblue = (res == 0);
     }];
 
 JNF_COCOA_EXIT(env);
 
-        return returnValue;
+        return returnVblue;
 }
 
 /*
- * Class:     com_apple_eio_FileManager
- * Method:    __revealInFinder
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     com_bpple_eio_FileMbnbger
+ * Method:    __reveblInFinder
+ * Signbture: (Ljbvb/lbng/String;)V
  */
 
-JNIEXPORT jboolean JNICALL Java_com_apple_eio_FileManager__1revealInFinder
-(JNIEnv *env, jclass clz, jstring url)
+JNIEXPORT jboolebn JNICALL Jbvb_com_bpple_eio_FileMbnbger__1reveblInFinder
+(JNIEnv *env, jclbss clz, jstring url)
 {
-        __block jboolean returnValue = JNI_FALSE;
+        __block jboolebn returnVblue = JNI_FALSE;
 JNF_COCOA_ENTER(env);
 
-    NSString *path = JNFNormalizedNSStringForPath(env, url);
-    [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^(){
-        returnValue = [[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:@""];
+    NSString *pbth = JNFNormblizedNSStringForPbth(env, url);
+    [JNFRunLoop performOnMbinThrebdWbiting:YES withBlock:^(){
+        returnVblue = [[NSWorkspbce shbredWorkspbce] selectFile:pbth inFileViewerRootedAtPbth:@""];
     }];
 
 JNF_COCOA_EXIT(env);
 
-        return returnValue;
+        return returnVblue;
 }

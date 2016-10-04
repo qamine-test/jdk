@@ -1,340 +1,340 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.Transient;
-import java.util.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.Trbnsient;
+import jbvb.util.*;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.IOException;
 
-import javax.swing.event.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
 
-import javax.accessibility.*;
+import jbvbx.bccessibility.*;
 
 /**
- * A component that combines a button or editable field and a drop-down list.
- * The user can select a value from the drop-down list, which appears at the
- * user's request. If you make the combo box editable, then the combo box
- * includes an editable field into which the user can type a value.
+ * A component thbt combines b button or editbble field bnd b drop-down list.
+ * The user cbn select b vblue from the drop-down list, which bppebrs bt the
+ * user's request. If you mbke the combo box editbble, then the combo box
+ * includes bn editbble field into which the user cbn type b vblue.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
  * <p>
- * See <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/combobox.html">How to Use Combo Boxes</a>
- * in <a href="http://docs.oracle.com/javase/tutorial/"><em>The Java Tutorial</em></a>
- * for further information.
+ * See <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/combobox.html">How to Use Combo Boxes</b>
+ * in <b href="http://docs.orbcle.com/jbvbse/tutoribl/"><em>The Jbvb Tutoribl</em></b>
+ * for further informbtion.
  *
  * @see ComboBoxModel
- * @see DefaultComboBoxModel
+ * @see DefbultComboBoxModel
  *
- * @param <E> the type of the elements of this combo box
+ * @pbrbm <E> the type of the elements of this combo box
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A combination of a text field and a drop-down list.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: A combinbtion of b text field bnd b drop-down list.
  *
- * @author Arnaud Weber
- * @author Mark Davidson
+ * @buthor Arnbud Weber
+ * @buthor Mbrk Dbvidson
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JComboBox<E> extends JComponent
-implements ItemSelectable,ListDataListener,ActionListener, Accessible {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JComboBox<E> extends JComponent
+implements ItemSelectbble,ListDbtbListener,ActionListener, Accessible {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "ComboBoxUI";
+    privbte stbtic finbl String uiClbssID = "ComboBoxUI";
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the bccessor methods instebd.
      *
      * @see #getModel
      * @see #setModel
      */
-    protected ComboBoxModel<E>    dataModel;
+    protected ComboBoxModel<E>    dbtbModel;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the bccessor methods instebd.
      *
      * @see #getRenderer
      * @see #setRenderer
      */
     protected ListCellRenderer<? super E> renderer;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the bccessor methods instebd.
      *
      * @see #getEditor
      * @see #setEditor
      */
     protected ComboBoxEditor       editor;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the bccessor methods instebd.
      *
-     * @see #getMaximumRowCount
-     * @see #setMaximumRowCount
+     * @see #getMbximumRowCount
+     * @see #setMbximumRowCount
      */
-    protected int maximumRowCount = 8;
+    protected int mbximumRowCount = 8;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the bccessor methods instebd.
      *
-     * @see #isEditable
-     * @see #setEditable
+     * @see #isEditbble
+     * @see #setEditbble
      */
-    protected boolean isEditable  = false;
+    protected boolebn isEditbble  = fblse;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the bccessor methods instebd.
      *
-     * @see #setKeySelectionManager
-     * @see #getKeySelectionManager
+     * @see #setKeySelectionMbnbger
+     * @see #getKeySelectionMbnbger
      */
-    protected KeySelectionManager keySelectionManager = null;
+    protected KeySelectionMbnbger keySelectionMbnbger = null;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the bccessor methods instebd.
      *
-     * @see #setActionCommand
-     * @see #getActionCommand
+     * @see #setActionCommbnd
+     * @see #getActionCommbnd
      */
-    protected String actionCommand = "comboBoxChanged";
+    protected String bctionCommbnd = "comboBoxChbnged";
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the bccessor methods instebd.
      *
-     * @see #setLightWeightPopupEnabled
-     * @see #isLightWeightPopupEnabled
+     * @see #setLightWeightPopupEnbbled
+     * @see #isLightWeightPopupEnbbled
      */
-    protected boolean lightWeightPopupEnabled = JPopupMenu.getDefaultLightWeightPopupEnabled();
+    protected boolebn lightWeightPopupEnbbled = JPopupMenu.getDefbultLightWeightPopupEnbbled();
 
     /**
-     * This protected field is implementation specific. Do not access directly
+     * This protected field is implementbtion specific. Do not bccess directly
      * or override.
      */
     protected Object selectedItemReminder = null;
 
-    private E prototypeDisplayValue;
+    privbte E prototypeDisplbyVblue;
 
-    // Flag to ensure that infinite loops do not occur with ActionEvents.
-    private boolean firingActionEvent = false;
+    // Flbg to ensure thbt infinite loops do not occur with ActionEvents.
+    privbte boolebn firingActionEvent = fblse;
 
-    // Flag to ensure the we don't get multiple ActionEvents on item selection.
-    private boolean selectingItem = false;
+    // Flbg to ensure the we don't get multiple ActionEvents on item selection.
+    privbte boolebn selectingItem = fblse;
 
     /**
-     * Creates a <code>JComboBox</code> that takes its items from an
+     * Crebtes b <code>JComboBox</code> thbt tbkes its items from bn
      * existing <code>ComboBoxModel</code>.  Since the
-     * <code>ComboBoxModel</code> is provided, a combo box created using
-     * this constructor does not create a default combo box model and
-     * may impact how the insert, remove and add methods behave.
+     * <code>ComboBoxModel</code> is provided, b combo box crebted using
+     * this constructor does not crebte b defbult combo box model bnd
+     * mby impbct how the insert, remove bnd bdd methods behbve.
      *
-     * @param aModel the <code>ComboBoxModel</code> that provides the
-     *          displayed list of items
-     * @see DefaultComboBoxModel
+     * @pbrbm bModel the <code>ComboBoxModel</code> thbt provides the
+     *          displbyed list of items
+     * @see DefbultComboBoxModel
      */
-    public JComboBox(ComboBoxModel<E> aModel) {
+    public JComboBox(ComboBoxModel<E> bModel) {
         super();
-        setModel(aModel);
+        setModel(bModel);
         init();
     }
 
     /**
-     * Creates a <code>JComboBox</code> that contains the elements
-     * in the specified array.  By default the first item in the array
-     * (and therefore the data model) becomes selected.
+     * Crebtes b <code>JComboBox</code> thbt contbins the elements
+     * in the specified brrby.  By defbult the first item in the brrby
+     * (bnd therefore the dbtb model) becomes selected.
      *
-     * @param items  an array of objects to insert into the combo box
-     * @see DefaultComboBoxModel
+     * @pbrbm items  bn brrby of objects to insert into the combo box
+     * @see DefbultComboBoxModel
      */
     public JComboBox(E[] items) {
         super();
-        setModel(new DefaultComboBoxModel<E>(items));
+        setModel(new DefbultComboBoxModel<E>(items));
         init();
     }
 
     /**
-     * Creates a <code>JComboBox</code> that contains the elements
-     * in the specified Vector.  By default the first item in the vector
-     * (and therefore the data model) becomes selected.
+     * Crebtes b <code>JComboBox</code> thbt contbins the elements
+     * in the specified Vector.  By defbult the first item in the vector
+     * (bnd therefore the dbtb model) becomes selected.
      *
-     * @param items  an array of vectors to insert into the combo box
-     * @see DefaultComboBoxModel
+     * @pbrbm items  bn brrby of vectors to insert into the combo box
+     * @see DefbultComboBoxModel
      */
     public JComboBox(Vector<E> items) {
         super();
-        setModel(new DefaultComboBoxModel<E>(items));
+        setModel(new DefbultComboBoxModel<E>(items));
         init();
     }
 
     /**
-     * Creates a <code>JComboBox</code> with a default data model.
-     * The default data model is an empty list of objects.
-     * Use <code>addItem</code> to add items.  By default the first item
-     * in the data model becomes selected.
+     * Crebtes b <code>JComboBox</code> with b defbult dbtb model.
+     * The defbult dbtb model is bn empty list of objects.
+     * Use <code>bddItem</code> to bdd items.  By defbult the first item
+     * in the dbtb model becomes selected.
      *
-     * @see DefaultComboBoxModel
+     * @see DefbultComboBoxModel
      */
     public JComboBox() {
         super();
-        setModel(new DefaultComboBoxModel<E>());
+        setModel(new DefbultComboBoxModel<E>());
         init();
     }
 
-    private void init() {
-        installAncestorListener();
-        setUIProperty("opaque",true);
-        updateUI();
+    privbte void init() {
+        instbllAncestorListener();
+        setUIProperty("opbque",true);
+        updbteUI();
     }
 
     /**
-     * Registers ancestor listener so that it will receive
-     * {@code AncestorEvents} when it or any of its ancestors
-     * move or are made visible or invisible.
-     * Events are also sent when the component or its ancestors are added
-     * or removed from the containment hierarchy.
+     * Registers bncestor listener so thbt it will receive
+     * {@code AncestorEvents} when it or bny of its bncestors
+     * move or bre mbde visible or invisible.
+     * Events bre blso sent when the component or its bncestors bre bdded
+     * or removed from the contbinment hierbrchy.
      */
-    protected void installAncestorListener() {
-        addAncestorListener(new AncestorListener(){
-                                public void ancestorAdded(AncestorEvent event){ hidePopup();}
-                                public void ancestorRemoved(AncestorEvent event){ hidePopup();}
-                                public void ancestorMoved(AncestorEvent event){
+    protected void instbllAncestorListener() {
+        bddAncestorListener(new AncestorListener(){
+                                public void bncestorAdded(AncestorEvent event){ hidePopup();}
+                                public void bncestorRemoved(AncestorEvent event){ hidePopup();}
+                                public void bncestorMoved(AncestorEvent event){
                                     if (event.getSource() != JComboBox.this)
                                         hidePopup();
                                 }});
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sets the L&bmp;F object thbt renders this component.
      *
-     * @param ui  the <code>ComboBoxUI</code> L&amp;F object
-     * @see UIDefaults#getUI
+     * @pbrbm ui  the <code>ComboBoxUI</code> L&bmp;F object
+     * @see UIDefbults#getUI
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
     public void setUI(ComboBoxUI ui) {
         super.setUI(ui);
     }
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Resets the UI property to b vblue from the current look bnd feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((ComboBoxUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((ComboBoxUI)UIMbnbger.getUI(this));
 
         ListCellRenderer<? super E> renderer = getRenderer();
-        if (renderer instanceof Component) {
-            SwingUtilities.updateComponentTreeUI((Component)renderer);
+        if (renderer instbnceof Component) {
+            SwingUtilities.updbteComponentTreeUI((Component)renderer);
         }
     }
 
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Returns the nbme of the L&bmp;F clbss thbt renders this component.
      *
      * @return the string "ComboBoxUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Returns the L&bmp;F object thbt renders this component.
      *
-     * @return the ComboBoxUI object that renders this component
+     * @return the ComboBoxUI object thbt renders this component
      */
     public ComboBoxUI getUI() {
         return(ComboBoxUI)ui;
     }
 
     /**
-     * Sets the data model that the <code>JComboBox</code> uses to obtain
+     * Sets the dbtb model thbt the <code>JComboBox</code> uses to obtbin
      * the list of items.
      *
-     * @param aModel the <code>ComboBoxModel</code> that provides the
-     *  displayed list of items
+     * @pbrbm bModel the <code>ComboBoxModel</code> thbt provides the
+     *  displbyed list of items
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: Model that the combo box uses to get data to display.
+     *  description: Model thbt the combo box uses to get dbtb to displby.
      */
-    public void setModel(ComboBoxModel<E> aModel) {
-        ComboBoxModel<E> oldModel = dataModel;
+    public void setModel(ComboBoxModel<E> bModel) {
+        ComboBoxModel<E> oldModel = dbtbModel;
         if (oldModel != null) {
-            oldModel.removeListDataListener(this);
+            oldModel.removeListDbtbListener(this);
         }
-        dataModel = aModel;
-        dataModel.addListDataListener(this);
+        dbtbModel = bModel;
+        dbtbModel.bddListDbtbListener(this);
 
         // set the current selected item.
-        selectedItemReminder = dataModel.getSelectedItem();
+        selectedItemReminder = dbtbModel.getSelectedItem();
 
-        firePropertyChange( "model", oldModel, dataModel);
+        firePropertyChbnge( "model", oldModel, dbtbModel);
     }
 
     /**
-     * Returns the data model currently used by the <code>JComboBox</code>.
+     * Returns the dbtb model currently used by the <code>JComboBox</code>.
      *
-     * @return the <code>ComboBoxModel</code> that provides the displayed
+     * @return the <code>ComboBoxModel</code> thbt provides the displbyed
      *                  list of items
      */
     public ComboBoxModel<E> getModel() {
-        return dataModel;
+        return dbtbModel;
     }
 
     /*
@@ -342,146 +342,146 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
      */
 
     /**
-     * Sets the <code>lightWeightPopupEnabled</code> property, which
-     * provides a hint as to whether or not a lightweight
-     * <code>Component</code> should be used to contain the
-     * <code>JComboBox</code>, versus a heavyweight
-     * <code>Component</code> such as a <code>Panel</code>
-     * or a <code>Window</code>.  The decision of lightweight
-     * versus heavyweight is ultimately up to the
-     * <code>JComboBox</code>.  Lightweight windows are more
-     * efficient than heavyweight windows, but lightweight
-     * and heavyweight components do not mix well in a GUI.
-     * If your application mixes lightweight and heavyweight
-     * components, you should disable lightweight popups.
-     * The default value for the <code>lightWeightPopupEnabled</code>
+     * Sets the <code>lightWeightPopupEnbbled</code> property, which
+     * provides b hint bs to whether or not b lightweight
+     * <code>Component</code> should be used to contbin the
+     * <code>JComboBox</code>, versus b hebvyweight
+     * <code>Component</code> such bs b <code>Pbnel</code>
+     * or b <code>Window</code>.  The decision of lightweight
+     * versus hebvyweight is ultimbtely up to the
+     * <code>JComboBox</code>.  Lightweight windows bre more
+     * efficient thbn hebvyweight windows, but lightweight
+     * bnd hebvyweight components do not mix well in b GUI.
+     * If your bpplicbtion mixes lightweight bnd hebvyweight
+     * components, you should disbble lightweight popups.
+     * The defbult vblue for the <code>lightWeightPopupEnbbled</code>
      * property is <code>true</code>, unless otherwise specified
-     * by the look and feel.  Some look and feels always use
-     * heavyweight popups, no matter what the value of this property.
+     * by the look bnd feel.  Some look bnd feels blwbys use
+     * hebvyweight popups, no mbtter whbt the vblue of this property.
      * <p>
-     * See the article <a href="http://www.oracle.com/technetwork/articles/java/mixing-components-433992.html">Mixing Heavy and Light Components</a>
-     * This method fires a property changed event.
+     * See the brticle <b href="http://www.orbcle.com/technetwork/brticles/jbvb/mixing-components-433992.html">Mixing Hebvy bnd Light Components</b>
+     * This method fires b property chbnged event.
      *
-     * @param aFlag if <code>true</code>, lightweight popups are desired
+     * @pbrbm bFlbg if <code>true</code>, lightweight popups bre desired
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *       expert: true
-     *  description: Set to <code>false</code> to require heavyweight popups.
+     *  description: Set to <code>fblse</code> to require hebvyweight popups.
      */
-    public void setLightWeightPopupEnabled(boolean aFlag) {
-        boolean oldFlag = lightWeightPopupEnabled;
-        lightWeightPopupEnabled = aFlag;
-        firePropertyChange("lightWeightPopupEnabled", oldFlag, lightWeightPopupEnabled);
+    public void setLightWeightPopupEnbbled(boolebn bFlbg) {
+        boolebn oldFlbg = lightWeightPopupEnbbled;
+        lightWeightPopupEnbbled = bFlbg;
+        firePropertyChbnge("lightWeightPopupEnbbled", oldFlbg, lightWeightPopupEnbbled);
     }
 
     /**
-     * Gets the value of the <code>lightWeightPopupEnabled</code>
+     * Gets the vblue of the <code>lightWeightPopupEnbbled</code>
      * property.
      *
-     * @return the value of the <code>lightWeightPopupEnabled</code>
+     * @return the vblue of the <code>lightWeightPopupEnbbled</code>
      *    property
-     * @see #setLightWeightPopupEnabled
+     * @see #setLightWeightPopupEnbbled
      */
-    public boolean isLightWeightPopupEnabled() {
-        return lightWeightPopupEnabled;
+    public boolebn isLightWeightPopupEnbbled() {
+        return lightWeightPopupEnbbled;
     }
 
     /**
-     * Determines whether the <code>JComboBox</code> field is editable.
-     * An editable <code>JComboBox</code> allows the user to type into the
-     * field or selected an item from the list to initialize the field,
-     * after which it can be edited. (The editing affects only the field,
-     * the list item remains intact.) A non editable <code>JComboBox</code>
-     * displays the selected item in the field,
-     * but the selection cannot be modified.
+     * Determines whether the <code>JComboBox</code> field is editbble.
+     * An editbble <code>JComboBox</code> bllows the user to type into the
+     * field or selected bn item from the list to initiblize the field,
+     * bfter which it cbn be edited. (The editing bffects only the field,
+     * the list item rembins intbct.) A non editbble <code>JComboBox</code>
+     * displbys the selected item in the field,
+     * but the selection cbnnot be modified.
      *
-     * @param aFlag a boolean value, where true indicates that the
-     *                  field is editable
+     * @pbrbm bFlbg b boolebn vblue, where true indicbtes thbt the
+     *                  field is editbble
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *    preferred: true
-     *  description: If true, the user can type a new value in the combo box.
+     *  description: If true, the user cbn type b new vblue in the combo box.
      */
-    public void setEditable(boolean aFlag) {
-        boolean oldFlag = isEditable;
-        isEditable = aFlag;
-        firePropertyChange( "editable", oldFlag, isEditable );
+    public void setEditbble(boolebn bFlbg) {
+        boolebn oldFlbg = isEditbble;
+        isEditbble = bFlbg;
+        firePropertyChbnge( "editbble", oldFlbg, isEditbble );
     }
 
     /**
-     * Returns true if the <code>JComboBox</code> is editable.
-     * By default, a combo box is not editable.
+     * Returns true if the <code>JComboBox</code> is editbble.
+     * By defbult, b combo box is not editbble.
      *
-     * @return true if the <code>JComboBox</code> is editable, else false
+     * @return true if the <code>JComboBox</code> is editbble, else fblse
      */
-    public boolean isEditable() {
-        return isEditable;
+    public boolebn isEditbble() {
+        return isEditbble;
     }
 
     /**
-     * Sets the maximum number of rows the <code>JComboBox</code> displays.
-     * If the number of objects in the model is greater than count,
-     * the combo box uses a scrollbar.
+     * Sets the mbximum number of rows the <code>JComboBox</code> displbys.
+     * If the number of objects in the model is grebter thbn count,
+     * the combo box uses b scrollbbr.
      *
-     * @param count an integer specifying the maximum number of items to
-     *              display in the list before using a scrollbar
-     * @beaninfo
+     * @pbrbm count bn integer specifying the mbximum number of items to
+     *              displby in the list before using b scrollbbr
+     * @bebninfo
      *        bound: true
      *    preferred: true
-     *  description: The maximum number of rows the popup should have
+     *  description: The mbximum number of rows the popup should hbve
      */
-    public void setMaximumRowCount(int count) {
-        int oldCount = maximumRowCount;
-        maximumRowCount = count;
-        firePropertyChange( "maximumRowCount", oldCount, maximumRowCount );
+    public void setMbximumRowCount(int count) {
+        int oldCount = mbximumRowCount;
+        mbximumRowCount = count;
+        firePropertyChbnge( "mbximumRowCount", oldCount, mbximumRowCount );
     }
 
     /**
-     * Returns the maximum number of items the combo box can display
-     * without a scrollbar
+     * Returns the mbximum number of items the combo box cbn displby
+     * without b scrollbbr
      *
-     * @return an integer specifying the maximum number of items that are
-     *         displayed in the list before using a scrollbar
+     * @return bn integer specifying the mbximum number of items thbt bre
+     *         displbyed in the list before using b scrollbbr
      */
-    public int getMaximumRowCount() {
-        return maximumRowCount;
+    public int getMbximumRowCount() {
+        return mbximumRowCount;
     }
 
     /**
-     * Sets the renderer that paints the list items and the item selected from the list in
+     * Sets the renderer thbt pbints the list items bnd the item selected from the list in
      * the JComboBox field. The renderer is used if the JComboBox is not
-     * editable. If it is editable, the editor is used to render and edit
+     * editbble. If it is editbble, the editor is used to render bnd edit
      * the selected item.
      * <p>
-     * The default renderer displays a string or an icon.
-     * Other renderers can handle graphic images and composite items.
+     * The defbult renderer displbys b string or bn icon.
+     * Other renderers cbn hbndle grbphic imbges bnd composite items.
      * <p>
-     * To display the selected item,
-     * <code>aRenderer.getListCellRendererComponent</code>
-     * is called, passing the list object and an index of -1.
+     * To displby the selected item,
+     * <code>bRenderer.getListCellRendererComponent</code>
+     * is cblled, pbssing the list object bnd bn index of -1.
      *
-     * @param aRenderer  the <code>ListCellRenderer</code> that
-     *                  displays the selected item
+     * @pbrbm bRenderer  the <code>ListCellRenderer</code> thbt
+     *                  displbys the selected item
      * @see #setEditor
-     * @beaninfo
+     * @bebninfo
      *      bound: true
      *     expert: true
-     *  description: The renderer that paints the item selected in the list.
+     *  description: The renderer thbt pbints the item selected in the list.
      */
-    public void setRenderer(ListCellRenderer<? super E> aRenderer) {
+    public void setRenderer(ListCellRenderer<? super E> bRenderer) {
         ListCellRenderer<? super E> oldRenderer = renderer;
-        renderer = aRenderer;
-        firePropertyChange( "renderer", oldRenderer, renderer );
-        invalidate();
+        renderer = bRenderer;
+        firePropertyChbnge( "renderer", oldRenderer, renderer );
+        invblidbte();
     }
 
     /**
-     * Returns the renderer used to display the selected item in the
+     * Returns the renderer used to displby the selected item in the
      * <code>JComboBox</code> field.
      *
-     * @return  the <code>ListCellRenderer</code> that displays
+     * @return  the <code>ListCellRenderer</code> thbt displbys
      *                  the selected item.
      */
     public ListCellRenderer<? super E> getRenderer() {
@@ -489,37 +489,37 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
     }
 
     /**
-     * Sets the editor used to paint and edit the selected item in the
+     * Sets the editor used to pbint bnd edit the selected item in the
      * <code>JComboBox</code> field.  The editor is used only if the
-     * receiving <code>JComboBox</code> is editable. If not editable,
-     * the combo box uses the renderer to paint the selected item.
+     * receiving <code>JComboBox</code> is editbble. If not editbble,
+     * the combo box uses the renderer to pbint the selected item.
      *
-     * @param anEditor  the <code>ComboBoxEditor</code> that
-     *                  displays the selected item
+     * @pbrbm bnEditor  the <code>ComboBoxEditor</code> thbt
+     *                  displbys the selected item
      * @see #setRenderer
-     * @beaninfo
+     * @bebninfo
      *     bound: true
      *    expert: true
-     *  description: The editor that combo box uses to edit the current value
+     *  description: The editor thbt combo box uses to edit the current vblue
      */
-    public void setEditor(ComboBoxEditor anEditor) {
+    public void setEditor(ComboBoxEditor bnEditor) {
         ComboBoxEditor oldEditor = editor;
 
         if ( editor != null ) {
             editor.removeActionListener(this);
         }
-        editor = anEditor;
+        editor = bnEditor;
         if ( editor != null ) {
-            editor.addActionListener(this);
+            editor.bddActionListener(this);
         }
-        firePropertyChange( "editor", oldEditor, editor );
+        firePropertyChbnge( "editor", oldEditor, editor );
     }
 
     /**
-     * Returns the editor used to paint and edit the selected item in the
+     * Returns the editor used to pbint bnd edit the selected item in the
      * <code>JComboBox</code> field.
      *
-     * @return the <code>ComboBoxEditor</code> that displays the selected item
+     * @return the <code>ComboBoxEditor</code> thbt displbys the selected item
      */
     public ComboBoxEditor getEditor() {
         return editor;
@@ -530,48 +530,48 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
     //
 
     /**
-     * Sets the selected item in the combo box display area to the object in
-     * the argument.
-     * If <code>anObject</code> is in the list, the display area shows
-     * <code>anObject</code> selected.
+     * Sets the selected item in the combo box displby breb to the object in
+     * the brgument.
+     * If <code>bnObject</code> is in the list, the displby breb shows
+     * <code>bnObject</code> selected.
      * <p>
-     * If <code>anObject</code> is <i>not</i> in the list and the combo box is
-     * uneditable, it will not change the current selection. For editable
-     * combo boxes, the selection will change to <code>anObject</code>.
+     * If <code>bnObject</code> is <i>not</i> in the list bnd the combo box is
+     * uneditbble, it will not chbnge the current selection. For editbble
+     * combo boxes, the selection will chbnge to <code>bnObject</code>.
      * <p>
-     * If this constitutes a change in the selected item,
-     * <code>ItemListener</code>s added to the combo box will be notified with
+     * If this constitutes b chbnge in the selected item,
+     * <code>ItemListener</code>s bdded to the combo box will be notified with
      * one or two <code>ItemEvent</code>s.
-     * If there is a current selected item, an <code>ItemEvent</code> will be
-     * fired and the state change will be <code>ItemEvent.DESELECTED</code>.
-     * If <code>anObject</code> is in the list and is not currently selected
-     * then an <code>ItemEvent</code> will be fired and the state change will
+     * If there is b current selected item, bn <code>ItemEvent</code> will be
+     * fired bnd the stbte chbnge will be <code>ItemEvent.DESELECTED</code>.
+     * If <code>bnObject</code> is in the list bnd is not currently selected
+     * then bn <code>ItemEvent</code> will be fired bnd the stbte chbnge will
      * be <code>ItemEvent.SELECTED</code>.
      * <p>
-     * <code>ActionListener</code>s added to the combo box will be notified
-     * with an <code>ActionEvent</code> when this method is called.
+     * <code>ActionListener</code>s bdded to the combo box will be notified
+     * with bn <code>ActionEvent</code> when this method is cblled.
      *
-     * @param anObject  the list object to select; use <code>null</code> to
-                        clear the selection
-     * @beaninfo
+     * @pbrbm bnObject  the list object to select; use <code>null</code> to
+                        clebr the selection
+     * @bebninfo
      *    preferred:   true
      *    description: Sets the selected item in the JComboBox.
      */
-    public void setSelectedItem(Object anObject) {
+    public void setSelectedItem(Object bnObject) {
         Object oldSelection = selectedItemReminder;
-        Object objectToSelect = anObject;
-        if (oldSelection == null || !oldSelection.equals(anObject)) {
+        Object objectToSelect = bnObject;
+        if (oldSelection == null || !oldSelection.equbls(bnObject)) {
 
-            if (anObject != null && !isEditable()) {
-                // For non editable combo boxes, an invalid selection
+            if (bnObject != null && !isEditbble()) {
+                // For non editbble combo boxes, bn invblid selection
                 // will be rejected.
-                boolean found = false;
-                for (int i = 0; i < dataModel.getSize(); i++) {
-                    E element = dataModel.getElementAt(i);
-                    if (anObject.equals(element)) {
+                boolebn found = fblse;
+                for (int i = 0; i < dbtbModel.getSize(); i++) {
+                    E element = dbtbModel.getElementAt(i);
+                    if (bnObject.equbls(element)) {
                         found = true;
                         objectToSelect = element;
-                        break;
+                        brebk;
                     }
                 }
                 if (!found) {
@@ -579,17 +579,17 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
                 }
             }
 
-            // Must toggle the state of this flag since this method
-            // call may result in ListDataEvents being fired.
+            // Must toggle the stbte of this flbg since this method
+            // cbll mby result in ListDbtbEvents being fired.
             selectingItem = true;
-            dataModel.setSelectedItem(objectToSelect);
-            selectingItem = false;
+            dbtbModel.setSelectedItem(objectToSelect);
+            selectingItem = fblse;
 
-            if (selectedItemReminder != dataModel.getSelectedItem()) {
-                // in case a users implementation of ComboBoxModel
-                // doesn't fire a ListDataEvent when the selection
-                // changes.
-                selectedItemChanged();
+            if (selectedItemReminder != dbtbModel.getSelectedItem()) {
+                // in cbse b users implementbtion of ComboBoxModel
+                // doesn't fire b ListDbtbEvent when the selection
+                // chbnges.
+                selectedItemChbnged();
             }
         }
         fireActionEvent();
@@ -598,186 +598,186 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
     /**
      * Returns the current selected item.
      * <p>
-     * If the combo box is editable, then this value may not have been added
-     * to the combo box with <code>addItem</code>, <code>insertItemAt</code>
-     * or the data constructors.
+     * If the combo box is editbble, then this vblue mby not hbve been bdded
+     * to the combo box with <code>bddItem</code>, <code>insertItemAt</code>
+     * or the dbtb constructors.
      *
      * @return the current selected Object
      * @see #setSelectedItem
      */
     public Object getSelectedItem() {
-        return dataModel.getSelectedItem();
+        return dbtbModel.getSelectedItem();
     }
 
     /**
-     * Selects the item at index <code>anIndex</code>.
+     * Selects the item bt index <code>bnIndex</code>.
      *
-     * @param anIndex an integer specifying the list item to select,
-     *                  where 0 specifies the first item in the list and -1 indicates no selection
-     * @exception IllegalArgumentException if <code>anIndex</code> &lt; -1 or
-     *                  <code>anIndex</code> is greater than or equal to size
-     * @beaninfo
+     * @pbrbm bnIndex bn integer specifying the list item to select,
+     *                  where 0 specifies the first item in the list bnd -1 indicbtes no selection
+     * @exception IllegblArgumentException if <code>bnIndex</code> &lt; -1 or
+     *                  <code>bnIndex</code> is grebter thbn or equbl to size
+     * @bebninfo
      *   preferred: true
-     *  description: The item at index is selected.
+     *  description: The item bt index is selected.
      */
-    public void setSelectedIndex(int anIndex) {
-        int size = dataModel.getSize();
+    public void setSelectedIndex(int bnIndex) {
+        int size = dbtbModel.getSize();
 
-        if ( anIndex == -1 ) {
+        if ( bnIndex == -1 ) {
             setSelectedItem( null );
-        } else if ( anIndex < -1 || anIndex >= size ) {
-            throw new IllegalArgumentException("setSelectedIndex: " + anIndex + " out of bounds");
+        } else if ( bnIndex < -1 || bnIndex >= size ) {
+            throw new IllegblArgumentException("setSelectedIndex: " + bnIndex + " out of bounds");
         } else {
-            setSelectedItem(dataModel.getElementAt(anIndex));
+            setSelectedItem(dbtbModel.getElementAt(bnIndex));
         }
     }
 
     /**
-     * Returns the first item in the list that matches the given item.
-     * The result is not always defined if the <code>JComboBox</code>
-     * allows selected items that are not in the list.
+     * Returns the first item in the list thbt mbtches the given item.
+     * The result is not blwbys defined if the <code>JComboBox</code>
+     * bllows selected items thbt bre not in the list.
      * Returns -1 if there is no selected item or if the user specified
-     * an item which is not in the list.
+     * bn item which is not in the list.
 
-     * @return an integer specifying the currently selected list item,
+     * @return bn integer specifying the currently selected list item,
      *                  where 0 specifies
      *                  the first item in the list;
      *                  or -1 if no item is selected or if
      *                  the currently selected item is not in the list
      */
-    @Transient
+    @Trbnsient
     public int getSelectedIndex() {
-        Object sObject = dataModel.getSelectedItem();
+        Object sObject = dbtbModel.getSelectedItem();
         int i,c;
         E obj;
 
-        for ( i=0,c=dataModel.getSize();i<c;i++ ) {
-            obj = dataModel.getElementAt(i);
-            if ( obj != null && obj.equals(sObject) )
+        for ( i=0,c=dbtbModel.getSize();i<c;i++ ) {
+            obj = dbtbModel.getElementAt(i);
+            if ( obj != null && obj.equbls(sObject) )
                 return i;
         }
         return -1;
     }
 
     /**
-     * Returns the "prototypical display" value - an Object used
-     * for the calculation of the display height and width.
+     * Returns the "prototypicbl displby" vblue - bn Object used
+     * for the cblculbtion of the displby height bnd width.
      *
-     * @return the value of the <code>prototypeDisplayValue</code> property
-     * @see #setPrototypeDisplayValue
+     * @return the vblue of the <code>prototypeDisplbyVblue</code> property
+     * @see #setPrototypeDisplbyVblue
      * @since 1.4
      */
-    public E getPrototypeDisplayValue() {
-        return prototypeDisplayValue;
+    public E getPrototypeDisplbyVblue() {
+        return prototypeDisplbyVblue;
     }
 
     /**
-     * Sets the prototype display value used to calculate the size of the display
+     * Sets the prototype displby vblue used to cblculbte the size of the displby
      * for the UI portion.
      * <p>
-     * If a prototype display value is specified, the preferred size of
-     * the combo box is calculated by configuring the renderer with the
-     * prototype display value and obtaining its preferred size. Specifying
-     * the preferred display value is often useful when the combo box will be
-     * displaying large amounts of data. If no prototype display value has
-     * been specified, the renderer must be configured for each value from
-     * the model and its preferred size obtained, which can be
-     * relatively expensive.
+     * If b prototype displby vblue is specified, the preferred size of
+     * the combo box is cblculbted by configuring the renderer with the
+     * prototype displby vblue bnd obtbining its preferred size. Specifying
+     * the preferred displby vblue is often useful when the combo box will be
+     * displbying lbrge bmounts of dbtb. If no prototype displby vblue hbs
+     * been specified, the renderer must be configured for ebch vblue from
+     * the model bnd its preferred size obtbined, which cbn be
+     * relbtively expensive.
      *
-     * @param prototypeDisplayValue the prototype display value
-     * @see #getPrototypeDisplayValue
+     * @pbrbm prototypeDisplbyVblue the prototype displby vblue
+     * @see #getPrototypeDisplbyVblue
      * @since 1.4
-     * @beaninfo
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: The display prototype value, used to compute display width and height.
+     *   bttribute: visublUpdbte true
+     * description: The displby prototype vblue, used to compute displby width bnd height.
      */
-    public void setPrototypeDisplayValue(E prototypeDisplayValue) {
-        Object oldValue = this.prototypeDisplayValue;
-        this.prototypeDisplayValue = prototypeDisplayValue;
-        firePropertyChange("prototypeDisplayValue", oldValue, prototypeDisplayValue);
+    public void setPrototypeDisplbyVblue(E prototypeDisplbyVblue) {
+        Object oldVblue = this.prototypeDisplbyVblue;
+        this.prototypeDisplbyVblue = prototypeDisplbyVblue;
+        firePropertyChbnge("prototypeDisplbyVblue", oldVblue, prototypeDisplbyVblue);
     }
 
     /**
-     * Adds an item to the item list.
-     * This method works only if the <code>JComboBox</code> uses a
-     * mutable data model.
+     * Adds bn item to the item list.
+     * This method works only if the <code>JComboBox</code> uses b
+     * mutbble dbtb model.
      * <p>
-     * <strong>Warning:</strong>
-     * Focus and keyboard navigation problems may arise if you add duplicate
-     * String objects. A workaround is to add new objects instead of String
-     * objects and make sure that the toString() method is defined.
-     * For example:
+     * <strong>Wbrning:</strong>
+     * Focus bnd keybobrd nbvigbtion problems mby brise if you bdd duplicbte
+     * String objects. A workbround is to bdd new objects instebd of String
+     * objects bnd mbke sure thbt the toString() method is defined.
+     * For exbmple:
      * <pre>
-     *   comboBox.addItem(makeObj("Item 1"));
-     *   comboBox.addItem(makeObj("Item 1"));
+     *   comboBox.bddItem(mbkeObj("Item 1"));
+     *   comboBox.bddItem(mbkeObj("Item 1"));
      *   ...
-     *   private Object makeObj(final String item)  {
+     *   privbte Object mbkeObj(finbl String item)  {
      *     return new Object() { public String toString() { return item; } };
      *   }
      * </pre>
      *
-     * @param item the item to add to the list
-     * @see MutableComboBoxModel
+     * @pbrbm item the item to bdd to the list
+     * @see MutbbleComboBoxModel
      */
-    public void addItem(E item) {
-        checkMutableComboBoxModel();
-        ((MutableComboBoxModel<E>)dataModel).addElement(item);
+    public void bddItem(E item) {
+        checkMutbbleComboBoxModel();
+        ((MutbbleComboBoxModel<E>)dbtbModel).bddElement(item);
     }
 
     /**
-     * Inserts an item into the item list at a given index.
-     * This method works only if the <code>JComboBox</code> uses a
-     * mutable data model.
+     * Inserts bn item into the item list bt b given index.
+     * This method works only if the <code>JComboBox</code> uses b
+     * mutbble dbtb model.
      *
-     * @param item the item to add to the list
-     * @param index    an integer specifying the position at which
-     *                  to add the item
-     * @see MutableComboBoxModel
+     * @pbrbm item the item to bdd to the list
+     * @pbrbm index    bn integer specifying the position bt which
+     *                  to bdd the item
+     * @see MutbbleComboBoxModel
      */
     public void insertItemAt(E item, int index) {
-        checkMutableComboBoxModel();
-        ((MutableComboBoxModel<E>)dataModel).insertElementAt(item,index);
+        checkMutbbleComboBoxModel();
+        ((MutbbleComboBoxModel<E>)dbtbModel).insertElementAt(item,index);
     }
 
     /**
-     * Removes an item from the item list.
-     * This method works only if the <code>JComboBox</code> uses a
-     * mutable data model.
+     * Removes bn item from the item list.
+     * This method works only if the <code>JComboBox</code> uses b
+     * mutbble dbtb model.
      *
-     * @param anObject  the object to remove from the item list
-     * @see MutableComboBoxModel
+     * @pbrbm bnObject  the object to remove from the item list
+     * @see MutbbleComboBoxModel
      */
-    public void removeItem(Object anObject) {
-        checkMutableComboBoxModel();
-        ((MutableComboBoxModel)dataModel).removeElement(anObject);
+    public void removeItem(Object bnObject) {
+        checkMutbbleComboBoxModel();
+        ((MutbbleComboBoxModel)dbtbModel).removeElement(bnObject);
     }
 
     /**
-     * Removes the item at <code>anIndex</code>
-     * This method works only if the <code>JComboBox</code> uses a
-     * mutable data model.
+     * Removes the item bt <code>bnIndex</code>
+     * This method works only if the <code>JComboBox</code> uses b
+     * mutbble dbtb model.
      *
-     * @param anIndex  an int specifying the index of the item to remove,
+     * @pbrbm bnIndex  bn int specifying the index of the item to remove,
      *                  where 0
-     *                  indicates the first item in the list
-     * @see MutableComboBoxModel
+     *                  indicbtes the first item in the list
+     * @see MutbbleComboBoxModel
      */
-    public void removeItemAt(int anIndex) {
-        checkMutableComboBoxModel();
-        ((MutableComboBoxModel<E>)dataModel).removeElementAt( anIndex );
+    public void removeItemAt(int bnIndex) {
+        checkMutbbleComboBoxModel();
+        ((MutbbleComboBoxModel<E>)dbtbModel).removeElementAt( bnIndex );
     }
 
     /**
-     * Removes all items from the item list.
+     * Removes bll items from the item list.
      */
     public void removeAllItems() {
-        checkMutableComboBoxModel();
-        MutableComboBoxModel<E> model = (MutableComboBoxModel<E>)dataModel;
+        checkMutbbleComboBoxModel();
+        MutbbleComboBoxModel<E> model = (MutbbleComboBoxModel<E>)dbtbModel;
         int size = model.getSize();
 
-        if ( model instanceof DefaultComboBoxModel ) {
-            ((DefaultComboBoxModel)model).removeAllElements();
+        if ( model instbnceof DefbultComboBoxModel ) {
+            ((DefbultComboBoxModel)model).removeAllElements();
         }
         else {
             for ( int i = 0; i < size; ++i ) {
@@ -786,24 +786,24 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
             }
         }
         selectedItemReminder = null;
-        if (isEditable()) {
+        if (isEditbble()) {
             editor.setItem(null);
         }
     }
 
     /**
-     * Checks that the <code>dataModel</code> is an instance of
-     * <code>MutableComboBoxModel</code>.  If not, it throws an exception.
-     * @exception RuntimeException if <code>dataModel</code> is not an
-     *          instance of <code>MutableComboBoxModel</code>.
+     * Checks thbt the <code>dbtbModel</code> is bn instbnce of
+     * <code>MutbbleComboBoxModel</code>.  If not, it throws bn exception.
+     * @exception RuntimeException if <code>dbtbModel</code> is not bn
+     *          instbnce of <code>MutbbleComboBoxModel</code>.
      */
-    void checkMutableComboBoxModel() {
-        if ( !(dataModel instanceof MutableComboBoxModel) )
-            throw new RuntimeException("Cannot use this method with a non-Mutable data model.");
+    void checkMutbbleComboBoxModel() {
+        if ( !(dbtbModel instbnceof MutbbleComboBoxModel) )
+            throw new RuntimeException("Cbnnot use this method with b non-Mutbble dbtb model.");
     }
 
     /**
-     * Causes the combo box to display its popup window.
+     * Cbuses the combo box to displby its popup window.
      * @see #setPopupVisible
      */
     public void showPopup() {
@@ -811,157 +811,157 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
     }
 
     /**
-     * Causes the combo box to close its popup window.
+     * Cbuses the combo box to close its popup window.
      * @see #setPopupVisible
      */
     public void hidePopup() {
-        setPopupVisible(false);
+        setPopupVisible(fblse);
     }
 
     /**
      * Sets the visibility of the popup.
      *
-     * @param v if {@code true} shows the popup, otherwise, hides the popup.
+     * @pbrbm v if {@code true} shows the popup, otherwise, hides the popup.
      */
-    public void setPopupVisible(boolean v) {
+    public void setPopupVisible(boolebn v) {
         getUI().setPopupVisible(this, v);
     }
 
     /**
      * Determines the visibility of the popup.
      *
-     * @return true if the popup is visible, otherwise returns false
+     * @return true if the popup is visible, otherwise returns fblse
      */
-    public boolean isPopupVisible() {
+    public boolebn isPopupVisible() {
         return getUI().isPopupVisible(this);
     }
 
     /** Selection **/
 
     /**
-     * Adds an <code>ItemListener</code>.
+     * Adds bn <code>ItemListener</code>.
      * <p>
-     * <code>aListener</code> will receive one or two <code>ItemEvent</code>s when
-     * the selected item changes.
+     * <code>bListener</code> will receive one or two <code>ItemEvent</code>s when
+     * the selected item chbnges.
      *
-     * @param aListener the <code>ItemListener</code> that is to be notified
+     * @pbrbm bListener the <code>ItemListener</code> thbt is to be notified
      * @see #setSelectedItem
      */
-    public void addItemListener(ItemListener aListener) {
-        listenerList.add(ItemListener.class,aListener);
+    public void bddItemListener(ItemListener bListener) {
+        listenerList.bdd(ItemListener.clbss,bListener);
     }
 
-    /** Removes an <code>ItemListener</code>.
+    /** Removes bn <code>ItemListener</code>.
      *
-     * @param aListener  the <code>ItemListener</code> to remove
+     * @pbrbm bListener  the <code>ItemListener</code> to remove
      */
-    public void removeItemListener(ItemListener aListener) {
-        listenerList.remove(ItemListener.class,aListener);
+    public void removeItemListener(ItemListener bListener) {
+        listenerList.remove(ItemListener.clbss,bListener);
     }
 
     /**
-     * Returns an array of all the <code>ItemListener</code>s added
-     * to this JComboBox with addItemListener().
+     * Returns bn brrby of bll the <code>ItemListener</code>s bdded
+     * to this JComboBox with bddItemListener().
      *
-     * @return all of the <code>ItemListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>ItemListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
     public ItemListener[] getItemListeners() {
-        return listenerList.getListeners(ItemListener.class);
+        return listenerList.getListeners(ItemListener.clbss);
     }
 
     /**
-     * Adds an <code>ActionListener</code>.
+     * Adds bn <code>ActionListener</code>.
      * <p>
-     * The <code>ActionListener</code> will receive an <code>ActionEvent</code>
-     * when a selection has been made. If the combo box is editable, then
-     * an <code>ActionEvent</code> will be fired when editing has stopped.
+     * The <code>ActionListener</code> will receive bn <code>ActionEvent</code>
+     * when b selection hbs been mbde. If the combo box is editbble, then
+     * bn <code>ActionEvent</code> will be fired when editing hbs stopped.
      *
-     * @param l  the <code>ActionListener</code> that is to be notified
+     * @pbrbm l  the <code>ActionListener</code> thbt is to be notified
      * @see #setSelectedItem
      */
-    public void addActionListener(ActionListener l) {
-        listenerList.add(ActionListener.class,l);
+    public void bddActionListener(ActionListener l) {
+        listenerList.bdd(ActionListener.clbss,l);
     }
 
-    /** Removes an <code>ActionListener</code>.
+    /** Removes bn <code>ActionListener</code>.
      *
-     * @param l  the <code>ActionListener</code> to remove
+     * @pbrbm l  the <code>ActionListener</code> to remove
      */
     public void removeActionListener(ActionListener l) {
         if ((l != null) && (getAction() == l)) {
             setAction(null);
         } else {
-            listenerList.remove(ActionListener.class, l);
+            listenerList.remove(ActionListener.clbss, l);
         }
     }
 
     /**
-     * Returns an array of all the <code>ActionListener</code>s added
-     * to this JComboBox with addActionListener().
+     * Returns bn brrby of bll the <code>ActionListener</code>s bdded
+     * to this JComboBox with bddActionListener().
      *
-     * @return all of the <code>ActionListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>ActionListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
     public ActionListener[] getActionListeners() {
-        return listenerList.getListeners(ActionListener.class);
+        return listenerList.getListeners(ActionListener.clbss);
     }
 
     /**
-     * Adds a <code>PopupMenu</code> listener which will listen to notification
-     * messages from the popup portion of the combo box.
+     * Adds b <code>PopupMenu</code> listener which will listen to notificbtion
+     * messbges from the popup portion of the combo box.
      * <p>
-     * For all standard look and feels shipped with Java, the popup list
-     * portion of combo box is implemented as a <code>JPopupMenu</code>.
-     * A custom look and feel may not implement it this way and will
-     * therefore not receive the notification.
+     * For bll stbndbrd look bnd feels shipped with Jbvb, the popup list
+     * portion of combo box is implemented bs b <code>JPopupMenu</code>.
+     * A custom look bnd feel mby not implement it this wby bnd will
+     * therefore not receive the notificbtion.
      *
-     * @param l  the <code>PopupMenuListener</code> to add
+     * @pbrbm l  the <code>PopupMenuListener</code> to bdd
      * @since 1.4
      */
-    public void addPopupMenuListener(PopupMenuListener l) {
-        listenerList.add(PopupMenuListener.class,l);
+    public void bddPopupMenuListener(PopupMenuListener l) {
+        listenerList.bdd(PopupMenuListener.clbss,l);
     }
 
     /**
-     * Removes a <code>PopupMenuListener</code>.
+     * Removes b <code>PopupMenuListener</code>.
      *
-     * @param l  the <code>PopupMenuListener</code> to remove
-     * @see #addPopupMenuListener
+     * @pbrbm l  the <code>PopupMenuListener</code> to remove
+     * @see #bddPopupMenuListener
      * @since 1.4
      */
     public void removePopupMenuListener(PopupMenuListener l) {
-        listenerList.remove(PopupMenuListener.class,l);
+        listenerList.remove(PopupMenuListener.clbss,l);
     }
 
     /**
-     * Returns an array of all the <code>PopupMenuListener</code>s added
-     * to this JComboBox with addPopupMenuListener().
+     * Returns bn brrby of bll the <code>PopupMenuListener</code>s bdded
+     * to this JComboBox with bddPopupMenuListener().
      *
-     * @return all of the <code>PopupMenuListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>PopupMenuListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
     public PopupMenuListener[] getPopupMenuListeners() {
-        return listenerList.getListeners(PopupMenuListener.class);
+        return listenerList.getListeners(PopupMenuListener.clbss);
     }
 
     /**
-     * Notifies <code>PopupMenuListener</code>s that the popup portion of the
+     * Notifies <code>PopupMenuListener</code>s thbt the popup portion of the
      * combo box will become visible.
      * <p>
-     * This method is public but should not be called by anything other than
-     * the UI delegate.
-     * @see #addPopupMenuListener
+     * This method is public but should not be cblled by bnything other thbn
+     * the UI delegbte.
+     * @see #bddPopupMenuListener
      * @since 1.4
      */
     public void firePopupMenuWillBecomeVisible() {
         Object[] listeners = listenerList.getListenerList();
         PopupMenuEvent e=null;
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==PopupMenuListener.class) {
+            if (listeners[i]==PopupMenuListener.clbss) {
                 if (e == null)
                     e = new PopupMenuEvent(this);
                 ((PopupMenuListener)listeners[i+1]).popupMenuWillBecomeVisible(e);
@@ -970,19 +970,19 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
     }
 
     /**
-     * Notifies <code>PopupMenuListener</code>s that the popup portion of the
-     * combo box has become invisible.
+     * Notifies <code>PopupMenuListener</code>s thbt the popup portion of the
+     * combo box hbs become invisible.
      * <p>
-     * This method is public but should not be called by anything other than
-     * the UI delegate.
-     * @see #addPopupMenuListener
+     * This method is public but should not be cblled by bnything other thbn
+     * the UI delegbte.
+     * @see #bddPopupMenuListener
      * @since 1.4
      */
     public void firePopupMenuWillBecomeInvisible() {
         Object[] listeners = listenerList.getListenerList();
         PopupMenuEvent e=null;
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==PopupMenuListener.class) {
+            if (listeners[i]==PopupMenuListener.clbss) {
                 if (e == null)
                     e = new PopupMenuEvent(this);
                 ((PopupMenuListener)listeners[i+1]).popupMenuWillBecomeInvisible(e);
@@ -991,120 +991,120 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
     }
 
     /**
-     * Notifies <code>PopupMenuListener</code>s that the popup portion of the
-     * combo box has been canceled.
+     * Notifies <code>PopupMenuListener</code>s thbt the popup portion of the
+     * combo box hbs been cbnceled.
      * <p>
-     * This method is public but should not be called by anything other than
-     * the UI delegate.
-     * @see #addPopupMenuListener
+     * This method is public but should not be cblled by bnything other thbn
+     * the UI delegbte.
+     * @see #bddPopupMenuListener
      * @since 1.4
      */
-    public void firePopupMenuCanceled() {
+    public void firePopupMenuCbnceled() {
         Object[] listeners = listenerList.getListenerList();
         PopupMenuEvent e=null;
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==PopupMenuListener.class) {
+            if (listeners[i]==PopupMenuListener.clbss) {
                 if (e == null)
                     e = new PopupMenuEvent(this);
-                ((PopupMenuListener)listeners[i+1]).popupMenuCanceled(e);
+                ((PopupMenuListener)listeners[i+1]).popupMenuCbnceled(e);
             }
         }
     }
 
     /**
-     * Sets the action command that should be included in the event
-     * sent to action listeners.
+     * Sets the bction commbnd thbt should be included in the event
+     * sent to bction listeners.
      *
-     * @param aCommand  a string containing the "command" that is sent
-     *                  to action listeners; the same listener can then
-     *                  do different things depending on the command it
+     * @pbrbm bCommbnd  b string contbining the "commbnd" thbt is sent
+     *                  to bction listeners; the sbme listener cbn then
+     *                  do different things depending on the commbnd it
      *                  receives
      */
-    public void setActionCommand(String aCommand) {
-        actionCommand = aCommand;
+    public void setActionCommbnd(String bCommbnd) {
+        bctionCommbnd = bCommbnd;
     }
 
     /**
-     * Returns the action command that is included in the event sent to
-     * action listeners.
+     * Returns the bction commbnd thbt is included in the event sent to
+     * bction listeners.
      *
-     * @return  the string containing the "command" that is sent
-     *          to action listeners.
+     * @return  the string contbining the "commbnd" thbt is sent
+     *          to bction listeners.
      */
-    public String getActionCommand() {
-        return actionCommand;
+    public String getActionCommbnd() {
+        return bctionCommbnd;
     }
 
-    private Action action;
-    private PropertyChangeListener actionPropertyChangeListener;
+    privbte Action bction;
+    privbte PropertyChbngeListener bctionPropertyChbngeListener;
 
     /**
      * Sets the <code>Action</code> for the <code>ActionEvent</code> source.
-     * The new <code>Action</code> replaces any previously set
-     * <code>Action</code> but does not affect <code>ActionListeners</code>
-     * independently added with <code>addActionListener</code>.
-     * If the <code>Action</code> is already a registered
+     * The new <code>Action</code> replbces bny previously set
+     * <code>Action</code> but does not bffect <code>ActionListeners</code>
+     * independently bdded with <code>bddActionListener</code>.
+     * If the <code>Action</code> is blrebdy b registered
      * <code>ActionListener</code> for the <code>ActionEvent</code> source,
      * it is not re-registered.
      * <p>
-     * Setting the <code>Action</code> results in immediately changing
-     * all the properties described in <a href="Action.html#buttonActions">
-     * Swing Components Supporting <code>Action</code></a>.
-     * Subsequently, the combobox's properties are automatically updated
-     * as the <code>Action</code>'s properties change.
+     * Setting the <code>Action</code> results in immedibtely chbnging
+     * bll the properties described in <b href="Action.html#buttonActions">
+     * Swing Components Supporting <code>Action</code></b>.
+     * Subsequently, the combobox's properties bre butombticblly updbted
+     * bs the <code>Action</code>'s properties chbnge.
      * <p>
      * This method uses three other methods to set
-     * and help track the <code>Action</code>'s property values.
+     * bnd help trbck the <code>Action</code>'s property vblues.
      * It uses the <code>configurePropertiesFromAction</code> method
-     * to immediately change the combobox's properties.
-     * To track changes in the <code>Action</code>'s property values,
-     * this method registers the <code>PropertyChangeListener</code>
-     * returned by <code>createActionPropertyChangeListener</code>. The
-     * default {@code PropertyChangeListener} invokes the
-     * {@code actionPropertyChanged} method when a property in the
-     * {@code Action} changes.
+     * to immedibtely chbnge the combobox's properties.
+     * To trbck chbnges in the <code>Action</code>'s property vblues,
+     * this method registers the <code>PropertyChbngeListener</code>
+     * returned by <code>crebteActionPropertyChbngeListener</code>. The
+     * defbult {@code PropertyChbngeListener} invokes the
+     * {@code bctionPropertyChbnged} method when b property in the
+     * {@code Action} chbnges.
      *
-     * @param a the <code>Action</code> for the <code>JComboBox</code>,
+     * @pbrbm b the <code>Action</code> for the <code>JComboBox</code>,
      *                  or <code>null</code>.
      * @since 1.3
      * @see Action
      * @see #getAction
      * @see #configurePropertiesFromAction
-     * @see #createActionPropertyChangeListener
-     * @see #actionPropertyChanged
-     * @beaninfo
+     * @see #crebteActionPropertyChbngeListener
+     * @see #bctionPropertyChbnged
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: the Action instance connected with this ActionEvent source
+     *    bttribute: visublUpdbte true
+     *  description: the Action instbnce connected with this ActionEvent source
      */
-    public void setAction(Action a) {
-        Action oldValue = getAction();
-        if (action==null || !action.equals(a)) {
-            action = a;
-            if (oldValue!=null) {
-                removeActionListener(oldValue);
-                oldValue.removePropertyChangeListener(actionPropertyChangeListener);
-                actionPropertyChangeListener = null;
+    public void setAction(Action b) {
+        Action oldVblue = getAction();
+        if (bction==null || !bction.equbls(b)) {
+            bction = b;
+            if (oldVblue!=null) {
+                removeActionListener(oldVblue);
+                oldVblue.removePropertyChbngeListener(bctionPropertyChbngeListener);
+                bctionPropertyChbngeListener = null;
             }
-            configurePropertiesFromAction(action);
-            if (action!=null) {
-                // Don't add if it is already a listener
-                if (!isListener(ActionListener.class, action)) {
-                    addActionListener(action);
+            configurePropertiesFromAction(bction);
+            if (bction!=null) {
+                // Don't bdd if it is blrebdy b listener
+                if (!isListener(ActionListener.clbss, bction)) {
+                    bddActionListener(bction);
                 }
-                // Reverse linkage:
-                actionPropertyChangeListener = createActionPropertyChangeListener(action);
-                action.addPropertyChangeListener(actionPropertyChangeListener);
+                // Reverse linkbge:
+                bctionPropertyChbngeListener = crebteActionPropertyChbngeListener(bction);
+                bction.bddPropertyChbngeListener(bctionPropertyChbngeListener);
             }
-            firePropertyChange("action", oldValue, action);
+            firePropertyChbnge("bction", oldVblue, bction);
         }
     }
 
-    private boolean isListener(Class<?> c, ActionListener a) {
-        boolean isListener = false;
+    privbte boolebn isListener(Clbss<?> c, ActionListener b) {
+        boolebn isListener = fblse;
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==c && listeners[i+1]==a) {
+            if (listeners[i]==c && listeners[i+1]==b) {
                     isListener=true;
             }
         }
@@ -1123,184 +1123,184 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
      * @see #setAction
      */
     public Action getAction() {
-        return action;
+        return bction;
     }
 
     /**
-     * Sets the properties on this combobox to match those in the specified
-     * <code>Action</code>.  Refer to <a href="Action.html#buttonActions">
-     * Swing Components Supporting <code>Action</code></a> for more
-     * details as to which properties this sets.
+     * Sets the properties on this combobox to mbtch those in the specified
+     * <code>Action</code>.  Refer to <b href="Action.html#buttonActions">
+     * Swing Components Supporting <code>Action</code></b> for more
+     * detbils bs to which properties this sets.
      *
-     * @param a the <code>Action</code> from which to get the properties,
+     * @pbrbm b the <code>Action</code> from which to get the properties,
      *          or <code>null</code>
      * @since 1.3
      * @see Action
      * @see #setAction
      */
-    protected void configurePropertiesFromAction(Action a) {
-        AbstractAction.setEnabledFromAction(this, a);
-        AbstractAction.setToolTipTextFromAction(this, a);
-        setActionCommandFromAction(a);
+    protected void configurePropertiesFromAction(Action b) {
+        AbstrbctAction.setEnbbledFromAction(this, b);
+        AbstrbctAction.setToolTipTextFromAction(this, b);
+        setActionCommbndFromAction(b);
     }
 
     /**
-     * Creates and returns a <code>PropertyChangeListener</code> that is
-     * responsible for listening for changes from the specified
-     * <code>Action</code> and updating the appropriate properties.
+     * Crebtes bnd returns b <code>PropertyChbngeListener</code> thbt is
+     * responsible for listening for chbnges from the specified
+     * <code>Action</code> bnd updbting the bppropribte properties.
      * <p>
-     * <b>Warning:</b> If you subclass this do not create an anonymous
-     * inner class.  If you do the lifetime of the combobox will be tied to
-     * that of the <code>Action</code>.
+     * <b>Wbrning:</b> If you subclbss this do not crebte bn bnonymous
+     * inner clbss.  If you do the lifetime of the combobox will be tied to
+     * thbt of the <code>Action</code>.
      *
-     * @param a the combobox's action
-     * @return the {@code PropertyChangeListener}
+     * @pbrbm b the combobox's bction
+     * @return the {@code PropertyChbngeListener}
      * @since 1.3
      * @see Action
      * @see #setAction
      */
-    protected PropertyChangeListener createActionPropertyChangeListener(Action a) {
-        return new ComboBoxActionPropertyChangeListener(this, a);
+    protected PropertyChbngeListener crebteActionPropertyChbngeListener(Action b) {
+        return new ComboBoxActionPropertyChbngeListener(this, b);
     }
 
     /**
-     * Updates the combobox's state in response to property changes in
-     * associated action. This method is invoked from the
-     * {@code PropertyChangeListener} returned from
-     * {@code createActionPropertyChangeListener}. Subclasses do not normally
-     * need to invoke this. Subclasses that support additional {@code Action}
-     * properties should override this and
+     * Updbtes the combobox's stbte in response to property chbnges in
+     * bssocibted bction. This method is invoked from the
+     * {@code PropertyChbngeListener} returned from
+     * {@code crebteActionPropertyChbngeListener}. Subclbsses do not normblly
+     * need to invoke this. Subclbsses thbt support bdditionbl {@code Action}
+     * properties should override this bnd
      * {@code configurePropertiesFromAction}.
      * <p>
-     * Refer to the table at <a href="Action.html#buttonActions">
-     * Swing Components Supporting <code>Action</code></a> for a list of
+     * Refer to the tbble bt <b href="Action.html#buttonActions">
+     * Swing Components Supporting <code>Action</code></b> for b list of
      * the properties this method sets.
      *
-     * @param action the <code>Action</code> associated with this combobox
-     * @param propertyName the name of the property that changed
+     * @pbrbm bction the <code>Action</code> bssocibted with this combobox
+     * @pbrbm propertyNbme the nbme of the property thbt chbnged
      * @since 1.6
      * @see Action
      * @see #configurePropertiesFromAction
      */
-    protected void actionPropertyChanged(Action action, String propertyName) {
-        if (propertyName == Action.ACTION_COMMAND_KEY) {
-            setActionCommandFromAction(action);
-        } else if (propertyName == "enabled") {
-            AbstractAction.setEnabledFromAction(this, action);
-        } else if (Action.SHORT_DESCRIPTION == propertyName) {
-            AbstractAction.setToolTipTextFromAction(this, action);
+    protected void bctionPropertyChbnged(Action bction, String propertyNbme) {
+        if (propertyNbme == Action.ACTION_COMMAND_KEY) {
+            setActionCommbndFromAction(bction);
+        } else if (propertyNbme == "enbbled") {
+            AbstrbctAction.setEnbbledFromAction(this, bction);
+        } else if (Action.SHORT_DESCRIPTION == propertyNbme) {
+            AbstrbctAction.setToolTipTextFromAction(this, bction);
         }
     }
 
-    private void setActionCommandFromAction(Action a) {
-        setActionCommand((a != null) ?
-                             (String)a.getValue(Action.ACTION_COMMAND_KEY) :
+    privbte void setActionCommbndFromAction(Action b) {
+        setActionCommbnd((b != null) ?
+                             (String)b.getVblue(Action.ACTION_COMMAND_KEY) :
                              null);
     }
 
 
-    private static class ComboBoxActionPropertyChangeListener
-                 extends ActionPropertyChangeListener<JComboBox<?>> {
-        ComboBoxActionPropertyChangeListener(JComboBox<?> b, Action a) {
-            super(b, a);
+    privbte stbtic clbss ComboBoxActionPropertyChbngeListener
+                 extends ActionPropertyChbngeListener<JComboBox<?>> {
+        ComboBoxActionPropertyChbngeListener(JComboBox<?> b, Action b) {
+            super(b, b);
         }
-        protected void actionPropertyChanged(JComboBox<?> cb,
-                                             Action action,
-                                             PropertyChangeEvent e) {
-            if (AbstractAction.shouldReconfigure(e)) {
-                cb.configurePropertiesFromAction(action);
+        protected void bctionPropertyChbnged(JComboBox<?> cb,
+                                             Action bction,
+                                             PropertyChbngeEvent e) {
+            if (AbstrbctAction.shouldReconfigure(e)) {
+                cb.configurePropertiesFromAction(bction);
             } else {
-                cb.actionPropertyChanged(action, e.getPropertyName());
+                cb.bctionPropertyChbnged(bction, e.getPropertyNbme());
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
-     * @param e  the event of interest
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.
+     * @pbrbm e  the event of interest
      *
      * @see EventListenerList
      */
-    protected void fireItemStateChanged(ItemEvent e) {
-        // Guaranteed to return a non-null array
+    protected void fireItemStbteChbnged(ItemEvent e) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for ( int i = listeners.length-2; i>=0; i-=2 ) {
-            if ( listeners[i]==ItemListener.class ) {
-                // Lazily create the event:
-                // if (changeEvent == null)
-                // changeEvent = new ChangeEvent(this);
-                ((ItemListener)listeners[i+1]).itemStateChanged(e);
+            if ( listeners[i]==ItemListener.clbss ) {
+                // Lbzily crebte the event:
+                // if (chbngeEvent == null)
+                // chbngeEvent = new ChbngeEvent(this);
+                ((ItemListener)listeners[i+1]).itemStbteChbnged(e);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.
      *
      * @see EventListenerList
      */
     protected void fireActionEvent() {
         if (!firingActionEvent) {
-            // Set flag to ensure that an infinite loop is not created
+            // Set flbg to ensure thbt bn infinite loop is not crebted
             firingActionEvent = true;
             ActionEvent e = null;
-            // Guaranteed to return a non-null array
+            // Gubrbnteed to return b non-null brrby
             Object[] listeners = listenerList.getListenerList();
             long mostRecentEventTime = EventQueue.getMostRecentEventTime();
             int modifiers = 0;
             AWTEvent currentEvent = EventQueue.getCurrentEvent();
-            if (currentEvent instanceof InputEvent) {
+            if (currentEvent instbnceof InputEvent) {
                 modifiers = ((InputEvent)currentEvent).getModifiers();
-            } else if (currentEvent instanceof ActionEvent) {
+            } else if (currentEvent instbnceof ActionEvent) {
                 modifiers = ((ActionEvent)currentEvent).getModifiers();
             }
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
+            // Process the listeners lbst to first, notifying
+            // those thbt bre interested in this event
             for ( int i = listeners.length-2; i>=0; i-=2 ) {
-                if ( listeners[i]==ActionListener.class ) {
-                    // Lazily create the event:
+                if ( listeners[i]==ActionListener.clbss ) {
+                    // Lbzily crebte the event:
                     if ( e == null )
                         e = new ActionEvent(this,ActionEvent.ACTION_PERFORMED,
-                                            getActionCommand(),
+                                            getActionCommbnd(),
                                             mostRecentEventTime, modifiers);
-                    ((ActionListener)listeners[i+1]).actionPerformed(e);
+                    ((ActionListener)listeners[i+1]).bctionPerformed(e);
                 }
             }
-            firingActionEvent = false;
+            firingActionEvent = fblse;
         }
     }
 
     /**
-     * This protected method is implementation specific. Do not access directly
+     * This protected method is implementbtion specific. Do not bccess directly
      * or override.
      */
-    protected void selectedItemChanged() {
+    protected void selectedItemChbnged() {
         if (selectedItemReminder != null ) {
-            fireItemStateChanged(new ItemEvent(this,ItemEvent.ITEM_STATE_CHANGED,
+            fireItemStbteChbnged(new ItemEvent(this,ItemEvent.ITEM_STATE_CHANGED,
                                                selectedItemReminder,
                                                ItemEvent.DESELECTED));
         }
 
         // set the new selected item.
-        selectedItemReminder = dataModel.getSelectedItem();
+        selectedItemReminder = dbtbModel.getSelectedItem();
 
         if (selectedItemReminder != null ) {
-            fireItemStateChanged(new ItemEvent(this,ItemEvent.ITEM_STATE_CHANGED,
+            fireItemStbteChbnged(new ItemEvent(this,ItemEvent.ITEM_STATE_CHANGED,
                                                selectedItemReminder,
                                                ItemEvent.SELECTED));
         }
     }
 
     /**
-     * Returns an array containing the selected item.
-     * This method is implemented for compatibility with
-     * <code>ItemSelectable</code>.
+     * Returns bn brrby contbining the selected item.
+     * This method is implemented for compbtibility with
+     * <code>ItemSelectbble</code>.
      *
-     * @return an array of <code>Objects</code> containing one
+     * @return bn brrby of <code>Objects</code> contbining one
      *          element -- the selected item
      */
     public Object[] getSelectedObjects() {
@@ -1315,30 +1315,30 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
     }
 
     /**
-     * This method is public as an implementation side effect.
-     * do not call or override.
+     * This method is public bs bn implementbtion side effect.
+     * do not cbll or override.
      */
-    public void actionPerformed(ActionEvent e) {
+    public void bctionPerformed(ActionEvent e) {
         ComboBoxEditor editor = getEditor();
         if ((editor != null) && (e != null) && (editor == e.getSource())) {
-            setPopupVisible(false);
+            setPopupVisible(fblse);
             getModel().setSelectedItem(editor.getItem());
-            String oldCommand = getActionCommand();
-            setActionCommand("comboBoxEdited");
+            String oldCommbnd = getActionCommbnd();
+            setActionCommbnd("comboBoxEdited");
             fireActionEvent();
-            setActionCommand(oldCommand);
+            setActionCommbnd(oldCommbnd);
         }
     }
 
     /**
-     * This method is public as an implementation side effect.
-     * do not call or override.
+     * This method is public bs bn implementbtion side effect.
+     * do not cbll or override.
      */
-    public void contentsChanged(ListDataEvent e) {
+    public void contentsChbnged(ListDbtbEvent e) {
         Object oldSelection = selectedItemReminder;
-        Object newSelection = dataModel.getSelectedItem();
-        if (oldSelection == null || !oldSelection.equals(newSelection)) {
-            selectedItemChanged();
+        Object newSelection = dbtbModel.getSelectedItem();
+        if (oldSelection == null || !oldSelection.equbls(newSelection)) {
+            selectedItemChbnged();
             if (!selectingItem) {
                 fireActionEvent();
             }
@@ -1346,83 +1346,83 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
     }
 
     /**
-     * This method is public as an implementation side effect.
-     * do not call or override.
+     * This method is public bs bn implementbtion side effect.
+     * do not cbll or override.
      */
-    public void intervalAdded(ListDataEvent e) {
-        if (selectedItemReminder != dataModel.getSelectedItem()) {
-            selectedItemChanged();
+    public void intervblAdded(ListDbtbEvent e) {
+        if (selectedItemReminder != dbtbModel.getSelectedItem()) {
+            selectedItemChbnged();
         }
     }
 
     /**
-     * This method is public as an implementation side effect.
-     * do not call or override.
+     * This method is public bs bn implementbtion side effect.
+     * do not cbll or override.
      */
-    public void intervalRemoved(ListDataEvent e) {
-        contentsChanged(e);
+    public void intervblRemoved(ListDbtbEvent e) {
+        contentsChbnged(e);
     }
 
     /**
-     * Selects the list item that corresponds to the specified keyboard
-     * character and returns true, if there is an item corresponding
-     * to that character.  Otherwise, returns false.
+     * Selects the list item thbt corresponds to the specified keybobrd
+     * chbrbcter bnd returns true, if there is bn item corresponding
+     * to thbt chbrbcter.  Otherwise, returns fblse.
      *
-     * @param keyChar a char, typically this is a keyboard key
+     * @pbrbm keyChbr b chbr, typicblly this is b keybobrd key
      *                  typed by the user
-     * @return {@code true} if there is an item corresponding to that character.
-     *         Otherwise, returns {@code false}.
+     * @return {@code true} if there is bn item corresponding to thbt chbrbcter.
+     *         Otherwise, returns {@code fblse}.
      */
-    public boolean selectWithKeyChar(char keyChar) {
+    public boolebn selectWithKeyChbr(chbr keyChbr) {
         int index;
 
-        if ( keySelectionManager == null )
-            keySelectionManager = createDefaultKeySelectionManager();
+        if ( keySelectionMbnbger == null )
+            keySelectionMbnbger = crebteDefbultKeySelectionMbnbger();
 
-        index = keySelectionManager.selectionForKey(keyChar,getModel());
+        index = keySelectionMbnbger.selectionForKey(keyChbr,getModel());
         if ( index != -1 ) {
             setSelectedIndex(index);
             return true;
         }
         else
-            return false;
+            return fblse;
     }
 
     /**
-     * Enables the combo box so that items can be selected. When the
-     * combo box is disabled, items cannot be selected and values
-     * cannot be typed into its field (if it is editable).
+     * Enbbles the combo box so thbt items cbn be selected. When the
+     * combo box is disbbled, items cbnnot be selected bnd vblues
+     * cbnnot be typed into its field (if it is editbble).
      *
-     * @param b a boolean value, where true enables the component and
-     *          false disables it
-     * @beaninfo
+     * @pbrbm b b boolebn vblue, where true enbbles the component bnd
+     *          fblse disbbles it
+     * @bebninfo
      *        bound: true
      *    preferred: true
-     *  description: Whether the combo box is enabled.
+     *  description: Whether the combo box is enbbled.
      */
-    public void setEnabled(boolean b) {
-        super.setEnabled(b);
-        firePropertyChange( "enabled", !isEnabled(), isEnabled() );
+    public void setEnbbled(boolebn b) {
+        super.setEnbbled(b);
+        firePropertyChbnge( "enbbled", !isEnbbled(), isEnbbled() );
     }
 
     /**
-     * Initializes the editor with the specified item.
+     * Initiblizes the editor with the specified item.
      *
-     * @param anEditor the <code>ComboBoxEditor</code> that displays
+     * @pbrbm bnEditor the <code>ComboBoxEditor</code> thbt displbys
      *                  the list item in the
-     *                  combo box field and allows it to be edited
-     * @param anItem   the object to display and edit in the field
+     *                  combo box field bnd bllows it to be edited
+     * @pbrbm bnItem   the object to displby bnd edit in the field
      */
-    public void configureEditor(ComboBoxEditor anEditor, Object anItem) {
-        anEditor.setItem(anItem);
+    public void configureEditor(ComboBoxEditor bnEditor, Object bnItem) {
+        bnEditor.setItem(bnItem);
     }
 
     /**
-     * Handles <code>KeyEvent</code>s, looking for the Tab key.
-     * If the Tab key is found, the popup window is closed.
+     * Hbndles <code>KeyEvent</code>s, looking for the Tbb key.
+     * If the Tbb key is found, the popup window is closed.
      *
-     * @param e  the <code>KeyEvent</code> containing the keyboard
-     *          key that was pressed
+     * @pbrbm e  the <code>KeyEvent</code> contbining the keybobrd
+     *          key thbt wbs pressed
      */
     public void processKeyEvent(KeyEvent e) {
         if ( e.getKeyCode() == KeyEvent.VK_TAB ) {
@@ -1435,138 +1435,138 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
      * {@inheritDoc}
      */
     @Override
-    protected boolean processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolean pressed) {
+    protected boolebn processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolebn pressed) {
         if (super.processKeyBinding(ks, e, condition, pressed)) {
             return true;
         }
 
-        if (!isEditable() || condition != WHEN_FOCUSED || getEditor() == null
-                || !Boolean.TRUE.equals(getClientProperty("JComboBox.isTableCellEditor"))) {
-            return false;
+        if (!isEditbble() || condition != WHEN_FOCUSED || getEditor() == null
+                || !Boolebn.TRUE.equbls(getClientProperty("JComboBox.isTbbleCellEditor"))) {
+            return fblse;
         }
 
         Component editorComponent = getEditor().getEditorComponent();
-        if (editorComponent instanceof JComponent) {
+        if (editorComponent instbnceof JComponent) {
             JComponent component = (JComponent) editorComponent;
             return component.processKeyBinding(ks, e, WHEN_FOCUSED, pressed);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Sets the object that translates a keyboard character into a list
-     * selection. Typically, the first selection with a matching first
-     * character becomes the selected item.
+     * Sets the object thbt trbnslbtes b keybobrd chbrbcter into b list
+     * selection. Typicblly, the first selection with b mbtching first
+     * chbrbcter becomes the selected item.
      *
-     * @param aManager a key selection manager
-     * @beaninfo
+     * @pbrbm bMbnbger b key selection mbnbger
+     * @bebninfo
      *       expert: true
-     *  description: The objects that changes the selection when a key is pressed.
+     *  description: The objects thbt chbnges the selection when b key is pressed.
      */
-    public void setKeySelectionManager(KeySelectionManager aManager) {
-        keySelectionManager = aManager;
+    public void setKeySelectionMbnbger(KeySelectionMbnbger bMbnbger) {
+        keySelectionMbnbger = bMbnbger;
     }
 
     /**
-     * Returns the list's key-selection manager.
+     * Returns the list's key-selection mbnbger.
      *
-     * @return the <code>KeySelectionManager</code> currently in use
+     * @return the <code>KeySelectionMbnbger</code> currently in use
      */
-    public KeySelectionManager getKeySelectionManager() {
-        return keySelectionManager;
+    public KeySelectionMbnbger getKeySelectionMbnbger() {
+        return keySelectionMbnbger;
     }
 
     /* Accessing the model */
     /**
      * Returns the number of items in the list.
      *
-     * @return an integer equal to the number of items in the list
+     * @return bn integer equbl to the number of items in the list
      */
     public int getItemCount() {
-        return dataModel.getSize();
+        return dbtbModel.getSize();
     }
 
     /**
-     * Returns the list item at the specified index.  If <code>index</code>
-     * is out of range (less than zero or greater than or equal to size)
+     * Returns the list item bt the specified index.  If <code>index</code>
+     * is out of rbnge (less thbn zero or grebter thbn or equbl to size)
      * it will return <code>null</code>.
      *
-     * @param index  an integer indicating the list position, where the first
-     *               item starts at zero
-     * @return the item at that list position; or
-     *                  <code>null</code> if out of range
+     * @pbrbm index  bn integer indicbting the list position, where the first
+     *               item stbrts bt zero
+     * @return the item bt thbt list position; or
+     *                  <code>null</code> if out of rbnge
      */
     public E getItemAt(int index) {
-        return dataModel.getElementAt(index);
+        return dbtbModel.getElementAt(index);
     }
 
     /**
-     * Returns an instance of the default key-selection manager.
+     * Returns bn instbnce of the defbult key-selection mbnbger.
      *
-     * @return the <code>KeySelectionManager</code> currently used by the list
-     * @see #setKeySelectionManager
+     * @return the <code>KeySelectionMbnbger</code> currently used by the list
+     * @see #setKeySelectionMbnbger
      */
-    protected KeySelectionManager createDefaultKeySelectionManager() {
-        return new DefaultKeySelectionManager();
+    protected KeySelectionMbnbger crebteDefbultKeySelectionMbnbger() {
+        return new DefbultKeySelectionMbnbger();
     }
 
 
     /**
-     * The interface that defines a <code>KeySelectionManager</code>.
-     * To qualify as a <code>KeySelectionManager</code>,
-     * the class needs to implement the method
-     * that identifies the list index given a character and the
-     * combo box data model.
+     * The interfbce thbt defines b <code>KeySelectionMbnbger</code>.
+     * To qublify bs b <code>KeySelectionMbnbger</code>,
+     * the clbss needs to implement the method
+     * thbt identifies the list index given b chbrbcter bnd the
+     * combo box dbtb model.
      */
-    public interface KeySelectionManager {
-        /** Given <code>aKey</code> and the model, returns the row
-         *  that should become selected. Return -1 if no match was
+    public interfbce KeySelectionMbnbger {
+        /** Given <code>bKey</code> bnd the model, returns the row
+         *  thbt should become selected. Return -1 if no mbtch wbs
          *  found.
          *
-         * @param  aKey  a char value, usually indicating a keyboard key that
-         *               was pressed
-         * @param aModel a ComboBoxModel -- the component's data model, containing
-         *               the list of selectable items
-         * @return an int equal to the selected row, where 0 is the
-         *         first item and -1 is none.
+         * @pbrbm  bKey  b chbr vblue, usublly indicbting b keybobrd key thbt
+         *               wbs pressed
+         * @pbrbm bModel b ComboBoxModel -- the component's dbtb model, contbining
+         *               the list of selectbble items
+         * @return bn int equbl to the selected row, where 0 is the
+         *         first item bnd -1 is none.
          */
-        int selectionForKey(char aKey,ComboBoxModel<?> aModel);
+        int selectionForKey(chbr bKey,ComboBoxModel<?> bModel);
     }
 
-    class DefaultKeySelectionManager implements KeySelectionManager, Serializable {
-        public int selectionForKey(char aKey,ComboBoxModel<?> aModel) {
+    clbss DefbultKeySelectionMbnbger implements KeySelectionMbnbger, Seriblizbble {
+        public int selectionForKey(chbr bKey,ComboBoxModel<?> bModel) {
             int i,c;
             int currentSelection = -1;
-            Object selectedItem = aModel.getSelectedItem();
+            Object selectedItem = bModel.getSelectedItem();
             String v;
-            String pattern;
+            String pbttern;
 
             if ( selectedItem != null ) {
-                for ( i=0,c=aModel.getSize();i<c;i++ ) {
-                    if ( selectedItem == aModel.getElementAt(i) ) {
+                for ( i=0,c=bModel.getSize();i<c;i++ ) {
+                    if ( selectedItem == bModel.getElementAt(i) ) {
                         currentSelection  =  i;
-                        break;
+                        brebk;
                     }
                 }
             }
 
-            pattern = ("" + aKey).toLowerCase();
-            aKey = pattern.charAt(0);
+            pbttern = ("" + bKey).toLowerCbse();
+            bKey = pbttern.chbrAt(0);
 
-            for ( i = ++currentSelection, c = aModel.getSize() ; i < c ; i++ ) {
-                Object elem = aModel.getElementAt(i);
+            for ( i = ++currentSelection, c = bModel.getSize() ; i < c ; i++ ) {
+                Object elem = bModel.getElementAt(i);
                 if (elem != null && elem.toString() != null) {
-                    v = elem.toString().toLowerCase();
-                    if ( v.length() > 0 && v.charAt(0) == aKey )
+                    v = elem.toString().toLowerCbse();
+                    if ( v.length() > 0 && v.chbrAt(0) == bKey )
                         return i;
                 }
             }
 
             for ( i = 0 ; i < currentSelection ; i ++ ) {
-                Object elem = aModel.getElementAt(i);
+                Object elem = bModel.getElementAt(i);
                 if (elem != null && elem.toString() != null) {
-                    v = elem.toString().toLowerCase();
-                    if ( v.length() > 0 && v.charAt(0) == aKey )
+                    v = elem.toString().toLowerCbse();
+                    if ( v.length() > 0 && v.chbrAt(0) == bKey )
                         return i;
                 }
             }
@@ -1576,43 +1576,43 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JComboBox</code>.
+     * Returns b string representbtion of this <code>JComboBox</code>.
      * This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * bnd the content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JComboBox</code>
+     * @return  b string representbtion of this <code>JComboBox</code>
      */
-    protected String paramString() {
+    protected String pbrbmString() {
         String selectedItemReminderString = (selectedItemReminder != null ?
                                              selectedItemReminder.toString() :
                                              "");
-        String isEditableString = (isEditable ? "true" : "false");
-        String lightWeightPopupEnabledString = (lightWeightPopupEnabled ?
-                                                "true" : "false");
+        String isEditbbleString = (isEditbble ? "true" : "fblse");
+        String lightWeightPopupEnbbledString = (lightWeightPopupEnbbled ?
+                                                "true" : "fblse");
 
-        return super.paramString() +
-        ",isEditable=" + isEditableString +
-        ",lightWeightPopupEnabled=" + lightWeightPopupEnabledString +
-        ",maximumRowCount=" + maximumRowCount +
+        return super.pbrbmString() +
+        ",isEditbble=" + isEditbbleString +
+        ",lightWeightPopupEnbbled=" + lightWeightPopupEnbbledString +
+        ",mbximumRowCount=" + mbximumRowCount +
         ",selectedItemReminder=" + selectedItemReminderString;
     }
 
@@ -1622,92 +1622,92 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
 ///////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JComboBox.
-     * For combo boxes, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this JComboBox.
+     * For combo boxes, the AccessibleContext tbkes the form of bn
      * AccessibleJComboBox.
-     * A new AccessibleJComboBox instance is created if necessary.
+     * A new AccessibleJComboBox instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJComboBox that serves as the
+     * @return bn AccessibleJComboBox thbt serves bs the
      *         AccessibleContext of this JComboBox
      */
     public AccessibleContext getAccessibleContext() {
-        if ( accessibleContext == null ) {
-            accessibleContext = new AccessibleJComboBox();
+        if ( bccessibleContext == null ) {
+            bccessibleContext = new AccessibleJComboBox();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JComboBox</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to Combo Box user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>JComboBox</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to Combo Box user-interfbce elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJComboBox extends AccessibleJComponent
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJComboBox extends AccessibleJComponent
     implements AccessibleAction, AccessibleSelection {
 
 
-        private JList<?> popupList; // combo box popup list
-        private Accessible previousSelectedAccessible = null;
+        privbte JList<?> popupList; // combo box popup list
+        privbte Accessible previousSelectedAccessible = null;
 
         /**
-         * Returns an AccessibleJComboBox instance
+         * Returns bn AccessibleJComboBox instbnce
          * @since 1.4
          */
         public AccessibleJComboBox() {
-            // set the combo box editor's accessible name and description
-            JComboBox.this.addPropertyChangeListener(new AccessibleJComboBoxPropertyChangeListener());
-            setEditorNameAndDescription();
+            // set the combo box editor's bccessible nbme bnd description
+            JComboBox.this.bddPropertyChbngeListener(new AccessibleJComboBoxPropertyChbngeListener());
+            setEditorNbmeAndDescription();
 
             // Get the popup list
-            Accessible a = getUI().getAccessibleChild(JComboBox.this, 0);
-            if (a instanceof javax.swing.plaf.basic.ComboPopup) {
-                // Listen for changes to the popup menu selection.
-                popupList = ((javax.swing.plaf.basic.ComboPopup)a).getList();
-                popupList.addListSelectionListener(
+            Accessible b = getUI().getAccessibleChild(JComboBox.this, 0);
+            if (b instbnceof jbvbx.swing.plbf.bbsic.ComboPopup) {
+                // Listen for chbnges to the popup menu selection.
+                popupList = ((jbvbx.swing.plbf.bbsic.ComboPopup)b).getList();
+                popupList.bddListSelectionListener(
                     new AccessibleJComboBoxListSelectionListener());
             }
             // Listen for popup menu show/hide events
-            JComboBox.this.addPopupMenuListener(
+            JComboBox.this.bddPopupMenuListener(
               new AccessibleJComboBoxPopupMenuListener());
         }
 
         /*
-         * JComboBox PropertyChangeListener
+         * JComboBox PropertyChbngeListener
          */
-        private class AccessibleJComboBoxPropertyChangeListener
-            implements PropertyChangeListener {
+        privbte clbss AccessibleJComboBoxPropertyChbngeListener
+            implements PropertyChbngeListener {
 
-            public void propertyChange(PropertyChangeEvent e) {
-                if (e.getPropertyName() == "editor") {
-                    // set the combo box editor's accessible name
-                    // and description
-                    setEditorNameAndDescription();
+            public void propertyChbnge(PropertyChbngeEvent e) {
+                if (e.getPropertyNbme() == "editor") {
+                    // set the combo box editor's bccessible nbme
+                    // bnd description
+                    setEditorNbmeAndDescription();
                 }
             }
         }
 
         /*
-         * Sets the combo box editor's accessible name and descripton
+         * Sets the combo box editor's bccessible nbme bnd descripton
          */
-        private void setEditorNameAndDescription() {
+        privbte void setEditorNbmeAndDescription() {
             ComboBoxEditor editor = JComboBox.this.getEditor();
             if (editor != null) {
                 Component comp = editor.getEditorComponent();
-                if (comp instanceof Accessible) {
-                    AccessibleContext ac = comp.getAccessibleContext();
-                    if (ac != null) { // may be null
-                        ac.setAccessibleName(getAccessibleName());
-                        ac.setAccessibleDescription(getAccessibleDescription());
+                if (comp instbnceof Accessible) {
+                    AccessibleContext bc = comp.getAccessibleContext();
+                    if (bc != null) { // mby be null
+                        bc.setAccessibleNbme(getAccessibleNbme());
+                        bc.setAccessibleDescription(getAccessibleDescription());
                     }
                 }
             }
@@ -1717,14 +1717,14 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
          * Listener for combo box popup menu
          * TIGER - 4669379 4894434
          */
-        private class AccessibleJComboBoxPopupMenuListener
+        privbte clbss AccessibleJComboBoxPopupMenuListener
             implements PopupMenuListener {
 
             /**
-             *  This method is called before the popup menu becomes visible
+             *  This method is cblled before the popup menu becomes visible
              */
             public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                // save the initial selection
+                // sbve the initibl selection
                 if (popupList == null) {
                     return;
                 }
@@ -1737,29 +1737,29 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
             }
 
             /**
-             * This method is called before the popup menu becomes invisible
-             * Note that a JPopupMenu can become invisible any time
+             * This method is cblled before the popup menu becomes invisible
+             * Note thbt b JPopupMenu cbn become invisible bny time
              */
             public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
                 // ignore
             }
 
             /**
-             * This method is called when the popup menu is canceled
+             * This method is cblled when the popup menu is cbnceled
              */
-            public void popupMenuCanceled(PopupMenuEvent e) {
+            public void popupMenuCbnceled(PopupMenuEvent e) {
                 // ignore
             }
         }
 
         /*
-         * Handles changes to the popup list selection.
+         * Hbndles chbnges to the popup list selection.
          * TIGER - 4669379 4894434 4933143
          */
-        private class AccessibleJComboBoxListSelectionListener
+        privbte clbss AccessibleJComboBoxListSelectionListener
             implements ListSelectionListener {
 
-            public void valueChanged(ListSelectionEvent e) {
+            public void vblueChbnged(ListSelectionEvent e) {
                 if (popupList == null) {
                     return;
                 }
@@ -1775,45 +1775,45 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
                     return;
                 }
 
-                // Fire a FOCUSED lost PropertyChangeEvent for the
+                // Fire b FOCUSED lost PropertyChbngeEvent for the
                 // previously selected list item.
-                PropertyChangeEvent pce;
+                PropertyChbngeEvent pce;
 
                 if (previousSelectedAccessible != null) {
-                    pce = new PropertyChangeEvent(previousSelectedAccessible,
+                    pce = new PropertyChbngeEvent(previousSelectedAccessible,
                         AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        AccessibleState.FOCUSED, null);
-                    firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
+                        AccessibleStbte.FOCUSED, null);
+                    firePropertyChbnge(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
                                        null, pce);
                 }
-                // Fire a FOCUSED gained PropertyChangeEvent for the
+                // Fire b FOCUSED gbined PropertyChbngeEvent for the
                 // currently selected list item.
-                pce = new PropertyChangeEvent(selectedAccessible,
+                pce = new PropertyChbngeEvent(selectedAccessible,
                     AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    null, AccessibleState.FOCUSED);
-                firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
+                    null, AccessibleStbte.FOCUSED);
+                firePropertyChbnge(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
                                    null, pce);
 
                 // Fire the ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY event
                 // for the combo box.
-                firePropertyChange(AccessibleContext.ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY,
+                firePropertyChbnge(AccessibleContext.ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY,
                                    previousSelectedAccessible, selectedAccessible);
 
-                // Save the previous selection.
+                // Sbve the previous selection.
                 previousSelectedAccessible = selectedAccessible;
             }
         }
 
 
         /**
-         * Returns the number of accessible children in the object.  If all
-         * of the children of this object implement Accessible, than this
+         * Returns the number of bccessible children in the object.  If bll
+         * of the children of this object implement Accessible, thbn this
          * method should return the number of children of this object.
          *
-         * @return the number of accessible children in the object.
+         * @return the number of bccessible children in the object.
          */
         public int getAccessibleChildrenCount() {
-            // Always delegate to the UI if it exists
+            // Alwbys delegbte to the UI if it exists
             if (ui != null) {
                 return ui.getAccessibleChildrenCount(JComboBox.this);
             } else {
@@ -1823,15 +1823,15 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
 
         /**
          * Returns the nth Accessible child of the object.
-         * The child at index zero represents the popup.
-         * If the combo box is editable, the child at index one
+         * The child bt index zero represents the popup.
+         * If the combo box is editbble, the child bt index one
          * represents the editor.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the nth Accessible child of the object
          */
         public Accessible getAccessibleChild(int i) {
-            // Always delegate to the UI if it exists
+            // Alwbys delegbte to the UI if it exists
             if (ui != null) {
                 return ui.getAccessibleChild(JComboBox.this, i);
             } else {
@@ -1842,7 +1842,7 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -1851,38 +1851,38 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
         }
 
         /**
-         * Gets the state set of this object.  The AccessibleStateSet of
-         * an object is composed of a set of unique AccessibleStates.
-         * A change in the AccessibleStateSet of an object will cause a
-         * PropertyChangeEvent to be fired for the ACCESSIBLE_STATE_PROPERTY
+         * Gets the stbte set of this object.  The AccessibleStbteSet of
+         * bn object is composed of b set of unique AccessibleStbtes.
+         * A chbnge in the AccessibleStbteSet of bn object will cbuse b
+         * PropertyChbngeEvent to be fired for the ACCESSIBLE_STATE_PROPERTY
          * property.
          *
-         * @return an instance of AccessibleStateSet containing the
-         * current state set of the object
-         * @see AccessibleStateSet
-         * @see AccessibleState
-         * @see #addPropertyChangeListener
+         * @return bn instbnce of AccessibleStbteSet contbining the
+         * current stbte set of the object
+         * @see AccessibleStbteSet
+         * @see AccessibleStbte
+         * @see #bddPropertyChbngeListener
          *
          */
-        public AccessibleStateSet getAccessibleStateSet() {
+        public AccessibleStbteSet getAccessibleStbteSet() {
             // TIGER - 4489748
-            AccessibleStateSet ass = super.getAccessibleStateSet();
-            if (ass == null) {
-                ass = new AccessibleStateSet();
+            AccessibleStbteSet bss = super.getAccessibleStbteSet();
+            if (bss == null) {
+                bss = new AccessibleStbteSet();
             }
             if (JComboBox.this.isPopupVisible()) {
-                ass.add(AccessibleState.EXPANDED);
+                bss.bdd(AccessibleStbte.EXPANDED);
             } else {
-                ass.add(AccessibleState.COLLAPSED);
+                bss.bdd(AccessibleStbte.COLLAPSED);
             }
-            return ass;
+            return bss;
         }
 
         /**
-         * Get the AccessibleAction associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleAction bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleAction interface on behalf of itself.
+         * AccessibleAction interfbce on behblf of itself.
          *
          * @return this object
          */
@@ -1891,13 +1891,13 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
         }
 
         /**
-         * Return a description of the specified action of the object.
+         * Return b description of the specified bction of the object.
          *
-         * @param i zero-based index of the actions
+         * @pbrbm i zero-bbsed index of the bctions
          */
         public String getAccessibleActionDescription(int i) {
             if (i == 0) {
-                return UIManager.getString("ComboBox.togglePopupText");
+                return UIMbnbger.getString("ComboBox.togglePopupText");
             }
             else {
                 return null;
@@ -1905,8 +1905,8 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
         }
 
         /**
-         * Returns the number of Actions available in this object.  The
-         * default behavior of a combo box is to have one action.
+         * Returns the number of Actions bvbilbble in this object.  The
+         * defbult behbvior of b combo box is to hbve one bction.
          *
          * @return 1, the number of Actions in this object
          */
@@ -1917,25 +1917,25 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
         /**
          * Perform the specified Action on the object
          *
-         * @param i zero-based index of actions
-         * @return true if the the action was performed; else false.
+         * @pbrbm i zero-bbsed index of bctions
+         * @return true if the the bction wbs performed; else fblse.
          */
-        public boolean doAccessibleAction(int i) {
+        public boolebn doAccessibleAction(int i) {
             if (i == 0) {
                 setPopupVisible(!isPopupVisible());
                 return true;
             }
             else {
-                return false;
+                return fblse;
             }
         }
 
 
         /**
-         * Get the AccessibleSelection associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleSelection bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleSelection interface on behalf of itself.
+         * AccessibleSelection interfbce on behblf of itself.
          *
          * @return this object
          */
@@ -1945,7 +1945,7 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
 
         /**
          * Returns the number of Accessible children currently selected.
-         * If no children are selected, the return value will be 0.
+         * If no children bre selected, the return vblue will be 0.
          *
          * @return the number of items currently selected.
          * @since 1.3
@@ -1960,34 +1960,34 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
         }
 
         /**
-         * Returns an Accessible representing the specified selected child
-         * in the popup.  If there isn't a selection, or there are
-         * fewer children selected than the integer passed in, the return
-         * value will be null.
-         * <p>Note that the index represents the i-th selected child, which
+         * Returns bn Accessible representing the specified selected child
+         * in the popup.  If there isn't b selection, or there bre
+         * fewer children selected thbn the integer pbssed in, the return
+         * vblue will be null.
+         * <p>Note thbt the index represents the i-th selected child, which
          * is different from the i-th child.
          *
-         * @param i the zero-based index of selected children
+         * @pbrbm i the zero-bbsed index of selected children
          * @return the i-th selected child
          * @see #getAccessibleSelectionCount
          * @since 1.3
          */
         public Accessible getAccessibleSelection(int i) {
             // Get the popup
-            Accessible a =
+            Accessible b =
                 JComboBox.this.getUI().getAccessibleChild(JComboBox.this, 0);
-            if (a != null &&
-                a instanceof javax.swing.plaf.basic.ComboPopup) {
+            if (b != null &&
+                b instbnceof jbvbx.swing.plbf.bbsic.ComboPopup) {
 
                 // get the popup list
-                JList<?> list = ((javax.swing.plaf.basic.ComboPopup)a).getList();
+                JList<?> list = ((jbvbx.swing.plbf.bbsic.ComboPopup)b).getList();
 
                 // return the i-th selection in the popup list
-                AccessibleContext ac = list.getAccessibleContext();
-                if (ac != null) {
-                    AccessibleSelection as = ac.getAccessibleSelection();
-                    if (as != null) {
-                        return as.getAccessibleSelection(i);
+                AccessibleContext bc = list.getAccessibleContext();
+                if (bc != null) {
+                    AccessibleSelection bs = bc.getAccessibleSelection();
+                    if (bs != null) {
+                        return bs.getAccessibleSelection(i);
                     }
                 }
             }
@@ -1998,59 +1998,59 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
          * Determines if the current child of this object is selected.
          *
          * @return true if the current child of this object is selected;
-         *              else false
-         * @param i the zero-based index of the child in this Accessible
+         *              else fblse
+         * @pbrbm i the zero-bbsed index of the child in this Accessible
          * object.
          * @see AccessibleContext#getAccessibleChild
          * @since 1.3
          */
-        public boolean isAccessibleChildSelected(int i) {
+        public boolebn isAccessibleChildSelected(int i) {
             return JComboBox.this.getSelectedIndex() == i;
         }
 
         /**
          * Adds the specified Accessible child of the object to the object's
          * selection.  If the object supports multiple selections,
-         * the specified child is added to any existing selection, otherwise
-         * it replaces any existing selection in the object.  If the
-         * specified child is already selected, this method has no effect.
+         * the specified child is bdded to bny existing selection, otherwise
+         * it replbces bny existing selection in the object.  If the
+         * specified child is blrebdy selected, this method hbs no effect.
          *
-         * @param i the zero-based index of the child
+         * @pbrbm i the zero-bbsed index of the child
          * @see AccessibleContext#getAccessibleChild
          * @since 1.3
          */
-        public void addAccessibleSelection(int i) {
+        public void bddAccessibleSelection(int i) {
             // TIGER - 4856195
-            clearAccessibleSelection();
+            clebrAccessibleSelection();
             JComboBox.this.setSelectedIndex(i);
         }
 
         /**
          * Removes the specified child of the object from the object's
          * selection.  If the specified item isn't currently selected, this
-         * method has no effect.
+         * method hbs no effect.
          *
-         * @param i the zero-based index of the child
+         * @pbrbm i the zero-bbsed index of the child
          * @see AccessibleContext#getAccessibleChild
          * @since 1.3
          */
         public void removeAccessibleSelection(int i) {
             if (JComboBox.this.getSelectedIndex() == i) {
-                clearAccessibleSelection();
+                clebrAccessibleSelection();
             }
         }
 
         /**
-         * Clears the selection in the object, so that no children in the
-         * object are selected.
+         * Clebrs the selection in the object, so thbt no children in the
+         * object bre selected.
          * @since 1.3
          */
-        public void clearAccessibleSelection() {
+        public void clebrAccessibleSelection() {
             JComboBox.this.setSelectedIndex(-1);
         }
 
         /**
-         * Causes every child of the object to be selected
+         * Cbuses every child of the object to be selected
          * if the object supports multiple selections.
          * @since 1.3
          */
@@ -2059,21 +2059,21 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
         }
 
 //        public Accessible getAccessibleAt(Point p) {
-//            Accessible a = getAccessibleChild(1);
-//            if ( a != null ) {
-//                return a; // the editor
+//            Accessible b = getAccessibleChild(1);
+//            if ( b != null ) {
+//                return b; // the editor
 //            }
 //            else {
 //                return getAccessibleChild(0); // the list
 //            }
 //        }
-        private EditorAccessibleContext editorAccessibleContext = null;
+        privbte EditorAccessibleContext editorAccessibleContext = null;
 
-        private class AccessibleEditor implements Accessible {
+        privbte clbss AccessibleEditor implements Accessible {
             public AccessibleContext getAccessibleContext() {
                 if (editorAccessibleContext == null) {
                     Component c = JComboBox.this.getEditor().getEditorComponent();
-                    if (c instanceof Accessible) {
+                    if (c instbnceof Accessible) {
                         editorAccessibleContext =
                             new EditorAccessibleContext((Accessible)c);
                     }
@@ -2083,215 +2083,215 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
         }
 
         /*
-         * Wrapper class for the AccessibleContext implemented by the
-         * combo box editor.  Delegates all method calls except
-         * getAccessibleIndexInParent to the editor.  The
-         * getAccessibleIndexInParent method returns the selected
+         * Wrbpper clbss for the AccessibleContext implemented by the
+         * combo box editor.  Delegbtes bll method cblls except
+         * getAccessibleIndexInPbrent to the editor.  The
+         * getAccessibleIndexInPbrent method returns the selected
          * index in the combo box.
          */
-        private class EditorAccessibleContext extends AccessibleContext {
+        privbte clbss EditorAccessibleContext extends AccessibleContext {
 
-            private AccessibleContext ac;
+            privbte AccessibleContext bc;
 
-            private EditorAccessibleContext() {
+            privbte EditorAccessibleContext() {
             }
 
             /*
-             * @param a the AccessibleContext implemented by the
+             * @pbrbm b the AccessibleContext implemented by the
              * combo box editor
              */
-            EditorAccessibleContext(Accessible a) {
-                this.ac = a.getAccessibleContext();
+            EditorAccessibleContext(Accessible b) {
+                this.bc = b.getAccessibleContext();
             }
 
             /**
-             * Gets the accessibleName property of this object.  The accessibleName
-             * property of an object is a localized String that designates the purpose
-             * of the object.  For example, the accessibleName property of a label
-             * or button might be the text of the label or button itself.  In the
-             * case of an object that doesn't display its name, the accessibleName
-             * should still be set.  For example, in the case of a text field used
-             * to enter the name of a city, the accessibleName for the en_US locale
+             * Gets the bccessibleNbme property of this object.  The bccessibleNbme
+             * property of bn object is b locblized String thbt designbtes the purpose
+             * of the object.  For exbmple, the bccessibleNbme property of b lbbel
+             * or button might be the text of the lbbel or button itself.  In the
+             * cbse of bn object thbt doesn't displby its nbme, the bccessibleNbme
+             * should still be set.  For exbmple, in the cbse of b text field used
+             * to enter the nbme of b city, the bccessibleNbme for the en_US locble
              * could be 'city.'
              *
-             * @return the localized name of the object; null if this
-             * object does not have a name
+             * @return the locblized nbme of the object; null if this
+             * object does not hbve b nbme
              *
-             * @see #setAccessibleName
+             * @see #setAccessibleNbme
              */
-            public String getAccessibleName() {
-                return ac.getAccessibleName();
+            public String getAccessibleNbme() {
+                return bc.getAccessibleNbme();
             }
 
             /**
-             * Sets the localized accessible name of this object.  Changing the
-             * name will cause a PropertyChangeEvent to be fired for the
+             * Sets the locblized bccessible nbme of this object.  Chbnging the
+             * nbme will cbuse b PropertyChbngeEvent to be fired for the
              * ACCESSIBLE_NAME_PROPERTY property.
              *
-             * @param s the new localized name of the object.
+             * @pbrbm s the new locblized nbme of the object.
              *
-             * @see #getAccessibleName
-             * @see #addPropertyChangeListener
+             * @see #getAccessibleNbme
+             * @see #bddPropertyChbngeListener
              *
-             * @beaninfo
+             * @bebninfo
              *    preferred:   true
-             *    description: Sets the accessible name for the component.
+             *    description: Sets the bccessible nbme for the component.
              */
-            public void setAccessibleName(String s) {
-                ac.setAccessibleName(s);
+            public void setAccessibleNbme(String s) {
+                bc.setAccessibleNbme(s);
             }
 
             /**
-             * Gets the accessibleDescription property of this object.  The
-             * accessibleDescription property of this object is a short localized
-             * phrase describing the purpose of the object.  For example, in the
-             * case of a 'Cancel' button, the accessibleDescription could be
-             * 'Ignore changes and close dialog box.'
+             * Gets the bccessibleDescription property of this object.  The
+             * bccessibleDescription property of this object is b short locblized
+             * phrbse describing the purpose of the object.  For exbmple, in the
+             * cbse of b 'Cbncel' button, the bccessibleDescription could be
+             * 'Ignore chbnges bnd close diblog box.'
              *
-             * @return the localized description of the object; null if
-             * this object does not have a description
+             * @return the locblized description of the object; null if
+             * this object does not hbve b description
              *
              * @see #setAccessibleDescription
              */
             public String getAccessibleDescription() {
-                return ac.getAccessibleDescription();
+                return bc.getAccessibleDescription();
             }
 
             /**
-             * Sets the accessible description of this object.  Changing the
-             * name will cause a PropertyChangeEvent to be fired for the
+             * Sets the bccessible description of this object.  Chbnging the
+             * nbme will cbuse b PropertyChbngeEvent to be fired for the
              * ACCESSIBLE_DESCRIPTION_PROPERTY property.
              *
-             * @param s the new localized description of the object
+             * @pbrbm s the new locblized description of the object
              *
-             * @see #setAccessibleName
-             * @see #addPropertyChangeListener
+             * @see #setAccessibleNbme
+             * @see #bddPropertyChbngeListener
              *
-             * @beaninfo
+             * @bebninfo
              *    preferred:   true
-             *    description: Sets the accessible description for the component.
+             *    description: Sets the bccessible description for the component.
              */
             public void setAccessibleDescription(String s) {
-                ac.setAccessibleDescription(s);
+                bc.setAccessibleDescription(s);
             }
 
             /**
              * Gets the role of this object.  The role of the object is the generic
-             * purpose or use of the class of this object.  For example, the role
-             * of a push button is AccessibleRole.PUSH_BUTTON.  The roles in
-             * AccessibleRole are provided so component developers can pick from
-             * a set of predefined roles.  This enables assistive technologies to
-             * provide a consistent interface to various tweaked subclasses of
-             * components (e.g., use AccessibleRole.PUSH_BUTTON for all components
-             * that act like a push button) as well as distinguish between subclasses
-             * that behave differently (e.g., AccessibleRole.CHECK_BOX for check boxes
-             * and AccessibleRole.RADIO_BUTTON for radio buttons).
-             * <p>Note that the AccessibleRole class is also extensible, so
-             * custom component developers can define their own AccessibleRole's
-             * if the set of predefined roles is inadequate.
+             * purpose or use of the clbss of this object.  For exbmple, the role
+             * of b push button is AccessibleRole.PUSH_BUTTON.  The roles in
+             * AccessibleRole bre provided so component developers cbn pick from
+             * b set of predefined roles.  This enbbles bssistive technologies to
+             * provide b consistent interfbce to vbrious twebked subclbsses of
+             * components (e.g., use AccessibleRole.PUSH_BUTTON for bll components
+             * thbt bct like b push button) bs well bs distinguish between subclbsses
+             * thbt behbve differently (e.g., AccessibleRole.CHECK_BOX for check boxes
+             * bnd AccessibleRole.RADIO_BUTTON for rbdio buttons).
+             * <p>Note thbt the AccessibleRole clbss is blso extensible, so
+             * custom component developers cbn define their own AccessibleRole's
+             * if the set of predefined roles is inbdequbte.
              *
-             * @return an instance of AccessibleRole describing the role of the object
+             * @return bn instbnce of AccessibleRole describing the role of the object
              * @see AccessibleRole
              */
             public AccessibleRole getAccessibleRole() {
-                return ac.getAccessibleRole();
+                return bc.getAccessibleRole();
             }
 
             /**
-             * Gets the state set of this object.  The AccessibleStateSet of an object
-             * is composed of a set of unique AccessibleStates.  A change in the
-             * AccessibleStateSet of an object will cause a PropertyChangeEvent to
+             * Gets the stbte set of this object.  The AccessibleStbteSet of bn object
+             * is composed of b set of unique AccessibleStbtes.  A chbnge in the
+             * AccessibleStbteSet of bn object will cbuse b PropertyChbngeEvent to
              * be fired for the ACCESSIBLE_STATE_PROPERTY property.
              *
-             * @return an instance of AccessibleStateSet containing the
-             * current state set of the object
-             * @see AccessibleStateSet
-             * @see AccessibleState
-             * @see #addPropertyChangeListener
+             * @return bn instbnce of AccessibleStbteSet contbining the
+             * current stbte set of the object
+             * @see AccessibleStbteSet
+             * @see AccessibleStbte
+             * @see #bddPropertyChbngeListener
              */
-            public AccessibleStateSet getAccessibleStateSet() {
-                return ac.getAccessibleStateSet();
+            public AccessibleStbteSet getAccessibleStbteSet() {
+                return bc.getAccessibleStbteSet();
             }
 
             /**
-             * Gets the Accessible parent of this object.
+             * Gets the Accessible pbrent of this object.
              *
-             * @return the Accessible parent of this object; null if this
-             * object does not have an Accessible parent
+             * @return the Accessible pbrent of this object; null if this
+             * object does not hbve bn Accessible pbrent
              */
-            public Accessible getAccessibleParent() {
-                return ac.getAccessibleParent();
+            public Accessible getAccessiblePbrent() {
+                return bc.getAccessiblePbrent();
             }
 
             /**
-             * Sets the Accessible parent of this object.  This is meant to be used
-             * only in the situations where the actual component's parent should
-             * not be treated as the component's accessible parent and is a method
-             * that should only be called by the parent of the accessible child.
+             * Sets the Accessible pbrent of this object.  This is mebnt to be used
+             * only in the situbtions where the bctubl component's pbrent should
+             * not be trebted bs the component's bccessible pbrent bnd is b method
+             * thbt should only be cblled by the pbrent of the bccessible child.
              *
-             * @param a - Accessible to be set as the parent
+             * @pbrbm b - Accessible to be set bs the pbrent
              */
-            public void setAccessibleParent(Accessible a) {
-                ac.setAccessibleParent(a);
+            public void setAccessiblePbrent(Accessible b) {
+                bc.setAccessiblePbrent(b);
             }
 
             /**
-             * Gets the 0-based index of this object in its accessible parent.
+             * Gets the 0-bbsed index of this object in its bccessible pbrent.
              *
-             * @return the 0-based index of this object in its parent; -1 if this
-             * object does not have an accessible parent.
+             * @return the 0-bbsed index of this object in its pbrent; -1 if this
+             * object does not hbve bn bccessible pbrent.
              *
-             * @see #getAccessibleParent
+             * @see #getAccessiblePbrent
              * @see #getAccessibleChildrenCount
              * @see #getAccessibleChild
              */
-            public int getAccessibleIndexInParent() {
+            public int getAccessibleIndexInPbrent() {
                 return JComboBox.this.getSelectedIndex();
             }
 
             /**
-             * Returns the number of accessible children of the object.
+             * Returns the number of bccessible children of the object.
              *
-             * @return the number of accessible children of the object.
+             * @return the number of bccessible children of the object.
              */
             public int getAccessibleChildrenCount() {
-                return ac.getAccessibleChildrenCount();
+                return bc.getAccessibleChildrenCount();
             }
 
             /**
              * Returns the specified Accessible child of the object.  The Accessible
-             * children of an Accessible object are zero-based, so the first child
-             * of an Accessible child is at index 0, the second child is at index 1,
-             * and so on.
+             * children of bn Accessible object bre zero-bbsed, so the first child
+             * of bn Accessible child is bt index 0, the second child is bt index 1,
+             * bnd so on.
              *
-             * @param i zero-based index of child
+             * @pbrbm i zero-bbsed index of child
              * @return the Accessible child of the object
              * @see #getAccessibleChildrenCount
              */
             public Accessible getAccessibleChild(int i) {
-                return ac.getAccessibleChild(i);
+                return bc.getAccessibleChild(i);
             }
 
             /**
-             * Gets the locale of the component. If the component does not have a
-             * locale, then the locale of its parent is returned.
+             * Gets the locble of the component. If the component does not hbve b
+             * locble, then the locble of its pbrent is returned.
              *
-             * @return this component's locale.  If this component does not have
-             * a locale, the locale of its parent is returned.
+             * @return this component's locble.  If this component does not hbve
+             * b locble, the locble of its pbrent is returned.
              *
-             * @exception IllegalComponentStateException
-             * If the Component does not have its own locale and has not yet been
-             * added to a containment hierarchy such that the locale can be
-             * determined from the containing parent.
+             * @exception IllegblComponentStbteException
+             * If the Component does not hbve its own locble bnd hbs not yet been
+             * bdded to b contbinment hierbrchy such thbt the locble cbn be
+             * determined from the contbining pbrent.
              */
-            public Locale getLocale() throws IllegalComponentStateException {
-                return ac.getLocale();
+            public Locble getLocble() throws IllegblComponentStbteException {
+                return bc.getLocble();
             }
 
             /**
-             * Adds a PropertyChangeListener to the listener list.
-             * The listener is registered for all Accessible properties and will
-             * be called when those properties change.
+             * Adds b PropertyChbngeListener to the listener list.
+             * The listener is registered for bll Accessible properties bnd will
+             * be cblled when those properties chbnge.
              *
              * @see #ACCESSIBLE_NAME_PROPERTY
              * @see #ACCESSIBLE_DESCRIPTION_PROPERTY
@@ -2301,136 +2301,136 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
              * @see #ACCESSIBLE_TEXT_PROPERTY
              * @see #ACCESSIBLE_VISIBLE_DATA_PROPERTY
              *
-             * @param listener  The PropertyChangeListener to be added
+             * @pbrbm listener  The PropertyChbngeListener to be bdded
              */
-            public void addPropertyChangeListener(PropertyChangeListener listener) {
-                ac.addPropertyChangeListener(listener);
+            public void bddPropertyChbngeListener(PropertyChbngeListener listener) {
+                bc.bddPropertyChbngeListener(listener);
             }
 
             /**
-             * Removes a PropertyChangeListener from the listener list.
-             * This removes a PropertyChangeListener that was registered
-             * for all properties.
+             * Removes b PropertyChbngeListener from the listener list.
+             * This removes b PropertyChbngeListener thbt wbs registered
+             * for bll properties.
              *
-             * @param listener  The PropertyChangeListener to be removed
+             * @pbrbm listener  The PropertyChbngeListener to be removed
              */
-            public void removePropertyChangeListener(PropertyChangeListener listener) {
-                ac.removePropertyChangeListener(listener);
+            public void removePropertyChbngeListener(PropertyChbngeListener listener) {
+                bc.removePropertyChbngeListener(listener);
             }
 
             /**
-             * Gets the AccessibleAction associated with this object that supports
-             * one or more actions.
+             * Gets the AccessibleAction bssocibted with this object thbt supports
+             * one or more bctions.
              *
              * @return AccessibleAction if supported by object; else return null
              * @see AccessibleAction
              */
             public AccessibleAction getAccessibleAction() {
-                return ac.getAccessibleAction();
+                return bc.getAccessibleAction();
             }
 
             /**
-             * Gets the AccessibleComponent associated with this object that has a
-             * graphical representation.
+             * Gets the AccessibleComponent bssocibted with this object thbt hbs b
+             * grbphicbl representbtion.
              *
              * @return AccessibleComponent if supported by object; else return null
              * @see AccessibleComponent
              */
             public AccessibleComponent getAccessibleComponent() {
-                return ac.getAccessibleComponent();
+                return bc.getAccessibleComponent();
             }
 
             /**
-             * Gets the AccessibleSelection associated with this object which allows its
+             * Gets the AccessibleSelection bssocibted with this object which bllows its
              * Accessible children to be selected.
              *
              * @return AccessibleSelection if supported by object; else return null
              * @see AccessibleSelection
              */
             public AccessibleSelection getAccessibleSelection() {
-                return ac.getAccessibleSelection();
+                return bc.getAccessibleSelection();
             }
 
             /**
-             * Gets the AccessibleText associated with this object presenting
-             * text on the display.
+             * Gets the AccessibleText bssocibted with this object presenting
+             * text on the displby.
              *
              * @return AccessibleText if supported by object; else return null
              * @see AccessibleText
              */
             public AccessibleText getAccessibleText() {
-                return ac.getAccessibleText();
+                return bc.getAccessibleText();
             }
 
             /**
-             * Gets the AccessibleEditableText associated with this object
-             * presenting editable text on the display.
+             * Gets the AccessibleEditbbleText bssocibted with this object
+             * presenting editbble text on the displby.
              *
-             * @return AccessibleEditableText if supported by object; else return null
-             * @see AccessibleEditableText
+             * @return AccessibleEditbbleText if supported by object; else return null
+             * @see AccessibleEditbbleText
              */
-            public AccessibleEditableText getAccessibleEditableText() {
-                return ac.getAccessibleEditableText();
+            public AccessibleEditbbleText getAccessibleEditbbleText() {
+                return bc.getAccessibleEditbbleText();
             }
 
             /**
-             * Gets the AccessibleValue associated with this object that supports a
-             * Numerical value.
+             * Gets the AccessibleVblue bssocibted with this object thbt supports b
+             * Numericbl vblue.
              *
-             * @return AccessibleValue if supported by object; else return null
-             * @see AccessibleValue
+             * @return AccessibleVblue if supported by object; else return null
+             * @see AccessibleVblue
              */
-            public AccessibleValue getAccessibleValue() {
-                return ac.getAccessibleValue();
+            public AccessibleVblue getAccessibleVblue() {
+                return bc.getAccessibleVblue();
             }
 
             /**
-             * Gets the AccessibleIcons associated with an object that has
-             * one or more associated icons
+             * Gets the AccessibleIcons bssocibted with bn object thbt hbs
+             * one or more bssocibted icons
              *
-             * @return an array of AccessibleIcon if supported by object;
+             * @return bn brrby of AccessibleIcon if supported by object;
              * otherwise return null
              * @see AccessibleIcon
              */
             public AccessibleIcon [] getAccessibleIcon() {
-                return ac.getAccessibleIcon();
+                return bc.getAccessibleIcon();
             }
 
             /**
-             * Gets the AccessibleRelationSet associated with an object
+             * Gets the AccessibleRelbtionSet bssocibted with bn object
              *
-             * @return an AccessibleRelationSet if supported by object;
+             * @return bn AccessibleRelbtionSet if supported by object;
              * otherwise return null
-             * @see AccessibleRelationSet
+             * @see AccessibleRelbtionSet
              */
-            public AccessibleRelationSet getAccessibleRelationSet() {
-                return ac.getAccessibleRelationSet();
+            public AccessibleRelbtionSet getAccessibleRelbtionSet() {
+                return bc.getAccessibleRelbtionSet();
             }
 
             /**
-             * Gets the AccessibleTable associated with an object
+             * Gets the AccessibleTbble bssocibted with bn object
              *
-             * @return an AccessibleTable if supported by object;
+             * @return bn AccessibleTbble if supported by object;
              * otherwise return null
-             * @see AccessibleTable
+             * @see AccessibleTbble
              */
-            public AccessibleTable getAccessibleTable() {
-                return ac.getAccessibleTable();
+            public AccessibleTbble getAccessibleTbble() {
+                return bc.getAccessibleTbble();
             }
 
             /**
-             * Support for reporting bound property changes.  If oldValue and
-             * newValue are not equal and the PropertyChangeEvent listener list
-             * is not empty, then fire a PropertyChange event to each listener.
-             * In general, this is for use by the Accessible objects themselves
-             * and should not be called by an application program.
-             * @param propertyName  The programmatic name of the property that
-             * was changed.
-             * @param oldValue  The old value of the property.
-             * @param newValue  The new value of the property.
-             * @see java.beans.PropertyChangeSupport
-             * @see #addPropertyChangeListener
-             * @see #removePropertyChangeListener
+             * Support for reporting bound property chbnges.  If oldVblue bnd
+             * newVblue bre not equbl bnd the PropertyChbngeEvent listener list
+             * is not empty, then fire b PropertyChbnge event to ebch listener.
+             * In generbl, this is for use by the Accessible objects themselves
+             * bnd should not be cblled by bn bpplicbtion progrbm.
+             * @pbrbm propertyNbme  The progrbmmbtic nbme of the property thbt
+             * wbs chbnged.
+             * @pbrbm oldVblue  The old vblue of the property.
+             * @pbrbm newVblue  The new vblue of the property.
+             * @see jbvb.bebns.PropertyChbngeSupport
+             * @see #bddPropertyChbngeListener
+             * @see #removePropertyChbngeListener
              * @see #ACCESSIBLE_NAME_PROPERTY
              * @see #ACCESSIBLE_DESCRIPTION_PROPERTY
              * @see #ACCESSIBLE_STATE_PROPERTY
@@ -2439,12 +2439,12 @@ implements ItemSelectable,ListDataListener,ActionListener, Accessible {
              * @see #ACCESSIBLE_TEXT_PROPERTY
              * @see #ACCESSIBLE_VISIBLE_DATA_PROPERTY
              */
-            public void firePropertyChange(String propertyName,
-                                           Object oldValue,
-                                           Object newValue) {
-                ac.firePropertyChange(propertyName, oldValue, newValue);
+            public void firePropertyChbnge(String propertyNbme,
+                                           Object oldVblue,
+                                           Object newVblue) {
+                bc.firePropertyChbnge(propertyNbme, oldVblue, newVblue);
             }
         }
 
-    } // innerclass AccessibleJComboBox
+    } // innerclbss AccessibleJComboBox
 }

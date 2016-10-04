@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import javax.swing.DefaultDesktopManager;
-import javax.swing.JInternalFrame;
-import javax.swing.JLayeredPane;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.beans.PropertyVetoException;
-import java.util.Vector;
-import java.lang.ref.WeakReference;
+import jbvbx.swing.DefbultDesktopMbnbger;
+import jbvbx.swing.JInternblFrbme;
+import jbvbx.swing.JLbyeredPbne;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bebns.PropertyVetoException;
+import jbvb.util.Vector;
+import jbvb.lbng.ref.WebkReference;
 
 /**
- * This class implements a DesktopManager which more closely follows
- * the MDI model than the DefaultDesktopManager.  Unlike the
- * DefaultDesktopManager policy, MDI requires that the selected
- * and activated child frames are the same, and that that frame
- * always be the top-most window.
+ * This clbss implements b DesktopMbnbger which more closely follows
+ * the MDI model thbn the DefbultDesktopMbnbger.  Unlike the
+ * DefbultDesktopMbnbger policy, MDI requires thbt the selected
+ * bnd bctivbted child frbmes bre the sbme, bnd thbt thbt frbme
+ * blwbys be the top-most window.
  * <p>
- * The maximized state is managed by the DesktopManager with MDI,
- * instead of just being a property of the individual child frame.
- * This means that if the currently selected window is maximized
- * and another window is selected, that new window will be maximized.
+ * The mbximized stbte is mbnbged by the DesktopMbnbger with MDI,
+ * instebd of just being b property of the individubl child frbme.
+ * This mebns thbt if the currently selected window is mbximized
+ * bnd bnother window is selected, thbt new window will be mbximized.
  *
- * @see javax.swing.DefaultDesktopManager
- * @author Thomas Ball
+ * @see jbvbx.swing.DefbultDesktopMbnbger
+ * @buthor Thombs Bbll
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public class WindowsDesktopManager extends DefaultDesktopManager
-        implements java.io.Serializable, javax.swing.plaf.UIResource {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+public clbss WindowsDesktopMbnbger extends DefbultDesktopMbnbger
+        implements jbvb.io.Seriblizbble, jbvbx.swing.plbf.UIResource {
 
-    /* The frame which is currently selected/activated.
-     * We store this value to enforce MDI's single-selection model.
+    /* The frbme which is currently selected/bctivbted.
+     * We store this vblue to enforce MDI's single-selection model.
      */
-    private WeakReference<JInternalFrame> currentFrameRef;
+    privbte WebkReference<JInternblFrbme> currentFrbmeRef;
 
-    public void activateFrame(JInternalFrame f) {
-        JInternalFrame currentFrame = currentFrameRef != null ?
-            currentFrameRef.get() : null;
+    public void bctivbteFrbme(JInternblFrbme f) {
+        JInternblFrbme currentFrbme = currentFrbmeRef != null ?
+            currentFrbmeRef.get() : null;
         try {
-            super.activateFrame(f);
-            if (currentFrame != null && f != currentFrame) {
-                // If the current frame is maximized, transfer that
-                // attribute to the frame being activated.
-                if (currentFrame.isMaximum() &&
-                    (f.getClientProperty("JInternalFrame.frameType") !=
-                    "optionDialog") ) {
-                    //Special case.  If key binding was used to select next
-                    //frame instead of minimizing the icon via the minimize
+            super.bctivbteFrbme(f);
+            if (currentFrbme != null && f != currentFrbme) {
+                // If the current frbme is mbximized, trbnsfer thbt
+                // bttribute to the frbme being bctivbted.
+                if (currentFrbme.isMbximum() &&
+                    (f.getClientProperty("JInternblFrbme.frbmeType") !=
+                    "optionDiblog") ) {
+                    //Specibl cbse.  If key binding wbs used to select next
+                    //frbme instebd of minimizing the icon vib the minimize
                     //icon.
-                    if (!currentFrame.isIcon()) {
-                        currentFrame.setMaximum(false);
-                        if (f.isMaximizable()) {
-                            if (!f.isMaximum()) {
-                                f.setMaximum(true);
-                            } else if (f.isMaximum() && f.isIcon()) {
-                                f.setIcon(false);
+                    if (!currentFrbme.isIcon()) {
+                        currentFrbme.setMbximum(fblse);
+                        if (f.isMbximizbble()) {
+                            if (!f.isMbximum()) {
+                                f.setMbximum(true);
+                            } else if (f.isMbximum() && f.isIcon()) {
+                                f.setIcon(fblse);
                             } else {
-                                f.setMaximum(false);
+                                f.setMbximum(fblse);
                             }
                         }
                     }
                 }
-                if (currentFrame.isSelected()) {
-                    currentFrame.setSelected(false);
+                if (currentFrbme.isSelected()) {
+                    currentFrbme.setSelected(fblse);
                 }
             }
 
             if (!f.isSelected()) {
                 f.setSelected(true);
             }
-        } catch (PropertyVetoException e) {}
-        if (f != currentFrame) {
-            currentFrameRef = new WeakReference<JInternalFrame>(f);
+        } cbtch (PropertyVetoException e) {}
+        if (f != currentFrbme) {
+            currentFrbmeRef = new WebkReference<JInternblFrbme>(f);
         }
     }
 

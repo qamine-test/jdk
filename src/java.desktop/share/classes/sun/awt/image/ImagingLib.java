@@ -1,276 +1,276 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ByteLookupTable;
-import java.awt.image.ConvolveOp;
-import java.awt.image.Kernel;
-import java.awt.image.LookupOp;
-import java.awt.image.LookupTable;
-import java.awt.image.RasterOp;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.AffineTrbnsformOp;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.BufferedImbgeOp;
+import jbvb.bwt.imbge.ByteLookupTbble;
+import jbvb.bwt.imbge.ConvolveOp;
+import jbvb.bwt.imbge.Kernel;
+import jbvb.bwt.imbge.LookupOp;
+import jbvb.bwt.imbge.LookupTbble;
+import jbvb.bwt.imbge.RbsterOp;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * This class provides a hook to access platform-specific
- * imaging code.
+ * This clbss provides b hook to bccess plbtform-specific
+ * imbging code.
  *
- * If the implementing class cannot handle the op, tile format or
- * image format, the method will return null;
- * If there is an error when processing the
- * data, the implementing class may either return null
- * (in which case our java code will be executed) or may throw
- * an exception.
+ * If the implementing clbss cbnnot hbndle the op, tile formbt or
+ * imbge formbt, the method will return null;
+ * If there is bn error when processing the
+ * dbtb, the implementing clbss mby either return null
+ * (in which cbse our jbvb code will be executed) or mby throw
+ * bn exception.
  */
-public class ImagingLib {
+public clbss ImbgingLib {
 
-    static boolean useLib = true;
-    static boolean verbose = false;
+    stbtic boolebn useLib = true;
+    stbtic boolebn verbose = fblse;
 
-    private static final int NUM_NATIVE_OPS = 3;
-    private static final int LOOKUP_OP   = 0;
-    private static final int AFFINE_OP   = 1;
-    private static final int CONVOLVE_OP = 2;
+    privbte stbtic finbl int NUM_NATIVE_OPS = 3;
+    privbte stbtic finbl int LOOKUP_OP   = 0;
+    privbte stbtic finbl int AFFINE_OP   = 1;
+    privbte stbtic finbl int CONVOLVE_OP = 2;
 
-    private static Class<?>[] nativeOpClass = new Class<?>[NUM_NATIVE_OPS];
+    privbte stbtic Clbss<?>[] nbtiveOpClbss = new Clbss<?>[NUM_NATIVE_OPS];
 
     /**
-     * Returned value indicates whether the library initailization was
+     * Returned vblue indicbtes whether the librbry initbilizbtion wbs
      * succeded.
      *
-     * There could be number of reasons to failure:
-     * - failed to load library.
-     * - failed to get all required entry points.
+     * There could be number of rebsons to fbilure:
+     * - fbiled to lobd librbry.
+     * - fbiled to get bll required entry points.
      */
-    private static native boolean init();
+    privbte stbtic nbtive boolebn init();
 
-    static public native int transformBI(BufferedImage src, BufferedImage dst,
-                                         double[] matrix, int interpType);
-    static public native int transformRaster(Raster src, Raster dst,
-                                             double[] matrix,
+    stbtic public nbtive int trbnsformBI(BufferedImbge src, BufferedImbge dst,
+                                         double[] mbtrix, int interpType);
+    stbtic public nbtive int trbnsformRbster(Rbster src, Rbster dst,
+                                             double[] mbtrix,
                                              int interpType);
-    static public native int convolveBI(BufferedImage src, BufferedImage dst,
+    stbtic public nbtive int convolveBI(BufferedImbge src, BufferedImbge dst,
                                         Kernel kernel, int edgeHint);
-    static public native int convolveRaster(Raster src, Raster dst,
+    stbtic public nbtive int convolveRbster(Rbster src, Rbster dst,
                                             Kernel kernel, int edgeHint);
-    static public native int lookupByteBI(BufferedImage src, BufferedImage dst,
-                                        byte[][] table);
-    static public native int lookupByteRaster(Raster src, Raster dst,
-                                              byte[][] table);
+    stbtic public nbtive int lookupByteBI(BufferedImbge src, BufferedImbge dst,
+                                        byte[][] tbble);
+    stbtic public nbtive int lookupByteRbster(Rbster src, Rbster dst,
+                                              byte[][] tbble);
 
-    static {
+    stbtic {
 
-        PrivilegedAction<Boolean> doMlibInitialization =
-            new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    String arch = System.getProperty("os.arch");
+        PrivilegedAction<Boolebn> doMlibInitiblizbtion =
+            new PrivilegedAction<Boolebn>() {
+                public Boolebn run() {
+                    String brch = System.getProperty("os.brch");
 
-                    if (arch == null || !arch.startsWith("sparc")) {
+                    if (brch == null || !brch.stbrtsWith("spbrc")) {
                         try {
-                            System.loadLibrary("mlib_image");
-                        } catch (UnsatisfiedLinkError e) {
-                            return Boolean.FALSE;
+                            System.lobdLibrbry("mlib_imbge");
+                        } cbtch (UnsbtisfiedLinkError e) {
+                            return Boolebn.FALSE;
                         }
 
                     }
-                    boolean success =  init();
-                    return Boolean.valueOf(success);
+                    boolebn success =  init();
+                    return Boolebn.vblueOf(success);
                 }
             };
 
-        useLib = AccessController.doPrivileged(doMlibInitialization);
+        useLib = AccessController.doPrivileged(doMlibInitiblizbtion);
 
         //
-        // Cache the class references of the operations we know about
-        // at the time this class is initially loaded.
+        // Cbche the clbss references of the operbtions we know bbout
+        // bt the time this clbss is initiblly lobded.
         //
         try {
-            nativeOpClass[LOOKUP_OP] =
-                Class.forName("java.awt.image.LookupOp");
-        } catch (ClassNotFoundException e) {
-            System.err.println("Could not find class: "+e);
+            nbtiveOpClbss[LOOKUP_OP] =
+                Clbss.forNbme("jbvb.bwt.imbge.LookupOp");
+        } cbtch (ClbssNotFoundException e) {
+            System.err.println("Could not find clbss: "+e);
         }
         try {
-            nativeOpClass[AFFINE_OP] =
-                Class.forName("java.awt.image.AffineTransformOp");
-        } catch (ClassNotFoundException e) {
-            System.err.println("Could not find class: "+e);
+            nbtiveOpClbss[AFFINE_OP] =
+                Clbss.forNbme("jbvb.bwt.imbge.AffineTrbnsformOp");
+        } cbtch (ClbssNotFoundException e) {
+            System.err.println("Could not find clbss: "+e);
         }
         try {
-            nativeOpClass[CONVOLVE_OP] =
-                Class.forName("java.awt.image.ConvolveOp");
-        } catch (ClassNotFoundException e) {
-            System.err.println("Could not find class: "+e);
+            nbtiveOpClbss[CONVOLVE_OP] =
+                Clbss.forNbme("jbvb.bwt.imbge.ConvolveOp");
+        } cbtch (ClbssNotFoundException e) {
+            System.err.println("Could not find clbss: "+e);
         }
 
     }
 
-    private static int getNativeOpIndex(Class<?> opClass) {
+    privbte stbtic int getNbtiveOpIndex(Clbss<?> opClbss) {
         //
-        // Search for this class in cached list of
-        // classes supplying native acceleration
+        // Sebrch for this clbss in cbched list of
+        // clbsses supplying nbtive bccelerbtion
         //
         int opIndex = -1;
         for (int i=0; i<NUM_NATIVE_OPS; i++) {
-            if (opClass == nativeOpClass[i]) {
+            if (opClbss == nbtiveOpClbss[i]) {
                 opIndex = i;
-                break;
+                brebk;
             }
         }
         return opIndex;
     }
 
 
-    public static WritableRaster filter(RasterOp op, Raster src,
-                                        WritableRaster dst) {
-        if (useLib == false) {
+    public stbtic WritbbleRbster filter(RbsterOp op, Rbster src,
+                                        WritbbleRbster dst) {
+        if (useLib == fblse) {
             return null;
         }
 
-        // Create the destination tile
+        // Crebte the destinbtion tile
         if (dst == null) {
-            dst = op.createCompatibleDestRaster(src);
+            dst = op.crebteCompbtibleDestRbster(src);
         }
 
 
-        WritableRaster retRaster = null;
-        switch (getNativeOpIndex(op.getClass())) {
+        WritbbleRbster retRbster = null;
+        switch (getNbtiveOpIndex(op.getClbss())) {
 
-          case LOOKUP_OP:
+          cbse LOOKUP_OP:
             // REMIND: Fix this!
-            LookupTable table = ((LookupOp)op).getTable();
-            if (table.getOffset() != 0) {
-                // Right now the native code doesn't support offsets
+            LookupTbble tbble = ((LookupOp)op).getTbble();
+            if (tbble.getOffset() != 0) {
+                // Right now the nbtive code doesn't support offsets
                 return null;
             }
-            if (table instanceof ByteLookupTable) {
-                ByteLookupTable bt = (ByteLookupTable) table;
-                if (lookupByteRaster(src, dst, bt.getTable()) > 0) {
-                    retRaster = dst;
+            if (tbble instbnceof ByteLookupTbble) {
+                ByteLookupTbble bt = (ByteLookupTbble) tbble;
+                if (lookupByteRbster(src, dst, bt.getTbble()) > 0) {
+                    retRbster = dst;
                 }
             }
-            break;
+            brebk;
 
-          case AFFINE_OP:
-            AffineTransformOp bOp = (AffineTransformOp) op;
-            double[] matrix = new double[6];
-            bOp.getTransform().getMatrix(matrix);
-            if (transformRaster(src, dst, matrix,
-                                bOp.getInterpolationType()) > 0) {
-                retRaster =  dst;
+          cbse AFFINE_OP:
+            AffineTrbnsformOp bOp = (AffineTrbnsformOp) op;
+            double[] mbtrix = new double[6];
+            bOp.getTrbnsform().getMbtrix(mbtrix);
+            if (trbnsformRbster(src, dst, mbtrix,
+                                bOp.getInterpolbtionType()) > 0) {
+                retRbster =  dst;
             }
-            break;
+            brebk;
 
-          case CONVOLVE_OP:
+          cbse CONVOLVE_OP:
             ConvolveOp cOp = (ConvolveOp) op;
-            if (convolveRaster(src, dst,
+            if (convolveRbster(src, dst,
                                cOp.getKernel(), cOp.getEdgeCondition()) > 0) {
-                retRaster = dst;
+                retRbster = dst;
             }
-            break;
+            brebk;
 
-          default:
-            break;
+          defbult:
+            brebk;
         }
 
-        if (retRaster != null) {
-            SunWritableRaster.markDirty(retRaster);
+        if (retRbster != null) {
+            SunWritbbleRbster.mbrkDirty(retRbster);
         }
 
-        return retRaster;
+        return retRbster;
     }
 
 
-    public static BufferedImage filter(BufferedImageOp op, BufferedImage src,
-                                       BufferedImage dst)
+    public stbtic BufferedImbge filter(BufferedImbgeOp op, BufferedImbge src,
+                                       BufferedImbge dst)
     {
         if (verbose) {
-            System.out.println("in filter and op is "+op
-                               + "bufimage is "+src+" and "+dst);
+            System.out.println("in filter bnd op is "+op
+                               + "bufimbge is "+src+" bnd "+dst);
         }
 
-        if (useLib == false) {
+        if (useLib == fblse) {
             return null;
         }
 
-        // Create the destination image
+        // Crebte the destinbtion imbge
         if (dst == null) {
-            dst = op.createCompatibleDestImage(src, null);
+            dst = op.crebteCompbtibleDestImbge(src, null);
         }
 
-        BufferedImage retBI = null;
-        switch (getNativeOpIndex(op.getClass())) {
+        BufferedImbge retBI = null;
+        switch (getNbtiveOpIndex(op.getClbss())) {
 
-          case LOOKUP_OP:
+          cbse LOOKUP_OP:
             // REMIND: Fix this!
-            LookupTable table = ((LookupOp)op).getTable();
-            if (table.getOffset() != 0) {
-                // Right now the native code doesn't support offsets
+            LookupTbble tbble = ((LookupOp)op).getTbble();
+            if (tbble.getOffset() != 0) {
+                // Right now the nbtive code doesn't support offsets
                 return null;
             }
-            if (table instanceof ByteLookupTable) {
-                ByteLookupTable bt = (ByteLookupTable) table;
-                if (lookupByteBI(src, dst, bt.getTable()) > 0) {
+            if (tbble instbnceof ByteLookupTbble) {
+                ByteLookupTbble bt = (ByteLookupTbble) tbble;
+                if (lookupByteBI(src, dst, bt.getTbble()) > 0) {
                     retBI = dst;
                 }
             }
-            break;
+            brebk;
 
-          case AFFINE_OP:
-            AffineTransformOp bOp = (AffineTransformOp) op;
-            double[] matrix = new double[6];
-            AffineTransform xform = bOp.getTransform();
-            bOp.getTransform().getMatrix(matrix);
+          cbse AFFINE_OP:
+            AffineTrbnsformOp bOp = (AffineTrbnsformOp) op;
+            double[] mbtrix = new double[6];
+            AffineTrbnsform xform = bOp.getTrbnsform();
+            bOp.getTrbnsform().getMbtrix(mbtrix);
 
-            if (transformBI(src, dst, matrix,
-                            bOp.getInterpolationType())>0) {
+            if (trbnsformBI(src, dst, mbtrix,
+                            bOp.getInterpolbtionType())>0) {
                 retBI = dst;
             }
-            break;
+            brebk;
 
-          case CONVOLVE_OP:
+          cbse CONVOLVE_OP:
             ConvolveOp cOp = (ConvolveOp) op;
             if (convolveBI(src, dst, cOp.getKernel(),
                            cOp.getEdgeCondition()) > 0) {
                 retBI = dst;
             }
-            break;
+            brebk;
 
-          default:
-            break;
+          defbult:
+            brebk;
         }
 
         if (retBI != null) {
-            SunWritableRaster.markDirty(retBI);
+            SunWritbbleRbster.mbrkDirty(retBI);
         }
 
         return retBI;

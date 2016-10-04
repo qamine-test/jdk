@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -34,112 +34,112 @@ extern "C" {
 
 #include "debug_util.h"
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__
 #endif
 
-typedef int     dtrace_id;
+typedef int     dtrbce_id;
 enum {
-    UNDEFINED_TRACE_ID = -1 /* indicates trace point has not been registered yet */
+    UNDEFINED_TRACE_ID = -1 /* indicbtes trbce point hbs not been registered yet */
 };
 
-/* prototype for client provided output callback function */
-typedef void (*DTRACE_OUTPUT_CALLBACK)(const char * msg);
+/* prototype for client provided output cbllbbck function */
+typedef void (*DTRACE_OUTPUT_CALLBACK)(const chbr * msg);
 
-/* prototype for client provided print callback function */
-typedef void (*DTRACE_PRINT_CALLBACK)(const char * file, int line, int argc, const char * fmt, va_list arglist);
+/* prototype for client provided print cbllbbck function */
+typedef void (*DTRACE_PRINT_CALLBACK)(const chbr * file, int line, int brgc, const chbr * fmt, vb_list brglist);
 
-extern void DTrace_EnableAll(dbool_t enabled);
-extern void DTrace_EnableFile(const char * file, dbool_t enabled);
-extern void DTrace_EnableLine(const char * file, int linenum, dbool_t enabled);
-extern void DTrace_SetOutputCallback(DTRACE_OUTPUT_CALLBACK pfn);
-extern void DTrace_Initialize();
-extern void DTrace_Shutdown();
-void DTrace_DisableMutex();
-extern void DTrace_VPrintImpl(const char * fmt, va_list arglist);
-extern void DTrace_PrintImpl(const char * fmt, ...);
-extern void DTrace_PrintFunction(DTRACE_PRINT_CALLBACK pfn, dtrace_id * pFileTraceId, dtrace_id * pTraceId, const char * file, int line, int argc, const char * fmt, ...);
+extern void DTrbce_EnbbleAll(dbool_t enbbled);
+extern void DTrbce_EnbbleFile(const chbr * file, dbool_t enbbled);
+extern void DTrbce_EnbbleLine(const chbr * file, int linenum, dbool_t enbbled);
+extern void DTrbce_SetOutputCbllbbck(DTRACE_OUTPUT_CALLBACK pfn);
+extern void DTrbce_Initiblize();
+extern void DTrbce_Shutdown();
+void DTrbce_DisbbleMutex();
+extern void DTrbce_VPrintImpl(const chbr * fmt, vb_list brglist);
+extern void DTrbce_PrintImpl(const chbr * fmt, ...);
+extern void DTrbce_PrintFunction(DTRACE_PRINT_CALLBACK pfn, dtrbce_id * pFileTrbceId, dtrbce_id * pTrbceId, const chbr * file, int line, int brgc, const chbr * fmt, ...);
 
-/* these functions are exported only for use in macros-- do not call them directly!!! */
-extern void DTrace_VPrint(const char * file, int line, int argc, const char * fmt, va_list arglist);
-extern void DTrace_VPrintln(const char * file, int line, int argc, const char * fmt, va_list arglist);
+/* these functions bre exported only for use in mbcros-- do not cbll them directly!!! */
+extern void DTrbce_VPrint(const chbr * file, int line, int brgc, const chbr * fmt, vb_list brglist);
+extern void DTrbce_VPrintln(const chbr * file, int line, int brgc, const chbr * fmt, vb_list brglist);
 
-/* each file includes this flag indicating module trace status */
-static dtrace_id        _Dt_FileTraceId = UNDEFINED_TRACE_ID;
+/* ebch file includes this flbg indicbting module trbce stbtus */
+stbtic dtrbce_id        _Dt_FileTrbceId = UNDEFINED_TRACE_ID;
 
-/* not meant to be called from client code--
- * it's just a template for the other macros
+/* not mebnt to be cblled from client code--
+ * it's just b templbte for the other mbcros
  */
-#define _DTrace_Template(_func, _ac, _f, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8) \
+#define _DTrbce_Templbte(_func, _bc, _f, _b1, _b2, _b3, _b4, _b5, _b6, _b7, _b8) \
 { \
-    static dtrace_id _dt_lineid_ = UNDEFINED_TRACE_ID; \
-    DTrace_PrintFunction((_func), &_Dt_FileTraceId, &_dt_lineid_, THIS_FILE, __LINE__, (_ac), (_f), (_a1), (_a2), (_a3), (_a4), (_a5), (_a6), (_a7), (_a8) ); \
+    stbtic dtrbce_id _dt_lineid_ = UNDEFINED_TRACE_ID; \
+    DTrbce_PrintFunction((_func), &_Dt_FileTrbceId, &_dt_lineid_, THIS_FILE, __LINE__, (_bc), (_f), (_b1), (_b2), (_b3), (_b4), (_b5), (_b6), (_b7), (_b8) ); \
 }
 
-/* printf style trace macros */
+/* printf style trbce mbcros */
 #define DTRACE_PRINT(_fmt) \
-        _DTrace_Template(DTrace_VPrint, 0, (_fmt), 0, 0, 0, 0, 0, 0, 0, 0)
-#define DTRACE_PRINT1(_fmt, _arg1) \
-        _DTrace_Template(DTrace_VPrint, 1, (_fmt), (_arg1), 0, 0, 0, 0, 0, 0, 0)
-#define DTRACE_PRINT2(_fmt, _arg1, _arg2) \
-        _DTrace_Template(DTrace_VPrint, 2, (_fmt), (_arg1), (_arg2), 0, 0, 0, 0, 0, 0)
-#define DTRACE_PRINT3(_fmt, _arg1, _arg2, _arg3) \
-        _DTrace_Template(DTrace_VPrint, 3, (_fmt), (_arg1), (_arg2), (_arg3), 0, 0, 0, 0, 0)
-#define DTRACE_PRINT4(_fmt, _arg1, _arg2, _arg3, _arg4) \
-        _DTrace_Template(DTrace_VPrint, 4, (_fmt), (_arg1), (_arg2), (_arg3), (_arg4), 0, 0, 0, 0)
-#define DTRACE_PRINT5(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5) \
-        _DTrace_Template(DTrace_VPrint, 5, (_fmt), (_arg1), (_arg2), (_arg3), (_arg4), (_arg5), 0, 0, 0)
-#define DTRACE_PRINT6(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6) \
-        _DTrace_Template(DTrace_VPrint, 6, (_fmt), (_arg1), (_arg2), (_arg3), (_arg4), (_arg5), (_arg6), 0, 0)
-#define DTRACE_PRINT7(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7) \
-        _DTrace_Template(DTrace_VPrint, 7, (_fmt), (_arg1), (_arg2), (_arg3), (_arg4), (_arg5), (_arg6), (_arg7), 0)
-#define DTRACE_PRINT8(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8) \
-        _DTrace_Template(DTrace_VPrint, 8, (_fmt), (_arg1), (_arg2), (_arg3), (_arg4), (_arg5), (_arg6), (_arg7), (_arg8))
+        _DTrbce_Templbte(DTrbce_VPrint, 0, (_fmt), 0, 0, 0, 0, 0, 0, 0, 0)
+#define DTRACE_PRINT1(_fmt, _brg1) \
+        _DTrbce_Templbte(DTrbce_VPrint, 1, (_fmt), (_brg1), 0, 0, 0, 0, 0, 0, 0)
+#define DTRACE_PRINT2(_fmt, _brg1, _brg2) \
+        _DTrbce_Templbte(DTrbce_VPrint, 2, (_fmt), (_brg1), (_brg2), 0, 0, 0, 0, 0, 0)
+#define DTRACE_PRINT3(_fmt, _brg1, _brg2, _brg3) \
+        _DTrbce_Templbte(DTrbce_VPrint, 3, (_fmt), (_brg1), (_brg2), (_brg3), 0, 0, 0, 0, 0)
+#define DTRACE_PRINT4(_fmt, _brg1, _brg2, _brg3, _brg4) \
+        _DTrbce_Templbte(DTrbce_VPrint, 4, (_fmt), (_brg1), (_brg2), (_brg3), (_brg4), 0, 0, 0, 0)
+#define DTRACE_PRINT5(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5) \
+        _DTrbce_Templbte(DTrbce_VPrint, 5, (_fmt), (_brg1), (_brg2), (_brg3), (_brg4), (_brg5), 0, 0, 0)
+#define DTRACE_PRINT6(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5, _brg6) \
+        _DTrbce_Templbte(DTrbce_VPrint, 6, (_fmt), (_brg1), (_brg2), (_brg3), (_brg4), (_brg5), (_brg6), 0, 0)
+#define DTRACE_PRINT7(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5, _brg6, _brg7) \
+        _DTrbce_Templbte(DTrbce_VPrint, 7, (_fmt), (_brg1), (_brg2), (_brg3), (_brg4), (_brg5), (_brg6), (_brg7), 0)
+#define DTRACE_PRINT8(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5, _brg6, _brg7, _brg8) \
+        _DTrbce_Templbte(DTrbce_VPrint, 8, (_fmt), (_brg1), (_brg2), (_brg3), (_brg4), (_brg5), (_brg6), (_brg7), (_brg8))
 
-/* printf style trace macros that automatically output a newline */
+/* printf style trbce mbcros thbt butombticblly output b newline */
 #define DTRACE_PRINTLN(_fmt) \
-        _DTrace_Template(DTrace_VPrintln, 0, (_fmt), 0, 0, 0, 0, 0, 0, 0, 0)
-#define DTRACE_PRINTLN1(_fmt, _arg1) \
-        _DTrace_Template(DTrace_VPrintln, 1, (_fmt), (_arg1), 0, 0, 0, 0, 0, 0, 0)
-#define DTRACE_PRINTLN2(_fmt, _arg1, _arg2) \
-        _DTrace_Template(DTrace_VPrintln, 2, (_fmt), (_arg1), (_arg2), 0, 0, 0, 0, 0, 0)
-#define DTRACE_PRINTLN3(_fmt, _arg1, _arg2, _arg3) \
-        _DTrace_Template(DTrace_VPrintln, 3, (_fmt), (_arg1), (_arg2), (_arg3), 0, 0, 0, 0, 0)
-#define DTRACE_PRINTLN4(_fmt, _arg1, _arg2, _arg3, _arg4) \
-        _DTrace_Template(DTrace_VPrintln, 4, (_fmt), (_arg1), (_arg2), (_arg3), (_arg4), 0, 0, 0, 0)
-#define DTRACE_PRINTLN5(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5) \
-        _DTrace_Template(DTrace_VPrintln, 5, (_fmt), (_arg1), (_arg2), (_arg3), (_arg4), (_arg5), 0, 0, 0)
-#define DTRACE_PRINTLN6(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6) \
-        _DTrace_Template(DTrace_VPrintln, 6, (_fmt), (_arg1), (_arg2), (_arg3), (_arg4), (_arg5), (_arg6), 0, 0)
-#define DTRACE_PRINTLN7(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7) \
-        _DTrace_Template(DTrace_VPrintln, 7, (_fmt), (_arg1), (_arg2), (_arg3), (_arg4), (_arg5), (_arg6), (_arg7), 0)
-#define DTRACE_PRINTLN8(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8) \
-        _DTrace_Template(DTrace_VPrintln, 8, (_fmt), (_arg1), (_arg2), (_arg3), (_arg4), (_arg5), (_arg6), (_arg7), (_arg8))
+        _DTrbce_Templbte(DTrbce_VPrintln, 0, (_fmt), 0, 0, 0, 0, 0, 0, 0, 0)
+#define DTRACE_PRINTLN1(_fmt, _brg1) \
+        _DTrbce_Templbte(DTrbce_VPrintln, 1, (_fmt), (_brg1), 0, 0, 0, 0, 0, 0, 0)
+#define DTRACE_PRINTLN2(_fmt, _brg1, _brg2) \
+        _DTrbce_Templbte(DTrbce_VPrintln, 2, (_fmt), (_brg1), (_brg2), 0, 0, 0, 0, 0, 0)
+#define DTRACE_PRINTLN3(_fmt, _brg1, _brg2, _brg3) \
+        _DTrbce_Templbte(DTrbce_VPrintln, 3, (_fmt), (_brg1), (_brg2), (_brg3), 0, 0, 0, 0, 0)
+#define DTRACE_PRINTLN4(_fmt, _brg1, _brg2, _brg3, _brg4) \
+        _DTrbce_Templbte(DTrbce_VPrintln, 4, (_fmt), (_brg1), (_brg2), (_brg3), (_brg4), 0, 0, 0, 0)
+#define DTRACE_PRINTLN5(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5) \
+        _DTrbce_Templbte(DTrbce_VPrintln, 5, (_fmt), (_brg1), (_brg2), (_brg3), (_brg4), (_brg5), 0, 0, 0)
+#define DTRACE_PRINTLN6(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5, _brg6) \
+        _DTrbce_Templbte(DTrbce_VPrintln, 6, (_fmt), (_brg1), (_brg2), (_brg3), (_brg4), (_brg5), (_brg6), 0, 0)
+#define DTRACE_PRINTLN7(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5, _brg6, _brg7) \
+        _DTrbce_Templbte(DTrbce_VPrintln, 7, (_fmt), (_brg1), (_brg2), (_brg3), (_brg4), (_brg5), (_brg6), (_brg7), 0)
+#define DTRACE_PRINTLN8(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5, _brg6, _brg7, _brg8) \
+        _DTrbce_Templbte(DTrbce_VPrintln, 8, (_fmt), (_brg1), (_brg2), (_brg3), (_brg4), (_brg5), (_brg6), (_brg7), (_brg8))
 
 #else /* else DEBUG not defined */
 
-/* printf style trace macros */
+/* printf style trbce mbcros */
 #define DTRACE_PRINT(_fmt)
-#define DTRACE_PRINT1(_fmt, _arg1)
-#define DTRACE_PRINT2(_fmt, _arg1, _arg2)
-#define DTRACE_PRINT3(_fmt, _arg1, _arg2, _arg3)
-#define DTRACE_PRINT4(_fmt, _arg1, _arg2, _arg3, _arg4)
-#define DTRACE_PRINT5(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5)
-#define DTRACE_PRINT6(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6)
-#define DTRACE_PRINT7(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7)
-#define DTRACE_PRINT8(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8)
+#define DTRACE_PRINT1(_fmt, _brg1)
+#define DTRACE_PRINT2(_fmt, _brg1, _brg2)
+#define DTRACE_PRINT3(_fmt, _brg1, _brg2, _brg3)
+#define DTRACE_PRINT4(_fmt, _brg1, _brg2, _brg3, _brg4)
+#define DTRACE_PRINT5(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5)
+#define DTRACE_PRINT6(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5, _brg6)
+#define DTRACE_PRINT7(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5, _brg6, _brg7)
+#define DTRACE_PRINT8(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5, _brg6, _brg7, _brg8)
 
-/* printf style trace macros that automatically output a newline */
+/* printf style trbce mbcros thbt butombticblly output b newline */
 #define DTRACE_PRINTLN(_fmt)
-#define DTRACE_PRINTLN1(_fmt, _arg1)
-#define DTRACE_PRINTLN2(_fmt, _arg1, _arg2)
-#define DTRACE_PRINTLN3(_fmt, _arg1, _arg2, _arg3)
-#define DTRACE_PRINTLN4(_fmt, _arg1, _arg2, _arg3, _arg4)
-#define DTRACE_PRINTLN5(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5)
-#define DTRACE_PRINTLN6(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6)
-#define DTRACE_PRINTLN7(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7)
-#define DTRACE_PRINTLN8(_fmt, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8)
+#define DTRACE_PRINTLN1(_fmt, _brg1)
+#define DTRACE_PRINTLN2(_fmt, _brg1, _brg2)
+#define DTRACE_PRINTLN3(_fmt, _brg1, _brg2, _brg3)
+#define DTRACE_PRINTLN4(_fmt, _brg1, _brg2, _brg3, _brg4)
+#define DTRACE_PRINTLN5(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5)
+#define DTRACE_PRINTLN6(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5, _brg6)
+#define DTRACE_PRINTLN7(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5, _brg6, _brg7)
+#define DTRACE_PRINTLN8(_fmt, _brg1, _brg2, _brg3, _brg4, _brg5, _brg6, _brg7, _brg8)
 
 #endif /* endif DEBUG defined */
 

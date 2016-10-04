@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.generics.scope;
+pbckbge sun.reflect.generics.scope;
 
-import java.lang.reflect.Constructor;
+import jbvb.lbng.reflect.Constructor;
 
 
 /**
- * This class represents the scope containing the type variables of
- * a constructor.
+ * This clbss represents the scope contbining the type vbribbles of
+ * b constructor.
  */
-public class ConstructorScope extends AbstractScope<Constructor<?>> {
+public clbss ConstructorScope extends AbstrbctScope<Constructor<?>> {
 
-    // constructor is private to enforce use of factory method
-    private ConstructorScope(Constructor<?> c){
+    // constructor is privbte to enforce use of fbctory method
+    privbte ConstructorScope(Constructor<?> c){
         super(c);
     }
 
-    // utility method; computes enclosing class, from which we can
+    // utility method; computes enclosing clbss, from which we cbn
     // derive enclosing scope.
-    private Class<?> getEnclosingClass(){
-        return getRecvr().getDeclaringClass();
+    privbte Clbss<?> getEnclosingClbss(){
+        return getRecvr().getDeclbringClbss();
     }
 
     /**
-     * Overrides the abstract method in the superclass.
+     * Overrides the bbstrbct method in the superclbss.
      * @return the enclosing scope
      */
     protected Scope computeEnclosingScope() {
-        // the enclosing scope of a (generic) constructor is the scope of the
-        // class in which it was declared.
-        return ClassScope.make(getEnclosingClass());
+        // the enclosing scope of b (generic) constructor is the scope of the
+        // clbss in which it wbs declbred.
+        return ClbssScope.mbke(getEnclosingClbss());
     }
 
     /**
-     * Factory method. Takes a <tt>Constructor</tt> object and creates a
+     * Fbctory method. Tbkes b <tt>Constructor</tt> object bnd crebtes b
      * scope for it.
-     * @param m - A Constructor whose scope we want to obtain
-     * @return The type-variable scope for the constructor m
+     * @pbrbm m - A Constructor whose scope we wbnt to obtbin
+     * @return The type-vbribble scope for the constructor m
      */
-    public static ConstructorScope make(Constructor<?> c) {
+    public stbtic ConstructorScope mbke(Constructor<?> c) {
         return new ConstructorScope(c);
     }
 }

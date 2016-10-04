@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2002, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.gtk;
+pbckbge com.sun.jbvb.swing.plbf.gtk;
 
-import javax.swing.*;
-import javax.swing.plaf.synth.*;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.synth.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Rectbngle;
 
 /**
- * @author Joshua Outwater
+ * @buthor Joshub Outwbter
  */
-class GTKGraphicsUtils extends SynthGraphicsUtils {
-    public void paintText(SynthContext context, Graphics g, String text,
+clbss GTKGrbphicsUtils extends SynthGrbphicsUtils {
+    public void pbintText(SynthContext context, Grbphics g, String text,
                           int x, int y, int mnemonicIndex) {
         if (text == null || text.length() <= 0) {
-            // We don't need to paint empty strings
+            // We don't need to pbint empty strings
             return;
         }
 
         if (context.getRegion() == Region.INTERNAL_FRAME_TITLE_PANE) {
-            // Metacity handles painting of text on internal frame title,
+            // Metbcity hbndles pbinting of text on internbl frbme title,
             // ignore this.
             return;
         }
-        int componentState = context.getComponentState();
-        if ((componentState & SynthConstants.DISABLED) ==
-                              SynthConstants.DISABLED){
+        int componentStbte = context.getComponentStbte();
+        if ((componentStbte & SynthConstbnts.DISABLED) ==
+                              SynthConstbnts.DISABLED){
             Color orgColor = g.getColor();
             g.setColor(context.getStyle().getColor(context,
                                                    GTKColorType.WHITE));
             x += 1;
             y += 1;
-            super.paintText(context, g, text, x, y, mnemonicIndex);
+            super.pbintText(context, g, text, x, y, mnemonicIndex);
 
             g.setColor(orgColor);
             x -= 1;
             y -= 1;
-            super.paintText(context, g, text, x, y, mnemonicIndex);
+            super.pbintText(context, g, text, x, y, mnemonicIndex);
         }
         else {
-            String themeName = GTKLookAndFeel.getGtkThemeName();
-            if (themeName != null && themeName.startsWith("blueprint") &&
-                shouldShadowText(context.getRegion(), componentState)) {
+            String themeNbme = GTKLookAndFeel.getGtkThemeNbme();
+            if (themeNbme != null && themeNbme.stbrtsWith("blueprint") &&
+                shouldShbdowText(context.getRegion(), componentStbte)) {
 
                 g.setColor(Color.BLACK);
-                super.paintText(context, g, text, x+1, y+1, mnemonicIndex);
+                super.pbintText(context, g, text, x+1, y+1, mnemonicIndex);
                 g.setColor(Color.WHITE);
             }
 
-            super.paintText(context, g, text, x, y, mnemonicIndex);
+            super.pbintText(context, g, text, x, y, mnemonicIndex);
         }
     }
 
     /**
-     * Paints text at the specified location. This will not attempt to
-     * render the text as html nor will it offset by the insets of the
+     * Pbints text bt the specified locbtion. This will not bttempt to
+     * render the text bs html nor will it offset by the insets of the
      * component.
      *
-     * @param ss SynthContext
-     * @param g Graphics used to render string in.
-     * @param text Text to render
-     * @param bounds Bounds of the text to be drawn.
-     * @param mnemonicIndex Index to draw string at.
+     * @pbrbm ss SynthContext
+     * @pbrbm g Grbphics used to render string in.
+     * @pbrbm text Text to render
+     * @pbrbm bounds Bounds of the text to be drbwn.
+     * @pbrbm mnemonicIndex Index to drbw string bt.
      */
-    public void paintText(SynthContext context, Graphics g, String text,
-                          Rectangle bounds, int mnemonicIndex) {
+    public void pbintText(SynthContext context, Grbphics g, String text,
+                          Rectbngle bounds, int mnemonicIndex) {
         if (text == null || text.length() <= 0) {
-            // We don't need to paint empty strings
+            // We don't need to pbint empty strings
             return;
         }
 
@@ -97,45 +97,45 @@ class GTKGraphicsUtils extends SynthGraphicsUtils {
         if ((id == Region.RADIO_BUTTON ||
              id == Region.CHECK_BOX ||
              id == Region.TABBED_PANE_TAB) &&
-            (context.getComponentState() & SynthConstants.FOCUSED) != 0)
+            (context.getComponentStbte() & SynthConstbnts.FOCUSED) != 0)
         {
             JComponent source = context.getComponent();
-            if (!(source instanceof AbstractButton) ||
-                ((AbstractButton)source).isFocusPainted()) {
+            if (!(source instbnceof AbstrbctButton) ||
+                ((AbstrbctButton)source).isFocusPbinted()) {
 
-                // The "bounds" parameter encompasses only the actual text;
-                // when drawing the focus, we need to expand that bounding
-                // box by "focus-line-width" plus "focus-padding".  Note that
-                // the layout process for these components will have already
-                // taken these values into account, so there should always
-                // be enough space allocated for drawing the focus indicator.
-                int synthState = context.getComponentState();
+                // The "bounds" pbrbmeter encompbsses only the bctubl text;
+                // when drbwing the focus, we need to expbnd thbt bounding
+                // box by "focus-line-width" plus "focus-pbdding".  Note thbt
+                // the lbyout process for these components will hbve blrebdy
+                // tbken these vblues into bccount, so there should blwbys
+                // be enough spbce bllocbted for drbwing the focus indicbtor.
+                int synthStbte = context.getComponentStbte();
                 GTKStyle style = (GTKStyle)context.getStyle();
                 int focusSize =
-                    style.getClassSpecificIntValue(context,
+                    style.getClbssSpecificIntVblue(context,
                                                    "focus-line-width", 1);
-                int focusPad =
-                    style.getClassSpecificIntValue(context,
-                                                   "focus-padding", 1);
-                int totalFocus = focusSize + focusPad;
-                int x = bounds.x - totalFocus;
-                int y = bounds.y - totalFocus;
-                int w = bounds.width  + (2 * totalFocus);
-                int h = bounds.height + (2 * totalFocus);
+                int focusPbd =
+                    style.getClbssSpecificIntVblue(context,
+                                                   "focus-pbdding", 1);
+                int totblFocus = focusSize + focusPbd;
+                int x = bounds.x - totblFocus;
+                int y = bounds.y - totblFocus;
+                int w = bounds.width  + (2 * totblFocus);
+                int h = bounds.height + (2 * totblFocus);
 
                 Color color = g.getColor();
-                GTKPainter.INSTANCE.paintFocus(context, g, id,
-                                               synthState, "checkbutton",
+                GTKPbinter.INSTANCE.pbintFocus(context, g, id,
+                                               synthStbte, "checkbutton",
                                                x, y, w, h);
                 g.setColor(color);
             }
         }
-        super.paintText(context, g, text, bounds, mnemonicIndex);
+        super.pbintText(context, g, text, bounds, mnemonicIndex);
     }
 
-    private static boolean shouldShadowText(Region id, int state) {
-        int gtkState = GTKLookAndFeel.synthStateToGTKState(id, state);
-        return((gtkState == SynthConstants.MOUSE_OVER) &&
+    privbte stbtic boolebn shouldShbdowText(Region id, int stbte) {
+        int gtkStbte = GTKLookAndFeel.synthStbteToGTKStbte(id, stbte);
+        return((gtkStbte == SynthConstbnts.MOUSE_OVER) &&
                (id == Region.MENU ||
                 id == Region.MENU_ITEM ||
                 id == Region.CHECK_BOX_MENU_ITEM ||

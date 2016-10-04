@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "ApplicationDelegate.h"
+#import "ApplicbtionDelegbte.h"
 
-#import "com_apple_eawt_Application.h"
-#import "com_apple_eawt__AppDockIconHandler.h"
-#import "com_apple_eawt__AppEventHandler.h"
-#import "com_apple_eawt__AppMenuBarHandler.h"
-#import "com_apple_eawt__AppMenuBarHandler.h"
-#import "com_apple_eawt__AppMiscHandlers.h"
+#import "com_bpple_ebwt_Applicbtion.h"
+#import "com_bpple_ebwt__AppDockIconHbndler.h"
+#import "com_bpple_ebwt__AppEventHbndler.h"
+#import "com_bpple_ebwt__AppMenuBbrHbndler.h"
+#import "com_bpple_ebwt__AppMenuBbrHbndler.h"
+#import "com_bpple_ebwt__AppMiscHbndlers.h"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 #import "CPopupMenu.h"
-#import "ThreadUtilities.h"
-#import "NSApplicationAWT.h"
+#import "ThrebdUtilities.h"
+#import "NSApplicbtionAWT.h"
 
 
-#pragma mark App Menu helpers
+#prbgmb mbrk App Menu helpers
 
-// The following is a AWT convention?
+// The following is b AWT convention?
 #define PREFERENCES_TAG  42
 
-static void addMenuItem(NSMenuItem* menuItem, NSInteger index) {
+stbtic void bddMenuItem(NSMenuItem* menuItem, NSInteger index) {
 AWT_ASSERT_APPKIT_THREAD;
 
-    NSMenu *menuBar = [[NSApplication sharedApplication] mainMenu];
-    NSMenu *appMenu = [[menuBar itemAtIndex:0] submenu];
+    NSMenu *menuBbr = [[NSApplicbtion shbredApplicbtion] mbinMenu];
+    NSMenu *bppMenu = [[menuBbr itemAtIndex:0] submenu];
 
-    [appMenu insertItem:menuItem atIndex:index];
-    [appMenu insertItem:[NSMenuItem separatorItem] atIndex:index + 1]; // Add the following separator
+    [bppMenu insertItem:menuItem btIndex:index];
+    [bppMenu insertItem:[NSMenuItem sepbrbtorItem] btIndex:index + 1]; // Add the following sepbrbtor
 }
 
-static void removeMenuItem(NSMenuItem* menuItem) {
+stbtic void removeMenuItem(NSMenuItem* menuItem) {
 AWT_ASSERT_APPKIT_THREAD;
 
-    NSMenu *menuBar = [[NSApplication sharedApplication] mainMenu];
-    NSMenu *appMenu = [[menuBar itemAtIndex:0] submenu];
+    NSMenu *menuBbr = [[NSApplicbtion shbredApplicbtion] mbinMenu];
+    NSMenu *bppMenu = [[menuBbr itemAtIndex:0] submenu];
 
-    NSInteger index = [appMenu indexOfItem:menuItem];
+    NSInteger index = [bppMenu indexOfItem:menuItem];
     if (index < 0) return; // something went wrong
 
-    [appMenu removeItemAtIndex:index + 1]; // Get the following separator
-    [appMenu removeItem:menuItem];
+    [bppMenu removeItemAtIndex:index + 1]; // Get the following sepbrbtor
+    [bppMenu removeItem:menuItem];
 }
 
-@interface NSBundle (EAWTOverrides)
-- (BOOL)_hasEAWTOverride:(NSString *)key;
+@interfbce NSBundle (EAWTOverrides)
+- (BOOL)_hbsEAWTOverride:(NSString *)key;
 @end
 
 
-@implementation NSBundle (EAWTOverrides)
+@implementbtion NSBundle (EAWTOverrides)
 
-- (BOOL)_hasEAWTOverride:(NSString *)key {
-    return [[[[self objectForInfoDictionaryKey:@"Java"] objectForKey:@"EAWTOverride"] objectForKey:key] boolValue];
+- (BOOL)_hbsEAWTOverride:(NSString *)key {
+    return [[[[self objectForInfoDictionbryKey:@"Jbvb"] objectForKey:@"EAWTOverride"] objectForKey:key] boolVblue];
 }
 
 @end
 
 
-// used by JavaRuntimeSupport.framework's [JRSAppKitAWT awtAppDelegate]
-// to expose our app delegate to the SWT or other apps that have knoledge
-// of Java's AWT and want to install their own app delegate that will delegate
-// to the AWT for some operations
+// used by JbvbRuntimeSupport.frbmework's [JRSAppKitAWT bwtAppDelegbte]
+// to expose our bpp delegbte to the SWT or other bpps thbt hbve knoledge
+// of Jbvb's AWT bnd wbnt to instbll their own bpp delegbte thbt will delegbte
+// to the AWT for some operbtions
 
-@interface JavaAWTAppDelegateLoader : NSObject { }
+@interfbce JbvbAWTAppDelegbteLobder : NSObject { }
 @end
 
-@implementation JavaAWTAppDelegateLoader
-+ (ApplicationDelegate *) awtAppDelegate {
-    return [ApplicationDelegate sharedDelegate];
+@implementbtion JbvbAWTAppDelegbteLobder
++ (ApplicbtionDelegbte *) bwtAppDelegbte {
+    return [ApplicbtionDelegbte shbredDelegbte];
 }
 @end
 
 
-@implementation ApplicationDelegate
+@implementbtion ApplicbtionDelegbte
 
 @synthesize fPreferencesMenu;
 @synthesize fAboutMenu;
 
 @synthesize fDockMenu;
-@synthesize fDefaultMenuBar;
+@synthesize fDefbultMenuBbr;
 
 
-+ (ApplicationDelegate *)sharedDelegate {
-    static ApplicationDelegate *sApplicationDelegate = nil;
-    static BOOL checked = NO;
++ (ApplicbtionDelegbte *)shbredDelegbte {
+    stbtic ApplicbtionDelegbte *sApplicbtionDelegbte = nil;
+    stbtic BOOL checked = NO;
 
-    if (sApplicationDelegate != nil) return sApplicationDelegate;
+    if (sApplicbtionDelegbte != nil) return sApplicbtionDelegbte;
     if (checked) return nil;
 
 AWT_ASSERT_APPKIT_THREAD;
 
-    // don't install the EAWT delegate if another kind of NSApplication is installed, like say, Safari
-    BOOL shouldInstall = NO;
+    // don't instbll the EAWT delegbte if bnother kind of NSApplicbtion is instblled, like sby, Sbfbri
+    BOOL shouldInstbll = NO;
     if (NSApp != nil) {
-        if ([NSApp isMemberOfClass:[NSApplication class]]) shouldInstall = YES;
-        if ([NSApp isKindOfClass:[NSApplicationAWT class]]) shouldInstall = YES;
+        if ([NSApp isMemberOfClbss:[NSApplicbtion clbss]]) shouldInstbll = YES;
+        if ([NSApp isKindOfClbss:[NSApplicbtionAWT clbss]]) shouldInstbll = YES;
     }
     checked = YES;
-    if (!shouldInstall) return nil;
+    if (!shouldInstbll) return nil;
 
-    sApplicationDelegate = [[ApplicationDelegate alloc] init];
-    return sApplicationDelegate;
+    sApplicbtionDelegbte = [[ApplicbtionDelegbte blloc] init];
+    return sApplicbtionDelegbte;
 }
 
-- (void)_updatePreferencesMenu:(BOOL)prefsAvailable enabled:(BOOL)prefsEnabled {
+- (void)_updbtePreferencesMenu:(BOOL)prefsAvbilbble enbbled:(BOOL)prefsEnbbled {
 AWT_ASSERT_APPKIT_THREAD;
 
-    if (prefsAvailable) {
-        // Make sure Prefs is around
+    if (prefsAvbilbble) {
+        // Mbke sure Prefs is bround
         if ([self.fPreferencesMenu menu] == nil) {
-            // Position of Prefs depends upon About availability.
+            // Position of Prefs depends upon About bvbilbbility.
             NSInteger index = ([self.fAboutMenu menu] != nil) ? 2 : 0;
 
-            addMenuItem(self.fPreferencesMenu, index);
+            bddMenuItem(self.fPreferencesMenu, index);
         }
 
-        if (prefsEnabled) {
-            [self.fPreferencesMenu setEnabled:YES];
-            [self.fPreferencesMenu setTarget:self];
-            [self.fPreferencesMenu setAction:@selector(_preferencesMenuHandler)];
+        if (prefsEnbbled) {
+            [self.fPreferencesMenu setEnbbled:YES];
+            [self.fPreferencesMenu setTbrget:self];
+            [self.fPreferencesMenu setAction:@selector(_preferencesMenuHbndler)];
         } else {
-            [self.fPreferencesMenu setEnabled:NO];
-            [self.fPreferencesMenu setTarget:nil];
+            [self.fPreferencesMenu setEnbbled:NO];
+            [self.fPreferencesMenu setTbrget:nil];
             [self.fPreferencesMenu setAction:nil];
         }
     } else {
@@ -156,22 +156,22 @@ AWT_ASSERT_APPKIT_THREAD;
     }
 }
 
-- (void)_updateAboutMenu:(BOOL)aboutAvailable enabled:(BOOL)aboutEnabled {
+- (void)_updbteAboutMenu:(BOOL)bboutAvbilbble enbbled:(BOOL)bboutEnbbled {
 AWT_ASSERT_APPKIT_THREAD;
 
-    if (aboutAvailable) {
-        // Make sure About is around
+    if (bboutAvbilbble) {
+        // Mbke sure About is bround
         if ([self.fAboutMenu menu] == nil) {
-            addMenuItem(self.fAboutMenu, 0);
+            bddMenuItem(self.fAboutMenu, 0);
         }
 
-        if (aboutEnabled) {
-            [self.fAboutMenu setEnabled:YES];
-            [self.fAboutMenu setTarget:self];
-            [self.fAboutMenu setAction:@selector(_aboutMenuHandler)];
+        if (bboutEnbbled) {
+            [self.fAboutMenu setEnbbled:YES];
+            [self.fAboutMenu setTbrget:self];
+            [self.fAboutMenu setAction:@selector(_bboutMenuHbndler)];
         } else {
-            [self.fAboutMenu setEnabled:NO];
-            [self.fAboutMenu setTarget:nil];
+            [self.fAboutMenu setEnbbled:NO];
+            [self.fAboutMenu setTbrget:nil];
             [self.fAboutMenu setAction:nil];
         }
     } else {
@@ -188,570 +188,570 @@ AWT_ASSERT_APPKIT_THREAD;
     self = [super init];
     if (!self) return self;
 
-    // Prep for about and preferences menu
-    BOOL usingDefaultNib = YES;
-    if ([NSApp isKindOfClass:[NSApplicationAWT class]]) {
-        usingDefaultNib = [NSApp usingDefaultNib];
+    // Prep for bbout bnd preferences menu
+    BOOL usingDefbultNib = YES;
+    if ([NSApp isKindOfClbss:[NSApplicbtionAWT clbss]]) {
+        usingDefbultNib = [NSApp usingDefbultNib];
     }
-    if (!usingDefaultNib) return self;
+    if (!usingDefbultNib) return self;
 
-    NSMenu *menuBar = [[NSApplication sharedApplication] mainMenu];
-    NSMenu *appMenu = [[menuBar itemAtIndex:0] submenu];
+    NSMenu *menuBbr = [[NSApplicbtion shbredApplicbtion] mbinMenu];
+    NSMenu *bppMenu = [[menuBbr itemAtIndex:0] submenu];
 
-    self.fPreferencesMenu = (NSMenuItem*)[appMenu itemWithTag:PREFERENCES_TAG];
-    self.fAboutMenu = (NSMenuItem*)[appMenu itemAtIndex:0];
+    self.fPreferencesMenu = (NSMenuItem*)[bppMenu itemWithTbg:PREFERENCES_TAG];
+    self.fAboutMenu = (NSMenuItem*)[bppMenu itemAtIndex:0];
 
-    // If the java application has a bundle with an Info.plist file with
-    //  a CFBundleDocumentTypes entry, then it is set up to handle Open Doc
-    //  and Print Doc commands for these files. Therefore java AWT will
-    //  cache Open Doc and Print Doc events that are sent prior to a
-    //  listener being installed by the client java application.
-    NSBundle *bundle = [NSBundle mainBundle];
-    fHandlesDocumentTypes = [bundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"] != nil || [bundle _hasEAWTOverride:@"DocumentHandler"];
-    fHandlesURLTypes = [bundle objectForInfoDictionaryKey:@"CFBundleURLTypes"] != nil || [bundle _hasEAWTOverride:@"URLHandler"];
-    if (fHandlesURLTypes) {
-        [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
-                                                           andSelector:@selector(_handleOpenURLEvent:withReplyEvent:)
-                                                         forEventClass:kInternetEventClass
-                                                            andEventID:kAEGetURL];
+    // If the jbvb bpplicbtion hbs b bundle with bn Info.plist file with
+    //  b CFBundleDocumentTypes entry, then it is set up to hbndle Open Doc
+    //  bnd Print Doc commbnds for these files. Therefore jbvb AWT will
+    //  cbche Open Doc bnd Print Doc events thbt bre sent prior to b
+    //  listener being instblled by the client jbvb bpplicbtion.
+    NSBundle *bundle = [NSBundle mbinBundle];
+    fHbndlesDocumentTypes = [bundle objectForInfoDictionbryKey:@"CFBundleDocumentTypes"] != nil || [bundle _hbsEAWTOverride:@"DocumentHbndler"];
+    fHbndlesURLTypes = [bundle objectForInfoDictionbryKey:@"CFBundleURLTypes"] != nil || [bundle _hbsEAWTOverride:@"URLHbndler"];
+    if (fHbndlesURLTypes) {
+        [[NSAppleEventMbnbger shbredAppleEventMbnbger] setEventHbndler:self
+                                                           bndSelector:@selector(_hbndleOpenURLEvent:withReplyEvent:)
+                                                         forEventClbss:kInternetEventClbss
+                                                            bndEventID:kAEGetURL];
     }
 
-    // By HIG, Preferences are not available unless there is a handler. By default in Mac OS X,
-    //  there is not a handler, but it is in the nib file for convenience.
+    // By HIG, Preferences bre not bvbilbble unless there is b hbndler. By defbult in Mbc OS X,
+    //  there is not b hbndler, but it is in the nib file for convenience.
     removeMenuItem(self.fPreferencesMenu);
 
-    [self _updateAboutMenu:YES enabled:YES];
+    [self _updbteAboutMenu:YES enbbled:YES];
 
-    // Now that the AppKit objects are known and set up, initialize the model data
-    BOOL aboutAvailable = ([self.fAboutMenu menu] != nil);
-    BOOL aboutEnabled = (aboutAvailable && [self.fAboutMenu isEnabled] && ([self.fAboutMenu target] != nil));
+    // Now thbt the AppKit objects bre known bnd set up, initiblize the model dbtb
+    BOOL bboutAvbilbble = ([self.fAboutMenu menu] != nil);
+    BOOL bboutEnbbled = (bboutAvbilbble && [self.fAboutMenu isEnbbled] && ([self.fAboutMenu tbrget] != nil));
 
-    BOOL prefsAvailable = ([self.fPreferencesMenu menu] != nil);
-    BOOL prefsEnabled = (prefsAvailable && [self.fPreferencesMenu isEnabled] && ([self.fPreferencesMenu target] != nil));
+    BOOL prefsAvbilbble = ([self.fPreferencesMenu menu] != nil);
+    BOOL prefsEnbbled = (prefsAvbilbble && [self.fPreferencesMenu isEnbbled] && ([self.fPreferencesMenu tbrget] != nil));
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_CLASS_CACHE(sjc_AppMenuBarHandler, "com/apple/eawt/_AppMenuBarHandler");
-    static JNF_STATIC_MEMBER_CACHE(sjm_initMenuStates, sjc_AppMenuBarHandler, "initMenuStates", "(ZZZZ)V");
-    JNFCallStaticVoidMethod(env, sjm_initMenuStates, aboutAvailable, aboutEnabled, prefsAvailable, prefsEnabled);
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_CLASS_CACHE(sjc_AppMenuBbrHbndler, "com/bpple/ebwt/_AppMenuBbrHbndler");
+    stbtic JNF_STATIC_MEMBER_CACHE(sjm_initMenuStbtes, sjc_AppMenuBbrHbndler, "initMenuStbtes", "(ZZZZ)V");
+    JNFCbllStbticVoidMethod(env, sjm_initMenuStbtes, bboutAvbilbble, bboutEnbbled, prefsAvbilbble, prefsEnbbled);
 
-    // register for the finish launching and system power off notifications by default
-    NSNotificationCenter *ctr = [NSNotificationCenter defaultCenter];
-    Class clz = [ApplicationDelegate class];
-    [ctr addObserver:clz selector:@selector(_willFinishLaunching) name:NSApplicationWillFinishLaunchingNotification object:nil];
-    [ctr addObserver:clz selector:@selector(_systemWillPowerOff) name:NSWorkspaceWillPowerOffNotification object:nil];
-    [ctr addObserver:clz selector:@selector(_appDidActivate) name:NSApplicationDidBecomeActiveNotification object:nil];
-    [ctr addObserver:clz selector:@selector(_appDidDeactivate) name:NSApplicationDidResignActiveNotification object:nil];
-    [ctr addObserver:clz selector:@selector(_appDidHide) name:NSApplicationDidHideNotification object:nil];
-    [ctr addObserver:clz selector:@selector(_appDidUnhide) name:NSApplicationDidUnhideNotification object:nil];
+    // register for the finish lbunching bnd system power off notificbtions by defbult
+    NSNotificbtionCenter *ctr = [NSNotificbtionCenter defbultCenter];
+    Clbss clz = [ApplicbtionDelegbte clbss];
+    [ctr bddObserver:clz selector:@selector(_willFinishLbunching) nbme:NSApplicbtionWillFinishLbunchingNotificbtion object:nil];
+    [ctr bddObserver:clz selector:@selector(_systemWillPowerOff) nbme:NSWorkspbceWillPowerOffNotificbtion object:nil];
+    [ctr bddObserver:clz selector:@selector(_bppDidActivbte) nbme:NSApplicbtionDidBecomeActiveNotificbtion object:nil];
+    [ctr bddObserver:clz selector:@selector(_bppDidDebctivbte) nbme:NSApplicbtionDidResignActiveNotificbtion object:nil];
+    [ctr bddObserver:clz selector:@selector(_bppDidHide) nbme:NSApplicbtionDidHideNotificbtion object:nil];
+    [ctr bddObserver:clz selector:@selector(_bppDidUnhide) nbme:NSApplicbtionDidUnhideNotificbtion object:nil];
 
     return self;
 }
 
-- (void)dealloc {
+- (void)deblloc {
     self.fPreferencesMenu = nil;
     self.fAboutMenu = nil;
     self.fDockMenu = nil;
-    self.fDefaultMenuBar = nil;
+    self.fDefbultMenuBbr = nil;
 
-    [super dealloc];
+    [super deblloc];
 }
 
-#pragma mark Callbacks from AppKit
+#prbgmb mbrk Cbllbbcks from AppKit
 
-static JNF_CLASS_CACHE(sjc_AppEventHandler, "com/apple/eawt/_AppEventHandler");
+stbtic JNF_CLASS_CACHE(sjc_AppEventHbndler, "com/bpple/ebwt/_AppEventHbndler");
 
-- (void)_handleOpenURLEvent:(NSAppleEventDescriptor *)openURLEvent withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
+- (void)_hbndleOpenURLEvent:(NSAppleEventDescriptor *)openURLEvent withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 AWT_ASSERT_APPKIT_THREAD;
-    if (!fHandlesURLTypes) return;
+    if (!fHbndlesURLTypes) return;
 
-    NSString *url = [[openURLEvent paramDescriptorForKeyword:keyDirectObject] stringValue];
+    NSString *url = [[openURLEvent pbrbmDescriptorForKeyword:keyDirectObject] stringVblue];
 
-    //fprintf(stderr,"jm_handleOpenURL\n");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jstring jURL = JNFNSToJavaString(env, url);
-    static JNF_STATIC_MEMBER_CACHE(jm_handleOpenURI, sjc_AppEventHandler, "handleOpenURI", "(Ljava/lang/String;)V");
-    JNFCallStaticVoidMethod(env, jm_handleOpenURI, jURL); // AWT_THREADING Safe (event)
-    (*env)->DeleteLocalRef(env, jURL);
+    //fprintf(stderr,"jm_hbndleOpenURL\n");
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    jstring jURL = JNFNSToJbvbString(env, url);
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_hbndleOpenURI, sjc_AppEventHbndler, "hbndleOpenURI", "(Ljbvb/lbng/String;)V");
+    JNFCbllStbticVoidMethod(env, jm_hbndleOpenURI, jURL); // AWT_THREADING Sbfe (event)
+    (*env)->DeleteLocblRef(env, jURL);
 
-    [replyEvent insertDescriptor:[NSAppleEventDescriptor nullDescriptor] atIndex:0];
+    [replyEvent insertDescriptor:[NSAppleEventDescriptor nullDescriptor] btIndex:0];
 }
 
-// Helper for both open file and print file methods
-// Creates a Java list of files from a native list of files
-- (jobject)_createFilePathArrayFrom:(NSArray *)filenames withEnv:(JNIEnv *)env {
-    static JNF_CLASS_CACHE(sjc_ArrayList, "java/util/ArrayList");
-    static JNF_CTOR_CACHE(jm_ArrayList_ctor, sjc_ArrayList, "(I)V");
-    static JNF_MEMBER_CACHE(jm_ArrayList_add, sjc_ArrayList, "add", "(Ljava/lang/Object;)Z");
+// Helper for both open file bnd print file methods
+// Crebtes b Jbvb list of files from b nbtive list of files
+- (jobject)_crebteFilePbthArrbyFrom:(NSArrby *)filenbmes withEnv:(JNIEnv *)env {
+    stbtic JNF_CLASS_CACHE(sjc_ArrbyList, "jbvb/util/ArrbyList");
+    stbtic JNF_CTOR_CACHE(jm_ArrbyList_ctor, sjc_ArrbyList, "(I)V");
+    stbtic JNF_MEMBER_CACHE(jm_ArrbyList_bdd, sjc_ArrbyList, "bdd", "(Ljbvb/lbng/Object;)Z");
 
-    jobject jFileNamesArray = JNFNewObject(env, jm_ArrayList_ctor, (jint)[filenames count]); // AWT_THREADING Safe (known object)
-    for (NSString *filename in filenames) {
-        jstring jFileName = JNFNormalizedJavaStringForPath(env, filename);
-        JNFCallVoidMethod(env, jFileNamesArray, jm_ArrayList_add, jFileName);
+    jobject jFileNbmesArrby = JNFNewObject(env, jm_ArrbyList_ctor, (jint)[filenbmes count]); // AWT_THREADING Sbfe (known object)
+    for (NSString *filenbme in filenbmes) {
+        jstring jFileNbme = JNFNormblizedJbvbStringForPbth(env, filenbme);
+        JNFCbllVoidMethod(env, jFileNbmesArrby, jm_ArrbyList_bdd, jFileNbme);
     }
 
-    return jFileNamesArray;
+    return jFileNbmesArrby;
 }
 
-// Open file handler
-- (void)application:(NSApplication *)theApplication openFiles:(NSArray *)fileNames {
+// Open file hbndler
+- (void)bpplicbtion:(NSApplicbtion *)theApplicbtion openFiles:(NSArrby *)fileNbmes {
 AWT_ASSERT_APPKIT_THREAD;
-    if (!fHandlesDocumentTypes) {
-        [theApplication replyToOpenOrPrint:NSApplicationDelegateReplyCancel];
+    if (!fHbndlesDocumentTypes) {
+        [theApplicbtion replyToOpenOrPrint:NSApplicbtionDelegbteReplyCbncel];
         return;
     }
 
-    //fprintf(stderr,"jm_handleOpenFile\n");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    //fprintf(stderr,"jm_hbndleOpenFile\n");
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
 
-    // if these files were opened from a Spotlight query, try to get the search text from the current AppleEvent
-    NSAppleEventDescriptor *currentEvent = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
-    NSString *searchString = [[currentEvent paramDescriptorForKeyword:keyAESearchText] stringValue];
-    jstring jSearchString = JNFNSToJavaString(env, searchString);
+    // if these files were opened from b Spotlight query, try to get the sebrch text from the current AppleEvent
+    NSAppleEventDescriptor *currentEvent = [[NSAppleEventMbnbger shbredAppleEventMbnbger] currentAppleEvent];
+    NSString *sebrchString = [[currentEvent pbrbmDescriptorForKeyword:keyAESebrchText] stringVblue];
+    jstring jSebrchString = JNFNSToJbvbString(env, sebrchString);
 
-    // convert the file names array
-    jobject jFileNamesArray = [self _createFilePathArrayFrom:fileNames withEnv:env];
+    // convert the file nbmes brrby
+    jobject jFileNbmesArrby = [self _crebteFilePbthArrbyFrom:fileNbmes withEnv:env];
 
-    static JNF_STATIC_MEMBER_CACHE(jm_handleOpenFiles, sjc_AppEventHandler, "handleOpenFiles", "(Ljava/util/List;Ljava/lang/String;)V");
-    JNFCallStaticVoidMethod(env, jm_handleOpenFiles, jFileNamesArray, jSearchString);
-    (*env)->DeleteLocalRef(env, jFileNamesArray);
-    (*env)->DeleteLocalRef(env, jSearchString);
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_hbndleOpenFiles, sjc_AppEventHbndler, "hbndleOpenFiles", "(Ljbvb/util/List;Ljbvb/lbng/String;)V");
+    JNFCbllStbticVoidMethod(env, jm_hbndleOpenFiles, jFileNbmesArrby, jSebrchString);
+    (*env)->DeleteLocblRef(env, jFileNbmesArrby);
+    (*env)->DeleteLocblRef(env, jSebrchString);
 
-    [theApplication replyToOpenOrPrint:NSApplicationDelegateReplySuccess];
+    [theApplicbtion replyToOpenOrPrint:NSApplicbtionDelegbteReplySuccess];
 }
 
-// Print handler
-- (NSApplicationPrintReply)application:(NSApplication *)application printFiles:(NSArray *)fileNames withSettings:(NSDictionary *)printSettings showPrintPanels:(BOOL)showPrintPanels {
+// Print hbndler
+- (NSApplicbtionPrintReply)bpplicbtion:(NSApplicbtion *)bpplicbtion printFiles:(NSArrby *)fileNbmes withSettings:(NSDictionbry *)printSettings showPrintPbnels:(BOOL)showPrintPbnels {
 AWT_ASSERT_APPKIT_THREAD;
-    if (!fHandlesDocumentTypes) return NSPrintingCancelled;
+    if (!fHbndlesDocumentTypes) return NSPrintingCbncelled;
 
-    //fprintf(stderr,"jm_handlePrintFile\n");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jobject jFileNamesArray = [self _createFilePathArrayFrom:fileNames withEnv:env];
-    static JNF_STATIC_MEMBER_CACHE(jm_handlePrintFile, sjc_AppEventHandler, "handlePrintFiles", "(Ljava/util/List;)V");
-    JNFCallStaticVoidMethod(env, jm_handlePrintFile, jFileNamesArray); // AWT_THREADING Safe (event)
-    (*env)->DeleteLocalRef(env, jFileNamesArray);
+    //fprintf(stderr,"jm_hbndlePrintFile\n");
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    jobject jFileNbmesArrby = [self _crebteFilePbthArrbyFrom:fileNbmes withEnv:env];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_hbndlePrintFile, sjc_AppEventHbndler, "hbndlePrintFiles", "(Ljbvb/util/List;)V");
+    JNFCbllStbticVoidMethod(env, jm_hbndlePrintFile, jFileNbmesArrby); // AWT_THREADING Sbfe (event)
+    (*env)->DeleteLocblRef(env, jFileNbmesArrby);
 
     return NSPrintingSuccess;
 }
 
-// Open app handler, registered in -init
-+ (void)_notifyJava:(jint)notificationType {
+// Open bpp hbndler, registered in -init
++ (void)_notifyJbvb:(jint)notificbtionType {
 AWT_ASSERT_APPKIT_THREAD;
 
-    //fprintf(stderr,"jm_handleOpenApplication\n");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_handleNativeNotification, sjc_AppEventHandler, "handleNativeNotification", "(I)V");
-    JNFCallStaticVoidMethod(env, jm_handleNativeNotification, notificationType); // AWT_THREADING Safe (event)
+    //fprintf(stderr,"jm_hbndleOpenApplicbtion\n");
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_hbndleNbtiveNotificbtion, sjc_AppEventHbndler, "hbndleNbtiveNotificbtion", "(I)V");
+    JNFCbllStbticVoidMethod(env, jm_hbndleNbtiveNotificbtion, notificbtionType); // AWT_THREADING Sbfe (event)
 }
 
-// About menu handler
-- (void)_aboutMenuHandler {
-    [ApplicationDelegate _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_ABOUT];
+// About menu hbndler
+- (void)_bboutMenuHbndler {
+    [ApplicbtionDelegbte _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_ABOUT];
 }
 
-// Preferences handler
-- (void)_preferencesMenuHandler {
-    [ApplicationDelegate _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_PREFS];
+// Preferences hbndler
+- (void)_preferencesMenuHbndler {
+    [ApplicbtionDelegbte _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_PREFS];
 }
 
-// Open app handler, registered in -init
-+ (void)_willFinishLaunching {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_OPEN_APP];
+// Open bpp hbndler, registered in -init
++ (void)_willFinishLbunching {
+    [self _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_OPEN_APP];
 }
 
-// ReOpen app handler
-- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
-    [ApplicationDelegate _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_REOPEN_APP];
+// ReOpen bpp hbndler
+- (BOOL)bpplicbtionShouldHbndleReopen:(NSApplicbtion *)theApplicbtion hbsVisibleWindows:(BOOL)flbg {
+    [ApplicbtionDelegbte _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_REOPEN_APP];
     return YES;
 }
 
-// Quit handler
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)app {
-    [ApplicationDelegate _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_QUIT];
-    return NSTerminateLater;
+// Quit hbndler
+- (NSApplicbtionTerminbteReply)bpplicbtionShouldTerminbte:(NSApplicbtion *)bpp {
+    [ApplicbtionDelegbte _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_QUIT];
+    return NSTerminbteLbter;
 }
 
 + (void)_systemWillPowerOff {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_SHUTDOWN];
+    [self _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_SHUTDOWN];
 }
 
-+ (void)_appDidActivate {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_ACTIVE_APP_GAINED];
++ (void)_bppDidActivbte {
+    [self _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_ACTIVE_APP_GAINED];
 }
 
-+ (void)_appDidDeactivate {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_ACTIVE_APP_LOST];
++ (void)_bppDidDebctivbte {
+    [self _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_ACTIVE_APP_LOST];
 }
 
-+ (void)_appDidHide {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_APP_HIDDEN];
++ (void)_bppDidHide {
+    [self _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_APP_HIDDEN];
 }
 
-+ (void)_appDidUnhide {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_APP_SHOWN];
++ (void)_bppDidUnhide {
+    [self _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_APP_SHOWN];
 }
 
-+ (void)_sessionDidActivate {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_USER_SESSION_ACTIVE];
++ (void)_sessionDidActivbte {
+    [self _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_USER_SESSION_ACTIVE];
 }
 
-+ (void)_sessionDidDeactivate {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_USER_SESSION_INACTIVE];
++ (void)_sessionDidDebctivbte {
+    [self _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_USER_SESSION_INACTIVE];
 }
 
 + (void)_screenDidSleep {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_SCREEN_SLEEP];
+    [self _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_SCREEN_SLEEP];
 }
 
-+ (void)_screenDidWake {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_SCREEN_WAKE];
++ (void)_screenDidWbke {
+    [self _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_SCREEN_WAKE];
 }
 
 + (void)_systemDidSleep {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_SYSTEM_SLEEP];
+    [self _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_SYSTEM_SLEEP];
 }
 
-+ (void)_systemDidWake {
-    [self _notifyJava:com_apple_eawt__AppEventHandler_NOTIFY_SYSTEM_WAKE];
++ (void)_systemDidWbke {
+    [self _notifyJbvb:com_bpple_ebwt__AppEventHbndler_NOTIFY_SYSTEM_WAKE];
 }
 
-+ (void)_registerForNotification:(NSNumber *)notificationTypeNum {
-    NSNotificationCenter *ctr = [[NSWorkspace sharedWorkspace] notificationCenter];
-    Class clz = [ApplicationDelegate class];
++ (void)_registerForNotificbtion:(NSNumber *)notificbtionTypeNum {
+    NSNotificbtionCenter *ctr = [[NSWorkspbce shbredWorkspbce] notificbtionCenter];
+    Clbss clz = [ApplicbtionDelegbte clbss];
 
-    jint notificationType = [notificationTypeNum intValue];
-    switch (notificationType) {
-        case com_apple_eawt__AppEventHandler_REGISTER_USER_SESSION:
-            [ctr addObserver:clz selector:@selector(_sessionDidActivate) name:NSWorkspaceSessionDidBecomeActiveNotification object:nil];
-            [ctr addObserver:clz selector:@selector(_sessionDidDeactivate) name:NSWorkspaceSessionDidResignActiveNotification object:nil];
-            break;
-        case com_apple_eawt__AppEventHandler_REGISTER_SCREEN_SLEEP:
-            [ctr addObserver:clz selector:@selector(_screenDidSleep) name:NSWorkspaceScreensDidSleepNotification object:nil];
-            [ctr addObserver:clz selector:@selector(_screenDidWake) name:NSWorkspaceScreensDidWakeNotification object:nil];
-            break;
-        case com_apple_eawt__AppEventHandler_REGISTER_SYSTEM_SLEEP:
-            [ctr addObserver:clz selector:@selector(_systemDidSleep) name:NSWorkspaceWillSleepNotification object:nil];
-            [ctr addObserver:clz selector:@selector(_systemDidWake) name:NSWorkspaceDidWakeNotification object:nil];
-            break;
-        default:
-            NSLog(@"EAWT attempting to register for unknown notification: %d", (int)notificationType);
-            break;
+    jint notificbtionType = [notificbtionTypeNum intVblue];
+    switch (notificbtionType) {
+        cbse com_bpple_ebwt__AppEventHbndler_REGISTER_USER_SESSION:
+            [ctr bddObserver:clz selector:@selector(_sessionDidActivbte) nbme:NSWorkspbceSessionDidBecomeActiveNotificbtion object:nil];
+            [ctr bddObserver:clz selector:@selector(_sessionDidDebctivbte) nbme:NSWorkspbceSessionDidResignActiveNotificbtion object:nil];
+            brebk;
+        cbse com_bpple_ebwt__AppEventHbndler_REGISTER_SCREEN_SLEEP:
+            [ctr bddObserver:clz selector:@selector(_screenDidSleep) nbme:NSWorkspbceScreensDidSleepNotificbtion object:nil];
+            [ctr bddObserver:clz selector:@selector(_screenDidWbke) nbme:NSWorkspbceScreensDidWbkeNotificbtion object:nil];
+            brebk;
+        cbse com_bpple_ebwt__AppEventHbndler_REGISTER_SYSTEM_SLEEP:
+            [ctr bddObserver:clz selector:@selector(_systemDidSleep) nbme:NSWorkspbceWillSleepNotificbtion object:nil];
+            [ctr bddObserver:clz selector:@selector(_systemDidWbke) nbme:NSWorkspbceDidWbkeNotificbtion object:nil];
+            brebk;
+        defbult:
+            NSLog(@"EAWT bttempting to register for unknown notificbtion: %d", (int)notificbtionType);
+            brebk;
     }
 }
 
-// Retrieves the menu to be attached to the Dock icon (AppKit callback)
-- (NSMenu *)applicationDockMenu:(NSApplication *)sender {
+// Retrieves the menu to be bttbched to the Dock icon (AppKit cbllbbck)
+- (NSMenu *)bpplicbtionDockMenu:(NSApplicbtion *)sender {
 AWT_ASSERT_APPKIT_THREAD;
     return self.fDockMenu;
 }
 
-- (CMenuBar *)defaultMenuBar {
-    return [[self.fDefaultMenuBar retain] autorelease];
+- (CMenuBbr *)defbultMenuBbr {
+    return [[self.fDefbultMenuBbr retbin] butorelebse];
 }
 
 
-#pragma mark Helpers called on the main thread from Java
+#prbgmb mbrk Helpers cblled on the mbin threbd from Jbvb
 
-// Sets a new NSImageView on the Dock tile
-+ (void)_setDockIconImage:(NSImage *)image {
+// Sets b new NSImbgeView on the Dock tile
++ (void)_setDockIconImbge:(NSImbge *)imbge {
 AWT_ASSERT_APPKIT_THREAD;
 
     NSDockTile *dockTile = [NSApp dockTile];
-    if (image == nil) {
+    if (imbge == nil) {
         [dockTile setContentView:nil];
         return;
     }
 
-    // setup an image view for the dock tile
-    NSRect frame = NSMakeRect(0, 0, dockTile.size.width, dockTile.size.height);
-    NSImageView *dockImageView = [[NSImageView alloc] initWithFrame: frame];
-    [dockImageView setImageScaling:NSImageScaleProportionallyUpOrDown];
-    [dockImageView setImage:image];
+    // setup bn imbge view for the dock tile
+    NSRect frbme = NSMbkeRect(0, 0, dockTile.size.width, dockTile.size.height);
+    NSImbgeView *dockImbgeView = [[NSImbgeView blloc] initWithFrbme: frbme];
+    [dockImbgeView setImbgeScbling:NSImbgeScbleProportionbllyUpOrDown];
+    [dockImbgeView setImbge:imbge];
 
-    // add it to the NSDockTile
-    [dockTile setContentView: dockImageView];
-    [dockTile display];
+    // bdd it to the NSDockTile
+    [dockTile setContentView: dockImbgeView];
+    [dockTile displby];
 
-    [dockImageView release];
+    [dockImbgeView relebse];
 }
 
-// Obtains the image of the Dock icon, either manually set, a drawn copy, or the default NSApplicationIcon
-+ (NSImage *)_dockIconImage {
+// Obtbins the imbge of the Dock icon, either mbnublly set, b drbwn copy, or the defbult NSApplicbtionIcon
++ (NSImbge *)_dockIconImbge {
 AWT_ASSERT_APPKIT_THREAD;
 
     NSDockTile *dockTile = [NSApp dockTile];
     NSView *view = [dockTile contentView];
 
-    if ([view isKindOfClass:[NSImageView class]]) {
-        NSImage *img = [((NSImageView *)view) image];
+    if ([view isKindOfClbss:[NSImbgeView clbss]]) {
+        NSImbge *img = [((NSImbgeView *)view) imbge];
         if (img) return img;
     }
 
     if (view == nil) {
-        return [NSImage imageNamed:@"NSApplicationIcon"];
+        return [NSImbge imbgeNbmed:@"NSApplicbtionIcon"];
     }
 
-    NSRect frame = [view frame];
-    NSImage *image = [[NSImage alloc] initWithSize:frame.size];
-    [image lockFocus];
-    [view drawRect:frame];
-    [image unlockFocus];
-    [image autorelease];
-    return image;
+    NSRect frbme = [view frbme];
+    NSImbge *imbge = [[NSImbge blloc] initWithSize:frbme.size];
+    [imbge lockFocus];
+    [view drbwRect:frbme];
+    [imbge unlockFocus];
+    [imbge butorelebse];
+    return imbge;
 }
 
 @end
 
 
-#pragma mark Native JNI calls
+#prbgmb mbrk Nbtive JNI cblls
 
 /*
- * Class:     com_apple_eawt_Application
- * Method:    nativeInitializeApplicationDelegate
- * Signature: ()V
+ * Clbss:     com_bpple_ebwt_Applicbtion
+ * Method:    nbtiveInitiblizeApplicbtionDelegbte
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt_Application_nativeInitializeApplicationDelegate
-(JNIEnv *env, jclass clz)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt_Applicbtion_nbtiveInitiblizeApplicbtionDelegbte
+(JNIEnv *env, jclbss clz)
 {
 JNF_COCOA_ENTER(env);
-    // Force initialization to happen on AppKit thread!
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [ApplicationDelegate sharedDelegate];
+    // Force initiblizbtion to hbppen on AppKit threbd!
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
+        [ApplicbtionDelegbte shbredDelegbte];
     }];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eawt__AppEventHandler
- * Method:    nativeOpenCocoaAboutWindow
- * Signature: ()V
+ * Clbss:     com_bpple_ebwt__AppEventHbndler
+ * Method:    nbtiveOpenCocobAboutWindow
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppEventHandler_nativeOpenCocoaAboutWindow
-(JNIEnv *env, jclass clz)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppEventHbndler_nbtiveOpenCocobAboutWindow
+(JNIEnv *env, jclbss clz)
 {
 JNF_COCOA_ENTER(env);
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [NSApp orderFrontStandardAboutPanel:nil];
-    }];
-
-JNF_COCOA_EXIT(env);
-}
-
-/*
- * Class:     com_apple_eawt__AppEventHandler
- * Method:    nativeReplyToAppShouldTerminate
- * Signature: (Z)V
- */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppEventHandler_nativeReplyToAppShouldTerminate
-(JNIEnv *env, jclass clz, jboolean doTerminate)
-{
-JNF_COCOA_ENTER(env);
-
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [NSApp replyToApplicationShouldTerminate:doTerminate];
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
+        [NSApp orderFrontStbndbrdAboutPbnel:nil];
     }];
 
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eawt__AppEventHandler
- * Method:    nativeRegisterForNotification
- * Signature: (I)V
+ * Clbss:     com_bpple_ebwt__AppEventHbndler
+ * Method:    nbtiveReplyToAppShouldTerminbte
+ * Signbture: (Z)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppEventHandler_nativeRegisterForNotification
-(JNIEnv *env, jclass clz, jint notificationType)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppEventHbndler_nbtiveReplyToAppShouldTerminbte
+(JNIEnv *env, jclbss clz, jboolebn doTerminbte)
 {
 JNF_COCOA_ENTER(env);
-    [ThreadUtilities performOnMainThread:@selector(_registerForNotification:)
-                                      on:[ApplicationDelegate class]
-                              withObject:[NSNumber numberWithInt:notificationType]
-                           waitUntilDone:NO]; // AWT_THREADING Safe (non-blocking)
+
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
+        [NSApp replyToApplicbtionShouldTerminbte:doTerminbte];
+    }];
+
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eawt__AppDockIconHandler
- * Method:    nativeSetDockMenu
- * Signature: (J)V
+ * Clbss:     com_bpple_ebwt__AppEventHbndler
+ * Method:    nbtiveRegisterForNotificbtion
+ * Signbture: (I)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppDockIconHandler_nativeSetDockMenu
-(JNIEnv *env, jclass clz, jlong nsMenuPtr)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppEventHbndler_nbtiveRegisterForNotificbtion
+(JNIEnv *env, jclbss clz, jint notificbtionType)
+{
+JNF_COCOA_ENTER(env);
+    [ThrebdUtilities performOnMbinThrebd:@selector(_registerForNotificbtion:)
+                                      on:[ApplicbtionDelegbte clbss]
+                              withObject:[NSNumber numberWithInt:notificbtionType]
+                           wbitUntilDone:NO]; // AWT_THREADING Sbfe (non-blocking)
+JNF_COCOA_EXIT(env);
+}
+
+/*
+ * Clbss:     com_bpple_ebwt__AppDockIconHbndler
+ * Method:    nbtiveSetDockMenu
+ * Signbture: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppDockIconHbndler_nbtiveSetDockMenu
+(JNIEnv *env, jclbss clz, jlong nsMenuPtr)
 {
 JNF_COCOA_ENTER(env);
 
     NSMenu *menu = (NSMenu *)jlong_to_ptr(nsMenuPtr);
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        [ApplicationDelegate sharedDelegate].fDockMenu = menu;
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+        [ApplicbtionDelegbte shbredDelegbte].fDockMenu = menu;
     }];
 
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eawt__AppDockIconHandler
- * Method:    nativeSetDockIconImage
- * Signature: (J)V
+ * Clbss:     com_bpple_ebwt__AppDockIconHbndler
+ * Method:    nbtiveSetDockIconImbge
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppDockIconHandler_nativeSetDockIconImage
-(JNIEnv *env, jclass clz, jlong nsImagePtr)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppDockIconHbndler_nbtiveSetDockIconImbge
+(JNIEnv *env, jclbss clz, jlong nsImbgePtr)
 {
 JNF_COCOA_ENTER(env);
 
-    NSImage *_image = (NSImage *)jlong_to_ptr(nsImagePtr);
-    [ThreadUtilities performOnMainThread:@selector(_setDockIconImage:)
-                                      on:[ApplicationDelegate class]
-                              withObject:_image
-                           waitUntilDone:NO];
+    NSImbge *_imbge = (NSImbge *)jlong_to_ptr(nsImbgePtr);
+    [ThrebdUtilities performOnMbinThrebd:@selector(_setDockIconImbge:)
+                                      on:[ApplicbtionDelegbte clbss]
+                              withObject:_imbge
+                           wbitUntilDone:NO];
 
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eawt__AppDockIconHandler
- * Method:    nativeGetDockIconImage
- * Signature: ()J
+ * Clbss:     com_bpple_ebwt__AppDockIconHbndler
+ * Method:    nbtiveGetDockIconImbge
+ * Signbture: ()J
  */
-JNIEXPORT jlong JNICALL Java_com_apple_eawt__1AppDockIconHandler_nativeGetDockIconImage
-(JNIEnv *env, jclass clz)
+JNIEXPORT jlong JNICALL Jbvb_com_bpple_ebwt__1AppDockIconHbndler_nbtiveGetDockIconImbge
+(JNIEnv *env, jclbss clz)
 {
-    __block NSImage *image = nil;
+    __block NSImbge *imbge = nil;
 
 JNF_COCOA_ENTER(env);
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        image = [[ApplicationDelegate _dockIconImage] retain];
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+        imbge = [[ApplicbtionDelegbte _dockIconImbge] retbin];
     }];
 
 JNF_COCOA_EXIT(env);
 
-    return ptr_to_jlong(image);
+    return ptr_to_jlong(imbge);
 }
 
 /*
- * Class:     com_apple_eawt__AppDockIconHandler
- * Method:    nativeSetDockIconBadge
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     com_bpple_ebwt__AppDockIconHbndler
+ * Method:    nbtiveSetDockIconBbdge
+ * Signbture: (Ljbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppDockIconHandler_nativeSetDockIconBadge
-(JNIEnv *env, jclass clz, jstring badge)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppDockIconHbndler_nbtiveSetDockIconBbdge
+(JNIEnv *env, jclbss clz, jstring bbdge)
 {
 JNF_COCOA_ENTER(env);
 
-    NSString *badgeString = JNFJavaToNSString(env, badge);
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
+    NSString *bbdgeString = JNFJbvbToNSString(env, bbdge);
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
         NSDockTile *dockTile = [NSApp dockTile];
-        [dockTile setBadgeLabel:badgeString];
-        [dockTile display];
+        [dockTile setBbdgeLbbel:bbdgeString];
+        [dockTile displby];
     }];
 
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eawt__AppMiscHandlers
- * Method:    nativeRequestActivation
- * Signature: (Z)V
+ * Clbss:     com_bpple_ebwt__AppMiscHbndlers
+ * Method:    nbtiveRequestActivbtion
+ * Signbture: (Z)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMiscHandlers_nativeRequestActivation
-(JNIEnv *env, jclass clz, jboolean allWindows)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppMiscHbndlers_nbtiveRequestActivbtion
+(JNIEnv *env, jclbss clz, jboolebn bllWindows)
 {
 JNF_COCOA_ENTER(env);
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        NSApplicationActivationOptions options = allWindows ? NSApplicationActivateAllWindows : 0;
-        options |= NSApplicationActivateIgnoringOtherApps; // without this, nothing happens!
-        [[NSRunningApplication currentApplication] activateWithOptions:options];
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
+        NSApplicbtionActivbtionOptions options = bllWindows ? NSApplicbtionActivbteAllWindows : 0;
+        options |= NSApplicbtionActivbteIgnoringOtherApps; // without this, nothing hbppens!
+        [[NSRunningApplicbtion currentApplicbtion] bctivbteWithOptions:options];
     }];
 
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eawt__AppMiscHandlers
- * Method:    nativeRequestUserAttention
- * Signature: (Z)V
+ * Clbss:     com_bpple_ebwt__AppMiscHbndlers
+ * Method:    nbtiveRequestUserAttention
+ * Signbture: (Z)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMiscHandlers_nativeRequestUserAttention
-(JNIEnv *env, jclass clz, jboolean critical)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppMiscHbndlers_nbtiveRequestUserAttention
+(JNIEnv *env, jclbss clz, jboolebn criticbl)
 {
 JNF_COCOA_ENTER(env);
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [NSApp requestUserAttention:critical ? NSCriticalRequest : NSInformationalRequest];
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
+        [NSApp requestUserAttention:criticbl ? NSCriticblRequest : NSInformbtionblRequest];
     }];
 
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eawt__AppMiscHandlers
- * Method:    nativeOpenHelpViewer
- * Signature: ()V
+ * Clbss:     com_bpple_ebwt__AppMiscHbndlers
+ * Method:    nbtiveOpenHelpViewer
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMiscHandlers_nativeOpenHelpViewer
-(JNIEnv *env, jclass clz)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppMiscHbndlers_nbtiveOpenHelpViewer
+(JNIEnv *env, jclbss clz)
 {
 JNF_COCOA_ENTER(env);
 
-    [ThreadUtilities performOnMainThread:@selector(showHelp:)
+    [ThrebdUtilities performOnMbinThrebd:@selector(showHelp:)
                                       on:NSApp
                               withObject:nil
-                           waitUntilDone:NO];
+                           wbitUntilDone:NO];
 
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eawt__AppMiscHandlers
- * Method:    nativeEnableSuddenTermination
- * Signature: ()V
+ * Clbss:     com_bpple_ebwt__AppMiscHbndlers
+ * Method:    nbtiveEnbbleSuddenTerminbtion
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMiscHandlers_nativeEnableSuddenTermination
-(JNIEnv *env, jclass clz)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppMiscHbndlers_nbtiveEnbbleSuddenTerminbtion
+(JNIEnv *env, jclbss clz)
 {
 JNF_COCOA_ENTER(env);
 
-    [[NSProcessInfo processInfo] enableSuddenTermination]; // Foundation thread-safe
+    [[NSProcessInfo processInfo] enbbleSuddenTerminbtion]; // Foundbtion threbd-sbfe
 
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eawt__AppMiscHandlers
- * Method:    nativeDisableSuddenTermination
- * Signature: ()V
+ * Clbss:     com_bpple_ebwt__AppMiscHbndlers
+ * Method:    nbtiveDisbbleSuddenTerminbtion
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMiscHandlers_nativeDisableSuddenTermination
-(JNIEnv *env, jclass clz)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppMiscHbndlers_nbtiveDisbbleSuddenTerminbtion
+(JNIEnv *env, jclbss clz)
 {
 JNF_COCOA_ENTER(env);
 
-    [[NSProcessInfo processInfo] disableSuddenTermination]; // Foundation thread-safe
+    [[NSProcessInfo processInfo] disbbleSuddenTerminbtion]; // Foundbtion threbd-sbfe
 
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eawt__AppMenuBarHandler
- * Method:    nativeSetMenuState
- * Signature: (IZZ)V
+ * Clbss:     com_bpple_ebwt__AppMenuBbrHbndler
+ * Method:    nbtiveSetMenuStbte
+ * Signbture: (IZZ)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMenuBarHandler_nativeSetMenuState
-(JNIEnv *env, jclass clz, jint menuID, jboolean visible, jboolean enabled)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppMenuBbrHbndler_nbtiveSetMenuStbte
+(JNIEnv *env, jclbss clz, jint menuID, jboolebn visible, jboolebn enbbled)
 {
 JNF_COCOA_ENTER(env);
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        ApplicationDelegate *delegate = [ApplicationDelegate sharedDelegate];
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
+        ApplicbtionDelegbte *delegbte = [ApplicbtionDelegbte shbredDelegbte];
         switch (menuID) {
-            case com_apple_eawt__AppMenuBarHandler_MENU_ABOUT:
-                [delegate _updateAboutMenu:visible enabled:enabled];
-                break;
-            case com_apple_eawt__AppMenuBarHandler_MENU_PREFS:
-                [delegate _updatePreferencesMenu:visible enabled:enabled];
-                break;
+            cbse com_bpple_ebwt__AppMenuBbrHbndler_MENU_ABOUT:
+                [delegbte _updbteAboutMenu:visible enbbled:enbbled];
+                brebk;
+            cbse com_bpple_ebwt__AppMenuBbrHbndler_MENU_PREFS:
+                [delegbte _updbtePreferencesMenu:visible enbbled:enbbled];
+                brebk;
         }
     }];
 
@@ -759,18 +759,18 @@ JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     com_apple_eawt__AppMenuBarHandler
- * Method:    nativeSetDefaultMenuBar
- * Signature: (J)V
+ * Clbss:     com_bpple_ebwt__AppMenuBbrHbndler
+ * Method:    nbtiveSetDefbultMenuBbr
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_com_apple_eawt__1AppMenuBarHandler_nativeSetDefaultMenuBar
-(JNIEnv *env, jclass clz, jlong cMenuBarPtr)
+JNIEXPORT void JNICALL Jbvb_com_bpple_ebwt__1AppMenuBbrHbndler_nbtiveSetDefbultMenuBbr
+(JNIEnv *env, jclbss clz, jlong cMenuBbrPtr)
 {
 JNF_COCOA_ENTER(env);
 
-    CMenuBar *menu = (CMenuBar *)jlong_to_ptr(cMenuBarPtr);
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [ApplicationDelegate sharedDelegate].fDefaultMenuBar = menu;
+    CMenuBbr *menu = (CMenuBbr *)jlong_to_ptr(cMenuBbrPtr);
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
+        [ApplicbtionDelegbte shbredDelegbte].fDefbultMenuBbr = menu;
     }];
 
 JNF_COCOA_EXIT(env);

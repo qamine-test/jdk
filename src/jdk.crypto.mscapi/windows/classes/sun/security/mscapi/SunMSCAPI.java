@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.mscapi;
+pbckbge sun.security.mscbpi;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.Provider;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.Provider;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
 /**
- * A Cryptographic Service Provider for the Microsoft Crypto API.
+ * A Cryptogrbphic Service Provider for the Microsoft Crypto API.
  *
  * @since 1.6
  */
 
-public final class SunMSCAPI extends Provider {
+public finbl clbss SunMSCAPI extends Provider {
 
-    private static final long serialVersionUID = 8622598936488630849L; //TODO
+    privbte stbtic finbl long seriblVersionUID = 8622598936488630849L; //TODO
 
-    private static final String INFO = "Sun's Microsoft Crypto API provider";
+    privbte stbtic finbl String INFO = "Sun's Microsoft Crypto API provider";
 
-    static {
+    stbtic {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                System.loadLibrary("sunmscapi");
+                System.lobdLibrbry("sunmscbpi");
                 return null;
             }
         });
@@ -55,91 +55,91 @@ public final class SunMSCAPI extends Provider {
     public SunMSCAPI() {
         super("SunMSCAPI", 1.9d, INFO);
 
-        // if there is no security manager installed, put directly into
-        // the provider. Otherwise, create a temporary map and use a
-        // doPrivileged() call at the end to transfer the contents
-        final Map<Object, Object> map =
-                (System.getSecurityManager() == null)
-                ? this : new HashMap<Object, Object>();
+        // if there is no security mbnbger instblled, put directly into
+        // the provider. Otherwise, crebte b temporbry mbp bnd use b
+        // doPrivileged() cbll bt the end to trbnsfer the contents
+        finbl Mbp<Object, Object> mbp =
+                (System.getSecurityMbnbger() == null)
+                ? this : new HbshMbp<Object, Object>();
 
         /*
-         * Secure random
+         * Secure rbndom
          */
-        map.put("SecureRandom.Windows-PRNG", "sun.security.mscapi.PRNG");
+        mbp.put("SecureRbndom.Windows-PRNG", "sun.security.mscbpi.PRNG");
 
         /*
          * Key store
          */
-        map.put("KeyStore.Windows-MY", "sun.security.mscapi.KeyStore$MY");
-        map.put("KeyStore.Windows-ROOT", "sun.security.mscapi.KeyStore$ROOT");
+        mbp.put("KeyStore.Windows-MY", "sun.security.mscbpi.KeyStore$MY");
+        mbp.put("KeyStore.Windows-ROOT", "sun.security.mscbpi.KeyStore$ROOT");
 
         /*
-         * Signature engines
+         * Signbture engines
          */
-        // NONEwithRSA must be supplied with a pre-computed message digest.
-        // Only the following digest algorithms are supported: MD5, SHA-1,
-        // SHA-256, SHA-384, SHA-512 and a special-purpose digest
-        // algorithm which is a concatenation of SHA-1 and MD5 digests.
-        map.put("Signature.NONEwithRSA",
-            "sun.security.mscapi.RSASignature$Raw");
-        map.put("Signature.SHA1withRSA",
-            "sun.security.mscapi.RSASignature$SHA1");
-        map.put("Signature.SHA256withRSA",
-            "sun.security.mscapi.RSASignature$SHA256");
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.11",     "SHA256withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.11", "SHA256withRSA");
-        map.put("Signature.SHA384withRSA",
-            "sun.security.mscapi.RSASignature$SHA384");
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.12",     "SHA384withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.12", "SHA384withRSA");
+        // NONEwithRSA must be supplied with b pre-computed messbge digest.
+        // Only the following digest blgorithms bre supported: MD5, SHA-1,
+        // SHA-256, SHA-384, SHA-512 bnd b specibl-purpose digest
+        // blgorithm which is b concbtenbtion of SHA-1 bnd MD5 digests.
+        mbp.put("Signbture.NONEwithRSA",
+            "sun.security.mscbpi.RSASignbture$Rbw");
+        mbp.put("Signbture.SHA1withRSA",
+            "sun.security.mscbpi.RSASignbture$SHA1");
+        mbp.put("Signbture.SHA256withRSA",
+            "sun.security.mscbpi.RSASignbture$SHA256");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.113549.1.1.11",     "SHA256withRSA");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.113549.1.1.11", "SHA256withRSA");
+        mbp.put("Signbture.SHA384withRSA",
+            "sun.security.mscbpi.RSASignbture$SHA384");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.113549.1.1.12",     "SHA384withRSA");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.113549.1.1.12", "SHA384withRSA");
 
-        map.put("Signature.SHA512withRSA",
-            "sun.security.mscapi.RSASignature$SHA512");
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.13",     "SHA512withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.13", "SHA512withRSA");
+        mbp.put("Signbture.SHA512withRSA",
+            "sun.security.mscbpi.RSASignbture$SHA512");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.113549.1.1.13",     "SHA512withRSA");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.113549.1.1.13", "SHA512withRSA");
 
-        map.put("Signature.MD5withRSA",
-            "sun.security.mscapi.RSASignature$MD5");
-        map.put("Signature.MD2withRSA",
-            "sun.security.mscapi.RSASignature$MD2");
+        mbp.put("Signbture.MD5withRSA",
+            "sun.security.mscbpi.RSASignbture$MD5");
+        mbp.put("Signbture.MD2withRSA",
+            "sun.security.mscbpi.RSASignbture$MD2");
 
-        // supported key classes
-        map.put("Signature.NONEwithRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
-        map.put("Signature.SHA1withRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
-        map.put("Signature.SHA256withRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
-        map.put("Signature.SHA384withRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
-        map.put("Signature.SHA512withRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
-        map.put("Signature.MD5withRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
-        map.put("Signature.MD2withRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
+        // supported key clbsses
+        mbp.put("Signbture.NONEwithRSA SupportedKeyClbsses",
+            "sun.security.mscbpi.Key");
+        mbp.put("Signbture.SHA1withRSA SupportedKeyClbsses",
+            "sun.security.mscbpi.Key");
+        mbp.put("Signbture.SHA256withRSA SupportedKeyClbsses",
+            "sun.security.mscbpi.Key");
+        mbp.put("Signbture.SHA384withRSA SupportedKeyClbsses",
+            "sun.security.mscbpi.Key");
+        mbp.put("Signbture.SHA512withRSA SupportedKeyClbsses",
+            "sun.security.mscbpi.Key");
+        mbp.put("Signbture.MD5withRSA SupportedKeyClbsses",
+            "sun.security.mscbpi.Key");
+        mbp.put("Signbture.MD2withRSA SupportedKeyClbsses",
+            "sun.security.mscbpi.Key");
 
         /*
-         * Key Pair Generator engines
+         * Key Pbir Generbtor engines
          */
-        map.put("KeyPairGenerator.RSA",
-            "sun.security.mscapi.RSAKeyPairGenerator");
-        map.put("KeyPairGenerator.RSA KeySize", "1024");
+        mbp.put("KeyPbirGenerbtor.RSA",
+            "sun.security.mscbpi.RSAKeyPbirGenerbtor");
+        mbp.put("KeyPbirGenerbtor.RSA KeySize", "1024");
 
         /*
          * Cipher engines
          */
-        map.put("Cipher.RSA", "sun.security.mscapi.RSACipher");
-        map.put("Cipher.RSA/ECB/PKCS1Padding",
-            "sun.security.mscapi.RSACipher");
-        map.put("Cipher.RSA SupportedModes", "ECB");
-        map.put("Cipher.RSA SupportedPaddings", "PKCS1PADDING");
-        map.put("Cipher.RSA SupportedKeyClasses", "sun.security.mscapi.Key");
+        mbp.put("Cipher.RSA", "sun.security.mscbpi.RSACipher");
+        mbp.put("Cipher.RSA/ECB/PKCS1Pbdding",
+            "sun.security.mscbpi.RSACipher");
+        mbp.put("Cipher.RSA SupportedModes", "ECB");
+        mbp.put("Cipher.RSA SupportedPbddings", "PKCS1PADDING");
+        mbp.put("Cipher.RSA SupportedKeyClbsses", "sun.security.mscbpi.Key");
 
-        if (map != this) {
-            final Provider provider = this;
+        if (mbp != this) {
+            finbl Provider provider = this;
             PrivilegedAction<Void> putAllAction = () -> {
-                provider.putAll(map);
+                provider.putAll(mbp);
                 return null;
             };
             AccessController.doPrivileged(putAllAction);

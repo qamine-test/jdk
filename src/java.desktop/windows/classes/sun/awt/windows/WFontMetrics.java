@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.*;
-import java.util.Hashtable;
+import jbvb.bwt.*;
+import jbvb.util.Hbshtbble;
 
 /**
- * A font metrics object for a WServer font.
+ * A font metrics object for b WServer font.
  *
- * @author Jim Graham
+ * @buthor Jim Grbhbm
  */
-@SuppressWarnings("serial") // JDK-implementation class
-final class WFontMetrics extends FontMetrics {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+finbl clbss WFontMetrics extends FontMetrics {
 
-    static {
+    stbtic {
         initIDs();
     }
 
     /**
-     * The widths of the first 256 characters.
+     * The widths of the first 256 chbrbcters.
      */
     int widths[];
 
     /**
-     * The standard ascent of the font.  This is the logical height
-     * above the baseline for the Alphanumeric characters and should
-     * be used for determining line spacing.  Note, however, that some
-     * characters in the font may extend above this height.
+     * The stbndbrd bscent of the font.  This is the logicbl height
+     * bbove the bbseline for the Alphbnumeric chbrbcters bnd should
+     * be used for determining line spbcing.  Note, however, thbt some
+     * chbrbcters in the font mby extend bbove this height.
      */
-    int ascent;
+    int bscent;
 
     /**
-     * The standard descent of the font.  This is the logical height
-     * below the baseline for the Alphanumeric characters and should
-     * be used for determining line spacing.  Note, however, that some
-     * characters in the font may extend below this height.
+     * The stbndbrd descent of the font.  This is the logicbl height
+     * below the bbseline for the Alphbnumeric chbrbcters bnd should
+     * be used for determining line spbcing.  Note, however, thbt some
+     * chbrbcters in the font mby extend below this height.
      */
     int descent;
 
     /**
-     * The standard leading for the font.  This is the logical amount
-     * of space to be reserved between the descent of one line of text
-     * and the ascent of the next line.  The height metric is calculated
-     * to include this extra space.
+     * The stbndbrd lebding for the font.  This is the logicbl bmount
+     * of spbce to be reserved between the descent of one line of text
+     * bnd the bscent of the next line.  The height metric is cblculbted
+     * to include this extrb spbce.
      */
-    int leading;
+    int lebding;
 
     /**
-     * The standard height of a line of text in this font.  This is
-     * the distance between the baseline of adjacent lines of text.
-     * It is the sum of the ascent+descent+leading.  There is no
-     * guarantee that lines of text spaced at this distance will be
-     * disjoint; such lines may overlap if some characters overshoot
-     * the standard ascent and descent metrics.
+     * The stbndbrd height of b line of text in this font.  This is
+     * the distbnce between the bbseline of bdjbcent lines of text.
+     * It is the sum of the bscent+descent+lebding.  There is no
+     * gubrbntee thbt lines of text spbced bt this distbnce will be
+     * disjoint; such lines mby overlbp if some chbrbcters overshoot
+     * the stbndbrd bscent bnd descent metrics.
      */
     int height;
 
     /**
-     * The maximum ascent for all characters in this font.  No character
-     * will extend further above the baseline than this metric.
+     * The mbximum bscent for bll chbrbcters in this font.  No chbrbcter
+     * will extend further bbove the bbseline thbn this metric.
      */
-    int maxAscent;
+    int mbxAscent;
 
     /**
-     * The maximum descent for all characters in this font.  No character
-     * will descend further below the baseline than this metric.
+     * The mbximum descent for bll chbrbcters in this font.  No chbrbcter
+     * will descend further below the bbseline thbn this metric.
      */
-    int maxDescent;
+    int mbxDescent;
 
     /**
-     * The maximum possible height of a line of text in this font.
-     * Adjacent lines of text spaced this distance apart will be
-     * guaranteed not to overlap.  Note, however, that many paragraphs
-     * that contain ordinary alphanumeric text may look too widely
-     * spaced if this metric is used to determine line spacing.  The
-     * height field should be preferred unless the text in a given
-     * line contains particularly tall characters.
+     * The mbximum possible height of b line of text in this font.
+     * Adjbcent lines of text spbced this distbnce bpbrt will be
+     * gubrbnteed not to overlbp.  Note, however, thbt mbny pbrbgrbphs
+     * thbt contbin ordinbry blphbnumeric text mby look too widely
+     * spbced if this metric is used to determine line spbcing.  The
+     * height field should be preferred unless the text in b given
+     * line contbins pbrticulbrly tbll chbrbcters.
      */
-    int maxHeight;
+    int mbxHeight;
 
     /**
-     * The maximum advance width of any character in this font.
+     * The mbximum bdvbnce width of bny chbrbcter in this font.
      */
-    int maxAdvance;
+    int mbxAdvbnce;
 
     /**
-     * Calculate the metrics from the given WServer and font.
+     * Cblculbte the metrics from the given WServer bnd font.
      */
     public WFontMetrics(Font font) {
         super(font);
@@ -116,19 +116,19 @@ final class WFontMetrics extends FontMetrics {
     }
 
     /**
-     * Get leading
+     * Get lebding
      */
     @Override
-    public int getLeading() {
-        return leading;
+    public int getLebding() {
+        return lebding;
     }
 
     /**
-     * Get ascent.
+     * Get bscent.
      */
     @Override
     public int getAscent() {
-        return ascent;
+        return bscent;
     }
 
     /**
@@ -148,69 +148,69 @@ final class WFontMetrics extends FontMetrics {
     }
 
     /**
-     * Get maxAscent
+     * Get mbxAscent
      */
     @Override
-    public int getMaxAscent() {
-        return maxAscent;
+    public int getMbxAscent() {
+        return mbxAscent;
     }
 
     /**
-     * Get maxDescent
+     * Get mbxDescent
      */
     @Override
-    public int getMaxDescent() {
-        return maxDescent;
+    public int getMbxDescent() {
+        return mbxDescent;
     }
 
     /**
-     * Get maxAdvance
+     * Get mbxAdvbnce
      */
     @Override
-    public int getMaxAdvance() {
-        return maxAdvance;
+    public int getMbxAdvbnce() {
+        return mbxAdvbnce;
     }
 
     /**
      * Return the width of the specified string in this Font.
      */
     @Override
-    public native int stringWidth(String str);
+    public nbtive int stringWidth(String str);
 
     /**
-     * Return the width of the specified char[] in this Font.
+     * Return the width of the specified chbr[] in this Font.
      */
     @Override
-    public native int charsWidth(char data[], int off, int len);
+    public nbtive int chbrsWidth(chbr dbtb[], int off, int len);
 
     /**
      * Return the width of the specified byte[] in this Font.
      */
     @Override
-    public native int bytesWidth(byte data[], int off, int len);
+    public nbtive int bytesWidth(byte dbtb[], int off, int len);
 
     /**
-     * Get the widths of the first 256 characters in the font.
+     * Get the widths of the first 256 chbrbcters in the font.
      */
     @Override
     public int[] getWidths() {
         return widths;
     }
 
-    native void init();
+    nbtive void init();
 
-    static Hashtable<Font, FontMetrics> table = new Hashtable<>();
+    stbtic Hbshtbble<Font, FontMetrics> tbble = new Hbshtbble<>();
 
-    static FontMetrics getFontMetrics(Font font) {
-        FontMetrics fm = table.get(font);
+    stbtic FontMetrics getFontMetrics(Font font) {
+        FontMetrics fm = tbble.get(font);
         if (fm == null) {
-            table.put(font, fm = new WFontMetrics(font));
+            tbble.put(font, fm = new WFontMetrics(font));
         }
         return fm;
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 }

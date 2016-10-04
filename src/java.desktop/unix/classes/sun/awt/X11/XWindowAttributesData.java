@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
-import sun.awt.IconInfo;
+pbckbge sun.bwt.X11;
+import sun.bwt.IconInfo;
 
-class XWindowAttributesData {
-    static int NORMAL           = 0;
-    static int ICONIC           = 1;
-    static int MAXIMIZED        = 2;
+clbss XWindowAttributesDbtb {
+    stbtic int NORMAL           = 0;
+    stbtic int ICONIC           = 1;
+    stbtic int MAXIMIZED        = 2;
 
-    static int AWT_DECOR_NONE        = 0;
-    static int AWT_DECOR_ALL         = 1;
-    static int AWT_DECOR_BORDER      = 2;
-    static int AWT_DECOR_RESIZEH     = 4;
-    static int AWT_DECOR_TITLE       = 8;
-    static int AWT_DECOR_MENU        = 0x10;
-    static int AWT_DECOR_MINIMIZE    = 0x20;
-    static int AWT_DECOR_MAXIMIZE    = 0x40;
-    static int AWT_UNOBSCURED        = 0;   // X11 VisibilityUnobscured
-    static int AWT_PARTIALLY_OBSCURED = 1;  // X11 VisibilityPartiallyObscured
-    static int AWT_FULLY_OBSCURED    =  2;  // X11 VisibilityFullyObscured
-    static int AWT_UNKNOWN_OBSCURITY = 3;
+    stbtic int AWT_DECOR_NONE        = 0;
+    stbtic int AWT_DECOR_ALL         = 1;
+    stbtic int AWT_DECOR_BORDER      = 2;
+    stbtic int AWT_DECOR_RESIZEH     = 4;
+    stbtic int AWT_DECOR_TITLE       = 8;
+    stbtic int AWT_DECOR_MENU        = 0x10;
+    stbtic int AWT_DECOR_MINIMIZE    = 0x20;
+    stbtic int AWT_DECOR_MAXIMIZE    = 0x40;
+    stbtic int AWT_UNOBSCURED        = 0;   // X11 VisibilityUnobscured
+    stbtic int AWT_PARTIALLY_OBSCURED = 1;  // X11 VisibilityPbrtibllyObscured
+    stbtic int AWT_FULLY_OBSCURED    =  2;  // X11 VisibilityFullyObscured
+    stbtic int AWT_UNKNOWN_OBSCURITY = 3;
 
-    boolean nativeDecor;
-    boolean initialFocus;
-    boolean isResizable;
-    int initialState;
-    boolean initialResizability;
-    int visibilityState; // updated by native X11 event handling code.
+    boolebn nbtiveDecor;
+    boolebn initiblFocus;
+    boolebn isResizbble;
+    int initiblStbte;
+    boolebn initiblResizbbility;
+    int visibilityStbte; // updbted by nbtive X11 event hbndling code.
     String title;
-    java.util.List<IconInfo> icons;
-    boolean iconsInherited;
-    int decorations;            // for future expansion to be able to
-                                // specify native decorations
+    jbvb.util.List<IconInfo> icons;
+    boolebn iconsInherited;
+    int decorbtions;            // for future expbnsion to be bble to
+                                // specify nbtive decorbtions
     int functions; // MWM_FUNC_*
 
-    XWindowAttributesData() {
-        nativeDecor = false;
-        initialFocus = false;
-        isResizable = false;
-        initialState = NORMAL;
-        visibilityState = AWT_UNKNOWN_OBSCURITY;
+    XWindowAttributesDbtb() {
+        nbtiveDecor = fblse;
+        initiblFocus = fblse;
+        isResizbble = fblse;
+        initiblStbte = NORMAL;
+        visibilityStbte = AWT_UNKNOWN_OBSCURITY;
         title = null;
         icons = null;
         iconsInherited = true;
-        decorations = 0;
+        decorbtions = 0;
         functions = 0;
-        initialResizability = true;
+        initiblResizbbility = true;
     }
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,10 +28,10 @@
 #define __ORIG_MLIB_IMAGE_PROTO_H
 
 #include <mlib_types.h>
-#include <mlib_status.h>
-#include <mlib_image_types.h>
+#include <mlib_stbtus.h>
+#include <mlib_imbge_types.h>
 #if defined ( __MEDIALIB_OLD_NAMES_ADDED )
-#include <../include/mlib_image_proto.h>
+#include <../include/mlib_imbge_proto.h>
 #endif /* defined ( __MEDIALIB_OLD_NAMES_ADDED ) */
 
 #ifdef __cplusplus
@@ -39,7 +39,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #if defined ( __USE_J2D_NAMES )
-#include "j2d_names.h"
+#include "j2d_nbmes.h"
 #endif // __USE_J2D_NAMES
 
 #if defined ( _MSC_VER )
@@ -54,1034 +54,1034 @@ extern "C" {
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
 #endif /* defined ( _MSC_VER ) */
 
-/* Arithmetic Operations ( arith ) */
+/* Arithmetic Operbtions ( brith ) */
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAbs mlib_ImageAbs
+#define __mlib_ImbgeAbs mlib_ImbgeAbs
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAbs(mlib_image *dst,
-                             const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeAbs(mlib_imbge *dst,
+                             const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAbs_Fp mlib_ImageAbs_Fp
+#define __mlib_ImbgeAbs_Fp mlib_ImbgeAbs_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAbs_Fp(mlib_image *dst,
-                                const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeAbs_Fp(mlib_imbge *dst,
+                                const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAbs_Fp_Inp mlib_ImageAbs_Fp_Inp
+#define __mlib_ImbgeAbs_Fp_Inp mlib_ImbgeAbs_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAbs_Fp_Inp(mlib_image *srcdst);
+mlib_stbtus  __mlib_ImbgeAbs_Fp_Inp(mlib_imbge *srcdst);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAbs_Inp mlib_ImageAbs_Inp
+#define __mlib_ImbgeAbs_Inp mlib_ImbgeAbs_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAbs_Inp(mlib_image *srcdst);
+mlib_stbtus  __mlib_ImbgeAbs_Inp(mlib_imbge *srcdst);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAdd mlib_ImageAdd
+#define __mlib_ImbgeAdd mlib_ImbgeAdd
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAdd(mlib_image *dst,
-                             const mlib_image *src1,
-                             const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeAdd(mlib_imbge *dst,
+                             const mlib_imbge *src1,
+                             const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAdd_Fp mlib_ImageAdd_Fp
+#define __mlib_ImbgeAdd_Fp mlib_ImbgeAdd_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAdd_Fp(mlib_image *dst,
-                                const mlib_image *src1,
-                                const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeAdd_Fp(mlib_imbge *dst,
+                                const mlib_imbge *src1,
+                                const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAdd_Fp_Inp mlib_ImageAdd_Fp_Inp
+#define __mlib_ImbgeAdd_Fp_Inp mlib_ImbgeAdd_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAdd_Fp_Inp(mlib_image *src1dst,
-                                    const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeAdd_Fp_Inp(mlib_imbge *src1dst,
+                                    const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAdd_Inp mlib_ImageAdd_Inp
+#define __mlib_ImbgeAdd_Inp mlib_ImbgeAdd_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAdd_Inp(mlib_image *src1dst,
-                                 const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeAdd_Inp(mlib_imbge *src1dst,
+                                 const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAve mlib_ImageAve
+#define __mlib_ImbgeAve mlib_ImbgeAve
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAve(mlib_image *dst,
-                             const mlib_image *src1,
-                             const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeAve(mlib_imbge *dst,
+                             const mlib_imbge *src1,
+                             const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAve_Fp mlib_ImageAve_Fp
+#define __mlib_ImbgeAve_Fp mlib_ImbgeAve_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAve_Fp(mlib_image *dst,
-                                const mlib_image *src1,
-                                const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeAve_Fp(mlib_imbge *dst,
+                                const mlib_imbge *src1,
+                                const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAve_Fp_Inp mlib_ImageAve_Fp_Inp
+#define __mlib_ImbgeAve_Fp_Inp mlib_ImbgeAve_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAve_Fp_Inp(mlib_image *src1dst,
-                                    const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeAve_Fp_Inp(mlib_imbge *src1dst,
+                                    const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAve_Inp mlib_ImageAve_Inp
+#define __mlib_ImbgeAve_Inp mlib_ImbgeAve_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAve_Inp(mlib_image *src1dst,
-                                 const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeAve_Inp(mlib_imbge *src1dst,
+                                 const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageBlend mlib_ImageBlend
+#define __mlib_ImbgeBlend mlib_ImbgeBlend
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageBlend(mlib_image *dst,
-                               const mlib_image *src1,
-                               const mlib_image *src2,
-                               const mlib_image *alpha);
+mlib_stbtus  __mlib_ImbgeBlend(mlib_imbge *dst,
+                               const mlib_imbge *src1,
+                               const mlib_imbge *src2,
+                               const mlib_imbge *blphb);
 
-/* src1dst = src1dst * alpha + src2 * (1 - alpha) */
+/* src1dst = src1dst * blphb + src2 * (1 - blphb) */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageBlend1_Fp_Inp mlib_ImageBlend1_Fp_Inp
+#define __mlib_ImbgeBlend1_Fp_Inp mlib_ImbgeBlend1_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageBlend1_Fp_Inp(mlib_image *src1dst,
-                                       const mlib_image *src2,
-                                       const mlib_image *alpha);
+mlib_stbtus  __mlib_ImbgeBlend1_Fp_Inp(mlib_imbge *src1dst,
+                                       const mlib_imbge *src2,
+                                       const mlib_imbge *blphb);
 
-/* src1dst = src1dst * alpha + src2 * (1 - alpha) */
+/* src1dst = src1dst * blphb + src2 * (1 - blphb) */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageBlend1_Inp mlib_ImageBlend1_Inp
+#define __mlib_ImbgeBlend1_Inp mlib_ImbgeBlend1_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageBlend1_Inp(mlib_image *src1dst,
-                                    const mlib_image *src2,
-                                    const mlib_image *alpha);
+mlib_stbtus  __mlib_ImbgeBlend1_Inp(mlib_imbge *src1dst,
+                                    const mlib_imbge *src2,
+                                    const mlib_imbge *blphb);
 
-/* src2dst = src1 * alpha + src2dst * (1 - alpha) */
+/* src2dst = src1 * blphb + src2dst * (1 - blphb) */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageBlend2_Fp_Inp mlib_ImageBlend2_Fp_Inp
+#define __mlib_ImbgeBlend2_Fp_Inp mlib_ImbgeBlend2_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageBlend2_Fp_Inp(mlib_image *src2dst,
-                                       const mlib_image *src1,
-                                       const mlib_image *alpha);
+mlib_stbtus  __mlib_ImbgeBlend2_Fp_Inp(mlib_imbge *src2dst,
+                                       const mlib_imbge *src1,
+                                       const mlib_imbge *blphb);
 
-/* src2dst = src1 * alpha + src2dst * (1 - alpha) */
+/* src2dst = src1 * blphb + src2dst * (1 - blphb) */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageBlend2_Inp mlib_ImageBlend2_Inp
+#define __mlib_ImbgeBlend2_Inp mlib_ImbgeBlend2_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageBlend2_Inp(mlib_image *src2dst,
-                                    const mlib_image *src1,
-                                    const mlib_image *alpha);
-
-
-#if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageBlend_Fp mlib_ImageBlend_Fp
-#endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageBlend_Fp(mlib_image *dst,
-                                  const mlib_image *src1,
-                                  const mlib_image *src2,
-                                  const mlib_image *alpha);
+mlib_stbtus  __mlib_ImbgeBlend2_Inp(mlib_imbge *src2dst,
+                                    const mlib_imbge *src1,
+                                    const mlib_imbge *blphb);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageBlendMulti mlib_ImageBlendMulti
+#define __mlib_ImbgeBlend_Fp mlib_ImbgeBlend_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageBlendMulti(mlib_image *dst,
-                                    const mlib_image **srcs,
-                                    const mlib_image **alphas,
+mlib_stbtus  __mlib_ImbgeBlend_Fp(mlib_imbge *dst,
+                                  const mlib_imbge *src1,
+                                  const mlib_imbge *src2,
+                                  const mlib_imbge *blphb);
+
+
+#if defined ( __MEDIALIB_OLD_NAMES )
+#define __mlib_ImbgeBlendMulti mlib_ImbgeBlendMulti
+#endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
+mlib_stbtus  __mlib_ImbgeBlendMulti(mlib_imbge *dst,
+                                    const mlib_imbge **srcs,
+                                    const mlib_imbge **blphbs,
                                     const mlib_s32 *c,
                                     mlib_s32 n);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageBlendMulti_Fp mlib_ImageBlendMulti_Fp
+#define __mlib_ImbgeBlendMulti_Fp mlib_ImbgeBlendMulti_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageBlendMulti_Fp(mlib_image *dst,
-                                       const mlib_image **srcs,
-                                       const mlib_image **alphas,
+mlib_stbtus  __mlib_ImbgeBlendMulti_Fp(mlib_imbge *dst,
+                                       const mlib_imbge **srcs,
+                                       const mlib_imbge **blphbs,
                                        const mlib_d64 *c,
                                        mlib_s32 n);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageBlendRGBA2ARGB mlib_ImageBlendRGBA2ARGB
+#define __mlib_ImbgeBlendRGBA2ARGB mlib_ImbgeBlendRGBA2ARGB
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageBlendRGBA2ARGB(mlib_image *dst,
-                                        const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeBlendRGBA2ARGB(mlib_imbge *dst,
+                                        const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageBlendRGBA2BGRA mlib_ImageBlendRGBA2BGRA
+#define __mlib_ImbgeBlendRGBA2BGRA mlib_ImbgeBlendRGBA2BGRA
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageBlendRGBA2BGRA(mlib_image *dst,
-                                        const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeBlendRGBA2BGRA(mlib_imbge *dst,
+                                        const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorBlend mlib_ImageColorBlend
+#define __mlib_ImbgeColorBlend mlib_ImbgeColorBlend
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorBlend(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeColorBlend(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_s32 *color,
-                                    mlib_s32 cmask);
+                                    mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorBlend_Fp mlib_ImageColorBlend_Fp
+#define __mlib_ImbgeColorBlend_Fp mlib_ImbgeColorBlend_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorBlend_Fp(mlib_image *dst,
-                                       const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeColorBlend_Fp(mlib_imbge *dst,
+                                       const mlib_imbge *src,
                                        const mlib_d64 *color,
-                                       mlib_s32 cmask);
+                                       mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorBlend_Fp_Inp mlib_ImageColorBlend_Fp_Inp
+#define __mlib_ImbgeColorBlend_Fp_Inp mlib_ImbgeColorBlend_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorBlend_Fp_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeColorBlend_Fp_Inp(mlib_imbge *srcdst,
                                            const mlib_d64 *color,
-                                           mlib_s32 cmask);
+                                           mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorBlend_Inp mlib_ImageColorBlend_Inp
+#define __mlib_ImbgeColorBlend_Inp mlib_ImbgeColorBlend_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorBlend_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeColorBlend_Inp(mlib_imbge *srcdst,
                                         const mlib_s32 *color,
-                                        mlib_s32 cmask);
+                                        mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstAdd mlib_ImageConstAdd
+#define __mlib_ImbgeConstAdd mlib_ImbgeConstAdd
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstAdd(mlib_image *dst,
-                                  const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstAdd(mlib_imbge *dst,
+                                  const mlib_imbge *src,
                                   const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstAdd_Fp mlib_ImageConstAdd_Fp
+#define __mlib_ImbgeConstAdd_Fp mlib_ImbgeConstAdd_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstAdd_Fp(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstAdd_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_d64 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstAdd_Fp_Inp mlib_ImageConstAdd_Fp_Inp
+#define __mlib_ImbgeConstAdd_Fp_Inp mlib_ImbgeConstAdd_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstAdd_Fp_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstAdd_Fp_Inp(mlib_imbge *srcdst,
                                          const mlib_d64 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstAdd_Inp mlib_ImageConstAdd_Inp
+#define __mlib_ImbgeConstAdd_Inp mlib_ImbgeConstAdd_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstAdd_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstAdd_Inp(mlib_imbge *srcdst,
                                       const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstDiv mlib_ImageConstDiv
+#define __mlib_ImbgeConstDiv mlib_ImbgeConstDiv
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstDiv(mlib_image *dst,
-                                  const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstDiv(mlib_imbge *dst,
+                                  const mlib_imbge *src,
                                   const mlib_d64 *consts);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstDivShift mlib_ImageConstDivShift
+#define __mlib_ImbgeConstDivShift mlib_ImbgeConstDivShift
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstDivShift(mlib_image *dst,
-                                       const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstDivShift(mlib_imbge *dst,
+                                       const mlib_imbge *src,
                                        const mlib_s32 *consts,
                                        mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstDivShift_Inp mlib_ImageConstDivShift_Inp
+#define __mlib_ImbgeConstDivShift_Inp mlib_ImbgeConstDivShift_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstDivShift_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstDivShift_Inp(mlib_imbge *srcdst,
                                            const mlib_s32 *consts,
                                            mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstDiv_Fp mlib_ImageConstDiv_Fp
+#define __mlib_ImbgeConstDiv_Fp mlib_ImbgeConstDiv_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstDiv_Fp(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstDiv_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_d64 *consts);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstDiv_Fp_Inp mlib_ImageConstDiv_Fp_Inp
+#define __mlib_ImbgeConstDiv_Fp_Inp mlib_ImbgeConstDiv_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstDiv_Fp_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstDiv_Fp_Inp(mlib_imbge *srcdst,
                                          const mlib_d64 *consts);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstDiv_Inp mlib_ImageConstDiv_Inp
+#define __mlib_ImbgeConstDiv_Inp mlib_ImbgeConstDiv_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstDiv_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstDiv_Inp(mlib_imbge *srcdst,
                                       const mlib_d64 *consts);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstMul mlib_ImageConstMul
+#define __mlib_ImbgeConstMul mlib_ImbgeConstMul
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstMul(mlib_image *dst,
-                                  const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstMul(mlib_imbge *dst,
+                                  const mlib_imbge *src,
                                   const mlib_d64 *consts);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstMulShift mlib_ImageConstMulShift
+#define __mlib_ImbgeConstMulShift mlib_ImbgeConstMulShift
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstMulShift(mlib_image *dst,
-                                       const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstMulShift(mlib_imbge *dst,
+                                       const mlib_imbge *src,
                                        const mlib_s32 *consts,
                                        mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstMulShift_Inp mlib_ImageConstMulShift_Inp
+#define __mlib_ImbgeConstMulShift_Inp mlib_ImbgeConstMulShift_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstMulShift_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstMulShift_Inp(mlib_imbge *srcdst,
                                            const mlib_s32 *consts,
                                            mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstMul_Fp mlib_ImageConstMul_Fp
+#define __mlib_ImbgeConstMul_Fp mlib_ImbgeConstMul_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstMul_Fp(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstMul_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_d64 *consts);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstMul_Fp_Inp mlib_ImageConstMul_Fp_Inp
+#define __mlib_ImbgeConstMul_Fp_Inp mlib_ImbgeConstMul_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstMul_Fp_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstMul_Fp_Inp(mlib_imbge *srcdst,
                                          const mlib_d64 *consts);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstMul_Inp mlib_ImageConstMul_Inp
+#define __mlib_ImbgeConstMul_Inp mlib_ImbgeConstMul_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstMul_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstMul_Inp(mlib_imbge *srcdst,
                                       const mlib_d64 *consts);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstSub mlib_ImageConstSub
+#define __mlib_ImbgeConstSub mlib_ImbgeConstSub
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstSub(mlib_image *dst,
-                                  const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstSub(mlib_imbge *dst,
+                                  const mlib_imbge *src,
                                   const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstSub_Fp mlib_ImageConstSub_Fp
+#define __mlib_ImbgeConstSub_Fp mlib_ImbgeConstSub_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstSub_Fp(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstSub_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_d64 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstSub_Fp_Inp mlib_ImageConstSub_Fp_Inp
+#define __mlib_ImbgeConstSub_Fp_Inp mlib_ImbgeConstSub_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstSub_Fp_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstSub_Fp_Inp(mlib_imbge *srcdst,
                                          const mlib_d64 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstSub_Inp mlib_ImageConstSub_Inp
+#define __mlib_ImbgeConstSub_Inp mlib_ImbgeConstSub_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstSub_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstSub_Inp(mlib_imbge *srcdst,
                                       const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDiv1_Fp_Inp mlib_ImageDiv1_Fp_Inp
+#define __mlib_ImbgeDiv1_Fp_Inp mlib_ImbgeDiv1_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDiv1_Fp_Inp(mlib_image *src1dst,
-                                     const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeDiv1_Fp_Inp(mlib_imbge *src1dst,
+                                     const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDiv2_Fp_Inp mlib_ImageDiv2_Fp_Inp
+#define __mlib_ImbgeDiv2_Fp_Inp mlib_ImbgeDiv2_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDiv2_Fp_Inp(mlib_image *src2dst,
-                                     const mlib_image *src1);
+mlib_stbtus  __mlib_ImbgeDiv2_Fp_Inp(mlib_imbge *src2dst,
+                                     const mlib_imbge *src1);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDivAlpha mlib_ImageDivAlpha
+#define __mlib_ImbgeDivAlphb mlib_ImbgeDivAlphb
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDivAlpha(mlib_image *dst,
-                                  const mlib_image *src,
-                                  mlib_s32 cmask);
+mlib_stbtus  __mlib_ImbgeDivAlphb(mlib_imbge *dst,
+                                  const mlib_imbge *src,
+                                  mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDivAlpha_Fp mlib_ImageDivAlpha_Fp
+#define __mlib_ImbgeDivAlphb_Fp mlib_ImbgeDivAlphb_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDivAlpha_Fp(mlib_image *dst,
-                                     const mlib_image *src,
-                                     mlib_s32 cmask);
+mlib_stbtus  __mlib_ImbgeDivAlphb_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src,
+                                     mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDivAlpha_Fp_Inp mlib_ImageDivAlpha_Fp_Inp
+#define __mlib_ImbgeDivAlphb_Fp_Inp mlib_ImbgeDivAlphb_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDivAlpha_Fp_Inp(mlib_image *img,
-                                         mlib_s32 cmask);
+mlib_stbtus  __mlib_ImbgeDivAlphb_Fp_Inp(mlib_imbge *img,
+                                         mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDivAlpha_Inp mlib_ImageDivAlpha_Inp
+#define __mlib_ImbgeDivAlphb_Inp mlib_ImbgeDivAlphb_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDivAlpha_Inp(mlib_image *img,
-                                      mlib_s32 cmask);
+mlib_stbtus  __mlib_ImbgeDivAlphb_Inp(mlib_imbge *img,
+                                      mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDivConstShift mlib_ImageDivConstShift
+#define __mlib_ImbgeDivConstShift mlib_ImbgeDivConstShift
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDivConstShift(mlib_image *dst,
-                                       const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeDivConstShift(mlib_imbge *dst,
+                                       const mlib_imbge *src,
                                        const mlib_s32 *consts,
                                        mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDivConstShift_Inp mlib_ImageDivConstShift_Inp
+#define __mlib_ImbgeDivConstShift_Inp mlib_ImbgeDivConstShift_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDivConstShift_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeDivConstShift_Inp(mlib_imbge *srcdst,
                                            const mlib_s32 *consts,
                                            mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDivShift mlib_ImageDivShift
+#define __mlib_ImbgeDivShift mlib_ImbgeDivShift
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDivShift(mlib_image *dst,
-                                  const mlib_image *src1,
-                                  const mlib_image *src2,
+mlib_stbtus  __mlib_ImbgeDivShift(mlib_imbge *dst,
+                                  const mlib_imbge *src1,
+                                  const mlib_imbge *src2,
                                   mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDivShift1_Inp mlib_ImageDivShift1_Inp
+#define __mlib_ImbgeDivShift1_Inp mlib_ImbgeDivShift1_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDivShift1_Inp(mlib_image *src1dst,
-                                       const mlib_image *src2,
+mlib_stbtus  __mlib_ImbgeDivShift1_Inp(mlib_imbge *src1dst,
+                                       const mlib_imbge *src2,
                                        mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDivShift2_Inp mlib_ImageDivShift2_Inp
+#define __mlib_ImbgeDivShift2_Inp mlib_ImbgeDivShift2_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDivShift2_Inp(mlib_image *src2dst,
-                                       const mlib_image *src1,
+mlib_stbtus  __mlib_ImbgeDivShift2_Inp(mlib_imbge *src2dst,
+                                       const mlib_imbge *src1,
                                        mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDiv_Fp mlib_ImageDiv_Fp
+#define __mlib_ImbgeDiv_Fp mlib_ImbgeDiv_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDiv_Fp(mlib_image *dst,
-                                const mlib_image *src1,
-                                const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeDiv_Fp(mlib_imbge *dst,
+                                const mlib_imbge *src1,
+                                const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageExp mlib_ImageExp
+#define __mlib_ImbgeExp mlib_ImbgeExp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageExp(mlib_image *dst,
-                             const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeExp(mlib_imbge *dst,
+                             const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageExp_Fp mlib_ImageExp_Fp
+#define __mlib_ImbgeExp_Fp mlib_ImbgeExp_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageExp_Fp(mlib_image *dst,
-                                const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeExp_Fp(mlib_imbge *dst,
+                                const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageExp_Fp_Inp mlib_ImageExp_Fp_Inp
+#define __mlib_ImbgeExp_Fp_Inp mlib_ImbgeExp_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageExp_Fp_Inp(mlib_image *srcdst);
+mlib_stbtus  __mlib_ImbgeExp_Fp_Inp(mlib_imbge *srcdst);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageExp_Inp mlib_ImageExp_Inp
+#define __mlib_ImbgeExp_Inp mlib_ImbgeExp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageExp_Inp(mlib_image *srcdst);
+mlib_stbtus  __mlib_ImbgeExp_Inp(mlib_imbge *srcdst);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageInvert mlib_ImageInvert
+#define __mlib_ImbgeInvert mlib_ImbgeInvert
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageInvert(mlib_image *dst,
-                                const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeInvert(mlib_imbge *dst,
+                                const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageInvert_Fp mlib_ImageInvert_Fp
+#define __mlib_ImbgeInvert_Fp mlib_ImbgeInvert_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageInvert_Fp(mlib_image *dst,
-                                   const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeInvert_Fp(mlib_imbge *dst,
+                                   const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageInvert_Fp_Inp mlib_ImageInvert_Fp_Inp
+#define __mlib_ImbgeInvert_Fp_Inp mlib_ImbgeInvert_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageInvert_Fp_Inp(mlib_image *srcdst);
+mlib_stbtus  __mlib_ImbgeInvert_Fp_Inp(mlib_imbge *srcdst);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageInvert_Inp mlib_ImageInvert_Inp
+#define __mlib_ImbgeInvert_Inp mlib_ImbgeInvert_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageInvert_Inp(mlib_image *srcdst);
+mlib_stbtus  __mlib_ImbgeInvert_Inp(mlib_imbge *srcdst);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageLog mlib_ImageLog
+#define __mlib_ImbgeLog mlib_ImbgeLog
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageLog(mlib_image *dst,
-                             const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeLog(mlib_imbge *dst,
+                             const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageLog_Fp mlib_ImageLog_Fp
+#define __mlib_ImbgeLog_Fp mlib_ImbgeLog_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageLog_Fp(mlib_image *dst,
-                                const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeLog_Fp(mlib_imbge *dst,
+                                const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageLog_Fp_Inp mlib_ImageLog_Fp_Inp
+#define __mlib_ImbgeLog_Fp_Inp mlib_ImbgeLog_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageLog_Fp_Inp(mlib_image *srcdst);
+mlib_stbtus  __mlib_ImbgeLog_Fp_Inp(mlib_imbge *srcdst);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageLog_Inp mlib_ImageLog_Inp
+#define __mlib_ImbgeLog_Inp mlib_ImbgeLog_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageLog_Inp(mlib_image *srcdst);
+mlib_stbtus  __mlib_ImbgeLog_Inp(mlib_imbge *srcdst);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMax mlib_ImageMax
+#define __mlib_ImbgeMbx mlib_ImbgeMbx
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMax(mlib_image *dst,
-                             const mlib_image *src1,
-                             const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeMbx(mlib_imbge *dst,
+                             const mlib_imbge *src1,
+                             const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMax_Fp mlib_ImageMax_Fp
+#define __mlib_ImbgeMbx_Fp mlib_ImbgeMbx_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMax_Fp(mlib_image *dst,
-                                const mlib_image *src1,
-                                const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeMbx_Fp(mlib_imbge *dst,
+                                const mlib_imbge *src1,
+                                const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMax_Fp_Inp mlib_ImageMax_Fp_Inp
+#define __mlib_ImbgeMbx_Fp_Inp mlib_ImbgeMbx_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMax_Fp_Inp(mlib_image *src1dst,
-                                    const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeMbx_Fp_Inp(mlib_imbge *src1dst,
+                                    const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMax_Inp mlib_ImageMax_Inp
+#define __mlib_ImbgeMbx_Inp mlib_ImbgeMbx_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMax_Inp(mlib_image *src1dst,
-                                 const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeMbx_Inp(mlib_imbge *src1dst,
+                                 const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMin mlib_ImageMin
+#define __mlib_ImbgeMin mlib_ImbgeMin
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMin(mlib_image *dst,
-                             const mlib_image *src1,
-                             const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeMin(mlib_imbge *dst,
+                             const mlib_imbge *src1,
+                             const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMin_Fp mlib_ImageMin_Fp
+#define __mlib_ImbgeMin_Fp mlib_ImbgeMin_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMin_Fp(mlib_image *dst,
-                                const mlib_image *src1,
-                                const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeMin_Fp(mlib_imbge *dst,
+                                const mlib_imbge *src1,
+                                const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMin_Fp_Inp mlib_ImageMin_Fp_Inp
+#define __mlib_ImbgeMin_Fp_Inp mlib_ImbgeMin_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMin_Fp_Inp(mlib_image *src1dst,
-                                    const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeMin_Fp_Inp(mlib_imbge *src1dst,
+                                    const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMin_Inp mlib_ImageMin_Inp
+#define __mlib_ImbgeMin_Inp mlib_ImbgeMin_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMin_Inp(mlib_image *src1dst,
-                                 const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeMin_Inp(mlib_imbge *src1dst,
+                                 const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMulAlpha mlib_ImageMulAlpha
+#define __mlib_ImbgeMulAlphb mlib_ImbgeMulAlphb
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMulAlpha(mlib_image *dst,
-                                  const mlib_image *src,
-                                  mlib_s32 cmask);
+mlib_stbtus  __mlib_ImbgeMulAlphb(mlib_imbge *dst,
+                                  const mlib_imbge *src,
+                                  mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMulAlpha_Fp mlib_ImageMulAlpha_Fp
+#define __mlib_ImbgeMulAlphb_Fp mlib_ImbgeMulAlphb_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMulAlpha_Fp(mlib_image *dst,
-                                     const mlib_image *src,
-                                     mlib_s32 cmask);
+mlib_stbtus  __mlib_ImbgeMulAlphb_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src,
+                                     mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMulAlpha_Fp_Inp mlib_ImageMulAlpha_Fp_Inp
+#define __mlib_ImbgeMulAlphb_Fp_Inp mlib_ImbgeMulAlphb_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMulAlpha_Fp_Inp(mlib_image *img,
-                                         mlib_s32 cmask);
+mlib_stbtus  __mlib_ImbgeMulAlphb_Fp_Inp(mlib_imbge *img,
+                                         mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMulAlpha_Inp mlib_ImageMulAlpha_Inp
+#define __mlib_ImbgeMulAlphb_Inp mlib_ImbgeMulAlphb_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMulAlpha_Inp(mlib_image *img,
-                                      mlib_s32 cmask);
+mlib_stbtus  __mlib_ImbgeMulAlphb_Inp(mlib_imbge *img,
+                                      mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMulShift mlib_ImageMulShift
+#define __mlib_ImbgeMulShift mlib_ImbgeMulShift
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMulShift(mlib_image *dst,
-                                  const mlib_image *src1,
-                                  const mlib_image *src2,
+mlib_stbtus  __mlib_ImbgeMulShift(mlib_imbge *dst,
+                                  const mlib_imbge *src1,
+                                  const mlib_imbge *src2,
                                   mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMulShift_Inp mlib_ImageMulShift_Inp
+#define __mlib_ImbgeMulShift_Inp mlib_ImbgeMulShift_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMulShift_Inp(mlib_image *src1dst,
-                                      const mlib_image *src2,
+mlib_stbtus  __mlib_ImbgeMulShift_Inp(mlib_imbge *src1dst,
+                                      const mlib_imbge *src2,
                                       mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMul_Fp mlib_ImageMul_Fp
+#define __mlib_ImbgeMul_Fp mlib_ImbgeMul_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMul_Fp(mlib_image *dst,
-                                const mlib_image *src1,
-                                const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeMul_Fp(mlib_imbge *dst,
+                                const mlib_imbge *src1,
+                                const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMul_Fp_Inp mlib_ImageMul_Fp_Inp
+#define __mlib_ImbgeMul_Fp_Inp mlib_ImbgeMul_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMul_Fp_Inp(mlib_image *src1dst,
-                                    const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeMul_Fp_Inp(mlib_imbge *src1dst,
+                                    const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageScalarBlend mlib_ImageScalarBlend
+#define __mlib_ImbgeScblbrBlend mlib_ImbgeScblbrBlend
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageScalarBlend(mlib_image *dst,
-                                     const mlib_image *src1,
-                                     const mlib_image *src2,
-                                     const mlib_s32 *alpha);
+mlib_stbtus  __mlib_ImbgeScblbrBlend(mlib_imbge *dst,
+                                     const mlib_imbge *src1,
+                                     const mlib_imbge *src2,
+                                     const mlib_s32 *blphb);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageScalarBlend_Fp mlib_ImageScalarBlend_Fp
+#define __mlib_ImbgeScblbrBlend_Fp mlib_ImbgeScblbrBlend_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageScalarBlend_Fp(mlib_image *dst,
-                                        const mlib_image *src1,
-                                        const mlib_image *src2,
-                                        const mlib_d64 *alpha);
+mlib_stbtus  __mlib_ImbgeScblbrBlend_Fp(mlib_imbge *dst,
+                                        const mlib_imbge *src1,
+                                        const mlib_imbge *src2,
+                                        const mlib_d64 *blphb);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageScalarBlend_Fp_Inp mlib_ImageScalarBlend_Fp_Inp
+#define __mlib_ImbgeScblbrBlend_Fp_Inp mlib_ImbgeScblbrBlend_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageScalarBlend_Fp_Inp(mlib_image *src1dst,
-                                            const mlib_image *src2,
-                                            const mlib_d64 *alpha);
+mlib_stbtus  __mlib_ImbgeScblbrBlend_Fp_Inp(mlib_imbge *src1dst,
+                                            const mlib_imbge *src2,
+                                            const mlib_d64 *blphb);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageScalarBlend_Inp mlib_ImageScalarBlend_Inp
+#define __mlib_ImbgeScblbrBlend_Inp mlib_ImbgeScblbrBlend_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageScalarBlend_Inp(mlib_image *src1dst,
-                                         const mlib_image *src2,
-                                         const mlib_s32 *alpha);
+mlib_stbtus  __mlib_ImbgeScblbrBlend_Inp(mlib_imbge *src1dst,
+                                         const mlib_imbge *src2,
+                                         const mlib_s32 *blphb);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageScale mlib_ImageScale
+#define __mlib_ImbgeScble mlib_ImbgeScble
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageScale(mlib_image *dst,
-                               const mlib_image *src,
-                               const mlib_s32 *alpha,
-                               const mlib_s32 *beta,
+mlib_stbtus  __mlib_ImbgeScble(mlib_imbge *dst,
+                               const mlib_imbge *src,
+                               const mlib_s32 *blphb,
+                               const mlib_s32 *betb,
                                mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageScale2 mlib_ImageScale2
+#define __mlib_ImbgeScble2 mlib_ImbgeScble2
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageScale2(mlib_image *dst,
-                                const mlib_image *src,
-                                const mlib_d64 *alpha,
-                                const mlib_d64 *beta);
+mlib_stbtus  __mlib_ImbgeScble2(mlib_imbge *dst,
+                                const mlib_imbge *src,
+                                const mlib_d64 *blphb,
+                                const mlib_d64 *betb);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageScale2_Inp mlib_ImageScale2_Inp
+#define __mlib_ImbgeScble2_Inp mlib_ImbgeScble2_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageScale2_Inp(mlib_image *srcdst,
-                                    const mlib_d64 *alpha,
-                                    const mlib_d64 *beta);
+mlib_stbtus  __mlib_ImbgeScble2_Inp(mlib_imbge *srcdst,
+                                    const mlib_d64 *blphb,
+                                    const mlib_d64 *betb);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageScale_Fp mlib_ImageScale_Fp
+#define __mlib_ImbgeScble_Fp mlib_ImbgeScble_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageScale_Fp(mlib_image *dst,
-                                  const mlib_image *src,
-                                  const mlib_d64 *alpha,
-                                  const mlib_d64 *beta);
+mlib_stbtus  __mlib_ImbgeScble_Fp(mlib_imbge *dst,
+                                  const mlib_imbge *src,
+                                  const mlib_d64 *blphb,
+                                  const mlib_d64 *betb);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageScale_Fp_Inp mlib_ImageScale_Fp_Inp
+#define __mlib_ImbgeScble_Fp_Inp mlib_ImbgeScble_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageScale_Fp_Inp(mlib_image *srcdst,
-                                      const mlib_d64 *alpha,
-                                      const mlib_d64 *beta);
+mlib_stbtus  __mlib_ImbgeScble_Fp_Inp(mlib_imbge *srcdst,
+                                      const mlib_d64 *blphb,
+                                      const mlib_d64 *betb);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageScale_Inp mlib_ImageScale_Inp
+#define __mlib_ImbgeScble_Inp mlib_ImbgeScble_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageScale_Inp(mlib_image *srcdst,
-                                   const mlib_s32 *alpha,
-                                   const mlib_s32 *beta,
+mlib_stbtus  __mlib_ImbgeScble_Inp(mlib_imbge *srcdst,
+                                   const mlib_s32 *blphb,
+                                   const mlib_s32 *betb,
                                    mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSqrShift mlib_ImageSqrShift
+#define __mlib_ImbgeSqrShift mlib_ImbgeSqrShift
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSqrShift(mlib_image *dst,
-                                  const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeSqrShift(mlib_imbge *dst,
+                                  const mlib_imbge *src,
                                   mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSqrShift_Inp mlib_ImageSqrShift_Inp
+#define __mlib_ImbgeSqrShift_Inp mlib_ImbgeSqrShift_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSqrShift_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeSqrShift_Inp(mlib_imbge *srcdst,
                                       mlib_s32 shift);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSqr_Fp mlib_ImageSqr_Fp
+#define __mlib_ImbgeSqr_Fp mlib_ImbgeSqr_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSqr_Fp(mlib_image *dst,
-                                const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeSqr_Fp(mlib_imbge *dst,
+                                const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSqr_Fp_Inp mlib_ImageSqr_Fp_Inp
+#define __mlib_ImbgeSqr_Fp_Inp mlib_ImbgeSqr_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSqr_Fp_Inp(mlib_image *srcdst);
+mlib_stbtus  __mlib_ImbgeSqr_Fp_Inp(mlib_imbge *srcdst);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSub mlib_ImageSub
+#define __mlib_ImbgeSub mlib_ImbgeSub
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSub(mlib_image *dst,
-                             const mlib_image *src1,
-                             const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeSub(mlib_imbge *dst,
+                             const mlib_imbge *src1,
+                             const mlib_imbge *src2);
 
 /* src1dst = src1dst - src2 */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSub1_Fp_Inp mlib_ImageSub1_Fp_Inp
+#define __mlib_ImbgeSub1_Fp_Inp mlib_ImbgeSub1_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSub1_Fp_Inp(mlib_image *src1dst,
-                                     const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeSub1_Fp_Inp(mlib_imbge *src1dst,
+                                     const mlib_imbge *src2);
 
 /* src1dst = src1dst - src2 */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSub1_Inp mlib_ImageSub1_Inp
+#define __mlib_ImbgeSub1_Inp mlib_ImbgeSub1_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSub1_Inp(mlib_image *src1dst,
-                                  const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeSub1_Inp(mlib_imbge *src1dst,
+                                  const mlib_imbge *src2);
 
 /* src2dst = src1 - src2dst */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSub2_Fp_Inp mlib_ImageSub2_Fp_Inp
+#define __mlib_ImbgeSub2_Fp_Inp mlib_ImbgeSub2_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSub2_Fp_Inp(mlib_image *src2dst,
-                                     const mlib_image *src1);
+mlib_stbtus  __mlib_ImbgeSub2_Fp_Inp(mlib_imbge *src2dst,
+                                     const mlib_imbge *src1);
 
 /* src2dst = src1 - src2dst */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSub2_Inp mlib_ImageSub2_Inp
+#define __mlib_ImbgeSub2_Inp mlib_ImbgeSub2_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSub2_Inp(mlib_image *src2dst,
-                                  const mlib_image *src1);
+mlib_stbtus  __mlib_ImbgeSub2_Inp(mlib_imbge *src2dst,
+                                  const mlib_imbge *src1);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSub_Fp mlib_ImageSub_Fp
+#define __mlib_ImbgeSub_Fp mlib_ImbgeSub_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSub_Fp(mlib_image *dst,
-                                const mlib_image *src1,
-                                const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeSub_Fp(mlib_imbge *dst,
+                                const mlib_imbge *src1,
+                                const mlib_imbge *src2);
 
-/* Color Space Conversion ( color ) */
+/* Color Spbce Conversion ( color ) */
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorConvert1 mlib_ImageColorConvert1
+#define __mlib_ImbgeColorConvert1 mlib_ImbgeColorConvert1
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorConvert1(mlib_image *dst,
-                                       const mlib_image *src,
-                                       const mlib_d64 *cmat);
+mlib_stbtus  __mlib_ImbgeColorConvert1(mlib_imbge *dst,
+                                       const mlib_imbge *src,
+                                       const mlib_d64 *cmbt);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorConvert1_Fp mlib_ImageColorConvert1_Fp
+#define __mlib_ImbgeColorConvert1_Fp mlib_ImbgeColorConvert1_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorConvert1_Fp(mlib_image *dst,
-                                          const mlib_image *src,
-                                          const mlib_d64 *cmat);
+mlib_stbtus  __mlib_ImbgeColorConvert1_Fp(mlib_imbge *dst,
+                                          const mlib_imbge *src,
+                                          const mlib_d64 *cmbt);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorConvert2 mlib_ImageColorConvert2
+#define __mlib_ImbgeColorConvert2 mlib_ImbgeColorConvert2
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorConvert2(mlib_image *dst,
-                                       const mlib_image *src,
-                                       const mlib_d64 *cmat,
+mlib_stbtus  __mlib_ImbgeColorConvert2(mlib_imbge *dst,
+                                       const mlib_imbge *src,
+                                       const mlib_d64 *cmbt,
                                        const mlib_d64 *offset);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorConvert2_Fp mlib_ImageColorConvert2_Fp
+#define __mlib_ImbgeColorConvert2_Fp mlib_ImbgeColorConvert2_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorConvert2_Fp(mlib_image *dst,
-                                          const mlib_image *src,
-                                          const mlib_d64 *cmat,
+mlib_stbtus  __mlib_ImbgeColorConvert2_Fp(mlib_imbge *dst,
+                                          const mlib_imbge *src,
+                                          const mlib_d64 *cmbt,
                                           const mlib_d64 *offset);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorHSL2RGB mlib_ImageColorHSL2RGB
+#define __mlib_ImbgeColorHSL2RGB mlib_ImbgeColorHSL2RGB
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorHSL2RGB(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorHSL2RGB(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorHSL2RGB_Fp mlib_ImageColorHSL2RGB_Fp
+#define __mlib_ImbgeColorHSL2RGB_Fp mlib_ImbgeColorHSL2RGB_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorHSL2RGB_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorHSL2RGB_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorHSV2RGB mlib_ImageColorHSV2RGB
+#define __mlib_ImbgeColorHSV2RGB mlib_ImbgeColorHSV2RGB
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorHSV2RGB(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorHSV2RGB(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorHSV2RGB_Fp mlib_ImageColorHSV2RGB_Fp
+#define __mlib_ImbgeColorHSV2RGB_Fp mlib_ImbgeColorHSV2RGB_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorHSV2RGB_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorHSV2RGB_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorRGB2CIEMono mlib_ImageColorRGB2CIEMono
+#define __mlib_ImbgeColorRGB2CIEMono mlib_ImbgeColorRGB2CIEMono
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorRGB2CIEMono(mlib_image *dst,
-                                          const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorRGB2CIEMono(mlib_imbge *dst,
+                                          const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorRGB2CIEMono_Fp mlib_ImageColorRGB2CIEMono_Fp
+#define __mlib_ImbgeColorRGB2CIEMono_Fp mlib_ImbgeColorRGB2CIEMono_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorRGB2CIEMono_Fp(mlib_image *dst,
-                                             const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorRGB2CIEMono_Fp(mlib_imbge *dst,
+                                             const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorRGB2HSL mlib_ImageColorRGB2HSL
+#define __mlib_ImbgeColorRGB2HSL mlib_ImbgeColorRGB2HSL
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorRGB2HSL(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorRGB2HSL(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorRGB2HSL_Fp mlib_ImageColorRGB2HSL_Fp
+#define __mlib_ImbgeColorRGB2HSL_Fp mlib_ImbgeColorRGB2HSL_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorRGB2HSL_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorRGB2HSL_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorRGB2HSV mlib_ImageColorRGB2HSV
+#define __mlib_ImbgeColorRGB2HSV mlib_ImbgeColorRGB2HSV
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorRGB2HSV(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorRGB2HSV(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorRGB2HSV_Fp mlib_ImageColorRGB2HSV_Fp
+#define __mlib_ImbgeColorRGB2HSV_Fp mlib_ImbgeColorRGB2HSV_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorRGB2HSV_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorRGB2HSV_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorRGB2Mono mlib_ImageColorRGB2Mono
+#define __mlib_ImbgeColorRGB2Mono mlib_ImbgeColorRGB2Mono
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorRGB2Mono(mlib_image *dst,
-                                       const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeColorRGB2Mono(mlib_imbge *dst,
+                                       const mlib_imbge *src,
                                        const mlib_d64 *weight);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorRGB2Mono_Fp mlib_ImageColorRGB2Mono_Fp
+#define __mlib_ImbgeColorRGB2Mono_Fp mlib_ImbgeColorRGB2Mono_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorRGB2Mono_Fp(mlib_image *dst,
-                                          const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeColorRGB2Mono_Fp(mlib_imbge *dst,
+                                          const mlib_imbge *src,
                                           const mlib_d64 *weight);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorRGB2XYZ mlib_ImageColorRGB2XYZ
+#define __mlib_ImbgeColorRGB2XYZ mlib_ImbgeColorRGB2XYZ
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorRGB2XYZ(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorRGB2XYZ(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorRGB2XYZ_Fp mlib_ImageColorRGB2XYZ_Fp
+#define __mlib_ImbgeColorRGB2XYZ_Fp mlib_ImbgeColorRGB2XYZ_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorRGB2XYZ_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorRGB2XYZ_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorRGB2YCC mlib_ImageColorRGB2YCC
+#define __mlib_ImbgeColorRGB2YCC mlib_ImbgeColorRGB2YCC
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorRGB2YCC(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorRGB2YCC(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorRGB2YCC_Fp mlib_ImageColorRGB2YCC_Fp
+#define __mlib_ImbgeColorRGB2YCC_Fp mlib_ImbgeColorRGB2YCC_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorRGB2YCC_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorRGB2YCC_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorXYZ2RGB mlib_ImageColorXYZ2RGB
+#define __mlib_ImbgeColorXYZ2RGB mlib_ImbgeColorXYZ2RGB
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorXYZ2RGB(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorXYZ2RGB(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorXYZ2RGB_Fp mlib_ImageColorXYZ2RGB_Fp
+#define __mlib_ImbgeColorXYZ2RGB_Fp mlib_ImbgeColorXYZ2RGB_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorXYZ2RGB_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorXYZ2RGB_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorYCC2RGB mlib_ImageColorYCC2RGB
+#define __mlib_ImbgeColorYCC2RGB mlib_ImbgeColorYCC2RGB
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorYCC2RGB(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorYCC2RGB(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorYCC2RGB_Fp mlib_ImageColorYCC2RGB_Fp
+#define __mlib_ImbgeColorYCC2RGB_Fp mlib_ImbgeColorYCC2RGB_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorYCC2RGB_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeColorYCC2RGB_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
-/* Image Creation, Deletion and Query ( common ) */
+/* Imbge Crebtion, Deletion bnd Query ( common ) */
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageCreate mlib_ImageCreate
+#define __mlib_ImbgeCrebte mlib_ImbgeCrebte
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
 J2D_MLIB_PUBLIC
-mlib_image * __mlib_ImageCreate(mlib_type type,
-                                mlib_s32 channels,
+mlib_imbge * __mlib_ImbgeCrebte(mlib_type type,
+                                mlib_s32 chbnnels,
                                 mlib_s32 width,
                                 mlib_s32 height);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageCreateStruct mlib_ImageCreateStruct
+#define __mlib_ImbgeCrebteStruct mlib_ImbgeCrebteStruct
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
 J2D_MLIB_PUBLIC
-mlib_image * __mlib_ImageCreateStruct(mlib_type type,
-                                      mlib_s32 channels,
+mlib_imbge * __mlib_ImbgeCrebteStruct(mlib_type type,
+                                      mlib_s32 chbnnels,
                                       mlib_s32 width,
                                       mlib_s32 height,
                                       mlib_s32 stride,
-                                      const void *data);
+                                      const void *dbtb);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageCreateSubimage mlib_ImageCreateSubimage
+#define __mlib_ImbgeCrebteSubimbge mlib_ImbgeCrebteSubimbge
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_image * __mlib_ImageCreateSubimage(mlib_image *img,
+mlib_imbge * __mlib_ImbgeCrebteSubimbge(mlib_imbge *img,
                                         mlib_s32 x,
                                         mlib_s32 y,
                                         mlib_s32 w,
@@ -1089,16 +1089,16 @@ mlib_image * __mlib_ImageCreateSubimage(mlib_image *img,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDelete mlib_ImageDelete
+#define __mlib_ImbgeDelete mlib_ImbgeDelete
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
 J2D_MLIB_PUBLIC
-void  __mlib_ImageDelete(mlib_image *img);
+void  __mlib_ImbgeDelete(mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSetPaddings mlib_ImageSetPaddings
+#define __mlib_ImbgeSetPbddings mlib_ImbgeSetPbddings
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSetPaddings(mlib_image *img,
+mlib_stbtus  __mlib_ImbgeSetPbddings(mlib_imbge *img,
                                      mlib_u8 left,
                                      mlib_u8 top,
                                      mlib_u8 right,
@@ -1106,202 +1106,202 @@ mlib_status  __mlib_ImageSetPaddings(mlib_image *img,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSetFormat mlib_ImageSetFormat
+#define __mlib_ImbgeSetFormbt mlib_ImbgeSetFormbt
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSetFormat(mlib_image *img,
-                                   mlib_format format);
+mlib_stbtus  __mlib_ImbgeSetFormbt(mlib_imbge *img,
+                                   mlib_formbt formbt);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGetType mlib_ImageGetType
+#define __mlib_ImbgeGetType mlib_ImbgeGetType
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_type  __mlib_ImageGetType(const mlib_image *img);
+stbtic mlib_type  __mlib_ImbgeGetType(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGetChannels mlib_ImageGetChannels
+#define __mlib_ImbgeGetChbnnels mlib_ImbgeGetChbnnels
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageGetChannels(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeGetChbnnels(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGetWidth mlib_ImageGetWidth
+#define __mlib_ImbgeGetWidth mlib_ImbgeGetWidth
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageGetWidth(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeGetWidth(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGetHeight mlib_ImageGetHeight
+#define __mlib_ImbgeGetHeight mlib_ImbgeGetHeight
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageGetHeight(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeGetHeight(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGetStride mlib_ImageGetStride
+#define __mlib_ImbgeGetStride mlib_ImbgeGetStride
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageGetStride(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeGetStride(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGetData mlib_ImageGetData
+#define __mlib_ImbgeGetDbtb mlib_ImbgeGetDbtb
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static void * __mlib_ImageGetData(const mlib_image *img);
+stbtic void * __mlib_ImbgeGetDbtb(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGetFlags mlib_ImageGetFlags
+#define __mlib_ImbgeGetFlbgs mlib_ImbgeGetFlbgs
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageGetFlags(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeGetFlbgs(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGetPaddings mlib_ImageGetPaddings
+#define __mlib_ImbgeGetPbddings mlib_ImbgeGetPbddings
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_u8 * __mlib_ImageGetPaddings(const mlib_image *img);
+stbtic mlib_u8 * __mlib_ImbgeGetPbddings(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGetBitOffset mlib_ImageGetBitOffset
+#define __mlib_ImbgeGetBitOffset mlib_ImbgeGetBitOffset
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageGetBitOffset(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeGetBitOffset(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGetFormat mlib_ImageGetFormat
+#define __mlib_ImbgeGetFormbt mlib_ImbgeGetFormbt
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_format  __mlib_ImageGetFormat(const mlib_image *img);
+stbtic mlib_formbt  __mlib_ImbgeGetFormbt(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsNotAligned2 mlib_ImageIsNotAligned2
+#define __mlib_ImbgeIsNotAligned2 mlib_ImbgeIsNotAligned2
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsNotAligned2(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsNotAligned2(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsNotAligned4 mlib_ImageIsNotAligned4
+#define __mlib_ImbgeIsNotAligned4 mlib_ImbgeIsNotAligned4
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsNotAligned4(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsNotAligned4(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsNotAligned64 mlib_ImageIsNotAligned64
+#define __mlib_ImbgeIsNotAligned64 mlib_ImbgeIsNotAligned64
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsNotAligned64(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsNotAligned64(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsNotAligned8 mlib_ImageIsNotAligned8
+#define __mlib_ImbgeIsNotAligned8 mlib_ImbgeIsNotAligned8
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsNotAligned8(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsNotAligned8(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsNotHeight2X mlib_ImageIsNotHeight2X
+#define __mlib_ImbgeIsNotHeight2X mlib_ImbgeIsNotHeight2X
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsNotHeight2X(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsNotHeight2X(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsNotHeight4X mlib_ImageIsNotHeight4X
+#define __mlib_ImbgeIsNotHeight4X mlib_ImbgeIsNotHeight4X
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsNotHeight4X(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsNotHeight4X(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsNotHeight8X mlib_ImageIsNotHeight8X
+#define __mlib_ImbgeIsNotHeight8X mlib_ImbgeIsNotHeight8X
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsNotHeight8X(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsNotHeight8X(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsNotOneDvector mlib_ImageIsNotOneDvector
+#define __mlib_ImbgeIsNotOneDvector mlib_ImbgeIsNotOneDvector
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsNotOneDvector(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsNotOneDvector(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsNotStride8X mlib_ImageIsNotStride8X
+#define __mlib_ImbgeIsNotStride8X mlib_ImbgeIsNotStride8X
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsNotStride8X(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsNotStride8X(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsNotWidth2X mlib_ImageIsNotWidth2X
+#define __mlib_ImbgeIsNotWidth2X mlib_ImbgeIsNotWidth2X
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsNotWidth2X(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsNotWidth2X(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsNotWidth4X mlib_ImageIsNotWidth4X
+#define __mlib_ImbgeIsNotWidth4X mlib_ImbgeIsNotWidth4X
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsNotWidth4X(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsNotWidth4X(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsNotWidth8X mlib_ImageIsNotWidth8X
+#define __mlib_ImbgeIsNotWidth8X mlib_ImbgeIsNotWidth8X
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsNotWidth8X(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsNotWidth8X(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageIsUserAllocated mlib_ImageIsUserAllocated
+#define __mlib_ImbgeIsUserAllocbted mlib_ImbgeIsUserAllocbted
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageIsUserAllocated(const mlib_image *img);
+stbtic mlib_s32  __mlib_ImbgeIsUserAllocbted(const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageTestFlags mlib_ImageTestFlags
+#define __mlib_ImbgeTestFlbgs mlib_ImbgeTestFlbgs
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-static mlib_s32  __mlib_ImageTestFlags(const mlib_image *img,
-                                       mlib_s32 flags);
+stbtic mlib_s32  __mlib_ImbgeTestFlbgs(const mlib_imbge *img,
+                                       mlib_s32 flbgs);
 
-/* Image Copying and Clearing ( copy ) */
+/* Imbge Copying bnd Clebring ( copy ) */
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageClear mlib_ImageClear
+#define __mlib_ImbgeClebr mlib_ImbgeClebr
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageClear(mlib_image *img,
+mlib_stbtus  __mlib_ImbgeClebr(mlib_imbge *img,
                                const mlib_s32 *color);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageClearEdge mlib_ImageClearEdge
+#define __mlib_ImbgeClebrEdge mlib_ImbgeClebrEdge
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageClearEdge(mlib_image *img,
+mlib_stbtus  __mlib_ImbgeClebrEdge(mlib_imbge *img,
                                    mlib_s32 dx,
                                    mlib_s32 dy,
                                    const mlib_s32 *color);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageClearEdge_Fp mlib_ImageClearEdge_Fp
+#define __mlib_ImbgeClebrEdge_Fp mlib_ImbgeClebrEdge_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageClearEdge_Fp(mlib_image *img,
+mlib_stbtus  __mlib_ImbgeClebrEdge_Fp(mlib_imbge *img,
                                       mlib_s32 dx,
                                       mlib_s32 dy,
                                       const mlib_d64 *color);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageClear_Fp mlib_ImageClear_Fp
+#define __mlib_ImbgeClebr_Fp mlib_ImbgeClebr_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageClear_Fp(mlib_image *img,
+mlib_stbtus  __mlib_ImbgeClebr_Fp(mlib_imbge *img,
                                   const mlib_d64 *color);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageCopy mlib_ImageCopy
+#define __mlib_ImbgeCopy mlib_ImbgeCopy
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageCopy(mlib_image *dst,
-                              const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeCopy(mlib_imbge *dst,
+                              const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageCopyArea mlib_ImageCopyArea
+#define __mlib_ImbgeCopyAreb mlib_ImbgeCopyAreb
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageCopyArea(mlib_image *img,
+mlib_stbtus  __mlib_ImbgeCopyAreb(mlib_imbge *img,
                                   mlib_s32 x,
                                   mlib_s32 y,
                                   mlib_s32 w,
@@ -1311,28 +1311,28 @@ mlib_status  __mlib_ImageCopyArea(mlib_image *img,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageCopyMask mlib_ImageCopyMask
+#define __mlib_ImbgeCopyMbsk mlib_ImbgeCopyMbsk
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageCopyMask(mlib_image *dst,
-                                  const mlib_image *src,
-                                  const mlib_image *mask,
+mlib_stbtus  __mlib_ImbgeCopyMbsk(mlib_imbge *dst,
+                                  const mlib_imbge *src,
+                                  const mlib_imbge *mbsk,
                                   const mlib_s32 *thresh);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageCopyMask_Fp mlib_ImageCopyMask_Fp
+#define __mlib_ImbgeCopyMbsk_Fp mlib_ImbgeCopyMbsk_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageCopyMask_Fp(mlib_image *dst,
-                                     const mlib_image *src,
-                                     const mlib_image *mask,
+mlib_stbtus  __mlib_ImbgeCopyMbsk_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src,
+                                     const mlib_imbge *mbsk,
                                      const mlib_d64 *thresh);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageCopySubimage mlib_ImageCopySubimage
+#define __mlib_ImbgeCopySubimbge mlib_ImbgeCopySubimbge
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageCopySubimage(mlib_image *dst,
-                                      const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeCopySubimbge(mlib_imbge *dst,
+                                      const mlib_imbge *src,
                                       mlib_s32 xd,
                                       mlib_s32 yd,
                                       mlib_s32 xs,
@@ -1340,272 +1340,272 @@ mlib_status  __mlib_ImageCopySubimage(mlib_image *dst,
                                       mlib_s32 w,
                                       mlib_s32 h);
 
-/* Data Fomat Conversion ( format ) */
+/* Dbtb Fombt Conversion ( formbt ) */
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageChannelCopy mlib_ImageChannelCopy
+#define __mlib_ImbgeChbnnelCopy mlib_ImbgeChbnnelCopy
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageChannelCopy(mlib_image *dst,
-                                     const mlib_image *src,
-                                     mlib_s32 cmask);
+mlib_stbtus  __mlib_ImbgeChbnnelCopy(mlib_imbge *dst,
+                                     const mlib_imbge *src,
+                                     mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageChannelExtract mlib_ImageChannelExtract
+#define __mlib_ImbgeChbnnelExtrbct mlib_ImbgeChbnnelExtrbct
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageChannelExtract(mlib_image *dst,
-                                        const mlib_image *src,
-                                        mlib_s32 cmask);
+mlib_stbtus  __mlib_ImbgeChbnnelExtrbct(mlib_imbge *dst,
+                                        const mlib_imbge *src,
+                                        mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageChannelInsert mlib_ImageChannelInsert
+#define __mlib_ImbgeChbnnelInsert mlib_ImbgeChbnnelInsert
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageChannelInsert(mlib_image *dst,
-                                       const mlib_image *src,
-                                       mlib_s32 cmask);
+mlib_stbtus  __mlib_ImbgeChbnnelInsert(mlib_imbge *dst,
+                                       const mlib_imbge *src,
+                                       mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageChannelMerge mlib_ImageChannelMerge
+#define __mlib_ImbgeChbnnelMerge mlib_ImbgeChbnnelMerge
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageChannelMerge(mlib_image *dst,
-                                      const mlib_image ** srcs);
+mlib_stbtus  __mlib_ImbgeChbnnelMerge(mlib_imbge *dst,
+                                      const mlib_imbge ** srcs);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageChannelSplit mlib_ImageChannelSplit
+#define __mlib_ImbgeChbnnelSplit mlib_ImbgeChbnnelSplit
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageChannelSplit(mlib_image ** dsts,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeChbnnelSplit(mlib_imbge ** dsts,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDataTypeConvert mlib_ImageDataTypeConvert
+#define __mlib_ImbgeDbtbTypeConvert mlib_ImbgeDbtbTypeConvert
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDataTypeConvert(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeDbtbTypeConvert(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageReformat mlib_ImageReformat
+#define __mlib_ImbgeReformbt mlib_ImbgeReformbt
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageReformat(void **dstData,
-                                  const void **srcData,
-                                  mlib_s32 numChannels,
+mlib_stbtus  __mlib_ImbgeReformbt(void **dstDbtb,
+                                  const void **srcDbtb,
+                                  mlib_s32 numChbnnels,
                                   mlib_s32 xSize,
                                   mlib_s32 ySize,
-                                  mlib_type dstDataType,
-                                  const mlib_s32 *dstBandoffsets,
-                                  mlib_s32 dstScanlinestride,
+                                  mlib_type dstDbtbType,
+                                  const mlib_s32 *dstBbndoffsets,
+                                  mlib_s32 dstScbnlinestride,
                                   mlib_s32 dstPixelstride,
-                                  mlib_type srcDataType,
-                                  const mlib_s32 *srcBandoffsets,
-                                  mlib_s32 srcScanlinestride,
+                                  mlib_type srcDbtbType,
+                                  const mlib_s32 *srcBbndoffsets,
+                                  mlib_s32 srcScbnlinestride,
                                   mlib_s32 srcPixelstride);
 
-/* Fourier Transformation ( fourier ) */
+/* Fourier Trbnsformbtion ( fourier ) */
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageFourierTransform mlib_ImageFourierTransform
+#define __mlib_ImbgeFourierTrbnsform mlib_ImbgeFourierTrbnsform
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageFourierTransform(mlib_image *dst,
-                                          const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeFourierTrbnsform(mlib_imbge *dst,
+                                          const mlib_imbge *src,
                                           mlib_fourier_mode mode);
 
-/* Geometric Operations ( geom ) */
+/* Geometric Operbtions ( geom ) */
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAffine mlib_ImageAffine
+#define __mlib_ImbgeAffine mlib_ImbgeAffine
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
 J2D_MLIB_PUBLIC
-mlib_status  __mlib_ImageAffine(mlib_image *dst,
-                                const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeAffine(mlib_imbge *dst,
+                                const mlib_imbge *src,
                                 const mlib_d64 *mtx,
                                 mlib_filter filter,
                                 mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAffineIndex mlib_ImageAffineIndex
+#define __mlib_ImbgeAffineIndex mlib_ImbgeAffineIndex
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAffineIndex(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeAffineIndex(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_d64 *mtx,
                                      mlib_filter filter,
                                      mlib_edge edge,
-                                     const void *colormap);
+                                     const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAffineTable mlib_ImageAffineTable
+#define __mlib_ImbgeAffineTbble mlib_ImbgeAffineTbble
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAffineTable(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeAffineTbble(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_d64 *mtx,
-                                     const void *interp_table,
+                                     const void *interp_tbble,
                                      mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAffineTable_Fp mlib_ImageAffineTable_Fp
+#define __mlib_ImbgeAffineTbble_Fp mlib_ImbgeAffineTbble_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAffineTable_Fp(mlib_image *dst,
-                                        const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeAffineTbble_Fp(mlib_imbge *dst,
+                                        const mlib_imbge *src,
                                         const mlib_d64 *mtx,
-                                        const void *interp_table,
+                                        const void *interp_tbble,
                                         mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAffineTransform mlib_ImageAffineTransform
+#define __mlib_ImbgeAffineTrbnsform mlib_ImbgeAffineTrbnsform
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAffineTransform(mlib_image *dst,
-                                         const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeAffineTrbnsform(mlib_imbge *dst,
+                                         const mlib_imbge *src,
                                          const mlib_d64 *mtx,
                                          mlib_filter filter,
                                          mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAffineTransformIndex mlib_ImageAffineTransformIndex
+#define __mlib_ImbgeAffineTrbnsformIndex mlib_ImbgeAffineTrbnsformIndex
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAffineTransformIndex(mlib_image *dst,
-                                              const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeAffineTrbnsformIndex(mlib_imbge *dst,
+                                              const mlib_imbge *src,
                                               const mlib_d64 *mtx,
                                               mlib_filter filter,
                                               mlib_edge edge,
-                                              const void *colormap);
+                                              const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAffineTransform_Fp mlib_ImageAffineTransform_Fp
+#define __mlib_ImbgeAffineTrbnsform_Fp mlib_ImbgeAffineTrbnsform_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAffineTransform_Fp(mlib_image *dst,
-                                            const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeAffineTrbnsform_Fp(mlib_imbge *dst,
+                                            const mlib_imbge *src,
                                             const mlib_d64 *mtx,
                                             mlib_filter filter,
                                             mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAffine_Fp mlib_ImageAffine_Fp
+#define __mlib_ImbgeAffine_Fp mlib_ImbgeAffine_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAffine_Fp(mlib_image *dst,
-                                   const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeAffine_Fp(mlib_imbge *dst,
+                                   const mlib_imbge *src,
                                    const mlib_d64 *mtx,
                                    mlib_filter filter,
                                    mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageFilteredSubsample mlib_ImageFilteredSubsample
+#define __mlib_ImbgeFilteredSubsbmple mlib_ImbgeFilteredSubsbmple
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageFilteredSubsample(mlib_image *dst,
-                                           const mlib_image *src,
-                                           mlib_s32 scaleX,
-                                           mlib_s32 scaleY,
-                                           mlib_s32 transX,
-                                           mlib_s32 transY,
+mlib_stbtus  __mlib_ImbgeFilteredSubsbmple(mlib_imbge *dst,
+                                           const mlib_imbge *src,
+                                           mlib_s32 scbleX,
+                                           mlib_s32 scbleY,
+                                           mlib_s32 trbnsX,
+                                           mlib_s32 trbnsY,
                                            const mlib_d64 *hKernel,
                                            const mlib_d64 *vKernel,
                                            mlib_s32 hSize,
                                            mlib_s32 vSize,
-                                           mlib_s32 hParity,
-                                           mlib_s32 vParity,
+                                           mlib_s32 hPbrity,
+                                           mlib_s32 vPbrity,
                                            mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageFilteredSubsample_Fp mlib_ImageFilteredSubsample_Fp
+#define __mlib_ImbgeFilteredSubsbmple_Fp mlib_ImbgeFilteredSubsbmple_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageFilteredSubsample_Fp(mlib_image *dst,
-                                              const mlib_image *src,
-                                              mlib_s32 scaleX,
-                                              mlib_s32 scaleY,
-                                              mlib_s32 transX,
-                                              mlib_s32 transY,
+mlib_stbtus  __mlib_ImbgeFilteredSubsbmple_Fp(mlib_imbge *dst,
+                                              const mlib_imbge *src,
+                                              mlib_s32 scbleX,
+                                              mlib_s32 scbleY,
+                                              mlib_s32 trbnsX,
+                                              mlib_s32 trbnsY,
                                               const mlib_d64 *hKernel,
                                               const mlib_d64 *vKernel,
                                               mlib_s32 hSize,
                                               mlib_s32 vSize,
-                                              mlib_s32 hParity,
-                                              mlib_s32 vParity,
+                                              mlib_s32 hPbrity,
+                                              mlib_s32 vPbrity,
                                               mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageFlipAntiDiag mlib_ImageFlipAntiDiag
+#define __mlib_ImbgeFlipAntiDibg mlib_ImbgeFlipAntiDibg
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageFlipAntiDiag(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeFlipAntiDibg(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageFlipAntiDiag_Fp mlib_ImageFlipAntiDiag_Fp
+#define __mlib_ImbgeFlipAntiDibg_Fp mlib_ImbgeFlipAntiDibg_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageFlipAntiDiag_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeFlipAntiDibg_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageFlipMainDiag mlib_ImageFlipMainDiag
+#define __mlib_ImbgeFlipMbinDibg mlib_ImbgeFlipMbinDibg
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageFlipMainDiag(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeFlipMbinDibg(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageFlipMainDiag_Fp mlib_ImageFlipMainDiag_Fp
+#define __mlib_ImbgeFlipMbinDibg_Fp mlib_ImbgeFlipMbinDibg_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageFlipMainDiag_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeFlipMbinDibg_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageFlipX mlib_ImageFlipX
+#define __mlib_ImbgeFlipX mlib_ImbgeFlipX
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageFlipX(mlib_image *dst,
-                               const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeFlipX(mlib_imbge *dst,
+                               const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageFlipX_Fp mlib_ImageFlipX_Fp
+#define __mlib_ImbgeFlipX_Fp mlib_ImbgeFlipX_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageFlipX_Fp(mlib_image *dst,
-                                  const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeFlipX_Fp(mlib_imbge *dst,
+                                  const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageFlipY mlib_ImageFlipY
+#define __mlib_ImbgeFlipY mlib_ImbgeFlipY
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageFlipY(mlib_image *dst,
-                               const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeFlipY(mlib_imbge *dst,
+                               const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageFlipY_Fp mlib_ImageFlipY_Fp
+#define __mlib_ImbgeFlipY_Fp mlib_ImbgeFlipY_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageFlipY_Fp(mlib_image *dst,
-                                  const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeFlipY_Fp(mlib_imbge *dst,
+                                  const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGridWarp mlib_ImageGridWarp
+#define __mlib_ImbgeGridWbrp mlib_ImbgeGridWbrp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageGridWarp(mlib_image *dst,
-                                  const mlib_image *src,
-                                  const mlib_f32 *xWarpPos,
-                                  const mlib_f32 *yWarpPos,
+mlib_stbtus  __mlib_ImbgeGridWbrp(mlib_imbge *dst,
+                                  const mlib_imbge *src,
+                                  const mlib_f32 *xWbrpPos,
+                                  const mlib_f32 *yWbrpPos,
                                   mlib_d64 postShiftX,
                                   mlib_d64 postShiftY,
-                                  mlib_s32 xStart,
+                                  mlib_s32 xStbrt,
                                   mlib_s32 xStep,
                                   mlib_s32 xNumCells,
-                                  mlib_s32 yStart,
+                                  mlib_s32 yStbrt,
                                   mlib_s32 yStep,
                                   mlib_s32 yNumCells,
                                   mlib_filter filter,
@@ -1613,56 +1613,56 @@ mlib_status  __mlib_ImageGridWarp(mlib_image *dst,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGridWarpTable mlib_ImageGridWarpTable
+#define __mlib_ImbgeGridWbrpTbble mlib_ImbgeGridWbrpTbble
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageGridWarpTable(mlib_image *dst,
-                                       const mlib_image *src,
-                                       const mlib_f32 *xWarpPos,
-                                       const mlib_f32 *yWarpPos,
+mlib_stbtus  __mlib_ImbgeGridWbrpTbble(mlib_imbge *dst,
+                                       const mlib_imbge *src,
+                                       const mlib_f32 *xWbrpPos,
+                                       const mlib_f32 *yWbrpPos,
                                        mlib_d64 postShiftX,
                                        mlib_d64 postShiftY,
-                                       mlib_s32 xStart,
+                                       mlib_s32 xStbrt,
                                        mlib_s32 xStep,
                                        mlib_s32 xNumCells,
-                                       mlib_s32 yStart,
+                                       mlib_s32 yStbrt,
                                        mlib_s32 yStep,
                                        mlib_s32 yNumCells,
-                                       const void *table,
+                                       const void *tbble,
                                        mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGridWarpTable_Fp mlib_ImageGridWarpTable_Fp
+#define __mlib_ImbgeGridWbrpTbble_Fp mlib_ImbgeGridWbrpTbble_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageGridWarpTable_Fp(mlib_image *dst,
-                                          const mlib_image *src,
-                                          const mlib_f32 *xWarpPos,
-                                          const mlib_f32 *yWarpPos,
+mlib_stbtus  __mlib_ImbgeGridWbrpTbble_Fp(mlib_imbge *dst,
+                                          const mlib_imbge *src,
+                                          const mlib_f32 *xWbrpPos,
+                                          const mlib_f32 *yWbrpPos,
                                           mlib_d64 postShiftX,
                                           mlib_d64 postShiftY,
-                                          mlib_s32 xStart,
+                                          mlib_s32 xStbrt,
                                           mlib_s32 xStep,
                                           mlib_s32 xNumCells,
-                                          mlib_s32 yStart,
+                                          mlib_s32 yStbrt,
                                           mlib_s32 yStep,
                                           mlib_s32 yNumCells,
-                                          const void *table,
+                                          const void *tbble,
                                           mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGridWarp_Fp mlib_ImageGridWarp_Fp
+#define __mlib_ImbgeGridWbrp_Fp mlib_ImbgeGridWbrp_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageGridWarp_Fp(mlib_image *dst,
-                                     const mlib_image *src,
-                                     const mlib_f32 *xWarpPos,
-                                     const mlib_f32 *yWarpPos,
+mlib_stbtus  __mlib_ImbgeGridWbrp_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src,
+                                     const mlib_f32 *xWbrpPos,
+                                     const mlib_f32 *yWbrpPos,
                                      mlib_d64 postShiftX,
                                      mlib_d64 postShiftY,
-                                     mlib_s32 xStart,
+                                     mlib_s32 xStbrt,
                                      mlib_s32 xStep,
                                      mlib_s32 xNumCells,
-                                     mlib_s32 yStart,
+                                     mlib_s32 yStbrt,
                                      mlib_s32 yStep,
                                      mlib_s32 yNumCells,
                                      mlib_filter filter,
@@ -1670,31 +1670,31 @@ mlib_status  __mlib_ImageGridWarp_Fp(mlib_image *dst,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageInterpTableCreate mlib_ImageInterpTableCreate
+#define __mlib_ImbgeInterpTbbleCrebte mlib_ImbgeInterpTbbleCrebte
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-void * __mlib_ImageInterpTableCreate(mlib_type type,
+void * __mlib_ImbgeInterpTbbleCrebte(mlib_type type,
                                      mlib_s32 width,
                                      mlib_s32 height,
-                                     mlib_s32 leftPadding,
-                                     mlib_s32 topPadding,
-                                     mlib_s32 subsampleBitsH,
-                                     mlib_s32 subsampleBitsV,
+                                     mlib_s32 leftPbdding,
+                                     mlib_s32 topPbdding,
+                                     mlib_s32 subsbmpleBitsH,
+                                     mlib_s32 subsbmpleBitsV,
                                      mlib_s32 precisionBits,
-                                     const void *dataH,
-                                     const void *dataV);
+                                     const void *dbtbH,
+                                     const void *dbtbV);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageInterpTableDelete mlib_ImageInterpTableDelete
+#define __mlib_ImbgeInterpTbbleDelete mlib_ImbgeInterpTbbleDelete
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-void  __mlib_ImageInterpTableDelete(void *interp_table);
+void  __mlib_ImbgeInterpTbbleDelete(void *interp_tbble);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImagePolynomialWarp mlib_ImagePolynomialWarp
+#define __mlib_ImbgePolynomiblWbrp mlib_ImbgePolynomiblWbrp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImagePolynomialWarp(mlib_image *dst,
-                                        const mlib_image *src,
+mlib_stbtus  __mlib_ImbgePolynomiblWbrp(mlib_imbge *dst,
+                                        const mlib_imbge *src,
                                         const mlib_d64 *xCoeffs,
                                         const mlib_d64 *yCoeffs,
                                         mlib_s32 n,
@@ -1702,19 +1702,19 @@ mlib_status  __mlib_ImagePolynomialWarp(mlib_image *dst,
                                         mlib_d64 preShiftY,
                                         mlib_d64 postShiftX,
                                         mlib_d64 postShiftY,
-                                        mlib_d64 preScaleX,
-                                        mlib_d64 preScaleY,
-                                        mlib_d64 postScaleX,
-                                        mlib_d64 postScaleY,
+                                        mlib_d64 preScbleX,
+                                        mlib_d64 preScbleY,
+                                        mlib_d64 postScbleX,
+                                        mlib_d64 postScbleY,
                                         mlib_filter filter,
                                         mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImagePolynomialWarpTable mlib_ImagePolynomialWarpTable
+#define __mlib_ImbgePolynomiblWbrpTbble mlib_ImbgePolynomiblWbrpTbble
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImagePolynomialWarpTable(mlib_image *dst,
-                                             const mlib_image *src,
+mlib_stbtus  __mlib_ImbgePolynomiblWbrpTbble(mlib_imbge *dst,
+                                             const mlib_imbge *src,
                                              const mlib_d64 *xCoeffs,
                                              const mlib_d64 *yCoeffs,
                                              mlib_s32 n,
@@ -1722,19 +1722,19 @@ mlib_status  __mlib_ImagePolynomialWarpTable(mlib_image *dst,
                                              mlib_d64 preShiftY,
                                              mlib_d64 postShiftX,
                                              mlib_d64 postShiftY,
-                                             mlib_d64 preScaleX,
-                                             mlib_d64 preScaleY,
-                                             mlib_d64 postScaleX,
-                                             mlib_d64 postScaleY,
-                                             const void *interp_table,
+                                             mlib_d64 preScbleX,
+                                             mlib_d64 preScbleY,
+                                             mlib_d64 postScbleX,
+                                             mlib_d64 postScbleY,
+                                             const void *interp_tbble,
                                              mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImagePolynomialWarpTable_Fp mlib_ImagePolynomialWarpTable_Fp
+#define __mlib_ImbgePolynomiblWbrpTbble_Fp mlib_ImbgePolynomiblWbrpTbble_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImagePolynomialWarpTable_Fp(mlib_image *dst,
-                                                const mlib_image *src,
+mlib_stbtus  __mlib_ImbgePolynomiblWbrpTbble_Fp(mlib_imbge *dst,
+                                                const mlib_imbge *src,
                                                 const mlib_d64 *xCoeffs,
                                                 const mlib_d64 *yCoeffs,
                                                 mlib_s32 n,
@@ -1742,19 +1742,19 @@ mlib_status  __mlib_ImagePolynomialWarpTable_Fp(mlib_image *dst,
                                                 mlib_d64 preShiftY,
                                                 mlib_d64 postShiftX,
                                                 mlib_d64 postShiftY,
-                                                mlib_d64 preScaleX,
-                                                mlib_d64 preScaleY,
-                                                mlib_d64 postScaleX,
-                                                mlib_d64 postScaleY,
-                                                const void *interp_table,
+                                                mlib_d64 preScbleX,
+                                                mlib_d64 preScbleY,
+                                                mlib_d64 postScbleX,
+                                                mlib_d64 postScbleY,
+                                                const void *interp_tbble,
                                                 mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImagePolynomialWarp_Fp mlib_ImagePolynomialWarp_Fp
+#define __mlib_ImbgePolynomiblWbrp_Fp mlib_ImbgePolynomiblWbrp_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImagePolynomialWarp_Fp(mlib_image *dst,
-                                           const mlib_image *src,
+mlib_stbtus  __mlib_ImbgePolynomiblWbrp_Fp(mlib_imbge *dst,
+                                           const mlib_imbge *src,
                                            const mlib_d64 *xCoeffs,
                                            const mlib_d64 *yCoeffs,
                                            mlib_s32 n,
@@ -1762,20 +1762,20 @@ mlib_status  __mlib_ImagePolynomialWarp_Fp(mlib_image *dst,
                                            mlib_d64 preShiftY,
                                            mlib_d64 postShiftX,
                                            mlib_d64 postShiftY,
-                                           mlib_d64 preScaleX,
-                                           mlib_d64 preScaleY,
-                                           mlib_d64 postScaleX,
-                                           mlib_d64 postScaleY,
+                                           mlib_d64 preScbleX,
+                                           mlib_d64 preScbleY,
+                                           mlib_d64 postScbleX,
+                                           mlib_d64 postScbleY,
                                            mlib_filter filter,
                                            mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRotate mlib_ImageRotate
+#define __mlib_ImbgeRotbte mlib_ImbgeRotbte
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRotate(mlib_image *dst,
-                                const mlib_image *src,
-                                mlib_d64 angle,
+mlib_stbtus  __mlib_ImbgeRotbte(mlib_imbge *dst,
+                                const mlib_imbge *src,
+                                mlib_d64 bngle,
                                 mlib_d64 xcenter,
                                 mlib_d64 ycenter,
                                 mlib_filter filter,
@@ -1783,66 +1783,66 @@ mlib_status  __mlib_ImageRotate(mlib_image *dst,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRotate180 mlib_ImageRotate180
+#define __mlib_ImbgeRotbte180 mlib_ImbgeRotbte180
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRotate180(mlib_image *dst,
-                                   const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeRotbte180(mlib_imbge *dst,
+                                   const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRotate180_Fp mlib_ImageRotate180_Fp
+#define __mlib_ImbgeRotbte180_Fp mlib_ImbgeRotbte180_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRotate180_Fp(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeRotbte180_Fp(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRotate270 mlib_ImageRotate270
+#define __mlib_ImbgeRotbte270 mlib_ImbgeRotbte270
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRotate270(mlib_image *dst,
-                                   const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeRotbte270(mlib_imbge *dst,
+                                   const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRotate270_Fp mlib_ImageRotate270_Fp
+#define __mlib_ImbgeRotbte270_Fp mlib_ImbgeRotbte270_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRotate270_Fp(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeRotbte270_Fp(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRotate90 mlib_ImageRotate90
+#define __mlib_ImbgeRotbte90 mlib_ImbgeRotbte90
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRotate90(mlib_image *dst,
-                                  const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeRotbte90(mlib_imbge *dst,
+                                  const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRotate90_Fp mlib_ImageRotate90_Fp
+#define __mlib_ImbgeRotbte90_Fp mlib_ImbgeRotbte90_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRotate90_Fp(mlib_image *dst,
-                                     const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeRotbte90_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRotateIndex mlib_ImageRotateIndex
+#define __mlib_ImbgeRotbteIndex mlib_ImbgeRotbteIndex
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRotateIndex(mlib_image *dst,
-                                     const mlib_image *src,
-                                     mlib_d64 angle,
+mlib_stbtus  __mlib_ImbgeRotbteIndex(mlib_imbge *dst,
+                                     const mlib_imbge *src,
+                                     mlib_d64 bngle,
                                      mlib_d64 xcenter,
                                      mlib_d64 ycenter,
                                      mlib_filter filter,
                                      mlib_edge edge,
-                                     const void *colormap);
+                                     const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRotate_Fp mlib_ImageRotate_Fp
+#define __mlib_ImbgeRotbte_Fp mlib_ImbgeRotbte_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRotate_Fp(mlib_image *dst,
-                                   const mlib_image *src,
-                                   mlib_d64 angle,
+mlib_stbtus  __mlib_ImbgeRotbte_Fp(mlib_imbge *dst,
+                                   const mlib_imbge *src,
+                                   mlib_d64 bngle,
                                    mlib_d64 xcenter,
                                    mlib_d64 ycenter,
                                    mlib_filter filter,
@@ -1850,94 +1850,94 @@ mlib_status  __mlib_ImageRotate_Fp(mlib_image *dst,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSubsampleAverage mlib_ImageSubsampleAverage
+#define __mlib_ImbgeSubsbmpleAverbge mlib_ImbgeSubsbmpleAverbge
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSubsampleAverage(mlib_image *dst,
-                                          const mlib_image *src,
-                                          mlib_d64 scalex,
-                                          mlib_d64 scaley);
+mlib_stbtus  __mlib_ImbgeSubsbmpleAverbge(mlib_imbge *dst,
+                                          const mlib_imbge *src,
+                                          mlib_d64 scblex,
+                                          mlib_d64 scbley);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSubsampleAverage_Fp mlib_ImageSubsampleAverage_Fp
+#define __mlib_ImbgeSubsbmpleAverbge_Fp mlib_ImbgeSubsbmpleAverbge_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSubsampleAverage_Fp(mlib_image *dst,
-                                             const mlib_image *src,
-                                             mlib_d64 scalex,
-                                             mlib_d64 scaley);
+mlib_stbtus  __mlib_ImbgeSubsbmpleAverbge_Fp(mlib_imbge *dst,
+                                             const mlib_imbge *src,
+                                             mlib_d64 scblex,
+                                             mlib_d64 scbley);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSubsampleBinaryToGray mlib_ImageSubsampleBinaryToGray
+#define __mlib_ImbgeSubsbmpleBinbryToGrby mlib_ImbgeSubsbmpleBinbryToGrby
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSubsampleBinaryToGray(mlib_image *dst,
-                                               const mlib_image *src,
-                                               mlib_d64 xscale,
-                                               mlib_d64 yscale,
-                                               const mlib_u8 *lutGray);
+mlib_stbtus  __mlib_ImbgeSubsbmpleBinbryToGrby(mlib_imbge *dst,
+                                               const mlib_imbge *src,
+                                               mlib_d64 xscble,
+                                               mlib_d64 yscble,
+                                               const mlib_u8 *lutGrby);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoomIn2X mlib_ImageZoomIn2X
+#define __mlib_ImbgeZoomIn2X mlib_ImbgeZoomIn2X
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoomIn2X(mlib_image *dst,
-                                  const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoomIn2X(mlib_imbge *dst,
+                                  const mlib_imbge *src,
                                   mlib_filter filter,
                                   mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoomIn2XIndex mlib_ImageZoomIn2XIndex
+#define __mlib_ImbgeZoomIn2XIndex mlib_ImbgeZoomIn2XIndex
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoomIn2XIndex(mlib_image *dst,
-                                       const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoomIn2XIndex(mlib_imbge *dst,
+                                       const mlib_imbge *src,
                                        mlib_filter filter,
                                        mlib_edge edge,
-                                       const void *colormap);
+                                       const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoomIn2X_Fp mlib_ImageZoomIn2X_Fp
+#define __mlib_ImbgeZoomIn2X_Fp mlib_ImbgeZoomIn2X_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoomIn2X_Fp(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoomIn2X_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      mlib_filter filter,
                                      mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoomOut2X mlib_ImageZoomOut2X
+#define __mlib_ImbgeZoomOut2X mlib_ImbgeZoomOut2X
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoomOut2X(mlib_image *dst,
-                                   const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoomOut2X(mlib_imbge *dst,
+                                   const mlib_imbge *src,
                                    mlib_filter filter,
                                    mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoomOut2XIndex mlib_ImageZoomOut2XIndex
+#define __mlib_ImbgeZoomOut2XIndex mlib_ImbgeZoomOut2XIndex
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoomOut2XIndex(mlib_image *dst,
-                                        const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoomOut2XIndex(mlib_imbge *dst,
+                                        const mlib_imbge *src,
                                         mlib_filter filter,
                                         mlib_edge edge,
-                                        const void *colormap);
+                                        const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoomOut2X_Fp mlib_ImageZoomOut2X_Fp
+#define __mlib_ImbgeZoomOut2X_Fp mlib_ImbgeZoomOut2X_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoomOut2X_Fp(mlib_image *dst,
-                                      const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoomOut2X_Fp(mlib_imbge *dst,
+                                      const mlib_imbge *src,
                                       mlib_filter filter,
                                       mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoomTranslate mlib_ImageZoomTranslate
+#define __mlib_ImbgeZoomTrbnslbte mlib_ImbgeZoomTrbnslbte
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoomTranslate(mlib_image *dst,
-                                       const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoomTrbnslbte(mlib_imbge *dst,
+                                       const mlib_imbge *src,
                                        mlib_d64 zoomx,
                                        mlib_d64 zoomy,
                                        mlib_d64 tx,
@@ -1947,36 +1947,36 @@ mlib_status  __mlib_ImageZoomTranslate(mlib_image *dst,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoomTranslateTable mlib_ImageZoomTranslateTable
+#define __mlib_ImbgeZoomTrbnslbteTbble mlib_ImbgeZoomTrbnslbteTbble
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoomTranslateTable(mlib_image *dst,
-                                            const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoomTrbnslbteTbble(mlib_imbge *dst,
+                                            const mlib_imbge *src,
                                             mlib_d64 zoomx,
                                             mlib_d64 zoomy,
                                             mlib_d64 tx,
                                             mlib_d64 ty,
-                                            const void *interp_table,
+                                            const void *interp_tbble,
                                             mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoomTranslateTable_Fp mlib_ImageZoomTranslateTable_Fp
+#define __mlib_ImbgeZoomTrbnslbteTbble_Fp mlib_ImbgeZoomTrbnslbteTbble_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoomTranslateTable_Fp(mlib_image *dst,
-                                               const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoomTrbnslbteTbble_Fp(mlib_imbge *dst,
+                                               const mlib_imbge *src,
                                                mlib_d64 zoomx,
                                                mlib_d64 zoomy,
                                                mlib_d64 tx,
                                                mlib_d64 ty,
-                                               const void *interp_table,
+                                               const void *interp_tbble,
                                                mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoomTranslateToGray mlib_ImageZoomTranslateToGray
+#define __mlib_ImbgeZoomTrbnslbteToGrby mlib_ImbgeZoomTrbnslbteToGrby
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoomTranslateToGray(mlib_image *dst,
-                                             const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoomTrbnslbteToGrby(mlib_imbge *dst,
+                                             const mlib_imbge *src,
                                              mlib_d64 zoomx,
                                              mlib_d64 zoomy,
                                              mlib_d64 tx,
@@ -1988,10 +1988,10 @@ mlib_status  __mlib_ImageZoomTranslateToGray(mlib_image *dst,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoomTranslate_Fp mlib_ImageZoomTranslate_Fp
+#define __mlib_ImbgeZoomTrbnslbte_Fp mlib_ImbgeZoomTrbnslbte_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoomTranslate_Fp(mlib_image *dst,
-                                          const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoomTrbnslbte_Fp(mlib_imbge *dst,
+                                          const mlib_imbge *src,
                                           mlib_d64 zoomx,
                                           mlib_d64 zoomy,
                                           mlib_d64 tx,
@@ -2001,10 +2001,10 @@ mlib_status  __mlib_ImageZoomTranslate_Fp(mlib_image *dst,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoom mlib_ImageZoom
+#define __mlib_ImbgeZoom mlib_ImbgeZoom
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoom(mlib_image *dst,
-                              const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoom(mlib_imbge *dst,
+                              const mlib_imbge *src,
                               mlib_d64 zoomx,
                               mlib_d64 zoomy,
                               mlib_filter filter,
@@ -2012,599 +2012,599 @@ mlib_status  __mlib_ImageZoom(mlib_image *dst,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoomIndex mlib_ImageZoomIndex
+#define __mlib_ImbgeZoomIndex mlib_ImbgeZoomIndex
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoomIndex(mlib_image *dst,
-                                   const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoomIndex(mlib_imbge *dst,
+                                   const mlib_imbge *src,
                                    mlib_d64 zoomx,
                                    mlib_d64 zoomy,
                                    mlib_filter filter,
                                    mlib_edge edge,
-                                   const void *colormap);
+                                   const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageZoom_Fp mlib_ImageZoom_Fp
+#define __mlib_ImbgeZoom_Fp mlib_ImbgeZoom_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageZoom_Fp(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeZoom_Fp(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  mlib_d64 zoomx,
                                  mlib_d64 zoomy,
                                  mlib_filter filter,
                                  mlib_edge edge);
 
-/* Logical Operations ( logic ) */
+/* Logicbl Operbtions ( logic ) */
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAnd mlib_ImageAnd
+#define __mlib_ImbgeAnd mlib_ImbgeAnd
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAnd(mlib_image *dst,
-                             const mlib_image *src1,
-                             const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeAnd(mlib_imbge *dst,
+                             const mlib_imbge *src1,
+                             const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAndNot mlib_ImageAndNot
+#define __mlib_ImbgeAndNot mlib_ImbgeAndNot
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAndNot(mlib_image *dst,
-                                const mlib_image *src1,
-                                const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeAndNot(mlib_imbge *dst,
+                                const mlib_imbge *src1,
+                                const mlib_imbge *src2);
 
 /* src1dst = src1dst & (~src2) */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAndNot1_Inp mlib_ImageAndNot1_Inp
+#define __mlib_ImbgeAndNot1_Inp mlib_ImbgeAndNot1_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAndNot1_Inp(mlib_image *src1dst,
-                                     const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeAndNot1_Inp(mlib_imbge *src1dst,
+                                     const mlib_imbge *src2);
 
 /* src2dst = src1 & (~src2dst) */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAndNot2_Inp mlib_ImageAndNot2_Inp
+#define __mlib_ImbgeAndNot2_Inp mlib_ImbgeAndNot2_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAndNot2_Inp(mlib_image *src2dst,
-                                     const mlib_image *src1);
+mlib_stbtus  __mlib_ImbgeAndNot2_Inp(mlib_imbge *src2dst,
+                                     const mlib_imbge *src1);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAnd_Inp mlib_ImageAnd_Inp
+#define __mlib_ImbgeAnd_Inp mlib_ImbgeAnd_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAnd_Inp(mlib_image *src1dst,
-                                 const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeAnd_Inp(mlib_imbge *src1dst,
+                                 const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstAnd mlib_ImageConstAnd
+#define __mlib_ImbgeConstAnd mlib_ImbgeConstAnd
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstAnd(mlib_image *dst,
-                                  const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstAnd(mlib_imbge *dst,
+                                  const mlib_imbge *src,
                                   const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstAndNot mlib_ImageConstAndNot
+#define __mlib_ImbgeConstAndNot mlib_ImbgeConstAndNot
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstAndNot(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstAndNot(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_s32 *c);
 
 /* srcdst = (~srcdst) & c */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstAndNot_Inp mlib_ImageConstAndNot_Inp
+#define __mlib_ImbgeConstAndNot_Inp mlib_ImbgeConstAndNot_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstAndNot_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstAndNot_Inp(mlib_imbge *srcdst,
                                          const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstAnd_Inp mlib_ImageConstAnd_Inp
+#define __mlib_ImbgeConstAnd_Inp mlib_ImbgeConstAnd_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstAnd_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstAnd_Inp(mlib_imbge *srcdst,
                                       const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstNotAnd mlib_ImageConstNotAnd
+#define __mlib_ImbgeConstNotAnd mlib_ImbgeConstNotAnd
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstNotAnd(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstNotAnd(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstNotAnd_Inp mlib_ImageConstNotAnd_Inp
+#define __mlib_ImbgeConstNotAnd_Inp mlib_ImbgeConstNotAnd_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstNotAnd_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstNotAnd_Inp(mlib_imbge *srcdst,
                                          const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstNotOr mlib_ImageConstNotOr
+#define __mlib_ImbgeConstNotOr mlib_ImbgeConstNotOr
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstNotOr(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstNotOr(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstNotOr_Inp mlib_ImageConstNotOr_Inp
+#define __mlib_ImbgeConstNotOr_Inp mlib_ImbgeConstNotOr_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstNotOr_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstNotOr_Inp(mlib_imbge *srcdst,
                                         const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstNotXor mlib_ImageConstNotXor
+#define __mlib_ImbgeConstNotXor mlib_ImbgeConstNotXor
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstNotXor(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstNotXor(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstNotXor_Inp mlib_ImageConstNotXor_Inp
+#define __mlib_ImbgeConstNotXor_Inp mlib_ImbgeConstNotXor_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstNotXor_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstNotXor_Inp(mlib_imbge *srcdst,
                                          const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstOr mlib_ImageConstOr
+#define __mlib_ImbgeConstOr mlib_ImbgeConstOr
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstOr(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstOr(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstOrNot mlib_ImageConstOrNot
+#define __mlib_ImbgeConstOrNot mlib_ImbgeConstOrNot
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstOrNot(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstOrNot(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_s32 *c);
 
 /* srcdst = (~srcdst) | c */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstOrNot_Inp mlib_ImageConstOrNot_Inp
+#define __mlib_ImbgeConstOrNot_Inp mlib_ImbgeConstOrNot_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstOrNot_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstOrNot_Inp(mlib_imbge *srcdst,
                                         const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstOr_Inp mlib_ImageConstOr_Inp
+#define __mlib_ImbgeConstOr_Inp mlib_ImbgeConstOr_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstOr_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstOr_Inp(mlib_imbge *srcdst,
                                      const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstXor mlib_ImageConstXor
+#define __mlib_ImbgeConstXor mlib_ImbgeConstXor
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstXor(mlib_image *dst,
-                                  mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConstXor(mlib_imbge *dst,
+                                  mlib_imbge *src,
                                   mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConstXor_Inp mlib_ImageConstXor_Inp
+#define __mlib_ImbgeConstXor_Inp mlib_ImbgeConstXor_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConstXor_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeConstXor_Inp(mlib_imbge *srcdst,
                                       const mlib_s32 *c);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageNot mlib_ImageNot
+#define __mlib_ImbgeNot mlib_ImbgeNot
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageNot(mlib_image *dst,
-                             const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeNot(mlib_imbge *dst,
+                             const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageNotAnd mlib_ImageNotAnd
+#define __mlib_ImbgeNotAnd mlib_ImbgeNotAnd
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageNotAnd(mlib_image *dst,
-                                const mlib_image *src1,
-                                const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeNotAnd(mlib_imbge *dst,
+                                const mlib_imbge *src1,
+                                const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageNotAnd_Inp mlib_ImageNotAnd_Inp
+#define __mlib_ImbgeNotAnd_Inp mlib_ImbgeNotAnd_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageNotAnd_Inp(mlib_image *src1dst,
-                                    const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeNotAnd_Inp(mlib_imbge *src1dst,
+                                    const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageNotOr mlib_ImageNotOr
+#define __mlib_ImbgeNotOr mlib_ImbgeNotOr
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageNotOr(mlib_image *dst,
-                               const mlib_image *src1,
-                               const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeNotOr(mlib_imbge *dst,
+                               const mlib_imbge *src1,
+                               const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageNotOr_Inp mlib_ImageNotOr_Inp
+#define __mlib_ImbgeNotOr_Inp mlib_ImbgeNotOr_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageNotOr_Inp(mlib_image *src1dst,
-                                   const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeNotOr_Inp(mlib_imbge *src1dst,
+                                   const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageNotXor mlib_ImageNotXor
+#define __mlib_ImbgeNotXor mlib_ImbgeNotXor
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageNotXor(mlib_image *dst,
-                                const mlib_image *src1,
-                                const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeNotXor(mlib_imbge *dst,
+                                const mlib_imbge *src1,
+                                const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageNotXor_Inp mlib_ImageNotXor_Inp
+#define __mlib_ImbgeNotXor_Inp mlib_ImbgeNotXor_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageNotXor_Inp(mlib_image *src1dst,
-                                    const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeNotXor_Inp(mlib_imbge *src1dst,
+                                    const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageNot_Inp mlib_ImageNot_Inp
+#define __mlib_ImbgeNot_Inp mlib_ImbgeNot_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageNot_Inp(mlib_image *srcdst);
+mlib_stbtus  __mlib_ImbgeNot_Inp(mlib_imbge *srcdst);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageOr mlib_ImageOr
+#define __mlib_ImbgeOr mlib_ImbgeOr
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageOr(mlib_image *dst,
-                            const mlib_image *src1,
-                            const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeOr(mlib_imbge *dst,
+                            const mlib_imbge *src1,
+                            const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageOrNot mlib_ImageOrNot
+#define __mlib_ImbgeOrNot mlib_ImbgeOrNot
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageOrNot(mlib_image *dst,
-                               const mlib_image *src1,
-                               const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeOrNot(mlib_imbge *dst,
+                               const mlib_imbge *src1,
+                               const mlib_imbge *src2);
 
 /* src1dst = src1dst | (~src2) */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageOrNot1_Inp mlib_ImageOrNot1_Inp
+#define __mlib_ImbgeOrNot1_Inp mlib_ImbgeOrNot1_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageOrNot1_Inp(mlib_image *src1dst,
-                                    const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeOrNot1_Inp(mlib_imbge *src1dst,
+                                    const mlib_imbge *src2);
 
 /* src2dst = src1 | (~src2dst) */
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageOrNot2_Inp mlib_ImageOrNot2_Inp
+#define __mlib_ImbgeOrNot2_Inp mlib_ImbgeOrNot2_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageOrNot2_Inp(mlib_image *src2dst,
-                                    const mlib_image *src1);
+mlib_stbtus  __mlib_ImbgeOrNot2_Inp(mlib_imbge *src2dst,
+                                    const mlib_imbge *src1);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageOr_Inp mlib_ImageOr_Inp
+#define __mlib_ImbgeOr_Inp mlib_ImbgeOr_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageOr_Inp(mlib_image *src1dst,
-                                const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeOr_Inp(mlib_imbge *src1dst,
+                                const mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageXor mlib_ImageXor
+#define __mlib_ImbgeXor mlib_ImbgeXor
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageXor(mlib_image *dst,
-                             mlib_image *src1,
-                             mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeXor(mlib_imbge *dst,
+                             mlib_imbge *src1,
+                             mlib_imbge *src2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageXor_Inp mlib_ImageXor_Inp
+#define __mlib_ImbgeXor_Inp mlib_ImbgeXor_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageXor_Inp(mlib_image *src1dst,
-                                 const mlib_image *src2);
+mlib_stbtus  __mlib_ImbgeXor_Inp(mlib_imbge *src1dst,
+                                 const mlib_imbge *src2);
 
-/* Radiometric Operations ( radio ) */
+/* Rbdiometric Operbtions ( rbdio ) */
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorTrue2IndexInit mlib_ImageColorTrue2IndexInit
+#define __mlib_ImbgeColorTrue2IndexInit mlib_ImbgeColorTrue2IndexInit
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorTrue2IndexInit(void **colormap,
+mlib_stbtus  __mlib_ImbgeColorTrue2IndexInit(void **colormbp,
                                              mlib_s32 bits,
                                              mlib_type intype,
                                              mlib_type outtype,
-                                             mlib_s32 channels,
+                                             mlib_s32 chbnnels,
                                              mlib_s32 entries,
                                              mlib_s32 offset,
-                                             const void **table);
+                                             const void **tbble);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorTrue2Index mlib_ImageColorTrue2Index
+#define __mlib_ImbgeColorTrue2Index mlib_ImbgeColorTrue2Index
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorTrue2Index(mlib_image *dst,
-                                         const mlib_image *src,
-                                         const void *colormap);
+mlib_stbtus  __mlib_ImbgeColorTrue2Index(mlib_imbge *dst,
+                                         const mlib_imbge *src,
+                                         const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorTrue2IndexFree mlib_ImageColorTrue2IndexFree
+#define __mlib_ImbgeColorTrue2IndexFree mlib_ImbgeColorTrue2IndexFree
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-void  __mlib_ImageColorTrue2IndexFree(void *colormap);
+void  __mlib_ImbgeColorTrue2IndexFree(void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorDitherInit mlib_ImageColorDitherInit
+#define __mlib_ImbgeColorDitherInit mlib_ImbgeColorDitherInit
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorDitherInit(void **colormap,
+mlib_stbtus  __mlib_ImbgeColorDitherInit(void **colormbp,
                                          const mlib_s32 *dimensions,
                                          mlib_type intype,
                                          mlib_type outtype,
-                                         mlib_s32 channels,
+                                         mlib_s32 chbnnels,
                                          mlib_s32 entries,
                                          mlib_s32 offset,
                                          void **lut);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorDitherFree mlib_ImageColorDitherFree
+#define __mlib_ImbgeColorDitherFree mlib_ImbgeColorDitherFree
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-void  __mlib_ImageColorDitherFree(void *colormap);
+void  __mlib_ImbgeColorDitherFree(void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorErrorDiffusion3x3 mlib_ImageColorErrorDiffusion3x3
+#define __mlib_ImbgeColorErrorDiffusion3x3 mlib_ImbgeColorErrorDiffusion3x3
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorErrorDiffusion3x3(mlib_image *dst,
-                                                const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeColorErrorDiffusion3x3(mlib_imbge *dst,
+                                                const mlib_imbge *src,
                                                 const mlib_s32 *kernel,
-                                                mlib_s32 scale,
-                                                const void *colormap);
+                                                mlib_s32 scble,
+                                                const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorErrorDiffusionMxN mlib_ImageColorErrorDiffusionMxN
+#define __mlib_ImbgeColorErrorDiffusionMxN mlib_ImbgeColorErrorDiffusionMxN
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorErrorDiffusionMxN(mlib_image *dst,
-                                                const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeColorErrorDiffusionMxN(mlib_imbge *dst,
+                                                const mlib_imbge *src,
                                                 const mlib_s32 *kernel,
                                                 mlib_s32 m,
                                                 mlib_s32 n,
                                                 mlib_s32 dm,
                                                 mlib_s32 dn,
-                                                mlib_s32 scale,
-                                                const void *colormap);
+                                                mlib_s32 scble,
+                                                const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorOrderedDither8x8 mlib_ImageColorOrderedDither8x8
+#define __mlib_ImbgeColorOrderedDither8x8 mlib_ImbgeColorOrderedDither8x8
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorOrderedDither8x8(mlib_image *dst,
-                                               const mlib_image *src,
-                                               const mlib_s32 *dmask,
-                                               mlib_s32 scale,
-                                               const void *colormap);
+mlib_stbtus  __mlib_ImbgeColorOrderedDither8x8(mlib_imbge *dst,
+                                               const mlib_imbge *src,
+                                               const mlib_s32 *dmbsk,
+                                               mlib_s32 scble,
+                                               const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorOrderedDitherMxN mlib_ImageColorOrderedDitherMxN
+#define __mlib_ImbgeColorOrderedDitherMxN mlib_ImbgeColorOrderedDitherMxN
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorOrderedDitherMxN(mlib_image *dst,
-                                               const mlib_image *src,
-                                               const mlib_s32 **dmask,
+mlib_stbtus  __mlib_ImbgeColorOrderedDitherMxN(mlib_imbge *dst,
+                                               const mlib_imbge *src,
+                                               const mlib_s32 **dmbsk,
                                                mlib_s32 m,
                                                mlib_s32 n,
-                                               mlib_s32 scale,
-                                               const void *colormap);
+                                               mlib_s32 scble,
+                                               const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorReplace mlib_ImageColorReplace
+#define __mlib_ImbgeColorReplbce mlib_ImbgeColorReplbce
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorReplace(mlib_image *dst,
-                                      const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeColorReplbce(mlib_imbge *dst,
+                                      const mlib_imbge *src,
                                       const mlib_s32 *color1,
                                       const mlib_s32 *color2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorReplace_Fp mlib_ImageColorReplace_Fp
+#define __mlib_ImbgeColorReplbce_Fp mlib_ImbgeColorReplbce_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorReplace_Fp(mlib_image *dst,
-                                         const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeColorReplbce_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src,
                                          const mlib_d64 *color1,
                                          const mlib_d64 *color2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorReplace_Fp_Inp mlib_ImageColorReplace_Fp_Inp
+#define __mlib_ImbgeColorReplbce_Fp_Inp mlib_ImbgeColorReplbce_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorReplace_Fp_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeColorReplbce_Fp_Inp(mlib_imbge *srcdst,
                                              const mlib_d64 *color1,
                                              const mlib_d64 *color2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageColorReplace_Inp mlib_ImageColorReplace_Inp
+#define __mlib_ImbgeColorReplbce_Inp mlib_ImbgeColorReplbce_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageColorReplace_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeColorReplbce_Inp(mlib_imbge *srcdst,
                                           const mlib_s32 *color1,
                                           const mlib_s32 *color2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageHistogram mlib_ImageHistogram
+#define __mlib_ImbgeHistogrbm mlib_ImbgeHistogrbm
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageHistogram(mlib_s32 ** histo,
-                                   const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeHistogrbm(mlib_s32 ** histo,
+                                   const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageHistogram2 mlib_ImageHistogram2
+#define __mlib_ImbgeHistogrbm2 mlib_ImbgeHistogrbm2
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageHistogram2(mlib_s32 ** histo,
-                                    const mlib_image *img,
+mlib_stbtus  __mlib_ImbgeHistogrbm2(mlib_s32 ** histo,
+                                    const mlib_imbge *img,
                                     const mlib_s32 *numBins,
-                                    const mlib_s32 *lowValue,
-                                    const mlib_s32 *highValue,
-                                    mlib_s32 xStart,
-                                    mlib_s32 yStart,
+                                    const mlib_s32 *lowVblue,
+                                    const mlib_s32 *highVblue,
+                                    mlib_s32 xStbrt,
+                                    mlib_s32 yStbrt,
                                     mlib_s32 xPeriod,
                                     mlib_s32 yPeriod);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageLookUp mlib_ImageLookUp
+#define __mlib_ImbgeLookUp mlib_ImbgeLookUp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
 J2D_MLIB_PUBLIC
-mlib_status  __mlib_ImageLookUp(mlib_image *dst,
-                                const mlib_image *src,
-                                const void **table);
+mlib_stbtus  __mlib_ImbgeLookUp(mlib_imbge *dst,
+                                const mlib_imbge *src,
+                                const void **tbble);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageLookUp2 mlib_ImageLookUp2
+#define __mlib_ImbgeLookUp2 mlib_ImbgeLookUp2
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageLookUp2(mlib_image *dst,
-                                 const mlib_image *src,
-                                 const void **table,
+mlib_stbtus  __mlib_ImbgeLookUp2(mlib_imbge *dst,
+                                 const mlib_imbge *src,
+                                 const void **tbble,
                                  const mlib_s32 *offsets,
-                                 mlib_s32 channels);
+                                 mlib_s32 chbnnels);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageLookUpMask mlib_ImageLookUpMask
+#define __mlib_ImbgeLookUpMbsk mlib_ImbgeLookUpMbsk
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageLookUpMask(mlib_image *dst,
-                                    const mlib_image *src,
-                                    const void **table,
-                                    mlib_s32 channels,
-                                    mlib_s32 cmask);
+mlib_stbtus  __mlib_ImbgeLookUpMbsk(mlib_imbge *dst,
+                                    const mlib_imbge *src,
+                                    const void **tbble,
+                                    mlib_s32 chbnnels,
+                                    mlib_s32 cmbsk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageLookUp_Inp mlib_ImageLookUp_Inp
+#define __mlib_ImbgeLookUp_Inp mlib_ImbgeLookUp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageLookUp_Inp(mlib_image *srcdst,
-                                    const void **table);
+mlib_stbtus  __mlib_ImbgeLookUp_Inp(mlib_imbge *srcdst,
+                                    const void **tbble);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh1 mlib_ImageThresh1
+#define __mlib_ImbgeThresh1 mlib_ImbgeThresh1
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh1(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeThresh1(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32 *thresh,
                                  const mlib_s32 *ghigh,
                                  const mlib_s32 *glow);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh1_Fp mlib_ImageThresh1_Fp
+#define __mlib_ImbgeThresh1_Fp mlib_ImbgeThresh1_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh1_Fp(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeThresh1_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_d64 *thresh,
                                     const mlib_d64 *ghigh,
                                     const mlib_d64 *glow);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh1_Fp_Inp mlib_ImageThresh1_Fp_Inp
+#define __mlib_ImbgeThresh1_Fp_Inp mlib_ImbgeThresh1_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh1_Fp_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeThresh1_Fp_Inp(mlib_imbge *srcdst,
                                         const mlib_d64 *thresh,
                                         const mlib_d64 *ghigh,
                                         const mlib_d64 *glow);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh1_Inp mlib_ImageThresh1_Inp
+#define __mlib_ImbgeThresh1_Inp mlib_ImbgeThresh1_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh1_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeThresh1_Inp(mlib_imbge *srcdst,
                                      const mlib_s32 *thresh,
                                      const mlib_s32 *ghigh,
                                      const mlib_s32 *glow);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh2 mlib_ImageThresh2
+#define __mlib_ImbgeThresh2 mlib_ImbgeThresh2
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh2(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeThresh2(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32 *thresh,
                                  const mlib_s32 *glow);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh2_Fp mlib_ImageThresh2_Fp
+#define __mlib_ImbgeThresh2_Fp mlib_ImbgeThresh2_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh2_Fp(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeThresh2_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_d64 *thresh,
                                     const mlib_d64 *glow);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh2_Fp_Inp mlib_ImageThresh2_Fp_Inp
+#define __mlib_ImbgeThresh2_Fp_Inp mlib_ImbgeThresh2_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh2_Fp_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeThresh2_Fp_Inp(mlib_imbge *srcdst,
                                         const mlib_d64 *thresh,
                                         const mlib_d64 *glow);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh2_Inp mlib_ImageThresh2_Inp
+#define __mlib_ImbgeThresh2_Inp mlib_ImbgeThresh2_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh2_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeThresh2_Inp(mlib_imbge *srcdst,
                                      const mlib_s32 *thresh,
                                      const mlib_s32 *glow);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh3 mlib_ImageThresh3
+#define __mlib_ImbgeThresh3 mlib_ImbgeThresh3
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh3(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeThresh3(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32 *thresh,
                                  const mlib_s32 *ghigh);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh3_Fp mlib_ImageThresh3_Fp
+#define __mlib_ImbgeThresh3_Fp mlib_ImbgeThresh3_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh3_Fp(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeThresh3_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_d64 *thresh,
                                     const mlib_d64 *ghigh);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh3_Fp_Inp mlib_ImageThresh3_Fp_Inp
+#define __mlib_ImbgeThresh3_Fp_Inp mlib_ImbgeThresh3_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh3_Fp_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeThresh3_Fp_Inp(mlib_imbge *srcdst,
                                         const mlib_d64 *thresh,
                                         const mlib_d64 *ghigh);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh3_Inp mlib_ImageThresh3_Inp
+#define __mlib_ImbgeThresh3_Inp mlib_ImbgeThresh3_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh3_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeThresh3_Inp(mlib_imbge *srcdst,
                                      const mlib_s32 *thresh,
                                      const mlib_s32 *ghigh);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh4 mlib_ImageThresh4
+#define __mlib_ImbgeThresh4 mlib_ImbgeThresh4
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh4(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeThresh4(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32 *thigh,
                                  const mlib_s32 *tlow,
                                  const mlib_s32 *ghigh,
@@ -2612,10 +2612,10 @@ mlib_status  __mlib_ImageThresh4(mlib_image *dst,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh4_Fp mlib_ImageThresh4_Fp
+#define __mlib_ImbgeThresh4_Fp mlib_ImbgeThresh4_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh4_Fp(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeThresh4_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_d64 *thigh,
                                     const mlib_d64 *tlow,
                                     const mlib_d64 *ghigh,
@@ -2623,9 +2623,9 @@ mlib_status  __mlib_ImageThresh4_Fp(mlib_image *dst,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh4_Fp_Inp mlib_ImageThresh4_Fp_Inp
+#define __mlib_ImbgeThresh4_Fp_Inp mlib_ImbgeThresh4_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh4_Fp_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeThresh4_Fp_Inp(mlib_imbge *srcdst,
                                         const mlib_d64 *thigh,
                                         const mlib_d64 *tlow,
                                         const mlib_d64 *ghigh,
@@ -2633,9 +2633,9 @@ mlib_status  __mlib_ImageThresh4_Fp_Inp(mlib_image *srcdst,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh4_Inp mlib_ImageThresh4_Inp
+#define __mlib_ImbgeThresh4_Inp mlib_ImbgeThresh4_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh4_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeThresh4_Inp(mlib_imbge *srcdst,
                                      const mlib_s32 *thigh,
                                      const mlib_s32 *tlow,
                                      const mlib_s32 *ghigh,
@@ -2643,211 +2643,211 @@ mlib_status  __mlib_ImageThresh4_Inp(mlib_image *srcdst,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh5 mlib_ImageThresh5
+#define __mlib_ImbgeThresh5 mlib_ImbgeThresh5
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh5(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeThresh5(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32 *thigh,
                                  const mlib_s32 *tlow,
                                  const mlib_s32 *gmid);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh5_Fp mlib_ImageThresh5_Fp
+#define __mlib_ImbgeThresh5_Fp mlib_ImbgeThresh5_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh5_Fp(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeThresh5_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_d64 *thigh,
                                     const mlib_d64 *tlow,
                                     const mlib_d64 *gmid);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh5_Fp_Inp mlib_ImageThresh5_Fp_Inp
+#define __mlib_ImbgeThresh5_Fp_Inp mlib_ImbgeThresh5_Fp_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh5_Fp_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeThresh5_Fp_Inp(mlib_imbge *srcdst,
                                         const mlib_d64 *thigh,
                                         const mlib_d64 *tlow,
                                         const mlib_d64 *gmid);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageThresh5_Inp mlib_ImageThresh5_Inp
+#define __mlib_ImbgeThresh5_Inp mlib_ImbgeThresh5_Inp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageThresh5_Inp(mlib_image *srcdst,
+mlib_stbtus  __mlib_ImbgeThresh5_Inp(mlib_imbge *srcdst,
                                      const mlib_s32 *thigh,
                                      const mlib_s32 *tlow,
                                      const mlib_s32 *gmid);
 
-/* Linear and Not-Linear Spatial Operations, Morphological Operations ( spatial ) */
+/* Linebr bnd Not-Linebr Spbtibl Operbtions, Morphologicbl Operbtions ( spbtibl ) */
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv2x2 mlib_ImageConv2x2
+#define __mlib_ImbgeConv2x2 mlib_ImbgeConv2x2
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv2x2(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv2x2(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32 *kernel,
-                                 mlib_s32 scale,
-                                 mlib_s32 cmask,
+                                 mlib_s32 scble,
+                                 mlib_s32 cmbsk,
                                  mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv2x2Index mlib_ImageConv2x2Index
+#define __mlib_ImbgeConv2x2Index mlib_ImbgeConv2x2Index
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv2x2Index(mlib_image *dst,
-                                      const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv2x2Index(mlib_imbge *dst,
+                                      const mlib_imbge *src,
                                       const mlib_s32 *kernel,
-                                      mlib_s32 scale,
+                                      mlib_s32 scble,
                                       mlib_edge edge,
-                                      const void *colormap);
+                                      const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv2x2_Fp mlib_ImageConv2x2_Fp
+#define __mlib_ImbgeConv2x2_Fp mlib_ImbgeConv2x2_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv2x2_Fp(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv2x2_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_d64 *kernel,
-                                    mlib_s32 cmask,
+                                    mlib_s32 cmbsk,
                                     mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv3x3 mlib_ImageConv3x3
+#define __mlib_ImbgeConv3x3 mlib_ImbgeConv3x3
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv3x3(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv3x3(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32 *kernel,
-                                 mlib_s32 scale,
-                                 mlib_s32 cmask,
+                                 mlib_s32 scble,
+                                 mlib_s32 cmbsk,
                                  mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv3x3Index mlib_ImageConv3x3Index
+#define __mlib_ImbgeConv3x3Index mlib_ImbgeConv3x3Index
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv3x3Index(mlib_image *dst,
-                                      const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv3x3Index(mlib_imbge *dst,
+                                      const mlib_imbge *src,
                                       const mlib_s32 *kernel,
-                                      mlib_s32 scale,
+                                      mlib_s32 scble,
                                       mlib_edge edge,
-                                      const void *colormap);
+                                      const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv3x3_Fp mlib_ImageConv3x3_Fp
+#define __mlib_ImbgeConv3x3_Fp mlib_ImbgeConv3x3_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv3x3_Fp(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv3x3_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_d64 *kernel,
-                                    mlib_s32 cmask,
+                                    mlib_s32 cmbsk,
                                     mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv4x4 mlib_ImageConv4x4
+#define __mlib_ImbgeConv4x4 mlib_ImbgeConv4x4
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv4x4(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv4x4(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32 *kernel,
-                                 mlib_s32 scale,
-                                 mlib_s32 cmask,
+                                 mlib_s32 scble,
+                                 mlib_s32 cmbsk,
                                  mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv4x4Index mlib_ImageConv4x4Index
+#define __mlib_ImbgeConv4x4Index mlib_ImbgeConv4x4Index
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv4x4Index(mlib_image *dst,
-                                      const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv4x4Index(mlib_imbge *dst,
+                                      const mlib_imbge *src,
                                       const mlib_s32 *kernel,
-                                      mlib_s32 scale,
+                                      mlib_s32 scble,
                                       mlib_edge edge,
-                                      const void *colormap);
+                                      const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv4x4_Fp mlib_ImageConv4x4_Fp
+#define __mlib_ImbgeConv4x4_Fp mlib_ImbgeConv4x4_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv4x4_Fp(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv4x4_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_d64 *kernel,
-                                    mlib_s32 cmask,
+                                    mlib_s32 cmbsk,
                                     mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv5x5 mlib_ImageConv5x5
+#define __mlib_ImbgeConv5x5 mlib_ImbgeConv5x5
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv5x5(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv5x5(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32 *kernel,
-                                 mlib_s32 scale,
-                                 mlib_s32 cmask,
+                                 mlib_s32 scble,
+                                 mlib_s32 cmbsk,
                                  mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv5x5Index mlib_ImageConv5x5Index
+#define __mlib_ImbgeConv5x5Index mlib_ImbgeConv5x5Index
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv5x5Index(mlib_image *dst,
-                                      const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv5x5Index(mlib_imbge *dst,
+                                      const mlib_imbge *src,
                                       const mlib_s32 *kernel,
-                                      mlib_s32 scale,
+                                      mlib_s32 scble,
                                       mlib_edge edge,
-                                      const void *colormap);
+                                      const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv5x5_Fp mlib_ImageConv5x5_Fp
+#define __mlib_ImbgeConv5x5_Fp mlib_ImbgeConv5x5_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv5x5_Fp(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv5x5_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_d64 *kernel,
-                                    mlib_s32 cmask,
+                                    mlib_s32 cmbsk,
                                     mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv7x7 mlib_ImageConv7x7
+#define __mlib_ImbgeConv7x7 mlib_ImbgeConv7x7
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv7x7(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv7x7(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32 *kernel,
-                                 mlib_s32 scale,
-                                 mlib_s32 cmask,
+                                 mlib_s32 scble,
+                                 mlib_s32 cmbsk,
                                  mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv7x7Index mlib_ImageConv7x7Index
+#define __mlib_ImbgeConv7x7Index mlib_ImbgeConv7x7Index
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv7x7Index(mlib_image *dst,
-                                      const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv7x7Index(mlib_imbge *dst,
+                                      const mlib_imbge *src,
                                       const mlib_s32 *kernel,
-                                      mlib_s32 scale,
+                                      mlib_s32 scble,
                                       mlib_edge edge,
-                                      const void *colormap);
+                                      const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConv7x7_Fp mlib_ImageConv7x7_Fp
+#define __mlib_ImbgeConv7x7_Fp mlib_ImbgeConv7x7_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConv7x7_Fp(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConv7x7_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_d64 *kernel,
-                                    mlib_s32 cmask,
+                                    mlib_s32 cmbsk,
                                     mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConvKernelConvert mlib_ImageConvKernelConvert
+#define __mlib_ImbgeConvKernelConvert mlib_ImbgeConvKernelConvert
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
 J2D_MLIB_PUBLIC
-mlib_status  __mlib_ImageConvKernelConvert(mlib_s32 *ikernel,
-                                           mlib_s32 *iscale,
+mlib_stbtus  __mlib_ImbgeConvKernelConvert(mlib_s32 *ikernel,
+                                           mlib_s32 *iscble,
                                            const mlib_d64 *fkernel,
                                            mlib_s32 m,
                                            mlib_s32 n,
@@ -2855,581 +2855,581 @@ mlib_status  __mlib_ImageConvKernelConvert(mlib_s32 *ikernel,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConvMxN mlib_ImageConvMxN
+#define __mlib_ImbgeConvMxN mlib_ImbgeConvMxN
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
 J2D_MLIB_PUBLIC
-mlib_status  __mlib_ImageConvMxN(mlib_image *dst,
-                                 const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConvMxN(mlib_imbge *dst,
+                                 const mlib_imbge *src,
                                  const mlib_s32 *kernel,
                                  mlib_s32 m,
                                  mlib_s32 n,
                                  mlib_s32 dm,
                                  mlib_s32 dn,
-                                 mlib_s32 scale,
-                                 mlib_s32 cmask,
+                                 mlib_s32 scble,
+                                 mlib_s32 cmbsk,
                                  mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConvMxNIndex mlib_ImageConvMxNIndex
+#define __mlib_ImbgeConvMxNIndex mlib_ImbgeConvMxNIndex
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConvMxNIndex(mlib_image *dst,
-                                      const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConvMxNIndex(mlib_imbge *dst,
+                                      const mlib_imbge *src,
                                       const mlib_s32 *kernel,
                                       mlib_s32 m,
                                       mlib_s32 n,
                                       mlib_s32 dm,
                                       mlib_s32 dn,
-                                      mlib_s32 scale,
+                                      mlib_s32 scble,
                                       mlib_edge edge,
-                                      const void *colormap);
+                                      const void *colormbp);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConvMxN_Fp mlib_ImageConvMxN_Fp
+#define __mlib_ImbgeConvMxN_Fp mlib_ImbgeConvMxN_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConvMxN_Fp(mlib_image *dst,
-                                    const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConvMxN_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src,
                                     const mlib_d64 *kernel,
                                     mlib_s32 m,
                                     mlib_s32 n,
                                     mlib_s32 dm,
                                     mlib_s32 dn,
-                                    mlib_s32 cmask,
+                                    mlib_s32 cmbsk,
                                     mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConvolveMxN mlib_ImageConvolveMxN
+#define __mlib_ImbgeConvolveMxN mlib_ImbgeConvolveMxN
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConvolveMxN(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConvolveMxN(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_d64 *kernel,
                                      mlib_s32 m,
                                      mlib_s32 n,
                                      mlib_s32 dm,
                                      mlib_s32 dn,
-                                     mlib_s32 cmask,
+                                     mlib_s32 cmbsk,
                                      mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageConvolveMxN_Fp mlib_ImageConvolveMxN_Fp
+#define __mlib_ImbgeConvolveMxN_Fp mlib_ImbgeConvolveMxN_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageConvolveMxN_Fp(mlib_image *dst,
-                                        const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeConvolveMxN_Fp(mlib_imbge *dst,
+                                        const mlib_imbge *src,
                                         const mlib_d64 *kernel,
                                         mlib_s32 m,
                                         mlib_s32 n,
                                         mlib_s32 dm,
                                         mlib_s32 dn,
-                                        mlib_s32 cmask,
+                                        mlib_s32 cmbsk,
                                         mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDilate4 mlib_ImageDilate4
+#define __mlib_ImbgeDilbte4 mlib_ImbgeDilbte4
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDilate4(mlib_image *dst,
-                                 const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeDilbte4(mlib_imbge *dst,
+                                 const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDilate4_Fp mlib_ImageDilate4_Fp
+#define __mlib_ImbgeDilbte4_Fp mlib_ImbgeDilbte4_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDilate4_Fp(mlib_image *dst,
-                                    const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeDilbte4_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDilate8 mlib_ImageDilate8
+#define __mlib_ImbgeDilbte8 mlib_ImbgeDilbte8
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDilate8(mlib_image *dst,
-                                 const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeDilbte8(mlib_imbge *dst,
+                                 const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageDilate8_Fp mlib_ImageDilate8_Fp
+#define __mlib_ImbgeDilbte8_Fp mlib_ImbgeDilbte8_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageDilate8_Fp(mlib_image *dst,
-                                    const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeDilbte8_Fp(mlib_imbge *dst,
+                                    const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageErode4 mlib_ImageErode4
+#define __mlib_ImbgeErode4 mlib_ImbgeErode4
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageErode4(mlib_image *dst,
-                                const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeErode4(mlib_imbge *dst,
+                                const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageErode4_Fp mlib_ImageErode4_Fp
+#define __mlib_ImbgeErode4_Fp mlib_ImbgeErode4_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageErode4_Fp(mlib_image *dst,
-                                   const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeErode4_Fp(mlib_imbge *dst,
+                                   const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageErode8 mlib_ImageErode8
+#define __mlib_ImbgeErode8 mlib_ImbgeErode8
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageErode8(mlib_image *dst,
-                                const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeErode8(mlib_imbge *dst,
+                                const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageErode8_Fp mlib_ImageErode8_Fp
+#define __mlib_ImbgeErode8_Fp mlib_ImbgeErode8_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageErode8_Fp(mlib_image *dst,
-                                   const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeErode8_Fp(mlib_imbge *dst,
+                                   const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGradient3x3 mlib_ImageGradient3x3
+#define __mlib_ImbgeGrbdient3x3 mlib_ImbgeGrbdient3x3
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageGradient3x3(mlib_image *dst,
-                                     const mlib_image *src,
-                                     const mlib_d64 *hmask,
-                                     const mlib_d64 *vmask,
-                                     mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeGrbdient3x3(mlib_imbge *dst,
+                                     const mlib_imbge *src,
+                                     const mlib_d64 *hmbsk,
+                                     const mlib_d64 *vmbsk,
+                                     mlib_s32 cmbsk,
                                      mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGradient3x3_Fp mlib_ImageGradient3x3_Fp
+#define __mlib_ImbgeGrbdient3x3_Fp mlib_ImbgeGrbdient3x3_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageGradient3x3_Fp(mlib_image *dst,
-                                        const mlib_image *src,
-                                        const mlib_d64 *hmask,
-                                        const mlib_d64 *vmask,
-                                        mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeGrbdient3x3_Fp(mlib_imbge *dst,
+                                        const mlib_imbge *src,
+                                        const mlib_d64 *hmbsk,
+                                        const mlib_d64 *vmbsk,
+                                        mlib_s32 cmbsk,
                                         mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGradientMxN mlib_ImageGradientMxN
+#define __mlib_ImbgeGrbdientMxN mlib_ImbgeGrbdientMxN
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageGradientMxN(mlib_image *dst,
-                                     const mlib_image *src,
-                                     const mlib_d64 *hmask,
-                                     const mlib_d64 *vmask,
+mlib_stbtus  __mlib_ImbgeGrbdientMxN(mlib_imbge *dst,
+                                     const mlib_imbge *src,
+                                     const mlib_d64 *hmbsk,
+                                     const mlib_d64 *vmbsk,
                                      mlib_s32 m,
                                      mlib_s32 n,
                                      mlib_s32 dm,
                                      mlib_s32 dn,
-                                     mlib_s32 cmask,
+                                     mlib_s32 cmbsk,
                                      mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageGradientMxN_Fp mlib_ImageGradientMxN_Fp
+#define __mlib_ImbgeGrbdientMxN_Fp mlib_ImbgeGrbdientMxN_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageGradientMxN_Fp(mlib_image *dst,
-                                        const mlib_image *src,
-                                        const mlib_d64 *hmask,
-                                        const mlib_d64 *vmask,
+mlib_stbtus  __mlib_ImbgeGrbdientMxN_Fp(mlib_imbge *dst,
+                                        const mlib_imbge *src,
+                                        const mlib_d64 *hmbsk,
+                                        const mlib_d64 *vmbsk,
                                         mlib_s32 m,
                                         mlib_s32 n,
                                         mlib_s32 dm,
                                         mlib_s32 dn,
-                                        mlib_s32 cmask,
+                                        mlib_s32 cmbsk,
                                         mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMaxFilter3x3 mlib_ImageMaxFilter3x3
+#define __mlib_ImbgeMbxFilter3x3 mlib_ImbgeMbxFilter3x3
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMaxFilter3x3(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeMbxFilter3x3(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMaxFilter3x3_Fp mlib_ImageMaxFilter3x3_Fp
+#define __mlib_ImbgeMbxFilter3x3_Fp mlib_ImbgeMbxFilter3x3_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMaxFilter3x3_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeMbxFilter3x3_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMaxFilter5x5 mlib_ImageMaxFilter5x5
+#define __mlib_ImbgeMbxFilter5x5 mlib_ImbgeMbxFilter5x5
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMaxFilter5x5(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeMbxFilter5x5(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMaxFilter5x5_Fp mlib_ImageMaxFilter5x5_Fp
+#define __mlib_ImbgeMbxFilter5x5_Fp mlib_ImbgeMbxFilter5x5_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMaxFilter5x5_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeMbxFilter5x5_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMaxFilter7x7 mlib_ImageMaxFilter7x7
+#define __mlib_ImbgeMbxFilter7x7 mlib_ImbgeMbxFilter7x7
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMaxFilter7x7(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeMbxFilter7x7(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMaxFilter7x7_Fp mlib_ImageMaxFilter7x7_Fp
+#define __mlib_ImbgeMbxFilter7x7_Fp mlib_ImbgeMbxFilter7x7_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMaxFilter7x7_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeMbxFilter7x7_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMedianFilter3x3 mlib_ImageMedianFilter3x3
+#define __mlib_ImbgeMedibnFilter3x3 mlib_ImbgeMedibnFilter3x3
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMedianFilter3x3(mlib_image *dst,
-                                         const mlib_image *src,
-                                         mlib_median_mask mmask,
-                                         mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeMedibnFilter3x3(mlib_imbge *dst,
+                                         const mlib_imbge *src,
+                                         mlib_medibn_mbsk mmbsk,
+                                         mlib_s32 cmbsk,
                                          mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMedianFilter3x3_Fp mlib_ImageMedianFilter3x3_Fp
+#define __mlib_ImbgeMedibnFilter3x3_Fp mlib_ImbgeMedibnFilter3x3_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMedianFilter3x3_Fp(mlib_image *dst,
-                                            const mlib_image *src,
-                                            mlib_median_mask mmask,
-                                            mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeMedibnFilter3x3_Fp(mlib_imbge *dst,
+                                            const mlib_imbge *src,
+                                            mlib_medibn_mbsk mmbsk,
+                                            mlib_s32 cmbsk,
                                             mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMedianFilter3x3_US mlib_ImageMedianFilter3x3_US
+#define __mlib_ImbgeMedibnFilter3x3_US mlib_ImbgeMedibnFilter3x3_US
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMedianFilter3x3_US(mlib_image *dst,
-                                            const mlib_image *src,
-                                            mlib_median_mask mmask,
-                                            mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeMedibnFilter3x3_US(mlib_imbge *dst,
+                                            const mlib_imbge *src,
+                                            mlib_medibn_mbsk mmbsk,
+                                            mlib_s32 cmbsk,
                                             mlib_edge edge,
                                             mlib_s32 bits);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMedianFilter5x5 mlib_ImageMedianFilter5x5
+#define __mlib_ImbgeMedibnFilter5x5 mlib_ImbgeMedibnFilter5x5
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMedianFilter5x5(mlib_image *dst,
-                                         const mlib_image *src,
-                                         mlib_median_mask mmask,
-                                         mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeMedibnFilter5x5(mlib_imbge *dst,
+                                         const mlib_imbge *src,
+                                         mlib_medibn_mbsk mmbsk,
+                                         mlib_s32 cmbsk,
                                          mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMedianFilter5x5_Fp mlib_ImageMedianFilter5x5_Fp
+#define __mlib_ImbgeMedibnFilter5x5_Fp mlib_ImbgeMedibnFilter5x5_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMedianFilter5x5_Fp(mlib_image *dst,
-                                            const mlib_image *src,
-                                            mlib_median_mask mmask,
-                                            mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeMedibnFilter5x5_Fp(mlib_imbge *dst,
+                                            const mlib_imbge *src,
+                                            mlib_medibn_mbsk mmbsk,
+                                            mlib_s32 cmbsk,
                                             mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMedianFilter5x5_US mlib_ImageMedianFilter5x5_US
+#define __mlib_ImbgeMedibnFilter5x5_US mlib_ImbgeMedibnFilter5x5_US
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMedianFilter5x5_US(mlib_image *dst,
-                                            const mlib_image *src,
-                                            mlib_median_mask mmask,
-                                            mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeMedibnFilter5x5_US(mlib_imbge *dst,
+                                            const mlib_imbge *src,
+                                            mlib_medibn_mbsk mmbsk,
+                                            mlib_s32 cmbsk,
                                             mlib_edge edge,
                                             mlib_s32 bits);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMedianFilter7x7 mlib_ImageMedianFilter7x7
+#define __mlib_ImbgeMedibnFilter7x7 mlib_ImbgeMedibnFilter7x7
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMedianFilter7x7(mlib_image *dst,
-                                         const mlib_image *src,
-                                         mlib_median_mask mmask,
-                                         mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeMedibnFilter7x7(mlib_imbge *dst,
+                                         const mlib_imbge *src,
+                                         mlib_medibn_mbsk mmbsk,
+                                         mlib_s32 cmbsk,
                                          mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMedianFilter7x7_Fp mlib_ImageMedianFilter7x7_Fp
+#define __mlib_ImbgeMedibnFilter7x7_Fp mlib_ImbgeMedibnFilter7x7_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMedianFilter7x7_Fp(mlib_image *dst,
-                                            const mlib_image *src,
-                                            mlib_median_mask mmask,
-                                            mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeMedibnFilter7x7_Fp(mlib_imbge *dst,
+                                            const mlib_imbge *src,
+                                            mlib_medibn_mbsk mmbsk,
+                                            mlib_s32 cmbsk,
                                             mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMedianFilter7x7_US mlib_ImageMedianFilter7x7_US
+#define __mlib_ImbgeMedibnFilter7x7_US mlib_ImbgeMedibnFilter7x7_US
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMedianFilter7x7_US(mlib_image *dst,
-                                            const mlib_image *src,
-                                            mlib_median_mask mmask,
-                                            mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeMedibnFilter7x7_US(mlib_imbge *dst,
+                                            const mlib_imbge *src,
+                                            mlib_medibn_mbsk mmbsk,
+                                            mlib_s32 cmbsk,
                                             mlib_edge edge,
                                             mlib_s32 bits);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMedianFilterMxN mlib_ImageMedianFilterMxN
+#define __mlib_ImbgeMedibnFilterMxN mlib_ImbgeMedibnFilterMxN
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMedianFilterMxN(mlib_image *dst,
-                                         const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeMedibnFilterMxN(mlib_imbge *dst,
+                                         const mlib_imbge *src,
                                          mlib_s32 m,
                                          mlib_s32 n,
-                                         mlib_median_mask mmask,
-                                         mlib_s32 cmask,
+                                         mlib_medibn_mbsk mmbsk,
+                                         mlib_s32 cmbsk,
                                          mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMedianFilterMxN_Fp mlib_ImageMedianFilterMxN_Fp
+#define __mlib_ImbgeMedibnFilterMxN_Fp mlib_ImbgeMedibnFilterMxN_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMedianFilterMxN_Fp(mlib_image *dst,
-                                            const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeMedibnFilterMxN_Fp(mlib_imbge *dst,
+                                            const mlib_imbge *src,
                                             mlib_s32 m,
                                             mlib_s32 n,
-                                            mlib_median_mask mmask,
-                                            mlib_s32 cmask,
+                                            mlib_medibn_mbsk mmbsk,
+                                            mlib_s32 cmbsk,
                                             mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMedianFilterMxN_US mlib_ImageMedianFilterMxN_US
+#define __mlib_ImbgeMedibnFilterMxN_US mlib_ImbgeMedibnFilterMxN_US
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMedianFilterMxN_US(mlib_image *dst,
-                                            const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeMedibnFilterMxN_US(mlib_imbge *dst,
+                                            const mlib_imbge *src,
                                             mlib_s32 m,
                                             mlib_s32 n,
-                                            mlib_median_mask mmask,
-                                            mlib_s32 cmask,
+                                            mlib_medibn_mbsk mmbsk,
+                                            mlib_s32 cmbsk,
                                             mlib_edge edge,
                                             mlib_s32 bits);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMinFilter3x3 mlib_ImageMinFilter3x3
+#define __mlib_ImbgeMinFilter3x3 mlib_ImbgeMinFilter3x3
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMinFilter3x3(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeMinFilter3x3(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMinFilter3x3_Fp mlib_ImageMinFilter3x3_Fp
+#define __mlib_ImbgeMinFilter3x3_Fp mlib_ImbgeMinFilter3x3_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMinFilter3x3_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeMinFilter3x3_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMinFilter5x5 mlib_ImageMinFilter5x5
+#define __mlib_ImbgeMinFilter5x5 mlib_ImbgeMinFilter5x5
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMinFilter5x5(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeMinFilter5x5(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMinFilter5x5_Fp mlib_ImageMinFilter5x5_Fp
+#define __mlib_ImbgeMinFilter5x5_Fp mlib_ImbgeMinFilter5x5_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMinFilter5x5_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeMinFilter5x5_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMinFilter7x7 mlib_ImageMinFilter7x7
+#define __mlib_ImbgeMinFilter7x7 mlib_ImbgeMinFilter7x7
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMinFilter7x7(mlib_image *dst,
-                                      const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeMinFilter7x7(mlib_imbge *dst,
+                                      const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMinFilter7x7_Fp mlib_ImageMinFilter7x7_Fp
+#define __mlib_ImbgeMinFilter7x7_Fp mlib_ImbgeMinFilter7x7_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMinFilter7x7_Fp(mlib_image *dst,
-                                         const mlib_image *src);
+mlib_stbtus  __mlib_ImbgeMinFilter7x7_Fp(mlib_imbge *dst,
+                                         const mlib_imbge *src);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRankFilter3x3 mlib_ImageRankFilter3x3
+#define __mlib_ImbgeRbnkFilter3x3 mlib_ImbgeRbnkFilter3x3
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRankFilter3x3(mlib_image *dst,
-                                       const mlib_image *src,
-                                       mlib_s32 rank);
+mlib_stbtus  __mlib_ImbgeRbnkFilter3x3(mlib_imbge *dst,
+                                       const mlib_imbge *src,
+                                       mlib_s32 rbnk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRankFilter3x3_Fp mlib_ImageRankFilter3x3_Fp
+#define __mlib_ImbgeRbnkFilter3x3_Fp mlib_ImbgeRbnkFilter3x3_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRankFilter3x3_Fp(mlib_image *dst,
-                                          const mlib_image *src,
-                                          mlib_s32 rank);
+mlib_stbtus  __mlib_ImbgeRbnkFilter3x3_Fp(mlib_imbge *dst,
+                                          const mlib_imbge *src,
+                                          mlib_s32 rbnk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRankFilter3x3_US mlib_ImageRankFilter3x3_US
+#define __mlib_ImbgeRbnkFilter3x3_US mlib_ImbgeRbnkFilter3x3_US
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRankFilter3x3_US(mlib_image *dst,
-                                          const mlib_image *src,
-                                          mlib_s32 rank,
+mlib_stbtus  __mlib_ImbgeRbnkFilter3x3_US(mlib_imbge *dst,
+                                          const mlib_imbge *src,
+                                          mlib_s32 rbnk,
                                           mlib_s32 bits);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRankFilter5x5 mlib_ImageRankFilter5x5
+#define __mlib_ImbgeRbnkFilter5x5 mlib_ImbgeRbnkFilter5x5
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRankFilter5x5(mlib_image *dst,
-                                       const mlib_image *src,
-                                       mlib_s32 rank);
+mlib_stbtus  __mlib_ImbgeRbnkFilter5x5(mlib_imbge *dst,
+                                       const mlib_imbge *src,
+                                       mlib_s32 rbnk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRankFilter5x5_Fp mlib_ImageRankFilter5x5_Fp
+#define __mlib_ImbgeRbnkFilter5x5_Fp mlib_ImbgeRbnkFilter5x5_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRankFilter5x5_Fp(mlib_image *dst,
-                                          const mlib_image *src,
-                                          mlib_s32 rank);
+mlib_stbtus  __mlib_ImbgeRbnkFilter5x5_Fp(mlib_imbge *dst,
+                                          const mlib_imbge *src,
+                                          mlib_s32 rbnk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRankFilter5x5_US mlib_ImageRankFilter5x5_US
+#define __mlib_ImbgeRbnkFilter5x5_US mlib_ImbgeRbnkFilter5x5_US
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRankFilter5x5_US(mlib_image *dst,
-                                          const mlib_image *src,
-                                          mlib_s32 rank,
+mlib_stbtus  __mlib_ImbgeRbnkFilter5x5_US(mlib_imbge *dst,
+                                          const mlib_imbge *src,
+                                          mlib_s32 rbnk,
                                           mlib_s32 bits);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRankFilter7x7 mlib_ImageRankFilter7x7
+#define __mlib_ImbgeRbnkFilter7x7 mlib_ImbgeRbnkFilter7x7
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRankFilter7x7(mlib_image *dst,
-                                       const mlib_image *src,
-                                       mlib_s32 rank);
+mlib_stbtus  __mlib_ImbgeRbnkFilter7x7(mlib_imbge *dst,
+                                       const mlib_imbge *src,
+                                       mlib_s32 rbnk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRankFilter7x7_Fp mlib_ImageRankFilter7x7_Fp
+#define __mlib_ImbgeRbnkFilter7x7_Fp mlib_ImbgeRbnkFilter7x7_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRankFilter7x7_Fp(mlib_image *dst,
-                                          const mlib_image *src,
-                                          mlib_s32 rank);
+mlib_stbtus  __mlib_ImbgeRbnkFilter7x7_Fp(mlib_imbge *dst,
+                                          const mlib_imbge *src,
+                                          mlib_s32 rbnk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRankFilter7x7_US mlib_ImageRankFilter7x7_US
+#define __mlib_ImbgeRbnkFilter7x7_US mlib_ImbgeRbnkFilter7x7_US
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRankFilter7x7_US(mlib_image *dst,
-                                          const mlib_image *src,
-                                          mlib_s32 rank,
+mlib_stbtus  __mlib_ImbgeRbnkFilter7x7_US(mlib_imbge *dst,
+                                          const mlib_imbge *src,
+                                          mlib_s32 rbnk,
                                           mlib_s32 bits);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRankFilterMxN mlib_ImageRankFilterMxN
+#define __mlib_ImbgeRbnkFilterMxN mlib_ImbgeRbnkFilterMxN
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRankFilterMxN(mlib_image *dst,
-                                       const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeRbnkFilterMxN(mlib_imbge *dst,
+                                       const mlib_imbge *src,
                                        mlib_s32 m,
                                        mlib_s32 n,
-                                       mlib_s32 rank);
+                                       mlib_s32 rbnk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRankFilterMxN_Fp mlib_ImageRankFilterMxN_Fp
+#define __mlib_ImbgeRbnkFilterMxN_Fp mlib_ImbgeRbnkFilterMxN_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRankFilterMxN_Fp(mlib_image *dst,
-                                          const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeRbnkFilterMxN_Fp(mlib_imbge *dst,
+                                          const mlib_imbge *src,
                                           mlib_s32 m,
                                           mlib_s32 n,
-                                          mlib_s32 rank);
+                                          mlib_s32 rbnk);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageRankFilterMxN_US mlib_ImageRankFilterMxN_US
+#define __mlib_ImbgeRbnkFilterMxN_US mlib_ImbgeRbnkFilterMxN_US
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageRankFilterMxN_US(mlib_image *dst,
-                                          const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeRbnkFilterMxN_US(mlib_imbge *dst,
+                                          const mlib_imbge *src,
                                           mlib_s32 m,
                                           mlib_s32 n,
-                                          mlib_s32 rank,
+                                          mlib_s32 rbnk,
                                           mlib_s32 bits);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSConv3x3 mlib_ImageSConv3x3
+#define __mlib_ImbgeSConv3x3 mlib_ImbgeSConv3x3
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSConv3x3(mlib_image *dst,
-                                  const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeSConv3x3(mlib_imbge *dst,
+                                  const mlib_imbge *src,
                                   const mlib_s32 *hkernel,
                                   const mlib_s32 *vkernel,
-                                  mlib_s32 scale,
-                                  mlib_s32 cmask,
+                                  mlib_s32 scble,
+                                  mlib_s32 cmbsk,
                                   mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSConv3x3_Fp mlib_ImageSConv3x3_Fp
+#define __mlib_ImbgeSConv3x3_Fp mlib_ImbgeSConv3x3_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSConv3x3_Fp(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeSConv3x3_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_d64 *hkernel,
                                      const mlib_d64 *vkernel,
-                                     mlib_s32 cmask,
+                                     mlib_s32 cmbsk,
                                      mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSConv5x5 mlib_ImageSConv5x5
+#define __mlib_ImbgeSConv5x5 mlib_ImbgeSConv5x5
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSConv5x5(mlib_image *dst,
-                                  const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeSConv5x5(mlib_imbge *dst,
+                                  const mlib_imbge *src,
                                   const mlib_s32 *hkernel,
                                   const mlib_s32 *vkernel,
-                                  mlib_s32 scale,
-                                  mlib_s32 cmask,
+                                  mlib_s32 scble,
+                                  mlib_s32 cmbsk,
                                   mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSConv5x5_Fp mlib_ImageSConv5x5_Fp
+#define __mlib_ImbgeSConv5x5_Fp mlib_ImbgeSConv5x5_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSConv5x5_Fp(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeSConv5x5_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_d64 *hkernel,
                                      const mlib_d64 *vkernel,
-                                     mlib_s32 cmask,
+                                     mlib_s32 cmbsk,
                                      mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSConv7x7 mlib_ImageSConv7x7
+#define __mlib_ImbgeSConv7x7 mlib_ImbgeSConv7x7
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSConv7x7(mlib_image *dst,
-                                  const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeSConv7x7(mlib_imbge *dst,
+                                  const mlib_imbge *src,
                                   const mlib_s32 *hkernel,
                                   const mlib_s32 *vkernel,
-                                  mlib_s32 scale,
-                                  mlib_s32 cmask,
+                                  mlib_s32 scble,
+                                  mlib_s32 cmbsk,
                                   mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSConv7x7_Fp mlib_ImageSConv7x7_Fp
+#define __mlib_ImbgeSConv7x7_Fp mlib_ImbgeSConv7x7_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSConv7x7_Fp(mlib_image *dst,
-                                     const mlib_image *src,
+mlib_stbtus  __mlib_ImbgeSConv7x7_Fp(mlib_imbge *dst,
+                                     const mlib_imbge *src,
                                      const mlib_d64 *hkernel,
                                      const mlib_d64 *vkernel,
-                                     mlib_s32 cmask,
+                                     mlib_s32 cmbsk,
                                      mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSConvKernelConvert mlib_ImageSConvKernelConvert
+#define __mlib_ImbgeSConvKernelConvert mlib_ImbgeSConvKernelConvert
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSConvKernelConvert(mlib_s32 *ihkernel,
+mlib_stbtus  __mlib_ImbgeSConvKernelConvert(mlib_s32 *ihkernel,
                                             mlib_s32 *ivkernel,
-                                            mlib_s32 *iscale,
+                                            mlib_s32 *iscble,
                                             const mlib_d64 *fhkernel,
                                             const mlib_d64 *fvkernel,
                                             mlib_s32 m,
@@ -3438,219 +3438,219 @@ mlib_status  __mlib_ImageSConvKernelConvert(mlib_s32 *ihkernel,
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSobel mlib_ImageSobel
+#define __mlib_ImbgeSobel mlib_ImbgeSobel
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSobel(mlib_image *dst,
-                               const mlib_image *src,
-                               mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeSobel(mlib_imbge *dst,
+                               const mlib_imbge *src,
+                               mlib_s32 cmbsk,
                                mlib_edge edge);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageSobel_Fp mlib_ImageSobel_Fp
+#define __mlib_ImbgeSobel_Fp mlib_ImbgeSobel_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageSobel_Fp(mlib_image *dst,
-                                  const mlib_image *src,
-                                  mlib_s32 cmask,
+mlib_stbtus  __mlib_ImbgeSobel_Fp(mlib_imbge *dst,
+                                  const mlib_imbge *src,
+                                  mlib_s32 cmbsk,
                                   mlib_edge edge);
 
-/* Image Staistics ( stat ) */
+/* Imbge Stbistics ( stbt ) */
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAutoCorrel mlib_ImageAutoCorrel
+#define __mlib_ImbgeAutoCorrel mlib_ImbgeAutoCorrel
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAutoCorrel(mlib_d64 *correl,
-                                    const mlib_image *img,
+mlib_stbtus  __mlib_ImbgeAutoCorrel(mlib_d64 *correl,
+                                    const mlib_imbge *img,
                                     mlib_s32 dx,
                                     mlib_s32 dy);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageAutoCorrel_Fp mlib_ImageAutoCorrel_Fp
+#define __mlib_ImbgeAutoCorrel_Fp mlib_ImbgeAutoCorrel_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageAutoCorrel_Fp(mlib_d64 *correl,
-                                       const mlib_image *img,
+mlib_stbtus  __mlib_ImbgeAutoCorrel_Fp(mlib_d64 *correl,
+                                       const mlib_imbge *img,
                                        mlib_s32 dx,
                                        mlib_s32 dy);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageCrossCorrel mlib_ImageCrossCorrel
+#define __mlib_ImbgeCrossCorrel mlib_ImbgeCrossCorrel
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageCrossCorrel(mlib_d64 *correl,
-                                     const mlib_image *img1,
-                                     const mlib_image *img2);
+mlib_stbtus  __mlib_ImbgeCrossCorrel(mlib_d64 *correl,
+                                     const mlib_imbge *img1,
+                                     const mlib_imbge *img2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageCrossCorrel_Fp mlib_ImageCrossCorrel_Fp
+#define __mlib_ImbgeCrossCorrel_Fp mlib_ImbgeCrossCorrel_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageCrossCorrel_Fp(mlib_d64 *correl,
-                                        const mlib_image *img1,
-                                        const mlib_image *img2);
+mlib_stbtus  __mlib_ImbgeCrossCorrel_Fp(mlib_d64 *correl,
+                                        const mlib_imbge *img1,
+                                        const mlib_imbge *img2);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageExtrema2 mlib_ImageExtrema2
+#define __mlib_ImbgeExtremb2 mlib_ImbgeExtremb2
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageExtrema2(mlib_s32 *min,
-                                  mlib_s32 *max,
-                                  const mlib_image *img,
-                                  mlib_s32 xStart,
-                                  mlib_s32 yStart,
+mlib_stbtus  __mlib_ImbgeExtremb2(mlib_s32 *min,
+                                  mlib_s32 *mbx,
+                                  const mlib_imbge *img,
+                                  mlib_s32 xStbrt,
+                                  mlib_s32 yStbrt,
                                   mlib_s32 xPeriod,
                                   mlib_s32 yPeriod);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageExtrema2_Fp mlib_ImageExtrema2_Fp
+#define __mlib_ImbgeExtremb2_Fp mlib_ImbgeExtremb2_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageExtrema2_Fp(mlib_d64 *min,
-                                     mlib_d64 *max,
-                                     const mlib_image *img,
-                                     mlib_s32 xStart,
-                                     mlib_s32 yStart,
+mlib_stbtus  __mlib_ImbgeExtremb2_Fp(mlib_d64 *min,
+                                     mlib_d64 *mbx,
+                                     const mlib_imbge *img,
+                                     mlib_s32 xStbrt,
+                                     mlib_s32 yStbrt,
                                      mlib_s32 xPeriod,
                                      mlib_s32 yPeriod);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageExtremaLocations mlib_ImageExtremaLocations
+#define __mlib_ImbgeExtrembLocbtions mlib_ImbgeExtrembLocbtions
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageExtremaLocations(mlib_s32 *min,
-                                          mlib_s32 *max,
-                                          const mlib_image *img,
-                                          mlib_s32 xStart,
-                                          mlib_s32 yStart,
+mlib_stbtus  __mlib_ImbgeExtrembLocbtions(mlib_s32 *min,
+                                          mlib_s32 *mbx,
+                                          const mlib_imbge *img,
+                                          mlib_s32 xStbrt,
+                                          mlib_s32 yStbrt,
                                           mlib_s32 xPeriod,
                                           mlib_s32 yPeriod,
-                                          mlib_s32 saveLocations,
-                                          mlib_s32 maxRuns,
+                                          mlib_s32 sbveLocbtions,
+                                          mlib_s32 mbxRuns,
                                           mlib_s32 *minCounts,
-                                          mlib_s32 *maxCounts,
-                                          mlib_s32 **minLocations,
-                                          mlib_s32 **maxLocations,
+                                          mlib_s32 *mbxCounts,
+                                          mlib_s32 **minLocbtions,
+                                          mlib_s32 **mbxLocbtions,
                                           mlib_s32 len);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageExtremaLocations_Fp mlib_ImageExtremaLocations_Fp
+#define __mlib_ImbgeExtrembLocbtions_Fp mlib_ImbgeExtrembLocbtions_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageExtremaLocations_Fp(mlib_d64 *min,
-                                             mlib_d64 *max,
-                                             const mlib_image *img,
-                                             mlib_s32 xStart,
-                                             mlib_s32 yStart,
+mlib_stbtus  __mlib_ImbgeExtrembLocbtions_Fp(mlib_d64 *min,
+                                             mlib_d64 *mbx,
+                                             const mlib_imbge *img,
+                                             mlib_s32 xStbrt,
+                                             mlib_s32 yStbrt,
                                              mlib_s32 xPeriod,
                                              mlib_s32 yPeriod,
-                                             mlib_s32 saveLocations,
-                                             mlib_s32 maxRuns,
+                                             mlib_s32 sbveLocbtions,
+                                             mlib_s32 mbxRuns,
                                              mlib_s32 *minCounts,
-                                             mlib_s32 *maxCounts,
-                                             mlib_s32 **minLocations,
-                                             mlib_s32 **maxLocations,
+                                             mlib_s32 *mbxCounts,
+                                             mlib_s32 **minLocbtions,
+                                             mlib_s32 **mbxLocbtions,
                                              mlib_s32 len);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMaximum mlib_ImageMaximum
+#define __mlib_ImbgeMbximum mlib_ImbgeMbximum
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMaximum(mlib_s32 *max,
-                                 const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeMbximum(mlib_s32 *mbx,
+                                 const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMaximum_Fp mlib_ImageMaximum_Fp
+#define __mlib_ImbgeMbximum_Fp mlib_ImbgeMbximum_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMaximum_Fp(mlib_d64 *max,
-                                    const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeMbximum_Fp(mlib_d64 *mbx,
+                                    const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMean mlib_ImageMean
+#define __mlib_ImbgeMebn mlib_ImbgeMebn
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMean(mlib_d64 *mean,
-                              const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeMebn(mlib_d64 *mebn,
+                              const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMean_Fp mlib_ImageMean_Fp
+#define __mlib_ImbgeMebn_Fp mlib_ImbgeMebn_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMean_Fp(mlib_d64 *mean,
-                                 const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeMebn_Fp(mlib_d64 *mebn,
+                                 const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMinimum mlib_ImageMinimum
+#define __mlib_ImbgeMinimum mlib_ImbgeMinimum
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMinimum(mlib_s32 *min,
-                                 const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeMinimum(mlib_s32 *min,
+                                 const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMinimum_Fp mlib_ImageMinimum_Fp
+#define __mlib_ImbgeMinimum_Fp mlib_ImbgeMinimum_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMinimum_Fp(mlib_d64 *min,
-                                    const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeMinimum_Fp(mlib_d64 *min,
+                                    const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMoment2 mlib_ImageMoment2
+#define __mlib_ImbgeMoment2 mlib_ImbgeMoment2
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMoment2(mlib_d64 *moment,
-                                 const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeMoment2(mlib_d64 *moment,
+                                 const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageMoment2_Fp mlib_ImageMoment2_Fp
+#define __mlib_ImbgeMoment2_Fp mlib_ImbgeMoment2_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageMoment2_Fp(mlib_d64 *moment,
-                                    const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeMoment2_Fp(mlib_d64 *moment,
+                                    const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageStdDev mlib_ImageStdDev
+#define __mlib_ImbgeStdDev mlib_ImbgeStdDev
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageStdDev(mlib_d64 *sdev,
-                                const mlib_image *img,
-                                const mlib_d64 *mean);
+mlib_stbtus  __mlib_ImbgeStdDev(mlib_d64 *sdev,
+                                const mlib_imbge *img,
+                                const mlib_d64 *mebn);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageStdDev_Fp mlib_ImageStdDev_Fp
+#define __mlib_ImbgeStdDev_Fp mlib_ImbgeStdDev_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageStdDev_Fp(mlib_d64 *sdev,
-                                   const mlib_image *img,
-                                   const mlib_d64 *mean);
+mlib_stbtus  __mlib_ImbgeStdDev_Fp(mlib_d64 *sdev,
+                                   const mlib_imbge *img,
+                                   const mlib_d64 *mebn);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageXProj mlib_ImageXProj
+#define __mlib_ImbgeXProj mlib_ImbgeXProj
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageXProj(mlib_d64 *xproj,
-                               const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeXProj(mlib_d64 *xproj,
+                               const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageXProj_Fp mlib_ImageXProj_Fp
+#define __mlib_ImbgeXProj_Fp mlib_ImbgeXProj_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageXProj_Fp(mlib_d64 *xproj,
-                                  const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeXProj_Fp(mlib_d64 *xproj,
+                                  const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageYProj mlib_ImageYProj
+#define __mlib_ImbgeYProj mlib_ImbgeYProj
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageYProj(mlib_d64 *yproj,
-                               const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeYProj(mlib_d64 *yproj,
+                               const mlib_imbge *img);
 
 
 #if defined ( __MEDIALIB_OLD_NAMES )
-#define __mlib_ImageYProj_Fp mlib_ImageYProj_Fp
+#define __mlib_ImbgeYProj_Fp mlib_ImbgeYProj_Fp
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
-mlib_status  __mlib_ImageYProj_Fp(mlib_d64 *yproj,
-                                  const mlib_image *img);
+mlib_stbtus  __mlib_ImbgeYProj_Fp(mlib_d64 *yproj,
+                                  const mlib_imbge *img);
 
 #ifdef __cplusplus
 }

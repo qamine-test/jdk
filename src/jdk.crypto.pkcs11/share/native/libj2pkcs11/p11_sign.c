@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,149 +45,149 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-#include "pkcs11wrapper.h"
+#include "pkcs11wrbpper.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
+#include <bssert.h>
 #include "jlong.h"
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#include "sun_security_pkcs11_wrbpper_PKCS11.h"
 
 #ifdef P11_ENABLE_C_SIGNINIT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
  * Method:    C_SignInit
- * Signature: (JLsun/security/pkcs11/wrapper/CK_MECHANISM;J)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobject jMechanism          CK_MECHANISM_PTR pMechanism
- * @return  jlong jKeyHandle            CK_OBJECT_HANDLE hKey
+ * Signbture: (JLsun/security/pkcs11/wrbpper/CK_MECHANISM;J)V
+ * Pbrbmetermbpping:                    *PKCS11*
+ * @pbrbm   jlong jSessionHbndle        CK_SESSION_HANDLE hSession
+ * @pbrbm   jobject jMechbnism          CK_MECHANISM_PTR pMechbnism
+ * @return  jlong jKeyHbndle            CK_OBJECT_HANDLE hKey
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SignInit
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jobject jMechanism, jlong jKeyHandle)
+JNIEXPORT void JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_C_1SignInit
+    (JNIEnv *env, jobject obj, jlong jSessionHbndle, jobject jMechbnism, jlong jKeyHbndle)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_MECHANISM ckMechanism;
-    CK_OBJECT_HANDLE ckKeyHandle;
+    CK_SESSION_HANDLE ckSessionHbndle;
+    CK_MECHANISM ckMechbnism;
+    CK_OBJECT_HANDLE ckKeyHbndle;
     CK_RV rv;
 
     CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
     if (ckpFunctions == NULL) { return; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
+    ckSessionHbndle = jLongToCKULong(jSessionHbndle);
+    jMechbnismToCKMechbnism(env, jMechbnism, &ckMechbnism);
     if ((*env)->ExceptionCheck(env)) { return; }
-    ckKeyHandle = jLongToCKULong(jKeyHandle);
+    ckKeyHbndle = jLongToCKULong(jKeyHbndle);
 
-    rv = (*ckpFunctions->C_SignInit)(ckSessionHandle, &ckMechanism, ckKeyHandle);
+    rv = (*ckpFunctions->C_SignInit)(ckSessionHbndle, &ckMechbnism, ckKeyHbndle);
 
-    if (ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if (ckMechbnism.pPbrbmeter != NULL_PTR) {
+        free(ckMechbnism.pPbrbmeter);
     }
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (ckAssertReturnVblueOK(env, rv) != CK_ASSERT_OK) { return; }
 }
 #endif
 
 #ifdef P11_ENABLE_C_SIGN
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
  * Method:    C_Sign
- * Signature: (J[B)[B
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jData            CK_BYTE_PTR pData
- *                                      CK_ULONG ulDataLen
- * @return  jbyteArray jSignature       CK_BYTE_PTR pSignature
- *                                      CK_ULONG_PTR pulSignatureLen
+ * Signbture: (J[B)[B
+ * Pbrbmetermbpping:                    *PKCS11*
+ * @pbrbm   jlong jSessionHbndle        CK_SESSION_HANDLE hSession
+ * @pbrbm   jbyteArrby jDbtb            CK_BYTE_PTR pDbtb
+ *                                      CK_ULONG ulDbtbLen
+ * @return  jbyteArrby jSignbture       CK_BYTE_PTR pSignbture
+ *                                      CK_ULONG_PTR pulSignbtureLen
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1Sign
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jData)
+JNIEXPORT jbyteArrby JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_C_1Sign
+    (JNIEnv *env, jobject obj, jlong jSessionHbndle, jbyteArrby jDbtb)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_BYTE_PTR ckpData = NULL_PTR;
-    CK_BYTE_PTR ckpSignature;
-    CK_ULONG ckDataLength;
-    CK_ULONG ckSignatureLength = 0;
-    jbyteArray jSignature = NULL;
+    CK_SESSION_HANDLE ckSessionHbndle;
+    CK_BYTE_PTR ckpDbtb = NULL_PTR;
+    CK_BYTE_PTR ckpSignbture;
+    CK_ULONG ckDbtbLength;
+    CK_ULONG ckSignbtureLength = 0;
+    jbyteArrby jSignbture = NULL;
     CK_RV rv;
 
     CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
     if (ckpFunctions == NULL) { return NULL; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jByteArrayToCKByteArray(env, jData, &ckpData, &ckDataLength);
+    ckSessionHbndle = jLongToCKULong(jSessionHbndle);
+    jByteArrbyToCKByteArrby(env, jDbtb, &ckpDbtb, &ckDbtbLength);
     if ((*env)->ExceptionCheck(env)) { return NULL; }
 
-    /* START standard code */
+    /* START stbndbrd code */
 
-    /* first determine the length of the signature */
-    rv = (*ckpFunctions->C_Sign)(ckSessionHandle, ckpData, ckDataLength, NULL_PTR, &ckSignatureLength);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) {
-        free(ckpData);
+    /* first determine the length of the signbture */
+    rv = (*ckpFunctions->C_Sign)(ckSessionHbndle, ckpDbtb, ckDbtbLength, NULL_PTR, &ckSignbtureLength);
+    if (ckAssertReturnVblueOK(env, rv) != CK_ASSERT_OK) {
+        free(ckpDbtb);
         return NULL;
     }
 
-    ckpSignature = (CK_BYTE_PTR) malloc(ckSignatureLength * sizeof(CK_BYTE));
-    if (ckpSignature == NULL) {
-        free(ckpData);
+    ckpSignbture = (CK_BYTE_PTR) mblloc(ckSignbtureLength * sizeof(CK_BYTE));
+    if (ckpSignbture == NULL) {
+        free(ckpDbtb);
         throwOutOfMemoryError(env, 0);
         return NULL;
     }
 
-    /* now get the signature */
-    rv = (*ckpFunctions->C_Sign)(ckSessionHandle, ckpData, ckDataLength, ckpSignature, &ckSignatureLength);
- /* END standard code */
+    /* now get the signbture */
+    rv = (*ckpFunctions->C_Sign)(ckSessionHbndle, ckpDbtb, ckDbtbLength, ckpSignbture, &ckSignbtureLength);
+ /* END stbndbrd code */
 
 
-    /* START workaround code for operation abort bug in pkcs#11 of Datakey and iButton */
+    /* START workbround code for operbtion bbort bug in pkcs#11 of Dbtbkey bnd iButton */
 /*
-    ckpSignature = (CK_BYTE_PTR) malloc(256 * sizeof(CK_BYTE));
-    if (ckpSignature == NULL) {
-        free(ckpData);
+    ckpSignbture = (CK_BYTE_PTR) mblloc(256 * sizeof(CK_BYTE));
+    if (ckpSignbture == NULL) {
+        free(ckpDbtb);
         throwOutOfMemoryError(env, 0);
         return NULL;
     }
-    rv = (*ckpFunctions->C_Sign)(ckSessionHandle, ckpData, ckDataLength, ckpSignature, &ckSignatureLength);
+    rv = (*ckpFunctions->C_Sign)(ckSessionHbndle, ckpDbtb, ckDbtbLength, ckpSignbture, &ckSignbtureLength);
 
     if (rv == CKR_BUFFER_TOO_SMALL) {
-        free(ckpSignature);
-        ckpSignature = (CK_BYTE_PTR) malloc(ckSignatureLength * sizeof(CK_BYTE));
-        if (ckpSignature == NULL) {
-            free(ckpData);
+        free(ckpSignbture);
+        ckpSignbture = (CK_BYTE_PTR) mblloc(ckSignbtureLength * sizeof(CK_BYTE));
+        if (ckpSignbture == NULL) {
+            free(ckpDbtb);
             throwOutOfMemoryError(env, 0);
             return NULL;
         }
-        rv = (*ckpFunctions->C_Sign)(ckSessionHandle, ckpData, ckDataLength, ckpSignature, &ckSignatureLength);
+        rv = (*ckpFunctions->C_Sign)(ckSessionHbndle, ckpDbtb, ckDbtbLength, ckpSignbture, &ckSignbtureLength);
     }
  */
-    /* END workaround code */
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jSignature = ckByteArrayToJByteArray(env, ckpSignature, ckSignatureLength);
+    /* END workbround code */
+    if (ckAssertReturnVblueOK(env, rv) == CK_ASSERT_OK) {
+        jSignbture = ckByteArrbyToJByteArrby(env, ckpSignbture, ckSignbtureLength);
     }
-    free(ckpData);
-    free(ckpSignature);
+    free(ckpDbtb);
+    free(ckpSignbture);
 
-    return jSignature ;
+    return jSignbture ;
 }
 #endif
 
 #ifdef P11_ENABLE_C_SIGNUPDATE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_SignUpdate
- * Signature: (J[BII)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jPart            CK_BYTE_PTR pPart
- *                                      CK_ULONG ulPartLen
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
+ * Method:    C_SignUpdbte
+ * Signbture: (J[BII)V
+ * Pbrbmetermbpping:                    *PKCS11*
+ * @pbrbm   jlong jSessionHbndle        CK_SESSION_HANDLE hSession
+ * @pbrbm   jbyteArrby jPbrt            CK_BYTE_PTR pPbrt
+ *                                      CK_ULONG ulPbrtLen
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SignUpdate
-  (JNIEnv *env, jobject obj, jlong jSessionHandle, jlong directIn, jbyteArray jIn, jint jInOfs, jint jInLen)
+JNIEXPORT void JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_C_1SignUpdbte
+  (JNIEnv *env, jobject obj, jlong jSessionHbndle, jlong directIn, jbyteArrby jIn, jint jInOfs, jint jInLen)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE ckSessionHbndle;
     CK_RV rv;
     CK_BYTE_PTR bufP;
     CK_BYTE BUF[MAX_STACK_BUFFER_LEN];
@@ -196,11 +196,11 @@ JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SignUpdate
     CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
     if (ckpFunctions == NULL) { return; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    ckSessionHbndle = jLongToCKULong(jSessionHbndle);
 
     if (directIn != 0) {
-        rv = (*ckpFunctions->C_SignUpdate)(ckSessionHandle, (CK_BYTE_PTR) jlong_to_ptr(directIn), jInLen);
-        ckAssertReturnValueOK(env, rv);
+        rv = (*ckpFunctions->C_SignUpdbte)(ckSessionHbndle, (CK_BYTE_PTR) jlong_to_ptr(directIn), jInLen);
+        ckAssertReturnVblueOK(env, rv);
         return;
     }
 
@@ -209,7 +209,7 @@ JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SignUpdate
         bufP = BUF;
     } else {
         bufLen = min(MAX_HEAP_BUFFER_LEN, jInLen);
-        bufP = (CK_BYTE_PTR) malloc((size_t)bufLen);
+        bufP = (CK_BYTE_PTR) mblloc((size_t)bufLen);
         if (bufP == NULL) {
             throwOutOfMemoryError(env, 0);
             return;
@@ -218,13 +218,13 @@ JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SignUpdate
 
     while (jInLen > 0) {
         jsize chunkLen = min(bufLen, jInLen);
-        (*env)->GetByteArrayRegion(env, jIn, jInOfs, chunkLen, (jbyte *)bufP);
+        (*env)->GetByteArrbyRegion(env, jIn, jInOfs, chunkLen, (jbyte *)bufP);
         if ((*env)->ExceptionCheck(env)) {
             if (bufP != BUF) { free(bufP); }
             return;
         }
-        rv = (*ckpFunctions->C_SignUpdate)(ckSessionHandle, bufP, chunkLen);
-        if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) {
+        rv = (*ckpFunctions->C_SignUpdbte)(ckSessionHbndle, bufP, chunkLen);
+        if (ckAssertReturnVblueOK(env, rv) != CK_ASSERT_OK) {
             if (bufP != BUF) {
                 free(bufP);
             }
@@ -240,136 +240,136 @@ JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SignUpdate
 
 #ifdef P11_ENABLE_C_SIGNFINAL
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_SignFinal
- * Signature: (J)[B
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @return  jbyteArray jSignature       CK_BYTE_PTR pSignature
- *                                      CK_ULONG_PTR pulSignatureLen
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
+ * Method:    C_SignFinbl
+ * Signbture: (J)[B
+ * Pbrbmetermbpping:                    *PKCS11*
+ * @pbrbm   jlong jSessionHbndle        CK_SESSION_HANDLE hSession
+ * @return  jbyteArrby jSignbture       CK_BYTE_PTR pSignbture
+ *                                      CK_ULONG_PTR pulSignbtureLen
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SignFinal
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jint jExpectedLength)
+JNIEXPORT jbyteArrby JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_C_1SignFinbl
+    (JNIEnv *env, jobject obj, jlong jSessionHbndle, jint jExpectedLength)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    jbyteArray jSignature = NULL;
+    CK_SESSION_HANDLE ckSessionHbndle;
+    jbyteArrby jSignbture = NULL;
     CK_RV rv;
     CK_BYTE BUF[MAX_STACK_BUFFER_LEN];
     CK_BYTE_PTR bufP = BUF;
-    CK_ULONG ckSignatureLength = MAX_STACK_BUFFER_LEN;
+    CK_ULONG ckSignbtureLength = MAX_STACK_BUFFER_LEN;
 
     CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
     if (ckpFunctions == NULL) { return NULL; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    ckSessionHbndle = jLongToCKULong(jSessionHbndle);
 
-    if ((jExpectedLength > 0) && ((CK_ULONG)jExpectedLength < ckSignatureLength)) {
-        ckSignatureLength = jExpectedLength;
+    if ((jExpectedLength > 0) && ((CK_ULONG)jExpectedLength < ckSignbtureLength)) {
+        ckSignbtureLength = jExpectedLength;
     }
 
-    rv = (*ckpFunctions->C_SignFinal)(ckSessionHandle, bufP, &ckSignatureLength);
+    rv = (*ckpFunctions->C_SignFinbl)(ckSessionHbndle, bufP, &ckSignbtureLength);
     if (rv == CKR_BUFFER_TOO_SMALL) {
-        bufP = (CK_BYTE_PTR) malloc(ckSignatureLength);
+        bufP = (CK_BYTE_PTR) mblloc(ckSignbtureLength);
         if (bufP == NULL) {
             throwOutOfMemoryError(env, 0);
             return NULL;
         }
-        rv = (*ckpFunctions->C_SignFinal)(ckSessionHandle, bufP, &ckSignatureLength);
+        rv = (*ckpFunctions->C_SignFinbl)(ckSessionHbndle, bufP, &ckSignbtureLength);
     }
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jSignature = ckByteArrayToJByteArray(env, bufP, ckSignatureLength);
+    if (ckAssertReturnVblueOK(env, rv) == CK_ASSERT_OK) {
+        jSignbture = ckByteArrbyToJByteArrby(env, bufP, ckSignbtureLength);
     }
 
     if (bufP != BUF) { free(bufP); }
 
-    return jSignature;
+    return jSignbture;
 }
 #endif
 
 #ifdef P11_ENABLE_C_SIGNRECOVERINIT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
  * Method:    C_SignRecoverInit
- * Signature: (JLsun/security/pkcs11/wrapper/CK_MECHANISM;J)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobject jMechanism          CK_MECHANISM_PTR pMechanism
- * @return  jlong jKeyHandle            CK_OBJECT_HANDLE hKey
+ * Signbture: (JLsun/security/pkcs11/wrbpper/CK_MECHANISM;J)V
+ * Pbrbmetermbpping:                    *PKCS11*
+ * @pbrbm   jlong jSessionHbndle        CK_SESSION_HANDLE hSession
+ * @pbrbm   jobject jMechbnism          CK_MECHANISM_PTR pMechbnism
+ * @return  jlong jKeyHbndle            CK_OBJECT_HANDLE hKey
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SignRecoverInit
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jobject jMechanism, jlong jKeyHandle)
+JNIEXPORT void JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_C_1SignRecoverInit
+    (JNIEnv *env, jobject obj, jlong jSessionHbndle, jobject jMechbnism, jlong jKeyHbndle)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_MECHANISM ckMechanism;
-    CK_OBJECT_HANDLE ckKeyHandle;
+    CK_SESSION_HANDLE ckSessionHbndle;
+    CK_MECHANISM ckMechbnism;
+    CK_OBJECT_HANDLE ckKeyHbndle;
     CK_RV rv;
 
     CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
     if (ckpFunctions == NULL) { return; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
+    ckSessionHbndle = jLongToCKULong(jSessionHbndle);
+    jMechbnismToCKMechbnism(env, jMechbnism, &ckMechbnism);
     if ((*env)->ExceptionCheck(env)) { return; }
 
-    ckKeyHandle = jLongToCKULong(jKeyHandle);
+    ckKeyHbndle = jLongToCKULong(jKeyHbndle);
 
-    rv = (*ckpFunctions->C_SignRecoverInit)(ckSessionHandle, &ckMechanism, ckKeyHandle);
+    rv = (*ckpFunctions->C_SignRecoverInit)(ckSessionHbndle, &ckMechbnism, ckKeyHbndle);
 
-    if (ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if (ckMechbnism.pPbrbmeter != NULL_PTR) {
+        free(ckMechbnism.pPbrbmeter);
     }
 
-    if(ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if(ckAssertReturnVblueOK(env, rv) != CK_ASSERT_OK) { return; }
 }
 #endif
 
 #ifdef P11_ENABLE_C_SIGNRECOVER
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
  * Method:    C_SignRecover
- * Signature: (J[BII[BII)I
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jData            CK_BYTE_PTR pData
- *                                      CK_ULONG ulDataLen
- * @return  jbyteArray jSignature       CK_BYTE_PTR pSignature
- *                                      CK_ULONG_PTR pulSignatureLen
+ * Signbture: (J[BII[BII)I
+ * Pbrbmetermbpping:                    *PKCS11*
+ * @pbrbm   jlong jSessionHbndle        CK_SESSION_HANDLE hSession
+ * @pbrbm   jbyteArrby jDbtb            CK_BYTE_PTR pDbtb
+ *                                      CK_ULONG ulDbtbLen
+ * @return  jbyteArrby jSignbture       CK_BYTE_PTR pSignbture
+ *                                      CK_ULONG_PTR pulSignbtureLen
  */
-JNIEXPORT jint JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SignRecover
-  (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jIn, jint jInOfs, jint jInLen, jbyteArray jOut, jint jOutOfs, jint jOutLen)
+JNIEXPORT jint JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_C_1SignRecover
+  (JNIEnv *env, jobject obj, jlong jSessionHbndle, jbyteArrby jIn, jint jInOfs, jint jInLen, jbyteArrby jOut, jint jOutOfs, jint jOutLen)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE ckSessionHbndle;
     CK_RV rv;
     CK_BYTE INBUF[MAX_STACK_BUFFER_LEN];
     CK_BYTE OUTBUF[MAX_STACK_BUFFER_LEN];
     CK_BYTE_PTR inBufP;
     CK_BYTE_PTR outBufP = OUTBUF;
-    CK_ULONG ckSignatureLength = MAX_STACK_BUFFER_LEN;
+    CK_ULONG ckSignbtureLength = MAX_STACK_BUFFER_LEN;
 
     CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
     if (ckpFunctions == NULL) { return 0; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    ckSessionHbndle = jLongToCKULong(jSessionHbndle);
 
     if (jInLen <= MAX_STACK_BUFFER_LEN) {
         inBufP = INBUF;
     } else {
-        inBufP = (CK_BYTE_PTR) malloc((size_t)jInLen);
+        inBufP = (CK_BYTE_PTR) mblloc((size_t)jInLen);
         if (inBufP == NULL) {
             throwOutOfMemoryError(env, 0);
             return 0;
         }
     }
 
-    (*env)->GetByteArrayRegion(env, jIn, jInOfs, jInLen, (jbyte *)inBufP);
+    (*env)->GetByteArrbyRegion(env, jIn, jInOfs, jInLen, (jbyte *)inBufP);
     if ((*env)->ExceptionCheck(env)) {
         if (inBufP != INBUF) { free(inBufP); }
         return 0;
     }
-    rv = (*ckpFunctions->C_SignRecover)(ckSessionHandle, inBufP, jInLen, outBufP, &ckSignatureLength);
-    /* re-alloc larger buffer if it fits into our Java buffer */
-    if ((rv == CKR_BUFFER_TOO_SMALL) && (ckSignatureLength <= jIntToCKULong(jOutLen))) {
-        outBufP = (CK_BYTE_PTR) malloc(ckSignatureLength);
+    rv = (*ckpFunctions->C_SignRecover)(ckSessionHbndle, inBufP, jInLen, outBufP, &ckSignbtureLength);
+    /* re-blloc lbrger buffer if it fits into our Jbvb buffer */
+    if ((rv == CKR_BUFFER_TOO_SMALL) && (ckSignbtureLength <= jIntToCKULong(jOutLen))) {
+        outBufP = (CK_BYTE_PTR) mblloc(ckSignbtureLength);
         if (outBufP == NULL) {
             if (inBufP != INBUF) {
                 free(inBufP);
@@ -377,115 +377,115 @@ JNIEXPORT jint JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SignRecover
             throwOutOfMemoryError(env, 0);
             return 0;
         }
-        rv = (*ckpFunctions->C_SignRecover)(ckSessionHandle, inBufP, jInLen, outBufP, &ckSignatureLength);
+        rv = (*ckpFunctions->C_SignRecover)(ckSessionHbndle, inBufP, jInLen, outBufP, &ckSignbtureLength);
     }
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        (*env)->SetByteArrayRegion(env, jOut, jOutOfs, ckSignatureLength, (jbyte *)outBufP);
+    if (ckAssertReturnVblueOK(env, rv) == CK_ASSERT_OK) {
+        (*env)->SetByteArrbyRegion(env, jOut, jOutOfs, ckSignbtureLength, (jbyte *)outBufP);
     }
 
     if (inBufP != INBUF) { free(inBufP); }
     if (outBufP != OUTBUF) { free(outBufP); }
 
-    return ckSignatureLength;
+    return ckSignbtureLength;
 }
 #endif
 
 #ifdef P11_ENABLE_C_VERIFYINIT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
  * Method:    C_VerifyInit
- * Signature: (JLsun/security/pkcs11/wrapper/CK_MECHANISM;J)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobject jMechanism          CK_MECHANISM_PTR pMechanism
- * @return  jlong jKeyHandle            CK_OBJECT_HANDLE hKey
+ * Signbture: (JLsun/security/pkcs11/wrbpper/CK_MECHANISM;J)V
+ * Pbrbmetermbpping:                    *PKCS11*
+ * @pbrbm   jlong jSessionHbndle        CK_SESSION_HANDLE hSession
+ * @pbrbm   jobject jMechbnism          CK_MECHANISM_PTR pMechbnism
+ * @return  jlong jKeyHbndle            CK_OBJECT_HANDLE hKey
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1VerifyInit
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jobject jMechanism, jlong jKeyHandle)
+JNIEXPORT void JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_C_1VerifyInit
+    (JNIEnv *env, jobject obj, jlong jSessionHbndle, jobject jMechbnism, jlong jKeyHbndle)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_MECHANISM ckMechanism;
-    CK_OBJECT_HANDLE ckKeyHandle;
+    CK_SESSION_HANDLE ckSessionHbndle;
+    CK_MECHANISM ckMechbnism;
+    CK_OBJECT_HANDLE ckKeyHbndle;
     CK_RV rv;
 
     CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
     if (ckpFunctions == NULL) { return; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
+    ckSessionHbndle = jLongToCKULong(jSessionHbndle);
+    jMechbnismToCKMechbnism(env, jMechbnism, &ckMechbnism);
     if ((*env)->ExceptionCheck(env)) { return; }
 
-    ckKeyHandle = jLongToCKULong(jKeyHandle);
+    ckKeyHbndle = jLongToCKULong(jKeyHbndle);
 
-    rv = (*ckpFunctions->C_VerifyInit)(ckSessionHandle, &ckMechanism, ckKeyHandle);
+    rv = (*ckpFunctions->C_VerifyInit)(ckSessionHbndle, &ckMechbnism, ckKeyHbndle);
 
-    if(ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if(ckMechbnism.pPbrbmeter != NULL_PTR) {
+        free(ckMechbnism.pPbrbmeter);
     }
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (ckAssertReturnVblueOK(env, rv) != CK_ASSERT_OK) { return; }
 }
 #endif
 
 #ifdef P11_ENABLE_C_VERIFY
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
  * Method:    C_Verify
- * Signature: (J[B[B)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jData            CK_BYTE_PTR pData
- *                                      CK_ULONG ulDataLen
- * @param   jbyteArray jSignature       CK_BYTE_PTR pSignature
- *                                      CK_ULONG_PTR pulSignatureLen
+ * Signbture: (J[B[B)V
+ * Pbrbmetermbpping:                    *PKCS11*
+ * @pbrbm   jlong jSessionHbndle        CK_SESSION_HANDLE hSession
+ * @pbrbm   jbyteArrby jDbtb            CK_BYTE_PTR pDbtb
+ *                                      CK_ULONG ulDbtbLen
+ * @pbrbm   jbyteArrby jSignbture       CK_BYTE_PTR pSignbture
+ *                                      CK_ULONG_PTR pulSignbtureLen
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1Verify
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jData, jbyteArray jSignature)
+JNIEXPORT void JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_C_1Verify
+    (JNIEnv *env, jobject obj, jlong jSessionHbndle, jbyteArrby jDbtb, jbyteArrby jSignbture)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_BYTE_PTR ckpData = NULL_PTR;
-    CK_BYTE_PTR ckpSignature = NULL_PTR;
-    CK_ULONG ckDataLength;
-    CK_ULONG ckSignatureLength;
+    CK_SESSION_HANDLE ckSessionHbndle;
+    CK_BYTE_PTR ckpDbtb = NULL_PTR;
+    CK_BYTE_PTR ckpSignbture = NULL_PTR;
+    CK_ULONG ckDbtbLength;
+    CK_ULONG ckSignbtureLength;
     CK_RV rv;
 
     CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
     if (ckpFunctions == NULL) { return; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jByteArrayToCKByteArray(env, jData, &ckpData, &ckDataLength);
+    ckSessionHbndle = jLongToCKULong(jSessionHbndle);
+    jByteArrbyToCKByteArrby(env, jDbtb, &ckpDbtb, &ckDbtbLength);
     if ((*env)->ExceptionCheck(env)) { return; }
 
-    jByteArrayToCKByteArray(env, jSignature, &ckpSignature, &ckSignatureLength);
+    jByteArrbyToCKByteArrby(env, jSignbture, &ckpSignbture, &ckSignbtureLength);
     if ((*env)->ExceptionCheck(env)) {
-        free(ckpData);
+        free(ckpDbtb);
         return;
     }
 
-    /* verify the signature */
-    rv = (*ckpFunctions->C_Verify)(ckSessionHandle, ckpData, ckDataLength, ckpSignature, ckSignatureLength);
+    /* verify the signbture */
+    rv = (*ckpFunctions->C_Verify)(ckSessionHbndle, ckpDbtb, ckDbtbLength, ckpSignbture, ckSignbtureLength);
 
-    free(ckpData);
-    free(ckpSignature);
+    free(ckpDbtb);
+    free(ckpSignbture);
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (ckAssertReturnVblueOK(env, rv) != CK_ASSERT_OK) { return; }
 }
 #endif
 
 #ifdef P11_ENABLE_C_VERIFYUPDATE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_VerifyUpdate
- * Signature: (J[BII)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jPart            CK_BYTE_PTR pPart
- *                                      CK_ULONG ulPartLen
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
+ * Method:    C_VerifyUpdbte
+ * Signbture: (J[BII)V
+ * Pbrbmetermbpping:                    *PKCS11*
+ * @pbrbm   jlong jSessionHbndle        CK_SESSION_HANDLE hSession
+ * @pbrbm   jbyteArrby jPbrt            CK_BYTE_PTR pPbrt
+ *                                      CK_ULONG ulPbrtLen
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1VerifyUpdate
-  (JNIEnv *env, jobject obj, jlong jSessionHandle, jlong directIn, jbyteArray jIn, jint jInOfs, jint jInLen)
+JNIEXPORT void JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_C_1VerifyUpdbte
+  (JNIEnv *env, jobject obj, jlong jSessionHbndle, jlong directIn, jbyteArrby jIn, jint jInOfs, jint jInLen)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE ckSessionHbndle;
     CK_RV rv;
     CK_BYTE_PTR bufP;
     CK_BYTE BUF[MAX_STACK_BUFFER_LEN];
@@ -494,11 +494,11 @@ JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1VerifyUpdate
     CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
     if (ckpFunctions == NULL) { return; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    ckSessionHbndle = jLongToCKULong(jSessionHbndle);
 
     if (directIn != 0) {
-        rv = (*ckpFunctions->C_VerifyUpdate)(ckSessionHandle, (CK_BYTE_PTR)jlong_to_ptr(directIn), jInLen);
-        ckAssertReturnValueOK(env, rv);
+        rv = (*ckpFunctions->C_VerifyUpdbte)(ckSessionHbndle, (CK_BYTE_PTR)jlong_to_ptr(directIn), jInLen);
+        ckAssertReturnVblueOK(env, rv);
         return;
     }
 
@@ -507,7 +507,7 @@ JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1VerifyUpdate
         bufP = BUF;
     } else {
         bufLen = min(MAX_HEAP_BUFFER_LEN, jInLen);
-        bufP = (CK_BYTE_PTR) malloc((size_t)bufLen);
+        bufP = (CK_BYTE_PTR) mblloc((size_t)bufLen);
         if (bufP == NULL) {
             throwOutOfMemoryError(env, 0);
             return;
@@ -516,14 +516,14 @@ JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1VerifyUpdate
 
     while (jInLen > 0) {
         jsize chunkLen = min(bufLen, jInLen);
-        (*env)->GetByteArrayRegion(env, jIn, jInOfs, chunkLen, (jbyte *)bufP);
+        (*env)->GetByteArrbyRegion(env, jIn, jInOfs, chunkLen, (jbyte *)bufP);
         if ((*env)->ExceptionCheck(env)) {
             if (bufP != BUF) { free(bufP); }
             return;
         }
 
-        rv = (*ckpFunctions->C_VerifyUpdate)(ckSessionHandle, bufP, chunkLen);
-        if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) {
+        rv = (*ckpFunctions->C_VerifyUpdbte)(ckSessionHbndle, bufP, chunkLen);
+        if (ckAssertReturnVblueOK(env, rv) != CK_ASSERT_OK) {
             if (bufP != BUF) { free(bufP); }
             return;
         }
@@ -537,138 +537,138 @@ JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1VerifyUpdate
 
 #ifdef P11_ENABLE_C_VERIFYFINAL
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_VerifyFinal
- * Signature: (J[B)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jSignature       CK_BYTE_PTR pSignature
- *                                      CK_ULONG ulSignatureLen
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
+ * Method:    C_VerifyFinbl
+ * Signbture: (J[B)V
+ * Pbrbmetermbpping:                    *PKCS11*
+ * @pbrbm   jlong jSessionHbndle        CK_SESSION_HANDLE hSession
+ * @pbrbm   jbyteArrby jSignbture       CK_BYTE_PTR pSignbture
+ *                                      CK_ULONG ulSignbtureLen
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1VerifyFinal
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jSignature)
+JNIEXPORT void JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_C_1VerifyFinbl
+    (JNIEnv *env, jobject obj, jlong jSessionHbndle, jbyteArrby jSignbture)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_BYTE_PTR ckpSignature = NULL_PTR;
-    CK_ULONG ckSignatureLength;
+    CK_SESSION_HANDLE ckSessionHbndle;
+    CK_BYTE_PTR ckpSignbture = NULL_PTR;
+    CK_ULONG ckSignbtureLength;
     CK_RV rv;
 
     CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
     if (ckpFunctions == NULL) { return; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jByteArrayToCKByteArray(env, jSignature, &ckpSignature, &ckSignatureLength);
+    ckSessionHbndle = jLongToCKULong(jSessionHbndle);
+    jByteArrbyToCKByteArrby(env, jSignbture, &ckpSignbture, &ckSignbtureLength);
     if ((*env)->ExceptionCheck(env)) { return; }
 
-    /* verify the signature */
-    rv = (*ckpFunctions->C_VerifyFinal)(ckSessionHandle, ckpSignature, ckSignatureLength);
+    /* verify the signbture */
+    rv = (*ckpFunctions->C_VerifyFinbl)(ckSessionHbndle, ckpSignbture, ckSignbtureLength);
 
-    free(ckpSignature);
+    free(ckpSignbture);
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (ckAssertReturnVblueOK(env, rv) != CK_ASSERT_OK) { return; }
 }
 #endif
 
 #ifdef P11_ENABLE_C_VERIFYRECOVERINIT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
  * Method:    C_VerifyRecoverInit
- * Signature: (JLsun/security/pkcs11/wrapper/CK_MECHANISM;J)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobject jMechanism          CK_MECHANISM_PTR pMechanism
- * @return  jlong jKeyHandle            CK_OBJECT_HANDLE hKey
+ * Signbture: (JLsun/security/pkcs11/wrbpper/CK_MECHANISM;J)V
+ * Pbrbmetermbpping:                    *PKCS11*
+ * @pbrbm   jlong jSessionHbndle        CK_SESSION_HANDLE hSession
+ * @pbrbm   jobject jMechbnism          CK_MECHANISM_PTR pMechbnism
+ * @return  jlong jKeyHbndle            CK_OBJECT_HANDLE hKey
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1VerifyRecoverInit
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jobject jMechanism, jlong jKeyHandle)
+JNIEXPORT void JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_C_1VerifyRecoverInit
+    (JNIEnv *env, jobject obj, jlong jSessionHbndle, jobject jMechbnism, jlong jKeyHbndle)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_MECHANISM ckMechanism;
-    CK_OBJECT_HANDLE ckKeyHandle;
+    CK_SESSION_HANDLE ckSessionHbndle;
+    CK_MECHANISM ckMechbnism;
+    CK_OBJECT_HANDLE ckKeyHbndle;
     CK_RV rv;
 
     CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
     if (ckpFunctions == NULL) { return; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
+    ckSessionHbndle = jLongToCKULong(jSessionHbndle);
+    jMechbnismToCKMechbnism(env, jMechbnism, &ckMechbnism);
     if ((*env)->ExceptionCheck(env)) { return; }
 
-    ckKeyHandle = jLongToCKULong(jKeyHandle);
+    ckKeyHbndle = jLongToCKULong(jKeyHbndle);
 
-    rv = (*ckpFunctions->C_VerifyRecoverInit)(ckSessionHandle, &ckMechanism, ckKeyHandle);
+    rv = (*ckpFunctions->C_VerifyRecoverInit)(ckSessionHbndle, &ckMechbnism, ckKeyHbndle);
 
-    if (ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if (ckMechbnism.pPbrbmeter != NULL_PTR) {
+        free(ckMechbnism.pPbrbmeter);
     }
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (ckAssertReturnVblueOK(env, rv) != CK_ASSERT_OK) { return; }
 }
 #endif
 
 #ifdef P11_ENABLE_C_VERIFYRECOVER
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
+ * Clbss:     sun_security_pkcs11_wrbpper_PKCS11
  * Method:    C_VerifyRecover
- * Signature: (J[BII[BII)I
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jSignature       CK_BYTE_PTR pSignature
- *                                      CK_ULONG ulSignatureLen
- * @return  jbyteArray jData            CK_BYTE_PTR pData
- *                                      CK_ULONG_PTR pulDataLen
+ * Signbture: (J[BII[BII)I
+ * Pbrbmetermbpping:                    *PKCS11*
+ * @pbrbm   jlong jSessionHbndle        CK_SESSION_HANDLE hSession
+ * @pbrbm   jbyteArrby jSignbture       CK_BYTE_PTR pSignbture
+ *                                      CK_ULONG ulSignbtureLen
+ * @return  jbyteArrby jDbtb            CK_BYTE_PTR pDbtb
+ *                                      CK_ULONG_PTR pulDbtbLen
  */
-JNIEXPORT jint JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1VerifyRecover
-  (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jIn, jint jInOfs, jint jInLen, jbyteArray jOut, jint jOutOfs, jint jOutLen)
+JNIEXPORT jint JNICALL Jbvb_sun_security_pkcs11_wrbpper_PKCS11_C_1VerifyRecover
+  (JNIEnv *env, jobject obj, jlong jSessionHbndle, jbyteArrby jIn, jint jInOfs, jint jInLen, jbyteArrby jOut, jint jOutOfs, jint jOutLen)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE ckSessionHbndle;
     CK_RV rv;
     CK_BYTE INBUF[MAX_STACK_BUFFER_LEN];
     CK_BYTE OUTBUF[MAX_STACK_BUFFER_LEN];
     CK_BYTE_PTR inBufP;
     CK_BYTE_PTR outBufP = OUTBUF;
-    CK_ULONG ckDataLength = MAX_STACK_BUFFER_LEN;
+    CK_ULONG ckDbtbLength = MAX_STACK_BUFFER_LEN;
 
     CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
     if (ckpFunctions == NULL) { return 0; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    ckSessionHbndle = jLongToCKULong(jSessionHbndle);
 
     if (jInLen <= MAX_STACK_BUFFER_LEN) {
         inBufP = INBUF;
     } else {
-        inBufP = (CK_BYTE_PTR) malloc((size_t)jInLen);
+        inBufP = (CK_BYTE_PTR) mblloc((size_t)jInLen);
         if (inBufP == NULL) {
             throwOutOfMemoryError(env, 0);
             return 0;
         }
     }
 
-    (*env)->GetByteArrayRegion(env, jIn, jInOfs, jInLen, (jbyte *)inBufP);
+    (*env)->GetByteArrbyRegion(env, jIn, jInOfs, jInLen, (jbyte *)inBufP);
     if ((*env)->ExceptionCheck(env)) {
         if (inBufP != INBUF) { free(inBufP); }
         return 0;
     }
 
-    rv = (*ckpFunctions->C_VerifyRecover)(ckSessionHandle, inBufP, jInLen, outBufP, &ckDataLength);
+    rv = (*ckpFunctions->C_VerifyRecover)(ckSessionHbndle, inBufP, jInLen, outBufP, &ckDbtbLength);
 
-    /* re-alloc larger buffer if it fits into our Java buffer */
-    if ((rv == CKR_BUFFER_TOO_SMALL) && (ckDataLength <= jIntToCKULong(jOutLen))) {
-        outBufP = (CK_BYTE_PTR) malloc(ckDataLength);
+    /* re-blloc lbrger buffer if it fits into our Jbvb buffer */
+    if ((rv == CKR_BUFFER_TOO_SMALL) && (ckDbtbLength <= jIntToCKULong(jOutLen))) {
+        outBufP = (CK_BYTE_PTR) mblloc(ckDbtbLength);
         if (outBufP == NULL) {
             if (inBufP != INBUF) { free(inBufP); }
             throwOutOfMemoryError(env, 0);
             return 0;
         }
-        rv = (*ckpFunctions->C_VerifyRecover)(ckSessionHandle, inBufP, jInLen, outBufP, &ckDataLength);
+        rv = (*ckpFunctions->C_VerifyRecover)(ckSessionHbndle, inBufP, jInLen, outBufP, &ckDbtbLength);
     }
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        (*env)->SetByteArrayRegion(env, jOut, jOutOfs, ckDataLength, (jbyte *)outBufP);
+    if (ckAssertReturnVblueOK(env, rv) == CK_ASSERT_OK) {
+        (*env)->SetByteArrbyRegion(env, jOut, jOutOfs, ckDbtbLength, (jbyte *)outBufP);
     }
 
     if (inBufP != INBUF) { free(inBufP); }
     if (outBufP != OUTBUF) { free(outBufP); }
 
-    return ckDataLength;
+    return ckDbtbLength;
 }
 #endif

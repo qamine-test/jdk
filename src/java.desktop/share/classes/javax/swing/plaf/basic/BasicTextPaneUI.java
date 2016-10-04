@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.border.*;
 
 
 /**
- * Provides the look and feel for a styled text editor.
+ * Provides the look bnd feel for b styled text editor.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicTextPaneUI extends BasicEditorPaneUI {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss BbsicTextPbneUI extends BbsicEditorPbneUI {
 
     /**
-     * Creates a UI for the JTextPane.
+     * Crebtes b UI for the JTextPbne.
      *
-     * @param c the JTextPane object
+     * @pbrbm c the JTextPbne object
      * @return the UI
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new BasicTextPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new BbsicTextPbneUI();
     }
 
     /**
-     * Creates a new BasicTextPaneUI.
+     * Crebtes b new BbsicTextPbneUI.
      */
-    public BasicTextPaneUI() {
+    public BbsicTextPbneUI() {
         super();
     }
 
     /**
-     * Fetches the name used as a key to lookup properties through the
-     * UIManager.  This is used as a prefix to all the standard
+     * Fetches the nbme used bs b key to lookup properties through the
+     * UIMbnbger.  This is used bs b prefix to bll the stbndbrd
      * text properties.
      *
-     * @return the name ("TextPane")
+     * @return the nbme ("TextPbne")
      */
     protected String getPropertyPrefix() {
-        return "TextPane";
+        return "TextPbne";
     }
 
-    public void installUI(JComponent c) {
-        super.installUI(c);
+    public void instbllUI(JComponent c) {
+        super.instbllUI(c);
     }
 
     /**
-     * This method gets called when a bound property is changed
-     * on the associated JTextComponent.  This is a hook
-     * which UI implementations may change to reflect how the
-     * UI displays bound properties of JTextComponent subclasses.
-     * If the font, foreground or document has changed, the
-     * the appropriate property is set in the default style of
+     * This method gets cblled when b bound property is chbnged
+     * on the bssocibted JTextComponent.  This is b hook
+     * which UI implementbtions mby chbnge to reflect how the
+     * UI displbys bound properties of JTextComponent subclbsses.
+     * If the font, foreground or document hbs chbnged, the
+     * the bppropribte property is set in the defbult style of
      * the document.
      *
-     * @param evt the property change event
+     * @pbrbm evt the property chbnge event
      */
-    protected void propertyChange(PropertyChangeEvent evt) {
-        super.propertyChange(evt);
+    protected void propertyChbnge(PropertyChbngeEvent evt) {
+        super.propertyChbnge(evt);
     }
 }

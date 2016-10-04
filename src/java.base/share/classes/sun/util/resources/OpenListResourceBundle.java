@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package sun.util.resources;
+pbckbge sun.util.resources;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-import sun.util.ResourceBundleEnumeration;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Mbp;
+import jbvb.util.ResourceBundle;
+import jbvb.util.Set;
+import sun.util.ResourceBundleEnumerbtion;
 
 /**
- * Subclass of <code>ResourceBundle</code> which mimics
+ * Subclbss of <code>ResourceBundle</code> which mimics
  * <code>ListResourceBundle</code>, but provides more hooks
- * for specialized subclass behavior. For general description,
- * see {@link java.util.ListResourceBundle}.
+ * for speciblized subclbss behbvior. For generbl description,
+ * see {@link jbvb.util.ListResourceBundle}.
  * <p>
- * This class leaves handleGetObject non-final, and
- * adds a method createMap which allows subclasses to
- * use specialized Map implementations.
+ * This clbss lebves hbndleGetObject non-finbl, bnd
+ * bdds b method crebteMbp which bllows subclbsses to
+ * use speciblized Mbp implementbtions.
  */
-public abstract class OpenListResourceBundle extends ResourceBundle {
+public bbstrbct clbss OpenListResourceBundle extends ResourceBundle {
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
+     * Sole constructor.  (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
     protected OpenListResourceBundle() {
     }
 
-    // Implements java.util.ResourceBundle.handleGetObject; inherits javadoc specification.
+    // Implements jbvb.util.ResourceBundle.hbndleGetObject; inherits jbvbdoc specificbtion.
     @Override
-    protected Object handleGetObject(String key) {
+    protected Object hbndleGetObject(String key) {
         if (key == null) {
             throw new NullPointerException();
         }
 
-        loadLookupTablesIfNecessary();
-        return lookup.get(key); // this class ignores locales
+        lobdLookupTbblesIfNecessbry();
+        return lookup.get(key); // this clbss ignores locbles
     }
 
     /**
-     * Implementation of ResourceBundle.getKeys.
+     * Implementbtion of ResourceBundle.getKeys.
      */
     @Override
-    public Enumeration<String> getKeys() {
-        ResourceBundle parentBundle = this.parent;
-        return new ResourceBundleEnumeration(handleKeySet(),
-                (parentBundle != null) ? parentBundle.getKeys() : null);
+    public Enumerbtion<String> getKeys() {
+        ResourceBundle pbrentBundle = this.pbrent;
+        return new ResourceBundleEnumerbtion(hbndleKeySet(),
+                (pbrentBundle != null) ? pbrentBundle.getKeys() : null);
      }
 
     /**
-     * Returns a set of keys provided in this resource bundle,
-     * including no parents.
+     * Returns b set of keys provided in this resource bundle,
+     * including no pbrents.
      */
     @Override
-    protected Set<String> handleKeySet() {
-        loadLookupTablesIfNecessary();
+    protected Set<String> hbndleKeySet() {
+        lobdLookupTbblesIfNecessbry();
         return lookup.keySet();
     }
 
@@ -102,10 +102,10 @@ public abstract class OpenListResourceBundle extends ResourceBundle {
         if (keyset != null) {
             return keyset;
         }
-        Set<String> ks = createSet();
-        ks.addAll(handleKeySet());
-        if (parent != null) {
-            ks.addAll(parent.keySet());
+        Set<String> ks = crebteSet();
+        ks.bddAll(hbndleKeySet());
+        if (pbrent != null) {
+            ks.bddAll(pbrent.keySet());
         }
         synchronized (this) {
             if (keyset == null) {
@@ -116,34 +116,34 @@ public abstract class OpenListResourceBundle extends ResourceBundle {
     }
 
     /**
-     * See ListResourceBundle class description.
+     * See ListResourceBundle clbss description.
      */
-    abstract protected Object[][] getContents();
+    bbstrbct protected Object[][] getContents();
 
     /**
-     * Load lookup tables if they haven't been loaded already.
+     * Lobd lookup tbbles if they hbven't been lobded blrebdy.
      */
-    void loadLookupTablesIfNecessary() {
+    void lobdLookupTbblesIfNecessbry() {
         if (lookup == null) {
-            loadLookup();
+            lobdLookup();
         }
     }
 
     /**
-     * We lazily load the lookup hashtable.  This function does the
-     * loading.
+     * We lbzily lobd the lookup hbshtbble.  This function does the
+     * lobding.
      */
-    private void loadLookup() {
+    privbte void lobdLookup() {
         Object[][] contents = getContents();
-        Map<String, Object> temp = createMap(contents.length);
+        Mbp<String, Object> temp = crebteMbp(contents.length);
         for (int i = 0; i < contents.length; ++i) {
-            // key must be non-null String, value must be non-null
+            // key must be non-null String, vblue must be non-null
             String key = (String) contents[i][0];
-            Object value = contents[i][1];
-            if (key == null || value == null) {
+            Object vblue = contents[i][1];
+            if (key == null || vblue == null) {
                 throw new NullPointerException();
             }
-            temp.put(key, value);
+            temp.put(key, vblue);
         }
         synchronized (this) {
             if (lookup == null) {
@@ -153,17 +153,17 @@ public abstract class OpenListResourceBundle extends ResourceBundle {
     }
 
     /**
-     * Lets subclasses provide specialized Map implementations.
-     * Default uses HashMap.
+     * Lets subclbsses provide speciblized Mbp implementbtions.
+     * Defbult uses HbshMbp.
      */
-    protected <K, V> Map<K, V> createMap(int size) {
-        return new HashMap<>(size);
+    protected <K, V> Mbp<K, V> crebteMbp(int size) {
+        return new HbshMbp<>(size);
     }
 
-    protected <E> Set<E> createSet() {
-        return new HashSet<>();
+    protected <E> Set<E> crebteSet() {
+        return new HbshSet<>();
     }
 
-    private volatile Map<String, Object> lookup = null;
-    private volatile Set<String> keyset;
+    privbte volbtile Mbp<String, Object> lookup = null;
+    privbte volbtile Set<String> keyset;
 }

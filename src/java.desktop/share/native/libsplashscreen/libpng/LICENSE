@@ -1,111 +1,111 @@
 
-This copy of the libpng notices is provided for your convenience.  In case of
-any discrepancy between this copy and the notices in the file png.h that is
-included in the libpng distribution, the latter shall prevail.
+This copy of the libpng notices is provided for your convenience.  In cbse of
+bny discrepbncy between this copy bnd the notices in the file png.h thbt is
+included in the libpng distribution, the lbtter shbll prevbil.
 
-COPYRIGHT NOTICE, DISCLAIMER, and LICENSE:
+COPYRIGHT NOTICE, DISCLAIMER, bnd LICENSE:
 
-If you modify libpng you may insert additional notices immediately following
+If you modify libpng you mby insert bdditionbl notices immedibtely following
 this sentence.
 
-This code is released under the libpng license.
+This code is relebsed under the libpng license.
 
-libpng versions 1.2.6, August 15, 2004, through 1.5.4, July 7, 2011, are
-Copyright (c) 2004, 2006-2011 Glenn Randers-Pehrson, and are
-distributed according to the same disclaimer and license as libpng-1.2.5
-with the following individual added to the list of Contributing Authors
+libpng versions 1.2.6, August 15, 2004, through 1.5.4, July 7, 2011, bre
+Copyright (c) 2004, 2006-2011 Glenn Rbnders-Pehrson, bnd bre
+distributed bccording to the sbme disclbimer bnd license bs libpng-1.2.5
+with the following individubl bdded to the list of Contributing Authors
 
-   Cosmin Truta
+   Cosmin Trutb
 
-libpng versions 1.0.7, July 1, 2000, through 1.2.5 - October 3, 2002, are
-Copyright (c) 2000-2002 Glenn Randers-Pehrson, and are
-distributed according to the same disclaimer and license as libpng-1.0.6
-with the following individuals added to the list of Contributing Authors
+libpng versions 1.0.7, July 1, 2000, through 1.2.5 - October 3, 2002, bre
+Copyright (c) 2000-2002 Glenn Rbnders-Pehrson, bnd bre
+distributed bccording to the sbme disclbimer bnd license bs libpng-1.0.6
+with the following individubls bdded to the list of Contributing Authors
 
-   Simon-Pierre Cadieux
-   Eric S. Raymond
-   Gilles Vollant
+   Simon-Pierre Cbdieux
+   Eric S. Rbymond
+   Gilles Vollbnt
 
-and with the following additions to the disclaimer:
+bnd with the following bdditions to the disclbimer:
 
-   There is no warranty against interference with your enjoyment of the
-   library or against infringement.  There is no warranty that our
-   efforts or the library will fulfill any of your particular purposes
-   or needs.  This library is provided with all faults, and the entire
-   risk of satisfactory quality, performance, accuracy, and effort is with
+   There is no wbrrbnty bgbinst interference with your enjoyment of the
+   librbry or bgbinst infringement.  There is no wbrrbnty thbt our
+   efforts or the librbry will fulfill bny of your pbrticulbr purposes
+   or needs.  This librbry is provided with bll fbults, bnd the entire
+   risk of sbtisfbctory qublity, performbnce, bccurbcy, bnd effort is with
    the user.
 
-libpng versions 0.97, January 1998, through 1.0.6, March 20, 2000, are
-Copyright (c) 1998, 1999 Glenn Randers-Pehrson, and are
-distributed according to the same disclaimer and license as libpng-0.96,
-with the following individuals added to the list of Contributing Authors:
+libpng versions 0.97, Jbnubry 1998, through 1.0.6, Mbrch 20, 2000, bre
+Copyright (c) 1998, 1999 Glenn Rbnders-Pehrson, bnd bre
+distributed bccording to the sbme disclbimer bnd license bs libpng-0.96,
+with the following individubls bdded to the list of Contributing Authors:
 
-   Tom Lane
-   Glenn Randers-Pehrson
-   Willem van Schaik
+   Tom Lbne
+   Glenn Rbnders-Pehrson
+   Willem vbn Schbik
 
-libpng versions 0.89, June 1996, through 0.96, May 1997, are
-Copyright (c) 1996, 1997 Andreas Dilger
-Distributed according to the same disclaimer and license as libpng-0.88,
-with the following individuals added to the list of Contributing Authors:
+libpng versions 0.89, June 1996, through 0.96, Mby 1997, bre
+Copyright (c) 1996, 1997 Andrebs Dilger
+Distributed bccording to the sbme disclbimer bnd license bs libpng-0.88,
+with the following individubls bdded to the list of Contributing Authors:
 
    John Bowler
-   Kevin Bracey
-   Sam Bushell
-   Magnus Holmgren
+   Kevin Brbcey
+   Sbm Bushell
+   Mbgnus Holmgren
    Greg Roelofs
-   Tom Tanner
+   Tom Tbnner
 
-libpng versions 0.5, May 1995, through 0.88, January 1996, are
-Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.
+libpng versions 0.5, Mby 1995, through 0.88, Jbnubry 1996, bre
+Copyright (c) 1995, 1996 Guy Eric Schblnbt, Group 42, Inc.
 
-For the purposes of this copyright and license, "Contributing Authors"
-is defined as the following set of individuals:
+For the purposes of this copyright bnd license, "Contributing Authors"
+is defined bs the following set of individubls:
 
-   Andreas Dilger
-   Dave Martindale
-   Guy Eric Schalnat
-   Paul Schmidt
+   Andrebs Dilger
+   Dbve Mbrtindble
+   Guy Eric Schblnbt
+   Pbul Schmidt
    Tim Wegner
 
-The PNG Reference Library is supplied "AS IS".  The Contributing Authors
-and Group 42, Inc. disclaim all warranties, expressed or implied,
-including, without limitation, the warranties of merchantability and of
-fitness for any purpose.  The Contributing Authors and Group 42, Inc.
-assume no liability for direct, indirect, incidental, special, exemplary,
-or consequential damages, which may result from the use of the PNG
-Reference Library, even if advised of the possibility of such damage.
+The PNG Reference Librbry is supplied "AS IS".  The Contributing Authors
+bnd Group 42, Inc. disclbim bll wbrrbnties, expressed or implied,
+including, without limitbtion, the wbrrbnties of merchbntbbility bnd of
+fitness for bny purpose.  The Contributing Authors bnd Group 42, Inc.
+bssume no libbility for direct, indirect, incidentbl, specibl, exemplbry,
+or consequentibl dbmbges, which mby result from the use of the PNG
+Reference Librbry, even if bdvised of the possibility of such dbmbge.
 
-Permission is hereby granted to use, copy, modify, and distribute this
-source code, or portions hereof, for any purpose, without fee, subject
+Permission is hereby grbnted to use, copy, modify, bnd distribute this
+source code, or portions hereof, for bny purpose, without fee, subject
 to the following restrictions:
 
 1. The origin of this source code must not be misrepresented.
 
-2. Altered versions must be plainly marked as such and must not
-   be misrepresented as being the original source.
+2. Altered versions must be plbinly mbrked bs such bnd must not
+   be misrepresented bs being the originbl source.
 
-3. This Copyright notice may not be removed or altered from any
-   source or altered source distribution.
+3. This Copyright notice mby not be removed or bltered from bny
+   source or bltered source distribution.
 
-The Contributing Authors and Group 42, Inc. specifically permit, without
-fee, and encourage the use of this source code as a component to
-supporting the PNG file format in commercial products.  If you use this
-source code in a product, acknowledgment is not required but would be
-appreciated.
+The Contributing Authors bnd Group 42, Inc. specificblly permit, without
+fee, bnd encourbge the use of this source code bs b component to
+supporting the PNG file formbt in commercibl products.  If you use this
+source code in b product, bcknowledgment is not required but would be
+bpprecibted.
 
 
-A "png_get_copyright" function is available, for convenient use in "about"
-boxes and the like:
+A "png_get_copyright" function is bvbilbble, for convenient use in "bbout"
+boxes bnd the like:
 
    printf("%s",png_get_copyright(NULL));
 
-Also, the PNG logo (in PNG format, of course) is supplied in the
-files "pngbar.png" and "pngbar.jpg (88x31) and "pngnow.png" (98x31).
+Also, the PNG logo (in PNG formbt, of course) is supplied in the
+files "pngbbr.png" bnd "pngbbr.jpg (88x31) bnd "pngnow.png" (98x31).
 
-Libpng is OSI Certified Open Source Software.  OSI Certified Open Source is a
-certification mark of the Open Source Initiative.
+Libpng is OSI Certified Open Source Softwbre.  OSI Certified Open Source is b
+certificbtion mbrk of the Open Source Initibtive.
 
-Glenn Randers-Pehrson
-glennrp at users.sourceforge.net
+Glenn Rbnders-Pehrson
+glennrp bt users.sourceforge.net
 July 7, 2011

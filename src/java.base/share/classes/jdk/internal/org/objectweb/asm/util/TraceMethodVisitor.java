@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,80 +56,80 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbckbge jdk.internbl.org.objectweb.bsm.util;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor;
+import jdk.internbl.org.objectweb.bsm.Attribute;
+import jdk.internbl.org.objectweb.bsm.Hbndle;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.TypePbth;
 
 /**
- * A {@link MethodVisitor} that prints the methods it visits with a
+ * A {@link MethodVisitor} thbt prints the methods it visits with b
  * {@link Printer}.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public final class TraceMethodVisitor extends MethodVisitor {
+public finbl clbss TrbceMethodVisitor extends MethodVisitor {
 
-    public final Printer p;
+    public finbl Printer p;
 
-    public TraceMethodVisitor(final Printer p) {
+    public TrbceMethodVisitor(finbl Printer p) {
         this(null, p);
     }
 
-    public TraceMethodVisitor(final MethodVisitor mv, final Printer p) {
+    public TrbceMethodVisitor(finbl MethodVisitor mv, finbl Printer p) {
         super(Opcodes.ASM5, mv);
         this.p = p;
     }
 
     @Override
-    public void visitParameter(String name, int access) {
-        p.visitParameter(name, access);
-        super.visitParameter(name, access);
+    public void visitPbrbmeter(String nbme, int bccess) {
+        p.visitPbrbmeter(nbme, bccess);
+        super.visitPbrbmeter(nbme, bccess);
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        Printer p = this.p.visitMethodAnnotation(desc, visible);
-        AnnotationVisitor av = mv == null ? null : mv.visitAnnotation(desc,
+    public AnnotbtionVisitor visitAnnotbtion(finbl String desc,
+            finbl boolebn visible) {
+        Printer p = this.p.visitMethodAnnotbtion(desc, visible);
+        AnnotbtionVisitor bv = mv == null ? null : mv.visitAnnotbtion(desc,
                 visible);
-        return new TraceAnnotationVisitor(av, p);
+        return new TrbceAnnotbtionVisitor(bv, p);
     }
 
     @Override
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        Printer p = this.p.visitMethodTypeAnnotation(typeRef, typePath, desc,
+    public AnnotbtionVisitor visitTypeAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        Printer p = this.p.visitMethodTypeAnnotbtion(typeRef, typePbth, desc,
                 visible);
-        AnnotationVisitor av = mv == null ? null : mv.visitTypeAnnotation(
-                typeRef, typePath, desc, visible);
-        return new TraceAnnotationVisitor(av, p);
+        AnnotbtionVisitor bv = mv == null ? null : mv.visitTypeAnnotbtion(
+                typeRef, typePbth, desc, visible);
+        return new TrbceAnnotbtionVisitor(bv, p);
     }
 
     @Override
-    public void visitAttribute(final Attribute attr) {
-        p.visitMethodAttribute(attr);
-        super.visitAttribute(attr);
+    public void visitAttribute(finbl Attribute bttr) {
+        p.visitMethodAttribute(bttr);
+        super.visitAttribute(bttr);
     }
 
     @Override
-    public AnnotationVisitor visitAnnotationDefault() {
-        Printer p = this.p.visitAnnotationDefault();
-        AnnotationVisitor av = mv == null ? null : mv.visitAnnotationDefault();
-        return new TraceAnnotationVisitor(av, p);
+    public AnnotbtionVisitor visitAnnotbtionDefbult() {
+        Printer p = this.p.visitAnnotbtionDefbult();
+        AnnotbtionVisitor bv = mv == null ? null : mv.visitAnnotbtionDefbult();
+        return new TrbceAnnotbtionVisitor(bv, p);
     }
 
     @Override
-    public AnnotationVisitor visitParameterAnnotation(final int parameter,
-            final String desc, final boolean visible) {
-        Printer p = this.p.visitParameterAnnotation(parameter, desc, visible);
-        AnnotationVisitor av = mv == null ? null : mv.visitParameterAnnotation(
-                parameter, desc, visible);
-        return new TraceAnnotationVisitor(av, p);
+    public AnnotbtionVisitor visitPbrbmeterAnnotbtion(finbl int pbrbmeter,
+            finbl String desc, finbl boolebn visible) {
+        Printer p = this.p.visitPbrbmeterAnnotbtion(pbrbmeter, desc, visible);
+        AnnotbtionVisitor bv = mv == null ? null : mv.visitPbrbmeterAnnotbtion(
+                pbrbmeter, desc, visible);
+        return new TrbceAnnotbtionVisitor(bv, p);
     }
 
     @Override
@@ -139,178 +139,178 @@ public final class TraceMethodVisitor extends MethodVisitor {
     }
 
     @Override
-    public void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack) {
-        p.visitFrame(type, nLocal, local, nStack, stack);
-        super.visitFrame(type, nLocal, local, nStack, stack);
+    public void visitFrbme(finbl int type, finbl int nLocbl,
+            finbl Object[] locbl, finbl int nStbck, finbl Object[] stbck) {
+        p.visitFrbme(type, nLocbl, locbl, nStbck, stbck);
+        super.visitFrbme(type, nLocbl, locbl, nStbck, stbck);
     }
 
     @Override
-    public void visitInsn(final int opcode) {
+    public void visitInsn(finbl int opcode) {
         p.visitInsn(opcode);
         super.visitInsn(opcode);
     }
 
     @Override
-    public void visitIntInsn(final int opcode, final int operand) {
-        p.visitIntInsn(opcode, operand);
-        super.visitIntInsn(opcode, operand);
+    public void visitIntInsn(finbl int opcode, finbl int operbnd) {
+        p.visitIntInsn(opcode, operbnd);
+        super.visitIntInsn(opcode, operbnd);
     }
 
     @Override
-    public void visitVarInsn(final int opcode, final int var) {
-        p.visitVarInsn(opcode, var);
-        super.visitVarInsn(opcode, var);
+    public void visitVbrInsn(finbl int opcode, finbl int vbr) {
+        p.visitVbrInsn(opcode, vbr);
+        super.visitVbrInsn(opcode, vbr);
     }
 
     @Override
-    public void visitTypeInsn(final int opcode, final String type) {
+    public void visitTypeInsn(finbl int opcode, finbl String type) {
         p.visitTypeInsn(opcode, type);
         super.visitTypeInsn(opcode, type);
     }
 
     @Override
-    public void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        p.visitFieldInsn(opcode, owner, name, desc);
-        super.visitFieldInsn(opcode, owner, name, desc);
+    public void visitFieldInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc) {
+        p.visitFieldInsn(opcode, owner, nbme, desc);
+        super.visitFieldInsn(opcode, owner, nbme, desc);
     }
 
-    @Deprecated
+    @Deprecbted
     @Override
-    public void visitMethodInsn(int opcode, String owner, String name,
+    public void visitMethodInsn(int opcode, String owner, String nbme,
             String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
+        if (bpi >= Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc);
             return;
         }
-        p.visitMethodInsn(opcode, owner, name, desc);
+        p.visitMethodInsn(opcode, owner, nbme, desc);
         if (mv != null) {
-            mv.visitMethodInsn(opcode, owner, name, desc);
+            mv.visitMethodInsn(opcode, owner, nbme, desc);
         }
     }
 
     @Override
-    public void visitMethodInsn(int opcode, String owner, String name,
-            String desc, boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
+    public void visitMethodInsn(int opcode, String owner, String nbme,
+            String desc, boolebn itf) {
+        if (bpi < Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc, itf);
             return;
         }
-        p.visitMethodInsn(opcode, owner, name, desc, itf);
+        p.visitMethodInsn(opcode, owner, nbme, desc, itf);
         if (mv != null) {
-            mv.visitMethodInsn(opcode, owner, name, desc, itf);
+            mv.visitMethodInsn(opcode, owner, nbme, desc, itf);
         }
     }
 
     @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
+    public void visitInvokeDynbmicInsn(String nbme, String desc, Hbndle bsm,
             Object... bsmArgs) {
-        p.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
-        super.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
+        p.visitInvokeDynbmicInsn(nbme, desc, bsm, bsmArgs);
+        super.visitInvokeDynbmicInsn(nbme, desc, bsm, bsmArgs);
     }
 
     @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
-        p.visitJumpInsn(opcode, label);
-        super.visitJumpInsn(opcode, label);
+    public void visitJumpInsn(finbl int opcode, finbl Lbbel lbbel) {
+        p.visitJumpInsn(opcode, lbbel);
+        super.visitJumpInsn(opcode, lbbel);
     }
 
     @Override
-    public void visitLabel(final Label label) {
-        p.visitLabel(label);
-        super.visitLabel(label);
+    public void visitLbbel(finbl Lbbel lbbel) {
+        p.visitLbbel(lbbel);
+        super.visitLbbel(lbbel);
     }
 
     @Override
-    public void visitLdcInsn(final Object cst) {
+    public void visitLdcInsn(finbl Object cst) {
         p.visitLdcInsn(cst);
         super.visitLdcInsn(cst);
     }
 
     @Override
-    public void visitIincInsn(final int var, final int increment) {
-        p.visitIincInsn(var, increment);
-        super.visitIincInsn(var, increment);
+    public void visitIincInsn(finbl int vbr, finbl int increment) {
+        p.visitIincInsn(vbr, increment);
+        super.visitIincInsn(vbr, increment);
     }
 
     @Override
-    public void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels) {
-        p.visitTableSwitchInsn(min, max, dflt, labels);
-        super.visitTableSwitchInsn(min, max, dflt, labels);
+    public void visitTbbleSwitchInsn(finbl int min, finbl int mbx,
+            finbl Lbbel dflt, finbl Lbbel... lbbels) {
+        p.visitTbbleSwitchInsn(min, mbx, dflt, lbbels);
+        super.visitTbbleSwitchInsn(min, mbx, dflt, lbbels);
     }
 
     @Override
-    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
-            final Label[] labels) {
-        p.visitLookupSwitchInsn(dflt, keys, labels);
-        super.visitLookupSwitchInsn(dflt, keys, labels);
+    public void visitLookupSwitchInsn(finbl Lbbel dflt, finbl int[] keys,
+            finbl Lbbel[] lbbels) {
+        p.visitLookupSwitchInsn(dflt, keys, lbbels);
+        super.visitLookupSwitchInsn(dflt, keys, lbbels);
     }
 
     @Override
-    public void visitMultiANewArrayInsn(final String desc, final int dims) {
-        p.visitMultiANewArrayInsn(desc, dims);
-        super.visitMultiANewArrayInsn(desc, dims);
+    public void visitMultiANewArrbyInsn(finbl String desc, finbl int dims) {
+        p.visitMultiANewArrbyInsn(desc, dims);
+        super.visitMultiANewArrbyInsn(desc, dims);
     }
 
     @Override
-    public AnnotationVisitor visitInsnAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
+    public AnnotbtionVisitor visitInsnAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
         Printer p = this.p
-                .visitInsnAnnotation(typeRef, typePath, desc, visible);
-        AnnotationVisitor av = mv == null ? null : mv.visitInsnAnnotation(
-                typeRef, typePath, desc, visible);
-        return new TraceAnnotationVisitor(av, p);
+                .visitInsnAnnotbtion(typeRef, typePbth, desc, visible);
+        AnnotbtionVisitor bv = mv == null ? null : mv.visitInsnAnnotbtion(
+                typeRef, typePbth, desc, visible);
+        return new TrbceAnnotbtionVisitor(bv, p);
     }
 
     @Override
-    public void visitTryCatchBlock(final Label start, final Label end,
-            final Label handler, final String type) {
-        p.visitTryCatchBlock(start, end, handler, type);
-        super.visitTryCatchBlock(start, end, handler, type);
+    public void visitTryCbtchBlock(finbl Lbbel stbrt, finbl Lbbel end,
+            finbl Lbbel hbndler, finbl String type) {
+        p.visitTryCbtchBlock(stbrt, end, hbndler, type);
+        super.visitTryCbtchBlock(stbrt, end, hbndler, type);
     }
 
     @Override
-    public AnnotationVisitor visitTryCatchAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        Printer p = this.p.visitTryCatchAnnotation(typeRef, typePath, desc,
+    public AnnotbtionVisitor visitTryCbtchAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        Printer p = this.p.visitTryCbtchAnnotbtion(typeRef, typePbth, desc,
                 visible);
-        AnnotationVisitor av = mv == null ? null : mv.visitTryCatchAnnotation(
-                typeRef, typePath, desc, visible);
-        return new TraceAnnotationVisitor(av, p);
+        AnnotbtionVisitor bv = mv == null ? null : mv.visitTryCbtchAnnotbtion(
+                typeRef, typePbth, desc, visible);
+        return new TrbceAnnotbtionVisitor(bv, p);
     }
 
     @Override
-    public void visitLocalVariable(final String name, final String desc,
-            final String signature, final Label start, final Label end,
-            final int index) {
-        p.visitLocalVariable(name, desc, signature, start, end, index);
-        super.visitLocalVariable(name, desc, signature, start, end, index);
+    public void visitLocblVbribble(finbl String nbme, finbl String desc,
+            finbl String signbture, finbl Lbbel stbrt, finbl Lbbel end,
+            finbl int index) {
+        p.visitLocblVbribble(nbme, desc, signbture, stbrt, end, index);
+        super.visitLocblVbribble(nbme, desc, signbture, stbrt, end, index);
     }
 
     @Override
-    public AnnotationVisitor visitLocalVariableAnnotation(int typeRef,
-            TypePath typePath, Label[] start, Label[] end, int[] index,
-            String desc, boolean visible) {
-        Printer p = this.p.visitLocalVariableAnnotation(typeRef, typePath,
-                start, end, index, desc, visible);
-        AnnotationVisitor av = mv == null ? null : mv
-                .visitLocalVariableAnnotation(typeRef, typePath, start, end,
+    public AnnotbtionVisitor visitLocblVbribbleAnnotbtion(int typeRef,
+            TypePbth typePbth, Lbbel[] stbrt, Lbbel[] end, int[] index,
+            String desc, boolebn visible) {
+        Printer p = this.p.visitLocblVbribbleAnnotbtion(typeRef, typePbth,
+                stbrt, end, index, desc, visible);
+        AnnotbtionVisitor bv = mv == null ? null : mv
+                .visitLocblVbribbleAnnotbtion(typeRef, typePbth, stbrt, end,
                         index, desc, visible);
-        return new TraceAnnotationVisitor(av, p);
+        return new TrbceAnnotbtionVisitor(bv, p);
     }
 
     @Override
-    public void visitLineNumber(final int line, final Label start) {
-        p.visitLineNumber(line, start);
-        super.visitLineNumber(line, start);
+    public void visitLineNumber(finbl int line, finbl Lbbel stbrt) {
+        p.visitLineNumber(line, stbrt);
+        super.visitLineNumber(line, stbrt);
     }
 
     @Override
-    public void visitMaxs(final int maxStack, final int maxLocals) {
-        p.visitMaxs(maxStack, maxLocals);
-        super.visitMaxs(maxStack, maxLocals);
+    public void visitMbxs(finbl int mbxStbck, finbl int mbxLocbls) {
+        p.visitMbxs(mbxStbck, mbxLocbls);
+        super.visitMbxs(mbxStbck, mbxLocbls);
     }
 
     @Override

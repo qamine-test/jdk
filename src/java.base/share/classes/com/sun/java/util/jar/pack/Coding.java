@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import static com.sun.java.util.jar.pack.Constants.*;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import stbtic com.sun.jbvb.util.jbr.pbck.Constbnts.*;
 /**
- * Define the conversions between sequences of small integers and raw bytes.
- * This is a schema of encodings which incorporates varying lengths,
- * varying degrees of length variability, and varying amounts of signed-ness.
- * @author John Rose
+ * Define the conversions between sequences of smbll integers bnd rbw bytes.
+ * This is b schemb of encodings which incorporbtes vbrying lengths,
+ * vbrying degrees of length vbribbility, bnd vbrying bmounts of signed-ness.
+ * @buthor John Rose
  */
-class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
+clbss Coding implements Compbrbble<Coding>, CodingMethod, Histogrbm.BitMetric {
     /*
-      Coding schema for single integers, parameterized by (B,H,S):
+      Coding schemb for single integers, pbrbmeterized by (B,H,S):
 
       Let B in [1,5], H in [1,256], S in [0,3].
-      (S limit is arbitrary.  B follows the 32-bit limit.  H is byte size.)
+      (S limit is brbitrbry.  B follows the 32-bit limit.  H is byte size.)
 
-      A given (B,H,S) code varies in length from 1 to B bytes.
+      A given (B,H,S) code vbries in length from 1 to B bytes.
 
-      The 256 values a byte may take on are divided into L=(256-H) and H
-      values, with all the H values larger than the L values.
-      (That is, the L values are [0,L) and the H are [L,256).)
+      The 256 vblues b byte mby tbke on bre divided into L=(256-H) bnd H
+      vblues, with bll the H vblues lbrger thbn the L vblues.
+      (Thbt is, the L vblues bre [0,L) bnd the H bre [L,256).)
 
-      The last byte is always either the B-th byte, a byte with "L value"
-      (<L), or both.  There is no other byte that satisfies these conditions.
-      All bytes before the last always have "H values" (>=L).
+      The lbst byte is blwbys either the B-th byte, b byte with "L vblue"
+      (<L), or both.  There is no other byte thbt sbtisfies these conditions.
+      All bytes before the lbst blwbys hbve "H vblues" (>=L).
 
-      Therefore, if L==0, the code always has the full length of B bytes.
-      The coding then becomes a classic B-byte little-endian unsigned integer.
-      (Also, if L==128, the high bit of each byte acts signals the presence
-      of a following byte, up to the maximum length.)
+      Therefore, if L==0, the code blwbys hbs the full length of B bytes.
+      The coding then becomes b clbssic B-byte little-endibn unsigned integer.
+      (Also, if L==128, the high bit of ebch byte bcts signbls the presence
+      of b following byte, up to the mbximum length.)
 
-      In the unsigned case (S==0), the coding is compact and monotonic
-      in the ordering of byte sequences defined by appending zero bytes
-      to pad them to a common length B, reversing them, and ordering them
-      lexicographically.  (This agrees with "little-endian" byte order.)
+      In the unsigned cbse (S==0), the coding is compbct bnd monotonic
+      in the ordering of byte sequences defined by bppending zero bytes
+      to pbd them to b common length B, reversing them, bnd ordering them
+      lexicogrbphicblly.  (This bgrees with "little-endibn" byte order.)
 
-      Therefore, the unsigned value of a byte sequence may be defined as:
+      Therefore, the unsigned vblue of b byte sequence mby be defined bs:
       <pre>
         U(b0)           == b0
                            in [0..L)
@@ -83,205 +83,205 @@ class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
                            or to  L*Sum[i<n]( H^i ) + H^n if n==B
       </pre>
 
-      (**) If B==1, the values H,L play no role in the coding.
-      As a convention, we require that any (1,H,S) code must always
-      encode values less than H.  Thus, a simple unsigned byte is coded
-      specifically by the code (1,256,0).
+      (**) If B==1, the vblues H,L plby no role in the coding.
+      As b convention, we require thbt bny (1,H,S) code must blwbys
+      encode vblues less thbn H.  Thus, b simple unsigned byte is coded
+      specificblly by the code (1,256,0).
 
-      (Properly speaking, the unsigned case should be parameterized as
-      S==Infinity.  If the schema were regular, the case S==0 would really
-      denote a numbering in which all coded values are negative.)
+      (Properly spebking, the unsigned cbse should be pbrbmeterized bs
+      S==Infinity.  If the schemb were regulbr, the cbse S==0 would reblly
+      denote b numbering in which bll coded vblues bre negbtive.)
 
-      If S>0, the unsigned value of a byte sequence is regarded as a binary
-      integer.  If any of the S low-order bits are zero, the corresponding
-      signed value will be non-negative.  If all of the S low-order bits
-      (S>0) are one, the the corresponding signed value will be negative.
+      If S>0, the unsigned vblue of b byte sequence is regbrded bs b binbry
+      integer.  If bny of the S low-order bits bre zero, the corresponding
+      signed vblue will be non-negbtive.  If bll of the S low-order bits
+      (S>0) bre one, the the corresponding signed vblue will be negbtive.
 
-      The non-negative signed values are compact and monotonically increasing
-      (from 0) in the ordering of the corresponding unsigned values.
+      The non-negbtive signed vblues bre compbct bnd monotonicblly increbsing
+      (from 0) in the ordering of the corresponding unsigned vblues.
 
-      The negative signed values are compact and monotonically decreasing
-      (from -1) in the ordering of the corresponding unsigned values.
+      The negbtive signed vblues bre compbct bnd monotonicblly decrebsing
+      (from -1) in the ordering of the corresponding unsigned vblues.
 
-      In essence, the low-order S bits function as a collective sign bit
-      for negative signed numbers, and as a low-order base-(2^S-1) digit
-      for non-negative signed numbers.
+      In essence, the low-order S bits function bs b collective sign bit
+      for negbtive signed numbers, bnd bs b low-order bbse-(2^S-1) digit
+      for non-negbtive signed numbers.
 
-      Therefore, the signed value corresponding to an unsigned value is:
+      Therefore, the signed vblue corresponding to bn unsigned vblue is:
       <pre>
         Sgn(x)  == x                               if S==0
         Sgn(x)  == (x / 2^S)*(2^S-1) + (x % 2^S),  if S>0, (x % 2^S) < 2^S-1
         Sgn(x)  == -(x / 2^S)-1,                   if S>0, (x % 2^S) == 2^S-1
       </pre>
 
-      Finally, the value of a byte sequence, given the coding parameters
-      (B,H,S), is defined as:
+      Finblly, the vblue of b byte sequence, given the coding pbrbmeters
+      (B,H,S), is defined bs:
       <pre>
         V(b[i]: i<n)  == Sgn(U(b[i]: i<n))
       </pre>
 
-      The extremal positive and negative signed value for a given range
-      of unsigned values may be found by sign-encoding the largest unsigned
-      value which is not 2^S-1 mod 2^S, and that which is, respectively.
+      The extrembl positive bnd negbtive signed vblue for b given rbnge
+      of unsigned vblues mby be found by sign-encoding the lbrgest unsigned
+      vblue which is not 2^S-1 mod 2^S, bnd thbt which is, respectively.
 
-      Because B,H,S are variable, this is not a single coding but a schema
-      of codings.  For optimal compression, it is necessary to adaptively
-      select specific codings to the data being compressed.
+      Becbuse B,H,S bre vbribble, this is not b single coding but b schemb
+      of codings.  For optimbl compression, it is necessbry to bdbptively
+      select specific codings to the dbtb being compressed.
 
-      For example, if a sequence of values happens never to be negative,
-      S==0 is the best choice.  If the values are equally balanced between
-      negative and positive, S==1.  If negative values are rare, then S>1
-      is more appropriate.
+      For exbmple, if b sequence of vblues hbppens never to be negbtive,
+      S==0 is the best choice.  If the vblues bre equblly bblbnced between
+      negbtive bnd positive, S==1.  If negbtive vblues bre rbre, then S>1
+      is more bppropribte.
 
-      A (B,H,S) encoding is called a "subrange" if it does not encode
-      the largest 32-bit value, and if the number R of values it does
-      encode can be expressed as a positive 32-bit value.  (Note that
+      A (B,H,S) encoding is cblled b "subrbnge" if it does not encode
+      the lbrgest 32-bit vblue, bnd if the number R of vblues it does
+      encode cbn be expressed bs b positive 32-bit vblue.  (Note thbt
       B=1 implies R<=256, B=2 implies R<=65536, etc.)
 
-      A delta version of a given (B,H,S) coding encodes an array of integers
+      A deltb version of b given (B,H,S) coding encodes bn brrby of integers
       by writing their successive differences in the (B,H,S) coding.
-      The original integers themselves may be recovered by making a
-      running accumulation of sum of the differences as they are read.
+      The originbl integers themselves mby be recovered by mbking b
+      running bccumulbtion of sum of the differences bs they bre rebd.
 
-      As a special case, if a (B,H,S) encoding is a subrange, its delta
-      version will only encode arrays of numbers in the coding's unsigned
-      range, [0..R-1].  The coding of deltas is still in the normal signed
-      range, if S!=0.  During delta encoding, all subtraction results are
-      reduced to the signed range, by adding multiples of R.  Likewise,
-.     during encoding, all addition results are reduced to the unsigned range.
-      This special case for subranges allows the benefits of wraparound
-      when encoding correlated sequences of very small positive numbers.
+      As b specibl cbse, if b (B,H,S) encoding is b subrbnge, its deltb
+      version will only encode brrbys of numbers in the coding's unsigned
+      rbnge, [0..R-1].  The coding of deltbs is still in the normbl signed
+      rbnge, if S!=0.  During deltb encoding, bll subtrbction results bre
+      reduced to the signed rbnge, by bdding multiples of R.  Likewise,
+.     during encoding, bll bddition results bre reduced to the unsigned rbnge.
+      This specibl cbse for subrbnges bllows the benefits of wrbpbround
+      when encoding correlbted sequences of very smbll positive numbers.
      */
 
     // Code-specific limits:
-    private static int saturate32(long x) {
+    privbte stbtic int sbturbte32(long x) {
         if (x > Integer.MAX_VALUE)   return Integer.MAX_VALUE;
         if (x < Integer.MIN_VALUE)   return Integer.MIN_VALUE;
         return (int)x;
     }
-    private static long codeRangeLong(int B, int H) {
-        return codeRangeLong(B, H, B);
+    privbte stbtic long codeRbngeLong(int B, int H) {
+        return codeRbngeLong(B, H, B);
     }
-    private static long codeRangeLong(int B, int H, int nMax) {
-        // Code range for a all (B,H) codes of length <=nMax (<=B).
+    privbte stbtic long codeRbngeLong(int B, int H, int nMbx) {
+        // Code rbnge for b bll (B,H) codes of length <=nMbx (<=B).
         // n < B:   L*Sum[i<n]( H^i )
         // n == B:  L*Sum[i<B]( H^i ) + H^B
-        assert(nMax >= 0 && nMax <= B);
-        assert(B >= 1 && B <= 5);
-        assert(H >= 1 && H <= 256);
-        if (nMax == 0)  return 0;  // no codes of zero length
-        if (B == 1)     return H;  // special case; see (**) above
+        bssert(nMbx >= 0 && nMbx <= B);
+        bssert(B >= 1 && B <= 5);
+        bssert(H >= 1 && H <= 256);
+        if (nMbx == 0)  return 0;  // no codes of zero length
+        if (B == 1)     return H;  // specibl cbse; see (**) bbove
         int L = 256-H;
         long sum = 0;
         long H_i = 1;
-        for (int n = 1; n <= nMax; n++) {
+        for (int n = 1; n <= nMbx; n++) {
             sum += H_i;
             H_i *= H;
         }
         sum *= L;
-        if (nMax == B)
+        if (nMbx == B)
             sum += H_i;
         return sum;
     }
-    /** Largest int representable by (B,H,S) in up to nMax bytes. */
-    public static int codeMax(int B, int H, int S, int nMax) {
-        //assert(S >= 0 && S <= S_MAX);
-        long range = codeRangeLong(B, H, nMax);
-        if (range == 0)
-            return -1;  // degenerate max value for empty set of codes
-        if (S == 0 || range >= (long)1<<32)
-            return saturate32(range-1);
-        long maxPos = range-1;
-        while (isNegativeCode(maxPos, S)) {
-            --maxPos;
+    /** Lbrgest int representbble by (B,H,S) in up to nMbx bytes. */
+    public stbtic int codeMbx(int B, int H, int S, int nMbx) {
+        //bssert(S >= 0 && S <= S_MAX);
+        long rbnge = codeRbngeLong(B, H, nMbx);
+        if (rbnge == 0)
+            return -1;  // degenerbte mbx vblue for empty set of codes
+        if (S == 0 || rbnge >= (long)1<<32)
+            return sbturbte32(rbnge-1);
+        long mbxPos = rbnge-1;
+        while (isNegbtiveCode(mbxPos, S)) {
+            --mbxPos;
         }
-        if (maxPos < 0)  return -1;  // No positive codings at all.
-        int smax = decodeSign32(maxPos, S);
-        // check for 32-bit wraparound:
-        if (smax < 0)
+        if (mbxPos < 0)  return -1;  // No positive codings bt bll.
+        int smbx = decodeSign32(mbxPos, S);
+        // check for 32-bit wrbpbround:
+        if (smbx < 0)
             return Integer.MAX_VALUE;
-        return smax;
+        return smbx;
     }
-    /** Smallest int representable by (B,H,S) in up to nMax bytes.
-        Returns Integer.MIN_VALUE if 32-bit wraparound covers
-        the entire negative range.
+    /** Smbllest int representbble by (B,H,S) in up to nMbx bytes.
+        Returns Integer.MIN_VALUE if 32-bit wrbpbround covers
+        the entire negbtive rbnge.
      */
-    public static int codeMin(int B, int H, int S, int nMax) {
-        //assert(S >= 0 && S <= S_MAX);
-        long range = codeRangeLong(B, H, nMax);
-        if (range >= (long)1<<32 && nMax == B) {
-            // Can code negative values via 32-bit wraparound.
+    public stbtic int codeMin(int B, int H, int S, int nMbx) {
+        //bssert(S >= 0 && S <= S_MAX);
+        long rbnge = codeRbngeLong(B, H, nMbx);
+        if (rbnge >= (long)1<<32 && nMbx == B) {
+            // Cbn code negbtive vblues vib 32-bit wrbpbround.
             return Integer.MIN_VALUE;
         }
         if (S == 0) {
             return 0;
         }
-        long maxNeg = range-1;
-        while (!isNegativeCode(maxNeg, S))
-            --maxNeg;
+        long mbxNeg = rbnge-1;
+        while (!isNegbtiveCode(mbxNeg, S))
+            --mbxNeg;
 
-        if (maxNeg < 0)  return 0;  // No negative codings at all.
-        return decodeSign32(maxNeg, S);
+        if (mbxNeg < 0)  return 0;  // No negbtive codings bt bll.
+        return decodeSign32(mbxNeg, S);
     }
 
-    // Some of the arithmetic below is on unsigned 32-bit integers.
-    // These must be represented in Java as longs in the range [0..2^32-1].
-    // The conversion to a signed int is just the Java cast (int), but
-    // the conversion to an unsigned int is the following little method:
-    private static long toUnsigned32(int sx) {
+    // Some of the brithmetic below is on unsigned 32-bit integers.
+    // These must be represented in Jbvb bs longs in the rbnge [0..2^32-1].
+    // The conversion to b signed int is just the Jbvb cbst (int), but
+    // the conversion to bn unsigned int is the following little method:
+    privbte stbtic long toUnsigned32(int sx) {
         return ((long)sx << 32) >>> 32;
     }
 
     // Sign encoding:
-    private static boolean isNegativeCode(long ux, int S) {
-        assert(S > 0);
-        assert(ux >= -1);  // can be out of 32-bit range; who cares
-        int Smask = (1<<S)-1;
-        return (((int)ux+1) & Smask) == 0;
+    privbte stbtic boolebn isNegbtiveCode(long ux, int S) {
+        bssert(S > 0);
+        bssert(ux >= -1);  // cbn be out of 32-bit rbnge; who cbres
+        int Smbsk = (1<<S)-1;
+        return (((int)ux+1) & Smbsk) == 0;
     }
-    private static boolean hasNegativeCode(int sx, int S) {
-        assert(S > 0);
-        // If S>=2 very low negatives are coded by 32-bit-wrapped positives.
-        // The lowest negative representable by a negative coding is
-        // ~(umax32 >> S), and the next lower number is coded by wrapping
+    privbte stbtic boolebn hbsNegbtiveCode(int sx, int S) {
+        bssert(S > 0);
+        // If S>=2 very low negbtives bre coded by 32-bit-wrbpped positives.
+        // The lowest negbtive representbble by b negbtive coding is
+        // ~(umbx32 >> S), bnd the next lower number is coded by wrbpping
         // the highest positive:
-        //    CodePos(umax32-1)  ->  (umax32-1)-((umax32-1)>>S)
-        // which simplifies to ~(umax32 >> S)-1.
+        //    CodePos(umbx32-1)  ->  (umbx32-1)-((umbx32-1)>>S)
+        // which simplifies to ~(umbx32 >> S)-1.
         return (0 > sx) && (sx >= ~(-1>>>S));
     }
-    private static int decodeSign32(long ux, int S) {
-        assert(ux == toUnsigned32((int)ux))  // must be unsigned 32-bit number
+    privbte stbtic int decodeSign32(long ux, int S) {
+        bssert(ux == toUnsigned32((int)ux))  // must be unsigned 32-bit number
             : (Long.toHexString(ux));
         if (S == 0) {
-            return (int) ux;  // cast to signed int
+            return (int) ux;  // cbst to signed int
         }
         int sx;
-        if (isNegativeCode(ux, S)) {
+        if (isNegbtiveCode(ux, S)) {
             // Sgn(x)  == -(x / 2^S)-1
             sx = ~((int)ux >>> S);
         } else {
             // Sgn(x)  == (x / 2^S)*(2^S-1) + (x % 2^S)
             sx = (int)ux - ((int)ux >>> S);
         }
-        // Assert special case of S==1:
-        assert(!(S == 1) || sx == (((int)ux >>> 1) ^ -((int)ux & 1)));
+        // Assert specibl cbse of S==1:
+        bssert(!(S == 1) || sx == (((int)ux >>> 1) ^ -((int)ux & 1)));
         return sx;
     }
-    private static long encodeSign32(int sx, int S) {
+    privbte stbtic long encodeSign32(int sx, int S) {
         if (S == 0) {
             return toUnsigned32(sx);  // unsigned 32-bit int
         }
-        int Smask = (1<<S)-1;
+        int Smbsk = (1<<S)-1;
         long ux;
-        if (!hasNegativeCode(sx, S)) {
+        if (!hbsNegbtiveCode(sx, S)) {
             // InvSgn(sx) = (sx / (2^S-1))*2^S + (sx % (2^S-1))
-            ux = sx + (toUnsigned32(sx) / Smask);
+            ux = sx + (toUnsigned32(sx) / Smbsk);
         } else {
             // InvSgn(sx) = (-sx-1)*2^S + (2^S-1)
             ux = (-sx << S) - 1;
         }
         ux = toUnsigned32((int)ux);
-        assert(sx == decodeSign32(ux, S))
+        bssert(sx == decodeSign32(ux, S))
             : (Long.toHexString(ux)+" -> "+
                Integer.toHexString(sx)+" != "+
                Integer.toHexString(decodeSign32(ux, S)));
@@ -289,29 +289,29 @@ class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
     }
 
     // Top-level coding of single integers:
-    public static void writeInt(byte[] out, int[] outpos, int sx, int B, int H, int S) {
+    public stbtic void writeInt(byte[] out, int[] outpos, int sx, int B, int H, int S) {
         long ux = encodeSign32(sx, S);
-        assert(ux == toUnsigned32((int)ux));
-        assert(ux < codeRangeLong(B, H))
+        bssert(ux == toUnsigned32((int)ux));
+        bssert(ux < codeRbngeLong(B, H))
             : Long.toHexString(ux);
         int L = 256-H;
         long sum = ux;
         int pos = outpos[0];
         for (int i = 0; i < B-1; i++) {
             if (sum < L)
-                break;
+                brebk;
             sum -= L;
             int b_i = (int)( L + (sum % H) );
             sum /= H;
             out[pos++] = (byte)b_i;
         }
         out[pos++] = (byte)sum;
-        // Report number of bytes written by updating outpos[0]:
+        // Report number of bytes written by updbting outpos[0]:
         outpos[0] = pos;
-        // Check right away for mis-coding.
-        //assert(sx == readInt(out, new int[1], B, H, S));
+        // Check right bwby for mis-coding.
+        //bssert(sx == rebdInt(out, new int[1], B, H, S));
     }
-    public static int readInt(byte[] in, int[] inpos, int B, int H, int S) {
+    public stbtic int rebdInt(byte[] in, int[] inpos, int B, int H, int S) {
         // U(b[i]: i<n) == Sum[i<n]( b[i] * H^i )
         int L = 256-H;
         long sum = 0;
@@ -321,212 +321,212 @@ class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
             int b_i = in[pos++] & 0xFF;
             sum += b_i*H_i;
             H_i *= H;
-            if (b_i < L)  break;
+            if (b_i < L)  brebk;
         }
-        //assert(sum >= 0 && sum < codeRangeLong(B, H));
-        // Report number of bytes read by updating inpos[0]:
+        //bssert(sum >= 0 && sum < codeRbngeLong(B, H));
+        // Report number of bytes rebd by updbting inpos[0]:
         inpos[0] = pos;
         return decodeSign32(sum, S);
     }
-    // The Stream version doesn't fetch a byte unless it is needed for coding.
-    public static int readIntFrom(InputStream in, int B, int H, int S) throws IOException {
+    // The Strebm version doesn't fetch b byte unless it is needed for coding.
+    public stbtic int rebdIntFrom(InputStrebm in, int B, int H, int S) throws IOException {
         // U(b[i]: i<n) == Sum[i<n]( b[i] * H^i )
         int L = 256-H;
         long sum = 0;
         long H_i = 1;
         for (int i = 0; i < B; i++) {
-            int b_i = in.read();
+            int b_i = in.rebd();
             if (b_i < 0)  throw new RuntimeException("unexpected EOF");
             sum += b_i*H_i;
             H_i *= H;
-            if (b_i < L)  break;
+            if (b_i < L)  brebk;
         }
-        assert(sum >= 0 && sum < codeRangeLong(B, H));
+        bssert(sum >= 0 && sum < codeRbngeLong(B, H));
         return decodeSign32(sum, S);
     }
 
-    public static final int B_MAX = 5;    /* B: [1,5] */
-    public static final int H_MAX = 256;  /* H: [1,256] */
-    public static final int S_MAX = 2;    /* S: [0,2] */
+    public stbtic finbl int B_MAX = 5;    /* B: [1,5] */
+    public stbtic finbl int H_MAX = 256;  /* H: [1,256] */
+    public stbtic finbl int S_MAX = 2;    /* S: [0,2] */
 
     // END OF STATICS.
 
-    private final int B; /*1..5*/       // # bytes (1..5)
-    private final int H; /*1..256*/     // # codes requiring a higher byte
-    private final int L; /*0..255*/     // # codes requiring a higher byte
-    private final int S; /*0..3*/       // # low-order bits representing sign
-    private final int del; /*0..2*/     // type of delta encoding (0 == none)
-    private final int min;              // smallest representable value
-    private final int max;              // largest representable value
-    private final int umin;             // smallest representable uns. value
-    private final int umax;             // largest representable uns. value
-    private final int[] byteMin;        // smallest repr. value, given # bytes
-    private final int[] byteMax;        // largest repr. value, given # bytes
+    privbte finbl int B; /*1..5*/       // # bytes (1..5)
+    privbte finbl int H; /*1..256*/     // # codes requiring b higher byte
+    privbte finbl int L; /*0..255*/     // # codes requiring b higher byte
+    privbte finbl int S; /*0..3*/       // # low-order bits representing sign
+    privbte finbl int del; /*0..2*/     // type of deltb encoding (0 == none)
+    privbte finbl int min;              // smbllest representbble vblue
+    privbte finbl int mbx;              // lbrgest representbble vblue
+    privbte finbl int umin;             // smbllest representbble uns. vblue
+    privbte finbl int umbx;             // lbrgest representbble uns. vblue
+    privbte finbl int[] byteMin;        // smbllest repr. vblue, given # bytes
+    privbte finbl int[] byteMbx;        // lbrgest repr. vblue, given # bytes
 
-    private Coding(int B, int H, int S) {
+    privbte Coding(int B, int H, int S) {
         this(B, H, S, 0);
     }
-    private Coding(int B, int H, int S, int del) {
+    privbte Coding(int B, int H, int S, int del) {
         this.B = B;
         this.H = H;
         this.L = 256-H;
         this.S = S;
         this.del = del;
         this.min = codeMin(B, H, S, B);
-        this.max = codeMax(B, H, S, B);
+        this.mbx = codeMbx(B, H, S, B);
         this.umin = codeMin(B, H, 0, B);
-        this.umax = codeMax(B, H, 0, B);
+        this.umbx = codeMbx(B, H, 0, B);
         this.byteMin = new int[B];
-        this.byteMax = new int[B];
+        this.byteMbx = new int[B];
 
-        for (int nMax = 1; nMax <= B; nMax++) {
-            byteMin[nMax-1] = codeMin(B, H, S, nMax);
-            byteMax[nMax-1] = codeMax(B, H, S, nMax);
+        for (int nMbx = 1; nMbx <= B; nMbx++) {
+            byteMin[nMbx-1] = codeMin(B, H, S, nMbx);
+            byteMbx[nMbx-1] = codeMbx(B, H, S, nMbx);
         }
     }
 
-    public boolean equals(Object x) {
-        if (!(x instanceof Coding))  return false;
-        Coding that = (Coding) x;
-        if (this.B != that.B)  return false;
-        if (this.H != that.H)  return false;
-        if (this.S != that.S)  return false;
-        if (this.del != that.del)  return false;
+    public boolebn equbls(Object x) {
+        if (!(x instbnceof Coding))  return fblse;
+        Coding thbt = (Coding) x;
+        if (this.B != thbt.B)  return fblse;
+        if (this.H != thbt.H)  return fblse;
+        if (this.S != thbt.S)  return fblse;
+        if (this.del != thbt.del)  return fblse;
         return true;
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         return (del<<14)+(S<<11)+(B<<8)+(H<<0);
     }
 
-    private static Map<Coding, Coding> codeMap;
+    privbte stbtic Mbp<Coding, Coding> codeMbp;
 
-    private static synchronized Coding of(int B, int H, int S, int del) {
-        if (codeMap == null)  codeMap = new HashMap<>();
+    privbte stbtic synchronized Coding of(int B, int H, int S, int del) {
+        if (codeMbp == null)  codeMbp = new HbshMbp<>();
         Coding x0 = new Coding(B, H, S, del);
-        Coding x1 = codeMap.get(x0);
-        if (x1 == null)  codeMap.put(x0, x1 = x0);
+        Coding x1 = codeMbp.get(x0);
+        if (x1 == null)  codeMbp.put(x0, x1 = x0);
         return x1;
     }
 
-    public static Coding of(int B, int H) {
+    public stbtic Coding of(int B, int H) {
         return of(B, H, 0, 0);
     }
 
-    public static Coding of(int B, int H, int S) {
+    public stbtic Coding of(int B, int H, int S) {
         return of(B, H, S, 0);
     }
 
-    public boolean canRepresentValue(int x) {
-        if (isSubrange())
-            return canRepresentUnsigned(x);
+    public boolebn cbnRepresentVblue(int x) {
+        if (isSubrbnge())
+            return cbnRepresentUnsigned(x);
         else
-            return canRepresentSigned(x);
+            return cbnRepresentSigned(x);
     }
-    /** Can this coding represent a single value, possibly a delta?
-     *  This ignores the D property.  That is, for delta codings,
-     *  this tests whether a delta value of 'x' can be coded.
-     *  For signed delta codings which produce unsigned end values,
-     *  use canRepresentUnsigned.
+    /** Cbn this coding represent b single vblue, possibly b deltb?
+     *  This ignores the D property.  Thbt is, for deltb codings,
+     *  this tests whether b deltb vblue of 'x' cbn be coded.
+     *  For signed deltb codings which produce unsigned end vblues,
+     *  use cbnRepresentUnsigned.
      */
-    public boolean canRepresentSigned(int x) {
-        return (x >= min && x <= max);
+    public boolebn cbnRepresentSigned(int x) {
+        return (x >= min && x <= mbx);
     }
-    /** Can this coding, apart from its S property,
-     *  represent a single value?  (Negative values
-     *  can only be represented via 32-bit overflow,
-     *  so this returns true for negative values
-     *  if isFullRange is true.)
+    /** Cbn this coding, bpbrt from its S property,
+     *  represent b single vblue?  (Negbtive vblues
+     *  cbn only be represented vib 32-bit overflow,
+     *  so this returns true for negbtive vblues
+     *  if isFullRbnge is true.)
      */
-    public boolean canRepresentUnsigned(int x) {
-        return (x >= umin && x <= umax);
+    public boolebn cbnRepresentUnsigned(int x) {
+        return (x >= umin && x <= umbx);
     }
 
     // object-oriented code/decode
-    public int readFrom(byte[] in, int[] inpos) {
-        return readInt(in, inpos, B, H, S);
+    public int rebdFrom(byte[] in, int[] inpos) {
+        return rebdInt(in, inpos, B, H, S);
     }
     public void writeTo(byte[] out, int[] outpos, int x) {
         writeInt(out, outpos, x, B, H, S);
     }
 
-    // Stream versions
-    public int readFrom(InputStream in) throws IOException {
-        return readIntFrom(in, B, H, S);
+    // Strebm versions
+    public int rebdFrom(InputStrebm in) throws IOException {
+        return rebdIntFrom(in, B, H, S);
     }
-    public void writeTo(OutputStream out, int x) throws IOException {
+    public void writeTo(OutputStrebm out, int x) throws IOException {
         byte[] buf = new byte[B];
         int[] pos = new int[1];
         writeInt(buf, pos, x, B, H, S);
         out.write(buf, 0, pos[0]);
     }
 
-    // Stream/array versions
-    public void readArrayFrom(InputStream in, int[] a, int start, int end) throws IOException {
+    // Strebm/brrby versions
+    public void rebdArrbyFrom(InputStrebm in, int[] b, int stbrt, int end) throws IOException {
         // %%% use byte[] buffer
-        for (int i = start; i < end; i++)
-            a[i] = readFrom(in);
+        for (int i = stbrt; i < end; i++)
+            b[i] = rebdFrom(in);
 
         for (int dstep = 0; dstep < del; dstep++) {
-            long state = 0;
-            for (int i = start; i < end; i++) {
-                state += a[i];
-                // Reduce array values to the required range.
-                if (isSubrange()) {
-                    state = reduceToUnsignedRange(state);
+            long stbte = 0;
+            for (int i = stbrt; i < end; i++) {
+                stbte += b[i];
+                // Reduce brrby vblues to the required rbnge.
+                if (isSubrbnge()) {
+                    stbte = reduceToUnsignedRbnge(stbte);
                 }
-                a[i] = (int) state;
+                b[i] = (int) stbte;
             }
         }
     }
-    public void writeArrayTo(OutputStream out, int[] a, int start, int end) throws IOException {
-        if (end <= start)  return;
+    public void writeArrbyTo(OutputStrebm out, int[] b, int stbrt, int end) throws IOException {
+        if (end <= stbrt)  return;
         for (int dstep = 0; dstep < del; dstep++) {
-            int[] deltas;
-            if (!isSubrange())
-                deltas = makeDeltas(a, start, end, 0, 0);
+            int[] deltbs;
+            if (!isSubrbnge())
+                deltbs = mbkeDeltbs(b, stbrt, end, 0, 0);
             else
-                deltas = makeDeltas(a, start, end, min, max);
-            a = deltas;
-            start = 0;
-            end = deltas.length;
+                deltbs = mbkeDeltbs(b, stbrt, end, min, mbx);
+            b = deltbs;
+            stbrt = 0;
+            end = deltbs.length;
         }
-        // The following code is a buffered version of this loop:
-        //    for (int i = start; i < end; i++)
-        //        writeTo(out, a[i]);
+        // The following code is b buffered version of this loop:
+        //    for (int i = stbrt; i < end; i++)
+        //        writeTo(out, b[i]);
         byte[] buf = new byte[1<<8];
-        final int bufmax = buf.length-B;
+        finbl int bufmbx = buf.length-B;
         int[] pos = { 0 };
-        for (int i = start; i < end; ) {
-            while (pos[0] <= bufmax) {
-                writeTo(buf, pos, a[i++]);
-                if (i >= end)  break;
+        for (int i = stbrt; i < end; ) {
+            while (pos[0] <= bufmbx) {
+                writeTo(buf, pos, b[i++]);
+                if (i >= end)  brebk;
             }
             out.write(buf, 0, pos[0]);
             pos[0] = 0;
         }
     }
 
-    /** Tell if the range of this coding (number of distinct
-     *  representable values) can be expressed in 32 bits.
+    /** Tell if the rbnge of this coding (number of distinct
+     *  representbble vblues) cbn be expressed in 32 bits.
      */
-    boolean isSubrange() {
-        return max < Integer.MAX_VALUE
-            && ((long)max - (long)min + 1) <= Integer.MAX_VALUE;
+    boolebn isSubrbnge() {
+        return mbx < Integer.MAX_VALUE
+            && ((long)mbx - (long)min + 1) <= Integer.MAX_VALUE;
     }
 
-    /** Tell if this coding can represent all 32-bit values.
-     *  Note:  Some codings, such as unsigned ones, can be neither
-     *  subranges nor full-range codings.
+    /** Tell if this coding cbn represent bll 32-bit vblues.
+     *  Note:  Some codings, such bs unsigned ones, cbn be neither
+     *  subrbnges nor full-rbnge codings.
      */
-    boolean isFullRange() {
-        return max == Integer.MAX_VALUE && min == Integer.MIN_VALUE;
+    boolebn isFullRbnge() {
+        return mbx == Integer.MAX_VALUE && min == Integer.MIN_VALUE;
     }
 
-    /** Return the number of values this coding (a subrange) can represent. */
-    int getRange() {
-        assert(isSubrange());
-        return (max - min) + 1;  // range includes both min & max
+    /** Return the number of vblues this coding (b subrbnge) cbn represent. */
+    int getRbnge() {
+        bssert(isSubrbnge());
+        return (mbx - min) + 1;  // rbnge includes both min & mbx
     }
 
     Coding setB(int B) { return Coding.of(B, H, S, del); }
@@ -534,62 +534,62 @@ class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
     Coding setS(int S) { return Coding.of(B, H, S, del); }
     Coding setL(int L) { return setH(256-L); }
     Coding setD(int del) { return Coding.of(B, H, S, del); }
-    Coding getDeltaCoding() { return setD(del+1); }
+    Coding getDeltbCoding() { return setD(del+1); }
 
-    /** Return a coding suitable for representing summed, modulo-reduced values. */
-    Coding getValueCoding() {
-        if (isDelta())
+    /** Return b coding suitbble for representing summed, modulo-reduced vblues. */
+    Coding getVblueCoding() {
+        if (isDeltb())
             return Coding.of(B, H, 0, del-1);
         else
             return this;
     }
 
-    /** Reduce the given value to be within this coding's unsigned range,
-     *  by adding or subtracting a multiple of (max-min+1).
+    /** Reduce the given vblue to be within this coding's unsigned rbnge,
+     *  by bdding or subtrbcting b multiple of (mbx-min+1).
      */
-    int reduceToUnsignedRange(long value) {
-        if (value == (int)value && canRepresentUnsigned((int)value))
-            // already in unsigned range
-            return (int)value;
-        int range = getRange();
-        assert(range > 0);
-        value %= range;
-        if (value < 0)  value += range;
-        assert(canRepresentUnsigned((int)value));
-        return (int)value;
+    int reduceToUnsignedRbnge(long vblue) {
+        if (vblue == (int)vblue && cbnRepresentUnsigned((int)vblue))
+            // blrebdy in unsigned rbnge
+            return (int)vblue;
+        int rbnge = getRbnge();
+        bssert(rbnge > 0);
+        vblue %= rbnge;
+        if (vblue < 0)  vblue += rbnge;
+        bssert(cbnRepresentUnsigned((int)vblue));
+        return (int)vblue;
     }
 
-    int reduceToSignedRange(int value) {
-        if (canRepresentSigned(value))
-            // already in signed range
-            return value;
-        return reduceToSignedRange(value, min, max);
+    int reduceToSignedRbnge(int vblue) {
+        if (cbnRepresentSigned(vblue))
+            // blrebdy in signed rbnge
+            return vblue;
+        return reduceToSignedRbnge(vblue, min, mbx);
     }
-    static int reduceToSignedRange(int value, int min, int max) {
-        int range = (max-min+1);
-        assert(range > 0);
-        int value0 = value;
-        value -= min;
-        if (value < 0 && value0 >= 0) {
+    stbtic int reduceToSignedRbnge(int vblue, int min, int mbx) {
+        int rbnge = (mbx-min+1);
+        bssert(rbnge > 0);
+        int vblue0 = vblue;
+        vblue -= min;
+        if (vblue < 0 && vblue0 >= 0) {
             // 32-bit overflow, but the next '%=' op needs to be unsigned
-            value -= range;
-            assert(value >= 0);
+            vblue -= rbnge;
+            bssert(vblue >= 0);
         }
-        value %= range;
-        if (value < 0)  value += range;
-        value += min;
-        assert(min <= value && value <= max);
-        return value;
+        vblue %= rbnge;
+        if (vblue < 0)  vblue += rbnge;
+        vblue += min;
+        bssert(min <= vblue && vblue <= mbx);
+        return vblue;
     }
 
-    /** Does this coding support at least one negative value?
-        Includes codings that can do so via 32-bit wraparound.
+    /** Does this coding support bt lebst one negbtive vblue?
+        Includes codings thbt cbn do so vib 32-bit wrbpbround.
      */
-    boolean isSigned() {
+    boolebn isSigned() {
         return min < 0;
     }
-    /** Does this coding code arrays by making successive differences? */
-    boolean isDelta() {
+    /** Does this coding code brrbys by mbking successive differences? */
+    boolebn isDeltb() {
         return del != 0;
     }
 
@@ -599,60 +599,60 @@ class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
     public int S() { return S; }
     public int del() { return del; }
     public int min() { return min; }
-    public int max() { return max; }
+    public int mbx() { return mbx; }
     public int umin() { return umin; }
-    public int umax() { return umax; }
+    public int umbx() { return umbx; }
     public int byteMin(int b) { return byteMin[b-1]; }
-    public int byteMax(int b) { return byteMax[b-1]; }
+    public int byteMbx(int b) { return byteMbx[b-1]; }
 
-    public int compareTo(Coding that) {
-        int dkey = this.del - that.del;
+    public int compbreTo(Coding thbt) {
+        int dkey = this.del - thbt.del;
         if (dkey == 0)
-            dkey = this.B - that.B;
+            dkey = this.B - thbt.B;
         if (dkey == 0)
-            dkey = this.H - that.H;
+            dkey = this.H - thbt.H;
         if (dkey == 0)
-            dkey = this.S - that.S;
+            dkey = this.S - thbt.S;
         return dkey;
     }
 
-    /** Heuristic measure of the difference between two codings. */
-    public int distanceFrom(Coding that) {
-        int diffdel = this.del - that.del;
+    /** Heuristic mebsure of the difference between two codings. */
+    public int distbnceFrom(Coding thbt) {
+        int diffdel = this.del - thbt.del;
         if (diffdel < 0)  diffdel = -diffdel;
-        int diffS = this.S - that.S;
+        int diffS = this.S - thbt.S;
         if (diffS < 0)  diffS = -diffS;
-        int diffB = this.B - that.B;
+        int diffB = this.B - thbt.B;
         if (diffB < 0)  diffB = -diffB;
         int diffHL;
-        if (this.H == that.H) {
+        if (this.H == thbt.H) {
             diffHL = 0;
         } else {
-            // Distance in log space of H (<=128) and L (<128).
+            // Distbnce in log spbce of H (<=128) bnd L (<128).
             int thisHL = this.getHL();
-            int thatHL = that.getHL();
-            // Double the accuracy of the log:
+            int thbtHL = thbt.getHL();
+            // Double the bccurbcy of the log:
             thisHL *= thisHL;
-            thatHL *= thatHL;
-            if (thisHL > thatHL)
-                diffHL = ceil_lg2(1+(thisHL-1)/thatHL);
+            thbtHL *= thbtHL;
+            if (thisHL > thbtHL)
+                diffHL = ceil_lg2(1+(thisHL-1)/thbtHL);
             else
-                diffHL = ceil_lg2(1+(thatHL-1)/thisHL);
+                diffHL = ceil_lg2(1+(thbtHL-1)/thisHL);
         }
         int norm = 5*(diffdel + diffS + diffB) + diffHL;
-        assert(norm != 0 || this.compareTo(that) == 0);
+        bssert(norm != 0 || this.compbreTo(thbt) == 0);
         return norm;
     }
-    private int getHL() {
-        // Follow H in log space by the multiplicative inverse of L.
+    privbte int getHL() {
+        // Follow H in log spbce by the multiplicbtive inverse of L.
         if (H <= 128)  return H;
         if (L >= 1)    return 128*128/L;
         return 128*256;
     }
 
     /** ceiling(log[2](x)): {1->0, 2->1, 3->2, 4->2, ...} */
-    static int ceil_lg2(int x) {
-        assert(x-1 >= 0);  // x in range (int.MIN_VALUE -> 32)
+    stbtic int ceil_lg2(int x) {
+        bssert(x-1 >= 0);  // x in rbnge (int.MIN_VALUE -> 32)
         x -= 1;
         int lg = 0;
         while (x != 0) {
@@ -662,21 +662,21 @@ class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
         return lg;
     }
 
-    static private final byte[] byteBitWidths = new byte[0x100];
-    static {
+    stbtic privbte finbl byte[] byteBitWidths = new byte[0x100];
+    stbtic {
         for (int b = 0; b < byteBitWidths.length; b++) {
             byteBitWidths[b] = (byte) ceil_lg2(b + 1);
         }
         for (int i = 10; i >= 0; i = (i << 1) - (i >> 3)) {
-            assert(bitWidth(i) == ceil_lg2(i + 1));
+            bssert(bitWidth(i) == ceil_lg2(i + 1));
         }
     }
 
-    /** Number of significant bits in i, not counting sign bits.
+    /** Number of significbnt bits in i, not counting sign bits.
      *  For positive i, it is ceil_lg2(i + 1).
      */
-    static int bitWidth(int i) {
-        if (i < 0)  i = ~i;  // change sign
+    stbtic int bitWidth(int i) {
+        if (i < 0)  i = ~i;  // chbnge sign
         int w = 0;
         int lo = i;
         if (lo < byteBitWidths.length)
@@ -693,160 +693,160 @@ class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
             w += 8;
         }
         w += byteBitWidths[lo];
-        //assert(w == ceil_lg2(i + 1));
+        //bssert(w == ceil_lg2(i + 1));
         return w;
     }
 
-    /** Create an array of successive differences.
-     *  If min==max, accept any and all 32-bit overflow.
-     *  Otherwise, avoid 32-bit overflow, and reduce all differences
-     *  to a value in the given range, by adding or subtracting
-     *  multiples of the range cardinality (max-min+1).
-     *  Also, the values are assumed to be in the range [0..(max-min)].
+    /** Crebte bn brrby of successive differences.
+     *  If min==mbx, bccept bny bnd bll 32-bit overflow.
+     *  Otherwise, bvoid 32-bit overflow, bnd reduce bll differences
+     *  to b vblue in the given rbnge, by bdding or subtrbcting
+     *  multiples of the rbnge cbrdinblity (mbx-min+1).
+     *  Also, the vblues bre bssumed to be in the rbnge [0..(mbx-min)].
      */
-    static int[] makeDeltas(int[] values, int start, int end,
-                            int min, int max) {
-        assert(max >= min);
-        int count = end-start;
-        int[] deltas = new int[count];
-        int state = 0;
-        if (min == max) {
+    stbtic int[] mbkeDeltbs(int[] vblues, int stbrt, int end,
+                            int min, int mbx) {
+        bssert(mbx >= min);
+        int count = end-stbrt;
+        int[] deltbs = new int[count];
+        int stbte = 0;
+        if (min == mbx) {
             for (int i = 0; i < count; i++) {
-                int value = values[start+i];
-                deltas[i] = value - state;
-                state = value;
+                int vblue = vblues[stbrt+i];
+                deltbs[i] = vblue - stbte;
+                stbte = vblue;
             }
         } else {
             for (int i = 0; i < count; i++) {
-                int value = values[start+i];
-                assert(value >= 0 && value+min <= max);
-                int delta = value - state;
-                assert(delta == (long)value - (long)state); // no overflow
-                state = value;
-                // Reduce delta values to the required range.
-                delta = reduceToSignedRange(delta, min, max);
-                deltas[i] = delta;
+                int vblue = vblues[stbrt+i];
+                bssert(vblue >= 0 && vblue+min <= mbx);
+                int deltb = vblue - stbte;
+                bssert(deltb == (long)vblue - (long)stbte); // no overflow
+                stbte = vblue;
+                // Reduce deltb vblues to the required rbnge.
+                deltb = reduceToSignedRbnge(deltb, min, mbx);
+                deltbs[i] = deltb;
             }
         }
-        return deltas;
+        return deltbs;
     }
 
-    boolean canRepresent(int minValue, int maxValue) {
-        assert(minValue <= maxValue);
+    boolebn cbnRepresent(int minVblue, int mbxVblue) {
+        bssert(minVblue <= mbxVblue);
         if (del > 0) {
-            if (isSubrange()) {
-                // We will force the values to reduce to the right subrange.
-                return canRepresentUnsigned(maxValue)
-                    && canRepresentUnsigned(minValue);
+            if (isSubrbnge()) {
+                // We will force the vblues to reduce to the right subrbnge.
+                return cbnRepresentUnsigned(mbxVblue)
+                    && cbnRepresentUnsigned(minVblue);
             } else {
-                // Huge range; delta values must assume full 32-bit range.
-                return isFullRange();
+                // Huge rbnge; deltb vblues must bssume full 32-bit rbnge.
+                return isFullRbnge();
             }
         }
         else
-            // final values must be representable
-            return canRepresentSigned(maxValue)
-                && canRepresentSigned(minValue);
+            // finbl vblues must be representbble
+            return cbnRepresentSigned(mbxVblue)
+                && cbnRepresentSigned(minVblue);
     }
 
-    boolean canRepresent(int[] values, int start, int end) {
-        int len = end-start;
+    boolebn cbnRepresent(int[] vblues, int stbrt, int end) {
+        int len = end-stbrt;
         if (len == 0)       return true;
-        if (isFullRange())  return true;
-        // Calculate max, min:
-        int lmax = values[start];
-        int lmin = lmax;
+        if (isFullRbnge())  return true;
+        // Cblculbte mbx, min:
+        int lmbx = vblues[stbrt];
+        int lmin = lmbx;
         for (int i = 1; i < len; i++) {
-            int value = values[start+i];
-            if (lmax < value)  lmax = value;
-            if (lmin > value)  lmin = value;
+            int vblue = vblues[stbrt+i];
+            if (lmbx < vblue)  lmbx = vblue;
+            if (lmin > vblue)  lmin = vblue;
         }
-        return canRepresent(lmin, lmax);
+        return cbnRepresent(lmin, lmbx);
     }
 
-    public double getBitLength(int value) {  // implements BitMetric
-        return (double) getLength(value) * 8;
+    public double getBitLength(int vblue) {  // implements BitMetric
+        return (double) getLength(vblue) * 8;
     }
 
-    /** How many bytes are in the coding of this value?
-     *  Returns Integer.MAX_VALUE if the value has no coding.
-     *  The coding must not be a delta coding, since there is no
-     *  definite size for a single value apart from its context.
+    /** How mbny bytes bre in the coding of this vblue?
+     *  Returns Integer.MAX_VALUE if the vblue hbs no coding.
+     *  The coding must not be b deltb coding, since there is no
+     *  definite size for b single vblue bpbrt from its context.
      */
-    public int getLength(int value) {
-        if (isDelta() && isSubrange()) {
-            if (!canRepresentUnsigned(value))
+    public int getLength(int vblue) {
+        if (isDeltb() && isSubrbnge()) {
+            if (!cbnRepresentUnsigned(vblue))
                 return Integer.MAX_VALUE;
-            value = reduceToSignedRange(value);
+            vblue = reduceToSignedRbnge(vblue);
         }
-        if (value >= 0) {
+        if (vblue >= 0) {
             for (int n = 0; n < B; n++) {
-                if (value <= byteMax[n])  return n+1;
+                if (vblue <= byteMbx[n])  return n+1;
             }
         } else {
             for (int n = 0; n < B; n++) {
-                if (value >= byteMin[n])  return n+1;
+                if (vblue >= byteMin[n])  return n+1;
             }
         }
         return Integer.MAX_VALUE;
     }
 
-    public int getLength(int[] values, int start, int end) {
-        int len = end-start;
+    public int getLength(int[] vblues, int stbrt, int end) {
+        int len = end-stbrt;
         if (B == 1)  return len;
         if (L == 0)  return len * B;
-        if (isDelta()) {
-            int[] deltas;
-            if (!isSubrange())
-                deltas = makeDeltas(values, start, end, 0, 0);
+        if (isDeltb()) {
+            int[] deltbs;
+            if (!isSubrbnge())
+                deltbs = mbkeDeltbs(vblues, stbrt, end, 0, 0);
             else
-                deltas = makeDeltas(values, start, end, min, max);
-            //return Coding.of(B, H, S).getLength(deltas, 0, len);
-            values = deltas;
-            start = 0;
+                deltbs = mbkeDeltbs(vblues, stbrt, end, min, mbx);
+            //return Coding.of(B, H, S).getLength(deltbs, 0, len);
+            vblues = deltbs;
+            stbrt = 0;
         }
-        int sum = len;  // at least 1 byte per
-        // add extra bytes for extra-long values
+        int sum = len;  // bt lebst 1 byte per
+        // bdd extrb bytes for extrb-long vblues
         for (int n = 1; n <= B; n++) {
-            // what is the coding interval [min..max] for n bytes?
-            int lmax = byteMax[n-1];
+            // whbt is the coding intervbl [min..mbx] for n bytes?
+            int lmbx = byteMbx[n-1];
             int lmin = byteMin[n-1];
-            int longer = 0;  // count of guys longer than n bytes
+            int longer = 0;  // count of guys longer thbn n bytes
             for (int i = 0; i < len; i++) {
-                int value = values[start+i];
-                if (value >= 0) {
-                    if (value > lmax)  longer++;
+                int vblue = vblues[stbrt+i];
+                if (vblue >= 0) {
+                    if (vblue > lmbx)  longer++;
                 } else {
-                    if (value < lmin)  longer++;
+                    if (vblue < lmin)  longer++;
                 }
             }
-            if (longer == 0)  break;  // no more passes needed
-            if (n == B)  return Integer.MAX_VALUE;  // cannot represent!
+            if (longer == 0)  brebk;  // no more pbsses needed
+            if (n == B)  return Integer.MAX_VALUE;  // cbnnot represent!
             sum += longer;
         }
         return sum;
     }
 
-    public byte[] getMetaCoding(Coding dflt) {
-        if (dflt == this)  return new byte[]{ (byte) _meta_default };
-        int canonicalIndex = BandStructure.indexOf(this);
-        if (canonicalIndex > 0)
-            return new byte[]{ (byte) canonicalIndex };
+    public byte[] getMetbCoding(Coding dflt) {
+        if (dflt == this)  return new byte[]{ (byte) _metb_defbult };
+        int cbnonicblIndex = BbndStructure.indexOf(this);
+        if (cbnonicblIndex > 0)
+            return new byte[]{ (byte) cbnonicblIndex };
         return new byte[]{
-            (byte)_meta_arb,
+            (byte)_metb_brb,
             (byte)(del + 2*S + 8*(B-1)),
             (byte)(H-1)
         };
     }
-    public static int parseMetaCoding(byte[] bytes, int pos, Coding dflt, CodingMethod res[]) {
+    public stbtic int pbrseMetbCoding(byte[] bytes, int pos, Coding dflt, CodingMethod res[]) {
         int op = bytes[pos++] & 0xFF;
-        if (_meta_canon_min <= op && op <= _meta_canon_max) {
-            Coding c = BandStructure.codingForIndex(op);
-            assert(c != null);
+        if (_metb_cbnon_min <= op && op <= _metb_cbnon_mbx) {
+            Coding c = BbndStructure.codingForIndex(op);
+            bssert(c != null);
             res[0] = c;
             return pos;
         }
-        if (op == _meta_arb) {
+        if (op == _metb_brb) {
             int dsb = bytes[pos++] & 0xFF;
             int H_1 = bytes[pos++] & 0xFF;
             int del = dsb % 2;
@@ -859,12 +859,12 @@ class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
                   (0 <= del && del <= 1))
                 || (B == 1 && H != 256)
                 || (B == 5 && H == 256)) {
-                throw new RuntimeException("Bad arb. coding: ("+B+","+H+","+S+","+del);
+                throw new RuntimeException("Bbd brb. coding: ("+B+","+H+","+S+","+del);
             }
             res[0] = Coding.of(B, H, S, del);
             return pos;
         }
-        return pos-1;  // backup
+        return pos-1;  // bbckup
     }
 
 
@@ -874,29 +874,29 @@ class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
 
     public String toString() {
         String str = "Coding"+keyString();
-        // If -ea, print out more informative strings!
-        //assert((str = stringForDebug()) != null);
+        // If -eb, print out more informbtive strings!
+        //bssert((str = stringForDebug()) != null);
         return str;
     }
 
-    static boolean verboseStringForDebug = false;
+    stbtic boolebn verboseStringForDebug = fblse;
     String stringForDebug() {
         String minS = (min == Integer.MIN_VALUE ? "min" : ""+min);
-        String maxS = (max == Integer.MAX_VALUE ? "max" : ""+max);
-        String str = keyString()+" L="+L+" r=["+minS+","+maxS+"]";
-        if (isSubrange())
-            str += " subrange";
-        else if (!isFullRange())
+        String mbxS = (mbx == Integer.MAX_VALUE ? "mbx" : ""+mbx);
+        String str = keyString()+" L="+L+" r=["+minS+","+mbxS+"]";
+        if (isSubrbnge())
+            str += " subrbnge";
+        else if (!isFullRbnge())
             str += " MIDRANGE";
         if (verboseStringForDebug) {
             str += " {";
-            int prev_range = 0;
+            int prev_rbnge = 0;
             for (int n = 1; n <= B; n++) {
-                int range_n = saturate32((long)byteMax[n-1] - byteMin[n-1] + 1);
-                assert(range_n == saturate32(codeRangeLong(B, H, n)));
-                range_n -= prev_range;
-                prev_range = range_n;
-                String rngS = (range_n == Integer.MAX_VALUE ? "max" : ""+range_n);
+                int rbnge_n = sbturbte32((long)byteMbx[n-1] - byteMin[n-1] + 1);
+                bssert(rbnge_n == sbturbte32(codeRbngeLong(B, H, n)));
+                rbnge_n -= prev_rbnge;
+                prev_rbnge = rbnge_n;
+                String rngS = (rbnge_n == Integer.MAX_VALUE ? "mbx" : ""+rbnge_n);
                 str += " #"+n+"="+rngS;
             }
             str += " }";

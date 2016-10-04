@@ -1,197 +1,197 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport.proxy;
+pbckbge sun.rmi.trbnsport.proxy;
 
-import java.io.*;
+import jbvb.io.*;
 
 import sun.rmi.runtime.Log;
 
 /**
- * The HttpInputStream class assists the HttpSendSocket and HttpReceiveSocket
- * classes by filtering out the header for the message as well as any
- * data after its proper content length.
+ * The HttpInputStrebm clbss bssists the HttpSendSocket bnd HttpReceiveSocket
+ * clbsses by filtering out the hebder for the messbge bs well bs bny
+ * dbtb bfter its proper content length.
  */
-class HttpInputStream extends FilterInputStream {
+clbss HttpInputStrebm extends FilterInputStrebm {
 
-    /** bytes remaining to be read from proper content of message */
+    /** bytes rembining to be rebd from proper content of messbge */
     protected int bytesLeft;
 
-    /** bytes remaining to be read at time of last mark */
-    protected int bytesLeftAtMark;
+    /** bytes rembining to be rebd bt time of lbst mbrk */
+    protected int bytesLeftAtMbrk;
 
     /**
-     * Create new filter on a given input stream.
-     * @param in the InputStream to filter from
+     * Crebte new filter on b given input strebm.
+     * @pbrbm in the InputStrebm to filter from
      */
-    public HttpInputStream(InputStream in) throws IOException
+    public HttpInputStrebm(InputStrebm in) throws IOException
     {
         super(in);
 
-        if (in.markSupported())
-            in.mark(0); // prevent resetting back to old marks
+        if (in.mbrkSupported())
+            in.mbrk(0); // prevent resetting bbck to old mbrks
 
-        // pull out header, looking for content length
+        // pull out hebder, looking for content length
 
-        DataInputStream dis = new DataInputStream(in);
-        String key = "Content-length:".toLowerCase();
-        boolean contentLengthFound = false;
+        DbtbInputStrebm dis = new DbtbInputStrebm(in);
+        String key = "Content-length:".toLowerCbse();
+        boolebn contentLengthFound = fblse;
         String line;
         do {
-            line = dis.readLine();
+            line = dis.rebdLine();
 
-            if (RMIMasterSocketFactory.proxyLog.isLoggable(Log.VERBOSE)) {
-                RMIMasterSocketFactory.proxyLog.log(Log.VERBOSE,
-                    "received header line: \"" + line + "\"");
+            if (RMIMbsterSocketFbctory.proxyLog.isLoggbble(Log.VERBOSE)) {
+                RMIMbsterSocketFbctory.proxyLog.log(Log.VERBOSE,
+                    "received hebder line: \"" + line + "\"");
             }
 
             if (line == null)
                 throw new EOFException();
 
-            if (line.toLowerCase().startsWith(key)) {
+            if (line.toLowerCbse().stbrtsWith(key)) {
                 if (contentLengthFound) {
                     throw new IOException(
                             "Multiple Content-length entries found.");
                 } else {
                     bytesLeft =
-                        Integer.parseInt(line.substring(key.length()).trim());
+                        Integer.pbrseInt(line.substring(key.length()).trim());
                     contentLengthFound = true;
                 }
             }
 
-            // The idea here is to go past the first blank line.
-            // Some DataInputStream.readLine() documentation specifies that
-            // it does include the line-terminating character(s) in the
-            // returned string, but it actually doesn't, so we'll cover
-            // all cases here...
+            // The ideb here is to go pbst the first blbnk line.
+            // Some DbtbInputStrebm.rebdLine() documentbtion specifies thbt
+            // it does include the line-terminbting chbrbcter(s) in the
+            // returned string, but it bctublly doesn't, so we'll cover
+            // bll cbses here...
         } while ((line.length() != 0) &&
-                 (line.charAt(0) != '\r') && (line.charAt(0) != '\n'));
+                 (line.chbrAt(0) != '\r') && (line.chbrAt(0) != '\n'));
 
         if (!contentLengthFound || bytesLeft < 0) {
-            // This really shouldn't happen, but if it does, shoud we fail??
-            // For now, just give up and let a whole lot of bytes through...
+            // This reblly shouldn't hbppen, but if it does, shoud we fbil??
+            // For now, just give up bnd let b whole lot of bytes through...
             bytesLeft = Integer.MAX_VALUE;
         }
-        bytesLeftAtMark = bytesLeft;
+        bytesLeftAtMbrk = bytesLeft;
 
-        if (RMIMasterSocketFactory.proxyLog.isLoggable(Log.VERBOSE)) {
-            RMIMasterSocketFactory.proxyLog.log(Log.VERBOSE,
+        if (RMIMbsterSocketFbctory.proxyLog.isLoggbble(Log.VERBOSE)) {
+            RMIMbsterSocketFbctory.proxyLog.log(Log.VERBOSE,
                 "content length: " + bytesLeft);
         }
     }
 
     /**
-     * Returns the number of bytes that can be read with blocking.
-     * Make sure that this does not exceed the number of bytes remaining
-     * in the proper content of the message.
+     * Returns the number of bytes thbt cbn be rebd with blocking.
+     * Mbke sure thbt this does not exceed the number of bytes rembining
+     * in the proper content of the messbge.
      */
-    public int available() throws IOException
+    public int bvbilbble() throws IOException
     {
-        int bytesAvailable = in.available();
-        if (bytesAvailable > bytesLeft)
-            bytesAvailable = bytesLeft;
+        int bytesAvbilbble = in.bvbilbble();
+        if (bytesAvbilbble > bytesLeft)
+            bytesAvbilbble = bytesLeft;
 
-        return bytesAvailable;
+        return bytesAvbilbble;
     }
 
     /**
-     * Read a byte of data from the stream.  Make sure that one is available
-     * from the proper content of the message, else -1 is returned to
-     * indicate to the user that the end of the stream has been reached.
+     * Rebd b byte of dbtb from the strebm.  Mbke sure thbt one is bvbilbble
+     * from the proper content of the messbge, else -1 is returned to
+     * indicbte to the user thbt the end of the strebm hbs been rebched.
      */
-    public int read() throws IOException
+    public int rebd() throws IOException
     {
         if (bytesLeft > 0) {
-            int data = in.read();
-            if (data != -1)
+            int dbtb = in.rebd();
+            if (dbtb != -1)
                 -- bytesLeft;
 
-            if (RMIMasterSocketFactory.proxyLog.isLoggable(Log.VERBOSE)) {
-                RMIMasterSocketFactory.proxyLog.log(Log.VERBOSE,
+            if (RMIMbsterSocketFbctory.proxyLog.isLoggbble(Log.VERBOSE)) {
+                RMIMbsterSocketFbctory.proxyLog.log(Log.VERBOSE,
                    "received byte: '" +
-                    ((data & 0x7F) < ' ' ? " " : String.valueOf((char) data)) +
-                    "' " + data);
+                    ((dbtb & 0x7F) < ' ' ? " " : String.vblueOf((chbr) dbtb)) +
+                    "' " + dbtb);
             }
 
-            return data;
+            return dbtb;
         }
         else {
-            RMIMasterSocketFactory.proxyLog.log(Log.VERBOSE,
-                                                "read past content length");
+            RMIMbsterSocketFbctory.proxyLog.log(Log.VERBOSE,
+                                                "rebd pbst content length");
 
             return -1;
         }
     }
 
-    public int read(byte b[], int off, int len) throws IOException
+    public int rebd(byte b[], int off, int len) throws IOException
     {
         if (bytesLeft == 0 && len > 0) {
-            RMIMasterSocketFactory.proxyLog.log(Log.VERBOSE,
-                                                "read past content length");
+            RMIMbsterSocketFbctory.proxyLog.log(Log.VERBOSE,
+                                                "rebd pbst content length");
 
             return -1;
         }
         if (len > bytesLeft)
             len = bytesLeft;
-        int bytesRead = in.read(b, off, len);
-        bytesLeft -= bytesRead;
+        int bytesRebd = in.rebd(b, off, len);
+        bytesLeft -= bytesRebd;
 
-        if (RMIMasterSocketFactory.proxyLog.isLoggable(Log.VERBOSE)) {
-            RMIMasterSocketFactory.proxyLog.log(Log.VERBOSE,
-                "read " + bytesRead + " bytes, " + bytesLeft + " remaining");
+        if (RMIMbsterSocketFbctory.proxyLog.isLoggbble(Log.VERBOSE)) {
+            RMIMbsterSocketFbctory.proxyLog.log(Log.VERBOSE,
+                "rebd " + bytesRebd + " bytes, " + bytesLeft + " rembining");
         }
 
-        return bytesRead;
+        return bytesRebd;
     }
 
     /**
-     * Mark the current position in the stream (for future calls to reset).
-     * Remember where we are within the proper content of the message, so
-     * that a reset method call can recreate our state properly.
-     * @param readlimit how many bytes can be read before mark becomes invalid
+     * Mbrk the current position in the strebm (for future cblls to reset).
+     * Remember where we bre within the proper content of the messbge, so
+     * thbt b reset method cbll cbn recrebte our stbte properly.
+     * @pbrbm rebdlimit how mbny bytes cbn be rebd before mbrk becomes invblid
      */
-    public void mark(int readlimit)
+    public void mbrk(int rebdlimit)
     {
-        in.mark(readlimit);
-        if (in.markSupported())
-            bytesLeftAtMark = bytesLeft;
+        in.mbrk(rebdlimit);
+        if (in.mbrkSupported())
+            bytesLeftAtMbrk = bytesLeft;
     }
 
     /**
-     * Repositions the stream to the last marked position.  Make sure to
-     * adjust our position within the proper content accordingly.
+     * Repositions the strebm to the lbst mbrked position.  Mbke sure to
+     * bdjust our position within the proper content bccordingly.
      */
     public void reset() throws IOException
     {
         in.reset();
-        bytesLeft = bytesLeftAtMark;
+        bytesLeft = bytesLeftAtMbrk;
     }
 
     /**
-     * Skips bytes of the stream.  Make sure to adjust our
-     * position within the proper content accordingly.
-     * @param n number of bytes to be skipped
+     * Skips bytes of the strebm.  Mbke sure to bdjust our
+     * position within the proper content bccordingly.
+     * @pbrbm n number of bytes to be skipped
      */
     public long skip(long n) throws IOException
     {

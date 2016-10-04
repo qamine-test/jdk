@@ -1,232 +1,232 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
-import java.util.Hashtable;
+pbckbge sun.misc;
+import jbvb.util.Hbshtbble;
 
 /**
- * This class provides ANSI/ISO C signal support. A Java program can register
- * signal handlers for the current process. There are two restrictions:
+ * This clbss provides ANSI/ISO C signbl support. A Jbvb progrbm cbn register
+ * signbl hbndlers for the current process. There bre two restrictions:
  * <ul>
  * <li>
- * Java code cannot register a handler for signals that are already used
- * by the Java VM implementation. The <code>Signal.handle</code>
- * function raises an <code>IllegalArgumentException</code> if such an attempt
- * is made.
+ * Jbvb code cbnnot register b hbndler for signbls thbt bre blrebdy used
+ * by the Jbvb VM implementbtion. The <code>Signbl.hbndle</code>
+ * function rbises bn <code>IllegblArgumentException</code> if such bn bttempt
+ * is mbde.
  * <li>
- * When <code>Signal.handle</code> is called, the VM internally registers a
- * special C signal handler. There is no way to force the Java signal handler
- * to run synchronously before the C signal handler returns. Instead, when the
- * VM receives a signal, the special C signal handler creates a new thread
- * (at priority <code>Thread.MAX_PRIORITY</code>) to
- * run the registered Java signal handler. The C signal handler immediately
- * returns. Note that because the Java signal handler runs in a newly created
- * thread, it may not actually be executed until some time after the C signal
- * handler returns.
+ * When <code>Signbl.hbndle</code> is cblled, the VM internblly registers b
+ * specibl C signbl hbndler. There is no wby to force the Jbvb signbl hbndler
+ * to run synchronously before the C signbl hbndler returns. Instebd, when the
+ * VM receives b signbl, the specibl C signbl hbndler crebtes b new threbd
+ * (bt priority <code>Threbd.MAX_PRIORITY</code>) to
+ * run the registered Jbvb signbl hbndler. The C signbl hbndler immedibtely
+ * returns. Note thbt becbuse the Jbvb signbl hbndler runs in b newly crebted
+ * threbd, it mby not bctublly be executed until some time bfter the C signbl
+ * hbndler returns.
  * </ul>
  * <p>
- * Signal objects are created based on their names. For example:
+ * Signbl objects bre crebted bbsed on their nbmes. For exbmple:
  * <blockquote><pre>
- * new Signal("INT");
+ * new Signbl("INT");
  * </blockquote></pre>
- * constructs a signal object corresponding to <code>SIGINT</code>, which is
- * typically produced when the user presses <code>Ctrl-C</code> at the command line.
- * The <code>Signal</code> constructor throws <code>IllegalArgumentException</code>
- * when it is passed an unknown signal.
+ * constructs b signbl object corresponding to <code>SIGINT</code>, which is
+ * typicblly produced when the user presses <code>Ctrl-C</code> bt the commbnd line.
+ * The <code>Signbl</code> constructor throws <code>IllegblArgumentException</code>
+ * when it is pbssed bn unknown signbl.
  * <p>
- * This is an example of how Java code handles <code>SIGINT</code>:
+ * This is bn exbmple of how Jbvb code hbndles <code>SIGINT</code>:
  * <blockquote><pre>
- * SignalHandler handler = new SignalHandler () {
- *     public void handle(Signal sig) {
- *       ... // handle SIGINT
+ * SignblHbndler hbndler = new SignblHbndler () {
+ *     public void hbndle(Signbl sig) {
+ *       ... // hbndle SIGINT
  *     }
  * };
- * Signal.handle(new Signal("INT"), handler);
+ * Signbl.hbndle(new Signbl("INT"), hbndler);
  * </blockquote></pre>
  *
- * @author   Sheng Liang
- * @author   Bill Shannon
- * @see      sun.misc.SignalHandler
+ * @buthor   Sheng Libng
+ * @buthor   Bill Shbnnon
+ * @see      sun.misc.SignblHbndler
  * @since    1.2
  */
-public final class Signal {
-    private static Hashtable<Signal,SignalHandler> handlers = new Hashtable<>(4);
-    private static Hashtable<Integer,Signal> signals = new Hashtable<>(4);
+public finbl clbss Signbl {
+    privbte stbtic Hbshtbble<Signbl,SignblHbndler> hbndlers = new Hbshtbble<>(4);
+    privbte stbtic Hbshtbble<Integer,Signbl> signbls = new Hbshtbble<>(4);
 
-    private int number;
-    private String name;
+    privbte int number;
+    privbte String nbme;
 
-    /* Returns the signal number */
+    /* Returns the signbl number */
     public int getNumber() {
         return number;
     }
 
     /**
-     * Returns the signal name.
+     * Returns the signbl nbme.
      *
-     * @return the name of the signal.
-     * @see sun.misc.Signal#Signal(String name)
+     * @return the nbme of the signbl.
+     * @see sun.misc.Signbl#Signbl(String nbme)
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Compares the equality of two <code>Signal</code> objects.
+     * Compbres the equblity of two <code>Signbl</code> objects.
      *
-     * @param other the object to compare with.
-     * @return whether two <code>Signal</code> objects are equal.
+     * @pbrbm other the object to compbre with.
+     * @return whether two <code>Signbl</code> objects bre equbl.
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other) {
             return true;
         }
-        if (other == null || !(other instanceof Signal)) {
-            return false;
+        if (other == null || !(other instbnceof Signbl)) {
+            return fblse;
         }
-        Signal other1 = (Signal)other;
-        return name.equals(other1.name) && (number == other1.number);
+        Signbl other1 = (Signbl)other;
+        return nbme.equbls(other1.nbme) && (number == other1.number);
     }
 
     /**
-     * Returns a hashcode for this Signal.
+     * Returns b hbshcode for this Signbl.
      *
-     * @return  a hash code value for this object.
+     * @return  b hbsh code vblue for this object.
      */
-    public int hashCode() {
+    public int hbshCode() {
         return number;
     }
 
     /**
-     * Returns a string representation of this signal. For example, "SIGINT"
-     * for an object constructed using <code>new Signal ("INT")</code>.
+     * Returns b string representbtion of this signbl. For exbmple, "SIGINT"
+     * for bn object constructed using <code>new Signbl ("INT")</code>.
      *
-     * @return a string representation of the signal
+     * @return b string representbtion of the signbl
      */
     public String toString() {
-        return "SIG" + name;
+        return "SIG" + nbme;
     }
 
     /**
-     * Constructs a signal from its name.
+     * Constructs b signbl from its nbme.
      *
-     * @param name the name of the signal.
-     * @exception IllegalArgumentException unknown signal
-     * @see sun.misc.Signal#getName()
+     * @pbrbm nbme the nbme of the signbl.
+     * @exception IllegblArgumentException unknown signbl
+     * @see sun.misc.Signbl#getNbme()
      */
-    public Signal(String name) {
-        number = findSignal(name);
-        this.name = name;
+    public Signbl(String nbme) {
+        number = findSignbl(nbme);
+        this.nbme = nbme;
         if (number < 0) {
-            throw new IllegalArgumentException("Unknown signal: " + name);
+            throw new IllegblArgumentException("Unknown signbl: " + nbme);
         }
     }
 
     /**
-     * Registers a signal handler.
+     * Registers b signbl hbndler.
      *
-     * @param sig a signal
-     * @param handler the handler to be registered with the given signal.
-     * @result the old handler
-     * @exception IllegalArgumentException the signal is in use by the VM
-     * @see sun.misc.Signal#raise(Signal sig)
-     * @see sun.misc.SignalHandler
-     * @see sun.misc.SignalHandler#SIG_DFL
-     * @see sun.misc.SignalHandler#SIG_IGN
+     * @pbrbm sig b signbl
+     * @pbrbm hbndler the hbndler to be registered with the given signbl.
+     * @result the old hbndler
+     * @exception IllegblArgumentException the signbl is in use by the VM
+     * @see sun.misc.Signbl#rbise(Signbl sig)
+     * @see sun.misc.SignblHbndler
+     * @see sun.misc.SignblHbndler#SIG_DFL
+     * @see sun.misc.SignblHbndler#SIG_IGN
      */
-    public static synchronized SignalHandler handle(Signal sig,
-                                                    SignalHandler handler)
-        throws IllegalArgumentException {
-        long newH = (handler instanceof NativeSignalHandler) ?
-                      ((NativeSignalHandler)handler).getHandler() : 2;
-        long oldH = handle0(sig.number, newH);
+    public stbtic synchronized SignblHbndler hbndle(Signbl sig,
+                                                    SignblHbndler hbndler)
+        throws IllegblArgumentException {
+        long newH = (hbndler instbnceof NbtiveSignblHbndler) ?
+                      ((NbtiveSignblHbndler)hbndler).getHbndler() : 2;
+        long oldH = hbndle0(sig.number, newH);
         if (oldH == -1) {
-            throw new IllegalArgumentException
-                ("Signal already used by VM or OS: " + sig);
+            throw new IllegblArgumentException
+                ("Signbl blrebdy used by VM or OS: " + sig);
         }
-        signals.put(sig.number, sig);
-        synchronized (handlers) {
-            SignalHandler oldHandler = handlers.get(sig);
-            handlers.remove(sig);
+        signbls.put(sig.number, sig);
+        synchronized (hbndlers) {
+            SignblHbndler oldHbndler = hbndlers.get(sig);
+            hbndlers.remove(sig);
             if (newH == 2) {
-                handlers.put(sig, handler);
+                hbndlers.put(sig, hbndler);
             }
             if (oldH == 0) {
-                return SignalHandler.SIG_DFL;
+                return SignblHbndler.SIG_DFL;
             } else if (oldH == 1) {
-                return SignalHandler.SIG_IGN;
+                return SignblHbndler.SIG_IGN;
             } else if (oldH == 2) {
-                return oldHandler;
+                return oldHbndler;
             } else {
-                return new NativeSignalHandler(oldH);
+                return new NbtiveSignblHbndler(oldH);
             }
         }
     }
 
     /**
-     * Raises a signal in the current process.
+     * Rbises b signbl in the current process.
      *
-     * @param sig a signal
-     * @see sun.misc.Signal#handle(Signal sig, SignalHandler handler)
+     * @pbrbm sig b signbl
+     * @see sun.misc.Signbl#hbndle(Signbl sig, SignblHbndler hbndler)
      */
-    public static void raise(Signal sig) throws IllegalArgumentException {
-        if (handlers.get(sig) == null) {
-            throw new IllegalArgumentException("Unhandled signal: " + sig);
+    public stbtic void rbise(Signbl sig) throws IllegblArgumentException {
+        if (hbndlers.get(sig) == null) {
+            throw new IllegblArgumentException("Unhbndled signbl: " + sig);
         }
-        raise0(sig.number);
+        rbise0(sig.number);
     }
 
-    /* Called by the VM to execute Java signal handlers. */
-    private static void dispatch(final int number) {
-        final Signal sig = signals.get(number);
-        final SignalHandler handler = handlers.get(sig);
+    /* Cblled by the VM to execute Jbvb signbl hbndlers. */
+    privbte stbtic void dispbtch(finbl int number) {
+        finbl Signbl sig = signbls.get(number);
+        finbl SignblHbndler hbndler = hbndlers.get(sig);
 
-        Runnable runnable = new Runnable () {
+        Runnbble runnbble = new Runnbble () {
             public void run() {
-              // Don't bother to reset the priority. Signal handler will
-              // run at maximum priority inherited from the VM signal
-              // dispatch thread.
-              // Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
-                handler.handle(sig);
+              // Don't bother to reset the priority. Signbl hbndler will
+              // run bt mbximum priority inherited from the VM signbl
+              // dispbtch threbd.
+              // Threbd.currentThrebd().setPriority(Threbd.NORM_PRIORITY);
+                hbndler.hbndle(sig);
             }
         };
-        if (handler != null) {
-            new Thread(runnable, sig + " handler").start();
+        if (hbndler != null) {
+            new Threbd(runnbble, sig + " hbndler").stbrt();
         }
     }
 
-    /* Find the signal number, given a name. Returns -1 for unknown signals. */
-    private static native int findSignal(String sigName);
-    /* Registers a native signal handler, and returns the old handler.
-     * Handler values:
-     *   0     default handler
-     *   1     ignore the signal
-     *   2     call back to Signal.dispatch
-     *   other arbitrary native signal handlers
+    /* Find the signbl number, given b nbme. Returns -1 for unknown signbls. */
+    privbte stbtic nbtive int findSignbl(String sigNbme);
+    /* Registers b nbtive signbl hbndler, bnd returns the old hbndler.
+     * Hbndler vblues:
+     *   0     defbult hbndler
+     *   1     ignore the signbl
+     *   2     cbll bbck to Signbl.dispbtch
+     *   other brbitrbry nbtive signbl hbndlers
      */
-    private static native long handle0(int sig, long nativeH);
-    /* Raise a given signal number */
-    private static native void raise0(int sig);
+    privbte stbtic nbtive long hbndle0(int sig, long nbtiveH);
+    /* Rbise b given signbl number */
+    privbte stbtic nbtive void rbise0(int sig);
 }

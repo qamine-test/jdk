@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.image.*;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.BufferedInputStream;
-import java.util.Hashtable;
+import jbvb.bwt.imbge.*;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.util.Hbshtbble;
 
-public abstract class InputStreamImageSource implements ImageProducer,
-                                                        ImageFetchable
+public bbstrbct clbss InputStrebmImbgeSource implements ImbgeProducer,
+                                                        ImbgeFetchbble
 {
-    ImageConsumerQueue consumers;
+    ImbgeConsumerQueue consumers;
 
-    ImageDecoder decoder;
-    ImageDecoder decoders;
+    ImbgeDecoder decoder;
+    ImbgeDecoder decoders;
 
-    boolean awaitingFetch = false;
+    boolebn bwbitingFetch = fblse;
 
-    abstract boolean checkSecurity(Object context, boolean quiet);
+    bbstrbct boolebn checkSecurity(Object context, boolebn quiet);
 
-    int countConsumers(ImageConsumerQueue cq) {
+    int countConsumers(ImbgeConsumerQueue cq) {
         int i = 0;
         while (cq != null) {
             i++;
@@ -53,7 +53,7 @@ public abstract class InputStreamImageSource implements ImageProducer,
     }
 
     synchronized int countConsumers() {
-        ImageDecoder id = decoders;
+        ImbgeDecoder id = decoders;
         int i = countConsumers(consumers);
         while (id != null) {
             i += countConsumers(id.queue);
@@ -62,11 +62,11 @@ public abstract class InputStreamImageSource implements ImageProducer,
         return i;
     }
 
-    public void addConsumer(ImageConsumer ic) {
-        addConsumer(ic, false);
+    public void bddConsumer(ImbgeConsumer ic) {
+        bddConsumer(ic, fblse);
     }
 
-    synchronized void printQueue(ImageConsumerQueue cq, String prefix) {
+    synchronized void printQueue(ImbgeConsumerQueue cq, String prefix) {
         while (cq != null) {
             System.out.println(prefix+cq);
             cq = cq.next;
@@ -76,178 +76,178 @@ public abstract class InputStreamImageSource implements ImageProducer,
     synchronized void printQueues(String title) {
         System.out.println(title+"[ -----------");
         printQueue(consumers, "  ");
-        for (ImageDecoder id = decoders; id != null; id = id.next) {
+        for (ImbgeDecoder id = decoders; id != null; id = id.next) {
             System.out.println("    "+id);
             printQueue(id.queue, "      ");
         }
         System.out.println("----------- ]"+title);
     }
 
-    synchronized void addConsumer(ImageConsumer ic, boolean produce) {
-        checkSecurity(null, false);
-        for (ImageDecoder id = decoders; id != null; id = id.next) {
+    synchronized void bddConsumer(ImbgeConsumer ic, boolebn produce) {
+        checkSecurity(null, fblse);
+        for (ImbgeDecoder id = decoders; id != null; id = id.next) {
             if (id.isConsumer(ic)) {
-                // This consumer is already being fed.
+                // This consumer is blrebdy being fed.
                 return;
             }
         }
-        ImageConsumerQueue cq = consumers;
+        ImbgeConsumerQueue cq = consumers;
         while (cq != null && cq.consumer != ic) {
             cq = cq.next;
         }
         if (cq == null) {
-            cq = new ImageConsumerQueue(this, ic);
+            cq = new ImbgeConsumerQueue(this, ic);
             cq.next = consumers;
             consumers = cq;
         } else {
             if (!cq.secure) {
                 Object context = null;
-                SecurityManager security = System.getSecurityManager();
+                SecurityMbnbger security = System.getSecurityMbnbger();
                 if (security != null) {
                     context = security.getSecurityContext();
                 }
                 if (cq.securityContext == null) {
                     cq.securityContext = context;
-                } else if (!cq.securityContext.equals(context)) {
-                    // If there are two different security contexts that both
-                    // have a handle on the same ImageConsumer, then there has
-                    // been a security breach and whether or not they trade
-                    // image data is small fish compared to what they could be
-                    // trading.  Throw a Security exception anyway...
-                    errorConsumer(cq, false);
-                    throw new SecurityException("Applets are trading image data!");
+                } else if (!cq.securityContext.equbls(context)) {
+                    // If there bre two different security contexts thbt both
+                    // hbve b hbndle on the sbme ImbgeConsumer, then there hbs
+                    // been b security brebch bnd whether or not they trbde
+                    // imbge dbtb is smbll fish compbred to whbt they could be
+                    // trbding.  Throw b Security exception bnywby...
+                    errorConsumer(cq, fblse);
+                    throw new SecurityException("Applets bre trbding imbge dbtb!");
                 }
             }
             cq.interested = true;
         }
         if (produce && decoder == null) {
-            startProduction();
+            stbrtProduction();
         }
     }
 
-    public synchronized boolean isConsumer(ImageConsumer ic) {
-        for (ImageDecoder id = decoders; id != null; id = id.next) {
+    public synchronized boolebn isConsumer(ImbgeConsumer ic) {
+        for (ImbgeDecoder id = decoders; id != null; id = id.next) {
             if (id.isConsumer(ic)) {
                 return true;
             }
         }
-        return ImageConsumerQueue.isConsumer(consumers, ic);
+        return ImbgeConsumerQueue.isConsumer(consumers, ic);
     }
 
-    private void errorAllConsumers(ImageConsumerQueue cq, boolean needReload) {
+    privbte void errorAllConsumers(ImbgeConsumerQueue cq, boolebn needRelobd) {
         while (cq != null) {
             if (cq.interested) {
-                errorConsumer(cq, needReload);
+                errorConsumer(cq, needRelobd);
             }
             cq = cq.next;
         }
     }
 
-    private void errorConsumer(ImageConsumerQueue cq, boolean needReload) {
-        cq.consumer.imageComplete(ImageConsumer.IMAGEERROR);
-        if ( needReload && cq.consumer instanceof ImageRepresentation) {
-            ((ImageRepresentation)cq.consumer).image.flush();
+    privbte void errorConsumer(ImbgeConsumerQueue cq, boolebn needRelobd) {
+        cq.consumer.imbgeComplete(ImbgeConsumer.IMAGEERROR);
+        if ( needRelobd && cq.consumer instbnceof ImbgeRepresentbtion) {
+            ((ImbgeRepresentbtion)cq.consumer).imbge.flush();
         }
         removeConsumer(cq.consumer);
     }
 
-    public synchronized void removeConsumer(ImageConsumer ic) {
-        for (ImageDecoder id = decoders; id != null; id = id.next) {
+    public synchronized void removeConsumer(ImbgeConsumer ic) {
+        for (ImbgeDecoder id = decoders; id != null; id = id.next) {
             id.removeConsumer(ic);
         }
-        consumers = ImageConsumerQueue.removeConsumer(consumers, ic, false);
+        consumers = ImbgeConsumerQueue.removeConsumer(consumers, ic, fblse);
     }
 
-    public void startProduction(ImageConsumer ic) {
-        addConsumer(ic, true);
+    public void stbrtProduction(ImbgeConsumer ic) {
+        bddConsumer(ic, true);
     }
 
-    private synchronized void startProduction() {
-        if (!awaitingFetch) {
-            if (ImageFetcher.add(this)) {
-                awaitingFetch = true;
+    privbte synchronized void stbrtProduction() {
+        if (!bwbitingFetch) {
+            if (ImbgeFetcher.bdd(this)) {
+                bwbitingFetch = true;
             } else {
-                ImageConsumerQueue cq = consumers;
+                ImbgeConsumerQueue cq = consumers;
                 consumers = null;
-                errorAllConsumers(cq, false);
+                errorAllConsumers(cq, fblse);
             }
         }
     }
 
-    private synchronized void stopProduction() {
-        if (awaitingFetch) {
-            ImageFetcher.remove(this);
-            awaitingFetch = false;
+    privbte synchronized void stopProduction() {
+        if (bwbitingFetch) {
+            ImbgeFetcher.remove(this);
+            bwbitingFetch = fblse;
         }
     }
 
-    public void requestTopDownLeftRightResend(ImageConsumer ic) {
+    public void requestTopDownLeftRightResend(ImbgeConsumer ic) {
     }
 
-    protected abstract ImageDecoder getDecoder();
+    protected bbstrbct ImbgeDecoder getDecoder();
 
-    protected ImageDecoder decoderForType(InputStream is,
+    protected ImbgeDecoder decoderForType(InputStrebm is,
                                           String content_type) {
-        // Don't believe the content type - file extensions can
+        // Don't believe the content type - file extensions cbn
         // lie.
         /*
-        if (content_type.equals("image/gif")) {
-            return new GifImageDecoder(this, is);
-        } else if (content_type.equals("image/jpeg")) {
-            return new JPEGImageDecoder(this, is);
-        } else if (content_type.equals("image/x-xbitmap")) {
-            return new XbmImageDecoder(this, is);
+        if (content_type.equbls("imbge/gif")) {
+            return new GifImbgeDecoder(this, is);
+        } else if (content_type.equbls("imbge/jpeg")) {
+            return new JPEGImbgeDecoder(this, is);
+        } else if (content_type.equbls("imbge/x-xbitmbp")) {
+            return new XbmImbgeDecoder(this, is);
         }
         else if (content_type == URL.content_jpeg) {
-            return new JpegImageDecoder(this, is);
-        } else if (content_type == URL.content_xbitmap) {
-            return new XbmImageDecoder(this, is);
-        } else if (content_type == URL.content_xpixmap) {
-            return new Xpm2ImageDecoder(this, is);
+            return new JpegImbgeDecoder(this, is);
+        } else if (content_type == URL.content_xbitmbp) {
+            return new XbmImbgeDecoder(this, is);
+        } else if (content_type == URL.content_xpixmbp) {
+            return new Xpm2ImbgeDecoder(this, is);
         }
         */
 
         return null;
     }
 
-    protected ImageDecoder getDecoder(InputStream is) {
-        if (!is.markSupported())
-            is = new BufferedInputStream(is);
+    protected ImbgeDecoder getDecoder(InputStrebm is) {
+        if (!is.mbrkSupported())
+            is = new BufferedInputStrebm(is);
         try {
-          /* changed to support png
-             is.mark(6);
+          /* chbnged to support png
+             is.mbrk(6);
              */
-          is.mark(8);
-            int c1 = is.read();
-            int c2 = is.read();
-            int c3 = is.read();
-            int c4 = is.read();
-            int c5 = is.read();
-            int c6 = is.read();
-            // added to support png
-            int c7 = is.read();
-            int c8 = is.read();
-            // end of adding
+          is.mbrk(8);
+            int c1 = is.rebd();
+            int c2 = is.rebd();
+            int c3 = is.rebd();
+            int c4 = is.rebd();
+            int c5 = is.rebd();
+            int c6 = is.rebd();
+            // bdded to support png
+            int c7 = is.rebd();
+            int c8 = is.rebd();
+            // end of bdding
             is.reset();
-            is.mark(-1);
+            is.mbrk(-1);
 
             if (c1 == 'G' && c2 == 'I' && c3 == 'F' && c4 == '8') {
-                return new GifImageDecoder(this, is);
+                return new GifImbgeDecoder(this, is);
             } else if (c1 == '\377' && c2 == '\330' && c3 == '\377') {
-                return new JPEGImageDecoder(this, is);
+                return new JPEGImbgeDecoder(this, is);
             } else if (c1 == '#' && c2 == 'd' && c3 == 'e' && c4 == 'f') {
-                return new XbmImageDecoder(this, is);
+                return new XbmImbgeDecoder(this, is);
 //          } else if (c1 == '!' && c2 == ' ' && c3 == 'X' && c4 == 'P' &&
 //                     c5 == 'M' && c6 == '2') {
-//              return new Xpm2ImageDecoder(this, is);
-                // added to support png
+//              return new Xpm2ImbgeDecoder(this, is);
+                // bdded to support png
             } else if (c1 == 137 && c2 == 80 && c3 == 78 &&
                 c4 == 71 && c5 == 13 && c6 == 10 &&
                 c7 == 26 && c8 == 10) {
-                return new PNGImageDecoder(this, is);
+                return new PNGImbgeDecoder(this, is);
             }
-            // end of adding
-        } catch (IOException e) {
+            // end of bdding
+        } cbtch (IOException e) {
         }
 
         return null;
@@ -256,46 +256,46 @@ public abstract class InputStreamImageSource implements ImageProducer,
     public void doFetch() {
         synchronized (this) {
             if (consumers == null) {
-                awaitingFetch = false;
+                bwbitingFetch = fblse;
                 return;
             }
         }
-        ImageDecoder imgd = getDecoder();
+        ImbgeDecoder imgd = getDecoder();
         if (imgd == null) {
-            badDecoder();
+            bbdDecoder();
         } else {
             setDecoder(imgd);
             try {
-                imgd.produceImage();
-            } catch (IOException e) {
-                e.printStackTrace();
-                // the finally clause will send an error.
-            } catch (ImageFormatException e) {
-                e.printStackTrace();
-                // the finally clause will send an error.
-            } finally {
+                imgd.produceImbge();
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+                // the finblly clbuse will send bn error.
+            } cbtch (ImbgeFormbtException e) {
+                e.printStbckTrbce();
+                // the finblly clbuse will send bn error.
+            } finblly {
                 removeDecoder(imgd);
-                if ( Thread.currentThread().isInterrupted() || !Thread.currentThread().isAlive()) {
+                if ( Threbd.currentThrebd().isInterrupted() || !Threbd.currentThrebd().isAlive()) {
                     errorAllConsumers(imgd.queue, true);
                 } else {
-                    errorAllConsumers(imgd.queue, false);
+                    errorAllConsumers(imgd.queue, fblse);
             }
         }
     }
     }
 
-    private void badDecoder() {
-        ImageConsumerQueue cq;
+    privbte void bbdDecoder() {
+        ImbgeConsumerQueue cq;
         synchronized (this) {
             cq = consumers;
             consumers = null;
-            awaitingFetch = false;
+            bwbitingFetch = fblse;
         }
-        errorAllConsumers(cq, false);
+        errorAllConsumers(cq, fblse);
     }
 
-    private void setDecoder(ImageDecoder mydecoder) {
-        ImageConsumerQueue cq;
+    privbte void setDecoder(ImbgeDecoder mydecoder) {
+        ImbgeConsumerQueue cq;
         synchronized (this) {
             mydecoder.next = decoders;
             decoders = mydecoder;
@@ -303,46 +303,46 @@ public abstract class InputStreamImageSource implements ImageProducer,
             cq = consumers;
             mydecoder.queue = cq;
             consumers = null;
-            awaitingFetch = false;
+            bwbitingFetch = fblse;
         }
         while (cq != null) {
             if (cq.interested) {
-                // Now that there is a decoder, security may have changed
-                // so reverify it here, just in case.
+                // Now thbt there is b decoder, security mby hbve chbnged
+                // so reverify it here, just in cbse.
                 if (!checkSecurity(cq.securityContext, true)) {
-                    errorConsumer(cq, false);
+                    errorConsumer(cq, fblse);
                 }
             }
             cq = cq.next;
         }
     }
 
-    private synchronized void removeDecoder(ImageDecoder mydecoder) {
+    privbte synchronized void removeDecoder(ImbgeDecoder mydecoder) {
         doneDecoding(mydecoder);
-        ImageDecoder idprev = null;
-        for (ImageDecoder id = decoders; id != null; id = id.next) {
+        ImbgeDecoder idprev = null;
+        for (ImbgeDecoder id = decoders; id != null; id = id.next) {
             if (id == mydecoder) {
                 if (idprev == null) {
                     decoders = id.next;
                 } else {
                     idprev.next = id.next;
                 }
-                break;
+                brebk;
             }
             idprev = id;
         }
     }
 
-    synchronized void doneDecoding(ImageDecoder mydecoder) {
+    synchronized void doneDecoding(ImbgeDecoder mydecoder) {
         if (decoder == mydecoder) {
             decoder = null;
             if (consumers != null) {
-                startProduction();
+                stbrtProduction();
             }
         }
     }
 
-    void latchConsumers(ImageDecoder id) {
+    void lbtchConsumers(ImbgeDecoder id) {
         doneDecoding(id);
     }
 

@@ -1,13 +1,13 @@
 /*
- * This keeps a list of defines for pcsc-lite.
+ * This keeps b list of defines for pcsc-lite.
  *
- * MUSCLE SmartCard Development ( http://www.linuxnet.com )
+ * MUSCLE SmbrtCbrd Development ( http://www.linuxnet.com )
  *
  * Copyright (C) 1999-2004
- *  David Corcoran <corcoran@linuxnet.com>
- *  Ludovic Rousseau <ludovic.rousseau@free.fr>
+ *  Dbvid Corcorbn <corcorbn@linuxnet.com>
+ *  Ludovic Roussebu <ludovic.roussebu@free.fr>
  *
- * $Id: pcsclite.h.in,v 1.47 2004/08/24 21:46:57 rousseau Exp $
+ * $Id: pcsclite.h.in,v 1.47 2004/08/24 21:46:57 roussebu Exp $
  */
 
 #ifndef __pcsclite_h__
@@ -19,13 +19,13 @@
 #include <sys/types.h>
 #include <inttypes.h>
 #ifdef BYTE
-#error BYTE is already defined
+#error BYTE is blrebdy defined
 #else
-  typedef unsigned char BYTE;
+  typedef unsigned chbr BYTE;
 #endif /* End BYTE */
 
-        typedef unsigned char UCHAR;
-        typedef unsigned char *PUCHAR;
+        typedef unsigned chbr UCHAR;
+        typedef unsigned chbr *PUCHAR;
         typedef unsigned short USHORT;
         typedef unsigned long ULONG;
         typedef void *LPVOID;
@@ -37,11 +37,11 @@
         typedef unsigned short WORD;
         typedef long LONG;
         typedef long RESPONSECODE;
-        typedef const char *LPCTSTR;
+        typedef const chbr *LPCTSTR;
         typedef const BYTE *LPCBYTE;
         typedef BYTE *LPBYTE;
         typedef DWORD *LPDWORD;
-        typedef char *LPTSTR;
+        typedef chbr *LPTSTR;
 
 #endif
 
@@ -51,7 +51,7 @@ extern "C"
 #endif
 
 #ifdef WIN32
-#include <winscard.h>
+#include <winscbrd.h>
 #else
 typedef long SCARDCONTEXT;
 typedef SCARDCONTEXT *PSCARDCONTEXT;
@@ -60,18 +60,18 @@ typedef long SCARDHANDLE;
 typedef SCARDHANDLE *PSCARDHANDLE;
 typedef SCARDHANDLE *LPSCARDHANDLE;
 
-#define MAX_ATR_SIZE                    33      /* Maximum ATR size */
+#define MAX_ATR_SIZE                    33      /* Mbximum ATR size */
 
 #ifndef __APPLE__
 
 typedef struct
 {
-        const char *szReader;
-        void *pvUserData;
-        unsigned long dwCurrentState;
-        unsigned long dwEventState;
+        const chbr *szRebder;
+        void *pvUserDbtb;
+        unsigned long dwCurrentStbte;
+        unsigned long dwEventStbte;
         unsigned long cbAtr;
-        unsigned char rgbAtr[MAX_ATR_SIZE];
+        unsigned chbr rgbAtr[MAX_ATR_SIZE];
 }
 SCARD_READERSTATE_A;
 
@@ -84,15 +84,15 @@ SCARD_IO_REQUEST, *PSCARD_IO_REQUEST, *LPSCARD_IO_REQUEST;
 
 #else // __APPLE__
 
-#pragma pack(1)
+#prbgmb pbck(1)
 typedef struct
 {
-        const char *szReader;
-        void *pvUserData;
-        uint32_t dwCurrentState;
-        uint32_t dwEventState;
+        const chbr *szRebder;
+        void *pvUserDbtb;
+        uint32_t dwCurrentStbte;
+        uint32_t dwEventStbte;
         uint32_t cbAtr;
-        unsigned char rgbAtr[MAX_ATR_SIZE];
+        unsigned chbr rgbAtr[MAX_ATR_SIZE];
 }
 SCARD_READERSTATE_A;
 
@@ -102,7 +102,7 @@ typedef struct _SCARD_IO_REQUEST
         uint32_t cbPciLength;           /* Protocol Control Inf Length */
 }
 SCARD_IO_REQUEST, *PSCARD_IO_REQUEST, *LPSCARD_IO_REQUEST;
-#pragma pack()
+#prbgmb pbck()
 
 #endif // __APPLE__
 
@@ -111,12 +111,12 @@ typedef SCARD_READERSTATE_A SCARD_READERSTATE, *PSCARD_READERSTATE_A,
 
 typedef const SCARD_IO_REQUEST *LPCSCARD_IO_REQUEST;
 
-extern SCARD_IO_REQUEST g_rgSCardT0Pci, g_rgSCardT1Pci,
-        g_rgSCardRawPci;
+extern SCARD_IO_REQUEST g_rgSCbrdT0Pci, g_rgSCbrdT1Pci,
+        g_rgSCbrdRbwPci;
 
-#define SCARD_PCI_T0    (&g_rgSCardT0Pci)
-#define SCARD_PCI_T1    (&g_rgSCardT1Pci)
-#define SCARD_PCI_RAW   (&g_rgSCardRawPci)
+#define SCARD_PCI_T0    (&g_rgSCbrdT0Pci)
+#define SCARD_PCI_T1    (&g_rgSCbrdT1Pci)
+#define SCARD_PCI_RAW   (&g_rgSCbrdRbwPci)
 
 #define SCARD_S_SUCCESS                 0x00000000
 #define SCARD_E_CANCELLED               0x80100002
@@ -156,63 +156,63 @@ extern SCARD_IO_REQUEST g_rgSCardT0Pci, g_rgSCardT1Pci,
 #define SCARD_E_NO_SERVICE              0x8010001D
 #define SCARD_E_SERVICE_STOPPED         0x8010001E
 
-#define SCARD_SCOPE_USER                0x0000  /* Scope in user space */
-#define SCARD_SCOPE_TERMINAL            0x0001  /* Scope in terminal */
+#define SCARD_SCOPE_USER                0x0000  /* Scope in user spbce */
+#define SCARD_SCOPE_TERMINAL            0x0001  /* Scope in terminbl */
 #define SCARD_SCOPE_SYSTEM              0x0002  /* Scope in system */
 
 #define SCARD_PROTOCOL_UNSET            0x0000  /* protocol not set */
-#define SCARD_PROTOCOL_T0               0x0001  /* T=0 active protocol. */
-#define SCARD_PROTOCOL_T1               0x0002  /* T=1 active protocol. */
-#define SCARD_PROTOCOL_RAW              0x0004  /* Raw active protocol. */
+#define SCARD_PROTOCOL_T0               0x0001  /* T=0 bctive protocol. */
+#define SCARD_PROTOCOL_T1               0x0002  /* T=1 bctive protocol. */
+#define SCARD_PROTOCOL_RAW              0x0004  /* Rbw bctive protocol. */
 #define SCARD_PROTOCOL_T15              0x0008  /* T=15 protocol. */
 
 #define SCARD_PROTOCOL_ANY              (SCARD_PROTOCOL_T0|SCARD_PROTOCOL_T1)   /* IFD determines prot. */
 
 #define SCARD_SHARE_EXCLUSIVE           0x0001  /* Exclusive mode only */
-#define SCARD_SHARE_SHARED              0x0002  /* Shared mode only */
-#define SCARD_SHARE_DIRECT              0x0003  /* Raw mode only */
+#define SCARD_SHARE_SHARED              0x0002  /* Shbred mode only */
+#define SCARD_SHARE_DIRECT              0x0003  /* Rbw mode only */
 
 #define SCARD_LEAVE_CARD                0x0000  /* Do nothing on close */
 #define SCARD_RESET_CARD                0x0001  /* Reset on close */
 #define SCARD_UNPOWER_CARD              0x0002  /* Power down on close */
 #define SCARD_EJECT_CARD                0x0003  /* Eject on close */
 
-#define SCARD_UNKNOWN                   0x0001  /* Unknown state */
-#define SCARD_ABSENT                    0x0002  /* Card is absent */
-#define SCARD_PRESENT                   0x0004  /* Card is present */
-#define SCARD_SWALLOWED                 0x0008  /* Card not powered */
-#define SCARD_POWERED                   0x0010  /* Card is powered */
-#define SCARD_NEGOTIABLE                0x0020  /* Ready for PTS */
-#define SCARD_SPECIFIC                  0x0040  /* PTS has been set */
+#define SCARD_UNKNOWN                   0x0001  /* Unknown stbte */
+#define SCARD_ABSENT                    0x0002  /* Cbrd is bbsent */
+#define SCARD_PRESENT                   0x0004  /* Cbrd is present */
+#define SCARD_SWALLOWED                 0x0008  /* Cbrd not powered */
+#define SCARD_POWERED                   0x0010  /* Cbrd is powered */
+#define SCARD_NEGOTIABLE                0x0020  /* Rebdy for PTS */
+#define SCARD_SPECIFIC                  0x0040  /* PTS hbs been set */
 
-#define SCARD_STATE_UNAWARE             0x0000  /* App wants status */
-#define SCARD_STATE_IGNORE              0x0001  /* Ignore this reader */
-#define SCARD_STATE_CHANGED             0x0002  /* State has changed */
-#define SCARD_STATE_UNKNOWN             0x0004  /* Reader unknown */
-#define SCARD_STATE_UNAVAILABLE         0x0008  /* Status unavailable */
-#define SCARD_STATE_EMPTY               0x0010  /* Card removed */
-#define SCARD_STATE_PRESENT             0x0020  /* Card inserted */
-#define SCARD_STATE_ATRMATCH            0x0040  /* ATR matches card */
+#define SCARD_STATE_UNAWARE             0x0000  /* App wbnts stbtus */
+#define SCARD_STATE_IGNORE              0x0001  /* Ignore this rebder */
+#define SCARD_STATE_CHANGED             0x0002  /* Stbte hbs chbnged */
+#define SCARD_STATE_UNKNOWN             0x0004  /* Rebder unknown */
+#define SCARD_STATE_UNAVAILABLE         0x0008  /* Stbtus unbvbilbble */
+#define SCARD_STATE_EMPTY               0x0010  /* Cbrd removed */
+#define SCARD_STATE_PRESENT             0x0020  /* Cbrd inserted */
+#define SCARD_STATE_ATRMATCH            0x0040  /* ATR mbtches cbrd */
 #define SCARD_STATE_EXCLUSIVE           0x0080  /* Exclusive Mode */
-#define SCARD_STATE_INUSE               0x0100  /* Shared Mode */
-#define SCARD_STATE_MUTE                0x0200  /* Unresponsive card */
-#define SCARD_STATE_UNPOWERED           0x0400  /* Unpowered card */
+#define SCARD_STATE_INUSE               0x0100  /* Shbred Mode */
+#define SCARD_STATE_MUTE                0x0200  /* Unresponsive cbrd */
+#define SCARD_STATE_UNPOWERED           0x0400  /* Unpowered cbrd */
 
 /*
- * Tags for requesting card and reader attributes
+ * Tbgs for requesting cbrd bnd rebder bttributes
  */
 
-#define SCARD_ATTR_VALUE(Class, Tag) ((((ULONG)(Class)) << 16) | ((ULONG)(Tag)))
+#define SCARD_ATTR_VALUE(Clbss, Tbg) ((((ULONG)(Clbss)) << 16) | ((ULONG)(Tbg)))
 
-#define SCARD_CLASS_VENDOR_INFO     1   /* Vendor information definitions */
-#define SCARD_CLASS_COMMUNICATIONS  2   /* Communication definitions */
+#define SCARD_CLASS_VENDOR_INFO     1   /* Vendor informbtion definitions */
+#define SCARD_CLASS_COMMUNICATIONS  2   /* Communicbtion definitions */
 #define SCARD_CLASS_PROTOCOL        3   /* Protocol definitions */
-#define SCARD_CLASS_POWER_MGMT      4   /* Power Management definitions */
-#define SCARD_CLASS_SECURITY        5   /* Security Assurance definitions */
-#define SCARD_CLASS_MECHANICAL      6   /* Mechanical characteristic definitions */
+#define SCARD_CLASS_POWER_MGMT      4   /* Power Mbnbgement definitions */
+#define SCARD_CLASS_SECURITY        5   /* Security Assurbnce definitions */
+#define SCARD_CLASS_MECHANICAL      6   /* Mechbnicbl chbrbcteristic definitions */
 #define SCARD_CLASS_VENDOR_DEFINED  7   /* Vendor specific definitions */
-#define SCARD_CLASS_IFD_PROTOCOL    8   /* Interface Device Protocol options */
-#define SCARD_CLASS_ICC_STATE       9   /* ICC State specific definitions */
+#define SCARD_CLASS_IFD_PROTOCOL    8   /* Interfbce Device Protocol options */
+#define SCARD_CLASS_ICC_STATE       9   /* ICC Stbte specific definitions */
 #define SCARD_CLASS_SYSTEM     0x7fff   /* System-specific definitions */
 
 #define SCARD_ATTR_VENDOR_NAME SCARD_ATTR_VALUE(SCARD_CLASS_VENDOR_INFO, 0x0100)
@@ -241,7 +241,7 @@ extern SCARD_IO_REQUEST g_rgSCardT0Pci, g_rgSCardT1Pci,
 #define SCARD_ATTR_CURRENT_IFSC SCARD_ATTR_VALUE(SCARD_CLASS_IFD_PROTOCOL, 0x0207)
 #define SCARD_ATTR_CURRENT_IFSD SCARD_ATTR_VALUE(SCARD_CLASS_IFD_PROTOCOL, 0x0208)
 #define SCARD_ATTR_CURRENT_BWT SCARD_ATTR_VALUE(SCARD_CLASS_IFD_PROTOCOL, 0x0209)
-#define SCARD_ATTR_CURRENT_CWT SCARD_ATTR_VALUE(SCARD_CLASS_IFD_PROTOCOL, 0x020a)
+#define SCARD_ATTR_CURRENT_CWT SCARD_ATTR_VALUE(SCARD_CLASS_IFD_PROTOCOL, 0x020b)
 #define SCARD_ATTR_CURRENT_EBC_ENCODING SCARD_ATTR_VALUE(SCARD_CLASS_IFD_PROTOCOL, 0x020b)
 #define SCARD_ATTR_EXTENDED_BWT SCARD_ATTR_VALUE(SCARD_CLASS_IFD_PROTOCOL, 0x020c)
 
@@ -278,24 +278,24 @@ extern SCARD_IO_REQUEST g_rgSCardT0Pci, g_rgSCardT1Pci,
 #define SCARD_W_INSERTED_CARD           0x8010006A
 #define SCARD_E_UNSUPPORTED_FEATURE     0x8010001F
 
-#define SCARD_SCOPE_GLOBAL              0x0003  /* Scope is global */
+#define SCARD_SCOPE_GLOBAL              0x0003  /* Scope is globbl */
 
-#define SCARD_RESET                     0x0001  /* Card was reset */
-#define SCARD_INSERTED                  0x0002  /* Card was inserted */
-#define SCARD_REMOVED                   0x0004  /* Card was removed */
+#define SCARD_RESET                     0x0001  /* Cbrd wbs reset */
+#define SCARD_INSERTED                  0x0002  /* Cbrd wbs inserted */
+#define SCARD_REMOVED                   0x0004  /* Cbrd wbs removed */
 
-#define BLOCK_STATUS_RESUME             0x00FF  /* Normal resume */
+#define BLOCK_STATUS_RESUME             0x00FF  /* Normbl resume */
 #define BLOCK_STATUS_BLOCKING           0x00FA  /* Function is blocking */
 
 #define PCSCLITE_CONFIG_DIR             "/etc"
 
 #ifndef USE_IPCDIR
-#define PCSCLITE_IPC_DIR                "/var/run"
+#define PCSCLITE_IPC_DIR                "/vbr/run"
 #else
 #define PCSCLITE_IPC_DIR                USE_IPCDIR
 #endif
 
-#define PCSCLITE_READER_CONFIG          PCSCLITE_CONFIG_DIR "/reader.conf"
+#define PCSCLITE_READER_CONFIG          PCSCLITE_CONFIG_DIR "/rebder.conf"
 #define PCSCLITE_PUBSHM_FILE            PCSCLITE_IPC_DIR "/pcscd.pub"
 #define PCSCLITE_CSOCK_NAME             PCSCLITE_IPC_DIR "/pcscd.comm"
 
@@ -304,71 +304,71 @@ extern SCARD_IO_REQUEST g_rgSCardT0Pci, g_rgSCardT1Pci,
 #ifndef INFINITE
 #define INFINITE                        0xFFFFFFFF      /* Infinite timeout */
 #endif
-#define PCSCLITE_INFINITE_TIMEOUT       4320000         /* 50 day infinite t/o */
+#define PCSCLITE_INFINITE_TIMEOUT       4320000         /* 50 dby infinite t/o */
 
-#define PCSCLITE_VERSION_NUMBER         "1.2.9-beta7"   /* Current version */
-#define PCSCLITE_CLIENT_ATTEMPTS        120             /* Attempts to reach sv */
-#define PCSCLITE_MCLIENT_ATTEMPTS       20              /* Attempts to reach sv */
-#define PCSCLITE_STATUS_POLL_RATE       400000          /* Status polling rate */
+#define PCSCLITE_VERSION_NUMBER         "1.2.9-betb7"   /* Current version */
+#define PCSCLITE_CLIENT_ATTEMPTS        120             /* Attempts to rebch sv */
+#define PCSCLITE_MCLIENT_ATTEMPTS       20              /* Attempts to rebch sv */
+#define PCSCLITE_STATUS_POLL_RATE       400000          /* Stbtus polling rbte */
 #define PCSCLITE_MSG_KEY_LEN            16              /* App ID key length */
 #define PCSCLITE_RW_ATTEMPTS            100             /* Attempts to rd/wrt */
 
-/* Maximum applications */
+/* Mbximum bpplicbtions */
 #define PCSCLITE_MAX_APPLICATIONS                       16
-/* Maximum contexts by application */
+/* Mbximum contexts by bpplicbtion */
 #define PCSCLITE_MAX_APPLICATION_CONTEXTS               16
-/* Maximum of applications contexts that pcscd can accept */
+/* Mbximum of bpplicbtions contexts thbt pcscd cbn bccept */
 #define PCSCLITE_MAX_APPLICATIONS_CONTEXTS \
         PCSCLITE_MAX_APPLICATIONS * PCSCLITE_MAX_APPLICATION_CONTEXTS
-/* Maximum channels on a reader context */
+/* Mbximum chbnnels on b rebder context */
 #define PCSCLITE_MAX_READER_CONTEXT_CHANNELS            16
-/* Maximum channels on an application context */
+/* Mbximum chbnnels on bn bpplicbtion context */
 #define PCSCLITE_MAX_APPLICATION_CONTEXT_CHANNELS       16
-/* Maximum readers context (a slot is count as a reader) */
+/* Mbximum rebders context (b slot is count bs b rebder) */
 #define PCSCLITE_MAX_READERS_CONTEXTS                   16
 
-/* PCSCLITE_MAX_READERS is deprecated
- * use PCSCLITE_MAX_READERS_CONTEXTS instead */
-/* extern int PCSCLITE_MAX_READERS __attribute__ ((deprecated)); */
+/* PCSCLITE_MAX_READERS is deprecbted
+ * use PCSCLITE_MAX_READERS_CONTEXTS instebd */
+/* extern int PCSCLITE_MAX_READERS __bttribute__ ((deprecbted)); */
 
-#define PCSCLITE_MAX_THREADS            16      /* Stat change threads */
-#define PCSCLITE_STATUS_WAIT            200000  /* Status Change Sleep */
-#define PCSCLITE_TRANSACTION_TIMEOUT    40      /* Transaction timeout */
+#define PCSCLITE_MAX_THREADS            16      /* Stbt chbnge threbds */
+#define PCSCLITE_STATUS_WAIT            200000  /* Stbtus Chbnge Sleep */
+#define PCSCLITE_TRANSACTION_TIMEOUT    40      /* Trbnsbction timeout */
 #define MAX_READERNAME                  52
 #define MAX_LIBNAME                     100
 #define MAX_DEVICENAME          255
 
 #ifndef SCARD_ATR_LENGTH
-#define SCARD_ATR_LENGTH                MAX_ATR_SIZE    /* Maximum ATR size */
+#define SCARD_ATR_LENGTH                MAX_ATR_SIZE    /* Mbximum ATR size */
 #endif
 
 /*
- * Enhanced messaging has been added to accommodate newer devices which have
- * more advanced capabilities, such as dedicated secure co-processors which
- * can stream and encrypt data over USB. In order to used enhanced messaging
- * you must define PCSCLITE_ENHANCED_MESSAGING in the framework(library),
- * the daemon, and your application
+ * Enhbnced messbging hbs been bdded to bccommodbte newer devices which hbve
+ * more bdvbnced cbpbbilities, such bs dedicbted secure co-processors which
+ * cbn strebm bnd encrypt dbtb over USB. In order to used enhbnced messbging
+ * you must define PCSCLITE_ENHANCED_MESSAGING in the frbmework(librbry),
+ * the dbemon, bnd your bpplicbtion
  */
 #undef PCSCLITE_ENHANCED_MESSAGING
 #ifndef PCSCLITE_ENHANCED_MESSAGING
-#define PCSCLITE_MAX_MESSAGE_SIZE       2048    /* Transport msg len */
-#define MAX_BUFFER_SIZE                 264     /* Maximum Tx/Rx Buffer */
-#define PCSCLITE_SERVER_ATTEMPTS        5       /* Attempts to reach cl */
+#define PCSCLITE_MAX_MESSAGE_SIZE       2048    /* Trbnsport msg len */
+#define MAX_BUFFER_SIZE                 264     /* Mbximum Tx/Rx Buffer */
+#define PCSCLITE_SERVER_ATTEMPTS        5       /* Attempts to rebch cl */
 #else
 /*
- * The message and buffer sizes must be multiples of 16.
- * The max message size must be at least large enough
- * to accommodate the transmit_struct
+ * The messbge bnd buffer sizes must be multiples of 16.
+ * The mbx messbge size must be bt lebst lbrge enough
+ * to bccommodbte the trbnsmit_struct
  */
-#define PCSCLITE_MAX_MESSAGE_SIZE       (1<<17) /* enhanced (128K) msg len */
-#define MAX_BUFFER_SIZE                 (1<<15) /* enhanced (32K) Tx/Rx Buffer */
-#define PCSCLITE_SERVER_ATTEMPTS        200     /* To allow larger data reads/writes */
+#define PCSCLITE_MAX_MESSAGE_SIZE       (1<<17) /* enhbnced (128K) msg len */
+#define MAX_BUFFER_SIZE                 (1<<15) /* enhbnced (32K) Tx/Rx Buffer */
+#define PCSCLITE_SERVER_ATTEMPTS        200     /* To bllow lbrger dbtb rebds/writes */
 #endif
 
 /*
- * Gets a stringified error response
+ * Gets b stringified error response
  */
-char *pcsc_stringify_error(long);
+chbr *pcsc_stringify_error(long);
 
 #ifdef __cplusplus
 }

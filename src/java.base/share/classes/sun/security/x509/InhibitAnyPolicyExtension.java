@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.Debug;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
+import sun.security.util.DerOutputStrebm;
+import sun.security.util.DerVblue;
 import sun.security.util.ObjectIdentifier;
 
 /**
- * This class represents the Inhibit Any-Policy Extension.
+ * This clbss represents the Inhibit Any-Policy Extension.
  *
- * <p>The inhibit any-policy extension can be used in certificates issued
- * to CAs. The inhibit any-policy indicates that the special any-policy
- * OID, with the value {2 5 29 32 0}, is not considered an explicit
- * match for other certificate policies.  The value indicates the number
- * of additional certificates that may appear in the path before any-
- * policy is no longer permitted.  For example, a value of one indicates
- * that any-policy may be processed in certificates issued by the sub-
- * ject of this certificate, but not in additional certificates in the
- * path.
+ * <p>The inhibit bny-policy extension cbn be used in certificbtes issued
+ * to CAs. The inhibit bny-policy indicbtes thbt the specibl bny-policy
+ * OID, with the vblue {2 5 29 32 0}, is not considered bn explicit
+ * mbtch for other certificbte policies.  The vblue indicbtes the number
+ * of bdditionbl certificbtes thbt mby bppebr in the pbth before bny-
+ * policy is no longer permitted.  For exbmple, b vblue of one indicbtes
+ * thbt bny-policy mby be processed in certificbtes issued by the sub-
+ * ject of this certificbte, but not in bdditionbl certificbtes in the
+ * pbth.
  * <p>
- * This extension MUST be critical.
+ * This extension MUST be criticbl.
  * <p>
- * The ASN.1 syntax for this extension is:
+ * The ASN.1 syntbx for this extension is:
  * <code><pre>
  * id-ce-inhibitAnyPolicy OBJECT IDENTIFIER ::=  { id-ce 54 }
  *
@@ -57,107 +57,107 @@ import sun.security.util.ObjectIdentifier;
  *
  * SkipCerts ::= INTEGER (0..MAX)
  * </pre></code>
- * @author Anne Anderson
+ * @buthor Anne Anderson
  * @see CertAttrSet
  * @see Extension
  */
-public class InhibitAnyPolicyExtension extends Extension
+public clbss InhibitAnyPolicyExtension extends Extension
 implements CertAttrSet<String> {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
 
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.extensions.InhibitAnyPolicy";
+    public stbtic finbl String IDENT = "x509.info.extensions.InhibitAnyPolicy";
 
     /**
-     * Object identifier for "any-policy"
+     * Object identifier for "bny-policy"
      */
-    public static ObjectIdentifier AnyPolicy_Id;
-    static {
+    public stbtic ObjectIdentifier AnyPolicy_Id;
+    stbtic {
         try {
             AnyPolicy_Id = new ObjectIdentifier("2.5.29.32.0");
-        } catch (IOException ioe) {
-            // Should not happen
+        } cbtch (IOException ioe) {
+            // Should not hbppen
         }
     }
 
     /**
-     * Attribute names.
+     * Attribute nbmes.
      */
-    public static final String NAME = "InhibitAnyPolicy";
-    public static final String SKIP_CERTS = "skip_certs";
+    public stbtic finbl String NAME = "InhibitAnyPolicy";
+    public stbtic finbl String SKIP_CERTS = "skip_certs";
 
-    // Private data members
-    private int skipCerts = Integer.MAX_VALUE;
+    // Privbte dbtb members
+    privbte int skipCerts = Integer.MAX_VALUE;
 
-    // Encode this extension value
-    private void encodeThis() throws IOException {
-        DerOutputStream out = new DerOutputStream();
+    // Encode this extension vblue
+    privbte void encodeThis() throws IOException {
+        DerOutputStrebm out = new DerOutputStrebm();
         out.putInteger(skipCerts);
-        this.extensionValue = out.toByteArray();
+        this.extensionVblue = out.toByteArrby();
     }
 
     /**
-     * Default constructor for this object.
+     * Defbult constructor for this object.
      *
-     * @param skipCerts specifies the depth of the certification path.
-     *                  Use value of -1 to request unlimited depth.
+     * @pbrbm skipCerts specifies the depth of the certificbtion pbth.
+     *                  Use vblue of -1 to request unlimited depth.
      */
     public InhibitAnyPolicyExtension(int skipCerts) throws IOException {
         if (skipCerts < -1)
-            throw new IOException("Invalid value for skipCerts");
+            throw new IOException("Invblid vblue for skipCerts");
         if (skipCerts == -1)
             this.skipCerts = Integer.MAX_VALUE;
         else
             this.skipCerts = skipCerts;
         this.extensionId = PKIXExtensions.InhibitAnyPolicy_Id;
-        critical = true;
+        criticbl = true;
         encodeThis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crebte the extension from the pbssed DER encoded vblue of the sbme.
      *
-     * @param critical criticality flag to use.  Must be true for this
+     * @pbrbm criticbl criticblity flbg to use.  Must be true for this
      *                 extension.
-     * @param value a byte array holding the DER-encoded extension value.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm vblue b byte brrby holding the DER-encoded extension vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-    public InhibitAnyPolicyExtension(Boolean critical, Object value)
+    public InhibitAnyPolicyExtension(Boolebn criticbl, Object vblue)
         throws IOException {
 
         this.extensionId = PKIXExtensions.InhibitAnyPolicy_Id;
 
-        if (!critical.booleanValue())
-            throw new IOException("Criticality cannot be false for " +
+        if (!criticbl.boolebnVblue())
+            throw new IOException("Criticblity cbnnot be fblse for " +
                                   "InhibitAnyPolicy");
-        this.critical = critical.booleanValue();
+        this.criticbl = criticbl.boolebnVblue();
 
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        if (val.tag != DerValue.tag_Integer)
-            throw new IOException("Invalid encoding of InhibitAnyPolicy: "
-                                  + "data not integer");
+        this.extensionVblue = (byte[]) vblue;
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        if (vbl.tbg != DerVblue.tbg_Integer)
+            throw new IOException("Invblid encoding of InhibitAnyPolicy: "
+                                  + "dbtb not integer");
 
-        if (val.data == null)
-            throw new IOException("Invalid encoding of InhibitAnyPolicy: "
-                                  + "null data");
-        int skipCertsValue = val.getInteger();
-        if (skipCertsValue < -1)
-            throw new IOException("Invalid value for skipCerts");
-        if (skipCertsValue == -1) {
+        if (vbl.dbtb == null)
+            throw new IOException("Invblid encoding of InhibitAnyPolicy: "
+                                  + "null dbtb");
+        int skipCertsVblue = vbl.getInteger();
+        if (skipCertsVblue < -1)
+            throw new IOException("Invblid vblue for skipCerts");
+        if (skipCertsVblue == -1) {
             this.skipCerts = Integer.MAX_VALUE;
         } else {
-            this.skipCerts = skipCertsValue;
+            this.skipCerts = skipCertsVblue;
         }
     }
 
      /**
-      * Return user readable form of extension.
+      * Return user rebdbble form of extension.
       */
      public String toString() {
          String s = super.toString() + "InhibitAnyPolicy: " + skipCerts + "\n";
@@ -165,99 +165,99 @@ implements CertAttrSet<String> {
      }
 
      /**
-      * Encode this extension value to the output stream.
+      * Encode this extension vblue to the output strebm.
       *
-      * @param out the DerOutputStream to encode the extension to.
+      * @pbrbm out the DerOutputStrebm to encode the extension to.
       */
-     public void encode(OutputStream out) throws IOException {
-         DerOutputStream tmp = new DerOutputStream();
-         if (extensionValue == null) {
+     public void encode(OutputStrebm out) throws IOException {
+         DerOutputStrebm tmp = new DerOutputStrebm();
+         if (extensionVblue == null) {
              this.extensionId = PKIXExtensions.InhibitAnyPolicy_Id;
-             critical = true;
+             criticbl = true;
              encodeThis();
          }
          super.encode(tmp);
 
-         out.write(tmp.toByteArray());
+         out.write(tmp.toByteArrby());
      }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      *
-     * @param name name of attribute to set. Must be SKIP_CERTS.
-     * @param obj  value to which attribute is to be set.  Must be Integer
+     * @pbrbm nbme nbme of bttribute to set. Must be SKIP_CERTS.
+     * @pbrbm obj  vblue to which bttribute is to be set.  Must be Integer
      *             type.
      * @throws IOException on error
      */
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(SKIP_CERTS)) {
-            if (!(obj instanceof Integer))
-                throw new IOException("Attribute value should be of type Integer.");
-            int skipCertsValue = ((Integer)obj).intValue();
-            if (skipCertsValue < -1)
-                throw new IOException("Invalid value for skipCerts");
-            if (skipCertsValue == -1) {
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(SKIP_CERTS)) {
+            if (!(obj instbnceof Integer))
+                throw new IOException("Attribute vblue should be of type Integer.");
+            int skipCertsVblue = ((Integer)obj).intVblue();
+            if (skipCertsVblue < -1)
+                throw new IOException("Invblid vblue for skipCerts");
+            if (skipCertsVblue == -1) {
                 skipCerts = Integer.MAX_VALUE;
             } else {
-                skipCerts = skipCertsValue;
+                skipCerts = skipCertsVblue;
             }
         } else
-            throw new IOException("Attribute name not recognized by " +
+            throw new IOException("Attribute nbme not recognized by " +
                                   "CertAttrSet:InhibitAnyPolicy.");
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      *
-     * @param name name of attribute to get.  Must be SKIP_CERTS.
-     * @returns value of the attribute.  In this case it will be of type
+     * @pbrbm nbme nbme of bttribute to get.  Must be SKIP_CERTS.
+     * @returns vblue of the bttribute.  In this cbse it will be of type
      *          Integer.
      * @throws IOException on error
      */
-    public Integer get(String name) throws IOException {
-        if (name.equalsIgnoreCase(SKIP_CERTS))
+    public Integer get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(SKIP_CERTS))
             return (skipCerts);
         else
-            throw new IOException("Attribute name not recognized by " +
+            throw new IOException("Attribute nbme not recognized by " +
                                   "CertAttrSet:InhibitAnyPolicy.");
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      *
-     * @param name name of attribute to delete. Must be SKIP_CERTS.
-     * @throws IOException on error.  In this case, IOException will always be
-     *                     thrown, because the only attribute, SKIP_CERTS, is
+     * @pbrbm nbme nbme of bttribute to delete. Must be SKIP_CERTS.
+     * @throws IOException on error.  In this cbse, IOException will blwbys be
+     *                     thrown, becbuse the only bttribute, SKIP_CERTS, is
      *                     required.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(SKIP_CERTS))
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(SKIP_CERTS))
             throw new IOException("Attribute " + SKIP_CERTS +
-                                  " may not be deleted.");
+                                  " mby not be deleted.");
         else
-            throw new IOException("Attribute name not recognized by " +
+            throw new IOException("Attribute nbme not recognized by " +
                                   "CertAttrSet:InhibitAnyPolicy.");
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      *
-     * @returns enumeration of elements
+     * @returns enumerbtion of elements
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(SKIP_CERTS);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(SKIP_CERTS);
         return (elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      *
-     * @returns name of attribute.
+     * @returns nbme of bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return (NAME);
     }
 }

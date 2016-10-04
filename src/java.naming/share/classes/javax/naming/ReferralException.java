@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
-import java.util.Hashtable;
+import jbvb.util.Hbshtbble;
 
 /**
- * This abstract class is used to represent a referral exception,
- * which is generated in response to a <em>referral</em>
- * such as that returned by LDAP v3 servers.
+ * This bbstrbct clbss is used to represent b referrbl exception,
+ * which is generbted in response to b <em>referrbl</em>
+ * such bs thbt returned by LDAP v3 servers.
  * <p>
  * A service provider provides
- * a subclass of <tt>ReferralException</tt> by providing implementations
- * for <tt>getReferralInfo()</tt> and <tt>getReferralContext()</tt> (and appropriate
- * constructors and/or corresponding "set" methods).
+ * b subclbss of <tt>ReferrblException</tt> by providing implementbtions
+ * for <tt>getReferrblInfo()</tt> bnd <tt>getReferrblContext()</tt> (bnd bppropribte
+ * constructors bnd/or corresponding "set" methods).
  * <p>
- * The following code sample shows how <tt>ReferralException</tt> can be used.
+ * The following code sbmple shows how <tt>ReferrblException</tt> cbn be used.
  * <blockquote>{@code
  *      while (true) {
  *          try {
- *              bindings = ctx.listBindings(name);
- *              while (bindings.hasMore()) {
+ *              bindings = ctx.listBindings(nbme);
+ *              while (bindings.hbsMore()) {
  *                  b = bindings.next();
  *                  ...
  *              }
- *              break;
- *          } catch (ReferralException e) {
- *              ctx = e.getReferralContext();
+ *              brebk;
+ *          } cbtch (ReferrblException e) {
+ *              ctx = e.getReferrblContext();
  *          }
  *      }
  * }</blockquote>
  *<p>
- * <tt>ReferralException</tt> is an abstract class. Concrete implementations
- * determine its synchronization and serialization properties.
+ * <tt>ReferrblException</tt> is bn bbstrbct clbss. Concrete implementbtions
+ * determine its synchronizbtion bnd seriblizbtion properties.
  *<p>
- * An environment parameter passed to the <tt>getReferralContext()</tt>
- * method is owned by the caller.
- * The service provider will not modify the object or keep a reference to it,
- * but may keep a reference to a clone of it.
+ * An environment pbrbmeter pbssed to the <tt>getReferrblContext()</tt>
+ * method is owned by the cbller.
+ * The service provider will not modify the object or keep b reference to it,
+ * but mby keep b reference to b clone of it.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
  *
  * @since 1.3
  *
  */
 
-public abstract class ReferralException extends NamingException {
+public bbstrbct clbss ReferrblException extends NbmingException {
     /**
-     * Constructs a new instance of ReferralException using the
-     * explanation supplied. All other fields are set to null.
+     * Constructs b new instbnce of ReferrblException using the
+     * explbnbtion supplied. All other fields bre set to null.
      *
-     * @param   explanation     Additional detail about this exception. Can be null.
-     * @see java.lang.Throwable#getMessage
+     * @pbrbm   explbnbtion     Additionbl detbil bbout this exception. Cbn be null.
+     * @see jbvb.lbng.Throwbble#getMessbge
      */
-    protected ReferralException(String explanation) {
-        super(explanation);
+    protected ReferrblException(String explbnbtion) {
+        super(explbnbtion);
     }
 
     /**
-      * Constructs a new instance of ReferralException.
-      * All fields are set to null.
+      * Constructs b new instbnce of ReferrblException.
+      * All fields bre set to null.
       */
-    protected ReferralException() {
+    protected ReferrblException() {
         super();
     }
 
     /**
-     * Retrieves information (such as URLs) related to this referral.
-     * The program may examine or display this information
-     * to the user to determine whether to continue with the referral,
-     * or to determine additional information needs to be supplied in order
-     * to continue with the referral.
+     * Retrieves informbtion (such bs URLs) relbted to this referrbl.
+     * The progrbm mby exbmine or displby this informbtion
+     * to the user to determine whether to continue with the referrbl,
+     * or to determine bdditionbl informbtion needs to be supplied in order
+     * to continue with the referrbl.
      *
-     * @return Non-null referral information related to this referral.
+     * @return Non-null referrbl informbtion relbted to this referrbl.
      */
-    public abstract Object getReferralInfo();
+    public bbstrbct Object getReferrblInfo();
 
     /**
-     * Retrieves the context at which to continue the method.
-     * Regardless of whether a referral is encountered directly during a
-     * context operation, or indirectly, for example, during a search
-     * enumeration, the referral exception should provide a context
-     * at which to continue the operation. The referral context is
-     * created using the environment properties of the context
-     * that threw the ReferralException.
+     * Retrieves the context bt which to continue the method.
+     * Regbrdless of whether b referrbl is encountered directly during b
+     * context operbtion, or indirectly, for exbmple, during b sebrch
+     * enumerbtion, the referrbl exception should provide b context
+     * bt which to continue the operbtion. The referrbl context is
+     * crebted using the environment properties of the context
+     * thbt threw the ReferrblException.
      *
      *<p>
-     * To continue the operation, the client program should re-invoke
-     * the method using the same arguments as the original invocation.
+     * To continue the operbtion, the client progrbm should re-invoke
+     * the method using the sbme brguments bs the originbl invocbtion.
      *
-     * @return The non-null context at which to continue the method.
-     * @exception NamingException If a naming exception was encountered.
-     * Call either <tt>retryReferral()</tt> or <tt>skipReferral()</tt>
-     * to continue processing referrals.
+     * @return The non-null context bt which to continue the method.
+     * @exception NbmingException If b nbming exception wbs encountered.
+     * Cbll either <tt>retryReferrbl()</tt> or <tt>skipReferrbl()</tt>
+     * to continue processing referrbls.
      */
-    public abstract Context getReferralContext() throws NamingException;
+    public bbstrbct Context getReferrblContext() throws NbmingException;
 
     /**
-     * Retrieves the context at which to continue the method using
+     * Retrieves the context bt which to continue the method using
      * environment properties.
-     * Regardless of whether a referral is encountered directly during a
-     * context operation, or indirectly, for example, during a search
-     * enumeration, the referral exception should provide a context
-     * at which to continue the operation.
+     * Regbrdless of whether b referrbl is encountered directly during b
+     * context operbtion, or indirectly, for exbmple, during b sebrch
+     * enumerbtion, the referrbl exception should provide b context
+     * bt which to continue the operbtion.
      *<p>
-     * The referral context is created using <tt>env</tt> as its environment
+     * The referrbl context is crebted using <tt>env</tt> bs its environment
      * properties.
-     * This method should be used instead of the no-arg overloaded form
-     * when the caller needs to use different environment properties for
-     * the referral context. It might need to do this, for example, when
-     * it needs to supply different authentication information to the referred
-     * server in order to create the referral context.
+     * This method should be used instebd of the no-brg overlobded form
+     * when the cbller needs to use different environment properties for
+     * the referrbl context. It might need to do this, for exbmple, when
+     * it needs to supply different buthenticbtion informbtion to the referred
+     * server in order to crebte the referrbl context.
      *<p>
-     * To continue the operation, the client program should re-invoke
-     * the method using the same arguments as the original invocation.
+     * To continue the operbtion, the client progrbm should re-invoke
+     * the method using the sbme brguments bs the originbl invocbtion.
      *
-     * @param env The possibly null environment to use when retrieving the
-     *          referral context. If null, no environment properties will be used.
+     * @pbrbm env The possibly null environment to use when retrieving the
+     *          referrbl context. If null, no environment properties will be used.
      *
-     * @return The non-null context at which to continue the method.
-     * @exception NamingException If a naming exception was encountered.
-     * Call either <tt>retryReferral()</tt> or <tt>skipReferral()</tt>
-     * to continue processing referrals.
+     * @return The non-null context bt which to continue the method.
+     * @exception NbmingException If b nbming exception wbs encountered.
+     * Cbll either <tt>retryReferrbl()</tt> or <tt>skipReferrbl()</tt>
+     * to continue processing referrbls.
      */
-    public abstract Context
-        getReferralContext(Hashtable<?,?> env)
-        throws NamingException;
+    public bbstrbct Context
+        getReferrblContext(Hbshtbble<?,?> env)
+        throws NbmingException;
 
     /**
-     * Discards the referral about to be processed.
-     * A call to this method should be followed by a call to
-     * <code>getReferralContext</code> to allow the processing of
-     * other referrals to continue.
-     * The following code fragment shows a typical usage pattern.
+     * Discbrds the referrbl bbout to be processed.
+     * A cbll to this method should be followed by b cbll to
+     * <code>getReferrblContext</code> to bllow the processing of
+     * other referrbls to continue.
+     * The following code frbgment shows b typicbl usbge pbttern.
      * <blockquote><pre>
-     *  } catch (ReferralException e) {
-     *      if (!shallIFollow(e.getReferralInfo())) {
-     *          if (!e.skipReferral()) {
+     *  } cbtch (ReferrblException e) {
+     *      if (!shbllIFollow(e.getReferrblInfo())) {
+     *          if (!e.skipReferrbl()) {
      *              return;
      *          }
      *      }
-     *      ctx = e.getReferralContext();
+     *      ctx = e.getReferrblContext();
      *  }
      * </pre></blockquote>
      *
-     * @return true If more referral processing is pending; false otherwise.
+     * @return true If more referrbl processing is pending; fblse otherwise.
      */
-    public abstract boolean skipReferral();
+    public bbstrbct boolebn skipReferrbl();
 
     /**
-     * Retries the referral currently being processed.
-     * A call to this method should be followed by a call to
-     * <code>getReferralContext</code> to allow the current
-     * referral to be retried.
-     * The following code fragment shows a typical usage pattern.
+     * Retries the referrbl currently being processed.
+     * A cbll to this method should be followed by b cbll to
+     * <code>getReferrblContext</code> to bllow the current
+     * referrbl to be retried.
+     * The following code frbgment shows b typicbl usbge pbttern.
      * <blockquote><pre>
-     *  } catch (ReferralException e) {
+     *  } cbtch (ReferrblException e) {
      *      while (true) {
      *          try {
-     *              ctx = e.getReferralContext(env);
-     *              break;
-     *          } catch (NamingException ne) {
-     *              if (! shallIRetry()) {
+     *              ctx = e.getReferrblContext(env);
+     *              brebk;
+     *          } cbtch (NbmingException ne) {
+     *              if (! shbllIRetry()) {
      *                  return;
      *              }
-     *              // modify environment properties (env), if necessary
-     *              e.retryReferral();
+     *              // modify environment properties (env), if necessbry
+     *              e.retryReferrbl();
      *          }
      *      }
      *  }
      * </pre></blockquote>
      *
      */
-    public abstract void retryReferral();
+    public bbstrbct void retryReferrbl();
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = -2881363844695698876L;
+    privbte stbtic finbl long seriblVersionUID = -2881363844695698876L;
 }

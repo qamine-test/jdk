@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -31,51 +31,51 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <CoreFoundation/CoreFoundation.h>
+#include <CoreFoundbtion/CoreFoundbtion.h>
 
-JNIEXPORT jcharArray JNICALL
-Java_sun_nio_fs_MacOSXNativeDispatcher_normalizepath(JNIEnv* env, jclass this,
-                                                     jcharArray path,
+JNIEXPORT jchbrArrby JNICALL
+Jbvb_sun_nio_fs_MbcOSXNbtiveDispbtcher_normblizepbth(JNIEnv* env, jclbss this,
+                                                     jchbrArrby pbth,
                                                      jint form)
 {
-    jcharArray result = NULL;
-    char *chars;
-    CFMutableStringRef csref = CFStringCreateMutable(NULL, 0);
+    jchbrArrby result = NULL;
+    chbr *chbrs;
+    CFMutbbleStringRef csref = CFStringCrebteMutbble(NULL, 0);
     if (csref == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "native heap");
+        JNU_ThrowOutOfMemoryError(env, "nbtive hebp");
         return NULL;
     }
-    chars = (char*)(*env)->GetPrimitiveArrayCritical(env, path, 0);
-    if (chars != NULL) {
-        char chars_buf[(PATH_MAX + 1) * 2];     // utf16 + zero padding
-        jsize len = (*env)->GetArrayLength(env, path);
-        CFStringAppendCharacters(csref, (const UniChar*)chars, len);
-        (*env)->ReleasePrimitiveArrayCritical(env, path, chars, 0);
-        CFStringNormalize(csref, form);
+    chbrs = (chbr*)(*env)->GetPrimitiveArrbyCriticbl(env, pbth, 0);
+    if (chbrs != NULL) {
+        chbr chbrs_buf[(PATH_MAX + 1) * 2];     // utf16 + zero pbdding
+        jsize len = (*env)->GetArrbyLength(env, pbth);
+        CFStringAppendChbrbcters(csref, (const UniChbr*)chbrs, len);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, pbth, chbrs, 0);
+        CFStringNormblize(csref, form);
         len = CFStringGetLength(csref);
         if (len < PATH_MAX) {
-            if (CFStringGetCString(csref, chars_buf, sizeof(chars_buf), kCFStringEncodingUTF16)) {
-                result = (*env)->NewCharArray(env, len);
+            if (CFStringGetCString(csref, chbrs_buf, sizeof(chbrs_buf), kCFStringEncodingUTF16)) {
+                result = (*env)->NewChbrArrby(env, len);
                 if (result != NULL) {
-                    (*env)->SetCharArrayRegion(env, result, 0, len, (jchar*)&chars_buf);
+                    (*env)->SetChbrArrbyRegion(env, result, 0, len, (jchbr*)&chbrs_buf);
                 }
             }
         } else {
             int ulen = (len + 1) * 2;
-            chars = malloc(ulen);
-            if (chars == NULL) {
-                JNU_ThrowOutOfMemoryError(env, "native heap");
+            chbrs = mblloc(ulen);
+            if (chbrs == NULL) {
+                JNU_ThrowOutOfMemoryError(env, "nbtive hebp");
             } else {
-                if (CFStringGetCString(csref, chars, ulen, kCFStringEncodingUTF16)) {
-                    result = (*env)->NewCharArray(env, len);
+                if (CFStringGetCString(csref, chbrs, ulen, kCFStringEncodingUTF16)) {
+                    result = (*env)->NewChbrArrby(env, len);
                     if (result != NULL) {
-                        (*env)->SetCharArrayRegion(env, result, 0, len, (jchar*)chars);
+                        (*env)->SetChbrArrbyRegion(env, result, 0, len, (jchbr*)chbrs);
                     }
                 }
-                free(chars);
+                free(chbrs);
             }
         }
     }
-    CFRelease(csref);
+    CFRelebse(csref);
     return result;
 }

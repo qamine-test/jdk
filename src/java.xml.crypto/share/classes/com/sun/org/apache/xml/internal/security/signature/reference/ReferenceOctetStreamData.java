@@ -3,100 +3,100 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
  * $Id$
  */
-package com.sun.org.apache.xml.internal.security.signature.reference;
+pbckbge com.sun.org.bpbche.xml.internbl.security.signbture.reference;
 
-import java.io.InputStream;
+import jbvb.io.InputStrebm;
 
 /**
- * A representation of a <code>ReferenceData</code> type containing an OctetStream.
+ * A representbtion of b <code>ReferenceDbtb</code> type contbining bn OctetStrebm.
  */
-public class ReferenceOctetStreamData implements ReferenceData {
-    private InputStream octetStream;
-    private String uri;
-    private String mimeType;
+public clbss ReferenceOctetStrebmDbtb implements ReferenceDbtb {
+    privbte InputStrebm octetStrebm;
+    privbte String uri;
+    privbte String mimeType;
 
     /**
-     * Creates a new <code>ReferenceOctetStreamData</code>.
+     * Crebtes b new <code>ReferenceOctetStrebmDbtb</code>.
      *
-     * @param octetStream the input stream containing the octets
-     * @throws NullPointerException if <code>octetStream</code> is
+     * @pbrbm octetStrebm the input strebm contbining the octets
+     * @throws NullPointerException if <code>octetStrebm</code> is
      *    <code>null</code>
      */
-    public ReferenceOctetStreamData(InputStream octetStream) {
-        if (octetStream == null) {
-            throw new NullPointerException("octetStream is null");
+    public ReferenceOctetStrebmDbtb(InputStrebm octetStrebm) {
+        if (octetStrebm == null) {
+            throw new NullPointerException("octetStrebm is null");
         }
-        this.octetStream = octetStream;
+        this.octetStrebm = octetStrebm;
     }
 
     /**
-     * Creates a new <code>ReferenceOctetStreamData</code>.
+     * Crebtes b new <code>ReferenceOctetStrebmDbtb</code>.
      *
-     * @param octetStream the input stream containing the octets
-     * @param uri the URI String identifying the data object (may be
+     * @pbrbm octetStrebm the input strebm contbining the octets
+     * @pbrbm uri the URI String identifying the dbtb object (mby be
      *    <code>null</code>)
-     * @param mimeType the MIME type associated with the data object (may be
+     * @pbrbm mimeType the MIME type bssocibted with the dbtb object (mby be
      *    <code>null</code>)
-     * @throws NullPointerException if <code>octetStream</code> is
+     * @throws NullPointerException if <code>octetStrebm</code> is
      *    <code>null</code>
      */
-    public ReferenceOctetStreamData(InputStream octetStream, String uri,
+    public ReferenceOctetStrebmDbtb(InputStrebm octetStrebm, String uri,
         String mimeType) {
-        if (octetStream == null) {
-            throw new NullPointerException("octetStream is null");
+        if (octetStrebm == null) {
+            throw new NullPointerException("octetStrebm is null");
         }
-        this.octetStream = octetStream;
+        this.octetStrebm = octetStrebm;
         this.uri = uri;
         this.mimeType = mimeType;
     }
 
     /**
-     * Returns the input stream of this <code>ReferenceOctetStreamData</code>.
+     * Returns the input strebm of this <code>ReferenceOctetStrebmDbtb</code>.
      *
-     * @return the input stream of this <code>ReferenceOctetStreamData</code>.
+     * @return the input strebm of this <code>ReferenceOctetStrebmDbtb</code>.
      */
-    public InputStream getOctetStream() {
-        return octetStream;
+    public InputStrebm getOctetStrebm() {
+        return octetStrebm;
     }
 
     /**
-     * Returns the URI String identifying the data object represented by this
-     * <code>ReferenceOctetStreamData</code>.
+     * Returns the URI String identifying the dbtb object represented by this
+     * <code>ReferenceOctetStrebmDbtb</code>.
      *
-     * @return the URI String or <code>null</code> if not applicable
+     * @return the URI String or <code>null</code> if not bpplicbble
      */
     public String getURI() {
         return uri;
     }
 
     /**
-     * Returns the MIME type associated with the data object represented by this
-     * <code>ReferenceOctetStreamData</code>.
+     * Returns the MIME type bssocibted with the dbtb object represented by this
+     * <code>ReferenceOctetStrebmDbtb</code>.
      *
-     * @return the MIME type or <code>null</code> if not applicable
+     * @return the MIME type or <code>null</code> if not bpplicbble
      */
     public String getMimeType() {
         return mimeType;

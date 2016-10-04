@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.nimbus;
+pbckbge jbvbx.swing.plbf.nimbus;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.swing.JComponent;
-import javax.swing.plaf.synth.SynthConstants;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.plbf.synth.SynthConstbnts;
 
 /**
- * <p>Represents a built in, or custom, state in Nimbus.</p>
+ * <p>Represents b built in, or custom, stbte in Nimbus.</p>
  *
- * <p>Synth provides several built in states, which are:
+ * <p>Synth provides severbl built in stbtes, which bre:
  * <ul>
- *  <li>Enabled</li>
+ *  <li>Enbbled</li>
  *  <li>Mouse Over</li>
  *  <li>Pressed</li>
- *  <li>Disabled</li>
+ *  <li>Disbbled</li>
  *  <li>Focused</li>
  *  <li>Selected</li>
- *  <li>Default</li>
+ *  <li>Defbult</li>
  * </ul>
  *
- * <p>However, there are many more states that could be described in a LookAndFeel, and it
- * would be nice to style components differently based on these different states.
- * For example, a progress bar could be "indeterminate". It would be very convenient
- * to allow this to be defined as a "state".</p>
+ * <p>However, there bre mbny more stbtes thbt could be described in b LookAndFeel, bnd it
+ * would be nice to style components differently bbsed on these different stbtes.
+ * For exbmple, b progress bbr could be "indeterminbte". It would be very convenient
+ * to bllow this to be defined bs b "stbte".</p>
  *
- * <p>This class, State, is intended to be used for such situations.
- * Simply implement the abstract #isInState method. It returns true if the given
- * JComponent is "in this state", false otherwise. This method will be called
- * <em>many</em> times in <em>performance sensitive loops</em>. It must execute
+ * <p>This clbss, Stbte, is intended to be used for such situbtions.
+ * Simply implement the bbstrbct #isInStbte method. It returns true if the given
+ * JComponent is "in this stbte", fblse otherwise. This method will be cblled
+ * <em>mbny</em> times in <em>performbnce sensitive loops</em>. It must execute
  * very quickly.</p>
  *
- * <p>For example, the following might be an implementation of a custom
- * "Indeterminate" state for JProgressBars:</p>
+ * <p>For exbmple, the following might be bn implementbtion of b custom
+ * "Indeterminbte" stbte for JProgressBbrs:</p>
  *
  * <pre><code>
- *     public final class IndeterminateState extends State&lt;JProgressBar&gt; {
- *         public IndeterminateState() {
- *             super("Indeterminate");
+ *     public finbl clbss IndeterminbteStbte extends Stbte&lt;JProgressBbr&gt; {
+ *         public IndeterminbteStbte() {
+ *             super("Indeterminbte");
  *         }
  *
  *         &#64;Override
- *         protected boolean isInState(JProgressBar c) {
- *             return c.isIndeterminate();
+ *         protected boolebn isInStbte(JProgressBbr c) {
+ *             return c.isIndeterminbte();
  *         }
  *     }
  * </code></pre>
  */
-public abstract class State<T extends JComponent>{
-    static final Map<String, StandardState> standardStates = new HashMap<String, StandardState>(7);
-    static final State<JComponent> Enabled = new StandardState(SynthConstants.ENABLED);
-    static final State<JComponent> MouseOver = new StandardState(SynthConstants.MOUSE_OVER);
-    static final State<JComponent> Pressed = new StandardState(SynthConstants.PRESSED);
-    static final State<JComponent> Disabled = new StandardState(SynthConstants.DISABLED);
-    static final State<JComponent> Focused = new StandardState(SynthConstants.FOCUSED);
-    static final State<JComponent> Selected = new StandardState(SynthConstants.SELECTED);
-    static final State<JComponent> Default = new StandardState(SynthConstants.DEFAULT);
+public bbstrbct clbss Stbte<T extends JComponent>{
+    stbtic finbl Mbp<String, StbndbrdStbte> stbndbrdStbtes = new HbshMbp<String, StbndbrdStbte>(7);
+    stbtic finbl Stbte<JComponent> Enbbled = new StbndbrdStbte(SynthConstbnts.ENABLED);
+    stbtic finbl Stbte<JComponent> MouseOver = new StbndbrdStbte(SynthConstbnts.MOUSE_OVER);
+    stbtic finbl Stbte<JComponent> Pressed = new StbndbrdStbte(SynthConstbnts.PRESSED);
+    stbtic finbl Stbte<JComponent> Disbbled = new StbndbrdStbte(SynthConstbnts.DISABLED);
+    stbtic finbl Stbte<JComponent> Focused = new StbndbrdStbte(SynthConstbnts.FOCUSED);
+    stbtic finbl Stbte<JComponent> Selected = new StbndbrdStbte(SynthConstbnts.SELECTED);
+    stbtic finbl Stbte<JComponent> Defbult = new StbndbrdStbte(SynthConstbnts.DEFAULT);
 
-    private String name;
+    privbte String nbme;
 
     /**
-     * <p>Create a new custom State. Specify the name for the state. The name should
-     * be unique within the states set for any one particular component.
-     * The name of the state should coincide with the name used in UIDefaults.</p>
+     * <p>Crebte b new custom Stbte. Specify the nbme for the stbte. The nbme should
+     * be unique within the stbtes set for bny one pbrticulbr component.
+     * The nbme of the stbte should coincide with the nbme used in UIDefbults.</p>
      *
-     * <p>For example, the following would be correct:</p>
+     * <p>For exbmple, the following would be correct:</p>
      * <pre><code>
-     *     defaults.put("Button.States", "Enabled, Foo, Disabled");
-     *     defaults.put("Button.Foo", new FooState("Foo"));
+     *     defbults.put("Button.Stbtes", "Enbbled, Foo, Disbbled");
+     *     defbults.put("Button.Foo", new FooStbte("Foo"));
      * </code></pre>
      *
-     * @param name a simple user friendly name for the state, such as "Indeterminate"
-     *        or "EmbeddedPanel" or "Blurred". It is customary to use camel case,
-     *        with the first letter capitalized.
+     * @pbrbm nbme b simple user friendly nbme for the stbte, such bs "Indeterminbte"
+     *        or "EmbeddedPbnel" or "Blurred". It is custombry to use cbmel cbse,
+     *        with the first letter cbpitblized.
      */
-    protected State(String name) {
-        this.name = name;
+    protected Stbte(String nbme) {
+        this.nbme = nbme;
     }
 
-    @Override public String toString() { return name; }
+    @Override public String toString() { return nbme; }
 
     /**
-     * <p>This is the main entry point, called by NimbusStyle.</p>
+     * <p>This is the mbin entry point, cblled by NimbusStyle.</p>
      *
-     * <p>There are both custom states and standard states. Standard states
-     * correlate to the states defined in SynthConstants. When a UI delegate
-     * constructs a SynthContext, it specifies the state that the component is
-     * in according to the states defined in SynthConstants. Our NimbusStyle
-     * will then take this state, and query each State instance in the style
-     * asking whether isInState(c, s).</p>
+     * <p>There bre both custom stbtes bnd stbndbrd stbtes. Stbndbrd stbtes
+     * correlbte to the stbtes defined in SynthConstbnts. When b UI delegbte
+     * constructs b SynthContext, it specifies the stbte thbt the component is
+     * in bccording to the stbtes defined in SynthConstbnts. Our NimbusStyle
+     * will then tbke this stbte, bnd query ebch Stbte instbnce in the style
+     * bsking whether isInStbte(c, s).</p>
      *
-     * <p>Now, only the standard states care about the "s" param. So we have
-     * this odd arrangement:</p>
+     * <p>Now, only the stbndbrd stbtes cbre bbout the "s" pbrbm. So we hbve
+     * this odd brrbngement:</p>
      * <ul>
-     *     <li>NimbusStyle calls State.isInState(c, s)</li>
-     *     <li>State.isInState(c, s) simply delegates to State.isInState(c)</li>
-     *     <li><em>EXCEPT</em>, StandardState overrides State.isInState(c, s) and
-     *         returns directly from that method after checking its state, and
-     *         does not call isInState(c) (since it is not needed for standard states).</li>
+     *     <li>NimbusStyle cblls Stbte.isInStbte(c, s)</li>
+     *     <li>Stbte.isInStbte(c, s) simply delegbtes to Stbte.isInStbte(c)</li>
+     *     <li><em>EXCEPT</em>, StbndbrdStbte overrides Stbte.isInStbte(c, s) bnd
+     *         returns directly from thbt method bfter checking its stbte, bnd
+     *         does not cbll isInStbte(c) (since it is not needed for stbndbrd stbtes).</li>
      * </ul>
      */
-    boolean isInState(T c, int s) {
-        return isInState(c);
+    boolebn isInStbte(T c, int s) {
+        return isInStbte(c);
     }
 
     /**
-     * <p>Gets whether the specified JComponent is in the custom state represented
-     * by this class. <em>This is an extremely performance sensitive loop.</em>
-     * Please take proper precautions to ensure that it executes quickly.</p>
+     * <p>Gets whether the specified JComponent is in the custom stbte represented
+     * by this clbss. <em>This is bn extremely performbnce sensitive loop.</em>
+     * Plebse tbke proper precbutions to ensure thbt it executes quickly.</p>
      *
-     * <p>Nimbus uses this method to help determine what state a JComponent is
-     * in. For example, a custom State could exist for JProgressBar such that
-     * it would return <code>true</code> when the progress bar is indeterminate.
-     * Such an implementation of this method would simply be:</p>
+     * <p>Nimbus uses this method to help determine whbt stbte b JComponent is
+     * in. For exbmple, b custom Stbte could exist for JProgressBbr such thbt
+     * it would return <code>true</code> when the progress bbr is indeterminbte.
+     * Such bn implementbtion of this method would simply be:</p>
      *
-     * <pre><code> return c.isIndeterminate();</code></pre>
+     * <pre><code> return c.isIndeterminbte();</code></pre>
      *
-     * @param c the JComponent to test. This will never be null.
-     * @return true if <code>c</code> is in the custom state represented by
-     *         this <code>State</code> instance
+     * @pbrbm c the JComponent to test. This will never be null.
+     * @return true if <code>c</code> is in the custom stbte represented by
+     *         this <code>Stbte</code> instbnce
      */
-    protected abstract boolean isInState(T c);
+    protected bbstrbct boolebn isInStbte(T c);
 
-    String getName() { return name; }
+    String getNbme() { return nbme; }
 
-    static boolean isStandardStateName(String name) {
-        return standardStates.containsKey(name);
+    stbtic boolebn isStbndbrdStbteNbme(String nbme) {
+        return stbndbrdStbtes.contbinsKey(nbme);
     }
 
-    static StandardState getStandardState(String name) {
-        return standardStates.get(name);
+    stbtic StbndbrdStbte getStbndbrdStbte(String nbme) {
+        return stbndbrdStbtes.get(nbme);
     }
 
-    static final class StandardState extends State<JComponent> {
-        private int state;
+    stbtic finbl clbss StbndbrdStbte extends Stbte<JComponent> {
+        privbte int stbte;
 
-        private StandardState(int state) {
-            super(toString(state));
-            this.state = state;
-            standardStates.put(getName(), this);
+        privbte StbndbrdStbte(int stbte) {
+            super(toString(stbte));
+            this.stbte = stbte;
+            stbndbrdStbtes.put(getNbme(), this);
         }
 
-        public int getState() {
-            return state;
+        public int getStbte() {
+            return stbte;
         }
 
         @Override
-        boolean isInState(JComponent c, int s) {
-            return (s & state) == state;
+        boolebn isInStbte(JComponent c, int s) {
+            return (s & stbte) == stbte;
         }
 
         @Override
-        protected boolean isInState(JComponent c) {
-            throw new AssertionError("This method should never be called");
+        protected boolebn isInStbte(JComponent c) {
+            throw new AssertionError("This method should never be cblled");
         }
 
-        private static String toString(int state) {
+        privbte stbtic String toString(int stbte) {
             StringBuilder sb = new StringBuilder();
-            if ((state & SynthConstants.DEFAULT) == SynthConstants.DEFAULT) {
-                sb.append("Default");
+            if ((stbte & SynthConstbnts.DEFAULT) == SynthConstbnts.DEFAULT) {
+                sb.bppend("Defbult");
             }
-            if ((state & SynthConstants.DISABLED) == SynthConstants.DISABLED) {
-                if (sb.length() > 0) sb.append("+");
-                sb.append("Disabled");
+            if ((stbte & SynthConstbnts.DISABLED) == SynthConstbnts.DISABLED) {
+                if (sb.length() > 0) sb.bppend("+");
+                sb.bppend("Disbbled");
             }
-            if ((state & SynthConstants.ENABLED) == SynthConstants.ENABLED) {
-                if (sb.length() > 0) sb.append("+");
-                sb.append("Enabled");
+            if ((stbte & SynthConstbnts.ENABLED) == SynthConstbnts.ENABLED) {
+                if (sb.length() > 0) sb.bppend("+");
+                sb.bppend("Enbbled");
             }
-            if ((state & SynthConstants.FOCUSED) == SynthConstants.FOCUSED) {
-                if (sb.length() > 0) sb.append("+");
-                sb.append("Focused");
+            if ((stbte & SynthConstbnts.FOCUSED) == SynthConstbnts.FOCUSED) {
+                if (sb.length() > 0) sb.bppend("+");
+                sb.bppend("Focused");
             }
-            if ((state & SynthConstants.MOUSE_OVER) == SynthConstants.MOUSE_OVER) {
-                if (sb.length() > 0) sb.append("+");
-                sb.append("MouseOver");
+            if ((stbte & SynthConstbnts.MOUSE_OVER) == SynthConstbnts.MOUSE_OVER) {
+                if (sb.length() > 0) sb.bppend("+");
+                sb.bppend("MouseOver");
             }
-            if ((state & SynthConstants.PRESSED) == SynthConstants.PRESSED) {
-                if (sb.length() > 0) sb.append("+");
-                sb.append("Pressed");
+            if ((stbte & SynthConstbnts.PRESSED) == SynthConstbnts.PRESSED) {
+                if (sb.length() > 0) sb.bppend("+");
+                sb.bppend("Pressed");
             }
-            if ((state & SynthConstants.SELECTED) == SynthConstants.SELECTED) {
-                if (sb.length() > 0) sb.append("+");
-                sb.append("Selected");
+            if ((stbte & SynthConstbnts.SELECTED) == SynthConstbnts.SELECTED) {
+                if (sb.length() > 0) sb.bppend("+");
+                sb.bppend("Selected");
             }
             return sb.toString();
         }

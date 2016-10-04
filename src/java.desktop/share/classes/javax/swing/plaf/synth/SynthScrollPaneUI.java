@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import javax.swing.*;
-import javax.swing.text.JTextComponent;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvbx.swing.*;
+import jbvbx.swing.text.JTextComponent;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
 
-import java.awt.*;
-import java.awt.event.ContainerListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.event.ContbinerListener;
+import jbvb.bwt.event.ContbinerEvent;
+import jbvb.bwt.event.FocusListener;
+import jbvb.bwt.event.FocusEvent;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JScrollPane}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JScrollPbne}.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  * @since 1.7
  */
-public class SynthScrollPaneUI extends BasicScrollPaneUI
-                               implements PropertyChangeListener, SynthUI {
-    private SynthStyle style;
-    private boolean viewportViewHasFocus = false;
-    private ViewportViewFocusHandler viewportViewFocusHandler;
+public clbss SynthScrollPbneUI extends BbsicScrollPbneUI
+                               implements PropertyChbngeListener, SynthUI {
+    privbte SynthStyle style;
+    privbte boolebn viewportViewHbsFocus = fblse;
+    privbte ViewportViewFocusHbndler viewportViewFocusHbndler;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param x component to create UI object for
+     * @pbrbm x component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new SynthScrollPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent x) {
+        return new SynthScrollPbneUI();
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintScrollPaneBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintScrollPbneBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints the specified component.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        Border vpBorder = scrollpane.getViewportBorder();
+    protected void pbint(SynthContext context, Grbphics g) {
+        Border vpBorder = scrollpbne.getViewportBorder();
         if (vpBorder != null) {
-            Rectangle r = scrollpane.getViewportBorderBounds();
-            vpBorder.paintBorder(scrollpane, g, r.x, r.y, r.width, r.height);
+            Rectbngle r = scrollpbne.getViewportBorderBounds();
+            vpBorder.pbintBorder(scrollpbne, g, r.x, r.y, r.width, r.height);
         }
     }
 
@@ -122,32 +122,32 @@ public class SynthScrollPaneUI extends BasicScrollPaneUI
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintScrollPaneBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintScrollPbneBorder(context, g, x, y, w, h);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults(JScrollPane scrollpane) {
-        updateStyle(scrollpane);
+    protected void instbllDefbults(JScrollPbne scrollpbne) {
+        updbteStyle(scrollpbne);
     }
 
-    private void updateStyle(JScrollPane c) {
+    privbte void updbteStyle(JScrollPbne c) {
         SynthContext context = getContext(c, ENABLED);
         SynthStyle oldStyle = style;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
         if (style != oldStyle) {
-            Border vpBorder = scrollpane.getViewportBorder();
-            if ((vpBorder == null) ||( vpBorder instanceof UIResource)) {
-                scrollpane.setViewportBorder(new ViewportBorder(context));
+            Border vpBorder = scrollpbne.getViewportBorder();
+            if ((vpBorder == null) ||( vpBorder instbnceof UIResource)) {
+                scrollpbne.setViewportBorder(new ViewportBorder(context));
             }
             if (oldStyle != null) {
-                uninstallKeyboardActions(c);
-                installKeyboardActions(c);
+                uninstbllKeybobrdActions(c);
+                instbllKeybobrdActions(c);
             }
         }
         context.dispose();
@@ -157,15 +157,15 @@ public class SynthScrollPaneUI extends BasicScrollPaneUI
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners(JScrollPane c) {
-        super.installListeners(c);
-        c.addPropertyChangeListener(this);
-        if (UIManager.getBoolean("ScrollPane.useChildTextComponentFocus")){
-            viewportViewFocusHandler = new ViewportViewFocusHandler();
-            c.getViewport().addContainerListener(viewportViewFocusHandler);
+    protected void instbllListeners(JScrollPbne c) {
+        super.instbllListeners(c);
+        c.bddPropertyChbngeListener(this);
+        if (UIMbnbger.getBoolebn("ScrollPbne.useChildTextComponentFocus")){
+            viewportViewFocusHbndler = new ViewportViewFocusHbndler();
+            c.getViewport().bddContbinerListener(viewportViewFocusHbndler);
             Component view = c.getViewport().getView();
-            if (view instanceof JTextComponent) {
-                view.addFocusListener(viewportViewFocusHandler);
+            if (view instbnceof JTextComponent) {
+                view.bddFocusListener(viewportViewFocusHbndler);
             }
         }
     }
@@ -174,14 +174,14 @@ public class SynthScrollPaneUI extends BasicScrollPaneUI
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults(JScrollPane c) {
+    protected void uninstbllDefbults(JScrollPbne c) {
         SynthContext context = getContext(c, ENABLED);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
 
-        if (scrollpane.getViewportBorder() instanceof UIResource) {
-            scrollpane.setViewportBorder(null);
+        if (scrollpbne.getViewportBorder() instbnceof UIResource) {
+            scrollpbne.setViewportBorder(null);
         }
     }
 
@@ -189,16 +189,16 @@ public class SynthScrollPaneUI extends BasicScrollPaneUI
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners(JComponent c) {
-        super.uninstallListeners(c);
-        c.removePropertyChangeListener(this);
-        if (viewportViewFocusHandler != null) {
-            JViewport viewport = ((JScrollPane) c).getViewport();
-            viewport.removeContainerListener(viewportViewFocusHandler);
+    protected void uninstbllListeners(JComponent c) {
+        super.uninstbllListeners(c);
+        c.removePropertyChbngeListener(this);
+        if (viewportViewFocusHbndler != null) {
+            JViewport viewport = ((JScrollPbne) c).getViewport();
+            viewport.removeContbinerListener(viewportViewFocusHbndler);
             if (viewport.getView()!= null) {
-                viewport.getView().removeFocusListener(viewportViewFocusHandler);
+                viewport.getView().removeFocusListener(viewportViewFocusHbndler);
             }
-            viewportViewFocusHandler = null;
+            viewportViewFocusHbndler = null;
         }
     }
 
@@ -207,52 +207,52 @@ public class SynthScrollPaneUI extends BasicScrollPaneUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+        return getContext(c, getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
-    private int getComponentState(JComponent c) {
-        int baseState = SynthLookAndFeel.getComponentState(c);
-        if (viewportViewFocusHandler!=null && viewportViewHasFocus){
-            baseState = baseState | FOCUSED;
+    privbte int getComponentStbte(JComponent c) {
+        int bbseStbte = SynthLookAndFeel.getComponentStbte(c);
+        if (viewportViewFocusHbndler!=null && viewportViewHbsFocus){
+            bbseStbte = bbseStbte | FOCUSED;
         }
-        return baseState;
+        return bbseStbte;
     }
 
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle(scrollpane);
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(e)) {
+            updbteStyle(scrollpbne);
         }
     }
 
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class ViewportBorder extends AbstractBorder implements UIResource {
-        private Insets insets;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss ViewportBorder extends AbstrbctBorder implements UIResource {
+        privbte Insets insets;
 
         ViewportBorder(SynthContext context) {
             this.insets = (Insets)context.getStyle().get(context,
-                                            "ScrollPane.viewportBorderInsets");
+                                            "ScrollPbne.viewportBorderInsets");
             if (this.insets == null) {
                 this.insets = SynthLookAndFeel.EMPTY_UIRESOURCE_INSETS;
             }
         }
 
         @Override
-        public void paintBorder(Component c, Graphics g, int x, int y,
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                             int width, int height) {
             JComponent jc = (JComponent)c;
             SynthContext context = getContext(jc);
             SynthStyle style = context.getStyle();
             if (style == null) {
-                assert false: "SynthBorder is being used outside after the " +
-                              " UI has been uninstalled";
+                bssert fblse: "SynthBorder is being used outside bfter the " +
+                              " UI hbs been uninstblled";
                 return;
             }
-            context.getPainter().paintViewportBorder(context, g, x, y, width,
+            context.getPbinter().pbintViewportBorder(context, g, x, y, width,
                                                      height);
             context.dispose();
         }
@@ -271,38 +271,38 @@ public class SynthScrollPaneUI extends BasicScrollPaneUI
         }
 
         @Override
-        public boolean isBorderOpaque() {
-            return false;
+        public boolebn isBorderOpbque() {
+            return fblse;
         }
     }
 
     /**
-     * Handle keeping track of the viewport's view's focus
+     * Hbndle keeping trbck of the viewport's view's focus
      */
-    private class ViewportViewFocusHandler implements ContainerListener,
+    privbte clbss ViewportViewFocusHbndler implements ContbinerListener,
             FocusListener{
-        public void componentAdded(ContainerEvent e) {
-            if (e.getChild() instanceof JTextComponent) {
-                e.getChild().addFocusListener(this);
-                viewportViewHasFocus = e.getChild().isFocusOwner();
-                scrollpane.repaint();
+        public void componentAdded(ContbinerEvent e) {
+            if (e.getChild() instbnceof JTextComponent) {
+                e.getChild().bddFocusListener(this);
+                viewportViewHbsFocus = e.getChild().isFocusOwner();
+                scrollpbne.repbint();
             }
         }
 
-        public void componentRemoved(ContainerEvent e) {
-            if (e.getChild() instanceof JTextComponent) {
+        public void componentRemoved(ContbinerEvent e) {
+            if (e.getChild() instbnceof JTextComponent) {
                 e.getChild().removeFocusListener(this);
             }
         }
 
-        public void focusGained(FocusEvent e) {
-            viewportViewHasFocus = true;
-            scrollpane.repaint();
+        public void focusGbined(FocusEvent e) {
+            viewportViewHbsFocus = true;
+            scrollpbne.repbint();
         }
 
         public void focusLost(FocusEvent e) {
-            viewportViewHasFocus = false;
-            scrollpane.repaint();
+            viewportViewHbsFocus = fblse;
+            scrollpbne.repbint();
         }
     }
 }

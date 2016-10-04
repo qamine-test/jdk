@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.event.*;
-import java.awt.Graphics;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
-import java.awt.Point;
-import java.awt.Insets;
-import java.beans.*;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicSliderUI;
+import jbvb.bwt.event.*;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Point;
+import jbvb.bwt.Insets;
+import jbvb.bebns.*;
+import jbvb.util.Dictionbry;
+import jbvb.util.Enumerbtion;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicSliderUI;
 import sun.swing.SwingUtilities2;
 
 
 /**
- * Provides the Synth L&amp;F UI delegate for
+ * Provides the Synth L&bmp;F UI delegbte for
  * {@link JSlider}.
  *
- * @author Joshua Outwater
+ * @buthor Joshub Outwbter
  * @since 1.7
  */
-public class SynthSliderUI extends BasicSliderUI
-                           implements PropertyChangeListener, SynthUI {
-    private Rectangle valueRect = new Rectangle();
-    private boolean paintValue;
+public clbss SynthSliderUI extends BbsicSliderUI
+                           implements PropertyChbngeListener, SynthUI {
+    privbte Rectbngle vblueRect = new Rectbngle();
+    privbte boolebn pbintVblue;
 
     /**
-     * When a JSlider is used as a renderer in a JTable, its layout is not
-     * being recomputed even though the size is changing. Even though there
-     * is a ComponentListener installed, it is not being notified. As such,
-     * at times when being asked to paint the layout should first be redone.
-     * At the end of the layout method we set this lastSize variable, which
-     * represents the size of the slider the last time it was layed out.
+     * When b JSlider is used bs b renderer in b JTbble, its lbyout is not
+     * being recomputed even though the size is chbnging. Even though there
+     * is b ComponentListener instblled, it is not being notified. As such,
+     * bt times when being bsked to pbint the lbyout should first be redone.
+     * At the end of the lbyout method we set this lbstSize vbribble, which
+     * represents the size of the slider the lbst time it wbs lbyed out.
      *
-     * In the paint method we then check to see that this is accurate, that
-     * the slider has not changed sizes since being last layed out. If necessary
-     * we recompute the layout.
+     * In the pbint method we then check to see thbt this is bccurbte, thbt
+     * the slider hbs not chbnged sizes since being lbst lbyed out. If necessbry
+     * we recompute the lbyout.
      */
-    private Dimension lastSize;
+    privbte Dimension lbstSize;
 
-    private int trackHeight;
-    private int trackBorder;
-    private int thumbWidth;
-    private int thumbHeight;
+    privbte int trbckHeight;
+    privbte int trbckBorder;
+    privbte int thumbWidth;
+    privbte int thumbHeight;
 
-    private SynthStyle style;
-    private SynthStyle sliderTrackStyle;
-    private SynthStyle sliderThumbStyle;
+    privbte SynthStyle style;
+    privbte SynthStyle sliderTrbckStyle;
+    privbte SynthStyle sliderThumbStyle;
 
-    /** Used to determine the color to paint the thumb. */
-    private transient boolean thumbActive; //happens on rollover, and when pressed
-    private transient boolean thumbPressed; //happens when mouse was depressed while over thumb
+    /** Used to determine the color to pbint the thumb. */
+    privbte trbnsient boolebn thumbActive; //hbppens on rollover, bnd when pressed
+    privbte trbnsient boolebn thumbPressed; //hbppens when mouse wbs depressed while over thumb
 
     ///////////////////////////////////////////////////
-    // ComponentUI Interface Implementation methods
+    // ComponentUI Interfbce Implementbtion methods
     ///////////////////////////////////////////////////
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param c component to create UI object for
+     * @pbrbm c component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent c) {
+    public stbtic ComponentUI crebteUI(JComponent c) {
         return new SynthSliderUI((JSlider)c);
     }
 
@@ -101,27 +101,27 @@ public class SynthSliderUI extends BasicSliderUI
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults(JSlider slider) {
-        updateStyle(slider);
+    protected void instbllDefbults(JSlider slider) {
+        updbteStyle(slider);
     }
 
     /**
-     * Uninstalls default setting. This method is called when a
-     * {@code LookAndFeel} is uninstalled.
+     * Uninstblls defbult setting. This method is cblled when b
+     * {@code LookAndFeel} is uninstblled.
      */
-    protected void uninstallDefaults(JSlider slider) {
+    protected void uninstbllDefbults(JSlider slider) {
         SynthContext context = getContext(slider, ENABLED);
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
 
         context = getContext(slider, Region.SLIDER_TRACK, ENABLED);
-        sliderTrackStyle.uninstallDefaults(context);
+        sliderTrbckStyle.uninstbllDefbults(context);
         context.dispose();
-        sliderTrackStyle = null;
+        sliderTrbckStyle = null;
 
         context = getContext(slider, Region.SLIDER_THUMB, ENABLED);
-        sliderThumbStyle.uninstallDefaults(context);
+        sliderThumbStyle.uninstbllDefbults(context);
         context.dispose();
         sliderThumbStyle = null;
     }
@@ -130,24 +130,24 @@ public class SynthSliderUI extends BasicSliderUI
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners(JSlider slider) {
-        super.installListeners(slider);
-        slider.addPropertyChangeListener(this);
+    protected void instbllListeners(JSlider slider) {
+        super.instbllListeners(slider);
+        slider.bddPropertyChbngeListener(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners(JSlider slider) {
-        slider.removePropertyChangeListener(this);
-        super.uninstallListeners(slider);
+    protected void uninstbllListeners(JSlider slider) {
+        slider.removePropertyChbngeListener(this);
+        super.uninstbllListeners(slider);
     }
 
-    private void updateStyle(JSlider c) {
+    privbte void updbteStyle(JSlider c) {
         SynthContext context = getContext(c, ENABLED);
         SynthStyle oldStyle = style;
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
 
         if (style != oldStyle) {
             thumbWidth =
@@ -156,46 +156,46 @@ public class SynthSliderUI extends BasicSliderUI
             thumbHeight =
                 style.getInt(context, "Slider.thumbHeight", 14);
 
-            // handle scaling for sizeVarients for special case components. The
-            // key "JComponent.sizeVariant" scales for large/small/mini
-            // components are based on Apples LAF
-            String scaleKey = (String)slider.getClientProperty(
-                    "JComponent.sizeVariant");
-            if (scaleKey != null){
-                if ("large".equals(scaleKey)){
+            // hbndle scbling for sizeVbrients for specibl cbse components. The
+            // key "JComponent.sizeVbribnt" scbles for lbrge/smbll/mini
+            // components bre bbsed on Apples LAF
+            String scbleKey = (String)slider.getClientProperty(
+                    "JComponent.sizeVbribnt");
+            if (scbleKey != null){
+                if ("lbrge".equbls(scbleKey)){
                     thumbWidth *= 1.15;
                     thumbHeight *= 1.15;
-                } else if ("small".equals(scaleKey)){
+                } else if ("smbll".equbls(scbleKey)){
                     thumbWidth *= 0.857;
                     thumbHeight *= 0.857;
-                } else if ("mini".equals(scaleKey)){
+                } else if ("mini".equbls(scbleKey)){
                     thumbWidth *= 0.784;
                     thumbHeight *= 0.784;
                 }
             }
 
-            trackBorder =
-                style.getInt(context, "Slider.trackBorder", 1);
+            trbckBorder =
+                style.getInt(context, "Slider.trbckBorder", 1);
 
-            trackHeight = thumbHeight + trackBorder * 2;
+            trbckHeight = thumbHeight + trbckBorder * 2;
 
-            paintValue = style.getBoolean(context,
-                    "Slider.paintValue", true);
+            pbintVblue = style.getBoolebn(context,
+                    "Slider.pbintVblue", true);
             if (oldStyle != null) {
-                uninstallKeyboardActions(c);
-                installKeyboardActions(c);
+                uninstbllKeybobrdActions(c);
+                instbllKeybobrdActions(c);
             }
         }
         context.dispose();
 
         context = getContext(c, Region.SLIDER_TRACK, ENABLED);
-        sliderTrackStyle =
-            SynthLookAndFeel.updateStyle(context, this);
+        sliderTrbckStyle =
+            SynthLookAndFeel.updbteStyle(context, this);
         context.dispose();
 
         context = getContext(c, Region.SLIDER_THUMB, ENABLED);
         sliderThumbStyle =
-            SynthLookAndFeel.updateStyle(context, this);
+            SynthLookAndFeel.updbteStyle(context, this);
         context.dispose();
     }
 
@@ -203,30 +203,30 @@ public class SynthSliderUI extends BasicSliderUI
      * {@inheritDoc}
      */
     @Override
-    protected TrackListener createTrackListener(JSlider s) {
-        return new SynthTrackListener();
+    protected TrbckListener crebteTrbckListener(JSlider s) {
+        return new SynthTrbckListener();
     }
 
-    private void updateThumbState(int x, int y) {
-        setThumbActive(thumbRect.contains(x, y));
+    privbte void updbteThumbStbte(int x, int y) {
+        setThumbActive(thumbRect.contbins(x, y));
     }
 
-    private void updateThumbState(int x, int y, boolean pressed) {
-        updateThumbState(x, y);
+    privbte void updbteThumbStbte(int x, int y, boolebn pressed) {
+        updbteThumbStbte(x, y);
         setThumbPressed(pressed);
     }
 
-    private void setThumbActive(boolean active) {
-        if (thumbActive != active) {
-            thumbActive = active;
-            slider.repaint(thumbRect);
+    privbte void setThumbActive(boolebn bctive) {
+        if (thumbActive != bctive) {
+            thumbActive = bctive;
+            slider.repbint(thumbRect);
         }
     }
 
-    private void setThumbPressed(boolean pressed) {
+    privbte void setThumbPressed(boolebn pressed) {
         if (thumbPressed != pressed) {
             thumbPressed = pressed;
-            slider.repaint(thumbRect);
+            slider.repbint(thumbRect);
         }
     }
 
@@ -234,67 +234,67 @@ public class SynthSliderUI extends BasicSliderUI
      * {@inheritDoc}
      */
     @Override
-    public int getBaseline(JComponent c, int width, int height) {
+    public int getBbseline(JComponent c, int width, int height) {
         if (c == null) {
             throw new NullPointerException("Component must be non-null");
         }
         if (width < 0 || height < 0) {
-            throw new IllegalArgumentException(
-                    "Width and height must be >= 0");
+            throw new IllegblArgumentException(
+                    "Width bnd height must be >= 0");
         }
-        if (slider.getPaintLabels() && labelsHaveSameBaselines()) {
-            // Get the insets for the track.
-            Insets trackInsets = new Insets(0, 0, 0, 0);
-            SynthContext trackContext = getContext(slider,
+        if (slider.getPbintLbbels() && lbbelsHbveSbmeBbselines()) {
+            // Get the insets for the trbck.
+            Insets trbckInsets = new Insets(0, 0, 0, 0);
+            SynthContext trbckContext = getContext(slider,
                                                    Region.SLIDER_TRACK);
-            style.getInsets(trackContext, trackInsets);
-            trackContext.dispose();
-            if (slider.getOrientation() == JSlider.HORIZONTAL) {
-                int valueHeight = 0;
-                if (paintValue) {
+            style.getInsets(trbckContext, trbckInsets);
+            trbckContext.dispose();
+            if (slider.getOrientbtion() == JSlider.HORIZONTAL) {
+                int vblueHeight = 0;
+                if (pbintVblue) {
                     SynthContext context = getContext(slider);
-                    valueHeight = context.getStyle().getGraphicsUtils(context).
-                            getMaximumCharHeight(context);
+                    vblueHeight = context.getStyle().getGrbphicsUtils(context).
+                            getMbximumChbrHeight(context);
                     context.dispose();
                 }
                 int tickHeight = 0;
-                if (slider.getPaintTicks()) {
+                if (slider.getPbintTicks()) {
                     tickHeight = getTickLength();
                 }
-                int labelHeight = getHeightOfTallestLabel();
-                int contentHeight = valueHeight + trackHeight +
-                        trackInsets.top + trackInsets.bottom +
-                        tickHeight + labelHeight + 4;
+                int lbbelHeight = getHeightOfTbllestLbbel();
+                int contentHeight = vblueHeight + trbckHeight +
+                        trbckInsets.top + trbckInsets.bottom +
+                        tickHeight + lbbelHeight + 4;
                 int centerY = height / 2 - contentHeight / 2;
-                centerY += valueHeight + 2;
-                centerY += trackHeight + trackInsets.top + trackInsets.bottom;
+                centerY += vblueHeight + 2;
+                centerY += trbckHeight + trbckInsets.top + trbckInsets.bottom;
                 centerY += tickHeight + 2;
-                JComponent label = slider.getLabelTable().elements().nextElement();
-                Dimension pref = label.getPreferredSize();
-                return centerY + label.getBaseline(pref.width, pref.height);
+                JComponent lbbel = slider.getLbbelTbble().elements().nextElement();
+                Dimension pref = lbbel.getPreferredSize();
+                return centerY + lbbel.getBbseline(pref.width, pref.height);
             }
             else { // VERTICAL
-                Integer value = slider.getInverted() ? getLowestValue() :
-                                                       getHighestValue();
-                if (value != null) {
-                    int valueY = insetCache.top;
-                    int valueHeight = 0;
-                    if (paintValue) {
+                Integer vblue = slider.getInverted() ? getLowestVblue() :
+                                                       getHighestVblue();
+                if (vblue != null) {
+                    int vblueY = insetCbche.top;
+                    int vblueHeight = 0;
+                    if (pbintVblue) {
                         SynthContext context = getContext(slider);
-                        valueHeight = context.getStyle().getGraphicsUtils(
-                                context).getMaximumCharHeight(context);
+                        vblueHeight = context.getStyle().getGrbphicsUtils(
+                                context).getMbximumChbrHeight(context);
                         context.dispose();
                     }
-                    int contentHeight = height - insetCache.top -
-                            insetCache.bottom;
-                    int trackY = valueY + valueHeight;
-                    int trackHeight = contentHeight - valueHeight;
-                    int yPosition = yPositionForValue(value.intValue(), trackY,
-                                                      trackHeight);
-                    JComponent label = slider.getLabelTable().get(value);
-                    Dimension pref = label.getPreferredSize();
+                    int contentHeight = height - insetCbche.top -
+                            insetCbche.bottom;
+                    int trbckY = vblueY + vblueHeight;
+                    int trbckHeight = contentHeight - vblueHeight;
+                    int yPosition = yPositionForVblue(vblue.intVblue(), trbckY,
+                                                      trbckHeight);
+                    JComponent lbbel = slider.getLbbelTbble().get(vblue);
+                    Dimension pref = lbbel.getPreferredSize();
                     return yPosition - pref.height / 2 +
-                            label.getBaseline(pref.width, pref.height);
+                            lbbel.getBbseline(pref.width, pref.height);
                 }
             }
         }
@@ -306,9 +306,9 @@ public class SynthSliderUI extends BasicSliderUI
      */
     @Override
     public Dimension getPreferredSize(JComponent c)  {
-        recalculateIfInsetsChanged();
+        recblculbteIfInsetsChbnged();
         Dimension d = new Dimension(contentRect.width, contentRect.height);
-        if (slider.getOrientation() == JSlider.VERTICAL) {
+        if (slider.getOrientbtion() == JSlider.VERTICAL) {
             d.height = 200;
         } else {
             d.width = 200;
@@ -324,12 +324,12 @@ public class SynthSliderUI extends BasicSliderUI
      */
     @Override
     public Dimension getMinimumSize(JComponent c) {
-        recalculateIfInsetsChanged();
+        recblculbteIfInsetsChbnged();
         Dimension d = new Dimension(contentRect.width, contentRect.height);
-        if (slider.getOrientation() == JSlider.VERTICAL) {
-            d.height = thumbRect.height + insetCache.top + insetCache.bottom;
+        if (slider.getOrientbtion() == JSlider.VERTICAL) {
+            d.height = thumbRect.height + insetCbche.top + insetCbche.bottom;
         } else {
-            d.width = thumbRect.width + insetCache.left + insetCache.right;
+            d.width = thumbRect.width + insetCbche.left + insetCbche.right;
         }
         return d;
     }
@@ -338,215 +338,215 @@ public class SynthSliderUI extends BasicSliderUI
      * {@inheritDoc}
      */
     @Override
-    protected void calculateGeometry() {
-        calculateThumbSize();
-        layout();
-        calculateThumbLocation();
+    protected void cblculbteGeometry() {
+        cblculbteThumbSize();
+        lbyout();
+        cblculbteThumbLocbtion();
     }
 
     /**
-     * Lays out the slider.
+     * Lbys out the slider.
      */
-    protected void layout() {
+    protected void lbyout() {
         SynthContext context = getContext(slider);
-        SynthGraphicsUtils synthGraphics = style.getGraphicsUtils(context);
+        SynthGrbphicsUtils synthGrbphics = style.getGrbphicsUtils(context);
 
-        // Get the insets for the track.
-        Insets trackInsets = new Insets(0, 0, 0, 0);
-        SynthContext trackContext = getContext(slider, Region.SLIDER_TRACK);
-        style.getInsets(trackContext, trackInsets);
-        trackContext.dispose();
+        // Get the insets for the trbck.
+        Insets trbckInsets = new Insets(0, 0, 0, 0);
+        SynthContext trbckContext = getContext(slider, Region.SLIDER_TRACK);
+        style.getInsets(trbckContext, trbckInsets);
+        trbckContext.dispose();
 
-        if (slider.getOrientation() == JSlider.HORIZONTAL) {
-            // Calculate the height of all the subcomponents so we can center
+        if (slider.getOrientbtion() == JSlider.HORIZONTAL) {
+            // Cblculbte the height of bll the subcomponents so we cbn center
             // them.
-            valueRect.height = 0;
-            if (paintValue) {
-                valueRect.height =
-                    synthGraphics.getMaximumCharHeight(context);
+            vblueRect.height = 0;
+            if (pbintVblue) {
+                vblueRect.height =
+                    synthGrbphics.getMbximumChbrHeight(context);
             }
 
-            trackRect.height = trackHeight;
+            trbckRect.height = trbckHeight;
 
             tickRect.height = 0;
-            if (slider.getPaintTicks()) {
+            if (slider.getPbintTicks()) {
                 tickRect.height = getTickLength();
             }
 
-            labelRect.height = 0;
-            if (slider.getPaintLabels()) {
-                labelRect.height = getHeightOfTallestLabel();
+            lbbelRect.height = 0;
+            if (slider.getPbintLbbels()) {
+                lbbelRect.height = getHeightOfTbllestLbbel();
             }
 
-            contentRect.height = valueRect.height + trackRect.height
-                + trackInsets.top + trackInsets.bottom
-                + tickRect.height + labelRect.height + 4;
-            contentRect.width = slider.getWidth() - insetCache.left
-                - insetCache.right;
+            contentRect.height = vblueRect.height + trbckRect.height
+                + trbckInsets.top + trbckInsets.bottom
+                + tickRect.height + lbbelRect.height + 4;
+            contentRect.width = slider.getWidth() - insetCbche.left
+                - insetCbche.right;
 
-            // Check if any of the labels will paint out of bounds.
-            int pad = 0;
-            if (slider.getPaintLabels()) {
-                // Calculate the track rectangle.  It is necessary for
-                // xPositionForValue to return correct values.
-                trackRect.x = insetCache.left;
-                trackRect.width = contentRect.width;
+            // Check if bny of the lbbels will pbint out of bounds.
+            int pbd = 0;
+            if (slider.getPbintLbbels()) {
+                // Cblculbte the trbck rectbngle.  It is necessbry for
+                // xPositionForVblue to return correct vblues.
+                trbckRect.x = insetCbche.left;
+                trbckRect.width = contentRect.width;
 
-                Dictionary<Integer, JComponent> dictionary = slider.getLabelTable();
-                if (dictionary != null) {
-                    int minValue = slider.getMinimum();
-                    int maxValue = slider.getMaximum();
+                Dictionbry<Integer, JComponent> dictionbry = slider.getLbbelTbble();
+                if (dictionbry != null) {
+                    int minVblue = slider.getMinimum();
+                    int mbxVblue = slider.getMbximum();
 
-                    // Iterate through the keys in the dictionary and find the
-                    // first and last labels indices that fall within the
-                    // slider range.
+                    // Iterbte through the keys in the dictionbry bnd find the
+                    // first bnd lbst lbbels indices thbt fbll within the
+                    // slider rbnge.
                     int firstLblIdx = Integer.MAX_VALUE;
-                    int lastLblIdx = Integer.MIN_VALUE;
-                    for (Enumeration<Integer> keys = dictionary.keys();
-                            keys.hasMoreElements(); ) {
-                        int keyInt = keys.nextElement().intValue();
-                        if (keyInt >= minValue && keyInt < firstLblIdx) {
+                    int lbstLblIdx = Integer.MIN_VALUE;
+                    for (Enumerbtion<Integer> keys = dictionbry.keys();
+                            keys.hbsMoreElements(); ) {
+                        int keyInt = keys.nextElement().intVblue();
+                        if (keyInt >= minVblue && keyInt < firstLblIdx) {
                             firstLblIdx = keyInt;
                         }
-                        if (keyInt <= maxValue && keyInt > lastLblIdx) {
-                            lastLblIdx = keyInt;
+                        if (keyInt <= mbxVblue && keyInt > lbstLblIdx) {
+                            lbstLblIdx = keyInt;
                         }
                     }
-                    // Calculate the pad necessary for the labels at the first
-                    // and last visible indices.
-                    pad = getPadForLabel(firstLblIdx);
-                    pad = Math.max(pad, getPadForLabel(lastLblIdx));
+                    // Cblculbte the pbd necessbry for the lbbels bt the first
+                    // bnd lbst visible indices.
+                    pbd = getPbdForLbbel(firstLblIdx);
+                    pbd = Mbth.mbx(pbd, getPbdForLbbel(lbstLblIdx));
                 }
             }
-            // Calculate the painting rectangles for each of the different
-            // slider areas.
-            valueRect.x = trackRect.x = tickRect.x = labelRect.x =
-                (insetCache.left + pad);
-            valueRect.width = trackRect.width = tickRect.width =
-                labelRect.width = (contentRect.width - (pad * 2));
+            // Cblculbte the pbinting rectbngles for ebch of the different
+            // slider brebs.
+            vblueRect.x = trbckRect.x = tickRect.x = lbbelRect.x =
+                (insetCbche.left + pbd);
+            vblueRect.width = trbckRect.width = tickRect.width =
+                lbbelRect.width = (contentRect.width - (pbd * 2));
 
             int centerY = slider.getHeight() / 2 - contentRect.height / 2;
 
-            valueRect.y = centerY;
-            centerY += valueRect.height + 2;
+            vblueRect.y = centerY;
+            centerY += vblueRect.height + 2;
 
-            trackRect.y = centerY + trackInsets.top;
-            centerY += trackRect.height + trackInsets.top + trackInsets.bottom;
+            trbckRect.y = centerY + trbckInsets.top;
+            centerY += trbckRect.height + trbckInsets.top + trbckInsets.bottom;
 
             tickRect.y = centerY;
             centerY += tickRect.height + 2;
 
-            labelRect.y = centerY;
-            centerY += labelRect.height;
+            lbbelRect.y = centerY;
+            centerY += lbbelRect.height;
         } else {
-            // Calculate the width of all the subcomponents so we can center
+            // Cblculbte the width of bll the subcomponents so we cbn center
             // them.
-            trackRect.width = trackHeight;
+            trbckRect.width = trbckHeight;
 
             tickRect.width = 0;
-            if (slider.getPaintTicks()) {
+            if (slider.getPbintTicks()) {
                 tickRect.width = getTickLength();
             }
 
-            labelRect.width = 0;
-            if (slider.getPaintLabels()) {
-                labelRect.width = getWidthOfWidestLabel();
+            lbbelRect.width = 0;
+            if (slider.getPbintLbbels()) {
+                lbbelRect.width = getWidthOfWidestLbbel();
             }
 
-            valueRect.y = insetCache.top;
-            valueRect.height = 0;
-            if (paintValue) {
-                valueRect.height =
-                    synthGraphics.getMaximumCharHeight(context);
+            vblueRect.y = insetCbche.top;
+            vblueRect.height = 0;
+            if (pbintVblue) {
+                vblueRect.height =
+                    synthGrbphics.getMbximumChbrHeight(context);
             }
 
-            // Get the max width of the min or max value of the slider.
+            // Get the mbx width of the min or mbx vblue of the slider.
             FontMetrics fm = slider.getFontMetrics(slider.getFont());
-            valueRect.width = Math.max(
-                synthGraphics.computeStringWidth(context, slider.getFont(),
-                    fm, "" + slider.getMaximum()),
-                synthGraphics.computeStringWidth(context, slider.getFont(),
+            vblueRect.width = Mbth.mbx(
+                synthGrbphics.computeStringWidth(context, slider.getFont(),
+                    fm, "" + slider.getMbximum()),
+                synthGrbphics.computeStringWidth(context, slider.getFont(),
                     fm, "" + slider.getMinimum()));
 
-            int l = valueRect.width / 2;
-            int w1 = trackInsets.left + trackRect.width / 2;
-            int w2 = trackRect.width / 2 + trackInsets.right +
-                              tickRect.width + labelRect.width;
-            contentRect.width = Math.max(w1, l) + Math.max(w2, l) +
-                    2 + insetCache.left + insetCache.right;
+            int l = vblueRect.width / 2;
+            int w1 = trbckInsets.left + trbckRect.width / 2;
+            int w2 = trbckRect.width / 2 + trbckInsets.right +
+                              tickRect.width + lbbelRect.width;
+            contentRect.width = Mbth.mbx(w1, l) + Mbth.mbx(w2, l) +
+                    2 + insetCbche.left + insetCbche.right;
             contentRect.height = slider.getHeight() -
-                                    insetCache.top - insetCache.bottom;
+                                    insetCbche.top - insetCbche.bottom;
 
-            // Layout the components.
-            trackRect.y = tickRect.y = labelRect.y =
-                valueRect.y + valueRect.height;
-            trackRect.height = tickRect.height = labelRect.height =
-                contentRect.height - valueRect.height;
+            // Lbyout the components.
+            trbckRect.y = tickRect.y = lbbelRect.y =
+                vblueRect.y + vblueRect.height;
+            trbckRect.height = tickRect.height = lbbelRect.height =
+                contentRect.height - vblueRect.height;
 
-            int startX = slider.getWidth() / 2 - contentRect.width / 2;
+            int stbrtX = slider.getWidth() / 2 - contentRect.width / 2;
             if (SynthLookAndFeel.isLeftToRight(slider)) {
                 if (l > w1) {
-                    startX += (l - w1);
+                    stbrtX += (l - w1);
                 }
-                trackRect.x = startX + trackInsets.left;
+                trbckRect.x = stbrtX + trbckInsets.left;
 
-                startX += trackInsets.left + trackRect.width + trackInsets.right;
-                tickRect.x = startX;
-                labelRect.x = startX + tickRect.width + 2;
+                stbrtX += trbckInsets.left + trbckRect.width + trbckInsets.right;
+                tickRect.x = stbrtX;
+                lbbelRect.x = stbrtX + tickRect.width + 2;
             } else {
                 if (l > w2) {
-                    startX += (l - w2);
+                    stbrtX += (l - w2);
                 }
-                labelRect.x = startX;
+                lbbelRect.x = stbrtX;
 
-                startX += labelRect.width + 2;
-                tickRect.x = startX;
-                trackRect.x = startX + tickRect.width + trackInsets.left;
+                stbrtX += lbbelRect.width + 2;
+                tickRect.x = stbrtX;
+                trbckRect.x = stbrtX + tickRect.width + trbckInsets.left;
             }
         }
         context.dispose();
-        lastSize = slider.getSize();
+        lbstSize = slider.getSize();
     }
 
     /**
-     * Calculates the pad for the label at the specified index.
+     * Cblculbtes the pbd for the lbbel bt the specified index.
      *
-     * @param i index of the label to calculate pad for.
-     * @return padding required to keep label visible.
+     * @pbrbm i index of the lbbel to cblculbte pbd for.
+     * @return pbdding required to keep lbbel visible.
      */
-    private int getPadForLabel(int i) {
-        int pad = 0;
+    privbte int getPbdForLbbel(int i) {
+        int pbd = 0;
 
-        JComponent c = slider.getLabelTable().get(i);
+        JComponent c = slider.getLbbelTbble().get(i);
         if (c != null) {
-            int centerX = xPositionForValue(i);
-            int cHalfWidth = c.getPreferredSize().width / 2;
-            if (centerX - cHalfWidth < insetCache.left) {
-                pad = Math.max(pad, insetCache.left - (centerX - cHalfWidth));
+            int centerX = xPositionForVblue(i);
+            int cHblfWidth = c.getPreferredSize().width / 2;
+            if (centerX - cHblfWidth < insetCbche.left) {
+                pbd = Mbth.mbx(pbd, insetCbche.left - (centerX - cHblfWidth));
             }
 
-            if (centerX + cHalfWidth > slider.getWidth() - insetCache.right) {
-                pad = Math.max(pad, (centerX + cHalfWidth) -
-                        (slider.getWidth() - insetCache.right));
+            if (centerX + cHblfWidth > slider.getWidth() - insetCbche.right) {
+                pbd = Mbth.mbx(pbd, (centerX + cHblfWidth) -
+                        (slider.getWidth() - insetCbche.right));
             }
         }
-        return pad;
+        return pbd;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void calculateThumbLocation() {
-        super.calculateThumbLocation();
-        if (slider.getOrientation() == JSlider.HORIZONTAL) {
-            thumbRect.y += trackBorder;
+    protected void cblculbteThumbLocbtion() {
+        super.cblculbteThumbLocbtion();
+        if (slider.getOrientbtion() == JSlider.HORIZONTAL) {
+            thumbRect.y += trbckBorder;
         } else {
-            thumbRect.x += trackBorder;
+            thumbRect.x += trbckBorder;
         }
         Point mousePosition = slider.getMousePosition();
         if(mousePosition != null) {
-        updateThumbState(mousePosition.x, mousePosition.y);
+        updbteThumbStbte(mousePosition.x, mousePosition.y);
        }
     }
 
@@ -554,40 +554,40 @@ public class SynthSliderUI extends BasicSliderUI
      * {@inheritDoc}
      */
     @Override
-    public void setThumbLocation(int x, int y) {
-        super.setThumbLocation(x, y);
-        // Value rect is tied to the thumb location.  We need to repaint when
-        // the thumb repaints.
-        slider.repaint(valueRect.x, valueRect.y,
-                valueRect.width, valueRect.height);
-        setThumbActive(false);
+    public void setThumbLocbtion(int x, int y) {
+        super.setThumbLocbtion(x, y);
+        // Vblue rect is tied to the thumb locbtion.  We need to repbint when
+        // the thumb repbints.
+        slider.repbint(vblueRect.x, vblueRect.y,
+                vblueRect.width, vblueRect.height);
+        setThumbActive(fblse);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected int xPositionForValue(int value) {
+    protected int xPositionForVblue(int vblue) {
         int min = slider.getMinimum();
-        int max = slider.getMaximum();
-        int trackLeft = trackRect.x + thumbRect.width / 2 + trackBorder;
-        int trackRight = trackRect.x + trackRect.width - thumbRect.width / 2
-            - trackBorder;
-        int trackLength = trackRight - trackLeft;
-        double valueRange = (double)max - (double)min;
-        double pixelsPerValue = (double)trackLength / valueRange;
+        int mbx = slider.getMbximum();
+        int trbckLeft = trbckRect.x + thumbRect.width / 2 + trbckBorder;
+        int trbckRight = trbckRect.x + trbckRect.width - thumbRect.width / 2
+            - trbckBorder;
+        int trbckLength = trbckRight - trbckLeft;
+        double vblueRbnge = (double)mbx - (double)min;
+        double pixelsPerVblue = (double)trbckLength / vblueRbnge;
         int xPosition;
 
-        if (!drawInverted()) {
-            xPosition = trackLeft;
-            xPosition += Math.round( pixelsPerValue * ((double)value - min));
+        if (!drbwInverted()) {
+            xPosition = trbckLeft;
+            xPosition += Mbth.round( pixelsPerVblue * ((double)vblue - min));
         } else {
-            xPosition = trackRight;
-            xPosition -= Math.round( pixelsPerValue * ((double)value - min));
+            xPosition = trbckRight;
+            xPosition -= Mbth.round( pixelsPerVblue * ((double)vblue - min));
         }
 
-        xPosition = Math.max(trackLeft, xPosition);
-        xPosition = Math.min(trackRight, xPosition);
+        xPosition = Mbth.mbx(trbckLeft, xPosition);
+        xPosition = Mbth.min(trbckRight, xPosition);
 
         return xPosition;
     }
@@ -596,27 +596,27 @@ public class SynthSliderUI extends BasicSliderUI
      * {@inheritDoc}
      */
     @Override
-    protected int yPositionForValue(int value, int trackY, int trackHeight) {
+    protected int yPositionForVblue(int vblue, int trbckY, int trbckHeight) {
         int min = slider.getMinimum();
-        int max = slider.getMaximum();
-        int trackTop = trackY + thumbRect.height / 2 + trackBorder;
-        int trackBottom = trackY + trackHeight - thumbRect.height / 2 -
-                trackBorder;
-        int trackLength = trackBottom - trackTop;
-        double valueRange = (double)max - (double)min;
-        double pixelsPerValue = (double)trackLength / valueRange;
+        int mbx = slider.getMbximum();
+        int trbckTop = trbckY + thumbRect.height / 2 + trbckBorder;
+        int trbckBottom = trbckY + trbckHeight - thumbRect.height / 2 -
+                trbckBorder;
+        int trbckLength = trbckBottom - trbckTop;
+        double vblueRbnge = (double)mbx - (double)min;
+        double pixelsPerVblue = (double)trbckLength / vblueRbnge;
         int yPosition;
 
-        if (!drawInverted()) {
-            yPosition = trackTop;
-            yPosition += Math.round(pixelsPerValue * ((double)max - value));
+        if (!drbwInverted()) {
+            yPosition = trbckTop;
+            yPosition += Mbth.round(pixelsPerVblue * ((double)mbx - vblue));
         } else {
-            yPosition = trackTop;
-            yPosition += Math.round(pixelsPerValue * ((double)value - min));
+            yPosition = trbckTop;
+            yPosition += Mbth.round(pixelsPerVblue * ((double)vblue - min));
         }
 
-        yPosition = Math.max(trackTop, yPosition);
-        yPosition = Math.min(trackBottom, yPosition);
+        yPosition = Mbth.mbx(trbckTop, yPosition);
+        yPosition = Mbth.min(trbckBottom, yPosition);
 
         return yPosition;
     }
@@ -625,58 +625,58 @@ public class SynthSliderUI extends BasicSliderUI
      * {@inheritDoc}
      */
     @Override
-    public int valueForYPosition(int yPos) {
-        int value;
-        int minValue = slider.getMinimum();
-        int maxValue = slider.getMaximum();
-        int trackTop = trackRect.y + thumbRect.height / 2 + trackBorder;
-        int trackBottom = trackRect.y + trackRect.height
-            - thumbRect.height / 2 - trackBorder;
-        int trackLength = trackBottom - trackTop;
+    public int vblueForYPosition(int yPos) {
+        int vblue;
+        int minVblue = slider.getMinimum();
+        int mbxVblue = slider.getMbximum();
+        int trbckTop = trbckRect.y + thumbRect.height / 2 + trbckBorder;
+        int trbckBottom = trbckRect.y + trbckRect.height
+            - thumbRect.height / 2 - trbckBorder;
+        int trbckLength = trbckBottom - trbckTop;
 
-        if (yPos <= trackTop) {
-            value = drawInverted() ? minValue : maxValue;
-        } else if (yPos >= trackBottom) {
-            value = drawInverted() ? maxValue : minValue;
+        if (yPos <= trbckTop) {
+            vblue = drbwInverted() ? minVblue : mbxVblue;
+        } else if (yPos >= trbckBottom) {
+            vblue = drbwInverted() ? mbxVblue : minVblue;
         } else {
-            int distanceFromTrackTop = yPos - trackTop;
-            double valueRange = (double)maxValue - (double)minValue;
-            double valuePerPixel = valueRange / (double)trackLength;
-            int valueFromTrackTop =
-                (int)Math.round(distanceFromTrackTop * valuePerPixel);
-            value = drawInverted() ?
-                minValue + valueFromTrackTop : maxValue - valueFromTrackTop;
+            int distbnceFromTrbckTop = yPos - trbckTop;
+            double vblueRbnge = (double)mbxVblue - (double)minVblue;
+            double vbluePerPixel = vblueRbnge / (double)trbckLength;
+            int vblueFromTrbckTop =
+                (int)Mbth.round(distbnceFromTrbckTop * vbluePerPixel);
+            vblue = drbwInverted() ?
+                minVblue + vblueFromTrbckTop : mbxVblue - vblueFromTrbckTop;
         }
-        return value;
+        return vblue;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int valueForXPosition(int xPos) {
-        int value;
-        int minValue = slider.getMinimum();
-        int maxValue = slider.getMaximum();
-        int trackLeft = trackRect.x + thumbRect.width / 2 + trackBorder;
-        int trackRight = trackRect.x + trackRect.width
-            - thumbRect.width / 2 - trackBorder;
-        int trackLength = trackRight - trackLeft;
+    public int vblueForXPosition(int xPos) {
+        int vblue;
+        int minVblue = slider.getMinimum();
+        int mbxVblue = slider.getMbximum();
+        int trbckLeft = trbckRect.x + thumbRect.width / 2 + trbckBorder;
+        int trbckRight = trbckRect.x + trbckRect.width
+            - thumbRect.width / 2 - trbckBorder;
+        int trbckLength = trbckRight - trbckLeft;
 
-        if (xPos <= trackLeft) {
-            value = drawInverted() ? maxValue : minValue;
-        } else if (xPos >= trackRight) {
-            value = drawInverted() ? minValue : maxValue;
+        if (xPos <= trbckLeft) {
+            vblue = drbwInverted() ? mbxVblue : minVblue;
+        } else if (xPos >= trbckRight) {
+            vblue = drbwInverted() ? minVblue : mbxVblue;
         } else {
-            int distanceFromTrackLeft = xPos - trackLeft;
-            double valueRange = (double)maxValue - (double)minValue;
-            double valuePerPixel = valueRange / (double)trackLength;
-            int valueFromTrackLeft =
-                (int)Math.round(distanceFromTrackLeft * valuePerPixel);
-            value = drawInverted() ?
-                maxValue - valueFromTrackLeft : minValue + valueFromTrackLeft;
+            int distbnceFromTrbckLeft = xPos - trbckLeft;
+            double vblueRbnge = (double)mbxVblue - (double)minVblue;
+            double vbluePerPixel = vblueRbnge / (double)trbckLength;
+            int vblueFromTrbckLeft =
+                (int)Mbth.round(distbnceFromTrbckLeft * vbluePerPixel);
+            vblue = drbwInverted() ?
+                mbxVblue - vblueFromTrbckLeft : minVblue + vblueFromTrbckLeft;
         }
-        return value;
+        return vblue;
     }
 
     /**
@@ -686,7 +686,7 @@ public class SynthSliderUI extends BasicSliderUI
     protected Dimension getThumbSize() {
         Dimension size = new Dimension();
 
-        if (slider.getOrientation() == JSlider.VERTICAL) {
+        if (slider.getOrientbtion() == JSlider.VERTICAL) {
             size.width = thumbHeight;
             size.height = thumbWidth;
         } else {
@@ -700,15 +700,15 @@ public class SynthSliderUI extends BasicSliderUI
      * {@inheritDoc}
      */
     @Override
-    protected void recalculateIfInsetsChanged() {
+    protected void recblculbteIfInsetsChbnged() {
         SynthContext context = getContext(slider);
         Insets newInsets = style.getInsets(context, null);
         Insets compInsets = slider.getInsets();
         newInsets.left += compInsets.left; newInsets.right += compInsets.right;
         newInsets.top += compInsets.top; newInsets.bottom += compInsets.bottom;
-        if (!newInsets.equals(insetCache)) {
-            insetCache = newInsets;
-            calculateGeometry();
+        if (!newInsets.equbls(insetCbche)) {
+            insetCbche = newInsets;
+            cblculbteGeometry();
         }
         context.dispose();
     }
@@ -718,133 +718,133 @@ public class SynthSliderUI extends BasicSliderUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+        return getContext(c, SynthLookAndFeel.getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
-    private SynthContext getContext(JComponent c, Region subregion) {
-        return getContext(c, subregion, getComponentState(c, subregion));
+    privbte SynthContext getContext(JComponent c, Region subregion) {
+        return getContext(c, subregion, getComponentStbte(c, subregion));
     }
 
-    private SynthContext getContext(JComponent c, Region subregion, int state) {
+    privbte SynthContext getContext(JComponent c, Region subregion, int stbte) {
         SynthStyle style = null;
 
         if (subregion == Region.SLIDER_TRACK) {
-            style = sliderTrackStyle;
+            style = sliderTrbckStyle;
         } else if (subregion == Region.SLIDER_THUMB) {
             style = sliderThumbStyle;
         }
-        return SynthContext.getContext(c, subregion, style, state);
+        return SynthContext.getContext(c, subregion, style, stbte);
     }
 
-    private int getComponentState(JComponent c, Region region) {
-        if (region == Region.SLIDER_THUMB && thumbActive &&c.isEnabled()) {
-            int state = thumbPressed ? PRESSED : MOUSE_OVER;
-            if (c.isFocusOwner()) state |= FOCUSED;
-            return state;
+    privbte int getComponentStbte(JComponent c, Region region) {
+        if (region == Region.SLIDER_THUMB && thumbActive &&c.isEnbbled()) {
+            int stbte = thumbPressed ? PRESSED : MOUSE_OVER;
+            if (c.isFocusOwner()) stbte |= FOCUSED;
+            return stbte;
         }
-        return SynthLookAndFeel.getComponentState(c);
+        return SynthLookAndFeel.getComponentStbte(c);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintSliderBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintSliderBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight(),
-                          slider.getOrientation());
-        paint(context, g);
+                          slider.getOrientbtion());
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints the specified component.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        recalculateIfInsetsChanged();
-        recalculateIfOrientationChanged();
-        Rectangle clip = g.getClipBounds();
+    protected void pbint(SynthContext context, Grbphics g) {
+        recblculbteIfInsetsChbnged();
+        recblculbteIfOrientbtionChbnged();
+        Rectbngle clip = g.getClipBounds();
 
-        if (lastSize == null || !lastSize.equals(slider.getSize())) {
-            calculateGeometry();
+        if (lbstSize == null || !lbstSize.equbls(slider.getSize())) {
+            cblculbteGeometry();
         }
 
-        if (paintValue) {
+        if (pbintVblue) {
             FontMetrics fm = SwingUtilities2.getFontMetrics(slider, g);
-            int labelWidth = context.getStyle().getGraphicsUtils(context).
+            int lbbelWidth = context.getStyle().getGrbphicsUtils(context).
                 computeStringWidth(context, g.getFont(), fm,
-                    "" + slider.getValue());
-            valueRect.x = thumbRect.x + (thumbRect.width - labelWidth) / 2;
+                    "" + slider.getVblue());
+            vblueRect.x = thumbRect.x + (thumbRect.width - lbbelWidth) / 2;
 
-            // For horizontal sliders, make sure value is not painted
+            // For horizontbl sliders, mbke sure vblue is not pbinted
             // outside slider bounds.
-            if (slider.getOrientation() == JSlider.HORIZONTAL) {
-                if (valueRect.x + labelWidth > insetCache.left + contentRect.width) {
-                    valueRect.x =  (insetCache.left + contentRect.width) - labelWidth;
+            if (slider.getOrientbtion() == JSlider.HORIZONTAL) {
+                if (vblueRect.x + lbbelWidth > insetCbche.left + contentRect.width) {
+                    vblueRect.x =  (insetCbche.left + contentRect.width) - lbbelWidth;
                 }
-                valueRect.x = Math.max(valueRect.x, 0);
+                vblueRect.x = Mbth.mbx(vblueRect.x, 0);
             }
 
             g.setColor(context.getStyle().getColor(
                     context, ColorType.TEXT_FOREGROUND));
-            context.getStyle().getGraphicsUtils(context).paintText(
-                    context, g, "" + slider.getValue(), valueRect.x,
-                    valueRect.y, -1);
+            context.getStyle().getGrbphicsUtils(context).pbintText(
+                    context, g, "" + slider.getVblue(), vblueRect.x,
+                    vblueRect.y, -1);
         }
 
-        if (slider.getPaintTrack() && clip.intersects(trackRect)) {
+        if (slider.getPbintTrbck() && clip.intersects(trbckRect)) {
             SynthContext subcontext = getContext(slider, Region.SLIDER_TRACK);
-            paintTrack(subcontext, g, trackRect);
+            pbintTrbck(subcontext, g, trbckRect);
             subcontext.dispose();
         }
 
         if (clip.intersects(thumbRect)) {
             SynthContext subcontext = getContext(slider, Region.SLIDER_THUMB);
-            paintThumb(subcontext, g, thumbRect);
+            pbintThumb(subcontext, g, thumbRect);
             subcontext.dispose();
         }
 
-        if (slider.getPaintTicks() && clip.intersects(tickRect)) {
-            paintTicks(g);
+        if (slider.getPbintTicks() && clip.intersects(tickRect)) {
+            pbintTicks(g);
         }
 
-        if (slider.getPaintLabels() && clip.intersects(labelRect)) {
-            paintLabels(g);
+        if (slider.getPbintLbbels() && clip.intersects(lbbelRect)) {
+            pbintLbbels(g);
         }
     }
 
@@ -852,155 +852,155 @@ public class SynthSliderUI extends BasicSliderUI
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintSliderBorder(context, g, x, y, w, h,
-                                               slider.getOrientation());
+        context.getPbinter().pbintSliderBorder(context, g, x, y, w, h,
+                                               slider.getOrientbtion());
     }
 
     /**
-     * Paints the slider thumb.
+     * Pbints the slider thumb.
      *
-     * @param context context for the component being painted
-     * @param g {@code Graphics} object used for painting
-     * @param thumbBounds bounding box for the thumb
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g {@code Grbphics} object used for pbinting
+     * @pbrbm thumbBounds bounding box for the thumb
      */
-    protected void paintThumb(SynthContext context, Graphics g,
-            Rectangle thumbBounds)  {
-        int orientation = slider.getOrientation();
-        SynthLookAndFeel.updateSubregion(context, g, thumbBounds);
-        context.getPainter().paintSliderThumbBackground(context, g,
+    protected void pbintThumb(SynthContext context, Grbphics g,
+            Rectbngle thumbBounds)  {
+        int orientbtion = slider.getOrientbtion();
+        SynthLookAndFeel.updbteSubregion(context, g, thumbBounds);
+        context.getPbinter().pbintSliderThumbBbckground(context, g,
                              thumbBounds.x, thumbBounds.y, thumbBounds.width,
-                             thumbBounds.height, orientation);
-        context.getPainter().paintSliderThumbBorder(context, g,
+                             thumbBounds.height, orientbtion);
+        context.getPbinter().pbintSliderThumbBorder(context, g,
                              thumbBounds.x, thumbBounds.y, thumbBounds.width,
-                             thumbBounds.height, orientation);
+                             thumbBounds.height, orientbtion);
     }
 
     /**
-     * Paints the slider track.
+     * Pbints the slider trbck.
      *
-     * @param context context for the component being painted
-     * @param g {@code Graphics} object used for painting
-     * @param trackBounds bounding box for the track
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g {@code Grbphics} object used for pbinting
+     * @pbrbm trbckBounds bounding box for the trbck
      */
-    protected void paintTrack(SynthContext context, Graphics g,
-            Rectangle trackBounds) {
-        int orientation = slider.getOrientation();
-        SynthLookAndFeel.updateSubregion(context, g, trackBounds);
-        context.getPainter().paintSliderTrackBackground(context, g,
-                trackBounds.x, trackBounds.y, trackBounds.width,
-                trackBounds.height, orientation);
-        context.getPainter().paintSliderTrackBorder(context, g,
-                trackBounds.x, trackBounds.y, trackBounds.width,
-                trackBounds.height, orientation);
+    protected void pbintTrbck(SynthContext context, Grbphics g,
+            Rectbngle trbckBounds) {
+        int orientbtion = slider.getOrientbtion();
+        SynthLookAndFeel.updbteSubregion(context, g, trbckBounds);
+        context.getPbinter().pbintSliderTrbckBbckground(context, g,
+                trbckBounds.x, trbckBounds.y, trbckBounds.width,
+                trbckBounds.height, orientbtion);
+        context.getPbinter().pbintSliderTrbckBorder(context, g,
+                trbckBounds.x, trbckBounds.y, trbckBounds.width,
+                trbckBounds.height, orientbtion);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((JSlider)e.getSource());
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(e)) {
+            updbteStyle((JSlider)e.getSource());
         }
     }
 
     //////////////////////////////////////////////////
-    /// Track Listener Class
+    /// Trbck Listener Clbss
     //////////////////////////////////////////////////
     /**
-     * Track mouse movements.
+     * Trbck mouse movements.
      */
-    private class SynthTrackListener extends TrackListener {
+    privbte clbss SynthTrbckListener extends TrbckListener {
 
         @Override public void mouseExited(MouseEvent e) {
-            setThumbActive(false);
+            setThumbActive(fblse);
         }
 
         @Override public void mousePressed(MouseEvent e) {
             super.mousePressed(e);
-            setThumbPressed(thumbRect.contains(e.getX(), e.getY()));
+            setThumbPressed(thumbRect.contbins(e.getX(), e.getY()));
         }
 
-        @Override public void mouseReleased(MouseEvent e) {
-            super.mouseReleased(e);
-            updateThumbState(e.getX(), e.getY(), false);
+        @Override public void mouseRelebsed(MouseEvent e) {
+            super.mouseRelebsed(e);
+            updbteThumbStbte(e.getX(), e.getY(), fblse);
         }
 
-        @Override public void mouseDragged(MouseEvent e) {
+        @Override public void mouseDrbgged(MouseEvent e) {
             int thumbMiddle;
 
-            if (!slider.isEnabled()) {
+            if (!slider.isEnbbled()) {
                 return;
             }
 
             currentMouseX = e.getX();
             currentMouseY = e.getY();
 
-            if (!isDragging()) {
+            if (!isDrbgging()) {
                 return;
             }
 
-            slider.setValueIsAdjusting(true);
+            slider.setVblueIsAdjusting(true);
 
-            switch (slider.getOrientation()) {
-            case JSlider.VERTICAL:
-                int halfThumbHeight = thumbRect.height / 2;
+            switch (slider.getOrientbtion()) {
+            cbse JSlider.VERTICAL:
+                int hblfThumbHeight = thumbRect.height / 2;
                 int thumbTop = e.getY() - offset;
-                int trackTop = trackRect.y;
-                int trackBottom = trackRect.y + trackRect.height
-                    - halfThumbHeight - trackBorder;
-                int vMax = yPositionForValue(slider.getMaximum() -
+                int trbckTop = trbckRect.y;
+                int trbckBottom = trbckRect.y + trbckRect.height
+                    - hblfThumbHeight - trbckBorder;
+                int vMbx = yPositionForVblue(slider.getMbximum() -
                     slider.getExtent());
 
-                if (drawInverted()) {
-                    trackBottom = vMax;
-                    trackTop = trackTop + halfThumbHeight;
+                if (drbwInverted()) {
+                    trbckBottom = vMbx;
+                    trbckTop = trbckTop + hblfThumbHeight;
                 } else {
-                    trackTop = vMax;
+                    trbckTop = vMbx;
                 }
-                thumbTop = Math.max(thumbTop, trackTop - halfThumbHeight);
-                thumbTop = Math.min(thumbTop, trackBottom - halfThumbHeight);
+                thumbTop = Mbth.mbx(thumbTop, trbckTop - hblfThumbHeight);
+                thumbTop = Mbth.min(thumbTop, trbckBottom - hblfThumbHeight);
 
-                setThumbLocation(thumbRect.x, thumbTop);
+                setThumbLocbtion(thumbRect.x, thumbTop);
 
-                thumbMiddle = thumbTop + halfThumbHeight;
-                slider.setValue(valueForYPosition(thumbMiddle));
-                break;
-            case JSlider.HORIZONTAL:
-                int halfThumbWidth = thumbRect.width / 2;
+                thumbMiddle = thumbTop + hblfThumbHeight;
+                slider.setVblue(vblueForYPosition(thumbMiddle));
+                brebk;
+            cbse JSlider.HORIZONTAL:
+                int hblfThumbWidth = thumbRect.width / 2;
                 int thumbLeft = e.getX() - offset;
-                int trackLeft = trackRect.x + halfThumbWidth + trackBorder;
-                int trackRight = trackRect.x + trackRect.width
-                    - halfThumbWidth - trackBorder;
-                int hMax = xPositionForValue(slider.getMaximum() -
+                int trbckLeft = trbckRect.x + hblfThumbWidth + trbckBorder;
+                int trbckRight = trbckRect.x + trbckRect.width
+                    - hblfThumbWidth - trbckBorder;
+                int hMbx = xPositionForVblue(slider.getMbximum() -
                     slider.getExtent());
 
-                if (drawInverted()) {
-                    trackLeft = hMax;
+                if (drbwInverted()) {
+                    trbckLeft = hMbx;
                 } else {
-                    trackRight = hMax;
+                    trbckRight = hMbx;
                 }
-                thumbLeft = Math.max(thumbLeft, trackLeft - halfThumbWidth);
-                thumbLeft = Math.min(thumbLeft, trackRight - halfThumbWidth);
+                thumbLeft = Mbth.mbx(thumbLeft, trbckLeft - hblfThumbWidth);
+                thumbLeft = Mbth.min(thumbLeft, trbckRight - hblfThumbWidth);
 
-                setThumbLocation(thumbLeft, thumbRect.y);
+                setThumbLocbtion(thumbLeft, thumbRect.y);
 
-                thumbMiddle = thumbLeft + halfThumbWidth;
-                slider.setValue(valueForXPosition(thumbMiddle));
-                break;
-            default:
+                thumbMiddle = thumbLeft + hblfThumbWidth;
+                slider.setVblue(vblueForXPosition(thumbMiddle));
+                brebk;
+            defbult:
                 return;
             }
 
-            if (slider.getValueIsAdjusting()) {
+            if (slider.getVblueIsAdjusting()) {
                 setThumbActive(true);
             }
         }
 
         @Override public void mouseMoved(MouseEvent e) {
-            updateThumbState(e.getX(), e.getY());
+            updbteThumbStbte(e.getX(), e.getY());
         }
     }
 }

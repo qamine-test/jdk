@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.RoundRectangle2D;
-import java.awt.geom.GeneralPath;
-import sun.java2d.SunGraphics2D;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.Arc2D;
+import jbvb.bwt.geom.Ellipse2D;
+import jbvb.bwt.geom.Line2D;
+import jbvb.bwt.geom.RoundRectbngle2D;
+import jbvb.bwt.geom.GenerblPbth;
+import sun.jbvb2d.SunGrbphics2D;
 
 /**
- * This class converts calls to the basic pixel rendering methods
- * into calls to a generic Shape rendering pipeline.
+ * This clbss converts cblls to the bbsic pixel rendering methods
+ * into cblls to b generic Shbpe rendering pipeline.
  */
-public class PixelToShapeConverter
-    implements PixelDrawPipe, PixelFillPipe
+public clbss PixelToShbpeConverter
+    implements PixelDrbwPipe, PixelFillPipe
 {
-    ShapeDrawPipe outpipe;
+    ShbpeDrbwPipe outpipe;
 
-    public PixelToShapeConverter(ShapeDrawPipe pipe) {
+    public PixelToShbpeConverter(ShbpeDrbwPipe pipe) {
         outpipe = pipe;
     }
 
-    public void drawLine(SunGraphics2D sg,
+    public void drbwLine(SunGrbphics2D sg,
                          int x1, int y1, int x2, int y2) {
-        outpipe.draw(sg, new Line2D.Float(x1, y1, x2, y2));
+        outpipe.drbw(sg, new Line2D.Flobt(x1, y1, x2, y2));
     }
 
-    public void drawRect(SunGraphics2D sg,
+    public void drbwRect(SunGrbphics2D sg,
                          int x, int y, int w, int h) {
-        outpipe.draw(sg, new Rectangle(x, y, w, h));
+        outpipe.drbw(sg, new Rectbngle(x, y, w, h));
     }
 
-    public void fillRect(SunGraphics2D sg,
+    public void fillRect(SunGrbphics2D sg,
                          int x, int y, int w, int h) {
-        outpipe.fill(sg, new Rectangle(x, y, w, h));
+        outpipe.fill(sg, new Rectbngle(x, y, w, h));
     }
 
-    public void drawRoundRect(SunGraphics2D sg,
+    public void drbwRoundRect(SunGrbphics2D sg,
                               int x, int y, int w, int h,
-                              int aW, int aH) {
-        outpipe.draw(sg, new RoundRectangle2D.Float(x, y, w, h, aW, aH));
+                              int bW, int bH) {
+        outpipe.drbw(sg, new RoundRectbngle2D.Flobt(x, y, w, h, bW, bH));
     }
 
-    public void fillRoundRect(SunGraphics2D sg,
+    public void fillRoundRect(SunGrbphics2D sg,
                               int x, int y, int w, int h,
-                              int aW, int aH) {
-        outpipe.fill(sg, new RoundRectangle2D.Float(x, y, w, h, aW, aH));
+                              int bW, int bH) {
+        outpipe.fill(sg, new RoundRectbngle2D.Flobt(x, y, w, h, bW, bH));
     }
 
-    public void drawOval(SunGraphics2D sg,
+    public void drbwOvbl(SunGrbphics2D sg,
                          int x, int y, int w, int h) {
-        outpipe.draw(sg, new Ellipse2D.Float(x, y, w, h));
+        outpipe.drbw(sg, new Ellipse2D.Flobt(x, y, w, h));
     }
 
-    public void fillOval(SunGraphics2D sg,
+    public void fillOvbl(SunGrbphics2D sg,
                          int x, int y, int w, int h) {
-        outpipe.fill(sg, new Ellipse2D.Float(x, y, w, h));
+        outpipe.fill(sg, new Ellipse2D.Flobt(x, y, w, h));
     }
 
-    public void drawArc(SunGraphics2D sg,
+    public void drbwArc(SunGrbphics2D sg,
                         int x, int y, int w, int h,
-                        int start, int extent) {
-        outpipe.draw(sg, new Arc2D.Float(x, y, w, h,
-                                         start, extent, Arc2D.OPEN));
+                        int stbrt, int extent) {
+        outpipe.drbw(sg, new Arc2D.Flobt(x, y, w, h,
+                                         stbrt, extent, Arc2D.OPEN));
     }
 
-    public void fillArc(SunGraphics2D sg,
+    public void fillArc(SunGrbphics2D sg,
                         int x, int y, int w, int h,
-                        int start, int extent) {
-        outpipe.fill(sg, new Arc2D.Float(x, y, w, h,
-                                         start, extent, Arc2D.PIE));
+                        int stbrt, int extent) {
+        outpipe.fill(sg, new Arc2D.Flobt(x, y, w, h,
+                                         stbrt, extent, Arc2D.PIE));
     }
 
-    private Shape makePoly(int xPoints[], int yPoints[],
-                           int nPoints, boolean close) {
-        GeneralPath gp = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+    privbte Shbpe mbkePoly(int xPoints[], int yPoints[],
+                           int nPoints, boolebn close) {
+        GenerblPbth gp = new GenerblPbth(GenerblPbth.WIND_EVEN_ODD);
         if (nPoints > 0) {
             gp.moveTo(xPoints[0], yPoints[0]);
             for (int i = 1; i < nPoints; i++) {
                 gp.lineTo(xPoints[i], yPoints[i]);
             }
             if (close) {
-                gp.closePath();
+                gp.closePbth();
             }
         }
         return gp;
     }
 
-    public void drawPolyline(SunGraphics2D sg,
+    public void drbwPolyline(SunGrbphics2D sg,
                              int xPoints[], int yPoints[],
                              int nPoints) {
-        outpipe.draw(sg, makePoly(xPoints, yPoints, nPoints, false));
+        outpipe.drbw(sg, mbkePoly(xPoints, yPoints, nPoints, fblse));
     }
 
-    public void drawPolygon(SunGraphics2D sg,
+    public void drbwPolygon(SunGrbphics2D sg,
                             int xPoints[], int yPoints[],
                             int nPoints) {
-        outpipe.draw(sg, makePoly(xPoints, yPoints, nPoints, true));
+        outpipe.drbw(sg, mbkePoly(xPoints, yPoints, nPoints, true));
     }
 
-    public void fillPolygon(SunGraphics2D sg,
+    public void fillPolygon(SunGrbphics2D sg,
                             int xPoints[], int yPoints[],
                             int nPoints) {
-        outpipe.fill(sg, makePoly(xPoints, yPoints, nPoints, true));
+        outpipe.fill(sg, mbkePoly(xPoints, yPoints, nPoints, true));
     }
 }

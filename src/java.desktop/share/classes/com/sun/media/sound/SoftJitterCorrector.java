@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
+import jbvb.io.EOFException;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
 
 /**
  * A jitter corrector to be used with SoftAudioPusher.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftJitterCorrector extends AudioInputStream {
+public finbl clbss SoftJitterCorrector extends AudioInputStrebm {
 
-    private static class JitterStream extends InputStream {
+    privbte stbtic clbss JitterStrebm extends InputStrebm {
 
-        static int MAX_BUFFER_SIZE = 1048576;
-        boolean active = true;
-        Thread thread;
-        AudioInputStream stream;
+        stbtic int MAX_BUFFER_SIZE = 1048576;
+        boolebn bctive = true;
+        Threbd threbd;
+        AudioInputStrebm strebm;
         // Cyclic buffer
         int writepos = 0;
-        int readpos = 0;
+        int rebdpos = 0;
         byte[][] buffers;
-        private final Object buffers_mutex = new Object();
+        privbte finbl Object buffers_mutex = new Object();
 
-        // Adapative Drift Statistics
+        // Adbpbtive Drift Stbtistics
         int w_count = 1000;
         int w_min_tol = 2;
-        int w_max_tol = 10;
+        int w_mbx_tol = 10;
         int w = 0;
         int w_min = -1;
-        // Current read buffer
+        // Current rebd buffer
         int bbuffer_pos = 0;
-        int bbuffer_max = 0;
+        int bbuffer_mbx = 0;
         byte[] bbuffer = null;
 
-        public byte[] nextReadBuffer() {
+        public byte[] nextRebdBuffer() {
             synchronized (buffers_mutex) {
-                if (writepos > readpos) {
-                    int w_m = writepos - readpos;
+                if (writepos > rebdpos) {
+                    int w_m = writepos - rebdpos;
                     if (w_m < w_min)
                         w_min = w_m;
 
-                    int buffpos = readpos;
-                    readpos++;
+                    int buffpos = rebdpos;
+                    rebdpos++;
                     return buffers[buffpos % buffers.length];
                 }
                 w_min = -1;
@@ -77,18 +77,18 @@ public final class SoftJitterCorrector extends AudioInputStream {
             }
             while (true) {
                 try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    //e.printStackTrace();
+                    Threbd.sleep(1);
+                } cbtch (InterruptedException e) {
+                    //e.printStbckTrbce();
                     return null;
                 }
                 synchronized (buffers_mutex) {
-                    if (writepos > readpos) {
+                    if (writepos > rebdpos) {
                         w = 0;
                         w_min = -1;
                         w = w_count - 1;
-                        int buffpos = readpos;
-                        readpos++;
+                        int buffpos = rebdpos;
+                        rebdpos++;
                         return buffers[buffpos % buffers.length];
                     }
                 }
@@ -104,55 +104,55 @@ public final class SoftJitterCorrector extends AudioInputStream {
         public void commit() {
             synchronized (buffers_mutex) {
                 writepos++;
-                if ((writepos - readpos) > buffers.length) {
-                    int newsize = (writepos - readpos) + 10;
-                    newsize = Math.max(buffers.length * 2, newsize);
+                if ((writepos - rebdpos) > buffers.length) {
+                    int newsize = (writepos - rebdpos) + 10;
+                    newsize = Mbth.mbx(buffers.length * 2, newsize);
                     buffers = new byte[newsize][buffers[0].length];
                 }
             }
         }
 
-        JitterStream(AudioInputStream s, int buffersize,
-                int smallbuffersize) {
-            this.w_count = 10 * (buffersize / smallbuffersize);
+        JitterStrebm(AudioInputStrebm s, int buffersize,
+                int smbllbuffersize) {
+            this.w_count = 10 * (buffersize / smbllbuffersize);
             if (w_count < 100)
                 w_count = 100;
             this.buffers
-                    = new byte[(buffersize/smallbuffersize)+10][smallbuffersize];
-            this.bbuffer_max = MAX_BUFFER_SIZE / smallbuffersize;
-            this.stream = s;
+                    = new byte[(buffersize/smbllbuffersize)+10][smbllbuffersize];
+            this.bbuffer_mbx = MAX_BUFFER_SIZE / smbllbuffersize;
+            this.strebm = s;
 
 
-            Runnable runnable = new Runnable() {
+            Runnbble runnbble = new Runnbble() {
 
                 public void run() {
-                    AudioFormat format = stream.getFormat();
+                    AudioFormbt formbt = strebm.getFormbt();
                     int bufflen = buffers[0].length;
-                    int frames = bufflen / format.getFrameSize();
-                    long nanos = (long) (frames * 1000000000.0
-                                            / format.getSampleRate());
-                    long now = System.nanoTime();
-                    long next = now + nanos;
+                    int frbmes = bufflen / formbt.getFrbmeSize();
+                    long nbnos = (long) (frbmes * 1000000000.0
+                                            / formbt.getSbmpleRbte());
+                    long now = System.nbnoTime();
+                    long next = now + nbnos;
                     int correction = 0;
                     while (true) {
-                        synchronized (JitterStream.this) {
-                            if (!active)
-                                break;
+                        synchronized (JitterStrebm.this) {
+                            if (!bctive)
+                                brebk;
                         }
                         int curbuffsize;
                         synchronized (buffers) {
-                            curbuffsize = writepos - readpos;
+                            curbuffsize = writepos - rebdpos;
                             if (correction == 0) {
                                 w++;
                                 if (w_min != Integer.MAX_VALUE) {
                                     if (w == w_count) {
                                         correction = 0;
                                         if (w_min < w_min_tol) {
-                                            correction = (w_min_tol + w_max_tol)
+                                            correction = (w_min_tol + w_mbx_tol)
                                                             / 2 - w_min;
                                         }
-                                        if (w_min > w_max_tol) {
-                                            correction = (w_min_tol + w_max_tol)
+                                        if (w_min > w_mbx_tol) {
+                                            correction = (w_min_tol + w_mbx_tol)
                                                             / 2 - w_min;
                                         }
                                         w = 0;
@@ -161,18 +161,18 @@ public final class SoftJitterCorrector extends AudioInputStream {
                                 }
                             }
                         }
-                        while (curbuffsize > bbuffer_max) {
+                        while (curbuffsize > bbuffer_mbx) {
                             synchronized (buffers) {
-                                curbuffsize = writepos - readpos;
+                                curbuffsize = writepos - rebdpos;
                             }
-                            synchronized (JitterStream.this) {
-                                if (!active)
-                                    break;
+                            synchronized (JitterStrebm.this) {
+                                if (!bctive)
+                                    brebk;
                             }
                             try {
-                                Thread.sleep(1);
-                            } catch (InterruptedException e) {
-                                //e.printStackTrace();
+                                Threbd.sleep(1);
+                            } cbtch (InterruptedException e) {
+                                //e.printStbckTrbce();
                             }
                         }
 
@@ -183,75 +183,75 @@ public final class SoftJitterCorrector extends AudioInputStream {
                             try {
                                 int n = 0;
                                 while (n != buff.length) {
-                                    int s = stream.read(buff, n, buff.length
+                                    int s = strebm.rebd(buff, n, buff.length
                                             - n);
                                     if (s < 0)
                                         throw new EOFException();
                                     if (s == 0)
-                                        Thread.yield();
+                                        Threbd.yield();
                                     n += s;
                                 }
-                            } catch (IOException e1) {
-                                //e1.printStackTrace();
+                            } cbtch (IOException e1) {
+                                //e1.printStbckTrbce();
                             }
                             commit();
                         }
 
                         if (correction > 0) {
                             correction--;
-                            next = System.nanoTime() + nanos;
+                            next = System.nbnoTime() + nbnos;
                             continue;
                         }
-                        long wait = next - System.nanoTime();
-                        if (wait > 0) {
+                        long wbit = next - System.nbnoTime();
+                        if (wbit > 0) {
                             try {
-                                Thread.sleep(wait / 1000000L);
-                            } catch (InterruptedException e) {
-                                //e.printStackTrace();
+                                Threbd.sleep(wbit / 1000000L);
+                            } cbtch (InterruptedException e) {
+                                //e.printStbckTrbce();
                             }
                         }
-                        next += nanos;
+                        next += nbnos;
                     }
                 }
             };
 
-            thread = new Thread(runnable);
-            thread.setDaemon(true);
-            thread.setPriority(Thread.MAX_PRIORITY);
-            thread.start();
+            threbd = new Threbd(runnbble);
+            threbd.setDbemon(true);
+            threbd.setPriority(Threbd.MAX_PRIORITY);
+            threbd.stbrt();
         }
 
         public void close() throws IOException {
             synchronized (this) {
-                active = false;
+                bctive = fblse;
             }
             try {
-                thread.join();
-            } catch (InterruptedException e) {
-                //e.printStackTrace();
+                threbd.join();
+            } cbtch (InterruptedException e) {
+                //e.printStbckTrbce();
             }
-            stream.close();
+            strebm.close();
         }
 
-        public int read() throws IOException {
+        public int rebd() throws IOException {
             byte[] b = new byte[1];
-            if (read(b) == -1)
+            if (rebd(b) == -1)
                 return -1;
             return b[0] & 0xFF;
         }
 
         public void fillBuffer() {
-            bbuffer = nextReadBuffer();
+            bbuffer = nextRebdBuffer();
             bbuffer_pos = 0;
         }
 
-        public int read(byte[] b, int off, int len) {
+        public int rebd(byte[] b, int off, int len) {
             if (bbuffer == null)
                 fillBuffer();
             int bbuffer_len = bbuffer.length;
             int offlen = off + len;
             while (off < offlen) {
-                if (available() == 0)
+                if (bvbilbble() == 0)
                     fillBuffer();
                 else {
                     byte[] bbuffer = this.bbuffer;
@@ -264,14 +264,14 @@ public final class SoftJitterCorrector extends AudioInputStream {
             return len;
         }
 
-        public int available() {
+        public int bvbilbble() {
             return bbuffer.length - bbuffer_pos;
         }
     }
 
-    public SoftJitterCorrector(AudioInputStream stream, int buffersize,
-            int smallbuffersize) {
-        super(new JitterStream(stream, buffersize, smallbuffersize),
-                stream.getFormat(), stream.getFrameLength());
+    public SoftJitterCorrector(AudioInputStrebm strebm, int buffersize,
+            int smbllbuffersize) {
+        super(new JitterStrebm(strebm, buffersize, smbllbuffersize),
+                strebm.getFormbt(), strebm.getFrbmeLength());
     }
 }

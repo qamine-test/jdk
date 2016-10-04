@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbckbge sun.jvmstbt.perfdbtb.monitor;
 
-import sun.jvmstat.monitor.*;
-import java.nio.ByteBuffer;
+import sun.jvmstbt.monitor.*;
+import jbvb.nio.ByteBuffer;
 
 /**
- * Class for monitoring a constant PerfData String instrument. The
- * value associated with a constant string instrument is fixed at
- * the string instrument's creation time. Its value and length never
- * change.
+ * Clbss for monitoring b constbnt PerfDbtb String instrument. The
+ * vblue bssocibted with b constbnt string instrument is fixed bt
+ * the string instrument's crebtion time. Its vblue bnd length never
+ * chbnge.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class PerfStringConstantMonitor extends PerfStringMonitor {
+public clbss PerfStringConstbntMonitor extends PerfStringMonitor {
 
     /**
-     * The cached value of the string instrument.
+     * The cbched vblue of the string instrument.
      */
-    String data;
+    String dbtb;
 
     /**
-     * Constructor to create a StringMonitor object for the constant string
-     * instrument object represented by the data in the given buffer.
+     * Constructor to crebte b StringMonitor object for the constbnt string
+     * instrument object represented by the dbtb in the given buffer.
      *
-     * @param name the name of the instrumentation object
-     * @param supported support level indicator
-     * @param bb the buffer containing the string instrument data
+     * @pbrbm nbme the nbme of the instrumentbtion object
+     * @pbrbm supported support level indicbtor
+     * @pbrbm bb the buffer contbining the string instrument dbtb
      */
-    public PerfStringConstantMonitor(String name, boolean supported,
+    public PerfStringConstbntMonitor(String nbme, boolebn supported,
                                      ByteBuffer bb) {
-        super(name, Variability.CONSTANT, supported, bb);
-        this.data = super.stringValue();
+        super(nbme, Vbribbility.CONSTANT, supported, bb);
+        this.dbtb = super.stringVblue();
     }
 
     /**
      * {@inheritDoc}
      */
-    public Object getValue() {
-        return data;        // return the cached string
+    public Object getVblue() {
+        return dbtb;        // return the cbched string
     }
 
     /**
      * {@inheritDoc}
      */
-    public String stringValue() {
-        return data;        // return the cached string
+    public String stringVblue() {
+        return dbtb;        // return the cbched string
     }
 }

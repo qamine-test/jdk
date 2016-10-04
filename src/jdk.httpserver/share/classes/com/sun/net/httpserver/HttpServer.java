@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.net.httpserver;
+pbckbge com.sun.net.httpserver;
 
-import java.net.*;
-import java.io.*;
-import java.nio.*;
-import java.security.*;
-import java.nio.channels.*;
-import java.util.*;
-import java.util.concurrent.*;
-import javax.net.ssl.*;
+import jbvb.net.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.security.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.*;
+import jbvbx.net.ssl.*;
 import com.sun.net.httpserver.spi.HttpServerProvider;
 
 /**
- * This class implements a simple HTTP server. A HttpServer is bound to an IP address
- * and port number and listens for incoming TCP connections from clients on this address.
- * The sub-class {@link HttpsServer} implements a server which handles HTTPS requests.
+ * This clbss implements b simple HTTP server. A HttpServer is bound to bn IP bddress
+ * bnd port number bnd listens for incoming TCP connections from clients on this bddress.
+ * The sub-clbss {@link HttpsServer} implements b server which hbndles HTTPS requests.
  * <p>
- * One or more {@link HttpHandler} objects must be associated with a server
- * in order to process requests. Each such HttpHandler is registered
- * with a root URI path which represents the
- * location of the application or service on this server. The mapping of a handler
- * to a HttpServer is encapsulated by a {@link HttpContext} object. HttpContexts
- * are created by calling {@link #createContext(String,HttpHandler)}.
- * Any request for which no handler can be found is rejected with a 404 response.
- * Management of threads can be done external to this object by providing a
- * {@link java.util.concurrent.Executor} object. If none is provided a default
- * implementation is used.
+ * One or more {@link HttpHbndler} objects must be bssocibted with b server
+ * in order to process requests. Ebch such HttpHbndler is registered
+ * with b root URI pbth which represents the
+ * locbtion of the bpplicbtion or service on this server. The mbpping of b hbndler
+ * to b HttpServer is encbpsulbted by b {@link HttpContext} object. HttpContexts
+ * bre crebted by cblling {@link #crebteContext(String,HttpHbndler)}.
+ * Any request for which no hbndler cbn be found is rejected with b 404 response.
+ * Mbnbgement of threbds cbn be done externbl to this object by providing b
+ * {@link jbvb.util.concurrent.Executor} object. If none is provided b defbult
+ * implementbtion is used.
  * <p>
- * <a name="mapping_description"></a>
- * <b>Mapping request URIs to HttpContext paths</b><p>
- * When a HTTP request is received,
- * the appropriate HttpContext (and handler) is located by finding the context
- * whose path is the longest matching prefix of the request URI's path.
- * Paths are matched literally, which means that the strings are compared
- * case sensitively, and with no conversion to or from any encoded forms.
- * For example. Given a HttpServer with the following HttpContexts configured.<p>
- * <table >
- * <tr><td><i>Context</i></td><td><i>Context path</i></td></tr>
+ * <b nbme="mbpping_description"></b>
+ * <b>Mbpping request URIs to HttpContext pbths</b><p>
+ * When b HTTP request is received,
+ * the bppropribte HttpContext (bnd hbndler) is locbted by finding the context
+ * whose pbth is the longest mbtching prefix of the request URI's pbth.
+ * Pbths bre mbtched literblly, which mebns thbt the strings bre compbred
+ * cbse sensitively, bnd with no conversion to or from bny encoded forms.
+ * For exbmple. Given b HttpServer with the following HttpContexts configured.<p>
+ * <tbble >
+ * <tr><td><i>Context</i></td><td><i>Context pbth</i></td></tr>
  * <tr><td>ctx1</td><td>"/"</td></tr>
- * <tr><td>ctx2</td><td>"/apps/"</td></tr>
- * <tr><td>ctx3</td><td>"/apps/foo/"</td></tr>
- * </table>
+ * <tr><td>ctx2</td><td>"/bpps/"</td></tr>
+ * <tr><td>ctx3</td><td>"/bpps/foo/"</td></tr>
+ * </tbble>
  * <p>
- * the following table shows some request URIs and which, if any context they would
- * match with.<p>
- * <table>
- * <tr><td><i>Request URI</i></td><td><i>Matches context</i></td></tr>
- * <tr><td>"http://foo.com/apps/foo/bar"</td><td>ctx3</td></tr>
- * <tr><td>"http://foo.com/apps/Foo/bar"</td><td>no match, wrong case</td></tr>
- * <tr><td>"http://foo.com/apps/app1"</td><td>ctx2</td></tr>
+ * the following tbble shows some request URIs bnd which, if bny context they would
+ * mbtch with.<p>
+ * <tbble>
+ * <tr><td><i>Request URI</i></td><td><i>Mbtches context</i></td></tr>
+ * <tr><td>"http://foo.com/bpps/foo/bbr"</td><td>ctx3</td></tr>
+ * <tr><td>"http://foo.com/bpps/Foo/bbr"</td><td>no mbtch, wrong cbse</td></tr>
+ * <tr><td>"http://foo.com/bpps/bpp1"</td><td>ctx2</td></tr>
  * <tr><td>"http://foo.com/foo"</td><td>ctx1</td></tr>
- * </table>
+ * </tbble>
  * <p>
- * <b>Note about socket backlogs</b><p>
- * When binding to an address and port number, the application can also specify an integer
- * <i>backlog</i> parameter. This represents the maximum number of incoming TCP connections
- * which the system will queue internally. Connections are queued while they are waiting to
- * be accepted by the HttpServer. When the limit is reached, further connections may be
- * rejected (or possibly ignored) by the underlying TCP implementation. Setting the right
- * backlog value is a compromise between efficient resource usage in the TCP layer (not setting
- * it too high) and allowing adequate throughput of incoming requests (not setting it too low).
+ * <b>Note bbout socket bbcklogs</b><p>
+ * When binding to bn bddress bnd port number, the bpplicbtion cbn blso specify bn integer
+ * <i>bbcklog</i> pbrbmeter. This represents the mbximum number of incoming TCP connections
+ * which the system will queue internblly. Connections bre queued while they bre wbiting to
+ * be bccepted by the HttpServer. When the limit is rebched, further connections mby be
+ * rejected (or possibly ignored) by the underlying TCP implementbtion. Setting the right
+ * bbcklog vblue is b compromise between efficient resource usbge in the TCP lbyer (not setting
+ * it too high) bnd bllowing bdequbte throughput of incoming requests (not setting it too low).
  * @since 1.6
  */
 
 @jdk.Exported
-public abstract class HttpServer {
+public bbstrbct clbss HttpServer {
 
     /**
      */
@@ -96,160 +96,160 @@ public abstract class HttpServer {
     }
 
     /**
-     * creates a HttpServer instance which is initially not bound to any local address/port.
-     * The HttpServer is acquired from the currently installed {@link HttpServerProvider}
-     * The server must be bound using {@link #bind(InetSocketAddress,int)} before it can be used.
+     * crebtes b HttpServer instbnce which is initiblly not bound to bny locbl bddress/port.
+     * The HttpServer is bcquired from the currently instblled {@link HttpServerProvider}
+     * The server must be bound using {@link #bind(InetSocketAddress,int)} before it cbn be used.
      * @throws IOException
      */
-    public static HttpServer create () throws IOException {
-        return create (null, 0);
+    public stbtic HttpServer crebte () throws IOException {
+        return crebte (null, 0);
     }
 
     /**
-     * Create a <code>HttpServer</code> instance which will bind to the
-     * specified {@link java.net.InetSocketAddress} (IP address and port number)
+     * Crebte b <code>HttpServer</code> instbnce which will bind to the
+     * specified {@link jbvb.net.InetSocketAddress} (IP bddress bnd port number)
      *
-     * A maximum backlog can also be specified. This is the maximum number of
-     * queued incoming connections to allow on the listening socket.
-     * Queued TCP connections exceeding this limit may be rejected by the TCP implementation.
-     * The HttpServer is acquired from the currently installed {@link HttpServerProvider}
+     * A mbximum bbcklog cbn blso be specified. This is the mbximum number of
+     * queued incoming connections to bllow on the listening socket.
+     * Queued TCP connections exceeding this limit mby be rejected by the TCP implementbtion.
+     * The HttpServer is bcquired from the currently instblled {@link HttpServerProvider}
      *
-     * @param addr the address to listen on, if <code>null</code> then bind() must be called
-     *  to set the address
-     * @param backlog the socket backlog. If this value is less than or equal to zero,
-     *          then a system default value is used.
-     * @throws BindException if the server cannot bind to the requested address,
-     *          or if the server is already bound.
+     * @pbrbm bddr the bddress to listen on, if <code>null</code> then bind() must be cblled
+     *  to set the bddress
+     * @pbrbm bbcklog the socket bbcklog. If this vblue is less thbn or equbl to zero,
+     *          then b system defbult vblue is used.
+     * @throws BindException if the server cbnnot bind to the requested bddress,
+     *          or if the server is blrebdy bound.
      * @throws IOException
      */
 
-    public static HttpServer create (
-        InetSocketAddress addr, int backlog
+    public stbtic HttpServer crebte (
+        InetSocketAddress bddr, int bbcklog
     ) throws IOException {
         HttpServerProvider provider = HttpServerProvider.provider();
-        return provider.createHttpServer (addr, backlog);
+        return provider.crebteHttpServer (bddr, bbcklog);
     }
 
     /**
-     * Binds a currently unbound HttpServer to the given address and port number.
-     * A maximum backlog can also be specified. This is the maximum number of
-     * queued incoming connections to allow on the listening socket.
-     * Queued TCP connections exceeding this limit may be rejected by the TCP implementation.
-     * @param addr the address to listen on
-     * @param backlog the socket backlog. If this value is less than or equal to zero,
-     *          then a system default value is used.
-     * @throws BindException if the server cannot bind to the requested address or if the server
-     *          is already bound.
-     * @throws NullPointerException if addr is <code>null</code>
+     * Binds b currently unbound HttpServer to the given bddress bnd port number.
+     * A mbximum bbcklog cbn blso be specified. This is the mbximum number of
+     * queued incoming connections to bllow on the listening socket.
+     * Queued TCP connections exceeding this limit mby be rejected by the TCP implementbtion.
+     * @pbrbm bddr the bddress to listen on
+     * @pbrbm bbcklog the socket bbcklog. If this vblue is less thbn or equbl to zero,
+     *          then b system defbult vblue is used.
+     * @throws BindException if the server cbnnot bind to the requested bddress or if the server
+     *          is blrebdy bound.
+     * @throws NullPointerException if bddr is <code>null</code>
      */
-    public abstract void bind (InetSocketAddress addr, int backlog) throws IOException;
+    public bbstrbct void bind (InetSocketAddress bddr, int bbcklog) throws IOException;
 
     /**
-     * Starts this server in a new background thread. The background thread
-     * inherits the priority, thread group and context class loader
-     * of the caller.
+     * Stbrts this server in b new bbckground threbd. The bbckground threbd
+     * inherits the priority, threbd group bnd context clbss lobder
+     * of the cbller.
      */
-    public abstract void start () ;
+    public bbstrbct void stbrt () ;
 
     /**
-     * sets this server's {@link java.util.concurrent.Executor} object. An
-     * Executor must be established before {@link #start()} is called.
-     * All HTTP requests are handled in tasks given to the executor.
-     * If this method is not called (before start()) or if it is
-     * called with a <code>null</code> Executor, then
-     * a default implementation is used, which uses the thread
-     * which was created by the {@link #start()} method.
-     * @param executor the Executor to set, or <code>null</code> for  default
-     *          implementation
-     * @throws IllegalStateException if the server is already started
+     * sets this server's {@link jbvb.util.concurrent.Executor} object. An
+     * Executor must be estbblished before {@link #stbrt()} is cblled.
+     * All HTTP requests bre hbndled in tbsks given to the executor.
+     * If this method is not cblled (before stbrt()) or if it is
+     * cblled with b <code>null</code> Executor, then
+     * b defbult implementbtion is used, which uses the threbd
+     * which wbs crebted by the {@link #stbrt()} method.
+     * @pbrbm executor the Executor to set, or <code>null</code> for  defbult
+     *          implementbtion
+     * @throws IllegblStbteException if the server is blrebdy stbrted
      */
-    public abstract void setExecutor (Executor executor);
+    public bbstrbct void setExecutor (Executor executor);
 
 
     /**
-     * returns this server's Executor object if one was specified with
-     * {@link #setExecutor(Executor)}, or <code>null</code> if none was
+     * returns this server's Executor object if one wbs specified with
+     * {@link #setExecutor(Executor)}, or <code>null</code> if none wbs
      * specified.
-     * @return the Executor established for this server or <code>null</code> if not set.
+     * @return the Executor estbblished for this server or <code>null</code> if not set.
      */
-    public abstract Executor getExecutor () ;
+    public bbstrbct Executor getExecutor () ;
 
     /**
-     * stops this server by closing the listening socket and disallowing
-     * any new exchanges from being processed. The method will then block
-     * until all current exchange handlers have completed or else when
-     * approximately <i>delay</i> seconds have elapsed (whichever happens
-     * sooner). Then, all open TCP connections are closed, the background
-     * thread created by start() exits, and the method returns.
-     * Once stopped, a HttpServer cannot be re-used. <p>
+     * stops this server by closing the listening socket bnd disbllowing
+     * bny new exchbnges from being processed. The method will then block
+     * until bll current exchbnge hbndlers hbve completed or else when
+     * bpproximbtely <i>delby</i> seconds hbve elbpsed (whichever hbppens
+     * sooner). Then, bll open TCP connections bre closed, the bbckground
+     * threbd crebted by stbrt() exits, bnd the method returns.
+     * Once stopped, b HttpServer cbnnot be re-used. <p>
      *
-     * @param delay the maximum time in seconds to wait until exchanges have finished.
-     * @throws IllegalArgumentException if delay is less than zero.
+     * @pbrbm delby the mbximum time in seconds to wbit until exchbnges hbve finished.
+     * @throws IllegblArgumentException if delby is less thbn zero.
      */
-    public abstract void stop (int delay);
+    public bbstrbct void stop (int delby);
 
     /**
-     * Creates a HttpContext. A HttpContext represents a mapping from a
-     * URI path to a exchange handler on this HttpServer. Once created, all requests
-     * received by the server for the path will be handled by calling
-     * the given handler object. The context is identified by the path, and
-     * can later be removed from the server using this with the {@link #removeContext(String)} method.
+     * Crebtes b HttpContext. A HttpContext represents b mbpping from b
+     * URI pbth to b exchbnge hbndler on this HttpServer. Once crebted, bll requests
+     * received by the server for the pbth will be hbndled by cblling
+     * the given hbndler object. The context is identified by the pbth, bnd
+     * cbn lbter be removed from the server using this with the {@link #removeContext(String)} method.
      * <p>
-     * The path specifies the root URI path for this context. The first character of path must be
+     * The pbth specifies the root URI pbth for this context. The first chbrbcter of pbth must be
      * '/'. <p>
-     * The class overview describes how incoming request URIs are <a href="#mapping_description">mapped</a>
-     * to HttpContext instances.
-     * @param path the root URI path to associate the context with
-     * @param handler the handler to invoke for incoming requests.
-     * @throws IllegalArgumentException if path is invalid, or if a context
-     *          already exists for this path
-     * @throws NullPointerException if either path, or handler are <code>null</code>
+     * The clbss overview describes how incoming request URIs bre <b href="#mbpping_description">mbpped</b>
+     * to HttpContext instbnces.
+     * @pbrbm pbth the root URI pbth to bssocibte the context with
+     * @pbrbm hbndler the hbndler to invoke for incoming requests.
+     * @throws IllegblArgumentException if pbth is invblid, or if b context
+     *          blrebdy exists for this pbth
+     * @throws NullPointerException if either pbth, or hbndler bre <code>null</code>
      */
-    public abstract HttpContext createContext (String path, HttpHandler handler) ;
+    public bbstrbct HttpContext crebteContext (String pbth, HttpHbndler hbndler) ;
 
     /**
-     * Creates a HttpContext without initially specifying a handler. The handler must later be specified using
-     * {@link HttpContext#setHandler(HttpHandler)}.  A HttpContext represents a mapping from a
-     * URI path to an exchange handler on this HttpServer. Once created, and when
-     * the handler has been set, all requests
-     * received by the server for the path will be handled by calling
-     * the handler object. The context is identified by the path, and
-     * can later be removed from the server using this with the {@link #removeContext(String)} method.
+     * Crebtes b HttpContext without initiblly specifying b hbndler. The hbndler must lbter be specified using
+     * {@link HttpContext#setHbndler(HttpHbndler)}.  A HttpContext represents b mbpping from b
+     * URI pbth to bn exchbnge hbndler on this HttpServer. Once crebted, bnd when
+     * the hbndler hbs been set, bll requests
+     * received by the server for the pbth will be hbndled by cblling
+     * the hbndler object. The context is identified by the pbth, bnd
+     * cbn lbter be removed from the server using this with the {@link #removeContext(String)} method.
      * <p>
-     * The path specifies the root URI path for this context. The first character of path must be
+     * The pbth specifies the root URI pbth for this context. The first chbrbcter of pbth must be
      * '/'. <p>
-     * The class overview describes how incoming request URIs are <a href="#mapping_description">mapped</a>
-     * to HttpContext instances.
-     * @param path the root URI path to associate the context with
-     * @throws IllegalArgumentException if path is invalid, or if a context
-     *          already exists for this path
-     * @throws NullPointerException if path is <code>null</code>
+     * The clbss overview describes how incoming request URIs bre <b href="#mbpping_description">mbpped</b>
+     * to HttpContext instbnces.
+     * @pbrbm pbth the root URI pbth to bssocibte the context with
+     * @throws IllegblArgumentException if pbth is invblid, or if b context
+     *          blrebdy exists for this pbth
+     * @throws NullPointerException if pbth is <code>null</code>
      */
-    public abstract HttpContext createContext (String path) ;
+    public bbstrbct HttpContext crebteContext (String pbth) ;
 
     /**
-     * Removes the context identified by the given path from the server.
-     * Removing a context does not affect exchanges currently being processed
-     * but prevents new ones from being accepted.
-     * @param path the path of the handler to remove
-     * @throws IllegalArgumentException if no handler corresponding to this
-     *          path exists.
-     * @throws NullPointerException if path is <code>null</code>
+     * Removes the context identified by the given pbth from the server.
+     * Removing b context does not bffect exchbnges currently being processed
+     * but prevents new ones from being bccepted.
+     * @pbrbm pbth the pbth of the hbndler to remove
+     * @throws IllegblArgumentException if no hbndler corresponding to this
+     *          pbth exists.
+     * @throws NullPointerException if pbth is <code>null</code>
      */
-    public abstract void removeContext (String path) throws IllegalArgumentException ;
+    public bbstrbct void removeContext (String pbth) throws IllegblArgumentException ;
 
     /**
      * Removes the given context from the server.
-     * Removing a context does not affect exchanges currently being processed
-     * but prevents new ones from being accepted.
-     * @param context the context to remove
+     * Removing b context does not bffect exchbnges currently being processed
+     * but prevents new ones from being bccepted.
+     * @pbrbm context the context to remove
      * @throws NullPointerException if context is <code>null</code>
      */
-    public abstract void removeContext (HttpContext context) ;
+    public bbstrbct void removeContext (HttpContext context) ;
 
     /**
-     * returns the address this server is listening on
-     * @return the address/port number the server is listening on
+     * returns the bddress this server is listening on
+     * @return the bddress/port number the server is listening on
      */
-    public abstract InetSocketAddress getAddress() ;
+    public bbstrbct InetSocketAddress getAddress() ;
 }

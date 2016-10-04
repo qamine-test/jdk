@@ -1,32 +1,32 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.sql;
+pbckbge jbvb.sql;
 
 /**
- * <P>Defines the constants that are used to identify generic
- * SQL types, called JDBC types.
+ * <P>Defines the constbnts thbt bre used to identify generic
+ * SQL types, cblled JDBC types.
  *
  * @see SQLType
  * @since 1.8
@@ -110,19 +110,19 @@ public enum JDBCType implements SQLType {
      */
     LONGVARBINARY(Types.LONGVARBINARY),
     /**
-     * Identifies the generic SQL value {@code NULL}.
+     * Identifies the generic SQL vblue {@code NULL}.
      */
     NULL(Types.NULL),
     /**
-     * Indicates that the SQL type
-     * is database-specific and gets mapped to a Java object that can be
-     * accessed via the methods getObject and setObject.
+     * Indicbtes thbt the SQL type
+     * is dbtbbbse-specific bnd gets mbpped to b Jbvb object thbt cbn be
+     * bccessed vib the methods getObject bnd setObject.
      */
     OTHER(Types.OTHER),
     /**
-     * Indicates that the SQL type
-     * is database-specific and gets mapped to a Java object that can be
-     * accessed via the methods getObject and setObject.
+     * Indicbtes thbt the SQL type
+     * is dbtbbbse-specific bnd gets mbpped to b Jbvb object thbt cbn be
+     * bccessed vib the methods getObject bnd setObject.
      */
     JAVA_OBJECT(Types.JAVA_OBJECT),
     /**
@@ -203,59 +203,59 @@ public enum JDBCType implements SQLType {
     TIMESTAMP_WITH_TIMEZONE(Types.TIMESTAMP_WITH_TIMEZONE);
 
     /**
-     * The Integer value for the JDBCType.  It maps to a value in
-     * {@code Types.java}
+     * The Integer vblue for the JDBCType.  It mbps to b vblue in
+     * {@code Types.jbvb}
      */
-    private Integer type;
+    privbte Integer type;
 
     /**
-     * Constructor to specify the data type value from {@code Types) for
-     * this data type.
-     * @param type The value from {@code Types) for this data type
+     * Constructor to specify the dbtb type vblue from {@code Types) for
+     * this dbtb type.
+     * @pbrbm type The vblue from {@code Types) for this dbtb type
      */
-    JDBCType(final Integer type) {
+    JDBCType(finbl Integer type) {
         this.type = type;
     }
 
     /**
      *{@inheritDoc }
-     * @return The name of this {@code SQLType}.
+     * @return The nbme of this {@code SQLType}.
      */
-    public String getName() {
-        return name();
+    public String getNbme() {
+        return nbme();
     }
     /**
-     * Returns the name of the vendor that supports this data type.
-     * @return  The name of the vendor for this data type which is
-     * {@literal java.sql} for JDBCType.
+     * Returns the nbme of the vendor thbt supports this dbtb type.
+     * @return  The nbme of the vendor for this dbtb type which is
+     * {@literbl jbvb.sql} for JDBCType.
      */
     public String getVendor() {
-        return "java.sql";
+        return "jbvb.sql";
     }
 
     /**
-     * Returns the vendor specific type number for the data type.
-     * @return  An Integer representing the data type. For {@code JDBCType},
-     * the value will be the same value as in {@code Types} for the data type.
+     * Returns the vendor specific type number for the dbtb type.
+     * @return  An Integer representing the dbtb type. For {@code JDBCType},
+     * the vblue will be the sbme vblue bs in {@code Types} for the dbtb type.
      */
     public Integer getVendorTypeNumber() {
         return type;
     }
     /**
-     * Returns the {@code JDBCType} that corresponds to the specified
-     * {@code Types} value
-     * @param type {@code Types} value
-     * @return The {@code JDBCType} constant
-     * @throws IllegalArgumentException if this enum type has no constant with
-     * the specified {@code Types} value
+     * Returns the {@code JDBCType} thbt corresponds to the specified
+     * {@code Types} vblue
+     * @pbrbm type {@code Types} vblue
+     * @return The {@code JDBCType} constbnt
+     * @throws IllegblArgumentException if this enum type hbs no constbnt with
+     * the specified {@code Types} vblue
      * @see Types
      */
-    public static JDBCType valueOf(int type) {
-        for( JDBCType sqlType : JDBCType.class.getEnumConstants()) {
+    public stbtic JDBCType vblueOf(int type) {
+        for( JDBCType sqlType : JDBCType.clbss.getEnumConstbnts()) {
             if(type == sqlType.type)
                 return sqlType;
         }
-        throw new IllegalArgumentException("Type:" + type + " is not a valid "
-                + "Types.java value.");
+        throw new IllegblArgumentException("Type:" + type + " is not b vblid "
+                + "Types.jbvb vblue.");
     }
 }

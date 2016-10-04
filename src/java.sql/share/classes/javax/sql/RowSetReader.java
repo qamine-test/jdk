@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql;
+pbckbge jbvbx.sql;
 
-import java.sql.*;
+import jbvb.sql.*;
 
 /**
- * The facility that a disconnected <code>RowSet</code> object calls on
- * to populate itself with rows of data. A reader (an object implementing the
- * <code>RowSetReader</code> interface) may be registered with
- * a <code>RowSet</code> object that supports the reader/writer paradigm.
+ * The fbcility thbt b disconnected <code>RowSet</code> object cblls on
+ * to populbte itself with rows of dbtb. A rebder (bn object implementing the
+ * <code>RowSetRebder</code> interfbce) mby be registered with
+ * b <code>RowSet</code> object thbt supports the rebder/writer pbrbdigm.
  * When the <code>RowSet</code> object's <code>execute</code> method is
- * called, it in turn calls the reader's <code>readData</code> method.
+ * cblled, it in turn cblls the rebder's <code>rebdDbtb</code> method.
  *
  * @since 1.4
  */
 
-public interface RowSetReader {
+public interfbce RowSetRebder {
 
   /**
-   * Reads the new contents of the calling <code>RowSet</code> object.
-   * In order to call this method, a <code>RowSet</code>
-   * object must have implemented the <code>RowSetInternal</code> interface
-   * and registered this <code>RowSetReader</code> object as its reader.
-   * The <code>readData</code>  method is invoked internally
-   * by the <code>RowSet.execute</code> method for rowsets that support the
-   * reader/writer paradigm.
+   * Rebds the new contents of the cblling <code>RowSet</code> object.
+   * In order to cbll this method, b <code>RowSet</code>
+   * object must hbve implemented the <code>RowSetInternbl</code> interfbce
+   * bnd registered this <code>RowSetRebder</code> object bs its rebder.
+   * The <code>rebdDbtb</code>  method is invoked internblly
+   * by the <code>RowSet.execute</code> method for rowsets thbt support the
+   * rebder/writer pbrbdigm.
    *
-   * <P>The <code>readData</code> method adds rows to the caller.
-   * It can be implemented in a wide variety of ways and can even
-   * populate the caller with rows from a nonrelational data source.
-   * In general, a reader may invoke any of the rowset's methods,
-   * with one exception. Calling the method <code>execute</code> will
-   * cause an <code>SQLException</code> to be thrown
-   * because <code>execute</code> may not be called recursively.  Also,
-   * when a reader invokes <code>RowSet</code> methods, no listeners
-   * are notified; that is, no <code>RowSetEvent</code> objects are
-   * generated and no <code>RowSetListener</code> methods are invoked.
-   * This is true because listeners are already being notified by the method
+   * <P>The <code>rebdDbtb</code> method bdds rows to the cbller.
+   * It cbn be implemented in b wide vbriety of wbys bnd cbn even
+   * populbte the cbller with rows from b nonrelbtionbl dbtb source.
+   * In generbl, b rebder mby invoke bny of the rowset's methods,
+   * with one exception. Cblling the method <code>execute</code> will
+   * cbuse bn <code>SQLException</code> to be thrown
+   * becbuse <code>execute</code> mby not be cblled recursively.  Also,
+   * when b rebder invokes <code>RowSet</code> methods, no listeners
+   * bre notified; thbt is, no <code>RowSetEvent</code> objects bre
+   * generbted bnd no <code>RowSetListener</code> methods bre invoked.
+   * This is true becbuse listeners bre blrebdy being notified by the method
    * <code>execute</code>.
    *
-   * @param caller the <code>RowSet</code> object (1) that has implemented the
-   *         <code>RowSetInternal</code> interface, (2) with which this reader is
-   *        registered, and (3) whose <code>execute</code> method called this reader
-   * @exception SQLException if a database access error occurs or this method
+   * @pbrbm cbller the <code>RowSet</code> object (1) thbt hbs implemented the
+   *         <code>RowSetInternbl</code> interfbce, (2) with which this rebder is
+   *        registered, bnd (3) whose <code>execute</code> method cblled this rebder
+   * @exception SQLException if b dbtbbbse bccess error occurs or this method
    *            invokes the <code>RowSet.execute</code> method
    */
-  void readData(RowSetInternal caller) throws SQLException;
+  void rebdDbtb(RowSetInternbl cbller) throws SQLException;
 
 }

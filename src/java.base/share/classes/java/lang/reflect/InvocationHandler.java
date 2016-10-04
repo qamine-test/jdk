@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
 /**
- * {@code InvocationHandler} is the interface implemented by
- * the <i>invocation handler</i> of a proxy instance.
+ * {@code InvocbtionHbndler} is the interfbce implemented by
+ * the <i>invocbtion hbndler</i> of b proxy instbnce.
  *
- * <p>Each proxy instance has an associated invocation handler.
- * When a method is invoked on a proxy instance, the method
- * invocation is encoded and dispatched to the {@code invoke}
- * method of its invocation handler.
+ * <p>Ebch proxy instbnce hbs bn bssocibted invocbtion hbndler.
+ * When b method is invoked on b proxy instbnce, the method
+ * invocbtion is encoded bnd dispbtched to the {@code invoke}
+ * method of its invocbtion hbndler.
  *
- * @author      Peter Jones
+ * @buthor      Peter Jones
  * @see         Proxy
  * @since       1.3
  */
-public interface InvocationHandler {
+public interfbce InvocbtionHbndler {
 
     /**
-     * Processes a method invocation on a proxy instance and returns
-     * the result.  This method will be invoked on an invocation handler
-     * when a method is invoked on a proxy instance that it is
-     * associated with.
+     * Processes b method invocbtion on b proxy instbnce bnd returns
+     * the result.  This method will be invoked on bn invocbtion hbndler
+     * when b method is invoked on b proxy instbnce thbt it is
+     * bssocibted with.
      *
-     * @param   proxy the proxy instance that the method was invoked on
+     * @pbrbm   proxy the proxy instbnce thbt the method wbs invoked on
      *
-     * @param   method the {@code Method} instance corresponding to
-     * the interface method invoked on the proxy instance.  The declaring
-     * class of the {@code Method} object will be the interface that
-     * the method was declared in, which may be a superinterface of the
-     * proxy interface that the proxy class inherits the method through.
+     * @pbrbm   method the {@code Method} instbnce corresponding to
+     * the interfbce method invoked on the proxy instbnce.  The declbring
+     * clbss of the {@code Method} object will be the interfbce thbt
+     * the method wbs declbred in, which mby be b superinterfbce of the
+     * proxy interfbce thbt the proxy clbss inherits the method through.
      *
-     * @param   args an array of objects containing the values of the
-     * arguments passed in the method invocation on the proxy instance,
-     * or {@code null} if interface method takes no arguments.
-     * Arguments of primitive types are wrapped in instances of the
-     * appropriate primitive wrapper class, such as
-     * {@code java.lang.Integer} or {@code java.lang.Boolean}.
+     * @pbrbm   brgs bn brrby of objects contbining the vblues of the
+     * brguments pbssed in the method invocbtion on the proxy instbnce,
+     * or {@code null} if interfbce method tbkes no brguments.
+     * Arguments of primitive types bre wrbpped in instbnces of the
+     * bppropribte primitive wrbpper clbss, such bs
+     * {@code jbvb.lbng.Integer} or {@code jbvb.lbng.Boolebn}.
      *
-     * @return  the value to return from the method invocation on the
-     * proxy instance.  If the declared return type of the interface
-     * method is a primitive type, then the value returned by
-     * this method must be an instance of the corresponding primitive
-     * wrapper class; otherwise, it must be a type assignable to the
-     * declared return type.  If the value returned by this method is
-     * {@code null} and the interface method's return type is
-     * primitive, then a {@code NullPointerException} will be
-     * thrown by the method invocation on the proxy instance.  If the
-     * value returned by this method is otherwise not compatible with
-     * the interface method's declared return type as described above,
-     * a {@code ClassCastException} will be thrown by the method
-     * invocation on the proxy instance.
+     * @return  the vblue to return from the method invocbtion on the
+     * proxy instbnce.  If the declbred return type of the interfbce
+     * method is b primitive type, then the vblue returned by
+     * this method must be bn instbnce of the corresponding primitive
+     * wrbpper clbss; otherwise, it must be b type bssignbble to the
+     * declbred return type.  If the vblue returned by this method is
+     * {@code null} bnd the interfbce method's return type is
+     * primitive, then b {@code NullPointerException} will be
+     * thrown by the method invocbtion on the proxy instbnce.  If the
+     * vblue returned by this method is otherwise not compbtible with
+     * the interfbce method's declbred return type bs described bbove,
+     * b {@code ClbssCbstException} will be thrown by the method
+     * invocbtion on the proxy instbnce.
      *
-     * @throws  Throwable the exception to throw from the method
-     * invocation on the proxy instance.  The exception's type must be
-     * assignable either to any of the exception types declared in the
-     * {@code throws} clause of the interface method or to the
-     * unchecked exception types {@code java.lang.RuntimeException}
-     * or {@code java.lang.Error}.  If a checked exception is
-     * thrown by this method that is not assignable to any of the
-     * exception types declared in the {@code throws} clause of
-     * the interface method, then an
-     * {@link UndeclaredThrowableException} containing the
-     * exception that was thrown by this method will be thrown by the
-     * method invocation on the proxy instance.
+     * @throws  Throwbble the exception to throw from the method
+     * invocbtion on the proxy instbnce.  The exception's type must be
+     * bssignbble either to bny of the exception types declbred in the
+     * {@code throws} clbuse of the interfbce method or to the
+     * unchecked exception types {@code jbvb.lbng.RuntimeException}
+     * or {@code jbvb.lbng.Error}.  If b checked exception is
+     * thrown by this method thbt is not bssignbble to bny of the
+     * exception types declbred in the {@code throws} clbuse of
+     * the interfbce method, then bn
+     * {@link UndeclbredThrowbbleException} contbining the
+     * exception thbt wbs thrown by this method will be thrown by the
+     * method invocbtion on the proxy instbnce.
      *
-     * @see     UndeclaredThrowableException
+     * @see     UndeclbredThrowbbleException
      */
-    public Object invoke(Object proxy, Method method, Object[] args)
-        throws Throwable;
+    public Object invoke(Object proxy, Method method, Object[] brgs)
+        throws Throwbble;
 }

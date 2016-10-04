@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.IOException;
-import sun.util.ResourceBundleEnumeration;
+import jbvb.io.InputStrebm;
+import jbvb.io.Rebder;
+import jbvb.io.IOException;
+import sun.util.ResourceBundleEnumerbtion;
 
 /**
- * <code>PropertyResourceBundle</code> is a concrete subclass of
- * <code>ResourceBundle</code> that manages resources for a locale
- * using a set of static strings from a property file. See
- * {@link ResourceBundle ResourceBundle} for more information about resource
+ * <code>PropertyResourceBundle</code> is b concrete subclbss of
+ * <code>ResourceBundle</code> thbt mbnbges resources for b locble
+ * using b set of stbtic strings from b property file. See
+ * {@link ResourceBundle ResourceBundle} for more informbtion bbout resource
  * bundles.
  *
  * <p>
- * Unlike other types of resource bundle, you don't subclass
- * <code>PropertyResourceBundle</code>.  Instead, you supply properties
- * files containing the resource data.  <code>ResourceBundle.getBundle</code>
- * will automatically look for the appropriate properties file and create a
- * <code>PropertyResourceBundle</code> that refers to it. See
- * {@link ResourceBundle#getBundle(java.lang.String, java.util.Locale, java.lang.ClassLoader) ResourceBundle.getBundle}
- * for a complete description of the search and instantiation strategy.
+ * Unlike other types of resource bundle, you don't subclbss
+ * <code>PropertyResourceBundle</code>.  Instebd, you supply properties
+ * files contbining the resource dbtb.  <code>ResourceBundle.getBundle</code>
+ * will butombticblly look for the bppropribte properties file bnd crebte b
+ * <code>PropertyResourceBundle</code> thbt refers to it. See
+ * {@link ResourceBundle#getBundle(jbvb.lbng.String, jbvb.util.Locble, jbvb.lbng.ClbssLobder) ResourceBundle.getBundle}
+ * for b complete description of the sebrch bnd instbntibtion strbtegy.
  *
  * <p>
- * The following <a name="sample">example</a> shows a member of a resource
- * bundle family with the base name "MyResources".
+ * The following <b nbme="sbmple">exbmple</b> shows b member of b resource
+ * bundle fbmily with the bbse nbme "MyResources".
  * The text defines the bundle "MyResources_de",
- * the German member of the bundle family.
- * This member is based on <code>PropertyResourceBundle</code>, and the text
+ * the Germbn member of the bundle fbmily.
+ * This member is bbsed on <code>PropertyResourceBundle</code>, bnd the text
  * therefore is the content of the file "MyResources_de.properties"
- * (a related <a href="ListResourceBundle.html#sample">example</a> shows
- * how you can add bundles to this family that are implemented as subclasses
+ * (b relbted <b href="ListResourceBundle.html#sbmple">exbmple</b> shows
+ * how you cbn bdd bundles to this fbmily thbt bre implemented bs subclbsses
  * of <code>ListResourceBundle</code>).
- * The keys in this example are of the form "s1" etc. The actual
- * keys are entirely up to your choice, so long as they are the same as
- * the keys you use in your program to retrieve the objects from the bundle.
- * Keys are case-sensitive.
+ * The keys in this exbmple bre of the form "s1" etc. The bctubl
+ * keys bre entirely up to your choice, so long bs they bre the sbme bs
+ * the keys you use in your progrbm to retrieve the objects from the bundle.
+ * Keys bre cbse-sensitive.
  * <blockquote>
  * <pre>
- * # MessageFormat pattern
- * s1=Die Platte \"{1}\" enth&auml;lt {0}.
+ * # MessbgeFormbt pbttern
+ * s1=Die Plbtte \"{1}\" enth&buml;lt {0}.
  *
- * # location of {0} in pattern
+ * # locbtion of {0} in pbttern
  * s2=1
  *
- * # sample disk name
- * s3=Meine Platte
+ * # sbmple disk nbme
+ * s3=Meine Plbtte
  *
- * # first ChoiceFormat choice
- * s4=keine Dateien
+ * # first ChoiceFormbt choice
+ * s4=keine Dbteien
  *
- * # second ChoiceFormat choice
- * s5=eine Datei
+ * # second ChoiceFormbt choice
+ * s5=eine Dbtei
  *
- * # third ChoiceFormat choice
- * s6={0,number} Dateien
+ * # third ChoiceFormbt choice
+ * s6={0,number} Dbteien
  *
- * # sample date
- * s7=3. M&auml;rz 1996
+ * # sbmple dbte
+ * s7=3. M&buml;rz 1996
  * </pre>
  * </blockquote>
  *
  * <p>
- * The implementation of a {@code PropertyResourceBundle} subclass must be
- * thread-safe if it's simultaneously used by multiple threads. The default
- * implementations of the non-abstract methods in this class are thread-safe.
+ * The implementbtion of b {@code PropertyResourceBundle} subclbss must be
+ * threbd-sbfe if it's simultbneously used by multiple threbds. The defbult
+ * implementbtions of the non-bbstrbct methods in this clbss bre threbd-sbfe.
  *
  * <p>
- * <strong>Note:</strong> PropertyResourceBundle can be constructed either
- * from an InputStream or a Reader, which represents a property file.
- * Constructing a PropertyResourceBundle instance from an InputStream requires
- * that the input stream be encoded in ISO-8859-1.  In that case, characters
- * that cannot be represented in ISO-8859-1 encoding must be represented by Unicode Escapes
- * as defined in section 3.3 of
- * <cite>The Java&trade; Language Specification</cite>
- * whereas the other constructor which takes a Reader does not have that limitation.
+ * <strong>Note:</strong> PropertyResourceBundle cbn be constructed either
+ * from bn InputStrebm or b Rebder, which represents b property file.
+ * Constructing b PropertyResourceBundle instbnce from bn InputStrebm requires
+ * thbt the input strebm be encoded in ISO-8859-1.  In thbt cbse, chbrbcters
+ * thbt cbnnot be represented in ISO-8859-1 encoding must be represented by Unicode Escbpes
+ * bs defined in section 3.3 of
+ * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>
+ * wherebs the other constructor which tbkes b Rebder does not hbve thbt limitbtion.
  *
  * @see ResourceBundle
  * @see ListResourceBundle
  * @see Properties
  * @since 1.1
  */
-public class PropertyResourceBundle extends ResourceBundle {
+public clbss PropertyResourceBundle extends ResourceBundle {
     /**
-     * Creates a property resource bundle from an {@link java.io.InputStream
-     * InputStream}.  The property file read with this constructor
+     * Crebtes b property resource bundle from bn {@link jbvb.io.InputStrebm
+     * InputStrebm}.  The property file rebd with this constructor
      * must be encoded in ISO-8859-1.
      *
-     * @param stream an InputStream that represents a property file
-     *        to read from.
-     * @throws IOException if an I/O error occurs
-     * @throws NullPointerException if <code>stream</code> is null
-     * @throws IllegalArgumentException if {@code stream} contains a
-     *     malformed Unicode escape sequence.
+     * @pbrbm strebm bn InputStrebm thbt represents b property file
+     *        to rebd from.
+     * @throws IOException if bn I/O error occurs
+     * @throws NullPointerException if <code>strebm</code> is null
+     * @throws IllegblArgumentException if {@code strebm} contbins b
+     *     mblformed Unicode escbpe sequence.
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public PropertyResourceBundle (InputStream stream) throws IOException {
+    @SuppressWbrnings({"unchecked", "rbwtypes"})
+    public PropertyResourceBundle (InputStrebm strebm) throws IOException {
         Properties properties = new Properties();
-        properties.load(stream);
-        lookup = new HashMap(properties);
+        properties.lobd(strebm);
+        lookup = new HbshMbp(properties);
     }
 
     /**
-     * Creates a property resource bundle from a {@link java.io.Reader
-     * Reader}.  Unlike the constructor
-     * {@link #PropertyResourceBundle(java.io.InputStream) PropertyResourceBundle(InputStream)},
-     * there is no limitation as to the encoding of the input property file.
+     * Crebtes b property resource bundle from b {@link jbvb.io.Rebder
+     * Rebder}.  Unlike the constructor
+     * {@link #PropertyResourceBundle(jbvb.io.InputStrebm) PropertyResourceBundle(InputStrebm)},
+     * there is no limitbtion bs to the encoding of the input property file.
      *
-     * @param reader a Reader that represents a property file to
-     *        read from.
-     * @throws IOException if an I/O error occurs
-     * @throws NullPointerException if <code>reader</code> is null
-     * @throws IllegalArgumentException if a malformed Unicode escape sequence appears
-     *     from {@code reader}.
+     * @pbrbm rebder b Rebder thbt represents b property file to
+     *        rebd from.
+     * @throws IOException if bn I/O error occurs
+     * @throws NullPointerException if <code>rebder</code> is null
+     * @throws IllegblArgumentException if b mblformed Unicode escbpe sequence bppebrs
+     *     from {@code rebder}.
      * @since 1.6
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public PropertyResourceBundle (Reader reader) throws IOException {
+    @SuppressWbrnings({"unchecked", "rbwtypes"})
+    public PropertyResourceBundle (Rebder rebder) throws IOException {
         Properties properties = new Properties();
-        properties.load(reader);
-        lookup = new HashMap(properties);
+        properties.lobd(rebder);
+        lookup = new HbshMbp(properties);
     }
 
-    // Implements java.util.ResourceBundle.handleGetObject; inherits javadoc specification.
-    public Object handleGetObject(String key) {
+    // Implements jbvb.util.ResourceBundle.hbndleGetObject; inherits jbvbdoc specificbtion.
+    public Object hbndleGetObject(String key) {
         if (key == null) {
             throw new NullPointerException();
         }
@@ -169,33 +169,33 @@ public class PropertyResourceBundle extends ResourceBundle {
     }
 
     /**
-     * Returns an <code>Enumeration</code> of the keys contained in
-     * this <code>ResourceBundle</code> and its parent bundles.
+     * Returns bn <code>Enumerbtion</code> of the keys contbined in
+     * this <code>ResourceBundle</code> bnd its pbrent bundles.
      *
-     * @return an <code>Enumeration</code> of the keys contained in
-     *         this <code>ResourceBundle</code> and its parent bundles.
+     * @return bn <code>Enumerbtion</code> of the keys contbined in
+     *         this <code>ResourceBundle</code> bnd its pbrent bundles.
      * @see #keySet()
      */
-    public Enumeration<String> getKeys() {
-        ResourceBundle parent = this.parent;
-        return new ResourceBundleEnumeration(lookup.keySet(),
-                (parent != null) ? parent.getKeys() : null);
+    public Enumerbtion<String> getKeys() {
+        ResourceBundle pbrent = this.pbrent;
+        return new ResourceBundleEnumerbtion(lookup.keySet(),
+                (pbrent != null) ? pbrent.getKeys() : null);
     }
 
     /**
-     * Returns a <code>Set</code> of the keys contained
+     * Returns b <code>Set</code> of the keys contbined
      * <em>only</em> in this <code>ResourceBundle</code>.
      *
-     * @return a <code>Set</code> of the keys contained only in this
+     * @return b <code>Set</code> of the keys contbined only in this
      *         <code>ResourceBundle</code>
      * @since 1.6
      * @see #keySet()
      */
-    protected Set<String> handleKeySet() {
+    protected Set<String> hbndleKeySet() {
         return lookup.keySet();
     }
 
-    // ==================privates====================
+    // ==================privbtes====================
 
-    private Map<String,Object> lookup;
+    privbte Mbp<String,Object> lookup;
 }

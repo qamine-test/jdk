@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.table;
+pbckbge jbvbx.swing.tbble;
 
-import java.io.Serializable;
-import java.util.Vector;
-import java.util.Enumeration;
-import javax.swing.event.TableModelEvent;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvbx.swing.event.TbbleModelEvent;
 
 
 /**
- * This is an implementation of <code>TableModel</code> that
- * uses a <code>Vector</code> of <code>Vectors</code> to store the
- * cell value objects.
+ * This is bn implementbtion of <code>TbbleModel</code> thbt
+ * uses b <code>Vector</code> of <code>Vectors</code> to store the
+ * cell vblue objects.
  * <p>
- * <strong>Warning:</strong> <code>DefaultTableModel</code> returns a
- * column class of <code>Object</code>.  When
- * <code>DefaultTableModel</code> is used with a
- * <code>TableRowSorter</code> this will result in extensive use of
- * <code>toString</code>, which for non-<code>String</code> data types
- * is expensive.  If you use <code>DefaultTableModel</code> with a
- * <code>TableRowSorter</code> you are strongly encouraged to override
- * <code>getColumnClass</code> to return the appropriate type.
+ * <strong>Wbrning:</strong> <code>DefbultTbbleModel</code> returns b
+ * column clbss of <code>Object</code>.  When
+ * <code>DefbultTbbleModel</code> is used with b
+ * <code>TbbleRowSorter</code> this will result in extensive use of
+ * <code>toString</code>, which for non-<code>String</code> dbtb types
+ * is expensive.  If you use <code>DefbultTbbleModel</code> with b
+ * <code>TbbleRowSorter</code> you bre strongly encourbged to override
+ * <code>getColumnClbss</code> to return the bppropribte type.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  *
- * @see TableModel
- * @see #getDataVector
+ * @see TbbleModel
+ * @see #getDbtbVector
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultTableModel extends AbstractTableModel implements Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultTbbleModel extends AbstrbctTbbleModel implements Seriblizbble {
 
 //
-// Instance Variables
+// Instbnce Vbribbles
 //
 
     /**
      * The <code>Vector</code> of <code>Vectors</code> of
-     * <code>Object</code> values.
+     * <code>Object</code> vblues.
      */
-    protected Vector<Vector<Object>>    dataVector;
+    protected Vector<Vector<Object>>    dbtbVector;
 
     /** The <code>Vector</code> of column identifiers. */
     protected Vector<Object>    columnIdentifiers;
@@ -80,237 +80,237 @@ public class DefaultTableModel extends AbstractTableModel implements Serializabl
 //
 
     /**
-     *  Constructs a default <code>DefaultTableModel</code>
-     *  which is a table of zero columns and zero rows.
+     *  Constructs b defbult <code>DefbultTbbleModel</code>
+     *  which is b tbble of zero columns bnd zero rows.
      */
-    public DefaultTableModel() {
+    public DefbultTbbleModel() {
         this(0, 0);
     }
 
-    private static <E> Vector<E> newVector(int size) {
+    privbte stbtic <E> Vector<E> newVector(int size) {
         Vector<E> v = new Vector<>(size);
         v.setSize(size);
         return v;
     }
 
     /**
-     *  Constructs a <code>DefaultTableModel</code> with
-     *  <code>rowCount</code> and <code>columnCount</code> of
-     *  <code>null</code> object values.
+     *  Constructs b <code>DefbultTbbleModel</code> with
+     *  <code>rowCount</code> bnd <code>columnCount</code> of
+     *  <code>null</code> object vblues.
      *
-     * @param rowCount           the number of rows the table holds
-     * @param columnCount        the number of columns the table holds
+     * @pbrbm rowCount           the number of rows the tbble holds
+     * @pbrbm columnCount        the number of columns the tbble holds
      *
-     * @see #setValueAt
+     * @see #setVblueAt
      */
-    public DefaultTableModel(int rowCount, int columnCount) {
+    public DefbultTbbleModel(int rowCount, int columnCount) {
         this(newVector(columnCount), rowCount);
     }
 
     /**
-     *  Constructs a <code>DefaultTableModel</code> with as many columns
-     *  as there are elements in <code>columnNames</code>
-     *  and <code>rowCount</code> of <code>null</code>
-     *  object values.  Each column's name will be taken from
-     *  the <code>columnNames</code> vector.
+     *  Constructs b <code>DefbultTbbleModel</code> with bs mbny columns
+     *  bs there bre elements in <code>columnNbmes</code>
+     *  bnd <code>rowCount</code> of <code>null</code>
+     *  object vblues.  Ebch column's nbme will be tbken from
+     *  the <code>columnNbmes</code> vector.
      *
-     * @param columnNames       <code>vector</code> containing the names
+     * @pbrbm columnNbmes       <code>vector</code> contbining the nbmes
      *                          of the new columns; if this is
-     *                          <code>null</code> then the model has no columns
-     * @param rowCount           the number of rows the table holds
-     * @see #setDataVector
-     * @see #setValueAt
+     *                          <code>null</code> then the model hbs no columns
+     * @pbrbm rowCount           the number of rows the tbble holds
+     * @see #setDbtbVector
+     * @see #setVblueAt
      */
-    public DefaultTableModel(Vector<Object> columnNames, int rowCount) {
-        setDataVector(newVector(rowCount), columnNames);
+    public DefbultTbbleModel(Vector<Object> columnNbmes, int rowCount) {
+        setDbtbVector(newVector(rowCount), columnNbmes);
     }
 
     /**
-     *  Constructs a <code>DefaultTableModel</code> with as many
-     *  columns as there are elements in <code>columnNames</code>
-     *  and <code>rowCount</code> of <code>null</code>
-     *  object values.  Each column's name will be taken from
-     *  the <code>columnNames</code> array.
+     *  Constructs b <code>DefbultTbbleModel</code> with bs mbny
+     *  columns bs there bre elements in <code>columnNbmes</code>
+     *  bnd <code>rowCount</code> of <code>null</code>
+     *  object vblues.  Ebch column's nbme will be tbken from
+     *  the <code>columnNbmes</code> brrby.
      *
-     * @param columnNames       <code>array</code> containing the names
+     * @pbrbm columnNbmes       <code>brrby</code> contbining the nbmes
      *                          of the new columns; if this is
-     *                          <code>null</code> then the model has no columns
-     * @param rowCount           the number of rows the table holds
-     * @see #setDataVector
-     * @see #setValueAt
+     *                          <code>null</code> then the model hbs no columns
+     * @pbrbm rowCount           the number of rows the tbble holds
+     * @see #setDbtbVector
+     * @see #setVblueAt
      */
-    public DefaultTableModel(Object[] columnNames, int rowCount) {
-        this(convertToVector(columnNames), rowCount);
+    public DefbultTbbleModel(Object[] columnNbmes, int rowCount) {
+        this(convertToVector(columnNbmes), rowCount);
     }
 
     /**
-     *  Constructs a <code>DefaultTableModel</code> and initializes the table
-     *  by passing <code>data</code> and <code>columnNames</code>
-     *  to the <code>setDataVector</code> method.
+     *  Constructs b <code>DefbultTbbleModel</code> bnd initiblizes the tbble
+     *  by pbssing <code>dbtb</code> bnd <code>columnNbmes</code>
+     *  to the <code>setDbtbVector</code> method.
      *
-     * @param data              the data of the table, a <code>Vector</code>
+     * @pbrbm dbtb              the dbtb of the tbble, b <code>Vector</code>
      *                          of <code>Vector</code>s of <code>Object</code>
-     *                          values
-     * @param columnNames       <code>vector</code> containing the names
+     *                          vblues
+     * @pbrbm columnNbmes       <code>vector</code> contbining the nbmes
      *                          of the new columns
-     * @see #getDataVector
-     * @see #setDataVector
+     * @see #getDbtbVector
+     * @see #setDbtbVector
      */
-    public DefaultTableModel(Vector<Vector<Object>> data, Vector<Object> columnNames) {
-        setDataVector(data, columnNames);
+    public DefbultTbbleModel(Vector<Vector<Object>> dbtb, Vector<Object> columnNbmes) {
+        setDbtbVector(dbtb, columnNbmes);
     }
 
     /**
-     *  Constructs a <code>DefaultTableModel</code> and initializes the table
-     *  by passing <code>data</code> and <code>columnNames</code>
-     *  to the <code>setDataVector</code>
-     *  method. The first index in the <code>Object[][]</code> array is
-     *  the row index and the second is the column index.
+     *  Constructs b <code>DefbultTbbleModel</code> bnd initiblizes the tbble
+     *  by pbssing <code>dbtb</code> bnd <code>columnNbmes</code>
+     *  to the <code>setDbtbVector</code>
+     *  method. The first index in the <code>Object[][]</code> brrby is
+     *  the row index bnd the second is the column index.
      *
-     * @param data              the data of the table
-     * @param columnNames       the names of the columns
-     * @see #getDataVector
-     * @see #setDataVector
+     * @pbrbm dbtb              the dbtb of the tbble
+     * @pbrbm columnNbmes       the nbmes of the columns
+     * @see #getDbtbVector
+     * @see #setDbtbVector
      */
-    public DefaultTableModel(Object[][] data, Object[] columnNames) {
-        setDataVector(data, columnNames);
+    public DefbultTbbleModel(Object[][] dbtb, Object[] columnNbmes) {
+        setDbtbVector(dbtb, columnNbmes);
     }
 
     /**
      *  Returns the <code>Vector</code> of <code>Vectors</code>
-     *  that contains the table's
-     *  data values.  The vectors contained in the outer vector are
-     *  each a single row of values.  In other words, to get to the cell
-     *  at row 1, column 5: <p>
+     *  thbt contbins the tbble's
+     *  dbtb vblues.  The vectors contbined in the outer vector bre
+     *  ebch b single row of vblues.  In other words, to get to the cell
+     *  bt row 1, column 5: <p>
      *
-     *  <code>((Vector)getDataVector().elementAt(1)).elementAt(5);</code>
+     *  <code>((Vector)getDbtbVector().elementAt(1)).elementAt(5);</code>
      *
-     * @return  the vector of vectors containing the tables data values
+     * @return  the vector of vectors contbining the tbbles dbtb vblues
      *
-     * @see #newDataAvailable
+     * @see #newDbtbAvbilbble
      * @see #newRowsAdded
-     * @see #setDataVector
+     * @see #setDbtbVector
      */
-    public Vector<Vector<Object>> getDataVector() {
-        return dataVector;
+    public Vector<Vector<Object>> getDbtbVector() {
+        return dbtbVector;
     }
 
-    private static <E> Vector<E> nonNullVector(Vector<E> v) {
+    privbte stbtic <E> Vector<E> nonNullVector(Vector<E> v) {
         return (v != null) ? v : new Vector<>();
     }
 
     /**
-     *  Replaces the current <code>dataVector</code> instance variable
-     *  with the new <code>Vector</code> of rows, <code>dataVector</code>.
-     *  Each row is represented in <code>dataVector</code> as a
-     *  <code>Vector</code> of <code>Object</code> values.
-     *  <code>columnIdentifiers</code> are the names of the new
-     *  columns.  The first name in <code>columnIdentifiers</code> is
-     *  mapped to column 0 in <code>dataVector</code>. Each row in
-     *  <code>dataVector</code> is adjusted to match the number of
+     *  Replbces the current <code>dbtbVector</code> instbnce vbribble
+     *  with the new <code>Vector</code> of rows, <code>dbtbVector</code>.
+     *  Ebch row is represented in <code>dbtbVector</code> bs b
+     *  <code>Vector</code> of <code>Object</code> vblues.
+     *  <code>columnIdentifiers</code> bre the nbmes of the new
+     *  columns.  The first nbme in <code>columnIdentifiers</code> is
+     *  mbpped to column 0 in <code>dbtbVector</code>. Ebch row in
+     *  <code>dbtbVector</code> is bdjusted to mbtch the number of
      *  columns in <code>columnIdentifiers</code>
-     *  either by truncating the <code>Vector</code> if it is too long,
-     *  or adding <code>null</code> values if it is too short.
-     *  <p>Note that passing in a <code>null</code> value for
-     *  <code>dataVector</code> results in unspecified behavior,
-     *  an possibly an exception.
+     *  either by truncbting the <code>Vector</code> if it is too long,
+     *  or bdding <code>null</code> vblues if it is too short.
+     *  <p>Note thbt pbssing in b <code>null</code> vblue for
+     *  <code>dbtbVector</code> results in unspecified behbvior,
+     *  bn possibly bn exception.
      *
-     * @param   dataVector         the new data vector
-     * @param   columnIdentifiers     the names of the columns
-     * @see #getDataVector
+     * @pbrbm   dbtbVector         the new dbtb vector
+     * @pbrbm   columnIdentifiers     the nbmes of the columns
+     * @see #getDbtbVector
      */
-    public void setDataVector(Vector<Vector<Object>> dataVector,
+    public void setDbtbVector(Vector<Vector<Object>> dbtbVector,
                               Vector<Object> columnIdentifiers) {
-        this.dataVector = nonNullVector(dataVector);
+        this.dbtbVector = nonNullVector(dbtbVector);
         this.columnIdentifiers = nonNullVector(columnIdentifiers);
         justifyRows(0, getRowCount());
-        fireTableStructureChanged();
+        fireTbbleStructureChbnged();
     }
 
     /**
-     *  Replaces the value in the <code>dataVector</code> instance
-     *  variable with the values in the array <code>dataVector</code>.
+     *  Replbces the vblue in the <code>dbtbVector</code> instbnce
+     *  vbribble with the vblues in the brrby <code>dbtbVector</code>.
      *  The first index in the <code>Object[][]</code>
-     *  array is the row index and the second is the column index.
-     *  <code>columnIdentifiers</code> are the names of the new columns.
+     *  brrby is the row index bnd the second is the column index.
+     *  <code>columnIdentifiers</code> bre the nbmes of the new columns.
      *
-     * @param dataVector                the new data vector
-     * @param columnIdentifiers the names of the columns
-     * @see #setDataVector(Vector, Vector)
+     * @pbrbm dbtbVector                the new dbtb vector
+     * @pbrbm columnIdentifiers the nbmes of the columns
+     * @see #setDbtbVector(Vector, Vector)
      */
-    public void setDataVector(Object[][] dataVector, Object[] columnIdentifiers) {
-        setDataVector(convertToVector(dataVector), convertToVector(columnIdentifiers));
+    public void setDbtbVector(Object[][] dbtbVector, Object[] columnIdentifiers) {
+        setDbtbVector(convertToVector(dbtbVector), convertToVector(columnIdentifiers));
     }
 
     /**
-     *  Equivalent to <code>fireTableChanged</code>.
+     *  Equivblent to <code>fireTbbleChbnged</code>.
      *
-     * @param event  the change event
+     * @pbrbm event  the chbnge event
      *
      */
-    public void newDataAvailable(TableModelEvent event) {
-        fireTableChanged(event);
+    public void newDbtbAvbilbble(TbbleModelEvent event) {
+        fireTbbleChbnged(event);
     }
 
 //
-// Manipulating rows
+// Mbnipulbting rows
 //
 
-    private void justifyRows(int from, int to) {
-        // Sometimes the DefaultTableModel is subclassed
-        // instead of the AbstractTableModel by mistake.
-        // Set the number of rows for the case when getRowCount
+    privbte void justifyRows(int from, int to) {
+        // Sometimes the DefbultTbbleModel is subclbssed
+        // instebd of the AbstrbctTbbleModel by mistbke.
+        // Set the number of rows for the cbse when getRowCount
         // is overridden.
-        dataVector.setSize(getRowCount());
+        dbtbVector.setSize(getRowCount());
 
         for (int i = from; i < to; i++) {
-            if (dataVector.elementAt(i) == null) {
-                dataVector.setElementAt(new Vector<>(), i);
+            if (dbtbVector.elementAt(i) == null) {
+                dbtbVector.setElementAt(new Vector<>(), i);
             }
-            ((Vector)dataVector.elementAt(i)).setSize(getColumnCount());
+            ((Vector)dbtbVector.elementAt(i)).setSize(getColumnCount());
         }
     }
 
     /**
-     *  Ensures that the new rows have the correct number of columns.
-     *  This is accomplished by  using the <code>setSize</code> method in
-     *  <code>Vector</code> which truncates vectors
-     *  which are too long, and appends <code>null</code>s if they
-     *  are too short.
-     *  This method also sends out a <code>tableChanged</code>
-     *  notification message to all the listeners.
+     *  Ensures thbt the new rows hbve the correct number of columns.
+     *  This is bccomplished by  using the <code>setSize</code> method in
+     *  <code>Vector</code> which truncbtes vectors
+     *  which bre too long, bnd bppends <code>null</code>s if they
+     *  bre too short.
+     *  This method blso sends out b <code>tbbleChbnged</code>
+     *  notificbtion messbge to bll the listeners.
      *
-     * @param e         this <code>TableModelEvent</code> describes
-     *                           where the rows were added.
-     *                           If <code>null</code> it assumes
-     *                           all the rows were newly added
-     * @see #getDataVector
+     * @pbrbm e         this <code>TbbleModelEvent</code> describes
+     *                           where the rows were bdded.
+     *                           If <code>null</code> it bssumes
+     *                           bll the rows were newly bdded
+     * @see #getDbtbVector
      */
-    public void newRowsAdded(TableModelEvent e) {
-        justifyRows(e.getFirstRow(), e.getLastRow() + 1);
-        fireTableChanged(e);
+    public void newRowsAdded(TbbleModelEvent e) {
+        justifyRows(e.getFirstRow(), e.getLbstRow() + 1);
+        fireTbbleChbnged(e);
     }
 
     /**
-     *  Equivalent to <code>fireTableChanged</code>.
+     *  Equivblent to <code>fireTbbleChbnged</code>.
      *
-     *  @param event the change event
+     *  @pbrbm event the chbnge event
      *
      */
-    public void rowsRemoved(TableModelEvent event) {
-        fireTableChanged(event);
+    public void rowsRemoved(TbbleModelEvent event) {
+        fireTbbleChbnged(event);
     }
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Please use <code>setRowCount</code> instead.
+     * Obsolete bs of Jbvb 2 plbtform v1.3.  Plebse use <code>setRowCount</code> instebd.
      */
     /*
-     *  Sets the number of rows in the model.  If the new size is greater
-     *  than the current size, new rows are added to the end of the model
-     *  If the new size is less than the current size, all
-     *  rows at index <code>rowCount</code> and greater are discarded.
+     *  Sets the number of rows in the model.  If the new size is grebter
+     *  thbn the current size, new rows bre bdded to the end of the model
+     *  If the new size is less thbn the current size, bll
+     *  rows bt index <code>rowCount</code> bnd grebter bre discbrded.
      *
-     * @param   rowCount   the new number of rows
+     * @pbrbm   rowCount   the new number of rows
      * @see #setRowCount
      */
     public void setNumRows(int rowCount) {
@@ -318,185 +318,185 @@ public class DefaultTableModel extends AbstractTableModel implements Serializabl
         if (old == rowCount) {
             return;
         }
-        dataVector.setSize(rowCount);
+        dbtbVector.setSize(rowCount);
         if (rowCount <= old) {
-            fireTableRowsDeleted(rowCount, old-1);
+            fireTbbleRowsDeleted(rowCount, old-1);
         }
         else {
             justifyRows(old, rowCount);
-            fireTableRowsInserted(old, rowCount-1);
+            fireTbbleRowsInserted(old, rowCount-1);
         }
     }
 
     /**
-     *  Sets the number of rows in the model.  If the new size is greater
-     *  than the current size, new rows are added to the end of the model
-     *  If the new size is less than the current size, all
-     *  rows at index <code>rowCount</code> and greater are discarded.
+     *  Sets the number of rows in the model.  If the new size is grebter
+     *  thbn the current size, new rows bre bdded to the end of the model
+     *  If the new size is less thbn the current size, bll
+     *  rows bt index <code>rowCount</code> bnd grebter bre discbrded.
      *
      *  @see #setColumnCount
      * @since 1.3
      *
-     * @param rowCount  number of rows in the model
+     * @pbrbm rowCount  number of rows in the model
      */
     public void setRowCount(int rowCount) {
         setNumRows(rowCount);
     }
 
     /**
-     *  Adds a row to the end of the model.  The new row will contain
-     *  <code>null</code> values unless <code>rowData</code> is specified.
-     *  Notification of the row being added will be generated.
+     *  Adds b row to the end of the model.  The new row will contbin
+     *  <code>null</code> vblues unless <code>rowDbtb</code> is specified.
+     *  Notificbtion of the row being bdded will be generbted.
      *
-     * @param   rowData          optional data of the row being added
+     * @pbrbm   rowDbtb          optionbl dbtb of the row being bdded
      */
-    public void addRow(Vector<Object> rowData) {
-        insertRow(getRowCount(), rowData);
+    public void bddRow(Vector<Object> rowDbtb) {
+        insertRow(getRowCount(), rowDbtb);
     }
 
     /**
-     *  Adds a row to the end of the model.  The new row will contain
-     *  <code>null</code> values unless <code>rowData</code> is specified.
-     *  Notification of the row being added will be generated.
+     *  Adds b row to the end of the model.  The new row will contbin
+     *  <code>null</code> vblues unless <code>rowDbtb</code> is specified.
+     *  Notificbtion of the row being bdded will be generbted.
      *
-     * @param   rowData          optional data of the row being added
+     * @pbrbm   rowDbtb          optionbl dbtb of the row being bdded
      */
-    public void addRow(Object[] rowData) {
-        addRow(convertToVector(rowData));
+    public void bddRow(Object[] rowDbtb) {
+        bddRow(convertToVector(rowDbtb));
     }
 
     /**
-     *  Inserts a row at <code>row</code> in the model.  The new row
-     *  will contain <code>null</code> values unless <code>rowData</code>
-     *  is specified.  Notification of the row being added will be generated.
+     *  Inserts b row bt <code>row</code> in the model.  The new row
+     *  will contbin <code>null</code> vblues unless <code>rowDbtb</code>
+     *  is specified.  Notificbtion of the row being bdded will be generbted.
      *
-     * @param   row             the row index of the row to be inserted
-     * @param   rowData         optional data of the row being added
-     * @exception  ArrayIndexOutOfBoundsException  if the row was invalid
+     * @pbrbm   row             the row index of the row to be inserted
+     * @pbrbm   rowDbtb         optionbl dbtb of the row being bdded
+     * @exception  ArrbyIndexOutOfBoundsException  if the row wbs invblid
      */
-    public void insertRow(int row, Vector<Object> rowData) {
-        dataVector.insertElementAt(rowData, row);
+    public void insertRow(int row, Vector<Object> rowDbtb) {
+        dbtbVector.insertElementAt(rowDbtb, row);
         justifyRows(row, row+1);
-        fireTableRowsInserted(row, row);
+        fireTbbleRowsInserted(row, row);
     }
 
     /**
-     *  Inserts a row at <code>row</code> in the model.  The new row
-     *  will contain <code>null</code> values unless <code>rowData</code>
-     *  is specified.  Notification of the row being added will be generated.
+     *  Inserts b row bt <code>row</code> in the model.  The new row
+     *  will contbin <code>null</code> vblues unless <code>rowDbtb</code>
+     *  is specified.  Notificbtion of the row being bdded will be generbted.
      *
-     * @param   row      the row index of the row to be inserted
-     * @param   rowData          optional data of the row being added
-     * @exception  ArrayIndexOutOfBoundsException  if the row was invalid
+     * @pbrbm   row      the row index of the row to be inserted
+     * @pbrbm   rowDbtb          optionbl dbtb of the row being bdded
+     * @exception  ArrbyIndexOutOfBoundsException  if the row wbs invblid
      */
-    public void insertRow(int row, Object[] rowData) {
-        insertRow(row, convertToVector(rowData));
+    public void insertRow(int row, Object[] rowDbtb) {
+        insertRow(row, convertToVector(rowDbtb));
     }
 
-    private static int gcd(int i, int j) {
+    privbte stbtic int gcd(int i, int j) {
         return (j == 0) ? i : gcd(j, i%j);
     }
 
-    private static <E> void rotate(Vector<E> v, int a, int b, int shift) {
-        int size = b - a;
+    privbte stbtic <E> void rotbte(Vector<E> v, int b, int b, int shift) {
+        int size = b - b;
         int r = size - shift;
         int g = gcd(size, r);
         for(int i = 0; i < g; i++) {
             int to = i;
-            E tmp = v.elementAt(a + to);
+            E tmp = v.elementAt(b + to);
             for(int from = (to + r) % size; from != i; from = (to + r) % size) {
-                v.setElementAt(v.elementAt(a + from), a + to);
+                v.setElementAt(v.elementAt(b + from), b + to);
                 to = from;
             }
-            v.setElementAt(tmp, a + to);
+            v.setElementAt(tmp, b + to);
         }
     }
 
     /**
-     *  Moves one or more rows from the inclusive range <code>start</code> to
+     *  Moves one or more rows from the inclusive rbnge <code>stbrt</code> to
      *  <code>end</code> to the <code>to</code> position in the model.
-     *  After the move, the row that was at index <code>start</code>
-     *  will be at index <code>to</code>.
-     *  This method will send a <code>tableChanged</code> notification
-       message to all the listeners.
+     *  After the move, the row thbt wbs bt index <code>stbrt</code>
+     *  will be bt index <code>to</code>.
+     *  This method will send b <code>tbbleChbnged</code> notificbtion
+       messbge to bll the listeners.
      *
      *  <pre>
-     *  Examples of moves:
+     *  Exbmples of moves:
      *
      *  1. moveRow(1,3,5);
-     *          a|B|C|D|e|f|g|h|i|j|k   - before
-     *          a|e|f|g|h|B|C|D|i|j|k   - after
+     *          b|B|C|D|e|f|g|h|i|j|k   - before
+     *          b|e|f|g|h|B|C|D|i|j|k   - bfter
      *
      *  2. moveRow(6,7,1);
-     *          a|b|c|d|e|f|G|H|i|j|k   - before
-     *          a|G|H|b|c|d|e|f|i|j|k   - after
+     *          b|b|c|d|e|f|G|H|i|j|k   - before
+     *          b|G|H|b|c|d|e|f|i|j|k   - bfter
      *  </pre>
      *
-     * @param   start       the starting row index to be moved
-     * @param   end         the ending row index to be moved
-     * @param   to          the destination of the rows to be moved
-     * @exception  ArrayIndexOutOfBoundsException  if any of the elements
-     * would be moved out of the table's range
+     * @pbrbm   stbrt       the stbrting row index to be moved
+     * @pbrbm   end         the ending row index to be moved
+     * @pbrbm   to          the destinbtion of the rows to be moved
+     * @exception  ArrbyIndexOutOfBoundsException  if bny of the elements
+     * would be moved out of the tbble's rbnge
      *
      */
-    public void moveRow(int start, int end, int to) {
-        int shift = to - start;
-        int first, last;
+    public void moveRow(int stbrt, int end, int to) {
+        int shift = to - stbrt;
+        int first, lbst;
         if (shift < 0) {
             first = to;
-            last = end;
+            lbst = end;
         }
         else {
-            first = start;
-            last = to + end - start;
+            first = stbrt;
+            lbst = to + end - stbrt;
         }
-        rotate(dataVector, first, last + 1, shift);
+        rotbte(dbtbVector, first, lbst + 1, shift);
 
-        fireTableRowsUpdated(first, last);
+        fireTbbleRowsUpdbted(first, lbst);
     }
 
     /**
-     *  Removes the row at <code>row</code> from the model.  Notification
-     *  of the row being removed will be sent to all the listeners.
+     *  Removes the row bt <code>row</code> from the model.  Notificbtion
+     *  of the row being removed will be sent to bll the listeners.
      *
-     * @param   row      the row index of the row to be removed
-     * @exception  ArrayIndexOutOfBoundsException  if the row was invalid
+     * @pbrbm   row      the row index of the row to be removed
+     * @exception  ArrbyIndexOutOfBoundsException  if the row wbs invblid
      */
     public void removeRow(int row) {
-        dataVector.removeElementAt(row);
-        fireTableRowsDeleted(row, row);
+        dbtbVector.removeElementAt(row);
+        fireTbbleRowsDeleted(row, row);
     }
 
 //
-// Manipulating columns
+// Mbnipulbting columns
 //
 
     /**
-     * Replaces the column identifiers in the model.  If the number of
-     * <code>newIdentifier</code>s is greater than the current number
-     * of columns, new columns are added to the end of each row in the model.
-     * If the number of <code>newIdentifier</code>s is less than the current
-     * number of columns, all the extra columns at the end of a row are
-     * discarded.
+     * Replbces the column identifiers in the model.  If the number of
+     * <code>newIdentifier</code>s is grebter thbn the current number
+     * of columns, new columns bre bdded to the end of ebch row in the model.
+     * If the number of <code>newIdentifier</code>s is less thbn the current
+     * number of columns, bll the extrb columns bt the end of b row bre
+     * discbrded.
      *
-     * @param   columnIdentifiers  vector of column identifiers.  If
+     * @pbrbm   columnIdentifiers  vector of column identifiers.  If
      *                          <code>null</code>, set the model
      *                          to zero columns
      * @see #setNumRows
      */
     public void setColumnIdentifiers(Vector<Object> columnIdentifiers) {
-        setDataVector(dataVector, columnIdentifiers);
+        setDbtbVector(dbtbVector, columnIdentifiers);
     }
 
     /**
-     * Replaces the column identifiers in the model.  If the number of
-     * <code>newIdentifier</code>s is greater than the current number
-     * of columns, new columns are added to the end of each row in the model.
-     * If the number of <code>newIdentifier</code>s is less than the current
-     * number of columns, all the extra columns at the end of a row are
-     * discarded.
+     * Replbces the column identifiers in the model.  If the number of
+     * <code>newIdentifier</code>s is grebter thbn the current number
+     * of columns, new columns bre bdded to the end of ebch row in the model.
+     * If the number of <code>newIdentifier</code>s is less thbn the current
+     * number of columns, bll the extrb columns bt the end of b row bre
+     * discbrded.
      *
-     * @param   newIdentifiers  array of column identifiers.
+     * @pbrbm   newIdentifiers  brrby of column identifiers.
      *                          If <code>null</code>, set
      *                          the model to zero columns
      * @see #setNumRows
@@ -506,13 +506,13 @@ public class DefaultTableModel extends AbstractTableModel implements Serializabl
     }
 
     /**
-     *  Sets the number of columns in the model.  If the new size is greater
-     *  than the current size, new columns are added to the end of the model
-     *  with <code>null</code> cell values.
-     *  If the new size is less than the current size, all columns at index
-     *  <code>columnCount</code> and greater are discarded.
+     *  Sets the number of columns in the model.  If the new size is grebter
+     *  thbn the current size, new columns bre bdded to the end of the model
+     *  with <code>null</code> cell vblues.
+     *  If the new size is less thbn the current size, bll columns bt index
+     *  <code>columnCount</code> bnd grebter bre discbrded.
      *
-     *  @param columnCount  the new number of columns in the model
+     *  @pbrbm columnCount  the new number of columns in the model
      *
      *  @see #setColumnCount
      * @since 1.3
@@ -520,89 +520,89 @@ public class DefaultTableModel extends AbstractTableModel implements Serializabl
     public void setColumnCount(int columnCount) {
         columnIdentifiers.setSize(columnCount);
         justifyRows(0, getRowCount());
-        fireTableStructureChanged();
+        fireTbbleStructureChbnged();
     }
 
     /**
-     *  Adds a column to the model.  The new column will have the
-     *  identifier <code>columnName</code>, which may be null.  This method
-     *  will send a
-     *  <code>tableChanged</code> notification message to all the listeners.
-     *  This method is a cover for <code>addColumn(Object, Vector)</code> which
-     *  uses <code>null</code> as the data vector.
+     *  Adds b column to the model.  The new column will hbve the
+     *  identifier <code>columnNbme</code>, which mby be null.  This method
+     *  will send b
+     *  <code>tbbleChbnged</code> notificbtion messbge to bll the listeners.
+     *  This method is b cover for <code>bddColumn(Object, Vector)</code> which
+     *  uses <code>null</code> bs the dbtb vector.
      *
-     * @param   columnName the identifier of the column being added
+     * @pbrbm   columnNbme the identifier of the column being bdded
      */
-    public void addColumn(Object columnName) {
-        addColumn(columnName, (Vector<Object>)null);
+    public void bddColumn(Object columnNbme) {
+        bddColumn(columnNbme, (Vector<Object>)null);
     }
 
     /**
-     *  Adds a column to the model.  The new column will have the
-     *  identifier <code>columnName</code>, which may be null.
-     *  <code>columnData</code> is the
-     *  optional vector of data for the column.  If it is <code>null</code>
-     *  the column is filled with <code>null</code> values.  Otherwise,
-     *  the new data will be added to model starting with the first
-     *  element going to row 0, etc.  This method will send a
-     *  <code>tableChanged</code> notification message to all the listeners.
+     *  Adds b column to the model.  The new column will hbve the
+     *  identifier <code>columnNbme</code>, which mby be null.
+     *  <code>columnDbtb</code> is the
+     *  optionbl vector of dbtb for the column.  If it is <code>null</code>
+     *  the column is filled with <code>null</code> vblues.  Otherwise,
+     *  the new dbtb will be bdded to model stbrting with the first
+     *  element going to row 0, etc.  This method will send b
+     *  <code>tbbleChbnged</code> notificbtion messbge to bll the listeners.
      *
-     * @param   columnName the identifier of the column being added
-     * @param   columnData       optional data of the column being added
+     * @pbrbm   columnNbme the identifier of the column being bdded
+     * @pbrbm   columnDbtb       optionbl dbtb of the column being bdded
      */
-    public void addColumn(Object columnName, Vector<Object> columnData) {
-        columnIdentifiers.addElement(columnName);
-        if (columnData != null) {
-            int columnSize = columnData.size();
+    public void bddColumn(Object columnNbme, Vector<Object> columnDbtb) {
+        columnIdentifiers.bddElement(columnNbme);
+        if (columnDbtb != null) {
+            int columnSize = columnDbtb.size();
             if (columnSize > getRowCount()) {
-                dataVector.setSize(columnSize);
+                dbtbVector.setSize(columnSize);
             }
             justifyRows(0, getRowCount());
             int newColumn = getColumnCount() - 1;
             for(int i = 0; i < columnSize; i++) {
-                  Vector<Object> row = dataVector.elementAt(i);
-                  row.setElementAt(columnData.elementAt(i), newColumn);
+                  Vector<Object> row = dbtbVector.elementAt(i);
+                  row.setElementAt(columnDbtb.elementAt(i), newColumn);
             }
         }
         else {
             justifyRows(0, getRowCount());
         }
 
-        fireTableStructureChanged();
+        fireTbbleStructureChbnged();
     }
 
     /**
-     *  Adds a column to the model.  The new column will have the
-     *  identifier <code>columnName</code>.  <code>columnData</code> is the
-     *  optional array of data for the column.  If it is <code>null</code>
-     *  the column is filled with <code>null</code> values.  Otherwise,
-     *  the new data will be added to model starting with the first
-     *  element going to row 0, etc.  This method will send a
-     *  <code>tableChanged</code> notification message to all the listeners.
+     *  Adds b column to the model.  The new column will hbve the
+     *  identifier <code>columnNbme</code>.  <code>columnDbtb</code> is the
+     *  optionbl brrby of dbtb for the column.  If it is <code>null</code>
+     *  the column is filled with <code>null</code> vblues.  Otherwise,
+     *  the new dbtb will be bdded to model stbrting with the first
+     *  element going to row 0, etc.  This method will send b
+     *  <code>tbbleChbnged</code> notificbtion messbge to bll the listeners.
      *
-     * @param columnName  identifier of the newly created column
-     * @param columnData  new data to be added to the column
+     * @pbrbm columnNbme  identifier of the newly crebted column
+     * @pbrbm columnDbtb  new dbtb to be bdded to the column
      *
-     * @see #addColumn(Object, Vector)
+     * @see #bddColumn(Object, Vector)
      */
-    public void addColumn(Object columnName, Object[] columnData) {
-        addColumn(columnName, convertToVector(columnData));
+    public void bddColumn(Object columnNbme, Object[] columnDbtb) {
+        bddColumn(columnNbme, convertToVector(columnDbtb));
     }
 
 //
-// Implementing the TableModel interface
+// Implementing the TbbleModel interfbce
 //
 
     /**
-     * Returns the number of rows in this data table.
+     * Returns the number of rows in this dbtb tbble.
      * @return the number of rows in the model
      */
     public int getRowCount() {
-        return dataVector.size();
+        return dbtbVector.size();
     }
 
     /**
-     * Returns the number of columns in this data table.
+     * Returns the number of columns in this dbtb tbble.
      * @return the number of columns in the model
      */
     public int getColumnCount() {
@@ -610,67 +610,67 @@ public class DefaultTableModel extends AbstractTableModel implements Serializabl
     }
 
     /**
-     * Returns the column name.
+     * Returns the column nbme.
      *
-     * @return a name for this column using the string value of the
-     * appropriate member in <code>columnIdentifiers</code>.
-     * If <code>columnIdentifiers</code> does not have an entry
-     * for this index, returns the default
-     * name provided by the superclass.
+     * @return b nbme for this column using the string vblue of the
+     * bppropribte member in <code>columnIdentifiers</code>.
+     * If <code>columnIdentifiers</code> does not hbve bn entry
+     * for this index, returns the defbult
+     * nbme provided by the superclbss.
      */
-    public String getColumnName(int column) {
+    public String getColumnNbme(int column) {
         Object id = null;
-        // This test is to cover the case when
-        // getColumnCount has been subclassed by mistake ...
+        // This test is to cover the cbse when
+        // getColumnCount hbs been subclbssed by mistbke ...
         if (column < columnIdentifiers.size() && (column >= 0)) {
             id = columnIdentifiers.elementAt(column);
         }
-        return (id == null) ? super.getColumnName(column)
+        return (id == null) ? super.getColumnNbme(column)
                             : id.toString();
     }
 
     /**
-     * Returns true regardless of parameter values.
+     * Returns true regbrdless of pbrbmeter vblues.
      *
-     * @param   row             the row whose value is to be queried
-     * @param   column          the column whose value is to be queried
+     * @pbrbm   row             the row whose vblue is to be queried
+     * @pbrbm   column          the column whose vblue is to be queried
      * @return                  true
-     * @see #setValueAt
+     * @see #setVblueAt
      */
-    public boolean isCellEditable(int row, int column) {
+    public boolebn isCellEditbble(int row, int column) {
         return true;
     }
 
     /**
-     * Returns an attribute value for the cell at <code>row</code>
-     * and <code>column</code>.
+     * Returns bn bttribute vblue for the cell bt <code>row</code>
+     * bnd <code>column</code>.
      *
-     * @param   row             the row whose value is to be queried
-     * @param   column          the column whose value is to be queried
-     * @return                  the value Object at the specified cell
-     * @exception  ArrayIndexOutOfBoundsException  if an invalid row or
-     *               column was given
+     * @pbrbm   row             the row whose vblue is to be queried
+     * @pbrbm   column          the column whose vblue is to be queried
+     * @return                  the vblue Object bt the specified cell
+     * @exception  ArrbyIndexOutOfBoundsException  if bn invblid row or
+     *               column wbs given
      */
-    public Object getValueAt(int row, int column) {
-        Vector<Object> rowVector = dataVector.elementAt(row);
+    public Object getVblueAt(int row, int column) {
+        Vector<Object> rowVector = dbtbVector.elementAt(row);
         return rowVector.elementAt(column);
     }
 
     /**
-     * Sets the object value for the cell at <code>column</code> and
-     * <code>row</code>.  <code>aValue</code> is the new value.  This method
-     * will generate a <code>tableChanged</code> notification.
+     * Sets the object vblue for the cell bt <code>column</code> bnd
+     * <code>row</code>.  <code>bVblue</code> is the new vblue.  This method
+     * will generbte b <code>tbbleChbnged</code> notificbtion.
      *
-     * @param   aValue          the new value; this can be null
-     * @param   row             the row whose value is to be changed
-     * @param   column          the column whose value is to be changed
-     * @exception  ArrayIndexOutOfBoundsException  if an invalid row or
-     *               column was given
+     * @pbrbm   bVblue          the new vblue; this cbn be null
+     * @pbrbm   row             the row whose vblue is to be chbnged
+     * @pbrbm   column          the column whose vblue is to be chbnged
+     * @exception  ArrbyIndexOutOfBoundsException  if bn invblid row or
+     *               column wbs given
      */
-    public void setValueAt(Object aValue, int row, int column) {
-        Vector<Object> rowVector = dataVector.elementAt(row);
-        rowVector.setElementAt(aValue, column);
-        fireTableCellUpdated(row, column);
+    public void setVblueAt(Object bVblue, int row, int column) {
+        Vector<Object> rowVector = dbtbVector.elementAt(row);
+        rowVector.setElementAt(bVblue, column);
+        fireTbbleCellUpdbted(row, column);
     }
 
 //
@@ -678,37 +678,37 @@ public class DefaultTableModel extends AbstractTableModel implements Serializabl
 //
 
     /**
-     * Returns a vector that contains the same objects as the array.
-     * @param anArray  the array to be converted
-     * @return  the new vector; if <code>anArray</code> is <code>null</code>,
+     * Returns b vector thbt contbins the sbme objects bs the brrby.
+     * @pbrbm bnArrby  the brrby to be converted
+     * @return  the new vector; if <code>bnArrby</code> is <code>null</code>,
      *                          returns <code>null</code>
      */
-    protected static Vector<Object> convertToVector(Object[] anArray) {
-        if (anArray == null) {
+    protected stbtic Vector<Object> convertToVector(Object[] bnArrby) {
+        if (bnArrby == null) {
             return null;
         }
-        Vector<Object> v = new Vector<>(anArray.length);
-        for (Object o : anArray) {
-            v.addElement(o);
+        Vector<Object> v = new Vector<>(bnArrby.length);
+        for (Object o : bnArrby) {
+            v.bddElement(o);
         }
         return v;
     }
 
     /**
-     * Returns a vector of vectors that contains the same objects as the array.
-     * @param anArray  the double array to be converted
-     * @return the new vector of vectors; if <code>anArray</code> is
+     * Returns b vector of vectors thbt contbins the sbme objects bs the brrby.
+     * @pbrbm bnArrby  the double brrby to be converted
+     * @return the new vector of vectors; if <code>bnArrby</code> is
      *                          <code>null</code>, returns <code>null</code>
      */
-    protected static Vector<Vector<Object>> convertToVector(Object[][] anArray) {
-        if (anArray == null) {
+    protected stbtic Vector<Vector<Object>> convertToVector(Object[][] bnArrby) {
+        if (bnArrby == null) {
             return null;
         }
-        Vector<Vector<Object>> v = new Vector<>(anArray.length);
-        for (Object[] o : anArray) {
-            v.addElement(convertToVector(o));
+        Vector<Vector<Object>> v = new Vector<>(bnArrby.length);
+        for (Object[] o : bnArrby) {
+            v.bddElement(convertToVector(o));
         }
         return v;
     }
 
-} // End of class DefaultTableModel
+} // End of clbss DefbultTbbleModel

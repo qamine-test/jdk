@@ -1,296 +1,296 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import java.io.IOException;
-import java.io.StreamCorruptedException;
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Objects;
+import jbvb.io.IOException;
+import jbvb.io.StrebmCorruptedException;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.Arrbys;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Objects;
 
-import static javax.management.ImmutableDescriptor.nonNullDescriptor;
+import stbtic jbvbx.mbnbgement.ImmutbbleDescriptor.nonNullDescriptor;
 
 /**
- * <p>Describes the management interface exposed by an MBean; that is,
- * the set of attributes and operations which are available for
- * management operations.  Instances of this class are immutable.
- * Subclasses may be mutable but this is not recommended.</p>
+ * <p>Describes the mbnbgement interfbce exposed by bn MBebn; thbt is,
+ * the set of bttributes bnd operbtions which bre bvbilbble for
+ * mbnbgement operbtions.  Instbnces of this clbss bre immutbble.
+ * Subclbsses mby be mutbble but this is not recommended.</p>
  *
- * <p id="info-changed">Usually the {@code MBeanInfo} for any given MBean does
- * not change over the lifetime of that MBean.  Dynamic MBeans can change their
- * {@code MBeanInfo} and in that case it is recommended that they emit a {@link
- * Notification} with a {@linkplain Notification#getType() type} of {@code
- * "jmx.mbean.info.changed"} and a {@linkplain Notification#getUserData()
- * userData} that is the new {@code MBeanInfo}.  This is not required, but
- * provides a conventional way for clients of the MBean to discover the change.
- * See also the <a href="Descriptor.html#immutableInfo">immutableInfo</a> and
- * <a href="Descriptor.html#infoTimeout">infoTimeout</a> fields in the {@code
- * MBeanInfo} {@link Descriptor}.</p>
+ * <p id="info-chbnged">Usublly the {@code MBebnInfo} for bny given MBebn does
+ * not chbnge over the lifetime of thbt MBebn.  Dynbmic MBebns cbn chbnge their
+ * {@code MBebnInfo} bnd in thbt cbse it is recommended thbt they emit b {@link
+ * Notificbtion} with b {@linkplbin Notificbtion#getType() type} of {@code
+ * "jmx.mbebn.info.chbnged"} bnd b {@linkplbin Notificbtion#getUserDbtb()
+ * userDbtb} thbt is the new {@code MBebnInfo}.  This is not required, but
+ * provides b conventionbl wby for clients of the MBebn to discover the chbnge.
+ * See blso the <b href="Descriptor.html#immutbbleInfo">immutbbleInfo</b> bnd
+ * <b href="Descriptor.html#infoTimeout">infoTimeout</b> fields in the {@code
+ * MBebnInfo} {@link Descriptor}.</p>
  *
- * <p>The contents of the <code>MBeanInfo</code> for a Dynamic MBean
- * are determined by its {@link DynamicMBean#getMBeanInfo
- * getMBeanInfo()} method.  This includes Open MBeans and Model
- * MBeans, which are kinds of Dynamic MBeans.</p>
+ * <p>The contents of the <code>MBebnInfo</code> for b Dynbmic MBebn
+ * bre determined by its {@link DynbmicMBebn#getMBebnInfo
+ * getMBebnInfo()} method.  This includes Open MBebns bnd Model
+ * MBebns, which bre kinds of Dynbmic MBebns.</p>
  *
- * <p>The contents of the <code>MBeanInfo</code> for a Standard MBean
- * are determined by the MBean server as follows:</p>
+ * <p>The contents of the <code>MBebnInfo</code> for b Stbndbrd MBebn
+ * bre determined by the MBebn server bs follows:</p>
  *
  * <ul>
  *
- * <li>{@link #getClassName()} returns the Java class name of the MBean
+ * <li>{@link #getClbssNbme()} returns the Jbvb clbss nbme of the MBebn
  * object;
  *
- * <li>{@link #getConstructors()} returns the list of all public
- * constructors in that object;
+ * <li>{@link #getConstructors()} returns the list of bll public
+ * constructors in thbt object;
  *
- * <li>{@link #getAttributes()} returns the list of all attributes
- * whose existence is deduced from the presence in the MBean interface
- * of a <code>get<i>Name</i></code>, <code>is<i>Name</i></code>, or
- * <code>set<i>Name</i></code> method that conforms to the conventions
- * for Standard MBeans;
+ * <li>{@link #getAttributes()} returns the list of bll bttributes
+ * whose existence is deduced from the presence in the MBebn interfbce
+ * of b <code>get<i>Nbme</i></code>, <code>is<i>Nbme</i></code>, or
+ * <code>set<i>Nbme</i></code> method thbt conforms to the conventions
+ * for Stbndbrd MBebns;
  *
- * <li>{@link #getOperations()} returns the list of all methods in
- * the MBean interface that do not represent attributes;
+ * <li>{@link #getOperbtions()} returns the list of bll methods in
+ * the MBebn interfbce thbt do not represent bttributes;
  *
- * <li>{@link #getNotifications()} returns an empty array if the MBean
- * does not implement the {@link NotificationBroadcaster} interface,
- * otherwise the result of calling {@link
- * NotificationBroadcaster#getNotificationInfo()} on it;
+ * <li>{@link #getNotificbtions()} returns bn empty brrby if the MBebn
+ * does not implement the {@link NotificbtionBrobdcbster} interfbce,
+ * otherwise the result of cblling {@link
+ * NotificbtionBrobdcbster#getNotificbtionInfo()} on it;
  *
- * <li>{@link #getDescriptor()} returns a descriptor containing the contents
- * of any descriptor annotations in the MBean interface (see
+ * <li>{@link #getDescriptor()} returns b descriptor contbining the contents
+ * of bny descriptor bnnotbtions in the MBebn interfbce (see
  * {@link DescriptorKey &#64;DescriptorKey}).
  *
  * </ul>
  *
- * <p>The description returned by {@link #getDescription()} and the
- * descriptions of the contained attributes and operations are not specified.</p>
+ * <p>The description returned by {@link #getDescription()} bnd the
+ * descriptions of the contbined bttributes bnd operbtions bre not specified.</p>
  *
- * <p>The remaining details of the <code>MBeanInfo</code> for a
- * Standard MBean are not specified.  This includes the description of
- * any contained constructors, and notifications; the names
- * of parameters to constructors and operations; and the descriptions of
- * constructor parameters.</p>
+ * <p>The rembining detbils of the <code>MBebnInfo</code> for b
+ * Stbndbrd MBebn bre not specified.  This includes the description of
+ * bny contbined constructors, bnd notificbtions; the nbmes
+ * of pbrbmeters to constructors bnd operbtions; bnd the descriptions of
+ * constructor pbrbmeters.</p>
  *
  * @since 1.5
  */
-public class MBeanInfo implements Cloneable, Serializable, DescriptorRead {
+public clbss MBebnInfo implements Clonebble, Seriblizbble, DescriptorRebd {
 
-    /* Serial version */
-    static final long serialVersionUID = -6451021435135161911L;
-
-    /**
-     * @serial The Descriptor for the MBean.  This field
-     * can be null, which is equivalent to an empty Descriptor.
-     */
-    private transient Descriptor descriptor;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = -6451021435135161911L;
 
     /**
-     * @serial The human readable description of the class.
+     * @seribl The Descriptor for the MBebn.  This field
+     * cbn be null, which is equivblent to bn empty Descriptor.
      */
-    private final String description;
+    privbte trbnsient Descriptor descriptor;
 
     /**
-     * @serial The MBean qualified name.
+     * @seribl The humbn rebdbble description of the clbss.
      */
-    private final String className;
+    privbte finbl String description;
 
     /**
-     * @serial The MBean attribute descriptors.
+     * @seribl The MBebn qublified nbme.
      */
-    private final MBeanAttributeInfo[] attributes;
+    privbte finbl String clbssNbme;
 
     /**
-     * @serial The MBean operation descriptors.
+     * @seribl The MBebn bttribute descriptors.
      */
-    private final MBeanOperationInfo[] operations;
+    privbte finbl MBebnAttributeInfo[] bttributes;
+
+    /**
+     * @seribl The MBebn operbtion descriptors.
+     */
+    privbte finbl MBebnOperbtionInfo[] operbtions;
 
      /**
-     * @serial The MBean constructor descriptors.
+     * @seribl The MBebn constructor descriptors.
      */
-    private final MBeanConstructorInfo[] constructors;
+    privbte finbl MBebnConstructorInfo[] constructors;
 
     /**
-     * @serial The MBean notification descriptors.
+     * @seribl The MBebn notificbtion descriptors.
      */
-    private final MBeanNotificationInfo[] notifications;
+    privbte finbl MBebnNotificbtionInfo[] notificbtions;
 
-    private transient int hashCode;
+    privbte trbnsient int hbshCode;
 
     /**
-     * <p>True if this class is known not to override the array-valued
-     * getters of MBeanInfo.  Obviously true for MBeanInfo itself, and true
-     * for a subclass where we succeed in reflecting on the methods
-     * and discover they are not overridden.</p>
+     * <p>True if this clbss is known not to override the brrby-vblued
+     * getters of MBebnInfo.  Obviously true for MBebnInfo itself, bnd true
+     * for b subclbss where we succeed in reflecting on the methods
+     * bnd discover they bre not overridden.</p>
      *
-     * <p>The purpose of this variable is to avoid cloning the arrays
-     * when doing operations like {@link #equals} where we know they
-     * will not be changed.  If a subclass overrides a getter, we
-     * cannot access the corresponding array directly.</p>
+     * <p>The purpose of this vbribble is to bvoid cloning the brrbys
+     * when doing operbtions like {@link #equbls} where we know they
+     * will not be chbnged.  If b subclbss overrides b getter, we
+     * cbnnot bccess the corresponding brrby directly.</p>
      */
-    private final transient boolean arrayGettersSafe;
+    privbte finbl trbnsient boolebn brrbyGettersSbfe;
 
     /**
-     * Constructs an <CODE>MBeanInfo</CODE>.
+     * Constructs bn <CODE>MBebnInfo</CODE>.
      *
-     * @param className The name of the Java class of the MBean described
-     * by this <CODE>MBeanInfo</CODE>.  This value may be any
-     * syntactically legal Java class name.  It does not have to be a
-     * Java class known to the MBean server or to the MBean's
-     * ClassLoader.  If it is a Java class known to the MBean's
-     * ClassLoader, it is recommended but not required that the
-     * class's public methods include those that would appear in a
-     * Standard MBean implementing the attributes and operations in
-     * this MBeanInfo.
-     * @param description A human readable description of the MBean (optional).
-     * @param attributes The list of exposed attributes of the MBean.
-     * This may be null with the same effect as a zero-length array.
-     * @param constructors The list of public constructors of the
-     * MBean.  This may be null with the same effect as a zero-length
-     * array.
-     * @param operations The list of operations of the MBean.  This
-     * may be null with the same effect as a zero-length array.
-     * @param notifications The list of notifications emitted.  This
-     * may be null with the same effect as a zero-length array.
+     * @pbrbm clbssNbme The nbme of the Jbvb clbss of the MBebn described
+     * by this <CODE>MBebnInfo</CODE>.  This vblue mby be bny
+     * syntbcticblly legbl Jbvb clbss nbme.  It does not hbve to be b
+     * Jbvb clbss known to the MBebn server or to the MBebn's
+     * ClbssLobder.  If it is b Jbvb clbss known to the MBebn's
+     * ClbssLobder, it is recommended but not required thbt the
+     * clbss's public methods include those thbt would bppebr in b
+     * Stbndbrd MBebn implementing the bttributes bnd operbtions in
+     * this MBebnInfo.
+     * @pbrbm description A humbn rebdbble description of the MBebn (optionbl).
+     * @pbrbm bttributes The list of exposed bttributes of the MBebn.
+     * This mby be null with the sbme effect bs b zero-length brrby.
+     * @pbrbm constructors The list of public constructors of the
+     * MBebn.  This mby be null with the sbme effect bs b zero-length
+     * brrby.
+     * @pbrbm operbtions The list of operbtions of the MBebn.  This
+     * mby be null with the sbme effect bs b zero-length brrby.
+     * @pbrbm notificbtions The list of notificbtions emitted.  This
+     * mby be null with the sbme effect bs b zero-length brrby.
      */
-    public MBeanInfo(String className,
+    public MBebnInfo(String clbssNbme,
                      String description,
-                     MBeanAttributeInfo[] attributes,
-                     MBeanConstructorInfo[] constructors,
-                     MBeanOperationInfo[] operations,
-                     MBeanNotificationInfo[] notifications)
-            throws IllegalArgumentException {
-        this(className, description, attributes, constructors, operations,
-             notifications, null);
+                     MBebnAttributeInfo[] bttributes,
+                     MBebnConstructorInfo[] constructors,
+                     MBebnOperbtionInfo[] operbtions,
+                     MBebnNotificbtionInfo[] notificbtions)
+            throws IllegblArgumentException {
+        this(clbssNbme, description, bttributes, constructors, operbtions,
+             notificbtions, null);
     }
 
     /**
-     * Constructs an <CODE>MBeanInfo</CODE>.
+     * Constructs bn <CODE>MBebnInfo</CODE>.
      *
-     * @param className The name of the Java class of the MBean described
-     * by this <CODE>MBeanInfo</CODE>.  This value may be any
-     * syntactically legal Java class name.  It does not have to be a
-     * Java class known to the MBean server or to the MBean's
-     * ClassLoader.  If it is a Java class known to the MBean's
-     * ClassLoader, it is recommended but not required that the
-     * class's public methods include those that would appear in a
-     * Standard MBean implementing the attributes and operations in
-     * this MBeanInfo.
-     * @param description A human readable description of the MBean (optional).
-     * @param attributes The list of exposed attributes of the MBean.
-     * This may be null with the same effect as a zero-length array.
-     * @param constructors The list of public constructors of the
-     * MBean.  This may be null with the same effect as a zero-length
-     * array.
-     * @param operations The list of operations of the MBean.  This
-     * may be null with the same effect as a zero-length array.
-     * @param notifications The list of notifications emitted.  This
-     * may be null with the same effect as a zero-length array.
-     * @param descriptor The descriptor for the MBean.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm clbssNbme The nbme of the Jbvb clbss of the MBebn described
+     * by this <CODE>MBebnInfo</CODE>.  This vblue mby be bny
+     * syntbcticblly legbl Jbvb clbss nbme.  It does not hbve to be b
+     * Jbvb clbss known to the MBebn server or to the MBebn's
+     * ClbssLobder.  If it is b Jbvb clbss known to the MBebn's
+     * ClbssLobder, it is recommended but not required thbt the
+     * clbss's public methods include those thbt would bppebr in b
+     * Stbndbrd MBebn implementing the bttributes bnd operbtions in
+     * this MBebnInfo.
+     * @pbrbm description A humbn rebdbble description of the MBebn (optionbl).
+     * @pbrbm bttributes The list of exposed bttributes of the MBebn.
+     * This mby be null with the sbme effect bs b zero-length brrby.
+     * @pbrbm constructors The list of public constructors of the
+     * MBebn.  This mby be null with the sbme effect bs b zero-length
+     * brrby.
+     * @pbrbm operbtions The list of operbtions of the MBebn.  This
+     * mby be null with the sbme effect bs b zero-length brrby.
+     * @pbrbm notificbtions The list of notificbtions emitted.  This
+     * mby be null with the sbme effect bs b zero-length brrby.
+     * @pbrbm descriptor The descriptor for the MBebn.  This mby be null
+     * which is equivblent to bn empty descriptor.
      *
      * @since 1.6
      */
-    public MBeanInfo(String className,
+    public MBebnInfo(String clbssNbme,
                      String description,
-                     MBeanAttributeInfo[] attributes,
-                     MBeanConstructorInfo[] constructors,
-                     MBeanOperationInfo[] operations,
-                     MBeanNotificationInfo[] notifications,
+                     MBebnAttributeInfo[] bttributes,
+                     MBebnConstructorInfo[] constructors,
+                     MBebnOperbtionInfo[] operbtions,
+                     MBebnNotificbtionInfo[] notificbtions,
                      Descriptor descriptor)
-            throws IllegalArgumentException {
+            throws IllegblArgumentException {
 
-        this.className = className;
+        this.clbssNbme = clbssNbme;
 
         this.description = description;
 
-        if (attributes == null)
-            attributes = MBeanAttributeInfo.NO_ATTRIBUTES;
-        this.attributes = attributes;
+        if (bttributes == null)
+            bttributes = MBebnAttributeInfo.NO_ATTRIBUTES;
+        this.bttributes = bttributes;
 
-        if (operations == null)
-            operations = MBeanOperationInfo.NO_OPERATIONS;
-        this.operations = operations;
+        if (operbtions == null)
+            operbtions = MBebnOperbtionInfo.NO_OPERATIONS;
+        this.operbtions = operbtions;
 
         if (constructors == null)
-            constructors = MBeanConstructorInfo.NO_CONSTRUCTORS;
+            constructors = MBebnConstructorInfo.NO_CONSTRUCTORS;
         this.constructors = constructors;
 
-        if (notifications == null)
-            notifications = MBeanNotificationInfo.NO_NOTIFICATIONS;
-        this.notifications = notifications;
+        if (notificbtions == null)
+            notificbtions = MBebnNotificbtionInfo.NO_NOTIFICATIONS;
+        this.notificbtions = notificbtions;
 
         if (descriptor == null)
-            descriptor = ImmutableDescriptor.EMPTY_DESCRIPTOR;
+            descriptor = ImmutbbleDescriptor.EMPTY_DESCRIPTOR;
         this.descriptor = descriptor;
 
-        this.arrayGettersSafe =
-                arrayGettersSafe(this.getClass(), MBeanInfo.class);
+        this.brrbyGettersSbfe =
+                brrbyGettersSbfe(this.getClbss(), MBebnInfo.clbss);
     }
 
     /**
-     * <p>Returns a shallow clone of this instance.
-     * The clone is obtained by simply calling <tt>super.clone()</tt>,
-     * thus calling the default native shallow cloning mechanism
+     * <p>Returns b shbllow clone of this instbnce.
+     * The clone is obtbined by simply cblling <tt>super.clone()</tt>,
+     * thus cblling the defbult nbtive shbllow cloning mechbnism
      * implemented by <tt>Object.clone()</tt>.
-     * No deeper cloning of any internal field is made.</p>
+     * No deeper cloning of bny internbl field is mbde.</p>
      *
-     * <p>Since this class is immutable, the clone method is chiefly of
-     * interest to subclasses.</p>
+     * <p>Since this clbss is immutbble, the clone method is chiefly of
+     * interest to subclbsses.</p>
      */
      @Override
      public Object clone () {
          try {
              return super.clone() ;
-         } catch (CloneNotSupportedException e) {
-             // should not happen as this class is cloneable
+         } cbtch (CloneNotSupportedException e) {
+             // should not hbppen bs this clbss is clonebble
              return null;
          }
      }
 
 
     /**
-     * Returns the name of the Java class of the MBean described by
-     * this <CODE>MBeanInfo</CODE>.
+     * Returns the nbme of the Jbvb clbss of the MBebn described by
+     * this <CODE>MBebnInfo</CODE>.
      *
-     * @return the class name.
+     * @return the clbss nbme.
      */
-    public String getClassName()  {
-        return className;
+    public String getClbssNbme()  {
+        return clbssNbme;
     }
 
     /**
-     * Returns a human readable description of the MBean.
+     * Returns b humbn rebdbble description of the MBebn.
      *
      * @return the description.
      */
@@ -299,153 +299,153 @@ public class MBeanInfo implements Cloneable, Serializable, DescriptorRead {
     }
 
     /**
-     * Returns the list of attributes exposed for management.
-     * Each attribute is described by an <CODE>MBeanAttributeInfo</CODE> object.
+     * Returns the list of bttributes exposed for mbnbgement.
+     * Ebch bttribute is described by bn <CODE>MBebnAttributeInfo</CODE> object.
      *
-     * The returned array is a shallow copy of the internal array,
-     * which means that it is a copy of the internal array of
-     * references to the <CODE>MBeanAttributeInfo</CODE> objects
-     * but that each referenced <CODE>MBeanAttributeInfo</CODE> object is not copied.
+     * The returned brrby is b shbllow copy of the internbl brrby,
+     * which mebns thbt it is b copy of the internbl brrby of
+     * references to the <CODE>MBebnAttributeInfo</CODE> objects
+     * but thbt ebch referenced <CODE>MBebnAttributeInfo</CODE> object is not copied.
      *
-     * @return  An array of <CODE>MBeanAttributeInfo</CODE> objects.
+     * @return  An brrby of <CODE>MBebnAttributeInfo</CODE> objects.
      */
-    public MBeanAttributeInfo[] getAttributes()   {
-        MBeanAttributeInfo[] as = nonNullAttributes();
-        if (as.length == 0)
-            return as;
+    public MBebnAttributeInfo[] getAttributes()   {
+        MBebnAttributeInfo[] bs = nonNullAttributes();
+        if (bs.length == 0)
+            return bs;
         else
-            return as.clone();
+            return bs.clone();
     }
 
-    private MBeanAttributeInfo[] fastGetAttributes() {
-        if (arrayGettersSafe)
+    privbte MBebnAttributeInfo[] fbstGetAttributes() {
+        if (brrbyGettersSbfe)
             return nonNullAttributes();
         else
             return getAttributes();
     }
 
     /**
-     * Return the value of the attributes field, or an empty array if
-     * the field is null.  This can't happen with a
-     * normally-constructed instance of this class, but can if the
-     * instance was deserialized from another implementation that
-     * allows the field to be null.  It would be simpler if we enforced
-     * the class invariant that these fields cannot be null by writing
-     * a readObject() method, but that would require us to define the
-     * various array fields as non-final, which is annoying because
-     * conceptually they are indeed final.
+     * Return the vblue of the bttributes field, or bn empty brrby if
+     * the field is null.  This cbn't hbppen with b
+     * normblly-constructed instbnce of this clbss, but cbn if the
+     * instbnce wbs deseriblized from bnother implementbtion thbt
+     * bllows the field to be null.  It would be simpler if we enforced
+     * the clbss invbribnt thbt these fields cbnnot be null by writing
+     * b rebdObject() method, but thbt would require us to define the
+     * vbrious brrby fields bs non-finbl, which is bnnoying becbuse
+     * conceptublly they bre indeed finbl.
      */
-    private MBeanAttributeInfo[] nonNullAttributes() {
-        return (attributes == null) ?
-            MBeanAttributeInfo.NO_ATTRIBUTES : attributes;
+    privbte MBebnAttributeInfo[] nonNullAttributes() {
+        return (bttributes == null) ?
+            MBebnAttributeInfo.NO_ATTRIBUTES : bttributes;
     }
 
     /**
-     * Returns the list of operations  of the MBean.
-     * Each operation is described by an <CODE>MBeanOperationInfo</CODE> object.
+     * Returns the list of operbtions  of the MBebn.
+     * Ebch operbtion is described by bn <CODE>MBebnOperbtionInfo</CODE> object.
      *
-     * The returned array is a shallow copy of the internal array,
-     * which means that it is a copy of the internal array of
-     * references to the <CODE>MBeanOperationInfo</CODE> objects
-     * but that each referenced <CODE>MBeanOperationInfo</CODE> object is not copied.
+     * The returned brrby is b shbllow copy of the internbl brrby,
+     * which mebns thbt it is b copy of the internbl brrby of
+     * references to the <CODE>MBebnOperbtionInfo</CODE> objects
+     * but thbt ebch referenced <CODE>MBebnOperbtionInfo</CODE> object is not copied.
      *
-     * @return  An array of <CODE>MBeanOperationInfo</CODE> objects.
+     * @return  An brrby of <CODE>MBebnOperbtionInfo</CODE> objects.
      */
-    public MBeanOperationInfo[] getOperations()  {
-        MBeanOperationInfo[] os = nonNullOperations();
+    public MBebnOperbtionInfo[] getOperbtions()  {
+        MBebnOperbtionInfo[] os = nonNullOperbtions();
         if (os.length == 0)
             return os;
         else
             return os.clone();
     }
 
-    private MBeanOperationInfo[] fastGetOperations() {
-        if (arrayGettersSafe)
-            return nonNullOperations();
+    privbte MBebnOperbtionInfo[] fbstGetOperbtions() {
+        if (brrbyGettersSbfe)
+            return nonNullOperbtions();
         else
-            return getOperations();
+            return getOperbtions();
     }
 
-    private MBeanOperationInfo[] nonNullOperations() {
-        return (operations == null) ?
-            MBeanOperationInfo.NO_OPERATIONS : operations;
+    privbte MBebnOperbtionInfo[] nonNullOperbtions() {
+        return (operbtions == null) ?
+            MBebnOperbtionInfo.NO_OPERATIONS : operbtions;
     }
 
     /**
-     * <p>Returns the list of the public constructors of the MBean.
-     * Each constructor is described by an
-     * <CODE>MBeanConstructorInfo</CODE> object.</p>
+     * <p>Returns the list of the public constructors of the MBebn.
+     * Ebch constructor is described by bn
+     * <CODE>MBebnConstructorInfo</CODE> object.</p>
      *
-     * <p>The returned array is a shallow copy of the internal array,
-     * which means that it is a copy of the internal array of
-     * references to the <CODE>MBeanConstructorInfo</CODE> objects but
-     * that each referenced <CODE>MBeanConstructorInfo</CODE> object
+     * <p>The returned brrby is b shbllow copy of the internbl brrby,
+     * which mebns thbt it is b copy of the internbl brrby of
+     * references to the <CODE>MBebnConstructorInfo</CODE> objects but
+     * thbt ebch referenced <CODE>MBebnConstructorInfo</CODE> object
      * is not copied.</p>
      *
-     * <p>The returned list is not necessarily exhaustive.  That is,
-     * the MBean may have a public constructor that is not in the
-     * list.  In this case, the MBean server can construct another
-     * instance of this MBean's class using that constructor, even
+     * <p>The returned list is not necessbrily exhbustive.  Thbt is,
+     * the MBebn mby hbve b public constructor thbt is not in the
+     * list.  In this cbse, the MBebn server cbn construct bnother
+     * instbnce of this MBebn's clbss using thbt constructor, even
      * though it is not listed here.</p>
      *
-     * @return  An array of <CODE>MBeanConstructorInfo</CODE> objects.
+     * @return  An brrby of <CODE>MBebnConstructorInfo</CODE> objects.
      */
-    public MBeanConstructorInfo[] getConstructors()  {
-        MBeanConstructorInfo[] cs = nonNullConstructors();
+    public MBebnConstructorInfo[] getConstructors()  {
+        MBebnConstructorInfo[] cs = nonNullConstructors();
         if (cs.length == 0)
             return cs;
         else
             return cs.clone();
     }
 
-    private MBeanConstructorInfo[] fastGetConstructors() {
-        if (arrayGettersSafe)
+    privbte MBebnConstructorInfo[] fbstGetConstructors() {
+        if (brrbyGettersSbfe)
             return nonNullConstructors();
         else
             return getConstructors();
     }
 
-    private MBeanConstructorInfo[] nonNullConstructors() {
+    privbte MBebnConstructorInfo[] nonNullConstructors() {
         return (constructors == null) ?
-            MBeanConstructorInfo.NO_CONSTRUCTORS : constructors;
+            MBebnConstructorInfo.NO_CONSTRUCTORS : constructors;
     }
 
     /**
-     * Returns the list of the notifications emitted by the MBean.
-     * Each notification is described by an <CODE>MBeanNotificationInfo</CODE> object.
+     * Returns the list of the notificbtions emitted by the MBebn.
+     * Ebch notificbtion is described by bn <CODE>MBebnNotificbtionInfo</CODE> object.
      *
-     * The returned array is a shallow copy of the internal array,
-     * which means that it is a copy of the internal array of
-     * references to the <CODE>MBeanNotificationInfo</CODE> objects
-     * but that each referenced <CODE>MBeanNotificationInfo</CODE> object is not copied.
+     * The returned brrby is b shbllow copy of the internbl brrby,
+     * which mebns thbt it is b copy of the internbl brrby of
+     * references to the <CODE>MBebnNotificbtionInfo</CODE> objects
+     * but thbt ebch referenced <CODE>MBebnNotificbtionInfo</CODE> object is not copied.
      *
-     * @return  An array of <CODE>MBeanNotificationInfo</CODE> objects.
+     * @return  An brrby of <CODE>MBebnNotificbtionInfo</CODE> objects.
      */
-    public MBeanNotificationInfo[] getNotifications()  {
-        MBeanNotificationInfo[] ns = nonNullNotifications();
+    public MBebnNotificbtionInfo[] getNotificbtions()  {
+        MBebnNotificbtionInfo[] ns = nonNullNotificbtions();
         if (ns.length == 0)
             return ns;
         else
             return ns.clone();
     }
 
-    private MBeanNotificationInfo[] fastGetNotifications() {
-        if (arrayGettersSafe)
-            return nonNullNotifications();
+    privbte MBebnNotificbtionInfo[] fbstGetNotificbtions() {
+        if (brrbyGettersSbfe)
+            return nonNullNotificbtions();
         else
-            return getNotifications();
+            return getNotificbtions();
     }
 
-    private MBeanNotificationInfo[] nonNullNotifications() {
-        return (notifications == null) ?
-            MBeanNotificationInfo.NO_NOTIFICATIONS : notifications;
+    privbte MBebnNotificbtionInfo[] nonNullNotificbtions() {
+        return (notificbtions == null) ?
+            MBebnNotificbtionInfo.NO_NOTIFICATIONS : notificbtions;
     }
 
     /**
-     * Get the descriptor of this MBeanInfo.  Changing the returned value
-     * will have no affect on the original descriptor.
+     * Get the descriptor of this MBebnInfo.  Chbnging the returned vblue
+     * will hbve no bffect on the originbl descriptor.
      *
-     * @return a descriptor that is either immutable or a copy of the original.
+     * @return b descriptor thbt is either immutbble or b copy of the originbl.
      *
      * @since 1.6
      */
@@ -456,146 +456,146 @@ public class MBeanInfo implements Cloneable, Serializable, DescriptorRead {
     @Override
     public String toString() {
         return
-            getClass().getName() + "[" +
+            getClbss().getNbme() + "[" +
             "description=" + getDescription() + ", " +
-            "attributes=" + Arrays.asList(fastGetAttributes()) + ", " +
-            "constructors=" + Arrays.asList(fastGetConstructors()) + ", " +
-            "operations=" + Arrays.asList(fastGetOperations()) + ", " +
-            "notifications=" + Arrays.asList(fastGetNotifications()) + ", " +
+            "bttributes=" + Arrbys.bsList(fbstGetAttributes()) + ", " +
+            "constructors=" + Arrbys.bsList(fbstGetConstructors()) + ", " +
+            "operbtions=" + Arrbys.bsList(fbstGetOperbtions()) + ", " +
+            "notificbtions=" + Arrbys.bsList(fbstGetNotificbtions()) + ", " +
             "descriptor=" + getDescriptor() +
             "]";
     }
 
     /**
-     * <p>Compare this MBeanInfo to another.  Two MBeanInfo objects
-     * are equal if and only if they return equal values for {@link
-     * #getClassName()}, for {@link #getDescription()}, and for
-     * {@link #getDescriptor()}, and the
-     * arrays returned by the two objects for {@link
-     * #getAttributes()}, {@link #getOperations()}, {@link
-     * #getConstructors()}, and {@link #getNotifications()} are
-     * pairwise equal.  Here "equal" means {@link
-     * Object#equals(Object)}, not identity.</p>
+     * <p>Compbre this MBebnInfo to bnother.  Two MBebnInfo objects
+     * bre equbl if bnd only if they return equbl vblues for {@link
+     * #getClbssNbme()}, for {@link #getDescription()}, bnd for
+     * {@link #getDescriptor()}, bnd the
+     * brrbys returned by the two objects for {@link
+     * #getAttributes()}, {@link #getOperbtions()}, {@link
+     * #getConstructors()}, bnd {@link #getNotificbtions()} bre
+     * pbirwise equbl.  Here "equbl" mebns {@link
+     * Object#equbls(Object)}, not identity.</p>
      *
-     * <p>If two MBeanInfo objects return the same values in one of
-     * their arrays but in a different order then they are not equal.</p>
+     * <p>If two MBebnInfo objects return the sbme vblues in one of
+     * their brrbys but in b different order then they bre not equbl.</p>
      *
-     * @param o the object to compare to.
+     * @pbrbm o the object to compbre to.
      *
-     * @return true if and only if <code>o</code> is an MBeanInfo that is equal
-     * to this one according to the rules above.
+     * @return true if bnd only if <code>o</code> is bn MBebnInfo thbt is equbl
+     * to this one bccording to the rules bbove.
      */
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof MBeanInfo))
-            return false;
-        MBeanInfo p = (MBeanInfo) o;
-        if (!isEqual(getClassName(),  p.getClassName()) ||
-                !isEqual(getDescription(), p.getDescription()) ||
-                !getDescriptor().equals(p.getDescriptor())) {
-            return false;
+        if (!(o instbnceof MBebnInfo))
+            return fblse;
+        MBebnInfo p = (MBebnInfo) o;
+        if (!isEqubl(getClbssNbme(),  p.getClbssNbme()) ||
+                !isEqubl(getDescription(), p.getDescription()) ||
+                !getDescriptor().equbls(p.getDescriptor())) {
+            return fblse;
         }
 
         return
-            (Arrays.equals(p.fastGetAttributes(), fastGetAttributes()) &&
-             Arrays.equals(p.fastGetOperations(), fastGetOperations()) &&
-             Arrays.equals(p.fastGetConstructors(), fastGetConstructors()) &&
-             Arrays.equals(p.fastGetNotifications(), fastGetNotifications()));
+            (Arrbys.equbls(p.fbstGetAttributes(), fbstGetAttributes()) &&
+             Arrbys.equbls(p.fbstGetOperbtions(), fbstGetOperbtions()) &&
+             Arrbys.equbls(p.fbstGetConstructors(), fbstGetConstructors()) &&
+             Arrbys.equbls(p.fbstGetNotificbtions(), fbstGetNotificbtions()));
     }
 
     @Override
-    public int hashCode() {
-        /* Since computing the hashCode is quite expensive, we cache it.
-           If by some terrible misfortune the computed value is 0, the
-           caching won't work and we will recompute it every time.
+    public int hbshCode() {
+        /* Since computing the hbshCode is quite expensive, we cbche it.
+           If by some terrible misfortune the computed vblue is 0, the
+           cbching won't work bnd we will recompute it every time.
 
-           We don't bother synchronizing, because, at worst, n different
-           threads will compute the same hashCode at the same time.  */
-        if (hashCode != 0)
-            return hashCode;
+           We don't bother synchronizing, becbuse, bt worst, n different
+           threbds will compute the sbme hbshCode bt the sbme time.  */
+        if (hbshCode != 0)
+            return hbshCode;
 
-        hashCode = Objects.hash(getClassName(), getDescriptor())
-                ^ Arrays.hashCode(fastGetAttributes())
-                ^ Arrays.hashCode(fastGetOperations())
-                ^ Arrays.hashCode(fastGetConstructors())
-                ^ Arrays.hashCode(fastGetNotifications());
+        hbshCode = Objects.hbsh(getClbssNbme(), getDescriptor())
+                ^ Arrbys.hbshCode(fbstGetAttributes())
+                ^ Arrbys.hbshCode(fbstGetOperbtions())
+                ^ Arrbys.hbshCode(fbstGetConstructors())
+                ^ Arrbys.hbshCode(fbstGetNotificbtions());
 
-        return hashCode;
+        return hbshCode;
     }
 
     /**
-     * Cached results of previous calls to arrayGettersSafe.  This is
-     * a WeakHashMap so that we don't prevent a class from being
-     * garbage collected just because we know whether it's immutable.
+     * Cbched results of previous cblls to brrbyGettersSbfe.  This is
+     * b WebkHbshMbp so thbt we don't prevent b clbss from being
+     * gbrbbge collected just becbuse we know whether it's immutbble.
      */
-    private static final Map<Class<?>, Boolean> arrayGettersSafeMap =
-        new WeakHashMap<Class<?>, Boolean>();
+    privbte stbtic finbl Mbp<Clbss<?>, Boolebn> brrbyGettersSbfeMbp =
+        new WebkHbshMbp<Clbss<?>, Boolebn>();
 
     /**
-     * Return true if <code>subclass</code> is known to preserve the
-     * immutability of <code>immutableClass</code>.  The class
-     * <code>immutableClass</code> is a reference class that is known
-     * to be immutable.  The subclass <code>subclass</code> is
-     * considered immutable if it does not override any public method
-     * of <code>immutableClass</code> whose name begins with "get".
-     * This is obviously not an infallible test for immutability,
-     * but it works for the public interfaces of the MBean*Info classes.
+     * Return true if <code>subclbss</code> is known to preserve the
+     * immutbbility of <code>immutbbleClbss</code>.  The clbss
+     * <code>immutbbleClbss</code> is b reference clbss thbt is known
+     * to be immutbble.  The subclbss <code>subclbss</code> is
+     * considered immutbble if it does not override bny public method
+     * of <code>immutbbleClbss</code> whose nbme begins with "get".
+     * This is obviously not bn infbllible test for immutbbility,
+     * but it works for the public interfbces of the MBebn*Info clbsses.
     */
-    static boolean arrayGettersSafe(Class<?> subclass, Class<?> immutableClass) {
-        if (subclass == immutableClass)
+    stbtic boolebn brrbyGettersSbfe(Clbss<?> subclbss, Clbss<?> immutbbleClbss) {
+        if (subclbss == immutbbleClbss)
             return true;
-        synchronized (arrayGettersSafeMap) {
-            Boolean safe = arrayGettersSafeMap.get(subclass);
-            if (safe == null) {
+        synchronized (brrbyGettersSbfeMbp) {
+            Boolebn sbfe = brrbyGettersSbfeMbp.get(subclbss);
+            if (sbfe == null) {
                 try {
-                    ArrayGettersSafeAction action =
-                        new ArrayGettersSafeAction(subclass, immutableClass);
-                    safe = AccessController.doPrivileged(action);
-                } catch (Exception e) { // e.g. SecurityException
-                    /* We don't know, so we assume it isn't.  */
-                    safe = false;
+                    ArrbyGettersSbfeAction bction =
+                        new ArrbyGettersSbfeAction(subclbss, immutbbleClbss);
+                    sbfe = AccessController.doPrivileged(bction);
+                } cbtch (Exception e) { // e.g. SecurityException
+                    /* We don't know, so we bssume it isn't.  */
+                    sbfe = fblse;
                 }
-                arrayGettersSafeMap.put(subclass, safe);
+                brrbyGettersSbfeMbp.put(subclbss, sbfe);
             }
-            return safe;
+            return sbfe;
         }
     }
 
     /*
-     * The PrivilegedAction stuff is probably overkill.  We can be
-     * pretty sure the caller does have the required privileges -- a
-     * JMX user that can't do reflection can't even use Standard
-     * MBeans!  But there's probably a performance gain by not having
-     * to check the whole call stack.
+     * The PrivilegedAction stuff is probbbly overkill.  We cbn be
+     * pretty sure the cbller does hbve the required privileges -- b
+     * JMX user thbt cbn't do reflection cbn't even use Stbndbrd
+     * MBebns!  But there's probbbly b performbnce gbin by not hbving
+     * to check the whole cbll stbck.
      */
-    private static class ArrayGettersSafeAction
-            implements PrivilegedAction<Boolean> {
+    privbte stbtic clbss ArrbyGettersSbfeAction
+            implements PrivilegedAction<Boolebn> {
 
-        private final Class<?> subclass;
-        private final Class<?> immutableClass;
+        privbte finbl Clbss<?> subclbss;
+        privbte finbl Clbss<?> immutbbleClbss;
 
-        ArrayGettersSafeAction(Class<?> subclass, Class<?> immutableClass) {
-            this.subclass = subclass;
-            this.immutableClass = immutableClass;
+        ArrbyGettersSbfeAction(Clbss<?> subclbss, Clbss<?> immutbbleClbss) {
+            this.subclbss = subclbss;
+            this.immutbbleClbss = immutbbleClbss;
         }
 
-        public Boolean run() {
-            Method[] methods = immutableClass.getMethods();
+        public Boolebn run() {
+            Method[] methods = immutbbleClbss.getMethods();
             for (int i = 0; i < methods.length; i++) {
                 Method method = methods[i];
-                String methodName = method.getName();
-                if (methodName.startsWith("get") &&
-                        method.getParameterTypes().length == 0 &&
-                        method.getReturnType().isArray()) {
+                String methodNbme = method.getNbme();
+                if (methodNbme.stbrtsWith("get") &&
+                        method.getPbrbmeterTypes().length == 0 &&
+                        method.getReturnType().isArrby()) {
                     try {
                         Method submethod =
-                            subclass.getMethod(methodName);
-                        if (!submethod.equals(method))
-                            return false;
-                    } catch (NoSuchMethodException e) {
-                        return false;
+                            subclbss.getMethod(methodNbme);
+                        if (!submethod.equbls(method))
+                            return fblse;
+                    } cbtch (NoSuchMethodException e) {
+                        return fblse;
                     }
                 }
             }
@@ -603,53 +603,53 @@ public class MBeanInfo implements Cloneable, Serializable, DescriptorRead {
         }
     }
 
-    private static boolean isEqual(String s1, String s2) {
-        boolean ret;
+    privbte stbtic boolebn isEqubl(String s1, String s2) {
+        boolebn ret;
 
         if (s1 == null) {
             ret = (s2 == null);
         } else {
-            ret = s1.equals(s2);
+            ret = s1.equbls(s2);
         }
 
         return ret;
     }
 
     /**
-     * Serializes an {@link MBeanInfo} to an {@link ObjectOutputStream}.
-     * @serialData
-     * For compatibility reasons, an object of this class is serialized as follows.
+     * Seriblizes bn {@link MBebnInfo} to bn {@link ObjectOutputStrebm}.
+     * @seriblDbtb
+     * For compbtibility rebsons, bn object of this clbss is seriblized bs follows.
      * <p>
-     * The method {@link ObjectOutputStream#defaultWriteObject defaultWriteObject()}
-     * is called first to serialize the object except the field {@code descriptor}
-     * which is declared as transient. The field {@code descriptor} is serialized
-     * as follows:
+     * The method {@link ObjectOutputStrebm#defbultWriteObject defbultWriteObject()}
+     * is cblled first to seriblize the object except the field {@code descriptor}
+     * which is declbred bs trbnsient. The field {@code descriptor} is seriblized
+     * bs follows:
      *     <ul>
-     *     <li> If {@code descriptor} is an instance of the class
-     *        {@link ImmutableDescriptor}, the method {@link ObjectOutputStream#write
-     *        write(int val)} is called to write a byte with the value {@code 1},
-     *        then the method {@link ObjectOutputStream#writeObject writeObject(Object obj)}
-     *        is called twice to serialize the field names and the field values of the
-     *        {@code descriptor}, respectively as a {@code String[]} and an
+     *     <li> If {@code descriptor} is bn instbnce of the clbss
+     *        {@link ImmutbbleDescriptor}, the method {@link ObjectOutputStrebm#write
+     *        write(int vbl)} is cblled to write b byte with the vblue {@code 1},
+     *        then the method {@link ObjectOutputStrebm#writeObject writeObject(Object obj)}
+     *        is cblled twice to seriblize the field nbmes bnd the field vblues of the
+     *        {@code descriptor}, respectively bs b {@code String[]} bnd bn
      *        {@code Object[]};</li>
-     *     <li> Otherwise, the method {@link ObjectOutputStream#write write(int val)}
-     *        is called to write a byte with the value {@code 0}, then the method
-     *        {@link ObjectOutputStream#writeObject writeObject(Object obj)} is called
-     *        to serialize the field {@code descriptor} directly.
+     *     <li> Otherwise, the method {@link ObjectOutputStrebm#write write(int vbl)}
+     *        is cblled to write b byte with the vblue {@code 0}, then the method
+     *        {@link ObjectOutputStrebm#writeObject writeObject(Object obj)} is cblled
+     *        to seriblize the field {@code descriptor} directly.
      *     </ul>
      *
      * @since 1.6
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        out.defbultWriteObject();
 
-        if (descriptor.getClass() == ImmutableDescriptor.class) {
+        if (descriptor.getClbss() == ImmutbbleDescriptor.clbss) {
             out.write(1);
 
-            final String[] names = descriptor.getFieldNames();
+            finbl String[] nbmes = descriptor.getFieldNbmes();
 
-            out.writeObject(names);
-            out.writeObject(descriptor.getFieldValues(names));
+            out.writeObject(nbmes);
+            out.writeObject(descriptor.getFieldVblues(nbmes));
         } else {
             out.write(0);
 
@@ -658,64 +658,64 @@ public class MBeanInfo implements Cloneable, Serializable, DescriptorRead {
     }
 
     /**
-     * Deserializes an {@link MBeanInfo} from an {@link ObjectInputStream}.
-     * @serialData
-     * For compatibility reasons, an object of this class is deserialized as follows.
+     * Deseriblizes bn {@link MBebnInfo} from bn {@link ObjectInputStrebm}.
+     * @seriblDbtb
+     * For compbtibility rebsons, bn object of this clbss is deseriblized bs follows.
      * <p>
-     * The method {@link ObjectInputStream#defaultReadObject defaultReadObject()}
-     * is called first to deserialize the object except the field
-     * {@code descriptor}, which is not serialized in the default way. Then the method
-     * {@link ObjectInputStream#read read()} is called to read a byte, the field
-     * {@code descriptor} is deserialized according to the value of the byte value:
+     * The method {@link ObjectInputStrebm#defbultRebdObject defbultRebdObject()}
+     * is cblled first to deseriblize the object except the field
+     * {@code descriptor}, which is not seriblized in the defbult wby. Then the method
+     * {@link ObjectInputStrebm#rebd rebd()} is cblled to rebd b byte, the field
+     * {@code descriptor} is deseriblized bccording to the vblue of the byte vblue:
      *    <ul>
-     *    <li>1. The method {@link ObjectInputStream#readObject readObject()}
-     *       is called twice to obtain the field names (a {@code String[]}) and
-     *       the field values (a {@code Object[]}) of the {@code descriptor}.
-     *       The two obtained values then are used to construct
-     *       an {@link ImmutableDescriptor} instance for the field
+     *    <li>1. The method {@link ObjectInputStrebm#rebdObject rebdObject()}
+     *       is cblled twice to obtbin the field nbmes (b {@code String[]}) bnd
+     *       the field vblues (b {@code Object[]}) of the {@code descriptor}.
+     *       The two obtbined vblues then bre used to construct
+     *       bn {@link ImmutbbleDescriptor} instbnce for the field
      *       {@code descriptor};</li>
-     *    <li>0. The value for the field {@code descriptor} is obtained directly
-     *       by calling the method {@link ObjectInputStream#readObject readObject()}.
-     *       If the obtained value is null, the field {@code descriptor} is set to
-     *       {@link ImmutableDescriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR};</li>
-     *    <li>-1. This means that there is no byte to read and that the object is from
-     *       an earlier version of the JMX API. The field {@code descriptor} is set to
-     *       {@link ImmutableDescriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR}.</li>
-     *    <li>Any other value. A {@link StreamCorruptedException} is thrown.</li>
+     *    <li>0. The vblue for the field {@code descriptor} is obtbined directly
+     *       by cblling the method {@link ObjectInputStrebm#rebdObject rebdObject()}.
+     *       If the obtbined vblue is null, the field {@code descriptor} is set to
+     *       {@link ImmutbbleDescriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR};</li>
+     *    <li>-1. This mebns thbt there is no byte to rebd bnd thbt the object is from
+     *       bn ebrlier version of the JMX API. The field {@code descriptor} is set to
+     *       {@link ImmutbbleDescriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR}.</li>
+     *    <li>Any other vblue. A {@link StrebmCorruptedException} is thrown.</li>
      *    </ul>
      *
      * @since 1.6
      */
 
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException {
 
-        in.defaultReadObject();
+        in.defbultRebdObject();
 
-        switch (in.read()) {
-        case 1:
-            final String[] names = (String[])in.readObject();
+        switch (in.rebd()) {
+        cbse 1:
+            finbl String[] nbmes = (String[])in.rebdObject();
 
-            final Object[] values = (Object[]) in.readObject();
-            descriptor = (names.length == 0) ?
-                ImmutableDescriptor.EMPTY_DESCRIPTOR :
-                new ImmutableDescriptor(names, values);
+            finbl Object[] vblues = (Object[]) in.rebdObject();
+            descriptor = (nbmes.length == 0) ?
+                ImmutbbleDescriptor.EMPTY_DESCRIPTOR :
+                new ImmutbbleDescriptor(nbmes, vblues);
 
-            break;
-        case 0:
-            descriptor = (Descriptor)in.readObject();
+            brebk;
+        cbse 0:
+            descriptor = (Descriptor)in.rebdObject();
 
             if (descriptor == null) {
-                descriptor = ImmutableDescriptor.EMPTY_DESCRIPTOR;
+                descriptor = ImmutbbleDescriptor.EMPTY_DESCRIPTOR;
             }
 
-            break;
-        case -1: // from an earlier version of the JMX API
-            descriptor = ImmutableDescriptor.EMPTY_DESCRIPTOR;
+            brebk;
+        cbse -1: // from bn ebrlier version of the JMX API
+            descriptor = ImmutbbleDescriptor.EMPTY_DESCRIPTOR;
 
-            break;
-        default:
-            throw new StreamCorruptedException("Got unexpected byte.");
+            brebk;
+        defbult:
+            throw new StrebmCorruptedException("Got unexpected byte.");
         }
     }
 }

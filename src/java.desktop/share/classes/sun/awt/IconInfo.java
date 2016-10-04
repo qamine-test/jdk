@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt;
-import java.awt.*;
-import java.awt.color.*;
-import java.awt.image.*;
-import sun.awt.image.ToolkitImage;
-import sun.awt.image.ImageRepresentation;
-import java.util.Arrays;
+pbckbge sun.bwt;
+import jbvb.bwt.*;
+import jbvb.bwt.color.*;
+import jbvb.bwt.imbge.*;
+import sun.bwt.imbge.ToolkitImbge;
+import sun.bwt.imbge.ImbgeRepresentbtion;
+import jbvb.util.Arrbys;
 
-public class IconInfo {
+public clbss IconInfo {
     /**
-     * Representation of image as an int array.
-     * It's used on platforms where icon data
-     * is expected to be in 32-bit format.
+     * Representbtion of imbge bs bn int brrby.
+     * It's used on plbtforms where icon dbtb
+     * is expected to be in 32-bit formbt.
      */
-    private int[] intIconData;
+    privbte int[] intIconDbtb;
     /**
-     * Representation of image as an long array.
-     * It's used on platforms where icon data
-     * is expected to be in 64-bit format.
+     * Representbtion of imbge bs bn long brrby.
+     * It's used on plbtforms where icon dbtb
+     * is expected to be in 64-bit formbt.
      */
-    private long[] longIconData;
+    privbte long[] longIconDbtb;
     /**
-     * Icon image.
+     * Icon imbge.
      */
-    private Image image;
+    privbte Imbge imbge;
     /**
-     * Width of icon image. Being set in constructor.
+     * Width of icon imbge. Being set in constructor.
      */
-    private final int width;
+    privbte finbl int width;
     /**
-     * Height of icon image. Being set in constructor.
+     * Height of icon imbge. Being set in constructor.
      */
-    private final int height;
+    privbte finbl int height;
     /**
-     * Width of scaled icon image. Can be set in setScaledDimension.
+     * Width of scbled icon imbge. Cbn be set in setScbledDimension.
      */
-    private int scaledWidth;
+    privbte int scbledWidth;
     /**
-     * Height of scaled icon image. Can be set in setScaledDimension.
+     * Height of scbled icon imbge. Cbn be set in setScbledDimension.
      */
-    private int scaledHeight;
+    privbte int scbledHeight;
     /**
-     * Length of raw data. Being set in constructor / setScaledDimension.
+     * Length of rbw dbtb. Being set in constructor / setScbledDimension.
      */
-    private int rawLength;
+    privbte int rbwLength;
 
-    public IconInfo(int[] intIconData) {
-        this.intIconData =
-            (null == intIconData) ? null : Arrays.copyOf(intIconData, intIconData.length);
-        this.width = intIconData[0];
-        this.height = intIconData[1];
-        this.scaledWidth = width;
-        this.scaledHeight = height;
-        this.rawLength = width * height + 2;
+    public IconInfo(int[] intIconDbtb) {
+        this.intIconDbtb =
+            (null == intIconDbtb) ? null : Arrbys.copyOf(intIconDbtb, intIconDbtb.length);
+        this.width = intIconDbtb[0];
+        this.height = intIconDbtb[1];
+        this.scbledWidth = width;
+        this.scbledHeight = height;
+        this.rbwLength = width * height + 2;
     }
 
-    public IconInfo(long[] longIconData) {
-        this.longIconData =
-        (null == longIconData) ? null : Arrays.copyOf(longIconData, longIconData.length);
-        this.width = (int)longIconData[0];
-        this.height = (int)longIconData[1];
-        this.scaledWidth = width;
-        this.scaledHeight = height;
-        this.rawLength = width * height + 2;
+    public IconInfo(long[] longIconDbtb) {
+        this.longIconDbtb =
+        (null == longIconDbtb) ? null : Arrbys.copyOf(longIconDbtb, longIconDbtb.length);
+        this.width = (int)longIconDbtb[0];
+        this.height = (int)longIconDbtb[1];
+        this.scbledWidth = width;
+        this.scbledHeight = height;
+        this.rbwLength = width * height + 2;
     }
 
-    public IconInfo(Image image) {
-        this.image = image;
-        if (image instanceof ToolkitImage) {
-            ImageRepresentation ir = ((ToolkitImage)image).getImageRep();
-            ir.reconstruct(ImageObserver.ALLBITS);
+    public IconInfo(Imbge imbge) {
+        this.imbge = imbge;
+        if (imbge instbnceof ToolkitImbge) {
+            ImbgeRepresentbtion ir = ((ToolkitImbge)imbge).getImbgeRep();
+            ir.reconstruct(ImbgeObserver.ALLBITS);
             this.width = ir.getWidth();
             this.height = ir.getHeight();
         } else {
-            this.width = image.getWidth(null);
-            this.height = image.getHeight(null);
+            this.width = imbge.getWidth(null);
+            this.height = imbge.getHeight(null);
         }
-        this.scaledWidth = width;
-        this.scaledHeight = height;
-        this.rawLength = width * height + 2;
+        this.scbledWidth = width;
+        this.scbledHeight = height;
+        this.rbwLength = width * height + 2;
     }
 
     /*
-     * It sets size of scaled icon.
+     * It sets size of scbled icon.
      */
-    public void setScaledSize(int width, int height) {
-        this.scaledWidth = width;
-        this.scaledHeight = height;
-        this.rawLength = width * height + 2;
+    public void setScbledSize(int width, int height) {
+        this.scbledWidth = width;
+        this.scbledHeight = height;
+        this.rbwLength = width * height + 2;
     }
 
-    public boolean isValid() {
+    public boolebn isVblid() {
         return (width > 0 && height > 0);
     }
 
@@ -126,112 +126,112 @@ public class IconInfo {
     }
 
     public String toString() {
-        return "IconInfo[w=" + width + ",h=" + height + ",sw=" + scaledWidth + ",sh=" + scaledHeight + "]";
+        return "IconInfo[w=" + width + ",h=" + height + ",sw=" + scbledWidth + ",sh=" + scbledHeight + "]";
     }
 
-    public int getRawLength() {
-        return rawLength;
+    public int getRbwLength() {
+        return rbwLength;
     }
 
-    public int[] getIntData() {
-        if (this.intIconData == null) {
-            if (this.longIconData != null) {
-                this.intIconData = longArrayToIntArray(longIconData);
-            } else if (this.image != null) {
-                this.intIconData = imageToIntArray(this.image, scaledWidth, scaledHeight);
+    public int[] getIntDbtb() {
+        if (this.intIconDbtb == null) {
+            if (this.longIconDbtb != null) {
+                this.intIconDbtb = longArrbyToIntArrby(longIconDbtb);
+            } else if (this.imbge != null) {
+                this.intIconDbtb = imbgeToIntArrby(this.imbge, scbledWidth, scbledHeight);
             }
         }
-        return this.intIconData;
+        return this.intIconDbtb;
     }
 
-    public long[] getLongData() {
-        if (this.longIconData == null) {
-            if (this.intIconData != null) {
-                this.longIconData = intArrayToLongArray(this.intIconData);
-            } else if (this.image != null) {
-                int[] intIconData = imageToIntArray(this.image, scaledWidth, scaledHeight);
-                this.longIconData = intArrayToLongArray(intIconData);
+    public long[] getLongDbtb() {
+        if (this.longIconDbtb == null) {
+            if (this.intIconDbtb != null) {
+                this.longIconDbtb = intArrbyToLongArrby(this.intIconDbtb);
+            } else if (this.imbge != null) {
+                int[] intIconDbtb = imbgeToIntArrby(this.imbge, scbledWidth, scbledHeight);
+                this.longIconDbtb = intArrbyToLongArrby(intIconDbtb);
             }
         }
-        return this.longIconData;
+        return this.longIconDbtb;
     }
 
-    public Image getImage() {
-        if (this.image == null) {
-            if (this.intIconData != null) {
-                this.image = intArrayToImage(this.intIconData);
-            } else if (this.longIconData != null) {
-                int[] intIconData = longArrayToIntArray(this.longIconData);
-                this.image = intArrayToImage(intIconData);
+    public Imbge getImbge() {
+        if (this.imbge == null) {
+            if (this.intIconDbtb != null) {
+                this.imbge = intArrbyToImbge(this.intIconDbtb);
+            } else if (this.longIconDbtb != null) {
+                int[] intIconDbtb = longArrbyToIntArrby(this.longIconDbtb);
+                this.imbge = intArrbyToImbge(intIconDbtb);
             }
         }
-        return this.image;
+        return this.imbge;
     }
 
-    private static int[] longArrayToIntArray(long[] longData) {
-        int[] intData = new int[longData.length];
-        for (int i = 0; i < longData.length; i++) {
-            // Such a conversion is valid since the
-            // original data (see
-            // make/sun/xawt/ToBin.java) were ints
-            intData[i] = (int)longData[i];
+    privbte stbtic int[] longArrbyToIntArrby(long[] longDbtb) {
+        int[] intDbtb = new int[longDbtb.length];
+        for (int i = 0; i < longDbtb.length; i++) {
+            // Such b conversion is vblid since the
+            // originbl dbtb (see
+            // mbke/sun/xbwt/ToBin.jbvb) were ints
+            intDbtb[i] = (int)longDbtb[i];
         }
-        return intData;
+        return intDbtb;
     }
 
-    private static long[] intArrayToLongArray(int[] intData) {
-        long[] longData = new long[intData.length];
-        for (int i = 0; i < intData.length; i++) {
-            longData[i] = intData[i];
+    privbte stbtic long[] intArrbyToLongArrby(int[] intDbtb) {
+        long[] longDbtb = new long[intDbtb.length];
+        for (int i = 0; i < intDbtb.length; i++) {
+            longDbtb[i] = intDbtb[i];
         }
-        return longData;
+        return longDbtb;
     }
 
-    static Image intArrayToImage(int[] raw) {
+    stbtic Imbge intArrbyToImbge(int[] rbw) {
         ColorModel cm =
-            new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), 32,
+            new DirectColorModel(ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB), 32,
                                  0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000,
-                                 false, DataBuffer.TYPE_INT);
-        DataBuffer buffer = new DataBufferInt(raw, raw.length-2, 2);
-        WritableRaster raster =
-            Raster.createPackedRaster(buffer, raw[0], raw[1],
-                                      raw[0],
+                                 fblse, DbtbBuffer.TYPE_INT);
+        DbtbBuffer buffer = new DbtbBufferInt(rbw, rbw.length-2, 2);
+        WritbbleRbster rbster =
+            Rbster.crebtePbckedRbster(buffer, rbw[0], rbw[1],
+                                      rbw[0],
                                       new int[] {0x00ff0000, 0x0000ff00,
                                                  0x000000ff, 0xff000000},
                                       null);
-        BufferedImage im = new BufferedImage(cm, raster, false, null);
+        BufferedImbge im = new BufferedImbge(cm, rbster, fblse, null);
         return im;
     }
 
     /*
-     * Returns array of integers which holds data for the image.
-     * It scales the image if necessary.
+     * Returns brrby of integers which holds dbtb for the imbge.
+     * It scbles the imbge if necessbry.
      */
-    static int[] imageToIntArray(Image image, int width, int height) {
+    stbtic int[] imbgeToIntArrby(Imbge imbge, int width, int height) {
         if (width <= 0 || height <= 0) {
             return null;
         }
         ColorModel cm =
-            new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), 32,
+            new DirectColorModel(ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB), 32,
                                  0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000,
-                                 false, DataBuffer.TYPE_INT);
-        DataBufferInt buffer = new DataBufferInt(width * height);
-        WritableRaster raster =
-            Raster.createPackedRaster(buffer, width, height,
+                                 fblse, DbtbBuffer.TYPE_INT);
+        DbtbBufferInt buffer = new DbtbBufferInt(width * height);
+        WritbbleRbster rbster =
+            Rbster.crebtePbckedRbster(buffer, width, height,
                                       width,
                                       new int[] {0x00ff0000, 0x0000ff00,
                                                  0x000000ff, 0xff000000},
                                       null);
-        BufferedImage im = new BufferedImage(cm, raster, false, null);
-        Graphics g = im.getGraphics();
-        g.drawImage(image, 0, 0, width, height, null);
+        BufferedImbge im = new BufferedImbge(cm, rbster, fblse, null);
+        Grbphics g = im.getGrbphics();
+        g.drbwImbge(imbge, 0, 0, width, height, null);
         g.dispose();
-        int[] data = buffer.getData();
-        int[] raw = new int[width * height + 2];
-        raw[0] = width;
-        raw[1] = height;
-        System.arraycopy(data, 0, raw, 2, width * height);
-        return raw;
+        int[] dbtb = buffer.getDbtb();
+        int[] rbw = new int[width * height + 2];
+        rbw[0] = width;
+        rbw[1] = height;
+        System.brrbycopy(dbtb, 0, rbw, 2, width * height);
+        return rbw;
     }
 
 }

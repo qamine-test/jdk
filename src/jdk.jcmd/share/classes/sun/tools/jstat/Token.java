@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
-import java.io.StreamTokenizer;
+import jbvb.io.StrebmTokenizer;
 
 /**
- * A class for encapsulating tokens returned from StreamTokenizer primarily
- * for output formatting purposes.
+ * A clbss for encbpsulbting tokens returned from StrebmTokenizer primbrily
+ * for output formbtting purposes.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class Token {
-    public String sval;
-    public double nval;
+public clbss Token {
+    public String svbl;
+    public double nvbl;
     public int ttype;
 
-    public Token(int ttype, String sval, double nval) {
+    public Token(int ttype, String svbl, double nvbl) {
         this.ttype = ttype;
-        this.sval = sval;
-        this.nval = nval;
+        this.svbl = svbl;
+        this.nvbl = nvbl;
     }
 
-    public Token(int ttype, String sval) {
-        this(ttype, sval, 0);
+    public Token(int ttype, String svbl) {
+        this(ttype, svbl, 0);
     }
 
     public Token(int ttype) {
         this(ttype, null, 0);
     }
 
-    public String toMessage() {
+    public String toMessbge() {
         switch(ttype) {
-        case StreamTokenizer.TT_EOL:
+        cbse StrebmTokenizer.TT_EOL:
             return "\"EOL\"";
-        case StreamTokenizer.TT_EOF:
+        cbse StrebmTokenizer.TT_EOF:
             return "\"EOF\"";
-        case StreamTokenizer.TT_NUMBER:
+        cbse StrebmTokenizer.TT_NUMBER:
             return "NUMBER";
-        case StreamTokenizer.TT_WORD:
-            if (sval == null) {
+        cbse StrebmTokenizer.TT_WORD:
+            if (svbl == null) {
                 return "IDENTIFIER";
             } else {
-                return "IDENTIFIER " + sval;
+                return "IDENTIFIER " + svbl;
             }
-        default:
+        defbult:
             if (ttype == (int)'"') {
                 String msg = "QUOTED STRING";
-                if (sval != null)
-                    msg = msg + " \"" + sval + "\"";
+                if (svbl != null)
+                    msg = msg + " \"" + svbl + "\"";
                 return msg;
             } else {
-                return "CHARACTER \'" + (char)ttype + "\'";
+                return "CHARACTER \'" + (chbr)ttype + "\'";
             }
         }
     }
@@ -82,29 +82,29 @@ public class Token {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         switch(ttype) {
-        case StreamTokenizer.TT_EOL:
-            sb.append("ttype=TT_EOL");
-            break;
-        case StreamTokenizer.TT_EOF:
-            sb.append("ttype=TT_EOF");
-            break;
-        case StreamTokenizer.TT_NUMBER:
-            sb.append("ttype=TT_NUM,").append("nval="+nval);
-            break;
-        case StreamTokenizer.TT_WORD:
-            if (sval == null) {
-                sb.append("ttype=TT_WORD:IDENTIFIER");
+        cbse StrebmTokenizer.TT_EOL:
+            sb.bppend("ttype=TT_EOL");
+            brebk;
+        cbse StrebmTokenizer.TT_EOF:
+            sb.bppend("ttype=TT_EOF");
+            brebk;
+        cbse StrebmTokenizer.TT_NUMBER:
+            sb.bppend("ttype=TT_NUM,").bppend("nvbl="+nvbl);
+            brebk;
+        cbse StrebmTokenizer.TT_WORD:
+            if (svbl == null) {
+                sb.bppend("ttype=TT_WORD:IDENTIFIER");
             } else {
-                sb.append("ttype=TT_WORD:").append("sval="+sval);
+                sb.bppend("ttype=TT_WORD:").bppend("svbl="+svbl);
             }
-            break;
-        default:
+            brebk;
+        defbult:
             if (ttype == (int)'"') {
-                sb.append("ttype=TT_STRING:").append("sval="+sval);
+                sb.bppend("ttype=TT_STRING:").bppend("svbl="+svbl);
             } else {
-                sb.append("ttype=TT_CHAR:").append((char)ttype);
+                sb.bppend("ttype=TT_CHAR:").bppend((chbr)ttype);
             }
-            break;
+            brebk;
         }
         return sb.toString();
     }

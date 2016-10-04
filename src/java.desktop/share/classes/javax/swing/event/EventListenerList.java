@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.event;
+pbckbge jbvbx.swing.event;
 
-import java.io.*;
-import java.util.*;
-import java.lang.reflect.Array;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.lbng.reflect.Arrby;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * A class that holds a list of EventListeners.  A single instance
- * can be used to hold all listeners (of all types) for the instance
- * using the list.  It is the responsiblity of the class using the
- * EventListenerList to provide type-safe API (preferably conforming
- * to the JavaBeans spec) and methods which dispatch event notification
- * methods to appropriate Event Listeners on the list.
+ * A clbss thbt holds b list of EventListeners.  A single instbnce
+ * cbn be used to hold bll listeners (of bll types) for the instbnce
+ * using the list.  It is the responsiblity of the clbss using the
+ * EventListenerList to provide type-sbfe API (preferbbly conforming
+ * to the JbvbBebns spec) bnd methods which dispbtch event notificbtion
+ * methods to bppropribte Event Listeners on the list.
  *
- * The main benefits that this class provides are that it is relatively
- * cheap in the case of no listeners, and it provides serialization for
- * event-listener lists in a single place, as well as a degree of MT safety
+ * The mbin benefits thbt this clbss provides bre thbt it is relbtively
+ * chebp in the cbse of no listeners, bnd it provides seriblizbtion for
+ * event-listener lists in b single plbce, bs well bs b degree of MT sbfety
  * (when used correctly).
  *
- * Usage example:
- *    Say one is defining a class that sends out FooEvents, and one wants
- * to allow users of the class to register FooListeners and receive
- * notification when FooEvents occur.  The following should be added
- * to the class definition:
+ * Usbge exbmple:
+ *    Sby one is defining b clbss thbt sends out FooEvents, bnd one wbnts
+ * to bllow users of the clbss to register FooListeners bnd receive
+ * notificbtion when FooEvents occur.  The following should be bdded
+ * to the clbss definition:
  * <pre>
  * EventListenerList listenerList = new EventListenerList();
  * FooEvent fooEvent = null;
  *
- * public void addFooListener(FooListener l) {
- *     listenerList.add(FooListener.class, l);
+ * public void bddFooListener(FooListener l) {
+ *     listenerList.bdd(FooListener.clbss, l);
  * }
  *
  * public void removeFooListener(FooListener l) {
- *     listenerList.remove(FooListener.class, l);
+ *     listenerList.remove(FooListener.clbss, l);
  * }
  *
  *
- * // Notify all listeners that have registered interest for
- * // notification on this event type.  The event instance
- * // is lazily created using the parameters passed into
+ * // Notify bll listeners thbt hbve registered interest for
+ * // notificbtion on this event type.  The event instbnce
+ * // is lbzily crebted using the pbrbmeters pbssed into
  * // the fire method.
  *
  * protected void fireFooXXX() {
- *     // Guaranteed to return a non-null array
+ *     // Gubrbnteed to return b non-null brrby
  *     Object[] listeners = listenerList.getListenerList();
- *     // Process the listeners last to first, notifying
- *     // those that are interested in this event
+ *     // Process the listeners lbst to first, notifying
+ *     // those thbt bre interested in this event
  *     for (int i = listeners.length-2; i&gt;=0; i-=2) {
- *         if (listeners[i]==FooListener.class) {
- *             // Lazily create the event:
+ *         if (listeners[i]==FooListener.clbss) {
+ *             // Lbzily crebte the event:
  *             if (fooEvent == null)
  *                 fooEvent = new FooEvent(this);
  *             ((FooListener)listeners[i+1]).fooXXX(fooEvent);
@@ -80,73 +80,73 @@ import sun.reflect.misc.ReflectUtil;
  *     }
  * }
  * </pre>
- * foo should be changed to the appropriate name, and fireFooXxx to the
- * appropriate method name.  One fire method should exist for each
- * notification method in the FooListener interface.
+ * foo should be chbnged to the bppropribte nbme, bnd fireFooXxx to the
+ * bppropribte method nbme.  One fire method should exist for ebch
+ * notificbtion method in the FooListener interfbce.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Georges Saab
- * @author Hans Muller
- * @author James Gosling
+ * @buthor Georges Sbbb
+ * @buthor Hbns Muller
+ * @buthor Jbmes Gosling
  */
-@SuppressWarnings("serial")
-public class EventListenerList implements Serializable {
-    /* A null array to be shared by all empty listener lists*/
-    private final static Object[] NULL_ARRAY = new Object[0];
-    /* The list of ListenerType - Listener pairs */
-    protected transient Object[] listenerList = NULL_ARRAY;
+@SuppressWbrnings("seribl")
+public clbss EventListenerList implements Seriblizbble {
+    /* A null brrby to be shbred by bll empty listener lists*/
+    privbte finbl stbtic Object[] NULL_ARRAY = new Object[0];
+    /* The list of ListenerType - Listener pbirs */
+    protected trbnsient Object[] listenerList = NULL_ARRAY;
 
     /**
-     * Passes back the event listener list as an array
-     * of ListenerType-listener pairs.  Note that for
-     * performance reasons, this implementation passes back
-     * the actual data structure in which the listener data
-     * is stored internally!
-     * This method is guaranteed to pass back a non-null
-     * array, so that no null-checking is required in
-     * fire methods.  A zero-length array of Object should
-     * be returned if there are currently no listeners.
+     * Pbsses bbck the event listener list bs bn brrby
+     * of ListenerType-listener pbirs.  Note thbt for
+     * performbnce rebsons, this implementbtion pbsses bbck
+     * the bctubl dbtb structure in which the listener dbtb
+     * is stored internblly!
+     * This method is gubrbnteed to pbss bbck b non-null
+     * brrby, so thbt no null-checking is required in
+     * fire methods.  A zero-length brrby of Object should
+     * be returned if there bre currently no listeners.
      *
-     * WARNING!!! Absolutely NO modification of
-     * the data contained in this array should be made -- if
-     * any such manipulation is necessary, it should be done
-     * on a copy of the array returned rather than the array
+     * WARNING!!! Absolutely NO modificbtion of
+     * the dbtb contbined in this brrby should be mbde -- if
+     * bny such mbnipulbtion is necessbry, it should be done
+     * on b copy of the brrby returned rbther thbn the brrby
      * itself.
      *
-     * @return array of ListenerType-listener pairs
+     * @return brrby of ListenerType-listener pbirs
      */
     public Object[] getListenerList() {
         return listenerList;
     }
 
     /**
-     * Return an array of all the listeners of the given type.
+     * Return bn brrby of bll the listeners of the given type.
      *
-     * @param <T> the type of {@code EventListener} to search for
-     * @param t the type of {@code EventListener} classes to be returned
-     * @return all of the listeners of the specified type.
-     * @exception  ClassCastException if the supplied class
-     *          is not assignable to EventListener
+     * @pbrbm <T> the type of {@code EventListener} to sebrch for
+     * @pbrbm t the type of {@code EventListener} clbsses to be returned
+     * @return bll of the listeners of the specified type.
+     * @exception  ClbssCbstException if the supplied clbss
+     *          is not bssignbble to EventListener
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> t) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> t) {
         Object[] lList = listenerList;
         int n = getListenerCount(lList, t);
-        @SuppressWarnings("unchecked")
-        T[] result = (T[])Array.newInstance(t, n);
+        @SuppressWbrnings("unchecked")
+        T[] result = (T[])Arrby.newInstbnce(t, n);
         int j = 0;
         for (int i = lList.length-2; i>=0; i-=2) {
             if (lList[i] == t) {
-                @SuppressWarnings("unchecked")
+                @SuppressWbrnings("unchecked")
                 T tmp = (T)lList[i+1];
                 result[j++] = tmp;
             }
@@ -155,62 +155,62 @@ public class EventListenerList implements Serializable {
     }
 
     /**
-     * Returns the total number of listeners for this listener list.
+     * Returns the totbl number of listeners for this listener list.
      *
-     * @return an integer count of total number of listeners
+     * @return bn integer count of totbl number of listeners
      */
     public int getListenerCount() {
         return listenerList.length/2;
     }
 
     /**
-     * Returns the total number of listeners of the supplied type
+     * Returns the totbl number of listeners of the supplied type
      * for this listener list.
      *
-     * @param t the type of listeners to count
+     * @pbrbm t the type of listeners to count
      * @return the number of listeners of type {@code t}
      */
-    public int getListenerCount(Class<?> t) {
+    public int getListenerCount(Clbss<?> t) {
         Object[] lList = listenerList;
         return getListenerCount(lList, t);
     }
 
-    private int getListenerCount(Object[] list, Class<?> t) {
+    privbte int getListenerCount(Object[] list, Clbss<?> t) {
         int count = 0;
         for (int i = 0; i < list.length; i+=2) {
-            if (t == (Class)list[i])
+            if (t == (Clbss)list[i])
                 count++;
         }
         return count;
     }
 
     /**
-     * Adds the listener as a listener of the specified type.
+     * Adds the listener bs b listener of the specified type.
      *
-     * @param <T> the type of {@code EventListener} to add
-     * @param t the type of the {@code EventListener} class to add
-     * @param l the listener to be added
+     * @pbrbm <T> the type of {@code EventListener} to bdd
+     * @pbrbm t the type of the {@code EventListener} clbss to bdd
+     * @pbrbm l the listener to be bdded
      */
-    public synchronized <T extends EventListener> void add(Class<T> t, T l) {
+    public synchronized <T extends EventListener> void bdd(Clbss<T> t, T l) {
         if (l==null) {
-            // In an ideal world, we would do an assertion here
-            // to help developers know they are probably doing
+            // In bn idebl world, we would do bn bssertion here
+            // to help developers know they bre probbbly doing
             // something wrong
             return;
         }
-        if (!t.isInstance(l)) {
-            throw new IllegalArgumentException("Listener " + l +
+        if (!t.isInstbnce(l)) {
+            throw new IllegblArgumentException("Listener " + l +
                                          " is not of type " + t);
         }
         if (listenerList == NULL_ARRAY) {
-            // if this is the first listener added,
-            // initialize the lists
+            // if this is the first listener bdded,
+            // initiblize the lists
             listenerList = new Object[] { t, l };
         } else {
-            // Otherwise copy the array and add the new listener
+            // Otherwise copy the brrby bnd bdd the new listener
             int i = listenerList.length;
             Object[] tmp = new Object[i+2];
-            System.arraycopy(listenerList, 0, tmp, 0, i);
+            System.brrbycopy(listenerList, 0, tmp, 0, i);
 
             tmp[i] = t;
             tmp[i+1] = l;
@@ -220,29 +220,29 @@ public class EventListenerList implements Serializable {
     }
 
     /**
-     * Removes the listener as a listener of the specified type.
+     * Removes the listener bs b listener of the specified type.
      *
-     * @param <T> the type of {@code EventListener}
-     * @param t the type of the listener to be removed
-     * @param l the listener to be removed
+     * @pbrbm <T> the type of {@code EventListener}
+     * @pbrbm t the type of the listener to be removed
+     * @pbrbm l the listener to be removed
      */
-    public synchronized <T extends EventListener> void remove(Class<T> t, T l) {
+    public synchronized <T extends EventListener> void remove(Clbss<T> t, T l) {
         if (l ==null) {
-            // In an ideal world, we would do an assertion here
-            // to help developers know they are probably doing
+            // In bn idebl world, we would do bn bssertion here
+            // to help developers know they bre probbbly doing
             // something wrong
             return;
         }
-        if (!t.isInstance(l)) {
-            throw new IllegalArgumentException("Listener " + l +
+        if (!t.isInstbnce(l)) {
+            throw new IllegblArgumentException("Listener " + l +
                                          " is not of type " + t);
         }
         // Is l on the list?
         int index = -1;
         for (int i = listenerList.length-2; i>=0; i-=2) {
-            if ((listenerList[i]==t) && (listenerList[i+1].equals(l) == true)) {
+            if ((listenerList[i]==t) && (listenerList[i+1].equbls(l) == true)) {
                 index = i;
-                break;
+                brebk;
             }
         }
 
@@ -250,29 +250,29 @@ public class EventListenerList implements Serializable {
         if (index != -1) {
             Object[] tmp = new Object[listenerList.length-2];
             // Copy the list up to index
-            System.arraycopy(listenerList, 0, tmp, 0, index);
-            // Copy from two past the index, up to
+            System.brrbycopy(listenerList, 0, tmp, 0, index);
+            // Copy from two pbst the index, up to
             // the end of tmp (which is two elements
-            // shorter than the old list)
+            // shorter thbn the old list)
             if (index < tmp.length)
-                System.arraycopy(listenerList, index+2, tmp, index,
+                System.brrbycopy(listenerList, index+2, tmp, index,
                                  tmp.length - index);
-            // set the listener array to the new array or null
+            // set the listener brrby to the new brrby or null
             listenerList = (tmp.length == 0) ? NULL_ARRAY : tmp;
             }
     }
 
-    // Serialization support.
-    private void writeObject(ObjectOutputStream s) throws IOException {
+    // Seriblizbtion support.
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
         Object[] lList = listenerList;
-        s.defaultWriteObject();
+        s.defbultWriteObject();
 
-        // Save the non-null event listeners:
+        // Sbve the non-null event listeners:
         for (int i = 0; i < lList.length; i+=2) {
-            Class<?> t = (Class)lList[i];
+            Clbss<?> t = (Clbss)lList[i];
             EventListener l = (EventListener)lList[i+1];
-            if ((l!=null) && (l instanceof Serializable)) {
-                s.writeObject(t.getName());
+            if ((l!=null) && (l instbnceof Seriblizbble)) {
+                s.writeObject(t.getNbme());
                 s.writeObject(l);
             }
         }
@@ -280,32 +280,32 @@ public class EventListenerList implements Serializable {
         s.writeObject(null);
     }
 
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException {
         listenerList = NULL_ARRAY;
-        s.defaultReadObject();
+        s.defbultRebdObject();
         Object listenerTypeOrNull;
 
-        while (null != (listenerTypeOrNull = s.readObject())) {
-            ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            EventListener l = (EventListener)s.readObject();
-            String name = (String) listenerTypeOrNull;
-            ReflectUtil.checkPackageAccess(name);
-            @SuppressWarnings("unchecked")
-            Class<EventListener> tmp = (Class<EventListener>)Class.forName(name, true, cl);
-            add(tmp, l);
+        while (null != (listenerTypeOrNull = s.rebdObject())) {
+            ClbssLobder cl = Threbd.currentThrebd().getContextClbssLobder();
+            EventListener l = (EventListener)s.rebdObject();
+            String nbme = (String) listenerTypeOrNull;
+            ReflectUtil.checkPbckbgeAccess(nbme);
+            @SuppressWbrnings("unchecked")
+            Clbss<EventListener> tmp = (Clbss<EventListener>)Clbss.forNbme(nbme, true, cl);
+            bdd(tmp, l);
         }
     }
 
     /**
-     * Returns a string representation of the EventListenerList.
+     * Returns b string representbtion of the EventListenerList.
      */
     public String toString() {
         Object[] lList = listenerList;
         String s = "EventListenerList: ";
         s += lList.length/2 + " listeners: ";
         for (int i = 0 ; i <= lList.length-2 ; i+=2) {
-            s += " type " + ((Class)lList[i]).getName();
+            s += " type " + ((Clbss)lList[i]).getNbme();
             s += " listener " + lList[i+1];
         }
         return s;

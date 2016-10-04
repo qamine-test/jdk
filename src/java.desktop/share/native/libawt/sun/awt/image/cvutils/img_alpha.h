@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 1996, 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 1997, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file contains macro definitions for the Alpha category of the
- * macros used by the generic scaleloop function.
+ * This file contbins mbcro definitions for the Alphb cbtegory of the
+ * mbcros used by the generic scbleloop function.
  *
- * This implementation of the Alpha macros will perform an ordered
- * dither of the 8-bit alpha values collected from the input pixel
- * data to construct a 1-bit deep image mask used to control the
- * pixel coverage of the color pixels in the output.  This is a
- * minimal quality implementation of Alpha that has the advantage
- * that it is easy to support on a wide variety of platforms and
- * graphics systems.
+ * This implementbtion of the Alphb mbcros will perform bn ordered
+ * dither of the 8-bit blphb vblues collected from the input pixel
+ * dbtb to construct b 1-bit deep imbge mbsk used to control the
+ * pixel coverbge of the color pixels in the output.  This is b
+ * minimbl qublity implementbtion of Alphb thbt hbs the bdvbntbge
+ * thbt it is ebsy to support on b wide vbriety of plbtforms bnd
+ * grbphics systems.
  *
- * This file can be used to provide the default implementation of the
- * Alpha macros, handling all transparency cases.
+ * This file cbn be used to provide the defbult implementbtion of the
+ * Alphb mbcros, hbndling bll trbnspbrency cbses.
  */
 
 /*
- * The macro IfAlpha is used by the varous pixel conversion macros
- * to conditionally compile code that is only needed if alpha values
- * are going to be used.
+ * The mbcro IfAlphb is used by the vbrous pixel conversion mbcros
+ * to conditionblly compile code thbt is only needed if blphb vblues
+ * bre going to be used.
  */
-#define IfAlpha(statements)     statements
+#define IfAlphb(stbtements)     stbtements
 
 #ifdef DEBUG
-#define DeclareAlphaDebugVars                           \
-    MaskBits *endMask;
-#define SetupEndMask(mask, dstH, cvdata)                \
-    do {endMask = mask + dstH * MaskScan(cvdata);} while (0)
+#define DeclbreAlphbDebugVbrs                           \
+    MbskBits *endMbsk;
+#define SetupEndMbsk(mbsk, dstH, cvdbtb)                \
+    do {endMbsk = mbsk + dstH * MbskScbn(cvdbtb);} while (0)
 #else /* DEBUG */
-#define DeclareAlphaDebugVars
-#define SetupEndMask(mask, dstH, cvdata)                \
+#define DeclbreAlphbDebugVbrs
+#define SetupEndMbsk(mbsk, dstH, cvdbtb)                \
     do {} while (0)
 #endif /* DEBUG */
 
-#define DeclareAlphaVars                                \
-    DeclareAlphaDebugVars                               \
-    MaskBits *mask;                                     \
-    MaskBits maskbits, maskcurbit, maskadjust;          \
-    int laststore;                                      \
-    extern uns_ordered_dither_array img_oda_alpha;
+#define DeclbreAlphbVbrs                                \
+    DeclbreAlphbDebugVbrs                               \
+    MbskBits *mbsk;                                     \
+    MbskBits mbskbits, mbskcurbit, mbskbdjust;          \
+    int lbststore;                                      \
+    extern uns_ordered_dither_brrby img_odb_blphb;
 
-#define InitAlpha(cvdata, dstY, dstX1, dstX2)                   \
+#define InitAlphb(cvdbtb, dstY, dstX1, dstX2)                   \
     do {                                                        \
-        laststore = 1;                                          \
-        mask = (MaskBits *) cvdata->maskbuf;                    \
-        maskadjust = - (MaskOffset(dstX2) - MaskOffset(dstX1)); \
-        if (mask) {                                             \
-            SetupEndMask(mask, dstTotalHeight, cvdata);         \
-            mask += ((dstY * MaskScan(cvdata))                  \
-                     + MaskOffset(dstX1));                      \
-            maskadjust += MaskScan(cvdata);                     \
-            maskcurbit = 1;                                     \
+        lbststore = 1;                                          \
+        mbsk = (MbskBits *) cvdbtb->mbskbuf;                    \
+        mbskbdjust = - (MbskOffset(dstX2) - MbskOffset(dstX1)); \
+        if (mbsk) {                                             \
+            SetupEndMbsk(mbsk, dstTotblHeight, cvdbtb);         \
+            mbsk += ((dstY * MbskScbn(cvdbtb))                  \
+                     + MbskOffset(dstX1));                      \
+            mbskbdjust += MbskScbn(cvdbtb);                     \
+            mbskcurbit = 1;                                     \
         } else {                                                \
-            maskcurbit = 0;                                     \
+            mbskcurbit = 0;                                     \
         }                                                       \
     } while (0)
 
-#define StartAlphaRow(cvdata, dstX, dstY)                       \
+#define StbrtAlphbRow(cvdbtb, dstX, dstY)                       \
     do {                                                        \
-        if (maskcurbit) {                                       \
-            maskbits = *mask;                                   \
-            maskcurbit = MaskInit(dstX);                        \
+        if (mbskcurbit) {                                       \
+            mbskbits = *mbsk;                                   \
+            mbskcurbit = MbskInit(dstX);                        \
         }                                                       \
     } while (0)
 
-#define IncrementMaskBit(dstX)                                  \
+#define IncrementMbskBit(dstX)                                  \
     do {                                                        \
-        if (((maskcurbit) >>= 1) == 0) {                        \
-            *mask++ = maskbits;                                 \
+        if (((mbskcurbit) >>= 1) == 0) {                        \
+            *mbsk++ = mbskbits;                                 \
             if (dstX < DSTX2 - 1) {                             \
-                img_check(mask < endMask);                      \
-                maskbits = *mask;                               \
+                img_check(mbsk < endMbsk);                      \
+                mbskbits = *mbsk;                               \
             } else {                                            \
-                laststore = 0;                                  \
+                lbststore = 0;                                  \
             }                                                   \
-            maskcurbit = MaskInit(0);                           \
+            mbskcurbit = MbskInit(0);                           \
         }                                                       \
     } while (0)
 
-#define SetTransparentPixel(cvdata, dstX, dstY)                 \
+#define SetTrbnspbrentPixel(cvdbtb, dstX, dstY)                 \
     do {                                                        \
-        if (!maskcurbit) {                                      \
-            mask = (MaskBits *) ImgInitMask(cvdata,             \
+        if (!mbskcurbit) {                                      \
+            mbsk = (MbskBits *) ImgInitMbsk(cvdbtb,             \
                                             DSTX1, DSTY1,       \
                                             DSTX2, DSTY2);      \
-            if (!mask) {                                        \
-                SignalError(0, JAVAPKG "OutOfMemoryError", 0);  \
+            if (!mbsk) {                                        \
+                SignblError(0, JAVAPKG "OutOfMemoryError", 0);  \
                 return SCALEFAILURE;                            \
             }                                                   \
-            SetupEndMask(mask, dstTotalHeight, cvdata);         \
-            mask += ((dstY * MaskScan(cvdata))                  \
-                     + MaskOffset(dstX));                       \
-            maskadjust += MaskScan(cvdata);                     \
-            maskbits = *mask;                                   \
-            maskcurbit = MaskInit(dstX);                        \
+            SetupEndMbsk(mbsk, dstTotblHeight, cvdbtb);         \
+            mbsk += ((dstY * MbskScbn(cvdbtb))                  \
+                     + MbskOffset(dstX));                       \
+            mbskbdjust += MbskScbn(cvdbtb);                     \
+            mbskbits = *mbsk;                                   \
+            mbskcurbit = MbskInit(dstX);                        \
         }                                                       \
-        SetTransparentBit(maskbits, maskcurbit);                \
-        IncrementMaskBit(dstX);                                 \
+        SetTrbnspbrentBit(mbskbits, mbskcurbit);                \
+        IncrementMbskBit(dstX);                                 \
     } while (0)
 
-#define SetOpaquePixel(cvdata, dstX, dstY)                      \
+#define SetOpbquePixel(cvdbtb, dstX, dstY)                      \
     do {                                                        \
-        if (maskcurbit) {                                       \
-            SetOpaqueBit(maskbits, maskcurbit);                 \
-            IncrementMaskBit(dstX);                             \
+        if (mbskcurbit) {                                       \
+            SetOpbqueBit(mbskbits, mbskcurbit);                 \
+            IncrementMbskBit(dstX);                             \
         }                                                       \
     } while (0)
 
-#define ApplyAlpha(cvdata, dstX, dstY, alpha)                   \
+#define ApplyAlphb(cvdbtb, dstX, dstY, blphb)                   \
     do {                                                        \
-        if (alpha + img_oda_alpha[dstX & 7][dstY & 7] < 255) {  \
-            SetTransparentPixel(cvdata, dstX, dstY);            \
+        if (blphb + img_odb_blphb[dstX & 7][dstY & 7] < 255) {  \
+            SetTrbnspbrentPixel(cvdbtb, dstX, dstY);            \
         } else {                                                \
-            SetOpaquePixel(cvdata, dstX, dstY);                 \
+            SetOpbquePixel(cvdbtb, dstX, dstY);                 \
         }                                                       \
     } while (0)
 
-#define EndMaskLine()                                           \
+#define EndMbskLine()                                           \
     do {                                                        \
-        if (maskcurbit) {                                       \
-            if (laststore) {                                    \
-                img_check(mask < endMask);                      \
-                *mask = maskbits;                               \
+        if (mbskcurbit) {                                       \
+            if (lbststore) {                                    \
+                img_check(mbsk < endMbsk);                      \
+                *mbsk = mbskbits;                               \
             }                                                   \
-            mask += maskadjust;                                 \
+            mbsk += mbskbdjust;                                 \
         }                                                       \
     } while (0)

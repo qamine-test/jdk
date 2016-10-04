@@ -3,42 +3,42 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 5884 $"/>
-		<generation date="$Date: 2011-05-11 05:58:32 +0900 (Wed, 11 May 2011) $"/>
-		<language type="sv"/>
+		<generbtion dbte="$Dbte: 2011-05-11 05:58:32 +0900 (Wed, 11 Mby 2011) $"/>
+		<lbngubge type="sv"/>
 		<territory type="FI"/>
 	</identity>
-	<localeDisplayNames>
-		<variants>
-			<variant type="1996">1996 års stavning</variant>
-		</variants>
+	<locbleDisplbyNbmes>
+		<vbribnts>
+			<vbribnt type="1996">1996 års stbvning</vbribnt>
+		</vbribnts>
 		<types>
-			<type type="big5han" key="collation" draft="unconfirmed">kinesiska i big5-sorteringsordning</type>
-			<type type="gb2312han" key="collation" draft="unconfirmed">kinesiska i gb2312-sorteringsordning</type>
-			<type type="pinyin" key="collation" draft="unconfirmed">kinesiska i pinyin-sorteringsordning</type>
-			<type type="stroke" key="collation" draft="unconfirmed">kinesiska i strecksorteringsordning</type>
-			<type type="traditional" key="collation" draft="unconfirmed">traditionell sorteringsordning</type>
+			<type type="big5hbn" key="collbtion" drbft="unconfirmed">kinesiskb i big5-sorteringsordning</type>
+			<type type="gb2312hbn" key="collbtion" drbft="unconfirmed">kinesiskb i gb2312-sorteringsordning</type>
+			<type type="pinyin" key="collbtion" drbft="unconfirmed">kinesiskb i pinyin-sorteringsordning</type>
+			<type type="stroke" key="collbtion" drbft="unconfirmed">kinesiskb i strecksorteringsordning</type>
+			<type type="trbditionbl" key="collbtion" drbft="unconfirmed">trbditionell sorteringsordning</type>
 		</types>
-		<measurementSystemNames>
-			<measurementSystemName type="US" draft="unconfirmed">imperiska enheter</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters draft="unconfirmed">[a à b c d e é f g h i j k l m n o p q r s t u v x y z å ä ö]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[ã ç ë í ñ ó š ÿ ü ž]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="US" drbft="unconfirmed">imperiskb enheter</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters drbft="unconfirmed">[b à b c d e é f g h i j k l m n o p q r s t u v x y z å ä ö]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[ã ç ë í ñ ó š ÿ ü ž]</exemplbrChbrbcters>
+	</chbrbcters>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<fields>
-					<field type="dayperiod">
-						<displayName>dagsperiod</displayName>
+					<field type="dbyperiod">
+						<displbyNbme>dbgsperiod</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<hourFormat draft="unconfirmed">+HH:mm;−HH:mm</hourFormat>
-		</timeZoneNames>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<hourFormbt drbft="unconfirmed">+HH:mm;−HH:mm</hourFormbt>
+		</timeZoneNbmes>
+	</dbtes>
 </ldml>
 

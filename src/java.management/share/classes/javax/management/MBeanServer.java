@@ -1,249 +1,249 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
-// java import
-import java.util.Set;
-import java.io.ObjectInputStream;
+// jbvb import
+import jbvb.util.Set;
+import jbvb.io.ObjectInputStrebm;
 
 // RI import
-import javax.management.loading.ClassLoaderRepository;
+import jbvbx.mbnbgement.lobding.ClbssLobderRepository;
 
 /**
- * <p>This is the interface for MBean manipulation on the agent
- * side. It contains the methods necessary for the creation,
- * registration, and deletion of MBeans as well as the access methods
- * for registered MBeans.  This is the core component of the JMX
- * infrastructure.</p>
+ * <p>This is the interfbce for MBebn mbnipulbtion on the bgent
+ * side. It contbins the methods necessbry for the crebtion,
+ * registrbtion, bnd deletion of MBebns bs well bs the bccess methods
+ * for registered MBebns.  This is the core component of the JMX
+ * infrbstructure.</p>
  *
- * <p>User code does not usually implement this interface.  Instead,
- * an object that implements this interface is obtained with one of
- * the methods in the {@link javax.management.MBeanServerFactory} class.</p>
+ * <p>User code does not usublly implement this interfbce.  Instebd,
+ * bn object thbt implements this interfbce is obtbined with one of
+ * the methods in the {@link jbvbx.mbnbgement.MBebnServerFbctory} clbss.</p>
  *
- * <p>Every MBean which is added to the MBean server becomes
- * manageable: its attributes and operations become remotely
- * accessible through the connectors/adaptors connected to that MBean
- * server.  A Java object cannot be registered in the MBean server
- * unless it is a JMX compliant MBean.</p>
+ * <p>Every MBebn which is bdded to the MBebn server becomes
+ * mbnbgebble: its bttributes bnd operbtions become remotely
+ * bccessible through the connectors/bdbptors connected to thbt MBebn
+ * server.  A Jbvb object cbnnot be registered in the MBebn server
+ * unless it is b JMX complibnt MBebn.</p>
  *
- * <p id="notif">When an MBean is registered or unregistered in the
- * MBean server a {@link javax.management.MBeanServerNotification
- * MBeanServerNotification} Notification is emitted. To register an
- * object as listener to MBeanServerNotifications you should call the
- * MBean server method {@link #addNotificationListener
- * addNotificationListener} with <CODE>ObjectName</CODE> the
- * <CODE>ObjectName</CODE> of the {@link
- * javax.management.MBeanServerDelegate MBeanServerDelegate}.  This
- * <CODE>ObjectName</CODE> is: <BR>
- * <CODE>JMImplementation:type=MBeanServerDelegate</CODE>.</p>
+ * <p id="notif">When bn MBebn is registered or unregistered in the
+ * MBebn server b {@link jbvbx.mbnbgement.MBebnServerNotificbtion
+ * MBebnServerNotificbtion} Notificbtion is emitted. To register bn
+ * object bs listener to MBebnServerNotificbtions you should cbll the
+ * MBebn server method {@link #bddNotificbtionListener
+ * bddNotificbtionListener} with <CODE>ObjectNbme</CODE> the
+ * <CODE>ObjectNbme</CODE> of the {@link
+ * jbvbx.mbnbgement.MBebnServerDelegbte MBebnServerDelegbte}.  This
+ * <CODE>ObjectNbme</CODE> is: <BR>
+ * <CODE>JMImplementbtion:type=MBebnServerDelegbte</CODE>.</p>
  *
- * <p>An object obtained from the {@link
- * MBeanServerFactory#createMBeanServer(String) createMBeanServer} or
- * {@link MBeanServerFactory#newMBeanServer(String) newMBeanServer}
- * methods of the {@link MBeanServerFactory} class applies security
- * checks to its methods, as follows.</p>
+ * <p>An object obtbined from the {@link
+ * MBebnServerFbctory#crebteMBebnServer(String) crebteMBebnServer} or
+ * {@link MBebnServerFbctory#newMBebnServer(String) newMBebnServer}
+ * methods of the {@link MBebnServerFbctory} clbss bpplies security
+ * checks to its methods, bs follows.</p>
  *
- * <p>First, if there is no security manager ({@link
- * System#getSecurityManager()} is null), then an implementation of
- * this interface is free not to make any checks.</p>
+ * <p>First, if there is no security mbnbger ({@link
+ * System#getSecurityMbnbger()} is null), then bn implementbtion of
+ * this interfbce is free not to mbke bny checks.</p>
  *
- * <p>Assuming that there is a security manager, or that the
- * implementation chooses to make checks anyway, the checks are made
- * as detailed below.  In what follows, and unless otherwise specified,
- * {@code className} is the
- * string returned by {@link MBeanInfo#getClassName()} for the target
- * MBean.</p>
+ * <p>Assuming thbt there is b security mbnbger, or thbt the
+ * implementbtion chooses to mbke checks bnywby, the checks bre mbde
+ * bs detbiled below.  In whbt follows, bnd unless otherwise specified,
+ * {@code clbssNbme} is the
+ * string returned by {@link MBebnInfo#getClbssNbme()} for the tbrget
+ * MBebn.</p>
  *
- * <p>If a security check fails, the method throws {@link
+ * <p>If b security check fbils, the method throws {@link
  * SecurityException}.</p>
  *
- * <p>For methods that can throw {@link InstanceNotFoundException},
- * this exception is thrown for a non-existent MBean, regardless of
- * permissions.  This is because a non-existent MBean has no
- * <code>className</code>.</p>
+ * <p>For methods thbt cbn throw {@link InstbnceNotFoundException},
+ * this exception is thrown for b non-existent MBebn, regbrdless of
+ * permissions.  This is becbuse b non-existent MBebn hbs no
+ * <code>clbssNbme</code>.</p>
  *
  * <ul>
  *
- * <li><p>For the {@link #invoke invoke} method, the caller's
+ * <li><p>For the {@link #invoke invoke} method, the cbller's
  * permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, operationName, name, "invoke")}.</p>
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, operbtionNbme, nbme, "invoke")}.</p>
  *
  * <li><p>For the {@link #getAttribute getAttribute} method, the
- * caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, attribute, name, "getAttribute")}.</p>
+ * cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, bttribute, nbme, "getAttribute")}.</p>
  *
  * <li><p>For the {@link #getAttributes getAttributes} method, the
- * caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, name, "getAttribute")}.
- * Additionally, for each attribute <em>a</em> in the {@link
- * AttributeList}, if the caller's permissions do not imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, <em>a</em>, name, "getAttribute")}, the
- * MBean server will behave as if that attribute had not been in the
+ * cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, nbme, "getAttribute")}.
+ * Additionblly, for ebch bttribute <em>b</em> in the {@link
+ * AttributeList}, if the cbller's permissions do not imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, <em>b</em>, nbme, "getAttribute")}, the
+ * MBebn server will behbve bs if thbt bttribute hbd not been in the
  * supplied list.</p>
  *
  * <li><p>For the {@link #setAttribute setAttribute} method, the
- * caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, attrName, name, "setAttribute")}, where
- * <code>attrName</code> is {@link Attribute#getName()
- * attribute.getName()}.</p>
+ * cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, bttrNbme, nbme, "setAttribute")}, where
+ * <code>bttrNbme</code> is {@link Attribute#getNbme()
+ * bttribute.getNbme()}.</p>
  *
  * <li><p>For the {@link #setAttributes setAttributes} method, the
- * caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, name, "setAttribute")}.
- * Additionally, for each attribute <em>a</em> in the {@link
- * AttributeList}, if the caller's permissions do not imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, <em>a</em>, name, "setAttribute")}, the
- * MBean server will behave as if that attribute had not been in the
+ * cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, nbme, "setAttribute")}.
+ * Additionblly, for ebch bttribute <em>b</em> in the {@link
+ * AttributeList}, if the cbller's permissions do not imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, <em>b</em>, nbme, "setAttribute")}, the
+ * MBebn server will behbve bs if thbt bttribute hbd not been in the
  * supplied list.</p>
  *
- * <li><p>For the <code>addNotificationListener</code> methods,
- * the caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, name,
- * "addNotificationListener")}.</p>
+ * <li><p>For the <code>bddNotificbtionListener</code> methods,
+ * the cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, nbme,
+ * "bddNotificbtionListener")}.</p>
  *
- * <li><p>For the <code>removeNotificationListener</code> methods,
- * the caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, name,
- * "removeNotificationListener")}.</p>
+ * <li><p>For the <code>removeNotificbtionListener</code> methods,
+ * the cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, nbme,
+ * "removeNotificbtionListener")}.</p>
  *
- * <li><p>For the {@link #getMBeanInfo getMBeanInfo} method, the
- * caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, name, "getMBeanInfo")}.</p>
+ * <li><p>For the {@link #getMBebnInfo getMBebnInfo} method, the
+ * cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, nbme, "getMBebnInfo")}.</p>
  *
- * <li><p>For the {@link #getObjectInstance getObjectInstance} method,
- * the caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, name, "getObjectInstance")}.</p>
+ * <li><p>For the {@link #getObjectInstbnce getObjectInstbnce} method,
+ * the cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, nbme, "getObjectInstbnce")}.</p>
  *
- * <li><p>For the {@link #isInstanceOf isInstanceOf} method, the
- * caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, name, "isInstanceOf")}.</p>
+ * <li><p>For the {@link #isInstbnceOf isInstbnceOf} method, the
+ * cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, nbme, "isInstbnceOf")}.</p>
  *
- * <li><p>For the {@link #queryMBeans queryMBeans} method, the
- * caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(null, null, null, "queryMBeans")}.
- * Additionally, for each MBean <em>n</em> that matches <code>name</code>,
- * if the caller's permissions do not imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, <em>n</em>, "queryMBeans")}, the
- * MBean server will behave as if that MBean did not exist.</p>
+ * <li><p>For the {@link #queryMBebns queryMBebns} method, the
+ * cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(null, null, null, "queryMBebns")}.
+ * Additionblly, for ebch MBebn <em>n</em> thbt mbtches <code>nbme</code>,
+ * if the cbller's permissions do not imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, <em>n</em>, "queryMBebns")}, the
+ * MBebn server will behbve bs if thbt MBebn did not exist.</p>
  *
- * <p>Certain query elements perform operations on the MBean server.
- * If the caller does not have the required permissions for a given
- * MBean, that MBean will not be included in the result of the query.
- * The standard query elements that are affected are {@link
- * Query#attr(String)}, {@link Query#attr(String,String)}, and {@link
- * Query#classattr()}.</p>
+ * <p>Certbin query elements perform operbtions on the MBebn server.
+ * If the cbller does not hbve the required permissions for b given
+ * MBebn, thbt MBebn will not be included in the result of the query.
+ * The stbndbrd query elements thbt bre bffected bre {@link
+ * Query#bttr(String)}, {@link Query#bttr(String,String)}, bnd {@link
+ * Query#clbssbttr()}.</p>
  *
- * <li><p>For the {@link #queryNames queryNames} method, the checks
- * are the same as for <code>queryMBeans</code> except that
- * <code>"queryNames"</code> is used instead of
- * <code>"queryMBeans"</code> in the <code>MBeanPermission</code>
- * objects.  Note that a <code>"queryMBeans"</code> permission implies
- * the corresponding <code>"queryNames"</code> permission.</p>
+ * <li><p>For the {@link #queryNbmes queryNbmes} method, the checks
+ * bre the sbme bs for <code>queryMBebns</code> except thbt
+ * <code>"queryNbmes"</code> is used instebd of
+ * <code>"queryMBebns"</code> in the <code>MBebnPermission</code>
+ * objects.  Note thbt b <code>"queryMBebns"</code> permission implies
+ * the corresponding <code>"queryNbmes"</code> permission.</p>
  *
- * <li><p>For the {@link #getDomains getDomains} method, the caller's
+ * <li><p>For the {@link #getDombins getDombins} method, the cbller's
  * permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(null, null, null, "getDomains")}.  Additionally,
- * for each domain <var>d</var> in the returned array, if the caller's
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(null, null, null, "getDombins")}.  Additionblly,
+ * for ebch dombin <vbr>d</vbr> in the returned brrby, if the cbller's
  * permissions do not imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(null, null, new ObjectName("<var>d</var>:x=x"),
- * "getDomains")}, the domain is eliminated from the array.  Here,
- * <code>x=x</code> is any <var>key=value</var> pair, needed to
- * satisfy ObjectName's constructor but not otherwise relevant.</p>
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(null, null, new ObjectNbme("<vbr>d</vbr>:x=x"),
+ * "getDombins")}, the dombin is eliminbted from the brrby.  Here,
+ * <code>x=x</code> is bny <vbr>key=vblue</vbr> pbir, needed to
+ * sbtisfy ObjectNbme's constructor but not otherwise relevbnt.</p>
  *
- * <li><p>For the {@link #getClassLoader getClassLoader} method, the
- * caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, loaderName,
- * "getClassLoader")}.</p>
+ * <li><p>For the {@link #getClbssLobder getClbssLobder} method, the
+ * cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, lobderNbme,
+ * "getClbssLobder")}.</p>
  *
- * <li><p>For the {@link #getClassLoaderFor getClassLoaderFor} method,
- * the caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, mbeanName,
- * "getClassLoaderFor")}.</p>
+ * <li><p>For the {@link #getClbssLobderFor getClbssLobderFor} method,
+ * the cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, mbebnNbme,
+ * "getClbssLobderFor")}.</p>
  *
- * <li><p>For the {@link #getClassLoaderRepository
- * getClassLoaderRepository} method, the caller's permissions must
+ * <li><p>For the {@link #getClbssLobderRepository
+ * getClbssLobderRepository} method, the cbller's permissions must
  * imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(null, null, null, "getClassLoaderRepository")}.</p>
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(null, null, null, "getClbssLobderRepository")}.</p>
  *
- * <li><p>For the deprecated <code>deserialize</code> methods, the
- * required permissions are the same as for the methods that replace
+ * <li><p>For the deprecbted <code>deseriblize</code> methods, the
+ * required permissions bre the sbme bs for the methods thbt replbce
  * them.</p>
  *
- * <li><p>For the <code>instantiate</code> methods, the caller's
+ * <li><p>For the <code>instbntibte</code> methods, the cbller's
  * permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, null, "instantiate")},
- * where {@code className} is the name of the class which is to
- * be instantiated.</p>
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, null, "instbntibte")},
+ * where {@code clbssNbme} is the nbme of the clbss which is to
+ * be instbntibted.</p>
  *
- * <li><p>For the {@link #registerMBean registerMBean} method, the
- * caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, name, "registerMBean")}.
+ * <li><p>For the {@link #registerMBebn registerMBebn} method, the
+ * cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, nbme, "registerMBebn")}.
  *
- * <p>If the <code>MBeanPermission</code> check succeeds, the MBean's
- * class is validated by checking that its {@link
- * java.security.ProtectionDomain ProtectionDomain} implies {@link
- * MBeanTrustPermission#MBeanTrustPermission(String)
- * MBeanTrustPermission("register")}.</p>
+ * <p>If the <code>MBebnPermission</code> check succeeds, the MBebn's
+ * clbss is vblidbted by checking thbt its {@link
+ * jbvb.security.ProtectionDombin ProtectionDombin} implies {@link
+ * MBebnTrustPermission#MBebnTrustPermission(String)
+ * MBebnTrustPermission("register")}.</p>
  *
- * <p>Finally, if the <code>name</code> argument is null, another
- * <code>MBeanPermission</code> check is made using the
- * <code>ObjectName</code> returned by {@link
- * MBeanRegistration#preRegister MBeanRegistration.preRegister}.</p>
+ * <p>Finblly, if the <code>nbme</code> brgument is null, bnother
+ * <code>MBebnPermission</code> check is mbde using the
+ * <code>ObjectNbme</code> returned by {@link
+ * MBebnRegistrbtion#preRegister MBebnRegistrbtion.preRegister}.</p>
  *
- * <li><p>For the <code>createMBean</code> methods, the caller's
- * permissions must imply the permissions needed by the equivalent
- * <code>instantiate</code> followed by
- * <code>registerMBean</code>.</p>
+ * <li><p>For the <code>crebteMBebn</code> methods, the cbller's
+ * permissions must imply the permissions needed by the equivblent
+ * <code>instbntibte</code> followed by
+ * <code>registerMBebn</code>.</p>
  *
- * <li><p>For the {@link #unregisterMBean unregisterMBean} method,
- * the caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(className, null, name, "unregisterMBean")}.</p>
+ * <li><p>For the {@link #unregisterMBebn unregisterMBebn} method,
+ * the cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(clbssNbme, null, nbme, "unregisterMBebn")}.</p>
  *
  * </ul>
  *
@@ -253,543 +253,543 @@ import javax.management.loading.ClassLoaderRepository;
 /* DELETED:
  *
  * <li><p>For the {@link #isRegistered isRegistered} method, the
- * caller's permissions must imply {@link
- * MBeanPermission#MBeanPermission(String,String,ObjectName,String)
- * MBeanPermission(null, null, name, "isRegistered")}.</p>
+ * cbller's permissions must imply {@link
+ * MBebnPermission#MBebnPermission(String,String,ObjectNbme,String)
+ * MBebnPermission(null, null, nbme, "isRegistered")}.</p>
  */
-public interface MBeanServer extends MBeanServerConnection {
+public interfbce MBebnServer extends MBebnServerConnection {
 
     /**
      * {@inheritDoc}
-     * <p>If this method successfully creates an MBean, a notification
-     * is sent as described <a href="#notif">above</a>.</p>
+     * <p>If this method successfully crebtes bn MBebn, b notificbtion
+     * is sent bs described <b href="#notif">bbove</b>.</p>
      *
-     * @throws RuntimeOperationsException {@inheritDoc}
-     * @throws RuntimeMBeanException {@inheritDoc}
+     * @throws RuntimeOperbtionsException {@inheritDoc}
+     * @throws RuntimeMBebnException {@inheritDoc}
      * @throws RuntimeErrorException {@inheritDoc}
      */
-    public ObjectInstance createMBean(String className, ObjectName name)
-            throws ReflectionException, InstanceAlreadyExistsException,
-                   MBeanRegistrationException, MBeanException,
-                   NotCompliantMBeanException;
+    public ObjectInstbnce crebteMBebn(String clbssNbme, ObjectNbme nbme)
+            throws ReflectionException, InstbnceAlrebdyExistsException,
+                   MBebnRegistrbtionException, MBebnException,
+                   NotComplibntMBebnException;
 
     /**
      * {@inheritDoc}
-     * <p>If this method successfully creates an MBean, a notification
-     * is sent as described <a href="#notif">above</a>.</p>
+     * <p>If this method successfully crebtes bn MBebn, b notificbtion
+     * is sent bs described <b href="#notif">bbove</b>.</p>
      *
-     * @throws RuntimeOperationsException {@inheritDoc}
-     * @throws RuntimeMBeanException {@inheritDoc}
+     * @throws RuntimeOperbtionsException {@inheritDoc}
+     * @throws RuntimeMBebnException {@inheritDoc}
      * @throws RuntimeErrorException {@inheritDoc}
      */
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      ObjectName loaderName)
-            throws ReflectionException, InstanceAlreadyExistsException,
-                   MBeanRegistrationException, MBeanException,
-                   NotCompliantMBeanException, InstanceNotFoundException;
+    public ObjectInstbnce crebteMBebn(String clbssNbme, ObjectNbme nbme,
+                                      ObjectNbme lobderNbme)
+            throws ReflectionException, InstbnceAlrebdyExistsException,
+                   MBebnRegistrbtionException, MBebnException,
+                   NotComplibntMBebnException, InstbnceNotFoundException;
 
     /**
      * {@inheritDoc}
-     * <p>If this method successfully creates an MBean, a notification
-     * is sent as described <a href="#notif">above</a>.</p>
+     * <p>If this method successfully crebtes bn MBebn, b notificbtion
+     * is sent bs described <b href="#notif">bbove</b>.</p>
      *
-     * @throws RuntimeOperationsException {@inheritDoc}
-     * @throws RuntimeMBeanException {@inheritDoc}
+     * @throws RuntimeOperbtionsException {@inheritDoc}
+     * @throws RuntimeMBebnException {@inheritDoc}
      * @throws RuntimeErrorException {@inheritDoc}
      */
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      Object params[], String signature[])
-            throws ReflectionException, InstanceAlreadyExistsException,
-                   MBeanRegistrationException, MBeanException,
-                   NotCompliantMBeanException;
+    public ObjectInstbnce crebteMBebn(String clbssNbme, ObjectNbme nbme,
+                                      Object pbrbms[], String signbture[])
+            throws ReflectionException, InstbnceAlrebdyExistsException,
+                   MBebnRegistrbtionException, MBebnException,
+                   NotComplibntMBebnException;
 
     /**
      * {@inheritDoc}
-     * <p>If this method successfully creates an MBean, a notification
-     * is sent as described <a href="#notif">above</a>.</p>
+     * <p>If this method successfully crebtes bn MBebn, b notificbtion
+     * is sent bs described <b href="#notif">bbove</b>.</p>
      *
-     * @throws RuntimeOperationsException {@inheritDoc}
-     * @throws RuntimeMBeanException {@inheritDoc}
+     * @throws RuntimeOperbtionsException {@inheritDoc}
+     * @throws RuntimeMBebnException {@inheritDoc}
      * @throws RuntimeErrorException {@inheritDoc}
      */
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      ObjectName loaderName, Object params[],
-                                      String signature[])
-            throws ReflectionException, InstanceAlreadyExistsException,
-                   MBeanRegistrationException, MBeanException,
-                   NotCompliantMBeanException, InstanceNotFoundException;
+    public ObjectInstbnce crebteMBebn(String clbssNbme, ObjectNbme nbme,
+                                      ObjectNbme lobderNbme, Object pbrbms[],
+                                      String signbture[])
+            throws ReflectionException, InstbnceAlrebdyExistsException,
+                   MBebnRegistrbtionException, MBebnException,
+                   NotComplibntMBebnException, InstbnceNotFoundException;
 
     /**
-     * <p>Registers a pre-existing object as an MBean with the MBean
-     * server. If the object name given is null, the MBean must
-     * provide its own name by implementing the {@link
-     * javax.management.MBeanRegistration MBeanRegistration} interface
-     * and returning the name from the {@link
-     * MBeanRegistration#preRegister preRegister} method.
+     * <p>Registers b pre-existing object bs bn MBebn with the MBebn
+     * server. If the object nbme given is null, the MBebn must
+     * provide its own nbme by implementing the {@link
+     * jbvbx.mbnbgement.MBebnRegistrbtion MBebnRegistrbtion} interfbce
+     * bnd returning the nbme from the {@link
+     * MBebnRegistrbtion#preRegister preRegister} method.
      *
-     * <p>If this method successfully registers an MBean, a notification
-     * is sent as described <a href="#notif">above</a>.</p>
+     * <p>If this method successfully registers bn MBebn, b notificbtion
+     * is sent bs described <b href="#notif">bbove</b>.</p>
      *
-     * @param object The  MBean to be registered as an MBean.
-     * @param name The object name of the MBean. May be null.
+     * @pbrbm object The  MBebn to be registered bs bn MBebn.
+     * @pbrbm nbme The object nbme of the MBebn. Mby be null.
      *
-     * @return An <CODE>ObjectInstance</CODE>, containing the
-     * <CODE>ObjectName</CODE> and the Java class name of the newly
-     * registered MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @return An <CODE>ObjectInstbnce</CODE>, contbining the
+     * <CODE>ObjectNbme</CODE> bnd the Jbvb clbss nbme of the newly
+     * registered MBebn.  If the contbined <code>ObjectNbme</code>
+     * is <code>n</code>, the contbined Jbvb clbss nbme is
+     * <code>{@link #getMBebnInfo getMBebnInfo(n)}.getClbssNbme()</code>.
      *
-     * @exception InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @exception MBeanRegistrationException The
-     * <CODE>preRegister</CODE> (<CODE>MBeanRegistration</CODE>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @exception RuntimeMBeanException If the <CODE>postRegister</CODE>
-     * (<CODE>MBeanRegistration</CODE> interface) method of the MBean throws a
-     * <CODE>RuntimeException</CODE>, the <CODE>registerMBean</CODE> method will
-     * throw a <CODE>RuntimeMBeanException</CODE>, although the MBean
-     * registration succeeded. In such a case, the MBean will be actually
-     * registered even though the <CODE>registerMBean</CODE> method
-     * threw an exception.  Note that <CODE>RuntimeMBeanException</CODE> can
-     * also be thrown by <CODE>preRegister</CODE>, in which case the MBean
+     * @exception InstbnceAlrebdyExistsException The MBebn is blrebdy
+     * under the control of the MBebn server.
+     * @exception MBebnRegistrbtionException The
+     * <CODE>preRegister</CODE> (<CODE>MBebnRegistrbtion</CODE>
+     * interfbce) method of the MBebn hbs thrown bn exception. The
+     * MBebn will not be registered.
+     * @exception RuntimeMBebnException If the <CODE>postRegister</CODE>
+     * (<CODE>MBebnRegistrbtion</CODE> interfbce) method of the MBebn throws b
+     * <CODE>RuntimeException</CODE>, the <CODE>registerMBebn</CODE> method will
+     * throw b <CODE>RuntimeMBebnException</CODE>, blthough the MBebn
+     * registrbtion succeeded. In such b cbse, the MBebn will be bctublly
+     * registered even though the <CODE>registerMBebn</CODE> method
+     * threw bn exception.  Note thbt <CODE>RuntimeMBebnException</CODE> cbn
+     * blso be thrown by <CODE>preRegister</CODE>, in which cbse the MBebn
      * will not be registered.
      * @exception RuntimeErrorException If the <CODE>postRegister</CODE>
-     * (<CODE>MBeanRegistration</CODE> interface) method of the MBean throws an
-     * <CODE>Error</CODE>, the <CODE>registerMBean</CODE> method will
-     * throw a <CODE>RuntimeErrorException</CODE>, although the MBean
-     * registration succeeded. In such a case, the MBean will be actually
-     * registered even though the <CODE>registerMBean</CODE> method
-     * threw an exception.  Note that <CODE>RuntimeErrorException</CODE> can
-     * also be thrown by <CODE>preRegister</CODE>, in which case the MBean
+     * (<CODE>MBebnRegistrbtion</CODE> interfbce) method of the MBebn throws bn
+     * <CODE>Error</CODE>, the <CODE>registerMBebn</CODE> method will
+     * throw b <CODE>RuntimeErrorException</CODE>, blthough the MBebn
+     * registrbtion succeeded. In such b cbse, the MBebn will be bctublly
+     * registered even though the <CODE>registerMBebn</CODE> method
+     * threw bn exception.  Note thbt <CODE>RuntimeErrorException</CODE> cbn
+     * blso be thrown by <CODE>preRegister</CODE>, in which cbse the MBebn
      * will not be registered.
-     * @exception NotCompliantMBeanException This object is not a JMX
-     * compliant MBean
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The object
-     * passed in parameter is null or no object name is specified.
-     * @see javax.management.MBeanRegistration
+     * @exception NotComplibntMBebnException This object is not b JMX
+     * complibnt MBebn
+     * @exception RuntimeOperbtionsException Wrbps b
+     * <CODE>jbvb.lbng.IllegblArgumentException</CODE>: The object
+     * pbssed in pbrbmeter is null or no object nbme is specified.
+     * @see jbvbx.mbnbgement.MBebnRegistrbtion
      */
-    public ObjectInstance registerMBean(Object object, ObjectName name)
-            throws InstanceAlreadyExistsException, MBeanRegistrationException,
-                   NotCompliantMBeanException;
+    public ObjectInstbnce registerMBebn(Object object, ObjectNbme nbme)
+            throws InstbnceAlrebdyExistsException, MBebnRegistrbtionException,
+                   NotComplibntMBebnException;
 
     /**
      * {@inheritDoc}
      *
-     * <p>If this method successfully unregisters an MBean, a notification
-     * is sent as described <a href="#notif">above</a>.</p>
+     * <p>If this method successfully unregisters bn MBebn, b notificbtion
+     * is sent bs described <b href="#notif">bbove</b>.</p>
      *
-     * @throws RuntimeOperationsException {@inheritDoc}
-     * @throws RuntimeMBeanException {@inheritDoc}
+     * @throws RuntimeOperbtionsException {@inheritDoc}
+     * @throws RuntimeMBebnException {@inheritDoc}
      * @throws RuntimeErrorException {@inheritDoc}
      */
-    public void unregisterMBean(ObjectName name)
-            throws InstanceNotFoundException, MBeanRegistrationException;
+    public void unregisterMBebn(ObjectNbme nbme)
+            throws InstbnceNotFoundException, MBebnRegistrbtionException;
 
-    // doc comment inherited from MBeanServerConnection
-    public ObjectInstance getObjectInstance(ObjectName name)
-            throws InstanceNotFoundException;
+    // doc comment inherited from MBebnServerConnection
+    public ObjectInstbnce getObjectInstbnce(ObjectNbme nbme)
+            throws InstbnceNotFoundException;
 
     /**
      * {@inheritDoc}
-      * @throws RuntimeOperationsException {@inheritDoc}
+      * @throws RuntimeOperbtionsException {@inheritDoc}
      */
-    public Set<ObjectInstance> queryMBeans(ObjectName name, QueryExp query);
+    public Set<ObjectInstbnce> queryMBebns(ObjectNbme nbme, QueryExp query);
 
     /**
      * {@inheritDoc}
-      * @throws RuntimeOperationsException {@inheritDoc}
+      * @throws RuntimeOperbtionsException {@inheritDoc}
     */
-    public Set<ObjectName> queryNames(ObjectName name, QueryExp query);
+    public Set<ObjectNbme> queryNbmes(ObjectNbme nbme, QueryExp query);
 
-    // doc comment inherited from MBeanServerConnection
+    // doc comment inherited from MBebnServerConnection
     /**
-     * @throws RuntimeOperationsException {@inheritDoc}
+     * @throws RuntimeOperbtionsException {@inheritDoc}
      */
-    public boolean isRegistered(ObjectName name);
+    public boolebn isRegistered(ObjectNbme nbme);
 
     /**
-     * Returns the number of MBeans registered in the MBean server.
+     * Returns the number of MBebns registered in the MBebn server.
      *
-     * @return the number of registered MBeans, wrapped in an Integer.
-     * If the caller's permissions are restricted, this number may
-     * be greater than the number of MBeans the caller can access.
+     * @return the number of registered MBebns, wrbpped in bn Integer.
+     * If the cbller's permissions bre restricted, this number mby
+     * be grebter thbn the number of MBebns the cbller cbn bccess.
      */
-    public Integer getMBeanCount();
+    public Integer getMBebnCount();
 
-    // doc comment inherited from MBeanServerConnection
+    // doc comment inherited from MBebnServerConnection
     /**
-     * @throws RuntimeOperationsException {@inheritDoc}
+     * @throws RuntimeOperbtionsException {@inheritDoc}
      */
-    public Object getAttribute(ObjectName name, String attribute)
-            throws MBeanException, AttributeNotFoundException,
-                   InstanceNotFoundException, ReflectionException;
+    public Object getAttribute(ObjectNbme nbme, String bttribute)
+            throws MBebnException, AttributeNotFoundException,
+                   InstbnceNotFoundException, ReflectionException;
 
-    // doc comment inherited from MBeanServerConnection
+    // doc comment inherited from MBebnServerConnection
     /**
-     * @throws RuntimeOperationsException {@inheritDoc}
+     * @throws RuntimeOperbtionsException {@inheritDoc}
      */
-    public AttributeList getAttributes(ObjectName name, String[] attributes)
-            throws InstanceNotFoundException, ReflectionException;
+    public AttributeList getAttributes(ObjectNbme nbme, String[] bttributes)
+            throws InstbnceNotFoundException, ReflectionException;
 
-    // doc comment inherited from MBeanServerConnection
+    // doc comment inherited from MBebnServerConnection
     /**
-     * @throws RuntimeOperationsException {@inheritDoc}
+     * @throws RuntimeOperbtionsException {@inheritDoc}
      */
-    public void setAttribute(ObjectName name, Attribute attribute)
-            throws InstanceNotFoundException, AttributeNotFoundException,
-                   InvalidAttributeValueException, MBeanException,
+    public void setAttribute(ObjectNbme nbme, Attribute bttribute)
+            throws InstbnceNotFoundException, AttributeNotFoundException,
+                   InvblidAttributeVblueException, MBebnException,
                    ReflectionException;
 
-    // doc comment inherited from MBeanServerConnection
+    // doc comment inherited from MBebnServerConnection
     /**
-     * @throws RuntimeOperationsException {@inheritDoc}
+     * @throws RuntimeOperbtionsException {@inheritDoc}
      */
-    public AttributeList setAttributes(ObjectName name,
-                                       AttributeList attributes)
-        throws InstanceNotFoundException, ReflectionException;
+    public AttributeList setAttributes(ObjectNbme nbme,
+                                       AttributeList bttributes)
+        throws InstbnceNotFoundException, ReflectionException;
 
-    // doc comment inherited from MBeanServerConnection
-    public Object invoke(ObjectName name, String operationName,
-                         Object params[], String signature[])
-            throws InstanceNotFoundException, MBeanException,
+    // doc comment inherited from MBebnServerConnection
+    public Object invoke(ObjectNbme nbme, String operbtionNbme,
+                         Object pbrbms[], String signbture[])
+            throws InstbnceNotFoundException, MBebnException,
                    ReflectionException;
 
-    // doc comment inherited from MBeanServerConnection
-    public String getDefaultDomain();
+    // doc comment inherited from MBebnServerConnection
+    public String getDefbultDombin();
 
-    // doc comment inherited from MBeanServerConnection
-    public String[] getDomains();
+    // doc comment inherited from MBebnServerConnection
+    public String[] getDombins();
 
-    // doc comment inherited from MBeanServerConnection, plus:
+    // doc comment inherited from MBebnServerConnection, plus:
     /**
      * {@inheritDoc}
-     * If the source of the notification
-     * is a reference to an MBean object, the MBean server will replace it
-     * by that MBean's ObjectName.  Otherwise the source is unchanged.
+     * If the source of the notificbtion
+     * is b reference to bn MBebn object, the MBebn server will replbce it
+     * by thbt MBebn's ObjectNbme.  Otherwise the source is unchbnged.
      */
-    public void addNotificationListener(ObjectName name,
-                                        NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-            throws InstanceNotFoundException;
+    public void bddNotificbtionListener(ObjectNbme nbme,
+                                        NotificbtionListener listener,
+                                        NotificbtionFilter filter,
+                                        Object hbndbbck)
+            throws InstbnceNotFoundException;
 
     /**
      * {@inheritDoc}
-     * @throws RuntimeOperationsException {@inheritDoc}
+     * @throws RuntimeOperbtionsException {@inheritDoc}
      */
-    public void addNotificationListener(ObjectName name,
-                                        ObjectName listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-            throws InstanceNotFoundException;
+    public void bddNotificbtionListener(ObjectNbme nbme,
+                                        ObjectNbme listener,
+                                        NotificbtionFilter filter,
+                                        Object hbndbbck)
+            throws InstbnceNotFoundException;
 
-    // doc comment inherited from MBeanServerConnection
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener)
-        throws InstanceNotFoundException, ListenerNotFoundException;
+    // doc comment inherited from MBebnServerConnection
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           ObjectNbme listener)
+        throws InstbnceNotFoundException, ListenerNotFoundException;
 
-    // doc comment inherited from MBeanServerConnection
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener,
-                                           NotificationFilter filter,
-                                           Object handback)
-            throws InstanceNotFoundException, ListenerNotFoundException;
+    // doc comment inherited from MBebnServerConnection
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           ObjectNbme listener,
+                                           NotificbtionFilter filter,
+                                           Object hbndbbck)
+            throws InstbnceNotFoundException, ListenerNotFoundException;
 
-    // doc comment inherited from MBeanServerConnection
-    public void removeNotificationListener(ObjectName name,
-                                           NotificationListener listener)
-            throws InstanceNotFoundException, ListenerNotFoundException;
+    // doc comment inherited from MBebnServerConnection
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           NotificbtionListener listener)
+            throws InstbnceNotFoundException, ListenerNotFoundException;
 
-    // doc comment inherited from MBeanServerConnection
-    public void removeNotificationListener(ObjectName name,
-                                           NotificationListener listener,
-                                           NotificationFilter filter,
-                                           Object handback)
-            throws InstanceNotFoundException, ListenerNotFoundException;
+    // doc comment inherited from MBebnServerConnection
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           NotificbtionListener listener,
+                                           NotificbtionFilter filter,
+                                           Object hbndbbck)
+            throws InstbnceNotFoundException, ListenerNotFoundException;
 
-    // doc comment inherited from MBeanServerConnection
-    public MBeanInfo getMBeanInfo(ObjectName name)
-            throws InstanceNotFoundException, IntrospectionException,
+    // doc comment inherited from MBebnServerConnection
+    public MBebnInfo getMBebnInfo(ObjectNbme nbme)
+            throws InstbnceNotFoundException, IntrospectionException,
                    ReflectionException;
 
 
-    // doc comment inherited from MBeanServerConnection
-    public boolean isInstanceOf(ObjectName name, String className)
-            throws InstanceNotFoundException;
+    // doc comment inherited from MBebnServerConnection
+    public boolebn isInstbnceOf(ObjectNbme nbme, String clbssNbme)
+            throws InstbnceNotFoundException;
 
     /**
-     * <p>Instantiates an object using the list of all class loaders
-     * registered in the MBean server's {@link
-     * javax.management.loading.ClassLoaderRepository Class Loader
-     * Repository}.  The object's class should have a public
-     * constructor.  This method returns a reference to the newly
-     * created object.  The newly created object is not registered in
-     * the MBean server.</p>
+     * <p>Instbntibtes bn object using the list of bll clbss lobders
+     * registered in the MBebn server's {@link
+     * jbvbx.mbnbgement.lobding.ClbssLobderRepository Clbss Lobder
+     * Repository}.  The object's clbss should hbve b public
+     * constructor.  This method returns b reference to the newly
+     * crebted object.  The newly crebted object is not registered in
+     * the MBebn server.</p>
      *
-     * <p>This method is equivalent to {@link
-     * #instantiate(String,Object[],String[])
-     * instantiate(className, (Object[]) null, (String[]) null)}.</p>
+     * <p>This method is equivblent to {@link
+     * #instbntibte(String,Object[],String[])
+     * instbntibte(clbssNbme, (Object[]) null, (String[]) null)}.</p>
      *
-     * @param className The class name of the object to be instantiated.
+     * @pbrbm clbssNbme The clbss nbme of the object to be instbntibted.
      *
-     * @return The newly instantiated object.
+     * @return The newly instbntibted object.
      *
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.ClassNotFoundException</CODE> or the
-     * <CODE>java.lang.Exception</CODE> that occurred when trying to
+     * @exception ReflectionException Wrbps b
+     * <CODE>jbvb.lbng.ClbssNotFoundException</CODE> or the
+     * <CODE>jbvb.lbng.Exception</CODE> thbt occurred when trying to
      * invoke the object's constructor.
-     * @exception MBeanException The constructor of the object has
-     * thrown an exception
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The className
-     * passed in parameter is null.
+     * @exception MBebnException The constructor of the object hbs
+     * thrown bn exception
+     * @exception RuntimeOperbtionsException Wrbps b
+     * <CODE>jbvb.lbng.IllegblArgumentException</CODE>: The clbssNbme
+     * pbssed in pbrbmeter is null.
      */
-    public Object instantiate(String className)
-            throws ReflectionException, MBeanException;
+    public Object instbntibte(String clbssNbme)
+            throws ReflectionException, MBebnException;
 
 
     /**
-     * <p>Instantiates an object using the class Loader specified by its
-     * <CODE>ObjectName</CODE>.  If the loader name is null, the
-     * ClassLoader that loaded the MBean Server will be used.  The
-     * object's class should have a public constructor.  This method
-     * returns a reference to the newly created object.  The newly
-     * created object is not registered in the MBean server.</p>
+     * <p>Instbntibtes bn object using the clbss Lobder specified by its
+     * <CODE>ObjectNbme</CODE>.  If the lobder nbme is null, the
+     * ClbssLobder thbt lobded the MBebn Server will be used.  The
+     * object's clbss should hbve b public constructor.  This method
+     * returns b reference to the newly crebted object.  The newly
+     * crebted object is not registered in the MBebn server.</p>
      *
-     * <p>This method is equivalent to {@link
-     * #instantiate(String,ObjectName,Object[],String[])
-     * instantiate(className, loaderName, (Object[]) null, (String[])
+     * <p>This method is equivblent to {@link
+     * #instbntibte(String,ObjectNbme,Object[],String[])
+     * instbntibte(clbssNbme, lobderNbme, (Object[]) null, (String[])
      * null)}.</p>
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param loaderName The object name of the class loader to be used.
+     * @pbrbm clbssNbme The clbss nbme of the MBebn to be instbntibted.
+     * @pbrbm lobderNbme The object nbme of the clbss lobder to be used.
      *
-     * @return The newly instantiated object.
+     * @return The newly instbntibted object.
      *
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.ClassNotFoundException</CODE> or the
-     * <CODE>java.lang.Exception</CODE> that occurred when trying to
+     * @exception ReflectionException Wrbps b
+     * <CODE>jbvb.lbng.ClbssNotFoundException</CODE> or the
+     * <CODE>jbvb.lbng.Exception</CODE> thbt occurred when trying to
      * invoke the object's constructor.
-     * @exception MBeanException The constructor of the object has
-     * thrown an exception.
-     * @exception InstanceNotFoundException The specified class loader
-     * is not registered in the MBeanServer.
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The className
-     * passed in parameter is null.
+     * @exception MBebnException The constructor of the object hbs
+     * thrown bn exception.
+     * @exception InstbnceNotFoundException The specified clbss lobder
+     * is not registered in the MBebnServer.
+     * @exception RuntimeOperbtionsException Wrbps b
+     * <CODE>jbvb.lbng.IllegblArgumentException</CODE>: The clbssNbme
+     * pbssed in pbrbmeter is null.
      */
-    public Object instantiate(String className, ObjectName loaderName)
-            throws ReflectionException, MBeanException,
-                   InstanceNotFoundException;
+    public Object instbntibte(String clbssNbme, ObjectNbme lobderNbme)
+            throws ReflectionException, MBebnException,
+                   InstbnceNotFoundException;
 
     /**
-     * <p>Instantiates an object using the list of all class loaders
-     * registered in the MBean server {@link
-     * javax.management.loading.ClassLoaderRepository Class Loader
-     * Repository}.  The object's class should have a public
-     * constructor.  The call returns a reference to the newly created
-     * object.  The newly created object is not registered in the
-     * MBean server.</p>
+     * <p>Instbntibtes bn object using the list of bll clbss lobders
+     * registered in the MBebn server {@link
+     * jbvbx.mbnbgement.lobding.ClbssLobderRepository Clbss Lobder
+     * Repository}.  The object's clbss should hbve b public
+     * constructor.  The cbll returns b reference to the newly crebted
+     * object.  The newly crebted object is not registered in the
+     * MBebn server.</p>
      *
-     * @param className The class name of the object to be instantiated.
-     * @param params An array containing the parameters of the
+     * @pbrbm clbssNbme The clbss nbme of the object to be instbntibted.
+     * @pbrbm pbrbms An brrby contbining the pbrbmeters of the
      * constructor to be invoked.
-     * @param signature An array containing the signature of the
+     * @pbrbm signbture An brrby contbining the signbture of the
      * constructor to be invoked.
      *
-     * @return The newly instantiated object.
+     * @return The newly instbntibted object.
      *
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.ClassNotFoundException</CODE> or the
-     * <CODE>java.lang.Exception</CODE> that occurred when trying to
+     * @exception ReflectionException Wrbps b
+     * <CODE>jbvb.lbng.ClbssNotFoundException</CODE> or the
+     * <CODE>jbvb.lbng.Exception</CODE> thbt occurred when trying to
      * invoke the object's constructor.
-     * @exception MBeanException The constructor of the object has
-     * thrown an exception
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The className
-     * passed in parameter is null.
+     * @exception MBebnException The constructor of the object hbs
+     * thrown bn exception
+     * @exception RuntimeOperbtionsException Wrbps b
+     * <CODE>jbvb.lbng.IllegblArgumentException</CODE>: The clbssNbme
+     * pbssed in pbrbmeter is null.
      */
-    public Object instantiate(String className, Object params[],
-                              String signature[])
-            throws ReflectionException, MBeanException;
+    public Object instbntibte(String clbssNbme, Object pbrbms[],
+                              String signbture[])
+            throws ReflectionException, MBebnException;
 
     /**
-     * <p>Instantiates an object. The class loader to be used is
-     * identified by its object name. If the object name of the loader
-     * is null, the ClassLoader that loaded the MBean server will be
-     * used.  The object's class should have a public constructor.
-     * The call returns a reference to the newly created object.  The
-     * newly created object is not registered in the MBean server.</p>
+     * <p>Instbntibtes bn object. The clbss lobder to be used is
+     * identified by its object nbme. If the object nbme of the lobder
+     * is null, the ClbssLobder thbt lobded the MBebn server will be
+     * used.  The object's clbss should hbve b public constructor.
+     * The cbll returns b reference to the newly crebted object.  The
+     * newly crebted object is not registered in the MBebn server.</p>
      *
-     * @param className The class name of the object to be instantiated.
-     * @param params An array containing the parameters of the
+     * @pbrbm clbssNbme The clbss nbme of the object to be instbntibted.
+     * @pbrbm pbrbms An brrby contbining the pbrbmeters of the
      * constructor to be invoked.
-     * @param signature An array containing the signature of the
+     * @pbrbm signbture An brrby contbining the signbture of the
      * constructor to be invoked.
-     * @param loaderName The object name of the class loader to be used.
+     * @pbrbm lobderNbme The object nbme of the clbss lobder to be used.
      *
-     * @return The newly instantiated object.
+     * @return The newly instbntibted object.
      *
-     * @exception ReflectionException Wraps a <CODE>java.lang.ClassNotFoundException</CODE> or the <CODE>java.lang.Exception</CODE> that
+     * @exception ReflectionException Wrbps b <CODE>jbvb.lbng.ClbssNotFoundException</CODE> or the <CODE>jbvb.lbng.Exception</CODE> thbt
      * occurred when trying to invoke the object's constructor.
-     * @exception MBeanException The constructor of the object has
-     * thrown an exception
-     * @exception InstanceNotFoundException The specified class loader
-     * is not registered in the MBean server.
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The className
-     * passed in parameter is null.
+     * @exception MBebnException The constructor of the object hbs
+     * thrown bn exception
+     * @exception InstbnceNotFoundException The specified clbss lobder
+     * is not registered in the MBebn server.
+     * @exception RuntimeOperbtionsException Wrbps b
+     * <CODE>jbvb.lbng.IllegblArgumentException</CODE>: The clbssNbme
+     * pbssed in pbrbmeter is null.
      */
-    public Object instantiate(String className, ObjectName loaderName,
-                              Object params[], String signature[])
-            throws ReflectionException, MBeanException,
-                   InstanceNotFoundException;
+    public Object instbntibte(String clbssNbme, ObjectNbme lobderNbme,
+                              Object pbrbms[], String signbture[])
+            throws ReflectionException, MBebnException,
+                   InstbnceNotFoundException;
 
     /**
-     * <p>De-serializes a byte array in the context of the class loader
-     * of an MBean.</p>
+     * <p>De-seriblizes b byte brrby in the context of the clbss lobder
+     * of bn MBebn.</p>
      *
-     * @param name The name of the MBean whose class loader should be
-     * used for the de-serialization.
-     * @param data The byte array to be de-sererialized.
+     * @pbrbm nbme The nbme of the MBebn whose clbss lobder should be
+     * used for the de-seriblizbtion.
+     * @pbrbm dbtb The byte brrby to be de-sereriblized.
      *
-     * @return The de-serialized object stream.
+     * @return The de-seriblized object strebm.
      *
-     * @exception InstanceNotFoundException The MBean specified is not
+     * @exception InstbnceNotFoundException The MBebn specified is not
      * found.
-     * @exception OperationsException Any of the usual Input/Output
-     * related exceptions.
+     * @exception OperbtionsException Any of the usubl Input/Output
+     * relbted exceptions.
      *
-     * @deprecated Use {@link #getClassLoaderFor getClassLoaderFor} to
-     * obtain the appropriate class loader for deserialization.
+     * @deprecbted Use {@link #getClbssLobderFor getClbssLobderFor} to
+     * obtbin the bppropribte clbss lobder for deseriblizbtion.
      */
-    @Deprecated
-    public ObjectInputStream deserialize(ObjectName name, byte[] data)
-            throws InstanceNotFoundException, OperationsException;
+    @Deprecbted
+    public ObjectInputStrebm deseriblize(ObjectNbme nbme, byte[] dbtb)
+            throws InstbnceNotFoundException, OperbtionsException;
 
 
     /**
-     * <p>De-serializes a byte array in the context of a given MBean
-     * class loader.  The class loader is found by loading the class
-     * <code>className</code> through the {@link
-     * javax.management.loading.ClassLoaderRepository Class Loader
-     * Repository}.  The resultant class's class loader is the one to
+     * <p>De-seriblizes b byte brrby in the context of b given MBebn
+     * clbss lobder.  The clbss lobder is found by lobding the clbss
+     * <code>clbssNbme</code> through the {@link
+     * jbvbx.mbnbgement.lobding.ClbssLobderRepository Clbss Lobder
+     * Repository}.  The resultbnt clbss's clbss lobder is the one to
      * use.
      *
-     * @param className The name of the class whose class loader should be
-     * used for the de-serialization.
-     * @param data The byte array to be de-sererialized.
+     * @pbrbm clbssNbme The nbme of the clbss whose clbss lobder should be
+     * used for the de-seriblizbtion.
+     * @pbrbm dbtb The byte brrby to be de-sereriblized.
      *
-     * @return  The de-serialized object stream.
+     * @return  The de-seriblized object strebm.
      *
-     * @exception OperationsException Any of the usual Input/Output
-     * related exceptions.
-     * @exception ReflectionException The specified class could not be
-     * loaded by the class loader repository
+     * @exception OperbtionsException Any of the usubl Input/Output
+     * relbted exceptions.
+     * @exception ReflectionException The specified clbss could not be
+     * lobded by the clbss lobder repository
      *
-     * @deprecated Use {@link #getClassLoaderRepository} to obtain the
-     * class loader repository and use it to deserialize.
+     * @deprecbted Use {@link #getClbssLobderRepository} to obtbin the
+     * clbss lobder repository bnd use it to deseriblize.
      */
-    @Deprecated
-    public ObjectInputStream deserialize(String className, byte[] data)
-            throws OperationsException, ReflectionException;
+    @Deprecbted
+    public ObjectInputStrebm deseriblize(String clbssNbme, byte[] dbtb)
+            throws OperbtionsException, ReflectionException;
 
 
     /**
-     * <p>De-serializes a byte array in the context of a given MBean
-     * class loader.  The class loader is the one that loaded the
-     * class with name "className".  The name of the class loader to
-     * be used for loading the specified class is specified.  If null,
-     * the MBean Server's class loader will be used.</p>
+     * <p>De-seriblizes b byte brrby in the context of b given MBebn
+     * clbss lobder.  The clbss lobder is the one thbt lobded the
+     * clbss with nbme "clbssNbme".  The nbme of the clbss lobder to
+     * be used for lobding the specified clbss is specified.  If null,
+     * the MBebn Server's clbss lobder will be used.</p>
      *
-     * @param className The name of the class whose class loader should be
-     * used for the de-serialization.
-     * @param data The byte array to be de-sererialized.
-     * @param loaderName The name of the class loader to be used for
-     * loading the specified class.  If null, the MBean Server's class
-     * loader will be used.
+     * @pbrbm clbssNbme The nbme of the clbss whose clbss lobder should be
+     * used for the de-seriblizbtion.
+     * @pbrbm dbtb The byte brrby to be de-sereriblized.
+     * @pbrbm lobderNbme The nbme of the clbss lobder to be used for
+     * lobding the specified clbss.  If null, the MBebn Server's clbss
+     * lobder will be used.
      *
-     * @return  The de-serialized object stream.
+     * @return  The de-seriblized object strebm.
      *
-     * @exception InstanceNotFoundException The specified class loader
-     * MBean is not found.
-     * @exception OperationsException Any of the usual Input/Output
-     * related exceptions.
-     * @exception ReflectionException The specified class could not be
-     * loaded by the specified class loader.
+     * @exception InstbnceNotFoundException The specified clbss lobder
+     * MBebn is not found.
+     * @exception OperbtionsException Any of the usubl Input/Output
+     * relbted exceptions.
+     * @exception ReflectionException The specified clbss could not be
+     * lobded by the specified clbss lobder.
      *
-     * @deprecated Use {@link #getClassLoader getClassLoader} to obtain
-     * the class loader for deserialization.
+     * @deprecbted Use {@link #getClbssLobder getClbssLobder} to obtbin
+     * the clbss lobder for deseriblizbtion.
      */
-    @Deprecated
-    public ObjectInputStream deserialize(String className,
-                                         ObjectName loaderName,
-                                         byte[] data)
-            throws InstanceNotFoundException, OperationsException,
+    @Deprecbted
+    public ObjectInputStrebm deseriblize(String clbssNbme,
+                                         ObjectNbme lobderNbme,
+                                         byte[] dbtb)
+            throws InstbnceNotFoundException, OperbtionsException,
                    ReflectionException;
 
     /**
-     * <p>Return the {@link java.lang.ClassLoader} that was used for
-     * loading the class of the named MBean.</p>
+     * <p>Return the {@link jbvb.lbng.ClbssLobder} thbt wbs used for
+     * lobding the clbss of the nbmed MBebn.</p>
      *
-     * @param mbeanName The ObjectName of the MBean.
+     * @pbrbm mbebnNbme The ObjectNbme of the MBebn.
      *
-     * @return The ClassLoader used for that MBean.  If <var>l</var>
-     * is the MBean's actual ClassLoader, and <var>r</var> is the
-     * returned value, then either:
+     * @return The ClbssLobder used for thbt MBebn.  If <vbr>l</vbr>
+     * is the MBebn's bctubl ClbssLobder, bnd <vbr>r</vbr> is the
+     * returned vblue, then either:
      *
      * <ul>
-     * <li><var>r</var> is identical to <var>l</var>; or
-     * <li>the result of <var>r</var>{@link
-     * ClassLoader#loadClass(String) .loadClass(<var>s</var>)} is the
-     * same as <var>l</var>{@link ClassLoader#loadClass(String)
-     * .loadClass(<var>s</var>)} for any string <var>s</var>.
+     * <li><vbr>r</vbr> is identicbl to <vbr>l</vbr>; or
+     * <li>the result of <vbr>r</vbr>{@link
+     * ClbssLobder#lobdClbss(String) .lobdClbss(<vbr>s</vbr>)} is the
+     * sbme bs <vbr>l</vbr>{@link ClbssLobder#lobdClbss(String)
+     * .lobdClbss(<vbr>s</vbr>)} for bny string <vbr>s</vbr>.
      * </ul>
      *
-     * What this means is that the ClassLoader may be wrapped in
-     * another ClassLoader for security or other reasons.
+     * Whbt this mebns is thbt the ClbssLobder mby be wrbpped in
+     * bnother ClbssLobder for security or other rebsons.
      *
-     * @exception InstanceNotFoundException if the named MBean is not found.
+     * @exception InstbnceNotFoundException if the nbmed MBebn is not found.
      *
      */
-    public ClassLoader getClassLoaderFor(ObjectName mbeanName)
-        throws InstanceNotFoundException;
+    public ClbssLobder getClbssLobderFor(ObjectNbme mbebnNbme)
+        throws InstbnceNotFoundException;
 
     /**
-     * <p>Return the named {@link java.lang.ClassLoader}.</p>
+     * <p>Return the nbmed {@link jbvb.lbng.ClbssLobder}.</p>
      *
-     * @param loaderName The ObjectName of the ClassLoader.  May be
-     * null, in which case the MBean server's own ClassLoader is
+     * @pbrbm lobderNbme The ObjectNbme of the ClbssLobder.  Mby be
+     * null, in which cbse the MBebn server's own ClbssLobder is
      * returned.
      *
-     * @return The named ClassLoader.  If <var>l</var> is the actual
-     * ClassLoader with that name, and <var>r</var> is the returned
-     * value, then either:
+     * @return The nbmed ClbssLobder.  If <vbr>l</vbr> is the bctubl
+     * ClbssLobder with thbt nbme, bnd <vbr>r</vbr> is the returned
+     * vblue, then either:
      *
      * <ul>
-     * <li><var>r</var> is identical to <var>l</var>; or
-     * <li>the result of <var>r</var>{@link
-     * ClassLoader#loadClass(String) .loadClass(<var>s</var>)} is the
-     * same as <var>l</var>{@link ClassLoader#loadClass(String)
-     * .loadClass(<var>s</var>)} for any string <var>s</var>.
+     * <li><vbr>r</vbr> is identicbl to <vbr>l</vbr>; or
+     * <li>the result of <vbr>r</vbr>{@link
+     * ClbssLobder#lobdClbss(String) .lobdClbss(<vbr>s</vbr>)} is the
+     * sbme bs <vbr>l</vbr>{@link ClbssLobder#lobdClbss(String)
+     * .lobdClbss(<vbr>s</vbr>)} for bny string <vbr>s</vbr>.
      * </ul>
      *
-     * What this means is that the ClassLoader may be wrapped in
-     * another ClassLoader for security or other reasons.
+     * Whbt this mebns is thbt the ClbssLobder mby be wrbpped in
+     * bnother ClbssLobder for security or other rebsons.
      *
-     * @exception InstanceNotFoundException if the named ClassLoader is
+     * @exception InstbnceNotFoundException if the nbmed ClbssLobder is
      *    not found.
      *
      */
-    public ClassLoader getClassLoader(ObjectName loaderName)
-        throws InstanceNotFoundException;
+    public ClbssLobder getClbssLobder(ObjectNbme lobderNbme)
+        throws InstbnceNotFoundException;
 
     /**
-     * <p>Return the ClassLoaderRepository for this MBeanServer.
-     * @return The ClassLoaderRepository for this MBeanServer.
+     * <p>Return the ClbssLobderRepository for this MBebnServer.
+     * @return The ClbssLobderRepository for this MBebnServer.
      *
      */
-    public ClassLoaderRepository getClassLoaderRepository();
+    public ClbssLobderRepository getClbssLobderRepository();
 }

@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.remote.internal;
+pbckbge com.sun.jmx.remote.internbl;
 
-import java.io.IOException;
-import java.io.NotSerializableException;
+import jbvb.io.IOException;
+import jbvb.io.NotSeriblizbbleException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Executor;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.concurrent.Executor;
 
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import javax.security.auth.Subject;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvbx.security.buth.Subject;
 
-import javax.management.Notification;
-import javax.management.NotificationListener;
-import javax.management.NotificationFilter;
-import javax.management.ObjectName;
-import javax.management.MBeanServerNotification;
-import javax.management.InstanceNotFoundException;
-import javax.management.ListenerNotFoundException;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.MBebnServerNotificbtion;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.ListenerNotFoundException;
 
-import javax.management.remote.NotificationResult;
-import javax.management.remote.TargetedNotification;
+import jbvbx.mbnbgement.remote.NotificbtionResult;
+import jbvbx.mbnbgement.remote.TbrgetedNotificbtion;
 
-import com.sun.jmx.remote.util.ClassLogger;
+import com.sun.jmx.remote.util.ClbssLogger;
 import com.sun.jmx.remote.util.EnvHelp;
-import java.rmi.UnmarshalException;
+import jbvb.rmi.UnmbrshblException;
 
 
-public abstract class ClientNotifForwarder {
+public bbstrbct clbss ClientNotifForwbrder {
 
-    private final AccessControlContext acc;
+    privbte finbl AccessControlContext bcc;
 
-    public ClientNotifForwarder(Map<String, ?> env) {
+    public ClientNotifForwbrder(Mbp<String, ?> env) {
         this(null, env);
     }
 
-    private static int threadId;
+    privbte stbtic int threbdId;
 
-    /* An Executor that allows at most one executing and one pending
-       Runnable.  It uses at most one thread -- as soon as there is
-       no pending Runnable the thread can exit.  Another thread is
-       created as soon as there is a new pending Runnable.  This
-       Executor is adapted for use in a situation where each Runnable
-       usually schedules up another Runnable.  On return from the
-       first one, the second one is immediately executed.  So this
-       just becomes a complicated way to write a while loop, but with
-       the advantage that you can replace it with another Executor,
-       for instance one that you are using to execute a bunch of other
-       unrelated work.
+    /* An Executor thbt bllows bt most one executing bnd one pending
+       Runnbble.  It uses bt most one threbd -- bs soon bs there is
+       no pending Runnbble the threbd cbn exit.  Another threbd is
+       crebted bs soon bs there is b new pending Runnbble.  This
+       Executor is bdbpted for use in b situbtion where ebch Runnbble
+       usublly schedules up bnother Runnbble.  On return from the
+       first one, the second one is immedibtely executed.  So this
+       just becomes b complicbted wby to write b while loop, but with
+       the bdvbntbge thbt you cbn replbce it with bnother Executor,
+       for instbnce one thbt you bre using to execute b bunch of other
+       unrelbted work.
 
-       You might expect that a java.util.concurrent.ThreadPoolExecutor
-       with corePoolSize=0 and maximumPoolSize=1 would have the same
-       behavior, but it does not.  A ThreadPoolExecutor only creates
-       a new thread when a new task is submitted and the number of
-       existing threads is < corePoolSize.  This can never happen when
-       corePoolSize=0, so new threads are never created.  Surprising,
-       but there you are.
+       You might expect thbt b jbvb.util.concurrent.ThrebdPoolExecutor
+       with corePoolSize=0 bnd mbximumPoolSize=1 would hbve the sbme
+       behbvior, but it does not.  A ThrebdPoolExecutor only crebtes
+       b new threbd when b new tbsk is submitted bnd the number of
+       existing threbds is < corePoolSize.  This cbn never hbppen when
+       corePoolSize=0, so new threbds bre never crebted.  Surprising,
+       but there you bre.
     */
-    private static class LinearExecutor implements Executor {
-        public synchronized void execute(Runnable command) {
-            if (this.command != null)
-                throw new IllegalArgumentException("More than one command");
-            this.command = command;
-            if (thread == null) {
-                thread = new Thread() {
+    privbte stbtic clbss LinebrExecutor implements Executor {
+        public synchronized void execute(Runnbble commbnd) {
+            if (this.commbnd != null)
+                throw new IllegblArgumentException("More thbn one commbnd");
+            this.commbnd = commbnd;
+            if (threbd == null) {
+                threbd = new Threbd() {
 
                     @Override
                     public void run() {
                         while (true) {
-                            Runnable r;
-                            synchronized (LinearExecutor.this) {
-                                if (LinearExecutor.this.command == null) {
-                                    thread = null;
+                            Runnbble r;
+                            synchronized (LinebrExecutor.this) {
+                                if (LinebrExecutor.this.commbnd == null) {
+                                    threbd = null;
                                     return;
                                 } else {
-                                    r = LinearExecutor.this.command;
-                                    LinearExecutor.this.command = null;
+                                    r = LinebrExecutor.this.commbnd;
+                                    LinebrExecutor.this.commbnd = null;
                                 }
                             }
                             r.run();
                         }
                     }
                 };
-                thread.setDaemon(true);
-                thread.setName("ClientNotifForwarder-" + ++threadId);
-                thread.start();
+                threbd.setDbemon(true);
+                threbd.setNbme("ClientNotifForwbrder-" + ++threbdId);
+                threbd.stbrt();
             }
         }
 
-        private Runnable command;
-        private Thread thread;
+        privbte Runnbble commbnd;
+        privbte Threbd threbd;
     }
 
-    public ClientNotifForwarder(ClassLoader defaultClassLoader, Map<String, ?> env) {
-        maxNotifications = EnvHelp.getMaxFetchNotifNumber(env);
+    public ClientNotifForwbrder(ClbssLobder defbultClbssLobder, Mbp<String, ?> env) {
+        mbxNotificbtions = EnvHelp.getMbxFetchNotifNumber(env);
         timeout = EnvHelp.getFetchTimeout(env);
 
-        /* You can supply an Executor in which the remote call to
-           fetchNotifications will be made.  The Executor's execute
-           method reschedules another task, so you must not use
-           an Executor that executes tasks in the caller's thread.  */
+        /* You cbn supply bn Executor in which the remote cbll to
+           fetchNotificbtions will be mbde.  The Executor's execute
+           method reschedules bnother tbsk, so you must not use
+           bn Executor thbt executes tbsks in the cbller's threbd.  */
         Executor ex = (Executor)
-            env.get("jmx.remote.x.fetch.notifications.executor");
+            env.get("jmx.remote.x.fetch.notificbtions.executor");
         if (ex == null)
-            ex = new LinearExecutor();
-        else if (logger.traceOn())
-            logger.trace("ClientNotifForwarder", "executor is " + ex);
+            ex = new LinebrExecutor();
+        else if (logger.trbceOn())
+            logger.trbce("ClientNotifForwbrder", "executor is " + ex);
 
-        this.defaultClassLoader = defaultClassLoader;
+        this.defbultClbssLobder = defbultClbssLobder;
         this.executor = ex;
-        this.acc = AccessController.getContext();
+        this.bcc = AccessController.getContext();
     }
 
     /**
-     * Called to to fetch notifications from a server.
+     * Cblled to to fetch notificbtions from b server.
      */
-    abstract protected NotificationResult fetchNotifs(long clientSequenceNumber,
-                                                      int maxNotifications,
+    bbstrbct protected NotificbtionResult fetchNotifs(long clientSequenceNumber,
+                                                      int mbxNotificbtions,
                                                       long timeout)
-            throws IOException, ClassNotFoundException;
+            throws IOException, ClbssNotFoundException;
 
-    abstract protected Integer addListenerForMBeanRemovedNotif()
-        throws IOException, InstanceNotFoundException;
+    bbstrbct protected Integer bddListenerForMBebnRemovedNotif()
+        throws IOException, InstbnceNotFoundException;
 
-    abstract protected void removeListenerForMBeanRemovedNotif(Integer id)
-        throws IOException, InstanceNotFoundException,
+    bbstrbct protected void removeListenerForMBebnRemovedNotif(Integer id)
+        throws IOException, InstbnceNotFoundException,
                ListenerNotFoundException;
 
     /**
-     * Used to send out a notification about lost notifs
+     * Used to send out b notificbtion bbout lost notifs
      */
-    abstract protected void lostNotifs(String message, long number);
+    bbstrbct protected void lostNotifs(String messbge, long number);
 
 
-    public synchronized void addNotificationListener(Integer listenerID,
-                                        ObjectName name,
-                                        NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback,
-                                        Subject delegationSubject)
-            throws IOException, InstanceNotFoundException {
+    public synchronized void bddNotificbtionListener(Integer listenerID,
+                                        ObjectNbme nbme,
+                                        NotificbtionListener listener,
+                                        NotificbtionFilter filter,
+                                        Object hbndbbck,
+                                        Subject delegbtionSubject)
+            throws IOException, InstbnceNotFoundException {
 
-        if (logger.traceOn()) {
-            logger.trace("addNotificationListener",
-                         "Add the listener "+listener+" at "+name);
+        if (logger.trbceOn()) {
+            logger.trbce("bddNotificbtionListener",
+                         "Add the listener "+listener+" bt "+nbme);
         }
 
         infoList.put(listenerID,
                      new ClientListenerInfo(listenerID,
-                                            name,
+                                            nbme,
                                             listener,
                                             filter,
-                                            handback,
-                                            delegationSubject));
+                                            hbndbbck,
+                                            delegbtionSubject));
 
 
-        init(false);
+        init(fblse);
     }
 
     public synchronized Integer[]
-        removeNotificationListener(ObjectName name,
-                                   NotificationListener listener)
+        removeNotificbtionListener(ObjectNbme nbme,
+                                   NotificbtionListener listener)
         throws ListenerNotFoundException, IOException {
 
         beforeRemove();
 
-        if (logger.traceOn()) {
-            logger.trace("removeNotificationListener",
-                         "Remove the listener "+listener+" from "+name);
+        if (logger.trbceOn()) {
+            logger.trbce("removeNotificbtionListener",
+                         "Remove the listener "+listener+" from "+nbme);
         }
 
-        List<Integer> ids = new ArrayList<Integer>();
-        List<ClientListenerInfo> values =
-                new ArrayList<ClientListenerInfo>(infoList.values());
-        for (int i=values.size()-1; i>=0; i--) {
-            ClientListenerInfo li = values.get(i);
+        List<Integer> ids = new ArrbyList<Integer>();
+        List<ClientListenerInfo> vblues =
+                new ArrbyList<ClientListenerInfo>(infoList.vblues());
+        for (int i=vblues.size()-1; i>=0; i--) {
+            ClientListenerInfo li = vblues.get(i);
 
-            if (li.sameAs(name, listener)) {
-                ids.add(li.getListenerID());
+            if (li.sbmeAs(nbme, listener)) {
+                ids.bdd(li.getListenerID());
 
                 infoList.remove(li.getListenerID());
             }
@@ -213,35 +213,35 @@ public abstract class ClientNotifForwarder {
         if (ids.isEmpty())
             throw new ListenerNotFoundException("Listener not found");
 
-        return ids.toArray(new Integer[0]);
+        return ids.toArrby(new Integer[0]);
     }
 
     public synchronized Integer
-        removeNotificationListener(ObjectName name,
-                                   NotificationListener listener,
-                                   NotificationFilter filter,
-                                   Object handback)
+        removeNotificbtionListener(ObjectNbme nbme,
+                                   NotificbtionListener listener,
+                                   NotificbtionFilter filter,
+                                   Object hbndbbck)
             throws ListenerNotFoundException, IOException {
 
-        if (logger.traceOn()) {
-            logger.trace("removeNotificationListener",
-                         "Remove the listener "+listener+" from "+name);
+        if (logger.trbceOn()) {
+            logger.trbce("removeNotificbtionListener",
+                         "Remove the listener "+listener+" from "+nbme);
         }
 
         beforeRemove();
 
         Integer id = null;
 
-        List<ClientListenerInfo> values =
-                new ArrayList<ClientListenerInfo>(infoList.values());
-        for (int i=values.size()-1; i>=0; i--) {
-            ClientListenerInfo li = values.get(i);
-            if (li.sameAs(name, listener, filter, handback)) {
+        List<ClientListenerInfo> vblues =
+                new ArrbyList<ClientListenerInfo>(infoList.vblues());
+        for (int i=vblues.size()-1; i>=0; i--) {
+            ClientListenerInfo li = vblues.get(i);
+            if (li.sbmeAs(nbme, listener, filter, hbndbbck)) {
                 id=li.getListenerID();
 
                 infoList.remove(id);
 
-                break;
+                brebk;
             }
         }
 
@@ -251,189 +251,189 @@ public abstract class ClientNotifForwarder {
         return id;
     }
 
-    public synchronized Integer[] removeNotificationListener(ObjectName name) {
-        if (logger.traceOn()) {
-            logger.trace("removeNotificationListener",
-                         "Remove all listeners registered at "+name);
+    public synchronized Integer[] removeNotificbtionListener(ObjectNbme nbme) {
+        if (logger.trbceOn()) {
+            logger.trbce("removeNotificbtionListener",
+                         "Remove bll listeners registered bt "+nbme);
         }
 
-        List<Integer> ids = new ArrayList<Integer>();
+        List<Integer> ids = new ArrbyList<Integer>();
 
-        List<ClientListenerInfo> values =
-                new ArrayList<ClientListenerInfo>(infoList.values());
-        for (int i=values.size()-1; i>=0; i--) {
-            ClientListenerInfo li = values.get(i);
-            if (li.sameAs(name)) {
-                ids.add(li.getListenerID());
+        List<ClientListenerInfo> vblues =
+                new ArrbyList<ClientListenerInfo>(infoList.vblues());
+        for (int i=vblues.size()-1; i>=0; i--) {
+            ClientListenerInfo li = vblues.get(i);
+            if (li.sbmeAs(nbme)) {
+                ids.bdd(li.getListenerID());
 
                 infoList.remove(li.getListenerID());
             }
         }
 
-        return ids.toArray(new Integer[0]);
+        return ids.toArrby(new Integer[0]);
     }
 
     /*
-     * Called when a connector is doing reconnection. Like <code>postReconnection</code>,
-     * this method is intended to be called only by a client connector:
-     * <code>RMIConnector</code> and <code>ClientIntermediary</code>.
-     * Call this method will set the flag beingReconnection to <code>true</code>,
-     * and the thread used to fetch notifis will be stopped, a new thread can be
-     * created only after the method <code>postReconnection</code> is called.
+     * Cblled when b connector is doing reconnection. Like <code>postReconnection</code>,
+     * this method is intended to be cblled only by b client connector:
+     * <code>RMIConnector</code> bnd <code>ClientIntermedibry</code>.
+     * Cbll this method will set the flbg beingReconnection to <code>true</code>,
+     * bnd the threbd used to fetch notifis will be stopped, b new threbd cbn be
+     * crebted only bfter the method <code>postReconnection</code> is cblled.
      *
-     * It is caller's responsiblity to not re-call this method before calling
+     * It is cbller's responsiblity to not re-cbll this method before cblling
      * <code>postReconnection</code>.
      */
     public synchronized ClientListenerInfo[] preReconnection() throws IOException {
-        if (state == TERMINATED || beingReconnected) { // should never
-            throw new IOException("Illegal state.");
+        if (stbte == TERMINATED || beingReconnected) { // should never
+            throw new IOException("Illegbl stbte.");
         }
 
-        final ClientListenerInfo[] tmp =
-            infoList.values().toArray(new ClientListenerInfo[0]);
+        finbl ClientListenerInfo[] tmp =
+            infoList.vblues().toArrby(new ClientListenerInfo[0]);
 
 
         beingReconnected = true;
 
-        infoList.clear();
+        infoList.clebr();
 
         return tmp;
     }
 
     /**
-     * Called after reconnection is finished.
-     * This method is intended to be called only by a client connector:
-     * <code>RMIConnector</code> and <code>ClientIntermediary</code>.
+     * Cblled bfter reconnection is finished.
+     * This method is intended to be cblled only by b client connector:
+     * <code>RMIConnector</code> bnd <code>ClientIntermedibry</code>.
      */
     public synchronized void postReconnection(ClientListenerInfo[] listenerInfos)
         throws IOException {
 
-        if (state == TERMINATED) {
+        if (stbte == TERMINATED) {
             return;
         }
 
-        while (state == STOPPING) {
+        while (stbte == STOPPING) {
             try {
-                wait();
-            } catch (InterruptedException ire) {
+                wbit();
+            } cbtch (InterruptedException ire) {
                 IOException ioe = new IOException(ire.toString());
-                EnvHelp.initCause(ioe, ire);
+                EnvHelp.initCbuse(ioe, ire);
                 throw ioe;
             }
         }
 
-        final boolean trace = logger.traceOn();
-        final int len   = listenerInfos.length;
+        finbl boolebn trbce = logger.trbceOn();
+        finbl int len   = listenerInfos.length;
 
         for (int i=0; i<len; i++) {
-            if (trace) {
-                logger.trace("addNotificationListeners",
-                             "Add a listener at "+
+            if (trbce) {
+                logger.trbce("bddNotificbtionListeners",
+                             "Add b listener bt "+
                              listenerInfos[i].getListenerID());
             }
 
             infoList.put(listenerInfos[i].getListenerID(), listenerInfos[i]);
         }
 
-        beingReconnected = false;
+        beingReconnected = fblse;
         notifyAll();
 
-        if (currentFetchThread == Thread.currentThread() ||
-              state == STARTING || state == STARTED) { // doing or waiting reconnection
-              // only update mbeanRemovedNotifID
+        if (currentFetchThrebd == Threbd.currentThrebd() ||
+              stbte == STARTING || stbte == STARTED) { // doing or wbiting reconnection
+              // only updbte mbebnRemovedNotifID
             try {
-                mbeanRemovedNotifID = addListenerForMBeanRemovedNotif();
-            } catch (Exception e) {
-                final String msg =
-                    "Failed to register a listener to the mbean " +
-                    "server: the client will not do clean when an MBean " +
+                mbebnRemovedNotifID = bddListenerForMBebnRemovedNotif();
+            } cbtch (Exception e) {
+                finbl String msg =
+                    "Fbiled to register b listener to the mbebn " +
+                    "server: the client will not do clebn when bn MBebn " +
                     "is unregistered";
-                if (logger.traceOn()) {
-                    logger.trace("init", msg, e);
+                if (logger.trbceOn()) {
+                    logger.trbce("init", msg, e);
                 }
             }
         } else {
-              while (state == STOPPING) {
+              while (stbte == STOPPING) {
                   try {
-                      wait();
-                  } catch (InterruptedException ire) {
+                      wbit();
+                  } cbtch (InterruptedException ire) {
                       IOException ioe = new IOException(ire.toString());
-                      EnvHelp.initCause(ioe, ire);
+                      EnvHelp.initCbuse(ioe, ire);
                       throw ioe;
                   }
               }
 
-              if (listenerInfos.length > 0) { // old listeners are re-added
-                  init(true); // not update clientSequenceNumber
-              } else if (infoList.size() > 0) { // only new listeners added during reconnection
-                  init(false); // need update clientSequenceNumber
+              if (listenerInfos.length > 0) { // old listeners bre re-bdded
+                  init(true); // not updbte clientSequenceNumber
+              } else if (infoList.size() > 0) { // only new listeners bdded during reconnection
+                  init(fblse); // need updbte clientSequenceNumber
               }
           }
     }
 
-    public synchronized void terminate() {
-        if (state == TERMINATED) {
+    public synchronized void terminbte() {
+        if (stbte == TERMINATED) {
             return;
         }
 
-        if (logger.traceOn()) {
-            logger.trace("terminate", "Terminating...");
+        if (logger.trbceOn()) {
+            logger.trbce("terminbte", "Terminbting...");
         }
 
-        if (state == STARTED) {
-           infoList.clear();
+        if (stbte == STARTED) {
+           infoList.clebr();
         }
 
-        setState(TERMINATED);
+        setStbte(TERMINATED);
     }
 
 
     // -------------------------------------------------
-    // private classes
+    // privbte clbsses
     // -------------------------------------------------
     //
 
-    private class NotifFetcher implements Runnable {
+    privbte clbss NotifFetcher implements Runnbble {
 
-        private volatile boolean alreadyLogged = false;
+        privbte volbtile boolebn blrebdyLogged = fblse;
 
-        private void logOnce(String msg, SecurityException x) {
-            if (alreadyLogged) return;
+        privbte void logOnce(String msg, SecurityException x) {
+            if (blrebdyLogged) return;
             // Log only once.
-            logger.config("setContextClassLoader",msg);
-            if (x != null) logger.fine("setContextClassLoader", x);
-            alreadyLogged = true;
+            logger.config("setContextClbssLobder",msg);
+            if (x != null) logger.fine("setContextClbssLobder", x);
+            blrebdyLogged = true;
         }
 
-        // Set new context class loader, returns previous one.
-        private final ClassLoader setContextClassLoader(final ClassLoader loader) {
-            final AccessControlContext ctxt = ClientNotifForwarder.this.acc;
-            // if ctxt is null, log a config message and throw a
+        // Set new context clbss lobder, returns previous one.
+        privbte finbl ClbssLobder setContextClbssLobder(finbl ClbssLobder lobder) {
+            finbl AccessControlContext ctxt = ClientNotifForwbrder.this.bcc;
+            // if ctxt is null, log b config messbge bnd throw b
             // SecurityException.
             if (ctxt == null) {
                 logOnce("AccessControlContext must not be null.",null);
                 throw new SecurityException("AccessControlContext must not be null");
             }
             return AccessController.doPrivileged(
-                new PrivilegedAction<ClassLoader>() {
-                    public ClassLoader run() {
+                new PrivilegedAction<ClbssLobder>() {
+                    public ClbssLobder run() {
                         try {
-                            // get context class loader - may throw
+                            // get context clbss lobder - mby throw
                             // SecurityException - though unlikely.
-                            final ClassLoader previous =
-                                Thread.currentThread().getContextClassLoader();
+                            finbl ClbssLobder previous =
+                                Threbd.currentThrebd().getContextClbssLobder();
 
-                            // if nothing needs to be done, break here...
-                            if (loader == previous) return previous;
+                            // if nothing needs to be done, brebk here...
+                            if (lobder == previous) return previous;
 
-                            // reset context class loader - may throw
+                            // reset context clbss lobder - mby throw
                             // SecurityException
-                            Thread.currentThread().setContextClassLoader(loader);
+                            Threbd.currentThrebd().setContextClbssLobder(lobder);
                             return previous;
-                        } catch (SecurityException x) {
-                            logOnce("Permission to set ContextClassLoader missing. " +
-                                    "Notifications will not be dispatched. " +
-                                    "Please check your Java policy configuration: " +
+                        } cbtch (SecurityException x) {
+                            logOnce("Permission to set ContextClbssLobder missing. " +
+                                    "Notificbtions will not be dispbtched. " +
+                                    "Plebse check your Jbvb policy configurbtion: " +
                                     x, x);
                             throw x;
                         }
@@ -442,112 +442,112 @@ public abstract class ClientNotifForwarder {
         }
 
         public void run() {
-            final ClassLoader previous;
-            if (defaultClassLoader != null) {
-                previous = setContextClassLoader(defaultClassLoader);
+            finbl ClbssLobder previous;
+            if (defbultClbssLobder != null) {
+                previous = setContextClbssLobder(defbultClbssLobder);
             } else {
                 previous = null;
             }
             try {
                 doRun();
-            } finally {
-                if (defaultClassLoader != null) {
-                    setContextClassLoader(previous);
+            } finblly {
+                if (defbultClbssLobder != null) {
+                    setContextClbssLobder(previous);
                 }
             }
         }
 
-        private void doRun() {
-            synchronized (ClientNotifForwarder.this) {
-                currentFetchThread = Thread.currentThread();
+        privbte void doRun() {
+            synchronized (ClientNotifForwbrder.this) {
+                currentFetchThrebd = Threbd.currentThrebd();
 
-                if (state == STARTING) {
-                    setState(STARTED);
+                if (stbte == STARTING) {
+                    setStbte(STARTED);
                 }
             }
 
 
-            NotificationResult nr = null;
+            NotificbtionResult nr = null;
             if (!shouldStop() && (nr = fetchNotifs()) != null) {
-                // nr == null means got exception
+                // nr == null mebns got exception
 
-                final TargetedNotification[] notifs =
-                    nr.getTargetedNotifications();
-                final int len = notifs.length;
-                final Map<Integer, ClientListenerInfo> listeners;
-                final Integer myListenerID;
+                finbl TbrgetedNotificbtion[] notifs =
+                    nr.getTbrgetedNotificbtions();
+                finbl int len = notifs.length;
+                finbl Mbp<Integer, ClientListenerInfo> listeners;
+                finbl Integer myListenerID;
 
                 long missed = 0;
 
-                synchronized(ClientNotifForwarder.this) {
+                synchronized(ClientNotifForwbrder.this) {
                     // check sequence number.
                     //
                     if (clientSequenceNumber >= 0) {
-                        missed = nr.getEarliestSequenceNumber() -
+                        missed = nr.getEbrliestSequenceNumber() -
                             clientSequenceNumber;
                     }
 
                     clientSequenceNumber = nr.getNextSequenceNumber();
 
-                    listeners = new HashMap<Integer, ClientListenerInfo>();
+                    listeners = new HbshMbp<Integer, ClientListenerInfo>();
 
                     for (int i = 0 ; i < len ; i++) {
-                        final TargetedNotification tn = notifs[i];
-                        final Integer listenerID = tn.getListenerID();
+                        finbl TbrgetedNotificbtion tn = notifs[i];
+                        finbl Integer listenerID = tn.getListenerID();
 
-                        // check if an mbean unregistration notif
-                        if (!listenerID.equals(mbeanRemovedNotifID)) {
-                            final ClientListenerInfo li = infoList.get(listenerID);
+                        // check if bn mbebn unregistrbtion notif
+                        if (!listenerID.equbls(mbebnRemovedNotifID)) {
+                            finbl ClientListenerInfo li = infoList.get(listenerID);
                             if (li != null) {
                                 listeners.put(listenerID, li);
                             }
                             continue;
                         }
-                        final Notification notif = tn.getNotification();
-                        final String unreg =
-                            MBeanServerNotification.UNREGISTRATION_NOTIFICATION;
-                        if (notif instanceof MBeanServerNotification &&
-                            notif.getType().equals(unreg)) {
+                        finbl Notificbtion notif = tn.getNotificbtion();
+                        finbl String unreg =
+                            MBebnServerNotificbtion.UNREGISTRATION_NOTIFICATION;
+                        if (notif instbnceof MBebnServerNotificbtion &&
+                            notif.getType().equbls(unreg)) {
 
-                            MBeanServerNotification mbsn =
-                                (MBeanServerNotification) notif;
-                            ObjectName name = mbsn.getMBeanName();
+                            MBebnServerNotificbtion mbsn =
+                                (MBebnServerNotificbtion) notif;
+                            ObjectNbme nbme = mbsn.getMBebnNbme();
 
-                            removeNotificationListener(name);
+                            removeNotificbtionListener(nbme);
                         }
                     }
-                    myListenerID = mbeanRemovedNotifID;
+                    myListenerID = mbebnRemovedNotifID;
                 }
 
                 if (missed > 0) {
-                    final String msg =
-                        "May have lost up to " + missed +
-                        " notification" + (missed == 1 ? "" : "s");
+                    finbl String msg =
+                        "Mby hbve lost up to " + missed +
+                        " notificbtion" + (missed == 1 ? "" : "s");
                     lostNotifs(msg, missed);
-                    logger.trace("NotifFetcher.run", msg);
+                    logger.trbce("NotifFetcher.run", msg);
                 }
 
-                // forward
+                // forwbrd
                 for (int i = 0 ; i < len ; i++) {
-                    final TargetedNotification tn = notifs[i];
-                    dispatchNotification(tn,myListenerID,listeners);
+                    finbl TbrgetedNotificbtion tn = notifs[i];
+                    dispbtchNotificbtion(tn,myListenerID,listeners);
                 }
             }
 
-            synchronized (ClientNotifForwarder.this) {
-                currentFetchThread = null;
+            synchronized (ClientNotifForwbrder.this) {
+                currentFetchThrebd = null;
             }
 
             if (nr == null || shouldStop()) {
-                // tell that the thread is REALLY stopped
-                setState(STOPPED);
+                // tell thbt the threbd is REALLY stopped
+                setStbte(STOPPED);
 
                 try {
-                      removeListenerForMBeanRemovedNotif(mbeanRemovedNotifID);
-                } catch (Exception e) {
-                    if (logger.traceOn()) {
-                        logger.trace("NotifFetcher-run",
-                                "removeListenerForMBeanRemovedNotif", e);
+                      removeListenerForMBebnRemovedNotif(mbebnRemovedNotifID);
+                } cbtch (Exception e) {
+                    if (logger.trbceOn()) {
+                        logger.trbce("NotifFetcher-run",
+                                "removeListenerForMBebnRemovedNotif", e);
                     }
                 }
             } else {
@@ -555,54 +555,54 @@ public abstract class ClientNotifForwarder {
             }
         }
 
-        void dispatchNotification(TargetedNotification tn,
+        void dispbtchNotificbtion(TbrgetedNotificbtion tn,
                                   Integer myListenerID,
-                                  Map<Integer, ClientListenerInfo> listeners) {
-            final Notification notif = tn.getNotification();
-            final Integer listenerID = tn.getListenerID();
+                                  Mbp<Integer, ClientListenerInfo> listeners) {
+            finbl Notificbtion notif = tn.getNotificbtion();
+            finbl Integer listenerID = tn.getListenerID();
 
-            if (listenerID.equals(myListenerID)) return;
-            final ClientListenerInfo li = listeners.get(listenerID);
+            if (listenerID.equbls(myListenerID)) return;
+            finbl ClientListenerInfo li = listeners.get(listenerID);
 
             if (li == null) {
-                logger.trace("NotifFetcher.dispatch",
-                             "Listener ID not in map");
+                logger.trbce("NotifFetcher.dispbtch",
+                             "Listener ID not in mbp");
                 return;
             }
 
-            NotificationListener l = li.getListener();
-            Object h = li.getHandback();
+            NotificbtionListener l = li.getListener();
+            Object h = li.getHbndbbck();
             try {
-                l.handleNotification(notif, h);
-            } catch (RuntimeException e) {
-                final String msg =
-                    "Failed to forward a notification " +
-                    "to a listener";
-                logger.trace("NotifFetcher-run", msg, e);
+                l.hbndleNotificbtion(notif, h);
+            } cbtch (RuntimeException e) {
+                finbl String msg =
+                    "Fbiled to forwbrd b notificbtion " +
+                    "to b listener";
+                logger.trbce("NotifFetcher-run", msg, e);
             }
 
         }
 
-        private NotificationResult fetchNotifs() {
+        privbte NotificbtionResult fetchNotifs() {
             try {
-                NotificationResult nr = ClientNotifForwarder.this.
-                    fetchNotifs(clientSequenceNumber,maxNotifications,
+                NotificbtionResult nr = ClientNotifForwbrder.this.
+                    fetchNotifs(clientSequenceNumber,mbxNotificbtions,
                                 timeout);
 
-                if (logger.traceOn()) {
-                    logger.trace("NotifFetcher-run",
-                                 "Got notifications from the server: "+nr);
+                if (logger.trbceOn()) {
+                    logger.trbce("NotifFetcher-run",
+                                 "Got notificbtions from the server: "+nr);
                 }
 
                 return nr;
-            } catch (ClassNotFoundException | NotSerializableException | UnmarshalException e) {
-                logger.trace("NotifFetcher.fetchNotifs", e);
+            } cbtch (ClbssNotFoundException | NotSeriblizbbleException | UnmbrshblException e) {
+                logger.trbce("NotifFetcher.fetchNotifs", e);
                 return fetchOneNotif();
-            } catch (IOException ioe) {
+            } cbtch (IOException ioe) {
                 if (!shouldStop()) {
                     logger.error("NotifFetcher-run",
-                                 "Failed to fetch notification, " +
-                                 "stopping thread. Error is: " + ioe, ioe);
+                                 "Fbiled to fetch notificbtion, " +
+                                 "stopping threbd. Error is: " + ioe, ioe);
                     logger.debug("NotifFetcher-run",ioe);
                 }
 
@@ -611,304 +611,304 @@ public abstract class ClientNotifForwarder {
             }
         }
 
-        /* Fetch one notification when we suspect that it might be a
-           notification that we can't deserialize (because of a
-           missing class).  First we ask for 0 notifications with 0
-           timeout.  This allows us to skip sequence numbers for
-           notifications that don't match our filters.  Then we ask
-           for one notification.  If that produces a
-           ClassNotFoundException, NotSerializableException or
-           UnmarshalException, we increase our sequence number and ask again.
-           Eventually we will either get a successful notification, or a
-           return with 0 notifications.  In either case we can return a
-           NotificationResult.  This algorithm works (albeit less
-           well) even if the server implementation doesn't optimize a
-           request for 0 notifications to skip sequence numbers for
-           notifications that don't match our filters.
+        /* Fetch one notificbtion when we suspect thbt it might be b
+           notificbtion thbt we cbn't deseriblize (becbuse of b
+           missing clbss).  First we bsk for 0 notificbtions with 0
+           timeout.  This bllows us to skip sequence numbers for
+           notificbtions thbt don't mbtch our filters.  Then we bsk
+           for one notificbtion.  If thbt produces b
+           ClbssNotFoundException, NotSeriblizbbleException or
+           UnmbrshblException, we increbse our sequence number bnd bsk bgbin.
+           Eventublly we will either get b successful notificbtion, or b
+           return with 0 notificbtions.  In either cbse we cbn return b
+           NotificbtionResult.  This blgorithm works (blbeit less
+           well) even if the server implementbtion doesn't optimize b
+           request for 0 notificbtions to skip sequence numbers for
+           notificbtions thbt don't mbtch our filters.
 
-           If we had at least one
-           ClassNotFoundException/NotSerializableException/UnmarshalException,
-           then we must emit a JMXConnectionNotification.LOST_NOTIFS.
+           If we hbd bt lebst one
+           ClbssNotFoundException/NotSeriblizbbleException/UnmbrshblException,
+           then we must emit b JMXConnectionNotificbtion.LOST_NOTIFS.
         */
-        private NotificationResult fetchOneNotif() {
-            ClientNotifForwarder cnf = ClientNotifForwarder.this;
+        privbte NotificbtionResult fetchOneNotif() {
+            ClientNotifForwbrder cnf = ClientNotifForwbrder.this;
 
-            long startSequenceNumber = clientSequenceNumber;
+            long stbrtSequenceNumber = clientSequenceNumber;
 
             int notFoundCount = 0;
 
-            NotificationResult result = null;
-            long firstEarliest = -1;
+            NotificbtionResult result = null;
+            long firstEbrliest = -1;
 
             while (result == null && !shouldStop()) {
-                NotificationResult nr;
+                NotificbtionResult nr;
 
                 try {
-                    // 0 notifs to update startSequenceNumber
-                    nr = cnf.fetchNotifs(startSequenceNumber, 0, 0L);
-                } catch (ClassNotFoundException e) {
-                    logger.warning("NotifFetcher.fetchOneNotif",
+                    // 0 notifs to updbte stbrtSequenceNumber
+                    nr = cnf.fetchNotifs(stbrtSequenceNumber, 0, 0L);
+                } cbtch (ClbssNotFoundException e) {
+                    logger.wbrning("NotifFetcher.fetchOneNotif",
                                    "Impossible exception: " + e);
                     logger.debug("NotifFetcher.fetchOneNotif",e);
                     return null;
-                } catch (IOException e) {
+                } cbtch (IOException e) {
                     if (!shouldStop())
-                        logger.trace("NotifFetcher.fetchOneNotif", e);
+                        logger.trbce("NotifFetcher.fetchOneNotif", e);
                     return null;
                 }
 
                 if (shouldStop())
                     return null;
 
-                startSequenceNumber = nr.getNextSequenceNumber();
-                if (firstEarliest < 0)
-                    firstEarliest = nr.getEarliestSequenceNumber();
+                stbrtSequenceNumber = nr.getNextSequenceNumber();
+                if (firstEbrliest < 0)
+                    firstEbrliest = nr.getEbrliestSequenceNumber();
 
                 try {
-                    // 1 notif to skip possible missing class
-                    result = cnf.fetchNotifs(startSequenceNumber, 1, 0L);
-                } catch (ClassNotFoundException | NotSerializableException | UnmarshalException e) {
-                    logger.warning("NotifFetcher.fetchOneNotif",
-                                   "Failed to deserialize a notification: "+e.toString());
-                    if (logger.traceOn()) {
-                        logger.trace("NotifFetcher.fetchOneNotif",
-                                     "Failed to deserialize a notification.", e);
+                    // 1 notif to skip possible missing clbss
+                    result = cnf.fetchNotifs(stbrtSequenceNumber, 1, 0L);
+                } cbtch (ClbssNotFoundException | NotSeriblizbbleException | UnmbrshblException e) {
+                    logger.wbrning("NotifFetcher.fetchOneNotif",
+                                   "Fbiled to deseriblize b notificbtion: "+e.toString());
+                    if (logger.trbceOn()) {
+                        logger.trbce("NotifFetcher.fetchOneNotif",
+                                     "Fbiled to deseriblize b notificbtion.", e);
                     }
 
                     notFoundCount++;
-                    startSequenceNumber++;
-                } catch (Exception e) {
+                    stbrtSequenceNumber++;
+                } cbtch (Exception e) {
                     if (!shouldStop())
-                        logger.trace("NotifFetcher.fetchOneNotif", e);
+                        logger.trbce("NotifFetcher.fetchOneNotif", e);
                     return null;
                 }
             }
 
             if (notFoundCount > 0) {
-                final String msg =
-                    "Dropped " + notFoundCount + " notification" +
+                finbl String msg =
+                    "Dropped " + notFoundCount + " notificbtion" +
                     (notFoundCount == 1 ? "" : "s") +
-                    " because classes were missing locally or incompatible";
+                    " becbuse clbsses were missing locblly or incompbtible";
                 lostNotifs(msg, notFoundCount);
-                // Even if result.getEarliestSequenceNumber() is now greater than
-                // it was initially, meaning some notifs have been dropped
-                // from the buffer, we don't want the caller to see that
-                // because it is then likely to renotify about the lost notifs.
-                // So we put back the first value of earliestSequenceNumber
-                // that we saw.
+                // Even if result.getEbrliestSequenceNumber() is now grebter thbn
+                // it wbs initiblly, mebning some notifs hbve been dropped
+                // from the buffer, we don't wbnt the cbller to see thbt
+                // becbuse it is then likely to renotify bbout the lost notifs.
+                // So we put bbck the first vblue of ebrliestSequenceNumber
+                // thbt we sbw.
                 if (result != null) {
-                    result = new NotificationResult(
-                            firstEarliest, result.getNextSequenceNumber(),
-                            result.getTargetedNotifications());
+                    result = new NotificbtionResult(
+                            firstEbrliest, result.getNextSequenceNumber(),
+                            result.getTbrgetedNotificbtions());
                 }
             }
 
             return result;
         }
 
-        private boolean shouldStop() {
-            synchronized (ClientNotifForwarder.this) {
-                if (state != STARTED) {
+        privbte boolebn shouldStop() {
+            synchronized (ClientNotifForwbrder.this) {
+                if (stbte != STARTED) {
                     return true;
                 } else if (infoList.size() == 0) {
                     // no more listener, stop fetching
-                    setState(STOPPING);
+                    setStbte(STOPPING);
 
                     return true;
                 }
 
-                return false;
+                return fblse;
             }
         }
     }
 
 
 // -------------------------------------------------
-// private methods
+// privbte methods
 // -------------------------------------------------
-    private synchronized void setState(int newState) {
-        if (state == TERMINATED) {
+    privbte synchronized void setStbte(int newStbte) {
+        if (stbte == TERMINATED) {
             return;
         }
 
-        state = newState;
+        stbte = newStbte;
         this.notifyAll();
     }
 
     /*
-     * Called to decide whether need to start a thread for fetching notifs.
-     * <P>The parameter reconnected will decide whether to initilize the clientSequenceNumber,
-     * initilaizing the clientSequenceNumber means to ignore all notifications arrived before.
-     * If it is reconnected, we will not initialize in order to get all notifications arrived
-     * during the reconnection. It may cause the newly registered listeners to receive some
-     * notifications arrived before its registray.
+     * Cblled to decide whether need to stbrt b threbd for fetching notifs.
+     * <P>The pbrbmeter reconnected will decide whether to initilize the clientSequenceNumber,
+     * initilbizing the clientSequenceNumber mebns to ignore bll notificbtions brrived before.
+     * If it is reconnected, we will not initiblize in order to get bll notificbtions brrived
+     * during the reconnection. It mby cbuse the newly registered listeners to receive some
+     * notificbtions brrived before its registrby.
      */
-    private synchronized void init(boolean reconnected) throws IOException {
-        switch (state) {
-        case STARTED:
+    privbte synchronized void init(boolebn reconnected) throws IOException {
+        switch (stbte) {
+        cbse STARTED:
             return;
-        case STARTING:
+        cbse STARTING:
             return;
-        case TERMINATED:
-            throw new IOException("The ClientNotifForwarder has been terminated.");
-        case STOPPING:
+        cbse TERMINATED:
+            throw new IOException("The ClientNotifForwbrder hbs been terminbted.");
+        cbse STOPPING:
             if (beingReconnected == true) {
-                // wait for another thread to do, which is doing reconnection
+                // wbit for bnother threbd to do, which is doing reconnection
                 return;
             }
 
-            while (state == STOPPING) { // make sure only one fetching thread.
+            while (stbte == STOPPING) { // mbke sure only one fetching threbd.
                 try {
-                    wait();
-                } catch (InterruptedException ire) {
+                    wbit();
+                } cbtch (InterruptedException ire) {
                     IOException ioe = new IOException(ire.toString());
-                    EnvHelp.initCause(ioe, ire);
+                    EnvHelp.initCbuse(ioe, ire);
 
                     throw ioe;
                 }
             }
 
-            // re-call this method to check the state again,
-            // the state can be other value like TERMINATED.
+            // re-cbll this method to check the stbte bgbin,
+            // the stbte cbn be other vblue like TERMINATED.
             init(reconnected);
 
             return;
-        case STOPPED:
+        cbse STOPPED:
             if (beingReconnected == true) {
-                // wait for another thread to do, which is doing reconnection
+                // wbit for bnother threbd to do, which is doing reconnection
                 return;
             }
 
-            if (logger.traceOn()) {
-                logger.trace("init", "Initializing...");
+            if (logger.trbceOn()) {
+                logger.trbce("init", "Initiblizing...");
             }
 
             // init the clientSequenceNumber if not reconnected.
             if (!reconnected) {
                 try {
-                    NotificationResult nr = fetchNotifs(-1, 0, 0);
+                    NotificbtionResult nr = fetchNotifs(-1, 0, 0);
 
-                    if (state != STOPPED) { // JDK-8038940
-                                            // reconnection must happen during
-                                            // fetchNotifs(-1, 0, 0), and a new
-                                            // thread takes over the fetching job
+                    if (stbte != STOPPED) { // JDK-8038940
+                                            // reconnection must hbppen during
+                                            // fetchNotifs(-1, 0, 0), bnd b new
+                                            // threbd tbkes over the fetching job
                         return;
                     }
 
                     clientSequenceNumber = nr.getNextSequenceNumber();
-                } catch (ClassNotFoundException e) {
-                    // can't happen
-                    logger.warning("init", "Impossible exception: "+ e);
+                } cbtch (ClbssNotFoundException e) {
+                    // cbn't hbppen
+                    logger.wbrning("init", "Impossible exception: "+ e);
                     logger.debug("init",e);
                 }
             }
 
-            // for cleaning
+            // for clebning
             try {
-                mbeanRemovedNotifID = addListenerForMBeanRemovedNotif();
-            } catch (Exception e) {
-                final String msg =
-                    "Failed to register a listener to the mbean " +
-                    "server: the client will not do clean when an MBean " +
+                mbebnRemovedNotifID = bddListenerForMBebnRemovedNotif();
+            } cbtch (Exception e) {
+                finbl String msg =
+                    "Fbiled to register b listener to the mbebn " +
+                    "server: the client will not do clebn when bn MBebn " +
                     "is unregistered";
-                if (logger.traceOn()) {
-                    logger.trace("init", msg, e);
+                if (logger.trbceOn()) {
+                    logger.trbce("init", msg, e);
                 }
             }
 
-            setState(STARTING);
+            setStbte(STARTING);
 
-            // start fetching
+            // stbrt fetching
             executor.execute(new NotifFetcher());
 
             return;
-        default:
+        defbult:
             // should not
-            throw new IOException("Unknown state.");
+            throw new IOException("Unknown stbte.");
         }
     }
 
     /**
-     * Import: should not remove a listener during reconnection, the reconnection
-     * needs to change the listener list and that will possibly make removal fail.
+     * Import: should not remove b listener during reconnection, the reconnection
+     * needs to chbnge the listener list bnd thbt will possibly mbke removbl fbil.
      */
-    private synchronized void beforeRemove() throws IOException {
+    privbte synchronized void beforeRemove() throws IOException {
         while (beingReconnected) {
-            if (state == TERMINATED) {
-                throw new IOException("Terminated.");
+            if (stbte == TERMINATED) {
+                throw new IOException("Terminbted.");
             }
 
             try {
-                wait();
-            } catch (InterruptedException ire) {
+                wbit();
+            } cbtch (InterruptedException ire) {
                 IOException ioe = new IOException(ire.toString());
-                EnvHelp.initCause(ioe, ire);
+                EnvHelp.initCbuse(ioe, ire);
 
                 throw ioe;
             }
         }
 
-        if (state == TERMINATED) {
-            throw new IOException("Terminated.");
+        if (stbte == TERMINATED) {
+            throw new IOException("Terminbted.");
         }
     }
 
 // -------------------------------------------------
-// private variables
+// privbte vbribbles
 // -------------------------------------------------
 
-    private final ClassLoader defaultClassLoader;
-    private final Executor executor;
+    privbte finbl ClbssLobder defbultClbssLobder;
+    privbte finbl Executor executor;
 
-    private final Map<Integer, ClientListenerInfo> infoList =
-            new HashMap<Integer, ClientListenerInfo>();
+    privbte finbl Mbp<Integer, ClientListenerInfo> infoList =
+            new HbshMbp<Integer, ClientListenerInfo>();
 
     // notif stuff
-    private long clientSequenceNumber = -1;
-    private final int maxNotifications;
-    private final long timeout;
-    private Integer mbeanRemovedNotifID = null;
-    private Thread currentFetchThread;
+    privbte long clientSequenceNumber = -1;
+    privbte finbl int mbxNotificbtions;
+    privbte finbl long timeout;
+    privbte Integer mbebnRemovedNotifID = null;
+    privbte Threbd currentFetchThrebd;
 
-    // state
+    // stbte
     /**
-     * This state means that a thread is being created for fetching and forwarding notifications.
+     * This stbte mebns thbt b threbd is being crebted for fetching bnd forwbrding notificbtions.
      */
-    private static final int STARTING = 0;
+    privbte stbtic finbl int STARTING = 0;
 
     /**
-     * This state tells that a thread has been started for fetching and forwarding notifications.
+     * This stbte tells thbt b threbd hbs been stbrted for fetching bnd forwbrding notificbtions.
      */
-    private static final int STARTED = 1;
+    privbte stbtic finbl int STARTED = 1;
 
     /**
-     * This state means that the fetching thread is informed to stop.
+     * This stbte mebns thbt the fetching threbd is informed to stop.
      */
-    private static final int STOPPING = 2;
+    privbte stbtic finbl int STOPPING = 2;
 
     /**
-     * This state means that the fetching thread is already stopped.
+     * This stbte mebns thbt the fetching threbd is blrebdy stopped.
      */
-    private static final int STOPPED = 3;
+    privbte stbtic finbl int STOPPED = 3;
 
     /**
-     * This state means that this object is terminated and no more thread will be created
-     * for fetching notifications.
+     * This stbte mebns thbt this object is terminbted bnd no more threbd will be crebted
+     * for fetching notificbtions.
      */
-    private static final int TERMINATED = 4;
+    privbte stbtic finbl int TERMINATED = 4;
 
-    private int state = STOPPED;
+    privbte int stbte = STOPPED;
 
     /**
-     * This variable is used to tell whether a connector (RMIConnector or ClientIntermediary)
+     * This vbribble is used to tell whether b connector (RMIConnector or ClientIntermedibry)
      * is doing reconnection.
-     * This variable will be set to true by the method <code>preReconnection</code>, and set
-     * to false by <code>postReconnection</code>.
-     * When beingReconnected == true, no thread will be created for fetching notifications.
+     * This vbribble will be set to true by the method <code>preReconnection</code>, bnd set
+     * to fblse by <code>postReconnection</code>.
+     * When beingReconnected == true, no threbd will be crebted for fetching notificbtions.
      */
-    private boolean beingReconnected = false;
+    privbte boolebn beingReconnected = fblse;
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc",
-                        "ClientNotifForwarder");
+    privbte stbtic finbl ClbssLogger logger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.misc",
+                        "ClientNotifForwbrder");
 }

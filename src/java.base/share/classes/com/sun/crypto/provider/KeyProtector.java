@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.security.Security;
-import java.security.Key;
-import java.security.PrivateKey;
-import java.security.Provider;
-import java.security.KeyFactory;
-import java.security.MessageDigest;
-import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.UnrecoverableKeyException;
-import java.security.AlgorithmParameters;
-import java.security.spec.PKCS8EncodedKeySpec;
+import jbvb.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.security.Security;
+import jbvb.security.Key;
+import jbvb.security.PrivbteKey;
+import jbvb.security.Provider;
+import jbvb.security.KeyFbctory;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.GenerblSecurityException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.NoSuchProviderException;
+import jbvb.security.UnrecoverbbleKeyException;
+import jbvb.security.AlgorithmPbrbmeters;
+import jbvb.security.spec.PKCS8EncodedKeySpec;
 
-import javax.crypto.Cipher;
-import javax.crypto.CipherSpi;
-import javax.crypto.SecretKey;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.SealedObject;
-import javax.crypto.spec.*;
+import jbvbx.crypto.Cipher;
+import jbvbx.crypto.CipherSpi;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.IllegblBlockSizeException;
+import jbvbx.crypto.SebledObject;
+import jbvbx.crypto.spec.*;
 import sun.security.x509.AlgorithmId;
 import sun.security.util.ObjectIdentifier;
 
 /**
- * This class implements a protection mechanism for private keys. In JCE, we
- * use a stronger protection mechanism than in the JDK, because we can use
- * the <code>Cipher</code> class.
- * Private keys are protected using the JCE mechanism, and are recovered using
- * either the JDK or JCE mechanism, depending on how the key has been
- * protected. This allows us to parse Sun's keystore implementation that ships
+ * This clbss implements b protection mechbnism for privbte keys. In JCE, we
+ * use b stronger protection mechbnism thbn in the JDK, becbuse we cbn use
+ * the <code>Cipher</code> clbss.
+ * Privbte keys bre protected using the JCE mechbnism, bnd bre recovered using
+ * either the JDK or JCE mechbnism, depending on how the key hbs been
+ * protected. This bllows us to pbrse Sun's keystore implementbtion thbt ships
  * with JDK 1.2.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  *
  * @see JceKeyStore
  */
 
-final class KeyProtector {
+finbl clbss KeyProtector {
 
     // defined by SunSoft (SKI project)
-    private static final String PBE_WITH_MD5_AND_DES3_CBC_OID
+    privbte stbtic finbl String PBE_WITH_MD5_AND_DES3_CBC_OID
             = "1.3.6.1.4.1.42.2.19.1";
 
-    // JavaSoft proprietary key-protection algorithm (used to protect private
-    // keys in the keystore implementation that comes with JDK 1.2)
-    private static final String KEY_PROTECTOR_OID = "1.3.6.1.4.1.42.2.17.1.1";
+    // JbvbSoft proprietbry key-protection blgorithm (used to protect privbte
+    // keys in the keystore implementbtion thbt comes with JDK 1.2)
+    privbte stbtic finbl String KEY_PROTECTOR_OID = "1.3.6.1.4.1.42.2.17.1.1";
 
-    private static final int SALT_LEN = 20; // the salt length
-    private static final int DIGEST_LEN = 20;
+    privbte stbtic finbl int SALT_LEN = 20; // the sblt length
+    privbte stbtic finbl int DIGEST_LEN = 20;
 
-    // the password used for protecting/recovering keys passed through this
+    // the pbssword used for protecting/recovering keys pbssed through this
     // key protector
-    private char[] password;
+    privbte chbr[] pbssword;
 
-    KeyProtector(char[] password) {
-        if (password == null) {
-           throw new IllegalArgumentException("password can't be null");
+    KeyProtector(chbr[] pbssword) {
+        if (pbssword == null) {
+           throw new IllegblArgumentException("pbssword cbn't be null");
         }
-        this.password = password;
+        this.pbssword = pbssword;
     }
 
     /**
-     * Protects the given cleartext private key, using the password provided at
+     * Protects the given clebrtext privbte key, using the pbssword provided bt
      * construction time.
      */
-    byte[] protect(PrivateKey key)
+    byte[] protect(PrivbteKey key)
         throws Exception
     {
-        // create a random salt (8 bytes)
-        byte[] salt = new byte[8];
-        SunJCE.getRandom().nextBytes(salt);
+        // crebte b rbndom sblt (8 bytes)
+        byte[] sblt = new byte[8];
+        SunJCE.getRbndom().nextBytes(sblt);
 
-        // create PBE parameters from salt and iteration count
-        PBEParameterSpec pbeSpec = new PBEParameterSpec(salt, 20);
+        // crebte PBE pbrbmeters from sblt bnd iterbtion count
+        PBEPbrbmeterSpec pbeSpec = new PBEPbrbmeterSpec(sblt, 20);
 
-        // create PBE key from password
-        PBEKeySpec pbeKeySpec = new PBEKeySpec(this.password);
+        // crebte PBE key from pbssword
+        PBEKeySpec pbeKeySpec = new PBEKeySpec(this.pbssword);
         SecretKey sKey = new PBEKey(pbeKeySpec, "PBEWithMD5AndTripleDES");
-        pbeKeySpec.clearPassword();
+        pbeKeySpec.clebrPbssword();
 
-        // encrypt private key
+        // encrypt privbte key
         PBEWithMD5AndTripleDESCipher cipher;
         cipher = new PBEWithMD5AndTripleDESCipher();
         cipher.engineInit(Cipher.ENCRYPT_MODE, sKey, pbeSpec, null);
-        byte[] plain = key.getEncoded();
-        byte[] encrKey = cipher.engineDoFinal(plain, 0, plain.length);
+        byte[] plbin = key.getEncoded();
+        byte[] encrKey = cipher.engineDoFinbl(plbin, 0, plbin.length);
 
-        // wrap encrypted private key in EncryptedPrivateKeyInfo
-        // (as defined in PKCS#8)
-        AlgorithmParameters pbeParams =
-            AlgorithmParameters.getInstance("PBE", SunJCE.getInstance());
-        pbeParams.init(pbeSpec);
+        // wrbp encrypted privbte key in EncryptedPrivbteKeyInfo
+        // (bs defined in PKCS#8)
+        AlgorithmPbrbmeters pbePbrbms =
+            AlgorithmPbrbmeters.getInstbnce("PBE", SunJCE.getInstbnce());
+        pbePbrbms.init(pbeSpec);
 
         AlgorithmId encrAlg = new AlgorithmId
-            (new ObjectIdentifier(PBE_WITH_MD5_AND_DES3_CBC_OID), pbeParams);
-        return new EncryptedPrivateKeyInfo(encrAlg,encrKey).getEncoded();
+            (new ObjectIdentifier(PBE_WITH_MD5_AND_DES3_CBC_OID), pbePbrbms);
+        return new EncryptedPrivbteKeyInfo(encrAlg,encrKey).getEncoded();
     }
 
     /*
-     * Recovers the cleartext version of the given key (in protected format),
-     * using the password provided at construction time.
+     * Recovers the clebrtext version of the given key (in protected formbt),
+     * using the pbssword provided bt construction time.
      */
-    Key recover(EncryptedPrivateKeyInfo encrInfo)
-        throws UnrecoverableKeyException, NoSuchAlgorithmException
+    Key recover(EncryptedPrivbteKeyInfo encrInfo)
+        throws UnrecoverbbleKeyException, NoSuchAlgorithmException
     {
-        byte[] plain;
+        byte[] plbin;
 
         try {
             String encrAlg = encrInfo.getAlgorithm().getOID().toString();
-            if (!encrAlg.equals(PBE_WITH_MD5_AND_DES3_CBC_OID)
-                && !encrAlg.equals(KEY_PROTECTOR_OID)) {
-                throw new UnrecoverableKeyException("Unsupported encryption "
-                                                    + "algorithm");
+            if (!encrAlg.equbls(PBE_WITH_MD5_AND_DES3_CBC_OID)
+                && !encrAlg.equbls(KEY_PROTECTOR_OID)) {
+                throw new UnrecoverbbleKeyException("Unsupported encryption "
+                                                    + "blgorithm");
             }
 
-            if (encrAlg.equals(KEY_PROTECTOR_OID)) {
+            if (encrAlg.equbls(KEY_PROTECTOR_OID)) {
                 // JDK 1.2 style recovery
-                plain = recover(encrInfo.getEncryptedData());
+                plbin = recover(encrInfo.getEncryptedDbtb());
             } else {
-                byte[] encodedParams =
-                    encrInfo.getAlgorithm().getEncodedParams();
+                byte[] encodedPbrbms =
+                    encrInfo.getAlgorithm().getEncodedPbrbms();
 
-                // parse the PBE parameters into the corresponding spec
-                AlgorithmParameters pbeParams =
-                    AlgorithmParameters.getInstance("PBE");
-                pbeParams.init(encodedParams);
-                PBEParameterSpec pbeSpec =
-                        pbeParams.getParameterSpec(PBEParameterSpec.class);
+                // pbrse the PBE pbrbmeters into the corresponding spec
+                AlgorithmPbrbmeters pbePbrbms =
+                    AlgorithmPbrbmeters.getInstbnce("PBE");
+                pbePbrbms.init(encodedPbrbms);
+                PBEPbrbmeterSpec pbeSpec =
+                        pbePbrbms.getPbrbmeterSpec(PBEPbrbmeterSpec.clbss);
 
-                // create PBE key from password
-                PBEKeySpec pbeKeySpec = new PBEKeySpec(this.password);
+                // crebte PBE key from pbssword
+                PBEKeySpec pbeKeySpec = new PBEKeySpec(this.pbssword);
                 SecretKey sKey =
                     new PBEKey(pbeKeySpec, "PBEWithMD5AndTripleDES");
-                pbeKeySpec.clearPassword();
+                pbeKeySpec.clebrPbssword();
 
-                // decrypt private key
+                // decrypt privbte key
                 PBEWithMD5AndTripleDESCipher cipher;
                 cipher = new PBEWithMD5AndTripleDESCipher();
                 cipher.engineInit(Cipher.DECRYPT_MODE, sKey, pbeSpec, null);
-                plain=cipher.engineDoFinal(encrInfo.getEncryptedData(), 0,
-                                           encrInfo.getEncryptedData().length);
+                plbin=cipher.engineDoFinbl(encrInfo.getEncryptedDbtb(), 0,
+                                           encrInfo.getEncryptedDbtb().length);
             }
 
-            // determine the private-key algorithm, and parse private key
-            // using the appropriate key factory
-            String oidName = new AlgorithmId
-                (new PrivateKeyInfo(plain).getAlgorithm().getOID()).getName();
-            KeyFactory kFac = KeyFactory.getInstance(oidName);
-            return kFac.generatePrivate(new PKCS8EncodedKeySpec(plain));
+            // determine the privbte-key blgorithm, bnd pbrse privbte key
+            // using the bppropribte key fbctory
+            String oidNbme = new AlgorithmId
+                (new PrivbteKeyInfo(plbin).getAlgorithm().getOID()).getNbme();
+            KeyFbctory kFbc = KeyFbctory.getInstbnce(oidNbme);
+            return kFbc.generbtePrivbte(new PKCS8EncodedKeySpec(plbin));
 
-        } catch (NoSuchAlgorithmException ex) {
-            // Note: this catch needed to be here because of the
-            // later catch of GeneralSecurityException
+        } cbtch (NoSuchAlgorithmException ex) {
+            // Note: this cbtch needed to be here becbuse of the
+            // lbter cbtch of GenerblSecurityException
             throw ex;
-        } catch (IOException ioe) {
-            throw new UnrecoverableKeyException(ioe.getMessage());
-        } catch (GeneralSecurityException gse) {
-            throw new UnrecoverableKeyException(gse.getMessage());
+        } cbtch (IOException ioe) {
+            throw new UnrecoverbbleKeyException(ioe.getMessbge());
+        } cbtch (GenerblSecurityException gse) {
+            throw new UnrecoverbbleKeyException(gse.getMessbge());
         }
     }
 
     /*
-     * Recovers the cleartext version of the given key (in protected format),
-     * using the password provided at construction time. This method implements
-     * the recovery algorithm used by Sun's keystore implementation in
+     * Recovers the clebrtext version of the given key (in protected formbt),
+     * using the pbssword provided bt construction time. This method implements
+     * the recovery blgorithm used by Sun's keystore implementbtion in
      * JDK 1.2.
      */
-    private byte[] recover(byte[] protectedKey)
-        throws UnrecoverableKeyException, NoSuchAlgorithmException
+    privbte byte[] recover(byte[] protectedKey)
+        throws UnrecoverbbleKeyException, NoSuchAlgorithmException
     {
         int i, j;
         byte[] digest;
@@ -203,12 +203,12 @@ final class KeyProtector {
         int xorOffset; // offset in xorKey where next digest will be stored
         int encrKeyLen; // the length of the encrpyted key
 
-        MessageDigest md = MessageDigest.getInstance("SHA");
+        MessbgeDigest md = MessbgeDigest.getInstbnce("SHA");
 
-        // Get the salt associated with this key (the first SALT_LEN bytes of
+        // Get the sblt bssocibted with this key (the first SALT_LEN bytes of
         // <code>protectedKey</code>)
-        byte[] salt = new byte[SALT_LEN];
-        System.arraycopy(protectedKey, 0, salt, 0, SALT_LEN);
+        byte[] sblt = new byte[SALT_LEN];
+        System.brrbycopy(protectedKey, 0, sblt, 0, SALT_LEN);
 
         // Determine the number of digest rounds
         encrKeyLen = protectedKey.length - SALT_LEN - DIGEST_LEN;
@@ -216,149 +216,149 @@ final class KeyProtector {
         if ((encrKeyLen % DIGEST_LEN) != 0)
             numRounds++;
 
-        // Get the encrypted key portion and store it in "encrKey"
+        // Get the encrypted key portion bnd store it in "encrKey"
         byte[] encrKey = new byte[encrKeyLen];
-        System.arraycopy(protectedKey, SALT_LEN, encrKey, 0, encrKeyLen);
+        System.brrbycopy(protectedKey, SALT_LEN, encrKey, 0, encrKeyLen);
 
-        // Set up the byte array which will be XORed with "encrKey"
+        // Set up the byte brrby which will be XORed with "encrKey"
         byte[] xorKey = new byte[encrKey.length];
 
-        // Convert password to byte array, so that it can be digested
-        byte[] passwdBytes = new byte[password.length * 2];
-        for (i=0, j=0; i<password.length; i++) {
-            passwdBytes[j++] = (byte)(password[i] >> 8);
-            passwdBytes[j++] = (byte)password[i];
+        // Convert pbssword to byte brrby, so thbt it cbn be digested
+        byte[] pbsswdBytes = new byte[pbssword.length * 2];
+        for (i=0, j=0; i<pbssword.length; i++) {
+            pbsswdBytes[j++] = (byte)(pbssword[i] >> 8);
+            pbsswdBytes[j++] = (byte)pbssword[i];
         }
 
-        // Compute the digests, and store them in "xorKey"
-        for (i = 0, xorOffset = 0, digest = salt;
+        // Compute the digests, bnd store them in "xorKey"
+        for (i = 0, xorOffset = 0, digest = sblt;
              i < numRounds;
              i++, xorOffset += DIGEST_LEN) {
-            md.update(passwdBytes);
-            md.update(digest);
+            md.updbte(pbsswdBytes);
+            md.updbte(digest);
             digest = md.digest();
             md.reset();
             // Copy the digest into "xorKey"
             if (i < numRounds - 1) {
-                System.arraycopy(digest, 0, xorKey, xorOffset,
+                System.brrbycopy(digest, 0, xorKey, xorOffset,
                                  digest.length);
             } else {
-                System.arraycopy(digest, 0, xorKey, xorOffset,
+                System.brrbycopy(digest, 0, xorKey, xorOffset,
                                  xorKey.length - xorOffset);
             }
         }
 
-        // XOR "encrKey" with "xorKey", and store the result in "plainKey"
-        byte[] plainKey = new byte[encrKey.length];
-        for (i = 0; i < plainKey.length; i++) {
-            plainKey[i] = (byte)(encrKey[i] ^ xorKey[i]);
+        // XOR "encrKey" with "xorKey", bnd store the result in "plbinKey"
+        byte[] plbinKey = new byte[encrKey.length];
+        for (i = 0; i < plbinKey.length; i++) {
+            plbinKey[i] = (byte)(encrKey[i] ^ xorKey[i]);
         }
 
-        // Check the integrity of the recovered key by concatenating it with
-        // the password, digesting the concatenation, and comparing the
-        // result of the digest operation with the digest provided at the end
-        // of <code>protectedKey</code>. If the two digest values are
-        // different, throw an exception.
-        md.update(passwdBytes);
-        java.util.Arrays.fill(passwdBytes, (byte)0x00);
-        passwdBytes = null;
-        md.update(plainKey);
+        // Check the integrity of the recovered key by concbtenbting it with
+        // the pbssword, digesting the concbtenbtion, bnd compbring the
+        // result of the digest operbtion with the digest provided bt the end
+        // of <code>protectedKey</code>. If the two digest vblues bre
+        // different, throw bn exception.
+        md.updbte(pbsswdBytes);
+        jbvb.util.Arrbys.fill(pbsswdBytes, (byte)0x00);
+        pbsswdBytes = null;
+        md.updbte(plbinKey);
         digest = md.digest();
         md.reset();
         for (i = 0; i < digest.length; i++) {
             if (digest[i] != protectedKey[SALT_LEN + encrKeyLen + i]) {
-                throw new UnrecoverableKeyException("Cannot recover key");
+                throw new UnrecoverbbleKeyException("Cbnnot recover key");
             }
         }
-        return plainKey;
+        return plbinKey;
     }
 
     /**
-     * Seals the given cleartext key, using the password provided at
+     * Sebls the given clebrtext key, using the pbssword provided bt
      * construction time
      */
-    SealedObject seal(Key key)
+    SebledObject sebl(Key key)
         throws Exception
     {
-        // create a random salt (8 bytes)
-        byte[] salt = new byte[8];
-        SunJCE.getRandom().nextBytes(salt);
+        // crebte b rbndom sblt (8 bytes)
+        byte[] sblt = new byte[8];
+        SunJCE.getRbndom().nextBytes(sblt);
 
-        // create PBE parameters from salt and iteration count
-        PBEParameterSpec pbeSpec = new PBEParameterSpec(salt, 20);
+        // crebte PBE pbrbmeters from sblt bnd iterbtion count
+        PBEPbrbmeterSpec pbeSpec = new PBEPbrbmeterSpec(sblt, 20);
 
-        // create PBE key from password
-        PBEKeySpec pbeKeySpec = new PBEKeySpec(this.password);
+        // crebte PBE key from pbssword
+        PBEKeySpec pbeKeySpec = new PBEKeySpec(this.pbssword);
         SecretKey sKey = new PBEKey(pbeKeySpec, "PBEWithMD5AndTripleDES");
-        pbeKeySpec.clearPassword();
+        pbeKeySpec.clebrPbssword();
 
-        // seal key
+        // sebl key
         Cipher cipher;
 
         PBEWithMD5AndTripleDESCipher cipherSpi;
         cipherSpi = new PBEWithMD5AndTripleDESCipher();
-        cipher = new CipherForKeyProtector(cipherSpi, SunJCE.getInstance(),
+        cipher = new CipherForKeyProtector(cipherSpi, SunJCE.getInstbnce(),
                                            "PBEWithMD5AndTripleDES");
         cipher.init(Cipher.ENCRYPT_MODE, sKey, pbeSpec);
-        return new SealedObjectForKeyProtector(key, cipher);
+        return new SebledObjectForKeyProtector(key, cipher);
     }
 
     /**
-     * Unseals the sealed key.
+     * Unsebls the sebled key.
      */
-    Key unseal(SealedObject so)
-        throws NoSuchAlgorithmException, UnrecoverableKeyException
+    Key unsebl(SebledObject so)
+        throws NoSuchAlgorithmException, UnrecoverbbleKeyException
     {
         try {
-            // create PBE key from password
-            PBEKeySpec pbeKeySpec = new PBEKeySpec(this.password);
+            // crebte PBE key from pbssword
+            PBEKeySpec pbeKeySpec = new PBEKeySpec(this.pbssword);
             SecretKey skey = new PBEKey(pbeKeySpec, "PBEWithMD5AndTripleDES");
-            pbeKeySpec.clearPassword();
+            pbeKeySpec.clebrPbssword();
 
-            SealedObjectForKeyProtector soForKeyProtector = null;
-            if (!(so instanceof SealedObjectForKeyProtector)) {
-                soForKeyProtector = new SealedObjectForKeyProtector(so);
+            SebledObjectForKeyProtector soForKeyProtector = null;
+            if (!(so instbnceof SebledObjectForKeyProtector)) {
+                soForKeyProtector = new SebledObjectForKeyProtector(so);
             } else {
-                soForKeyProtector = (SealedObjectForKeyProtector)so;
+                soForKeyProtector = (SebledObjectForKeyProtector)so;
             }
-            AlgorithmParameters params = soForKeyProtector.getParameters();
-            if (params == null) {
-                throw new UnrecoverableKeyException("Cannot get " +
-                                                    "algorithm parameters");
+            AlgorithmPbrbmeters pbrbms = soForKeyProtector.getPbrbmeters();
+            if (pbrbms == null) {
+                throw new UnrecoverbbleKeyException("Cbnnot get " +
+                                                    "blgorithm pbrbmeters");
             }
             PBEWithMD5AndTripleDESCipher cipherSpi;
             cipherSpi = new PBEWithMD5AndTripleDESCipher();
             Cipher cipher = new CipherForKeyProtector(cipherSpi,
-                                                      SunJCE.getInstance(),
+                                                      SunJCE.getInstbnce(),
                                                       "PBEWithMD5AndTripleDES");
-            cipher.init(Cipher.DECRYPT_MODE, skey, params);
+            cipher.init(Cipher.DECRYPT_MODE, skey, pbrbms);
             return (Key)soForKeyProtector.getObject(cipher);
-        } catch (NoSuchAlgorithmException ex) {
-            // Note: this catch needed to be here because of the
-            // later catch of GeneralSecurityException
+        } cbtch (NoSuchAlgorithmException ex) {
+            // Note: this cbtch needed to be here becbuse of the
+            // lbter cbtch of GenerblSecurityException
             throw ex;
-        } catch (IOException ioe) {
-            throw new UnrecoverableKeyException(ioe.getMessage());
-        } catch (ClassNotFoundException cnfe) {
-            throw new UnrecoverableKeyException(cnfe.getMessage());
-        } catch (GeneralSecurityException gse) {
-            throw new UnrecoverableKeyException(gse.getMessage());
+        } cbtch (IOException ioe) {
+            throw new UnrecoverbbleKeyException(ioe.getMessbge());
+        } cbtch (ClbssNotFoundException cnfe) {
+            throw new UnrecoverbbleKeyException(cnfe.getMessbge());
+        } cbtch (GenerblSecurityException gse) {
+            throw new UnrecoverbbleKeyException(gse.getMessbge());
         }
     }
 }
 
 
-final class CipherForKeyProtector extends javax.crypto.Cipher {
+finbl clbss CipherForKeyProtector extends jbvbx.crypto.Cipher {
     /**
-     * Creates a Cipher object.
+     * Crebtes b Cipher object.
      *
-     * @param cipherSpi the delegate
-     * @param provider the provider
-     * @param transformation the transformation
+     * @pbrbm cipherSpi the delegbte
+     * @pbrbm provider the provider
+     * @pbrbm trbnsformbtion the trbnsformbtion
      */
     protected CipherForKeyProtector(CipherSpi cipherSpi,
                                     Provider provider,
-                                    String transformation) {
-        super(cipherSpi, provider, transformation);
+                                    String trbnsformbtion) {
+        super(cipherSpi, provider, trbnsformbtion);
     }
 }

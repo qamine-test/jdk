@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.Image;
-import java.awt.image.ImageFilter;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageProducer;
-import java.util.Hashtable;
-import java.awt.image.ColorModel;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.imbge.ImbgeFilter;
+import jbvb.bwt.imbge.ImbgeConsumer;
+import jbvb.bwt.imbge.ImbgeProducer;
+import jbvb.util.Hbshtbble;
+import jbvb.bwt.imbge.ColorModel;
 
 /**
- * This class is an implementation of the ImageProducer interface which
- * takes an existing image and a filter object and uses them to produce
- * image data for a new filtered version of the original image.
- * Here is an example which filters an image by swapping the red and
+ * This clbss is bn implementbtion of the ImbgeProducer interfbce which
+ * tbkes bn existing imbge bnd b filter object bnd uses them to produce
+ * imbge dbtb for b new filtered version of the originbl imbge.
+ * Here is bn exbmple which filters bn imbge by swbpping the red bnd
  * blue compents:
  * <pre>
  *
- *      Image src = getImage("doc:///demo/images/duke/T1.gif");
- *      ImageFilter colorfilter = new RedBlueSwapFilter();
- *      Image img = createImage(new FilteredImageSource(src.getSource(),
+ *      Imbge src = getImbge("doc:///demo/imbges/duke/T1.gif");
+ *      ImbgeFilter colorfilter = new RedBlueSwbpFilter();
+ *      Imbge img = crebteImbge(new FilteredImbgeSource(src.getSource(),
  *                                                      colorfilter));
  *
  * </pre>
  *
- * @see ImageProducer
+ * @see ImbgeProducer
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  */
-public class FilteredImageSource implements ImageProducer {
-    ImageProducer src;
-    ImageFilter filter;
+public clbss FilteredImbgeSource implements ImbgeProducer {
+    ImbgeProducer src;
+    ImbgeFilter filter;
 
     /**
-     * Constructs an ImageProducer object from an existing ImageProducer
-     * and a filter object.
-     * @param orig the specified <code>ImageProducer</code>
-     * @param imgf the specified <code>ImageFilter</code>
-     * @see ImageFilter
-     * @see java.awt.Component#createImage
+     * Constructs bn ImbgeProducer object from bn existing ImbgeProducer
+     * bnd b filter object.
+     * @pbrbm orig the specified <code>ImbgeProducer</code>
+     * @pbrbm imgf the specified <code>ImbgeFilter</code>
+     * @see ImbgeFilter
+     * @see jbvb.bwt.Component#crebteImbge
      */
-    public FilteredImageSource(ImageProducer orig, ImageFilter imgf) {
+    public FilteredImbgeSource(ImbgeProducer orig, ImbgeFilter imgf) {
         src = orig;
         filter = imgf;
     }
 
-    private Hashtable<ImageConsumer, ImageFilter> proxies;
+    privbte Hbshtbble<ImbgeConsumer, ImbgeFilter> proxies;
 
     /**
-     * Adds the specified <code>ImageConsumer</code>
-     * to the list of consumers interested in data for the filtered image.
-     * An instance of the original <code>ImageFilter</code>
-     * is created
-     * (using the filter's <code>getFilterInstance</code> method)
-     * to manipulate the image data
-     * for the specified <code>ImageConsumer</code>.
-     * The newly created filter instance
-     * is then passed to the <code>addConsumer</code> method
-     * of the original <code>ImageProducer</code>.
+     * Adds the specified <code>ImbgeConsumer</code>
+     * to the list of consumers interested in dbtb for the filtered imbge.
+     * An instbnce of the originbl <code>ImbgeFilter</code>
+     * is crebted
+     * (using the filter's <code>getFilterInstbnce</code> method)
+     * to mbnipulbte the imbge dbtb
+     * for the specified <code>ImbgeConsumer</code>.
+     * The newly crebted filter instbnce
+     * is then pbssed to the <code>bddConsumer</code> method
+     * of the originbl <code>ImbgeProducer</code>.
      *
      * <p>
-     * This method is public as a side effect
-     * of this class implementing
-     * the <code>ImageProducer</code> interface.
-     * It should not be called from user code,
-     * and its behavior if called from user code is unspecified.
+     * This method is public bs b side effect
+     * of this clbss implementing
+     * the <code>ImbgeProducer</code> interfbce.
+     * It should not be cblled from user code,
+     * bnd its behbvior if cblled from user code is unspecified.
      *
-     * @param ic  the consumer for the filtered image
-     * @see ImageConsumer
+     * @pbrbm ic  the consumer for the filtered imbge
+     * @see ImbgeConsumer
      */
-    public synchronized void addConsumer(ImageConsumer ic) {
+    public synchronized void bddConsumer(ImbgeConsumer ic) {
         if (proxies == null) {
-            proxies = new Hashtable<>();
+            proxies = new Hbshtbble<>();
         }
-        if (!proxies.containsKey(ic)) {
-            ImageFilter imgf = filter.getFilterInstance(ic);
+        if (!proxies.contbinsKey(ic)) {
+            ImbgeFilter imgf = filter.getFilterInstbnce(ic);
             proxies.put(ic, imgf);
-            src.addConsumer(imgf);
+            src.bddConsumer(imgf);
         }
     }
 
     /**
-     * Determines whether an ImageConsumer is on the list of consumers
-     * currently interested in data for this image.
+     * Determines whether bn ImbgeConsumer is on the list of consumers
+     * currently interested in dbtb for this imbge.
      *
      * <p>
-     * This method is public as a side effect
-     * of this class implementing
-     * the <code>ImageProducer</code> interface.
-     * It should not be called from user code,
-     * and its behavior if called from user code is unspecified.
+     * This method is public bs b side effect
+     * of this clbss implementing
+     * the <code>ImbgeProducer</code> interfbce.
+     * It should not be cblled from user code,
+     * bnd its behbvior if cblled from user code is unspecified.
      *
-     * @param ic the specified <code>ImageConsumer</code>
-     * @return true if the ImageConsumer is on the list; false otherwise
-     * @see ImageConsumer
+     * @pbrbm ic the specified <code>ImbgeConsumer</code>
+     * @return true if the ImbgeConsumer is on the list; fblse otherwise
+     * @see ImbgeConsumer
      */
-    public synchronized boolean isConsumer(ImageConsumer ic) {
-        return (proxies != null && proxies.containsKey(ic));
+    public synchronized boolebn isConsumer(ImbgeConsumer ic) {
+        return (proxies != null && proxies.contbinsKey(ic));
     }
 
     /**
-     * Removes an ImageConsumer from the list of consumers interested in
-     * data for this image.
+     * Removes bn ImbgeConsumer from the list of consumers interested in
+     * dbtb for this imbge.
      *
      * <p>
-     * This method is public as a side effect
-     * of this class implementing
-     * the <code>ImageProducer</code> interface.
-     * It should not be called from user code,
-     * and its behavior if called from user code is unspecified.
+     * This method is public bs b side effect
+     * of this clbss implementing
+     * the <code>ImbgeProducer</code> interfbce.
+     * It should not be cblled from user code,
+     * bnd its behbvior if cblled from user code is unspecified.
      *
-     * @see ImageConsumer
+     * @see ImbgeConsumer
      */
-    public synchronized void removeConsumer(ImageConsumer ic) {
+    public synchronized void removeConsumer(ImbgeConsumer ic) {
         if (proxies != null) {
-            ImageFilter imgf =  proxies.get(ic);
+            ImbgeFilter imgf =  proxies.get(ic);
             if (imgf != null) {
                 src.removeConsumer(imgf);
                 proxies.remove(ic);
@@ -149,58 +149,58 @@ public class FilteredImageSource implements ImageProducer {
     }
 
     /**
-     * Starts production of the filtered image.
-     * If the specified <code>ImageConsumer</code>
-     * isn't already a consumer of the filtered image,
-     * an instance of the original <code>ImageFilter</code>
-     * is created
-     * (using the filter's <code>getFilterInstance</code> method)
-     * to manipulate the image data
-     * for the <code>ImageConsumer</code>.
-     * The filter instance for the <code>ImageConsumer</code>
-     * is then passed to the <code>startProduction</code> method
-     * of the original <code>ImageProducer</code>.
+     * Stbrts production of the filtered imbge.
+     * If the specified <code>ImbgeConsumer</code>
+     * isn't blrebdy b consumer of the filtered imbge,
+     * bn instbnce of the originbl <code>ImbgeFilter</code>
+     * is crebted
+     * (using the filter's <code>getFilterInstbnce</code> method)
+     * to mbnipulbte the imbge dbtb
+     * for the <code>ImbgeConsumer</code>.
+     * The filter instbnce for the <code>ImbgeConsumer</code>
+     * is then pbssed to the <code>stbrtProduction</code> method
+     * of the originbl <code>ImbgeProducer</code>.
      *
      * <p>
-     * This method is public as a side effect
-     * of this class implementing
-     * the <code>ImageProducer</code> interface.
-     * It should not be called from user code,
-     * and its behavior if called from user code is unspecified.
+     * This method is public bs b side effect
+     * of this clbss implementing
+     * the <code>ImbgeProducer</code> interfbce.
+     * It should not be cblled from user code,
+     * bnd its behbvior if cblled from user code is unspecified.
      *
-     * @param ic  the consumer for the filtered image
-     * @see ImageConsumer
+     * @pbrbm ic  the consumer for the filtered imbge
+     * @see ImbgeConsumer
      */
-    public void startProduction(ImageConsumer ic) {
+    public void stbrtProduction(ImbgeConsumer ic) {
         if (proxies == null) {
-            proxies = new Hashtable<>();
+            proxies = new Hbshtbble<>();
         }
-        ImageFilter imgf = proxies.get(ic);
+        ImbgeFilter imgf = proxies.get(ic);
         if (imgf == null) {
-            imgf = filter.getFilterInstance(ic);
+            imgf = filter.getFilterInstbnce(ic);
             proxies.put(ic, imgf);
         }
-        src.startProduction(imgf);
+        src.stbrtProduction(imgf);
     }
 
     /**
-     * Requests that a given ImageConsumer have the image data delivered
+     * Requests thbt b given ImbgeConsumer hbve the imbge dbtb delivered
      * one more time in top-down, left-right order.  The request is
-     * handed to the ImageFilter for further processing, since the
-     * ability to preserve the pixel ordering depends on the filter.
+     * hbnded to the ImbgeFilter for further processing, since the
+     * bbility to preserve the pixel ordering depends on the filter.
      *
      * <p>
-     * This method is public as a side effect
-     * of this class implementing
-     * the <code>ImageProducer</code> interface.
-     * It should not be called from user code,
-     * and its behavior if called from user code is unspecified.
+     * This method is public bs b side effect
+     * of this clbss implementing
+     * the <code>ImbgeProducer</code> interfbce.
+     * It should not be cblled from user code,
+     * bnd its behbvior if cblled from user code is unspecified.
      *
-     * @see ImageConsumer
+     * @see ImbgeConsumer
      */
-    public void requestTopDownLeftRightResend(ImageConsumer ic) {
+    public void requestTopDownLeftRightResend(ImbgeConsumer ic) {
         if (proxies != null) {
-            ImageFilter imgf = proxies.get(ic);
+            ImbgeFilter imgf = proxies.get(ic);
             if (imgf != null) {
                 imgf.resendTopDownLeftRight(src);
             }

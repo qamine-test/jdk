@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: DOMValidateContext.java,v 1.8 2005/05/10 16:31:14 mullan Exp $
+ * $Id: DOMVblidbteContext.jbvb,v 1.8 2005/05/10 16:31:14 mullbn Exp $
  */
-package javax.xml.crypto.dsig.dom;
+pbckbge jbvbx.xml.crypto.dsig.dom;
 
-import javax.xml.crypto.KeySelector;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.XMLSignature;
-import javax.xml.crypto.dsig.XMLSignatureFactory;
-import javax.xml.crypto.dsig.XMLValidateContext;
-import java.security.Key;
+import jbvbx.xml.crypto.KeySelector;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.XMLSignbture;
+import jbvbx.xml.crypto.dsig.XMLSignbtureFbctory;
+import jbvbx.xml.crypto.dsig.XMLVblidbteContext;
+import jbvb.security.Key;
 import org.w3c.dom.Node;
 
 /**
- * A DOM-specific {@link XMLValidateContext}. This class contains additional
- * methods to specify the location in a DOM tree where an {@link XMLSignature}
- * is to be unmarshalled and validated from.
+ * A DOM-specific {@link XMLVblidbteContext}. This clbss contbins bdditionbl
+ * methods to specify the locbtion in b DOM tree where bn {@link XMLSignbture}
+ * is to be unmbrshblled bnd vblidbted from.
  *
- * <p>Note that the behavior of an unmarshalled <code>XMLSignature</code>
- * is undefined if the contents of the underlying DOM tree are modified by the
- * caller after the <code>XMLSignature</code> is created.
+ * <p>Note thbt the behbvior of bn unmbrshblled <code>XMLSignbture</code>
+ * is undefined if the contents of the underlying DOM tree bre modified by the
+ * cbller bfter the <code>XMLSignbture</code> is crebted.
  *
- * <p>Also, note that <code>DOMValidateContext</code> instances can contain
- * information and state specific to the XML signature structure it is
- * used with. The results are unpredictable if a
- * <code>DOMValidateContext</code> is used with different signature structures
- * (for example, you should not use the same <code>DOMValidateContext</code>
- * instance to validate two different {@link XMLSignature} objects).
+ * <p>Also, note thbt <code>DOMVblidbteContext</code> instbnces cbn contbin
+ * informbtion bnd stbte specific to the XML signbture structure it is
+ * used with. The results bre unpredictbble if b
+ * <code>DOMVblidbteContext</code> is used with different signbture structures
+ * (for exbmple, you should not use the sbme <code>DOMVblidbteContext</code>
+ * instbnce to vblidbte two different {@link XMLSignbture} objects).
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see XMLSignatureFactory#unmarshalXMLSignature(XMLValidateContext)
+ * @see XMLSignbtureFbctory#unmbrshblXMLSignbture(XMLVblidbteContext)
  */
-public class DOMValidateContext extends DOMCryptoContext
-    implements XMLValidateContext {
+public clbss DOMVblidbteContext extends DOMCryptoContext
+    implements XMLVblidbteContext {
 
-    private Node node;
+    privbte Node node;
 
     /**
-     * Creates a <code>DOMValidateContext</code> containing the specified key
-     * selector and node.
+     * Crebtes b <code>DOMVblidbteContext</code> contbining the specified key
+     * selector bnd node.
      *
-     * @param ks a key selector for finding a validation key
-     * @param node the node
+     * @pbrbm ks b key selector for finding b vblidbtion key
+     * @pbrbm node the node
      * @throws NullPointerException if <code>ks</code> or <code>node</code> is
      *    <code>null</code>
      */
-    public DOMValidateContext(KeySelector ks, Node node) {
+    public DOMVblidbteContext(KeySelector ks, Node node) {
         if (ks == null) {
             throw new NullPointerException("key selector is null");
         }
@@ -78,41 +78,41 @@ public class DOMValidateContext extends DOMCryptoContext
     }
 
     /**
-     * Creates a <code>DOMValidateContext</code> containing the specified key
-     * and node. The validating key will be stored in a
-     * {@link KeySelector#singletonKeySelector singleton KeySelector} that
+     * Crebtes b <code>DOMVblidbteContext</code> contbining the specified key
+     * bnd node. The vblidbting key will be stored in b
+     * {@link KeySelector#singletonKeySelector singleton KeySelector} thbt
      * is returned when the {@link #getKeySelector getKeySelector}
-     * method is called.
+     * method is cblled.
      *
-     * @param validatingKey the validating key
-     * @param node the node
-     * @throws NullPointerException if <code>validatingKey</code> or
+     * @pbrbm vblidbtingKey the vblidbting key
+     * @pbrbm node the node
+     * @throws NullPointerException if <code>vblidbtingKey</code> or
      *    <code>node</code> is <code>null</code>
      */
-    public DOMValidateContext(Key validatingKey, Node node) {
-        if (validatingKey == null) {
-            throw new NullPointerException("validatingKey is null");
+    public DOMVblidbteContext(Key vblidbtingKey, Node node) {
+        if (vblidbtingKey == null) {
+            throw new NullPointerException("vblidbtingKey is null");
         }
-        init(node, KeySelector.singletonKeySelector(validatingKey));
+        init(node, KeySelector.singletonKeySelector(vblidbtingKey));
     }
 
-    private void init(Node node, KeySelector ks) {
+    privbte void init(Node node, KeySelector ks) {
         if (node == null) {
             throw new NullPointerException("node is null");
         }
 
         this.node = node;
         super.setKeySelector(ks);
-        if (System.getSecurityManager() != null) {
-            super.setProperty("org.jcp.xml.dsig.secureValidation",
-                              Boolean.TRUE);
+        if (System.getSecurityMbnbger() != null) {
+            super.setProperty("org.jcp.xml.dsig.secureVblidbtion",
+                              Boolebn.TRUE);
         }
     }
 
     /**
      * Sets the node.
      *
-     * @param node the node
+     * @pbrbm node the node
      * @throws NullPointerException if <code>node</code> is <code>null</code>
      * @see #getNode
      */

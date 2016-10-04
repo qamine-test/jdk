@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management.jmxremote;
+pbckbge sun.mbnbgement.jmxremote;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.management.ManagementFactory;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
-import java.rmi.NoSuchObjectException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.RemoteObject;
-import java.rmi.server.UnicastRemoteObject;
-import java.security.KeyStore;
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.StringTokenizer;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.net.InetAddress;
+import jbvb.net.MblformedURLException;
+import jbvb.net.UnknownHostException;
+import jbvb.rmi.NoSuchObjectException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.registry.Registry;
+import jbvb.rmi.server.RMIClientSocketFbctory;
+import jbvb.rmi.server.RMIServerSocketFbctory;
+import jbvb.rmi.server.RemoteObject;
+import jbvb.rmi.server.UnicbstRemoteObject;
+import jbvb.security.KeyStore;
+import jbvb.security.Principbl;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Properties;
+import jbvb.util.Set;
+import jbvb.util.StringTokenizer;
 
-import javax.management.MBeanServer;
-import javax.management.remote.JMXAuthenticator;
-import javax.management.remote.JMXConnectorServer;
-import javax.management.remote.JMXConnectorServerFactory;
-import javax.management.remote.JMXServiceURL;
-import javax.management.remote.rmi.RMIConnectorServer;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManagerFactory;
-import javax.rmi.ssl.SslRMIClientSocketFactory;
-import javax.rmi.ssl.SslRMIServerSocketFactory;
-import javax.security.auth.Subject;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.remote.JMXAuthenticbtor;
+import jbvbx.mbnbgement.remote.JMXConnectorServer;
+import jbvbx.mbnbgement.remote.JMXConnectorServerFbctory;
+import jbvbx.mbnbgement.remote.JMXServiceURL;
+import jbvbx.mbnbgement.remote.rmi.RMIConnectorServer;
+import jbvbx.net.ssl.KeyMbnbgerFbctory;
+import jbvbx.net.ssl.SSLContext;
+import jbvbx.net.ssl.TrustMbnbgerFbctory;
+import jbvbx.rmi.ssl.SslRMIClientSocketFbctory;
+import jbvbx.rmi.ssl.SslRMIServerSocketFbctory;
+import jbvbx.security.buth.Subject;
 
-import com.sun.jmx.remote.internal.RMIExporter;
-import com.sun.jmx.remote.security.JMXPluggableAuthenticator;
-import com.sun.jmx.remote.util.ClassLogger;
+import com.sun.jmx.remote.internbl.RMIExporter;
+import com.sun.jmx.remote.security.JMXPluggbbleAuthenticbtor;
+import com.sun.jmx.remote.util.ClbssLogger;
 
-import sun.management.Agent;
-import sun.management.AgentConfigurationError;
-import static sun.management.AgentConfigurationError.*;
-import sun.management.ConnectorAddressLink;
-import sun.management.FileSystem;
-import sun.rmi.server.UnicastRef;
-import sun.rmi.server.UnicastServerRef;
-import sun.rmi.server.UnicastServerRef2;
+import sun.mbnbgement.Agent;
+import sun.mbnbgement.AgentConfigurbtionError;
+import stbtic sun.mbnbgement.AgentConfigurbtionError.*;
+import sun.mbnbgement.ConnectorAddressLink;
+import sun.mbnbgement.FileSystem;
+import sun.rmi.server.UnicbstRef;
+import sun.rmi.server.UnicbstServerRef;
+import sun.rmi.server.UnicbstServerRef2;
 
 /**
- * This class initializes and starts the RMIConnectorServer for JSR 163
+ * This clbss initiblizes bnd stbrts the RMIConnectorServer for JSR 163
  * JMX Monitoring.
  **/
-public final class ConnectorBootstrap {
+public finbl clbss ConnectorBootstrbp {
 
     /**
-     * Default values for JMX configuration properties.
+     * Defbult vblues for JMX configurbtion properties.
      **/
-    public static interface DefaultValues {
+    public stbtic interfbce DefbultVblues {
 
-        public static final String PORT = "0";
-        public static final String CONFIG_FILE_NAME = "management.properties";
-        public static final String USE_SSL = "true";
-        public static final String USE_LOCAL_ONLY = "true";
-        public static final String USE_REGISTRY_SSL = "false";
-        public static final String USE_AUTHENTICATION = "true";
-        public static final String PASSWORD_FILE_NAME = "jmxremote.password";
-        public static final String ACCESS_FILE_NAME = "jmxremote.access";
-        public static final String SSL_NEED_CLIENT_AUTH = "false";
+        public stbtic finbl String PORT = "0";
+        public stbtic finbl String CONFIG_FILE_NAME = "mbnbgement.properties";
+        public stbtic finbl String USE_SSL = "true";
+        public stbtic finbl String USE_LOCAL_ONLY = "true";
+        public stbtic finbl String USE_REGISTRY_SSL = "fblse";
+        public stbtic finbl String USE_AUTHENTICATION = "true";
+        public stbtic finbl String PASSWORD_FILE_NAME = "jmxremote.pbssword";
+        public stbtic finbl String ACCESS_FILE_NAME = "jmxremote.bccess";
+        public stbtic finbl String SSL_NEED_CLIENT_AUTH = "fblse";
     }
 
     /**
-     * Names of JMX configuration properties.
+     * Nbmes of JMX configurbtion properties.
      **/
-    public static interface PropertyNames {
+    public stbtic interfbce PropertyNbmes {
 
-        public static final String PORT =
-                "com.sun.management.jmxremote.port";
-        public static final String RMI_PORT =
-                "com.sun.management.jmxremote.rmi.port";
-        public static final String CONFIG_FILE_NAME =
-                "com.sun.management.config.file";
-        public static final String USE_LOCAL_ONLY =
-                "com.sun.management.jmxremote.local.only";
-        public static final String USE_SSL =
-                "com.sun.management.jmxremote.ssl";
-        public static final String USE_REGISTRY_SSL =
-                "com.sun.management.jmxremote.registry.ssl";
-        public static final String USE_AUTHENTICATION =
-                "com.sun.management.jmxremote.authenticate";
-        public static final String PASSWORD_FILE_NAME =
-                "com.sun.management.jmxremote.password.file";
-        public static final String ACCESS_FILE_NAME =
-                "com.sun.management.jmxremote.access.file";
-        public static final String LOGIN_CONFIG_NAME =
-                "com.sun.management.jmxremote.login.config";
-        public static final String SSL_ENABLED_CIPHER_SUITES =
-                "com.sun.management.jmxremote.ssl.enabled.cipher.suites";
-        public static final String SSL_ENABLED_PROTOCOLS =
-                "com.sun.management.jmxremote.ssl.enabled.protocols";
-        public static final String SSL_NEED_CLIENT_AUTH =
-                "com.sun.management.jmxremote.ssl.need.client.auth";
-        public static final String SSL_CONFIG_FILE_NAME =
-                "com.sun.management.jmxremote.ssl.config.file";
+        public stbtic finbl String PORT =
+                "com.sun.mbnbgement.jmxremote.port";
+        public stbtic finbl String RMI_PORT =
+                "com.sun.mbnbgement.jmxremote.rmi.port";
+        public stbtic finbl String CONFIG_FILE_NAME =
+                "com.sun.mbnbgement.config.file";
+        public stbtic finbl String USE_LOCAL_ONLY =
+                "com.sun.mbnbgement.jmxremote.locbl.only";
+        public stbtic finbl String USE_SSL =
+                "com.sun.mbnbgement.jmxremote.ssl";
+        public stbtic finbl String USE_REGISTRY_SSL =
+                "com.sun.mbnbgement.jmxremote.registry.ssl";
+        public stbtic finbl String USE_AUTHENTICATION =
+                "com.sun.mbnbgement.jmxremote.buthenticbte";
+        public stbtic finbl String PASSWORD_FILE_NAME =
+                "com.sun.mbnbgement.jmxremote.pbssword.file";
+        public stbtic finbl String ACCESS_FILE_NAME =
+                "com.sun.mbnbgement.jmxremote.bccess.file";
+        public stbtic finbl String LOGIN_CONFIG_NAME =
+                "com.sun.mbnbgement.jmxremote.login.config";
+        public stbtic finbl String SSL_ENABLED_CIPHER_SUITES =
+                "com.sun.mbnbgement.jmxremote.ssl.enbbled.cipher.suites";
+        public stbtic finbl String SSL_ENABLED_PROTOCOLS =
+                "com.sun.mbnbgement.jmxremote.ssl.enbbled.protocols";
+        public stbtic finbl String SSL_NEED_CLIENT_AUTH =
+                "com.sun.mbnbgement.jmxremote.ssl.need.client.buth";
+        public stbtic finbl String SSL_CONFIG_FILE_NAME =
+                "com.sun.mbnbgement.jmxremote.ssl.config.file";
     }
 
     /**
-     * JMXConnectorServer associated data.
+     * JMXConnectorServer bssocibted dbtb.
      */
-    private static class JMXConnectorServerData {
+    privbte stbtic clbss JMXConnectorServerDbtb {
 
-        public JMXConnectorServerData(
+        public JMXConnectorServerDbtb(
                 JMXConnectorServer jmxConnectorServer,
                 JMXServiceURL jmxRemoteURL) {
             this.jmxConnectorServer = jmxConnectorServer;
@@ -151,29 +151,29 @@ public final class ConnectorBootstrap {
     }
 
     /**
-     * <p>Prevents our RMI server objects from keeping the JVM alive.</p>
+     * <p>Prevents our RMI server objects from keeping the JVM blive.</p>
      *
-     * <p>We use a private interface in Sun's JMX Remote API implementation
-     * that allows us to specify how to export RMI objects.  We do so using
-     * UnicastServerRef, a class in Sun's RMI implementation.  This is all
-     * non-portable, of course, so this is only valid because we are inside
+     * <p>We use b privbte interfbce in Sun's JMX Remote API implementbtion
+     * thbt bllows us to specify how to export RMI objects.  We do so using
+     * UnicbstServerRef, b clbss in Sun's RMI implementbtion.  This is bll
+     * non-portbble, of course, so this is only vblid becbuse we bre inside
      * Sun's JRE.</p>
      *
-     * <p>Objects are exported using {@link
-     * UnicastServerRef#exportObject(Remote, Object, boolean)}.  The
-     * boolean parameter is called <code>permanent</code> and means
-     * both that the object is not eligible for Distributed Garbage
-     * Collection, and that its continued existence will not prevent
-     * the JVM from exiting.  It is the latter semantics we want (we
-     * already have the former because of the way the JMX Remote API
-     * works).  Hence the somewhat misleading name of this class.</p>
+     * <p>Objects bre exported using {@link
+     * UnicbstServerRef#exportObject(Remote, Object, boolebn)}.  The
+     * boolebn pbrbmeter is cblled <code>permbnent</code> bnd mebns
+     * both thbt the object is not eligible for Distributed Gbrbbge
+     * Collection, bnd thbt its continued existence will not prevent
+     * the JVM from exiting.  It is the lbtter sembntics we wbnt (we
+     * blrebdy hbve the former becbuse of the wby the JMX Remote API
+     * works).  Hence the somewhbt mislebding nbme of this clbss.</p>
      */
-    private static class PermanentExporter implements RMIExporter {
+    privbte stbtic clbss PermbnentExporter implements RMIExporter {
 
         public Remote exportObject(Remote obj,
                 int port,
-                RMIClientSocketFactory csf,
-                RMIServerSocketFactory ssf)
+                RMIClientSocketFbctory csf,
+                RMIServerSocketFbctory ssf)
                 throws RemoteException {
 
             synchronized (this) {
@@ -182,576 +182,576 @@ public final class ConnectorBootstrap {
                 }
             }
 
-            final UnicastServerRef ref;
+            finbl UnicbstServerRef ref;
             if (csf == null && ssf == null) {
-                ref = new UnicastServerRef(port);
+                ref = new UnicbstServerRef(port);
             } else {
-                ref = new UnicastServerRef2(port, csf, ssf);
+                ref = new UnicbstServerRef2(port, csf, ssf);
             }
             return ref.exportObject(obj, null, true);
         }
 
-        // Nothing special to be done for this case
-        public boolean unexportObject(Remote obj, boolean force)
+        // Nothing specibl to be done for this cbse
+        public boolebn unexportObject(Remote obj, boolebn force)
                 throws NoSuchObjectException {
-            return UnicastRemoteObject.unexportObject(obj, force);
+            return UnicbstRemoteObject.unexportObject(obj, force);
         }
         Remote firstExported;
     }
 
     /**
-     * This JMXAuthenticator wraps the JMXPluggableAuthenticator and verifies
-     * that at least one of the principal names contained in the authenticated
-     * Subject is present in the access file.
+     * This JMXAuthenticbtor wrbps the JMXPluggbbleAuthenticbtor bnd verifies
+     * thbt bt lebst one of the principbl nbmes contbined in the buthenticbted
+     * Subject is present in the bccess file.
      */
-    private static class AccessFileCheckerAuthenticator
-            implements JMXAuthenticator {
+    privbte stbtic clbss AccessFileCheckerAuthenticbtor
+            implements JMXAuthenticbtor {
 
-        public AccessFileCheckerAuthenticator(Map<String, Object> env) throws IOException {
+        public AccessFileCheckerAuthenticbtor(Mbp<String, Object> env) throws IOException {
             environment = env;
-            accessFile = (String) env.get("jmx.remote.x.access.file");
-            properties = propertiesFromFile(accessFile);
+            bccessFile = (String) env.get("jmx.remote.x.bccess.file");
+            properties = propertiesFromFile(bccessFile);
         }
 
-        public Subject authenticate(Object credentials) {
-            final JMXAuthenticator authenticator =
-                    new JMXPluggableAuthenticator(environment);
-            final Subject subject = authenticator.authenticate(credentials);
+        public Subject buthenticbte(Object credentibls) {
+            finbl JMXAuthenticbtor buthenticbtor =
+                    new JMXPluggbbleAuthenticbtor(environment);
+            finbl Subject subject = buthenticbtor.buthenticbte(credentibls);
             checkAccessFileEntries(subject);
             return subject;
         }
 
-        private void checkAccessFileEntries(Subject subject) {
+        privbte void checkAccessFileEntries(Subject subject) {
             if (subject == null) {
                 throw new SecurityException(
-                        "Access denied! No matching entries found in " +
-                        "the access file [" + accessFile + "] as the " +
-                        "authenticated Subject is null");
+                        "Access denied! No mbtching entries found in " +
+                        "the bccess file [" + bccessFile + "] bs the " +
+                        "buthenticbted Subject is null");
             }
-            final Set<Principal> principals = subject.getPrincipals();
-            for (Principal p1: principals) {
-                if (properties.containsKey(p1.getName())) {
+            finbl Set<Principbl> principbls = subject.getPrincipbls();
+            for (Principbl p1: principbls) {
+                if (properties.contbinsKey(p1.getNbme())) {
                     return;
                 }
             }
 
-            final Set<String> principalsStr = new HashSet<>();
-            for (Principal p2: principals) {
-                principalsStr.add(p2.getName());
+            finbl Set<String> principblsStr = new HbshSet<>();
+            for (Principbl p2: principbls) {
+                principblsStr.bdd(p2.getNbme());
             }
             throw new SecurityException(
-                    "Access denied! No entries found in the access file [" +
-                    accessFile + "] for any of the authenticated identities " +
-                    principalsStr);
+                    "Access denied! No entries found in the bccess file [" +
+                    bccessFile + "] for bny of the buthenticbted identities " +
+                    principblsStr);
         }
 
-        private static Properties propertiesFromFile(String fname)
+        privbte stbtic Properties propertiesFromFile(String fnbme)
                 throws IOException {
             Properties p = new Properties();
-            if (fname == null) {
+            if (fnbme == null) {
                 return p;
             }
-            try (FileInputStream fin = new FileInputStream(fname)) {
-                p.load(fin);
+            try (FileInputStrebm fin = new FileInputStrebm(fnbme)) {
+                p.lobd(fin);
             }
             return p;
         }
-        private final Map<String, Object> environment;
-        private final Properties properties;
-        private final String accessFile;
+        privbte finbl Mbp<String, Object> environment;
+        privbte finbl Properties properties;
+        privbte finbl String bccessFile;
     }
 
-    // The variable below is here to support stop functionality
-    // It would be overriten if you call startRemoteCommectionServer second
-    // time. It's OK for now as logic in Agent.java forbids mutiple agents
-    private static Registry registry = null;
+    // The vbribble below is here to support stop functionblity
+    // It would be overriten if you cbll stbrtRemoteCommectionServer second
+    // time. It's OK for now bs logic in Agent.jbvb forbids mutiple bgents
+    privbte stbtic Registry registry = null;
 
-    public static void unexportRegistry() {
+    public stbtic void unexportRegistry() {
         // Remove the entry from registry
         try {
             if (registry != null) {
-                UnicastRemoteObject.unexportObject(registry, true);
+                UnicbstRemoteObject.unexportObject(registry, true);
                 registry = null;
             }
-        } catch(NoSuchObjectException ex) {
-            // This exception can appears only if we attempt
-            // to unexportRegistry second time. So it's safe
-            // to ignore it without additional messages.
+        } cbtch(NoSuchObjectException ex) {
+            // This exception cbn bppebrs only if we bttempt
+            // to unexportRegistry second time. So it's sbfe
+            // to ignore it without bdditionbl messbges.
         }
     }
 
      /**
-      * Initializes and starts the JMX Connector Server.
-      * If the com.sun.management.jmxremote.port property is not defined,
-      * simply return. Otherwise, attempts to load the config file, and
-      * then calls {@link #startRemoteConnectorServer
-      *                            (java.lang.String, java.util.Properties)}.
+      * Initiblizes bnd stbrts the JMX Connector Server.
+      * If the com.sun.mbnbgement.jmxremote.port property is not defined,
+      * simply return. Otherwise, bttempts to lobd the config file, bnd
+      * then cblls {@link #stbrtRemoteConnectorServer
+      *                            (jbvb.lbng.String, jbvb.util.Properties)}.
       *
       * This method is used by some jtreg tests.
       **/
-      public static synchronized JMXConnectorServer initialize() {
+      public stbtic synchronized JMXConnectorServer initiblize() {
 
-         // Load a new management properties
-         final Properties props = Agent.loadManagementProperties();
+         // Lobd b new mbnbgement properties
+         finbl Properties props = Agent.lobdMbnbgementProperties();
          if (props == null) {
               return null;
          }
 
-         final String portStr = props.getProperty(PropertyNames.PORT);
-         return startRemoteConnectorServer(portStr, props);
+         finbl String portStr = props.getProperty(PropertyNbmes.PORT);
+         return stbrtRemoteConnectorServer(portStr, props);
      }
 
     /**
      * This method is used by some jtreg tests.
      *
-     * @see #startRemoteConnectorServer
+     * @see #stbrtRemoteConnectorServer
      *             (String portStr, Properties props)
      */
-    public static synchronized JMXConnectorServer initialize(String portStr, Properties props)  {
-         return startRemoteConnectorServer(portStr, props);
+    public stbtic synchronized JMXConnectorServer initiblize(String portStr, Properties props)  {
+         return stbrtRemoteConnectorServer(portStr, props);
     }
 
     /**
-     * Initializes and starts a JMX Connector Server for remote
-     * monitoring and management.
+     * Initiblizes bnd stbrts b JMX Connector Server for remote
+     * monitoring bnd mbnbgement.
      **/
-    public static synchronized JMXConnectorServer startRemoteConnectorServer(String portStr, Properties props) {
+    public stbtic synchronized JMXConnectorServer stbrtRemoteConnectorServer(String portStr, Properties props) {
 
         // Get port number
-        final int port;
+        finbl int port;
         try {
-            port = Integer.parseInt(portStr);
-        } catch (NumberFormatException x) {
-            throw new AgentConfigurationError(INVALID_JMXREMOTE_PORT, x, portStr);
+            port = Integer.pbrseInt(portStr);
+        } cbtch (NumberFormbtException x) {
+            throw new AgentConfigurbtionError(INVALID_JMXREMOTE_PORT, x, portStr);
         }
         if (port < 0) {
-            throw new AgentConfigurationError(INVALID_JMXREMOTE_PORT, portStr);
+            throw new AgentConfigurbtionError(INVALID_JMXREMOTE_PORT, portStr);
         }
 
-        // User can specify a port to be used to export rmi object,
-        // in order to simplify firewall rules
-        // if port is not specified random one will be allocated.
+        // User cbn specify b port to be used to export rmi object,
+        // in order to simplify firewbll rules
+        // if port is not specified rbndom one will be bllocbted.
         int rmiPort = 0;
-        String rmiPortStr = props.getProperty(PropertyNames.RMI_PORT);
+        String rmiPortStr = props.getProperty(PropertyNbmes.RMI_PORT);
         try {
             if (rmiPortStr != null) {
-               rmiPort = Integer.parseInt(rmiPortStr);
+               rmiPort = Integer.pbrseInt(rmiPortStr);
             }
-        } catch (NumberFormatException x) {
-            throw new AgentConfigurationError(INVALID_JMXREMOTE_RMI_PORT, x, rmiPortStr);
+        } cbtch (NumberFormbtException x) {
+            throw new AgentConfigurbtionError(INVALID_JMXREMOTE_RMI_PORT, x, rmiPortStr);
         }
         if (rmiPort < 0) {
-            throw new AgentConfigurationError(INVALID_JMXREMOTE_RMI_PORT, rmiPortStr);
+            throw new AgentConfigurbtionError(INVALID_JMXREMOTE_RMI_PORT, rmiPortStr);
         }
 
-        // Do we use authentication?
-        final String useAuthenticationStr =
-                props.getProperty(PropertyNames.USE_AUTHENTICATION,
-                DefaultValues.USE_AUTHENTICATION);
-        final boolean useAuthentication =
-                Boolean.valueOf(useAuthenticationStr).booleanValue();
+        // Do we use buthenticbtion?
+        finbl String useAuthenticbtionStr =
+                props.getProperty(PropertyNbmes.USE_AUTHENTICATION,
+                DefbultVblues.USE_AUTHENTICATION);
+        finbl boolebn useAuthenticbtion =
+                Boolebn.vblueOf(useAuthenticbtionStr).boolebnVblue();
 
         // Do we use SSL?
-        final String useSslStr =
-                props.getProperty(PropertyNames.USE_SSL,
-                DefaultValues.USE_SSL);
-        final boolean useSsl =
-                Boolean.valueOf(useSslStr).booleanValue();
+        finbl String useSslStr =
+                props.getProperty(PropertyNbmes.USE_SSL,
+                DefbultVblues.USE_SSL);
+        finbl boolebn useSsl =
+                Boolebn.vblueOf(useSslStr).boolebnVblue();
 
         // Do we use RMI Registry SSL?
-        final String useRegistrySslStr =
-                props.getProperty(PropertyNames.USE_REGISTRY_SSL,
-                DefaultValues.USE_REGISTRY_SSL);
-        final boolean useRegistrySsl =
-                Boolean.valueOf(useRegistrySslStr).booleanValue();
+        finbl String useRegistrySslStr =
+                props.getProperty(PropertyNbmes.USE_REGISTRY_SSL,
+                DefbultVblues.USE_REGISTRY_SSL);
+        finbl boolebn useRegistrySsl =
+                Boolebn.vblueOf(useRegistrySslStr).boolebnVblue();
 
-        final String enabledCipherSuites =
-                props.getProperty(PropertyNames.SSL_ENABLED_CIPHER_SUITES);
-        String enabledCipherSuitesList[] = null;
-        if (enabledCipherSuites != null) {
-            StringTokenizer st = new StringTokenizer(enabledCipherSuites, ",");
+        finbl String enbbledCipherSuites =
+                props.getProperty(PropertyNbmes.SSL_ENABLED_CIPHER_SUITES);
+        String enbbledCipherSuitesList[] = null;
+        if (enbbledCipherSuites != null) {
+            StringTokenizer st = new StringTokenizer(enbbledCipherSuites, ",");
             int tokens = st.countTokens();
-            enabledCipherSuitesList = new String[tokens];
+            enbbledCipherSuitesList = new String[tokens];
             for (int i = 0; i < tokens; i++) {
-                enabledCipherSuitesList[i] = st.nextToken();
+                enbbledCipherSuitesList[i] = st.nextToken();
             }
         }
 
-        final String enabledProtocols =
-                props.getProperty(PropertyNames.SSL_ENABLED_PROTOCOLS);
-        String enabledProtocolsList[] = null;
-        if (enabledProtocols != null) {
-            StringTokenizer st = new StringTokenizer(enabledProtocols, ",");
+        finbl String enbbledProtocols =
+                props.getProperty(PropertyNbmes.SSL_ENABLED_PROTOCOLS);
+        String enbbledProtocolsList[] = null;
+        if (enbbledProtocols != null) {
+            StringTokenizer st = new StringTokenizer(enbbledProtocols, ",");
             int tokens = st.countTokens();
-            enabledProtocolsList = new String[tokens];
+            enbbledProtocolsList = new String[tokens];
             for (int i = 0; i < tokens; i++) {
-                enabledProtocolsList[i] = st.nextToken();
+                enbbledProtocolsList[i] = st.nextToken();
             }
         }
 
-        final String sslNeedClientAuthStr =
-                props.getProperty(PropertyNames.SSL_NEED_CLIENT_AUTH,
-                DefaultValues.SSL_NEED_CLIENT_AUTH);
-        final boolean sslNeedClientAuth =
-                Boolean.valueOf(sslNeedClientAuthStr).booleanValue();
+        finbl String sslNeedClientAuthStr =
+                props.getProperty(PropertyNbmes.SSL_NEED_CLIENT_AUTH,
+                DefbultVblues.SSL_NEED_CLIENT_AUTH);
+        finbl boolebn sslNeedClientAuth =
+                Boolebn.vblueOf(sslNeedClientAuthStr).boolebnVblue();
 
-        // Read SSL config file name
-        final String sslConfigFileName =
-                props.getProperty(PropertyNames.SSL_CONFIG_FILE_NAME);
+        // Rebd SSL config file nbme
+        finbl String sslConfigFileNbme =
+                props.getProperty(PropertyNbmes.SSL_CONFIG_FILE_NAME);
 
-        String loginConfigName = null;
-        String passwordFileName = null;
-        String accessFileName = null;
+        String loginConfigNbme = null;
+        String pbsswordFileNbme = null;
+        String bccessFileNbme = null;
 
-        // Initialize settings when authentication is active
-        if (useAuthentication) {
+        // Initiblize settings when buthenticbtion is bctive
+        if (useAuthenticbtion) {
 
-            // Get non-default login configuration
-            loginConfigName =
-                    props.getProperty(PropertyNames.LOGIN_CONFIG_NAME);
+            // Get non-defbult login configurbtion
+            loginConfigNbme =
+                    props.getProperty(PropertyNbmes.LOGIN_CONFIG_NAME);
 
-            if (loginConfigName == null) {
-                // Get password file
-                passwordFileName =
-                        props.getProperty(PropertyNames.PASSWORD_FILE_NAME,
-                        getDefaultFileName(DefaultValues.PASSWORD_FILE_NAME));
-                checkPasswordFile(passwordFileName);
+            if (loginConfigNbme == null) {
+                // Get pbssword file
+                pbsswordFileNbme =
+                        props.getProperty(PropertyNbmes.PASSWORD_FILE_NAME,
+                        getDefbultFileNbme(DefbultVblues.PASSWORD_FILE_NAME));
+                checkPbsswordFile(pbsswordFileNbme);
             }
 
-            // Get access file
-            accessFileName = props.getProperty(PropertyNames.ACCESS_FILE_NAME,
-                    getDefaultFileName(DefaultValues.ACCESS_FILE_NAME));
-            checkAccessFile(accessFileName);
+            // Get bccess file
+            bccessFileNbme = props.getProperty(PropertyNbmes.ACCESS_FILE_NAME,
+                    getDefbultFileNbme(DefbultVblues.ACCESS_FILE_NAME));
+            checkAccessFile(bccessFileNbme);
         }
 
         if (log.debugOn()) {
-            log.debug("startRemoteConnectorServer",
-                    Agent.getText("jmxremote.ConnectorBootstrap.starting") +
-                    "\n\t" + PropertyNames.PORT + "=" + port +
-                    "\n\t" + PropertyNames.RMI_PORT + "=" + rmiPort +
-                    "\n\t" + PropertyNames.USE_SSL + "=" + useSsl +
-                    "\n\t" + PropertyNames.USE_REGISTRY_SSL + "=" + useRegistrySsl +
-                    "\n\t" + PropertyNames.SSL_CONFIG_FILE_NAME + "=" + sslConfigFileName +
-                    "\n\t" + PropertyNames.SSL_ENABLED_CIPHER_SUITES + "=" +
-                    enabledCipherSuites +
-                    "\n\t" + PropertyNames.SSL_ENABLED_PROTOCOLS + "=" +
-                    enabledProtocols +
-                    "\n\t" + PropertyNames.SSL_NEED_CLIENT_AUTH + "=" +
+            log.debug("stbrtRemoteConnectorServer",
+                    Agent.getText("jmxremote.ConnectorBootstrbp.stbrting") +
+                    "\n\t" + PropertyNbmes.PORT + "=" + port +
+                    "\n\t" + PropertyNbmes.RMI_PORT + "=" + rmiPort +
+                    "\n\t" + PropertyNbmes.USE_SSL + "=" + useSsl +
+                    "\n\t" + PropertyNbmes.USE_REGISTRY_SSL + "=" + useRegistrySsl +
+                    "\n\t" + PropertyNbmes.SSL_CONFIG_FILE_NAME + "=" + sslConfigFileNbme +
+                    "\n\t" + PropertyNbmes.SSL_ENABLED_CIPHER_SUITES + "=" +
+                    enbbledCipherSuites +
+                    "\n\t" + PropertyNbmes.SSL_ENABLED_PROTOCOLS + "=" +
+                    enbbledProtocols +
+                    "\n\t" + PropertyNbmes.SSL_NEED_CLIENT_AUTH + "=" +
                     sslNeedClientAuth +
-                    "\n\t" + PropertyNames.USE_AUTHENTICATION + "=" +
-                    useAuthentication +
-                    (useAuthentication ? (loginConfigName == null ? ("\n\t" + PropertyNames.PASSWORD_FILE_NAME + "=" +
-                    passwordFileName) : ("\n\t" + PropertyNames.LOGIN_CONFIG_NAME + "=" +
-                    loginConfigName)) : "\n\t" +
-                    Agent.getText("jmxremote.ConnectorBootstrap.noAuthentication")) +
-                    (useAuthentication ? ("\n\t" + PropertyNames.ACCESS_FILE_NAME + "=" +
-                    accessFileName) : "") +
+                    "\n\t" + PropertyNbmes.USE_AUTHENTICATION + "=" +
+                    useAuthenticbtion +
+                    (useAuthenticbtion ? (loginConfigNbme == null ? ("\n\t" + PropertyNbmes.PASSWORD_FILE_NAME + "=" +
+                    pbsswordFileNbme) : ("\n\t" + PropertyNbmes.LOGIN_CONFIG_NAME + "=" +
+                    loginConfigNbme)) : "\n\t" +
+                    Agent.getText("jmxremote.ConnectorBootstrbp.noAuthenticbtion")) +
+                    (useAuthenticbtion ? ("\n\t" + PropertyNbmes.ACCESS_FILE_NAME + "=" +
+                    bccessFileNbme) : "") +
                     "");
         }
 
-        final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        finbl MBebnServer mbs = MbnbgementFbctory.getPlbtformMBebnServer();
         JMXConnectorServer cs = null;
         JMXServiceURL url = null;
         try {
-            final JMXConnectorServerData data = exportMBeanServer(
+            finbl JMXConnectorServerDbtb dbtb = exportMBebnServer(
                     mbs, port, rmiPort, useSsl, useRegistrySsl,
-                    sslConfigFileName, enabledCipherSuitesList,
-                    enabledProtocolsList, sslNeedClientAuth,
-                    useAuthentication, loginConfigName,
-                    passwordFileName, accessFileName);
-            cs = data.jmxConnectorServer;
-            url = data.jmxRemoteURL;
-            log.config("startRemoteConnectorServer",
-                    Agent.getText("jmxremote.ConnectorBootstrap.ready",
+                    sslConfigFileNbme, enbbledCipherSuitesList,
+                    enbbledProtocolsList, sslNeedClientAuth,
+                    useAuthenticbtion, loginConfigNbme,
+                    pbsswordFileNbme, bccessFileNbme);
+            cs = dbtb.jmxConnectorServer;
+            url = dbtb.jmxRemoteURL;
+            log.config("stbrtRemoteConnectorServer",
+                    Agent.getText("jmxremote.ConnectorBootstrbp.rebdy",
                     url.toString()));
-        } catch (Exception e) {
-            throw new AgentConfigurationError(AGENT_EXCEPTION, e, e.toString());
+        } cbtch (Exception e) {
+            throw new AgentConfigurbtionError(AGENT_EXCEPTION, e, e.toString());
         }
         try {
-            // Export remote connector address and associated configuration
-            // properties to the instrumentation buffer.
-            Map<String, String> properties = new HashMap<>();
+            // Export remote connector bddress bnd bssocibted configurbtion
+            // properties to the instrumentbtion buffer.
+            Mbp<String, String> properties = new HbshMbp<>();
             properties.put("remoteAddress", url.toString());
-            properties.put("authenticate", useAuthenticationStr);
+            properties.put("buthenticbte", useAuthenticbtionStr);
             properties.put("ssl", useSslStr);
             properties.put("sslRegistry", useRegistrySslStr);
             properties.put("sslNeedClientAuth", sslNeedClientAuthStr);
             ConnectorAddressLink.exportRemote(properties);
-        } catch (Exception e) {
-            // Remote connector server started but unable to export remote
-            // connector address and associated configuration properties to
-            // the instrumentation buffer - non-fatal error.
-            log.debug("startRemoteConnectorServer", e);
+        } cbtch (Exception e) {
+            // Remote connector server stbrted but unbble to export remote
+            // connector bddress bnd bssocibted configurbtion properties to
+            // the instrumentbtion buffer - non-fbtbl error.
+            log.debug("stbrtRemoteConnectorServer", e);
         }
         return cs;
     }
 
     /*
-     * Creates and starts a RMI Connector Server for "local" monitoring
-     * and management.
+     * Crebtes bnd stbrts b RMI Connector Server for "locbl" monitoring
+     * bnd mbnbgement.
      */
-    public static JMXConnectorServer startLocalConnectorServer() {
-        // Ensure cryptographically strong random number generater used
-        // to choose the object number - see java.rmi.server.ObjID
-        System.setProperty("java.rmi.server.randomIDs", "true");
+    public stbtic JMXConnectorServer stbrtLocblConnectorServer() {
+        // Ensure cryptogrbphicblly strong rbndom number generbter used
+        // to choose the object number - see jbvb.rmi.server.ObjID
+        System.setProperty("jbvb.rmi.server.rbndomIDs", "true");
 
-        // This RMI server should not keep the VM alive
-        Map<String, Object> env = new HashMap<>();
-        env.put(RMIExporter.EXPORTER_ATTRIBUTE, new PermanentExporter());
+        // This RMI server should not keep the VM blive
+        Mbp<String, Object> env = new HbshMbp<>();
+        env.put(RMIExporter.EXPORTER_ATTRIBUTE, new PermbnentExporter());
 
-        // The local connector server need only be available via the
-        // loopback connection.
-        String localhost = "localhost";
+        // The locbl connector server need only be bvbilbble vib the
+        // loopbbck connection.
+        String locblhost = "locblhost";
         InetAddress lh = null;
         try {
-            lh = InetAddress.getByName(localhost);
-            localhost = lh.getHostAddress();
-        } catch (UnknownHostException x) {
+            lh = InetAddress.getByNbme(locblhost);
+            locblhost = lh.getHostAddress();
+        } cbtch (UnknownHostException x) {
         }
 
-        // localhost unknown or (somehow) didn't resolve to
-        // a loopback address.
-        if (lh == null || !lh.isLoopbackAddress()) {
-            localhost = "127.0.0.1";
+        // locblhost unknown or (somehow) didn't resolve to
+        // b loopbbck bddress.
+        if (lh == null || !lh.isLoopbbckAddress()) {
+            locblhost = "127.0.0.1";
         }
 
-        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        MBebnServer mbs = MbnbgementFbctory.getPlbtformMBebnServer();
         try {
-            JMXServiceURL url = new JMXServiceURL("rmi", localhost, 0);
-            // Do we accept connections from local interfaces only?
-            Properties props = Agent.getManagementProperties();
+            JMXServiceURL url = new JMXServiceURL("rmi", locblhost, 0);
+            // Do we bccept connections from locbl interfbces only?
+            Properties props = Agent.getMbnbgementProperties();
             if (props ==  null) {
                 props = new Properties();
             }
-            String useLocalOnlyStr = props.getProperty(
-                    PropertyNames.USE_LOCAL_ONLY, DefaultValues.USE_LOCAL_ONLY);
-            boolean useLocalOnly = Boolean.valueOf(useLocalOnlyStr).booleanValue();
-            if (useLocalOnly) {
+            String useLocblOnlyStr = props.getProperty(
+                    PropertyNbmes.USE_LOCAL_ONLY, DefbultVblues.USE_LOCAL_ONLY);
+            boolebn useLocblOnly = Boolebn.vblueOf(useLocblOnlyStr).boolebnVblue();
+            if (useLocblOnly) {
                 env.put(RMIConnectorServer.RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE,
-                        new LocalRMIServerSocketFactory());
+                        new LocblRMIServerSocketFbctory());
             }
             JMXConnectorServer server =
-                    JMXConnectorServerFactory.newJMXConnectorServer(url, env, mbs);
-            server.start();
+                    JMXConnectorServerFbctory.newJMXConnectorServer(url, env, mbs);
+            server.stbrt();
             return server;
-        } catch (Exception e) {
-            throw new AgentConfigurationError(AGENT_EXCEPTION, e, e.toString());
+        } cbtch (Exception e) {
+            throw new AgentConfigurbtionError(AGENT_EXCEPTION, e, e.toString());
         }
     }
 
-    private static void checkPasswordFile(String passwordFileName) {
-        if (passwordFileName == null || passwordFileName.length() == 0) {
-            throw new AgentConfigurationError(PASSWORD_FILE_NOT_SET);
+    privbte stbtic void checkPbsswordFile(String pbsswordFileNbme) {
+        if (pbsswordFileNbme == null || pbsswordFileNbme.length() == 0) {
+            throw new AgentConfigurbtionError(PASSWORD_FILE_NOT_SET);
         }
-        File file = new File(passwordFileName);
+        File file = new File(pbsswordFileNbme);
         if (!file.exists()) {
-            throw new AgentConfigurationError(PASSWORD_FILE_NOT_FOUND, passwordFileName);
+            throw new AgentConfigurbtionError(PASSWORD_FILE_NOT_FOUND, pbsswordFileNbme);
         }
 
-        if (!file.canRead()) {
-            throw new AgentConfigurationError(PASSWORD_FILE_NOT_READABLE, passwordFileName);
+        if (!file.cbnRebd()) {
+            throw new AgentConfigurbtionError(PASSWORD_FILE_NOT_READABLE, pbsswordFileNbme);
         }
 
         FileSystem fs = FileSystem.open();
         try {
             if (fs.supportsFileSecurity(file)) {
                 if (!fs.isAccessUserOnly(file)) {
-                    final String msg = Agent.getText("jmxremote.ConnectorBootstrap.password.readonly",
-                            passwordFileName);
-                    log.config("startRemoteConnectorServer", msg);
-                    throw new AgentConfigurationError(PASSWORD_FILE_ACCESS_NOT_RESTRICTED,
-                            passwordFileName);
+                    finbl String msg = Agent.getText("jmxremote.ConnectorBootstrbp.pbssword.rebdonly",
+                            pbsswordFileNbme);
+                    log.config("stbrtRemoteConnectorServer", msg);
+                    throw new AgentConfigurbtionError(PASSWORD_FILE_ACCESS_NOT_RESTRICTED,
+                            pbsswordFileNbme);
                 }
             }
-        } catch (IOException e) {
-            throw new AgentConfigurationError(PASSWORD_FILE_READ_FAILED,
-                    e, passwordFileName);
+        } cbtch (IOException e) {
+            throw new AgentConfigurbtionError(PASSWORD_FILE_READ_FAILED,
+                    e, pbsswordFileNbme);
         }
     }
 
-    private static void checkAccessFile(String accessFileName) {
-        if (accessFileName == null || accessFileName.length() == 0) {
-            throw new AgentConfigurationError(ACCESS_FILE_NOT_SET);
+    privbte stbtic void checkAccessFile(String bccessFileNbme) {
+        if (bccessFileNbme == null || bccessFileNbme.length() == 0) {
+            throw new AgentConfigurbtionError(ACCESS_FILE_NOT_SET);
         }
-        File file = new File(accessFileName);
+        File file = new File(bccessFileNbme);
         if (!file.exists()) {
-            throw new AgentConfigurationError(ACCESS_FILE_NOT_FOUND, accessFileName);
+            throw new AgentConfigurbtionError(ACCESS_FILE_NOT_FOUND, bccessFileNbme);
         }
 
-        if (!file.canRead()) {
-            throw new AgentConfigurationError(ACCESS_FILE_NOT_READABLE, accessFileName);
+        if (!file.cbnRebd()) {
+            throw new AgentConfigurbtionError(ACCESS_FILE_NOT_READABLE, bccessFileNbme);
         }
     }
 
-    private static void checkRestrictedFile(String restrictedFileName) {
-        if (restrictedFileName == null || restrictedFileName.length() == 0) {
-            throw new AgentConfigurationError(FILE_NOT_SET);
+    privbte stbtic void checkRestrictedFile(String restrictedFileNbme) {
+        if (restrictedFileNbme == null || restrictedFileNbme.length() == 0) {
+            throw new AgentConfigurbtionError(FILE_NOT_SET);
         }
-        File file = new File(restrictedFileName);
+        File file = new File(restrictedFileNbme);
         if (!file.exists()) {
-            throw new AgentConfigurationError(FILE_NOT_FOUND, restrictedFileName);
+            throw new AgentConfigurbtionError(FILE_NOT_FOUND, restrictedFileNbme);
         }
-        if (!file.canRead()) {
-            throw new AgentConfigurationError(FILE_NOT_READABLE, restrictedFileName);
+        if (!file.cbnRebd()) {
+            throw new AgentConfigurbtionError(FILE_NOT_READABLE, restrictedFileNbme);
         }
         FileSystem fs = FileSystem.open();
         try {
             if (fs.supportsFileSecurity(file)) {
                 if (!fs.isAccessUserOnly(file)) {
-                    final String msg = Agent.getText(
-                            "jmxremote.ConnectorBootstrap.file.readonly",
-                            restrictedFileName);
-                    log.config("startRemoteConnectorServer", msg);
-                    throw new AgentConfigurationError(
-                            FILE_ACCESS_NOT_RESTRICTED, restrictedFileName);
+                    finbl String msg = Agent.getText(
+                            "jmxremote.ConnectorBootstrbp.file.rebdonly",
+                            restrictedFileNbme);
+                    log.config("stbrtRemoteConnectorServer", msg);
+                    throw new AgentConfigurbtionError(
+                            FILE_ACCESS_NOT_RESTRICTED, restrictedFileNbme);
                 }
             }
-        } catch (IOException e) {
-            throw new AgentConfigurationError(
-                    FILE_READ_FAILED, e, restrictedFileName);
+        } cbtch (IOException e) {
+            throw new AgentConfigurbtionError(
+                    FILE_READ_FAILED, e, restrictedFileNbme);
         }
     }
 
     /**
-     * Compute the full path name for a default file.
-     * @param basename basename (with extension) of the default file.
-     * @return ${JRE}/lib/management/${basename}
+     * Compute the full pbth nbme for b defbult file.
+     * @pbrbm bbsenbme bbsenbme (with extension) of the defbult file.
+     * @return ${JRE}/lib/mbnbgement/${bbsenbme}
      **/
-    private static String getDefaultFileName(String basename) {
-        final String fileSeparator = File.separator;
-        return System.getProperty("java.home") + fileSeparator + "lib" +
-                fileSeparator + "management" + fileSeparator +
-                basename;
+    privbte stbtic String getDefbultFileNbme(String bbsenbme) {
+        finbl String fileSepbrbtor = File.sepbrbtor;
+        return System.getProperty("jbvb.home") + fileSepbrbtor + "lib" +
+                fileSepbrbtor + "mbnbgement" + fileSepbrbtor +
+                bbsenbme;
     }
 
-    private static SslRMIServerSocketFactory createSslRMIServerSocketFactory(
-            String sslConfigFileName,
-            String[] enabledCipherSuites,
-            String[] enabledProtocols,
-            boolean sslNeedClientAuth) {
-        if (sslConfigFileName == null) {
-            return new SslRMIServerSocketFactory(
-                    enabledCipherSuites,
-                    enabledProtocols,
+    privbte stbtic SslRMIServerSocketFbctory crebteSslRMIServerSocketFbctory(
+            String sslConfigFileNbme,
+            String[] enbbledCipherSuites,
+            String[] enbbledProtocols,
+            boolebn sslNeedClientAuth) {
+        if (sslConfigFileNbme == null) {
+            return new SslRMIServerSocketFbctory(
+                    enbbledCipherSuites,
+                    enbbledProtocols,
                     sslNeedClientAuth);
         } else {
-            checkRestrictedFile(sslConfigFileName);
+            checkRestrictedFile(sslConfigFileNbme);
             try {
-                // Load the SSL keystore properties from the config file
+                // Lobd the SSL keystore properties from the config file
                 Properties p = new Properties();
-                try (InputStream in = new FileInputStream(sslConfigFileName)) {
-                    BufferedInputStream bin = new BufferedInputStream(in);
-                    p.load(bin);
+                try (InputStrebm in = new FileInputStrebm(sslConfigFileNbme)) {
+                    BufferedInputStrebm bin = new BufferedInputStrebm(in);
+                    p.lobd(bin);
                 }
                 String keyStore =
-                        p.getProperty("javax.net.ssl.keyStore");
-                String keyStorePassword =
-                        p.getProperty("javax.net.ssl.keyStorePassword", "");
+                        p.getProperty("jbvbx.net.ssl.keyStore");
+                String keyStorePbssword =
+                        p.getProperty("jbvbx.net.ssl.keyStorePbssword", "");
                 String trustStore =
-                        p.getProperty("javax.net.ssl.trustStore");
-                String trustStorePassword =
-                        p.getProperty("javax.net.ssl.trustStorePassword", "");
+                        p.getProperty("jbvbx.net.ssl.trustStore");
+                String trustStorePbssword =
+                        p.getProperty("jbvbx.net.ssl.trustStorePbssword", "");
 
-                char[] keyStorePasswd = null;
-                if (keyStorePassword.length() != 0) {
-                    keyStorePasswd = keyStorePassword.toCharArray();
+                chbr[] keyStorePbsswd = null;
+                if (keyStorePbssword.length() != 0) {
+                    keyStorePbsswd = keyStorePbssword.toChbrArrby();
                 }
 
-                char[] trustStorePasswd = null;
-                if (trustStorePassword.length() != 0) {
-                    trustStorePasswd = trustStorePassword.toCharArray();
+                chbr[] trustStorePbsswd = null;
+                if (trustStorePbssword.length() != 0) {
+                    trustStorePbsswd = trustStorePbssword.toChbrArrby();
                 }
 
                 KeyStore ks = null;
                 if (keyStore != null) {
-                    ks = KeyStore.getInstance(KeyStore.getDefaultType());
-                    try (FileInputStream ksfis = new FileInputStream(keyStore)) {
-                        ks.load(ksfis, keyStorePasswd);
+                    ks = KeyStore.getInstbnce(KeyStore.getDefbultType());
+                    try (FileInputStrebm ksfis = new FileInputStrebm(keyStore)) {
+                        ks.lobd(ksfis, keyStorePbsswd);
                     }
                 }
-                KeyManagerFactory kmf = KeyManagerFactory.getInstance(
-                        KeyManagerFactory.getDefaultAlgorithm());
-                kmf.init(ks, keyStorePasswd);
+                KeyMbnbgerFbctory kmf = KeyMbnbgerFbctory.getInstbnce(
+                        KeyMbnbgerFbctory.getDefbultAlgorithm());
+                kmf.init(ks, keyStorePbsswd);
 
                 KeyStore ts = null;
                 if (trustStore != null) {
-                    ts = KeyStore.getInstance(KeyStore.getDefaultType());
-                    try (FileInputStream tsfis = new FileInputStream(trustStore)) {
-                        ts.load(tsfis, trustStorePasswd);
+                    ts = KeyStore.getInstbnce(KeyStore.getDefbultType());
+                    try (FileInputStrebm tsfis = new FileInputStrebm(trustStore)) {
+                        ts.lobd(tsfis, trustStorePbsswd);
                     }
                 }
-                TrustManagerFactory tmf = TrustManagerFactory.getInstance(
-                        TrustManagerFactory.getDefaultAlgorithm());
+                TrustMbnbgerFbctory tmf = TrustMbnbgerFbctory.getInstbnce(
+                        TrustMbnbgerFbctory.getDefbultAlgorithm());
                 tmf.init(ts);
 
-                SSLContext ctx = SSLContext.getInstance("SSL");
-                ctx.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+                SSLContext ctx = SSLContext.getInstbnce("SSL");
+                ctx.init(kmf.getKeyMbnbgers(), tmf.getTrustMbnbgers(), null);
 
-                return new SslRMIServerSocketFactory(
+                return new SslRMIServerSocketFbctory(
                         ctx,
-                        enabledCipherSuites,
-                        enabledProtocols,
+                        enbbledCipherSuites,
+                        enbbledProtocols,
                         sslNeedClientAuth);
-            } catch (Exception e) {
-                throw new AgentConfigurationError(AGENT_EXCEPTION, e, e.toString());
+            } cbtch (Exception e) {
+                throw new AgentConfigurbtionError(AGENT_EXCEPTION, e, e.toString());
             }
         }
     }
 
-    private static JMXConnectorServerData exportMBeanServer(
-            MBeanServer mbs,
+    privbte stbtic JMXConnectorServerDbtb exportMBebnServer(
+            MBebnServer mbs,
             int port,
             int rmiPort,
-            boolean useSsl,
-            boolean useRegistrySsl,
-            String sslConfigFileName,
-            String[] enabledCipherSuites,
-            String[] enabledProtocols,
-            boolean sslNeedClientAuth,
-            boolean useAuthentication,
-            String loginConfigName,
-            String passwordFileName,
-            String accessFileName)
-            throws IOException, MalformedURLException {
+            boolebn useSsl,
+            boolebn useRegistrySsl,
+            String sslConfigFileNbme,
+            String[] enbbledCipherSuites,
+            String[] enbbledProtocols,
+            boolebn sslNeedClientAuth,
+            boolebn useAuthenticbtion,
+            String loginConfigNbme,
+            String pbsswordFileNbme,
+            String bccessFileNbme)
+            throws IOException, MblformedURLException {
 
-        /* Make sure we use non-guessable RMI object IDs.  Otherwise
-         * attackers could hijack open connections by guessing their
+        /* Mbke sure we use non-guessbble RMI object IDs.  Otherwise
+         * bttbckers could hijbck open connections by guessing their
          * IDs.  */
-        System.setProperty("java.rmi.server.randomIDs", "true");
+        System.setProperty("jbvb.rmi.server.rbndomIDs", "true");
 
         JMXServiceURL url = new JMXServiceURL("rmi", null, rmiPort);
 
-        Map<String, Object> env = new HashMap<>();
+        Mbp<String, Object> env = new HbshMbp<>();
 
-        PermanentExporter exporter = new PermanentExporter();
+        PermbnentExporter exporter = new PermbnentExporter();
 
         env.put(RMIExporter.EXPORTER_ATTRIBUTE, exporter);
 
-        if (useAuthentication) {
-            if (loginConfigName != null) {
-                env.put("jmx.remote.x.login.config", loginConfigName);
+        if (useAuthenticbtion) {
+            if (loginConfigNbme != null) {
+                env.put("jmx.remote.x.login.config", loginConfigNbme);
             }
-            if (passwordFileName != null) {
-                env.put("jmx.remote.x.password.file", passwordFileName);
+            if (pbsswordFileNbme != null) {
+                env.put("jmx.remote.x.pbssword.file", pbsswordFileNbme);
             }
 
-            env.put("jmx.remote.x.access.file", accessFileName);
+            env.put("jmx.remote.x.bccess.file", bccessFileNbme);
 
-            if (env.get("jmx.remote.x.password.file") != null ||
+            if (env.get("jmx.remote.x.pbssword.file") != null ||
                     env.get("jmx.remote.x.login.config") != null) {
                 env.put(JMXConnectorServer.AUTHENTICATOR,
-                        new AccessFileCheckerAuthenticator(env));
+                        new AccessFileCheckerAuthenticbtor(env));
             }
         }
 
-        RMIClientSocketFactory csf = null;
-        RMIServerSocketFactory ssf = null;
+        RMIClientSocketFbctory csf = null;
+        RMIServerSocketFbctory ssf = null;
 
         if (useSsl || useRegistrySsl) {
-            csf = new SslRMIClientSocketFactory();
-            ssf = createSslRMIServerSocketFactory(
-                    sslConfigFileName, enabledCipherSuites,
-                    enabledProtocols, sslNeedClientAuth);
+            csf = new SslRMIClientSocketFbctory();
+            ssf = crebteSslRMIServerSocketFbctory(
+                    sslConfigFileNbme, enbbledCipherSuites,
+                    enbbledProtocols, sslNeedClientAuth);
         }
 
         if (useSsl) {
@@ -764,14 +764,14 @@ public final class ConnectorBootstrap {
         JMXConnectorServer connServer = null;
         try {
             connServer =
-                    JMXConnectorServerFactory.newJMXConnectorServer(url, env, mbs);
-            connServer.start();
-        } catch (IOException e) {
+                    JMXConnectorServerFbctory.newJMXConnectorServer(url, env, mbs);
+            connServer.stbrt();
+        } cbtch (IOException e) {
             if (connServer == null) {
-                throw new AgentConfigurationError(CONNECTOR_SERVER_IO_ERROR,
+                throw new AgentConfigurbtionError(CONNECTOR_SERVER_IO_ERROR,
                         e, url.toString());
             } else {
-                throw new AgentConfigurationError(CONNECTOR_SERVER_IO_ERROR,
+                throw new AgentConfigurbtionError(CONNECTOR_SERVER_IO_ERROR,
                         e, connServer.getAddress().toString());
             }
         }
@@ -788,29 +788,29 @@ public final class ConnectorBootstrap {
 
 
         int registryPort =
-            ((UnicastRef) ((RemoteObject) registry).getRef()).getLiveRef().getPort();
-        String jmxUrlStr =  String.format("service:jmx:rmi:///jndi/rmi://%s:%d/jmxrmi",
+            ((UnicbstRef) ((RemoteObject) registry).getRef()).getLiveRef().getPort();
+        String jmxUrlStr =  String.formbt("service:jmx:rmi:///jndi/rmi://%s:%d/jmxrmi",
                                            url.getHost(), registryPort);
         JMXServiceURL remoteURL = new JMXServiceURL(jmxUrlStr);
 
-        /* Our exporter remembers the first object it was asked to
-        export, which will be an RMIServerImpl appropriate for
-        publication in our special registry.  We could
-        alternatively have constructed the RMIServerImpl explicitly
-        and then constructed an RMIConnectorServer passing it as a
-        parameter, but that's quite a bit more verbose and pulls in
+        /* Our exporter remembers the first object it wbs bsked to
+        export, which will be bn RMIServerImpl bppropribte for
+        publicbtion in our specibl registry.  We could
+        blternbtively hbve constructed the RMIServerImpl explicitly
+        bnd then constructed bn RMIConnectorServer pbssing it bs b
+        pbrbmeter, but thbt's quite b bit more verbose bnd pulls in
         lots of knowledge of the RMI connector.  */
 
-        return new JMXConnectorServerData(connServer, remoteURL);
+        return new JMXConnectorServerDbtb(connServer, remoteURL);
     }
 
     /**
-     * This class cannot be instantiated.
+     * This clbss cbnnot be instbntibted.
      **/
-    private ConnectorBootstrap() {
+    privbte ConnectorBootstrbp() {
     }
 
-    private static final ClassLogger log =
-        new ClassLogger(ConnectorBootstrap.class.getPackage().getName(),
-                        "ConnectorBootstrap");
+    privbte stbtic finbl ClbssLogger log =
+        new ClbssLogger(ConnectorBootstrbp.clbss.getPbckbge().getNbme(),
+                        "ConnectorBootstrbp");
 }

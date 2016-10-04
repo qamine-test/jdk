@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Consumer;
+import jbvb.util.Iterbtor;
+import jbvb.util.Objects;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.Consumer;
 
 /**
- * Implementing this interface allows an object to be the target of
- * the "for-each loop" statement. See
+ * Implementing this interfbce bllows bn object to be the tbrget of
+ * the "for-ebch loop" stbtement. See
  * <strong>
- * <a href="{@docRoot}/../technotes/guides/language/foreach.html">For-each Loop</a>
+ * <b href="{@docRoot}/../technotes/guides/lbngubge/forebch.html">For-ebch Loop</b>
  * </strong>
  *
- * @param <T> the type of elements returned by the iterator
+ * @pbrbm <T> the type of elements returned by the iterbtor
  *
  * @since 1.5
- * @jls 14.14.2 The enhanced for statement
+ * @jls 14.14.2 The enhbnced for stbtement
  */
-public interface Iterable<T> {
+public interfbce Iterbble<T> {
     /**
-     * Returns an iterator over elements of type {@code T}.
+     * Returns bn iterbtor over elements of type {@code T}.
      *
-     * @return an Iterator.
+     * @return bn Iterbtor.
      */
-    Iterator<T> iterator();
+    Iterbtor<T> iterbtor();
 
     /**
-     * Performs the given action for each element of the {@code Iterable}
-     * until all elements have been processed or the action throws an
-     * exception.  Unless otherwise specified by the implementing class,
-     * actions are performed in the order of iteration (if an iteration order
-     * is specified).  Exceptions thrown by the action are relayed to the
-     * caller.
+     * Performs the given bction for ebch element of the {@code Iterbble}
+     * until bll elements hbve been processed or the bction throws bn
+     * exception.  Unless otherwise specified by the implementing clbss,
+     * bctions bre performed in the order of iterbtion (if bn iterbtion order
+     * is specified).  Exceptions thrown by the bction bre relbyed to the
+     * cbller.
      *
      * @implSpec
-     * <p>The default implementation behaves as if:
+     * <p>The defbult implementbtion behbves bs if:
      * <pre>{@code
      *     for (T t : this)
-     *         action.accept(t);
+     *         bction.bccept(t);
      * }</pre>
      *
-     * @param action The action to be performed for each element
-     * @throws NullPointerException if the specified action is null
+     * @pbrbm bction The bction to be performed for ebch element
+     * @throws NullPointerException if the specified bction is null
      * @since 1.8
      */
-    default void forEach(Consumer<? super T> action) {
-        Objects.requireNonNull(action);
+    defbult void forEbch(Consumer<? super T> bction) {
+        Objects.requireNonNull(bction);
         for (T t : this) {
-            action.accept(t);
+            bction.bccept(t);
         }
     }
 
     /**
-     * Creates a {@link Spliterator} over the elements described by this
-     * {@code Iterable}.
+     * Crebtes b {@link Spliterbtor} over the elements described by this
+     * {@code Iterbble}.
      *
      * @implSpec
-     * The default implementation creates an
-     * <em><a href="../util/Spliterator.html#binding">early-binding</a></em>
-     * spliterator from the iterable's {@code Iterator}.  The spliterator
-     * inherits the <em>fail-fast</em> properties of the iterable's iterator.
+     * The defbult implementbtion crebtes bn
+     * <em><b href="../util/Spliterbtor.html#binding">ebrly-binding</b></em>
+     * spliterbtor from the iterbble's {@code Iterbtor}.  The spliterbtor
+     * inherits the <em>fbil-fbst</em> properties of the iterbble's iterbtor.
      *
      * @implNote
-     * The default implementation should usually be overridden.  The
-     * spliterator returned by the default implementation has poor splitting
-     * capabilities, is unsized, and does not report any spliterator
-     * characteristics. Implementing classes can nearly always provide a
-     * better implementation.
+     * The defbult implementbtion should usublly be overridden.  The
+     * spliterbtor returned by the defbult implementbtion hbs poor splitting
+     * cbpbbilities, is unsized, bnd does not report bny spliterbtor
+     * chbrbcteristics. Implementing clbsses cbn nebrly blwbys provide b
+     * better implementbtion.
      *
-     * @return a {@code Spliterator} over the elements described by this
-     * {@code Iterable}.
+     * @return b {@code Spliterbtor} over the elements described by this
+     * {@code Iterbble}.
      * @since 1.8
      */
-    default Spliterator<T> spliterator() {
-        return Spliterators.spliteratorUnknownSize(iterator(), 0);
+    defbult Spliterbtor<T> spliterbtor() {
+        return Spliterbtors.spliterbtorUnknownSize(iterbtor(), 0);
     }
 }

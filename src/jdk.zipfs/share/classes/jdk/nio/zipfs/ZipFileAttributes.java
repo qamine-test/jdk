@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.nio.zipfs;
+pbckbge jdk.nio.zipfs;
 
-import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
-import java.util.Arrays;
-import java.util.Formatter;
-import static jdk.nio.zipfs.ZipUtils.*;
+import jbvb.nio.file.bttribute.BbsicFileAttributes;
+import jbvb.nio.file.bttribute.FileTime;
+import jbvb.util.Arrbys;
+import jbvb.util.Formbtter;
+import stbtic jdk.nio.zipfs.ZipUtils.*;
 
 /**
  *
- * @author  Xueming Shen, Rajendra Gutupalli,Jaya Hangal
+ * @buthor  Xueming Shen, Rbjendrb Gutupblli,Jbyb Hbngbl
  */
 
-class ZipFileAttributes implements BasicFileAttributes
+clbss ZipFileAttributes implements BbsicFileAttributes
 {
-    private final ZipFileSystem.Entry e;
+    privbte finbl ZipFileSystem.Entry e;
 
     ZipFileAttributes(ZipFileSystem.Entry e) {
         this.e = e;
     }
 
-    ///////// basic attributes ///////////
+    ///////// bbsic bttributes ///////////
     @Override
-    public FileTime creationTime() {
+    public FileTime crebtionTime() {
         if (e.ctime != -1)
             return FileTime.fromMillis(e.ctime);
         return null;
     }
 
     @Override
-    public boolean isDirectory() {
+    public boolebn isDirectory() {
         return e.isDir();
     }
 
     @Override
-    public boolean isOther() {
-        return false;
+    public boolebn isOther() {
+        return fblse;
     }
 
     @Override
-    public boolean isRegularFile() {
+    public boolebn isRegulbrFile() {
         return !e.isDir();
     }
 
     @Override
-    public FileTime lastAccessTime() {
-        if (e.atime != -1)
-            return FileTime.fromMillis(e.atime);
+    public FileTime lbstAccessTime() {
+        if (e.btime != -1)
+            return FileTime.fromMillis(e.btime);
         return null;
     }
 
     @Override
-    public FileTime lastModifiedTime() {
+    public FileTime lbstModifiedTime() {
         return FileTime.fromMillis(e.mtime);
     }
 
@@ -85,8 +85,8 @@ class ZipFileAttributes implements BasicFileAttributes
     }
 
     @Override
-    public boolean isSymbolicLink() {
-        return false;
+    public boolebn isSymbolicLink() {
+        return fblse;
     }
 
     @Override
@@ -94,7 +94,7 @@ class ZipFileAttributes implements BasicFileAttributes
         return null;
     }
 
-    ///////// zip entry attributes ///////////
+    ///////// zip entry bttributes ///////////
     public long compressedSize() {
         return e.csize;
     }
@@ -107,40 +107,40 @@ class ZipFileAttributes implements BasicFileAttributes
         return e.method;
     }
 
-    public byte[] extra() {
-        if (e.extra != null)
-            return Arrays.copyOf(e.extra, e.extra.length);
+    public byte[] extrb() {
+        if (e.extrb != null)
+            return Arrbys.copyOf(e.extrb, e.extrb.length);
         return null;
     }
 
     public byte[] comment() {
         if (e.comment != null)
-            return Arrays.copyOf(e.comment, e.comment.length);
+            return Arrbys.copyOf(e.comment, e.comment.length);
         return null;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder(1024);
-        Formatter fm = new Formatter(sb);
-        if (creationTime() != null)
-            fm.format("    creationTime    : %tc%n", creationTime().toMillis());
+        Formbtter fm = new Formbtter(sb);
+        if (crebtionTime() != null)
+            fm.formbt("    crebtionTime    : %tc%n", crebtionTime().toMillis());
         else
-            fm.format("    creationTime    : null%n");
+            fm.formbt("    crebtionTime    : null%n");
 
-        if (lastAccessTime() != null)
-            fm.format("    lastAccessTime  : %tc%n", lastAccessTime().toMillis());
+        if (lbstAccessTime() != null)
+            fm.formbt("    lbstAccessTime  : %tc%n", lbstAccessTime().toMillis());
         else
-            fm.format("    lastAccessTime  : null%n");
-        fm.format("    lastModifiedTime: %tc%n", lastModifiedTime().toMillis());
-        fm.format("    isRegularFile   : %b%n", isRegularFile());
-        fm.format("    isDirectory     : %b%n", isDirectory());
-        fm.format("    isSymbolicLink  : %b%n", isSymbolicLink());
-        fm.format("    isOther         : %b%n", isOther());
-        fm.format("    fileKey         : %s%n", fileKey());
-        fm.format("    size            : %d%n", size());
-        fm.format("    compressedSize  : %d%n", compressedSize());
-        fm.format("    crc             : %x%n", crc());
-        fm.format("    method          : %d%n", method());
+            fm.formbt("    lbstAccessTime  : null%n");
+        fm.formbt("    lbstModifiedTime: %tc%n", lbstModifiedTime().toMillis());
+        fm.formbt("    isRegulbrFile   : %b%n", isRegulbrFile());
+        fm.formbt("    isDirectory     : %b%n", isDirectory());
+        fm.formbt("    isSymbolicLink  : %b%n", isSymbolicLink());
+        fm.formbt("    isOther         : %b%n", isOther());
+        fm.formbt("    fileKey         : %s%n", fileKey());
+        fm.formbt("    size            : %d%n", size());
+        fm.formbt("    compressedSize  : %d%n", compressedSize());
+        fm.formbt("    crc             : %x%n", crc());
+        fm.formbt("    method          : %d%n", method());
         fm.close();
         return sb.toString();
     }

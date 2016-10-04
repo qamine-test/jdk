@@ -1,376 +1,376 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.logging;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+pbckbge jbvb.util.logging;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.ResourceBundle;
 
 /**
- * The Level class defines a set of standard logging levels that
- * can be used to control logging output.  The logging Level objects
- * are ordered and are specified by ordered integers.  Enabling logging
- * at a given level also enables logging at all higher levels.
+ * The Level clbss defines b set of stbndbrd logging levels thbt
+ * cbn be used to control logging output.  The logging Level objects
+ * bre ordered bnd bre specified by ordered integers.  Enbbling logging
+ * bt b given level blso enbbles logging bt bll higher levels.
  * <p>
- * Clients should normally use the predefined Level constants such
- * as Level.SEVERE.
+ * Clients should normblly use the predefined Level constbnts such
+ * bs Level.SEVERE.
  * <p>
- * The levels in descending order are:
+ * The levels in descending order bre:
  * <ul>
- * <li>SEVERE (highest value)
+ * <li>SEVERE (highest vblue)
  * <li>WARNING
  * <li>INFO
  * <li>CONFIG
  * <li>FINE
  * <li>FINER
- * <li>FINEST  (lowest value)
+ * <li>FINEST  (lowest vblue)
  * </ul>
- * In addition there is a level OFF that can be used to turn
- * off logging, and a level ALL that can be used to enable
- * logging of all messages.
+ * In bddition there is b level OFF thbt cbn be used to turn
+ * off logging, bnd b level ALL thbt cbn be used to enbble
+ * logging of bll messbges.
  * <p>
- * It is possible for third parties to define additional logging
- * levels by subclassing Level.  In such cases subclasses should
- * take care to chose unique integer level values and to ensure that
- * they maintain the Object uniqueness property across serialization
- * by defining a suitable readResolve method.
+ * It is possible for third pbrties to define bdditionbl logging
+ * levels by subclbssing Level.  In such cbses subclbsses should
+ * tbke cbre to chose unique integer level vblues bnd to ensure thbt
+ * they mbintbin the Object uniqueness property bcross seriblizbtion
+ * by defining b suitbble rebdResolve method.
  *
  * @since 1.4
  */
 
-public class Level implements java.io.Serializable {
-    private static final String defaultBundle = "sun.util.logging.resources.logging";
+public clbss Level implements jbvb.io.Seriblizbble {
+    privbte stbtic finbl String defbultBundle = "sun.util.logging.resources.logging";
 
     /**
-     * @serial  The non-localized name of the level.
+     * @seribl  The non-locblized nbme of the level.
      */
-    private final String name;
+    privbte finbl String nbme;
 
     /**
-     * @serial  The integer value of the level.
+     * @seribl  The integer vblue of the level.
      */
-    private final int value;
+    privbte finbl int vblue;
 
     /**
-     * @serial The resource bundle name to be used in localizing the level name.
+     * @seribl The resource bundle nbme to be used in locblizing the level nbme.
      */
-    private final String resourceBundleName;
+    privbte finbl String resourceBundleNbme;
 
-    // localized level name
-    private transient String localizedLevelName;
-    private transient Locale cachedLocale;
+    // locblized level nbme
+    privbte trbnsient String locblizedLevelNbme;
+    privbte trbnsient Locble cbchedLocble;
 
     /**
-     * OFF is a special level that can be used to turn off logging.
-     * This level is initialized to <CODE>Integer.MAX_VALUE</CODE>.
+     * OFF is b specibl level thbt cbn be used to turn off logging.
+     * This level is initiblized to <CODE>Integer.MAX_VALUE</CODE>.
      */
-    public static final Level OFF = new Level("OFF",Integer.MAX_VALUE, defaultBundle);
+    public stbtic finbl Level OFF = new Level("OFF",Integer.MAX_VALUE, defbultBundle);
 
     /**
-     * SEVERE is a message level indicating a serious failure.
+     * SEVERE is b messbge level indicbting b serious fbilure.
      * <p>
-     * In general SEVERE messages should describe events that are
-     * of considerable importance and which will prevent normal
-     * program execution.   They should be reasonably intelligible
-     * to end users and to system administrators.
-     * This level is initialized to <CODE>1000</CODE>.
+     * In generbl SEVERE messbges should describe events thbt bre
+     * of considerbble importbnce bnd which will prevent normbl
+     * progrbm execution.   They should be rebsonbbly intelligible
+     * to end users bnd to system bdministrbtors.
+     * This level is initiblized to <CODE>1000</CODE>.
      */
-    public static final Level SEVERE = new Level("SEVERE",1000, defaultBundle);
+    public stbtic finbl Level SEVERE = new Level("SEVERE",1000, defbultBundle);
 
     /**
-     * WARNING is a message level indicating a potential problem.
+     * WARNING is b messbge level indicbting b potentibl problem.
      * <p>
-     * In general WARNING messages should describe events that will
-     * be of interest to end users or system managers, or which
-     * indicate potential problems.
-     * This level is initialized to <CODE>900</CODE>.
+     * In generbl WARNING messbges should describe events thbt will
+     * be of interest to end users or system mbnbgers, or which
+     * indicbte potentibl problems.
+     * This level is initiblized to <CODE>900</CODE>.
      */
-    public static final Level WARNING = new Level("WARNING", 900, defaultBundle);
+    public stbtic finbl Level WARNING = new Level("WARNING", 900, defbultBundle);
 
     /**
-     * INFO is a message level for informational messages.
+     * INFO is b messbge level for informbtionbl messbges.
      * <p>
-     * Typically INFO messages will be written to the console
-     * or its equivalent.  So the INFO level should only be
-     * used for reasonably significant messages that will
-     * make sense to end users and system administrators.
-     * This level is initialized to <CODE>800</CODE>.
+     * Typicblly INFO messbges will be written to the console
+     * or its equivblent.  So the INFO level should only be
+     * used for rebsonbbly significbnt messbges thbt will
+     * mbke sense to end users bnd system bdministrbtors.
+     * This level is initiblized to <CODE>800</CODE>.
      */
-    public static final Level INFO = new Level("INFO", 800, defaultBundle);
+    public stbtic finbl Level INFO = new Level("INFO", 800, defbultBundle);
 
     /**
-     * CONFIG is a message level for static configuration messages.
+     * CONFIG is b messbge level for stbtic configurbtion messbges.
      * <p>
-     * CONFIG messages are intended to provide a variety of static
-     * configuration information, to assist in debugging problems
-     * that may be associated with particular configurations.
-     * For example, CONFIG message might include the CPU type,
-     * the graphics depth, the GUI look-and-feel, etc.
-     * This level is initialized to <CODE>700</CODE>.
+     * CONFIG messbges bre intended to provide b vbriety of stbtic
+     * configurbtion informbtion, to bssist in debugging problems
+     * thbt mby be bssocibted with pbrticulbr configurbtions.
+     * For exbmple, CONFIG messbge might include the CPU type,
+     * the grbphics depth, the GUI look-bnd-feel, etc.
+     * This level is initiblized to <CODE>700</CODE>.
      */
-    public static final Level CONFIG = new Level("CONFIG", 700, defaultBundle);
+    public stbtic finbl Level CONFIG = new Level("CONFIG", 700, defbultBundle);
 
     /**
-     * FINE is a message level providing tracing information.
+     * FINE is b messbge level providing trbcing informbtion.
      * <p>
-     * All of FINE, FINER, and FINEST are intended for relatively
-     * detailed tracing.  The exact meaning of the three levels will
-     * vary between subsystems, but in general, FINEST should be used
-     * for the most voluminous detailed output, FINER for somewhat
-     * less detailed output, and FINE for the  lowest volume (and
-     * most important) messages.
+     * All of FINE, FINER, bnd FINEST bre intended for relbtively
+     * detbiled trbcing.  The exbct mebning of the three levels will
+     * vbry between subsystems, but in generbl, FINEST should be used
+     * for the most voluminous detbiled output, FINER for somewhbt
+     * less detbiled output, bnd FINE for the  lowest volume (bnd
+     * most importbnt) messbges.
      * <p>
-     * In general the FINE level should be used for information
-     * that will be broadly interesting to developers who do not have
-     * a specialized interest in the specific subsystem.
+     * In generbl the FINE level should be used for informbtion
+     * thbt will be brobdly interesting to developers who do not hbve
+     * b speciblized interest in the specific subsystem.
      * <p>
-     * FINE messages might include things like minor (recoverable)
-     * failures.  Issues indicating potential performance problems
-     * are also worth logging as FINE.
-     * This level is initialized to <CODE>500</CODE>.
+     * FINE messbges might include things like minor (recoverbble)
+     * fbilures.  Issues indicbting potentibl performbnce problems
+     * bre blso worth logging bs FINE.
+     * This level is initiblized to <CODE>500</CODE>.
      */
-    public static final Level FINE = new Level("FINE", 500, defaultBundle);
+    public stbtic finbl Level FINE = new Level("FINE", 500, defbultBundle);
 
     /**
-     * FINER indicates a fairly detailed tracing message.
-     * By default logging calls for entering, returning, or throwing
-     * an exception are traced at this level.
-     * This level is initialized to <CODE>400</CODE>.
+     * FINER indicbtes b fbirly detbiled trbcing messbge.
+     * By defbult logging cblls for entering, returning, or throwing
+     * bn exception bre trbced bt this level.
+     * This level is initiblized to <CODE>400</CODE>.
      */
-    public static final Level FINER = new Level("FINER", 400, defaultBundle);
+    public stbtic finbl Level FINER = new Level("FINER", 400, defbultBundle);
 
     /**
-     * FINEST indicates a highly detailed tracing message.
-     * This level is initialized to <CODE>300</CODE>.
+     * FINEST indicbtes b highly detbiled trbcing messbge.
+     * This level is initiblized to <CODE>300</CODE>.
      */
-    public static final Level FINEST = new Level("FINEST", 300, defaultBundle);
+    public stbtic finbl Level FINEST = new Level("FINEST", 300, defbultBundle);
 
     /**
-     * ALL indicates that all messages should be logged.
-     * This level is initialized to <CODE>Integer.MIN_VALUE</CODE>.
+     * ALL indicbtes thbt bll messbges should be logged.
+     * This level is initiblized to <CODE>Integer.MIN_VALUE</CODE>.
      */
-    public static final Level ALL = new Level("ALL", Integer.MIN_VALUE, defaultBundle);
+    public stbtic finbl Level ALL = new Level("ALL", Integer.MIN_VALUE, defbultBundle);
 
     /**
-     * Create a named Level with a given integer value.
+     * Crebte b nbmed Level with b given integer vblue.
      * <p>
-     * Note that this constructor is "protected" to allow subclassing.
-     * In general clients of logging should use one of the constant Level
-     * objects such as SEVERE or FINEST.  However, if clients need to
-     * add new logging levels, they may subclass Level and define new
-     * constants.
-     * @param name  the name of the Level, for example "SEVERE".
-     * @param value an integer value for the level.
-     * @throws NullPointerException if the name is null
+     * Note thbt this constructor is "protected" to bllow subclbssing.
+     * In generbl clients of logging should use one of the constbnt Level
+     * objects such bs SEVERE or FINEST.  However, if clients need to
+     * bdd new logging levels, they mby subclbss Level bnd define new
+     * constbnts.
+     * @pbrbm nbme  the nbme of the Level, for exbmple "SEVERE".
+     * @pbrbm vblue bn integer vblue for the level.
+     * @throws NullPointerException if the nbme is null
      */
-    protected Level(String name, int value) {
-        this(name, value, null);
+    protected Level(String nbme, int vblue) {
+        this(nbme, vblue, null);
     }
 
     /**
-     * Create a named Level with a given integer value and a
-     * given localization resource name.
+     * Crebte b nbmed Level with b given integer vblue bnd b
+     * given locblizbtion resource nbme.
      *
-     * @param name  the name of the Level, for example "SEVERE".
-     * @param value an integer value for the level.
-     * @param resourceBundleName name of a resource bundle to use in
-     *    localizing the given name. If the resourceBundleName is null
-     *    or an empty string, it is ignored.
-     * @throws NullPointerException if the name is null
+     * @pbrbm nbme  the nbme of the Level, for exbmple "SEVERE".
+     * @pbrbm vblue bn integer vblue for the level.
+     * @pbrbm resourceBundleNbme nbme of b resource bundle to use in
+     *    locblizing the given nbme. If the resourceBundleNbme is null
+     *    or bn empty string, it is ignored.
+     * @throws NullPointerException if the nbme is null
      */
-    protected Level(String name, int value, String resourceBundleName) {
-        this(name, value, resourceBundleName, true);
+    protected Level(String nbme, int vblue, String resourceBundleNbme) {
+        this(nbme, vblue, resourceBundleNbme, true);
     }
 
-    // private constructor to specify whether this instance should be added
-    // to the KnownLevel list from which Level.parse method does its look up
-    private Level(String name, int value, String resourceBundleName, boolean visible) {
-        if (name == null) {
+    // privbte constructor to specify whether this instbnce should be bdded
+    // to the KnownLevel list from which Level.pbrse method does its look up
+    privbte Level(String nbme, int vblue, String resourceBundleNbme, boolebn visible) {
+        if (nbme == null) {
             throw new NullPointerException();
         }
-        this.name = name;
-        this.value = value;
-        this.resourceBundleName = resourceBundleName;
-        this.localizedLevelName = resourceBundleName == null ? name : null;
-        this.cachedLocale = null;
+        this.nbme = nbme;
+        this.vblue = vblue;
+        this.resourceBundleNbme = resourceBundleNbme;
+        this.locblizedLevelNbme = resourceBundleNbme == null ? nbme : null;
+        this.cbchedLocble = null;
         if (visible) {
-            KnownLevel.add(this);
+            KnownLevel.bdd(this);
         }
     }
 
     /**
-     * Return the level's localization resource bundle name, or
-     * null if no localization bundle is defined.
+     * Return the level's locblizbtion resource bundle nbme, or
+     * null if no locblizbtion bundle is defined.
      *
-     * @return localization resource bundle name
+     * @return locblizbtion resource bundle nbme
      */
-    public String getResourceBundleName() {
-        return resourceBundleName;
+    public String getResourceBundleNbme() {
+        return resourceBundleNbme;
     }
 
     /**
-     * Return the non-localized string name of the Level.
+     * Return the non-locblized string nbme of the Level.
      *
-     * @return non-localized name
+     * @return non-locblized nbme
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Return the localized string name of the Level, for
-     * the current default locale.
+     * Return the locblized string nbme of the Level, for
+     * the current defbult locble.
      * <p>
-     * If no localization information is available, the
-     * non-localized name is returned.
+     * If no locblizbtion informbtion is bvbilbble, the
+     * non-locblized nbme is returned.
      *
-     * @return localized name
+     * @return locblized nbme
      */
-    public String getLocalizedName() {
-        return getLocalizedLevelName();
+    public String getLocblizedNbme() {
+        return getLocblizedLevelNbme();
     }
 
-    // package-private getLevelName() is used by the implementation
-    // instead of getName() to avoid calling the subclass's version
-    final String getLevelName() {
-        return this.name;
+    // pbckbge-privbte getLevelNbme() is used by the implementbtion
+    // instebd of getNbme() to bvoid cblling the subclbss's version
+    finbl String getLevelNbme() {
+        return this.nbme;
     }
 
-    private String computeLocalizedLevelName(Locale newLocale) {
-        ResourceBundle rb = ResourceBundle.getBundle(resourceBundleName, newLocale);
-        final String localizedName = rb.getString(name);
+    privbte String computeLocblizedLevelNbme(Locble newLocble) {
+        ResourceBundle rb = ResourceBundle.getBundle(resourceBundleNbme, newLocble);
+        finbl String locblizedNbme = rb.getString(nbme);
 
-        final boolean isDefaultBundle = defaultBundle.equals(resourceBundleName);
-        if (!isDefaultBundle) return localizedName;
+        finbl boolebn isDefbultBundle = defbultBundle.equbls(resourceBundleNbme);
+        if (!isDefbultBundle) return locblizedNbme;
 
-        // This is a trick to determine whether the name has been translated
-        // or not. If it has not been translated, we need to use Locale.ROOT
-        // when calling toUpperCase().
-        final Locale rbLocale = rb.getLocale();
-        final Locale locale =
-                Locale.ROOT.equals(rbLocale)
-                || name.equals(localizedName.toUpperCase(Locale.ROOT))
-                ? Locale.ROOT : rbLocale;
+        // This is b trick to determine whether the nbme hbs been trbnslbted
+        // or not. If it hbs not been trbnslbted, we need to use Locble.ROOT
+        // when cblling toUpperCbse().
+        finbl Locble rbLocble = rb.getLocble();
+        finbl Locble locble =
+                Locble.ROOT.equbls(rbLocble)
+                || nbme.equbls(locblizedNbme.toUpperCbse(Locble.ROOT))
+                ? Locble.ROOT : rbLocble;
 
-        // ALL CAPS in a resource bundle's message indicates no translation
-        // needed per Oracle translation guideline.  To workaround this
-        // in Oracle JDK implementation, convert the localized level name
-        // to uppercase for compatibility reason.
-        return Locale.ROOT.equals(locale) ? name : localizedName.toUpperCase(locale);
+        // ALL CAPS in b resource bundle's messbge indicbtes no trbnslbtion
+        // needed per Orbcle trbnslbtion guideline.  To workbround this
+        // in Orbcle JDK implementbtion, convert the locblized level nbme
+        // to uppercbse for compbtibility rebson.
+        return Locble.ROOT.equbls(locble) ? nbme : locblizedNbme.toUpperCbse(locble);
     }
 
-    // Avoid looking up the localizedLevelName twice if we already
-    // have it.
-    final String getCachedLocalizedLevelName() {
+    // Avoid looking up the locblizedLevelNbme twice if we blrebdy
+    // hbve it.
+    finbl String getCbchedLocblizedLevelNbme() {
 
-        if (localizedLevelName != null) {
-            if (cachedLocale != null) {
-                if (cachedLocale.equals(Locale.getDefault())) {
-                    // OK: our cached value was looked up with the same
-                    //     locale. We can use it.
-                    return localizedLevelName;
+        if (locblizedLevelNbme != null) {
+            if (cbchedLocble != null) {
+                if (cbchedLocble.equbls(Locble.getDefbult())) {
+                    // OK: our cbched vblue wbs looked up with the sbme
+                    //     locble. We cbn use it.
+                    return locblizedLevelNbme;
                 }
             }
         }
 
-        if (resourceBundleName == null) {
-            // No resource bundle: just use the name.
-            return name;
+        if (resourceBundleNbme == null) {
+            // No resource bundle: just use the nbme.
+            return nbme;
         }
 
-        // We need to compute the localized name.
-        // Either because it's the first time, or because our cached
-        // value is for a different locale. Just return null.
+        // We need to compute the locblized nbme.
+        // Either becbuse it's the first time, or becbuse our cbched
+        // vblue is for b different locble. Just return null.
         return null;
     }
 
-    final synchronized String getLocalizedLevelName() {
+    finbl synchronized String getLocblizedLevelNbme() {
 
-        // See if we have a cached localized name
-        final String cachedLocalizedName = getCachedLocalizedLevelName();
-        if (cachedLocalizedName != null) {
-            return cachedLocalizedName;
+        // See if we hbve b cbched locblized nbme
+        finbl String cbchedLocblizedNbme = getCbchedLocblizedLevelNbme();
+        if (cbchedLocblizedNbme != null) {
+            return cbchedLocblizedNbme;
         }
 
-        // No cached localized name or cache invalid.
-        // Need to compute the localized name.
-        final Locale newLocale = Locale.getDefault();
+        // No cbched locblized nbme or cbche invblid.
+        // Need to compute the locblized nbme.
+        finbl Locble newLocble = Locble.getDefbult();
         try {
-            localizedLevelName = computeLocalizedLevelName(newLocale);
-        } catch (Exception ex) {
-            localizedLevelName = name;
+            locblizedLevelNbme = computeLocblizedLevelNbme(newLocble);
+        } cbtch (Exception ex) {
+            locblizedLevelNbme = nbme;
         }
-        cachedLocale = newLocale;
-        return localizedLevelName;
+        cbchedLocble = newLocble;
+        return locblizedLevelNbme;
     }
 
-    // Returns a mirrored Level object that matches the given name as
-    // specified in the Level.parse method.  Returns null if not found.
+    // Returns b mirrored Level object thbt mbtches the given nbme bs
+    // specified in the Level.pbrse method.  Returns null if not found.
     //
-    // It returns the same Level object as the one returned by Level.parse
-    // method if the given name is a non-localized name or integer.
+    // It returns the sbme Level object bs the one returned by Level.pbrse
+    // method if the given nbme is b non-locblized nbme or integer.
     //
-    // If the name is a localized name, findLevel and parse method may
-    // return a different level value if there is a custom Level subclass
-    // that overrides Level.getLocalizedName() to return a different string
-    // than what's returned by the default implementation.
+    // If the nbme is b locblized nbme, findLevel bnd pbrse method mby
+    // return b different level vblue if there is b custom Level subclbss
+    // thbt overrides Level.getLocblizedNbme() to return b different string
+    // thbn whbt's returned by the defbult implementbtion.
     //
-    static Level findLevel(String name) {
-        if (name == null) {
+    stbtic Level findLevel(String nbme) {
+        if (nbme == null) {
             throw new NullPointerException();
         }
 
         KnownLevel level;
 
-        // Look for a known Level with the given non-localized name.
-        level = KnownLevel.findByName(name);
+        // Look for b known Level with the given non-locblized nbme.
+        level = KnownLevel.findByNbme(nbme);
         if (level != null) {
             return level.mirroredLevel;
         }
 
-        // Now, check if the given name is an integer.  If so,
-        // first look for a Level with the given value and then
-        // if necessary create one.
+        // Now, check if the given nbme is bn integer.  If so,
+        // first look for b Level with the given vblue bnd then
+        // if necessbry crebte one.
         try {
-            int x = Integer.parseInt(name);
-            level = KnownLevel.findByValue(x);
+            int x = Integer.pbrseInt(nbme);
+            level = KnownLevel.findByVblue(x);
             if (level == null) {
-                // add new Level
-                Level levelObject = new Level(name, x);
-                level = KnownLevel.findByValue(x);
+                // bdd new Level
+                Level levelObject = new Level(nbme, x);
+                level = KnownLevel.findByVblue(x);
             }
             return level.mirroredLevel;
-        } catch (NumberFormatException ex) {
-            // Not an integer.
+        } cbtch (NumberFormbtException ex) {
+            // Not bn integer.
             // Drop through.
         }
 
-        level = KnownLevel.findByLocalizedLevelName(name);
+        level = KnownLevel.findByLocblizedLevelNbme(nbme);
         if (level != null) {
             return level.mirroredLevel;
         }
@@ -379,214 +379,214 @@ public class Level implements java.io.Serializable {
     }
 
     /**
-     * Returns a string representation of this Level.
+     * Returns b string representbtion of this Level.
      *
-     * @return the non-localized name of the Level, for example "INFO".
+     * @return the non-locblized nbme of the Level, for exbmple "INFO".
      */
     @Override
-    public final String toString() {
-        return name;
+    public finbl String toString() {
+        return nbme;
     }
 
     /**
-     * Get the integer value for this level.  This integer value
-     * can be used for efficient ordering comparisons between
+     * Get the integer vblue for this level.  This integer vblue
+     * cbn be used for efficient ordering compbrisons between
      * Level objects.
-     * @return the integer value for this level.
+     * @return the integer vblue for this level.
      */
-    public final int intValue() {
-        return value;
+    public finbl int intVblue() {
+        return vblue;
     }
 
-    private static final long serialVersionUID = -8176160795706313070L;
+    privbte stbtic finbl long seriblVersionUID = -8176160795706313070L;
 
-    // Serialization magic to prevent "doppelgangers".
-    // This is a performance optimization.
-    private Object readResolve() {
-        KnownLevel o = KnownLevel.matches(this);
+    // Seriblizbtion mbgic to prevent "doppelgbngers".
+    // This is b performbnce optimizbtion.
+    privbte Object rebdResolve() {
+        KnownLevel o = KnownLevel.mbtches(this);
         if (o != null) {
             return o.levelObject;
         }
 
         // Woops.  Whoever sent us this object knows
-        // about a new log level.  Add it to our list.
-        Level level = new Level(this.name, this.value, this.resourceBundleName);
+        // bbout b new log level.  Add it to our list.
+        Level level = new Level(this.nbme, this.vblue, this.resourceBundleNbme);
         return level;
     }
 
     /**
-     * Parse a level name string into a Level.
+     * Pbrse b level nbme string into b Level.
      * <p>
-     * The argument string may consist of either a level name
-     * or an integer value.
+     * The brgument string mby consist of either b level nbme
+     * or bn integer vblue.
      * <p>
-     * For example:
+     * For exbmple:
      * <ul>
      * <li>     "SEVERE"
      * <li>     "1000"
      * </ul>
      *
-     * @param  name   string to be parsed
-     * @throws NullPointerException if the name is null
-     * @throws IllegalArgumentException if the value is not valid.
-     * Valid values are integers between <CODE>Integer.MIN_VALUE</CODE>
-     * and <CODE>Integer.MAX_VALUE</CODE>, and all known level names.
-     * Known names are the levels defined by this class (e.g., <CODE>FINE</CODE>,
-     * <CODE>FINER</CODE>, <CODE>FINEST</CODE>), or created by this class with
-     * appropriate package access, or new levels defined or created
-     * by subclasses.
+     * @pbrbm  nbme   string to be pbrsed
+     * @throws NullPointerException if the nbme is null
+     * @throws IllegblArgumentException if the vblue is not vblid.
+     * Vblid vblues bre integers between <CODE>Integer.MIN_VALUE</CODE>
+     * bnd <CODE>Integer.MAX_VALUE</CODE>, bnd bll known level nbmes.
+     * Known nbmes bre the levels defined by this clbss (e.g., <CODE>FINE</CODE>,
+     * <CODE>FINER</CODE>, <CODE>FINEST</CODE>), or crebted by this clbss with
+     * bppropribte pbckbge bccess, or new levels defined or crebted
+     * by subclbsses.
      *
-     * @return The parsed value. Passing an integer that corresponds to a known name
-     * (e.g., 700) will return the associated name (e.g., <CODE>CONFIG</CODE>).
-     * Passing an integer that does not (e.g., 1) will return a new level name
-     * initialized to that value.
+     * @return The pbrsed vblue. Pbssing bn integer thbt corresponds to b known nbme
+     * (e.g., 700) will return the bssocibted nbme (e.g., <CODE>CONFIG</CODE>).
+     * Pbssing bn integer thbt does not (e.g., 1) will return b new level nbme
+     * initiblized to thbt vblue.
      */
-    public static synchronized Level parse(String name) throws IllegalArgumentException {
-        // Check that name is not null.
-        name.length();
+    public stbtic synchronized Level pbrse(String nbme) throws IllegblArgumentException {
+        // Check thbt nbme is not null.
+        nbme.length();
 
         KnownLevel level;
 
-        // Look for a known Level with the given non-localized name.
-        level = KnownLevel.findByName(name);
+        // Look for b known Level with the given non-locblized nbme.
+        level = KnownLevel.findByNbme(nbme);
         if (level != null) {
             return level.levelObject;
         }
 
-        // Now, check if the given name is an integer.  If so,
-        // first look for a Level with the given value and then
-        // if necessary create one.
+        // Now, check if the given nbme is bn integer.  If so,
+        // first look for b Level with the given vblue bnd then
+        // if necessbry crebte one.
         try {
-            int x = Integer.parseInt(name);
-            level = KnownLevel.findByValue(x);
+            int x = Integer.pbrseInt(nbme);
+            level = KnownLevel.findByVblue(x);
             if (level == null) {
-                // add new Level
-                Level levelObject = new Level(name, x);
-                level = KnownLevel.findByValue(x);
+                // bdd new Level
+                Level levelObject = new Level(nbme, x);
+                level = KnownLevel.findByVblue(x);
             }
             return level.levelObject;
-        } catch (NumberFormatException ex) {
-            // Not an integer.
+        } cbtch (NumberFormbtException ex) {
+            // Not bn integer.
             // Drop through.
         }
 
-        // Finally, look for a known level with the given localized name,
-        // in the current default locale.
-        // This is relatively expensive, but not excessively so.
-        level = KnownLevel.findByLocalizedLevelName(name);
+        // Finblly, look for b known level with the given locblized nbme,
+        // in the current defbult locble.
+        // This is relbtively expensive, but not excessively so.
+        level = KnownLevel.findByLocblizedLevelNbme(nbme);
         if (level != null) {
             return level.levelObject;
         }
 
-        // OK, we've tried everything and failed
-        throw new IllegalArgumentException("Bad level \"" + name + "\"");
+        // OK, we've tried everything bnd fbiled
+        throw new IllegblArgumentException("Bbd level \"" + nbme + "\"");
     }
 
     /**
-     * Compare two objects for value equality.
-     * @return true if and only if the two objects have the same level value.
+     * Compbre two objects for vblue equblity.
+     * @return true if bnd only if the two objects hbve the sbme level vblue.
      */
     @Override
-    public boolean equals(Object ox) {
+    public boolebn equbls(Object ox) {
         try {
             Level lx = (Level)ox;
-            return (lx.value == this.value);
-        } catch (Exception ex) {
-            return false;
+            return (lx.vblue == this.vblue);
+        } cbtch (Exception ex) {
+            return fblse;
         }
     }
 
     /**
-     * Generate a hashcode.
-     * @return a hashcode based on the level value
+     * Generbte b hbshcode.
+     * @return b hbshcode bbsed on the level vblue
      */
     @Override
-    public int hashCode() {
-        return this.value;
+    public int hbshCode() {
+        return this.vblue;
     }
 
-    // KnownLevel class maintains the global list of all known levels.
-    // The API allows multiple custom Level instances of the same name/value
-    // be created. This class provides convenient methods to find a level
-    // by a given name, by a given value, or by a given localized name.
+    // KnownLevel clbss mbintbins the globbl list of bll known levels.
+    // The API bllows multiple custom Level instbnces of the sbme nbme/vblue
+    // be crebted. This clbss provides convenient methods to find b level
+    // by b given nbme, by b given vblue, or by b given locblized nbme.
     //
-    // KnownLevel wraps the following Level objects:
-    // 1. levelObject:   standard Level object or custom Level object
+    // KnownLevel wrbps the following Level objects:
+    // 1. levelObject:   stbndbrd Level object or custom Level object
     // 2. mirroredLevel: Level object representing the level specified in the
-    //                   logging configuration.
+    //                   logging configurbtion.
     //
-    // Level.getName, Level.getLocalizedName, Level.getResourceBundleName methods
-    // are non-final but the name and resource bundle name are parameters to
-    // the Level constructor.  Use the mirroredLevel object instead of the
-    // levelObject to prevent the logging framework to execute foreign code
-    // implemented by untrusted Level subclass.
+    // Level.getNbme, Level.getLocblizedNbme, Level.getResourceBundleNbme methods
+    // bre non-finbl but the nbme bnd resource bundle nbme bre pbrbmeters to
+    // the Level constructor.  Use the mirroredLevel object instebd of the
+    // levelObject to prevent the logging frbmework to execute foreign code
+    // implemented by untrusted Level subclbss.
     //
-    // Implementation Notes:
-    // If Level.getName, Level.getLocalizedName, Level.getResourceBundleName methods
-    // were final, the following KnownLevel implementation can be removed.
-    // Future API change should take this into consideration.
-    static final class KnownLevel {
-        private static Map<String, List<KnownLevel>> nameToLevels = new HashMap<>();
-        private static Map<Integer, List<KnownLevel>> intToLevels = new HashMap<>();
-        final Level levelObject;     // instance of Level class or Level subclass
-        final Level mirroredLevel;   // mirror of the custom Level
+    // Implementbtion Notes:
+    // If Level.getNbme, Level.getLocblizedNbme, Level.getResourceBundleNbme methods
+    // were finbl, the following KnownLevel implementbtion cbn be removed.
+    // Future API chbnge should tbke this into considerbtion.
+    stbtic finbl clbss KnownLevel {
+        privbte stbtic Mbp<String, List<KnownLevel>> nbmeToLevels = new HbshMbp<>();
+        privbte stbtic Mbp<Integer, List<KnownLevel>> intToLevels = new HbshMbp<>();
+        finbl Level levelObject;     // instbnce of Level clbss or Level subclbss
+        finbl Level mirroredLevel;   // mirror of the custom Level
         KnownLevel(Level l) {
             this.levelObject = l;
-            if (l.getClass() == Level.class) {
+            if (l.getClbss() == Level.clbss) {
                 this.mirroredLevel = l;
             } else {
                 // this mirrored level object is hidden
-                this.mirroredLevel = new Level(l.name, l.value, l.resourceBundleName, false);
+                this.mirroredLevel = new Level(l.nbme, l.vblue, l.resourceBundleNbme, fblse);
             }
         }
 
-        static synchronized void add(Level l) {
-            // the mirroredLevel object is always added to the list
-            // before the custom Level instance
+        stbtic synchronized void bdd(Level l) {
+            // the mirroredLevel object is blwbys bdded to the list
+            // before the custom Level instbnce
             KnownLevel o = new KnownLevel(l);
-            List<KnownLevel> list = nameToLevels.get(l.name);
+            List<KnownLevel> list = nbmeToLevels.get(l.nbme);
             if (list == null) {
-                list = new ArrayList<>();
-                nameToLevels.put(l.name, list);
+                list = new ArrbyList<>();
+                nbmeToLevels.put(l.nbme, list);
             }
-            list.add(o);
+            list.bdd(o);
 
-            list = intToLevels.get(l.value);
+            list = intToLevels.get(l.vblue);
             if (list == null) {
-                list = new ArrayList<>();
-                intToLevels.put(l.value, list);
+                list = new ArrbyList<>();
+                intToLevels.put(l.vblue, list);
             }
-            list.add(o);
+            list.bdd(o);
         }
 
-        // Returns a KnownLevel with the given non-localized name.
-        static synchronized KnownLevel findByName(String name) {
-            List<KnownLevel> list = nameToLevels.get(name);
+        // Returns b KnownLevel with the given non-locblized nbme.
+        stbtic synchronized KnownLevel findByNbme(String nbme) {
+            List<KnownLevel> list = nbmeToLevels.get(nbme);
             if (list != null) {
                 return list.get(0);
             }
             return null;
         }
 
-        // Returns a KnownLevel with the given value.
-        static synchronized KnownLevel findByValue(int value) {
-            List<KnownLevel> list = intToLevels.get(value);
+        // Returns b KnownLevel with the given vblue.
+        stbtic synchronized KnownLevel findByVblue(int vblue) {
+            List<KnownLevel> list = intToLevels.get(vblue);
             if (list != null) {
                 return list.get(0);
             }
             return null;
         }
 
-        // Returns a KnownLevel with the given localized name matching
-        // by calling the Level.getLocalizedLevelName() method (i.e. found
-        // from the resourceBundle associated with the Level object).
-        // This method does not call Level.getLocalizedName() that may
-        // be overridden in a subclass implementation
-        static synchronized KnownLevel findByLocalizedLevelName(String name) {
-            for (List<KnownLevel> levels : nameToLevels.values()) {
+        // Returns b KnownLevel with the given locblized nbme mbtching
+        // by cblling the Level.getLocblizedLevelNbme() method (i.e. found
+        // from the resourceBundle bssocibted with the Level object).
+        // This method does not cbll Level.getLocblizedNbme() thbt mby
+        // be overridden in b subclbss implementbtion
+        stbtic synchronized KnownLevel findByLocblizedLevelNbme(String nbme) {
+            for (List<KnownLevel> levels : nbmeToLevels.vblues()) {
                 for (KnownLevel l : levels) {
-                    String lname = l.levelObject.getLocalizedLevelName();
-                    if (name.equals(lname)) {
+                    String lnbme = l.levelObject.getLocblizedLevelNbme();
+                    if (nbme.equbls(lnbme)) {
                         return l;
                     }
                 }
@@ -594,15 +594,15 @@ public class Level implements java.io.Serializable {
             return null;
         }
 
-        static synchronized KnownLevel matches(Level l) {
-            List<KnownLevel> list = nameToLevels.get(l.name);
+        stbtic synchronized KnownLevel mbtches(Level l) {
+            List<KnownLevel> list = nbmeToLevels.get(l.nbme);
             if (list != null) {
                 for (KnownLevel level : list) {
                     Level other = level.mirroredLevel;
-                    if (l.value == other.value &&
-                           (l.resourceBundleName == other.resourceBundleName ||
-                               (l.resourceBundleName != null &&
-                                l.resourceBundleName.equals(other.resourceBundleName)))) {
+                    if (l.vblue == other.vblue &&
+                           (l.resourceBundleNbme == other.resourceBundleNbme ||
+                               (l.resourceBundleNbme != null &&
+                                l.resourceBundleNbme.equbls(other.resourceBundleNbme)))) {
                         return level;
                     }
                 }

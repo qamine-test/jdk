@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
-import sun.misc.JavaSecurityProtectionDomainAccess;
-import static sun.misc.JavaSecurityProtectionDomainAccess.ProtectionDomainCache;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.Enumerbtion;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
+import sun.misc.JbvbSecurityProtectionDombinAccess;
+import stbtic sun.misc.JbvbSecurityProtectionDombinAccess.ProtectionDombinCbche;
 import sun.security.util.Debug;
-import sun.security.util.SecurityConstants;
-import sun.misc.JavaSecurityAccess;
-import sun.misc.SharedSecrets;
+import sun.security.util.SecurityConstbnts;
+import sun.misc.JbvbSecurityAccess;
+import sun.misc.ShbredSecrets;
 
 /**
  *
  *<p>
- * This ProtectionDomain class encapsulates the characteristics of a domain,
- * which encloses a set of classes whose instances are granted a set
- * of permissions when being executed on behalf of a given set of Principals.
+ * This ProtectionDombin clbss encbpsulbtes the chbrbcteristics of b dombin,
+ * which encloses b set of clbsses whose instbnces bre grbnted b set
+ * of permissions when being executed on behblf of b given set of Principbls.
  * <p>
- * A static set of permissions can be bound to a ProtectionDomain when it is
- * constructed; such permissions are granted to the domain regardless of the
- * Policy in force. However, to support dynamic security policies, a
- * ProtectionDomain can also be constructed such that it is dynamically
- * mapped to a set of permissions by the current Policy whenever a permission
+ * A stbtic set of permissions cbn be bound to b ProtectionDombin when it is
+ * constructed; such permissions bre grbnted to the dombin regbrdless of the
+ * Policy in force. However, to support dynbmic security policies, b
+ * ProtectionDombin cbn blso be constructed such thbt it is dynbmicblly
+ * mbpped to b set of permissions by the current Policy whenever b permission
  * is checked.
  * <p>
  *
- * @author Li Gong
- * @author Roland Schemers
- * @author Gary Ellison
+ * @buthor Li Gong
+ * @buthor Rolbnd Schemers
+ * @buthor Gbry Ellison
  */
 
-public class ProtectionDomain {
+public clbss ProtectionDombin {
 
-    static {
-        // Set up JavaSecurityAccess in SharedSecrets
-        SharedSecrets.setJavaSecurityAccess(
-            new JavaSecurityAccess() {
+    stbtic {
+        // Set up JbvbSecurityAccess in ShbredSecrets
+        ShbredSecrets.setJbvbSecurityAccess(
+            new JbvbSecurityAccess() {
                 public <T> T doIntersectionPrivilege(
-                    PrivilegedAction<T> action,
-                    final AccessControlContext stack,
-                    final AccessControlContext context)
+                    PrivilegedAction<T> bction,
+                    finbl AccessControlContext stbck,
+                    finbl AccessControlContext context)
                 {
-                    if (action == null) {
+                    if (bction == null) {
                         throw new NullPointerException();
                     }
                     return AccessController.doPrivileged(
-                        action,
+                        bction,
                         new AccessControlContext(
-                            stack.getContext(), context).optimize()
+                            stbck.getContext(), context).optimize()
                     );
                 }
 
                 public <T> T doIntersectionPrivilege(
-                    PrivilegedAction<T> action,
+                    PrivilegedAction<T> bction,
                     AccessControlContext context)
                 {
-                    return doIntersectionPrivilege(action,
+                    return doIntersectionPrivilege(bction,
                         AccessController.getContext(), context);
                 }
             }
@@ -91,335 +91,335 @@ public class ProtectionDomain {
     }
 
     /* CodeSource */
-    private CodeSource codesource ;
+    privbte CodeSource codesource ;
 
-    /* ClassLoader the protection domain was consed from */
-    private ClassLoader classloader;
+    /* ClbssLobder the protection dombin wbs consed from */
+    privbte ClbssLobder clbsslobder;
 
-    /* Principals running-as within this protection domain */
-    private Principal[] principals;
+    /* Principbls running-bs within this protection dombin */
+    privbte Principbl[] principbls;
 
-    /* the rights this protection domain is granted */
-    private PermissionCollection permissions;
+    /* the rights this protection dombin is grbnted */
+    privbte PermissionCollection permissions;
 
-    /* if the permissions object has AllPermission */
-    private boolean hasAllPerm = false;
+    /* if the permissions object hbs AllPermission */
+    privbte boolebn hbsAllPerm = fblse;
 
-    /* the PermissionCollection is static (pre 1.4 constructor)
-       or dynamic (via a policy refresh) */
-    private boolean staticPermissions;
+    /* the PermissionCollection is stbtic (pre 1.4 constructor)
+       or dynbmic (vib b policy refresh) */
+    privbte boolebn stbticPermissions;
 
     /*
-     * An object used as a key when the ProtectionDomain is stored in a Map.
+     * An object used bs b key when the ProtectionDombin is stored in b Mbp.
      */
-    final Key key = new Key();
+    finbl Key key = new Key();
 
-    private static final Debug debug = Debug.getInstance("domain");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("dombin");
 
     /**
-     * Creates a new ProtectionDomain with the given CodeSource and
+     * Crebtes b new ProtectionDombin with the given CodeSource bnd
      * Permissions. If the permissions object is not null, then
-     *  {@code setReadOnly())} will be called on the passed in
-     * Permissions object. The only permissions granted to this domain
-     * are the ones specified; the current Policy will not be consulted.
+     *  {@code setRebdOnly())} will be cblled on the pbssed in
+     * Permissions object. The only permissions grbnted to this dombin
+     * bre the ones specified; the current Policy will not be consulted.
      *
-     * @param codesource the codesource associated with this domain
-     * @param permissions the permissions granted to this domain
+     * @pbrbm codesource the codesource bssocibted with this dombin
+     * @pbrbm permissions the permissions grbnted to this dombin
      */
-    public ProtectionDomain(CodeSource codesource,
+    public ProtectionDombin(CodeSource codesource,
                             PermissionCollection permissions) {
         this.codesource = codesource;
         if (permissions != null) {
             this.permissions = permissions;
-            this.permissions.setReadOnly();
-            if (permissions instanceof Permissions &&
-                ((Permissions)permissions).allPermission != null) {
-                hasAllPerm = true;
+            this.permissions.setRebdOnly();
+            if (permissions instbnceof Permissions &&
+                ((Permissions)permissions).bllPermission != null) {
+                hbsAllPerm = true;
             }
         }
-        this.classloader = null;
-        this.principals = new Principal[0];
-        staticPermissions = true;
+        this.clbsslobder = null;
+        this.principbls = new Principbl[0];
+        stbticPermissions = true;
     }
 
     /**
-     * Creates a new ProtectionDomain qualified by the given CodeSource,
-     * Permissions, ClassLoader and array of Principals. If the
-     * permissions object is not null, then {@code setReadOnly()}
-     * will be called on the passed in Permissions object.
-     * The permissions granted to this domain are dynamic; they include
-     * both the static permissions passed to this constructor, and any
-     * permissions granted to this domain by the current Policy at the
-     * time a permission is checked.
+     * Crebtes b new ProtectionDombin qublified by the given CodeSource,
+     * Permissions, ClbssLobder bnd brrby of Principbls. If the
+     * permissions object is not null, then {@code setRebdOnly()}
+     * will be cblled on the pbssed in Permissions object.
+     * The permissions grbnted to this dombin bre dynbmic; they include
+     * both the stbtic permissions pbssed to this constructor, bnd bny
+     * permissions grbnted to this dombin by the current Policy bt the
+     * time b permission is checked.
      * <p>
-     * This constructor is typically used by
-     * {@link SecureClassLoader ClassLoaders}
-     * and {@link DomainCombiner DomainCombiners} which delegate to
-     * {@code Policy} to actively associate the permissions granted to
-     * this domain. This constructor affords the
-     * Policy provider the opportunity to augment the supplied
-     * PermissionCollection to reflect policy changes.
+     * This constructor is typicblly used by
+     * {@link SecureClbssLobder ClbssLobders}
+     * bnd {@link DombinCombiner DombinCombiners} which delegbte to
+     * {@code Policy} to bctively bssocibte the permissions grbnted to
+     * this dombin. This constructor bffords the
+     * Policy provider the opportunity to bugment the supplied
+     * PermissionCollection to reflect policy chbnges.
      * <p>
      *
-     * @param codesource the CodeSource associated with this domain
-     * @param permissions the permissions granted to this domain
-     * @param classloader the ClassLoader associated with this domain
-     * @param principals the array of Principals associated with this
-     * domain. The contents of the array are copied to protect against
-     * subsequent modification.
+     * @pbrbm codesource the CodeSource bssocibted with this dombin
+     * @pbrbm permissions the permissions grbnted to this dombin
+     * @pbrbm clbsslobder the ClbssLobder bssocibted with this dombin
+     * @pbrbm principbls the brrby of Principbls bssocibted with this
+     * dombin. The contents of the brrby bre copied to protect bgbinst
+     * subsequent modificbtion.
      * @see Policy#refresh
-     * @see Policy#getPermissions(ProtectionDomain)
+     * @see Policy#getPermissions(ProtectionDombin)
      * @since 1.4
      */
-    public ProtectionDomain(CodeSource codesource,
+    public ProtectionDombin(CodeSource codesource,
                             PermissionCollection permissions,
-                            ClassLoader classloader,
-                            Principal[] principals) {
+                            ClbssLobder clbsslobder,
+                            Principbl[] principbls) {
         this.codesource = codesource;
         if (permissions != null) {
             this.permissions = permissions;
-            this.permissions.setReadOnly();
-            if (permissions instanceof Permissions &&
-                ((Permissions)permissions).allPermission != null) {
-                hasAllPerm = true;
+            this.permissions.setRebdOnly();
+            if (permissions instbnceof Permissions &&
+                ((Permissions)permissions).bllPermission != null) {
+                hbsAllPerm = true;
             }
         }
-        this.classloader = classloader;
-        this.principals = (principals != null ? principals.clone():
-                           new Principal[0]);
-        staticPermissions = false;
+        this.clbsslobder = clbsslobder;
+        this.principbls = (principbls != null ? principbls.clone():
+                           new Principbl[0]);
+        stbticPermissions = fblse;
     }
 
     /**
-     * Returns the CodeSource of this domain.
-     * @return the CodeSource of this domain which may be null.
+     * Returns the CodeSource of this dombin.
+     * @return the CodeSource of this dombin which mby be null.
      * @since 1.2
      */
-    public final CodeSource getCodeSource() {
+    public finbl CodeSource getCodeSource() {
         return this.codesource;
     }
 
 
     /**
-     * Returns the ClassLoader of this domain.
-     * @return the ClassLoader of this domain which may be null.
+     * Returns the ClbssLobder of this dombin.
+     * @return the ClbssLobder of this dombin which mby be null.
      *
      * @since 1.4
      */
-    public final ClassLoader getClassLoader() {
-        return this.classloader;
+    public finbl ClbssLobder getClbssLobder() {
+        return this.clbsslobder;
     }
 
 
     /**
-     * Returns an array of principals for this domain.
-     * @return a non-null array of principals for this domain.
-     * Returns a new array each time this method is called.
+     * Returns bn brrby of principbls for this dombin.
+     * @return b non-null brrby of principbls for this dombin.
+     * Returns b new brrby ebch time this method is cblled.
      *
      * @since 1.4
      */
-    public final Principal[] getPrincipals() {
-        return this.principals.clone();
+    public finbl Principbl[] getPrincipbls() {
+        return this.principbls.clone();
     }
 
     /**
-     * Returns the static permissions granted to this domain.
+     * Returns the stbtic permissions grbnted to this dombin.
      *
-     * @return the static set of permissions for this domain which may be null.
+     * @return the stbtic set of permissions for this dombin which mby be null.
      * @see Policy#refresh
-     * @see Policy#getPermissions(ProtectionDomain)
+     * @see Policy#getPermissions(ProtectionDombin)
      */
-    public final PermissionCollection getPermissions() {
+    public finbl PermissionCollection getPermissions() {
         return permissions;
     }
 
     /**
-     * Check and see if this ProtectionDomain implies the permissions
+     * Check bnd see if this ProtectionDombin implies the permissions
      * expressed in the Permission object.
      * <p>
-     * The set of permissions evaluated is a function of whether the
-     * ProtectionDomain was constructed with a static set of permissions
-     * or it was bound to a dynamically mapped set of permissions.
+     * The set of permissions evblubted is b function of whether the
+     * ProtectionDombin wbs constructed with b stbtic set of permissions
+     * or it wbs bound to b dynbmicblly mbpped set of permissions.
      * <p>
-     * If the ProtectionDomain was constructed to a
-     * {@link #ProtectionDomain(CodeSource, PermissionCollection)
-     * statically bound} PermissionCollection then the permission will
-     * only be checked against the PermissionCollection supplied at
+     * If the ProtectionDombin wbs constructed to b
+     * {@link #ProtectionDombin(CodeSource, PermissionCollection)
+     * stbticblly bound} PermissionCollection then the permission will
+     * only be checked bgbinst the PermissionCollection supplied bt
      * construction.
      * <p>
-     * However, if the ProtectionDomain was constructed with
-     * the constructor variant which supports
-     * {@link #ProtectionDomain(CodeSource, PermissionCollection,
-     * ClassLoader, java.security.Principal[]) dynamically binding}
-     * permissions, then the permission will be checked against the
-     * combination of the PermissionCollection supplied at construction and
+     * However, if the ProtectionDombin wbs constructed with
+     * the constructor vbribnt which supports
+     * {@link #ProtectionDombin(CodeSource, PermissionCollection,
+     * ClbssLobder, jbvb.security.Principbl[]) dynbmicblly binding}
+     * permissions, then the permission will be checked bgbinst the
+     * combinbtion of the PermissionCollection supplied bt construction bnd
      * the current Policy binding.
      * <p>
      *
-     * @param permission the Permission object to check.
+     * @pbrbm permission the Permission object to check.
      *
-     * @return true if "permission" is implicit to this ProtectionDomain.
+     * @return true if "permission" is implicit to this ProtectionDombin.
      */
-    public boolean implies(Permission permission) {
+    public boolebn implies(Permission permission) {
 
-        if (hasAllPerm) {
-            // internal permission collection already has AllPermission -
+        if (hbsAllPerm) {
+            // internbl permission collection blrebdy hbs AllPermission -
             // no need to go to policy
             return true;
         }
 
-        if (!staticPermissions &&
+        if (!stbticPermissions &&
             Policy.getPolicyNoCheck().implies(this, permission))
             return true;
         if (permissions != null)
             return permissions.implies(permission);
 
-        return false;
+        return fblse;
     }
 
-    // called by the VM -- do not remove
-    boolean impliesCreateAccessControlContext() {
-        return implies(SecurityConstants.CREATE_ACC_PERMISSION);
+    // cblled by the VM -- do not remove
+    boolebn impliesCrebteAccessControlContext() {
+        return implies(SecurityConstbnts.CREATE_ACC_PERMISSION);
     }
 
     /**
-     * Convert a ProtectionDomain to a String.
+     * Convert b ProtectionDombin to b String.
      */
     @Override public String toString() {
-        String pals = "<no principals>";
-        if (principals != null && principals.length > 0) {
-            StringBuilder palBuf = new StringBuilder("(principals ");
+        String pbls = "<no principbls>";
+        if (principbls != null && principbls.length > 0) {
+            StringBuilder pblBuf = new StringBuilder("(principbls ");
 
-            for (int i = 0; i < principals.length; i++) {
-                palBuf.append(principals[i].getClass().getName() +
-                            " \"" + principals[i].getName() +
+            for (int i = 0; i < principbls.length; i++) {
+                pblBuf.bppend(principbls[i].getClbss().getNbme() +
+                            " \"" + principbls[i].getNbme() +
                             "\"");
-                if (i < principals.length-1)
-                    palBuf.append(",\n");
+                if (i < principbls.length-1)
+                    pblBuf.bppend(",\n");
                 else
-                    palBuf.append(")\n");
+                    pblBuf.bppend(")\n");
             }
-            pals = palBuf.toString();
+            pbls = pblBuf.toString();
         }
 
-        // Check if policy is set; we don't want to load
-        // the policy prematurely here
+        // Check if policy is set; we don't wbnt to lobd
+        // the policy prembturely here
         PermissionCollection pc = Policy.isSet() && seeAllp() ?
                                       mergePermissions():
                                       getPermissions();
 
-        return "ProtectionDomain "+
+        return "ProtectionDombin "+
             " "+codesource+"\n"+
-            " "+classloader+"\n"+
-            " "+pals+"\n"+
+            " "+clbsslobder+"\n"+
+            " "+pbls+"\n"+
             " "+pc+"\n";
     }
 
     /**
-     * Return true (merge policy permissions) in the following cases:
+     * Return true (merge policy permissions) in the following cbses:
      *
-     * . SecurityManager is null
+     * . SecurityMbnbger is null
      *
-     * . SecurityManager is not null,
+     * . SecurityMbnbger is not null,
      *          debug is not null,
-     *          SecurityManager impelmentation is in bootclasspath,
-     *          Policy implementation is in bootclasspath
-     *          (the bootclasspath restrictions avoid recursion)
+     *          SecurityMbnbger impelmentbtion is in bootclbsspbth,
+     *          Policy implementbtion is in bootclbsspbth
+     *          (the bootclbsspbth restrictions bvoid recursion)
      *
-     * . SecurityManager is not null,
+     * . SecurityMbnbger is not null,
      *          debug is null,
-     *          caller has Policy.getPolicy permission
+     *          cbller hbs Policy.getPolicy permission
      */
-    private static boolean seeAllp() {
-        SecurityManager sm = System.getSecurityManager();
+    privbte stbtic boolebn seeAllp() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
 
         if (sm == null) {
             return true;
         } else {
             if (debug != null) {
-                if (sm.getClass().getClassLoader() == null &&
-                    Policy.getPolicyNoCheck().getClass().getClassLoader()
+                if (sm.getClbss().getClbssLobder() == null &&
+                    Policy.getPolicyNoCheck().getClbss().getClbssLobder()
                                                                 == null) {
                     return true;
                 }
             } else {
                 try {
-                    sm.checkPermission(SecurityConstants.GET_POLICY_PERMISSION);
+                    sm.checkPermission(SecurityConstbnts.GET_POLICY_PERMISSION);
                     return true;
-                } catch (SecurityException se) {
-                    // fall thru and return false
+                } cbtch (SecurityException se) {
+                    // fbll thru bnd return fblse
                 }
             }
         }
 
-        return false;
+        return fblse;
     }
 
-    private PermissionCollection mergePermissions() {
-        if (staticPermissions)
+    privbte PermissionCollection mergePermissions() {
+        if (stbticPermissions)
             return permissions;
 
         PermissionCollection perms =
-            java.security.AccessController.doPrivileged
-            (new java.security.PrivilegedAction<PermissionCollection>() {
+            jbvb.security.AccessController.doPrivileged
+            (new jbvb.security.PrivilegedAction<PermissionCollection>() {
                     public PermissionCollection run() {
                         Policy p = Policy.getPolicyNoCheck();
-                        return p.getPermissions(ProtectionDomain.this);
+                        return p.getPermissions(ProtectionDombin.this);
                     }
                 });
 
         Permissions mergedPerms = new Permissions();
-        int swag = 32;
-        int vcap = 8;
-        Enumeration<Permission> e;
-        List<Permission> pdVector = new ArrayList<>(vcap);
-        List<Permission> plVector = new ArrayList<>(swag);
+        int swbg = 32;
+        int vcbp = 8;
+        Enumerbtion<Permission> e;
+        List<Permission> pdVector = new ArrbyList<>(vcbp);
+        List<Permission> plVector = new ArrbyList<>(swbg);
 
         //
-        // Build a vector of domain permissions for subsequent merge
+        // Build b vector of dombin permissions for subsequent merge
         if (permissions != null) {
             synchronized (permissions) {
                 e = permissions.elements();
-                while (e.hasMoreElements()) {
-                    pdVector.add(e.nextElement());
+                while (e.hbsMoreElements()) {
+                    pdVector.bdd(e.nextElement());
                 }
             }
         }
 
         //
-        // Build a vector of Policy permissions for subsequent merge
+        // Build b vector of Policy permissions for subsequent merge
         if (perms != null) {
             synchronized (perms) {
                 e = perms.elements();
-                while (e.hasMoreElements()) {
-                    plVector.add(e.nextElement());
-                    vcap++;
+                while (e.hbsMoreElements()) {
+                    plVector.bdd(e.nextElement());
+                    vcbp++;
                 }
             }
         }
 
         if (perms != null && permissions != null) {
             //
-            // Weed out the duplicates from the policy. Unless a refresh
-            // has occurred since the pd was consed this should result in
-            // an empty vector.
+            // Weed out the duplicbtes from the policy. Unless b refresh
+            // hbs occurred since the pd wbs consed this should result in
+            // bn empty vector.
             synchronized (permissions) {
-                e = permissions.elements();   // domain vs policy
-                while (e.hasMoreElements()) {
+                e = permissions.elements();   // dombin vs policy
+                while (e.hbsMoreElements()) {
                     Permission pdp = e.nextElement();
-                    Class<?> pdpClass = pdp.getClass();
+                    Clbss<?> pdpClbss = pdp.getClbss();
                     String pdpActions = pdp.getActions();
-                    String pdpName = pdp.getName();
+                    String pdpNbme = pdp.getNbme();
                     for (int i = 0; i < plVector.size(); i++) {
                         Permission pp = plVector.get(i);
-                        if (pdpClass.isInstance(pp)) {
-                            // The equals() method on some permissions
-                            // have some side effects so this manual
-                            // comparison is sufficient.
-                            if (pdpName.equals(pp.getName()) &&
-                                pdpActions.equals(pp.getActions())) {
+                        if (pdpClbss.isInstbnce(pp)) {
+                            // The equbls() method on some permissions
+                            // hbve some side effects so this mbnubl
+                            // compbrison is sufficient.
+                            if (pdpNbme.equbls(pp.getNbme()) &&
+                                pdpActions.equbls(pp.getActions())) {
                                 plVector.remove(i);
-                                break;
+                                brebk;
                             }
                         }
                     }
@@ -428,16 +428,16 @@ public class ProtectionDomain {
         }
 
         if (perms !=null) {
-            // the order of adding to merged perms and permissions
+            // the order of bdding to merged perms bnd permissions
             // needs to preserve the bugfix 4301064
 
             for (int i = plVector.size()-1; i >= 0; i--) {
-                mergedPerms.add(plVector.get(i));
+                mergedPerms.bdd(plVector.get(i));
             }
         }
         if (permissions != null) {
             for (int i = pdVector.size()-1; i >= 0; i--) {
-                mergedPerms.add(pdVector.get(i));
+                mergedPerms.bdd(pdVector.get(i));
             }
         }
 
@@ -445,24 +445,24 @@ public class ProtectionDomain {
     }
 
     /**
-     * Used for storing ProtectionDomains as keys in a Map.
+     * Used for storing ProtectionDombins bs keys in b Mbp.
      */
-    final class Key {}
+    finbl clbss Key {}
 
-    static {
-        SharedSecrets.setJavaSecurityProtectionDomainAccess(
-            new JavaSecurityProtectionDomainAccess() {
-                public ProtectionDomainCache getProtectionDomainCache() {
-                    return new ProtectionDomainCache() {
-                        private final Map<Key, PermissionCollection> map =
-                            Collections.synchronizedMap
-                                (new WeakHashMap<Key, PermissionCollection>());
-                        public void put(ProtectionDomain pd,
+    stbtic {
+        ShbredSecrets.setJbvbSecurityProtectionDombinAccess(
+            new JbvbSecurityProtectionDombinAccess() {
+                public ProtectionDombinCbche getProtectionDombinCbche() {
+                    return new ProtectionDombinCbche() {
+                        privbte finbl Mbp<Key, PermissionCollection> mbp =
+                            Collections.synchronizedMbp
+                                (new WebkHbshMbp<Key, PermissionCollection>());
+                        public void put(ProtectionDombin pd,
                             PermissionCollection pc) {
-                            map.put((pd == null ? null : pd.key), pc);
+                            mbp.put((pd == null ? null : pd.key), pc);
                         }
-                        public PermissionCollection get(ProtectionDomain pd) {
-                            return pd == null ? map.get(null) : map.get(pd.key);
+                        public PermissionCollection get(ProtectionDombin pd) {
+                            return pd == null ? mbp.get(null) : mbp.get(pd.key);
                         }
                     };
                 }

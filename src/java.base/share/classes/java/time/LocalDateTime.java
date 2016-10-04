@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2007-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,477 +59,477 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbckbge jbvb.time;
 
-import static java.time.LocalTime.HOURS_PER_DAY;
-import static java.time.LocalTime.MICROS_PER_DAY;
-import static java.time.LocalTime.MILLIS_PER_DAY;
-import static java.time.LocalTime.MINUTES_PER_DAY;
-import static java.time.LocalTime.NANOS_PER_DAY;
-import static java.time.LocalTime.NANOS_PER_HOUR;
-import static java.time.LocalTime.NANOS_PER_MINUTE;
-import static java.time.LocalTime.NANOS_PER_SECOND;
-import static java.time.LocalTime.SECONDS_PER_DAY;
-import static java.time.temporal.ChronoField.NANO_OF_SECOND;
+import stbtic jbvb.time.LocblTime.HOURS_PER_DAY;
+import stbtic jbvb.time.LocblTime.MICROS_PER_DAY;
+import stbtic jbvb.time.LocblTime.MILLIS_PER_DAY;
+import stbtic jbvb.time.LocblTime.MINUTES_PER_DAY;
+import stbtic jbvb.time.LocblTime.NANOS_PER_DAY;
+import stbtic jbvb.time.LocblTime.NANOS_PER_HOUR;
+import stbtic jbvb.time.LocblTime.NANOS_PER_MINUTE;
+import stbtic jbvb.time.LocblTime.NANOS_PER_SECOND;
+import stbtic jbvb.time.LocblTime.SECONDS_PER_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.NANO_OF_SECOND;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.time.zone.ZoneRules;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.chrono.ChronoLocblDbteTime;
+import jbvb.time.formbt.DbteTimeFormbtter;
+import jbvb.time.formbt.DbteTimePbrseException;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.time.zone.ZoneRules;
+import jbvb.util.Objects;
 
 /**
- * A date-time without a time-zone in the ISO-8601 calendar system,
- * such as {@code 2007-12-03T10:15:30}.
+ * A dbte-time without b time-zone in the ISO-8601 cblendbr system,
+ * such bs {@code 2007-12-03T10:15:30}.
  * <p>
- * {@code LocalDateTime} is an immutable date-time object that represents a date-time,
- * often viewed as year-month-day-hour-minute-second. Other date and time fields,
- * such as day-of-year, day-of-week and week-of-year, can also be accessed.
- * Time is represented to nanosecond precision.
- * For example, the value "2nd October 2007 at 13:45.30.123456789" can be
- * stored in a {@code LocalDateTime}.
+ * {@code LocblDbteTime} is bn immutbble dbte-time object thbt represents b dbte-time,
+ * often viewed bs yebr-month-dby-hour-minute-second. Other dbte bnd time fields,
+ * such bs dby-of-yebr, dby-of-week bnd week-of-yebr, cbn blso be bccessed.
+ * Time is represented to nbnosecond precision.
+ * For exbmple, the vblue "2nd October 2007 bt 13:45.30.123456789" cbn be
+ * stored in b {@code LocblDbteTime}.
  * <p>
- * This class does not store or represent a time-zone.
- * Instead, it is a description of the date, as used for birthdays, combined with
- * the local time as seen on a wall clock.
- * It cannot represent an instant on the time-line without additional information
- * such as an offset or time-zone.
+ * This clbss does not store or represent b time-zone.
+ * Instebd, it is b description of the dbte, bs used for birthdbys, combined with
+ * the locbl time bs seen on b wbll clock.
+ * It cbnnot represent bn instbnt on the time-line without bdditionbl informbtion
+ * such bs bn offset or time-zone.
  * <p>
- * The ISO-8601 calendar system is the modern civil calendar system used today
- * in most of the world. It is equivalent to the proleptic Gregorian calendar
- * system, in which today's rules for leap years are applied for all time.
- * For most applications written today, the ISO-8601 rules are entirely suitable.
- * However, any application that makes use of historical dates, and requires them
- * to be accurate will find the ISO-8601 approach unsuitable.
+ * The ISO-8601 cblendbr system is the modern civil cblendbr system used todby
+ * in most of the world. It is equivblent to the proleptic Gregoribn cblendbr
+ * system, in which todby's rules for lebp yebrs bre bpplied for bll time.
+ * For most bpplicbtions written todby, the ISO-8601 rules bre entirely suitbble.
+ * However, bny bpplicbtion thbt mbkes use of historicbl dbtes, bnd requires them
+ * to be bccurbte will find the ISO-8601 bpprobch unsuitbble.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code LocalDateTime} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * This is b <b href="{@docRoot}/jbvb/lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code LocblDbteTime} mby hbve unpredictbble results bnd should be bvoided.
+ * The {@code equbls} method should be used for compbrisons.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class LocalDateTime
-        implements Temporal, TemporalAdjuster, ChronoLocalDateTime<LocalDate>, Serializable {
+public finbl clbss LocblDbteTime
+        implements Temporbl, TemporblAdjuster, ChronoLocblDbteTime<LocblDbte>, Seriblizbble {
 
     /**
-     * The minimum supported {@code LocalDateTime}, '-999999999-01-01T00:00:00'.
-     * This is the local date-time of midnight at the start of the minimum date.
-     * This combines {@link LocalDate#MIN} and {@link LocalTime#MIN}.
-     * This could be used by an application as a "far past" date-time.
+     * The minimum supported {@code LocblDbteTime}, '-999999999-01-01T00:00:00'.
+     * This is the locbl dbte-time of midnight bt the stbrt of the minimum dbte.
+     * This combines {@link LocblDbte#MIN} bnd {@link LocblTime#MIN}.
+     * This could be used by bn bpplicbtion bs b "fbr pbst" dbte-time.
      */
-    public static final LocalDateTime MIN = LocalDateTime.of(LocalDate.MIN, LocalTime.MIN);
+    public stbtic finbl LocblDbteTime MIN = LocblDbteTime.of(LocblDbte.MIN, LocblTime.MIN);
     /**
-     * The maximum supported {@code LocalDateTime}, '+999999999-12-31T23:59:59.999999999'.
-     * This is the local date-time just before midnight at the end of the maximum date.
-     * This combines {@link LocalDate#MAX} and {@link LocalTime#MAX}.
-     * This could be used by an application as a "far future" date-time.
+     * The mbximum supported {@code LocblDbteTime}, '+999999999-12-31T23:59:59.999999999'.
+     * This is the locbl dbte-time just before midnight bt the end of the mbximum dbte.
+     * This combines {@link LocblDbte#MAX} bnd {@link LocblTime#MAX}.
+     * This could be used by bn bpplicbtion bs b "fbr future" dbte-time.
      */
-    public static final LocalDateTime MAX = LocalDateTime.of(LocalDate.MAX, LocalTime.MAX);
+    public stbtic finbl LocblDbteTime MAX = LocblDbteTime.of(LocblDbte.MAX, LocblTime.MAX);
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = 6207766400415563566L;
+    privbte stbtic finbl long seriblVersionUID = 6207766400415563566L;
 
     /**
-     * The date part.
+     * The dbte pbrt.
      */
-    private final LocalDate date;
+    privbte finbl LocblDbte dbte;
     /**
-     * The time part.
+     * The time pbrt.
      */
-    private final LocalTime time;
+    privbte finbl LocblTime time;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains the current date-time from the system clock in the default time-zone.
+     * Obtbins the current dbte-time from the system clock in the defbult time-zone.
      * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current date-time.
+     * This will query the {@link Clock#systemDefbultZone() system clock} in the defbult
+     * time-zone to obtbin the current dbte-time.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @return the current date-time using the system clock and default time-zone, not null
+     * @return the current dbte-time using the system clock bnd defbult time-zone, not null
      */
-    public static LocalDateTime now() {
-        return now(Clock.systemDefaultZone());
+    public stbtic LocblDbteTime now() {
+        return now(Clock.systemDefbultZone());
     }
 
     /**
-     * Obtains the current date-time from the system clock in the specified time-zone.
+     * Obtbins the current dbte-time from the system clock in the specified time-zone.
      * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current date-time.
-     * Specifying the time-zone avoids dependence on the default time-zone.
+     * This will query the {@link Clock#system(ZoneId) system clock} to obtbin the current dbte-time.
+     * Specifying the time-zone bvoids dependence on the defbult time-zone.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @param zone  the zone ID to use, not null
-     * @return the current date-time using the system clock, not null
+     * @pbrbm zone  the zone ID to use, not null
+     * @return the current dbte-time using the system clock, not null
      */
-    public static LocalDateTime now(ZoneId zone) {
+    public stbtic LocblDbteTime now(ZoneId zone) {
         return now(Clock.system(zone));
     }
 
     /**
-     * Obtains the current date-time from the specified clock.
+     * Obtbins the current dbte-time from the specified clock.
      * <p>
-     * This will query the specified clock to obtain the current date-time.
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@link Clock dependency injection}.
+     * This will query the specified clock to obtbin the current dbte-time.
+     * Using this method bllows the use of bn blternbte clock for testing.
+     * The blternbte clock mby be introduced using {@link Clock dependency injection}.
      *
-     * @param clock  the clock to use, not null
-     * @return the current date-time, not null
+     * @pbrbm clock  the clock to use, not null
+     * @return the current dbte-time, not null
      */
-    public static LocalDateTime now(Clock clock) {
+    public stbtic LocblDbteTime now(Clock clock) {
         Objects.requireNonNull(clock, "clock");
-        final Instant now = clock.instant();  // called once
+        finbl Instbnt now = clock.instbnt();  // cblled once
         ZoneOffset offset = clock.getZone().getRules().getOffset(now);
-        return ofEpochSecond(now.getEpochSecond(), now.getNano(), offset);
+        return ofEpochSecond(now.getEpochSecond(), now.getNbno(), offset);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code LocalDateTime} from year, month,
-     * day, hour and minute, setting the second and nanosecond to zero.
+     * Obtbins bn instbnce of {@code LocblDbteTime} from yebr, month,
+     * dby, hour bnd minute, setting the second bnd nbnosecond to zero.
      * <p>
-     * This returns a {@code LocalDateTime} with the specified year, month,
-     * day-of-month, hour and minute.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
-     * The second and nanosecond fields will be set to zero.
+     * This returns b {@code LocblDbteTime} with the specified yebr, month,
+     * dby-of-month, hour bnd minute.
+     * The dby must be vblid for the yebr bnd month, otherwise bn exception will be thrown.
+     * The second bnd nbnosecond fields will be set to zero.
      *
-     * @param year  the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param month  the month-of-year to represent, not null
-     * @param dayOfMonth  the day-of-month to represent, from 1 to 31
-     * @param hour  the hour-of-day to represent, from 0 to 23
-     * @param minute  the minute-of-hour to represent, from 0 to 59
-     * @return the local date-time, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm yebr  the yebr to represent, from MIN_YEAR to MAX_YEAR
+     * @pbrbm month  the month-of-yebr to represent, not null
+     * @pbrbm dbyOfMonth  the dby-of-month to represent, from 1 to 31
+     * @pbrbm hour  the hour-of-dby to represent, from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, from 0 to 59
+     * @return the locbl dbte-time, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge,
+     *  or if the dby-of-month is invblid for the month-yebr
      */
-    public static LocalDateTime of(int year, Month month, int dayOfMonth, int hour, int minute) {
-        LocalDate date = LocalDate.of(year, month, dayOfMonth);
-        LocalTime time = LocalTime.of(hour, minute);
-        return new LocalDateTime(date, time);
+    public stbtic LocblDbteTime of(int yebr, Month month, int dbyOfMonth, int hour, int minute) {
+        LocblDbte dbte = LocblDbte.of(yebr, month, dbyOfMonth);
+        LocblTime time = LocblTime.of(hour, minute);
+        return new LocblDbteTime(dbte, time);
     }
 
     /**
-     * Obtains an instance of {@code LocalDateTime} from year, month,
-     * day, hour, minute and second, setting the nanosecond to zero.
+     * Obtbins bn instbnce of {@code LocblDbteTime} from yebr, month,
+     * dby, hour, minute bnd second, setting the nbnosecond to zero.
      * <p>
-     * This returns a {@code LocalDateTime} with the specified year, month,
-     * day-of-month, hour, minute and second.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
-     * The nanosecond field will be set to zero.
+     * This returns b {@code LocblDbteTime} with the specified yebr, month,
+     * dby-of-month, hour, minute bnd second.
+     * The dby must be vblid for the yebr bnd month, otherwise bn exception will be thrown.
+     * The nbnosecond field will be set to zero.
      *
-     * @param year  the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param month  the month-of-year to represent, not null
-     * @param dayOfMonth  the day-of-month to represent, from 1 to 31
-     * @param hour  the hour-of-day to represent, from 0 to 23
-     * @param minute  the minute-of-hour to represent, from 0 to 59
-     * @param second  the second-of-minute to represent, from 0 to 59
-     * @return the local date-time, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm yebr  the yebr to represent, from MIN_YEAR to MAX_YEAR
+     * @pbrbm month  the month-of-yebr to represent, not null
+     * @pbrbm dbyOfMonth  the dby-of-month to represent, from 1 to 31
+     * @pbrbm hour  the hour-of-dby to represent, from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, from 0 to 59
+     * @pbrbm second  the second-of-minute to represent, from 0 to 59
+     * @return the locbl dbte-time, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge,
+     *  or if the dby-of-month is invblid for the month-yebr
      */
-    public static LocalDateTime of(int year, Month month, int dayOfMonth, int hour, int minute, int second) {
-        LocalDate date = LocalDate.of(year, month, dayOfMonth);
-        LocalTime time = LocalTime.of(hour, minute, second);
-        return new LocalDateTime(date, time);
+    public stbtic LocblDbteTime of(int yebr, Month month, int dbyOfMonth, int hour, int minute, int second) {
+        LocblDbte dbte = LocblDbte.of(yebr, month, dbyOfMonth);
+        LocblTime time = LocblTime.of(hour, minute, second);
+        return new LocblDbteTime(dbte, time);
     }
 
     /**
-     * Obtains an instance of {@code LocalDateTime} from year, month,
-     * day, hour, minute, second and nanosecond.
+     * Obtbins bn instbnce of {@code LocblDbteTime} from yebr, month,
+     * dby, hour, minute, second bnd nbnosecond.
      * <p>
-     * This returns a {@code LocalDateTime} with the specified year, month,
-     * day-of-month, hour, minute, second and nanosecond.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
+     * This returns b {@code LocblDbteTime} with the specified yebr, month,
+     * dby-of-month, hour, minute, second bnd nbnosecond.
+     * The dby must be vblid for the yebr bnd month, otherwise bn exception will be thrown.
      *
-     * @param year  the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param month  the month-of-year to represent, not null
-     * @param dayOfMonth  the day-of-month to represent, from 1 to 31
-     * @param hour  the hour-of-day to represent, from 0 to 23
-     * @param minute  the minute-of-hour to represent, from 0 to 59
-     * @param second  the second-of-minute to represent, from 0 to 59
-     * @param nanoOfSecond  the nano-of-second to represent, from 0 to 999,999,999
-     * @return the local date-time, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm yebr  the yebr to represent, from MIN_YEAR to MAX_YEAR
+     * @pbrbm month  the month-of-yebr to represent, not null
+     * @pbrbm dbyOfMonth  the dby-of-month to represent, from 1 to 31
+     * @pbrbm hour  the hour-of-dby to represent, from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, from 0 to 59
+     * @pbrbm second  the second-of-minute to represent, from 0 to 59
+     * @pbrbm nbnoOfSecond  the nbno-of-second to represent, from 0 to 999,999,999
+     * @return the locbl dbte-time, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge,
+     *  or if the dby-of-month is invblid for the month-yebr
      */
-    public static LocalDateTime of(int year, Month month, int dayOfMonth, int hour, int minute, int second, int nanoOfSecond) {
-        LocalDate date = LocalDate.of(year, month, dayOfMonth);
-        LocalTime time = LocalTime.of(hour, minute, second, nanoOfSecond);
-        return new LocalDateTime(date, time);
+    public stbtic LocblDbteTime of(int yebr, Month month, int dbyOfMonth, int hour, int minute, int second, int nbnoOfSecond) {
+        LocblDbte dbte = LocblDbte.of(yebr, month, dbyOfMonth);
+        LocblTime time = LocblTime.of(hour, minute, second, nbnoOfSecond);
+        return new LocblDbteTime(dbte, time);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code LocalDateTime} from year, month,
-     * day, hour and minute, setting the second and nanosecond to zero.
+     * Obtbins bn instbnce of {@code LocblDbteTime} from yebr, month,
+     * dby, hour bnd minute, setting the second bnd nbnosecond to zero.
      * <p>
-     * This returns a {@code LocalDateTime} with the specified year, month,
-     * day-of-month, hour and minute.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
-     * The second and nanosecond fields will be set to zero.
+     * This returns b {@code LocblDbteTime} with the specified yebr, month,
+     * dby-of-month, hour bnd minute.
+     * The dby must be vblid for the yebr bnd month, otherwise bn exception will be thrown.
+     * The second bnd nbnosecond fields will be set to zero.
      *
-     * @param year  the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param month  the month-of-year to represent, from 1 (January) to 12 (December)
-     * @param dayOfMonth  the day-of-month to represent, from 1 to 31
-     * @param hour  the hour-of-day to represent, from 0 to 23
-     * @param minute  the minute-of-hour to represent, from 0 to 59
-     * @return the local date-time, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm yebr  the yebr to represent, from MIN_YEAR to MAX_YEAR
+     * @pbrbm month  the month-of-yebr to represent, from 1 (Jbnubry) to 12 (December)
+     * @pbrbm dbyOfMonth  the dby-of-month to represent, from 1 to 31
+     * @pbrbm hour  the hour-of-dby to represent, from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, from 0 to 59
+     * @return the locbl dbte-time, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge,
+     *  or if the dby-of-month is invblid for the month-yebr
      */
-    public static LocalDateTime of(int year, int month, int dayOfMonth, int hour, int minute) {
-        LocalDate date = LocalDate.of(year, month, dayOfMonth);
-        LocalTime time = LocalTime.of(hour, minute);
-        return new LocalDateTime(date, time);
+    public stbtic LocblDbteTime of(int yebr, int month, int dbyOfMonth, int hour, int minute) {
+        LocblDbte dbte = LocblDbte.of(yebr, month, dbyOfMonth);
+        LocblTime time = LocblTime.of(hour, minute);
+        return new LocblDbteTime(dbte, time);
     }
 
     /**
-     * Obtains an instance of {@code LocalDateTime} from year, month,
-     * day, hour, minute and second, setting the nanosecond to zero.
+     * Obtbins bn instbnce of {@code LocblDbteTime} from yebr, month,
+     * dby, hour, minute bnd second, setting the nbnosecond to zero.
      * <p>
-     * This returns a {@code LocalDateTime} with the specified year, month,
-     * day-of-month, hour, minute and second.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
-     * The nanosecond field will be set to zero.
+     * This returns b {@code LocblDbteTime} with the specified yebr, month,
+     * dby-of-month, hour, minute bnd second.
+     * The dby must be vblid for the yebr bnd month, otherwise bn exception will be thrown.
+     * The nbnosecond field will be set to zero.
      *
-     * @param year  the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param month  the month-of-year to represent, from 1 (January) to 12 (December)
-     * @param dayOfMonth  the day-of-month to represent, from 1 to 31
-     * @param hour  the hour-of-day to represent, from 0 to 23
-     * @param minute  the minute-of-hour to represent, from 0 to 59
-     * @param second  the second-of-minute to represent, from 0 to 59
-     * @return the local date-time, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm yebr  the yebr to represent, from MIN_YEAR to MAX_YEAR
+     * @pbrbm month  the month-of-yebr to represent, from 1 (Jbnubry) to 12 (December)
+     * @pbrbm dbyOfMonth  the dby-of-month to represent, from 1 to 31
+     * @pbrbm hour  the hour-of-dby to represent, from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, from 0 to 59
+     * @pbrbm second  the second-of-minute to represent, from 0 to 59
+     * @return the locbl dbte-time, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge,
+     *  or if the dby-of-month is invblid for the month-yebr
      */
-    public static LocalDateTime of(int year, int month, int dayOfMonth, int hour, int minute, int second) {
-        LocalDate date = LocalDate.of(year, month, dayOfMonth);
-        LocalTime time = LocalTime.of(hour, minute, second);
-        return new LocalDateTime(date, time);
+    public stbtic LocblDbteTime of(int yebr, int month, int dbyOfMonth, int hour, int minute, int second) {
+        LocblDbte dbte = LocblDbte.of(yebr, month, dbyOfMonth);
+        LocblTime time = LocblTime.of(hour, minute, second);
+        return new LocblDbteTime(dbte, time);
     }
 
     /**
-     * Obtains an instance of {@code LocalDateTime} from year, month,
-     * day, hour, minute, second and nanosecond.
+     * Obtbins bn instbnce of {@code LocblDbteTime} from yebr, month,
+     * dby, hour, minute, second bnd nbnosecond.
      * <p>
-     * This returns a {@code LocalDateTime} with the specified year, month,
-     * day-of-month, hour, minute, second and nanosecond.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
+     * This returns b {@code LocblDbteTime} with the specified yebr, month,
+     * dby-of-month, hour, minute, second bnd nbnosecond.
+     * The dby must be vblid for the yebr bnd month, otherwise bn exception will be thrown.
      *
-     * @param year  the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param month  the month-of-year to represent, from 1 (January) to 12 (December)
-     * @param dayOfMonth  the day-of-month to represent, from 1 to 31
-     * @param hour  the hour-of-day to represent, from 0 to 23
-     * @param minute  the minute-of-hour to represent, from 0 to 59
-     * @param second  the second-of-minute to represent, from 0 to 59
-     * @param nanoOfSecond  the nano-of-second to represent, from 0 to 999,999,999
-     * @return the local date-time, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm yebr  the yebr to represent, from MIN_YEAR to MAX_YEAR
+     * @pbrbm month  the month-of-yebr to represent, from 1 (Jbnubry) to 12 (December)
+     * @pbrbm dbyOfMonth  the dby-of-month to represent, from 1 to 31
+     * @pbrbm hour  the hour-of-dby to represent, from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, from 0 to 59
+     * @pbrbm second  the second-of-minute to represent, from 0 to 59
+     * @pbrbm nbnoOfSecond  the nbno-of-second to represent, from 0 to 999,999,999
+     * @return the locbl dbte-time, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge,
+     *  or if the dby-of-month is invblid for the month-yebr
      */
-    public static LocalDateTime of(int year, int month, int dayOfMonth, int hour, int minute, int second, int nanoOfSecond) {
-        LocalDate date = LocalDate.of(year, month, dayOfMonth);
-        LocalTime time = LocalTime.of(hour, minute, second, nanoOfSecond);
-        return new LocalDateTime(date, time);
+    public stbtic LocblDbteTime of(int yebr, int month, int dbyOfMonth, int hour, int minute, int second, int nbnoOfSecond) {
+        LocblDbte dbte = LocblDbte.of(yebr, month, dbyOfMonth);
+        LocblTime time = LocblTime.of(hour, minute, second, nbnoOfSecond);
+        return new LocblDbteTime(dbte, time);
     }
 
     /**
-     * Obtains an instance of {@code LocalDateTime} from a date and time.
+     * Obtbins bn instbnce of {@code LocblDbteTime} from b dbte bnd time.
      *
-     * @param date  the local date, not null
-     * @param time  the local time, not null
-     * @return the local date-time, not null
+     * @pbrbm dbte  the locbl dbte, not null
+     * @pbrbm time  the locbl time, not null
+     * @return the locbl dbte-time, not null
      */
-    public static LocalDateTime of(LocalDate date, LocalTime time) {
-        Objects.requireNonNull(date, "date");
+    public stbtic LocblDbteTime of(LocblDbte dbte, LocblTime time) {
+        Objects.requireNonNull(dbte, "dbte");
         Objects.requireNonNull(time, "time");
-        return new LocalDateTime(date, time);
+        return new LocblDbteTime(dbte, time);
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code LocalDateTime} from an {@code Instant} and zone ID.
+     * Obtbins bn instbnce of {@code LocblDbteTime} from bn {@code Instbnt} bnd zone ID.
      * <p>
-     * This creates a local date-time based on the specified instant.
-     * First, the offset from UTC/Greenwich is obtained using the zone ID and instant,
-     * which is simple as there is only one valid offset for each instant.
-     * Then, the instant and offset are used to calculate the local date-time.
+     * This crebtes b locbl dbte-time bbsed on the specified instbnt.
+     * First, the offset from UTC/Greenwich is obtbined using the zone ID bnd instbnt,
+     * which is simple bs there is only one vblid offset for ebch instbnt.
+     * Then, the instbnt bnd offset bre used to cblculbte the locbl dbte-time.
      *
-     * @param instant  the instant to create the date-time from, not null
-     * @param zone  the time-zone, which may be an offset, not null
-     * @return the local date-time, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm instbnt  the instbnt to crebte the dbte-time from, not null
+     * @pbrbm zone  the time-zone, which mby be bn offset, not null
+     * @return the locbl dbte-time, not null
+     * @throws DbteTimeException if the result exceeds the supported rbnge
      */
-    public static LocalDateTime ofInstant(Instant instant, ZoneId zone) {
-        Objects.requireNonNull(instant, "instant");
+    public stbtic LocblDbteTime ofInstbnt(Instbnt instbnt, ZoneId zone) {
+        Objects.requireNonNull(instbnt, "instbnt");
         Objects.requireNonNull(zone, "zone");
         ZoneRules rules = zone.getRules();
-        ZoneOffset offset = rules.getOffset(instant);
-        return ofEpochSecond(instant.getEpochSecond(), instant.getNano(), offset);
+        ZoneOffset offset = rules.getOffset(instbnt);
+        return ofEpochSecond(instbnt.getEpochSecond(), instbnt.getNbno(), offset);
     }
 
     /**
-     * Obtains an instance of {@code LocalDateTime} using seconds from the
+     * Obtbins bn instbnce of {@code LocblDbteTime} using seconds from the
      * epoch of 1970-01-01T00:00:00Z.
      * <p>
-     * This allows the {@link ChronoField#INSTANT_SECONDS epoch-second} field
-     * to be converted to a local date-time. This is primarily intended for
-     * low-level conversions rather than general application usage.
+     * This bllows the {@link ChronoField#INSTANT_SECONDS epoch-second} field
+     * to be converted to b locbl dbte-time. This is primbrily intended for
+     * low-level conversions rbther thbn generbl bpplicbtion usbge.
      *
-     * @param epochSecond  the number of seconds from the epoch of 1970-01-01T00:00:00Z
-     * @param nanoOfSecond  the nanosecond within the second, from 0 to 999,999,999
-     * @param offset  the zone offset, not null
-     * @return the local date-time, not null
-     * @throws DateTimeException if the result exceeds the supported range,
-     *  or if the nano-of-second is invalid
+     * @pbrbm epochSecond  the number of seconds from the epoch of 1970-01-01T00:00:00Z
+     * @pbrbm nbnoOfSecond  the nbnosecond within the second, from 0 to 999,999,999
+     * @pbrbm offset  the zone offset, not null
+     * @return the locbl dbte-time, not null
+     * @throws DbteTimeException if the result exceeds the supported rbnge,
+     *  or if the nbno-of-second is invblid
      */
-    public static LocalDateTime ofEpochSecond(long epochSecond, int nanoOfSecond, ZoneOffset offset) {
+    public stbtic LocblDbteTime ofEpochSecond(long epochSecond, int nbnoOfSecond, ZoneOffset offset) {
         Objects.requireNonNull(offset, "offset");
-        NANO_OF_SECOND.checkValidValue(nanoOfSecond);
-        long localSecond = epochSecond + offset.getTotalSeconds();  // overflow caught later
-        long localEpochDay = Math.floorDiv(localSecond, SECONDS_PER_DAY);
-        int secsOfDay = (int)Math.floorMod(localSecond, SECONDS_PER_DAY);
-        LocalDate date = LocalDate.ofEpochDay(localEpochDay);
-        LocalTime time = LocalTime.ofNanoOfDay(secsOfDay * NANOS_PER_SECOND + nanoOfSecond);
-        return new LocalDateTime(date, time);
+        NANO_OF_SECOND.checkVblidVblue(nbnoOfSecond);
+        long locblSecond = epochSecond + offset.getTotblSeconds();  // overflow cbught lbter
+        long locblEpochDby = Mbth.floorDiv(locblSecond, SECONDS_PER_DAY);
+        int secsOfDby = (int)Mbth.floorMod(locblSecond, SECONDS_PER_DAY);
+        LocblDbte dbte = LocblDbte.ofEpochDby(locblEpochDby);
+        LocblTime time = LocblTime.ofNbnoOfDby(secsOfDby * NANOS_PER_SECOND + nbnoOfSecond);
+        return new LocblDbteTime(dbte, time);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code LocalDateTime} from a temporal object.
+     * Obtbins bn instbnce of {@code LocblDbteTime} from b temporbl object.
      * <p>
-     * This obtains a local date-time based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code LocalDateTime}.
+     * This obtbins b locbl dbte-time bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code LocblDbteTime}.
      * <p>
-     * The conversion extracts and combines the {@code LocalDate} and the
-     * {@code LocalTime} from the temporal object.
-     * Implementations are permitted to perform optimizations such as accessing
-     * those fields that are equivalent to the relevant objects.
+     * The conversion extrbcts bnd combines the {@code LocblDbte} bnd the
+     * {@code LocblTime} from the temporbl object.
+     * Implementbtions bre permitted to perform optimizbtions such bs bccessing
+     * those fields thbt bre equivblent to the relevbnt objects.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code LocalDateTime::from}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code LocblDbteTime::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the local date-time, not null
-     * @throws DateTimeException if unable to convert to a {@code LocalDateTime}
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the locbl dbte-time, not null
+     * @throws DbteTimeException if unbble to convert to b {@code LocblDbteTime}
      */
-    public static LocalDateTime from(TemporalAccessor temporal) {
-        if (temporal instanceof LocalDateTime) {
-            return (LocalDateTime) temporal;
-        } else if (temporal instanceof ZonedDateTime) {
-            return ((ZonedDateTime) temporal).toLocalDateTime();
-        } else if (temporal instanceof OffsetDateTime) {
-            return ((OffsetDateTime) temporal).toLocalDateTime();
+    public stbtic LocblDbteTime from(TemporblAccessor temporbl) {
+        if (temporbl instbnceof LocblDbteTime) {
+            return (LocblDbteTime) temporbl;
+        } else if (temporbl instbnceof ZonedDbteTime) {
+            return ((ZonedDbteTime) temporbl).toLocblDbteTime();
+        } else if (temporbl instbnceof OffsetDbteTime) {
+            return ((OffsetDbteTime) temporbl).toLocblDbteTime();
         }
         try {
-            LocalDate date = LocalDate.from(temporal);
-            LocalTime time = LocalTime.from(temporal);
-            return new LocalDateTime(date, time);
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain LocalDateTime from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
+            LocblDbte dbte = LocblDbte.from(temporbl);
+            LocblTime time = LocblTime.from(temporbl);
+            return new LocblDbteTime(dbte, time);
+        } cbtch (DbteTimeException ex) {
+            throw new DbteTimeException("Unbble to obtbin LocblDbteTime from TemporblAccessor: " +
+                    temporbl + " of type " + temporbl.getClbss().getNbme(), ex);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code LocalDateTime} from a text string such as {@code 2007-12-03T10:15:30}.
+     * Obtbins bn instbnce of {@code LocblDbteTime} from b text string such bs {@code 2007-12-03T10:15:30}.
      * <p>
-     * The string must represent a valid date-time and is parsed using
-     * {@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME}.
+     * The string must represent b vblid dbte-time bnd is pbrsed using
+     * {@link jbvb.time.formbt.DbteTimeFormbtter#ISO_LOCAL_DATE_TIME}.
      *
-     * @param text  the text to parse such as "2007-12-03T10:15:30", not null
-     * @return the parsed local date-time, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm text  the text to pbrse such bs "2007-12-03T10:15:30", not null
+     * @return the pbrsed locbl dbte-time, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed
      */
-    public static LocalDateTime parse(CharSequence text) {
-        return parse(text, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    public stbtic LocblDbteTime pbrse(ChbrSequence text) {
+        return pbrse(text, DbteTimeFormbtter.ISO_LOCAL_DATE_TIME);
     }
 
     /**
-     * Obtains an instance of {@code LocalDateTime} from a text string using a specific formatter.
+     * Obtbins bn instbnce of {@code LocblDbteTime} from b text string using b specific formbtter.
      * <p>
-     * The text is parsed using the formatter, returning a date-time.
+     * The text is pbrsed using the formbtter, returning b dbte-time.
      *
-     * @param text  the text to parse, not null
-     * @param formatter  the formatter to use, not null
-     * @return the parsed local date-time, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm text  the text to pbrse, not null
+     * @pbrbm formbtter  the formbtter to use, not null
+     * @return the pbrsed locbl dbte-time, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed
      */
-    public static LocalDateTime parse(CharSequence text, DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, LocalDateTime::from);
+    public stbtic LocblDbteTime pbrse(ChbrSequence text, DbteTimeFormbtter formbtter) {
+        Objects.requireNonNull(formbtter, "formbtter");
+        return formbtter.pbrse(text, LocblDbteTime::from);
     }
 
     //-----------------------------------------------------------------------
     /**
      * Constructor.
      *
-     * @param date  the date part of the date-time, validated not null
-     * @param time  the time part of the date-time, validated not null
+     * @pbrbm dbte  the dbte pbrt of the dbte-time, vblidbted not null
+     * @pbrbm time  the time pbrt of the dbte-time, vblidbted not null
      */
-    private LocalDateTime(LocalDate date, LocalTime time) {
-        this.date = date;
+    privbte LocblDbteTime(LocblDbte dbte, LocblTime time) {
+        this.dbte = dbte;
         this.time = time;
     }
 
     /**
-     * Returns a copy of this date-time with the new date and time, checking
-     * to see if a new object is in fact required.
+     * Returns b copy of this dbte-time with the new dbte bnd time, checking
+     * to see if b new object is in fbct required.
      *
-     * @param newDate  the date of the new date-time, not null
-     * @param newTime  the time of the new date-time, not null
-     * @return the date-time, not null
+     * @pbrbm newDbte  the dbte of the new dbte-time, not null
+     * @pbrbm newTime  the time of the new dbte-time, not null
+     * @return the dbte-time, not null
      */
-    private LocalDateTime with(LocalDate newDate, LocalTime newTime) {
-        if (date == newDate && time == newTime) {
+    privbte LocblDbteTime with(LocblDbte newDbte, LocblTime newTime) {
+        if (dbte == newDbte && time == newTime) {
             return this;
         }
-        return new LocalDateTime(newDate, newTime);
+        return new LocblDbteTime(newDbte, newTime);
     }
 
     //-----------------------------------------------------------------------
     /**
      * Checks if the specified field is supported.
      * <p>
-     * This checks if this date-time can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range},
-     * {@link #get(TemporalField) get} and {@link #with(TemporalField, long)}
-     * methods will throw an exception.
+     * This checks if this dbte-time cbn be queried for the specified field.
+     * If fblse, then cblling the {@link #rbnge(TemporblField) rbnge},
+     * {@link #get(TemporblField) get} bnd {@link #with(TemporblField, long)}
+     * methods will throw bn exception.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The supported fields are:
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The supported fields bre:
      * <ul>
      * <li>{@code NANO_OF_SECOND}
      * <li>{@code NANO_OF_DAY}
@@ -560,21 +560,21 @@ public final class LocalDateTime
      * <li>{@code YEAR}
      * <li>{@code ERA}
      * </ul>
-     * All other {@code ChronoField} instances will return false.
+     * All other {@code ChronoField} instbnces will return fblse.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.isSupportedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this date-time, false if not
+     * @pbrbm field  the field to check, null returns fblse
+     * @return true if the field is supported on this dbte-time, fblse if not
      */
     @Override
-    public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public boolebn isSupported(TemporblField field) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            return f.isDateBased() || f.isTimeBased();
+            return f.isDbteBbsed() || f.isTimeBbsed();
         }
         return field != null && field.isSupportedBy(this);
     }
@@ -582,12 +582,12 @@ public final class LocalDateTime
     /**
      * Checks if the specified unit is supported.
      * <p>
-     * This checks if the specified unit can be added to, or subtracted from, this date-time.
-     * If false, then calling the {@link #plus(long, TemporalUnit)} and
-     * {@link #minus(long, TemporalUnit) minus} methods will throw an exception.
+     * This checks if the specified unit cbn be bdded to, or subtrbcted from, this dbte-time.
+     * If fblse, then cblling the {@link #plus(long, TemporblUnit)} bnd
+     * {@link #minus(long, TemporblUnit) minus} methods will throw bn exception.
      * <p>
-     * If the unit is a {@link ChronoUnit} then the query is implemented here.
-     * The supported units are:
+     * If the unit is b {@link ChronoUnit} then the query is implemented here.
+     * The supported units bre:
      * <ul>
      * <li>{@code NANOS}
      * <li>{@code MICROS}
@@ -605,237 +605,237 @@ public final class LocalDateTime
      * <li>{@code MILLENNIA}
      * <li>{@code ERAS}
      * </ul>
-     * All other {@code ChronoUnit} instances will return false.
+     * All other {@code ChronoUnit} instbnces will return fblse.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.isSupportedBy(Temporal)}
-     * passing {@code this} as the argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.isSupportedBy(Temporbl)}
+     * pbssing {@code this} bs the brgument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param unit  the unit to check, null returns false
-     * @return true if the unit can be added/subtracted, false if not
+     * @pbrbm unit  the unit to check, null returns fblse
+     * @return true if the unit cbn be bdded/subtrbcted, fblse if not
      */
-    @Override  // override for Javadoc
-    public boolean isSupported(TemporalUnit unit) {
-        return ChronoLocalDateTime.super.isSupported(unit);
+    @Override  // override for Jbvbdoc
+    public boolebn isSupported(TemporblUnit unit) {
+        return ChronoLocblDbteTime.super.isSupported(unit);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the range of valid values for the specified field.
+     * Gets the rbnge of vblid vblues for the specified field.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This date-time is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * The rbnge object expresses the minimum bnd mbximum vblid vblues for b field.
+     * This dbte-time is used to enhbnce the bccurbcy of the returned rbnge.
+     * If it is not possible to return the rbnge, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return
-     * appropriate range instances.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return
+     * bppropribte rbnge instbnces.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.rbngeRefinedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
+     * Whether the rbnge cbn be obtbined is determined by the field.
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to query the rbnge for, not null
+     * @return the rbnge of vblid vblues for the field, not null
+     * @throws DbteTimeException if the rbnge for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      */
     @Override
-    public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public VblueRbnge rbnge(TemporblField field) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            return (f.isTimeBased() ? time.range(field) : date.range(field));
+            return (f.isTimeBbsed() ? time.rbnge(field) : dbte.rbnge(field));
         }
-        return field.rangeRefinedBy(this);
+        return field.rbngeRefinedBy(this);
     }
 
     /**
-     * Gets the value of the specified field from this date-time as an {@code int}.
+     * Gets the vblue of the specified field from this dbte-time bs bn {@code int}.
      * <p>
-     * This queries this date-time for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this dbte-time for the vblue of the specified field.
+     * The returned vblue will blwbys be within the vblid rbnge of vblues for the field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this date-time, except {@code NANO_OF_DAY}, {@code MICRO_OF_DAY},
-     * {@code EPOCH_DAY} and {@code PROLEPTIC_MONTH} which are too large to fit in
-     * an {@code int} and throw a {@code UnsupportedTemporalTypeException}.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return vblid
+     * vblues bbsed on this dbte-time, except {@code NANO_OF_DAY}, {@code MICRO_OF_DAY},
+     * {@code EPOCH_DAY} bnd {@code PROLEPTIC_MONTH} which bre too lbrge to fit in
+     * bn {@code int} bnd throw b {@code UnsupportedTemporblTypeException}.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined or
+     *         the vblue is outside the rbnge of vblid vblues for the field
+     * @throws UnsupportedTemporblTypeException if the field is not supported or
+     *         the rbnge of vblues exceeds bn {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public int get(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public int get(TemporblField field) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            return (f.isTimeBased() ? time.get(field) : date.get(field));
+            return (f.isTimeBbsed() ? time.get(field) : dbte.get(field));
         }
-        return ChronoLocalDateTime.super.get(field);
+        return ChronoLocblDbteTime.super.get(field);
     }
 
     /**
-     * Gets the value of the specified field from this date-time as a {@code long}.
+     * Gets the vblue of the specified field from this dbte-time bs b {@code long}.
      * <p>
-     * This queries this date-time for the value of the specified field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this dbte-time for the vblue of the specified field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this date-time.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return vblid
+     * vblues bbsed on this dbte-time.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public long getLong(TemporblField field) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            return (f.isTimeBased() ? time.getLong(field) : date.getLong(field));
+            return (f.isTimeBbsed() ? time.getLong(field) : dbte.getLong(field));
         }
         return field.getFrom(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the {@code LocalDate} part of this date-time.
+     * Gets the {@code LocblDbte} pbrt of this dbte-time.
      * <p>
-     * This returns a {@code LocalDate} with the same year, month and day
-     * as this date-time.
+     * This returns b {@code LocblDbte} with the sbme yebr, month bnd dby
+     * bs this dbte-time.
      *
-     * @return the date part of this date-time, not null
+     * @return the dbte pbrt of this dbte-time, not null
      */
     @Override
-    public LocalDate toLocalDate() {
-        return date;
+    public LocblDbte toLocblDbte() {
+        return dbte;
     }
 
     /**
-     * Gets the year field.
+     * Gets the yebr field.
      * <p>
-     * This method returns the primitive {@code int} value for the year.
+     * This method returns the primitive {@code int} vblue for the yebr.
      * <p>
-     * The year returned by this method is proleptic as per {@code get(YEAR)}.
-     * To obtain the year-of-era, use {@code get(YEAR_OF_ERA)}.
+     * The yebr returned by this method is proleptic bs per {@code get(YEAR)}.
+     * To obtbin the yebr-of-erb, use {@code get(YEAR_OF_ERA)}.
      *
-     * @return the year, from MIN_YEAR to MAX_YEAR
+     * @return the yebr, from MIN_YEAR to MAX_YEAR
      */
-    public int getYear() {
-        return date.getYear();
+    public int getYebr() {
+        return dbte.getYebr();
     }
 
     /**
-     * Gets the month-of-year field from 1 to 12.
+     * Gets the month-of-yebr field from 1 to 12.
      * <p>
-     * This method returns the month as an {@code int} from 1 to 12.
-     * Application code is frequently clearer if the enum {@link Month}
-     * is used by calling {@link #getMonth()}.
+     * This method returns the month bs bn {@code int} from 1 to 12.
+     * Applicbtion code is frequently clebrer if the enum {@link Month}
+     * is used by cblling {@link #getMonth()}.
      *
-     * @return the month-of-year, from 1 to 12
+     * @return the month-of-yebr, from 1 to 12
      * @see #getMonth()
      */
-    public int getMonthValue() {
-        return date.getMonthValue();
+    public int getMonthVblue() {
+        return dbte.getMonthVblue();
     }
 
     /**
-     * Gets the month-of-year field using the {@code Month} enum.
+     * Gets the month-of-yebr field using the {@code Month} enum.
      * <p>
      * This method returns the enum {@link Month} for the month.
-     * This avoids confusion as to what {@code int} values mean.
-     * If you need access to the primitive {@code int} value then the enum
-     * provides the {@link Month#getValue() int value}.
+     * This bvoids confusion bs to whbt {@code int} vblues mebn.
+     * If you need bccess to the primitive {@code int} vblue then the enum
+     * provides the {@link Month#getVblue() int vblue}.
      *
-     * @return the month-of-year, not null
-     * @see #getMonthValue()
+     * @return the month-of-yebr, not null
+     * @see #getMonthVblue()
      */
     public Month getMonth() {
-        return date.getMonth();
+        return dbte.getMonth();
     }
 
     /**
-     * Gets the day-of-month field.
+     * Gets the dby-of-month field.
      * <p>
-     * This method returns the primitive {@code int} value for the day-of-month.
+     * This method returns the primitive {@code int} vblue for the dby-of-month.
      *
-     * @return the day-of-month, from 1 to 31
+     * @return the dby-of-month, from 1 to 31
      */
-    public int getDayOfMonth() {
-        return date.getDayOfMonth();
+    public int getDbyOfMonth() {
+        return dbte.getDbyOfMonth();
     }
 
     /**
-     * Gets the day-of-year field.
+     * Gets the dby-of-yebr field.
      * <p>
-     * This method returns the primitive {@code int} value for the day-of-year.
+     * This method returns the primitive {@code int} vblue for the dby-of-yebr.
      *
-     * @return the day-of-year, from 1 to 365, or 366 in a leap year
+     * @return the dby-of-yebr, from 1 to 365, or 366 in b lebp yebr
      */
-    public int getDayOfYear() {
-        return date.getDayOfYear();
+    public int getDbyOfYebr() {
+        return dbte.getDbyOfYebr();
     }
 
     /**
-     * Gets the day-of-week field, which is an enum {@code DayOfWeek}.
+     * Gets the dby-of-week field, which is bn enum {@code DbyOfWeek}.
      * <p>
-     * This method returns the enum {@link DayOfWeek} for the day-of-week.
-     * This avoids confusion as to what {@code int} values mean.
-     * If you need access to the primitive {@code int} value then the enum
-     * provides the {@link DayOfWeek#getValue() int value}.
+     * This method returns the enum {@link DbyOfWeek} for the dby-of-week.
+     * This bvoids confusion bs to whbt {@code int} vblues mebn.
+     * If you need bccess to the primitive {@code int} vblue then the enum
+     * provides the {@link DbyOfWeek#getVblue() int vblue}.
      * <p>
-     * Additional information can be obtained from the {@code DayOfWeek}.
-     * This includes textual names of the values.
+     * Additionbl informbtion cbn be obtbined from the {@code DbyOfWeek}.
+     * This includes textubl nbmes of the vblues.
      *
-     * @return the day-of-week, not null
+     * @return the dby-of-week, not null
      */
-    public DayOfWeek getDayOfWeek() {
-        return date.getDayOfWeek();
+    public DbyOfWeek getDbyOfWeek() {
+        return dbte.getDbyOfWeek();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the {@code LocalTime} part of this date-time.
+     * Gets the {@code LocblTime} pbrt of this dbte-time.
      * <p>
-     * This returns a {@code LocalTime} with the same hour, minute, second and
-     * nanosecond as this date-time.
+     * This returns b {@code LocblTime} with the sbme hour, minute, second bnd
+     * nbnosecond bs this dbte-time.
      *
-     * @return the time part of this date-time, not null
+     * @return the time pbrt of this dbte-time, not null
      */
     @Override
-    public LocalTime toLocalTime() {
+    public LocblTime toLocblTime() {
         return time;
     }
 
     /**
-     * Gets the hour-of-day field.
+     * Gets the hour-of-dby field.
      *
-     * @return the hour-of-day, from 0 to 23
+     * @return the hour-of-dby, from 0 to 23
      */
     public int getHour() {
         return time.getHour();
@@ -860,1101 +860,1101 @@ public final class LocalDateTime
     }
 
     /**
-     * Gets the nano-of-second field.
+     * Gets the nbno-of-second field.
      *
-     * @return the nano-of-second, from 0 to 999,999,999
+     * @return the nbno-of-second, from 0 to 999,999,999
      */
-    public int getNano() {
-        return time.getNano();
+    public int getNbno() {
+        return time.getNbno();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns an adjusted copy of this date-time.
+     * Returns bn bdjusted copy of this dbte-time.
      * <p>
-     * This returns a {@code LocalDateTime}, based on this one, with the date-time adjusted.
-     * The adjustment takes place using the specified adjuster strategy object.
-     * Read the documentation of the adjuster to understand what adjustment will be made.
+     * This returns b {@code LocblDbteTime}, bbsed on this one, with the dbte-time bdjusted.
+     * The bdjustment tbkes plbce using the specified bdjuster strbtegy object.
+     * Rebd the documentbtion of the bdjuster to understbnd whbt bdjustment will be mbde.
      * <p>
-     * A simple adjuster might simply set the one of the fields, such as the year field.
-     * A more complex adjuster might set the date to the last day of the month.
+     * A simple bdjuster might simply set the one of the fields, such bs the yebr field.
+     * A more complex bdjuster might set the dbte to the lbst dby of the month.
      * <p>
-     * A selection of common adjustments is provided in
-     * {@link java.time.temporal.TemporalAdjusters TemporalAdjusters}.
-     * These include finding the "last day of the month" and "next Wednesday".
-     * Key date-time classes also implement the {@code TemporalAdjuster} interface,
-     * such as {@link Month} and {@link java.time.MonthDay MonthDay}.
-     * The adjuster is responsible for handling special cases, such as the varying
-     * lengths of month and leap years.
+     * A selection of common bdjustments is provided in
+     * {@link jbvb.time.temporbl.TemporblAdjusters TemporblAdjusters}.
+     * These include finding the "lbst dby of the month" bnd "next Wednesdby".
+     * Key dbte-time clbsses blso implement the {@code TemporblAdjuster} interfbce,
+     * such bs {@link Month} bnd {@link jbvb.time.MonthDby MonthDby}.
+     * The bdjuster is responsible for hbndling specibl cbses, such bs the vbrying
+     * lengths of month bnd lebp yebrs.
      * <p>
-     * For example this code returns a date on the last day of July:
+     * For exbmple this code returns b dbte on the lbst dby of July:
      * <pre>
-     *  import static java.time.Month.*;
-     *  import static java.time.temporal.TemporalAdjusters.*;
+     *  import stbtic jbvb.time.Month.*;
+     *  import stbtic jbvb.time.temporbl.TemporblAdjusters.*;
      *
-     *  result = localDateTime.with(JULY).with(lastDayOfMonth());
+     *  result = locblDbteTime.with(JULY).with(lbstDbyOfMonth());
      * </pre>
      * <p>
-     * The classes {@link LocalDate} and {@link LocalTime} implement {@code TemporalAdjuster},
-     * thus this method can be used to change the date, time or offset:
+     * The clbsses {@link LocblDbte} bnd {@link LocblTime} implement {@code TemporblAdjuster},
+     * thus this method cbn be used to chbnge the dbte, time or offset:
      * <pre>
-     *  result = localDateTime.with(date);
-     *  result = localDateTime.with(time);
+     *  result = locblDbteTime.with(dbte);
+     *  result = locblDbteTime.with(time);
      * </pre>
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalAdjuster#adjustInto(Temporal)} method on the
-     * specified adjuster passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblAdjuster#bdjustInto(Temporbl)} method on the
+     * specified bdjuster pbssing {@code this} bs the brgument.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param adjuster the adjuster to use, not null
-     * @return a {@code LocalDateTime} based on {@code this} with the adjustment made, not null
-     * @throws DateTimeException if the adjustment cannot be made
+     * @pbrbm bdjuster the bdjuster to use, not null
+     * @return b {@code LocblDbteTime} bbsed on {@code this} with the bdjustment mbde, not null
+     * @throws DbteTimeException if the bdjustment cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public LocalDateTime with(TemporalAdjuster adjuster) {
-        // optimizations
-        if (adjuster instanceof LocalDate) {
-            return with((LocalDate) adjuster, time);
-        } else if (adjuster instanceof LocalTime) {
-            return with(date, (LocalTime) adjuster);
-        } else if (adjuster instanceof LocalDateTime) {
-            return (LocalDateTime) adjuster;
+    public LocblDbteTime with(TemporblAdjuster bdjuster) {
+        // optimizbtions
+        if (bdjuster instbnceof LocblDbte) {
+            return with((LocblDbte) bdjuster, time);
+        } else if (bdjuster instbnceof LocblTime) {
+            return with(dbte, (LocblTime) bdjuster);
+        } else if (bdjuster instbnceof LocblDbteTime) {
+            return (LocblDbteTime) bdjuster;
         }
-        return (LocalDateTime) adjuster.adjustInto(this);
+        return (LocblDbteTime) bdjuster.bdjustInto(this);
     }
 
     /**
-     * Returns a copy of this date-time with the specified field set to a new value.
+     * Returns b copy of this dbte-time with the specified field set to b new vblue.
      * <p>
-     * This returns a {@code LocalDateTime}, based on this one, with the value
-     * for the specified field changed.
-     * This can be used to change any supported field, such as the year, month or day-of-month.
-     * If it is not possible to set the value, because the field is not supported or for
-     * some other reason, an exception is thrown.
+     * This returns b {@code LocblDbteTime}, bbsed on this one, with the vblue
+     * for the specified field chbnged.
+     * This cbn be used to chbnge bny supported field, such bs the yebr, month or dby-of-month.
+     * If it is not possible to set the vblue, becbuse the field is not supported or for
+     * some other rebson, bn exception is thrown.
      * <p>
-     * In some cases, changing the specified field can cause the resulting date-time to become invalid,
-     * such as changing the month from 31st January to February would make the day-of-month invalid.
-     * In cases like this, the field is responsible for resolving the date. Typically it will choose
-     * the previous valid date, which would be the last valid day of February in this example.
+     * In some cbses, chbnging the specified field cbn cbuse the resulting dbte-time to become invblid,
+     * such bs chbnging the month from 31st Jbnubry to Februbry would mbke the dby-of-month invblid.
+     * In cbses like this, the field is responsible for resolving the dbte. Typicblly it will choose
+     * the previous vblid dbte, which would be the lbst vblid dby of Februbry in this exbmple.
      * <p>
-     * If the field is a {@link ChronoField} then the adjustment is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will behave as per
-     * the matching method on {@link LocalDate#with(TemporalField, long) LocalDate}
-     * or {@link LocalTime#with(TemporalField, long) LocalTime}.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the bdjustment is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will behbve bs per
+     * the mbtching method on {@link LocblDbte#with(TemporblField, long) LocblDbte}
+     * or {@link LocblTime#with(TemporblField, long) LocblTime}.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.adjustInto(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the field determines
-     * whether and how to adjust the instant.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.bdjustInto(Temporbl, long)}
+     * pbssing {@code this} bs the brgument. In this cbse, the field determines
+     * whether bnd how to bdjust the instbnt.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param field  the field to set in the result, not null
-     * @param newValue  the new value of the field in the result
-     * @return a {@code LocalDateTime} based on {@code this} with the specified field set, not null
-     * @throws DateTimeException if the field cannot be set
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to set in the result, not null
+     * @pbrbm newVblue  the new vblue of the field in the result
+     * @return b {@code LocblDbteTime} bbsed on {@code this} with the specified field set, not null
+     * @throws DbteTimeException if the field cbnnot be set
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public LocalDateTime with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
+    public LocblDbteTime with(TemporblField field, long newVblue) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            if (f.isTimeBased()) {
-                return with(date, time.with(field, newValue));
+            if (f.isTimeBbsed()) {
+                return with(dbte, time.with(field, newVblue));
             } else {
-                return with(date.with(field, newValue), time);
+                return with(dbte.with(field, newVblue), time);
             }
         }
-        return field.adjustInto(this, newValue);
+        return field.bdjustInto(this, newVblue);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code LocalDateTime} with the year altered.
+     * Returns b copy of this {@code LocblDbteTime} with the yebr bltered.
      * <p>
-     * The time does not affect the calculation and will be the same in the result.
-     * If the day-of-month is invalid for the year, it will be changed to the last valid day of the month.
+     * The time does not bffect the cblculbtion bnd will be the sbme in the result.
+     * If the dby-of-month is invblid for the yebr, it will be chbnged to the lbst vblid dby of the month.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param year  the year to set in the result, from MIN_YEAR to MAX_YEAR
-     * @return a {@code LocalDateTime} based on this date-time with the requested year, not null
-     * @throws DateTimeException if the year value is invalid
+     * @pbrbm yebr  the yebr to set in the result, from MIN_YEAR to MAX_YEAR
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the requested yebr, not null
+     * @throws DbteTimeException if the yebr vblue is invblid
      */
-    public LocalDateTime withYear(int year) {
-        return with(date.withYear(year), time);
+    public LocblDbteTime withYebr(int yebr) {
+        return with(dbte.withYebr(yebr), time);
     }
 
     /**
-     * Returns a copy of this {@code LocalDateTime} with the month-of-year altered.
+     * Returns b copy of this {@code LocblDbteTime} with the month-of-yebr bltered.
      * <p>
-     * The time does not affect the calculation and will be the same in the result.
-     * If the day-of-month is invalid for the year, it will be changed to the last valid day of the month.
+     * The time does not bffect the cblculbtion bnd will be the sbme in the result.
+     * If the dby-of-month is invblid for the yebr, it will be chbnged to the lbst vblid dby of the month.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param month  the month-of-year to set in the result, from 1 (January) to 12 (December)
-     * @return a {@code LocalDateTime} based on this date-time with the requested month, not null
-     * @throws DateTimeException if the month-of-year value is invalid
+     * @pbrbm month  the month-of-yebr to set in the result, from 1 (Jbnubry) to 12 (December)
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the requested month, not null
+     * @throws DbteTimeException if the month-of-yebr vblue is invblid
      */
-    public LocalDateTime withMonth(int month) {
-        return with(date.withMonth(month), time);
+    public LocblDbteTime withMonth(int month) {
+        return with(dbte.withMonth(month), time);
     }
 
     /**
-     * Returns a copy of this {@code LocalDateTime} with the day-of-month altered.
+     * Returns b copy of this {@code LocblDbteTime} with the dby-of-month bltered.
      * <p>
-     * If the resulting date-time is invalid, an exception is thrown.
-     * The time does not affect the calculation and will be the same in the result.
+     * If the resulting dbte-time is invblid, bn exception is thrown.
+     * The time does not bffect the cblculbtion bnd will be the sbme in the result.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param dayOfMonth  the day-of-month to set in the result, from 1 to 28-31
-     * @return a {@code LocalDateTime} based on this date-time with the requested day, not null
-     * @throws DateTimeException if the day-of-month value is invalid,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm dbyOfMonth  the dby-of-month to set in the result, from 1 to 28-31
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the requested dby, not null
+     * @throws DbteTimeException if the dby-of-month vblue is invblid,
+     *  or if the dby-of-month is invblid for the month-yebr
      */
-    public LocalDateTime withDayOfMonth(int dayOfMonth) {
-        return with(date.withDayOfMonth(dayOfMonth), time);
+    public LocblDbteTime withDbyOfMonth(int dbyOfMonth) {
+        return with(dbte.withDbyOfMonth(dbyOfMonth), time);
     }
 
     /**
-     * Returns a copy of this {@code LocalDateTime} with the day-of-year altered.
+     * Returns b copy of this {@code LocblDbteTime} with the dby-of-yebr bltered.
      * <p>
-     * If the resulting date-time is invalid, an exception is thrown.
+     * If the resulting dbte-time is invblid, bn exception is thrown.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param dayOfYear  the day-of-year to set in the result, from 1 to 365-366
-     * @return a {@code LocalDateTime} based on this date with the requested day, not null
-     * @throws DateTimeException if the day-of-year value is invalid,
-     *  or if the day-of-year is invalid for the year
+     * @pbrbm dbyOfYebr  the dby-of-yebr to set in the result, from 1 to 365-366
+     * @return b {@code LocblDbteTime} bbsed on this dbte with the requested dby, not null
+     * @throws DbteTimeException if the dby-of-yebr vblue is invblid,
+     *  or if the dby-of-yebr is invblid for the yebr
      */
-    public LocalDateTime withDayOfYear(int dayOfYear) {
-        return with(date.withDayOfYear(dayOfYear), time);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Returns a copy of this {@code LocalDateTime} with the hour-of-day altered.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param hour  the hour-of-day to set in the result, from 0 to 23
-     * @return a {@code LocalDateTime} based on this date-time with the requested hour, not null
-     * @throws DateTimeException if the hour value is invalid
-     */
-    public LocalDateTime withHour(int hour) {
-        LocalTime newTime = time.withHour(hour);
-        return with(date, newTime);
-    }
-
-    /**
-     * Returns a copy of this {@code LocalDateTime} with the minute-of-hour altered.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param minute  the minute-of-hour to set in the result, from 0 to 59
-     * @return a {@code LocalDateTime} based on this date-time with the requested minute, not null
-     * @throws DateTimeException if the minute value is invalid
-     */
-    public LocalDateTime withMinute(int minute) {
-        LocalTime newTime = time.withMinute(minute);
-        return with(date, newTime);
-    }
-
-    /**
-     * Returns a copy of this {@code LocalDateTime} with the second-of-minute altered.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param second  the second-of-minute to set in the result, from 0 to 59
-     * @return a {@code LocalDateTime} based on this date-time with the requested second, not null
-     * @throws DateTimeException if the second value is invalid
-     */
-    public LocalDateTime withSecond(int second) {
-        LocalTime newTime = time.withSecond(second);
-        return with(date, newTime);
-    }
-
-    /**
-     * Returns a copy of this {@code LocalDateTime} with the nano-of-second altered.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param nanoOfSecond  the nano-of-second to set in the result, from 0 to 999,999,999
-     * @return a {@code LocalDateTime} based on this date-time with the requested nanosecond, not null
-     * @throws DateTimeException if the nano value is invalid
-     */
-    public LocalDateTime withNano(int nanoOfSecond) {
-        LocalTime newTime = time.withNano(nanoOfSecond);
-        return with(date, newTime);
+    public LocblDbteTime withDbyOfYebr(int dbyOfYebr) {
+        return with(dbte.withDbyOfYebr(dbyOfYebr), time);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code LocalDateTime} with the time truncated.
+     * Returns b copy of this {@code LocblDbteTime} with the hour-of-dby bltered.
      * <p>
-     * Truncation returns a copy of the original date-time with fields
-     * smaller than the specified unit set to zero.
-     * For example, truncating with the {@link ChronoUnit#MINUTES minutes} unit
-     * will set the second-of-minute and nano-of-second field to zero.
-     * <p>
-     * The unit must have a {@linkplain TemporalUnit#getDuration() duration}
-     * that divides into the length of a standard day without remainder.
-     * This includes all supplied time units on {@link ChronoUnit} and
-     * {@link ChronoUnit#DAYS DAYS}. Other units throw an exception.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param unit  the unit to truncate to, not null
-     * @return a {@code LocalDateTime} based on this date-time with the time truncated, not null
-     * @throws DateTimeException if unable to truncate
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm hour  the hour-of-dby to set in the result, from 0 to 23
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the requested hour, not null
+     * @throws DbteTimeException if the hour vblue is invblid
      */
-    public LocalDateTime truncatedTo(TemporalUnit unit) {
-        return with(date, time.truncatedTo(unit));
+    public LocblDbteTime withHour(int hour) {
+        LocblTime newTime = time.withHour(hour);
+        return with(dbte, newTime);
+    }
+
+    /**
+     * Returns b copy of this {@code LocblDbteTime} with the minute-of-hour bltered.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm minute  the minute-of-hour to set in the result, from 0 to 59
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the requested minute, not null
+     * @throws DbteTimeException if the minute vblue is invblid
+     */
+    public LocblDbteTime withMinute(int minute) {
+        LocblTime newTime = time.withMinute(minute);
+        return with(dbte, newTime);
+    }
+
+    /**
+     * Returns b copy of this {@code LocblDbteTime} with the second-of-minute bltered.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm second  the second-of-minute to set in the result, from 0 to 59
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the requested second, not null
+     * @throws DbteTimeException if the second vblue is invblid
+     */
+    public LocblDbteTime withSecond(int second) {
+        LocblTime newTime = time.withSecond(second);
+        return with(dbte, newTime);
+    }
+
+    /**
+     * Returns b copy of this {@code LocblDbteTime} with the nbno-of-second bltered.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm nbnoOfSecond  the nbno-of-second to set in the result, from 0 to 999,999,999
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the requested nbnosecond, not null
+     * @throws DbteTimeException if the nbno vblue is invblid
+     */
+    public LocblDbteTime withNbno(int nbnoOfSecond) {
+        LocblTime newTime = time.withNbno(nbnoOfSecond);
+        return with(dbte, newTime);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this date-time with the specified amount added.
+     * Returns b copy of this {@code LocblDbteTime} with the time truncbted.
      * <p>
-     * This returns a {@code LocalDateTime}, based on this one, with the specified amount added.
-     * The amount is typically {@link Period} or {@link Duration} but may be
-     * any other type implementing the {@link TemporalAmount} interface.
+     * Truncbtion returns b copy of the originbl dbte-time with fields
+     * smbller thbn the specified unit set to zero.
+     * For exbmple, truncbting with the {@link ChronoUnit#MINUTES minutes} unit
+     * will set the second-of-minute bnd nbno-of-second field to zero.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#addTo(Temporal)}. The amount implementation is free
-     * to implement the addition in any way it wishes, however it typically
-     * calls back to {@link #plus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully added.
+     * The unit must hbve b {@linkplbin TemporblUnit#getDurbtion() durbtion}
+     * thbt divides into the length of b stbndbrd dby without rembinder.
+     * This includes bll supplied time units on {@link ChronoUnit} bnd
+     * {@link ChronoUnit#DAYS DAYS}. Other units throw bn exception.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount to add, not null
-     * @return a {@code LocalDateTime} based on this date-time with the addition made, not null
-     * @throws DateTimeException if the addition cannot be made
+     * @pbrbm unit  the unit to truncbte to, not null
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the time truncbted, not null
+     * @throws DbteTimeException if unbble to truncbte
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
+     */
+    public LocblDbteTime truncbtedTo(TemporblUnit unit) {
+        return with(dbte, time.truncbtedTo(unit));
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Returns b copy of this dbte-time with the specified bmount bdded.
+     * <p>
+     * This returns b {@code LocblDbteTime}, bbsed on this one, with the specified bmount bdded.
+     * The bmount is typicblly {@link Period} or {@link Durbtion} but mby be
+     * bny other type implementing the {@link TemporblAmount} interfbce.
+     * <p>
+     * The cblculbtion is delegbted to the bmount object by cblling
+     * {@link TemporblAmount#bddTo(Temporbl)}. The bmount implementbtion is free
+     * to implement the bddition in bny wby it wishes, however it typicblly
+     * cblls bbck to {@link #plus(long, TemporblUnit)}. Consult the documentbtion
+     * of the bmount implementbtion to determine if it cbn be successfully bdded.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm bmountToAdd  the bmount to bdd, not null
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the bddition mbde, not null
+     * @throws DbteTimeException if the bddition cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public LocalDateTime plus(TemporalAmount amountToAdd) {
-        if (amountToAdd instanceof Period) {
-            Period periodToAdd = (Period) amountToAdd;
-            return with(date.plus(periodToAdd), time);
+    public LocblDbteTime plus(TemporblAmount bmountToAdd) {
+        if (bmountToAdd instbnceof Period) {
+            Period periodToAdd = (Period) bmountToAdd;
+            return with(dbte.plus(periodToAdd), time);
         }
-        Objects.requireNonNull(amountToAdd, "amountToAdd");
-        return (LocalDateTime) amountToAdd.addTo(this);
+        Objects.requireNonNull(bmountToAdd, "bmountToAdd");
+        return (LocblDbteTime) bmountToAdd.bddTo(this);
     }
 
     /**
-     * Returns a copy of this date-time with the specified amount added.
+     * Returns b copy of this dbte-time with the specified bmount bdded.
      * <p>
-     * This returns a {@code LocalDateTime}, based on this one, with the amount
-     * in terms of the unit added. If it is not possible to add the amount, because the
-     * unit is not supported or for some other reason, an exception is thrown.
+     * This returns b {@code LocblDbteTime}, bbsed on this one, with the bmount
+     * in terms of the unit bdded. If it is not possible to bdd the bmount, becbuse the
+     * unit is not supported or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoUnit} then the addition is implemented here.
-     * Date units are added as per {@link LocalDate#plus(long, TemporalUnit)}.
-     * Time units are added as per {@link LocalTime#plus(long, TemporalUnit)} with
-     * any overflow in days added equivalent to using {@link #plusDays(long)}.
+     * If the field is b {@link ChronoUnit} then the bddition is implemented here.
+     * Dbte units bre bdded bs per {@link LocblDbte#plus(long, TemporblUnit)}.
+     * Time units bre bdded bs per {@link LocblTime#plus(long, TemporblUnit)} with
+     * bny overflow in dbys bdded equivblent to using {@link #plusDbys(long)}.
      * <p>
-     * If the field is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.addTo(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the unit determines
-     * whether and how to perform the addition.
+     * If the field is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.bddTo(Temporbl, long)}
+     * pbssing {@code this} bs the brgument. In this cbse, the unit determines
+     * whether bnd how to perform the bddition.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount of the unit to add to the result, may be negative
-     * @param unit  the unit of the amount to add, not null
-     * @return a {@code LocalDateTime} based on this date-time with the specified amount added, not null
-     * @throws DateTimeException if the addition cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToAdd  the bmount of the unit to bdd to the result, mby be negbtive
+     * @pbrbm unit  the unit of the bmount to bdd, not null
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the specified bmount bdded, not null
+     * @throws DbteTimeException if the bddition cbnnot be mbde
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public LocalDateTime plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
+    public LocblDbteTime plus(long bmountToAdd, TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
             ChronoUnit f = (ChronoUnit) unit;
             switch (f) {
-                case NANOS: return plusNanos(amountToAdd);
-                case MICROS: return plusDays(amountToAdd / MICROS_PER_DAY).plusNanos((amountToAdd % MICROS_PER_DAY) * 1000);
-                case MILLIS: return plusDays(amountToAdd / MILLIS_PER_DAY).plusNanos((amountToAdd % MILLIS_PER_DAY) * 1000_000);
-                case SECONDS: return plusSeconds(amountToAdd);
-                case MINUTES: return plusMinutes(amountToAdd);
-                case HOURS: return plusHours(amountToAdd);
-                case HALF_DAYS: return plusDays(amountToAdd / 256).plusHours((amountToAdd % 256) * 12);  // no overflow (256 is multiple of 2)
+                cbse NANOS: return plusNbnos(bmountToAdd);
+                cbse MICROS: return plusDbys(bmountToAdd / MICROS_PER_DAY).plusNbnos((bmountToAdd % MICROS_PER_DAY) * 1000);
+                cbse MILLIS: return plusDbys(bmountToAdd / MILLIS_PER_DAY).plusNbnos((bmountToAdd % MILLIS_PER_DAY) * 1000_000);
+                cbse SECONDS: return plusSeconds(bmountToAdd);
+                cbse MINUTES: return plusMinutes(bmountToAdd);
+                cbse HOURS: return plusHours(bmountToAdd);
+                cbse HALF_DAYS: return plusDbys(bmountToAdd / 256).plusHours((bmountToAdd % 256) * 12);  // no overflow (256 is multiple of 2)
             }
-            return with(date.plus(amountToAdd, unit), time);
+            return with(dbte.plus(bmountToAdd, unit), time);
         }
-        return unit.addTo(this, amountToAdd);
+        return unit.bddTo(this, bmountToAdd);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of years added.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of yebrs bdded.
      * <p>
-     * This method adds the specified amount to the years field in three steps:
+     * This method bdds the specified bmount to the yebrs field in three steps:
      * <ol>
-     * <li>Add the input years to the year field</li>
-     * <li>Check if the resulting date would be invalid</li>
-     * <li>Adjust the day-of-month to the last valid day if necessary</li>
+     * <li>Add the input yebrs to the yebr field</li>
+     * <li>Check if the resulting dbte would be invblid</li>
+     * <li>Adjust the dby-of-month to the lbst vblid dby if necessbry</li>
      * </ol>
      * <p>
-     * For example, 2008-02-29 (leap year) plus one year would result in the
-     * invalid date 2009-02-29 (standard year). Instead of returning an invalid
-     * result, the last valid day of the month, 2009-02-28, is selected instead.
+     * For exbmple, 2008-02-29 (lebp yebr) plus one yebr would result in the
+     * invblid dbte 2009-02-29 (stbndbrd yebr). Instebd of returning bn invblid
+     * result, the lbst vblid dby of the month, 2009-02-28, is selected instebd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param years  the years to add, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the years added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm yebrs  the yebrs to bdd, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the yebrs bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public LocalDateTime plusYears(long years) {
-        LocalDate newDate = date.plusYears(years);
-        return with(newDate, time);
+    public LocblDbteTime plusYebrs(long yebrs) {
+        LocblDbte newDbte = dbte.plusYebrs(yebrs);
+        return with(newDbte, time);
     }
 
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of months added.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of months bdded.
      * <p>
-     * This method adds the specified amount to the months field in three steps:
+     * This method bdds the specified bmount to the months field in three steps:
      * <ol>
-     * <li>Add the input months to the month-of-year field</li>
-     * <li>Check if the resulting date would be invalid</li>
-     * <li>Adjust the day-of-month to the last valid day if necessary</li>
+     * <li>Add the input months to the month-of-yebr field</li>
+     * <li>Check if the resulting dbte would be invblid</li>
+     * <li>Adjust the dby-of-month to the lbst vblid dby if necessbry</li>
      * </ol>
      * <p>
-     * For example, 2007-03-31 plus one month would result in the invalid date
-     * 2007-04-31. Instead of returning an invalid result, the last valid day
-     * of the month, 2007-04-30, is selected instead.
+     * For exbmple, 2007-03-31 plus one month would result in the invblid dbte
+     * 2007-04-31. Instebd of returning bn invblid result, the lbst vblid dby
+     * of the month, 2007-04-30, is selected instebd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param months  the months to add, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the months added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm months  the months to bdd, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the months bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public LocalDateTime plusMonths(long months) {
-        LocalDate newDate = date.plusMonths(months);
-        return with(newDate, time);
+    public LocblDbteTime plusMonths(long months) {
+        LocblDbte newDbte = dbte.plusMonths(months);
+        return with(newDbte, time);
     }
 
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of weeks added.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of weeks bdded.
      * <p>
-     * This method adds the specified amount in weeks to the days field incrementing
-     * the month and year fields as necessary to ensure the result remains valid.
-     * The result is only invalid if the maximum/minimum year is exceeded.
+     * This method bdds the specified bmount in weeks to the dbys field incrementing
+     * the month bnd yebr fields bs necessbry to ensure the result rembins vblid.
+     * The result is only invblid if the mbximum/minimum yebr is exceeded.
      * <p>
-     * For example, 2008-12-31 plus one week would result in 2009-01-07.
+     * For exbmple, 2008-12-31 plus one week would result in 2009-01-07.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param weeks  the weeks to add, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the weeks added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm weeks  the weeks to bdd, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the weeks bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public LocalDateTime plusWeeks(long weeks) {
-        LocalDate newDate = date.plusWeeks(weeks);
-        return with(newDate, time);
+    public LocblDbteTime plusWeeks(long weeks) {
+        LocblDbte newDbte = dbte.plusWeeks(weeks);
+        return with(newDbte, time);
     }
 
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of days added.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of dbys bdded.
      * <p>
-     * This method adds the specified amount to the days field incrementing the
-     * month and year fields as necessary to ensure the result remains valid.
-     * The result is only invalid if the maximum/minimum year is exceeded.
+     * This method bdds the specified bmount to the dbys field incrementing the
+     * month bnd yebr fields bs necessbry to ensure the result rembins vblid.
+     * The result is only invblid if the mbximum/minimum yebr is exceeded.
      * <p>
-     * For example, 2008-12-31 plus one day would result in 2009-01-01.
+     * For exbmple, 2008-12-31 plus one dby would result in 2009-01-01.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param days  the days to add, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the days added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm dbys  the dbys to bdd, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the dbys bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public LocalDateTime plusDays(long days) {
-        LocalDate newDate = date.plusDays(days);
-        return with(newDate, time);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of hours added.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param hours  the hours to add, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the hours added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
-     */
-    public LocalDateTime plusHours(long hours) {
-        return plusWithOverflow(date, hours, 0, 0, 0, 1);
-    }
-
-    /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of minutes added.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param minutes  the minutes to add, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the minutes added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
-     */
-    public LocalDateTime plusMinutes(long minutes) {
-        return plusWithOverflow(date, 0, minutes, 0, 0, 1);
-    }
-
-    /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of seconds added.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param seconds  the seconds to add, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the seconds added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
-     */
-    public LocalDateTime plusSeconds(long seconds) {
-        return plusWithOverflow(date, 0, 0, seconds, 0, 1);
-    }
-
-    /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of nanoseconds added.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param nanos  the nanos to add, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the nanoseconds added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
-     */
-    public LocalDateTime plusNanos(long nanos) {
-        return plusWithOverflow(date, 0, 0, 0, nanos, 1);
+    public LocblDbteTime plusDbys(long dbys) {
+        LocblDbte newDbte = dbte.plusDbys(dbys);
+        return with(newDbte, time);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this date-time with the specified amount subtracted.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of hours bdded.
      * <p>
-     * This returns a {@code LocalDateTime}, based on this one, with the specified amount subtracted.
-     * The amount is typically {@link Period} or {@link Duration} but may be
-     * any other type implementing the {@link TemporalAmount} interface.
-     * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#subtractFrom(Temporal)}. The amount implementation is free
-     * to implement the subtraction in any way it wishes, however it typically
-     * calls back to {@link #minus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully subtracted.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount to subtract, not null
-     * @return a {@code LocalDateTime} based on this date-time with the subtraction made, not null
-     * @throws DateTimeException if the subtraction cannot be made
+     * @pbrbm hours  the hours to bdd, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the hours bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
+     */
+    public LocblDbteTime plusHours(long hours) {
+        return plusWithOverflow(dbte, hours, 0, 0, 0, 1);
+    }
+
+    /**
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of minutes bdded.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm minutes  the minutes to bdd, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the minutes bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
+     */
+    public LocblDbteTime plusMinutes(long minutes) {
+        return plusWithOverflow(dbte, 0, minutes, 0, 0, 1);
+    }
+
+    /**
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of seconds bdded.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm seconds  the seconds to bdd, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the seconds bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
+     */
+    public LocblDbteTime plusSeconds(long seconds) {
+        return plusWithOverflow(dbte, 0, 0, seconds, 0, 1);
+    }
+
+    /**
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of nbnoseconds bdded.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm nbnos  the nbnos to bdd, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the nbnoseconds bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
+     */
+    public LocblDbteTime plusNbnos(long nbnos) {
+        return plusWithOverflow(dbte, 0, 0, 0, nbnos, 1);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Returns b copy of this dbte-time with the specified bmount subtrbcted.
+     * <p>
+     * This returns b {@code LocblDbteTime}, bbsed on this one, with the specified bmount subtrbcted.
+     * The bmount is typicblly {@link Period} or {@link Durbtion} but mby be
+     * bny other type implementing the {@link TemporblAmount} interfbce.
+     * <p>
+     * The cblculbtion is delegbted to the bmount object by cblling
+     * {@link TemporblAmount#subtrbctFrom(Temporbl)}. The bmount implementbtion is free
+     * to implement the subtrbction in bny wby it wishes, however it typicblly
+     * cblls bbck to {@link #minus(long, TemporblUnit)}. Consult the documentbtion
+     * of the bmount implementbtion to determine if it cbn be successfully subtrbcted.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm bmountToSubtrbct  the bmount to subtrbct, not null
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the subtrbction mbde, not null
+     * @throws DbteTimeException if the subtrbction cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public LocalDateTime minus(TemporalAmount amountToSubtract) {
-        if (amountToSubtract instanceof Period) {
-            Period periodToSubtract = (Period) amountToSubtract;
-            return with(date.minus(periodToSubtract), time);
+    public LocblDbteTime minus(TemporblAmount bmountToSubtrbct) {
+        if (bmountToSubtrbct instbnceof Period) {
+            Period periodToSubtrbct = (Period) bmountToSubtrbct;
+            return with(dbte.minus(periodToSubtrbct), time);
         }
-        Objects.requireNonNull(amountToSubtract, "amountToSubtract");
-        return (LocalDateTime) amountToSubtract.subtractFrom(this);
+        Objects.requireNonNull(bmountToSubtrbct, "bmountToSubtrbct");
+        return (LocblDbteTime) bmountToSubtrbct.subtrbctFrom(this);
     }
 
     /**
-     * Returns a copy of this date-time with the specified amount subtracted.
+     * Returns b copy of this dbte-time with the specified bmount subtrbcted.
      * <p>
-     * This returns a {@code LocalDateTime}, based on this one, with the amount
-     * in terms of the unit subtracted. If it is not possible to subtract the amount,
-     * because the unit is not supported or for some other reason, an exception is thrown.
+     * This returns b {@code LocblDbteTime}, bbsed on this one, with the bmount
+     * in terms of the unit subtrbcted. If it is not possible to subtrbct the bmount,
+     * becbuse the unit is not supported or for some other rebson, bn exception is thrown.
      * <p>
-     * This method is equivalent to {@link #plus(long, TemporalUnit)} with the amount negated.
-     * See that method for a full description of how addition, and thus subtraction, works.
+     * This method is equivblent to {@link #plus(long, TemporblUnit)} with the bmount negbted.
+     * See thbt method for b full description of how bddition, bnd thus subtrbction, works.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount of the unit to subtract from the result, may be negative
-     * @param unit  the unit of the amount to subtract, not null
-     * @return a {@code LocalDateTime} based on this date-time with the specified amount subtracted, not null
-     * @throws DateTimeException if the subtraction cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToSubtrbct  the bmount of the unit to subtrbct from the result, mby be negbtive
+     * @pbrbm unit  the unit of the bmount to subtrbct, not null
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the specified bmount subtrbcted, not null
+     * @throws DbteTimeException if the subtrbction cbnnot be mbde
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public LocalDateTime minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+    public LocblDbteTime minus(long bmountToSubtrbct, TemporblUnit unit) {
+        return (bmountToSubtrbct == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-bmountToSubtrbct, unit));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of years subtracted.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of yebrs subtrbcted.
      * <p>
-     * This method subtracts the specified amount from the years field in three steps:
+     * This method subtrbcts the specified bmount from the yebrs field in three steps:
      * <ol>
-     * <li>Subtract the input years from the year field</li>
-     * <li>Check if the resulting date would be invalid</li>
-     * <li>Adjust the day-of-month to the last valid day if necessary</li>
+     * <li>Subtrbct the input yebrs from the yebr field</li>
+     * <li>Check if the resulting dbte would be invblid</li>
+     * <li>Adjust the dby-of-month to the lbst vblid dby if necessbry</li>
      * </ol>
      * <p>
-     * For example, 2008-02-29 (leap year) minus one year would result in the
-     * invalid date 2009-02-29 (standard year). Instead of returning an invalid
-     * result, the last valid day of the month, 2009-02-28, is selected instead.
+     * For exbmple, 2008-02-29 (lebp yebr) minus one yebr would result in the
+     * invblid dbte 2009-02-29 (stbndbrd yebr). Instebd of returning bn invblid
+     * result, the lbst vblid dby of the month, 2009-02-28, is selected instebd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param years  the years to subtract, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the years subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm yebrs  the yebrs to subtrbct, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the yebrs subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public LocalDateTime minusYears(long years) {
-        return (years == Long.MIN_VALUE ? plusYears(Long.MAX_VALUE).plusYears(1) : plusYears(-years));
+    public LocblDbteTime minusYebrs(long yebrs) {
+        return (yebrs == Long.MIN_VALUE ? plusYebrs(Long.MAX_VALUE).plusYebrs(1) : plusYebrs(-yebrs));
     }
 
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of months subtracted.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of months subtrbcted.
      * <p>
-     * This method subtracts the specified amount from the months field in three steps:
+     * This method subtrbcts the specified bmount from the months field in three steps:
      * <ol>
-     * <li>Subtract the input months from the month-of-year field</li>
-     * <li>Check if the resulting date would be invalid</li>
-     * <li>Adjust the day-of-month to the last valid day if necessary</li>
+     * <li>Subtrbct the input months from the month-of-yebr field</li>
+     * <li>Check if the resulting dbte would be invblid</li>
+     * <li>Adjust the dby-of-month to the lbst vblid dby if necessbry</li>
      * </ol>
      * <p>
-     * For example, 2007-03-31 minus one month would result in the invalid date
-     * 2007-04-31. Instead of returning an invalid result, the last valid day
-     * of the month, 2007-04-30, is selected instead.
+     * For exbmple, 2007-03-31 minus one month would result in the invblid dbte
+     * 2007-04-31. Instebd of returning bn invblid result, the lbst vblid dby
+     * of the month, 2007-04-30, is selected instebd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param months  the months to subtract, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the months subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm months  the months to subtrbct, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the months subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public LocalDateTime minusMonths(long months) {
+    public LocblDbteTime minusMonths(long months) {
         return (months == Long.MIN_VALUE ? plusMonths(Long.MAX_VALUE).plusMonths(1) : plusMonths(-months));
     }
 
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of weeks subtracted.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of weeks subtrbcted.
      * <p>
-     * This method subtracts the specified amount in weeks from the days field decrementing
-     * the month and year fields as necessary to ensure the result remains valid.
-     * The result is only invalid if the maximum/minimum year is exceeded.
+     * This method subtrbcts the specified bmount in weeks from the dbys field decrementing
+     * the month bnd yebr fields bs necessbry to ensure the result rembins vblid.
+     * The result is only invblid if the mbximum/minimum yebr is exceeded.
      * <p>
-     * For example, 2009-01-07 minus one week would result in 2008-12-31.
+     * For exbmple, 2009-01-07 minus one week would result in 2008-12-31.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param weeks  the weeks to subtract, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the weeks subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm weeks  the weeks to subtrbct, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the weeks subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public LocalDateTime minusWeeks(long weeks) {
+    public LocblDbteTime minusWeeks(long weeks) {
         return (weeks == Long.MIN_VALUE ? plusWeeks(Long.MAX_VALUE).plusWeeks(1) : plusWeeks(-weeks));
     }
 
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of days subtracted.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of dbys subtrbcted.
      * <p>
-     * This method subtracts the specified amount from the days field decrementing the
-     * month and year fields as necessary to ensure the result remains valid.
-     * The result is only invalid if the maximum/minimum year is exceeded.
+     * This method subtrbcts the specified bmount from the dbys field decrementing the
+     * month bnd yebr fields bs necessbry to ensure the result rembins vblid.
+     * The result is only invblid if the mbximum/minimum yebr is exceeded.
      * <p>
-     * For example, 2009-01-01 minus one day would result in 2008-12-31.
+     * For exbmple, 2009-01-01 minus one dby would result in 2008-12-31.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param days  the days to subtract, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the days subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm dbys  the dbys to subtrbct, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the dbys subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public LocalDateTime minusDays(long days) {
-        return (days == Long.MIN_VALUE ? plusDays(Long.MAX_VALUE).plusDays(1) : plusDays(-days));
+    public LocblDbteTime minusDbys(long dbys) {
+        return (dbys == Long.MIN_VALUE ? plusDbys(Long.MAX_VALUE).plusDbys(1) : plusDbys(-dbys));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of hours subtracted.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of hours subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param hours  the hours to subtract, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the hours subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm hours  the hours to subtrbct, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the hours subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public LocalDateTime minusHours(long hours) {
-        return plusWithOverflow(date, hours, 0, 0, 0, -1);
+    public LocblDbteTime minusHours(long hours) {
+        return plusWithOverflow(dbte, hours, 0, 0, 0, -1);
    }
 
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of minutes subtracted.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of minutes subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param minutes  the minutes to subtract, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the minutes subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm minutes  the minutes to subtrbct, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the minutes subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public LocalDateTime minusMinutes(long minutes) {
-        return plusWithOverflow(date, 0, minutes, 0, 0, -1);
+    public LocblDbteTime minusMinutes(long minutes) {
+        return plusWithOverflow(dbte, 0, minutes, 0, 0, -1);
     }
 
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of seconds subtracted.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of seconds subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param seconds  the seconds to subtract, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the seconds subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm seconds  the seconds to subtrbct, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the seconds subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public LocalDateTime minusSeconds(long seconds) {
-        return plusWithOverflow(date, 0, 0, seconds, 0, -1);
+    public LocblDbteTime minusSeconds(long seconds) {
+        return plusWithOverflow(dbte, 0, 0, seconds, 0, -1);
     }
 
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified number of nanoseconds subtracted.
+     * Returns b copy of this {@code LocblDbteTime} with the specified number of nbnoseconds subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanos  the nanos to subtract, may be negative
-     * @return a {@code LocalDateTime} based on this date-time with the nanoseconds subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm nbnos  the nbnos to subtrbct, mby be negbtive
+     * @return b {@code LocblDbteTime} bbsed on this dbte-time with the nbnoseconds subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public LocalDateTime minusNanos(long nanos) {
-        return plusWithOverflow(date, 0, 0, 0, nanos, -1);
+    public LocblDbteTime minusNbnos(long nbnos) {
+        return plusWithOverflow(dbte, 0, 0, 0, nbnos, -1);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code LocalDateTime} with the specified period added.
+     * Returns b copy of this {@code LocblDbteTime} with the specified period bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param newDate  the new date to base the calculation on, not null
-     * @param hours  the hours to add, may be negative
-     * @param minutes the minutes to add, may be negative
-     * @param seconds the seconds to add, may be negative
-     * @param nanos the nanos to add, may be negative
-     * @param sign  the sign to determine add or subtract
+     * @pbrbm newDbte  the new dbte to bbse the cblculbtion on, not null
+     * @pbrbm hours  the hours to bdd, mby be negbtive
+     * @pbrbm minutes the minutes to bdd, mby be negbtive
+     * @pbrbm seconds the seconds to bdd, mby be negbtive
+     * @pbrbm nbnos the nbnos to bdd, mby be negbtive
+     * @pbrbm sign  the sign to determine bdd or subtrbct
      * @return the combined result, not null
      */
-    private LocalDateTime plusWithOverflow(LocalDate newDate, long hours, long minutes, long seconds, long nanos, int sign) {
+    privbte LocblDbteTime plusWithOverflow(LocblDbte newDbte, long hours, long minutes, long seconds, long nbnos, int sign) {
         // 9223372036854775808 long, 2147483648 int
-        if ((hours | minutes | seconds | nanos) == 0) {
-            return with(newDate, time);
+        if ((hours | minutes | seconds | nbnos) == 0) {
+            return with(newDbte, time);
         }
-        long totDays = nanos / NANOS_PER_DAY +             //   max/24*60*60*1B
-                seconds / SECONDS_PER_DAY +                //   max/24*60*60
-                minutes / MINUTES_PER_DAY +                //   max/24*60
-                hours / HOURS_PER_DAY;                     //   max/24
-        totDays *= sign;                                   // total max*0.4237...
-        long totNanos = nanos % NANOS_PER_DAY +                    //   max  86400000000000
-                (seconds % SECONDS_PER_DAY) * NANOS_PER_SECOND +   //   max  86400000000000
-                (minutes % MINUTES_PER_DAY) * NANOS_PER_MINUTE +   //   max  86400000000000
-                (hours % HOURS_PER_DAY) * NANOS_PER_HOUR;          //   max  86400000000000
-        long curNoD = time.toNanoOfDay();                       //   max  86400000000000
-        totNanos = totNanos * sign + curNoD;                    // total 432000000000000
-        totDays += Math.floorDiv(totNanos, NANOS_PER_DAY);
-        long newNoD = Math.floorMod(totNanos, NANOS_PER_DAY);
-        LocalTime newTime = (newNoD == curNoD ? time : LocalTime.ofNanoOfDay(newNoD));
-        return with(newDate.plusDays(totDays), newTime);
+        long totDbys = nbnos / NANOS_PER_DAY +             //   mbx/24*60*60*1B
+                seconds / SECONDS_PER_DAY +                //   mbx/24*60*60
+                minutes / MINUTES_PER_DAY +                //   mbx/24*60
+                hours / HOURS_PER_DAY;                     //   mbx/24
+        totDbys *= sign;                                   // totbl mbx*0.4237...
+        long totNbnos = nbnos % NANOS_PER_DAY +                    //   mbx  86400000000000
+                (seconds % SECONDS_PER_DAY) * NANOS_PER_SECOND +   //   mbx  86400000000000
+                (minutes % MINUTES_PER_DAY) * NANOS_PER_MINUTE +   //   mbx  86400000000000
+                (hours % HOURS_PER_DAY) * NANOS_PER_HOUR;          //   mbx  86400000000000
+        long curNoD = time.toNbnoOfDby();                       //   mbx  86400000000000
+        totNbnos = totNbnos * sign + curNoD;                    // totbl 432000000000000
+        totDbys += Mbth.floorDiv(totNbnos, NANOS_PER_DAY);
+        long newNoD = Mbth.floorMod(totNbnos, NANOS_PER_DAY);
+        LocblTime newTime = (newNoD == curNoD ? time : LocblTime.ofNbnoOfDby(newNoD));
+        return with(newDbte.plusDbys(totDbys), newTime);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Queries this date-time using the specified query.
+     * Queries this dbte-time using the specified query.
      * <p>
-     * This queries this date-time using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * This queries this dbte-time using the specified query strbtegy object.
+     * The {@code TemporblQuery} object defines the logic to be used to
+     * obtbin the result. Rebd the documentbtion of the query to understbnd
+     * whbt the result of this method will be.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblQuery#queryFrom(TemporblAccessor)} method on the
+     * specified query pbssing {@code this} bs the brgument.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
+     * @pbrbm <R> the type of the result
+     * @pbrbm query  the query to invoke, not null
+     * @return the query result, null mby be returned (defined by the query)
+     * @throws DbteTimeException if unbble to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
      */
-    @SuppressWarnings("unchecked")
-    @Override  // override for Javadoc
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.localDate()) {
-            return (R) date;
+    @SuppressWbrnings("unchecked")
+    @Override  // override for Jbvbdoc
+    public <R> R query(TemporblQuery<R> query) {
+        if (query == TemporblQueries.locblDbte()) {
+            return (R) dbte;
         }
-        return ChronoLocalDateTime.super.query(query);
+        return ChronoLocblDbteTime.super.query(query);
     }
 
     /**
-     * Adjusts the specified temporal object to have the same date and time as this object.
+     * Adjusts the specified temporbl object to hbve the sbme dbte bnd time bs this object.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with the date and time changed to be the same as this.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with the dbte bnd time chbnged to be the sbme bs this.
      * <p>
-     * The adjustment is equivalent to using {@link Temporal#with(TemporalField, long)}
-     * twice, passing {@link ChronoField#EPOCH_DAY} and
-     * {@link ChronoField#NANO_OF_DAY} as the fields.
+     * The bdjustment is equivblent to using {@link Temporbl#with(TemporblField, long)}
+     * twice, pbssing {@link ChronoField#EPOCH_DAY} bnd
+     * {@link ChronoField#NANO_OF_DAY} bs the fields.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#with(TemporalAdjuster)}:
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#with(TemporblAdjuster)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisLocalDateTime.adjustInto(temporal);
-     *   temporal = temporal.with(thisLocalDateTime);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisLocblDbteTime.bdjustInto(temporbl);
+     *   temporbl = temporbl.with(thisLocblDbteTime);
      * </pre>
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the target object to be adjusted, not null
-     * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
+     * @pbrbm temporbl  the tbrget object to be bdjusted, not null
+     * @return the bdjusted object, not null
+     * @throws DbteTimeException if unbble to mbke the bdjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
-    @Override  // override for Javadoc
-    public Temporal adjustInto(Temporal temporal) {
-        return ChronoLocalDateTime.super.adjustInto(temporal);
+    @Override  // override for Jbvbdoc
+    public Temporbl bdjustInto(Temporbl temporbl) {
+        return ChronoLocblDbteTime.super.bdjustInto(temporbl);
     }
 
     /**
-     * Calculates the amount of time until another date-time in terms of the specified unit.
+     * Cblculbtes the bmount of time until bnother dbte-time in terms of the specified unit.
      * <p>
-     * This calculates the amount of time between two {@code LocalDateTime}
-     * objects in terms of a single {@code TemporalUnit}.
-     * The start and end points are {@code this} and the specified date-time.
-     * The result will be negative if the end is before the start.
-     * The {@code Temporal} passed to this method is converted to a
-     * {@code LocalDateTime} using {@link #from(TemporalAccessor)}.
-     * For example, the amount in days between two date-times can be calculated
-     * using {@code startDateTime.until(endDateTime, DAYS)}.
+     * This cblculbtes the bmount of time between two {@code LocblDbteTime}
+     * objects in terms of b single {@code TemporblUnit}.
+     * The stbrt bnd end points bre {@code this} bnd the specified dbte-time.
+     * The result will be negbtive if the end is before the stbrt.
+     * The {@code Temporbl} pbssed to this method is converted to b
+     * {@code LocblDbteTime} using {@link #from(TemporblAccessor)}.
+     * For exbmple, the bmount in dbys between two dbte-times cbn be cblculbted
+     * using {@code stbrtDbteTime.until(endDbteTime, DAYS)}.
      * <p>
-     * The calculation returns a whole number, representing the number of
-     * complete units between the two date-times.
-     * For example, the amount in months between 2012-06-15T00:00 and 2012-08-14T23:59
-     * will only be one month as it is one minute short of two months.
+     * The cblculbtion returns b whole number, representing the number of
+     * complete units between the two dbte-times.
+     * For exbmple, the bmount in months between 2012-06-15T00:00 bnd 2012-08-14T23:59
+     * will only be one month bs it is one minute short of two months.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method.
-     * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
+     * The second is to use {@link TemporblUnit#between(Temporbl, Temporbl)}:
      * <pre>
-     *   // these two lines are equivalent
-     *   amount = start.until(end, MONTHS);
-     *   amount = MONTHS.between(start, end);
+     *   // these two lines bre equivblent
+     *   bmount = stbrt.until(end, MONTHS);
+     *   bmount = MONTHS.between(stbrt, end);
      * </pre>
-     * The choice should be made based on which makes the code more readable.
+     * The choice should be mbde bbsed on which mbkes the code more rebdbble.
      * <p>
-     * The calculation is implemented in this method for {@link ChronoUnit}.
+     * The cblculbtion is implemented in this method for {@link ChronoUnit}.
      * The units {@code NANOS}, {@code MICROS}, {@code MILLIS}, {@code SECONDS},
-     * {@code MINUTES}, {@code HOURS} and {@code HALF_DAYS}, {@code DAYS},
+     * {@code MINUTES}, {@code HOURS} bnd {@code HALF_DAYS}, {@code DAYS},
      * {@code WEEKS}, {@code MONTHS}, {@code YEARS}, {@code DECADES},
-     * {@code CENTURIES}, {@code MILLENNIA} and {@code ERAS} are supported.
-     * Other {@code ChronoUnit} values will throw an exception.
+     * {@code CENTURIES}, {@code MILLENNIA} bnd {@code ERAS} bre supported.
+     * Other {@code ChronoUnit} vblues will throw bn exception.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.between(Temporal, Temporal)}
-     * passing {@code this} as the first argument and the converted input temporal
-     * as the second argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.between(Temporbl, Temporbl)}
+     * pbssing {@code this} bs the first brgument bnd the converted input temporbl
+     * bs the second brgument.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param endExclusive  the end date, exclusive, which is converted to a {@code LocalDateTime}, not null
-     * @param unit  the unit to measure the amount in, not null
-     * @return the amount of time between this date-time and the end date-time
-     * @throws DateTimeException if the amount cannot be calculated, or the end
-     *  temporal cannot be converted to a {@code LocalDateTime}
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm endExclusive  the end dbte, exclusive, which is converted to b {@code LocblDbteTime}, not null
+     * @pbrbm unit  the unit to mebsure the bmount in, not null
+     * @return the bmount of time between this dbte-time bnd the end dbte-time
+     * @throws DbteTimeException if the bmount cbnnot be cblculbted, or the end
+     *  temporbl cbnnot be converted to b {@code LocblDbteTime}
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
-        LocalDateTime end = LocalDateTime.from(endExclusive);
-        if (unit instanceof ChronoUnit) {
-            if (unit.isTimeBased()) {
-                long amount = date.daysUntil(end.date);
-                if (amount == 0) {
+    public long until(Temporbl endExclusive, TemporblUnit unit) {
+        LocblDbteTime end = LocblDbteTime.from(endExclusive);
+        if (unit instbnceof ChronoUnit) {
+            if (unit.isTimeBbsed()) {
+                long bmount = dbte.dbysUntil(end.dbte);
+                if (bmount == 0) {
                     return time.until(end.time, unit);
                 }
-                long timePart = end.time.toNanoOfDay() - time.toNanoOfDay();
-                if (amount > 0) {
-                    amount--;  // safe
-                    timePart += NANOS_PER_DAY;  // safe
+                long timePbrt = end.time.toNbnoOfDby() - time.toNbnoOfDby();
+                if (bmount > 0) {
+                    bmount--;  // sbfe
+                    timePbrt += NANOS_PER_DAY;  // sbfe
                 } else {
-                    amount++;  // safe
-                    timePart -= NANOS_PER_DAY;  // safe
+                    bmount++;  // sbfe
+                    timePbrt -= NANOS_PER_DAY;  // sbfe
                 }
                 switch ((ChronoUnit) unit) {
-                    case NANOS:
-                        amount = Math.multiplyExact(amount, NANOS_PER_DAY);
-                        break;
-                    case MICROS:
-                        amount = Math.multiplyExact(amount, MICROS_PER_DAY);
-                        timePart = timePart / 1000;
-                        break;
-                    case MILLIS:
-                        amount = Math.multiplyExact(amount, MILLIS_PER_DAY);
-                        timePart = timePart / 1_000_000;
-                        break;
-                    case SECONDS:
-                        amount = Math.multiplyExact(amount, SECONDS_PER_DAY);
-                        timePart = timePart / NANOS_PER_SECOND;
-                        break;
-                    case MINUTES:
-                        amount = Math.multiplyExact(amount, MINUTES_PER_DAY);
-                        timePart = timePart / NANOS_PER_MINUTE;
-                        break;
-                    case HOURS:
-                        amount = Math.multiplyExact(amount, HOURS_PER_DAY);
-                        timePart = timePart / NANOS_PER_HOUR;
-                        break;
-                    case HALF_DAYS:
-                        amount = Math.multiplyExact(amount, 2);
-                        timePart = timePart / (NANOS_PER_HOUR * 12);
-                        break;
+                    cbse NANOS:
+                        bmount = Mbth.multiplyExbct(bmount, NANOS_PER_DAY);
+                        brebk;
+                    cbse MICROS:
+                        bmount = Mbth.multiplyExbct(bmount, MICROS_PER_DAY);
+                        timePbrt = timePbrt / 1000;
+                        brebk;
+                    cbse MILLIS:
+                        bmount = Mbth.multiplyExbct(bmount, MILLIS_PER_DAY);
+                        timePbrt = timePbrt / 1_000_000;
+                        brebk;
+                    cbse SECONDS:
+                        bmount = Mbth.multiplyExbct(bmount, SECONDS_PER_DAY);
+                        timePbrt = timePbrt / NANOS_PER_SECOND;
+                        brebk;
+                    cbse MINUTES:
+                        bmount = Mbth.multiplyExbct(bmount, MINUTES_PER_DAY);
+                        timePbrt = timePbrt / NANOS_PER_MINUTE;
+                        brebk;
+                    cbse HOURS:
+                        bmount = Mbth.multiplyExbct(bmount, HOURS_PER_DAY);
+                        timePbrt = timePbrt / NANOS_PER_HOUR;
+                        brebk;
+                    cbse HALF_DAYS:
+                        bmount = Mbth.multiplyExbct(bmount, 2);
+                        timePbrt = timePbrt / (NANOS_PER_HOUR * 12);
+                        brebk;
                 }
-                return Math.addExact(amount, timePart);
+                return Mbth.bddExbct(bmount, timePbrt);
             }
-            LocalDate endDate = end.date;
-            if (endDate.isAfter(date) && end.time.isBefore(time)) {
-                endDate = endDate.minusDays(1);
-            } else if (endDate.isBefore(date) && end.time.isAfter(time)) {
-                endDate = endDate.plusDays(1);
+            LocblDbte endDbte = end.dbte;
+            if (endDbte.isAfter(dbte) && end.time.isBefore(time)) {
+                endDbte = endDbte.minusDbys(1);
+            } else if (endDbte.isBefore(dbte) && end.time.isAfter(time)) {
+                endDbte = endDbte.plusDbys(1);
             }
-            return date.until(endDate, unit);
+            return dbte.until(endDbte, unit);
         }
         return unit.between(this, end);
     }
 
     /**
-     * Formats this date-time using the specified formatter.
+     * Formbts this dbte-time using the specified formbtter.
      * <p>
-     * This date-time will be passed to the formatter to produce a string.
+     * This dbte-time will be pbssed to the formbtter to produce b string.
      *
-     * @param formatter  the formatter to use, not null
-     * @return the formatted date-time string, not null
-     * @throws DateTimeException if an error occurs during printing
+     * @pbrbm formbtter  the formbtter to use, not null
+     * @return the formbtted dbte-time string, not null
+     * @throws DbteTimeException if bn error occurs during printing
      */
-    @Override  // override for Javadoc and performance
-    public String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+    @Override  // override for Jbvbdoc bnd performbnce
+    public String formbt(DbteTimeFormbtter formbtter) {
+        Objects.requireNonNull(formbtter, "formbtter");
+        return formbtter.formbt(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Combines this date-time with an offset to create an {@code OffsetDateTime}.
+     * Combines this dbte-time with bn offset to crebte bn {@code OffsetDbteTime}.
      * <p>
-     * This returns an {@code OffsetDateTime} formed from this date-time at the specified offset.
-     * All possible combinations of date-time and offset are valid.
+     * This returns bn {@code OffsetDbteTime} formed from this dbte-time bt the specified offset.
+     * All possible combinbtions of dbte-time bnd offset bre vblid.
      *
-     * @param offset  the offset to combine with, not null
-     * @return the offset date-time formed from this date-time and the specified offset, not null
+     * @pbrbm offset  the offset to combine with, not null
+     * @return the offset dbte-time formed from this dbte-time bnd the specified offset, not null
      */
-    public OffsetDateTime atOffset(ZoneOffset offset) {
-        return OffsetDateTime.of(this, offset);
+    public OffsetDbteTime btOffset(ZoneOffset offset) {
+        return OffsetDbteTime.of(this, offset);
     }
 
     /**
-     * Combines this date-time with a time-zone to create a {@code ZonedDateTime}.
+     * Combines this dbte-time with b time-zone to crebte b {@code ZonedDbteTime}.
      * <p>
-     * This returns a {@code ZonedDateTime} formed from this date-time at the
-     * specified time-zone. The result will match this date-time as closely as possible.
-     * Time-zone rules, such as daylight savings, mean that not every local date-time
-     * is valid for the specified zone, thus the local date-time may be adjusted.
+     * This returns b {@code ZonedDbteTime} formed from this dbte-time bt the
+     * specified time-zone. The result will mbtch this dbte-time bs closely bs possible.
+     * Time-zone rules, such bs dbylight sbvings, mebn thbt not every locbl dbte-time
+     * is vblid for the specified zone, thus the locbl dbte-time mby be bdjusted.
      * <p>
-     * The local date-time is resolved to a single instant on the time-line.
-     * This is achieved by finding a valid offset from UTC/Greenwich for the local
-     * date-time as defined by the {@link ZoneRules rules} of the zone ID.
+     * The locbl dbte-time is resolved to b single instbnt on the time-line.
+     * This is bchieved by finding b vblid offset from UTC/Greenwich for the locbl
+     * dbte-time bs defined by the {@link ZoneRules rules} of the zone ID.
      *<p>
-     * In most cases, there is only one valid offset for a local date-time.
-     * In the case of an overlap, where clocks are set back, there are two valid offsets.
-     * This method uses the earlier offset typically corresponding to "summer".
+     * In most cbses, there is only one vblid offset for b locbl dbte-time.
+     * In the cbse of bn overlbp, where clocks bre set bbck, there bre two vblid offsets.
+     * This method uses the ebrlier offset typicblly corresponding to "summer".
      * <p>
-     * In the case of a gap, where clocks jump forward, there is no valid offset.
-     * Instead, the local date-time is adjusted to be later by the length of the gap.
-     * For a typical one hour daylight savings change, the local date-time will be
-     * moved one hour later into the offset typically corresponding to "summer".
+     * In the cbse of b gbp, where clocks jump forwbrd, there is no vblid offset.
+     * Instebd, the locbl dbte-time is bdjusted to be lbter by the length of the gbp.
+     * For b typicbl one hour dbylight sbvings chbnge, the locbl dbte-time will be
+     * moved one hour lbter into the offset typicblly corresponding to "summer".
      * <p>
-     * To obtain the later offset during an overlap, call
-     * {@link ZonedDateTime#withLaterOffsetAtOverlap()} on the result of this method.
-     * To throw an exception when there is a gap or overlap, use
-     * {@link ZonedDateTime#ofStrict(LocalDateTime, ZoneOffset, ZoneId)}.
+     * To obtbin the lbter offset during bn overlbp, cbll
+     * {@link ZonedDbteTime#withLbterOffsetAtOverlbp()} on the result of this method.
+     * To throw bn exception when there is b gbp or overlbp, use
+     * {@link ZonedDbteTime#ofStrict(LocblDbteTime, ZoneOffset, ZoneId)}.
      *
-     * @param zone  the time-zone to use, not null
-     * @return the zoned date-time formed from this date-time, not null
+     * @pbrbm zone  the time-zone to use, not null
+     * @return the zoned dbte-time formed from this dbte-time, not null
      */
     @Override
-    public ZonedDateTime atZone(ZoneId zone) {
-        return ZonedDateTime.of(this, zone);
+    public ZonedDbteTime btZone(ZoneId zone) {
+        return ZonedDbteTime.of(this, zone);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this date-time to another date-time.
+     * Compbres this dbte-time to bnother dbte-time.
      * <p>
-     * The comparison is primarily based on the date-time, from earliest to latest.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * The compbrison is primbrily bbsed on the dbte-time, from ebrliest to lbtest.
+     * It is "consistent with equbls", bs defined by {@link Compbrbble}.
      * <p>
-     * If all the date-times being compared are instances of {@code LocalDateTime},
-     * then the comparison will be entirely based on the date-time.
-     * If some dates being compared are in different chronologies, then the
-     * chronology is also considered, see {@link ChronoLocalDateTime#compareTo}.
+     * If bll the dbte-times being compbred bre instbnces of {@code LocblDbteTime},
+     * then the compbrison will be entirely bbsed on the dbte-time.
+     * If some dbtes being compbred bre in different chronologies, then the
+     * chronology is blso considered, see {@link ChronoLocblDbteTime#compbreTo}.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm other  the other dbte-time to compbre to, not null
+     * @return the compbrbtor vblue, negbtive if less, positive if grebter
      */
-    @Override  // override for Javadoc and performance
-    public int compareTo(ChronoLocalDateTime<?> other) {
-        if (other instanceof LocalDateTime) {
-            return compareTo0((LocalDateTime) other);
+    @Override  // override for Jbvbdoc bnd performbnce
+    public int compbreTo(ChronoLocblDbteTime<?> other) {
+        if (other instbnceof LocblDbteTime) {
+            return compbreTo0((LocblDbteTime) other);
         }
-        return ChronoLocalDateTime.super.compareTo(other);
+        return ChronoLocblDbteTime.super.compbreTo(other);
     }
 
-    private int compareTo0(LocalDateTime other) {
-        int cmp = date.compareTo0(other.toLocalDate());
+    privbte int compbreTo0(LocblDbteTime other) {
+        int cmp = dbte.compbreTo0(other.toLocblDbte());
         if (cmp == 0) {
-            cmp = time.compareTo(other.toLocalTime());
+            cmp = time.compbreTo(other.toLocblTime());
         }
         return cmp;
     }
 
     /**
-     * Checks if this date-time is after the specified date-time.
+     * Checks if this dbte-time is bfter the specified dbte-time.
      * <p>
-     * This checks to see if this date-time represents a point on the
-     * local time-line after the other date-time.
+     * This checks to see if this dbte-time represents b point on the
+     * locbl time-line bfter the other dbte-time.
      * <pre>
-     *   LocalDate a = LocalDateTime.of(2012, 6, 30, 12, 00);
-     *   LocalDate b = LocalDateTime.of(2012, 7, 1, 12, 00);
-     *   a.isAfter(b) == false
-     *   a.isAfter(a) == false
-     *   b.isAfter(a) == true
+     *   LocblDbte b = LocblDbteTime.of(2012, 6, 30, 12, 00);
+     *   LocblDbte b = LocblDbteTime.of(2012, 7, 1, 12, 00);
+     *   b.isAfter(b) == fblse
+     *   b.isAfter(b) == fblse
+     *   b.isAfter(b) == true
      * </pre>
      * <p>
-     * This method only considers the position of the two date-times on the local time-line.
-     * It does not take into account the chronology, or calendar system.
-     * This is different from the comparison in {@link #compareTo(ChronoLocalDateTime)},
-     * but is the same approach as {@link ChronoLocalDateTime#timeLineOrder()}.
+     * This method only considers the position of the two dbte-times on the locbl time-line.
+     * It does not tbke into bccount the chronology, or cblendbr system.
+     * This is different from the compbrison in {@link #compbreTo(ChronoLocblDbteTime)},
+     * but is the sbme bpprobch bs {@link ChronoLocblDbteTime#timeLineOrder()}.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return true if this date-time is after the specified date-time
+     * @pbrbm other  the other dbte-time to compbre to, not null
+     * @return true if this dbte-time is bfter the specified dbte-time
      */
-    @Override  // override for Javadoc and performance
-    public boolean isAfter(ChronoLocalDateTime<?> other) {
-        if (other instanceof LocalDateTime) {
-            return compareTo0((LocalDateTime) other) > 0;
+    @Override  // override for Jbvbdoc bnd performbnce
+    public boolebn isAfter(ChronoLocblDbteTime<?> other) {
+        if (other instbnceof LocblDbteTime) {
+            return compbreTo0((LocblDbteTime) other) > 0;
         }
-        return ChronoLocalDateTime.super.isAfter(other);
+        return ChronoLocblDbteTime.super.isAfter(other);
     }
 
     /**
-     * Checks if this date-time is before the specified date-time.
+     * Checks if this dbte-time is before the specified dbte-time.
      * <p>
-     * This checks to see if this date-time represents a point on the
-     * local time-line before the other date-time.
+     * This checks to see if this dbte-time represents b point on the
+     * locbl time-line before the other dbte-time.
      * <pre>
-     *   LocalDate a = LocalDateTime.of(2012, 6, 30, 12, 00);
-     *   LocalDate b = LocalDateTime.of(2012, 7, 1, 12, 00);
-     *   a.isBefore(b) == true
-     *   a.isBefore(a) == false
-     *   b.isBefore(a) == false
+     *   LocblDbte b = LocblDbteTime.of(2012, 6, 30, 12, 00);
+     *   LocblDbte b = LocblDbteTime.of(2012, 7, 1, 12, 00);
+     *   b.isBefore(b) == true
+     *   b.isBefore(b) == fblse
+     *   b.isBefore(b) == fblse
      * </pre>
      * <p>
-     * This method only considers the position of the two date-times on the local time-line.
-     * It does not take into account the chronology, or calendar system.
-     * This is different from the comparison in {@link #compareTo(ChronoLocalDateTime)},
-     * but is the same approach as {@link ChronoLocalDateTime#timeLineOrder()}.
+     * This method only considers the position of the two dbte-times on the locbl time-line.
+     * It does not tbke into bccount the chronology, or cblendbr system.
+     * This is different from the compbrison in {@link #compbreTo(ChronoLocblDbteTime)},
+     * but is the sbme bpprobch bs {@link ChronoLocblDbteTime#timeLineOrder()}.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return true if this date-time is before the specified date-time
+     * @pbrbm other  the other dbte-time to compbre to, not null
+     * @return true if this dbte-time is before the specified dbte-time
      */
-    @Override  // override for Javadoc and performance
-    public boolean isBefore(ChronoLocalDateTime<?> other) {
-        if (other instanceof LocalDateTime) {
-            return compareTo0((LocalDateTime) other) < 0;
+    @Override  // override for Jbvbdoc bnd performbnce
+    public boolebn isBefore(ChronoLocblDbteTime<?> other) {
+        if (other instbnceof LocblDbteTime) {
+            return compbreTo0((LocblDbteTime) other) < 0;
         }
-        return ChronoLocalDateTime.super.isBefore(other);
+        return ChronoLocblDbteTime.super.isBefore(other);
     }
 
     /**
-     * Checks if this date-time is equal to the specified date-time.
+     * Checks if this dbte-time is equbl to the specified dbte-time.
      * <p>
-     * This checks to see if this date-time represents the same point on the
-     * local time-line as the other date-time.
+     * This checks to see if this dbte-time represents the sbme point on the
+     * locbl time-line bs the other dbte-time.
      * <pre>
-     *   LocalDate a = LocalDateTime.of(2012, 6, 30, 12, 00);
-     *   LocalDate b = LocalDateTime.of(2012, 7, 1, 12, 00);
-     *   a.isEqual(b) == false
-     *   a.isEqual(a) == true
-     *   b.isEqual(a) == false
+     *   LocblDbte b = LocblDbteTime.of(2012, 6, 30, 12, 00);
+     *   LocblDbte b = LocblDbteTime.of(2012, 7, 1, 12, 00);
+     *   b.isEqubl(b) == fblse
+     *   b.isEqubl(b) == true
+     *   b.isEqubl(b) == fblse
      * </pre>
      * <p>
-     * This method only considers the position of the two date-times on the local time-line.
-     * It does not take into account the chronology, or calendar system.
-     * This is different from the comparison in {@link #compareTo(ChronoLocalDateTime)},
-     * but is the same approach as {@link ChronoLocalDateTime#timeLineOrder()}.
+     * This method only considers the position of the two dbte-times on the locbl time-line.
+     * It does not tbke into bccount the chronology, or cblendbr system.
+     * This is different from the compbrison in {@link #compbreTo(ChronoLocblDbteTime)},
+     * but is the sbme bpprobch bs {@link ChronoLocblDbteTime#timeLineOrder()}.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return true if this date-time is equal to the specified date-time
+     * @pbrbm other  the other dbte-time to compbre to, not null
+     * @return true if this dbte-time is equbl to the specified dbte-time
      */
-    @Override  // override for Javadoc and performance
-    public boolean isEqual(ChronoLocalDateTime<?> other) {
-        if (other instanceof LocalDateTime) {
-            return compareTo0((LocalDateTime) other) == 0;
+    @Override  // override for Jbvbdoc bnd performbnce
+    public boolebn isEqubl(ChronoLocblDbteTime<?> other) {
+        if (other instbnceof LocblDbteTime) {
+            return compbreTo0((LocblDbteTime) other) == 0;
         }
-        return ChronoLocalDateTime.super.isEqual(other);
+        return ChronoLocblDbteTime.super.isEqubl(other);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this date-time is equal to another date-time.
+     * Checks if this dbte-time is equbl to bnother dbte-time.
      * <p>
-     * Compares this {@code LocalDateTime} with another ensuring that the date-time is the same.
-     * Only objects of type {@code LocalDateTime} are compared, other types return false.
+     * Compbres this {@code LocblDbteTime} with bnother ensuring thbt the dbte-time is the sbme.
+     * Only objects of type {@code LocblDbteTime} bre compbred, other types return fblse.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date-time
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other dbte-time
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof LocalDateTime) {
-            LocalDateTime other = (LocalDateTime) obj;
-            return date.equals(other.date) && time.equals(other.time);
+        if (obj instbnceof LocblDbteTime) {
+            LocblDbteTime other = (LocblDbteTime) obj;
+            return dbte.equbls(other.dbte) && time.equbls(other.time);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this date-time.
+     * A hbsh code for this dbte-time.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    public int hashCode() {
-        return date.hashCode() ^ time.hashCode();
+    public int hbshCode() {
+        return dbte.hbshCode() ^ time.hbshCode();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this date-time as a {@code String}, such as {@code 2007-12-03T10:15:30}.
+     * Outputs this dbte-time bs b {@code String}, such bs {@code 2007-12-03T10:15:30}.
      * <p>
-     * The output will be one of the following ISO-8601 formats:
+     * The output will be one of the following ISO-8601 formbts:
      * <ul>
      * <li>{@code uuuu-MM-dd'T'HH:mm}</li>
      * <li>{@code uuuu-MM-dd'T'HH:mm:ss}</li>
@@ -1962,52 +1962,52 @@ public final class LocalDateTime
      * <li>{@code uuuu-MM-dd'T'HH:mm:ss.SSSSSS}</li>
      * <li>{@code uuuu-MM-dd'T'HH:mm:ss.SSSSSSSSS}</li>
      * </ul>
-     * The format used will be the shortest that outputs the full value of
-     * the time where the omitted parts are implied to be zero.
+     * The formbt used will be the shortest thbt outputs the full vblue of
+     * the time where the omitted pbrts bre implied to be zero.
      *
-     * @return a string representation of this date-time, not null
+     * @return b string representbtion of this dbte-time, not null
      */
     @Override
     public String toString() {
-        return date.toString() + 'T' + time.toString();
+        return dbte.toString() + 'T' + time.toString();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the object using b
+     * <b href="../../seriblized-form.html#jbvb.time.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(5);  // identifies a LocalDateTime
-     *  // the <a href="../../serialized-form.html#java.time.LocalDate">date</a> excluding the one byte header
-     *  // the <a href="../../serialized-form.html#java.time.LocalTime">time</a> excluding the one byte header
+     *  out.writeByte(5);  // identifies b LocblDbteTime
+     *  // the <b href="../../seriblized-form.html#jbvb.time.LocblDbte">dbte</b> excluding the one byte hebder
+     *  // the <b href="../../seriblized-form.html#jbvb.time.LocblTime">time</b> excluding the one byte hebder
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.LOCAL_DATE_TIME_TYPE, this);
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        date.writeExternal(out);
-        time.writeExternal(out);
+    void writeExternbl(DbtbOutput out) throws IOException {
+        dbte.writeExternbl(out);
+        time.writeExternbl(out);
     }
 
-    static LocalDateTime readExternal(DataInput in) throws IOException {
-        LocalDate date = LocalDate.readExternal(in);
-        LocalTime time = LocalTime.readExternal(in);
-        return LocalDateTime.of(date, time);
+    stbtic LocblDbteTime rebdExternbl(DbtbInput in) throws IOException {
+        LocblDbte dbte = LocblDbte.rebdExternbl(in);
+        LocblTime time = LocblTime.rebdExternbl(in);
+        return LocblDbteTime.of(dbte, time);
     }
 
 }

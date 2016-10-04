@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.net.SocketOption;
-import java.net.SocketAddress;
-import java.util.Set;
-import java.io.IOException;
+import jbvb.net.SocketOption;
+import jbvb.net.SocketAddress;
+import jbvb.util.Set;
+import jbvb.io.IOException;
 
 /**
- * A channel to a network socket.
+ * A chbnnel to b network socket.
  *
- * <p> A channel that implements this interface is a channel to a network
+ * <p> A chbnnel thbt implements this interfbce is b chbnnel to b network
  * socket. The {@link #bind(SocketAddress) bind} method is used to bind the
- * socket to a local {@link SocketAddress address}, the {@link #getLocalAddress()
- * getLocalAddress} method returns the address that the socket is bound to, and
- * the {@link #setOption(SocketOption,Object) setOption} and {@link
- * #getOption(SocketOption) getOption} methods are used to set and query socket
- * options.  An implementation of this interface should specify the socket options
- * that it supports.
+ * socket to b locbl {@link SocketAddress bddress}, the {@link #getLocblAddress()
+ * getLocblAddress} method returns the bddress thbt the socket is bound to, bnd
+ * the {@link #setOption(SocketOption,Object) setOption} bnd {@link
+ * #getOption(SocketOption) getOption} methods bre used to set bnd query socket
+ * options.  An implementbtion of this interfbce should specify the socket options
+ * thbt it supports.
  *
- * <p> The {@link #bind bind} and {@link #setOption setOption} methods that do
- * not otherwise have a value to return are specified to return the network
- * channel upon which they are invoked. This allows method invocations to be
- * chained. Implementations of this interface should specialize the return type
- * so that method invocations on the implementation class can be chained.
+ * <p> The {@link #bind bind} bnd {@link #setOption setOption} methods thbt do
+ * not otherwise hbve b vblue to return bre specified to return the network
+ * chbnnel upon which they bre invoked. This bllows method invocbtions to be
+ * chbined. Implementbtions of this interfbce should speciblize the return type
+ * so thbt method invocbtions on the implementbtion clbss cbn be chbined.
  *
  * @since 1.7
  */
 
-public interface NetworkChannel
-    extends Channel
+public interfbce NetworkChbnnel
+    extends Chbnnel
 {
     /**
-     * Binds the channel's socket to a local address.
+     * Binds the chbnnel's socket to b locbl bddress.
      *
-     * <p> This method is used to establish an association between the socket and
-     * a local address. Once an association is established then the socket remains
-     * bound until the channel is closed. If the {@code local} parameter has the
-     * value {@code null} then the socket will be bound to an address that is
-     * assigned automatically.
+     * <p> This method is used to estbblish bn bssocibtion between the socket bnd
+     * b locbl bddress. Once bn bssocibtion is estbblished then the socket rembins
+     * bound until the chbnnel is closed. If the {@code locbl} pbrbmeter hbs the
+     * vblue {@code null} then the socket will be bound to bn bddress thbt is
+     * bssigned butombticblly.
      *
-     * @param   local
-     *          The address to bind the socket, or {@code null} to bind the socket
-     *          to an automatically assigned socket address
+     * @pbrbm   locbl
+     *          The bddress to bind the socket, or {@code null} to bind the socket
+     *          to bn butombticblly bssigned socket bddress
      *
-     * @return  This channel
+     * @return  This chbnnel
      *
-     * @throws  AlreadyBoundException
-     *          If the socket is already bound
+     * @throws  AlrebdyBoundException
+     *          If the socket is blrebdy bound
      * @throws  UnsupportedAddressTypeException
-     *          If the type of the given address is not supported
-     * @throws  ClosedChannelException
-     *          If the channel is closed
+     *          If the type of the given bddress is not supported
+     * @throws  ClosedChbnnelException
+     *          If the chbnnel is closed
      * @throws  IOException
      *          If some other I/O error occurs
      * @throws  SecurityException
-     *          If a security manager is installed and it denies an unspecified
-     *          permission. An implementation of this interface should specify
-     *          any required permissions.
+     *          If b security mbnbger is instblled bnd it denies bn unspecified
+     *          permission. An implementbtion of this interfbce should specify
+     *          bny required permissions.
      *
-     * @see #getLocalAddress
+     * @see #getLocblAddress
      */
-    NetworkChannel bind(SocketAddress local) throws IOException;
+    NetworkChbnnel bind(SocketAddress locbl) throws IOException;
 
     /**
-     * Returns the socket address that this channel's socket is bound to.
+     * Returns the socket bddress thbt this chbnnel's socket is bound to.
      *
-     * <p> Where the channel is {@link #bind bound} to an Internet Protocol
-     * socket address then the return value from this method is of type {@link
-     * java.net.InetSocketAddress}.
+     * <p> Where the chbnnel is {@link #bind bound} to bn Internet Protocol
+     * socket bddress then the return vblue from this method is of type {@link
+     * jbvb.net.InetSocketAddress}.
      *
-     * @return  The socket address that the socket is bound to, or {@code null}
-     *          if the channel's socket is not bound
+     * @return  The socket bddress thbt the socket is bound to, or {@code null}
+     *          if the chbnnel's socket is not bound
      *
-     * @throws  ClosedChannelException
-     *          If the channel is closed
+     * @throws  ClosedChbnnelException
+     *          If the chbnnel is closed
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    SocketAddress getLocalAddress() throws IOException;
+    SocketAddress getLocblAddress() throws IOException;
 
     /**
-     * Sets the value of a socket option.
+     * Sets the vblue of b socket option.
      *
-     * @param   <T>
-     *          The type of the socket option value
-     * @param   name
+     * @pbrbm   <T>
+     *          The type of the socket option vblue
+     * @pbrbm   nbme
      *          The socket option
-     * @param   value
-     *          The value of the socket option. A value of {@code null} may be
-     *          a valid value for some socket options.
+     * @pbrbm   vblue
+     *          The vblue of the socket option. A vblue of {@code null} mby be
+     *          b vblid vblue for some socket options.
      *
-     * @return  This channel
+     * @return  This chbnnel
      *
-     * @throws  UnsupportedOperationException
-     *          If the socket option is not supported by this channel
-     * @throws  IllegalArgumentException
-     *          If the value is not a valid value for this socket option
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  UnsupportedOperbtionException
+     *          If the socket option is not supported by this chbnnel
+     * @throws  IllegblArgumentException
+     *          If the vblue is not b vblid vblue for this socket option
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
-     * @see java.net.StandardSocketOptions
+     * @see jbvb.net.StbndbrdSocketOptions
      */
-    <T> NetworkChannel setOption(SocketOption<T> name, T value) throws IOException;
+    <T> NetworkChbnnel setOption(SocketOption<T> nbme, T vblue) throws IOException;
 
     /**
-     * Returns the value of a socket option.
+     * Returns the vblue of b socket option.
      *
-     * @param   <T>
-     *          The type of the socket option value
-     * @param   name
+     * @pbrbm   <T>
+     *          The type of the socket option vblue
+     * @pbrbm   nbme
      *          The socket option
      *
-     * @return  The value of the socket option. A value of {@code null} may be
-     *          a valid value for some socket options.
+     * @return  The vblue of the socket option. A vblue of {@code null} mby be
+     *          b vblid vblue for some socket options.
      *
-     * @throws  UnsupportedOperationException
-     *          If the socket option is not supported by this channel
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  UnsupportedOperbtionException
+     *          If the socket option is not supported by this chbnnel
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
-     * @see java.net.StandardSocketOptions
+     * @see jbvb.net.StbndbrdSocketOptions
      */
-    <T> T getOption(SocketOption<T> name) throws IOException;
+    <T> T getOption(SocketOption<T> nbme) throws IOException;
 
     /**
-     * Returns a set of the socket options supported by this channel.
+     * Returns b set of the socket options supported by this chbnnel.
      *
-     * <p> This method will continue to return the set of options even after the
-     * channel has been closed.
+     * <p> This method will continue to return the set of options even bfter the
+     * chbnnel hbs been closed.
      *
-     * @return  A set of the socket options supported by this channel
+     * @return  A set of the socket options supported by this chbnnel
      */
     Set<SocketOption<?>> supportedOptions();
 }

@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import javax.swing.*;
-import javax.swing.plaf.ButtonUI;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ButtonUI;
+import jbvbx.swing.plbf.UIResource;
 
-import java.awt.*;
-import java.io.Serializable;
+import jbvb.bwt.*;
+import jbvb.io.Seriblizbble;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.*;
+import stbtic com.sun.jbvb.swing.plbf.windows.XPStyle.Skin;
 
-import sun.swing.MenuItemCheckIconFactory;
+import sun.swing.MenuItemCheckIconFbctory;
 
 /**
- * Factory object that can vend Icons appropriate for the Windows L & F.
+ * Fbctory object thbt cbn vend Icons bppropribte for the Windows L & F.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author David Kloba
- * @author Georges Saab
- * @author Rich Schiavi
+ * @buthor Dbvid Klobb
+ * @buthor Georges Sbbb
+ * @buthor Rich Schibvi
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class WindowsIconFactory implements Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss WindowsIconFbctory implements Seriblizbble
 {
-    private static Icon frame_closeIcon;
-    private static Icon frame_iconifyIcon;
-    private static Icon frame_maxIcon;
-    private static Icon frame_minIcon;
-    private static Icon frame_resizeIcon;
-    private static Icon checkBoxIcon;
-    private static Icon radioButtonIcon;
-    private static Icon checkBoxMenuItemIcon;
-    private static Icon radioButtonMenuItemIcon;
-    private static Icon menuItemCheckIcon;
-    private static Icon menuItemArrowIcon;
-    private static Icon menuArrowIcon;
-    private static VistaMenuItemCheckIconFactory menuItemCheckIconFactory;
+    privbte stbtic Icon frbme_closeIcon;
+    privbte stbtic Icon frbme_iconifyIcon;
+    privbte stbtic Icon frbme_mbxIcon;
+    privbte stbtic Icon frbme_minIcon;
+    privbte stbtic Icon frbme_resizeIcon;
+    privbte stbtic Icon checkBoxIcon;
+    privbte stbtic Icon rbdioButtonIcon;
+    privbte stbtic Icon checkBoxMenuItemIcon;
+    privbte stbtic Icon rbdioButtonMenuItemIcon;
+    privbte stbtic Icon menuItemCheckIcon;
+    privbte stbtic Icon menuItemArrowIcon;
+    privbte stbtic Icon menuArrowIcon;
+    privbte stbtic VistbMenuItemCheckIconFbctory menuItemCheckIconFbctory;
 
-    public static Icon getMenuItemCheckIcon() {
+    public stbtic Icon getMenuItemCheckIcon() {
         if (menuItemCheckIcon == null) {
             menuItemCheckIcon = new MenuItemCheckIcon();
         }
         return menuItemCheckIcon;
     }
 
-    public static Icon getMenuItemArrowIcon() {
+    public stbtic Icon getMenuItemArrowIcon() {
         if (menuItemArrowIcon == null) {
             menuItemArrowIcon = new MenuItemArrowIcon();
         }
         return menuItemArrowIcon;
     }
 
-    public static Icon getMenuArrowIcon() {
+    public stbtic Icon getMenuArrowIcon() {
         if (menuArrowIcon == null) {
             menuArrowIcon = new MenuArrowIcon();
         }
         return menuArrowIcon;
     }
 
-    public static Icon getCheckBoxIcon() {
+    public stbtic Icon getCheckBoxIcon() {
         if (checkBoxIcon == null) {
             checkBoxIcon = new CheckBoxIcon();
         }
         return checkBoxIcon;
     }
 
-    public static Icon getRadioButtonIcon() {
-        if (radioButtonIcon == null) {
-            radioButtonIcon = new RadioButtonIcon();
+    public stbtic Icon getRbdioButtonIcon() {
+        if (rbdioButtonIcon == null) {
+            rbdioButtonIcon = new RbdioButtonIcon();
         }
-        return radioButtonIcon;
+        return rbdioButtonIcon;
     }
 
-    public static Icon getCheckBoxMenuItemIcon() {
+    public stbtic Icon getCheckBoxMenuItemIcon() {
         if (checkBoxMenuItemIcon == null) {
             checkBoxMenuItemIcon = new CheckBoxMenuItemIcon();
         }
         return checkBoxMenuItemIcon;
     }
 
-    public static Icon getRadioButtonMenuItemIcon() {
-        if (radioButtonMenuItemIcon == null) {
-            radioButtonMenuItemIcon = new RadioButtonMenuItemIcon();
+    public stbtic Icon getRbdioButtonMenuItemIcon() {
+        if (rbdioButtonMenuItemIcon == null) {
+            rbdioButtonMenuItemIcon = new RbdioButtonMenuItemIcon();
         }
-        return radioButtonMenuItemIcon;
+        return rbdioButtonMenuItemIcon;
     }
 
-    static
-    synchronized VistaMenuItemCheckIconFactory getMenuItemCheckIconFactory() {
-        if (menuItemCheckIconFactory == null) {
-            menuItemCheckIconFactory =
-                new VistaMenuItemCheckIconFactory();
+    stbtic
+    synchronized VistbMenuItemCheckIconFbctory getMenuItemCheckIconFbctory() {
+        if (menuItemCheckIconFbctory == null) {
+            menuItemCheckIconFbctory =
+                new VistbMenuItemCheckIconFbctory();
         }
-        return menuItemCheckIconFactory;
+        return menuItemCheckIconFbctory;
     }
 
-    public static Icon createFrameCloseIcon() {
-        if (frame_closeIcon == null) {
-            frame_closeIcon = new FrameButtonIcon(Part.WP_CLOSEBUTTON);
+    public stbtic Icon crebteFrbmeCloseIcon() {
+        if (frbme_closeIcon == null) {
+            frbme_closeIcon = new FrbmeButtonIcon(Pbrt.WP_CLOSEBUTTON);
         }
-        return frame_closeIcon;
+        return frbme_closeIcon;
     }
 
-    public static Icon createFrameIconifyIcon() {
-        if (frame_iconifyIcon == null) {
-            frame_iconifyIcon = new FrameButtonIcon(Part.WP_MINBUTTON);
+    public stbtic Icon crebteFrbmeIconifyIcon() {
+        if (frbme_iconifyIcon == null) {
+            frbme_iconifyIcon = new FrbmeButtonIcon(Pbrt.WP_MINBUTTON);
         }
-        return frame_iconifyIcon;
+        return frbme_iconifyIcon;
     }
 
-    public static Icon createFrameMaximizeIcon() {
-        if (frame_maxIcon == null) {
-            frame_maxIcon = new FrameButtonIcon(Part.WP_MAXBUTTON);
+    public stbtic Icon crebteFrbmeMbximizeIcon() {
+        if (frbme_mbxIcon == null) {
+            frbme_mbxIcon = new FrbmeButtonIcon(Pbrt.WP_MAXBUTTON);
         }
-        return frame_maxIcon;
+        return frbme_mbxIcon;
     }
 
-    public static Icon createFrameMinimizeIcon() {
-        if (frame_minIcon == null) {
-            frame_minIcon = new FrameButtonIcon(Part.WP_RESTOREBUTTON);
+    public stbtic Icon crebteFrbmeMinimizeIcon() {
+        if (frbme_minIcon == null) {
+            frbme_minIcon = new FrbmeButtonIcon(Pbrt.WP_RESTOREBUTTON);
         }
-        return frame_minIcon;
+        return frbme_minIcon;
     }
 
-    public static Icon createFrameResizeIcon() {
-        if(frame_resizeIcon == null)
-            frame_resizeIcon = new ResizeIcon();
-        return frame_resizeIcon;
+    public stbtic Icon crebteFrbmeResizeIcon() {
+        if(frbme_resizeIcon == null)
+            frbme_resizeIcon = new ResizeIcon();
+        return frbme_resizeIcon;
     }
 
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class FrameButtonIcon implements Icon, Serializable {
-        private Part part;
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    privbte stbtic clbss FrbmeButtonIcon implements Icon, Seriblizbble {
+        privbte Pbrt pbrt;
 
-        private FrameButtonIcon(Part part) {
-            this.part = part;
+        privbte FrbmeButtonIcon(Pbrt pbrt) {
+            this.pbrt = pbrt;
         }
 
-        public void paintIcon(Component c, Graphics g, int x0, int y0) {
+        public void pbintIcon(Component c, Grbphics g, int x0, int y0) {
             int width = getIconWidth();
             int height = getIconHeight();
 
             XPStyle xp = XPStyle.getXP();
             if (xp != null) {
-                Skin skin = xp.getSkin(c, part);
-                AbstractButton b = (AbstractButton)c;
+                Skin skin = xp.getSkin(c, pbrt);
+                AbstrbctButton b = (AbstrbctButton)c;
                 ButtonModel model = b.getModel();
 
-                // Find out if frame is inactive
-                JInternalFrame jif = (JInternalFrame)SwingUtilities.
-                                        getAncestorOfClass(JInternalFrame.class, b);
-                boolean jifSelected = (jif != null && jif.isSelected());
+                // Find out if frbme is inbctive
+                JInternblFrbme jif = (JInternblFrbme)SwingUtilities.
+                                        getAncestorOfClbss(JInternblFrbme.clbss, b);
+                boolebn jifSelected = (jif != null && jif.isSelected());
 
-                State state;
+                Stbte stbte;
                 if (jifSelected) {
-                    if (!model.isEnabled()) {
-                        state = State.DISABLED;
+                    if (!model.isEnbbled()) {
+                        stbte = Stbte.DISABLED;
                     } else if (model.isArmed() && model.isPressed()) {
-                        state = State.PUSHED;
+                        stbte = Stbte.PUSHED;
                     } else if (model.isRollover()) {
-                        state = State.HOT;
+                        stbte = Stbte.HOT;
                     } else {
-                        state = State.NORMAL;
+                        stbte = Stbte.NORMAL;
                     }
                 } else {
-                    if (!model.isEnabled()) {
-                        state = State.INACTIVEDISABLED;
+                    if (!model.isEnbbled()) {
+                        stbte = Stbte.INACTIVEDISABLED;
                     } else if (model.isArmed() && model.isPressed()) {
-                        state = State.INACTIVEPUSHED;
+                        stbte = Stbte.INACTIVEPUSHED;
                     } else if (model.isRollover()) {
-                        state = State.INACTIVEHOT;
+                        stbte = Stbte.INACTIVEHOT;
                     } else {
-                        state = State.INACTIVENORMAL;
+                        stbte = Stbte.INACTIVENORMAL;
                     }
                 }
-                skin.paintSkin(g, 0, 0, width, height, state);
+                skin.pbintSkin(g, 0, 0, width, height, stbte);
             } else {
-                g.setColor(Color.black);
+                g.setColor(Color.blbck);
                 int x = width / 12 + 2;
                 int y = height / 5;
                 int h = height - y * 2 - 1;
                 int w = width * 3/4 -3;
-                int thickness2 = Math.max(height / 8, 2);
-                int thickness  = Math.max(width / 15, 1);
-                if (part == Part.WP_CLOSEBUTTON) {
+                int thickness2 = Mbth.mbx(height / 8, 2);
+                int thickness  = Mbth.mbx(width / 15, 1);
+                if (pbrt == Pbrt.WP_CLOSEBUTTON) {
                     int lineWidth;
                     if      (width > 47) lineWidth = 6;
                     else if (width > 37) lineWidth = 5;
@@ -226,37 +226,37 @@ public class WindowsIconFactory implements Serializable
                     y = height / 12 + 2;
                     if (lineWidth == 1) {
                         if (w % 2 == 1) { x++; w++; }
-                        g.drawLine(x,     y, x+w-2, y+w-2);
-                        g.drawLine(x+w-2, y, x,     y+w-2);
+                        g.drbwLine(x,     y, x+w-2, y+w-2);
+                        g.drbwLine(x+w-2, y, x,     y+w-2);
                     } else if (lineWidth == 2) {
                         if (w > 6) { x++; w--; }
-                        g.drawLine(x,     y, x+w-2, y+w-2);
-                        g.drawLine(x+w-2, y, x,     y+w-2);
-                        g.drawLine(x+1,   y, x+w-1, y+w-2);
-                        g.drawLine(x+w-1, y, x+1,   y+w-2);
+                        g.drbwLine(x,     y, x+w-2, y+w-2);
+                        g.drbwLine(x+w-2, y, x,     y+w-2);
+                        g.drbwLine(x+1,   y, x+w-1, y+w-2);
+                        g.drbwLine(x+w-1, y, x+1,   y+w-2);
                     } else {
                         x += 2; y++; w -= 2;
-                        g.drawLine(x,     y,   x+w-1, y+w-1);
-                        g.drawLine(x+w-1, y,   x,     y+w-1);
-                        g.drawLine(x+1,   y,   x+w-1, y+w-2);
-                        g.drawLine(x+w-2, y,   x,     y+w-2);
-                        g.drawLine(x,     y+1, x+w-2, y+w-1);
-                        g.drawLine(x+w-1, y+1, x+1,   y+w-1);
+                        g.drbwLine(x,     y,   x+w-1, y+w-1);
+                        g.drbwLine(x+w-1, y,   x,     y+w-1);
+                        g.drbwLine(x+1,   y,   x+w-1, y+w-2);
+                        g.drbwLine(x+w-2, y,   x,     y+w-2);
+                        g.drbwLine(x,     y+1, x+w-2, y+w-1);
+                        g.drbwLine(x+w-1, y+1, x+1,   y+w-1);
                         for (int i = 4; i <= lineWidth; i++) {
-                            g.drawLine(x+i-2,   y,     x+w-1,   y+w-i+1);
-                            g.drawLine(x,       y+i-2, x+w-i+1, y+w-1);
-                            g.drawLine(x+w-i+1, y,     x,       y+w-i+1);
-                            g.drawLine(x+w-1,   y+i-2, x+i-2,   y+w-1);
+                            g.drbwLine(x+i-2,   y,     x+w-1,   y+w-i+1);
+                            g.drbwLine(x,       y+i-2, x+w-i+1, y+w-1);
+                            g.drbwLine(x+w-i+1, y,     x,       y+w-i+1);
+                            g.drbwLine(x+w-1,   y+i-2, x+i-2,   y+w-1);
                         }
                     }
-                } else if (part == Part.WP_MINBUTTON) {
+                } else if (pbrt == Pbrt.WP_MINBUTTON) {
                     g.fillRect(x, y+h-thickness2, w-w/3, thickness2);
-                } else if (part == Part.WP_MAXBUTTON) {
+                } else if (pbrt == Pbrt.WP_MAXBUTTON) {
                     g.fillRect(x, y, w, thickness2);
                     g.fillRect(x, y, thickness, h);
                     g.fillRect(x+w-thickness, y, thickness, h);
                     g.fillRect(x, y+h-thickness, w, thickness);
-                } else if (part == Part.WP_RESTOREBUTTON) {
+                } else if (pbrt == Pbrt.WP_RESTOREBUTTON) {
                     g.fillRect(x+w/3, y, w-w/3, thickness2);
                     g.fillRect(x+w/3, y, thickness, h/3);
                     g.fillRect(x+w-thickness, y, thickness, h-h/3);
@@ -273,16 +273,16 @@ public class WindowsIconFactory implements Serializable
         public int getIconWidth() {
             int width;
             if (XPStyle.getXP() != null) {
-                // Fix for XP bug where sometimes these sizes aren't updated properly
-                // Assume for now that height is correct and derive width using the
-                // ratio from the uxtheme part
-                width = UIManager.getInt("InternalFrame.titleButtonHeight") -2;
-                Dimension d = XPStyle.getPartSize(Part.WP_CLOSEBUTTON, State.NORMAL);
+                // Fix for XP bug where sometimes these sizes bren't updbted properly
+                // Assume for now thbt height is correct bnd derive width using the
+                // rbtio from the uxtheme pbrt
+                width = UIMbnbger.getInt("InternblFrbme.titleButtonHeight") -2;
+                Dimension d = XPStyle.getPbrtSize(Pbrt.WP_CLOSEBUTTON, Stbte.NORMAL);
                 if (d != null && d.width != 0 && d.height != 0) {
-                    width = (int) ((float) width * d.width / d.height);
+                    width = (int) ((flobt) width * d.width / d.height);
                 }
             } else {
-                width = UIManager.getInt("InternalFrame.titleButtonWidth") -2;
+                width = UIMbnbger.getInt("InternblFrbme.titleButtonWidth") -2;
             }
             if (XPStyle.getXP() != null) {
                 width -= 2;
@@ -291,124 +291,124 @@ public class WindowsIconFactory implements Serializable
         }
 
         public int getIconHeight() {
-            int height = UIManager.getInt("InternalFrame.titleButtonHeight")-4;
+            int height = UIMbnbger.getInt("InternblFrbme.titleButtonHeight")-4;
             return height;
         }
     }
 
 
 
-        @SuppressWarnings("serial") // Same-version serialization only
-        private static class ResizeIcon implements Icon, Serializable {
-            public void paintIcon(Component c, Graphics g, int x, int y) {
-                g.setColor(UIManager.getColor("InternalFrame.resizeIconHighlight"));
-                g.drawLine(0, 11, 11, 0);
-                g.drawLine(4, 11, 11, 4);
-                g.drawLine(8, 11, 11, 8);
+        @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+        privbte stbtic clbss ResizeIcon implements Icon, Seriblizbble {
+            public void pbintIcon(Component c, Grbphics g, int x, int y) {
+                g.setColor(UIMbnbger.getColor("InternblFrbme.resizeIconHighlight"));
+                g.drbwLine(0, 11, 11, 0);
+                g.drbwLine(4, 11, 11, 4);
+                g.drbwLine(8, 11, 11, 8);
 
-                g.setColor(UIManager.getColor("InternalFrame.resizeIconShadow"));
-                g.drawLine(1, 11, 11, 1);
-                g.drawLine(2, 11, 11, 2);
-                g.drawLine(5, 11, 11, 5);
-                g.drawLine(6, 11, 11, 6);
-                g.drawLine(9, 11, 11, 9);
-                g.drawLine(10, 11, 11, 10);
+                g.setColor(UIMbnbger.getColor("InternblFrbme.resizeIconShbdow"));
+                g.drbwLine(1, 11, 11, 1);
+                g.drbwLine(2, 11, 11, 2);
+                g.drbwLine(5, 11, 11, 5);
+                g.drbwLine(6, 11, 11, 6);
+                g.drbwLine(9, 11, 11, 9);
+                g.drbwLine(10, 11, 11, 10);
             }
             public int getIconWidth() { return 13; }
             public int getIconHeight() { return 13; }
         };
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class CheckBoxIcon implements Icon, Serializable
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    privbte stbtic clbss CheckBoxIcon implements Icon, Seriblizbble
     {
-        final static int csize = 13;
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        finbl stbtic int csize = 13;
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
             JCheckBox cb = (JCheckBox) c;
             ButtonModel model = cb.getModel();
             XPStyle xp = XPStyle.getXP();
 
             if (xp != null) {
-                State state;
+                Stbte stbte;
                 if (model.isSelected()) {
-                    state = State.CHECKEDNORMAL;
-                    if (!model.isEnabled()) {
-                        state = State.CHECKEDDISABLED;
+                    stbte = Stbte.CHECKEDNORMAL;
+                    if (!model.isEnbbled()) {
+                        stbte = Stbte.CHECKEDDISABLED;
                     } else if (model.isPressed() && model.isArmed()) {
-                        state = State.CHECKEDPRESSED;
+                        stbte = Stbte.CHECKEDPRESSED;
                     } else if (model.isRollover()) {
-                        state = State.CHECKEDHOT;
+                        stbte = Stbte.CHECKEDHOT;
                     }
                 } else {
-                    state = State.UNCHECKEDNORMAL;
-                    if (!model.isEnabled()) {
-                        state = State.UNCHECKEDDISABLED;
+                    stbte = Stbte.UNCHECKEDNORMAL;
+                    if (!model.isEnbbled()) {
+                        stbte = Stbte.UNCHECKEDDISABLED;
                     } else if (model.isPressed() && model.isArmed()) {
-                        state = State.UNCHECKEDPRESSED;
+                        stbte = Stbte.UNCHECKEDPRESSED;
                     } else if (model.isRollover()) {
-                        state = State.UNCHECKEDHOT;
+                        stbte = Stbte.UNCHECKEDHOT;
                     }
                 }
-                Part part = Part.BP_CHECKBOX;
-                xp.getSkin(c, part).paintSkin(g, x, y, state);
+                Pbrt pbrt = Pbrt.BP_CHECKBOX;
+                xp.getSkin(c, pbrt).pbintSkin(g, x, y, stbte);
             } else {
                 // outer bevel
-                if(!cb.isBorderPaintedFlat()) {
+                if(!cb.isBorderPbintedFlbt()) {
                     // Outer top/left
-                    g.setColor(UIManager.getColor("CheckBox.shadow"));
-                    g.drawLine(x, y, x+11, y);
-                    g.drawLine(x, y+1, x, y+11);
+                    g.setColor(UIMbnbger.getColor("CheckBox.shbdow"));
+                    g.drbwLine(x, y, x+11, y);
+                    g.drbwLine(x, y+1, x, y+11);
 
                     // Outer bottom/right
-                    g.setColor(UIManager.getColor("CheckBox.highlight"));
-                    g.drawLine(x+12, y, x+12, y+12);
-                    g.drawLine(x, y+12, x+11, y+12);
+                    g.setColor(UIMbnbger.getColor("CheckBox.highlight"));
+                    g.drbwLine(x+12, y, x+12, y+12);
+                    g.drbwLine(x, y+12, x+11, y+12);
 
                     // Inner top.left
-                    g.setColor(UIManager.getColor("CheckBox.darkShadow"));
-                    g.drawLine(x+1, y+1, x+10, y+1);
-                    g.drawLine(x+1, y+2, x+1, y+10);
+                    g.setColor(UIMbnbger.getColor("CheckBox.dbrkShbdow"));
+                    g.drbwLine(x+1, y+1, x+10, y+1);
+                    g.drbwLine(x+1, y+2, x+1, y+10);
 
                     // Inner bottom/right
-                    g.setColor(UIManager.getColor("CheckBox.light"));
-                    g.drawLine(x+1, y+11, x+11, y+11);
-                    g.drawLine(x+11, y+1, x+11, y+10);
+                    g.setColor(UIMbnbger.getColor("CheckBox.light"));
+                    g.drbwLine(x+1, y+11, x+11, y+11);
+                    g.drbwLine(x+11, y+1, x+11, y+10);
 
                     // inside box
-                    if((model.isPressed() && model.isArmed()) || !model.isEnabled()) {
-                        g.setColor(UIManager.getColor("CheckBox.background"));
+                    if((model.isPressed() && model.isArmed()) || !model.isEnbbled()) {
+                        g.setColor(UIMbnbger.getColor("CheckBox.bbckground"));
                     } else {
-                        g.setColor(UIManager.getColor("CheckBox.interiorBackground"));
+                        g.setColor(UIMbnbger.getColor("CheckBox.interiorBbckground"));
                     }
                     g.fillRect(x+2, y+2, csize-4, csize-4);
                 } else {
-                    g.setColor(UIManager.getColor("CheckBox.shadow"));
-                    g.drawRect(x+1, y+1, csize-3, csize-3);
+                    g.setColor(UIMbnbger.getColor("CheckBox.shbdow"));
+                    g.drbwRect(x+1, y+1, csize-3, csize-3);
 
-                    if((model.isPressed() && model.isArmed()) || !model.isEnabled()) {
-                        g.setColor(UIManager.getColor("CheckBox.background"));
+                    if((model.isPressed() && model.isArmed()) || !model.isEnbbled()) {
+                        g.setColor(UIMbnbger.getColor("CheckBox.bbckground"));
                     } else {
-                        g.setColor(UIManager.getColor("CheckBox.interiorBackground"));
+                        g.setColor(UIMbnbger.getColor("CheckBox.interiorBbckground"));
                     }
                     g.fillRect(x+2, y+2, csize-4, csize-4);
                 }
 
-                if(model.isEnabled()) {
-                    g.setColor(UIManager.getColor("CheckBox.foreground"));
+                if(model.isEnbbled()) {
+                    g.setColor(UIMbnbger.getColor("CheckBox.foreground"));
                 } else {
-                    g.setColor(UIManager.getColor("CheckBox.shadow"));
+                    g.setColor(UIMbnbger.getColor("CheckBox.shbdow"));
                 }
 
-                // paint check
+                // pbint check
                 if (model.isSelected()) {
-                    g.drawLine(x+9, y+3, x+9, y+3);
-                    g.drawLine(x+8, y+4, x+9, y+4);
-                    g.drawLine(x+7, y+5, x+9, y+5);
-                    g.drawLine(x+6, y+6, x+8, y+6);
-                    g.drawLine(x+3, y+7, x+7, y+7);
-                    g.drawLine(x+4, y+8, x+6, y+8);
-                    g.drawLine(x+5, y+9, x+5, y+9);
-                    g.drawLine(x+3, y+5, x+3, y+5);
-                    g.drawLine(x+3, y+6, x+4, y+6);
+                    g.drbwLine(x+9, y+3, x+9, y+3);
+                    g.drbwLine(x+8, y+4, x+9, y+4);
+                    g.drbwLine(x+7, y+5, x+9, y+5);
+                    g.drbwLine(x+6, y+6, x+8, y+6);
+                    g.drbwLine(x+3, y+7, x+7, y+7);
+                    g.drbwLine(x+4, y+8, x+6, y+8);
+                    g.drbwLine(x+5, y+9, x+5, y+9);
+                    g.drbwLine(x+3, y+5, x+3, y+5);
+                    g.drbwLine(x+3, y+6, x+4, y+6);
                 }
             }
         }
@@ -416,7 +416,7 @@ public class WindowsIconFactory implements Serializable
         public int getIconWidth() {
             XPStyle xp = XPStyle.getXP();
             if (xp != null) {
-                return xp.getSkin(null, Part.BP_CHECKBOX).getWidth();
+                return xp.getSkin(null, Pbrt.BP_CHECKBOX).getWidth();
             } else {
                 return csize;
             }
@@ -425,101 +425,101 @@ public class WindowsIconFactory implements Serializable
         public int getIconHeight() {
             XPStyle xp = XPStyle.getXP();
             if (xp != null) {
-                return xp.getSkin(null, Part.BP_CHECKBOX).getHeight();
+                return xp.getSkin(null, Pbrt.BP_CHECKBOX).getHeight();
             } else {
                 return csize;
             }
         }
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class RadioButtonIcon implements Icon, UIResource, Serializable
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    privbte stbtic clbss RbdioButtonIcon implements Icon, UIResource, Seriblizbble
     {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            AbstractButton b = (AbstractButton) c;
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
+            AbstrbctButton b = (AbstrbctButton) c;
             ButtonModel model = b.getModel();
             XPStyle xp = XPStyle.getXP();
 
             if (xp != null) {
-                Part part = Part.BP_RADIOBUTTON;
-                Skin skin = xp.getSkin(b, part);
-                State state;
+                Pbrt pbrt = Pbrt.BP_RADIOBUTTON;
+                Skin skin = xp.getSkin(b, pbrt);
+                Stbte stbte;
                 int index = 0;
                 if (model.isSelected()) {
-                    state = State.CHECKEDNORMAL;
-                    if (!model.isEnabled()) {
-                        state = State.CHECKEDDISABLED;
+                    stbte = Stbte.CHECKEDNORMAL;
+                    if (!model.isEnbbled()) {
+                        stbte = Stbte.CHECKEDDISABLED;
                     } else if (model.isPressed() && model.isArmed()) {
-                        state = State.CHECKEDPRESSED;
+                        stbte = Stbte.CHECKEDPRESSED;
                     } else if (model.isRollover()) {
-                        state = State.CHECKEDHOT;
+                        stbte = Stbte.CHECKEDHOT;
                     }
                 } else {
-                    state = State.UNCHECKEDNORMAL;
-                    if (!model.isEnabled()) {
-                        state = State.UNCHECKEDDISABLED;
+                    stbte = Stbte.UNCHECKEDNORMAL;
+                    if (!model.isEnbbled()) {
+                        stbte = Stbte.UNCHECKEDDISABLED;
                     } else if (model.isPressed() && model.isArmed()) {
-                        state = State.UNCHECKEDPRESSED;
+                        stbte = Stbte.UNCHECKEDPRESSED;
                     } else if (model.isRollover()) {
-                        state = State.UNCHECKEDHOT;
+                        stbte = Stbte.UNCHECKEDHOT;
                     }
                 }
-                skin.paintSkin(g, x, y, state);
+                skin.pbintSkin(g, x, y, stbte);
             } else {
                 // fill interior
-                if((model.isPressed() && model.isArmed()) || !model.isEnabled()) {
-                    g.setColor(UIManager.getColor("RadioButton.background"));
+                if((model.isPressed() && model.isArmed()) || !model.isEnbbled()) {
+                    g.setColor(UIMbnbger.getColor("RbdioButton.bbckground"));
                 } else {
-                    g.setColor(UIManager.getColor("RadioButton.interiorBackground"));
+                    g.setColor(UIMbnbger.getColor("RbdioButton.interiorBbckground"));
                 }
                 g.fillRect(x+2, y+2, 8, 8);
 
 
-                    // outter left arc
-                g.setColor(UIManager.getColor("RadioButton.shadow"));
-                g.drawLine(x+4, y+0, x+7, y+0);
-                g.drawLine(x+2, y+1, x+3, y+1);
-                g.drawLine(x+8, y+1, x+9, y+1);
-                g.drawLine(x+1, y+2, x+1, y+3);
-                g.drawLine(x+0, y+4, x+0, y+7);
-                g.drawLine(x+1, y+8, x+1, y+9);
+                    // outter left brc
+                g.setColor(UIMbnbger.getColor("RbdioButton.shbdow"));
+                g.drbwLine(x+4, y+0, x+7, y+0);
+                g.drbwLine(x+2, y+1, x+3, y+1);
+                g.drbwLine(x+8, y+1, x+9, y+1);
+                g.drbwLine(x+1, y+2, x+1, y+3);
+                g.drbwLine(x+0, y+4, x+0, y+7);
+                g.drbwLine(x+1, y+8, x+1, y+9);
 
-                // outter right arc
-                g.setColor(UIManager.getColor("RadioButton.highlight"));
-                g.drawLine(x+2, y+10, x+3, y+10);
-                g.drawLine(x+4, y+11, x+7, y+11);
-                g.drawLine(x+8, y+10, x+9, y+10);
-                g.drawLine(x+10, y+9, x+10, y+8);
-                g.drawLine(x+11, y+7, x+11, y+4);
-                g.drawLine(x+10, y+3, x+10, y+2);
-
-
-                // inner left arc
-                g.setColor(UIManager.getColor("RadioButton.darkShadow"));
-                g.drawLine(x+4, y+1, x+7, y+1);
-                g.drawLine(x+2, y+2, x+3, y+2);
-                g.drawLine(x+8, y+2, x+9, y+2);
-                g.drawLine(x+2, y+3, x+2, y+3);
-                g.drawLine(x+1, y+4, x+1, y+7);
-                g.drawLine(x+2, y+8, x+2, y+8);
+                // outter right brc
+                g.setColor(UIMbnbger.getColor("RbdioButton.highlight"));
+                g.drbwLine(x+2, y+10, x+3, y+10);
+                g.drbwLine(x+4, y+11, x+7, y+11);
+                g.drbwLine(x+8, y+10, x+9, y+10);
+                g.drbwLine(x+10, y+9, x+10, y+8);
+                g.drbwLine(x+11, y+7, x+11, y+4);
+                g.drbwLine(x+10, y+3, x+10, y+2);
 
 
-                // inner right arc
-                g.setColor(UIManager.getColor("RadioButton.light"));
-                g.drawLine(x+2,  y+9,  x+3,  y+9);
-                g.drawLine(x+4,  y+10, x+7,  y+10);
-                g.drawLine(x+8,  y+9,  x+9,  y+9);
-                g.drawLine(x+9,  y+8,  x+9,  y+8);
-                g.drawLine(x+10, y+7,  x+10, y+4);
-                g.drawLine(x+9,  y+3,  x+9,  y+3);
+                // inner left brc
+                g.setColor(UIMbnbger.getColor("RbdioButton.dbrkShbdow"));
+                g.drbwLine(x+4, y+1, x+7, y+1);
+                g.drbwLine(x+2, y+2, x+3, y+2);
+                g.drbwLine(x+8, y+2, x+9, y+2);
+                g.drbwLine(x+2, y+3, x+2, y+3);
+                g.drbwLine(x+1, y+4, x+1, y+7);
+                g.drbwLine(x+2, y+8, x+2, y+8);
 
 
-                 // indicate whether selected or not
+                // inner right brc
+                g.setColor(UIMbnbger.getColor("RbdioButton.light"));
+                g.drbwLine(x+2,  y+9,  x+3,  y+9);
+                g.drbwLine(x+4,  y+10, x+7,  y+10);
+                g.drbwLine(x+8,  y+9,  x+9,  y+9);
+                g.drbwLine(x+9,  y+8,  x+9,  y+8);
+                g.drbwLine(x+10, y+7,  x+10, y+4);
+                g.drbwLine(x+9,  y+3,  x+9,  y+3);
+
+
+                 // indicbte whether selected or not
                 if (model.isSelected()) {
-                    if (model.isEnabled()) {
-                        g.setColor(UIManager.getColor("RadioButton.foreground"));
+                    if (model.isEnbbled()) {
+                        g.setColor(UIMbnbger.getColor("RbdioButton.foreground"));
                     } else {
-                        g.setColor(UIManager.getColor("RadioButton.shadow"));
+                        g.setColor(UIMbnbger.getColor("RbdioButton.shbdow"));
                     }
                     g.fillRect(x+4, y+5, 4, 2);
                     g.fillRect(x+5, y+4, 2, 4);
@@ -530,7 +530,7 @@ public class WindowsIconFactory implements Serializable
         public int getIconWidth() {
             XPStyle xp = XPStyle.getXP();
             if (xp != null) {
-                return xp.getSkin(null, Part.BP_RADIOBUTTON).getWidth();
+                return xp.getSkin(null, Pbrt.BP_RADIOBUTTON).getWidth();
             } else {
                 return 13;
             }
@@ -539,45 +539,45 @@ public class WindowsIconFactory implements Serializable
         public int getIconHeight() {
             XPStyle xp = XPStyle.getXP();
             if (xp != null) {
-                return xp.getSkin(null, Part.BP_RADIOBUTTON).getHeight();
+                return xp.getSkin(null, Pbrt.BP_RADIOBUTTON).getHeight();
             } else {
                 return 13;
             }
         }
-    } // end class RadioButtonIcon
+    } // end clbss RbdioButtonIcon
 
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class CheckBoxMenuItemIcon implements Icon, UIResource, Serializable
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    privbte stbtic clbss CheckBoxMenuItemIcon implements Icon, UIResource, Seriblizbble
     {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            AbstractButton b = (AbstractButton) c;
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
+            AbstrbctButton b = (AbstrbctButton) c;
             ButtonModel model = b.getModel();
-            boolean isSelected = model.isSelected();
+            boolebn isSelected = model.isSelected();
             if (isSelected) {
                 y = y - getIconHeight() / 2;
-                g.drawLine(x+9, y+3, x+9, y+3);
-                g.drawLine(x+8, y+4, x+9, y+4);
-                g.drawLine(x+7, y+5, x+9, y+5);
-                g.drawLine(x+6, y+6, x+8, y+6);
-                g.drawLine(x+3, y+7, x+7, y+7);
-                g.drawLine(x+4, y+8, x+6, y+8);
-                g.drawLine(x+5, y+9, x+5, y+9);
-                g.drawLine(x+3, y+5, x+3, y+5);
-                g.drawLine(x+3, y+6, x+4, y+6);
+                g.drbwLine(x+9, y+3, x+9, y+3);
+                g.drbwLine(x+8, y+4, x+9, y+4);
+                g.drbwLine(x+7, y+5, x+9, y+5);
+                g.drbwLine(x+6, y+6, x+8, y+6);
+                g.drbwLine(x+3, y+7, x+7, y+7);
+                g.drbwLine(x+4, y+8, x+6, y+8);
+                g.drbwLine(x+5, y+9, x+5, y+9);
+                g.drbwLine(x+3, y+5, x+3, y+5);
+                g.drbwLine(x+3, y+6, x+4, y+6);
             }
         }
         public int getIconWidth() { return 9; }
         public int getIconHeight() { return 9; }
 
-    } // End class CheckBoxMenuItemIcon
+    } // End clbss CheckBoxMenuItemIcon
 
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class RadioButtonMenuItemIcon implements Icon, UIResource, Serializable
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    privbte stbtic clbss RbdioButtonMenuItemIcon implements Icon, UIResource, Seriblizbble
     {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            AbstractButton b = (AbstractButton) c;
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
+            AbstrbctButton b = (AbstrbctButton) c;
             ButtonModel model = b.getModel();
             if (b.isSelected() == true) {
                g.fillRoundRect(x+3,y+3, getIconWidth()-6, getIconHeight()-6,
@@ -587,15 +587,15 @@ public class WindowsIconFactory implements Serializable
         public int getIconWidth() { return 12; }
         public int getIconHeight() { return 12; }
 
-    } // End class RadioButtonMenuItemIcon
+    } // End clbss RbdioButtonMenuItemIcon
 
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class MenuItemCheckIcon implements Icon, UIResource, Serializable{
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    privbte stbtic clbss MenuItemCheckIcon implements Icon, UIResource, Seriblizbble{
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
             /* For debugging:
                Color oldColor = g.getColor();
-            g.setColor(Color.orange);
+            g.setColor(Color.orbnge);
             g.fill3DRect(x,y,getIconWidth(), getIconHeight(), true);
             g.setColor(oldColor);
             */
@@ -603,11 +603,11 @@ public class WindowsIconFactory implements Serializable
         public int getIconWidth() { return 9; }
         public int getIconHeight() { return 9; }
 
-    } // End class MenuItemCheckIcon
+    } // End clbss MenuItemCheckIcon
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class MenuItemArrowIcon implements Icon, UIResource, Serializable {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    privbte stbtic clbss MenuItemArrowIcon implements Icon, UIResource, Seriblizbble {
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
             /* For debugging:
             Color oldColor = g.getColor();
             g.setColor(Color.green);
@@ -618,48 +618,48 @@ public class WindowsIconFactory implements Serializable
         public int getIconWidth() { return 4; }
         public int getIconHeight() { return 8; }
 
-    } // End class MenuItemArrowIcon
+    } // End clbss MenuItemArrowIcon
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class MenuArrowIcon implements Icon, UIResource, Serializable {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    privbte stbtic clbss MenuArrowIcon implements Icon, UIResource, Seriblizbble {
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
             XPStyle xp = XPStyle.getXP();
-            if (WindowsMenuItemUI.isVistaPainting(xp)) {
-                State state = State.NORMAL;
-                if (c instanceof JMenuItem) {
-                    state = ((JMenuItem) c).getModel().isEnabled()
-                    ? State.NORMAL : State.DISABLED;
+            if (WindowsMenuItemUI.isVistbPbinting(xp)) {
+                Stbte stbte = Stbte.NORMAL;
+                if (c instbnceof JMenuItem) {
+                    stbte = ((JMenuItem) c).getModel().isEnbbled()
+                    ? Stbte.NORMAL : Stbte.DISABLED;
                 }
-                Skin skin = xp.getSkin(c, Part.MP_POPUPSUBMENU);
-                if (WindowsGraphicsUtils.isLeftToRight(c)) {
-                    skin.paintSkin(g, x, y, state);
+                Skin skin = xp.getSkin(c, Pbrt.MP_POPUPSUBMENU);
+                if (WindowsGrbphicsUtils.isLeftToRight(c)) {
+                    skin.pbintSkin(g, x, y, stbte);
                 } else {
-                    Graphics2D g2d = (Graphics2D)g.create();
-                    g2d.translate(x + skin.getWidth(), y);
-                    g2d.scale(-1, 1);
-                    skin.paintSkin(g2d, 0, 0, state);
+                    Grbphics2D g2d = (Grbphics2D)g.crebte();
+                    g2d.trbnslbte(x + skin.getWidth(), y);
+                    g2d.scble(-1, 1);
+                    skin.pbintSkin(g2d, 0, 0, stbte);
                     g2d.dispose();
                 }
             } else {
-                g.translate(x,y);
-                if( WindowsGraphicsUtils.isLeftToRight(c) ) {
-                    g.drawLine( 0, 0, 0, 7 );
-                    g.drawLine( 1, 1, 1, 6 );
-                    g.drawLine( 2, 2, 2, 5 );
-                    g.drawLine( 3, 3, 3, 4 );
+                g.trbnslbte(x,y);
+                if( WindowsGrbphicsUtils.isLeftToRight(c) ) {
+                    g.drbwLine( 0, 0, 0, 7 );
+                    g.drbwLine( 1, 1, 1, 6 );
+                    g.drbwLine( 2, 2, 2, 5 );
+                    g.drbwLine( 3, 3, 3, 4 );
                 } else {
-                    g.drawLine( 4, 0, 4, 7 );
-                    g.drawLine( 3, 1, 3, 6 );
-                    g.drawLine( 2, 2, 2, 5 );
-                    g.drawLine( 1, 3, 1, 4 );
+                    g.drbwLine( 4, 0, 4, 7 );
+                    g.drbwLine( 3, 1, 3, 6 );
+                    g.drbwLine( 2, 2, 2, 5 );
+                    g.drbwLine( 1, 3, 1, 4 );
                 }
-                g.translate(-x,-y);
+                g.trbnslbte(-x,-y);
             }
         }
         public int getIconWidth() {
             XPStyle xp = XPStyle.getXP();
-            if (WindowsMenuItemUI.isVistaPainting(xp)) {
-                Skin skin = xp.getSkin(null, Part.MP_POPUPSUBMENU);
+            if (WindowsMenuItemUI.isVistbPbinting(xp)) {
+                Skin skin = xp.getSkin(null, Pbrt.MP_POPUPSUBMENU);
                 return skin.getWidth();
             } else {
                 return 4;
@@ -667,94 +667,94 @@ public class WindowsIconFactory implements Serializable
         }
         public int getIconHeight() {
             XPStyle xp = XPStyle.getXP();
-            if (WindowsMenuItemUI.isVistaPainting(xp)) {
-                Skin skin = xp.getSkin(null, Part.MP_POPUPSUBMENU);
+            if (WindowsMenuItemUI.isVistbPbinting(xp)) {
+                Skin skin = xp.getSkin(null, Pbrt.MP_POPUPSUBMENU);
                 return skin.getHeight();
             } else {
                 return 8;
             }
         }
-    } // End class MenuArrowIcon
+    } // End clbss MenuArrowIcon
 
-    static class VistaMenuItemCheckIconFactory
-           implements MenuItemCheckIconFactory {
-        private static final int OFFSET = 3;
+    stbtic clbss VistbMenuItemCheckIconFbctory
+           implements MenuItemCheckIconFbctory {
+        privbte stbtic finbl int OFFSET = 3;
 
         public Icon getIcon(JMenuItem component) {
-            return new VistaMenuItemCheckIcon(component);
+            return new VistbMenuItemCheckIcon(component);
         }
 
-        public boolean isCompatible(Object icon, String prefix) {
-            return icon instanceof VistaMenuItemCheckIcon
-              && ((VistaMenuItemCheckIcon) icon).type == getType(prefix);
+        public boolebn isCompbtible(Object icon, String prefix) {
+            return icon instbnceof VistbMenuItemCheckIcon
+              && ((VistbMenuItemCheckIcon) icon).type == getType(prefix);
         }
 
         public Icon getIcon(String type) {
-            return new VistaMenuItemCheckIcon(type);
+            return new VistbMenuItemCheckIcon(type);
         }
 
-        static int getIconWidth() {
+        stbtic int getIconWidth() {
             XPStyle xp = XPStyle.getXP();
-            return ((xp != null) ? xp.getSkin(null, Part.MP_POPUPCHECK).getWidth() : 16)
+            return ((xp != null) ? xp.getSkin(null, Pbrt.MP_POPUPCHECK).getWidth() : 16)
                 + 2 * OFFSET;
         }
 
-        private static Class<? extends JMenuItem> getType(Component c) {
-            Class<? extends JMenuItem> rv = null;
-            if (c instanceof JCheckBoxMenuItem) {
-                rv = JCheckBoxMenuItem.class;
-            } else if (c instanceof JRadioButtonMenuItem) {
-                rv = JRadioButtonMenuItem.class;
-            } else if (c instanceof JMenu) {
-                rv = JMenu.class;
-            } else if (c instanceof JMenuItem) {
-                rv = JMenuItem.class;
+        privbte stbtic Clbss<? extends JMenuItem> getType(Component c) {
+            Clbss<? extends JMenuItem> rv = null;
+            if (c instbnceof JCheckBoxMenuItem) {
+                rv = JCheckBoxMenuItem.clbss;
+            } else if (c instbnceof JRbdioButtonMenuItem) {
+                rv = JRbdioButtonMenuItem.clbss;
+            } else if (c instbnceof JMenu) {
+                rv = JMenu.clbss;
+            } else if (c instbnceof JMenuItem) {
+                rv = JMenuItem.clbss;
             }
             return rv;
         }
 
-        private static Class<? extends JMenuItem> getType(String type) {
-            Class<? extends JMenuItem> rv = null;
+        privbte stbtic Clbss<? extends JMenuItem> getType(String type) {
+            Clbss<? extends JMenuItem> rv = null;
             if (type == "CheckBoxMenuItem") {
-                rv = JCheckBoxMenuItem.class;
-            } else if (type == "RadioButtonMenuItem") {
-                rv = JRadioButtonMenuItem.class;
+                rv = JCheckBoxMenuItem.clbss;
+            } else if (type == "RbdioButtonMenuItem") {
+                rv = JRbdioButtonMenuItem.clbss;
             } else if (type == "Menu") {
-                rv = JMenu.class;
+                rv = JMenu.clbss;
             } else if (type == "MenuItem") {
-                rv = JMenuItem.class;
+                rv = JMenuItem.clbss;
             } else {
-                // this should never happen
-                rv = JMenuItem.class;
+                // this should never hbppen
+                rv = JMenuItem.clbss;
             }
             return rv;
         }
 
         /**
-         * CheckIcon for JMenuItem, JMenu, JCheckBoxMenuItem and
-         * JRadioButtonMenuItem.
-         * Note: to be used on Vista only.
+         * CheckIcon for JMenuItem, JMenu, JCheckBoxMenuItem bnd
+         * JRbdioButtonMenuItem.
+         * Note: to be used on Vistb only.
          */
-        @SuppressWarnings("serial") // Same-version serialization only
-        private static class VistaMenuItemCheckIcon
-              implements Icon, UIResource, Serializable {
+        @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+        privbte stbtic clbss VistbMenuItemCheckIcon
+              implements Icon, UIResource, Seriblizbble {
 
-            private final JMenuItem menuItem;
-            private final Class<? extends JMenuItem> type;
+            privbte finbl JMenuItem menuItem;
+            privbte finbl Clbss<? extends JMenuItem> type;
 
-            VistaMenuItemCheckIcon(JMenuItem menuItem) {
+            VistbMenuItemCheckIcon(JMenuItem menuItem) {
                 this.type = getType(menuItem);
                 this.menuItem = menuItem;
             }
-            VistaMenuItemCheckIcon(String type) {
+            VistbMenuItemCheckIcon(String type) {
                 this.type = getType(type);
                 this.menuItem = null;
             }
 
             public int getIconHeight() {
-                Icon lafIcon = getLaFIcon();
-                if (lafIcon != null) {
-                    return lafIcon.getIconHeight();
+                Icon lbfIcon = getLbFIcon();
+                if (lbfIcon != null) {
+                    return lbfIcon.getIconHeight();
                 }
                 Icon icon = getIcon();
                 int height = 0;
@@ -763,7 +763,7 @@ public class WindowsIconFactory implements Serializable
                 } else {
                     XPStyle xp = XPStyle.getXP();
                     if (xp != null) {
-                        Skin skin = xp.getSkin(null, Part.MP_POPUPCHECK);
+                        Skin skin = xp.getSkin(null, Pbrt.MP_POPUPCHECK);
                         height = skin.getHeight();
                     } else {
                         height = 16;
@@ -774,151 +774,151 @@ public class WindowsIconFactory implements Serializable
             }
 
             public int getIconWidth() {
-                Icon lafIcon = getLaFIcon();
-                if (lafIcon != null) {
-                    return lafIcon.getIconWidth();
+                Icon lbfIcon = getLbFIcon();
+                if (lbfIcon != null) {
+                    return lbfIcon.getIconWidth();
                 }
                 Icon icon = getIcon();
                 int width = 0;
                 if (icon != null) {
                     width = icon.getIconWidth() + 2 * OFFSET;
                 } else {
-                    width = VistaMenuItemCheckIconFactory.getIconWidth();
+                    width = VistbMenuItemCheckIconFbctory.getIconWidth();
                 }
                 return width;
             }
 
-            public void paintIcon(Component c, Graphics g, int x, int y) {
-                Icon lafIcon = getLaFIcon();
-                if (lafIcon != null) {
-                    lafIcon.paintIcon(c, g, x, y);
+            public void pbintIcon(Component c, Grbphics g, int x, int y) {
+                Icon lbfIcon = getLbFIcon();
+                if (lbfIcon != null) {
+                    lbfIcon.pbintIcon(c, g, x, y);
                     return;
                 }
-                assert menuItem == null || c == menuItem;
+                bssert menuItem == null || c == menuItem;
                 Icon icon = getIcon();
-                if (type == JCheckBoxMenuItem.class
-                      || type == JRadioButtonMenuItem.class) {
-                    AbstractButton b = (AbstractButton) c;
+                if (type == JCheckBoxMenuItem.clbss
+                      || type == JRbdioButtonMenuItem.clbss) {
+                    AbstrbctButton b = (AbstrbctButton) c;
                     if (b.isSelected()) {
-                        Part backgroundPart = Part.MP_POPUPCHECKBACKGROUND;
-                        Part part = Part.MP_POPUPCHECK;
-                        State backgroundState;
-                        State state;
-                        if (isEnabled(c, null)) {
-                            backgroundState =
-                                (icon != null) ? State.BITMAP : State.NORMAL;
-                            state = (type == JRadioButtonMenuItem.class)
-                              ? State.BULLETNORMAL
-                              : State.CHECKMARKNORMAL;
+                        Pbrt bbckgroundPbrt = Pbrt.MP_POPUPCHECKBACKGROUND;
+                        Pbrt pbrt = Pbrt.MP_POPUPCHECK;
+                        Stbte bbckgroundStbte;
+                        Stbte stbte;
+                        if (isEnbbled(c, null)) {
+                            bbckgroundStbte =
+                                (icon != null) ? Stbte.BITMAP : Stbte.NORMAL;
+                            stbte = (type == JRbdioButtonMenuItem.clbss)
+                              ? Stbte.BULLETNORMAL
+                              : Stbte.CHECKMARKNORMAL;
                         } else {
-                            backgroundState = State.DISABLEDPUSHED;
-                            state =
-                                (type == JRadioButtonMenuItem.class)
-                                  ? State.BULLETDISABLED
-                                  : State.CHECKMARKDISABLED;
+                            bbckgroundStbte = Stbte.DISABLEDPUSHED;
+                            stbte =
+                                (type == JRbdioButtonMenuItem.clbss)
+                                  ? Stbte.BULLETDISABLED
+                                  : Stbte.CHECKMARKDISABLED;
                         }
                         XPStyle xp = XPStyle.getXP();
                         if (xp != null) {
                             Skin skin;
-                            skin =  xp.getSkin(c, backgroundPart);
-                            skin.paintSkin(g, x, y,
-                                getIconWidth(), getIconHeight(), backgroundState);
+                            skin =  xp.getSkin(c, bbckgroundPbrt);
+                            skin.pbintSkin(g, x, y,
+                                getIconWidth(), getIconHeight(), bbckgroundStbte);
                             if (icon == null) {
-                                skin = xp.getSkin(c, part);
-                                skin.paintSkin(g, x + OFFSET, y + OFFSET, state);
+                                skin = xp.getSkin(c, pbrt);
+                                skin.pbintSkin(g, x + OFFSET, y + OFFSET, stbte);
                             }
                         }
                     }
                 }
                 if (icon != null) {
-                    icon.paintIcon(c, g, x + OFFSET, y + OFFSET);
+                    icon.pbintIcon(c, g, x + OFFSET, y + OFFSET);
                 }
             }
-            private static WindowsMenuItemUIAccessor getAccessor(
+            privbte stbtic WindowsMenuItemUIAccessor getAccessor(
                     JMenuItem menuItem) {
                 WindowsMenuItemUIAccessor rv = null;
                 ButtonUI uiObject = (menuItem != null) ? menuItem.getUI()
                         : null;
-                if (uiObject instanceof WindowsMenuItemUI) {
-                    rv = ((WindowsMenuItemUI) uiObject).accessor;
-                } else if (uiObject instanceof WindowsMenuUI) {
-                    rv = ((WindowsMenuUI) uiObject).accessor;
-                } else if (uiObject instanceof WindowsCheckBoxMenuItemUI) {
-                    rv = ((WindowsCheckBoxMenuItemUI) uiObject).accessor;
-                } else if (uiObject instanceof WindowsRadioButtonMenuItemUI) {
-                    rv = ((WindowsRadioButtonMenuItemUI) uiObject).accessor;
+                if (uiObject instbnceof WindowsMenuItemUI) {
+                    rv = ((WindowsMenuItemUI) uiObject).bccessor;
+                } else if (uiObject instbnceof WindowsMenuUI) {
+                    rv = ((WindowsMenuUI) uiObject).bccessor;
+                } else if (uiObject instbnceof WindowsCheckBoxMenuItemUI) {
+                    rv = ((WindowsCheckBoxMenuItemUI) uiObject).bccessor;
+                } else if (uiObject instbnceof WindowsRbdioButtonMenuItemUI) {
+                    rv = ((WindowsRbdioButtonMenuItemUI) uiObject).bccessor;
                 }
                 return rv;
             }
 
-            private static boolean isEnabled(Component  c, State state) {
-                if (state == null && c instanceof JMenuItem) {
-                    WindowsMenuItemUIAccessor accessor =
+            privbte stbtic boolebn isEnbbled(Component  c, Stbte stbte) {
+                if (stbte == null && c instbnceof JMenuItem) {
+                    WindowsMenuItemUIAccessor bccessor =
                         getAccessor((JMenuItem) c);
-                    if (accessor != null) {
-                        state = accessor.getState((JMenuItem) c);
+                    if (bccessor != null) {
+                        stbte = bccessor.getStbte((JMenuItem) c);
                     }
                 }
-                if (state == null) {
+                if (stbte == null) {
                     if (c != null) {
-                        return c.isEnabled();
+                        return c.isEnbbled();
                     } else {
                         return true;
                     }
                 } else {
-                    return (state != State.DISABLED)
-                        && (state != State.DISABLEDHOT)
-                        && (state != State.DISABLEDPUSHED);
+                    return (stbte != Stbte.DISABLED)
+                        && (stbte != Stbte.DISABLEDHOT)
+                        && (stbte != Stbte.DISABLEDPUSHED);
                 }
             }
-            private Icon getIcon() {
+            privbte Icon getIcon() {
                 Icon rv = null;
                 if (menuItem == null) {
                     return rv;
                 }
-                WindowsMenuItemUIAccessor accessor =
+                WindowsMenuItemUIAccessor bccessor =
                     getAccessor(menuItem);
-                State state = (accessor != null) ? accessor.getState(menuItem)
+                Stbte stbte = (bccessor != null) ? bccessor.getStbte(menuItem)
                         : null;
-                if (isEnabled(menuItem, null)) {
-                    if (state == State.PUSHED) {
+                if (isEnbbled(menuItem, null)) {
+                    if (stbte == Stbte.PUSHED) {
                         rv = menuItem.getPressedIcon();
                     } else {
                         rv = menuItem.getIcon();
                     }
                 } else {
-                    rv = menuItem.getDisabledIcon();
+                    rv = menuItem.getDisbbledIcon();
                 }
                 return rv;
             }
             /**
-             * Check if developer changed icon in the UI table.
+             * Check if developer chbnged icon in the UI tbble.
              *
              * @return the icon to use or {@code null} if the current one is to
              * be used
              */
-            private Icon getLaFIcon() {
-                // use icon from the UI table if it does not match this one.
-                Icon rv = (Icon) UIManager.getDefaults().get(typeToString(type));
-                if (rv instanceof VistaMenuItemCheckIcon
-                      && ((VistaMenuItemCheckIcon) rv).type == type) {
+            privbte Icon getLbFIcon() {
+                // use icon from the UI tbble if it does not mbtch this one.
+                Icon rv = (Icon) UIMbnbger.getDefbults().get(typeToString(type));
+                if (rv instbnceof VistbMenuItemCheckIcon
+                      && ((VistbMenuItemCheckIcon) rv).type == type) {
                     rv = null;
                 }
                 return rv;
             }
 
-            private static String typeToString(
-                    Class<? extends JMenuItem> type) {
-                assert type == JMenuItem.class
-                    || type == JMenu.class
-                    || type == JCheckBoxMenuItem.class
-                    || type == JRadioButtonMenuItem.class;
-                StringBuilder sb = new StringBuilder(type.getName());
-                // remove package name, dot and the first character
-                sb.delete(0, sb.lastIndexOf("J") + 1);
-                sb.append(".checkIcon");
+            privbte stbtic String typeToString(
+                    Clbss<? extends JMenuItem> type) {
+                bssert type == JMenuItem.clbss
+                    || type == JMenu.clbss
+                    || type == JCheckBoxMenuItem.clbss
+                    || type == JRbdioButtonMenuItem.clbss;
+                StringBuilder sb = new StringBuilder(type.getNbme());
+                // remove pbckbge nbme, dot bnd the first chbrbcter
+                sb.delete(0, sb.lbstIndexOf("J") + 1);
+                sb.bppend(".checkIcon");
                 return sb.toString();
             }
         }
-    } // End class VistaMenuItemCheckIconFactory
+    } // End clbss VistbMenuItemCheckIconFbctory
 }

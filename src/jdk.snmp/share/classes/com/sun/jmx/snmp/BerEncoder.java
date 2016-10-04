@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 
 /**
- * The <CODE>BerEncoder</CODE> class is used for encoding data using BER.
+ * The <CODE>BerEncoder</CODE> clbss is used for encoding dbtb using BER.
  *
- * A <CODE>BerEncoder</CODE> needs to be set up with a byte buffer. The encoded
- * data are stored in this byte buffer.
+ * A <CODE>BerEncoder</CODE> needs to be set up with b byte buffer. The encoded
+ * dbtb bre stored in this byte buffer.
  * <P>
- * NOTE : the buffer is filled from end to start. This means the caller
- * needs to encode its data in the reverse order.
+ * NOTE : the buffer is filled from end to stbrt. This mebns the cbller
+ * needs to encode its dbtb in the reverse order.
  *
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  *
  * @since 1.5
  */
 
-public class BerEncoder {
+public clbss BerEncoder {
 
   /**
-  * Constructs a new encoder and attaches it to the specified byte string.
+  * Constructs b new encoder bnd bttbches it to the specified byte string.
   *
-  * @param b The byte string containing the encoded data.
+  * @pbrbm b The byte string contbining the encoded dbtb.
   */
 
   public BerEncoder(byte b[]) {
     bytes = b ;
-    start = b.length ;
-    stackTop = 0 ;
+    stbrt = b.length ;
+    stbckTop = 0 ;
   }
 
 
   /**
-  * Trim the encoding data and returns the length of the encoding.
+  * Trim the encoding dbtb bnd returns the length of the encoding.
   *
-  * The encoder does backward encoding : so the bytes buffer is
-  * filled from end to start. The encoded data must be shift before
-  * the buffer can be used. This is the purpose of the <CODE>trim</CODE> method.
+  * The encoder does bbckwbrd encoding : so the bytes buffer is
+  * filled from end to stbrt. The encoded dbtb must be shift before
+  * the buffer cbn be used. This is the purpose of the <CODE>trim</CODE> method.
   *
-  * After a call to the <CODE>trim</CODE> method, the encoder is reinitialized and <CODE>putXXX</CODE>
-  * overwrite any existing encoded data.
+  * After b cbll to the <CODE>trim</CODE> method, the encoder is reinitiblized bnd <CODE>putXXX</CODE>
+  * overwrite bny existing encoded dbtb.
   *
-  * @return The length of the encoded data.
+  * @return The length of the encoded dbtb.
   */
 
   public int trim() {
-    final int result = bytes.length - start ;
+    finbl int result = bytes.length - stbrt ;
 
-    // for (int i = start ; i < bytes.length ; i++) {
-    //  bytes[i-start] = bytes[i] ;
+    // for (int i = stbrt ; i < bytes.length ; i++) {
+    //  bytes[i-stbrt] = bytes[i] ;
     // }
     if (result > 0)
-        java.lang.System.arraycopy(bytes,start,bytes,0,result);
+        jbvb.lbng.System.brrbycopy(bytes,stbrt,bytes,0,result);
 
-    start = bytes.length ;
-    stackTop = 0 ;
+    stbrt = bytes.length ;
+    stbckTop = 0 ;
 
     return result ;
   }
 
   /**
-  * Put an integer.
+  * Put bn integer.
   *
-  * @param v The integer to encode.
+  * @pbrbm v The integer to encode.
   */
 
   public void putInteger(int v) {
-    putInteger(v, IntegerTag) ;
+    putInteger(v, IntegerTbg) ;
   }
 
 
   /**
-  * Put an integer with the specified tag.
+  * Put bn integer with the specified tbg.
   *
-  * @param v The integer to encode.
-  * @param tag The tag to encode.
+  * @pbrbm v The integer to encode.
+  * @pbrbm tbg The tbg to encode.
   */
 
-  public void putInteger(int v, int tag) {
-    putIntegerValue(v) ;
-    putTag(tag) ;
+  public void putInteger(int v, int tbg) {
+    putIntegerVblue(v) ;
+    putTbg(tbg) ;
   }
 
 
 
   /**
-  * Put an integer expressed as a long.
+  * Put bn integer expressed bs b long.
   *
-  * @param v The long to encode.
+  * @pbrbm v The long to encode.
   */
 
   public void putInteger(long v) {
-    putInteger(v, IntegerTag) ;
+    putInteger(v, IntegerTbg) ;
   }
 
 
   /**
-  * Put an integer expressed as a long with the specified tag.
+  * Put bn integer expressed bs b long with the specified tbg.
   *
-  * @param v The long to encode
-  * @param tag The tag to encode.
+  * @pbrbm v The long to encode
+  * @pbrbm tbg The tbg to encode.
   */
 
-  public void putInteger(long v, int tag) {
-    putIntegerValue(v) ;
-    putTag(tag) ;
+  public void putInteger(long v, int tbg) {
+    putIntegerVblue(v) ;
+    putTbg(tbg) ;
   }
 
 
 
   /**
-  * Put an octet string.
+  * Put bn octet string.
   *
-  * @param s The bytes to encode
+  * @pbrbm s The bytes to encode
   */
 
   public void putOctetString(byte[] s) {
-    putOctetString(s, OctetStringTag) ;
+    putOctetString(s, OctetStringTbg) ;
   }
 
 
   /**
-  * Put an octet string with a specified tag.
+  * Put bn octet string with b specified tbg.
   *
-  * @param s The bytes to encode
-  * @param tag The tag to encode.
+  * @pbrbm s The bytes to encode
+  * @pbrbm tbg The tbg to encode.
   */
 
-  public void putOctetString(byte[] s, int tag) {
-    putStringValue(s) ;
-    putTag(tag) ;
+  public void putOctetString(byte[] s, int tbg) {
+    putStringVblue(s) ;
+    putTbg(tbg) ;
   }
 
 
   /**
-  * Put an object identifier.
+  * Put bn object identifier.
   *
-  * @param s The oid to encode.
+  * @pbrbm s The oid to encode.
   */
 
   public void putOid(long[] s) {
-    putOid(s, OidTag) ;
+    putOid(s, OidTbg) ;
   }
 
 
   /**
-  * Put an object identifier with a specified tag.
+  * Put bn object identifier with b specified tbg.
   *
-  * @param s The integer to encode.
-  * @param tag The tag to encode.
+  * @pbrbm s The integer to encode.
+  * @pbrbm tbg The tbg to encode.
   */
 
-  public void putOid(long[] s, int tag) {
-    putOidValue(s) ;
-    putTag(tag) ;
+  public void putOid(long[] s, int tbg) {
+    putOidVblue(s) ;
+    putTbg(tbg) ;
   }
 
 
   /**
-  * Put a <CODE>NULL</CODE> value.
+  * Put b <CODE>NULL</CODE> vblue.
   */
 
   public void putNull() {
-    putNull(NullTag) ;
+    putNull(NullTbg) ;
   }
 
 
   /**
-  * Put a <CODE>NULL</CODE> value with a specified tag.
+  * Put b <CODE>NULL</CODE> vblue with b specified tbg.
   *
-  * @param tag The tag to encode.
+  * @pbrbm tbg The tbg to encode.
   */
 
-  public void putNull(int tag) {
+  public void putNull(int tbg) {
     putLength(0) ;
-    putTag(tag) ;
+    putTbg(tbg) ;
   }
 
 
 
   /**
-  * Put an <CODE>ANY</CODE> value. In fact, this method does not encode anything.
+  * Put bn <CODE>ANY</CODE> vblue. In fbct, this method does not encode bnything.
   * It simply copies the specified bytes into the encoding.
   *
-  * @param s The encoding of the <CODE>ANY</CODE> value.
+  * @pbrbm s The encoding of the <CODE>ANY</CODE> vblue.
   */
 
   public void putAny(byte[] s) {
@@ -219,61 +219,61 @@ public class BerEncoder {
 
 
   /**
-  * Put an <CODE>ANY</CODE> value. Only the first <CODE>byteCount</CODE> are considered.
+  * Put bn <CODE>ANY</CODE> vblue. Only the first <CODE>byteCount</CODE> bre considered.
   *
-  * @param s The encoding of the <CODE>ANY</CODE> value.
-  * @param byteCount The number of bytes of the encoding.
+  * @pbrbm s The encoding of the <CODE>ANY</CODE> vblue.
+  * @pbrbm byteCount The number of bytes of the encoding.
   */
 
   public void putAny(byte[] s, int byteCount) {
-      java.lang.System.arraycopy(s,0,bytes,start-byteCount,byteCount);
-      start -= byteCount;
+      jbvb.lbng.System.brrbycopy(s,0,bytes,stbrt-byteCount,byteCount);
+      stbrt -= byteCount;
       //    for (int i = byteCount - 1 ; i >= 0 ; i--) {
-      //      bytes[--start] = s[i] ;
+      //      bytes[--stbrt] = s[i] ;
       //    }
   }
 
 
   /**
-  * Open a sequence.
-  * The encoder push the current position on its stack.
+  * Open b sequence.
+  * The encoder push the current position on its stbck.
   */
 
   public void openSequence() {
-    stackBuf[stackTop++] = start ;
+    stbckBuf[stbckTop++] = stbrt ;
   }
 
 
   /**
-  * Close a sequence.
-  * The decode pull the stack to know the end of the current sequence.
+  * Close b sequence.
+  * The decode pull the stbck to know the end of the current sequence.
   */
 
   public void closeSequence() {
-    closeSequence(SequenceTag) ;
+    closeSequence(SequenceTbg) ;
   }
 
 
   /**
-  * Close a sequence with the specified tag.
+  * Close b sequence with the specified tbg.
   */
 
-  public void closeSequence(int tag) {
-    final int end = stackBuf[--stackTop] ;
-    putLength(end - start) ;
-    putTag(tag) ;
+  public void closeSequence(int tbg) {
+    finbl int end = stbckBuf[--stbckTop] ;
+    putLength(end - stbrt) ;
+    putTbg(tbg) ;
   }
 
 
   //
-  // Some standard tags
+  // Some stbndbrd tbgs
   //
-  public final static int BooleanTag      = 1 ;
-  public final static int IntegerTag      = 2 ;
-  public final static int OctetStringTag  = 4 ;
-  public final static int NullTag          = 5 ;
-  public final static int OidTag          = 6 ;
-  public final static int SequenceTag      = 0x30 ;
+  public finbl stbtic int BoolebnTbg      = 1 ;
+  public finbl stbtic int IntegerTbg      = 2 ;
+  public finbl stbtic int OctetStringTbg  = 4 ;
+  public finbl stbtic int NullTbg          = 5 ;
+  public finbl stbtic int OidTbg          = 6 ;
+  public finbl stbtic int SequenceTbg      = 0x30 ;
 
 
 
@@ -283,195 +283,195 @@ public class BerEncoder {
 
 
   /**
-  * Put a tag and move the current position backward.
+  * Put b tbg bnd move the current position bbckwbrd.
   *
-  * @param tag The tag to encode.
+  * @pbrbm tbg The tbg to encode.
   */
 
-  protected final void putTag(int tag) {
-    if (tag < 256) {
-      bytes[--start] = (byte)tag ;
+  protected finbl void putTbg(int tbg) {
+    if (tbg < 256) {
+      bytes[--stbrt] = (byte)tbg ;
     }
     else {
-      while (tag != 0) {
-        bytes[--start] = (byte)(tag & 127) ;
-        tag = tag << 7 ;
+      while (tbg != 0) {
+        bytes[--stbrt] = (byte)(tbg & 127) ;
+        tbg = tbg << 7 ;
       }
     }
   }
 
 
   /**
-  * Put a length and move the current position backward.
+  * Put b length bnd move the current position bbckwbrd.
   *
-  * @param length The length to encode.
+  * @pbrbm length The length to encode.
   */
 
-  protected final void putLength(final int length) {
+  protected finbl void putLength(finbl int length) {
     if (length < 0) {
-      throw new IllegalArgumentException() ;
+      throw new IllegblArgumentException() ;
     }
     else if (length < 128) {
-      bytes[--start] = (byte)length ;
+      bytes[--stbrt] = (byte)length ;
     }
     else if (length < 256) {
-      bytes[--start] = (byte)length ;
-      bytes[--start] = (byte)0x81 ;
+      bytes[--stbrt] = (byte)length ;
+      bytes[--stbrt] = (byte)0x81 ;
     }
     else if (length < 65536) {
-      bytes[--start] = (byte)(length) ;
-      bytes[--start] = (byte)(length >> 8) ;
-      bytes[--start] = (byte)0x82 ;
+      bytes[--stbrt] = (byte)(length) ;
+      bytes[--stbrt] = (byte)(length >> 8) ;
+      bytes[--stbrt] = (byte)0x82 ;
     }
     else if (length < 16777126) {
-      bytes[--start] = (byte)(length) ;
-      bytes[--start] = (byte)(length >> 8) ;
-      bytes[--start] = (byte)(length >> 16) ;
-      bytes[--start] = (byte)0x83 ;
+      bytes[--stbrt] = (byte)(length) ;
+      bytes[--stbrt] = (byte)(length >> 8) ;
+      bytes[--stbrt] = (byte)(length >> 16) ;
+      bytes[--stbrt] = (byte)0x83 ;
     }
     else {
-      bytes[--start] = (byte)(length) ;
-      bytes[--start] = (byte)(length >> 8) ;
-      bytes[--start] = (byte)(length >> 16) ;
-      bytes[--start] = (byte)(length >> 24) ;
-      bytes[--start] = (byte)0x84 ;
+      bytes[--stbrt] = (byte)(length) ;
+      bytes[--stbrt] = (byte)(length >> 8) ;
+      bytes[--stbrt] = (byte)(length >> 16) ;
+      bytes[--stbrt] = (byte)(length >> 24) ;
+      bytes[--stbrt] = (byte)0x84 ;
     }
   }
 
 
   /**
-  * Put an integer value and move the current position backward.
+  * Put bn integer vblue bnd move the current position bbckwbrd.
   *
-  * @param v The integer to encode.
+  * @pbrbm v The integer to encode.
   */
 
-  protected final void putIntegerValue(int v) {
-    final int end = start ;
-    int mask = 0x7f800000 ;
+  protected finbl void putIntegerVblue(int v) {
+    finbl int end = stbrt ;
+    int mbsk = 0x7f800000 ;
     int byteNeeded = 4 ;
     if (v < 0) {
-      while (((mask & v) == mask) && (byteNeeded > 1)) {
-        mask = mask >> 8 ;
+      while (((mbsk & v) == mbsk) && (byteNeeded > 1)) {
+        mbsk = mbsk >> 8 ;
         byteNeeded-- ;
       }
     }
     else {
-      while (((mask & v) == 0) && (byteNeeded > 1)) {
-        mask = mask >> 8 ;
+      while (((mbsk & v) == 0) && (byteNeeded > 1)) {
+        mbsk = mbsk >> 8 ;
         byteNeeded-- ;
       }
     }
     for (int i = 0 ; i < byteNeeded ; i++) {
-      bytes[--start] = (byte)v ;
+      bytes[--stbrt] = (byte)v ;
       v =  v >> 8 ;
     }
-    putLength(end - start) ;
+    putLength(end - stbrt) ;
   }
 
 
   /**
-  * Put an integer value expressed as a long.
+  * Put bn integer vblue expressed bs b long.
   *
-  * @param v The integer to encode.
+  * @pbrbm v The integer to encode.
   */
 
-  protected final void putIntegerValue(long v) {
-    final int end = start ;
-    long mask = 0x7f80000000000000L ;
+  protected finbl void putIntegerVblue(long v) {
+    finbl int end = stbrt ;
+    long mbsk = 0x7f80000000000000L ;
     int byteNeeded = 8 ;
     if (v < 0) {
-      while (((mask & v) == mask) && (byteNeeded > 1)) {
-        mask = mask >> 8 ;
+      while (((mbsk & v) == mbsk) && (byteNeeded > 1)) {
+        mbsk = mbsk >> 8 ;
         byteNeeded-- ;
       }
     }
     else {
-      while (((mask & v) == 0) && (byteNeeded > 1)) {
-        mask = mask >> 8 ;
+      while (((mbsk & v) == 0) && (byteNeeded > 1)) {
+        mbsk = mbsk >> 8 ;
         byteNeeded-- ;
       }
     }
     for (int i = 0 ; i < byteNeeded ; i++) {
-      bytes[--start] = (byte)v ;
+      bytes[--stbrt] = (byte)v ;
       v =  v >> 8 ;
     }
-    putLength(end - start) ;
+    putLength(end - stbrt) ;
   }
 
 
   /**
-  * Put a byte string and move the current position backward.
+  * Put b byte string bnd move the current position bbckwbrd.
   *
-  * @param s The byte string to encode.
+  * @pbrbm s The byte string to encode.
   */
 
-  protected final void putStringValue(byte[] s) {
-      final int datalen = s.length;
-      java.lang.System.arraycopy(s,0,bytes,start-datalen,datalen);
-      start -= datalen;
+  protected finbl void putStringVblue(byte[] s) {
+      finbl int dbtblen = s.length;
+      jbvb.lbng.System.brrbycopy(s,0,bytes,stbrt-dbtblen,dbtblen);
+      stbrt -= dbtblen;
       // for (int i = s.length - 1 ; i >= 0 ; i--) {
-      //   bytes[--start] = s[i] ;
+      //   bytes[--stbrt] = s[i] ;
       // }
-      putLength(datalen) ;
+      putLength(dbtblen) ;
   }
 
 
 
   /**
-  * Put an oid and move the current position backward.
+  * Put bn oid bnd move the current position bbckwbrd.
   *
-  * @param s The oid to encode.
+  * @pbrbm s The oid to encode.
   */
 
-  protected final void putOidValue(final long[] s) {
-      final int end = start ;
-      final int slength = s.length;
+  protected finbl void putOidVblue(finbl long[] s) {
+      finbl int end = stbrt ;
+      finbl int slength = s.length;
 
-      // bugId 4641746: 0, 1, and 2 are legal values.
+      // bugId 4641746: 0, 1, bnd 2 bre legbl vblues.
       if ((slength < 2) || (s[0] > 2) || (s[1] >= 40)) {
-          throw new IllegalArgumentException() ;
+          throw new IllegblArgumentException() ;
       }
       for (int i = slength - 1 ; i >= 2 ; i--) {
           long c = s[i] ;
           if (c < 0) {
-              throw new IllegalArgumentException() ;
+              throw new IllegblArgumentException() ;
           }
           else if (c < 128) {
-              bytes[--start] = (byte)c ;
+              bytes[--stbrt] = (byte)c ;
           }
           else {
-              bytes[--start] = (byte)(c & 127) ;
+              bytes[--stbrt] = (byte)(c & 127) ;
               c = c >> 7 ;
               while (c != 0) {
-                  bytes[--start] = (byte)(c | 128) ;
+                  bytes[--stbrt] = (byte)(c | 128) ;
                   c = c >> 7 ;
               }
           }
       }
-      bytes[--start] = (byte)(s[0] * 40 + s[1]) ;
-      putLength(end - start) ;
+      bytes[--stbrt] = (byte)(s[0] * 40 + s[1]) ;
+      putLength(end - stbrt) ;
   }
 
 
   //
-  // This is the byte array containing the encoding.
+  // This is the byte brrby contbining the encoding.
   //
-  protected final byte bytes[];
+  protected finbl byte bytes[];
 
   //
   // This is the index of the first byte of the encoding.
-  // It is initialized to <CODE>bytes.length</CODE> and decrease each time
-  // an value is put in the encoder.
+  // It is initiblized to <CODE>bytes.length</CODE> bnd decrebse ebch time
+  // bn vblue is put in the encoder.
   //
-  protected int start = -1 ;
+  protected int stbrt = -1 ;
 
   //
-  // This is the stack where end of sequences are kept.
-  // A value is computed and pushed in it each time the <CODE>openSequence</CODE> method
+  // This is the stbck where end of sequences bre kept.
+  // A vblue is computed bnd pushed in it ebch time the <CODE>openSequence</CODE> method
   // is invoked.
-  // A value is pulled and checked each time the <CODE>closeSequence</CODE> method is called.
+  // A vblue is pulled bnd checked ebch time the <CODE>closeSequence</CODE> method is cblled.
   //
-  protected final int stackBuf[] = new int[200] ;
-  protected int stackTop = 0 ;
+  protected finbl int stbckBuf[] = new int[200] ;
+  protected int stbckTop = 0 ;
 
 }

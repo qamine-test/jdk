@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.*;
-import java.util.BitSet;
-import java.util.Vector;
-import javax.swing.SizeRequirements;
-import javax.swing.event.DocumentEvent;
+import jbvb.bwt.*;
+import jbvb.util.BitSet;
+import jbvb.util.Vector;
+import jbvbx.swing.SizeRequirements;
+import jbvbx.swing.event.DocumentEvent;
 
-import javax.swing.text.html.HTML;
+import jbvbx.swing.text.html.HTML;
 
 /**
  * <p>
- * Implements View interface for a table, that is composed of an
+ * Implements View interfbce for b tbble, thbt is composed of bn
  * element structure where the child elements of the element
- * this view is responsible for represent rows and the child
- * elements of the row elements are cells.  The cell elements can
- * have an arbitrary element structure under them, which will
- * be built with the ViewFactory returned by the getViewFactory
+ * this view is responsible for represent rows bnd the child
+ * elements of the row elements bre cells.  The cell elements cbn
+ * hbve bn brbitrbry element structure under them, which will
+ * be built with the ViewFbctory returned by the getViewFbctory
  * method.
  * <pre>
  *
@@ -53,91 +53,91 @@ import javax.swing.text.html.HTML;
  *
  * </pre>
  * <p>
- * This is implemented as a hierarchy of boxes, the table itself
- * is a vertical box, the rows are horizontal boxes, and the cells
- * are vertical boxes.  The cells are allowed to span multiple
- * columns and rows.  By default, the table can be thought of as
- * being formed over a grid (i.e. somewhat like one would find in
- * gridbag layout), where table cells can request to span more
- * than one grid cell.  The default horizontal span of table cells
- * will be based upon this grid, but can be changed by reimplementing
- * the requested span of the cell (i.e. table cells can have independant
- * spans if desired).
+ * This is implemented bs b hierbrchy of boxes, the tbble itself
+ * is b verticbl box, the rows bre horizontbl boxes, bnd the cells
+ * bre verticbl boxes.  The cells bre bllowed to spbn multiple
+ * columns bnd rows.  By defbult, the tbble cbn be thought of bs
+ * being formed over b grid (i.e. somewhbt like one would find in
+ * gridbbg lbyout), where tbble cells cbn request to spbn more
+ * thbn one grid cell.  The defbult horizontbl spbn of tbble cells
+ * will be bbsed upon this grid, but cbn be chbnged by reimplementing
+ * the requested spbn of the cell (i.e. tbble cells cbn hbve independbnt
+ * spbns if desired).
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @see     View
  */
-public abstract class TableView extends BoxView {
+public bbstrbct clbss TbbleView extends BoxView {
 
     /**
-     * Constructs a TableView for the given element.
+     * Constructs b TbbleView for the given element.
      *
-     * @param elem the element that this view is responsible for
+     * @pbrbm elem the element thbt this view is responsible for
      */
-    public TableView(Element elem) {
+    public TbbleView(Element elem) {
         super(elem, View.Y_AXIS);
-        rows = new Vector<TableRow>();
-        gridValid = false;
+        rows = new Vector<TbbleRow>();
+        gridVblid = fblse;
     }
 
     /**
-     * Creates a new table row.
+     * Crebtes b new tbble row.
      *
-     * @param elem an element
+     * @pbrbm elem bn element
      * @return the row
      */
-    protected TableRow createTableRow(Element elem) {
-        return new TableRow(elem);
+    protected TbbleRow crebteTbbleRow(Element elem) {
+        return new TbbleRow(elem);
     }
 
     /**
-     * @deprecated Table cells can now be any arbitrary
-     * View implementation and should be produced by the
-     * ViewFactory rather than the table.
+     * @deprecbted Tbble cells cbn now be bny brbitrbry
+     * View implementbtion bnd should be produced by the
+     * ViewFbctory rbther thbn the tbble.
      *
-     * @param elem an element
+     * @pbrbm elem bn element
      * @return the cell
      */
-    @Deprecated
-    protected TableCell createTableCell(Element elem) {
-        return new TableCell(elem);
+    @Deprecbted
+    protected TbbleCell crebteTbbleCell(Element elem) {
+        return new TbbleCell(elem);
     }
 
     /**
-     * The number of columns in the table.
+     * The number of columns in the tbble.
      */
     int getColumnCount() {
-        return columnSpans.length;
+        return columnSpbns.length;
     }
 
     /**
-     * Fetches the span (width) of the given column.
+     * Fetches the spbn (width) of the given column.
      * This is used by the nested cells to query the
-     * sizes of grid locations outside of themselves.
+     * sizes of grid locbtions outside of themselves.
      */
-    int getColumnSpan(int col) {
-        return columnSpans[col];
+    int getColumnSpbn(int col) {
+        return columnSpbns[col];
     }
 
     /**
-     * The number of rows in the table.
+     * The number of rows in the tbble.
      */
     int getRowCount() {
         return rows.size();
     }
 
     /**
-     * Fetches the span (height) of the given row.
+     * Fetches the spbn (height) of the given row.
      */
-    int getRowSpan(int row) {
+    int getRowSpbn(int row) {
         View rv = getRow(row);
         if (rv != null) {
-            return (int) rv.getPreferredSpan(Y_AXIS);
+            return (int) rv.getPreferredSpbn(Y_AXIS);
         }
         return 0;
     }
 
-    TableRow getRow(int row) {
+    TbbleRow getRow(int row) {
         if (row < rows.size()) {
             return rows.elementAt(row);
         }
@@ -146,18 +146,18 @@ public abstract class TableView extends BoxView {
 
     /**
      * Determines the number of columns occupied by
-     * the table cell represented by given element.
+     * the tbble cell represented by given element.
      */
     /*protected*/ int getColumnsOccupied(View v) {
         // PENDING(prinz) this code should be in the html
-        // paragraph, but we can't add api to enable it.
-        AttributeSet a = v.getElement().getAttributes();
-        String s = (String) a.getAttribute(HTML.Attribute.COLSPAN);
+        // pbrbgrbph, but we cbn't bdd bpi to enbble it.
+        AttributeSet b = v.getElement().getAttributes();
+        String s = (String) b.getAttribute(HTML.Attribute.COLSPAN);
         if (s != null) {
             try {
-                return Integer.parseInt(s);
-            } catch (NumberFormatException nfe) {
-                // fall through to one column
+                return Integer.pbrseInt(s);
+            } cbtch (NumberFormbtException nfe) {
+                // fbll through to one column
             }
         }
 
@@ -166,288 +166,288 @@ public abstract class TableView extends BoxView {
 
     /**
      * Determines the number of rows occupied by
-     * the table cell represented by given element.
+     * the tbble cell represented by given element.
      */
     /*protected*/ int getRowsOccupied(View v) {
         // PENDING(prinz) this code should be in the html
-        // paragraph, but we can't add api to enable it.
-        AttributeSet a = v.getElement().getAttributes();
-        String s = (String) a.getAttribute(HTML.Attribute.ROWSPAN);
+        // pbrbgrbph, but we cbn't bdd bpi to enbble it.
+        AttributeSet b = v.getElement().getAttributes();
+        String s = (String) b.getAttribute(HTML.Attribute.ROWSPAN);
         if (s != null) {
             try {
-                return Integer.parseInt(s);
-            } catch (NumberFormatException nfe) {
-                // fall through to one row
+                return Integer.pbrseInt(s);
+            } cbtch (NumberFormbtException nfe) {
+                // fbll through to one row
             }
         }
 
         return 1;
     }
 
-    /*protected*/ void invalidateGrid() {
-        gridValid = false;
+    /*protected*/ void invblidbteGrid() {
+        gridVblid = fblse;
     }
 
-    protected void forwardUpdate(DocumentEvent.ElementChange ec,
-                                     DocumentEvent e, Shape a, ViewFactory f) {
-        super.forwardUpdate(ec, e, a, f);
-        // A change in any of the table cells usually effects the whole table,
-        // so redraw it all!
-        if (a != null) {
-            Component c = getContainer();
+    protected void forwbrdUpdbte(DocumentEvent.ElementChbnge ec,
+                                     DocumentEvent e, Shbpe b, ViewFbctory f) {
+        super.forwbrdUpdbte(ec, e, b, f);
+        // A chbnge in bny of the tbble cells usublly effects the whole tbble,
+        // so redrbw it bll!
+        if (b != null) {
+            Component c = getContbiner();
             if (c != null) {
-                Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a :
-                                   a.getBounds();
-                c.repaint(alloc.x, alloc.y, alloc.width, alloc.height);
+                Rectbngle blloc = (b instbnceof Rectbngle) ? (Rectbngle)b :
+                                   b.getBounds();
+                c.repbint(blloc.x, blloc.y, blloc.width, blloc.height);
             }
         }
     }
 
     /**
-     * Change the child views.  This is implemented to
-     * provide the superclass behavior and invalidate the
-     * grid so that rows and columns will be recalculated.
+     * Chbnge the child views.  This is implemented to
+     * provide the superclbss behbvior bnd invblidbte the
+     * grid so thbt rows bnd columns will be recblculbted.
      */
-    public void replace(int offset, int length, View[] views) {
-        super.replace(offset, length, views);
-        invalidateGrid();
+    public void replbce(int offset, int length, View[] views) {
+        super.replbce(offset, length, views);
+        invblidbteGrid();
     }
 
     /**
-     * Fill in the grid locations that are placeholders
-     * for multi-column, multi-row, and missing grid
-     * locations.
+     * Fill in the grid locbtions thbt bre plbceholders
+     * for multi-column, multi-row, bnd missing grid
+     * locbtions.
      */
-    void updateGrid() {
-        if (! gridValid) {
-            // determine which views are table rows and clear out
-            // grid points marked filled.
+    void updbteGrid() {
+        if (! gridVblid) {
+            // determine which views bre tbble rows bnd clebr out
+            // grid points mbrked filled.
             rows.removeAllElements();
             int n = getViewCount();
             for (int i = 0; i < n; i++) {
                 View v = getView(i);
-                if (v instanceof TableRow) {
-                    rows.addElement((TableRow) v);
-                    TableRow rv = (TableRow) v;
-                    rv.clearFilledColumns();
+                if (v instbnceof TbbleRow) {
+                    rows.bddElement((TbbleRow) v);
+                    TbbleRow rv = (TbbleRow) v;
+                    rv.clebrFilledColumns();
                     rv.setRow(i);
                 }
             }
 
-            int maxColumns = 0;
+            int mbxColumns = 0;
             int nrows = rows.size();
             for (int row = 0; row < nrows; row++) {
-                TableRow rv = getRow(row);
+                TbbleRow rv = getRow(row);
                 int col = 0;
                 for (int cell = 0; cell < rv.getViewCount(); cell++, col++) {
                     View cv = rv.getView(cell);
-                    // advance to a free column
+                    // bdvbnce to b free column
                     for (; rv.isFilled(col); col++);
-                    int rowSpan = getRowsOccupied(cv);
-                    int colSpan = getColumnsOccupied(cv);
-                    if ((colSpan > 1) || (rowSpan > 1)) {
+                    int rowSpbn = getRowsOccupied(cv);
+                    int colSpbn = getColumnsOccupied(cv);
+                    if ((colSpbn > 1) || (rowSpbn > 1)) {
                         // fill in the overflow entries for this cell
-                        int rowLimit = row + rowSpan;
-                        int colLimit = col + colSpan;
+                        int rowLimit = row + rowSpbn;
+                        int colLimit = col + colSpbn;
                         for (int i = row; i < rowLimit; i++) {
                             for (int j = col; j < colLimit; j++) {
                                 if (i != row || j != col) {
-                                    addFill(i, j);
+                                    bddFill(i, j);
                                 }
                             }
                         }
-                        if (colSpan > 1) {
-                            col += colSpan - 1;
+                        if (colSpbn > 1) {
+                            col += colSpbn - 1;
                         }
                     }
                 }
-                maxColumns = Math.max(maxColumns, col);
+                mbxColumns = Mbth.mbx(mbxColumns, col);
             }
 
-            // setup the column layout/requirements
-            columnSpans = new int[maxColumns];
-            columnOffsets = new int[maxColumns];
-            columnRequirements = new SizeRequirements[maxColumns];
-            for (int i = 0; i < maxColumns; i++) {
+            // setup the column lbyout/requirements
+            columnSpbns = new int[mbxColumns];
+            columnOffsets = new int[mbxColumns];
+            columnRequirements = new SizeRequirements[mbxColumns];
+            for (int i = 0; i < mbxColumns; i++) {
                 columnRequirements[i] = new SizeRequirements();
             }
-            gridValid = true;
+            gridVblid = true;
         }
     }
 
     /**
-     * Mark a grid location as filled in for a cells overflow.
+     * Mbrk b grid locbtion bs filled in for b cells overflow.
      */
-    void addFill(int row, int col) {
-        TableRow rv = getRow(row);
+    void bddFill(int row, int col) {
+        TbbleRow rv = getRow(row);
         if (rv != null) {
             rv.fillColumn(col);
         }
     }
 
     /**
-     * Lays out the columns to fit within the given target span.
-     * Returns the results through {@code offsets} and {@code spans}.
+     * Lbys out the columns to fit within the given tbrget spbn.
+     * Returns the results through {@code offsets} bnd {@code spbns}.
      *
-     * @param targetSpan the given span for total of all the table
+     * @pbrbm tbrgetSpbn the given spbn for totbl of bll the tbble
      *  columns
-     * @param reqs the requirements desired for each column.  This
-     *  is the column maximum of the cells minimum, preferred, and
-     *  maximum requested span
-     * @param spans the return value of how much to allocated to
-     *  each column
-     * @param offsets the return value of the offset from the
-     *  origin for each column
+     * @pbrbm reqs the requirements desired for ebch column.  This
+     *  is the column mbximum of the cells minimum, preferred, bnd
+     *  mbximum requested spbn
+     * @pbrbm spbns the return vblue of how much to bllocbted to
+     *  ebch column
+     * @pbrbm offsets the return vblue of the offset from the
+     *  origin for ebch column
      */
-    protected void layoutColumns(int targetSpan, int[] offsets, int[] spans,
+    protected void lbyoutColumns(int tbrgetSpbn, int[] offsets, int[] spbns,
                                  SizeRequirements[] reqs) {
-        // allocate using the convenience method on SizeRequirements
-        SizeRequirements.calculateTiledPositions(targetSpan, null, reqs,
-                                                 offsets, spans);
+        // bllocbte using the convenience method on SizeRequirements
+        SizeRequirements.cblculbteTiledPositions(tbrgetSpbn, null, reqs,
+                                                 offsets, spbns);
     }
 
     /**
-     * Perform layout for the minor axis of the box (i.e. the
-     * axis orthogonal to the axis that it represents).  The results
-     * of the layout should be placed in the given arrays which represent
-     * the allocations to the children along the minor axis.  This
-     * is called by the superclass whenever the layout needs to be
-     * updated along the minor axis.
+     * Perform lbyout for the minor bxis of the box (i.e. the
+     * bxis orthogonbl to the bxis thbt it represents).  The results
+     * of the lbyout should be plbced in the given brrbys which represent
+     * the bllocbtions to the children blong the minor bxis.  This
+     * is cblled by the superclbss whenever the lbyout needs to be
+     * updbted blong the minor bxis.
      * <p>
-     * This is implemented to call the
-     * {@link #layoutColumns layoutColumns} method, and then
-     * forward to the superclass to actually carry out the layout
-     * of the tables rows.
+     * This is implemented to cbll the
+     * {@link #lbyoutColumns lbyoutColumns} method, bnd then
+     * forwbrd to the superclbss to bctublly cbrry out the lbyout
+     * of the tbbles rows.
      *
-     * @param targetSpan the total span given to the view, which
-     *  would be used to layout the children.
-     * @param axis the axis being layed out.
-     * @param offsets the offsets from the origin of the view for
-     *  each of the child views.  This is a return value and is
-     *  filled in by the implementation of this method.
-     * @param spans the span of each child view.  This is a return
-     *  value and is filled in by the implementation of this method.
+     * @pbrbm tbrgetSpbn the totbl spbn given to the view, which
+     *  would be used to lbyout the children.
+     * @pbrbm bxis the bxis being lbyed out.
+     * @pbrbm offsets the offsets from the origin of the view for
+     *  ebch of the child views.  This is b return vblue bnd is
+     *  filled in by the implementbtion of this method.
+     * @pbrbm spbns the spbn of ebch child view.  This is b return
+     *  vblue bnd is filled in by the implementbtion of this method.
      */
-    protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
-        // make grid is properly represented
-        updateGrid();
+    protected void lbyoutMinorAxis(int tbrgetSpbn, int bxis, int[] offsets, int[] spbns) {
+        // mbke grid is properly represented
+        updbteGrid();
 
-        // all of the row layouts are invalid, so mark them that way
+        // bll of the row lbyouts bre invblid, so mbrk them thbt wby
         int n = getRowCount();
         for (int i = 0; i < n; i++) {
-            TableRow row = getRow(i);
-            row.layoutChanged(axis);
+            TbbleRow row = getRow(i);
+            row.lbyoutChbnged(bxis);
         }
 
-        // calculate column spans
-        layoutColumns(targetSpan, columnOffsets, columnSpans, columnRequirements);
+        // cblculbte column spbns
+        lbyoutColumns(tbrgetSpbn, columnOffsets, columnSpbns, columnRequirements);
 
-        // continue normal layout
-        super.layoutMinorAxis(targetSpan, axis, offsets, spans);
+        // continue normbl lbyout
+        super.lbyoutMinorAxis(tbrgetSpbn, bxis, offsets, spbns);
     }
 
     /**
-     * Calculate the requirements for the minor axis.  This is called by
-     * the superclass whenever the requirements need to be updated (i.e.
-     * a preferenceChanged was messaged through this view).
+     * Cblculbte the requirements for the minor bxis.  This is cblled by
+     * the superclbss whenever the requirements need to be updbted (i.e.
+     * b preferenceChbnged wbs messbged through this view).
      * <p>
-     * This is implemented to calculate the requirements as the sum of the
+     * This is implemented to cblculbte the requirements bs the sum of the
      * requirements of the columns.
      */
-    protected SizeRequirements calculateMinorAxisRequirements(int axis, SizeRequirements r) {
-        updateGrid();
+    protected SizeRequirements cblculbteMinorAxisRequirements(int bxis, SizeRequirements r) {
+        updbteGrid();
 
-        // calculate column requirements for each column
-        calculateColumnRequirements(axis);
+        // cblculbte column requirements for ebch column
+        cblculbteColumnRequirements(bxis);
 
 
-        // the requirements are the sum of the columns.
+        // the requirements bre the sum of the columns.
         if (r == null) {
             r = new SizeRequirements();
         }
         long min = 0;
         long pref = 0;
-        long max = 0;
+        long mbx = 0;
         for (SizeRequirements req : columnRequirements) {
             min += req.minimum;
             pref += req.preferred;
-            max += req.maximum;
+            mbx += req.mbximum;
         }
         r.minimum = (int) min;
         r.preferred = (int) pref;
-        r.maximum = (int) max;
-        r.alignment = 0;
+        r.mbximum = (int) mbx;
+        r.blignment = 0;
         return r;
     }
 
     /*
-    boolean shouldTrace() {
-        AttributeSet a = getElement().getAttributes();
-        Object o = a.getAttribute(HTML.Attribute.ID);
-        if ((o != null) && o.equals("debug")) {
+    boolebn shouldTrbce() {
+        AttributeSet b = getElement().getAttributes();
+        Object o = b.getAttribute(HTML.Attribute.ID);
+        if ((o != null) && o.equbls("debug")) {
             return true;
         }
-        return false;
+        return fblse;
     }
     */
 
     /**
-     * Calculate the requirements for each column.  The calculation
-     * is done as two passes over the table.  The table cells that
-     * occupy a single column are scanned first to determine the
-     * maximum of minimum, preferred, and maximum spans along the
-     * give axis.  Table cells that span multiple columns are excluded
-     * from the first pass.  A second pass is made to determine if
-     * the cells that span multiple columns are satisfied.  If the
-     * column requirements are not satisified, the needs of the
+     * Cblculbte the requirements for ebch column.  The cblculbtion
+     * is done bs two pbsses over the tbble.  The tbble cells thbt
+     * occupy b single column bre scbnned first to determine the
+     * mbximum of minimum, preferred, bnd mbximum spbns blong the
+     * give bxis.  Tbble cells thbt spbn multiple columns bre excluded
+     * from the first pbss.  A second pbss is mbde to determine if
+     * the cells thbt spbn multiple columns bre sbtisfied.  If the
+     * column requirements bre not sbtisified, the needs of the
      * multi-column cell is mixed into the existing column requirements.
-     * The calculation of the multi-column distribution is based upon
-     * the proportions of the existing column requirements and taking
-     * into consideration any constraining maximums.
+     * The cblculbtion of the multi-column distribution is bbsed upon
+     * the proportions of the existing column requirements bnd tbking
+     * into considerbtion bny constrbining mbximums.
      */
-    void calculateColumnRequirements(int axis) {
-        // pass 1 - single column cells
-        boolean hasMultiColumn = false;
+    void cblculbteColumnRequirements(int bxis) {
+        // pbss 1 - single column cells
+        boolebn hbsMultiColumn = fblse;
         int nrows = getRowCount();
         for (int i = 0; i < nrows; i++) {
-            TableRow row = getRow(i);
+            TbbleRow row = getRow(i);
             int col = 0;
             int ncells = row.getViewCount();
             for (int cell = 0; cell < ncells; cell++, col++) {
                 View cv = row.getView(cell);
-                for (; row.isFilled(col); col++); // advance to a free column
-                int rowSpan = getRowsOccupied(cv);
-                int colSpan = getColumnsOccupied(cv);
-                if (colSpan == 1) {
-                    checkSingleColumnCell(axis, col, cv);
+                for (; row.isFilled(col); col++); // bdvbnce to b free column
+                int rowSpbn = getRowsOccupied(cv);
+                int colSpbn = getColumnsOccupied(cv);
+                if (colSpbn == 1) {
+                    checkSingleColumnCell(bxis, col, cv);
                 } else {
-                    hasMultiColumn = true;
-                    col += colSpan - 1;
+                    hbsMultiColumn = true;
+                    col += colSpbn - 1;
                 }
             }
         }
 
-        // pass 2 - multi-column cells
-        if (hasMultiColumn) {
+        // pbss 2 - multi-column cells
+        if (hbsMultiColumn) {
             for (int i = 0; i < nrows; i++) {
-                TableRow row = getRow(i);
+                TbbleRow row = getRow(i);
                 int col = 0;
                 int ncells = row.getViewCount();
                 for (int cell = 0; cell < ncells; cell++, col++) {
                     View cv = row.getView(cell);
-                    for (; row.isFilled(col); col++); // advance to a free column
-                    int colSpan = getColumnsOccupied(cv);
-                    if (colSpan > 1) {
-                        checkMultiColumnCell(axis, col, colSpan, cv);
-                        col += colSpan - 1;
+                    for (; row.isFilled(col); col++); // bdvbnce to b free column
+                    int colSpbn = getColumnsOccupied(cv);
+                    if (colSpbn > 1) {
+                        checkMultiColumnCell(bxis, col, colSpbn, cv);
+                        col += colSpbn - 1;
                     }
                 }
             }
         }
 
         /*
-        if (shouldTrace()) {
-            System.err.println("calc:");
+        if (shouldTrbce()) {
+            System.err.println("cblc:");
             for (int i = 0; i < columnRequirements.length; i++) {
                 System.err.println(" " + i + ": " + columnRequirements[i]);
             }
@@ -456,167 +456,167 @@ public abstract class TableView extends BoxView {
     }
 
     /**
-     * check the requirements of a table cell that spans a single column.
+     * check the requirements of b tbble cell thbt spbns b single column.
      */
-    void checkSingleColumnCell(int axis, int col, View v) {
+    void checkSingleColumnCell(int bxis, int col, View v) {
         SizeRequirements req = columnRequirements[col];
-        req.minimum = Math.max((int) v.getMinimumSpan(axis), req.minimum);
-        req.preferred = Math.max((int) v.getPreferredSpan(axis), req.preferred);
-        req.maximum = Math.max((int) v.getMaximumSpan(axis), req.maximum);
+        req.minimum = Mbth.mbx((int) v.getMinimumSpbn(bxis), req.minimum);
+        req.preferred = Mbth.mbx((int) v.getPreferredSpbn(bxis), req.preferred);
+        req.mbximum = Mbth.mbx((int) v.getMbximumSpbn(bxis), req.mbximum);
     }
 
     /**
-     * check the requirements of a table cell that spans multiple
+     * check the requirements of b tbble cell thbt spbns multiple
      * columns.
      */
-    void checkMultiColumnCell(int axis, int col, int ncols, View v) {
-        // calculate the totals
+    void checkMultiColumnCell(int bxis, int col, int ncols, View v) {
+        // cblculbte the totbls
         long min = 0;
         long pref = 0;
-        long max = 0;
+        long mbx = 0;
         for (int i = 0; i < ncols; i++) {
             SizeRequirements req = columnRequirements[col + i];
             min += req.minimum;
             pref += req.preferred;
-            max += req.maximum;
+            mbx += req.mbximum;
         }
 
-        // check if the minimum size needs adjustment.
-        int cmin = (int) v.getMinimumSpan(axis);
+        // check if the minimum size needs bdjustment.
+        int cmin = (int) v.getMinimumSpbn(bxis);
         if (cmin > min) {
             /*
-             * the columns that this cell spans need adjustment to fit
-             * this table cell.... calculate the adjustments.  The
-             * maximum for each cell is the maximum of the existing
-             * maximum or the amount needed by the cell.
+             * the columns thbt this cell spbns need bdjustment to fit
+             * this tbble cell.... cblculbte the bdjustments.  The
+             * mbximum for ebch cell is the mbximum of the existing
+             * mbximum or the bmount needed by the cell.
              */
             SizeRequirements[] reqs = new SizeRequirements[ncols];
             for (int i = 0; i < ncols; i++) {
                 SizeRequirements r = reqs[i] = columnRequirements[col + i];
-                r.maximum = Math.max(r.maximum, (int) v.getMaximumSpan(axis));
+                r.mbximum = Mbth.mbx(r.mbximum, (int) v.getMbximumSpbn(bxis));
             }
-            int[] spans = new int[ncols];
+            int[] spbns = new int[ncols];
             int[] offsets = new int[ncols];
-            SizeRequirements.calculateTiledPositions(cmin, null, reqs,
-                                                     offsets, spans);
-            // apply the adjustments
+            SizeRequirements.cblculbteTiledPositions(cmin, null, reqs,
+                                                     offsets, spbns);
+            // bpply the bdjustments
             for (int i = 0; i < ncols; i++) {
                 SizeRequirements req = reqs[i];
-                req.minimum = Math.max(spans[i], req.minimum);
-                req.preferred = Math.max(req.minimum, req.preferred);
-                req.maximum = Math.max(req.preferred, req.maximum);
+                req.minimum = Mbth.mbx(spbns[i], req.minimum);
+                req.preferred = Mbth.mbx(req.minimum, req.preferred);
+                req.mbximum = Mbth.mbx(req.preferred, req.mbximum);
             }
         }
 
-        // check if the preferred size needs adjustment.
-        int cpref = (int) v.getPreferredSpan(axis);
+        // check if the preferred size needs bdjustment.
+        int cpref = (int) v.getPreferredSpbn(bxis);
         if (cpref > pref) {
             /*
-             * the columns that this cell spans need adjustment to fit
-             * this table cell.... calculate the adjustments.  The
-             * maximum for each cell is the maximum of the existing
-             * maximum or the amount needed by the cell.
+             * the columns thbt this cell spbns need bdjustment to fit
+             * this tbble cell.... cblculbte the bdjustments.  The
+             * mbximum for ebch cell is the mbximum of the existing
+             * mbximum or the bmount needed by the cell.
              */
             SizeRequirements[] reqs = new SizeRequirements[ncols];
             for (int i = 0; i < ncols; i++) {
                 SizeRequirements r = reqs[i] = columnRequirements[col + i];
             }
-            int[] spans = new int[ncols];
+            int[] spbns = new int[ncols];
             int[] offsets = new int[ncols];
-            SizeRequirements.calculateTiledPositions(cpref, null, reqs,
-                                                     offsets, spans);
-            // apply the adjustments
+            SizeRequirements.cblculbteTiledPositions(cpref, null, reqs,
+                                                     offsets, spbns);
+            // bpply the bdjustments
             for (int i = 0; i < ncols; i++) {
                 SizeRequirements req = reqs[i];
-                req.preferred = Math.max(spans[i], req.preferred);
-                req.maximum = Math.max(req.preferred, req.maximum);
+                req.preferred = Mbth.mbx(spbns[i], req.preferred);
+                req.mbximum = Mbth.mbx(req.preferred, req.mbximum);
             }
         }
 
     }
 
     /**
-     * Fetches the child view that represents the given position in
-     * the model.  This is implemented to walk through the children
-     * looking for a range that contains the given position.  In this
-     * view the children do not necessarily have a one to one mapping
+     * Fetches the child view thbt represents the given position in
+     * the model.  This is implemented to wblk through the children
+     * looking for b rbnge thbt contbins the given position.  In this
+     * view the children do not necessbrily hbve b one to one mbpping
      * with the child elements.
      *
-     * @param pos  the search position &gt;= 0
-     * @param a  the allocation to the table on entry, and the
-     *   allocation of the view containing the position on exit
+     * @pbrbm pos  the sebrch position &gt;= 0
+     * @pbrbm b  the bllocbtion to the tbble on entry, bnd the
+     *   bllocbtion of the view contbining the position on exit
      * @return  the view representing the given position, or
      *   <code>null</code> if there isn't one
      */
-    protected View getViewAtPosition(int pos, Rectangle a) {
+    protected View getViewAtPosition(int pos, Rectbngle b) {
         int n = getViewCount();
         for (int i = 0; i < n; i++) {
             View v = getView(i);
-            int p0 = v.getStartOffset();
+            int p0 = v.getStbrtOffset();
             int p1 = v.getEndOffset();
             if ((pos >= p0) && (pos < p1)) {
                 // it's in this view.
-                if (a != null) {
-                    childAllocation(i, a);
+                if (b != null) {
+                    childAllocbtion(i, b);
                 }
                 return v;
             }
         }
         if (pos == getEndOffset()) {
             View v = getView(n - 1);
-            if (a != null) {
-                this.childAllocation(n - 1, a);
+            if (b != null) {
+                this.childAllocbtion(n - 1, b);
             }
             return v;
         }
         return null;
     }
 
-    // ---- variables ----------------------------------------------------
+    // ---- vbribbles ----------------------------------------------------
 
-    int[] columnSpans;
+    int[] columnSpbns;
     int[] columnOffsets;
     SizeRequirements[] columnRequirements;
-    Vector<TableRow> rows;
-    boolean gridValid;
-    static final private BitSet EMPTY = new BitSet();
+    Vector<TbbleRow> rows;
+    boolebn gridVblid;
+    stbtic finbl privbte BitSet EMPTY = new BitSet();
 
     /**
-     * View of a row in a row-centric table.
+     * View of b row in b row-centric tbble.
      */
-    public class TableRow extends BoxView {
+    public clbss TbbleRow extends BoxView {
 
         /**
-         * Constructs a TableView for the given element.
+         * Constructs b TbbleView for the given element.
          *
-         * @param elem the element that this view is responsible for
+         * @pbrbm elem the element thbt this view is responsible for
          * @since 1.4
          */
-        public TableRow(Element elem) {
+        public TbbleRow(Element elem) {
             super(elem, View.X_AXIS);
             fillColumns = new BitSet();
         }
 
-        void clearFilledColumns() {
-            fillColumns.and(EMPTY);
+        void clebrFilledColumns() {
+            fillColumns.bnd(EMPTY);
         }
 
         void fillColumn(int col) {
             fillColumns.set(col);
         }
 
-        boolean isFilled(int col) {
+        boolebn isFilled(int col) {
             return fillColumns.get(col);
         }
 
-        /** get location in the overall set of rows */
+        /** get locbtion in the overbll set of rows */
         int getRow() {
             return row;
         }
 
         /**
-         * set location in the overall set of rows, this is
-         * set by the TableView.updateGrid() method.
+         * set locbtion in the overbll set of rows, this is
+         * set by the TbbleView.updbteGrid() method.
          */
         void setRow(int row) {
             this.row = row;
@@ -637,148 +637,148 @@ public abstract class TableView extends BoxView {
         }
 
         /**
-         * Change the child views.  This is implemented to
-         * provide the superclass behavior and invalidate the
-         * grid so that rows and columns will be recalculated.
+         * Chbnge the child views.  This is implemented to
+         * provide the superclbss behbvior bnd invblidbte the
+         * grid so thbt rows bnd columns will be recblculbted.
          */
-        public void replace(int offset, int length, View[] views) {
-            super.replace(offset, length, views);
-            invalidateGrid();
+        public void replbce(int offset, int length, View[] views) {
+            super.replbce(offset, length, views);
+            invblidbteGrid();
         }
 
         /**
-         * Perform layout for the major axis of the box (i.e. the
-         * axis that it represents).  The results of the layout should
-         * be placed in the given arrays which represent the allocations
-         * to the children along the major axis.
+         * Perform lbyout for the mbjor bxis of the box (i.e. the
+         * bxis thbt it represents).  The results of the lbyout should
+         * be plbced in the given brrbys which represent the bllocbtions
+         * to the children blong the mbjor bxis.
          * <p>
-         * This is re-implemented to give each child the span of the column
-         * width for the table, and to give cells that span multiple columns
-         * the multi-column span.
+         * This is re-implemented to give ebch child the spbn of the column
+         * width for the tbble, bnd to give cells thbt spbn multiple columns
+         * the multi-column spbn.
          *
-         * @param targetSpan the total span given to the view, which
-         *  would be used to layout the children.
-         * @param axis the axis being layed out.
-         * @param offsets the offsets from the origin of the view for
-         *  each of the child views.  This is a return value and is
-         *  filled in by the implementation of this method.
-         * @param spans the span of each child view.  This is a return
-         *  value and is filled in by the implementation of this method.
+         * @pbrbm tbrgetSpbn the totbl spbn given to the view, which
+         *  would be used to lbyout the children.
+         * @pbrbm bxis the bxis being lbyed out.
+         * @pbrbm offsets the offsets from the origin of the view for
+         *  ebch of the child views.  This is b return vblue bnd is
+         *  filled in by the implementbtion of this method.
+         * @pbrbm spbns the spbn of ebch child view.  This is b return
+         *  vblue bnd is filled in by the implementbtion of this method.
          */
-        protected void layoutMajorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
+        protected void lbyoutMbjorAxis(int tbrgetSpbn, int bxis, int[] offsets, int[] spbns) {
             int col = 0;
             int ncells = getViewCount();
             for (int cell = 0; cell < ncells; cell++, col++) {
                 View cv = getView(cell);
-                for (; isFilled(col); col++); // advance to a free column
-                int colSpan = getColumnsOccupied(cv);
-                spans[cell] = columnSpans[col];
+                for (; isFilled(col); col++); // bdvbnce to b free column
+                int colSpbn = getColumnsOccupied(cv);
+                spbns[cell] = columnSpbns[col];
                 offsets[cell] = columnOffsets[col];
-                if (colSpan > 1) {
-                    int n = columnSpans.length;
-                    for (int j = 1; j < colSpan; j++) {
-                        // Because the table may be only partially formed, some
-                        // of the columns may not yet exist.  Therefore we check
+                if (colSpbn > 1) {
+                    int n = columnSpbns.length;
+                    for (int j = 1; j < colSpbn; j++) {
+                        // Becbuse the tbble mby be only pbrtiblly formed, some
+                        // of the columns mby not yet exist.  Therefore we check
                         // the bounds.
                         if ((col+j) < n) {
-                            spans[cell] += columnSpans[col+j];
+                            spbns[cell] += columnSpbns[col+j];
                         }
                     }
-                    col += colSpan - 1;
+                    col += colSpbn - 1;
                 }
             }
         }
 
         /**
-         * Perform layout for the minor axis of the box (i.e. the
-         * axis orthogonal to the axis that it represents).  The results
-         * of the layout should be placed in the given arrays which represent
-         * the allocations to the children along the minor axis.  This
-         * is called by the superclass whenever the layout needs to be
-         * updated along the minor axis.
+         * Perform lbyout for the minor bxis of the box (i.e. the
+         * bxis orthogonbl to the bxis thbt it represents).  The results
+         * of the lbyout should be plbced in the given brrbys which represent
+         * the bllocbtions to the children blong the minor bxis.  This
+         * is cblled by the superclbss whenever the lbyout needs to be
+         * updbted blong the minor bxis.
          * <p>
-         * This is implemented to delegate to the superclass, then adjust
-         * the span for any cell that spans multiple rows.
+         * This is implemented to delegbte to the superclbss, then bdjust
+         * the spbn for bny cell thbt spbns multiple rows.
          *
-         * @param targetSpan the total span given to the view, which
-         *  would be used to layout the children.
-         * @param axis the axis being layed out.
-         * @param offsets the offsets from the origin of the view for
-         *  each of the child views.  This is a return value and is
-         *  filled in by the implementation of this method.
-         * @param spans the span of each child view.  This is a return
-         *  value and is filled in by the implementation of this method.
+         * @pbrbm tbrgetSpbn the totbl spbn given to the view, which
+         *  would be used to lbyout the children.
+         * @pbrbm bxis the bxis being lbyed out.
+         * @pbrbm offsets the offsets from the origin of the view for
+         *  ebch of the child views.  This is b return vblue bnd is
+         *  filled in by the implementbtion of this method.
+         * @pbrbm spbns the spbn of ebch child view.  This is b return
+         *  vblue bnd is filled in by the implementbtion of this method.
          */
-        protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
-            super.layoutMinorAxis(targetSpan, axis, offsets, spans);
+        protected void lbyoutMinorAxis(int tbrgetSpbn, int bxis, int[] offsets, int[] spbns) {
+            super.lbyoutMinorAxis(tbrgetSpbn, bxis, offsets, spbns);
             int col = 0;
             int ncells = getViewCount();
             for (int cell = 0; cell < ncells; cell++, col++) {
                 View cv = getView(cell);
-                for (; isFilled(col); col++); // advance to a free column
-                int colSpan = getColumnsOccupied(cv);
-                int rowSpan = getRowsOccupied(cv);
-                if (rowSpan > 1) {
-                    for (int j = 1; j < rowSpan; j++) {
-                        // test bounds of each row because it may not exist
-                        // either because of error or because the table isn't
-                        // fully loaded yet.
+                for (; isFilled(col); col++); // bdvbnce to b free column
+                int colSpbn = getColumnsOccupied(cv);
+                int rowSpbn = getRowsOccupied(cv);
+                if (rowSpbn > 1) {
+                    for (int j = 1; j < rowSpbn; j++) {
+                        // test bounds of ebch row becbuse it mby not exist
+                        // either becbuse of error or becbuse the tbble isn't
+                        // fully lobded yet.
                         int row = getRow() + j;
-                        if (row < TableView.this.getViewCount()) {
-                            int span = TableView.this.getSpan(Y_AXIS, getRow()+j);
-                            spans[cell] += span;
+                        if (row < TbbleView.this.getViewCount()) {
+                            int spbn = TbbleView.this.getSpbn(Y_AXIS, getRow()+j);
+                            spbns[cell] += spbn;
                         }
                     }
                 }
-                if (colSpan > 1) {
-                    col += colSpan - 1;
+                if (colSpbn > 1) {
+                    col += colSpbn - 1;
                 }
             }
         }
 
         /**
-         * Determines the resizability of the view along the
-         * given axis.  A value of 0 or less is not resizable.
+         * Determines the resizbbility of the view blong the
+         * given bxis.  A vblue of 0 or less is not resizbble.
          *
-         * @param axis may be either View.X_AXIS or View.Y_AXIS
+         * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
          * @return the resize weight
-         * @exception IllegalArgumentException for an invalid axis
+         * @exception IllegblArgumentException for bn invblid bxis
          */
-        public int getResizeWeight(int axis) {
+        public int getResizeWeight(int bxis) {
             return 1;
         }
 
         /**
-         * Fetches the child view that represents the given position in
-         * the model.  This is implemented to walk through the children
-         * looking for a range that contains the given position.  In this
-         * view the children do not necessarily have a one to one mapping
+         * Fetches the child view thbt represents the given position in
+         * the model.  This is implemented to wblk through the children
+         * looking for b rbnge thbt contbins the given position.  In this
+         * view the children do not necessbrily hbve b one to one mbpping
          * with the child elements.
          *
-         * @param pos  the search position &gt;= 0
-         * @param a  the allocation to the table on entry, and the
-         *   allocation of the view containing the position on exit
+         * @pbrbm pos  the sebrch position &gt;= 0
+         * @pbrbm b  the bllocbtion to the tbble on entry, bnd the
+         *   bllocbtion of the view contbining the position on exit
          * @return  the view representing the given position, or
          *   <code>null</code> if there isn't one
          */
-        protected View getViewAtPosition(int pos, Rectangle a) {
+        protected View getViewAtPosition(int pos, Rectbngle b) {
             int n = getViewCount();
             for (int i = 0; i < n; i++) {
                 View v = getView(i);
-                int p0 = v.getStartOffset();
+                int p0 = v.getStbrtOffset();
                 int p1 = v.getEndOffset();
                 if ((pos >= p0) && (pos < p1)) {
                     // it's in this view.
-                    if (a != null) {
-                        childAllocation(i, a);
+                    if (b != null) {
+                        childAllocbtion(i, b);
                     }
                     return v;
                 }
             }
             if (pos == getEndOffset()) {
                 View v = getView(n - 1);
-                if (a != null) {
-                    this.childAllocation(n - 1, a);
+                if (b != null) {
+                    this.childAllocbtion(n - 1, b);
                 }
                 return v;
             }
@@ -787,30 +787,30 @@ public abstract class TableView extends BoxView {
 
         /** columns filled by multi-column or multi-row cells */
         BitSet fillColumns;
-        /** the row within the overall grid */
+        /** the row within the overbll grid */
         int row;
     }
 
     /**
-     * @deprecated  A table cell can now be any View implementation.
+     * @deprecbted  A tbble cell cbn now be bny View implementbtion.
      */
-    @Deprecated
-    public class TableCell extends BoxView implements GridCell {
+    @Deprecbted
+    public clbss TbbleCell extends BoxView implements GridCell {
 
         /**
-         * Constructs a TableCell for the given element.
+         * Constructs b TbbleCell for the given element.
          *
-         * @param elem the element that this view is responsible for
+         * @pbrbm elem the element thbt this view is responsible for
          * @since 1.4
          */
-        public TableCell(Element elem) {
+        public TbbleCell(Element elem) {
             super(elem, View.Y_AXIS);
         }
 
         // --- GridCell methods -------------------------------------
 
         /**
-         * Gets the number of columns this cell spans (e.g. the
+         * Gets the number of columns this cell spbns (e.g. the
          * grid width).
          *
          * @return the number of columns
@@ -820,7 +820,7 @@ public abstract class TableView extends BoxView {
         }
 
         /**
-         * Gets the number of rows this cell spans (that is, the
+         * Gets the number of rows this cell spbns (thbt is, the
          * grid height).
          *
          * @return the number of rows
@@ -831,25 +831,25 @@ public abstract class TableView extends BoxView {
 
 
         /**
-         * Sets the grid location.
+         * Sets the grid locbtion.
          *
-         * @param row the row &gt;= 0
-         * @param col the column &gt;= 0
+         * @pbrbm row the row &gt;= 0
+         * @pbrbm col the column &gt;= 0
          */
-        public void setGridLocation(int row, int col) {
+        public void setGridLocbtion(int row, int col) {
             this.row = row;
             this.col = col;
         }
 
         /**
-         * Gets the row of the grid location
+         * Gets the row of the grid locbtion
          */
         public int getGridRow() {
             return row;
         }
 
         /**
-         * Gets the column of the grid location
+         * Gets the column of the grid locbtion
          */
         public int getGridColumn() {
             return col;
@@ -866,28 +866,28 @@ public abstract class TableView extends BoxView {
      * SHOULD EXIST
      * </em>
      */
-    interface GridCell {
+    interfbce GridCell {
 
         /**
-         * Sets the grid location.
+         * Sets the grid locbtion.
          *
-         * @param row the row &gt;= 0
-         * @param col the column &gt;= 0
+         * @pbrbm row the row &gt;= 0
+         * @pbrbm col the column &gt;= 0
          */
-        public void setGridLocation(int row, int col);
+        public void setGridLocbtion(int row, int col);
 
         /**
-         * Gets the row of the grid location
+         * Gets the row of the grid locbtion
          */
         public int getGridRow();
 
         /**
-         * Gets the column of the grid location
+         * Gets the column of the grid locbtion
          */
         public int getGridColumn();
 
         /**
-         * Gets the number of columns this cell spans (e.g. the
+         * Gets the number of columns this cell spbns (e.g. the
          * grid width).
          *
          * @return the number of columns
@@ -895,7 +895,7 @@ public abstract class TableView extends BoxView {
         public int getColumnCount();
 
         /**
-         * Gets the number of rows this cell spans (that is, the
+         * Gets the number of rows this cell spbns (thbt is, the
          * grid height).
          *
          * @return the number of rows

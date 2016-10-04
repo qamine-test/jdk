@@ -1,277 +1,277 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.zip;
+pbckbge jbvb.util.zip;
 
-import java.io.Closeable;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.EOFException;
-import java.io.File;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.WeakHashMap;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import jbvb.io.Closebble;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.EOFException;
+import jbvb.io.File;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.StbndbrdChbrsets;
+import jbvb.util.ArrbyDeque;
+import jbvb.util.Deque;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.WebkHbshMbp;
+import jbvb.util.strebm.Strebm;
+import jbvb.util.strebm.StrebmSupport;
 
-import static java.util.zip.ZipConstants64.*;
-import static java.util.zip.ZipUtils.*;
+import stbtic jbvb.util.zip.ZipConstbnts64.*;
+import stbtic jbvb.util.zip.ZipUtils.*;
 
 /**
- * This class is used to read entries from a zip file.
+ * This clbss is used to rebd entries from b zip file.
  *
- * <p> Unless otherwise noted, passing a <tt>null</tt> argument to a constructor
- * or method in this class will cause a {@link NullPointerException} to be
+ * <p> Unless otherwise noted, pbssing b <tt>null</tt> brgument to b constructor
+ * or method in this clbss will cbuse b {@link NullPointerException} to be
  * thrown.
  *
- * @author      David Connelly
+ * @buthor      Dbvid Connelly
  */
 public
-class ZipFile implements ZipConstants, Closeable {
-    private long jzfile;           // address of jzfile data
-    private final String name;     // zip file name
-    private final int total;       // total number of entries
-    private final boolean locsig;  // if zip file starts with LOCSIG (usually true)
-    private volatile boolean closeRequested = false;
+clbss ZipFile implements ZipConstbnts, Closebble {
+    privbte long jzfile;           // bddress of jzfile dbtb
+    privbte finbl String nbme;     // zip file nbme
+    privbte finbl int totbl;       // totbl number of entries
+    privbte finbl boolebn locsig;  // if zip file stbrts with LOCSIG (usublly true)
+    privbte volbtile boolebn closeRequested = fblse;
 
-    private static final int STORED = ZipEntry.STORED;
-    private static final int DEFLATED = ZipEntry.DEFLATED;
+    privbte stbtic finbl int STORED = ZipEntry.STORED;
+    privbte stbtic finbl int DEFLATED = ZipEntry.DEFLATED;
 
     /**
-     * Mode flag to open a zip file for reading.
+     * Mode flbg to open b zip file for rebding.
      */
-    public static final int OPEN_READ = 0x1;
+    public stbtic finbl int OPEN_READ = 0x1;
 
     /**
-     * Mode flag to open a zip file and mark it for deletion.  The file will be
-     * deleted some time between the moment that it is opened and the moment
-     * that it is closed, but its contents will remain accessible via the
+     * Mode flbg to open b zip file bnd mbrk it for deletion.  The file will be
+     * deleted some time between the moment thbt it is opened bnd the moment
+     * thbt it is closed, but its contents will rembin bccessible vib the
      * <tt>ZipFile</tt> object until either the close method is invoked or the
-     * virtual machine exits.
+     * virtubl mbchine exits.
      */
-    public static final int OPEN_DELETE = 0x4;
+    public stbtic finbl int OPEN_DELETE = 0x4;
 
-    static {
-        /* Zip library is loaded from System.initializeSystemClass */
+    stbtic {
+        /* Zip librbry is lobded from System.initiblizeSystemClbss */
         initIDs();
     }
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    private static final boolean usemmap;
+    privbte stbtic finbl boolebn usemmbp;
 
-    static {
-        // A system prpperty to disable mmap use to avoid vm crash when
-        // in-use zip file is accidently overwritten by others.
-        String prop = sun.misc.VM.getSavedProperty("sun.zip.disableMemoryMapping");
-        usemmap = (prop == null ||
-                   !(prop.length() == 0 || prop.equalsIgnoreCase("true")));
+    stbtic {
+        // A system prpperty to disbble mmbp use to bvoid vm crbsh when
+        // in-use zip file is bccidently overwritten by others.
+        String prop = sun.misc.VM.getSbvedProperty("sun.zip.disbbleMemoryMbpping");
+        usemmbp = (prop == null ||
+                   !(prop.length() == 0 || prop.equblsIgnoreCbse("true")));
     }
 
     /**
-     * Opens a zip file for reading.
+     * Opens b zip file for rebding.
      *
-     * <p>First, if there is a security manager, its <code>checkRead</code>
-     * method is called with the <code>name</code> argument as its argument
-     * to ensure the read is allowed.
+     * <p>First, if there is b security mbnbger, its <code>checkRebd</code>
+     * method is cblled with the <code>nbme</code> brgument bs its brgument
+     * to ensure the rebd is bllowed.
      *
-     * <p>The UTF-8 {@link java.nio.charset.Charset charset} is used to
-     * decode the entry names and comments.
+     * <p>The UTF-8 {@link jbvb.nio.chbrset.Chbrset chbrset} is used to
+     * decode the entry nbmes bnd comments.
      *
-     * @param name the name of the zip file
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkRead</code> method doesn't allow read access to the file.
+     * @pbrbm nbme the nbme of the zip file
+     * @throws ZipException if b ZIP formbt error hbs occurred
+     * @throws IOException if bn I/O error hbs occurred
+     * @throws SecurityException if b security mbnbger exists bnd its
+     *         <code>checkRebd</code> method doesn't bllow rebd bccess to the file.
      *
-     * @see SecurityManager#checkRead(java.lang.String)
+     * @see SecurityMbnbger#checkRebd(jbvb.lbng.String)
      */
-    public ZipFile(String name) throws IOException {
-        this(new File(name), OPEN_READ);
+    public ZipFile(String nbme) throws IOException {
+        this(new File(nbme), OPEN_READ);
     }
 
     /**
-     * Opens a new <code>ZipFile</code> to read from the specified
-     * <code>File</code> object in the specified mode.  The mode argument
+     * Opens b new <code>ZipFile</code> to rebd from the specified
+     * <code>File</code> object in the specified mode.  The mode brgument
      * must be either <tt>OPEN_READ</tt> or <tt>OPEN_READ | OPEN_DELETE</tt>.
      *
-     * <p>First, if there is a security manager, its <code>checkRead</code>
-     * method is called with the <code>name</code> argument as its argument to
-     * ensure the read is allowed.
+     * <p>First, if there is b security mbnbger, its <code>checkRebd</code>
+     * method is cblled with the <code>nbme</code> brgument bs its brgument to
+     * ensure the rebd is bllowed.
      *
-     * <p>The UTF-8 {@link java.nio.charset.Charset charset} is used to
-     * decode the entry names and comments
+     * <p>The UTF-8 {@link jbvb.nio.chbrset.Chbrset chbrset} is used to
+     * decode the entry nbmes bnd comments
      *
-     * @param file the ZIP file to be opened for reading
-     * @param mode the mode in which the file is to be opened
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if a security manager exists and
-     *         its <code>checkRead</code> method
-     *         doesn't allow read access to the file,
-     *         or its <code>checkDelete</code> method doesn't allow deleting
-     *         the file when the <tt>OPEN_DELETE</tt> flag is set.
-     * @throws IllegalArgumentException if the <tt>mode</tt> argument is invalid
-     * @see SecurityManager#checkRead(java.lang.String)
+     * @pbrbm file the ZIP file to be opened for rebding
+     * @pbrbm mode the mode in which the file is to be opened
+     * @throws ZipException if b ZIP formbt error hbs occurred
+     * @throws IOException if bn I/O error hbs occurred
+     * @throws SecurityException if b security mbnbger exists bnd
+     *         its <code>checkRebd</code> method
+     *         doesn't bllow rebd bccess to the file,
+     *         or its <code>checkDelete</code> method doesn't bllow deleting
+     *         the file when the <tt>OPEN_DELETE</tt> flbg is set.
+     * @throws IllegblArgumentException if the <tt>mode</tt> brgument is invblid
+     * @see SecurityMbnbger#checkRebd(jbvb.lbng.String)
      * @since 1.3
      */
     public ZipFile(File file, int mode) throws IOException {
-        this(file, mode, StandardCharsets.UTF_8);
+        this(file, mode, StbndbrdChbrsets.UTF_8);
     }
 
     /**
-     * Opens a ZIP file for reading given the specified File object.
+     * Opens b ZIP file for rebding given the specified File object.
      *
-     * <p>The UTF-8 {@link java.nio.charset.Charset charset} is used to
-     * decode the entry names and comments.
+     * <p>The UTF-8 {@link jbvb.nio.chbrset.Chbrset chbrset} is used to
+     * decode the entry nbmes bnd comments.
      *
-     * @param file the ZIP file to be opened for reading
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
+     * @pbrbm file the ZIP file to be opened for rebding
+     * @throws ZipException if b ZIP formbt error hbs occurred
+     * @throws IOException if bn I/O error hbs occurred
      */
     public ZipFile(File file) throws ZipException, IOException {
         this(file, OPEN_READ);
     }
 
-    private ZipCoder zc;
+    privbte ZipCoder zc;
 
     /**
-     * Opens a new <code>ZipFile</code> to read from the specified
-     * <code>File</code> object in the specified mode.  The mode argument
+     * Opens b new <code>ZipFile</code> to rebd from the specified
+     * <code>File</code> object in the specified mode.  The mode brgument
      * must be either <tt>OPEN_READ</tt> or <tt>OPEN_READ | OPEN_DELETE</tt>.
      *
-     * <p>First, if there is a security manager, its <code>checkRead</code>
-     * method is called with the <code>name</code> argument as its argument to
-     * ensure the read is allowed.
+     * <p>First, if there is b security mbnbger, its <code>checkRebd</code>
+     * method is cblled with the <code>nbme</code> brgument bs its brgument to
+     * ensure the rebd is bllowed.
      *
-     * @param file the ZIP file to be opened for reading
-     * @param mode the mode in which the file is to be opened
-     * @param charset
-     *        the {@linkplain java.nio.charset.Charset charset} to
-     *        be used to decode the ZIP entry name and comment that are not
-     *        encoded by using UTF-8 encoding (indicated by entry's general
-     *        purpose flag).
+     * @pbrbm file the ZIP file to be opened for rebding
+     * @pbrbm mode the mode in which the file is to be opened
+     * @pbrbm chbrset
+     *        the {@linkplbin jbvb.nio.chbrset.Chbrset chbrset} to
+     *        be used to decode the ZIP entry nbme bnd comment thbt bre not
+     *        encoded by using UTF-8 encoding (indicbted by entry's generbl
+     *        purpose flbg).
      *
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
+     * @throws ZipException if b ZIP formbt error hbs occurred
+     * @throws IOException if bn I/O error hbs occurred
      *
      * @throws SecurityException
-     *         if a security manager exists and its <code>checkRead</code>
-     *         method doesn't allow read access to the file,or its
-     *         <code>checkDelete</code> method doesn't allow deleting the
-     *         file when the <tt>OPEN_DELETE</tt> flag is set
+     *         if b security mbnbger exists bnd its <code>checkRebd</code>
+     *         method doesn't bllow rebd bccess to the file,or its
+     *         <code>checkDelete</code> method doesn't bllow deleting the
+     *         file when the <tt>OPEN_DELETE</tt> flbg is set
      *
-     * @throws IllegalArgumentException if the <tt>mode</tt> argument is invalid
+     * @throws IllegblArgumentException if the <tt>mode</tt> brgument is invblid
      *
-     * @see SecurityManager#checkRead(java.lang.String)
+     * @see SecurityMbnbger#checkRebd(jbvb.lbng.String)
      *
      * @since 1.7
      */
-    public ZipFile(File file, int mode, Charset charset) throws IOException
+    public ZipFile(File file, int mode, Chbrset chbrset) throws IOException
     {
         if (((mode & OPEN_READ) == 0) ||
             ((mode & ~(OPEN_READ | OPEN_DELETE)) != 0)) {
-            throw new IllegalArgumentException("Illegal mode: 0x"+
+            throw new IllegblArgumentException("Illegbl mode: 0x"+
                                                Integer.toHexString(mode));
         }
-        String name = file.getPath();
-        SecurityManager sm = System.getSecurityManager();
+        String nbme = file.getPbth();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkRead(name);
+            sm.checkRebd(nbme);
             if ((mode & OPEN_DELETE) != 0) {
-                sm.checkDelete(name);
+                sm.checkDelete(nbme);
             }
         }
-        if (charset == null)
-            throw new NullPointerException("charset is null");
-        this.zc = ZipCoder.get(charset);
-        long t0 = System.nanoTime();
-        jzfile = open(name, mode, file.lastModified(), usemmap);
-        sun.misc.PerfCounter.getZipFileOpenTime().addElapsedTimeFrom(t0);
+        if (chbrset == null)
+            throw new NullPointerException("chbrset is null");
+        this.zc = ZipCoder.get(chbrset);
+        long t0 = System.nbnoTime();
+        jzfile = open(nbme, mode, file.lbstModified(), usemmbp);
+        sun.misc.PerfCounter.getZipFileOpenTime().bddElbpsedTimeFrom(t0);
         sun.misc.PerfCounter.getZipFileCount().increment();
-        this.name = name;
-        this.total = getTotal(jzfile);
-        this.locsig = startsWithLOC(jzfile);
+        this.nbme = nbme;
+        this.totbl = getTotbl(jzfile);
+        this.locsig = stbrtsWithLOC(jzfile);
     }
 
     /**
-     * Opens a zip file for reading.
+     * Opens b zip file for rebding.
      *
-     * <p>First, if there is a security manager, its <code>checkRead</code>
-     * method is called with the <code>name</code> argument as its argument
-     * to ensure the read is allowed.
+     * <p>First, if there is b security mbnbger, its <code>checkRebd</code>
+     * method is cblled with the <code>nbme</code> brgument bs its brgument
+     * to ensure the rebd is bllowed.
      *
-     * @param name the name of the zip file
-     * @param charset
-     *        the {@linkplain java.nio.charset.Charset charset} to
-     *        be used to decode the ZIP entry name and comment that are not
-     *        encoded by using UTF-8 encoding (indicated by entry's general
-     *        purpose flag).
+     * @pbrbm nbme the nbme of the zip file
+     * @pbrbm chbrset
+     *        the {@linkplbin jbvb.nio.chbrset.Chbrset chbrset} to
+     *        be used to decode the ZIP entry nbme bnd comment thbt bre not
+     *        encoded by using UTF-8 encoding (indicbted by entry's generbl
+     *        purpose flbg).
      *
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
+     * @throws ZipException if b ZIP formbt error hbs occurred
+     * @throws IOException if bn I/O error hbs occurred
      * @throws SecurityException
-     *         if a security manager exists and its <code>checkRead</code>
-     *         method doesn't allow read access to the file
+     *         if b security mbnbger exists bnd its <code>checkRebd</code>
+     *         method doesn't bllow rebd bccess to the file
      *
-     * @see SecurityManager#checkRead(java.lang.String)
+     * @see SecurityMbnbger#checkRebd(jbvb.lbng.String)
      *
      * @since 1.7
      */
-    public ZipFile(String name, Charset charset) throws IOException
+    public ZipFile(String nbme, Chbrset chbrset) throws IOException
     {
-        this(new File(name), OPEN_READ, charset);
+        this(new File(nbme), OPEN_READ, chbrset);
     }
 
     /**
-     * Opens a ZIP file for reading given the specified File object.
-     * @param file the ZIP file to be opened for reading
-     * @param charset
-     *        The {@linkplain java.nio.charset.Charset charset} to be
-     *        used to decode the ZIP entry name and comment (ignored if
-     *        the <a href="package-summary.html#lang_encoding"> language
-     *        encoding bit</a> of the ZIP entry's general purpose bit
-     *        flag is set).
+     * Opens b ZIP file for rebding given the specified File object.
+     * @pbrbm file the ZIP file to be opened for rebding
+     * @pbrbm chbrset
+     *        The {@linkplbin jbvb.nio.chbrset.Chbrset chbrset} to be
+     *        used to decode the ZIP entry nbme bnd comment (ignored if
+     *        the <b href="pbckbge-summbry.html#lbng_encoding"> lbngubge
+     *        encoding bit</b> of the ZIP entry's generbl purpose bit
+     *        flbg is set).
      *
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
+     * @throws ZipException if b ZIP formbt error hbs occurred
+     * @throws IOException if bn I/O error hbs occurred
      *
      * @since 1.7
      */
-    public ZipFile(File file, Charset charset) throws IOException
+    public ZipFile(File file, Chbrset chbrset) throws IOException
     {
-        this(file, OPEN_READ, charset);
+        this(file, OPEN_READ, chbrset);
     }
 
     /**
@@ -279,7 +279,7 @@ class ZipFile implements ZipConstants, Closeable {
      *
      * @return the comment string for the zip file, or null if none
      *
-     * @throws IllegalStateException if the zip file has been closed
+     * @throws IllegblStbteException if the zip file hbs been closed
      *
      * Since 1.7
      */
@@ -294,23 +294,23 @@ class ZipFile implements ZipConstants, Closeable {
     }
 
     /**
-     * Returns the zip file entry for the specified name, or null
+     * Returns the zip file entry for the specified nbme, or null
      * if not found.
      *
-     * @param name the name of the entry
+     * @pbrbm nbme the nbme of the entry
      * @return the zip file entry, or null if not found
-     * @throws IllegalStateException if the zip file has been closed
+     * @throws IllegblStbteException if the zip file hbs been closed
      */
-    public ZipEntry getEntry(String name) {
-        if (name == null) {
-            throw new NullPointerException("name");
+    public ZipEntry getEntry(String nbme) {
+        if (nbme == null) {
+            throw new NullPointerException("nbme");
         }
         long jzentry = 0;
         synchronized (this) {
             ensureOpen();
-            jzentry = getEntry(jzfile, zc.getBytes(name), true);
+            jzentry = getEntry(jzfile, zc.getBytes(nbme), true);
             if (jzentry != 0) {
-                ZipEntry ze = getZipEntry(name, jzentry);
+                ZipEntry ze = getZipEntry(nbme, jzentry);
                 freeEntry(jzfile, jzentry);
                 return ze;
             }
@@ -318,78 +318,78 @@ class ZipFile implements ZipConstants, Closeable {
         return null;
     }
 
-    private static native long getEntry(long jzfile, byte[] name,
-                                        boolean addSlash);
+    privbte stbtic nbtive long getEntry(long jzfile, byte[] nbme,
+                                        boolebn bddSlbsh);
 
-    // freeEntry releases the C jzentry struct.
-    private static native void freeEntry(long jzfile, long jzentry);
+    // freeEntry relebses the C jzentry struct.
+    privbte stbtic nbtive void freeEntry(long jzfile, long jzentry);
 
-    // the outstanding inputstreams that need to be closed,
-    // mapped to the inflater objects they use.
-    private final Map<InputStream, Inflater> streams = new WeakHashMap<>();
+    // the outstbnding inputstrebms thbt need to be closed,
+    // mbpped to the inflbter objects they use.
+    privbte finbl Mbp<InputStrebm, Inflbter> strebms = new WebkHbshMbp<>();
 
     /**
-     * Returns an input stream for reading the contents of the specified
+     * Returns bn input strebm for rebding the contents of the specified
      * zip file entry.
      *
-     * <p> Closing this ZIP file will, in turn, close all input
-     * streams that have been returned by invocations of this method.
+     * <p> Closing this ZIP file will, in turn, close bll input
+     * strebms thbt hbve been returned by invocbtions of this method.
      *
-     * @param entry the zip file entry
-     * @return the input stream for reading the contents of the specified
+     * @pbrbm entry the zip file entry
+     * @return the input strebm for rebding the contents of the specified
      * zip file entry.
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
-     * @throws IllegalStateException if the zip file has been closed
+     * @throws ZipException if b ZIP formbt error hbs occurred
+     * @throws IOException if bn I/O error hbs occurred
+     * @throws IllegblStbteException if the zip file hbs been closed
      */
-    public InputStream getInputStream(ZipEntry entry) throws IOException {
+    public InputStrebm getInputStrebm(ZipEntry entry) throws IOException {
         if (entry == null) {
             throw new NullPointerException("entry");
         }
         long jzentry = 0;
-        ZipFileInputStream in = null;
+        ZipFileInputStrebm in = null;
         synchronized (this) {
             ensureOpen();
-            if (!zc.isUTF8() && (entry.flag & EFS) != 0) {
-                jzentry = getEntry(jzfile, zc.getBytesUTF8(entry.name), false);
+            if (!zc.isUTF8() && (entry.flbg & EFS) != 0) {
+                jzentry = getEntry(jzfile, zc.getBytesUTF8(entry.nbme), fblse);
             } else {
-                jzentry = getEntry(jzfile, zc.getBytes(entry.name), false);
+                jzentry = getEntry(jzfile, zc.getBytes(entry.nbme), fblse);
             }
             if (jzentry == 0) {
                 return null;
             }
-            in = new ZipFileInputStream(jzentry);
+            in = new ZipFileInputStrebm(jzentry);
 
             switch (getEntryMethod(jzentry)) {
-            case STORED:
-                synchronized (streams) {
-                    streams.put(in, null);
+            cbse STORED:
+                synchronized (strebms) {
+                    strebms.put(in, null);
                 }
                 return in;
-            case DEFLATED:
-                // MORE: Compute good size for inflater stream:
-                long size = getEntrySize(jzentry) + 2; // Inflater likes a bit of slack
+            cbse DEFLATED:
+                // MORE: Compute good size for inflbter strebm:
+                long size = getEntrySize(jzentry) + 2; // Inflbter likes b bit of slbck
                 if (size > 65536) size = 8192;
                 if (size <= 0) size = 4096;
-                Inflater inf = getInflater();
-                InputStream is =
-                    new ZipFileInflaterInputStream(in, inf, (int)size);
-                synchronized (streams) {
-                    streams.put(is, inf);
+                Inflbter inf = getInflbter();
+                InputStrebm is =
+                    new ZipFileInflbterInputStrebm(in, inf, (int)size);
+                synchronized (strebms) {
+                    strebms.put(is, inf);
                 }
                 return is;
-            default:
-                throw new ZipException("invalid compression method");
+            defbult:
+                throw new ZipException("invblid compression method");
             }
         }
     }
 
-    private class ZipFileInflaterInputStream extends InflaterInputStream {
-        private volatile boolean closeRequested = false;
-        private boolean eof = false;
-        private final ZipFileInputStream zfin;
+    privbte clbss ZipFileInflbterInputStrebm extends InflbterInputStrebm {
+        privbte volbtile boolebn closeRequested = fblse;
+        privbte boolebn eof = fblse;
+        privbte finbl ZipFileInputStrebm zfin;
 
-        ZipFileInflaterInputStream(ZipFileInputStream zfin, Inflater inf,
+        ZipFileInflbterInputStrebm(ZipFileInputStrebm zfin, Inflbter inf,
                 int size) {
             super(zfin, inf, size);
             this.zfin = zfin;
@@ -401,23 +401,23 @@ class ZipFile implements ZipConstants, Closeable {
             closeRequested = true;
 
             super.close();
-            Inflater inf;
-            synchronized (streams) {
-                inf = streams.remove(this);
+            Inflbter inf;
+            synchronized (strebms) {
+                inf = strebms.remove(this);
             }
             if (inf != null) {
-                releaseInflater(inf);
+                relebseInflbter(inf);
             }
         }
 
-        // Override fill() method to provide an extra "dummy" byte
-        // at the end of the input stream. This is required when
-        // using the "nowrap" Inflater option.
+        // Override fill() method to provide bn extrb "dummy" byte
+        // bt the end of the input strebm. This is required when
+        // using the "nowrbp" Inflbter option.
         protected void fill() throws IOException {
             if (eof) {
-                throw new EOFException("Unexpected end of ZLIB input stream");
+                throw new EOFException("Unexpected end of ZLIB input strebm");
             }
-            len = in.read(buf, 0, buf.length);
+            len = in.rebd(buf, 0, buf.length);
             if (len == -1) {
                 buf[0] = 0;
                 len = 1;
@@ -426,73 +426,73 @@ class ZipFile implements ZipConstants, Closeable {
             inf.setInput(buf, 0, len);
         }
 
-        public int available() throws IOException {
+        public int bvbilbble() throws IOException {
             if (closeRequested)
                 return 0;
-            long avail = zfin.size() - inf.getBytesWritten();
-            return (avail > (long) Integer.MAX_VALUE ?
-                    Integer.MAX_VALUE : (int) avail);
+            long bvbil = zfin.size() - inf.getBytesWritten();
+            return (bvbil > (long) Integer.MAX_VALUE ?
+                    Integer.MAX_VALUE : (int) bvbil);
         }
 
-        protected void finalize() throws Throwable {
+        protected void finblize() throws Throwbble {
             close();
         }
     }
 
     /*
-     * Gets an inflater from the list of available inflaters or allocates
-     * a new one.
+     * Gets bn inflbter from the list of bvbilbble inflbters or bllocbtes
+     * b new one.
      */
-    private Inflater getInflater() {
-        Inflater inf;
-        synchronized (inflaterCache) {
-            while (null != (inf = inflaterCache.poll())) {
-                if (false == inf.ended()) {
+    privbte Inflbter getInflbter() {
+        Inflbter inf;
+        synchronized (inflbterCbche) {
+            while (null != (inf = inflbterCbche.poll())) {
+                if (fblse == inf.ended()) {
                     return inf;
                 }
             }
         }
-        return new Inflater(true);
+        return new Inflbter(true);
     }
 
     /*
-     * Releases the specified inflater to the list of available inflaters.
+     * Relebses the specified inflbter to the list of bvbilbble inflbters.
      */
-    private void releaseInflater(Inflater inf) {
-        if (false == inf.ended()) {
+    privbte void relebseInflbter(Inflbter inf) {
+        if (fblse == inf.ended()) {
             inf.reset();
-            synchronized (inflaterCache) {
-                inflaterCache.add(inf);
+            synchronized (inflbterCbche) {
+                inflbterCbche.bdd(inf);
             }
         }
     }
 
-    // List of available Inflater objects for decompression
-    private Deque<Inflater> inflaterCache = new ArrayDeque<>();
+    // List of bvbilbble Inflbter objects for decompression
+    privbte Deque<Inflbter> inflbterCbche = new ArrbyDeque<>();
 
     /**
-     * Returns the path name of the ZIP file.
-     * @return the path name of the ZIP file
+     * Returns the pbth nbme of the ZIP file.
+     * @return the pbth nbme of the ZIP file
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
-    private class ZipEntryIterator implements Enumeration<ZipEntry>, Iterator<ZipEntry> {
-        private int i = 0;
+    privbte clbss ZipEntryIterbtor implements Enumerbtion<ZipEntry>, Iterbtor<ZipEntry> {
+        privbte int i = 0;
 
-        public ZipEntryIterator() {
+        public ZipEntryIterbtor() {
             ensureOpen();
         }
 
-        public boolean hasMoreElements() {
-            return hasNext();
+        public boolebn hbsMoreElements() {
+            return hbsNext();
         }
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             synchronized (ZipFile.this) {
                 ensureOpen();
-                return i < total;
+                return i < totbl;
             }
         }
 
@@ -503,23 +503,23 @@ class ZipFile implements ZipConstants, Closeable {
         public ZipEntry next() {
             synchronized (ZipFile.this) {
                 ensureOpen();
-                if (i >= total) {
+                if (i >= totbl) {
                     throw new NoSuchElementException();
                 }
                 long jzentry = getNextEntry(jzfile, i++);
                 if (jzentry == 0) {
-                    String message;
+                    String messbge;
                     if (closeRequested) {
-                        message = "ZipFile concurrently closed";
+                        messbge = "ZipFile concurrently closed";
                     } else {
-                        message = getZipMessage(ZipFile.this.jzfile);
+                        messbge = getZipMessbge(ZipFile.this.jzfile);
                     }
                     throw new ZipError("jzentry == 0" +
                                        ",\n jzfile = " + ZipFile.this.jzfile +
-                                       ",\n total = " + ZipFile.this.total +
-                                       ",\n name = " + ZipFile.this.name +
+                                       ",\n totbl = " + ZipFile.this.totbl +
+                                       ",\n nbme = " + ZipFile.this.nbme +
                                        ",\n i = " + i +
-                                       ",\n message = " + message
+                                       ",\n messbge = " + messbge
                         );
                 }
                 ZipEntry ze = getZipEntry(null, jzentry);
@@ -530,54 +530,54 @@ class ZipFile implements ZipConstants, Closeable {
     }
 
     /**
-     * Returns an enumeration of the ZIP file entries.
-     * @return an enumeration of the ZIP file entries
-     * @throws IllegalStateException if the zip file has been closed
+     * Returns bn enumerbtion of the ZIP file entries.
+     * @return bn enumerbtion of the ZIP file entries
+     * @throws IllegblStbteException if the zip file hbs been closed
      */
-    public Enumeration<? extends ZipEntry> entries() {
-        return new ZipEntryIterator();
+    public Enumerbtion<? extends ZipEntry> entries() {
+        return new ZipEntryIterbtor();
     }
 
     /**
-     * Return an ordered {@code Stream} over the ZIP file entries.
-     * Entries appear in the {@code Stream} in the order they appear in
-     * the central directory of the ZIP file.
+     * Return bn ordered {@code Strebm} over the ZIP file entries.
+     * Entries bppebr in the {@code Strebm} in the order they bppebr in
+     * the centrbl directory of the ZIP file.
      *
-     * @return an ordered {@code Stream} of entries in this ZIP file
-     * @throws IllegalStateException if the zip file has been closed
+     * @return bn ordered {@code Strebm} of entries in this ZIP file
+     * @throws IllegblStbteException if the zip file hbs been closed
      * @since 1.8
      */
-    public Stream<? extends ZipEntry> stream() {
-        return StreamSupport.stream(Spliterators.spliterator(
-                new ZipEntryIterator(), size(),
-                Spliterator.ORDERED | Spliterator.DISTINCT |
-                        Spliterator.IMMUTABLE | Spliterator.NONNULL), false);
+    public Strebm<? extends ZipEntry> strebm() {
+        return StrebmSupport.strebm(Spliterbtors.spliterbtor(
+                new ZipEntryIterbtor(), size(),
+                Spliterbtor.ORDERED | Spliterbtor.DISTINCT |
+                        Spliterbtor.IMMUTABLE | Spliterbtor.NONNULL), fblse);
     }
 
-    private ZipEntry getZipEntry(String name, long jzentry) {
+    privbte ZipEntry getZipEntry(String nbme, long jzentry) {
         ZipEntry e = new ZipEntry();
-        e.flag = getEntryFlag(jzentry);  // get the flag first
-        if (name != null) {
-            e.name = name;
+        e.flbg = getEntryFlbg(jzentry);  // get the flbg first
+        if (nbme != null) {
+            e.nbme = nbme;
         } else {
-            byte[] bname = getEntryBytes(jzentry, JZENTRY_NAME);
-            if (!zc.isUTF8() && (e.flag & EFS) != 0) {
-                e.name = zc.toStringUTF8(bname, bname.length);
+            byte[] bnbme = getEntryBytes(jzentry, JZENTRY_NAME);
+            if (!zc.isUTF8() && (e.flbg & EFS) != 0) {
+                e.nbme = zc.toStringUTF8(bnbme, bnbme.length);
             } else {
-                e.name = zc.toString(bname, bname.length);
+                e.nbme = zc.toString(bnbme, bnbme.length);
             }
         }
-        e.time = dosToJavaTime(getEntryTime(jzentry));
+        e.time = dosToJbvbTime(getEntryTime(jzentry));
         e.crc = getEntryCrc(jzentry);
         e.size = getEntrySize(jzentry);
         e.csize = getEntryCSize(jzentry);
         e.method = getEntryMethod(jzentry);
-        e.setExtra0(getEntryBytes(jzentry, JZENTRY_EXTRA), false);
+        e.setExtrb0(getEntryBytes(jzentry, JZENTRY_EXTRA), fblse);
         byte[] bcomm = getEntryBytes(jzentry, JZENTRY_COMMENT);
         if (bcomm == null) {
             e.comment = null;
         } else {
-            if (!zc.isUTF8() && (e.flag & EFS) != 0) {
+            if (!zc.isUTF8() && (e.flbg & EFS) != 0) {
                 e.comment = zc.toStringUTF8(bcomm, bcomm.length);
             } else {
                 e.comment = zc.toString(bcomm, bcomm.length);
@@ -586,25 +586,25 @@ class ZipFile implements ZipConstants, Closeable {
         return e;
     }
 
-    private static native long getNextEntry(long jzfile, int i);
+    privbte stbtic nbtive long getNextEntry(long jzfile, int i);
 
     /**
      * Returns the number of entries in the ZIP file.
      * @return the number of entries in the ZIP file
-     * @throws IllegalStateException if the zip file has been closed
+     * @throws IllegblStbteException if the zip file hbs been closed
      */
     public int size() {
         ensureOpen();
-        return total;
+        return totbl;
     }
 
     /**
      * Closes the ZIP file.
-     * <p> Closing this ZIP file will close all of the input streams
-     * previously returned by invocations of the {@link #getInputStream
-     * getInputStream} method.
+     * <p> Closing this ZIP file will close bll of the input strebms
+     * previously returned by invocbtions of the {@link #getInputStrebm
+     * getInputStrebm} method.
      *
-     * @throws IOException if an I/O error has occurred
+     * @throws IOException if bn I/O error hbs occurred
      */
     public void close() throws IOException {
         if (closeRequested)
@@ -612,14 +612,14 @@ class ZipFile implements ZipConstants, Closeable {
         closeRequested = true;
 
         synchronized (this) {
-            // Close streams, release their inflaters
-            synchronized (streams) {
-                if (false == streams.isEmpty()) {
-                    Map<InputStream, Inflater> copy = new HashMap<>(streams);
-                    streams.clear();
-                    for (Map.Entry<InputStream, Inflater> e : copy.entrySet()) {
+            // Close strebms, relebse their inflbters
+            synchronized (strebms) {
+                if (fblse == strebms.isEmpty()) {
+                    Mbp<InputStrebm, Inflbter> copy = new HbshMbp<>(strebms);
+                    strebms.clebr();
+                    for (Mbp.Entry<InputStrebm, Inflbter> e : copy.entrySet()) {
                         e.getKey().close();
-                        Inflater inf = e.getValue();
+                        Inflbter inf = e.getVblue();
                         if (inf != null) {
                             inf.end();
                         }
@@ -627,10 +627,10 @@ class ZipFile implements ZipConstants, Closeable {
                 }
             }
 
-            // Release cached inflaters
-            Inflater inf;
-            synchronized (inflaterCache) {
-                while (null != (inf = inflaterCache.poll())) {
+            // Relebse cbched inflbters
+            Inflbter inf;
+            synchronized (inflbterCbche) {
+                while (null != (inf = inflbterCbche.poll())) {
                     inf.end();
                 }
             }
@@ -646,60 +646,60 @@ class ZipFile implements ZipConstants, Closeable {
     }
 
     /**
-     * Ensures that the system resources held by this ZipFile object are
-     * released when there are no more references to it.
+     * Ensures thbt the system resources held by this ZipFile object bre
+     * relebsed when there bre no more references to it.
      *
      * <p>
      * Since the time when GC would invoke this method is undetermined,
-     * it is strongly recommended that applications invoke the <code>close</code>
-     * method as soon they have finished accessing this <code>ZipFile</code>.
-     * This will prevent holding up system resources for an undetermined
+     * it is strongly recommended thbt bpplicbtions invoke the <code>close</code>
+     * method bs soon they hbve finished bccessing this <code>ZipFile</code>.
+     * This will prevent holding up system resources for bn undetermined
      * length of time.
      *
-     * @throws IOException if an I/O error has occurred
-     * @see    java.util.zip.ZipFile#close()
+     * @throws IOException if bn I/O error hbs occurred
+     * @see    jbvb.util.zip.ZipFile#close()
      */
-    protected void finalize() throws IOException {
+    protected void finblize() throws IOException {
         close();
     }
 
-    private static native void close(long jzfile);
+    privbte stbtic nbtive void close(long jzfile);
 
-    private void ensureOpen() {
+    privbte void ensureOpen() {
         if (closeRequested) {
-            throw new IllegalStateException("zip file closed");
+            throw new IllegblStbteException("zip file closed");
         }
 
         if (jzfile == 0) {
-            throw new IllegalStateException("The object is not initialized.");
+            throw new IllegblStbteException("The object is not initiblized.");
         }
     }
 
-    private void ensureOpenOrZipException() throws IOException {
+    privbte void ensureOpenOrZipException() throws IOException {
         if (closeRequested) {
             throw new ZipException("ZipFile closed");
         }
     }
 
     /*
-     * Inner class implementing the input stream used to read a
+     * Inner clbss implementing the input strebm used to rebd b
      * (possibly compressed) zip file entry.
      */
-   private class ZipFileInputStream extends InputStream {
-        private volatile boolean closeRequested = false;
-        protected long jzentry; // address of jzentry data
-        private   long pos;     // current position within entry data
-        protected long rem;     // number of remaining bytes within entry
+   privbte clbss ZipFileInputStrebm extends InputStrebm {
+        privbte volbtile boolebn closeRequested = fblse;
+        protected long jzentry; // bddress of jzentry dbtb
+        privbte   long pos;     // current position within entry dbtb
+        protected long rem;     // number of rembining bytes within entry
         protected long size;    // uncompressed size of this entry
 
-        ZipFileInputStream(long jzentry) {
+        ZipFileInputStrebm(long jzentry) {
             pos = 0;
             rem = getEntryCSize(jzentry);
             size = getEntrySize(jzentry);
             this.jzentry = jzentry;
         }
 
-        public int read(byte b[], int off, int len) throws IOException {
+        public int rebd(byte b[], int off, int len) throws IOException {
             synchronized (ZipFile.this) {
                 long rem = this.rem;
                 long pos = this.pos;
@@ -714,7 +714,7 @@ class ZipFile implements ZipConstants, Closeable {
                 }
 
                 ensureOpenOrZipException();
-                len = ZipFile.read(ZipFile.this.jzfile, jzentry, pos, b,
+                len = ZipFile.rebd(ZipFile.this.jzfile, jzentry, pos, b,
                                    off, len);
                 if (len > 0) {
                     this.pos = (pos + len);
@@ -727,9 +727,9 @@ class ZipFile implements ZipConstants, Closeable {
             return len;
         }
 
-        public int read() throws IOException {
+        public int rebd() throws IOException {
             byte[] b = new byte[1];
-            if (read(b, 0, 1) == 1) {
+            if (rebd(b, 0, 1) == 1) {
                 return b[0] & 0xff;
             } else {
                 return -1;
@@ -747,7 +747,7 @@ class ZipFile implements ZipConstants, Closeable {
             return n;
         }
 
-        public int available() {
+        public int bvbilbble() {
             return rem > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) rem;
         }
 
@@ -767,54 +767,54 @@ class ZipFile implements ZipConstants, Closeable {
                     jzentry = 0;
                 }
             }
-            synchronized (streams) {
-                streams.remove(this);
+            synchronized (strebms) {
+                strebms.remove(this);
             }
         }
 
-        protected void finalize() {
+        protected void finblize() {
             close();
         }
     }
 
-    static {
-        sun.misc.SharedSecrets.setJavaUtilZipFileAccess(
-            new sun.misc.JavaUtilZipFileAccess() {
-                public boolean startsWithLocHeader(ZipFile zip) {
-                    return zip.startsWithLocHeader();
+    stbtic {
+        sun.misc.ShbredSecrets.setJbvbUtilZipFileAccess(
+            new sun.misc.JbvbUtilZipFileAccess() {
+                public boolebn stbrtsWithLocHebder(ZipFile zip) {
+                    return zip.stbrtsWithLocHebder();
                 }
              }
         );
     }
 
     /**
-     * Returns {@code true} if, and only if, the zip file begins with {@code
+     * Returns {@code true} if, bnd only if, the zip file begins with {@code
      * LOCSIG}.
      */
-    private boolean startsWithLocHeader() {
+    privbte boolebn stbrtsWithLocHebder() {
         return locsig;
     }
 
-    private static native long open(String name, int mode, long lastModified,
-                                    boolean usemmap) throws IOException;
-    private static native int getTotal(long jzfile);
-    private static native boolean startsWithLOC(long jzfile);
-    private static native int read(long jzfile, long jzentry,
+    privbte stbtic nbtive long open(String nbme, int mode, long lbstModified,
+                                    boolebn usemmbp) throws IOException;
+    privbte stbtic nbtive int getTotbl(long jzfile);
+    privbte stbtic nbtive boolebn stbrtsWithLOC(long jzfile);
+    privbte stbtic nbtive int rebd(long jzfile, long jzentry,
                                    long pos, byte[] b, int off, int len);
 
-    // access to the native zentry object
-    private static native long getEntryTime(long jzentry);
-    private static native long getEntryCrc(long jzentry);
-    private static native long getEntryCSize(long jzentry);
-    private static native long getEntrySize(long jzentry);
-    private static native int getEntryMethod(long jzentry);
-    private static native int getEntryFlag(long jzentry);
-    private static native byte[] getCommentBytes(long jzfile);
+    // bccess to the nbtive zentry object
+    privbte stbtic nbtive long getEntryTime(long jzentry);
+    privbte stbtic nbtive long getEntryCrc(long jzentry);
+    privbte stbtic nbtive long getEntryCSize(long jzentry);
+    privbte stbtic nbtive long getEntrySize(long jzentry);
+    privbte stbtic nbtive int getEntryMethod(long jzentry);
+    privbte stbtic nbtive int getEntryFlbg(long jzentry);
+    privbte stbtic nbtive byte[] getCommentBytes(long jzfile);
 
-    private static final int JZENTRY_NAME = 0;
-    private static final int JZENTRY_EXTRA = 1;
-    private static final int JZENTRY_COMMENT = 2;
-    private static native byte[] getEntryBytes(long jzentry, int type);
+    privbte stbtic finbl int JZENTRY_NAME = 0;
+    privbte stbtic finbl int JZENTRY_EXTRA = 1;
+    privbte stbtic finbl int JZENTRY_COMMENT = 2;
+    privbte stbtic nbtive byte[] getEntryBytes(long jzentry, int type);
 
-    private static native String getZipMessage(long jzfile);
+    privbte stbtic nbtive String getZipMessbge(long jzfile);
 }

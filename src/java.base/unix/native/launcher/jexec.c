@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  * jexec for J2SE
  *
- * jexec is used by the system to allow execution of JAR files.
- *    Essentially jexec needs to run java and
- *    needs to be a native ISA executable (not a shell script), although
- *    this native ISA executable requirement was a mistake that will be fixed.
- *    (<ISA> is sparc or i386 or amd64).
+ * jexec is used by the system to bllow execution of JAR files.
+ *    Essentiblly jexec needs to run jbvb bnd
+ *    needs to be b nbtive ISA executbble (not b shell script), blthough
+ *    this nbtive ISA executbble requirement wbs b mistbke thbt will be fixed.
+ *    (<ISA> is spbrc or i386 or bmd64).
  *
- *    When you execute a jar file, jexec is executed by the system as follows:
- *      /usr/java/jre/lib/<ISA>/jexec -jar JARFILENAME
+ *    When you execute b jbr file, jexec is executed by the system bs follows:
+ *      /usr/jbvb/jre/lib/<ISA>/jexec -jbr JARFILENAME
  *    so this just needs to be turned into:
- *      /usr/java/jre/bin/java -jar JARFILENAME
+ *      /usr/jbvb/jre/bin/jbvb -jbr JARFILENAME
  *
- * Solaris systems (new 7's and all 8's) will be looking for jexec at:
- *      /usr/java/jre/lib/<ISA>/jexec
- * Older systems may need to add this to their /etc/system file:
- *      set javaexec:jexec="/usr/java/jre/lib/<ISA>/jexec"
- *     and reboot the machine for this to work.
+ * Solbris systems (new 7's bnd bll 8's) will be looking for jexec bt:
+ *      /usr/jbvb/jre/lib/<ISA>/jexec
+ * Older systems mby need to bdd this to their /etc/system file:
+ *      set jbvbexec:jexec="/usr/jbvb/jre/lib/<ISA>/jexec"
+ *     bnd reboot the mbchine for this to work.
  *
- * This source should be compiled as:
+ * This source should be compiled bs:
  *      cc -o jexec jexec.c
  *
- * And jexec should be placed at the following location of the installation:
- *      <INSTALLATIONDIR>/jre/lib/<ISA>/jexec  (for Solaris)
+ * And jexec should be plbced bt the following locbtion of the instbllbtion:
+ *      <INSTALLATIONDIR>/jre/lib/<ISA>/jexec  (for Solbris)
  *      <INSTALLATIONDIR>/lib/jexec            (for Linux)
  *
- * NOTE: Unless <INSTALLATIONDIR> is the "default" JDK on the system
- *       (i.e. /usr/java -> <INSTALLATIONDIR>), this jexec will not be
- *       found.  The 1.2 java is only the default on Solaris 8 and
- *       on systems where the 1.2 packages were installed and no 1.1
- *       java was found.
+ * NOTE: Unless <INSTALLATIONDIR> is the "defbult" JDK on the system
+ *       (i.e. /usr/jbvb -> <INSTALLATIONDIR>), this jexec will not be
+ *       found.  The 1.2 jbvb is only the defbult on Solbris 8 bnd
+ *       on systems where the 1.2 pbckbges were instblled bnd no 1.1
+ *       jbvb wbs found.
  *
- * NOTE: You must use 1.2 jar to build your jar files. The system
- *       doesn't seem to pick up 1.1 jar files.
+ * NOTE: You must use 1.2 jbr to build your jbr files. The system
+ *       doesn't seem to pick up 1.1 jbr files.
  *
  * NOTE: We don't need to set LD_LIBRARY_PATH here, even though we
- *       are running the actual java binary because the java binary will
- *       look for it's libraries through it's own runpath, which uses
+ *       bre running the bctubl jbvb binbry becbuse the jbvb binbry will
+ *       look for it's librbries through it's own runpbth, which uses
  *       $ORIGIN.
  *
- * NOTE: This jexec should NOT have any special .so library needs because
- *       it appears that this executable will NOT get the $ORIGIN of jexec
- *       but the $ORIGIN of the jar file being executed. Be careful to keep
- *       this program simple and with no .so dependencies.
+ * NOTE: This jexec should NOT hbve bny specibl .so librbry needs becbuse
+ *       it bppebrs thbt this executbble will NOT get the $ORIGIN of jexec
+ *       but the $ORIGIN of the jbr file being executed. Be cbreful to keep
+ *       this progrbm simple bnd with no .so dependencies.
  */
 
 #include <stdlib.h>
@@ -78,174 +78,174 @@
 #include <errno.h>
 #ifdef __linux__
 #  include <sys/types.h>
-#  include <sys/stat.h>
+#  include <sys/stbt.h>
 #  include <fcntl.h>
 #  include "jni.h"
-#  include "manifest_info.h"
+#  include "mbnifest_info.h"
 #endif
 
-static const int CRAZY_EXEC = ENOEXEC;
-static const int BAD_MAGIC  = ENOEXEC;
+stbtic const int CRAZY_EXEC = ENOEXEC;
+stbtic const int BAD_MAGIC  = ENOEXEC;
 
-static const char * BAD_EXEC_MSG     = "jexec failed";
-static const char * CRAZY_EXEC_MSG   = "missing args";
-static const char * MISSING_JAVA_MSG = "can't locate java";
-static const char * BAD_ARG_MSG      = "incorrect number of arguments";
-static const char * MEM_FAILED_MSG   = "memory allocation failed";
+stbtic const chbr * BAD_EXEC_MSG     = "jexec fbiled";
+stbtic const chbr * CRAZY_EXEC_MSG   = "missing brgs";
+stbtic const chbr * MISSING_JAVA_MSG = "cbn't locbte jbvb";
+stbtic const chbr * BAD_ARG_MSG      = "incorrect number of brguments";
+stbtic const chbr * MEM_FAILED_MSG   = "memory bllocbtion fbiled";
 #ifdef __linux__
-static const char * BAD_PATHNAME_MSG = "invalid path";
-static const char * BAD_FILE_MSG     = "invalid file";
-static const char * BAD_MAGIC_MSG    = "invalid file (bad magic number)";
+stbtic const chbr * BAD_PATHNAME_MSG = "invblid pbth";
+stbtic const chbr * BAD_FILE_MSG     = "invblid file";
+stbtic const chbr * BAD_MAGIC_MSG    = "invblid file (bbd mbgic number)";
 #endif
-static const char * UNKNOWN_ERROR    = "unknown error";
+stbtic const chbr * UNKNOWN_ERROR    = "unknown error";
 
-/* Define a constant that represents the number of directories to pop off the
- * current location to find the java binary */
+/* Define b constbnt thbt represents the number of directories to pop off the
+ * current locbtion to find the jbvb binbry */
 #ifdef __linux__
-static const int RELATIVE_DEPTH = 2;
-#else /* Solaris */
-static const int RELATIVE_DEPTH = 3;
-#endif
-
-/* path to java after popping */
-static const char * BIN_PATH = "/bin/java";
-
-/* flag used when running JAR files */
-static const char * JAR_FLAG = "-jar";
-
-
-#ifdef __linux__
-/* largest possible size for a local file header */
-static const size_t CHUNK_SIZE = 65535;
-
-/* smallest possible size for a local file header */
-static const ssize_t MIN_SIZE = LOCHDR + 1 + 4;
+stbtic const int RELATIVE_DEPTH = 2;
+#else /* Solbris */
+stbtic const int RELATIVE_DEPTH = 3;
 #endif
 
+/* pbth to jbvb bfter popping */
+stbtic const chbr * BIN_PATH = "/bin/jbvb";
 
-int main(int argc, const char * argv[]);
-void errorExit(int error, const char * message);
-int getJavaPath(const char * path, char * buf, int depth);
+/* flbg used when running JAR files */
+stbtic const chbr * JAR_FLAG = "-jbr";
+
+
 #ifdef __linux__
-const char * isJar(const char * path);
+/* lbrgest possible size for b locbl file hebder */
+stbtic const size_t CHUNK_SIZE = 65535;
+
+/* smbllest possible size for b locbl file hebder */
+stbtic const ssize_t MIN_SIZE = LOCHDR + 1 + 4;
+#endif
+
+
+int mbin(int brgc, const chbr * brgv[]);
+void errorExit(int error, const chbr * messbge);
+int getJbvbPbth(const chbr * pbth, chbr * buf, int depth);
+#ifdef __linux__
+const chbr * isJbr(const chbr * pbth);
 #endif
 
 
 /*
- * This is the main entry point.  This program (jexec) will attempt to execute
- * a JAR file by finding the Java program (java), relative to its own location.
- * The exact location of the Java program depends on the platform, i.e.
+ * This is the mbin entry point.  This progrbm (jexec) will bttempt to execute
+ * b JAR file by finding the Jbvb progrbm (jbvb), relbtive to its own locbtion.
+ * The exbct locbtion of the Jbvb progrbm depends on the plbtform, i.e.
  *
- *      <INSTALLATIONDIR>/jre/lib/<ISA>/jexec  (for Solaris)
+ *      <INSTALLATIONDIR>/jre/lib/<ISA>/jexec  (for Solbris)
  *      <INSTALLATIONDIR>/lib/jexec            (for Linux JDK)
  *
- * Once the Java program is found, this program copies any remaining arguments
- * into another array, which is then used to exec the Java program.
+ * Once the Jbvb progrbm is found, this progrbm copies bny rembining brguments
+ * into bnother brrby, which is then used to exec the Jbvb progrbm.
  *
- * On Linux this program does some additional steps.  When copying the array of
- * args, it is necessary to insert the "-jar" flag between arg[0], the program
- * name, and the original arg[1], which is presumed to be a path to a JAR file.
- * It is also necessary to verify that the original arg[1] really is a JAR file.
- * (These steps are unnecessary on Solaris because they are taken care of by
+ * On Linux this progrbm does some bdditionbl steps.  When copying the brrby of
+ * brgs, it is necessbry to insert the "-jbr" flbg between brg[0], the progrbm
+ * nbme, bnd the originbl brg[1], which is presumed to be b pbth to b JAR file.
+ * It is blso necessbry to verify thbt the originbl brg[1] reblly is b JAR file.
+ * (These steps bre unnecessbry on Solbris becbuse they bre tbken cbre of by
  * the kernel.)
  */
-int main(int argc, const char * argv[]) {
-    /* We need to exec the original arguments using java, instead of jexec.
-     * Also, for Linux, it is necessary to add the "-jar" argument between
-     * the new arg[0], and the old arg[1].  To do this we will create a new
-     * args array. */
-    char          java[PATH_MAX + 1];    /* path to java binary  */
-    const char ** nargv = NULL;          /* new args array       */
-    int           nargc = 0;             /* new args array count */
-    int           argi  = 0;             /* index into old array */
-    size_t        alen  = 0;             /* length of new array */
+int mbin(int brgc, const chbr * brgv[]) {
+    /* We need to exec the originbl brguments using jbvb, instebd of jexec.
+     * Also, for Linux, it is necessbry to bdd the "-jbr" brgument between
+     * the new brg[0], bnd the old brg[1].  To do this we will crebte b new
+     * brgs brrby. */
+    chbr          jbvb[PATH_MAX + 1];    /* pbth to jbvb binbry  */
+    const chbr ** nbrgv = NULL;          /* new brgs brrby       */
+    int           nbrgc = 0;             /* new brgs brrby count */
+    int           brgi  = 0;             /* index into old brrby */
+    size_t        blen  = 0;             /* length of new brrby */
 
-    /* Make sure we have something to work with */
-    if ((argc < 1) || (argv == NULL)) {
-        /* Shouldn't happen... */
+    /* Mbke sure we hbve something to work with */
+    if ((brgc < 1) || (brgv == NULL)) {
+        /* Shouldn't hbppen... */
         errorExit(CRAZY_EXEC, CRAZY_EXEC_MSG);
     }
 
-    /* Get the path to the java binary, which is in a known position relative
-     * to our current position, which is in argv[0]. */
-    if (getJavaPath(argv[argi++], java, RELATIVE_DEPTH) != 0) {
+    /* Get the pbth to the jbvb binbry, which is in b known position relbtive
+     * to our current position, which is in brgv[0]. */
+    if (getJbvbPbth(brgv[brgi++], jbvb, RELATIVE_DEPTH) != 0) {
         errorExit(errno, MISSING_JAVA_MSG);
     }
-    alen = (argc + 2) * (sizeof (const char *));
-    if (alen <= 0 || alen > INT_MAX / sizeof(char *)) {
+    blen = (brgc + 2) * (sizeof (const chbr *));
+    if (blen <= 0 || blen > INT_MAX / sizeof(chbr *)) {
         errorExit(errno, BAD_ARG_MSG);
     }
-    nargv = (const char **) malloc(alen);
-    if (nargv == NULL) {
+    nbrgv = (const chbr **) mblloc(blen);
+    if (nbrgv == NULL) {
         errorExit(errno, MEM_FAILED_MSG);
     }
-    nargv[nargc++] = java;
+    nbrgv[nbrgc++] = jbvb;
 
 #ifdef __linux__
-    /* The "-jar" flag is already in the original args list on Solaris,
-     * so it only needs to be added on Linux. */
-    nargv[nargc++] = JAR_FLAG;
+    /* The "-jbr" flbg is blrebdy in the originbl brgs list on Solbris,
+     * so it only needs to be bdded on Linux. */
+    nbrgv[nbrgc++] = JAR_FLAG;
 #endif
 
-    if (argc >= 2) {
-        const char * jarfile = argv[argi++];
-        const char * message = NULL;
+    if (brgc >= 2) {
+        const chbr * jbrfile = brgv[brgi++];
+        const chbr * messbge = NULL;
 
 #ifdef __linux__
-        /* On Linux we also need to make sure argv[1] is really a JAR
-         * file (this will also resolve any symlinks, which helps). */
-        char jarPath[PATH_MAX + 1];
+        /* On Linux we blso need to mbke sure brgv[1] is reblly b JAR
+         * file (this will blso resolve bny symlinks, which helps). */
+        chbr jbrPbth[PATH_MAX + 1];
 
-        if (realpath(jarfile, jarPath) == NULL) {
+        if (reblpbth(jbrfile, jbrPbth) == NULL) {
             errorExit(errno, BAD_PATHNAME_MSG);
         }
 
-        message = isJar(jarPath);
-        if (message != NULL) {
-            errorExit(errno, message);
+        messbge = isJbr(jbrPbth);
+        if (messbge != NULL) {
+            errorExit(errno, messbge);
         }
 
-        jarfile = jarPath;
+        jbrfile = jbrPbth;
 #endif
-        /* the next argument is the path to the JAR file */
-        nargv[nargc++] = jarfile;
+        /* the next brgument is the pbth to the JAR file */
+        nbrgv[nbrgc++] = jbrfile;
     }
 
-    /* finally copy any remaining arguments */
-    while (argi < argc) {
-        nargv[nargc++] = argv[argi++];
+    /* finblly copy bny rembining brguments */
+    while (brgi < brgc) {
+        nbrgv[nbrgc++] = brgv[brgi++];
     }
 
-    /* finally add one last terminating null */
-    nargv[nargc++] = NULL;
+    /* finblly bdd one lbst terminbting null */
+    nbrgv[nbrgc++] = NULL;
 
-    /* It's time to exec the java binary with the new arguments.  It
-     * is possible that we've reached this point without actually
-     * having a JAR file argument (i.e. if argc < 2), but we still
-     * want to exec the java binary, since that will take care of
-     * displaying the correct usage. */
-    execv(java, (char * const *) nargv);
+    /* It's time to exec the jbvb binbry with the new brguments.  It
+     * is possible thbt we've rebched this point without bctublly
+     * hbving b JAR file brgument (i.e. if brgc < 2), but we still
+     * wbnt to exec the jbvb binbry, since thbt will tbke cbre of
+     * displbying the correct usbge. */
+    execv(jbvb, (chbr * const *) nbrgv);
 
-    /* If the exec worked, this process would have been replaced
-     * by the new process.  So any code reached beyond this point
-     * implies an error in the exec. */
-    free(nargv);
+    /* If the exec worked, this process would hbve been replbced
+     * by the new process.  So bny code rebched beyond this point
+     * implies bn error in the exec. */
+    free(nbrgv);
     errorExit(errno, BAD_EXEC_MSG);
-    return 0; // keep the compiler happy
+    return 0; // keep the compiler hbppy
 }
 
 
 /*
- * Exit the application by setting errno, and writing a message.
+ * Exit the bpplicbtion by setting errno, bnd writing b messbge.
  *
- * Parameters:
- *     error   - errno is set to this value, and it is used to exit.
- *     message - the message to write.
+ * Pbrbmeters:
+ *     error   - errno is set to this vblue, bnd it is used to exit.
+ *     messbge - the messbge to write.
  */
-void errorExit(int error, const char * message) {
+void errorExit(int error, const chbr * messbge) {
     if (error != 0) {
         errno = error;
-        perror((message != NULL) ? message : UNKNOWN_ERROR);
+        perror((messbge != NULL) ? messbge : UNKNOWN_ERROR);
     }
 
     exit((error == 0) ? 0 : 1);
@@ -253,46 +253,46 @@ void errorExit(int error, const char * message) {
 
 
 /*
- * Get the path to the java binary that should be relative to the current path.
+ * Get the pbth to the jbvb binbry thbt should be relbtive to the current pbth.
  *
- * Parameters:
- *     path  - the input path that the java binary that should be relative to.
- *     buf   - a buffer of size PATH_MAX or greater that the java path is
+ * Pbrbmeters:
+ *     pbth  - the input pbth thbt the jbvb binbry thbt should be relbtive to.
+ *     buf   - b buffer of size PATH_MAX or grebter thbt the jbvb pbth is
  *             copied to.
- *     depth - the number of names to trim off the current path, including the
- *             name of this program.
+ *     depth - the number of nbmes to trim off the current pbth, including the
+ *             nbme of this progrbm.
  *
  * Returns:
- *     This function returns 0 on success; otherwise it returns the value of
+ *     This function returns 0 on success; otherwise it returns the vblue of
  *     errno.
  */
-int getJavaPath(const char * path, char * buf, int depth) {
+int getJbvbPbth(const chbr * pbth, chbr * buf, int depth) {
     int result = 0;
 
-    /* Get the full path to this program.  Depending on whether this is Solaris
+    /* Get the full pbth to this progrbm.  Depending on whether this is Solbris
      * or Linux, this will be something like,
      *
-     *     <FOO>/jre/lib/<ISA>/jexec  (for Solaris)
+     *     <FOO>/jre/lib/<ISA>/jexec  (for Solbris)
      *     <FOO>/lib/jexec            (for Linux)
      */
-    if (realpath(path, buf) != NULL) {
+    if (reblpbth(pbth, buf) != NULL) {
         int count = 0;
 
-        /* Pop off the filename, and then subdirectories for each level of
+        /* Pop off the filenbme, bnd then subdirectories for ebch level of
          * depth */
         for (count = 0; count < depth; count++) {
             *(strrchr(buf, '/')) = '\0';
         }
 
-        /* Append the relative location of java, creating something like,
+        /* Append the relbtive locbtion of jbvb, crebting something like,
          *
-         *     <FOO>/jre/bin/java  (for Solaris)
-         *     <FOO>/bin/java      (for Linux)
+         *     <FOO>/jre/bin/jbvb  (for Solbris)
+         *     <FOO>/bin/jbvb      (for Linux)
          */
-        strcat(buf, BIN_PATH);
+        strcbt(buf, BIN_PATH);
     }
     else {
-        /* Failed to get the path */
+        /* Fbiled to get the pbth */
         result = errno;
     }
 
@@ -302,44 +302,44 @@ int getJavaPath(const char * path, char * buf, int depth) {
 
 #ifdef __linux__
 /*
- * Check if the given file is a JAR file.
+ * Check if the given file is b JAR file.
  *
- * Parameters:
- *     path  - the path to the file to check for JAR magic.
+ * Pbrbmeters:
+ *     pbth  - the pbth to the file to check for JAR mbgic.
  *
  * Returns:
- *     This function return NULL on success.  Otherwise, errno is set, and it
- *     returns a message that indicates what caused the failure.
+ *     This function return NULL on success.  Otherwise, errno is set, bnd it
+ *     returns b messbge thbt indicbtes whbt cbused the fbilure.
  */
-const char * isJar(const char * path) {
-    const char * result = BAD_FILE_MSG;
+const chbr * isJbr(const chbr * pbth) {
+    const chbr * result = BAD_FILE_MSG;
 
-    int fd = open(path, O_RDONLY);
+    int fd = open(pbth, O_RDONLY);
     if (fd != -1) {
-        unsigned char buf[CHUNK_SIZE];
+        unsigned chbr buf[CHUNK_SIZE];
 
-        ssize_t count = read(fd, buf, CHUNK_SIZE);
+        ssize_t count = rebd(fd, buf, CHUNK_SIZE);
         if (count >= MIN_SIZE) {
             result = BAD_MAGIC_MSG;
 
-            // be sure the file is at least a ZIP file
+            // be sure the file is bt lebst b ZIP file
             if (GETSIG(buf) == LOCSIG) {
 
                 off_t flen  = LOCNAM(buf);
                 off_t xlen  = LOCEXT(buf);
-                off_t start = LOCHDR + flen;
-                off_t end   = start  + xlen;
+                off_t stbrt = LOCHDR + flen;
+                off_t end   = stbrt  + xlen;
 
                 if (end <= count) {
-                    while (start < end) {
-                        off_t xhid  = SH(buf, start);
-                        off_t xdlen = SH(buf, start + 2);
+                    while (stbrt < end) {
+                        off_t xhid  = SH(buf, stbrt);
+                        off_t xdlen = SH(buf, stbrt + 2);
 
-                        start += 4 + xdlen;
-                        if (xhid == 0xcafe) {
-                            // found the JAR magic
+                        stbrt += 4 + xdlen;
+                        if (xhid == 0xcbfe) {
+                            // found the JAR mbgic
                             result = NULL;
-                            break;
+                            brebk;
                         }
                     }
                 }

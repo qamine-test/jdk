@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.text.View;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.Insets;
-import java.awt.Graphics;
-import java.awt.FontMetrics;
-import java.beans.PropertyChangeEvent;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.text.View;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.FontMetrics;
+import jbvb.bebns.PropertyChbngeEvent;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JLabel}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JLbbel}.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  * @since 1.7
  */
-public class SynthLabelUI extends BasicLabelUI implements SynthUI {
-    private SynthStyle style;
+public clbss SynthLbbelUI extends BbsicLbbelUI implements SynthUI {
+    privbte SynthStyle style;
 
     /**
-     * Returns the LabelUI implementation used for the skins look and feel.
+     * Returns the LbbelUI implementbtion used for the skins look bnd feel.
      *
-     * @param c component to create UI object for
+     * @pbrbm c component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent c){
-        return new SynthLabelUI();
+    public stbtic ComponentUI crebteUI(JComponent c){
+        return new SynthLbbelUI();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults(JLabel c) {
-        updateStyle(c);
+    protected void instbllDefbults(JLbbel c) {
+        updbteStyle(c);
     }
 
-    void updateStyle(JLabel c) {
+    void updbteStyle(JLbbel c) {
         SynthContext context = getContext(c, ENABLED);
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
         context.dispose();
     }
 
@@ -74,10 +74,10 @@ public class SynthLabelUI extends BasicLabelUI implements SynthUI {
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults(JLabel c){
+    protected void uninstbllDefbults(JLbbel c){
         SynthContext context = getContext(c, ENABLED);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
     }
@@ -87,142 +87,142 @@ public class SynthLabelUI extends BasicLabelUI implements SynthUI {
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+        return getContext(c, getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
-    private int getComponentState(JComponent c) {
-        int state = SynthLookAndFeel.getComponentState(c);
+    privbte int getComponentStbte(JComponent c) {
+        int stbte = SynthLookAndFeel.getComponentStbte(c);
         if (SynthLookAndFeel.getSelectedUI() == this &&
-                        state == SynthConstants.ENABLED) {
-            state = SynthLookAndFeel.getSelectedUIState() | SynthConstants.ENABLED;
+                        stbte == SynthConstbnts.ENABLED) {
+            stbte = SynthLookAndFeel.getSelectedUIStbte() | SynthConstbnts.ENABLED;
         }
-        return state;
+        return stbte;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getBaseline(JComponent c, int width, int height) {
+    public int getBbseline(JComponent c, int width, int height) {
         if (c == null) {
             throw new NullPointerException("Component must be non-null");
         }
         if (width < 0 || height < 0) {
-            throw new IllegalArgumentException(
-                    "Width and height must be >= 0");
+            throw new IllegblArgumentException(
+                    "Width bnd height must be >= 0");
         }
-        JLabel label = (JLabel)c;
-        String text = label.getText();
-        if (text == null || "".equals(text)) {
+        JLbbel lbbel = (JLbbel)c;
+        String text = lbbel.getText();
+        if (text == null || "".equbls(text)) {
             return -1;
         }
-        Insets i = label.getInsets();
-        Rectangle viewRect = new Rectangle();
-        Rectangle textRect = new Rectangle();
-        Rectangle iconRect = new Rectangle();
+        Insets i = lbbel.getInsets();
+        Rectbngle viewRect = new Rectbngle();
+        Rectbngle textRect = new Rectbngle();
+        Rectbngle iconRect = new Rectbngle();
         viewRect.x = i.left;
         viewRect.y = i.top;
         viewRect.width = width - (i.right + viewRect.x);
         viewRect.height = height - (i.bottom + viewRect.y);
 
-        // layout the text and icon
-        SynthContext context = getContext(label);
+        // lbyout the text bnd icon
+        SynthContext context = getContext(lbbel);
         FontMetrics fm = context.getComponent().getFontMetrics(
             context.getStyle().getFont(context));
-        context.getStyle().getGraphicsUtils(context).layoutText(
-            context, fm, label.getText(), label.getIcon(),
-            label.getHorizontalAlignment(), label.getVerticalAlignment(),
-            label.getHorizontalTextPosition(), label.getVerticalTextPosition(),
-            viewRect, iconRect, textRect, label.getIconTextGap());
-        View view = (View)label.getClientProperty(BasicHTML.propertyKey);
-        int baseline;
+        context.getStyle().getGrbphicsUtils(context).lbyoutText(
+            context, fm, lbbel.getText(), lbbel.getIcon(),
+            lbbel.getHorizontblAlignment(), lbbel.getVerticblAlignment(),
+            lbbel.getHorizontblTextPosition(), lbbel.getVerticblTextPosition(),
+            viewRect, iconRect, textRect, lbbel.getIconTextGbp());
+        View view = (View)lbbel.getClientProperty(BbsicHTML.propertyKey);
+        int bbseline;
         if (view != null) {
-            baseline = BasicHTML.getHTMLBaseline(view, textRect.width,
+            bbseline = BbsicHTML.getHTMLBbseline(view, textRect.width,
                                                  textRect.height);
-            if (baseline >= 0) {
-                baseline += textRect.y;
+            if (bbseline >= 0) {
+                bbseline += textRect.y;
             }
         }
         else {
-            baseline = textRect.y + fm.getAscent();
+            bbseline = textRect.y + fm.getAscent();
         }
         context.dispose();
-        return baseline;
+        return bbseline;
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintLabelBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintLbbelBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints the specified component.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        JLabel label = (JLabel)context.getComponent();
-        Icon icon = (label.isEnabled()) ? label.getIcon() :
-                                          label.getDisabledIcon();
+    protected void pbint(SynthContext context, Grbphics g) {
+        JLbbel lbbel = (JLbbel)context.getComponent();
+        Icon icon = (lbbel.isEnbbled()) ? lbbel.getIcon() :
+                                          lbbel.getDisbbledIcon();
 
         g.setColor(context.getStyle().getColor(context,
                                                ColorType.TEXT_FOREGROUND));
         g.setFont(style.getFont(context));
-        context.getStyle().getGraphicsUtils(context).paintText(
-            context, g, label.getText(), icon,
-            label.getHorizontalAlignment(), label.getVerticalAlignment(),
-            label.getHorizontalTextPosition(), label.getVerticalTextPosition(),
-            label.getIconTextGap(), label.getDisplayedMnemonicIndex(), 0);
+        context.getStyle().getGrbphicsUtils(context).pbintText(
+            context, g, lbbel.getText(), icon,
+            lbbel.getHorizontblAlignment(), lbbel.getVerticblAlignment(),
+            lbbel.getHorizontblTextPosition(), lbbel.getVerticblTextPosition(),
+            lbbel.getIconTextGbp(), lbbel.getDisplbyedMnemonicIndex(), 0);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintLabelBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintLbbelBorder(context, g, x, y, w, h);
     }
 
     /**
@@ -230,17 +230,17 @@ public class SynthLabelUI extends BasicLabelUI implements SynthUI {
      */
     @Override
     public Dimension getPreferredSize(JComponent c) {
-        JLabel label = (JLabel)c;
-        Icon icon = (label.isEnabled()) ? label.getIcon() :
-                                          label.getDisabledIcon();
+        JLbbel lbbel = (JLbbel)c;
+        Icon icon = (lbbel.isEnbbled()) ? lbbel.getIcon() :
+                                          lbbel.getDisbbledIcon();
         SynthContext context = getContext(c);
-        Dimension size = context.getStyle().getGraphicsUtils(context).
+        Dimension size = context.getStyle().getGrbphicsUtils(context).
             getPreferredSize(
-               context, context.getStyle().getFont(context), label.getText(),
-               icon, label.getHorizontalAlignment(),
-               label.getVerticalAlignment(), label.getHorizontalTextPosition(),
-               label.getVerticalTextPosition(), label.getIconTextGap(),
-               label.getDisplayedMnemonicIndex());
+               context, context.getStyle().getFont(context), lbbel.getText(),
+               icon, lbbel.getHorizontblAlignment(),
+               lbbel.getVerticblAlignment(), lbbel.getHorizontblTextPosition(),
+               lbbel.getVerticblTextPosition(), lbbel.getIconTextGbp(),
+               lbbel.getDisplbyedMnemonicIndex());
 
         context.dispose();
         return size;
@@ -251,17 +251,17 @@ public class SynthLabelUI extends BasicLabelUI implements SynthUI {
      */
     @Override
     public Dimension getMinimumSize(JComponent c) {
-        JLabel label = (JLabel)c;
-        Icon icon = (label.isEnabled()) ? label.getIcon() :
-                                          label.getDisabledIcon();
+        JLbbel lbbel = (JLbbel)c;
+        Icon icon = (lbbel.isEnbbled()) ? lbbel.getIcon() :
+                                          lbbel.getDisbbledIcon();
         SynthContext context = getContext(c);
-        Dimension size = context.getStyle().getGraphicsUtils(context).
+        Dimension size = context.getStyle().getGrbphicsUtils(context).
             getMinimumSize(
-               context, context.getStyle().getFont(context), label.getText(),
-               icon, label.getHorizontalAlignment(),
-               label.getVerticalAlignment(), label.getHorizontalTextPosition(),
-               label.getVerticalTextPosition(), label.getIconTextGap(),
-               label.getDisplayedMnemonicIndex());
+               context, context.getStyle().getFont(context), lbbel.getText(),
+               icon, lbbel.getHorizontblAlignment(),
+               lbbel.getVerticblAlignment(), lbbel.getHorizontblTextPosition(),
+               lbbel.getVerticblTextPosition(), lbbel.getIconTextGbp(),
+               lbbel.getDisplbyedMnemonicIndex());
 
         context.dispose();
         return size;
@@ -271,18 +271,18 @@ public class SynthLabelUI extends BasicLabelUI implements SynthUI {
      * {@inheritDoc}
      */
     @Override
-    public Dimension getMaximumSize(JComponent c) {
-        JLabel label = (JLabel)c;
-        Icon icon = (label.isEnabled()) ? label.getIcon() :
-                                          label.getDisabledIcon();
+    public Dimension getMbximumSize(JComponent c) {
+        JLbbel lbbel = (JLbbel)c;
+        Icon icon = (lbbel.isEnbbled()) ? lbbel.getIcon() :
+                                          lbbel.getDisbbledIcon();
         SynthContext context = getContext(c);
-        Dimension size = context.getStyle().getGraphicsUtils(context).
-               getMaximumSize(
-               context, context.getStyle().getFont(context), label.getText(),
-               icon, label.getHorizontalAlignment(),
-               label.getVerticalAlignment(), label.getHorizontalTextPosition(),
-               label.getVerticalTextPosition(), label.getIconTextGap(),
-               label.getDisplayedMnemonicIndex());
+        Dimension size = context.getStyle().getGrbphicsUtils(context).
+               getMbximumSize(
+               context, context.getStyle().getFont(context), lbbel.getText(),
+               icon, lbbel.getHorizontblAlignment(),
+               lbbel.getVerticblAlignment(), lbbel.getHorizontblTextPosition(),
+               lbbel.getVerticblTextPosition(), lbbel.getIconTextGbp(),
+               lbbel.getDisplbyedMnemonicIndex());
 
         context.dispose();
         return size;
@@ -292,10 +292,10 @@ public class SynthLabelUI extends BasicLabelUI implements SynthUI {
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        super.propertyChange(e);
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((JLabel)e.getSource());
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        super.propertyChbnge(e);
+        if (SynthLookAndFeel.shouldUpdbteStyle(e)) {
+            updbteStyle((JLbbel)e.getSource());
         }
     }
 }

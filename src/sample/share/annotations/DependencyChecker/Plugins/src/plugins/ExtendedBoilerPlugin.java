@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,46 +30,46 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
-package plugins;
+pbckbge plugins;
 
 import checker.Module;
 import checker.Require;
-import java.util.Calendar;
+import jbvb.util.Cblendbr;
 
 /**
- * Introduces new features for BoilerPlugin. Features are boiling water by an
- * SMS and boiling water by date with notification by a phone call.
+ * Introduces new febtures for BoilerPlugin. Febtures bre boiling wbter by bn
+ * SMS bnd boiling wbter by dbte with notificbtion by b phone cbll.
  */
-@Require(value = Module.SPEAKER)
-@Require(value = Module.GSM, minVersion = 3)
-@Require(value = Module.DISPLAY)
-public class ExtendedBoilerPlugin extends BoilerPlugin {
+@Require(vblue = Module.SPEAKER)
+@Require(vblue = Module.GSM, minVersion = 3)
+@Require(vblue = Module.DISPLAY)
+public clbss ExtendedBoilerPlugin extends BoilerPlugin {
 
     /**
-     * Boils water at the appointed time and wakes you up by a ring and phone
-     * call. Shows "Good morning" and a quote of the day from the Internet on the
-     * display.
+     * Boils wbter bt the bppointed time bnd wbkes you up by b ring bnd phone
+     * cbll. Shows "Good morning" bnd b quote of the dby from the Internet on the
+     * displby.
      *
-     * @param calendar - date and time when water should be boiled
-     * @param phoneNumber - phone number to call
+     * @pbrbm cblendbr - dbte bnd time when wbter should be boiled
+     * @pbrbm phoneNumber - phone number to cbll
      */
-    public void boilAndWakeUp(Calendar calendar, int phoneNumber) {
-        //implementation
+    public void boilAndWbkeUp(Cblendbr cblendbr, int phoneNumber) {
+        //implementbtion
     }
 
     /**
-     * Boils water at the appointed time by getting an SMS of fixed format.
-     * Sends an SMS on finish.
+     * Boils wbter bt the bppointed time by getting bn SMS of fixed formbt.
+     * Sends bn SMS on finish.
      *
-     * @param sms - text of SMS
+     * @pbrbm sms - text of SMS
      */
     public void boilBySMS(String sms) {
-        //implementation
+        //implementbtion
     }
 }

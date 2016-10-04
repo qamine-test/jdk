@@ -1,105 +1,105 @@
 '\" t
-.\"  Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
 .\"     SectDesc: Troubleshooting Tools
-.\"     Title: jsadebugd.1
+.\"     Title: jsbdebugd.1
 .\"
 .if n .pl 99999
-.TH jsadebugd 1 "21 November 2013" "JDK 8" "Troubleshooting Tools"
+.TH jsbdebugd 1 "21 November 2013" "JDK 8" "Troubleshooting Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jsadebugd \- Attaches to a Java process or core file and acts as a debug server\&. This command is experimental and unsupported\&.
+jsbdebugd \- Attbches to b Jbvb process or core file bnd bcts bs b debug server\&. This commbnd is experimentbl bnd unsupported\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjsadebugd\fR \fIpid\fR [ \fIserver\-id\fR ]
+\fBjsbdebugd\fR \fIpid\fR [ \fIserver\-id\fR ]
 .fi     
 .nf     
 
-\fBjsadebugd\fR \fIexecutable\fR \fIcore\fR [ \fIserver\-id\fR ]
+\fBjsbdebugd\fR \fIexecutbble\fR \fIcore\fR [ \fIserver\-id\fR ]
 .fi     
 .sp     
 .TP     
 \fIpid\fR
-The process ID of the process to which the debug server attaches\&. The process must be a Java process\&. To get a list of Java processes running on a machine, use the jps(1) command\&. At most one instance of the debug server can be attached to a single process\&.
+The process ID of the process to which the debug server bttbches\&. The process must be b Jbvb process\&. To get b list of Jbvb processes running on b mbchine, use the jps(1) commbnd\&. At most one instbnce of the debug server cbn be bttbched to b single process\&.
 .TP     
-\fIexecutable\fR
-The Java executable from which the core dump was produced\&.
+\fIexecutbble\fR
+The Jbvb executbble from which the core dump wbs produced\&.
 .TP     
 \fIcore\fR
-The core file to which the debug server should attach\&.
+The core file to which the debug server should bttbch\&.
 .TP     
 \fIserver-id\fR
-An optional unique ID that is needed when multiple debug servers are started on the same machine\&. This ID must be used by remote clients to identify the particular debug server to which to attach\&. Within a single machine, this ID must be unique\&.
+An optionbl unique ID thbt is needed when multiple debug servers bre stbrted on the sbme mbchine\&. This ID must be used by remote clients to identify the pbrticulbr debug server to which to bttbch\&. Within b single mbchine, this ID must be unique\&.
 .SH DESCRIPTION    
-The \f3jsadebugd\fR command attaches to a Java process or core file and acts as a debug server\&. Remote clients such as \f3jstack\fR, \f3jmap\fR, and \f3jinfo\fR can attach to the server through Java Remote Method Invocation (RMI)\&. Before you start the \f3jsadebugd\fR command, start the RMI registry with the \f3rmiregistry\fR command as follows where \fI$JAVA_HOME\fR is the JDK installation directory:
+The \f3jsbdebugd\fR commbnd bttbches to b Jbvb process or core file bnd bcts bs b debug server\&. Remote clients such bs \f3jstbck\fR, \f3jmbp\fR, bnd \f3jinfo\fR cbn bttbch to the server through Jbvb Remote Method Invocbtion (RMI)\&. Before you stbrt the \f3jsbdebugd\fR commbnd, stbrt the RMI registry with the \f3rmiregistry\fR commbnd bs follows where \fI$JAVA_HOME\fR is the JDK instbllbtion directory:
 .sp     
 .nf     
-\f3rmiregistry \-J\-Xbootclasspath/p:$JAVA_HOME/lib/sajdi\&.jar\fP
+\f3rmiregistry \-J\-Xbootclbsspbth/p:$JAVA_HOME/lib/sbjdi\&.jbr\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-If the RMI registry was not started, then the \f3jsadebugd\fR command starts an RMI registry in a standard (1099) port internally\&. The debug server can be stopped by sending a \f3SIGINT\fR to it\&. To send a SIGINT press \fICtrl+C\fR\&.
+If the RMI registry wbs not stbrted, then the \f3jsbdebugd\fR commbnd stbrts bn RMI registry in b stbndbrd (1099) port internblly\&. The debug server cbn be stopped by sending b \f3SIGINT\fR to it\&. To send b SIGINT press \fICtrl+C\fR\&.
 .PP
-\fINote:\fR This utility is unsupported and may or may not be available in future releases of the JDK\&. In Windows Systems where \f3dbgeng\&.dll\fR is not present, Debugging Tools For Windows must be installed to have these tools working\&. The \f3PATH\fR environment variable should contain the location of jvm\&.dll used by the target process or the location from which the crash dump file was produced\&. For example, \f3s\fR\f3et PATH=%JDK_HOME%\ejre\ebin\eclient;%PATH%\fR\&.
+\fINote:\fR This utility is unsupported bnd mby or mby not be bvbilbble in future relebses of the JDK\&. In Windows Systems where \f3dbgeng\&.dll\fR is not present, Debugging Tools For Windows must be instblled to hbve these tools working\&. The \f3PATH\fR environment vbribble should contbin the locbtion of jvm\&.dll used by the tbrget process or the locbtion from which the crbsh dump file wbs produced\&. For exbmple, \f3s\fR\f3et PATH=%JDK_HOME%\ejre\ebin\eclient;%PATH%\fR\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
 jinfo(1)
 .TP 0.2i    
 \(bu
-jmap(1)
+jmbp(1)
 .TP 0.2i    
 \(bu
 jps(1)
 .TP 0.2i    
 \(bu
-jstack(1)
+jstbck(1)
 .TP 0.2i    
 \(bu
 rmiregistry(1)

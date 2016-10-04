@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.io.*;
-import java.math.BigInteger;
-import java.security.AlgorithmParametersSpi;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import javax.crypto.spec.PBEParameterSpec;
+import jbvb.io.*;
+import jbvb.mbth.BigInteger;
+import jbvb.security.AlgorithmPbrbmetersSpi;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.InvblidPbrbmeterSpecException;
+import jbvbx.crypto.spec.PBEPbrbmeterSpec;
 import sun.misc.HexDumpEncoder;
 import sun.security.util.*;
 
 
 /**
- * This class implements the parameter set used with password-based
- * encryption, which is defined in PKCS#5 as follows:
+ * This clbss implements the pbrbmeter set used with pbssword-bbsed
+ * encryption, which is defined in PKCS#5 bs follows:
  *
  * <pre>
- * PBEParameter ::=  SEQUENCE {
- *     salt   OCTET STRING SIZE(8),
- *     iterationCount   INTEGER }
+ * PBEPbrbmeter ::=  SEQUENCE {
+ *     sblt   OCTET STRING SIZE(8),
+ *     iterbtionCount   INTEGER }
  * </pre>
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  */
 
-public final class PBEParameters extends AlgorithmParametersSpi {
+public finbl clbss PBEPbrbmeters extends AlgorithmPbrbmetersSpi {
 
-    // the salt
-    private byte[] salt = null;
+    // the sblt
+    privbte byte[] sblt = null;
 
-    // the iteration count
-    private int iCount = 0;
+    // the iterbtion count
+    privbte int iCount = 0;
 
-    // the cipher parameter
-    private AlgorithmParameterSpec cipherParam = null;
+    // the cipher pbrbmeter
+    privbte AlgorithmPbrbmeterSpec cipherPbrbm = null;
 
-    protected void engineInit(AlgorithmParameterSpec paramSpec)
-        throws InvalidParameterSpecException
+    protected void engineInit(AlgorithmPbrbmeterSpec pbrbmSpec)
+        throws InvblidPbrbmeterSpecException
    {
-       if (!(paramSpec instanceof PBEParameterSpec)) {
-           throw new InvalidParameterSpecException
-               ("Inappropriate parameter specification");
+       if (!(pbrbmSpec instbnceof PBEPbrbmeterSpec)) {
+           throw new InvblidPbrbmeterSpecException
+               ("Inbppropribte pbrbmeter specificbtion");
        }
-       this.salt = ((PBEParameterSpec)paramSpec).getSalt().clone();
-       this.iCount = ((PBEParameterSpec)paramSpec).getIterationCount();
-       this.cipherParam = ((PBEParameterSpec)paramSpec).getParameterSpec();
+       this.sblt = ((PBEPbrbmeterSpec)pbrbmSpec).getSblt().clone();
+       this.iCount = ((PBEPbrbmeterSpec)pbrbmSpec).getIterbtionCount();
+       this.cipherPbrbm = ((PBEPbrbmeterSpec)pbrbmSpec).getPbrbmeterSpec();
     }
 
     protected void engineInit(byte[] encoded)
         throws IOException
     {
         try {
-            DerValue val = new DerValue(encoded);
-            if (val.tag != DerValue.tag_Sequence) {
-                throw new IOException("PBE parameter parsing error: "
-                                      + "not a sequence");
+            DerVblue vbl = new DerVblue(encoded);
+            if (vbl.tbg != DerVblue.tbg_Sequence) {
+                throw new IOException("PBE pbrbmeter pbrsing error: "
+                                      + "not b sequence");
             }
-            val.data.reset();
+            vbl.dbtb.reset();
 
-            this.salt = val.data.getOctetString();
-            this.iCount = val.data.getInteger();
+            this.sblt = vbl.dbtb.getOctetString();
+            this.iCount = vbl.dbtb.getInteger();
 
-            if (val.data.available() != 0) {
+            if (vbl.dbtb.bvbilbble() != 0) {
                 throw new IOException
-                    ("PBE parameter parsing error: extra data");
+                    ("PBE pbrbmeter pbrsing error: extrb dbtb");
             }
-        } catch (NumberFormatException e) {
-            throw new IOException("iteration count too big");
+        } cbtch (NumberFormbtException e) {
+            throw new IOException("iterbtion count too big");
         }
     }
 
@@ -101,28 +101,28 @@ public final class PBEParameters extends AlgorithmParametersSpi {
         engineInit(encoded);
     }
 
-    protected <T extends AlgorithmParameterSpec>
-            T engineGetParameterSpec(Class<T> paramSpec)
-        throws InvalidParameterSpecException
+    protected <T extends AlgorithmPbrbmeterSpec>
+            T engineGetPbrbmeterSpec(Clbss<T> pbrbmSpec)
+        throws InvblidPbrbmeterSpecException
     {
-        if (PBEParameterSpec.class.isAssignableFrom(paramSpec)) {
-            return paramSpec.cast(
-                new PBEParameterSpec(this.salt, this.iCount, this.cipherParam));
+        if (PBEPbrbmeterSpec.clbss.isAssignbbleFrom(pbrbmSpec)) {
+            return pbrbmSpec.cbst(
+                new PBEPbrbmeterSpec(this.sblt, this.iCount, this.cipherPbrbm));
         } else {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter specification");
+            throw new InvblidPbrbmeterSpecException
+                ("Inbppropribte pbrbmeter specificbtion");
         }
     }
 
     protected byte[] engineGetEncoded() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream bytes = new DerOutputStream();
+        DerOutputStrebm out = new DerOutputStrebm();
+        DerOutputStrebm bytes = new DerOutputStrebm();
 
-        bytes.putOctetString(this.salt);
+        bytes.putOctetString(this.sblt);
         bytes.putInteger(this.iCount);
 
-        out.write(DerValue.tag_Sequence, bytes);
-        return out.toByteArray();
+        out.write(DerVblue.tbg_Sequence, bytes);
+        return out.toByteArrby();
     }
 
     protected byte[] engineGetEncoded(String encodingMethod)
@@ -132,17 +132,17 @@ public final class PBEParameters extends AlgorithmParametersSpi {
     }
 
     /*
-     * Returns a formatted string describing the parameters.
+     * Returns b formbtted string describing the pbrbmeters.
      */
     protected String engineToString() {
-        String LINE_SEP = System.getProperty("line.separator");
-        String saltString = LINE_SEP + "    salt:" + LINE_SEP + "[";
+        String LINE_SEP = System.getProperty("line.sepbrbtor");
+        String sbltString = LINE_SEP + "    sblt:" + LINE_SEP + "[";
         HexDumpEncoder encoder = new HexDumpEncoder();
-        saltString += encoder.encodeBuffer(salt);
-        saltString += "]";
+        sbltString += encoder.encodeBuffer(sblt);
+        sbltString += "]";
 
-        return saltString + LINE_SEP + "    iterationCount:"
-            + LINE_SEP + Debug.toHexString(BigInteger.valueOf(iCount))
+        return sbltString + LINE_SEP + "    iterbtionCount:"
+            + LINE_SEP + Debug.toHexString(BigInteger.vblueOf(iCount))
             + LINE_SEP;
     }
 }

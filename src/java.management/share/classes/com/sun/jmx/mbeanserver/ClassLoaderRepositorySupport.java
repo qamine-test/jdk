@@ -1,320 +1,320 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
 
-import static com.sun.jmx.defaults.JmxProperties.MBEANSERVER_LOGGER;
-import java.security.Permission;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import javax.management.MBeanPermission;
+import stbtic com.sun.jmx.defbults.JmxProperties.MBEANSERVER_LOGGER;
+import jbvb.security.Permission;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Hbshtbble;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Level;
+import jbvbx.mbnbgement.MBebnPermission;
 
-import javax.management.ObjectName;
-import javax.management.loading.PrivateClassLoader;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.lobding.PrivbteClbssLobder;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * This class keeps the list of Class Loaders registered in the MBean Server.
- * It provides the necessary methods to load classes using the
- * registered Class Loaders.
+ * This clbss keeps the list of Clbss Lobders registered in the MBebn Server.
+ * It provides the necessbry methods to lobd clbsses using the
+ * registered Clbss Lobders.
  *
  * @since 1.5
  */
-final class ClassLoaderRepositorySupport
-    implements ModifiableClassLoaderRepository {
+finbl clbss ClbssLobderRepositorySupport
+    implements ModifibbleClbssLobderRepository {
 
-    /* We associate an optional ObjectName with each entry so that
-       we can remove the correct entry when unregistering an MBean
-       that is a ClassLoader.  The same object could be registered
-       under two different names (even though this is not recommended)
+    /* We bssocibte bn optionbl ObjectNbme with ebch entry so thbt
+       we cbn remove the correct entry when unregistering bn MBebn
+       thbt is b ClbssLobder.  The sbme object could be registered
+       under two different nbmes (even though this is not recommended)
        so if we did not do this we could disturb the defined
-       semantics for the order of ClassLoaders in the repository.  */
-    private static class LoaderEntry {
-        ObjectName name; // can be null
-        ClassLoader loader;
+       sembntics for the order of ClbssLobders in the repository.  */
+    privbte stbtic clbss LobderEntry {
+        ObjectNbme nbme; // cbn be null
+        ClbssLobder lobder;
 
-        LoaderEntry(ObjectName name,  ClassLoader loader) {
-            this.name = name;
-            this.loader = loader;
+        LobderEntry(ObjectNbme nbme,  ClbssLobder lobder) {
+            this.nbme = nbme;
+            this.lobder = lobder;
         }
     }
 
-    private static final LoaderEntry[] EMPTY_LOADER_ARRAY = new LoaderEntry[0];
+    privbte stbtic finbl LobderEntry[] EMPTY_LOADER_ARRAY = new LobderEntry[0];
 
     /**
-     * List of class loaders
-     * Only read-only actions should be performed on this object.
+     * List of clbss lobders
+     * Only rebd-only bctions should be performed on this object.
      *
-     * We do O(n) operations on this array, e.g. when removing
-     * a ClassLoader.  The assumption is that the number of elements
-     * is small, probably less than ten, and that the vast majority
-     * of operations are searches (loadClass) which are by definition
-     * linear.
+     * We do O(n) operbtions on this brrby, e.g. when removing
+     * b ClbssLobder.  The bssumption is thbt the number of elements
+     * is smbll, probbbly less thbn ten, bnd thbt the vbst mbjority
+     * of operbtions bre sebrches (lobdClbss) which bre by definition
+     * linebr.
      */
-    private LoaderEntry[] loaders = EMPTY_LOADER_ARRAY;
+    privbte LobderEntry[] lobders = EMPTY_LOADER_ARRAY;
 
     /**
-     * Same behavior as add(Object o) in {@link java.util.List}.
-     * Replace the loader list with a new one in which the new
-     * loader has been added.
+     * Sbme behbvior bs bdd(Object o) in {@link jbvb.util.List}.
+     * Replbce the lobder list with b new one in which the new
+     * lobder hbs been bdded.
      **/
-    private synchronized boolean add(ObjectName name, ClassLoader cl) {
-        List<LoaderEntry> l =
-            new ArrayList<LoaderEntry>(Arrays.asList(loaders));
-        l.add(new LoaderEntry(name, cl));
-        loaders = l.toArray(EMPTY_LOADER_ARRAY);
+    privbte synchronized boolebn bdd(ObjectNbme nbme, ClbssLobder cl) {
+        List<LobderEntry> l =
+            new ArrbyList<LobderEntry>(Arrbys.bsList(lobders));
+        l.bdd(new LobderEntry(nbme, cl));
+        lobders = l.toArrby(EMPTY_LOADER_ARRAY);
         return true;
     }
 
     /**
-     * Same behavior as remove(Object o) in {@link java.util.List}.
-     * Replace the loader list with a new one in which the old loader
-     * has been removed.
+     * Sbme behbvior bs remove(Object o) in {@link jbvb.util.List}.
+     * Replbce the lobder list with b new one in which the old lobder
+     * hbs been removed.
      *
-     * The ObjectName may be null, in which case the entry to
-     * be removed must also have a null ObjectName and the ClassLoader
-     * values must match.  If the ObjectName is not null, then
-     * the first entry with a matching ObjectName is removed,
-     * regardless of whether ClassLoader values match.  (In fact,
-     * the ClassLoader parameter will usually be null in this case.)
+     * The ObjectNbme mby be null, in which cbse the entry to
+     * be removed must blso hbve b null ObjectNbme bnd the ClbssLobder
+     * vblues must mbtch.  If the ObjectNbme is not null, then
+     * the first entry with b mbtching ObjectNbme is removed,
+     * regbrdless of whether ClbssLobder vblues mbtch.  (In fbct,
+     * the ClbssLobder pbrbmeter will usublly be null in this cbse.)
      **/
-    private synchronized boolean remove(ObjectName name, ClassLoader cl) {
-        final int size = loaders.length;
+    privbte synchronized boolebn remove(ObjectNbme nbme, ClbssLobder cl) {
+        finbl int size = lobders.length;
         for (int i = 0; i < size; i++) {
-            LoaderEntry entry = loaders[i];
-            boolean match =
-                (name == null) ?
-                cl == entry.loader :
-                name.equals(entry.name);
-            if (match) {
-                LoaderEntry[] newloaders = new LoaderEntry[size - 1];
-                System.arraycopy(loaders, 0, newloaders, 0, i);
-                System.arraycopy(loaders, i + 1, newloaders, i,
+            LobderEntry entry = lobders[i];
+            boolebn mbtch =
+                (nbme == null) ?
+                cl == entry.lobder :
+                nbme.equbls(entry.nbme);
+            if (mbtch) {
+                LobderEntry[] newlobders = new LobderEntry[size - 1];
+                System.brrbycopy(lobders, 0, newlobders, 0, i);
+                System.brrbycopy(lobders, i + 1, newlobders, i,
                                  size - 1 - i);
-                loaders = newloaders;
+                lobders = newlobders;
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * List of valid search
+     * List of vblid sebrch
      */
-    private final Map<String,List<ClassLoader>> search =
-        new Hashtable<String,List<ClassLoader>>(10);
+    privbte finbl Mbp<String,List<ClbssLobder>> sebrch =
+        new Hbshtbble<String,List<ClbssLobder>>(10);
 
     /**
-     * List of named class loaders.
+     * List of nbmed clbss lobders.
      */
-    private final Map<ObjectName,ClassLoader> loadersWithNames =
-        new Hashtable<ObjectName,ClassLoader>(10);
+    privbte finbl Mbp<ObjectNbme,ClbssLobder> lobdersWithNbmes =
+        new Hbshtbble<ObjectNbme,ClbssLobder>(10);
 
-    // from javax.management.loading.DefaultLoaderRepository
-    public final Class<?> loadClass(String className)
-        throws ClassNotFoundException {
-        return  loadClass(loaders, className, null, null);
+    // from jbvbx.mbnbgement.lobding.DefbultLobderRepository
+    public finbl Clbss<?> lobdClbss(String clbssNbme)
+        throws ClbssNotFoundException {
+        return  lobdClbss(lobders, clbssNbme, null, null);
     }
 
 
-    // from javax.management.loading.DefaultLoaderRepository
-    public final Class<?> loadClassWithout(ClassLoader without, String className)
-            throws ClassNotFoundException {
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+    // from jbvbx.mbnbgement.lobding.DefbultLobderRepository
+    public finbl Clbss<?> lobdClbssWithout(ClbssLobder without, String clbssNbme)
+            throws ClbssNotFoundException {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    ClassLoaderRepositorySupport.class.getName(),
-                    "loadClassWithout", className + " without " + without);
+                    ClbssLobderRepositorySupport.clbss.getNbme(),
+                    "lobdClbssWithout", clbssNbme + " without " + without);
         }
 
-        // without is null => just behave as loadClass
+        // without is null => just behbve bs lobdClbss
         //
         if (without == null)
-            return loadClass(loaders, className, null, null);
+            return lobdClbss(lobders, clbssNbme, null, null);
 
-        // We must try to load the class without the given loader.
+        // We must try to lobd the clbss without the given lobder.
         //
-        startValidSearch(without, className);
+        stbrtVblidSebrch(without, clbssNbme);
         try {
-            return loadClass(loaders, className, without, null);
-        } finally {
-            stopValidSearch(without, className);
+            return lobdClbss(lobders, clbssNbme, without, null);
+        } finblly {
+            stopVblidSebrch(without, clbssNbme);
         }
     }
 
 
-    public final Class<?> loadClassBefore(ClassLoader stop, String className)
-            throws ClassNotFoundException {
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+    public finbl Clbss<?> lobdClbssBefore(ClbssLobder stop, String clbssNbme)
+            throws ClbssNotFoundException {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    ClassLoaderRepositorySupport.class.getName(),
-                    "loadClassBefore", className + " before " + stop);
+                    ClbssLobderRepositorySupport.clbss.getNbme(),
+                    "lobdClbssBefore", clbssNbme + " before " + stop);
         }
 
         if (stop == null)
-            return loadClass(loaders, className, null, null);
+            return lobdClbss(lobders, clbssNbme, null, null);
 
-        startValidSearch(stop, className);
+        stbrtVblidSebrch(stop, clbssNbme);
         try {
-            return loadClass(loaders, className, null, stop);
-        } finally {
-            stopValidSearch(stop, className);
+            return lobdClbss(lobders, clbssNbme, null, stop);
+        } finblly {
+            stopVblidSebrch(stop, clbssNbme);
         }
     }
 
 
-    private Class<?> loadClass(final LoaderEntry list[],
-                               final String className,
-                               final ClassLoader without,
-                               final ClassLoader stop)
-            throws ClassNotFoundException {
-        ReflectUtil.checkPackageAccess(className);
-        final int size = list.length;
+    privbte Clbss<?> lobdClbss(finbl LobderEntry list[],
+                               finbl String clbssNbme,
+                               finbl ClbssLobder without,
+                               finbl ClbssLobder stop)
+            throws ClbssNotFoundException {
+        ReflectUtil.checkPbckbgeAccess(clbssNbme);
+        finbl int size = list.length;
         for(int i=0; i<size; i++) {
             try {
-                final ClassLoader cl = list[i].loader;
-                if (cl == null) // bootstrap class loader
-                    return Class.forName(className, false, null);
+                finbl ClbssLobder cl = list[i].lobder;
+                if (cl == null) // bootstrbp clbss lobder
+                    return Clbss.forNbme(clbssNbme, fblse, null);
                 if (cl == without)
                     continue;
                 if (cl == stop)
-                    break;
-                if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+                    brebk;
+                if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
                     MBEANSERVER_LOGGER.logp(Level.FINER,
-                            ClassLoaderRepositorySupport.class.getName(),
-                            "loadClass", "Trying loader = " + cl);
+                            ClbssLobderRepositorySupport.clbss.getNbme(),
+                            "lobdClbss", "Trying lobder = " + cl);
                 }
-                /* We used to have a special case for "instanceof
+                /* We used to hbve b specibl cbse for "instbnceof
                    MLet" here, where we invoked the method
-                   loadClass(className, null) to prevent infinite
+                   lobdClbss(clbssNbme, null) to prevent infinite
                    recursion.  But the rule whereby the MLet only
-                   consults loaders that precede it in the CLR (via
-                   loadClassBefore) means that the recursion can't
-                   happen, and the test here caused some legitimate
-                   classloading to fail.  For example, if you have
-                   dependencies C->D->E with loaders {E D C} in the
-                   CLR in that order, you would expect to be able to
-                   load C.  The problem is that while resolving D, CLR
-                   delegation is disabled, so it can't find E.  */
-                return Class.forName(className, false, cl);
-            } catch (ClassNotFoundException e) {
-                // OK: continue with next class
+                   consults lobders thbt precede it in the CLR (vib
+                   lobdClbssBefore) mebns thbt the recursion cbn't
+                   hbppen, bnd the test here cbused some legitimbte
+                   clbsslobding to fbil.  For exbmple, if you hbve
+                   dependencies C->D->E with lobders {E D C} in the
+                   CLR in thbt order, you would expect to be bble to
+                   lobd C.  The problem is thbt while resolving D, CLR
+                   delegbtion is disbbled, so it cbn't find E.  */
+                return Clbss.forNbme(clbssNbme, fblse, cl);
+            } cbtch (ClbssNotFoundException e) {
+                // OK: continue with next clbss
             }
         }
 
-        throw new ClassNotFoundException(className);
+        throw new ClbssNotFoundException(clbssNbme);
     }
 
-    private synchronized void startValidSearch(ClassLoader aloader,
-                                               String className)
-        throws ClassNotFoundException {
-        // Check if we have such a current search
+    privbte synchronized void stbrtVblidSebrch(ClbssLobder blobder,
+                                               String clbssNbme)
+        throws ClbssNotFoundException {
+        // Check if we hbve such b current sebrch
         //
-        List<ClassLoader> excluded = search.get(className);
-        if ((excluded!= null) && (excluded.contains(aloader))) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        List<ClbssLobder> excluded = sebrch.get(clbssNbme);
+        if ((excluded!= null) && (excluded.contbins(blobder))) {
+            if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
                 MBEANSERVER_LOGGER.logp(Level.FINER,
-                        ClassLoaderRepositorySupport.class.getName(),
-                        "startValidSearch", "Already requested loader = " +
-                        aloader + " class = " + className);
+                        ClbssLobderRepositorySupport.clbss.getNbme(),
+                        "stbrtVblidSebrch", "Alrebdy requested lobder = " +
+                        blobder + " clbss = " + clbssNbme);
             }
-            throw new ClassNotFoundException(className);
+            throw new ClbssNotFoundException(clbssNbme);
         }
 
-        // Add an entry
+        // Add bn entry
         //
         if (excluded == null) {
-            excluded = new ArrayList<ClassLoader>(1);
-            search.put(className, excluded);
+            excluded = new ArrbyList<ClbssLobder>(1);
+            sebrch.put(clbssNbme, excluded);
         }
-        excluded.add(aloader);
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        excluded.bdd(blobder);
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    ClassLoaderRepositorySupport.class.getName(),
-                    "startValidSearch",
-                    "loader = " + aloader + " class = " + className);
+                    ClbssLobderRepositorySupport.clbss.getNbme(),
+                    "stbrtVblidSebrch",
+                    "lobder = " + blobder + " clbss = " + clbssNbme);
         }
     }
 
-    private synchronized void stopValidSearch(ClassLoader aloader,
-                                              String className) {
+    privbte synchronized void stopVblidSebrch(ClbssLobder blobder,
+                                              String clbssNbme) {
 
-        // Retrieve the search.
+        // Retrieve the sebrch.
         //
-        List<ClassLoader> excluded = search.get(className);
+        List<ClbssLobder> excluded = sebrch.get(clbssNbme);
         if (excluded != null) {
-            excluded.remove(aloader);
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+            excluded.remove(blobder);
+            if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
                 MBEANSERVER_LOGGER.logp(Level.FINER,
-                        ClassLoaderRepositorySupport.class.getName(),
-                        "stopValidSearch",
-                        "loader = " + aloader + " class = " + className);
+                        ClbssLobderRepositorySupport.clbss.getNbme(),
+                        "stopVblidSebrch",
+                        "lobder = " + blobder + " clbss = " + clbssNbme);
             }
         }
     }
 
-    public final void addClassLoader(ClassLoader loader) {
-        add(null, loader);
+    public finbl void bddClbssLobder(ClbssLobder lobder) {
+        bdd(null, lobder);
     }
 
-    public final void removeClassLoader(ClassLoader loader) {
-        remove(null, loader);
+    public finbl void removeClbssLobder(ClbssLobder lobder) {
+        remove(null, lobder);
     }
 
-    public final synchronized void addClassLoader(ObjectName name,
-                                                  ClassLoader loader) {
-        loadersWithNames.put(name, loader);
-        if (!(loader instanceof PrivateClassLoader))
-            add(name, loader);
+    public finbl synchronized void bddClbssLobder(ObjectNbme nbme,
+                                                  ClbssLobder lobder) {
+        lobdersWithNbmes.put(nbme, lobder);
+        if (!(lobder instbnceof PrivbteClbssLobder))
+            bdd(nbme, lobder);
     }
 
-    public final synchronized void removeClassLoader(ObjectName name) {
-        ClassLoader loader = loadersWithNames.remove(name);
-        if (!(loader instanceof PrivateClassLoader))
-            remove(name, loader);
+    public finbl synchronized void removeClbssLobder(ObjectNbme nbme) {
+        ClbssLobder lobder = lobdersWithNbmes.remove(nbme);
+        if (!(lobder instbnceof PrivbteClbssLobder))
+            remove(nbme, lobder);
     }
 
-    public final ClassLoader getClassLoader(ObjectName name) {
-        ClassLoader instance = loadersWithNames.get(name);
-        if (instance != null) {
-            SecurityManager sm = System.getSecurityManager();
+    public finbl ClbssLobder getClbssLobder(ObjectNbme nbme) {
+        ClbssLobder instbnce = lobdersWithNbmes.get(nbme);
+        if (instbnce != null) {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 Permission perm =
-                        new MBeanPermission(instance.getClass().getName(),
+                        new MBebnPermission(instbnce.getClbss().getNbme(),
                         null,
-                        name,
-                        "getClassLoader");
+                        nbme,
+                        "getClbssLobder");
                 sm.checkPermission(perm);
             }
         }
-        return instance;
+        return instbnce;
     }
 
 }

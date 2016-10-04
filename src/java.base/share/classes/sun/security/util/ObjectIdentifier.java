@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.io.*;
-import java.math.BigInteger;
-import java.util.Arrays;
+import jbvb.io.*;
+import jbvb.mbth.BigInteger;
+import jbvb.util.Arrbys;
 
 /**
- * Represent an ISO Object Identifier.
+ * Represent bn ISO Object Identifier.
  *
- * <P>Object Identifiers are arbitrary length hierarchical identifiers.
- * The individual components are numbers, and they define paths from the
- * root of an ISO-managed identifier space.  You will sometimes see a
- * string name used instead of (or in addition to) the numerical id.
- * These are synonyms for the numerical IDs, but are not widely used
- * since most sites do not know all the requisite strings, while all
- * sites can parse the numeric forms.
+ * <P>Object Identifiers bre brbitrbry length hierbrchicbl identifiers.
+ * The individubl components bre numbers, bnd they define pbths from the
+ * root of bn ISO-mbnbged identifier spbce.  You will sometimes see b
+ * string nbme used instebd of (or in bddition to) the numericbl id.
+ * These bre synonyms for the numericbl IDs, but bre not widely used
+ * since most sites do not know bll the requisite strings, while bll
+ * sites cbn pbrse the numeric forms.
  *
- * <P>So for example, JavaSoft has the sole authority to assign the
- * meaning to identifiers below the 1.3.6.1.4.1.42.2.17 node in the
- * hierarchy, and other organizations can easily acquire the ability
- * to assign such unique identifiers.
+ * <P>So for exbmple, JbvbSoft hbs the sole buthority to bssign the
+ * mebning to identifiers below the 1.3.6.1.4.1.42.2.17 node in the
+ * hierbrchy, bnd other orgbnizbtions cbn ebsily bcquire the bbility
+ * to bssign such unique identifiers.
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Dbvid Brownell
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
 
-final public
-class ObjectIdentifier implements Serializable
+finbl public
+clbss ObjectIdentifier implements Seriblizbble
 {
     /**
-     * We use the DER value (no tag, no length) as the internal format
-     * @serial
+     * We use the DER vblue (no tbg, no length) bs the internbl formbt
+     * @seribl
      */
-    private byte[] encoding = null;
+    privbte byte[] encoding = null;
 
-    private transient volatile String stringForm;
+    privbte trbnsient volbtile String stringForm;
 
     /*
      * IMPORTANT NOTES FOR CODE CHANGES (bug 4811968) IN JDK 1.7.0
      * ===========================================================
      *
-     * (Almost) serialization compatibility with old versions:
+     * (Almost) seriblizbtion compbtibility with old versions:
      *
-     * serialVersionUID is unchanged. Old field "component" is changed to
-     * type Object so that "poison" (unknown object type for old versions)
-     * can be put inside if there are huge components that cannot be saved
-     * as integers.
+     * seriblVersionUID is unchbnged. Old field "component" is chbnged to
+     * type Object so thbt "poison" (unknown object type for old versions)
+     * cbn be put inside if there bre huge components thbt cbnnot be sbved
+     * bs integers.
      *
      * New version use the new filed "encoding" only.
      *
-     * Below are all 4 cases in a serialization/deserialization process:
+     * Below bre bll 4 cbses in b seriblizbtion/deseriblizbtion process:
      *
      * 1. old -> old: Not covered here
-     * 2. old -> new: There's no "encoding" field, new readObject() reads
-     *    "components" and "componentLen" instead and inits correctly.
-     * 3. new -> new: "encoding" field exists, new readObject() uses it
-     *    (ignoring the other 2 fields) and inits correctly.
-     * 4. new -> old: old readObject() only recognizes "components" and
-     *    "componentLen" fields. If no huge components are involved, they
-     *    are serialized as legal values and old object can init correctly.
-     *    Otherwise, old object cannot recognize the form (component not int[])
-     *    and throw a ClassNotFoundException at deserialization time.
+     * 2. old -> new: There's no "encoding" field, new rebdObject() rebds
+     *    "components" bnd "componentLen" instebd bnd inits correctly.
+     * 3. new -> new: "encoding" field exists, new rebdObject() uses it
+     *    (ignoring the other 2 fields) bnd inits correctly.
+     * 4. new -> old: old rebdObject() only recognizes "components" bnd
+     *    "componentLen" fields. If no huge components bre involved, they
+     *    bre seriblized bs legbl vblues bnd old object cbn init correctly.
+     *    Otherwise, old object cbnnot recognize the form (component not int[])
+     *    bnd throw b ClbssNotFoundException bt deseriblizbtion time.
      *
-     * Therfore, for the first 3 cases, exact compatibility is preserved. In
-     * the 4th case, non-huge OID is still supportable in old versions, while
+     * Therfore, for the first 3 cbses, exbct compbtibility is preserved. In
+     * the 4th cbse, non-huge OID is still supportbble in old versions, while
      * huge OID is not.
      */
-    private static final long serialVersionUID = 8697030238860181294L;
+    privbte stbtic finbl long seriblVersionUID = 8697030238860181294L;
 
     /**
-     * Changed to Object
-     * @serial
+     * Chbnged to Object
+     * @seribl
      */
-    private Object      components   = null;          // path from root
+    privbte Object      components   = null;          // pbth from root
     /**
-     * @serial
+     * @seribl
      */
-    private int         componentLen = -1;            // how much is used.
+    privbte int         componentLen = -1;            // how much is used.
 
-    // Is the components field calculated?
-    transient private boolean   componentsCalculated = false;
+    // Is the components field cblculbted?
+    trbnsient privbte boolebn   componentsCblculbted = fblse;
 
-    private void readObject(ObjectInputStream is)
-            throws IOException, ClassNotFoundException {
-        is.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm is)
+            throws IOException, ClbssNotFoundException {
+        is.defbultRebdObject();
 
-        if (encoding == null) {  // from an old version
+        if (encoding == null) {  // from bn old version
             init((int[])components, componentLen);
         }
     }
 
-    private void writeObject(ObjectOutputStream os)
+    privbte void writeObject(ObjectOutputStrebm os)
             throws IOException {
-        if (!componentsCalculated) {
-            int[] comps = toIntArray();
-            if (comps != null) {    // every one understands this
+        if (!componentsCblculbted) {
+            int[] comps = toIntArrby();
+            if (comps != null) {    // every one understbnds this
                 components = comps;
                 componentLen = comps.length;
             } else {
                 components = HugeOidNotSupportedByOldJDK.theOne;
             }
-            componentsCalculated = true;
+            componentsCblculbted = true;
         }
-        os.defaultWriteObject();
+        os.defbultWriteObject();
     }
 
-    static class HugeOidNotSupportedByOldJDK implements Serializable {
-        private static final long serialVersionUID = 1L;
-        static HugeOidNotSupportedByOldJDK theOne = new HugeOidNotSupportedByOldJDK();
+    stbtic clbss HugeOidNotSupportedByOldJDK implements Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 1L;
+        stbtic HugeOidNotSupportedByOldJDK theOne = new HugeOidNotSupportedByOldJDK();
     }
 
     /**
-     * Constructs, from a string.  This string should be of the form 1.23.56.
-     * Validity check included.
+     * Constructs, from b string.  This string should be of the form 1.23.56.
+     * Vblidity check included.
      */
     public ObjectIdentifier (String oid) throws IOException
     {
         int ch = '.';
-        int start = 0;
+        int stbrt = 0;
         int end = 0;
 
         int pos = 0;
@@ -154,31 +154,31 @@ class ObjectIdentifier implements Serializable
             String comp = null;
             do {
                 int length = 0; // length of one section
-                end = oid.indexOf(ch,start);
+                end = oid.indexOf(ch,stbrt);
                 if (end == -1) {
-                    comp = oid.substring(start);
-                    length = oid.length() - start;
+                    comp = oid.substring(stbrt);
+                    length = oid.length() - stbrt;
                 } else {
-                    comp = oid.substring(start,end);
-                    length = end - start;
+                    comp = oid.substring(stbrt,end);
+                    length = end - stbrt;
                 }
 
                 if (length > 9) {
                     BigInteger bignum = new BigInteger(comp);
                     if (count == 0) {
                         checkFirstComponent(bignum);
-                        first = bignum.intValue();
+                        first = bignum.intVblue();
                     } else {
                         if (count == 1) {
                             checkSecondComponent(first, bignum);
-                            bignum = bignum.add(BigInteger.valueOf(40*first));
+                            bignum = bignum.bdd(BigInteger.vblueOf(40*first));
                         } else {
                             checkOtherComponent(count, bignum);
                         }
-                        pos += pack7Oid(bignum, tmp, pos);
+                        pos += pbck7Oid(bignum, tmp, pos);
                     }
                 } else {
-                    int num = Integer.parseInt(comp);
+                    int num = Integer.pbrseInt(comp);
                     if (count == 0) {
                         checkFirstComponent(num);
                         first = num;
@@ -189,70 +189,70 @@ class ObjectIdentifier implements Serializable
                         } else {
                             checkOtherComponent(count, num);
                         }
-                        pos += pack7Oid(num, tmp, pos);
+                        pos += pbck7Oid(num, tmp, pos);
                     }
                 }
-                start = end + 1;
+                stbrt = end + 1;
                 count++;
             } while (end != -1);
 
             checkCount(count);
             encoding = new byte[pos];
-            System.arraycopy(tmp, 0, encoding, 0, pos);
+            System.brrbycopy(tmp, 0, encoding, 0, pos);
             this.stringForm = oid;
-        } catch (IOException ioe) { // already detected by checkXXX
+        } cbtch (IOException ioe) { // blrebdy detected by checkXXX
             throw ioe;
-        } catch (Exception e) {
-            throw new IOException("ObjectIdentifier() -- Invalid format: "
+        } cbtch (Exception e) {
+            throw new IOException("ObjectIdentifier() -- Invblid formbt: "
                     + e.toString(), e);
         }
     }
 
     /**
-     * Constructor, from an array of integers.
-     * Validity check included.
+     * Constructor, from bn brrby of integers.
+     * Vblidity check included.
      */
-    public ObjectIdentifier (int values []) throws IOException
+    public ObjectIdentifier (int vblues []) throws IOException
     {
-        checkCount(values.length);
-        checkFirstComponent(values[0]);
-        checkSecondComponent(values[0], values[1]);
-        for (int i=2; i<values.length; i++)
-            checkOtherComponent(i, values[i]);
-        init(values, values.length);
+        checkCount(vblues.length);
+        checkFirstComponent(vblues[0]);
+        checkSecondComponent(vblues[0], vblues[1]);
+        for (int i=2; i<vblues.length; i++)
+            checkOtherComponent(i, vblues[i]);
+        init(vblues, vblues.length);
     }
 
     /**
-     * Constructor, from an ASN.1 encoded input stream.
-     * Validity check NOT included.
-     * The encoding of the ID in the stream uses "DER", a BER/1 subset.
-     * In this case, that means a triple { typeId, length, data }.
+     * Constructor, from bn ASN.1 encoded input strebm.
+     * Vblidity check NOT included.
+     * The encoding of the ID in the strebm uses "DER", b BER/1 subset.
+     * In this cbse, thbt mebns b triple { typeId, length, dbtb }.
      *
-     * <P><STRONG>NOTE:</STRONG>  When an exception is thrown, the
-     * input stream has not been returned to its "initial" state.
+     * <P><STRONG>NOTE:</STRONG>  When bn exception is thrown, the
+     * input strebm hbs not been returned to its "initibl" stbte.
      *
-     * @param in DER-encoded data holding an object ID
-     * @exception IOException indicates a decoding error
+     * @pbrbm in DER-encoded dbtb holding bn object ID
+     * @exception IOException indicbtes b decoding error
      */
-    public ObjectIdentifier (DerInputStream in) throws IOException
+    public ObjectIdentifier (DerInputStrebm in) throws IOException
     {
         byte    type_id;
         int     bufferEnd;
 
         /*
-         * Object IDs are a "universal" type, and their tag needs only
-         * one byte of encoding.  Verify that the tag of this datum
-         * is that of an object ID.
+         * Object IDs bre b "universbl" type, bnd their tbg needs only
+         * one byte of encoding.  Verify thbt the tbg of this dbtum
+         * is thbt of bn object ID.
          *
-         * Then get and check the length of the ID's encoding.  We set
-         * up so that we can use in.available() to check for the end of
-         * this value in the data stream.
+         * Then get bnd check the length of the ID's encoding.  We set
+         * up so thbt we cbn use in.bvbilbble() to check for the end of
+         * this vblue in the dbtb strebm.
          */
         type_id = (byte) in.getByte ();
-        if (type_id != DerValue.tag_ObjectId)
+        if (type_id != DerVblue.tbg_ObjectId)
             throw new IOException (
-                "ObjectIdentifier() -- data isn't an object ID"
-                + " (tag = " +  type_id + ")"
+                "ObjectIdentifier() -- dbtb isn't bn object ID"
+                + " (tbg = " +  type_id + ")"
                 );
 
         encoding = new byte[in.getDefiniteLength()];
@@ -261,100 +261,100 @@ class ObjectIdentifier implements Serializable
     }
 
     /*
-     * Constructor, from the rest of a DER input buffer;
-     * the tag and length have been removed/verified
-     * Validity check NOT included.
+     * Constructor, from the rest of b DER input buffer;
+     * the tbg bnd length hbve been removed/verified
+     * Vblidity check NOT included.
      */
     ObjectIdentifier (DerInputBuffer buf) throws IOException
     {
-        DerInputStream in = new DerInputStream(buf);
-        encoding = new byte[in.available()];
+        DerInputStrebm in = new DerInputStrebm(buf);
+        encoding = new byte[in.bvbilbble()];
         in.getBytes(encoding);
         check(encoding);
     }
 
-    private void init(int[] components, int length) {
+    privbte void init(int[] components, int length) {
         int pos = 0;
         byte[] tmp = new byte[length*5+1];  // +1 for empty input
 
         if (components[1] < Integer.MAX_VALUE - components[0]*40)
-            pos += pack7Oid(components[0]*40+components[1], tmp, pos);
+            pos += pbck7Oid(components[0]*40+components[1], tmp, pos);
         else {
-            BigInteger big = BigInteger.valueOf(components[1]);
-            big = big.add(BigInteger.valueOf(components[0]*40));
-            pos += pack7Oid(big, tmp, pos);
+            BigInteger big = BigInteger.vblueOf(components[1]);
+            big = big.bdd(BigInteger.vblueOf(components[0]*40));
+            pos += pbck7Oid(big, tmp, pos);
         }
 
         for (int i=2; i<length; i++) {
-            pos += pack7Oid(components[i], tmp, pos);
+            pos += pbck7Oid(components[i], tmp, pos);
         }
         encoding = new byte[pos];
-        System.arraycopy(tmp, 0, encoding, 0, pos);
+        System.brrbycopy(tmp, 0, encoding, 0, pos);
     }
 
     /**
-     * This method is kept for compatibility reasons. The new implementation
-     * does the check and conversion. All around the JDK, the method is called
-     * in static blocks to initialize pre-defined ObjectIdentifieies. No
-     * obvious performance hurt will be made after this change.
+     * This method is kept for compbtibility rebsons. The new implementbtion
+     * does the check bnd conversion. All bround the JDK, the method is cblled
+     * in stbtic blocks to initiblize pre-defined ObjectIdentifieies. No
+     * obvious performbnce hurt will be mbde bfter this chbnge.
      *
-     * Old doc: Create a new ObjectIdentifier for internal use. The values are
+     * Old doc: Crebte b new ObjectIdentifier for internbl use. The vblues bre
      * neither checked nor cloned.
      */
-    public static ObjectIdentifier newInternal(int[] values) {
+    public stbtic ObjectIdentifier newInternbl(int[] vblues) {
         try {
-            return new ObjectIdentifier(values);
-        } catch (IOException ex) {
+            return new ObjectIdentifier(vblues);
+        } cbtch (IOException ex) {
             throw new RuntimeException(ex);
-            // Should not happen, internal calls always uses legal values.
+            // Should not hbppen, internbl cblls blwbys uses legbl vblues.
         }
     }
 
     /*
-     * n.b. the only public interface is DerOutputStream.putOID()
+     * n.b. the only public interfbce is DerOutputStrebm.putOID()
      */
-    void encode (DerOutputStream out) throws IOException
+    void encode (DerOutputStrebm out) throws IOException
     {
-        out.write (DerValue.tag_ObjectId, encoding);
+        out.write (DerVblue.tbg_ObjectId, encoding);
     }
 
     /**
-     * @deprecated Use equals((Object)oid)
+     * @deprecbted Use equbls((Object)oid)
      */
-    @Deprecated
-    public boolean equals(ObjectIdentifier other) {
-        return equals((Object)other);
+    @Deprecbted
+    public boolebn equbls(ObjectIdentifier other) {
+        return equbls((Object)other);
     }
 
     /**
-     * Compares this identifier with another, for equality.
+     * Compbres this identifier with bnother, for equblity.
      *
-     * @return true iff the names are identical.
+     * @return true iff the nbmes bre identicbl.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof ObjectIdentifier == false) {
-            return false;
+        if (obj instbnceof ObjectIdentifier == fblse) {
+            return fblse;
         }
         ObjectIdentifier other = (ObjectIdentifier)obj;
-        return Arrays.equals(encoding, other.encoding);
+        return Arrbys.equbls(encoding, other.encoding);
     }
 
     @Override
-    public int hashCode() {
-        return Arrays.hashCode(encoding);
+    public int hbshCode() {
+        return Arrbys.hbshCode(encoding);
     }
 
     /**
-     * Private helper method for serialization. To be compatible with old
+     * Privbte helper method for seriblizbtion. To be compbtible with old
      * versions of JDK.
-     * @return components in an int array, if all the components are less than
+     * @return components in bn int brrby, if bll the components bre less thbn
      *         Integer.MAX_VALUE. Otherwise, null.
      */
-    private int[] toIntArray() {
+    privbte int[] toIntArrby() {
         int length = encoding.length;
         int[] result = new int[20];
         int which = 0;
@@ -363,53 +363,53 @@ class ObjectIdentifier implements Serializable
             if ((encoding[i] & 0x80) == 0) {
                 // one section [fromPos..i]
                 if (i - fromPos + 1 > 4) {
-                    BigInteger big = new BigInteger(pack(encoding, fromPos, i-fromPos+1, 7, 8));
+                    BigInteger big = new BigInteger(pbck(encoding, fromPos, i-fromPos+1, 7, 8));
                     if (fromPos == 0) {
                         result[which++] = 2;
-                        BigInteger second = big.subtract(BigInteger.valueOf(80));
-                        if (second.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
+                        BigInteger second = big.subtrbct(BigInteger.vblueOf(80));
+                        if (second.compbreTo(BigInteger.vblueOf(Integer.MAX_VALUE)) == 1) {
                             return null;
                         } else {
-                            result[which++] = second.intValue();
+                            result[which++] = second.intVblue();
                         }
                     } else {
-                        if (big.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
+                        if (big.compbreTo(BigInteger.vblueOf(Integer.MAX_VALUE)) == 1) {
                             return null;
                         } else {
-                            result[which++] = big.intValue();
+                            result[which++] = big.intVblue();
                         }
                     }
                 } else {
-                    int retval = 0;
+                    int retvbl = 0;
                     for (int j = fromPos; j <= i; j++) {
-                        retval <<= 7;
+                        retvbl <<= 7;
                         byte tmp = encoding[j];
-                        retval |= (tmp & 0x07f);
+                        retvbl |= (tmp & 0x07f);
                     }
                     if (fromPos == 0) {
-                        if (retval < 80) {
-                            result[which++] = retval / 40;
-                            result[which++] = retval % 40;
+                        if (retvbl < 80) {
+                            result[which++] = retvbl / 40;
+                            result[which++] = retvbl % 40;
                         } else {
                             result[which++] = 2;
-                            result[which++] = retval - 80;
+                            result[which++] = retvbl - 80;
                         }
                     } else {
-                        result[which++] = retval;
+                        result[which++] = retvbl;
                     }
                 }
                 fromPos = i+1;
             }
             if (which >= result.length) {
-                result = Arrays.copyOf(result, which + 10);
+                result = Arrbys.copyOf(result, which + 10);
             }
         }
-        return Arrays.copyOf(result, which);
+        return Arrbys.copyOf(result, which);
     }
 
     /**
-     * Returns a string form of the object ID.  The format is the
-     * conventional "dot" notation for such IDs, without any
+     * Returns b string form of the object ID.  The formbt is the
+     * conventionbl "dot" notbtion for such IDs, without bny
      * user-friendly descriptive strings, since those strings
      * will not be understood everywhere.
      */
@@ -425,36 +425,36 @@ class ObjectIdentifier implements Serializable
                 if ((encoding[i] & 0x80) == 0) {
                     // one section [fromPos..i]
                     if (fromPos != 0) {  // not the first segment
-                        sb.append('.');
+                        sb.bppend('.');
                     }
-                    if (i - fromPos + 1 > 4) { // maybe big integer
-                        BigInteger big = new BigInteger(pack(encoding, fromPos, i-fromPos+1, 7, 8));
+                    if (i - fromPos + 1 > 4) { // mbybe big integer
+                        BigInteger big = new BigInteger(pbck(encoding, fromPos, i-fromPos+1, 7, 8));
                         if (fromPos == 0) {
-                            // first section encoded with more than 4 bytes,
+                            // first section encoded with more thbn 4 bytes,
                             // must be 2.something
-                            sb.append("2.");
-                            sb.append(big.subtract(BigInteger.valueOf(80)));
+                            sb.bppend("2.");
+                            sb.bppend(big.subtrbct(BigInteger.vblueOf(80)));
                         } else {
-                            sb.append(big);
+                            sb.bppend(big);
                         }
-                    } else { // small integer
-                        int retval = 0;
+                    } else { // smbll integer
+                        int retvbl = 0;
                         for (int j = fromPos; j <= i; j++) {
-                            retval <<= 7;
+                            retvbl <<= 7;
                             byte tmp = encoding[j];
-                            retval |= (tmp & 0x07f);
+                            retvbl |= (tmp & 0x07f);
                         }
                         if (fromPos == 0) {
-                            if (retval < 80) {
-                                sb.append(retval/40);
-                                sb.append('.');
-                                sb.append(retval%40);
+                            if (retvbl < 80) {
+                                sb.bppend(retvbl/40);
+                                sb.bppend('.');
+                                sb.bppend(retvbl%40);
                             } else {
-                                sb.append("2.");
-                                sb.append(retval - 80);
+                                sb.bppend("2.");
+                                sb.bppend(retvbl - 80);
                             }
                         } else {
-                            sb.append(retval);
+                            sb.bppend(retvbl);
                         }
                     }
                     fromPos = i+1;
@@ -467,196 +467,196 @@ class ObjectIdentifier implements Serializable
     }
 
     /**
-     * Repack all bits from input to output. On the both sides, only a portion
-     * (from the least significant bit) of the 8 bits in a byte is used. This
-     * number is defined as the number of useful bits (NUB) for the array. All the
-     * used bits from the input byte array and repacked into the output in the
-     * exactly same order. The output bits are aligned so that the final bit of
-     * the input (the least significant bit in the last byte), when repacked as
-     * the final bit of the output, is still at the least significant position.
-     * Zeroes will be padded on the left side of the first output byte if
-     * necessary. All unused bits in the output are also zeroed.
+     * Repbck bll bits from input to output. On the both sides, only b portion
+     * (from the lebst significbnt bit) of the 8 bits in b byte is used. This
+     * number is defined bs the number of useful bits (NUB) for the brrby. All the
+     * used bits from the input byte brrby bnd repbcked into the output in the
+     * exbctly sbme order. The output bits bre bligned so thbt the finbl bit of
+     * the input (the lebst significbnt bit in the lbst byte), when repbcked bs
+     * the finbl bit of the output, is still bt the lebst significbnt position.
+     * Zeroes will be pbdded on the left side of the first output byte if
+     * necessbry. All unused bits in the output bre blso zeroed.
      *
-     * For example: if the input is 01001100 with NUB 8, the output which
-     * has a NUB 6 will look like:
+     * For exbmple: if the input is 01001100 with NUB 8, the output which
+     * hbs b NUB 6 will look like:
      *      00000001 00001100
-     * The first 2 bits of the output bytes are unused bits. The other bits
-     * turn out to be 000001 001100. While the 8 bits on the right are from
-     * the input, the left 4 zeroes are padded to fill the 6 bits space.
+     * The first 2 bits of the output bytes bre unused bits. The other bits
+     * turn out to be 000001 001100. While the 8 bits on the right bre from
+     * the input, the left 4 zeroes bre pbdded to fill the 6 bits spbce.
      *
-     * @param in        the input byte array
-     * @param ioffset   start point inside <code>in</code>
-     * @param ilength   number of bytes to repack
-     * @param iw        NUB for input
-     * @param ow        NUB for output
-     * @return          the repacked bytes
+     * @pbrbm in        the input byte brrby
+     * @pbrbm ioffset   stbrt point inside <code>in</code>
+     * @pbrbm ilength   number of bytes to repbck
+     * @pbrbm iw        NUB for input
+     * @pbrbm ow        NUB for output
+     * @return          the repbcked bytes
      */
-    private static byte[] pack(byte[] in, int ioffset, int ilength, int iw, int ow) {
-        assert (iw > 0 && iw <= 8): "input NUB must be between 1 and 8";
-        assert (ow > 0 && ow <= 8): "output NUB must be between 1 and 8";
+    privbte stbtic byte[] pbck(byte[] in, int ioffset, int ilength, int iw, int ow) {
+        bssert (iw > 0 && iw <= 8): "input NUB must be between 1 bnd 8";
+        bssert (ow > 0 && ow <= 8): "output NUB must be between 1 bnd 8";
 
         if (iw == ow) {
             return in.clone();
         }
 
-        int bits = ilength * iw;    // number of all used bits
+        int bits = ilength * iw;    // number of bll used bits
         byte[] out = new byte[(bits+ow-1)/ow];
 
-        // starting from the 0th bit in the input
+        // stbrting from the 0th bit in the input
         int ipos = 0;
 
-        // the number of padding 0's needed in the output, skip them
+        // the number of pbdding 0's needed in the output, skip them
         int opos = (bits+ow-1)/ow*ow-bits;
 
         while(ipos < bits) {
-            int count = iw - ipos%iw;   // unpacked bits in current input byte
-            if (count > ow - opos%ow) { // free space available in output byte
-                count = ow - opos%ow;   // choose the smaller number
+            int count = iw - ipos%iw;   // unpbcked bits in current input byte
+            if (count > ow - opos%ow) { // free spbce bvbilbble in output byte
+                count = ow - opos%ow;   // choose the smbller number
             }
-            // and move them!
-            out[opos/ow] |=                         // paste!
-                (((in[ioffset+ipos/iw]+256)         // locate the byte (+256 so that it's never negative)
-                    >> (iw-ipos%iw-count))          // move to the end of a byte
-                        & ((1 << (count))-1))       // zero out all other bits
+            // bnd move them!
+            out[opos/ow] |=                         // pbste!
+                (((in[ioffset+ipos/iw]+256)         // locbte the byte (+256 so thbt it's never negbtive)
+                    >> (iw-ipos%iw-count))          // move to the end of b byte
+                        & ((1 << (count))-1))       // zero out bll other bits
                             << (ow-opos%ow-count);  // move to the output position
-            ipos += count;  // advance
-            opos += count;  // advance
+            ipos += count;  // bdvbnce
+            opos += count;  // bdvbnce
         }
         return out;
     }
 
     /**
-     * Repack from NUB 8 to a NUB 7 OID sub-identifier, remove all
-     * unnecessary 0 headings, set the first bit of all non-tail
-     * output bytes to 1 (as ITU-T Rec. X.690 8.19.2 says), and
-     * paste it into an existing byte array.
-     * @param out the existing array to be pasted into
-     * @param ooffset the starting position to paste
-     * @return the number of bytes pasted
+     * Repbck from NUB 8 to b NUB 7 OID sub-identifier, remove bll
+     * unnecessbry 0 hebdings, set the first bit of bll non-tbil
+     * output bytes to 1 (bs ITU-T Rec. X.690 8.19.2 sbys), bnd
+     * pbste it into bn existing byte brrby.
+     * @pbrbm out the existing brrby to be pbsted into
+     * @pbrbm ooffset the stbrting position to pbste
+     * @return the number of bytes pbsted
      */
-    private static int pack7Oid(byte[] in, int ioffset, int ilength, byte[] out, int ooffset) {
-        byte[] pack = pack(in, ioffset, ilength, 8, 7);
-        int firstNonZero = pack.length-1;   // paste at least one byte
-        for (int i=pack.length-2; i>=0; i--) {
-            if (pack[i] != 0) {
+    privbte stbtic int pbck7Oid(byte[] in, int ioffset, int ilength, byte[] out, int ooffset) {
+        byte[] pbck = pbck(in, ioffset, ilength, 8, 7);
+        int firstNonZero = pbck.length-1;   // pbste bt lebst one byte
+        for (int i=pbck.length-2; i>=0; i--) {
+            if (pbck[i] != 0) {
                 firstNonZero = i;
             }
-            pack[i] |= 0x80;
+            pbck[i] |= 0x80;
         }
-        System.arraycopy(pack, firstNonZero, out, ooffset, pack.length-firstNonZero);
-        return pack.length-firstNonZero;
+        System.brrbycopy(pbck, firstNonZero, out, ooffset, pbck.length-firstNonZero);
+        return pbck.length-firstNonZero;
     }
 
     /**
-     * Repack from NUB 7 to NUB 8, remove all unnecessary 0
-     * headings, and paste it into an existing byte array.
-     * @param out the existing array to be pasted into
-     * @param ooffset the starting position to paste
-     * @return the number of bytes pasted
+     * Repbck from NUB 7 to NUB 8, remove bll unnecessbry 0
+     * hebdings, bnd pbste it into bn existing byte brrby.
+     * @pbrbm out the existing brrby to be pbsted into
+     * @pbrbm ooffset the stbrting position to pbste
+     * @return the number of bytes pbsted
      */
-    private static int pack8(byte[] in, int ioffset, int ilength, byte[] out, int ooffset) {
-        byte[] pack = pack(in, ioffset, ilength, 7, 8);
-        int firstNonZero = pack.length-1;   // paste at least one byte
-        for (int i=pack.length-2; i>=0; i--) {
-            if (pack[i] != 0) {
+    privbte stbtic int pbck8(byte[] in, int ioffset, int ilength, byte[] out, int ooffset) {
+        byte[] pbck = pbck(in, ioffset, ilength, 7, 8);
+        int firstNonZero = pbck.length-1;   // pbste bt lebst one byte
+        for (int i=pbck.length-2; i>=0; i--) {
+            if (pbck[i] != 0) {
                 firstNonZero = i;
             }
         }
-        System.arraycopy(pack, firstNonZero, out, ooffset, pack.length-firstNonZero);
-        return pack.length-firstNonZero;
+        System.brrbycopy(pbck, firstNonZero, out, ooffset, pbck.length-firstNonZero);
+        return pbck.length-firstNonZero;
     }
 
     /**
-     * Pack the int into a OID sub-identifier DER encoding
+     * Pbck the int into b OID sub-identifier DER encoding
      */
-    private static int pack7Oid(int input, byte[] out, int ooffset) {
+    privbte stbtic int pbck7Oid(int input, byte[] out, int ooffset) {
         byte[] b = new byte[4];
         b[0] = (byte)(input >> 24);
         b[1] = (byte)(input >> 16);
         b[2] = (byte)(input >> 8);
         b[3] = (byte)(input);
-        return pack7Oid(b, 0, 4, out, ooffset);
+        return pbck7Oid(b, 0, 4, out, ooffset);
     }
 
     /**
-     * Pack the BigInteger into a OID subidentifier DER encoding
+     * Pbck the BigInteger into b OID subidentifier DER encoding
      */
-    private static int pack7Oid(BigInteger input, byte[] out, int ooffset) {
-        byte[] b = input.toByteArray();
-        return pack7Oid(b, 0, b.length, out, ooffset);
+    privbte stbtic int pbck7Oid(BigInteger input, byte[] out, int ooffset) {
+        byte[] b = input.toByteArrby();
+        return pbck7Oid(b, 0, b.length, out, ooffset);
     }
 
     /**
-     * Private methods to check validity of OID. They must be --
-     * 1. at least 2 components
-     * 2. all components must be non-negative
+     * Privbte methods to check vblidity of OID. They must be --
+     * 1. bt lebst 2 components
+     * 2. bll components must be non-negbtive
      * 3. the first must be 0, 1 or 2
      * 4. if the first is 0 or 1, the second must be <40
      */
 
     /**
-     * Check the DER encoding. Since DER encoding defines that the integer bits
-     * are unsigned, so there's no need to check the MSB.
+     * Check the DER encoding. Since DER encoding defines thbt the integer bits
+     * bre unsigned, so there's no need to check the MSB.
      */
-    private static void check(byte[] encoding) throws IOException {
+    privbte stbtic void check(byte[] encoding) throws IOException {
         int length = encoding.length;
         if (length < 1 ||      // too short
                 (encoding[length - 1] & 0x80) != 0) {  // not ended
             throw new IOException("ObjectIdentifier() -- " +
-                    "Invalid DER encoding, not ended");
+                    "Invblid DER encoding, not ended");
         }
         for (int i=0; i<length; i++) {
-            // 0x80 at the beginning of a subidentifier
+            // 0x80 bt the beginning of b subidentifier
             if (encoding[i] == (byte)0x80 &&
                     (i==0 || (encoding[i-1] & 0x80) == 0)) {
                 throw new IOException("ObjectIdentifier() -- " +
-                        "Invalid DER encoding, useless extra octet detected");
+                        "Invblid DER encoding, useless extrb octet detected");
             }
         }
     }
-    private static void checkCount(int count) throws IOException {
+    privbte stbtic void checkCount(int count) throws IOException {
         if (count < 2) {
             throw new IOException("ObjectIdentifier() -- " +
-                    "Must be at least two oid components ");
+                    "Must be bt lebst two oid components ");
         }
     }
-    private static void checkFirstComponent(int first) throws IOException {
+    privbte stbtic void checkFirstComponent(int first) throws IOException {
         if (first < 0 || first > 2) {
             throw new IOException("ObjectIdentifier() -- " +
-                    "First oid component is invalid ");
+                    "First oid component is invblid ");
         }
     }
-    private static void checkFirstComponent(BigInteger first) throws IOException {
+    privbte stbtic void checkFirstComponent(BigInteger first) throws IOException {
         if (first.signum() == -1 ||
-                first.compareTo(BigInteger.valueOf(2)) == 1) {
+                first.compbreTo(BigInteger.vblueOf(2)) == 1) {
             throw new IOException("ObjectIdentifier() -- " +
-                    "First oid component is invalid ");
+                    "First oid component is invblid ");
         }
     }
-    private static void checkSecondComponent(int first, int second) throws IOException {
+    privbte stbtic void checkSecondComponent(int first, int second) throws IOException {
         if (second < 0 || first != 2 && second > 39) {
             throw new IOException("ObjectIdentifier() -- " +
-                    "Second oid component is invalid ");
+                    "Second oid component is invblid ");
         }
     }
-    private static void checkSecondComponent(int first, BigInteger second) throws IOException {
+    privbte stbtic void checkSecondComponent(int first, BigInteger second) throws IOException {
         if (second.signum() == -1 ||
                 first != 2 &&
-                second.compareTo(BigInteger.valueOf(39)) == 1) {
+                second.compbreTo(BigInteger.vblueOf(39)) == 1) {
             throw new IOException("ObjectIdentifier() -- " +
-                    "Second oid component is invalid ");
+                    "Second oid component is invblid ");
         }
     }
-    private static void checkOtherComponent(int i, int num) throws IOException {
+    privbte stbtic void checkOtherComponent(int i, int num) throws IOException {
         if (num < 0) {
             throw new IOException("ObjectIdentifier() -- " +
-                    "oid component #" + (i+1) + " must be non-negative ");
+                    "oid component #" + (i+1) + " must be non-negbtive ");
         }
     }
-    private static void checkOtherComponent(int i, BigInteger num) throws IOException {
+    privbte stbtic void checkOtherComponent(int i, BigInteger num) throws IOException {
         if (num.signum() == -1) {
             throw new IOException("ObjectIdentifier() -- " +
-                    "oid component #" + (i+1) + " must be non-negative ");
+                    "oid component #" + (i+1) + " must be non-negbtive ");
         }
     }
 }

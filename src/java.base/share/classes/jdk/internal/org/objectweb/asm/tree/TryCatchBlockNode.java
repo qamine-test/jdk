@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,127 +56,127 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbckbge jdk.internbl.org.objectweb.bsm.tree;
 
-import java.util.List;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
 
 /**
- * A node that represents a try catch block.
+ * A node thbt represents b try cbtch block.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class TryCatchBlockNode {
+public clbss TryCbtchBlockNode {
 
     /**
-     * Beginning of the exception handler's scope (inclusive).
+     * Beginning of the exception hbndler's scope (inclusive).
      */
-    public LabelNode start;
+    public LbbelNode stbrt;
 
     /**
-     * End of the exception handler's scope (exclusive).
+     * End of the exception hbndler's scope (exclusive).
      */
-    public LabelNode end;
+    public LbbelNode end;
 
     /**
-     * Beginning of the exception handler's code.
+     * Beginning of the exception hbndler's code.
      */
-    public LabelNode handler;
+    public LbbelNode hbndler;
 
     /**
-     * Internal name of the type of exceptions handled by the handler. May be
-     * <tt>null</tt> to catch any exceptions (for "finally" blocks).
+     * Internbl nbme of the type of exceptions hbndled by the hbndler. Mby be
+     * <tt>null</tt> to cbtch bny exceptions (for "finblly" blocks).
      */
     public String type;
 
     /**
-     * The runtime visible type annotations on the exception handler type. This
-     * list is a list of {@link TypeAnnotationNode} objects. May be
+     * The runtime visible type bnnotbtions on the exception hbndler type. This
+     * list is b list of {@link TypeAnnotbtionNode} objects. Mby be
      * <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label visible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.TypeAnnotbtionNode
+     * @lbbel visible
      */
-    public List<TypeAnnotationNode> visibleTypeAnnotations;
+    public List<TypeAnnotbtionNode> visibleTypeAnnotbtions;
 
     /**
-     * The runtime invisible type annotations on the exception handler type.
-     * This list is a list of {@link TypeAnnotationNode} objects. May be
+     * The runtime invisible type bnnotbtions on the exception hbndler type.
+     * This list is b list of {@link TypeAnnotbtionNode} objects. Mby be
      * <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label invisible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.TypeAnnotbtionNode
+     * @lbbel invisible
      */
-    public List<TypeAnnotationNode> invisibleTypeAnnotations;
+    public List<TypeAnnotbtionNode> invisibleTypeAnnotbtions;
 
     /**
-     * Constructs a new {@link TryCatchBlockNode}.
+     * Constructs b new {@link TryCbtchBlockNode}.
      *
-     * @param start
-     *            beginning of the exception handler's scope (inclusive).
-     * @param end
-     *            end of the exception handler's scope (exclusive).
-     * @param handler
-     *            beginning of the exception handler's code.
-     * @param type
-     *            internal name of the type of exceptions handled by the
-     *            handler, or <tt>null</tt> to catch any exceptions (for
-     *            "finally" blocks).
+     * @pbrbm stbrt
+     *            beginning of the exception hbndler's scope (inclusive).
+     * @pbrbm end
+     *            end of the exception hbndler's scope (exclusive).
+     * @pbrbm hbndler
+     *            beginning of the exception hbndler's code.
+     * @pbrbm type
+     *            internbl nbme of the type of exceptions hbndled by the
+     *            hbndler, or <tt>null</tt> to cbtch bny exceptions (for
+     *            "finblly" blocks).
      */
-    public TryCatchBlockNode(final LabelNode start, final LabelNode end,
-            final LabelNode handler, final String type) {
-        this.start = start;
+    public TryCbtchBlockNode(finbl LbbelNode stbrt, finbl LbbelNode end,
+            finbl LbbelNode hbndler, finbl String type) {
+        this.stbrt = stbrt;
         this.end = end;
-        this.handler = handler;
+        this.hbndler = hbndler;
         this.type = type;
     }
 
     /**
-     * Updates the index of this try catch block in the method's list of try
-     * catch block nodes. This index maybe stored in the 'target' field of the
-     * type annotations of this block.
+     * Updbtes the index of this try cbtch block in the method's list of try
+     * cbtch block nodes. This index mbybe stored in the 'tbrget' field of the
+     * type bnnotbtions of this block.
      *
-     * @param index
-     *            the new index of this try catch block in the method's list of
-     *            try catch block nodes.
+     * @pbrbm index
+     *            the new index of this try cbtch block in the method's list of
+     *            try cbtch block nodes.
      */
-    public void updateIndex(final int index) {
+    public void updbteIndex(finbl int index) {
         int newTypeRef = 0x42000000 | (index << 8);
-        if (visibleTypeAnnotations != null) {
-            for (TypeAnnotationNode tan : visibleTypeAnnotations) {
-                tan.typeRef = newTypeRef;
+        if (visibleTypeAnnotbtions != null) {
+            for (TypeAnnotbtionNode tbn : visibleTypeAnnotbtions) {
+                tbn.typeRef = newTypeRef;
             }
         }
-        if (invisibleTypeAnnotations != null) {
-            for (TypeAnnotationNode tan : invisibleTypeAnnotations) {
-                tan.typeRef = newTypeRef;
+        if (invisibleTypeAnnotbtions != null) {
+            for (TypeAnnotbtionNode tbn : invisibleTypeAnnotbtions) {
+                tbn.typeRef = newTypeRef;
             }
         }
     }
 
     /**
-     * Makes the given visitor visit this try catch block.
+     * Mbkes the given visitor visit this try cbtch block.
      *
-     * @param mv
-     *            a method visitor.
+     * @pbrbm mv
+     *            b method visitor.
      */
-    public void accept(final MethodVisitor mv) {
-        mv.visitTryCatchBlock(start.getLabel(), end.getLabel(),
-                handler == null ? null : handler.getLabel(), type);
-        int n = visibleTypeAnnotations == null ? 0 : visibleTypeAnnotations
+    public void bccept(finbl MethodVisitor mv) {
+        mv.visitTryCbtchBlock(stbrt.getLbbel(), end.getLbbel(),
+                hbndler == null ? null : hbndler.getLbbel(), type);
+        int n = visibleTypeAnnotbtions == null ? 0 : visibleTypeAnnotbtions
                 .size();
         for (int i = 0; i < n; ++i) {
-            TypeAnnotationNode an = visibleTypeAnnotations.get(i);
-            an.accept(mv.visitTryCatchAnnotation(an.typeRef, an.typePath,
-                    an.desc, true));
+            TypeAnnotbtionNode bn = visibleTypeAnnotbtions.get(i);
+            bn.bccept(mv.visitTryCbtchAnnotbtion(bn.typeRef, bn.typePbth,
+                    bn.desc, true));
         }
-        n = invisibleTypeAnnotations == null ? 0 : invisibleTypeAnnotations
+        n = invisibleTypeAnnotbtions == null ? 0 : invisibleTypeAnnotbtions
                 .size();
         for (int i = 0; i < n; ++i) {
-            TypeAnnotationNode an = invisibleTypeAnnotations.get(i);
-            an.accept(mv.visitTryCatchAnnotation(an.typeRef, an.typePath,
-                    an.desc, false));
+            TypeAnnotbtionNode bn = invisibleTypeAnnotbtions.get(i);
+            bn.bccept(mv.visitTryCbtchAnnotbtion(bn.typeRef, bn.typePbth,
+                    bn.desc, fblse));
         }
     }
 }

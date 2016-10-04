@@ -1,304 +1,304 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.*;
-import java.text.*;
-import java.awt.geom.*;
-import java.beans.Transient;
+import jbvb.bwt.Component;
+import jbvb.bwt.Font;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.*;
+import jbvb.text.*;
+import jbvb.bwt.geom.*;
+import jbvb.bebns.Trbnsient;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
-import javax.swing.plaf.LabelUI;
-import javax.accessibility.*;
-import javax.swing.text.*;
-import javax.swing.text.html.*;
-import javax.swing.plaf.basic.*;
-import java.util.*;
+import jbvbx.swing.plbf.LbbelUI;
+import jbvbx.bccessibility.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.text.html.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvb.util.*;
 
 
 /**
- * A display area for a short text string or an image,
+ * A displby breb for b short text string or bn imbge,
  * or both.
- * A label does not react to input events.
- * As a result, it cannot get the keyboard focus.
- * A label can, however, display a keyboard alternative
- * as a convenience for a nearby component
- * that has a keyboard alternative but can't display it.
+ * A lbbel does not rebct to input events.
+ * As b result, it cbnnot get the keybobrd focus.
+ * A lbbel cbn, however, displby b keybobrd blternbtive
+ * bs b convenience for b nebrby component
+ * thbt hbs b keybobrd blternbtive but cbn't displby it.
  * <p>
- * A <code>JLabel</code> object can display
- * either text, an image, or both.
- * You can specify where in the label's display area
- * the label's contents are aligned
- * by setting the vertical and horizontal alignment.
- * By default, labels are vertically centered
- * in their display area.
- * Text-only labels are leading edge aligned, by default;
- * image-only labels are horizontally centered, by default.
+ * A <code>JLbbel</code> object cbn displby
+ * either text, bn imbge, or both.
+ * You cbn specify where in the lbbel's displby breb
+ * the lbbel's contents bre bligned
+ * by setting the verticbl bnd horizontbl blignment.
+ * By defbult, lbbels bre verticblly centered
+ * in their displby breb.
+ * Text-only lbbels bre lebding edge bligned, by defbult;
+ * imbge-only lbbels bre horizontblly centered, by defbult.
  * <p>
- * You can also specify the position of the text
- * relative to the image.
- * By default, text is on the trailing edge of the image,
- * with the text and image vertically aligned.
+ * You cbn blso specify the position of the text
+ * relbtive to the imbge.
+ * By defbult, text is on the trbiling edge of the imbge,
+ * with the text bnd imbge verticblly bligned.
  * <p>
- * A label's leading and trailing edge are determined from the value of its
- * {@link java.awt.ComponentOrientation} property.  At present, the default
- * ComponentOrientation setting maps the leading edge to left and the trailing
+ * A lbbel's lebding bnd trbiling edge bre determined from the vblue of its
+ * {@link jbvb.bwt.ComponentOrientbtion} property.  At present, the defbult
+ * ComponentOrientbtion setting mbps the lebding edge to left bnd the trbiling
  * edge to right.
  *
  * <p>
- * Finally, you can use the <code>setIconTextGap</code> method
- * to specify how many pixels
- * should appear between the text and the image.
- * The default is 4 pixels.
+ * Finblly, you cbn use the <code>setIconTextGbp</code> method
+ * to specify how mbny pixels
+ * should bppebr between the text bnd the imbge.
+ * The defbult is 4 pixels.
  * <p>
- * See <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/label.html">How to Use Labels</a>
- * in <em>The Java Tutorial</em>
- * for further documentation.
+ * See <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/lbbel.html">How to Use Lbbels</b>
+ * in <em>The Jbvb Tutoribl</em>
+ * for further documentbtion.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A component that displays a short string and an icon.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: A component thbt displbys b short string bnd bn icon.
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  * @since 1.2
  */
-@SuppressWarnings("serial")
-public class JLabel extends JComponent implements SwingConstants, Accessible
+@SuppressWbrnings("seribl")
+public clbss JLbbel extends JComponent implements SwingConstbnts, Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "LabelUI";
+    privbte stbtic finbl String uiClbssID = "LbbelUI";
 
-    private int mnemonic = '\0';
-    private int mnemonicIndex = -1;
+    privbte int mnemonic = '\0';
+    privbte int mnemonicIndex = -1;
 
-    private String text = "";         // "" rather than null, for BeanBox
-    private Icon defaultIcon = null;
-    private Icon disabledIcon = null;
-    private boolean disabledIconSet = false;
+    privbte String text = "";         // "" rbther thbn null, for BebnBox
+    privbte Icon defbultIcon = null;
+    privbte Icon disbbledIcon = null;
+    privbte boolebn disbbledIconSet = fblse;
 
-    private int verticalAlignment = CENTER;
-    private int horizontalAlignment = LEADING;
-    private int verticalTextPosition = CENTER;
-    private int horizontalTextPosition = TRAILING;
-    private int iconTextGap = 4;
+    privbte int verticblAlignment = CENTER;
+    privbte int horizontblAlignment = LEADING;
+    privbte int verticblTextPosition = CENTER;
+    privbte int horizontblTextPosition = TRAILING;
+    privbte int iconTextGbp = 4;
 
     /**
-     * The Component this label is for; null if the label
-     * is not the label for a component
+     * The Component this lbbel is for; null if the lbbel
+     * is not the lbbel for b component
      */
-    protected Component labelFor = null;
+    protected Component lbbelFor = null;
 
     /**
-     * Client property key used to determine what label is labeling the
-     * component.  This is generally not used by labels, but is instead
-     * used by components such as text areas that are being labeled by
-     * labels.  When the labelFor property of a label is set, it will
-     * automatically set the LABELED_BY_PROPERTY of the component being
-     * labelled.
+     * Client property key used to determine whbt lbbel is lbbeling the
+     * component.  This is generblly not used by lbbels, but is instebd
+     * used by components such bs text brebs thbt bre being lbbeled by
+     * lbbels.  When the lbbelFor property of b lbbel is set, it will
+     * butombticblly set the LABELED_BY_PROPERTY of the component being
+     * lbbelled.
      *
-     * @see #setLabelFor
+     * @see #setLbbelFor
      */
-    static final String LABELED_BY_PROPERTY = "labeledBy";
+    stbtic finbl String LABELED_BY_PROPERTY = "lbbeledBy";
 
     /**
-     * Creates a <code>JLabel</code> instance with the specified
-     * text, image, and horizontal alignment.
-     * The label is centered vertically in its display area.
-     * The text is on the trailing edge of the image.
+     * Crebtes b <code>JLbbel</code> instbnce with the specified
+     * text, imbge, bnd horizontbl blignment.
+     * The lbbel is centered verticblly in its displby breb.
+     * The text is on the trbiling edge of the imbge.
      *
-     * @param text  The text to be displayed by the label.
-     * @param icon  The image to be displayed by the label.
-     * @param horizontalAlignment  One of the following constants
-     *           defined in <code>SwingConstants</code>:
+     * @pbrbm text  The text to be displbyed by the lbbel.
+     * @pbrbm icon  The imbge to be displbyed by the lbbel.
+     * @pbrbm horizontblAlignment  One of the following constbnts
+     *           defined in <code>SwingConstbnts</code>:
      *           <code>LEFT</code>,
      *           <code>CENTER</code>,
      *           <code>RIGHT</code>,
      *           <code>LEADING</code> or
      *           <code>TRAILING</code>.
      */
-    public JLabel(String text, Icon icon, int horizontalAlignment) {
+    public JLbbel(String text, Icon icon, int horizontblAlignment) {
         setText(text);
         setIcon(icon);
-        setHorizontalAlignment(horizontalAlignment);
-        updateUI();
+        setHorizontblAlignment(horizontblAlignment);
+        updbteUI();
         setAlignmentX(LEFT_ALIGNMENT);
     }
 
     /**
-     * Creates a <code>JLabel</code> instance with the specified
-     * text and horizontal alignment.
-     * The label is centered vertically in its display area.
+     * Crebtes b <code>JLbbel</code> instbnce with the specified
+     * text bnd horizontbl blignment.
+     * The lbbel is centered verticblly in its displby breb.
      *
-     * @param text  The text to be displayed by the label.
-     * @param horizontalAlignment  One of the following constants
-     *           defined in <code>SwingConstants</code>:
+     * @pbrbm text  The text to be displbyed by the lbbel.
+     * @pbrbm horizontblAlignment  One of the following constbnts
+     *           defined in <code>SwingConstbnts</code>:
      *           <code>LEFT</code>,
      *           <code>CENTER</code>,
      *           <code>RIGHT</code>,
      *           <code>LEADING</code> or
      *           <code>TRAILING</code>.
      */
-    public JLabel(String text, int horizontalAlignment) {
-        this(text, null, horizontalAlignment);
+    public JLbbel(String text, int horizontblAlignment) {
+        this(text, null, horizontblAlignment);
     }
 
     /**
-     * Creates a <code>JLabel</code> instance with the specified text.
-     * The label is aligned against the leading edge of its display area,
-     * and centered vertically.
+     * Crebtes b <code>JLbbel</code> instbnce with the specified text.
+     * The lbbel is bligned bgbinst the lebding edge of its displby breb,
+     * bnd centered verticblly.
      *
-     * @param text  The text to be displayed by the label.
+     * @pbrbm text  The text to be displbyed by the lbbel.
      */
-    public JLabel(String text) {
+    public JLbbel(String text) {
         this(text, null, LEADING);
     }
 
     /**
-     * Creates a <code>JLabel</code> instance with the specified
-     * image and horizontal alignment.
-     * The label is centered vertically in its display area.
+     * Crebtes b <code>JLbbel</code> instbnce with the specified
+     * imbge bnd horizontbl blignment.
+     * The lbbel is centered verticblly in its displby breb.
      *
-     * @param image  The image to be displayed by the label.
-     * @param horizontalAlignment  One of the following constants
-     *           defined in <code>SwingConstants</code>:
+     * @pbrbm imbge  The imbge to be displbyed by the lbbel.
+     * @pbrbm horizontblAlignment  One of the following constbnts
+     *           defined in <code>SwingConstbnts</code>:
      *           <code>LEFT</code>,
      *           <code>CENTER</code>,
      *           <code>RIGHT</code>,
      *           <code>LEADING</code> or
      *           <code>TRAILING</code>.
      */
-    public JLabel(Icon image, int horizontalAlignment) {
-        this(null, image, horizontalAlignment);
+    public JLbbel(Icon imbge, int horizontblAlignment) {
+        this(null, imbge, horizontblAlignment);
     }
 
     /**
-     * Creates a <code>JLabel</code> instance with the specified image.
-     * The label is centered vertically and horizontally
-     * in its display area.
+     * Crebtes b <code>JLbbel</code> instbnce with the specified imbge.
+     * The lbbel is centered verticblly bnd horizontblly
+     * in its displby breb.
      *
-     * @param image  The image to be displayed by the label.
+     * @pbrbm imbge  The imbge to be displbyed by the lbbel.
      */
-    public JLabel(Icon image) {
-        this(null, image, CENTER);
+    public JLbbel(Icon imbge) {
+        this(null, imbge, CENTER);
     }
 
     /**
-     * Creates a <code>JLabel</code> instance with
-     * no image and with an empty string for the title.
-     * The label is centered vertically
-     * in its display area.
-     * The label's contents, once set, will be displayed on the leading edge
-     * of the label's display area.
+     * Crebtes b <code>JLbbel</code> instbnce with
+     * no imbge bnd with bn empty string for the title.
+     * The lbbel is centered verticblly
+     * in its displby breb.
+     * The lbbel's contents, once set, will be displbyed on the lebding edge
+     * of the lbbel's displby breb.
      */
-    public JLabel() {
+    public JLbbel() {
         this("", null, LEADING);
     }
 
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Returns the L&bmp;F object thbt renders this component.
      *
-     * @return LabelUI object
+     * @return LbbelUI object
      */
-    public LabelUI getUI() {
-        return (LabelUI)ui;
+    public LbbelUI getUI() {
+        return (LbbelUI)ui;
     }
 
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sets the L&bmp;F object thbt renders this component.
      *
-     * @param ui  the LabelUI L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui  the LbbelUI L&bmp;F object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
-    public void setUI(LabelUI ui) {
+    public void setUI(LbbelUI ui) {
         super.setUI(ui);
-        // disabled icon is generated by LF so it should be unset here
-        if (!disabledIconSet && disabledIcon != null) {
-            setDisabledIcon(null);
+        // disbbled icon is generbted by LF so it should be unset here
+        if (!disbbledIconSet && disbbledIcon != null) {
+            setDisbbledIcon(null);
         }
     }
 
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Resets the UI property to b vblue from the current look bnd feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((LabelUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((LbbelUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Returns a string that specifies the name of the l&amp;f class
-     * that renders this component.
+     * Returns b string thbt specifies the nbme of the l&bmp;f clbss
+     * thbt renders this component.
      *
-     * @return String "LabelUI"
+     * @return String "LbbelUI"
      *
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
-     * Returns the text string that the label displays.
+     * Returns the text string thbt the lbbel displbys.
      *
-     * @return a String
+     * @return b String
      * @see #setText
      */
     public String getText() {
@@ -307,306 +307,306 @@ public class JLabel extends JComponent implements SwingConstants, Accessible
 
 
     /**
-     * Defines the single line of text this component will display.  If
-     * the value of text is null or empty string, nothing is displayed.
+     * Defines the single line of text this component will displby.  If
+     * the vblue of text is null or empty string, nothing is displbyed.
      * <p>
-     * The default value of this property is null.
+     * The defbult vblue of this property is null.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param text  the single line of text this component will display
-     * @see #setVerticalTextPosition
-     * @see #setHorizontalTextPosition
+     * @pbrbm text  the single line of text this component will displby
+     * @see #setVerticblTextPosition
+     * @see #setHorizontblTextPosition
      * @see #setIcon
-     * @beaninfo
+     * @bebninfo
      *    preferred: true
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Defines the single line of text this component will display.
+     *    bttribute: visublUpdbte true
+     *  description: Defines the single line of text this component will displby.
      */
     public void setText(String text) {
 
-        String oldAccessibleName = null;
-        if (accessibleContext != null) {
-            oldAccessibleName = accessibleContext.getAccessibleName();
+        String oldAccessibleNbme = null;
+        if (bccessibleContext != null) {
+            oldAccessibleNbme = bccessibleContext.getAccessibleNbme();
         }
 
-        String oldValue = this.text;
+        String oldVblue = this.text;
         this.text = text;
-        firePropertyChange("text", oldValue, text);
+        firePropertyChbnge("text", oldVblue, text);
 
-        setDisplayedMnemonicIndex(
-                      SwingUtilities.findDisplayedMnemonicIndex(
-                                          text, getDisplayedMnemonic()));
+        setDisplbyedMnemonicIndex(
+                      SwingUtilities.findDisplbyedMnemonicIndex(
+                                          text, getDisplbyedMnemonic()));
 
-        if ((accessibleContext != null)
-            && (accessibleContext.getAccessibleName() != oldAccessibleName)) {
-                accessibleContext.firePropertyChange(
+        if ((bccessibleContext != null)
+            && (bccessibleContext.getAccessibleNbme() != oldAccessibleNbme)) {
+                bccessibleContext.firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                        oldAccessibleName,
-                        accessibleContext.getAccessibleName());
+                        oldAccessibleNbme,
+                        bccessibleContext.getAccessibleNbme());
         }
-        if (text == null || oldValue == null || !text.equals(oldValue)) {
-            revalidate();
-            repaint();
+        if (text == null || oldVblue == null || !text.equbls(oldVblue)) {
+            revblidbte();
+            repbint();
         }
     }
 
 
     /**
-     * Returns the graphic image (glyph, icon) that the label displays.
+     * Returns the grbphic imbge (glyph, icon) thbt the lbbel displbys.
      *
-     * @return an Icon
+     * @return bn Icon
      * @see #setIcon
      */
     public Icon getIcon() {
-        return defaultIcon;
+        return defbultIcon;
     }
 
     /**
-     * Defines the icon this component will display.  If
-     * the value of icon is null, nothing is displayed.
+     * Defines the icon this component will displby.  If
+     * the vblue of icon is null, nothing is displbyed.
      * <p>
-     * The default value of this property is null.
+     * The defbult vblue of this property is null.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param icon  the default icon this component will display
-     * @see #setVerticalTextPosition
-     * @see #setHorizontalTextPosition
+     * @pbrbm icon  the defbult icon this component will displby
+     * @see #setVerticblTextPosition
+     * @see #setHorizontblTextPosition
      * @see #getIcon
-     * @beaninfo
+     * @bebninfo
      *    preferred: true
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: The icon this component will display.
+     *    bttribute: visublUpdbte true
+     *  description: The icon this component will displby.
      */
     public void setIcon(Icon icon) {
-        Icon oldValue = defaultIcon;
-        defaultIcon = icon;
+        Icon oldVblue = defbultIcon;
+        defbultIcon = icon;
 
-        /* If the default icon has really changed and we had
-         * generated the disabled icon for this component
-         * (in other words, setDisabledIcon() was never called), then
-         * clear the disabledIcon field.
+        /* If the defbult icon hbs reblly chbnged bnd we hbd
+         * generbted the disbbled icon for this component
+         * (in other words, setDisbbledIcon() wbs never cblled), then
+         * clebr the disbbledIcon field.
          */
-        if ((defaultIcon != oldValue) && !disabledIconSet) {
-            disabledIcon = null;
+        if ((defbultIcon != oldVblue) && !disbbledIconSet) {
+            disbbledIcon = null;
         }
 
-        firePropertyChange("icon", oldValue, defaultIcon);
+        firePropertyChbnge("icon", oldVblue, defbultIcon);
 
-        if ((accessibleContext != null) && (oldValue != defaultIcon)) {
-                accessibleContext.firePropertyChange(
+        if ((bccessibleContext != null) && (oldVblue != defbultIcon)) {
+                bccessibleContext.firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                        oldValue, defaultIcon);
+                        oldVblue, defbultIcon);
         }
 
-        /* If the default icon has changed and the new one is
-         * a different size, then revalidate.   Repaint if the
-         * default icon has changed.
+        /* If the defbult icon hbs chbnged bnd the new one is
+         * b different size, then revblidbte.   Repbint if the
+         * defbult icon hbs chbnged.
          */
-        if (defaultIcon != oldValue) {
-            if ((defaultIcon == null) ||
-                (oldValue == null) ||
-                (defaultIcon.getIconWidth() != oldValue.getIconWidth()) ||
-                (defaultIcon.getIconHeight() != oldValue.getIconHeight())) {
-                revalidate();
+        if (defbultIcon != oldVblue) {
+            if ((defbultIcon == null) ||
+                (oldVblue == null) ||
+                (defbultIcon.getIconWidth() != oldVblue.getIconWidth()) ||
+                (defbultIcon.getIconHeight() != oldVblue.getIconHeight())) {
+                revblidbte();
             }
-            repaint();
+            repbint();
         }
     }
 
 
     /**
-     * Returns the icon used by the label when it's disabled.
-     * If no disabled icon has been set this will forward the call to
-     * the look and feel to construct an appropriate disabled Icon.
+     * Returns the icon used by the lbbel when it's disbbled.
+     * If no disbbled icon hbs been set this will forwbrd the cbll to
+     * the look bnd feel to construct bn bppropribte disbbled Icon.
      * <p>
-     * Some look and feels might not render the disabled Icon, in which
-     * case they will ignore this.
+     * Some look bnd feels might not render the disbbled Icon, in which
+     * cbse they will ignore this.
      *
-     * @return the <code>disabledIcon</code> property
-     * @see #setDisabledIcon
-     * @see javax.swing.LookAndFeel#getDisabledIcon
-     * @see ImageIcon
+     * @return the <code>disbbledIcon</code> property
+     * @see #setDisbbledIcon
+     * @see jbvbx.swing.LookAndFeel#getDisbbledIcon
+     * @see ImbgeIcon
      */
-    @Transient
-    public Icon getDisabledIcon() {
-        if (!disabledIconSet && disabledIcon == null && defaultIcon != null) {
-            disabledIcon = UIManager.getLookAndFeel().getDisabledIcon(this, defaultIcon);
-            if (disabledIcon != null) {
-                firePropertyChange("disabledIcon", null, disabledIcon);
+    @Trbnsient
+    public Icon getDisbbledIcon() {
+        if (!disbbledIconSet && disbbledIcon == null && defbultIcon != null) {
+            disbbledIcon = UIMbnbger.getLookAndFeel().getDisbbledIcon(this, defbultIcon);
+            if (disbbledIcon != null) {
+                firePropertyChbnge("disbbledIcon", null, disbbledIcon);
             }
         }
-        return disabledIcon;
+        return disbbledIcon;
     }
 
 
     /**
-     * Set the icon to be displayed if this JLabel is "disabled"
-     * (JLabel.setEnabled(false)).
+     * Set the icon to be displbyed if this JLbbel is "disbbled"
+     * (JLbbel.setEnbbled(fblse)).
      * <p>
-     * The default value of this property is null.
+     * The defbult vblue of this property is null.
      *
-     * @param disabledIcon the Icon to display when the component is disabled
-     * @see #getDisabledIcon
-     * @see #setEnabled
-     * @beaninfo
+     * @pbrbm disbbledIcon the Icon to displby when the component is disbbled
+     * @see #getDisbbledIcon
+     * @see #setEnbbled
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: The icon to display if the label is disabled.
+     *    bttribute: visublUpdbte true
+     *  description: The icon to displby if the lbbel is disbbled.
      */
-    public void setDisabledIcon(Icon disabledIcon) {
-        Icon oldValue = this.disabledIcon;
-        this.disabledIcon = disabledIcon;
-        disabledIconSet = (disabledIcon != null);
-        firePropertyChange("disabledIcon", oldValue, disabledIcon);
-        if (disabledIcon != oldValue) {
-            if (disabledIcon == null || oldValue == null ||
-                disabledIcon.getIconWidth() != oldValue.getIconWidth() ||
-                disabledIcon.getIconHeight() != oldValue.getIconHeight()) {
-                revalidate();
+    public void setDisbbledIcon(Icon disbbledIcon) {
+        Icon oldVblue = this.disbbledIcon;
+        this.disbbledIcon = disbbledIcon;
+        disbbledIconSet = (disbbledIcon != null);
+        firePropertyChbnge("disbbledIcon", oldVblue, disbbledIcon);
+        if (disbbledIcon != oldVblue) {
+            if (disbbledIcon == null || oldVblue == null ||
+                disbbledIcon.getIconWidth() != oldVblue.getIconWidth() ||
+                disbbledIcon.getIconHeight() != oldVblue.getIconHeight()) {
+                revblidbte();
             }
-            if (!isEnabled()) {
-                repaint();
+            if (!isEnbbled()) {
+                repbint();
             }
         }
     }
 
 
     /**
-     * Specify a keycode that indicates a mnemonic key.
-     * This property is used when the label is part of a larger component.
-     * If the labelFor property of the label is not null, the label will
-     * call the requestFocus method of the component specified by the
-     * labelFor property when the mnemonic is activated.
+     * Specify b keycode thbt indicbtes b mnemonic key.
+     * This property is used when the lbbel is pbrt of b lbrger component.
+     * If the lbbelFor property of the lbbel is not null, the lbbel will
+     * cbll the requestFocus method of the component specified by the
+     * lbbelFor property when the mnemonic is bctivbted.
      *
-     * @param key  a keycode that indicates a mnemonic key
-     * @see #getLabelFor
-     * @see #setLabelFor
-     * @beaninfo
+     * @pbrbm key  b keycode thbt indicbtes b mnemonic key
+     * @see #getLbbelFor
+     * @see #setLbbelFor
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
+     *    bttribute: visublUpdbte true
      *  description: The mnemonic keycode.
      */
-    public void setDisplayedMnemonic(int key) {
+    public void setDisplbyedMnemonic(int key) {
         int oldKey = mnemonic;
         mnemonic = key;
-        firePropertyChange("displayedMnemonic", oldKey, mnemonic);
+        firePropertyChbnge("displbyedMnemonic", oldKey, mnemonic);
 
-        setDisplayedMnemonicIndex(
-            SwingUtilities.findDisplayedMnemonicIndex(getText(), mnemonic));
+        setDisplbyedMnemonicIndex(
+            SwingUtilities.findDisplbyedMnemonicIndex(getText(), mnemonic));
 
         if (key != oldKey) {
-            revalidate();
-            repaint();
+            revblidbte();
+            repbint();
         }
     }
 
 
     /**
-     * Specifies the displayedMnemonic as a char value.
+     * Specifies the displbyedMnemonic bs b chbr vblue.
      *
-     * @param aChar  a char specifying the mnemonic to display
-     * @see #setDisplayedMnemonic(int)
+     * @pbrbm bChbr  b chbr specifying the mnemonic to displby
+     * @see #setDisplbyedMnemonic(int)
      */
-    public void setDisplayedMnemonic(char aChar) {
-        int vk = java.awt.event.KeyEvent.getExtendedKeyCodeForChar(aChar);
-        if (vk != java.awt.event.KeyEvent.VK_UNDEFINED) {
-            setDisplayedMnemonic(vk);
+    public void setDisplbyedMnemonic(chbr bChbr) {
+        int vk = jbvb.bwt.event.KeyEvent.getExtendedKeyCodeForChbr(bChbr);
+        if (vk != jbvb.bwt.event.KeyEvent.VK_UNDEFINED) {
+            setDisplbyedMnemonic(vk);
         }
     }
 
 
     /**
-     * Return the keycode that indicates a mnemonic key.
-     * This property is used when the label is part of a larger component.
-     * If the labelFor property of the label is not null, the label will
-     * call the requestFocus method of the component specified by the
-     * labelFor property when the mnemonic is activated.
+     * Return the keycode thbt indicbtes b mnemonic key.
+     * This property is used when the lbbel is pbrt of b lbrger component.
+     * If the lbbelFor property of the lbbel is not null, the lbbel will
+     * cbll the requestFocus method of the component specified by the
+     * lbbelFor property when the mnemonic is bctivbted.
      *
-     * @return int value for the mnemonic key
+     * @return int vblue for the mnemonic key
      *
-     * @see #getLabelFor
-     * @see #setLabelFor
+     * @see #getLbbelFor
+     * @see #setLbbelFor
      */
-    public int getDisplayedMnemonic() {
+    public int getDisplbyedMnemonic() {
         return mnemonic;
     }
 
     /**
-     * Provides a hint to the look and feel as to which character in the
-     * text should be decorated to represent the mnemonic. Not all look and
-     * feels may support this. A value of -1 indicates either there is no
-     * mnemonic, the mnemonic character is not contained in the string, or
-     * the developer does not wish the mnemonic to be displayed.
+     * Provides b hint to the look bnd feel bs to which chbrbcter in the
+     * text should be decorbted to represent the mnemonic. Not bll look bnd
+     * feels mby support this. A vblue of -1 indicbtes either there is no
+     * mnemonic, the mnemonic chbrbcter is not contbined in the string, or
+     * the developer does not wish the mnemonic to be displbyed.
      * <p>
-     * The value of this is updated as the properties relating to the
-     * mnemonic change (such as the mnemonic itself, the text...).
-     * You should only ever have to call this if
-     * you do not wish the default character to be underlined. For example, if
-     * the text was 'Save As', with a mnemonic of 'a', and you wanted the 'A'
-     * to be decorated, as 'Save <u>A</u>s', you would have to invoke
-     * <code>setDisplayedMnemonicIndex(5)</code> after invoking
-     * <code>setDisplayedMnemonic(KeyEvent.VK_A)</code>.
+     * The vblue of this is updbted bs the properties relbting to the
+     * mnemonic chbnge (such bs the mnemonic itself, the text...).
+     * You should only ever hbve to cbll this if
+     * you do not wish the defbult chbrbcter to be underlined. For exbmple, if
+     * the text wbs 'Sbve As', with b mnemonic of 'b', bnd you wbnted the 'A'
+     * to be decorbted, bs 'Sbve <u>A</u>s', you would hbve to invoke
+     * <code>setDisplbyedMnemonicIndex(5)</code> bfter invoking
+     * <code>setDisplbyedMnemonic(KeyEvent.VK_A)</code>.
      *
      * @since 1.4
-     * @param index Index into the String to underline
-     * @exception IllegalArgumentException will be thrown if <code>index</code>
+     * @pbrbm index Index into the String to underline
+     * @exception IllegblArgumentException will be thrown if <code>index</code>
      *            is &gt;= length of the text, or &lt; -1
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: the index into the String to draw the keyboard character
-     *               mnemonic at
+     *    bttribute: visublUpdbte true
+     *  description: the index into the String to drbw the keybobrd chbrbcter
+     *               mnemonic bt
      */
-    public void setDisplayedMnemonicIndex(int index)
-                                             throws IllegalArgumentException {
-        int oldValue = mnemonicIndex;
+    public void setDisplbyedMnemonicIndex(int index)
+                                             throws IllegblArgumentException {
+        int oldVblue = mnemonicIndex;
         if (index == -1) {
             mnemonicIndex = -1;
         } else {
             String text = getText();
             int textLength = (text == null) ? 0 : text.length();
-            if (index < -1 || index >= textLength) {  // index out of range
-                throw new IllegalArgumentException("index == " + index);
+            if (index < -1 || index >= textLength) {  // index out of rbnge
+                throw new IllegblArgumentException("index == " + index);
             }
         }
         mnemonicIndex = index;
-        firePropertyChange("displayedMnemonicIndex", oldValue, index);
-        if (index != oldValue) {
-            revalidate();
-            repaint();
+        firePropertyChbnge("displbyedMnemonicIndex", oldVblue, index);
+        if (index != oldVblue) {
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Returns the character, as an index, that the look and feel should
-     * provide decoration for as representing the mnemonic character.
+     * Returns the chbrbcter, bs bn index, thbt the look bnd feel should
+     * provide decorbtion for bs representing the mnemonic chbrbcter.
      *
      * @since 1.4
-     * @return index representing mnemonic character
-     * @see #setDisplayedMnemonicIndex
+     * @return index representing mnemonic chbrbcter
+     * @see #setDisplbyedMnemonicIndex
      */
-    public int getDisplayedMnemonicIndex() {
+    public int getDisplbyedMnemonicIndex() {
         return mnemonicIndex;
     }
 
     /**
-     * Verify that key is a legal value for the horizontalAlignment properties.
+     * Verify thbt key is b legbl vblue for the horizontblAlignment properties.
      *
-     * @param key the property value to check
-     * @param message the IllegalArgumentException detail message
-     * @return the key value if {@code key} is a a legal value for the
-     *         horizontalAlignment properties
-     * @exception IllegalArgumentException if key isn't LEFT, CENTER, RIGHT,
+     * @pbrbm key the property vblue to check
+     * @pbrbm messbge the IllegblArgumentException detbil messbge
+     * @return the key vblue if {@code key} is b b legbl vblue for the
+     *         horizontblAlignment properties
+     * @exception IllegblArgumentException if key isn't LEFT, CENTER, RIGHT,
      * LEADING or TRAILING.
-     * @see #setHorizontalTextPosition
-     * @see #setHorizontalAlignment
+     * @see #setHorizontblTextPosition
+     * @see #setHorizontblAlignment
      */
-    protected int checkHorizontalKey(int key, String message) {
+    protected int checkHorizontblKey(int key, String messbge) {
         if ((key == LEFT) ||
             (key == CENTER) ||
             (key == RIGHT) ||
@@ -615,392 +615,392 @@ public class JLabel extends JComponent implements SwingConstants, Accessible
             return key;
         }
         else {
-            throw new IllegalArgumentException(message);
+            throw new IllegblArgumentException(messbge);
         }
     }
 
 
     /**
-     * Verify that key is a legal value for the
-     * verticalAlignment or verticalTextPosition properties.
+     * Verify thbt key is b legbl vblue for the
+     * verticblAlignment or verticblTextPosition properties.
      *
-     * @param key the property value to check
-     * @param message the IllegalArgumentException detail message
-     * @return the key value if {@code key} is a legal value for the
-     *         verticalAlignment or verticalTextPosition properties
-     * @exception IllegalArgumentException if key isn't TOP, CENTER, or BOTTOM.
-     * @see #setVerticalAlignment
-     * @see #setVerticalTextPosition
+     * @pbrbm key the property vblue to check
+     * @pbrbm messbge the IllegblArgumentException detbil messbge
+     * @return the key vblue if {@code key} is b legbl vblue for the
+     *         verticblAlignment or verticblTextPosition properties
+     * @exception IllegblArgumentException if key isn't TOP, CENTER, or BOTTOM.
+     * @see #setVerticblAlignment
+     * @see #setVerticblTextPosition
      */
-    protected int checkVerticalKey(int key, String message) {
+    protected int checkVerticblKey(int key, String messbge) {
         if ((key == TOP) || (key == CENTER) || (key == BOTTOM)) {
             return key;
         }
         else {
-            throw new IllegalArgumentException(message);
+            throw new IllegblArgumentException(messbge);
         }
     }
 
 
     /**
-     * Returns the amount of space between the text and the icon
-     * displayed in this label.
+     * Returns the bmount of spbce between the text bnd the icon
+     * displbyed in this lbbel.
      *
-     * @return an int equal to the number of pixels between the text
-     *         and the icon.
-     * @see #setIconTextGap
+     * @return bn int equbl to the number of pixels between the text
+     *         bnd the icon.
+     * @see #setIconTextGbp
      */
-    public int getIconTextGap() {
-        return iconTextGap;
+    public int getIconTextGbp() {
+        return iconTextGbp;
     }
 
 
     /**
-     * If both the icon and text properties are set, this property
-     * defines the space between them.
+     * If both the icon bnd text properties bre set, this property
+     * defines the spbce between them.
      * <p>
-     * The default value of this property is 4 pixels.
+     * The defbult vblue of this property is 4 pixels.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param iconTextGap  the space between the icon and text properties
-     * @see #getIconTextGap
-     * @beaninfo
+     * @pbrbm iconTextGbp  the spbce between the icon bnd text properties
+     * @see #getIconTextGbp
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: If both the icon and text properties are set, this
-     *               property defines the space between them.
+     *    bttribute: visublUpdbte true
+     *  description: If both the icon bnd text properties bre set, this
+     *               property defines the spbce between them.
      */
-    public void setIconTextGap(int iconTextGap) {
-        int oldValue = this.iconTextGap;
-        this.iconTextGap = iconTextGap;
-        firePropertyChange("iconTextGap", oldValue, iconTextGap);
-        if (iconTextGap != oldValue) {
-            revalidate();
-            repaint();
+    public void setIconTextGbp(int iconTextGbp) {
+        int oldVblue = this.iconTextGbp;
+        this.iconTextGbp = iconTextGbp;
+        firePropertyChbnge("iconTextGbp", oldVblue, iconTextGbp);
+        if (iconTextGbp != oldVblue) {
+            revblidbte();
+            repbint();
         }
     }
 
 
 
     /**
-     * Returns the alignment of the label's contents along the Y axis.
+     * Returns the blignment of the lbbel's contents blong the Y bxis.
      *
-     * @return   The value of the verticalAlignment property, one of the
-     *           following constants defined in <code>SwingConstants</code>:
+     * @return   The vblue of the verticblAlignment property, one of the
+     *           following constbnts defined in <code>SwingConstbnts</code>:
      *           <code>TOP</code>,
      *           <code>CENTER</code>, or
      *           <code>BOTTOM</code>.
      *
-     * @see SwingConstants
-     * @see #setVerticalAlignment
+     * @see SwingConstbnts
+     * @see #setVerticblAlignment
      */
-    public int getVerticalAlignment() {
-        return verticalAlignment;
+    public int getVerticblAlignment() {
+        return verticblAlignment;
     }
 
 
     /**
-     * Sets the alignment of the label's contents along the Y axis.
+     * Sets the blignment of the lbbel's contents blong the Y bxis.
      * <p>
-     * The default value of this property is CENTER.
+     * The defbult vblue of this property is CENTER.
      *
-     * @param alignment One of the following constants
-     *           defined in <code>SwingConstants</code>:
+     * @pbrbm blignment One of the following constbnts
+     *           defined in <code>SwingConstbnts</code>:
      *           <code>TOP</code>,
-     *           <code>CENTER</code> (the default), or
+     *           <code>CENTER</code> (the defbult), or
      *           <code>BOTTOM</code>.
      *
-     * @see SwingConstants
-     * @see #getVerticalAlignment
-     * @beaninfo
+     * @see SwingConstbnts
+     * @see #getVerticblAlignment
+     * @bebninfo
      *        bound: true
-     *         enum: TOP    SwingConstants.TOP
-     *               CENTER SwingConstants.CENTER
-     *               BOTTOM SwingConstants.BOTTOM
-     *    attribute: visualUpdate true
-     *  description: The alignment of the label's contents along the Y axis.
+     *         enum: TOP    SwingConstbnts.TOP
+     *               CENTER SwingConstbnts.CENTER
+     *               BOTTOM SwingConstbnts.BOTTOM
+     *    bttribute: visublUpdbte true
+     *  description: The blignment of the lbbel's contents blong the Y bxis.
      */
-    public void setVerticalAlignment(int alignment) {
-        if (alignment == verticalAlignment) return;
-        int oldValue = verticalAlignment;
-        verticalAlignment = checkVerticalKey(alignment, "verticalAlignment");
-        firePropertyChange("verticalAlignment", oldValue, verticalAlignment);
-        repaint();
+    public void setVerticblAlignment(int blignment) {
+        if (blignment == verticblAlignment) return;
+        int oldVblue = verticblAlignment;
+        verticblAlignment = checkVerticblKey(blignment, "verticblAlignment");
+        firePropertyChbnge("verticblAlignment", oldVblue, verticblAlignment);
+        repbint();
     }
 
 
     /**
-     * Returns the alignment of the label's contents along the X axis.
+     * Returns the blignment of the lbbel's contents blong the X bxis.
      *
-     * @return   The value of the horizontalAlignment property, one of the
-     *           following constants defined in <code>SwingConstants</code>:
+     * @return   The vblue of the horizontblAlignment property, one of the
+     *           following constbnts defined in <code>SwingConstbnts</code>:
      *           <code>LEFT</code>,
      *           <code>CENTER</code>,
      *           <code>RIGHT</code>,
      *           <code>LEADING</code> or
      *           <code>TRAILING</code>.
      *
-     * @see #setHorizontalAlignment
-     * @see SwingConstants
+     * @see #setHorizontblAlignment
+     * @see SwingConstbnts
      */
-    public int getHorizontalAlignment() {
-        return horizontalAlignment;
+    public int getHorizontblAlignment() {
+        return horizontblAlignment;
     }
 
     /**
-     * Sets the alignment of the label's contents along the X axis.
+     * Sets the blignment of the lbbel's contents blong the X bxis.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param alignment  One of the following constants
-     *           defined in <code>SwingConstants</code>:
+     * @pbrbm blignment  One of the following constbnts
+     *           defined in <code>SwingConstbnts</code>:
      *           <code>LEFT</code>,
-     *           <code>CENTER</code> (the default for image-only labels),
+     *           <code>CENTER</code> (the defbult for imbge-only lbbels),
      *           <code>RIGHT</code>,
-     *           <code>LEADING</code> (the default for text-only labels) or
+     *           <code>LEADING</code> (the defbult for text-only lbbels) or
      *           <code>TRAILING</code>.
      *
-     * @see SwingConstants
-     * @see #getHorizontalAlignment
-     * @beaninfo
+     * @see SwingConstbnts
+     * @see #getHorizontblAlignment
+     * @bebninfo
      *        bound: true
-     *         enum: LEFT     SwingConstants.LEFT
-     *               CENTER   SwingConstants.CENTER
-     *               RIGHT    SwingConstants.RIGHT
-     *               LEADING  SwingConstants.LEADING
-     *               TRAILING SwingConstants.TRAILING
-     *    attribute: visualUpdate true
-     *  description: The alignment of the label's content along the X axis.
+     *         enum: LEFT     SwingConstbnts.LEFT
+     *               CENTER   SwingConstbnts.CENTER
+     *               RIGHT    SwingConstbnts.RIGHT
+     *               LEADING  SwingConstbnts.LEADING
+     *               TRAILING SwingConstbnts.TRAILING
+     *    bttribute: visublUpdbte true
+     *  description: The blignment of the lbbel's content blong the X bxis.
      */
-    public void setHorizontalAlignment(int alignment) {
-        if (alignment == horizontalAlignment) return;
-        int oldValue = horizontalAlignment;
-        horizontalAlignment = checkHorizontalKey(alignment,
-                                                 "horizontalAlignment");
-        firePropertyChange("horizontalAlignment",
-                           oldValue, horizontalAlignment);
-        repaint();
+    public void setHorizontblAlignment(int blignment) {
+        if (blignment == horizontblAlignment) return;
+        int oldVblue = horizontblAlignment;
+        horizontblAlignment = checkHorizontblKey(blignment,
+                                                 "horizontblAlignment");
+        firePropertyChbnge("horizontblAlignment",
+                           oldVblue, horizontblAlignment);
+        repbint();
     }
 
 
     /**
-     * Returns the vertical position of the label's text,
-     * relative to its image.
+     * Returns the verticbl position of the lbbel's text,
+     * relbtive to its imbge.
      *
-     * @return   One of the following constants
-     *           defined in <code>SwingConstants</code>:
+     * @return   One of the following constbnts
+     *           defined in <code>SwingConstbnts</code>:
      *           <code>TOP</code>,
      *           <code>CENTER</code>, or
      *           <code>BOTTOM</code>.
      *
-     * @see #setVerticalTextPosition
-     * @see SwingConstants
+     * @see #setVerticblTextPosition
+     * @see SwingConstbnts
      */
-    public int getVerticalTextPosition() {
-        return verticalTextPosition;
+    public int getVerticblTextPosition() {
+        return verticblTextPosition;
     }
 
 
     /**
-     * Sets the vertical position of the label's text,
-     * relative to its image.
+     * Sets the verticbl position of the lbbel's text,
+     * relbtive to its imbge.
      * <p>
-     * The default value of this property is CENTER.
+     * The defbult vblue of this property is CENTER.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param textPosition  One of the following constants
-     *           defined in <code>SwingConstants</code>:
+     * @pbrbm textPosition  One of the following constbnts
+     *           defined in <code>SwingConstbnts</code>:
      *           <code>TOP</code>,
-     *           <code>CENTER</code> (the default), or
+     *           <code>CENTER</code> (the defbult), or
      *           <code>BOTTOM</code>.
      *
-     * @see SwingConstants
-     * @see #getVerticalTextPosition
-     * @beaninfo
+     * @see SwingConstbnts
+     * @see #getVerticblTextPosition
+     * @bebninfo
      *        bound: true
-     *         enum: TOP    SwingConstants.TOP
-     *               CENTER SwingConstants.CENTER
-     *               BOTTOM SwingConstants.BOTTOM
+     *         enum: TOP    SwingConstbnts.TOP
+     *               CENTER SwingConstbnts.CENTER
+     *               BOTTOM SwingConstbnts.BOTTOM
      *       expert: true
-     *    attribute: visualUpdate true
-     *  description: The vertical position of the text relative to it's image.
+     *    bttribute: visublUpdbte true
+     *  description: The verticbl position of the text relbtive to it's imbge.
      */
-    public void setVerticalTextPosition(int textPosition) {
-        if (textPosition == verticalTextPosition) return;
-        int old = verticalTextPosition;
-        verticalTextPosition = checkVerticalKey(textPosition,
-                                                "verticalTextPosition");
-        firePropertyChange("verticalTextPosition", old, verticalTextPosition);
-        revalidate();
-        repaint();
+    public void setVerticblTextPosition(int textPosition) {
+        if (textPosition == verticblTextPosition) return;
+        int old = verticblTextPosition;
+        verticblTextPosition = checkVerticblKey(textPosition,
+                                                "verticblTextPosition");
+        firePropertyChbnge("verticblTextPosition", old, verticblTextPosition);
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * Returns the horizontal position of the label's text,
-     * relative to its image.
+     * Returns the horizontbl position of the lbbel's text,
+     * relbtive to its imbge.
      *
-     * @return   One of the following constants
-     *           defined in <code>SwingConstants</code>:
+     * @return   One of the following constbnts
+     *           defined in <code>SwingConstbnts</code>:
      *           <code>LEFT</code>,
      *           <code>CENTER</code>,
      *           <code>RIGHT</code>,
      *           <code>LEADING</code> or
      *           <code>TRAILING</code>.
      *
-     * @see SwingConstants
+     * @see SwingConstbnts
      */
-    public int getHorizontalTextPosition() {
-        return horizontalTextPosition;
+    public int getHorizontblTextPosition() {
+        return horizontblTextPosition;
     }
 
 
     /**
-     * Sets the horizontal position of the label's text,
-     * relative to its image.
+     * Sets the horizontbl position of the lbbel's text,
+     * relbtive to its imbge.
      *
-     * @param textPosition  One of the following constants
-     *           defined in <code>SwingConstants</code>:
+     * @pbrbm textPosition  One of the following constbnts
+     *           defined in <code>SwingConstbnts</code>:
      *           <code>LEFT</code>,
      *           <code>CENTER</code>,
      *           <code>RIGHT</code>,
      *           <code>LEADING</code>, or
-     *           <code>TRAILING</code> (the default).
+     *           <code>TRAILING</code> (the defbult).
      *
-     * @see SwingConstants
-     * @beaninfo
+     * @see SwingConstbnts
+     * @bebninfo
      *       expert: true
      *        bound: true
-     *         enum: LEFT     SwingConstants.LEFT
-     *               CENTER   SwingConstants.CENTER
-     *               RIGHT    SwingConstants.RIGHT
-     *               LEADING  SwingConstants.LEADING
-     *               TRAILING SwingConstants.TRAILING
-     *    attribute: visualUpdate true
-     *  description: The horizontal position of the label's text,
-     *               relative to its image.
+     *         enum: LEFT     SwingConstbnts.LEFT
+     *               CENTER   SwingConstbnts.CENTER
+     *               RIGHT    SwingConstbnts.RIGHT
+     *               LEADING  SwingConstbnts.LEADING
+     *               TRAILING SwingConstbnts.TRAILING
+     *    bttribute: visublUpdbte true
+     *  description: The horizontbl position of the lbbel's text,
+     *               relbtive to its imbge.
      */
-    public void setHorizontalTextPosition(int textPosition) {
-        int old = horizontalTextPosition;
-        this.horizontalTextPosition = checkHorizontalKey(textPosition,
-                                                "horizontalTextPosition");
-        firePropertyChange("horizontalTextPosition",
-                           old, horizontalTextPosition);
-        revalidate();
-        repaint();
+    public void setHorizontblTextPosition(int textPosition) {
+        int old = horizontblTextPosition;
+        this.horizontblTextPosition = checkHorizontblKey(textPosition,
+                                                "horizontblTextPosition");
+        firePropertyChbnge("horizontblTextPosition",
+                           old, horizontblTextPosition);
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * This is overridden to return false if the current Icon's Image is
-     * not equal to the passed in Image <code>img</code>.
+     * This is overridden to return fblse if the current Icon's Imbge is
+     * not equbl to the pbssed in Imbge <code>img</code>.
      *
-     * @see     java.awt.image.ImageObserver
-     * @see     java.awt.Component#imageUpdate(java.awt.Image, int, int, int, int, int)
+     * @see     jbvb.bwt.imbge.ImbgeObserver
+     * @see     jbvb.bwt.Component#imbgeUpdbte(jbvb.bwt.Imbge, int, int, int, int, int)
      */
-    public boolean imageUpdate(Image img, int infoflags,
+    public boolebn imbgeUpdbte(Imbge img, int infoflbgs,
                                int x, int y, int w, int h) {
-        // Don't use getDisabledIcon, will trigger creation of icon if icon
+        // Don't use getDisbbledIcon, will trigger crebtion of icon if icon
         // not set.
         if (!isShowing() ||
-            !SwingUtilities.doesIconReferenceImage(getIcon(), img) &&
-            !SwingUtilities.doesIconReferenceImage(disabledIcon, img)) {
+            !SwingUtilities.doesIconReferenceImbge(getIcon(), img) &&
+            !SwingUtilities.doesIconReferenceImbge(disbbledIcon, img)) {
 
-            return false;
+            return fblse;
         }
-        return super.imageUpdate(img, infoflags, x, y, w, h);
+        return super.imbgeUpdbte(img, infoflbgs, x, y, w, h);
     }
 
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * See rebdObject() bnd writeObject() in JComponent for more
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this JLabel. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this JLbbel. This method
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this JLabel.
+     * @return  b string representbtion of this JLbbel.
      */
-    protected String paramString() {
+    protected String pbrbmString() {
         String textString = (text != null ?
                              text : "");
-        String defaultIconString = ((defaultIcon != null)
-                                    && (defaultIcon != this)  ?
-                                    defaultIcon.toString() : "");
-        String disabledIconString = ((disabledIcon != null)
-                                     && (disabledIcon != this) ?
-                                     disabledIcon.toString() : "");
-        String labelForString = (labelFor  != null ?
-                                 labelFor.toString() : "");
-        String verticalAlignmentString;
-        if (verticalAlignment == TOP) {
-            verticalAlignmentString = "TOP";
-        } else if (verticalAlignment == CENTER) {
-            verticalAlignmentString = "CENTER";
-        } else if (verticalAlignment == BOTTOM) {
-            verticalAlignmentString = "BOTTOM";
-        } else verticalAlignmentString = "";
-        String horizontalAlignmentString;
-        if (horizontalAlignment == LEFT) {
-            horizontalAlignmentString = "LEFT";
-        } else if (horizontalAlignment == CENTER) {
-            horizontalAlignmentString = "CENTER";
-        } else if (horizontalAlignment == RIGHT) {
-            horizontalAlignmentString = "RIGHT";
-        } else if (horizontalAlignment == LEADING) {
-            horizontalAlignmentString = "LEADING";
-        } else if (horizontalAlignment == TRAILING) {
-            horizontalAlignmentString = "TRAILING";
-        } else horizontalAlignmentString = "";
-        String verticalTextPositionString;
-        if (verticalTextPosition == TOP) {
-            verticalTextPositionString = "TOP";
-        } else if (verticalTextPosition == CENTER) {
-            verticalTextPositionString = "CENTER";
-        } else if (verticalTextPosition == BOTTOM) {
-            verticalTextPositionString = "BOTTOM";
-        } else verticalTextPositionString = "";
-        String horizontalTextPositionString;
-        if (horizontalTextPosition == LEFT) {
-            horizontalTextPositionString = "LEFT";
-        } else if (horizontalTextPosition == CENTER) {
-            horizontalTextPositionString = "CENTER";
-        } else if (horizontalTextPosition == RIGHT) {
-            horizontalTextPositionString = "RIGHT";
-        } else if (horizontalTextPosition == LEADING) {
-            horizontalTextPositionString = "LEADING";
-        } else if (horizontalTextPosition == TRAILING) {
-            horizontalTextPositionString = "TRAILING";
-        } else horizontalTextPositionString = "";
+        String defbultIconString = ((defbultIcon != null)
+                                    && (defbultIcon != this)  ?
+                                    defbultIcon.toString() : "");
+        String disbbledIconString = ((disbbledIcon != null)
+                                     && (disbbledIcon != this) ?
+                                     disbbledIcon.toString() : "");
+        String lbbelForString = (lbbelFor  != null ?
+                                 lbbelFor.toString() : "");
+        String verticblAlignmentString;
+        if (verticblAlignment == TOP) {
+            verticblAlignmentString = "TOP";
+        } else if (verticblAlignment == CENTER) {
+            verticblAlignmentString = "CENTER";
+        } else if (verticblAlignment == BOTTOM) {
+            verticblAlignmentString = "BOTTOM";
+        } else verticblAlignmentString = "";
+        String horizontblAlignmentString;
+        if (horizontblAlignment == LEFT) {
+            horizontblAlignmentString = "LEFT";
+        } else if (horizontblAlignment == CENTER) {
+            horizontblAlignmentString = "CENTER";
+        } else if (horizontblAlignment == RIGHT) {
+            horizontblAlignmentString = "RIGHT";
+        } else if (horizontblAlignment == LEADING) {
+            horizontblAlignmentString = "LEADING";
+        } else if (horizontblAlignment == TRAILING) {
+            horizontblAlignmentString = "TRAILING";
+        } else horizontblAlignmentString = "";
+        String verticblTextPositionString;
+        if (verticblTextPosition == TOP) {
+            verticblTextPositionString = "TOP";
+        } else if (verticblTextPosition == CENTER) {
+            verticblTextPositionString = "CENTER";
+        } else if (verticblTextPosition == BOTTOM) {
+            verticblTextPositionString = "BOTTOM";
+        } else verticblTextPositionString = "";
+        String horizontblTextPositionString;
+        if (horizontblTextPosition == LEFT) {
+            horizontblTextPositionString = "LEFT";
+        } else if (horizontblTextPosition == CENTER) {
+            horizontblTextPositionString = "CENTER";
+        } else if (horizontblTextPosition == RIGHT) {
+            horizontblTextPositionString = "RIGHT";
+        } else if (horizontblTextPosition == LEADING) {
+            horizontblTextPositionString = "LEADING";
+        } else if (horizontblTextPosition == TRAILING) {
+            horizontblTextPositionString = "TRAILING";
+        } else horizontblTextPositionString = "";
 
-        return super.paramString() +
-        ",defaultIcon=" + defaultIconString +
-        ",disabledIcon=" + disabledIconString +
-        ",horizontalAlignment=" + horizontalAlignmentString +
-        ",horizontalTextPosition=" + horizontalTextPositionString +
-        ",iconTextGap=" + iconTextGap +
-        ",labelFor=" + labelForString +
+        return super.pbrbmString() +
+        ",defbultIcon=" + defbultIconString +
+        ",disbbledIcon=" + disbbledIconString +
+        ",horizontblAlignment=" + horizontblAlignmentString +
+        ",horizontblTextPosition=" + horizontblTextPositionString +
+        ",iconTextGbp=" + iconTextGbp +
+        ",lbbelFor=" + lbbelForString +
         ",text=" + textString +
-        ",verticalAlignment=" + verticalAlignmentString +
-        ",verticalTextPosition=" + verticalTextPositionString;
+        ",verticblAlignment=" + verticblAlignmentString +
+        ",verticblTextPosition=" + verticblTextPositionString;
     }
 
     /**
@@ -1008,47 +1008,47 @@ public class JLabel extends JComponent implements SwingConstants, Accessible
      */
 
     /**
-     * Get the component this is labelling.
+     * Get the component this is lbbelling.
      *
-     * @return the Component this is labelling.  Can be null if this
-     * does not label a Component.  If the displayedMnemonic
-     * property is set and the labelFor property is also set, the label
-     * will call the requestFocus method of the component specified by the
-     * labelFor property when the mnemonic is activated.
+     * @return the Component this is lbbelling.  Cbn be null if this
+     * does not lbbel b Component.  If the displbyedMnemonic
+     * property is set bnd the lbbelFor property is blso set, the lbbel
+     * will cbll the requestFocus method of the component specified by the
+     * lbbelFor property when the mnemonic is bctivbted.
      *
-     * @see #getDisplayedMnemonic
-     * @see #setDisplayedMnemonic
+     * @see #getDisplbyedMnemonic
+     * @see #setDisplbyedMnemonic
      */
-    public Component getLabelFor() {
-        return labelFor;
+    public Component getLbbelFor() {
+        return lbbelFor;
     }
 
     /**
-     * Set the component this is labelling.  Can be null if this does not
-     * label a Component.  If the displayedMnemonic property is set
-     * and the labelFor property is also set, the label will
-     * call the requestFocus method of the component specified by the
-     * labelFor property when the mnemonic is activated.
+     * Set the component this is lbbelling.  Cbn be null if this does not
+     * lbbel b Component.  If the displbyedMnemonic property is set
+     * bnd the lbbelFor property is blso set, the lbbel will
+     * cbll the requestFocus method of the component specified by the
+     * lbbelFor property when the mnemonic is bctivbted.
      *
-     * @param c  the Component this label is for, or null if the label is
-     *           not the label for a component
+     * @pbrbm c  the Component this lbbel is for, or null if the lbbel is
+     *           not the lbbel for b component
      *
-     * @see #getDisplayedMnemonic
-     * @see #setDisplayedMnemonic
+     * @see #getDisplbyedMnemonic
+     * @see #setDisplbyedMnemonic
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: The component this is labelling.
+     *  description: The component this is lbbelling.
      */
-    public void setLabelFor(Component c) {
-        Component oldC = labelFor;
-        labelFor = c;
-        firePropertyChange("labelFor", oldC, c);
+    public void setLbbelFor(Component c) {
+        Component oldC = lbbelFor;
+        lbbelFor = c;
+        firePropertyChbnge("lbbelFor", oldC, c);
 
-        if (oldC instanceof JComponent) {
+        if (oldC instbnceof JComponent) {
             ((JComponent)oldC).putClientProperty(LABELED_BY_PROPERTY, null);
         }
-        if (c instanceof JComponent) {
+        if (c instbnceof JComponent) {
             ((JComponent)c).putClientProperty(LABELED_BY_PROPERTY, this);
         }
     }
@@ -1057,59 +1057,59 @@ public class JLabel extends JComponent implements SwingConstants, Accessible
      * Get the AccessibleContext of this object
      *
      * @return the AccessibleContext of this object
-     * @beaninfo
+     * @bebninfo
      *       expert: true
-     *  description: The AccessibleContext associated with this Label.
+     *  description: The AccessibleContext bssocibted with this Lbbel.
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJLabel();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJLbbel();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * The class used to obtain the accessible role for this object.
+     * The clbss used to obtbin the bccessible role for this object.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJLabel extends AccessibleJComponent
+    @SuppressWbrnings("seribl")
+    protected clbss AccessibleJLbbel extends AccessibleJComponent
         implements AccessibleText, AccessibleExtendedComponent {
 
         /**
-         * Get the accessible name of this object.
+         * Get the bccessible nbme of this object.
          *
-         * @return the localized name of the object -- can be null if this
-         * object does not have a name
-         * @see AccessibleContext#setAccessibleName
+         * @return the locblized nbme of the object -- cbn be null if this
+         * object does not hbve b nbme
+         * @see AccessibleContext#setAccessibleNbme
          */
-        public String getAccessibleName() {
-            String name = accessibleName;
+        public String getAccessibleNbme() {
+            String nbme = bccessibleNbme;
 
-            if (name == null) {
-                name = (String)getClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY);
+            if (nbme == null) {
+                nbme = (String)getClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY);
             }
-            if (name == null) {
-                name = JLabel.this.getText();
+            if (nbme == null) {
+                nbme = JLbbel.this.getText();
             }
-            if (name == null) {
-                name = super.getAccessibleName();
+            if (nbme == null) {
+                nbme = super.getAccessibleNbme();
             }
-            return name;
+            return nbme;
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -1118,51 +1118,51 @@ public class JLabel extends JComponent implements SwingConstants, Accessible
         }
 
         /**
-         * Get the AccessibleIcons associated with this object if one
+         * Get the AccessibleIcons bssocibted with this object if one
          * or more exist.  Otherwise return null.
          * @since 1.3
          */
         public AccessibleIcon [] getAccessibleIcon() {
             Icon icon = getIcon();
-            if (icon instanceof Accessible) {
-                AccessibleContext ac =
+            if (icon instbnceof Accessible) {
+                AccessibleContext bc =
                 ((Accessible)icon).getAccessibleContext();
-                if (ac != null && ac instanceof AccessibleIcon) {
-                    return new AccessibleIcon[] { (AccessibleIcon)ac };
+                if (bc != null && bc instbnceof AccessibleIcon) {
+                    return new AccessibleIcon[] { (AccessibleIcon)bc };
                 }
             }
             return null;
         }
 
         /**
-         * Get the AccessibleRelationSet associated with this object if one
+         * Get the AccessibleRelbtionSet bssocibted with this object if one
          * exists.  Otherwise return null.
-         * @see AccessibleRelation
+         * @see AccessibleRelbtion
          * @since 1.3
          */
-        public AccessibleRelationSet getAccessibleRelationSet() {
-            // Check where the AccessibleContext's relation
-            // set already contains a LABEL_FOR relation.
-            AccessibleRelationSet relationSet
-                = super.getAccessibleRelationSet();
+        public AccessibleRelbtionSet getAccessibleRelbtionSet() {
+            // Check where the AccessibleContext's relbtion
+            // set blrebdy contbins b LABEL_FOR relbtion.
+            AccessibleRelbtionSet relbtionSet
+                = super.getAccessibleRelbtionSet();
 
-            if (!relationSet.contains(AccessibleRelation.LABEL_FOR)) {
-                Component c = JLabel.this.getLabelFor();
+            if (!relbtionSet.contbins(AccessibleRelbtion.LABEL_FOR)) {
+                Component c = JLbbel.this.getLbbelFor();
                 if (c != null) {
-                    AccessibleRelation relation
-                        = new AccessibleRelation(AccessibleRelation.LABEL_FOR);
-                    relation.setTarget(c);
-                    relationSet.add(relation);
+                    AccessibleRelbtion relbtion
+                        = new AccessibleRelbtion(AccessibleRelbtion.LABEL_FOR);
+                    relbtion.setTbrget(c);
+                    relbtionSet.bdd(relbtion);
                 }
             }
-            return relationSet;
+            return relbtionSet;
         }
 
 
         /* AccessibleText ---------- */
 
         public AccessibleText getAccessibleText() {
-            View view = (View)JLabel.this.getClientProperty("html");
+            View view = (View)JLbbel.this.getClientProperty("html");
             if (view != null) {
                 return this;
             } else {
@@ -1171,55 +1171,55 @@ public class JLabel extends JComponent implements SwingConstants, Accessible
         }
 
         /**
-         * Given a point in local coordinates, return the zero-based index
-         * of the character under that Point.  If the point is invalid,
+         * Given b point in locbl coordinbtes, return the zero-bbsed index
+         * of the chbrbcter under thbt Point.  If the point is invblid,
          * this method returns -1.
          *
-         * @param p the Point in local coordinates
-         * @return the zero-based index of the character under Point p; if
-         * Point is invalid returns -1.
+         * @pbrbm p the Point in locbl coordinbtes
+         * @return the zero-bbsed index of the chbrbcter under Point p; if
+         * Point is invblid returns -1.
          * @since 1.3
          */
         public int getIndexAtPoint(Point p) {
-            View view = (View) JLabel.this.getClientProperty("html");
+            View view = (View) JLbbel.this.getClientProperty("html");
             if (view != null) {
-                Rectangle r = getTextRectangle();
+                Rectbngle r = getTextRectbngle();
                 if (r == null) {
                     return -1;
                 }
-                Rectangle2D.Float shape =
-                    new Rectangle2D.Float(r.x, r.y, r.width, r.height);
-                Position.Bias bias[] = new Position.Bias[1];
-                return view.viewToModel(p.x, p.y, shape, bias);
+                Rectbngle2D.Flobt shbpe =
+                    new Rectbngle2D.Flobt(r.x, r.y, r.width, r.height);
+                Position.Bibs bibs[] = new Position.Bibs[1];
+                return view.viewToModel(p.x, p.y, shbpe, bibs);
             } else {
                 return -1;
             }
         }
 
         /**
-         * Returns the bounding box of the character at the given
-         * index in the string.  The bounds are returned in local
-         * coordinates. If the index is invalid, <code>null</code> is returned.
+         * Returns the bounding box of the chbrbcter bt the given
+         * index in the string.  The bounds bre returned in locbl
+         * coordinbtes. If the index is invblid, <code>null</code> is returned.
          *
-         * @param i the index into the String
-         * @return the screen coordinates of the character's bounding box.
-         * If the index is invalid, <code>null</code> is returned.
+         * @pbrbm i the index into the String
+         * @return the screen coordinbtes of the chbrbcter's bounding box.
+         * If the index is invblid, <code>null</code> is returned.
          * @since 1.3
          */
-        public Rectangle getCharacterBounds(int i) {
-            View view = (View) JLabel.this.getClientProperty("html");
+        public Rectbngle getChbrbcterBounds(int i) {
+            View view = (View) JLbbel.this.getClientProperty("html");
             if (view != null) {
-                Rectangle r = getTextRectangle();
+                Rectbngle r = getTextRectbngle();
         if (r == null) {
             return null;
         }
-                Rectangle2D.Float shape =
-                    new Rectangle2D.Float(r.x, r.y, r.width, r.height);
+                Rectbngle2D.Flobt shbpe =
+                    new Rectbngle2D.Flobt(r.x, r.y, r.width, r.height);
                 try {
-                    Shape charShape =
-                        view.modelToView(i, shape, Position.Bias.Forward);
-                    return charShape.getBounds();
-                } catch (BadLocationException e) {
+                    Shbpe chbrShbpe =
+                        view.modelToView(i, shbpe, Position.Bibs.Forwbrd);
+                    return chbrShbpe.getBounds();
+                } cbtch (BbdLocbtionException e) {
                     return null;
                 }
             } else {
@@ -1228,221 +1228,221 @@ public class JLabel extends JComponent implements SwingConstants, Accessible
         }
 
         /**
-         * Return the number of characters (valid indicies)
+         * Return the number of chbrbcters (vblid indicies)
          *
-         * @return the number of characters
+         * @return the number of chbrbcters
          * @since 1.3
          */
-        public int getCharCount() {
-            View view = (View) JLabel.this.getClientProperty("html");
+        public int getChbrCount() {
+            View view = (View) JLbbel.this.getClientProperty("html");
             if (view != null) {
                 Document d = view.getDocument();
-                if (d instanceof StyledDocument) {
+                if (d instbnceof StyledDocument) {
                     StyledDocument doc = (StyledDocument)d;
                     return doc.getLength();
                 }
             }
-            return accessibleContext.getAccessibleName().length();
+            return bccessibleContext.getAccessibleNbme().length();
         }
 
         /**
-         * Return the zero-based offset of the caret.
+         * Return the zero-bbsed offset of the cbret.
          *
-         * Note: That to the right of the caret will have the same index
-         * value as the offset (the caret is between two characters).
-         * @return the zero-based offset of the caret.
+         * Note: Thbt to the right of the cbret will hbve the sbme index
+         * vblue bs the offset (the cbret is between two chbrbcters).
+         * @return the zero-bbsed offset of the cbret.
          * @since 1.3
          */
-        public int getCaretPosition() {
-            // There is no caret.
+        public int getCbretPosition() {
+            // There is no cbret.
             return -1;
         }
 
         /**
-         * Returns the String at a given index.
+         * Returns the String bt b given index.
          *
-         * @param part the AccessibleText.CHARACTER, AccessibleText.WORD,
+         * @pbrbm pbrt the AccessibleText.CHARACTER, AccessibleText.WORD,
          * or AccessibleText.SENTENCE to retrieve
-         * @param index an index within the text &gt;= 0
+         * @pbrbm index bn index within the text &gt;= 0
          * @return the letter, word, or sentence,
-         *   null for an invalid index or part
+         *   null for bn invblid index or pbrt
          * @since 1.3
          */
-        public String getAtIndex(int part, int index) {
-            if (index < 0 || index >= getCharCount()) {
+        public String getAtIndex(int pbrt, int index) {
+            if (index < 0 || index >= getChbrCount()) {
                 return null;
             }
-            switch (part) {
-            case AccessibleText.CHARACTER:
+            switch (pbrt) {
+            cbse AccessibleText.CHARACTER:
                 try {
                     return getText(index, 1);
-                } catch (BadLocationException e) {
+                } cbtch (BbdLocbtionException e) {
                     return null;
                 }
-            case AccessibleText.WORD:
+            cbse AccessibleText.WORD:
                 try {
-                    String s = getText(0, getCharCount());
-                    BreakIterator words = BreakIterator.getWordInstance(getLocale());
+                    String s = getText(0, getChbrCount());
+                    BrebkIterbtor words = BrebkIterbtor.getWordInstbnce(getLocble());
                     words.setText(s);
                     int end = words.following(index);
                     return s.substring(words.previous(), end);
-                } catch (BadLocationException e) {
+                } cbtch (BbdLocbtionException e) {
                     return null;
                 }
-            case AccessibleText.SENTENCE:
+            cbse AccessibleText.SENTENCE:
                 try {
-                    String s = getText(0, getCharCount());
-                    BreakIterator sentence =
-                        BreakIterator.getSentenceInstance(getLocale());
+                    String s = getText(0, getChbrCount());
+                    BrebkIterbtor sentence =
+                        BrebkIterbtor.getSentenceInstbnce(getLocble());
                     sentence.setText(s);
                     int end = sentence.following(index);
                     return s.substring(sentence.previous(), end);
-                } catch (BadLocationException e) {
+                } cbtch (BbdLocbtionException e) {
                     return null;
                 }
-            default:
+            defbult:
                 return null;
             }
         }
 
         /**
-         * Returns the String after a given index.
+         * Returns the String bfter b given index.
          *
-         * @param part the AccessibleText.CHARACTER, AccessibleText.WORD,
+         * @pbrbm pbrt the AccessibleText.CHARACTER, AccessibleText.WORD,
          * or AccessibleText.SENTENCE to retrieve
-         * @param index an index within the text &gt;= 0
-         * @return the letter, word, or sentence, null for an invalid
-         *  index or part
+         * @pbrbm index bn index within the text &gt;= 0
+         * @return the letter, word, or sentence, null for bn invblid
+         *  index or pbrt
          * @since 1.3
          */
-        public String getAfterIndex(int part, int index) {
-            if (index < 0 || index >= getCharCount()) {
+        public String getAfterIndex(int pbrt, int index) {
+            if (index < 0 || index >= getChbrCount()) {
                 return null;
             }
-            switch (part) {
-            case AccessibleText.CHARACTER:
-                if (index+1 >= getCharCount()) {
+            switch (pbrt) {
+            cbse AccessibleText.CHARACTER:
+                if (index+1 >= getChbrCount()) {
                    return null;
                 }
                 try {
                     return getText(index+1, 1);
-                } catch (BadLocationException e) {
+                } cbtch (BbdLocbtionException e) {
                     return null;
                 }
-            case AccessibleText.WORD:
+            cbse AccessibleText.WORD:
                 try {
-                    String s = getText(0, getCharCount());
-                    BreakIterator words = BreakIterator.getWordInstance(getLocale());
+                    String s = getText(0, getChbrCount());
+                    BrebkIterbtor words = BrebkIterbtor.getWordInstbnce(getLocble());
                     words.setText(s);
-                    int start = words.following(index);
-                    if (start == BreakIterator.DONE || start >= s.length()) {
+                    int stbrt = words.following(index);
+                    if (stbrt == BrebkIterbtor.DONE || stbrt >= s.length()) {
                         return null;
                     }
-                    int end = words.following(start);
-                    if (end == BreakIterator.DONE || end >= s.length()) {
+                    int end = words.following(stbrt);
+                    if (end == BrebkIterbtor.DONE || end >= s.length()) {
                         return null;
                     }
-                    return s.substring(start, end);
-                } catch (BadLocationException e) {
+                    return s.substring(stbrt, end);
+                } cbtch (BbdLocbtionException e) {
                     return null;
                 }
-            case AccessibleText.SENTENCE:
+            cbse AccessibleText.SENTENCE:
                 try {
-                    String s = getText(0, getCharCount());
-                    BreakIterator sentence =
-                        BreakIterator.getSentenceInstance(getLocale());
+                    String s = getText(0, getChbrCount());
+                    BrebkIterbtor sentence =
+                        BrebkIterbtor.getSentenceInstbnce(getLocble());
                     sentence.setText(s);
-                    int start = sentence.following(index);
-                    if (start == BreakIterator.DONE || start > s.length()) {
+                    int stbrt = sentence.following(index);
+                    if (stbrt == BrebkIterbtor.DONE || stbrt > s.length()) {
                         return null;
                     }
-                    int end = sentence.following(start);
-                    if (end == BreakIterator.DONE || end > s.length()) {
+                    int end = sentence.following(stbrt);
+                    if (end == BrebkIterbtor.DONE || end > s.length()) {
                         return null;
                     }
-                    return s.substring(start, end);
-                } catch (BadLocationException e) {
+                    return s.substring(stbrt, end);
+                } cbtch (BbdLocbtionException e) {
                     return null;
                 }
-            default:
+            defbult:
                 return null;
             }
         }
 
         /**
-         * Returns the String before a given index.
+         * Returns the String before b given index.
          *
-         * @param part the AccessibleText.CHARACTER, AccessibleText.WORD,
+         * @pbrbm pbrt the AccessibleText.CHARACTER, AccessibleText.WORD,
          *   or AccessibleText.SENTENCE to retrieve
-         * @param index an index within the text &gt;= 0
-         * @return the letter, word, or sentence, null for an invalid index
-         *  or part
+         * @pbrbm index bn index within the text &gt;= 0
+         * @return the letter, word, or sentence, null for bn invblid index
+         *  or pbrt
          * @since 1.3
          */
-        public String getBeforeIndex(int part, int index) {
-            if (index < 0 || index > getCharCount()-1) {
+        public String getBeforeIndex(int pbrt, int index) {
+            if (index < 0 || index > getChbrCount()-1) {
                 return null;
             }
-            switch (part) {
-            case AccessibleText.CHARACTER:
+            switch (pbrt) {
+            cbse AccessibleText.CHARACTER:
                 if (index == 0) {
                     return null;
                 }
                 try {
                     return getText(index-1, 1);
-                } catch (BadLocationException e) {
+                } cbtch (BbdLocbtionException e) {
                     return null;
                 }
-            case AccessibleText.WORD:
+            cbse AccessibleText.WORD:
                 try {
-                    String s = getText(0, getCharCount());
-                    BreakIterator words = BreakIterator.getWordInstance(getLocale());
+                    String s = getText(0, getChbrCount());
+                    BrebkIterbtor words = BrebkIterbtor.getWordInstbnce(getLocble());
                     words.setText(s);
                     int end = words.following(index);
                     end = words.previous();
-                    int start = words.previous();
-                    if (start == BreakIterator.DONE) {
+                    int stbrt = words.previous();
+                    if (stbrt == BrebkIterbtor.DONE) {
                         return null;
                     }
-                    return s.substring(start, end);
-                } catch (BadLocationException e) {
+                    return s.substring(stbrt, end);
+                } cbtch (BbdLocbtionException e) {
                     return null;
                 }
-            case AccessibleText.SENTENCE:
+            cbse AccessibleText.SENTENCE:
                 try {
-                    String s = getText(0, getCharCount());
-                    BreakIterator sentence =
-                        BreakIterator.getSentenceInstance(getLocale());
+                    String s = getText(0, getChbrCount());
+                    BrebkIterbtor sentence =
+                        BrebkIterbtor.getSentenceInstbnce(getLocble());
                     sentence.setText(s);
                     int end = sentence.following(index);
                     end = sentence.previous();
-                    int start = sentence.previous();
-                    if (start == BreakIterator.DONE) {
+                    int stbrt = sentence.previous();
+                    if (stbrt == BrebkIterbtor.DONE) {
                         return null;
                     }
-                    return s.substring(start, end);
-                } catch (BadLocationException e) {
+                    return s.substring(stbrt, end);
+                } cbtch (BbdLocbtionException e) {
                     return null;
                 }
-            default:
+            defbult:
                 return null;
             }
         }
 
         /**
-         * Return the AttributeSet for a given character at a given index
+         * Return the AttributeSet for b given chbrbcter bt b given index
          *
-         * @param i the zero-based index into the text
-         * @return the AttributeSet of the character
+         * @pbrbm i the zero-bbsed index into the text
+         * @return the AttributeSet of the chbrbcter
          * @since 1.3
          */
-        public AttributeSet getCharacterAttribute(int i) {
-            View view = (View) JLabel.this.getClientProperty("html");
+        public AttributeSet getChbrbcterAttribute(int i) {
+            View view = (View) JLbbel.this.getClientProperty("html");
             if (view != null) {
                 Document d = view.getDocument();
-                if (d instanceof StyledDocument) {
+                if (d instbnceof StyledDocument) {
                     StyledDocument doc = (StyledDocument)d;
-                    Element elem = doc.getCharacterElement(i);
+                    Element elem = doc.getChbrbcterElement(i);
                     if (elem != null) {
                         return elem.getAttributes();
                     }
@@ -1452,53 +1452,53 @@ public class JLabel extends JComponent implements SwingConstants, Accessible
         }
 
         /**
-         * Returns the start offset within the selected text.
+         * Returns the stbrt offset within the selected text.
          * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
+         * b cbret, the stbrt bnd end offsets will be the sbme.
          *
-         * @return the index into the text of the start of the selection
+         * @return the index into the text of the stbrt of the selection
          * @since 1.3
          */
-        public int getSelectionStart() {
-            // Text cannot be selected.
+        public int getSelectionStbrt() {
+            // Text cbnnot be selected.
             return -1;
         }
 
         /**
          * Returns the end offset within the selected text.
          * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
+         * b cbret, the stbrt bnd end offsets will be the sbme.
          *
          * @return the index into the text of the end of the selection
          * @since 1.3
          */
         public int getSelectionEnd() {
-            // Text cannot be selected.
+            // Text cbnnot be selected.
             return -1;
         }
 
         /**
-         * Returns the portion of the text that is selected.
+         * Returns the portion of the text thbt is selected.
          *
-         * @return the String portion of the text that is selected
+         * @return the String portion of the text thbt is selected
          * @since 1.3
          */
         public String getSelectedText() {
-            // Text cannot be selected.
+            // Text cbnnot be selected.
             return null;
         }
 
         /*
-         * Returns the text substring starting at the specified
+         * Returns the text substring stbrting bt the specified
          * offset with the specified length.
          */
-        private String getText(int offset, int length)
-            throws BadLocationException {
+        privbte String getText(int offset, int length)
+            throws BbdLocbtionException {
 
-            View view = (View) JLabel.this.getClientProperty("html");
+            View view = (View) JLbbel.this.getClientProperty("html");
             if (view != null) {
                 Document d = view.getDocument();
-                if (d instanceof StyledDocument) {
+                if (d instbnceof StyledDocument) {
                     StyledDocument doc = (StyledDocument)d;
                     return doc.getText(offset, length);
                 }
@@ -1507,43 +1507,43 @@ public class JLabel extends JComponent implements SwingConstants, Accessible
         }
 
         /*
-         * Returns the bounding rectangle for the component text.
+         * Returns the bounding rectbngle for the component text.
          */
-        private Rectangle getTextRectangle() {
+        privbte Rectbngle getTextRectbngle() {
 
-            String text = JLabel.this.getText();
-            Icon icon = (JLabel.this.isEnabled()) ? JLabel.this.getIcon() : JLabel.this.getDisabledIcon();
+            String text = JLbbel.this.getText();
+            Icon icon = (JLbbel.this.isEnbbled()) ? JLbbel.this.getIcon() : JLbbel.this.getDisbbledIcon();
 
             if ((icon == null) && (text == null)) {
                 return null;
             }
 
-            Rectangle paintIconR = new Rectangle();
-            Rectangle paintTextR = new Rectangle();
-            Rectangle paintViewR = new Rectangle();
-            Insets paintViewInsets = new Insets(0, 0, 0, 0);
+            Rectbngle pbintIconR = new Rectbngle();
+            Rectbngle pbintTextR = new Rectbngle();
+            Rectbngle pbintViewR = new Rectbngle();
+            Insets pbintViewInsets = new Insets(0, 0, 0, 0);
 
-            paintViewInsets = JLabel.this.getInsets(paintViewInsets);
-            paintViewR.x = paintViewInsets.left;
-            paintViewR.y = paintViewInsets.top;
-            paintViewR.width = JLabel.this.getWidth() - (paintViewInsets.left + paintViewInsets.right);
-            paintViewR.height = JLabel.this.getHeight() - (paintViewInsets.top + paintViewInsets.bottom);
+            pbintViewInsets = JLbbel.this.getInsets(pbintViewInsets);
+            pbintViewR.x = pbintViewInsets.left;
+            pbintViewR.y = pbintViewInsets.top;
+            pbintViewR.width = JLbbel.this.getWidth() - (pbintViewInsets.left + pbintViewInsets.right);
+            pbintViewR.height = JLbbel.this.getHeight() - (pbintViewInsets.top + pbintViewInsets.bottom);
 
-            String clippedText = SwingUtilities.layoutCompoundLabel(
-                (JComponent)JLabel.this,
+            String clippedText = SwingUtilities.lbyoutCompoundLbbel(
+                (JComponent)JLbbel.this,
                 getFontMetrics(getFont()),
                 text,
                 icon,
-                JLabel.this.getVerticalAlignment(),
-                JLabel.this.getHorizontalAlignment(),
-                JLabel.this.getVerticalTextPosition(),
-                JLabel.this.getHorizontalTextPosition(),
-                paintViewR,
-                paintIconR,
-                paintTextR,
-                JLabel.this.getIconTextGap());
+                JLbbel.this.getVerticblAlignment(),
+                JLbbel.this.getHorizontblAlignment(),
+                JLbbel.this.getVerticblTextPosition(),
+                JLbbel.this.getHorizontblTextPosition(),
+                pbintViewR,
+                pbintIconR,
+                pbintTextR,
+                JLbbel.this.getIconTextGbp());
 
-            return paintTextR;
+            return pbintTextR;
         }
 
         // ----- AccessibleExtendedComponent
@@ -1565,7 +1565,7 @@ public class JLabel extends JComponent implements SwingConstants, Accessible
          * @since 1.4
          */
         public String getToolTipText() {
-            return JLabel.this.getToolTipText();
+            return JLbbel.this.getToolTipText();
         }
 
         /**
@@ -1580,7 +1580,7 @@ public class JLabel extends JComponent implements SwingConstants, Accessible
         }
 
         /**
-         * Returns key bindings associated with this object
+         * Returns key bindings bssocibted with this object
          *
          * @return the key bindings, if supported, of the object;
          * otherwise, null
@@ -1588,57 +1588,57 @@ public class JLabel extends JComponent implements SwingConstants, Accessible
          * @since 1.4
          */
         public AccessibleKeyBinding getAccessibleKeyBinding() {
-            int mnemonic = JLabel.this.getDisplayedMnemonic();
+            int mnemonic = JLbbel.this.getDisplbyedMnemonic();
             if (mnemonic == 0) {
                 return null;
             }
-            return new LabelKeyBinding(mnemonic);
+            return new LbbelKeyBinding(mnemonic);
         }
 
-        class LabelKeyBinding implements AccessibleKeyBinding {
+        clbss LbbelKeyBinding implements AccessibleKeyBinding {
             int mnemonic;
 
-            LabelKeyBinding(int mnemonic) {
+            LbbelKeyBinding(int mnemonic) {
                 this.mnemonic = mnemonic;
             }
 
             /**
              * Returns the number of key bindings for this object
              *
-             * @return the zero-based number of key bindings for this object
+             * @return the zero-bbsed number of key bindings for this object
              */
             public int getAccessibleKeyBindingCount() {
                 return 1;
             }
 
             /**
-             * Returns a key binding for this object.  The value returned is an
-             * java.lang.Object which must be cast to appropriate type depending
-             * on the underlying implementation of the key.  For example, if the
-             * Object returned is a javax.swing.KeyStroke, the user of this
+             * Returns b key binding for this object.  The vblue returned is bn
+             * jbvb.lbng.Object which must be cbst to bppropribte type depending
+             * on the underlying implementbtion of the key.  For exbmple, if the
+             * Object returned is b jbvbx.swing.KeyStroke, the user of this
              * method should do the following:
              * <nf><code>
-             * Component c = <get the component that has the key bindings>
-             * AccessibleContext ac = c.getAccessibleContext();
-             * AccessibleKeyBinding akb = ac.getAccessibleKeyBinding();
-             * for (int i = 0; i < akb.getAccessibleKeyBindingCount(); i++) {
-             *     Object o = akb.getAccessibleKeyBinding(i);
-             *     if (o instanceof javax.swing.KeyStroke) {
-             *         javax.swing.KeyStroke keyStroke = (javax.swing.KeyStroke)o;
+             * Component c = <get the component thbt hbs the key bindings>
+             * AccessibleContext bc = c.getAccessibleContext();
+             * AccessibleKeyBinding bkb = bc.getAccessibleKeyBinding();
+             * for (int i = 0; i < bkb.getAccessibleKeyBindingCount(); i++) {
+             *     Object o = bkb.getAccessibleKeyBinding(i);
+             *     if (o instbnceof jbvbx.swing.KeyStroke) {
+             *         jbvbx.swing.KeyStroke keyStroke = (jbvbx.swing.KeyStroke)o;
              *         <do something with the key binding>
              *     }
              * }
              * </code></nf>
              *
-             * @param i zero-based index of the key bindings
-             * @return a javax.lang.Object which specifies the key binding
-             * @exception IllegalArgumentException if the index is
+             * @pbrbm i zero-bbsed index of the key bindings
+             * @return b jbvbx.lbng.Object which specifies the key binding
+             * @exception IllegblArgumentException if the index is
              * out of bounds
              * @see #getAccessibleKeyBindingCount
              */
-            public java.lang.Object getAccessibleKeyBinding(int i) {
+            public jbvb.lbng.Object getAccessibleKeyBinding(int i) {
                 if (i != 0) {
-                    throw new IllegalArgumentException();
+                    throw new IllegblArgumentException();
                 }
                 return KeyStroke.getKeyStroke(mnemonic, 0);
             }

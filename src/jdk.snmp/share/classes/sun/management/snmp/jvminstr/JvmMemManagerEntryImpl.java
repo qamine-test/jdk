@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 // jmx imports
 //
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
+import com.sun.jmx.snmp.bgent.SnmpMib;
 
-import java.lang.management.MemoryManagerMXBean;
+import jbvb.lbng.mbnbgement.MemoryMbnbgerMXBebn;
 
-import sun.management.snmp.jvmmib.JvmMemManagerEntryMBean;
-import sun.management.snmp.jvmmib.EnumJvmMemManagerState;
+import sun.mbnbgement.snmp.jvmmib.JvmMemMbnbgerEntryMBebn;
+import sun.mbnbgement.snmp.jvmmib.EnumJvmMemMbnbgerStbte;
 
 
 /**
- * The class is used for implementing the "JvmMemManagerEntry" group.
+ * The clbss is used for implementing the "JvmMemMbnbgerEntry" group.
  * The group is defined with the following
  */
-public class JvmMemManagerEntryImpl implements JvmMemManagerEntryMBean {
+public clbss JvmMemMbnbgerEntryImpl implements JvmMemMbnbgerEntryMBebn {
 
     /**
-     * Variable for storing the value of "JvmMemManagerIndex".
+     * Vbribble for storing the vblue of "JvmMemMbnbgerIndex".
      *
-     * "An index opaquely computed by the agent and which uniquely
-     * identifies a Memory Manager."
+     * "An index opbquely computed by the bgent bnd which uniquely
+     * identifies b Memory Mbnbger."
      *
      */
-    protected final int JvmMemManagerIndex;
+    protected finbl int JvmMemMbnbgerIndex;
 
-    protected MemoryManagerMXBean manager;
+    protected MemoryMbnbgerMXBebn mbnbger;
 
     /**
-     * Constructor for the "JvmMemManagerEntry" group.
+     * Constructor for the "JvmMemMbnbgerEntry" group.
      */
-    public JvmMemManagerEntryImpl(MemoryManagerMXBean m, int myindex) {
-        manager = m;
-        JvmMemManagerIndex = myindex;
+    public JvmMemMbnbgerEntryImpl(MemoryMbnbgerMXBebn m, int myindex) {
+        mbnbger = m;
+        JvmMemMbnbgerIndex = myindex;
     }
 
     /**
-     * Getter for the "JvmMemManagerName" variable.
+     * Getter for the "JvmMemMbnbgerNbme" vbribble.
      */
-    public String getJvmMemManagerName() throws SnmpStatusException {
+    public String getJvmMemMbnbgerNbme() throws SnmpStbtusException {
         return JVM_MANAGEMENT_MIB_IMPL.
-            validJavaObjectNameTC(manager.getName());
+            vblidJbvbObjectNbmeTC(mbnbger.getNbme());
     }
 
     /**
-     * Getter for the "JvmMemManagerIndex" variable.
+     * Getter for the "JvmMemMbnbgerIndex" vbribble.
      */
-    public Integer getJvmMemManagerIndex() throws SnmpStatusException {
-        return JvmMemManagerIndex;
+    public Integer getJvmMemMbnbgerIndex() throws SnmpStbtusException {
+        return JvmMemMbnbgerIndex;
     }
 
     /**
-     * Getter for the "JvmMemManagerState" variable.
+     * Getter for the "JvmMemMbnbgerStbte" vbribble.
      */
-    public EnumJvmMemManagerState getJvmMemManagerState()
-        throws SnmpStatusException {
-        if (manager.isValid())
-            return JvmMemManagerStateValid;
+    public EnumJvmMemMbnbgerStbte getJvmMemMbnbgerStbte()
+        throws SnmpStbtusException {
+        if (mbnbger.isVblid())
+            return JvmMemMbnbgerStbteVblid;
         else
-            return JvmMemManagerStateInvalid;
+            return JvmMemMbnbgerStbteInvblid;
     }
 
-    private final static EnumJvmMemManagerState JvmMemManagerStateValid =
-        new EnumJvmMemManagerState("valid");
-    private final static EnumJvmMemManagerState JvmMemManagerStateInvalid =
-        new EnumJvmMemManagerState("invalid");
+    privbte finbl stbtic EnumJvmMemMbnbgerStbte JvmMemMbnbgerStbteVblid =
+        new EnumJvmMemMbnbgerStbte("vblid");
+    privbte finbl stbtic EnumJvmMemMbnbgerStbte JvmMemMbnbgerStbteInvblid =
+        new EnumJvmMemMbnbgerStbte("invblid");
 
 }

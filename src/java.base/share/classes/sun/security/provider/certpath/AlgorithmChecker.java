@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.security.AlgorithmConstraints;
-import java.security.CryptoPrimitive;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.math.BigInteger;
-import java.security.PublicKey;
-import java.security.KeyFactory;
-import java.security.AlgorithmParameters;
-import java.security.NoSuchAlgorithmException;
-import java.security.GeneralSecurityException;
-import java.security.cert.Certificate;
-import java.security.cert.X509CRL;
-import java.security.cert.X509Certificate;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.TrustAnchor;
-import java.security.cert.CRLException;
-import java.security.cert.CertificateException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.CertPathValidatorException.BasicReason;
-import java.security.cert.PKIXReason;
-import java.io.IOException;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.security.AlgorithmConstrbints;
+import jbvb.security.CryptoPrimitive;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.Set;
+import jbvb.util.EnumSet;
+import jbvb.util.HbshSet;
+import jbvb.mbth.BigInteger;
+import jbvb.security.PublicKey;
+import jbvb.security.KeyFbctory;
+import jbvb.security.AlgorithmPbrbmeters;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.GenerblSecurityException;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.X509CRL;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.PKIXCertPbthChecker;
+import jbvb.security.cert.TrustAnchor;
+import jbvb.security.cert.CRLException;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertPbthVblidbtorException;
+import jbvb.security.cert.CertPbthVblidbtorException.BbsicRebson;
+import jbvb.security.cert.PKIXRebson;
+import jbvb.io.IOException;
+import jbvb.security.interfbces.*;
+import jbvb.security.spec.*;
 
-import sun.security.util.DisabledAlgorithmConstraints;
+import sun.security.util.DisbbledAlgorithmConstrbints;
 import sun.security.x509.X509CertImpl;
 import sun.security.x509.X509CRLImpl;
 import sun.security.x509.AlgorithmId;
 
 /**
- * A <code>PKIXCertPathChecker</code> implementation to check whether a
- * specified certificate contains the required algorithm constraints.
+ * A <code>PKIXCertPbthChecker</code> implementbtion to check whether b
+ * specified certificbte contbins the required blgorithm constrbints.
  * <p>
- * Certificate fields such as the subject public key, the signature
- * algorithm, key usage, extended key usage, etc. need to conform to
- * the specified algorithm constraints.
+ * Certificbte fields such bs the subject public key, the signbture
+ * blgorithm, key usbge, extended key usbge, etc. need to conform to
+ * the specified blgorithm constrbints.
  *
- * @see PKIXCertPathChecker
- * @see PKIXParameters
+ * @see PKIXCertPbthChecker
+ * @see PKIXPbrbmeters
  */
-final public class AlgorithmChecker extends PKIXCertPathChecker {
+finbl public clbss AlgorithmChecker extends PKIXCertPbthChecker {
 
-    private final AlgorithmConstraints constraints;
-    private final PublicKey trustedPubKey;
-    private PublicKey prevPubKey;
+    privbte finbl AlgorithmConstrbints constrbints;
+    privbte finbl PublicKey trustedPubKey;
+    privbte PublicKey prevPubKey;
 
-    private final static Set<CryptoPrimitive> SIGNATURE_PRIMITIVE_SET =
-        Collections.unmodifiableSet(EnumSet.of(CryptoPrimitive.SIGNATURE));
+    privbte finbl stbtic Set<CryptoPrimitive> SIGNATURE_PRIMITIVE_SET =
+        Collections.unmodifibbleSet(EnumSet.of(CryptoPrimitive.SIGNATURE));
 
-    private final static DisabledAlgorithmConstraints
-        certPathDefaultConstraints = new DisabledAlgorithmConstraints(
-            DisabledAlgorithmConstraints.PROPERTY_CERTPATH_DISABLED_ALGS);
+    privbte finbl stbtic DisbbledAlgorithmConstrbints
+        certPbthDefbultConstrbints = new DisbbledAlgorithmConstrbints(
+            DisbbledAlgorithmConstrbints.PROPERTY_CERTPATH_DISABLED_ALGS);
 
     /**
-     * Create a new <code>AlgorithmChecker</code> with the algorithm
-     * constraints specified in security property
-     * "jdk.certpath.disabledAlgorithms".
+     * Crebte b new <code>AlgorithmChecker</code> with the blgorithm
+     * constrbints specified in security property
+     * "jdk.certpbth.disbbledAlgorithms".
      *
-     * @param anchor the trust anchor selected to validate the target
-     *     certificate
+     * @pbrbm bnchor the trust bnchor selected to vblidbte the tbrget
+     *     certificbte
      */
-    public AlgorithmChecker(TrustAnchor anchor) {
-        this(anchor, certPathDefaultConstraints);
+    public AlgorithmChecker(TrustAnchor bnchor) {
+        this(bnchor, certPbthDefbultConstrbints);
     }
 
     /**
-     * Create a new <code>AlgorithmChecker</code> with the
-     * given {@code AlgorithmConstraints}.
+     * Crebte b new <code>AlgorithmChecker</code> with the
+     * given {@code AlgorithmConstrbints}.
      * <p>
-     * Note that this constructor will be used to check a certification
-     * path where the trust anchor is unknown, or a certificate list which may
-     * contain the trust anchor. This constructor is used by SunJSSE.
+     * Note thbt this constructor will be used to check b certificbtion
+     * pbth where the trust bnchor is unknown, or b certificbte list which mby
+     * contbin the trust bnchor. This constructor is used by SunJSSE.
      *
-     * @param constraints the algorithm constraints (or null)
+     * @pbrbm constrbints the blgorithm constrbints (or null)
      */
-    public AlgorithmChecker(AlgorithmConstraints constraints) {
+    public AlgorithmChecker(AlgorithmConstrbints constrbints) {
         this.prevPubKey = null;
         this.trustedPubKey = null;
-        this.constraints = constraints;
+        this.constrbints = constrbints;
     }
 
     /**
-     * Create a new <code>AlgorithmChecker</code> with the
-     * given <code>TrustAnchor</code> and <code>AlgorithmConstraints</code>.
+     * Crebte b new <code>AlgorithmChecker</code> with the
+     * given <code>TrustAnchor</code> bnd <code>AlgorithmConstrbints</code>.
      *
-     * @param anchor the trust anchor selected to validate the target
-     *     certificate
-     * @param constraints the algorithm constraints (or null)
+     * @pbrbm bnchor the trust bnchor selected to vblidbte the tbrget
+     *     certificbte
+     * @pbrbm constrbints the blgorithm constrbints (or null)
      *
-     * @throws IllegalArgumentException if the <code>anchor</code> is null
+     * @throws IllegblArgumentException if the <code>bnchor</code> is null
      */
-    public AlgorithmChecker(TrustAnchor anchor,
-            AlgorithmConstraints constraints) {
+    public AlgorithmChecker(TrustAnchor bnchor,
+            AlgorithmConstrbints constrbints) {
 
-        if (anchor == null) {
-            throw new IllegalArgumentException(
-                        "The trust anchor cannot be null");
+        if (bnchor == null) {
+            throw new IllegblArgumentException(
+                        "The trust bnchor cbnnot be null");
         }
 
-        if (anchor.getTrustedCert() != null) {
-            this.trustedPubKey = anchor.getTrustedCert().getPublicKey();
+        if (bnchor.getTrustedCert() != null) {
+            this.trustedPubKey = bnchor.getTrustedCert().getPublicKey();
         } else {
-            this.trustedPubKey = anchor.getCAPublicKey();
+            this.trustedPubKey = bnchor.getCAPublicKey();
         }
 
         this.prevPubKey = trustedPubKey;
-        this.constraints = constraints;
+        this.constrbints = constrbints;
     }
 
     @Override
-    public void init(boolean forward) throws CertPathValidatorException {
-        //  Note that this class does not support forward mode.
-        if (!forward) {
+    public void init(boolebn forwbrd) throws CertPbthVblidbtorException {
+        //  Note thbt this clbss does not support forwbrd mode.
+        if (!forwbrd) {
             if (trustedPubKey != null) {
                 prevPubKey = trustedPubKey;
             } else {
@@ -148,15 +148,15 @@ final public class AlgorithmChecker extends PKIXCertPathChecker {
             }
         } else {
             throw new
-                CertPathValidatorException("forward checking not supported");
+                CertPbthVblidbtorException("forwbrd checking not supported");
         }
     }
 
     @Override
-    public boolean isForwardCheckingSupported() {
-        //  Note that as this class does not support forward mode, the method
-        //  will always returns false.
-        return false;
+    public boolebn isForwbrdCheckingSupported() {
+        //  Note thbt bs this clbss does not support forwbrd mode, the method
+        //  will blwbys returns fblse.
+        return fblse;
     }
 
     @Override
@@ -165,124 +165,124 @@ final public class AlgorithmChecker extends PKIXCertPathChecker {
     }
 
     @Override
-    public void check(Certificate cert,
+    public void check(Certificbte cert,
             Collection<String> unresolvedCritExts)
-            throws CertPathValidatorException {
+            throws CertPbthVblidbtorException {
 
-        if (!(cert instanceof X509Certificate) || constraints == null) {
-            // ignore the check for non-x.509 certificate or null constraints
+        if (!(cert instbnceof X509Certificbte) || constrbints == null) {
+            // ignore the check for non-x.509 certificbte or null constrbints
             return;
         }
 
         X509CertImpl x509Cert = null;
         try {
-            x509Cert = X509CertImpl.toImpl((X509Certificate)cert);
-        } catch (CertificateException ce) {
-            throw new CertPathValidatorException(ce);
+            x509Cert = X509CertImpl.toImpl((X509Certificbte)cert);
+        } cbtch (CertificbteException ce) {
+            throw new CertPbthVblidbtorException(ce);
         }
 
         PublicKey currPubKey = x509Cert.getPublicKey();
-        String currSigAlg = x509Cert.getSigAlgName();
+        String currSigAlg = x509Cert.getSigAlgNbme();
 
-        AlgorithmId algorithmId = null;
+        AlgorithmId blgorithmId = null;
         try {
-            algorithmId = (AlgorithmId)x509Cert.get(X509CertImpl.SIG_ALG);
-        } catch (CertificateException ce) {
-            throw new CertPathValidatorException(ce);
+            blgorithmId = (AlgorithmId)x509Cert.get(X509CertImpl.SIG_ALG);
+        } cbtch (CertificbteException ce) {
+            throw new CertPbthVblidbtorException(ce);
         }
 
-        AlgorithmParameters currSigAlgParams = algorithmId.getParameters();
+        AlgorithmPbrbmeters currSigAlgPbrbms = blgorithmId.getPbrbmeters();
 
-        // Check the current signature algorithm
-        if (!constraints.permits(
+        // Check the current signbture blgorithm
+        if (!constrbints.permits(
                 SIGNATURE_PRIMITIVE_SET,
-                currSigAlg, currSigAlgParams)) {
-            throw new CertPathValidatorException(
-                "Algorithm constraints check failed: " + currSigAlg,
-                null, null, -1, BasicReason.ALGORITHM_CONSTRAINED);
+                currSigAlg, currSigAlgPbrbms)) {
+            throw new CertPbthVblidbtorException(
+                "Algorithm constrbints check fbiled: " + currSigAlg,
+                null, null, -1, BbsicRebson.ALGORITHM_CONSTRAINED);
         }
 
-        // check the key usage and key size
-        boolean[] keyUsage = x509Cert.getKeyUsage();
-        if (keyUsage != null && keyUsage.length < 9) {
-            throw new CertPathValidatorException(
-                "incorrect KeyUsage extension",
-                null, null, -1, PKIXReason.INVALID_KEY_USAGE);
+        // check the key usbge bnd key size
+        boolebn[] keyUsbge = x509Cert.getKeyUsbge();
+        if (keyUsbge != null && keyUsbge.length < 9) {
+            throw new CertPbthVblidbtorException(
+                "incorrect KeyUsbge extension",
+                null, null, -1, PKIXRebson.INVALID_KEY_USAGE);
         }
 
-        if (keyUsage != null) {
+        if (keyUsbge != null) {
             Set<CryptoPrimitive> primitives =
-                        EnumSet.noneOf(CryptoPrimitive.class);
+                        EnumSet.noneOf(CryptoPrimitive.clbss);
 
-            if (keyUsage[0] || keyUsage[1] || keyUsage[5] || keyUsage[6]) {
-                // keyUsage[0]: KeyUsage.digitalSignature
-                // keyUsage[1]: KeyUsage.nonRepudiation
-                // keyUsage[5]: KeyUsage.keyCertSign
-                // keyUsage[6]: KeyUsage.cRLSign
-                primitives.add(CryptoPrimitive.SIGNATURE);
+            if (keyUsbge[0] || keyUsbge[1] || keyUsbge[5] || keyUsbge[6]) {
+                // keyUsbge[0]: KeyUsbge.digitblSignbture
+                // keyUsbge[1]: KeyUsbge.nonRepudibtion
+                // keyUsbge[5]: KeyUsbge.keyCertSign
+                // keyUsbge[6]: KeyUsbge.cRLSign
+                primitives.bdd(CryptoPrimitive.SIGNATURE);
             }
 
-            if (keyUsage[2]) {      // KeyUsage.keyEncipherment
-                primitives.add(CryptoPrimitive.KEY_ENCAPSULATION);
+            if (keyUsbge[2]) {      // KeyUsbge.keyEncipherment
+                primitives.bdd(CryptoPrimitive.KEY_ENCAPSULATION);
             }
 
-            if (keyUsage[3]) {      // KeyUsage.dataEncipherment
-                primitives.add(CryptoPrimitive.PUBLIC_KEY_ENCRYPTION);
+            if (keyUsbge[3]) {      // KeyUsbge.dbtbEncipherment
+                primitives.bdd(CryptoPrimitive.PUBLIC_KEY_ENCRYPTION);
             }
 
-            if (keyUsage[4]) {      // KeyUsage.keyAgreement
-                primitives.add(CryptoPrimitive.KEY_AGREEMENT);
+            if (keyUsbge[4]) {      // KeyUsbge.keyAgreement
+                primitives.bdd(CryptoPrimitive.KEY_AGREEMENT);
             }
 
-            // KeyUsage.encipherOnly and KeyUsage.decipherOnly are
-            // undefined in the absence of the keyAgreement bit.
+            // KeyUsbge.encipherOnly bnd KeyUsbge.decipherOnly bre
+            // undefined in the bbsence of the keyAgreement bit.
 
             if (!primitives.isEmpty()) {
-                if (!constraints.permits(primitives, currPubKey)) {
-                    throw new CertPathValidatorException(
-                        "algorithm constraints check failed",
-                        null, null, -1, BasicReason.ALGORITHM_CONSTRAINED);
+                if (!constrbints.permits(primitives, currPubKey)) {
+                    throw new CertPbthVblidbtorException(
+                        "blgorithm constrbints check fbiled",
+                        null, null, -1, BbsicRebson.ALGORITHM_CONSTRAINED);
                 }
             }
         }
 
-        // Check with previous cert for signature algorithm and public key
+        // Check with previous cert for signbture blgorithm bnd public key
         if (prevPubKey != null) {
             if (currSigAlg != null) {
-                if (!constraints.permits(
+                if (!constrbints.permits(
                         SIGNATURE_PRIMITIVE_SET,
-                        currSigAlg, prevPubKey, currSigAlgParams)) {
-                    throw new CertPathValidatorException(
-                        "Algorithm constraints check failed: " + currSigAlg,
-                        null, null, -1, BasicReason.ALGORITHM_CONSTRAINED);
+                        currSigAlg, prevPubKey, currSigAlgPbrbms)) {
+                    throw new CertPbthVblidbtorException(
+                        "Algorithm constrbints check fbiled: " + currSigAlg,
+                        null, null, -1, BbsicRebson.ALGORITHM_CONSTRAINED);
                 }
             }
 
-            // Inherit key parameters from previous key
-            if (PKIX.isDSAPublicKeyWithoutParams(currPubKey)) {
-                // Inherit DSA parameters from previous key
-                if (!(prevPubKey instanceof DSAPublicKey)) {
-                    throw new CertPathValidatorException("Input key is not " +
-                        "of a appropriate type for inheriting parameters");
+            // Inherit key pbrbmeters from previous key
+            if (PKIX.isDSAPublicKeyWithoutPbrbms(currPubKey)) {
+                // Inherit DSA pbrbmeters from previous key
+                if (!(prevPubKey instbnceof DSAPublicKey)) {
+                    throw new CertPbthVblidbtorException("Input key is not " +
+                        "of b bppropribte type for inheriting pbrbmeters");
                 }
 
-                DSAParams params = ((DSAPublicKey)prevPubKey).getParams();
-                if (params == null) {
-                    throw new CertPathValidatorException(
-                                    "Key parameters missing");
+                DSAPbrbms pbrbms = ((DSAPublicKey)prevPubKey).getPbrbms();
+                if (pbrbms == null) {
+                    throw new CertPbthVblidbtorException(
+                                    "Key pbrbmeters missing");
                 }
 
                 try {
                     BigInteger y = ((DSAPublicKey)currPubKey).getY();
-                    KeyFactory kf = KeyFactory.getInstance("DSA");
+                    KeyFbctory kf = KeyFbctory.getInstbnce("DSA");
                     DSAPublicKeySpec ks = new DSAPublicKeySpec(y,
-                                                       params.getP(),
-                                                       params.getQ(),
-                                                       params.getG());
-                    currPubKey = kf.generatePublic(ks);
-                } catch (GeneralSecurityException e) {
-                    throw new CertPathValidatorException("Unable to generate " +
-                        "key with inherited parameters: " + e.getMessage(), e);
+                                                       pbrbms.getP(),
+                                                       pbrbms.getQ(),
+                                                       pbrbms.getG());
+                    currPubKey = kf.generbtePublic(ks);
+                } cbtch (GenerblSecurityException e) {
+                    throw new CertPbthVblidbtorException("Unbble to generbte " +
+                        "key with inherited pbrbmeters: " + e.getMessbge(), e);
                 }
             }
         }
@@ -290,75 +290,75 @@ final public class AlgorithmChecker extends PKIXCertPathChecker {
         // reset the previous public key
         prevPubKey = currPubKey;
 
-        // check the extended key usage, ignore the check now
-        // List<String> extendedKeyUsages = x509Cert.getExtendedKeyUsage();
+        // check the extended key usbge, ignore the check now
+        // List<String> extendedKeyUsbges = x509Cert.getExtendedKeyUsbge();
 
-        // DO NOT remove any unresolved critical extensions
+        // DO NOT remove bny unresolved criticbl extensions
     }
 
     /**
-     * Try to set the trust anchor of the checker.
+     * Try to set the trust bnchor of the checker.
      * <p>
-     * If there is no trust anchor specified and the checker has not started,
-     * set the trust anchor.
+     * If there is no trust bnchor specified bnd the checker hbs not stbrted,
+     * set the trust bnchor.
      *
-     * @param anchor the trust anchor selected to validate the target
-     *     certificate
+     * @pbrbm bnchor the trust bnchor selected to vblidbte the tbrget
+     *     certificbte
      */
-    void trySetTrustAnchor(TrustAnchor anchor) {
-        // Don't bother if the check has started or trust anchor has already
+    void trySetTrustAnchor(TrustAnchor bnchor) {
+        // Don't bother if the check hbs stbrted or trust bnchor hbs blrebdy
         // specified.
         if (prevPubKey == null) {
-            if (anchor == null) {
-                throw new IllegalArgumentException(
-                        "The trust anchor cannot be null");
+            if (bnchor == null) {
+                throw new IllegblArgumentException(
+                        "The trust bnchor cbnnot be null");
             }
 
-            // Don't bother to change the trustedPubKey.
-            if (anchor.getTrustedCert() != null) {
-                prevPubKey = anchor.getTrustedCert().getPublicKey();
+            // Don't bother to chbnge the trustedPubKey.
+            if (bnchor.getTrustedCert() != null) {
+                prevPubKey = bnchor.getTrustedCert().getPublicKey();
             } else {
-                prevPubKey = anchor.getCAPublicKey();
+                prevPubKey = bnchor.getCAPublicKey();
             }
         }
     }
 
     /**
-     * Check the signature algorithm with the specified public key.
+     * Check the signbture blgorithm with the specified public key.
      *
-     * @param key the public key to verify the CRL signature
-     * @param crl the target CRL
+     * @pbrbm key the public key to verify the CRL signbture
+     * @pbrbm crl the tbrget CRL
      */
-    static void check(PublicKey key, X509CRL crl)
-                        throws CertPathValidatorException {
+    stbtic void check(PublicKey key, X509CRL crl)
+                        throws CertPbthVblidbtorException {
 
         X509CRLImpl x509CRLImpl = null;
         try {
             x509CRLImpl = X509CRLImpl.toImpl(crl);
-        } catch (CRLException ce) {
-            throw new CertPathValidatorException(ce);
+        } cbtch (CRLException ce) {
+            throw new CertPbthVblidbtorException(ce);
         }
 
-        AlgorithmId algorithmId = x509CRLImpl.getSigAlgId();
-        check(key, algorithmId);
+        AlgorithmId blgorithmId = x509CRLImpl.getSigAlgId();
+        check(key, blgorithmId);
     }
 
     /**
-     * Check the signature algorithm with the specified public key.
+     * Check the signbture blgorithm with the specified public key.
      *
-     * @param key the public key to verify the CRL signature
-     * @param crl the target CRL
+     * @pbrbm key the public key to verify the CRL signbture
+     * @pbrbm crl the tbrget CRL
      */
-    static void check(PublicKey key, AlgorithmId algorithmId)
-                        throws CertPathValidatorException {
-        String sigAlgName = algorithmId.getName();
-        AlgorithmParameters sigAlgParams = algorithmId.getParameters();
+    stbtic void check(PublicKey key, AlgorithmId blgorithmId)
+                        throws CertPbthVblidbtorException {
+        String sigAlgNbme = blgorithmId.getNbme();
+        AlgorithmPbrbmeters sigAlgPbrbms = blgorithmId.getPbrbmeters();
 
-        if (!certPathDefaultConstraints.permits(
-                SIGNATURE_PRIMITIVE_SET, sigAlgName, key, sigAlgParams)) {
-            throw new CertPathValidatorException(
-                "algorithm check failed: " + sigAlgName + " is disabled",
-                null, null, -1, BasicReason.ALGORITHM_CONSTRAINED);
+        if (!certPbthDefbultConstrbints.permits(
+                SIGNATURE_PRIMITIVE_SET, sigAlgNbme, key, sigAlgPbrbms)) {
+            throw new CertPbthVblidbtorException(
+                "blgorithm check fbiled: " + sigAlgNbme + " is disbbled",
+                null, null, -1, BbsicRebson.ALGORITHM_CONSTRAINED);
         }
     }
 

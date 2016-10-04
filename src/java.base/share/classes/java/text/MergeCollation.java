@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996, 1997 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.util.ArrayList;
+import jbvb.util.ArrbyList;
 
 /**
- * Utility class for normalizing and merging patterns for collation.
- * Patterns are strings of the form <entry>*, where <entry> has the
+ * Utility clbss for normblizing bnd merging pbtterns for collbtion.
+ * Pbtterns bre strings of the form <entry>*, where <entry> hbs the
  * form:
- * <pattern> := <entry>*
- * <entry> := <separator><chars>{"/"<extension>}
- * <separator> := "=", ",", ";", "<", "&"
- * <chars>, and <extension> are both arbitrary strings.
- * unquoted whitespaces are ignored.
- * 'xxx' can be used to quote characters
- * One difference from Collator is that & is used to reset to a current
- * point. Or, in other words, it introduces a new sequence which is to
- * be added to the old.
- * That is: "a < b < c < d" is the same as "a < b & b < c & c < d" OR
- * "a < b < d & b < c"
- * XXX: make '' be a single quote.
- * @see PatternEntry
- * @author             Mark Davis, Helena Shih
+ * <pbttern> := <entry>*
+ * <entry> := <sepbrbtor><chbrs>{"/"<extension>}
+ * <sepbrbtor> := "=", ",", ";", "<", "&"
+ * <chbrs>, bnd <extension> bre both brbitrbry strings.
+ * unquoted whitespbces bre ignored.
+ * 'xxx' cbn be used to quote chbrbcters
+ * One difference from Collbtor is thbt & is used to reset to b current
+ * point. Or, in other words, it introduces b new sequence which is to
+ * be bdded to the old.
+ * Thbt is: "b < b < c < d" is the sbme bs "b < b & b < c & c < d" OR
+ * "b < b < d & b < c"
+ * XXX: mbke '' be b single quote.
+ * @see PbtternEntry
+ * @buthor             Mbrk Dbvis, Helenb Shih
  */
 
-final class MergeCollation {
+finbl clbss MergeCollbtion {
 
     /**
-     * Creates from a pattern
-     * @exception ParseException If the input pattern is incorrect.
+     * Crebtes from b pbttern
+     * @exception PbrseException If the input pbttern is incorrect.
      */
-    public MergeCollation(String pattern) throws ParseException
+    public MergeCollbtion(String pbttern) throws PbrseException
     {
-        for (int i = 0; i < statusArray.length; i++)
-            statusArray[i] = 0;
-        setPattern(pattern);
+        for (int i = 0; i < stbtusArrby.length; i++)
+            stbtusArrby[i] = 0;
+        setPbttern(pbttern);
     }
 
     /**
-     * recovers current pattern
+     * recovers current pbttern
      */
-    public String getPattern() {
-        return getPattern(true);
+    public String getPbttern() {
+        return getPbttern(true);
     }
 
     /**
-     * recovers current pattern.
-     * @param withWhiteSpace puts spacing around the entries, and \n
-     * before & and <
+     * recovers current pbttern.
+     * @pbrbm withWhiteSpbce puts spbcing bround the entries, bnd \n
+     * before & bnd <
      */
-    public String getPattern(boolean withWhiteSpace) {
+    public String getPbttern(boolebn withWhiteSpbce) {
         StringBuffer result = new StringBuffer();
-        PatternEntry tmp = null;
-        ArrayList<PatternEntry> extList = null;
+        PbtternEntry tmp = null;
+        ArrbyList<PbtternEntry> extList = null;
         int i;
-        for (i = 0; i < patterns.size(); ++i) {
-            PatternEntry entry = patterns.get(i);
+        for (i = 0; i < pbtterns.size(); ++i) {
+            PbtternEntry entry = pbtterns.get(i);
             if (entry.extension.length() != 0) {
                 if (extList == null)
-                    extList = new ArrayList<>();
-                extList.add(entry);
+                    extList = new ArrbyList<>();
+                extList.bdd(entry);
             } else {
                 if (extList != null) {
-                    PatternEntry last = findLastWithNoExtension(i-1);
+                    PbtternEntry lbst = findLbstWithNoExtension(i-1);
                     for (int j = extList.size() - 1; j >= 0 ; j--) {
                         tmp = extList.get(j);
-                        tmp.addToBuffer(result, false, withWhiteSpace, last);
+                        tmp.bddToBuffer(result, fblse, withWhiteSpbce, lbst);
                     }
                     extList = null;
                 }
-                entry.addToBuffer(result, false, withWhiteSpace, null);
+                entry.bddToBuffer(result, fblse, withWhiteSpbce, null);
             }
         }
         if (extList != null) {
-            PatternEntry last = findLastWithNoExtension(i-1);
+            PbtternEntry lbst = findLbstWithNoExtension(i-1);
             for (int j = extList.size() - 1; j >= 0 ; j--) {
                 tmp = extList.get(j);
-                tmp.addToBuffer(result, false, withWhiteSpace, last);
+                tmp.bddToBuffer(result, fblse, withWhiteSpbce, lbst);
             }
             extList = null;
         }
         return result.toString();
     }
 
-    private final PatternEntry findLastWithNoExtension(int i) {
+    privbte finbl PbtternEntry findLbstWithNoExtension(int i) {
         for (--i;i >= 0; --i) {
-            PatternEntry entry = patterns.get(i);
+            PbtternEntry entry = pbtterns.get(i);
             if (entry.extension.length() == 0) {
                 return entry;
             }
@@ -130,212 +130,212 @@ final class MergeCollation {
     }
 
     /**
-     * emits the pattern for collation builder.
-     * @return emits the string in the format understable to the collation
+     * emits the pbttern for collbtion builder.
+     * @return emits the string in the formbt understbble to the collbtion
      * builder.
      */
-    public String emitPattern() {
-        return emitPattern(true);
+    public String emitPbttern() {
+        return emitPbttern(true);
     }
 
     /**
-     * emits the pattern for collation builder.
-     * @param withWhiteSpace puts spacing around the entries, and \n
-     * before & and <
-     * @return emits the string in the format understable to the collation
+     * emits the pbttern for collbtion builder.
+     * @pbrbm withWhiteSpbce puts spbcing bround the entries, bnd \n
+     * before & bnd <
+     * @return emits the string in the formbt understbble to the collbtion
      * builder.
      */
-    public String emitPattern(boolean withWhiteSpace) {
+    public String emitPbttern(boolebn withWhiteSpbce) {
         StringBuffer result = new StringBuffer();
-        for (int i = 0; i < patterns.size(); ++i)
+        for (int i = 0; i < pbtterns.size(); ++i)
         {
-            PatternEntry entry = patterns.get(i);
+            PbtternEntry entry = pbtterns.get(i);
             if (entry != null) {
-                entry.addToBuffer(result, true, withWhiteSpace, null);
+                entry.bddToBuffer(result, true, withWhiteSpbce, null);
             }
         }
         return result.toString();
     }
 
     /**
-     * sets the pattern.
+     * sets the pbttern.
      */
-    public void setPattern(String pattern) throws ParseException
+    public void setPbttern(String pbttern) throws PbrseException
     {
-        patterns.clear();
-        addPattern(pattern);
+        pbtterns.clebr();
+        bddPbttern(pbttern);
     }
 
     /**
-     * adds a pattern to the current one.
-     * @param pattern the new pattern to be added
+     * bdds b pbttern to the current one.
+     * @pbrbm pbttern the new pbttern to be bdded
      */
-    public void addPattern(String pattern) throws ParseException
+    public void bddPbttern(String pbttern) throws PbrseException
     {
-        if (pattern == null)
+        if (pbttern == null)
             return;
 
-        PatternEntry.Parser parser = new PatternEntry.Parser(pattern);
+        PbtternEntry.Pbrser pbrser = new PbtternEntry.Pbrser(pbttern);
 
-        PatternEntry entry = parser.next();
+        PbtternEntry entry = pbrser.next();
         while (entry != null) {
             fixEntry(entry);
-            entry = parser.next();
+            entry = pbrser.next();
         }
     }
 
     /**
-     * gets count of separate entries
-     * @return the size of pattern entries
+     * gets count of sepbrbte entries
+     * @return the size of pbttern entries
      */
     public int getCount() {
-        return patterns.size();
+        return pbtterns.size();
     }
 
     /**
-     * gets count of separate entries
-     * @param index the offset of the desired pattern entry
-     * @return the requested pattern entry
+     * gets count of sepbrbte entries
+     * @pbrbm index the offset of the desired pbttern entry
+     * @return the requested pbttern entry
      */
-    public PatternEntry getItemAt(int index) {
-        return patterns.get(index);
+    public PbtternEntry getItemAt(int index) {
+        return pbtterns.get(index);
     }
 
     //============================================================
-    // privates
+    // privbtes
     //============================================================
-    ArrayList<PatternEntry> patterns = new ArrayList<>(); // a list of PatternEntries
+    ArrbyList<PbtternEntry> pbtterns = new ArrbyList<>(); // b list of PbtternEntries
 
-    private transient PatternEntry saveEntry = null;
-    private transient PatternEntry lastEntry = null;
+    privbte trbnsient PbtternEntry sbveEntry = null;
+    privbte trbnsient PbtternEntry lbstEntry = null;
 
-    // This is really used as a local variable inside fixEntry, but we cache
-    // it here to avoid newing it up every time the method is called.
-    private transient StringBuffer excess = new StringBuffer();
+    // This is reblly used bs b locbl vbribble inside fixEntry, but we cbche
+    // it here to bvoid newing it up every time the method is cblled.
+    privbte trbnsient StringBuffer excess = new StringBuffer();
 
     //
-    // When building a MergeCollation, we need to do lots of searches to see
-    // whether a given entry is already in the table.  Since we're using an
-    // array, this would make the algorithm O(N*N).  To speed things up, we
-    // use this bit array to remember whether the array contains any entries
-    // starting with each Unicode character.  If not, we can avoid the search.
-    // Using BitSet would make this easier, but it's significantly slower.
+    // When building b MergeCollbtion, we need to do lots of sebrches to see
+    // whether b given entry is blrebdy in the tbble.  Since we're using bn
+    // brrby, this would mbke the blgorithm O(N*N).  To speed things up, we
+    // use this bit brrby to remember whether the brrby contbins bny entries
+    // stbrting with ebch Unicode chbrbcter.  If not, we cbn bvoid the sebrch.
+    // Using BitSet would mbke this ebsier, but it's significbntly slower.
     //
-    private transient byte[] statusArray = new byte[8192];
-    private final byte BITARRAYMASK = (byte)0x1;
-    private final int  BYTEPOWER = 3;
-    private final int  BYTEMASK = (1 << BYTEPOWER) - 1;
+    privbte trbnsient byte[] stbtusArrby = new byte[8192];
+    privbte finbl byte BITARRAYMASK = (byte)0x1;
+    privbte finbl int  BYTEPOWER = 3;
+    privbte finbl int  BYTEMASK = (1 << BYTEPOWER) - 1;
 
     /*
-      If the strength is RESET, then just change the lastEntry to
-      be the current. (If the current is not in patterns, signal an error).
-      If not, then remove the current entry, and add it after lastEntry
-      (which is usually at the end).
+      If the strength is RESET, then just chbnge the lbstEntry to
+      be the current. (If the current is not in pbtterns, signbl bn error).
+      If not, then remove the current entry, bnd bdd it bfter lbstEntry
+      (which is usublly bt the end).
       */
-    private final void fixEntry(PatternEntry newEntry) throws ParseException
+    privbte finbl void fixEntry(PbtternEntry newEntry) throws PbrseException
     {
-        // check to see whether the new entry has the same characters as the previous
-        // entry did (this can happen when a pattern declaring a difference between two
-        // strings that are canonically equivalent is normalized).  If so, and the strength
-        // is anything other than IDENTICAL or RESET, throw an exception (you can't
-        // declare a string to be unequal to itself).       --rtg 5/24/99
-        if (lastEntry != null && newEntry.chars.equals(lastEntry.chars)
-                && newEntry.extension.equals(lastEntry.extension)) {
-            if (newEntry.strength != Collator.IDENTICAL
-                && newEntry.strength != PatternEntry.RESET) {
-                    throw new ParseException("The entries " + lastEntry + " and "
-                            + newEntry + " are adjacent in the rules, but have conflicting "
-                            + "strengths: A character can't be unequal to itself.", -1);
+        // check to see whether the new entry hbs the sbme chbrbcters bs the previous
+        // entry did (this cbn hbppen when b pbttern declbring b difference between two
+        // strings thbt bre cbnonicblly equivblent is normblized).  If so, bnd the strength
+        // is bnything other thbn IDENTICAL or RESET, throw bn exception (you cbn't
+        // declbre b string to be unequbl to itself).       --rtg 5/24/99
+        if (lbstEntry != null && newEntry.chbrs.equbls(lbstEntry.chbrs)
+                && newEntry.extension.equbls(lbstEntry.extension)) {
+            if (newEntry.strength != Collbtor.IDENTICAL
+                && newEntry.strength != PbtternEntry.RESET) {
+                    throw new PbrseException("The entries " + lbstEntry + " bnd "
+                            + newEntry + " bre bdjbcent in the rules, but hbve conflicting "
+                            + "strengths: A chbrbcter cbn't be unequbl to itself.", -1);
             } else {
-                // otherwise, just skip this entry and behave as though you never saw it
+                // otherwise, just skip this entry bnd behbve bs though you never sbw it
                 return;
             }
         }
 
-        boolean changeLastEntry = true;
-        if (newEntry.strength != PatternEntry.RESET) {
+        boolebn chbngeLbstEntry = true;
+        if (newEntry.strength != PbtternEntry.RESET) {
             int oldIndex = -1;
 
-            if ((newEntry.chars.length() == 1)) {
+            if ((newEntry.chbrs.length() == 1)) {
 
-                char c = newEntry.chars.charAt(0);
-                int statusIndex = c >> BYTEPOWER;
-                byte bitClump = statusArray[statusIndex];
+                chbr c = newEntry.chbrs.chbrAt(0);
+                int stbtusIndex = c >> BYTEPOWER;
+                byte bitClump = stbtusArrby[stbtusIndex];
                 byte setBit = (byte)(BITARRAYMASK << (c & BYTEMASK));
 
                 if (bitClump != 0 && (bitClump & setBit) != 0) {
-                    oldIndex = patterns.lastIndexOf(newEntry);
+                    oldIndex = pbtterns.lbstIndexOf(newEntry);
                 } else {
-                    // We're going to add an element that starts with this
-                    // character, so go ahead and set its bit.
-                    statusArray[statusIndex] = (byte)(bitClump | setBit);
+                    // We're going to bdd bn element thbt stbrts with this
+                    // chbrbcter, so go bhebd bnd set its bit.
+                    stbtusArrby[stbtusIndex] = (byte)(bitClump | setBit);
                 }
             } else {
-                oldIndex = patterns.lastIndexOf(newEntry);
+                oldIndex = pbtterns.lbstIndexOf(newEntry);
             }
             if (oldIndex != -1) {
-                patterns.remove(oldIndex);
+                pbtterns.remove(oldIndex);
             }
 
             excess.setLength(0);
-            int lastIndex = findLastEntry(lastEntry, excess);
+            int lbstIndex = findLbstEntry(lbstEntry, excess);
 
             if (excess.length() != 0) {
                 newEntry.extension = excess + newEntry.extension;
-                if (lastIndex != patterns.size()) {
-                    lastEntry = saveEntry;
-                    changeLastEntry = false;
+                if (lbstIndex != pbtterns.size()) {
+                    lbstEntry = sbveEntry;
+                    chbngeLbstEntry = fblse;
                 }
             }
-            if (lastIndex == patterns.size()) {
-                patterns.add(newEntry);
-                saveEntry = newEntry;
+            if (lbstIndex == pbtterns.size()) {
+                pbtterns.bdd(newEntry);
+                sbveEntry = newEntry;
             } else {
-                patterns.add(lastIndex, newEntry);
+                pbtterns.bdd(lbstIndex, newEntry);
             }
         }
-        if (changeLastEntry) {
-            lastEntry = newEntry;
+        if (chbngeLbstEntry) {
+            lbstEntry = newEntry;
         }
     }
 
-    private final int findLastEntry(PatternEntry entry,
-                              StringBuffer excessChars) throws ParseException
+    privbte finbl int findLbstEntry(PbtternEntry entry,
+                              StringBuffer excessChbrs) throws PbrseException
     {
         if (entry == null)
             return 0;
 
-        if (entry.strength != PatternEntry.RESET) {
-            // Search backwards for string that contains this one;
-            // most likely entry is last one
+        if (entry.strength != PbtternEntry.RESET) {
+            // Sebrch bbckwbrds for string thbt contbins this one;
+            // most likely entry is lbst one
 
             int oldIndex = -1;
-            if ((entry.chars.length() == 1)) {
-                int index = entry.chars.charAt(0) >> BYTEPOWER;
-                if ((statusArray[index] &
-                    (BITARRAYMASK << (entry.chars.charAt(0) & BYTEMASK))) != 0) {
-                    oldIndex = patterns.lastIndexOf(entry);
+            if ((entry.chbrs.length() == 1)) {
+                int index = entry.chbrs.chbrAt(0) >> BYTEPOWER;
+                if ((stbtusArrby[index] &
+                    (BITARRAYMASK << (entry.chbrs.chbrAt(0) & BYTEMASK))) != 0) {
+                    oldIndex = pbtterns.lbstIndexOf(entry);
                 }
             } else {
-                oldIndex = patterns.lastIndexOf(entry);
+                oldIndex = pbtterns.lbstIndexOf(entry);
             }
             if ((oldIndex == -1))
-                throw new ParseException("couldn't find last entry: "
+                throw new PbrseException("couldn't find lbst entry: "
                                           + entry, oldIndex);
             return oldIndex + 1;
         } else {
             int i;
-            for (i = patterns.size() - 1; i >= 0; --i) {
-                PatternEntry e = patterns.get(i);
-                if (e.chars.regionMatches(0,entry.chars,0,
-                                              e.chars.length())) {
-                    excessChars.append(entry.chars.substring(e.chars.length(),
-                                                            entry.chars.length()));
-                    break;
+            for (i = pbtterns.size() - 1; i >= 0; --i) {
+                PbtternEntry e = pbtterns.get(i);
+                if (e.chbrs.regionMbtches(0,entry.chbrs,0,
+                                              e.chbrs.length())) {
+                    excessChbrs.bppend(entry.chbrs.substring(e.chbrs.length(),
+                                                            entry.chbrs.length()));
+                    brebk;
                 }
             }
             if (i == -1)
-                throw new ParseException("couldn't find: " + entry, i);
+                throw new PbrseException("couldn't find: " + entry, i);
             return i + 1;
         }
     }

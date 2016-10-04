@@ -1,39 +1,39 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /**
- * Determine length of this Standard UTF-8 in Modified UTF-8.
- *    Validation is done of the basic UTF encoding rules, returns
- *    length (no change) when errors are detected in the UTF encoding.
+ * Determine length of this Stbndbrd UTF-8 in Modified UTF-8.
+ *    Vblidbtion is done of the bbsic UTF encoding rules, returns
+ *    length (no chbnge) when errors bre detected in the UTF encoding.
  *
- *    Note: Accepts Modified UTF-8 also, no verification on the
- *          correctness of Standard UTF-8 is done. e,g, 0xC080 input is ok.
+ *    Note: Accepts Modified UTF-8 blso, no verificbtion on the
+ *          correctness of Stbndbrd UTF-8 is done. e,g, 0xC080 input is ok.
  */
 int
-modifiedUtf8LengthOfUtf8(char* string, int length) {
+modifiedUtf8LengthOfUtf8(chbr* string, int length) {
     int new_length;
     int i;
 
@@ -41,16 +41,16 @@ modifiedUtf8LengthOfUtf8(char* string, int length) {
     for ( i = 0 ; i < length ; i++ ) {
         unsigned byte;
 
-        byte = (unsigned char)string[i];
+        byte = (unsigned chbr)string[i];
         if ( (byte & 0x80) == 0 ) { /* 1byte encoding */
             new_length++;
             if ( byte == 0 ) {
-                new_length++; /* We gain one byte in length on NULL bytes */
+                new_length++; /* We gbin one byte in length on NULL bytes */
             }
         } else if ( (byte & 0xE0) == 0xC0 ) { /* 2byte encoding */
             /* Check encoding of following bytes */
             if ( (i+1) >= length || (string[i+1] & 0xC0) != 0x80 ) {
-                break; /* Error condition */
+                brebk; /* Error condition */
             }
             i++; /* Skip next byte */
             new_length += 2;
@@ -58,7 +58,7 @@ modifiedUtf8LengthOfUtf8(char* string, int length) {
             /* Check encoding of following bytes */
             if ( (i+2) >= length || (string[i+1] & 0xC0) != 0x80
                                  || (string[i+2] & 0xC0) != 0x80 ) {
-                break; /* Error condition */
+                brebk; /* Error condition */
             }
             i += 2; /* Skip next two bytes */
             new_length += 3;
@@ -67,12 +67,12 @@ modifiedUtf8LengthOfUtf8(char* string, int length) {
             if ( (i+3) >= length || (string[i+1] & 0xC0) != 0x80
                                  || (string[i+2] & 0xC0) != 0x80
                                  || (string[i+3] & 0xC0) != 0x80 ) {
-                break; /* Error condition */
+                brebk; /* Error condition */
             }
             i += 3; /* Skip next 3 bytes */
             new_length += 6; /* 4byte encoding turns into 2 3byte ones */
         } else {
-            break; /* Error condition */
+            brebk; /* Error condition */
         }
     }
     if ( i != length ) {
@@ -84,14 +84,14 @@ modifiedUtf8LengthOfUtf8(char* string, int length) {
 }
 
 /*
- * Convert Standard UTF-8 to Modified UTF-8.
- *    Assumes the UTF-8 encoding was validated by modifiedLength() above.
+ * Convert Stbndbrd UTF-8 to Modified UTF-8.
+ *    Assumes the UTF-8 encoding wbs vblidbted by modifiedLength() bbove.
  *
- *    Note: Accepts Modified UTF-8 also, no verification on the
- *          correctness of Standard UTF-8 is done. e,g, 0xC080 input is ok.
+ *    Note: Accepts Modified UTF-8 blso, no verificbtion on the
+ *          correctness of Stbndbrd UTF-8 is done. e,g, 0xC080 input is ok.
  */
 void
-convertUtf8ToModifiedUtf8(char *string, int length, char *new_string, int new_length)
+convertUtf8ToModifiedUtf8(chbr *string, int length, chbr *new_string, int new_length)
 {
     int i;
     int j;
@@ -100,14 +100,14 @@ convertUtf8ToModifiedUtf8(char *string, int length, char *new_string, int new_le
     for ( i = 0 ; i < length ; i++ ) {
         unsigned byte1;
 
-        byte1 = (unsigned char)string[i];
+        byte1 = (unsigned chbr)string[i];
 
-        /* NULL bytes and bytes starting with 11110xxx are special */
+        /* NULL bytes bnd bytes stbrting with 11110xxx bre specibl */
         if ( (byte1 & 0x80) == 0 ) { /* 1byte encoding */
             if ( byte1 == 0 ) {
                 /* Bits out: 11000000 10000000 */
-                new_string[j++] = (char)0xC0;
-                new_string[j++] = (char)0x80;
+                new_string[j++] = (chbr)0xC0;
+                new_string[j++] = (chbr)0x80;
             } else {
                 /* Single byte */
                 new_string[j++] = byte1;
@@ -124,20 +124,20 @@ convertUtf8ToModifiedUtf8(char *string, int length, char *new_string, int new_le
             unsigned byte2, byte3, byte4, u21;
 
             /* Bits in: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx */
-            byte2 = (unsigned char)string[++i];
-            byte3 = (unsigned char)string[++i];
-            byte4 = (unsigned char)string[++i];
-            /* Reconstruct full 21bit value */
+            byte2 = (unsigned chbr)string[++i];
+            byte3 = (unsigned chbr)string[++i];
+            byte4 = (unsigned chbr)string[++i];
+            /* Reconstruct full 21bit vblue */
             u21  = (byte1 & 0x07) << 18;
             u21 += (byte2 & 0x3F) << 12;
             u21 += (byte3 & 0x3F) << 6;
             u21 += (byte4 & 0x3F);
             /* Bits out: 11101101 1010xxxx 10xxxxxx */
-            new_string[j++] = (char)0xED;
+            new_string[j++] = (chbr)0xED;
             new_string[j++] = 0xA0 + (((u21 >> 16) - 1) & 0x0F);
             new_string[j++] = 0x80 + ((u21 >> 10) & 0x3F);
             /* Bits out: 11101101 1011xxxx 10xxxxxx */
-            new_string[j++] = (char)0xED;
+            new_string[j++] = (chbr)0xED;
             new_string[j++] = 0xB0 + ((u21 >>  6) & 0x0F);
             new_string[j++] = byte4;
         }

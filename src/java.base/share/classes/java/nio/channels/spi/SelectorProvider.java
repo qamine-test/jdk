@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels.spi;
+pbckbge jbvb.nio.chbnnels.spi;
 
-import java.io.IOException;
-import java.net.ProtocolFamily;
-import java.nio.channels.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Iterator;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
-import sun.security.action.GetPropertyAction;
+import jbvb.io.IOException;
+import jbvb.net.ProtocolFbmily;
+import jbvb.nio.chbnnels.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Iterbtor;
+import jbvb.util.ServiceLobder;
+import jbvb.util.ServiceConfigurbtionError;
+import sun.security.bction.GetPropertyAction;
 
 
 /**
- * Service-provider class for selectors and selectable channels.
+ * Service-provider clbss for selectors bnd selectbble chbnnels.
  *
- * <p> A selector provider is a concrete subclass of this class that has a
- * zero-argument constructor and implements the abstract methods specified
- * below.  A given invocation of the Java virtual machine maintains a single
- * system-wide default provider instance, which is returned by the {@link
- * #provider() provider} method.  The first invocation of that method will locate
- * the default provider as specified below.
+ * <p> A selector provider is b concrete subclbss of this clbss thbt hbs b
+ * zero-brgument constructor bnd implements the bbstrbct methods specified
+ * below.  A given invocbtion of the Jbvb virtubl mbchine mbintbins b single
+ * system-wide defbult provider instbnce, which is returned by the {@link
+ * #provider() provider} method.  The first invocbtion of thbt method will locbte
+ * the defbult provider bs specified below.
  *
- * <p> The system-wide default provider is used by the static <tt>open</tt>
- * methods of the {@link java.nio.channels.DatagramChannel#open
- * DatagramChannel}, {@link java.nio.channels.Pipe#open Pipe}, {@link
- * java.nio.channels.Selector#open Selector}, {@link
- * java.nio.channels.ServerSocketChannel#open ServerSocketChannel}, and {@link
- * java.nio.channels.SocketChannel#open SocketChannel} classes.  It is also
- * used by the {@link java.lang.System#inheritedChannel System.inheritedChannel()}
- * method. A program may make use of a provider other than the default provider
- * by instantiating that provider and then directly invoking the <tt>open</tt>
- * methods defined in this class.
+ * <p> The system-wide defbult provider is used by the stbtic <tt>open</tt>
+ * methods of the {@link jbvb.nio.chbnnels.DbtbgrbmChbnnel#open
+ * DbtbgrbmChbnnel}, {@link jbvb.nio.chbnnels.Pipe#open Pipe}, {@link
+ * jbvb.nio.chbnnels.Selector#open Selector}, {@link
+ * jbvb.nio.chbnnels.ServerSocketChbnnel#open ServerSocketChbnnel}, bnd {@link
+ * jbvb.nio.chbnnels.SocketChbnnel#open SocketChbnnel} clbsses.  It is blso
+ * used by the {@link jbvb.lbng.System#inheritedChbnnel System.inheritedChbnnel()}
+ * method. A progrbm mby mbke use of b provider other thbn the defbult provider
+ * by instbntibting thbt provider bnd then directly invoking the <tt>open</tt>
+ * methods defined in this clbss.
  *
- * <p> All of the methods in this class are safe for use by multiple concurrent
- * threads.  </p>
+ * <p> All of the methods in this clbss bre sbfe for use by multiple concurrent
+ * threbds.  </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public abstract class SelectorProvider {
+public bbstrbct clbss SelectorProvider {
 
-    private static final Object lock = new Object();
-    private static SelectorProvider provider = null;
+    privbte stbtic finbl Object lock = new Object();
+    privbte stbtic SelectorProvider provider = null;
 
-    private static Void checkPermission() {
-        SecurityManager sm = System.getSecurityManager();
+    privbte stbtic Void checkPermission() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
             sm.checkPermission(new RuntimePermission("selectorProvider"));
         return null;
     }
-    private SelectorProvider(Void ignore) { }
+    privbte SelectorProvider(Void ignore) { }
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
+     *          If b security mbnbger hbs been instblled bnd it denies
      *          {@link RuntimePermission}<tt>("selectorProvider")</tt>
      */
     protected SelectorProvider() {
         this(checkPermission());
     }
 
-    private static boolean loadProviderFromProperty() {
-        String cn = System.getProperty("java.nio.channels.spi.SelectorProvider");
+    privbte stbtic boolebn lobdProviderFromProperty() {
+        String cn = System.getProperty("jbvb.nio.chbnnels.spi.SelectorProvider");
         if (cn == null)
-            return false;
+            return fblse;
         try {
-            Class<?> c = Class.forName(cn, true,
-                                       ClassLoader.getSystemClassLoader());
-            provider = (SelectorProvider)c.newInstance();
+            Clbss<?> c = Clbss.forNbme(cn, true,
+                                       ClbssLobder.getSystemClbssLobder());
+            provider = (SelectorProvider)c.newInstbnce();
             return true;
-        } catch (ClassNotFoundException x) {
-            throw new ServiceConfigurationError(null, x);
-        } catch (IllegalAccessException x) {
-            throw new ServiceConfigurationError(null, x);
-        } catch (InstantiationException x) {
-            throw new ServiceConfigurationError(null, x);
-        } catch (SecurityException x) {
-            throw new ServiceConfigurationError(null, x);
+        } cbtch (ClbssNotFoundException x) {
+            throw new ServiceConfigurbtionError(null, x);
+        } cbtch (IllegblAccessException x) {
+            throw new ServiceConfigurbtionError(null, x);
+        } cbtch (InstbntibtionException x) {
+            throw new ServiceConfigurbtionError(null, x);
+        } cbtch (SecurityException x) {
+            throw new ServiceConfigurbtionError(null, x);
         }
     }
 
-    private static boolean loadProviderAsService() {
+    privbte stbtic boolebn lobdProviderAsService() {
 
-        ServiceLoader<SelectorProvider> sl =
-            ServiceLoader.load(SelectorProvider.class,
-                               ClassLoader.getSystemClassLoader());
-        Iterator<SelectorProvider> i = sl.iterator();
+        ServiceLobder<SelectorProvider> sl =
+            ServiceLobder.lobd(SelectorProvider.clbss,
+                               ClbssLobder.getSystemClbssLobder());
+        Iterbtor<SelectorProvider> i = sl.iterbtor();
         for (;;) {
             try {
-                if (!i.hasNext())
-                    return false;
+                if (!i.hbsNext())
+                    return fblse;
                 provider = i.next();
                 return true;
-            } catch (ServiceConfigurationError sce) {
-                if (sce.getCause() instanceof SecurityException) {
+            } cbtch (ServiceConfigurbtionError sce) {
+                if (sce.getCbuse() instbnceof SecurityException) {
                     // Ignore the security exception, try the next provider
                     continue;
                 }
@@ -133,52 +133,52 @@ public abstract class SelectorProvider {
     }
 
     /**
-     * Returns the system-wide default selector provider for this invocation of
-     * the Java virtual machine.
+     * Returns the system-wide defbult selector provider for this invocbtion of
+     * the Jbvb virtubl mbchine.
      *
-     * <p> The first invocation of this method locates the default provider
-     * object as follows: </p>
+     * <p> The first invocbtion of this method locbtes the defbult provider
+     * object bs follows: </p>
      *
      * <ol>
      *
      *   <li><p> If the system property
-     *   <tt>java.nio.channels.spi.SelectorProvider</tt> is defined then it is
-     *   taken to be the fully-qualified name of a concrete provider class.
-     *   The class is loaded and instantiated; if this process fails then an
+     *   <tt>jbvb.nio.chbnnels.spi.SelectorProvider</tt> is defined then it is
+     *   tbken to be the fully-qublified nbme of b concrete provider clbss.
+     *   The clbss is lobded bnd instbntibted; if this process fbils then bn
      *   unspecified error is thrown.  </p></li>
      *
-     *   <li><p> If a provider class has been installed in a jar file that is
-     *   visible to the system class loader, and that jar file contains a
-     *   provider-configuration file named
-     *   <tt>java.nio.channels.spi.SelectorProvider</tt> in the resource
-     *   directory <tt>META-INF/services</tt>, then the first class name
-     *   specified in that file is taken.  The class is loaded and
-     *   instantiated; if this process fails then an unspecified error is
+     *   <li><p> If b provider clbss hbs been instblled in b jbr file thbt is
+     *   visible to the system clbss lobder, bnd thbt jbr file contbins b
+     *   provider-configurbtion file nbmed
+     *   <tt>jbvb.nio.chbnnels.spi.SelectorProvider</tt> in the resource
+     *   directory <tt>META-INF/services</tt>, then the first clbss nbme
+     *   specified in thbt file is tbken.  The clbss is lobded bnd
+     *   instbntibted; if this process fbils then bn unspecified error is
      *   thrown.  </p></li>
      *
-     *   <li><p> Finally, if no provider has been specified by any of the above
-     *   means then the system-default provider class is instantiated and the
+     *   <li><p> Finblly, if no provider hbs been specified by bny of the bbove
+     *   mebns then the system-defbult provider clbss is instbntibted bnd the
      *   result is returned.  </p></li>
      *
      * </ol>
      *
-     * <p> Subsequent invocations of this method return the provider that was
-     * returned by the first invocation.  </p>
+     * <p> Subsequent invocbtions of this method return the provider thbt wbs
+     * returned by the first invocbtion.  </p>
      *
-     * @return  The system-wide default selector provider
+     * @return  The system-wide defbult selector provider
      */
-    public static SelectorProvider provider() {
+    public stbtic SelectorProvider provider() {
         synchronized (lock) {
             if (provider != null)
                 return provider;
             return AccessController.doPrivileged(
                 new PrivilegedAction<SelectorProvider>() {
                     public SelectorProvider run() {
-                            if (loadProviderFromProperty())
+                            if (lobdProviderFromProperty())
                                 return provider;
-                            if (loadProviderAsService())
+                            if (lobdProviderAsService())
                                 return provider;
-                            provider = sun.nio.ch.DefaultSelectorProvider.create();
+                            provider = sun.nio.ch.DefbultSelectorProvider.crebte();
                             return provider;
                         }
                     });
@@ -186,137 +186,137 @@ public abstract class SelectorProvider {
     }
 
     /**
-     * Opens a datagram channel.
+     * Opens b dbtbgrbm chbnnel.
      *
-     * @return  The new channel
+     * @return  The new chbnnel
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract DatagramChannel openDatagramChannel()
+    public bbstrbct DbtbgrbmChbnnel openDbtbgrbmChbnnel()
         throws IOException;
 
     /**
-     * Opens a datagram channel.
+     * Opens b dbtbgrbm chbnnel.
      *
-     * @param   family
-     *          The protocol family
+     * @pbrbm   fbmily
+     *          The protocol fbmily
      *
-     * @return  A new datagram channel
+     * @return  A new dbtbgrbm chbnnel
      *
-     * @throws  UnsupportedOperationException
-     *          If the specified protocol family is not supported
+     * @throws  UnsupportedOperbtionException
+     *          If the specified protocol fbmily is not supported
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @since 1.7
      */
-    public abstract DatagramChannel openDatagramChannel(ProtocolFamily family)
+    public bbstrbct DbtbgrbmChbnnel openDbtbgrbmChbnnel(ProtocolFbmily fbmily)
         throws IOException;
 
     /**
-     * Opens a pipe.
+     * Opens b pipe.
      *
      * @return  The new pipe
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract Pipe openPipe()
+    public bbstrbct Pipe openPipe()
         throws IOException;
 
     /**
-     * Opens a selector.
+     * Opens b selector.
      *
      * @return  The new selector
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract AbstractSelector openSelector()
+    public bbstrbct AbstrbctSelector openSelector()
         throws IOException;
 
     /**
-     * Opens a server-socket channel.
+     * Opens b server-socket chbnnel.
      *
-     * @return  The new channel
+     * @return  The new chbnnel
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract ServerSocketChannel openServerSocketChannel()
+    public bbstrbct ServerSocketChbnnel openServerSocketChbnnel()
         throws IOException;
 
     /**
-     * Opens a socket channel.
+     * Opens b socket chbnnel.
      *
-     * @return  The new channel
+     * @return  The new chbnnel
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract SocketChannel openSocketChannel()
+    public bbstrbct SocketChbnnel openSocketChbnnel()
         throws IOException;
 
     /**
-     * Returns the channel inherited from the entity that created this
-     * Java virtual machine.
+     * Returns the chbnnel inherited from the entity thbt crebted this
+     * Jbvb virtubl mbchine.
      *
-     * <p> On many operating systems a process, such as a Java virtual
-     * machine, can be started in a manner that allows the process to
-     * inherit a channel from the entity that created the process. The
-     * manner in which this is done is system dependent, as are the
-     * possible entities to which the channel may be connected. For example,
-     * on UNIX systems, the Internet services daemon (<i>inetd</i>) is used to
-     * start programs to service requests when a request arrives on an
-     * associated network port. In this example, the process that is started,
-     * inherits a channel representing a network socket.
+     * <p> On mbny operbting systems b process, such bs b Jbvb virtubl
+     * mbchine, cbn be stbrted in b mbnner thbt bllows the process to
+     * inherit b chbnnel from the entity thbt crebted the process. The
+     * mbnner in which this is done is system dependent, bs bre the
+     * possible entities to which the chbnnel mby be connected. For exbmple,
+     * on UNIX systems, the Internet services dbemon (<i>inetd</i>) is used to
+     * stbrt progrbms to service requests when b request brrives on bn
+     * bssocibted network port. In this exbmple, the process thbt is stbrted,
+     * inherits b chbnnel representing b network socket.
      *
-     * <p> In cases where the inherited channel represents a network socket
-     * then the {@link java.nio.channels.Channel Channel} type returned
-     * by this method is determined as follows:
+     * <p> In cbses where the inherited chbnnel represents b network socket
+     * then the {@link jbvb.nio.chbnnels.Chbnnel Chbnnel} type returned
+     * by this method is determined bs follows:
      *
      * <ul>
      *
-     *  <li><p> If the inherited channel represents a stream-oriented connected
-     *  socket then a {@link java.nio.channels.SocketChannel SocketChannel} is
-     *  returned. The socket channel is, at least initially, in blocking
-     *  mode, bound to a socket address, and connected to a peer.
+     *  <li><p> If the inherited chbnnel represents b strebm-oriented connected
+     *  socket then b {@link jbvb.nio.chbnnels.SocketChbnnel SocketChbnnel} is
+     *  returned. The socket chbnnel is, bt lebst initiblly, in blocking
+     *  mode, bound to b socket bddress, bnd connected to b peer.
      *  </p></li>
      *
-     *  <li><p> If the inherited channel represents a stream-oriented listening
-     *  socket then a {@link java.nio.channels.ServerSocketChannel
-     *  ServerSocketChannel} is returned. The server-socket channel is, at
-     *  least initially, in blocking mode, and bound to a socket address.
+     *  <li><p> If the inherited chbnnel represents b strebm-oriented listening
+     *  socket then b {@link jbvb.nio.chbnnels.ServerSocketChbnnel
+     *  ServerSocketChbnnel} is returned. The server-socket chbnnel is, bt
+     *  lebst initiblly, in blocking mode, bnd bound to b socket bddress.
      *  </p></li>
      *
-     *  <li><p> If the inherited channel is a datagram-oriented socket
-     *  then a {@link java.nio.channels.DatagramChannel DatagramChannel} is
-     *  returned. The datagram channel is, at least initially, in blocking
-     *  mode, and bound to a socket address.
+     *  <li><p> If the inherited chbnnel is b dbtbgrbm-oriented socket
+     *  then b {@link jbvb.nio.chbnnels.DbtbgrbmChbnnel DbtbgrbmChbnnel} is
+     *  returned. The dbtbgrbm chbnnel is, bt lebst initiblly, in blocking
+     *  mode, bnd bound to b socket bddress.
      *  </p></li>
      *
      * </ul>
      *
-     * <p> In addition to the network-oriented channels described, this method
-     * may return other kinds of channels in the future.
+     * <p> In bddition to the network-oriented chbnnels described, this method
+     * mby return other kinds of chbnnels in the future.
      *
-     * <p> The first invocation of this method creates the channel that is
-     * returned. Subsequent invocations of this method return the same
-     * channel. </p>
+     * <p> The first invocbtion of this method crebtes the chbnnel thbt is
+     * returned. Subsequent invocbtions of this method return the sbme
+     * chbnnel. </p>
      *
-     * @return  The inherited channel, if any, otherwise <tt>null</tt>.
+     * @return  The inherited chbnnel, if bny, otherwise <tt>null</tt>.
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link RuntimePermission}<tt>("inheritedChannel")</tt>
+     *          If b security mbnbger hbs been instblled bnd it denies
+     *          {@link RuntimePermission}<tt>("inheritedChbnnel")</tt>
      *
      * @since 1.5
      */
-   public Channel inheritedChannel() throws IOException {
+   public Chbnnel inheritedChbnnel() throws IOException {
         return null;
    }
 

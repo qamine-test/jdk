@@ -1,362 +1,362 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.smartcardio;
+pbckbge jbvbx.smbrtcbrdio;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
+import jbvb.security.*;
 
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.*;
+import sun.security.jcb.*;
+import sun.security.jcb.GetInstbnce.*;
 
 /**
- * A factory for CardTerminal objects.
+ * A fbctory for CbrdTerminbl objects.
  *
- * It allows an application to
+ * It bllows bn bpplicbtion to
  * <ul>
- * <li>obtain a TerminalFactory by calling
- * one of the static factory methods in this class
- * ({@linkplain #getDefault} or {@linkplain #getInstance getInstance()}).
- * <li>use this TerminalFactory object to access the CardTerminals by
- * calling the {@linkplain #terminals} method.
+ * <li>obtbin b TerminblFbctory by cblling
+ * one of the stbtic fbctory methods in this clbss
+ * ({@linkplbin #getDefbult} or {@linkplbin #getInstbnce getInstbnce()}).
+ * <li>use this TerminblFbctory object to bccess the CbrdTerminbls by
+ * cblling the {@linkplbin #terminbls} method.
  * </ul>
  *
- * <p>Each TerminalFactory has a <code>type</code> indicating how it
- * was implemented. It must be specified when the implementation is obtained
- * using a {@linkplain #getInstance getInstance()} method and can be retrieved
- * via the {@linkplain #getType} method.
+ * <p>Ebch TerminblFbctory hbs b <code>type</code> indicbting how it
+ * wbs implemented. It must be specified when the implementbtion is obtbined
+ * using b {@linkplbin #getInstbnce getInstbnce()} method bnd cbn be retrieved
+ * vib the {@linkplbin #getType} method.
  *
- * <P>The following standard type names have been defined:
+ * <P>The following stbndbrd type nbmes hbve been defined:
  * <dl>
  * <dt><code>PC/SC</code>
- * <dd>an implementation that calls into the PC/SC Smart Card stack
- * of the host platform.
- * Implementations do not require parameters and accept "null" as argument
- * in the getInstance() calls.
+ * <dd>bn implementbtion thbt cblls into the PC/SC Smbrt Cbrd stbck
+ * of the host plbtform.
+ * Implementbtions do not require pbrbmeters bnd bccept "null" bs brgument
+ * in the getInstbnce() cblls.
  * <dt><code>None</code>
- * <dd>an implementation that does not supply any CardTerminals. On platforms
- * that do not support other implementations,
- * {@linkplain #getDefaultType} returns <code>None</code> and
- * {@linkplain #getDefault} returns an instance of a <code>None</code>
- * TerminalFactory. Factories of this type cannot be obtained by calling the
- * <code>getInstance()</code> methods.
+ * <dd>bn implementbtion thbt does not supply bny CbrdTerminbls. On plbtforms
+ * thbt do not support other implementbtions,
+ * {@linkplbin #getDefbultType} returns <code>None</code> bnd
+ * {@linkplbin #getDefbult} returns bn instbnce of b <code>None</code>
+ * TerminblFbctory. Fbctories of this type cbnnot be obtbined by cblling the
+ * <code>getInstbnce()</code> methods.
  * </dl>
- * Additional standard types may be defined in the future.
+ * Additionbl stbndbrd types mby be defined in the future.
  *
  * <p><strong>Note:</strong>
- * Provider implementations that accept initialization parameters via the
- * <code>getInstance()</code> methods are strongly
- * encouraged to use a {@linkplain java.util.Properties} object as the
- * representation for String name-value pair based parameters whenever
- * possible. This allows applications to more easily interoperate with
- * multiple providers than if each provider used different provider
- * specific class as parameters.
+ * Provider implementbtions thbt bccept initiblizbtion pbrbmeters vib the
+ * <code>getInstbnce()</code> methods bre strongly
+ * encourbged to use b {@linkplbin jbvb.util.Properties} object bs the
+ * representbtion for String nbme-vblue pbir bbsed pbrbmeters whenever
+ * possible. This bllows bpplicbtions to more ebsily interoperbte with
+ * multiple providers thbn if ebch provider used different provider
+ * specific clbss bs pbrbmeters.
  *
- * <P>TerminalFactory utilizes an extensible service provider framework.
- * Service providers that wish to add a new implementation should see the
- * {@linkplain TerminalFactorySpi} class for more information.
+ * <P>TerminblFbctory utilizes bn extensible service provider frbmework.
+ * Service providers thbt wish to bdd b new implementbtion should see the
+ * {@linkplbin TerminblFbctorySpi} clbss for more informbtion.
  *
- * @see CardTerminals
+ * @see CbrdTerminbls
  * @see Provider
  *
  * @since   1.6
- * @author  Andreas Sterbenz
- * @author  JSR 268 Expert Group
+ * @buthor  Andrebs Sterbenz
+ * @buthor  JSR 268 Expert Group
  */
-public final class TerminalFactory {
+public finbl clbss TerminblFbctory {
 
-    private final static String PROP_NAME =
-                        "javax.smartcardio.TerminalFactory.DefaultType";
+    privbte finbl stbtic String PROP_NAME =
+                        "jbvbx.smbrtcbrdio.TerminblFbctory.DefbultType";
 
-    private final static String defaultType;
+    privbte finbl stbtic String defbultType;
 
-    private final static TerminalFactory defaultFactory;
+    privbte finbl stbtic TerminblFbctory defbultFbctory;
 
-    static {
-        // lookup up the user specified type, default to PC/SC
+    stbtic {
+        // lookup up the user specified type, defbult to PC/SC
         String type = AccessController.doPrivileged(
              (PrivilegedAction<String>) () -> System.getProperty(PROP_NAME, "PC/SC")).trim();
-        TerminalFactory factory = null;
+        TerminblFbctory fbctory = null;
         try {
-            factory = TerminalFactory.getInstance(type, null);
-        } catch (Exception e) {
+            fbctory = TerminblFbctory.getInstbnce(type, null);
+        } cbtch (Exception e) {
             // ignore
         }
-        if (factory == null) {
-            // if that did not work, try the Sun PC/SC factory
+        if (fbctory == null) {
+            // if thbt did not work, try the Sun PC/SC fbctory
             try {
                 type = "PC/SC";
                 Provider sun = Security.getProvider("SunPCSC");
                 if (sun == null) {
-                    Class<?> clazz = Class.forName("sun.security.smartcardio.SunPCSC");
-                    sun = (Provider)clazz.newInstance();
+                    Clbss<?> clbzz = Clbss.forNbme("sun.security.smbrtcbrdio.SunPCSC");
+                    sun = (Provider)clbzz.newInstbnce();
                 }
-                factory = TerminalFactory.getInstance(type, null, sun);
-            } catch (Exception e) {
+                fbctory = TerminblFbctory.getInstbnce(type, null, sun);
+            } cbtch (Exception e) {
                 // ignore
             }
         }
-        if (factory == null) {
+        if (fbctory == null) {
             type = "None";
-            factory = new TerminalFactory
-                        (NoneFactorySpi.INSTANCE, NoneProvider.INSTANCE, "None");
+            fbctory = new TerminblFbctory
+                        (NoneFbctorySpi.INSTANCE, NoneProvider.INSTANCE, "None");
         }
-        defaultType = type;
-        defaultFactory = factory;
+        defbultType = type;
+        defbultFbctory = fbctory;
     }
 
-    private static final class NoneProvider extends Provider {
+    privbte stbtic finbl clbss NoneProvider extends Provider {
 
-        private static final long serialVersionUID = 2745808869881593918L;
-        final static Provider INSTANCE = new NoneProvider();
-        private NoneProvider() {
+        privbte stbtic finbl long seriblVersionUID = 2745808869881593918L;
+        finbl stbtic Provider INSTANCE = new NoneProvider();
+        privbte NoneProvider() {
             super("None", 1.0d, "none");
         }
     }
 
-    private static final class NoneFactorySpi extends TerminalFactorySpi {
-        final static TerminalFactorySpi INSTANCE = new NoneFactorySpi();
-        private NoneFactorySpi() {
+    privbte stbtic finbl clbss NoneFbctorySpi extends TerminblFbctorySpi {
+        finbl stbtic TerminblFbctorySpi INSTANCE = new NoneFbctorySpi();
+        privbte NoneFbctorySpi() {
             // empty
         }
-        protected CardTerminals engineTerminals() {
-            return NoneCardTerminals.INSTANCE;
+        protected CbrdTerminbls engineTerminbls() {
+            return NoneCbrdTerminbls.INSTANCE;
         }
     }
 
-    private static final class NoneCardTerminals extends CardTerminals {
-        final static CardTerminals INSTANCE = new NoneCardTerminals();
-        private NoneCardTerminals() {
+    privbte stbtic finbl clbss NoneCbrdTerminbls extends CbrdTerminbls {
+        finbl stbtic CbrdTerminbls INSTANCE = new NoneCbrdTerminbls();
+        privbte NoneCbrdTerminbls() {
             // empty
         }
-        public List<CardTerminal> list(State state) throws CardException {
-            if (state == null) {
+        public List<CbrdTerminbl> list(Stbte stbte) throws CbrdException {
+            if (stbte == null) {
                 throw new NullPointerException();
             }
             return Collections.emptyList();
         }
-        public boolean waitForChange(long timeout) throws CardException {
-            throw new IllegalStateException("no terminals");
+        public boolebn wbitForChbnge(long timeout) throws CbrdException {
+            throw new IllegblStbteException("no terminbls");
         }
     }
 
-    private final TerminalFactorySpi spi;
+    privbte finbl TerminblFbctorySpi spi;
 
-    private final Provider provider;
+    privbte finbl Provider provider;
 
-    private final String type;
+    privbte finbl String type;
 
-    private TerminalFactory(TerminalFactorySpi spi, Provider provider, String type) {
+    privbte TerminblFbctory(TerminblFbctorySpi spi, Provider provider, String type) {
         this.spi = spi;
         this.provider = provider;
         this.type = type;
     }
 
     /**
-     * Get the default TerminalFactory type.
+     * Get the defbult TerminblFbctory type.
      *
-     * <p>It is determined as follows:
+     * <p>It is determined bs follows:
      *
-     * when this class is initialized, the system property
-     * <code>javax.smartcardio.TerminalFactory.DefaultType</code>
-     * is examined. If it is set, a TerminalFactory of this type is
-     * instantiated by calling the {@linkplain #getInstance
-     * getInstance(String,Object)} method passing
-     * <code>null</code> as the value for <code>params</code>. If the call
-     * succeeds, the type becomes the default type and the factory becomes
-     * the {@linkplain #getDefault default} factory.
+     * when this clbss is initiblized, the system property
+     * <code>jbvbx.smbrtcbrdio.TerminblFbctory.DefbultType</code>
+     * is exbmined. If it is set, b TerminblFbctory of this type is
+     * instbntibted by cblling the {@linkplbin #getInstbnce
+     * getInstbnce(String,Object)} method pbssing
+     * <code>null</code> bs the vblue for <code>pbrbms</code>. If the cbll
+     * succeeds, the type becomes the defbult type bnd the fbctory becomes
+     * the {@linkplbin #getDefbult defbult} fbctory.
      *
-     * <p>If the system property is not set or the getInstance() call fails
-     * for any reason, the system defaults to an implementation specific
-     * default type and TerminalFactory.
+     * <p>If the system property is not set or the getInstbnce() cbll fbils
+     * for bny rebson, the system defbults to bn implementbtion specific
+     * defbult type bnd TerminblFbctory.
      *
-     * @return the default TerminalFactory type
+     * @return the defbult TerminblFbctory type
      */
-    public static String getDefaultType() {
-        return defaultType;
+    public stbtic String getDefbultType() {
+        return defbultType;
     }
 
     /**
-     * Returns the default TerminalFactory instance. See
-     * {@linkplain #getDefaultType} for more information.
+     * Returns the defbult TerminblFbctory instbnce. See
+     * {@linkplbin #getDefbultType} for more informbtion.
      *
-     * <p>A default TerminalFactory is always available. However, depending
-     * on the implementation, it may not offer any terminals.
+     * <p>A defbult TerminblFbctory is blwbys bvbilbble. However, depending
+     * on the implementbtion, it mby not offer bny terminbls.
      *
-     * @return the default TerminalFactory
+     * @return the defbult TerminblFbctory
      */
-    public static TerminalFactory getDefault() {
-        return defaultFactory;
+    public stbtic TerminblFbctory getDefbult() {
+        return defbultFbctory;
     }
 
     /**
-     * Returns a TerminalFactory of the specified type that is initialized
-     * with the specified parameters.
+     * Returns b TerminblFbctory of the specified type thbt is initiblized
+     * with the specified pbrbmeters.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new TerminalFactory object encapsulating the
-     * TerminalFactorySpi implementation from the first
-     * Provider that supports the specified type is returned.
+     * <p> This method trbverses the list of registered security Providers,
+     * stbrting with the most preferred Provider.
+     * A new TerminblFbctory object encbpsulbting the
+     * TerminblFbctorySpi implementbtion from the first
+     * Provider thbt supports the specified type is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@linkplain Security#getProviders() Security.getProviders()} method.
+     * <p> Note thbt the list of registered providers mby be retrieved vib
+     * the {@linkplbin Security#getProviders() Security.getProviders()} method.
      *
-     * <p>The <code>TerminalFactory</code> is initialized with the
-     * specified parameters Object. The type of parameters
-     * needed may vary between different types of <code>TerminalFactory</code>s.
+     * <p>The <code>TerminblFbctory</code> is initiblized with the
+     * specified pbrbmeters Object. The type of pbrbmeters
+     * needed mby vbry between different types of <code>TerminblFbctory</code>s.
      *
-     * @param type the type of the requested TerminalFactory
-     * @param params the parameters to pass to the TerminalFactorySpi
-     *   implementation, or null if no parameters are needed
-     * @return a TerminalFactory of the specified type
+     * @pbrbm type the type of the requested TerminblFbctory
+     * @pbrbm pbrbms the pbrbmeters to pbss to the TerminblFbctorySpi
+     *   implementbtion, or null if no pbrbmeters bre needed
+     * @return b TerminblFbctory of the specified type
      *
      * @throws NullPointerException if type is null
-     * @throws NoSuchAlgorithmException if no Provider supports a
-     *   TerminalFactorySpi of the specified type
+     * @throws NoSuchAlgorithmException if no Provider supports b
+     *   TerminblFbctorySpi of the specified type
      */
-    public static TerminalFactory getInstance(String type, Object params)
+    public stbtic TerminblFbctory getInstbnce(String type, Object pbrbms)
             throws NoSuchAlgorithmException {
-        Instance instance = GetInstance.getInstance("TerminalFactory",
-            TerminalFactorySpi.class, type, params);
-        return new TerminalFactory((TerminalFactorySpi)instance.impl,
-            instance.provider, type);
+        Instbnce instbnce = GetInstbnce.getInstbnce("TerminblFbctory",
+            TerminblFbctorySpi.clbss, type, pbrbms);
+        return new TerminblFbctory((TerminblFbctorySpi)instbnce.impl,
+            instbnce.provider, type);
     }
 
     /**
-     * Returns a TerminalFactory of the specified type that is initialized
-     * with the specified parameters.
+     * Returns b TerminblFbctory of the specified type thbt is initiblized
+     * with the specified pbrbmeters.
      *
-     * <p> A new TerminalFactory object encapsulating the
-     * TerminalFactorySpi implementation from the specified provider
+     * <p> A new TerminblFbctory object encbpsulbting the
+     * TerminblFbctorySpi implementbtion from the specified provider
      * is returned.  The specified provider must be registered
      * in the security provider list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@linkplain Security#getProviders() Security.getProviders()} method.
+     * <p> Note thbt the list of registered providers mby be retrieved vib
+     * the {@linkplbin Security#getProviders() Security.getProviders()} method.
      *
-     * <p>The <code>TerminalFactory</code> is initialized with the
-     * specified parameters Object. The type of parameters
-     * needed may vary between different types of <code>TerminalFactory</code>s.
+     * <p>The <code>TerminblFbctory</code> is initiblized with the
+     * specified pbrbmeters Object. The type of pbrbmeters
+     * needed mby vbry between different types of <code>TerminblFbctory</code>s.
      *
-     * @param type the type of the requested TerminalFactory
-     * @param params the parameters to pass to the TerminalFactorySpi
-     *   implementation, or null if no parameters are needed
-     * @param provider the name of the provider
-     * @return a TerminalFactory of the specified type
+     * @pbrbm type the type of the requested TerminblFbctory
+     * @pbrbm pbrbms the pbrbmeters to pbss to the TerminblFbctorySpi
+     *   implementbtion, or null if no pbrbmeters bre needed
+     * @pbrbm provider the nbme of the provider
+     * @return b TerminblFbctory of the specified type
      *
      * @throws NullPointerException if type is null
-     * @throws IllegalArgumentException if provider is null or the empty String
-     * @throws NoSuchAlgorithmException if a TerminalFactorySpi implementation
-     *   of the specified type is not available from the specified provider
-     * @throws NoSuchAlgorithmException if no TerminalFactory of the
+     * @throws IllegblArgumentException if provider is null or the empty String
+     * @throws NoSuchAlgorithmException if b TerminblFbctorySpi implementbtion
+     *   of the specified type is not bvbilbble from the specified provider
+     * @throws NoSuchAlgorithmException if no TerminblFbctory of the
      *   specified type could be found
      * @throws NoSuchProviderException if the specified provider could not
      *   be found
      */
-    public static TerminalFactory getInstance(String type, Object params,
+    public stbtic TerminblFbctory getInstbnce(String type, Object pbrbms,
             String provider) throws NoSuchAlgorithmException, NoSuchProviderException {
-        Instance instance = GetInstance.getInstance("TerminalFactory",
-            TerminalFactorySpi.class, type, params, provider);
-        return new TerminalFactory((TerminalFactorySpi)instance.impl,
-            instance.provider, type);
+        Instbnce instbnce = GetInstbnce.getInstbnce("TerminblFbctory",
+            TerminblFbctorySpi.clbss, type, pbrbms, provider);
+        return new TerminblFbctory((TerminblFbctorySpi)instbnce.impl,
+            instbnce.provider, type);
     }
 
     /**
-     * Returns a TerminalFactory of the specified type that is initialized
-     * with the specified parameters.
+     * Returns b TerminblFbctory of the specified type thbt is initiblized
+     * with the specified pbrbmeters.
      *
-     * <p> A new TerminalFactory object encapsulating the
-     * TerminalFactorySpi implementation from the specified provider object
-     * is returned. Note that the specified provider object does not have to be
+     * <p> A new TerminblFbctory object encbpsulbting the
+     * TerminblFbctorySpi implementbtion from the specified provider object
+     * is returned. Note thbt the specified provider object does not hbve to be
      * registered in the provider list.
      *
-     * <p>The <code>TerminalFactory</code> is initialized with the
-     * specified parameters Object. The type of parameters
-     * needed may vary between different types of <code>TerminalFactory</code>s.
+     * <p>The <code>TerminblFbctory</code> is initiblized with the
+     * specified pbrbmeters Object. The type of pbrbmeters
+     * needed mby vbry between different types of <code>TerminblFbctory</code>s.
      *
-     * @param type the type of the requested TerminalFactory
-     * @param params the parameters to pass to the TerminalFactorySpi
-     *   implementation, or null if no parameters are needed
-     * @param provider the provider
-     * @return a TerminalFactory of the specified type
+     * @pbrbm type the type of the requested TerminblFbctory
+     * @pbrbm pbrbms the pbrbmeters to pbss to the TerminblFbctorySpi
+     *   implementbtion, or null if no pbrbmeters bre needed
+     * @pbrbm provider the provider
+     * @return b TerminblFbctory of the specified type
      *
      * @throws NullPointerException if type is null
-     * @throws IllegalArgumentException if provider is null
-     * @throws NoSuchAlgorithmException if a TerminalFactorySpi implementation
-     *   of the specified type is not available from the specified Provider
+     * @throws IllegblArgumentException if provider is null
+     * @throws NoSuchAlgorithmException if b TerminblFbctorySpi implementbtion
+     *   of the specified type is not bvbilbble from the specified Provider
      */
-    public static TerminalFactory getInstance(String type, Object params,
+    public stbtic TerminblFbctory getInstbnce(String type, Object pbrbms,
             Provider provider) throws NoSuchAlgorithmException {
-        Instance instance = GetInstance.getInstance("TerminalFactory",
-            TerminalFactorySpi.class, type, params, provider);
-        return new TerminalFactory((TerminalFactorySpi)instance.impl,
-            instance.provider, type);
+        Instbnce instbnce = GetInstbnce.getInstbnce("TerminblFbctory",
+            TerminblFbctorySpi.clbss, type, pbrbms, provider);
+        return new TerminblFbctory((TerminblFbctorySpi)instbnce.impl,
+            instbnce.provider, type);
     }
 
     /**
-     * Returns the provider of this TerminalFactory.
+     * Returns the provider of this TerminblFbctory.
      *
-     * @return the provider of this TerminalFactory.
+     * @return the provider of this TerminblFbctory.
      */
     public Provider getProvider() {
         return provider;
     }
 
     /**
-     * Returns the type of this TerminalFactory. This is the value that was
-     * specified in the getInstance() method that returned this object.
+     * Returns the type of this TerminblFbctory. This is the vblue thbt wbs
+     * specified in the getInstbnce() method thbt returned this object.
      *
-     * @return the type of this TerminalFactory
+     * @return the type of this TerminblFbctory
      */
     public String getType() {
         return type;
     }
 
     /**
-     * Returns a new CardTerminals object encapsulating the terminals
-     * supported by this factory.
-     * See the class comment of the {@linkplain CardTerminals} class
-     * regarding how the returned objects can be shared and reused.
+     * Returns b new CbrdTerminbls object encbpsulbting the terminbls
+     * supported by this fbctory.
+     * See the clbss comment of the {@linkplbin CbrdTerminbls} clbss
+     * regbrding how the returned objects cbn be shbred bnd reused.
      *
-     * @return a new CardTerminals object encapsulating the terminals
-     * supported by this factory.
+     * @return b new CbrdTerminbls object encbpsulbting the terminbls
+     * supported by this fbctory.
      */
-    public CardTerminals terminals() {
-        return spi.engineTerminals();
+    public CbrdTerminbls terminbls() {
+        return spi.engineTerminbls();
     }
 
     /**
-     * Returns a string representation of this TerminalFactory.
+     * Returns b string representbtion of this TerminblFbctory.
      *
-     * @return a string representation of this TerminalFactory.
+     * @return b string representbtion of this TerminblFbctory.
      */
     public String toString() {
-        return "TerminalFactory for type " + type + " from provider "
-            + provider.getName();
+        return "TerminblFbctory for type " + type + " from provider "
+            + provider.getNbme();
     }
 
 }

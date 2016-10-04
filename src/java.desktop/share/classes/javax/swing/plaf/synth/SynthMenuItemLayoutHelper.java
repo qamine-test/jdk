@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
 import sun.swing.StringUIClientPropertyKey;
-import sun.swing.MenuItemLayoutHelper;
-import sun.swing.plaf.synth.SynthIcon;
+import sun.swing.MenuItemLbyoutHelper;
+import sun.swing.plbf.synth.SynthIcon;
 
-import javax.swing.*;
-import javax.swing.text.View;
-import java.awt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.text.View;
+import jbvb.bwt.*;
 
 /**
- * Calculates preferred size and layouts synth menu items.
+ * Cblculbtes preferred size bnd lbyouts synth menu items.
  *
- * All JMenuItems (and JMenus) include enough space for the insets
- * plus one or more elements.  When we say "label" below, we mean
- * "icon and/or text."
+ * All JMenuItems (bnd JMenus) include enough spbce for the insets
+ * plus one or more elements.  When we sby "lbbel" below, we mebn
+ * "icon bnd/or text."
  *
- * Cases to consider for SynthMenuItemUI (visualized here in a
- * LTR orientation; the RTL case would be reversed):
- *                   label
- *      check icon + label
- *      check icon + label + accelerator
- *                   label + accelerator
+ * Cbses to consider for SynthMenuItemUI (visublized here in b
+ * LTR orientbtion; the RTL cbse would be reversed):
+ *                   lbbel
+ *      check icon + lbbel
+ *      check icon + lbbel + bccelerbtor
+ *                   lbbel + bccelerbtor
  *
- * Cases to consider for SynthMenuUI (again visualized here in a
- * LTR orientation):
- *                   label + arrow
+ * Cbses to consider for SynthMenuUI (bgbin visublized here in b
+ * LTR orientbtion):
+ *                   lbbel + brrow
  *
- * Note that in the above scenarios, accelerator and arrow icon are
- * mutually exclusive.  This means that if a popup menu contains a mix
- * of JMenus and JMenuItems, we only need to allow enough space for
- * max(maxAccelerator, maxArrow), and both accelerators and arrow icons
- * can occupy the same "column" of space in the menu.
+ * Note thbt in the bbove scenbrios, bccelerbtor bnd brrow icon bre
+ * mutublly exclusive.  This mebns thbt if b popup menu contbins b mix
+ * of JMenus bnd JMenuItems, we only need to bllow enough spbce for
+ * mbx(mbxAccelerbtor, mbxArrow), bnd both bccelerbtors bnd brrow icons
+ * cbn occupy the sbme "column" of spbce in the menu.
  */
-class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
+clbss SynthMenuItemLbyoutHelper extends MenuItemLbyoutHelper {
 
-    public static final StringUIClientPropertyKey MAX_ACC_OR_ARROW_WIDTH =
-            new StringUIClientPropertyKey("maxAccOrArrowWidth");
+    public stbtic finbl StringUIClientPropertyKey MAX_ACC_OR_ARROW_WIDTH =
+            new StringUIClientPropertyKey("mbxAccOrArrowWidth");
 
-    public static final ColumnAlignment LTR_ALIGNMENT_1 =
+    public stbtic finbl ColumnAlignment LTR_ALIGNMENT_1 =
             new ColumnAlignment(
-                    SwingConstants.LEFT,
-                    SwingConstants.LEFT,
-                    SwingConstants.LEFT,
-                    SwingConstants.RIGHT,
-                    SwingConstants.RIGHT
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.RIGHT
             );
-    public static final ColumnAlignment LTR_ALIGNMENT_2 =
+    public stbtic finbl ColumnAlignment LTR_ALIGNMENT_2 =
             new ColumnAlignment(
-                    SwingConstants.LEFT,
-                    SwingConstants.LEFT,
-                    SwingConstants.LEFT,
-                    SwingConstants.LEFT,
-                    SwingConstants.RIGHT
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.RIGHT
             );
-    public static final ColumnAlignment RTL_ALIGNMENT_1 =
+    public stbtic finbl ColumnAlignment RTL_ALIGNMENT_1 =
             new ColumnAlignment(
-                    SwingConstants.RIGHT,
-                    SwingConstants.RIGHT,
-                    SwingConstants.RIGHT,
-                    SwingConstants.LEFT,
-                    SwingConstants.LEFT
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.LEFT
             );
-    public static final ColumnAlignment RTL_ALIGNMENT_2 =
+    public stbtic finbl ColumnAlignment RTL_ALIGNMENT_2 =
             new ColumnAlignment(
-                    SwingConstants.RIGHT,
-                    SwingConstants.RIGHT,
-                    SwingConstants.RIGHT,
-                    SwingConstants.RIGHT,
-                    SwingConstants.LEFT
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.LEFT
             );
 
-    private SynthContext context;
-    private SynthContext accContext;
-    private SynthStyle style;
-    private SynthStyle accStyle;
-    private SynthGraphicsUtils gu;
-    private SynthGraphicsUtils accGu;
-    private boolean alignAcceleratorText;
-    private int maxAccOrArrowWidth;
+    privbte SynthContext context;
+    privbte SynthContext bccContext;
+    privbte SynthStyle style;
+    privbte SynthStyle bccStyle;
+    privbte SynthGrbphicsUtils gu;
+    privbte SynthGrbphicsUtils bccGu;
+    privbte boolebn blignAccelerbtorText;
+    privbte int mbxAccOrArrowWidth;
 
-    public SynthMenuItemLayoutHelper(SynthContext context, SynthContext accContext,
-                                     JMenuItem mi, Icon checkIcon, Icon arrowIcon,
-                                     Rectangle viewRect, int gap, String accDelimiter,
-                                     boolean isLeftToRight, boolean useCheckAndArrow,
+    public SynthMenuItemLbyoutHelper(SynthContext context, SynthContext bccContext,
+                                     JMenuItem mi, Icon checkIcon, Icon brrowIcon,
+                                     Rectbngle viewRect, int gbp, String bccDelimiter,
+                                     boolebn isLeftToRight, boolebn useCheckAndArrow,
                                      String propertyPrefix) {
         this.context = context;
-        this.accContext = accContext;
+        this.bccContext = bccContext;
         this.style = context.getStyle();
-        this.accStyle = accContext.getStyle();
-        this.gu = style.getGraphicsUtils(context);
-        this.accGu = accStyle.getGraphicsUtils(accContext);
-        this.alignAcceleratorText = getAlignAcceleratorText(propertyPrefix);
-        reset(mi, checkIcon, arrowIcon, viewRect, gap, accDelimiter,
-              isLeftToRight, style.getFont(context), accStyle.getFont(accContext),
+        this.bccStyle = bccContext.getStyle();
+        this.gu = style.getGrbphicsUtils(context);
+        this.bccGu = bccStyle.getGrbphicsUtils(bccContext);
+        this.blignAccelerbtorText = getAlignAccelerbtorText(propertyPrefix);
+        reset(mi, checkIcon, brrowIcon, viewRect, gbp, bccDelimiter,
+              isLeftToRight, style.getFont(context), bccStyle.getFont(bccContext),
               useCheckAndArrow, propertyPrefix);
-        setLeadingGap(0);
+        setLebdingGbp(0);
     }
 
-    private boolean getAlignAcceleratorText(String propertyPrefix) {
-        return style.getBoolean(context,
-                propertyPrefix + ".alignAcceleratorText", true);
+    privbte boolebn getAlignAccelerbtorText(String propertyPrefix) {
+        return style.getBoolebn(context,
+                propertyPrefix + ".blignAccelerbtorText", true);
     }
 
-    protected void calcWidthsAndHeights() {
+    protected void cblcWidthsAndHeights() {
         // iconRect
         if (getIcon() != null) {
             getIconSize().setWidth(SynthIcon.getIconWidth(getIcon(), context));
             getIconSize().setHeight(SynthIcon.getIconHeight(getIcon(), context));
         }
 
-        // accRect
-        if (!getAccText().equals("")) {
-             getAccSize().setWidth(accGu.computeStringWidth(getAccContext(),
+        // bccRect
+        if (!getAccText().equbls("")) {
+             getAccSize().setWidth(bccGu.computeStringWidth(getAccContext(),
                     getAccFontMetrics().getFont(), getAccFontMetrics(),
                     getAccText()));
             getAccSize().setHeight(getAccFontMetrics().getHeight());
@@ -145,13 +145,13 @@ class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
         // textRect
         if (getText() == null) {
             setText("");
-        } else if (!getText().equals("")) {
+        } else if (!getText().equbls("")) {
             if (getHtmlView() != null) {
                 // Text is HTML
                 getTextSize().setWidth(
-                        (int) getHtmlView().getPreferredSpan(View.X_AXIS));
+                        (int) getHtmlView().getPreferredSpbn(View.X_AXIS));
                 getTextSize().setHeight(
-                        (int) getHtmlView().getPreferredSpan(View.Y_AXIS));
+                        (int) getHtmlView().getPreferredSpbn(View.Y_AXIS));
             } else {
                 // Text isn't HTML
                 getTextSize().setWidth(gu.computeStringWidth(context,
@@ -169,7 +169,7 @@ class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
                 getCheckSize().setHeight(
                         SynthIcon.getIconHeight(getCheckIcon(), context));
             }
-            // arrowRect
+            // brrowRect
             if (getArrowIcon() != null) {
                 getArrowSize().setWidth(
                         SynthIcon.getIconWidth(getArrowIcon(), context));
@@ -178,64 +178,64 @@ class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
             }
         }
 
-        // labelRect
-        if (isColumnLayout()) {
-            getLabelSize().setWidth(getIconSize().getWidth()
-                    + getTextSize().getWidth() + getGap());
-            getLabelSize().setHeight(MenuItemLayoutHelper.max(
+        // lbbelRect
+        if (isColumnLbyout()) {
+            getLbbelSize().setWidth(getIconSize().getWidth()
+                    + getTextSize().getWidth() + getGbp());
+            getLbbelSize().setHeight(MenuItemLbyoutHelper.mbx(
                     getCheckSize().getHeight(),
                     getIconSize().getHeight(),
                     getTextSize().getHeight(),
                     getAccSize().getHeight(),
                     getArrowSize().getHeight()));
         } else {
-            Rectangle textRect = new Rectangle();
-            Rectangle iconRect = new Rectangle();
-            gu.layoutText(context, getFontMetrics(), getText(), getIcon(),
-                    getHorizontalAlignment(), getVerticalAlignment(),
-                    getHorizontalTextPosition(), getVerticalTextPosition(),
-                    getViewRect(), iconRect, textRect, getGap());
-            textRect.width += getLeftTextExtraWidth();
-            Rectangle labelRect = iconRect.union(textRect);
-            getLabelSize().setHeight(labelRect.height);
-            getLabelSize().setWidth(labelRect.width);
+            Rectbngle textRect = new Rectbngle();
+            Rectbngle iconRect = new Rectbngle();
+            gu.lbyoutText(context, getFontMetrics(), getText(), getIcon(),
+                    getHorizontblAlignment(), getVerticblAlignment(),
+                    getHorizontblTextPosition(), getVerticblTextPosition(),
+                    getViewRect(), iconRect, textRect, getGbp());
+            textRect.width += getLeftTextExtrbWidth();
+            Rectbngle lbbelRect = iconRect.union(textRect);
+            getLbbelSize().setHeight(lbbelRect.height);
+            getLbbelSize().setWidth(lbbelRect.width);
         }
     }
 
-    protected void calcMaxWidths() {
-        calcMaxWidth(getCheckSize(), MAX_CHECK_WIDTH);
-        maxAccOrArrowWidth =
-                calcMaxValue(MAX_ACC_OR_ARROW_WIDTH, getArrowSize().getWidth());
-        maxAccOrArrowWidth =
-                calcMaxValue(MAX_ACC_OR_ARROW_WIDTH, getAccSize().getWidth());
+    protected void cblcMbxWidths() {
+        cblcMbxWidth(getCheckSize(), MAX_CHECK_WIDTH);
+        mbxAccOrArrowWidth =
+                cblcMbxVblue(MAX_ACC_OR_ARROW_WIDTH, getArrowSize().getWidth());
+        mbxAccOrArrowWidth =
+                cblcMbxVblue(MAX_ACC_OR_ARROW_WIDTH, getAccSize().getWidth());
 
-        if (isColumnLayout()) {
-            calcMaxWidth(getIconSize(), MAX_ICON_WIDTH);
-            calcMaxWidth(getTextSize(), MAX_TEXT_WIDTH);
-            int curGap = getGap();
-            if ((getIconSize().getMaxWidth() == 0)
-                    || (getTextSize().getMaxWidth() == 0)) {
-                curGap = 0;
+        if (isColumnLbyout()) {
+            cblcMbxWidth(getIconSize(), MAX_ICON_WIDTH);
+            cblcMbxWidth(getTextSize(), MAX_TEXT_WIDTH);
+            int curGbp = getGbp();
+            if ((getIconSize().getMbxWidth() == 0)
+                    || (getTextSize().getMbxWidth() == 0)) {
+                curGbp = 0;
             }
-            getLabelSize().setMaxWidth(
-                    calcMaxValue(MAX_LABEL_WIDTH, getIconSize().getMaxWidth()
-                            + getTextSize().getMaxWidth() + curGap));
+            getLbbelSize().setMbxWidth(
+                    cblcMbxVblue(MAX_LABEL_WIDTH, getIconSize().getMbxWidth()
+                            + getTextSize().getMbxWidth() + curGbp));
         } else {
-            // We shouldn't use current icon and text widths
-            // in maximal widths calculation for complex layout.
-            getIconSize().setMaxWidth(getParentIntProperty(
+            // We shouldn't use current icon bnd text widths
+            // in mbximbl widths cblculbtion for complex lbyout.
+            getIconSize().setMbxWidth(getPbrentIntProperty(
                     MAX_ICON_WIDTH));
-            calcMaxWidth(getLabelSize(), MAX_LABEL_WIDTH);
-            // If maxLabelWidth is wider
-            // than the widest icon + the widest text + gap,
-            // we should update the maximal text witdh
-            int candidateTextWidth = getLabelSize().getMaxWidth() -
-                    getIconSize().getMaxWidth();
-            if (getIconSize().getMaxWidth() > 0) {
-                candidateTextWidth -= getGap();
+            cblcMbxWidth(getLbbelSize(), MAX_LABEL_WIDTH);
+            // If mbxLbbelWidth is wider
+            // thbn the widest icon + the widest text + gbp,
+            // we should updbte the mbximbl text witdh
+            int cbndidbteTextWidth = getLbbelSize().getMbxWidth() -
+                    getIconSize().getMbxWidth();
+            if (getIconSize().getMbxWidth() > 0) {
+                cbndidbteTextWidth -= getGbp();
             }
-            getTextSize().setMaxWidth(calcMaxValue(
-                    MAX_TEXT_WIDTH, candidateTextWidth));
+            getTextSize().setMbxWidth(cblcMbxVblue(
+                    MAX_TEXT_WIDTH, cbndidbteTextWidth));
         }
     }
 
@@ -244,7 +244,7 @@ class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
     }
 
     public SynthContext getAccContext() {
-        return accContext;
+        return bccContext;
     }
 
     public SynthStyle getStyle() {
@@ -252,37 +252,37 @@ class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
     }
 
     public SynthStyle getAccStyle() {
-        return accStyle;
+        return bccStyle;
     }
 
-    public SynthGraphicsUtils getGraphicsUtils() {
+    public SynthGrbphicsUtils getGrbphicsUtils() {
         return gu;
     }
 
-    public SynthGraphicsUtils getAccGraphicsUtils() {
-        return accGu;
+    public SynthGrbphicsUtils getAccGrbphicsUtils() {
+        return bccGu;
     }
 
-    public boolean alignAcceleratorText() {
-        return alignAcceleratorText;
+    public boolebn blignAccelerbtorText() {
+        return blignAccelerbtorText;
     }
 
-    public int getMaxAccOrArrowWidth() {
-        return maxAccOrArrowWidth;
+    public int getMbxAccOrArrowWidth() {
+        return mbxAccOrArrowWidth;
     }
 
-    protected void prepareForLayout(LayoutResult lr) {
-        lr.getCheckRect().width = getCheckSize().getMaxWidth();
-        // An item can have an arrow or a check icon at once
-        if (useCheckAndArrow() && (!"".equals(getAccText()))) {
-            lr.getAccRect().width = maxAccOrArrowWidth;
+    protected void prepbreForLbyout(LbyoutResult lr) {
+        lr.getCheckRect().width = getCheckSize().getMbxWidth();
+        // An item cbn hbve bn brrow or b check icon bt once
+        if (useCheckAndArrow() && (!"".equbls(getAccText()))) {
+            lr.getAccRect().width = mbxAccOrArrowWidth;
         } else {
-            lr.getArrowRect().width = maxAccOrArrowWidth;
+            lr.getArrowRect().width = mbxAccOrArrowWidth;
         }
     }
 
     public ColumnAlignment getLTRColumnAlignment() {
-        if (alignAcceleratorText()) {
+        if (blignAccelerbtorText()) {
             return LTR_ALIGNMENT_2;
         } else {
             return LTR_ALIGNMENT_1;
@@ -290,19 +290,19 @@ class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
     }
 
     public ColumnAlignment getRTLColumnAlignment() {
-        if (alignAcceleratorText()) {
+        if (blignAccelerbtorText()) {
             return RTL_ALIGNMENT_2;
         } else {
             return RTL_ALIGNMENT_1;
         }
     }
 
-    protected void layoutIconAndTextInLabelRect(LayoutResult lr) {
-        lr.setTextRect(new Rectangle());
-        lr.setIconRect(new Rectangle());
-        gu.layoutText(context, getFontMetrics(), getText(), getIcon(),
-                getHorizontalAlignment(), getVerticalAlignment(),
-                getHorizontalTextPosition(), getVerticalTextPosition(),
-                lr.getLabelRect(), lr.getIconRect(), lr.getTextRect(), getGap());
+    protected void lbyoutIconAndTextInLbbelRect(LbyoutResult lr) {
+        lr.setTextRect(new Rectbngle());
+        lr.setIconRect(new Rectbngle());
+        gu.lbyoutText(context, getFontMetrics(), getText(), getIcon(),
+                getHorizontblAlignment(), getVerticblAlignment(),
+                getHorizontblTextPosition(), getVerticblTextPosition(),
+                lr.getLbbelRect(), lr.getIconRect(), lr.getTextRect(), getGbp());
     }
 }

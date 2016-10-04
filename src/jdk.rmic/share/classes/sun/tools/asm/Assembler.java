@@ -1,206 +1,206 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.asm;
+pbckbge sun.tools.bsm;
 
-import sun.tools.java.*;
-import java.util.Enumeration;
-import java.io.IOException;
-import java.io.DataOutputStream;
-import java.io.PrintStream;
-import java.util.Vector;
+import sun.tools.jbvb.*;
+import jbvb.util.Enumerbtion;
+import jbvb.io.IOException;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Vector;
 // JCOV
-import sun.tools.javac.*;
-import java.io.File;
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.lang.String;
+import sun.tools.jbvbc.*;
+import jbvb.io.File;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.FileOutputStrebm;
+import jbvb.lbng.String;
 // end JCOV
 
 /**
- * This class is used to assemble the bytecode instructions for a method.
+ * This clbss is used to bssemble the bytecode instructions for b method.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author Arthur van Hoff
+ * @buthor Arthur vbn Hoff
  */
-public final
-class Assembler implements Constants {
-    static final int NOTREACHED         = 0;
-    static final int REACHED            = 1;
-    static final int NEEDED             = 2;
+public finbl
+clbss Assembler implements Constbnts {
+    stbtic finbl int NOTREACHED         = 0;
+    stbtic finbl int REACHED            = 1;
+    stbtic finbl int NEEDED             = 2;
 
-    Label first = new Label();
-    Instruction last = first;
-    int maxdepth;
-    int maxvar;
-    int maxpc;
+    Lbbel first = new Lbbel();
+    Instruction lbst = first;
+    int mbxdepth;
+    int mbxvbr;
+    int mbxpc;
 
     /**
-     * Add an instruction
+     * Add bn instruction
      */
-    public void add(Instruction inst) {
+    public void bdd(Instruction inst) {
         if (inst != null) {
-            last.next = inst;
-            last = inst;
+            lbst.next = inst;
+            lbst = inst;
         }
     }
-    public void add(long where, int opc) {
-        add(new Instruction(where, opc, null));
+    public void bdd(long where, int opc) {
+        bdd(new Instruction(where, opc, null));
     }
-    public void add(long where, int opc, Object obj) {
-        add(new Instruction(where, opc, obj));
+    public void bdd(long where, int opc, Object obj) {
+        bdd(new Instruction(where, opc, obj));
     }
 // JCOV
-    public void add(long where, int opc, Object obj, boolean flagCondInverted) {
-        add(new Instruction(where, opc, obj, flagCondInverted));
+    public void bdd(long where, int opc, Object obj, boolebn flbgCondInverted) {
+        bdd(new Instruction(where, opc, obj, flbgCondInverted));
     }
 
-    public void add(boolean flagNoCovered, long where, int opc, Object obj) {
-        add(new Instruction(flagNoCovered, where, opc, obj));
+    public void bdd(boolebn flbgNoCovered, long where, int opc, Object obj) {
+        bdd(new Instruction(flbgNoCovered, where, opc, obj));
     }
 
-    public void add(long where, int opc, boolean flagNoCovered) {
-        add(new Instruction(where, opc, flagNoCovered));
+    public void bdd(long where, int opc, boolebn flbgNoCovered) {
+        bdd(new Instruction(where, opc, flbgNoCovered));
     }
 
-    static Vector<String> SourceClassList = new Vector<>();
+    stbtic Vector<String> SourceClbssList = new Vector<>();
 
-    static Vector<String> TmpCovTable = new Vector<>();
+    stbtic Vector<String> TmpCovTbble = new Vector<>();
 
-    static int[]  JcovClassCountArray = new int[CT_LAST_KIND + 1];
+    stbtic int[]  JcovClbssCountArrby = new int[CT_LAST_KIND + 1];
 
-    static String JcovMagicLine     = "JCOV-DATA-FILE-VERSION: 2.0";
-    static String JcovClassLine     = "CLASS: ";
-    static String JcovSrcfileLine   = "SRCFILE: ";
-    static String JcovTimestampLine = "TIMESTAMP: ";
-    static String JcovDataLine      = "DATA: ";
-    static String JcovHeadingLine   = "#kind\tcount";
+    stbtic String JcovMbgicLine     = "JCOV-DATA-FILE-VERSION: 2.0";
+    stbtic String JcovClbssLine     = "CLASS: ";
+    stbtic String JcovSrcfileLine   = "SRCFILE: ";
+    stbtic String JcovTimestbmpLine = "TIMESTAMP: ";
+    stbtic String JcovDbtbLine      = "DATA: ";
+    stbtic String JcovHebdingLine   = "#kind\tcount";
 
-    static int[]  arrayModifiers    =
+    stbtic int[]  brrbyModifiers    =
                 {M_PUBLIC, M_PRIVATE, M_PROTECTED, M_ABSTRACT, M_FINAL, M_INTERFACE};
-    static int[]  arrayModifiersOpc =
+    stbtic int[]  brrbyModifiersOpc =
                 {PUBLIC, PRIVATE, PROTECTED, ABSTRACT, FINAL, INTERFACE};
 //end JCOV
 
     /**
-     * Optimize instructions and mark those that can be reached
+     * Optimize instructions bnd mbrk those thbt cbn be rebched
      */
-    void optimize(Environment env, Label lbl) {
+    void optimize(Environment env, Lbbel lbl) {
         lbl.pc = REACHED;
 
         for (Instruction inst = lbl.next ; inst != null ; inst = inst.next)  {
             switch (inst.pc) {
-              case NOTREACHED:
+              cbse NOTREACHED:
                 inst.optimize(env);
                 inst.pc = REACHED;
-                break;
-              case REACHED:
+                brebk;
+              cbse REACHED:
                 return;
-              case NEEDED:
-                break;
+              cbse NEEDED:
+                brebk;
             }
 
             switch (inst.opc) {
-              case opc_label:
-              case opc_dead:
+              cbse opc_lbbel:
+              cbse opc_debd:
                 if (inst.pc == REACHED) {
                     inst.pc = NOTREACHED;
                 }
-                break;
+                brebk;
 
-              case opc_ifeq:
-              case opc_ifne:
-              case opc_ifgt:
-              case opc_ifge:
-              case opc_iflt:
-              case opc_ifle:
-              case opc_if_icmpeq:
-              case opc_if_icmpne:
-              case opc_if_icmpgt:
-              case opc_if_icmpge:
-              case opc_if_icmplt:
-              case opc_if_icmple:
-              case opc_if_acmpeq:
-              case opc_if_acmpne:
-              case opc_ifnull:
-              case opc_ifnonnull:
-                optimize(env, (Label)inst.value);
-                break;
+              cbse opc_ifeq:
+              cbse opc_ifne:
+              cbse opc_ifgt:
+              cbse opc_ifge:
+              cbse opc_iflt:
+              cbse opc_ifle:
+              cbse opc_if_icmpeq:
+              cbse opc_if_icmpne:
+              cbse opc_if_icmpgt:
+              cbse opc_if_icmpge:
+              cbse opc_if_icmplt:
+              cbse opc_if_icmple:
+              cbse opc_if_bcmpeq:
+              cbse opc_if_bcmpne:
+              cbse opc_ifnull:
+              cbse opc_ifnonnull:
+                optimize(env, (Lbbel)inst.vblue);
+                brebk;
 
-              case opc_goto:
-                optimize(env, (Label)inst.value);
+              cbse opc_goto:
+                optimize(env, (Lbbel)inst.vblue);
                 return;
 
-              case opc_jsr:
-                optimize(env, (Label)inst.value);
-                break;
+              cbse opc_jsr:
+                optimize(env, (Lbbel)inst.vblue);
+                brebk;
 
-              case opc_ret:
-              case opc_return:
-              case opc_ireturn:
-              case opc_lreturn:
-              case opc_freturn:
-              case opc_dreturn:
-              case opc_areturn:
-              case opc_athrow:
+              cbse opc_ret:
+              cbse opc_return:
+              cbse opc_ireturn:
+              cbse opc_lreturn:
+              cbse opc_freturn:
+              cbse opc_dreturn:
+              cbse opc_breturn:
+              cbse opc_bthrow:
                 return;
 
-              case opc_tableswitch:
-              case opc_lookupswitch: {
-                SwitchData sw = (SwitchData)inst.value;
-                optimize(env, sw.defaultLabel);
-                for (Enumeration<Label> e = sw.tab.elements() ; e.hasMoreElements();) {
+              cbse opc_tbbleswitch:
+              cbse opc_lookupswitch: {
+                SwitchDbtb sw = (SwitchDbtb)inst.vblue;
+                optimize(env, sw.defbultLbbel);
+                for (Enumerbtion<Lbbel> e = sw.tbb.elements() ; e.hbsMoreElements();) {
                     optimize(env, e.nextElement());
                 }
                 return;
               }
 
-              case opc_try: {
-                TryData td = (TryData)inst.value;
-                td.getEndLabel().pc = NEEDED;
-                for (Enumeration<CatchData> e = td.catches.elements() ; e.hasMoreElements();) {
-                    CatchData cd = e.nextElement();
-                    optimize(env, cd.getLabel());
+              cbse opc_try: {
+                TryDbtb td = (TryDbtb)inst.vblue;
+                td.getEndLbbel().pc = NEEDED;
+                for (Enumerbtion<CbtchDbtb> e = td.cbtches.elements() ; e.hbsMoreElements();) {
+                    CbtchDbtb cd = e.nextElement();
+                    optimize(env, cd.getLbbel());
                 }
-                break;
+                brebk;
               }
             }
         }
     }
 
     /**
-     * Eliminate instructions that are not reached
+     * Eliminbte instructions thbt bre not rebched
      */
-    boolean eliminate() {
-        boolean change = false;
+    boolebn eliminbte() {
+        boolebn chbnge = fblse;
         Instruction prev = first;
 
         for (Instruction inst = first.next ; inst != null ; inst = inst.next) {
@@ -209,12 +209,12 @@ class Assembler implements Constants {
                 prev = inst;
                 inst.pc = NOTREACHED;
             } else {
-                change = true;
+                chbnge = true;
             }
         }
         first.pc = NOTREACHED;
         prev.next = null;
-        return change;
+        return chbnge;
     }
 
     /**
@@ -223,57 +223,57 @@ class Assembler implements Constants {
     public void optimize(Environment env) {
         //listing(System.out);
         do {
-            // Figure out which instructions are reached
+            // Figure out which instructions bre rebched
             optimize(env, first);
 
-            // Eliminate instructions that are not reached
-        } while (eliminate() && env.opt());
+            // Eliminbte instructions thbt bre not rebched
+        } while (eliminbte() && env.opt());
     }
 
     /**
-     * Collect all constants into the constant table
+     * Collect bll constbnts into the constbnt tbble
      */
-    public void collect(Environment env, MemberDefinition field, ConstantPool tab) {
-        // Collect constants for arguments only
-        // if a local variable table is generated
-        if ((field != null) && env.debug_vars()) {
-            @SuppressWarnings("unchecked")
+    public void collect(Environment env, MemberDefinition field, ConstbntPool tbb) {
+        // Collect constbnts for brguments only
+        // if b locbl vbribble tbble is generbted
+        if ((field != null) && env.debug_vbrs()) {
+            @SuppressWbrnings("unchecked")
             Vector<MemberDefinition> v = field.getArguments();
             if (v != null) {
-                for (Enumeration<MemberDefinition> e = v.elements() ; e.hasMoreElements() ;) {
+                for (Enumerbtion<MemberDefinition> e = v.elements() ; e.hbsMoreElements() ;) {
                     MemberDefinition f = e.nextElement();
-                    tab.put(f.getName().toString());
-                    tab.put(f.getType().getTypeSignature());
+                    tbb.put(f.getNbme().toString());
+                    tbb.put(f.getType().getTypeSignbture());
                 }
             }
         }
 
-        // Collect constants from the instructions
+        // Collect constbnts from the instructions
         for (Instruction inst = first ; inst != null ; inst = inst.next) {
-            inst.collect(tab);
+            inst.collect(tbb);
         }
     }
 
     /**
-     * Determine stack size, count local variables
+     * Determine stbck size, count locbl vbribbles
      */
-    void balance(Label lbl, int depth) {
+    void bblbnce(Lbbel lbl, int depth) {
         for (Instruction inst = lbl ; inst != null ; inst = inst.next)  {
             //Environment.debugOutput(inst.toString() + ": " + depth + " => " +
-            //                                 (depth + inst.balance()));
-            depth += inst.balance();
+            //                                 (depth + inst.bblbnce()));
+            depth += inst.bblbnce();
             if (depth < 0) {
-               throw new CompilerError("stack under flow: " + inst.toString() + " = " + depth);
+               throw new CompilerError("stbck under flow: " + inst.toString() + " = " + depth);
             }
-            if (depth > maxdepth) {
-                maxdepth = depth;
+            if (depth > mbxdepth) {
+                mbxdepth = depth;
             }
             switch (inst.opc) {
-              case opc_label:
-                lbl = (Label)inst;
+              cbse opc_lbbel:
+                lbl = (Lbbel)inst;
                 if (inst.pc == REACHED) {
                     if (lbl.depth != depth) {
-                        throw new CompilerError("stack depth error " +
+                        throw new CompilerError("stbck depth error " +
                                                 depth + "/" + lbl.depth +
                                                 ": " + inst.toString());
                     }
@@ -281,123 +281,123 @@ class Assembler implements Constants {
                 }
                 lbl.pc = REACHED;
                 lbl.depth = depth;
-                break;
+                brebk;
 
-              case opc_ifeq:
-              case opc_ifne:
-              case opc_ifgt:
-              case opc_ifge:
-              case opc_iflt:
-              case opc_ifle:
-              case opc_if_icmpeq:
-              case opc_if_icmpne:
-              case opc_if_icmpgt:
-              case opc_if_icmpge:
-              case opc_if_icmplt:
-              case opc_if_icmple:
-              case opc_if_acmpeq:
-              case opc_if_acmpne:
-              case opc_ifnull:
-              case opc_ifnonnull:
-                balance((Label)inst.value, depth);
-                break;
+              cbse opc_ifeq:
+              cbse opc_ifne:
+              cbse opc_ifgt:
+              cbse opc_ifge:
+              cbse opc_iflt:
+              cbse opc_ifle:
+              cbse opc_if_icmpeq:
+              cbse opc_if_icmpne:
+              cbse opc_if_icmpgt:
+              cbse opc_if_icmpge:
+              cbse opc_if_icmplt:
+              cbse opc_if_icmple:
+              cbse opc_if_bcmpeq:
+              cbse opc_if_bcmpne:
+              cbse opc_ifnull:
+              cbse opc_ifnonnull:
+                bblbnce((Lbbel)inst.vblue, depth);
+                brebk;
 
-              case opc_goto:
-                balance((Label)inst.value, depth);
+              cbse opc_goto:
+                bblbnce((Lbbel)inst.vblue, depth);
                 return;
 
-              case opc_jsr:
-                balance((Label)inst.value, depth + 1);
-                break;
+              cbse opc_jsr:
+                bblbnce((Lbbel)inst.vblue, depth + 1);
+                brebk;
 
-              case opc_ret:
-              case opc_return:
-              case opc_ireturn:
-              case opc_lreturn:
-              case opc_freturn:
-              case opc_dreturn:
-              case opc_areturn:
-              case opc_athrow:
+              cbse opc_ret:
+              cbse opc_return:
+              cbse opc_ireturn:
+              cbse opc_lreturn:
+              cbse opc_freturn:
+              cbse opc_dreturn:
+              cbse opc_breturn:
+              cbse opc_bthrow:
                 return;
 
-              case opc_iload:
-              case opc_fload:
-              case opc_aload:
-              case opc_istore:
-              case opc_fstore:
-              case opc_astore: {
-                int v = ((inst.value instanceof Number)
-                            ? ((Number)inst.value).intValue()
-                            : ((LocalVariable)inst.value).slot) + 1;
-                if (v > maxvar)
-                    maxvar = v;
-                break;
+              cbse opc_ilobd:
+              cbse opc_flobd:
+              cbse opc_blobd:
+              cbse opc_istore:
+              cbse opc_fstore:
+              cbse opc_bstore: {
+                int v = ((inst.vblue instbnceof Number)
+                            ? ((Number)inst.vblue).intVblue()
+                            : ((LocblVbribble)inst.vblue).slot) + 1;
+                if (v > mbxvbr)
+                    mbxvbr = v;
+                brebk;
               }
 
-              case opc_lload:
-              case opc_dload:
-              case opc_lstore:
-              case opc_dstore: {
-                int v = ((inst.value instanceof Number)
-                            ? ((Number)inst.value).intValue()
-                            : ((LocalVariable)inst.value).slot) + 2;
-                if (v  > maxvar)
-                    maxvar = v;
-                break;
+              cbse opc_llobd:
+              cbse opc_dlobd:
+              cbse opc_lstore:
+              cbse opc_dstore: {
+                int v = ((inst.vblue instbnceof Number)
+                            ? ((Number)inst.vblue).intVblue()
+                            : ((LocblVbribble)inst.vblue).slot) + 2;
+                if (v  > mbxvbr)
+                    mbxvbr = v;
+                brebk;
               }
 
-              case opc_iinc: {
-                  int v = ((int[])inst.value)[0] + 1;
-                  if (v  > maxvar)
-                      maxvar = v + 1;
-                  break;
+              cbse opc_iinc: {
+                  int v = ((int[])inst.vblue)[0] + 1;
+                  if (v  > mbxvbr)
+                      mbxvbr = v + 1;
+                  brebk;
               }
 
-              case opc_tableswitch:
-              case opc_lookupswitch: {
-                SwitchData sw = (SwitchData)inst.value;
-                balance(sw.defaultLabel, depth);
-                for (Enumeration<Label> e = sw.tab.elements() ; e.hasMoreElements();) {
-                    balance(e.nextElement(), depth);
+              cbse opc_tbbleswitch:
+              cbse opc_lookupswitch: {
+                SwitchDbtb sw = (SwitchDbtb)inst.vblue;
+                bblbnce(sw.defbultLbbel, depth);
+                for (Enumerbtion<Lbbel> e = sw.tbb.elements() ; e.hbsMoreElements();) {
+                    bblbnce(e.nextElement(), depth);
                 }
                 return;
               }
 
-              case opc_try: {
-                TryData td = (TryData)inst.value;
-                for (Enumeration<CatchData> e = td.catches.elements() ; e.hasMoreElements();) {
-                    CatchData cd = e.nextElement();
-                    balance(cd.getLabel(), depth + 1);
+              cbse opc_try: {
+                TryDbtb td = (TryDbtb)inst.vblue;
+                for (Enumerbtion<CbtchDbtb> e = td.cbtches.elements() ; e.hbsMoreElements();) {
+                    CbtchDbtb cd = e.nextElement();
+                    bblbnce(cd.getLbbel(), depth + 1);
                 }
-                break;
+                brebk;
               }
             }
         }
     }
 
     /**
-     * Generate code
+     * Generbte code
      */
-    public void write(Environment env, DataOutputStream out,
-                      MemberDefinition field, ConstantPool tab)
+    public void write(Environment env, DbtbOutputStrebm out,
+                      MemberDefinition field, ConstbntPool tbb)
                  throws IOException {
         //listing(System.out);
 
         if ((field != null) && field.getArguments() != null) {
               int sum = 0;
-              @SuppressWarnings("unchecked")
+              @SuppressWbrnings("unchecked")
               Vector<MemberDefinition> v = field.getArguments();
-              for (Enumeration<MemberDefinition> e = v.elements(); e.hasMoreElements(); ) {
+              for (Enumerbtion<MemberDefinition> e = v.elements(); e.hbsMoreElements(); ) {
                   MemberDefinition f = e.nextElement();
-                  sum += f.getType().stackSize();
+                  sum += f.getType().stbckSize();
               }
-              maxvar = sum;
+              mbxvbr = sum;
         }
 
-        // Make sure the stack balances.  Also calculate maxvar and maxstack
+        // Mbke sure the stbck bblbnces.  Also cblculbte mbxvbr bnd mbxstbck
         try {
-            balance(first, 0);
-        } catch (CompilerError e) {
+            bblbnce(first, 0);
+        } cbtch (CompilerError e) {
             System.out.println("ERROR: " + e);
             listing(System.out);
             throw e;
@@ -407,186 +407,186 @@ class Assembler implements Constants {
         int pc = 0, nexceptions = 0;
         for (Instruction inst = first ; inst != null ; inst = inst.next) {
             inst.pc = pc;
-            int sz = inst.size(tab);
+            int sz = inst.size(tbb);
             if (pc<65536 && (pc+sz)>=65536) {
-               env.error(inst.where, "warn.method.too.long");
+               env.error(inst.where, "wbrn.method.too.long");
             }
             pc += sz;
 
             if (inst.opc == opc_try) {
-                nexceptions += ((TryData)inst.value).catches.size();
+                nexceptions += ((TryDbtb)inst.vblue).cbtches.size();
             }
         }
 
-        // Write header
-        out.writeShort(maxdepth);
-        out.writeShort(maxvar);
-        out.writeInt(maxpc = pc);
+        // Write hebder
+        out.writeShort(mbxdepth);
+        out.writeShort(mbxvbr);
+        out.writeInt(mbxpc = pc);
 
-        // Generate code
+        // Generbte code
         for (Instruction inst = first.next ; inst != null ; inst = inst.next) {
-            inst.write(out, tab);
+            inst.write(out, tbb);
         }
 
         // write exceptions
         out.writeShort(nexceptions);
         if (nexceptions > 0) {
             //listing(System.out);
-            writeExceptions(env, out, tab, first, last);
+            writeExceptions(env, out, tbb, first, lbst);
         }
     }
 
     /**
-     * Write the exceptions table
+     * Write the exceptions tbble
      */
-    void writeExceptions(Environment env, DataOutputStream out, ConstantPool tab, Instruction first, Instruction last) throws IOException {
-        for (Instruction inst = first ; inst != last.next ; inst = inst.next) {
+    void writeExceptions(Environment env, DbtbOutputStrebm out, ConstbntPool tbb, Instruction first, Instruction lbst) throws IOException {
+        for (Instruction inst = first ; inst != lbst.next ; inst = inst.next) {
             if (inst.opc == opc_try) {
-                TryData td = (TryData)inst.value;
-                writeExceptions(env, out, tab, inst.next, td.getEndLabel());
-                for (Enumeration<CatchData> e = td.catches.elements() ; e.hasMoreElements();) {
-                    CatchData cd = e.nextElement();
-                    //System.out.println("EXCEPTION: " + env.getSource() + ", pc=" + inst.pc + ", end=" + td.getEndLabel().pc + ", hdl=" + cd.getLabel().pc + ", tp=" + cd.getType());
+                TryDbtb td = (TryDbtb)inst.vblue;
+                writeExceptions(env, out, tbb, inst.next, td.getEndLbbel());
+                for (Enumerbtion<CbtchDbtb> e = td.cbtches.elements() ; e.hbsMoreElements();) {
+                    CbtchDbtb cd = e.nextElement();
+                    //System.out.println("EXCEPTION: " + env.getSource() + ", pc=" + inst.pc + ", end=" + td.getEndLbbel().pc + ", hdl=" + cd.getLbbel().pc + ", tp=" + cd.getType());
                     out.writeShort(inst.pc);
-                    out.writeShort(td.getEndLabel().pc);
-                    out.writeShort(cd.getLabel().pc);
+                    out.writeShort(td.getEndLbbel().pc);
+                    out.writeShort(cd.getLbbel().pc);
                     if (cd.getType() != null) {
-                        out.writeShort(tab.index(cd.getType()));
+                        out.writeShort(tbb.index(cd.getType()));
                     } else {
                         out.writeShort(0);
                     }
                 }
-                inst = td.getEndLabel();
+                inst = td.getEndLbbel();
             }
         }
     }
 
 //JCOV
     /**
-     * Write the coverage table
+     * Write the coverbge tbble
      */
-    public void writeCoverageTable(Environment env, ClassDefinition c, DataOutputStream out, ConstantPool tab, long whereField) throws IOException {
-        Vector<Cover> TableLot = new Vector<>();         /* Coverage table */
-        boolean begseg = false;
-        boolean begmeth = false;
-        @SuppressWarnings("deprecation")
-        long whereClass = ((SourceClass)c).getWhere();
+    public void writeCoverbgeTbble(Environment env, ClbssDefinition c, DbtbOutputStrebm out, ConstbntPool tbb, long whereField) throws IOException {
+        Vector<Cover> TbbleLot = new Vector<>();         /* Coverbge tbble */
+        boolebn begseg = fblse;
+        boolebn begmeth = fblse;
+        @SuppressWbrnings("deprecbtion")
+        long whereClbss = ((SourceClbss)c).getWhere();
         Vector<Long> whereTry = new Vector<>();
         int numberTry = 0;
         int count = 0;
 
         for (Instruction inst = first ; inst != null ; inst = inst.next) {
             long n = (inst.where >> WHEREOFFSETBITS);
-            if (n > 0 && inst.opc != opc_label) {
+            if (n > 0 && inst.opc != opc_lbbel) {
                 if (!begmeth) {
-                  if ( whereClass == inst.where)
-                        TableLot.addElement(new Cover(CT_FIKT_METHOD, whereField, inst.pc));
+                  if ( whereClbss == inst.where)
+                        TbbleLot.bddElement(new Cover(CT_FIKT_METHOD, whereField, inst.pc));
                   else
-                        TableLot.addElement(new Cover(CT_METHOD, whereField, inst.pc));
+                        TbbleLot.bddElement(new Cover(CT_METHOD, whereField, inst.pc));
                   count++;
                   begmeth = true;
                 }
-                if (!begseg && !inst.flagNoCovered ) {
-                  boolean findTry = false;
-                  for (Enumeration<Long> e = whereTry.elements(); e.hasMoreElements();) {
-                       if (e.nextElement().longValue() == inst.where) {
+                if (!begseg && !inst.flbgNoCovered ) {
+                  boolebn findTry = fblse;
+                  for (Enumerbtion<Long> e = whereTry.elements(); e.hbsMoreElements();) {
+                       if (e.nextElement().longVblue() == inst.where) {
                               findTry = true;
-                              break;
+                              brebk;
                        }
                   }
                   if (!findTry) {
-                      TableLot.addElement(new Cover(CT_BLOCK, inst.where, inst.pc));
+                      TbbleLot.bddElement(new Cover(CT_BLOCK, inst.where, inst.pc));
                       count++;
                       begseg = true;
                   }
                 }
             }
             switch (inst.opc) {
-              case opc_label:
-                begseg = false;
-                break;
-              case opc_ifeq:
-              case opc_ifne:
-              case opc_ifnull:
-              case opc_ifnonnull:
-              case opc_ifgt:
-              case opc_ifge:
-              case opc_iflt:
-              case opc_ifle:
-              case opc_if_icmpeq:
-              case opc_if_icmpne:
-              case opc_if_icmpgt:
-              case opc_if_icmpge:
-              case opc_if_icmplt:
-              case opc_if_icmple:
-              case opc_if_acmpeq:
-              case opc_if_acmpne: {
-                if ( inst.flagCondInverted ) {
-                   TableLot.addElement(new Cover(CT_BRANCH_TRUE, inst.where, inst.pc));
-                   TableLot.addElement(new Cover(CT_BRANCH_FALSE, inst.where, inst.pc));
+              cbse opc_lbbel:
+                begseg = fblse;
+                brebk;
+              cbse opc_ifeq:
+              cbse opc_ifne:
+              cbse opc_ifnull:
+              cbse opc_ifnonnull:
+              cbse opc_ifgt:
+              cbse opc_ifge:
+              cbse opc_iflt:
+              cbse opc_ifle:
+              cbse opc_if_icmpeq:
+              cbse opc_if_icmpne:
+              cbse opc_if_icmpgt:
+              cbse opc_if_icmpge:
+              cbse opc_if_icmplt:
+              cbse opc_if_icmple:
+              cbse opc_if_bcmpeq:
+              cbse opc_if_bcmpne: {
+                if ( inst.flbgCondInverted ) {
+                   TbbleLot.bddElement(new Cover(CT_BRANCH_TRUE, inst.where, inst.pc));
+                   TbbleLot.bddElement(new Cover(CT_BRANCH_FALSE, inst.where, inst.pc));
                 } else {
-                   TableLot.addElement(new Cover(CT_BRANCH_FALSE, inst.where, inst.pc));
-                   TableLot.addElement(new Cover(CT_BRANCH_TRUE, inst.where, inst.pc));
+                   TbbleLot.bddElement(new Cover(CT_BRANCH_FALSE, inst.where, inst.pc));
+                   TbbleLot.bddElement(new Cover(CT_BRANCH_TRUE, inst.where, inst.pc));
                 }
                 count += 2;
-                begseg = false;
-                break;
+                begseg = fblse;
+                brebk;
               }
 
-              case opc_goto: {
-                begseg = false;
-                break;
+              cbse opc_goto: {
+                begseg = fblse;
+                brebk;
               }
 
-              case opc_ret:
-              case opc_return:
-              case opc_ireturn:
-              case opc_lreturn:
-              case opc_freturn:
-              case opc_dreturn:
-              case opc_areturn:
-              case opc_athrow: {
-                break;
+              cbse opc_ret:
+              cbse opc_return:
+              cbse opc_ireturn:
+              cbse opc_lreturn:
+              cbse opc_freturn:
+              cbse opc_dreturn:
+              cbse opc_breturn:
+              cbse opc_bthrow: {
+                brebk;
               }
 
-              case opc_try: {
-                whereTry.addElement(Long.valueOf(inst.where));
-                begseg = false;
-                break;
+              cbse opc_try: {
+                whereTry.bddElement(Long.vblueOf(inst.where));
+                begseg = fblse;
+                brebk;
               }
 
-              case opc_tableswitch: {
-                SwitchData sw = (SwitchData)inst.value;
-                for (int i = sw.minValue; i <= sw.maxValue; i++) {
-                     TableLot.addElement(new Cover(CT_CASE, sw.whereCase(i), inst.pc));
+              cbse opc_tbbleswitch: {
+                SwitchDbtb sw = (SwitchDbtb)inst.vblue;
+                for (int i = sw.minVblue; i <= sw.mbxVblue; i++) {
+                     TbbleLot.bddElement(new Cover(CT_CASE, sw.whereCbse(i), inst.pc));
                      count++;
                 }
-                if (!sw.getDefault()) {
-                     TableLot.addElement(new Cover(CT_SWITH_WO_DEF, inst.where, inst.pc));
+                if (!sw.getDefbult()) {
+                     TbbleLot.bddElement(new Cover(CT_SWITH_WO_DEF, inst.where, inst.pc));
                      count++;
                 } else {
-                     TableLot.addElement(new Cover(CT_CASE, sw.whereCase("default"), inst.pc));
+                     TbbleLot.bddElement(new Cover(CT_CASE, sw.whereCbse("defbult"), inst.pc));
                      count++;
                 }
-                begseg = false;
-                break;
+                begseg = fblse;
+                brebk;
               }
-              case opc_lookupswitch: {
-                SwitchData sw = (SwitchData)inst.value;
-                for (Enumeration<Integer> e = sw.sortedKeys(); e.hasMoreElements() ; ) {
+              cbse opc_lookupswitch: {
+                SwitchDbtb sw = (SwitchDbtb)inst.vblue;
+                for (Enumerbtion<Integer> e = sw.sortedKeys(); e.hbsMoreElements() ; ) {
                      Integer v = e.nextElement();
-                     TableLot.addElement(new Cover(CT_CASE, sw.whereCase(v), inst.pc));
+                     TbbleLot.bddElement(new Cover(CT_CASE, sw.whereCbse(v), inst.pc));
                      count++;
                 }
-                if (!sw.getDefault()) {
-                     TableLot.addElement(new Cover(CT_SWITH_WO_DEF, inst.where, inst.pc));
+                if (!sw.getDefbult()) {
+                     TbbleLot.bddElement(new Cover(CT_SWITH_WO_DEF, inst.where, inst.pc));
                      count++;
                 } else {
-                     TableLot.addElement(new Cover(CT_CASE, sw.whereCase("default"), inst.pc));
+                     TbbleLot.bddElement(new Cover(CT_CASE, sw.whereCbse("defbult"), inst.pc));
                      count++;
                 }
-                begseg = false;
-                break;
+                begseg = fblse;
+                brebk;
               }
             }
         }
@@ -595,134 +595,134 @@ class Assembler implements Constants {
 
         out.writeShort(count);
         for (int i = 0; i < count; i++) {
-           Lot = TableLot.elementAt(i);
+           Lot = TbbleLot.elementAt(i);
            ln = (Lot.Addr >> WHEREOFFSETBITS);
            pos = (Lot.Addr << (64 - WHEREOFFSETBITS)) >> (64 - WHEREOFFSETBITS);
-           out.writeShort(Lot.NumCommand);
+           out.writeShort(Lot.NumCommbnd);
            out.writeShort(Lot.Type);
            out.writeInt((int)ln);
            out.writeInt((int)pos);
 
            if ( !(Lot.Type == CT_CASE && Lot.Addr == 0) ) {
-                JcovClassCountArray[Lot.Type]++;
+                JcovClbssCountArrby[Lot.Type]++;
            }
         }
 
     }
 
 /*
- *  Increase count of methods for native methods
+ *  Increbse count of methods for nbtive methods
  */
 
-public void addNativeToJcovTab(Environment env, ClassDefinition c) {
-        JcovClassCountArray[CT_METHOD]++;
+public void bddNbtiveToJcovTbb(Environment env, ClbssDefinition c) {
+        JcovClbssCountArrby[CT_METHOD]++;
 }
 
 /*
- *  Create class jcov element
+ *  Crebte clbss jcov element
  */
 
-private String createClassJcovElement(Environment env, ClassDefinition c) {
-        String SourceClass = (Type.mangleInnerType((c.getClassDeclaration()).getName())).toString();
-        String ConvSourceClass;
-        String classJcovLine;
+privbte String crebteClbssJcovElement(Environment env, ClbssDefinition c) {
+        String SourceClbss = (Type.mbngleInnerType((c.getClbssDeclbrbtion()).getNbme())).toString();
+        String ConvSourceClbss;
+        String clbssJcovLine;
 
-        SourceClassList.addElement(SourceClass);
-        ConvSourceClass = SourceClass.replace('.', '/');
-        classJcovLine = JcovClassLine + ConvSourceClass;
+        SourceClbssList.bddElement(SourceClbss);
+        ConvSourceClbss = SourceClbss.replbce('.', '/');
+        clbssJcovLine = JcovClbssLine + ConvSourceClbss;
 
-        classJcovLine = classJcovLine + " [";
-        String blank = "";
+        clbssJcovLine = clbssJcovLine + " [";
+        String blbnk = "";
 
-        for (int i = 0; i < arrayModifiers.length; i++ ) {
-            if ((c.getModifiers() & arrayModifiers[i]) != 0) {
-                classJcovLine = classJcovLine + blank + opNames[arrayModifiersOpc[i]];
-                blank = " ";
+        for (int i = 0; i < brrbyModifiers.length; i++ ) {
+            if ((c.getModifiers() & brrbyModifiers[i]) != 0) {
+                clbssJcovLine = clbssJcovLine + blbnk + opNbmes[brrbyModifiersOpc[i]];
+                blbnk = " ";
             }
         }
-        classJcovLine = classJcovLine + "]";
+        clbssJcovLine = clbssJcovLine + "]";
 
-        return classJcovLine;
+        return clbssJcovLine;
 }
 
 /*
- *  generate coverage data
+ *  generbte coverbge dbtb
  */
 
-public void GenVecJCov(Environment env, ClassDefinition c, long Time) {
-        @SuppressWarnings("deprecation")
-        String SourceFile = ((SourceClass)c).getAbsoluteName();
+public void GenVecJCov(Environment env, ClbssDefinition c, long Time) {
+        @SuppressWbrnings("deprecbtion")
+        String SourceFile = ((SourceClbss)c).getAbsoluteNbme();
 
-        TmpCovTable.addElement(createClassJcovElement(env, c));
-        TmpCovTable.addElement(JcovSrcfileLine + SourceFile);
-        TmpCovTable.addElement(JcovTimestampLine + Time);
-        TmpCovTable.addElement(JcovDataLine + "A");             // data format
-        TmpCovTable.addElement(JcovHeadingLine);
+        TmpCovTbble.bddElement(crebteClbssJcovElement(env, c));
+        TmpCovTbble.bddElement(JcovSrcfileLine + SourceFile);
+        TmpCovTbble.bddElement(JcovTimestbmpLine + Time);
+        TmpCovTbble.bddElement(JcovDbtbLine + "A");             // dbtb formbt
+        TmpCovTbble.bddElement(JcovHebdingLine);
 
         for (int i = CT_FIRST_KIND; i <= CT_LAST_KIND; i++) {
-            if (JcovClassCountArray[i] != 0) {
-                TmpCovTable.addElement(new String(i + "\t" + JcovClassCountArray[i]));
-                JcovClassCountArray[i] = 0;
+            if (JcovClbssCountArrby[i] != 0) {
+                TmpCovTbble.bddElement(new String(i + "\t" + JcovClbssCountArrby[i]));
+                JcovClbssCountArrby[i] = 0;
             }
         }
 }
 
 
 /*
- * generate file of coverage data
+ * generbte file of coverbge dbtb
  */
 
-@SuppressWarnings("deprecation") // for JCovd.readLine() calls
+@SuppressWbrnings("deprecbtion") // for JCovd.rebdLine() cblls
 public void GenJCov(Environment env) {
 
      try {
         File outFile = env.getcovFile();
         if( outFile.exists()) {
-           DataInputStream JCovd = new DataInputStream(
-                                                       new BufferedInputStream(
-                                                                               new FileInputStream(outFile)));
+           DbtbInputStrebm JCovd = new DbtbInputStrebm(
+                                                       new BufferedInputStrebm(
+                                                                               new FileInputStrebm(outFile)));
            String CurrLine = null;
-           boolean first = true;
-           String Class;
+           boolebn first = true;
+           String Clbss;
 
-           CurrLine = JCovd.readLine();
-           if ((CurrLine != null) && CurrLine.startsWith(JcovMagicLine)) {
-                // this is a good Jcov file
+           CurrLine = JCovd.rebdLine();
+           if ((CurrLine != null) && CurrLine.stbrtsWith(JcovMbgicLine)) {
+                // this is b good Jcov file
 
-                   while((CurrLine = JCovd.readLine()) != null ) {
-                      if ( CurrLine.startsWith(JcovClassLine) ) {
+                   while((CurrLine = JCovd.rebdLine()) != null ) {
+                      if ( CurrLine.stbrtsWith(JcovClbssLine) ) {
                              first = true;
-                             for(Enumeration<String> e = SourceClassList.elements(); e.hasMoreElements();) {
-                                 String clsName = CurrLine.substring(JcovClassLine.length());
-                                 int idx = clsName.indexOf(' ');
+                             for(Enumerbtion<String> e = SourceClbssList.elements(); e.hbsMoreElements();) {
+                                 String clsNbme = CurrLine.substring(JcovClbssLine.length());
+                                 int idx = clsNbme.indexOf(' ');
 
                                  if (idx != -1) {
-                                     clsName = clsName.substring(0, idx);
+                                     clsNbme = clsNbme.substring(0, idx);
                                  }
-                                 Class = e.nextElement();
-                                 if ( Class.compareTo(clsName) == 0) {
-                                     first = false;
-                                     break;
+                                 Clbss = e.nextElement();
+                                 if ( Clbss.compbreTo(clsNbme) == 0) {
+                                     first = fblse;
+                                     brebk;
                                  }
                              }
                       }
-                      if (first)        // re-write old class
-                          TmpCovTable.addElement(CurrLine);
+                      if (first)        // re-write old clbss
+                          TmpCovTbble.bddElement(CurrLine);
                    }
            }
            JCovd.close();
         }
-        PrintStream CovFile = new PrintStream(new DataOutputStream(new FileOutputStream(outFile)));
-        CovFile.println(JcovMagicLine);
-        for(Enumeration<String> e = TmpCovTable.elements(); e.hasMoreElements();) {
+        PrintStrebm CovFile = new PrintStrebm(new DbtbOutputStrebm(new FileOutputStrebm(outFile)));
+        CovFile.println(JcovMbgicLine);
+        for(Enumerbtion<String> e = TmpCovTbble.elements(); e.hbsMoreElements();) {
               CovFile.println(e.nextElement());
         }
         CovFile.close();
     }
-    catch (FileNotFoundException e) {
+    cbtch (FileNotFoundException e) {
        System.out.println("ERROR: " + e);
     }
-    catch (IOException e) {
+    cbtch (IOException e) {
        System.out.println("ERROR: " + e);
     }
 }
@@ -730,9 +730,9 @@ public void GenJCov(Environment env) {
 
 
     /**
-     * Write the linenumber table
+     * Write the linenumber tbble
      */
-    public void writeLineNumberTable(Environment env, DataOutputStream out, ConstantPool tab) throws IOException {
+    public void writeLineNumberTbble(Environment env, DbtbOutputStrebm out, ConstbntPool tbb) throws IOException {
         long ln = -1;
         int count = 0;
 
@@ -758,203 +758,203 @@ public void GenJCov(Environment env) {
     }
 
     /**
-     * Figure out when registers contain a legal value. This is done
-     * using a simple data flow algorithm. This information is later used
-     * to generate the local variable table.
+     * Figure out when registers contbin b legbl vblue. This is done
+     * using b simple dbtb flow blgorithm. This informbtion is lbter used
+     * to generbte the locbl vbribble tbble.
      */
-    void flowFields(Environment env, Label lbl, MemberDefinition locals[]) {
-        if (lbl.locals != null) {
-            // Been here before. Erase any conflicts.
-            MemberDefinition f[] = lbl.locals;
-            for (int i = 0 ; i < maxvar ; i++) {
-                if (f[i] != locals[i]) {
+    void flowFields(Environment env, Lbbel lbl, MemberDefinition locbls[]) {
+        if (lbl.locbls != null) {
+            // Been here before. Erbse bny conflicts.
+            MemberDefinition f[] = lbl.locbls;
+            for (int i = 0 ; i < mbxvbr ; i++) {
+                if (f[i] != locbls[i]) {
                     f[i] = null;
                 }
             }
             return;
         }
 
-        // Remember the set of active registers at this point
-        lbl.locals = new MemberDefinition[maxvar];
-        System.arraycopy(locals, 0, lbl.locals, 0, maxvar);
+        // Remember the set of bctive registers bt this point
+        lbl.locbls = new MemberDefinition[mbxvbr];
+        System.brrbycopy(locbls, 0, lbl.locbls, 0, mbxvbr);
 
-        MemberDefinition newlocals[] = new MemberDefinition[maxvar];
-        System.arraycopy(locals, 0, newlocals, 0, maxvar);
-        locals = newlocals;
+        MemberDefinition newlocbls[] = new MemberDefinition[mbxvbr];
+        System.brrbycopy(locbls, 0, newlocbls, 0, mbxvbr);
+        locbls = newlocbls;
 
         for (Instruction inst = lbl.next ; inst != null ; inst = inst.next)  {
             switch (inst.opc) {
-              case opc_istore:   case opc_istore_0: case opc_istore_1:
-              case opc_istore_2: case opc_istore_3:
-              case opc_fstore:   case opc_fstore_0: case opc_fstore_1:
-              case opc_fstore_2: case opc_fstore_3:
-              case opc_astore:   case opc_astore_0: case opc_astore_1:
-              case opc_astore_2: case opc_astore_3:
-              case opc_lstore:   case opc_lstore_0: case opc_lstore_1:
-              case opc_lstore_2: case opc_lstore_3:
-              case opc_dstore:   case opc_dstore_0: case opc_dstore_1:
-              case opc_dstore_2: case opc_dstore_3:
-                if (inst.value instanceof LocalVariable) {
-                    LocalVariable v = (LocalVariable)inst.value;
-                    locals[v.slot] = v.field;
+              cbse opc_istore:   cbse opc_istore_0: cbse opc_istore_1:
+              cbse opc_istore_2: cbse opc_istore_3:
+              cbse opc_fstore:   cbse opc_fstore_0: cbse opc_fstore_1:
+              cbse opc_fstore_2: cbse opc_fstore_3:
+              cbse opc_bstore:   cbse opc_bstore_0: cbse opc_bstore_1:
+              cbse opc_bstore_2: cbse opc_bstore_3:
+              cbse opc_lstore:   cbse opc_lstore_0: cbse opc_lstore_1:
+              cbse opc_lstore_2: cbse opc_lstore_3:
+              cbse opc_dstore:   cbse opc_dstore_0: cbse opc_dstore_1:
+              cbse opc_dstore_2: cbse opc_dstore_3:
+                if (inst.vblue instbnceof LocblVbribble) {
+                    LocblVbribble v = (LocblVbribble)inst.vblue;
+                    locbls[v.slot] = v.field;
                 }
-                break;
+                brebk;
 
-              case opc_label:
-                flowFields(env, (Label)inst, locals);
+              cbse opc_lbbel:
+                flowFields(env, (Lbbel)inst, locbls);
                 return;
 
-              case opc_ifeq: case opc_ifne: case opc_ifgt:
-              case opc_ifge: case opc_iflt: case opc_ifle:
-              case opc_if_icmpeq: case opc_if_icmpne: case opc_if_icmpgt:
-              case opc_if_icmpge: case opc_if_icmplt: case opc_if_icmple:
-              case opc_if_acmpeq: case opc_if_acmpne:
-              case opc_ifnull: case opc_ifnonnull:
-              case opc_jsr:
-                flowFields(env, (Label)inst.value, locals);
-                break;
+              cbse opc_ifeq: cbse opc_ifne: cbse opc_ifgt:
+              cbse opc_ifge: cbse opc_iflt: cbse opc_ifle:
+              cbse opc_if_icmpeq: cbse opc_if_icmpne: cbse opc_if_icmpgt:
+              cbse opc_if_icmpge: cbse opc_if_icmplt: cbse opc_if_icmple:
+              cbse opc_if_bcmpeq: cbse opc_if_bcmpne:
+              cbse opc_ifnull: cbse opc_ifnonnull:
+              cbse opc_jsr:
+                flowFields(env, (Lbbel)inst.vblue, locbls);
+                brebk;
 
-              case opc_goto:
-                flowFields(env, (Label)inst.value, locals);
+              cbse opc_goto:
+                flowFields(env, (Lbbel)inst.vblue, locbls);
                 return;
 
-              case opc_return:   case opc_ireturn:  case opc_lreturn:
-              case opc_freturn:  case opc_dreturn:  case opc_areturn:
-              case opc_athrow:   case opc_ret:
+              cbse opc_return:   cbse opc_ireturn:  cbse opc_lreturn:
+              cbse opc_freturn:  cbse opc_dreturn:  cbse opc_breturn:
+              cbse opc_bthrow:   cbse opc_ret:
                 return;
 
-              case opc_tableswitch:
-              case opc_lookupswitch: {
-                SwitchData sw = (SwitchData)inst.value;
-                flowFields(env, sw.defaultLabel, locals);
-                for (Enumeration<Label> e = sw.tab.elements() ; e.hasMoreElements();) {
-                    flowFields(env, e.nextElement(), locals);
+              cbse opc_tbbleswitch:
+              cbse opc_lookupswitch: {
+                SwitchDbtb sw = (SwitchDbtb)inst.vblue;
+                flowFields(env, sw.defbultLbbel, locbls);
+                for (Enumerbtion<Lbbel> e = sw.tbb.elements() ; e.hbsMoreElements();) {
+                    flowFields(env, e.nextElement(), locbls);
                 }
                 return;
               }
 
-              case opc_try: {
-                Vector<CatchData> catches = ((TryData)inst.value).catches;
-                for (Enumeration<CatchData> e = catches.elements(); e.hasMoreElements();) {
-                    CatchData cd = e.nextElement();
-                    flowFields(env, cd.getLabel(), locals);
+              cbse opc_try: {
+                Vector<CbtchDbtb> cbtches = ((TryDbtb)inst.vblue).cbtches;
+                for (Enumerbtion<CbtchDbtb> e = cbtches.elements(); e.hbsMoreElements();) {
+                    CbtchDbtb cd = e.nextElement();
+                    flowFields(env, cd.getLbbel(), locbls);
                 }
-                break;
+                brebk;
               }
             }
         }
     }
 
     /**
-     * Write the local variable table. The necessary constants have already been
-     * added to the constant table by the collect() method. The flowFields method
-     * is used to determine which variables are alive at each pc.
+     * Write the locbl vbribble tbble. The necessbry constbnts hbve blrebdy been
+     * bdded to the constbnt tbble by the collect() method. The flowFields method
+     * is used to determine which vbribbles bre blive bt ebch pc.
      */
-    public void writeLocalVariableTable(Environment env, MemberDefinition field, DataOutputStream out, ConstantPool tab) throws IOException {
-        MemberDefinition locals[] = new MemberDefinition[maxvar];
+    public void writeLocblVbribbleTbble(Environment env, MemberDefinition field, DbtbOutputStrebm out, ConstbntPool tbb) throws IOException {
+        MemberDefinition locbls[] = new MemberDefinition[mbxvbr];
         int i = 0;
 
-        // Initialize arguments
+        // Initiblize brguments
         if ((field != null) && (field.getArguments() != null)) {
             int reg = 0;
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             Vector<MemberDefinition> v = field.getArguments();
-            for (Enumeration<MemberDefinition> e = v.elements(); e.hasMoreElements(); ) {
+            for (Enumerbtion<MemberDefinition> e = v.elements(); e.hbsMoreElements(); ) {
                 MemberDefinition f = e.nextElement();
-                locals[reg] = f;
-                reg += f.getType().stackSize();
+                locbls[reg] = f;
+                reg += f.getType().stbckSize();
             }
         }
 
-        flowFields(env, first, locals);
-        LocalVariableTable lvtab = new LocalVariableTable();
+        flowFields(env, first, locbls);
+        LocblVbribbleTbble lvtbb = new LocblVbribbleTbble();
 
-        // Initialize arguments again
-        for (i = 0; i < maxvar; i++)
-            locals[i] = null;
+        // Initiblize brguments bgbin
+        for (i = 0; i < mbxvbr; i++)
+            locbls[i] = null;
         if ((field != null) && (field.getArguments() != null)) {
             int reg = 0;
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             Vector<MemberDefinition> v = field.getArguments();
-            for (Enumeration<MemberDefinition> e = v.elements(); e.hasMoreElements(); ) {
+            for (Enumerbtion<MemberDefinition> e = v.elements(); e.hbsMoreElements(); ) {
                 MemberDefinition f = e.nextElement();
-                locals[reg] = f;
-                lvtab.define(f, reg, 0, maxpc);
-                reg += f.getType().stackSize();
+                locbls[reg] = f;
+                lvtbb.define(f, reg, 0, mbxpc);
+                reg += f.getType().stbckSize();
             }
         }
 
-        int pcs[] = new int[maxvar];
+        int pcs[] = new int[mbxvbr];
 
         for (Instruction inst = first ; inst != null ; inst = inst.next)  {
             switch (inst.opc) {
-              case opc_istore:   case opc_istore_0: case opc_istore_1:
-              case opc_istore_2: case opc_istore_3: case opc_fstore:
-              case opc_fstore_0: case opc_fstore_1: case opc_fstore_2:
-              case opc_fstore_3:
-              case opc_astore:   case opc_astore_0: case opc_astore_1:
-              case opc_astore_2: case opc_astore_3:
-              case opc_lstore:   case opc_lstore_0: case opc_lstore_1:
-              case opc_lstore_2: case opc_lstore_3:
-              case opc_dstore:   case opc_dstore_0: case opc_dstore_1:
-              case opc_dstore_2: case opc_dstore_3:
-                if (inst.value instanceof LocalVariable) {
-                    LocalVariable v = (LocalVariable)inst.value;
+              cbse opc_istore:   cbse opc_istore_0: cbse opc_istore_1:
+              cbse opc_istore_2: cbse opc_istore_3: cbse opc_fstore:
+              cbse opc_fstore_0: cbse opc_fstore_1: cbse opc_fstore_2:
+              cbse opc_fstore_3:
+              cbse opc_bstore:   cbse opc_bstore_0: cbse opc_bstore_1:
+              cbse opc_bstore_2: cbse opc_bstore_3:
+              cbse opc_lstore:   cbse opc_lstore_0: cbse opc_lstore_1:
+              cbse opc_lstore_2: cbse opc_lstore_3:
+              cbse opc_dstore:   cbse opc_dstore_0: cbse opc_dstore_1:
+              cbse opc_dstore_2: cbse opc_dstore_3:
+                if (inst.vblue instbnceof LocblVbribble) {
+                    LocblVbribble v = (LocblVbribble)inst.vblue;
                     int pc = (inst.next != null) ? inst.next.pc : inst.pc;
-                    if (locals[v.slot] != null) {
-                        lvtab.define(locals[v.slot], v.slot, pcs[v.slot], pc);
+                    if (locbls[v.slot] != null) {
+                        lvtbb.define(locbls[v.slot], v.slot, pcs[v.slot], pc);
                     }
                     pcs[v.slot] = pc;
-                    locals[v.slot] = v.field;
+                    locbls[v.slot] = v.field;
                 }
-                break;
+                brebk;
 
-              case opc_label: {
-                // flush  previous labels
-                for (i = 0 ; i < maxvar ; i++) {
-                    if (locals[i] != null) {
-                        lvtab.define(locals[i], i, pcs[i], inst.pc);
+              cbse opc_lbbel: {
+                // flush  previous lbbels
+                for (i = 0 ; i < mbxvbr ; i++) {
+                    if (locbls[i] != null) {
+                        lvtbb.define(locbls[i], i, pcs[i], inst.pc);
                     }
                 }
-                // init new labels
+                // init new lbbels
                 int pc = inst.pc;
-                MemberDefinition[] labelLocals = ((Label)inst).locals;
-                if (labelLocals == null) { // unreachable code??
-                    for (i = 0; i < maxvar; i++)
-                        locals[i] = null;
+                MemberDefinition[] lbbelLocbls = ((Lbbel)inst).locbls;
+                if (lbbelLocbls == null) { // unrebchbble code??
+                    for (i = 0; i < mbxvbr; i++)
+                        locbls[i] = null;
                 } else {
-                    System.arraycopy(labelLocals, 0, locals, 0, maxvar);
+                    System.brrbycopy(lbbelLocbls, 0, locbls, 0, mbxvbr);
                 }
-                for (i = 0 ; i < maxvar ; i++) {
+                for (i = 0 ; i < mbxvbr ; i++) {
                     pcs[i] = pc;
                 }
-                break;
+                brebk;
               }
             }
         }
 
-        // flush  remaining labels
-        for (i = 0 ; i < maxvar ; i++) {
-            if (locals[i] != null) {
-                lvtab.define(locals[i], i, pcs[i], maxpc);
+        // flush  rembining lbbels
+        for (i = 0 ; i < mbxvbr ; i++) {
+            if (locbls[i] != null) {
+                lvtbb.define(locbls[i], i, pcs[i], mbxpc);
             }
         }
 
-        // write the local variable table
-        lvtab.write(env, out, tab);
+        // write the locbl vbribble tbble
+        lvtbb.write(env, out, tbb);
     }
 
     /**
      * Return true if empty
      */
-    public boolean empty() {
-        return first == last;
+    public boolebn empty() {
+        return first == lbst;
     }
 
     /**
      * Print the byte codes
      */
-    public void listing(PrintStream out) {
+    public void listing(PrintStrebm out) {
         out.println("-- listing --");
         for (Instruction inst = first ; inst != null ; inst = inst.next) {
             out.println(inst.toString());

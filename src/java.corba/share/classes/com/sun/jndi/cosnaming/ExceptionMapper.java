@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.cosnaming;
+pbckbge com.sun.jndi.cosnbming;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.spi.*;
 
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
+import org.omg.CosNbming.*;
+import org.omg.CosNbming.NbmingContextPbckbge.*;
 import org.omg.CORBA.*;
 
 /**
-  * A convenience class to map the COS Naming exceptions to the JNDI exceptions.
-  * @author Raj Krishnamurthy
+  * A convenience clbss to mbp the COS Nbming exceptions to the JNDI exceptions.
+  * @buthor Rbj Krishnbmurthy
   */
 
-public final class ExceptionMapper {
-    private ExceptionMapper() {} // ensure no instance
-    private static final boolean debug = false;
+public finbl clbss ExceptionMbpper {
+    privbte ExceptionMbpper() {} // ensure no instbnce
+    privbte stbtic finbl boolebn debug = fblse;
 
-    public static final NamingException mapException(Exception e,
-        CNCtx ctx, NameComponent[] inputName) throws NamingException {
-        if (e instanceof NamingException) {
-            return (NamingException)e;
+    public stbtic finbl NbmingException mbpException(Exception e,
+        CNCtx ctx, NbmeComponent[] inputNbme) throws NbmingException {
+        if (e instbnceof NbmingException) {
+            return (NbmingException)e;
         }
 
-        if (e instanceof RuntimeException) {
+        if (e instbnceof RuntimeException) {
             throw (RuntimeException)e;
         }
 
-        NamingException ne;
-        if (e instanceof NotFound) {
-            if (ctx.federation) {
-                return tryFed((NotFound)e, ctx, inputName);
+        NbmingException ne;
+        if (e instbnceof NotFound) {
+            if (ctx.federbtion) {
+                return tryFed((NotFound)e, ctx, inputNbme);
 
             } else {
-                ne = new NameNotFoundException();
+                ne = new NbmeNotFoundException();
             }
 
-        } else if (e instanceof CannotProceed) {
+        } else if (e instbnceof CbnnotProceed) {
 
-            ne = new CannotProceedException();
-            NamingContext nc = ((CannotProceed) e).cxt;
-            NameComponent[] rest = ((CannotProceed) e).rest_of_name;
+            ne = new CbnnotProceedException();
+            NbmingContext nc = ((CbnnotProceed) e).cxt;
+            NbmeComponent[] rest = ((CbnnotProceed) e).rest_of_nbme;
 
-            // %%% We assume that rest returns *all* unprocessed components.
-            // Don't' know if that is a good assumption, given
-            // NotFound doesn't set rest as expected. -RL
-            if (inputName != null && (inputName.length > rest.length)) {
-                NameComponent[] resolvedName =
-                    new NameComponent[inputName.length - rest.length];
-                System.arraycopy(inputName, 0, resolvedName, 0, resolvedName.length);
-                // Wrap resolved NamingContext inside a CNCtx
-                // Guess that its name (which is relative to ctx)
-                // is the part of inputName minus rest_of_name
-                ne.setResolvedObj(new CNCtx(ctx._orb, ctx.orbTracker, nc,
+            // %%% We bssume thbt rest returns *bll* unprocessed components.
+            // Don't' know if thbt is b good bssumption, given
+            // NotFound doesn't set rest bs expected. -RL
+            if (inputNbme != null && (inputNbme.length > rest.length)) {
+                NbmeComponent[] resolvedNbme =
+                    new NbmeComponent[inputNbme.length - rest.length];
+                System.brrbycopy(inputNbme, 0, resolvedNbme, 0, resolvedNbme.length);
+                // Wrbp resolved NbmingContext inside b CNCtx
+                // Guess thbt its nbme (which is relbtive to ctx)
+                // is the pbrt of inputNbme minus rest_of_nbme
+                ne.setResolvedObj(new CNCtx(ctx._orb, ctx.orbTrbcker, nc,
                                                 ctx._env,
-                    ctx.makeFullName(resolvedName)));
+                    ctx.mbkeFullNbme(resolvedNbme)));
             } else {
                 ne.setResolvedObj(ctx);
             }
 
-            ne.setRemainingName(CNNameParser.cosNameToName(rest));
+            ne.setRembiningNbme(CNNbmePbrser.cosNbmeToNbme(rest));
 
-        } else if (e instanceof InvalidName) {
-            ne = new InvalidNameException();
-        } else if (e instanceof AlreadyBound) {
-            ne = new NameAlreadyBoundException();
-        } else if (e instanceof NotEmpty) {
+        } else if (e instbnceof InvblidNbme) {
+            ne = new InvblidNbmeException();
+        } else if (e instbnceof AlrebdyBound) {
+            ne = new NbmeAlrebdyBoundException();
+        } else if (e instbnceof NotEmpty) {
             ne = new ContextNotEmptyException();
         } else {
-            ne = new NamingException("Unknown reasons");
+            ne = new NbmingException("Unknown rebsons");
         }
 
-        ne.setRootCause(e);
+        ne.setRootCbuse(e);
         return ne;
     }
 
-    private static final NamingException tryFed(NotFound e, CNCtx ctx,
-        NameComponent[] inputName) throws NamingException {
-        NameComponent[] rest = e.rest_of_name;
+    privbte stbtic finbl NbmingException tryFed(NotFound e, CNCtx ctx,
+        NbmeComponent[] inputNbme) throws NbmingException {
+        NbmeComponent[] rest = e.rest_of_nbme;
 
         if (debug) {
-            System.out.println(e.why.value());
+            System.out.println(e.why.vblue());
             System.out.println(rest.length);
         }
 
-        // %%% Using 1.2 & 1.3 Sun's tnameserv, 'rest' contains only the first
-        // component that failed, not *rest* as advertized. This is useless
-        // because what if you have something like aa/aa/aa/aa/aa.
-        // If one of those is not found, you get "aa" as 'rest'.
-        if (rest.length == 1 && inputName != null) {
-            // Check that we're not talking to 1.2/1.3 Sun tnameserv
-            NameComponent lastIn = inputName[inputName.length-1];
-            if (rest[0].id.equals(lastIn.id) &&
+        // %%% Using 1.2 & 1.3 Sun's tnbmeserv, 'rest' contbins only the first
+        // component thbt fbiled, not *rest* bs bdvertized. This is useless
+        // becbuse whbt if you hbve something like bb/bb/bb/bb/bb.
+        // If one of those is not found, you get "bb" bs 'rest'.
+        if (rest.length == 1 && inputNbme != null) {
+            // Check thbt we're not tblking to 1.2/1.3 Sun tnbmeserv
+            NbmeComponent lbstIn = inputNbme[inputNbme.length-1];
+            if (rest[0].id.equbls(lbstIn.id) &&
                 rest[0].kind != null &&
-                rest[0].kind.equals(lastIn.kind)) {
+                rest[0].kind.equbls(lbstIn.kind)) {
                 // Might be legit
                 ;
             } else {
-                // Due to 1.2/1.3 bug that always returns single-item 'rest'
-                NamingException ne = new NameNotFoundException();
-                ne.setRemainingName(CNNameParser.cosNameToName(rest));
-                ne.setRootCause(e);
+                // Due to 1.2/1.3 bug thbt blwbys returns single-item 'rest'
+                NbmingException ne = new NbmeNotFoundException();
+                ne.setRembiningNbme(CNNbmePbrser.cosNbmeToNbme(rest));
+                ne.setRootCbuse(e);
                 throw ne;
             }
         }
-        // Fixed in 1.4; perform calculations based on correct (1.4) behavior
+        // Fixed in 1.4; perform cblculbtions bbsed on correct (1.4) behbvior
 
-        // Calculate the components of the name that has been resolved
-        NameComponent[] resolvedName = null;
+        // Cblculbte the components of the nbme thbt hbs been resolved
+        NbmeComponent[] resolvedNbme = null;
         int len = 0;
-        if (inputName != null && (inputName.length >= rest.length)) {
+        if (inputNbme != null && (inputNbme.length >= rest.length)) {
 
-            if (e.why == NotFoundReason.not_context) {
-                // First component of rest is found but not a context; keep it
-                // as part of resolved name
-                len = inputName.length - (rest.length - 1);
+            if (e.why == NotFoundRebson.not_context) {
+                // First component of rest is found but not b context; keep it
+                // bs pbrt of resolved nbme
+                len = inputNbme.length - (rest.length - 1);
 
                 // Remove resolved component from rest
                 if (rest.length == 1) {
-                    // No more remaining
+                    // No more rembining
                     rest = null;
                 } else {
-                    NameComponent[] tmp = new NameComponent[rest.length-1];
-                    System.arraycopy(rest, 1, tmp, 0, tmp.length);
+                    NbmeComponent[] tmp = new NbmeComponent[rest.length-1];
+                    System.brrbycopy(rest, 1, tmp, 0, tmp.length);
                     rest = tmp;
                 }
             } else {
-                len = inputName.length - rest.length;
+                len = inputNbme.length - rest.length;
             }
 
             if (len > 0) {
-                resolvedName = new NameComponent[len];
-                System.arraycopy(inputName, 0, resolvedName, 0, len);
+                resolvedNbme = new NbmeComponent[len];
+                System.brrbycopy(inputNbme, 0, resolvedNbme, 0, len);
             }
         }
 
-        // Create CPE and set common fields
-        CannotProceedException cpe = new CannotProceedException();
-        cpe.setRootCause(e);
+        // Crebte CPE bnd set common fields
+        CbnnotProceedException cpe = new CbnnotProceedException();
+        cpe.setRootCbuse(e);
         if (rest != null && rest.length > 0) {
-            cpe.setRemainingName(CNNameParser.cosNameToName(rest));
+            cpe.setRembiningNbme(CNNbmePbrser.cosNbmeToNbme(rest));
         }
         cpe.setEnvironment(ctx._env);
 
         if (debug) {
-            System.out.println("rest of name: " + cpe.getRemainingName());
+            System.out.println("rest of nbme: " + cpe.getRembiningNbme());
         }
 
-        // Lookup resolved name to get resolved object
-        final java.lang.Object resolvedObj =
-            (resolvedName != null) ? ctx.callResolve(resolvedName) : ctx;
+        // Lookup resolved nbme to get resolved object
+        finbl jbvb.lbng.Object resolvedObj =
+            (resolvedNbme != null) ? ctx.cbllResolve(resolvedNbme) : ctx;
 
-        if (resolvedObj instanceof javax.naming.Context) {
-            // obj is a context and child is not found
-            // try getting its nns dynamically by constructing
-            // a Reference containing obj.
-            RefAddr addr = new RefAddr("nns") {
-                public java.lang.Object getContent() {
+        if (resolvedObj instbnceof jbvbx.nbming.Context) {
+            // obj is b context bnd child is not found
+            // try getting its nns dynbmicblly by constructing
+            // b Reference contbining obj.
+            RefAddr bddr = new RefAddr("nns") {
+                public jbvb.lbng.Object getContent() {
                     return resolvedObj;
                 }
-                private static final long serialVersionUID =
+                privbte stbtic finbl long seriblVersionUID =
                     669984699392133792L;
             };
-            Reference ref = new Reference("java.lang.Object", addr);
+            Reference ref = new Reference("jbvb.lbng.Object", bddr);
 
-            // Resolved name has trailing slash to indicate nns
-            CompositeName cname = new CompositeName();
-            cname.add(""); // add trailing slash
+            // Resolved nbme hbs trbiling slbsh to indicbte nns
+            CompositeNbme cnbme = new CompositeNbme();
+            cnbme.bdd(""); // bdd trbiling slbsh
 
             cpe.setResolvedObj(ref);
-            cpe.setAltName(cname);
-            cpe.setAltNameCtx((javax.naming.Context)resolvedObj);
+            cpe.setAltNbme(cnbme);
+            cpe.setAltNbmeCtx((jbvbx.nbming.Context)resolvedObj);
 
             return cpe;
         } else {
-            // Not a context, use object factory to transform object.
+            // Not b context, use object fbctory to trbnsform object.
 
-            Name cname = CNNameParser.cosNameToName(resolvedName);
-            java.lang.Object resolvedObj2;
+            Nbme cnbme = CNNbmePbrser.cosNbmeToNbme(resolvedNbme);
+            jbvb.lbng.Object resolvedObj2;
             try {
-                resolvedObj2 = NamingManager.getObjectInstance(resolvedObj,
-                    cname, ctx, ctx._env);
-            } catch (NamingException ge) {
+                resolvedObj2 = NbmingMbnbger.getObjectInstbnce(resolvedObj,
+                    cnbme, ctx, ctx._env);
+            } cbtch (NbmingException ge) {
                 throw ge;
-            } catch (Exception ge) {
-                NamingException ne = new NamingException(
-                    "problem generating object using object factory");
-                ne.setRootCause(ge);
+            } cbtch (Exception ge) {
+                NbmingException ne = new NbmingException(
+                    "problem generbting object using object fbctory");
+                ne.setRootCbuse(ge);
                 throw ne;
             }
 
-            // If a context, continue operation with context
-            if (resolvedObj2 instanceof javax.naming.Context) {
+            // If b context, continue operbtion with context
+            if (resolvedObj2 instbnceof jbvbx.nbming.Context) {
                 cpe.setResolvedObj(resolvedObj2);
             } else {
-                // Add trailing slash
-                cname.add("");
-                cpe.setAltName(cname);
+                // Add trbiling slbsh
+                cnbme.bdd("");
+                cpe.setAltNbme(cnbme);
 
-                // Create nns reference
-                final java.lang.Object rf2 = resolvedObj2;
-                RefAddr addr = new RefAddr("nns") {
-                    public java.lang.Object getContent() {
+                // Crebte nns reference
+                finbl jbvb.lbng.Object rf2 = resolvedObj2;
+                RefAddr bddr = new RefAddr("nns") {
+                    public jbvb.lbng.Object getContent() {
                         return rf2;
                     }
-                    private static final long serialVersionUID =
+                    privbte stbtic finbl long seriblVersionUID =
                         -785132553978269772L;
                 };
-                Reference ref = new Reference("java.lang.Object", addr);
+                Reference ref = new Reference("jbvb.lbng.Object", bddr);
                 cpe.setResolvedObj(ref);
-                cpe.setAltNameCtx(ctx);
+                cpe.setAltNbmeCtx(ctx);
             }
             return cpe;
         }

@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.text.*;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.text.Format.Field;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.text.*;
+import jbvb.text.AttributedChbrbcterIterbtor.Attribute;
+import jbvb.text.Formbt.Field;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.JSpinner.DefaultEditor;
-import javax.swing.plaf.*;
-import javax.swing.text.InternationalFormatter;
+import jbvbx.swing.*;
+import jbvbx.swing.JSpinner.DefbultEditor;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.InternbtionblFormbtter;
 
-import apple.laf.*;
-import apple.laf.JRSUIConstants.*;
+import bpple.lbf.*;
+import bpple.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingletonFromDefbultConstructor;
 
 /**
- * This is originally derived from BasicSpinnerUI, but they made everything private
- * so we can't subclass!
+ * This is originblly derived from BbsicSpinnerUI, but they mbde everything privbte
+ * so we cbn't subclbss!
  */
-public class AquaSpinnerUI extends SpinnerUI {
-    private static final RecyclableSingleton<? extends PropertyChangeListener> propertyChangeListener = new RecyclableSingletonFromDefaultConstructor<PropertyChangeHandler>(PropertyChangeHandler.class);
-    static PropertyChangeListener getPropertyChangeListener() {
-        return propertyChangeListener.get();
+public clbss AqubSpinnerUI extends SpinnerUI {
+    privbte stbtic finbl RecyclbbleSingleton<? extends PropertyChbngeListener> propertyChbngeListener = new RecyclbbleSingletonFromDefbultConstructor<PropertyChbngeHbndler>(PropertyChbngeHbndler.clbss);
+    stbtic PropertyChbngeListener getPropertyChbngeListener() {
+        return propertyChbngeListener.get();
     }
 
-    private static final RecyclableSingleton<ArrowButtonHandler> nextButtonHandler = new RecyclableSingleton<ArrowButtonHandler>() {
+    privbte stbtic finbl RecyclbbleSingleton<ArrowButtonHbndler> nextButtonHbndler = new RecyclbbleSingleton<ArrowButtonHbndler>() {
         @Override
-        protected ArrowButtonHandler getInstance() {
-            return new ArrowButtonHandler("increment", true);
+        protected ArrowButtonHbndler getInstbnce() {
+            return new ArrowButtonHbndler("increment", true);
         }
     };
-    static ArrowButtonHandler getNextButtonHandler() {
-        return nextButtonHandler.get();
+    stbtic ArrowButtonHbndler getNextButtonHbndler() {
+        return nextButtonHbndler.get();
     }
-    private static final RecyclableSingleton<ArrowButtonHandler> previousButtonHandler = new RecyclableSingleton<ArrowButtonHandler>() {
+    privbte stbtic finbl RecyclbbleSingleton<ArrowButtonHbndler> previousButtonHbndler = new RecyclbbleSingleton<ArrowButtonHbndler>() {
         @Override
-        protected ArrowButtonHandler getInstance() {
-            return new ArrowButtonHandler("decrement", false);
+        protected ArrowButtonHbndler getInstbnce() {
+            return new ArrowButtonHbndler("decrement", fblse);
         }
     };
-    static ArrowButtonHandler getPreviousButtonHandler() {
-        return previousButtonHandler.get();
+    stbtic ArrowButtonHbndler getPreviousButtonHbndler() {
+        return previousButtonHbndler.get();
     }
 
     JSpinner spinner;
-    SpinPainter spinPainter;
+    SpinPbinter spinPbinter;
 
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaSpinnerUI();
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubSpinnerUI();
     }
 
-    private void maybeAdd(final Component c, final String s) {
+    privbte void mbybeAdd(finbl Component c, finbl String s) {
         if (c != null) {
-            spinner.add(c, s);
+            spinner.bdd(c, s);
         }
     }
 
-    boolean wasOpaque;
-    public void installUI(final JComponent c) {
+    boolebn wbsOpbque;
+    public void instbllUI(finbl JComponent c) {
         this.spinner = (JSpinner)c;
-        installDefaults();
-        installListeners();
-        final TransparentButton next = createNextButton();
-        final TransparentButton prev = createPreviousButton();
-        spinPainter = new SpinPainter(next, prev);
+        instbllDefbults();
+        instbllListeners();
+        finbl TrbnspbrentButton next = crebteNextButton();
+        finbl TrbnspbrentButton prev = crebtePreviousButton();
+        spinPbinter = new SpinPbinter(next, prev);
 
-        maybeAdd(next, "Next");
-        maybeAdd(prev, "Previous");
-        maybeAdd(createEditor(), "Editor");
-        maybeAdd(spinPainter, "Painter");
+        mbybeAdd(next, "Next");
+        mbybeAdd(prev, "Previous");
+        mbybeAdd(crebteEditor(), "Editor");
+        mbybeAdd(spinPbinter, "Pbinter");
 
-        updateEnabledState();
-        installKeyboardActions();
+        updbteEnbbledStbte();
+        instbllKeybobrdActions();
 
-        // this doesn't work because JSpinner calls setOpaque(true) directly in it's constructor
-    //    LookAndFeel.installProperty(spinner, "opaque", Boolean.FALSE);
+        // this doesn't work becbuse JSpinner cblls setOpbque(true) directly in it's constructor
+    //    LookAndFeel.instbllProperty(spinner, "opbque", Boolebn.FALSE);
 
-        // ...so we have to handle the is/was opaque ourselves
-        wasOpaque = spinner.isOpaque();
-        spinner.setOpaque(false);
+        // ...so we hbve to hbndle the is/wbs opbque ourselves
+        wbsOpbque = spinner.isOpbque();
+        spinner.setOpbque(fblse);
     }
 
-    public void uninstallUI(final JComponent c) {
-        uninstallDefaults();
-        uninstallListeners();
-        spinner.setOpaque(wasOpaque);
+    public void uninstbllUI(finbl JComponent c) {
+        uninstbllDefbults();
+        uninstbllListeners();
+        spinner.setOpbque(wbsOpbque);
         spinner = null;
         c.removeAll();
     }
 
-    protected void installListeners() {
-        spinner.addPropertyChangeListener(getPropertyChangeListener());
+    protected void instbllListeners() {
+        spinner.bddPropertyChbngeListener(getPropertyChbngeListener());
     }
 
-    protected void uninstallListeners() {
-        spinner.removePropertyChangeListener(getPropertyChangeListener());
+    protected void uninstbllListeners() {
+        spinner.removePropertyChbngeListener(getPropertyChbngeListener());
     }
 
-    protected void installDefaults() {
-        spinner.setLayout(createLayout());
-        LookAndFeel.installBorder(spinner, "Spinner.border");
-        LookAndFeel.installColorsAndFont(spinner, "Spinner.background", "Spinner.foreground", "Spinner.font");
+    protected void instbllDefbults() {
+        spinner.setLbyout(crebteLbyout());
+        LookAndFeel.instbllBorder(spinner, "Spinner.border");
+        LookAndFeel.instbllColorsAndFont(spinner, "Spinner.bbckground", "Spinner.foreground", "Spinner.font");
     }
 
-    protected void uninstallDefaults() {
-        spinner.setLayout(null);
+    protected void uninstbllDefbults() {
+        spinner.setLbyout(null);
     }
 
-    protected LayoutManager createLayout() {
-        return new SpinnerLayout();
+    protected LbyoutMbnbger crebteLbyout() {
+        return new SpinnerLbyout();
     }
 
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return new PropertyChangeHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return new PropertyChbngeHbndler();
     }
 
-    protected TransparentButton createPreviousButton() {
-        final TransparentButton b = new TransparentButton();
-        b.addActionListener(getPreviousButtonHandler());
-        b.addMouseListener(getPreviousButtonHandler());
+    protected TrbnspbrentButton crebtePreviousButton() {
+        finbl TrbnspbrentButton b = new TrbnspbrentButton();
+        b.bddActionListener(getPreviousButtonHbndler());
+        b.bddMouseListener(getPreviousButtonHbndler());
         b.setInheritsPopupMenu(true);
         return b;
     }
 
-    protected TransparentButton createNextButton() {
-        final TransparentButton b = new TransparentButton();
-        b.addActionListener(getNextButtonHandler());
-        b.addMouseListener(getNextButtonHandler());
+    protected TrbnspbrentButton crebteNextButton() {
+        finbl TrbnspbrentButton b = new TrbnspbrentButton();
+        b.bddActionListener(getNextButtonHbndler());
+        b.bddMouseListener(getNextButtonHbndler());
         b.setInheritsPopupMenu(true);
         return b;
     }
@@ -164,16 +164,16 @@ public class AquaSpinnerUI extends SpinnerUI {
     /**
      * {@inheritDoc}
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
+    public int getBbseline(JComponent c, int width, int height) {
+        super.getBbseline(c, width, height);
         JComponent editor = spinner.getEditor();
         Insets insets = spinner.getInsets();
         width = width - insets.left - insets.right;
         height = height - insets.top - insets.bottom;
         if (width >= 0 && height >= 0) {
-            int baseline = editor.getBaseline(width, height);
-            if (baseline >= 0) {
-                return insets.top + baseline;
+            int bbseline = editor.getBbseline(width, height);
+            if (bbseline >= 0) {
+                return insets.top + bbseline;
             }
         }
         return -1;
@@ -182,280 +182,280 @@ public class AquaSpinnerUI extends SpinnerUI {
     /**
      * {@inheritDoc}
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
+    public Component.BbselineResizeBehbvior getBbselineResizeBehbvior(
             JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        return spinner.getEditor().getBaselineResizeBehavior();
+        super.getBbselineResizeBehbvior(c);
+        return spinner.getEditor().getBbselineResizeBehbvior();
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class TransparentButton extends JButton implements SwingConstants {
-        boolean interceptRepaints = false;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss TrbnspbrentButton extends JButton implements SwingConstbnts {
+        boolebn interceptRepbints = fblse;
 
-        public TransparentButton() {
+        public TrbnspbrentButton() {
             super();
-            setFocusable(false);
-            // only intercept repaints if we are after this has been initialized
-            // otherwise we can't talk to our containing class
-            interceptRepaints = true;
+            setFocusbble(fblse);
+            // only intercept repbints if we bre bfter this hbs been initiblized
+            // otherwise we cbn't tblk to our contbining clbss
+            interceptRepbints = true;
         }
 
-        public void paint(final Graphics g) {}
+        public void pbint(finbl Grbphics g) {}
 
-        public void repaint() {
-            // only intercept repaints if we are after this has been initialized
-            // otherwise we can't talk to our containing class
-            if (interceptRepaints) {
-                if (spinPainter == null) return;
-                spinPainter.repaint();
+        public void repbint() {
+            // only intercept repbints if we bre bfter this hbs been initiblized
+            // otherwise we cbn't tblk to our contbining clbss
+            if (interceptRepbints) {
+                if (spinPbinter == null) return;
+                spinPbinter.repbint();
             }
-            super.repaint();
+            super.repbint();
         }
     }
 
-    protected JComponent createEditor() {
-        final JComponent editor = spinner.getEditor();
+    protected JComponent crebteEditor() {
+        finbl JComponent editor = spinner.getEditor();
         fixupEditor(editor);
         return editor;
     }
 
-    protected void replaceEditor(final JComponent oldEditor, final JComponent newEditor) {
+    protected void replbceEditor(finbl JComponent oldEditor, finbl JComponent newEditor) {
         spinner.remove(oldEditor);
         fixupEditor(newEditor);
-        spinner.add(newEditor, "Editor");
+        spinner.bdd(newEditor, "Editor");
     }
 
-    protected void fixupEditor(final JComponent editor) {
-        if (!(editor instanceof DefaultEditor)) return;
+    protected void fixupEditor(finbl JComponent editor) {
+        if (!(editor instbnceof DefbultEditor)) return;
 
-        editor.setOpaque(false);
+        editor.setOpbque(fblse);
         editor.setInheritsPopupMenu(true);
 
-        if (editor.getFont() instanceof UIResource) {
+        if (editor.getFont() instbnceof UIResource) {
             editor.setFont(spinner.getFont());
         }
 
-        final JFormattedTextField editorTextField = ((DefaultEditor)editor).getTextField();
-        if (editorTextField.getFont() instanceof UIResource) {
+        finbl JFormbttedTextField editorTextField = ((DefbultEditor)editor).getTextField();
+        if (editorTextField.getFont() instbnceof UIResource) {
             editorTextField.setFont(spinner.getFont());
         }
-        final InputMap spinnerInputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        final InputMap editorInputMap = editorTextField.getInputMap();
-        final KeyStroke[] keys = spinnerInputMap.keys();
-        for (final KeyStroke k : keys) {
-            editorInputMap.put(k, spinnerInputMap.get(k));
+        finbl InputMbp spinnerInputMbp = getInputMbp(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        finbl InputMbp editorInputMbp = editorTextField.getInputMbp();
+        finbl KeyStroke[] keys = spinnerInputMbp.keys();
+        for (finbl KeyStroke k : keys) {
+            editorInputMbp.put(k, spinnerInputMbp.get(k));
         }
     }
 
-    void updateEnabledState() {
-        updateEnabledState(spinner, spinner.isEnabled());
+    void updbteEnbbledStbte() {
+        updbteEnbbledStbte(spinner, spinner.isEnbbled());
     }
 
-    private void updateEnabledState(final Container c, final boolean enabled) {
+    privbte void updbteEnbbledStbte(finbl Contbiner c, finbl boolebn enbbled) {
         for (int counter = c.getComponentCount() - 1; counter >= 0; counter--) {
-            final Component child = c.getComponent(counter);
+            finbl Component child = c.getComponent(counter);
 
-            child.setEnabled(enabled);
-            if (child instanceof Container) {
-                updateEnabledState((Container)child, enabled);
+            child.setEnbbled(enbbled);
+            if (child instbnceof Contbiner) {
+                updbteEnbbledStbte((Contbiner)child, enbbled);
             }
         }
     }
 
-    private void installKeyboardActions() {
-        final InputMap iMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        SwingUtilities.replaceUIInputMap(spinner, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, iMap);
-        SwingUtilities.replaceUIActionMap(spinner, getActionMap());
+    privbte void instbllKeybobrdActions() {
+        finbl InputMbp iMbp = getInputMbp(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        SwingUtilities.replbceUIInputMbp(spinner, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, iMbp);
+        SwingUtilities.replbceUIActionMbp(spinner, getActionMbp());
     }
 
-    private InputMap getInputMap(final int condition) {
+    privbte InputMbp getInputMbp(finbl int condition) {
         if (condition == JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
-            return (InputMap)UIManager.get("Spinner.ancestorInputMap");
+            return (InputMbp)UIMbnbger.get("Spinner.bncestorInputMbp");
         }
         return null;
     }
 
-    private ActionMap getActionMap() {
-        ActionMap map = (ActionMap)UIManager.get("Spinner.actionMap");
+    privbte ActionMbp getActionMbp() {
+        ActionMbp mbp = (ActionMbp)UIMbnbger.get("Spinner.bctionMbp");
 
-        if (map == null) {
-            map = createActionMap();
-            if (map != null) {
-                UIManager.getLookAndFeelDefaults().put("Spinner.actionMap", map);
+        if (mbp == null) {
+            mbp = crebteActionMbp();
+            if (mbp != null) {
+                UIMbnbger.getLookAndFeelDefbults().put("Spinner.bctionMbp", mbp);
             }
         }
-        return map;
+        return mbp;
     }
 
-    private ActionMap createActionMap() {
-        final ActionMap map = new ActionMapUIResource();
-        map.put("increment", getNextButtonHandler());
-        map.put("decrement", getPreviousButtonHandler());
-        return map;
+    privbte ActionMbp crebteActionMbp() {
+        finbl ActionMbp mbp = new ActionMbpUIResource();
+        mbp.put("increment", getNextButtonHbndler());
+        mbp.put("decrement", getPreviousButtonHbndler());
+        return mbp;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class ArrowButtonHandler extends AbstractAction implements MouseListener {
-        final javax.swing.Timer autoRepeatTimer;
-        final boolean isNext;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte stbtic clbss ArrowButtonHbndler extends AbstrbctAction implements MouseListener {
+        finbl jbvbx.swing.Timer butoRepebtTimer;
+        finbl boolebn isNext;
         JSpinner spinner = null;
 
-        ArrowButtonHandler(final String name, final boolean isNext) {
-            super(name);
+        ArrowButtonHbndler(finbl String nbme, finbl boolebn isNext) {
+            super(nbme);
             this.isNext = isNext;
-            autoRepeatTimer = new javax.swing.Timer(60, this);
-            autoRepeatTimer.setInitialDelay(300);
+            butoRepebtTimer = new jbvbx.swing.Timer(60, this);
+            butoRepebtTimer.setInitiblDelby(300);
         }
 
-        private JSpinner eventToSpinner(final AWTEvent e) {
+        privbte JSpinner eventToSpinner(finbl AWTEvent e) {
             Object src = e.getSource();
-            while ((src instanceof Component) && !(src instanceof JSpinner)) {
-                src = ((Component)src).getParent();
+            while ((src instbnceof Component) && !(src instbnceof JSpinner)) {
+                src = ((Component)src).getPbrent();
             }
-            return (src instanceof JSpinner) ? (JSpinner)src : null;
+            return (src instbnceof JSpinner) ? (JSpinner)src : null;
         }
 
-        public void actionPerformed(final ActionEvent e) {
-            if (!(e.getSource() instanceof javax.swing.Timer)) {
-                // Most likely resulting from being in ActionMap.
+        public void bctionPerformed(finbl ActionEvent e) {
+            if (!(e.getSource() instbnceof jbvbx.swing.Timer)) {
+                // Most likely resulting from being in ActionMbp.
                 spinner = eventToSpinner(e);
             }
 
             if (spinner == null) return;
 
             try {
-                final int calendarField = getCalendarField(spinner);
+                finbl int cblendbrField = getCblendbrField(spinner);
                 spinner.commitEdit();
-                if (calendarField != -1) {
-                    ((SpinnerDateModel)spinner.getModel()).setCalendarField(calendarField);
+                if (cblendbrField != -1) {
+                    ((SpinnerDbteModel)spinner.getModel()).setCblendbrField(cblendbrField);
                 }
-                final Object value = (isNext) ? spinner.getNextValue() : spinner.getPreviousValue();
-                if (value != null) {
-                    spinner.setValue(value);
+                finbl Object vblue = (isNext) ? spinner.getNextVblue() : spinner.getPreviousVblue();
+                if (vblue != null) {
+                    spinner.setVblue(vblue);
                     select(spinner);
                 }
-            } catch (final IllegalArgumentException iae) {
-                UIManager.getLookAndFeel().provideErrorFeedback(spinner);
-            } catch (final ParseException pe) {
-                UIManager.getLookAndFeel().provideErrorFeedback(spinner);
+            } cbtch (finbl IllegblArgumentException ibe) {
+                UIMbnbger.getLookAndFeel().provideErrorFeedbbck(spinner);
+            } cbtch (finbl PbrseException pe) {
+                UIMbnbger.getLookAndFeel().provideErrorFeedbbck(spinner);
             }
         }
 
         /**
-         * If the spinner's editor is a DateEditor, this selects the field
-         * associated with the value that is being incremented.
+         * If the spinner's editor is b DbteEditor, this selects the field
+         * bssocibted with the vblue thbt is being incremented.
          */
-        private void select(final JSpinner spinnerComponent) {
-            final JComponent editor = spinnerComponent.getEditor();
-            if (!(editor instanceof JSpinner.DateEditor)) return;
+        privbte void select(finbl JSpinner spinnerComponent) {
+            finbl JComponent editor = spinnerComponent.getEditor();
+            if (!(editor instbnceof JSpinner.DbteEditor)) return;
 
-            final JSpinner.DateEditor dateEditor = (JSpinner.DateEditor)editor;
-            final JFormattedTextField ftf = dateEditor.getTextField();
-            final Format format = dateEditor.getFormat();
-            Object value;
-            if (format == null || (value = spinnerComponent.getValue()) == null) return;
+            finbl JSpinner.DbteEditor dbteEditor = (JSpinner.DbteEditor)editor;
+            finbl JFormbttedTextField ftf = dbteEditor.getTextField();
+            finbl Formbt formbt = dbteEditor.getFormbt();
+            Object vblue;
+            if (formbt == null || (vblue = spinnerComponent.getVblue()) == null) return;
 
-            final SpinnerDateModel model = dateEditor.getModel();
-            final DateFormat.Field field = DateFormat.Field.ofCalendarField(model.getCalendarField());
+            finbl SpinnerDbteModel model = dbteEditor.getModel();
+            finbl DbteFormbt.Field field = DbteFormbt.Field.ofCblendbrField(model.getCblendbrField());
             if (field == null) return;
 
             try {
-                final AttributedCharacterIterator iterator = format.formatToCharacterIterator(value);
-                if (!select(ftf, iterator, field) && field == DateFormat.Field.HOUR0) {
-                    select(ftf, iterator, DateFormat.Field.HOUR1);
+                finbl AttributedChbrbcterIterbtor iterbtor = formbt.formbtToChbrbcterIterbtor(vblue);
+                if (!select(ftf, iterbtor, field) && field == DbteFormbt.Field.HOUR0) {
+                    select(ftf, iterbtor, DbteFormbt.Field.HOUR1);
                 }
-            } catch (final IllegalArgumentException iae) {}
+            } cbtch (finbl IllegblArgumentException ibe) {}
         }
 
         /**
-         * Selects the passed in field, returning true if it is found,
-         * false otherwise.
+         * Selects the pbssed in field, returning true if it is found,
+         * fblse otherwise.
          */
-        private boolean select(final JFormattedTextField ftf, final AttributedCharacterIterator iterator, final DateFormat.Field field) {
-            final int max = ftf.getDocument().getLength();
+        privbte boolebn select(finbl JFormbttedTextField ftf, finbl AttributedChbrbcterIterbtor iterbtor, finbl DbteFormbt.Field field) {
+            finbl int mbx = ftf.getDocument().getLength();
 
-            iterator.first();
+            iterbtor.first();
             do {
-                final Map<Attribute,Object> attrs = iterator.getAttributes();
-                if (attrs == null || !attrs.containsKey(field)) continue;
+                finbl Mbp<Attribute,Object> bttrs = iterbtor.getAttributes();
+                if (bttrs == null || !bttrs.contbinsKey(field)) continue;
 
-                final int start = iterator.getRunStart(field);
-                final int end = iterator.getRunLimit(field);
-                if (start != -1 && end != -1 && start <= max && end <= max) {
-                    ftf.select(start, end);
+                finbl int stbrt = iterbtor.getRunStbrt(field);
+                finbl int end = iterbtor.getRunLimit(field);
+                if (stbrt != -1 && end != -1 && stbrt <= mbx && end <= mbx) {
+                    ftf.select(stbrt, end);
                 }
 
                 return true;
-            } while (iterator.next() != CharacterIterator.DONE);
-            return false;
+            } while (iterbtor.next() != ChbrbcterIterbtor.DONE);
+            return fblse;
         }
 
         /**
-         * Returns the calendarField under the start of the selection, or
-         * -1 if there is no valid calendar field under the selection (or
-         * the spinner isn't editing dates.
+         * Returns the cblendbrField under the stbrt of the selection, or
+         * -1 if there is no vblid cblendbr field under the selection (or
+         * the spinner isn't editing dbtes.
          */
-        private int getCalendarField(final JSpinner spinnerComponent) {
-            final JComponent editor = spinnerComponent.getEditor();
-            if (!(editor instanceof JSpinner.DateEditor)) return -1;
+        privbte int getCblendbrField(finbl JSpinner spinnerComponent) {
+            finbl JComponent editor = spinnerComponent.getEditor();
+            if (!(editor instbnceof JSpinner.DbteEditor)) return -1;
 
-            final JSpinner.DateEditor dateEditor = (JSpinner.DateEditor)editor;
-            final JFormattedTextField ftf = dateEditor.getTextField();
-            final int start = ftf.getSelectionStart();
-            final JFormattedTextField.AbstractFormatter formatter = ftf.getFormatter();
-            if (!(formatter instanceof InternationalFormatter)) return -1;
+            finbl JSpinner.DbteEditor dbteEditor = (JSpinner.DbteEditor)editor;
+            finbl JFormbttedTextField ftf = dbteEditor.getTextField();
+            finbl int stbrt = ftf.getSelectionStbrt();
+            finbl JFormbttedTextField.AbstrbctFormbtter formbtter = ftf.getFormbtter();
+            if (!(formbtter instbnceof InternbtionblFormbtter)) return -1;
 
-            final Format.Field[] fields = ((InternationalFormatter)formatter).getFields(start);
-            for (final Field element : fields) {
-                if (!(element instanceof DateFormat.Field)) continue;
-                int calendarField;
+            finbl Formbt.Field[] fields = ((InternbtionblFormbtter)formbtter).getFields(stbrt);
+            for (finbl Field element : fields) {
+                if (!(element instbnceof DbteFormbt.Field)) continue;
+                int cblendbrField;
 
-                if (element == DateFormat.Field.HOUR1) {
-                    calendarField = Calendar.HOUR;
+                if (element == DbteFormbt.Field.HOUR1) {
+                    cblendbrField = Cblendbr.HOUR;
                 } else {
-                    calendarField = ((DateFormat.Field)element).getCalendarField();
+                    cblendbrField = ((DbteFormbt.Field)element).getCblendbrField();
                 }
 
-                if (calendarField != -1) {
-                    return calendarField;
+                if (cblendbrField != -1) {
+                    return cblendbrField;
                 }
             }
             return -1;
         }
 
-        public void mousePressed(final MouseEvent e) {
-            if (!SwingUtilities.isLeftMouseButton(e) || !e.getComponent().isEnabled()) return;
+        public void mousePressed(finbl MouseEvent e) {
+            if (!SwingUtilities.isLeftMouseButton(e) || !e.getComponent().isEnbbled()) return;
             spinner = eventToSpinner(e);
-            autoRepeatTimer.start();
+            butoRepebtTimer.stbrt();
 
-            focusSpinnerIfNecessary();
+            focusSpinnerIfNecessbry();
         }
 
-        public void mouseReleased(final MouseEvent e) {
-            autoRepeatTimer.stop();
+        public void mouseRelebsed(finbl MouseEvent e) {
+            butoRepebtTimer.stop();
             spinner = null;
         }
 
-        public void mouseClicked(final MouseEvent e) {}
-        public void mouseEntered(final MouseEvent e) {}
-        public void mouseExited(final MouseEvent e) {}
+        public void mouseClicked(finbl MouseEvent e) {}
+        public void mouseEntered(finbl MouseEvent e) {}
+        public void mouseExited(finbl MouseEvent e) {}
 
         /**
-         * Requests focus on a child of the spinner if the spinner doesn't
-         * have focus.
+         * Requests focus on b child of the spinner if the spinner doesn't
+         * hbve focus.
          */
-        private void focusSpinnerIfNecessary() {
-            final Component fo = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-            if (!spinner.isRequestFocusEnabled() || (fo != null && (SwingUtilities.isDescendingFrom(fo, spinner)))) return;
-            Container root = spinner;
+        privbte void focusSpinnerIfNecessbry() {
+            finbl Component fo = KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().getFocusOwner();
+            if (!spinner.isRequestFocusEnbbled() || (fo != null && (SwingUtilities.isDescendingFrom(fo, spinner)))) return;
+            Contbiner root = spinner;
 
             if (!root.isFocusCycleRoot()) {
                 root = root.getFocusCycleRootAncestor();
             }
 
             if (root == null) return;
-            final FocusTraversalPolicy ftp = root.getFocusTraversalPolicy();
-            final Component child = ftp.getComponentAfter(root, spinner);
+            finbl FocusTrbversblPolicy ftp = root.getFocusTrbversblPolicy();
+            finbl Component child = ftp.getComponentAfter(root, spinner);
 
             if (child != null && SwingUtilities.isDescendingFrom(child, spinner)) {
                 child.requestFocus();
@@ -463,19 +463,19 @@ public class AquaSpinnerUI extends SpinnerUI {
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class SpinPainter extends JComponent {
-        final AquaPainter<JRSUIState> painter = AquaPainter.create(JRSUIStateFactory.getSpinnerArrows());
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss SpinPbinter extends JComponent {
+        finbl AqubPbinter<JRSUIStbte> pbinter = AqubPbinter.crebte(JRSUIStbteFbctory.getSpinnerArrows());
 
         ButtonModel fTopModel;
         ButtonModel fBottomModel;
 
-        boolean fPressed = false;
-        boolean fTopPressed = false;
+        boolebn fPressed = fblse;
+        boolebn fTopPressed = fblse;
 
         Dimension kPreferredSize = new Dimension(15, 24); // 19,27 before trimming
 
-        public SpinPainter(final AbstractButton top, final AbstractButton bottom) {
+        public SpinPbinter(finbl AbstrbctButton top, finbl AbstrbctButton bottom) {
             if (top != null) {
                 fTopModel = top.getModel();
             }
@@ -485,34 +485,34 @@ public class AquaSpinnerUI extends SpinnerUI {
             }
         }
 
-        public void paint(final Graphics g) {
-            if (spinner.isOpaque()) {
-                g.setColor(spinner.getBackground());
+        public void pbint(finbl Grbphics g) {
+            if (spinner.isOpbque()) {
+                g.setColor(spinner.getBbckground());
                 g.fillRect(0, 0, getWidth(), getHeight());
             }
 
-            AquaUtilControlSize.applySizeForControl(spinner, painter);
+            AqubUtilControlSize.bpplySizeForControl(spinner, pbinter);
 
-            if (isEnabled()) {
+            if (isEnbbled()) {
                 if (fTopModel != null && fTopModel.isPressed()) {
-                    painter.state.set(State.PRESSED);
-                    painter.state.set(BooleanValue.NO);
+                    pbinter.stbte.set(Stbte.PRESSED);
+                    pbinter.stbte.set(BoolebnVblue.NO);
                 } else if (fBottomModel != null && fBottomModel.isPressed()) {
-                    painter.state.set(State.PRESSED);
-                    painter.state.set(BooleanValue.YES);
+                    pbinter.stbte.set(Stbte.PRESSED);
+                    pbinter.stbte.set(BoolebnVblue.YES);
                 } else {
-                    painter.state.set(State.ACTIVE);
+                    pbinter.stbte.set(Stbte.ACTIVE);
                 }
             } else {
-                painter.state.set(State.DISABLED);
+                pbinter.stbte.set(Stbte.DISABLED);
             }
 
-            final Rectangle bounds = getBounds();
-            painter.paint(g, spinner, 0, 0, bounds.width, bounds.height);
+            finbl Rectbngle bounds = getBounds();
+            pbinter.pbint(g, spinner, 0, 0, bounds.width, bounds.height);
         }
 
         public Dimension getPreferredSize() {
-            final Size size = AquaUtilControlSize.getUserSizeFrom(this);
+            finbl Size size = AqubUtilControlSize.getUserSizeFrom(this);
 
             if (size == Size.MINI) {
                 return new Dimension(kPreferredSize.width, kPreferredSize.height - 8);
@@ -523,89 +523,89 @@ public class AquaSpinnerUI extends SpinnerUI {
     }
 
     /**
-     * A simple layout manager for the editor and the next/previous buttons.
-     * See the AquaSpinnerUI javadoc for more information about exactly
-     * how the components are arranged.
+     * A simple lbyout mbnbger for the editor bnd the next/previous buttons.
+     * See the AqubSpinnerUI jbvbdoc for more informbtion bbout exbctly
+     * how the components bre brrbnged.
      */
-    static class SpinnerLayout implements LayoutManager {
-        private Component nextButton = null;
-        private Component previousButton = null;
-        private Component editor = null;
-        private Component painter = null;
+    stbtic clbss SpinnerLbyout implements LbyoutMbnbger {
+        privbte Component nextButton = null;
+        privbte Component previousButton = null;
+        privbte Component editor = null;
+        privbte Component pbinter = null;
 
-        public void addLayoutComponent(final String name, final Component c) {
-            if ("Next".equals(name)) {
+        public void bddLbyoutComponent(finbl String nbme, finbl Component c) {
+            if ("Next".equbls(nbme)) {
                 nextButton = c;
-            } else if ("Previous".equals(name)) {
+            } else if ("Previous".equbls(nbme)) {
                 previousButton = c;
-            } else if ("Editor".equals(name)) {
+            } else if ("Editor".equbls(nbme)) {
                 editor = c;
-            } else if ("Painter".equals(name)) {
-                painter = c;
+            } else if ("Pbinter".equbls(nbme)) {
+                pbinter = c;
             }
         }
 
-        public void removeLayoutComponent(Component c) {
+        public void removeLbyoutComponent(Component c) {
             if (c == nextButton) {
                 c = null;
             } else if (c == previousButton) {
                 previousButton = null;
             } else if (c == editor) {
                 editor = null;
-            } else if (c == painter) {
-                painter = null;
+            } else if (c == pbinter) {
+                pbinter = null;
             }
         }
 
-        private Dimension preferredSize(final Component c) {
+        privbte Dimension preferredSize(finbl Component c) {
             return (c == null) ? new Dimension(0, 0) : c.getPreferredSize();
         }
 
-        public Dimension preferredLayoutSize(final Container parent) {
+        public Dimension preferredLbyoutSize(finbl Contbiner pbrent) {
 //            Dimension nextD = preferredSize(nextButton);
 //            Dimension previousD = preferredSize(previousButton);
-            final Dimension editorD = preferredSize(editor);
-            final Dimension painterD = preferredSize(painter);
+            finbl Dimension editorD = preferredSize(editor);
+            finbl Dimension pbinterD = preferredSize(pbinter);
 
-            /* Force the editors height to be a multiple of 2
+            /* Force the editors height to be b multiple of 2
              */
             editorD.height = ((editorD.height + 1) / 2) * 2;
 
-            final Dimension size = new Dimension(editorD.width, Math.max(painterD.height, editorD.height));
-            size.width += painterD.width; //Math.max(nextD.width, previousD.width);
-            final Insets insets = parent.getInsets();
+            finbl Dimension size = new Dimension(editorD.width, Mbth.mbx(pbinterD.height, editorD.height));
+            size.width += pbinterD.width; //Mbth.mbx(nextD.width, previousD.width);
+            finbl Insets insets = pbrent.getInsets();
             size.width += insets.left + insets.right;
             size.height += insets.top + insets.bottom;
             return size;
         }
 
-        public Dimension minimumLayoutSize(final Container parent) {
-            return preferredLayoutSize(parent);
+        public Dimension minimumLbyoutSize(finbl Contbiner pbrent) {
+            return preferredLbyoutSize(pbrent);
         }
 
-        private void setBounds(final Component c, final int x, final int y, final int width, final int height) {
+        privbte void setBounds(finbl Component c, finbl int x, finbl int y, finbl int width, finbl int height) {
             if (c != null) {
                 c.setBounds(x, y, width, height);
             }
         }
 
-        public void layoutContainer(final Container parent) {
-            final Insets insets = parent.getInsets();
-            final int availWidth = parent.getWidth() - (insets.left + insets.right);
-            final int availHeight = parent.getHeight() - (insets.top + insets.bottom);
+        public void lbyoutContbiner(finbl Contbiner pbrent) {
+            finbl Insets insets = pbrent.getInsets();
+            finbl int bvbilWidth = pbrent.getWidth() - (insets.left + insets.right);
+            finbl int bvbilHeight = pbrent.getHeight() - (insets.top + insets.bottom);
 
-            final Dimension painterD = preferredSize(painter);
+            finbl Dimension pbinterD = preferredSize(pbinter);
 //            Dimension nextD = preferredSize(nextButton);
 //            Dimension previousD = preferredSize(previousButton);
-            final int nextHeight = availHeight / 2;
-            final int previousHeight = availHeight - nextHeight;
-            final int buttonsWidth = painterD.width; //Math.max(nextD.width, previousD.width);
-            final int editorWidth = availWidth - buttonsWidth;
+            finbl int nextHeight = bvbilHeight / 2;
+            finbl int previousHeight = bvbilHeight - nextHeight;
+            finbl int buttonsWidth = pbinterD.width; //Mbth.mbx(nextD.width, previousD.width);
+            finbl int editorWidth = bvbilWidth - buttonsWidth;
 
-            /* Deal with the spinners componentOrientation property.
+            /* Debl with the spinners componentOrientbtion property.
              */
             int editorX, buttonsX;
-            if (parent.getComponentOrientation().isLeftToRight()) {
+            if (pbrent.getComponentOrientbtion().isLeftToRight()) {
                 editorX = insets.left;
                 buttonsX = editorX + editorWidth;
             } else {
@@ -613,46 +613,46 @@ public class AquaSpinnerUI extends SpinnerUI {
                 editorX = buttonsX + buttonsWidth;
             }
 
-            final int previousY = insets.top + nextHeight;
-            final int painterTop = previousY - (painterD.height / 2);
-            setBounds(editor, editorX, insets.top, editorWidth, availHeight);
+            finbl int previousY = insets.top + nextHeight;
+            finbl int pbinterTop = previousY - (pbinterD.height / 2);
+            setBounds(editor, editorX, insets.top, editorWidth, bvbilHeight);
             setBounds(nextButton, buttonsX, insets.top, buttonsWidth, nextHeight);
             setBounds(previousButton, buttonsX, previousY, buttonsWidth, previousHeight);
-            setBounds(painter, buttonsX, painterTop, buttonsWidth, painterD.height);
+            setBounds(pbinter, buttonsX, pbinterTop, buttonsWidth, pbinterD.height);
         }
     }
 
     /**
-     * Detect JSpinner property changes we're interested in and delegate.  Subclasses
-     * shouldn't need to replace the default propertyChangeListener (although they
-     * can by overriding createPropertyChangeListener) since all of the interesting
-     * property changes are delegated to protected methods.
+     * Detect JSpinner property chbnges we're interested in bnd delegbte.  Subclbsses
+     * shouldn't need to replbce the defbult propertyChbngeListener (blthough they
+     * cbn by overriding crebtePropertyChbngeListener) since bll of the interesting
+     * property chbnges bre delegbted to protected methods.
      */
-    static class PropertyChangeHandler implements PropertyChangeListener {
-        public void propertyChange(final PropertyChangeEvent e) {
-            final String propertyName = e.getPropertyName();
-            final JSpinner spinner = (JSpinner)(e.getSource());
-            final SpinnerUI spinnerUI = spinner.getUI();
+    stbtic clbss PropertyChbngeHbndler implements PropertyChbngeListener {
+        public void propertyChbnge(finbl PropertyChbngeEvent e) {
+            finbl String propertyNbme = e.getPropertyNbme();
+            finbl JSpinner spinner = (JSpinner)(e.getSource());
+            finbl SpinnerUI spinnerUI = spinner.getUI();
 
-            if (spinnerUI instanceof AquaSpinnerUI) {
-                final AquaSpinnerUI ui = (AquaSpinnerUI)spinnerUI;
+            if (spinnerUI instbnceof AqubSpinnerUI) {
+                finbl AqubSpinnerUI ui = (AqubSpinnerUI)spinnerUI;
 
-                if ("editor".equals(propertyName)) {
-                    final JComponent oldEditor = (JComponent)e.getOldValue();
-                    final JComponent newEditor = (JComponent)e.getNewValue();
-                    ui.replaceEditor(oldEditor, newEditor);
-                    ui.updateEnabledState();
-                } else if ("enabled".equals(propertyName)) {
-                    ui.updateEnabledState();
-                } else if (JComponent.TOOL_TIP_TEXT_KEY.equals(propertyName)) {
-                    ui.updateToolTipTextForChildren(spinner);
-                } else if ("font".equals(propertyName)) {
+                if ("editor".equbls(propertyNbme)) {
+                    finbl JComponent oldEditor = (JComponent)e.getOldVblue();
+                    finbl JComponent newEditor = (JComponent)e.getNewVblue();
+                    ui.replbceEditor(oldEditor, newEditor);
+                    ui.updbteEnbbledStbte();
+                } else if ("enbbled".equbls(propertyNbme)) {
+                    ui.updbteEnbbledStbte();
+                } else if (JComponent.TOOL_TIP_TEXT_KEY.equbls(propertyNbme)) {
+                    ui.updbteToolTipTextForChildren(spinner);
+                } else if ("font".equbls(propertyNbme)) {
                     JComponent editor = spinner.getEditor();
-                    if (editor != null && editor instanceof JSpinner.DefaultEditor) {
+                    if (editor != null && editor instbnceof JSpinner.DefbultEditor) {
                         JTextField tf =
-                                ((JSpinner.DefaultEditor) editor).getTextField();
+                                ((JSpinner.DefbultEditor) editor).getTextField();
                         if (tf != null) {
-                            if (tf.getFont() instanceof UIResource) {
+                            if (tf.getFont() instbnceof UIResource) {
                                 tf.setFont(spinner.getFont());
                             }
                         }
@@ -663,17 +663,17 @@ public class AquaSpinnerUI extends SpinnerUI {
     }
 
     // Syncronizes the ToolTip text for the components within the spinner
-    // to be the same value as the spinner ToolTip text.
-    void updateToolTipTextForChildren(final JComponent spinnerComponent) {
-        final String toolTipText = spinnerComponent.getToolTipText();
-        final Component[] children = spinnerComponent.getComponents();
-        for (final Component element : children) {
-            if (element instanceof JSpinner.DefaultEditor) {
-                final JTextField tf = ((JSpinner.DefaultEditor)element).getTextField();
+    // to be the sbme vblue bs the spinner ToolTip text.
+    void updbteToolTipTextForChildren(finbl JComponent spinnerComponent) {
+        finbl String toolTipText = spinnerComponent.getToolTipText();
+        finbl Component[] children = spinnerComponent.getComponents();
+        for (finbl Component element : children) {
+            if (element instbnceof JSpinner.DefbultEditor) {
+                finbl JTextField tf = ((JSpinner.DefbultEditor)element).getTextField();
                 if (tf != null) {
                     tf.setToolTipText(toolTipText);
                 }
-            } else if (element instanceof JComponent) {
+            } else if (element instbnceof JComponent) {
                 ((JComponent)element).setToolTipText(toolTipText);
             }
         }

@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+pbckbge jbvb.util;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.BiFunction;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.Function;
+import jbvb.util.function.Predicbte;
+import jbvb.util.function.UnbryOperbtor;
+import jbvb.util.strebm.IntStrebm;
+import jbvb.util.strebm.Strebm;
+import jbvb.util.strebm.StrebmSupport;
 
 /**
- * This class consists exclusively of static methods that operate on or return
- * collections.  It contains polymorphic algorithms that operate on
- * collections, "wrappers", which return a new collection backed by a
- * specified collection, and a few other odds and ends.
+ * This clbss consists exclusively of stbtic methods thbt operbte on or return
+ * collections.  It contbins polymorphic blgorithms thbt operbte on
+ * collections, "wrbppers", which return b new collection bbcked by b
+ * specified collection, bnd b few other odds bnd ends.
  *
- * <p>The methods of this class all throw a <tt>NullPointerException</tt>
- * if the collections or class objects provided to them are null.
+ * <p>The methods of this clbss bll throw b <tt>NullPointerException</tt>
+ * if the collections or clbss objects provided to them bre null.
  *
- * <p>The documentation for the polymorphic algorithms contained in this class
- * generally includes a brief description of the <i>implementation</i>.  Such
- * descriptions should be regarded as <i>implementation notes</i>, rather than
- * parts of the <i>specification</i>.  Implementors should feel free to
- * substitute other algorithms, so long as the specification itself is adhered
- * to.  (For example, the algorithm used by <tt>sort</tt> does not have to be
- * a mergesort, but it does have to be <i>stable</i>.)
+ * <p>The documentbtion for the polymorphic blgorithms contbined in this clbss
+ * generblly includes b brief description of the <i>implementbtion</i>.  Such
+ * descriptions should be regbrded bs <i>implementbtion notes</i>, rbther thbn
+ * pbrts of the <i>specificbtion</i>.  Implementors should feel free to
+ * substitute other blgorithms, so long bs the specificbtion itself is bdhered
+ * to.  (For exbmple, the blgorithm used by <tt>sort</tt> does not hbve to be
+ * b mergesort, but it does hbve to be <i>stbble</i>.)
  *
- * <p>The "destructive" algorithms contained in this class, that is, the
- * algorithms that modify the collection on which they operate, are specified
- * to throw <tt>UnsupportedOperationException</tt> if the collection does not
- * support the appropriate mutation primitive(s), such as the <tt>set</tt>
- * method.  These algorithms may, but are not required to, throw this
- * exception if an invocation would have no effect on the collection.  For
- * example, invoking the <tt>sort</tt> method on an unmodifiable list that is
- * already sorted may or may not throw <tt>UnsupportedOperationException</tt>.
+ * <p>The "destructive" blgorithms contbined in this clbss, thbt is, the
+ * blgorithms thbt modify the collection on which they operbte, bre specified
+ * to throw <tt>UnsupportedOperbtionException</tt> if the collection does not
+ * support the bppropribte mutbtion primitive(s), such bs the <tt>set</tt>
+ * method.  These blgorithms mby, but bre not required to, throw this
+ * exception if bn invocbtion would hbve no effect on the collection.  For
+ * exbmple, invoking the <tt>sort</tt> method on bn unmodifibble list thbt is
+ * blrebdy sorted mby or mby not throw <tt>UnsupportedOperbtionException</tt>.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
+ * @buthor  Josh Bloch
+ * @buthor  Nebl Gbfter
  * @see     Collection
  * @see     Set
  * @see     List
- * @see     Map
+ * @see     Mbp
  * @since   1.2
  */
 
-public class Collections {
-    // Suppresses default constructor, ensuring non-instantiability.
-    private Collections() {
+public clbss Collections {
+    // Suppresses defbult constructor, ensuring non-instbntibbility.
+    privbte Collections() {
     }
 
     // Algorithms
 
     /*
-     * Tuning parameters for algorithms - Many of the List algorithms have
-     * two implementations, one of which is appropriate for RandomAccess
-     * lists, the other for "sequential."  Often, the random access variant
-     * yields better performance on small sequential access lists.  The
-     * tuning parameters below determine the cutoff point for what constitutes
-     * a "small" sequential access list for each algorithm.  The values below
-     * were empirically determined to work well for LinkedList. Hopefully
-     * they should be reasonable for other sequential access List
-     * implementations.  Those doing performance work on this code would
-     * do well to validate the values of these parameters from time to time.
-     * (The first word of each tuning parameter name is the algorithm to which
-     * it applies.)
+     * Tuning pbrbmeters for blgorithms - Mbny of the List blgorithms hbve
+     * two implementbtions, one of which is bppropribte for RbndomAccess
+     * lists, the other for "sequentibl."  Often, the rbndom bccess vbribnt
+     * yields better performbnce on smbll sequentibl bccess lists.  The
+     * tuning pbrbmeters below determine the cutoff point for whbt constitutes
+     * b "smbll" sequentibl bccess list for ebch blgorithm.  The vblues below
+     * were empiricblly determined to work well for LinkedList. Hopefully
+     * they should be rebsonbble for other sequentibl bccess List
+     * implementbtions.  Those doing performbnce work on this code would
+     * do well to vblidbte the vblues of these pbrbmeters from time to time.
+     * (The first word of ebch tuning pbrbmeter nbme is the blgorithm to which
+     * it bpplies.)
      */
-    private static final int BINARYSEARCH_THRESHOLD   = 5000;
-    private static final int REVERSE_THRESHOLD        =   18;
-    private static final int SHUFFLE_THRESHOLD        =    5;
-    private static final int FILL_THRESHOLD           =   25;
-    private static final int ROTATE_THRESHOLD         =  100;
-    private static final int COPY_THRESHOLD           =   10;
-    private static final int REPLACEALL_THRESHOLD     =   11;
-    private static final int INDEXOFSUBLIST_THRESHOLD =   35;
+    privbte stbtic finbl int BINARYSEARCH_THRESHOLD   = 5000;
+    privbte stbtic finbl int REVERSE_THRESHOLD        =   18;
+    privbte stbtic finbl int SHUFFLE_THRESHOLD        =    5;
+    privbte stbtic finbl int FILL_THRESHOLD           =   25;
+    privbte stbtic finbl int ROTATE_THRESHOLD         =  100;
+    privbte stbtic finbl int COPY_THRESHOLD           =   10;
+    privbte stbtic finbl int REPLACEALL_THRESHOLD     =   11;
+    privbte stbtic finbl int INDEXOFSUBLIST_THRESHOLD =   35;
 
     /**
-     * Sorts the specified list into ascending order, according to the
-     * {@linkplain Comparable natural ordering} of its elements.
-     * All elements in the list must implement the {@link Comparable}
-     * interface.  Furthermore, all elements in the list must be
-     * <i>mutually comparable</i> (that is, {@code e1.compareTo(e2)}
-     * must not throw a {@code ClassCastException} for any elements
-     * {@code e1} and {@code e2} in the list).
+     * Sorts the specified list into bscending order, bccording to the
+     * {@linkplbin Compbrbble nbturbl ordering} of its elements.
+     * All elements in the list must implement the {@link Compbrbble}
+     * interfbce.  Furthermore, bll elements in the list must be
+     * <i>mutublly compbrbble</i> (thbt is, {@code e1.compbreTo(e2)}
+     * must not throw b {@code ClbssCbstException} for bny elements
+     * {@code e1} bnd {@code e2} in the list).
      *
-     * <p>This sort is guaranteed to be <i>stable</i>:  equal elements will
-     * not be reordered as a result of the sort.
+     * <p>This sort is gubrbnteed to be <i>stbble</i>:  equbl elements will
+     * not be reordered bs b result of the sort.
      *
-     * <p>The specified list must be modifiable, but need not be resizable.
+     * <p>The specified list must be modifibble, but need not be resizbble.
      *
      * @implNote
-     * This implementation defers to the {@link List#sort(Comparator)}
-     * method using the specified list and a {@code null} comparator.
+     * This implementbtion defers to the {@link List#sort(Compbrbtor)}
+     * method using the specified list bnd b {@code null} compbrbtor.
      *
-     * @param  <T> the class of the objects in the list
-     * @param  list the list to be sorted.
-     * @throws ClassCastException if the list contains elements that are not
-     *         <i>mutually comparable</i> (for example, strings and integers).
-     * @throws UnsupportedOperationException if the specified list's
-     *         list-iterator does not support the {@code set} operation.
-     * @throws IllegalArgumentException (optional) if the implementation
-     *         detects that the natural ordering of the list elements is
-     *         found to violate the {@link Comparable} contract
-     * @see List#sort(Comparator)
+     * @pbrbm  <T> the clbss of the objects in the list
+     * @pbrbm  list the list to be sorted.
+     * @throws ClbssCbstException if the list contbins elements thbt bre not
+     *         <i>mutublly compbrbble</i> (for exbmple, strings bnd integers).
+     * @throws UnsupportedOperbtionException if the specified list's
+     *         list-iterbtor does not support the {@code set} operbtion.
+     * @throws IllegblArgumentException (optionbl) if the implementbtion
+     *         detects thbt the nbturbl ordering of the list elements is
+     *         found to violbte the {@link Compbrbble} contrbct
+     * @see List#sort(Compbrbtor)
      */
-    @SuppressWarnings("unchecked")
-    public static <T extends Comparable<? super T>> void sort(List<T> list) {
+    @SuppressWbrnings("unchecked")
+    public stbtic <T extends Compbrbble<? super T>> void sort(List<T> list) {
         list.sort(null);
     }
 
     /**
-     * Sorts the specified list according to the order induced by the
-     * specified comparator.  All elements in the list must be <i>mutually
-     * comparable</i> using the specified comparator (that is,
-     * {@code c.compare(e1, e2)} must not throw a {@code ClassCastException}
-     * for any elements {@code e1} and {@code e2} in the list).
+     * Sorts the specified list bccording to the order induced by the
+     * specified compbrbtor.  All elements in the list must be <i>mutublly
+     * compbrbble</i> using the specified compbrbtor (thbt is,
+     * {@code c.compbre(e1, e2)} must not throw b {@code ClbssCbstException}
+     * for bny elements {@code e1} bnd {@code e2} in the list).
      *
-     * <p>This sort is guaranteed to be <i>stable</i>:  equal elements will
-     * not be reordered as a result of the sort.
+     * <p>This sort is gubrbnteed to be <i>stbble</i>:  equbl elements will
+     * not be reordered bs b result of the sort.
      *
-     * <p>The specified list must be modifiable, but need not be resizable.
+     * <p>The specified list must be modifibble, but need not be resizbble.
      *
      * @implNote
-     * This implementation defers to the {@link List#sort(Comparator)}
-     * method using the specified list and comparator.
+     * This implementbtion defers to the {@link List#sort(Compbrbtor)}
+     * method using the specified list bnd compbrbtor.
      *
-     * @param  <T> the class of the objects in the list
-     * @param  list the list to be sorted.
-     * @param  c the comparator to determine the order of the list.  A
-     *        {@code null} value indicates that the elements' <i>natural
+     * @pbrbm  <T> the clbss of the objects in the list
+     * @pbrbm  list the list to be sorted.
+     * @pbrbm  c the compbrbtor to determine the order of the list.  A
+     *        {@code null} vblue indicbtes thbt the elements' <i>nbturbl
      *        ordering</i> should be used.
-     * @throws ClassCastException if the list contains elements that are not
-     *         <i>mutually comparable</i> using the specified comparator.
-     * @throws UnsupportedOperationException if the specified list's
-     *         list-iterator does not support the {@code set} operation.
-     * @throws IllegalArgumentException (optional) if the comparator is
-     *         found to violate the {@link Comparator} contract
-     * @see List#sort(Comparator)
+     * @throws ClbssCbstException if the list contbins elements thbt bre not
+     *         <i>mutublly compbrbble</i> using the specified compbrbtor.
+     * @throws UnsupportedOperbtionException if the specified list's
+     *         list-iterbtor does not support the {@code set} operbtion.
+     * @throws IllegblArgumentException (optionbl) if the compbrbtor is
+     *         found to violbte the {@link Compbrbtor} contrbct
+     * @see List#sort(Compbrbtor)
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static <T> void sort(List<T> list, Comparator<? super T> c) {
+    @SuppressWbrnings({"unchecked", "rbwtypes"})
+    public stbtic <T> void sort(List<T> list, Compbrbtor<? super T> c) {
         list.sort(c);
     }
 
 
     /**
-     * Searches the specified list for the specified object using the binary
-     * search algorithm.  The list must be sorted into ascending order
-     * according to the {@linkplain Comparable natural ordering} of its
-     * elements (as by the {@link #sort(List)} method) prior to making this
-     * call.  If it is not sorted, the results are undefined.  If the list
-     * contains multiple elements equal to the specified object, there is no
-     * guarantee which one will be found.
+     * Sebrches the specified list for the specified object using the binbry
+     * sebrch blgorithm.  The list must be sorted into bscending order
+     * bccording to the {@linkplbin Compbrbble nbturbl ordering} of its
+     * elements (bs by the {@link #sort(List)} method) prior to mbking this
+     * cbll.  If it is not sorted, the results bre undefined.  If the list
+     * contbins multiple elements equbl to the specified object, there is no
+     * gubrbntee which one will be found.
      *
-     * <p>This method runs in log(n) time for a "random access" list (which
-     * provides near-constant-time positional access).  If the specified list
-     * does not implement the {@link RandomAccess} interface and is large,
-     * this method will do an iterator-based binary search that performs
-     * O(n) link traversals and O(log n) element comparisons.
+     * <p>This method runs in log(n) time for b "rbndom bccess" list (which
+     * provides nebr-constbnt-time positionbl bccess).  If the specified list
+     * does not implement the {@link RbndomAccess} interfbce bnd is lbrge,
+     * this method will do bn iterbtor-bbsed binbry sebrch thbt performs
+     * O(n) link trbversbls bnd O(log n) element compbrisons.
      *
-     * @param  <T> the class of the objects in the list
-     * @param  list the list to be searched.
-     * @param  key the key to be searched for.
-     * @return the index of the search key, if it is contained in the list;
+     * @pbrbm  <T> the clbss of the objects in the list
+     * @pbrbm  list the list to be sebrched.
+     * @pbrbm  key the key to be sebrched for.
+     * @return the index of the sebrch key, if it is contbined in the list;
      *         otherwise, <tt>(-(<i>insertion point</i>) - 1)</tt>.  The
-     *         <i>insertion point</i> is defined as the point at which the
+     *         <i>insertion point</i> is defined bs the point bt which the
      *         key would be inserted into the list: the index of the first
-     *         element greater than the key, or <tt>list.size()</tt> if all
-     *         elements in the list are less than the specified key.  Note
-     *         that this guarantees that the return value will be &gt;= 0 if
-     *         and only if the key is found.
-     * @throws ClassCastException if the list contains elements that are not
-     *         <i>mutually comparable</i> (for example, strings and
-     *         integers), or the search key is not mutually comparable
+     *         element grebter thbn the key, or <tt>list.size()</tt> if bll
+     *         elements in the list bre less thbn the specified key.  Note
+     *         thbt this gubrbntees thbt the return vblue will be &gt;= 0 if
+     *         bnd only if the key is found.
+     * @throws ClbssCbstException if the list contbins elements thbt bre not
+     *         <i>mutublly compbrbble</i> (for exbmple, strings bnd
+     *         integers), or the sebrch key is not mutublly compbrbble
      *         with the elements of the list.
      */
-    public static <T>
-    int binarySearch(List<? extends Comparable<? super T>> list, T key) {
-        if (list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD)
-            return Collections.indexedBinarySearch(list, key);
+    public stbtic <T>
+    int binbrySebrch(List<? extends Compbrbble<? super T>> list, T key) {
+        if (list instbnceof RbndomAccess || list.size()<BINARYSEARCH_THRESHOLD)
+            return Collections.indexedBinbrySebrch(list, key);
         else
-            return Collections.iteratorBinarySearch(list, key);
+            return Collections.iterbtorBinbrySebrch(list, key);
     }
 
-    private static <T>
-    int indexedBinarySearch(List<? extends Comparable<? super T>> list, T key) {
+    privbte stbtic <T>
+    int indexedBinbrySebrch(List<? extends Compbrbble<? super T>> list, T key) {
         int low = 0;
         int high = list.size()-1;
 
         while (low <= high) {
             int mid = (low + high) >>> 1;
-            Comparable<? super T> midVal = list.get(mid);
-            int cmp = midVal.compareTo(key);
+            Compbrbble<? super T> midVbl = list.get(mid);
+            int cmp = midVbl.compbreTo(key);
 
             if (cmp < 0)
                 low = mid + 1;
@@ -235,17 +235,17 @@ public class Collections {
         return -(low + 1);  // key not found
     }
 
-    private static <T>
-    int iteratorBinarySearch(List<? extends Comparable<? super T>> list, T key)
+    privbte stbtic <T>
+    int iterbtorBinbrySebrch(List<? extends Compbrbble<? super T>> list, T key)
     {
         int low = 0;
         int high = list.size()-1;
-        ListIterator<? extends Comparable<? super T>> i = list.listIterator();
+        ListIterbtor<? extends Compbrbble<? super T>> i = list.listIterbtor();
 
         while (low <= high) {
             int mid = (low + high) >>> 1;
-            Comparable<? super T> midVal = get(i, mid);
-            int cmp = midVal.compareTo(key);
+            Compbrbble<? super T> midVbl = get(i, mid);
+            int cmp = midVbl.compbreTo(key);
 
             if (cmp < 0)
                 low = mid + 1;
@@ -259,9 +259,9 @@ public class Collections {
 
     /**
      * Gets the ith element from the given list by repositioning the specified
-     * list listIterator.
+     * list listIterbtor.
      */
-    private static <T> T get(ListIterator<? extends T> i, int index) {
+    privbte stbtic <T> T get(ListIterbtor<? extends T> i, int index) {
         T obj = null;
         int pos = i.nextIndex();
         if (pos <= index) {
@@ -277,59 +277,59 @@ public class Collections {
     }
 
     /**
-     * Searches the specified list for the specified object using the binary
-     * search algorithm.  The list must be sorted into ascending order
-     * according to the specified comparator (as by the
-     * {@link #sort(List, Comparator) sort(List, Comparator)}
-     * method), prior to making this call.  If it is
-     * not sorted, the results are undefined.  If the list contains multiple
-     * elements equal to the specified object, there is no guarantee which one
+     * Sebrches the specified list for the specified object using the binbry
+     * sebrch blgorithm.  The list must be sorted into bscending order
+     * bccording to the specified compbrbtor (bs by the
+     * {@link #sort(List, Compbrbtor) sort(List, Compbrbtor)}
+     * method), prior to mbking this cbll.  If it is
+     * not sorted, the results bre undefined.  If the list contbins multiple
+     * elements equbl to the specified object, there is no gubrbntee which one
      * will be found.
      *
-     * <p>This method runs in log(n) time for a "random access" list (which
-     * provides near-constant-time positional access).  If the specified list
-     * does not implement the {@link RandomAccess} interface and is large,
-     * this method will do an iterator-based binary search that performs
-     * O(n) link traversals and O(log n) element comparisons.
+     * <p>This method runs in log(n) time for b "rbndom bccess" list (which
+     * provides nebr-constbnt-time positionbl bccess).  If the specified list
+     * does not implement the {@link RbndomAccess} interfbce bnd is lbrge,
+     * this method will do bn iterbtor-bbsed binbry sebrch thbt performs
+     * O(n) link trbversbls bnd O(log n) element compbrisons.
      *
-     * @param  <T> the class of the objects in the list
-     * @param  list the list to be searched.
-     * @param  key the key to be searched for.
-     * @param  c the comparator by which the list is ordered.
-     *         A <tt>null</tt> value indicates that the elements'
-     *         {@linkplain Comparable natural ordering} should be used.
-     * @return the index of the search key, if it is contained in the list;
+     * @pbrbm  <T> the clbss of the objects in the list
+     * @pbrbm  list the list to be sebrched.
+     * @pbrbm  key the key to be sebrched for.
+     * @pbrbm  c the compbrbtor by which the list is ordered.
+     *         A <tt>null</tt> vblue indicbtes thbt the elements'
+     *         {@linkplbin Compbrbble nbturbl ordering} should be used.
+     * @return the index of the sebrch key, if it is contbined in the list;
      *         otherwise, <tt>(-(<i>insertion point</i>) - 1)</tt>.  The
-     *         <i>insertion point</i> is defined as the point at which the
+     *         <i>insertion point</i> is defined bs the point bt which the
      *         key would be inserted into the list: the index of the first
-     *         element greater than the key, or <tt>list.size()</tt> if all
-     *         elements in the list are less than the specified key.  Note
-     *         that this guarantees that the return value will be &gt;= 0 if
-     *         and only if the key is found.
-     * @throws ClassCastException if the list contains elements that are not
-     *         <i>mutually comparable</i> using the specified comparator,
-     *         or the search key is not mutually comparable with the
-     *         elements of the list using this comparator.
+     *         element grebter thbn the key, or <tt>list.size()</tt> if bll
+     *         elements in the list bre less thbn the specified key.  Note
+     *         thbt this gubrbntees thbt the return vblue will be &gt;= 0 if
+     *         bnd only if the key is found.
+     * @throws ClbssCbstException if the list contbins elements thbt bre not
+     *         <i>mutublly compbrbble</i> using the specified compbrbtor,
+     *         or the sebrch key is not mutublly compbrbble with the
+     *         elements of the list using this compbrbtor.
      */
-    @SuppressWarnings("unchecked")
-    public static <T> int binarySearch(List<? extends T> list, T key, Comparator<? super T> c) {
+    @SuppressWbrnings("unchecked")
+    public stbtic <T> int binbrySebrch(List<? extends T> list, T key, Compbrbtor<? super T> c) {
         if (c==null)
-            return binarySearch((List<? extends Comparable<? super T>>) list, key);
+            return binbrySebrch((List<? extends Compbrbble<? super T>>) list, key);
 
-        if (list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD)
-            return Collections.indexedBinarySearch(list, key, c);
+        if (list instbnceof RbndomAccess || list.size()<BINARYSEARCH_THRESHOLD)
+            return Collections.indexedBinbrySebrch(list, key, c);
         else
-            return Collections.iteratorBinarySearch(list, key, c);
+            return Collections.iterbtorBinbrySebrch(list, key, c);
     }
 
-    private static <T> int indexedBinarySearch(List<? extends T> l, T key, Comparator<? super T> c) {
+    privbte stbtic <T> int indexedBinbrySebrch(List<? extends T> l, T key, Compbrbtor<? super T> c) {
         int low = 0;
         int high = l.size()-1;
 
         while (low <= high) {
             int mid = (low + high) >>> 1;
-            T midVal = l.get(mid);
-            int cmp = c.compare(midVal, key);
+            T midVbl = l.get(mid);
+            int cmp = c.compbre(midVbl, key);
 
             if (cmp < 0)
                 low = mid + 1;
@@ -341,15 +341,15 @@ public class Collections {
         return -(low + 1);  // key not found
     }
 
-    private static <T> int iteratorBinarySearch(List<? extends T> l, T key, Comparator<? super T> c) {
+    privbte stbtic <T> int iterbtorBinbrySebrch(List<? extends T> l, T key, Compbrbtor<? super T> c) {
         int low = 0;
         int high = l.size()-1;
-        ListIterator<? extends T> i = l.listIterator();
+        ListIterbtor<? extends T> i = l.listIterbtor();
 
         while (low <= high) {
             int mid = (low + high) >>> 1;
-            T midVal = get(i, mid);
-            int cmp = c.compare(midVal, key);
+            T midVbl = get(i, mid);
+            int cmp = c.compbre(midVbl, key);
 
             if (cmp < 0)
                 low = mid + 1;
@@ -364,24 +364,24 @@ public class Collections {
     /**
      * Reverses the order of the elements in the specified list.<p>
      *
-     * This method runs in linear time.
+     * This method runs in linebr time.
      *
-     * @param  list the list whose elements are to be reversed.
-     * @throws UnsupportedOperationException if the specified list or
-     *         its list-iterator does not support the <tt>set</tt> operation.
+     * @pbrbm  list the list whose elements bre to be reversed.
+     * @throws UnsupportedOperbtionException if the specified list or
+     *         its list-iterbtor does not support the <tt>set</tt> operbtion.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public static void reverse(List<?> list) {
+    @SuppressWbrnings({"rbwtypes", "unchecked"})
+    public stbtic void reverse(List<?> list) {
         int size = list.size();
-        if (size < REVERSE_THRESHOLD || list instanceof RandomAccess) {
+        if (size < REVERSE_THRESHOLD || list instbnceof RbndomAccess) {
             for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
-                swap(list, i, j);
+                swbp(list, i, j);
         } else {
-            // instead of using a raw type here, it's possible to capture
-            // the wildcard but it will require a call to a supplementary
-            // private method
-            ListIterator fwd = list.listIterator();
-            ListIterator rev = list.listIterator(size);
+            // instebd of using b rbw type here, it's possible to cbpture
+            // the wildcbrd but it will require b cbll to b supplementbry
+            // privbte method
+            ListIterbtor fwd = list.listIterbtor();
+            ListIterbtor rev = list.listIterbtor(size);
             for (int i=0, mid=list.size()>>1; i<mid; i++) {
                 Object tmp = fwd.next();
                 fwd.set(rev.previous());
@@ -391,84 +391,84 @@ public class Collections {
     }
 
     /**
-     * Randomly permutes the specified list using a default source of
-     * randomness.  All permutations occur with approximately equal
+     * Rbndomly permutes the specified list using b defbult source of
+     * rbndomness.  All permutbtions occur with bpproximbtely equbl
      * likelihood.
      *
-     * <p>The hedge "approximately" is used in the foregoing description because
-     * default source of randomness is only approximately an unbiased source
-     * of independently chosen bits. If it were a perfect source of randomly
-     * chosen bits, then the algorithm would choose permutations with perfect
+     * <p>The hedge "bpproximbtely" is used in the foregoing description becbuse
+     * defbult source of rbndomness is only bpproximbtely bn unbibsed source
+     * of independently chosen bits. If it were b perfect source of rbndomly
+     * chosen bits, then the blgorithm would choose permutbtions with perfect
      * uniformity.
      *
-     * <p>This implementation traverses the list backwards, from the last
-     * element up to the second, repeatedly swapping a randomly selected element
-     * into the "current position".  Elements are randomly selected from the
-     * portion of the list that runs from the first element to the current
+     * <p>This implementbtion trbverses the list bbckwbrds, from the lbst
+     * element up to the second, repebtedly swbpping b rbndomly selected element
+     * into the "current position".  Elements bre rbndomly selected from the
+     * portion of the list thbt runs from the first element to the current
      * position, inclusive.
      *
-     * <p>This method runs in linear time.  If the specified list does not
-     * implement the {@link RandomAccess} interface and is large, this
-     * implementation dumps the specified list into an array before shuffling
-     * it, and dumps the shuffled array back into the list.  This avoids the
-     * quadratic behavior that would result from shuffling a "sequential
-     * access" list in place.
+     * <p>This method runs in linebr time.  If the specified list does not
+     * implement the {@link RbndomAccess} interfbce bnd is lbrge, this
+     * implementbtion dumps the specified list into bn brrby before shuffling
+     * it, bnd dumps the shuffled brrby bbck into the list.  This bvoids the
+     * qubdrbtic behbvior thbt would result from shuffling b "sequentibl
+     * bccess" list in plbce.
      *
-     * @param  list the list to be shuffled.
-     * @throws UnsupportedOperationException if the specified list or
-     *         its list-iterator does not support the <tt>set</tt> operation.
+     * @pbrbm  list the list to be shuffled.
+     * @throws UnsupportedOperbtionException if the specified list or
+     *         its list-iterbtor does not support the <tt>set</tt> operbtion.
      */
-    public static void shuffle(List<?> list) {
-        Random rnd = r;
+    public stbtic void shuffle(List<?> list) {
+        Rbndom rnd = r;
         if (rnd == null)
-            r = rnd = new Random(); // harmless race.
+            r = rnd = new Rbndom(); // hbrmless rbce.
         shuffle(list, rnd);
     }
 
-    private static Random r;
+    privbte stbtic Rbndom r;
 
     /**
-     * Randomly permute the specified list using the specified source of
-     * randomness.  All permutations occur with equal likelihood
-     * assuming that the source of randomness is fair.<p>
+     * Rbndomly permute the specified list using the specified source of
+     * rbndomness.  All permutbtions occur with equbl likelihood
+     * bssuming thbt the source of rbndomness is fbir.<p>
      *
-     * This implementation traverses the list backwards, from the last element
-     * up to the second, repeatedly swapping a randomly selected element into
-     * the "current position".  Elements are randomly selected from the
-     * portion of the list that runs from the first element to the current
+     * This implementbtion trbverses the list bbckwbrds, from the lbst element
+     * up to the second, repebtedly swbpping b rbndomly selected element into
+     * the "current position".  Elements bre rbndomly selected from the
+     * portion of the list thbt runs from the first element to the current
      * position, inclusive.<p>
      *
-     * This method runs in linear time.  If the specified list does not
-     * implement the {@link RandomAccess} interface and is large, this
-     * implementation dumps the specified list into an array before shuffling
-     * it, and dumps the shuffled array back into the list.  This avoids the
-     * quadratic behavior that would result from shuffling a "sequential
-     * access" list in place.
+     * This method runs in linebr time.  If the specified list does not
+     * implement the {@link RbndomAccess} interfbce bnd is lbrge, this
+     * implementbtion dumps the specified list into bn brrby before shuffling
+     * it, bnd dumps the shuffled brrby bbck into the list.  This bvoids the
+     * qubdrbtic behbvior thbt would result from shuffling b "sequentibl
+     * bccess" list in plbce.
      *
-     * @param  list the list to be shuffled.
-     * @param  rnd the source of randomness to use to shuffle the list.
-     * @throws UnsupportedOperationException if the specified list or its
-     *         list-iterator does not support the <tt>set</tt> operation.
+     * @pbrbm  list the list to be shuffled.
+     * @pbrbm  rnd the source of rbndomness to use to shuffle the list.
+     * @throws UnsupportedOperbtionException if the specified list or its
+     *         list-iterbtor does not support the <tt>set</tt> operbtion.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public static void shuffle(List<?> list, Random rnd) {
+    @SuppressWbrnings({"rbwtypes", "unchecked"})
+    public stbtic void shuffle(List<?> list, Rbndom rnd) {
         int size = list.size();
-        if (size < SHUFFLE_THRESHOLD || list instanceof RandomAccess) {
+        if (size < SHUFFLE_THRESHOLD || list instbnceof RbndomAccess) {
             for (int i=size; i>1; i--)
-                swap(list, i-1, rnd.nextInt(i));
+                swbp(list, i-1, rnd.nextInt(i));
         } else {
-            Object arr[] = list.toArray();
+            Object brr[] = list.toArrby();
 
-            // Shuffle array
+            // Shuffle brrby
             for (int i=size; i>1; i--)
-                swap(arr, i-1, rnd.nextInt(i));
+                swbp(brr, i-1, rnd.nextInt(i));
 
-            // Dump array back into list
-            // instead of using a raw type here, it's possible to capture
-            // the wildcard but it will require a call to a supplementary
-            // private method
-            ListIterator it = list.listIterator();
-            for (Object e : arr) {
+            // Dump brrby bbck into list
+            // instebd of using b rbw type here, it's possible to cbpture
+            // the wildcbrd but it will require b cbll to b supplementbry
+            // privbte method
+            ListIterbtor it = list.listIterbtor();
+            for (Object e : brr) {
                 it.next();
                 it.set(e);
             }
@@ -476,56 +476,56 @@ public class Collections {
     }
 
     /**
-     * Swaps the elements at the specified positions in the specified list.
-     * (If the specified positions are equal, invoking this method leaves
-     * the list unchanged.)
+     * Swbps the elements bt the specified positions in the specified list.
+     * (If the specified positions bre equbl, invoking this method lebves
+     * the list unchbnged.)
      *
-     * @param list The list in which to swap elements.
-     * @param i the index of one element to be swapped.
-     * @param j the index of the other element to be swapped.
+     * @pbrbm list The list in which to swbp elements.
+     * @pbrbm i the index of one element to be swbpped.
+     * @pbrbm j the index of the other element to be swbpped.
      * @throws IndexOutOfBoundsException if either <tt>i</tt> or <tt>j</tt>
-     *         is out of range (i &lt; 0 || i &gt;= list.size()
+     *         is out of rbnge (i &lt; 0 || i &gt;= list.size()
      *         || j &lt; 0 || j &gt;= list.size()).
      * @since 1.4
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public static void swap(List<?> list, int i, int j) {
-        // instead of using a raw type here, it's possible to capture
-        // the wildcard but it will require a call to a supplementary
-        // private method
-        final List l = list;
+    @SuppressWbrnings({"rbwtypes", "unchecked"})
+    public stbtic void swbp(List<?> list, int i, int j) {
+        // instebd of using b rbw type here, it's possible to cbpture
+        // the wildcbrd but it will require b cbll to b supplementbry
+        // privbte method
+        finbl List l = list;
         l.set(i, l.set(j, l.get(i)));
     }
 
     /**
-     * Swaps the two specified elements in the specified array.
+     * Swbps the two specified elements in the specified brrby.
      */
-    private static void swap(Object[] arr, int i, int j) {
-        Object tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
+    privbte stbtic void swbp(Object[] brr, int i, int j) {
+        Object tmp = brr[i];
+        brr[i] = brr[j];
+        brr[j] = tmp;
     }
 
     /**
-     * Replaces all of the elements of the specified list with the specified
+     * Replbces bll of the elements of the specified list with the specified
      * element. <p>
      *
-     * This method runs in linear time.
+     * This method runs in linebr time.
      *
-     * @param  <T> the class of the objects in the list
-     * @param  list the list to be filled with the specified element.
-     * @param  obj The element with which to fill the specified list.
-     * @throws UnsupportedOperationException if the specified list or its
-     *         list-iterator does not support the <tt>set</tt> operation.
+     * @pbrbm  <T> the clbss of the objects in the list
+     * @pbrbm  list the list to be filled with the specified element.
+     * @pbrbm  obj The element with which to fill the specified list.
+     * @throws UnsupportedOperbtionException if the specified list or its
+     *         list-iterbtor does not support the <tt>set</tt> operbtion.
      */
-    public static <T> void fill(List<? super T> list, T obj) {
+    public stbtic <T> void fill(List<? super T> list, T obj) {
         int size = list.size();
 
-        if (size < FILL_THRESHOLD || list instanceof RandomAccess) {
+        if (size < FILL_THRESHOLD || list instbnceof RbndomAccess) {
             for (int i=0; i<size; i++)
                 list.set(i, obj);
         } else {
-            ListIterator<? super T> itr = list.listIterator();
+            ListIterbtor<? super T> itr = list.listIterbtor();
             for (int i=0; i<size; i++) {
                 itr.next();
                 itr.set(obj);
@@ -534,34 +534,34 @@ public class Collections {
     }
 
     /**
-     * Copies all of the elements from one list into another.  After the
-     * operation, the index of each copied element in the destination list
-     * will be identical to its index in the source list.  The destination
-     * list must be at least as long as the source list.  If it is longer, the
-     * remaining elements in the destination list are unaffected. <p>
+     * Copies bll of the elements from one list into bnother.  After the
+     * operbtion, the index of ebch copied element in the destinbtion list
+     * will be identicbl to its index in the source list.  The destinbtion
+     * list must be bt lebst bs long bs the source list.  If it is longer, the
+     * rembining elements in the destinbtion list bre unbffected. <p>
      *
-     * This method runs in linear time.
+     * This method runs in linebr time.
      *
-     * @param  <T> the class of the objects in the lists
-     * @param  dest The destination list.
-     * @param  src The source list.
-     * @throws IndexOutOfBoundsException if the destination list is too small
-     *         to contain the entire source List.
-     * @throws UnsupportedOperationException if the destination list's
-     *         list-iterator does not support the <tt>set</tt> operation.
+     * @pbrbm  <T> the clbss of the objects in the lists
+     * @pbrbm  dest The destinbtion list.
+     * @pbrbm  src The source list.
+     * @throws IndexOutOfBoundsException if the destinbtion list is too smbll
+     *         to contbin the entire source List.
+     * @throws UnsupportedOperbtionException if the destinbtion list's
+     *         list-iterbtor does not support the <tt>set</tt> operbtion.
      */
-    public static <T> void copy(List<? super T> dest, List<? extends T> src) {
+    public stbtic <T> void copy(List<? super T> dest, List<? extends T> src) {
         int srcSize = src.size();
         if (srcSize > dest.size())
             throw new IndexOutOfBoundsException("Source does not fit in dest");
 
         if (srcSize < COPY_THRESHOLD ||
-            (src instanceof RandomAccess && dest instanceof RandomAccess)) {
+            (src instbnceof RbndomAccess && dest instbnceof RbndomAccess)) {
             for (int i=0; i<srcSize; i++)
                 dest.set(i, src.get(i));
         } else {
-            ListIterator<? super T> di=dest.listIterator();
-            ListIterator<? extends T> si=src.listIterator();
+            ListIterbtor<? super T> di=dest.listIterbtor();
+            ListIterbtor<? extends T> si=src.listIterbtor();
             for (int i=0; i<srcSize; i++) {
                 di.next();
                 di.set(si.next());
@@ -570,241 +570,241 @@ public class Collections {
     }
 
     /**
-     * Returns the minimum element of the given collection, according to the
-     * <i>natural ordering</i> of its elements.  All elements in the
-     * collection must implement the <tt>Comparable</tt> interface.
-     * Furthermore, all elements in the collection must be <i>mutually
-     * comparable</i> (that is, <tt>e1.compareTo(e2)</tt> must not throw a
-     * <tt>ClassCastException</tt> for any elements <tt>e1</tt> and
+     * Returns the minimum element of the given collection, bccording to the
+     * <i>nbturbl ordering</i> of its elements.  All elements in the
+     * collection must implement the <tt>Compbrbble</tt> interfbce.
+     * Furthermore, bll elements in the collection must be <i>mutublly
+     * compbrbble</i> (thbt is, <tt>e1.compbreTo(e2)</tt> must not throw b
+     * <tt>ClbssCbstException</tt> for bny elements <tt>e1</tt> bnd
      * <tt>e2</tt> in the collection).<p>
      *
-     * This method iterates over the entire collection, hence it requires
-     * time proportional to the size of the collection.
+     * This method iterbtes over the entire collection, hence it requires
+     * time proportionbl to the size of the collection.
      *
-     * @param  <T> the class of the objects in the collection
-     * @param  coll the collection whose minimum element is to be determined.
-     * @return the minimum element of the given collection, according
-     *         to the <i>natural ordering</i> of its elements.
-     * @throws ClassCastException if the collection contains elements that are
-     *         not <i>mutually comparable</i> (for example, strings and
+     * @pbrbm  <T> the clbss of the objects in the collection
+     * @pbrbm  coll the collection whose minimum element is to be determined.
+     * @return the minimum element of the given collection, bccording
+     *         to the <i>nbturbl ordering</i> of its elements.
+     * @throws ClbssCbstException if the collection contbins elements thbt bre
+     *         not <i>mutublly compbrbble</i> (for exbmple, strings bnd
      *         integers).
      * @throws NoSuchElementException if the collection is empty.
-     * @see Comparable
+     * @see Compbrbble
      */
-    public static <T extends Object & Comparable<? super T>> T min(Collection<? extends T> coll) {
-        Iterator<? extends T> i = coll.iterator();
-        T candidate = i.next();
+    public stbtic <T extends Object & Compbrbble<? super T>> T min(Collection<? extends T> coll) {
+        Iterbtor<? extends T> i = coll.iterbtor();
+        T cbndidbte = i.next();
 
-        while (i.hasNext()) {
+        while (i.hbsNext()) {
             T next = i.next();
-            if (next.compareTo(candidate) < 0)
-                candidate = next;
+            if (next.compbreTo(cbndidbte) < 0)
+                cbndidbte = next;
         }
-        return candidate;
+        return cbndidbte;
     }
 
     /**
-     * Returns the minimum element of the given collection, according to the
-     * order induced by the specified comparator.  All elements in the
-     * collection must be <i>mutually comparable</i> by the specified
-     * comparator (that is, <tt>comp.compare(e1, e2)</tt> must not throw a
-     * <tt>ClassCastException</tt> for any elements <tt>e1</tt> and
+     * Returns the minimum element of the given collection, bccording to the
+     * order induced by the specified compbrbtor.  All elements in the
+     * collection must be <i>mutublly compbrbble</i> by the specified
+     * compbrbtor (thbt is, <tt>comp.compbre(e1, e2)</tt> must not throw b
+     * <tt>ClbssCbstException</tt> for bny elements <tt>e1</tt> bnd
      * <tt>e2</tt> in the collection).<p>
      *
-     * This method iterates over the entire collection, hence it requires
-     * time proportional to the size of the collection.
+     * This method iterbtes over the entire collection, hence it requires
+     * time proportionbl to the size of the collection.
      *
-     * @param  <T> the class of the objects in the collection
-     * @param  coll the collection whose minimum element is to be determined.
-     * @param  comp the comparator with which to determine the minimum element.
-     *         A <tt>null</tt> value indicates that the elements' <i>natural
+     * @pbrbm  <T> the clbss of the objects in the collection
+     * @pbrbm  coll the collection whose minimum element is to be determined.
+     * @pbrbm  comp the compbrbtor with which to determine the minimum element.
+     *         A <tt>null</tt> vblue indicbtes thbt the elements' <i>nbturbl
      *         ordering</i> should be used.
-     * @return the minimum element of the given collection, according
-     *         to the specified comparator.
-     * @throws ClassCastException if the collection contains elements that are
-     *         not <i>mutually comparable</i> using the specified comparator.
+     * @return the minimum element of the given collection, bccording
+     *         to the specified compbrbtor.
+     * @throws ClbssCbstException if the collection contbins elements thbt bre
+     *         not <i>mutublly compbrbble</i> using the specified compbrbtor.
      * @throws NoSuchElementException if the collection is empty.
-     * @see Comparable
+     * @see Compbrbble
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static <T> T min(Collection<? extends T> coll, Comparator<? super T> comp) {
+    @SuppressWbrnings({"unchecked", "rbwtypes"})
+    public stbtic <T> T min(Collection<? extends T> coll, Compbrbtor<? super T> comp) {
         if (comp==null)
             return (T)min((Collection) coll);
 
-        Iterator<? extends T> i = coll.iterator();
-        T candidate = i.next();
+        Iterbtor<? extends T> i = coll.iterbtor();
+        T cbndidbte = i.next();
 
-        while (i.hasNext()) {
+        while (i.hbsNext()) {
             T next = i.next();
-            if (comp.compare(next, candidate) < 0)
-                candidate = next;
+            if (comp.compbre(next, cbndidbte) < 0)
+                cbndidbte = next;
         }
-        return candidate;
+        return cbndidbte;
     }
 
     /**
-     * Returns the maximum element of the given collection, according to the
-     * <i>natural ordering</i> of its elements.  All elements in the
-     * collection must implement the <tt>Comparable</tt> interface.
-     * Furthermore, all elements in the collection must be <i>mutually
-     * comparable</i> (that is, <tt>e1.compareTo(e2)</tt> must not throw a
-     * <tt>ClassCastException</tt> for any elements <tt>e1</tt> and
+     * Returns the mbximum element of the given collection, bccording to the
+     * <i>nbturbl ordering</i> of its elements.  All elements in the
+     * collection must implement the <tt>Compbrbble</tt> interfbce.
+     * Furthermore, bll elements in the collection must be <i>mutublly
+     * compbrbble</i> (thbt is, <tt>e1.compbreTo(e2)</tt> must not throw b
+     * <tt>ClbssCbstException</tt> for bny elements <tt>e1</tt> bnd
      * <tt>e2</tt> in the collection).<p>
      *
-     * This method iterates over the entire collection, hence it requires
-     * time proportional to the size of the collection.
+     * This method iterbtes over the entire collection, hence it requires
+     * time proportionbl to the size of the collection.
      *
-     * @param  <T> the class of the objects in the collection
-     * @param  coll the collection whose maximum element is to be determined.
-     * @return the maximum element of the given collection, according
-     *         to the <i>natural ordering</i> of its elements.
-     * @throws ClassCastException if the collection contains elements that are
-     *         not <i>mutually comparable</i> (for example, strings and
+     * @pbrbm  <T> the clbss of the objects in the collection
+     * @pbrbm  coll the collection whose mbximum element is to be determined.
+     * @return the mbximum element of the given collection, bccording
+     *         to the <i>nbturbl ordering</i> of its elements.
+     * @throws ClbssCbstException if the collection contbins elements thbt bre
+     *         not <i>mutublly compbrbble</i> (for exbmple, strings bnd
      *         integers).
      * @throws NoSuchElementException if the collection is empty.
-     * @see Comparable
+     * @see Compbrbble
      */
-    public static <T extends Object & Comparable<? super T>> T max(Collection<? extends T> coll) {
-        Iterator<? extends T> i = coll.iterator();
-        T candidate = i.next();
+    public stbtic <T extends Object & Compbrbble<? super T>> T mbx(Collection<? extends T> coll) {
+        Iterbtor<? extends T> i = coll.iterbtor();
+        T cbndidbte = i.next();
 
-        while (i.hasNext()) {
+        while (i.hbsNext()) {
             T next = i.next();
-            if (next.compareTo(candidate) > 0)
-                candidate = next;
+            if (next.compbreTo(cbndidbte) > 0)
+                cbndidbte = next;
         }
-        return candidate;
+        return cbndidbte;
     }
 
     /**
-     * Returns the maximum element of the given collection, according to the
-     * order induced by the specified comparator.  All elements in the
-     * collection must be <i>mutually comparable</i> by the specified
-     * comparator (that is, <tt>comp.compare(e1, e2)</tt> must not throw a
-     * <tt>ClassCastException</tt> for any elements <tt>e1</tt> and
+     * Returns the mbximum element of the given collection, bccording to the
+     * order induced by the specified compbrbtor.  All elements in the
+     * collection must be <i>mutublly compbrbble</i> by the specified
+     * compbrbtor (thbt is, <tt>comp.compbre(e1, e2)</tt> must not throw b
+     * <tt>ClbssCbstException</tt> for bny elements <tt>e1</tt> bnd
      * <tt>e2</tt> in the collection).<p>
      *
-     * This method iterates over the entire collection, hence it requires
-     * time proportional to the size of the collection.
+     * This method iterbtes over the entire collection, hence it requires
+     * time proportionbl to the size of the collection.
      *
-     * @param  <T> the class of the objects in the collection
-     * @param  coll the collection whose maximum element is to be determined.
-     * @param  comp the comparator with which to determine the maximum element.
-     *         A <tt>null</tt> value indicates that the elements' <i>natural
+     * @pbrbm  <T> the clbss of the objects in the collection
+     * @pbrbm  coll the collection whose mbximum element is to be determined.
+     * @pbrbm  comp the compbrbtor with which to determine the mbximum element.
+     *         A <tt>null</tt> vblue indicbtes thbt the elements' <i>nbturbl
      *        ordering</i> should be used.
-     * @return the maximum element of the given collection, according
-     *         to the specified comparator.
-     * @throws ClassCastException if the collection contains elements that are
-     *         not <i>mutually comparable</i> using the specified comparator.
+     * @return the mbximum element of the given collection, bccording
+     *         to the specified compbrbtor.
+     * @throws ClbssCbstException if the collection contbins elements thbt bre
+     *         not <i>mutublly compbrbble</i> using the specified compbrbtor.
      * @throws NoSuchElementException if the collection is empty.
-     * @see Comparable
+     * @see Compbrbble
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static <T> T max(Collection<? extends T> coll, Comparator<? super T> comp) {
+    @SuppressWbrnings({"unchecked", "rbwtypes"})
+    public stbtic <T> T mbx(Collection<? extends T> coll, Compbrbtor<? super T> comp) {
         if (comp==null)
-            return (T)max((Collection) coll);
+            return (T)mbx((Collection) coll);
 
-        Iterator<? extends T> i = coll.iterator();
-        T candidate = i.next();
+        Iterbtor<? extends T> i = coll.iterbtor();
+        T cbndidbte = i.next();
 
-        while (i.hasNext()) {
+        while (i.hbsNext()) {
             T next = i.next();
-            if (comp.compare(next, candidate) > 0)
-                candidate = next;
+            if (comp.compbre(next, cbndidbte) > 0)
+                cbndidbte = next;
         }
-        return candidate;
+        return cbndidbte;
     }
 
     /**
-     * Rotates the elements in the specified list by the specified distance.
-     * After calling this method, the element at index <tt>i</tt> will be
-     * the element previously at index <tt>(i - distance)</tt> mod
-     * <tt>list.size()</tt>, for all values of <tt>i</tt> between <tt>0</tt>
-     * and <tt>list.size()-1</tt>, inclusive.  (This method has no effect on
+     * Rotbtes the elements in the specified list by the specified distbnce.
+     * After cblling this method, the element bt index <tt>i</tt> will be
+     * the element previously bt index <tt>(i - distbnce)</tt> mod
+     * <tt>list.size()</tt>, for bll vblues of <tt>i</tt> between <tt>0</tt>
+     * bnd <tt>list.size()-1</tt>, inclusive.  (This method hbs no effect on
      * the size of the list.)
      *
-     * <p>For example, suppose <tt>list</tt> comprises<tt> [t, a, n, k, s]</tt>.
-     * After invoking <tt>Collections.rotate(list, 1)</tt> (or
-     * <tt>Collections.rotate(list, -4)</tt>), <tt>list</tt> will comprise
-     * <tt>[s, t, a, n, k]</tt>.
+     * <p>For exbmple, suppose <tt>list</tt> comprises<tt> [t, b, n, k, s]</tt>.
+     * After invoking <tt>Collections.rotbte(list, 1)</tt> (or
+     * <tt>Collections.rotbte(list, -4)</tt>), <tt>list</tt> will comprise
+     * <tt>[s, t, b, n, k]</tt>.
      *
-     * <p>Note that this method can usefully be applied to sublists to
-     * move one or more elements within a list while preserving the
-     * order of the remaining elements.  For example, the following idiom
-     * moves the element at index <tt>j</tt> forward to position
-     * <tt>k</tt> (which must be greater than or equal to <tt>j</tt>):
+     * <p>Note thbt this method cbn usefully be bpplied to sublists to
+     * move one or more elements within b list while preserving the
+     * order of the rembining elements.  For exbmple, the following idiom
+     * moves the element bt index <tt>j</tt> forwbrd to position
+     * <tt>k</tt> (which must be grebter thbn or equbl to <tt>j</tt>):
      * <pre>
-     *     Collections.rotate(list.subList(j, k+1), -1);
+     *     Collections.rotbte(list.subList(j, k+1), -1);
      * </pre>
-     * To make this concrete, suppose <tt>list</tt> comprises
-     * <tt>[a, b, c, d, e]</tt>.  To move the element at index <tt>1</tt>
-     * (<tt>b</tt>) forward two positions, perform the following invocation:
+     * To mbke this concrete, suppose <tt>list</tt> comprises
+     * <tt>[b, b, c, d, e]</tt>.  To move the element bt index <tt>1</tt>
+     * (<tt>b</tt>) forwbrd two positions, perform the following invocbtion:
      * <pre>
-     *     Collections.rotate(l.subList(1, 4), -1);
+     *     Collections.rotbte(l.subList(1, 4), -1);
      * </pre>
-     * The resulting list is <tt>[a, c, d, b, e]</tt>.
+     * The resulting list is <tt>[b, c, d, b, e]</tt>.
      *
-     * <p>To move more than one element forward, increase the absolute value
-     * of the rotation distance.  To move elements backward, use a positive
-     * shift distance.
+     * <p>To move more thbn one element forwbrd, increbse the bbsolute vblue
+     * of the rotbtion distbnce.  To move elements bbckwbrd, use b positive
+     * shift distbnce.
      *
-     * <p>If the specified list is small or implements the {@link
-     * RandomAccess} interface, this implementation exchanges the first
-     * element into the location it should go, and then repeatedly exchanges
-     * the displaced element into the location it should go until a displaced
-     * element is swapped into the first element.  If necessary, the process
-     * is repeated on the second and successive elements, until the rotation
-     * is complete.  If the specified list is large and doesn't implement the
-     * <tt>RandomAccess</tt> interface, this implementation breaks the
-     * list into two sublist views around index <tt>-distance mod size</tt>.
-     * Then the {@link #reverse(List)} method is invoked on each sublist view,
-     * and finally it is invoked on the entire list.  For a more complete
-     * description of both algorithms, see Section 2.3 of Jon Bentley's
-     * <i>Programming Pearls</i> (Addison-Wesley, 1986).
+     * <p>If the specified list is smbll or implements the {@link
+     * RbndomAccess} interfbce, this implementbtion exchbnges the first
+     * element into the locbtion it should go, bnd then repebtedly exchbnges
+     * the displbced element into the locbtion it should go until b displbced
+     * element is swbpped into the first element.  If necessbry, the process
+     * is repebted on the second bnd successive elements, until the rotbtion
+     * is complete.  If the specified list is lbrge bnd doesn't implement the
+     * <tt>RbndomAccess</tt> interfbce, this implementbtion brebks the
+     * list into two sublist views bround index <tt>-distbnce mod size</tt>.
+     * Then the {@link #reverse(List)} method is invoked on ebch sublist view,
+     * bnd finblly it is invoked on the entire list.  For b more complete
+     * description of both blgorithms, see Section 2.3 of Jon Bentley's
+     * <i>Progrbmming Pebrls</i> (Addison-Wesley, 1986).
      *
-     * @param list the list to be rotated.
-     * @param distance the distance to rotate the list.  There are no
-     *        constraints on this value; it may be zero, negative, or
-     *        greater than <tt>list.size()</tt>.
-     * @throws UnsupportedOperationException if the specified list or
-     *         its list-iterator does not support the <tt>set</tt> operation.
+     * @pbrbm list the list to be rotbted.
+     * @pbrbm distbnce the distbnce to rotbte the list.  There bre no
+     *        constrbints on this vblue; it mby be zero, negbtive, or
+     *        grebter thbn <tt>list.size()</tt>.
+     * @throws UnsupportedOperbtionException if the specified list or
+     *         its list-iterbtor does not support the <tt>set</tt> operbtion.
      * @since 1.4
      */
-    public static void rotate(List<?> list, int distance) {
-        if (list instanceof RandomAccess || list.size() < ROTATE_THRESHOLD)
-            rotate1(list, distance);
+    public stbtic void rotbte(List<?> list, int distbnce) {
+        if (list instbnceof RbndomAccess || list.size() < ROTATE_THRESHOLD)
+            rotbte1(list, distbnce);
         else
-            rotate2(list, distance);
+            rotbte2(list, distbnce);
     }
 
-    private static <T> void rotate1(List<T> list, int distance) {
+    privbte stbtic <T> void rotbte1(List<T> list, int distbnce) {
         int size = list.size();
         if (size == 0)
             return;
-        distance = distance % size;
-        if (distance < 0)
-            distance += size;
-        if (distance == 0)
+        distbnce = distbnce % size;
+        if (distbnce < 0)
+            distbnce += size;
+        if (distbnce == 0)
             return;
 
-        for (int cycleStart = 0, nMoved = 0; nMoved != size; cycleStart++) {
-            T displaced = list.get(cycleStart);
-            int i = cycleStart;
+        for (int cycleStbrt = 0, nMoved = 0; nMoved != size; cycleStbrt++) {
+            T displbced = list.get(cycleStbrt);
+            int i = cycleStbrt;
             do {
-                i += distance;
+                i += distbnce;
                 if (i >= size)
                     i -= size;
-                displaced = list.set(i, displaced);
+                displbced = list.set(i, displbced);
                 nMoved ++;
-            } while (i != cycleStart);
+            } while (i != cycleStbrt);
         }
     }
 
-    private static void rotate2(List<?> list, int distance) {
+    privbte stbtic void rotbte2(List<?> list, int distbnce) {
         int size = list.size();
         if (size == 0)
             return;
-        int mid =  -distance % size;
+        int mid =  -distbnce % size;
         if (mid < 0)
             mid += size;
         if (mid == 0)
@@ -816,56 +816,56 @@ public class Collections {
     }
 
     /**
-     * Replaces all occurrences of one specified value in a list with another.
-     * More formally, replaces with <tt>newVal</tt> each element <tt>e</tt>
-     * in <tt>list</tt> such that
-     * <tt>(oldVal==null ? e==null : oldVal.equals(e))</tt>.
-     * (This method has no effect on the size of the list.)
+     * Replbces bll occurrences of one specified vblue in b list with bnother.
+     * More formblly, replbces with <tt>newVbl</tt> ebch element <tt>e</tt>
+     * in <tt>list</tt> such thbt
+     * <tt>(oldVbl==null ? e==null : oldVbl.equbls(e))</tt>.
+     * (This method hbs no effect on the size of the list.)
      *
-     * @param  <T> the class of the objects in the list
-     * @param list the list in which replacement is to occur.
-     * @param oldVal the old value to be replaced.
-     * @param newVal the new value with which <tt>oldVal</tt> is to be
-     *        replaced.
-     * @return <tt>true</tt> if <tt>list</tt> contained one or more elements
-     *         <tt>e</tt> such that
-     *         <tt>(oldVal==null ?  e==null : oldVal.equals(e))</tt>.
-     * @throws UnsupportedOperationException if the specified list or
-     *         its list-iterator does not support the <tt>set</tt> operation.
+     * @pbrbm  <T> the clbss of the objects in the list
+     * @pbrbm list the list in which replbcement is to occur.
+     * @pbrbm oldVbl the old vblue to be replbced.
+     * @pbrbm newVbl the new vblue with which <tt>oldVbl</tt> is to be
+     *        replbced.
+     * @return <tt>true</tt> if <tt>list</tt> contbined one or more elements
+     *         <tt>e</tt> such thbt
+     *         <tt>(oldVbl==null ?  e==null : oldVbl.equbls(e))</tt>.
+     * @throws UnsupportedOperbtionException if the specified list or
+     *         its list-iterbtor does not support the <tt>set</tt> operbtion.
      * @since  1.4
      */
-    public static <T> boolean replaceAll(List<T> list, T oldVal, T newVal) {
-        boolean result = false;
+    public stbtic <T> boolebn replbceAll(List<T> list, T oldVbl, T newVbl) {
+        boolebn result = fblse;
         int size = list.size();
-        if (size < REPLACEALL_THRESHOLD || list instanceof RandomAccess) {
-            if (oldVal==null) {
+        if (size < REPLACEALL_THRESHOLD || list instbnceof RbndomAccess) {
+            if (oldVbl==null) {
                 for (int i=0; i<size; i++) {
                     if (list.get(i)==null) {
-                        list.set(i, newVal);
+                        list.set(i, newVbl);
                         result = true;
                     }
                 }
             } else {
                 for (int i=0; i<size; i++) {
-                    if (oldVal.equals(list.get(i))) {
-                        list.set(i, newVal);
+                    if (oldVbl.equbls(list.get(i))) {
+                        list.set(i, newVbl);
                         result = true;
                     }
                 }
             }
         } else {
-            ListIterator<T> itr=list.listIterator();
-            if (oldVal==null) {
+            ListIterbtor<T> itr=list.listIterbtor();
+            if (oldVbl==null) {
                 for (int i=0; i<size; i++) {
                     if (itr.next()==null) {
-                        itr.set(newVal);
+                        itr.set(newVbl);
                         result = true;
                     }
                 }
             } else {
                 for (int i=0; i<size; i++) {
-                    if (oldVal.equals(itr.next())) {
-                        itr.set(newVal);
+                    if (oldVbl.equbls(itr.next())) {
+                        itr.set(newVbl);
                         result = true;
                     }
                 }
@@ -875,888 +875,888 @@ public class Collections {
     }
 
     /**
-     * Returns the starting position of the first occurrence of the specified
-     * target list within the specified source list, or -1 if there is no
-     * such occurrence.  More formally, returns the lowest index <tt>i</tt>
-     * such that {@code source.subList(i, i+target.size()).equals(target)},
+     * Returns the stbrting position of the first occurrence of the specified
+     * tbrget list within the specified source list, or -1 if there is no
+     * such occurrence.  More formblly, returns the lowest index <tt>i</tt>
+     * such thbt {@code source.subList(i, i+tbrget.size()).equbls(tbrget)},
      * or -1 if there is no such index.  (Returns -1 if
-     * {@code target.size() > source.size()})
+     * {@code tbrget.size() > source.size()})
      *
-     * <p>This implementation uses the "brute force" technique of scanning
-     * over the source list, looking for a match with the target at each
-     * location in turn.
+     * <p>This implementbtion uses the "brute force" technique of scbnning
+     * over the source list, looking for b mbtch with the tbrget bt ebch
+     * locbtion in turn.
      *
-     * @param source the list in which to search for the first occurrence
-     *        of <tt>target</tt>.
-     * @param target the list to search for as a subList of <tt>source</tt>.
-     * @return the starting position of the first occurrence of the specified
-     *         target list within the specified source list, or -1 if there
+     * @pbrbm source the list in which to sebrch for the first occurrence
+     *        of <tt>tbrget</tt>.
+     * @pbrbm tbrget the list to sebrch for bs b subList of <tt>source</tt>.
+     * @return the stbrting position of the first occurrence of the specified
+     *         tbrget list within the specified source list, or -1 if there
      *         is no such occurrence.
      * @since  1.4
      */
-    public static int indexOfSubList(List<?> source, List<?> target) {
+    public stbtic int indexOfSubList(List<?> source, List<?> tbrget) {
         int sourceSize = source.size();
-        int targetSize = target.size();
-        int maxCandidate = sourceSize - targetSize;
+        int tbrgetSize = tbrget.size();
+        int mbxCbndidbte = sourceSize - tbrgetSize;
 
         if (sourceSize < INDEXOFSUBLIST_THRESHOLD ||
-            (source instanceof RandomAccess&&target instanceof RandomAccess)) {
-        nextCand:
-            for (int candidate = 0; candidate <= maxCandidate; candidate++) {
-                for (int i=0, j=candidate; i<targetSize; i++, j++)
-                    if (!eq(target.get(i), source.get(j)))
-                        continue nextCand;  // Element mismatch, try next cand
-                return candidate;  // All elements of candidate matched target
+            (source instbnceof RbndomAccess&&tbrget instbnceof RbndomAccess)) {
+        nextCbnd:
+            for (int cbndidbte = 0; cbndidbte <= mbxCbndidbte; cbndidbte++) {
+                for (int i=0, j=cbndidbte; i<tbrgetSize; i++, j++)
+                    if (!eq(tbrget.get(i), source.get(j)))
+                        continue nextCbnd;  // Element mismbtch, try next cbnd
+                return cbndidbte;  // All elements of cbndidbte mbtched tbrget
             }
-        } else {  // Iterator version of above algorithm
-            ListIterator<?> si = source.listIterator();
-        nextCand:
-            for (int candidate = 0; candidate <= maxCandidate; candidate++) {
-                ListIterator<?> ti = target.listIterator();
-                for (int i=0; i<targetSize; i++) {
+        } else {  // Iterbtor version of bbove blgorithm
+            ListIterbtor<?> si = source.listIterbtor();
+        nextCbnd:
+            for (int cbndidbte = 0; cbndidbte <= mbxCbndidbte; cbndidbte++) {
+                ListIterbtor<?> ti = tbrget.listIterbtor();
+                for (int i=0; i<tbrgetSize; i++) {
                     if (!eq(ti.next(), si.next())) {
-                        // Back up source iterator to next candidate
+                        // Bbck up source iterbtor to next cbndidbte
                         for (int j=0; j<i; j++)
                             si.previous();
-                        continue nextCand;
+                        continue nextCbnd;
                     }
                 }
-                return candidate;
+                return cbndidbte;
             }
         }
-        return -1;  // No candidate matched the target
+        return -1;  // No cbndidbte mbtched the tbrget
     }
 
     /**
-     * Returns the starting position of the last occurrence of the specified
-     * target list within the specified source list, or -1 if there is no such
-     * occurrence.  More formally, returns the highest index <tt>i</tt>
-     * such that {@code source.subList(i, i+target.size()).equals(target)},
+     * Returns the stbrting position of the lbst occurrence of the specified
+     * tbrget list within the specified source list, or -1 if there is no such
+     * occurrence.  More formblly, returns the highest index <tt>i</tt>
+     * such thbt {@code source.subList(i, i+tbrget.size()).equbls(tbrget)},
      * or -1 if there is no such index.  (Returns -1 if
-     * {@code target.size() > source.size()})
+     * {@code tbrget.size() > source.size()})
      *
-     * <p>This implementation uses the "brute force" technique of iterating
-     * over the source list, looking for a match with the target at each
-     * location in turn.
+     * <p>This implementbtion uses the "brute force" technique of iterbting
+     * over the source list, looking for b mbtch with the tbrget bt ebch
+     * locbtion in turn.
      *
-     * @param source the list in which to search for the last occurrence
-     *        of <tt>target</tt>.
-     * @param target the list to search for as a subList of <tt>source</tt>.
-     * @return the starting position of the last occurrence of the specified
-     *         target list within the specified source list, or -1 if there
+     * @pbrbm source the list in which to sebrch for the lbst occurrence
+     *        of <tt>tbrget</tt>.
+     * @pbrbm tbrget the list to sebrch for bs b subList of <tt>source</tt>.
+     * @return the stbrting position of the lbst occurrence of the specified
+     *         tbrget list within the specified source list, or -1 if there
      *         is no such occurrence.
      * @since  1.4
      */
-    public static int lastIndexOfSubList(List<?> source, List<?> target) {
+    public stbtic int lbstIndexOfSubList(List<?> source, List<?> tbrget) {
         int sourceSize = source.size();
-        int targetSize = target.size();
-        int maxCandidate = sourceSize - targetSize;
+        int tbrgetSize = tbrget.size();
+        int mbxCbndidbte = sourceSize - tbrgetSize;
 
         if (sourceSize < INDEXOFSUBLIST_THRESHOLD ||
-            source instanceof RandomAccess) {   // Index access version
-        nextCand:
-            for (int candidate = maxCandidate; candidate >= 0; candidate--) {
-                for (int i=0, j=candidate; i<targetSize; i++, j++)
-                    if (!eq(target.get(i), source.get(j)))
-                        continue nextCand;  // Element mismatch, try next cand
-                return candidate;  // All elements of candidate matched target
+            source instbnceof RbndomAccess) {   // Index bccess version
+        nextCbnd:
+            for (int cbndidbte = mbxCbndidbte; cbndidbte >= 0; cbndidbte--) {
+                for (int i=0, j=cbndidbte; i<tbrgetSize; i++, j++)
+                    if (!eq(tbrget.get(i), source.get(j)))
+                        continue nextCbnd;  // Element mismbtch, try next cbnd
+                return cbndidbte;  // All elements of cbndidbte mbtched tbrget
             }
-        } else {  // Iterator version of above algorithm
-            if (maxCandidate < 0)
+        } else {  // Iterbtor version of bbove blgorithm
+            if (mbxCbndidbte < 0)
                 return -1;
-            ListIterator<?> si = source.listIterator(maxCandidate);
-        nextCand:
-            for (int candidate = maxCandidate; candidate >= 0; candidate--) {
-                ListIterator<?> ti = target.listIterator();
-                for (int i=0; i<targetSize; i++) {
+            ListIterbtor<?> si = source.listIterbtor(mbxCbndidbte);
+        nextCbnd:
+            for (int cbndidbte = mbxCbndidbte; cbndidbte >= 0; cbndidbte--) {
+                ListIterbtor<?> ti = tbrget.listIterbtor();
+                for (int i=0; i<tbrgetSize; i++) {
                     if (!eq(ti.next(), si.next())) {
-                        if (candidate != 0) {
-                            // Back up source iterator to next candidate
+                        if (cbndidbte != 0) {
+                            // Bbck up source iterbtor to next cbndidbte
                             for (int j=0; j<=i+1; j++)
                                 si.previous();
                         }
-                        continue nextCand;
+                        continue nextCbnd;
                     }
                 }
-                return candidate;
+                return cbndidbte;
             }
         }
-        return -1;  // No candidate matched the target
+        return -1;  // No cbndidbte mbtched the tbrget
     }
 
 
-    // Unmodifiable Wrappers
+    // Unmodifibble Wrbppers
 
     /**
-     * Returns an unmodifiable view of the specified collection.  This method
-     * allows modules to provide users with "read-only" access to internal
-     * collections.  Query operations on the returned collection "read through"
-     * to the specified collection, and attempts to modify the returned
-     * collection, whether direct or via its iterator, result in an
-     * <tt>UnsupportedOperationException</tt>.<p>
+     * Returns bn unmodifibble view of the specified collection.  This method
+     * bllows modules to provide users with "rebd-only" bccess to internbl
+     * collections.  Query operbtions on the returned collection "rebd through"
+     * to the specified collection, bnd bttempts to modify the returned
+     * collection, whether direct or vib its iterbtor, result in bn
+     * <tt>UnsupportedOperbtionException</tt>.<p>
      *
-     * The returned collection does <i>not</i> pass the hashCode and equals
-     * operations through to the backing collection, but relies on
-     * <tt>Object</tt>'s <tt>equals</tt> and <tt>hashCode</tt> methods.  This
-     * is necessary to preserve the contracts of these operations in the case
-     * that the backing collection is a set or a list.<p>
+     * The returned collection does <i>not</i> pbss the hbshCode bnd equbls
+     * operbtions through to the bbcking collection, but relies on
+     * <tt>Object</tt>'s <tt>equbls</tt> bnd <tt>hbshCode</tt> methods.  This
+     * is necessbry to preserve the contrbcts of these operbtions in the cbse
+     * thbt the bbcking collection is b set or b list.<p>
      *
-     * The returned collection will be serializable if the specified collection
-     * is serializable.
+     * The returned collection will be seriblizbble if the specified collection
+     * is seriblizbble.
      *
-     * @param  <T> the class of the objects in the collection
-     * @param  c the collection for which an unmodifiable view is to be
+     * @pbrbm  <T> the clbss of the objects in the collection
+     * @pbrbm  c the collection for which bn unmodifibble view is to be
      *         returned.
-     * @return an unmodifiable view of the specified collection.
+     * @return bn unmodifibble view of the specified collection.
      */
-    public static <T> Collection<T> unmodifiableCollection(Collection<? extends T> c) {
-        return new UnmodifiableCollection<>(c);
+    public stbtic <T> Collection<T> unmodifibbleCollection(Collection<? extends T> c) {
+        return new UnmodifibbleCollection<>(c);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class UnmodifiableCollection<E> implements Collection<E>, Serializable {
-        private static final long serialVersionUID = 1820017752578914078L;
+    stbtic clbss UnmodifibbleCollection<E> implements Collection<E>, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 1820017752578914078L;
 
-        final Collection<? extends E> c;
+        finbl Collection<? extends E> c;
 
-        UnmodifiableCollection(Collection<? extends E> c) {
+        UnmodifibbleCollection(Collection<? extends E> c) {
             if (c==null)
                 throw new NullPointerException();
             this.c = c;
         }
 
         public int size()                   {return c.size();}
-        public boolean isEmpty()            {return c.isEmpty();}
-        public boolean contains(Object o)   {return c.contains(o);}
-        public Object[] toArray()           {return c.toArray();}
-        public <T> T[] toArray(T[] a)       {return c.toArray(a);}
+        public boolebn isEmpty()            {return c.isEmpty();}
+        public boolebn contbins(Object o)   {return c.contbins(o);}
+        public Object[] toArrby()           {return c.toArrby();}
+        public <T> T[] toArrby(T[] b)       {return c.toArrby(b);}
         public String toString()            {return c.toString();}
 
-        public Iterator<E> iterator() {
-            return new Iterator<E>() {
-                private final Iterator<? extends E> i = c.iterator();
+        public Iterbtor<E> iterbtor() {
+            return new Iterbtor<E>() {
+                privbte finbl Iterbtor<? extends E> i = c.iterbtor();
 
-                public boolean hasNext() {return i.hasNext();}
+                public boolebn hbsNext() {return i.hbsNext();}
                 public E next()          {return i.next();}
                 public void remove() {
-                    throw new UnsupportedOperationException();
+                    throw new UnsupportedOperbtionException();
                 }
                 @Override
-                public void forEachRemaining(Consumer<? super E> action) {
-                    // Use backing collection version
-                    i.forEachRemaining(action);
+                public void forEbchRembining(Consumer<? super E> bction) {
+                    // Use bbcking collection version
+                    i.forEbchRembining(bction);
                 }
             };
         }
 
-        public boolean add(E e) {
-            throw new UnsupportedOperationException();
+        public boolebn bdd(E e) {
+            throw new UnsupportedOperbtionException();
         }
-        public boolean remove(Object o) {
-            throw new UnsupportedOperationException();
-        }
-
-        public boolean containsAll(Collection<?> coll) {
-            return c.containsAll(coll);
-        }
-        public boolean addAll(Collection<? extends E> coll) {
-            throw new UnsupportedOperationException();
-        }
-        public boolean removeAll(Collection<?> coll) {
-            throw new UnsupportedOperationException();
-        }
-        public boolean retainAll(Collection<?> coll) {
-            throw new UnsupportedOperationException();
-        }
-        public void clear() {
-            throw new UnsupportedOperationException();
+        public boolebn remove(Object o) {
+            throw new UnsupportedOperbtionException();
         }
 
-        // Override default methods in Collection
+        public boolebn contbinsAll(Collection<?> coll) {
+            return c.contbinsAll(coll);
+        }
+        public boolebn bddAll(Collection<? extends E> coll) {
+            throw new UnsupportedOperbtionException();
+        }
+        public boolebn removeAll(Collection<?> coll) {
+            throw new UnsupportedOperbtionException();
+        }
+        public boolebn retbinAll(Collection<?> coll) {
+            throw new UnsupportedOperbtionException();
+        }
+        public void clebr() {
+            throw new UnsupportedOperbtionException();
+        }
+
+        // Override defbult methods in Collection
         @Override
-        public void forEach(Consumer<? super E> action) {
-            c.forEach(action);
+        public void forEbch(Consumer<? super E> bction) {
+            c.forEbch(bction);
         }
         @Override
-        public boolean removeIf(Predicate<? super E> filter) {
-            throw new UnsupportedOperationException();
+        public boolebn removeIf(Predicbte<? super E> filter) {
+            throw new UnsupportedOperbtionException();
         }
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         @Override
-        public Spliterator<E> spliterator() {
-            return (Spliterator<E>)c.spliterator();
+        public Spliterbtor<E> spliterbtor() {
+            return (Spliterbtor<E>)c.spliterbtor();
         }
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         @Override
-        public Stream<E> stream() {
-            return (Stream<E>)c.stream();
+        public Strebm<E> strebm() {
+            return (Strebm<E>)c.strebm();
         }
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         @Override
-        public Stream<E> parallelStream() {
-            return (Stream<E>)c.parallelStream();
+        public Strebm<E> pbrbllelStrebm() {
+            return (Strebm<E>)c.pbrbllelStrebm();
         }
     }
 
     /**
-     * Returns an unmodifiable view of the specified set.  This method allows
-     * modules to provide users with "read-only" access to internal sets.
-     * Query operations on the returned set "read through" to the specified
-     * set, and attempts to modify the returned set, whether direct or via its
-     * iterator, result in an <tt>UnsupportedOperationException</tt>.<p>
+     * Returns bn unmodifibble view of the specified set.  This method bllows
+     * modules to provide users with "rebd-only" bccess to internbl sets.
+     * Query operbtions on the returned set "rebd through" to the specified
+     * set, bnd bttempts to modify the returned set, whether direct or vib its
+     * iterbtor, result in bn <tt>UnsupportedOperbtionException</tt>.<p>
      *
-     * The returned set will be serializable if the specified set
-     * is serializable.
+     * The returned set will be seriblizbble if the specified set
+     * is seriblizbble.
      *
-     * @param  <T> the class of the objects in the set
-     * @param  s the set for which an unmodifiable view is to be returned.
-     * @return an unmodifiable view of the specified set.
+     * @pbrbm  <T> the clbss of the objects in the set
+     * @pbrbm  s the set for which bn unmodifibble view is to be returned.
+     * @return bn unmodifibble view of the specified set.
      */
-    public static <T> Set<T> unmodifiableSet(Set<? extends T> s) {
-        return new UnmodifiableSet<>(s);
+    public stbtic <T> Set<T> unmodifibbleSet(Set<? extends T> s) {
+        return new UnmodifibbleSet<>(s);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class UnmodifiableSet<E> extends UnmodifiableCollection<E>
-                                 implements Set<E>, Serializable {
-        private static final long serialVersionUID = -9215047833775013803L;
+    stbtic clbss UnmodifibbleSet<E> extends UnmodifibbleCollection<E>
+                                 implements Set<E>, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = -9215047833775013803L;
 
-        UnmodifiableSet(Set<? extends E> s)     {super(s);}
-        public boolean equals(Object o) {return o == this || c.equals(o);}
-        public int hashCode()           {return c.hashCode();}
+        UnmodifibbleSet(Set<? extends E> s)     {super(s);}
+        public boolebn equbls(Object o) {return o == this || c.equbls(o);}
+        public int hbshCode()           {return c.hbshCode();}
     }
 
     /**
-     * Returns an unmodifiable view of the specified sorted set.  This method
-     * allows modules to provide users with "read-only" access to internal
-     * sorted sets.  Query operations on the returned sorted set "read
+     * Returns bn unmodifibble view of the specified sorted set.  This method
+     * bllows modules to provide users with "rebd-only" bccess to internbl
+     * sorted sets.  Query operbtions on the returned sorted set "rebd
      * through" to the specified sorted set.  Attempts to modify the returned
-     * sorted set, whether direct, via its iterator, or via its
-     * <tt>subSet</tt>, <tt>headSet</tt>, or <tt>tailSet</tt> views, result in
-     * an <tt>UnsupportedOperationException</tt>.<p>
+     * sorted set, whether direct, vib its iterbtor, or vib its
+     * <tt>subSet</tt>, <tt>hebdSet</tt>, or <tt>tbilSet</tt> views, result in
+     * bn <tt>UnsupportedOperbtionException</tt>.<p>
      *
-     * The returned sorted set will be serializable if the specified sorted set
-     * is serializable.
+     * The returned sorted set will be seriblizbble if the specified sorted set
+     * is seriblizbble.
      *
-     * @param  <T> the class of the objects in the set
-     * @param s the sorted set for which an unmodifiable view is to be
+     * @pbrbm  <T> the clbss of the objects in the set
+     * @pbrbm s the sorted set for which bn unmodifibble view is to be
      *        returned.
-     * @return an unmodifiable view of the specified sorted set.
+     * @return bn unmodifibble view of the specified sorted set.
      */
-    public static <T> SortedSet<T> unmodifiableSortedSet(SortedSet<T> s) {
-        return new UnmodifiableSortedSet<>(s);
+    public stbtic <T> SortedSet<T> unmodifibbleSortedSet(SortedSet<T> s) {
+        return new UnmodifibbleSortedSet<>(s);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class UnmodifiableSortedSet<E>
-                             extends UnmodifiableSet<E>
-                             implements SortedSet<E>, Serializable {
-        private static final long serialVersionUID = -4929149591599911165L;
-        private final SortedSet<E> ss;
+    stbtic clbss UnmodifibbleSortedSet<E>
+                             extends UnmodifibbleSet<E>
+                             implements SortedSet<E>, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = -4929149591599911165L;
+        privbte finbl SortedSet<E> ss;
 
-        UnmodifiableSortedSet(SortedSet<E> s) {super(s); ss = s;}
+        UnmodifibbleSortedSet(SortedSet<E> s) {super(s); ss = s;}
 
-        public Comparator<? super E> comparator() {return ss.comparator();}
+        public Compbrbtor<? super E> compbrbtor() {return ss.compbrbtor();}
 
         public SortedSet<E> subSet(E fromElement, E toElement) {
-            return new UnmodifiableSortedSet<>(ss.subSet(fromElement,toElement));
+            return new UnmodifibbleSortedSet<>(ss.subSet(fromElement,toElement));
         }
-        public SortedSet<E> headSet(E toElement) {
-            return new UnmodifiableSortedSet<>(ss.headSet(toElement));
+        public SortedSet<E> hebdSet(E toElement) {
+            return new UnmodifibbleSortedSet<>(ss.hebdSet(toElement));
         }
-        public SortedSet<E> tailSet(E fromElement) {
-            return new UnmodifiableSortedSet<>(ss.tailSet(fromElement));
+        public SortedSet<E> tbilSet(E fromElement) {
+            return new UnmodifibbleSortedSet<>(ss.tbilSet(fromElement));
         }
 
         public E first()                   {return ss.first();}
-        public E last()                    {return ss.last();}
+        public E lbst()                    {return ss.lbst();}
     }
 
     /**
-     * Returns an unmodifiable view of the specified navigable set.  This method
-     * allows modules to provide users with "read-only" access to internal
-     * navigable sets.  Query operations on the returned navigable set "read
-     * through" to the specified navigable set.  Attempts to modify the returned
-     * navigable set, whether direct, via its iterator, or via its
-     * {@code subSet}, {@code headSet}, or {@code tailSet} views, result in
-     * an {@code UnsupportedOperationException}.<p>
+     * Returns bn unmodifibble view of the specified nbvigbble set.  This method
+     * bllows modules to provide users with "rebd-only" bccess to internbl
+     * nbvigbble sets.  Query operbtions on the returned nbvigbble set "rebd
+     * through" to the specified nbvigbble set.  Attempts to modify the returned
+     * nbvigbble set, whether direct, vib its iterbtor, or vib its
+     * {@code subSet}, {@code hebdSet}, or {@code tbilSet} views, result in
+     * bn {@code UnsupportedOperbtionException}.<p>
      *
-     * The returned navigable set will be serializable if the specified
-     * navigable set is serializable.
+     * The returned nbvigbble set will be seriblizbble if the specified
+     * nbvigbble set is seriblizbble.
      *
-     * @param  <T> the class of the objects in the set
-     * @param s the navigable set for which an unmodifiable view is to be
+     * @pbrbm  <T> the clbss of the objects in the set
+     * @pbrbm s the nbvigbble set for which bn unmodifibble view is to be
      *        returned
-     * @return an unmodifiable view of the specified navigable set
+     * @return bn unmodifibble view of the specified nbvigbble set
      * @since 1.8
      */
-    public static <T> NavigableSet<T> unmodifiableNavigableSet(NavigableSet<T> s) {
-        return new UnmodifiableNavigableSet<>(s);
+    public stbtic <T> NbvigbbleSet<T> unmodifibbleNbvigbbleSet(NbvigbbleSet<T> s) {
+        return new UnmodifibbleNbvigbbleSet<>(s);
     }
 
     /**
-     * Wraps a navigable set and disables all of the mutative operations.
+     * Wrbps b nbvigbble set bnd disbbles bll of the mutbtive operbtions.
      *
-     * @param <E> type of elements
-     * @serial include
+     * @pbrbm <E> type of elements
+     * @seribl include
      */
-    static class UnmodifiableNavigableSet<E>
-                             extends UnmodifiableSortedSet<E>
-                             implements NavigableSet<E>, Serializable {
+    stbtic clbss UnmodifibbleNbvigbbleSet<E>
+                             extends UnmodifibbleSortedSet<E>
+                             implements NbvigbbleSet<E>, Seriblizbble {
 
-        private static final long serialVersionUID = -6027448201786391929L;
+        privbte stbtic finbl long seriblVersionUID = -6027448201786391929L;
 
         /**
-         * A singleton empty unmodifiable navigable set used for
-         * {@link #emptyNavigableSet()}.
+         * A singleton empty unmodifibble nbvigbble set used for
+         * {@link #emptyNbvigbbleSet()}.
          *
-         * @param <E> type of elements, if there were any, and bounds
+         * @pbrbm <E> type of elements, if there were bny, bnd bounds
          */
-        private static class EmptyNavigableSet<E> extends UnmodifiableNavigableSet<E>
-            implements Serializable {
-            private static final long serialVersionUID = -6291252904449939134L;
+        privbte stbtic clbss EmptyNbvigbbleSet<E> extends UnmodifibbleNbvigbbleSet<E>
+            implements Seriblizbble {
+            privbte stbtic finbl long seriblVersionUID = -6291252904449939134L;
 
-            public EmptyNavigableSet() {
+            public EmptyNbvigbbleSet() {
                 super(new TreeSet<>());
             }
 
-            private Object readResolve()        { return EMPTY_NAVIGABLE_SET; }
+            privbte Object rebdResolve()        { return EMPTY_NAVIGABLE_SET; }
         }
 
-        @SuppressWarnings("rawtypes")
-        private static final NavigableSet<?> EMPTY_NAVIGABLE_SET =
-                new EmptyNavigableSet<>();
+        @SuppressWbrnings("rbwtypes")
+        privbte stbtic finbl NbvigbbleSet<?> EMPTY_NAVIGABLE_SET =
+                new EmptyNbvigbbleSet<>();
 
         /**
-         * The instance we are protecting.
+         * The instbnce we bre protecting.
          */
-        private final NavigableSet<E> ns;
+        privbte finbl NbvigbbleSet<E> ns;
 
-        UnmodifiableNavigableSet(NavigableSet<E> s)         {super(s); ns = s;}
+        UnmodifibbleNbvigbbleSet(NbvigbbleSet<E> s)         {super(s); ns = s;}
 
         public E lower(E e)                             { return ns.lower(e); }
         public E floor(E e)                             { return ns.floor(e); }
         public E ceiling(E e)                         { return ns.ceiling(e); }
         public E higher(E e)                           { return ns.higher(e); }
-        public E pollFirst()     { throw new UnsupportedOperationException(); }
-        public E pollLast()      { throw new UnsupportedOperationException(); }
-        public NavigableSet<E> descendingSet()
-                 { return new UnmodifiableNavigableSet<>(ns.descendingSet()); }
-        public Iterator<E> descendingIterator()
-                                         { return descendingSet().iterator(); }
+        public E pollFirst()     { throw new UnsupportedOperbtionException(); }
+        public E pollLbst()      { throw new UnsupportedOperbtionException(); }
+        public NbvigbbleSet<E> descendingSet()
+                 { return new UnmodifibbleNbvigbbleSet<>(ns.descendingSet()); }
+        public Iterbtor<E> descendingIterbtor()
+                                         { return descendingSet().iterbtor(); }
 
-        public NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-            return new UnmodifiableNavigableSet<>(
+        public NbvigbbleSet<E> subSet(E fromElement, boolebn fromInclusive, E toElement, boolebn toInclusive) {
+            return new UnmodifibbleNbvigbbleSet<>(
                 ns.subSet(fromElement, fromInclusive, toElement, toInclusive));
         }
 
-        public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-            return new UnmodifiableNavigableSet<>(
-                ns.headSet(toElement, inclusive));
+        public NbvigbbleSet<E> hebdSet(E toElement, boolebn inclusive) {
+            return new UnmodifibbleNbvigbbleSet<>(
+                ns.hebdSet(toElement, inclusive));
         }
 
-        public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-            return new UnmodifiableNavigableSet<>(
-                ns.tailSet(fromElement, inclusive));
+        public NbvigbbleSet<E> tbilSet(E fromElement, boolebn inclusive) {
+            return new UnmodifibbleNbvigbbleSet<>(
+                ns.tbilSet(fromElement, inclusive));
         }
     }
 
     /**
-     * Returns an unmodifiable view of the specified list.  This method allows
-     * modules to provide users with "read-only" access to internal
-     * lists.  Query operations on the returned list "read through" to the
-     * specified list, and attempts to modify the returned list, whether
-     * direct or via its iterator, result in an
-     * <tt>UnsupportedOperationException</tt>.<p>
+     * Returns bn unmodifibble view of the specified list.  This method bllows
+     * modules to provide users with "rebd-only" bccess to internbl
+     * lists.  Query operbtions on the returned list "rebd through" to the
+     * specified list, bnd bttempts to modify the returned list, whether
+     * direct or vib its iterbtor, result in bn
+     * <tt>UnsupportedOperbtionException</tt>.<p>
      *
-     * The returned list will be serializable if the specified list
-     * is serializable. Similarly, the returned list will implement
-     * {@link RandomAccess} if the specified list does.
+     * The returned list will be seriblizbble if the specified list
+     * is seriblizbble. Similbrly, the returned list will implement
+     * {@link RbndomAccess} if the specified list does.
      *
-     * @param  <T> the class of the objects in the list
-     * @param  list the list for which an unmodifiable view is to be returned.
-     * @return an unmodifiable view of the specified list.
+     * @pbrbm  <T> the clbss of the objects in the list
+     * @pbrbm  list the list for which bn unmodifibble view is to be returned.
+     * @return bn unmodifibble view of the specified list.
      */
-    public static <T> List<T> unmodifiableList(List<? extends T> list) {
-        return (list instanceof RandomAccess ?
-                new UnmodifiableRandomAccessList<>(list) :
-                new UnmodifiableList<>(list));
+    public stbtic <T> List<T> unmodifibbleList(List<? extends T> list) {
+        return (list instbnceof RbndomAccess ?
+                new UnmodifibbleRbndomAccessList<>(list) :
+                new UnmodifibbleList<>(list));
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class UnmodifiableList<E> extends UnmodifiableCollection<E>
+    stbtic clbss UnmodifibbleList<E> extends UnmodifibbleCollection<E>
                                   implements List<E> {
-        private static final long serialVersionUID = -283967356065247728L;
+        privbte stbtic finbl long seriblVersionUID = -283967356065247728L;
 
-        final List<? extends E> list;
+        finbl List<? extends E> list;
 
-        UnmodifiableList(List<? extends E> list) {
+        UnmodifibbleList(List<? extends E> list) {
             super(list);
             this.list = list;
         }
 
-        public boolean equals(Object o) {return o == this || list.equals(o);}
-        public int hashCode()           {return list.hashCode();}
+        public boolebn equbls(Object o) {return o == this || list.equbls(o);}
+        public int hbshCode()           {return list.hbshCode();}
 
         public E get(int index) {return list.get(index);}
         public E set(int index, E element) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
-        public void add(int index, E element) {
-            throw new UnsupportedOperationException();
+        public void bdd(int index, E element) {
+            throw new UnsupportedOperbtionException();
         }
         public E remove(int index) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
         public int indexOf(Object o)            {return list.indexOf(o);}
-        public int lastIndexOf(Object o)        {return list.lastIndexOf(o);}
-        public boolean addAll(int index, Collection<? extends E> c) {
-            throw new UnsupportedOperationException();
+        public int lbstIndexOf(Object o)        {return list.lbstIndexOf(o);}
+        public boolebn bddAll(int index, Collection<? extends E> c) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public void replaceAll(UnaryOperator<E> operator) {
-            throw new UnsupportedOperationException();
+        public void replbceAll(UnbryOperbtor<E> operbtor) {
+            throw new UnsupportedOperbtionException();
         }
         @Override
-        public void sort(Comparator<? super E> c) {
-            throw new UnsupportedOperationException();
+        public void sort(Compbrbtor<? super E> c) {
+            throw new UnsupportedOperbtionException();
         }
 
-        public ListIterator<E> listIterator()   {return listIterator(0);}
+        public ListIterbtor<E> listIterbtor()   {return listIterbtor(0);}
 
-        public ListIterator<E> listIterator(final int index) {
-            return new ListIterator<E>() {
-                private final ListIterator<? extends E> i
-                    = list.listIterator(index);
+        public ListIterbtor<E> listIterbtor(finbl int index) {
+            return new ListIterbtor<E>() {
+                privbte finbl ListIterbtor<? extends E> i
+                    = list.listIterbtor(index);
 
-                public boolean hasNext()     {return i.hasNext();}
+                public boolebn hbsNext()     {return i.hbsNext();}
                 public E next()              {return i.next();}
-                public boolean hasPrevious() {return i.hasPrevious();}
+                public boolebn hbsPrevious() {return i.hbsPrevious();}
                 public E previous()          {return i.previous();}
                 public int nextIndex()       {return i.nextIndex();}
                 public int previousIndex()   {return i.previousIndex();}
 
                 public void remove() {
-                    throw new UnsupportedOperationException();
+                    throw new UnsupportedOperbtionException();
                 }
                 public void set(E e) {
-                    throw new UnsupportedOperationException();
+                    throw new UnsupportedOperbtionException();
                 }
-                public void add(E e) {
-                    throw new UnsupportedOperationException();
+                public void bdd(E e) {
+                    throw new UnsupportedOperbtionException();
                 }
 
                 @Override
-                public void forEachRemaining(Consumer<? super E> action) {
-                    i.forEachRemaining(action);
+                public void forEbchRembining(Consumer<? super E> bction) {
+                    i.forEbchRembining(bction);
                 }
             };
         }
 
         public List<E> subList(int fromIndex, int toIndex) {
-            return new UnmodifiableList<>(list.subList(fromIndex, toIndex));
+            return new UnmodifibbleList<>(list.subList(fromIndex, toIndex));
         }
 
         /**
-         * UnmodifiableRandomAccessList instances are serialized as
-         * UnmodifiableList instances to allow them to be deserialized
-         * in pre-1.4 JREs (which do not have UnmodifiableRandomAccessList).
-         * This method inverts the transformation.  As a beneficial
-         * side-effect, it also grafts the RandomAccess marker onto
-         * UnmodifiableList instances that were serialized in pre-1.4 JREs.
+         * UnmodifibbleRbndomAccessList instbnces bre seriblized bs
+         * UnmodifibbleList instbnces to bllow them to be deseriblized
+         * in pre-1.4 JREs (which do not hbve UnmodifibbleRbndomAccessList).
+         * This method inverts the trbnsformbtion.  As b beneficibl
+         * side-effect, it blso grbfts the RbndomAccess mbrker onto
+         * UnmodifibbleList instbnces thbt were seriblized in pre-1.4 JREs.
          *
-         * Note: Unfortunately, UnmodifiableRandomAccessList instances
-         * serialized in 1.4.1 and deserialized in 1.4 will become
-         * UnmodifiableList instances, as this method was missing in 1.4.
+         * Note: Unfortunbtely, UnmodifibbleRbndomAccessList instbnces
+         * seriblized in 1.4.1 bnd deseriblized in 1.4 will become
+         * UnmodifibbleList instbnces, bs this method wbs missing in 1.4.
          */
-        private Object readResolve() {
-            return (list instanceof RandomAccess
-                    ? new UnmodifiableRandomAccessList<>(list)
+        privbte Object rebdResolve() {
+            return (list instbnceof RbndomAccess
+                    ? new UnmodifibbleRbndomAccessList<>(list)
                     : this);
         }
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class UnmodifiableRandomAccessList<E> extends UnmodifiableList<E>
-                                              implements RandomAccess
+    stbtic clbss UnmodifibbleRbndomAccessList<E> extends UnmodifibbleList<E>
+                                              implements RbndomAccess
     {
-        UnmodifiableRandomAccessList(List<? extends E> list) {
+        UnmodifibbleRbndomAccessList(List<? extends E> list) {
             super(list);
         }
 
         public List<E> subList(int fromIndex, int toIndex) {
-            return new UnmodifiableRandomAccessList<>(
+            return new UnmodifibbleRbndomAccessList<>(
                 list.subList(fromIndex, toIndex));
         }
 
-        private static final long serialVersionUID = -2542308836966382001L;
+        privbte stbtic finbl long seriblVersionUID = -2542308836966382001L;
 
         /**
-         * Allows instances to be deserialized in pre-1.4 JREs (which do
-         * not have UnmodifiableRandomAccessList).  UnmodifiableList has
-         * a readResolve method that inverts this transformation upon
-         * deserialization.
+         * Allows instbnces to be deseriblized in pre-1.4 JREs (which do
+         * not hbve UnmodifibbleRbndomAccessList).  UnmodifibbleList hbs
+         * b rebdResolve method thbt inverts this trbnsformbtion upon
+         * deseriblizbtion.
          */
-        private Object writeReplace() {
-            return new UnmodifiableList<>(list);
+        privbte Object writeReplbce() {
+            return new UnmodifibbleList<>(list);
         }
     }
 
     /**
-     * Returns an unmodifiable view of the specified map.  This method
-     * allows modules to provide users with "read-only" access to internal
-     * maps.  Query operations on the returned map "read through"
-     * to the specified map, and attempts to modify the returned
-     * map, whether direct or via its collection views, result in an
-     * <tt>UnsupportedOperationException</tt>.<p>
+     * Returns bn unmodifibble view of the specified mbp.  This method
+     * bllows modules to provide users with "rebd-only" bccess to internbl
+     * mbps.  Query operbtions on the returned mbp "rebd through"
+     * to the specified mbp, bnd bttempts to modify the returned
+     * mbp, whether direct or vib its collection views, result in bn
+     * <tt>UnsupportedOperbtionException</tt>.<p>
      *
-     * The returned map will be serializable if the specified map
-     * is serializable.
+     * The returned mbp will be seriblizbble if the specified mbp
+     * is seriblizbble.
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
-     * @param  m the map for which an unmodifiable view is to be returned.
-     * @return an unmodifiable view of the specified map.
+     * @pbrbm <K> the clbss of the mbp keys
+     * @pbrbm <V> the clbss of the mbp vblues
+     * @pbrbm  m the mbp for which bn unmodifibble view is to be returned.
+     * @return bn unmodifibble view of the specified mbp.
      */
-    public static <K,V> Map<K,V> unmodifiableMap(Map<? extends K, ? extends V> m) {
-        return new UnmodifiableMap<>(m);
+    public stbtic <K,V> Mbp<K,V> unmodifibbleMbp(Mbp<? extends K, ? extends V> m) {
+        return new UnmodifibbleMbp<>(m);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class UnmodifiableMap<K,V> implements Map<K,V>, Serializable {
-        private static final long serialVersionUID = -1034234728574286014L;
+    privbte stbtic clbss UnmodifibbleMbp<K,V> implements Mbp<K,V>, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = -1034234728574286014L;
 
-        private final Map<? extends K, ? extends V> m;
+        privbte finbl Mbp<? extends K, ? extends V> m;
 
-        UnmodifiableMap(Map<? extends K, ? extends V> m) {
+        UnmodifibbleMbp(Mbp<? extends K, ? extends V> m) {
             if (m==null)
                 throw new NullPointerException();
             this.m = m;
         }
 
         public int size()                        {return m.size();}
-        public boolean isEmpty()                 {return m.isEmpty();}
-        public boolean containsKey(Object key)   {return m.containsKey(key);}
-        public boolean containsValue(Object val) {return m.containsValue(val);}
+        public boolebn isEmpty()                 {return m.isEmpty();}
+        public boolebn contbinsKey(Object key)   {return m.contbinsKey(key);}
+        public boolebn contbinsVblue(Object vbl) {return m.contbinsVblue(vbl);}
         public V get(Object key)                 {return m.get(key);}
 
-        public V put(K key, V value) {
-            throw new UnsupportedOperationException();
+        public V put(K key, V vblue) {
+            throw new UnsupportedOperbtionException();
         }
         public V remove(Object key) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
-        public void putAll(Map<? extends K, ? extends V> m) {
-            throw new UnsupportedOperationException();
+        public void putAll(Mbp<? extends K, ? extends V> m) {
+            throw new UnsupportedOperbtionException();
         }
-        public void clear() {
-            throw new UnsupportedOperationException();
+        public void clebr() {
+            throw new UnsupportedOperbtionException();
         }
 
-        private transient Set<K> keySet;
-        private transient Set<Map.Entry<K,V>> entrySet;
-        private transient Collection<V> values;
+        privbte trbnsient Set<K> keySet;
+        privbte trbnsient Set<Mbp.Entry<K,V>> entrySet;
+        privbte trbnsient Collection<V> vblues;
 
         public Set<K> keySet() {
             if (keySet==null)
-                keySet = unmodifiableSet(m.keySet());
+                keySet = unmodifibbleSet(m.keySet());
             return keySet;
         }
 
-        public Set<Map.Entry<K,V>> entrySet() {
+        public Set<Mbp.Entry<K,V>> entrySet() {
             if (entrySet==null)
-                entrySet = new UnmodifiableEntrySet<>(m.entrySet());
+                entrySet = new UnmodifibbleEntrySet<>(m.entrySet());
             return entrySet;
         }
 
-        public Collection<V> values() {
-            if (values==null)
-                values = unmodifiableCollection(m.values());
-            return values;
+        public Collection<V> vblues() {
+            if (vblues==null)
+                vblues = unmodifibbleCollection(m.vblues());
+            return vblues;
         }
 
-        public boolean equals(Object o) {return o == this || m.equals(o);}
-        public int hashCode()           {return m.hashCode();}
+        public boolebn equbls(Object o) {return o == this || m.equbls(o);}
+        public int hbshCode()           {return m.hbshCode();}
         public String toString()        {return m.toString();}
 
-        // Override default methods in Map
+        // Override defbult methods in Mbp
         @Override
-        @SuppressWarnings("unchecked")
-        public V getOrDefault(Object k, V defaultValue) {
-            // Safe cast as we don't change the value
-            return ((Map<K, V>)m).getOrDefault(k, defaultValue);
+        @SuppressWbrnings("unchecked")
+        public V getOrDefbult(Object k, V defbultVblue) {
+            // Sbfe cbst bs we don't chbnge the vblue
+            return ((Mbp<K, V>)m).getOrDefbult(k, defbultVblue);
         }
 
         @Override
-        public void forEach(BiConsumer<? super K, ? super V> action) {
-            m.forEach(action);
+        public void forEbch(BiConsumer<? super K, ? super V> bction) {
+            m.forEbch(bction);
         }
 
         @Override
-        public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
-            throw new UnsupportedOperationException();
+        public void replbceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public V putIfAbsent(K key, V value) {
-            throw new UnsupportedOperationException();
+        public V putIfAbsent(K key, V vblue) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public boolean remove(Object key, Object value) {
-            throw new UnsupportedOperationException();
+        public boolebn remove(Object key, Object vblue) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public boolean replace(K key, V oldValue, V newValue) {
-            throw new UnsupportedOperationException();
+        public boolebn replbce(K key, V oldVblue, V newVblue) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public V replace(K key, V value) {
-            throw new UnsupportedOperationException();
+        public V replbce(K key, V vblue) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
-            throw new UnsupportedOperationException();
+        public V computeIfAbsent(K key, Function<? super K, ? extends V> mbppingFunction) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
         public V computeIfPresent(K key,
-                BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            throw new UnsupportedOperationException();
+                BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
         public V compute(K key,
-                BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            throw new UnsupportedOperationException();
+                BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public V merge(K key, V value,
-                BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
-            throw new UnsupportedOperationException();
+        public V merge(K key, V vblue,
+                BiFunction<? super V, ? super V, ? extends V> rembppingFunction) {
+            throw new UnsupportedOperbtionException();
         }
 
         /**
-         * We need this class in addition to UnmodifiableSet as
-         * Map.Entries themselves permit modification of the backing Map
-         * via their setValue operation.  This class is subtle: there are
-         * many possible attacks that must be thwarted.
+         * We need this clbss in bddition to UnmodifibbleSet bs
+         * Mbp.Entries themselves permit modificbtion of the bbcking Mbp
+         * vib their setVblue operbtion.  This clbss is subtle: there bre
+         * mbny possible bttbcks thbt must be thwbrted.
          *
-         * @serial include
+         * @seribl include
          */
-        static class UnmodifiableEntrySet<K,V>
-            extends UnmodifiableSet<Map.Entry<K,V>> {
-            private static final long serialVersionUID = 7854390611657943733L;
+        stbtic clbss UnmodifibbleEntrySet<K,V>
+            extends UnmodifibbleSet<Mbp.Entry<K,V>> {
+            privbte stbtic finbl long seriblVersionUID = 7854390611657943733L;
 
-            @SuppressWarnings({"unchecked", "rawtypes"})
-            UnmodifiableEntrySet(Set<? extends Map.Entry<? extends K, ? extends V>> s) {
-                // Need to cast to raw in order to work around a limitation in the type system
+            @SuppressWbrnings({"unchecked", "rbwtypes"})
+            UnmodifibbleEntrySet(Set<? extends Mbp.Entry<? extends K, ? extends V>> s) {
+                // Need to cbst to rbw in order to work bround b limitbtion in the type system
                 super((Set)s);
             }
 
-            static <K, V> Consumer<Map.Entry<K, V>> entryConsumer(Consumer<? super Entry<K, V>> action) {
-                return e -> action.accept(new UnmodifiableEntry<>(e));
+            stbtic <K, V> Consumer<Mbp.Entry<K, V>> entryConsumer(Consumer<? super Entry<K, V>> bction) {
+                return e -> bction.bccept(new UnmodifibbleEntry<>(e));
             }
 
-            public void forEach(Consumer<? super Entry<K, V>> action) {
-                Objects.requireNonNull(action);
-                c.forEach(entryConsumer(action));
+            public void forEbch(Consumer<? super Entry<K, V>> bction) {
+                Objects.requireNonNull(bction);
+                c.forEbch(entryConsumer(bction));
             }
 
-            static final class UnmodifiableEntrySetSpliterator<K, V>
-                    implements Spliterator<Entry<K,V>> {
-                final Spliterator<Map.Entry<K, V>> s;
+            stbtic finbl clbss UnmodifibbleEntrySetSpliterbtor<K, V>
+                    implements Spliterbtor<Entry<K,V>> {
+                finbl Spliterbtor<Mbp.Entry<K, V>> s;
 
-                UnmodifiableEntrySetSpliterator(Spliterator<Entry<K, V>> s) {
+                UnmodifibbleEntrySetSpliterbtor(Spliterbtor<Entry<K, V>> s) {
                     this.s = s;
                 }
 
                 @Override
-                public boolean tryAdvance(Consumer<? super Entry<K, V>> action) {
-                    Objects.requireNonNull(action);
-                    return s.tryAdvance(entryConsumer(action));
+                public boolebn tryAdvbnce(Consumer<? super Entry<K, V>> bction) {
+                    Objects.requireNonNull(bction);
+                    return s.tryAdvbnce(entryConsumer(bction));
                 }
 
                 @Override
-                public void forEachRemaining(Consumer<? super Entry<K, V>> action) {
-                    Objects.requireNonNull(action);
-                    s.forEachRemaining(entryConsumer(action));
+                public void forEbchRembining(Consumer<? super Entry<K, V>> bction) {
+                    Objects.requireNonNull(bction);
+                    s.forEbchRembining(entryConsumer(bction));
                 }
 
                 @Override
-                public Spliterator<Entry<K, V>> trySplit() {
-                    Spliterator<Entry<K, V>> split = s.trySplit();
+                public Spliterbtor<Entry<K, V>> trySplit() {
+                    Spliterbtor<Entry<K, V>> split = s.trySplit();
                     return split == null
                            ? null
-                           : new UnmodifiableEntrySetSpliterator<>(split);
+                           : new UnmodifibbleEntrySetSpliterbtor<>(split);
                 }
 
                 @Override
-                public long estimateSize() {
-                    return s.estimateSize();
+                public long estimbteSize() {
+                    return s.estimbteSize();
                 }
 
                 @Override
-                public long getExactSizeIfKnown() {
-                    return s.getExactSizeIfKnown();
+                public long getExbctSizeIfKnown() {
+                    return s.getExbctSizeIfKnown();
                 }
 
                 @Override
-                public int characteristics() {
-                    return s.characteristics();
+                public int chbrbcteristics() {
+                    return s.chbrbcteristics();
                 }
 
                 @Override
-                public boolean hasCharacteristics(int characteristics) {
-                    return s.hasCharacteristics(characteristics);
+                public boolebn hbsChbrbcteristics(int chbrbcteristics) {
+                    return s.hbsChbrbcteristics(chbrbcteristics);
                 }
 
                 @Override
-                public Comparator<? super Entry<K, V>> getComparator() {
-                    return s.getComparator();
+                public Compbrbtor<? super Entry<K, V>> getCompbrbtor() {
+                    return s.getCompbrbtor();
                 }
             }
 
-            @SuppressWarnings("unchecked")
-            public Spliterator<Entry<K,V>> spliterator() {
-                return new UnmodifiableEntrySetSpliterator<>(
-                        (Spliterator<Map.Entry<K, V>>) c.spliterator());
-            }
-
-            @Override
-            public Stream<Entry<K,V>> stream() {
-                return StreamSupport.stream(spliterator(), false);
+            @SuppressWbrnings("unchecked")
+            public Spliterbtor<Entry<K,V>> spliterbtor() {
+                return new UnmodifibbleEntrySetSpliterbtor<>(
+                        (Spliterbtor<Mbp.Entry<K, V>>) c.spliterbtor());
             }
 
             @Override
-            public Stream<Entry<K,V>> parallelStream() {
-                return StreamSupport.stream(spliterator(), true);
+            public Strebm<Entry<K,V>> strebm() {
+                return StrebmSupport.strebm(spliterbtor(), fblse);
             }
 
-            public Iterator<Map.Entry<K,V>> iterator() {
-                return new Iterator<Map.Entry<K,V>>() {
-                    private final Iterator<? extends Map.Entry<? extends K, ? extends V>> i = c.iterator();
+            @Override
+            public Strebm<Entry<K,V>> pbrbllelStrebm() {
+                return StrebmSupport.strebm(spliterbtor(), true);
+            }
 
-                    public boolean hasNext() {
-                        return i.hasNext();
+            public Iterbtor<Mbp.Entry<K,V>> iterbtor() {
+                return new Iterbtor<Mbp.Entry<K,V>>() {
+                    privbte finbl Iterbtor<? extends Mbp.Entry<? extends K, ? extends V>> i = c.iterbtor();
+
+                    public boolebn hbsNext() {
+                        return i.hbsNext();
                     }
-                    public Map.Entry<K,V> next() {
-                        return new UnmodifiableEntry<>(i.next());
+                    public Mbp.Entry<K,V> next() {
+                        return new UnmodifibbleEntry<>(i.next());
                     }
                     public void remove() {
-                        throw new UnsupportedOperationException();
+                        throw new UnsupportedOperbtionException();
                     }
                 };
             }
 
-            @SuppressWarnings("unchecked")
-            public Object[] toArray() {
-                Object[] a = c.toArray();
-                for (int i=0; i<a.length; i++)
-                    a[i] = new UnmodifiableEntry<>((Map.Entry<? extends K, ? extends V>)a[i]);
-                return a;
+            @SuppressWbrnings("unchecked")
+            public Object[] toArrby() {
+                Object[] b = c.toArrby();
+                for (int i=0; i<b.length; i++)
+                    b[i] = new UnmodifibbleEntry<>((Mbp.Entry<? extends K, ? extends V>)b[i]);
+                return b;
             }
 
-            @SuppressWarnings("unchecked")
-            public <T> T[] toArray(T[] a) {
-                // We don't pass a to c.toArray, to avoid window of
-                // vulnerability wherein an unscrupulous multithreaded client
-                // could get his hands on raw (unwrapped) Entries from c.
-                Object[] arr = c.toArray(a.length==0 ? a : Arrays.copyOf(a, 0));
+            @SuppressWbrnings("unchecked")
+            public <T> T[] toArrby(T[] b) {
+                // We don't pbss b to c.toArrby, to bvoid window of
+                // vulnerbbility wherein bn unscrupulous multithrebded client
+                // could get his hbnds on rbw (unwrbpped) Entries from c.
+                Object[] brr = c.toArrby(b.length==0 ? b : Arrbys.copyOf(b, 0));
 
-                for (int i=0; i<arr.length; i++)
-                    arr[i] = new UnmodifiableEntry<>((Map.Entry<? extends K, ? extends V>)arr[i]);
+                for (int i=0; i<brr.length; i++)
+                    brr[i] = new UnmodifibbleEntry<>((Mbp.Entry<? extends K, ? extends V>)brr[i]);
 
-                if (arr.length > a.length)
-                    return (T[])arr;
+                if (brr.length > b.length)
+                    return (T[])brr;
 
-                System.arraycopy(arr, 0, a, 0, arr.length);
-                if (a.length > arr.length)
-                    a[arr.length] = null;
-                return a;
-            }
-
-            /**
-             * This method is overridden to protect the backing set against
-             * an object with a nefarious equals function that senses
-             * that the equality-candidate is Map.Entry and calls its
-             * setValue method.
-             */
-            public boolean contains(Object o) {
-                if (!(o instanceof Map.Entry))
-                    return false;
-                return c.contains(
-                    new UnmodifiableEntry<>((Map.Entry<?,?>) o));
+                System.brrbycopy(brr, 0, b, 0, brr.length);
+                if (b.length > brr.length)
+                    b[brr.length] = null;
+                return b;
             }
 
             /**
-             * The next two methods are overridden to protect against
-             * an unscrupulous List whose contains(Object o) method senses
-             * when o is a Map.Entry, and calls o.setValue.
+             * This method is overridden to protect the bbcking set bgbinst
+             * bn object with b nefbrious equbls function thbt senses
+             * thbt the equblity-cbndidbte is Mbp.Entry bnd cblls its
+             * setVblue method.
              */
-            public boolean containsAll(Collection<?> coll) {
+            public boolebn contbins(Object o) {
+                if (!(o instbnceof Mbp.Entry))
+                    return fblse;
+                return c.contbins(
+                    new UnmodifibbleEntry<>((Mbp.Entry<?,?>) o));
+            }
+
+            /**
+             * The next two methods bre overridden to protect bgbinst
+             * bn unscrupulous List whose contbins(Object o) method senses
+             * when o is b Mbp.Entry, bnd cblls o.setVblue.
+             */
+            public boolebn contbinsAll(Collection<?> coll) {
                 for (Object e : coll) {
-                    if (!contains(e)) // Invokes safe contains() above
-                        return false;
+                    if (!contbins(e)) // Invokes sbfe contbins() bbove
+                        return fblse;
                 }
                 return true;
             }
-            public boolean equals(Object o) {
+            public boolebn equbls(Object o) {
                 if (o == this)
                     return true;
 
-                if (!(o instanceof Set))
-                    return false;
+                if (!(o instbnceof Set))
+                    return fblse;
                 Set<?> s = (Set<?>) o;
                 if (s.size() != c.size())
-                    return false;
-                return containsAll(s); // Invokes safe containsAll() above
+                    return fblse;
+                return contbinsAll(s); // Invokes sbfe contbinsAll() bbove
             }
 
             /**
-             * This "wrapper class" serves two purposes: it prevents
-             * the client from modifying the backing Map, by short-circuiting
-             * the setValue method, and it protects the backing Map against
-             * an ill-behaved Map.Entry that attempts to modify another
-             * Map Entry when asked to perform an equality check.
+             * This "wrbpper clbss" serves two purposes: it prevents
+             * the client from modifying the bbcking Mbp, by short-circuiting
+             * the setVblue method, bnd it protects the bbcking Mbp bgbinst
+             * bn ill-behbved Mbp.Entry thbt bttempts to modify bnother
+             * Mbp Entry when bsked to perform bn equblity check.
              */
-            private static class UnmodifiableEntry<K,V> implements Map.Entry<K,V> {
-                private Map.Entry<? extends K, ? extends V> e;
+            privbte stbtic clbss UnmodifibbleEntry<K,V> implements Mbp.Entry<K,V> {
+                privbte Mbp.Entry<? extends K, ? extends V> e;
 
-                UnmodifiableEntry(Map.Entry<? extends K, ? extends V> e)
+                UnmodifibbleEntry(Mbp.Entry<? extends K, ? extends V> e)
                         {this.e = Objects.requireNonNull(e);}
 
                 public K getKey()        {return e.getKey();}
-                public V getValue()      {return e.getValue();}
-                public V setValue(V value) {
-                    throw new UnsupportedOperationException();
+                public V getVblue()      {return e.getVblue();}
+                public V setVblue(V vblue) {
+                    throw new UnsupportedOperbtionException();
                 }
-                public int hashCode()    {return e.hashCode();}
-                public boolean equals(Object o) {
+                public int hbshCode()    {return e.hbshCode();}
+                public boolebn equbls(Object o) {
                     if (this == o)
                         return true;
-                    if (!(o instanceof Map.Entry))
-                        return false;
-                    Map.Entry<?,?> t = (Map.Entry<?,?>)o;
+                    if (!(o instbnceof Mbp.Entry))
+                        return fblse;
+                    Mbp.Entry<?,?> t = (Mbp.Entry<?,?>)o;
                     return eq(e.getKey(),   t.getKey()) &&
-                           eq(e.getValue(), t.getValue());
+                           eq(e.getVblue(), t.getVblue());
                 }
                 public String toString() {return e.toString();}
             }
@@ -1764,113 +1764,113 @@ public class Collections {
     }
 
     /**
-     * Returns an unmodifiable view of the specified sorted map.  This method
-     * allows modules to provide users with "read-only" access to internal
-     * sorted maps.  Query operations on the returned sorted map "read through"
-     * to the specified sorted map.  Attempts to modify the returned
-     * sorted map, whether direct, via its collection views, or via its
-     * <tt>subMap</tt>, <tt>headMap</tt>, or <tt>tailMap</tt> views, result in
-     * an <tt>UnsupportedOperationException</tt>.<p>
+     * Returns bn unmodifibble view of the specified sorted mbp.  This method
+     * bllows modules to provide users with "rebd-only" bccess to internbl
+     * sorted mbps.  Query operbtions on the returned sorted mbp "rebd through"
+     * to the specified sorted mbp.  Attempts to modify the returned
+     * sorted mbp, whether direct, vib its collection views, or vib its
+     * <tt>subMbp</tt>, <tt>hebdMbp</tt>, or <tt>tbilMbp</tt> views, result in
+     * bn <tt>UnsupportedOperbtionException</tt>.<p>
      *
-     * The returned sorted map will be serializable if the specified sorted map
-     * is serializable.
+     * The returned sorted mbp will be seriblizbble if the specified sorted mbp
+     * is seriblizbble.
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
-     * @param m the sorted map for which an unmodifiable view is to be
+     * @pbrbm <K> the clbss of the mbp keys
+     * @pbrbm <V> the clbss of the mbp vblues
+     * @pbrbm m the sorted mbp for which bn unmodifibble view is to be
      *        returned.
-     * @return an unmodifiable view of the specified sorted map.
+     * @return bn unmodifibble view of the specified sorted mbp.
      */
-    public static <K,V> SortedMap<K,V> unmodifiableSortedMap(SortedMap<K, ? extends V> m) {
-        return new UnmodifiableSortedMap<>(m);
+    public stbtic <K,V> SortedMbp<K,V> unmodifibbleSortedMbp(SortedMbp<K, ? extends V> m) {
+        return new UnmodifibbleSortedMbp<>(m);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class UnmodifiableSortedMap<K,V>
-          extends UnmodifiableMap<K,V>
-          implements SortedMap<K,V>, Serializable {
-        private static final long serialVersionUID = -8806743815996713206L;
+    stbtic clbss UnmodifibbleSortedMbp<K,V>
+          extends UnmodifibbleMbp<K,V>
+          implements SortedMbp<K,V>, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = -8806743815996713206L;
 
-        private final SortedMap<K, ? extends V> sm;
+        privbte finbl SortedMbp<K, ? extends V> sm;
 
-        UnmodifiableSortedMap(SortedMap<K, ? extends V> m) {super(m); sm = m; }
-        public Comparator<? super K> comparator()   { return sm.comparator(); }
-        public SortedMap<K,V> subMap(K fromKey, K toKey)
-             { return new UnmodifiableSortedMap<>(sm.subMap(fromKey, toKey)); }
-        public SortedMap<K,V> headMap(K toKey)
-                     { return new UnmodifiableSortedMap<>(sm.headMap(toKey)); }
-        public SortedMap<K,V> tailMap(K fromKey)
-                   { return new UnmodifiableSortedMap<>(sm.tailMap(fromKey)); }
+        UnmodifibbleSortedMbp(SortedMbp<K, ? extends V> m) {super(m); sm = m; }
+        public Compbrbtor<? super K> compbrbtor()   { return sm.compbrbtor(); }
+        public SortedMbp<K,V> subMbp(K fromKey, K toKey)
+             { return new UnmodifibbleSortedMbp<>(sm.subMbp(fromKey, toKey)); }
+        public SortedMbp<K,V> hebdMbp(K toKey)
+                     { return new UnmodifibbleSortedMbp<>(sm.hebdMbp(toKey)); }
+        public SortedMbp<K,V> tbilMbp(K fromKey)
+                   { return new UnmodifibbleSortedMbp<>(sm.tbilMbp(fromKey)); }
         public K firstKey()                           { return sm.firstKey(); }
-        public K lastKey()                             { return sm.lastKey(); }
+        public K lbstKey()                             { return sm.lbstKey(); }
     }
 
     /**
-     * Returns an unmodifiable view of the specified navigable map.  This method
-     * allows modules to provide users with "read-only" access to internal
-     * navigable maps.  Query operations on the returned navigable map "read
-     * through" to the specified navigable map.  Attempts to modify the returned
-     * navigable map, whether direct, via its collection views, or via its
-     * {@code subMap}, {@code headMap}, or {@code tailMap} views, result in
-     * an {@code UnsupportedOperationException}.<p>
+     * Returns bn unmodifibble view of the specified nbvigbble mbp.  This method
+     * bllows modules to provide users with "rebd-only" bccess to internbl
+     * nbvigbble mbps.  Query operbtions on the returned nbvigbble mbp "rebd
+     * through" to the specified nbvigbble mbp.  Attempts to modify the returned
+     * nbvigbble mbp, whether direct, vib its collection views, or vib its
+     * {@code subMbp}, {@code hebdMbp}, or {@code tbilMbp} views, result in
+     * bn {@code UnsupportedOperbtionException}.<p>
      *
-     * The returned navigable map will be serializable if the specified
-     * navigable map is serializable.
+     * The returned nbvigbble mbp will be seriblizbble if the specified
+     * nbvigbble mbp is seriblizbble.
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
-     * @param m the navigable map for which an unmodifiable view is to be
+     * @pbrbm <K> the clbss of the mbp keys
+     * @pbrbm <V> the clbss of the mbp vblues
+     * @pbrbm m the nbvigbble mbp for which bn unmodifibble view is to be
      *        returned
-     * @return an unmodifiable view of the specified navigable map
+     * @return bn unmodifibble view of the specified nbvigbble mbp
      * @since 1.8
      */
-    public static <K,V> NavigableMap<K,V> unmodifiableNavigableMap(NavigableMap<K, ? extends V> m) {
-        return new UnmodifiableNavigableMap<>(m);
+    public stbtic <K,V> NbvigbbleMbp<K,V> unmodifibbleNbvigbbleMbp(NbvigbbleMbp<K, ? extends V> m) {
+        return new UnmodifibbleNbvigbbleMbp<>(m);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class UnmodifiableNavigableMap<K,V>
-          extends UnmodifiableSortedMap<K,V>
-          implements NavigableMap<K,V>, Serializable {
-        private static final long serialVersionUID = -4858195264774772197L;
+    stbtic clbss UnmodifibbleNbvigbbleMbp<K,V>
+          extends UnmodifibbleSortedMbp<K,V>
+          implements NbvigbbleMbp<K,V>, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = -4858195264774772197L;
 
         /**
-         * A class for the {@link EMPTY_NAVIGABLE_MAP} which needs readResolve
+         * A clbss for the {@link EMPTY_NAVIGABLE_MAP} which needs rebdResolve
          * to preserve singleton property.
          *
-         * @param <K> type of keys, if there were any, and of bounds
-         * @param <V> type of values, if there were any
+         * @pbrbm <K> type of keys, if there were bny, bnd of bounds
+         * @pbrbm <V> type of vblues, if there were bny
          */
-        private static class EmptyNavigableMap<K,V> extends UnmodifiableNavigableMap<K,V>
-            implements Serializable {
+        privbte stbtic clbss EmptyNbvigbbleMbp<K,V> extends UnmodifibbleNbvigbbleMbp<K,V>
+            implements Seriblizbble {
 
-            private static final long serialVersionUID = -2239321462712562324L;
+            privbte stbtic finbl long seriblVersionUID = -2239321462712562324L;
 
-            EmptyNavigableMap()                       { super(new TreeMap<>()); }
+            EmptyNbvigbbleMbp()                       { super(new TreeMbp<>()); }
 
             @Override
-            public NavigableSet<K> navigableKeySet()
-                                                { return emptyNavigableSet(); }
+            public NbvigbbleSet<K> nbvigbbleKeySet()
+                                                { return emptyNbvigbbleSet(); }
 
-            private Object readResolve()        { return EMPTY_NAVIGABLE_MAP; }
+            privbte Object rebdResolve()        { return EMPTY_NAVIGABLE_MAP; }
         }
 
         /**
-         * Singleton for {@link emptyNavigableMap()} which is also immutable.
+         * Singleton for {@link emptyNbvigbbleMbp()} which is blso immutbble.
          */
-        private static final EmptyNavigableMap<?,?> EMPTY_NAVIGABLE_MAP =
-            new EmptyNavigableMap<>();
+        privbte stbtic finbl EmptyNbvigbbleMbp<?,?> EMPTY_NAVIGABLE_MAP =
+            new EmptyNbvigbbleMbp<>();
 
         /**
-         * The instance we wrap and protect.
+         * The instbnce we wrbp bnd protect.
          */
-        private final NavigableMap<K, ? extends V> nm;
+        privbte finbl NbvigbbleMbp<K, ? extends V> nm;
 
-        UnmodifiableNavigableMap(NavigableMap<K, ? extends V> m)
+        UnmodifibbleNbvigbbleMbp(NbvigbbleMbp<K, ? extends V> m)
                                                             {super(m); nm = m;}
 
         public K lowerKey(K key)                   { return nm.lowerKey(key); }
@@ -1878,128 +1878,128 @@ public class Collections {
         public K ceilingKey(K key)               { return nm.ceilingKey(key); }
         public K higherKey(K key)                 { return nm.higherKey(key); }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public Entry<K, V> lowerEntry(K key) {
             Entry<K,V> lower = (Entry<K, V>) nm.lowerEntry(key);
             return (null != lower)
-                ? new UnmodifiableEntrySet.UnmodifiableEntry<>(lower)
+                ? new UnmodifibbleEntrySet.UnmodifibbleEntry<>(lower)
                 : null;
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public Entry<K, V> floorEntry(K key) {
             Entry<K,V> floor = (Entry<K, V>) nm.floorEntry(key);
             return (null != floor)
-                ? new UnmodifiableEntrySet.UnmodifiableEntry<>(floor)
+                ? new UnmodifibbleEntrySet.UnmodifibbleEntry<>(floor)
                 : null;
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public Entry<K, V> ceilingEntry(K key) {
             Entry<K,V> ceiling = (Entry<K, V>) nm.ceilingEntry(key);
             return (null != ceiling)
-                ? new UnmodifiableEntrySet.UnmodifiableEntry<>(ceiling)
+                ? new UnmodifibbleEntrySet.UnmodifibbleEntry<>(ceiling)
                 : null;
         }
 
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public Entry<K, V> higherEntry(K key) {
             Entry<K,V> higher = (Entry<K, V>) nm.higherEntry(key);
             return (null != higher)
-                ? new UnmodifiableEntrySet.UnmodifiableEntry<>(higher)
+                ? new UnmodifibbleEntrySet.UnmodifibbleEntry<>(higher)
                 : null;
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public Entry<K, V> firstEntry() {
             Entry<K,V> first = (Entry<K, V>) nm.firstEntry();
             return (null != first)
-                ? new UnmodifiableEntrySet.UnmodifiableEntry<>(first)
+                ? new UnmodifibbleEntrySet.UnmodifibbleEntry<>(first)
                 : null;
         }
 
-        @SuppressWarnings("unchecked")
-        public Entry<K, V> lastEntry() {
-            Entry<K,V> last = (Entry<K, V>) nm.lastEntry();
-            return (null != last)
-                ? new UnmodifiableEntrySet.UnmodifiableEntry<>(last)
+        @SuppressWbrnings("unchecked")
+        public Entry<K, V> lbstEntry() {
+            Entry<K,V> lbst = (Entry<K, V>) nm.lbstEntry();
+            return (null != lbst)
+                ? new UnmodifibbleEntrySet.UnmodifibbleEntry<>(lbst)
                 : null;
         }
 
         public Entry<K, V> pollFirstEntry()
-                                 { throw new UnsupportedOperationException(); }
-        public Entry<K, V> pollLastEntry()
-                                 { throw new UnsupportedOperationException(); }
-        public NavigableMap<K, V> descendingMap()
-                       { return unmodifiableNavigableMap(nm.descendingMap()); }
-        public NavigableSet<K> navigableKeySet()
-                     { return unmodifiableNavigableSet(nm.navigableKeySet()); }
-        public NavigableSet<K> descendingKeySet()
-                    { return unmodifiableNavigableSet(nm.descendingKeySet()); }
+                                 { throw new UnsupportedOperbtionException(); }
+        public Entry<K, V> pollLbstEntry()
+                                 { throw new UnsupportedOperbtionException(); }
+        public NbvigbbleMbp<K, V> descendingMbp()
+                       { return unmodifibbleNbvigbbleMbp(nm.descendingMbp()); }
+        public NbvigbbleSet<K> nbvigbbleKeySet()
+                     { return unmodifibbleNbvigbbleSet(nm.nbvigbbleKeySet()); }
+        public NbvigbbleSet<K> descendingKeySet()
+                    { return unmodifibbleNbvigbbleSet(nm.descendingKeySet()); }
 
-        public NavigableMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
-            return unmodifiableNavigableMap(
-                nm.subMap(fromKey, fromInclusive, toKey, toInclusive));
+        public NbvigbbleMbp<K, V> subMbp(K fromKey, boolebn fromInclusive, K toKey, boolebn toInclusive) {
+            return unmodifibbleNbvigbbleMbp(
+                nm.subMbp(fromKey, fromInclusive, toKey, toInclusive));
         }
 
-        public NavigableMap<K, V> headMap(K toKey, boolean inclusive)
-             { return unmodifiableNavigableMap(nm.headMap(toKey, inclusive)); }
-        public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive)
-           { return unmodifiableNavigableMap(nm.tailMap(fromKey, inclusive)); }
+        public NbvigbbleMbp<K, V> hebdMbp(K toKey, boolebn inclusive)
+             { return unmodifibbleNbvigbbleMbp(nm.hebdMbp(toKey, inclusive)); }
+        public NbvigbbleMbp<K, V> tbilMbp(K fromKey, boolebn inclusive)
+           { return unmodifibbleNbvigbbleMbp(nm.tbilMbp(fromKey, inclusive)); }
     }
 
-    // Synch Wrappers
+    // Synch Wrbppers
 
     /**
-     * Returns a synchronized (thread-safe) collection backed by the specified
-     * collection.  In order to guarantee serial access, it is critical that
-     * <strong>all</strong> access to the backing collection is accomplished
+     * Returns b synchronized (threbd-sbfe) collection bbcked by the specified
+     * collection.  In order to gubrbntee seribl bccess, it is criticbl thbt
+     * <strong>bll</strong> bccess to the bbcking collection is bccomplished
      * through the returned collection.<p>
      *
-     * It is imperative that the user manually synchronize on the returned
-     * collection when traversing it via {@link Iterator}, {@link Spliterator}
-     * or {@link Stream}:
+     * It is imperbtive thbt the user mbnublly synchronize on the returned
+     * collection when trbversing it vib {@link Iterbtor}, {@link Spliterbtor}
+     * or {@link Strebm}:
      * <pre>
      *  Collection c = Collections.synchronizedCollection(myCollection);
      *     ...
      *  synchronized (c) {
-     *      Iterator i = c.iterator(); // Must be in the synchronized block
-     *      while (i.hasNext())
+     *      Iterbtor i = c.iterbtor(); // Must be in the synchronized block
+     *      while (i.hbsNext())
      *         foo(i.next());
      *  }
      * </pre>
-     * Failure to follow this advice may result in non-deterministic behavior.
+     * Fbilure to follow this bdvice mby result in non-deterministic behbvior.
      *
-     * <p>The returned collection does <i>not</i> pass the {@code hashCode}
-     * and {@code equals} operations through to the backing collection, but
-     * relies on {@code Object}'s equals and hashCode methods.  This is
-     * necessary to preserve the contracts of these operations in the case
-     * that the backing collection is a set or a list.<p>
+     * <p>The returned collection does <i>not</i> pbss the {@code hbshCode}
+     * bnd {@code equbls} operbtions through to the bbcking collection, but
+     * relies on {@code Object}'s equbls bnd hbshCode methods.  This is
+     * necessbry to preserve the contrbcts of these operbtions in the cbse
+     * thbt the bbcking collection is b set or b list.<p>
      *
-     * The returned collection will be serializable if the specified collection
-     * is serializable.
+     * The returned collection will be seriblizbble if the specified collection
+     * is seriblizbble.
      *
-     * @param  <T> the class of the objects in the collection
-     * @param  c the collection to be "wrapped" in a synchronized collection.
-     * @return a synchronized view of the specified collection.
+     * @pbrbm  <T> the clbss of the objects in the collection
+     * @pbrbm  c the collection to be "wrbpped" in b synchronized collection.
+     * @return b synchronized view of the specified collection.
      */
-    public static <T> Collection<T> synchronizedCollection(Collection<T> c) {
+    public stbtic <T> Collection<T> synchronizedCollection(Collection<T> c) {
         return new SynchronizedCollection<>(c);
     }
 
-    static <T> Collection<T> synchronizedCollection(Collection<T> c, Object mutex) {
+    stbtic <T> Collection<T> synchronizedCollection(Collection<T> c, Object mutex) {
         return new SynchronizedCollection<>(c, mutex);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class SynchronizedCollection<E> implements Collection<E>, Serializable {
-        private static final long serialVersionUID = 3053995032091335093L;
+    stbtic clbss SynchronizedCollection<E> implements Collection<E>, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 3053995032091335093L;
 
-        final Collection<E> c;  // Backing Collection
-        final Object mutex;     // Object on which to synchronize
+        finbl Collection<E> c;  // Bbcking Collection
+        finbl Object mutex;     // Object on which to synchronize
 
         SynchronizedCollection(Collection<E> c) {
             this.c = Objects.requireNonNull(c);
@@ -2014,115 +2014,115 @@ public class Collections {
         public int size() {
             synchronized (mutex) {return c.size();}
         }
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             synchronized (mutex) {return c.isEmpty();}
         }
-        public boolean contains(Object o) {
-            synchronized (mutex) {return c.contains(o);}
+        public boolebn contbins(Object o) {
+            synchronized (mutex) {return c.contbins(o);}
         }
-        public Object[] toArray() {
-            synchronized (mutex) {return c.toArray();}
+        public Object[] toArrby() {
+            synchronized (mutex) {return c.toArrby();}
         }
-        public <T> T[] toArray(T[] a) {
-            synchronized (mutex) {return c.toArray(a);}
-        }
-
-        public Iterator<E> iterator() {
-            return c.iterator(); // Must be manually synched by user!
+        public <T> T[] toArrby(T[] b) {
+            synchronized (mutex) {return c.toArrby(b);}
         }
 
-        public boolean add(E e) {
-            synchronized (mutex) {return c.add(e);}
+        public Iterbtor<E> iterbtor() {
+            return c.iterbtor(); // Must be mbnublly synched by user!
         }
-        public boolean remove(Object o) {
+
+        public boolebn bdd(E e) {
+            synchronized (mutex) {return c.bdd(e);}
+        }
+        public boolebn remove(Object o) {
             synchronized (mutex) {return c.remove(o);}
         }
 
-        public boolean containsAll(Collection<?> coll) {
-            synchronized (mutex) {return c.containsAll(coll);}
+        public boolebn contbinsAll(Collection<?> coll) {
+            synchronized (mutex) {return c.contbinsAll(coll);}
         }
-        public boolean addAll(Collection<? extends E> coll) {
-            synchronized (mutex) {return c.addAll(coll);}
+        public boolebn bddAll(Collection<? extends E> coll) {
+            synchronized (mutex) {return c.bddAll(coll);}
         }
-        public boolean removeAll(Collection<?> coll) {
+        public boolebn removeAll(Collection<?> coll) {
             synchronized (mutex) {return c.removeAll(coll);}
         }
-        public boolean retainAll(Collection<?> coll) {
-            synchronized (mutex) {return c.retainAll(coll);}
+        public boolebn retbinAll(Collection<?> coll) {
+            synchronized (mutex) {return c.retbinAll(coll);}
         }
-        public void clear() {
-            synchronized (mutex) {c.clear();}
+        public void clebr() {
+            synchronized (mutex) {c.clebr();}
         }
         public String toString() {
             synchronized (mutex) {return c.toString();}
         }
-        // Override default methods in Collection
+        // Override defbult methods in Collection
         @Override
-        public void forEach(Consumer<? super E> consumer) {
-            synchronized (mutex) {c.forEach(consumer);}
+        public void forEbch(Consumer<? super E> consumer) {
+            synchronized (mutex) {c.forEbch(consumer);}
         }
         @Override
-        public boolean removeIf(Predicate<? super E> filter) {
+        public boolebn removeIf(Predicbte<? super E> filter) {
             synchronized (mutex) {return c.removeIf(filter);}
         }
         @Override
-        public Spliterator<E> spliterator() {
-            return c.spliterator(); // Must be manually synched by user!
+        public Spliterbtor<E> spliterbtor() {
+            return c.spliterbtor(); // Must be mbnublly synched by user!
         }
         @Override
-        public Stream<E> stream() {
-            return c.stream(); // Must be manually synched by user!
+        public Strebm<E> strebm() {
+            return c.strebm(); // Must be mbnublly synched by user!
         }
         @Override
-        public Stream<E> parallelStream() {
-            return c.parallelStream(); // Must be manually synched by user!
+        public Strebm<E> pbrbllelStrebm() {
+            return c.pbrbllelStrebm(); // Must be mbnublly synched by user!
         }
-        private void writeObject(ObjectOutputStream s) throws IOException {
-            synchronized (mutex) {s.defaultWriteObject();}
+        privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+            synchronized (mutex) {s.defbultWriteObject();}
         }
     }
 
     /**
-     * Returns a synchronized (thread-safe) set backed by the specified
-     * set.  In order to guarantee serial access, it is critical that
-     * <strong>all</strong> access to the backing set is accomplished
+     * Returns b synchronized (threbd-sbfe) set bbcked by the specified
+     * set.  In order to gubrbntee seribl bccess, it is criticbl thbt
+     * <strong>bll</strong> bccess to the bbcking set is bccomplished
      * through the returned set.<p>
      *
-     * It is imperative that the user manually synchronize on the returned
-     * set when iterating over it:
+     * It is imperbtive thbt the user mbnublly synchronize on the returned
+     * set when iterbting over it:
      * <pre>
-     *  Set s = Collections.synchronizedSet(new HashSet());
+     *  Set s = Collections.synchronizedSet(new HbshSet());
      *      ...
      *  synchronized (s) {
-     *      Iterator i = s.iterator(); // Must be in the synchronized block
-     *      while (i.hasNext())
+     *      Iterbtor i = s.iterbtor(); // Must be in the synchronized block
+     *      while (i.hbsNext())
      *          foo(i.next());
      *  }
      * </pre>
-     * Failure to follow this advice may result in non-deterministic behavior.
+     * Fbilure to follow this bdvice mby result in non-deterministic behbvior.
      *
-     * <p>The returned set will be serializable if the specified set is
-     * serializable.
+     * <p>The returned set will be seriblizbble if the specified set is
+     * seriblizbble.
      *
-     * @param  <T> the class of the objects in the set
-     * @param  s the set to be "wrapped" in a synchronized set.
-     * @return a synchronized view of the specified set.
+     * @pbrbm  <T> the clbss of the objects in the set
+     * @pbrbm  s the set to be "wrbpped" in b synchronized set.
+     * @return b synchronized view of the specified set.
      */
-    public static <T> Set<T> synchronizedSet(Set<T> s) {
+    public stbtic <T> Set<T> synchronizedSet(Set<T> s) {
         return new SynchronizedSet<>(s);
     }
 
-    static <T> Set<T> synchronizedSet(Set<T> s, Object mutex) {
+    stbtic <T> Set<T> synchronizedSet(Set<T> s, Object mutex) {
         return new SynchronizedSet<>(s, mutex);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class SynchronizedSet<E>
+    stbtic clbss SynchronizedSet<E>
           extends SynchronizedCollection<E>
           implements Set<E> {
-        private static final long serialVersionUID = 487447009682186044L;
+        privbte stbtic finbl long seriblVersionUID = 487447009682186044L;
 
         SynchronizedSet(Set<E> s) {
             super(s);
@@ -2131,68 +2131,68 @@ public class Collections {
             super(s, mutex);
         }
 
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             if (this == o)
                 return true;
-            synchronized (mutex) {return c.equals(o);}
+            synchronized (mutex) {return c.equbls(o);}
         }
-        public int hashCode() {
-            synchronized (mutex) {return c.hashCode();}
+        public int hbshCode() {
+            synchronized (mutex) {return c.hbshCode();}
         }
     }
 
     /**
-     * Returns a synchronized (thread-safe) sorted set backed by the specified
-     * sorted set.  In order to guarantee serial access, it is critical that
-     * <strong>all</strong> access to the backing sorted set is accomplished
+     * Returns b synchronized (threbd-sbfe) sorted set bbcked by the specified
+     * sorted set.  In order to gubrbntee seribl bccess, it is criticbl thbt
+     * <strong>bll</strong> bccess to the bbcking sorted set is bccomplished
      * through the returned sorted set (or its views).<p>
      *
-     * It is imperative that the user manually synchronize on the returned
-     * sorted set when iterating over it or any of its <tt>subSet</tt>,
-     * <tt>headSet</tt>, or <tt>tailSet</tt> views.
+     * It is imperbtive thbt the user mbnublly synchronize on the returned
+     * sorted set when iterbting over it or bny of its <tt>subSet</tt>,
+     * <tt>hebdSet</tt>, or <tt>tbilSet</tt> views.
      * <pre>
      *  SortedSet s = Collections.synchronizedSortedSet(new TreeSet());
      *      ...
      *  synchronized (s) {
-     *      Iterator i = s.iterator(); // Must be in the synchronized block
-     *      while (i.hasNext())
+     *      Iterbtor i = s.iterbtor(); // Must be in the synchronized block
+     *      while (i.hbsNext())
      *          foo(i.next());
      *  }
      * </pre>
      * or:
      * <pre>
      *  SortedSet s = Collections.synchronizedSortedSet(new TreeSet());
-     *  SortedSet s2 = s.headSet(foo);
+     *  SortedSet s2 = s.hebdSet(foo);
      *      ...
      *  synchronized (s) {  // Note: s, not s2!!!
-     *      Iterator i = s2.iterator(); // Must be in the synchronized block
-     *      while (i.hasNext())
+     *      Iterbtor i = s2.iterbtor(); // Must be in the synchronized block
+     *      while (i.hbsNext())
      *          foo(i.next());
      *  }
      * </pre>
-     * Failure to follow this advice may result in non-deterministic behavior.
+     * Fbilure to follow this bdvice mby result in non-deterministic behbvior.
      *
-     * <p>The returned sorted set will be serializable if the specified
-     * sorted set is serializable.
+     * <p>The returned sorted set will be seriblizbble if the specified
+     * sorted set is seriblizbble.
      *
-     * @param  <T> the class of the objects in the set
-     * @param  s the sorted set to be "wrapped" in a synchronized sorted set.
-     * @return a synchronized view of the specified sorted set.
+     * @pbrbm  <T> the clbss of the objects in the set
+     * @pbrbm  s the sorted set to be "wrbpped" in b synchronized sorted set.
+     * @return b synchronized view of the specified sorted set.
      */
-    public static <T> SortedSet<T> synchronizedSortedSet(SortedSet<T> s) {
+    public stbtic <T> SortedSet<T> synchronizedSortedSet(SortedSet<T> s) {
         return new SynchronizedSortedSet<>(s);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class SynchronizedSortedSet<E>
+    stbtic clbss SynchronizedSortedSet<E>
         extends SynchronizedSet<E>
         implements SortedSet<E>
     {
-        private static final long serialVersionUID = 8695801310862127406L;
+        privbte stbtic finbl long seriblVersionUID = 8695801310862127406L;
 
-        private final SortedSet<E> ss;
+        privbte finbl SortedSet<E> ss;
 
         SynchronizedSortedSet(SortedSet<E> s) {
             super(s);
@@ -2203,8 +2203,8 @@ public class Collections {
             ss = s;
         }
 
-        public Comparator<? super E> comparator() {
-            synchronized (mutex) {return ss.comparator();}
+        public Compbrbtor<? super E> compbrbtor() {
+            synchronized (mutex) {return ss.compbrbtor();}
         }
 
         public SortedSet<E> subSet(E fromElement, E toElement) {
@@ -2213,86 +2213,86 @@ public class Collections {
                     ss.subSet(fromElement, toElement), mutex);
             }
         }
-        public SortedSet<E> headSet(E toElement) {
+        public SortedSet<E> hebdSet(E toElement) {
             synchronized (mutex) {
-                return new SynchronizedSortedSet<>(ss.headSet(toElement), mutex);
+                return new SynchronizedSortedSet<>(ss.hebdSet(toElement), mutex);
             }
         }
-        public SortedSet<E> tailSet(E fromElement) {
+        public SortedSet<E> tbilSet(E fromElement) {
             synchronized (mutex) {
-               return new SynchronizedSortedSet<>(ss.tailSet(fromElement),mutex);
+               return new SynchronizedSortedSet<>(ss.tbilSet(fromElement),mutex);
             }
         }
 
         public E first() {
             synchronized (mutex) {return ss.first();}
         }
-        public E last() {
-            synchronized (mutex) {return ss.last();}
+        public E lbst() {
+            synchronized (mutex) {return ss.lbst();}
         }
     }
 
     /**
-     * Returns a synchronized (thread-safe) navigable set backed by the
-     * specified navigable set.  In order to guarantee serial access, it is
-     * critical that <strong>all</strong> access to the backing navigable set is
-     * accomplished through the returned navigable set (or its views).<p>
+     * Returns b synchronized (threbd-sbfe) nbvigbble set bbcked by the
+     * specified nbvigbble set.  In order to gubrbntee seribl bccess, it is
+     * criticbl thbt <strong>bll</strong> bccess to the bbcking nbvigbble set is
+     * bccomplished through the returned nbvigbble set (or its views).<p>
      *
-     * It is imperative that the user manually synchronize on the returned
-     * navigable set when iterating over it or any of its {@code subSet},
-     * {@code headSet}, or {@code tailSet} views.
+     * It is imperbtive thbt the user mbnublly synchronize on the returned
+     * nbvigbble set when iterbting over it or bny of its {@code subSet},
+     * {@code hebdSet}, or {@code tbilSet} views.
      * <pre>
-     *  NavigableSet s = Collections.synchronizedNavigableSet(new TreeSet());
+     *  NbvigbbleSet s = Collections.synchronizedNbvigbbleSet(new TreeSet());
      *      ...
      *  synchronized (s) {
-     *      Iterator i = s.iterator(); // Must be in the synchronized block
-     *      while (i.hasNext())
+     *      Iterbtor i = s.iterbtor(); // Must be in the synchronized block
+     *      while (i.hbsNext())
      *          foo(i.next());
      *  }
      * </pre>
      * or:
      * <pre>
-     *  NavigableSet s = Collections.synchronizedNavigableSet(new TreeSet());
-     *  NavigableSet s2 = s.headSet(foo, true);
+     *  NbvigbbleSet s = Collections.synchronizedNbvigbbleSet(new TreeSet());
+     *  NbvigbbleSet s2 = s.hebdSet(foo, true);
      *      ...
      *  synchronized (s) {  // Note: s, not s2!!!
-     *      Iterator i = s2.iterator(); // Must be in the synchronized block
-     *      while (i.hasNext())
+     *      Iterbtor i = s2.iterbtor(); // Must be in the synchronized block
+     *      while (i.hbsNext())
      *          foo(i.next());
      *  }
      * </pre>
-     * Failure to follow this advice may result in non-deterministic behavior.
+     * Fbilure to follow this bdvice mby result in non-deterministic behbvior.
      *
-     * <p>The returned navigable set will be serializable if the specified
-     * navigable set is serializable.
+     * <p>The returned nbvigbble set will be seriblizbble if the specified
+     * nbvigbble set is seriblizbble.
      *
-     * @param  <T> the class of the objects in the set
-     * @param  s the navigable set to be "wrapped" in a synchronized navigable
+     * @pbrbm  <T> the clbss of the objects in the set
+     * @pbrbm  s the nbvigbble set to be "wrbpped" in b synchronized nbvigbble
      * set
-     * @return a synchronized view of the specified navigable set
+     * @return b synchronized view of the specified nbvigbble set
      * @since 1.8
      */
-    public static <T> NavigableSet<T> synchronizedNavigableSet(NavigableSet<T> s) {
-        return new SynchronizedNavigableSet<>(s);
+    public stbtic <T> NbvigbbleSet<T> synchronizedNbvigbbleSet(NbvigbbleSet<T> s) {
+        return new SynchronizedNbvigbbleSet<>(s);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class SynchronizedNavigableSet<E>
+    stbtic clbss SynchronizedNbvigbbleSet<E>
         extends SynchronizedSortedSet<E>
-        implements NavigableSet<E>
+        implements NbvigbbleSet<E>
     {
-        private static final long serialVersionUID = -5505529816273629798L;
+        privbte stbtic finbl long seriblVersionUID = -5505529816273629798L;
 
-        private final NavigableSet<E> ns;
+        privbte finbl NbvigbbleSet<E> ns;
 
-        SynchronizedNavigableSet(NavigableSet<E> s) {
+        SynchronizedNbvigbbleSet(NbvigbbleSet<E> s) {
             super(s);
             ns = s;
         }
 
-        SynchronizedNavigableSet(NavigableSet<E> s, Object mutex) {
+        SynchronizedNbvigbbleSet(NbvigbbleSet<E> s, Object mutex) {
             super(s, mutex);
             ns = s;
         }
@@ -2301,99 +2301,99 @@ public class Collections {
         public E ceiling(E e)  { synchronized (mutex) {return ns.ceiling(e);} }
         public E higher(E e)    { synchronized (mutex) {return ns.higher(e);} }
         public E pollFirst()  { synchronized (mutex) {return ns.pollFirst();} }
-        public E pollLast()    { synchronized (mutex) {return ns.pollLast();} }
+        public E pollLbst()    { synchronized (mutex) {return ns.pollLbst();} }
 
-        public NavigableSet<E> descendingSet() {
+        public NbvigbbleSet<E> descendingSet() {
             synchronized (mutex) {
-                return new SynchronizedNavigableSet<>(ns.descendingSet(), mutex);
+                return new SynchronizedNbvigbbleSet<>(ns.descendingSet(), mutex);
             }
         }
 
-        public Iterator<E> descendingIterator()
-                 { synchronized (mutex) { return descendingSet().iterator(); } }
+        public Iterbtor<E> descendingIterbtor()
+                 { synchronized (mutex) { return descendingSet().iterbtor(); } }
 
-        public NavigableSet<E> subSet(E fromElement, E toElement) {
+        public NbvigbbleSet<E> subSet(E fromElement, E toElement) {
             synchronized (mutex) {
-                return new SynchronizedNavigableSet<>(ns.subSet(fromElement, true, toElement, false), mutex);
+                return new SynchronizedNbvigbbleSet<>(ns.subSet(fromElement, true, toElement, fblse), mutex);
             }
         }
-        public NavigableSet<E> headSet(E toElement) {
+        public NbvigbbleSet<E> hebdSet(E toElement) {
             synchronized (mutex) {
-                return new SynchronizedNavigableSet<>(ns.headSet(toElement, false), mutex);
+                return new SynchronizedNbvigbbleSet<>(ns.hebdSet(toElement, fblse), mutex);
             }
         }
-        public NavigableSet<E> tailSet(E fromElement) {
+        public NbvigbbleSet<E> tbilSet(E fromElement) {
             synchronized (mutex) {
-                return new SynchronizedNavigableSet<>(ns.tailSet(fromElement, true), mutex);
-            }
-        }
-
-        public NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-            synchronized (mutex) {
-                return new SynchronizedNavigableSet<>(ns.subSet(fromElement, fromInclusive, toElement, toInclusive), mutex);
+                return new SynchronizedNbvigbbleSet<>(ns.tbilSet(fromElement, true), mutex);
             }
         }
 
-        public NavigableSet<E> headSet(E toElement, boolean inclusive) {
+        public NbvigbbleSet<E> subSet(E fromElement, boolebn fromInclusive, E toElement, boolebn toInclusive) {
             synchronized (mutex) {
-                return new SynchronizedNavigableSet<>(ns.headSet(toElement, inclusive), mutex);
+                return new SynchronizedNbvigbbleSet<>(ns.subSet(fromElement, fromInclusive, toElement, toInclusive), mutex);
             }
         }
 
-        public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
+        public NbvigbbleSet<E> hebdSet(E toElement, boolebn inclusive) {
             synchronized (mutex) {
-                return new SynchronizedNavigableSet<>(ns.tailSet(fromElement, inclusive), mutex);
+                return new SynchronizedNbvigbbleSet<>(ns.hebdSet(toElement, inclusive), mutex);
+            }
+        }
+
+        public NbvigbbleSet<E> tbilSet(E fromElement, boolebn inclusive) {
+            synchronized (mutex) {
+                return new SynchronizedNbvigbbleSet<>(ns.tbilSet(fromElement, inclusive), mutex);
             }
         }
     }
 
     /**
-     * Returns a synchronized (thread-safe) list backed by the specified
-     * list.  In order to guarantee serial access, it is critical that
-     * <strong>all</strong> access to the backing list is accomplished
+     * Returns b synchronized (threbd-sbfe) list bbcked by the specified
+     * list.  In order to gubrbntee seribl bccess, it is criticbl thbt
+     * <strong>bll</strong> bccess to the bbcking list is bccomplished
      * through the returned list.<p>
      *
-     * It is imperative that the user manually synchronize on the returned
-     * list when iterating over it:
+     * It is imperbtive thbt the user mbnublly synchronize on the returned
+     * list when iterbting over it:
      * <pre>
-     *  List list = Collections.synchronizedList(new ArrayList());
+     *  List list = Collections.synchronizedList(new ArrbyList());
      *      ...
      *  synchronized (list) {
-     *      Iterator i = list.iterator(); // Must be in synchronized block
-     *      while (i.hasNext())
+     *      Iterbtor i = list.iterbtor(); // Must be in synchronized block
+     *      while (i.hbsNext())
      *          foo(i.next());
      *  }
      * </pre>
-     * Failure to follow this advice may result in non-deterministic behavior.
+     * Fbilure to follow this bdvice mby result in non-deterministic behbvior.
      *
-     * <p>The returned list will be serializable if the specified list is
-     * serializable.
+     * <p>The returned list will be seriblizbble if the specified list is
+     * seriblizbble.
      *
-     * @param  <T> the class of the objects in the list
-     * @param  list the list to be "wrapped" in a synchronized list.
-     * @return a synchronized view of the specified list.
+     * @pbrbm  <T> the clbss of the objects in the list
+     * @pbrbm  list the list to be "wrbpped" in b synchronized list.
+     * @return b synchronized view of the specified list.
      */
-    public static <T> List<T> synchronizedList(List<T> list) {
-        return (list instanceof RandomAccess ?
-                new SynchronizedRandomAccessList<>(list) :
+    public stbtic <T> List<T> synchronizedList(List<T> list) {
+        return (list instbnceof RbndomAccess ?
+                new SynchronizedRbndomAccessList<>(list) :
                 new SynchronizedList<>(list));
     }
 
-    static <T> List<T> synchronizedList(List<T> list, Object mutex) {
-        return (list instanceof RandomAccess ?
-                new SynchronizedRandomAccessList<>(list, mutex) :
+    stbtic <T> List<T> synchronizedList(List<T> list, Object mutex) {
+        return (list instbnceof RbndomAccess ?
+                new SynchronizedRbndomAccessList<>(list, mutex) :
                 new SynchronizedList<>(list, mutex));
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class SynchronizedList<E>
+    stbtic clbss SynchronizedList<E>
         extends SynchronizedCollection<E>
         implements List<E> {
-        private static final long serialVersionUID = -7754090372962971524L;
+        privbte stbtic finbl long seriblVersionUID = -7754090372962971524L;
 
-        final List<E> list;
+        finbl List<E> list;
 
         SynchronizedList(List<E> list) {
             super(list);
@@ -2404,13 +2404,13 @@ public class Collections {
             this.list = list;
         }
 
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             if (this == o)
                 return true;
-            synchronized (mutex) {return list.equals(o);}
+            synchronized (mutex) {return list.equbls(o);}
         }
-        public int hashCode() {
-            synchronized (mutex) {return list.hashCode();}
+        public int hbshCode() {
+            synchronized (mutex) {return list.hbshCode();}
         }
 
         public E get(int index) {
@@ -2419,8 +2419,8 @@ public class Collections {
         public E set(int index, E element) {
             synchronized (mutex) {return list.set(index, element);}
         }
-        public void add(int index, E element) {
-            synchronized (mutex) {list.add(index, element);}
+        public void bdd(int index, E element) {
+            synchronized (mutex) {list.bdd(index, element);}
         }
         public E remove(int index) {
             synchronized (mutex) {return list.remove(index);}
@@ -2429,20 +2429,20 @@ public class Collections {
         public int indexOf(Object o) {
             synchronized (mutex) {return list.indexOf(o);}
         }
-        public int lastIndexOf(Object o) {
-            synchronized (mutex) {return list.lastIndexOf(o);}
+        public int lbstIndexOf(Object o) {
+            synchronized (mutex) {return list.lbstIndexOf(o);}
         }
 
-        public boolean addAll(int index, Collection<? extends E> c) {
-            synchronized (mutex) {return list.addAll(index, c);}
+        public boolebn bddAll(int index, Collection<? extends E> c) {
+            synchronized (mutex) {return list.bddAll(index, c);}
         }
 
-        public ListIterator<E> listIterator() {
-            return list.listIterator(); // Must be manually synched by user
+        public ListIterbtor<E> listIterbtor() {
+            return list.listIterbtor(); // Must be mbnublly synched by user
         }
 
-        public ListIterator<E> listIterator(int index) {
-            return list.listIterator(index); // Must be manually synched by user
+        public ListIterbtor<E> listIterbtor(int index) {
+            return list.listIterbtor(index); // Must be mbnublly synched by user
         }
 
         public List<E> subList(int fromIndex, int toIndex) {
@@ -2453,117 +2453,117 @@ public class Collections {
         }
 
         @Override
-        public void replaceAll(UnaryOperator<E> operator) {
-            synchronized (mutex) {list.replaceAll(operator);}
+        public void replbceAll(UnbryOperbtor<E> operbtor) {
+            synchronized (mutex) {list.replbceAll(operbtor);}
         }
         @Override
-        public void sort(Comparator<? super E> c) {
+        public void sort(Compbrbtor<? super E> c) {
             synchronized (mutex) {list.sort(c);}
         }
 
         /**
-         * SynchronizedRandomAccessList instances are serialized as
-         * SynchronizedList instances to allow them to be deserialized
-         * in pre-1.4 JREs (which do not have SynchronizedRandomAccessList).
-         * This method inverts the transformation.  As a beneficial
-         * side-effect, it also grafts the RandomAccess marker onto
-         * SynchronizedList instances that were serialized in pre-1.4 JREs.
+         * SynchronizedRbndomAccessList instbnces bre seriblized bs
+         * SynchronizedList instbnces to bllow them to be deseriblized
+         * in pre-1.4 JREs (which do not hbve SynchronizedRbndomAccessList).
+         * This method inverts the trbnsformbtion.  As b beneficibl
+         * side-effect, it blso grbfts the RbndomAccess mbrker onto
+         * SynchronizedList instbnces thbt were seriblized in pre-1.4 JREs.
          *
-         * Note: Unfortunately, SynchronizedRandomAccessList instances
-         * serialized in 1.4.1 and deserialized in 1.4 will become
-         * SynchronizedList instances, as this method was missing in 1.4.
+         * Note: Unfortunbtely, SynchronizedRbndomAccessList instbnces
+         * seriblized in 1.4.1 bnd deseriblized in 1.4 will become
+         * SynchronizedList instbnces, bs this method wbs missing in 1.4.
          */
-        private Object readResolve() {
-            return (list instanceof RandomAccess
-                    ? new SynchronizedRandomAccessList<>(list)
+        privbte Object rebdResolve() {
+            return (list instbnceof RbndomAccess
+                    ? new SynchronizedRbndomAccessList<>(list)
                     : this);
         }
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class SynchronizedRandomAccessList<E>
+    stbtic clbss SynchronizedRbndomAccessList<E>
         extends SynchronizedList<E>
-        implements RandomAccess {
+        implements RbndomAccess {
 
-        SynchronizedRandomAccessList(List<E> list) {
+        SynchronizedRbndomAccessList(List<E> list) {
             super(list);
         }
 
-        SynchronizedRandomAccessList(List<E> list, Object mutex) {
+        SynchronizedRbndomAccessList(List<E> list, Object mutex) {
             super(list, mutex);
         }
 
         public List<E> subList(int fromIndex, int toIndex) {
             synchronized (mutex) {
-                return new SynchronizedRandomAccessList<>(
+                return new SynchronizedRbndomAccessList<>(
                     list.subList(fromIndex, toIndex), mutex);
             }
         }
 
-        private static final long serialVersionUID = 1530674583602358482L;
+        privbte stbtic finbl long seriblVersionUID = 1530674583602358482L;
 
         /**
-         * Allows instances to be deserialized in pre-1.4 JREs (which do
-         * not have SynchronizedRandomAccessList).  SynchronizedList has
-         * a readResolve method that inverts this transformation upon
-         * deserialization.
+         * Allows instbnces to be deseriblized in pre-1.4 JREs (which do
+         * not hbve SynchronizedRbndomAccessList).  SynchronizedList hbs
+         * b rebdResolve method thbt inverts this trbnsformbtion upon
+         * deseriblizbtion.
          */
-        private Object writeReplace() {
+        privbte Object writeReplbce() {
             return new SynchronizedList<>(list);
         }
     }
 
     /**
-     * Returns a synchronized (thread-safe) map backed by the specified
-     * map.  In order to guarantee serial access, it is critical that
-     * <strong>all</strong> access to the backing map is accomplished
-     * through the returned map.<p>
+     * Returns b synchronized (threbd-sbfe) mbp bbcked by the specified
+     * mbp.  In order to gubrbntee seribl bccess, it is criticbl thbt
+     * <strong>bll</strong> bccess to the bbcking mbp is bccomplished
+     * through the returned mbp.<p>
      *
-     * It is imperative that the user manually synchronize on the returned
-     * map when iterating over any of its collection views:
+     * It is imperbtive thbt the user mbnublly synchronize on the returned
+     * mbp when iterbting over bny of its collection views:
      * <pre>
-     *  Map m = Collections.synchronizedMap(new HashMap());
+     *  Mbp m = Collections.synchronizedMbp(new HbshMbp());
      *      ...
      *  Set s = m.keySet();  // Needn't be in synchronized block
      *      ...
      *  synchronized (m) {  // Synchronizing on m, not s!
-     *      Iterator i = s.iterator(); // Must be in synchronized block
-     *      while (i.hasNext())
+     *      Iterbtor i = s.iterbtor(); // Must be in synchronized block
+     *      while (i.hbsNext())
      *          foo(i.next());
      *  }
      * </pre>
-     * Failure to follow this advice may result in non-deterministic behavior.
+     * Fbilure to follow this bdvice mby result in non-deterministic behbvior.
      *
-     * <p>The returned map will be serializable if the specified map is
-     * serializable.
+     * <p>The returned mbp will be seriblizbble if the specified mbp is
+     * seriblizbble.
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
-     * @param  m the map to be "wrapped" in a synchronized map.
-     * @return a synchronized view of the specified map.
+     * @pbrbm <K> the clbss of the mbp keys
+     * @pbrbm <V> the clbss of the mbp vblues
+     * @pbrbm  m the mbp to be "wrbpped" in b synchronized mbp.
+     * @return b synchronized view of the specified mbp.
      */
-    public static <K,V> Map<K,V> synchronizedMap(Map<K,V> m) {
-        return new SynchronizedMap<>(m);
+    public stbtic <K,V> Mbp<K,V> synchronizedMbp(Mbp<K,V> m) {
+        return new SynchronizedMbp<>(m);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class SynchronizedMap<K,V>
-        implements Map<K,V>, Serializable {
-        private static final long serialVersionUID = 1978198479659022715L;
+    privbte stbtic clbss SynchronizedMbp<K,V>
+        implements Mbp<K,V>, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 1978198479659022715L;
 
-        private final Map<K,V> m;     // Backing Map
-        final Object      mutex;        // Object on which to synchronize
+        privbte finbl Mbp<K,V> m;     // Bbcking Mbp
+        finbl Object      mutex;        // Object on which to synchronize
 
-        SynchronizedMap(Map<K,V> m) {
+        SynchronizedMbp(Mbp<K,V> m) {
             this.m = Objects.requireNonNull(m);
             mutex = this;
         }
 
-        SynchronizedMap(Map<K,V> m, Object mutex) {
+        SynchronizedMbp(Mbp<K,V> m, Object mutex) {
             this.m = m;
             this.mutex = mutex;
         }
@@ -2571,35 +2571,35 @@ public class Collections {
         public int size() {
             synchronized (mutex) {return m.size();}
         }
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             synchronized (mutex) {return m.isEmpty();}
         }
-        public boolean containsKey(Object key) {
-            synchronized (mutex) {return m.containsKey(key);}
+        public boolebn contbinsKey(Object key) {
+            synchronized (mutex) {return m.contbinsKey(key);}
         }
-        public boolean containsValue(Object value) {
-            synchronized (mutex) {return m.containsValue(value);}
+        public boolebn contbinsVblue(Object vblue) {
+            synchronized (mutex) {return m.contbinsVblue(vblue);}
         }
         public V get(Object key) {
             synchronized (mutex) {return m.get(key);}
         }
 
-        public V put(K key, V value) {
-            synchronized (mutex) {return m.put(key, value);}
+        public V put(K key, V vblue) {
+            synchronized (mutex) {return m.put(key, vblue);}
         }
         public V remove(Object key) {
             synchronized (mutex) {return m.remove(key);}
         }
-        public void putAll(Map<? extends K, ? extends V> map) {
-            synchronized (mutex) {m.putAll(map);}
+        public void putAll(Mbp<? extends K, ? extends V> mbp) {
+            synchronized (mutex) {m.putAll(mbp);}
         }
-        public void clear() {
-            synchronized (mutex) {m.clear();}
+        public void clebr() {
+            synchronized (mutex) {m.clebr();}
         }
 
-        private transient Set<K> keySet;
-        private transient Set<Map.Entry<K,V>> entrySet;
-        private transient Collection<V> values;
+        privbte trbnsient Set<K> keySet;
+        privbte trbnsient Set<Mbp.Entry<K,V>> entrySet;
+        privbte trbnsient Collection<V> vblues;
 
         public Set<K> keySet() {
             synchronized (mutex) {
@@ -2609,7 +2609,7 @@ public class Collections {
             }
         }
 
-        public Set<Map.Entry<K,V>> entrySet() {
+        public Set<Mbp.Entry<K,V>> entrySet() {
             synchronized (mutex) {
                 if (entrySet==null)
                     entrySet = new SynchronizedSet<>(m.entrySet(), mutex);
@@ -2617,246 +2617,246 @@ public class Collections {
             }
         }
 
-        public Collection<V> values() {
+        public Collection<V> vblues() {
             synchronized (mutex) {
-                if (values==null)
-                    values = new SynchronizedCollection<>(m.values(), mutex);
-                return values;
+                if (vblues==null)
+                    vblues = new SynchronizedCollection<>(m.vblues(), mutex);
+                return vblues;
             }
         }
 
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             if (this == o)
                 return true;
-            synchronized (mutex) {return m.equals(o);}
+            synchronized (mutex) {return m.equbls(o);}
         }
-        public int hashCode() {
-            synchronized (mutex) {return m.hashCode();}
+        public int hbshCode() {
+            synchronized (mutex) {return m.hbshCode();}
         }
         public String toString() {
             synchronized (mutex) {return m.toString();}
         }
 
-        // Override default methods in Map
+        // Override defbult methods in Mbp
         @Override
-        public V getOrDefault(Object k, V defaultValue) {
-            synchronized (mutex) {return m.getOrDefault(k, defaultValue);}
+        public V getOrDefbult(Object k, V defbultVblue) {
+            synchronized (mutex) {return m.getOrDefbult(k, defbultVblue);}
         }
         @Override
-        public void forEach(BiConsumer<? super K, ? super V> action) {
-            synchronized (mutex) {m.forEach(action);}
+        public void forEbch(BiConsumer<? super K, ? super V> bction) {
+            synchronized (mutex) {m.forEbch(bction);}
         }
         @Override
-        public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
-            synchronized (mutex) {m.replaceAll(function);}
+        public void replbceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+            synchronized (mutex) {m.replbceAll(function);}
         }
         @Override
-        public V putIfAbsent(K key, V value) {
-            synchronized (mutex) {return m.putIfAbsent(key, value);}
+        public V putIfAbsent(K key, V vblue) {
+            synchronized (mutex) {return m.putIfAbsent(key, vblue);}
         }
         @Override
-        public boolean remove(Object key, Object value) {
-            synchronized (mutex) {return m.remove(key, value);}
+        public boolebn remove(Object key, Object vblue) {
+            synchronized (mutex) {return m.remove(key, vblue);}
         }
         @Override
-        public boolean replace(K key, V oldValue, V newValue) {
-            synchronized (mutex) {return m.replace(key, oldValue, newValue);}
+        public boolebn replbce(K key, V oldVblue, V newVblue) {
+            synchronized (mutex) {return m.replbce(key, oldVblue, newVblue);}
         }
         @Override
-        public V replace(K key, V value) {
-            synchronized (mutex) {return m.replace(key, value);}
+        public V replbce(K key, V vblue) {
+            synchronized (mutex) {return m.replbce(key, vblue);}
         }
         @Override
         public V computeIfAbsent(K key,
-                Function<? super K, ? extends V> mappingFunction) {
-            synchronized (mutex) {return m.computeIfAbsent(key, mappingFunction);}
+                Function<? super K, ? extends V> mbppingFunction) {
+            synchronized (mutex) {return m.computeIfAbsent(key, mbppingFunction);}
         }
         @Override
         public V computeIfPresent(K key,
-                BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            synchronized (mutex) {return m.computeIfPresent(key, remappingFunction);}
+                BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+            synchronized (mutex) {return m.computeIfPresent(key, rembppingFunction);}
         }
         @Override
         public V compute(K key,
-                BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            synchronized (mutex) {return m.compute(key, remappingFunction);}
+                BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+            synchronized (mutex) {return m.compute(key, rembppingFunction);}
         }
         @Override
-        public V merge(K key, V value,
-                BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
-            synchronized (mutex) {return m.merge(key, value, remappingFunction);}
+        public V merge(K key, V vblue,
+                BiFunction<? super V, ? super V, ? extends V> rembppingFunction) {
+            synchronized (mutex) {return m.merge(key, vblue, rembppingFunction);}
         }
 
-        private void writeObject(ObjectOutputStream s) throws IOException {
-            synchronized (mutex) {s.defaultWriteObject();}
+        privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+            synchronized (mutex) {s.defbultWriteObject();}
         }
     }
 
     /**
-     * Returns a synchronized (thread-safe) sorted map backed by the specified
-     * sorted map.  In order to guarantee serial access, it is critical that
-     * <strong>all</strong> access to the backing sorted map is accomplished
-     * through the returned sorted map (or its views).<p>
+     * Returns b synchronized (threbd-sbfe) sorted mbp bbcked by the specified
+     * sorted mbp.  In order to gubrbntee seribl bccess, it is criticbl thbt
+     * <strong>bll</strong> bccess to the bbcking sorted mbp is bccomplished
+     * through the returned sorted mbp (or its views).<p>
      *
-     * It is imperative that the user manually synchronize on the returned
-     * sorted map when iterating over any of its collection views, or the
-     * collections views of any of its <tt>subMap</tt>, <tt>headMap</tt> or
-     * <tt>tailMap</tt> views.
+     * It is imperbtive thbt the user mbnublly synchronize on the returned
+     * sorted mbp when iterbting over bny of its collection views, or the
+     * collections views of bny of its <tt>subMbp</tt>, <tt>hebdMbp</tt> or
+     * <tt>tbilMbp</tt> views.
      * <pre>
-     *  SortedMap m = Collections.synchronizedSortedMap(new TreeMap());
+     *  SortedMbp m = Collections.synchronizedSortedMbp(new TreeMbp());
      *      ...
      *  Set s = m.keySet();  // Needn't be in synchronized block
      *      ...
      *  synchronized (m) {  // Synchronizing on m, not s!
-     *      Iterator i = s.iterator(); // Must be in synchronized block
-     *      while (i.hasNext())
+     *      Iterbtor i = s.iterbtor(); // Must be in synchronized block
+     *      while (i.hbsNext())
      *          foo(i.next());
      *  }
      * </pre>
      * or:
      * <pre>
-     *  SortedMap m = Collections.synchronizedSortedMap(new TreeMap());
-     *  SortedMap m2 = m.subMap(foo, bar);
+     *  SortedMbp m = Collections.synchronizedSortedMbp(new TreeMbp());
+     *  SortedMbp m2 = m.subMbp(foo, bbr);
      *      ...
      *  Set s2 = m2.keySet();  // Needn't be in synchronized block
      *      ...
      *  synchronized (m) {  // Synchronizing on m, not m2 or s2!
-     *      Iterator i = s.iterator(); // Must be in synchronized block
-     *      while (i.hasNext())
+     *      Iterbtor i = s.iterbtor(); // Must be in synchronized block
+     *      while (i.hbsNext())
      *          foo(i.next());
      *  }
      * </pre>
-     * Failure to follow this advice may result in non-deterministic behavior.
+     * Fbilure to follow this bdvice mby result in non-deterministic behbvior.
      *
-     * <p>The returned sorted map will be serializable if the specified
-     * sorted map is serializable.
+     * <p>The returned sorted mbp will be seriblizbble if the specified
+     * sorted mbp is seriblizbble.
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
-     * @param  m the sorted map to be "wrapped" in a synchronized sorted map.
-     * @return a synchronized view of the specified sorted map.
+     * @pbrbm <K> the clbss of the mbp keys
+     * @pbrbm <V> the clbss of the mbp vblues
+     * @pbrbm  m the sorted mbp to be "wrbpped" in b synchronized sorted mbp.
+     * @return b synchronized view of the specified sorted mbp.
      */
-    public static <K,V> SortedMap<K,V> synchronizedSortedMap(SortedMap<K,V> m) {
-        return new SynchronizedSortedMap<>(m);
+    public stbtic <K,V> SortedMbp<K,V> synchronizedSortedMbp(SortedMbp<K,V> m) {
+        return new SynchronizedSortedMbp<>(m);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class SynchronizedSortedMap<K,V>
-        extends SynchronizedMap<K,V>
-        implements SortedMap<K,V>
+    stbtic clbss SynchronizedSortedMbp<K,V>
+        extends SynchronizedMbp<K,V>
+        implements SortedMbp<K,V>
     {
-        private static final long serialVersionUID = -8798146769416483793L;
+        privbte stbtic finbl long seriblVersionUID = -8798146769416483793L;
 
-        private final SortedMap<K,V> sm;
+        privbte finbl SortedMbp<K,V> sm;
 
-        SynchronizedSortedMap(SortedMap<K,V> m) {
+        SynchronizedSortedMbp(SortedMbp<K,V> m) {
             super(m);
             sm = m;
         }
-        SynchronizedSortedMap(SortedMap<K,V> m, Object mutex) {
+        SynchronizedSortedMbp(SortedMbp<K,V> m, Object mutex) {
             super(m, mutex);
             sm = m;
         }
 
-        public Comparator<? super K> comparator() {
-            synchronized (mutex) {return sm.comparator();}
+        public Compbrbtor<? super K> compbrbtor() {
+            synchronized (mutex) {return sm.compbrbtor();}
         }
 
-        public SortedMap<K,V> subMap(K fromKey, K toKey) {
+        public SortedMbp<K,V> subMbp(K fromKey, K toKey) {
             synchronized (mutex) {
-                return new SynchronizedSortedMap<>(
-                    sm.subMap(fromKey, toKey), mutex);
+                return new SynchronizedSortedMbp<>(
+                    sm.subMbp(fromKey, toKey), mutex);
             }
         }
-        public SortedMap<K,V> headMap(K toKey) {
+        public SortedMbp<K,V> hebdMbp(K toKey) {
             synchronized (mutex) {
-                return new SynchronizedSortedMap<>(sm.headMap(toKey), mutex);
+                return new SynchronizedSortedMbp<>(sm.hebdMbp(toKey), mutex);
             }
         }
-        public SortedMap<K,V> tailMap(K fromKey) {
+        public SortedMbp<K,V> tbilMbp(K fromKey) {
             synchronized (mutex) {
-               return new SynchronizedSortedMap<>(sm.tailMap(fromKey),mutex);
+               return new SynchronizedSortedMbp<>(sm.tbilMbp(fromKey),mutex);
             }
         }
 
         public K firstKey() {
             synchronized (mutex) {return sm.firstKey();}
         }
-        public K lastKey() {
-            synchronized (mutex) {return sm.lastKey();}
+        public K lbstKey() {
+            synchronized (mutex) {return sm.lbstKey();}
         }
     }
 
     /**
-     * Returns a synchronized (thread-safe) navigable map backed by the
-     * specified navigable map.  In order to guarantee serial access, it is
-     * critical that <strong>all</strong> access to the backing navigable map is
-     * accomplished through the returned navigable map (or its views).<p>
+     * Returns b synchronized (threbd-sbfe) nbvigbble mbp bbcked by the
+     * specified nbvigbble mbp.  In order to gubrbntee seribl bccess, it is
+     * criticbl thbt <strong>bll</strong> bccess to the bbcking nbvigbble mbp is
+     * bccomplished through the returned nbvigbble mbp (or its views).<p>
      *
-     * It is imperative that the user manually synchronize on the returned
-     * navigable map when iterating over any of its collection views, or the
-     * collections views of any of its {@code subMap}, {@code headMap} or
-     * {@code tailMap} views.
+     * It is imperbtive thbt the user mbnublly synchronize on the returned
+     * nbvigbble mbp when iterbting over bny of its collection views, or the
+     * collections views of bny of its {@code subMbp}, {@code hebdMbp} or
+     * {@code tbilMbp} views.
      * <pre>
-     *  NavigableMap m = Collections.synchronizedNavigableMap(new TreeMap());
+     *  NbvigbbleMbp m = Collections.synchronizedNbvigbbleMbp(new TreeMbp());
      *      ...
      *  Set s = m.keySet();  // Needn't be in synchronized block
      *      ...
      *  synchronized (m) {  // Synchronizing on m, not s!
-     *      Iterator i = s.iterator(); // Must be in synchronized block
-     *      while (i.hasNext())
+     *      Iterbtor i = s.iterbtor(); // Must be in synchronized block
+     *      while (i.hbsNext())
      *          foo(i.next());
      *  }
      * </pre>
      * or:
      * <pre>
-     *  NavigableMap m = Collections.synchronizedNavigableMap(new TreeMap());
-     *  NavigableMap m2 = m.subMap(foo, true, bar, false);
+     *  NbvigbbleMbp m = Collections.synchronizedNbvigbbleMbp(new TreeMbp());
+     *  NbvigbbleMbp m2 = m.subMbp(foo, true, bbr, fblse);
      *      ...
      *  Set s2 = m2.keySet();  // Needn't be in synchronized block
      *      ...
      *  synchronized (m) {  // Synchronizing on m, not m2 or s2!
-     *      Iterator i = s.iterator(); // Must be in synchronized block
-     *      while (i.hasNext())
+     *      Iterbtor i = s.iterbtor(); // Must be in synchronized block
+     *      while (i.hbsNext())
      *          foo(i.next());
      *  }
      * </pre>
-     * Failure to follow this advice may result in non-deterministic behavior.
+     * Fbilure to follow this bdvice mby result in non-deterministic behbvior.
      *
-     * <p>The returned navigable map will be serializable if the specified
-     * navigable map is serializable.
+     * <p>The returned nbvigbble mbp will be seriblizbble if the specified
+     * nbvigbble mbp is seriblizbble.
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
-     * @param  m the navigable map to be "wrapped" in a synchronized navigable
-     *              map
-     * @return a synchronized view of the specified navigable map.
+     * @pbrbm <K> the clbss of the mbp keys
+     * @pbrbm <V> the clbss of the mbp vblues
+     * @pbrbm  m the nbvigbble mbp to be "wrbpped" in b synchronized nbvigbble
+     *              mbp
+     * @return b synchronized view of the specified nbvigbble mbp.
      * @since 1.8
      */
-    public static <K,V> NavigableMap<K,V> synchronizedNavigableMap(NavigableMap<K,V> m) {
-        return new SynchronizedNavigableMap<>(m);
+    public stbtic <K,V> NbvigbbleMbp<K,V> synchronizedNbvigbbleMbp(NbvigbbleMbp<K,V> m) {
+        return new SynchronizedNbvigbbleMbp<>(m);
     }
 
     /**
-     * A synchronized NavigableMap.
+     * A synchronized NbvigbbleMbp.
      *
-     * @serial include
+     * @seribl include
      */
-    static class SynchronizedNavigableMap<K,V>
-        extends SynchronizedSortedMap<K,V>
-        implements NavigableMap<K,V>
+    stbtic clbss SynchronizedNbvigbbleMbp<K,V>
+        extends SynchronizedSortedMbp<K,V>
+        implements NbvigbbleMbp<K,V>
     {
-        private static final long serialVersionUID = 699392247599746807L;
+        privbte stbtic finbl long seriblVersionUID = 699392247599746807L;
 
-        private final NavigableMap<K,V> nm;
+        privbte finbl NbvigbbleMbp<K,V> nm;
 
-        SynchronizedNavigableMap(NavigableMap<K,V> m) {
+        SynchronizedNbvigbbleMbp(NbvigbbleMbp<K,V> m) {
             super(m);
             nm = m;
         }
-        SynchronizedNavigableMap(NavigableMap<K,V> m, Object mutex) {
+        SynchronizedNbvigbbleMbp(NbvigbbleMbp<K,V> m, Object mutex) {
             super(m, mutex);
             nm = m;
         }
@@ -2879,466 +2879,466 @@ public class Collections {
                          { synchronized (mutex) { return nm.higherKey(key); } }
         public Entry<K, V> firstEntry()
                            { synchronized (mutex) { return nm.firstEntry(); } }
-        public Entry<K, V> lastEntry()
-                            { synchronized (mutex) { return nm.lastEntry(); } }
+        public Entry<K, V> lbstEntry()
+                            { synchronized (mutex) { return nm.lbstEntry(); } }
         public Entry<K, V> pollFirstEntry()
                        { synchronized (mutex) { return nm.pollFirstEntry(); } }
-        public Entry<K, V> pollLastEntry()
-                        { synchronized (mutex) { return nm.pollLastEntry(); } }
+        public Entry<K, V> pollLbstEntry()
+                        { synchronized (mutex) { return nm.pollLbstEntry(); } }
 
-        public NavigableMap<K, V> descendingMap() {
+        public NbvigbbleMbp<K, V> descendingMbp() {
             synchronized (mutex) {
                 return
-                    new SynchronizedNavigableMap<>(nm.descendingMap(), mutex);
+                    new SynchronizedNbvigbbleMbp<>(nm.descendingMbp(), mutex);
             }
         }
 
-        public NavigableSet<K> keySet() {
-            return navigableKeySet();
+        public NbvigbbleSet<K> keySet() {
+            return nbvigbbleKeySet();
         }
 
-        public NavigableSet<K> navigableKeySet() {
+        public NbvigbbleSet<K> nbvigbbleKeySet() {
             synchronized (mutex) {
-                return new SynchronizedNavigableSet<>(nm.navigableKeySet(), mutex);
+                return new SynchronizedNbvigbbleSet<>(nm.nbvigbbleKeySet(), mutex);
             }
         }
 
-        public NavigableSet<K> descendingKeySet() {
+        public NbvigbbleSet<K> descendingKeySet() {
             synchronized (mutex) {
-                return new SynchronizedNavigableSet<>(nm.descendingKeySet(), mutex);
+                return new SynchronizedNbvigbbleSet<>(nm.descendingKeySet(), mutex);
             }
         }
 
 
-        public SortedMap<K,V> subMap(K fromKey, K toKey) {
+        public SortedMbp<K,V> subMbp(K fromKey, K toKey) {
             synchronized (mutex) {
-                return new SynchronizedNavigableMap<>(
-                    nm.subMap(fromKey, true, toKey, false), mutex);
+                return new SynchronizedNbvigbbleMbp<>(
+                    nm.subMbp(fromKey, true, toKey, fblse), mutex);
             }
         }
-        public SortedMap<K,V> headMap(K toKey) {
+        public SortedMbp<K,V> hebdMbp(K toKey) {
             synchronized (mutex) {
-                return new SynchronizedNavigableMap<>(nm.headMap(toKey, false), mutex);
+                return new SynchronizedNbvigbbleMbp<>(nm.hebdMbp(toKey, fblse), mutex);
             }
         }
-        public SortedMap<K,V> tailMap(K fromKey) {
+        public SortedMbp<K,V> tbilMbp(K fromKey) {
             synchronized (mutex) {
-        return new SynchronizedNavigableMap<>(nm.tailMap(fromKey, true),mutex);
-            }
-        }
-
-        public NavigableMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
-            synchronized (mutex) {
-                return new SynchronizedNavigableMap<>(
-                    nm.subMap(fromKey, fromInclusive, toKey, toInclusive), mutex);
+        return new SynchronizedNbvigbbleMbp<>(nm.tbilMbp(fromKey, true),mutex);
             }
         }
 
-        public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
+        public NbvigbbleMbp<K, V> subMbp(K fromKey, boolebn fromInclusive, K toKey, boolebn toInclusive) {
             synchronized (mutex) {
-                return new SynchronizedNavigableMap<>(
-                        nm.headMap(toKey, inclusive), mutex);
+                return new SynchronizedNbvigbbleMbp<>(
+                    nm.subMbp(fromKey, fromInclusive, toKey, toInclusive), mutex);
             }
         }
 
-        public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
+        public NbvigbbleMbp<K, V> hebdMbp(K toKey, boolebn inclusive) {
             synchronized (mutex) {
-                return new SynchronizedNavigableMap<>(
-                    nm.tailMap(fromKey, inclusive), mutex);
+                return new SynchronizedNbvigbbleMbp<>(
+                        nm.hebdMbp(toKey, inclusive), mutex);
+            }
+        }
+
+        public NbvigbbleMbp<K, V> tbilMbp(K fromKey, boolebn inclusive) {
+            synchronized (mutex) {
+                return new SynchronizedNbvigbbleMbp<>(
+                    nm.tbilMbp(fromKey, inclusive), mutex);
             }
         }
     }
 
-    // Dynamically typesafe collection wrappers
+    // Dynbmicblly typesbfe collection wrbppers
 
     /**
-     * Returns a dynamically typesafe view of the specified collection.
-     * Any attempt to insert an element of the wrong type will result in an
-     * immediate {@link ClassCastException}.  Assuming a collection
-     * contains no incorrectly typed elements prior to the time a
-     * dynamically typesafe view is generated, and that all subsequent
-     * access to the collection takes place through the view, it is
-     * <i>guaranteed</i> that the collection cannot contain an incorrectly
+     * Returns b dynbmicblly typesbfe view of the specified collection.
+     * Any bttempt to insert bn element of the wrong type will result in bn
+     * immedibte {@link ClbssCbstException}.  Assuming b collection
+     * contbins no incorrectly typed elements prior to the time b
+     * dynbmicblly typesbfe view is generbted, bnd thbt bll subsequent
+     * bccess to the collection tbkes plbce through the view, it is
+     * <i>gubrbnteed</i> thbt the collection cbnnot contbin bn incorrectly
      * typed element.
      *
-     * <p>The generics mechanism in the language provides compile-time
-     * (static) type checking, but it is possible to defeat this mechanism
-     * with unchecked casts.  Usually this is not a problem, as the compiler
-     * issues warnings on all such unchecked operations.  There are, however,
-     * times when static type checking alone is not sufficient.  For example,
-     * suppose a collection is passed to a third-party library and it is
-     * imperative that the library code not corrupt the collection by
-     * inserting an element of the wrong type.
+     * <p>The generics mechbnism in the lbngubge provides compile-time
+     * (stbtic) type checking, but it is possible to defebt this mechbnism
+     * with unchecked cbsts.  Usublly this is not b problem, bs the compiler
+     * issues wbrnings on bll such unchecked operbtions.  There bre, however,
+     * times when stbtic type checking blone is not sufficient.  For exbmple,
+     * suppose b collection is pbssed to b third-pbrty librbry bnd it is
+     * imperbtive thbt the librbry code not corrupt the collection by
+     * inserting bn element of the wrong type.
      *
-     * <p>Another use of dynamically typesafe views is debugging.  Suppose a
-     * program fails with a {@code ClassCastException}, indicating that an
-     * incorrectly typed element was put into a parameterized collection.
-     * Unfortunately, the exception can occur at any time after the erroneous
-     * element is inserted, so it typically provides little or no information
-     * as to the real source of the problem.  If the problem is reproducible,
-     * one can quickly determine its source by temporarily modifying the
-     * program to wrap the collection with a dynamically typesafe view.
-     * For example, this declaration:
+     * <p>Another use of dynbmicblly typesbfe views is debugging.  Suppose b
+     * progrbm fbils with b {@code ClbssCbstException}, indicbting thbt bn
+     * incorrectly typed element wbs put into b pbrbmeterized collection.
+     * Unfortunbtely, the exception cbn occur bt bny time bfter the erroneous
+     * element is inserted, so it typicblly provides little or no informbtion
+     * bs to the rebl source of the problem.  If the problem is reproducible,
+     * one cbn quickly determine its source by temporbrily modifying the
+     * progrbm to wrbp the collection with b dynbmicblly typesbfe view.
+     * For exbmple, this declbrbtion:
      *  <pre> {@code
-     *     Collection<String> c = new HashSet<>();
+     *     Collection<String> c = new HbshSet<>();
      * }</pre>
-     * may be replaced temporarily by this one:
+     * mby be replbced temporbrily by this one:
      *  <pre> {@code
      *     Collection<String> c = Collections.checkedCollection(
-     *         new HashSet<>(), String.class);
+     *         new HbshSet<>(), String.clbss);
      * }</pre>
-     * Running the program again will cause it to fail at the point where
-     * an incorrectly typed element is inserted into the collection, clearly
+     * Running the progrbm bgbin will cbuse it to fbil bt the point where
+     * bn incorrectly typed element is inserted into the collection, clebrly
      * identifying the source of the problem.  Once the problem is fixed, the
-     * modified declaration may be reverted back to the original.
+     * modified declbrbtion mby be reverted bbck to the originbl.
      *
-     * <p>The returned collection does <i>not</i> pass the hashCode and equals
-     * operations through to the backing collection, but relies on
-     * {@code Object}'s {@code equals} and {@code hashCode} methods.  This
-     * is necessary to preserve the contracts of these operations in the case
-     * that the backing collection is a set or a list.
+     * <p>The returned collection does <i>not</i> pbss the hbshCode bnd equbls
+     * operbtions through to the bbcking collection, but relies on
+     * {@code Object}'s {@code equbls} bnd {@code hbshCode} methods.  This
+     * is necessbry to preserve the contrbcts of these operbtions in the cbse
+     * thbt the bbcking collection is b set or b list.
      *
-     * <p>The returned collection will be serializable if the specified
-     * collection is serializable.
+     * <p>The returned collection will be seriblizbble if the specified
+     * collection is seriblizbble.
      *
-     * <p>Since {@code null} is considered to be a value of any reference
+     * <p>Since {@code null} is considered to be b vblue of bny reference
      * type, the returned collection permits insertion of null elements
-     * whenever the backing collection does.
+     * whenever the bbcking collection does.
      *
-     * @param <E> the class of the objects in the collection
-     * @param c the collection for which a dynamically typesafe view is to be
+     * @pbrbm <E> the clbss of the objects in the collection
+     * @pbrbm c the collection for which b dynbmicblly typesbfe view is to be
      *          returned
-     * @param type the type of element that {@code c} is permitted to hold
-     * @return a dynamically typesafe view of the specified collection
+     * @pbrbm type the type of element thbt {@code c} is permitted to hold
+     * @return b dynbmicblly typesbfe view of the specified collection
      * @since 1.5
      */
-    public static <E> Collection<E> checkedCollection(Collection<E> c,
-                                                      Class<E> type) {
+    public stbtic <E> Collection<E> checkedCollection(Collection<E> c,
+                                                      Clbss<E> type) {
         return new CheckedCollection<>(c, type);
     }
 
-    @SuppressWarnings("unchecked")
-    static <T> T[] zeroLengthArray(Class<T> type) {
-        return (T[]) Array.newInstance(type, 0);
+    @SuppressWbrnings("unchecked")
+    stbtic <T> T[] zeroLengthArrby(Clbss<T> type) {
+        return (T[]) Arrby.newInstbnce(type, 0);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class CheckedCollection<E> implements Collection<E>, Serializable {
-        private static final long serialVersionUID = 1578914078182001775L;
+    stbtic clbss CheckedCollection<E> implements Collection<E>, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 1578914078182001775L;
 
-        final Collection<E> c;
-        final Class<E> type;
+        finbl Collection<E> c;
+        finbl Clbss<E> type;
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         E typeCheck(Object o) {
-            if (o != null && !type.isInstance(o))
-                throw new ClassCastException(badElementMsg(o));
+            if (o != null && !type.isInstbnce(o))
+                throw new ClbssCbstException(bbdElementMsg(o));
             return (E) o;
         }
 
-        private String badElementMsg(Object o) {
-            return "Attempt to insert " + o.getClass() +
+        privbte String bbdElementMsg(Object o) {
+            return "Attempt to insert " + o.getClbss() +
                 " element into collection with element type " + type;
         }
 
-        CheckedCollection(Collection<E> c, Class<E> type) {
+        CheckedCollection(Collection<E> c, Clbss<E> type) {
             this.c = Objects.requireNonNull(c, "c");
             this.type = Objects.requireNonNull(type, "type");
         }
 
         public int size()                 { return c.size(); }
-        public boolean isEmpty()          { return c.isEmpty(); }
-        public boolean contains(Object o) { return c.contains(o); }
-        public Object[] toArray()         { return c.toArray(); }
-        public <T> T[] toArray(T[] a)     { return c.toArray(a); }
+        public boolebn isEmpty()          { return c.isEmpty(); }
+        public boolebn contbins(Object o) { return c.contbins(o); }
+        public Object[] toArrby()         { return c.toArrby(); }
+        public <T> T[] toArrby(T[] b)     { return c.toArrby(b); }
         public String toString()          { return c.toString(); }
-        public boolean remove(Object o)   { return c.remove(o); }
-        public void clear()               {        c.clear(); }
+        public boolebn remove(Object o)   { return c.remove(o); }
+        public void clebr()               {        c.clebr(); }
 
-        public boolean containsAll(Collection<?> coll) {
-            return c.containsAll(coll);
+        public boolebn contbinsAll(Collection<?> coll) {
+            return c.contbinsAll(coll);
         }
-        public boolean removeAll(Collection<?> coll) {
+        public boolebn removeAll(Collection<?> coll) {
             return c.removeAll(coll);
         }
-        public boolean retainAll(Collection<?> coll) {
-            return c.retainAll(coll);
+        public boolebn retbinAll(Collection<?> coll) {
+            return c.retbinAll(coll);
         }
 
-        public Iterator<E> iterator() {
-            // JDK-6363904 - unwrapped iterator could be typecast to
-            // ListIterator with unsafe set()
-            final Iterator<E> it = c.iterator();
-            return new Iterator<E>() {
-                public boolean hasNext() { return it.hasNext(); }
+        public Iterbtor<E> iterbtor() {
+            // JDK-6363904 - unwrbpped iterbtor could be typecbst to
+            // ListIterbtor with unsbfe set()
+            finbl Iterbtor<E> it = c.iterbtor();
+            return new Iterbtor<E>() {
+                public boolebn hbsNext() { return it.hbsNext(); }
                 public E next()          { return it.next(); }
                 public void remove()     {        it.remove(); }};
         }
 
-        public boolean add(E e)          { return c.add(typeCheck(e)); }
+        public boolebn bdd(E e)          { return c.bdd(typeCheck(e)); }
 
-        private E[] zeroLengthElementArray; // Lazily initialized
+        privbte E[] zeroLengthElementArrby; // Lbzily initiblized
 
-        private E[] zeroLengthElementArray() {
-            return zeroLengthElementArray != null ? zeroLengthElementArray :
-                (zeroLengthElementArray = zeroLengthArray(type));
+        privbte E[] zeroLengthElementArrby() {
+            return zeroLengthElementArrby != null ? zeroLengthElementArrby :
+                (zeroLengthElementArrby = zeroLengthArrby(type));
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         Collection<E> checkedCopyOf(Collection<? extends E> coll) {
-            Object[] a;
+            Object[] b;
             try {
-                E[] z = zeroLengthElementArray();
-                a = coll.toArray(z);
-                // Defend against coll violating the toArray contract
-                if (a.getClass() != z.getClass())
-                    a = Arrays.copyOf(a, a.length, z.getClass());
-            } catch (ArrayStoreException ignore) {
-                // To get better and consistent diagnostics,
-                // we call typeCheck explicitly on each element.
-                // We call clone() to defend against coll retaining a
-                // reference to the returned array and storing a bad
-                // element into it after it has been type checked.
-                a = coll.toArray().clone();
-                for (Object o : a)
+                E[] z = zeroLengthElementArrby();
+                b = coll.toArrby(z);
+                // Defend bgbinst coll violbting the toArrby contrbct
+                if (b.getClbss() != z.getClbss())
+                    b = Arrbys.copyOf(b, b.length, z.getClbss());
+            } cbtch (ArrbyStoreException ignore) {
+                // To get better bnd consistent dibgnostics,
+                // we cbll typeCheck explicitly on ebch element.
+                // We cbll clone() to defend bgbinst coll retbining b
+                // reference to the returned brrby bnd storing b bbd
+                // element into it bfter it hbs been type checked.
+                b = coll.toArrby().clone();
+                for (Object o : b)
                     typeCheck(o);
             }
-            // A slight abuse of the type system, but safe here.
-            return (Collection<E>) Arrays.asList(a);
+            // A slight bbuse of the type system, but sbfe here.
+            return (Collection<E>) Arrbys.bsList(b);
         }
 
-        public boolean addAll(Collection<? extends E> coll) {
-            // Doing things this way insulates us from concurrent changes
-            // in the contents of coll and provides all-or-nothing
-            // semantics (which we wouldn't get if we type-checked each
-            // element as we added it)
-            return c.addAll(checkedCopyOf(coll));
+        public boolebn bddAll(Collection<? extends E> coll) {
+            // Doing things this wby insulbtes us from concurrent chbnges
+            // in the contents of coll bnd provides bll-or-nothing
+            // sembntics (which we wouldn't get if we type-checked ebch
+            // element bs we bdded it)
+            return c.bddAll(checkedCopyOf(coll));
         }
 
-        // Override default methods in Collection
+        // Override defbult methods in Collection
         @Override
-        public void forEach(Consumer<? super E> action) {c.forEach(action);}
+        public void forEbch(Consumer<? super E> bction) {c.forEbch(bction);}
         @Override
-        public boolean removeIf(Predicate<? super E> filter) {
+        public boolebn removeIf(Predicbte<? super E> filter) {
             return c.removeIf(filter);
         }
         @Override
-        public Spliterator<E> spliterator() {return c.spliterator();}
+        public Spliterbtor<E> spliterbtor() {return c.spliterbtor();}
         @Override
-        public Stream<E> stream()           {return c.stream();}
+        public Strebm<E> strebm()           {return c.strebm();}
         @Override
-        public Stream<E> parallelStream()   {return c.parallelStream();}
+        public Strebm<E> pbrbllelStrebm()   {return c.pbrbllelStrebm();}
     }
 
     /**
-     * Returns a dynamically typesafe view of the specified queue.
-     * Any attempt to insert an element of the wrong type will result in
-     * an immediate {@link ClassCastException}.  Assuming a queue contains
-     * no incorrectly typed elements prior to the time a dynamically typesafe
-     * view is generated, and that all subsequent access to the queue
-     * takes place through the view, it is <i>guaranteed</i> that the
-     * queue cannot contain an incorrectly typed element.
+     * Returns b dynbmicblly typesbfe view of the specified queue.
+     * Any bttempt to insert bn element of the wrong type will result in
+     * bn immedibte {@link ClbssCbstException}.  Assuming b queue contbins
+     * no incorrectly typed elements prior to the time b dynbmicblly typesbfe
+     * view is generbted, bnd thbt bll subsequent bccess to the queue
+     * tbkes plbce through the view, it is <i>gubrbnteed</i> thbt the
+     * queue cbnnot contbin bn incorrectly typed element.
      *
-     * <p>A discussion of the use of dynamically typesafe views may be
-     * found in the documentation for the {@link #checkedCollection
+     * <p>A discussion of the use of dynbmicblly typesbfe views mby be
+     * found in the documentbtion for the {@link #checkedCollection
      * checkedCollection} method.
      *
-     * <p>The returned queue will be serializable if the specified queue
-     * is serializable.
+     * <p>The returned queue will be seriblizbble if the specified queue
+     * is seriblizbble.
      *
-     * <p>Since {@code null} is considered to be a value of any reference
+     * <p>Since {@code null} is considered to be b vblue of bny reference
      * type, the returned queue permits insertion of {@code null} elements
-     * whenever the backing queue does.
+     * whenever the bbcking queue does.
      *
-     * @param <E> the class of the objects in the queue
-     * @param queue the queue for which a dynamically typesafe view is to be
+     * @pbrbm <E> the clbss of the objects in the queue
+     * @pbrbm queue the queue for which b dynbmicblly typesbfe view is to be
      *             returned
-     * @param type the type of element that {@code queue} is permitted to hold
-     * @return a dynamically typesafe view of the specified queue
+     * @pbrbm type the type of element thbt {@code queue} is permitted to hold
+     * @return b dynbmicblly typesbfe view of the specified queue
      * @since 1.8
      */
-    public static <E> Queue<E> checkedQueue(Queue<E> queue, Class<E> type) {
+    public stbtic <E> Queue<E> checkedQueue(Queue<E> queue, Clbss<E> type) {
         return new CheckedQueue<>(queue, type);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class CheckedQueue<E>
+    stbtic clbss CheckedQueue<E>
         extends CheckedCollection<E>
-        implements Queue<E>, Serializable
+        implements Queue<E>, Seriblizbble
     {
-        private static final long serialVersionUID = 1433151992604707767L;
-        final Queue<E> queue;
+        privbte stbtic finbl long seriblVersionUID = 1433151992604707767L;
+        finbl Queue<E> queue;
 
-        CheckedQueue(Queue<E> queue, Class<E> elementType) {
+        CheckedQueue(Queue<E> queue, Clbss<E> elementType) {
             super(queue, elementType);
             this.queue = queue;
         }
 
         public E element()              {return queue.element();}
-        public boolean equals(Object o) {return o == this || c.equals(o);}
-        public int hashCode()           {return c.hashCode();}
+        public boolebn equbls(Object o) {return o == this || c.equbls(o);}
+        public int hbshCode()           {return c.hbshCode();}
         public E peek()                 {return queue.peek();}
         public E poll()                 {return queue.poll();}
         public E remove()               {return queue.remove();}
-        public boolean offer(E e)       {return queue.offer(typeCheck(e));}
+        public boolebn offer(E e)       {return queue.offer(typeCheck(e));}
     }
 
     /**
-     * Returns a dynamically typesafe view of the specified set.
-     * Any attempt to insert an element of the wrong type will result in
-     * an immediate {@link ClassCastException}.  Assuming a set contains
-     * no incorrectly typed elements prior to the time a dynamically typesafe
-     * view is generated, and that all subsequent access to the set
-     * takes place through the view, it is <i>guaranteed</i> that the
-     * set cannot contain an incorrectly typed element.
+     * Returns b dynbmicblly typesbfe view of the specified set.
+     * Any bttempt to insert bn element of the wrong type will result in
+     * bn immedibte {@link ClbssCbstException}.  Assuming b set contbins
+     * no incorrectly typed elements prior to the time b dynbmicblly typesbfe
+     * view is generbted, bnd thbt bll subsequent bccess to the set
+     * tbkes plbce through the view, it is <i>gubrbnteed</i> thbt the
+     * set cbnnot contbin bn incorrectly typed element.
      *
-     * <p>A discussion of the use of dynamically typesafe views may be
-     * found in the documentation for the {@link #checkedCollection
+     * <p>A discussion of the use of dynbmicblly typesbfe views mby be
+     * found in the documentbtion for the {@link #checkedCollection
      * checkedCollection} method.
      *
-     * <p>The returned set will be serializable if the specified set is
-     * serializable.
+     * <p>The returned set will be seriblizbble if the specified set is
+     * seriblizbble.
      *
-     * <p>Since {@code null} is considered to be a value of any reference
+     * <p>Since {@code null} is considered to be b vblue of bny reference
      * type, the returned set permits insertion of null elements whenever
-     * the backing set does.
+     * the bbcking set does.
      *
-     * @param <E> the class of the objects in the set
-     * @param s the set for which a dynamically typesafe view is to be
+     * @pbrbm <E> the clbss of the objects in the set
+     * @pbrbm s the set for which b dynbmicblly typesbfe view is to be
      *          returned
-     * @param type the type of element that {@code s} is permitted to hold
-     * @return a dynamically typesafe view of the specified set
+     * @pbrbm type the type of element thbt {@code s} is permitted to hold
+     * @return b dynbmicblly typesbfe view of the specified set
      * @since 1.5
      */
-    public static <E> Set<E> checkedSet(Set<E> s, Class<E> type) {
+    public stbtic <E> Set<E> checkedSet(Set<E> s, Clbss<E> type) {
         return new CheckedSet<>(s, type);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class CheckedSet<E> extends CheckedCollection<E>
-                                 implements Set<E>, Serializable
+    stbtic clbss CheckedSet<E> extends CheckedCollection<E>
+                                 implements Set<E>, Seriblizbble
     {
-        private static final long serialVersionUID = 4694047833775013803L;
+        privbte stbtic finbl long seriblVersionUID = 4694047833775013803L;
 
-        CheckedSet(Set<E> s, Class<E> elementType) { super(s, elementType); }
+        CheckedSet(Set<E> s, Clbss<E> elementType) { super(s, elementType); }
 
-        public boolean equals(Object o) { return o == this || c.equals(o); }
-        public int hashCode()           { return c.hashCode(); }
+        public boolebn equbls(Object o) { return o == this || c.equbls(o); }
+        public int hbshCode()           { return c.hbshCode(); }
     }
 
     /**
-     * Returns a dynamically typesafe view of the specified sorted set.
-     * Any attempt to insert an element of the wrong type will result in an
-     * immediate {@link ClassCastException}.  Assuming a sorted set
-     * contains no incorrectly typed elements prior to the time a
-     * dynamically typesafe view is generated, and that all subsequent
-     * access to the sorted set takes place through the view, it is
-     * <i>guaranteed</i> that the sorted set cannot contain an incorrectly
+     * Returns b dynbmicblly typesbfe view of the specified sorted set.
+     * Any bttempt to insert bn element of the wrong type will result in bn
+     * immedibte {@link ClbssCbstException}.  Assuming b sorted set
+     * contbins no incorrectly typed elements prior to the time b
+     * dynbmicblly typesbfe view is generbted, bnd thbt bll subsequent
+     * bccess to the sorted set tbkes plbce through the view, it is
+     * <i>gubrbnteed</i> thbt the sorted set cbnnot contbin bn incorrectly
      * typed element.
      *
-     * <p>A discussion of the use of dynamically typesafe views may be
-     * found in the documentation for the {@link #checkedCollection
+     * <p>A discussion of the use of dynbmicblly typesbfe views mby be
+     * found in the documentbtion for the {@link #checkedCollection
      * checkedCollection} method.
      *
-     * <p>The returned sorted set will be serializable if the specified sorted
-     * set is serializable.
+     * <p>The returned sorted set will be seriblizbble if the specified sorted
+     * set is seriblizbble.
      *
-     * <p>Since {@code null} is considered to be a value of any reference
+     * <p>Since {@code null} is considered to be b vblue of bny reference
      * type, the returned sorted set permits insertion of null elements
-     * whenever the backing sorted set does.
+     * whenever the bbcking sorted set does.
      *
-     * @param <E> the class of the objects in the set
-     * @param s the sorted set for which a dynamically typesafe view is to be
+     * @pbrbm <E> the clbss of the objects in the set
+     * @pbrbm s the sorted set for which b dynbmicblly typesbfe view is to be
      *          returned
-     * @param type the type of element that {@code s} is permitted to hold
-     * @return a dynamically typesafe view of the specified sorted set
+     * @pbrbm type the type of element thbt {@code s} is permitted to hold
+     * @return b dynbmicblly typesbfe view of the specified sorted set
      * @since 1.5
      */
-    public static <E> SortedSet<E> checkedSortedSet(SortedSet<E> s,
-                                                    Class<E> type) {
+    public stbtic <E> SortedSet<E> checkedSortedSet(SortedSet<E> s,
+                                                    Clbss<E> type) {
         return new CheckedSortedSet<>(s, type);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class CheckedSortedSet<E> extends CheckedSet<E>
-        implements SortedSet<E>, Serializable
+    stbtic clbss CheckedSortedSet<E> extends CheckedSet<E>
+        implements SortedSet<E>, Seriblizbble
     {
-        private static final long serialVersionUID = 1599911165492914959L;
+        privbte stbtic finbl long seriblVersionUID = 1599911165492914959L;
 
-        private final SortedSet<E> ss;
+        privbte finbl SortedSet<E> ss;
 
-        CheckedSortedSet(SortedSet<E> s, Class<E> type) {
+        CheckedSortedSet(SortedSet<E> s, Clbss<E> type) {
             super(s, type);
             ss = s;
         }
 
-        public Comparator<? super E> comparator() { return ss.comparator(); }
+        public Compbrbtor<? super E> compbrbtor() { return ss.compbrbtor(); }
         public E first()                   { return ss.first(); }
-        public E last()                    { return ss.last(); }
+        public E lbst()                    { return ss.lbst(); }
 
         public SortedSet<E> subSet(E fromElement, E toElement) {
             return checkedSortedSet(ss.subSet(fromElement,toElement), type);
         }
-        public SortedSet<E> headSet(E toElement) {
-            return checkedSortedSet(ss.headSet(toElement), type);
+        public SortedSet<E> hebdSet(E toElement) {
+            return checkedSortedSet(ss.hebdSet(toElement), type);
         }
-        public SortedSet<E> tailSet(E fromElement) {
-            return checkedSortedSet(ss.tailSet(fromElement), type);
+        public SortedSet<E> tbilSet(E fromElement) {
+            return checkedSortedSet(ss.tbilSet(fromElement), type);
         }
     }
 
 /**
-     * Returns a dynamically typesafe view of the specified navigable set.
-     * Any attempt to insert an element of the wrong type will result in an
-     * immediate {@link ClassCastException}.  Assuming a navigable set
-     * contains no incorrectly typed elements prior to the time a
-     * dynamically typesafe view is generated, and that all subsequent
-     * access to the navigable set takes place through the view, it is
-     * <em>guaranteed</em> that the navigable set cannot contain an incorrectly
+     * Returns b dynbmicblly typesbfe view of the specified nbvigbble set.
+     * Any bttempt to insert bn element of the wrong type will result in bn
+     * immedibte {@link ClbssCbstException}.  Assuming b nbvigbble set
+     * contbins no incorrectly typed elements prior to the time b
+     * dynbmicblly typesbfe view is generbted, bnd thbt bll subsequent
+     * bccess to the nbvigbble set tbkes plbce through the view, it is
+     * <em>gubrbnteed</em> thbt the nbvigbble set cbnnot contbin bn incorrectly
      * typed element.
      *
-     * <p>A discussion of the use of dynamically typesafe views may be
-     * found in the documentation for the {@link #checkedCollection
+     * <p>A discussion of the use of dynbmicblly typesbfe views mby be
+     * found in the documentbtion for the {@link #checkedCollection
      * checkedCollection} method.
      *
-     * <p>The returned navigable set will be serializable if the specified
-     * navigable set is serializable.
+     * <p>The returned nbvigbble set will be seriblizbble if the specified
+     * nbvigbble set is seriblizbble.
      *
-     * <p>Since {@code null} is considered to be a value of any reference
-     * type, the returned navigable set permits insertion of null elements
-     * whenever the backing sorted set does.
+     * <p>Since {@code null} is considered to be b vblue of bny reference
+     * type, the returned nbvigbble set permits insertion of null elements
+     * whenever the bbcking sorted set does.
      *
-     * @param <E> the class of the objects in the set
-     * @param s the navigable set for which a dynamically typesafe view is to be
+     * @pbrbm <E> the clbss of the objects in the set
+     * @pbrbm s the nbvigbble set for which b dynbmicblly typesbfe view is to be
      *          returned
-     * @param type the type of element that {@code s} is permitted to hold
-     * @return a dynamically typesafe view of the specified navigable set
+     * @pbrbm type the type of element thbt {@code s} is permitted to hold
+     * @return b dynbmicblly typesbfe view of the specified nbvigbble set
      * @since 1.8
      */
-    public static <E> NavigableSet<E> checkedNavigableSet(NavigableSet<E> s,
-                                                    Class<E> type) {
-        return new CheckedNavigableSet<>(s, type);
+    public stbtic <E> NbvigbbleSet<E> checkedNbvigbbleSet(NbvigbbleSet<E> s,
+                                                    Clbss<E> type) {
+        return new CheckedNbvigbbleSet<>(s, type);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class CheckedNavigableSet<E> extends CheckedSortedSet<E>
-        implements NavigableSet<E>, Serializable
+    stbtic clbss CheckedNbvigbbleSet<E> extends CheckedSortedSet<E>
+        implements NbvigbbleSet<E>, Seriblizbble
     {
-        private static final long serialVersionUID = -5429120189805438922L;
+        privbte stbtic finbl long seriblVersionUID = -5429120189805438922L;
 
-        private final NavigableSet<E> ns;
+        privbte finbl NbvigbbleSet<E> ns;
 
-        CheckedNavigableSet(NavigableSet<E> s, Class<E> type) {
+        CheckedNbvigbbleSet(NbvigbbleSet<E> s, Clbss<E> type) {
             super(s, type);
             ns = s;
         }
@@ -3348,110 +3348,110 @@ public class Collections {
         public E ceiling(E e)                         { return ns.ceiling(e); }
         public E higher(E e)                           { return ns.higher(e); }
         public E pollFirst()                         { return ns.pollFirst(); }
-        public E pollLast()                            {return ns.pollLast(); }
-        public NavigableSet<E> descendingSet()
-                      { return checkedNavigableSet(ns.descendingSet(), type); }
-        public Iterator<E> descendingIterator()
-            {return checkedNavigableSet(ns.descendingSet(), type).iterator(); }
+        public E pollLbst()                            {return ns.pollLbst(); }
+        public NbvigbbleSet<E> descendingSet()
+                      { return checkedNbvigbbleSet(ns.descendingSet(), type); }
+        public Iterbtor<E> descendingIterbtor()
+            {return checkedNbvigbbleSet(ns.descendingSet(), type).iterbtor(); }
 
-        public NavigableSet<E> subSet(E fromElement, E toElement) {
-            return checkedNavigableSet(ns.subSet(fromElement, true, toElement, false), type);
+        public NbvigbbleSet<E> subSet(E fromElement, E toElement) {
+            return checkedNbvigbbleSet(ns.subSet(fromElement, true, toElement, fblse), type);
         }
-        public NavigableSet<E> headSet(E toElement) {
-            return checkedNavigableSet(ns.headSet(toElement, false), type);
+        public NbvigbbleSet<E> hebdSet(E toElement) {
+            return checkedNbvigbbleSet(ns.hebdSet(toElement, fblse), type);
         }
-        public NavigableSet<E> tailSet(E fromElement) {
-            return checkedNavigableSet(ns.tailSet(fromElement, true), type);
-        }
-
-        public NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-            return checkedNavigableSet(ns.subSet(fromElement, fromInclusive, toElement, toInclusive), type);
+        public NbvigbbleSet<E> tbilSet(E fromElement) {
+            return checkedNbvigbbleSet(ns.tbilSet(fromElement, true), type);
         }
 
-        public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-            return checkedNavigableSet(ns.headSet(toElement, inclusive), type);
+        public NbvigbbleSet<E> subSet(E fromElement, boolebn fromInclusive, E toElement, boolebn toInclusive) {
+            return checkedNbvigbbleSet(ns.subSet(fromElement, fromInclusive, toElement, toInclusive), type);
         }
 
-        public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-            return checkedNavigableSet(ns.tailSet(fromElement, inclusive), type);
+        public NbvigbbleSet<E> hebdSet(E toElement, boolebn inclusive) {
+            return checkedNbvigbbleSet(ns.hebdSet(toElement, inclusive), type);
+        }
+
+        public NbvigbbleSet<E> tbilSet(E fromElement, boolebn inclusive) {
+            return checkedNbvigbbleSet(ns.tbilSet(fromElement, inclusive), type);
         }
     }
 
     /**
-     * Returns a dynamically typesafe view of the specified list.
-     * Any attempt to insert an element of the wrong type will result in
-     * an immediate {@link ClassCastException}.  Assuming a list contains
-     * no incorrectly typed elements prior to the time a dynamically typesafe
-     * view is generated, and that all subsequent access to the list
-     * takes place through the view, it is <i>guaranteed</i> that the
-     * list cannot contain an incorrectly typed element.
+     * Returns b dynbmicblly typesbfe view of the specified list.
+     * Any bttempt to insert bn element of the wrong type will result in
+     * bn immedibte {@link ClbssCbstException}.  Assuming b list contbins
+     * no incorrectly typed elements prior to the time b dynbmicblly typesbfe
+     * view is generbted, bnd thbt bll subsequent bccess to the list
+     * tbkes plbce through the view, it is <i>gubrbnteed</i> thbt the
+     * list cbnnot contbin bn incorrectly typed element.
      *
-     * <p>A discussion of the use of dynamically typesafe views may be
-     * found in the documentation for the {@link #checkedCollection
+     * <p>A discussion of the use of dynbmicblly typesbfe views mby be
+     * found in the documentbtion for the {@link #checkedCollection
      * checkedCollection} method.
      *
-     * <p>The returned list will be serializable if the specified list
-     * is serializable.
+     * <p>The returned list will be seriblizbble if the specified list
+     * is seriblizbble.
      *
-     * <p>Since {@code null} is considered to be a value of any reference
+     * <p>Since {@code null} is considered to be b vblue of bny reference
      * type, the returned list permits insertion of null elements whenever
-     * the backing list does.
+     * the bbcking list does.
      *
-     * @param <E> the class of the objects in the list
-     * @param list the list for which a dynamically typesafe view is to be
+     * @pbrbm <E> the clbss of the objects in the list
+     * @pbrbm list the list for which b dynbmicblly typesbfe view is to be
      *             returned
-     * @param type the type of element that {@code list} is permitted to hold
-     * @return a dynamically typesafe view of the specified list
+     * @pbrbm type the type of element thbt {@code list} is permitted to hold
+     * @return b dynbmicblly typesbfe view of the specified list
      * @since 1.5
      */
-    public static <E> List<E> checkedList(List<E> list, Class<E> type) {
-        return (list instanceof RandomAccess ?
-                new CheckedRandomAccessList<>(list, type) :
+    public stbtic <E> List<E> checkedList(List<E> list, Clbss<E> type) {
+        return (list instbnceof RbndomAccess ?
+                new CheckedRbndomAccessList<>(list, type) :
                 new CheckedList<>(list, type));
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class CheckedList<E>
+    stbtic clbss CheckedList<E>
         extends CheckedCollection<E>
         implements List<E>
     {
-        private static final long serialVersionUID = 65247728283967356L;
-        final List<E> list;
+        privbte stbtic finbl long seriblVersionUID = 65247728283967356L;
+        finbl List<E> list;
 
-        CheckedList(List<E> list, Class<E> type) {
+        CheckedList(List<E> list, Clbss<E> type) {
             super(list, type);
             this.list = list;
         }
 
-        public boolean equals(Object o)  { return o == this || list.equals(o); }
-        public int hashCode()            { return list.hashCode(); }
+        public boolebn equbls(Object o)  { return o == this || list.equbls(o); }
+        public int hbshCode()            { return list.hbshCode(); }
         public E get(int index)          { return list.get(index); }
         public E remove(int index)       { return list.remove(index); }
         public int indexOf(Object o)     { return list.indexOf(o); }
-        public int lastIndexOf(Object o) { return list.lastIndexOf(o); }
+        public int lbstIndexOf(Object o) { return list.lbstIndexOf(o); }
 
         public E set(int index, E element) {
             return list.set(index, typeCheck(element));
         }
 
-        public void add(int index, E element) {
-            list.add(index, typeCheck(element));
+        public void bdd(int index, E element) {
+            list.bdd(index, typeCheck(element));
         }
 
-        public boolean addAll(int index, Collection<? extends E> c) {
-            return list.addAll(index, checkedCopyOf(c));
+        public boolebn bddAll(int index, Collection<? extends E> c) {
+            return list.bddAll(index, checkedCopyOf(c));
         }
-        public ListIterator<E> listIterator()   { return listIterator(0); }
+        public ListIterbtor<E> listIterbtor()   { return listIterbtor(0); }
 
-        public ListIterator<E> listIterator(final int index) {
-            final ListIterator<E> i = list.listIterator(index);
+        public ListIterbtor<E> listIterbtor(finbl int index) {
+            finbl ListIterbtor<E> i = list.listIterbtor(index);
 
-            return new ListIterator<E>() {
-                public boolean hasNext()     { return i.hasNext(); }
+            return new ListIterbtor<E>() {
+                public boolebn hbsNext()     { return i.hbsNext(); }
                 public E next()              { return i.next(); }
-                public boolean hasPrevious() { return i.hasPrevious(); }
+                public boolebn hbsPrevious() { return i.hbsPrevious(); }
                 public E previous()          { return i.previous(); }
                 public int nextIndex()       { return i.nextIndex(); }
                 public int previousIndex()   { return i.previousIndex(); }
@@ -3461,13 +3461,13 @@ public class Collections {
                     i.set(typeCheck(e));
                 }
 
-                public void add(E e) {
-                    i.add(typeCheck(e));
+                public void bdd(E e) {
+                    i.bdd(typeCheck(e));
                 }
 
                 @Override
-                public void forEachRemaining(Consumer<? super E> action) {
-                    i.forEachRemaining(action);
+                public void forEbchRembining(Consumer<? super E> bction) {
+                    i.forEbchRembining(bction);
                 }
             };
         }
@@ -3479,371 +3479,371 @@ public class Collections {
         /**
          * {@inheritDoc}
          *
-         * @throws ClassCastException if the class of an element returned by the
-         *         operator prevents it from being added to this collection. The
-         *         exception may be thrown after some elements of the list have
-         *         already been replaced.
+         * @throws ClbssCbstException if the clbss of bn element returned by the
+         *         operbtor prevents it from being bdded to this collection. The
+         *         exception mby be thrown bfter some elements of the list hbve
+         *         blrebdy been replbced.
          */
         @Override
-        public void replaceAll(UnaryOperator<E> operator) {
-            Objects.requireNonNull(operator);
-            list.replaceAll(e -> typeCheck(operator.apply(e)));
+        public void replbceAll(UnbryOperbtor<E> operbtor) {
+            Objects.requireNonNull(operbtor);
+            list.replbceAll(e -> typeCheck(operbtor.bpply(e)));
         }
 
         @Override
-        public void sort(Comparator<? super E> c) {
+        public void sort(Compbrbtor<? super E> c) {
             list.sort(c);
         }
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class CheckedRandomAccessList<E> extends CheckedList<E>
-                                            implements RandomAccess
+    stbtic clbss CheckedRbndomAccessList<E> extends CheckedList<E>
+                                            implements RbndomAccess
     {
-        private static final long serialVersionUID = 1638200125423088369L;
+        privbte stbtic finbl long seriblVersionUID = 1638200125423088369L;
 
-        CheckedRandomAccessList(List<E> list, Class<E> type) {
+        CheckedRbndomAccessList(List<E> list, Clbss<E> type) {
             super(list, type);
         }
 
         public List<E> subList(int fromIndex, int toIndex) {
-            return new CheckedRandomAccessList<>(
+            return new CheckedRbndomAccessList<>(
                     list.subList(fromIndex, toIndex), type);
         }
     }
 
     /**
-     * Returns a dynamically typesafe view of the specified map.
-     * Any attempt to insert a mapping whose key or value have the wrong
-     * type will result in an immediate {@link ClassCastException}.
-     * Similarly, any attempt to modify the value currently associated with
-     * a key will result in an immediate {@link ClassCastException},
-     * whether the modification is attempted directly through the map
-     * itself, or through a {@link Map.Entry} instance obtained from the
-     * map's {@link Map#entrySet() entry set} view.
+     * Returns b dynbmicblly typesbfe view of the specified mbp.
+     * Any bttempt to insert b mbpping whose key or vblue hbve the wrong
+     * type will result in bn immedibte {@link ClbssCbstException}.
+     * Similbrly, bny bttempt to modify the vblue currently bssocibted with
+     * b key will result in bn immedibte {@link ClbssCbstException},
+     * whether the modificbtion is bttempted directly through the mbp
+     * itself, or through b {@link Mbp.Entry} instbnce obtbined from the
+     * mbp's {@link Mbp#entrySet() entry set} view.
      *
-     * <p>Assuming a map contains no incorrectly typed keys or values
-     * prior to the time a dynamically typesafe view is generated, and
-     * that all subsequent access to the map takes place through the view
-     * (or one of its collection views), it is <i>guaranteed</i> that the
-     * map cannot contain an incorrectly typed key or value.
+     * <p>Assuming b mbp contbins no incorrectly typed keys or vblues
+     * prior to the time b dynbmicblly typesbfe view is generbted, bnd
+     * thbt bll subsequent bccess to the mbp tbkes plbce through the view
+     * (or one of its collection views), it is <i>gubrbnteed</i> thbt the
+     * mbp cbnnot contbin bn incorrectly typed key or vblue.
      *
-     * <p>A discussion of the use of dynamically typesafe views may be
-     * found in the documentation for the {@link #checkedCollection
+     * <p>A discussion of the use of dynbmicblly typesbfe views mby be
+     * found in the documentbtion for the {@link #checkedCollection
      * checkedCollection} method.
      *
-     * <p>The returned map will be serializable if the specified map is
-     * serializable.
+     * <p>The returned mbp will be seriblizbble if the specified mbp is
+     * seriblizbble.
      *
-     * <p>Since {@code null} is considered to be a value of any reference
-     * type, the returned map permits insertion of null keys or values
-     * whenever the backing map does.
+     * <p>Since {@code null} is considered to be b vblue of bny reference
+     * type, the returned mbp permits insertion of null keys or vblues
+     * whenever the bbcking mbp does.
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
-     * @param m the map for which a dynamically typesafe view is to be
+     * @pbrbm <K> the clbss of the mbp keys
+     * @pbrbm <V> the clbss of the mbp vblues
+     * @pbrbm m the mbp for which b dynbmicblly typesbfe view is to be
      *          returned
-     * @param keyType the type of key that {@code m} is permitted to hold
-     * @param valueType the type of value that {@code m} is permitted to hold
-     * @return a dynamically typesafe view of the specified map
+     * @pbrbm keyType the type of key thbt {@code m} is permitted to hold
+     * @pbrbm vblueType the type of vblue thbt {@code m} is permitted to hold
+     * @return b dynbmicblly typesbfe view of the specified mbp
      * @since 1.5
      */
-    public static <K, V> Map<K, V> checkedMap(Map<K, V> m,
-                                              Class<K> keyType,
-                                              Class<V> valueType) {
-        return new CheckedMap<>(m, keyType, valueType);
+    public stbtic <K, V> Mbp<K, V> checkedMbp(Mbp<K, V> m,
+                                              Clbss<K> keyType,
+                                              Clbss<V> vblueType) {
+        return new CheckedMbp<>(m, keyType, vblueType);
     }
 
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class CheckedMap<K,V>
-        implements Map<K,V>, Serializable
+    privbte stbtic clbss CheckedMbp<K,V>
+        implements Mbp<K,V>, Seriblizbble
     {
-        private static final long serialVersionUID = 5742860141034234728L;
+        privbte stbtic finbl long seriblVersionUID = 5742860141034234728L;
 
-        private final Map<K, V> m;
-        final Class<K> keyType;
-        final Class<V> valueType;
+        privbte finbl Mbp<K, V> m;
+        finbl Clbss<K> keyType;
+        finbl Clbss<V> vblueType;
 
-        private void typeCheck(Object key, Object value) {
-            if (key != null && !keyType.isInstance(key))
-                throw new ClassCastException(badKeyMsg(key));
+        privbte void typeCheck(Object key, Object vblue) {
+            if (key != null && !keyType.isInstbnce(key))
+                throw new ClbssCbstException(bbdKeyMsg(key));
 
-            if (value != null && !valueType.isInstance(value))
-                throw new ClassCastException(badValueMsg(value));
+            if (vblue != null && !vblueType.isInstbnce(vblue))
+                throw new ClbssCbstException(bbdVblueMsg(vblue));
         }
 
-        private BiFunction<? super K, ? super V, ? extends V> typeCheck(
+        privbte BiFunction<? super K, ? super V, ? extends V> typeCheck(
                 BiFunction<? super K, ? super V, ? extends V> func) {
             Objects.requireNonNull(func);
             return (k, v) -> {
-                V newValue = func.apply(k, v);
-                typeCheck(k, newValue);
-                return newValue;
+                V newVblue = func.bpply(k, v);
+                typeCheck(k, newVblue);
+                return newVblue;
             };
         }
 
-        private String badKeyMsg(Object key) {
-            return "Attempt to insert " + key.getClass() +
-                    " key into map with key type " + keyType;
+        privbte String bbdKeyMsg(Object key) {
+            return "Attempt to insert " + key.getClbss() +
+                    " key into mbp with key type " + keyType;
         }
 
-        private String badValueMsg(Object value) {
-            return "Attempt to insert " + value.getClass() +
-                    " value into map with value type " + valueType;
+        privbte String bbdVblueMsg(Object vblue) {
+            return "Attempt to insert " + vblue.getClbss() +
+                    " vblue into mbp with vblue type " + vblueType;
         }
 
-        CheckedMap(Map<K, V> m, Class<K> keyType, Class<V> valueType) {
+        CheckedMbp(Mbp<K, V> m, Clbss<K> keyType, Clbss<V> vblueType) {
             this.m = Objects.requireNonNull(m);
             this.keyType = Objects.requireNonNull(keyType);
-            this.valueType = Objects.requireNonNull(valueType);
+            this.vblueType = Objects.requireNonNull(vblueType);
         }
 
         public int size()                      { return m.size(); }
-        public boolean isEmpty()               { return m.isEmpty(); }
-        public boolean containsKey(Object key) { return m.containsKey(key); }
-        public boolean containsValue(Object v) { return m.containsValue(v); }
+        public boolebn isEmpty()               { return m.isEmpty(); }
+        public boolebn contbinsKey(Object key) { return m.contbinsKey(key); }
+        public boolebn contbinsVblue(Object v) { return m.contbinsVblue(v); }
         public V get(Object key)               { return m.get(key); }
         public V remove(Object key)            { return m.remove(key); }
-        public void clear()                    { m.clear(); }
+        public void clebr()                    { m.clebr(); }
         public Set<K> keySet()                 { return m.keySet(); }
-        public Collection<V> values()          { return m.values(); }
-        public boolean equals(Object o)        { return o == this || m.equals(o); }
-        public int hashCode()                  { return m.hashCode(); }
+        public Collection<V> vblues()          { return m.vblues(); }
+        public boolebn equbls(Object o)        { return o == this || m.equbls(o); }
+        public int hbshCode()                  { return m.hbshCode(); }
         public String toString()               { return m.toString(); }
 
-        public V put(K key, V value) {
-            typeCheck(key, value);
-            return m.put(key, value);
+        public V put(K key, V vblue) {
+            typeCheck(key, vblue);
+            return m.put(key, vblue);
         }
 
-        @SuppressWarnings("unchecked")
-        public void putAll(Map<? extends K, ? extends V> t) {
-            // Satisfy the following goals:
-            // - good diagnostics in case of type mismatch
-            // - all-or-nothing semantics
-            // - protection from malicious t
-            // - correct behavior if t is a concurrent map
-            Object[] entries = t.entrySet().toArray();
-            List<Map.Entry<K,V>> checked = new ArrayList<>(entries.length);
+        @SuppressWbrnings("unchecked")
+        public void putAll(Mbp<? extends K, ? extends V> t) {
+            // Sbtisfy the following gobls:
+            // - good dibgnostics in cbse of type mismbtch
+            // - bll-or-nothing sembntics
+            // - protection from mblicious t
+            // - correct behbvior if t is b concurrent mbp
+            Object[] entries = t.entrySet().toArrby();
+            List<Mbp.Entry<K,V>> checked = new ArrbyList<>(entries.length);
             for (Object o : entries) {
-                Map.Entry<?,?> e = (Map.Entry<?,?>) o;
+                Mbp.Entry<?,?> e = (Mbp.Entry<?,?>) o;
                 Object k = e.getKey();
-                Object v = e.getValue();
+                Object v = e.getVblue();
                 typeCheck(k, v);
-                checked.add(
-                        new AbstractMap.SimpleImmutableEntry<>((K)k, (V)v));
+                checked.bdd(
+                        new AbstrbctMbp.SimpleImmutbbleEntry<>((K)k, (V)v));
             }
-            for (Map.Entry<K,V> e : checked)
-                m.put(e.getKey(), e.getValue());
+            for (Mbp.Entry<K,V> e : checked)
+                m.put(e.getKey(), e.getVblue());
         }
 
-        private transient Set<Map.Entry<K,V>> entrySet;
+        privbte trbnsient Set<Mbp.Entry<K,V>> entrySet;
 
-        public Set<Map.Entry<K,V>> entrySet() {
+        public Set<Mbp.Entry<K,V>> entrySet() {
             if (entrySet==null)
-                entrySet = new CheckedEntrySet<>(m.entrySet(), valueType);
+                entrySet = new CheckedEntrySet<>(m.entrySet(), vblueType);
             return entrySet;
         }
 
-        // Override default methods in Map
+        // Override defbult methods in Mbp
         @Override
-        public void forEach(BiConsumer<? super K, ? super V> action) {
-            m.forEach(action);
+        public void forEbch(BiConsumer<? super K, ? super V> bction) {
+            m.forEbch(bction);
         }
 
         @Override
-        public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
-            m.replaceAll(typeCheck(function));
+        public void replbceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+            m.replbceAll(typeCheck(function));
         }
 
         @Override
-        public V putIfAbsent(K key, V value) {
-            typeCheck(key, value);
-            return m.putIfAbsent(key, value);
+        public V putIfAbsent(K key, V vblue) {
+            typeCheck(key, vblue);
+            return m.putIfAbsent(key, vblue);
         }
 
         @Override
-        public boolean remove(Object key, Object value) {
-            return m.remove(key, value);
+        public boolebn remove(Object key, Object vblue) {
+            return m.remove(key, vblue);
         }
 
         @Override
-        public boolean replace(K key, V oldValue, V newValue) {
-            typeCheck(key, newValue);
-            return m.replace(key, oldValue, newValue);
+        public boolebn replbce(K key, V oldVblue, V newVblue) {
+            typeCheck(key, newVblue);
+            return m.replbce(key, oldVblue, newVblue);
         }
 
         @Override
-        public V replace(K key, V value) {
-            typeCheck(key, value);
-            return m.replace(key, value);
+        public V replbce(K key, V vblue) {
+            typeCheck(key, vblue);
+            return m.replbce(key, vblue);
         }
 
         @Override
         public V computeIfAbsent(K key,
-                Function<? super K, ? extends V> mappingFunction) {
-            Objects.requireNonNull(mappingFunction);
+                Function<? super K, ? extends V> mbppingFunction) {
+            Objects.requireNonNull(mbppingFunction);
             return m.computeIfAbsent(key, k -> {
-                V value = mappingFunction.apply(k);
-                typeCheck(k, value);
-                return value;
+                V vblue = mbppingFunction.bpply(k);
+                typeCheck(k, vblue);
+                return vblue;
             });
         }
 
         @Override
         public V computeIfPresent(K key,
-                BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            return m.computeIfPresent(key, typeCheck(remappingFunction));
+                BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+            return m.computeIfPresent(key, typeCheck(rembppingFunction));
         }
 
         @Override
         public V compute(K key,
-                BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            return m.compute(key, typeCheck(remappingFunction));
+                BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+            return m.compute(key, typeCheck(rembppingFunction));
         }
 
         @Override
-        public V merge(K key, V value,
-                BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
-            Objects.requireNonNull(remappingFunction);
-            return m.merge(key, value, (v1, v2) -> {
-                V newValue = remappingFunction.apply(v1, v2);
-                typeCheck(null, newValue);
-                return newValue;
+        public V merge(K key, V vblue,
+                BiFunction<? super V, ? super V, ? extends V> rembppingFunction) {
+            Objects.requireNonNull(rembppingFunction);
+            return m.merge(key, vblue, (v1, v2) -> {
+                V newVblue = rembppingFunction.bpply(v1, v2);
+                typeCheck(null, newVblue);
+                return newVblue;
             });
         }
 
         /**
-         * We need this class in addition to CheckedSet as Map.Entry permits
-         * modification of the backing Map via the setValue operation.  This
-         * class is subtle: there are many possible attacks that must be
-         * thwarted.
+         * We need this clbss in bddition to CheckedSet bs Mbp.Entry permits
+         * modificbtion of the bbcking Mbp vib the setVblue operbtion.  This
+         * clbss is subtle: there bre mbny possible bttbcks thbt must be
+         * thwbrted.
          *
-         * @serial exclude
+         * @seribl exclude
          */
-        static class CheckedEntrySet<K,V> implements Set<Map.Entry<K,V>> {
-            private final Set<Map.Entry<K,V>> s;
-            private final Class<V> valueType;
+        stbtic clbss CheckedEntrySet<K,V> implements Set<Mbp.Entry<K,V>> {
+            privbte finbl Set<Mbp.Entry<K,V>> s;
+            privbte finbl Clbss<V> vblueType;
 
-            CheckedEntrySet(Set<Map.Entry<K, V>> s, Class<V> valueType) {
+            CheckedEntrySet(Set<Mbp.Entry<K, V>> s, Clbss<V> vblueType) {
                 this.s = s;
-                this.valueType = valueType;
+                this.vblueType = vblueType;
             }
 
             public int size()        { return s.size(); }
-            public boolean isEmpty() { return s.isEmpty(); }
+            public boolebn isEmpty() { return s.isEmpty(); }
             public String toString() { return s.toString(); }
-            public int hashCode()    { return s.hashCode(); }
-            public void clear()      {        s.clear(); }
+            public int hbshCode()    { return s.hbshCode(); }
+            public void clebr()      {        s.clebr(); }
 
-            public boolean add(Map.Entry<K, V> e) {
-                throw new UnsupportedOperationException();
+            public boolebn bdd(Mbp.Entry<K, V> e) {
+                throw new UnsupportedOperbtionException();
             }
-            public boolean addAll(Collection<? extends Map.Entry<K, V>> coll) {
-                throw new UnsupportedOperationException();
+            public boolebn bddAll(Collection<? extends Mbp.Entry<K, V>> coll) {
+                throw new UnsupportedOperbtionException();
             }
 
-            public Iterator<Map.Entry<K,V>> iterator() {
-                final Iterator<Map.Entry<K, V>> i = s.iterator();
-                final Class<V> valueType = this.valueType;
+            public Iterbtor<Mbp.Entry<K,V>> iterbtor() {
+                finbl Iterbtor<Mbp.Entry<K, V>> i = s.iterbtor();
+                finbl Clbss<V> vblueType = this.vblueType;
 
-                return new Iterator<Map.Entry<K,V>>() {
-                    public boolean hasNext() { return i.hasNext(); }
+                return new Iterbtor<Mbp.Entry<K,V>>() {
+                    public boolebn hbsNext() { return i.hbsNext(); }
                     public void remove()     { i.remove(); }
 
-                    public Map.Entry<K,V> next() {
-                        return checkedEntry(i.next(), valueType);
+                    public Mbp.Entry<K,V> next() {
+                        return checkedEntry(i.next(), vblueType);
                     }
                 };
             }
 
-            @SuppressWarnings("unchecked")
-            public Object[] toArray() {
-                Object[] source = s.toArray();
+            @SuppressWbrnings("unchecked")
+            public Object[] toArrby() {
+                Object[] source = s.toArrby();
 
                 /*
-                 * Ensure that we don't get an ArrayStoreException even if
-                 * s.toArray returns an array of something other than Object
+                 * Ensure thbt we don't get bn ArrbyStoreException even if
+                 * s.toArrby returns bn brrby of something other thbn Object
                  */
-                Object[] dest = (CheckedEntry.class.isInstance(
-                    source.getClass().getComponentType()) ? source :
+                Object[] dest = (CheckedEntry.clbss.isInstbnce(
+                    source.getClbss().getComponentType()) ? source :
                                  new Object[source.length]);
 
                 for (int i = 0; i < source.length; i++)
-                    dest[i] = checkedEntry((Map.Entry<K,V>)source[i],
-                                           valueType);
+                    dest[i] = checkedEntry((Mbp.Entry<K,V>)source[i],
+                                           vblueType);
                 return dest;
             }
 
-            @SuppressWarnings("unchecked")
-            public <T> T[] toArray(T[] a) {
-                // We don't pass a to s.toArray, to avoid window of
-                // vulnerability wherein an unscrupulous multithreaded client
-                // could get his hands on raw (unwrapped) Entries from s.
-                T[] arr = s.toArray(a.length==0 ? a : Arrays.copyOf(a, 0));
+            @SuppressWbrnings("unchecked")
+            public <T> T[] toArrby(T[] b) {
+                // We don't pbss b to s.toArrby, to bvoid window of
+                // vulnerbbility wherein bn unscrupulous multithrebded client
+                // could get his hbnds on rbw (unwrbpped) Entries from s.
+                T[] brr = s.toArrby(b.length==0 ? b : Arrbys.copyOf(b, 0));
 
-                for (int i=0; i<arr.length; i++)
-                    arr[i] = (T) checkedEntry((Map.Entry<K,V>)arr[i],
-                                              valueType);
-                if (arr.length > a.length)
-                    return arr;
+                for (int i=0; i<brr.length; i++)
+                    brr[i] = (T) checkedEntry((Mbp.Entry<K,V>)brr[i],
+                                              vblueType);
+                if (brr.length > b.length)
+                    return brr;
 
-                System.arraycopy(arr, 0, a, 0, arr.length);
-                if (a.length > arr.length)
-                    a[arr.length] = null;
-                return a;
+                System.brrbycopy(brr, 0, b, 0, brr.length);
+                if (b.length > brr.length)
+                    b[brr.length] = null;
+                return b;
             }
 
             /**
-             * This method is overridden to protect the backing set against
-             * an object with a nefarious equals function that senses
-             * that the equality-candidate is Map.Entry and calls its
-             * setValue method.
+             * This method is overridden to protect the bbcking set bgbinst
+             * bn object with b nefbrious equbls function thbt senses
+             * thbt the equblity-cbndidbte is Mbp.Entry bnd cblls its
+             * setVblue method.
              */
-            public boolean contains(Object o) {
-                if (!(o instanceof Map.Entry))
-                    return false;
-                Map.Entry<?,?> e = (Map.Entry<?,?>) o;
-                return s.contains(
-                    (e instanceof CheckedEntry) ? e : checkedEntry(e, valueType));
+            public boolebn contbins(Object o) {
+                if (!(o instbnceof Mbp.Entry))
+                    return fblse;
+                Mbp.Entry<?,?> e = (Mbp.Entry<?,?>) o;
+                return s.contbins(
+                    (e instbnceof CheckedEntry) ? e : checkedEntry(e, vblueType));
             }
 
             /**
-             * The bulk collection methods are overridden to protect
-             * against an unscrupulous collection whose contains(Object o)
-             * method senses when o is a Map.Entry, and calls o.setValue.
+             * The bulk collection methods bre overridden to protect
+             * bgbinst bn unscrupulous collection whose contbins(Object o)
+             * method senses when o is b Mbp.Entry, bnd cblls o.setVblue.
              */
-            public boolean containsAll(Collection<?> c) {
+            public boolebn contbinsAll(Collection<?> c) {
                 for (Object o : c)
-                    if (!contains(o)) // Invokes safe contains() above
-                        return false;
+                    if (!contbins(o)) // Invokes sbfe contbins() bbove
+                        return fblse;
                 return true;
             }
 
-            public boolean remove(Object o) {
-                if (!(o instanceof Map.Entry))
-                    return false;
-                return s.remove(new AbstractMap.SimpleImmutableEntry
-                                <>((Map.Entry<?,?>)o));
+            public boolebn remove(Object o) {
+                if (!(o instbnceof Mbp.Entry))
+                    return fblse;
+                return s.remove(new AbstrbctMbp.SimpleImmutbbleEntry
+                                <>((Mbp.Entry<?,?>)o));
             }
 
-            public boolean removeAll(Collection<?> c) {
-                return batchRemove(c, false);
+            public boolebn removeAll(Collection<?> c) {
+                return bbtchRemove(c, fblse);
             }
-            public boolean retainAll(Collection<?> c) {
-                return batchRemove(c, true);
+            public boolebn retbinAll(Collection<?> c) {
+                return bbtchRemove(c, true);
             }
-            private boolean batchRemove(Collection<?> c, boolean complement) {
+            privbte boolebn bbtchRemove(Collection<?> c, boolebn complement) {
                 Objects.requireNonNull(c);
-                boolean modified = false;
-                Iterator<Map.Entry<K,V>> it = iterator();
-                while (it.hasNext()) {
-                    if (c.contains(it.next()) != complement) {
+                boolebn modified = fblse;
+                Iterbtor<Mbp.Entry<K,V>> it = iterbtor();
+                while (it.hbsNext()) {
+                    if (c.contbins(it.next()) != complement) {
                         it.remove();
                         modified = true;
                     }
@@ -3851,205 +3851,205 @@ public class Collections {
                 return modified;
             }
 
-            public boolean equals(Object o) {
+            public boolebn equbls(Object o) {
                 if (o == this)
                     return true;
-                if (!(o instanceof Set))
-                    return false;
-                Set<?> that = (Set<?>) o;
-                return that.size() == s.size()
-                    && containsAll(that); // Invokes safe containsAll() above
+                if (!(o instbnceof Set))
+                    return fblse;
+                Set<?> thbt = (Set<?>) o;
+                return thbt.size() == s.size()
+                    && contbinsAll(thbt); // Invokes sbfe contbinsAll() bbove
             }
 
-            static <K,V,T> CheckedEntry<K,V,T> checkedEntry(Map.Entry<K,V> e,
-                                                            Class<T> valueType) {
-                return new CheckedEntry<>(e, valueType);
+            stbtic <K,V,T> CheckedEntry<K,V,T> checkedEntry(Mbp.Entry<K,V> e,
+                                                            Clbss<T> vblueType) {
+                return new CheckedEntry<>(e, vblueType);
             }
 
             /**
-             * This "wrapper class" serves two purposes: it prevents
-             * the client from modifying the backing Map, by short-circuiting
-             * the setValue method, and it protects the backing Map against
-             * an ill-behaved Map.Entry that attempts to modify another
-             * Map.Entry when asked to perform an equality check.
+             * This "wrbpper clbss" serves two purposes: it prevents
+             * the client from modifying the bbcking Mbp, by short-circuiting
+             * the setVblue method, bnd it protects the bbcking Mbp bgbinst
+             * bn ill-behbved Mbp.Entry thbt bttempts to modify bnother
+             * Mbp.Entry when bsked to perform bn equblity check.
              */
-            private static class CheckedEntry<K,V,T> implements Map.Entry<K,V> {
-                private final Map.Entry<K, V> e;
-                private final Class<T> valueType;
+            privbte stbtic clbss CheckedEntry<K,V,T> implements Mbp.Entry<K,V> {
+                privbte finbl Mbp.Entry<K, V> e;
+                privbte finbl Clbss<T> vblueType;
 
-                CheckedEntry(Map.Entry<K, V> e, Class<T> valueType) {
+                CheckedEntry(Mbp.Entry<K, V> e, Clbss<T> vblueType) {
                     this.e = Objects.requireNonNull(e);
-                    this.valueType = Objects.requireNonNull(valueType);
+                    this.vblueType = Objects.requireNonNull(vblueType);
                 }
 
                 public K getKey()        { return e.getKey(); }
-                public V getValue()      { return e.getValue(); }
-                public int hashCode()    { return e.hashCode(); }
+                public V getVblue()      { return e.getVblue(); }
+                public int hbshCode()    { return e.hbshCode(); }
                 public String toString() { return e.toString(); }
 
-                public V setValue(V value) {
-                    if (value != null && !valueType.isInstance(value))
-                        throw new ClassCastException(badValueMsg(value));
-                    return e.setValue(value);
+                public V setVblue(V vblue) {
+                    if (vblue != null && !vblueType.isInstbnce(vblue))
+                        throw new ClbssCbstException(bbdVblueMsg(vblue));
+                    return e.setVblue(vblue);
                 }
 
-                private String badValueMsg(Object value) {
-                    return "Attempt to insert " + value.getClass() +
-                        " value into map with value type " + valueType;
+                privbte String bbdVblueMsg(Object vblue) {
+                    return "Attempt to insert " + vblue.getClbss() +
+                        " vblue into mbp with vblue type " + vblueType;
                 }
 
-                public boolean equals(Object o) {
+                public boolebn equbls(Object o) {
                     if (o == this)
                         return true;
-                    if (!(o instanceof Map.Entry))
-                        return false;
-                    return e.equals(new AbstractMap.SimpleImmutableEntry
-                                    <>((Map.Entry<?,?>)o));
+                    if (!(o instbnceof Mbp.Entry))
+                        return fblse;
+                    return e.equbls(new AbstrbctMbp.SimpleImmutbbleEntry
+                                    <>((Mbp.Entry<?,?>)o));
                 }
             }
         }
     }
 
     /**
-     * Returns a dynamically typesafe view of the specified sorted map.
-     * Any attempt to insert a mapping whose key or value have the wrong
-     * type will result in an immediate {@link ClassCastException}.
-     * Similarly, any attempt to modify the value currently associated with
-     * a key will result in an immediate {@link ClassCastException},
-     * whether the modification is attempted directly through the map
-     * itself, or through a {@link Map.Entry} instance obtained from the
-     * map's {@link Map#entrySet() entry set} view.
+     * Returns b dynbmicblly typesbfe view of the specified sorted mbp.
+     * Any bttempt to insert b mbpping whose key or vblue hbve the wrong
+     * type will result in bn immedibte {@link ClbssCbstException}.
+     * Similbrly, bny bttempt to modify the vblue currently bssocibted with
+     * b key will result in bn immedibte {@link ClbssCbstException},
+     * whether the modificbtion is bttempted directly through the mbp
+     * itself, or through b {@link Mbp.Entry} instbnce obtbined from the
+     * mbp's {@link Mbp#entrySet() entry set} view.
      *
-     * <p>Assuming a map contains no incorrectly typed keys or values
-     * prior to the time a dynamically typesafe view is generated, and
-     * that all subsequent access to the map takes place through the view
-     * (or one of its collection views), it is <i>guaranteed</i> that the
-     * map cannot contain an incorrectly typed key or value.
+     * <p>Assuming b mbp contbins no incorrectly typed keys or vblues
+     * prior to the time b dynbmicblly typesbfe view is generbted, bnd
+     * thbt bll subsequent bccess to the mbp tbkes plbce through the view
+     * (or one of its collection views), it is <i>gubrbnteed</i> thbt the
+     * mbp cbnnot contbin bn incorrectly typed key or vblue.
      *
-     * <p>A discussion of the use of dynamically typesafe views may be
-     * found in the documentation for the {@link #checkedCollection
+     * <p>A discussion of the use of dynbmicblly typesbfe views mby be
+     * found in the documentbtion for the {@link #checkedCollection
      * checkedCollection} method.
      *
-     * <p>The returned map will be serializable if the specified map is
-     * serializable.
+     * <p>The returned mbp will be seriblizbble if the specified mbp is
+     * seriblizbble.
      *
-     * <p>Since {@code null} is considered to be a value of any reference
-     * type, the returned map permits insertion of null keys or values
-     * whenever the backing map does.
+     * <p>Since {@code null} is considered to be b vblue of bny reference
+     * type, the returned mbp permits insertion of null keys or vblues
+     * whenever the bbcking mbp does.
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
-     * @param m the map for which a dynamically typesafe view is to be
+     * @pbrbm <K> the clbss of the mbp keys
+     * @pbrbm <V> the clbss of the mbp vblues
+     * @pbrbm m the mbp for which b dynbmicblly typesbfe view is to be
      *          returned
-     * @param keyType the type of key that {@code m} is permitted to hold
-     * @param valueType the type of value that {@code m} is permitted to hold
-     * @return a dynamically typesafe view of the specified map
+     * @pbrbm keyType the type of key thbt {@code m} is permitted to hold
+     * @pbrbm vblueType the type of vblue thbt {@code m} is permitted to hold
+     * @return b dynbmicblly typesbfe view of the specified mbp
      * @since 1.5
      */
-    public static <K,V> SortedMap<K,V> checkedSortedMap(SortedMap<K, V> m,
-                                                        Class<K> keyType,
-                                                        Class<V> valueType) {
-        return new CheckedSortedMap<>(m, keyType, valueType);
+    public stbtic <K,V> SortedMbp<K,V> checkedSortedMbp(SortedMbp<K, V> m,
+                                                        Clbss<K> keyType,
+                                                        Clbss<V> vblueType) {
+        return new CheckedSortedMbp<>(m, keyType, vblueType);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class CheckedSortedMap<K,V> extends CheckedMap<K,V>
-        implements SortedMap<K,V>, Serializable
+    stbtic clbss CheckedSortedMbp<K,V> extends CheckedMbp<K,V>
+        implements SortedMbp<K,V>, Seriblizbble
     {
-        private static final long serialVersionUID = 1599671320688067438L;
+        privbte stbtic finbl long seriblVersionUID = 1599671320688067438L;
 
-        private final SortedMap<K, V> sm;
+        privbte finbl SortedMbp<K, V> sm;
 
-        CheckedSortedMap(SortedMap<K, V> m,
-                         Class<K> keyType, Class<V> valueType) {
-            super(m, keyType, valueType);
+        CheckedSortedMbp(SortedMbp<K, V> m,
+                         Clbss<K> keyType, Clbss<V> vblueType) {
+            super(m, keyType, vblueType);
             sm = m;
         }
 
-        public Comparator<? super K> comparator() { return sm.comparator(); }
+        public Compbrbtor<? super K> compbrbtor() { return sm.compbrbtor(); }
         public K firstKey()                       { return sm.firstKey(); }
-        public K lastKey()                        { return sm.lastKey(); }
+        public K lbstKey()                        { return sm.lbstKey(); }
 
-        public SortedMap<K,V> subMap(K fromKey, K toKey) {
-            return checkedSortedMap(sm.subMap(fromKey, toKey),
-                                    keyType, valueType);
+        public SortedMbp<K,V> subMbp(K fromKey, K toKey) {
+            return checkedSortedMbp(sm.subMbp(fromKey, toKey),
+                                    keyType, vblueType);
         }
-        public SortedMap<K,V> headMap(K toKey) {
-            return checkedSortedMap(sm.headMap(toKey), keyType, valueType);
+        public SortedMbp<K,V> hebdMbp(K toKey) {
+            return checkedSortedMbp(sm.hebdMbp(toKey), keyType, vblueType);
         }
-        public SortedMap<K,V> tailMap(K fromKey) {
-            return checkedSortedMap(sm.tailMap(fromKey), keyType, valueType);
+        public SortedMbp<K,V> tbilMbp(K fromKey) {
+            return checkedSortedMbp(sm.tbilMbp(fromKey), keyType, vblueType);
         }
     }
 
     /**
-     * Returns a dynamically typesafe view of the specified navigable map.
-     * Any attempt to insert a mapping whose key or value have the wrong
-     * type will result in an immediate {@link ClassCastException}.
-     * Similarly, any attempt to modify the value currently associated with
-     * a key will result in an immediate {@link ClassCastException},
-     * whether the modification is attempted directly through the map
-     * itself, or through a {@link Map.Entry} instance obtained from the
-     * map's {@link Map#entrySet() entry set} view.
+     * Returns b dynbmicblly typesbfe view of the specified nbvigbble mbp.
+     * Any bttempt to insert b mbpping whose key or vblue hbve the wrong
+     * type will result in bn immedibte {@link ClbssCbstException}.
+     * Similbrly, bny bttempt to modify the vblue currently bssocibted with
+     * b key will result in bn immedibte {@link ClbssCbstException},
+     * whether the modificbtion is bttempted directly through the mbp
+     * itself, or through b {@link Mbp.Entry} instbnce obtbined from the
+     * mbp's {@link Mbp#entrySet() entry set} view.
      *
-     * <p>Assuming a map contains no incorrectly typed keys or values
-     * prior to the time a dynamically typesafe view is generated, and
-     * that all subsequent access to the map takes place through the view
-     * (or one of its collection views), it is <em>guaranteed</em> that the
-     * map cannot contain an incorrectly typed key or value.
+     * <p>Assuming b mbp contbins no incorrectly typed keys or vblues
+     * prior to the time b dynbmicblly typesbfe view is generbted, bnd
+     * thbt bll subsequent bccess to the mbp tbkes plbce through the view
+     * (or one of its collection views), it is <em>gubrbnteed</em> thbt the
+     * mbp cbnnot contbin bn incorrectly typed key or vblue.
      *
-     * <p>A discussion of the use of dynamically typesafe views may be
-     * found in the documentation for the {@link #checkedCollection
+     * <p>A discussion of the use of dynbmicblly typesbfe views mby be
+     * found in the documentbtion for the {@link #checkedCollection
      * checkedCollection} method.
      *
-     * <p>The returned map will be serializable if the specified map is
-     * serializable.
+     * <p>The returned mbp will be seriblizbble if the specified mbp is
+     * seriblizbble.
      *
-     * <p>Since {@code null} is considered to be a value of any reference
-     * type, the returned map permits insertion of null keys or values
-     * whenever the backing map does.
+     * <p>Since {@code null} is considered to be b vblue of bny reference
+     * type, the returned mbp permits insertion of null keys or vblues
+     * whenever the bbcking mbp does.
      *
-     * @param <K> type of map keys
-     * @param <V> type of map values
-     * @param m the map for which a dynamically typesafe view is to be
+     * @pbrbm <K> type of mbp keys
+     * @pbrbm <V> type of mbp vblues
+     * @pbrbm m the mbp for which b dynbmicblly typesbfe view is to be
      *          returned
-     * @param keyType the type of key that {@code m} is permitted to hold
-     * @param valueType the type of value that {@code m} is permitted to hold
-     * @return a dynamically typesafe view of the specified map
+     * @pbrbm keyType the type of key thbt {@code m} is permitted to hold
+     * @pbrbm vblueType the type of vblue thbt {@code m} is permitted to hold
+     * @return b dynbmicblly typesbfe view of the specified mbp
      * @since 1.8
      */
-    public static <K,V> NavigableMap<K,V> checkedNavigableMap(NavigableMap<K, V> m,
-                                                        Class<K> keyType,
-                                                        Class<V> valueType) {
-        return new CheckedNavigableMap<>(m, keyType, valueType);
+    public stbtic <K,V> NbvigbbleMbp<K,V> checkedNbvigbbleMbp(NbvigbbleMbp<K, V> m,
+                                                        Clbss<K> keyType,
+                                                        Clbss<V> vblueType) {
+        return new CheckedNbvigbbleMbp<>(m, keyType, vblueType);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class CheckedNavigableMap<K,V> extends CheckedSortedMap<K,V>
-        implements NavigableMap<K,V>, Serializable
+    stbtic clbss CheckedNbvigbbleMbp<K,V> extends CheckedSortedMbp<K,V>
+        implements NbvigbbleMbp<K,V>, Seriblizbble
     {
-        private static final long serialVersionUID = -4852462692372534096L;
+        privbte stbtic finbl long seriblVersionUID = -4852462692372534096L;
 
-        private final NavigableMap<K, V> nm;
+        privbte finbl NbvigbbleMbp<K, V> nm;
 
-        CheckedNavigableMap(NavigableMap<K, V> m,
-                         Class<K> keyType, Class<V> valueType) {
-            super(m, keyType, valueType);
+        CheckedNbvigbbleMbp(NbvigbbleMbp<K, V> m,
+                         Clbss<K> keyType, Clbss<V> vblueType) {
+            super(m, keyType, vblueType);
             nm = m;
         }
 
-        public Comparator<? super K> comparator()   { return nm.comparator(); }
+        public Compbrbtor<? super K> compbrbtor()   { return nm.compbrbtor(); }
         public K firstKey()                           { return nm.firstKey(); }
-        public K lastKey()                             { return nm.lastKey(); }
+        public K lbstKey()                             { return nm.lbstKey(); }
 
         public Entry<K, V> lowerEntry(K key) {
             Entry<K,V> lower = nm.lowerEntry(key);
             return (null != lower)
-                ? new CheckedMap.CheckedEntrySet.CheckedEntry<>(lower, valueType)
+                ? new CheckedMbp.CheckedEntrySet.CheckedEntry<>(lower, vblueType)
                 : null;
         }
 
@@ -4058,7 +4058,7 @@ public class Collections {
         public Entry<K, V> floorEntry(K key) {
             Entry<K,V> floor = nm.floorEntry(key);
             return (null != floor)
-                ? new CheckedMap.CheckedEntrySet.CheckedEntry<>(floor, valueType)
+                ? new CheckedMbp.CheckedEntrySet.CheckedEntry<>(floor, vblueType)
                 : null;
         }
 
@@ -4067,7 +4067,7 @@ public class Collections {
         public Entry<K, V> ceilingEntry(K key) {
             Entry<K,V> ceiling = nm.ceilingEntry(key);
             return (null != ceiling)
-                ? new CheckedMap.CheckedEntrySet.CheckedEntry<>(ceiling, valueType)
+                ? new CheckedMbp.CheckedEntrySet.CheckedEntry<>(ceiling, vblueType)
                 : null;
         }
 
@@ -4076,7 +4076,7 @@ public class Collections {
         public Entry<K, V> higherEntry(K key) {
             Entry<K,V> higher = nm.higherEntry(key);
             return (null != higher)
-                ? new CheckedMap.CheckedEntrySet.CheckedEntry<>(higher, valueType)
+                ? new CheckedMbp.CheckedEntrySet.CheckedEntry<>(higher, vblueType)
                 : null;
         }
 
@@ -4085,14 +4085,14 @@ public class Collections {
         public Entry<K, V> firstEntry() {
             Entry<K,V> first = nm.firstEntry();
             return (null != first)
-                ? new CheckedMap.CheckedEntrySet.CheckedEntry<>(first, valueType)
+                ? new CheckedMbp.CheckedEntrySet.CheckedEntry<>(first, vblueType)
                 : null;
         }
 
-        public Entry<K, V> lastEntry() {
-            Entry<K,V> last = nm.lastEntry();
-            return (null != last)
-                ? new CheckedMap.CheckedEntrySet.CheckedEntry<>(last, valueType)
+        public Entry<K, V> lbstEntry() {
+            Entry<K,V> lbst = nm.lbstEntry();
+            return (null != lbst)
+                ? new CheckedMbp.CheckedEntrySet.CheckedEntry<>(lbst, vblueType)
                 : null;
         }
 
@@ -4100,555 +4100,555 @@ public class Collections {
             Entry<K,V> entry = nm.pollFirstEntry();
             return (null == entry)
                 ? null
-                : new CheckedMap.CheckedEntrySet.CheckedEntry<>(entry, valueType);
+                : new CheckedMbp.CheckedEntrySet.CheckedEntry<>(entry, vblueType);
         }
 
-        public Entry<K, V> pollLastEntry() {
-            Entry<K,V> entry = nm.pollLastEntry();
+        public Entry<K, V> pollLbstEntry() {
+            Entry<K,V> entry = nm.pollLbstEntry();
             return (null == entry)
                 ? null
-                : new CheckedMap.CheckedEntrySet.CheckedEntry<>(entry, valueType);
+                : new CheckedMbp.CheckedEntrySet.CheckedEntry<>(entry, vblueType);
         }
 
-        public NavigableMap<K, V> descendingMap() {
-            return checkedNavigableMap(nm.descendingMap(), keyType, valueType);
+        public NbvigbbleMbp<K, V> descendingMbp() {
+            return checkedNbvigbbleMbp(nm.descendingMbp(), keyType, vblueType);
         }
 
-        public NavigableSet<K> keySet() {
-            return navigableKeySet();
+        public NbvigbbleSet<K> keySet() {
+            return nbvigbbleKeySet();
         }
 
-        public NavigableSet<K> navigableKeySet() {
-            return checkedNavigableSet(nm.navigableKeySet(), keyType);
+        public NbvigbbleSet<K> nbvigbbleKeySet() {
+            return checkedNbvigbbleSet(nm.nbvigbbleKeySet(), keyType);
         }
 
-        public NavigableSet<K> descendingKeySet() {
-            return checkedNavigableSet(nm.descendingKeySet(), keyType);
-        }
-
-        @Override
-        public NavigableMap<K,V> subMap(K fromKey, K toKey) {
-            return checkedNavigableMap(nm.subMap(fromKey, true, toKey, false),
-                                    keyType, valueType);
+        public NbvigbbleSet<K> descendingKeySet() {
+            return checkedNbvigbbleSet(nm.descendingKeySet(), keyType);
         }
 
         @Override
-        public NavigableMap<K,V> headMap(K toKey) {
-            return checkedNavigableMap(nm.headMap(toKey, false), keyType, valueType);
+        public NbvigbbleMbp<K,V> subMbp(K fromKey, K toKey) {
+            return checkedNbvigbbleMbp(nm.subMbp(fromKey, true, toKey, fblse),
+                                    keyType, vblueType);
         }
 
         @Override
-        public NavigableMap<K,V> tailMap(K fromKey) {
-            return checkedNavigableMap(nm.tailMap(fromKey, true), keyType, valueType);
+        public NbvigbbleMbp<K,V> hebdMbp(K toKey) {
+            return checkedNbvigbbleMbp(nm.hebdMbp(toKey, fblse), keyType, vblueType);
         }
 
-        public NavigableMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
-            return checkedNavigableMap(nm.subMap(fromKey, fromInclusive, toKey, toInclusive), keyType, valueType);
+        @Override
+        public NbvigbbleMbp<K,V> tbilMbp(K fromKey) {
+            return checkedNbvigbbleMbp(nm.tbilMbp(fromKey, true), keyType, vblueType);
         }
 
-        public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
-            return checkedNavigableMap(nm.headMap(toKey, inclusive), keyType, valueType);
+        public NbvigbbleMbp<K, V> subMbp(K fromKey, boolebn fromInclusive, K toKey, boolebn toInclusive) {
+            return checkedNbvigbbleMbp(nm.subMbp(fromKey, fromInclusive, toKey, toInclusive), keyType, vblueType);
         }
 
-        public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
-            return checkedNavigableMap(nm.tailMap(fromKey, inclusive), keyType, valueType);
+        public NbvigbbleMbp<K, V> hebdMbp(K toKey, boolebn inclusive) {
+            return checkedNbvigbbleMbp(nm.hebdMbp(toKey, inclusive), keyType, vblueType);
+        }
+
+        public NbvigbbleMbp<K, V> tbilMbp(K fromKey, boolebn inclusive) {
+            return checkedNbvigbbleMbp(nm.tbilMbp(fromKey, inclusive), keyType, vblueType);
         }
     }
 
     // Empty collections
 
     /**
-     * Returns an iterator that has no elements.  More precisely,
+     * Returns bn iterbtor thbt hbs no elements.  More precisely,
      *
      * <ul>
-     * <li>{@link Iterator#hasNext hasNext} always returns {@code
-     * false}.</li>
-     * <li>{@link Iterator#next next} always throws {@link
+     * <li>{@link Iterbtor#hbsNext hbsNext} blwbys returns {@code
+     * fblse}.</li>
+     * <li>{@link Iterbtor#next next} blwbys throws {@link
      * NoSuchElementException}.</li>
-     * <li>{@link Iterator#remove remove} always throws {@link
-     * IllegalStateException}.</li>
+     * <li>{@link Iterbtor#remove remove} blwbys throws {@link
+     * IllegblStbteException}.</li>
      * </ul>
      *
-     * <p>Implementations of this method are permitted, but not
-     * required, to return the same object from multiple invocations.
+     * <p>Implementbtions of this method bre permitted, but not
+     * required, to return the sbme object from multiple invocbtions.
      *
-     * @param <T> type of elements, if there were any, in the iterator
-     * @return an empty iterator
+     * @pbrbm <T> type of elements, if there were bny, in the iterbtor
+     * @return bn empty iterbtor
      * @since 1.7
      */
-    @SuppressWarnings("unchecked")
-    public static <T> Iterator<T> emptyIterator() {
-        return (Iterator<T>) EmptyIterator.EMPTY_ITERATOR;
+    @SuppressWbrnings("unchecked")
+    public stbtic <T> Iterbtor<T> emptyIterbtor() {
+        return (Iterbtor<T>) EmptyIterbtor.EMPTY_ITERATOR;
     }
 
-    private static class EmptyIterator<E> implements Iterator<E> {
-        static final EmptyIterator<Object> EMPTY_ITERATOR
-            = new EmptyIterator<>();
+    privbte stbtic clbss EmptyIterbtor<E> implements Iterbtor<E> {
+        stbtic finbl EmptyIterbtor<Object> EMPTY_ITERATOR
+            = new EmptyIterbtor<>();
 
-        public boolean hasNext() { return false; }
+        public boolebn hbsNext() { return fblse; }
         public E next() { throw new NoSuchElementException(); }
-        public void remove() { throw new IllegalStateException(); }
+        public void remove() { throw new IllegblStbteException(); }
         @Override
-        public void forEachRemaining(Consumer<? super E> action) {
-            Objects.requireNonNull(action);
+        public void forEbchRembining(Consumer<? super E> bction) {
+            Objects.requireNonNull(bction);
         }
     }
 
     /**
-     * Returns a list iterator that has no elements.  More precisely,
+     * Returns b list iterbtor thbt hbs no elements.  More precisely,
      *
      * <ul>
-     * <li>{@link Iterator#hasNext hasNext} and {@link
-     * ListIterator#hasPrevious hasPrevious} always return {@code
-     * false}.</li>
-     * <li>{@link Iterator#next next} and {@link ListIterator#previous
-     * previous} always throw {@link NoSuchElementException}.</li>
-     * <li>{@link Iterator#remove remove} and {@link ListIterator#set
-     * set} always throw {@link IllegalStateException}.</li>
-     * <li>{@link ListIterator#add add} always throws {@link
-     * UnsupportedOperationException}.</li>
-     * <li>{@link ListIterator#nextIndex nextIndex} always returns
+     * <li>{@link Iterbtor#hbsNext hbsNext} bnd {@link
+     * ListIterbtor#hbsPrevious hbsPrevious} blwbys return {@code
+     * fblse}.</li>
+     * <li>{@link Iterbtor#next next} bnd {@link ListIterbtor#previous
+     * previous} blwbys throw {@link NoSuchElementException}.</li>
+     * <li>{@link Iterbtor#remove remove} bnd {@link ListIterbtor#set
+     * set} blwbys throw {@link IllegblStbteException}.</li>
+     * <li>{@link ListIterbtor#bdd bdd} blwbys throws {@link
+     * UnsupportedOperbtionException}.</li>
+     * <li>{@link ListIterbtor#nextIndex nextIndex} blwbys returns
      * {@code 0}.</li>
-     * <li>{@link ListIterator#previousIndex previousIndex} always
+     * <li>{@link ListIterbtor#previousIndex previousIndex} blwbys
      * returns {@code -1}.</li>
      * </ul>
      *
-     * <p>Implementations of this method are permitted, but not
-     * required, to return the same object from multiple invocations.
+     * <p>Implementbtions of this method bre permitted, but not
+     * required, to return the sbme object from multiple invocbtions.
      *
-     * @param <T> type of elements, if there were any, in the iterator
-     * @return an empty list iterator
+     * @pbrbm <T> type of elements, if there were bny, in the iterbtor
+     * @return bn empty list iterbtor
      * @since 1.7
      */
-    @SuppressWarnings("unchecked")
-    public static <T> ListIterator<T> emptyListIterator() {
-        return (ListIterator<T>) EmptyListIterator.EMPTY_ITERATOR;
+    @SuppressWbrnings("unchecked")
+    public stbtic <T> ListIterbtor<T> emptyListIterbtor() {
+        return (ListIterbtor<T>) EmptyListIterbtor.EMPTY_ITERATOR;
     }
 
-    private static class EmptyListIterator<E>
-        extends EmptyIterator<E>
-        implements ListIterator<E>
+    privbte stbtic clbss EmptyListIterbtor<E>
+        extends EmptyIterbtor<E>
+        implements ListIterbtor<E>
     {
-        static final EmptyListIterator<Object> EMPTY_ITERATOR
-            = new EmptyListIterator<>();
+        stbtic finbl EmptyListIterbtor<Object> EMPTY_ITERATOR
+            = new EmptyListIterbtor<>();
 
-        public boolean hasPrevious() { return false; }
+        public boolebn hbsPrevious() { return fblse; }
         public E previous() { throw new NoSuchElementException(); }
         public int nextIndex()     { return 0; }
         public int previousIndex() { return -1; }
-        public void set(E e) { throw new IllegalStateException(); }
-        public void add(E e) { throw new UnsupportedOperationException(); }
+        public void set(E e) { throw new IllegblStbteException(); }
+        public void bdd(E e) { throw new UnsupportedOperbtionException(); }
     }
 
     /**
-     * Returns an enumeration that has no elements.  More precisely,
+     * Returns bn enumerbtion thbt hbs no elements.  More precisely,
      *
      * <ul>
-     * <li>{@link Enumeration#hasMoreElements hasMoreElements} always
-     * returns {@code false}.</li>
-     * <li> {@link Enumeration#nextElement nextElement} always throws
+     * <li>{@link Enumerbtion#hbsMoreElements hbsMoreElements} blwbys
+     * returns {@code fblse}.</li>
+     * <li> {@link Enumerbtion#nextElement nextElement} blwbys throws
      * {@link NoSuchElementException}.</li>
      * </ul>
      *
-     * <p>Implementations of this method are permitted, but not
-     * required, to return the same object from multiple invocations.
+     * <p>Implementbtions of this method bre permitted, but not
+     * required, to return the sbme object from multiple invocbtions.
      *
-     * @param  <T> the class of the objects in the enumeration
-     * @return an empty enumeration
+     * @pbrbm  <T> the clbss of the objects in the enumerbtion
+     * @return bn empty enumerbtion
      * @since 1.7
      */
-    @SuppressWarnings("unchecked")
-    public static <T> Enumeration<T> emptyEnumeration() {
-        return (Enumeration<T>) EmptyEnumeration.EMPTY_ENUMERATION;
+    @SuppressWbrnings("unchecked")
+    public stbtic <T> Enumerbtion<T> emptyEnumerbtion() {
+        return (Enumerbtion<T>) EmptyEnumerbtion.EMPTY_ENUMERATION;
     }
 
-    private static class EmptyEnumeration<E> implements Enumeration<E> {
-        static final EmptyEnumeration<Object> EMPTY_ENUMERATION
-            = new EmptyEnumeration<>();
+    privbte stbtic clbss EmptyEnumerbtion<E> implements Enumerbtion<E> {
+        stbtic finbl EmptyEnumerbtion<Object> EMPTY_ENUMERATION
+            = new EmptyEnumerbtion<>();
 
-        public boolean hasMoreElements() { return false; }
+        public boolebn hbsMoreElements() { return fblse; }
         public E nextElement() { throw new NoSuchElementException(); }
     }
 
     /**
-     * The empty set (immutable).  This set is serializable.
+     * The empty set (immutbble).  This set is seriblizbble.
      *
      * @see #emptySet()
      */
-    @SuppressWarnings("rawtypes")
-    public static final Set EMPTY_SET = new EmptySet<>();
+    @SuppressWbrnings("rbwtypes")
+    public stbtic finbl Set EMPTY_SET = new EmptySet<>();
 
     /**
-     * Returns an empty set (immutable).  This set is serializable.
-     * Unlike the like-named field, this method is parameterized.
+     * Returns bn empty set (immutbble).  This set is seriblizbble.
+     * Unlike the like-nbmed field, this method is pbrbmeterized.
      *
-     * <p>This example illustrates the type-safe way to obtain an empty set:
+     * <p>This exbmple illustrbtes the type-sbfe wby to obtbin bn empty set:
      * <pre>
      *     Set&lt;String&gt; s = Collections.emptySet();
      * </pre>
-     * @implNote Implementations of this method need not create a separate
-     * {@code Set} object for each call.  Using this method is likely to have
-     * comparable cost to using the like-named field.  (Unlike this method, the
-     * field does not provide type safety.)
+     * @implNote Implementbtions of this method need not crebte b sepbrbte
+     * {@code Set} object for ebch cbll.  Using this method is likely to hbve
+     * compbrbble cost to using the like-nbmed field.  (Unlike this method, the
+     * field does not provide type sbfety.)
      *
-     * @param  <T> the class of the objects in the set
+     * @pbrbm  <T> the clbss of the objects in the set
      * @return the empty set
      *
      * @see #EMPTY_SET
      * @since 1.5
      */
-    @SuppressWarnings("unchecked")
-    public static final <T> Set<T> emptySet() {
+    @SuppressWbrnings("unchecked")
+    public stbtic finbl <T> Set<T> emptySet() {
         return (Set<T>) EMPTY_SET;
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class EmptySet<E>
-        extends AbstractSet<E>
-        implements Serializable
+    privbte stbtic clbss EmptySet<E>
+        extends AbstrbctSet<E>
+        implements Seriblizbble
     {
-        private static final long serialVersionUID = 1582296315990362920L;
+        privbte stbtic finbl long seriblVersionUID = 1582296315990362920L;
 
-        public Iterator<E> iterator() { return emptyIterator(); }
+        public Iterbtor<E> iterbtor() { return emptyIterbtor(); }
 
         public int size() {return 0;}
-        public boolean isEmpty() {return true;}
+        public boolebn isEmpty() {return true;}
 
-        public boolean contains(Object obj) {return false;}
-        public boolean containsAll(Collection<?> c) { return c.isEmpty(); }
+        public boolebn contbins(Object obj) {return fblse;}
+        public boolebn contbinsAll(Collection<?> c) { return c.isEmpty(); }
 
-        public Object[] toArray() { return new Object[0]; }
+        public Object[] toArrby() { return new Object[0]; }
 
-        public <T> T[] toArray(T[] a) {
-            if (a.length > 0)
-                a[0] = null;
-            return a;
+        public <T> T[] toArrby(T[] b) {
+            if (b.length > 0)
+                b[0] = null;
+            return b;
         }
 
-        // Override default methods in Collection
+        // Override defbult methods in Collection
         @Override
-        public void forEach(Consumer<? super E> action) {
-            Objects.requireNonNull(action);
+        public void forEbch(Consumer<? super E> bction) {
+            Objects.requireNonNull(bction);
         }
         @Override
-        public boolean removeIf(Predicate<? super E> filter) {
+        public boolebn removeIf(Predicbte<? super E> filter) {
             Objects.requireNonNull(filter);
-            return false;
+            return fblse;
         }
         @Override
-        public Spliterator<E> spliterator() { return Spliterators.emptySpliterator(); }
+        public Spliterbtor<E> spliterbtor() { return Spliterbtors.emptySpliterbtor(); }
 
         // Preserves singleton property
-        private Object readResolve() {
+        privbte Object rebdResolve() {
             return EMPTY_SET;
         }
     }
 
     /**
-     * Returns an empty sorted set (immutable).  This set is serializable.
+     * Returns bn empty sorted set (immutbble).  This set is seriblizbble.
      *
-     * <p>This example illustrates the type-safe way to obtain an empty
+     * <p>This exbmple illustrbtes the type-sbfe wby to obtbin bn empty
      * sorted set:
      * <pre> {@code
      *     SortedSet<String> s = Collections.emptySortedSet();
      * }</pre>
      *
-     * @implNote Implementations of this method need not create a separate
-     * {@code SortedSet} object for each call.
+     * @implNote Implementbtions of this method need not crebte b sepbrbte
+     * {@code SortedSet} object for ebch cbll.
      *
-     * @param <E> type of elements, if there were any, in the set
+     * @pbrbm <E> type of elements, if there were bny, in the set
      * @return the empty sorted set
      * @since 1.8
      */
-    @SuppressWarnings("unchecked")
-    public static <E> SortedSet<E> emptySortedSet() {
-        return (SortedSet<E>) UnmodifiableNavigableSet.EMPTY_NAVIGABLE_SET;
+    @SuppressWbrnings("unchecked")
+    public stbtic <E> SortedSet<E> emptySortedSet() {
+        return (SortedSet<E>) UnmodifibbleNbvigbbleSet.EMPTY_NAVIGABLE_SET;
     }
 
     /**
-     * Returns an empty navigable set (immutable).  This set is serializable.
+     * Returns bn empty nbvigbble set (immutbble).  This set is seriblizbble.
      *
-     * <p>This example illustrates the type-safe way to obtain an empty
-     * navigable set:
+     * <p>This exbmple illustrbtes the type-sbfe wby to obtbin bn empty
+     * nbvigbble set:
      * <pre> {@code
-     *     NavigableSet<String> s = Collections.emptyNavigableSet();
+     *     NbvigbbleSet<String> s = Collections.emptyNbvigbbleSet();
      * }</pre>
      *
-     * @implNote Implementations of this method need not
-     * create a separate {@code NavigableSet} object for each call.
+     * @implNote Implementbtions of this method need not
+     * crebte b sepbrbte {@code NbvigbbleSet} object for ebch cbll.
      *
-     * @param <E> type of elements, if there were any, in the set
-     * @return the empty navigable set
+     * @pbrbm <E> type of elements, if there were bny, in the set
+     * @return the empty nbvigbble set
      * @since 1.8
      */
-    @SuppressWarnings("unchecked")
-    public static <E> NavigableSet<E> emptyNavigableSet() {
-        return (NavigableSet<E>) UnmodifiableNavigableSet.EMPTY_NAVIGABLE_SET;
+    @SuppressWbrnings("unchecked")
+    public stbtic <E> NbvigbbleSet<E> emptyNbvigbbleSet() {
+        return (NbvigbbleSet<E>) UnmodifibbleNbvigbbleSet.EMPTY_NAVIGABLE_SET;
     }
 
     /**
-     * The empty list (immutable).  This list is serializable.
+     * The empty list (immutbble).  This list is seriblizbble.
      *
      * @see #emptyList()
      */
-    @SuppressWarnings("rawtypes")
-    public static final List EMPTY_LIST = new EmptyList<>();
+    @SuppressWbrnings("rbwtypes")
+    public stbtic finbl List EMPTY_LIST = new EmptyList<>();
 
     /**
-     * Returns an empty list (immutable).  This list is serializable.
+     * Returns bn empty list (immutbble).  This list is seriblizbble.
      *
-     * <p>This example illustrates the type-safe way to obtain an empty list:
+     * <p>This exbmple illustrbtes the type-sbfe wby to obtbin bn empty list:
      * <pre>
      *     List&lt;String&gt; s = Collections.emptyList();
      * </pre>
      *
      * @implNote
-     * Implementations of this method need not create a separate <tt>List</tt>
-     * object for each call.   Using this method is likely to have comparable
-     * cost to using the like-named field.  (Unlike this method, the field does
-     * not provide type safety.)
+     * Implementbtions of this method need not crebte b sepbrbte <tt>List</tt>
+     * object for ebch cbll.   Using this method is likely to hbve compbrbble
+     * cost to using the like-nbmed field.  (Unlike this method, the field does
+     * not provide type sbfety.)
      *
-     * @param <T> type of elements, if there were any, in the list
-     * @return an empty immutable list
+     * @pbrbm <T> type of elements, if there were bny, in the list
+     * @return bn empty immutbble list
      *
      * @see #EMPTY_LIST
      * @since 1.5
      */
-    @SuppressWarnings("unchecked")
-    public static final <T> List<T> emptyList() {
+    @SuppressWbrnings("unchecked")
+    public stbtic finbl <T> List<T> emptyList() {
         return (List<T>) EMPTY_LIST;
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class EmptyList<E>
-        extends AbstractList<E>
-        implements RandomAccess, Serializable {
-        private static final long serialVersionUID = 8842843931221139166L;
+    privbte stbtic clbss EmptyList<E>
+        extends AbstrbctList<E>
+        implements RbndomAccess, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 8842843931221139166L;
 
-        public Iterator<E> iterator() {
-            return emptyIterator();
+        public Iterbtor<E> iterbtor() {
+            return emptyIterbtor();
         }
-        public ListIterator<E> listIterator() {
-            return emptyListIterator();
+        public ListIterbtor<E> listIterbtor() {
+            return emptyListIterbtor();
         }
 
         public int size() {return 0;}
-        public boolean isEmpty() {return true;}
+        public boolebn isEmpty() {return true;}
 
-        public boolean contains(Object obj) {return false;}
-        public boolean containsAll(Collection<?> c) { return c.isEmpty(); }
+        public boolebn contbins(Object obj) {return fblse;}
+        public boolebn contbinsAll(Collection<?> c) { return c.isEmpty(); }
 
-        public Object[] toArray() { return new Object[0]; }
+        public Object[] toArrby() { return new Object[0]; }
 
-        public <T> T[] toArray(T[] a) {
-            if (a.length > 0)
-                a[0] = null;
-            return a;
+        public <T> T[] toArrby(T[] b) {
+            if (b.length > 0)
+                b[0] = null;
+            return b;
         }
 
         public E get(int index) {
             throw new IndexOutOfBoundsException("Index: "+index);
         }
 
-        public boolean equals(Object o) {
-            return (o instanceof List) && ((List<?>)o).isEmpty();
+        public boolebn equbls(Object o) {
+            return (o instbnceof List) && ((List<?>)o).isEmpty();
         }
 
-        public int hashCode() { return 1; }
+        public int hbshCode() { return 1; }
 
         @Override
-        public boolean removeIf(Predicate<? super E> filter) {
+        public boolebn removeIf(Predicbte<? super E> filter) {
             Objects.requireNonNull(filter);
-            return false;
+            return fblse;
         }
         @Override
-        public void replaceAll(UnaryOperator<E> operator) {
-            Objects.requireNonNull(operator);
+        public void replbceAll(UnbryOperbtor<E> operbtor) {
+            Objects.requireNonNull(operbtor);
         }
         @Override
-        public void sort(Comparator<? super E> c) {
-        }
-
-        // Override default methods in Collection
-        @Override
-        public void forEach(Consumer<? super E> action) {
-            Objects.requireNonNull(action);
+        public void sort(Compbrbtor<? super E> c) {
         }
 
+        // Override defbult methods in Collection
         @Override
-        public Spliterator<E> spliterator() { return Spliterators.emptySpliterator(); }
+        public void forEbch(Consumer<? super E> bction) {
+            Objects.requireNonNull(bction);
+        }
+
+        @Override
+        public Spliterbtor<E> spliterbtor() { return Spliterbtors.emptySpliterbtor(); }
 
         // Preserves singleton property
-        private Object readResolve() {
+        privbte Object rebdResolve() {
             return EMPTY_LIST;
         }
     }
 
     /**
-     * The empty map (immutable).  This map is serializable.
+     * The empty mbp (immutbble).  This mbp is seriblizbble.
      *
-     * @see #emptyMap()
+     * @see #emptyMbp()
      * @since 1.3
      */
-    @SuppressWarnings("rawtypes")
-    public static final Map EMPTY_MAP = new EmptyMap<>();
+    @SuppressWbrnings("rbwtypes")
+    public stbtic finbl Mbp EMPTY_MAP = new EmptyMbp<>();
 
     /**
-     * Returns an empty map (immutable).  This map is serializable.
+     * Returns bn empty mbp (immutbble).  This mbp is seriblizbble.
      *
-     * <p>This example illustrates the type-safe way to obtain an empty map:
+     * <p>This exbmple illustrbtes the type-sbfe wby to obtbin bn empty mbp:
      * <pre>
-     *     Map&lt;String, Date&gt; s = Collections.emptyMap();
+     *     Mbp&lt;String, Dbte&gt; s = Collections.emptyMbp();
      * </pre>
-     * @implNote Implementations of this method need not create a separate
-     * {@code Map} object for each call.  Using this method is likely to have
-     * comparable cost to using the like-named field.  (Unlike this method, the
-     * field does not provide type safety.)
+     * @implNote Implementbtions of this method need not crebte b sepbrbte
+     * {@code Mbp} object for ebch cbll.  Using this method is likely to hbve
+     * compbrbble cost to using the like-nbmed field.  (Unlike this method, the
+     * field does not provide type sbfety.)
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
-     * @return an empty map
+     * @pbrbm <K> the clbss of the mbp keys
+     * @pbrbm <V> the clbss of the mbp vblues
+     * @return bn empty mbp
      * @see #EMPTY_MAP
      * @since 1.5
      */
-    @SuppressWarnings("unchecked")
-    public static final <K,V> Map<K,V> emptyMap() {
-        return (Map<K,V>) EMPTY_MAP;
+    @SuppressWbrnings("unchecked")
+    public stbtic finbl <K,V> Mbp<K,V> emptyMbp() {
+        return (Mbp<K,V>) EMPTY_MAP;
     }
 
     /**
-     * Returns an empty sorted map (immutable).  This map is serializable.
+     * Returns bn empty sorted mbp (immutbble).  This mbp is seriblizbble.
      *
-     * <p>This example illustrates the type-safe way to obtain an empty map:
+     * <p>This exbmple illustrbtes the type-sbfe wby to obtbin bn empty mbp:
      * <pre> {@code
-     *     SortedMap<String, Date> s = Collections.emptySortedMap();
+     *     SortedMbp<String, Dbte> s = Collections.emptySortedMbp();
      * }</pre>
      *
-     * @implNote Implementations of this method need not create a separate
-     * {@code SortedMap} object for each call.
+     * @implNote Implementbtions of this method need not crebte b sepbrbte
+     * {@code SortedMbp} object for ebch cbll.
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
-     * @return an empty sorted map
+     * @pbrbm <K> the clbss of the mbp keys
+     * @pbrbm <V> the clbss of the mbp vblues
+     * @return bn empty sorted mbp
      * @since 1.8
      */
-    @SuppressWarnings("unchecked")
-    public static final <K,V> SortedMap<K,V> emptySortedMap() {
-        return (SortedMap<K,V>) UnmodifiableNavigableMap.EMPTY_NAVIGABLE_MAP;
+    @SuppressWbrnings("unchecked")
+    public stbtic finbl <K,V> SortedMbp<K,V> emptySortedMbp() {
+        return (SortedMbp<K,V>) UnmodifibbleNbvigbbleMbp.EMPTY_NAVIGABLE_MAP;
     }
 
     /**
-     * Returns an empty navigable map (immutable).  This map is serializable.
+     * Returns bn empty nbvigbble mbp (immutbble).  This mbp is seriblizbble.
      *
-     * <p>This example illustrates the type-safe way to obtain an empty map:
+     * <p>This exbmple illustrbtes the type-sbfe wby to obtbin bn empty mbp:
      * <pre> {@code
-     *     NavigableMap<String, Date> s = Collections.emptyNavigableMap();
+     *     NbvigbbleMbp<String, Dbte> s = Collections.emptyNbvigbbleMbp();
      * }</pre>
      *
-     * @implNote Implementations of this method need not create a separate
-     * {@code NavigableMap} object for each call.
+     * @implNote Implementbtions of this method need not crebte b sepbrbte
+     * {@code NbvigbbleMbp} object for ebch cbll.
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
-     * @return an empty navigable map
+     * @pbrbm <K> the clbss of the mbp keys
+     * @pbrbm <V> the clbss of the mbp vblues
+     * @return bn empty nbvigbble mbp
      * @since 1.8
      */
-    @SuppressWarnings("unchecked")
-    public static final <K,V> NavigableMap<K,V> emptyNavigableMap() {
-        return (NavigableMap<K,V>) UnmodifiableNavigableMap.EMPTY_NAVIGABLE_MAP;
+    @SuppressWbrnings("unchecked")
+    public stbtic finbl <K,V> NbvigbbleMbp<K,V> emptyNbvigbbleMbp() {
+        return (NbvigbbleMbp<K,V>) UnmodifibbleNbvigbbleMbp.EMPTY_NAVIGABLE_MAP;
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class EmptyMap<K,V>
-        extends AbstractMap<K,V>
-        implements Serializable
+    privbte stbtic clbss EmptyMbp<K,V>
+        extends AbstrbctMbp<K,V>
+        implements Seriblizbble
     {
-        private static final long serialVersionUID = 6428348081105594320L;
+        privbte stbtic finbl long seriblVersionUID = 6428348081105594320L;
 
         public int size()                          {return 0;}
-        public boolean isEmpty()                   {return true;}
-        public boolean containsKey(Object key)     {return false;}
-        public boolean containsValue(Object value) {return false;}
+        public boolebn isEmpty()                   {return true;}
+        public boolebn contbinsKey(Object key)     {return fblse;}
+        public boolebn contbinsVblue(Object vblue) {return fblse;}
         public V get(Object key)                   {return null;}
         public Set<K> keySet()                     {return emptySet();}
-        public Collection<V> values()              {return emptySet();}
-        public Set<Map.Entry<K,V>> entrySet()      {return emptySet();}
+        public Collection<V> vblues()              {return emptySet();}
+        public Set<Mbp.Entry<K,V>> entrySet()      {return emptySet();}
 
-        public boolean equals(Object o) {
-            return (o instanceof Map) && ((Map<?,?>)o).isEmpty();
+        public boolebn equbls(Object o) {
+            return (o instbnceof Mbp) && ((Mbp<?,?>)o).isEmpty();
         }
 
-        public int hashCode()                      {return 0;}
+        public int hbshCode()                      {return 0;}
 
-        // Override default methods in Map
+        // Override defbult methods in Mbp
         @Override
-        @SuppressWarnings("unchecked")
-        public V getOrDefault(Object k, V defaultValue) {
-            return defaultValue;
-        }
-
-        @Override
-        public void forEach(BiConsumer<? super K, ? super V> action) {
-            Objects.requireNonNull(action);
+        @SuppressWbrnings("unchecked")
+        public V getOrDefbult(Object k, V defbultVblue) {
+            return defbultVblue;
         }
 
         @Override
-        public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+        public void forEbch(BiConsumer<? super K, ? super V> bction) {
+            Objects.requireNonNull(bction);
+        }
+
+        @Override
+        public void replbceAll(BiFunction<? super K, ? super V, ? extends V> function) {
             Objects.requireNonNull(function);
         }
 
         @Override
-        public V putIfAbsent(K key, V value) {
-            throw new UnsupportedOperationException();
+        public V putIfAbsent(K key, V vblue) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public boolean remove(Object key, Object value) {
-            throw new UnsupportedOperationException();
+        public boolebn remove(Object key, Object vblue) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public boolean replace(K key, V oldValue, V newValue) {
-            throw new UnsupportedOperationException();
+        public boolebn replbce(K key, V oldVblue, V newVblue) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public V replace(K key, V value) {
-            throw new UnsupportedOperationException();
+        public V replbce(K key, V vblue) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
         public V computeIfAbsent(K key,
-                Function<? super K, ? extends V> mappingFunction) {
-            throw new UnsupportedOperationException();
+                Function<? super K, ? extends V> mbppingFunction) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
         public V computeIfPresent(K key,
-                BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            throw new UnsupportedOperationException();
+                BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
         public V compute(K key,
-                BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            throw new UnsupportedOperationException();
+                BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public V merge(K key, V value,
-                BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
-            throw new UnsupportedOperationException();
+        public V merge(K key, V vblue,
+                BiFunction<? super V, ? super V, ? extends V> rembppingFunction) {
+            throw new UnsupportedOperbtionException();
         }
 
         // Preserves singleton property
-        private Object readResolve() {
+        privbte Object rebdResolve() {
             return EMPTY_MAP;
         }
     }
@@ -4656,159 +4656,159 @@ public class Collections {
     // Singleton collections
 
     /**
-     * Returns an immutable set containing only the specified object.
-     * The returned set is serializable.
+     * Returns bn immutbble set contbining only the specified object.
+     * The returned set is seriblizbble.
      *
-     * @param  <T> the class of the objects in the set
-     * @param o the sole object to be stored in the returned set.
-     * @return an immutable set containing only the specified object.
+     * @pbrbm  <T> the clbss of the objects in the set
+     * @pbrbm o the sole object to be stored in the returned set.
+     * @return bn immutbble set contbining only the specified object.
      */
-    public static <T> Set<T> singleton(T o) {
+    public stbtic <T> Set<T> singleton(T o) {
         return new SingletonSet<>(o);
     }
 
-    static <E> Iterator<E> singletonIterator(final E e) {
-        return new Iterator<E>() {
-            private boolean hasNext = true;
-            public boolean hasNext() {
-                return hasNext;
+    stbtic <E> Iterbtor<E> singletonIterbtor(finbl E e) {
+        return new Iterbtor<E>() {
+            privbte boolebn hbsNext = true;
+            public boolebn hbsNext() {
+                return hbsNext;
             }
             public E next() {
-                if (hasNext) {
-                    hasNext = false;
+                if (hbsNext) {
+                    hbsNext = fblse;
                     return e;
                 }
                 throw new NoSuchElementException();
             }
             public void remove() {
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperbtionException();
             }
             @Override
-            public void forEachRemaining(Consumer<? super E> action) {
-                Objects.requireNonNull(action);
-                if (hasNext) {
-                    action.accept(e);
-                    hasNext = false;
+            public void forEbchRembining(Consumer<? super E> bction) {
+                Objects.requireNonNull(bction);
+                if (hbsNext) {
+                    bction.bccept(e);
+                    hbsNext = fblse;
                 }
             }
         };
     }
 
     /**
-     * Creates a {@code Spliterator} with only the specified element
+     * Crebtes b {@code Spliterbtor} with only the specified element
      *
-     * @param <T> Type of elements
-     * @return A singleton {@code Spliterator}
+     * @pbrbm <T> Type of elements
+     * @return A singleton {@code Spliterbtor}
      */
-    static <T> Spliterator<T> singletonSpliterator(final T element) {
-        return new Spliterator<T>() {
+    stbtic <T> Spliterbtor<T> singletonSpliterbtor(finbl T element) {
+        return new Spliterbtor<T>() {
             long est = 1;
 
             @Override
-            public Spliterator<T> trySplit() {
+            public Spliterbtor<T> trySplit() {
                 return null;
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super T> consumer) {
+            public boolebn tryAdvbnce(Consumer<? super T> consumer) {
                 Objects.requireNonNull(consumer);
                 if (est > 0) {
                     est--;
-                    consumer.accept(element);
+                    consumer.bccept(element);
                     return true;
                 }
-                return false;
+                return fblse;
             }
 
             @Override
-            public void forEachRemaining(Consumer<? super T> consumer) {
-                tryAdvance(consumer);
+            public void forEbchRembining(Consumer<? super T> consumer) {
+                tryAdvbnce(consumer);
             }
 
             @Override
-            public long estimateSize() {
+            public long estimbteSize() {
                 return est;
             }
 
             @Override
-            public int characteristics() {
-                int value = (element != null) ? Spliterator.NONNULL : 0;
+            public int chbrbcteristics() {
+                int vblue = (element != null) ? Spliterbtor.NONNULL : 0;
 
-                return value | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.IMMUTABLE |
-                       Spliterator.DISTINCT | Spliterator.ORDERED;
+                return vblue | Spliterbtor.SIZED | Spliterbtor.SUBSIZED | Spliterbtor.IMMUTABLE |
+                       Spliterbtor.DISTINCT | Spliterbtor.ORDERED;
             }
         };
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class SingletonSet<E>
-        extends AbstractSet<E>
-        implements Serializable
+    privbte stbtic clbss SingletonSet<E>
+        extends AbstrbctSet<E>
+        implements Seriblizbble
     {
-        private static final long serialVersionUID = 3193687207550431679L;
+        privbte stbtic finbl long seriblVersionUID = 3193687207550431679L;
 
-        private final E element;
+        privbte finbl E element;
 
         SingletonSet(E e) {element = e;}
 
-        public Iterator<E> iterator() {
-            return singletonIterator(element);
+        public Iterbtor<E> iterbtor() {
+            return singletonIterbtor(element);
         }
 
         public int size() {return 1;}
 
-        public boolean contains(Object o) {return eq(o, element);}
+        public boolebn contbins(Object o) {return eq(o, element);}
 
-        // Override default methods for Collection
+        // Override defbult methods for Collection
         @Override
-        public void forEach(Consumer<? super E> action) {
-            action.accept(element);
+        public void forEbch(Consumer<? super E> bction) {
+            bction.bccept(element);
         }
         @Override
-        public Spliterator<E> spliterator() {
-            return singletonSpliterator(element);
+        public Spliterbtor<E> spliterbtor() {
+            return singletonSpliterbtor(element);
         }
         @Override
-        public boolean removeIf(Predicate<? super E> filter) {
-            throw new UnsupportedOperationException();
+        public boolebn removeIf(Predicbte<? super E> filter) {
+            throw new UnsupportedOperbtionException();
         }
     }
 
     /**
-     * Returns an immutable list containing only the specified object.
-     * The returned list is serializable.
+     * Returns bn immutbble list contbining only the specified object.
+     * The returned list is seriblizbble.
      *
-     * @param  <T> the class of the objects in the list
-     * @param o the sole object to be stored in the returned list.
-     * @return an immutable list containing only the specified object.
+     * @pbrbm  <T> the clbss of the objects in the list
+     * @pbrbm o the sole object to be stored in the returned list.
+     * @return bn immutbble list contbining only the specified object.
      * @since 1.3
      */
-    public static <T> List<T> singletonList(T o) {
+    public stbtic <T> List<T> singletonList(T o) {
         return new SingletonList<>(o);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class SingletonList<E>
-        extends AbstractList<E>
-        implements RandomAccess, Serializable {
+    privbte stbtic clbss SingletonList<E>
+        extends AbstrbctList<E>
+        implements RbndomAccess, Seriblizbble {
 
-        private static final long serialVersionUID = 3093736618740652951L;
+        privbte stbtic finbl long seriblVersionUID = 3093736618740652951L;
 
-        private final E element;
+        privbte finbl E element;
 
         SingletonList(E obj)                {element = obj;}
 
-        public Iterator<E> iterator() {
-            return singletonIterator(element);
+        public Iterbtor<E> iterbtor() {
+            return singletonIterbtor(element);
         }
 
         public int size()                   {return 1;}
 
-        public boolean contains(Object obj) {return eq(obj, element);}
+        public boolebn contbins(Object obj) {return eq(obj, element);}
 
         public E get(int index) {
             if (index != 0)
@@ -4816,69 +4816,69 @@ public class Collections {
             return element;
         }
 
-        // Override default methods for Collection
+        // Override defbult methods for Collection
         @Override
-        public void forEach(Consumer<? super E> action) {
-            action.accept(element);
+        public void forEbch(Consumer<? super E> bction) {
+            bction.bccept(element);
         }
         @Override
-        public boolean removeIf(Predicate<? super E> filter) {
-            throw new UnsupportedOperationException();
+        public boolebn removeIf(Predicbte<? super E> filter) {
+            throw new UnsupportedOperbtionException();
         }
         @Override
-        public void replaceAll(UnaryOperator<E> operator) {
-            throw new UnsupportedOperationException();
+        public void replbceAll(UnbryOperbtor<E> operbtor) {
+            throw new UnsupportedOperbtionException();
         }
         @Override
-        public void sort(Comparator<? super E> c) {
+        public void sort(Compbrbtor<? super E> c) {
         }
         @Override
-        public Spliterator<E> spliterator() {
-            return singletonSpliterator(element);
+        public Spliterbtor<E> spliterbtor() {
+            return singletonSpliterbtor(element);
         }
     }
 
     /**
-     * Returns an immutable map, mapping only the specified key to the
-     * specified value.  The returned map is serializable.
+     * Returns bn immutbble mbp, mbpping only the specified key to the
+     * specified vblue.  The returned mbp is seriblizbble.
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
-     * @param key the sole key to be stored in the returned map.
-     * @param value the value to which the returned map maps <tt>key</tt>.
-     * @return an immutable map containing only the specified key-value
-     *         mapping.
+     * @pbrbm <K> the clbss of the mbp keys
+     * @pbrbm <V> the clbss of the mbp vblues
+     * @pbrbm key the sole key to be stored in the returned mbp.
+     * @pbrbm vblue the vblue to which the returned mbp mbps <tt>key</tt>.
+     * @return bn immutbble mbp contbining only the specified key-vblue
+     *         mbpping.
      * @since 1.3
      */
-    public static <K,V> Map<K,V> singletonMap(K key, V value) {
-        return new SingletonMap<>(key, value);
+    public stbtic <K,V> Mbp<K,V> singletonMbp(K key, V vblue) {
+        return new SingletonMbp<>(key, vblue);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class SingletonMap<K,V>
-          extends AbstractMap<K,V>
-          implements Serializable {
-        private static final long serialVersionUID = -6979724477215052911L;
+    privbte stbtic clbss SingletonMbp<K,V>
+          extends AbstrbctMbp<K,V>
+          implements Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = -6979724477215052911L;
 
-        private final K k;
-        private final V v;
+        privbte finbl K k;
+        privbte finbl V v;
 
-        SingletonMap(K key, V value) {
+        SingletonMbp(K key, V vblue) {
             k = key;
-            v = value;
+            v = vblue;
         }
 
         public int size()                                           {return 1;}
-        public boolean isEmpty()                                {return false;}
-        public boolean containsKey(Object key)             {return eq(key, k);}
-        public boolean containsValue(Object value)       {return eq(value, v);}
+        public boolebn isEmpty()                                {return fblse;}
+        public boolebn contbinsKey(Object key)             {return eq(key, k);}
+        public boolebn contbinsVblue(Object vblue)       {return eq(vblue, v);}
         public V get(Object key)              {return (eq(key, k) ? v : null);}
 
-        private transient Set<K> keySet;
-        private transient Set<Map.Entry<K,V>> entrySet;
-        private transient Collection<V> values;
+        privbte trbnsient Set<K> keySet;
+        privbte trbnsient Set<Mbp.Entry<K,V>> entrySet;
+        privbte trbnsient Collection<V> vblues;
 
         public Set<K> keySet() {
             if (keySet==null)
@@ -4886,119 +4886,119 @@ public class Collections {
             return keySet;
         }
 
-        public Set<Map.Entry<K,V>> entrySet() {
+        public Set<Mbp.Entry<K,V>> entrySet() {
             if (entrySet==null)
-                entrySet = Collections.<Map.Entry<K,V>>singleton(
-                    new SimpleImmutableEntry<>(k, v));
+                entrySet = Collections.<Mbp.Entry<K,V>>singleton(
+                    new SimpleImmutbbleEntry<>(k, v));
             return entrySet;
         }
 
-        public Collection<V> values() {
-            if (values==null)
-                values = singleton(v);
-            return values;
+        public Collection<V> vblues() {
+            if (vblues==null)
+                vblues = singleton(v);
+            return vblues;
         }
 
-        // Override default methods in Map
+        // Override defbult methods in Mbp
         @Override
-        public V getOrDefault(Object key, V defaultValue) {
-            return eq(key, k) ? v : defaultValue;
-        }
-
-        @Override
-        public void forEach(BiConsumer<? super K, ? super V> action) {
-            action.accept(k, v);
+        public V getOrDefbult(Object key, V defbultVblue) {
+            return eq(key, k) ? v : defbultVblue;
         }
 
         @Override
-        public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
-            throw new UnsupportedOperationException();
+        public void forEbch(BiConsumer<? super K, ? super V> bction) {
+            bction.bccept(k, v);
         }
 
         @Override
-        public V putIfAbsent(K key, V value) {
-            throw new UnsupportedOperationException();
+        public void replbceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public boolean remove(Object key, Object value) {
-            throw new UnsupportedOperationException();
+        public V putIfAbsent(K key, V vblue) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public boolean replace(K key, V oldValue, V newValue) {
-            throw new UnsupportedOperationException();
+        public boolebn remove(Object key, Object vblue) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public V replace(K key, V value) {
-            throw new UnsupportedOperationException();
+        public boolebn replbce(K key, V oldVblue, V newVblue) {
+            throw new UnsupportedOperbtionException();
+        }
+
+        @Override
+        public V replbce(K key, V vblue) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
         public V computeIfAbsent(K key,
-                Function<? super K, ? extends V> mappingFunction) {
-            throw new UnsupportedOperationException();
+                Function<? super K, ? extends V> mbppingFunction) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
         public V computeIfPresent(K key,
-                BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            throw new UnsupportedOperationException();
+                BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
         public V compute(K key,
-                BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-            throw new UnsupportedOperationException();
+                BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public V merge(K key, V value,
-                BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
-            throw new UnsupportedOperationException();
+        public V merge(K key, V vblue,
+                BiFunction<? super V, ? super V, ? extends V> rembppingFunction) {
+            throw new UnsupportedOperbtionException();
         }
     }
 
-    // Miscellaneous
+    // Miscellbneous
 
     /**
-     * Returns an immutable list consisting of <tt>n</tt> copies of the
-     * specified object.  The newly allocated data object is tiny (it contains
-     * a single reference to the data object).  This method is useful in
-     * combination with the <tt>List.addAll</tt> method to grow lists.
-     * The returned list is serializable.
+     * Returns bn immutbble list consisting of <tt>n</tt> copies of the
+     * specified object.  The newly bllocbted dbtb object is tiny (it contbins
+     * b single reference to the dbtb object).  This method is useful in
+     * combinbtion with the <tt>List.bddAll</tt> method to grow lists.
+     * The returned list is seriblizbble.
      *
-     * @param  <T> the class of the object to copy and of the objects
+     * @pbrbm  <T> the clbss of the object to copy bnd of the objects
      *         in the returned list.
-     * @param  n the number of elements in the returned list.
-     * @param  o the element to appear repeatedly in the returned list.
-     * @return an immutable list consisting of <tt>n</tt> copies of the
+     * @pbrbm  n the number of elements in the returned list.
+     * @pbrbm  o the element to bppebr repebtedly in the returned list.
+     * @return bn immutbble list consisting of <tt>n</tt> copies of the
      *         specified object.
-     * @throws IllegalArgumentException if {@code n < 0}
-     * @see    List#addAll(Collection)
-     * @see    List#addAll(int, Collection)
+     * @throws IllegblArgumentException if {@code n < 0}
+     * @see    List#bddAll(Collection)
+     * @see    List#bddAll(int, Collection)
      */
-    public static <T> List<T> nCopies(int n, T o) {
+    public stbtic <T> List<T> nCopies(int n, T o) {
         if (n < 0)
-            throw new IllegalArgumentException("List length = " + n);
+            throw new IllegblArgumentException("List length = " + n);
         return new CopiesList<>(n, o);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class CopiesList<E>
-        extends AbstractList<E>
-        implements RandomAccess, Serializable
+    privbte stbtic clbss CopiesList<E>
+        extends AbstrbctList<E>
+        implements RbndomAccess, Seriblizbble
     {
-        private static final long serialVersionUID = 2739099268398711800L;
+        privbte stbtic finbl long seriblVersionUID = 2739099268398711800L;
 
-        final int n;
-        final E element;
+        finbl int n;
+        finbl E element;
 
         CopiesList(int n, E e) {
-            assert n >= 0;
+            bssert n >= 0;
             this.n = n;
             element = e;
         }
@@ -5007,16 +5007,16 @@ public class Collections {
             return n;
         }
 
-        public boolean contains(Object obj) {
+        public boolebn contbins(Object obj) {
             return n != 0 && eq(obj, element);
         }
 
         public int indexOf(Object o) {
-            return contains(o) ? 0 : -1;
+            return contbins(o) ? 0 : -1;
         }
 
-        public int lastIndexOf(Object o) {
-            return contains(o) ? n - 1 : -1;
+        public int lbstIndexOf(Object o) {
+            return contbins(o) ? n - 1 : -1;
         }
 
         public E get(int index) {
@@ -5026,27 +5026,27 @@ public class Collections {
             return element;
         }
 
-        public Object[] toArray() {
-            final Object[] a = new Object[n];
+        public Object[] toArrby() {
+            finbl Object[] b = new Object[n];
             if (element != null)
-                Arrays.fill(a, 0, n, element);
-            return a;
+                Arrbys.fill(b, 0, n, element);
+            return b;
         }
 
-        @SuppressWarnings("unchecked")
-        public <T> T[] toArray(T[] a) {
-            final int n = this.n;
-            if (a.length < n) {
-                a = (T[])java.lang.reflect.Array
-                    .newInstance(a.getClass().getComponentType(), n);
+        @SuppressWbrnings("unchecked")
+        public <T> T[] toArrby(T[] b) {
+            finbl int n = this.n;
+            if (b.length < n) {
+                b = (T[])jbvb.lbng.reflect.Arrby
+                    .newInstbnce(b.getClbss().getComponentType(), n);
                 if (element != null)
-                    Arrays.fill(a, 0, n, element);
+                    Arrbys.fill(b, 0, n, element);
             } else {
-                Arrays.fill(a, 0, n, element);
-                if (a.length > n)
-                    a[n] = null;
+                Arrbys.fill(b, 0, n, element);
+                if (b.length > n)
+                    b[n] = null;
             }
-            return a;
+            return b;
         }
 
         public List<E> subList(int fromIndex, int toIndex) {
@@ -5055,161 +5055,161 @@ public class Collections {
             if (toIndex > n)
                 throw new IndexOutOfBoundsException("toIndex = " + toIndex);
             if (fromIndex > toIndex)
-                throw new IllegalArgumentException("fromIndex(" + fromIndex +
+                throw new IllegblArgumentException("fromIndex(" + fromIndex +
                                                    ") > toIndex(" + toIndex + ")");
             return new CopiesList<>(toIndex - fromIndex, element);
         }
 
-        // Override default methods in Collection
+        // Override defbult methods in Collection
         @Override
-        public Stream<E> stream() {
-            return IntStream.range(0, n).mapToObj(i -> element);
+        public Strebm<E> strebm() {
+            return IntStrebm.rbnge(0, n).mbpToObj(i -> element);
         }
 
         @Override
-        public Stream<E> parallelStream() {
-            return IntStream.range(0, n).parallel().mapToObj(i -> element);
+        public Strebm<E> pbrbllelStrebm() {
+            return IntStrebm.rbnge(0, n).pbrbllel().mbpToObj(i -> element);
         }
 
         @Override
-        public Spliterator<E> spliterator() {
-            return stream().spliterator();
+        public Spliterbtor<E> spliterbtor() {
+            return strebm().spliterbtor();
         }
     }
 
     /**
-     * Returns a comparator that imposes the reverse of the <em>natural
-     * ordering</em> on a collection of objects that implement the
-     * {@code Comparable} interface.  (The natural ordering is the ordering
-     * imposed by the objects' own {@code compareTo} method.)  This enables a
-     * simple idiom for sorting (or maintaining) collections (or arrays) of
-     * objects that implement the {@code Comparable} interface in
-     * reverse-natural-order.  For example, suppose {@code a} is an array of
+     * Returns b compbrbtor thbt imposes the reverse of the <em>nbturbl
+     * ordering</em> on b collection of objects thbt implement the
+     * {@code Compbrbble} interfbce.  (The nbturbl ordering is the ordering
+     * imposed by the objects' own {@code compbreTo} method.)  This enbbles b
+     * simple idiom for sorting (or mbintbining) collections (or brrbys) of
+     * objects thbt implement the {@code Compbrbble} interfbce in
+     * reverse-nbturbl-order.  For exbmple, suppose {@code b} is bn brrby of
      * strings. Then: <pre>
-     *          Arrays.sort(a, Collections.reverseOrder());
-     * </pre> sorts the array in reverse-lexicographic (alphabetical) order.<p>
+     *          Arrbys.sort(b, Collections.reverseOrder());
+     * </pre> sorts the brrby in reverse-lexicogrbphic (blphbbeticbl) order.<p>
      *
-     * The returned comparator is serializable.
+     * The returned compbrbtor is seriblizbble.
      *
-     * @param  <T> the class of the objects compared by the comparator
-     * @return A comparator that imposes the reverse of the <i>natural
-     *         ordering</i> on a collection of objects that implement
-     *         the <tt>Comparable</tt> interface.
-     * @see Comparable
+     * @pbrbm  <T> the clbss of the objects compbred by the compbrbtor
+     * @return A compbrbtor thbt imposes the reverse of the <i>nbturbl
+     *         ordering</i> on b collection of objects thbt implement
+     *         the <tt>Compbrbble</tt> interfbce.
+     * @see Compbrbble
      */
-    @SuppressWarnings("unchecked")
-    public static <T> Comparator<T> reverseOrder() {
-        return (Comparator<T>) ReverseComparator.REVERSE_ORDER;
+    @SuppressWbrnings("unchecked")
+    public stbtic <T> Compbrbtor<T> reverseOrder() {
+        return (Compbrbtor<T>) ReverseCompbrbtor.REVERSE_ORDER;
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class ReverseComparator
-        implements Comparator<Comparable<Object>>, Serializable {
+    privbte stbtic clbss ReverseCompbrbtor
+        implements Compbrbtor<Compbrbble<Object>>, Seriblizbble {
 
-        private static final long serialVersionUID = 7207038068494060240L;
+        privbte stbtic finbl long seriblVersionUID = 7207038068494060240L;
 
-        static final ReverseComparator REVERSE_ORDER
-            = new ReverseComparator();
+        stbtic finbl ReverseCompbrbtor REVERSE_ORDER
+            = new ReverseCompbrbtor();
 
-        public int compare(Comparable<Object> c1, Comparable<Object> c2) {
-            return c2.compareTo(c1);
+        public int compbre(Compbrbble<Object> c1, Compbrbble<Object> c2) {
+            return c2.compbreTo(c1);
         }
 
-        private Object readResolve() { return Collections.reverseOrder(); }
+        privbte Object rebdResolve() { return Collections.reverseOrder(); }
 
         @Override
-        public Comparator<Comparable<Object>> reversed() {
-            return Comparator.naturalOrder();
+        public Compbrbtor<Compbrbble<Object>> reversed() {
+            return Compbrbtor.nbturblOrder();
         }
     }
 
     /**
-     * Returns a comparator that imposes the reverse ordering of the specified
-     * comparator.  If the specified comparator is {@code null}, this method is
-     * equivalent to {@link #reverseOrder()} (in other words, it returns a
-     * comparator that imposes the reverse of the <em>natural ordering</em> on
-     * a collection of objects that implement the Comparable interface).
+     * Returns b compbrbtor thbt imposes the reverse ordering of the specified
+     * compbrbtor.  If the specified compbrbtor is {@code null}, this method is
+     * equivblent to {@link #reverseOrder()} (in other words, it returns b
+     * compbrbtor thbt imposes the reverse of the <em>nbturbl ordering</em> on
+     * b collection of objects thbt implement the Compbrbble interfbce).
      *
-     * <p>The returned comparator is serializable (assuming the specified
-     * comparator is also serializable or {@code null}).
+     * <p>The returned compbrbtor is seriblizbble (bssuming the specified
+     * compbrbtor is blso seriblizbble or {@code null}).
      *
-     * @param <T> the class of the objects compared by the comparator
-     * @param cmp a comparator who's ordering is to be reversed by the returned
-     * comparator or {@code null}
-     * @return A comparator that imposes the reverse ordering of the
-     *         specified comparator.
+     * @pbrbm <T> the clbss of the objects compbred by the compbrbtor
+     * @pbrbm cmp b compbrbtor who's ordering is to be reversed by the returned
+     * compbrbtor or {@code null}
+     * @return A compbrbtor thbt imposes the reverse ordering of the
+     *         specified compbrbtor.
      * @since 1.5
      */
-    public static <T> Comparator<T> reverseOrder(Comparator<T> cmp) {
+    public stbtic <T> Compbrbtor<T> reverseOrder(Compbrbtor<T> cmp) {
         if (cmp == null)
             return reverseOrder();
 
-        if (cmp instanceof ReverseComparator2)
-            return ((ReverseComparator2<T>)cmp).cmp;
+        if (cmp instbnceof ReverseCompbrbtor2)
+            return ((ReverseCompbrbtor2<T>)cmp).cmp;
 
-        return new ReverseComparator2<>(cmp);
+        return new ReverseCompbrbtor2<>(cmp);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class ReverseComparator2<T> implements Comparator<T>,
-        Serializable
+    privbte stbtic clbss ReverseCompbrbtor2<T> implements Compbrbtor<T>,
+        Seriblizbble
     {
-        private static final long serialVersionUID = 4374092139857L;
+        privbte stbtic finbl long seriblVersionUID = 4374092139857L;
 
         /**
-         * The comparator specified in the static factory.  This will never
-         * be null, as the static factory returns a ReverseComparator
-         * instance if its argument is null.
+         * The compbrbtor specified in the stbtic fbctory.  This will never
+         * be null, bs the stbtic fbctory returns b ReverseCompbrbtor
+         * instbnce if its brgument is null.
          *
-         * @serial
+         * @seribl
          */
-        final Comparator<T> cmp;
+        finbl Compbrbtor<T> cmp;
 
-        ReverseComparator2(Comparator<T> cmp) {
-            assert cmp != null;
+        ReverseCompbrbtor2(Compbrbtor<T> cmp) {
+            bssert cmp != null;
             this.cmp = cmp;
         }
 
-        public int compare(T t1, T t2) {
-            return cmp.compare(t2, t1);
+        public int compbre(T t1, T t2) {
+            return cmp.compbre(t2, t1);
         }
 
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             return (o == this) ||
-                (o instanceof ReverseComparator2 &&
-                 cmp.equals(((ReverseComparator2)o).cmp));
+                (o instbnceof ReverseCompbrbtor2 &&
+                 cmp.equbls(((ReverseCompbrbtor2)o).cmp));
         }
 
-        public int hashCode() {
-            return cmp.hashCode() ^ Integer.MIN_VALUE;
+        public int hbshCode() {
+            return cmp.hbshCode() ^ Integer.MIN_VALUE;
         }
 
         @Override
-        public Comparator<T> reversed() {
+        public Compbrbtor<T> reversed() {
             return cmp;
         }
     }
 
     /**
-     * Returns an enumeration over the specified collection.  This provides
-     * interoperability with legacy APIs that require an enumeration
-     * as input.
+     * Returns bn enumerbtion over the specified collection.  This provides
+     * interoperbbility with legbcy APIs thbt require bn enumerbtion
+     * bs input.
      *
-     * @param  <T> the class of the objects in the collection
-     * @param c the collection for which an enumeration is to be returned.
-     * @return an enumeration over the specified collection.
-     * @see Enumeration
+     * @pbrbm  <T> the clbss of the objects in the collection
+     * @pbrbm c the collection for which bn enumerbtion is to be returned.
+     * @return bn enumerbtion over the specified collection.
+     * @see Enumerbtion
      */
-    public static <T> Enumeration<T> enumeration(final Collection<T> c) {
-        return new Enumeration<T>() {
-            private final Iterator<T> i = c.iterator();
+    public stbtic <T> Enumerbtion<T> enumerbtion(finbl Collection<T> c) {
+        return new Enumerbtion<T>() {
+            privbte finbl Iterbtor<T> i = c.iterbtor();
 
-            public boolean hasMoreElements() {
-                return i.hasNext();
+            public boolebn hbsMoreElements() {
+                return i.hbsNext();
             }
 
             public T nextElement() {
@@ -5219,51 +5219,51 @@ public class Collections {
     }
 
     /**
-     * Returns an array list containing the elements returned by the
-     * specified enumeration in the order they are returned by the
-     * enumeration.  This method provides interoperability between
-     * legacy APIs that return enumerations and new APIs that require
+     * Returns bn brrby list contbining the elements returned by the
+     * specified enumerbtion in the order they bre returned by the
+     * enumerbtion.  This method provides interoperbbility between
+     * legbcy APIs thbt return enumerbtions bnd new APIs thbt require
      * collections.
      *
-     * @param <T> the class of the objects returned by the enumeration
-     * @param e enumeration providing elements for the returned
-     *          array list
-     * @return an array list containing the elements returned
-     *         by the specified enumeration.
+     * @pbrbm <T> the clbss of the objects returned by the enumerbtion
+     * @pbrbm e enumerbtion providing elements for the returned
+     *          brrby list
+     * @return bn brrby list contbining the elements returned
+     *         by the specified enumerbtion.
      * @since 1.4
-     * @see Enumeration
-     * @see ArrayList
+     * @see Enumerbtion
+     * @see ArrbyList
      */
-    public static <T> ArrayList<T> list(Enumeration<T> e) {
-        ArrayList<T> l = new ArrayList<>();
-        while (e.hasMoreElements())
-            l.add(e.nextElement());
+    public stbtic <T> ArrbyList<T> list(Enumerbtion<T> e) {
+        ArrbyList<T> l = new ArrbyList<>();
+        while (e.hbsMoreElements())
+            l.bdd(e.nextElement());
         return l;
     }
 
     /**
-     * Returns true if the specified arguments are equal, or both null.
+     * Returns true if the specified brguments bre equbl, or both null.
      *
-     * NB: Do not replace with Object.equals until JDK-8015417 is resolved.
+     * NB: Do not replbce with Object.equbls until JDK-8015417 is resolved.
      */
-    static boolean eq(Object o1, Object o2) {
-        return o1==null ? o2==null : o1.equals(o2);
+    stbtic boolebn eq(Object o1, Object o2) {
+        return o1==null ? o2==null : o1.equbls(o2);
     }
 
     /**
-     * Returns the number of elements in the specified collection equal to the
-     * specified object.  More formally, returns the number of elements
-     * <tt>e</tt> in the collection such that
-     * <tt>(o == null ? e == null : o.equals(e))</tt>.
+     * Returns the number of elements in the specified collection equbl to the
+     * specified object.  More formblly, returns the number of elements
+     * <tt>e</tt> in the collection such thbt
+     * <tt>(o == null ? e == null : o.equbls(e))</tt>.
      *
-     * @param c the collection in which to determine the frequency
+     * @pbrbm c the collection in which to determine the frequency
      *     of <tt>o</tt>
-     * @param o the object whose frequency is to be determined
-     * @return the number of elements in {@code c} equal to {@code o}
+     * @pbrbm o the object whose frequency is to be determined
+     * @return the number of elements in {@code c} equbl to {@code o}
      * @throws NullPointerException if <tt>c</tt> is null
      * @since 1.5
      */
-    public static int frequency(Collection<?> c, Object o) {
+    public stbtic int frequency(Collection<?> c, Object o) {
         int result = 0;
         if (o == null) {
             for (Object e : c)
@@ -5271,95 +5271,95 @@ public class Collections {
                     result++;
         } else {
             for (Object e : c)
-                if (o.equals(e))
+                if (o.equbls(e))
                     result++;
         }
         return result;
     }
 
     /**
-     * Returns {@code true} if the two specified collections have no
+     * Returns {@code true} if the two specified collections hbve no
      * elements in common.
      *
-     * <p>Care must be exercised if this method is used on collections that
-     * do not comply with the general contract for {@code Collection}.
-     * Implementations may elect to iterate over either collection and test
-     * for containment in the other collection (or to perform any equivalent
-     * computation).  If either collection uses a nonstandard equality test
-     * (as does a {@link SortedSet} whose ordering is not <em>compatible with
-     * equals</em>, or the key set of an {@link IdentityHashMap}), both
-     * collections must use the same nonstandard equality test, or the
+     * <p>Cbre must be exercised if this method is used on collections thbt
+     * do not comply with the generbl contrbct for {@code Collection}.
+     * Implementbtions mby elect to iterbte over either collection bnd test
+     * for contbinment in the other collection (or to perform bny equivblent
+     * computbtion).  If either collection uses b nonstbndbrd equblity test
+     * (bs does b {@link SortedSet} whose ordering is not <em>compbtible with
+     * equbls</em>, or the key set of bn {@link IdentityHbshMbp}), both
+     * collections must use the sbme nonstbndbrd equblity test, or the
      * result of this method is undefined.
      *
-     * <p>Care must also be exercised when using collections that have
-     * restrictions on the elements that they may contain. Collection
-     * implementations are allowed to throw exceptions for any operation
-     * involving elements they deem ineligible. For absolute safety the
-     * specified collections should contain only elements which are
+     * <p>Cbre must blso be exercised when using collections thbt hbve
+     * restrictions on the elements thbt they mby contbin. Collection
+     * implementbtions bre bllowed to throw exceptions for bny operbtion
+     * involving elements they deem ineligible. For bbsolute sbfety the
+     * specified collections should contbin only elements which bre
      * eligible elements for both collections.
      *
-     * <p>Note that it is permissible to pass the same collection in both
-     * parameters, in which case the method will return {@code true} if and
+     * <p>Note thbt it is permissible to pbss the sbme collection in both
+     * pbrbmeters, in which cbse the method will return {@code true} if bnd
      * only if the collection is empty.
      *
-     * @param c1 a collection
-     * @param c2 a collection
-     * @return {@code true} if the two specified collections have no
+     * @pbrbm c1 b collection
+     * @pbrbm c2 b collection
+     * @return {@code true} if the two specified collections hbve no
      * elements in common.
      * @throws NullPointerException if either collection is {@code null}.
-     * @throws NullPointerException if one collection contains a {@code null}
-     * element and {@code null} is not an eligible element for the other collection.
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws ClassCastException if one collection contains an element that is
-     * of a type which is ineligible for the other collection.
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
+     * @throws NullPointerException if one collection contbins b {@code null}
+     * element bnd {@code null} is not bn eligible element for the other collection.
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws ClbssCbstException if one collection contbins bn element thbt is
+     * of b type which is ineligible for the other collection.
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
      * @since 1.5
      */
-    public static boolean disjoint(Collection<?> c1, Collection<?> c2) {
-        // The collection to be used for contains(). Preference is given to
-        // the collection who's contains() has lower O() complexity.
-        Collection<?> contains = c2;
-        // The collection to be iterated. If the collections' contains() impl
-        // are of different O() complexity, the collection with slower
-        // contains() will be used for iteration. For collections who's
-        // contains() are of the same complexity then best performance is
-        // achieved by iterating the smaller collection.
-        Collection<?> iterate = c1;
+    public stbtic boolebn disjoint(Collection<?> c1, Collection<?> c2) {
+        // The collection to be used for contbins(). Preference is given to
+        // the collection who's contbins() hbs lower O() complexity.
+        Collection<?> contbins = c2;
+        // The collection to be iterbted. If the collections' contbins() impl
+        // bre of different O() complexity, the collection with slower
+        // contbins() will be used for iterbtion. For collections who's
+        // contbins() bre of the sbme complexity then best performbnce is
+        // bchieved by iterbting the smbller collection.
+        Collection<?> iterbte = c1;
 
-        // Performance optimization cases. The heuristics:
-        //   1. Generally iterate over c1.
-        //   2. If c1 is a Set then iterate over c2.
-        //   3. If either collection is empty then result is always true.
-        //   4. Iterate over the smaller Collection.
-        if (c1 instanceof Set) {
-            // Use c1 for contains as a Set's contains() is expected to perform
-            // better than O(N/2)
-            iterate = c2;
-            contains = c1;
-        } else if (!(c2 instanceof Set)) {
-            // Both are mere Collections. Iterate over smaller collection.
-            // Example: If c1 contains 3 elements and c2 contains 50 elements and
-            // assuming contains() requires ceiling(N/2) comparisons then
-            // checking for all c1 elements in c2 would require 75 comparisons
-            // (3 * ceiling(50/2)) vs. checking all c2 elements in c1 requiring
-            // 100 comparisons (50 * ceiling(3/2)).
+        // Performbnce optimizbtion cbses. The heuristics:
+        //   1. Generblly iterbte over c1.
+        //   2. If c1 is b Set then iterbte over c2.
+        //   3. If either collection is empty then result is blwbys true.
+        //   4. Iterbte over the smbller Collection.
+        if (c1 instbnceof Set) {
+            // Use c1 for contbins bs b Set's contbins() is expected to perform
+            // better thbn O(N/2)
+            iterbte = c2;
+            contbins = c1;
+        } else if (!(c2 instbnceof Set)) {
+            // Both bre mere Collections. Iterbte over smbller collection.
+            // Exbmple: If c1 contbins 3 elements bnd c2 contbins 50 elements bnd
+            // bssuming contbins() requires ceiling(N/2) compbrisons then
+            // checking for bll c1 elements in c2 would require 75 compbrisons
+            // (3 * ceiling(50/2)) vs. checking bll c2 elements in c1 requiring
+            // 100 compbrisons (50 * ceiling(3/2)).
             int c1size = c1.size();
             int c2size = c2.size();
             if (c1size == 0 || c2size == 0) {
-                // At least one collection is empty. Nothing will match.
+                // At lebst one collection is empty. Nothing will mbtch.
                 return true;
             }
 
             if (c1size > c2size) {
-                iterate = c2;
-                contains = c1;
+                iterbte = c2;
+                contbins = c1;
             }
         }
 
-        for (Object e : iterate) {
-            if (contains.contains(e)) {
-               // Found a common element. Collections are not disjoint.
-                return false;
+        for (Object e : iterbte) {
+            if (contbins.contbins(e)) {
+               // Found b common element. Collections bre not disjoint.
+                return fblse;
             }
         }
 
@@ -5368,197 +5368,197 @@ public class Collections {
     }
 
     /**
-     * Adds all of the specified elements to the specified collection.
-     * Elements to be added may be specified individually or as an array.
-     * The behavior of this convenience method is identical to that of
-     * <tt>c.addAll(Arrays.asList(elements))</tt>, but this method is likely
-     * to run significantly faster under most implementations.
+     * Adds bll of the specified elements to the specified collection.
+     * Elements to be bdded mby be specified individublly or bs bn brrby.
+     * The behbvior of this convenience method is identicbl to thbt of
+     * <tt>c.bddAll(Arrbys.bsList(elements))</tt>, but this method is likely
+     * to run significbntly fbster under most implementbtions.
      *
-     * <p>When elements are specified individually, this method provides a
-     * convenient way to add a few elements to an existing collection:
+     * <p>When elements bre specified individublly, this method provides b
+     * convenient wby to bdd b few elements to bn existing collection:
      * <pre>
-     *     Collections.addAll(flavors, "Peaches 'n Plutonium", "Rocky Racoon");
+     *     Collections.bddAll(flbvors, "Pebches 'n Plutonium", "Rocky Rbcoon");
      * </pre>
      *
-     * @param  <T> the class of the elements to add and of the collection
-     * @param c the collection into which <tt>elements</tt> are to be inserted
-     * @param elements the elements to insert into <tt>c</tt>
-     * @return <tt>true</tt> if the collection changed as a result of the call
-     * @throws UnsupportedOperationException if <tt>c</tt> does not support
-     *         the <tt>add</tt> operation
-     * @throws NullPointerException if <tt>elements</tt> contains one or more
-     *         null values and <tt>c</tt> does not permit null elements, or
-     *         if <tt>c</tt> or <tt>elements</tt> are <tt>null</tt>
-     * @throws IllegalArgumentException if some property of a value in
-     *         <tt>elements</tt> prevents it from being added to <tt>c</tt>
-     * @see Collection#addAll(Collection)
+     * @pbrbm  <T> the clbss of the elements to bdd bnd of the collection
+     * @pbrbm c the collection into which <tt>elements</tt> bre to be inserted
+     * @pbrbm elements the elements to insert into <tt>c</tt>
+     * @return <tt>true</tt> if the collection chbnged bs b result of the cbll
+     * @throws UnsupportedOperbtionException if <tt>c</tt> does not support
+     *         the <tt>bdd</tt> operbtion
+     * @throws NullPointerException if <tt>elements</tt> contbins one or more
+     *         null vblues bnd <tt>c</tt> does not permit null elements, or
+     *         if <tt>c</tt> or <tt>elements</tt> bre <tt>null</tt>
+     * @throws IllegblArgumentException if some property of b vblue in
+     *         <tt>elements</tt> prevents it from being bdded to <tt>c</tt>
+     * @see Collection#bddAll(Collection)
      * @since 1.5
      */
-    @SafeVarargs
-    public static <T> boolean addAll(Collection<? super T> c, T... elements) {
-        boolean result = false;
+    @SbfeVbrbrgs
+    public stbtic <T> boolebn bddAll(Collection<? super T> c, T... elements) {
+        boolebn result = fblse;
         for (T element : elements)
-            result |= c.add(element);
+            result |= c.bdd(element);
         return result;
     }
 
     /**
-     * Returns a set backed by the specified map.  The resulting set displays
-     * the same ordering, concurrency, and performance characteristics as the
-     * backing map.  In essence, this factory method provides a {@link Set}
-     * implementation corresponding to any {@link Map} implementation.  There
-     * is no need to use this method on a {@link Map} implementation that
-     * already has a corresponding {@link Set} implementation (such as {@link
-     * HashMap} or {@link TreeMap}).
+     * Returns b set bbcked by the specified mbp.  The resulting set displbys
+     * the sbme ordering, concurrency, bnd performbnce chbrbcteristics bs the
+     * bbcking mbp.  In essence, this fbctory method provides b {@link Set}
+     * implementbtion corresponding to bny {@link Mbp} implementbtion.  There
+     * is no need to use this method on b {@link Mbp} implementbtion thbt
+     * blrebdy hbs b corresponding {@link Set} implementbtion (such bs {@link
+     * HbshMbp} or {@link TreeMbp}).
      *
-     * <p>Each method invocation on the set returned by this method results in
-     * exactly one method invocation on the backing map or its <tt>keySet</tt>
-     * view, with one exception.  The <tt>addAll</tt> method is implemented
-     * as a sequence of <tt>put</tt> invocations on the backing map.
+     * <p>Ebch method invocbtion on the set returned by this method results in
+     * exbctly one method invocbtion on the bbcking mbp or its <tt>keySet</tt>
+     * view, with one exception.  The <tt>bddAll</tt> method is implemented
+     * bs b sequence of <tt>put</tt> invocbtions on the bbcking mbp.
      *
-     * <p>The specified map must be empty at the time this method is invoked,
-     * and should not be accessed directly after this method returns.  These
-     * conditions are ensured if the map is created empty, passed directly
-     * to this method, and no reference to the map is retained, as illustrated
-     * in the following code fragment:
+     * <p>The specified mbp must be empty bt the time this method is invoked,
+     * bnd should not be bccessed directly bfter this method returns.  These
+     * conditions bre ensured if the mbp is crebted empty, pbssed directly
+     * to this method, bnd no reference to the mbp is retbined, bs illustrbted
+     * in the following code frbgment:
      * <pre>
-     *    Set&lt;Object&gt; weakHashSet = Collections.newSetFromMap(
-     *        new WeakHashMap&lt;Object, Boolean&gt;());
+     *    Set&lt;Object&gt; webkHbshSet = Collections.newSetFromMbp(
+     *        new WebkHbshMbp&lt;Object, Boolebn&gt;());
      * </pre>
      *
-     * @param <E> the class of the map keys and of the objects in the
+     * @pbrbm <E> the clbss of the mbp keys bnd of the objects in the
      *        returned set
-     * @param map the backing map
-     * @return the set backed by the map
-     * @throws IllegalArgumentException if <tt>map</tt> is not empty
+     * @pbrbm mbp the bbcking mbp
+     * @return the set bbcked by the mbp
+     * @throws IllegblArgumentException if <tt>mbp</tt> is not empty
      * @since 1.6
      */
-    public static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
-        return new SetFromMap<>(map);
+    public stbtic <E> Set<E> newSetFromMbp(Mbp<E, Boolebn> mbp) {
+        return new SetFromMbp<>(mbp);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    private static class SetFromMap<E> extends AbstractSet<E>
-        implements Set<E>, Serializable
+    privbte stbtic clbss SetFromMbp<E> extends AbstrbctSet<E>
+        implements Set<E>, Seriblizbble
     {
-        private final Map<E, Boolean> m;  // The backing map
-        private transient Set<E> s;       // Its keySet
+        privbte finbl Mbp<E, Boolebn> m;  // The bbcking mbp
+        privbte trbnsient Set<E> s;       // Its keySet
 
-        SetFromMap(Map<E, Boolean> map) {
-            if (!map.isEmpty())
-                throw new IllegalArgumentException("Map is non-empty");
-            m = map;
-            s = map.keySet();
+        SetFromMbp(Mbp<E, Boolebn> mbp) {
+            if (!mbp.isEmpty())
+                throw new IllegblArgumentException("Mbp is non-empty");
+            m = mbp;
+            s = mbp.keySet();
         }
 
-        public void clear()               {        m.clear(); }
+        public void clebr()               {        m.clebr(); }
         public int size()                 { return m.size(); }
-        public boolean isEmpty()          { return m.isEmpty(); }
-        public boolean contains(Object o) { return m.containsKey(o); }
-        public boolean remove(Object o)   { return m.remove(o) != null; }
-        public boolean add(E e) { return m.put(e, Boolean.TRUE) == null; }
-        public Iterator<E> iterator()     { return s.iterator(); }
-        public Object[] toArray()         { return s.toArray(); }
-        public <T> T[] toArray(T[] a)     { return s.toArray(a); }
+        public boolebn isEmpty()          { return m.isEmpty(); }
+        public boolebn contbins(Object o) { return m.contbinsKey(o); }
+        public boolebn remove(Object o)   { return m.remove(o) != null; }
+        public boolebn bdd(E e) { return m.put(e, Boolebn.TRUE) == null; }
+        public Iterbtor<E> iterbtor()     { return s.iterbtor(); }
+        public Object[] toArrby()         { return s.toArrby(); }
+        public <T> T[] toArrby(T[] b)     { return s.toArrby(b); }
         public String toString()          { return s.toString(); }
-        public int hashCode()             { return s.hashCode(); }
-        public boolean equals(Object o)   { return o == this || s.equals(o); }
-        public boolean containsAll(Collection<?> c) {return s.containsAll(c);}
-        public boolean removeAll(Collection<?> c)   {return s.removeAll(c);}
-        public boolean retainAll(Collection<?> c)   {return s.retainAll(c);}
-        // addAll is the only inherited implementation
+        public int hbshCode()             { return s.hbshCode(); }
+        public boolebn equbls(Object o)   { return o == this || s.equbls(o); }
+        public boolebn contbinsAll(Collection<?> c) {return s.contbinsAll(c);}
+        public boolebn removeAll(Collection<?> c)   {return s.removeAll(c);}
+        public boolebn retbinAll(Collection<?> c)   {return s.retbinAll(c);}
+        // bddAll is the only inherited implementbtion
 
-        // Override default methods in Collection
+        // Override defbult methods in Collection
         @Override
-        public void forEach(Consumer<? super E> action) {
-            s.forEach(action);
+        public void forEbch(Consumer<? super E> bction) {
+            s.forEbch(bction);
         }
         @Override
-        public boolean removeIf(Predicate<? super E> filter) {
+        public boolebn removeIf(Predicbte<? super E> filter) {
             return s.removeIf(filter);
         }
 
         @Override
-        public Spliterator<E> spliterator() {return s.spliterator();}
+        public Spliterbtor<E> spliterbtor() {return s.spliterbtor();}
         @Override
-        public Stream<E> stream()           {return s.stream();}
+        public Strebm<E> strebm()           {return s.strebm();}
         @Override
-        public Stream<E> parallelStream()   {return s.parallelStream();}
+        public Strebm<E> pbrbllelStrebm()   {return s.pbrbllelStrebm();}
 
-        private static final long serialVersionUID = 2454657854757543876L;
+        privbte stbtic finbl long seriblVersionUID = 2454657854757543876L;
 
-        private void readObject(java.io.ObjectInputStream stream)
-            throws IOException, ClassNotFoundException
+        privbte void rebdObject(jbvb.io.ObjectInputStrebm strebm)
+            throws IOException, ClbssNotFoundException
         {
-            stream.defaultReadObject();
+            strebm.defbultRebdObject();
             s = m.keySet();
         }
     }
 
     /**
-     * Returns a view of a {@link Deque} as a Last-in-first-out (Lifo)
-     * {@link Queue}. Method <tt>add</tt> is mapped to <tt>push</tt>,
-     * <tt>remove</tt> is mapped to <tt>pop</tt> and so on. This
-     * view can be useful when you would like to use a method
-     * requiring a <tt>Queue</tt> but you need Lifo ordering.
+     * Returns b view of b {@link Deque} bs b Lbst-in-first-out (Lifo)
+     * {@link Queue}. Method <tt>bdd</tt> is mbpped to <tt>push</tt>,
+     * <tt>remove</tt> is mbpped to <tt>pop</tt> bnd so on. This
+     * view cbn be useful when you would like to use b method
+     * requiring b <tt>Queue</tt> but you need Lifo ordering.
      *
-     * <p>Each method invocation on the queue returned by this method
-     * results in exactly one method invocation on the backing deque, with
-     * one exception.  The {@link Queue#addAll addAll} method is
-     * implemented as a sequence of {@link Deque#addFirst addFirst}
-     * invocations on the backing deque.
+     * <p>Ebch method invocbtion on the queue returned by this method
+     * results in exbctly one method invocbtion on the bbcking deque, with
+     * one exception.  The {@link Queue#bddAll bddAll} method is
+     * implemented bs b sequence of {@link Deque#bddFirst bddFirst}
+     * invocbtions on the bbcking deque.
      *
-     * @param  <T> the class of the objects in the deque
-     * @param deque the deque
+     * @pbrbm  <T> the clbss of the objects in the deque
+     * @pbrbm deque the deque
      * @return the queue
      * @since  1.6
      */
-    public static <T> Queue<T> asLifoQueue(Deque<T> deque) {
+    public stbtic <T> Queue<T> bsLifoQueue(Deque<T> deque) {
         return new AsLIFOQueue<>(deque);
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class AsLIFOQueue<E> extends AbstractQueue<E>
-        implements Queue<E>, Serializable {
-        private static final long serialVersionUID = 1802017725587941708L;
-        private final Deque<E> q;
+    stbtic clbss AsLIFOQueue<E> extends AbstrbctQueue<E>
+        implements Queue<E>, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 1802017725587941708L;
+        privbte finbl Deque<E> q;
         AsLIFOQueue(Deque<E> q)           { this.q = q; }
-        public boolean add(E e)           { q.addFirst(e); return true; }
-        public boolean offer(E e)         { return q.offerFirst(e); }
+        public boolebn bdd(E e)           { q.bddFirst(e); return true; }
+        public boolebn offer(E e)         { return q.offerFirst(e); }
         public E poll()                   { return q.pollFirst(); }
         public E remove()                 { return q.removeFirst(); }
         public E peek()                   { return q.peekFirst(); }
         public E element()                { return q.getFirst(); }
-        public void clear()               {        q.clear(); }
+        public void clebr()               {        q.clebr(); }
         public int size()                 { return q.size(); }
-        public boolean isEmpty()          { return q.isEmpty(); }
-        public boolean contains(Object o) { return q.contains(o); }
-        public boolean remove(Object o)   { return q.remove(o); }
-        public Iterator<E> iterator()     { return q.iterator(); }
-        public Object[] toArray()         { return q.toArray(); }
-        public <T> T[] toArray(T[] a)     { return q.toArray(a); }
+        public boolebn isEmpty()          { return q.isEmpty(); }
+        public boolebn contbins(Object o) { return q.contbins(o); }
+        public boolebn remove(Object o)   { return q.remove(o); }
+        public Iterbtor<E> iterbtor()     { return q.iterbtor(); }
+        public Object[] toArrby()         { return q.toArrby(); }
+        public <T> T[] toArrby(T[] b)     { return q.toArrby(b); }
         public String toString()          { return q.toString(); }
-        public boolean containsAll(Collection<?> c) {return q.containsAll(c);}
-        public boolean removeAll(Collection<?> c)   {return q.removeAll(c);}
-        public boolean retainAll(Collection<?> c)   {return q.retainAll(c);}
-        // We use inherited addAll; forwarding addAll would be wrong
+        public boolebn contbinsAll(Collection<?> c) {return q.contbinsAll(c);}
+        public boolebn removeAll(Collection<?> c)   {return q.removeAll(c);}
+        public boolebn retbinAll(Collection<?> c)   {return q.retbinAll(c);}
+        // We use inherited bddAll; forwbrding bddAll would be wrong
 
-        // Override default methods in Collection
+        // Override defbult methods in Collection
         @Override
-        public void forEach(Consumer<? super E> action) {q.forEach(action);}
+        public void forEbch(Consumer<? super E> bction) {q.forEbch(bction);}
         @Override
-        public boolean removeIf(Predicate<? super E> filter) {
+        public boolebn removeIf(Predicbte<? super E> filter) {
             return q.removeIf(filter);
         }
         @Override
-        public Spliterator<E> spliterator() {return q.spliterator();}
+        public Spliterbtor<E> spliterbtor() {return q.spliterbtor();}
         @Override
-        public Stream<E> stream()           {return q.stream();}
+        public Strebm<E> strebm()           {return q.strebm();}
         @Override
-        public Stream<E> parallelStream()   {return q.parallelStream();}
+        public Strebm<E> pbrbllelStrebm()   {return q.pbrbllelStrebm();}
     }
 }

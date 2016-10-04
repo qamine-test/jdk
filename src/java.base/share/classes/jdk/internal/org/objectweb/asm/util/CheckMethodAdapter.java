@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,136 +56,136 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbckbge jdk.internbl.org.objectweb.bsm.util;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.PrintWriter;
+import jbvb.io.StringWriter;
+import jbvb.lbng.reflect.Field;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.TypePath;
-import jdk.internal.org.objectweb.asm.TypeReference;
-import jdk.internal.org.objectweb.asm.tree.MethodNode;
-import jdk.internal.org.objectweb.asm.tree.analysis.Analyzer;
-import jdk.internal.org.objectweb.asm.tree.analysis.BasicValue;
-import jdk.internal.org.objectweb.asm.tree.analysis.BasicVerifier;
+import jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor;
+import jdk.internbl.org.objectweb.bsm.Attribute;
+import jdk.internbl.org.objectweb.bsm.Hbndle;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Type;
+import jdk.internbl.org.objectweb.bsm.TypePbth;
+import jdk.internbl.org.objectweb.bsm.TypeReference;
+import jdk.internbl.org.objectweb.bsm.tree.MethodNode;
+import jdk.internbl.org.objectweb.bsm.tree.bnblysis.Anblyzer;
+import jdk.internbl.org.objectweb.bsm.tree.bnblysis.BbsicVblue;
+import jdk.internbl.org.objectweb.bsm.tree.bnblysis.BbsicVerifier;
 
 /**
- * A {@link MethodVisitor} that checks that its methods are properly used. More
- * precisely this method adapter checks each instruction individually, i.e.,
- * each visit method checks some preconditions based <i>only</i> on its
- * arguments - such as the fact that the given opcode is correct for a given
- * visit method. This adapter can also perform some basic data flow checks (more
- * precisely those that can be performed without the full class hierarchy - see
- * {@link jdk.internal.org.objectweb.asm.tree.analysis.BasicVerifier}). For instance in a
- * method whose signature is <tt>void m ()</tt>, the invalid instruction
- * IRETURN, or the invalid sequence IADD L2I will be detected if the data flow
- * checks are enabled. These checks are enabled by using the
- * {@link #CheckMethodAdapter(int,String,String,MethodVisitor,Map)} constructor.
- * They are not performed if any other constructor is used.
+ * A {@link MethodVisitor} thbt checks thbt its methods bre properly used. More
+ * precisely this method bdbpter checks ebch instruction individublly, i.e.,
+ * ebch visit method checks some preconditions bbsed <i>only</i> on its
+ * brguments - such bs the fbct thbt the given opcode is correct for b given
+ * visit method. This bdbpter cbn blso perform some bbsic dbtb flow checks (more
+ * precisely those thbt cbn be performed without the full clbss hierbrchy - see
+ * {@link jdk.internbl.org.objectweb.bsm.tree.bnblysis.BbsicVerifier}). For instbnce in b
+ * method whose signbture is <tt>void m ()</tt>, the invblid instruction
+ * IRETURN, or the invblid sequence IADD L2I will be detected if the dbtb flow
+ * checks bre enbbled. These checks bre enbbled by using the
+ * {@link #CheckMethodAdbpter(int,String,String,MethodVisitor,Mbp)} constructor.
+ * They bre not performed if bny other constructor is used.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class CheckMethodAdapter extends MethodVisitor {
+public clbss CheckMethodAdbpter extends MethodVisitor {
 
     /**
-     * The class version number.
+     * The clbss version number.
      */
     public int version;
 
     /**
-     * The access flags of the method.
+     * The bccess flbgs of the method.
      */
-    private int access;
+    privbte int bccess;
 
     /**
-     * <tt>true</tt> if the visitCode method has been called.
+     * <tt>true</tt> if the visitCode method hbs been cblled.
      */
-    private boolean startCode;
+    privbte boolebn stbrtCode;
 
     /**
-     * <tt>true</tt> if the visitMaxs method has been called.
+     * <tt>true</tt> if the visitMbxs method hbs been cblled.
      */
-    private boolean endCode;
+    privbte boolebn endCode;
 
     /**
-     * <tt>true</tt> if the visitEnd method has been called.
+     * <tt>true</tt> if the visitEnd method hbs been cblled.
      */
-    private boolean endMethod;
+    privbte boolebn endMethod;
 
     /**
      * Number of visited instructions.
      */
-    private int insnCount;
+    privbte int insnCount;
 
     /**
-     * The already visited labels. This map associate Integer values to pseudo
+     * The blrebdy visited lbbels. This mbp bssocibte Integer vblues to pseudo
      * code offsets.
      */
-    private final Map<Label, Integer> labels;
+    privbte finbl Mbp<Lbbel, Integer> lbbels;
 
     /**
-     * The labels used in this method. Every used label must be visited with
-     * visitLabel before the end of the method (i.e. should be in #labels).
+     * The lbbels used in this method. Every used lbbel must be visited with
+     * visitLbbel before the end of the method (i.e. should be in #lbbels).
      */
-    private Set<Label> usedLabels;
+    privbte Set<Lbbel> usedLbbels;
 
     /**
-     * Number of visited frames in expanded form.
+     * Number of visited frbmes in expbnded form.
      */
-    private int expandedFrames;
+    privbte int expbndedFrbmes;
 
     /**
-     * Number of visited frames in compressed form.
+     * Number of visited frbmes in compressed form.
      */
-    private int compressedFrames;
+    privbte int compressedFrbmes;
 
     /**
-     * Number of instructions before the last visited frame.
+     * Number of instructions before the lbst visited frbme.
      */
-    private int lastFrame = -1;
+    privbte int lbstFrbme = -1;
 
     /**
-     * The exception handler ranges. Each pair of list element contains the
-     * start and end labels of an exception handler block.
+     * The exception hbndler rbnges. Ebch pbir of list element contbins the
+     * stbrt bnd end lbbels of bn exception hbndler block.
      */
-    private List<Label> handlers;
+    privbte List<Lbbel> hbndlers;
 
     /**
-     * Code of the visit method to be used for each opcode.
+     * Code of the visit method to be used for ebch opcode.
      */
-    private static final int[] TYPE;
+    privbte stbtic finbl int[] TYPE;
 
     /**
-     * The Label.status field.
+     * The Lbbel.stbtus field.
      */
-    private static Field labelStatusField;
+    privbte stbtic Field lbbelStbtusField;
 
-    static {
+    stbtic {
         String s = "BBBBBBBBBBBBBBBBCCIAADDDDDAAAAAAAAAAAAAAAAAAAABBBBBBBBDD"
                 + "DDDAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
                 + "BBBBBBBBBBBBBBBBBBBJBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHD"
                 + "KLBBBBBBFFFFGGGGAECEBBEEBBAMHHAA";
         TYPE = new int[s.length()];
         for (int i = 0; i < TYPE.length; ++i) {
-            TYPE[i] = s.charAt(i) - 'A' - 1;
+            TYPE[i] = s.chbrAt(i) - 'A' - 1;
         }
     }
 
-    // code to generate the above string
-    // public static void main (String[] args) {
+    // code to generbte the bbove string
+    // public stbtic void mbin (String[] brgs) {
     // int[] TYPE = new int[] {
     // 0, //NOP
     // 0, //ACONST_NULL
@@ -391,133 +391,133 @@ public class CheckMethodAdapter extends MethodVisitor {
     // -1 //JSR_W
     // };
     // for (int i = 0; i < TYPE.length; ++i) {
-    // System.out.print((char)(TYPE[i] + 1 + 'A'));
+    // System.out.print((chbr)(TYPE[i] + 1 + 'A'));
     // }
     // System.out.println();
     // }
 
     /**
-     * Constructs a new {@link CheckMethodAdapter} object. This method adapter
-     * will not perform any data flow check (see
-     * {@link #CheckMethodAdapter(int,String,String,MethodVisitor,Map)}).
-     * <i>Subclasses must not use this constructor</i>. Instead, they must use
-     * the {@link #CheckMethodAdapter(int, MethodVisitor, Map)} version.
+     * Constructs b new {@link CheckMethodAdbpter} object. This method bdbpter
+     * will not perform bny dbtb flow check (see
+     * {@link #CheckMethodAdbpter(int,String,String,MethodVisitor,Mbp)}).
+     * <i>Subclbsses must not use this constructor</i>. Instebd, they must use
+     * the {@link #CheckMethodAdbpter(int, MethodVisitor, Mbp)} version.
      *
-     * @param mv
-     *            the method visitor to which this adapter must delegate calls.
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter must delegbte cblls.
      */
-    public CheckMethodAdapter(final MethodVisitor mv) {
-        this(mv, new HashMap<Label, Integer>());
+    public CheckMethodAdbpter(finbl MethodVisitor mv) {
+        this(mv, new HbshMbp<Lbbel, Integer>());
     }
 
     /**
-     * Constructs a new {@link CheckMethodAdapter} object. This method adapter
-     * will not perform any data flow check (see
-     * {@link #CheckMethodAdapter(int,String,String,MethodVisitor,Map)}).
-     * <i>Subclasses must not use this constructor</i>. Instead, they must use
-     * the {@link #CheckMethodAdapter(int, MethodVisitor, Map)} version.
+     * Constructs b new {@link CheckMethodAdbpter} object. This method bdbpter
+     * will not perform bny dbtb flow check (see
+     * {@link #CheckMethodAdbpter(int,String,String,MethodVisitor,Mbp)}).
+     * <i>Subclbsses must not use this constructor</i>. Instebd, they must use
+     * the {@link #CheckMethodAdbpter(int, MethodVisitor, Mbp)} version.
      *
-     * @param mv
-     *            the method visitor to which this adapter must delegate calls.
-     * @param labels
-     *            a map of already visited labels (in other methods).
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter must delegbte cblls.
+     * @pbrbm lbbels
+     *            b mbp of blrebdy visited lbbels (in other methods).
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public CheckMethodAdapter(final MethodVisitor mv,
-            final Map<Label, Integer> labels) {
-        this(Opcodes.ASM5, mv, labels);
-        if (getClass() != CheckMethodAdapter.class) {
-            throw new IllegalStateException();
+    public CheckMethodAdbpter(finbl MethodVisitor mv,
+            finbl Mbp<Lbbel, Integer> lbbels) {
+        this(Opcodes.ASM5, mv, lbbels);
+        if (getClbss() != CheckMethodAdbpter.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Constructs a new {@link CheckMethodAdapter} object. This method adapter
-     * will not perform any data flow check (see
-     * {@link #CheckMethodAdapter(int,String,String,MethodVisitor,Map)}).
+     * Constructs b new {@link CheckMethodAdbpter} object. This method bdbpter
+     * will not perform bny dbtb flow check (see
+     * {@link #CheckMethodAdbpter(int,String,String,MethodVisitor,Mbp)}).
      *
-     * @param mv
-     *            the method visitor to which this adapter must delegate calls.
-     * @param labels
-     *            a map of already visited labels (in other methods).
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter must delegbte cblls.
+     * @pbrbm lbbels
+     *            b mbp of blrebdy visited lbbels (in other methods).
      */
-    protected CheckMethodAdapter(final int api, final MethodVisitor mv,
-            final Map<Label, Integer> labels) {
-        super(api, mv);
-        this.labels = labels;
-        this.usedLabels = new HashSet<Label>();
-        this.handlers = new ArrayList<Label>();
+    protected CheckMethodAdbpter(finbl int bpi, finbl MethodVisitor mv,
+            finbl Mbp<Lbbel, Integer> lbbels) {
+        super(bpi, mv);
+        this.lbbels = lbbels;
+        this.usedLbbels = new HbshSet<Lbbel>();
+        this.hbndlers = new ArrbyList<Lbbel>();
     }
 
     /**
-     * Constructs a new {@link CheckMethodAdapter} object. This method adapter
-     * will perform basic data flow checks. For instance in a method whose
-     * signature is <tt>void m ()</tt>, the invalid instruction IRETURN, or the
-     * invalid sequence IADD L2I will be detected.
+     * Constructs b new {@link CheckMethodAdbpter} object. This method bdbpter
+     * will perform bbsic dbtb flow checks. For instbnce in b method whose
+     * signbture is <tt>void m ()</tt>, the invblid instruction IRETURN, or the
+     * invblid sequence IADD L2I will be detected.
      *
-     * @param access
-     *            the method's access flags.
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm bccess
+     *            the method's bccess flbgs.
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type Type}).
-     * @param cmv
-     *            the method visitor to which this adapter must delegate calls.
-     * @param labels
-     *            a map of already visited labels (in other methods).
+     * @pbrbm cmv
+     *            the method visitor to which this bdbpter must delegbte cblls.
+     * @pbrbm lbbels
+     *            b mbp of blrebdy visited lbbels (in other methods).
      */
-    public CheckMethodAdapter(final int access, final String name,
-            final String desc, final MethodVisitor cmv,
-            final Map<Label, Integer> labels) {
-        this(new MethodNode(Opcodes.ASM5, access, name, desc, null, null) {
+    public CheckMethodAdbpter(finbl int bccess, finbl String nbme,
+            finbl String desc, finbl MethodVisitor cmv,
+            finbl Mbp<Lbbel, Integer> lbbels) {
+        this(new MethodNode(Opcodes.ASM5, bccess, nbme, desc, null, null) {
             @Override
             public void visitEnd() {
-                Analyzer<BasicValue> a = new Analyzer<BasicValue>(
-                        new BasicVerifier());
+                Anblyzer<BbsicVblue> b = new Anblyzer<BbsicVblue>(
+                        new BbsicVerifier());
                 try {
-                    a.analyze("dummy", this);
-                } catch (Exception e) {
-                    if (e instanceof IndexOutOfBoundsException
-                            && maxLocals == 0 && maxStack == 0) {
+                    b.bnblyze("dummy", this);
+                } cbtch (Exception e) {
+                    if (e instbnceof IndexOutOfBoundsException
+                            && mbxLocbls == 0 && mbxStbck == 0) {
                         throw new RuntimeException(
-                                "Data flow checking option requires valid, non zero maxLocals and maxStack values.");
+                                "Dbtb flow checking option requires vblid, non zero mbxLocbls bnd mbxStbck vblues.");
                     }
-                    e.printStackTrace();
+                    e.printStbckTrbce();
                     StringWriter sw = new StringWriter();
                     PrintWriter pw = new PrintWriter(sw, true);
-                    CheckClassAdapter.printAnalyzerResult(this, a, pw);
+                    CheckClbssAdbpter.printAnblyzerResult(this, b, pw);
                     pw.close();
-                    throw new RuntimeException(e.getMessage() + ' '
+                    throw new RuntimeException(e.getMessbge() + ' '
                             + sw.toString());
                 }
-                accept(cmv);
+                bccept(cmv);
             }
-        }, labels);
-        this.access = access;
+        }, lbbels);
+        this.bccess = bccess;
     }
 
     @Override
-    public void visitParameter(String name, int access) {
-        if (name != null) {
-            checkUnqualifiedName(version, name, "name");
+    public void visitPbrbmeter(String nbme, int bccess) {
+        if (nbme != null) {
+            checkUnqublifiedNbme(version, nbme, "nbme");
         }
-        CheckClassAdapter.checkAccess(access, Opcodes.ACC_FINAL
+        CheckClbssAdbpter.checkAccess(bccess, Opcodes.ACC_FINAL
                 + Opcodes.ACC_MANDATED + Opcodes.ACC_SYNTHETIC);
-        super.visitParameter(name, access);
+        super.visitPbrbmeter(nbme, bccess);
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
+    public AnnotbtionVisitor visitAnnotbtion(finbl String desc,
+            finbl boolebn visible) {
         checkEndMethod();
-        checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitAnnotation(desc, visible));
+        checkDesc(desc, fblse);
+        return new CheckAnnotbtionAdbpter(super.visitAnnotbtion(desc, visible));
     }
 
     @Override
-    public AnnotationVisitor visitTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+    public AnnotbtionVisitor visitTypeAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl String desc, finbl boolebn visible) {
         checkEndMethod();
         int sort = typeRef >>> 24;
         if (sort != TypeReference.METHOD_TYPE_PARAMETER
@@ -526,126 +526,126 @@ public class CheckMethodAdapter extends MethodVisitor {
                 && sort != TypeReference.METHOD_RECEIVER
                 && sort != TypeReference.METHOD_FORMAL_PARAMETER
                 && sort != TypeReference.THROWS) {
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
+            throw new IllegblArgumentException("Invblid type reference sort 0x"
                     + Integer.toHexString(sort));
         }
-        CheckClassAdapter.checkTypeRefAndPath(typeRef, typePath);
-        CheckMethodAdapter.checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitTypeAnnotation(typeRef,
-                typePath, desc, visible));
+        CheckClbssAdbpter.checkTypeRefAndPbth(typeRef, typePbth);
+        CheckMethodAdbpter.checkDesc(desc, fblse);
+        return new CheckAnnotbtionAdbpter(super.visitTypeAnnotbtion(typeRef,
+                typePbth, desc, visible));
     }
 
     @Override
-    public AnnotationVisitor visitAnnotationDefault() {
+    public AnnotbtionVisitor visitAnnotbtionDefbult() {
         checkEndMethod();
-        return new CheckAnnotationAdapter(super.visitAnnotationDefault(), false);
+        return new CheckAnnotbtionAdbpter(super.visitAnnotbtionDefbult(), fblse);
     }
 
     @Override
-    public AnnotationVisitor visitParameterAnnotation(final int parameter,
-            final String desc, final boolean visible) {
+    public AnnotbtionVisitor visitPbrbmeterAnnotbtion(finbl int pbrbmeter,
+            finbl String desc, finbl boolebn visible) {
         checkEndMethod();
-        checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitParameterAnnotation(
-                parameter, desc, visible));
+        checkDesc(desc, fblse);
+        return new CheckAnnotbtionAdbpter(super.visitPbrbmeterAnnotbtion(
+                pbrbmeter, desc, visible));
     }
 
     @Override
-    public void visitAttribute(final Attribute attr) {
+    public void visitAttribute(finbl Attribute bttr) {
         checkEndMethod();
-        if (attr == null) {
-            throw new IllegalArgumentException(
-                    "Invalid attribute (must not be null)");
+        if (bttr == null) {
+            throw new IllegblArgumentException(
+                    "Invblid bttribute (must not be null)");
         }
-        super.visitAttribute(attr);
+        super.visitAttribute(bttr);
     }
 
     @Override
     public void visitCode() {
-        if ((access & Opcodes.ACC_ABSTRACT) != 0) {
-            throw new RuntimeException("Abstract methods cannot have code");
+        if ((bccess & Opcodes.ACC_ABSTRACT) != 0) {
+            throw new RuntimeException("Abstrbct methods cbnnot hbve code");
         }
-        startCode = true;
+        stbrtCode = true;
         super.visitCode();
     }
 
     @Override
-    public void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack) {
-        if (insnCount == lastFrame) {
-            throw new IllegalStateException(
-                    "At most one frame can be visited at a given code location.");
+    public void visitFrbme(finbl int type, finbl int nLocbl,
+            finbl Object[] locbl, finbl int nStbck, finbl Object[] stbck) {
+        if (insnCount == lbstFrbme) {
+            throw new IllegblStbteException(
+                    "At most one frbme cbn be visited bt b given code locbtion.");
         }
-        lastFrame = insnCount;
-        int mLocal;
-        int mStack;
+        lbstFrbme = insnCount;
+        int mLocbl;
+        int mStbck;
         switch (type) {
-        case Opcodes.F_NEW:
-        case Opcodes.F_FULL:
-            mLocal = Integer.MAX_VALUE;
-            mStack = Integer.MAX_VALUE;
-            break;
+        cbse Opcodes.F_NEW:
+        cbse Opcodes.F_FULL:
+            mLocbl = Integer.MAX_VALUE;
+            mStbck = Integer.MAX_VALUE;
+            brebk;
 
-        case Opcodes.F_SAME:
-            mLocal = 0;
-            mStack = 0;
-            break;
+        cbse Opcodes.F_SAME:
+            mLocbl = 0;
+            mStbck = 0;
+            brebk;
 
-        case Opcodes.F_SAME1:
-            mLocal = 0;
-            mStack = 1;
-            break;
+        cbse Opcodes.F_SAME1:
+            mLocbl = 0;
+            mStbck = 1;
+            brebk;
 
-        case Opcodes.F_APPEND:
-        case Opcodes.F_CHOP:
-            mLocal = 3;
-            mStack = 0;
-            break;
+        cbse Opcodes.F_APPEND:
+        cbse Opcodes.F_CHOP:
+            mLocbl = 3;
+            mStbck = 0;
+            brebk;
 
-        default:
-            throw new IllegalArgumentException("Invalid frame type " + type);
+        defbult:
+            throw new IllegblArgumentException("Invblid frbme type " + type);
         }
 
-        if (nLocal > mLocal) {
-            throw new IllegalArgumentException("Invalid nLocal=" + nLocal
-                    + " for frame type " + type);
+        if (nLocbl > mLocbl) {
+            throw new IllegblArgumentException("Invblid nLocbl=" + nLocbl
+                    + " for frbme type " + type);
         }
-        if (nStack > mStack) {
-            throw new IllegalArgumentException("Invalid nStack=" + nStack
-                    + " for frame type " + type);
+        if (nStbck > mStbck) {
+            throw new IllegblArgumentException("Invblid nStbck=" + nStbck
+                    + " for frbme type " + type);
         }
 
         if (type != Opcodes.F_CHOP) {
-            if (nLocal > 0 && (local == null || local.length < nLocal)) {
-                throw new IllegalArgumentException(
-                        "Array local[] is shorter than nLocal");
+            if (nLocbl > 0 && (locbl == null || locbl.length < nLocbl)) {
+                throw new IllegblArgumentException(
+                        "Arrby locbl[] is shorter thbn nLocbl");
             }
-            for (int i = 0; i < nLocal; ++i) {
-                checkFrameValue(local[i]);
+            for (int i = 0; i < nLocbl; ++i) {
+                checkFrbmeVblue(locbl[i]);
             }
         }
-        if (nStack > 0 && (stack == null || stack.length < nStack)) {
-            throw new IllegalArgumentException(
-                    "Array stack[] is shorter than nStack");
+        if (nStbck > 0 && (stbck == null || stbck.length < nStbck)) {
+            throw new IllegblArgumentException(
+                    "Arrby stbck[] is shorter thbn nStbck");
         }
-        for (int i = 0; i < nStack; ++i) {
-            checkFrameValue(stack[i]);
+        for (int i = 0; i < nStbck; ++i) {
+            checkFrbmeVblue(stbck[i]);
         }
         if (type == Opcodes.F_NEW) {
-            ++expandedFrames;
+            ++expbndedFrbmes;
         } else {
-            ++compressedFrames;
+            ++compressedFrbmes;
         }
-        if (expandedFrames > 0 && compressedFrames > 0) {
+        if (expbndedFrbmes > 0 && compressedFrbmes > 0) {
             throw new RuntimeException(
-                    "Expanded and compressed frames must not be mixed.");
+                    "Expbnded bnd compressed frbmes must not be mixed.");
         }
-        super.visitFrame(type, nLocal, local, nStack, stack);
+        super.visitFrbme(type, nLocbl, locbl, nStbck, stbck);
     }
 
     @Override
-    public void visitInsn(final int opcode) {
-        checkStartCode();
+    public void visitInsn(finbl int opcode) {
+        checkStbrtCode();
         checkEndCode();
         checkOpcode(opcode, 0);
         super.visitInsn(opcode);
@@ -653,254 +653,254 @@ public class CheckMethodAdapter extends MethodVisitor {
     }
 
     @Override
-    public void visitIntInsn(final int opcode, final int operand) {
-        checkStartCode();
+    public void visitIntInsn(finbl int opcode, finbl int operbnd) {
+        checkStbrtCode();
         checkEndCode();
         checkOpcode(opcode, 1);
         switch (opcode) {
-        case Opcodes.BIPUSH:
-            checkSignedByte(operand, "Invalid operand");
-            break;
-        case Opcodes.SIPUSH:
-            checkSignedShort(operand, "Invalid operand");
-            break;
-        // case Constants.NEWARRAY:
-        default:
-            if (operand < Opcodes.T_BOOLEAN || operand > Opcodes.T_LONG) {
-                throw new IllegalArgumentException(
-                        "Invalid operand (must be an array type code T_...): "
-                                + operand);
+        cbse Opcodes.BIPUSH:
+            checkSignedByte(operbnd, "Invblid operbnd");
+            brebk;
+        cbse Opcodes.SIPUSH:
+            checkSignedShort(operbnd, "Invblid operbnd");
+            brebk;
+        // cbse Constbnts.NEWARRAY:
+        defbult:
+            if (operbnd < Opcodes.T_BOOLEAN || operbnd > Opcodes.T_LONG) {
+                throw new IllegblArgumentException(
+                        "Invblid operbnd (must be bn brrby type code T_...): "
+                                + operbnd);
             }
         }
-        super.visitIntInsn(opcode, operand);
+        super.visitIntInsn(opcode, operbnd);
         ++insnCount;
     }
 
     @Override
-    public void visitVarInsn(final int opcode, final int var) {
-        checkStartCode();
+    public void visitVbrInsn(finbl int opcode, finbl int vbr) {
+        checkStbrtCode();
         checkEndCode();
         checkOpcode(opcode, 2);
-        checkUnsignedShort(var, "Invalid variable index");
-        super.visitVarInsn(opcode, var);
+        checkUnsignedShort(vbr, "Invblid vbribble index");
+        super.visitVbrInsn(opcode, vbr);
         ++insnCount;
     }
 
     @Override
-    public void visitTypeInsn(final int opcode, final String type) {
-        checkStartCode();
+    public void visitTypeInsn(finbl int opcode, finbl String type) {
+        checkStbrtCode();
         checkEndCode();
         checkOpcode(opcode, 3);
-        checkInternalName(type, "type");
-        if (opcode == Opcodes.NEW && type.charAt(0) == '[') {
-            throw new IllegalArgumentException(
-                    "NEW cannot be used to create arrays: " + type);
+        checkInternblNbme(type, "type");
+        if (opcode == Opcodes.NEW && type.chbrAt(0) == '[') {
+            throw new IllegblArgumentException(
+                    "NEW cbnnot be used to crebte brrbys: " + type);
         }
         super.visitTypeInsn(opcode, type);
         ++insnCount;
     }
 
     @Override
-    public void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        checkStartCode();
+    public void visitFieldInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc) {
+        checkStbrtCode();
         checkEndCode();
         checkOpcode(opcode, 4);
-        checkInternalName(owner, "owner");
-        checkUnqualifiedName(version, name, "name");
-        checkDesc(desc, false);
-        super.visitFieldInsn(opcode, owner, name, desc);
+        checkInternblNbme(owner, "owner");
+        checkUnqublifiedNbme(version, nbme, "nbme");
+        checkDesc(desc, fblse);
+        super.visitFieldInsn(opcode, owner, nbme, desc);
         ++insnCount;
     }
 
-    @Deprecated
+    @Deprecbted
     @Override
-    public void visitMethodInsn(int opcode, String owner, String name,
+    public void visitMethodInsn(int opcode, String owner, String nbme,
             String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
+        if (bpi >= Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc);
             return;
         }
-        doVisitMethodInsn(opcode, owner, name, desc,
+        doVisitMethodInsn(opcode, owner, nbme, desc,
                 opcode == Opcodes.INVOKEINTERFACE);
     }
 
     @Override
-    public void visitMethodInsn(int opcode, String owner, String name,
-            String desc, boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
+    public void visitMethodInsn(int opcode, String owner, String nbme,
+            String desc, boolebn itf) {
+        if (bpi < Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc, itf);
             return;
         }
-        doVisitMethodInsn(opcode, owner, name, desc, itf);
+        doVisitMethodInsn(opcode, owner, nbme, desc, itf);
     }
 
-    private void doVisitMethodInsn(int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        checkStartCode();
+    privbte void doVisitMethodInsn(int opcode, finbl String owner,
+            finbl String nbme, finbl String desc, finbl boolebn itf) {
+        checkStbrtCode();
         checkEndCode();
         checkOpcode(opcode, 5);
-        if (opcode != Opcodes.INVOKESPECIAL || !"<init>".equals(name)) {
-            checkMethodIdentifier(version, name, "name");
+        if (opcode != Opcodes.INVOKESPECIAL || !"<init>".equbls(nbme)) {
+            checkMethodIdentifier(version, nbme, "nbme");
         }
-        checkInternalName(owner, "owner");
+        checkInternblNbme(owner, "owner");
         checkMethodDesc(desc);
         if (opcode == Opcodes.INVOKEVIRTUAL && itf) {
-            throw new IllegalArgumentException(
-                    "INVOKEVIRTUAL can't be used with interfaces");
+            throw new IllegblArgumentException(
+                    "INVOKEVIRTUAL cbn't be used with interfbces");
         }
         if (opcode == Opcodes.INVOKEINTERFACE && !itf) {
-            throw new IllegalArgumentException(
-                    "INVOKEINTERFACE can't be used with classes");
+            throw new IllegblArgumentException(
+                    "INVOKEINTERFACE cbn't be used with clbsses");
         }
-        // Calling super.visitMethodInsn requires to call the correct version
-        // depending on this.api (otherwise infinite loops can occur). To
-        // simplify and to make it easier to automatically remove the backward
-        // compatibility code, we inline the code of the overridden method here.
+        // Cblling super.visitMethodInsn requires to cbll the correct version
+        // depending on this.bpi (otherwise infinite loops cbn occur). To
+        // simplify bnd to mbke it ebsier to butombticblly remove the bbckwbrd
+        // compbtibility code, we inline the code of the overridden method here.
         if (mv != null) {
-            mv.visitMethodInsn(opcode, owner, name, desc, itf);
+            mv.visitMethodInsn(opcode, owner, nbme, desc, itf);
         }
         ++insnCount;
     }
 
     @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
+    public void visitInvokeDynbmicInsn(String nbme, String desc, Hbndle bsm,
             Object... bsmArgs) {
-        checkStartCode();
+        checkStbrtCode();
         checkEndCode();
-        checkMethodIdentifier(version, name, "name");
+        checkMethodIdentifier(version, nbme, "nbme");
         checkMethodDesc(desc);
-        if (bsm.getTag() != Opcodes.H_INVOKESTATIC
-                && bsm.getTag() != Opcodes.H_NEWINVOKESPECIAL) {
-            throw new IllegalArgumentException("invalid handle tag "
-                    + bsm.getTag());
+        if (bsm.getTbg() != Opcodes.H_INVOKESTATIC
+                && bsm.getTbg() != Opcodes.H_NEWINVOKESPECIAL) {
+            throw new IllegblArgumentException("invblid hbndle tbg "
+                    + bsm.getTbg());
         }
         for (int i = 0; i < bsmArgs.length; i++) {
-            checkLDCConstant(bsmArgs[i]);
+            checkLDCConstbnt(bsmArgs[i]);
         }
-        super.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
+        super.visitInvokeDynbmicInsn(nbme, desc, bsm, bsmArgs);
         ++insnCount;
     }
 
     @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
-        checkStartCode();
+    public void visitJumpInsn(finbl int opcode, finbl Lbbel lbbel) {
+        checkStbrtCode();
         checkEndCode();
         checkOpcode(opcode, 6);
-        checkLabel(label, false, "label");
-        checkNonDebugLabel(label);
-        super.visitJumpInsn(opcode, label);
-        usedLabels.add(label);
+        checkLbbel(lbbel, fblse, "lbbel");
+        checkNonDebugLbbel(lbbel);
+        super.visitJumpInsn(opcode, lbbel);
+        usedLbbels.bdd(lbbel);
         ++insnCount;
     }
 
     @Override
-    public void visitLabel(final Label label) {
-        checkStartCode();
+    public void visitLbbel(finbl Lbbel lbbel) {
+        checkStbrtCode();
         checkEndCode();
-        checkLabel(label, false, "label");
-        if (labels.get(label) != null) {
-            throw new IllegalArgumentException("Already visited label");
+        checkLbbel(lbbel, fblse, "lbbel");
+        if (lbbels.get(lbbel) != null) {
+            throw new IllegblArgumentException("Alrebdy visited lbbel");
         }
-        labels.put(label, new Integer(insnCount));
-        super.visitLabel(label);
+        lbbels.put(lbbel, new Integer(insnCount));
+        super.visitLbbel(lbbel);
     }
 
     @Override
-    public void visitLdcInsn(final Object cst) {
-        checkStartCode();
+    public void visitLdcInsn(finbl Object cst) {
+        checkStbrtCode();
         checkEndCode();
-        checkLDCConstant(cst);
+        checkLDCConstbnt(cst);
         super.visitLdcInsn(cst);
         ++insnCount;
     }
 
     @Override
-    public void visitIincInsn(final int var, final int increment) {
-        checkStartCode();
+    public void visitIincInsn(finbl int vbr, finbl int increment) {
+        checkStbrtCode();
         checkEndCode();
-        checkUnsignedShort(var, "Invalid variable index");
-        checkSignedShort(increment, "Invalid increment");
-        super.visitIincInsn(var, increment);
+        checkUnsignedShort(vbr, "Invblid vbribble index");
+        checkSignedShort(increment, "Invblid increment");
+        super.visitIincInsn(vbr, increment);
         ++insnCount;
     }
 
     @Override
-    public void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels) {
-        checkStartCode();
+    public void visitTbbleSwitchInsn(finbl int min, finbl int mbx,
+            finbl Lbbel dflt, finbl Lbbel... lbbels) {
+        checkStbrtCode();
         checkEndCode();
-        if (max < min) {
-            throw new IllegalArgumentException("Max = " + max
-                    + " must be greater than or equal to min = " + min);
+        if (mbx < min) {
+            throw new IllegblArgumentException("Mbx = " + mbx
+                    + " must be grebter thbn or equbl to min = " + min);
         }
-        checkLabel(dflt, false, "default label");
-        checkNonDebugLabel(dflt);
-        if (labels == null || labels.length != max - min + 1) {
-            throw new IllegalArgumentException(
-                    "There must be max - min + 1 labels");
+        checkLbbel(dflt, fblse, "defbult lbbel");
+        checkNonDebugLbbel(dflt);
+        if (lbbels == null || lbbels.length != mbx - min + 1) {
+            throw new IllegblArgumentException(
+                    "There must be mbx - min + 1 lbbels");
         }
-        for (int i = 0; i < labels.length; ++i) {
-            checkLabel(labels[i], false, "label at index " + i);
-            checkNonDebugLabel(labels[i]);
+        for (int i = 0; i < lbbels.length; ++i) {
+            checkLbbel(lbbels[i], fblse, "lbbel bt index " + i);
+            checkNonDebugLbbel(lbbels[i]);
         }
-        super.visitTableSwitchInsn(min, max, dflt, labels);
-        for (int i = 0; i < labels.length; ++i) {
-            usedLabels.add(labels[i]);
-        }
-        ++insnCount;
-    }
-
-    @Override
-    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
-            final Label[] labels) {
-        checkEndCode();
-        checkStartCode();
-        checkLabel(dflt, false, "default label");
-        checkNonDebugLabel(dflt);
-        if (keys == null || labels == null || keys.length != labels.length) {
-            throw new IllegalArgumentException(
-                    "There must be the same number of keys and labels");
-        }
-        for (int i = 0; i < labels.length; ++i) {
-            checkLabel(labels[i], false, "label at index " + i);
-            checkNonDebugLabel(labels[i]);
-        }
-        super.visitLookupSwitchInsn(dflt, keys, labels);
-        usedLabels.add(dflt);
-        for (int i = 0; i < labels.length; ++i) {
-            usedLabels.add(labels[i]);
+        super.visitTbbleSwitchInsn(min, mbx, dflt, lbbels);
+        for (int i = 0; i < lbbels.length; ++i) {
+            usedLbbels.bdd(lbbels[i]);
         }
         ++insnCount;
     }
 
     @Override
-    public void visitMultiANewArrayInsn(final String desc, final int dims) {
-        checkStartCode();
+    public void visitLookupSwitchInsn(finbl Lbbel dflt, finbl int[] keys,
+            finbl Lbbel[] lbbels) {
         checkEndCode();
-        checkDesc(desc, false);
-        if (desc.charAt(0) != '[') {
-            throw new IllegalArgumentException(
-                    "Invalid descriptor (must be an array type descriptor): "
+        checkStbrtCode();
+        checkLbbel(dflt, fblse, "defbult lbbel");
+        checkNonDebugLbbel(dflt);
+        if (keys == null || lbbels == null || keys.length != lbbels.length) {
+            throw new IllegblArgumentException(
+                    "There must be the sbme number of keys bnd lbbels");
+        }
+        for (int i = 0; i < lbbels.length; ++i) {
+            checkLbbel(lbbels[i], fblse, "lbbel bt index " + i);
+            checkNonDebugLbbel(lbbels[i]);
+        }
+        super.visitLookupSwitchInsn(dflt, keys, lbbels);
+        usedLbbels.bdd(dflt);
+        for (int i = 0; i < lbbels.length; ++i) {
+            usedLbbels.bdd(lbbels[i]);
+        }
+        ++insnCount;
+    }
+
+    @Override
+    public void visitMultiANewArrbyInsn(finbl String desc, finbl int dims) {
+        checkStbrtCode();
+        checkEndCode();
+        checkDesc(desc, fblse);
+        if (desc.chbrAt(0) != '[') {
+            throw new IllegblArgumentException(
+                    "Invblid descriptor (must be bn brrby type descriptor): "
                             + desc);
         }
         if (dims < 1) {
-            throw new IllegalArgumentException(
-                    "Invalid dimensions (must be greater than 0): " + dims);
+            throw new IllegblArgumentException(
+                    "Invblid dimensions (must be grebter thbn 0): " + dims);
         }
-        if (dims > desc.lastIndexOf('[') + 1) {
-            throw new IllegalArgumentException(
-                    "Invalid dimensions (must not be greater than dims(desc)): "
+        if (dims > desc.lbstIndexOf('[') + 1) {
+            throw new IllegblArgumentException(
+                    "Invblid dimensions (must not be grebter thbn dims(desc)): "
                             + dims);
         }
-        super.visitMultiANewArrayInsn(desc, dims);
+        super.visitMultiANewArrbyInsn(desc, dims);
         ++insnCount;
     }
 
     @Override
-    public AnnotationVisitor visitInsnAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        checkStartCode();
+    public AnnotbtionVisitor visitInsnAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl String desc, finbl boolebn visible) {
+        checkStbrtCode();
         checkEndCode();
         int sort = typeRef >>> 24;
         if (sort != TypeReference.INSTANCEOF && sort != TypeReference.NEW
@@ -911,143 +911,143 @@ public class CheckMethodAdapter extends MethodVisitor {
                 && sort != TypeReference.METHOD_INVOCATION_TYPE_ARGUMENT
                 && sort != TypeReference.CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT
                 && sort != TypeReference.METHOD_REFERENCE_TYPE_ARGUMENT) {
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
+            throw new IllegblArgumentException("Invblid type reference sort 0x"
                     + Integer.toHexString(sort));
         }
-        CheckClassAdapter.checkTypeRefAndPath(typeRef, typePath);
-        CheckMethodAdapter.checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitInsnAnnotation(typeRef,
-                typePath, desc, visible));
+        CheckClbssAdbpter.checkTypeRefAndPbth(typeRef, typePbth);
+        CheckMethodAdbpter.checkDesc(desc, fblse);
+        return new CheckAnnotbtionAdbpter(super.visitInsnAnnotbtion(typeRef,
+                typePbth, desc, visible));
     }
 
     @Override
-    public void visitTryCatchBlock(final Label start, final Label end,
-            final Label handler, final String type) {
-        checkStartCode();
+    public void visitTryCbtchBlock(finbl Lbbel stbrt, finbl Lbbel end,
+            finbl Lbbel hbndler, finbl String type) {
+        checkStbrtCode();
         checkEndCode();
-        checkLabel(start, false, "start label");
-        checkLabel(end, false, "end label");
-        checkLabel(handler, false, "handler label");
-        checkNonDebugLabel(start);
-        checkNonDebugLabel(end);
-        checkNonDebugLabel(handler);
-        if (labels.get(start) != null || labels.get(end) != null
-                || labels.get(handler) != null) {
-            throw new IllegalStateException(
-                    "Try catch blocks must be visited before their labels");
+        checkLbbel(stbrt, fblse, "stbrt lbbel");
+        checkLbbel(end, fblse, "end lbbel");
+        checkLbbel(hbndler, fblse, "hbndler lbbel");
+        checkNonDebugLbbel(stbrt);
+        checkNonDebugLbbel(end);
+        checkNonDebugLbbel(hbndler);
+        if (lbbels.get(stbrt) != null || lbbels.get(end) != null
+                || lbbels.get(hbndler) != null) {
+            throw new IllegblStbteException(
+                    "Try cbtch blocks must be visited before their lbbels");
         }
         if (type != null) {
-            checkInternalName(type, "type");
+            checkInternblNbme(type, "type");
         }
-        super.visitTryCatchBlock(start, end, handler, type);
-        handlers.add(start);
-        handlers.add(end);
+        super.visitTryCbtchBlock(stbrt, end, hbndler, type);
+        hbndlers.bdd(stbrt);
+        hbndlers.bdd(end);
     }
 
     @Override
-    public AnnotationVisitor visitTryCatchAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        checkStartCode();
+    public AnnotbtionVisitor visitTryCbtchAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl String desc, finbl boolebn visible) {
+        checkStbrtCode();
         checkEndCode();
         int sort = typeRef >>> 24;
         if (sort != TypeReference.EXCEPTION_PARAMETER) {
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
+            throw new IllegblArgumentException("Invblid type reference sort 0x"
                     + Integer.toHexString(sort));
         }
-        CheckClassAdapter.checkTypeRefAndPath(typeRef, typePath);
-        CheckMethodAdapter.checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitTryCatchAnnotation(
-                typeRef, typePath, desc, visible));
+        CheckClbssAdbpter.checkTypeRefAndPbth(typeRef, typePbth);
+        CheckMethodAdbpter.checkDesc(desc, fblse);
+        return new CheckAnnotbtionAdbpter(super.visitTryCbtchAnnotbtion(
+                typeRef, typePbth, desc, visible));
     }
 
     @Override
-    public void visitLocalVariable(final String name, final String desc,
-            final String signature, final Label start, final Label end,
-            final int index) {
-        checkStartCode();
+    public void visitLocblVbribble(finbl String nbme, finbl String desc,
+            finbl String signbture, finbl Lbbel stbrt, finbl Lbbel end,
+            finbl int index) {
+        checkStbrtCode();
         checkEndCode();
-        checkUnqualifiedName(version, name, "name");
-        checkDesc(desc, false);
-        checkLabel(start, true, "start label");
-        checkLabel(end, true, "end label");
-        checkUnsignedShort(index, "Invalid variable index");
-        int s = labels.get(start).intValue();
-        int e = labels.get(end).intValue();
+        checkUnqublifiedNbme(version, nbme, "nbme");
+        checkDesc(desc, fblse);
+        checkLbbel(stbrt, true, "stbrt lbbel");
+        checkLbbel(end, true, "end lbbel");
+        checkUnsignedShort(index, "Invblid vbribble index");
+        int s = lbbels.get(stbrt).intVblue();
+        int e = lbbels.get(end).intVblue();
         if (e < s) {
-            throw new IllegalArgumentException(
-                    "Invalid start and end labels (end must be greater than start)");
+            throw new IllegblArgumentException(
+                    "Invblid stbrt bnd end lbbels (end must be grebter thbn stbrt)");
         }
-        super.visitLocalVariable(name, desc, signature, start, end, index);
+        super.visitLocblVbribble(nbme, desc, signbture, stbrt, end, index);
     }
 
     @Override
-    public AnnotationVisitor visitLocalVariableAnnotation(int typeRef,
-            TypePath typePath, Label[] start, Label[] end, int[] index,
-            String desc, boolean visible) {
-        checkStartCode();
+    public AnnotbtionVisitor visitLocblVbribbleAnnotbtion(int typeRef,
+            TypePbth typePbth, Lbbel[] stbrt, Lbbel[] end, int[] index,
+            String desc, boolebn visible) {
+        checkStbrtCode();
         checkEndCode();
         int sort = typeRef >>> 24;
         if (sort != TypeReference.LOCAL_VARIABLE
                 && sort != TypeReference.RESOURCE_VARIABLE) {
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
+            throw new IllegblArgumentException("Invblid type reference sort 0x"
                     + Integer.toHexString(sort));
         }
-        CheckClassAdapter.checkTypeRefAndPath(typeRef, typePath);
-        checkDesc(desc, false);
-        if (start == null || end == null || index == null
-                || end.length != start.length || index.length != start.length) {
-            throw new IllegalArgumentException(
-                    "Invalid start, end and index arrays (must be non null and of identical length");
+        CheckClbssAdbpter.checkTypeRefAndPbth(typeRef, typePbth);
+        checkDesc(desc, fblse);
+        if (stbrt == null || end == null || index == null
+                || end.length != stbrt.length || index.length != stbrt.length) {
+            throw new IllegblArgumentException(
+                    "Invblid stbrt, end bnd index brrbys (must be non null bnd of identicbl length");
         }
-        for (int i = 0; i < start.length; ++i) {
-            checkLabel(start[i], true, "start label");
-            checkLabel(end[i], true, "end label");
-            checkUnsignedShort(index[i], "Invalid variable index");
-            int s = labels.get(start[i]).intValue();
-            int e = labels.get(end[i]).intValue();
+        for (int i = 0; i < stbrt.length; ++i) {
+            checkLbbel(stbrt[i], true, "stbrt lbbel");
+            checkLbbel(end[i], true, "end lbbel");
+            checkUnsignedShort(index[i], "Invblid vbribble index");
+            int s = lbbels.get(stbrt[i]).intVblue();
+            int e = lbbels.get(end[i]).intVblue();
             if (e < s) {
-                throw new IllegalArgumentException(
-                        "Invalid start and end labels (end must be greater than start)");
+                throw new IllegblArgumentException(
+                        "Invblid stbrt bnd end lbbels (end must be grebter thbn stbrt)");
             }
         }
-        return super.visitLocalVariableAnnotation(typeRef, typePath, start,
+        return super.visitLocblVbribbleAnnotbtion(typeRef, typePbth, stbrt,
                 end, index, desc, visible);
     }
 
     @Override
-    public void visitLineNumber(final int line, final Label start) {
-        checkStartCode();
+    public void visitLineNumber(finbl int line, finbl Lbbel stbrt) {
+        checkStbrtCode();
         checkEndCode();
-        checkUnsignedShort(line, "Invalid line number");
-        checkLabel(start, true, "start label");
-        super.visitLineNumber(line, start);
+        checkUnsignedShort(line, "Invblid line number");
+        checkLbbel(stbrt, true, "stbrt lbbel");
+        super.visitLineNumber(line, stbrt);
     }
 
     @Override
-    public void visitMaxs(final int maxStack, final int maxLocals) {
-        checkStartCode();
+    public void visitMbxs(finbl int mbxStbck, finbl int mbxLocbls) {
+        checkStbrtCode();
         checkEndCode();
         endCode = true;
-        for (Label l : usedLabels) {
-            if (labels.get(l) == null) {
-                throw new IllegalStateException("Undefined label used");
+        for (Lbbel l : usedLbbels) {
+            if (lbbels.get(l) == null) {
+                throw new IllegblStbteException("Undefined lbbel used");
             }
         }
-        for (int i = 0; i < handlers.size();) {
-            Integer start = labels.get(handlers.get(i++));
-            Integer end = labels.get(handlers.get(i++));
-            if (start == null || end == null) {
-                throw new IllegalStateException(
-                        "Undefined try catch block labels");
+        for (int i = 0; i < hbndlers.size();) {
+            Integer stbrt = lbbels.get(hbndlers.get(i++));
+            Integer end = lbbels.get(hbndlers.get(i++));
+            if (stbrt == null || end == null) {
+                throw new IllegblStbteException(
+                        "Undefined try cbtch block lbbels");
             }
-            if (end.intValue() <= start.intValue()) {
-                throw new IllegalStateException(
-                        "Emty try catch block handler range");
+            if (end.intVblue() <= stbrt.intVblue()) {
+                throw new IllegblStbteException(
+                        "Emty try cbtch block hbndler rbnge");
             }
         }
-        checkUnsignedShort(maxStack, "Invalid max stack");
-        checkUnsignedShort(maxLocals, "Invalid max locals");
-        super.visitMaxs(maxStack, maxLocals);
+        checkUnsignedShort(mbxStbck, "Invblid mbx stbck");
+        checkUnsignedShort(mbxLocbls, "Invblid mbx locbls");
+        super.visitMbxs(mbxStbck, mbxLocbls);
     }
 
     @Override
@@ -1060,511 +1060,511 @@ public class CheckMethodAdapter extends MethodVisitor {
     // -------------------------------------------------------------------------
 
     /**
-     * Checks that the visitCode method has been called.
+     * Checks thbt the visitCode method hbs been cblled.
      */
-    void checkStartCode() {
-        if (!startCode) {
-            throw new IllegalStateException(
-                    "Cannot visit instructions before visitCode has been called.");
+    void checkStbrtCode() {
+        if (!stbrtCode) {
+            throw new IllegblStbteException(
+                    "Cbnnot visit instructions before visitCode hbs been cblled.");
         }
     }
 
     /**
-     * Checks that the visitMaxs method has not been called.
+     * Checks thbt the visitMbxs method hbs not been cblled.
      */
     void checkEndCode() {
         if (endCode) {
-            throw new IllegalStateException(
-                    "Cannot visit instructions after visitMaxs has been called.");
+            throw new IllegblStbteException(
+                    "Cbnnot visit instructions bfter visitMbxs hbs been cblled.");
         }
     }
 
     /**
-     * Checks that the visitEnd method has not been called.
+     * Checks thbt the visitEnd method hbs not been cblled.
      */
     void checkEndMethod() {
         if (endMethod) {
-            throw new IllegalStateException(
-                    "Cannot visit elements after visitEnd has been called.");
+            throw new IllegblStbteException(
+                    "Cbnnot visit elements bfter visitEnd hbs been cblled.");
         }
     }
 
     /**
-     * Checks a stack frame value.
+     * Checks b stbck frbme vblue.
      *
-     * @param value
-     *            the value to be checked.
+     * @pbrbm vblue
+     *            the vblue to be checked.
      */
-    void checkFrameValue(final Object value) {
-        if (value == Opcodes.TOP || value == Opcodes.INTEGER
-                || value == Opcodes.FLOAT || value == Opcodes.LONG
-                || value == Opcodes.DOUBLE || value == Opcodes.NULL
-                || value == Opcodes.UNINITIALIZED_THIS) {
+    void checkFrbmeVblue(finbl Object vblue) {
+        if (vblue == Opcodes.TOP || vblue == Opcodes.INTEGER
+                || vblue == Opcodes.FLOAT || vblue == Opcodes.LONG
+                || vblue == Opcodes.DOUBLE || vblue == Opcodes.NULL
+                || vblue == Opcodes.UNINITIALIZED_THIS) {
             return;
         }
-        if (value instanceof String) {
-            checkInternalName((String) value, "Invalid stack frame value");
+        if (vblue instbnceof String) {
+            checkInternblNbme((String) vblue, "Invblid stbck frbme vblue");
             return;
         }
-        if (!(value instanceof Label)) {
-            throw new IllegalArgumentException("Invalid stack frame value: "
-                    + value);
+        if (!(vblue instbnceof Lbbel)) {
+            throw new IllegblArgumentException("Invblid stbck frbme vblue: "
+                    + vblue);
         } else {
-            usedLabels.add((Label) value);
+            usedLbbels.bdd((Lbbel) vblue);
         }
     }
 
     /**
-     * Checks that the type of the given opcode is equal to the given type.
+     * Checks thbt the type of the given opcode is equbl to the given type.
      *
-     * @param opcode
+     * @pbrbm opcode
      *            the opcode to be checked.
-     * @param type
+     * @pbrbm type
      *            the expected opcode type.
      */
-    static void checkOpcode(final int opcode, final int type) {
+    stbtic void checkOpcode(finbl int opcode, finbl int type) {
         if (opcode < 0 || opcode > 199 || TYPE[opcode] != type) {
-            throw new IllegalArgumentException("Invalid opcode: " + opcode);
+            throw new IllegblArgumentException("Invblid opcode: " + opcode);
         }
     }
 
     /**
-     * Checks that the given value is a signed byte.
+     * Checks thbt the given vblue is b signed byte.
      *
-     * @param value
-     *            the value to be checked.
-     * @param msg
-     *            an message to be used in case of error.
+     * @pbrbm vblue
+     *            the vblue to be checked.
+     * @pbrbm msg
+     *            bn messbge to be used in cbse of error.
      */
-    static void checkSignedByte(final int value, final String msg) {
-        if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
-            throw new IllegalArgumentException(msg
-                    + " (must be a signed byte): " + value);
+    stbtic void checkSignedByte(finbl int vblue, finbl String msg) {
+        if (vblue < Byte.MIN_VALUE || vblue > Byte.MAX_VALUE) {
+            throw new IllegblArgumentException(msg
+                    + " (must be b signed byte): " + vblue);
         }
     }
 
     /**
-     * Checks that the given value is a signed short.
+     * Checks thbt the given vblue is b signed short.
      *
-     * @param value
-     *            the value to be checked.
-     * @param msg
-     *            an message to be used in case of error.
+     * @pbrbm vblue
+     *            the vblue to be checked.
+     * @pbrbm msg
+     *            bn messbge to be used in cbse of error.
      */
-    static void checkSignedShort(final int value, final String msg) {
-        if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
-            throw new IllegalArgumentException(msg
-                    + " (must be a signed short): " + value);
+    stbtic void checkSignedShort(finbl int vblue, finbl String msg) {
+        if (vblue < Short.MIN_VALUE || vblue > Short.MAX_VALUE) {
+            throw new IllegblArgumentException(msg
+                    + " (must be b signed short): " + vblue);
         }
     }
 
     /**
-     * Checks that the given value is an unsigned short.
+     * Checks thbt the given vblue is bn unsigned short.
      *
-     * @param value
-     *            the value to be checked.
-     * @param msg
-     *            an message to be used in case of error.
+     * @pbrbm vblue
+     *            the vblue to be checked.
+     * @pbrbm msg
+     *            bn messbge to be used in cbse of error.
      */
-    static void checkUnsignedShort(final int value, final String msg) {
-        if (value < 0 || value > 65535) {
-            throw new IllegalArgumentException(msg
-                    + " (must be an unsigned short): " + value);
+    stbtic void checkUnsignedShort(finbl int vblue, finbl String msg) {
+        if (vblue < 0 || vblue > 65535) {
+            throw new IllegblArgumentException(msg
+                    + " (must be bn unsigned short): " + vblue);
         }
     }
 
     /**
-     * Checks that the given value is an {@link Integer}, a{@link Float}, a
-     * {@link Long}, a {@link Double} or a {@link String}.
+     * Checks thbt the given vblue is bn {@link Integer}, b{@link Flobt}, b
+     * {@link Long}, b {@link Double} or b {@link String}.
      *
-     * @param cst
-     *            the value to be checked.
+     * @pbrbm cst
+     *            the vblue to be checked.
      */
-    static void checkConstant(final Object cst) {
-        if (!(cst instanceof Integer) && !(cst instanceof Float)
-                && !(cst instanceof Long) && !(cst instanceof Double)
-                && !(cst instanceof String)) {
-            throw new IllegalArgumentException("Invalid constant: " + cst);
+    stbtic void checkConstbnt(finbl Object cst) {
+        if (!(cst instbnceof Integer) && !(cst instbnceof Flobt)
+                && !(cst instbnceof Long) && !(cst instbnceof Double)
+                && !(cst instbnceof String)) {
+            throw new IllegblArgumentException("Invblid constbnt: " + cst);
         }
     }
 
-    void checkLDCConstant(final Object cst) {
-        if (cst instanceof Type) {
+    void checkLDCConstbnt(finbl Object cst) {
+        if (cst instbnceof Type) {
             int s = ((Type) cst).getSort();
             if (s != Type.OBJECT && s != Type.ARRAY && s != Type.METHOD) {
-                throw new IllegalArgumentException("Illegal LDC constant value");
+                throw new IllegblArgumentException("Illegbl LDC constbnt vblue");
             }
             if (s != Type.METHOD && (version & 0xFFFF) < Opcodes.V1_5) {
-                throw new IllegalArgumentException(
-                        "ldc of a constant class requires at least version 1.5");
+                throw new IllegblArgumentException(
+                        "ldc of b constbnt clbss requires bt lebst version 1.5");
             }
             if (s == Type.METHOD && (version & 0xFFFF) < Opcodes.V1_7) {
-                throw new IllegalArgumentException(
-                        "ldc of a method type requires at least version 1.7");
+                throw new IllegblArgumentException(
+                        "ldc of b method type requires bt lebst version 1.7");
             }
-        } else if (cst instanceof Handle) {
+        } else if (cst instbnceof Hbndle) {
             if ((version & 0xFFFF) < Opcodes.V1_7) {
-                throw new IllegalArgumentException(
-                        "ldc of a handle requires at least version 1.7");
+                throw new IllegblArgumentException(
+                        "ldc of b hbndle requires bt lebst version 1.7");
             }
-            int tag = ((Handle) cst).getTag();
-            if (tag < Opcodes.H_GETFIELD || tag > Opcodes.H_INVOKEINTERFACE) {
-                throw new IllegalArgumentException("invalid handle tag " + tag);
+            int tbg = ((Hbndle) cst).getTbg();
+            if (tbg < Opcodes.H_GETFIELD || tbg > Opcodes.H_INVOKEINTERFACE) {
+                throw new IllegblArgumentException("invblid hbndle tbg " + tbg);
             }
         } else {
-            checkConstant(cst);
+            checkConstbnt(cst);
         }
     }
 
     /**
-     * Checks that the given string is a valid unqualified name.
+     * Checks thbt the given string is b vblid unqublified nbme.
      *
-     * @param version
-     *            the class version.
-     * @param name
+     * @pbrbm version
+     *            the clbss version.
+     * @pbrbm nbme
      *            the string to be checked.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm msg
+     *            b messbge to be used in cbse of error.
      */
-    static void checkUnqualifiedName(int version, final String name,
-            final String msg) {
+    stbtic void checkUnqublifiedNbme(int version, finbl String nbme,
+            finbl String msg) {
         if ((version & 0xFFFF) < Opcodes.V1_5) {
-            checkIdentifier(name, msg);
+            checkIdentifier(nbme, msg);
         } else {
-            for (int i = 0; i < name.length(); ++i) {
-                if (".;[/".indexOf(name.charAt(i)) != -1) {
-                    throw new IllegalArgumentException("Invalid " + msg
-                            + " (must be a valid unqualified name): " + name);
+            for (int i = 0; i < nbme.length(); ++i) {
+                if (".;[/".indexOf(nbme.chbrAt(i)) != -1) {
+                    throw new IllegblArgumentException("Invblid " + msg
+                            + " (must be b vblid unqublified nbme): " + nbme);
                 }
             }
         }
     }
 
     /**
-     * Checks that the given string is a valid Java identifier.
+     * Checks thbt the given string is b vblid Jbvb identifier.
      *
-     * @param name
+     * @pbrbm nbme
      *            the string to be checked.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm msg
+     *            b messbge to be used in cbse of error.
      */
-    static void checkIdentifier(final String name, final String msg) {
-        checkIdentifier(name, 0, -1, msg);
+    stbtic void checkIdentifier(finbl String nbme, finbl String msg) {
+        checkIdentifier(nbme, 0, -1, msg);
     }
 
     /**
-     * Checks that the given substring is a valid Java identifier.
+     * Checks thbt the given substring is b vblid Jbvb identifier.
      *
-     * @param name
+     * @pbrbm nbme
      *            the string to be checked.
-     * @param start
-     *            index of the first character of the identifier (inclusive).
-     * @param end
-     *            index of the last character of the identifier (exclusive). -1
-     *            is equivalent to <tt>name.length()</tt> if name is not
+     * @pbrbm stbrt
+     *            index of the first chbrbcter of the identifier (inclusive).
+     * @pbrbm end
+     *            index of the lbst chbrbcter of the identifier (exclusive). -1
+     *            is equivblent to <tt>nbme.length()</tt> if nbme is not
      *            <tt>null</tt>.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm msg
+     *            b messbge to be used in cbse of error.
      */
-    static void checkIdentifier(final String name, final int start,
-            final int end, final String msg) {
-        if (name == null || (end == -1 ? name.length() <= start : end <= start)) {
-            throw new IllegalArgumentException("Invalid " + msg
+    stbtic void checkIdentifier(finbl String nbme, finbl int stbrt,
+            finbl int end, finbl String msg) {
+        if (nbme == null || (end == -1 ? nbme.length() <= stbrt : end <= stbrt)) {
+            throw new IllegblArgumentException("Invblid " + msg
                     + " (must not be null or empty)");
         }
-        if (!Character.isJavaIdentifierStart(name.charAt(start))) {
-            throw new IllegalArgumentException("Invalid " + msg
-                    + " (must be a valid Java identifier): " + name);
+        if (!Chbrbcter.isJbvbIdentifierStbrt(nbme.chbrAt(stbrt))) {
+            throw new IllegblArgumentException("Invblid " + msg
+                    + " (must be b vblid Jbvb identifier): " + nbme);
         }
-        int max = end == -1 ? name.length() : end;
-        for (int i = start + 1; i < max; ++i) {
-            if (!Character.isJavaIdentifierPart(name.charAt(i))) {
-                throw new IllegalArgumentException("Invalid " + msg
-                        + " (must be a valid Java identifier): " + name);
+        int mbx = end == -1 ? nbme.length() : end;
+        for (int i = stbrt + 1; i < mbx; ++i) {
+            if (!Chbrbcter.isJbvbIdentifierPbrt(nbme.chbrAt(i))) {
+                throw new IllegblArgumentException("Invblid " + msg
+                        + " (must be b vblid Jbvb identifier): " + nbme);
             }
         }
     }
 
     /**
-     * Checks that the given string is a valid Java identifier.
+     * Checks thbt the given string is b vblid Jbvb identifier.
      *
-     * @param version
-     *            the class version.
-     * @param name
+     * @pbrbm version
+     *            the clbss version.
+     * @pbrbm nbme
      *            the string to be checked.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm msg
+     *            b messbge to be used in cbse of error.
      */
-    static void checkMethodIdentifier(int version, final String name,
-            final String msg) {
-        if (name == null || name.length() == 0) {
-            throw new IllegalArgumentException("Invalid " + msg
+    stbtic void checkMethodIdentifier(int version, finbl String nbme,
+            finbl String msg) {
+        if (nbme == null || nbme.length() == 0) {
+            throw new IllegblArgumentException("Invblid " + msg
                     + " (must not be null or empty)");
         }
         if ((version & 0xFFFF) >= Opcodes.V1_5) {
-            for (int i = 0; i < name.length(); ++i) {
-                if (".;[/<>".indexOf(name.charAt(i)) != -1) {
-                    throw new IllegalArgumentException("Invalid " + msg
-                            + " (must be a valid unqualified name): " + name);
+            for (int i = 0; i < nbme.length(); ++i) {
+                if (".;[/<>".indexOf(nbme.chbrAt(i)) != -1) {
+                    throw new IllegblArgumentException("Invblid " + msg
+                            + " (must be b vblid unqublified nbme): " + nbme);
                 }
             }
             return;
         }
-        if (!Character.isJavaIdentifierStart(name.charAt(0))) {
-            throw new IllegalArgumentException(
-                    "Invalid "
+        if (!Chbrbcter.isJbvbIdentifierStbrt(nbme.chbrAt(0))) {
+            throw new IllegblArgumentException(
+                    "Invblid "
                             + msg
-                            + " (must be a '<init>', '<clinit>' or a valid Java identifier): "
-                            + name);
+                            + " (must be b '<init>', '<clinit>' or b vblid Jbvb identifier): "
+                            + nbme);
         }
-        for (int i = 1; i < name.length(); ++i) {
-            if (!Character.isJavaIdentifierPart(name.charAt(i))) {
-                throw new IllegalArgumentException(
-                        "Invalid "
+        for (int i = 1; i < nbme.length(); ++i) {
+            if (!Chbrbcter.isJbvbIdentifierPbrt(nbme.chbrAt(i))) {
+                throw new IllegblArgumentException(
+                        "Invblid "
                                 + msg
-                                + " (must be '<init>' or '<clinit>' or a valid Java identifier): "
-                                + name);
+                                + " (must be '<init>' or '<clinit>' or b vblid Jbvb identifier): "
+                                + nbme);
             }
         }
     }
 
     /**
-     * Checks that the given string is a valid internal class name.
+     * Checks thbt the given string is b vblid internbl clbss nbme.
      *
-     * @param name
+     * @pbrbm nbme
      *            the string to be checked.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm msg
+     *            b messbge to be used in cbse of error.
      */
-    static void checkInternalName(final String name, final String msg) {
-        if (name == null || name.length() == 0) {
-            throw new IllegalArgumentException("Invalid " + msg
+    stbtic void checkInternblNbme(finbl String nbme, finbl String msg) {
+        if (nbme == null || nbme.length() == 0) {
+            throw new IllegblArgumentException("Invblid " + msg
                     + " (must not be null or empty)");
         }
-        if (name.charAt(0) == '[') {
-            checkDesc(name, false);
+        if (nbme.chbrAt(0) == '[') {
+            checkDesc(nbme, fblse);
         } else {
-            checkInternalName(name, 0, -1, msg);
+            checkInternblNbme(nbme, 0, -1, msg);
         }
     }
 
     /**
-     * Checks that the given substring is a valid internal class name.
+     * Checks thbt the given substring is b vblid internbl clbss nbme.
      *
-     * @param name
+     * @pbrbm nbme
      *            the string to be checked.
-     * @param start
-     *            index of the first character of the identifier (inclusive).
-     * @param end
-     *            index of the last character of the identifier (exclusive). -1
-     *            is equivalent to <tt>name.length()</tt> if name is not
+     * @pbrbm stbrt
+     *            index of the first chbrbcter of the identifier (inclusive).
+     * @pbrbm end
+     *            index of the lbst chbrbcter of the identifier (exclusive). -1
+     *            is equivblent to <tt>nbme.length()</tt> if nbme is not
      *            <tt>null</tt>.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm msg
+     *            b messbge to be used in cbse of error.
      */
-    static void checkInternalName(final String name, final int start,
-            final int end, final String msg) {
-        int max = end == -1 ? name.length() : end;
+    stbtic void checkInternblNbme(finbl String nbme, finbl int stbrt,
+            finbl int end, finbl String msg) {
+        int mbx = end == -1 ? nbme.length() : end;
         try {
-            int begin = start;
-            int slash;
+            int begin = stbrt;
+            int slbsh;
             do {
-                slash = name.indexOf('/', begin + 1);
-                if (slash == -1 || slash > max) {
-                    slash = max;
+                slbsh = nbme.indexOf('/', begin + 1);
+                if (slbsh == -1 || slbsh > mbx) {
+                    slbsh = mbx;
                 }
-                checkIdentifier(name, begin, slash, null);
-                begin = slash + 1;
-            } while (slash != max);
-        } catch (IllegalArgumentException unused) {
-            throw new IllegalArgumentException(
-                    "Invalid "
+                checkIdentifier(nbme, begin, slbsh, null);
+                begin = slbsh + 1;
+            } while (slbsh != mbx);
+        } cbtch (IllegblArgumentException unused) {
+            throw new IllegblArgumentException(
+                    "Invblid "
                             + msg
-                            + " (must be a fully qualified class name in internal form): "
-                            + name);
+                            + " (must be b fully qublified clbss nbme in internbl form): "
+                            + nbme);
         }
     }
 
     /**
-     * Checks that the given string is a valid type descriptor.
+     * Checks thbt the given string is b vblid type descriptor.
      *
-     * @param desc
+     * @pbrbm desc
      *            the string to be checked.
-     * @param canBeVoid
-     *            <tt>true</tt> if <tt>V</tt> can be considered valid.
+     * @pbrbm cbnBeVoid
+     *            <tt>true</tt> if <tt>V</tt> cbn be considered vblid.
      */
-    static void checkDesc(final String desc, final boolean canBeVoid) {
-        int end = checkDesc(desc, 0, canBeVoid);
+    stbtic void checkDesc(finbl String desc, finbl boolebn cbnBeVoid) {
+        int end = checkDesc(desc, 0, cbnBeVoid);
         if (end != desc.length()) {
-            throw new IllegalArgumentException("Invalid descriptor: " + desc);
+            throw new IllegblArgumentException("Invblid descriptor: " + desc);
         }
     }
 
     /**
-     * Checks that a the given substring is a valid type descriptor.
+     * Checks thbt b the given substring is b vblid type descriptor.
      *
-     * @param desc
+     * @pbrbm desc
      *            the string to be checked.
-     * @param start
-     *            index of the first character of the identifier (inclusive).
-     * @param canBeVoid
-     *            <tt>true</tt> if <tt>V</tt> can be considered valid.
-     * @return the index of the last character of the type decriptor, plus one.
+     * @pbrbm stbrt
+     *            index of the first chbrbcter of the identifier (inclusive).
+     * @pbrbm cbnBeVoid
+     *            <tt>true</tt> if <tt>V</tt> cbn be considered vblid.
+     * @return the index of the lbst chbrbcter of the type decriptor, plus one.
      */
-    static int checkDesc(final String desc, final int start,
-            final boolean canBeVoid) {
-        if (desc == null || start >= desc.length()) {
-            throw new IllegalArgumentException(
-                    "Invalid type descriptor (must not be null or empty)");
+    stbtic int checkDesc(finbl String desc, finbl int stbrt,
+            finbl boolebn cbnBeVoid) {
+        if (desc == null || stbrt >= desc.length()) {
+            throw new IllegblArgumentException(
+                    "Invblid type descriptor (must not be null or empty)");
         }
         int index;
-        switch (desc.charAt(start)) {
-        case 'V':
-            if (canBeVoid) {
-                return start + 1;
+        switch (desc.chbrAt(stbrt)) {
+        cbse 'V':
+            if (cbnBeVoid) {
+                return stbrt + 1;
             } else {
-                throw new IllegalArgumentException("Invalid descriptor: "
+                throw new IllegblArgumentException("Invblid descriptor: "
                         + desc);
             }
-        case 'Z':
-        case 'C':
-        case 'B':
-        case 'S':
-        case 'I':
-        case 'F':
-        case 'J':
-        case 'D':
-            return start + 1;
-        case '[':
-            index = start + 1;
-            while (index < desc.length() && desc.charAt(index) == '[') {
+        cbse 'Z':
+        cbse 'C':
+        cbse 'B':
+        cbse 'S':
+        cbse 'I':
+        cbse 'F':
+        cbse 'J':
+        cbse 'D':
+            return stbrt + 1;
+        cbse '[':
+            index = stbrt + 1;
+            while (index < desc.length() && desc.chbrAt(index) == '[') {
                 ++index;
             }
             if (index < desc.length()) {
-                return checkDesc(desc, index, false);
+                return checkDesc(desc, index, fblse);
             } else {
-                throw new IllegalArgumentException("Invalid descriptor: "
+                throw new IllegblArgumentException("Invblid descriptor: "
                         + desc);
             }
-        case 'L':
-            index = desc.indexOf(';', start);
-            if (index == -1 || index - start < 2) {
-                throw new IllegalArgumentException("Invalid descriptor: "
+        cbse 'L':
+            index = desc.indexOf(';', stbrt);
+            if (index == -1 || index - stbrt < 2) {
+                throw new IllegblArgumentException("Invblid descriptor: "
                         + desc);
             }
             try {
-                checkInternalName(desc, start + 1, index, null);
-            } catch (IllegalArgumentException unused) {
-                throw new IllegalArgumentException("Invalid descriptor: "
+                checkInternblNbme(desc, stbrt + 1, index, null);
+            } cbtch (IllegblArgumentException unused) {
+                throw new IllegblArgumentException("Invblid descriptor: "
                         + desc);
             }
             return index + 1;
-        default:
-            throw new IllegalArgumentException("Invalid descriptor: " + desc);
+        defbult:
+            throw new IllegblArgumentException("Invblid descriptor: " + desc);
         }
     }
 
     /**
-     * Checks that the given string is a valid method descriptor.
+     * Checks thbt the given string is b vblid method descriptor.
      *
-     * @param desc
+     * @pbrbm desc
      *            the string to be checked.
      */
-    static void checkMethodDesc(final String desc) {
+    stbtic void checkMethodDesc(finbl String desc) {
         if (desc == null || desc.length() == 0) {
-            throw new IllegalArgumentException(
-                    "Invalid method descriptor (must not be null or empty)");
+            throw new IllegblArgumentException(
+                    "Invblid method descriptor (must not be null or empty)");
         }
-        if (desc.charAt(0) != '(' || desc.length() < 3) {
-            throw new IllegalArgumentException("Invalid descriptor: " + desc);
+        if (desc.chbrAt(0) != '(' || desc.length() < 3) {
+            throw new IllegblArgumentException("Invblid descriptor: " + desc);
         }
-        int start = 1;
-        if (desc.charAt(start) != ')') {
+        int stbrt = 1;
+        if (desc.chbrAt(stbrt) != ')') {
             do {
-                if (desc.charAt(start) == 'V') {
-                    throw new IllegalArgumentException("Invalid descriptor: "
+                if (desc.chbrAt(stbrt) == 'V') {
+                    throw new IllegblArgumentException("Invblid descriptor: "
                             + desc);
                 }
-                start = checkDesc(desc, start, false);
-            } while (start < desc.length() && desc.charAt(start) != ')');
+                stbrt = checkDesc(desc, stbrt, fblse);
+            } while (stbrt < desc.length() && desc.chbrAt(stbrt) != ')');
         }
-        start = checkDesc(desc, start + 1, true);
-        if (start != desc.length()) {
-            throw new IllegalArgumentException("Invalid descriptor: " + desc);
+        stbrt = checkDesc(desc, stbrt + 1, true);
+        if (stbrt != desc.length()) {
+            throw new IllegblArgumentException("Invblid descriptor: " + desc);
         }
     }
 
     /**
-     * Checks that the given label is not null. This method can also check that
-     * the label has been visited.
+     * Checks thbt the given lbbel is not null. This method cbn blso check thbt
+     * the lbbel hbs been visited.
      *
-     * @param label
-     *            the label to be checked.
-     * @param checkVisited
-     *            <tt>true</tt> to check that the label has been visited.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm lbbel
+     *            the lbbel to be checked.
+     * @pbrbm checkVisited
+     *            <tt>true</tt> to check thbt the lbbel hbs been visited.
+     * @pbrbm msg
+     *            b messbge to be used in cbse of error.
      */
-    void checkLabel(final Label label, final boolean checkVisited,
-            final String msg) {
-        if (label == null) {
-            throw new IllegalArgumentException("Invalid " + msg
+    void checkLbbel(finbl Lbbel lbbel, finbl boolebn checkVisited,
+            finbl String msg) {
+        if (lbbel == null) {
+            throw new IllegblArgumentException("Invblid " + msg
                     + " (must not be null)");
         }
-        if (checkVisited && labels.get(label) == null) {
-            throw new IllegalArgumentException("Invalid " + msg
+        if (checkVisited && lbbels.get(lbbel) == null) {
+            throw new IllegblArgumentException("Invblid " + msg
                     + " (must be visited first)");
         }
     }
 
     /**
-     * Checks that the given label is not a label used only for debug purposes.
+     * Checks thbt the given lbbel is not b lbbel used only for debug purposes.
      *
-     * @param label
-     *            the label to be checked.
+     * @pbrbm lbbel
+     *            the lbbel to be checked.
      */
-    private static void checkNonDebugLabel(final Label label) {
-        Field f = getLabelStatusField();
-        int status = 0;
+    privbte stbtic void checkNonDebugLbbel(finbl Lbbel lbbel) {
+        Field f = getLbbelStbtusField();
+        int stbtus = 0;
         try {
-            status = f == null ? 0 : ((Integer) f.get(label)).intValue();
-        } catch (IllegalAccessException e) {
-            throw new Error("Internal error");
+            stbtus = f == null ? 0 : ((Integer) f.get(lbbel)).intVblue();
+        } cbtch (IllegblAccessException e) {
+            throw new Error("Internbl error");
         }
-        if ((status & 0x01) != 0) {
-            throw new IllegalArgumentException(
-                    "Labels used for debug info cannot be reused for control flow");
+        if ((stbtus & 0x01) != 0) {
+            throw new IllegblArgumentException(
+                    "Lbbels used for debug info cbnnot be reused for control flow");
         }
     }
 
     /**
-     * Returns the Field object corresponding to the Label.status field.
+     * Returns the Field object corresponding to the Lbbel.stbtus field.
      *
-     * @return the Field object corresponding to the Label.status field.
+     * @return the Field object corresponding to the Lbbel.stbtus field.
      */
-    private static Field getLabelStatusField() {
-        if (labelStatusField == null) {
-            labelStatusField = getLabelField("a");
-            if (labelStatusField == null) {
-                labelStatusField = getLabelField("status");
+    privbte stbtic Field getLbbelStbtusField() {
+        if (lbbelStbtusField == null) {
+            lbbelStbtusField = getLbbelField("b");
+            if (lbbelStbtusField == null) {
+                lbbelStbtusField = getLbbelField("stbtus");
             }
         }
-        return labelStatusField;
+        return lbbelStbtusField;
     }
 
     /**
-     * Returns the field of the Label class whose name is given.
+     * Returns the field of the Lbbel clbss whose nbme is given.
      *
-     * @param name
-     *            a field name.
-     * @return the field of the Label class whose name is given, or null.
+     * @pbrbm nbme
+     *            b field nbme.
+     * @return the field of the Lbbel clbss whose nbme is given, or null.
      */
-    private static Field getLabelField(final String name) {
+    privbte stbtic Field getLbbelField(finbl String nbme) {
         try {
-            Field f = Label.class.getDeclaredField(name);
+            Field f = Lbbel.clbss.getDeclbredField(nbme);
             f.setAccessible(true);
             return f;
-        } catch (NoSuchFieldException e) {
+        } cbtch (NoSuchFieldException e) {
             return null;
         }
     }

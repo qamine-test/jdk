@@ -1,31 +1,31 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
-<!ELEMENT Configuration (CanonicalizationMethods , TransformAlgorithms , JCEAlgorithmMappings , Log4J , ResourceBundles , UnitTests , ResourceResolvers , KeyResolvers)>
+<!ELEMENT Configurbtion (CbnonicblizbtionMethods , TrbnsformAlgorithms , JCEAlgorithmMbppings , Log4J , ResourceBundles , UnitTests , ResourceResolvers , KeyResolvers)>
 
-<!ATTLIST Configuration  xmlns CDATA  #FIXED 'http://www.xmlsecurity.org/NS/#configuration' 
-target        CDATA  #IMPLIED>
-<!ELEMENT CanonicalizationMethods (CanonicalizationMethod+)>
+<!ATTLIST Configurbtion  xmlns CDATA  #FIXED 'http://www.xmlsecurity.org/NS/#configurbtion' 
+tbrget        CDATA  #IMPLIED>
+<!ELEMENT CbnonicblizbtionMethods (CbnonicblizbtionMethod+)>
 
-<!ATTLIST CanonicalizationMethods  JAVACLASS CDATA  #FIXED 'com.sun.org.apache.xml.internal.security.c14n.Canonicalizer' >
-<!ELEMENT CanonicalizationMethod EMPTY>
+<!ATTLIST CbnonicblizbtionMethods  JAVACLASS CDATA  #FIXED 'com.sun.org.bpbche.xml.internbl.security.c14n.Cbnonicblizer' >
+<!ELEMENT CbnonicblizbtionMethod EMPTY>
 
-<!ATTLIST CanonicalizationMethod  URI       CDATA  #REQUIRED
+<!ATTLIST CbnonicblizbtionMethod  URI       CDATA  #REQUIRED
                                     JAVACLASS CDATA  #REQUIRED >
-<!ELEMENT TransformAlgorithms (TransformAlgorithm+)>
+<!ELEMENT TrbnsformAlgorithms (TrbnsformAlgorithm+)>
 
-<!ATTLIST TransformAlgorithms  JAVACLASS CDATA  #FIXED 'com.sun.org.apache.xml.internal.security.transforms.Transform' >
-<!ELEMENT TransformAlgorithm EMPTY>
+<!ATTLIST TrbnsformAlgorithms  JAVACLASS CDATA  #FIXED 'com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsform' >
+<!ELEMENT TrbnsformAlgorithm EMPTY>
 
-<!ATTLIST TransformAlgorithm  URI       CDATA  #REQUIRED
+<!ATTLIST TrbnsformAlgorithm  URI       CDATA  #REQUIRED
                                 JAVACLASS CDATA  #REQUIRED >
-<!ELEMENT JCEAlgorithmMappings (Providers , Algorithms)>
+<!ELEMENT JCEAlgorithmMbppings (Providers , Algorithms)>
 
 <!ELEMENT Providers (Provider+)>
 
 <!ELEMENT Provider EMPTY>
 
 <!ATTLIST Provider  Id          ID     #REQUIRED
-                      Class       CDATA  #REQUIRED
+                      Clbss       CDATA  #REQUIRED
                       Info        CDATA  #IMPLIED
                       ProviderURL CDATA  #IMPLIED >
 <!ELEMENT Algorithms (Algorithm+)>
@@ -34,27 +34,27 @@ target        CDATA  #IMPLIED>
 
 <!ATTLIST Algorithm  URI            CDATA  #REQUIRED
                        Description    CDATA  #IMPLIED
-                       AlgorithmClass CDATA  #IMPLIED >
+                       AlgorithmClbss CDATA  #IMPLIED >
 <!ELEMENT ProviderAlgo EMPTY>
 
 <!ATTLIST ProviderAlgo  ProviderId IDREF  #REQUIRED
-                          JCEName    CDATA  #REQUIRED
-                          JCEAlias   CDATA  #IMPLIED >
+                          JCENbme    CDATA  #REQUIRED
+                          JCEAlibs   CDATA  #IMPLIED >
 <!ELEMENT Log4J EMPTY>
 
-<!ATTLIST Log4J  configFile CDATA  'data/log4j.xml' >
+<!ATTLIST Log4J  configFile CDATA  'dbtb/log4j.xml' >
 <!ELEMENT ResourceBundles (ResourceBundle+)>
 
-<!ATTLIST ResourceBundles  defaultLanguageCode CDATA  'de'
-                             defaultCountryCode  CDATA  'DE' >
+<!ATTLIST ResourceBundles  defbultLbngubgeCode CDATA  'de'
+                             defbultCountryCode  CDATA  'DE' >
 <!ELEMENT ResourceBundle EMPTY>
 
-<!ATTLIST ResourceBundle  LanguageCode CDATA  #REQUIRED
+<!ATTLIST ResourceBundle  LbngubgeCode CDATA  #REQUIRED
                             CountryCode  CDATA  #REQUIRED
                             LOCATION     CDATA  #REQUIRED >
 <!ELEMENT UnitTests (UnitTest+)>
 
-<!ATTLIST UnitTests  JAVACLASS CDATA  #FIXED 'com.sun.org.apache.xml.internal.security.test.AllTests' >
+<!ATTLIST UnitTests  JAVACLASS CDATA  #FIXED 'com.sun.org.bpbche.xml.internbl.security.test.AllTests' >
 <!ELEMENT ResourceResolvers (Resolver+)>
 
 <!ELEMENT Resolver EMPTY>
@@ -62,7 +62,7 @@ target        CDATA  #IMPLIED>
 <!ATTLIST Resolver  JAVACLASS   CDATA  #REQUIRED
                       DESCRIPTION CDATA  #IMPLIED >
 <!ELEMENT KeyResolvers (KeyResolver+)>
-<!ATTLIST KeyResolvers  JAVACLASS CDATA  #FIXED 'com.sun.org.apache.xml.internal.security.keys.KeyResolver' >
+<!ATTLIST KeyResolvers  JAVACLASS CDATA  #FIXED 'com.sun.org.bpbche.xml.internbl.security.keys.KeyResolver' >
 
 <!ELEMENT KeyResolver EMPTY>
 

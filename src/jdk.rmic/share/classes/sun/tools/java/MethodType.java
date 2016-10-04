@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
 /**
- * This class represents an Java method type.
- * It overrides the relevant methods in class Type.
+ * This clbss represents bn Jbvb method type.
+ * It overrides the relevbnt methods in clbss Type.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author      Arthur van Hoff
+ * @buthor      Arthur vbn Hoff
  */
-public final
-class MethodType extends Type {
+public finbl
+clbss MethodType extends Type {
     /**
      * The return type.
      */
     Type returnType;
 
     /**
-     * The argument types.
+     * The brgument types.
      */
-    Type argTypes[];
+    Type brgTypes[];
 
     /**
-     * Construct a method type. Use Type.tMethod to create
-     * a new method type.
+     * Construct b method type. Use Type.tMethod to crebte
+     * b new method type.
      * @see Type.tMethod
      */
-    MethodType(String typeSig, Type returnType, Type argTypes[]) {
+    MethodType(String typeSig, Type returnType, Type brgTypes[]) {
         super(TC_METHOD, typeSig);
         this.returnType = returnType;
-        this.argTypes = argTypes;
+        this.brgTypes = brgTypes;
     }
 
     public Type getReturnType() {
@@ -63,45 +63,45 @@ class MethodType extends Type {
     }
 
     public Type getArgumentTypes()[] {
-        return argTypes;
+        return brgTypes;
     }
 
-    public boolean equalArguments(Type t) {
+    public boolebn equblArguments(Type t) {
         if (t.typeCode != TC_METHOD) {
-            return false;
+            return fblse;
         }
         MethodType m = (MethodType)t;
-        if (argTypes.length != m.argTypes.length) {
-            return false;
+        if (brgTypes.length != m.brgTypes.length) {
+            return fblse;
         }
-        for (int i = argTypes.length - 1 ; i >= 0 ; i--) {
-            if (argTypes[i] != m.argTypes[i]) {
-                return false;
+        for (int i = brgTypes.length - 1 ; i >= 0 ; i--) {
+            if (brgTypes[i] != m.brgTypes[i]) {
+                return fblse;
             }
         }
         return true;
     }
 
-    public int stackSize() {
+    public int stbckSize() {
         int n = 0;
-        for (int i = 0 ; i < argTypes.length ; i++) {
-            n += argTypes[i].stackSize();
+        for (int i = 0 ; i < brgTypes.length ; i++) {
+            n += brgTypes[i].stbckSize();
         }
         return n;
     }
 
-    public String typeString(String id, boolean abbrev, boolean ret) {
+    public String typeString(String id, boolebn bbbrev, boolebn ret) {
         StringBuilder sb = new StringBuilder();
-        sb.append(id);
-        sb.append('(');
-        for (int i = 0 ; i < argTypes.length ; i++) {
+        sb.bppend(id);
+        sb.bppend('(');
+        for (int i = 0 ; i < brgTypes.length ; i++) {
             if (i > 0) {
-                sb.append(", ");
+                sb.bppend(", ");
             }
-            sb.append(argTypes[i].typeString("", abbrev, ret));
+            sb.bppend(brgTypes[i].typeString("", bbbrev, ret));
         }
-        sb.append(')');
+        sb.bppend(')');
 
-        return ret ? getReturnType().typeString(sb.toString(), abbrev, ret) : sb.toString();
+        return ret ? getReturnType().typeString(sb.toString(), bbbrev, ret) : sb.toString();
     }
 }

@@ -1,489 +1,489 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.regex;
+pbckbge jbvb.util.regex;
 
-import java.text.Normalizer;
-import java.util.Locale;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Arrays;
-import java.util.NoSuchElementException;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import jbvb.text.Normblizer;
+import jbvb.util.Locble;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Arrbys;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.Predicbte;
+import jbvb.util.strebm.Strebm;
+import jbvb.util.strebm.StrebmSupport;
 
 
 /**
- * A compiled representation of a regular expression.
+ * A compiled representbtion of b regulbr expression.
  *
- * <p> A regular expression, specified as a string, must first be compiled into
- * an instance of this class.  The resulting pattern can then be used to create
- * a {@link Matcher} object that can match arbitrary {@linkplain
- * java.lang.CharSequence character sequences} against the regular
- * expression.  All of the state involved in performing a match resides in the
- * matcher, so many matchers can share the same pattern.
+ * <p> A regulbr expression, specified bs b string, must first be compiled into
+ * bn instbnce of this clbss.  The resulting pbttern cbn then be used to crebte
+ * b {@link Mbtcher} object thbt cbn mbtch brbitrbry {@linkplbin
+ * jbvb.lbng.ChbrSequence chbrbcter sequences} bgbinst the regulbr
+ * expression.  All of the stbte involved in performing b mbtch resides in the
+ * mbtcher, so mbny mbtchers cbn shbre the sbme pbttern.
  *
- * <p> A typical invocation sequence is thus
- *
- * <blockquote><pre>
- * Pattern p = Pattern.{@link #compile compile}("a*b");
- * Matcher m = p.{@link #matcher matcher}("aaaaab");
- * boolean b = m.{@link Matcher#matches matches}();</pre></blockquote>
- *
- * <p> A {@link #matches matches} method is defined by this class as a
- * convenience for when a regular expression is used just once.  This method
- * compiles an expression and matches an input sequence against it in a single
- * invocation.  The statement
+ * <p> A typicbl invocbtion sequence is thus
  *
  * <blockquote><pre>
- * boolean b = Pattern.matches("a*b", "aaaaab");</pre></blockquote>
+ * Pbttern p = Pbttern.{@link #compile compile}("b*b");
+ * Mbtcher m = p.{@link #mbtcher mbtcher}("bbbbbb");
+ * boolebn b = m.{@link Mbtcher#mbtches mbtches}();</pre></blockquote>
  *
- * is equivalent to the three statements above, though for repeated matches it
- * is less efficient since it does not allow the compiled pattern to be reused.
+ * <p> A {@link #mbtches mbtches} method is defined by this clbss bs b
+ * convenience for when b regulbr expression is used just once.  This method
+ * compiles bn expression bnd mbtches bn input sequence bgbinst it in b single
+ * invocbtion.  The stbtement
  *
- * <p> Instances of this class are immutable and are safe for use by multiple
- * concurrent threads.  Instances of the {@link Matcher} class are not safe for
+ * <blockquote><pre>
+ * boolebn b = Pbttern.mbtches("b*b", "bbbbbb");</pre></blockquote>
+ *
+ * is equivblent to the three stbtements bbove, though for repebted mbtches it
+ * is less efficient since it does not bllow the compiled pbttern to be reused.
+ *
+ * <p> Instbnces of this clbss bre immutbble bnd bre sbfe for use by multiple
+ * concurrent threbds.  Instbnces of the {@link Mbtcher} clbss bre not sbfe for
  * such use.
  *
  *
- * <h3><a name="sum">Summary of regular-expression constructs</a></h3>
+ * <h3><b nbme="sum">Summbry of regulbr-expression constructs</b></h3>
  *
- * <table border="0" cellpadding="1" cellspacing="0"
- *  summary="Regular expression constructs, and what they match">
+ * <tbble border="0" cellpbdding="1" cellspbcing="0"
+ *  summbry="Regulbr expression constructs, bnd whbt they mbtch">
  *
- * <tr align="left">
- * <th align="left" id="construct">Construct</th>
- * <th align="left" id="matches">Matches</th>
+ * <tr blign="left">
+ * <th blign="left" id="construct">Construct</th>
+ * <th blign="left" id="mbtches">Mbtches</th>
  * </tr>
  *
  * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="characters">Characters</th></tr>
+ * <tr blign="left"><th colspbn="2" id="chbrbcters">Chbrbcters</th></tr>
  *
- * <tr><td valign="top" headers="construct characters"><i>x</i></td>
- *     <td headers="matches">The character <i>x</i></td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>\\</tt></td>
- *     <td headers="matches">The backslash character</td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>\0</tt><i>n</i></td>
- *     <td headers="matches">The character with octal value <tt>0</tt><i>n</i>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><i>x</i></td>
+ *     <td hebders="mbtches">The chbrbcter <i>x</i></td></tr>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>\\</tt></td>
+ *     <td hebders="mbtches">The bbckslbsh chbrbcter</td></tr>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>\0</tt><i>n</i></td>
+ *     <td hebders="mbtches">The chbrbcter with octbl vblue <tt>0</tt><i>n</i>
  *         (0&nbsp;<tt>&lt;=</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;7)</td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>\0</tt><i>nn</i></td>
- *     <td headers="matches">The character with octal value <tt>0</tt><i>nn</i>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>\0</tt><i>nn</i></td>
+ *     <td hebders="mbtches">The chbrbcter with octbl vblue <tt>0</tt><i>nn</i>
  *         (0&nbsp;<tt>&lt;=</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;7)</td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>\0</tt><i>mnn</i></td>
- *     <td headers="matches">The character with octal value <tt>0</tt><i>mnn</i>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>\0</tt><i>mnn</i></td>
+ *     <td hebders="mbtches">The chbrbcter with octbl vblue <tt>0</tt><i>mnn</i>
  *         (0&nbsp;<tt>&lt;=</tt>&nbsp;<i>m</i>&nbsp;<tt>&lt;=</tt>&nbsp;3,
  *         0&nbsp;<tt>&lt;=</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;7)</td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>\x</tt><i>hh</i></td>
- *     <td headers="matches">The character with hexadecimal&nbsp;value&nbsp;<tt>0x</tt><i>hh</i></td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>&#92;u</tt><i>hhhh</i></td>
- *     <td headers="matches">The character with hexadecimal&nbsp;value&nbsp;<tt>0x</tt><i>hhhh</i></td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>&#92;x</tt><i>{h...h}</i></td>
- *     <td headers="matches">The character with hexadecimal&nbsp;value&nbsp;<tt>0x</tt><i>h...h</i>
- *         ({@link java.lang.Character#MIN_CODE_POINT Character.MIN_CODE_POINT}
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>\x</tt><i>hh</i></td>
+ *     <td hebders="mbtches">The chbrbcter with hexbdecimbl&nbsp;vblue&nbsp;<tt>0x</tt><i>hh</i></td></tr>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>&#92;u</tt><i>hhhh</i></td>
+ *     <td hebders="mbtches">The chbrbcter with hexbdecimbl&nbsp;vblue&nbsp;<tt>0x</tt><i>hhhh</i></td></tr>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>&#92;x</tt><i>{h...h}</i></td>
+ *     <td hebders="mbtches">The chbrbcter with hexbdecimbl&nbsp;vblue&nbsp;<tt>0x</tt><i>h...h</i>
+ *         ({@link jbvb.lbng.Chbrbcter#MIN_CODE_POINT Chbrbcter.MIN_CODE_POINT}
  *         &nbsp;&lt;=&nbsp;<tt>0x</tt><i>h...h</i>&nbsp;&lt;=&nbsp;
- *          {@link java.lang.Character#MAX_CODE_POINT Character.MAX_CODE_POINT})</td></tr>
- * <tr><td valign="top" headers="matches"><tt>\t</tt></td>
- *     <td headers="matches">The tab character (<tt>'&#92;u0009'</tt>)</td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>\n</tt></td>
- *     <td headers="matches">The newline (line feed) character (<tt>'&#92;u000A'</tt>)</td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>\r</tt></td>
- *     <td headers="matches">The carriage-return character (<tt>'&#92;u000D'</tt>)</td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>\f</tt></td>
- *     <td headers="matches">The form-feed character (<tt>'&#92;u000C'</tt>)</td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>\a</tt></td>
- *     <td headers="matches">The alert (bell) character (<tt>'&#92;u0007'</tt>)</td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>\e</tt></td>
- *     <td headers="matches">The escape character (<tt>'&#92;u001B'</tt>)</td></tr>
- * <tr><td valign="top" headers="construct characters"><tt>\c</tt><i>x</i></td>
- *     <td headers="matches">The control character corresponding to <i>x</i></td></tr>
+ *          {@link jbvb.lbng.Chbrbcter#MAX_CODE_POINT Chbrbcter.MAX_CODE_POINT})</td></tr>
+ * <tr><td vblign="top" hebders="mbtches"><tt>\t</tt></td>
+ *     <td hebders="mbtches">The tbb chbrbcter (<tt>'&#92;u0009'</tt>)</td></tr>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>\n</tt></td>
+ *     <td hebders="mbtches">The newline (line feed) chbrbcter (<tt>'&#92;u000A'</tt>)</td></tr>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>\r</tt></td>
+ *     <td hebders="mbtches">The cbrribge-return chbrbcter (<tt>'&#92;u000D'</tt>)</td></tr>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>\f</tt></td>
+ *     <td hebders="mbtches">The form-feed chbrbcter (<tt>'&#92;u000C'</tt>)</td></tr>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>\b</tt></td>
+ *     <td hebders="mbtches">The blert (bell) chbrbcter (<tt>'&#92;u0007'</tt>)</td></tr>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>\e</tt></td>
+ *     <td hebders="mbtches">The escbpe chbrbcter (<tt>'&#92;u001B'</tt>)</td></tr>
+ * <tr><td vblign="top" hebders="construct chbrbcters"><tt>\c</tt><i>x</i></td>
+ *     <td hebders="mbtches">The control chbrbcter corresponding to <i>x</i></td></tr>
  *
  * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="classes">Character classes</th></tr>
+ * <tr blign="left"><th colspbn="2" id="clbsses">Chbrbcter clbsses</th></tr>
  *
- * <tr><td valign="top" headers="construct classes">{@code [abc]}</td>
- *     <td headers="matches">{@code a}, {@code b}, or {@code c} (simple class)</td></tr>
- * <tr><td valign="top" headers="construct classes">{@code [^abc]}</td>
- *     <td headers="matches">Any character except {@code a}, {@code b}, or {@code c} (negation)</td></tr>
- * <tr><td valign="top" headers="construct classes">{@code [a-zA-Z]}</td>
- *     <td headers="matches">{@code a} through {@code z}
- *         or {@code A} through {@code Z}, inclusive (range)</td></tr>
- * <tr><td valign="top" headers="construct classes">{@code [a-d[m-p]]}</td>
- *     <td headers="matches">{@code a} through {@code d},
- *      or {@code m} through {@code p}: {@code [a-dm-p]} (union)</td></tr>
- * <tr><td valign="top" headers="construct classes">{@code [a-z&&[def]]}</td>
- *     <td headers="matches">{@code d}, {@code e}, or {@code f} (intersection)</tr>
- * <tr><td valign="top" headers="construct classes">{@code [a-z&&[^bc]]}</td>
- *     <td headers="matches">{@code a} through {@code z},
- *         except for {@code b} and {@code c}: {@code [ad-z]} (subtraction)</td></tr>
- * <tr><td valign="top" headers="construct classes">{@code [a-z&&[^m-p]]}</td>
- *     <td headers="matches">{@code a} through {@code z},
- *          and not {@code m} through {@code p}: {@code [a-lq-z]}(subtraction)</td></tr>
+ * <tr><td vblign="top" hebders="construct clbsses">{@code [bbc]}</td>
+ *     <td hebders="mbtches">{@code b}, {@code b}, or {@code c} (simple clbss)</td></tr>
+ * <tr><td vblign="top" hebders="construct clbsses">{@code [^bbc]}</td>
+ *     <td hebders="mbtches">Any chbrbcter except {@code b}, {@code b}, or {@code c} (negbtion)</td></tr>
+ * <tr><td vblign="top" hebders="construct clbsses">{@code [b-zA-Z]}</td>
+ *     <td hebders="mbtches">{@code b} through {@code z}
+ *         or {@code A} through {@code Z}, inclusive (rbnge)</td></tr>
+ * <tr><td vblign="top" hebders="construct clbsses">{@code [b-d[m-p]]}</td>
+ *     <td hebders="mbtches">{@code b} through {@code d},
+ *      or {@code m} through {@code p}: {@code [b-dm-p]} (union)</td></tr>
+ * <tr><td vblign="top" hebders="construct clbsses">{@code [b-z&&[def]]}</td>
+ *     <td hebders="mbtches">{@code d}, {@code e}, or {@code f} (intersection)</tr>
+ * <tr><td vblign="top" hebders="construct clbsses">{@code [b-z&&[^bc]]}</td>
+ *     <td hebders="mbtches">{@code b} through {@code z},
+ *         except for {@code b} bnd {@code c}: {@code [bd-z]} (subtrbction)</td></tr>
+ * <tr><td vblign="top" hebders="construct clbsses">{@code [b-z&&[^m-p]]}</td>
+ *     <td hebders="mbtches">{@code b} through {@code z},
+ *          bnd not {@code m} through {@code p}: {@code [b-lq-z]}(subtrbction)</td></tr>
  * <tr><th>&nbsp;</th></tr>
  *
- * <tr align="left"><th colspan="2" id="predef">Predefined character classes</th></tr>
+ * <tr blign="left"><th colspbn="2" id="predef">Predefined chbrbcter clbsses</th></tr>
  *
- * <tr><td valign="top" headers="construct predef"><tt>.</tt></td>
- *     <td headers="matches">Any character (may or may not match <a href="#lt">line terminators</a>)</td></tr>
- * <tr><td valign="top" headers="construct predef"><tt>\d</tt></td>
- *     <td headers="matches">A digit: <tt>[0-9]</tt></td></tr>
- * <tr><td valign="top" headers="construct predef"><tt>\D</tt></td>
- *     <td headers="matches">A non-digit: <tt>[^0-9]</tt></td></tr>
- * <tr><td valign="top" headers="construct predef"><tt>\h</tt></td>
- *     <td headers="matches">A horizontal whitespace character:
- *     <tt>[ \t\xA0&#92;u1680&#92;u180e&#92;u2000-&#92;u200a&#92;u202f&#92;u205f&#92;u3000]</tt></td></tr>
- * <tr><td valign="top" headers="construct predef"><tt>\H</tt></td>
- *     <td headers="matches">A non-horizontal whitespace character: <tt>[^\h]</tt></td></tr>
- * <tr><td valign="top" headers="construct predef"><tt>\s</tt></td>
- *     <td headers="matches">A whitespace character: <tt>[ \t\n\x0B\f\r]</tt></td></tr>
- * <tr><td valign="top" headers="construct predef"><tt>\S</tt></td>
- *     <td headers="matches">A non-whitespace character: <tt>[^\s]</tt></td></tr>
- * <tr><td valign="top" headers="construct predef"><tt>\v</tt></td>
- *     <td headers="matches">A vertical whitespace character: <tt>[\n\x0B\f\r\x85&#92;u2028&#92;u2029]</tt>
+ * <tr><td vblign="top" hebders="construct predef"><tt>.</tt></td>
+ *     <td hebders="mbtches">Any chbrbcter (mby or mby not mbtch <b href="#lt">line terminbtors</b>)</td></tr>
+ * <tr><td vblign="top" hebders="construct predef"><tt>\d</tt></td>
+ *     <td hebders="mbtches">A digit: <tt>[0-9]</tt></td></tr>
+ * <tr><td vblign="top" hebders="construct predef"><tt>\D</tt></td>
+ *     <td hebders="mbtches">A non-digit: <tt>[^0-9]</tt></td></tr>
+ * <tr><td vblign="top" hebders="construct predef"><tt>\h</tt></td>
+ *     <td hebders="mbtches">A horizontbl whitespbce chbrbcter:
+ *     <tt>[ \t\xA0&#92;u1680&#92;u180e&#92;u2000-&#92;u200b&#92;u202f&#92;u205f&#92;u3000]</tt></td></tr>
+ * <tr><td vblign="top" hebders="construct predef"><tt>\H</tt></td>
+ *     <td hebders="mbtches">A non-horizontbl whitespbce chbrbcter: <tt>[^\h]</tt></td></tr>
+ * <tr><td vblign="top" hebders="construct predef"><tt>\s</tt></td>
+ *     <td hebders="mbtches">A whitespbce chbrbcter: <tt>[ \t\n\x0B\f\r]</tt></td></tr>
+ * <tr><td vblign="top" hebders="construct predef"><tt>\S</tt></td>
+ *     <td hebders="mbtches">A non-whitespbce chbrbcter: <tt>[^\s]</tt></td></tr>
+ * <tr><td vblign="top" hebders="construct predef"><tt>\v</tt></td>
+ *     <td hebders="mbtches">A verticbl whitespbce chbrbcter: <tt>[\n\x0B\f\r\x85&#92;u2028&#92;u2029]</tt>
  *     </td></tr>
- * <tr><td valign="top" headers="construct predef"><tt>\V</tt></td>
- *     <td headers="matches">A non-vertical whitespace character: <tt>[^\v]</tt></td></tr>
- * <tr><td valign="top" headers="construct predef"><tt>\w</tt></td>
- *     <td headers="matches">A word character: <tt>[a-zA-Z_0-9]</tt></td></tr>
- * <tr><td valign="top" headers="construct predef"><tt>\W</tt></td>
- *     <td headers="matches">A non-word character: <tt>[^\w]</tt></td></tr>
+ * <tr><td vblign="top" hebders="construct predef"><tt>\V</tt></td>
+ *     <td hebders="mbtches">A non-verticbl whitespbce chbrbcter: <tt>[^\v]</tt></td></tr>
+ * <tr><td vblign="top" hebders="construct predef"><tt>\w</tt></td>
+ *     <td hebders="mbtches">A word chbrbcter: <tt>[b-zA-Z_0-9]</tt></td></tr>
+ * <tr><td vblign="top" hebders="construct predef"><tt>\W</tt></td>
+ *     <td hebders="mbtches">A non-word chbrbcter: <tt>[^\w]</tt></td></tr>
  * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="posix"><b>POSIX character classes (US-ASCII only)</b></th></tr>
+ * <tr blign="left"><th colspbn="2" id="posix"><b>POSIX chbrbcter clbsses (US-ASCII only)</b></th></tr>
  *
- * <tr><td valign="top" headers="construct posix">{@code \p{Lower}}</td>
- *     <td headers="matches">A lower-case alphabetic character: {@code [a-z]}</td></tr>
- * <tr><td valign="top" headers="construct posix">{@code \p{Upper}}</td>
- *     <td headers="matches">An upper-case alphabetic character:{@code [A-Z]}</td></tr>
- * <tr><td valign="top" headers="construct posix">{@code \p{ASCII}}</td>
- *     <td headers="matches">All ASCII:{@code [\x00-\x7F]}</td></tr>
- * <tr><td valign="top" headers="construct posix">{@code \p{Alpha}}</td>
- *     <td headers="matches">An alphabetic character:{@code [\p{Lower}\p{Upper}]}</td></tr>
- * <tr><td valign="top" headers="construct posix">{@code \p{Digit}}</td>
- *     <td headers="matches">A decimal digit: {@code [0-9]}</td></tr>
- * <tr><td valign="top" headers="construct posix">{@code \p{Alnum}}</td>
- *     <td headers="matches">An alphanumeric character:{@code [\p{Alpha}\p{Digit}]}</td></tr>
- * <tr><td valign="top" headers="construct posix">{@code \p{Punct}}</td>
- *     <td headers="matches">Punctuation: One of {@code !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{Lower}}</td>
+ *     <td hebders="mbtches">A lower-cbse blphbbetic chbrbcter: {@code [b-z]}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{Upper}}</td>
+ *     <td hebders="mbtches">An upper-cbse blphbbetic chbrbcter:{@code [A-Z]}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{ASCII}}</td>
+ *     <td hebders="mbtches">All ASCII:{@code [\x00-\x7F]}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{Alphb}}</td>
+ *     <td hebders="mbtches">An blphbbetic chbrbcter:{@code [\p{Lower}\p{Upper}]}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{Digit}}</td>
+ *     <td hebders="mbtches">A decimbl digit: {@code [0-9]}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{Alnum}}</td>
+ *     <td hebders="mbtches">An blphbnumeric chbrbcter:{@code [\p{Alphb}\p{Digit}]}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{Punct}}</td>
+ *     <td hebders="mbtches">Punctubtion: One of {@code !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~}</td></tr>
  *     <!-- {@code [\!"#\$%&'\(\)\*\+,\-\./:;\<=\>\?@\[\\\]\^_`\{\|\}~]}
  *          {@code [\X21-\X2F\X31-\X40\X5B-\X60\X7B-\X7E]} -->
- * <tr><td valign="top" headers="construct posix">{@code \p{Graph}}</td>
- *     <td headers="matches">A visible character: {@code [\p{Alnum}\p{Punct}]}</td></tr>
- * <tr><td valign="top" headers="construct posix">{@code \p{Print}}</td>
- *     <td headers="matches">A printable character: {@code [\p{Graph}\x20]}</td></tr>
- * <tr><td valign="top" headers="construct posix">{@code \p{Blank}}</td>
- *     <td headers="matches">A space or a tab: {@code [ \t]}</td></tr>
- * <tr><td valign="top" headers="construct posix">{@code \p{Cntrl}}</td>
- *     <td headers="matches">A control character: {@code [\x00-\x1F\x7F]}</td></tr>
- * <tr><td valign="top" headers="construct posix">{@code \p{XDigit}}</td>
- *     <td headers="matches">A hexadecimal digit: {@code [0-9a-fA-F]}</td></tr>
- * <tr><td valign="top" headers="construct posix">{@code \p{Space}}</td>
- *     <td headers="matches">A whitespace character: {@code [ \t\n\x0B\f\r]}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{Grbph}}</td>
+ *     <td hebders="mbtches">A visible chbrbcter: {@code [\p{Alnum}\p{Punct}]}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{Print}}</td>
+ *     <td hebders="mbtches">A printbble chbrbcter: {@code [\p{Grbph}\x20]}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{Blbnk}}</td>
+ *     <td hebders="mbtches">A spbce or b tbb: {@code [ \t]}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{Cntrl}}</td>
+ *     <td hebders="mbtches">A control chbrbcter: {@code [\x00-\x1F\x7F]}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{XDigit}}</td>
+ *     <td hebders="mbtches">A hexbdecimbl digit: {@code [0-9b-fA-F]}</td></tr>
+ * <tr><td vblign="top" hebders="construct posix">{@code \p{Spbce}}</td>
+ *     <td hebders="mbtches">A whitespbce chbrbcter: {@code [ \t\n\x0B\f\r]}</td></tr>
  *
  * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2">java.lang.Character classes (simple <a href="#jcc">java character type</a>)</th></tr>
+ * <tr blign="left"><th colspbn="2">jbvb.lbng.Chbrbcter clbsses (simple <b href="#jcc">jbvb chbrbcter type</b>)</th></tr>
  *
- * <tr><td valign="top"><tt>\p{javaLowerCase}</tt></td>
- *     <td>Equivalent to java.lang.Character.isLowerCase()</td></tr>
- * <tr><td valign="top"><tt>\p{javaUpperCase}</tt></td>
- *     <td>Equivalent to java.lang.Character.isUpperCase()</td></tr>
- * <tr><td valign="top"><tt>\p{javaWhitespace}</tt></td>
- *     <td>Equivalent to java.lang.Character.isWhitespace()</td></tr>
- * <tr><td valign="top"><tt>\p{javaMirrored}</tt></td>
- *     <td>Equivalent to java.lang.Character.isMirrored()</td></tr>
- *
- * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="unicode">Classes for Unicode scripts, blocks, categories and binary properties</th></tr>
- * <tr><td valign="top" headers="construct unicode">{@code \p{IsLatin}}</td>
- *     <td headers="matches">A Latin&nbsp;script character (<a href="#usc">script</a>)</td></tr>
- * <tr><td valign="top" headers="construct unicode">{@code \p{InGreek}}</td>
- *     <td headers="matches">A character in the Greek&nbsp;block (<a href="#ubc">block</a>)</td></tr>
- * <tr><td valign="top" headers="construct unicode">{@code \p{Lu}}</td>
- *     <td headers="matches">An uppercase letter (<a href="#ucc">category</a>)</td></tr>
- * <tr><td valign="top" headers="construct unicode">{@code \p{IsAlphabetic}}</td>
- *     <td headers="matches">An alphabetic character (<a href="#ubpc">binary property</a>)</td></tr>
- * <tr><td valign="top" headers="construct unicode">{@code \p{Sc}}</td>
- *     <td headers="matches">A currency symbol</td></tr>
- * <tr><td valign="top" headers="construct unicode">{@code \P{InGreek}}</td>
- *     <td headers="matches">Any character except one in the Greek block (negation)</td></tr>
- * <tr><td valign="top" headers="construct unicode">{@code [\p{L}&&[^\p{Lu}]]}</td>
- *     <td headers="matches">Any letter except an uppercase letter (subtraction)</td></tr>
+ * <tr><td vblign="top"><tt>\p{jbvbLowerCbse}</tt></td>
+ *     <td>Equivblent to jbvb.lbng.Chbrbcter.isLowerCbse()</td></tr>
+ * <tr><td vblign="top"><tt>\p{jbvbUpperCbse}</tt></td>
+ *     <td>Equivblent to jbvb.lbng.Chbrbcter.isUpperCbse()</td></tr>
+ * <tr><td vblign="top"><tt>\p{jbvbWhitespbce}</tt></td>
+ *     <td>Equivblent to jbvb.lbng.Chbrbcter.isWhitespbce()</td></tr>
+ * <tr><td vblign="top"><tt>\p{jbvbMirrored}</tt></td>
+ *     <td>Equivblent to jbvb.lbng.Chbrbcter.isMirrored()</td></tr>
  *
  * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="bounds">Boundary matchers</th></tr>
- *
- * <tr><td valign="top" headers="construct bounds"><tt>^</tt></td>
- *     <td headers="matches">The beginning of a line</td></tr>
- * <tr><td valign="top" headers="construct bounds"><tt>$</tt></td>
- *     <td headers="matches">The end of a line</td></tr>
- * <tr><td valign="top" headers="construct bounds"><tt>\b</tt></td>
- *     <td headers="matches">A word boundary</td></tr>
- * <tr><td valign="top" headers="construct bounds"><tt>\B</tt></td>
- *     <td headers="matches">A non-word boundary</td></tr>
- * <tr><td valign="top" headers="construct bounds"><tt>\A</tt></td>
- *     <td headers="matches">The beginning of the input</td></tr>
- * <tr><td valign="top" headers="construct bounds"><tt>\G</tt></td>
- *     <td headers="matches">The end of the previous match</td></tr>
- * <tr><td valign="top" headers="construct bounds"><tt>\Z</tt></td>
- *     <td headers="matches">The end of the input but for the final
- *         <a href="#lt">terminator</a>, if&nbsp;any</td></tr>
- * <tr><td valign="top" headers="construct bounds"><tt>\z</tt></td>
- *     <td headers="matches">The end of the input</td></tr>
+ * <tr blign="left"><th colspbn="2" id="unicode">Clbsses for Unicode scripts, blocks, cbtegories bnd binbry properties</th></tr>
+ * <tr><td vblign="top" hebders="construct unicode">{@code \p{IsLbtin}}</td>
+ *     <td hebders="mbtches">A Lbtin&nbsp;script chbrbcter (<b href="#usc">script</b>)</td></tr>
+ * <tr><td vblign="top" hebders="construct unicode">{@code \p{InGreek}}</td>
+ *     <td hebders="mbtches">A chbrbcter in the Greek&nbsp;block (<b href="#ubc">block</b>)</td></tr>
+ * <tr><td vblign="top" hebders="construct unicode">{@code \p{Lu}}</td>
+ *     <td hebders="mbtches">An uppercbse letter (<b href="#ucc">cbtegory</b>)</td></tr>
+ * <tr><td vblign="top" hebders="construct unicode">{@code \p{IsAlphbbetic}}</td>
+ *     <td hebders="mbtches">An blphbbetic chbrbcter (<b href="#ubpc">binbry property</b>)</td></tr>
+ * <tr><td vblign="top" hebders="construct unicode">{@code \p{Sc}}</td>
+ *     <td hebders="mbtches">A currency symbol</td></tr>
+ * <tr><td vblign="top" hebders="construct unicode">{@code \P{InGreek}}</td>
+ *     <td hebders="mbtches">Any chbrbcter except one in the Greek block (negbtion)</td></tr>
+ * <tr><td vblign="top" hebders="construct unicode">{@code [\p{L}&&[^\p{Lu}]]}</td>
+ *     <td hebders="mbtches">Any letter except bn uppercbse letter (subtrbction)</td></tr>
  *
  * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="lineending">Linebreak matcher</th></tr>
- * <tr><td valign="top" headers="construct lineending"><tt>\R</tt></td>
- *     <td headers="matches">Any Unicode linebreak sequence, is equivalent to
+ * <tr blign="left"><th colspbn="2" id="bounds">Boundbry mbtchers</th></tr>
+ *
+ * <tr><td vblign="top" hebders="construct bounds"><tt>^</tt></td>
+ *     <td hebders="mbtches">The beginning of b line</td></tr>
+ * <tr><td vblign="top" hebders="construct bounds"><tt>$</tt></td>
+ *     <td hebders="mbtches">The end of b line</td></tr>
+ * <tr><td vblign="top" hebders="construct bounds"><tt>\b</tt></td>
+ *     <td hebders="mbtches">A word boundbry</td></tr>
+ * <tr><td vblign="top" hebders="construct bounds"><tt>\B</tt></td>
+ *     <td hebders="mbtches">A non-word boundbry</td></tr>
+ * <tr><td vblign="top" hebders="construct bounds"><tt>\A</tt></td>
+ *     <td hebders="mbtches">The beginning of the input</td></tr>
+ * <tr><td vblign="top" hebders="construct bounds"><tt>\G</tt></td>
+ *     <td hebders="mbtches">The end of the previous mbtch</td></tr>
+ * <tr><td vblign="top" hebders="construct bounds"><tt>\Z</tt></td>
+ *     <td hebders="mbtches">The end of the input but for the finbl
+ *         <b href="#lt">terminbtor</b>, if&nbsp;bny</td></tr>
+ * <tr><td vblign="top" hebders="construct bounds"><tt>\z</tt></td>
+ *     <td hebders="mbtches">The end of the input</td></tr>
+ *
+ * <tr><th>&nbsp;</th></tr>
+ * <tr blign="left"><th colspbn="2" id="lineending">Linebrebk mbtcher</th></tr>
+ * <tr><td vblign="top" hebders="construct lineending"><tt>\R</tt></td>
+ *     <td hebders="mbtches">Any Unicode linebrebk sequence, is equivblent to
  *     <tt>&#92;u000D&#92;u000A|[&#92;u000A&#92;u000B&#92;u000C&#92;u000D&#92;u0085&#92;u2028&#92;u2029]
  *     </tt></td></tr>
  *
  * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="greedy">Greedy quantifiers</th></tr>
+ * <tr blign="left"><th colspbn="2" id="greedy">Greedy qubntifiers</th></tr>
  *
- * <tr><td valign="top" headers="construct greedy"><i>X</i><tt>?</tt></td>
- *     <td headers="matches"><i>X</i>, once or not at all</td></tr>
- * <tr><td valign="top" headers="construct greedy"><i>X</i><tt>*</tt></td>
- *     <td headers="matches"><i>X</i>, zero or more times</td></tr>
- * <tr><td valign="top" headers="construct greedy"><i>X</i><tt>+</tt></td>
- *     <td headers="matches"><i>X</i>, one or more times</td></tr>
- * <tr><td valign="top" headers="construct greedy"><i>X</i><tt>{</tt><i>n</i><tt>}</tt></td>
- *     <td headers="matches"><i>X</i>, exactly <i>n</i> times</td></tr>
- * <tr><td valign="top" headers="construct greedy"><i>X</i><tt>{</tt><i>n</i><tt>,}</tt></td>
- *     <td headers="matches"><i>X</i>, at least <i>n</i> times</td></tr>
- * <tr><td valign="top" headers="construct greedy"><i>X</i><tt>{</tt><i>n</i><tt>,</tt><i>m</i><tt>}</tt></td>
- *     <td headers="matches"><i>X</i>, at least <i>n</i> but not more than <i>m</i> times</td></tr>
- *
- * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="reluc">Reluctant quantifiers</th></tr>
- *
- * <tr><td valign="top" headers="construct reluc"><i>X</i><tt>??</tt></td>
- *     <td headers="matches"><i>X</i>, once or not at all</td></tr>
- * <tr><td valign="top" headers="construct reluc"><i>X</i><tt>*?</tt></td>
- *     <td headers="matches"><i>X</i>, zero or more times</td></tr>
- * <tr><td valign="top" headers="construct reluc"><i>X</i><tt>+?</tt></td>
- *     <td headers="matches"><i>X</i>, one or more times</td></tr>
- * <tr><td valign="top" headers="construct reluc"><i>X</i><tt>{</tt><i>n</i><tt>}?</tt></td>
- *     <td headers="matches"><i>X</i>, exactly <i>n</i> times</td></tr>
- * <tr><td valign="top" headers="construct reluc"><i>X</i><tt>{</tt><i>n</i><tt>,}?</tt></td>
- *     <td headers="matches"><i>X</i>, at least <i>n</i> times</td></tr>
- * <tr><td valign="top" headers="construct reluc"><i>X</i><tt>{</tt><i>n</i><tt>,</tt><i>m</i><tt>}?</tt></td>
- *     <td headers="matches"><i>X</i>, at least <i>n</i> but not more than <i>m</i> times</td></tr>
+ * <tr><td vblign="top" hebders="construct greedy"><i>X</i><tt>?</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, once or not bt bll</td></tr>
+ * <tr><td vblign="top" hebders="construct greedy"><i>X</i><tt>*</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, zero or more times</td></tr>
+ * <tr><td vblign="top" hebders="construct greedy"><i>X</i><tt>+</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, one or more times</td></tr>
+ * <tr><td vblign="top" hebders="construct greedy"><i>X</i><tt>{</tt><i>n</i><tt>}</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, exbctly <i>n</i> times</td></tr>
+ * <tr><td vblign="top" hebders="construct greedy"><i>X</i><tt>{</tt><i>n</i><tt>,}</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, bt lebst <i>n</i> times</td></tr>
+ * <tr><td vblign="top" hebders="construct greedy"><i>X</i><tt>{</tt><i>n</i><tt>,</tt><i>m</i><tt>}</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, bt lebst <i>n</i> but not more thbn <i>m</i> times</td></tr>
  *
  * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="poss">Possessive quantifiers</th></tr>
+ * <tr blign="left"><th colspbn="2" id="reluc">Reluctbnt qubntifiers</th></tr>
  *
- * <tr><td valign="top" headers="construct poss"><i>X</i><tt>?+</tt></td>
- *     <td headers="matches"><i>X</i>, once or not at all</td></tr>
- * <tr><td valign="top" headers="construct poss"><i>X</i><tt>*+</tt></td>
- *     <td headers="matches"><i>X</i>, zero or more times</td></tr>
- * <tr><td valign="top" headers="construct poss"><i>X</i><tt>++</tt></td>
- *     <td headers="matches"><i>X</i>, one or more times</td></tr>
- * <tr><td valign="top" headers="construct poss"><i>X</i><tt>{</tt><i>n</i><tt>}+</tt></td>
- *     <td headers="matches"><i>X</i>, exactly <i>n</i> times</td></tr>
- * <tr><td valign="top" headers="construct poss"><i>X</i><tt>{</tt><i>n</i><tt>,}+</tt></td>
- *     <td headers="matches"><i>X</i>, at least <i>n</i> times</td></tr>
- * <tr><td valign="top" headers="construct poss"><i>X</i><tt>{</tt><i>n</i><tt>,</tt><i>m</i><tt>}+</tt></td>
- *     <td headers="matches"><i>X</i>, at least <i>n</i> but not more than <i>m</i> times</td></tr>
- *
- * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="logical">Logical operators</th></tr>
- *
- * <tr><td valign="top" headers="construct logical"><i>XY</i></td>
- *     <td headers="matches"><i>X</i> followed by <i>Y</i></td></tr>
- * <tr><td valign="top" headers="construct logical"><i>X</i><tt>|</tt><i>Y</i></td>
- *     <td headers="matches">Either <i>X</i> or <i>Y</i></td></tr>
- * <tr><td valign="top" headers="construct logical"><tt>(</tt><i>X</i><tt>)</tt></td>
- *     <td headers="matches">X, as a <a href="#cg">capturing group</a></td></tr>
+ * <tr><td vblign="top" hebders="construct reluc"><i>X</i><tt>??</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, once or not bt bll</td></tr>
+ * <tr><td vblign="top" hebders="construct reluc"><i>X</i><tt>*?</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, zero or more times</td></tr>
+ * <tr><td vblign="top" hebders="construct reluc"><i>X</i><tt>+?</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, one or more times</td></tr>
+ * <tr><td vblign="top" hebders="construct reluc"><i>X</i><tt>{</tt><i>n</i><tt>}?</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, exbctly <i>n</i> times</td></tr>
+ * <tr><td vblign="top" hebders="construct reluc"><i>X</i><tt>{</tt><i>n</i><tt>,}?</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, bt lebst <i>n</i> times</td></tr>
+ * <tr><td vblign="top" hebders="construct reluc"><i>X</i><tt>{</tt><i>n</i><tt>,</tt><i>m</i><tt>}?</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, bt lebst <i>n</i> but not more thbn <i>m</i> times</td></tr>
  *
  * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="backref">Back references</th></tr>
+ * <tr blign="left"><th colspbn="2" id="poss">Possessive qubntifiers</th></tr>
  *
- * <tr><td valign="bottom" headers="construct backref"><tt>\</tt><i>n</i></td>
- *     <td valign="bottom" headers="matches">Whatever the <i>n</i><sup>th</sup>
- *     <a href="#cg">capturing group</a> matched</td></tr>
- *
- * <tr><td valign="bottom" headers="construct backref"><tt>\</tt><i>k</i>&lt;<i>name</i>&gt;</td>
- *     <td valign="bottom" headers="matches">Whatever the
- *     <a href="#groupname">named-capturing group</a> "name" matched</td></tr>
- *
- * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="quot">Quotation</th></tr>
- *
- * <tr><td valign="top" headers="construct quot"><tt>\</tt></td>
- *     <td headers="matches">Nothing, but quotes the following character</td></tr>
- * <tr><td valign="top" headers="construct quot"><tt>\Q</tt></td>
- *     <td headers="matches">Nothing, but quotes all characters until <tt>\E</tt></td></tr>
- * <tr><td valign="top" headers="construct quot"><tt>\E</tt></td>
- *     <td headers="matches">Nothing, but ends quoting started by <tt>\Q</tt></td></tr>
- *     <!-- Metachars: !$()*+.<>?[\]^{|} -->
+ * <tr><td vblign="top" hebders="construct poss"><i>X</i><tt>?+</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, once or not bt bll</td></tr>
+ * <tr><td vblign="top" hebders="construct poss"><i>X</i><tt>*+</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, zero or more times</td></tr>
+ * <tr><td vblign="top" hebders="construct poss"><i>X</i><tt>++</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, one or more times</td></tr>
+ * <tr><td vblign="top" hebders="construct poss"><i>X</i><tt>{</tt><i>n</i><tt>}+</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, exbctly <i>n</i> times</td></tr>
+ * <tr><td vblign="top" hebders="construct poss"><i>X</i><tt>{</tt><i>n</i><tt>,}+</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, bt lebst <i>n</i> times</td></tr>
+ * <tr><td vblign="top" hebders="construct poss"><i>X</i><tt>{</tt><i>n</i><tt>,</tt><i>m</i><tt>}+</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, bt lebst <i>n</i> but not more thbn <i>m</i> times</td></tr>
  *
  * <tr><th>&nbsp;</th></tr>
- * <tr align="left"><th colspan="2" id="special">Special constructs (named-capturing and non-capturing)</th></tr>
+ * <tr blign="left"><th colspbn="2" id="logicbl">Logicbl operbtors</th></tr>
  *
- * <tr><td valign="top" headers="construct special"><tt>(?&lt;<a href="#groupname">name</a>&gt;</tt><i>X</i><tt>)</tt></td>
- *     <td headers="matches"><i>X</i>, as a named-capturing group</td></tr>
- * <tr><td valign="top" headers="construct special"><tt>(?:</tt><i>X</i><tt>)</tt></td>
- *     <td headers="matches"><i>X</i>, as a non-capturing group</td></tr>
- * <tr><td valign="top" headers="construct special"><tt>(?idmsuxU-idmsuxU)&nbsp;</tt></td>
- *     <td headers="matches">Nothing, but turns match flags <a href="#CASE_INSENSITIVE">i</a>
- * <a href="#UNIX_LINES">d</a> <a href="#MULTILINE">m</a> <a href="#DOTALL">s</a>
- * <a href="#UNICODE_CASE">u</a> <a href="#COMMENTS">x</a> <a href="#UNICODE_CHARACTER_CLASS">U</a>
+ * <tr><td vblign="top" hebders="construct logicbl"><i>XY</i></td>
+ *     <td hebders="mbtches"><i>X</i> followed by <i>Y</i></td></tr>
+ * <tr><td vblign="top" hebders="construct logicbl"><i>X</i><tt>|</tt><i>Y</i></td>
+ *     <td hebders="mbtches">Either <i>X</i> or <i>Y</i></td></tr>
+ * <tr><td vblign="top" hebders="construct logicbl"><tt>(</tt><i>X</i><tt>)</tt></td>
+ *     <td hebders="mbtches">X, bs b <b href="#cg">cbpturing group</b></td></tr>
+ *
+ * <tr><th>&nbsp;</th></tr>
+ * <tr blign="left"><th colspbn="2" id="bbckref">Bbck references</th></tr>
+ *
+ * <tr><td vblign="bottom" hebders="construct bbckref"><tt>\</tt><i>n</i></td>
+ *     <td vblign="bottom" hebders="mbtches">Whbtever the <i>n</i><sup>th</sup>
+ *     <b href="#cg">cbpturing group</b> mbtched</td></tr>
+ *
+ * <tr><td vblign="bottom" hebders="construct bbckref"><tt>\</tt><i>k</i>&lt;<i>nbme</i>&gt;</td>
+ *     <td vblign="bottom" hebders="mbtches">Whbtever the
+ *     <b href="#groupnbme">nbmed-cbpturing group</b> "nbme" mbtched</td></tr>
+ *
+ * <tr><th>&nbsp;</th></tr>
+ * <tr blign="left"><th colspbn="2" id="quot">Quotbtion</th></tr>
+ *
+ * <tr><td vblign="top" hebders="construct quot"><tt>\</tt></td>
+ *     <td hebders="mbtches">Nothing, but quotes the following chbrbcter</td></tr>
+ * <tr><td vblign="top" hebders="construct quot"><tt>\Q</tt></td>
+ *     <td hebders="mbtches">Nothing, but quotes bll chbrbcters until <tt>\E</tt></td></tr>
+ * <tr><td vblign="top" hebders="construct quot"><tt>\E</tt></td>
+ *     <td hebders="mbtches">Nothing, but ends quoting stbrted by <tt>\Q</tt></td></tr>
+ *     <!-- Metbchbrs: !$()*+.<>?[\]^{|} -->
+ *
+ * <tr><th>&nbsp;</th></tr>
+ * <tr blign="left"><th colspbn="2" id="specibl">Specibl constructs (nbmed-cbpturing bnd non-cbpturing)</th></tr>
+ *
+ * <tr><td vblign="top" hebders="construct specibl"><tt>(?&lt;<b href="#groupnbme">nbme</b>&gt;</tt><i>X</i><tt>)</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, bs b nbmed-cbpturing group</td></tr>
+ * <tr><td vblign="top" hebders="construct specibl"><tt>(?:</tt><i>X</i><tt>)</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, bs b non-cbpturing group</td></tr>
+ * <tr><td vblign="top" hebders="construct specibl"><tt>(?idmsuxU-idmsuxU)&nbsp;</tt></td>
+ *     <td hebders="mbtches">Nothing, but turns mbtch flbgs <b href="#CASE_INSENSITIVE">i</b>
+ * <b href="#UNIX_LINES">d</b> <b href="#MULTILINE">m</b> <b href="#DOTALL">s</b>
+ * <b href="#UNICODE_CASE">u</b> <b href="#COMMENTS">x</b> <b href="#UNICODE_CHARACTER_CLASS">U</b>
  * on - off</td></tr>
- * <tr><td valign="top" headers="construct special"><tt>(?idmsux-idmsux:</tt><i>X</i><tt>)</tt>&nbsp;&nbsp;</td>
- *     <td headers="matches"><i>X</i>, as a <a href="#cg">non-capturing group</a> with the
- *         given flags <a href="#CASE_INSENSITIVE">i</a> <a href="#UNIX_LINES">d</a>
- * <a href="#MULTILINE">m</a> <a href="#DOTALL">s</a> <a href="#UNICODE_CASE">u</a >
- * <a href="#COMMENTS">x</a> on - off</td></tr>
- * <tr><td valign="top" headers="construct special"><tt>(?=</tt><i>X</i><tt>)</tt></td>
- *     <td headers="matches"><i>X</i>, via zero-width positive lookahead</td></tr>
- * <tr><td valign="top" headers="construct special"><tt>(?!</tt><i>X</i><tt>)</tt></td>
- *     <td headers="matches"><i>X</i>, via zero-width negative lookahead</td></tr>
- * <tr><td valign="top" headers="construct special"><tt>(?&lt;=</tt><i>X</i><tt>)</tt></td>
- *     <td headers="matches"><i>X</i>, via zero-width positive lookbehind</td></tr>
- * <tr><td valign="top" headers="construct special"><tt>(?&lt;!</tt><i>X</i><tt>)</tt></td>
- *     <td headers="matches"><i>X</i>, via zero-width negative lookbehind</td></tr>
- * <tr><td valign="top" headers="construct special"><tt>(?&gt;</tt><i>X</i><tt>)</tt></td>
- *     <td headers="matches"><i>X</i>, as an independent, non-capturing group</td></tr>
+ * <tr><td vblign="top" hebders="construct specibl"><tt>(?idmsux-idmsux:</tt><i>X</i><tt>)</tt>&nbsp;&nbsp;</td>
+ *     <td hebders="mbtches"><i>X</i>, bs b <b href="#cg">non-cbpturing group</b> with the
+ *         given flbgs <b href="#CASE_INSENSITIVE">i</b> <b href="#UNIX_LINES">d</b>
+ * <b href="#MULTILINE">m</b> <b href="#DOTALL">s</b> <b href="#UNICODE_CASE">u</b >
+ * <b href="#COMMENTS">x</b> on - off</td></tr>
+ * <tr><td vblign="top" hebders="construct specibl"><tt>(?=</tt><i>X</i><tt>)</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, vib zero-width positive lookbhebd</td></tr>
+ * <tr><td vblign="top" hebders="construct specibl"><tt>(?!</tt><i>X</i><tt>)</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, vib zero-width negbtive lookbhebd</td></tr>
+ * <tr><td vblign="top" hebders="construct specibl"><tt>(?&lt;=</tt><i>X</i><tt>)</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, vib zero-width positive lookbehind</td></tr>
+ * <tr><td vblign="top" hebders="construct specibl"><tt>(?&lt;!</tt><i>X</i><tt>)</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, vib zero-width negbtive lookbehind</td></tr>
+ * <tr><td vblign="top" hebders="construct specibl"><tt>(?&gt;</tt><i>X</i><tt>)</tt></td>
+ *     <td hebders="mbtches"><i>X</i>, bs bn independent, non-cbpturing group</td></tr>
  *
- * </table>
+ * </tbble>
  *
  * <hr>
  *
  *
- * <h3><a name="bs">Backslashes, escapes, and quoting</a></h3>
+ * <h3><b nbme="bs">Bbckslbshes, escbpes, bnd quoting</b></h3>
  *
- * <p> The backslash character (<tt>'\'</tt>) serves to introduce escaped
- * constructs, as defined in the table above, as well as to quote characters
- * that otherwise would be interpreted as unescaped constructs.  Thus the
- * expression <tt>\\</tt> matches a single backslash and <tt>\{</tt> matches a
- * left brace.
+ * <p> The bbckslbsh chbrbcter (<tt>'\'</tt>) serves to introduce escbped
+ * constructs, bs defined in the tbble bbove, bs well bs to quote chbrbcters
+ * thbt otherwise would be interpreted bs unescbped constructs.  Thus the
+ * expression <tt>\\</tt> mbtches b single bbckslbsh bnd <tt>\{</tt> mbtches b
+ * left brbce.
  *
- * <p> It is an error to use a backslash prior to any alphabetic character that
- * does not denote an escaped construct; these are reserved for future
- * extensions to the regular-expression language.  A backslash may be used
- * prior to a non-alphabetic character regardless of whether that character is
- * part of an unescaped construct.
+ * <p> It is bn error to use b bbckslbsh prior to bny blphbbetic chbrbcter thbt
+ * does not denote bn escbped construct; these bre reserved for future
+ * extensions to the regulbr-expression lbngubge.  A bbckslbsh mby be used
+ * prior to b non-blphbbetic chbrbcter regbrdless of whether thbt chbrbcter is
+ * pbrt of bn unescbped construct.
  *
- * <p> Backslashes within string literals in Java source code are interpreted
- * as required by
- * <cite>The Java&trade; Language Specification</cite>
- * as either Unicode escapes (section 3.3) or other character escapes (section 3.10.6)
- * It is therefore necessary to double backslashes in string
- * literals that represent regular expressions to protect them from
- * interpretation by the Java bytecode compiler.  The string literal
- * <tt>"&#92;b"</tt>, for example, matches a single backspace character when
- * interpreted as a regular expression, while <tt>"&#92;&#92;b"</tt> matches a
- * word boundary.  The string literal <tt>"&#92;(hello&#92;)"</tt> is illegal
- * and leads to a compile-time error; in order to match the string
- * <tt>(hello)</tt> the string literal <tt>"&#92;&#92;(hello&#92;&#92;)"</tt>
+ * <p> Bbckslbshes within string literbls in Jbvb source code bre interpreted
+ * bs required by
+ * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>
+ * bs either Unicode escbpes (section 3.3) or other chbrbcter escbpes (section 3.10.6)
+ * It is therefore necessbry to double bbckslbshes in string
+ * literbls thbt represent regulbr expressions to protect them from
+ * interpretbtion by the Jbvb bytecode compiler.  The string literbl
+ * <tt>"&#92;b"</tt>, for exbmple, mbtches b single bbckspbce chbrbcter when
+ * interpreted bs b regulbr expression, while <tt>"&#92;&#92;b"</tt> mbtches b
+ * word boundbry.  The string literbl <tt>"&#92;(hello&#92;)"</tt> is illegbl
+ * bnd lebds to b compile-time error; in order to mbtch the string
+ * <tt>(hello)</tt> the string literbl <tt>"&#92;&#92;(hello&#92;&#92;)"</tt>
  * must be used.
  *
- * <h3><a name="cc">Character Classes</a></h3>
+ * <h3><b nbme="cc">Chbrbcter Clbsses</b></h3>
  *
- *    <p> Character classes may appear within other character classes, and
- *    may be composed by the union operator (implicit) and the intersection
- *    operator (<tt>&amp;&amp;</tt>).
- *    The union operator denotes a class that contains every character that is
- *    in at least one of its operand classes.  The intersection operator
- *    denotes a class that contains every character that is in both of its
- *    operand classes.
+ *    <p> Chbrbcter clbsses mby bppebr within other chbrbcter clbsses, bnd
+ *    mby be composed by the union operbtor (implicit) bnd the intersection
+ *    operbtor (<tt>&bmp;&bmp;</tt>).
+ *    The union operbtor denotes b clbss thbt contbins every chbrbcter thbt is
+ *    in bt lebst one of its operbnd clbsses.  The intersection operbtor
+ *    denotes b clbss thbt contbins every chbrbcter thbt is in both of its
+ *    operbnd clbsses.
  *
- *    <p> The precedence of character-class operators is as follows, from
+ *    <p> The precedence of chbrbcter-clbss operbtors is bs follows, from
  *    highest to lowest:
  *
- *    <blockquote><table border="0" cellpadding="1" cellspacing="0"
- *                 summary="Precedence of character class operators.">
+ *    <blockquote><tbble border="0" cellpbdding="1" cellspbcing="0"
+ *                 summbry="Precedence of chbrbcter clbss operbtors.">
  *      <tr><th>1&nbsp;&nbsp;&nbsp;&nbsp;</th>
- *        <td>Literal escape&nbsp;&nbsp;&nbsp;&nbsp;</td>
+ *        <td>Literbl escbpe&nbsp;&nbsp;&nbsp;&nbsp;</td>
  *        <td><tt>\x</tt></td></tr>
  *     <tr><th>2&nbsp;&nbsp;&nbsp;&nbsp;</th>
  *        <td>Grouping</td>
  *        <td><tt>[...]</tt></td></tr>
  *     <tr><th>3&nbsp;&nbsp;&nbsp;&nbsp;</th>
- *        <td>Range</td>
- *        <td><tt>a-z</tt></td></tr>
+ *        <td>Rbnge</td>
+ *        <td><tt>b-z</tt></td></tr>
  *      <tr><th>4&nbsp;&nbsp;&nbsp;&nbsp;</th>
  *        <td>Union</td>
- *        <td><tt>[a-e][i-u]</tt></td></tr>
+ *        <td><tt>[b-e][i-u]</tt></td></tr>
  *      <tr><th>5&nbsp;&nbsp;&nbsp;&nbsp;</th>
  *        <td>Intersection</td>
- *        <td>{@code [a-z&&[aeiou]]}</td></tr>
- *    </table></blockquote>
+ *        <td>{@code [b-z&&[beiou]]}</td></tr>
+ *    </tbble></blockquote>
  *
- *    <p> Note that a different set of metacharacters are in effect inside
- *    a character class than outside a character class. For instance, the
- *    regular expression <tt>.</tt> loses its special meaning inside a
- *    character class, while the expression <tt>-</tt> becomes a range
- *    forming metacharacter.
+ *    <p> Note thbt b different set of metbchbrbcters bre in effect inside
+ *    b chbrbcter clbss thbn outside b chbrbcter clbss. For instbnce, the
+ *    regulbr expression <tt>.</tt> loses its specibl mebning inside b
+ *    chbrbcter clbss, while the expression <tt>-</tt> becomes b rbnge
+ *    forming metbchbrbcter.
  *
- * <h3><a name="lt">Line terminators</a></h3>
+ * <h3><b nbme="lt">Line terminbtors</b></h3>
  *
- * <p> A <i>line terminator</i> is a one- or two-character sequence that marks
- * the end of a line of the input character sequence.  The following are
- * recognized as line terminators:
+ * <p> A <i>line terminbtor</i> is b one- or two-chbrbcter sequence thbt mbrks
+ * the end of b line of the input chbrbcter sequence.  The following bre
+ * recognized bs line terminbtors:
  *
  * <ul>
  *
- *   <li> A newline (line feed) character&nbsp;(<tt>'\n'</tt>),
+ *   <li> A newline (line feed) chbrbcter&nbsp;(<tt>'\n'</tt>),
  *
- *   <li> A carriage-return character followed immediately by a newline
- *   character&nbsp;(<tt>"\r\n"</tt>),
+ *   <li> A cbrribge-return chbrbcter followed immedibtely by b newline
+ *   chbrbcter&nbsp;(<tt>"\r\n"</tt>),
  *
- *   <li> A standalone carriage-return character&nbsp;(<tt>'\r'</tt>),
+ *   <li> A stbndblone cbrribge-return chbrbcter&nbsp;(<tt>'\r'</tt>),
  *
- *   <li> A next-line character&nbsp;(<tt>'&#92;u0085'</tt>),
+ *   <li> A next-line chbrbcter&nbsp;(<tt>'&#92;u0085'</tt>),
  *
- *   <li> A line-separator character&nbsp;(<tt>'&#92;u2028'</tt>), or
+ *   <li> A line-sepbrbtor chbrbcter&nbsp;(<tt>'&#92;u2028'</tt>), or
  *
- *   <li> A paragraph-separator character&nbsp;(<tt>'&#92;u2029</tt>).
+ *   <li> A pbrbgrbph-sepbrbtor chbrbcter&nbsp;(<tt>'&#92;u2029</tt>).
  *
  * </ul>
- * <p>If {@link #UNIX_LINES} mode is activated, then the only line terminators
- * recognized are newline characters.
+ * <p>If {@link #UNIX_LINES} mode is bctivbted, then the only line terminbtors
+ * recognized bre newline chbrbcters.
  *
- * <p> The regular expression <tt>.</tt> matches any character except a line
- * terminator unless the {@link #DOTALL} flag is specified.
+ * <p> The regulbr expression <tt>.</tt> mbtches bny chbrbcter except b line
+ * terminbtor unless the {@link #DOTALL} flbg is specified.
  *
- * <p> By default, the regular expressions <tt>^</tt> and <tt>$</tt> ignore
- * line terminators and only match at the beginning and the end, respectively,
- * of the entire input sequence. If {@link #MULTILINE} mode is activated then
- * <tt>^</tt> matches at the beginning of input and after any line terminator
- * except at the end of input. When in {@link #MULTILINE} mode <tt>$</tt>
- * matches just before a line terminator or the end of the input sequence.
+ * <p> By defbult, the regulbr expressions <tt>^</tt> bnd <tt>$</tt> ignore
+ * line terminbtors bnd only mbtch bt the beginning bnd the end, respectively,
+ * of the entire input sequence. If {@link #MULTILINE} mode is bctivbted then
+ * <tt>^</tt> mbtches bt the beginning of input bnd bfter bny line terminbtor
+ * except bt the end of input. When in {@link #MULTILINE} mode <tt>$</tt>
+ * mbtches just before b line terminbtor or the end of the input sequence.
  *
- * <h3><a name="cg">Groups and capturing</a></h3>
+ * <h3><b nbme="cg">Groups bnd cbpturing</b></h3>
  *
- * <h4><a name="gnumber">Group number</a></h4>
- * <p> Capturing groups are numbered by counting their opening parentheses from
- * left to right.  In the expression <tt>((A)(B(C)))</tt>, for example, there
- * are four such groups: </p>
+ * <h4><b nbme="gnumber">Group number</b></h4>
+ * <p> Cbpturing groups bre numbered by counting their opening pbrentheses from
+ * left to right.  In the expression <tt>((A)(B(C)))</tt>, for exbmple, there
+ * bre four such groups: </p>
  *
- * <blockquote><table cellpadding=1 cellspacing=0 summary="Capturing group numberings">
+ * <blockquote><tbble cellpbdding=1 cellspbcing=0 summbry="Cbpturing group numberings">
  * <tr><th>1&nbsp;&nbsp;&nbsp;&nbsp;</th>
  *     <td><tt>((A)(B(C)))</tt></td></tr>
  * <tr><th>2&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -492,1034 +492,1034 @@ import java.util.stream.StreamSupport;
  *     <td><tt>(B(C))</tt></td></tr>
  * <tr><th>4&nbsp;&nbsp;&nbsp;&nbsp;</th>
  *     <td><tt>(C)</tt></td></tr>
- * </table></blockquote>
+ * </tbble></blockquote>
  *
- * <p> Group zero always stands for the entire expression.
+ * <p> Group zero blwbys stbnds for the entire expression.
  *
- * <p> Capturing groups are so named because, during a match, each subsequence
- * of the input sequence that matches such a group is saved.  The captured
- * subsequence may be used later in the expression, via a back reference, and
- * may also be retrieved from the matcher once the match operation is complete.
+ * <p> Cbpturing groups bre so nbmed becbuse, during b mbtch, ebch subsequence
+ * of the input sequence thbt mbtches such b group is sbved.  The cbptured
+ * subsequence mby be used lbter in the expression, vib b bbck reference, bnd
+ * mby blso be retrieved from the mbtcher once the mbtch operbtion is complete.
  *
- * <h4><a name="groupname">Group name</a></h4>
- * <p>A capturing group can also be assigned a "name", a <tt>named-capturing group</tt>,
- * and then be back-referenced later by the "name". Group names are composed of
- * the following characters. The first character must be a <tt>letter</tt>.
+ * <h4><b nbme="groupnbme">Group nbme</b></h4>
+ * <p>A cbpturing group cbn blso be bssigned b "nbme", b <tt>nbmed-cbpturing group</tt>,
+ * bnd then be bbck-referenced lbter by the "nbme". Group nbmes bre composed of
+ * the following chbrbcters. The first chbrbcter must be b <tt>letter</tt>.
  *
  * <ul>
- *   <li> The uppercase letters <tt>'A'</tt> through <tt>'Z'</tt>
- *        (<tt>'&#92;u0041'</tt>&nbsp;through&nbsp;<tt>'&#92;u005a'</tt>),
- *   <li> The lowercase letters <tt>'a'</tt> through <tt>'z'</tt>
- *        (<tt>'&#92;u0061'</tt>&nbsp;through&nbsp;<tt>'&#92;u007a'</tt>),
+ *   <li> The uppercbse letters <tt>'A'</tt> through <tt>'Z'</tt>
+ *        (<tt>'&#92;u0041'</tt>&nbsp;through&nbsp;<tt>'&#92;u005b'</tt>),
+ *   <li> The lowercbse letters <tt>'b'</tt> through <tt>'z'</tt>
+ *        (<tt>'&#92;u0061'</tt>&nbsp;through&nbsp;<tt>'&#92;u007b'</tt>),
  *   <li> The digits <tt>'0'</tt> through <tt>'9'</tt>
  *        (<tt>'&#92;u0030'</tt>&nbsp;through&nbsp;<tt>'&#92;u0039'</tt>),
  * </ul>
  *
- * <p> A <tt>named-capturing group</tt> is still numbered as described in
- * <a href="#gnumber">Group number</a>.
+ * <p> A <tt>nbmed-cbpturing group</tt> is still numbered bs described in
+ * <b href="#gnumber">Group number</b>.
  *
- * <p> The captured input associated with a group is always the subsequence
- * that the group most recently matched.  If a group is evaluated a second time
- * because of quantification then its previously-captured value, if any, will
- * be retained if the second evaluation fails.  Matching the string
- * <tt>"aba"</tt> against the expression <tt>(a(b)?)+</tt>, for example, leaves
- * group two set to <tt>"b"</tt>.  All captured input is discarded at the
- * beginning of each match.
+ * <p> The cbptured input bssocibted with b group is blwbys the subsequence
+ * thbt the group most recently mbtched.  If b group is evblubted b second time
+ * becbuse of qubntificbtion then its previously-cbptured vblue, if bny, will
+ * be retbined if the second evblubtion fbils.  Mbtching the string
+ * <tt>"bbb"</tt> bgbinst the expression <tt>(b(b)?)+</tt>, for exbmple, lebves
+ * group two set to <tt>"b"</tt>.  All cbptured input is discbrded bt the
+ * beginning of ebch mbtch.
  *
- * <p> Groups beginning with <tt>(?</tt> are either pure, <i>non-capturing</i> groups
- * that do not capture text and do not count towards the group total, or
- * <i>named-capturing</i> group.
+ * <p> Groups beginning with <tt>(?</tt> bre either pure, <i>non-cbpturing</i> groups
+ * thbt do not cbpture text bnd do not count towbrds the group totbl, or
+ * <i>nbmed-cbpturing</i> group.
  *
  * <h3> Unicode support </h3>
  *
- * <p> This class is in conformance with Level 1 of <a
- * href="http://www.unicode.org/reports/tr18/"><i>Unicode Technical
- * Standard #18: Unicode Regular Expression</i></a>, plus RL2.1
- * Canonical Equivalents.
+ * <p> This clbss is in conformbnce with Level 1 of <b
+ * href="http://www.unicode.org/reports/tr18/"><i>Unicode Technicbl
+ * Stbndbrd #18: Unicode Regulbr Expression</i></b>, plus RL2.1
+ * Cbnonicbl Equivblents.
  * <p>
- * <b>Unicode escape sequences</b> such as <tt>&#92;u2014</tt> in Java source code
- * are processed as described in section 3.3 of
- * <cite>The Java&trade; Language Specification</cite>.
- * Such escape sequences are also implemented directly by the regular-expression
- * parser so that Unicode escapes can be used in expressions that are read from
- * files or from the keyboard.  Thus the strings <tt>"&#92;u2014"</tt> and
- * <tt>"\\u2014"</tt>, while not equal, compile into the same pattern, which
- * matches the character with hexadecimal value <tt>0x2014</tt>.
+ * <b>Unicode escbpe sequences</b> such bs <tt>&#92;u2014</tt> in Jbvb source code
+ * bre processed bs described in section 3.3 of
+ * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
+ * Such escbpe sequences bre blso implemented directly by the regulbr-expression
+ * pbrser so thbt Unicode escbpes cbn be used in expressions thbt bre rebd from
+ * files or from the keybobrd.  Thus the strings <tt>"&#92;u2014"</tt> bnd
+ * <tt>"\\u2014"</tt>, while not equbl, compile into the sbme pbttern, which
+ * mbtches the chbrbcter with hexbdecimbl vblue <tt>0x2014</tt>.
  * <p>
- * A Unicode character can also be represented in a regular-expression by
- * using its <b>Hex notation</b>(hexadecimal code point value) directly as described in construct
- * <tt>&#92;x{...}</tt>, for example a supplementary character U+2011F
- * can be specified as <tt>&#92;x{2011F}</tt>, instead of two consecutive
- * Unicode escape sequences of the surrogate pair
+ * A Unicode chbrbcter cbn blso be represented in b regulbr-expression by
+ * using its <b>Hex notbtion</b>(hexbdecimbl code point vblue) directly bs described in construct
+ * <tt>&#92;x{...}</tt>, for exbmple b supplementbry chbrbcter U+2011F
+ * cbn be specified bs <tt>&#92;x{2011F}</tt>, instebd of two consecutive
+ * Unicode escbpe sequences of the surrogbte pbir
  * <tt>&#92;uD840</tt><tt>&#92;uDD1F</tt>.
  * <p>
- * Unicode scripts, blocks, categories and binary properties are written with
- * the <tt>\p</tt> and <tt>\P</tt> constructs as in Perl.
- * <tt>\p{</tt><i>prop</i><tt>}</tt> matches if
- * the input has the property <i>prop</i>, while <tt>\P{</tt><i>prop</i><tt>}</tt>
- * does not match if the input has that property.
+ * Unicode scripts, blocks, cbtegories bnd binbry properties bre written with
+ * the <tt>\p</tt> bnd <tt>\P</tt> constructs bs in Perl.
+ * <tt>\p{</tt><i>prop</i><tt>}</tt> mbtches if
+ * the input hbs the property <i>prop</i>, while <tt>\P{</tt><i>prop</i><tt>}</tt>
+ * does not mbtch if the input hbs thbt property.
  * <p>
- * Scripts, blocks, categories and binary properties can be used both inside
- * and outside of a character class.
+ * Scripts, blocks, cbtegories bnd binbry properties cbn be used both inside
+ * bnd outside of b chbrbcter clbss.
  *
  * <p>
- * <b><a name="usc">Scripts</a></b> are specified either with the prefix {@code Is}, as in
- * {@code IsHiragana}, or by using  the {@code script} keyword (or its short
- * form {@code sc})as in {@code script=Hiragana} or {@code sc=Hiragana}.
+ * <b><b nbme="usc">Scripts</b></b> bre specified either with the prefix {@code Is}, bs in
+ * {@code IsHirbgbnb}, or by using  the {@code script} keyword (or its short
+ * form {@code sc})bs in {@code script=Hirbgbnb} or {@code sc=Hirbgbnb}.
  * <p>
- * The script names supported by <code>Pattern</code> are the valid script names
- * accepted and defined by
- * {@link java.lang.Character.UnicodeScript#forName(String) UnicodeScript.forName}.
+ * The script nbmes supported by <code>Pbttern</code> bre the vblid script nbmes
+ * bccepted bnd defined by
+ * {@link jbvb.lbng.Chbrbcter.UnicodeScript#forNbme(String) UnicodeScript.forNbme}.
  *
  * <p>
- * <b><a name="ubc">Blocks</a></b> are specified with the prefix {@code In}, as in
- * {@code InMongolian}, or by using the keyword {@code block} (or its short
- * form {@code blk}) as in {@code block=Mongolian} or {@code blk=Mongolian}.
+ * <b><b nbme="ubc">Blocks</b></b> bre specified with the prefix {@code In}, bs in
+ * {@code InMongolibn}, or by using the keyword {@code block} (or its short
+ * form {@code blk}) bs in {@code block=Mongolibn} or {@code blk=Mongolibn}.
  * <p>
- * The block names supported by <code>Pattern</code> are the valid block names
- * accepted and defined by
- * {@link java.lang.Character.UnicodeBlock#forName(String) UnicodeBlock.forName}.
- * <p>
- *
- * <b><a name="ucc">Categories</a></b> may be specified with the optional prefix {@code Is}:
- * Both {@code \p{L}} and {@code \p{IsL}} denote the category of Unicode
- * letters. Same as scripts and blocks, categories can also be specified
- * by using the keyword {@code general_category} (or its short form
- * {@code gc}) as in {@code general_category=Lu} or {@code gc=Lu}.
- * <p>
- * The supported categories are those of
- * <a href="http://www.unicode.org/unicode/standard/standard.html">
- * <i>The Unicode Standard</i></a> in the version specified by the
- * {@link java.lang.Character Character} class. The category names are those
- * defined in the Standard, both normative and informative.
+ * The block nbmes supported by <code>Pbttern</code> bre the vblid block nbmes
+ * bccepted bnd defined by
+ * {@link jbvb.lbng.Chbrbcter.UnicodeBlock#forNbme(String) UnicodeBlock.forNbme}.
  * <p>
  *
- * <b><a name="ubpc">Binary properties</a></b> are specified with the prefix {@code Is}, as in
- * {@code IsAlphabetic}. The supported binary properties by <code>Pattern</code>
- * are
+ * <b><b nbme="ucc">Cbtegories</b></b> mby be specified with the optionbl prefix {@code Is}:
+ * Both {@code \p{L}} bnd {@code \p{IsL}} denote the cbtegory of Unicode
+ * letters. Sbme bs scripts bnd blocks, cbtegories cbn blso be specified
+ * by using the keyword {@code generbl_cbtegory} (or its short form
+ * {@code gc}) bs in {@code generbl_cbtegory=Lu} or {@code gc=Lu}.
+ * <p>
+ * The supported cbtegories bre those of
+ * <b href="http://www.unicode.org/unicode/stbndbrd/stbndbrd.html">
+ * <i>The Unicode Stbndbrd</i></b> in the version specified by the
+ * {@link jbvb.lbng.Chbrbcter Chbrbcter} clbss. The cbtegory nbmes bre those
+ * defined in the Stbndbrd, both normbtive bnd informbtive.
+ * <p>
+ *
+ * <b><b nbme="ubpc">Binbry properties</b></b> bre specified with the prefix {@code Is}, bs in
+ * {@code IsAlphbbetic}. The supported binbry properties by <code>Pbttern</code>
+ * bre
  * <ul>
- *   <li> Alphabetic
- *   <li> Ideographic
+ *   <li> Alphbbetic
+ *   <li> Ideogrbphic
  *   <li> Letter
- *   <li> Lowercase
- *   <li> Uppercase
- *   <li> Titlecase
- *   <li> Punctuation
+ *   <li> Lowercbse
+ *   <li> Uppercbse
+ *   <li> Titlecbse
+ *   <li> Punctubtion
  *   <Li> Control
- *   <li> White_Space
+ *   <li> White_Spbce
  *   <li> Digit
  *   <li> Hex_Digit
  *   <li> Join_Control
- *   <li> Noncharacter_Code_Point
+ *   <li> Nonchbrbcter_Code_Point
  *   <li> Assigned
  * </ul>
  * <p>
- * The following <b>Predefined Character classes</b> and <b>POSIX character classes</b>
- * are in conformance with the recommendation of <i>Annex C: Compatibility Properties</i>
- * of <a href="http://www.unicode.org/reports/tr18/"><i>Unicode Regular Expression
- * </i></a>, when {@link #UNICODE_CHARACTER_CLASS} flag is specified.
+ * The following <b>Predefined Chbrbcter clbsses</b> bnd <b>POSIX chbrbcter clbsses</b>
+ * bre in conformbnce with the recommendbtion of <i>Annex C: Compbtibility Properties</i>
+ * of <b href="http://www.unicode.org/reports/tr18/"><i>Unicode Regulbr Expression
+ * </i></b>, when {@link #UNICODE_CHARACTER_CLASS} flbg is specified.
  *
- * <table border="0" cellpadding="1" cellspacing="0"
- *  summary="predefined and posix character classes in Unicode mode">
- * <tr align="left">
- * <th align="left" id="predef_classes">Classes</th>
- * <th align="left" id="predef_matches">Matches</th>
+ * <tbble border="0" cellpbdding="1" cellspbcing="0"
+ *  summbry="predefined bnd posix chbrbcter clbsses in Unicode mode">
+ * <tr blign="left">
+ * <th blign="left" id="predef_clbsses">Clbsses</th>
+ * <th blign="left" id="predef_mbtches">Mbtches</th>
  *</tr>
  * <tr><td><tt>\p{Lower}</tt></td>
- *     <td>A lowercase character:<tt>\p{IsLowercase}</tt></td></tr>
+ *     <td>A lowercbse chbrbcter:<tt>\p{IsLowercbse}</tt></td></tr>
  * <tr><td><tt>\p{Upper}</tt></td>
- *     <td>An uppercase character:<tt>\p{IsUppercase}</tt></td></tr>
+ *     <td>An uppercbse chbrbcter:<tt>\p{IsUppercbse}</tt></td></tr>
  * <tr><td><tt>\p{ASCII}</tt></td>
  *     <td>All ASCII:<tt>[\x00-\x7F]</tt></td></tr>
- * <tr><td><tt>\p{Alpha}</tt></td>
- *     <td>An alphabetic character:<tt>\p{IsAlphabetic}</tt></td></tr>
+ * <tr><td><tt>\p{Alphb}</tt></td>
+ *     <td>An blphbbetic chbrbcter:<tt>\p{IsAlphbbetic}</tt></td></tr>
  * <tr><td><tt>\p{Digit}</tt></td>
- *     <td>A decimal digit character:<tt>p{IsDigit}</tt></td></tr>
+ *     <td>A decimbl digit chbrbcter:<tt>p{IsDigit}</tt></td></tr>
  * <tr><td><tt>\p{Alnum}</tt></td>
- *     <td>An alphanumeric character:<tt>[\p{IsAlphabetic}\p{IsDigit}]</tt></td></tr>
+ *     <td>An blphbnumeric chbrbcter:<tt>[\p{IsAlphbbetic}\p{IsDigit}]</tt></td></tr>
  * <tr><td><tt>\p{Punct}</tt></td>
- *     <td>A punctuation character:<tt>p{IsPunctuation}</tt></td></tr>
- * <tr><td><tt>\p{Graph}</tt></td>
- *     <td>A visible character: <tt>[^\p{IsWhite_Space}\p{gc=Cc}\p{gc=Cs}\p{gc=Cn}]</tt></td></tr>
+ *     <td>A punctubtion chbrbcter:<tt>p{IsPunctubtion}</tt></td></tr>
+ * <tr><td><tt>\p{Grbph}</tt></td>
+ *     <td>A visible chbrbcter: <tt>[^\p{IsWhite_Spbce}\p{gc=Cc}\p{gc=Cs}\p{gc=Cn}]</tt></td></tr>
  * <tr><td><tt>\p{Print}</tt></td>
- *     <td>A printable character: {@code [\p{Graph}\p{Blank}&&[^\p{Cntrl}]]}</td></tr>
- * <tr><td><tt>\p{Blank}</tt></td>
- *     <td>A space or a tab: {@code [\p{IsWhite_Space}&&[^\p{gc=Zl}\p{gc=Zp}\x0a\x0b\x0c\x0d\x85]]}</td></tr>
+ *     <td>A printbble chbrbcter: {@code [\p{Grbph}\p{Blbnk}&&[^\p{Cntrl}]]}</td></tr>
+ * <tr><td><tt>\p{Blbnk}</tt></td>
+ *     <td>A spbce or b tbb: {@code [\p{IsWhite_Spbce}&&[^\p{gc=Zl}\p{gc=Zp}\x0b\x0b\x0c\x0d\x85]]}</td></tr>
  * <tr><td><tt>\p{Cntrl}</tt></td>
- *     <td>A control character: <tt>\p{gc=Cc}</tt></td></tr>
+ *     <td>A control chbrbcter: <tt>\p{gc=Cc}</tt></td></tr>
  * <tr><td><tt>\p{XDigit}</tt></td>
- *     <td>A hexadecimal digit: <tt>[\p{gc=Nd}\p{IsHex_Digit}]</tt></td></tr>
- * <tr><td><tt>\p{Space}</tt></td>
- *     <td>A whitespace character:<tt>\p{IsWhite_Space}</tt></td></tr>
+ *     <td>A hexbdecimbl digit: <tt>[\p{gc=Nd}\p{IsHex_Digit}]</tt></td></tr>
+ * <tr><td><tt>\p{Spbce}</tt></td>
+ *     <td>A whitespbce chbrbcter:<tt>\p{IsWhite_Spbce}</tt></td></tr>
  * <tr><td><tt>\d</tt></td>
  *     <td>A digit: <tt>\p{IsDigit}</tt></td></tr>
  * <tr><td><tt>\D</tt></td>
  *     <td>A non-digit: <tt>[^\d]</tt></td></tr>
  * <tr><td><tt>\s</tt></td>
- *     <td>A whitespace character: <tt>\p{IsWhite_Space}</tt></td></tr>
+ *     <td>A whitespbce chbrbcter: <tt>\p{IsWhite_Spbce}</tt></td></tr>
  * <tr><td><tt>\S</tt></td>
- *     <td>A non-whitespace character: <tt>[^\s]</tt></td></tr>
+ *     <td>A non-whitespbce chbrbcter: <tt>[^\s]</tt></td></tr>
  * <tr><td><tt>\w</tt></td>
- *     <td>A word character: <tt>[\p{Alpha}\p{gc=Mn}\p{gc=Me}\p{gc=Mc}\p{Digit}\p{gc=Pc}\p{IsJoin_Control}]</tt></td></tr>
+ *     <td>A word chbrbcter: <tt>[\p{Alphb}\p{gc=Mn}\p{gc=Me}\p{gc=Mc}\p{Digit}\p{gc=Pc}\p{IsJoin_Control}]</tt></td></tr>
  * <tr><td><tt>\W</tt></td>
- *     <td>A non-word character: <tt>[^\w]</tt></td></tr>
- * </table>
+ *     <td>A non-word chbrbcter: <tt>[^\w]</tt></td></tr>
+ * </tbble>
  * <p>
- * <a name="jcc">
- * Categories that behave like the java.lang.Character
- * boolean is<i>methodname</i> methods (except for the deprecated ones) are
- * available through the same <tt>\p{</tt><i>prop</i><tt>}</tt> syntax where
- * the specified property has the name <tt>java<i>methodname</i></tt></a>.
+ * <b nbme="jcc">
+ * Cbtegories thbt behbve like the jbvb.lbng.Chbrbcter
+ * boolebn is<i>methodnbme</i> methods (except for the deprecbted ones) bre
+ * bvbilbble through the sbme <tt>\p{</tt><i>prop</i><tt>}</tt> syntbx where
+ * the specified property hbs the nbme <tt>jbvb<i>methodnbme</i></tt></b>.
  *
- * <h3> Comparison to Perl 5 </h3>
+ * <h3> Compbrison to Perl 5 </h3>
  *
- * <p>The <code>Pattern</code> engine performs traditional NFA-based matching
- * with ordered alternation as occurs in Perl 5.
+ * <p>The <code>Pbttern</code> engine performs trbditionbl NFA-bbsed mbtching
+ * with ordered blternbtion bs occurs in Perl 5.
  *
- * <p> Perl constructs not supported by this class: </p>
+ * <p> Perl constructs not supported by this clbss: </p>
  *
  * <ul>
- *    <li><p> Predefined character classes (Unicode character)
- *    <p><tt>\X&nbsp;&nbsp;&nbsp;&nbsp;</tt>Match Unicode
- *    <a href="http://www.unicode.org/reports/tr18/#Default_Grapheme_Clusters">
- *    <i>extended grapheme cluster</i></a>
+ *    <li><p> Predefined chbrbcter clbsses (Unicode chbrbcter)
+ *    <p><tt>\X&nbsp;&nbsp;&nbsp;&nbsp;</tt>Mbtch Unicode
+ *    <b href="http://www.unicode.org/reports/tr18/#Defbult_Grbpheme_Clusters">
+ *    <i>extended grbpheme cluster</i></b>
  *    </p></li>
  *
- *    <li><p> The backreference constructs, <tt>\g{</tt><i>n</i><tt>}</tt> for
- *    the <i>n</i><sup>th</sup><a href="#cg">capturing group</a> and
- *    <tt>\g{</tt><i>name</i><tt>}</tt> for
- *    <a href="#groupname">named-capturing group</a>.
+ *    <li><p> The bbckreference constructs, <tt>\g{</tt><i>n</i><tt>}</tt> for
+ *    the <i>n</i><sup>th</sup><b href="#cg">cbpturing group</b> bnd
+ *    <tt>\g{</tt><i>nbme</i><tt>}</tt> for
+ *    <b href="#groupnbme">nbmed-cbpturing group</b>.
  *    </p></li>
  *
- *    <li><p> The named character construct, <tt>\N{</tt><i>name</i><tt>}</tt>
- *    for a Unicode character by its name.
+ *    <li><p> The nbmed chbrbcter construct, <tt>\N{</tt><i>nbme</i><tt>}</tt>
+ *    for b Unicode chbrbcter by its nbme.
  *    </p></li>
  *
- *    <li><p> The conditional constructs
- *    <tt>(?(</tt><i>condition</i><tt>)</tt><i>X</i><tt>)</tt> and
+ *    <li><p> The conditionbl constructs
+ *    <tt>(?(</tt><i>condition</i><tt>)</tt><i>X</i><tt>)</tt> bnd
  *    <tt>(?(</tt><i>condition</i><tt>)</tt><i>X</i><tt>|</tt><i>Y</i><tt>)</tt>,
  *    </p></li>
  *
  *    <li><p> The embedded code constructs <tt>(?{</tt><i>code</i><tt>})</tt>
- *    and <tt>(??{</tt><i>code</i><tt>})</tt>,</p></li>
+ *    bnd <tt>(??{</tt><i>code</i><tt>})</tt>,</p></li>
  *
- *    <li><p> The embedded comment syntax <tt>(?#comment)</tt>, and </p></li>
+ *    <li><p> The embedded comment syntbx <tt>(?#comment)</tt>, bnd </p></li>
  *
- *    <li><p> The preprocessing operations <tt>\l</tt> <tt>&#92;u</tt>,
- *    <tt>\L</tt>, and <tt>\U</tt>.  </p></li>
- *
- * </ul>
- *
- * <p> Constructs supported by this class but not by Perl: </p>
- *
- * <ul>
- *
- *    <li><p> Character-class union and intersection as described
- *    <a href="#cc">above</a>.</p></li>
+ *    <li><p> The preprocessing operbtions <tt>\l</tt> <tt>&#92;u</tt>,
+ *    <tt>\L</tt>, bnd <tt>\U</tt>.  </p></li>
  *
  * </ul>
  *
- * <p> Notable differences from Perl: </p>
+ * <p> Constructs supported by this clbss but not by Perl: </p>
  *
  * <ul>
  *
- *    <li><p> In Perl, <tt>\1</tt> through <tt>\9</tt> are always interpreted
- *    as back references; a backslash-escaped number greater than <tt>9</tt> is
- *    treated as a back reference if at least that many subexpressions exist,
- *    otherwise it is interpreted, if possible, as an octal escape.  In this
- *    class octal escapes must always begin with a zero. In this class,
- *    <tt>\1</tt> through <tt>\9</tt> are always interpreted as back
- *    references, and a larger number is accepted as a back reference if at
- *    least that many subexpressions exist at that point in the regular
- *    expression, otherwise the parser will drop digits until the number is
- *    smaller or equal to the existing number of groups or it is one digit.
+ *    <li><p> Chbrbcter-clbss union bnd intersection bs described
+ *    <b href="#cc">bbove</b>.</p></li>
+ *
+ * </ul>
+ *
+ * <p> Notbble differences from Perl: </p>
+ *
+ * <ul>
+ *
+ *    <li><p> In Perl, <tt>\1</tt> through <tt>\9</tt> bre blwbys interpreted
+ *    bs bbck references; b bbckslbsh-escbped number grebter thbn <tt>9</tt> is
+ *    trebted bs b bbck reference if bt lebst thbt mbny subexpressions exist,
+ *    otherwise it is interpreted, if possible, bs bn octbl escbpe.  In this
+ *    clbss octbl escbpes must blwbys begin with b zero. In this clbss,
+ *    <tt>\1</tt> through <tt>\9</tt> bre blwbys interpreted bs bbck
+ *    references, bnd b lbrger number is bccepted bs b bbck reference if bt
+ *    lebst thbt mbny subexpressions exist bt thbt point in the regulbr
+ *    expression, otherwise the pbrser will drop digits until the number is
+ *    smbller or equbl to the existing number of groups or it is one digit.
  *    </p></li>
  *
- *    <li><p> Perl uses the <tt>g</tt> flag to request a match that resumes
- *    where the last match left off.  This functionality is provided implicitly
- *    by the {@link Matcher} class: Repeated invocations of the {@link
- *    Matcher#find find} method will resume where the last match left off,
- *    unless the matcher is reset.  </p></li>
+ *    <li><p> Perl uses the <tt>g</tt> flbg to request b mbtch thbt resumes
+ *    where the lbst mbtch left off.  This functionblity is provided implicitly
+ *    by the {@link Mbtcher} clbss: Repebted invocbtions of the {@link
+ *    Mbtcher#find find} method will resume where the lbst mbtch left off,
+ *    unless the mbtcher is reset.  </p></li>
  *
- *    <li><p> In Perl, embedded flags at the top level of an expression affect
- *    the whole expression.  In this class, embedded flags always take effect
- *    at the point at which they appear, whether they are at the top level or
- *    within a group; in the latter case, flags are restored at the end of the
- *    group just as in Perl.  </p></li>
+ *    <li><p> In Perl, embedded flbgs bt the top level of bn expression bffect
+ *    the whole expression.  In this clbss, embedded flbgs blwbys tbke effect
+ *    bt the point bt which they bppebr, whether they bre bt the top level or
+ *    within b group; in the lbtter cbse, flbgs bre restored bt the end of the
+ *    group just bs in Perl.  </p></li>
  *
  * </ul>
  *
  *
- * <p> For a more precise description of the behavior of regular expression
- * constructs, please see <a href="http://www.oreilly.com/catalog/regex3/">
- * <i>Mastering Regular Expressions, 3nd Edition</i>, Jeffrey E. F. Friedl,
- * O'Reilly and Associates, 2006.</a>
+ * <p> For b more precise description of the behbvior of regulbr expression
+ * constructs, plebse see <b href="http://www.oreilly.com/cbtblog/regex3/">
+ * <i>Mbstering Regulbr Expressions, 3nd Edition</i>, Jeffrey E. F. Friedl,
+ * O'Reilly bnd Associbtes, 2006.</b>
  * </p>
  *
- * @see java.lang.String#split(String, int)
- * @see java.lang.String#split(String)
+ * @see jbvb.lbng.String#split(String, int)
+ * @see jbvb.lbng.String#split(String)
  *
- * @author      Mike McCloskey
- * @author      Mark Reinhold
- * @author      JSR-51 Expert Group
+ * @buthor      Mike McCloskey
+ * @buthor      Mbrk Reinhold
+ * @buthor      JSR-51 Expert Group
  * @since       1.4
  * @spec        JSR-51
  */
 
-public final class Pattern
-    implements java.io.Serializable
+public finbl clbss Pbttern
+    implements jbvb.io.Seriblizbble
 {
 
     /**
-     * Regular expression modifier values.  Instead of being passed as
-     * arguments, they can also be passed as inline modifiers.
-     * For example, the following statements have the same effect.
+     * Regulbr expression modifier vblues.  Instebd of being pbssed bs
+     * brguments, they cbn blso be pbssed bs inline modifiers.
+     * For exbmple, the following stbtements hbve the sbme effect.
      * <pre>
-     * RegExp r1 = RegExp.compile("abc", Pattern.I|Pattern.M);
-     * RegExp r2 = RegExp.compile("(?im)abc", 0);
+     * RegExp r1 = RegExp.compile("bbc", Pbttern.I|Pbttern.M);
+     * RegExp r2 = RegExp.compile("(?im)bbc", 0);
      * </pre>
      *
-     * The flags are duplicated so that the familiar Perl match flag
-     * names are available.
+     * The flbgs bre duplicbted so thbt the fbmilibr Perl mbtch flbg
+     * nbmes bre bvbilbble.
      */
 
     /**
-     * Enables Unix lines mode.
+     * Enbbles Unix lines mode.
      *
-     * <p> In this mode, only the <tt>'\n'</tt> line terminator is recognized
-     * in the behavior of <tt>.</tt>, <tt>^</tt>, and <tt>$</tt>.
+     * <p> In this mode, only the <tt>'\n'</tt> line terminbtor is recognized
+     * in the behbvior of <tt>.</tt>, <tt>^</tt>, bnd <tt>$</tt>.
      *
-     * <p> Unix lines mode can also be enabled via the embedded flag
+     * <p> Unix lines mode cbn blso be enbbled vib the embedded flbg
      * expression&nbsp;<tt>(?d)</tt>.
      */
-    public static final int UNIX_LINES = 0x01;
+    public stbtic finbl int UNIX_LINES = 0x01;
 
     /**
-     * Enables case-insensitive matching.
+     * Enbbles cbse-insensitive mbtching.
      *
-     * <p> By default, case-insensitive matching assumes that only characters
-     * in the US-ASCII charset are being matched.  Unicode-aware
-     * case-insensitive matching can be enabled by specifying the {@link
-     * #UNICODE_CASE} flag in conjunction with this flag.
+     * <p> By defbult, cbse-insensitive mbtching bssumes thbt only chbrbcters
+     * in the US-ASCII chbrset bre being mbtched.  Unicode-bwbre
+     * cbse-insensitive mbtching cbn be enbbled by specifying the {@link
+     * #UNICODE_CASE} flbg in conjunction with this flbg.
      *
-     * <p> Case-insensitive matching can also be enabled via the embedded flag
+     * <p> Cbse-insensitive mbtching cbn blso be enbbled vib the embedded flbg
      * expression&nbsp;<tt>(?i)</tt>.
      *
-     * <p> Specifying this flag may impose a slight performance penalty.  </p>
+     * <p> Specifying this flbg mby impose b slight performbnce penblty.  </p>
      */
-    public static final int CASE_INSENSITIVE = 0x02;
+    public stbtic finbl int CASE_INSENSITIVE = 0x02;
 
     /**
-     * Permits whitespace and comments in pattern.
+     * Permits whitespbce bnd comments in pbttern.
      *
-     * <p> In this mode, whitespace is ignored, and embedded comments starting
-     * with <tt>#</tt> are ignored until the end of a line.
+     * <p> In this mode, whitespbce is ignored, bnd embedded comments stbrting
+     * with <tt>#</tt> bre ignored until the end of b line.
      *
-     * <p> Comments mode can also be enabled via the embedded flag
+     * <p> Comments mode cbn blso be enbbled vib the embedded flbg
      * expression&nbsp;<tt>(?x)</tt>.
      */
-    public static final int COMMENTS = 0x04;
+    public stbtic finbl int COMMENTS = 0x04;
 
     /**
-     * Enables multiline mode.
+     * Enbbles multiline mode.
      *
-     * <p> In multiline mode the expressions <tt>^</tt> and <tt>$</tt> match
-     * just after or just before, respectively, a line terminator or the end of
-     * the input sequence.  By default these expressions only match at the
-     * beginning and the end of the entire input sequence.
+     * <p> In multiline mode the expressions <tt>^</tt> bnd <tt>$</tt> mbtch
+     * just bfter or just before, respectively, b line terminbtor or the end of
+     * the input sequence.  By defbult these expressions only mbtch bt the
+     * beginning bnd the end of the entire input sequence.
      *
-     * <p> Multiline mode can also be enabled via the embedded flag
+     * <p> Multiline mode cbn blso be enbbled vib the embedded flbg
      * expression&nbsp;<tt>(?m)</tt>.  </p>
      */
-    public static final int MULTILINE = 0x08;
+    public stbtic finbl int MULTILINE = 0x08;
 
     /**
-     * Enables literal parsing of the pattern.
+     * Enbbles literbl pbrsing of the pbttern.
      *
-     * <p> When this flag is specified then the input string that specifies
-     * the pattern is treated as a sequence of literal characters.
-     * Metacharacters or escape sequences in the input sequence will be
-     * given no special meaning.
+     * <p> When this flbg is specified then the input string thbt specifies
+     * the pbttern is trebted bs b sequence of literbl chbrbcters.
+     * Metbchbrbcters or escbpe sequences in the input sequence will be
+     * given no specibl mebning.
      *
-     * <p>The flags CASE_INSENSITIVE and UNICODE_CASE retain their impact on
-     * matching when used in conjunction with this flag. The other flags
+     * <p>The flbgs CASE_INSENSITIVE bnd UNICODE_CASE retbin their impbct on
+     * mbtching when used in conjunction with this flbg. The other flbgs
      * become superfluous.
      *
-     * <p> There is no embedded flag character for enabling literal parsing.
+     * <p> There is no embedded flbg chbrbcter for enbbling literbl pbrsing.
      * @since 1.5
      */
-    public static final int LITERAL = 0x10;
+    public stbtic finbl int LITERAL = 0x10;
 
     /**
-     * Enables dotall mode.
+     * Enbbles dotbll mode.
      *
-     * <p> In dotall mode, the expression <tt>.</tt> matches any character,
-     * including a line terminator.  By default this expression does not match
-     * line terminators.
+     * <p> In dotbll mode, the expression <tt>.</tt> mbtches bny chbrbcter,
+     * including b line terminbtor.  By defbult this expression does not mbtch
+     * line terminbtors.
      *
-     * <p> Dotall mode can also be enabled via the embedded flag
-     * expression&nbsp;<tt>(?s)</tt>.  (The <tt>s</tt> is a mnemonic for
-     * "single-line" mode, which is what this is called in Perl.)  </p>
+     * <p> Dotbll mode cbn blso be enbbled vib the embedded flbg
+     * expression&nbsp;<tt>(?s)</tt>.  (The <tt>s</tt> is b mnemonic for
+     * "single-line" mode, which is whbt this is cblled in Perl.)  </p>
      */
-    public static final int DOTALL = 0x20;
+    public stbtic finbl int DOTALL = 0x20;
 
     /**
-     * Enables Unicode-aware case folding.
+     * Enbbles Unicode-bwbre cbse folding.
      *
-     * <p> When this flag is specified then case-insensitive matching, when
-     * enabled by the {@link #CASE_INSENSITIVE} flag, is done in a manner
-     * consistent with the Unicode Standard.  By default, case-insensitive
-     * matching assumes that only characters in the US-ASCII charset are being
-     * matched.
+     * <p> When this flbg is specified then cbse-insensitive mbtching, when
+     * enbbled by the {@link #CASE_INSENSITIVE} flbg, is done in b mbnner
+     * consistent with the Unicode Stbndbrd.  By defbult, cbse-insensitive
+     * mbtching bssumes thbt only chbrbcters in the US-ASCII chbrset bre being
+     * mbtched.
      *
-     * <p> Unicode-aware case folding can also be enabled via the embedded flag
+     * <p> Unicode-bwbre cbse folding cbn blso be enbbled vib the embedded flbg
      * expression&nbsp;<tt>(?u)</tt>.
      *
-     * <p> Specifying this flag may impose a performance penalty.  </p>
+     * <p> Specifying this flbg mby impose b performbnce penblty.  </p>
      */
-    public static final int UNICODE_CASE = 0x40;
+    public stbtic finbl int UNICODE_CASE = 0x40;
 
     /**
-     * Enables canonical equivalence.
+     * Enbbles cbnonicbl equivblence.
      *
-     * <p> When this flag is specified then two characters will be considered
-     * to match if, and only if, their full canonical decompositions match.
-     * The expression <tt>"a&#92;u030A"</tt>, for example, will match the
-     * string <tt>"&#92;u00E5"</tt> when this flag is specified.  By default,
-     * matching does not take canonical equivalence into account.
+     * <p> When this flbg is specified then two chbrbcters will be considered
+     * to mbtch if, bnd only if, their full cbnonicbl decompositions mbtch.
+     * The expression <tt>"b&#92;u030A"</tt>, for exbmple, will mbtch the
+     * string <tt>"&#92;u00E5"</tt> when this flbg is specified.  By defbult,
+     * mbtching does not tbke cbnonicbl equivblence into bccount.
      *
-     * <p> There is no embedded flag character for enabling canonical
-     * equivalence.
+     * <p> There is no embedded flbg chbrbcter for enbbling cbnonicbl
+     * equivblence.
      *
-     * <p> Specifying this flag may impose a performance penalty.  </p>
+     * <p> Specifying this flbg mby impose b performbnce penblty.  </p>
      */
-    public static final int CANON_EQ = 0x80;
+    public stbtic finbl int CANON_EQ = 0x80;
 
     /**
-     * Enables the Unicode version of <i>Predefined character classes</i> and
-     * <i>POSIX character classes</i>.
+     * Enbbles the Unicode version of <i>Predefined chbrbcter clbsses</i> bnd
+     * <i>POSIX chbrbcter clbsses</i>.
      *
-     * <p> When this flag is specified then the (US-ASCII only)
-     * <i>Predefined character classes</i> and <i>POSIX character classes</i>
-     * are in conformance with
-     * <a href="http://www.unicode.org/reports/tr18/"><i>Unicode Technical
-     * Standard #18: Unicode Regular Expression</i></a>
-     * <i>Annex C: Compatibility Properties</i>.
+     * <p> When this flbg is specified then the (US-ASCII only)
+     * <i>Predefined chbrbcter clbsses</i> bnd <i>POSIX chbrbcter clbsses</i>
+     * bre in conformbnce with
+     * <b href="http://www.unicode.org/reports/tr18/"><i>Unicode Technicbl
+     * Stbndbrd #18: Unicode Regulbr Expression</i></b>
+     * <i>Annex C: Compbtibility Properties</i>.
      * <p>
-     * The UNICODE_CHARACTER_CLASS mode can also be enabled via the embedded
-     * flag expression&nbsp;<tt>(?U)</tt>.
+     * The UNICODE_CHARACTER_CLASS mode cbn blso be enbbled vib the embedded
+     * flbg expression&nbsp;<tt>(?U)</tt>.
      * <p>
-     * The flag implies UNICODE_CASE, that is, it enables Unicode-aware case
+     * The flbg implies UNICODE_CASE, thbt is, it enbbles Unicode-bwbre cbse
      * folding.
      * <p>
-     * Specifying this flag may impose a performance penalty.  </p>
+     * Specifying this flbg mby impose b performbnce penblty.  </p>
      * @since 1.7
      */
-    public static final int UNICODE_CHARACTER_CLASS = 0x100;
+    public stbtic finbl int UNICODE_CHARACTER_CLASS = 0x100;
 
     /**
-     * Contains all possible flags for compile(regex, flags).
+     * Contbins bll possible flbgs for compile(regex, flbgs).
      */
-    private static final int ALL_FLAGS = CASE_INSENSITIVE | MULTILINE |
+    privbte stbtic finbl int ALL_FLAGS = CASE_INSENSITIVE | MULTILINE |
             DOTALL | UNICODE_CASE | CANON_EQ | UNIX_LINES | LITERAL |
             UNICODE_CHARACTER_CLASS | COMMENTS;
 
-    /* Pattern has only two serialized components: The pattern string
-     * and the flags, which are all that is needed to recompile the pattern
-     * when it is deserialized.
+    /* Pbttern hbs only two seriblized components: The pbttern string
+     * bnd the flbgs, which bre bll thbt is needed to recompile the pbttern
+     * when it is deseriblized.
      */
 
-    /** use serialVersionUID from Merlin b59 for interoperability */
-    private static final long serialVersionUID = 5073258162644648461L;
+    /** use seriblVersionUID from Merlin b59 for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = 5073258162644648461L;
 
     /**
-     * The original regular-expression pattern string.
+     * The originbl regulbr-expression pbttern string.
      *
-     * @serial
+     * @seribl
      */
-    private String pattern;
+    privbte String pbttern;
 
     /**
-     * The original pattern flags.
+     * The originbl pbttern flbgs.
      *
-     * @serial
+     * @seribl
      */
-    private int flags;
+    privbte int flbgs;
 
     /**
-     * Boolean indicating this Pattern is compiled; this is necessary in order
-     * to lazily compile deserialized Patterns.
+     * Boolebn indicbting this Pbttern is compiled; this is necessbry in order
+     * to lbzily compile deseriblized Pbtterns.
      */
-    private transient volatile boolean compiled = false;
+    privbte trbnsient volbtile boolebn compiled = fblse;
 
     /**
-     * The normalized pattern string.
+     * The normblized pbttern string.
      */
-    private transient String normalizedPattern;
+    privbte trbnsient String normblizedPbttern;
 
     /**
-     * The starting point of state machine for the find operation.  This allows
-     * a match to start anywhere in the input.
+     * The stbrting point of stbte mbchine for the find operbtion.  This bllows
+     * b mbtch to stbrt bnywhere in the input.
      */
-    transient Node root;
+    trbnsient Node root;
 
     /**
-     * The root of object tree for a match operation.  The pattern is matched
-     * at the beginning.  This may include a find that uses BnM or a First
+     * The root of object tree for b mbtch operbtion.  The pbttern is mbtched
+     * bt the beginning.  This mby include b find thbt uses BnM or b First
      * node.
      */
-    transient Node matchRoot;
+    trbnsient Node mbtchRoot;
 
     /**
-     * Temporary storage used by parsing pattern slice.
+     * Temporbry storbge used by pbrsing pbttern slice.
      */
-    transient int[] buffer;
+    trbnsient int[] buffer;
 
     /**
-     * Map the "name" of the "named capturing group" to its group id
+     * Mbp the "nbme" of the "nbmed cbpturing group" to its group id
      * node.
      */
-    transient volatile Map<String, Integer> namedGroups;
+    trbnsient volbtile Mbp<String, Integer> nbmedGroups;
 
     /**
-     * Temporary storage used while parsing group references.
+     * Temporbry storbge used while pbrsing group references.
      */
-    transient GroupHead[] groupNodes;
+    trbnsient GroupHebd[] groupNodes;
 
     /**
-     * Temporary null terminated code point array used by pattern compiling.
+     * Temporbry null terminbted code point brrby used by pbttern compiling.
      */
-    private transient int[] temp;
+    privbte trbnsient int[] temp;
 
     /**
-     * The number of capturing groups in this Pattern. Used by matchers to
-     * allocate storage needed to perform a match.
+     * The number of cbpturing groups in this Pbttern. Used by mbtchers to
+     * bllocbte storbge needed to perform b mbtch.
      */
-    transient int capturingGroupCount;
+    trbnsient int cbpturingGroupCount;
 
     /**
-     * The local variable count used by parsing tree. Used by matchers to
-     * allocate storage needed to perform a match.
+     * The locbl vbribble count used by pbrsing tree. Used by mbtchers to
+     * bllocbte storbge needed to perform b mbtch.
      */
-    transient int localCount;
+    trbnsient int locblCount;
 
     /**
-     * Index into the pattern string that keeps track of how much has been
-     * parsed.
+     * Index into the pbttern string thbt keeps trbck of how much hbs been
+     * pbrsed.
      */
-    private transient int cursor;
+    privbte trbnsient int cursor;
 
     /**
-     * Holds the length of the pattern string.
+     * Holds the length of the pbttern string.
      */
-    private transient int patternLength;
+    privbte trbnsient int pbtternLength;
 
     /**
-     * If the Start node might possibly match supplementary characters.
+     * If the Stbrt node might possibly mbtch supplementbry chbrbcters.
      * It is set to true during compiling if
-     * (1) There is supplementary char in pattern, or
-     * (2) There is complement node of Category or Block
+     * (1) There is supplementbry chbr in pbttern, or
+     * (2) There is complement node of Cbtegory or Block
      */
-    private transient boolean hasSupplementary;
+    privbte trbnsient boolebn hbsSupplementbry;
 
     /**
-     * Compiles the given regular expression into a pattern.
+     * Compiles the given regulbr expression into b pbttern.
      *
-     * @param  regex
+     * @pbrbm  regex
      *         The expression to be compiled
-     * @return the given regular expression compiled into a pattern
-     * @throws  PatternSyntaxException
-     *          If the expression's syntax is invalid
+     * @return the given regulbr expression compiled into b pbttern
+     * @throws  PbtternSyntbxException
+     *          If the expression's syntbx is invblid
      */
-    public static Pattern compile(String regex) {
-        return new Pattern(regex, 0);
+    public stbtic Pbttern compile(String regex) {
+        return new Pbttern(regex, 0);
     }
 
     /**
-     * Compiles the given regular expression into a pattern with the given
-     * flags.
+     * Compiles the given regulbr expression into b pbttern with the given
+     * flbgs.
      *
-     * @param  regex
+     * @pbrbm  regex
      *         The expression to be compiled
      *
-     * @param  flags
-     *         Match flags, a bit mask that may include
+     * @pbrbm  flbgs
+     *         Mbtch flbgs, b bit mbsk thbt mby include
      *         {@link #CASE_INSENSITIVE}, {@link #MULTILINE}, {@link #DOTALL},
      *         {@link #UNICODE_CASE}, {@link #CANON_EQ}, {@link #UNIX_LINES},
      *         {@link #LITERAL}, {@link #UNICODE_CHARACTER_CLASS}
-     *         and {@link #COMMENTS}
+     *         bnd {@link #COMMENTS}
      *
-     * @return the given regular expression compiled into a pattern with the given flags
-     * @throws  IllegalArgumentException
-     *          If bit values other than those corresponding to the defined
-     *          match flags are set in <tt>flags</tt>
+     * @return the given regulbr expression compiled into b pbttern with the given flbgs
+     * @throws  IllegblArgumentException
+     *          If bit vblues other thbn those corresponding to the defined
+     *          mbtch flbgs bre set in <tt>flbgs</tt>
      *
-     * @throws  PatternSyntaxException
-     *          If the expression's syntax is invalid
+     * @throws  PbtternSyntbxException
+     *          If the expression's syntbx is invblid
      */
-    public static Pattern compile(String regex, int flags) {
-        return new Pattern(regex, flags);
+    public stbtic Pbttern compile(String regex, int flbgs) {
+        return new Pbttern(regex, flbgs);
     }
 
     /**
-     * Returns the regular expression from which this pattern was compiled.
+     * Returns the regulbr expression from which this pbttern wbs compiled.
      *
-     * @return  The source of this pattern
+     * @return  The source of this pbttern
      */
-    public String pattern() {
-        return pattern;
+    public String pbttern() {
+        return pbttern;
     }
 
     /**
-     * <p>Returns the string representation of this pattern. This
-     * is the regular expression from which this pattern was
+     * <p>Returns the string representbtion of this pbttern. This
+     * is the regulbr expression from which this pbttern wbs
      * compiled.</p>
      *
-     * @return  The string representation of this pattern
+     * @return  The string representbtion of this pbttern
      * @since 1.5
      */
     public String toString() {
-        return pattern;
+        return pbttern;
     }
 
     /**
-     * Creates a matcher that will match the given input against this pattern.
+     * Crebtes b mbtcher thbt will mbtch the given input bgbinst this pbttern.
      *
-     * @param  input
-     *         The character sequence to be matched
+     * @pbrbm  input
+     *         The chbrbcter sequence to be mbtched
      *
-     * @return  A new matcher for this pattern
+     * @return  A new mbtcher for this pbttern
      */
-    public Matcher matcher(CharSequence input) {
+    public Mbtcher mbtcher(ChbrSequence input) {
         if (!compiled) {
             synchronized(this) {
                 if (!compiled)
                     compile();
             }
         }
-        Matcher m = new Matcher(this, input);
+        Mbtcher m = new Mbtcher(this, input);
         return m;
     }
 
     /**
-     * Returns this pattern's match flags.
+     * Returns this pbttern's mbtch flbgs.
      *
-     * @return  The match flags specified when this pattern was compiled
+     * @return  The mbtch flbgs specified when this pbttern wbs compiled
      */
-    public int flags() {
-        return flags;
+    public int flbgs() {
+        return flbgs;
     }
 
     /**
-     * Compiles the given regular expression and attempts to match the given
-     * input against it.
+     * Compiles the given regulbr expression bnd bttempts to mbtch the given
+     * input bgbinst it.
      *
-     * <p> An invocation of this convenience method of the form
-     *
-     * <blockquote><pre>
-     * Pattern.matches(regex, input);</pre></blockquote>
-     *
-     * behaves in exactly the same way as the expression
+     * <p> An invocbtion of this convenience method of the form
      *
      * <blockquote><pre>
-     * Pattern.compile(regex).matcher(input).matches()</pre></blockquote>
+     * Pbttern.mbtches(regex, input);</pre></blockquote>
      *
-     * <p> If a pattern is to be used multiple times, compiling it once and reusing
-     * it will be more efficient than invoking this method each time.  </p>
+     * behbves in exbctly the sbme wby bs the expression
      *
-     * @param  regex
+     * <blockquote><pre>
+     * Pbttern.compile(regex).mbtcher(input).mbtches()</pre></blockquote>
+     *
+     * <p> If b pbttern is to be used multiple times, compiling it once bnd reusing
+     * it will be more efficient thbn invoking this method ebch time.  </p>
+     *
+     * @pbrbm  regex
      *         The expression to be compiled
      *
-     * @param  input
-     *         The character sequence to be matched
-     * @return whether or not the regular expression matches on the input
-     * @throws  PatternSyntaxException
-     *          If the expression's syntax is invalid
+     * @pbrbm  input
+     *         The chbrbcter sequence to be mbtched
+     * @return whether or not the regulbr expression mbtches on the input
+     * @throws  PbtternSyntbxException
+     *          If the expression's syntbx is invblid
      */
-    public static boolean matches(String regex, CharSequence input) {
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(input);
-        return m.matches();
+    public stbtic boolebn mbtches(String regex, ChbrSequence input) {
+        Pbttern p = Pbttern.compile(regex);
+        Mbtcher m = p.mbtcher(input);
+        return m.mbtches();
     }
 
     /**
-     * Splits the given input sequence around matches of this pattern.
+     * Splits the given input sequence bround mbtches of this pbttern.
      *
-     * <p> The array returned by this method contains each substring of the
-     * input sequence that is terminated by another subsequence that matches
-     * this pattern or is terminated by the end of the input sequence.  The
-     * substrings in the array are in the order in which they occur in the
-     * input. If this pattern does not match any subsequence of the input then
-     * the resulting array has just one element, namely the input sequence in
+     * <p> The brrby returned by this method contbins ebch substring of the
+     * input sequence thbt is terminbted by bnother subsequence thbt mbtches
+     * this pbttern or is terminbted by the end of the input sequence.  The
+     * substrings in the brrby bre in the order in which they occur in the
+     * input. If this pbttern does not mbtch bny subsequence of the input then
+     * the resulting brrby hbs just one element, nbmely the input sequence in
      * string form.
      *
-     * <p> When there is a positive-width match at the beginning of the input
-     * sequence then an empty leading substring is included at the beginning
-     * of the resulting array. A zero-width match at the beginning however
-     * never produces such empty leading substring.
+     * <p> When there is b positive-width mbtch bt the beginning of the input
+     * sequence then bn empty lebding substring is included bt the beginning
+     * of the resulting brrby. A zero-width mbtch bt the beginning however
+     * never produces such empty lebding substring.
      *
-     * <p> The <tt>limit</tt> parameter controls the number of times the
-     * pattern is applied and therefore affects the length of the resulting
-     * array.  If the limit <i>n</i> is greater than zero then the pattern
-     * will be applied at most <i>n</i>&nbsp;-&nbsp;1 times, the array's
-     * length will be no greater than <i>n</i>, and the array's last entry
-     * will contain all input beyond the last matched delimiter.  If <i>n</i>
-     * is non-positive then the pattern will be applied as many times as
-     * possible and the array can have any length.  If <i>n</i> is zero then
-     * the pattern will be applied as many times as possible, the array can
-     * have any length, and trailing empty strings will be discarded.
+     * <p> The <tt>limit</tt> pbrbmeter controls the number of times the
+     * pbttern is bpplied bnd therefore bffects the length of the resulting
+     * brrby.  If the limit <i>n</i> is grebter thbn zero then the pbttern
+     * will be bpplied bt most <i>n</i>&nbsp;-&nbsp;1 times, the brrby's
+     * length will be no grebter thbn <i>n</i>, bnd the brrby's lbst entry
+     * will contbin bll input beyond the lbst mbtched delimiter.  If <i>n</i>
+     * is non-positive then the pbttern will be bpplied bs mbny times bs
+     * possible bnd the brrby cbn hbve bny length.  If <i>n</i> is zero then
+     * the pbttern will be bpplied bs mbny times bs possible, the brrby cbn
+     * hbve bny length, bnd trbiling empty strings will be discbrded.
      *
-     * <p> The input <tt>"boo:and:foo"</tt>, for example, yields the following
-     * results with these parameters:
+     * <p> The input <tt>"boo:bnd:foo"</tt>, for exbmple, yields the following
+     * results with these pbrbmeters:
      *
-     * <blockquote><table cellpadding=1 cellspacing=0
-     *              summary="Split examples showing regex, limit, and result">
-     * <tr><th align="left"><i>Regex&nbsp;&nbsp;&nbsp;&nbsp;</i></th>
-     *     <th align="left"><i>Limit&nbsp;&nbsp;&nbsp;&nbsp;</i></th>
-     *     <th align="left"><i>Result&nbsp;&nbsp;&nbsp;&nbsp;</i></th></tr>
-     * <tr><td align=center>:</td>
-     *     <td align=center>2</td>
-     *     <td><tt>{ "boo", "and:foo" }</tt></td></tr>
-     * <tr><td align=center>:</td>
-     *     <td align=center>5</td>
-     *     <td><tt>{ "boo", "and", "foo" }</tt></td></tr>
-     * <tr><td align=center>:</td>
-     *     <td align=center>-2</td>
-     *     <td><tt>{ "boo", "and", "foo" }</tt></td></tr>
-     * <tr><td align=center>o</td>
-     *     <td align=center>5</td>
-     *     <td><tt>{ "b", "", ":and:f", "", "" }</tt></td></tr>
-     * <tr><td align=center>o</td>
-     *     <td align=center>-2</td>
-     *     <td><tt>{ "b", "", ":and:f", "", "" }</tt></td></tr>
-     * <tr><td align=center>o</td>
-     *     <td align=center>0</td>
-     *     <td><tt>{ "b", "", ":and:f" }</tt></td></tr>
-     * </table></blockquote>
+     * <blockquote><tbble cellpbdding=1 cellspbcing=0
+     *              summbry="Split exbmples showing regex, limit, bnd result">
+     * <tr><th blign="left"><i>Regex&nbsp;&nbsp;&nbsp;&nbsp;</i></th>
+     *     <th blign="left"><i>Limit&nbsp;&nbsp;&nbsp;&nbsp;</i></th>
+     *     <th blign="left"><i>Result&nbsp;&nbsp;&nbsp;&nbsp;</i></th></tr>
+     * <tr><td blign=center>:</td>
+     *     <td blign=center>2</td>
+     *     <td><tt>{ "boo", "bnd:foo" }</tt></td></tr>
+     * <tr><td blign=center>:</td>
+     *     <td blign=center>5</td>
+     *     <td><tt>{ "boo", "bnd", "foo" }</tt></td></tr>
+     * <tr><td blign=center>:</td>
+     *     <td blign=center>-2</td>
+     *     <td><tt>{ "boo", "bnd", "foo" }</tt></td></tr>
+     * <tr><td blign=center>o</td>
+     *     <td blign=center>5</td>
+     *     <td><tt>{ "b", "", ":bnd:f", "", "" }</tt></td></tr>
+     * <tr><td blign=center>o</td>
+     *     <td blign=center>-2</td>
+     *     <td><tt>{ "b", "", ":bnd:f", "", "" }</tt></td></tr>
+     * <tr><td blign=center>o</td>
+     *     <td blign=center>0</td>
+     *     <td><tt>{ "b", "", ":bnd:f" }</tt></td></tr>
+     * </tbble></blockquote>
      *
-     * @param  input
-     *         The character sequence to be split
+     * @pbrbm  input
+     *         The chbrbcter sequence to be split
      *
-     * @param  limit
-     *         The result threshold, as described above
+     * @pbrbm  limit
+     *         The result threshold, bs described bbove
      *
-     * @return  The array of strings computed by splitting the input
-     *          around matches of this pattern
+     * @return  The brrby of strings computed by splitting the input
+     *          bround mbtches of this pbttern
      */
-    public String[] split(CharSequence input, int limit) {
+    public String[] split(ChbrSequence input, int limit) {
         int index = 0;
-        boolean matchLimited = limit > 0;
-        ArrayList<String> matchList = new ArrayList<>();
-        Matcher m = matcher(input);
+        boolebn mbtchLimited = limit > 0;
+        ArrbyList<String> mbtchList = new ArrbyList<>();
+        Mbtcher m = mbtcher(input);
 
-        // Add segments before each match found
+        // Add segments before ebch mbtch found
         while(m.find()) {
-            if (!matchLimited || matchList.size() < limit - 1) {
-                if (index == 0 && index == m.start() && m.start() == m.end()) {
-                    // no empty leading substring included for zero-width match
-                    // at the beginning of the input char sequence.
+            if (!mbtchLimited || mbtchList.size() < limit - 1) {
+                if (index == 0 && index == m.stbrt() && m.stbrt() == m.end()) {
+                    // no empty lebding substring included for zero-width mbtch
+                    // bt the beginning of the input chbr sequence.
                     continue;
                 }
-                String match = input.subSequence(index, m.start()).toString();
-                matchList.add(match);
+                String mbtch = input.subSequence(index, m.stbrt()).toString();
+                mbtchList.bdd(mbtch);
                 index = m.end();
-            } else if (matchList.size() == limit - 1) { // last one
-                String match = input.subSequence(index,
+            } else if (mbtchList.size() == limit - 1) { // lbst one
+                String mbtch = input.subSequence(index,
                                                  input.length()).toString();
-                matchList.add(match);
+                mbtchList.bdd(mbtch);
                 index = m.end();
             }
         }
 
-        // If no match was found, return this
+        // If no mbtch wbs found, return this
         if (index == 0)
             return new String[] {input.toString()};
 
-        // Add remaining segment
-        if (!matchLimited || matchList.size() < limit)
-            matchList.add(input.subSequence(index, input.length()).toString());
+        // Add rembining segment
+        if (!mbtchLimited || mbtchList.size() < limit)
+            mbtchList.bdd(input.subSequence(index, input.length()).toString());
 
         // Construct result
-        int resultSize = matchList.size();
+        int resultSize = mbtchList.size();
         if (limit == 0)
-            while (resultSize > 0 && matchList.get(resultSize-1).equals(""))
+            while (resultSize > 0 && mbtchList.get(resultSize-1).equbls(""))
                 resultSize--;
         String[] result = new String[resultSize];
-        return matchList.subList(0, resultSize).toArray(result);
+        return mbtchList.subList(0, resultSize).toArrby(result);
     }
 
     /**
-     * Splits the given input sequence around matches of this pattern.
+     * Splits the given input sequence bround mbtches of this pbttern.
      *
-     * <p> This method works as if by invoking the two-argument {@link
-     * #split(java.lang.CharSequence, int) split} method with the given input
-     * sequence and a limit argument of zero.  Trailing empty strings are
-     * therefore not included in the resulting array. </p>
+     * <p> This method works bs if by invoking the two-brgument {@link
+     * #split(jbvb.lbng.ChbrSequence, int) split} method with the given input
+     * sequence bnd b limit brgument of zero.  Trbiling empty strings bre
+     * therefore not included in the resulting brrby. </p>
      *
-     * <p> The input <tt>"boo:and:foo"</tt>, for example, yields the following
+     * <p> The input <tt>"boo:bnd:foo"</tt>, for exbmple, yields the following
      * results with these expressions:
      *
-     * <blockquote><table cellpadding=1 cellspacing=0
-     *              summary="Split examples showing regex and result">
-     * <tr><th align="left"><i>Regex&nbsp;&nbsp;&nbsp;&nbsp;</i></th>
-     *     <th align="left"><i>Result</i></th></tr>
-     * <tr><td align=center>:</td>
-     *     <td><tt>{ "boo", "and", "foo" }</tt></td></tr>
-     * <tr><td align=center>o</td>
-     *     <td><tt>{ "b", "", ":and:f" }</tt></td></tr>
-     * </table></blockquote>
+     * <blockquote><tbble cellpbdding=1 cellspbcing=0
+     *              summbry="Split exbmples showing regex bnd result">
+     * <tr><th blign="left"><i>Regex&nbsp;&nbsp;&nbsp;&nbsp;</i></th>
+     *     <th blign="left"><i>Result</i></th></tr>
+     * <tr><td blign=center>:</td>
+     *     <td><tt>{ "boo", "bnd", "foo" }</tt></td></tr>
+     * <tr><td blign=center>o</td>
+     *     <td><tt>{ "b", "", ":bnd:f" }</tt></td></tr>
+     * </tbble></blockquote>
      *
      *
-     * @param  input
-     *         The character sequence to be split
+     * @pbrbm  input
+     *         The chbrbcter sequence to be split
      *
-     * @return  The array of strings computed by splitting the input
-     *          around matches of this pattern
+     * @return  The brrby of strings computed by splitting the input
+     *          bround mbtches of this pbttern
      */
-    public String[] split(CharSequence input) {
+    public String[] split(ChbrSequence input) {
         return split(input, 0);
     }
 
     /**
-     * Returns a literal pattern <code>String</code> for the specified
+     * Returns b literbl pbttern <code>String</code> for the specified
      * <code>String</code>.
      *
-     * <p>This method produces a <code>String</code> that can be used to
-     * create a <code>Pattern</code> that would match the string
-     * <code>s</code> as if it were a literal pattern.</p> Metacharacters
-     * or escape sequences in the input sequence will be given no special
-     * meaning.
+     * <p>This method produces b <code>String</code> thbt cbn be used to
+     * crebte b <code>Pbttern</code> thbt would mbtch the string
+     * <code>s</code> bs if it were b literbl pbttern.</p> Metbchbrbcters
+     * or escbpe sequences in the input sequence will be given no specibl
+     * mebning.
      *
-     * @param  s The string to be literalized
-     * @return  A literal string replacement
+     * @pbrbm  s The string to be literblized
+     * @return  A literbl string replbcement
      * @since 1.5
      */
-    public static String quote(String s) {
-        int slashEIndex = s.indexOf("\\E");
-        if (slashEIndex == -1)
+    public stbtic String quote(String s) {
+        int slbshEIndex = s.indexOf("\\E");
+        if (slbshEIndex == -1)
             return "\\Q" + s + "\\E";
 
         StringBuilder sb = new StringBuilder(s.length() * 2);
-        sb.append("\\Q");
-        slashEIndex = 0;
+        sb.bppend("\\Q");
+        slbshEIndex = 0;
         int current = 0;
-        while ((slashEIndex = s.indexOf("\\E", current)) != -1) {
-            sb.append(s.substring(current, slashEIndex));
-            current = slashEIndex + 2;
-            sb.append("\\E\\\\E\\Q");
+        while ((slbshEIndex = s.indexOf("\\E", current)) != -1) {
+            sb.bppend(s.substring(current, slbshEIndex));
+            current = slbshEIndex + 2;
+            sb.bppend("\\E\\\\E\\Q");
         }
-        sb.append(s.substring(current, s.length()));
-        sb.append("\\E");
+        sb.bppend(s.substring(current, s.length()));
+        sb.bppend("\\E");
         return sb.toString();
     }
 
     /**
-     * Recompile the Pattern instance from a stream.  The original pattern
-     * string is read in and the object tree is recompiled from it.
+     * Recompile the Pbttern instbnce from b strebm.  The originbl pbttern
+     * string is rebd in bnd the object tree is recompiled from it.
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
 
-        // Read in all fields
-        s.defaultReadObject();
+        // Rebd in bll fields
+        s.defbultRebdObject();
 
-        // Initialize counts
-        capturingGroupCount = 1;
-        localCount = 0;
+        // Initiblize counts
+        cbpturingGroupCount = 1;
+        locblCount = 0;
 
-        // if length > 0, the Pattern is lazily compiled
-        compiled = false;
-        if (pattern.length() == 0) {
-            root = new Start(lastAccept);
-            matchRoot = lastAccept;
+        // if length > 0, the Pbttern is lbzily compiled
+        compiled = fblse;
+        if (pbttern.length() == 0) {
+            root = new Stbrt(lbstAccept);
+            mbtchRoot = lbstAccept;
             compiled = true;
         }
     }
 
     /**
-     * This private constructor is used to create all Patterns. The pattern
-     * string and match flags are all that is needed to completely describe
-     * a Pattern. An empty pattern string results in an object tree with
-     * only a Start node and a LastNode node.
+     * This privbte constructor is used to crebte bll Pbtterns. The pbttern
+     * string bnd mbtch flbgs bre bll thbt is needed to completely describe
+     * b Pbttern. An empty pbttern string results in bn object tree with
+     * only b Stbrt node bnd b LbstNode node.
      */
-    private Pattern(String p, int f) {
+    privbte Pbttern(String p, int f) {
         if ((f & ~ALL_FLAGS) != 0) {
-            throw new IllegalArgumentException("Unknown flag 0x"
+            throw new IllegblArgumentException("Unknown flbg 0x"
                                                + Integer.toHexString(f));
         }
-        pattern = p;
-        flags = f;
+        pbttern = p;
+        flbgs = f;
 
         // to use UNICODE_CASE if UNICODE_CHARACTER_CLASS present
-        if ((flags & UNICODE_CHARACTER_CLASS) != 0)
-            flags |= UNICODE_CASE;
+        if ((flbgs & UNICODE_CHARACTER_CLASS) != 0)
+            flbgs |= UNICODE_CASE;
 
         // Reset group index count
-        capturingGroupCount = 1;
-        localCount = 0;
+        cbpturingGroupCount = 1;
+        locblCount = 0;
 
-        if (pattern.length() > 0) {
+        if (pbttern.length() > 0) {
             compile();
         } else {
-            root = new Start(lastAccept);
-            matchRoot = lastAccept;
+            root = new Stbrt(lbstAccept);
+            mbtchRoot = lbstAccept;
         }
     }
 
     /**
-     * The pattern is converted to normalizedD form and then a pure group
-     * is constructed to match canonical equivalences of the characters.
+     * The pbttern is converted to normblizedD form bnd then b pure group
+     * is constructed to mbtch cbnonicbl equivblences of the chbrbcters.
      */
-    private void normalize() {
-        boolean inCharClass = false;
-        int lastCodePoint = -1;
+    privbte void normblize() {
+        boolebn inChbrClbss = fblse;
+        int lbstCodePoint = -1;
 
-        // Convert pattern into normalizedD form
-        normalizedPattern = Normalizer.normalize(pattern, Normalizer.Form.NFD);
-        patternLength = normalizedPattern.length();
+        // Convert pbttern into normblizedD form
+        normblizedPbttern = Normblizer.normblize(pbttern, Normblizer.Form.NFD);
+        pbtternLength = normblizedPbttern.length();
 
-        // Modify pattern to match canonical equivalences
-        StringBuilder newPattern = new StringBuilder(patternLength);
-        for(int i=0; i<patternLength; ) {
-            int c = normalizedPattern.codePointAt(i);
+        // Modify pbttern to mbtch cbnonicbl equivblences
+        StringBuilder newPbttern = new StringBuilder(pbtternLength);
+        for(int i=0; i<pbtternLength; ) {
+            int c = normblizedPbttern.codePointAt(i);
             StringBuilder sequenceBuffer;
-            if ((Character.getType(c) == Character.NON_SPACING_MARK)
-                && (lastCodePoint != -1)) {
+            if ((Chbrbcter.getType(c) == Chbrbcter.NON_SPACING_MARK)
+                && (lbstCodePoint != -1)) {
                 sequenceBuffer = new StringBuilder();
-                sequenceBuffer.appendCodePoint(lastCodePoint);
-                sequenceBuffer.appendCodePoint(c);
-                while(Character.getType(c) == Character.NON_SPACING_MARK) {
-                    i += Character.charCount(c);
-                    if (i >= patternLength)
-                        break;
-                    c = normalizedPattern.codePointAt(i);
-                    sequenceBuffer.appendCodePoint(c);
+                sequenceBuffer.bppendCodePoint(lbstCodePoint);
+                sequenceBuffer.bppendCodePoint(c);
+                while(Chbrbcter.getType(c) == Chbrbcter.NON_SPACING_MARK) {
+                    i += Chbrbcter.chbrCount(c);
+                    if (i >= pbtternLength)
+                        brebk;
+                    c = normblizedPbttern.codePointAt(i);
+                    sequenceBuffer.bppendCodePoint(c);
                 }
-                String ea = produceEquivalentAlternation(
+                String eb = produceEquivblentAlternbtion(
                                                sequenceBuffer.toString());
-                newPattern.setLength(newPattern.length()-Character.charCount(lastCodePoint));
-                newPattern.append("(?:").append(ea).append(")");
-            } else if (c == '[' && lastCodePoint != '\\') {
-                i = normalizeCharClass(newPattern, i);
+                newPbttern.setLength(newPbttern.length()-Chbrbcter.chbrCount(lbstCodePoint));
+                newPbttern.bppend("(?:").bppend(eb).bppend(")");
+            } else if (c == '[' && lbstCodePoint != '\\') {
+                i = normblizeChbrClbss(newPbttern, i);
             } else {
-                newPattern.appendCodePoint(c);
+                newPbttern.bppendCodePoint(c);
             }
-            lastCodePoint = c;
-            i += Character.charCount(c);
+            lbstCodePoint = c;
+            i += Chbrbcter.chbrCount(c);
         }
-        normalizedPattern = newPattern.toString();
+        normblizedPbttern = newPbttern.toString();
     }
 
     /**
-     * Complete the character class being parsed and add a set
-     * of alternations to it that will match the canonical equivalences
-     * of the characters within the class.
+     * Complete the chbrbcter clbss being pbrsed bnd bdd b set
+     * of blternbtions to it thbt will mbtch the cbnonicbl equivblences
+     * of the chbrbcters within the clbss.
      */
-    private int normalizeCharClass(StringBuilder newPattern, int i) {
-        StringBuilder charClass = new StringBuilder();
+    privbte int normblizeChbrClbss(StringBuilder newPbttern, int i) {
+        StringBuilder chbrClbss = new StringBuilder();
         StringBuilder eq = null;
-        int lastCodePoint = -1;
+        int lbstCodePoint = -1;
         String result;
 
         i++;
-        charClass.append("[");
+        chbrClbss.bppend("[");
         while(true) {
-            int c = normalizedPattern.codePointAt(i);
+            int c = normblizedPbttern.codePointAt(i);
             StringBuilder sequenceBuffer;
 
-            if (c == ']' && lastCodePoint != '\\') {
-                charClass.append((char)c);
-                break;
-            } else if (Character.getType(c) == Character.NON_SPACING_MARK) {
+            if (c == ']' && lbstCodePoint != '\\') {
+                chbrClbss.bppend((chbr)c);
+                brebk;
+            } else if (Chbrbcter.getType(c) == Chbrbcter.NON_SPACING_MARK) {
                 sequenceBuffer = new StringBuilder();
-                sequenceBuffer.appendCodePoint(lastCodePoint);
-                while(Character.getType(c) == Character.NON_SPACING_MARK) {
-                    sequenceBuffer.appendCodePoint(c);
-                    i += Character.charCount(c);
-                    if (i >= normalizedPattern.length())
-                        break;
-                    c = normalizedPattern.codePointAt(i);
+                sequenceBuffer.bppendCodePoint(lbstCodePoint);
+                while(Chbrbcter.getType(c) == Chbrbcter.NON_SPACING_MARK) {
+                    sequenceBuffer.bppendCodePoint(c);
+                    i += Chbrbcter.chbrCount(c);
+                    if (i >= normblizedPbttern.length())
+                        brebk;
+                    c = normblizedPbttern.codePointAt(i);
                 }
-                String ea = produceEquivalentAlternation(
+                String eb = produceEquivblentAlternbtion(
                                                   sequenceBuffer.toString());
 
-                charClass.setLength(charClass.length()-Character.charCount(lastCodePoint));
+                chbrClbss.setLength(chbrClbss.length()-Chbrbcter.chbrCount(lbstCodePoint));
                 if (eq == null)
                     eq = new StringBuilder();
-                eq.append('|');
-                eq.append(ea);
+                eq.bppend('|');
+                eq.bppend(eb);
             } else {
-                charClass.appendCodePoint(c);
+                chbrClbss.bppendCodePoint(c);
                 i++;
             }
-            if (i == normalizedPattern.length())
-                throw error("Unclosed character class");
-            lastCodePoint = c;
+            if (i == normblizedPbttern.length())
+                throw error("Unclosed chbrbcter clbss");
+            lbstCodePoint = c;
         }
 
         if (eq != null) {
-            result = "(?:"+charClass.toString()+eq.toString()+")";
+            result = "(?:"+chbrClbss.toString()+eq.toString()+")";
         } else {
-            result = charClass.toString();
+            result = chbrClbss.toString();
         }
 
-        newPattern.append(result);
+        newPbttern.bppend(result);
         return i;
     }
 
     /**
-     * Given a specific sequence composed of a regular character and
-     * combining marks that follow it, produce the alternation that will
-     * match all canonical equivalences of that sequence.
+     * Given b specific sequence composed of b regulbr chbrbcter bnd
+     * combining mbrks thbt follow it, produce the blternbtion thbt will
+     * mbtch bll cbnonicbl equivblences of thbt sequence.
      */
-    private String produceEquivalentAlternation(String source) {
-        int len = countChars(source, 0, 1);
+    privbte String produceEquivblentAlternbtion(String source) {
+        int len = countChbrs(source, 0, 1);
         if (source.length() == len)
-            // source has one character.
+            // source hbs one chbrbcter.
             return source;
 
-        String base = source.substring(0,len);
-        String combiningMarks = source.substring(len);
+        String bbse = source.substring(0,len);
+        String combiningMbrks = source.substring(len);
 
-        String[] perms = producePermutations(combiningMarks);
+        String[] perms = producePermutbtions(combiningMbrks);
         StringBuilder result = new StringBuilder(source);
 
-        // Add combined permutations
+        // Add combined permutbtions
         for(int x=0; x<perms.length; x++) {
-            String next = base + perms[x];
+            String next = bbse + perms[x];
             if (x>0)
-                result.append("|"+next);
+                result.bppend("|"+next);
             next = composeOneStep(next);
             if (next != null)
-                result.append("|"+produceEquivalentAlternation(next));
+                result.bppend("|"+produceEquivblentAlternbtion(next));
         }
         return result.toString();
     }
 
     /**
-     * Returns an array of strings that have all the possible
-     * permutations of the characters in the input string.
-     * This is used to get a list of all possible orderings
-     * of a set of combining marks. Note that some of the permutations
-     * are invalid because of combining class collisions, and these
-     * possibilities must be removed because they are not canonically
-     * equivalent.
+     * Returns bn brrby of strings thbt hbve bll the possible
+     * permutbtions of the chbrbcters in the input string.
+     * This is used to get b list of bll possible orderings
+     * of b set of combining mbrks. Note thbt some of the permutbtions
+     * bre invblid becbuse of combining clbss collisions, bnd these
+     * possibilities must be removed becbuse they bre not cbnonicblly
+     * equivblent.
      */
-    private String[] producePermutations(String input) {
-        if (input.length() == countChars(input, 0, 1))
+    privbte String[] producePermutbtions(String input) {
+        if (input.length() == countChbrs(input, 0, 1))
             return new String[] {input};
 
-        if (input.length() == countChars(input, 0, 2)) {
-            int c0 = Character.codePointAt(input, 0);
-            int c1 = Character.codePointAt(input, Character.charCount(c0));
-            if (getClass(c1) == getClass(c0)) {
+        if (input.length() == countChbrs(input, 0, 2)) {
+            int c0 = Chbrbcter.codePointAt(input, 0);
+            int c1 = Chbrbcter.codePointAt(input, Chbrbcter.chbrCount(c0));
+            if (getClbss(c1) == getClbss(c0)) {
                 return new String[] {input};
             }
             String[] result = new String[2];
             result[0] = input;
             StringBuilder sb = new StringBuilder(2);
-            sb.appendCodePoint(c1);
-            sb.appendCodePoint(c0);
+            sb.bppendCodePoint(c1);
+            sb.bppendCodePoint(c0);
             result[1] = sb.toString();
             return result;
         }
@@ -1531,29 +1531,29 @@ public final class Pattern
 
         String[] temp = new String[length];
 
-        int combClass[] = new int[nCodePoints];
+        int combClbss[] = new int[nCodePoints];
         for(int x=0, i=0; x<nCodePoints; x++) {
-            int c = Character.codePointAt(input, i);
-            combClass[x] = getClass(c);
-            i +=  Character.charCount(c);
+            int c = Chbrbcter.codePointAt(input, i);
+            combClbss[x] = getClbss(c);
+            i +=  Chbrbcter.chbrCount(c);
         }
 
-        // For each char, take it out and add the permutations
-        // of the remaining chars
+        // For ebch chbr, tbke it out bnd bdd the permutbtions
+        // of the rembining chbrs
         int index = 0;
         int len;
-        // offset maintains the index in code units.
+        // offset mbintbins the index in code units.
 loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
-            len = countChars(input, offset, 1);
-            boolean skip = false;
+            len = countChbrs(input, offset, 1);
+            boolebn skip = fblse;
             for(int y=x-1; y>=0; y--) {
-                if (combClass[y] == combClass[x]) {
+                if (combClbss[y] == combClbss[x]) {
                     continue loop;
                 }
             }
             StringBuilder sb = new StringBuilder(input);
-            String otherChars = sb.delete(offset, offset+len).toString();
-            String[] subResult = producePermutations(otherChars);
+            String otherChbrs = sb.delete(offset, offset+len).toString();
+            String[] subResult = producePermutbtions(otherChbrs);
 
             String prefix = input.substring(offset, offset+len);
             for (String sre : subResult)
@@ -1565,36 +1565,36 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
         return result;
     }
 
-    private int getClass(int c) {
-        return sun.text.Normalizer.getCombiningClass(c);
+    privbte int getClbss(int c) {
+        return sun.text.Normblizer.getCombiningClbss(c);
     }
 
     /**
-     * Attempts to compose input by combining the first character
-     * with the first combining mark following it. Returns a String
-     * that is the composition of the leading character with its first
-     * combining mark followed by the remaining combining marks. Returns
-     * null if the first two characters cannot be further composed.
+     * Attempts to compose input by combining the first chbrbcter
+     * with the first combining mbrk following it. Returns b String
+     * thbt is the composition of the lebding chbrbcter with its first
+     * combining mbrk followed by the rembining combining mbrks. Returns
+     * null if the first two chbrbcters cbnnot be further composed.
      */
-    private String composeOneStep(String input) {
-        int len = countChars(input, 0, 2);
-        String firstTwoCharacters = input.substring(0, len);
-        String result = Normalizer.normalize(firstTwoCharacters, Normalizer.Form.NFC);
+    privbte String composeOneStep(String input) {
+        int len = countChbrs(input, 0, 2);
+        String firstTwoChbrbcters = input.substring(0, len);
+        String result = Normblizer.normblize(firstTwoChbrbcters, Normblizer.Form.NFC);
 
-        if (result.equals(firstTwoCharacters))
+        if (result.equbls(firstTwoChbrbcters))
             return null;
         else {
-            String remainder = input.substring(len);
-            return result + remainder;
+            String rembinder = input.substring(len);
+            return result + rembinder;
         }
     }
 
     /**
-     * Preprocess any \Q...\E sequences in `temp', meta-quoting them.
-     * See the description of `quotemeta' in perlfunc(1).
+     * Preprocess bny \Q...\E sequences in `temp', metb-quoting them.
+     * See the description of `quotemetb' in perlfunc(1).
      */
-    private void RemoveQEQuoting() {
-        final int pLen = patternLength;
+    privbte void RemoveQEQuoting() {
+        finbl int pLen = pbtternLength;
         int i = 0;
         while (i < pLen-1) {
             if (temp[i] != '\\')
@@ -1602,27 +1602,27 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
             else if (temp[i + 1] != 'Q')
                 i += 2;
             else
-                break;
+                brebk;
         }
         if (i >= pLen - 1)    // No \Q sequence found
             return;
         int j = i;
         i += 2;
         int[] newtemp = new int[j + 3*(pLen-i) + 2];
-        System.arraycopy(temp, 0, newtemp, 0, j);
+        System.brrbycopy(temp, 0, newtemp, 0, j);
 
-        boolean inQuote = true;
-        boolean beginQuote = true;
+        boolebn inQuote = true;
+        boolebn beginQuote = true;
         while (i < pLen) {
             int c = temp[i++];
-            if (!ASCII.isAscii(c) || ASCII.isAlpha(c)) {
+            if (!ASCII.isAscii(c) || ASCII.isAlphb(c)) {
                 newtemp[j++] = c;
             } else if (ASCII.isDigit(c)) {
                 if (beginQuote) {
                     /*
-                     * A unicode escape \[0xu] could be before this quote,
-                     * and we don't want this numeric char to processed as
-                     * part of the escape.
+                     * A unicode escbpe \[0xu] could be before this quote,
+                     * bnd we don't wbnt this numeric chbr to processed bs
+                     * pbrt of the escbpe.
                      */
                     newtemp[j++] = '\\';
                     newtemp[j++] = 'x';
@@ -1635,7 +1635,7 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
             } else if (inQuote) {
                 if (temp[i] == 'E') {
                     i++;
-                    inQuote = false;
+                    inQuote = fblse;
                 } else {
                     newtemp[j++] = '\\';
                     newtemp[j++] = '\\';
@@ -1653,118 +1653,118 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
                 }
             }
 
-            beginQuote = false;
+            beginQuote = fblse;
         }
 
-        patternLength = j;
-        temp = Arrays.copyOf(newtemp, j + 2); // double zero termination
+        pbtternLength = j;
+        temp = Arrbys.copyOf(newtemp, j + 2); // double zero terminbtion
     }
 
     /**
-     * Copies regular expression to an int array and invokes the parsing
-     * of the expression which will create the object tree.
+     * Copies regulbr expression to bn int brrby bnd invokes the pbrsing
+     * of the expression which will crebte the object tree.
      */
-    private void compile() {
-        // Handle canonical equivalences
-        if (has(CANON_EQ) && !has(LITERAL)) {
-            normalize();
+    privbte void compile() {
+        // Hbndle cbnonicbl equivblences
+        if (hbs(CANON_EQ) && !hbs(LITERAL)) {
+            normblize();
         } else {
-            normalizedPattern = pattern;
+            normblizedPbttern = pbttern;
         }
-        patternLength = normalizedPattern.length();
+        pbtternLength = normblizedPbttern.length();
 
-        // Copy pattern to int array for convenience
-        // Use double zero to terminate pattern
-        temp = new int[patternLength + 2];
+        // Copy pbttern to int brrby for convenience
+        // Use double zero to terminbte pbttern
+        temp = new int[pbtternLength + 2];
 
-        hasSupplementary = false;
+        hbsSupplementbry = fblse;
         int c, count = 0;
-        // Convert all chars into code points
-        for (int x = 0; x < patternLength; x += Character.charCount(c)) {
-            c = normalizedPattern.codePointAt(x);
-            if (isSupplementary(c)) {
-                hasSupplementary = true;
+        // Convert bll chbrs into code points
+        for (int x = 0; x < pbtternLength; x += Chbrbcter.chbrCount(c)) {
+            c = normblizedPbttern.codePointAt(x);
+            if (isSupplementbry(c)) {
+                hbsSupplementbry = true;
             }
             temp[count++] = c;
         }
 
-        patternLength = count;   // patternLength now in code points
+        pbtternLength = count;   // pbtternLength now in code points
 
-        if (! has(LITERAL))
+        if (! hbs(LITERAL))
             RemoveQEQuoting();
 
-        // Allocate all temporary objects here.
+        // Allocbte bll temporbry objects here.
         buffer = new int[32];
-        groupNodes = new GroupHead[10];
-        namedGroups = null;
+        groupNodes = new GroupHebd[10];
+        nbmedGroups = null;
 
-        if (has(LITERAL)) {
-            // Literal pattern handling
-            matchRoot = newSlice(temp, patternLength, hasSupplementary);
-            matchRoot.next = lastAccept;
+        if (hbs(LITERAL)) {
+            // Literbl pbttern hbndling
+            mbtchRoot = newSlice(temp, pbtternLength, hbsSupplementbry);
+            mbtchRoot.next = lbstAccept;
         } else {
-            // Start recursive descent parsing
-            matchRoot = expr(lastAccept);
-            // Check extra pattern characters
-            if (patternLength != cursor) {
+            // Stbrt recursive descent pbrsing
+            mbtchRoot = expr(lbstAccept);
+            // Check extrb pbttern chbrbcters
+            if (pbtternLength != cursor) {
                 if (peek() == ')') {
-                    throw error("Unmatched closing ')'");
+                    throw error("Unmbtched closing ')'");
                 } else {
-                    throw error("Unexpected internal error");
+                    throw error("Unexpected internbl error");
                 }
             }
         }
 
-        // Peephole optimization
-        if (matchRoot instanceof Slice) {
-            root = BnM.optimize(matchRoot);
-            if (root == matchRoot) {
-                root = hasSupplementary ? new StartS(matchRoot) : new Start(matchRoot);
+        // Peephole optimizbtion
+        if (mbtchRoot instbnceof Slice) {
+            root = BnM.optimize(mbtchRoot);
+            if (root == mbtchRoot) {
+                root = hbsSupplementbry ? new StbrtS(mbtchRoot) : new Stbrt(mbtchRoot);
             }
-        } else if (matchRoot instanceof Begin || matchRoot instanceof First) {
-            root = matchRoot;
+        } else if (mbtchRoot instbnceof Begin || mbtchRoot instbnceof First) {
+            root = mbtchRoot;
         } else {
-            root = hasSupplementary ? new StartS(matchRoot) : new Start(matchRoot);
+            root = hbsSupplementbry ? new StbrtS(mbtchRoot) : new Stbrt(mbtchRoot);
         }
 
-        // Release temporary storage
+        // Relebse temporbry storbge
         temp = null;
         buffer = null;
         groupNodes = null;
-        patternLength = 0;
+        pbtternLength = 0;
         compiled = true;
     }
 
-    Map<String, Integer> namedGroups() {
-        if (namedGroups == null)
-            namedGroups = new HashMap<>(2);
-        return namedGroups;
+    Mbp<String, Integer> nbmedGroups() {
+        if (nbmedGroups == null)
+            nbmedGroups = new HbshMbp<>(2);
+        return nbmedGroups;
     }
 
     /**
-     * Used to print out a subtree of the Pattern to help with debugging.
+     * Used to print out b subtree of the Pbttern to help with debugging.
      */
-    private static void printObjectTree(Node node) {
+    privbte stbtic void printObjectTree(Node node) {
         while(node != null) {
-            if (node instanceof Prolog) {
+            if (node instbnceof Prolog) {
                 System.out.println(node);
                 printObjectTree(((Prolog)node).loop);
                 System.out.println("**** end contents prolog loop");
-            } else if (node instanceof Loop) {
+            } else if (node instbnceof Loop) {
                 System.out.println(node);
                 printObjectTree(((Loop)node).body);
                 System.out.println("**** end contents Loop body");
-            } else if (node instanceof Curly) {
+            } else if (node instbnceof Curly) {
                 System.out.println(node);
-                printObjectTree(((Curly)node).atom);
+                printObjectTree(((Curly)node).btom);
                 System.out.println("**** end contents Curly body");
-            } else if (node instanceof GroupCurly) {
+            } else if (node instbnceof GroupCurly) {
                 System.out.println(node);
-                printObjectTree(((GroupCurly)node).atom);
+                printObjectTree(((GroupCurly)node).btom);
                 System.out.println("**** end contents GroupCurly body");
-            } else if (node instanceof GroupTail) {
+            } else if (node instbnceof GroupTbil) {
                 System.out.println(node);
-                System.out.println("Tail next is "+node.next);
+                System.out.println("Tbil next is "+node.next);
                 return;
             } else {
                 System.out.println(node);
@@ -1772,7 +1772,7 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
             node = node.next;
             if (node != null)
                 System.out.println("->next:");
-            if (node == Pattern.accept) {
+            if (node == Pbttern.bccept) {
                 System.out.println("Accept Node");
                 node = null;
             }
@@ -1780,158 +1780,158 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
     }
 
     /**
-     * Used to accumulate information about a subtree of the object graph
-     * so that optimizations can be applied to the subtree.
+     * Used to bccumulbte informbtion bbout b subtree of the object grbph
+     * so thbt optimizbtions cbn be bpplied to the subtree.
      */
-    static final class TreeInfo {
+    stbtic finbl clbss TreeInfo {
         int minLength;
-        int maxLength;
-        boolean maxValid;
-        boolean deterministic;
+        int mbxLength;
+        boolebn mbxVblid;
+        boolebn deterministic;
 
         TreeInfo() {
             reset();
         }
         void reset() {
             minLength = 0;
-            maxLength = 0;
-            maxValid = true;
+            mbxLength = 0;
+            mbxVblid = true;
             deterministic = true;
         }
     }
 
     /*
-     * The following private methods are mainly used to improve the
-     * readability of the code. In order to let the Java compiler easily
-     * inline them, we should not put many assertions or error checks in them.
+     * The following privbte methods bre mbinly used to improve the
+     * rebdbbility of the code. In order to let the Jbvb compiler ebsily
+     * inline them, we should not put mbny bssertions or error checks in them.
      */
 
     /**
-     * Indicates whether a particular flag is set or not.
+     * Indicbtes whether b pbrticulbr flbg is set or not.
      */
-    private boolean has(int f) {
-        return (flags & f) != 0;
+    privbte boolebn hbs(int f) {
+        return (flbgs & f) != 0;
     }
 
     /**
-     * Match next character, signal error if failed.
+     * Mbtch next chbrbcter, signbl error if fbiled.
      */
-    private void accept(int ch, String s) {
-        int testChar = temp[cursor++];
-        if (has(COMMENTS))
-            testChar = parsePastWhitespace(testChar);
-        if (ch != testChar) {
+    privbte void bccept(int ch, String s) {
+        int testChbr = temp[cursor++];
+        if (hbs(COMMENTS))
+            testChbr = pbrsePbstWhitespbce(testChbr);
+        if (ch != testChbr) {
             throw error(s);
         }
     }
 
     /**
-     * Mark the end of pattern with a specific character.
+     * Mbrk the end of pbttern with b specific chbrbcter.
      */
-    private void mark(int c) {
-        temp[patternLength] = c;
+    privbte void mbrk(int c) {
+        temp[pbtternLength] = c;
     }
 
     /**
-     * Peek the next character, and do not advance the cursor.
+     * Peek the next chbrbcter, bnd do not bdvbnce the cursor.
      */
-    private int peek() {
+    privbte int peek() {
         int ch = temp[cursor];
-        if (has(COMMENTS))
-            ch = peekPastWhitespace(ch);
+        if (hbs(COMMENTS))
+            ch = peekPbstWhitespbce(ch);
         return ch;
     }
 
     /**
-     * Read the next character, and advance the cursor by one.
+     * Rebd the next chbrbcter, bnd bdvbnce the cursor by one.
      */
-    private int read() {
+    privbte int rebd() {
         int ch = temp[cursor++];
-        if (has(COMMENTS))
-            ch = parsePastWhitespace(ch);
+        if (hbs(COMMENTS))
+            ch = pbrsePbstWhitespbce(ch);
         return ch;
     }
 
     /**
-     * Read the next character, and advance the cursor by one,
+     * Rebd the next chbrbcter, bnd bdvbnce the cursor by one,
      * ignoring the COMMENTS setting
      */
-    private int readEscaped() {
+    privbte int rebdEscbped() {
         int ch = temp[cursor++];
         return ch;
     }
 
     /**
-     * Advance the cursor by one, and peek the next character.
+     * Advbnce the cursor by one, bnd peek the next chbrbcter.
      */
-    private int next() {
+    privbte int next() {
         int ch = temp[++cursor];
-        if (has(COMMENTS))
-            ch = peekPastWhitespace(ch);
+        if (hbs(COMMENTS))
+            ch = peekPbstWhitespbce(ch);
         return ch;
     }
 
     /**
-     * Advance the cursor by one, and peek the next character,
+     * Advbnce the cursor by one, bnd peek the next chbrbcter,
      * ignoring the COMMENTS setting
      */
-    private int nextEscaped() {
+    privbte int nextEscbped() {
         int ch = temp[++cursor];
         return ch;
     }
 
     /**
-     * If in xmode peek past whitespace and comments.
+     * If in xmode peek pbst whitespbce bnd comments.
      */
-    private int peekPastWhitespace(int ch) {
-        while (ASCII.isSpace(ch) || ch == '#') {
-            while (ASCII.isSpace(ch))
+    privbte int peekPbstWhitespbce(int ch) {
+        while (ASCII.isSpbce(ch) || ch == '#') {
+            while (ASCII.isSpbce(ch))
                 ch = temp[++cursor];
             if (ch == '#') {
-                ch = peekPastLine();
+                ch = peekPbstLine();
             }
         }
         return ch;
     }
 
     /**
-     * If in xmode parse past whitespace and comments.
+     * If in xmode pbrse pbst whitespbce bnd comments.
      */
-    private int parsePastWhitespace(int ch) {
-        while (ASCII.isSpace(ch) || ch == '#') {
-            while (ASCII.isSpace(ch))
+    privbte int pbrsePbstWhitespbce(int ch) {
+        while (ASCII.isSpbce(ch) || ch == '#') {
+            while (ASCII.isSpbce(ch))
                 ch = temp[cursor++];
             if (ch == '#')
-                ch = parsePastLine();
+                ch = pbrsePbstLine();
         }
         return ch;
     }
 
     /**
-     * xmode parse past comment to end of line.
+     * xmode pbrse pbst comment to end of line.
      */
-    private int parsePastLine() {
+    privbte int pbrsePbstLine() {
         int ch = temp[cursor++];
-        while (ch != 0 && !isLineSeparator(ch))
+        while (ch != 0 && !isLineSepbrbtor(ch))
             ch = temp[cursor++];
         return ch;
     }
 
     /**
-     * xmode peek past comment to end of line.
+     * xmode peek pbst comment to end of line.
      */
-    private int peekPastLine() {
+    privbte int peekPbstLine() {
         int ch = temp[++cursor];
-        while (ch != 0 && !isLineSeparator(ch))
+        while (ch != 0 && !isLineSepbrbtor(ch))
             ch = temp[++cursor];
         return ch;
     }
 
     /**
-     * Determines if character is a line separator in the current mode
+     * Determines if chbrbcter is b line sepbrbtor in the current mode
      */
-    private boolean isLineSeparator(int ch) {
-        if (has(UNIX_LINES)) {
+    privbte boolebn isLineSepbrbtor(int ch) {
+        if (hbs(UNIX_LINES)) {
             return ch == '\n';
         } else {
             return (ch == '\n' ||
@@ -1942,9 +1942,9 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
     }
 
     /**
-     * Read the character after the next one, and advance the cursor by two.
+     * Rebd the chbrbcter bfter the next one, bnd bdvbnce the cursor by two.
      */
-    private int skip() {
+    privbte int skip() {
         int i = cursor;
         int ch = temp[i+1];
         cursor = i + 2;
@@ -1952,89 +1952,89 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
     }
 
     /**
-     * Unread one next character, and retreat cursor by one.
+     * Unrebd one next chbrbcter, bnd retrebt cursor by one.
      */
-    private void unread() {
+    privbte void unrebd() {
         cursor--;
     }
 
     /**
-     * Internal method used for handling all syntax errors. The pattern is
-     * displayed with a pointer to aid in locating the syntax error.
+     * Internbl method used for hbndling bll syntbx errors. The pbttern is
+     * displbyed with b pointer to bid in locbting the syntbx error.
      */
-    private PatternSyntaxException error(String s) {
-        return new PatternSyntaxException(s, normalizedPattern,  cursor - 1);
+    privbte PbtternSyntbxException error(String s) {
+        return new PbtternSyntbxException(s, normblizedPbttern,  cursor - 1);
     }
 
     /**
-     * Determines if there is any supplementary character or unpaired
-     * surrogate in the specified range.
+     * Determines if there is bny supplementbry chbrbcter or unpbired
+     * surrogbte in the specified rbnge.
      */
-    private boolean findSupplementary(int start, int end) {
-        for (int i = start; i < end; i++) {
-            if (isSupplementary(temp[i]))
+    privbte boolebn findSupplementbry(int stbrt, int end) {
+        for (int i = stbrt; i < end; i++) {
+            if (isSupplementbry(temp[i]))
                 return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Determines if the specified code point is a supplementary
-     * character or unpaired surrogate.
+     * Determines if the specified code point is b supplementbry
+     * chbrbcter or unpbired surrogbte.
      */
-    private static final boolean isSupplementary(int ch) {
-        return ch >= Character.MIN_SUPPLEMENTARY_CODE_POINT ||
-               Character.isSurrogate((char)ch);
+    privbte stbtic finbl boolebn isSupplementbry(int ch) {
+        return ch >= Chbrbcter.MIN_SUPPLEMENTARY_CODE_POINT ||
+               Chbrbcter.isSurrogbte((chbr)ch);
     }
 
     /**
-     *  The following methods handle the main parsing. They are sorted
-     *  according to their precedence order, the lowest one first.
+     *  The following methods hbndle the mbin pbrsing. They bre sorted
+     *  bccording to their precedence order, the lowest one first.
      */
 
     /**
-     * The expression is parsed with branch nodes added for alternations.
-     * This may be called recursively to parse sub expressions that may
-     * contain alternations.
+     * The expression is pbrsed with brbnch nodes bdded for blternbtions.
+     * This mby be cblled recursively to pbrse sub expressions thbt mby
+     * contbin blternbtions.
      */
-    private Node expr(Node end) {
+    privbte Node expr(Node end) {
         Node prev = null;
-        Node firstTail = null;
-        Branch branch = null;
-        Node branchConn = null;
+        Node firstTbil = null;
+        Brbnch brbnch = null;
+        Node brbnchConn = null;
 
         for (;;) {
             Node node = sequence(end);
-            Node nodeTail = root;      //double return
+            Node nodeTbil = root;      //double return
             if (prev == null) {
                 prev = node;
-                firstTail = nodeTail;
+                firstTbil = nodeTbil;
             } else {
-                // Branch
-                if (branchConn == null) {
-                    branchConn = new BranchConn();
-                    branchConn.next = end;
+                // Brbnch
+                if (brbnchConn == null) {
+                    brbnchConn = new BrbnchConn();
+                    brbnchConn.next = end;
                 }
                 if (node == end) {
                     // if the node returned from sequence() is "end"
-                    // we have an empty expr, set a null atom into
-                    // the branch to indicate to go "next" directly.
+                    // we hbve bn empty expr, set b null btom into
+                    // the brbnch to indicbte to go "next" directly.
                     node = null;
                 } else {
-                    // the "tail.next" of each atom goes to branchConn
-                    nodeTail.next = branchConn;
+                    // the "tbil.next" of ebch btom goes to brbnchConn
+                    nodeTbil.next = brbnchConn;
                 }
-                if (prev == branch) {
-                    branch.add(node);
+                if (prev == brbnch) {
+                    brbnch.bdd(node);
                 } else {
                     if (prev == end) {
                         prev = null;
                     } else {
-                        // replace the "end" with "branchConn" at its tail.next
-                        // when put the "prev" into the branch as the first atom.
-                        firstTail.next = branchConn;
+                        // replbce the "end" with "brbnchConn" bt its tbil.next
+                        // when put the "prev" into the brbnch bs the first btom.
+                        firstTbil.next = brbnchConn;
                     }
-                    prev = branch = new Branch(prev, node, branchConn);
+                    prev = brbnch = new Brbnch(prev, node, brbnchConn);
                 }
             }
             if (peek() != '|') {
@@ -2044,496 +2044,496 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
         }
     }
 
-    @SuppressWarnings("fallthrough")
+    @SuppressWbrnings("fbllthrough")
     /**
-     * Parsing of sequences between alternations.
+     * Pbrsing of sequences between blternbtions.
      */
-    private Node sequence(Node end) {
-        Node head = null;
-        Node tail = null;
+    privbte Node sequence(Node end) {
+        Node hebd = null;
+        Node tbil = null;
         Node node = null;
     LOOP:
         for (;;) {
             int ch = peek();
             switch (ch) {
-            case '(':
-                // Because group handles its own closure,
-                // we need to treat it differently
+            cbse '(':
+                // Becbuse group hbndles its own closure,
+                // we need to trebt it differently
                 node = group0();
-                // Check for comment or flag group
+                // Check for comment or flbg group
                 if (node == null)
                     continue;
-                if (head == null)
-                    head = node;
+                if (hebd == null)
+                    hebd = node;
                 else
-                    tail.next = node;
-                // Double return: Tail was returned in root
-                tail = root;
+                    tbil.next = node;
+                // Double return: Tbil wbs returned in root
+                tbil = root;
                 continue;
-            case '[':
-                node = clazz(true);
-                break;
-            case '\\':
-                ch = nextEscaped();
+            cbse '[':
+                node = clbzz(true);
+                brebk;
+            cbse '\\':
+                ch = nextEscbped();
                 if (ch == 'p' || ch == 'P') {
-                    boolean oneLetter = true;
-                    boolean comp = (ch == 'P');
+                    boolebn oneLetter = true;
+                    boolebn comp = (ch == 'P');
                     ch = next(); // Consume { if present
                     if (ch != '{') {
-                        unread();
+                        unrebd();
                     } else {
-                        oneLetter = false;
+                        oneLetter = fblse;
                     }
-                    node = family(oneLetter, comp);
+                    node = fbmily(oneLetter, comp);
                 } else {
-                    unread();
-                    node = atom();
+                    unrebd();
+                    node = btom();
                 }
-                break;
-            case '^':
+                brebk;
+            cbse '^':
                 next();
-                if (has(MULTILINE)) {
-                    if (has(UNIX_LINES))
-                        node = new UnixCaret();
+                if (hbs(MULTILINE)) {
+                    if (hbs(UNIX_LINES))
+                        node = new UnixCbret();
                     else
-                        node = new Caret();
+                        node = new Cbret();
                 } else {
                     node = new Begin();
                 }
-                break;
-            case '$':
+                brebk;
+            cbse '$':
                 next();
-                if (has(UNIX_LINES))
-                    node = new UnixDollar(has(MULTILINE));
+                if (hbs(UNIX_LINES))
+                    node = new UnixDollbr(hbs(MULTILINE));
                 else
-                    node = new Dollar(has(MULTILINE));
-                break;
-            case '.':
+                    node = new Dollbr(hbs(MULTILINE));
+                brebk;
+            cbse '.':
                 next();
-                if (has(DOTALL)) {
+                if (hbs(DOTALL)) {
                     node = new All();
                 } else {
-                    if (has(UNIX_LINES))
+                    if (hbs(UNIX_LINES))
                         node = new UnixDot();
                     else {
                         node = new Dot();
                     }
                 }
-                break;
-            case '|':
-            case ')':
-                break LOOP;
-            case ']': // Now interpreting dangling ] and } as literals
-            case '}':
-                node = atom();
-                break;
-            case '?':
-            case '*':
-            case '+':
+                brebk;
+            cbse '|':
+            cbse ')':
+                brebk LOOP;
+            cbse ']': // Now interpreting dbngling ] bnd } bs literbls
+            cbse '}':
+                node = btom();
+                brebk;
+            cbse '?':
+            cbse '*':
+            cbse '+':
                 next();
-                throw error("Dangling meta character '" + ((char)ch) + "'");
-            case 0:
-                if (cursor >= patternLength) {
-                    break LOOP;
+                throw error("Dbngling metb chbrbcter '" + ((chbr)ch) + "'");
+            cbse 0:
+                if (cursor >= pbtternLength) {
+                    brebk LOOP;
                 }
-                // Fall through
-            default:
-                node = atom();
-                break;
+                // Fbll through
+            defbult:
+                node = btom();
+                brebk;
             }
 
             node = closure(node);
 
-            if (head == null) {
-                head = tail = node;
+            if (hebd == null) {
+                hebd = tbil = node;
             } else {
-                tail.next = node;
-                tail = node;
+                tbil.next = node;
+                tbil = node;
             }
         }
-        if (head == null) {
+        if (hebd == null) {
             return end;
         }
-        tail.next = end;
-        root = tail;      //double return
-        return head;
+        tbil.next = end;
+        root = tbil;      //double return
+        return hebd;
     }
 
-    @SuppressWarnings("fallthrough")
+    @SuppressWbrnings("fbllthrough")
     /**
-     * Parse and add a new Single or Slice.
+     * Pbrse bnd bdd b new Single or Slice.
      */
-    private Node atom() {
+    privbte Node btom() {
         int first = 0;
         int prev = -1;
-        boolean hasSupplementary = false;
+        boolebn hbsSupplementbry = fblse;
         int ch = peek();
         for (;;) {
             switch (ch) {
-            case '*':
-            case '+':
-            case '?':
-            case '{':
+            cbse '*':
+            cbse '+':
+            cbse '?':
+            cbse '{':
                 if (first > 1) {
-                    cursor = prev;    // Unwind one character
+                    cursor = prev;    // Unwind one chbrbcter
                     first--;
                 }
-                break;
-            case '$':
-            case '.':
-            case '^':
-            case '(':
-            case '[':
-            case '|':
-            case ')':
-                break;
-            case '\\':
-                ch = nextEscaped();
+                brebk;
+            cbse '$':
+            cbse '.':
+            cbse '^':
+            cbse '(':
+            cbse '[':
+            cbse '|':
+            cbse ')':
+                brebk;
+            cbse '\\':
+                ch = nextEscbped();
                 if (ch == 'p' || ch == 'P') { // Property
-                    if (first > 0) { // Slice is waiting; handle it first
-                        unread();
-                        break;
-                    } else { // No slice; just return the family node
-                        boolean comp = (ch == 'P');
-                        boolean oneLetter = true;
+                    if (first > 0) { // Slice is wbiting; hbndle it first
+                        unrebd();
+                        brebk;
+                    } else { // No slice; just return the fbmily node
+                        boolebn comp = (ch == 'P');
+                        boolebn oneLetter = true;
                         ch = next(); // Consume { if present
                         if (ch != '{')
-                            unread();
+                            unrebd();
                         else
-                            oneLetter = false;
-                        return family(oneLetter, comp);
+                            oneLetter = fblse;
+                        return fbmily(oneLetter, comp);
                     }
                 }
-                unread();
+                unrebd();
                 prev = cursor;
-                ch = escape(false, first == 0, false);
+                ch = escbpe(fblse, first == 0, fblse);
                 if (ch >= 0) {
-                    append(ch, first);
+                    bppend(ch, first);
                     first++;
-                    if (isSupplementary(ch)) {
-                        hasSupplementary = true;
+                    if (isSupplementbry(ch)) {
+                        hbsSupplementbry = true;
                     }
                     ch = peek();
                     continue;
                 } else if (first == 0) {
                     return root;
                 }
-                // Unwind meta escape sequence
+                // Unwind metb escbpe sequence
                 cursor = prev;
-                break;
-            case 0:
-                if (cursor >= patternLength) {
-                    break;
+                brebk;
+            cbse 0:
+                if (cursor >= pbtternLength) {
+                    brebk;
                 }
-                // Fall through
-            default:
+                // Fbll through
+            defbult:
                 prev = cursor;
-                append(ch, first);
+                bppend(ch, first);
                 first++;
-                if (isSupplementary(ch)) {
-                    hasSupplementary = true;
+                if (isSupplementbry(ch)) {
+                    hbsSupplementbry = true;
                 }
                 ch = next();
                 continue;
             }
-            break;
+            brebk;
         }
         if (first == 1) {
             return newSingle(buffer[0]);
         } else {
-            return newSlice(buffer, first, hasSupplementary);
+            return newSlice(buffer, first, hbsSupplementbry);
         }
     }
 
-    private void append(int ch, int len) {
+    privbte void bppend(int ch, int len) {
         if (len >= buffer.length) {
             int[] tmp = new int[len+len];
-            System.arraycopy(buffer, 0, tmp, 0, len);
+            System.brrbycopy(buffer, 0, tmp, 0, len);
             buffer = tmp;
         }
         buffer[len] = ch;
     }
 
     /**
-     * Parses a backref greedily, taking as many numbers as it
-     * can. The first digit is always treated as a backref, but
-     * multi digit numbers are only treated as a backref if at
-     * least that many backrefs exist at this point in the regex.
+     * Pbrses b bbckref greedily, tbking bs mbny numbers bs it
+     * cbn. The first digit is blwbys trebted bs b bbckref, but
+     * multi digit numbers bre only trebted bs b bbckref if bt
+     * lebst thbt mbny bbckrefs exist bt this point in the regex.
      */
-    private Node ref(int refNum) {
-        boolean done = false;
+    privbte Node ref(int refNum) {
+        boolebn done = fblse;
         while(!done) {
             int ch = peek();
             switch(ch) {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
+            cbse '0':
+            cbse '1':
+            cbse '2':
+            cbse '3':
+            cbse '4':
+            cbse '5':
+            cbse '6':
+            cbse '7':
+            cbse '8':
+            cbse '9':
                 int newRefNum = (refNum * 10) + (ch - '0');
-                // Add another number if it doesn't make a group
-                // that doesn't exist
-                if (capturingGroupCount - 1 < newRefNum) {
+                // Add bnother number if it doesn't mbke b group
+                // thbt doesn't exist
+                if (cbpturingGroupCount - 1 < newRefNum) {
                     done = true;
-                    break;
+                    brebk;
                 }
                 refNum = newRefNum;
-                read();
-                break;
-            default:
+                rebd();
+                brebk;
+            defbult:
                 done = true;
-                break;
+                brebk;
             }
         }
-        if (has(CASE_INSENSITIVE))
-            return new CIBackRef(refNum, has(UNICODE_CASE));
+        if (hbs(CASE_INSENSITIVE))
+            return new CIBbckRef(refNum, hbs(UNICODE_CASE));
         else
-            return new BackRef(refNum);
+            return new BbckRef(refNum);
     }
 
     /**
-     * Parses an escape sequence to determine the actual value that needs
-     * to be matched.
-     * If -1 is returned and create was true a new object was added to the tree
-     * to handle the escape sequence.
-     * If the returned value is greater than zero, it is the value that
-     * matches the escape sequence.
+     * Pbrses bn escbpe sequence to determine the bctubl vblue thbt needs
+     * to be mbtched.
+     * If -1 is returned bnd crebte wbs true b new object wbs bdded to the tree
+     * to hbndle the escbpe sequence.
+     * If the returned vblue is grebter thbn zero, it is the vblue thbt
+     * mbtches the escbpe sequence.
      */
-    private int escape(boolean inclass, boolean create, boolean isrange) {
+    privbte int escbpe(boolebn inclbss, boolebn crebte, boolebn isrbnge) {
         int ch = skip();
         switch (ch) {
-        case '0':
+        cbse '0':
             return o();
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-            if (inclass) break;
-            if (create) {
+        cbse '1':
+        cbse '2':
+        cbse '3':
+        cbse '4':
+        cbse '5':
+        cbse '6':
+        cbse '7':
+        cbse '8':
+        cbse '9':
+            if (inclbss) brebk;
+            if (crebte) {
                 root = ref((ch - '0'));
             }
             return -1;
-        case 'A':
-            if (inclass) break;
-            if (create) root = new Begin();
+        cbse 'A':
+            if (inclbss) brebk;
+            if (crebte) root = new Begin();
             return -1;
-        case 'B':
-            if (inclass) break;
-            if (create) root = new Bound(Bound.NONE, has(UNICODE_CHARACTER_CLASS));
+        cbse 'B':
+            if (inclbss) brebk;
+            if (crebte) root = new Bound(Bound.NONE, hbs(UNICODE_CHARACTER_CLASS));
             return -1;
-        case 'C':
-            break;
-        case 'D':
-            if (create) root = has(UNICODE_CHARACTER_CLASS)
+        cbse 'C':
+            brebk;
+        cbse 'D':
+            if (crebte) root = hbs(UNICODE_CHARACTER_CLASS)
                                ? new Utype(UnicodeProp.DIGIT).complement()
                                : new Ctype(ASCII.DIGIT).complement();
             return -1;
-        case 'E':
-        case 'F':
-            break;
-        case 'G':
-            if (inclass) break;
-            if (create) root = new LastMatch();
+        cbse 'E':
+        cbse 'F':
+            brebk;
+        cbse 'G':
+            if (inclbss) brebk;
+            if (crebte) root = new LbstMbtch();
             return -1;
-        case 'H':
-            if (create) root = new HorizWS().complement();
+        cbse 'H':
+            if (crebte) root = new HorizWS().complement();
             return -1;
-        case 'I':
-        case 'J':
-        case 'K':
-        case 'L':
-        case 'M':
-        case 'N':
-        case 'O':
-        case 'P':
-        case 'Q':
-            break;
-        case 'R':
-            if (inclass) break;
-            if (create) root = new LineEnding();
+        cbse 'I':
+        cbse 'J':
+        cbse 'K':
+        cbse 'L':
+        cbse 'M':
+        cbse 'N':
+        cbse 'O':
+        cbse 'P':
+        cbse 'Q':
+            brebk;
+        cbse 'R':
+            if (inclbss) brebk;
+            if (crebte) root = new LineEnding();
             return -1;
-        case 'S':
-            if (create) root = has(UNICODE_CHARACTER_CLASS)
+        cbse 'S':
+            if (crebte) root = hbs(UNICODE_CHARACTER_CLASS)
                                ? new Utype(UnicodeProp.WHITE_SPACE).complement()
                                : new Ctype(ASCII.SPACE).complement();
             return -1;
-        case 'T':
-        case 'U':
-            break;
-        case 'V':
-            if (create) root = new VertWS().complement();
+        cbse 'T':
+        cbse 'U':
+            brebk;
+        cbse 'V':
+            if (crebte) root = new VertWS().complement();
             return -1;
-        case 'W':
-            if (create) root = has(UNICODE_CHARACTER_CLASS)
+        cbse 'W':
+            if (crebte) root = hbs(UNICODE_CHARACTER_CLASS)
                                ? new Utype(UnicodeProp.WORD).complement()
                                : new Ctype(ASCII.WORD).complement();
             return -1;
-        case 'X':
-        case 'Y':
-            break;
-        case 'Z':
-            if (inclass) break;
-            if (create) {
-                if (has(UNIX_LINES))
-                    root = new UnixDollar(false);
+        cbse 'X':
+        cbse 'Y':
+            brebk;
+        cbse 'Z':
+            if (inclbss) brebk;
+            if (crebte) {
+                if (hbs(UNIX_LINES))
+                    root = new UnixDollbr(fblse);
                 else
-                    root = new Dollar(false);
+                    root = new Dollbr(fblse);
             }
             return -1;
-        case 'a':
+        cbse 'b':
             return '\007';
-        case 'b':
-            if (inclass) break;
-            if (create) root = new Bound(Bound.BOTH, has(UNICODE_CHARACTER_CLASS));
+        cbse 'b':
+            if (inclbss) brebk;
+            if (crebte) root = new Bound(Bound.BOTH, hbs(UNICODE_CHARACTER_CLASS));
             return -1;
-        case 'c':
+        cbse 'c':
             return c();
-        case 'd':
-            if (create) root = has(UNICODE_CHARACTER_CLASS)
+        cbse 'd':
+            if (crebte) root = hbs(UNICODE_CHARACTER_CLASS)
                                ? new Utype(UnicodeProp.DIGIT)
                                : new Ctype(ASCII.DIGIT);
             return -1;
-        case 'e':
+        cbse 'e':
             return '\033';
-        case 'f':
+        cbse 'f':
             return '\f';
-        case 'g':
-            break;
-        case 'h':
-            if (create) root = new HorizWS();
+        cbse 'g':
+            brebk;
+        cbse 'h':
+            if (crebte) root = new HorizWS();
             return -1;
-        case 'i':
-        case 'j':
-            break;
-        case 'k':
-            if (inclass)
-                break;
-            if (read() != '<')
-                throw error("\\k is not followed by '<' for named capturing group");
-            String name = groupname(read());
-            if (!namedGroups().containsKey(name))
-                throw error("(named capturing group <"+ name+"> does not exit");
-            if (create) {
-                if (has(CASE_INSENSITIVE))
-                    root = new CIBackRef(namedGroups().get(name), has(UNICODE_CASE));
+        cbse 'i':
+        cbse 'j':
+            brebk;
+        cbse 'k':
+            if (inclbss)
+                brebk;
+            if (rebd() != '<')
+                throw error("\\k is not followed by '<' for nbmed cbpturing group");
+            String nbme = groupnbme(rebd());
+            if (!nbmedGroups().contbinsKey(nbme))
+                throw error("(nbmed cbpturing group <"+ nbme+"> does not exit");
+            if (crebte) {
+                if (hbs(CASE_INSENSITIVE))
+                    root = new CIBbckRef(nbmedGroups().get(nbme), hbs(UNICODE_CASE));
                 else
-                    root = new BackRef(namedGroups().get(name));
+                    root = new BbckRef(nbmedGroups().get(nbme));
             }
             return -1;
-        case 'l':
-        case 'm':
-            break;
-        case 'n':
+        cbse 'l':
+        cbse 'm':
+            brebk;
+        cbse 'n':
             return '\n';
-        case 'o':
-        case 'p':
-        case 'q':
-            break;
-        case 'r':
+        cbse 'o':
+        cbse 'p':
+        cbse 'q':
+            brebk;
+        cbse 'r':
             return '\r';
-        case 's':
-            if (create) root = has(UNICODE_CHARACTER_CLASS)
+        cbse 's':
+            if (crebte) root = hbs(UNICODE_CHARACTER_CLASS)
                                ? new Utype(UnicodeProp.WHITE_SPACE)
                                : new Ctype(ASCII.SPACE);
             return -1;
-        case 't':
+        cbse 't':
             return '\t';
-        case 'u':
+        cbse 'u':
             return u();
-        case 'v':
-            // '\v' was implemented as VT/0x0B in releases < 1.8 (though
-            // undocumented). In JDK8 '\v' is specified as a predefined
-            // character class for all vertical whitespace characters.
-            // So [-1, root=VertWS node] pair is returned (instead of a
-            // single 0x0B). This breaks the range if '\v' is used as
-            // the start or end value, such as [\v-...] or [...-\v], in
-            // which a single definite value (0x0B) is expected. For
-            // compatibility concern '\013'/0x0B is returned if isrange.
-            if (isrange)
+        cbse 'v':
+            // '\v' wbs implemented bs VT/0x0B in relebses < 1.8 (though
+            // undocumented). In JDK8 '\v' is specified bs b predefined
+            // chbrbcter clbss for bll verticbl whitespbce chbrbcters.
+            // So [-1, root=VertWS node] pbir is returned (instebd of b
+            // single 0x0B). This brebks the rbnge if '\v' is used bs
+            // the stbrt or end vblue, such bs [\v-...] or [...-\v], in
+            // which b single definite vblue (0x0B) is expected. For
+            // compbtibility concern '\013'/0x0B is returned if isrbnge.
+            if (isrbnge)
                 return '\013';
-            if (create) root = new VertWS();
+            if (crebte) root = new VertWS();
             return -1;
-        case 'w':
-            if (create) root = has(UNICODE_CHARACTER_CLASS)
+        cbse 'w':
+            if (crebte) root = hbs(UNICODE_CHARACTER_CLASS)
                                ? new Utype(UnicodeProp.WORD)
                                : new Ctype(ASCII.WORD);
             return -1;
-        case 'x':
+        cbse 'x':
             return x();
-        case 'y':
-            break;
-        case 'z':
-            if (inclass) break;
-            if (create) root = new End();
+        cbse 'y':
+            brebk;
+        cbse 'z':
+            if (inclbss) brebk;
+            if (crebte) root = new End();
             return -1;
-        default:
+        defbult:
             return ch;
         }
-        throw error("Illegal/unsupported escape sequence");
+        throw error("Illegbl/unsupported escbpe sequence");
     }
 
     /**
-     * Parse a character class, and return the node that matches it.
+     * Pbrse b chbrbcter clbss, bnd return the node thbt mbtches it.
      *
-     * Consumes a ] on the way out if consume is true. Usually consume
-     * is true except for the case of [abc&&def] where def is a separate
-     * right hand node with "understood" brackets.
+     * Consumes b ] on the wby out if consume is true. Usublly consume
+     * is true except for the cbse of [bbc&&def] where def is b sepbrbte
+     * right hbnd node with "understood" brbckets.
      */
-    private CharProperty clazz(boolean consume) {
-        CharProperty prev = null;
-        CharProperty node = null;
-        BitClass bits = new BitClass();
-        boolean include = true;
-        boolean firstInClass = true;
+    privbte ChbrProperty clbzz(boolebn consume) {
+        ChbrProperty prev = null;
+        ChbrProperty node = null;
+        BitClbss bits = new BitClbss();
+        boolebn include = true;
+        boolebn firstInClbss = true;
         int ch = next();
         for (;;) {
             switch (ch) {
-                case '^':
-                    // Negates if first char in a class, otherwise literal
-                    if (firstInClass) {
+                cbse '^':
+                    // Negbtes if first chbr in b clbss, otherwise literbl
+                    if (firstInClbss) {
                         if (temp[cursor-1] != '[')
-                            break;
+                            brebk;
                         ch = next();
                         include = !include;
                         continue;
                     } else {
-                        // ^ not first in class, treat as literal
-                        break;
+                        // ^ not first in clbss, trebt bs literbl
+                        brebk;
                     }
-                case '[':
-                    firstInClass = false;
-                    node = clazz(true);
+                cbse '[':
+                    firstInClbss = fblse;
+                    node = clbzz(true);
                     if (prev == null)
                         prev = node;
                     else
                         prev = union(prev, node);
                     ch = peek();
                     continue;
-                case '&':
-                    firstInClass = false;
+                cbse '&':
+                    firstInClbss = fblse;
                     ch = next();
                     if (ch == '&') {
                         ch = next();
-                        CharProperty rightNode = null;
+                        ChbrProperty rightNode = null;
                         while (ch != ']' && ch != '&') {
                             if (ch == '[') {
                                 if (rightNode == null)
-                                    rightNode = clazz(true);
+                                    rightNode = clbzz(true);
                                 else
-                                    rightNode = union(rightNode, clazz(true));
-                            } else { // abc&&def
-                                unread();
-                                rightNode = clazz(false);
+                                    rightNode = union(rightNode, clbzz(true));
+                            } else { // bbc&&def
+                                unrebd();
+                                rightNode = clbzz(fblse);
                             }
                             ch = peek();
                         }
@@ -2541,36 +2541,36 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
                             node = rightNode;
                         if (prev == null) {
                             if (rightNode == null)
-                                throw error("Bad class syntax");
+                                throw error("Bbd clbss syntbx");
                             else
                                 prev = rightNode;
                         } else {
                             prev = intersection(prev, node);
                         }
                     } else {
-                        // treat as a literal &
-                        unread();
-                        break;
+                        // trebt bs b literbl &
+                        unrebd();
+                        brebk;
                     }
                     continue;
-                case 0:
-                    firstInClass = false;
-                    if (cursor >= patternLength)
-                        throw error("Unclosed character class");
-                    break;
-                case ']':
-                    firstInClass = false;
+                cbse 0:
+                    firstInClbss = fblse;
+                    if (cursor >= pbtternLength)
+                        throw error("Unclosed chbrbcter clbss");
+                    brebk;
+                cbse ']':
+                    firstInClbss = fblse;
                     if (prev != null) {
                         if (consume)
                             next();
                         return prev;
                     }
-                    break;
-                default:
-                    firstInClass = false;
-                    break;
+                    brebk;
+                defbult:
+                    firstInClbss = fblse;
+                    brebk;
             }
-            node = range(bits);
+            node = rbnge(bits);
             if (include) {
                 if (prev == null) {
                     prev = node;
@@ -2590,173 +2590,173 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
         }
     }
 
-    private CharProperty bitsOrSingle(BitClass bits, int ch) {
-        /* Bits can only handle codepoints in [u+0000-u+00ff] range.
-           Use "single" node instead of bits when dealing with unicode
-           case folding for codepoints listed below.
-           (1)Uppercase out of range: u+00ff, u+00b5
-              toUpperCase(u+00ff) -> u+0178
-              toUpperCase(u+00b5) -> u+039c
-           (2)LatinSmallLetterLongS u+17f
-              toUpperCase(u+017f) -> u+0053
-           (3)LatinSmallLetterDotlessI u+131
-              toUpperCase(u+0131) -> u+0049
-           (4)LatinCapitalLetterIWithDotAbove u+0130
-              toLowerCase(u+0130) -> u+0069
-           (5)KelvinSign u+212a
-              toLowerCase(u+212a) ==> u+006B
+    privbte ChbrProperty bitsOrSingle(BitClbss bits, int ch) {
+        /* Bits cbn only hbndle codepoints in [u+0000-u+00ff] rbnge.
+           Use "single" node instebd of bits when debling with unicode
+           cbse folding for codepoints listed below.
+           (1)Uppercbse out of rbnge: u+00ff, u+00b5
+              toUpperCbse(u+00ff) -> u+0178
+              toUpperCbse(u+00b5) -> u+039c
+           (2)LbtinSmbllLetterLongS u+17f
+              toUpperCbse(u+017f) -> u+0053
+           (3)LbtinSmbllLetterDotlessI u+131
+              toUpperCbse(u+0131) -> u+0049
+           (4)LbtinCbpitblLetterIWithDotAbove u+0130
+              toLowerCbse(u+0130) -> u+0069
+           (5)KelvinSign u+212b
+              toLowerCbse(u+212b) ==> u+006B
            (6)AngstromSign u+212b
-              toLowerCase(u+212b) ==> u+00e5
+              toLowerCbse(u+212b) ==> u+00e5
         */
         int d;
         if (ch < 256 &&
-            !(has(CASE_INSENSITIVE) && has(UNICODE_CASE) &&
+            !(hbs(CASE_INSENSITIVE) && hbs(UNICODE_CASE) &&
               (ch == 0xff || ch == 0xb5 ||
-               ch == 0x49 || ch == 0x69 ||  //I and i
-               ch == 0x53 || ch == 0x73 ||  //S and s
-               ch == 0x4b || ch == 0x6b ||  //K and k
+               ch == 0x49 || ch == 0x69 ||  //I bnd i
+               ch == 0x53 || ch == 0x73 ||  //S bnd s
+               ch == 0x4b || ch == 0x6b ||  //K bnd k
                ch == 0xc5 || ch == 0xe5)))  //A+ring
-            return bits.add(ch, flags());
+            return bits.bdd(ch, flbgs());
         return newSingle(ch);
     }
 
     /**
-     * Parse a single character or a character range in a character class
-     * and return its representative node.
+     * Pbrse b single chbrbcter or b chbrbcter rbnge in b chbrbcter clbss
+     * bnd return its representbtive node.
      */
-    private CharProperty range(BitClass bits) {
+    privbte ChbrProperty rbnge(BitClbss bits) {
         int ch = peek();
         if (ch == '\\') {
-            ch = nextEscaped();
+            ch = nextEscbped();
             if (ch == 'p' || ch == 'P') { // A property
-                boolean comp = (ch == 'P');
-                boolean oneLetter = true;
+                boolebn comp = (ch == 'P');
+                boolebn oneLetter = true;
                 // Consume { if present
                 ch = next();
                 if (ch != '{')
-                    unread();
+                    unrebd();
                 else
-                    oneLetter = false;
-                return family(oneLetter, comp);
-            } else { // ordinary escape
-                boolean isrange = temp[cursor+1] == '-';
-                unread();
-                ch = escape(true, true, isrange);
+                    oneLetter = fblse;
+                return fbmily(oneLetter, comp);
+            } else { // ordinbry escbpe
+                boolebn isrbnge = temp[cursor+1] == '-';
+                unrebd();
+                ch = escbpe(true, true, isrbnge);
                 if (ch == -1)
-                    return (CharProperty) root;
+                    return (ChbrProperty) root;
             }
         } else {
             next();
         }
         if (ch >= 0) {
             if (peek() == '-') {
-                int endRange = temp[cursor+1];
-                if (endRange == '[') {
+                int endRbnge = temp[cursor+1];
+                if (endRbnge == '[') {
                     return bitsOrSingle(bits, ch);
                 }
-                if (endRange != ']') {
+                if (endRbnge != ']') {
                     next();
                     int m = peek();
                     if (m == '\\') {
-                        m = escape(true, false, true);
+                        m = escbpe(true, fblse, true);
                     } else {
                         next();
                     }
                     if (m < ch) {
-                        throw error("Illegal character range");
+                        throw error("Illegbl chbrbcter rbnge");
                     }
-                    if (has(CASE_INSENSITIVE))
-                        return caseInsensitiveRangeFor(ch, m);
+                    if (hbs(CASE_INSENSITIVE))
+                        return cbseInsensitiveRbngeFor(ch, m);
                     else
-                        return rangeFor(ch, m);
+                        return rbngeFor(ch, m);
                 }
             }
             return bitsOrSingle(bits, ch);
         }
-        throw error("Unexpected character '"+((char)ch)+"'");
+        throw error("Unexpected chbrbcter '"+((chbr)ch)+"'");
     }
 
     /**
-     * Parses a Unicode character family and returns its representative node.
+     * Pbrses b Unicode chbrbcter fbmily bnd returns its representbtive node.
      */
-    private CharProperty family(boolean singleLetter,
-                                boolean maybeComplement)
+    privbte ChbrProperty fbmily(boolebn singleLetter,
+                                boolebn mbybeComplement)
     {
         next();
-        String name;
-        CharProperty node = null;
+        String nbme;
+        ChbrProperty node = null;
 
         if (singleLetter) {
             int c = temp[cursor];
-            if (!Character.isSupplementaryCodePoint(c)) {
-                name = String.valueOf((char)c);
+            if (!Chbrbcter.isSupplementbryCodePoint(c)) {
+                nbme = String.vblueOf((chbr)c);
             } else {
-                name = new String(temp, cursor, 1);
+                nbme = new String(temp, cursor, 1);
             }
-            read();
+            rebd();
         } else {
             int i = cursor;
-            mark('}');
-            while(read() != '}') {
+            mbrk('}');
+            while(rebd() != '}') {
             }
-            mark('\000');
+            mbrk('\000');
             int j = cursor;
-            if (j > patternLength)
-                throw error("Unclosed character family");
+            if (j > pbtternLength)
+                throw error("Unclosed chbrbcter fbmily");
             if (i + 1 >= j)
-                throw error("Empty character family");
-            name = new String(temp, i, j-i-1);
+                throw error("Empty chbrbcter fbmily");
+            nbme = new String(temp, i, j-i-1);
         }
 
-        int i = name.indexOf('=');
+        int i = nbme.indexOf('=');
         if (i != -1) {
-            // property construct \p{name=value}
-            String value = name.substring(i + 1);
-            name = name.substring(0, i).toLowerCase(Locale.ENGLISH);
-            switch (name) {
-                case "sc":
-                case "script":
-                    node = unicodeScriptPropertyFor(value);
-                    break;
-                case "blk":
-                case "block":
-                    node = unicodeBlockPropertyFor(value);
-                    break;
-                case "gc":
-                case "general_category":
-                    node = charPropertyNodeFor(value);
-                    break;
-                default:
-                    throw error("Unknown Unicode property {name=<" + name + ">, "
-                                + "value=<" + value + ">}");
+            // property construct \p{nbme=vblue}
+            String vblue = nbme.substring(i + 1);
+            nbme = nbme.substring(0, i).toLowerCbse(Locble.ENGLISH);
+            switch (nbme) {
+                cbse "sc":
+                cbse "script":
+                    node = unicodeScriptPropertyFor(vblue);
+                    brebk;
+                cbse "blk":
+                cbse "block":
+                    node = unicodeBlockPropertyFor(vblue);
+                    brebk;
+                cbse "gc":
+                cbse "generbl_cbtegory":
+                    node = chbrPropertyNodeFor(vblue);
+                    brebk;
+                defbult:
+                    throw error("Unknown Unicode property {nbme=<" + nbme + ">, "
+                                + "vblue=<" + vblue + ">}");
             }
         } else {
-            if (name.startsWith("In")) {
-                // \p{inBlockName}
-                node = unicodeBlockPropertyFor(name.substring(2));
-            } else if (name.startsWith("Is")) {
-                // \p{isGeneralCategory} and \p{isScriptName}
-                name = name.substring(2);
-                UnicodeProp uprop = UnicodeProp.forName(name);
+            if (nbme.stbrtsWith("In")) {
+                // \p{inBlockNbme}
+                node = unicodeBlockPropertyFor(nbme.substring(2));
+            } else if (nbme.stbrtsWith("Is")) {
+                // \p{isGenerblCbtegory} bnd \p{isScriptNbme}
+                nbme = nbme.substring(2);
+                UnicodeProp uprop = UnicodeProp.forNbme(nbme);
                 if (uprop != null)
                     node = new Utype(uprop);
                 if (node == null)
-                    node = CharPropertyNames.charPropertyFor(name);
+                    node = ChbrPropertyNbmes.chbrPropertyFor(nbme);
                 if (node == null)
-                    node = unicodeScriptPropertyFor(name);
+                    node = unicodeScriptPropertyFor(nbme);
             } else {
-                if (has(UNICODE_CHARACTER_CLASS)) {
-                    UnicodeProp uprop = UnicodeProp.forPOSIXName(name);
+                if (hbs(UNICODE_CHARACTER_CLASS)) {
+                    UnicodeProp uprop = UnicodeProp.forPOSIXNbme(nbme);
                     if (uprop != null)
                         node = new Utype(uprop);
                 }
                 if (node == null)
-                    node = charPropertyNodeFor(name);
+                    node = chbrPropertyNodeFor(nbme);
             }
         }
-        if (maybeComplement) {
-            if (node instanceof Category || node instanceof Block)
-                hasSupplementary = true;
+        if (mbybeComplement) {
+            if (node instbnceof Cbtegory || node instbnceof Block)
+                hbsSupplementbry = true;
             node = node.complement();
         }
         return node;
@@ -2764,195 +2764,195 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
 
 
     /**
-     * Returns a CharProperty matching all characters belong to
-     * a UnicodeScript.
+     * Returns b ChbrProperty mbtching bll chbrbcters belong to
+     * b UnicodeScript.
      */
-    private CharProperty unicodeScriptPropertyFor(String name) {
-        final Character.UnicodeScript script;
+    privbte ChbrProperty unicodeScriptPropertyFor(String nbme) {
+        finbl Chbrbcter.UnicodeScript script;
         try {
-            script = Character.UnicodeScript.forName(name);
-        } catch (IllegalArgumentException iae) {
-            throw error("Unknown character script name {" + name + "}");
+            script = Chbrbcter.UnicodeScript.forNbme(nbme);
+        } cbtch (IllegblArgumentException ibe) {
+            throw error("Unknown chbrbcter script nbme {" + nbme + "}");
         }
         return new Script(script);
     }
 
     /**
-     * Returns a CharProperty matching all characters in a UnicodeBlock.
+     * Returns b ChbrProperty mbtching bll chbrbcters in b UnicodeBlock.
      */
-    private CharProperty unicodeBlockPropertyFor(String name) {
-        final Character.UnicodeBlock block;
+    privbte ChbrProperty unicodeBlockPropertyFor(String nbme) {
+        finbl Chbrbcter.UnicodeBlock block;
         try {
-            block = Character.UnicodeBlock.forName(name);
-        } catch (IllegalArgumentException iae) {
-            throw error("Unknown character block name {" + name + "}");
+            block = Chbrbcter.UnicodeBlock.forNbme(nbme);
+        } cbtch (IllegblArgumentException ibe) {
+            throw error("Unknown chbrbcter block nbme {" + nbme + "}");
         }
         return new Block(block);
     }
 
     /**
-     * Returns a CharProperty matching all characters in a named property.
+     * Returns b ChbrProperty mbtching bll chbrbcters in b nbmed property.
      */
-    private CharProperty charPropertyNodeFor(String name) {
-        CharProperty p = CharPropertyNames.charPropertyFor(name);
+    privbte ChbrProperty chbrPropertyNodeFor(String nbme) {
+        ChbrProperty p = ChbrPropertyNbmes.chbrPropertyFor(nbme);
         if (p == null)
-            throw error("Unknown character property name {" + name + "}");
+            throw error("Unknown chbrbcter property nbme {" + nbme + "}");
         return p;
     }
 
     /**
-     * Parses and returns the name of a "named capturing group", the trailing
-     * ">" is consumed after parsing.
+     * Pbrses bnd returns the nbme of b "nbmed cbpturing group", the trbiling
+     * ">" is consumed bfter pbrsing.
      */
-    private String groupname(int ch) {
+    privbte String groupnbme(int ch) {
         StringBuilder sb = new StringBuilder();
-        sb.append(Character.toChars(ch));
-        while (ASCII.isLower(ch=read()) || ASCII.isUpper(ch) ||
+        sb.bppend(Chbrbcter.toChbrs(ch));
+        while (ASCII.isLower(ch=rebd()) || ASCII.isUpper(ch) ||
                ASCII.isDigit(ch)) {
-            sb.append(Character.toChars(ch));
+            sb.bppend(Chbrbcter.toChbrs(ch));
         }
         if (sb.length() == 0)
-            throw error("named capturing group has 0 length name");
+            throw error("nbmed cbpturing group hbs 0 length nbme");
         if (ch != '>')
-            throw error("named capturing group is missing trailing '>'");
+            throw error("nbmed cbpturing group is missing trbiling '>'");
         return sb.toString();
     }
 
     /**
-     * Parses a group and returns the head node of a set of nodes that process
-     * the group. Sometimes a double return system is used where the tail is
+     * Pbrses b group bnd returns the hebd node of b set of nodes thbt process
+     * the group. Sometimes b double return system is used where the tbil is
      * returned in root.
      */
-    private Node group0() {
-        boolean capturingGroup = false;
-        Node head = null;
-        Node tail = null;
-        int save = flags;
+    privbte Node group0() {
+        boolebn cbpturingGroup = fblse;
+        Node hebd = null;
+        Node tbil = null;
+        int sbve = flbgs;
         root = null;
         int ch = next();
         if (ch == '?') {
             ch = skip();
             switch (ch) {
-            case ':':   //  (?:xxx) pure group
-                head = createGroup(true);
-                tail = root;
-                head.next = expr(tail);
-                break;
-            case '=':   // (?=xxx) and (?!xxx) lookahead
-            case '!':
-                head = createGroup(true);
-                tail = root;
-                head.next = expr(tail);
+            cbse ':':   //  (?:xxx) pure group
+                hebd = crebteGroup(true);
+                tbil = root;
+                hebd.next = expr(tbil);
+                brebk;
+            cbse '=':   // (?=xxx) bnd (?!xxx) lookbhebd
+            cbse '!':
+                hebd = crebteGroup(true);
+                tbil = root;
+                hebd.next = expr(tbil);
                 if (ch == '=') {
-                    head = tail = new Pos(head);
+                    hebd = tbil = new Pos(hebd);
                 } else {
-                    head = tail = new Neg(head);
+                    hebd = tbil = new Neg(hebd);
                 }
-                break;
-            case '>':   // (?>xxx)  independent group
-                head = createGroup(true);
-                tail = root;
-                head.next = expr(tail);
-                head = tail = new Ques(head, INDEPENDENT);
-                break;
-            case '<':   // (?<xxx)  look behind
-                ch = read();
+                brebk;
+            cbse '>':   // (?>xxx)  independent group
+                hebd = crebteGroup(true);
+                tbil = root;
+                hebd.next = expr(tbil);
+                hebd = tbil = new Ques(hebd, INDEPENDENT);
+                brebk;
+            cbse '<':   // (?<xxx)  look behind
+                ch = rebd();
                 if (ASCII.isLower(ch) || ASCII.isUpper(ch)) {
-                    // named captured group
-                    String name = groupname(ch);
-                    if (namedGroups().containsKey(name))
-                        throw error("Named capturing group <" + name
-                                    + "> is already defined");
-                    capturingGroup = true;
-                    head = createGroup(false);
-                    tail = root;
-                    namedGroups().put(name, capturingGroupCount-1);
-                    head.next = expr(tail);
-                    break;
+                    // nbmed cbptured group
+                    String nbme = groupnbme(ch);
+                    if (nbmedGroups().contbinsKey(nbme))
+                        throw error("Nbmed cbpturing group <" + nbme
+                                    + "> is blrebdy defined");
+                    cbpturingGroup = true;
+                    hebd = crebteGroup(fblse);
+                    tbil = root;
+                    nbmedGroups().put(nbme, cbpturingGroupCount-1);
+                    hebd.next = expr(tbil);
+                    brebk;
                 }
-                int start = cursor;
-                head = createGroup(true);
-                tail = root;
-                head.next = expr(tail);
-                tail.next = lookbehindEnd;
+                int stbrt = cursor;
+                hebd = crebteGroup(true);
+                tbil = root;
+                hebd.next = expr(tbil);
+                tbil.next = lookbehindEnd;
                 TreeInfo info = new TreeInfo();
-                head.study(info);
-                if (info.maxValid == false) {
-                    throw error("Look-behind group does not have "
-                                + "an obvious maximum length");
+                hebd.study(info);
+                if (info.mbxVblid == fblse) {
+                    throw error("Look-behind group does not hbve "
+                                + "bn obvious mbximum length");
                 }
-                boolean hasSupplementary = findSupplementary(start, patternLength);
+                boolebn hbsSupplementbry = findSupplementbry(stbrt, pbtternLength);
                 if (ch == '=') {
-                    head = tail = (hasSupplementary ?
-                                   new BehindS(head, info.maxLength,
+                    hebd = tbil = (hbsSupplementbry ?
+                                   new BehindS(hebd, info.mbxLength,
                                                info.minLength) :
-                                   new Behind(head, info.maxLength,
+                                   new Behind(hebd, info.mbxLength,
                                               info.minLength));
                 } else if (ch == '!') {
-                    head = tail = (hasSupplementary ?
-                                   new NotBehindS(head, info.maxLength,
+                    hebd = tbil = (hbsSupplementbry ?
+                                   new NotBehindS(hebd, info.mbxLength,
                                                   info.minLength) :
-                                   new NotBehind(head, info.maxLength,
+                                   new NotBehind(hebd, info.mbxLength,
                                                  info.minLength));
                 } else {
                     throw error("Unknown look-behind group");
                 }
-                break;
-            case '$':
-            case '@':
+                brebk;
+            cbse '$':
+            cbse '@':
                 throw error("Unknown group type");
-            default:    // (?xxx:) inlined match flags
-                unread();
-                addFlag();
-                ch = read();
+            defbult:    // (?xxx:) inlined mbtch flbgs
+                unrebd();
+                bddFlbg();
+                ch = rebd();
                 if (ch == ')') {
                     return null;    // Inline modifier only
                 }
                 if (ch != ':') {
                     throw error("Unknown inline modifier");
                 }
-                head = createGroup(true);
-                tail = root;
-                head.next = expr(tail);
-                break;
+                hebd = crebteGroup(true);
+                tbil = root;
+                hebd.next = expr(tbil);
+                brebk;
             }
-        } else { // (xxx) a regular group
-            capturingGroup = true;
-            head = createGroup(false);
-            tail = root;
-            head.next = expr(tail);
+        } else { // (xxx) b regulbr group
+            cbpturingGroup = true;
+            hebd = crebteGroup(fblse);
+            tbil = root;
+            hebd.next = expr(tbil);
         }
 
-        accept(')', "Unclosed group");
-        flags = save;
+        bccept(')', "Unclosed group");
+        flbgs = sbve;
 
-        // Check for quantifiers
-        Node node = closure(head);
-        if (node == head) { // No closure
-            root = tail;
-            return node;    // Dual return
+        // Check for qubntifiers
+        Node node = closure(hebd);
+        if (node == hebd) { // No closure
+            root = tbil;
+            return node;    // Dubl return
         }
-        if (head == tail) { // Zero length assertion
+        if (hebd == tbil) { // Zero length bssertion
             root = node;
-            return node;    // Dual return
+            return node;    // Dubl return
         }
 
-        if (node instanceof Ques) {
+        if (node instbnceof Ques) {
             Ques ques = (Ques) node;
             if (ques.type == POSSESSIVE) {
                 root = node;
                 return node;
             }
-            tail.next = new BranchConn();
-            tail = tail.next;
+            tbil.next = new BrbnchConn();
+            tbil = tbil.next;
             if (ques.type == GREEDY) {
-                head = new Branch(head, null, tail);
-            } else { // Reluctant quantifier
-                head = new Branch(null, head, tail);
+                hebd = new Brbnch(hebd, null, tbil);
+            } else { // Reluctbnt qubntifier
+                hebd = new Brbnch(null, hebd, tbil);
             }
-            root = tail;
-            return head;
-        } else if (node instanceof Curly) {
+            root = tbil;
+            return hebd;
+        } else if (node instbnceof Curly) {
             Curly curly = (Curly) node;
             if (curly.type == POSSESSIVE) {
                 root = node;
@@ -2960,152 +2960,152 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
             }
             // Discover if the group is deterministic
             TreeInfo info = new TreeInfo();
-            if (head.study(info)) { // Deterministic
-                GroupTail temp = (GroupTail) tail;
-                head = root = new GroupCurly(head.next, curly.cmin,
-                                   curly.cmax, curly.type,
-                                   ((GroupTail)tail).localIndex,
-                                   ((GroupTail)tail).groupIndex,
-                                             capturingGroup);
-                return head;
+            if (hebd.study(info)) { // Deterministic
+                GroupTbil temp = (GroupTbil) tbil;
+                hebd = root = new GroupCurly(hebd.next, curly.cmin,
+                                   curly.cmbx, curly.type,
+                                   ((GroupTbil)tbil).locblIndex,
+                                   ((GroupTbil)tbil).groupIndex,
+                                             cbpturingGroup);
+                return hebd;
             } else { // Non-deterministic
-                int temp = ((GroupHead) head).localIndex;
+                int temp = ((GroupHebd) hebd).locblIndex;
                 Loop loop;
                 if (curly.type == GREEDY)
-                    loop = new Loop(this.localCount, temp);
-                else  // Reluctant Curly
-                    loop = new LazyLoop(this.localCount, temp);
+                    loop = new Loop(this.locblCount, temp);
+                else  // Reluctbnt Curly
+                    loop = new LbzyLoop(this.locblCount, temp);
                 Prolog prolog = new Prolog(loop);
-                this.localCount += 1;
+                this.locblCount += 1;
                 loop.cmin = curly.cmin;
-                loop.cmax = curly.cmax;
-                loop.body = head;
-                tail.next = loop;
+                loop.cmbx = curly.cmbx;
+                loop.body = hebd;
+                tbil.next = loop;
                 root = loop;
-                return prolog; // Dual return
+                return prolog; // Dubl return
             }
         }
-        throw error("Internal logic error");
+        throw error("Internbl logic error");
     }
 
     /**
-     * Create group head and tail nodes using double return. If the group is
-     * created with anonymous true then it is a pure group and should not
-     * affect group counting.
+     * Crebte group hebd bnd tbil nodes using double return. If the group is
+     * crebted with bnonymous true then it is b pure group bnd should not
+     * bffect group counting.
      */
-    private Node createGroup(boolean anonymous) {
-        int localIndex = localCount++;
+    privbte Node crebteGroup(boolebn bnonymous) {
+        int locblIndex = locblCount++;
         int groupIndex = 0;
-        if (!anonymous)
-            groupIndex = capturingGroupCount++;
-        GroupHead head = new GroupHead(localIndex);
-        root = new GroupTail(localIndex, groupIndex);
-        if (!anonymous && groupIndex < 10)
-            groupNodes[groupIndex] = head;
-        return head;
+        if (!bnonymous)
+            groupIndex = cbpturingGroupCount++;
+        GroupHebd hebd = new GroupHebd(locblIndex);
+        root = new GroupTbil(locblIndex, groupIndex);
+        if (!bnonymous && groupIndex < 10)
+            groupNodes[groupIndex] = hebd;
+        return hebd;
     }
 
-    @SuppressWarnings("fallthrough")
+    @SuppressWbrnings("fbllthrough")
     /**
-     * Parses inlined match flags and set them appropriately.
+     * Pbrses inlined mbtch flbgs bnd set them bppropribtely.
      */
-    private void addFlag() {
+    privbte void bddFlbg() {
         int ch = peek();
         for (;;) {
             switch (ch) {
-            case 'i':
-                flags |= CASE_INSENSITIVE;
-                break;
-            case 'm':
-                flags |= MULTILINE;
-                break;
-            case 's':
-                flags |= DOTALL;
-                break;
-            case 'd':
-                flags |= UNIX_LINES;
-                break;
-            case 'u':
-                flags |= UNICODE_CASE;
-                break;
-            case 'c':
-                flags |= CANON_EQ;
-                break;
-            case 'x':
-                flags |= COMMENTS;
-                break;
-            case 'U':
-                flags |= (UNICODE_CHARACTER_CLASS | UNICODE_CASE);
-                break;
-            case '-': // subFlag then fall through
+            cbse 'i':
+                flbgs |= CASE_INSENSITIVE;
+                brebk;
+            cbse 'm':
+                flbgs |= MULTILINE;
+                brebk;
+            cbse 's':
+                flbgs |= DOTALL;
+                brebk;
+            cbse 'd':
+                flbgs |= UNIX_LINES;
+                brebk;
+            cbse 'u':
+                flbgs |= UNICODE_CASE;
+                brebk;
+            cbse 'c':
+                flbgs |= CANON_EQ;
+                brebk;
+            cbse 'x':
+                flbgs |= COMMENTS;
+                brebk;
+            cbse 'U':
+                flbgs |= (UNICODE_CHARACTER_CLASS | UNICODE_CASE);
+                brebk;
+            cbse '-': // subFlbg then fbll through
                 ch = next();
-                subFlag();
-            default:
+                subFlbg();
+            defbult:
                 return;
             }
             ch = next();
         }
     }
 
-    @SuppressWarnings("fallthrough")
+    @SuppressWbrnings("fbllthrough")
     /**
-     * Parses the second part of inlined match flags and turns off
-     * flags appropriately.
+     * Pbrses the second pbrt of inlined mbtch flbgs bnd turns off
+     * flbgs bppropribtely.
      */
-    private void subFlag() {
+    privbte void subFlbg() {
         int ch = peek();
         for (;;) {
             switch (ch) {
-            case 'i':
-                flags &= ~CASE_INSENSITIVE;
-                break;
-            case 'm':
-                flags &= ~MULTILINE;
-                break;
-            case 's':
-                flags &= ~DOTALL;
-                break;
-            case 'd':
-                flags &= ~UNIX_LINES;
-                break;
-            case 'u':
-                flags &= ~UNICODE_CASE;
-                break;
-            case 'c':
-                flags &= ~CANON_EQ;
-                break;
-            case 'x':
-                flags &= ~COMMENTS;
-                break;
-            case 'U':
-                flags &= ~(UNICODE_CHARACTER_CLASS | UNICODE_CASE);
-            default:
+            cbse 'i':
+                flbgs &= ~CASE_INSENSITIVE;
+                brebk;
+            cbse 'm':
+                flbgs &= ~MULTILINE;
+                brebk;
+            cbse 's':
+                flbgs &= ~DOTALL;
+                brebk;
+            cbse 'd':
+                flbgs &= ~UNIX_LINES;
+                brebk;
+            cbse 'u':
+                flbgs &= ~UNICODE_CASE;
+                brebk;
+            cbse 'c':
+                flbgs &= ~CANON_EQ;
+                brebk;
+            cbse 'x':
+                flbgs &= ~COMMENTS;
+                brebk;
+            cbse 'U':
+                flbgs &= ~(UNICODE_CHARACTER_CLASS | UNICODE_CASE);
+            defbult:
                 return;
             }
             ch = next();
         }
     }
 
-    static final int MAX_REPS   = 0x7FFFFFFF;
+    stbtic finbl int MAX_REPS   = 0x7FFFFFFF;
 
-    static final int GREEDY     = 0;
+    stbtic finbl int GREEDY     = 0;
 
-    static final int LAZY       = 1;
+    stbtic finbl int LAZY       = 1;
 
-    static final int POSSESSIVE = 2;
+    stbtic finbl int POSSESSIVE = 2;
 
-    static final int INDEPENDENT = 3;
+    stbtic finbl int INDEPENDENT = 3;
 
     /**
-     * Processes repetition. If the next character peeked is a quantifier
-     * then new nodes must be appended to handle the repetition.
-     * Prev could be a single or a group, so it could be a chain of nodes.
+     * Processes repetition. If the next chbrbcter peeked is b qubntifier
+     * then new nodes must be bppended to hbndle the repetition.
+     * Prev could be b single or b group, so it could be b chbin of nodes.
      */
-    private Node closure(Node prev) {
-        Node atom;
+    privbte Node closure(Node prev) {
+        Node btom;
         int ch = peek();
         switch (ch) {
-        case '?':
+        cbse '?':
             ch = next();
             if (ch == '?') {
                 next();
@@ -3115,7 +3115,7 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
                 return new Ques(prev, POSSESSIVE);
             }
             return new Ques(prev, GREEDY);
-        case '*':
+        cbse '*':
             ch = next();
             if (ch == '?') {
                 next();
@@ -3125,7 +3125,7 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
                 return new Curly(prev, 0, MAX_REPS, POSSESSIVE);
             }
             return new Curly(prev, 0, MAX_REPS, GREEDY);
-        case '+':
+        cbse '+':
             ch = next();
             if (ch == '?') {
                 next();
@@ -3135,136 +3135,136 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
                 return new Curly(prev, 1, MAX_REPS, POSSESSIVE);
             }
             return new Curly(prev, 1, MAX_REPS, GREEDY);
-        case '{':
+        cbse '{':
             ch = temp[cursor+1];
             if (ASCII.isDigit(ch)) {
                 skip();
                 int cmin = 0;
                 do {
                     cmin = cmin * 10 + (ch - '0');
-                } while (ASCII.isDigit(ch = read()));
-                int cmax = cmin;
+                } while (ASCII.isDigit(ch = rebd()));
+                int cmbx = cmin;
                 if (ch == ',') {
-                    ch = read();
-                    cmax = MAX_REPS;
+                    ch = rebd();
+                    cmbx = MAX_REPS;
                     if (ch != '}') {
-                        cmax = 0;
+                        cmbx = 0;
                         while (ASCII.isDigit(ch)) {
-                            cmax = cmax * 10 + (ch - '0');
-                            ch = read();
+                            cmbx = cmbx * 10 + (ch - '0');
+                            ch = rebd();
                         }
                     }
                 }
                 if (ch != '}')
                     throw error("Unclosed counted closure");
-                if (((cmin) | (cmax) | (cmax - cmin)) < 0)
-                    throw error("Illegal repetition range");
+                if (((cmin) | (cmbx) | (cmbx - cmin)) < 0)
+                    throw error("Illegbl repetition rbnge");
                 Curly curly;
                 ch = peek();
                 if (ch == '?') {
                     next();
-                    curly = new Curly(prev, cmin, cmax, LAZY);
+                    curly = new Curly(prev, cmin, cmbx, LAZY);
                 } else if (ch == '+') {
                     next();
-                    curly = new Curly(prev, cmin, cmax, POSSESSIVE);
+                    curly = new Curly(prev, cmin, cmbx, POSSESSIVE);
                 } else {
-                    curly = new Curly(prev, cmin, cmax, GREEDY);
+                    curly = new Curly(prev, cmin, cmbx, GREEDY);
                 }
                 return curly;
             } else {
-                throw error("Illegal repetition");
+                throw error("Illegbl repetition");
             }
-        default:
+        defbult:
             return prev;
         }
     }
 
     /**
-     *  Utility method for parsing control escape sequences.
+     *  Utility method for pbrsing control escbpe sequences.
      */
-    private int c() {
-        if (cursor < patternLength) {
-            return read() ^ 64;
+    privbte int c() {
+        if (cursor < pbtternLength) {
+            return rebd() ^ 64;
         }
-        throw error("Illegal control escape sequence");
+        throw error("Illegbl control escbpe sequence");
     }
 
     /**
-     *  Utility method for parsing octal escape sequences.
+     *  Utility method for pbrsing octbl escbpe sequences.
      */
-    private int o() {
-        int n = read();
+    privbte int o() {
+        int n = rebd();
         if (((n-'0')|('7'-n)) >= 0) {
-            int m = read();
+            int m = rebd();
             if (((m-'0')|('7'-m)) >= 0) {
-                int o = read();
+                int o = rebd();
                 if ((((o-'0')|('7'-o)) >= 0) && (((n-'0')|('3'-n)) >= 0)) {
                     return (n - '0') * 64 + (m - '0') * 8 + (o - '0');
                 }
-                unread();
+                unrebd();
                 return (n - '0') * 8 + (m - '0');
             }
-            unread();
+            unrebd();
             return (n - '0');
         }
-        throw error("Illegal octal escape sequence");
+        throw error("Illegbl octbl escbpe sequence");
     }
 
     /**
-     *  Utility method for parsing hexadecimal escape sequences.
+     *  Utility method for pbrsing hexbdecimbl escbpe sequences.
      */
-    private int x() {
-        int n = read();
+    privbte int x() {
+        int n = rebd();
         if (ASCII.isHexDigit(n)) {
-            int m = read();
+            int m = rebd();
             if (ASCII.isHexDigit(m)) {
                 return ASCII.toDigit(n) * 16 + ASCII.toDigit(m);
             }
         } else if (n == '{' && ASCII.isHexDigit(peek())) {
             int ch = 0;
-            while (ASCII.isHexDigit(n = read())) {
+            while (ASCII.isHexDigit(n = rebd())) {
                 ch = (ch << 4) + ASCII.toDigit(n);
-                if (ch > Character.MAX_CODE_POINT)
-                    throw error("Hexadecimal codepoint is too big");
+                if (ch > Chbrbcter.MAX_CODE_POINT)
+                    throw error("Hexbdecimbl codepoint is too big");
             }
             if (n != '}')
-                throw error("Unclosed hexadecimal escape sequence");
+                throw error("Unclosed hexbdecimbl escbpe sequence");
             return ch;
         }
-        throw error("Illegal hexadecimal escape sequence");
+        throw error("Illegbl hexbdecimbl escbpe sequence");
     }
 
     /**
-     *  Utility method for parsing unicode escape sequences.
+     *  Utility method for pbrsing unicode escbpe sequences.
      */
-    private int cursor() {
+    privbte int cursor() {
         return cursor;
     }
 
-    private void setcursor(int pos) {
+    privbte void setcursor(int pos) {
         cursor = pos;
     }
 
-    private int uxxxx() {
+    privbte int uxxxx() {
         int n = 0;
         for (int i = 0; i < 4; i++) {
-            int ch = read();
+            int ch = rebd();
             if (!ASCII.isHexDigit(ch)) {
-                throw error("Illegal Unicode escape sequence");
+                throw error("Illegbl Unicode escbpe sequence");
             }
             n = n * 16 + ASCII.toDigit(ch);
         }
         return n;
     }
 
-    private int u() {
+    privbte int u() {
         int n = uxxxx();
-        if (Character.isHighSurrogate((char)n)) {
+        if (Chbrbcter.isHighSurrogbte((chbr)n)) {
             int cur = cursor();
-            if (read() == '\\' && read() == 'u') {
+            if (rebd() == '\\' && rebd() == 'u') {
                 int n2 = uxxxx();
-                if (Character.isLowSurrogate((char)n2))
-                    return Character.toCodePoint((char)n, (char)n2);
+                if (Chbrbcter.isLowSurrogbte((chbr)n2))
+                    return Chbrbcter.toCodePoint((chbr)n, (chbr)n2);
             }
             setcursor(cur);
         }
@@ -3275,20 +3275,20 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
     // Utility methods for code point support
     //
 
-    private static final int countChars(CharSequence seq, int index,
+    privbte stbtic finbl int countChbrs(ChbrSequence seq, int index,
                                         int lengthInCodePoints) {
-        // optimization
-        if (lengthInCodePoints == 1 && !Character.isHighSurrogate(seq.charAt(index))) {
-            assert (index >= 0 && index < seq.length());
+        // optimizbtion
+        if (lengthInCodePoints == 1 && !Chbrbcter.isHighSurrogbte(seq.chbrAt(index))) {
+            bssert (index >= 0 && index < seq.length());
             return 1;
         }
         int length = seq.length();
         int x = index;
         if (lengthInCodePoints >= 0) {
-            assert (index >= 0 && index < length);
+            bssert (index >= 0 && index < length);
             for (int i = 0; x < length && i < lengthInCodePoints; i++) {
-                if (Character.isHighSurrogate(seq.charAt(x++))) {
-                    if (x < length && Character.isLowSurrogate(seq.charAt(x))) {
+                if (Chbrbcter.isHighSurrogbte(seq.chbrAt(x++))) {
+                    if (x < length && Chbrbcter.isLowSurrogbte(seq.chbrAt(x))) {
                         x++;
                     }
                 }
@@ -3296,14 +3296,14 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
             return x - index;
         }
 
-        assert (index >= 0 && index <= length);
+        bssert (index >= 0 && index <= length);
         if (index == 0) {
             return 0;
         }
         int len = -lengthInCodePoints;
         for (int i = 0; x > 0 && i < len; i++) {
-            if (Character.isLowSurrogate(seq.charAt(--x))) {
-                if (x > 0 && Character.isHighSurrogate(seq.charAt(x-1))) {
+            if (Chbrbcter.isLowSurrogbte(seq.chbrAt(--x))) {
+                if (x > 0 && Chbrbcter.isHighSurrogbte(seq.chbrAt(x-1))) {
                     x--;
                 }
             }
@@ -3311,13 +3311,13 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
         return index - x;
     }
 
-    private static final int countCodePoints(CharSequence seq) {
+    privbte stbtic finbl int countCodePoints(ChbrSequence seq) {
         int length = seq.length();
         int n = 0;
         for (int i = 0; i < length; ) {
             n++;
-            if (Character.isHighSurrogate(seq.charAt(i++))) {
-                if (i < length && Character.isLowSurrogate(seq.charAt(i))) {
+            if (Chbrbcter.isHighSurrogbte(seq.chbrAt(i++))) {
+                if (i < length && Chbrbcter.isLowSurrogbte(seq.chbrAt(i))) {
                     i++;
                 }
             }
@@ -3326,42 +3326,42 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
     }
 
     /**
-     *  Creates a bit vector for matching Latin-1 values. A normal BitClass
-     *  never matches values above Latin-1, and a complemented BitClass always
-     *  matches values above Latin-1.
+     *  Crebtes b bit vector for mbtching Lbtin-1 vblues. A normbl BitClbss
+     *  never mbtches vblues bbove Lbtin-1, bnd b complemented BitClbss blwbys
+     *  mbtches vblues bbove Lbtin-1.
      */
-    private static final class BitClass extends BmpCharProperty {
-        final boolean[] bits;
-        BitClass() { bits = new boolean[256]; }
-        private BitClass(boolean[] bits) { this.bits = bits; }
-        BitClass add(int c, int flags) {
-            assert c >= 0 && c <= 255;
-            if ((flags & CASE_INSENSITIVE) != 0) {
+    privbte stbtic finbl clbss BitClbss extends BmpChbrProperty {
+        finbl boolebn[] bits;
+        BitClbss() { bits = new boolebn[256]; }
+        privbte BitClbss(boolebn[] bits) { this.bits = bits; }
+        BitClbss bdd(int c, int flbgs) {
+            bssert c >= 0 && c <= 255;
+            if ((flbgs & CASE_INSENSITIVE) != 0) {
                 if (ASCII.isAscii(c)) {
                     bits[ASCII.toUpper(c)] = true;
                     bits[ASCII.toLower(c)] = true;
-                } else if ((flags & UNICODE_CASE) != 0) {
-                    bits[Character.toLowerCase(c)] = true;
-                    bits[Character.toUpperCase(c)] = true;
+                } else if ((flbgs & UNICODE_CASE) != 0) {
+                    bits[Chbrbcter.toLowerCbse(c)] = true;
+                    bits[Chbrbcter.toUpperCbse(c)] = true;
                 }
             }
             bits[c] = true;
             return this;
         }
-        boolean isSatisfiedBy(int ch) {
+        boolebn isSbtisfiedBy(int ch) {
             return ch < 256 && bits[ch];
         }
     }
 
     /**
-     *  Returns a suitably optimized, single character matcher.
+     *  Returns b suitbbly optimized, single chbrbcter mbtcher.
      */
-    private CharProperty newSingle(final int ch) {
-        if (has(CASE_INSENSITIVE)) {
+    privbte ChbrProperty newSingle(finbl int ch) {
+        if (hbs(CASE_INSENSITIVE)) {
             int lower, upper;
-            if (has(UNICODE_CASE)) {
-                upper = Character.toUpperCase(ch);
-                lower = Character.toLowerCase(upper);
+            if (hbs(UNICODE_CASE)) {
+                upper = Chbrbcter.toUpperCbse(ch);
+                lower = Chbrbcter.toLowerCbse(upper);
                 if (upper != lower)
                     return new SingleU(lower);
             } else if (ASCII.isAscii(ch)) {
@@ -3371,66 +3371,66 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
                     return new SingleI(lower, upper);
             }
         }
-        if (isSupplementary(ch))
-            return new SingleS(ch);    // Match a given Unicode character
-        return new Single(ch);         // Match a given BMP character
+        if (isSupplementbry(ch))
+            return new SingleS(ch);    // Mbtch b given Unicode chbrbcter
+        return new Single(ch);         // Mbtch b given BMP chbrbcter
     }
 
     /**
-     *  Utility method for creating a string slice matcher.
+     *  Utility method for crebting b string slice mbtcher.
      */
-    private Node newSlice(int[] buf, int count, boolean hasSupplementary) {
+    privbte Node newSlice(int[] buf, int count, boolebn hbsSupplementbry) {
         int[] tmp = new int[count];
-        if (has(CASE_INSENSITIVE)) {
-            if (has(UNICODE_CASE)) {
+        if (hbs(CASE_INSENSITIVE)) {
+            if (hbs(UNICODE_CASE)) {
                 for (int i = 0; i < count; i++) {
-                    tmp[i] = Character.toLowerCase(
-                                 Character.toUpperCase(buf[i]));
+                    tmp[i] = Chbrbcter.toLowerCbse(
+                                 Chbrbcter.toUpperCbse(buf[i]));
                 }
-                return hasSupplementary? new SliceUS(tmp) : new SliceU(tmp);
+                return hbsSupplementbry? new SliceUS(tmp) : new SliceU(tmp);
             }
             for (int i = 0; i < count; i++) {
                 tmp[i] = ASCII.toLower(buf[i]);
             }
-            return hasSupplementary? new SliceIS(tmp) : new SliceI(tmp);
+            return hbsSupplementbry? new SliceIS(tmp) : new SliceI(tmp);
         }
         for (int i = 0; i < count; i++) {
             tmp[i] = buf[i];
         }
-        return hasSupplementary ? new SliceS(tmp) : new Slice(tmp);
+        return hbsSupplementbry ? new SliceS(tmp) : new Slice(tmp);
     }
 
     /**
-     * The following classes are the building components of the object
-     * tree that represents a compiled regular expression. The object tree
-     * is made of individual elements that handle constructs in the Pattern.
-     * Each type of object knows how to match its equivalent construct with
-     * the match() method.
+     * The following clbsses bre the building components of the object
+     * tree thbt represents b compiled regulbr expression. The object tree
+     * is mbde of individubl elements thbt hbndle constructs in the Pbttern.
+     * Ebch type of object knows how to mbtch its equivblent construct with
+     * the mbtch() method.
      */
 
     /**
-     * Base class for all node classes. Subclasses should override the match()
-     * method as appropriate. This class is an accepting node, so its match()
-     * always returns true.
+     * Bbse clbss for bll node clbsses. Subclbsses should override the mbtch()
+     * method bs bppropribte. This clbss is bn bccepting node, so its mbtch()
+     * blwbys returns true.
      */
-    static class Node extends Object {
+    stbtic clbss Node extends Object {
         Node next;
         Node() {
-            next = Pattern.accept;
+            next = Pbttern.bccept;
         }
         /**
-         * This method implements the classic accept node.
+         * This method implements the clbssic bccept node.
          */
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            matcher.last = i;
-            matcher.groups[0] = matcher.first;
-            matcher.groups[1] = matcher.last;
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            mbtcher.lbst = i;
+            mbtcher.groups[0] = mbtcher.first;
+            mbtcher.groups[1] = mbtcher.lbst;
             return true;
         }
         /**
-         * This method is good for all zero length assertions.
+         * This method is good for bll zero length bssertions.
          */
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             if (next != null) {
                 return next.study(info);
             } else {
@@ -3439,734 +3439,734 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
         }
     }
 
-    static class LastNode extends Node {
+    stbtic clbss LbstNode extends Node {
         /**
-         * This method implements the classic accept node with
-         * the addition of a check to see if the match occurred
-         * using all of the input.
+         * This method implements the clbssic bccept node with
+         * the bddition of b check to see if the mbtch occurred
+         * using bll of the input.
          */
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            if (matcher.acceptMode == Matcher.ENDANCHOR && i != matcher.to)
-                return false;
-            matcher.last = i;
-            matcher.groups[0] = matcher.first;
-            matcher.groups[1] = matcher.last;
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            if (mbtcher.bcceptMode == Mbtcher.ENDANCHOR && i != mbtcher.to)
+                return fblse;
+            mbtcher.lbst = i;
+            mbtcher.groups[0] = mbtcher.first;
+            mbtcher.groups[1] = mbtcher.lbst;
             return true;
         }
     }
 
     /**
-     * Used for REs that can start anywhere within the input string.
-     * This basically tries to match repeatedly at each spot in the
-     * input string, moving forward after each try. An anchored search
-     * or a BnM will bypass this node completely.
+     * Used for REs thbt cbn stbrt bnywhere within the input string.
+     * This bbsicblly tries to mbtch repebtedly bt ebch spot in the
+     * input string, moving forwbrd bfter ebch try. An bnchored sebrch
+     * or b BnM will bypbss this node completely.
      */
-    static class Start extends Node {
+    stbtic clbss Stbrt extends Node {
         int minLength;
-        Start(Node node) {
+        Stbrt(Node node) {
             this.next = node;
             TreeInfo info = new TreeInfo();
             next.study(info);
             minLength = info.minLength;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            if (i > matcher.to - minLength) {
-                matcher.hitEnd = true;
-                return false;
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            if (i > mbtcher.to - minLength) {
+                mbtcher.hitEnd = true;
+                return fblse;
             }
-            int guard = matcher.to - minLength;
-            for (; i <= guard; i++) {
-                if (next.match(matcher, i, seq)) {
-                    matcher.first = i;
-                    matcher.groups[0] = matcher.first;
-                    matcher.groups[1] = matcher.last;
+            int gubrd = mbtcher.to - minLength;
+            for (; i <= gubrd; i++) {
+                if (next.mbtch(mbtcher, i, seq)) {
+                    mbtcher.first = i;
+                    mbtcher.groups[0] = mbtcher.first;
+                    mbtcher.groups[1] = mbtcher.lbst;
                     return true;
                 }
             }
-            matcher.hitEnd = true;
-            return false;
+            mbtcher.hitEnd = true;
+            return fblse;
         }
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             next.study(info);
-            info.maxValid = false;
-            info.deterministic = false;
-            return false;
+            info.mbxVblid = fblse;
+            info.deterministic = fblse;
+            return fblse;
         }
     }
 
     /*
-     * StartS supports supplementary characters, including unpaired surrogates.
+     * StbrtS supports supplementbry chbrbcters, including unpbired surrogbtes.
      */
-    static final class StartS extends Start {
-        StartS(Node node) {
+    stbtic finbl clbss StbrtS extends Stbrt {
+        StbrtS(Node node) {
             super(node);
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            if (i > matcher.to - minLength) {
-                matcher.hitEnd = true;
-                return false;
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            if (i > mbtcher.to - minLength) {
+                mbtcher.hitEnd = true;
+                return fblse;
             }
-            int guard = matcher.to - minLength;
-            while (i <= guard) {
-                //if ((ret = next.match(matcher, i, seq)) || i == guard)
-                if (next.match(matcher, i, seq)) {
-                    matcher.first = i;
-                    matcher.groups[0] = matcher.first;
-                    matcher.groups[1] = matcher.last;
+            int gubrd = mbtcher.to - minLength;
+            while (i <= gubrd) {
+                //if ((ret = next.mbtch(mbtcher, i, seq)) || i == gubrd)
+                if (next.mbtch(mbtcher, i, seq)) {
+                    mbtcher.first = i;
+                    mbtcher.groups[0] = mbtcher.first;
+                    mbtcher.groups[1] = mbtcher.lbst;
                     return true;
                 }
-                if (i == guard)
-                    break;
-                // Optimization to move to the next character. This is
-                // faster than countChars(seq, i, 1).
-                if (Character.isHighSurrogate(seq.charAt(i++))) {
+                if (i == gubrd)
+                    brebk;
+                // Optimizbtion to move to the next chbrbcter. This is
+                // fbster thbn countChbrs(seq, i, 1).
+                if (Chbrbcter.isHighSurrogbte(seq.chbrAt(i++))) {
                     if (i < seq.length() &&
-                        Character.isLowSurrogate(seq.charAt(i))) {
+                        Chbrbcter.isLowSurrogbte(seq.chbrAt(i))) {
                         i++;
                     }
                 }
             }
-            matcher.hitEnd = true;
-            return false;
+            mbtcher.hitEnd = true;
+            return fblse;
         }
     }
 
     /**
-     * Node to anchor at the beginning of input. This object implements the
-     * match for a \A sequence, and the caret anchor will use this if not in
+     * Node to bnchor bt the beginning of input. This object implements the
+     * mbtch for b \A sequence, bnd the cbret bnchor will use this if not in
      * multiline mode.
      */
-    static final class Begin extends Node {
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int fromIndex = (matcher.anchoringBounds) ?
-                matcher.from : 0;
-            if (i == fromIndex && next.match(matcher, i, seq)) {
-                matcher.first = i;
-                matcher.groups[0] = i;
-                matcher.groups[1] = matcher.last;
+    stbtic finbl clbss Begin extends Node {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int fromIndex = (mbtcher.bnchoringBounds) ?
+                mbtcher.from : 0;
+            if (i == fromIndex && next.mbtch(mbtcher, i, seq)) {
+                mbtcher.first = i;
+                mbtcher.groups[0] = i;
+                mbtcher.groups[1] = mbtcher.lbst;
                 return true;
             } else {
-                return false;
+                return fblse;
             }
         }
     }
 
     /**
-     * Node to anchor at the end of input. This is the absolute end, so this
-     * should not match at the last newline before the end as $ will.
+     * Node to bnchor bt the end of input. This is the bbsolute end, so this
+     * should not mbtch bt the lbst newline before the end bs $ will.
      */
-    static final class End extends Node {
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int endIndex = (matcher.anchoringBounds) ?
-                matcher.to : matcher.getTextLength();
+    stbtic finbl clbss End extends Node {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int endIndex = (mbtcher.bnchoringBounds) ?
+                mbtcher.to : mbtcher.getTextLength();
             if (i == endIndex) {
-                matcher.hitEnd = true;
-                return next.match(matcher, i, seq);
+                mbtcher.hitEnd = true;
+                return next.mbtch(mbtcher, i, seq);
             }
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Node to anchor at the beginning of a line. This is essentially the
-     * object to match for the multiline ^.
+     * Node to bnchor bt the beginning of b line. This is essentiblly the
+     * object to mbtch for the multiline ^.
      */
-    static final class Caret extends Node {
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int startIndex = matcher.from;
-            int endIndex = matcher.to;
-            if (!matcher.anchoringBounds) {
-                startIndex = 0;
-                endIndex = matcher.getTextLength();
+    stbtic finbl clbss Cbret extends Node {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int stbrtIndex = mbtcher.from;
+            int endIndex = mbtcher.to;
+            if (!mbtcher.bnchoringBounds) {
+                stbrtIndex = 0;
+                endIndex = mbtcher.getTextLength();
             }
-            // Perl does not match ^ at end of input even after newline
+            // Perl does not mbtch ^ bt end of input even bfter newline
             if (i == endIndex) {
-                matcher.hitEnd = true;
-                return false;
+                mbtcher.hitEnd = true;
+                return fblse;
             }
-            if (i > startIndex) {
-                char ch = seq.charAt(i-1);
+            if (i > stbrtIndex) {
+                chbr ch = seq.chbrAt(i-1);
                 if (ch != '\n' && ch != '\r'
                     && (ch|1) != '\u2029'
                     && ch != '\u0085' ) {
-                    return false;
+                    return fblse;
                 }
-                // Should treat /r/n as one newline
-                if (ch == '\r' && seq.charAt(i) == '\n')
-                    return false;
+                // Should trebt /r/n bs one newline
+                if (ch == '\r' && seq.chbrAt(i) == '\n')
+                    return fblse;
             }
-            return next.match(matcher, i, seq);
+            return next.mbtch(mbtcher, i, seq);
         }
     }
 
     /**
-     * Node to anchor at the beginning of a line when in unixdot mode.
+     * Node to bnchor bt the beginning of b line when in unixdot mode.
      */
-    static final class UnixCaret extends Node {
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int startIndex = matcher.from;
-            int endIndex = matcher.to;
-            if (!matcher.anchoringBounds) {
-                startIndex = 0;
-                endIndex = matcher.getTextLength();
+    stbtic finbl clbss UnixCbret extends Node {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int stbrtIndex = mbtcher.from;
+            int endIndex = mbtcher.to;
+            if (!mbtcher.bnchoringBounds) {
+                stbrtIndex = 0;
+                endIndex = mbtcher.getTextLength();
             }
-            // Perl does not match ^ at end of input even after newline
+            // Perl does not mbtch ^ bt end of input even bfter newline
             if (i == endIndex) {
-                matcher.hitEnd = true;
-                return false;
+                mbtcher.hitEnd = true;
+                return fblse;
             }
-            if (i > startIndex) {
-                char ch = seq.charAt(i-1);
+            if (i > stbrtIndex) {
+                chbr ch = seq.chbrAt(i-1);
                 if (ch != '\n') {
-                    return false;
+                    return fblse;
                 }
             }
-            return next.match(matcher, i, seq);
+            return next.mbtch(mbtcher, i, seq);
         }
     }
 
     /**
-     * Node to match the location where the last match ended.
+     * Node to mbtch the locbtion where the lbst mbtch ended.
      * This is used for the \G construct.
      */
-    static final class LastMatch extends Node {
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            if (i != matcher.oldLast)
-                return false;
-            return next.match(matcher, i, seq);
+    stbtic finbl clbss LbstMbtch extends Node {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            if (i != mbtcher.oldLbst)
+                return fblse;
+            return next.mbtch(mbtcher, i, seq);
         }
     }
 
     /**
-     * Node to anchor at the end of a line or the end of input based on the
+     * Node to bnchor bt the end of b line or the end of input bbsed on the
      * multiline mode.
      *
-     * When not in multiline mode, the $ can only match at the very end
-     * of the input, unless the input ends in a line terminator in which
-     * it matches right before the last line terminator.
+     * When not in multiline mode, the $ cbn only mbtch bt the very end
+     * of the input, unless the input ends in b line terminbtor in which
+     * it mbtches right before the lbst line terminbtor.
      *
-     * Note that \r\n is considered an atomic line terminator.
+     * Note thbt \r\n is considered bn btomic line terminbtor.
      *
-     * Like ^ the $ operator matches at a position, it does not match the
-     * line terminators themselves.
+     * Like ^ the $ operbtor mbtches bt b position, it does not mbtch the
+     * line terminbtors themselves.
      */
-    static final class Dollar extends Node {
-        boolean multiline;
-        Dollar(boolean mul) {
+    stbtic finbl clbss Dollbr extends Node {
+        boolebn multiline;
+        Dollbr(boolebn mul) {
             multiline = mul;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int endIndex = (matcher.anchoringBounds) ?
-                matcher.to : matcher.getTextLength();
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int endIndex = (mbtcher.bnchoringBounds) ?
+                mbtcher.to : mbtcher.getTextLength();
             if (!multiline) {
                 if (i < endIndex - 2)
-                    return false;
+                    return fblse;
                 if (i == endIndex - 2) {
-                    char ch = seq.charAt(i);
+                    chbr ch = seq.chbrAt(i);
                     if (ch != '\r')
-                        return false;
-                    ch = seq.charAt(i + 1);
+                        return fblse;
+                    ch = seq.chbrAt(i + 1);
                     if (ch != '\n')
-                        return false;
+                        return fblse;
                 }
             }
-            // Matches before any line terminator; also matches at the
+            // Mbtches before bny line terminbtor; blso mbtches bt the
             // end of input
-            // Before line terminator:
-            // If multiline, we match here no matter what
-            // If not multiline, fall through so that the end
-            // is marked as hit; this must be a /r/n or a /n
-            // at the very end so the end was hit; more input
-            // could make this not match here
+            // Before line terminbtor:
+            // If multiline, we mbtch here no mbtter whbt
+            // If not multiline, fbll through so thbt the end
+            // is mbrked bs hit; this must be b /r/n or b /n
+            // bt the very end so the end wbs hit; more input
+            // could mbke this not mbtch here
             if (i < endIndex) {
-                char ch = seq.charAt(i);
+                chbr ch = seq.chbrAt(i);
                  if (ch == '\n') {
-                     // No match between \r\n
-                     if (i > 0 && seq.charAt(i-1) == '\r')
-                         return false;
+                     // No mbtch between \r\n
+                     if (i > 0 && seq.chbrAt(i-1) == '\r')
+                         return fblse;
                      if (multiline)
-                         return next.match(matcher, i, seq);
+                         return next.mbtch(mbtcher, i, seq);
                  } else if (ch == '\r' || ch == '\u0085' ||
                             (ch|1) == '\u2029') {
                      if (multiline)
-                         return next.match(matcher, i, seq);
-                 } else { // No line terminator, no match
-                     return false;
+                         return next.mbtch(mbtcher, i, seq);
+                 } else { // No line terminbtor, no mbtch
+                     return fblse;
                  }
             }
-            // Matched at current end so hit end
-            matcher.hitEnd = true;
-            // If a $ matches because of end of input, then more input
-            // could cause it to fail!
-            matcher.requireEnd = true;
-            return next.match(matcher, i, seq);
+            // Mbtched bt current end so hit end
+            mbtcher.hitEnd = true;
+            // If b $ mbtches becbuse of end of input, then more input
+            // could cbuse it to fbil!
+            mbtcher.requireEnd = true;
+            return next.mbtch(mbtcher, i, seq);
         }
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             next.study(info);
             return info.deterministic;
         }
     }
 
     /**
-     * Node to anchor at the end of a line or the end of input based on the
+     * Node to bnchor bt the end of b line or the end of input bbsed on the
      * multiline mode when in unix lines mode.
      */
-    static final class UnixDollar extends Node {
-        boolean multiline;
-        UnixDollar(boolean mul) {
+    stbtic finbl clbss UnixDollbr extends Node {
+        boolebn multiline;
+        UnixDollbr(boolebn mul) {
             multiline = mul;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int endIndex = (matcher.anchoringBounds) ?
-                matcher.to : matcher.getTextLength();
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int endIndex = (mbtcher.bnchoringBounds) ?
+                mbtcher.to : mbtcher.getTextLength();
             if (i < endIndex) {
-                char ch = seq.charAt(i);
+                chbr ch = seq.chbrAt(i);
                 if (ch == '\n') {
                     // If not multiline, then only possible to
-                    // match at very end or one before end
-                    if (multiline == false && i != endIndex - 1)
-                        return false;
-                    // If multiline return next.match without setting
-                    // matcher.hitEnd
+                    // mbtch bt very end or one before end
+                    if (multiline == fblse && i != endIndex - 1)
+                        return fblse;
+                    // If multiline return next.mbtch without setting
+                    // mbtcher.hitEnd
                     if (multiline)
-                        return next.match(matcher, i, seq);
+                        return next.mbtch(mbtcher, i, seq);
                 } else {
-                    return false;
+                    return fblse;
                 }
             }
-            // Matching because at the end or 1 before the end;
-            // more input could change this so set hitEnd
-            matcher.hitEnd = true;
-            // If a $ matches because of end of input, then more input
-            // could cause it to fail!
-            matcher.requireEnd = true;
-            return next.match(matcher, i, seq);
+            // Mbtching becbuse bt the end or 1 before the end;
+            // more input could chbnge this so set hitEnd
+            mbtcher.hitEnd = true;
+            // If b $ mbtches becbuse of end of input, then more input
+            // could cbuse it to fbil!
+            mbtcher.requireEnd = true;
+            return next.mbtch(mbtcher, i, seq);
         }
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             next.study(info);
             return info.deterministic;
         }
     }
 
     /**
-     * Node class that matches a Unicode line ending '\R'
+     * Node clbss thbt mbtches b Unicode line ending '\R'
      */
-    static final class LineEnding extends Node {
-        boolean match(Matcher matcher, int i, CharSequence seq) {
+    stbtic finbl clbss LineEnding extends Node {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
             // (u+000Du+000A|[u+000Au+000Bu+000Cu+000Du+0085u+2028u+2029])
-            if (i < matcher.to) {
-                int ch = seq.charAt(i);
+            if (i < mbtcher.to) {
+                int ch = seq.chbrAt(i);
                 if (ch == 0x0A || ch == 0x0B || ch == 0x0C ||
                     ch == 0x85 || ch == 0x2028 || ch == 0x2029)
-                    return next.match(matcher, i + 1, seq);
+                    return next.mbtch(mbtcher, i + 1, seq);
                 if (ch == 0x0D) {
                     i++;
-                    if (i < matcher.to && seq.charAt(i) == 0x0A)
+                    if (i < mbtcher.to && seq.chbrAt(i) == 0x0A)
                         i++;
-                    return next.match(matcher, i, seq);
+                    return next.mbtch(mbtcher, i, seq);
                 }
             } else {
-                matcher.hitEnd = true;
+                mbtcher.hitEnd = true;
             }
-            return false;
+            return fblse;
         }
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             info.minLength++;
-            info.maxLength += 2;
+            info.mbxLength += 2;
             return next.study(info);
         }
     }
 
     /**
-     * Abstract node class to match one character satisfying some
-     * boolean property.
+     * Abstrbct node clbss to mbtch one chbrbcter sbtisfying some
+     * boolebn property.
      */
-    private static abstract class CharProperty extends Node {
-        abstract boolean isSatisfiedBy(int ch);
-        CharProperty complement() {
-            return new CharProperty() {
-                    boolean isSatisfiedBy(int ch) {
-                        return ! CharProperty.this.isSatisfiedBy(ch);}};
+    privbte stbtic bbstrbct clbss ChbrProperty extends Node {
+        bbstrbct boolebn isSbtisfiedBy(int ch);
+        ChbrProperty complement() {
+            return new ChbrProperty() {
+                    boolebn isSbtisfiedBy(int ch) {
+                        return ! ChbrProperty.this.isSbtisfiedBy(ch);}};
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            if (i < matcher.to) {
-                int ch = Character.codePointAt(seq, i);
-                return isSatisfiedBy(ch)
-                    && next.match(matcher, i+Character.charCount(ch), seq);
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            if (i < mbtcher.to) {
+                int ch = Chbrbcter.codePointAt(seq, i);
+                return isSbtisfiedBy(ch)
+                    && next.mbtch(mbtcher, i+Chbrbcter.chbrCount(ch), seq);
             } else {
-                matcher.hitEnd = true;
-                return false;
+                mbtcher.hitEnd = true;
+                return fblse;
             }
         }
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             info.minLength++;
-            info.maxLength++;
+            info.mbxLength++;
             return next.study(info);
         }
     }
 
     /**
-     * Optimized version of CharProperty that works only for
-     * properties never satisfied by Supplementary characters.
+     * Optimized version of ChbrProperty thbt works only for
+     * properties never sbtisfied by Supplementbry chbrbcters.
      */
-    private static abstract class BmpCharProperty extends CharProperty {
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            if (i < matcher.to) {
-                return isSatisfiedBy(seq.charAt(i))
-                    && next.match(matcher, i+1, seq);
+    privbte stbtic bbstrbct clbss BmpChbrProperty extends ChbrProperty {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            if (i < mbtcher.to) {
+                return isSbtisfiedBy(seq.chbrAt(i))
+                    && next.mbtch(mbtcher, i+1, seq);
             } else {
-                matcher.hitEnd = true;
-                return false;
+                mbtcher.hitEnd = true;
+                return fblse;
             }
         }
     }
 
     /**
-     * Node class that matches a Supplementary Unicode character
+     * Node clbss thbt mbtches b Supplementbry Unicode chbrbcter
      */
-    static final class SingleS extends CharProperty {
-        final int c;
+    stbtic finbl clbss SingleS extends ChbrProperty {
+        finbl int c;
         SingleS(int c) { this.c = c; }
-        boolean isSatisfiedBy(int ch) {
+        boolebn isSbtisfiedBy(int ch) {
             return ch == c;
         }
     }
 
     /**
-     * Optimization -- matches a given BMP character
+     * Optimizbtion -- mbtches b given BMP chbrbcter
      */
-    static final class Single extends BmpCharProperty {
-        final int c;
+    stbtic finbl clbss Single extends BmpChbrProperty {
+        finbl int c;
         Single(int c) { this.c = c; }
-        boolean isSatisfiedBy(int ch) {
+        boolebn isSbtisfiedBy(int ch) {
             return ch == c;
         }
     }
 
     /**
-     * Case insensitive matches a given BMP character
+     * Cbse insensitive mbtches b given BMP chbrbcter
      */
-    static final class SingleI extends BmpCharProperty {
-        final int lower;
-        final int upper;
+    stbtic finbl clbss SingleI extends BmpChbrProperty {
+        finbl int lower;
+        finbl int upper;
         SingleI(int lower, int upper) {
             this.lower = lower;
             this.upper = upper;
         }
-        boolean isSatisfiedBy(int ch) {
+        boolebn isSbtisfiedBy(int ch) {
             return ch == lower || ch == upper;
         }
     }
 
     /**
-     * Unicode case insensitive matches a given Unicode character
+     * Unicode cbse insensitive mbtches b given Unicode chbrbcter
      */
-    static final class SingleU extends CharProperty {
-        final int lower;
+    stbtic finbl clbss SingleU extends ChbrProperty {
+        finbl int lower;
         SingleU(int lower) {
             this.lower = lower;
         }
-        boolean isSatisfiedBy(int ch) {
+        boolebn isSbtisfiedBy(int ch) {
             return lower == ch ||
-                lower == Character.toLowerCase(Character.toUpperCase(ch));
+                lower == Chbrbcter.toLowerCbse(Chbrbcter.toUpperCbse(ch));
         }
     }
 
     /**
-     * Node class that matches a Unicode block.
+     * Node clbss thbt mbtches b Unicode block.
      */
-    static final class Block extends CharProperty {
-        final Character.UnicodeBlock block;
-        Block(Character.UnicodeBlock block) {
+    stbtic finbl clbss Block extends ChbrProperty {
+        finbl Chbrbcter.UnicodeBlock block;
+        Block(Chbrbcter.UnicodeBlock block) {
             this.block = block;
         }
-        boolean isSatisfiedBy(int ch) {
-            return block == Character.UnicodeBlock.of(ch);
+        boolebn isSbtisfiedBy(int ch) {
+            return block == Chbrbcter.UnicodeBlock.of(ch);
         }
     }
 
     /**
-     * Node class that matches a Unicode script
+     * Node clbss thbt mbtches b Unicode script
      */
-    static final class Script extends CharProperty {
-        final Character.UnicodeScript script;
-        Script(Character.UnicodeScript script) {
+    stbtic finbl clbss Script extends ChbrProperty {
+        finbl Chbrbcter.UnicodeScript script;
+        Script(Chbrbcter.UnicodeScript script) {
             this.script = script;
         }
-        boolean isSatisfiedBy(int ch) {
-            return script == Character.UnicodeScript.of(ch);
+        boolebn isSbtisfiedBy(int ch) {
+            return script == Chbrbcter.UnicodeScript.of(ch);
         }
     }
 
     /**
-     * Node class that matches a Unicode category.
+     * Node clbss thbt mbtches b Unicode cbtegory.
      */
-    static final class Category extends CharProperty {
-        final int typeMask;
-        Category(int typeMask) { this.typeMask = typeMask; }
-        boolean isSatisfiedBy(int ch) {
-            return (typeMask & (1 << Character.getType(ch))) != 0;
+    stbtic finbl clbss Cbtegory extends ChbrProperty {
+        finbl int typeMbsk;
+        Cbtegory(int typeMbsk) { this.typeMbsk = typeMbsk; }
+        boolebn isSbtisfiedBy(int ch) {
+            return (typeMbsk & (1 << Chbrbcter.getType(ch))) != 0;
         }
     }
 
     /**
-     * Node class that matches a Unicode "type"
+     * Node clbss thbt mbtches b Unicode "type"
      */
-    static final class Utype extends CharProperty {
-        final UnicodeProp uprop;
+    stbtic finbl clbss Utype extends ChbrProperty {
+        finbl UnicodeProp uprop;
         Utype(UnicodeProp uprop) { this.uprop = uprop; }
-        boolean isSatisfiedBy(int ch) {
+        boolebn isSbtisfiedBy(int ch) {
             return uprop.is(ch);
         }
     }
 
     /**
-     * Node class that matches a POSIX type.
+     * Node clbss thbt mbtches b POSIX type.
      */
-    static final class Ctype extends BmpCharProperty {
-        final int ctype;
+    stbtic finbl clbss Ctype extends BmpChbrProperty {
+        finbl int ctype;
         Ctype(int ctype) { this.ctype = ctype; }
-        boolean isSatisfiedBy(int ch) {
+        boolebn isSbtisfiedBy(int ch) {
             return ch < 128 && ASCII.isType(ch, ctype);
         }
     }
 
     /**
-     * Node class that matches a Perl vertical whitespace
+     * Node clbss thbt mbtches b Perl verticbl whitespbce
      */
-    static final class VertWS extends BmpCharProperty {
-        boolean isSatisfiedBy(int cp) {
+    stbtic finbl clbss VertWS extends BmpChbrProperty {
+        boolebn isSbtisfiedBy(int cp) {
             return (cp >= 0x0A && cp <= 0x0D) ||
                    cp == 0x85 || cp == 0x2028 || cp == 0x2029;
         }
     }
 
     /**
-     * Node class that matches a Perl horizontal whitespace
+     * Node clbss thbt mbtches b Perl horizontbl whitespbce
      */
-    static final class HorizWS extends BmpCharProperty {
-        boolean isSatisfiedBy(int cp) {
-            return cp == 0x09 || cp == 0x20 || cp == 0xa0 ||
+    stbtic finbl clbss HorizWS extends BmpChbrProperty {
+        boolebn isSbtisfiedBy(int cp) {
+            return cp == 0x09 || cp == 0x20 || cp == 0xb0 ||
                    cp == 0x1680 || cp == 0x180e ||
-                   cp >= 0x2000 && cp <= 0x200a ||
+                   cp >= 0x2000 && cp <= 0x200b ||
                    cp == 0x202f || cp == 0x205f || cp == 0x3000;
         }
     }
 
     /**
-     * Base class for all Slice nodes
+     * Bbse clbss for bll Slice nodes
      */
-    static class SliceNode extends Node {
+    stbtic clbss SliceNode extends Node {
         int[] buffer;
         SliceNode(int[] buf) {
             buffer = buf;
         }
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             info.minLength += buffer.length;
-            info.maxLength += buffer.length;
+            info.mbxLength += buffer.length;
             return next.study(info);
         }
     }
 
     /**
-     * Node class for a case sensitive/BMP-only sequence of literal
-     * characters.
+     * Node clbss for b cbse sensitive/BMP-only sequence of literbl
+     * chbrbcters.
      */
-    static class Slice extends SliceNode {
+    stbtic clbss Slice extends SliceNode {
         Slice(int[] buf) {
             super(buf);
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
             int[] buf = buffer;
             int len = buf.length;
             for (int j=0; j<len; j++) {
-                if ((i+j) >= matcher.to) {
-                    matcher.hitEnd = true;
-                    return false;
+                if ((i+j) >= mbtcher.to) {
+                    mbtcher.hitEnd = true;
+                    return fblse;
                 }
-                if (buf[j] != seq.charAt(i+j))
-                    return false;
+                if (buf[j] != seq.chbrAt(i+j))
+                    return fblse;
             }
-            return next.match(matcher, i+len, seq);
+            return next.mbtch(mbtcher, i+len, seq);
         }
     }
 
     /**
-     * Node class for a case_insensitive/BMP-only sequence of literal
-     * characters.
+     * Node clbss for b cbse_insensitive/BMP-only sequence of literbl
+     * chbrbcters.
      */
-    static class SliceI extends SliceNode {
+    stbtic clbss SliceI extends SliceNode {
         SliceI(int[] buf) {
             super(buf);
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
             int[] buf = buffer;
             int len = buf.length;
             for (int j=0; j<len; j++) {
-                if ((i+j) >= matcher.to) {
-                    matcher.hitEnd = true;
-                    return false;
+                if ((i+j) >= mbtcher.to) {
+                    mbtcher.hitEnd = true;
+                    return fblse;
                 }
-                int c = seq.charAt(i+j);
+                int c = seq.chbrAt(i+j);
                 if (buf[j] != c &&
                     buf[j] != ASCII.toLower(c))
-                    return false;
+                    return fblse;
             }
-            return next.match(matcher, i+len, seq);
+            return next.mbtch(mbtcher, i+len, seq);
         }
     }
 
     /**
-     * Node class for a unicode_case_insensitive/BMP-only sequence of
-     * literal characters. Uses unicode case folding.
+     * Node clbss for b unicode_cbse_insensitive/BMP-only sequence of
+     * literbl chbrbcters. Uses unicode cbse folding.
      */
-    static final class SliceU extends SliceNode {
+    stbtic finbl clbss SliceU extends SliceNode {
         SliceU(int[] buf) {
             super(buf);
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
             int[] buf = buffer;
             int len = buf.length;
             for (int j=0; j<len; j++) {
-                if ((i+j) >= matcher.to) {
-                    matcher.hitEnd = true;
-                    return false;
+                if ((i+j) >= mbtcher.to) {
+                    mbtcher.hitEnd = true;
+                    return fblse;
                 }
-                int c = seq.charAt(i+j);
+                int c = seq.chbrAt(i+j);
                 if (buf[j] != c &&
-                    buf[j] != Character.toLowerCase(Character.toUpperCase(c)))
-                    return false;
+                    buf[j] != Chbrbcter.toLowerCbse(Chbrbcter.toUpperCbse(c)))
+                    return fblse;
             }
-            return next.match(matcher, i+len, seq);
+            return next.mbtch(mbtcher, i+len, seq);
         }
     }
 
     /**
-     * Node class for a case sensitive sequence of literal characters
-     * including supplementary characters.
+     * Node clbss for b cbse sensitive sequence of literbl chbrbcters
+     * including supplementbry chbrbcters.
      */
-    static final class SliceS extends Slice {
+    stbtic finbl clbss SliceS extends Slice {
         SliceS(int[] buf) {
             super(buf);
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
             int[] buf = buffer;
             int x = i;
             for (int j = 0; j < buf.length; j++) {
-                if (x >= matcher.to) {
-                    matcher.hitEnd = true;
-                    return false;
+                if (x >= mbtcher.to) {
+                    mbtcher.hitEnd = true;
+                    return fblse;
                 }
-                int c = Character.codePointAt(seq, x);
+                int c = Chbrbcter.codePointAt(seq, x);
                 if (buf[j] != c)
-                    return false;
-                x += Character.charCount(c);
-                if (x > matcher.to) {
-                    matcher.hitEnd = true;
-                    return false;
+                    return fblse;
+                x += Chbrbcter.chbrCount(c);
+                if (x > mbtcher.to) {
+                    mbtcher.hitEnd = true;
+                    return fblse;
                 }
             }
-            return next.match(matcher, x, seq);
+            return next.mbtch(mbtcher, x, seq);
         }
     }
 
     /**
-     * Node class for a case insensitive sequence of literal characters
-     * including supplementary characters.
+     * Node clbss for b cbse insensitive sequence of literbl chbrbcters
+     * including supplementbry chbrbcters.
      */
-    static class SliceIS extends SliceNode {
+    stbtic clbss SliceIS extends SliceNode {
         SliceIS(int[] buf) {
             super(buf);
         }
         int toLower(int c) {
             return ASCII.toLower(c);
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
             int[] buf = buffer;
             int x = i;
             for (int j = 0; j < buf.length; j++) {
-                if (x >= matcher.to) {
-                    matcher.hitEnd = true;
-                    return false;
+                if (x >= mbtcher.to) {
+                    mbtcher.hitEnd = true;
+                    return fblse;
                 }
-                int c = Character.codePointAt(seq, x);
+                int c = Chbrbcter.codePointAt(seq, x);
                 if (buf[j] != c && buf[j] != toLower(c))
-                    return false;
-                x += Character.charCount(c);
-                if (x > matcher.to) {
-                    matcher.hitEnd = true;
-                    return false;
+                    return fblse;
+                x += Chbrbcter.chbrCount(c);
+                if (x > mbtcher.to) {
+                    mbtcher.hitEnd = true;
+                    return fblse;
                 }
             }
-            return next.match(matcher, x, seq);
+            return next.mbtch(mbtcher, x, seq);
         }
     }
 
     /**
-     * Node class for a case insensitive sequence of literal characters.
-     * Uses unicode case folding.
+     * Node clbss for b cbse insensitive sequence of literbl chbrbcters.
+     * Uses unicode cbse folding.
      */
-    static final class SliceUS extends SliceIS {
+    stbtic finbl clbss SliceUS extends SliceIS {
         SliceUS(int[] buf) {
             super(buf);
         }
         int toLower(int c) {
-            return Character.toLowerCase(Character.toUpperCase(c));
+            return Chbrbcter.toLowerCbse(Chbrbcter.toUpperCbse(c));
         }
     }
 
-    private static boolean inRange(int lower, int ch, int upper) {
+    privbte stbtic boolebn inRbnge(int lower, int ch, int upper) {
         return lower <= ch && ch <= upper;
     }
 
     /**
-     * Returns node for matching characters within an explicit value range.
+     * Returns node for mbtching chbrbcters within bn explicit vblue rbnge.
      */
-    private static CharProperty rangeFor(final int lower,
-                                         final int upper) {
-        return new CharProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return inRange(lower, ch, upper);}};
+    privbte stbtic ChbrProperty rbngeFor(finbl int lower,
+                                         finbl int upper) {
+        return new ChbrProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return inRbnge(lower, ch, upper);}};
     }
 
     /**
-     * Returns node for matching characters within an explicit value
-     * range in a case insensitive manner.
+     * Returns node for mbtching chbrbcters within bn explicit vblue
+     * rbnge in b cbse insensitive mbnner.
      */
-    private CharProperty caseInsensitiveRangeFor(final int lower,
-                                                 final int upper) {
-        if (has(UNICODE_CASE))
-            return new CharProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    if (inRange(lower, ch, upper))
+    privbte ChbrProperty cbseInsensitiveRbngeFor(finbl int lower,
+                                                 finbl int upper) {
+        if (hbs(UNICODE_CASE))
+            return new ChbrProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    if (inRbnge(lower, ch, upper))
                         return true;
-                    int up = Character.toUpperCase(ch);
-                    return inRange(lower, up, upper) ||
-                           inRange(lower, Character.toLowerCase(up), upper);}};
-        return new CharProperty() {
-            boolean isSatisfiedBy(int ch) {
-                return inRange(lower, ch, upper) ||
+                    int up = Chbrbcter.toUpperCbse(ch);
+                    return inRbnge(lower, up, upper) ||
+                           inRbnge(lower, Chbrbcter.toLowerCbse(up), upper);}};
+        return new ChbrProperty() {
+            boolebn isSbtisfiedBy(int ch) {
+                return inRbnge(lower, ch, upper) ||
                     ASCII.isAscii(ch) &&
-                        (inRange(lower, ASCII.toUpper(ch), upper) ||
-                         inRange(lower, ASCII.toLower(ch), upper));
+                        (inRbnge(lower, ASCII.toUpper(ch), upper) ||
+                         inRbnge(lower, ASCII.toLower(ch), upper));
             }};
     }
 
     /**
-     * Implements the Unicode category ALL and the dot metacharacter when
-     * in dotall mode.
+     * Implements the Unicode cbtegory ALL bnd the dot metbchbrbcter when
+     * in dotbll mode.
      */
-    static final class All extends CharProperty {
-        boolean isSatisfiedBy(int ch) {
+    stbtic finbl clbss All extends ChbrProperty {
+        boolebn isSbtisfiedBy(int ch) {
             return true;
         }
     }
 
     /**
-     * Node class for the dot metacharacter when dotall is not enabled.
+     * Node clbss for the dot metbchbrbcter when dotbll is not enbbled.
      */
-    static final class Dot extends CharProperty {
-        boolean isSatisfiedBy(int ch) {
+    stbtic finbl clbss Dot extends ChbrProperty {
+        boolebn isSbtisfiedBy(int ch) {
             return (ch != '\n' && ch != '\r'
                     && (ch|1) != '\u2029'
                     && ch != '\u0085');
@@ -4174,1384 +4174,1384 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
     }
 
     /**
-     * Node class for the dot metacharacter when dotall is not enabled
-     * but UNIX_LINES is enabled.
+     * Node clbss for the dot metbchbrbcter when dotbll is not enbbled
+     * but UNIX_LINES is enbbled.
      */
-    static final class UnixDot extends CharProperty {
-        boolean isSatisfiedBy(int ch) {
+    stbtic finbl clbss UnixDot extends ChbrProperty {
+        boolebn isSbtisfiedBy(int ch) {
             return ch != '\n';
         }
     }
 
     /**
-     * The 0 or 1 quantifier. This one class implements all three types.
+     * The 0 or 1 qubntifier. This one clbss implements bll three types.
      */
-    static final class Ques extends Node {
-        Node atom;
+    stbtic finbl clbss Ques extends Node {
+        Node btom;
         int type;
         Ques(Node node, int type) {
-            this.atom = node;
+            this.btom = node;
             this.type = type;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
             switch (type) {
-            case GREEDY:
-                return (atom.match(matcher, i, seq) && next.match(matcher, matcher.last, seq))
-                    || next.match(matcher, i, seq);
-            case LAZY:
-                return next.match(matcher, i, seq)
-                    || (atom.match(matcher, i, seq) && next.match(matcher, matcher.last, seq));
-            case POSSESSIVE:
-                if (atom.match(matcher, i, seq)) i = matcher.last;
-                return next.match(matcher, i, seq);
-            default:
-                return atom.match(matcher, i, seq) && next.match(matcher, matcher.last, seq);
+            cbse GREEDY:
+                return (btom.mbtch(mbtcher, i, seq) && next.mbtch(mbtcher, mbtcher.lbst, seq))
+                    || next.mbtch(mbtcher, i, seq);
+            cbse LAZY:
+                return next.mbtch(mbtcher, i, seq)
+                    || (btom.mbtch(mbtcher, i, seq) && next.mbtch(mbtcher, mbtcher.lbst, seq));
+            cbse POSSESSIVE:
+                if (btom.mbtch(mbtcher, i, seq)) i = mbtcher.lbst;
+                return next.mbtch(mbtcher, i, seq);
+            defbult:
+                return btom.mbtch(mbtcher, i, seq) && next.mbtch(mbtcher, mbtcher.lbst, seq);
             }
         }
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             if (type != INDEPENDENT) {
                 int minL = info.minLength;
-                atom.study(info);
+                btom.study(info);
                 info.minLength = minL;
-                info.deterministic = false;
+                info.deterministic = fblse;
                 return next.study(info);
             } else {
-                atom.study(info);
+                btom.study(info);
                 return next.study(info);
             }
         }
     }
 
     /**
-     * Handles the curly-brace style repetition with a specified minimum and
-     * maximum occurrences. The * quantifier is handled as a special case.
-     * This class handles the three types.
+     * Hbndles the curly-brbce style repetition with b specified minimum bnd
+     * mbximum occurrences. The * qubntifier is hbndled bs b specibl cbse.
+     * This clbss hbndles the three types.
      */
-    static final class Curly extends Node {
-        Node atom;
+    stbtic finbl clbss Curly extends Node {
+        Node btom;
         int type;
         int cmin;
-        int cmax;
+        int cmbx;
 
-        Curly(Node node, int cmin, int cmax, int type) {
-            this.atom = node;
+        Curly(Node node, int cmin, int cmbx, int type) {
+            this.btom = node;
             this.type = type;
             this.cmin = cmin;
-            this.cmax = cmax;
+            this.cmbx = cmbx;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
             int j;
             for (j = 0; j < cmin; j++) {
-                if (atom.match(matcher, i, seq)) {
-                    i = matcher.last;
+                if (btom.mbtch(mbtcher, i, seq)) {
+                    i = mbtcher.lbst;
                     continue;
                 }
-                return false;
+                return fblse;
             }
             if (type == GREEDY)
-                return match0(matcher, i, j, seq);
+                return mbtch0(mbtcher, i, j, seq);
             else if (type == LAZY)
-                return match1(matcher, i, j, seq);
+                return mbtch1(mbtcher, i, j, seq);
             else
-                return match2(matcher, i, j, seq);
+                return mbtch2(mbtcher, i, j, seq);
         }
-        // Greedy match.
-        // i is the index to start matching at
-        // j is the number of atoms that have matched
-        boolean match0(Matcher matcher, int i, int j, CharSequence seq) {
-            if (j >= cmax) {
-                // We have matched the maximum... continue with the rest of
-                // the regular expression
-                return next.match(matcher, i, seq);
+        // Greedy mbtch.
+        // i is the index to stbrt mbtching bt
+        // j is the number of btoms thbt hbve mbtched
+        boolebn mbtch0(Mbtcher mbtcher, int i, int j, ChbrSequence seq) {
+            if (j >= cmbx) {
+                // We hbve mbtched the mbximum... continue with the rest of
+                // the regulbr expression
+                return next.mbtch(mbtcher, i, seq);
             }
-            int backLimit = j;
-            while (atom.match(matcher, i, seq)) {
-                // k is the length of this match
-                int k = matcher.last - i;
-                if (k == 0) // Zero length match
-                    break;
-                // Move up index and number matched
-                i = matcher.last;
+            int bbckLimit = j;
+            while (btom.mbtch(mbtcher, i, seq)) {
+                // k is the length of this mbtch
+                int k = mbtcher.lbst - i;
+                if (k == 0) // Zero length mbtch
+                    brebk;
+                // Move up index bnd number mbtched
+                i = mbtcher.lbst;
                 j++;
-                // We are greedy so match as many as we can
-                while (j < cmax) {
-                    if (!atom.match(matcher, i, seq))
-                        break;
-                    if (i + k != matcher.last) {
-                        if (match0(matcher, matcher.last, j+1, seq))
+                // We bre greedy so mbtch bs mbny bs we cbn
+                while (j < cmbx) {
+                    if (!btom.mbtch(mbtcher, i, seq))
+                        brebk;
+                    if (i + k != mbtcher.lbst) {
+                        if (mbtch0(mbtcher, mbtcher.lbst, j+1, seq))
                             return true;
-                        break;
+                        brebk;
                     }
                     i += k;
                     j++;
                 }
-                // Handle backing off if match fails
-                while (j >= backLimit) {
-                   if (next.match(matcher, i, seq))
+                // Hbndle bbcking off if mbtch fbils
+                while (j >= bbckLimit) {
+                   if (next.mbtch(mbtcher, i, seq))
                         return true;
                     i -= k;
                     j--;
                 }
-                return false;
+                return fblse;
             }
-            return next.match(matcher, i, seq);
+            return next.mbtch(mbtcher, i, seq);
         }
-        // Reluctant match. At this point, the minimum has been satisfied.
-        // i is the index to start matching at
-        // j is the number of atoms that have matched
-        boolean match1(Matcher matcher, int i, int j, CharSequence seq) {
+        // Reluctbnt mbtch. At this point, the minimum hbs been sbtisfied.
+        // i is the index to stbrt mbtching bt
+        // j is the number of btoms thbt hbve mbtched
+        boolebn mbtch1(Mbtcher mbtcher, int i, int j, ChbrSequence seq) {
             for (;;) {
-                // Try finishing match without consuming any more
-                if (next.match(matcher, i, seq))
+                // Try finishing mbtch without consuming bny more
+                if (next.mbtch(mbtcher, i, seq))
                     return true;
-                // At the maximum, no match found
-                if (j >= cmax)
-                    return false;
-                // Okay, must try one more atom
-                if (!atom.match(matcher, i, seq))
-                    return false;
-                // If we haven't moved forward then must break out
-                if (i == matcher.last)
-                    return false;
-                // Move up index and number matched
-                i = matcher.last;
+                // At the mbximum, no mbtch found
+                if (j >= cmbx)
+                    return fblse;
+                // Okby, must try one more btom
+                if (!btom.mbtch(mbtcher, i, seq))
+                    return fblse;
+                // If we hbven't moved forwbrd then must brebk out
+                if (i == mbtcher.lbst)
+                    return fblse;
+                // Move up index bnd number mbtched
+                i = mbtcher.lbst;
                 j++;
             }
         }
-        boolean match2(Matcher matcher, int i, int j, CharSequence seq) {
-            for (; j < cmax; j++) {
-                if (!atom.match(matcher, i, seq))
-                    break;
-                if (i == matcher.last)
-                    break;
-                i = matcher.last;
+        boolebn mbtch2(Mbtcher mbtcher, int i, int j, ChbrSequence seq) {
+            for (; j < cmbx; j++) {
+                if (!btom.mbtch(mbtcher, i, seq))
+                    brebk;
+                if (i == mbtcher.lbst)
+                    brebk;
+                i = mbtcher.lbst;
             }
-            return next.match(matcher, i, seq);
+            return next.mbtch(mbtcher, i, seq);
         }
-        boolean study(TreeInfo info) {
-            // Save original info
+        boolebn study(TreeInfo info) {
+            // Sbve originbl info
             int minL = info.minLength;
-            int maxL = info.maxLength;
-            boolean maxV = info.maxValid;
-            boolean detm = info.deterministic;
+            int mbxL = info.mbxLength;
+            boolebn mbxV = info.mbxVblid;
+            boolebn detm = info.deterministic;
             info.reset();
 
-            atom.study(info);
+            btom.study(info);
 
             int temp = info.minLength * cmin + minL;
             if (temp < minL) {
-                temp = 0xFFFFFFF; // arbitrary large number
+                temp = 0xFFFFFFF; // brbitrbry lbrge number
             }
             info.minLength = temp;
 
-            if (maxV & info.maxValid) {
-                temp = info.maxLength * cmax + maxL;
-                info.maxLength = temp;
-                if (temp < maxL) {
-                    info.maxValid = false;
+            if (mbxV & info.mbxVblid) {
+                temp = info.mbxLength * cmbx + mbxL;
+                info.mbxLength = temp;
+                if (temp < mbxL) {
+                    info.mbxVblid = fblse;
                 }
             } else {
-                info.maxValid = false;
+                info.mbxVblid = fblse;
             }
 
-            if (info.deterministic && cmin == cmax)
+            if (info.deterministic && cmin == cmbx)
                 info.deterministic = detm;
             else
-                info.deterministic = false;
+                info.deterministic = fblse;
             return next.study(info);
         }
     }
 
     /**
-     * Handles the curly-brace style repetition with a specified minimum and
-     * maximum occurrences in deterministic cases. This is an iterative
-     * optimization over the Prolog and Loop system which would handle this
-     * in a recursive way. The * quantifier is handled as a special case.
-     * If capture is true then this class saves group settings and ensures
-     * that groups are unset when backing off of a group match.
+     * Hbndles the curly-brbce style repetition with b specified minimum bnd
+     * mbximum occurrences in deterministic cbses. This is bn iterbtive
+     * optimizbtion over the Prolog bnd Loop system which would hbndle this
+     * in b recursive wby. The * qubntifier is hbndled bs b specibl cbse.
+     * If cbpture is true then this clbss sbves group settings bnd ensures
+     * thbt groups bre unset when bbcking off of b group mbtch.
      */
-    static final class GroupCurly extends Node {
-        Node atom;
+    stbtic finbl clbss GroupCurly extends Node {
+        Node btom;
         int type;
         int cmin;
-        int cmax;
-        int localIndex;
+        int cmbx;
+        int locblIndex;
         int groupIndex;
-        boolean capture;
+        boolebn cbpture;
 
-        GroupCurly(Node node, int cmin, int cmax, int type, int local,
-                   int group, boolean capture) {
-            this.atom = node;
+        GroupCurly(Node node, int cmin, int cmbx, int type, int locbl,
+                   int group, boolebn cbpture) {
+            this.btom = node;
             this.type = type;
             this.cmin = cmin;
-            this.cmax = cmax;
-            this.localIndex = local;
+            this.cmbx = cmbx;
+            this.locblIndex = locbl;
             this.groupIndex = group;
-            this.capture = capture;
+            this.cbpture = cbpture;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int[] groups = matcher.groups;
-            int[] locals = matcher.locals;
-            int save0 = locals[localIndex];
-            int save1 = 0;
-            int save2 = 0;
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int[] groups = mbtcher.groups;
+            int[] locbls = mbtcher.locbls;
+            int sbve0 = locbls[locblIndex];
+            int sbve1 = 0;
+            int sbve2 = 0;
 
-            if (capture) {
-                save1 = groups[groupIndex];
-                save2 = groups[groupIndex+1];
+            if (cbpture) {
+                sbve1 = groups[groupIndex];
+                sbve2 = groups[groupIndex+1];
             }
 
-            // Notify GroupTail there is no need to setup group info
-            // because it will be set here
-            locals[localIndex] = -1;
+            // Notify GroupTbil there is no need to setup group info
+            // becbuse it will be set here
+            locbls[locblIndex] = -1;
 
-            boolean ret = true;
+            boolebn ret = true;
             for (int j = 0; j < cmin; j++) {
-                if (atom.match(matcher, i, seq)) {
-                    if (capture) {
+                if (btom.mbtch(mbtcher, i, seq)) {
+                    if (cbpture) {
                         groups[groupIndex] = i;
-                        groups[groupIndex+1] = matcher.last;
+                        groups[groupIndex+1] = mbtcher.lbst;
                     }
-                    i = matcher.last;
+                    i = mbtcher.lbst;
                 } else {
-                    ret = false;
-                    break;
+                    ret = fblse;
+                    brebk;
                 }
             }
             if (ret) {
                 if (type == GREEDY) {
-                    ret = match0(matcher, i, cmin, seq);
+                    ret = mbtch0(mbtcher, i, cmin, seq);
                 } else if (type == LAZY) {
-                    ret = match1(matcher, i, cmin, seq);
+                    ret = mbtch1(mbtcher, i, cmin, seq);
                 } else {
-                    ret = match2(matcher, i, cmin, seq);
+                    ret = mbtch2(mbtcher, i, cmin, seq);
                 }
             }
             if (!ret) {
-                locals[localIndex] = save0;
-                if (capture) {
-                    groups[groupIndex] = save1;
-                    groups[groupIndex+1] = save2;
+                locbls[locblIndex] = sbve0;
+                if (cbpture) {
+                    groups[groupIndex] = sbve1;
+                    groups[groupIndex+1] = sbve2;
                 }
             }
             return ret;
         }
-        // Aggressive group match
-        boolean match0(Matcher matcher, int i, int j, CharSequence seq) {
-            // don't back off passing the starting "j"
+        // Aggressive group mbtch
+        boolebn mbtch0(Mbtcher mbtcher, int i, int j, ChbrSequence seq) {
+            // don't bbck off pbssing the stbrting "j"
             int min = j;
-            int[] groups = matcher.groups;
-            int save0 = 0;
-            int save1 = 0;
-            if (capture) {
-                save0 = groups[groupIndex];
-                save1 = groups[groupIndex+1];
+            int[] groups = mbtcher.groups;
+            int sbve0 = 0;
+            int sbve1 = 0;
+            if (cbpture) {
+                sbve0 = groups[groupIndex];
+                sbve1 = groups[groupIndex+1];
             }
             for (;;) {
-                if (j >= cmax)
-                    break;
-                if (!atom.match(matcher, i, seq))
-                    break;
-                int k = matcher.last - i;
+                if (j >= cmbx)
+                    brebk;
+                if (!btom.mbtch(mbtcher, i, seq))
+                    brebk;
+                int k = mbtcher.lbst - i;
                 if (k <= 0) {
-                    if (capture) {
+                    if (cbpture) {
                         groups[groupIndex] = i;
                         groups[groupIndex+1] = i + k;
                     }
                     i = i + k;
-                    break;
+                    brebk;
                 }
                 for (;;) {
-                    if (capture) {
+                    if (cbpture) {
                         groups[groupIndex] = i;
                         groups[groupIndex+1] = i + k;
                     }
                     i = i + k;
-                    if (++j >= cmax)
-                        break;
-                    if (!atom.match(matcher, i, seq))
-                        break;
-                    if (i + k != matcher.last) {
-                        if (match0(matcher, i, j, seq))
+                    if (++j >= cmbx)
+                        brebk;
+                    if (!btom.mbtch(mbtcher, i, seq))
+                        brebk;
+                    if (i + k != mbtcher.lbst) {
+                        if (mbtch0(mbtcher, i, j, seq))
                             return true;
-                        break;
+                        brebk;
                     }
                 }
                 while (j > min) {
-                    if (next.match(matcher, i, seq)) {
-                        if (capture) {
+                    if (next.mbtch(mbtcher, i, seq)) {
+                        if (cbpture) {
                             groups[groupIndex+1] = i;
                             groups[groupIndex] = i - k;
                         }
                         return true;
                     }
-                    // backing off
+                    // bbcking off
                     i = i - k;
-                    if (capture) {
+                    if (cbpture) {
                         groups[groupIndex+1] = i;
                         groups[groupIndex] = i - k;
                     }
                     j--;
 
                 }
-                break;
+                brebk;
             }
-            if (capture) {
-                groups[groupIndex] = save0;
-                groups[groupIndex+1] = save1;
+            if (cbpture) {
+                groups[groupIndex] = sbve0;
+                groups[groupIndex+1] = sbve1;
             }
-            return next.match(matcher, i, seq);
+            return next.mbtch(mbtcher, i, seq);
         }
-        // Reluctant matching
-        boolean match1(Matcher matcher, int i, int j, CharSequence seq) {
+        // Reluctbnt mbtching
+        boolebn mbtch1(Mbtcher mbtcher, int i, int j, ChbrSequence seq) {
             for (;;) {
-                if (next.match(matcher, i, seq))
+                if (next.mbtch(mbtcher, i, seq))
                     return true;
-                if (j >= cmax)
-                    return false;
-                if (!atom.match(matcher, i, seq))
-                    return false;
-                if (i == matcher.last)
-                    return false;
-                if (capture) {
-                    matcher.groups[groupIndex] = i;
-                    matcher.groups[groupIndex+1] = matcher.last;
+                if (j >= cmbx)
+                    return fblse;
+                if (!btom.mbtch(mbtcher, i, seq))
+                    return fblse;
+                if (i == mbtcher.lbst)
+                    return fblse;
+                if (cbpture) {
+                    mbtcher.groups[groupIndex] = i;
+                    mbtcher.groups[groupIndex+1] = mbtcher.lbst;
                 }
-                i = matcher.last;
+                i = mbtcher.lbst;
                 j++;
             }
         }
-        // Possessive matching
-        boolean match2(Matcher matcher, int i, int j, CharSequence seq) {
-            for (; j < cmax; j++) {
-                if (!atom.match(matcher, i, seq)) {
-                    break;
+        // Possessive mbtching
+        boolebn mbtch2(Mbtcher mbtcher, int i, int j, ChbrSequence seq) {
+            for (; j < cmbx; j++) {
+                if (!btom.mbtch(mbtcher, i, seq)) {
+                    brebk;
                 }
-                if (capture) {
-                    matcher.groups[groupIndex] = i;
-                    matcher.groups[groupIndex+1] = matcher.last;
+                if (cbpture) {
+                    mbtcher.groups[groupIndex] = i;
+                    mbtcher.groups[groupIndex+1] = mbtcher.lbst;
                 }
-                if (i == matcher.last) {
-                    break;
+                if (i == mbtcher.lbst) {
+                    brebk;
                 }
-                i = matcher.last;
+                i = mbtcher.lbst;
             }
-            return next.match(matcher, i, seq);
+            return next.mbtch(mbtcher, i, seq);
         }
-        boolean study(TreeInfo info) {
-            // Save original info
+        boolebn study(TreeInfo info) {
+            // Sbve originbl info
             int minL = info.minLength;
-            int maxL = info.maxLength;
-            boolean maxV = info.maxValid;
-            boolean detm = info.deterministic;
+            int mbxL = info.mbxLength;
+            boolebn mbxV = info.mbxVblid;
+            boolebn detm = info.deterministic;
             info.reset();
 
-            atom.study(info);
+            btom.study(info);
 
             int temp = info.minLength * cmin + minL;
             if (temp < minL) {
-                temp = 0xFFFFFFF; // Arbitrary large number
+                temp = 0xFFFFFFF; // Arbitrbry lbrge number
             }
             info.minLength = temp;
 
-            if (maxV & info.maxValid) {
-                temp = info.maxLength * cmax + maxL;
-                info.maxLength = temp;
-                if (temp < maxL) {
-                    info.maxValid = false;
+            if (mbxV & info.mbxVblid) {
+                temp = info.mbxLength * cmbx + mbxL;
+                info.mbxLength = temp;
+                if (temp < mbxL) {
+                    info.mbxVblid = fblse;
                 }
             } else {
-                info.maxValid = false;
+                info.mbxVblid = fblse;
             }
 
-            if (info.deterministic && cmin == cmax) {
+            if (info.deterministic && cmin == cmbx) {
                 info.deterministic = detm;
             } else {
-                info.deterministic = false;
+                info.deterministic = fblse;
             }
             return next.study(info);
         }
     }
 
     /**
-     * A Guard node at the end of each atom node in a Branch. It
-     * serves the purpose of chaining the "match" operation to
-     * "next" but not the "study", so we can collect the TreeInfo
-     * of each atom node without including the TreeInfo of the
+     * A Gubrd node bt the end of ebch btom node in b Brbnch. It
+     * serves the purpose of chbining the "mbtch" operbtion to
+     * "next" but not the "study", so we cbn collect the TreeInfo
+     * of ebch btom node without including the TreeInfo of the
      * "next".
      */
-    static final class BranchConn extends Node {
-        BranchConn() {};
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            return next.match(matcher, i, seq);
+    stbtic finbl clbss BrbnchConn extends Node {
+        BrbnchConn() {};
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            return next.mbtch(mbtcher, i, seq);
         }
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             return info.deterministic;
         }
     }
 
     /**
-     * Handles the branching of alternations. Note this is also used for
-     * the ? quantifier to branch between the case where it matches once
-     * and where it does not occur.
+     * Hbndles the brbnching of blternbtions. Note this is blso used for
+     * the ? qubntifier to brbnch between the cbse where it mbtches once
+     * bnd where it does not occur.
      */
-    static final class Branch extends Node {
-        Node[] atoms = new Node[2];
+    stbtic finbl clbss Brbnch extends Node {
+        Node[] btoms = new Node[2];
         int size = 2;
         Node conn;
-        Branch(Node first, Node second, Node branchConn) {
-            conn = branchConn;
-            atoms[0] = first;
-            atoms[1] = second;
+        Brbnch(Node first, Node second, Node brbnchConn) {
+            conn = brbnchConn;
+            btoms[0] = first;
+            btoms[1] = second;
         }
 
-        void add(Node node) {
-            if (size >= atoms.length) {
-                Node[] tmp = new Node[atoms.length*2];
-                System.arraycopy(atoms, 0, tmp, 0, atoms.length);
-                atoms = tmp;
+        void bdd(Node node) {
+            if (size >= btoms.length) {
+                Node[] tmp = new Node[btoms.length*2];
+                System.brrbycopy(btoms, 0, tmp, 0, btoms.length);
+                btoms = tmp;
             }
-            atoms[size++] = node;
+            btoms[size++] = node;
         }
 
-        boolean match(Matcher matcher, int i, CharSequence seq) {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
             for (int n = 0; n < size; n++) {
-                if (atoms[n] == null) {
-                    if (conn.next.match(matcher, i, seq))
+                if (btoms[n] == null) {
+                    if (conn.next.mbtch(mbtcher, i, seq))
                         return true;
-                } else if (atoms[n].match(matcher, i, seq)) {
+                } else if (btoms[n].mbtch(mbtcher, i, seq)) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             int minL = info.minLength;
-            int maxL = info.maxLength;
-            boolean maxV = info.maxValid;
+            int mbxL = info.mbxLength;
+            boolebn mbxV = info.mbxVblid;
 
-            int minL2 = Integer.MAX_VALUE; //arbitrary large enough num
-            int maxL2 = -1;
+            int minL2 = Integer.MAX_VALUE; //brbitrbry lbrge enough num
+            int mbxL2 = -1;
             for (int n = 0; n < size; n++) {
                 info.reset();
-                if (atoms[n] != null)
-                    atoms[n].study(info);
-                minL2 = Math.min(minL2, info.minLength);
-                maxL2 = Math.max(maxL2, info.maxLength);
-                maxV = (maxV & info.maxValid);
+                if (btoms[n] != null)
+                    btoms[n].study(info);
+                minL2 = Mbth.min(minL2, info.minLength);
+                mbxL2 = Mbth.mbx(mbxL2, info.mbxLength);
+                mbxV = (mbxV & info.mbxVblid);
             }
 
             minL += minL2;
-            maxL += maxL2;
+            mbxL += mbxL2;
 
             info.reset();
             conn.next.study(info);
 
             info.minLength += minL;
-            info.maxLength += maxL;
-            info.maxValid &= maxV;
-            info.deterministic = false;
-            return false;
+            info.mbxLength += mbxL;
+            info.mbxVblid &= mbxV;
+            info.deterministic = fblse;
+            return fblse;
         }
     }
 
     /**
-     * The GroupHead saves the location where the group begins in the locals
-     * and restores them when the match is done.
+     * The GroupHebd sbves the locbtion where the group begins in the locbls
+     * bnd restores them when the mbtch is done.
      *
-     * The matchRef is used when a reference to this group is accessed later
-     * in the expression. The locals will have a negative value in them to
-     * indicate that we do not want to unset the group if the reference
-     * doesn't match.
+     * The mbtchRef is used when b reference to this group is bccessed lbter
+     * in the expression. The locbls will hbve b negbtive vblue in them to
+     * indicbte thbt we do not wbnt to unset the group if the reference
+     * doesn't mbtch.
      */
-    static final class GroupHead extends Node {
-        int localIndex;
-        GroupHead(int localCount) {
-            localIndex = localCount;
+    stbtic finbl clbss GroupHebd extends Node {
+        int locblIndex;
+        GroupHebd(int locblCount) {
+            locblIndex = locblCount;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int save = matcher.locals[localIndex];
-            matcher.locals[localIndex] = i;
-            boolean ret = next.match(matcher, i, seq);
-            matcher.locals[localIndex] = save;
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int sbve = mbtcher.locbls[locblIndex];
+            mbtcher.locbls[locblIndex] = i;
+            boolebn ret = next.mbtch(mbtcher, i, seq);
+            mbtcher.locbls[locblIndex] = sbve;
             return ret;
         }
-        boolean matchRef(Matcher matcher, int i, CharSequence seq) {
-            int save = matcher.locals[localIndex];
-            matcher.locals[localIndex] = ~i; // HACK
-            boolean ret = next.match(matcher, i, seq);
-            matcher.locals[localIndex] = save;
+        boolebn mbtchRef(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int sbve = mbtcher.locbls[locblIndex];
+            mbtcher.locbls[locblIndex] = ~i; // HACK
+            boolebn ret = next.mbtch(mbtcher, i, seq);
+            mbtcher.locbls[locblIndex] = sbve;
             return ret;
         }
     }
 
     /**
-     * Recursive reference to a group in the regular expression. It calls
-     * matchRef because if the reference fails to match we would not unset
+     * Recursive reference to b group in the regulbr expression. It cblls
+     * mbtchRef becbuse if the reference fbils to mbtch we would not unset
      * the group.
      */
-    static final class GroupRef extends Node {
-        GroupHead head;
-        GroupRef(GroupHead head) {
-            this.head = head;
+    stbtic finbl clbss GroupRef extends Node {
+        GroupHebd hebd;
+        GroupRef(GroupHebd hebd) {
+            this.hebd = hebd;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            return head.matchRef(matcher, i, seq)
-                && next.match(matcher, matcher.last, seq);
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            return hebd.mbtchRef(mbtcher, i, seq)
+                && next.mbtch(mbtcher, mbtcher.lbst, seq);
         }
-        boolean study(TreeInfo info) {
-            info.maxValid = false;
-            info.deterministic = false;
+        boolebn study(TreeInfo info) {
+            info.mbxVblid = fblse;
+            info.deterministic = fblse;
             return next.study(info);
         }
     }
 
     /**
-     * The GroupTail handles the setting of group beginning and ending
-     * locations when groups are successfully matched. It must also be able to
-     * unset groups that have to be backed off of.
+     * The GroupTbil hbndles the setting of group beginning bnd ending
+     * locbtions when groups bre successfully mbtched. It must blso be bble to
+     * unset groups thbt hbve to be bbcked off of.
      *
-     * The GroupTail node is also used when a previous group is referenced,
-     * and in that case no group information needs to be set.
+     * The GroupTbil node is blso used when b previous group is referenced,
+     * bnd in thbt cbse no group informbtion needs to be set.
      */
-    static final class GroupTail extends Node {
-        int localIndex;
+    stbtic finbl clbss GroupTbil extends Node {
+        int locblIndex;
         int groupIndex;
-        GroupTail(int localCount, int groupCount) {
-            localIndex = localCount;
+        GroupTbil(int locblCount, int groupCount) {
+            locblIndex = locblCount;
             groupIndex = groupCount + groupCount;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int tmp = matcher.locals[localIndex];
-            if (tmp >= 0) { // This is the normal group case.
-                // Save the group so we can unset it if it
-                // backs off of a match.
-                int groupStart = matcher.groups[groupIndex];
-                int groupEnd = matcher.groups[groupIndex+1];
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int tmp = mbtcher.locbls[locblIndex];
+            if (tmp >= 0) { // This is the normbl group cbse.
+                // Sbve the group so we cbn unset it if it
+                // bbcks off of b mbtch.
+                int groupStbrt = mbtcher.groups[groupIndex];
+                int groupEnd = mbtcher.groups[groupIndex+1];
 
-                matcher.groups[groupIndex] = tmp;
-                matcher.groups[groupIndex+1] = i;
-                if (next.match(matcher, i, seq)) {
+                mbtcher.groups[groupIndex] = tmp;
+                mbtcher.groups[groupIndex+1] = i;
+                if (next.mbtch(mbtcher, i, seq)) {
                     return true;
                 }
-                matcher.groups[groupIndex] = groupStart;
-                matcher.groups[groupIndex+1] = groupEnd;
-                return false;
+                mbtcher.groups[groupIndex] = groupStbrt;
+                mbtcher.groups[groupIndex+1] = groupEnd;
+                return fblse;
             } else {
-                // This is a group reference case. We don't need to save any
-                // group info because it isn't really a group.
-                matcher.last = i;
+                // This is b group reference cbse. We don't need to sbve bny
+                // group info becbuse it isn't reblly b group.
+                mbtcher.lbst = i;
                 return true;
             }
         }
     }
 
     /**
-     * This sets up a loop to handle a recursive quantifier structure.
+     * This sets up b loop to hbndle b recursive qubntifier structure.
      */
-    static final class Prolog extends Node {
+    stbtic finbl clbss Prolog extends Node {
         Loop loop;
         Prolog(Loop loop) {
             this.loop = loop;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            return loop.matchInit(matcher, i, seq);
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            return loop.mbtchInit(mbtcher, i, seq);
         }
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             return loop.study(info);
         }
     }
 
     /**
-     * Handles the repetition count for a greedy Curly. The matchInit
-     * is called from the Prolog to save the index of where the group
+     * Hbndles the repetition count for b greedy Curly. The mbtchInit
+     * is cblled from the Prolog to sbve the index of where the group
      * beginning is stored. A zero length group check occurs in the
-     * normal match but is skipped in the matchInit.
+     * normbl mbtch but is skipped in the mbtchInit.
      */
-    static class Loop extends Node {
+    stbtic clbss Loop extends Node {
         Node body;
-        int countIndex; // local count index in matcher locals
+        int countIndex; // locbl count index in mbtcher locbls
         int beginIndex; // group beginning index
-        int cmin, cmax;
+        int cmin, cmbx;
         Loop(int countIndex, int beginIndex) {
             this.countIndex = countIndex;
             this.beginIndex = beginIndex;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            // Avoid infinite loop in zero-length case.
-            if (i > matcher.locals[beginIndex]) {
-                int count = matcher.locals[countIndex];
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            // Avoid infinite loop in zero-length cbse.
+            if (i > mbtcher.locbls[beginIndex]) {
+                int count = mbtcher.locbls[countIndex];
 
-                // This block is for before we reach the minimum
-                // iterations required for the loop to match
+                // This block is for before we rebch the minimum
+                // iterbtions required for the loop to mbtch
                 if (count < cmin) {
-                    matcher.locals[countIndex] = count + 1;
-                    boolean b = body.match(matcher, i, seq);
-                    // If match failed we must backtrack, so
+                    mbtcher.locbls[countIndex] = count + 1;
+                    boolebn b = body.mbtch(mbtcher, i, seq);
+                    // If mbtch fbiled we must bbcktrbck, so
                     // the loop count should NOT be incremented
                     if (!b)
-                        matcher.locals[countIndex] = count;
-                    // Return success or failure since we are under
+                        mbtcher.locbls[countIndex] = count;
+                    // Return success or fbilure since we bre under
                     // minimum
                     return b;
                 }
-                // This block is for after we have the minimum
-                // iterations required for the loop to match
-                if (count < cmax) {
-                    matcher.locals[countIndex] = count + 1;
-                    boolean b = body.match(matcher, i, seq);
-                    // If match failed we must backtrack, so
+                // This block is for bfter we hbve the minimum
+                // iterbtions required for the loop to mbtch
+                if (count < cmbx) {
+                    mbtcher.locbls[countIndex] = count + 1;
+                    boolebn b = body.mbtch(mbtcher, i, seq);
+                    // If mbtch fbiled we must bbcktrbck, so
                     // the loop count should NOT be incremented
                     if (!b)
-                        matcher.locals[countIndex] = count;
+                        mbtcher.locbls[countIndex] = count;
                     else
                         return true;
                 }
             }
-            return next.match(matcher, i, seq);
+            return next.mbtch(mbtcher, i, seq);
         }
-        boolean matchInit(Matcher matcher, int i, CharSequence seq) {
-            int save = matcher.locals[countIndex];
-            boolean ret = false;
+        boolebn mbtchInit(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int sbve = mbtcher.locbls[countIndex];
+            boolebn ret = fblse;
             if (0 < cmin) {
-                matcher.locals[countIndex] = 1;
-                ret = body.match(matcher, i, seq);
-            } else if (0 < cmax) {
-                matcher.locals[countIndex] = 1;
-                ret = body.match(matcher, i, seq);
-                if (ret == false)
-                    ret = next.match(matcher, i, seq);
+                mbtcher.locbls[countIndex] = 1;
+                ret = body.mbtch(mbtcher, i, seq);
+            } else if (0 < cmbx) {
+                mbtcher.locbls[countIndex] = 1;
+                ret = body.mbtch(mbtcher, i, seq);
+                if (ret == fblse)
+                    ret = next.mbtch(mbtcher, i, seq);
             } else {
-                ret = next.match(matcher, i, seq);
+                ret = next.mbtch(mbtcher, i, seq);
             }
-            matcher.locals[countIndex] = save;
+            mbtcher.locbls[countIndex] = sbve;
             return ret;
         }
-        boolean study(TreeInfo info) {
-            info.maxValid = false;
-            info.deterministic = false;
-            return false;
+        boolebn study(TreeInfo info) {
+            info.mbxVblid = fblse;
+            info.deterministic = fblse;
+            return fblse;
         }
     }
 
     /**
-     * Handles the repetition count for a reluctant Curly. The matchInit
-     * is called from the Prolog to save the index of where the group
+     * Hbndles the repetition count for b reluctbnt Curly. The mbtchInit
+     * is cblled from the Prolog to sbve the index of where the group
      * beginning is stored. A zero length group check occurs in the
-     * normal match but is skipped in the matchInit.
+     * normbl mbtch but is skipped in the mbtchInit.
      */
-    static final class LazyLoop extends Loop {
-        LazyLoop(int countIndex, int beginIndex) {
+    stbtic finbl clbss LbzyLoop extends Loop {
+        LbzyLoop(int countIndex, int beginIndex) {
             super(countIndex, beginIndex);
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
             // Check for zero length group
-            if (i > matcher.locals[beginIndex]) {
-                int count = matcher.locals[countIndex];
+            if (i > mbtcher.locbls[beginIndex]) {
+                int count = mbtcher.locbls[countIndex];
                 if (count < cmin) {
-                    matcher.locals[countIndex] = count + 1;
-                    boolean result = body.match(matcher, i, seq);
-                    // If match failed we must backtrack, so
+                    mbtcher.locbls[countIndex] = count + 1;
+                    boolebn result = body.mbtch(mbtcher, i, seq);
+                    // If mbtch fbiled we must bbcktrbck, so
                     // the loop count should NOT be incremented
                     if (!result)
-                        matcher.locals[countIndex] = count;
+                        mbtcher.locbls[countIndex] = count;
                     return result;
                 }
-                if (next.match(matcher, i, seq))
+                if (next.mbtch(mbtcher, i, seq))
                     return true;
-                if (count < cmax) {
-                    matcher.locals[countIndex] = count + 1;
-                    boolean result = body.match(matcher, i, seq);
-                    // If match failed we must backtrack, so
+                if (count < cmbx) {
+                    mbtcher.locbls[countIndex] = count + 1;
+                    boolebn result = body.mbtch(mbtcher, i, seq);
+                    // If mbtch fbiled we must bbcktrbck, so
                     // the loop count should NOT be incremented
                     if (!result)
-                        matcher.locals[countIndex] = count;
+                        mbtcher.locbls[countIndex] = count;
                     return result;
                 }
-                return false;
+                return fblse;
             }
-            return next.match(matcher, i, seq);
+            return next.mbtch(mbtcher, i, seq);
         }
-        boolean matchInit(Matcher matcher, int i, CharSequence seq) {
-            int save = matcher.locals[countIndex];
-            boolean ret = false;
+        boolebn mbtchInit(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int sbve = mbtcher.locbls[countIndex];
+            boolebn ret = fblse;
             if (0 < cmin) {
-                matcher.locals[countIndex] = 1;
-                ret = body.match(matcher, i, seq);
-            } else if (next.match(matcher, i, seq)) {
+                mbtcher.locbls[countIndex] = 1;
+                ret = body.mbtch(mbtcher, i, seq);
+            } else if (next.mbtch(mbtcher, i, seq)) {
                 ret = true;
-            } else if (0 < cmax) {
-                matcher.locals[countIndex] = 1;
-                ret = body.match(matcher, i, seq);
+            } else if (0 < cmbx) {
+                mbtcher.locbls[countIndex] = 1;
+                ret = body.mbtch(mbtcher, i, seq);
             }
-            matcher.locals[countIndex] = save;
+            mbtcher.locbls[countIndex] = sbve;
             return ret;
         }
-        boolean study(TreeInfo info) {
-            info.maxValid = false;
-            info.deterministic = false;
-            return false;
+        boolebn study(TreeInfo info) {
+            info.mbxVblid = fblse;
+            info.deterministic = fblse;
+            return fblse;
         }
     }
 
     /**
-     * Refers to a group in the regular expression. Attempts to match
-     * whatever the group referred to last matched.
+     * Refers to b group in the regulbr expression. Attempts to mbtch
+     * whbtever the group referred to lbst mbtched.
      */
-    static class BackRef extends Node {
+    stbtic clbss BbckRef extends Node {
         int groupIndex;
-        BackRef(int groupCount) {
+        BbckRef(int groupCount) {
             super();
             groupIndex = groupCount + groupCount;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int j = matcher.groups[groupIndex];
-            int k = matcher.groups[groupIndex+1];
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int j = mbtcher.groups[groupIndex];
+            int k = mbtcher.groups[groupIndex+1];
 
             int groupSize = k - j;
-            // If the referenced group didn't match, neither can this
+            // If the referenced group didn't mbtch, neither cbn this
             if (j < 0)
-                return false;
+                return fblse;
 
-            // If there isn't enough input left no match
-            if (i + groupSize > matcher.to) {
-                matcher.hitEnd = true;
-                return false;
+            // If there isn't enough input left no mbtch
+            if (i + groupSize > mbtcher.to) {
+                mbtcher.hitEnd = true;
+                return fblse;
             }
-            // Check each new char to make sure it matches what the group
-            // referenced matched last time around
+            // Check ebch new chbr to mbke sure it mbtches whbt the group
+            // referenced mbtched lbst time bround
             for (int index=0; index<groupSize; index++)
-                if (seq.charAt(i+index) != seq.charAt(j+index))
-                    return false;
+                if (seq.chbrAt(i+index) != seq.chbrAt(j+index))
+                    return fblse;
 
-            return next.match(matcher, i+groupSize, seq);
+            return next.mbtch(mbtcher, i+groupSize, seq);
         }
-        boolean study(TreeInfo info) {
-            info.maxValid = false;
+        boolebn study(TreeInfo info) {
+            info.mbxVblid = fblse;
             return next.study(info);
         }
     }
 
-    static class CIBackRef extends Node {
+    stbtic clbss CIBbckRef extends Node {
         int groupIndex;
-        boolean doUnicodeCase;
-        CIBackRef(int groupCount, boolean doUnicodeCase) {
+        boolebn doUnicodeCbse;
+        CIBbckRef(int groupCount, boolebn doUnicodeCbse) {
             super();
             groupIndex = groupCount + groupCount;
-            this.doUnicodeCase = doUnicodeCase;
+            this.doUnicodeCbse = doUnicodeCbse;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int j = matcher.groups[groupIndex];
-            int k = matcher.groups[groupIndex+1];
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int j = mbtcher.groups[groupIndex];
+            int k = mbtcher.groups[groupIndex+1];
 
             int groupSize = k - j;
 
-            // If the referenced group didn't match, neither can this
+            // If the referenced group didn't mbtch, neither cbn this
             if (j < 0)
-                return false;
+                return fblse;
 
-            // If there isn't enough input left no match
-            if (i + groupSize > matcher.to) {
-                matcher.hitEnd = true;
-                return false;
+            // If there isn't enough input left no mbtch
+            if (i + groupSize > mbtcher.to) {
+                mbtcher.hitEnd = true;
+                return fblse;
             }
 
-            // Check each new char to make sure it matches what the group
-            // referenced matched last time around
+            // Check ebch new chbr to mbke sure it mbtches whbt the group
+            // referenced mbtched lbst time bround
             int x = i;
             for (int index=0; index<groupSize; index++) {
-                int c1 = Character.codePointAt(seq, x);
-                int c2 = Character.codePointAt(seq, j);
+                int c1 = Chbrbcter.codePointAt(seq, x);
+                int c2 = Chbrbcter.codePointAt(seq, j);
                 if (c1 != c2) {
-                    if (doUnicodeCase) {
-                        int cc1 = Character.toUpperCase(c1);
-                        int cc2 = Character.toUpperCase(c2);
+                    if (doUnicodeCbse) {
+                        int cc1 = Chbrbcter.toUpperCbse(c1);
+                        int cc2 = Chbrbcter.toUpperCbse(c2);
                         if (cc1 != cc2 &&
-                            Character.toLowerCase(cc1) !=
-                            Character.toLowerCase(cc2))
-                            return false;
+                            Chbrbcter.toLowerCbse(cc1) !=
+                            Chbrbcter.toLowerCbse(cc2))
+                            return fblse;
                     } else {
                         if (ASCII.toLower(c1) != ASCII.toLower(c2))
-                            return false;
+                            return fblse;
                     }
                 }
-                x += Character.charCount(c1);
-                j += Character.charCount(c2);
+                x += Chbrbcter.chbrCount(c1);
+                j += Chbrbcter.chbrCount(c2);
             }
 
-            return next.match(matcher, i+groupSize, seq);
+            return next.mbtch(mbtcher, i+groupSize, seq);
         }
-        boolean study(TreeInfo info) {
-            info.maxValid = false;
+        boolebn study(TreeInfo info) {
+            info.mbxVblid = fblse;
             return next.study(info);
         }
     }
 
     /**
-     * Searches until the next instance of its atom. This is useful for
-     * finding the atom efficiently without passing an instance of it
-     * (greedy problem) and without a lot of wasted search time (reluctant
+     * Sebrches until the next instbnce of its btom. This is useful for
+     * finding the btom efficiently without pbssing bn instbnce of it
+     * (greedy problem) bnd without b lot of wbsted sebrch time (reluctbnt
      * problem).
      */
-    static final class First extends Node {
-        Node atom;
+    stbtic finbl clbss First extends Node {
+        Node btom;
         First(Node node) {
-            this.atom = BnM.optimize(node);
+            this.btom = BnM.optimize(node);
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            if (atom instanceof BnM) {
-                return atom.match(matcher, i, seq)
-                    && next.match(matcher, matcher.last, seq);
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            if (btom instbnceof BnM) {
+                return btom.mbtch(mbtcher, i, seq)
+                    && next.mbtch(mbtcher, mbtcher.lbst, seq);
             }
             for (;;) {
-                if (i > matcher.to) {
-                    matcher.hitEnd = true;
-                    return false;
+                if (i > mbtcher.to) {
+                    mbtcher.hitEnd = true;
+                    return fblse;
                 }
-                if (atom.match(matcher, i, seq)) {
-                    return next.match(matcher, matcher.last, seq);
+                if (btom.mbtch(mbtcher, i, seq)) {
+                    return next.mbtch(mbtcher, mbtcher.lbst, seq);
                 }
-                i += countChars(seq, i, 1);
-                matcher.first++;
+                i += countChbrs(seq, i, 1);
+                mbtcher.first++;
             }
         }
-        boolean study(TreeInfo info) {
-            atom.study(info);
-            info.maxValid = false;
-            info.deterministic = false;
+        boolebn study(TreeInfo info) {
+            btom.study(info);
+            info.mbxVblid = fblse;
+            info.deterministic = fblse;
             return next.study(info);
         }
     }
 
-    static final class Conditional extends Node {
+    stbtic finbl clbss Conditionbl extends Node {
         Node cond, yes, not;
-        Conditional(Node cond, Node yes, Node not) {
+        Conditionbl(Node cond, Node yes, Node not) {
             this.cond = cond;
             this.yes = yes;
             this.not = not;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            if (cond.match(matcher, i, seq)) {
-                return yes.match(matcher, i, seq);
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            if (cond.mbtch(mbtcher, i, seq)) {
+                return yes.mbtch(mbtcher, i, seq);
             } else {
-                return not.match(matcher, i, seq);
+                return not.mbtch(mbtcher, i, seq);
             }
         }
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             int minL = info.minLength;
-            int maxL = info.maxLength;
-            boolean maxV = info.maxValid;
+            int mbxL = info.mbxLength;
+            boolebn mbxV = info.mbxVblid;
             info.reset();
             yes.study(info);
 
             int minL2 = info.minLength;
-            int maxL2 = info.maxLength;
-            boolean maxV2 = info.maxValid;
+            int mbxL2 = info.mbxLength;
+            boolebn mbxV2 = info.mbxVblid;
             info.reset();
             not.study(info);
 
-            info.minLength = minL + Math.min(minL2, info.minLength);
-            info.maxLength = maxL + Math.max(maxL2, info.maxLength);
-            info.maxValid = (maxV & maxV2 & info.maxValid);
-            info.deterministic = false;
+            info.minLength = minL + Mbth.min(minL2, info.minLength);
+            info.mbxLength = mbxL + Mbth.mbx(mbxL2, info.mbxLength);
+            info.mbxVblid = (mbxV & mbxV2 & info.mbxVblid);
+            info.deterministic = fblse;
             return next.study(info);
         }
     }
 
     /**
-     * Zero width positive lookahead.
+     * Zero width positive lookbhebd.
      */
-    static final class Pos extends Node {
+    stbtic finbl clbss Pos extends Node {
         Node cond;
         Pos(Node cond) {
             this.cond = cond;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int savedTo = matcher.to;
-            boolean conditionMatched = false;
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int sbvedTo = mbtcher.to;
+            boolebn conditionMbtched = fblse;
 
-            // Relax transparent region boundaries for lookahead
-            if (matcher.transparentBounds)
-                matcher.to = matcher.getTextLength();
+            // Relbx trbnspbrent region boundbries for lookbhebd
+            if (mbtcher.trbnspbrentBounds)
+                mbtcher.to = mbtcher.getTextLength();
             try {
-                conditionMatched = cond.match(matcher, i, seq);
-            } finally {
-                // Reinstate region boundaries
-                matcher.to = savedTo;
+                conditionMbtched = cond.mbtch(mbtcher, i, seq);
+            } finblly {
+                // Reinstbte region boundbries
+                mbtcher.to = sbvedTo;
             }
-            return conditionMatched && next.match(matcher, i, seq);
+            return conditionMbtched && next.mbtch(mbtcher, i, seq);
         }
     }
 
     /**
-     * Zero width negative lookahead.
+     * Zero width negbtive lookbhebd.
      */
-    static final class Neg extends Node {
+    stbtic finbl clbss Neg extends Node {
         Node cond;
         Neg(Node cond) {
             this.cond = cond;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int savedTo = matcher.to;
-            boolean conditionMatched = false;
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int sbvedTo = mbtcher.to;
+            boolebn conditionMbtched = fblse;
 
-            // Relax transparent region boundaries for lookahead
-            if (matcher.transparentBounds)
-                matcher.to = matcher.getTextLength();
+            // Relbx trbnspbrent region boundbries for lookbhebd
+            if (mbtcher.trbnspbrentBounds)
+                mbtcher.to = mbtcher.getTextLength();
             try {
-                if (i < matcher.to) {
-                    conditionMatched = !cond.match(matcher, i, seq);
+                if (i < mbtcher.to) {
+                    conditionMbtched = !cond.mbtch(mbtcher, i, seq);
                 } else {
-                    // If a negative lookahead succeeds then more input
-                    // could cause it to fail!
-                    matcher.requireEnd = true;
-                    conditionMatched = !cond.match(matcher, i, seq);
+                    // If b negbtive lookbhebd succeeds then more input
+                    // could cbuse it to fbil!
+                    mbtcher.requireEnd = true;
+                    conditionMbtched = !cond.mbtch(mbtcher, i, seq);
                 }
-            } finally {
-                // Reinstate region boundaries
-                matcher.to = savedTo;
+            } finblly {
+                // Reinstbte region boundbries
+                mbtcher.to = sbvedTo;
             }
-            return conditionMatched && next.match(matcher, i, seq);
+            return conditionMbtched && next.mbtch(mbtcher, i, seq);
         }
     }
 
     /**
-     * For use with lookbehinds; matches the position where the lookbehind
-     * was encountered.
+     * For use with lookbehinds; mbtches the position where the lookbehind
+     * wbs encountered.
      */
-    static Node lookbehindEnd = new Node() {
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            return i == matcher.lookbehindTo;
+    stbtic Node lookbehindEnd = new Node() {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            return i == mbtcher.lookbehindTo;
         }
     };
 
     /**
      * Zero width positive lookbehind.
      */
-    static class Behind extends Node {
+    stbtic clbss Behind extends Node {
         Node cond;
-        int rmax, rmin;
-        Behind(Node cond, int rmax, int rmin) {
+        int rmbx, rmin;
+        Behind(Node cond, int rmbx, int rmin) {
             this.cond = cond;
-            this.rmax = rmax;
+            this.rmbx = rmbx;
             this.rmin = rmin;
         }
 
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int savedFrom = matcher.from;
-            boolean conditionMatched = false;
-            int startIndex = (!matcher.transparentBounds) ?
-                             matcher.from : 0;
-            int from = Math.max(i - rmax, startIndex);
-            // Set end boundary
-            int savedLBT = matcher.lookbehindTo;
-            matcher.lookbehindTo = i;
-            // Relax transparent region boundaries for lookbehind
-            if (matcher.transparentBounds)
-                matcher.from = 0;
-            for (int j = i - rmin; !conditionMatched && j >= from; j--) {
-                conditionMatched = cond.match(matcher, j, seq);
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int sbvedFrom = mbtcher.from;
+            boolebn conditionMbtched = fblse;
+            int stbrtIndex = (!mbtcher.trbnspbrentBounds) ?
+                             mbtcher.from : 0;
+            int from = Mbth.mbx(i - rmbx, stbrtIndex);
+            // Set end boundbry
+            int sbvedLBT = mbtcher.lookbehindTo;
+            mbtcher.lookbehindTo = i;
+            // Relbx trbnspbrent region boundbries for lookbehind
+            if (mbtcher.trbnspbrentBounds)
+                mbtcher.from = 0;
+            for (int j = i - rmin; !conditionMbtched && j >= from; j--) {
+                conditionMbtched = cond.mbtch(mbtcher, j, seq);
             }
-            matcher.from = savedFrom;
-            matcher.lookbehindTo = savedLBT;
-            return conditionMatched && next.match(matcher, i, seq);
+            mbtcher.from = sbvedFrom;
+            mbtcher.lookbehindTo = sbvedLBT;
+            return conditionMbtched && next.mbtch(mbtcher, i, seq);
         }
     }
 
     /**
-     * Zero width positive lookbehind, including supplementary
-     * characters or unpaired surrogates.
+     * Zero width positive lookbehind, including supplementbry
+     * chbrbcters or unpbired surrogbtes.
      */
-    static final class BehindS extends Behind {
-        BehindS(Node cond, int rmax, int rmin) {
-            super(cond, rmax, rmin);
+    stbtic finbl clbss BehindS extends Behind {
+        BehindS(Node cond, int rmbx, int rmin) {
+            super(cond, rmbx, rmin);
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int rmaxChars = countChars(seq, i, -rmax);
-            int rminChars = countChars(seq, i, -rmin);
-            int savedFrom = matcher.from;
-            int startIndex = (!matcher.transparentBounds) ?
-                             matcher.from : 0;
-            boolean conditionMatched = false;
-            int from = Math.max(i - rmaxChars, startIndex);
-            // Set end boundary
-            int savedLBT = matcher.lookbehindTo;
-            matcher.lookbehindTo = i;
-            // Relax transparent region boundaries for lookbehind
-            if (matcher.transparentBounds)
-                matcher.from = 0;
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int rmbxChbrs = countChbrs(seq, i, -rmbx);
+            int rminChbrs = countChbrs(seq, i, -rmin);
+            int sbvedFrom = mbtcher.from;
+            int stbrtIndex = (!mbtcher.trbnspbrentBounds) ?
+                             mbtcher.from : 0;
+            boolebn conditionMbtched = fblse;
+            int from = Mbth.mbx(i - rmbxChbrs, stbrtIndex);
+            // Set end boundbry
+            int sbvedLBT = mbtcher.lookbehindTo;
+            mbtcher.lookbehindTo = i;
+            // Relbx trbnspbrent region boundbries for lookbehind
+            if (mbtcher.trbnspbrentBounds)
+                mbtcher.from = 0;
 
-            for (int j = i - rminChars;
-                 !conditionMatched && j >= from;
-                 j -= j>from ? countChars(seq, j, -1) : 1) {
-                conditionMatched = cond.match(matcher, j, seq);
+            for (int j = i - rminChbrs;
+                 !conditionMbtched && j >= from;
+                 j -= j>from ? countChbrs(seq, j, -1) : 1) {
+                conditionMbtched = cond.mbtch(mbtcher, j, seq);
             }
-            matcher.from = savedFrom;
-            matcher.lookbehindTo = savedLBT;
-            return conditionMatched && next.match(matcher, i, seq);
+            mbtcher.from = sbvedFrom;
+            mbtcher.lookbehindTo = sbvedLBT;
+            return conditionMbtched && next.mbtch(mbtcher, i, seq);
         }
     }
 
     /**
-     * Zero width negative lookbehind.
+     * Zero width negbtive lookbehind.
      */
-    static class NotBehind extends Node {
+    stbtic clbss NotBehind extends Node {
         Node cond;
-        int rmax, rmin;
-        NotBehind(Node cond, int rmax, int rmin) {
+        int rmbx, rmin;
+        NotBehind(Node cond, int rmbx, int rmin) {
             this.cond = cond;
-            this.rmax = rmax;
+            this.rmbx = rmbx;
             this.rmin = rmin;
         }
 
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int savedLBT = matcher.lookbehindTo;
-            int savedFrom = matcher.from;
-            boolean conditionMatched = false;
-            int startIndex = (!matcher.transparentBounds) ?
-                             matcher.from : 0;
-            int from = Math.max(i - rmax, startIndex);
-            matcher.lookbehindTo = i;
-            // Relax transparent region boundaries for lookbehind
-            if (matcher.transparentBounds)
-                matcher.from = 0;
-            for (int j = i - rmin; !conditionMatched && j >= from; j--) {
-                conditionMatched = cond.match(matcher, j, seq);
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int sbvedLBT = mbtcher.lookbehindTo;
+            int sbvedFrom = mbtcher.from;
+            boolebn conditionMbtched = fblse;
+            int stbrtIndex = (!mbtcher.trbnspbrentBounds) ?
+                             mbtcher.from : 0;
+            int from = Mbth.mbx(i - rmbx, stbrtIndex);
+            mbtcher.lookbehindTo = i;
+            // Relbx trbnspbrent region boundbries for lookbehind
+            if (mbtcher.trbnspbrentBounds)
+                mbtcher.from = 0;
+            for (int j = i - rmin; !conditionMbtched && j >= from; j--) {
+                conditionMbtched = cond.mbtch(mbtcher, j, seq);
             }
-            // Reinstate region boundaries
-            matcher.from = savedFrom;
-            matcher.lookbehindTo = savedLBT;
-            return !conditionMatched && next.match(matcher, i, seq);
+            // Reinstbte region boundbries
+            mbtcher.from = sbvedFrom;
+            mbtcher.lookbehindTo = sbvedLBT;
+            return !conditionMbtched && next.mbtch(mbtcher, i, seq);
         }
     }
 
     /**
-     * Zero width negative lookbehind, including supplementary
-     * characters or unpaired surrogates.
+     * Zero width negbtive lookbehind, including supplementbry
+     * chbrbcters or unpbired surrogbtes.
      */
-    static final class NotBehindS extends NotBehind {
-        NotBehindS(Node cond, int rmax, int rmin) {
-            super(cond, rmax, rmin);
+    stbtic finbl clbss NotBehindS extends NotBehind {
+        NotBehindS(Node cond, int rmbx, int rmin) {
+            super(cond, rmbx, rmin);
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            int rmaxChars = countChars(seq, i, -rmax);
-            int rminChars = countChars(seq, i, -rmin);
-            int savedFrom = matcher.from;
-            int savedLBT = matcher.lookbehindTo;
-            boolean conditionMatched = false;
-            int startIndex = (!matcher.transparentBounds) ?
-                             matcher.from : 0;
-            int from = Math.max(i - rmaxChars, startIndex);
-            matcher.lookbehindTo = i;
-            // Relax transparent region boundaries for lookbehind
-            if (matcher.transparentBounds)
-                matcher.from = 0;
-            for (int j = i - rminChars;
-                 !conditionMatched && j >= from;
-                 j -= j>from ? countChars(seq, j, -1) : 1) {
-                conditionMatched = cond.match(matcher, j, seq);
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            int rmbxChbrs = countChbrs(seq, i, -rmbx);
+            int rminChbrs = countChbrs(seq, i, -rmin);
+            int sbvedFrom = mbtcher.from;
+            int sbvedLBT = mbtcher.lookbehindTo;
+            boolebn conditionMbtched = fblse;
+            int stbrtIndex = (!mbtcher.trbnspbrentBounds) ?
+                             mbtcher.from : 0;
+            int from = Mbth.mbx(i - rmbxChbrs, stbrtIndex);
+            mbtcher.lookbehindTo = i;
+            // Relbx trbnspbrent region boundbries for lookbehind
+            if (mbtcher.trbnspbrentBounds)
+                mbtcher.from = 0;
+            for (int j = i - rminChbrs;
+                 !conditionMbtched && j >= from;
+                 j -= j>from ? countChbrs(seq, j, -1) : 1) {
+                conditionMbtched = cond.mbtch(mbtcher, j, seq);
             }
-            //Reinstate region boundaries
-            matcher.from = savedFrom;
-            matcher.lookbehindTo = savedLBT;
-            return !conditionMatched && next.match(matcher, i, seq);
+            //Reinstbte region boundbries
+            mbtcher.from = sbvedFrom;
+            mbtcher.lookbehindTo = sbvedLBT;
+            return !conditionMbtched && next.mbtch(mbtcher, i, seq);
         }
     }
 
     /**
-     * Returns the set union of two CharProperty nodes.
+     * Returns the set union of two ChbrProperty nodes.
      */
-    private static CharProperty union(final CharProperty lhs,
-                                      final CharProperty rhs) {
-        return new CharProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return lhs.isSatisfiedBy(ch) || rhs.isSatisfiedBy(ch);}};
+    privbte stbtic ChbrProperty union(finbl ChbrProperty lhs,
+                                      finbl ChbrProperty rhs) {
+        return new ChbrProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return lhs.isSbtisfiedBy(ch) || rhs.isSbtisfiedBy(ch);}};
     }
 
     /**
-     * Returns the set intersection of two CharProperty nodes.
+     * Returns the set intersection of two ChbrProperty nodes.
      */
-    private static CharProperty intersection(final CharProperty lhs,
-                                             final CharProperty rhs) {
-        return new CharProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return lhs.isSatisfiedBy(ch) && rhs.isSatisfiedBy(ch);}};
+    privbte stbtic ChbrProperty intersection(finbl ChbrProperty lhs,
+                                             finbl ChbrProperty rhs) {
+        return new ChbrProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return lhs.isSbtisfiedBy(ch) && rhs.isSbtisfiedBy(ch);}};
     }
 
     /**
-     * Returns the set difference of two CharProperty nodes.
+     * Returns the set difference of two ChbrProperty nodes.
      */
-    private static CharProperty setDifference(final CharProperty lhs,
-                                              final CharProperty rhs) {
-        return new CharProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return ! rhs.isSatisfiedBy(ch) && lhs.isSatisfiedBy(ch);}};
+    privbte stbtic ChbrProperty setDifference(finbl ChbrProperty lhs,
+                                              finbl ChbrProperty rhs) {
+        return new ChbrProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return ! rhs.isSbtisfiedBy(ch) && lhs.isSbtisfiedBy(ch);}};
     }
 
     /**
-     * Handles word boundaries. Includes a field to allow this one class to
-     * deal with the different types of word boundaries we can match. The word
-     * characters include underscores, letters, and digits. Non spacing marks
-     * can are also part of a word if they have a base character, otherwise
-     * they are ignored for purposes of finding word boundaries.
+     * Hbndles word boundbries. Includes b field to bllow this one clbss to
+     * debl with the different types of word boundbries we cbn mbtch. The word
+     * chbrbcters include underscores, letters, bnd digits. Non spbcing mbrks
+     * cbn bre blso pbrt of b word if they hbve b bbse chbrbcter, otherwise
+     * they bre ignored for purposes of finding word boundbries.
      */
-    static final class Bound extends Node {
-        static int LEFT = 0x1;
-        static int RIGHT= 0x2;
-        static int BOTH = 0x3;
-        static int NONE = 0x4;
+    stbtic finbl clbss Bound extends Node {
+        stbtic int LEFT = 0x1;
+        stbtic int RIGHT= 0x2;
+        stbtic int BOTH = 0x3;
+        stbtic int NONE = 0x4;
         int type;
-        boolean useUWORD;
-        Bound(int n, boolean useUWORD) {
+        boolebn useUWORD;
+        Bound(int n, boolebn useUWORD) {
             type = n;
             this.useUWORD = useUWORD;
         }
 
-        boolean isWord(int ch) {
+        boolebn isWord(int ch) {
             return useUWORD ? UnicodeProp.WORD.is(ch)
-                            : (ch == '_' || Character.isLetterOrDigit(ch));
+                            : (ch == '_' || Chbrbcter.isLetterOrDigit(ch));
         }
 
-        int check(Matcher matcher, int i, CharSequence seq) {
+        int check(Mbtcher mbtcher, int i, ChbrSequence seq) {
             int ch;
-            boolean left = false;
-            int startIndex = matcher.from;
-            int endIndex = matcher.to;
-            if (matcher.transparentBounds) {
-                startIndex = 0;
-                endIndex = matcher.getTextLength();
+            boolebn left = fblse;
+            int stbrtIndex = mbtcher.from;
+            int endIndex = mbtcher.to;
+            if (mbtcher.trbnspbrentBounds) {
+                stbrtIndex = 0;
+                endIndex = mbtcher.getTextLength();
             }
-            if (i > startIndex) {
-                ch = Character.codePointBefore(seq, i);
+            if (i > stbrtIndex) {
+                ch = Chbrbcter.codePointBefore(seq, i);
                 left = (isWord(ch) ||
-                    ((Character.getType(ch) == Character.NON_SPACING_MARK)
-                     && hasBaseCharacter(matcher, i-1, seq)));
+                    ((Chbrbcter.getType(ch) == Chbrbcter.NON_SPACING_MARK)
+                     && hbsBbseChbrbcter(mbtcher, i-1, seq)));
             }
-            boolean right = false;
+            boolebn right = fblse;
             if (i < endIndex) {
-                ch = Character.codePointAt(seq, i);
+                ch = Chbrbcter.codePointAt(seq, i);
                 right = (isWord(ch) ||
-                    ((Character.getType(ch) == Character.NON_SPACING_MARK)
-                     && hasBaseCharacter(matcher, i, seq)));
+                    ((Chbrbcter.getType(ch) == Chbrbcter.NON_SPACING_MARK)
+                     && hbsBbseChbrbcter(mbtcher, i, seq)));
             } else {
-                // Tried to access char past the end
-                matcher.hitEnd = true;
-                // The addition of another char could wreck a boundary
-                matcher.requireEnd = true;
+                // Tried to bccess chbr pbst the end
+                mbtcher.hitEnd = true;
+                // The bddition of bnother chbr could wreck b boundbry
+                mbtcher.requireEnd = true;
             }
             return ((left ^ right) ? (right ? LEFT : RIGHT) : NONE);
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
-            return (check(matcher, i, seq) & type) > 0
-                && next.match(matcher, i, seq);
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
+            return (check(mbtcher, i, seq) & type) > 0
+                && next.mbtch(mbtcher, i, seq);
         }
     }
 
     /**
-     * Non spacing marks only count as word characters in bounds calculations
-     * if they have a base character.
+     * Non spbcing mbrks only count bs word chbrbcters in bounds cblculbtions
+     * if they hbve b bbse chbrbcter.
      */
-    private static boolean hasBaseCharacter(Matcher matcher, int i,
-                                            CharSequence seq)
+    privbte stbtic boolebn hbsBbseChbrbcter(Mbtcher mbtcher, int i,
+                                            ChbrSequence seq)
     {
-        int start = (!matcher.transparentBounds) ?
-            matcher.from : 0;
-        for (int x=i; x >= start; x--) {
-            int ch = Character.codePointAt(seq, x);
-            if (Character.isLetterOrDigit(ch))
+        int stbrt = (!mbtcher.trbnspbrentBounds) ?
+            mbtcher.from : 0;
+        for (int x=i; x >= stbrt; x--) {
+            int ch = Chbrbcter.codePointAt(seq, x);
+            if (Chbrbcter.isLetterOrDigit(ch))
                 return true;
-            if (Character.getType(ch) == Character.NON_SPACING_MARK)
+            if (Chbrbcter.getType(ch) == Chbrbcter.NON_SPACING_MARK)
                 continue;
-            return false;
+            return fblse;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Attempts to match a slice in the input using the Boyer-Moore string
-     * matching algorithm. The algorithm is based on the idea that the
-     * pattern can be shifted farther ahead in the search text if it is
-     * matched right to left.
+     * Attempts to mbtch b slice in the input using the Boyer-Moore string
+     * mbtching blgorithm. The blgorithm is bbsed on the ideb thbt the
+     * pbttern cbn be shifted fbrther bhebd in the sebrch text if it is
+     * mbtched right to left.
      * <p>
-     * The pattern is compared to the input one character at a time, from
-     * the rightmost character in the pattern to the left. If the characters
-     * all match the pattern has been found. If a character does not match,
-     * the pattern is shifted right a distance that is the maximum of two
-     * functions, the bad character shift and the good suffix shift. This
-     * shift moves the attempted match position through the input more
-     * quickly than a naive one position at a time check.
+     * The pbttern is compbred to the input one chbrbcter bt b time, from
+     * the rightmost chbrbcter in the pbttern to the left. If the chbrbcters
+     * bll mbtch the pbttern hbs been found. If b chbrbcter does not mbtch,
+     * the pbttern is shifted right b distbnce thbt is the mbximum of two
+     * functions, the bbd chbrbcter shift bnd the good suffix shift. This
+     * shift moves the bttempted mbtch position through the input more
+     * quickly thbn b nbive one position bt b time check.
      * <p>
-     * The bad character shift is based on the character from the text that
-     * did not match. If the character does not appear in the pattern, the
-     * pattern can be shifted completely beyond the bad character. If the
-     * character does occur in the pattern, the pattern can be shifted to
-     * line the pattern up with the next occurrence of that character.
+     * The bbd chbrbcter shift is bbsed on the chbrbcter from the text thbt
+     * did not mbtch. If the chbrbcter does not bppebr in the pbttern, the
+     * pbttern cbn be shifted completely beyond the bbd chbrbcter. If the
+     * chbrbcter does occur in the pbttern, the pbttern cbn be shifted to
+     * line the pbttern up with the next occurrence of thbt chbrbcter.
      * <p>
-     * The good suffix shift is based on the idea that some subset on the right
-     * side of the pattern has matched. When a bad character is found, the
-     * pattern can be shifted right by the pattern length if the subset does
-     * not occur again in pattern, or by the amount of distance to the
-     * next occurrence of the subset in the pattern.
+     * The good suffix shift is bbsed on the ideb thbt some subset on the right
+     * side of the pbttern hbs mbtched. When b bbd chbrbcter is found, the
+     * pbttern cbn be shifted right by the pbttern length if the subset does
+     * not occur bgbin in pbttern, or by the bmount of distbnce to the
+     * next occurrence of the subset in the pbttern.
      *
-     * Boyer-Moore search methods adapted from code by Amy Yu.
+     * Boyer-Moore sebrch methods bdbpted from code by Amy Yu.
      */
-    static class BnM extends Node {
+    stbtic clbss BnM extends Node {
         int[] buffer;
-        int[] lastOcc;
+        int[] lbstOcc;
         int[] optoSft;
 
         /**
-         * Pre calculates arrays needed to generate the bad character
-         * shift and the good suffix shift. Only the last seven bits
-         * are used to see if chars match; This keeps the tables small
-         * and covers the heavily used ASCII range, but occasionally
-         * results in an aliased match for the bad character shift.
+         * Pre cblculbtes brrbys needed to generbte the bbd chbrbcter
+         * shift bnd the good suffix shift. Only the lbst seven bits
+         * bre used to see if chbrs mbtch; This keeps the tbbles smbll
+         * bnd covers the hebvily used ASCII rbnge, but occbsionblly
+         * results in bn blibsed mbtch for the bbd chbrbcter shift.
          */
-        static Node optimize(Node node) {
-            if (!(node instanceof Slice)) {
+        stbtic Node optimize(Node node) {
+            if (!(node instbnceof Slice)) {
                 return node;
             }
 
             int[] src = ((Slice) node).buffer;
-            int patternLength = src.length;
-            // The BM algorithm requires a bit of overhead;
-            // If the pattern is short don't use it, since
-            // a shift larger than the pattern length cannot
-            // be used anyway.
-            if (patternLength < 4) {
+            int pbtternLength = src.length;
+            // The BM blgorithm requires b bit of overhebd;
+            // If the pbttern is short don't use it, since
+            // b shift lbrger thbn the pbttern length cbnnot
+            // be used bnywby.
+            if (pbtternLength < 4) {
                 return node;
             }
             int i, j, k;
-            int[] lastOcc = new int[128];
-            int[] optoSft = new int[patternLength];
-            // Precalculate part of the bad character shift
-            // It is a table for where in the pattern each
-            // lower 7-bit value occurs
-            for (i = 0; i < patternLength; i++) {
-                lastOcc[src[i]&0x7F] = i + 1;
+            int[] lbstOcc = new int[128];
+            int[] optoSft = new int[pbtternLength];
+            // Precblculbte pbrt of the bbd chbrbcter shift
+            // It is b tbble for where in the pbttern ebch
+            // lower 7-bit vblue occurs
+            for (i = 0; i < pbtternLength; i++) {
+                lbstOcc[src[i]&0x7F] = i + 1;
             }
-            // Precalculate the good suffix shift
-            // i is the shift amount being considered
-NEXT:       for (i = patternLength; i > 0; i--) {
+            // Precblculbte the good suffix shift
+            // i is the shift bmount being considered
+NEXT:       for (i = pbtternLength; i > 0; i--) {
                 // j is the beginning index of suffix being considered
-                for (j = patternLength - 1; j >= i; j--) {
+                for (j = pbtternLength - 1; j >= i; j--) {
                     // Testing for good suffix
                     if (src[j] == src[j-i]) {
-                        // src[j..len] is a good suffix
+                        // src[j..len] is b good suffix
                         optoSft[j-1] = i;
                     } else {
-                        // No match. The array has already been
-                        // filled up with correct values before.
+                        // No mbtch. The brrby hbs blrebdy been
+                        // filled up with correct vblues before.
                         continue NEXT;
                     }
                 }
-                // This fills up the remaining of optoSft
-                // any suffix can not have larger shift amount
+                // This fills up the rembining of optoSft
+                // bny suffix cbn not hbve lbrger shift bmount
                 // then its sub-suffix. Why???
                 while (j > 0) {
                     optoSft[--j] = i;
                 }
             }
-            // Set the guard value because of unicode compression
-            optoSft[patternLength-1] = 1;
-            if (node instanceof SliceS)
-                return new BnMS(src, lastOcc, optoSft, node.next);
-            return new BnM(src, lastOcc, optoSft, node.next);
+            // Set the gubrd vblue becbuse of unicode compression
+            optoSft[pbtternLength-1] = 1;
+            if (node instbnceof SliceS)
+                return new BnMS(src, lbstOcc, optoSft, node.next);
+            return new BnM(src, lbstOcc, optoSft, node.next);
         }
-        BnM(int[] src, int[] lastOcc, int[] optoSft, Node next) {
+        BnM(int[] src, int[] lbstOcc, int[] optoSft, Node next) {
             this.buffer = src;
-            this.lastOcc = lastOcc;
+            this.lbstOcc = lbstOcc;
             this.optoSft = optoSft;
             this.next = next;
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
             int[] src = buffer;
-            int patternLength = src.length;
-            int last = matcher.to - patternLength;
+            int pbtternLength = src.length;
+            int lbst = mbtcher.to - pbtternLength;
 
-            // Loop over all possible match positions in text
-NEXT:       while (i <= last) {
-                // Loop over pattern from right to left
-                for (int j = patternLength - 1; j >= 0; j--) {
-                    int ch = seq.charAt(i+j);
+            // Loop over bll possible mbtch positions in text
+NEXT:       while (i <= lbst) {
+                // Loop over pbttern from right to left
+                for (int j = pbtternLength - 1; j >= 0; j--) {
+                    int ch = seq.chbrAt(i+j);
                     if (ch != src[j]) {
-                        // Shift search to the right by the maximum of the
-                        // bad character shift and the good suffix shift
-                        i += Math.max(j + 1 - lastOcc[ch&0x7F], optoSft[j]);
+                        // Shift sebrch to the right by the mbximum of the
+                        // bbd chbrbcter shift bnd the good suffix shift
+                        i += Mbth.mbx(j + 1 - lbstOcc[ch&0x7F], optoSft[j]);
                         continue NEXT;
                     }
                 }
-                // Entire pattern matched starting at i
-                matcher.first = i;
-                boolean ret = next.match(matcher, i + patternLength, seq);
+                // Entire pbttern mbtched stbrting bt i
+                mbtcher.first = i;
+                boolebn ret = next.mbtch(mbtcher, i + pbtternLength, seq);
                 if (ret) {
-                    matcher.first = i;
-                    matcher.groups[0] = matcher.first;
-                    matcher.groups[1] = matcher.last;
+                    mbtcher.first = i;
+                    mbtcher.groups[0] = mbtcher.first;
+                    mbtcher.groups[1] = mbtcher.lbst;
                     return true;
                 }
                 i++;
             }
-            // BnM is only used as the leading node in the unanchored case,
-            // and it replaced its Start() which always searches to the end
-            // if it doesn't find what it's looking for, so hitEnd is true.
-            matcher.hitEnd = true;
-            return false;
+            // BnM is only used bs the lebding node in the unbnchored cbse,
+            // bnd it replbced its Stbrt() which blwbys sebrches to the end
+            // if it doesn't find whbt it's looking for, so hitEnd is true.
+            mbtcher.hitEnd = true;
+            return fblse;
         }
-        boolean study(TreeInfo info) {
+        boolebn study(TreeInfo info) {
             info.minLength += buffer.length;
-            info.maxValid = false;
+            info.mbxVblid = fblse;
             return next.study(info);
         }
     }
 
     /**
-     * Supplementary support version of BnM(). Unpaired surrogates are
-     * also handled by this class.
+     * Supplementbry support version of BnM(). Unpbired surrogbtes bre
+     * blso hbndled by this clbss.
      */
-    static final class BnMS extends BnM {
-        int lengthInChars;
+    stbtic finbl clbss BnMS extends BnM {
+        int lengthInChbrs;
 
-        BnMS(int[] src, int[] lastOcc, int[] optoSft, Node next) {
-            super(src, lastOcc, optoSft, next);
+        BnMS(int[] src, int[] lbstOcc, int[] optoSft, Node next) {
+            super(src, lbstOcc, optoSft, next);
             for (int cp : buffer) {
-                lengthInChars += Character.charCount(cp);
+                lengthInChbrs += Chbrbcter.chbrCount(cp);
             }
         }
-        boolean match(Matcher matcher, int i, CharSequence seq) {
+        boolebn mbtch(Mbtcher mbtcher, int i, ChbrSequence seq) {
             int[] src = buffer;
-            int patternLength = src.length;
-            int last = matcher.to - lengthInChars;
+            int pbtternLength = src.length;
+            int lbst = mbtcher.to - lengthInChbrs;
 
-            // Loop over all possible match positions in text
-NEXT:       while (i <= last) {
-                // Loop over pattern from right to left
+            // Loop over bll possible mbtch positions in text
+NEXT:       while (i <= lbst) {
+                // Loop over pbttern from right to left
                 int ch;
-                for (int j = countChars(seq, i, patternLength), x = patternLength - 1;
-                     j > 0; j -= Character.charCount(ch), x--) {
-                    ch = Character.codePointBefore(seq, i+j);
+                for (int j = countChbrs(seq, i, pbtternLength), x = pbtternLength - 1;
+                     j > 0; j -= Chbrbcter.chbrCount(ch), x--) {
+                    ch = Chbrbcter.codePointBefore(seq, i+j);
                     if (ch != src[x]) {
-                        // Shift search to the right by the maximum of the
-                        // bad character shift and the good suffix shift
-                        int n = Math.max(x + 1 - lastOcc[ch&0x7F], optoSft[x]);
-                        i += countChars(seq, i, n);
+                        // Shift sebrch to the right by the mbximum of the
+                        // bbd chbrbcter shift bnd the good suffix shift
+                        int n = Mbth.mbx(x + 1 - lbstOcc[ch&0x7F], optoSft[x]);
+                        i += countChbrs(seq, i, n);
                         continue NEXT;
                     }
                 }
-                // Entire pattern matched starting at i
-                matcher.first = i;
-                boolean ret = next.match(matcher, i + lengthInChars, seq);
+                // Entire pbttern mbtched stbrting bt i
+                mbtcher.first = i;
+                boolebn ret = next.mbtch(mbtcher, i + lengthInChbrs, seq);
                 if (ret) {
-                    matcher.first = i;
-                    matcher.groups[0] = matcher.first;
-                    matcher.groups[1] = matcher.last;
+                    mbtcher.first = i;
+                    mbtcher.groups[0] = mbtcher.first;
+                    mbtcher.groups[1] = mbtcher.lbst;
                     return true;
                 }
-                i += countChars(seq, i, 1);
+                i += countChbrs(seq, i, 1);
             }
-            matcher.hitEnd = true;
-            return false;
+            mbtcher.hitEnd = true;
+            return fblse;
         }
     }
 
@@ -5559,270 +5559,270 @@ NEXT:       while (i <= last) {
 ///////////////////////////////////////////////////////////////////////////////
 
     /**
-     *  This must be the very first initializer.
+     *  This must be the very first initiblizer.
      */
-    static Node accept = new Node();
+    stbtic Node bccept = new Node();
 
-    static Node lastAccept = new LastNode();
+    stbtic Node lbstAccept = new LbstNode();
 
-    private static class CharPropertyNames {
+    privbte stbtic clbss ChbrPropertyNbmes {
 
-        static CharProperty charPropertyFor(String name) {
-            CharPropertyFactory m = map.get(name);
-            return m == null ? null : m.make();
+        stbtic ChbrProperty chbrPropertyFor(String nbme) {
+            ChbrPropertyFbctory m = mbp.get(nbme);
+            return m == null ? null : m.mbke();
         }
 
-        private static abstract class CharPropertyFactory {
-            abstract CharProperty make();
+        privbte stbtic bbstrbct clbss ChbrPropertyFbctory {
+            bbstrbct ChbrProperty mbke();
         }
 
-        private static void defCategory(String name,
-                                        final int typeMask) {
-            map.put(name, new CharPropertyFactory() {
-                    CharProperty make() { return new Category(typeMask);}});
+        privbte stbtic void defCbtegory(String nbme,
+                                        finbl int typeMbsk) {
+            mbp.put(nbme, new ChbrPropertyFbctory() {
+                    ChbrProperty mbke() { return new Cbtegory(typeMbsk);}});
         }
 
-        private static void defRange(String name,
-                                     final int lower, final int upper) {
-            map.put(name, new CharPropertyFactory() {
-                    CharProperty make() { return rangeFor(lower, upper);}});
+        privbte stbtic void defRbnge(String nbme,
+                                     finbl int lower, finbl int upper) {
+            mbp.put(nbme, new ChbrPropertyFbctory() {
+                    ChbrProperty mbke() { return rbngeFor(lower, upper);}});
         }
 
-        private static void defCtype(String name,
-                                     final int ctype) {
-            map.put(name, new CharPropertyFactory() {
-                    CharProperty make() { return new Ctype(ctype);}});
+        privbte stbtic void defCtype(String nbme,
+                                     finbl int ctype) {
+            mbp.put(nbme, new ChbrPropertyFbctory() {
+                    ChbrProperty mbke() { return new Ctype(ctype);}});
         }
 
-        private static abstract class CloneableProperty
-            extends CharProperty implements Cloneable
+        privbte stbtic bbstrbct clbss ClonebbleProperty
+            extends ChbrProperty implements Clonebble
         {
-            public CloneableProperty clone() {
+            public ClonebbleProperty clone() {
                 try {
-                    return (CloneableProperty) super.clone();
-                } catch (CloneNotSupportedException e) {
+                    return (ClonebbleProperty) super.clone();
+                } cbtch (CloneNotSupportedException e) {
                     throw new AssertionError(e);
                 }
             }
         }
 
-        private static void defClone(String name,
-                                     final CloneableProperty p) {
-            map.put(name, new CharPropertyFactory() {
-                    CharProperty make() { return p.clone();}});
+        privbte stbtic void defClone(String nbme,
+                                     finbl ClonebbleProperty p) {
+            mbp.put(nbme, new ChbrPropertyFbctory() {
+                    ChbrProperty mbke() { return p.clone();}});
         }
 
-        private static final HashMap<String, CharPropertyFactory> map
-            = new HashMap<>();
+        privbte stbtic finbl HbshMbp<String, ChbrPropertyFbctory> mbp
+            = new HbshMbp<>();
 
-        static {
-            // Unicode character property aliases, defined in
-            // http://www.unicode.org/Public/UNIDATA/PropertyValueAliases.txt
-            defCategory("Cn", 1<<Character.UNASSIGNED);
-            defCategory("Lu", 1<<Character.UPPERCASE_LETTER);
-            defCategory("Ll", 1<<Character.LOWERCASE_LETTER);
-            defCategory("Lt", 1<<Character.TITLECASE_LETTER);
-            defCategory("Lm", 1<<Character.MODIFIER_LETTER);
-            defCategory("Lo", 1<<Character.OTHER_LETTER);
-            defCategory("Mn", 1<<Character.NON_SPACING_MARK);
-            defCategory("Me", 1<<Character.ENCLOSING_MARK);
-            defCategory("Mc", 1<<Character.COMBINING_SPACING_MARK);
-            defCategory("Nd", 1<<Character.DECIMAL_DIGIT_NUMBER);
-            defCategory("Nl", 1<<Character.LETTER_NUMBER);
-            defCategory("No", 1<<Character.OTHER_NUMBER);
-            defCategory("Zs", 1<<Character.SPACE_SEPARATOR);
-            defCategory("Zl", 1<<Character.LINE_SEPARATOR);
-            defCategory("Zp", 1<<Character.PARAGRAPH_SEPARATOR);
-            defCategory("Cc", 1<<Character.CONTROL);
-            defCategory("Cf", 1<<Character.FORMAT);
-            defCategory("Co", 1<<Character.PRIVATE_USE);
-            defCategory("Cs", 1<<Character.SURROGATE);
-            defCategory("Pd", 1<<Character.DASH_PUNCTUATION);
-            defCategory("Ps", 1<<Character.START_PUNCTUATION);
-            defCategory("Pe", 1<<Character.END_PUNCTUATION);
-            defCategory("Pc", 1<<Character.CONNECTOR_PUNCTUATION);
-            defCategory("Po", 1<<Character.OTHER_PUNCTUATION);
-            defCategory("Sm", 1<<Character.MATH_SYMBOL);
-            defCategory("Sc", 1<<Character.CURRENCY_SYMBOL);
-            defCategory("Sk", 1<<Character.MODIFIER_SYMBOL);
-            defCategory("So", 1<<Character.OTHER_SYMBOL);
-            defCategory("Pi", 1<<Character.INITIAL_QUOTE_PUNCTUATION);
-            defCategory("Pf", 1<<Character.FINAL_QUOTE_PUNCTUATION);
-            defCategory("L", ((1<<Character.UPPERCASE_LETTER) |
-                              (1<<Character.LOWERCASE_LETTER) |
-                              (1<<Character.TITLECASE_LETTER) |
-                              (1<<Character.MODIFIER_LETTER)  |
-                              (1<<Character.OTHER_LETTER)));
-            defCategory("M", ((1<<Character.NON_SPACING_MARK) |
-                              (1<<Character.ENCLOSING_MARK)   |
-                              (1<<Character.COMBINING_SPACING_MARK)));
-            defCategory("N", ((1<<Character.DECIMAL_DIGIT_NUMBER) |
-                              (1<<Character.LETTER_NUMBER)        |
-                              (1<<Character.OTHER_NUMBER)));
-            defCategory("Z", ((1<<Character.SPACE_SEPARATOR) |
-                              (1<<Character.LINE_SEPARATOR)  |
-                              (1<<Character.PARAGRAPH_SEPARATOR)));
-            defCategory("C", ((1<<Character.CONTROL)     |
-                              (1<<Character.FORMAT)      |
-                              (1<<Character.PRIVATE_USE) |
-                              (1<<Character.SURROGATE))); // Other
-            defCategory("P", ((1<<Character.DASH_PUNCTUATION)      |
-                              (1<<Character.START_PUNCTUATION)     |
-                              (1<<Character.END_PUNCTUATION)       |
-                              (1<<Character.CONNECTOR_PUNCTUATION) |
-                              (1<<Character.OTHER_PUNCTUATION)     |
-                              (1<<Character.INITIAL_QUOTE_PUNCTUATION) |
-                              (1<<Character.FINAL_QUOTE_PUNCTUATION)));
-            defCategory("S", ((1<<Character.MATH_SYMBOL)     |
-                              (1<<Character.CURRENCY_SYMBOL) |
-                              (1<<Character.MODIFIER_SYMBOL) |
-                              (1<<Character.OTHER_SYMBOL)));
-            defCategory("LC", ((1<<Character.UPPERCASE_LETTER) |
-                               (1<<Character.LOWERCASE_LETTER) |
-                               (1<<Character.TITLECASE_LETTER)));
-            defCategory("LD", ((1<<Character.UPPERCASE_LETTER) |
-                               (1<<Character.LOWERCASE_LETTER) |
-                               (1<<Character.TITLECASE_LETTER) |
-                               (1<<Character.MODIFIER_LETTER)  |
-                               (1<<Character.OTHER_LETTER)     |
-                               (1<<Character.DECIMAL_DIGIT_NUMBER)));
-            defRange("L1", 0x00, 0xFF); // Latin-1
-            map.put("all", new CharPropertyFactory() {
-                    CharProperty make() { return new All(); }});
+        stbtic {
+            // Unicode chbrbcter property blibses, defined in
+            // http://www.unicode.org/Public/UNIDATA/PropertyVblueAlibses.txt
+            defCbtegory("Cn", 1<<Chbrbcter.UNASSIGNED);
+            defCbtegory("Lu", 1<<Chbrbcter.UPPERCASE_LETTER);
+            defCbtegory("Ll", 1<<Chbrbcter.LOWERCASE_LETTER);
+            defCbtegory("Lt", 1<<Chbrbcter.TITLECASE_LETTER);
+            defCbtegory("Lm", 1<<Chbrbcter.MODIFIER_LETTER);
+            defCbtegory("Lo", 1<<Chbrbcter.OTHER_LETTER);
+            defCbtegory("Mn", 1<<Chbrbcter.NON_SPACING_MARK);
+            defCbtegory("Me", 1<<Chbrbcter.ENCLOSING_MARK);
+            defCbtegory("Mc", 1<<Chbrbcter.COMBINING_SPACING_MARK);
+            defCbtegory("Nd", 1<<Chbrbcter.DECIMAL_DIGIT_NUMBER);
+            defCbtegory("Nl", 1<<Chbrbcter.LETTER_NUMBER);
+            defCbtegory("No", 1<<Chbrbcter.OTHER_NUMBER);
+            defCbtegory("Zs", 1<<Chbrbcter.SPACE_SEPARATOR);
+            defCbtegory("Zl", 1<<Chbrbcter.LINE_SEPARATOR);
+            defCbtegory("Zp", 1<<Chbrbcter.PARAGRAPH_SEPARATOR);
+            defCbtegory("Cc", 1<<Chbrbcter.CONTROL);
+            defCbtegory("Cf", 1<<Chbrbcter.FORMAT);
+            defCbtegory("Co", 1<<Chbrbcter.PRIVATE_USE);
+            defCbtegory("Cs", 1<<Chbrbcter.SURROGATE);
+            defCbtegory("Pd", 1<<Chbrbcter.DASH_PUNCTUATION);
+            defCbtegory("Ps", 1<<Chbrbcter.START_PUNCTUATION);
+            defCbtegory("Pe", 1<<Chbrbcter.END_PUNCTUATION);
+            defCbtegory("Pc", 1<<Chbrbcter.CONNECTOR_PUNCTUATION);
+            defCbtegory("Po", 1<<Chbrbcter.OTHER_PUNCTUATION);
+            defCbtegory("Sm", 1<<Chbrbcter.MATH_SYMBOL);
+            defCbtegory("Sc", 1<<Chbrbcter.CURRENCY_SYMBOL);
+            defCbtegory("Sk", 1<<Chbrbcter.MODIFIER_SYMBOL);
+            defCbtegory("So", 1<<Chbrbcter.OTHER_SYMBOL);
+            defCbtegory("Pi", 1<<Chbrbcter.INITIAL_QUOTE_PUNCTUATION);
+            defCbtegory("Pf", 1<<Chbrbcter.FINAL_QUOTE_PUNCTUATION);
+            defCbtegory("L", ((1<<Chbrbcter.UPPERCASE_LETTER) |
+                              (1<<Chbrbcter.LOWERCASE_LETTER) |
+                              (1<<Chbrbcter.TITLECASE_LETTER) |
+                              (1<<Chbrbcter.MODIFIER_LETTER)  |
+                              (1<<Chbrbcter.OTHER_LETTER)));
+            defCbtegory("M", ((1<<Chbrbcter.NON_SPACING_MARK) |
+                              (1<<Chbrbcter.ENCLOSING_MARK)   |
+                              (1<<Chbrbcter.COMBINING_SPACING_MARK)));
+            defCbtegory("N", ((1<<Chbrbcter.DECIMAL_DIGIT_NUMBER) |
+                              (1<<Chbrbcter.LETTER_NUMBER)        |
+                              (1<<Chbrbcter.OTHER_NUMBER)));
+            defCbtegory("Z", ((1<<Chbrbcter.SPACE_SEPARATOR) |
+                              (1<<Chbrbcter.LINE_SEPARATOR)  |
+                              (1<<Chbrbcter.PARAGRAPH_SEPARATOR)));
+            defCbtegory("C", ((1<<Chbrbcter.CONTROL)     |
+                              (1<<Chbrbcter.FORMAT)      |
+                              (1<<Chbrbcter.PRIVATE_USE) |
+                              (1<<Chbrbcter.SURROGATE))); // Other
+            defCbtegory("P", ((1<<Chbrbcter.DASH_PUNCTUATION)      |
+                              (1<<Chbrbcter.START_PUNCTUATION)     |
+                              (1<<Chbrbcter.END_PUNCTUATION)       |
+                              (1<<Chbrbcter.CONNECTOR_PUNCTUATION) |
+                              (1<<Chbrbcter.OTHER_PUNCTUATION)     |
+                              (1<<Chbrbcter.INITIAL_QUOTE_PUNCTUATION) |
+                              (1<<Chbrbcter.FINAL_QUOTE_PUNCTUATION)));
+            defCbtegory("S", ((1<<Chbrbcter.MATH_SYMBOL)     |
+                              (1<<Chbrbcter.CURRENCY_SYMBOL) |
+                              (1<<Chbrbcter.MODIFIER_SYMBOL) |
+                              (1<<Chbrbcter.OTHER_SYMBOL)));
+            defCbtegory("LC", ((1<<Chbrbcter.UPPERCASE_LETTER) |
+                               (1<<Chbrbcter.LOWERCASE_LETTER) |
+                               (1<<Chbrbcter.TITLECASE_LETTER)));
+            defCbtegory("LD", ((1<<Chbrbcter.UPPERCASE_LETTER) |
+                               (1<<Chbrbcter.LOWERCASE_LETTER) |
+                               (1<<Chbrbcter.TITLECASE_LETTER) |
+                               (1<<Chbrbcter.MODIFIER_LETTER)  |
+                               (1<<Chbrbcter.OTHER_LETTER)     |
+                               (1<<Chbrbcter.DECIMAL_DIGIT_NUMBER)));
+            defRbnge("L1", 0x00, 0xFF); // Lbtin-1
+            mbp.put("bll", new ChbrPropertyFbctory() {
+                    ChbrProperty mbke() { return new All(); }});
 
-            // Posix regular expression character classes, defined in
-            // http://www.unix.org/onlinepubs/009695399/basedefs/xbd_chap09.html
-            defRange("ASCII", 0x00, 0x7F);   // ASCII
-            defCtype("Alnum", ASCII.ALNUM);  // Alphanumeric characters
-            defCtype("Alpha", ASCII.ALPHA);  // Alphabetic characters
-            defCtype("Blank", ASCII.BLANK);  // Space and tab characters
-            defCtype("Cntrl", ASCII.CNTRL);  // Control characters
-            defRange("Digit", '0', '9');     // Numeric characters
-            defCtype("Graph", ASCII.GRAPH);  // printable and visible
-            defRange("Lower", 'a', 'z');     // Lower-case alphabetic
-            defRange("Print", 0x20, 0x7E);   // Printable characters
-            defCtype("Punct", ASCII.PUNCT);  // Punctuation characters
-            defCtype("Space", ASCII.SPACE);  // Space characters
-            defRange("Upper", 'A', 'Z');     // Upper-case alphabetic
-            defCtype("XDigit",ASCII.XDIGIT); // hexadecimal digits
+            // Posix regulbr expression chbrbcter clbsses, defined in
+            // http://www.unix.org/onlinepubs/009695399/bbsedefs/xbd_chbp09.html
+            defRbnge("ASCII", 0x00, 0x7F);   // ASCII
+            defCtype("Alnum", ASCII.ALNUM);  // Alphbnumeric chbrbcters
+            defCtype("Alphb", ASCII.ALPHA);  // Alphbbetic chbrbcters
+            defCtype("Blbnk", ASCII.BLANK);  // Spbce bnd tbb chbrbcters
+            defCtype("Cntrl", ASCII.CNTRL);  // Control chbrbcters
+            defRbnge("Digit", '0', '9');     // Numeric chbrbcters
+            defCtype("Grbph", ASCII.GRAPH);  // printbble bnd visible
+            defRbnge("Lower", 'b', 'z');     // Lower-cbse blphbbetic
+            defRbnge("Print", 0x20, 0x7E);   // Printbble chbrbcters
+            defCtype("Punct", ASCII.PUNCT);  // Punctubtion chbrbcters
+            defCtype("Spbce", ASCII.SPACE);  // Spbce chbrbcters
+            defRbnge("Upper", 'A', 'Z');     // Upper-cbse blphbbetic
+            defCtype("XDigit",ASCII.XDIGIT); // hexbdecimbl digits
 
-            // Java character properties, defined by methods in Character.java
-            defClone("javaLowerCase", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isLowerCase(ch);}});
-            defClone("javaUpperCase", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isUpperCase(ch);}});
-            defClone("javaAlphabetic", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isAlphabetic(ch);}});
-            defClone("javaIdeographic", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isIdeographic(ch);}});
-            defClone("javaTitleCase", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isTitleCase(ch);}});
-            defClone("javaDigit", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isDigit(ch);}});
-            defClone("javaDefined", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isDefined(ch);}});
-            defClone("javaLetter", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isLetter(ch);}});
-            defClone("javaLetterOrDigit", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isLetterOrDigit(ch);}});
-            defClone("javaJavaIdentifierStart", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isJavaIdentifierStart(ch);}});
-            defClone("javaJavaIdentifierPart", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isJavaIdentifierPart(ch);}});
-            defClone("javaUnicodeIdentifierStart", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isUnicodeIdentifierStart(ch);}});
-            defClone("javaUnicodeIdentifierPart", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isUnicodeIdentifierPart(ch);}});
-            defClone("javaIdentifierIgnorable", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isIdentifierIgnorable(ch);}});
-            defClone("javaSpaceChar", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isSpaceChar(ch);}});
-            defClone("javaWhitespace", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isWhitespace(ch);}});
-            defClone("javaISOControl", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isISOControl(ch);}});
-            defClone("javaMirrored", new CloneableProperty() {
-                boolean isSatisfiedBy(int ch) {
-                    return Character.isMirrored(ch);}});
+            // Jbvb chbrbcter properties, defined by methods in Chbrbcter.jbvb
+            defClone("jbvbLowerCbse", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isLowerCbse(ch);}});
+            defClone("jbvbUpperCbse", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isUpperCbse(ch);}});
+            defClone("jbvbAlphbbetic", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isAlphbbetic(ch);}});
+            defClone("jbvbIdeogrbphic", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isIdeogrbphic(ch);}});
+            defClone("jbvbTitleCbse", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isTitleCbse(ch);}});
+            defClone("jbvbDigit", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isDigit(ch);}});
+            defClone("jbvbDefined", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isDefined(ch);}});
+            defClone("jbvbLetter", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isLetter(ch);}});
+            defClone("jbvbLetterOrDigit", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isLetterOrDigit(ch);}});
+            defClone("jbvbJbvbIdentifierStbrt", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isJbvbIdentifierStbrt(ch);}});
+            defClone("jbvbJbvbIdentifierPbrt", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isJbvbIdentifierPbrt(ch);}});
+            defClone("jbvbUnicodeIdentifierStbrt", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isUnicodeIdentifierStbrt(ch);}});
+            defClone("jbvbUnicodeIdentifierPbrt", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isUnicodeIdentifierPbrt(ch);}});
+            defClone("jbvbIdentifierIgnorbble", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isIdentifierIgnorbble(ch);}});
+            defClone("jbvbSpbceChbr", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isSpbceChbr(ch);}});
+            defClone("jbvbWhitespbce", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isWhitespbce(ch);}});
+            defClone("jbvbISOControl", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isISOControl(ch);}});
+            defClone("jbvbMirrored", new ClonebbleProperty() {
+                boolebn isSbtisfiedBy(int ch) {
+                    return Chbrbcter.isMirrored(ch);}});
         }
     }
 
     /**
-     * Creates a predicate which can be used to match a string.
+     * Crebtes b predicbte which cbn be used to mbtch b string.
      *
-     * @return  The predicate which can be used for matching on a string
+     * @return  The predicbte which cbn be used for mbtching on b string
      * @since   1.8
      */
-    public Predicate<String> asPredicate() {
-        return s -> matcher(s).find();
+    public Predicbte<String> bsPredicbte() {
+        return s -> mbtcher(s).find();
     }
 
     /**
-     * Creates a stream from the given input sequence around matches of this
-     * pattern.
+     * Crebtes b strebm from the given input sequence bround mbtches of this
+     * pbttern.
      *
-     * <p> The stream returned by this method contains each substring of the
-     * input sequence that is terminated by another subsequence that matches
-     * this pattern or is terminated by the end of the input sequence.  The
-     * substrings in the stream are in the order in which they occur in the
-     * input. Trailing empty strings will be discarded and not encountered in
-     * the stream.
+     * <p> The strebm returned by this method contbins ebch substring of the
+     * input sequence thbt is terminbted by bnother subsequence thbt mbtches
+     * this pbttern or is terminbted by the end of the input sequence.  The
+     * substrings in the strebm bre in the order in which they occur in the
+     * input. Trbiling empty strings will be discbrded bnd not encountered in
+     * the strebm.
      *
-     * <p> If this pattern does not match any subsequence of the input then
-     * the resulting stream has just one element, namely the input sequence in
+     * <p> If this pbttern does not mbtch bny subsequence of the input then
+     * the resulting strebm hbs just one element, nbmely the input sequence in
      * string form.
      *
-     * <p> When there is a positive-width match at the beginning of the input
-     * sequence then an empty leading substring is included at the beginning
-     * of the stream. A zero-width match at the beginning however never produces
-     * such empty leading substring.
+     * <p> When there is b positive-width mbtch bt the beginning of the input
+     * sequence then bn empty lebding substring is included bt the beginning
+     * of the strebm. A zero-width mbtch bt the beginning however never produces
+     * such empty lebding substring.
      *
-     * <p> If the input sequence is mutable, it must remain constant during the
-     * execution of the terminal stream operation.  Otherwise, the result of the
-     * terminal stream operation is undefined.
+     * <p> If the input sequence is mutbble, it must rembin constbnt during the
+     * execution of the terminbl strebm operbtion.  Otherwise, the result of the
+     * terminbl strebm operbtion is undefined.
      *
-     * @param   input
-     *          The character sequence to be split
+     * @pbrbm   input
+     *          The chbrbcter sequence to be split
      *
-     * @return  The stream of strings computed by splitting the input
-     *          around matches of this pattern
-     * @see     #split(CharSequence)
+     * @return  The strebm of strings computed by splitting the input
+     *          bround mbtches of this pbttern
+     * @see     #split(ChbrSequence)
      * @since   1.8
      */
-    public Stream<String> splitAsStream(final CharSequence input) {
-        class MatcherIterator implements Iterator<String> {
-            private final Matcher matcher;
-            // The start position of the next sub-sequence of input
-            // when current == input.length there are no more elements
-            private int current;
-            // null if the next element, if any, needs to obtained
-            private String nextElement;
-            // > 0 if there are N next empty elements
-            private int emptyElementCount;
+    public Strebm<String> splitAsStrebm(finbl ChbrSequence input) {
+        clbss MbtcherIterbtor implements Iterbtor<String> {
+            privbte finbl Mbtcher mbtcher;
+            // The stbrt position of the next sub-sequence of input
+            // when current == input.length there bre no more elements
+            privbte int current;
+            // null if the next element, if bny, needs to obtbined
+            privbte String nextElement;
+            // > 0 if there bre N next empty elements
+            privbte int emptyElementCount;
 
-            MatcherIterator() {
-                this.matcher = matcher(input);
+            MbtcherIterbtor() {
+                this.mbtcher = mbtcher(input);
             }
 
             public String next() {
-                if (!hasNext())
+                if (!hbsNext())
                     throw new NoSuchElementException();
 
                 if (emptyElementCount == 0) {
@@ -5835,40 +5835,40 @@ NEXT:       while (i <= last) {
                 }
             }
 
-            public boolean hasNext() {
+            public boolebn hbsNext() {
                 if (nextElement != null || emptyElementCount > 0)
                     return true;
 
                 if (current == input.length())
-                    return false;
+                    return fblse;
 
-                // Consume the next matching element
-                // Count sequence of matching empty elements
-                while (matcher.find()) {
-                    nextElement = input.subSequence(current, matcher.start()).toString();
-                    current = matcher.end();
+                // Consume the next mbtching element
+                // Count sequence of mbtching empty elements
+                while (mbtcher.find()) {
+                    nextElement = input.subSequence(current, mbtcher.stbrt()).toString();
+                    current = mbtcher.end();
                     if (!nextElement.isEmpty()) {
                         return true;
-                    } else if (current > 0) { // no empty leading substring for zero-width
-                                              // match at the beginning of the input
+                    } else if (current > 0) { // no empty lebding substring for zero-width
+                                              // mbtch bt the beginning of the input
                         emptyElementCount++;
                     }
                 }
 
-                // Consume last matching element
+                // Consume lbst mbtching element
                 nextElement = input.subSequence(current, input.length()).toString();
                 current = input.length();
                 if (!nextElement.isEmpty()) {
                     return true;
                 } else {
-                    // Ignore a terminal sequence of matching empty elements
+                    // Ignore b terminbl sequence of mbtching empty elements
                     emptyElementCount = 0;
                     nextElement = null;
-                    return false;
+                    return fblse;
                 }
             }
         }
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
-                new MatcherIterator(), Spliterator.ORDERED | Spliterator.NONNULL), false);
+        return StrebmSupport.strebm(Spliterbtors.spliterbtorUnknownSize(
+                new MbtcherIterbtor(), Spliterbtor.ORDERED | Spliterbtor.NONNULL), fblse);
     }
 }

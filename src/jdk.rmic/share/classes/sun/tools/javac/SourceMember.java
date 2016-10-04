@@ -1,228 +1,228 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.javac;
+pbckbge sun.tools.jbvbc;
 
-import sun.tools.java.*;
+import sun.tools.jbvb.*;
 import sun.tools.tree.*;
-import sun.tools.asm.*;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.io.PrintStream;
+import sun.tools.bsm.*;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.io.PrintStrebm;
 
 /**
  * A Source Member
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
-@Deprecated
+@Deprecbted
 public
-class SourceMember extends MemberDefinition implements Constants {
+clbss SourceMember extends MemberDefinition implements Constbnts {
     /**
-     * The argument names (if it is a method)
+     * The brgument nbmes (if it is b method)
      */
-    Vector<MemberDefinition> args;
+    Vector<MemberDefinition> brgs;
 
-    // set to the MemberDefinition in the interface if we have this field because
-    // it has been forced on us
-    MemberDefinition abstractSource;
+    // set to the MemberDefinition in the interfbce if we hbve this field becbuse
+    // it hbs been forced on us
+    MemberDefinition bbstrbctSource;
 
     /**
-     * The status of the field
+     * The stbtus of the field
      */
-    int status;
+    int stbtus;
 
-    static final int PARSED     = 0;
-    static final int CHECKING   = 1;
-    static final int CHECKED    = 2;
-    static final int INLINING   = 3;
-    static final int INLINED    = 4;
-    static final int ERROR      = 5;
+    stbtic finbl int PARSED     = 0;
+    stbtic finbl int CHECKING   = 1;
+    stbtic finbl int CHECKED    = 2;
+    stbtic finbl int INLINING   = 3;
+    stbtic finbl int INLINED    = 4;
+    stbtic finbl int ERROR      = 5;
 
     public Vector<MemberDefinition> getArguments() {
-        return args;
+        return brgs;
     }
 
     /**
      * Constructor
-     * @param argNames a vector of IdentifierToken
+     * @pbrbm brgNbmes b vector of IdentifierToken
      */
-    public SourceMember(long where, ClassDefinition clazz,
+    public SourceMember(long where, ClbssDefinition clbzz,
                        String doc, int modifiers, Type type,
-                       Identifier name, Vector<MemberDefinition> argNames,
-                       IdentifierToken exp[], Node value) {
-        super(where, clazz, modifiers, type, name, exp, value);
-        this.documentation = doc;
-        this.args = argNames;   // for the moment
-        // not until type names are resolved: createArgumentFields(argNames);
+                       Identifier nbme, Vector<MemberDefinition> brgNbmes,
+                       IdentifierToken exp[], Node vblue) {
+        super(where, clbzz, modifiers, type, nbme, exp, vblue);
+        this.documentbtion = doc;
+        this.brgs = brgNbmes;   // for the moment
+        // not until type nbmes bre resolved: crebteArgumentFields(brgNbmes);
 
-        if (ClassDefinition.containsDeprecated(documentation)) {
+        if (ClbssDefinition.contbinsDeprecbted(documentbtion)) {
             this.modifiers |= M_DEPRECATED;
         }
     }
 
-    void createArgumentFields(Vector<MemberDefinition> argNames) {
-        // Create a list of arguments
+    void crebteArgumentFields(Vector<MemberDefinition> brgNbmes) {
+        // Crebte b list of brguments
         if (isMethod()) {
-            args = new Vector<>();
+            brgs = new Vector<>();
 
-            if (isConstructor() || !(isStatic() || isInitializer())) {
-                args.addElement(((SourceClass)clazz).getThisArgument());
+            if (isConstructor() || !(isStbtic() || isInitiblizer())) {
+                brgs.bddElement(((SourceClbss)clbzz).getThisArgument());
             }
 
-            if (argNames != null) {
-                Enumeration<MemberDefinition> e = argNames.elements();
-                Type argTypes[] = getType().getArgumentTypes();
-                for (int i = 0 ; i < argTypes.length ; i++) {
+            if (brgNbmes != null) {
+                Enumerbtion<MemberDefinition> e = brgNbmes.elements();
+                Type brgTypes[] = getType().getArgumentTypes();
+                for (int i = 0 ; i < brgTypes.length ; i++) {
                     Object x = e.nextElement();
-                    if (x instanceof LocalMember) {
-                        // This should not happen, but it does
-                        // in cases of vicious cyclic inheritance.
-                        args = argNames;
+                    if (x instbnceof LocblMember) {
+                        // This should not hbppen, but it does
+                        // in cbses of vicious cyclic inheritbnce.
+                        brgs = brgNbmes;
                         return;
                     }
                     Identifier id;
                     int mod;
                     long where;
-                    if (x instanceof Identifier) {
-                        // allow argNames to be simple Identifiers (deprecated!)
+                    if (x instbnceof Identifier) {
+                        // bllow brgNbmes to be simple Identifiers (deprecbted!)
                         id = (Identifier)x;
                         mod = 0;
                         where = getWhere();
                     } else {
                         IdentifierToken token = (IdentifierToken)x;
-                        id = token.getName();
+                        id = token.getNbme();
                         mod = token.getModifiers();
                         where = token.getWhere();
                     }
-                    args.addElement(new LocalMember(where, clazz, mod,
-                                                   argTypes[i], id));
+                    brgs.bddElement(new LocblMember(where, clbzz, mod,
+                                                   brgTypes[i], id));
                 }
             }
         }
     }
 
-    // The methods addOuterThis() and addUplevelArguments() were
-    // both originally part of a single method called addUplevelArguments()
-    // which took a single boolean parameter describing which of the
-    // two behaviors it wanted.
+    // The methods bddOuterThis() bnd bddUplevelArguments() were
+    // both originblly pbrt of b single method cblled bddUplevelArguments()
+    // which took b single boolebn pbrbmeter describing which of the
+    // two behbviors it wbnted.
     //
-    // The original addUplevelArguments() claimed to keep the arguments in
+    // The originbl bddUplevelArguments() clbimed to keep the brguments in
     // the following order:
     //
-    // (1) <this> <early outer this> <uplevel arguments...> <true arguments...>
+    // (1) <this> <ebrly outer this> <uplevel brguments...> <true brguments...>
     //
-    // (By <early outer this> I am referring to the clientOuterField added
-    // to some constructors when they are created.  If an outer this is
-    // added later, on demand, then this is mixed in with the rest of the
-    // uplevel arguments and is added by addUplevelArguments.)
+    // (By <ebrly outer this> I bm referring to the clientOuterField bdded
+    // to some constructors when they bre crebted.  If bn outer this is
+    // bdded lbter, on dembnd, then this is mixed in with the rest of the
+    // uplevel brguments bnd is bdded by bddUplevelArguments.)
     //
-    // In reality, the `args' Vector was generated in this order, but the
-    // Type array `argTypes' was generated as:
+    // In reblity, the `brgs' Vector wbs generbted in this order, but the
+    // Type brrby `brgTypes' wbs generbted bs:
     //
-    // (2) <this> <uplevel arguments...> <early outer this> <true arguments...>
+    // (2) <this> <uplevel brguments...> <ebrly outer this> <true brguments...>
     //
-    // This didn't make a difference in the common case -- that is, when
-    // a class had an <outer.this> or <uplevel arguments...> but not both.
-    // Both can happen in the case that a member class is declared inside
-    // of a local class.  It seems that the calling sequences, generated
-    // in places like NewInstanceExpression.codeCommon(), use order (2),
-    // so I have changed the code below to stick with that order.  Since
-    // the only time this happens is in classes which are insideLocal, no
-    // one should be able to tell the difference between these orders.
+    // This didn't mbke b difference in the common cbse -- thbt is, when
+    // b clbss hbd bn <outer.this> or <uplevel brguments...> but not both.
+    // Both cbn hbppen in the cbse thbt b member clbss is declbred inside
+    // of b locbl clbss.  It seems thbt the cblling sequences, generbted
+    // in plbces like NewInstbnceExpression.codeCommon(), use order (2),
+    // so I hbve chbnged the code below to stick with thbt order.  Since
+    // the only time this hbppens is in clbsses which bre insideLocbl, no
+    // one should be bble to tell the difference between these orders.
     // (bug number 4085633)
 
-    LocalMember outerThisArg = null;
+    LocblMember outerThisArg = null;
 
     /**
-     * Get outer instance link, or null if none.
+     * Get outer instbnce link, or null if none.
      */
 
-    public LocalMember getOuterThisArg() {
+    public LocblMember getOuterThisArg() {
         return outerThisArg;
     }
 
     /**
-     * Add the outer.this argument to the list of arguments for this
-     * constructor.  This is called from resolveTypeStructure.  Any
-     * additional uplevel arguments get added later by addUplevelArguments().
+     * Add the outer.this brgument to the list of brguments for this
+     * constructor.  This is cblled from resolveTypeStructure.  Any
+     * bdditionbl uplevel brguments get bdded lbter by bddUplevelArguments().
      */
 
-    void addOuterThis() {
-        UplevelReference refs = clazz.getReferences();
+    void bddOuterThis() {
+        UplevelReference refs = clbzz.getReferences();
 
-        // See if we have a client outer field.
+        // See if we hbve b client outer field.
         while (refs != null &&
                !refs.isClientOuterField()) {
             refs = refs.getNext();
         }
 
-        // There is no outer this argument.  Quit.
+        // There is no outer this brgument.  Quit.
         if (refs == null) {
             return;
         }
 
-        // Get the old arg types.
+        // Get the old brg types.
         Type oldArgTypes[] = type.getArgumentTypes();
 
-        // And make an array for the new ones with space for one more.
-        Type argTypes[] = new Type[oldArgTypes.length + 1];
+        // And mbke bn brrby for the new ones with spbce for one more.
+        Type brgTypes[] = new Type[oldArgTypes.length + 1];
 
-        LocalMember arg = refs.getLocalArgument();
-        outerThisArg = arg;
+        LocblMember brg = refs.getLocblArgument();
+        outerThisArg = brg;
 
-        // args is our list of arguments.  It contains a `this', so
-        // we insert at position 1.  The list of types does not have a
-        // this, so we insert at position 0.
-        args.insertElementAt(arg, 1);
-        argTypes[0] = arg.getType();
+        // brgs is our list of brguments.  It contbins b `this', so
+        // we insert bt position 1.  The list of types does not hbve b
+        // this, so we insert bt position 0.
+        brgs.insertElementAt(brg, 1);
+        brgTypes[0] = brg.getType();
 
-        // Add on the rest of the constructor arguments.
+        // Add on the rest of the constructor brguments.
         for (int i = 0; i < oldArgTypes.length; i++) {
-            argTypes[i + 1] = oldArgTypes[i];
+            brgTypes[i + 1] = oldArgTypes[i];
         }
 
-        type = Type.tMethod(type.getReturnType(), argTypes);
+        type = Type.tMethod(type.getReturnType(), brgTypes);
     }
 
     /**
-     * Prepend argument names and argument types for local variable references.
-     * This information is never seen by the type-check phase,
-     * but it affects code generation, which is the earliest moment
-     * we have comprehensive information on uplevel references.
-     * The code() methods tweaks the constructor calls, prepending
-     * the proper values to the argument list.
+     * Prepend brgument nbmes bnd brgument types for locbl vbribble references.
+     * This informbtion is never seen by the type-check phbse,
+     * but it bffects code generbtion, which is the ebrliest moment
+     * we hbve comprehensive informbtion on uplevel references.
+     * The code() methods twebks the constructor cblls, prepending
+     * the proper vblues to the brgument list.
      */
-    void addUplevelArguments() {
-        UplevelReference refs = clazz.getReferences();
-        clazz.getReferencesFrozen();
+    void bddUplevelArguments() {
+        UplevelReference refs = clbzz.getReferences();
+        clbzz.getReferencesFrozen();
 
-        // Count how many uplevels we have to add.
+        // Count how mbny uplevels we hbve to bdd.
         int count = 0;
         for (UplevelReference r = refs; r != null; r = r.getNext()) {
             if (!r.isClientOuterField()) {
@@ -231,345 +231,345 @@ class SourceMember extends MemberDefinition implements Constants {
         }
 
         if (count == 0) {
-            // None to add, quit.
+            // None to bdd, quit.
             return;
         }
 
-        // Get the old argument types.
+        // Get the old brgument types.
         Type oldArgTypes[] = type.getArgumentTypes();
 
-        // Make an array with enough room for the new.
-        Type argTypes[] = new Type[oldArgTypes.length + count];
+        // Mbke bn brrby with enough room for the new.
+        Type brgTypes[] = new Type[oldArgTypes.length + count];
 
-        // Add all of the late uplevel references to args and argTypes.
-        // Note that they are `off-by-one' because of the `this'.
+        // Add bll of the lbte uplevel references to brgs bnd brgTypes.
+        // Note thbt they bre `off-by-one' becbuse of the `this'.
         int ins = 0;
         for (UplevelReference r = refs; r != null; r = r.getNext()) {
             if (!r.isClientOuterField()) {
-                LocalMember arg = r.getLocalArgument();
+                LocblMember brg = r.getLocblArgument();
 
-                args.insertElementAt(arg, 1 + ins);
-                argTypes[ins] = arg.getType();
+                brgs.insertElementAt(brg, 1 + ins);
+                brgTypes[ins] = brg.getType();
 
                 ins++;
             }
         }
 
-        // Add the rest of the old arguments.
+        // Add the rest of the old brguments.
         for (int i = 0; i < oldArgTypes.length; i++) {
-            argTypes[ins + i] = oldArgTypes[i];
+            brgTypes[ins + i] = oldArgTypes[i];
         }
 
-        type = Type.tMethod(type.getReturnType(), argTypes);
+        type = Type.tMethod(type.getReturnType(), brgTypes);
     }
 
     /**
-     * Constructor for an inner class.
+     * Constructor for bn inner clbss.
      */
-    public SourceMember(ClassDefinition innerClass) {
-        super(innerClass);
+    public SourceMember(ClbssDefinition innerClbss) {
+        super(innerClbss);
     }
 
     /**
      * Constructor.
-     * Used only to generate an abstract copy of a method that a class
-     * inherits from an interface
+     * Used only to generbte bn bbstrbct copy of b method thbt b clbss
+     * inherits from bn interfbce
      */
-    public SourceMember(MemberDefinition f, ClassDefinition c, Environment env) {
-        this(f.getWhere(), c, f.getDocumentation(),
-             f.getModifiers() | M_ABSTRACT, f.getType(), f.getName(), null,
+    public SourceMember(MemberDefinition f, ClbssDefinition c, Environment env) {
+        this(f.getWhere(), c, f.getDocumentbtion(),
+             f.getModifiers() | M_ABSTRACT, f.getType(), f.getNbme(), null,
              f.getExceptionIds(), null);
-        this.args = f.getArguments();
-        this.abstractSource = f;
+        this.brgs = f.getArguments();
+        this.bbstrbctSource = f;
         this.exp = f.getExceptions(env);
     }
 
     /**
      * Get exceptions
      */
-    public ClassDeclaration[] getExceptions(Environment env) {
+    public ClbssDeclbrbtion[] getExceptions(Environment env) {
         if ((!isMethod()) || (exp != null)) {
             return exp;
         }
         if (expIds == null) {
-            // (should not happen)
-            exp = new ClassDeclaration[0];
+            // (should not hbppen)
+            exp = new ClbssDeclbrbtion[0];
             return exp;
         }
         // be sure to get the imports right:
-        env = ((SourceClass)getClassDefinition()).setupEnv(env);
-        exp = new ClassDeclaration[expIds.length];
+        env = ((SourceClbss)getClbssDefinition()).setupEnv(env);
+        exp = new ClbssDeclbrbtion[expIds.length];
         for (int i = 0; i < exp.length; i++) {
-            Identifier e = expIds[i].getName();
-            Identifier rexp = getClassDefinition().resolveName(env, e);
-            exp[i] = env.getClassDeclaration(rexp);
+            Identifier e = expIds[i].getNbme();
+            Identifier rexp = getClbssDefinition().resolveNbme(env, e);
+            exp[i] = env.getClbssDeclbrbtion(rexp);
         }
         return exp;
     }
 
     /**
-     * Set array of name-resolved exceptions directly, e.g., for access methods.
+     * Set brrby of nbme-resolved exceptions directly, e.g., for bccess methods.
      */
-    public void setExceptions(ClassDeclaration[] exp) {
+    public void setExceptions(ClbssDeclbrbtion[] exp) {
         this.exp = exp;
     }
 
     /**
-     * Resolve types in a field, after parsing.
-     * @see ClassDefinition.resolveTypeStructure
+     * Resolve types in b field, bfter pbrsing.
+     * @see ClbssDefinition.resolveTypeStructure
      */
 
-    public boolean resolved = false;
+    public boolebn resolved = fblse;
 
     public void resolveTypeStructure(Environment env) {
-        if (tracing) env.dtEnter("SourceMember.resolveTypeStructure: " + this);
+        if (trbcing) env.dtEnter("SourceMember.resolveTypeStructure: " + this);
 
-        // A member should only be resolved once.  For a constructor, it is imperative
-        // that 'addOuterThis' be called only once, else the outer instance argument may
-        // be inserted into the argument list multiple times.
+        // A member should only be resolved once.  For b constructor, it is imperbtive
+        // thbt 'bddOuterThis' be cblled only once, else the outer instbnce brgument mby
+        // be inserted into the brgument list multiple times.
 
         if (resolved) {
-            if (tracing) env.dtEvent("SourceMember.resolveTypeStructure: OK " + this);
-            // This case shouldn't be happening.  It is the responsibility
-            // of our callers to avoid attempting multiple resolutions of a member.
+            if (trbcing) env.dtEvent("SourceMember.resolveTypeStructure: OK " + this);
+            // This cbse shouldn't be hbppening.  It is the responsibility
+            // of our cbllers to bvoid bttempting multiple resolutions of b member.
             // *** REMOVE FOR SHIPMENT? ***
             throw new CompilerError("multiple member type resolution");
             //return;
         } else {
-            if (tracing) env.dtEvent("SourceMember.resolveTypeStructure: RESOLVING " + this);
+            if (trbcing) env.dtEvent("SourceMember.resolveTypeStructure: RESOLVING " + this);
             resolved = true;
         }
 
         super.resolveTypeStructure(env);
-        if (isInnerClass()) {
-            ClassDefinition nc = getInnerClass();
-            if (nc instanceof SourceClass && !nc.isLocal()) {
-                ((SourceClass)nc).resolveTypeStructure(env);
+        if (isInnerClbss()) {
+            ClbssDefinition nc = getInnerClbss();
+            if (nc instbnceof SourceClbss && !nc.isLocbl()) {
+                ((SourceClbss)nc).resolveTypeStructure(env);
             }
-            type = innerClass.getType();
+            type = innerClbss.getType();
         } else {
-            // Expand all class names in 'type', including those that are not
-            // fully-qualified or refer to inner classes, into fully-qualified
-            // names.  Local and anonymous classes get synthesized names here,
-            // corresponding to the class files that will be generated.  This is
-            // currently the only place where 'resolveNames' is used.
-            type = env.resolveNames(getClassDefinition(), type, isSynthetic());
+            // Expbnd bll clbss nbmes in 'type', including those thbt bre not
+            // fully-qublified or refer to inner clbsses, into fully-qublified
+            // nbmes.  Locbl bnd bnonymous clbsses get synthesized nbmes here,
+            // corresponding to the clbss files thbt will be generbted.  This is
+            // currently the only plbce where 'resolveNbmes' is used.
+            type = env.resolveNbmes(getClbssDefinition(), type, isSynthetic());
 
-            // do the throws also:
+            // do the throws blso:
             getExceptions(env);
 
             if (isMethod()) {
-                Vector<MemberDefinition> argNames = args; args = null;
-                createArgumentFields(argNames);
-                // Add outer instance argument for constructors.
+                Vector<MemberDefinition> brgNbmes = brgs; brgs = null;
+                crebteArgumentFields(brgNbmes);
+                // Add outer instbnce brgument for constructors.
                 if (isConstructor()) {
-                    addOuterThis();
+                    bddOuterThis();
                 }
             }
         }
-        if (tracing) env.dtExit("SourceMember.resolveTypeStructure: " + this);
+        if (trbcing) env.dtExit("SourceMember.resolveTypeStructure: " + this);
     }
 
     /**
-     * Get the class declaration in which the field is actually defined
+     * Get the clbss declbrbtion in which the field is bctublly defined
      */
-    public ClassDeclaration getDefiningClassDeclaration() {
-        if (abstractSource == null)
-            return super.getDefiningClassDeclaration();
+    public ClbssDeclbrbtion getDefiningClbssDeclbrbtion() {
+        if (bbstrbctSource == null)
+            return super.getDefiningClbssDeclbrbtion();
         else
-            return abstractSource.getDefiningClassDeclaration();
+            return bbstrbctSource.getDefiningClbssDeclbrbtion();
     }
 
     /**
-     * A source field never reports deprecation, since the compiler
-     * allows access to deprecated features that are being compiled
-     * in the same job.
+     * A source field never reports deprecbtion, since the compiler
+     * bllows bccess to deprecbted febtures thbt bre being compiled
+     * in the sbme job.
      */
-    public boolean reportDeprecated(Environment env) {
-        return false;
+    public boolebn reportDeprecbted(Environment env) {
+        return fblse;
     }
 
     /**
      * Check this field.
      * <p>
      * This is the method which requests checking.
-     * The real work is done by
+     * The rebl work is done by
      * <tt>Vset check(Environment, Context, Vset)</tt>.
      */
-    public void check(Environment env) throws ClassNotFound {
-        if (tracing) env.dtEnter("SourceMember.check: " +
-                                 getName() + ", status = " + status);
-        // rely on the class to check all fields in the proper order
-        if (status == PARSED) {
-            if (isSynthetic() && getValue() == null) {
-                // break a big cycle for small synthetic variables
-                status = CHECKED;
-                if (tracing)
+    public void check(Environment env) throws ClbssNotFound {
+        if (trbcing) env.dtEnter("SourceMember.check: " +
+                                 getNbme() + ", stbtus = " + stbtus);
+        // rely on the clbss to check bll fields in the proper order
+        if (stbtus == PARSED) {
+            if (isSynthetic() && getVblue() == null) {
+                // brebk b big cycle for smbll synthetic vbribbles
+                stbtus = CHECKED;
+                if (trbcing)
                     env.dtExit("SourceMember.check: BREAKING CYCLE");
                 return;
             }
-            if (tracing) env.dtEvent("SourceMember.check: CHECKING CLASS");
-            clazz.check(env);
-            if (status == PARSED) {
-                if (getClassDefinition().getError()) {
-                    status = ERROR;
+            if (trbcing) env.dtEvent("SourceMember.check: CHECKING CLASS");
+            clbzz.check(env);
+            if (stbtus == PARSED) {
+                if (getClbssDefinition().getError()) {
+                    stbtus = ERROR;
                 } else {
-                    if (tracing)
+                    if (trbcing)
                         env.dtExit("SourceMember.check: CHECK FAILED");
-                    throw new CompilerError("check failed");
+                    throw new CompilerError("check fbiled");
                 }
             }
         }
-        if (tracing) env.dtExit("SourceMember.check: DONE " +
-                                getName() + ", status = " + status);
+        if (trbcing) env.dtExit("SourceMember.check: DONE " +
+                                getNbme() + ", stbtus = " + stbtus);
     }
 
     /**
-     * Check a field.
-     * @param vset tells which uplevel variables are definitely assigned
-     * The vset is also used to track the initialization of blank finals
-     * by whichever fields which are relevant to them.
+     * Check b field.
+     * @pbrbm vset tells which uplevel vbribbles bre definitely bssigned
+     * The vset is blso used to trbck the initiblizbtion of blbnk finbls
+     * by whichever fields which bre relevbnt to them.
      */
-    public Vset check(Environment env, Context ctx, Vset vset) throws ClassNotFound {
-        if (tracing) env.dtEvent("SourceMember.check: MEMBER " +
-                                 getName() + ", status = " + status);
-        if (status == PARSED) {
-            if (isInnerClass()) {
-                // some classes are checked separately
-                ClassDefinition nc = getInnerClass();
-                if (nc instanceof SourceClass && !nc.isLocal()
-                    && nc.isInsideLocal()) {
-                    status = CHECKING;
-                    vset = ((SourceClass)nc).checkInsideClass(env, ctx, vset);
+    public Vset check(Environment env, Context ctx, Vset vset) throws ClbssNotFound {
+        if (trbcing) env.dtEvent("SourceMember.check: MEMBER " +
+                                 getNbme() + ", stbtus = " + stbtus);
+        if (stbtus == PARSED) {
+            if (isInnerClbss()) {
+                // some clbsses bre checked sepbrbtely
+                ClbssDefinition nc = getInnerClbss();
+                if (nc instbnceof SourceClbss && !nc.isLocbl()
+                    && nc.isInsideLocbl()) {
+                    stbtus = CHECKING;
+                    vset = ((SourceClbss)nc).checkInsideClbss(env, ctx, vset);
                 }
-                status = CHECKED;
+                stbtus = CHECKED;
                 return vset;
             }
             if (env.dump()) {
-                System.out.println("[check field " + getClassDeclaration().getName() + "." + getName() + "]");
-                if (getValue() != null) {
-                    getValue().print(System.out);
+                System.out.println("[check field " + getClbssDeclbrbtion().getNbme() + "." + getNbme() + "]");
+                if (getVblue() != null) {
+                    getVblue().print(System.out);
                     System.out.println();
                 }
             }
             env = new Environment(env, this);
 
-            // This is where all checking of names appearing within the type
-            // of the member is done.  Includes return type and argument types.
-            // Since only one location ('where') for error messages is provided,
-            // localization of errors is poor.  Throws clauses are handled below.
-            env.resolve(where, getClassDefinition(), getType());
+            // This is where bll checking of nbmes bppebring within the type
+            // of the member is done.  Includes return type bnd brgument types.
+            // Since only one locbtion ('where') for error messbges is provided,
+            // locblizbtion of errors is poor.  Throws clbuses bre hbndled below.
+            env.resolve(where, getClbssDefinition(), getType());
 
-            // Make sure that all the classes that we claim to throw really
-            // are subclasses of Throwable, and are classes that we can reach
+            // Mbke sure thbt bll the clbsses thbt we clbim to throw reblly
+            // bre subclbsses of Throwbble, bnd bre clbsses thbt we cbn rebch
             if (isMethod()) {
-                ClassDeclaration throwable =
-                    env.getClassDeclaration(idJavaLangThrowable);
-                ClassDeclaration exp[] = getExceptions(env);
+                ClbssDeclbrbtion throwbble =
+                    env.getClbssDeclbrbtion(idJbvbLbngThrowbble);
+                ClbssDeclbrbtion exp[] = getExceptions(env);
                 for (int i = 0 ; i < exp.length ; i++) {
-                    ClassDefinition def;
+                    ClbssDefinition def;
                     long where = getWhere();
                     if (expIds != null && i < expIds.length) {
                         where = IdentifierToken.getWhere(expIds[i], where);
                     }
                     try {
-                        def = exp[i].getClassDefinition(env);
+                        def = exp[i].getClbssDefinition(env);
 
-                        // Validate access for all inner-class components
-                        // of a qualified name, not just the last one, which
-                        // is checked below.  Yes, this is a dirty hack...
-                        // Part of fix for 4094658.
-                        env.resolveByName(where, getClassDefinition(), def.getName());
+                        // Vblidbte bccess for bll inner-clbss components
+                        // of b qublified nbme, not just the lbst one, which
+                        // is checked below.  Yes, this is b dirty hbck...
+                        // Pbrt of fix for 4094658.
+                        env.resolveByNbme(where, getClbssDefinition(), def.getNbme());
 
-                    } catch (ClassNotFound e) {
-                        env.error(where, "class.not.found", e.name, "throws");
-                        break;
+                    } cbtch (ClbssNotFound e) {
+                        env.error(where, "clbss.not.found", e.nbme, "throws");
+                        brebk;
                     }
-                    def.noteUsedBy(getClassDefinition(), where, env);
-                    if (!getClassDefinition().
-                          canAccess(env, def.getClassDeclaration())) {
-                        env.error(where, "cant.access.class", def);
-                    } else if (!def.subClassOf(env, throwable)) {
-                        env.error(where, "throws.not.throwable", def);
+                    def.noteUsedBy(getClbssDefinition(), where, env);
+                    if (!getClbssDefinition().
+                          cbnAccess(env, def.getClbssDeclbrbtion())) {
+                        env.error(where, "cbnt.bccess.clbss", def);
+                    } else if (!def.subClbssOf(env, throwbble)) {
+                        env.error(where, "throws.not.throwbble", def);
                     }
                 }
             }
 
-            status = CHECKING;
+            stbtus = CHECKING;
 
-            if (isMethod() && args != null) {
-                int length = args.size();
+            if (isMethod() && brgs != null) {
+                int length = brgs.size();
             outer_loop:
                 for (int i = 0; i < length; i++) {
-                    LocalMember lf = (LocalMember)(args.elementAt(i));
-                    Identifier name_i = lf.getName();
+                    LocblMember lf = (LocblMember)(brgs.elementAt(i));
+                    Identifier nbme_i = lf.getNbme();
                     for (int j = i + 1; j < length; j++) {
-                        LocalMember lf2 = (LocalMember)(args.elementAt(j));
-                        Identifier name_j = lf2.getName();
-                        if (name_i.equals(name_j)) {
-                            env.error(lf2.getWhere(), "duplicate.argument",
-                                      name_i);
-                            break outer_loop;
+                        LocblMember lf2 = (LocblMember)(brgs.elementAt(j));
+                        Identifier nbme_j = lf2.getNbme();
+                        if (nbme_i.equbls(nbme_j)) {
+                            env.error(lf2.getWhere(), "duplicbte.brgument",
+                                      nbme_i);
+                            brebk outer_loop;
                         }
                     }
                 }
             }
 
-            if (getValue() != null) {
+            if (getVblue() != null) {
                 ctx = new Context(ctx, this);
 
                 if (isMethod()) {
-                    Statement s = (Statement)getValue();
-                    // initialize vset, indication that each of the arguments
-                    // to the function has a value
+                    Stbtement s = (Stbtement)getVblue();
+                    // initiblize vset, indicbtion thbt ebch of the brguments
+                    // to the function hbs b vblue
 
-                    for (Enumeration<MemberDefinition> e = args.elements(); e.hasMoreElements();){
-                        LocalMember f = (LocalMember)e.nextElement();
-                        vset.addVar(ctx.declare(env, f));
+                    for (Enumerbtion<MemberDefinition> e = brgs.elements(); e.hbsMoreElements();){
+                        LocblMember f = (LocblMember)e.nextElement();
+                        vset.bddVbr(ctx.declbre(env, f));
                     }
 
                     if (isConstructor()) {
-                        // Undefine "this" in some constructors, until after
-                        // the super constructor has been called.
-                        vset.clearVar(ctx.getThisNumber());
+                        // Undefine "this" in some constructors, until bfter
+                        // the super constructor hbs been cblled.
+                        vset.clebrVbr(ctx.getThisNumber());
 
-                        // If the first thing in the definition isn't a call
+                        // If the first thing in the definition isn't b cbll
                         // to either super() or this(), then insert one.
-                        Expression supCall = s.firstConstructor();
-                        if ((supCall == null)
-                            && (getClassDefinition().getSuperClass() != null)) {
-                            supCall = getDefaultSuperCall(env);
-                            Statement scs = new ExpressionStatement(where,
-                                                                    supCall);
-                            s = Statement.insertStatement(scs, s);
-                            setValue(s);
+                        Expression supCbll = s.firstConstructor();
+                        if ((supCbll == null)
+                            && (getClbssDefinition().getSuperClbss() != null)) {
+                            supCbll = getDefbultSuperCbll(env);
+                            Stbtement scs = new ExpressionStbtement(where,
+                                                                    supCbll);
+                            s = Stbtement.insertStbtement(scs, s);
+                            setVblue(s);
                         }
                     }
 
                     //System.out.println("VSET = " + vset);
-                    ClassDeclaration exp[] = getExceptions(env);
+                    ClbssDeclbrbtion exp[] = getExceptions(env);
                     int htsize = (exp.length > 3) ? 17 : 7;
-                    Hashtable<Object, Object> thrown = new Hashtable<>(htsize);
+                    Hbshtbble<Object, Object> thrown = new Hbshtbble<>(htsize);
 
                     vset = s.checkMethod(env, ctx, vset, thrown);
 
-                    ClassDeclaration ignore1 =
-                        env.getClassDeclaration(idJavaLangError);
-                    ClassDeclaration ignore2 =
-                        env.getClassDeclaration(idJavaLangRuntimeException);
+                    ClbssDeclbrbtion ignore1 =
+                        env.getClbssDeclbrbtion(idJbvbLbngError);
+                    ClbssDeclbrbtion ignore2 =
+                        env.getClbssDeclbrbtion(idJbvbLbngRuntimeException);
 
-                    for (Enumeration<Object> e = thrown.keys(); e.hasMoreElements();) {
-                        ClassDeclaration c = (ClassDeclaration)e.nextElement();
-                        ClassDefinition def = c.getClassDefinition(env);
-                        if (def.subClassOf(env, ignore1)
-                                 || def.subClassOf(env, ignore2)) {
+                    for (Enumerbtion<Object> e = thrown.keys(); e.hbsMoreElements();) {
+                        ClbssDeclbrbtion c = (ClbssDeclbrbtion)e.nextElement();
+                        ClbssDefinition def = c.getClbssDefinition(env);
+                        if (def.subClbssOf(env, ignore1)
+                                 || def.subClbssOf(env, ignore2)) {
                             continue;
                         }
 
-                        boolean ok = false;
-                        if (!isInitializer()) {
+                        boolebn ok = fblse;
+                        if (!isInitiblizer()) {
                             for (int i = 0 ; i < exp.length ; i++) {
-                                if (def.subClassOf(env, exp[i])) {
+                                if (def.subClbssOf(env, exp[i])) {
                                     ok = true;
                                 }
                             }
@@ -581,104 +581,104 @@ class SourceMember extends MemberDefinition implements Constants {
 
                             if (isConstructor()) {
                                 if (where ==
-                                    getClassDefinition().getWhere()) {
+                                    getClbssDefinition().getWhere()) {
 
-                                    // If this message is being generated for
-                                    // a default constructor, we should give
-                                    // a different error message.  Currently
+                                    // If this messbge is being generbted for
+                                    // b defbult constructor, we should give
+                                    // b different error messbge.  Currently
                                     // we check for this by seeing if the
-                                    // constructor has the same "where" as
-                                    // its class.  This is a bit kludgy, but
+                                    // constructor hbs the sbme "where" bs
+                                    // its clbss.  This is b bit kludgy, but
                                     // works. (bug id 4034836)
                                     errorMsg = "def.constructor.exception";
                                 } else {
-                                    // Constructor with uncaught exception.
+                                    // Constructor with uncbught exception.
                                     errorMsg = "constructor.exception";
                                 }
-                            } else if (isInitializer()) {
-                                // Initializer with uncaught exception.
-                                errorMsg = "initializer.exception";
+                            } else if (isInitiblizer()) {
+                                // Initiblizer with uncbught exception.
+                                errorMsg = "initiblizer.exception";
                             } else {
-                                // Method with uncaught exception.
-                                errorMsg = "uncaught.exception";
+                                // Method with uncbught exception.
+                                errorMsg = "uncbught.exception";
                             }
-                            env.error(where, errorMsg, c.getName());
+                            env.error(where, errorMsg, c.getNbme());
                         }
                     }
                 } else {
-                    Hashtable<Object, Object> thrown = new Hashtable<>(3);  // small & throw-away
-                    Expression val = (Expression)getValue();
+                    Hbshtbble<Object, Object> thrown = new Hbshtbble<>(3);  // smbll & throw-bwby
+                    Expression vbl = (Expression)getVblue();
 
-                    vset = val.checkInitializer(env, ctx, vset,
+                    vset = vbl.checkInitiblizer(env, ctx, vset,
                                                 getType(), thrown);
-                    setValue(val.convert(env, ctx, getType(), val));
+                    setVblue(vbl.convert(env, ctx, getType(), vbl));
 
-                    // Complain about static final members of inner classes that
-                    // do not have an initializer that is a constant expression.
-                    // In general, static members are not permitted for inner
-                    // classes, but an exception is made for named constants.
-                    // Other cases of static members, including non-final ones,
-                    // are handled in 'SourceClass'.  Part of fix for 4095568.
-                    if (isStatic() && isFinal() && !clazz.isTopLevel()) {
-                        if (!((Expression)getValue()).isConstant()) {
-                            env.error(where, "static.inner.field", getName(), this);
-                            setValue(null);
+                    // Complbin bbout stbtic finbl members of inner clbsses thbt
+                    // do not hbve bn initiblizer thbt is b constbnt expression.
+                    // In generbl, stbtic members bre not permitted for inner
+                    // clbsses, but bn exception is mbde for nbmed constbnts.
+                    // Other cbses of stbtic members, including non-finbl ones,
+                    // bre hbndled in 'SourceClbss'.  Pbrt of fix for 4095568.
+                    if (isStbtic() && isFinbl() && !clbzz.isTopLevel()) {
+                        if (!((Expression)getVblue()).isConstbnt()) {
+                            env.error(where, "stbtic.inner.field", getNbme(), this);
+                            setVblue(null);
                         }
                     }
 
 
-                    // Both RuntimeExceptions and Errors should be
-                    // allowed in initializers.  Fix for bug 4102541.
-                    ClassDeclaration except =
-                         env.getClassDeclaration(idJavaLangThrowable);
-                    ClassDeclaration ignore1 =
-                        env.getClassDeclaration(idJavaLangError);
-                    ClassDeclaration ignore2 =
-                        env.getClassDeclaration(idJavaLangRuntimeException);
+                    // Both RuntimeExceptions bnd Errors should be
+                    // bllowed in initiblizers.  Fix for bug 4102541.
+                    ClbssDeclbrbtion except =
+                         env.getClbssDeclbrbtion(idJbvbLbngThrowbble);
+                    ClbssDeclbrbtion ignore1 =
+                        env.getClbssDeclbrbtion(idJbvbLbngError);
+                    ClbssDeclbrbtion ignore2 =
+                        env.getClbssDeclbrbtion(idJbvbLbngRuntimeException);
 
-                    for (Enumeration<Object> e = thrown.keys(); e.hasMoreElements(); ) {
-                        ClassDeclaration c = (ClassDeclaration)e.nextElement();
-                        ClassDefinition def = c.getClassDefinition(env);
+                    for (Enumerbtion<Object> e = thrown.keys(); e.hbsMoreElements(); ) {
+                        ClbssDeclbrbtion c = (ClbssDeclbrbtion)e.nextElement();
+                        ClbssDefinition def = c.getClbssDefinition(env);
 
-                        if (!def.subClassOf(env, ignore1)
-                            && !def.subClassOf(env, ignore2)
-                            && def.subClassOf(env, except)) {
+                        if (!def.subClbssOf(env, ignore1)
+                            && !def.subClbssOf(env, ignore2)
+                            && def.subClbssOf(env, except)) {
                             Node n = (Node)thrown.get(c);
                             env.error(n.getWhere(),
-                                      "initializer.exception", c.getName());
+                                      "initiblizer.exception", c.getNbme());
                         }
                     }
                 }
                 if (env.dump()) {
-                    getValue().print(System.out);
+                    getVblue().print(System.out);
                     System.out.println();
                 }
             }
-            status = getClassDefinition().getError() ? ERROR : CHECKED;
+            stbtus = getClbssDefinition().getError() ? ERROR : CHECKED;
         }
 
 
-        // Initializers (static and instance) must be able to complete normally.
-        if (isInitializer() && vset.isDeadEnd()) {
-            env.error(where, "init.no.normal.completion");
-            vset = vset.clearDeadEnd();
+        // Initiblizers (stbtic bnd instbnce) must be bble to complete normblly.
+        if (isInitiblizer() && vset.isDebdEnd()) {
+            env.error(where, "init.no.normbl.completion");
+            vset = vset.clebrDebdEnd();
         }
 
         return vset;
     }
 
-    // helper to check(): synthesize a missing super() call
-    private Expression getDefaultSuperCall(Environment env) {
+    // helper to check(): synthesize b missing super() cbll
+    privbte Expression getDefbultSuperCbll(Environment env) {
         Expression se = null;
-        ClassDefinition sclass = getClassDefinition().getSuperClass().getClassDefinition();
-        // does the superclass constructor require an enclosing instance?
-        ClassDefinition reqc = (sclass == null) ? null
-                             : sclass.isTopLevel() ? null
-                             : sclass.getOuterClass();
-        ClassDefinition thisc = getClassDefinition();
+        ClbssDefinition sclbss = getClbssDefinition().getSuperClbss().getClbssDefinition();
+        // does the superclbss constructor require bn enclosing instbnce?
+        ClbssDefinition reqc = (sclbss == null) ? null
+                             : sclbss.isTopLevel() ? null
+                             : sclbss.getOuterClbss();
+        ClbssDefinition thisc = getClbssDefinition();
         if (reqc != null && !Context.outerLinkExists(env, reqc, thisc)) {
             se = new SuperExpression(where, new NullExpression(where));
-            env.error(where, "no.default.outer.arg", reqc, getClassDefinition());
+            env.error(where, "no.defbult.outer.brg", reqc, getClbssDefinition());
         }
         if (se == null) {
             se = new SuperExpression(where);
@@ -689,205 +689,205 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Inline the field
      */
-    void inline(Environment env) throws ClassNotFound {
-        switch (status) {
-          case PARSED:
+    void inline(Environment env) throws ClbssNotFound {
+        switch (stbtus) {
+          cbse PARSED:
             check(env);
             inline(env);
-            break;
+            brebk;
 
-          case CHECKED:
+          cbse CHECKED:
             if (env.dump()) {
-                System.out.println("[inline field " + getClassDeclaration().getName() + "." + getName() + "]");
+                System.out.println("[inline field " + getClbssDeclbrbtion().getNbme() + "." + getNbme() + "]");
             }
-            status = INLINING;
+            stbtus = INLINING;
             env = new Environment(env, this);
 
             if (isMethod()) {
-                if ((!isNative()) && (!isAbstract())) {
-                    Statement s = (Statement)getValue();
+                if ((!isNbtive()) && (!isAbstrbct())) {
+                    Stbtement s = (Stbtement)getVblue();
                     Context ctx = new Context((Context)null, this);
-                    for (Enumeration<MemberDefinition> e = args.elements() ; e.hasMoreElements() ;) {
-                        LocalMember local = (LocalMember)e.nextElement();
-                        ctx.declare(env, local);
+                    for (Enumerbtion<MemberDefinition> e = brgs.elements() ; e.hbsMoreElements() ;) {
+                        LocblMember locbl = (LocblMember)e.nextElement();
+                        ctx.declbre(env, locbl);
                     }
-                    setValue(s.inline(env, ctx));
+                    setVblue(s.inline(env, ctx));
                 }
-            } else if (isInnerClass()) {
-                // some classes are checked and inlined separately
-                ClassDefinition nc = getInnerClass();
-                if (nc instanceof SourceClass && !nc.isLocal()
-                    && nc.isInsideLocal()) {
-                    status = INLINING;
-                    ((SourceClass)nc).inlineLocalClass(env);
+            } else if (isInnerClbss()) {
+                // some clbsses bre checked bnd inlined sepbrbtely
+                ClbssDefinition nc = getInnerClbss();
+                if (nc instbnceof SourceClbss && !nc.isLocbl()
+                    && nc.isInsideLocbl()) {
+                    stbtus = INLINING;
+                    ((SourceClbss)nc).inlineLocblClbss(env);
                 }
-                status = INLINED;
-                break;
+                stbtus = INLINED;
+                brebk;
             } else {
-                if (getValue() != null)  {
+                if (getVblue() != null)  {
                     Context ctx = new Context((Context)null, this);
-                    if (!isStatic()) {
-                        // Cf. "thisArg" in SourceClass.checkMembers().
+                    if (!isStbtic()) {
+                        // Cf. "thisArg" in SourceClbss.checkMembers().
                         Context ctxInst = new Context(ctx, this);
-                        LocalMember thisArg =
-                                    ((SourceClass)clazz).getThisArgument();
-                        ctxInst.declare(env, thisArg);
-                        setValue(((Expression)getValue())
-                                    .inlineValue(env, ctxInst));
+                        LocblMember thisArg =
+                                    ((SourceClbss)clbzz).getThisArgument();
+                        ctxInst.declbre(env, thisArg);
+                        setVblue(((Expression)getVblue())
+                                    .inlineVblue(env, ctxInst));
                     } else {
-                        setValue(((Expression)getValue())
-                                    .inlineValue(env, ctx));
+                        setVblue(((Expression)getVblue())
+                                    .inlineVblue(env, ctx));
                     }
                 }
             }
             if (env.dump()) {
-                System.out.println("[inlined field " + getClassDeclaration().getName() + "." + getName() + "]");
-                if (getValue() != null) {
-                    getValue().print(System.out);
+                System.out.println("[inlined field " + getClbssDeclbrbtion().getNbme() + "." + getNbme() + "]");
+                if (getVblue() != null) {
+                    getVblue().print(System.out);
                     System.out.println();
                 } else {
                     System.out.println("<empty>");
                 }
             }
-            status = INLINED;
-            break;
+            stbtus = INLINED;
+            brebk;
         }
     }
 
     /**
-     * Get the value of the field (or null if the value can't be determined)
+     * Get the vblue of the field (or null if the vblue cbn't be determined)
      */
-    public Node getValue(Environment env) throws ClassNotFound {
-        Node value = getValue();
-        if (value != null && status != INLINED) {
+    public Node getVblue(Environment env) throws ClbssNotFound {
+        Node vblue = getVblue();
+        if (vblue != null && stbtus != INLINED) {
             // be sure to get the imports right:
-            env = ((SourceClass)clazz).setupEnv(env);
+            env = ((SourceClbss)clbzz).setupEnv(env);
             inline(env);
-            value = (status == INLINED) ? getValue() : null;
+            vblue = (stbtus == INLINED) ? getVblue() : null;
         }
-        return value;
+        return vblue;
     }
 
-    public boolean isInlineable(Environment env, boolean fromFinal) throws ClassNotFound {
-        if (super.isInlineable(env, fromFinal)) {
-            getValue(env);
-            return (status == INLINED) && !getClassDefinition().getError();
+    public boolebn isInlinebble(Environment env, boolebn fromFinbl) throws ClbssNotFound {
+        if (super.isInlinebble(env, fromFinbl)) {
+            getVblue(env);
+            return (stbtus == INLINED) && !getClbssDefinition().getError();
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Get the initial value of the field
+     * Get the initibl vblue of the field
      */
-    public Object getInitialValue() {
-        if (isMethod() || (getValue() == null) || (!isFinal()) || (status != INLINED)) {
+    public Object getInitiblVblue() {
+        if (isMethod() || (getVblue() == null) || (!isFinbl()) || (stbtus != INLINED)) {
             return null;
         }
-        return ((Expression)getValue()).getValue();
+        return ((Expression)getVblue()).getVblue();
     }
 
     /**
-     * Generate code
+     * Generbte code
      */
-    public void code(Environment env, Assembler asm) throws ClassNotFound {
-        switch (status) {
-          case PARSED:
+    public void code(Environment env, Assembler bsm) throws ClbssNotFound {
+        switch (stbtus) {
+          cbse PARSED:
             check(env);
-            code(env, asm);
+            code(env, bsm);
             return;
 
-          case CHECKED:
+          cbse CHECKED:
             inline(env);
-            code(env, asm);
+            code(env, bsm);
             return;
 
-          case INLINED:
-            // Actually generate code
+          cbse INLINED:
+            // Actublly generbte code
             if (env.dump()) {
-                System.out.println("[code field " + getClassDeclaration().getName() + "." + getName() + "]");
+                System.out.println("[code field " + getClbssDeclbrbtion().getNbme() + "." + getNbme() + "]");
             }
-            if (isMethod() && (!isNative()) && (!isAbstract())) {
+            if (isMethod() && (!isNbtive()) && (!isAbstrbct())) {
                 env = new Environment(env, this);
                 Context ctx = new Context((Context)null, this);
-                Statement s = (Statement)getValue();
+                Stbtement s = (Stbtement)getVblue();
 
-                for (Enumeration<MemberDefinition> e = args.elements() ; e.hasMoreElements() ; ) {
-                    LocalMember f = (LocalMember)e.nextElement();
-                    ctx.declare(env, f);
-                    //ctx.declare(env, (LocalMember)e.nextElement());
+                for (Enumerbtion<MemberDefinition> e = brgs.elements() ; e.hbsMoreElements() ; ) {
+                    LocblMember f = (LocblMember)e.nextElement();
+                    ctx.declbre(env, f);
+                    //ctx.declbre(env, (LocblMember)e.nextElement());
                 }
 
                 /*
                 if (isConstructor() && ((s == null) || (s.firstConstructor() == null))) {
-                    ClassDeclaration c = getClassDefinition().getSuperClass();
+                    ClbssDeclbrbtion c = getClbssDefinition().getSuperClbss();
                     if (c != null) {
-                        MemberDefinition field = c.getClassDefinition(env).matchMethod(env, getClassDefinition(), idInit);
-                        asm.add(getWhere(), opc_aload, new Integer(0));
-                        asm.add(getWhere(), opc_invokespecial, field);
-                        asm.add(getWhere(), opc_pop);
+                        MemberDefinition field = c.getClbssDefinition(env).mbtchMethod(env, getClbssDefinition(), idInit);
+                        bsm.bdd(getWhere(), opc_blobd, new Integer(0));
+                        bsm.bdd(getWhere(), opc_invokespecibl, field);
+                        bsm.bdd(getWhere(), opc_pop);
                     }
 
-                    // Output initialization code
-                    for (MemberDefinition f = getClassDefinition().getFirstMember() ; f != null ; f = f.getNextMember()) {
-                        if (!f.isStatic()) {
-                            f.codeInit(env, ctx, asm);
+                    // Output initiblizbtion code
+                    for (MemberDefinition f = getClbssDefinition().getFirstMember() ; f != null ; f = f.getNextMember()) {
+                        if (!f.isStbtic()) {
+                            f.codeInit(env, ctx, bsm);
                         }
                     }
                 }
                 */
                 if (s != null) {
-                    s.code(env, ctx, asm);
+                    s.code(env, ctx, bsm);
                 }
-                if (getType().getReturnType().isType(TC_VOID) && !isInitializer()) {
-                   asm.add(getWhere(), opc_return, true);
+                if (getType().getReturnType().isType(TC_VOID) && !isInitiblizer()) {
+                   bsm.bdd(getWhere(), opc_return, true);
                 }
             }
             return;
         }
     }
 
-    public void codeInit(Environment env, Context ctx, Assembler asm) throws ClassNotFound {
+    public void codeInit(Environment env, Context ctx, Assembler bsm) throws ClbssNotFound {
         if (isMethod()) {
             return;
         }
-        switch (status) {
-          case PARSED:
+        switch (stbtus) {
+          cbse PARSED:
             check(env);
-            codeInit(env, ctx, asm);
+            codeInit(env, ctx, bsm);
             return;
 
-          case CHECKED:
+          cbse CHECKED:
             inline(env);
-            codeInit(env, ctx, asm);
+            codeInit(env, ctx, bsm);
             return;
 
-          case INLINED:
-            // Actually generate code
+          cbse INLINED:
+            // Actublly generbte code
             if (env.dump()) {
-                System.out.println("[code initializer  " + getClassDeclaration().getName() + "." + getName() + "]");
+                System.out.println("[code initiblizer  " + getClbssDeclbrbtion().getNbme() + "." + getNbme() + "]");
             }
-            if (getValue() != null) {
-                Expression e = (Expression)getValue();
-                // The JLS Section 8.5 specifies that static (non-final)
-                // initializers should be executed in textual order.  Eliding
-                // initializations to default values can interfere with this,
-                // so the tests for !e.equalsDefault() have been eliminated,
+            if (getVblue() != null) {
+                Expression e = (Expression)getVblue();
+                // The JLS Section 8.5 specifies thbt stbtic (non-finbl)
+                // initiblizers should be executed in textubl order.  Eliding
+                // initiblizbtions to defbult vblues cbn interfere with this,
+                // so the tests for !e.equblsDefbult() hbve been eliminbted,
                 // below.
-                if (isStatic()) {
-                    if (getInitialValue() == null) {
-                        // removed: && !e.equalsDefault()) {
-                        e.codeValue(env, ctx, asm);
-                        asm.add(getWhere(), opc_putstatic, this);
+                if (isStbtic()) {
+                    if (getInitiblVblue() == null) {
+                        // removed: && !e.equblsDefbult()) {
+                        e.codeVblue(env, ctx, bsm);
+                        bsm.bdd(getWhere(), opc_putstbtic, this);
                     }
-                } else { // removed: if (!e.equalsDefault()) {
-                    // This code doesn't appear to be reached for
-                    // instance initializers.  Code for these is generated
-                    // in the makeVarInits() method of the class
+                } else { // removed: if (!e.equblsDefbult()) {
+                    // This code doesn't bppebr to be rebched for
+                    // instbnce initiblizers.  Code for these is generbted
+                    // in the mbkeVbrInits() method of the clbss
                     // MethodExpression.
-                    asm.add(getWhere(), opc_aload, 0);
-                    e.codeValue(env, ctx, asm);
-                    asm.add(getWhere(), opc_putfield, this);
+                    bsm.bdd(getWhere(), opc_blobd, 0);
+                    e.codeVblue(env, ctx, bsm);
+                    bsm.bdd(getWhere(), opc_putfield, this);
                 }
             }
             return;
@@ -897,10 +897,10 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Print for debugging
      */
-    public void print(PrintStream out) {
+    public void print(PrintStrebm out) {
         super.print(out);
-        if (getValue() != null) {
-            getValue().print(out);
+        if (getVblue() != null) {
+            getVblue().print(out);
             out.println();
         }
     }

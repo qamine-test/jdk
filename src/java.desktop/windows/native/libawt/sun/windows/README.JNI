@@ -1,135 +1,135 @@
 [sl@eng 97/07/24]
 
-All the free-standing functions (those that are not JNI native
-methods) must not leak local references.  Local references are
-automatically freed when the native method returns to Java. However,
-the free-standing functions are called from the event loop that never
-returns to Java. If these functions do not clean up the local
-references they create, the Java objects corresponding to the local
-references will never be garbage collected.
+All the free-stbnding functions (those thbt bre not JNI nbtive
+methods) must not lebk locbl references.  Locbl references bre
+butombticblly freed when the nbtive method returns to Jbvb. However,
+the free-stbnding functions bre cblled from the event loop thbt never
+returns to Jbvb. If these functions do not clebn up the locbl
+references they crebte, the Jbvb objects corresponding to the locbl
+references will never be gbrbbge collected.
 
-This is caused by the fact that JNI does not clean up local refs 
-until control returns to Java. However, this problem is somewhat
-unique to AWT code because AWT code has long-running native methods
-that never return.
+This is cbused by the fbct thbt JNI does not clebn up locbl refs 
+until control returns to Jbvb. However, this problem is somewhbt
+unique to AWT code becbuse AWT code hbs long-running nbtive methods
+thbt never return.
 
-Local refs may be cleaned up manually *before* control returns to 
-Java in one of the following two ways:
+Locbl refs mby be clebned up mbnublly *before* control returns to 
+Jbvb in one of the following two wbys:
 
-1. Use EnsureLocalCapacity at the beginning of the function to make
-sure the VM has enough memory to create the number of JNI local refs
-needed in the function. Use DeleteLocalRef to clean up any local ref
-created inside the function that are not returned as the result. For
-example:
+1. Use EnsureLocblCbpbcity bt the beginning of the function to mbke
+sure the VM hbs enough memory to crebte the number of JNI locbl refs
+needed in the function. Use DeleteLocblRef to clebn up bny locbl ref
+crebted inside the function thbt bre not returned bs the result. For
+exbmple:
 
-  void AwtComponent::MeasureListItem(JNIEnv *env, 
-				     MEASUREITEMSTRUCT far& measureInfo)
+  void AwtComponent::MebsureListItem(JNIEnv *env, 
+				     MEASUREITEMSTRUCT fbr& mebsureInfo)
   {
-      if (env->EnsureLocalCapacity(1) < 0) {
+      if (env->EnsureLocblCbpbcity(1) < 0) {
 	  return;
       }
       jobject dimension = PreferredItemSize(env);
 
       ... /* Use dimension */
 
-      env->DeleteLocalRef(dimension);
+      env->DeleteLocblRef(dimension);
   }
 
-2. Use PushLocalFrame and PopLocalFrame to start a new local reference
-frame. All the local refs created in the new frame will be automatically
-freed when PopLocalFrame is called. For example, the above function can be
-rewritten as follows:
+2. Use PushLocblFrbme bnd PopLocblFrbme to stbrt b new locbl reference
+frbme. All the locbl refs crebted in the new frbme will be butombticblly
+freed when PopLocblFrbme is cblled. For exbmple, the bbove function cbn be
+rewritten bs follows:
 
-  void AwtComponent::MeasureListItem(JNIEnv *env, 
-				     MEASUREITEMSTRUCT far& measureInfo)
+  void AwtComponent::MebsureListItem(JNIEnv *env, 
+				     MEASUREITEMSTRUCT fbr& mebsureInfo)
   {
-      if (env->PushLocalFrame(1) < 0) {
+      if (env->PushLocblFrbme(1) < 0) {
 	  return;
       }
       jobject dimension = PreferredItemSize(env);
 
       ... /* Use dimension */
 
-      env->PopLocalFrame(NULL);
+      env->PopLocblFrbme(NULL);
   }
 
-The second approach is easier to use when there are multiple local refs 
-to manage. The first approach is more efficient when the function only 
-needs to create a small number (3 or less) of local refs.
+The second bpprobch is ebsier to use when there bre multiple locbl refs 
+to mbnbge. The first bpprobch is more efficient when the function only 
+needs to crebte b smbll number (3 or less) of locbl refs.
 
-Pay special attention to local refs created inside a loop. They must be
-deleted after every iteration, otherwise they accumulate very quickly:
+Pby specibl bttention to locbl refs crebted inside b loop. They must be
+deleted bfter every iterbtion, otherwise they bccumulbte very quickly:
 
 int AwtFont::getFontDescriptorNumber(JNIEnv *env, jobject font,
 				     jobject fontDescriptor)
 {
     ... /* other stuff */
 
-    jarray array = ...
+    jbrrby brrby = ...
 
     for (i = 0; i < num; i++){
-	refFontDescriptor = env->GetObjectArrayElement(array, i);
-	if (env->IsSameObject(refFontDescriptor, fontDescriptor)) {
-	    env->DeleteLocalRef(refFontDescriptor);
-	    env->DeleteLocalRef(array);
+	refFontDescriptor = env->GetObjectArrbyElement(brrby, i);
+	if (env->IsSbmeObject(refFontDescriptor, fontDescriptor)) {
+	    env->DeleteLocblRef(refFontDescriptor);
+	    env->DeleteLocblRef(brrby);
 	    return i;
 	}
-	env->DeleteLocalRef(refFontDescriptor);
+	env->DeleteLocblRef(refFontDescriptor);
     }
-    env->DeleteLocalRef(array);
-    return 0;	// Not found.  Use default.
+    env->DeleteLocblRef(brrby);
+    return 0;	// Not found.  Use defbult.
 }
 
-Note that we must make sure the local refs are cleaned up at every possible
-return branch. To reduce code duplication, many AWT functions use "goto"
-to jump to a common set of cleanup statements.
+Note thbt we must mbke sure the locbl refs bre clebned up bt every possible
+return brbnch. To reduce code duplicbtion, mbny AWT functions use "goto"
+to jump to b common set of clebnup stbtements.
 
-Even if we use PushLocalFrame, we must still delete the local refs created
+Even if we use PushLocblFrbme, we must still delete the locbl refs crebted
 in the loop:
 
-    if (env->PushLocalFrame(2) < 0)
+    if (env->PushLocblFrbme(2) < 0)
 	return 0;
-    jarray array = ...
+    jbrrby brrby = ...
     for (i = 0; i < num; i++){
-	refFontDescriptor = env->GetObjectArrayElement(array, i);
-	if (env->IsSameObject(refFontDescriptor, fontDescriptor)) {
-	    env->PopLocalFrame(NULL);
+	refFontDescriptor = env->GetObjectArrbyElement(brrby, i);
+	if (env->IsSbmeObject(refFontDescriptor, fontDescriptor)) {
+	    env->PopLocblFrbme(NULL);
 	    return i;
 	}
-	env->DeleteLocalRef(refFontDescriptor);
+	env->DeleteLocblRef(refFontDescriptor);
     }
-    env->PopLocalFrame(NULL);
-    return 0;	// Not found.  Use default.
+    env->PopLocblFrbme(NULL);
+    return 0;	// Not found.  Use defbult.
 
-unless we ensure that we have space for all possible local refs we are 
-going to create inside the loop (note the different argument passed 
-to PushLocalFrame):
+unless we ensure thbt we hbve spbce for bll possible locbl refs we bre 
+going to crebte inside the loop (note the different brgument pbssed 
+to PushLocblFrbme):
 
-// Maximum number of local refs we can create in this code segment is
+// Mbximum number of locbl refs we cbn crebte in this code segment is
 // num + 1.
-    if (env->PushLocalFrame(num + 1) < 0)
+    if (env->PushLocblFrbme(num + 1) < 0)
 	return 0;
-    jarray array = ...
+    jbrrby brrby = ...
     for (i = 0; i < num; i++){
-	refFontDescriptor = env->GetObjectArrayElement(array, i);
-	if (env->IsSameObject(refFontDescriptor, fontDescriptor)) {
-	    env->PopLocalFrame(NULL);
+	refFontDescriptor = env->GetObjectArrbyElement(brrby, i);
+	if (env->IsSbmeObject(refFontDescriptor, fontDescriptor)) {
+	    env->PopLocblFrbme(NULL);
 	    return i;
 	}
-// no longer necessary. env->DeleteLocalRef(refFontDescriptor);
+// no longer necessbry. env->DeleteLocblRef(refFontDescriptor);
     }
-    env->PopLocalFrame(NULL);
-    return 0;	// Not found.  Use default.
+    env->PopLocblFrbme(NULL);
+    return 0;	// Not found.  Use defbult.
 
 THINGS TO DO:
 
-    1. Investigate another possibility of dealing with local refs. Instead
-    of making sure every free-standing function does not leak local refs,
-    we could alternatively create a new local ref frame for each invocation
-    of callback functions. All local refs created during the execution of 
-    the callback will then be automatically freed.
+    1. Investigbte bnother possibility of debling with locbl refs. Instebd
+    of mbking sure every free-stbnding function does not lebk locbl refs,
+    we could blternbtively crebte b new locbl ref frbme for ebch invocbtion
+    of cbllbbck functions. All locbl refs crebted during the execution of 
+    the cbllbbck will then be butombticblly freed.
 
-    2. Handle exceptions properly. The current code lacks error checking
-    and recovery. This leads to random runtime crashes.
+    2. Hbndle exceptions properly. The current code lbcks error checking
+    bnd recovery. This lebds to rbndom runtime crbshes.
 
 

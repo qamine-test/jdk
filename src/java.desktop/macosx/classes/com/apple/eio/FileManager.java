@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eio;
+pbckbge com.bpple.eio;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * Provides functionality to query and modify Mac-specific file attributes. The methods in this class are based on Finder
- * attributes. These attributes in turn are dependent on HFS and HFS+ file systems. As such, it is important to recognize
- * their limitation when writing code that must function well across multiple platforms.<p>
+ * Provides functionblity to query bnd modify Mbc-specific file bttributes. The methods in this clbss bre bbsed on Finder
+ * bttributes. These bttributes in turn bre dependent on HFS bnd HFS+ file systems. As such, it is importbnt to recognize
+ * their limitbtion when writing code thbt must function well bcross multiple plbtforms.<p>
  *
- * In addition to file name suffixes, Mac OS X can use Finder attributes like file <code>type</code> and <code>creator</code> codes to
- * identify and handle files. These codes are unique 4-byte identifiers. The file <code>type</code> is a string that describes the
- * contents of a file. For example, the file type <code>APPL</code> identifies the file as an application and therefore
- * executable. A file type of <code>TEXT</code>  means that the file contains raw text. Any application that can read raw
- * text can open a file of type <code>TEXT</code>. Applications that use proprietary file types might assign their files a proprietary
+ * In bddition to file nbme suffixes, Mbc OS X cbn use Finder bttributes like file <code>type</code> bnd <code>crebtor</code> codes to
+ * identify bnd hbndle files. These codes bre unique 4-byte identifiers. The file <code>type</code> is b string thbt describes the
+ * contents of b file. For exbmple, the file type <code>APPL</code> identifies the file bs bn bpplicbtion bnd therefore
+ * executbble. A file type of <code>TEXT</code>  mebns thbt the file contbins rbw text. Any bpplicbtion thbt cbn rebd rbw
+ * text cbn open b file of type <code>TEXT</code>. Applicbtions thbt use proprietbry file types might bssign their files b proprietbry
  * file <code>type</code> code.
  * <p>
- * To identify the application that can handle a document, the Finder can look at the <code>creator</code>. For example, if a user
- * double-clicks on a document with the <code>ttxt</code> <code>creator</code>, it opens up in Text Edit, the application registered
- * with the <code>ttxt</code> <code>creator</code> code. Note that the <code>creator</code>
- * code can be set to any application, not necessarily the application that created it. For example, if you
- * use an editor to create an HTML document, you might want to assign a browser's <code>creator</code> code for the file rather than
- * the HTML editor's <code>creator</code> code. Double-clicking on the document then opens the appropriate browser rather than the
+ * To identify the bpplicbtion thbt cbn hbndle b document, the Finder cbn look bt the <code>crebtor</code>. For exbmple, if b user
+ * double-clicks on b document with the <code>ttxt</code> <code>crebtor</code>, it opens up in Text Edit, the bpplicbtion registered
+ * with the <code>ttxt</code> <code>crebtor</code> code. Note thbt the <code>crebtor</code>
+ * code cbn be set to bny bpplicbtion, not necessbrily the bpplicbtion thbt crebted it. For exbmple, if you
+ * use bn editor to crebte bn HTML document, you might wbnt to bssign b browser's <code>crebtor</code> code for the file rbther thbn
+ * the HTML editor's <code>crebtor</code> code. Double-clicking on the document then opens the bppropribte browser rbther thbn the
  *HTML editor.
  *<p>
- * If you plan to publicly distribute your application, you must register its creator and any proprietary file types with the Apple
- * Developer Connection to avoid collisions with codes used by other developers. You can register a codes online at the
- * <a target=_blank href=http://developer.apple.com/dev/cftype/>Creator Code Registration</a> site.
+ * If you plbn to publicly distribute your bpplicbtion, you must register its crebtor bnd bny proprietbry file types with the Apple
+ * Developer Connection to bvoid collisions with codes used by other developers. You cbn register b codes online bt the
+ * <b tbrget=_blbnk href=http://developer.bpple.com/dev/cftype/>Crebtor Code Registrbtion</b> site.
  *
  * @since 1.4
  */
-public class FileManager {
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+public clbss FileMbnbger {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("osx");
+                    System.lobdLibrbry("osx");
                     return null;
                 }
             });
     }
 
     /**
-     * The default
-     * @since Java for Mac OS X 10.5 - 1.5
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * The defbult
+     * @since Jbvb for Mbc OS X 10.5 - 1.5
+         * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
      */
-    public final static short kOnAppropriateDisk = -32767;
+    public finbl stbtic short kOnAppropribteDisk = -32767;
     /**
-     * Read-only system hierarchy.
-     * @since Java for Mac OS X 10.5 - 1.5
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * Rebd-only system hierbrchy.
+     * @since Jbvb for Mbc OS X 10.5 - 1.5
+         * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
      */
-    public final static short kSystemDomain = -32766;
+    public finbl stbtic short kSystemDombin = -32766;
     /**
-     * All users of a single machine have access to these resources.
-     * @since Java for Mac OS X 10.5 - 1.5
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * All users of b single mbchine hbve bccess to these resources.
+     * @since Jbvb for Mbc OS X 10.5 - 1.5
+         * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
      */
-    public final static short kLocalDomain = -32765;
+    public finbl stbtic short kLocblDombin = -32765;
     /**
-     * All users configured to use a common network server has access to these resources.
-     * @since Java for Mac OS X 10.5 - 1.5
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * All users configured to use b common network server hbs bccess to these resources.
+     * @since Jbvb for Mbc OS X 10.5 - 1.5
+         * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
      */
-    public final static short kNetworkDomain = -32764;
+    public finbl stbtic short kNetworkDombin = -32764;
     /**
-     * Read/write. Resources that are private to the user.
-     * @since Java for Mac OS X 10.5 - 1.5
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * Rebd/write. Resources thbt bre privbte to the user.
+     * @since Jbvb for Mbc OS X 10.5 - 1.5
+         * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
      */
-    public final static short kUserDomain = -32763;
+    public finbl stbtic short kUserDombin = -32763;
 
 
         /**
-         * Converts an OSType (e.g. "macs" from <CarbonCore/Folders.h>) into an int.
+         * Converts bn OSType (e.g. "mbcs" from <CbrbonCore/Folders.h>) into bn int.
          *
-         * @param type the 4 character type to convert.
-         * @return an int representing the 4 character value
+         * @pbrbm type the 4 chbrbcter type to convert.
+         * @return bn int representing the 4 chbrbcter vblue
          *
-         * @since Java for Mac OS X 10.5 - 1.5
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
+         * @since Jbvb for Mbc OS X 10.5 - 1.5
+         * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
          */
-    @SuppressWarnings("deprecation")
-        public static int OSTypeToInt(String type) {
+    @SuppressWbrnings("deprecbtion")
+        public stbtic int OSTypeToInt(String type) {
         int result = 0;
 
                 byte b[] = { (byte) 0, (byte) 0, (byte) 0, (byte) 0 };
@@ -125,275 +125,275 @@ public class FileManager {
     }
 
     /**
-         * Sets the file <code>type</code> and <code>creator</code> codes for a file or folder.
+         * Sets the file <code>type</code> bnd <code>crebtor</code> codes for b file or folder.
          *
          * @since 1.4
          */
-    public static void setFileTypeAndCreator(String filename, int type, int creator) throws IOException {
-        SecurityManager security = System.getSecurityManager();
+    public stbtic void setFileTypeAndCrebtor(String filenbme, int type, int crebtor) throws IOException {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkWrite(filename);
+            security.checkWrite(filenbme);
         }
-        _setFileTypeAndCreator(filename, type, creator);
+        _setFileTypeAndCrebtor(filenbme, type, crebtor);
     }
-        private static native void _setFileTypeAndCreator(String filename, int type, int creator) throws IOException;
+        privbte stbtic nbtive void _setFileTypeAndCrebtor(String filenbme, int type, int crebtor) throws IOException;
 
     /**
-         * Sets the file <code>type</code> code for a file or folder.
+         * Sets the file <code>type</code> code for b file or folder.
          *
          * @since 1.4
          */
-    public static void setFileType(String filename, int type) throws IOException {
-        SecurityManager security = System.getSecurityManager();
+    public stbtic void setFileType(String filenbme, int type) throws IOException {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkWrite(filename);
+            security.checkWrite(filenbme);
         }
-        _setFileType(filename, type);
+        _setFileType(filenbme, type);
         }
-    private static native void _setFileType(String filename, int type) throws IOException;
+    privbte stbtic nbtive void _setFileType(String filenbme, int type) throws IOException;
 
     /**
-         * Sets the file <code>creator</code> code for a file or folder.
+         * Sets the file <code>crebtor</code> code for b file or folder.
          *
          * @since 1.4
          */
-    public static void setFileCreator(String filename, int creator) throws IOException {
-        SecurityManager security = System.getSecurityManager();
+    public stbtic void setFileCrebtor(String filenbme, int crebtor) throws IOException {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkWrite(filename);
+            security.checkWrite(filenbme);
         }
-        _setFileCreator(filename, creator);
+        _setFileCrebtor(filenbme, crebtor);
     }
-    private static native void _setFileCreator(String filename, int creator) throws IOException;
+    privbte stbtic nbtive void _setFileCrebtor(String filenbme, int crebtor) throws IOException;
 
     /**
-         * Obtains the file <code>type</code> code for a file or folder.
+         * Obtbins the file <code>type</code> code for b file or folder.
          *
          * @since 1.4
          */
-    public static int getFileType(String filename) throws IOException {
-        SecurityManager security = System.getSecurityManager();
+    public stbtic int getFileType(String filenbme) throws IOException {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkRead(filename);
+            security.checkRebd(filenbme);
         }
-        return _getFileType(filename);
+        return _getFileType(filenbme);
     }
-    private static native int _getFileType(String filename) throws IOException;
+    privbte stbtic nbtive int _getFileType(String filenbme) throws IOException;
 
     /**
-         * Obtains the file <code>creator</code> code for a file or folder.
+         * Obtbins the file <code>crebtor</code> code for b file or folder.
          *
          * @since 1.4
          */
-    public static int getFileCreator(String filename) throws IOException {
-        SecurityManager security = System.getSecurityManager();
+    public stbtic int getFileCrebtor(String filenbme) throws IOException {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkRead(filename);
+            security.checkRebd(filenbme);
         }
-        return _getFileCreator(filename);
+        return _getFileCrebtor(filenbme);
     }
-    private static native int _getFileCreator(String filename) throws IOException;
+    privbte stbtic nbtive int _getFileCrebtor(String filenbme) throws IOException;
 
 
     /**
-         * Locates a folder of a particular type. Mac OS X recognizes certain specific folders that have distinct purposes.
-         * For example, the user's desktop or temporary folder. These folders have corresponding codes. Given one of these codes,
-         * this method returns the path to that particular folder. Certain folders of a given type may appear in more than
-         * one domain. For example, although there is only one <code>root</code> folder, there are multiple <code>pref</code>
-         * folders. If this method is called to find the <code>pref</code> folder, it will return the first one it finds,
-         * the user's preferences folder in <code>~/Library/Preferences</code>. To explicitly locate a folder in a certain
-         * domain use <code>findFolder(short domain, int folderType)</code> or <code>findFolder(short domain, int folderType,
-         * boolean createIfNeeded)</code>.
+         * Locbtes b folder of b pbrticulbr type. Mbc OS X recognizes certbin specific folders thbt hbve distinct purposes.
+         * For exbmple, the user's desktop or temporbry folder. These folders hbve corresponding codes. Given one of these codes,
+         * this method returns the pbth to thbt pbrticulbr folder. Certbin folders of b given type mby bppebr in more thbn
+         * one dombin. For exbmple, blthough there is only one <code>root</code> folder, there bre multiple <code>pref</code>
+         * folders. If this method is cblled to find the <code>pref</code> folder, it will return the first one it finds,
+         * the user's preferences folder in <code>~/Librbry/Preferences</code>. To explicitly locbte b folder in b certbin
+         * dombin use <code>findFolder(short dombin, int folderType)</code> or <code>findFolder(short dombin, int folderType,
+         * boolebn crebteIfNeeded)</code>.
          *
-         * @return the path to the folder searched for
+         * @return the pbth to the folder sebrched for
          *
          * @since 1.4
          */
-        public static String findFolder(int folderType) throws FileNotFoundException {
-                return findFolder(kOnAppropriateDisk, folderType);
+        public stbtic String findFolder(int folderType) throws FileNotFoundException {
+                return findFolder(kOnAppropribteDisk, folderType);
         }
 
     /**
-         * Locates a folder of a particular type, within a given domain. Similar to <code>findFolder(int folderType)</code>
-         * except that the domain to look in can be specified. Valid values for <code>domain</code>include:
+         * Locbtes b folder of b pbrticulbr type, within b given dombin. Similbr to <code>findFolder(int folderType)</code>
+         * except thbt the dombin to look in cbn be specified. Vblid vblues for <code>dombin</code>include:
          * <dl>
          * <dt>user</dt>
-         * <dd>The User domain contains resources specific to the user who is currently logged in</dd>
-         * <dt>local</dt>
-         * <dd>The Local domain contains resources shared by all users of the system but are not needed for the system
+         * <dd>The User dombin contbins resources specific to the user who is currently logged in</dd>
+         * <dt>locbl</dt>
+         * <dd>The Locbl dombin contbins resources shbred by bll users of the system but bre not needed for the system
          * itself to run.</dd>
          * <dt>network</dt>
-         * <dd>The Network domain contains resources shared by users of a local area network.</dd>
+         * <dd>The Network dombin contbins resources shbred by users of b locbl breb network.</dd>
          * <dt>system</dt>
-         * <dd>The System domain contains the operating system resources installed by Apple.</dd>
+         * <dd>The System dombin contbins the operbting system resources instblled by Apple.</dd>
          * </dl>
          *
-         * @return the path to the folder searched for
+         * @return the pbth to the folder sebrched for
          *
          * @since 1.4
          */
-        public static String findFolder(short domain, int folderType) throws FileNotFoundException {
-                return findFolder(domain, folderType, false);
+        public stbtic String findFolder(short dombin, int folderType) throws FileNotFoundException {
+                return findFolder(dombin, folderType, fblse);
         }
 
     /**
-         * Locates a folder of a particular type within a given domain and optionally creating the folder if it does
-         * not exist. The behavior is similar to <code>findFolder(int folderType)</code> and
-         * <code>findFolder(short domain, int folderType)</code> except that it can create the folder if it does not already exist.
+         * Locbtes b folder of b pbrticulbr type within b given dombin bnd optionblly crebting the folder if it does
+         * not exist. The behbvior is similbr to <code>findFolder(int folderType)</code> bnd
+         * <code>findFolder(short dombin, int folderType)</code> except thbt it cbn crebte the folder if it does not blrebdy exist.
          *
-         * @param createIfNeeded
-         *            set to <code>true</code>, by setting to <code>false</code> the behavior will be the
-         *            same as <code>findFolder(short domain, int folderType, boolean createIfNeeded)</code>
-         * @return the path to the folder searched for
+         * @pbrbm crebteIfNeeded
+         *            set to <code>true</code>, by setting to <code>fblse</code> the behbvior will be the
+         *            sbme bs <code>findFolder(short dombin, int folderType, boolebn crebteIfNeeded)</code>
+         * @return the pbth to the folder sebrched for
          *
          * @since 1.4
          */
-    public static String findFolder(short domain, int folderType, boolean createIfNeeded) throws FileNotFoundException {
-        final SecurityManager security = System.getSecurityManager();
+    public stbtic String findFolder(short dombin, int folderType, boolebn crebteIfNeeded) throws FileNotFoundException {
+        finbl SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkPermission(new RuntimePermission("canExamineFileSystem"));
+            security.checkPermission(new RuntimePermission("cbnExbmineFileSystem"));
         }
 
-        final String foundFolder = _findFolder(domain, folderType, createIfNeeded);
-        if (foundFolder == null) throw new FileNotFoundException("Can't find folder: " + Integer.toHexString(folderType));
+        finbl String foundFolder = _findFolder(dombin, folderType, crebteIfNeeded);
+        if (foundFolder == null) throw new FileNotFoundException("Cbn't find folder: " + Integer.toHexString(folderType));
         return foundFolder;
     }
-    private static native String _findFolder(short domain, int folderType, boolean createIfNeeded);
+    privbte stbtic nbtive String _findFolder(short dombin, int folderType, boolebn crebteIfNeeded);
 
 
     /**
-         * Opens the path specified by a URL in the appropriate application for that URL. HTTP URL's (<code>http://</code>)
-         * open in the default browser as set in the Internet pane of System Preferences. File (<code>file://</code>) and
-         * FTP URL's (<code>ftp://</code>) open in the Finder. Note that opening an FTP URL will prompt the user for where
-         * they want to save the downloaded file(s).
+         * Opens the pbth specified by b URL in the bppropribte bpplicbtion for thbt URL. HTTP URL's (<code>http://</code>)
+         * open in the defbult browser bs set in the Internet pbne of System Preferences. File (<code>file://</code>) bnd
+         * FTP URL's (<code>ftp://</code>) open in the Finder. Note thbt opening bn FTP URL will prompt the user for where
+         * they wbnt to sbve the downlobded file(s).
          *
-         * @param url
-         *            the URL for the file you want to open, it can either be an HTTP, FTP, or file url
+         * @pbrbm url
+         *            the URL for the file you wbnt to open, it cbn either be bn HTTP, FTP, or file url
          *
-         * @deprecated this functionality has been superseded by java.awt.Desktop.browse() and java.awt.Desktop.open()
+         * @deprecbted this functionblity hbs been superseded by jbvb.bwt.Desktop.browse() bnd jbvb.bwt.Desktop.open()
          *
          * @since 1.4
          */
-    @Deprecated
-    public static void openURL(String url) throws IOException {
-        SecurityManager security = System.getSecurityManager();
+    @Deprecbted
+    public stbtic void openURL(String url) throws IOException {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkPermission(new RuntimePermission("canOpenURLs"));
+            security.checkPermission(new RuntimePermission("cbnOpenURLs"));
         }
         _openURL(url);
     }
-    private static native void _openURL(String url) throws IOException;
+    privbte stbtic nbtive void _openURL(String url) throws IOException;
 
     /**
-         * @return full pathname for the resource identified by a given name.
+         * @return full pbthnbme for the resource identified by b given nbme.
          *
          * @since 1.4
          */
-        public static String getResource(String resourceName) throws FileNotFoundException {
-                return getResourceFromBundle(resourceName, null, null);
+        public stbtic String getResource(String resourceNbme) throws FileNotFoundException {
+                return getResourceFromBundle(resourceNbme, null, null);
         }
 
         /**
-         * @return full pathname for the resource identified by a given name and located in the specified bundle subdirectory.
+         * @return full pbthnbme for the resource identified by b given nbme bnd locbted in the specified bundle subdirectory.
          *
          * @since 1.4
          */
-        public static String getResource(String resourceName, String subDirName) throws FileNotFoundException {
-                return getResourceFromBundle(resourceName, subDirName, null);
+        public stbtic String getResource(String resourceNbme, String subDirNbme) throws FileNotFoundException {
+                return getResourceFromBundle(resourceNbme, subDirNbme, null);
         }
 
         /**
-         * Returns the full pathname for the resource identified by the given name and file extension
-         * and located in the specified bundle subdirectory.
+         * Returns the full pbthnbme for the resource identified by the given nbme bnd file extension
+         * bnd locbted in the specified bundle subdirectory.
          *
-         * If extension is an empty string or null, the returned pathname is the first one encountered where the
-         * file name exactly matches name.
+         * If extension is bn empty string or null, the returned pbthnbme is the first one encountered where the
+         * file nbme exbctly mbtches nbme.
          *
-         * If subpath is null, this method searches the top-level nonlocalized resource directory (typically Resources)
-         * and the top-level of any language-specific directories. For example, suppose you have a modern bundle and
-         * specify "Documentation" for the subpath parameter. This method would first look in the
-         * Contents/Resources/Documentation directory of the bundle, followed by the Documentation subdirectories of
-         * each language-specific .lproj directory. (The search order for the language-specific directories
-         * corresponds to the user's preferences.) This method does not recurse through any other subdirectories at
-         * any of these locations. For more details see the AppKit NSBundle documentation.
+         * If subpbth is null, this method sebrches the top-level nonlocblized resource directory (typicblly Resources)
+         * bnd the top-level of bny lbngubge-specific directories. For exbmple, suppose you hbve b modern bundle bnd
+         * specify "Documentbtion" for the subpbth pbrbmeter. This method would first look in the
+         * Contents/Resources/Documentbtion directory of the bundle, followed by the Documentbtion subdirectories of
+         * ebch lbngubge-specific .lproj directory. (The sebrch order for the lbngubge-specific directories
+         * corresponds to the user's preferences.) This method does not recurse through bny other subdirectories bt
+         * bny of these locbtions. For more detbils see the AppKit NSBundle documentbtion.
          *
-         * @return full pathname for the resource identified by the given name and file extension and located in the specified bundle subdirectory.
+         * @return full pbthnbme for the resource identified by the given nbme bnd file extension bnd locbted in the specified bundle subdirectory.
          *
          * @since 1.4
          */
-        public static String getResource(String resourceName, String subDirName, String type) throws FileNotFoundException {
-                return getResourceFromBundle(resourceName, subDirName, type);
+        public stbtic String getResource(String resourceNbme, String subDirNbme, String type) throws FileNotFoundException {
+                return getResourceFromBundle(resourceNbme, subDirNbme, type);
         }
 
-        private static native String getNativeResourceFromBundle(String resourceName, String subDirName, String type) throws FileNotFoundException;
-        private static String getResourceFromBundle(String resourceName, String subDirName, String type) throws FileNotFoundException {
-                final SecurityManager security = System.getSecurityManager();
-                if (security != null) security.checkPermission(new RuntimePermission("canReadBundle"));
+        privbte stbtic nbtive String getNbtiveResourceFromBundle(String resourceNbme, String subDirNbme, String type) throws FileNotFoundException;
+        privbte stbtic String getResourceFromBundle(String resourceNbme, String subDirNbme, String type) throws FileNotFoundException {
+                finbl SecurityMbnbger security = System.getSecurityMbnbger();
+                if (security != null) security.checkPermission(new RuntimePermission("cbnRebdBundle"));
 
-                final String resourceFromBundle = getNativeResourceFromBundle(resourceName, subDirName, type);
-                if (resourceFromBundle == null) throw new FileNotFoundException(resourceName);
+                finbl String resourceFromBundle = getNbtiveResourceFromBundle(resourceNbme, subDirNbme, type);
+                if (resourceFromBundle == null) throw new FileNotFoundException(resourceNbme);
                 return resourceFromBundle;
         }
 
         /**
-         * Obtains the path to the current application's NSBundle, may not
-         * return a valid path if Java was launched from the command line.
+         * Obtbins the pbth to the current bpplicbtion's NSBundle, mby not
+         * return b vblid pbth if Jbvb wbs lbunched from the commbnd line.
          *
-         * @return full pathname of the NSBundle of the current application executable.
+         * @return full pbthnbme of the NSBundle of the current bpplicbtion executbble.
          *
-         * @since Java for Mac OS X 10.5 Update 1 - 1.6
-         * @since Java for Mac OS X 10.5 Update 2 - 1.5
+         * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
+         * @since Jbvb for Mbc OS X 10.5 Updbte 2 - 1.5
          */
-        public static String getPathToApplicationBundle() {
-                SecurityManager security = System.getSecurityManager();
-                if (security != null) security.checkPermission(new RuntimePermission("canReadBundle"));
-                return getNativePathToApplicationBundle();
+        public stbtic String getPbthToApplicbtionBundle() {
+                SecurityMbnbger security = System.getSecurityMbnbger();
+                if (security != null) security.checkPermission(new RuntimePermission("cbnRebdBundle"));
+                return getNbtivePbthToApplicbtionBundle();
         }
 
-        private static native String getNativePathToApplicationBundle();
+        privbte stbtic nbtive String getNbtivePbthToApplicbtionBundle();
 
         /**
-         * Moves the specified file to the Trash
+         * Moves the specified file to the Trbsh
          *
-         * @param file
-         * @return returns true if the NSFileManager successfully moved the file to the Trash.
+         * @pbrbm file
+         * @return returns true if the NSFileMbnbger successfully moved the file to the Trbsh.
          * @throws FileNotFoundException
          *
-         * @since Java for Mac OS X 10.6 Update 1 - 1.6
-         * @since Java for Mac OS X 10.5 Update 6 - 1.6, 1.5
+         * @since Jbvb for Mbc OS X 10.6 Updbte 1 - 1.6
+         * @since Jbvb for Mbc OS X 10.5 Updbte 6 - 1.6, 1.5
          */
-        public static boolean moveToTrash(final File file) throws FileNotFoundException {
+        public stbtic boolebn moveToTrbsh(finbl File file) throws FileNotFoundException {
                 if (file == null || !file.exists()) throw new FileNotFoundException();
-                final String fileName = file.getAbsolutePath();
+                finbl String fileNbme = file.getAbsolutePbth();
 
-                final SecurityManager security = System.getSecurityManager();
-                if (security != null) security.checkWrite(fileName);
+                finbl SecurityMbnbger security = System.getSecurityMbnbger();
+                if (security != null) security.checkWrite(fileNbme);
 
-                return _moveToTrash(fileName);
+                return _moveToTrbsh(fileNbme);
         }
 
-        private static native boolean _moveToTrash(String fileName);
+        privbte stbtic nbtive boolebn _moveToTrbsh(String fileNbme);
 
         /**
-         * Reveals the specified file in the Finder
+         * Revebls the specified file in the Finder
          *
-         * @param file
-         *            the file to reveal
-         * @return returns true if the NSFileManager successfully revealed the file in the Finder.
+         * @pbrbm file
+         *            the file to revebl
+         * @return returns true if the NSFileMbnbger successfully revebled the file in the Finder.
          * @throws FileNotFoundException
          *
-         * @since Java for Mac OS X 10.6 Update 1 - 1.6
-         * @since Java for Mac OS X 10.5 Update 6 - 1.6, 1.5
+         * @since Jbvb for Mbc OS X 10.6 Updbte 1 - 1.6
+         * @since Jbvb for Mbc OS X 10.5 Updbte 6 - 1.6, 1.5
          */
-        public static boolean revealInFinder(final File file) throws FileNotFoundException {
+        public stbtic boolebn reveblInFinder(finbl File file) throws FileNotFoundException {
                 if (file == null || !file.exists()) throw new FileNotFoundException();
-                final String fileName = file.getAbsolutePath();
+                finbl String fileNbme = file.getAbsolutePbth();
 
-                final SecurityManager security = System.getSecurityManager();
-                if (security != null) security.checkRead(fileName);
+                finbl SecurityMbnbger security = System.getSecurityMbnbger();
+                if (security != null) security.checkRebd(fileNbme);
 
-                return _revealInFinder(fileName);
+                return _reveblInFinder(fileNbme);
         }
 
-        private static native boolean _revealInFinder(String fileName);
+        privbte stbtic nbtive boolebn _reveblInFinder(String fileNbme);
 }

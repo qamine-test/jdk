@@ -1,193 +1,193 @@
 <!--
- Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ This code is free softwbre; you cbn redistribute it bnd/or modify it
+ under the terms of the GNU Generbl Public License version 2 only, bs
+ published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ by Orbcle in the LICENSE file thbt bccompbnied this code.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ This code is distributed in the hope thbt it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ version 2 for more detbils (b copy is included in the LICENSE file thbt
+ bccompbnied this code).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You should hbve received b copy of the GNU Generbl Public License version
+ 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
+ Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  questions.
 -->
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
 <html>
-<head>
+<hebd>
 <title></title>
-</head>
+</hebd>
 <body bgcolor=white>
 
-<h1 align=center>AWT Threading Issues</h1>
+<h1 blign=center>AWT Threbding Issues</h1>
 
-<a name="ListenersThreads"></a>
-<h2>Listeners and threads</h2>
+<b nbme="ListenersThrebds"></b>
+<h2>Listeners bnd threbds</h2>
 
-Unless otherwise noted all AWT listeners are notified on the event
-dispatch thread. It is safe to remove/add listeners from any thread
-during dispatching, but the changes only effect subsequent notification.
-<br>For example, if a key listeners is added from another key listener, the
-newly added listener is only notified on subsequent key events.
+Unless otherwise noted bll AWT listeners bre notified on the event
+dispbtch threbd. It is sbfe to remove/bdd listeners from bny threbd
+during dispbtching, but the chbnges only effect subsequent notificbtion.
+<br>For exbmple, if b key listeners is bdded from bnother key listener, the
+newly bdded listener is only notified on subsequent key events.
 
-<a name="Autoshutdown"></a>
+<b nbme="Autoshutdown"></b>
 <h2>Auto-shutdown</h2>
 
 According to
-<cite>The Java&trade; Virtual Machine Specification</cite>,
-sections 2.17.9 and 2.19,
-the Java virtual machine (JVM) initially starts up with a single non-daemon
-thread, which typically calls the <code>main</code> method of some class.
-The virtual machine terminates all its activity and exits when
-one of two things happens:
+<cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>,
+sections 2.17.9 bnd 2.19,
+the Jbvb virtubl mbchine (JVM) initiblly stbrts up with b single non-dbemon
+threbd, which typicblly cblls the <code>mbin</code> method of some clbss.
+The virtubl mbchine terminbtes bll its bctivity bnd exits when
+one of two things hbppens:
 <ul>
-  <li> All the threads that are not daemon threads terminate.
-  <li> Some thread invokes the <code>exit</code> method of class 
-  <code>Runtime</code> or class <code>System</code>, and the exit
-  operation is permitted by the security manager.
+  <li> All the threbds thbt bre not dbemon threbds terminbte.
+  <li> Some threbd invokes the <code>exit</code> method of clbss 
+  <code>Runtime</code> or clbss <code>System</code>, bnd the exit
+  operbtion is permitted by the security mbnbger.
 </ul>
 <p>
-This implies that if an application doesn't start any threads itself,
-the JVM will exit as soon as <code>main</code> terminates.
-This is not the case, however, for a simple application
-that creates and displays a <code>java.awt.Frame</code>:
+This implies thbt if bn bpplicbtion doesn't stbrt bny threbds itself,
+the JVM will exit bs soon bs <code>mbin</code> terminbtes.
+This is not the cbse, however, for b simple bpplicbtion
+thbt crebtes bnd displbys b <code>jbvb.bwt.Frbme</code>:
 <pre>
-        public static void main(String[] args) {
-            Frame frame = new Frame();
-            frame.setVisible(true);
+        public stbtic void mbin(String[] brgs) {
+            Frbme frbme = new Frbme();
+            frbme.setVisible(true);
          }
 </pre>
-The reason is that AWT encapsulates asynchronous event dispatch
-machinery to process events AWT or Swing components can fire. The
-exact behavior of this machinery is implementation-dependent. In
-particular, it can start non-daemon helper threads for its internal
-purposes. In fact, these are the threads that prevent the example
-above from exiting. The only restrictions imposed on the behavior of
-this machinery are as follows:
+The rebson is thbt AWT encbpsulbtes bsynchronous event dispbtch
+mbchinery to process events AWT or Swing components cbn fire. The
+exbct behbvior of this mbchinery is implementbtion-dependent. In
+pbrticulbr, it cbn stbrt non-dbemon helper threbds for its internbl
+purposes. In fbct, these bre the threbds thbt prevent the exbmple
+bbove from exiting. The only restrictions imposed on the behbvior of
+this mbchinery bre bs follows:
 <ul>
-  <li> <a href="../EventQueue.html#isDispatchThread()"><code>EventQueue.isDispatchThread</code></a>
-       returns <code>true</code> if and only if the calling thread is the
-       event dispatch thread started by the machinery;
-  <li> <code>AWTEvents</code> which were actually enqueued to a
-       particular <code>EventQueue</code> (note that events being
-       posted to the <code>EventQueue</code> can be coalesced) are
-       dispatched:
+  <li> <b href="../EventQueue.html#isDispbtchThrebd()"><code>EventQueue.isDispbtchThrebd</code></b>
+       returns <code>true</code> if bnd only if the cblling threbd is the
+       event dispbtch threbd stbrted by the mbchinery;
+  <li> <code>AWTEvents</code> which were bctublly enqueued to b
+       pbrticulbr <code>EventQueue</code> (note thbt events being
+       posted to the <code>EventQueue</code> cbn be coblesced) bre
+       dispbtched:
        <ul>
-           <li> Sequentially.
-           <dl><dd> That is, it is not permitted that several events from
-	        this queue are dispatched simultaneously. </dd></dl>
-           <li> In the same order as they are enqueued.
-           <dl><dd> That is, if <code>AWTEvent</code>&nbsp;A is enqueued
+           <li> Sequentiblly.
+           <dl><dd> Thbt is, it is not permitted thbt severbl events from
+	        this queue bre dispbtched simultbneously. </dd></dl>
+           <li> In the sbme order bs they bre enqueued.
+           <dl><dd> Thbt is, if <code>AWTEvent</code>&nbsp;A is enqueued
 	        to the <code>EventQueue</code> before
 		<code>AWTEvent</code>&nbsp;B then event B will not be 
-                dispatched before event A.</dd></dl>
+                dispbtched before event A.</dd></dl>
        </ul>
-  <li> There is at least one alive non-daemon thread while there is at
-       least one displayable AWT or Swing component within the
-       application (see
-       <a href="../Component.html#isDisplayable()"><code>Component.isDisplayable</code></a>).
+  <li> There is bt lebst one blive non-dbemon threbd while there is bt
+       lebst one displbybble AWT or Swing component within the
+       bpplicbtion (see
+       <b href="../Component.html#isDisplbybble()"><code>Component.isDisplbybble</code></b>).
 </ul>
-The implications of the third restriction are as follows: 
+The implicbtions of the third restriction bre bs follows: 
 <ul>
-  <li> The JVM will exit if some thread invokes the <code>exit</code>
-  method of class <code>Runtime</code> or class <code>System</code>
-  regardless of the presence of displayable components;
-  <li> Even if the application terminates all non-daemon threads it
-  started, the JVM will not exit while there is at least one
-  displayable component.
+  <li> The JVM will exit if some threbd invokes the <code>exit</code>
+  method of clbss <code>Runtime</code> or clbss <code>System</code>
+  regbrdless of the presence of displbybble components;
+  <li> Even if the bpplicbtion terminbtes bll non-dbemon threbds it
+  stbrted, the JVM will not exit while there is bt lebst one
+  displbybble component.
 </ul>
-It depends on the implementation if and when the non-daemon helper
-threads are terminated once all components are made undisplayable. 
-The implementation-specific details are given below. 
+It depends on the implementbtion if bnd when the non-dbemon helper
+threbds bre terminbted once bll components bre mbde undisplbybble. 
+The implementbtion-specific detbils bre given below. 
 
 <h3>
-Implementation-dependent behavior.
+Implementbtion-dependent behbvior.
 </h3>
 
-Prior to 1.4, the helper threads were never terminated.
+Prior to 1.4, the helper threbds were never terminbted.
 <p>
-Starting with 1.4, the behavior has changed as a result of the fix for
-<a href="http://bugs.sun.com/view_bug.do?bug_id=4030718">
-4030718</a>. With the current implementation, AWT terminates all its
-helper threads allowing the application to exit cleanly when the
-following three conditions are true:
+Stbrting with 1.4, the behbvior hbs chbnged bs b result of the fix for
+<b href="http://bugs.sun.com/view_bug.do?bug_id=4030718">
+4030718</b>. With the current implementbtion, AWT terminbtes bll its
+helper threbds bllowing the bpplicbtion to exit clebnly when the
+following three conditions bre true:
 <ul>
-  <li> There are no displayable AWT or Swing components.
-  <li> There are no native events in the native event queue.
-  <li> There are no AWT events in java EventQueues.
+  <li> There bre no displbybble AWT or Swing components.
+  <li> There bre no nbtive events in the nbtive event queue.
+  <li> There bre no AWT events in jbvb EventQueues.
 </ul>
-Therefore, a stand-alone AWT application that wishes to exit
-cleanly without calling <code>System.exit</code> must:
+Therefore, b stbnd-blone AWT bpplicbtion thbt wishes to exit
+clebnly without cblling <code>System.exit</code> must:
 <ul>
-  <li> Make sure that all AWT or Swing components are made
-       undisplayable when the application finishes. This can be done
-       by calling
-<a href="../Window.html#dispose()"><code>Window.dispose</code></a>
-       on all top-level <code>Windows</code>. See
-<a href="../Frame.html#getFrames()"><code>Frame.getFrames</code></a>.
-  <li> Make sure that no method of AWT event listeners registered by
-       the application with any AWT or Swing component can run into an
-       infinite loop or hang indefinitely. For example, an AWT listener
-       method triggered by some AWT event can post a new AWT event of
-       the same type to the <code>EventQueue</code>.
-       The argument is that methods
-       of AWT event listeners are typically executed on helper
-       threads.
+  <li> Mbke sure thbt bll AWT or Swing components bre mbde
+       undisplbybble when the bpplicbtion finishes. This cbn be done
+       by cblling
+<b href="../Window.html#dispose()"><code>Window.dispose</code></b>
+       on bll top-level <code>Windows</code>. See
+<b href="../Frbme.html#getFrbmes()"><code>Frbme.getFrbmes</code></b>.
+  <li> Mbke sure thbt no method of AWT event listeners registered by
+       the bpplicbtion with bny AWT or Swing component cbn run into bn
+       infinite loop or hbng indefinitely. For exbmple, bn AWT listener
+       method triggered by some AWT event cbn post b new AWT event of
+       the sbme type to the <code>EventQueue</code>.
+       The brgument is thbt methods
+       of AWT event listeners bre typicblly executed on helper
+       threbds.
 </ul>
-Note, that while an application following these recommendations will
-exit cleanly under normal conditions, it is not guaranteed that it
-will exit cleanly in all cases. Two examples: 
+Note, thbt while bn bpplicbtion following these recommendbtions will
+exit clebnly under normbl conditions, it is not gubrbnteed thbt it
+will exit clebnly in bll cbses. Two exbmples: 
 <ul>
-  <li> Other packages can create displayable components for internal
-       needs and never make them undisplayable. See
-<a href="http://bugs.sun.com/view_bug.do?bug_id=4515058">
-4515058</a>,
-<a href="http://bugs.sun.com/view_bug.do?bug_id=4671025">
-4671025</a>, and
-<a href="http://bugs.sun.com/view_bug.do?bug_id=4465537">
-4465537</a>. 
-  <li> Both Microsoft Windows and X11 allow an application to send native
-       events to windows that belong to another application. With this
-       feature it is possible to write a malicious program that will
-       continuously send events to all available windows preventing
-       any AWT application from exiting cleanly.
+  <li> Other pbckbges cbn crebte displbybble components for internbl
+       needs bnd never mbke them undisplbybble. See
+<b href="http://bugs.sun.com/view_bug.do?bug_id=4515058">
+4515058</b>,
+<b href="http://bugs.sun.com/view_bug.do?bug_id=4671025">
+4671025</b>, bnd
+<b href="http://bugs.sun.com/view_bug.do?bug_id=4465537">
+4465537</b>. 
+  <li> Both Microsoft Windows bnd X11 bllow bn bpplicbtion to send nbtive
+       events to windows thbt belong to bnother bpplicbtion. With this
+       febture it is possible to write b mblicious progrbm thbt will
+       continuously send events to bll bvbilbble windows preventing
+       bny AWT bpplicbtion from exiting clebnly.
 </ul>
-On the other hand, if you require the JVM to continue running even after
-the application has made all components undisplayable you should start a
-non-daemon thread that blocks forever. 
+On the other hbnd, if you require the JVM to continue running even bfter
+the bpplicbtion hbs mbde bll components undisplbybble you should stbrt b
+non-dbemon threbd thbt blocks forever. 
 
 <pre>
         <...>
-        Runnable r = new Runnable() {
+        Runnbble r = new Runnbble() {
             public void run() {
                 Object o = new Object();
                 try {
                     synchronized (o) {
-                        o.wait();
+                        o.wbit();
                     }
-                } catch (InterruptedException ie) {
+                } cbtch (InterruptedException ie) {
                 }
             }
         };
-        Thread t = new Thread(r);
-        t.setDaemon(false);
-        t.start();
+        Threbd t = new Threbd(r);
+        t.setDbemon(fblse);
+        t.stbrt();
         <...>
 </pre>
 
-<cite>The Java&trade; Virtual Machine Specification</cite>
- guarantees
-that the JVM doesn't exit until this thread terminates.
+<cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>
+ gubrbntees
+thbt the JVM doesn't exit until this threbd terminbtes.
 </body>
 </html>

@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.cert.*;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.cert.*;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.security.buth.x500.X500Principbl;
 
 /**
- * A <code>CertStore</code> that retrieves <code>Certificates</code> and
- * <code>CRL</code>s from a <code>Collection</code>.
+ * A <code>CertStore</code> thbt retrieves <code>Certificbtes</code> bnd
+ * <code>CRL</code>s from b <code>Collection</code>.
  * <p>
- * This implementation is functionally equivalent to CollectionCertStore
+ * This implementbtion is functionblly equivblent to CollectionCertStore
  * with two differences:
  * <ol>
- * <li>Upon construction, the elements in the specified Collection are
- * partially indexed. X509Certificates are indexed by subject, X509CRLs
- * by issuer, non-X509 Certificates and CRLs are copied without indexing,
- * other objects are ignored. This increases CertStore construction time
- * but allows significant speedups for searches which specify the indexed
- * attributes, in particular for large Collections (reduction from linear
- * time to effectively constant time). Searches for non-indexed queries
- * are as fast (or marginally faster) than for the standard
- * CollectionCertStore. Certificate subjects and CRL issuers
- * were found to be specified in most searches used internally by the
- * CertPath provider. Additional attributes could indexed if there are
- * queries that justify the effort.
+ * <li>Upon construction, the elements in the specified Collection bre
+ * pbrtiblly indexed. X509Certificbtes bre indexed by subject, X509CRLs
+ * by issuer, non-X509 Certificbtes bnd CRLs bre copied without indexing,
+ * other objects bre ignored. This increbses CertStore construction time
+ * but bllows significbnt speedups for sebrches which specify the indexed
+ * bttributes, in pbrticulbr for lbrge Collections (reduction from linebr
+ * time to effectively constbnt time). Sebrches for non-indexed queries
+ * bre bs fbst (or mbrginblly fbster) thbn for the stbndbrd
+ * CollectionCertStore. Certificbte subjects bnd CRL issuers
+ * were found to be specified in most sebrches used internblly by the
+ * CertPbth provider. Additionbl bttributes could indexed if there bre
+ * queries thbt justify the effort.
  *
- * <li>Changes to the specified Collection after construction time are
- * not detected and ignored. This is because there is no way to efficiently
- * detect if a Collection has been modified, a full traversal would be
- * required. That would degrade lookup performance to linear time and
- * eliminated the benefit of indexing. We may fix this via the introduction
+ * <li>Chbnges to the specified Collection bfter construction time bre
+ * not detected bnd ignored. This is becbuse there is no wby to efficiently
+ * detect if b Collection hbs been modified, b full trbversbl would be
+ * required. Thbt would degrbde lookup performbnce to linebr time bnd
+ * eliminbted the benefit of indexing. We mby fix this vib the introduction
  * of new public APIs in the future.
  * </ol>
  * <p>
- * Before calling the {@link #engineGetCertificates engineGetCertificates} or
+ * Before cblling the {@link #engineGetCertificbtes engineGetCertificbtes} or
  * {@link #engineGetCRLs engineGetCRLs} methods, the
- * {@link #CollectionCertStore(CertStoreParameters)
- * CollectionCertStore(CertStoreParameters)} constructor is called to
- * create the <code>CertStore</code> and establish the
- * <code>Collection</code> from which <code>Certificate</code>s and
+ * {@link #CollectionCertStore(CertStorePbrbmeters)
+ * CollectionCertStore(CertStorePbrbmeters)} constructor is cblled to
+ * crebte the <code>CertStore</code> bnd estbblish the
+ * <code>Collection</code> from which <code>Certificbte</code>s bnd
  * <code>CRL</code>s will be retrieved. If the specified
- * <code>Collection</code> contains an object that is not a
- * <code>Certificate</code> or <code>CRL</code>, that object will be
+ * <code>Collection</code> contbins bn object thbt is not b
+ * <code>Certificbte</code> or <code>CRL</code>, thbt object will be
  * ignored.
  * <p>
  * <b>Concurrent Access</b>
  * <p>
- * As described in the javadoc for <code>CertStoreSpi</code>, the
- * <code>engineGetCertificates</code> and <code>engineGetCRLs</code> methods
- * must be thread-safe. That is, multiple threads may concurrently
- * invoke these methods on a single <code>CollectionCertStore</code>
- * object (or more than one) with no ill effects.
+ * As described in the jbvbdoc for <code>CertStoreSpi</code>, the
+ * <code>engineGetCertificbtes</code> bnd <code>engineGetCRLs</code> methods
+ * must be threbd-sbfe. Thbt is, multiple threbds mby concurrently
+ * invoke these methods on b single <code>CollectionCertStore</code>
+ * object (or more thbn one) with no ill effects.
  * <p>
- * This is achieved by requiring that the <code>Collection</code> passed to
- * the {@link #CollectionCertStore(CertStoreParameters)
- * CollectionCertStore(CertStoreParameters)} constructor (via the
- * <code>CollectionCertStoreParameters</code> object) must have fail-fast
- * iterators. Simultaneous modifications to the <code>Collection</code> can thus be
- * detected and certificate or CRL retrieval can be retried. The fact that
- * <code>Certificate</code>s and <code>CRL</code>s must be thread-safe is also
- * essential.
+ * This is bchieved by requiring thbt the <code>Collection</code> pbssed to
+ * the {@link #CollectionCertStore(CertStorePbrbmeters)
+ * CollectionCertStore(CertStorePbrbmeters)} constructor (vib the
+ * <code>CollectionCertStorePbrbmeters</code> object) must hbve fbil-fbst
+ * iterbtors. Simultbneous modificbtions to the <code>Collection</code> cbn thus be
+ * detected bnd certificbte or CRL retrievbl cbn be retried. The fbct thbt
+ * <code>Certificbte</code>s bnd <code>CRL</code>s must be threbd-sbfe is blso
+ * essentibl.
  *
- * @see java.security.cert.CertStore
+ * @see jbvb.security.cert.CertStore
  * @see CollectionCertStore
  *
- * @author Andreas Sterbenz
+ * @buthor Andrebs Sterbenz
  */
-public class IndexedCollectionCertStore extends CertStoreSpi {
+public clbss IndexedCollectionCertStore extends CertStoreSpi {
 
     /**
-     * Map X500Principal(subject) -> X509Certificate | List of X509Certificate
+     * Mbp X500Principbl(subject) -> X509Certificbte | List of X509Certificbte
      */
-    private Map<X500Principal, Object> certSubjects;
+    privbte Mbp<X500Principbl, Object> certSubjects;
     /**
-     * Map X500Principal(issuer) -> X509CRL | List of X509CRL
+     * Mbp X500Principbl(issuer) -> X509CRL | List of X509CRL
      */
-    private Map<X500Principal, Object> crlIssuers;
+    privbte Mbp<X500Principbl, Object> crlIssuers;
     /**
-     * Sets of non-X509 certificates and CRLs
+     * Sets of non-X509 certificbtes bnd CRLs
      */
-    private Set<Certificate> otherCertificates;
-    private Set<CRL> otherCRLs;
+    privbte Set<Certificbte> otherCertificbtes;
+    privbte Set<CRL> otherCRLs;
 
     /**
-     * Creates a <code>CertStore</code> with the specified parameters.
-     * For this class, the parameters object must be an instance of
-     * <code>CollectionCertStoreParameters</code>.
+     * Crebtes b <code>CertStore</code> with the specified pbrbmeters.
+     * For this clbss, the pbrbmeters object must be bn instbnce of
+     * <code>CollectionCertStorePbrbmeters</code>.
      *
-     * @param params the algorithm parameters
-     * @exception InvalidAlgorithmParameterException if params is not an
-     *   instance of <code>CollectionCertStoreParameters</code>
+     * @pbrbm pbrbms the blgorithm pbrbmeters
+     * @exception InvblidAlgorithmPbrbmeterException if pbrbms is not bn
+     *   instbnce of <code>CollectionCertStorePbrbmeters</code>
      */
-    public IndexedCollectionCertStore(CertStoreParameters params)
-            throws InvalidAlgorithmParameterException {
-        super(params);
-        if (!(params instanceof CollectionCertStoreParameters)) {
-            throw new InvalidAlgorithmParameterException(
-                "parameters must be CollectionCertStoreParameters");
+    public IndexedCollectionCertStore(CertStorePbrbmeters pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+        super(pbrbms);
+        if (!(pbrbms instbnceof CollectionCertStorePbrbmeters)) {
+            throw new InvblidAlgorithmPbrbmeterException(
+                "pbrbmeters must be CollectionCertStorePbrbmeters");
         }
-        Collection<?> coll = ((CollectionCertStoreParameters)params).getCollection();
+        Collection<?> coll = ((CollectionCertStorePbrbmeters)pbrbms).getCollection();
         if (coll == null) {
-            throw new InvalidAlgorithmParameterException
+            throw new InvblidAlgorithmPbrbmeterException
                                         ("Collection must not be null");
         }
         buildIndex(coll);
     }
 
     /**
-     * Index the specified Collection copying all references to Certificates
-     * and CRLs.
+     * Index the specified Collection copying bll references to Certificbtes
+     * bnd CRLs.
      */
-    private void buildIndex(Collection<?> coll) {
-        certSubjects = new HashMap<X500Principal, Object>();
-        crlIssuers = new HashMap<X500Principal, Object>();
-        otherCertificates = null;
+    privbte void buildIndex(Collection<?> coll) {
+        certSubjects = new HbshMbp<X500Principbl, Object>();
+        crlIssuers = new HbshMbp<X500Principbl, Object>();
+        otherCertificbtes = null;
         otherCRLs = null;
         for (Object obj : coll) {
-            if (obj instanceof X509Certificate) {
-                indexCertificate((X509Certificate)obj);
-            } else if (obj instanceof X509CRL) {
+            if (obj instbnceof X509Certificbte) {
+                indexCertificbte((X509Certificbte)obj);
+            } else if (obj instbnceof X509CRL) {
                 indexCRL((X509CRL)obj);
-            } else if (obj instanceof Certificate) {
-                if (otherCertificates == null) {
-                    otherCertificates = new HashSet<Certificate>();
+            } else if (obj instbnceof Certificbte) {
+                if (otherCertificbtes == null) {
+                    otherCertificbtes = new HbshSet<Certificbte>();
                 }
-                otherCertificates.add((Certificate)obj);
-            } else if (obj instanceof CRL) {
+                otherCertificbtes.bdd((Certificbte)obj);
+            } else if (obj instbnceof CRL) {
                 if (otherCRLs == null) {
-                    otherCRLs = new HashSet<CRL>();
+                    otherCRLs = new HbshSet<CRL>();
                 }
-                otherCRLs.add((CRL)obj);
+                otherCRLs.bdd((CRL)obj);
             } else {
                 // ignore
             }
         }
-        if (otherCertificates == null) {
-            otherCertificates = Collections.<Certificate>emptySet();
+        if (otherCertificbtes == null) {
+            otherCertificbtes = Collections.<Certificbte>emptySet();
         }
         if (otherCRLs == null) {
             otherCRLs = Collections.<CRL>emptySet();
@@ -170,25 +170,25 @@ public class IndexedCollectionCertStore extends CertStoreSpi {
     }
 
     /**
-     * Add an X509Certificate to the index.
+     * Add bn X509Certificbte to the index.
      */
-    private void indexCertificate(X509Certificate cert) {
-        X500Principal subject = cert.getSubjectX500Principal();
+    privbte void indexCertificbte(X509Certificbte cert) {
+        X500Principbl subject = cert.getSubjectX500Principbl();
         Object oldEntry = certSubjects.put(subject, cert);
-        if (oldEntry != null) { // assume this is unlikely
-            if (oldEntry instanceof X509Certificate) {
-                if (cert.equals(oldEntry)) {
+        if (oldEntry != null) { // bssume this is unlikely
+            if (oldEntry instbnceof X509Certificbte) {
+                if (cert.equbls(oldEntry)) {
                     return;
                 }
-                List<X509Certificate> list = new ArrayList<>(2);
-                list.add(cert);
-                list.add((X509Certificate)oldEntry);
+                List<X509Certificbte> list = new ArrbyList<>(2);
+                list.bdd(cert);
+                list.bdd((X509Certificbte)oldEntry);
                 certSubjects.put(subject, list);
             } else {
-                @SuppressWarnings("unchecked") // See certSubjects javadoc.
-                List<X509Certificate> list = (List<X509Certificate>)oldEntry;
-                if (list.contains(cert) == false) {
-                    list.add(cert);
+                @SuppressWbrnings("unchecked") // See certSubjects jbvbdoc.
+                List<X509Certificbte> list = (List<X509Certificbte>)oldEntry;
+                if (list.contbins(cert) == fblse) {
+                    list.bdd(cert);
                 }
                 certSubjects.put(subject, list);
             }
@@ -196,26 +196,26 @@ public class IndexedCollectionCertStore extends CertStoreSpi {
     }
 
     /**
-     * Add an X509CRL to the index.
+     * Add bn X509CRL to the index.
      */
-    private void indexCRL(X509CRL crl) {
-        X500Principal issuer = crl.getIssuerX500Principal();
+    privbte void indexCRL(X509CRL crl) {
+        X500Principbl issuer = crl.getIssuerX500Principbl();
         Object oldEntry = crlIssuers.put(issuer, crl);
-        if (oldEntry != null) { // assume this is unlikely
-            if (oldEntry instanceof X509CRL) {
-                if (crl.equals(oldEntry)) {
+        if (oldEntry != null) { // bssume this is unlikely
+            if (oldEntry instbnceof X509CRL) {
+                if (crl.equbls(oldEntry)) {
                     return;
                 }
-                List<X509CRL> list = new ArrayList<>(2);
-                list.add(crl);
-                list.add((X509CRL)oldEntry);
+                List<X509CRL> list = new ArrbyList<>(2);
+                list.bdd(crl);
+                list.bdd((X509CRL)oldEntry);
                 crlIssuers.put(issuer, list);
             } else {
-                // See crlIssuers javadoc.
-                @SuppressWarnings("unchecked")
+                // See crlIssuers jbvbdoc.
+                @SuppressWbrnings("unchecked")
                 List<X509CRL> list = (List<X509CRL>)oldEntry;
-                if (list.contains(crl) == false) {
-                    list.add(crl);
+                if (list.contbins(crl) == fblse) {
+                    list.bdd(crl);
                 }
                 crlIssuers.put(issuer, list);
             }
@@ -223,104 +223,104 @@ public class IndexedCollectionCertStore extends CertStoreSpi {
     }
 
     /**
-     * Returns a <code>Collection</code> of <code>Certificate</code>s that
-     * match the specified selector. If no <code>Certificate</code>s
-     * match the selector, an empty <code>Collection</code> will be returned.
+     * Returns b <code>Collection</code> of <code>Certificbte</code>s thbt
+     * mbtch the specified selector. If no <code>Certificbte</code>s
+     * mbtch the selector, bn empty <code>Collection</code> will be returned.
      *
-     * @param selector a <code>CertSelector</code> used to select which
-     *  <code>Certificate</code>s should be returned. Specify <code>null</code>
-     *  to return all <code>Certificate</code>s.
-     * @return a <code>Collection</code> of <code>Certificate</code>s that
-     *         match the specified selector
-     * @throws CertStoreException if an exception occurs
+     * @pbrbm selector b <code>CertSelector</code> used to select which
+     *  <code>Certificbte</code>s should be returned. Specify <code>null</code>
+     *  to return bll <code>Certificbte</code>s.
+     * @return b <code>Collection</code> of <code>Certificbte</code>s thbt
+     *         mbtch the specified selector
+     * @throws CertStoreException if bn exception occurs
      */
     @Override
-    public Collection<? extends Certificate> engineGetCertificates(CertSelector selector)
+    public Collection<? extends Certificbte> engineGetCertificbtes(CertSelector selector)
             throws CertStoreException {
 
-        // no selector means match all
+        // no selector mebns mbtch bll
         if (selector == null) {
-            Set<Certificate> matches = new HashSet<>();
-            matchX509Certs(new X509CertSelector(), matches);
-            matches.addAll(otherCertificates);
-            return matches;
+            Set<Certificbte> mbtches = new HbshSet<>();
+            mbtchX509Certs(new X509CertSelector(), mbtches);
+            mbtches.bddAll(otherCertificbtes);
+            return mbtches;
         }
 
-        if (selector instanceof X509CertSelector == false) {
-            Set<Certificate> matches = new HashSet<>();
-            matchX509Certs(selector, matches);
-            for (Certificate cert : otherCertificates) {
-                if (selector.match(cert)) {
-                    matches.add(cert);
+        if (selector instbnceof X509CertSelector == fblse) {
+            Set<Certificbte> mbtches = new HbshSet<>();
+            mbtchX509Certs(selector, mbtches);
+            for (Certificbte cert : otherCertificbtes) {
+                if (selector.mbtch(cert)) {
+                    mbtches.bdd(cert);
                 }
             }
-            return matches;
+            return mbtches;
         }
 
         if (certSubjects.isEmpty()) {
-            return Collections.<X509Certificate>emptySet();
+            return Collections.<X509Certificbte>emptySet();
         }
         X509CertSelector x509Selector = (X509CertSelector)selector;
         // see if the subject is specified
-        X500Principal subject;
-        X509Certificate matchCert = x509Selector.getCertificate();
-        if (matchCert != null) {
-            subject = matchCert.getSubjectX500Principal();
+        X500Principbl subject;
+        X509Certificbte mbtchCert = x509Selector.getCertificbte();
+        if (mbtchCert != null) {
+            subject = mbtchCert.getSubjectX500Principbl();
         } else {
             subject = x509Selector.getSubject();
         }
         if (subject != null) {
-            // yes, narrow down candidates to indexed possibilities
+            // yes, nbrrow down cbndidbtes to indexed possibilities
             Object entry = certSubjects.get(subject);
             if (entry == null) {
-                return Collections.<X509Certificate>emptySet();
+                return Collections.<X509Certificbte>emptySet();
             }
-            if (entry instanceof X509Certificate) {
-                X509Certificate x509Entry = (X509Certificate)entry;
-                if (x509Selector.match(x509Entry)) {
+            if (entry instbnceof X509Certificbte) {
+                X509Certificbte x509Entry = (X509Certificbte)entry;
+                if (x509Selector.mbtch(x509Entry)) {
                     return Collections.singleton(x509Entry);
                 } else {
-                    return Collections.<X509Certificate>emptySet();
+                    return Collections.<X509Certificbte>emptySet();
                 }
             } else {
-                // See certSubjects javadoc.
-                @SuppressWarnings("unchecked")
-                List<X509Certificate> list = (List<X509Certificate>)entry;
-                Set<X509Certificate> matches = new HashSet<>(16);
-                for (X509Certificate cert : list) {
-                    if (x509Selector.match(cert)) {
-                        matches.add(cert);
+                // See certSubjects jbvbdoc.
+                @SuppressWbrnings("unchecked")
+                List<X509Certificbte> list = (List<X509Certificbte>)entry;
+                Set<X509Certificbte> mbtches = new HbshSet<>(16);
+                for (X509Certificbte cert : list) {
+                    if (x509Selector.mbtch(cert)) {
+                        mbtches.bdd(cert);
                     }
                 }
-                return matches;
+                return mbtches;
             }
         }
-        // cannot use index, iterate all
-        Set<Certificate> matches = new HashSet<>(16);
-        matchX509Certs(x509Selector, matches);
-        return matches;
+        // cbnnot use index, iterbte bll
+        Set<Certificbte> mbtches = new HbshSet<>(16);
+        mbtchX509Certs(x509Selector, mbtches);
+        return mbtches;
     }
 
     /**
-     * Iterate through all the X509Certificates and add matches to the
+     * Iterbte through bll the X509Certificbtes bnd bdd mbtches to the
      * collection.
      */
-    private void matchX509Certs(CertSelector selector,
-        Collection<Certificate> matches) {
+    privbte void mbtchX509Certs(CertSelector selector,
+        Collection<Certificbte> mbtches) {
 
-        for (Object obj : certSubjects.values()) {
-            if (obj instanceof X509Certificate) {
-                X509Certificate cert = (X509Certificate)obj;
-                if (selector.match(cert)) {
-                    matches.add(cert);
+        for (Object obj : certSubjects.vblues()) {
+            if (obj instbnceof X509Certificbte) {
+                X509Certificbte cert = (X509Certificbte)obj;
+                if (selector.mbtch(cert)) {
+                    mbtches.bdd(cert);
                 }
             } else {
-                // See certSubjects javadoc.
-                @SuppressWarnings("unchecked")
-                List<X509Certificate> list = (List<X509Certificate>)obj;
-                for (X509Certificate cert : list) {
-                    if (selector.match(cert)) {
-                        matches.add(cert);
+                // See certSubjects jbvbdoc.
+                @SuppressWbrnings("unchecked")
+                List<X509Certificbte> list = (List<X509Certificbte>)obj;
+                for (X509Certificbte cert : list) {
+                    if (selector.mbtch(cert)) {
+                        mbtches.bdd(cert);
                     }
                 }
             }
@@ -328,37 +328,37 @@ public class IndexedCollectionCertStore extends CertStoreSpi {
     }
 
     /**
-     * Returns a <code>Collection</code> of <code>CRL</code>s that
-     * match the specified selector. If no <code>CRL</code>s
-     * match the selector, an empty <code>Collection</code> will be returned.
+     * Returns b <code>Collection</code> of <code>CRL</code>s thbt
+     * mbtch the specified selector. If no <code>CRL</code>s
+     * mbtch the selector, bn empty <code>Collection</code> will be returned.
      *
-     * @param selector a <code>CRLSelector</code> used to select which
+     * @pbrbm selector b <code>CRLSelector</code> used to select which
      *  <code>CRL</code>s should be returned. Specify <code>null</code>
-     *  to return all <code>CRL</code>s.
-     * @return a <code>Collection</code> of <code>CRL</code>s that
-     *         match the specified selector
-     * @throws CertStoreException if an exception occurs
+     *  to return bll <code>CRL</code>s.
+     * @return b <code>Collection</code> of <code>CRL</code>s thbt
+     *         mbtch the specified selector
+     * @throws CertStoreException if bn exception occurs
      */
     @Override
     public Collection<CRL> engineGetCRLs(CRLSelector selector)
             throws CertStoreException {
 
         if (selector == null) {
-            Set<CRL> matches = new HashSet<>();
-            matchX509CRLs(new X509CRLSelector(), matches);
-            matches.addAll(otherCRLs);
-            return matches;
+            Set<CRL> mbtches = new HbshSet<>();
+            mbtchX509CRLs(new X509CRLSelector(), mbtches);
+            mbtches.bddAll(otherCRLs);
+            return mbtches;
         }
 
-        if (selector instanceof X509CRLSelector == false) {
-            Set<CRL> matches = new HashSet<>();
-            matchX509CRLs(selector, matches);
+        if (selector instbnceof X509CRLSelector == fblse) {
+            Set<CRL> mbtches = new HbshSet<>();
+            mbtchX509CRLs(selector, mbtches);
             for (CRL crl : otherCRLs) {
-                if (selector.match(crl)) {
-                    matches.add(crl);
+                if (selector.mbtch(crl)) {
+                    mbtches.bdd(crl);
                 }
             }
-            return matches;
+            return mbtches;
         }
 
         if (crlIssuers.isEmpty()) {
@@ -366,55 +366,55 @@ public class IndexedCollectionCertStore extends CertStoreSpi {
         }
         X509CRLSelector x509Selector = (X509CRLSelector)selector;
         // see if the issuer is specified
-        Collection<X500Principal> issuers = x509Selector.getIssuers();
+        Collection<X500Principbl> issuers = x509Selector.getIssuers();
         if (issuers != null) {
-            HashSet<CRL> matches = new HashSet<>(16);
-            for (X500Principal issuer : issuers) {
+            HbshSet<CRL> mbtches = new HbshSet<>(16);
+            for (X500Principbl issuer : issuers) {
                 Object entry = crlIssuers.get(issuer);
                 if (entry == null) {
                     // empty
-                } else if (entry instanceof X509CRL) {
+                } else if (entry instbnceof X509CRL) {
                     X509CRL crl = (X509CRL)entry;
-                    if (x509Selector.match(crl)) {
-                        matches.add(crl);
+                    if (x509Selector.mbtch(crl)) {
+                        mbtches.bdd(crl);
                     }
                 } else { // List
-                    // See crlIssuers javadoc.
-                    @SuppressWarnings("unchecked")
+                    // See crlIssuers jbvbdoc.
+                    @SuppressWbrnings("unchecked")
                     List<X509CRL> list = (List<X509CRL>)entry;
                     for (X509CRL crl : list) {
-                        if (x509Selector.match(crl)) {
-                            matches.add(crl);
+                        if (x509Selector.mbtch(crl)) {
+                            mbtches.bdd(crl);
                         }
                     }
                 }
             }
-            return matches;
+            return mbtches;
         }
-        // cannot use index, iterate all
-        Set<CRL> matches = new HashSet<>(16);
-        matchX509CRLs(x509Selector, matches);
-        return matches;
+        // cbnnot use index, iterbte bll
+        Set<CRL> mbtches = new HbshSet<>(16);
+        mbtchX509CRLs(x509Selector, mbtches);
+        return mbtches;
     }
 
     /**
-     * Iterate through all the X509CRLs and add matches to the
+     * Iterbte through bll the X509CRLs bnd bdd mbtches to the
      * collection.
      */
-    private void matchX509CRLs(CRLSelector selector, Collection<CRL> matches) {
-        for (Object obj : crlIssuers.values()) {
-            if (obj instanceof X509CRL) {
+    privbte void mbtchX509CRLs(CRLSelector selector, Collection<CRL> mbtches) {
+        for (Object obj : crlIssuers.vblues()) {
+            if (obj instbnceof X509CRL) {
                 X509CRL crl = (X509CRL)obj;
-                if (selector.match(crl)) {
-                    matches.add(crl);
+                if (selector.mbtch(crl)) {
+                    mbtches.bdd(crl);
                 }
             } else {
-                // See crlIssuers javadoc.
-                @SuppressWarnings("unchecked")
+                // See crlIssuers jbvbdoc.
+                @SuppressWbrnings("unchecked")
                 List<X509CRL> list = (List<X509CRL>)obj;
                 for (X509CRL crl : list) {
-                    if (selector.match(crl)) {
-                        matches.add(crl);
+                    if (selector.mbtch(crl)) {
+                        mbtches.bdd(crl);
                     }
                 }
             }

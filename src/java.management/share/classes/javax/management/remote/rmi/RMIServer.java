@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.remote.rmi;
+pbckbge jbvbx.mbnbgement.remote.rmi;
 
-import java.io.IOException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+import jbvb.io.IOException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
 
 /**
- * <p>RMI object used to establish connections to an RMI connector.
- * There is one Remote object implementing this interface for each RMI
+ * <p>RMI object used to estbblish connections to bn RMI connector.
+ * There is one Remote object implementing this interfbce for ebch RMI
  * connector.</p>
  *
- * <p>User code does not usually refer to this interface.  It is
- * specified as part of the public API so that different
- * implementations of that API will interoperate.</p>
+ * <p>User code does not usublly refer to this interfbce.  It is
+ * specified bs pbrt of the public API so thbt different
+ * implementbtions of thbt API will interoperbte.</p>
  *
  * @since 1.5
  */
-public interface RMIServer extends Remote {
+public interfbce RMIServer extends Remote {
     /**
      * <p>The version of the RMI Connector Protocol understood by this
-     * connector server.  This is a string with the following format:</p>
+     * connector server.  This is b string with the following formbt:</p>
      *
      * <pre>
-     * <em>protocol-version</em> <em>implementation-name</em>
+     * <em>protocol-version</em> <em>implementbtion-nbme</em>
      * </pre>
      *
-     * <p>The <code><em>protocol-version</em></code> is a series of
-     * two or more non-negative integers separated by periods
-     * (<code>.</code>).  An implementation of the version described
-     * by this documentation must use the string <code>1.0</code>
+     * <p>The <code><em>protocol-version</em></code> is b series of
+     * two or more non-negbtive integers sepbrbted by periods
+     * (<code>.</code>).  An implementbtion of the version described
+     * by this documentbtion must use the string <code>1.0</code>
      * here.</p>
      *
-     * <p>After the protocol version there must be a space, followed
-     * by the implementation name.  The format of the implementation
-     * name is unspecified.  It is recommended that it include an
-     * implementation version number.  An implementation can use an
-     * empty string as its implementation name, for example for
-     * security reasons.</p>
+     * <p>After the protocol version there must be b spbce, followed
+     * by the implementbtion nbme.  The formbt of the implementbtion
+     * nbme is unspecified.  It is recommended thbt it include bn
+     * implementbtion version number.  An implementbtion cbn use bn
+     * empty string bs its implementbtion nbme, for exbmple for
+     * security rebsons.</p>
      *
-     * @return a string with the format described here.
+     * @return b string with the formbt described here.
      *
-     * @exception RemoteException if there is a communication
-     * exception during the remote method call.
+     * @exception RemoteException if there is b communicbtion
+     * exception during the remote method cbll.
      */
     public String getVersion() throws RemoteException;
 
     /**
-     * <p>Makes a new connection through this RMI connector.  Each
-     * remote client calls this method to obtain a new RMI object
+     * <p>Mbkes b new connection through this RMI connector.  Ebch
+     * remote client cblls this method to obtbin b new RMI object
      * representing its connection.</p>
      *
-     * @param credentials this object specifies the user-defined credentials
-     * to be passed in to the server in order to authenticate the user before
-     * creating the <code>RMIConnection</code>.  Can be null.
+     * @pbrbm credentibls this object specifies the user-defined credentibls
+     * to be pbssed in to the server in order to buthenticbte the user before
+     * crebting the <code>RMIConnection</code>.  Cbn be null.
      *
-     * @return the newly-created connection object.
+     * @return the newly-crebted connection object.
      *
-     * @exception IOException if the new client object cannot be
-     * created or exported, or if there is a communication exception
-     * during the remote method call.
+     * @exception IOException if the new client object cbnnot be
+     * crebted or exported, or if there is b communicbtion exception
+     * during the remote method cbll.
      *
-     * @exception SecurityException if the given credentials do not
-     * allow the server to authenticate the caller successfully.
+     * @exception SecurityException if the given credentibls do not
+     * bllow the server to buthenticbte the cbller successfully.
      */
-    public RMIConnection newClient(Object credentials) throws IOException;
+    public RMIConnection newClient(Object credentibls) throws IOException;
 }

@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * A <code>ByteArrayInputStream</code> contains
- * an internal buffer that contains bytes that
- * may be read from the stream. An internal
- * counter keeps track of the next byte to
- * be supplied by the <code>read</code> method.
+ * A <code>ByteArrbyInputStrebm</code> contbins
+ * bn internbl buffer thbt contbins bytes thbt
+ * mby be rebd from the strebm. An internbl
+ * counter keeps trbck of the next byte to
+ * be supplied by the <code>rebd</code> method.
  * <p>
- * Closing a <tt>ByteArrayInputStream</tt> has no effect. The methods in
- * this class can be called after the stream has been closed without
- * generating an <tt>IOException</tt>.
+ * Closing b <tt>ByteArrbyInputStrebm</tt> hbs no effect. The methods in
+ * this clbss cbn be cblled bfter the strebm hbs been closed without
+ * generbting bn <tt>IOException</tt>.
  *
- * @author  Arthur van Hoff
- * @see     java.io.StringBufferInputStream
+ * @buthor  Arthur vbn Hoff
+ * @see     jbvb.io.StringBufferInputStrebm
  * @since   1.0
  */
 public
-class ByteArrayInputStream extends InputStream {
+clbss ByteArrbyInputStrebm extends InputStrebm {
 
     /**
-     * An array of bytes that was provided
-     * by the creator of the stream. Elements <code>buf[0]</code>
-     * through <code>buf[count-1]</code> are the
-     * only bytes that can ever be read from the
-     * stream;  element <code>buf[pos]</code> is
-     * the next byte to be read.
+     * An brrby of bytes thbt wbs provided
+     * by the crebtor of the strebm. Elements <code>buf[0]</code>
+     * through <code>buf[count-1]</code> bre the
+     * only bytes thbt cbn ever be rebd from the
+     * strebm;  element <code>buf[pos]</code> is
+     * the next byte to be rebd.
      */
     protected byte buf[];
 
     /**
-     * The index of the next character to read from the input stream buffer.
-     * This value should always be nonnegative
-     * and not larger than the value of <code>count</code>.
-     * The next byte to be read from the input stream buffer
+     * The index of the next chbrbcter to rebd from the input strebm buffer.
+     * This vblue should blwbys be nonnegbtive
+     * bnd not lbrger thbn the vblue of <code>count</code>.
+     * The next byte to be rebd from the input strebm buffer
      * will be <code>buf[pos]</code>.
      */
     protected int pos;
 
     /**
-     * The currently marked position in the stream.
-     * ByteArrayInputStream objects are marked at position zero by
-     * default when constructed.  They may be marked at another
-     * position within the buffer by the <code>mark()</code> method.
+     * The currently mbrked position in the strebm.
+     * ByteArrbyInputStrebm objects bre mbrked bt position zero by
+     * defbult when constructed.  They mby be mbrked bt bnother
+     * position within the buffer by the <code>mbrk()</code> method.
      * The current buffer position is set to this point by the
      * <code>reset()</code> method.
      * <p>
-     * If no mark has been set, then the value of mark is the offset
-     * passed to the constructor (or 0 if the offset was not supplied).
+     * If no mbrk hbs been set, then the vblue of mbrk is the offset
+     * pbssed to the constructor (or 0 if the offset wbs not supplied).
      *
      * @since   1.1
      */
-    protected int mark = 0;
+    protected int mbrk = 0;
 
     /**
-     * The index one greater than the last valid character in the input
-     * stream buffer.
-     * This value should always be nonnegative
-     * and not larger than the length of <code>buf</code>.
-     * It  is one greater than the position of
-     * the last byte within <code>buf</code> that
-     * can ever be read  from the input stream buffer.
+     * The index one grebter thbn the lbst vblid chbrbcter in the input
+     * strebm buffer.
+     * This vblue should blwbys be nonnegbtive
+     * bnd not lbrger thbn the length of <code>buf</code>.
+     * It  is one grebter thbn the position of
+     * the lbst byte within <code>buf</code> thbt
+     * cbn ever be rebd  from the input strebm buffer.
      */
     protected int count;
 
     /**
-     * Creates a <code>ByteArrayInputStream</code>
-     * so that it  uses <code>buf</code> as its
-     * buffer array.
-     * The buffer array is not copied.
-     * The initial value of <code>pos</code>
-     * is <code>0</code> and the initial value
+     * Crebtes b <code>ByteArrbyInputStrebm</code>
+     * so thbt it  uses <code>buf</code> bs its
+     * buffer brrby.
+     * The buffer brrby is not copied.
+     * The initibl vblue of <code>pos</code>
+     * is <code>0</code> bnd the initibl vblue
      * of  <code>count</code> is the length of
      * <code>buf</code>.
      *
-     * @param   buf   the input buffer.
+     * @pbrbm   buf   the input buffer.
      */
-    public ByteArrayInputStream(byte buf[]) {
+    public ByteArrbyInputStrebm(byte buf[]) {
         this.buf = buf;
         this.pos = 0;
         this.count = buf.length;
     }
 
     /**
-     * Creates <code>ByteArrayInputStream</code>
-     * that uses <code>buf</code> as its
-     * buffer array. The initial value of <code>pos</code>
-     * is <code>offset</code> and the initial value
+     * Crebtes <code>ByteArrbyInputStrebm</code>
+     * thbt uses <code>buf</code> bs its
+     * buffer brrby. The initibl vblue of <code>pos</code>
+     * is <code>offset</code> bnd the initibl vblue
      * of <code>count</code> is the minimum of <code>offset+length</code>
-     * and <code>buf.length</code>.
-     * The buffer array is not copied. The buffer's mark is
+     * bnd <code>buf.length</code>.
+     * The buffer brrby is not copied. The buffer's mbrk is
      * set to the specified offset.
      *
-     * @param   buf      the input buffer.
-     * @param   offset   the offset in the buffer of the first byte to read.
-     * @param   length   the maximum number of bytes to read from the buffer.
+     * @pbrbm   buf      the input buffer.
+     * @pbrbm   offset   the offset in the buffer of the first byte to rebd.
+     * @pbrbm   length   the mbximum number of bytes to rebd from the buffer.
      */
-    public ByteArrayInputStream(byte buf[], int offset, int length) {
+    public ByteArrbyInputStrebm(byte buf[], int offset, int length) {
         this.buf = buf;
         this.pos = offset;
-        this.count = Math.min(offset + length, buf.length);
-        this.mark = offset;
+        this.count = Mbth.min(offset + length, buf.length);
+        this.mbrk = offset;
     }
 
     /**
-     * Reads the next byte of data from this input stream. The value
-     * byte is returned as an <code>int</code> in the range
-     * <code>0</code> to <code>255</code>. If no byte is available
-     * because the end of the stream has been reached, the value
+     * Rebds the next byte of dbtb from this input strebm. The vblue
+     * byte is returned bs bn <code>int</code> in the rbnge
+     * <code>0</code> to <code>255</code>. If no byte is bvbilbble
+     * becbuse the end of the strebm hbs been rebched, the vblue
      * <code>-1</code> is returned.
      * <p>
-     * This <code>read</code> method
-     * cannot block.
+     * This <code>rebd</code> method
+     * cbnnot block.
      *
-     * @return  the next byte of data, or <code>-1</code> if the end of the
-     *          stream has been reached.
+     * @return  the next byte of dbtb, or <code>-1</code> if the end of the
+     *          strebm hbs been rebched.
      */
-    public synchronized int read() {
+    public synchronized int rebd() {
         return (pos < count) ? (buf[pos++] & 0xff) : -1;
     }
 
     /**
-     * Reads up to <code>len</code> bytes of data into an array of bytes
-     * from this input stream.
-     * If <code>pos</code> equals <code>count</code>,
-     * then <code>-1</code> is returned to indicate
+     * Rebds up to <code>len</code> bytes of dbtb into bn brrby of bytes
+     * from this input strebm.
+     * If <code>pos</code> equbls <code>count</code>,
+     * then <code>-1</code> is returned to indicbte
      * end of file. Otherwise, the  number <code>k</code>
-     * of bytes read is equal to the smaller of
-     * <code>len</code> and <code>count-pos</code>.
+     * of bytes rebd is equbl to the smbller of
+     * <code>len</code> bnd <code>count-pos</code>.
      * If <code>k</code> is positive, then bytes
      * <code>buf[pos]</code> through <code>buf[pos+k-1]</code>
-     * are copied into <code>b[off]</code>  through
-     * <code>b[off+k-1]</code> in the manner performed
-     * by <code>System.arraycopy</code>. The
-     * value <code>k</code> is added into <code>pos</code>
-     * and <code>k</code> is returned.
+     * bre copied into <code>b[off]</code>  through
+     * <code>b[off+k-1]</code> in the mbnner performed
+     * by <code>System.brrbycopy</code>. The
+     * vblue <code>k</code> is bdded into <code>pos</code>
+     * bnd <code>k</code> is returned.
      * <p>
-     * This <code>read</code> method cannot block.
+     * This <code>rebd</code> method cbnnot block.
      *
-     * @param   b     the buffer into which the data is read.
-     * @param   off   the start offset in the destination array <code>b</code>
-     * @param   len   the maximum number of bytes read.
-     * @return  the total number of bytes read into the buffer, or
-     *          <code>-1</code> if there is no more data because the end of
-     *          the stream has been reached.
+     * @pbrbm   b     the buffer into which the dbtb is rebd.
+     * @pbrbm   off   the stbrt offset in the destinbtion brrby <code>b</code>
+     * @pbrbm   len   the mbximum number of bytes rebd.
+     * @return  the totbl number of bytes rebd into the buffer, or
+     *          <code>-1</code> if there is no more dbtb becbuse the end of
+     *          the strebm hbs been rebched.
      * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
+     * @exception  IndexOutOfBoundsException If <code>off</code> is negbtive,
+     * <code>len</code> is negbtive, or <code>len</code> is grebter thbn
      * <code>b.length - off</code>
      */
-    public synchronized int read(byte b[], int off, int len) {
+    public synchronized int rebd(byte b[], int off, int len) {
         if (b == null) {
             throw new NullPointerException();
         } else if (off < 0 || len < 0 || len > b.length - off) {
@@ -184,29 +184,29 @@ class ByteArrayInputStream extends InputStream {
             return -1;
         }
 
-        int avail = count - pos;
-        if (len > avail) {
-            len = avail;
+        int bvbil = count - pos;
+        if (len > bvbil) {
+            len = bvbil;
         }
         if (len <= 0) {
             return 0;
         }
-        System.arraycopy(buf, pos, b, off, len);
+        System.brrbycopy(buf, pos, b, off, len);
         pos += len;
         return len;
     }
 
     /**
-     * Skips <code>n</code> bytes of input from this input stream. Fewer
-     * bytes might be skipped if the end of the input stream is reached.
-     * The actual number <code>k</code>
-     * of bytes to be skipped is equal to the smaller
-     * of <code>n</code> and  <code>count-pos</code>.
-     * The value <code>k</code> is added into <code>pos</code>
-     * and <code>k</code> is returned.
+     * Skips <code>n</code> bytes of input from this input strebm. Fewer
+     * bytes might be skipped if the end of the input strebm is rebched.
+     * The bctubl number <code>k</code>
+     * of bytes to be skipped is equbl to the smbller
+     * of <code>n</code> bnd  <code>count-pos</code>.
+     * The vblue <code>k</code> is bdded into <code>pos</code>
+     * bnd <code>k</code> is returned.
      *
-     * @param   n   the number of bytes to be skipped.
-     * @return  the actual number of bytes skipped.
+     * @pbrbm   n   the number of bytes to be skipped.
+     * @return  the bctubl number of bytes skipped.
      */
     public synchronized long skip(long n) {
         long k = count - pos;
@@ -219,62 +219,62 @@ class ByteArrayInputStream extends InputStream {
     }
 
     /**
-     * Returns the number of remaining bytes that can be read (or skipped over)
-     * from this input stream.
+     * Returns the number of rembining bytes thbt cbn be rebd (or skipped over)
+     * from this input strebm.
      * <p>
-     * The value returned is <code>count&nbsp;- pos</code>,
-     * which is the number of bytes remaining to be read from the input buffer.
+     * The vblue returned is <code>count&nbsp;- pos</code>,
+     * which is the number of bytes rembining to be rebd from the input buffer.
      *
-     * @return  the number of remaining bytes that can be read (or skipped
-     *          over) from this input stream without blocking.
+     * @return  the number of rembining bytes thbt cbn be rebd (or skipped
+     *          over) from this input strebm without blocking.
      */
-    public synchronized int available() {
+    public synchronized int bvbilbble() {
         return count - pos;
     }
 
     /**
-     * Tests if this <code>InputStream</code> supports mark/reset. The
-     * <code>markSupported</code> method of <code>ByteArrayInputStream</code>
-     * always returns <code>true</code>.
+     * Tests if this <code>InputStrebm</code> supports mbrk/reset. The
+     * <code>mbrkSupported</code> method of <code>ByteArrbyInputStrebm</code>
+     * blwbys returns <code>true</code>.
      *
      * @since   1.1
      */
-    public boolean markSupported() {
+    public boolebn mbrkSupported() {
         return true;
     }
 
     /**
-     * Set the current marked position in the stream.
-     * ByteArrayInputStream objects are marked at position zero by
-     * default when constructed.  They may be marked at another
+     * Set the current mbrked position in the strebm.
+     * ByteArrbyInputStrebm objects bre mbrked bt position zero by
+     * defbult when constructed.  They mby be mbrked bt bnother
      * position within the buffer by this method.
      * <p>
-     * If no mark has been set, then the value of the mark is the
-     * offset passed to the constructor (or 0 if the offset was not
+     * If no mbrk hbs been set, then the vblue of the mbrk is the
+     * offset pbssed to the constructor (or 0 if the offset wbs not
      * supplied).
      *
-     * <p> Note: The <code>readAheadLimit</code> for this class
-     *  has no meaning.
+     * <p> Note: The <code>rebdAhebdLimit</code> for this clbss
+     *  hbs no mebning.
      *
      * @since   1.1
      */
-    public void mark(int readAheadLimit) {
-        mark = pos;
+    public void mbrk(int rebdAhebdLimit) {
+        mbrk = pos;
     }
 
     /**
-     * Resets the buffer to the marked position.  The marked position
-     * is 0 unless another position was marked or an offset was specified
+     * Resets the buffer to the mbrked position.  The mbrked position
+     * is 0 unless bnother position wbs mbrked or bn offset wbs specified
      * in the constructor.
      */
     public synchronized void reset() {
-        pos = mark;
+        pos = mbrk;
     }
 
     /**
-     * Closing a <tt>ByteArrayInputStream</tt> has no effect. The methods in
-     * this class can be called after the stream has been closed without
-     * generating an <tt>IOException</tt>.
+     * Closing b <tt>ByteArrbyInputStrebm</tt> hbs no effect. The methods in
+     * this clbss cbn be cblled bfter the strebm hbs been closed without
+     * generbting bn <tt>IOException</tt>.
      */
     public void close() throws IOException {
     }

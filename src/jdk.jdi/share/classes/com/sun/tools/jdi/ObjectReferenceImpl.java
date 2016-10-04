@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-import java.util.*;
-import java.util.ArrayList;
+import jbvb.util.*;
+import jbvb.util.ArrbyList;
 
-public class ObjectReferenceImpl extends ValueImpl
+public clbss ObjectReferenceImpl extends VblueImpl
              implements ObjectReference, VMListener {
 
     protected long ref;
-    private ReferenceType type = null;
-    private int gcDisableCount = 0;
-    boolean addedListener = false;
+    privbte ReferenceType type = null;
+    privbte int gcDisbbleCount = 0;
+    boolebn bddedListener = fblse;
 
-    // This is cached only while the VM is suspended
-    protected static class Cache {
+    // This is cbched only while the VM is suspended
+    protected stbtic clbss Cbche {
         JDWP.ObjectReference.MonitorInfo monitorInfo = null;
     }
 
-    private static final Cache noInitCache = new Cache();
-    private static final Cache markerCache = new Cache();
-    private Cache cache = noInitCache;
+    privbte stbtic finbl Cbche noInitCbche = new Cbche();
+    privbte stbtic finbl Cbche mbrkerCbche = new Cbche();
+    privbte Cbche cbche = noInitCbche;
 
-    private void disableCache() {
-        synchronized (vm.state()) {
-            cache = null;
+    privbte void disbbleCbche() {
+        synchronized (vm.stbte()) {
+            cbche = null;
         }
     }
 
-    private void enableCache() {
-        synchronized (vm.state()) {
-            cache = markerCache;
+    privbte void enbbleCbche() {
+        synchronized (vm.stbte()) {
+            cbche = mbrkerCbche;
         }
     }
 
-    // Override in subclasses
-    protected Cache newCache() {
-        return new Cache();
+    // Override in subclbsses
+    protected Cbche newCbche() {
+        return new Cbche();
     }
 
-    protected Cache getCache() {
-        synchronized (vm.state()) {
-            if (cache == noInitCache) {
-                if (vm.state().isSuspended()) {
-                    // Set cache now, otherwise newly created objects are
-                    // not cached until resuspend
-                    enableCache();
+    protected Cbche getCbche() {
+        synchronized (vm.stbte()) {
+            if (cbche == noInitCbche) {
+                if (vm.stbte().isSuspended()) {
+                    // Set cbche now, otherwise newly crebted objects bre
+                    // not cbched until resuspend
+                    enbbleCbche();
                 } else {
-                    disableCache();
+                    disbbleCbche();
                 }
             }
-            if (cache == markerCache) {
-                cache = newCache();
+            if (cbche == mbrkerCbche) {
+                cbche = newCbche();
             }
-            return cache;
+            return cbche;
         }
     }
 
-    // Return the ClassTypeImpl upon which to invoke a method.
-    // By default it is our very own referenceType() but subclasses
-    // can override.
-    protected ClassTypeImpl invokableReferenceType(Method method) {
-        return (ClassTypeImpl)referenceType();
+    // Return the ClbssTypeImpl upon which to invoke b method.
+    // By defbult it is our very own referenceType() but subclbsses
+    // cbn override.
+    protected ClbssTypeImpl invokbbleReferenceType(Method method) {
+        return (ClbssTypeImpl)referenceType();
     }
 
-    ObjectReferenceImpl(VirtualMachine aVm,long aRef) {
-        super(aVm);
+    ObjectReferenceImpl(VirtublMbchine bVm,long bRef) {
+        super(bVm);
 
-        ref = aRef;
+        ref = bRef;
     }
 
     protected String description() {
@@ -100,45 +100,45 @@ public class ObjectReferenceImpl extends ValueImpl
     }
 
     /*
-     * VMListener implementation
+     * VMListener implementbtion
      */
-    public boolean vmSuspended(VMAction action) {
-        enableCache();
+    public boolebn vmSuspended(VMAction bction) {
+        enbbleCbche();
         return true;
     }
 
-    public boolean vmNotSuspended(VMAction action) {
-        // make sure that cache and listener management are synchronized
-        synchronized (vm.state()) {
-            if (cache != null && (vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                vm.printTrace("Clearing temporary cache for " + description());
+    public boolebn vmNotSuspended(VMAction bction) {
+        // mbke sure thbt cbche bnd listener mbnbgement bre synchronized
+        synchronized (vm.stbte()) {
+            if (cbche != null && (vm.trbceFlbgs & VirtublMbchine.TRACE_OBJREFS) != 0) {
+                vm.printTrbce("Clebring temporbry cbche for " + description());
             }
-            disableCache();
-            if (addedListener) {
+            disbbleCbche();
+            if (bddedListener) {
                 /*
-                 * If a listener was added (i.e. this is not a
-                 * ObjectReference that adds a listener on startup),
+                 * If b listener wbs bdded (i.e. this is not b
+                 * ObjectReference thbt bdds b listener on stbrtup),
                  * remove it here.
                  */
-                addedListener = false;
-                return false;  // false says remove
+                bddedListener = fblse;
+                return fblse;  // fblse sbys remove
             } else {
                 return true;
             }
         }
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof ObjectReferenceImpl)) {
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof ObjectReferenceImpl)) {
             ObjectReferenceImpl other = (ObjectReferenceImpl)obj;
             return (ref() == other.ref()) &&
-                   super.equals(obj);
+                   super.equbls(obj);
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         return(int)ref();
     }
 
@@ -152,312 +152,312 @@ public class ObjectReferenceImpl extends ValueImpl
                 JDWP.ObjectReference.ReferenceType rtinfo =
                     JDWP.ObjectReference.ReferenceType.process(vm, this);
                 type = vm.referenceType(rtinfo.typeID,
-                                        rtinfo.refTypeTag);
-            } catch (JDWPException exc) {
+                                        rtinfo.refTypeTbg);
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
         }
         return type;
     }
 
-    public Value getValue(Field sig) {
-        List<Field> list = new ArrayList<Field>(1);
-        list.add(sig);
-        Map<Field, Value> map = getValues(list);
-        return map.get(sig);
+    public Vblue getVblue(Field sig) {
+        List<Field> list = new ArrbyList<Field>(1);
+        list.bdd(sig);
+        Mbp<Field, Vblue> mbp = getVblues(list);
+        return mbp.get(sig);
     }
 
-    public Map<Field,Value> getValues(List<? extends Field> theFields) {
-        validateMirrors(theFields);
+    public Mbp<Field,Vblue> getVblues(List<? extends Field> theFields) {
+        vblidbteMirrors(theFields);
 
-        List<Field> staticFields = new ArrayList<Field>(0);
+        List<Field> stbticFields = new ArrbyList<Field>(0);
         int size = theFields.size();
-        List<Field> instanceFields = new ArrayList<Field>(size);
+        List<Field> instbnceFields = new ArrbyList<Field>(size);
 
         for (int i=0; i<size; i++) {
             Field field = (Field)theFields.get(i);
 
-            // Make sure the field is valid
-            ((ReferenceTypeImpl)referenceType()).validateFieldAccess(field);
+            // Mbke sure the field is vblid
+            ((ReferenceTypeImpl)referenceType()).vblidbteFieldAccess(field);
 
-            // FIX ME! We need to do some sanity checking
-            // here; make sure the field belongs to this
+            // FIX ME! We need to do some sbnity checking
+            // here; mbke sure the field belongs to this
             // object.
-            if (field.isStatic())
-                staticFields.add(field);
+            if (field.isStbtic())
+                stbticFields.bdd(field);
             else {
-                instanceFields.add(field);
+                instbnceFields.bdd(field);
             }
         }
 
-        Map<Field, Value> map;
-        if (staticFields.size() > 0) {
-            map = referenceType().getValues(staticFields);
+        Mbp<Field, Vblue> mbp;
+        if (stbticFields.size() > 0) {
+            mbp = referenceType().getVblues(stbticFields);
         } else {
-            map = new HashMap<Field, Value>(size);
+            mbp = new HbshMbp<Field, Vblue>(size);
         }
 
-        size = instanceFields.size();
+        size = instbnceFields.size();
 
-        JDWP.ObjectReference.GetValues.Field[] queryFields =
-                         new JDWP.ObjectReference.GetValues.Field[size];
+        JDWP.ObjectReference.GetVblues.Field[] queryFields =
+                         new JDWP.ObjectReference.GetVblues.Field[size];
         for (int i=0; i<size; i++) {
-            FieldImpl field = (FieldImpl)instanceFields.get(i);/* thanks OTI */
-            queryFields[i] = new JDWP.ObjectReference.GetValues.Field(
+            FieldImpl field = (FieldImpl)instbnceFields.get(i);/* thbnks OTI */
+            queryFields[i] = new JDWP.ObjectReference.GetVblues.Field(
                                          field.ref());
         }
-        ValueImpl[] values;
+        VblueImpl[] vblues;
         try {
-            values = JDWP.ObjectReference.GetValues.
-                                     process(vm, this, queryFields).values;
-        } catch (JDWPException exc) {
+            vblues = JDWP.ObjectReference.GetVblues.
+                                     process(vm, this, queryFields).vblues;
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
 
-        if (size != values.length) {
-            throw new InternalException(
-                         "Wrong number of values returned from target VM");
+        if (size != vblues.length) {
+            throw new InternblException(
+                         "Wrong number of vblues returned from tbrget VM");
         }
         for (int i=0; i<size; i++) {
-            FieldImpl field = (FieldImpl)instanceFields.get(i);
-            map.put(field, values[i]);
+            FieldImpl field = (FieldImpl)instbnceFields.get(i);
+            mbp.put(field, vblues[i]);
         }
 
-        return map;
+        return mbp;
     }
 
-    public void setValue(Field field, Value value)
-                   throws InvalidTypeException, ClassNotLoadedException {
+    public void setVblue(Field field, Vblue vblue)
+                   throws InvblidTypeException, ClbssNotLobdedException {
 
-        validateMirror(field);
-        validateMirrorOrNull(value);
+        vblidbteMirror(field);
+        vblidbteMirrorOrNull(vblue);
 
-        // Make sure the field is valid
-        ((ReferenceTypeImpl)referenceType()).validateFieldSet(field);
+        // Mbke sure the field is vblid
+        ((ReferenceTypeImpl)referenceType()).vblidbteFieldSet(field);
 
-        if (field.isStatic()) {
+        if (field.isStbtic()) {
             ReferenceType type = referenceType();
-            if (type instanceof ClassType) {
-                ((ClassType)type).setValue(field, value);
+            if (type instbnceof ClbssType) {
+                ((ClbssType)type).setVblue(field, vblue);
                 return;
             } else {
-                throw new IllegalArgumentException(
-                                    "Invalid type for static field set");
+                throw new IllegblArgumentException(
+                                    "Invblid type for stbtic field set");
             }
         }
 
         try {
-            JDWP.ObjectReference.SetValues.FieldValue[] fvals =
-                      new JDWP.ObjectReference.SetValues.FieldValue[1];
-            fvals[0] = new JDWP.ObjectReference.SetValues.FieldValue(
+            JDWP.ObjectReference.SetVblues.FieldVblue[] fvbls =
+                      new JDWP.ObjectReference.SetVblues.FieldVblue[1];
+            fvbls[0] = new JDWP.ObjectReference.SetVblues.FieldVblue(
                            ((FieldImpl)field).ref(),
-                           // Validate and convert if necessary
-                           ValueImpl.prepareForAssignment(value,
+                           // Vblidbte bnd convert if necessbry
+                           VblueImpl.prepbreForAssignment(vblue,
                                                           (FieldImpl)field));
             try {
-                JDWP.ObjectReference.SetValues.process(vm, this, fvals);
-            } catch (JDWPException exc) {
+                JDWP.ObjectReference.SetVblues.process(vm, this, fvbls);
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
-        } catch (ClassNotLoadedException e) {
+        } cbtch (ClbssNotLobdedException e) {
             /*
              * Since we got this exception,
-             * the field type must be a reference type. The value
+             * the field type must be b reference type. The vblue
              * we're trying to set is null, but if the field's
-             * class has not yet been loaded through the enclosing
-             * class loader, then setting to null is essentially a
-             * no-op, and we should allow it without an exception.
+             * clbss hbs not yet been lobded through the enclosing
+             * clbss lobder, then setting to null is essentiblly b
+             * no-op, bnd we should bllow it without bn exception.
              */
-            if (value != null) {
+            if (vblue != null) {
                 throw e;
             }
         }
     }
 
-    void validateMethodInvocation(Method method, int options)
-                                         throws InvalidTypeException,
-                                         InvocationException {
+    void vblidbteMethodInvocbtion(Method method, int options)
+                                         throws InvblidTypeException,
+                                         InvocbtionException {
         /*
-         * Method must be in this object's class, a superclass, or
-         * implemented interface
+         * Method must be in this object's clbss, b superclbss, or
+         * implemented interfbce
          */
-        ReferenceTypeImpl declType = (ReferenceTypeImpl)method.declaringType();
-        if (!declType.isAssignableFrom(this)) {
-            throw new IllegalArgumentException("Invalid method");
+        ReferenceTypeImpl declType = (ReferenceTypeImpl)method.declbringType();
+        if (!declType.isAssignbbleFrom(this)) {
+            throw new IllegblArgumentException("Invblid method");
         }
 
-        if (declType instanceof ClassTypeImpl) {
-            validateClassMethodInvocation(method, options);
-        } else if (declType instanceof InterfaceTypeImpl) {
-            validateIfaceMethodInvocation(method, options);
+        if (declType instbnceof ClbssTypeImpl) {
+            vblidbteClbssMethodInvocbtion(method, options);
+        } else if (declType instbnceof InterfbceTypeImpl) {
+            vblidbteIfbceMethodInvocbtion(method, options);
         } else {
-            throw new InvalidTypeException();
+            throw new InvblidTypeException();
         }
     }
 
-    void validateClassMethodInvocation(Method method, int options)
-                                         throws InvalidTypeException,
-                                         InvocationException {
+    void vblidbteClbssMethodInvocbtion(Method method, int options)
+                                         throws InvblidTypeException,
+                                         InvocbtionException {
 
-        ClassTypeImpl clazz = invokableReferenceType(method);
+        ClbssTypeImpl clbzz = invokbbleReferenceType(method);
 
         /*
-         * Method must be a non-constructor
+         * Method must be b non-constructor
          */
         if (method.isConstructor()) {
-            throw new IllegalArgumentException("Cannot invoke constructor");
+            throw new IllegblArgumentException("Cbnnot invoke constructor");
         }
 
         /*
-         * For nonvirtual invokes, method must have a body
+         * For nonvirtubl invokes, method must hbve b body
          */
         if ((options & INVOKE_NONVIRTUAL) != 0) {
-            if (method.isAbstract()) {
-                throw new IllegalArgumentException("Abstract method");
+            if (method.isAbstrbct()) {
+                throw new IllegblArgumentException("Abstrbct method");
             }
         }
 
         /*
-         * Get the class containing the method that will be invoked.
-         * This class is needed only for proper validation of the
-         * method argument types.
+         * Get the clbss contbining the method thbt will be invoked.
+         * This clbss is needed only for proper vblidbtion of the
+         * method brgument types.
          */
-        ClassTypeImpl invokedClass;
+        ClbssTypeImpl invokedClbss;
         if ((options & INVOKE_NONVIRTUAL) != 0) {
-            // No overrides in non-virtual invokes
-            invokedClass = clazz;
+            // No overrides in non-virtubl invokes
+            invokedClbss = clbzz;
         } else {
             /*
-             * For virtual invokes, find any override of the method.
-             * Since we are looking for a method with a real body, we
-             * don't need to bother with interfaces/abstract methods.
+             * For virtubl invokes, find bny override of the method.
+             * Since we bre looking for b method with b rebl body, we
+             * don't need to bother with interfbces/bbstrbct methods.
              */
-            Method invoker = clazz.concreteMethodByName(method.name(),
-                                                        method.signature());
-            //  invoker is supposed to be non-null under normal circumstances
-            invokedClass = (ClassTypeImpl)invoker.declaringType();
+            Method invoker = clbzz.concreteMethodByNbme(method.nbme(),
+                                                        method.signbture());
+            //  invoker is supposed to be non-null under normbl circumstbnces
+            invokedClbss = (ClbssTypeImpl)invoker.declbringType();
         }
-        /* The above code is left over from previous versions.
-         * We haven't had time to divine the intent.  jjh, 7/31/2003
+        /* The bbove code is left over from previous versions.
+         * We hbven't hbd time to divine the intent.  jjh, 7/31/2003
          */
     }
 
-    void validateIfaceMethodInvocation(Method method, int options)
-                                         throws InvalidTypeException,
-                                         InvocationException {
+    void vblidbteIfbceMethodInvocbtion(Method method, int options)
+                                         throws InvblidTypeException,
+                                         InvocbtionException {
         /*
-         * Only default methods allowed for nonvirtual invokes
+         * Only defbult methods bllowed for nonvirtubl invokes
          */
-        if (!method.isDefault()) {
-            throw new IllegalArgumentException("Not a default method");
+        if (!method.isDefbult()) {
+            throw new IllegblArgumentException("Not b defbult method");
         }
     }
 
-    PacketStream sendInvokeCommand(final ThreadReferenceImpl thread,
-                                   final ClassTypeImpl refType,
-                                   final MethodImpl method,
-                                   final ValueImpl[] args,
-                                   final int options) {
-        CommandSender sender =
-            new CommandSender() {
-                public PacketStream send() {
-                    return JDWP.ObjectReference.InvokeMethod.enqueueCommand(
+    PbcketStrebm sendInvokeCommbnd(finbl ThrebdReferenceImpl threbd,
+                                   finbl ClbssTypeImpl refType,
+                                   finbl MethodImpl method,
+                                   finbl VblueImpl[] brgs,
+                                   finbl int options) {
+        CommbndSender sender =
+            new CommbndSender() {
+                public PbcketStrebm send() {
+                    return JDWP.ObjectReference.InvokeMethod.enqueueCommbnd(
                                           vm, ObjectReferenceImpl.this,
-                                          thread, refType,
-                                          method.ref(), args, options);
+                                          threbd, refType,
+                                          method.ref(), brgs, options);
                 }
         };
 
-        PacketStream stream;
+        PbcketStrebm strebm;
         if ((options & INVOKE_SINGLE_THREADED) != 0) {
-            stream = thread.sendResumingCommand(sender);
+            strebm = threbd.sendResumingCommbnd(sender);
         } else {
-            stream = vm.sendResumingCommand(sender);
+            strebm = vm.sendResumingCommbnd(sender);
         }
-        return stream;
+        return strebm;
     }
 
-    public Value invokeMethod(ThreadReference threadIntf, Method methodIntf,
-                              List<? extends Value> origArguments, int options)
-                              throws InvalidTypeException,
-                                     IncompatibleThreadStateException,
-                                     InvocationException,
-                                     ClassNotLoadedException {
-        validateMirror(threadIntf);
-        validateMirror(methodIntf);
-        validateMirrorsOrNulls(origArguments);
+    public Vblue invokeMethod(ThrebdReference threbdIntf, Method methodIntf,
+                              List<? extends Vblue> origArguments, int options)
+                              throws InvblidTypeException,
+                                     IncompbtibleThrebdStbteException,
+                                     InvocbtionException,
+                                     ClbssNotLobdedException {
+        vblidbteMirror(threbdIntf);
+        vblidbteMirror(methodIntf);
+        vblidbteMirrorsOrNulls(origArguments);
 
         MethodImpl method = (MethodImpl)methodIntf;
-        ThreadReferenceImpl thread = (ThreadReferenceImpl)threadIntf;
+        ThrebdReferenceImpl threbd = (ThrebdReferenceImpl)threbdIntf;
 
-        if (method.isStatic()) {
-            if (referenceType() instanceof InterfaceType) {
-                InterfaceType type = (InterfaceType)referenceType();
-                return type.invokeMethod(thread, method, origArguments, options);
-            } else if (referenceType() instanceof ClassType) {
-                ClassType type = (ClassType)referenceType();
-                return type.invokeMethod(thread, method, origArguments, options);
+        if (method.isStbtic()) {
+            if (referenceType() instbnceof InterfbceType) {
+                InterfbceType type = (InterfbceType)referenceType();
+                return type.invokeMethod(threbd, method, origArguments, options);
+            } else if (referenceType() instbnceof ClbssType) {
+                ClbssType type = (ClbssType)referenceType();
+                return type.invokeMethod(threbd, method, origArguments, options);
             } else {
-                throw new IllegalArgumentException("Invalid type for static method invocation");
+                throw new IllegblArgumentException("Invblid type for stbtic method invocbtion");
             }
         }
 
-        validateMethodInvocation(method, options);
+        vblidbteMethodInvocbtion(method, options);
 
-        List<Value> arguments = method.validateAndPrepareArgumentsForInvoke(
+        List<Vblue> brguments = method.vblidbteAndPrepbreArgumentsForInvoke(
                                                   origArguments);
 
-        ValueImpl[] args = arguments.toArray(new ValueImpl[0]);
+        VblueImpl[] brgs = brguments.toArrby(new VblueImpl[0]);
         JDWP.ObjectReference.InvokeMethod ret;
         try {
-            PacketStream stream =
-                sendInvokeCommand(thread, invokableReferenceType(method),
-                                  method, args, options);
-            ret = JDWP.ObjectReference.InvokeMethod.waitForReply(vm, stream);
-        } catch (JDWPException exc) {
+            PbcketStrebm strebm =
+                sendInvokeCommbnd(threbd, invokbbleReferenceType(method),
+                                  method, brgs, options);
+            ret = JDWP.ObjectReference.InvokeMethod.wbitForReply(vm, strebm);
+        } cbtch (JDWPException exc) {
             if (exc.errorCode() == JDWP.Error.INVALID_THREAD) {
-                throw new IncompatibleThreadStateException();
+                throw new IncompbtibleThrebdStbteException();
             } else {
                 throw exc.toJDIException();
             }
         }
 
         /*
-         * There is an implict VM-wide suspend at the conclusion
-         * of a normal (non-single-threaded) method invoke
+         * There is bn implict VM-wide suspend bt the conclusion
+         * of b normbl (non-single-threbded) method invoke
          */
         if ((options & INVOKE_SINGLE_THREADED) == 0) {
             vm.notifySuspend();
         }
 
         if (ret.exception != null) {
-            throw new InvocationException(ret.exception);
+            throw new InvocbtionException(ret.exception);
         } else {
-            return ret.returnValue;
+            return ret.returnVblue;
         }
     }
 
-    /* leave synchronized to keep count accurate */
-    public synchronized void disableCollection() {
-        if (gcDisableCount == 0) {
+    /* lebve synchronized to keep count bccurbte */
+    public synchronized void disbbleCollection() {
+        if (gcDisbbleCount == 0) {
             try {
-                JDWP.ObjectReference.DisableCollection.process(vm, this);
-            } catch (JDWPException exc) {
+                JDWP.ObjectReference.DisbbleCollection.process(vm, this);
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
         }
-        gcDisableCount++;
+        gcDisbbleCount++;
     }
 
-    /* leave synchronized to keep count accurate */
-    public synchronized void enableCollection() {
-        gcDisableCount--;
+    /* lebve synchronized to keep count bccurbte */
+    public synchronized void enbbleCollection() {
+        gcDisbbleCount--;
 
-        if (gcDisableCount == 0) {
+        if (gcDisbbleCount == 0) {
             try {
-                JDWP.ObjectReference.EnableCollection.process(vm, this);
-            } catch (JDWPException exc) {
-                // If already collected, no harm done, no exception
+                JDWP.ObjectReference.EnbbleCollection.process(vm, this);
+            } cbtch (JDWPException exc) {
+                // If blrebdy collected, no hbrm done, no exception
                 if (exc.errorCode() != JDWP.Error.INVALID_OBJECT) {
                     throw exc.toJDIException();
                 }
@@ -466,11 +466,11 @@ public class ObjectReferenceImpl extends ValueImpl
         }
     }
 
-    public boolean isCollected() {
+    public boolebn isCollected() {
         try {
             return JDWP.ObjectReference.IsCollected.process(vm, this).
                                                               isCollected;
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
     }
@@ -480,46 +480,46 @@ public class ObjectReferenceImpl extends ValueImpl
     }
 
     JDWP.ObjectReference.MonitorInfo jdwpMonitorInfo()
-                             throws IncompatibleThreadStateException {
+                             throws IncompbtibleThrebdStbteException {
         JDWP.ObjectReference.MonitorInfo info = null;
         try {
-            Cache local;
+            Cbche locbl;
 
-            // getCache() and addlistener() must be synchronized
-            // so that no events are lost.
-            synchronized (vm.state()) {
-                local = getCache();
+            // getCbche() bnd bddlistener() must be synchronized
+            // so thbt no events bre lost.
+            synchronized (vm.stbte()) {
+                locbl = getCbche();
 
-                if (local != null) {
-                    info = local.monitorInfo;
+                if (locbl != null) {
+                    info = locbl.monitorInfo;
 
-                    // Check if there will be something to cache
-                    // and there is not already a listener
-                    if (info == null && !vm.state().hasListener(this)) {
+                    // Check if there will be something to cbche
+                    // bnd there is not blrebdy b listener
+                    if (info == null && !vm.stbte().hbsListener(this)) {
                         /* For other, less numerous objects, this is done
-                         * in the constructor. Since there can be many
-                         * ObjectReferences, the VM listener is installed
-                         * and removed as needed.
-                         * Listener must be installed before process()
+                         * in the constructor. Since there cbn be mbny
+                         * ObjectReferences, the VM listener is instblled
+                         * bnd removed bs needed.
+                         * Listener must be instblled before process()
                          */
-                        vm.state().addListener(this);
-                        addedListener = true;
+                        vm.stbte().bddListener(this);
+                        bddedListener = true;
                     }
                 }
             }
             if (info == null) {
                 info = JDWP.ObjectReference.MonitorInfo.process(vm, this);
-                if (local != null) {
-                    local.monitorInfo = info;
-                    if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                        vm.printTrace("ObjectReference " + uniqueID() +
-                                      " temporarily caching monitor info");
+                if (locbl != null) {
+                    locbl.monitorInfo = info;
+                    if ((vm.trbceFlbgs & VirtublMbchine.TRACE_OBJREFS) != 0) {
+                        vm.printTrbce("ObjectReference " + uniqueID() +
+                                      " temporbrily cbching monitor info");
                     }
                 }
             }
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
              if (exc.errorCode() == JDWP.Error.THREAD_NOT_SUSPENDED) {
-                 throw new IncompatibleThreadStateException();
+                 throw new IncompbtibleThrebdStbteException();
              } else {
                  throw exc.toJDIException();
              }
@@ -527,38 +527,38 @@ public class ObjectReferenceImpl extends ValueImpl
         return info;
     }
 
-    public List<ThreadReference> waitingThreads() throws IncompatibleThreadStateException {
-        return Arrays.asList((ThreadReference[])jdwpMonitorInfo().waiters);
+    public List<ThrebdReference> wbitingThrebds() throws IncompbtibleThrebdStbteException {
+        return Arrbys.bsList((ThrebdReference[])jdwpMonitorInfo().wbiters);
     }
 
-    public ThreadReference owningThread() throws IncompatibleThreadStateException {
+    public ThrebdReference owningThrebd() throws IncompbtibleThrebdStbteException {
         return jdwpMonitorInfo().owner;
     }
 
-    public int entryCount() throws IncompatibleThreadStateException {
+    public int entryCount() throws IncompbtibleThrebdStbteException {
         return jdwpMonitorInfo().entryCount;
     }
 
 
-    public List<ObjectReference> referringObjects(long maxReferrers) {
-        if (!vm.canGetInstanceInfo()) {
-            throw new UnsupportedOperationException(
-                "target does not support getting referring objects");
+    public List<ObjectReference> referringObjects(long mbxReferrers) {
+        if (!vm.cbnGetInstbnceInfo()) {
+            throw new UnsupportedOperbtionException(
+                "tbrget does not support getting referring objects");
         }
 
-        if (maxReferrers < 0) {
-            throw new IllegalArgumentException("maxReferrers is less than zero: "
-                                              + maxReferrers);
+        if (mbxReferrers < 0) {
+            throw new IllegblArgumentException("mbxReferrers is less thbn zero: "
+                                              + mbxReferrers);
         }
 
-        int intMax = (maxReferrers > Integer.MAX_VALUE)?
-            Integer.MAX_VALUE: (int)maxReferrers;
-        // JDWP can't currently handle more than this (in mustang)
+        int intMbx = (mbxReferrers > Integer.MAX_VALUE)?
+            Integer.MAX_VALUE: (int)mbxReferrers;
+        // JDWP cbn't currently hbndle more thbn this (in mustbng)
 
         try {
-            return Arrays.asList((ObjectReference[])JDWP.ObjectReference.ReferringObjects.
-                                process(vm, this, intMax).referringObjects);
-        } catch (JDWPException exc) {
+            return Arrbys.bsList((ObjectReference[])JDWP.ObjectReference.ReferringObjects.
+                                process(vm, this, intMbx).referringObjects);
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
     }
@@ -567,61 +567,61 @@ public class ObjectReferenceImpl extends ValueImpl
         return ref;
     }
 
-    boolean isClassObject() {
+    boolebn isClbssObject() {
         /*
-         * Don't need to worry about subclasses since java.lang.Class is final.
+         * Don't need to worry bbout subclbsses since jbvb.lbng.Clbss is finbl.
          */
-        return referenceType().name().equals("java.lang.Class");
+        return referenceType().nbme().equbls("jbvb.lbng.Clbss");
     }
 
-    ValueImpl prepareForAssignmentTo(ValueContainer destination)
-                                 throws InvalidTypeException,
-                                        ClassNotLoadedException {
+    VblueImpl prepbreForAssignmentTo(VblueContbiner destinbtion)
+                                 throws InvblidTypeException,
+                                        ClbssNotLobdedException {
 
-        validateAssignment(destination);
-        return this;            // conversion never necessary
+        vblidbteAssignment(destinbtion);
+        return this;            // conversion never necessbry
     }
 
-    void validateAssignment(ValueContainer destination)
-                            throws InvalidTypeException, ClassNotLoadedException {
+    void vblidbteAssignment(VblueContbiner destinbtion)
+                            throws InvblidTypeException, ClbssNotLobdedException {
 
         /*
-         * Do these simpler checks before attempting a query of the destination's
-         * type which might cause a confusing ClassNotLoadedException if
-         * the destination is primitive or an array.
+         * Do these simpler checks before bttempting b query of the destinbtion's
+         * type which might cbuse b confusing ClbssNotLobdedException if
+         * the destinbtion is primitive or bn brrby.
          */
         /*
-         * TO DO: Centralize JNI signature knowledge
+         * TO DO: Centrblize JNI signbture knowledge
          */
-        if (destination.signature().length() == 1) {
-            throw new InvalidTypeException("Can't assign object value to primitive");
+        if (destinbtion.signbture().length() == 1) {
+            throw new InvblidTypeException("Cbn't bssign object vblue to primitive");
         }
-        if ((destination.signature().charAt(0) == '[') &&
-            (type().signature().charAt(0) != '[')) {
-            throw new InvalidTypeException("Can't assign non-array value to an array");
+        if ((destinbtion.signbture().chbrAt(0) == '[') &&
+            (type().signbture().chbrAt(0) != '[')) {
+            throw new InvblidTypeException("Cbn't bssign non-brrby vblue to bn brrby");
         }
-        if ("void".equals(destination.typeName())) {
-            throw new InvalidTypeException("Can't assign object value to a void");
+        if ("void".equbls(destinbtion.typeNbme())) {
+            throw new InvblidTypeException("Cbn't bssign object vblue to b void");
         }
 
-        // Validate assignment
-        ReferenceType destType = (ReferenceTypeImpl)destination.type();
+        // Vblidbte bssignment
+        ReferenceType destType = (ReferenceTypeImpl)destinbtion.type();
         ReferenceTypeImpl myType = (ReferenceTypeImpl)referenceType();
-        if (!myType.isAssignableTo(destType)) {
-            JNITypeParser parser = new JNITypeParser(destType.signature());
-            String destTypeName = parser.typeName();
-            throw new InvalidTypeException("Can't assign " +
-                                           type().name() +
-                                           " to " + destTypeName);
+        if (!myType.isAssignbbleTo(destType)) {
+            JNITypePbrser pbrser = new JNITypePbrser(destType.signbture());
+            String destTypeNbme = pbrser.typeNbme();
+            throw new InvblidTypeException("Cbn't bssign " +
+                                           type().nbme() +
+                                           " to " + destTypeNbme);
         }
     }
 
 
     public String toString() {
-        return "instance of " + referenceType().name() + "(id=" + uniqueID() + ")";
+        return "instbnce of " + referenceType().nbme() + "(id=" + uniqueID() + ")";
     }
 
-    byte typeValueKey() {
-        return JDWP.Tag.OBJECT;
+    byte typeVblueKey() {
+        return JDWP.Tbg.OBJECT;
     }
 }

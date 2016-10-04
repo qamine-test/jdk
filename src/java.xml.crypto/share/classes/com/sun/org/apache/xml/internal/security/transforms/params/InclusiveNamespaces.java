@@ -3,78 +3,78 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.transforms.params;
+pbckbge com.sun.org.bpbche.xml.internbl.security.trbnsforms.pbrbms;
 
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import jbvb.util.Set;
+import jbvb.util.SortedSet;
+import jbvb.util.TreeSet;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.transforms.TransformParam;
-import com.sun.org.apache.xml.internal.security.utils.ElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.TrbnsformPbrbm;
+import com.sun.org.bpbche.xml.internbl.security.utils.ElementProxy;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * This Object serves as Content for the ds:Transforms for exclusive
- * Canonicalization.
+ * This Object serves bs Content for the ds:Trbnsforms for exclusive
+ * Cbnonicblizbtion.
  * <BR />
- * It implements the {@link Element} interface
- * and can be used directly in a DOM tree.
+ * It implements the {@link Element} interfbce
+ * bnd cbn be used directly in b DOM tree.
  *
- * @author Christian Geuer-Pollmann
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public class InclusiveNamespaces extends ElementProxy implements TransformParam {
+public clbss InclusiveNbmespbces extends ElementProxy implements TrbnsformPbrbm {
 
     /** Field _TAG_EC_INCLUSIVENAMESPACES */
-    public static final String _TAG_EC_INCLUSIVENAMESPACES =
-        "InclusiveNamespaces";
+    public stbtic finbl String _TAG_EC_INCLUSIVENAMESPACES =
+        "InclusiveNbmespbces";
 
     /** Field _ATT_EC_PREFIXLIST */
-    public static final String _ATT_EC_PREFIXLIST = "PrefixList";
+    public stbtic finbl String _ATT_EC_PREFIXLIST = "PrefixList";
 
-    /** Field ExclusiveCanonicalizationNamespace */
-    public static final String ExclusiveCanonicalizationNamespace =
+    /** Field ExclusiveCbnonicblizbtionNbmespbce */
+    public stbtic finbl String ExclusiveCbnonicblizbtionNbmespbce =
         "http://www.w3.org/2001/10/xml-exc-c14n#";
 
     /**
-     * Constructor XPathContainer
+     * Constructor XPbthContbiner
      *
-     * @param doc
-     * @param prefixList
+     * @pbrbm doc
+     * @pbrbm prefixList
      */
-    public InclusiveNamespaces(Document doc, String prefixList) {
-        this(doc, InclusiveNamespaces.prefixStr2Set(prefixList));
+    public InclusiveNbmespbces(Document doc, String prefixList) {
+        this(doc, InclusiveNbmespbces.prefixStr2Set(prefixList));
     }
 
     /**
-     * Constructor InclusiveNamespaces
+     * Constructor InclusiveNbmespbces
      *
-     * @param doc
-     * @param prefixes
+     * @pbrbm doc
+     * @pbrbm prefixes
      */
-    public InclusiveNamespaces(Document doc, Set<String> prefixes) {
+    public InclusiveNbmespbces(Document doc, Set<String> prefixes) {
         super(doc);
 
         SortedSet<String> prefixList = null;
-        if (prefixes instanceof SortedSet<?>) {
+        if (prefixes instbnceof SortedSet<?>) {
             prefixList = (SortedSet<String>)prefixes;
         } else {
             prefixList = new TreeSet<String>(prefixes);
@@ -82,68 +82,68 @@ public class InclusiveNamespaces extends ElementProxy implements TransformParam 
 
         StringBuilder sb = new StringBuilder();
         for (String prefix : prefixList) {
-            if (prefix.equals("xmlns")) {
-                sb.append("#default ");
+            if (prefix.equbls("xmlns")) {
+                sb.bppend("#defbult ");
             } else {
-                sb.append(prefix + " ");
+                sb.bppend(prefix + " ");
             }
         }
 
         this.constructionElement.setAttributeNS(
-            null, InclusiveNamespaces._ATT_EC_PREFIXLIST, sb.toString().trim());
+            null, InclusiveNbmespbces._ATT_EC_PREFIXLIST, sb.toString().trim());
     }
 
     /**
-     * Constructor InclusiveNamespaces
+     * Constructor InclusiveNbmespbces
      *
-     * @param element
-     * @param BaseURI
+     * @pbrbm element
+     * @pbrbm BbseURI
      * @throws XMLSecurityException
      */
-    public InclusiveNamespaces(Element element, String BaseURI)
+    public InclusiveNbmespbces(Element element, String BbseURI)
         throws XMLSecurityException {
-        super(element, BaseURI);
+        super(element, BbseURI);
     }
 
     /**
-     * Method getInclusiveNamespaces
+     * Method getInclusiveNbmespbces
      *
-     * @return The Inclusive Namespace string
+     * @return The Inclusive Nbmespbce string
      */
-    public String getInclusiveNamespaces() {
-        return this.constructionElement.getAttributeNS(null, InclusiveNamespaces._ATT_EC_PREFIXLIST);
+    public String getInclusiveNbmespbces() {
+        return this.constructionElement.getAttributeNS(null, InclusiveNbmespbces._ATT_EC_PREFIXLIST);
     }
 
     /**
-     * Decodes the <code>inclusiveNamespaces</code> String and returns all
-     * selected namespace prefixes as a Set. The <code>#default</code>
-     * namespace token is represented as an empty namespace prefix
+     * Decodes the <code>inclusiveNbmespbces</code> String bnd returns bll
+     * selected nbmespbce prefixes bs b Set. The <code>#defbult</code>
+     * nbmespbce token is represented bs bn empty nbmespbce prefix
      * (<code>"xmlns"</code>).
      * <BR/>
-     * The String <code>inclusiveNamespaces=" xenc    ds #default"</code>
-     * is returned as a Set containing the following Strings:
+     * The String <code>inclusiveNbmespbces=" xenc    ds #defbult"</code>
+     * is returned bs b Set contbining the following Strings:
      * <UL>
      * <LI><code>xmlns</code></LI>
      * <LI><code>xenc</code></LI>
      * <LI><code>ds</code></LI>
      * </UL>
      *
-     * @param inclusiveNamespaces
+     * @pbrbm inclusiveNbmespbces
      * @return A set to string
      */
-    public static SortedSet<String> prefixStr2Set(String inclusiveNamespaces) {
+    public stbtic SortedSet<String> prefixStr2Set(String inclusiveNbmespbces) {
         SortedSet<String> prefixes = new TreeSet<String>();
 
-        if ((inclusiveNamespaces == null) || (inclusiveNamespaces.length() == 0)) {
+        if ((inclusiveNbmespbces == null) || (inclusiveNbmespbces.length() == 0)) {
             return prefixes;
         }
 
-        String[] tokens = inclusiveNamespaces.split("\\s");
+        String[] tokens = inclusiveNbmespbces.split("\\s");
         for (String prefix : tokens) {
-            if (prefix.equals("#default")) {
-                prefixes.add("xmlns");
+            if (prefix.equbls("#defbult")) {
+                prefixes.bdd("xmlns");
             } else {
-                prefixes.add(prefix);
+                prefixes.bdd(prefix);
             }
         }
 
@@ -151,20 +151,20 @@ public class InclusiveNamespaces extends ElementProxy implements TransformParam 
     }
 
     /**
-     * Method getBaseNamespace
+     * Method getBbseNbmespbce
      *
      * @inheritDoc
      */
-    public String getBaseNamespace() {
-        return InclusiveNamespaces.ExclusiveCanonicalizationNamespace;
+    public String getBbseNbmespbce() {
+        return InclusiveNbmespbces.ExclusiveCbnonicblizbtionNbmespbce;
     }
 
     /**
-     * Method getBaseLocalName
+     * Method getBbseLocblNbme
      *
      * @inheritDoc
      */
-    public String getBaseLocalName() {
-        return InclusiveNamespaces._TAG_EC_INCLUSIVENAMESPACES;
+    public String getBbseLocblNbme() {
+        return InclusiveNbmespbces._TAG_EC_INCLUSIVENAMESPACES;
     }
 }

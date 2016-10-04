@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1994, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
 /**
- * ConditionLock is a Lock with a built in state variable.  This class
- * provides the ability to wait for the state variable to be set to a
- * desired value and then acquire the lock.<p>
+ * ConditionLock is b Lock with b built in stbte vbribble.  This clbss
+ * provides the bbility to wbit for the stbte vbribble to be set to b
+ * desired vblue bnd then bcquire the lock.<p>
  *
- * The lockWhen() and unlockWith() methods can be safely intermixed
- * with the lock() and unlock() methods. However if there is a thread
- * waiting for the state variable to become a particular value and you
- * simply call Unlock(), that thread will not be able to acquire the
- * lock until the state variable equals its desired value. <p>
+ * The lockWhen() bnd unlockWith() methods cbn be sbfely intermixed
+ * with the lock() bnd unlock() methods. However if there is b threbd
+ * wbiting for the stbte vbribble to become b pbrticulbr vblue bnd you
+ * simply cbll Unlock(), thbt threbd will not be bble to bcquire the
+ * lock until the stbte vbribble equbls its desired vblue. <p>
  *
- * @author      Peter King
+ * @buthor      Peter King
  */
-public final
-class ConditionLock extends Lock {
-    private int state = 0;
+public finbl
+clbss ConditionLock extends Lock {
+    privbte int stbte = 0;
 
     /**
-     * Creates a ConditionLock.
+     * Crebtes b ConditionLock.
      */
     public ConditionLock () {
     }
 
     /**
-     * Creates a ConditionLock in an initialState.
+     * Crebtes b ConditionLock in bn initiblStbte.
      */
-    public ConditionLock (int initialState) {
-        state = initialState;
+    public ConditionLock (int initiblStbte) {
+        stbte = initiblStbte;
     }
 
     /**
-     * Acquires the lock when the state variable equals the desired state.
+     * Acquires the lock when the stbte vbribble equbls the desired stbte.
      *
-     * @param desiredState the desired state
-     * @exception  java.lang.InterruptedException if any thread has
-     *               interrupted this thread.
+     * @pbrbm desiredStbte the desired stbte
+     * @exception  jbvb.lbng.InterruptedException if bny threbd hbs
+     *               interrupted this threbd.
      */
-    public synchronized void lockWhen(int desiredState)
+    public synchronized void lockWhen(int desiredStbte)
         throws InterruptedException
     {
-        while (state != desiredState) {
-            wait();
+        while (stbte != desiredStbte) {
+            wbit();
         }
         lock();
     }
 
     /**
-     * Releases the lock, and sets the state to a new value.
-     * @param newState the new state
+     * Relebses the lock, bnd sets the stbte to b new vblue.
+     * @pbrbm newStbte the new stbte
      */
-    public synchronized void unlockWith(int newState) {
-        state = newState;
+    public synchronized void unlockWith(int newStbte) {
+        stbte = newStbte;
         unlock();
     }
 }

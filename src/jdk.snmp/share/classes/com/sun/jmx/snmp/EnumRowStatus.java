@@ -1,303 +1,303 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
-import java.io.Serializable;
-import java.util.Hashtable;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Hbshtbble;
 
 
 /**
- * This class is an internal class which is used to represent RowStatus
- * codes as defined in RFC 2579.
+ * This clbss is bn internbl clbss which is used to represent RowStbtus
+ * codes bs defined in RFC 2579.
  *
- * It defines an additional code, <i>unspecified</i>, which is
- * implementation specific, and is used to identify
- * unspecified actions (when for instance the RowStatus variable
- * is not present in the varbind list) or uninitialized values.
+ * It defines bn bdditionbl code, <i>unspecified</i>, which is
+ * implementbtion specific, bnd is used to identify
+ * unspecified bctions (when for instbnce the RowStbtus vbribble
+ * is not present in the vbrbind list) or uninitiblized vblues.
  *
- * mibgen does not generate objects of this class but any variable
- * using the RowStatus textual convention can be converted into an
- * object of this class thanks to the
- * <code>EnumRowStatus(Enumerated valueIndex)</code> constructor.
+ * mibgen does not generbte objects of this clbss but bny vbribble
+ * using the RowStbtus textubl convention cbn be converted into bn
+ * object of this clbss thbnks to the
+ * <code>EnumRowStbtus(Enumerbted vblueIndex)</code> constructor.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  **/
 
-public class EnumRowStatus extends Enumerated implements Serializable {
-    private static final long serialVersionUID = 8966519271130162420L;
+public clbss EnumRowStbtus extends Enumerbted implements Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 8966519271130162420L;
 
     /**
-     * This value is SNMP Runtime implementation specific, and is used to identify
-     * unspecified actions (when for instance the RowStatus variable
-     * is not present in the varbind list) or uninitialized values.
+     * This vblue is SNMP Runtime implementbtion specific, bnd is used to identify
+     * unspecified bctions (when for instbnce the RowStbtus vbribble
+     * is not present in the vbrbind list) or uninitiblized vblues.
      */
-    public final static int unspecified   = 0;
+    public finbl stbtic int unspecified   = 0;
 
     /**
-     * This value corresponds to the <i>active</i> RowStatus, as defined in
+     * This vblue corresponds to the <i>bctive</i> RowStbtus, bs defined in
      * RFC 2579 from SMIv2:
      * <ul>
-     * <i>active</i> indicates that the conceptual row is available for
-     * use by the managed device;
+     * <i>bctive</i> indicbtes thbt the conceptubl row is bvbilbble for
+     * use by the mbnbged device;
      * </ul>
      */
-    public final static int active        = 1;
+    public finbl stbtic int bctive        = 1;
 
     /**
-     * This value corresponds to the <i>notInService</i> RowStatus, as
+     * This vblue corresponds to the <i>notInService</i> RowStbtus, bs
      * defined in RFC 2579 from SMIv2:
      * <ul>
-     * <i>notInService</i> indicates that the conceptual
-     * row exists in the agent, but is unavailable for use by
-     * the managed device; <i>notInService</i> has
-     * no implication regarding the internal consistency of
-     * the row, availability of resources, or consistency with
-     * the current state of the managed device;
+     * <i>notInService</i> indicbtes thbt the conceptubl
+     * row exists in the bgent, but is unbvbilbble for use by
+     * the mbnbged device; <i>notInService</i> hbs
+     * no implicbtion regbrding the internbl consistency of
+     * the row, bvbilbbility of resources, or consistency with
+     * the current stbte of the mbnbged device;
      * </ul>
      **/
-    public final static int notInService  = 2;
+    public finbl stbtic int notInService  = 2;
 
     /**
-     * This value corresponds to the <i>notReady</i> RowStatus, as defined
+     * This vblue corresponds to the <i>notRebdy</i> RowStbtus, bs defined
      * in RFC 2579 from SMIv2:
      * <ul>
-     * <i>notReady</i> indicates that the conceptual row
-     * exists in the agent, but is missing information
-     * necessary in order to be available for use by the
-     * managed device (i.e., one or more required columns in
-     * the conceptual row have not been instantiated);
+     * <i>notRebdy</i> indicbtes thbt the conceptubl row
+     * exists in the bgent, but is missing informbtion
+     * necessbry in order to be bvbilbble for use by the
+     * mbnbged device (i.e., one or more required columns in
+     * the conceptubl row hbve not been instbntibted);
      * </ul>
      */
-    public final static int notReady      = 3;
+    public finbl stbtic int notRebdy      = 3;
 
     /**
-     * This value corresponds to the <i>createAndGo</i> RowStatus,
-     * as defined in RFC 2579 from SMIv2:
+     * This vblue corresponds to the <i>crebteAndGo</i> RowStbtus,
+     * bs defined in RFC 2579 from SMIv2:
      * <ul>
-     * <i>createAndGo</i> is supplied by a management
-     * station wishing to create a new instance of a
-     * conceptual row and to have its status automatically set
-     * to active, making it available for use by the managed
+     * <i>crebteAndGo</i> is supplied by b mbnbgement
+     * stbtion wishing to crebte b new instbnce of b
+     * conceptubl row bnd to hbve its stbtus butombticblly set
+     * to bctive, mbking it bvbilbble for use by the mbnbged
      * device;
      * </ul>
      */
-    public final static int createAndGo   = 4;
+    public finbl stbtic int crebteAndGo   = 4;
 
     /**
-     * This value corresponds to the <i>createAndWait</i> RowStatus,
-     * as defined in RFC 2579 from SMIv2:
+     * This vblue corresponds to the <i>crebteAndWbit</i> RowStbtus,
+     * bs defined in RFC 2579 from SMIv2:
      * <ul>
-     * <i>createAndWait</i> is supplied by a management
-     * station wishing to create a new instance of a
-     * conceptual row (but not make it available for use by
-     * the managed device);
+     * <i>crebteAndWbit</i> is supplied by b mbnbgement
+     * stbtion wishing to crebte b new instbnce of b
+     * conceptubl row (but not mbke it bvbilbble for use by
+     * the mbnbged device);
      * </ul>
      */
-    public final static int createAndWait = 5;
+    public finbl stbtic int crebteAndWbit = 5;
 
     /**
-     * This value corresponds to the <i>destroy</i> RowStatus, as defined in
+     * This vblue corresponds to the <i>destroy</i> RowStbtus, bs defined in
      * RFC 2579 from SMIv2:
      * <ul>
-     * <i>destroy</i> is supplied by a management station
-     * wishing to delete all of the instances associated with
-     * an existing conceptual row.
+     * <i>destroy</i> is supplied by b mbnbgement stbtion
+     * wishing to delete bll of the instbnces bssocibted with
+     * bn existing conceptubl row.
      * </ul>
      */
-    public final static int destroy       = 6;
+    public finbl stbtic int destroy       = 6;
 
     /**
-     * Build an <code>EnumRowStatus</code> from an <code>int</code>.
-     * @param valueIndex should be either 0 (<i>unspecified</i>), or one of
-     *        the values defined in RFC 2579.
-     * @exception IllegalArgumentException if the given
-     *            <code>valueIndex</code> is not valid.
+     * Build bn <code>EnumRowStbtus</code> from bn <code>int</code>.
+     * @pbrbm vblueIndex should be either 0 (<i>unspecified</i>), or one of
+     *        the vblues defined in RFC 2579.
+     * @exception IllegblArgumentException if the given
+     *            <code>vblueIndex</code> is not vblid.
      **/
-    public EnumRowStatus(int valueIndex)
-        throws IllegalArgumentException {
-        super(valueIndex);
+    public EnumRowStbtus(int vblueIndex)
+        throws IllegblArgumentException {
+        super(vblueIndex);
     }
 
     /**
-     * Build an <code>EnumRowStatus</code> from an <code>Enumerated</code>.
-     * @param valueIndex should be either 0 (<i>unspecified</i>), or one of
-     *        the values defined in RFC 2579.
-     * @exception IllegalArgumentException if the given
-     *            <code>valueIndex</code> is not valid.
+     * Build bn <code>EnumRowStbtus</code> from bn <code>Enumerbted</code>.
+     * @pbrbm vblueIndex should be either 0 (<i>unspecified</i>), or one of
+     *        the vblues defined in RFC 2579.
+     * @exception IllegblArgumentException if the given
+     *            <code>vblueIndex</code> is not vblid.
      **/
-    public EnumRowStatus(Enumerated valueIndex)
-        throws IllegalArgumentException {
-        this(valueIndex.intValue());
+    public EnumRowStbtus(Enumerbted vblueIndex)
+        throws IllegblArgumentException {
+        this(vblueIndex.intVblue());
     }
 
     /**
-     * Build an <code>EnumRowStatus</code> from a <code>long</code>.
-     * @param valueIndex should be either 0 (<i>unspecified</i>), or one of
-     *        the values defined in RFC 2579.
-     * @exception IllegalArgumentException if the given
-     *            <code>valueIndex</code> is not valid.
+     * Build bn <code>EnumRowStbtus</code> from b <code>long</code>.
+     * @pbrbm vblueIndex should be either 0 (<i>unspecified</i>), or one of
+     *        the vblues defined in RFC 2579.
+     * @exception IllegblArgumentException if the given
+     *            <code>vblueIndex</code> is not vblid.
      **/
-    public EnumRowStatus(long valueIndex)
-        throws IllegalArgumentException {
-        this((int)valueIndex);
+    public EnumRowStbtus(long vblueIndex)
+        throws IllegblArgumentException {
+        this((int)vblueIndex);
     }
 
     /**
-     * Build an <code>EnumRowStatus</code> from an <code>Integer</code>.
-     * @param valueIndex should be either 0 (<i>unspecified</i>), or one of
-     *        the values defined in RFC 2579.
-     * @exception IllegalArgumentException if the given
-     *            <code>valueIndex</code> is not valid.
+     * Build bn <code>EnumRowStbtus</code> from bn <code>Integer</code>.
+     * @pbrbm vblueIndex should be either 0 (<i>unspecified</i>), or one of
+     *        the vblues defined in RFC 2579.
+     * @exception IllegblArgumentException if the given
+     *            <code>vblueIndex</code> is not vblid.
      **/
-    public EnumRowStatus(Integer valueIndex)
-        throws IllegalArgumentException {
-        super(valueIndex);
+    public EnumRowStbtus(Integer vblueIndex)
+        throws IllegblArgumentException {
+        super(vblueIndex);
     }
 
     /**
-     * Build an <code>EnumRowStatus</code> from a <code>Long</code>.
-     * @param valueIndex should be either 0 (<i>unspecified</i>), or one of
-     *        the values defined in RFC 2579.
-     * @exception IllegalArgumentException if the given
-     *            <code>valueIndex</code> is not valid.
+     * Build bn <code>EnumRowStbtus</code> from b <code>Long</code>.
+     * @pbrbm vblueIndex should be either 0 (<i>unspecified</i>), or one of
+     *        the vblues defined in RFC 2579.
+     * @exception IllegblArgumentException if the given
+     *            <code>vblueIndex</code> is not vblid.
      **/
-    public EnumRowStatus(Long valueIndex)
-        throws IllegalArgumentException {
-        this(valueIndex.longValue());
+    public EnumRowStbtus(Long vblueIndex)
+        throws IllegblArgumentException {
+        this(vblueIndex.longVblue());
     }
 
     /**
-     * Build an <code>EnumRowStatus</code> with <i>unspecified</i> value.
+     * Build bn <code>EnumRowStbtus</code> with <i>unspecified</i> vblue.
      **/
-    public EnumRowStatus()
-        throws IllegalArgumentException {
+    public EnumRowStbtus()
+        throws IllegblArgumentException {
         this(unspecified);
     }
 
     /**
-     * Build an <code>EnumRowStatus</code> from a <code>String</code>.
-     * @param x should be either "unspecified", or one of
-     *        the values defined in RFC 2579 ("active", "notReady", etc...)
-     * @exception IllegalArgumentException if the given String
-     *            <code>x</code> is not valid.
+     * Build bn <code>EnumRowStbtus</code> from b <code>String</code>.
+     * @pbrbm x should be either "unspecified", or one of
+     *        the vblues defined in RFC 2579 ("bctive", "notRebdy", etc...)
+     * @exception IllegblArgumentException if the given String
+     *            <code>x</code> is not vblid.
      **/
-    public EnumRowStatus(String x)
-        throws IllegalArgumentException {
+    public EnumRowStbtus(String x)
+        throws IllegblArgumentException {
         super(x);
     }
 
     /**
-     * Build an <code>EnumRowStatus</code> from an <code>SnmpInt</code>.
-     * @param valueIndex should be either 0 (<i>unspecified</i>), or one of
-     *        the values defined in RFC 2579.
-     * @exception IllegalArgumentException if the given
-     *            <code>valueIndex</code> is not valid.
+     * Build bn <code>EnumRowStbtus</code> from bn <code>SnmpInt</code>.
+     * @pbrbm vblueIndex should be either 0 (<i>unspecified</i>), or one of
+     *        the vblues defined in RFC 2579.
+     * @exception IllegblArgumentException if the given
+     *            <code>vblueIndex</code> is not vblid.
      **/
-    public EnumRowStatus(SnmpInt valueIndex)
-        throws IllegalArgumentException {
-        this(valueIndex.intValue());
+    public EnumRowStbtus(SnmpInt vblueIndex)
+        throws IllegblArgumentException {
+        this(vblueIndex.intVblue());
     }
 
     /**
-     * Build an SnmpValue from this object.
+     * Build bn SnmpVblue from this object.
      *
-     * @exception IllegalArgumentException if this object holds an
-     *            <i>unspecified</i> value.
-     * @return an SnmpInt containing this object value.
+     * @exception IllegblArgumentException if this object holds bn
+     *            <i>unspecified</i> vblue.
+     * @return bn SnmpInt contbining this object vblue.
      **/
-    public SnmpInt toSnmpValue()
-        throws IllegalArgumentException {
-        if (value == unspecified)
+    public SnmpInt toSnmpVblue()
+        throws IllegblArgumentException {
+        if (vblue == unspecified)
             throw new
-        IllegalArgumentException("`unspecified' is not a valid SNMP value.");
-        return new SnmpInt(value);
+        IllegblArgumentException("`unspecified' is not b vblid SNMP vblue.");
+        return new SnmpInt(vblue);
     }
 
     /**
-     * Check that the given <code>value</code> is valid.
+     * Check thbt the given <code>vblue</code> is vblid.
      *
-     * Valid values are:
+     * Vblid vblues bre:
      * <ul><li><i>unspecified(0)</i></li>
-     *     <li><i>active(1)</i></li>
+     *     <li><i>bctive(1)</i></li>
      *     <li><i>notInService(2)</i></li>
-     *     <li><i>notReady(3)</i></li>
-     *     <li><i>createAndGo(4)</i></li>
-     *     <li><i>createAndWait(5)</i></li>
+     *     <li><i>notRebdy(3)</i></li>
+     *     <li><i>crebteAndGo(4)</i></li>
+     *     <li><i>crebteAndWbit(5)</i></li>
      *     <li><i>destroy(6)</i></li>
      * </ul>
      *
      **/
-    static public boolean isValidValue(int value) {
-        if (value < 0) return false;
-        if (value > 6) return false;
+    stbtic public boolebn isVblidVblue(int vblue) {
+        if (vblue < 0) return fblse;
+        if (vblue > 6) return fblse;
         return true;
     }
 
-    // Documented in Enumerated
+    // Documented in Enumerbted
     //
     @Override
-    protected Hashtable<Integer, String> getIntTable() {
-        return EnumRowStatus.getRSIntTable();
+    protected Hbshtbble<Integer, String> getIntTbble() {
+        return EnumRowStbtus.getRSIntTbble();
     }
 
-    // Documented in Enumerated
+    // Documented in Enumerbted
     //
     @Override
-    protected Hashtable<String, Integer> getStringTable() {
-        return  EnumRowStatus.getRSStringTable();
+    protected Hbshtbble<String, Integer> getStringTbble() {
+        return  EnumRowStbtus.getRSStringTbble();
     }
 
-    static Hashtable<Integer, String> getRSIntTable() {
-        return intTable ;
+    stbtic Hbshtbble<Integer, String> getRSIntTbble() {
+        return intTbble ;
     }
 
-    static Hashtable<String, Integer> getRSStringTable() {
-        return stringTable ;
+    stbtic Hbshtbble<String, Integer> getRSStringTbble() {
+        return stringTbble ;
     }
 
-    // Initialize the mapping tables.
+    // Initiblize the mbpping tbbles.
     //
-    final static Hashtable<Integer, String> intTable = new Hashtable<>();
-    final static Hashtable<String, Integer> stringTable = new Hashtable<>();
-    static  {
-        intTable.put(0, "unspecified");
-        intTable.put(3, "notReady");
-        intTable.put(6, "destroy");
-        intTable.put(2, "notInService");
-        intTable.put(5, "createAndWait");
-        intTable.put(1, "active");
-        intTable.put(4, "createAndGo");
-        stringTable.put("unspecified", 0);
-        stringTable.put("notReady", 3);
-        stringTable.put("destroy", 6);
-        stringTable.put("notInService", 2);
-        stringTable.put("createAndWait", 5);
-        stringTable.put("active", 1);
-        stringTable.put("createAndGo", 4);
+    finbl stbtic Hbshtbble<Integer, String> intTbble = new Hbshtbble<>();
+    finbl stbtic Hbshtbble<String, Integer> stringTbble = new Hbshtbble<>();
+    stbtic  {
+        intTbble.put(0, "unspecified");
+        intTbble.put(3, "notRebdy");
+        intTbble.put(6, "destroy");
+        intTbble.put(2, "notInService");
+        intTbble.put(5, "crebteAndWbit");
+        intTbble.put(1, "bctive");
+        intTbble.put(4, "crebteAndGo");
+        stringTbble.put("unspecified", 0);
+        stringTbble.put("notRebdy", 3);
+        stringTbble.put("destroy", 6);
+        stringTbble.put("notInService", 2);
+        stringTbble.put("crebteAndWbit", 5);
+        stringTbble.put("bctive", 1);
+        stringTbble.put("crebteAndGo", 4);
     }
 
 

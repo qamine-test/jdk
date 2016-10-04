@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.monitor;
+pbckbge jbvbx.mbnbgement.monitor;
 
 
 // jmx imports
 //
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * Provides definitions of the notifications sent by monitor MBeans.
+ * Provides definitions of the notificbtions sent by monitor MBebns.
  * <P>
- * The notification source and a set of parameters concerning the monitor MBean's state
- * need to be specified when creating a new object of this class.
+ * The notificbtion source bnd b set of pbrbmeters concerning the monitor MBebn's stbte
+ * need to be specified when crebting b new object of this clbss.
  *
- * The list of notifications fired by the monitor MBeans is the following:
+ * The list of notificbtions fired by the monitor MBebns is the following:
  *
  * <UL>
- * <LI>Common to all kind of monitors:
+ * <LI>Common to bll kind of monitors:
  *     <UL>
- *     <LI>The observed object is not registered in the MBean server.
- *     <LI>The observed attribute is not contained in the observed object.
- *     <LI>The type of the observed attribute is not correct.
- *     <LI>Any exception (except the cases described above) occurs when trying to get the value of the observed attribute.
+ *     <LI>The observed object is not registered in the MBebn server.
+ *     <LI>The observed bttribute is not contbined in the observed object.
+ *     <LI>The type of the observed bttribute is not correct.
+ *     <LI>Any exception (except the cbses described bbove) occurs when trying to get the vblue of the observed bttribute.
  *     </UL>
- * <LI>Common to the counter and the gauge monitors:
+ * <LI>Common to the counter bnd the gbuge monitors:
  *     <UL>
- *     <LI>The threshold high or threshold low are not of the same type as the gauge (gauge monitors).
- *     <LI>The threshold or the offset or the modulus are not of the same type as the counter (counter monitors).
+ *     <LI>The threshold high or threshold low bre not of the sbme type bs the gbuge (gbuge monitors).
+ *     <LI>The threshold or the offset or the modulus bre not of the sbme type bs the counter (counter monitors).
  *     </UL>
  * <LI>Counter monitors only:
  *     <UL>
- *     <LI>The observed attribute has reached the threshold value.
+ *     <LI>The observed bttribute hbs rebched the threshold vblue.
  *     </UL>
- * <LI>Gauge monitors only:
+ * <LI>Gbuge monitors only:
  *     <UL>
- *     <LI>The observed attribute has exceeded the threshold high value.
- *     <LI>The observed attribute has exceeded the threshold low value.
+ *     <LI>The observed bttribute hbs exceeded the threshold high vblue.
+ *     <LI>The observed bttribute hbs exceeded the threshold low vblue.
  *     </UL>
  * <LI>String monitors only:
  *     <UL>
- *     <LI>The observed attribute has matched the "string to compare" value.
- *     <LI>The observed attribute has differed from the "string to compare" value.
+ *     <LI>The observed bttribute hbs mbtched the "string to compbre" vblue.
+ *     <LI>The observed bttribute hbs differed from the "string to compbre" vblue.
  *     </UL>
  * </UL>
  *
  *
  * @since 1.5
  */
-public class MonitorNotification extends javax.management.Notification {
+public clbss MonitorNotificbtion extends jbvbx.mbnbgement.Notificbtion {
 
 
     /*
@@ -80,74 +80,74 @@ public class MonitorNotification extends javax.management.Notification {
      */
 
     /**
-     * Notification type denoting that the observed object is not registered in the MBean server.
-     * This notification is fired by all kinds of monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.error.mbean</CODE>.
+     * Notificbtion type denoting thbt the observed object is not registered in the MBebn server.
+     * This notificbtion is fired by bll kinds of monitors.
+     * <BR>The vblue of this notificbtion type is <CODE>jmx.monitor.error.mbebn</CODE>.
      */
-    public static final String OBSERVED_OBJECT_ERROR = "jmx.monitor.error.mbean";
+    public stbtic finbl String OBSERVED_OBJECT_ERROR = "jmx.monitor.error.mbebn";
 
     /**
-     * Notification type denoting that the observed attribute is not contained in the observed object.
-     * This notification is fired by all kinds of monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.error.attribute</CODE>.
+     * Notificbtion type denoting thbt the observed bttribute is not contbined in the observed object.
+     * This notificbtion is fired by bll kinds of monitors.
+     * <BR>The vblue of this notificbtion type is <CODE>jmx.monitor.error.bttribute</CODE>.
      */
-    public static final String OBSERVED_ATTRIBUTE_ERROR = "jmx.monitor.error.attribute";
+    public stbtic finbl String OBSERVED_ATTRIBUTE_ERROR = "jmx.monitor.error.bttribute";
 
     /**
-     * Notification type denoting that the type of the observed attribute is not correct.
-     * This notification is fired by all kinds of monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.error.type</CODE>.
+     * Notificbtion type denoting thbt the type of the observed bttribute is not correct.
+     * This notificbtion is fired by bll kinds of monitors.
+     * <BR>The vblue of this notificbtion type is <CODE>jmx.monitor.error.type</CODE>.
      */
-    public static final String OBSERVED_ATTRIBUTE_TYPE_ERROR = "jmx.monitor.error.type";
+    public stbtic finbl String OBSERVED_ATTRIBUTE_TYPE_ERROR = "jmx.monitor.error.type";
 
     /**
-     * Notification type denoting that the type of the thresholds, offset or modulus is not correct.
-     * This notification is fired by counter and gauge monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.error.threshold</CODE>.
+     * Notificbtion type denoting thbt the type of the thresholds, offset or modulus is not correct.
+     * This notificbtion is fired by counter bnd gbuge monitors.
+     * <BR>The vblue of this notificbtion type is <CODE>jmx.monitor.error.threshold</CODE>.
      */
-    public static final String THRESHOLD_ERROR = "jmx.monitor.error.threshold";
+    public stbtic finbl String THRESHOLD_ERROR = "jmx.monitor.error.threshold";
 
     /**
-     * Notification type denoting that a non-predefined error type has occurred when trying to get the value of the observed attribute.
-     * This notification is fired by all kinds of monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.error.runtime</CODE>.
+     * Notificbtion type denoting thbt b non-predefined error type hbs occurred when trying to get the vblue of the observed bttribute.
+     * This notificbtion is fired by bll kinds of monitors.
+     * <BR>The vblue of this notificbtion type is <CODE>jmx.monitor.error.runtime</CODE>.
      */
-    public static final String RUNTIME_ERROR = "jmx.monitor.error.runtime";
+    public stbtic finbl String RUNTIME_ERROR = "jmx.monitor.error.runtime";
 
     /**
-     * Notification type denoting that the observed attribute has reached the threshold value.
-     * This notification is only fired by counter monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.counter.threshold</CODE>.
+     * Notificbtion type denoting thbt the observed bttribute hbs rebched the threshold vblue.
+     * This notificbtion is only fired by counter monitors.
+     * <BR>The vblue of this notificbtion type is <CODE>jmx.monitor.counter.threshold</CODE>.
      */
-    public static final String THRESHOLD_VALUE_EXCEEDED = "jmx.monitor.counter.threshold";
+    public stbtic finbl String THRESHOLD_VALUE_EXCEEDED = "jmx.monitor.counter.threshold";
 
     /**
-     * Notification type denoting that the observed attribute has exceeded the threshold high value.
-     * This notification is only fired by gauge monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.gauge.high</CODE>.
+     * Notificbtion type denoting thbt the observed bttribute hbs exceeded the threshold high vblue.
+     * This notificbtion is only fired by gbuge monitors.
+     * <BR>The vblue of this notificbtion type is <CODE>jmx.monitor.gbuge.high</CODE>.
      */
-    public static final String THRESHOLD_HIGH_VALUE_EXCEEDED = "jmx.monitor.gauge.high";
+    public stbtic finbl String THRESHOLD_HIGH_VALUE_EXCEEDED = "jmx.monitor.gbuge.high";
 
     /**
-     * Notification type denoting that the observed attribute has exceeded the threshold low value.
-     * This notification is only fired by gauge monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.gauge.low</CODE>.
+     * Notificbtion type denoting thbt the observed bttribute hbs exceeded the threshold low vblue.
+     * This notificbtion is only fired by gbuge monitors.
+     * <BR>The vblue of this notificbtion type is <CODE>jmx.monitor.gbuge.low</CODE>.
      */
-    public static final String THRESHOLD_LOW_VALUE_EXCEEDED = "jmx.monitor.gauge.low";
+    public stbtic finbl String THRESHOLD_LOW_VALUE_EXCEEDED = "jmx.monitor.gbuge.low";
 
     /**
-     * Notification type denoting that the observed attribute has matched the "string to compare" value.
-     * This notification is only fired by string monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.string.matches</CODE>.
+     * Notificbtion type denoting thbt the observed bttribute hbs mbtched the "string to compbre" vblue.
+     * This notificbtion is only fired by string monitors.
+     * <BR>The vblue of this notificbtion type is <CODE>jmx.monitor.string.mbtches</CODE>.
      */
-    public static final String STRING_TO_COMPARE_VALUE_MATCHED = "jmx.monitor.string.matches";
+    public stbtic finbl String STRING_TO_COMPARE_VALUE_MATCHED = "jmx.monitor.string.mbtches";
 
     /**
-     * Notification type denoting that the observed attribute has differed from the "string to compare" value.
-     * This notification is only fired by string monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.string.differs</CODE>.
+     * Notificbtion type denoting thbt the observed bttribute hbs differed from the "string to compbre" vblue.
+     * This notificbtion is only fired by string monitors.
+     * <BR>The vblue of this notificbtion type is <CODE>jmx.monitor.string.differs</CODE>.
      */
-    public static final String STRING_TO_COMPARE_VALUE_DIFFERED = "jmx.monitor.string.differs";
+    public stbtic finbl String STRING_TO_COMPARE_VALUE_DIFFERED = "jmx.monitor.string.differs";
 
 
     /*
@@ -156,30 +156,30 @@ public class MonitorNotification extends javax.management.Notification {
      * ------------------------------------------
      */
 
-    /* Serial version */
-    private static final long serialVersionUID = -4608189663661929204L;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = -4608189663661929204L;
 
     /**
-     * @serial Monitor notification observed object.
+     * @seribl Monitor notificbtion observed object.
      */
-    private ObjectName observedObject = null;
+    privbte ObjectNbme observedObject = null;
 
     /**
-     * @serial Monitor notification observed attribute.
+     * @seribl Monitor notificbtion observed bttribute.
      */
-    private String observedAttribute = null;
+    privbte String observedAttribute = null;
 
     /**
-     * @serial Monitor notification derived gauge.
+     * @seribl Monitor notificbtion derived gbuge.
      */
-    private Object derivedGauge = null;
+    privbte Object derivedGbuge = null;
 
     /**
-     * @serial Monitor notification release mechanism.
-     *         This value is used to keep the threshold/string (depending on the
-     *         monitor type) that triggered off this notification.
+     * @seribl Monitor notificbtion relebse mechbnism.
+     *         This vblue is used to keep the threshold/string (depending on the
+     *         monitor type) thbt triggered off this notificbtion.
      */
-    private Object trigger = null;
+    privbte Object trigger = null;
 
 
     /*
@@ -189,25 +189,25 @@ public class MonitorNotification extends javax.management.Notification {
      */
 
     /**
-     * Creates a monitor notification object.
+     * Crebtes b monitor notificbtion object.
      *
-     * @param type The notification type.
-     * @param source The notification producer.
-     * @param sequenceNumber The notification sequence number within the source object.
-     * @param timeStamp The notification emission date.
-     * @param msg The notification message.
-     * @param obsObj The object observed by the producer of this notification.
-     * @param obsAtt The attribute observed by the producer of this notification.
-     * @param derGauge The derived gauge.
-     * @param trigger The threshold/string (depending on the monitor type) that triggered the notification.
+     * @pbrbm type The notificbtion type.
+     * @pbrbm source The notificbtion producer.
+     * @pbrbm sequenceNumber The notificbtion sequence number within the source object.
+     * @pbrbm timeStbmp The notificbtion emission dbte.
+     * @pbrbm msg The notificbtion messbge.
+     * @pbrbm obsObj The object observed by the producer of this notificbtion.
+     * @pbrbm obsAtt The bttribute observed by the producer of this notificbtion.
+     * @pbrbm derGbuge The derived gbuge.
+     * @pbrbm trigger The threshold/string (depending on the monitor type) thbt triggered the notificbtion.
      */
-    MonitorNotification(String type, Object source, long sequenceNumber, long timeStamp, String msg,
-                               ObjectName obsObj, String obsAtt, Object derGauge, Object trigger) {
+    MonitorNotificbtion(String type, Object source, long sequenceNumber, long timeStbmp, String msg,
+                               ObjectNbme obsObj, String obsAtt, Object derGbuge, Object trigger) {
 
-        super(type, source, sequenceNumber, timeStamp, msg);
+        super(type, source, sequenceNumber, timeStbmp, msg);
         this.observedObject = obsObj;
         this.observedAttribute = obsAtt;
-        this.derivedGauge = derGauge;
+        this.derivedGbuge = derGbuge;
         this.trigger = trigger;
     }
 
@@ -221,34 +221,34 @@ public class MonitorNotification extends javax.management.Notification {
     //--------------------
 
     /**
-     * Gets the observed object of this monitor notification.
+     * Gets the observed object of this monitor notificbtion.
      *
      * @return The observed object.
      */
-    public ObjectName getObservedObject() {
+    public ObjectNbme getObservedObject() {
         return observedObject;
     }
 
     /**
-     * Gets the observed attribute of this monitor notification.
+     * Gets the observed bttribute of this monitor notificbtion.
      *
-     * @return The observed attribute.
+     * @return The observed bttribute.
      */
     public String getObservedAttribute() {
         return observedAttribute;
     }
 
     /**
-     * Gets the derived gauge of this monitor notification.
+     * Gets the derived gbuge of this monitor notificbtion.
      *
-     * @return The derived gauge.
+     * @return The derived gbuge.
      */
-    public Object getDerivedGauge() {
-        return derivedGauge;
+    public Object getDerivedGbuge() {
+        return derivedGbuge;
     }
 
     /**
-     * Gets the threshold/string (depending on the monitor type) that triggered off this monitor notification.
+     * Gets the threshold/string (depending on the monitor type) thbt triggered off this monitor notificbtion.
      *
      * @return The trigger.
      */

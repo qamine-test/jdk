@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.rsa;
+pbckbge sun.security.rsb;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
 /**
- * Defines the entries of the SunRsaSign provider.
+ * Defines the entries of the SunRsbSign provider.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public final class SunRsaSignEntries {
+public finbl clbss SunRsbSignEntries {
 
-    private SunRsaSignEntries() {
+    privbte SunRsbSignEntries() {
         // empty
     }
 
-    public static void putEntries(Map<Object, Object> map) {
+    public stbtic void putEntries(Mbp<Object, Object> mbp) {
 
-        // main algorithms
+        // mbin blgorithms
 
-        map.put("KeyFactory.RSA",
-                "sun.security.rsa.RSAKeyFactory");
-        map.put("KeyPairGenerator.RSA",
-                "sun.security.rsa.RSAKeyPairGenerator");
-        map.put("Signature.MD2withRSA",
-                "sun.security.rsa.RSASignature$MD2withRSA");
-        map.put("Signature.MD5withRSA",
-                "sun.security.rsa.RSASignature$MD5withRSA");
-        map.put("Signature.SHA1withRSA",
-                "sun.security.rsa.RSASignature$SHA1withRSA");
-        map.put("Signature.SHA224withRSA",
-                "sun.security.rsa.RSASignature$SHA224withRSA");
-        map.put("Signature.SHA256withRSA",
-                "sun.security.rsa.RSASignature$SHA256withRSA");
-        map.put("Signature.SHA384withRSA",
-                "sun.security.rsa.RSASignature$SHA384withRSA");
-        map.put("Signature.SHA512withRSA",
-                "sun.security.rsa.RSASignature$SHA512withRSA");
+        mbp.put("KeyFbctory.RSA",
+                "sun.security.rsb.RSAKeyFbctory");
+        mbp.put("KeyPbirGenerbtor.RSA",
+                "sun.security.rsb.RSAKeyPbirGenerbtor");
+        mbp.put("Signbture.MD2withRSA",
+                "sun.security.rsb.RSASignbture$MD2withRSA");
+        mbp.put("Signbture.MD5withRSA",
+                "sun.security.rsb.RSASignbture$MD5withRSA");
+        mbp.put("Signbture.SHA1withRSA",
+                "sun.security.rsb.RSASignbture$SHA1withRSA");
+        mbp.put("Signbture.SHA224withRSA",
+                "sun.security.rsb.RSASignbture$SHA224withRSA");
+        mbp.put("Signbture.SHA256withRSA",
+                "sun.security.rsb.RSASignbture$SHA256withRSA");
+        mbp.put("Signbture.SHA384withRSA",
+                "sun.security.rsb.RSASignbture$SHA384withRSA");
+        mbp.put("Signbture.SHA512withRSA",
+                "sun.security.rsb.RSASignbture$SHA512withRSA");
 
-        // attributes for supported key classes
+        // bttributes for supported key clbsses
 
-        String rsaKeyClasses = "java.security.interfaces.RSAPublicKey" +
-                "|java.security.interfaces.RSAPrivateKey";
-        map.put("Signature.MD2withRSA SupportedKeyClasses", rsaKeyClasses);
-        map.put("Signature.MD5withRSA SupportedKeyClasses", rsaKeyClasses);
-        map.put("Signature.SHA1withRSA SupportedKeyClasses", rsaKeyClasses);
-        map.put("Signature.SHA224withRSA SupportedKeyClasses", rsaKeyClasses);
-        map.put("Signature.SHA256withRSA SupportedKeyClasses", rsaKeyClasses);
-        map.put("Signature.SHA384withRSA SupportedKeyClasses", rsaKeyClasses);
-        map.put("Signature.SHA512withRSA SupportedKeyClasses", rsaKeyClasses);
+        String rsbKeyClbsses = "jbvb.security.interfbces.RSAPublicKey" +
+                "|jbvb.security.interfbces.RSAPrivbteKey";
+        mbp.put("Signbture.MD2withRSA SupportedKeyClbsses", rsbKeyClbsses);
+        mbp.put("Signbture.MD5withRSA SupportedKeyClbsses", rsbKeyClbsses);
+        mbp.put("Signbture.SHA1withRSA SupportedKeyClbsses", rsbKeyClbsses);
+        mbp.put("Signbture.SHA224withRSA SupportedKeyClbsses", rsbKeyClbsses);
+        mbp.put("Signbture.SHA256withRSA SupportedKeyClbsses", rsbKeyClbsses);
+        mbp.put("Signbture.SHA384withRSA SupportedKeyClbsses", rsbKeyClbsses);
+        mbp.put("Signbture.SHA512withRSA SupportedKeyClbsses", rsbKeyClbsses);
 
-        // aliases
+        // blibses
 
-        map.put("Alg.Alias.KeyFactory.1.2.840.113549.1.1",     "RSA");
-        map.put("Alg.Alias.KeyFactory.OID.1.2.840.113549.1.1", "RSA");
+        mbp.put("Alg.Alibs.KeyFbctory.1.2.840.113549.1.1",     "RSA");
+        mbp.put("Alg.Alibs.KeyFbctory.OID.1.2.840.113549.1.1", "RSA");
 
-        map.put("Alg.Alias.KeyPairGenerator.1.2.840.113549.1.1",     "RSA");
-        map.put("Alg.Alias.KeyPairGenerator.OID.1.2.840.113549.1.1", "RSA");
+        mbp.put("Alg.Alibs.KeyPbirGenerbtor.1.2.840.113549.1.1",     "RSA");
+        mbp.put("Alg.Alibs.KeyPbirGenerbtor.OID.1.2.840.113549.1.1", "RSA");
 
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.2",     "MD2withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.2", "MD2withRSA");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.113549.1.1.2",     "MD2withRSA");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.113549.1.1.2", "MD2withRSA");
 
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.4",     "MD5withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.4", "MD5withRSA");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.113549.1.1.4",     "MD5withRSA");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.113549.1.1.4", "MD5withRSA");
 
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.5",     "SHA1withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.5", "SHA1withRSA");
-        map.put("Alg.Alias.Signature.1.3.14.3.2.29",            "SHA1withRSA");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.113549.1.1.5",     "SHA1withRSA");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.113549.1.1.5", "SHA1withRSA");
+        mbp.put("Alg.Alibs.Signbture.1.3.14.3.2.29",            "SHA1withRSA");
 
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.14",     "SHA224withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.14", "SHA224withRSA");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.113549.1.1.14",     "SHA224withRSA");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.113549.1.1.14", "SHA224withRSA");
 
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.11",     "SHA256withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.11", "SHA256withRSA");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.113549.1.1.11",     "SHA256withRSA");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.113549.1.1.11", "SHA256withRSA");
 
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.12",     "SHA384withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.12", "SHA384withRSA");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.113549.1.1.12",     "SHA384withRSA");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.113549.1.1.12", "SHA384withRSA");
 
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.13",     "SHA512withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.13", "SHA512withRSA");
+        mbp.put("Alg.Alibs.Signbture.1.2.840.113549.1.1.13",     "SHA512withRSA");
+        mbp.put("Alg.Alibs.Signbture.OID.1.2.840.113549.1.1.13", "SHA512withRSA");
 
     }
 }

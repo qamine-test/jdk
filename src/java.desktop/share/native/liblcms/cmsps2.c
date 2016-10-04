@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2011 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2011 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,168 +53,168 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
-// PostScript ColorRenderingDictionary and ColorSpaceArray
+// PostScript ColorRenderingDictionbry bnd ColorSpbceArrby
 
 
-#define MAXPSCOLS   60      // Columns on tables
+#define MAXPSCOLS   60      // Columns on tbbles
 
 /*
-    Implementation
+    Implementbtion
     --------------
 
-  PostScript does use XYZ as its internal PCS. But since PostScript
-  interpolation tables are limited to 8 bits, I use Lab as a way to
-  improve the accuracy, favoring perceptual results. So, for the creation
-  of each CRD, CSA the profiles are converted to Lab via a device
-  link between  profile -> Lab or Lab -> profile. The PS code necessary to
-  convert Lab <-> XYZ is also included.
+  PostScript does use XYZ bs its internbl PCS. But since PostScript
+  interpolbtion tbbles bre limited to 8 bits, I use Lbb bs b wby to
+  improve the bccurbcy, fbvoring perceptubl results. So, for the crebtion
+  of ebch CRD, CSA the profiles bre converted to Lbb vib b device
+  link between  profile -> Lbb or Lbb -> profile. The PS code necessbry to
+  convert Lbb <-> XYZ is blso included.
 
 
 
-  Color Space Arrays (CSA)
+  Color Spbce Arrbys (CSA)
   ==================================================================================
 
-  In order to obtain precision, code chooses between three ways to implement
-  the device -> XYZ transform. These cases identifies monochrome profiles (often
-  implemented as a set of curves), matrix-shaper and Pipeline-based.
+  In order to obtbin precision, code chooses between three wbys to implement
+  the device -> XYZ trbnsform. These cbses identifies monochrome profiles (often
+  implemented bs b set of curves), mbtrix-shbper bnd Pipeline-bbsed.
 
   Monochrome
   -----------
 
-  This is implemented as /CIEBasedA CSA. The prelinearization curve is
-  placed into /DecodeA section, and matrix equals to D50. Since here is
-  no interpolation tables, I do the conversion directly to XYZ
+  This is implemented bs /CIEBbsedA CSA. The prelinebrizbtion curve is
+  plbced into /DecodeA section, bnd mbtrix equbls to D50. Since here is
+  no interpolbtion tbbles, I do the conversion directly to XYZ
 
-  NOTE: CLUT-based monochrome profiles are NOT supported. So, cmsFLAGS_MATRIXINPUT
-  flag is forced on such profiles.
+  NOTE: CLUT-bbsed monochrome profiles bre NOT supported. So, cmsFLAGS_MATRIXINPUT
+  flbg is forced on such profiles.
 
-    [ /CIEBasedA
+    [ /CIEBbsedA
       <<
-            /DecodeA { transfer function } bind
-            /MatrixA [D50]
-            /RangeLMN [ 0.0 cmsD50X 0.0 cmsD50Y 0.0 cmsD50Z ]
+            /DecodeA { trbnsfer function } bind
+            /MbtrixA [D50]
+            /RbngeLMN [ 0.0 cmsD50X 0.0 cmsD50Y 0.0 cmsD50Z ]
             /WhitePoint [D50]
-            /BlackPoint [BP]
+            /BlbckPoint [BP]
             /RenderingIntent (intent)
       >>
     ]
 
-   On simpler profiles, the PCS is already XYZ, so no conversion is required.
+   On simpler profiles, the PCS is blrebdy XYZ, so no conversion is required.
 
 
-   Matrix-shaper based
+   Mbtrix-shbper bbsed
    -------------------
 
-   This is implemented both with /CIEBasedABC or /CIEBasedDEF on dependig
-   of profile implementation. Since here there are no interpolation tables, I do
+   This is implemented both with /CIEBbsedABC or /CIEBbsedDEF on dependig
+   of profile implementbtion. Since here there bre no interpolbtion tbbles, I do
    the conversion directly to XYZ
 
 
 
-    [ /CIEBasedABC
+    [ /CIEBbsedABC
             <<
-                /DecodeABC [ {transfer1} {transfer2} {transfer3} ]
-                /MatrixABC [Matrix]
-                /RangeLMN [ 0.0 cmsD50X 0.0 cmsD50Y 0.0 cmsD50Z ]
+                /DecodeABC [ {trbnsfer1} {trbnsfer2} {trbnsfer3} ]
+                /MbtrixABC [Mbtrix]
+                /RbngeLMN [ 0.0 cmsD50X 0.0 cmsD50Y 0.0 cmsD50Z ]
                 /DecodeLMN [ { / 2} dup dup ]
                 /WhitePoint [D50]
-                /BlackPoint [BP]
+                /BlbckPoint [BP]
                 /RenderingIntent (intent)
             >>
     ]
 
 
-    CLUT based
+    CLUT bbsed
     ----------
 
-     Lab is used in such cases.
+     Lbb is used in such cbses.
 
-    [ /CIEBasedDEF
+    [ /CIEBbsedDEF
             <<
-            /DecodeDEF [ <prelinearization> ]
-            /Table [ p p p [<...>]]
-            /RangeABC [ 0 1 0 1 0 1]
-            /DecodeABC[ <postlinearization> ]
-            /RangeLMN [ -0.236 1.254 0 1 -0.635 1.640 ]
+            /DecodeDEF [ <prelinebrizbtion> ]
+            /Tbble [ p p p [<...>]]
+            /RbngeABC [ 0 1 0 1 0 1]
+            /DecodeABC[ <postlinebrizbtion> ]
+            /RbngeLMN [ -0.236 1.254 0 1 -0.635 1.640 ]
                % -128/500 1+127/500 0 1  -127/200 1+128/200
-            /MatrixABC [ 1 1 1 1 0 0 0 0 -1]
+            /MbtrixABC [ 1 1 1 1 0 0 0 0 -1]
             /WhitePoint [D50]
-            /BlackPoint [BP]
+            /BlbckPoint [BP]
             /RenderingIntent (intent)
     ]
 
 
-  Color Rendering Dictionaries (CRD)
+  Color Rendering Dictionbries (CRD)
   ==================================
-  These are always implemented as CLUT, and always are using Lab. Since CRD are expected to
-  be used as resources, the code adds the definition as well.
+  These bre blwbys implemented bs CLUT, bnd blwbys bre using Lbb. Since CRD bre expected to
+  be used bs resources, the code bdds the definition bs well.
 
   <<
     /ColorRenderingType 1
     /WhitePoint [ D50 ]
-    /BlackPoint [BP]
-    /MatrixPQR [ Bradford ]
-    /RangePQR [-0.125 1.375 -0.125 1.375 -0.125 1.375 ]
-    /TransformPQR [
+    /BlbckPoint [BP]
+    /MbtrixPQR [ Brbdford ]
+    /RbngePQR [-0.125 1.375 -0.125 1.375 -0.125 1.375 ]
+    /TrbnsformPQR [
     {4 index 3 get div 2 index 3 get mul exch pop exch pop exch pop exch pop } bind
     {4 index 4 get div 2 index 4 get mul exch pop exch pop exch pop exch pop } bind
     {4 index 5 get div 2 index 5 get mul exch pop exch pop exch pop exch pop } bind
     ]
-    /MatrixABC <...>
+    /MbtrixABC <...>
     /EncodeABC <...>
-    /RangeABC  <.. used for  XYZ -> Lab>
+    /RbngeABC  <.. used for  XYZ -> Lbb>
     /EncodeLMN
-    /RenderTable [ p p p [<...>]]
+    /RenderTbble [ p p p [<...>]]
 
-    /RenderingIntent (Perceptual)
+    /RenderingIntent (Perceptubl)
   >>
   /Current exch /ColorRendering defineresource pop
 
 
-  The following stages are used to convert from XYZ to Lab
+  The following stbges bre used to convert from XYZ to Lbb
   --------------------------------------------------------
 
-  Input is given at LMN stage on X, Y, Z
+  Input is given bt LMN stbge on X, Y, Z
 
   Encode LMN gives us f(X/Xn), f(Y/Yn), f(Z/Zn)
 
   /EncodeLMN [
 
-    { 0.964200  div dup 0.008856 le {7.787 mul 16 116 div add}{1 3 div exp} ifelse } bind
-    { 1.000000  div dup 0.008856 le {7.787 mul 16 116 div add}{1 3 div exp} ifelse } bind
-    { 0.824900  div dup 0.008856 le {7.787 mul 16 116 div add}{1 3 div exp} ifelse } bind
+    { 0.964200  div dup 0.008856 le {7.787 mul 16 116 div bdd}{1 3 div exp} ifelse } bind
+    { 1.000000  div dup 0.008856 le {7.787 mul 16 116 div bdd}{1 3 div exp} ifelse } bind
+    { 0.824900  div dup 0.008856 le {7.787 mul 16 116 div bdd}{1 3 div exp} ifelse } bind
 
     ]
 
 
-  MatrixABC is used to compute f(Y/Yn), f(X/Xn) - f(Y/Yn), f(Y/Yn) - f(Z/Zn)
+  MbtrixABC is used to compute f(Y/Yn), f(X/Xn) - f(Y/Yn), f(Y/Yn) - f(Z/Zn)
 
   | 0  1  0|
   | 1 -1  0|
   | 0  1 -1|
 
-  /MatrixABC [ 0 1 0 1 -1 1 0 0 -1 ]
+  /MbtrixABC [ 0 1 0 1 -1 1 0 0 -1 ]
 
- EncodeABC finally gives Lab values.
+ EncodeABC finblly gives Lbb vblues.
 
   /EncodeABC [
     { 116 mul  16 sub 100 div  } bind
-    { 500 mul 128 add 255 div  } bind
-    { 200 mul 128 add 255 div  } bind
+    { 500 mul 128 bdd 255 div  } bind
+    { 200 mul 128 bdd 255 div  } bind
     ]
 
-  The following stages are used to convert Lab to XYZ
+  The following stbges bre used to convert Lbb to XYZ
   ----------------------------------------------------
 
-    /RangeABC [ 0 1 0 1 0 1]
-    /DecodeABC [ { 100 mul 16 add 116 div } bind
+    /RbngeABC [ 0 1 0 1 0 1]
+    /DecodeABC [ { 100 mul 16 bdd 116 div } bind
                  { 255 mul 128 sub 500 div } bind
                  { 255 mul 128 sub 200 div } bind
                ]
 
-    /MatrixABC [ 1 1 1 1 0 0 0 0 -1]
+    /MbtrixABC [ 1 1 1 1 0 0 0 0 -1]
     /DecodeLMN [
                 {dup 6 29 div ge {dup dup mul mul} {4 29 div sub 108 841 div mul} ifelse 0.964200 mul} bind
                 {dup 6 29 div ge {dup dup mul mul} {4 29 div sub 108 841 div mul} ifelse } bind
@@ -226,65 +226,65 @@
 
 /*
 
- PostScript algorithms discussion.
+ PostScript blgorithms discussion.
  =========================================================================================================
 
-  1D interpolation algorithm
+  1D interpolbtion blgorithm
 
 
-  1D interpolation (float)
+  1D interpolbtion (flobt)
   ------------------------
 
-    val2 = Domain * Value;
+    vbl2 = Dombin * Vblue;
 
-    cell0 = (int) floor(val2);
-    cell1 = (int) ceil(val2);
+    cell0 = (int) floor(vbl2);
+    cell1 = (int) ceil(vbl2);
 
-    rest = val2 - cell0;
+    rest = vbl2 - cell0;
 
-    y0 = LutTable[cell0] ;
-    y1 = LutTable[cell1] ;
+    y0 = LutTbble[cell0] ;
+    y1 = LutTbble[cell1] ;
 
     y = y0 + (y1 - y0) * rest;
 
 
 
-  PostScript code                   Stack
+  PostScript code                   Stbck
   ================================================
 
   {                                 % v
     <check 0..1.0>
-    [array]                         % v tab
-    dup                             % v tab tab
-    length 1 sub                    % v tab dom
+    [brrby]                         % v tbb
+    dup                             % v tbb tbb
+    length 1 sub                    % v tbb dom
 
-    3 -1 roll                       % tab dom v
+    3 -1 roll                       % tbb dom v
 
-    mul                             % tab val2
-    dup                             % tab val2 val2
-    dup                             % tab val2 val2 val2
-    floor cvi                       % tab val2 val2 cell0
-    exch                            % tab val2 cell0 val2
-    ceiling cvi                     % tab val2 cell0 cell1
+    mul                             % tbb vbl2
+    dup                             % tbb vbl2 vbl2
+    dup                             % tbb vbl2 vbl2 vbl2
+    floor cvi                       % tbb vbl2 vbl2 cell0
+    exch                            % tbb vbl2 cell0 vbl2
+    ceiling cvi                     % tbb vbl2 cell0 cell1
 
-    3 index                         % tab val2 cell0 cell1 tab
-    exch                            % tab val2 cell0 tab cell1
-    get                             % tab val2 cell0 y1
+    3 index                         % tbb vbl2 cell0 cell1 tbb
+    exch                            % tbb vbl2 cell0 tbb cell1
+    get                             % tbb vbl2 cell0 y1
 
-    4 -1 roll                       % val2 cell0 y1 tab
-    3 -1 roll                       % val2 y1 tab cell0
-    get                             % val2 y1 y0
+    4 -1 roll                       % vbl2 cell0 y1 tbb
+    3 -1 roll                       % vbl2 y1 tbb cell0
+    get                             % vbl2 y1 y0
 
-    dup                             % val2 y1 y0 y0
-    3 1 roll                        % val2 y0 y1 y0
+    dup                             % vbl2 y1 y0 y0
+    3 1 roll                        % vbl2 y0 y1 y0
 
-    sub                             % val2 y0 (y1-y0)
-    3 -1 roll                       % y0 (y1-y0) val2
-    dup                             % y0 (y1-y0) val2 val2
-    floor cvi                       % y0 (y1-y0) val2 floor(val2)
+    sub                             % vbl2 y0 (y1-y0)
+    3 -1 roll                       % y0 (y1-y0) vbl2
+    dup                             % y0 (y1-y0) vbl2 vbl2
+    floor cvi                       % y0 (y1-y0) vbl2 floor(vbl2)
     sub                             % y0 (y1-y0) rest
     mul                             % y0 t1
-    add                             % y
+    bdd                             % y
     65535 div                       % result
 
   } bind
@@ -295,38 +295,38 @@
 
 // This struct holds the memory block currently being write
 typedef struct {
-    _cmsStageCLutData* Pipeline;
+    _cmsStbgeCLutDbtb* Pipeline;
     cmsIOHANDLER* m;
 
     int FirstComponent;
     int SecondComponent;
 
-    const char* PreMaj;
-    const char* PostMaj;
-    const char* PreMin;
-    const char* PostMin;
+    const chbr* PreMbj;
+    const chbr* PostMbj;
+    const chbr* PreMin;
+    const chbr* PostMin;
 
-    int  FixWhite;    // Force mapping of pure white
+    int  FixWhite;    // Force mbpping of pure white
 
-    cmsColorSpaceSignature  ColorSpace;  // ColorSpace of profile
+    cmsColorSpbceSignbture  ColorSpbce;  // ColorSpbce of profile
 
 
-} cmsPsSamplerCargo;
+} cmsPsSbmplerCbrgo;
 
-static int _cmsPSActualColumn = 0;
+stbtic int _cmsPSActublColumn = 0;
 
 
 // Convert to byte
-static
+stbtic
 cmsUInt8Number Word2Byte(cmsUInt16Number w)
 {
-    return (cmsUInt8Number) floor((cmsFloat64Number) w / 257.0 + 0.5);
+    return (cmsUInt8Number) floor((cmsFlobt64Number) w / 257.0 + 0.5);
 }
 
 
-// Convert to byte (using ICC2 notation)
+// Convert to byte (using ICC2 notbtion)
 /*
-static
+stbtic
 cmsUInt8Number L2Byte(cmsUInt16Number w)
 {
     int ww = w + 0x0080;
@@ -337,30 +337,30 @@ cmsUInt8Number L2Byte(cmsUInt16Number w)
 }
 */
 
-// Write a cooked byte
+// Write b cooked byte
 
-static
+stbtic
 void WriteByte(cmsIOHANDLER* m, cmsUInt8Number b)
 {
     _cmsIOPrintf(m, "%02x", b);
-    _cmsPSActualColumn += 2;
+    _cmsPSActublColumn += 2;
 
-    if (_cmsPSActualColumn > MAXPSCOLS) {
+    if (_cmsPSActublColumn > MAXPSCOLS) {
 
         _cmsIOPrintf(m, "\n");
-        _cmsPSActualColumn = 0;
+        _cmsPSActublColumn = 0;
     }
 }
 
-// ----------------------------------------------------------------- PostScript generation
+// ----------------------------------------------------------------- PostScript generbtion
 
 
-// Removes offending Carriage returns
-static
-char* RemoveCR(const char* txt)
+// Removes offending Cbrribge returns
+stbtic
+chbr* RemoveCR(const chbr* txt)
 {
-    static char Buffer[2048];
-    char* pt;
+    stbtic chbr Buffer[2048];
+    chbr* pt;
 
     strncpy(Buffer, txt, 2047);
     Buffer[2047] = 0;
@@ -371,46 +371,46 @@ char* RemoveCR(const char* txt)
 
 }
 
-static
-void EmitHeader(cmsIOHANDLER* m, const char* Title, cmsHPROFILE hProfile)
+stbtic
+void EmitHebder(cmsIOHANDLER* m, const chbr* Title, cmsHPROFILE hProfile)
 {
     time_t timer;
     cmsMLU *Description, *Copyright;
-    char DescASCII[256], CopyrightASCII[256];
+    chbr DescASCII[256], CopyrightASCII[256];
 
     time(&timer);
 
-    Description = (cmsMLU*) cmsReadTag(hProfile, cmsSigProfileDescriptionTag);
-    Copyright   = (cmsMLU*) cmsReadTag(hProfile, cmsSigCopyrightTag);
+    Description = (cmsMLU*) cmsRebdTbg(hProfile, cmsSigProfileDescriptionTbg);
+    Copyright   = (cmsMLU*) cmsRebdTbg(hProfile, cmsSigCopyrightTbg);
 
     DescASCII[0] = DescASCII[255] = 0;
     CopyrightASCII[0] = CopyrightASCII[255] = 0;
 
-    if (Description != NULL) cmsMLUgetASCII(Description,  cmsNoLanguage, cmsNoCountry, DescASCII,       255);
-    if (Copyright != NULL)   cmsMLUgetASCII(Copyright,    cmsNoLanguage, cmsNoCountry, CopyrightASCII,  255);
+    if (Description != NULL) cmsMLUgetASCII(Description,  cmsNoLbngubge, cmsNoCountry, DescASCII,       255);
+    if (Copyright != NULL)   cmsMLUgetASCII(Copyright,    cmsNoLbngubge, cmsNoCountry, CopyrightASCII,  255);
 
     _cmsIOPrintf(m, "%%!PS-Adobe-3.0\n");
     _cmsIOPrintf(m, "%%\n");
     _cmsIOPrintf(m, "%% %s\n", Title);
     _cmsIOPrintf(m, "%% Source: %s\n", RemoveCR(DescASCII));
     _cmsIOPrintf(m, "%%         %s\n", RemoveCR(CopyrightASCII));
-    _cmsIOPrintf(m, "%% Created: %s", ctime(&timer)); // ctime appends a \n!!!
+    _cmsIOPrintf(m, "%% Crebted: %s", ctime(&timer)); // ctime bppends b \n!!!
     _cmsIOPrintf(m, "%%\n");
     _cmsIOPrintf(m, "%%%%BeginResource\n");
 
 }
 
 
-// Emits White & Black point. White point is always D50, Black point is the device
-// Black point adapted to D50.
+// Emits White & Blbck point. White point is blwbys D50, Blbck point is the device
+// Blbck point bdbpted to D50.
 
-static
-void EmitWhiteBlackD50(cmsIOHANDLER* m, cmsCIEXYZ* BlackPoint)
+stbtic
+void EmitWhiteBlbckD50(cmsIOHANDLER* m, cmsCIEXYZ* BlbckPoint)
 {
 
-    _cmsIOPrintf(m, "/BlackPoint [%f %f %f]\n", BlackPoint -> X,
-                                          BlackPoint -> Y,
-                                          BlackPoint -> Z);
+    _cmsIOPrintf(m, "/BlbckPoint [%f %f %f]\n", BlbckPoint -> X,
+                                          BlbckPoint -> Y,
+                                          BlbckPoint -> Z);
 
     _cmsIOPrintf(m, "/WhitePoint [%f %f %f]\n", cmsD50_XYZ()->X,
                                           cmsD50_XYZ()->Y,
@@ -418,8 +418,8 @@ void EmitWhiteBlackD50(cmsIOHANDLER* m, cmsCIEXYZ* BlackPoint)
 }
 
 
-static
-void EmitRangeCheck(cmsIOHANDLER* m)
+stbtic
+void EmitRbngeCheck(cmsIOHANDLER* m)
 {
     _cmsIOPrintf(m, "dup 0.0 lt { pop 0.0 } if "
                     "dup 1.0 gt { pop 1.0 } if ");
@@ -428,19 +428,19 @@ void EmitRangeCheck(cmsIOHANDLER* m)
 
 // Does write the intent
 
-static
+stbtic
 void EmitIntent(cmsIOHANDLER* m, int RenderingIntent)
 {
-    const char *intent;
+    const chbr *intent;
 
     switch (RenderingIntent) {
 
-        case INTENT_PERCEPTUAL:            intent = "Perceptual"; break;
-        case INTENT_RELATIVE_COLORIMETRIC: intent = "RelativeColorimetric"; break;
-        case INTENT_ABSOLUTE_COLORIMETRIC: intent = "AbsoluteColorimetric"; break;
-        case INTENT_SATURATION:            intent = "Saturation"; break;
+        cbse INTENT_PERCEPTUAL:            intent = "Perceptubl"; brebk;
+        cbse INTENT_RELATIVE_COLORIMETRIC: intent = "RelbtiveColorimetric"; brebk;
+        cbse INTENT_ABSOLUTE_COLORIMETRIC: intent = "AbsoluteColorimetric"; brebk;
+        cbse INTENT_SATURATION:            intent = "Sbturbtion"; brebk;
 
-        default: intent = "Undefined"; break;
+        defbult: intent = "Undefined"; brebk;
     }
 
     _cmsIOPrintf(m, "/RenderingIntent (%s)\n", intent );
@@ -454,33 +454,33 @@ void EmitIntent(cmsIOHANDLER* m, int RenderingIntent)
 //
 
 /*
-static
+stbtic
 void EmitL2Y(cmsIOHANDLER* m)
 {
     _cmsIOPrintf(m,
             "{ "
-                "100 mul 16 add 116 div "               // (L * 100 + 16) / 116
+                "100 mul 16 bdd 116 div "               // (L * 100 + 16) / 116
                  "dup 6 29 div ge "                     // >= 6 / 29 ?
-                 "{ dup dup mul mul } "                 // yes, ^3 and done
+                 "{ dup dup mul mul } "                 // yes, ^3 bnd done
                  "{ 4 29 div sub 108 841 div mul } "    // no, slope limiting
             "ifelse } bind ");
 }
 */
 
 
-// Lab -> XYZ, see the discussion above
+// Lbb -> XYZ, see the discussion bbove
 
-static
-void EmitLab2XYZ(cmsIOHANDLER* m)
+stbtic
+void EmitLbb2XYZ(cmsIOHANDLER* m)
 {
-    _cmsIOPrintf(m, "/RangeABC [ 0 1 0 1 0 1]\n");
+    _cmsIOPrintf(m, "/RbngeABC [ 0 1 0 1 0 1]\n");
     _cmsIOPrintf(m, "/DecodeABC [\n");
-    _cmsIOPrintf(m, "{100 mul  16 add 116 div } bind\n");
+    _cmsIOPrintf(m, "{100 mul  16 bdd 116 div } bind\n");
     _cmsIOPrintf(m, "{255 mul 128 sub 500 div } bind\n");
     _cmsIOPrintf(m, "{255 mul 128 sub 200 div } bind\n");
     _cmsIOPrintf(m, "]\n");
-    _cmsIOPrintf(m, "/MatrixABC [ 1 1 1 1 0 0 0 0 -1]\n");
-    _cmsIOPrintf(m, "/RangeLMN [ -0.236 1.254 0 1 -0.635 1.640 ]\n");
+    _cmsIOPrintf(m, "/MbtrixABC [ 1 1 1 1 0 0 0 0 -1]\n");
+    _cmsIOPrintf(m, "/RbngeLMN [ -0.236 1.254 0 1 -0.635 1.640 ]\n");
     _cmsIOPrintf(m, "/DecodeLMN [\n");
     _cmsIOPrintf(m, "{dup 6 29 div ge {dup dup mul mul} {4 29 div sub 108 841 div mul} ifelse 0.964200 mul} bind\n");
     _cmsIOPrintf(m, "{dup 6 29 div ge {dup dup mul mul} {4 29 div sub 108 841 div mul} ifelse } bind\n");
@@ -490,89 +490,89 @@ void EmitLab2XYZ(cmsIOHANDLER* m)
 
 
 
-// Outputs a table of words. It does use 16 bits
+// Outputs b tbble of words. It does use 16 bits
 
-static
-void Emit1Gamma(cmsIOHANDLER* m, cmsToneCurve* Table)
+stbtic
+void Emit1Gbmmb(cmsIOHANDLER* m, cmsToneCurve* Tbble)
 {
     cmsUInt32Number i;
-    cmsFloat64Number gamma;
+    cmsFlobt64Number gbmmb;
 
-    if (Table == NULL) return; // Error
+    if (Tbble == NULL) return; // Error
 
-    if (Table ->nEntries <= 0) return;  // Empty table
+    if (Tbble ->nEntries <= 0) return;  // Empty tbble
 
     // Suppress whole if identity
-    if (cmsIsToneCurveLinear(Table)) return;
+    if (cmsIsToneCurveLinebr(Tbble)) return;
 
-    // Check if is really an exponential. If so, emit "exp"
-    gamma = cmsEstimateGamma(Table, 0.001);
-     if (gamma > 0) {
-            _cmsIOPrintf(m, "{ %g exp } bind ", gamma);
+    // Check if is reblly bn exponentibl. If so, emit "exp"
+    gbmmb = cmsEstimbteGbmmb(Tbble, 0.001);
+     if (gbmmb > 0) {
+            _cmsIOPrintf(m, "{ %g exp } bind ", gbmmb);
             return;
      }
 
     _cmsIOPrintf(m, "{ ");
 
     // Bounds check
-    EmitRangeCheck(m);
+    EmitRbngeCheck(m);
 
-    // Emit intepolation code
+    // Emit intepolbtion code
 
-    // PostScript code                      Stack
+    // PostScript code                      Stbck
     // ===============                      ========================
                                             // v
     _cmsIOPrintf(m, " [");
 
-    for (i=0; i < Table->nEntries; i++) {
-        _cmsIOPrintf(m, "%d ", Table->Table16[i]);
+    for (i=0; i < Tbble->nEntries; i++) {
+        _cmsIOPrintf(m, "%d ", Tbble->Tbble16[i]);
     }
 
-    _cmsIOPrintf(m, "] ");                        // v tab
+    _cmsIOPrintf(m, "] ");                        // v tbb
 
-    _cmsIOPrintf(m, "dup ");                      // v tab tab
-    _cmsIOPrintf(m, "length 1 sub ");             // v tab dom
-    _cmsIOPrintf(m, "3 -1 roll ");                // tab dom v
-    _cmsIOPrintf(m, "mul ");                      // tab val2
-    _cmsIOPrintf(m, "dup ");                      // tab val2 val2
-    _cmsIOPrintf(m, "dup ");                      // tab val2 val2 val2
-    _cmsIOPrintf(m, "floor cvi ");                // tab val2 val2 cell0
-    _cmsIOPrintf(m, "exch ");                     // tab val2 cell0 val2
-    _cmsIOPrintf(m, "ceiling cvi ");              // tab val2 cell0 cell1
-    _cmsIOPrintf(m, "3 index ");                  // tab val2 cell0 cell1 tab
-    _cmsIOPrintf(m, "exch ");                     // tab val2 cell0 tab cell1
-    _cmsIOPrintf(m, "get ");                      // tab val2 cell0 y1
-    _cmsIOPrintf(m, "4 -1 roll ");                // val2 cell0 y1 tab
-    _cmsIOPrintf(m, "3 -1 roll ");                // val2 y1 tab cell0
-    _cmsIOPrintf(m, "get ");                      // val2 y1 y0
-    _cmsIOPrintf(m, "dup ");                      // val2 y1 y0 y0
-    _cmsIOPrintf(m, "3 1 roll ");                 // val2 y0 y1 y0
-    _cmsIOPrintf(m, "sub ");                      // val2 y0 (y1-y0)
-    _cmsIOPrintf(m, "3 -1 roll ");                // y0 (y1-y0) val2
-    _cmsIOPrintf(m, "dup ");                      // y0 (y1-y0) val2 val2
-    _cmsIOPrintf(m, "floor cvi ");                // y0 (y1-y0) val2 floor(val2)
+    _cmsIOPrintf(m, "dup ");                      // v tbb tbb
+    _cmsIOPrintf(m, "length 1 sub ");             // v tbb dom
+    _cmsIOPrintf(m, "3 -1 roll ");                // tbb dom v
+    _cmsIOPrintf(m, "mul ");                      // tbb vbl2
+    _cmsIOPrintf(m, "dup ");                      // tbb vbl2 vbl2
+    _cmsIOPrintf(m, "dup ");                      // tbb vbl2 vbl2 vbl2
+    _cmsIOPrintf(m, "floor cvi ");                // tbb vbl2 vbl2 cell0
+    _cmsIOPrintf(m, "exch ");                     // tbb vbl2 cell0 vbl2
+    _cmsIOPrintf(m, "ceiling cvi ");              // tbb vbl2 cell0 cell1
+    _cmsIOPrintf(m, "3 index ");                  // tbb vbl2 cell0 cell1 tbb
+    _cmsIOPrintf(m, "exch ");                     // tbb vbl2 cell0 tbb cell1
+    _cmsIOPrintf(m, "get ");                      // tbb vbl2 cell0 y1
+    _cmsIOPrintf(m, "4 -1 roll ");                // vbl2 cell0 y1 tbb
+    _cmsIOPrintf(m, "3 -1 roll ");                // vbl2 y1 tbb cell0
+    _cmsIOPrintf(m, "get ");                      // vbl2 y1 y0
+    _cmsIOPrintf(m, "dup ");                      // vbl2 y1 y0 y0
+    _cmsIOPrintf(m, "3 1 roll ");                 // vbl2 y0 y1 y0
+    _cmsIOPrintf(m, "sub ");                      // vbl2 y0 (y1-y0)
+    _cmsIOPrintf(m, "3 -1 roll ");                // y0 (y1-y0) vbl2
+    _cmsIOPrintf(m, "dup ");                      // y0 (y1-y0) vbl2 vbl2
+    _cmsIOPrintf(m, "floor cvi ");                // y0 (y1-y0) vbl2 floor(vbl2)
     _cmsIOPrintf(m, "sub ");                      // y0 (y1-y0) rest
     _cmsIOPrintf(m, "mul ");                      // y0 t1
-    _cmsIOPrintf(m, "add ");                      // y
+    _cmsIOPrintf(m, "bdd ");                      // y
     _cmsIOPrintf(m, "65535 div ");                // result
 
     _cmsIOPrintf(m, " } bind ");
 }
 
 
-// Compare gamma table
+// Compbre gbmmb tbble
 
-static
-cmsBool GammaTableEquals(cmsUInt16Number* g1, cmsUInt16Number* g2, int nEntries)
+stbtic
+cmsBool GbmmbTbbleEqubls(cmsUInt16Number* g1, cmsUInt16Number* g2, int nEntries)
 {
     return memcmp(g1, g2, nEntries* sizeof(cmsUInt16Number)) == 0;
 }
 
 
-// Does write a set of gamma curves
+// Does write b set of gbmmb curves
 
-static
-void EmitNGamma(cmsIOHANDLER* m, int n, cmsToneCurve* g[])
+stbtic
+void EmitNGbmmb(cmsIOHANDLER* m, int n, cmsToneCurve* g[])
 {
     int i;
 
@@ -580,12 +580,12 @@ void EmitNGamma(cmsIOHANDLER* m, int n, cmsToneCurve* g[])
     {
         if (g[i] == NULL) return; // Error
 
-        if (i > 0 && GammaTableEquals(g[i-1]->Table16, g[i]->Table16, g[i]->nEntries)) {
+        if (i > 0 && GbmmbTbbleEqubls(g[i-1]->Tbble16, g[i]->Tbble16, g[i]->nEntries)) {
 
             _cmsIOPrintf(m, "dup ");
         }
         else {
-            Emit1Gamma(m, g[i]);
+            Emit1Gbmmb(m, g[i]);
         }
     }
 
@@ -595,40 +595,40 @@ void EmitNGamma(cmsIOHANDLER* m, int n, cmsToneCurve* g[])
 
 
 
-// Following code dumps a LUT onto memory stream
+// Following code dumps b LUT onto memory strebm
 
 
-// This is the sampler. Intended to work in SAMPLER_INSPECT mode,
-// that is, the callback will be called for each knot with
+// This is the sbmpler. Intended to work in SAMPLER_INSPECT mode,
+// thbt is, the cbllbbck will be cblled for ebch knot with
 //
-//          In[]  The grid location coordinates, normalized to 0..ffff
-//          Out[] The Pipeline values, normalized to 0..ffff
+//          In[]  The grid locbtion coordinbtes, normblized to 0..ffff
+//          Out[] The Pipeline vblues, normblized to 0..ffff
 //
-//  Returning a value other than 0 does terminate the sampling process
+//  Returning b vblue other thbn 0 does terminbte the sbmpling process
 //
-//  Each row contains Pipeline values for all but first component. So, I
-//  detect row changing by keeping a copy of last value of first
-//  component. -1 is used to mark begining of whole block.
+//  Ebch row contbins Pipeline vblues for bll but first component. So, I
+//  detect row chbnging by keeping b copy of lbst vblue of first
+//  component. -1 is used to mbrk begining of whole block.
 
-static
-int OutputValueSampler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cargo)
+stbtic
+int OutputVblueSbmpler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cbrgo)
 {
-    cmsPsSamplerCargo* sc = (cmsPsSamplerCargo*) Cargo;
+    cmsPsSbmplerCbrgo* sc = (cmsPsSbmplerCbrgo*) Cbrgo;
     cmsUInt32Number i;
 
 
     if (sc -> FixWhite) {
 
-        if (In[0] == 0xFFFF) {  // Only in L* = 100, ab = [-8..8]
+        if (In[0] == 0xFFFF) {  // Only in L* = 100, bb = [-8..8]
 
             if ((In[1] >= 0x7800 && In[1] <= 0x8800) &&
                 (In[2] >= 0x7800 && In[2] <= 0x8800)) {
 
-                cmsUInt16Number* Black;
+                cmsUInt16Number* Blbck;
                 cmsUInt16Number* White;
                 cmsUInt32Number nOutputs;
 
-                if (!_cmsEndPointsBySpace(sc ->ColorSpace, &White, &Black, &nOutputs))
+                if (!_cmsEndPointsBySpbce(sc ->ColorSpbce, &White, &Blbck, &nOutputs))
                         return 0;
 
                 for (i=0; i < nOutputs; i++)
@@ -640,7 +640,7 @@ int OutputValueSampler(register const cmsUInt16Number In[], register cmsUInt16Nu
     }
 
 
-    // Hadle the parenthesis on rows
+    // Hbdle the pbrenthesis on rows
 
     if (In[0] != sc ->FirstComponent) {
 
@@ -648,13 +648,13 @@ int OutputValueSampler(register const cmsUInt16Number In[], register cmsUInt16Nu
 
                     _cmsIOPrintf(sc ->m, sc ->PostMin);
                     sc ->SecondComponent = -1;
-                    _cmsIOPrintf(sc ->m, sc ->PostMaj);
+                    _cmsIOPrintf(sc ->m, sc ->PostMbj);
             }
 
             // Begin block
-            _cmsPSActualColumn = 0;
+            _cmsPSActublColumn = 0;
 
-            _cmsIOPrintf(sc ->m, sc ->PreMaj);
+            _cmsIOPrintf(sc ->m, sc ->PreMbj);
             sc ->FirstComponent = In[0];
     }
 
@@ -670,15 +670,15 @@ int OutputValueSampler(register const cmsUInt16Number In[], register cmsUInt16Nu
             sc ->SecondComponent = In[1];
     }
 
-      // Dump table.
+      // Dump tbble.
 
-      for (i=0; i < sc -> Pipeline ->Params->nOutputs; i++) {
+      for (i=0; i < sc -> Pipeline ->Pbrbms->nOutputs; i++) {
 
           cmsUInt16Number wWordOut = Out[i];
-          cmsUInt8Number wByteOut;           // Value as byte
+          cmsUInt8Number wByteOut;           // Vblue bs byte
 
 
-          // We always deal with Lab4
+          // We blwbys debl with Lbb4
 
           wByteOut = Word2Byte(wWordOut);
           WriteByte(sc -> m, wByteOut);
@@ -687,66 +687,66 @@ int OutputValueSampler(register const cmsUInt16Number In[], register cmsUInt16Nu
       return 1;
 }
 
-// Writes a Pipeline on memstream. Could be 8 or 16 bits based
+// Writes b Pipeline on memstrebm. Could be 8 or 16 bits bbsed
 
-static
-void WriteCLUT(cmsIOHANDLER* m, cmsStage* mpe, const char* PreMaj,
-                                             const char* PostMaj,
-                                             const char* PreMin,
-                                             const char* PostMin,
+stbtic
+void WriteCLUT(cmsIOHANDLER* m, cmsStbge* mpe, const chbr* PreMbj,
+                                             const chbr* PostMbj,
+                                             const chbr* PreMin,
+                                             const chbr* PostMin,
                                              int FixWhite,
-                                             cmsColorSpaceSignature ColorSpace)
+                                             cmsColorSpbceSignbture ColorSpbce)
 {
     cmsUInt32Number i;
-    cmsPsSamplerCargo sc;
+    cmsPsSbmplerCbrgo sc;
 
     sc.FirstComponent = -1;
     sc.SecondComponent = -1;
-    sc.Pipeline = (_cmsStageCLutData *) mpe ->Data;
+    sc.Pipeline = (_cmsStbgeCLutDbtb *) mpe ->Dbtb;
     sc.m   = m;
-    sc.PreMaj = PreMaj;
-    sc.PostMaj= PostMaj;
+    sc.PreMbj = PreMbj;
+    sc.PostMbj= PostMbj;
 
     sc.PreMin   = PreMin;
     sc.PostMin  = PostMin;
     sc.FixWhite = FixWhite;
-    sc.ColorSpace = ColorSpace;
+    sc.ColorSpbce = ColorSpbce;
 
     _cmsIOPrintf(m, "[");
 
-    for (i=0; i < sc.Pipeline->Params->nInputs; i++)
-        _cmsIOPrintf(m, " %d ", sc.Pipeline->Params->nSamples[i]);
+    for (i=0; i < sc.Pipeline->Pbrbms->nInputs; i++)
+        _cmsIOPrintf(m, " %d ", sc.Pipeline->Pbrbms->nSbmples[i]);
 
     _cmsIOPrintf(m, " [\n");
 
-    cmsStageSampleCLut16bit(mpe, OutputValueSampler, (void*) &sc, SAMPLER_INSPECT);
+    cmsStbgeSbmpleCLut16bit(mpe, OutputVblueSbmpler, (void*) &sc, SAMPLER_INSPECT);
 
     _cmsIOPrintf(m, PostMin);
-    _cmsIOPrintf(m, PostMaj);
+    _cmsIOPrintf(m, PostMbj);
     _cmsIOPrintf(m, "] ");
 
 }
 
 
-// Dumps CIEBasedA Color Space Array
+// Dumps CIEBbsedA Color Spbce Arrby
 
-static
-int EmitCIEBasedA(cmsIOHANDLER* m, cmsToneCurve* Curve, cmsCIEXYZ* BlackPoint)
+stbtic
+int EmitCIEBbsedA(cmsIOHANDLER* m, cmsToneCurve* Curve, cmsCIEXYZ* BlbckPoint)
 {
 
-    _cmsIOPrintf(m, "[ /CIEBasedA\n");
+    _cmsIOPrintf(m, "[ /CIEBbsedA\n");
     _cmsIOPrintf(m, "  <<\n");
 
     _cmsIOPrintf(m, "/DecodeA ");
 
-    Emit1Gamma(m, Curve);
+    Emit1Gbmmb(m, Curve);
 
     _cmsIOPrintf(m, " \n");
 
-    _cmsIOPrintf(m, "/MatrixA [ 0.9642 1.0000 0.8249 ]\n");
-    _cmsIOPrintf(m, "/RangeLMN [ 0.0 0.9642 0.0 1.0000 0.0 0.8249 ]\n");
+    _cmsIOPrintf(m, "/MbtrixA [ 0.9642 1.0000 0.8249 ]\n");
+    _cmsIOPrintf(m, "/RbngeLMN [ 0.0 0.9642 0.0 1.0000 0.0 0.8249 ]\n");
 
-    EmitWhiteBlackD50(m, BlackPoint);
+    EmitWhiteBlbckD50(m, BlbckPoint);
     EmitIntent(m, INTENT_PERCEPTUAL);
 
     _cmsIOPrintf(m, ">>\n");
@@ -756,36 +756,36 @@ int EmitCIEBasedA(cmsIOHANDLER* m, cmsToneCurve* Curve, cmsCIEXYZ* BlackPoint)
 }
 
 
-// Dumps CIEBasedABC Color Space Array
+// Dumps CIEBbsedABC Color Spbce Arrby
 
-static
-int EmitCIEBasedABC(cmsIOHANDLER* m, cmsFloat64Number* Matrix, cmsToneCurve** CurveSet, cmsCIEXYZ* BlackPoint)
+stbtic
+int EmitCIEBbsedABC(cmsIOHANDLER* m, cmsFlobt64Number* Mbtrix, cmsToneCurve** CurveSet, cmsCIEXYZ* BlbckPoint)
 {
     int i;
 
-    _cmsIOPrintf(m, "[ /CIEBasedABC\n");
+    _cmsIOPrintf(m, "[ /CIEBbsedABC\n");
     _cmsIOPrintf(m, "<<\n");
     _cmsIOPrintf(m, "/DecodeABC [ ");
 
-    EmitNGamma(m, 3, CurveSet);
+    EmitNGbmmb(m, 3, CurveSet);
 
     _cmsIOPrintf(m, "]\n");
 
-    _cmsIOPrintf(m, "/MatrixABC [ " );
+    _cmsIOPrintf(m, "/MbtrixABC [ " );
 
     for( i=0; i < 3; i++ ) {
 
-        _cmsIOPrintf(m, "%.6f %.6f %.6f ", Matrix[i + 3*0],
-                                           Matrix[i + 3*1],
-                                           Matrix[i + 3*2]);
+        _cmsIOPrintf(m, "%.6f %.6f %.6f ", Mbtrix[i + 3*0],
+                                           Mbtrix[i + 3*1],
+                                           Mbtrix[i + 3*2]);
     }
 
 
     _cmsIOPrintf(m, "]\n");
 
-    _cmsIOPrintf(m, "/RangeLMN [ 0.0 0.9642 0.0 1.0000 0.0 0.8249 ]\n");
+    _cmsIOPrintf(m, "/RbngeLMN [ 0.0 0.9642 0.0 1.0000 0.0 0.8249 ]\n");
 
-    EmitWhiteBlackD50(m, BlackPoint);
+    EmitWhiteBlbckD50(m, BlbckPoint);
     EmitIntent(m, INTENT_PERCEPTUAL);
 
     _cmsIOPrintf(m, ">>\n");
@@ -796,56 +796,56 @@ int EmitCIEBasedABC(cmsIOHANDLER* m, cmsFloat64Number* Matrix, cmsToneCurve** Cu
 }
 
 
-static
-int EmitCIEBasedDEF(cmsIOHANDLER* m, cmsPipeline* Pipeline, int Intent, cmsCIEXYZ* BlackPoint)
+stbtic
+int EmitCIEBbsedDEF(cmsIOHANDLER* m, cmsPipeline* Pipeline, int Intent, cmsCIEXYZ* BlbckPoint)
 {
-    const char* PreMaj;
-    const char* PostMaj;
-    const char* PreMin, *PostMin;
-    cmsStage* mpe;
+    const chbr* PreMbj;
+    const chbr* PostMbj;
+    const chbr* PreMin, *PostMin;
+    cmsStbge* mpe;
 
     mpe = Pipeline ->Elements;
 
-    switch (cmsStageInputChannels(mpe)) {
-    case 3:
+    switch (cmsStbgeInputChbnnels(mpe)) {
+    cbse 3:
 
-            _cmsIOPrintf(m, "[ /CIEBasedDEF\n");
-            PreMaj ="<";
-            PostMaj= ">\n";
+            _cmsIOPrintf(m, "[ /CIEBbsedDEF\n");
+            PreMbj ="<";
+            PostMbj= ">\n";
             PreMin = PostMin = "";
-            break;
-    case 4:
-            _cmsIOPrintf(m, "[ /CIEBasedDEFG\n");
-            PreMaj = "[";
-            PostMaj = "]\n";
+            brebk;
+    cbse 4:
+            _cmsIOPrintf(m, "[ /CIEBbsedDEFG\n");
+            PreMbj = "[";
+            PostMbj = "]\n";
             PreMin = "<";
             PostMin = ">\n";
-            break;
-    default:
+            brebk;
+    defbult:
             return 0;
 
     }
 
     _cmsIOPrintf(m, "<<\n");
 
-    if (cmsStageType(mpe) == cmsSigCurveSetElemType) {
+    if (cmsStbgeType(mpe) == cmsSigCurveSetElemType) {
 
         _cmsIOPrintf(m, "/DecodeDEF [ ");
-        EmitNGamma(m, cmsStageOutputChannels(mpe), _cmsStageGetPtrToCurveSet(mpe));
+        EmitNGbmmb(m, cmsStbgeOutputChbnnels(mpe), _cmsStbgeGetPtrToCurveSet(mpe));
         _cmsIOPrintf(m, "]\n");
 
         mpe = mpe ->Next;
     }
 
-    if (cmsStageType(mpe) == cmsSigCLutElemType) {
+    if (cmsStbgeType(mpe) == cmsSigCLutElemType) {
 
-            _cmsIOPrintf(m, "/Table ");
-            WriteCLUT(m, mpe, PreMaj, PostMaj, PreMin, PostMin, FALSE, (cmsColorSpaceSignature) 0);
+            _cmsIOPrintf(m, "/Tbble ");
+            WriteCLUT(m, mpe, PreMbj, PostMbj, PreMin, PostMin, FALSE, (cmsColorSpbceSignbture) 0);
             _cmsIOPrintf(m, "]\n");
     }
 
-    EmitLab2XYZ(m);
-    EmitWhiteBlackD50(m, BlackPoint);
+    EmitLbb2XYZ(m);
+    EmitWhiteBlbckD50(m, BlbckPoint);
     EmitIntent(m, Intent);
 
     _cmsIOPrintf(m, "   >>\n");
@@ -854,161 +854,161 @@ int EmitCIEBasedDEF(cmsIOHANDLER* m, cmsPipeline* Pipeline, int Intent, cmsCIEXY
     return 1;
 }
 
-// Generates a curve from a gray profile
+// Generbtes b curve from b grby profile
 
-static
-    cmsToneCurve* ExtractGray2Y(cmsContext ContextID, cmsHPROFILE hProfile, int Intent)
+stbtic
+    cmsToneCurve* ExtrbctGrby2Y(cmsContext ContextID, cmsHPROFILE hProfile, int Intent)
 {
-    cmsToneCurve* Out = cmsBuildTabulatedToneCurve16(ContextID, 256, NULL);
-    cmsHPROFILE hXYZ  = cmsCreateXYZProfile();
-    cmsHTRANSFORM xform = cmsCreateTransformTHR(ContextID, hProfile, TYPE_GRAY_8, hXYZ, TYPE_XYZ_DBL, Intent, cmsFLAGS_NOOPTIMIZE);
+    cmsToneCurve* Out = cmsBuildTbbulbtedToneCurve16(ContextID, 256, NULL);
+    cmsHPROFILE hXYZ  = cmsCrebteXYZProfile();
+    cmsHTRANSFORM xform = cmsCrebteTrbnsformTHR(ContextID, hProfile, TYPE_GRAY_8, hXYZ, TYPE_XYZ_DBL, Intent, cmsFLAGS_NOOPTIMIZE);
     int i;
 
     if (Out != NULL) {
         for (i=0; i < 256; i++) {
 
-            cmsUInt8Number Gray = (cmsUInt8Number) i;
+            cmsUInt8Number Grby = (cmsUInt8Number) i;
             cmsCIEXYZ XYZ;
 
-            cmsDoTransform(xform, &Gray, &XYZ, 1);
+            cmsDoTrbnsform(xform, &Grby, &XYZ, 1);
 
-            Out ->Table16[i] =_cmsQuickSaturateWord(XYZ.Y * 65535.0);
+            Out ->Tbble16[i] =_cmsQuickSbturbteWord(XYZ.Y * 65535.0);
         }
     }
 
-    cmsDeleteTransform(xform);
+    cmsDeleteTrbnsform(xform);
     cmsCloseProfile(hXYZ);
     return Out;
 }
 
 
 
-// Because PostScript has only 8 bits in /Table, we should use
-// a more perceptually uniform space... I do choose Lab.
+// Becbuse PostScript hbs only 8 bits in /Tbble, we should use
+// b more perceptublly uniform spbce... I do choose Lbb.
 
-static
-int WriteInputLUT(cmsIOHANDLER* m, cmsHPROFILE hProfile, int Intent, cmsUInt32Number dwFlags)
+stbtic
+int WriteInputLUT(cmsIOHANDLER* m, cmsHPROFILE hProfile, int Intent, cmsUInt32Number dwFlbgs)
 {
-    cmsHPROFILE hLab;
+    cmsHPROFILE hLbb;
     cmsHTRANSFORM xform;
-    cmsUInt32Number nChannels;
-    cmsUInt32Number InputFormat;
+    cmsUInt32Number nChbnnels;
+    cmsUInt32Number InputFormbt;
     int rc;
     cmsHPROFILE Profiles[2];
-    cmsCIEXYZ BlackPointAdaptedToD50;
+    cmsCIEXYZ BlbckPointAdbptedToD50;
 
-    // Does create a device-link based transform.
-    // The DeviceLink is next dumped as working CSA.
+    // Does crebte b device-link bbsed trbnsform.
+    // The DeviceLink is next dumped bs working CSA.
 
-    InputFormat = cmsFormatterForColorspaceOfProfile(hProfile, 2, FALSE);
-    nChannels   = T_CHANNELS(InputFormat);
+    InputFormbt = cmsFormbtterForColorspbceOfProfile(hProfile, 2, FALSE);
+    nChbnnels   = T_CHANNELS(InputFormbt);
 
 
-    cmsDetectBlackPoint(&BlackPointAdaptedToD50, hProfile, Intent, 0);
+    cmsDetectBlbckPoint(&BlbckPointAdbptedToD50, hProfile, Intent, 0);
 
-    // Adjust output to Lab4
-    hLab = cmsCreateLab4ProfileTHR(m ->ContextID, NULL);
+    // Adjust output to Lbb4
+    hLbb = cmsCrebteLbb4ProfileTHR(m ->ContextID, NULL);
 
     Profiles[0] = hProfile;
-    Profiles[1] = hLab;
+    Profiles[1] = hLbb;
 
-    xform = cmsCreateMultiprofileTransform(Profiles, 2,  InputFormat, TYPE_Lab_DBL, Intent, 0);
-    cmsCloseProfile(hLab);
+    xform = cmsCrebteMultiprofileTrbnsform(Profiles, 2,  InputFormbt, TYPE_Lbb_DBL, Intent, 0);
+    cmsCloseProfile(hLbb);
 
     if (xform == NULL) {
 
-        cmsSignalError(m ->ContextID, cmsERROR_COLORSPACE_CHECK, "Cannot create transform Profile -> Lab");
+        cmsSignblError(m ->ContextID, cmsERROR_COLORSPACE_CHECK, "Cbnnot crebte trbnsform Profile -> Lbb");
         return 0;
     }
 
-    // Only 1, 3 and 4 channels are allowed
+    // Only 1, 3 bnd 4 chbnnels bre bllowed
 
-    switch (nChannels) {
+    switch (nChbnnels) {
 
-    case 1: {
-            cmsToneCurve* Gray2Y = ExtractGray2Y(m ->ContextID, hProfile, Intent);
-            EmitCIEBasedA(m, Gray2Y, &BlackPointAdaptedToD50);
-            cmsFreeToneCurve(Gray2Y);
+    cbse 1: {
+            cmsToneCurve* Grby2Y = ExtrbctGrby2Y(m ->ContextID, hProfile, Intent);
+            EmitCIEBbsedA(m, Grby2Y, &BlbckPointAdbptedToD50);
+            cmsFreeToneCurve(Grby2Y);
             }
-            break;
+            brebk;
 
-    case 3:
-    case 4: {
-            cmsUInt32Number OutFrm = TYPE_Lab_16;
+    cbse 3:
+    cbse 4: {
+            cmsUInt32Number OutFrm = TYPE_Lbb_16;
             cmsPipeline* DeviceLink;
             _cmsTRANSFORM* v = (_cmsTRANSFORM*) xform;
 
             DeviceLink = cmsPipelineDup(v ->Lut);
             if (DeviceLink == NULL) return 0;
 
-            dwFlags |= cmsFLAGS_FORCE_CLUT;
-            _cmsOptimizePipeline(&DeviceLink, Intent, &InputFormat, &OutFrm, &dwFlags);
+            dwFlbgs |= cmsFLAGS_FORCE_CLUT;
+            _cmsOptimizePipeline(&DeviceLink, Intent, &InputFormbt, &OutFrm, &dwFlbgs);
 
-            rc = EmitCIEBasedDEF(m, DeviceLink, Intent, &BlackPointAdaptedToD50);
+            rc = EmitCIEBbsedDEF(m, DeviceLink, Intent, &BlbckPointAdbptedToD50);
             cmsPipelineFree(DeviceLink);
             if (rc == 0) return 0;
             }
-            break;
+            brebk;
 
-    default:
+    defbult:
 
-        cmsSignalError(m ->ContextID, cmsERROR_COLORSPACE_CHECK, "Only 3, 4 channels supported for CSA. This profile has %d channels.", nChannels);
+        cmsSignblError(m ->ContextID, cmsERROR_COLORSPACE_CHECK, "Only 3, 4 chbnnels supported for CSA. This profile hbs %d chbnnels.", nChbnnels);
         return 0;
     }
 
 
-    cmsDeleteTransform(xform);
+    cmsDeleteTrbnsform(xform);
 
     return 1;
 }
 
-static
-cmsFloat64Number* GetPtrToMatrix(const cmsStage* mpe)
+stbtic
+cmsFlobt64Number* GetPtrToMbtrix(const cmsStbge* mpe)
 {
-    _cmsStageMatrixData* Data = (_cmsStageMatrixData*) mpe ->Data;
+    _cmsStbgeMbtrixDbtb* Dbtb = (_cmsStbgeMbtrixDbtb*) mpe ->Dbtb;
 
-    return Data -> Double;
+    return Dbtb -> Double;
 }
 
 
-// Does create CSA based on matrix-shaper. Allowed types are gray and RGB based
+// Does crebte CSA bbsed on mbtrix-shbper. Allowed types bre grby bnd RGB bbsed
 
-static
-int WriteInputMatrixShaper(cmsIOHANDLER* m, cmsHPROFILE hProfile, cmsStage* Matrix, cmsStage* Shaper)
+stbtic
+int WriteInputMbtrixShbper(cmsIOHANDLER* m, cmsHPROFILE hProfile, cmsStbge* Mbtrix, cmsStbge* Shbper)
 {
-    cmsColorSpaceSignature ColorSpace;
+    cmsColorSpbceSignbture ColorSpbce;
     int rc;
-    cmsCIEXYZ BlackPointAdaptedToD50;
+    cmsCIEXYZ BlbckPointAdbptedToD50;
 
-    ColorSpace = cmsGetColorSpace(hProfile);
+    ColorSpbce = cmsGetColorSpbce(hProfile);
 
-    cmsDetectBlackPoint(&BlackPointAdaptedToD50, hProfile, INTENT_RELATIVE_COLORIMETRIC, 0);
+    cmsDetectBlbckPoint(&BlbckPointAdbptedToD50, hProfile, INTENT_RELATIVE_COLORIMETRIC, 0);
 
-    if (ColorSpace == cmsSigGrayData) {
+    if (ColorSpbce == cmsSigGrbyDbtb) {
 
-        cmsToneCurve** ShaperCurve = _cmsStageGetPtrToCurveSet(Shaper);
-        rc = EmitCIEBasedA(m, ShaperCurve[0], &BlackPointAdaptedToD50);
+        cmsToneCurve** ShbperCurve = _cmsStbgeGetPtrToCurveSet(Shbper);
+        rc = EmitCIEBbsedA(m, ShbperCurve[0], &BlbckPointAdbptedToD50);
 
     }
     else
-        if (ColorSpace == cmsSigRgbData) {
+        if (ColorSpbce == cmsSigRgbDbtb) {
 
-            cmsMAT3 Mat;
+            cmsMAT3 Mbt;
             int i, j;
 
-            memmove(&Mat, GetPtrToMatrix(Matrix), sizeof(Mat));
+            memmove(&Mbt, GetPtrToMbtrix(Mbtrix), sizeof(Mbt));
 
             for (i=0; i < 3; i++)
                 for (j=0; j < 3; j++)
-                    Mat.v[i].n[j] *= MAX_ENCODEABLE_XYZ;
+                    Mbt.v[i].n[j] *= MAX_ENCODEABLE_XYZ;
 
-            rc = EmitCIEBasedABC(m,  (cmsFloat64Number *) &Mat,
-                                _cmsStageGetPtrToCurveSet(Shaper),
-                                 &BlackPointAdaptedToD50);
+            rc = EmitCIEBbsedABC(m,  (cmsFlobt64Number *) &Mbt,
+                                _cmsStbgeGetPtrToCurveSet(Shbper),
+                                 &BlbckPointAdbptedToD50);
         }
         else  {
 
-            cmsSignalError(m ->ContextID, cmsERROR_COLORSPACE_CHECK, "Profile is not suitable for CSA. Unsupported colorspace.");
+            cmsSignblError(m ->ContextID, cmsERROR_COLORSPACE_CHECK, "Profile is not suitbble for CSA. Unsupported colorspbce.");
             return 0;
         }
 
@@ -1017,115 +1017,115 @@ int WriteInputMatrixShaper(cmsIOHANDLER* m, cmsHPROFILE hProfile, cmsStage* Matr
 
 
 
-// Creates a PostScript color list from a named profile data.
-// This is a HP extension, and it works in Lab instead of XYZ
+// Crebtes b PostScript color list from b nbmed profile dbtb.
+// This is b HP extension, bnd it works in Lbb instebd of XYZ
 
-static
-int WriteNamedColorCSA(cmsIOHANDLER* m, cmsHPROFILE hNamedColor, int Intent)
+stbtic
+int WriteNbmedColorCSA(cmsIOHANDLER* m, cmsHPROFILE hNbmedColor, int Intent)
 {
     cmsHTRANSFORM xform;
-    cmsHPROFILE   hLab;
+    cmsHPROFILE   hLbb;
     int i, nColors;
-    char ColorName[32];
-    cmsNAMEDCOLORLIST* NamedColorList;
+    chbr ColorNbme[32];
+    cmsNAMEDCOLORLIST* NbmedColorList;
 
-    hLab  = cmsCreateLab4ProfileTHR(m ->ContextID, NULL);
-    xform = cmsCreateTransform(hNamedColor, TYPE_NAMED_COLOR_INDEX, hLab, TYPE_Lab_DBL, Intent, 0);
+    hLbb  = cmsCrebteLbb4ProfileTHR(m ->ContextID, NULL);
+    xform = cmsCrebteTrbnsform(hNbmedColor, TYPE_NAMED_COLOR_INDEX, hLbb, TYPE_Lbb_DBL, Intent, 0);
     if (xform == NULL) return 0;
 
-    NamedColorList = cmsGetNamedColorList(xform);
-    if (NamedColorList == NULL) return 0;
+    NbmedColorList = cmsGetNbmedColorList(xform);
+    if (NbmedColorList == NULL) return 0;
 
     _cmsIOPrintf(m, "<<\n");
-    _cmsIOPrintf(m, "(colorlistcomment) (%s)\n", "Named color CSA");
-    _cmsIOPrintf(m, "(Prefix) [ (Pantone ) (PANTONE ) ]\n");
+    _cmsIOPrintf(m, "(colorlistcomment) (%s)\n", "Nbmed color CSA");
+    _cmsIOPrintf(m, "(Prefix) [ (Pbntone ) (PANTONE ) ]\n");
     _cmsIOPrintf(m, "(Suffix) [ ( CV) ( CVC) ( C) ]\n");
 
-    nColors   = cmsNamedColorCount(NamedColorList);
+    nColors   = cmsNbmedColorCount(NbmedColorList);
 
 
     for (i=0; i < nColors; i++) {
 
         cmsUInt16Number In[1];
-        cmsCIELab Lab;
+        cmsCIELbb Lbb;
 
         In[0] = (cmsUInt16Number) i;
 
-        if (!cmsNamedColorInfo(NamedColorList, i, ColorName, NULL, NULL, NULL, NULL))
+        if (!cmsNbmedColorInfo(NbmedColorList, i, ColorNbme, NULL, NULL, NULL, NULL))
                 continue;
 
-        cmsDoTransform(xform, In, &Lab, 1);
-        _cmsIOPrintf(m, "  (%s) [ %.3f %.3f %.3f ]\n", ColorName, Lab.L, Lab.a, Lab.b);
+        cmsDoTrbnsform(xform, In, &Lbb, 1);
+        _cmsIOPrintf(m, "  (%s) [ %.3f %.3f %.3f ]\n", ColorNbme, Lbb.L, Lbb.b, Lbb.b);
     }
 
 
 
     _cmsIOPrintf(m, ">>\n");
 
-    cmsDeleteTransform(xform);
-    cmsCloseProfile(hLab);
+    cmsDeleteTrbnsform(xform);
+    cmsCloseProfile(hLbb);
     return 1;
 }
 
 
-// Does create a Color Space Array on XYZ colorspace for PostScript usage
-static
-cmsUInt32Number GenerateCSA(cmsContext ContextID,
+// Does crebte b Color Spbce Arrby on XYZ colorspbce for PostScript usbge
+stbtic
+cmsUInt32Number GenerbteCSA(cmsContext ContextID,
                             cmsHPROFILE hProfile,
                             cmsUInt32Number Intent,
-                            cmsUInt32Number dwFlags,
+                            cmsUInt32Number dwFlbgs,
                             cmsIOHANDLER* mem)
 {
     cmsUInt32Number dwBytesUsed;
     cmsPipeline* lut = NULL;
-    cmsStage* Matrix, *Shaper;
+    cmsStbge* Mbtrix, *Shbper;
 
 
-    // Is a named color profile?
-    if (cmsGetDeviceClass(hProfile) == cmsSigNamedColorClass) {
+    // Is b nbmed color profile?
+    if (cmsGetDeviceClbss(hProfile) == cmsSigNbmedColorClbss) {
 
-        if (!WriteNamedColorCSA(mem, hProfile, Intent)) goto Error;
+        if (!WriteNbmedColorCSA(mem, hProfile, Intent)) goto Error;
     }
     else {
 
 
-        // Any profile class are allowed (including devicelink), but
-        // output (PCS) colorspace must be XYZ or Lab
-        cmsColorSpaceSignature ColorSpace = cmsGetPCS(hProfile);
+        // Any profile clbss bre bllowed (including devicelink), but
+        // output (PCS) colorspbce must be XYZ or Lbb
+        cmsColorSpbceSignbture ColorSpbce = cmsGetPCS(hProfile);
 
-        if (ColorSpace != cmsSigXYZData &&
-            ColorSpace != cmsSigLabData) {
+        if (ColorSpbce != cmsSigXYZDbtb &&
+            ColorSpbce != cmsSigLbbDbtb) {
 
-                cmsSignalError(ContextID, cmsERROR_COLORSPACE_CHECK, "Invalid output color space");
+                cmsSignblError(ContextID, cmsERROR_COLORSPACE_CHECK, "Invblid output color spbce");
                 goto Error;
         }
 
 
-        // Read the lut with all necessary conversion stages
-        lut = _cmsReadInputLUT(hProfile, Intent);
+        // Rebd the lut with bll necessbry conversion stbges
+        lut = _cmsRebdInputLUT(hProfile, Intent);
         if (lut == NULL) goto Error;
 
 
-        // Tone curves + matrix can be implemented without any LUT
-        if (cmsPipelineCheckAndRetreiveStages(lut, 2, cmsSigCurveSetElemType, cmsSigMatrixElemType, &Shaper, &Matrix)) {
+        // Tone curves + mbtrix cbn be implemented without bny LUT
+        if (cmsPipelineCheckAndRetreiveStbges(lut, 2, cmsSigCurveSetElemType, cmsSigMbtrixElemType, &Shbper, &Mbtrix)) {
 
-            if (!WriteInputMatrixShaper(mem, hProfile, Matrix, Shaper)) goto Error;
+            if (!WriteInputMbtrixShbper(mem, hProfile, Mbtrix, Shbper)) goto Error;
 
         }
         else {
-           // We need a LUT for the rest
-           if (!WriteInputLUT(mem, hProfile, Intent, dwFlags)) goto Error;
+           // We need b LUT for the rest
+           if (!WriteInputLUT(mem, hProfile, Intent, dwFlbgs)) goto Error;
         }
     }
 
 
-    // Done, keep memory usage
-    dwBytesUsed = mem ->UsedSpace;
+    // Done, keep memory usbge
+    dwBytesUsed = mem ->UsedSpbce;
 
     // Get rid of LUT
     if (lut != NULL) cmsPipelineFree(lut);
 
-    // Finally, return used byte count
+    // Finblly, return used byte count
     return dwBytesUsed;
 
 Error:
@@ -1133,22 +1133,22 @@ Error:
     return 0;
 }
 
-// ------------------------------------------------------ Color Rendering Dictionary (CRD)
+// ------------------------------------------------------ Color Rendering Dictionbry (CRD)
 
 
 
 /*
 
-  Black point compensation plus chromatic adaptation:
+  Blbck point compensbtion plus chrombtic bdbptbtion:
 
-  Step 1 - Chromatic adaptation
+  Step 1 - Chrombtic bdbptbtion
   =============================
 
           WPout
     X = ------- PQR
           Wpin
 
-  Step 2 - Black point compensation
+  Step 2 - Blbck point compensbtion
   =================================
 
           (WPout - BPout)*X - WPout*(BPin - BPout)
@@ -1159,12 +1159,12 @@ Error:
   Algorithm discussion
   ====================
 
-  TransformPQR(WPin, BPin, WPout, BPout, PQR)
+  TrbnsformPQR(WPin, BPin, WPout, BPout, PQR)
 
   Wpin,etc= { Xws Yws Zws Pws Qws Rws }
 
 
-  Algorithm             Stack 0...n
+  Algorithm             Stbck 0...n
   ===========================================================
                         PQR BPout WPout BPin WPin
   4 index 3 get         WPin PQR BPout WPout BPin WPin
@@ -1199,27 +1199,27 @@ Error:
 */
 
 
-static
-void EmitPQRStage(cmsIOHANDLER* m, cmsHPROFILE hProfile, int DoBPC, int lIsAbsolute)
+stbtic
+void EmitPQRStbge(cmsIOHANDLER* m, cmsHPROFILE hProfile, int DoBPC, int lIsAbsolute)
 {
 
 
         if (lIsAbsolute) {
 
-            // For absolute colorimetric intent, encode back to relative
-            // and generate a relative Pipeline
+            // For bbsolute colorimetric intent, encode bbck to relbtive
+            // bnd generbte b relbtive Pipeline
 
-            // Relative encoding is obtained across XYZpcs*(D50/WhitePoint)
+            // Relbtive encoding is obtbined bcross XYZpcs*(D50/WhitePoint)
 
             cmsCIEXYZ White;
 
-            _cmsReadMediaWhitePoint(&White, hProfile);
+            _cmsRebdMedibWhitePoint(&White, hProfile);
 
-            _cmsIOPrintf(m,"/MatrixPQR [1 0 0 0 1 0 0 0 1 ]\n");
-            _cmsIOPrintf(m,"/RangePQR [ -0.5 2 -0.5 2 -0.5 2 ]\n");
+            _cmsIOPrintf(m,"/MbtrixPQR [1 0 0 0 1 0 0 0 1 ]\n");
+            _cmsIOPrintf(m,"/RbngePQR [ -0.5 2 -0.5 2 -0.5 2 ]\n");
 
-            _cmsIOPrintf(m, "%% Absolute colorimetric -- encode to relative to maximize LUT usage\n"
-                      "/TransformPQR [\n"
+            _cmsIOPrintf(m, "%% Absolute colorimetric -- encode to relbtive to mbximize LUT usbge\n"
+                      "/TrbnsformPQR [\n"
                       "{0.9642 mul %g div exch pop exch pop exch pop exch pop} bind\n"
                       "{1.0000 mul %g div exch pop exch pop exch pop exch pop} bind\n"
                       "{0.8249 mul %g div exch pop exch pop exch pop exch pop} bind\n]\n",
@@ -1228,18 +1228,18 @@ void EmitPQRStage(cmsIOHANDLER* m, cmsHPROFILE hProfile, int DoBPC, int lIsAbsol
         }
 
 
-        _cmsIOPrintf(m,"%% Bradford Cone Space\n"
-                 "/MatrixPQR [0.8951 -0.7502 0.0389 0.2664 1.7135 -0.0685 -0.1614 0.0367 1.0296 ] \n");
+        _cmsIOPrintf(m,"%% Brbdford Cone Spbce\n"
+                 "/MbtrixPQR [0.8951 -0.7502 0.0389 0.2664 1.7135 -0.0685 -0.1614 0.0367 1.0296 ] \n");
 
-        _cmsIOPrintf(m, "/RangePQR [ -0.5 2 -0.5 2 -0.5 2 ]\n");
+        _cmsIOPrintf(m, "/RbngePQR [ -0.5 2 -0.5 2 -0.5 2 ]\n");
 
 
         // No BPC
 
         if (!DoBPC) {
 
-            _cmsIOPrintf(m, "%% VonKries-like transform in Bradford Cone Space\n"
-                      "/TransformPQR [\n"
+            _cmsIOPrintf(m, "%% VonKries-like trbnsform in Brbdford Cone Spbce\n"
+                      "/TrbnsformPQR [\n"
                       "{exch pop exch 3 get mul exch pop exch 3 get div} bind\n"
                       "{exch pop exch 4 get mul exch pop exch 4 get div} bind\n"
                       "{exch pop exch 5 get mul exch pop exch 5 get div} bind\n]\n");
@@ -1247,8 +1247,8 @@ void EmitPQRStage(cmsIOHANDLER* m, cmsHPROFILE hProfile, int DoBPC, int lIsAbsol
 
             // BPC
 
-            _cmsIOPrintf(m, "%% VonKries-like transform in Bradford Cone Space plus BPC\n"
-                      "/TransformPQR [\n");
+            _cmsIOPrintf(m, "%% VonKries-like trbnsform in Brbdford Cone Spbce plus BPC\n"
+                      "/TrbnsformPQR [\n");
 
             _cmsIOPrintf(m, "{4 index 3 get div 2 index 3 get mul "
                     "2 index 3 get 2 index 3 get sub mul "
@@ -1274,22 +1274,22 @@ void EmitPQRStage(cmsIOHANDLER* m, cmsHPROFILE hProfile, int DoBPC, int lIsAbsol
 }
 
 
-static
-void EmitXYZ2Lab(cmsIOHANDLER* m)
+stbtic
+void EmitXYZ2Lbb(cmsIOHANDLER* m)
 {
-    _cmsIOPrintf(m, "/RangeLMN [ -0.635 2.0 0 2 -0.635 2.0 ]\n");
+    _cmsIOPrintf(m, "/RbngeLMN [ -0.635 2.0 0 2 -0.635 2.0 ]\n");
     _cmsIOPrintf(m, "/EncodeLMN [\n");
-    _cmsIOPrintf(m, "{ 0.964200  div dup 0.008856 le {7.787 mul 16 116 div add}{1 3 div exp} ifelse } bind\n");
-    _cmsIOPrintf(m, "{ 1.000000  div dup 0.008856 le {7.787 mul 16 116 div add}{1 3 div exp} ifelse } bind\n");
-    _cmsIOPrintf(m, "{ 0.824900  div dup 0.008856 le {7.787 mul 16 116 div add}{1 3 div exp} ifelse } bind\n");
+    _cmsIOPrintf(m, "{ 0.964200  div dup 0.008856 le {7.787 mul 16 116 div bdd}{1 3 div exp} ifelse } bind\n");
+    _cmsIOPrintf(m, "{ 1.000000  div dup 0.008856 le {7.787 mul 16 116 div bdd}{1 3 div exp} ifelse } bind\n");
+    _cmsIOPrintf(m, "{ 0.824900  div dup 0.008856 le {7.787 mul 16 116 div bdd}{1 3 div exp} ifelse } bind\n");
     _cmsIOPrintf(m, "]\n");
-    _cmsIOPrintf(m, "/MatrixABC [ 0 1 0 1 -1 1 0 0 -1 ]\n");
+    _cmsIOPrintf(m, "/MbtrixABC [ 0 1 0 1 -1 1 0 0 -1 ]\n");
     _cmsIOPrintf(m, "/EncodeABC [\n");
 
 
     _cmsIOPrintf(m, "{ 116 mul  16 sub 100 div  } bind\n");
-    _cmsIOPrintf(m, "{ 500 mul 128 add 256 div  } bind\n");
-    _cmsIOPrintf(m, "{ 200 mul 128 add 256 div  } bind\n");
+    _cmsIOPrintf(m, "{ 500 mul 128 bdd 256 div  } bind\n");
+    _cmsIOPrintf(m, "{ 200 mul 128 bdd 256 div  } bind\n");
 
 
     _cmsIOPrintf(m, "]\n");
@@ -1297,99 +1297,99 @@ void EmitXYZ2Lab(cmsIOHANDLER* m)
 
 }
 
-// Due to impedance mismatch between XYZ and almost all RGB and CMYK spaces
-// I choose to dump LUTS in Lab instead of XYZ. There is still a lot of wasted
-// space on 3D CLUT, but since space seems not to be a problem here, 33 points
-// would give a reasonable accurancy. Note also that CRD tables must operate in
+// Due to impedbnce mismbtch between XYZ bnd blmost bll RGB bnd CMYK spbces
+// I choose to dump LUTS in Lbb instebd of XYZ. There is still b lot of wbsted
+// spbce on 3D CLUT, but since spbce seems not to be b problem here, 33 points
+// would give b rebsonbble bccurbncy. Note blso thbt CRD tbbles must operbte in
 // 8 bits.
 
-static
-int WriteOutputLUT(cmsIOHANDLER* m, cmsHPROFILE hProfile, int Intent, cmsUInt32Number dwFlags)
+stbtic
+int WriteOutputLUT(cmsIOHANDLER* m, cmsHPROFILE hProfile, int Intent, cmsUInt32Number dwFlbgs)
 {
-    cmsHPROFILE hLab;
+    cmsHPROFILE hLbb;
     cmsHTRANSFORM xform;
-    int i, nChannels;
-    cmsUInt32Number OutputFormat;
+    int i, nChbnnels;
+    cmsUInt32Number OutputFormbt;
     _cmsTRANSFORM* v;
     cmsPipeline* DeviceLink;
     cmsHPROFILE Profiles[3];
-    cmsCIEXYZ BlackPointAdaptedToD50;
-    cmsBool lDoBPC = (dwFlags & cmsFLAGS_BLACKPOINTCOMPENSATION);
-    cmsBool lFixWhite = !(dwFlags & cmsFLAGS_NOWHITEONWHITEFIXUP);
-    cmsUInt32Number InFrm = TYPE_Lab_16;
-    int RelativeEncodingIntent;
-    cmsColorSpaceSignature ColorSpace;
+    cmsCIEXYZ BlbckPointAdbptedToD50;
+    cmsBool lDoBPC = (dwFlbgs & cmsFLAGS_BLACKPOINTCOMPENSATION);
+    cmsBool lFixWhite = !(dwFlbgs & cmsFLAGS_NOWHITEONWHITEFIXUP);
+    cmsUInt32Number InFrm = TYPE_Lbb_16;
+    int RelbtiveEncodingIntent;
+    cmsColorSpbceSignbture ColorSpbce;
 
 
-    hLab = cmsCreateLab4ProfileTHR(m ->ContextID, NULL);
-    if (hLab == NULL) return 0;
+    hLbb = cmsCrebteLbb4ProfileTHR(m ->ContextID, NULL);
+    if (hLbb == NULL) return 0;
 
-    OutputFormat = cmsFormatterForColorspaceOfProfile(hProfile, 2, FALSE);
-    nChannels    = T_CHANNELS(OutputFormat);
+    OutputFormbt = cmsFormbtterForColorspbceOfProfile(hProfile, 2, FALSE);
+    nChbnnels    = T_CHANNELS(OutputFormbt);
 
-    ColorSpace = cmsGetColorSpace(hProfile);
+    ColorSpbce = cmsGetColorSpbce(hProfile);
 
-    // For absolute colorimetric, the LUT is encoded as relative in order to preserve precision.
+    // For bbsolute colorimetric, the LUT is encoded bs relbtive in order to preserve precision.
 
-    RelativeEncodingIntent = Intent;
-    if (RelativeEncodingIntent == INTENT_ABSOLUTE_COLORIMETRIC)
-        RelativeEncodingIntent = INTENT_RELATIVE_COLORIMETRIC;
+    RelbtiveEncodingIntent = Intent;
+    if (RelbtiveEncodingIntent == INTENT_ABSOLUTE_COLORIMETRIC)
+        RelbtiveEncodingIntent = INTENT_RELATIVE_COLORIMETRIC;
 
 
-    // Use V4 Lab always
-    Profiles[0] = hLab;
+    // Use V4 Lbb blwbys
+    Profiles[0] = hLbb;
     Profiles[1] = hProfile;
 
-    xform = cmsCreateMultiprofileTransformTHR(m ->ContextID,
-                                              Profiles, 2, TYPE_Lab_DBL,
-                                              OutputFormat, RelativeEncodingIntent, 0);
-    cmsCloseProfile(hLab);
+    xform = cmsCrebteMultiprofileTrbnsformTHR(m ->ContextID,
+                                              Profiles, 2, TYPE_Lbb_DBL,
+                                              OutputFormbt, RelbtiveEncodingIntent, 0);
+    cmsCloseProfile(hLbb);
 
     if (xform == NULL) {
 
-        cmsSignalError(m ->ContextID, cmsERROR_COLORSPACE_CHECK, "Cannot create transform Lab -> Profile in CRD creation");
+        cmsSignblError(m ->ContextID, cmsERROR_COLORSPACE_CHECK, "Cbnnot crebte trbnsform Lbb -> Profile in CRD crebtion");
         return 0;
     }
 
-    // Get a copy of the internal devicelink
+    // Get b copy of the internbl devicelink
     v = (_cmsTRANSFORM*) xform;
     DeviceLink = cmsPipelineDup(v ->Lut);
     if (DeviceLink == NULL) return 0;
 
 
-    // We need a CLUT
-    dwFlags |= cmsFLAGS_FORCE_CLUT;
-    _cmsOptimizePipeline(&DeviceLink, RelativeEncodingIntent, &InFrm, &OutputFormat, &dwFlags);
+    // We need b CLUT
+    dwFlbgs |= cmsFLAGS_FORCE_CLUT;
+    _cmsOptimizePipeline(&DeviceLink, RelbtiveEncodingIntent, &InFrm, &OutputFormbt, &dwFlbgs);
 
     _cmsIOPrintf(m, "<<\n");
     _cmsIOPrintf(m, "/ColorRenderingType 1\n");
 
 
-    cmsDetectBlackPoint(&BlackPointAdaptedToD50, hProfile, Intent, 0);
+    cmsDetectBlbckPoint(&BlbckPointAdbptedToD50, hProfile, Intent, 0);
 
-    // Emit headers, etc.
-    EmitWhiteBlackD50(m, &BlackPointAdaptedToD50);
-    EmitPQRStage(m, hProfile, lDoBPC, Intent == INTENT_ABSOLUTE_COLORIMETRIC);
-    EmitXYZ2Lab(m);
+    // Emit hebders, etc.
+    EmitWhiteBlbckD50(m, &BlbckPointAdbptedToD50);
+    EmitPQRStbge(m, hProfile, lDoBPC, Intent == INTENT_ABSOLUTE_COLORIMETRIC);
+    EmitXYZ2Lbb(m);
 
 
-    // FIXUP: map Lab (100, 0, 0) to perfect white, because the particular encoding for Lab
-    // does map a=b=0 not falling into any specific node. Since range a,b goes -128..127,
-    // zero is slightly moved towards right, so assure next node (in L=100 slice) is mapped to
-    // zero. This would sacrifice a bit of highlights, but failure to do so would cause
+    // FIXUP: mbp Lbb (100, 0, 0) to perfect white, becbuse the pbrticulbr encoding for Lbb
+    // does mbp b=b=0 not fblling into bny specific node. Since rbnge b,b goes -128..127,
+    // zero is slightly moved towbrds right, so bssure next node (in L=100 slice) is mbpped to
+    // zero. This would sbcrifice b bit of highlights, but fbilure to do so would cbuse
     // scum dot. Ouch.
 
     if (Intent == INTENT_ABSOLUTE_COLORIMETRIC)
             lFixWhite = FALSE;
 
-    _cmsIOPrintf(m, "/RenderTable ");
+    _cmsIOPrintf(m, "/RenderTbble ");
 
 
-    WriteCLUT(m, cmsPipelineGetPtrToFirstStage(DeviceLink), "<", ">\n", "", "", lFixWhite, ColorSpace);
+    WriteCLUT(m, cmsPipelineGetPtrToFirstStbge(DeviceLink), "<", ">\n", "", "", lFixWhite, ColorSpbce);
 
-    _cmsIOPrintf(m, " %d {} bind ", nChannels);
+    _cmsIOPrintf(m, " %d {} bind ", nChbnnels);
 
-    for (i=1; i < nChannels; i++)
+    for (i=1; i < nChbnnels; i++)
             _cmsIOPrintf(m, "dup ");
 
     _cmsIOPrintf(m, "]\n");
@@ -1399,71 +1399,71 @@ int WriteOutputLUT(cmsIOHANDLER* m, cmsHPROFILE hProfile, int Intent, cmsUInt32N
 
     _cmsIOPrintf(m, ">>\n");
 
-    if (!(dwFlags & cmsFLAGS_NODEFAULTRESOURCEDEF)) {
+    if (!(dwFlbgs & cmsFLAGS_NODEFAULTRESOURCEDEF)) {
 
         _cmsIOPrintf(m, "/Current exch /ColorRendering defineresource pop\n");
     }
 
     cmsPipelineFree(DeviceLink);
-    cmsDeleteTransform(xform);
+    cmsDeleteTrbnsform(xform);
 
     return 1;
 }
 
 
-// Builds a ASCII string containing colorant list in 0..1.0 range
-static
-void BuildColorantList(char *Colorant, int nColorant, cmsUInt16Number Out[])
+// Builds b ASCII string contbining colorbnt list in 0..1.0 rbnge
+stbtic
+void BuildColorbntList(chbr *Colorbnt, int nColorbnt, cmsUInt16Number Out[])
 {
-    char Buff[32];
+    chbr Buff[32];
     int j;
 
-    Colorant[0] = 0;
-    if (nColorant > cmsMAXCHANNELS)
-        nColorant = cmsMAXCHANNELS;
+    Colorbnt[0] = 0;
+    if (nColorbnt > cmsMAXCHANNELS)
+        nColorbnt = cmsMAXCHANNELS;
 
-    for (j=0; j < nColorant; j++) {
+    for (j=0; j < nColorbnt; j++) {
 
                 sprintf(Buff, "%.3f", Out[j] / 65535.0);
-                strcat(Colorant, Buff);
-                if (j < nColorant -1)
-                        strcat(Colorant, " ");
+                strcbt(Colorbnt, Buff);
+                if (j < nColorbnt -1)
+                        strcbt(Colorbnt, " ");
 
         }
 }
 
 
-// Creates a PostScript color list from a named profile data.
-// This is a HP extension.
+// Crebtes b PostScript color list from b nbmed profile dbtb.
+// This is b HP extension.
 
-static
-int WriteNamedColorCRD(cmsIOHANDLER* m, cmsHPROFILE hNamedColor, int Intent, cmsUInt32Number dwFlags)
+stbtic
+int WriteNbmedColorCRD(cmsIOHANDLER* m, cmsHPROFILE hNbmedColor, int Intent, cmsUInt32Number dwFlbgs)
 {
     cmsHTRANSFORM xform;
-    int i, nColors, nColorant;
-    cmsUInt32Number OutputFormat;
-    char ColorName[32];
-    char Colorant[128];
-    cmsNAMEDCOLORLIST* NamedColorList;
+    int i, nColors, nColorbnt;
+    cmsUInt32Number OutputFormbt;
+    chbr ColorNbme[32];
+    chbr Colorbnt[128];
+    cmsNAMEDCOLORLIST* NbmedColorList;
 
 
-    OutputFormat = cmsFormatterForColorspaceOfProfile(hNamedColor, 2, FALSE);
-    nColorant    = T_CHANNELS(OutputFormat);
+    OutputFormbt = cmsFormbtterForColorspbceOfProfile(hNbmedColor, 2, FALSE);
+    nColorbnt    = T_CHANNELS(OutputFormbt);
 
 
-    xform = cmsCreateTransform(hNamedColor, TYPE_NAMED_COLOR_INDEX, NULL, OutputFormat, Intent, dwFlags);
+    xform = cmsCrebteTrbnsform(hNbmedColor, TYPE_NAMED_COLOR_INDEX, NULL, OutputFormbt, Intent, dwFlbgs);
     if (xform == NULL) return 0;
 
 
-    NamedColorList = cmsGetNamedColorList(xform);
-    if (NamedColorList == NULL) return 0;
+    NbmedColorList = cmsGetNbmedColorList(xform);
+    if (NbmedColorList == NULL) return 0;
 
     _cmsIOPrintf(m, "<<\n");
-    _cmsIOPrintf(m, "(colorlistcomment) (%s) \n", "Named profile");
-    _cmsIOPrintf(m, "(Prefix) [ (Pantone ) (PANTONE ) ]\n");
+    _cmsIOPrintf(m, "(colorlistcomment) (%s) \n", "Nbmed profile");
+    _cmsIOPrintf(m, "(Prefix) [ (Pbntone ) (PANTONE ) ]\n");
     _cmsIOPrintf(m, "(Suffix) [ ( CV) ( CVC) ( C) ]\n");
 
-    nColors   = cmsNamedColorCount(NamedColorList);
+    nColors   = cmsNbmedColorCount(NbmedColorList);
 
     for (i=0; i < nColors; i++) {
 
@@ -1472,71 +1472,71 @@ int WriteNamedColorCRD(cmsIOHANDLER* m, cmsHPROFILE hNamedColor, int Intent, cms
 
         In[0] = (cmsUInt16Number) i;
 
-        if (!cmsNamedColorInfo(NamedColorList, i, ColorName, NULL, NULL, NULL, NULL))
+        if (!cmsNbmedColorInfo(NbmedColorList, i, ColorNbme, NULL, NULL, NULL, NULL))
                 continue;
 
-        cmsDoTransform(xform, In, Out, 1);
-        BuildColorantList(Colorant, nColorant, Out);
-        _cmsIOPrintf(m, "  (%s) [ %s ]\n", ColorName, Colorant);
+        cmsDoTrbnsform(xform, In, Out, 1);
+        BuildColorbntList(Colorbnt, nColorbnt, Out);
+        _cmsIOPrintf(m, "  (%s) [ %s ]\n", ColorNbme, Colorbnt);
     }
 
     _cmsIOPrintf(m, "   >>");
 
-    if (!(dwFlags & cmsFLAGS_NODEFAULTRESOURCEDEF)) {
+    if (!(dwFlbgs & cmsFLAGS_NODEFAULTRESOURCEDEF)) {
 
-    _cmsIOPrintf(m, " /Current exch /HPSpotTable defineresource pop\n");
+    _cmsIOPrintf(m, " /Current exch /HPSpotTbble defineresource pop\n");
     }
 
-    cmsDeleteTransform(xform);
+    cmsDeleteTrbnsform(xform);
     return 1;
 }
 
 
 
-// This one does create a Color Rendering Dictionary.
-// CRD are always LUT-Based, no matter if profile is
-// implemented as matrix-shaper.
+// This one does crebte b Color Rendering Dictionbry.
+// CRD bre blwbys LUT-Bbsed, no mbtter if profile is
+// implemented bs mbtrix-shbper.
 
-static
-cmsUInt32Number  GenerateCRD(cmsContext ContextID,
+stbtic
+cmsUInt32Number  GenerbteCRD(cmsContext ContextID,
                              cmsHPROFILE hProfile,
-                             cmsUInt32Number Intent, cmsUInt32Number dwFlags,
+                             cmsUInt32Number Intent, cmsUInt32Number dwFlbgs,
                              cmsIOHANDLER* mem)
 {
     cmsUInt32Number dwBytesUsed;
 
-    if (!(dwFlags & cmsFLAGS_NODEFAULTRESOURCEDEF)) {
+    if (!(dwFlbgs & cmsFLAGS_NODEFAULTRESOURCEDEF)) {
 
-        EmitHeader(mem, "Color Rendering Dictionary (CRD)", hProfile);
+        EmitHebder(mem, "Color Rendering Dictionbry (CRD)", hProfile);
     }
 
 
-    // Is a named color profile?
-    if (cmsGetDeviceClass(hProfile) == cmsSigNamedColorClass) {
+    // Is b nbmed color profile?
+    if (cmsGetDeviceClbss(hProfile) == cmsSigNbmedColorClbss) {
 
-        if (!WriteNamedColorCRD(mem, hProfile, Intent, dwFlags)) {
+        if (!WriteNbmedColorCRD(mem, hProfile, Intent, dwFlbgs)) {
             return 0;
         }
     }
     else {
 
-        // CRD are always implemented as LUT
+        // CRD bre blwbys implemented bs LUT
 
-        if (!WriteOutputLUT(mem, hProfile, Intent, dwFlags)) {
+        if (!WriteOutputLUT(mem, hProfile, Intent, dwFlbgs)) {
             return 0;
         }
     }
 
-    if (!(dwFlags & cmsFLAGS_NODEFAULTRESOURCEDEF)) {
+    if (!(dwFlbgs & cmsFLAGS_NODEFAULTRESOURCEDEF)) {
 
         _cmsIOPrintf(mem, "%%%%EndResource\n");
         _cmsIOPrintf(mem, "\n%% CRD End\n");
     }
 
-    // Done, keep memory usage
-    dwBytesUsed = mem ->UsedSpace;
+    // Done, keep memory usbge
+    dwBytesUsed = mem ->UsedSpbce;
 
-    // Finally, return used byte count
+    // Finblly, return used byte count
     return dwBytesUsed;
 
     cmsUNUSED_PARAMETER(ContextID);
@@ -1549,7 +1549,7 @@ cmsUInt32Number CMSEXPORT cmsGetPostScriptColorResource(cmsContext ContextID,
                                                                cmsPSResourceType Type,
                                                                cmsHPROFILE hProfile,
                                                                cmsUInt32Number Intent,
-                                                               cmsUInt32Number dwFlags,
+                                                               cmsUInt32Number dwFlbgs,
                                                                cmsIOHANDLER* io)
 {
     cmsUInt32Number  rc;
@@ -1557,14 +1557,14 @@ cmsUInt32Number CMSEXPORT cmsGetPostScriptColorResource(cmsContext ContextID,
 
     switch (Type) {
 
-        case cmsPS_RESOURCE_CSA:
-            rc = GenerateCSA(ContextID, hProfile, Intent, dwFlags, io);
-            break;
+        cbse cmsPS_RESOURCE_CSA:
+            rc = GenerbteCSA(ContextID, hProfile, Intent, dwFlbgs, io);
+            brebk;
 
-        default:
-        case cmsPS_RESOURCE_CRD:
-            rc = GenerateCRD(ContextID, hProfile, Intent, dwFlags, io);
-            break;
+        defbult:
+        cbse cmsPS_RESOURCE_CRD:
+            rc = GenerbteCRD(ContextID, hProfile, Intent, dwFlbgs, io);
+            brebk;
     }
 
     return rc;
@@ -1574,35 +1574,35 @@ cmsUInt32Number CMSEXPORT cmsGetPostScriptColorResource(cmsContext ContextID,
 
 cmsUInt32Number CMSEXPORT cmsGetPostScriptCRD(cmsContext ContextID,
                               cmsHPROFILE hProfile,
-                              cmsUInt32Number Intent, cmsUInt32Number dwFlags,
+                              cmsUInt32Number Intent, cmsUInt32Number dwFlbgs,
                               void* Buffer, cmsUInt32Number dwBufferLen)
 {
     cmsIOHANDLER* mem;
     cmsUInt32Number dwBytesUsed;
 
-    // Set up the serialization engine
+    // Set up the seriblizbtion engine
     if (Buffer == NULL)
-        mem = cmsOpenIOhandlerFromNULL(ContextID);
+        mem = cmsOpenIOhbndlerFromNULL(ContextID);
     else
-        mem = cmsOpenIOhandlerFromMem(ContextID, Buffer, dwBufferLen, "w");
+        mem = cmsOpenIOhbndlerFromMem(ContextID, Buffer, dwBufferLen, "w");
 
     if (!mem) return 0;
 
-    dwBytesUsed =  cmsGetPostScriptColorResource(ContextID, cmsPS_RESOURCE_CRD, hProfile, Intent, dwFlags, mem);
+    dwBytesUsed =  cmsGetPostScriptColorResource(ContextID, cmsPS_RESOURCE_CRD, hProfile, Intent, dwFlbgs, mem);
 
-    // Get rid of memory stream
-    cmsCloseIOhandler(mem);
+    // Get rid of memory strebm
+    cmsCloseIOhbndler(mem);
 
     return dwBytesUsed;
 }
 
 
 
-// Does create a Color Space Array on XYZ colorspace for PostScript usage
+// Does crebte b Color Spbce Arrby on XYZ colorspbce for PostScript usbge
 cmsUInt32Number CMSEXPORT cmsGetPostScriptCSA(cmsContext ContextID,
                                               cmsHPROFILE hProfile,
                                               cmsUInt32Number Intent,
-                                              cmsUInt32Number dwFlags,
+                                              cmsUInt32Number dwFlbgs,
                                               void* Buffer,
                                               cmsUInt32Number dwBufferLen)
 {
@@ -1610,16 +1610,16 @@ cmsUInt32Number CMSEXPORT cmsGetPostScriptCSA(cmsContext ContextID,
     cmsUInt32Number dwBytesUsed;
 
     if (Buffer == NULL)
-        mem = cmsOpenIOhandlerFromNULL(ContextID);
+        mem = cmsOpenIOhbndlerFromNULL(ContextID);
     else
-        mem = cmsOpenIOhandlerFromMem(ContextID, Buffer, dwBufferLen, "w");
+        mem = cmsOpenIOhbndlerFromMem(ContextID, Buffer, dwBufferLen, "w");
 
     if (!mem) return 0;
 
-    dwBytesUsed =  cmsGetPostScriptColorResource(ContextID, cmsPS_RESOURCE_CSA, hProfile, Intent, dwFlags, mem);
+    dwBytesUsed =  cmsGetPostScriptColorResource(ContextID, cmsPS_RESOURCE_CSA, hProfile, Intent, dwFlbgs, mem);
 
-    // Get rid of memory stream
-    cmsCloseIOhandler(mem);
+    // Get rid of memory strebm
+    cmsCloseIOhbndler(mem);
 
     return dwBytesUsed;
 

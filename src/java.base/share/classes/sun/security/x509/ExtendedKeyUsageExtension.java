@@ -1,313 +1,313 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Vector;
 
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
+import sun.security.util.DerVblue;
+import sun.security.util.DerOutputStrebm;
 import sun.security.util.ObjectIdentifier;
 
 /**
- * This class defines the Extended Key Usage Extension, which
- * indicates one or more purposes for which the certified public key
- * may be used, in addition to or in place of the basic purposes
- * indicated in the key usage extension field.  This field is defined
- * as follows:<p>
+ * This clbss defines the Extended Key Usbge Extension, which
+ * indicbtes one or more purposes for which the certified public key
+ * mby be used, in bddition to or in plbce of the bbsic purposes
+ * indicbted in the key usbge extension field.  This field is defined
+ * bs follows:<p>
  *
- * id-ce-extKeyUsage OBJECT IDENTIFIER ::= {id-ce 37}<p>
+ * id-ce-extKeyUsbge OBJECT IDENTIFIER ::= {id-ce 37}<p>
  *
- * ExtKeyUsageSyntax ::= SEQUENCE SIZE (1..MAX) OF KeyPurposeId<p>
+ * ExtKeyUsbgeSyntbx ::= SEQUENCE SIZE (1..MAX) OF KeyPurposeId<p>
  *
  * KeyPurposeId ::= OBJECT IDENTIFIER<p>
  *
- * Key purposes may be defined by any organization with a need. Object
- * identifiers used to identify key purposes shall be assigned in
- * accordance with IANA or ITU-T Rec. X.660 | ISO/IEC/ITU 9834-1.<p>
+ * Key purposes mby be defined by bny orgbnizbtion with b need. Object
+ * identifiers used to identify key purposes shbll be bssigned in
+ * bccordbnce with IANA or ITU-T Rec. X.660 | ISO/IEC/ITU 9834-1.<p>
  *
- * This extension may, at the option of the certificate issuer, be
- * either critical or non-critical.<p>
+ * This extension mby, bt the option of the certificbte issuer, be
+ * either criticbl or non-criticbl.<p>
  *
- * If the extension is flagged critical, then the certificate MUST be
- * used only for one of the purposes indicated.<p>
+ * If the extension is flbgged criticbl, then the certificbte MUST be
+ * used only for one of the purposes indicbted.<p>
  *
- * If the extension is flagged non-critical, then it indicates the
- * intended purpose or purposes of the key, and may be used in finding
- * the correct key/certificate of an entity that has multiple
- * keys/certificates. It is an advisory field and does not imply that
- * usage of the key is restricted by the certification authority to
- * the purpose indicated. Certificate using applications may
- * nevertheless require that a particular purpose be indicated in
- * order for the certificate to be acceptable to that application.<p>
+ * If the extension is flbgged non-criticbl, then it indicbtes the
+ * intended purpose or purposes of the key, bnd mby be used in finding
+ * the correct key/certificbte of bn entity thbt hbs multiple
+ * keys/certificbtes. It is bn bdvisory field bnd does not imply thbt
+ * usbge of the key is restricted by the certificbtion buthority to
+ * the purpose indicbted. Certificbte using bpplicbtions mby
+ * nevertheless require thbt b pbrticulbr purpose be indicbted in
+ * order for the certificbte to be bcceptbble to thbt bpplicbtion.<p>
 
- * If a certificate contains both a critical key usage field and a
- * critical extended key usage field, then both fields MUST be
- * processed independently and the certificate MUST only be used for a
+ * If b certificbte contbins both b criticbl key usbge field bnd b
+ * criticbl extended key usbge field, then both fields MUST be
+ * processed independently bnd the certificbte MUST only be used for b
  * purpose consistent with both fields.  If there is no purpose
- * consistent with both fields, then the certificate MUST NOT be used
- * for any purpose.<p>
+ * consistent with both fields, then the certificbte MUST NOT be used
+ * for bny purpose.<p>
  *
  * @since       1.4
  */
-public class ExtendedKeyUsageExtension extends Extension
+public clbss ExtendedKeyUsbgeExtension extends Extension
 implements CertAttrSet<String> {
 
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.extensions.ExtendedKeyUsage";
+    public stbtic finbl String IDENT = "x509.info.extensions.ExtendedKeyUsbge";
 
     /**
-     * Attribute names.
+     * Attribute nbmes.
      */
-    public static final String NAME = "ExtendedKeyUsage";
-    public static final String USAGES = "usages";
+    public stbtic finbl String NAME = "ExtendedKeyUsbge";
+    public stbtic finbl String USAGES = "usbges";
 
     // OID defined in RFC 3280 Sections 4.2.1.13
-    // more from http://www.alvestrand.no/objectid/1.3.6.1.5.5.7.3.html
-    private static final Map <ObjectIdentifier, String> map =
-            new HashMap <ObjectIdentifier, String> ();
+    // more from http://www.blvestrbnd.no/objectid/1.3.6.1.5.5.7.3.html
+    privbte stbtic finbl Mbp <ObjectIdentifier, String> mbp =
+            new HbshMbp <ObjectIdentifier, String> ();
 
-    private static final int[] anyExtendedKeyUsageOidData = {2, 5, 29, 37, 0};
-    private static final int[] serverAuthOidData = {1, 3, 6, 1, 5, 5, 7, 3, 1};
-    private static final int[] clientAuthOidData = {1, 3, 6, 1, 5, 5, 7, 3, 2};
-    private static final int[] codeSigningOidData = {1, 3, 6, 1, 5, 5, 7, 3, 3};
-    private static final int[] emailProtectionOidData = {1, 3, 6, 1, 5, 5, 7, 3, 4};
-    private static final int[] ipsecEndSystemOidData = {1, 3, 6, 1, 5, 5, 7, 3, 5};
-    private static final int[] ipsecTunnelOidData = {1, 3, 6, 1, 5, 5, 7, 3, 6};
-    private static final int[] ipsecUserOidData = {1, 3, 6, 1, 5, 5, 7, 3, 7};
-    private static final int[] timeStampingOidData = {1, 3, 6, 1, 5, 5, 7, 3, 8};
-    private static final int[] OCSPSigningOidData = {1, 3, 6, 1, 5, 5, 7, 3, 9};
+    privbte stbtic finbl int[] bnyExtendedKeyUsbgeOidDbtb = {2, 5, 29, 37, 0};
+    privbte stbtic finbl int[] serverAuthOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 1};
+    privbte stbtic finbl int[] clientAuthOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 2};
+    privbte stbtic finbl int[] codeSigningOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 3};
+    privbte stbtic finbl int[] embilProtectionOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 4};
+    privbte stbtic finbl int[] ipsecEndSystemOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 5};
+    privbte stbtic finbl int[] ipsecTunnelOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 6};
+    privbte stbtic finbl int[] ipsecUserOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 7};
+    privbte stbtic finbl int[] timeStbmpingOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 8};
+    privbte stbtic finbl int[] OCSPSigningOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 9};
 
-    static {
-        map.put(ObjectIdentifier.newInternal(anyExtendedKeyUsageOidData), "anyExtendedKeyUsage");
-        map.put(ObjectIdentifier.newInternal(serverAuthOidData), "serverAuth");
-        map.put(ObjectIdentifier.newInternal(clientAuthOidData), "clientAuth");
-        map.put(ObjectIdentifier.newInternal(codeSigningOidData), "codeSigning");
-        map.put(ObjectIdentifier.newInternal(emailProtectionOidData), "emailProtection");
-        map.put(ObjectIdentifier.newInternal(ipsecEndSystemOidData), "ipsecEndSystem");
-        map.put(ObjectIdentifier.newInternal(ipsecTunnelOidData), "ipsecTunnel");
-        map.put(ObjectIdentifier.newInternal(ipsecUserOidData), "ipsecUser");
-        map.put(ObjectIdentifier.newInternal(timeStampingOidData), "timeStamping");
-        map.put(ObjectIdentifier.newInternal(OCSPSigningOidData), "OCSPSigning");
+    stbtic {
+        mbp.put(ObjectIdentifier.newInternbl(bnyExtendedKeyUsbgeOidDbtb), "bnyExtendedKeyUsbge");
+        mbp.put(ObjectIdentifier.newInternbl(serverAuthOidDbtb), "serverAuth");
+        mbp.put(ObjectIdentifier.newInternbl(clientAuthOidDbtb), "clientAuth");
+        mbp.put(ObjectIdentifier.newInternbl(codeSigningOidDbtb), "codeSigning");
+        mbp.put(ObjectIdentifier.newInternbl(embilProtectionOidDbtb), "embilProtection");
+        mbp.put(ObjectIdentifier.newInternbl(ipsecEndSystemOidDbtb), "ipsecEndSystem");
+        mbp.put(ObjectIdentifier.newInternbl(ipsecTunnelOidDbtb), "ipsecTunnel");
+        mbp.put(ObjectIdentifier.newInternbl(ipsecUserOidDbtb), "ipsecUser");
+        mbp.put(ObjectIdentifier.newInternbl(timeStbmpingOidDbtb), "timeStbmping");
+        mbp.put(ObjectIdentifier.newInternbl(OCSPSigningOidDbtb), "OCSPSigning");
     };
 
     /**
-     * Vector of KeyUsages for this object.
+     * Vector of KeyUsbges for this object.
      */
-    private Vector<ObjectIdentifier> keyUsages;
+    privbte Vector<ObjectIdentifier> keyUsbges;
 
-    // Encode this extension value.
-    private void encodeThis() throws IOException {
-        if (keyUsages == null || keyUsages.isEmpty()) {
-            this.extensionValue = null;
+    // Encode this extension vblue.
+    privbte void encodeThis() throws IOException {
+        if (keyUsbges == null || keyUsbges.isEmpty()) {
+            this.extensionVblue = null;
             return;
         }
-        DerOutputStream os = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
+        DerOutputStrebm os = new DerOutputStrebm();
+        DerOutputStrebm tmp = new DerOutputStrebm();
 
-        for (int i = 0; i < keyUsages.size(); i++) {
-            tmp.putOID(keyUsages.elementAt(i));
+        for (int i = 0; i < keyUsbges.size(); i++) {
+            tmp.putOID(keyUsbges.elementAt(i));
         }
 
-        os.write(DerValue.tag_Sequence, tmp);
-        this.extensionValue = os.toByteArray();
+        os.write(DerVblue.tbg_Sequence, tmp);
+        this.extensionVblue = os.toByteArrby();
     }
 
     /**
-     * Create a ExtendedKeyUsageExtension object from
-     * a Vector of Key Usages; the criticality is set to false.
+     * Crebte b ExtendedKeyUsbgeExtension object from
+     * b Vector of Key Usbges; the criticblity is set to fblse.
      *
-     * @param keyUsages the Vector of KeyUsages (ObjectIdentifiers)
+     * @pbrbm keyUsbges the Vector of KeyUsbges (ObjectIdentifiers)
      */
-    public ExtendedKeyUsageExtension(Vector<ObjectIdentifier> keyUsages)
+    public ExtendedKeyUsbgeExtension(Vector<ObjectIdentifier> keyUsbges)
     throws IOException {
-        this(Boolean.FALSE, keyUsages);
+        this(Boolebn.FALSE, keyUsbges);
     }
 
     /**
-     * Create a ExtendedKeyUsageExtension object from
-     * a Vector of KeyUsages with specified criticality.
+     * Crebte b ExtendedKeyUsbgeExtension object from
+     * b Vector of KeyUsbges with specified criticblity.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param keyUsages the Vector of KeyUsages (ObjectIdentifiers)
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm keyUsbges the Vector of KeyUsbges (ObjectIdentifiers)
      */
-    public ExtendedKeyUsageExtension(Boolean critical, Vector<ObjectIdentifier> keyUsages)
+    public ExtendedKeyUsbgeExtension(Boolebn criticbl, Vector<ObjectIdentifier> keyUsbges)
     throws IOException {
-        this.keyUsages = keyUsages;
-        this.extensionId = PKIXExtensions.ExtendedKeyUsage_Id;
-        this.critical = critical.booleanValue();
+        this.keyUsbges = keyUsbges;
+        this.extensionId = PKIXExtensions.ExtendedKeyUsbge_Id;
+        this.criticbl = criticbl.boolebnVblue();
         encodeThis();
     }
 
     /**
-     * Create the extension from its DER encoded value and criticality.
+     * Crebte the extension from its DER encoded vblue bnd criticblity.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-    public ExtendedKeyUsageExtension(Boolean critical, Object value)
+    public ExtendedKeyUsbgeExtension(Boolebn criticbl, Object vblue)
     throws IOException {
-        this.extensionId = PKIXExtensions.ExtendedKeyUsage_Id;
-        this.critical = critical.booleanValue();
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for " +
-                                   "ExtendedKeyUsageExtension.");
+        this.extensionId = PKIXExtensions.ExtendedKeyUsbge_Id;
+        this.criticbl = criticbl.boolebnVblue();
+        this.extensionVblue = (byte[]) vblue;
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        if (vbl.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Invblid encoding for " +
+                                   "ExtendedKeyUsbgeExtension.");
         }
-        keyUsages = new Vector<ObjectIdentifier>();
-        while (val.data.available() != 0) {
-            DerValue seq = val.data.getDerValue();
-            ObjectIdentifier usage = seq.getOID();
-            keyUsages.addElement(usage);
+        keyUsbges = new Vector<ObjectIdentifier>();
+        while (vbl.dbtb.bvbilbble() != 0) {
+            DerVblue seq = vbl.dbtb.getDerVblue();
+            ObjectIdentifier usbge = seq.getOID();
+            keyUsbges.bddElement(usbge);
         }
     }
 
     /**
-     * Return the extension as user readable string.
+     * Return the extension bs user rebdbble string.
      */
     public String toString() {
-        if (keyUsages == null) return "";
-        String usage = "  ";
-        boolean first = true;
-        for (ObjectIdentifier oid: keyUsages) {
+        if (keyUsbges == null) return "";
+        String usbge = "  ";
+        boolebn first = true;
+        for (ObjectIdentifier oid: keyUsbges) {
             if(!first) {
-                usage += "\n  ";
+                usbge += "\n  ";
             }
 
-            String result = map.get(oid);
+            String result = mbp.get(oid);
             if (result != null) {
-                usage += result;
+                usbge += result;
             } else {
-                usage += oid.toString();
+                usbge += oid.toString();
             }
-            first = false;
+            first = fblse;
         }
-        return super.toString() + "ExtendedKeyUsages [\n"
-               + usage + "\n]\n";
+        return super.toString() + "ExtendedKeyUsbges [\n"
+               + usbge + "\n]\n";
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Write the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (extensionValue == null) {
-          extensionId = PKIXExtensions.ExtendedKeyUsage_Id;
-          critical = false;
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        if (extensionVblue == null) {
+          extensionId = PKIXExtensions.ExtendedKeyUsbge_Id;
+          criticbl = fblse;
           encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    @SuppressWarnings("unchecked") // Checked with instanceof
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(USAGES)) {
-            if (!(obj instanceof Vector)) {
-                throw new IOException("Attribute value should be of type Vector.");
+    @SuppressWbrnings("unchecked") // Checked with instbnceof
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(USAGES)) {
+            if (!(obj instbnceof Vector)) {
+                throw new IOException("Attribute vblue should be of type Vector.");
             }
-            this.keyUsages = (Vector<ObjectIdentifier>)obj;
+            this.keyUsbges = (Vector<ObjectIdentifier>)obj;
         } else {
-          throw new IOException("Attribute name [" + name +
+          throw new IOException("Attribute nbme [" + nbme +
                                 "] not recognized by " +
-                                "CertAttrSet:ExtendedKeyUsageExtension.");
+                                "CertAttrSet:ExtendedKeyUsbgeExtension.");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public Vector<ObjectIdentifier> get(String name) throws IOException {
-        if (name.equalsIgnoreCase(USAGES)) {
-            //XXXX May want to consider cloning this
-            return keyUsages;
+    public Vector<ObjectIdentifier> get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(USAGES)) {
+            //XXXX Mby wbnt to consider cloning this
+            return keyUsbges;
         } else {
-          throw new IOException("Attribute name [" + name +
+          throw new IOException("Attribute nbme [" + nbme +
                                 "] not recognized by " +
-                                "CertAttrSet:ExtendedKeyUsageExtension.");
+                                "CertAttrSet:ExtendedKeyUsbgeExtension.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(USAGES)) {
-            keyUsages = null;
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(USAGES)) {
+            keyUsbges = null;
         } else {
-          throw new IOException("Attribute name [" + name +
+          throw new IOException("Attribute nbme [" + nbme +
                                 "] not recognized by " +
-                                "CertAttrSet:ExtendedKeyUsageExtension.");
+                                "CertAttrSet:ExtendedKeyUsbgeExtension.");
         }
         encodeThis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(USAGES);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(USAGES);
 
         return (elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return (NAME);
     }
 
-    public List<String> getExtendedKeyUsage() {
-        List<String> al = new ArrayList<String>(keyUsages.size());
-        for (ObjectIdentifier oid : keyUsages) {
-            al.add(oid.toString());
+    public List<String> getExtendedKeyUsbge() {
+        List<String> bl = new ArrbyList<String>(keyUsbges.size());
+        for (ObjectIdentifier oid : keyUsbges) {
+            bl.bdd(oid.toString());
         }
-        return al;
+        return bl;
     }
 
 }

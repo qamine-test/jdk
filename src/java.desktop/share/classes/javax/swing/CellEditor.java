@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.EventObject;
-import javax.swing.event.*;
+import jbvb.util.EventObject;
+import jbvbx.swing.event.*;
 
 /**
- * This interface defines the methods any general editor should be able
+ * This interfbce defines the methods bny generbl editor should be bble
  * to implement. <p>
  *
- * Having this interface enables complex components (the client of the
- * editor) such as <code>JTree</code> and
- * <code>JTable</code> to allow any generic editor to
- * edit values in a table cell, or tree cell, etc.  Without this generic
- * editor interface, <code>JTable</code> would have to know about specific editors,
- * such as <code>JTextField</code>, <code>JCheckBox</code>, <code>JComboBox</code>,
- * etc.  In addition, without this interface, clients of editors such as
- * <code>JTable</code> would not be able
- * to work with any editors developed in the future by the user
- * or a 3rd party ISV. <p>
+ * Hbving this interfbce enbbles complex components (the client of the
+ * editor) such bs <code>JTree</code> bnd
+ * <code>JTbble</code> to bllow bny generic editor to
+ * edit vblues in b tbble cell, or tree cell, etc.  Without this generic
+ * editor interfbce, <code>JTbble</code> would hbve to know bbout specific editors,
+ * such bs <code>JTextField</code>, <code>JCheckBox</code>, <code>JComboBox</code>,
+ * etc.  In bddition, without this interfbce, clients of editors such bs
+ * <code>JTbble</code> would not be bble
+ * to work with bny editors developed in the future by the user
+ * or b 3rd pbrty ISV. <p>
  *
- * To use this interface, a developer creating a new editor can have the
- * new component implement the interface.  Or the developer can
- * choose a wrapper based approach and provide a companion object which
- * implements the <code>CellEditor</code> interface (See
- * <code>JCellEditor</code> for example).  The wrapper approach
- * is particularly useful if the user want to use a 3rd party ISV
- * editor with <code>JTable</code>, but the ISV didn't implement the
- * <code>CellEditor</code> interface.  The user can simply create an object
- * that contains an instance of the 3rd party editor object and "translate"
- * the <code>CellEditor</code> API into the 3rd party editor's API.
+ * To use this interfbce, b developer crebting b new editor cbn hbve the
+ * new component implement the interfbce.  Or the developer cbn
+ * choose b wrbpper bbsed bpprobch bnd provide b compbnion object which
+ * implements the <code>CellEditor</code> interfbce (See
+ * <code>JCellEditor</code> for exbmple).  The wrbpper bpprobch
+ * is pbrticulbrly useful if the user wbnt to use b 3rd pbrty ISV
+ * editor with <code>JTbble</code>, but the ISV didn't implement the
+ * <code>CellEditor</code> interfbce.  The user cbn simply crebte bn object
+ * thbt contbins bn instbnce of the 3rd pbrty editor object bnd "trbnslbte"
+ * the <code>CellEditor</code> API into the 3rd pbrty editor's API.
  *
- * @see javax.swing.event.CellEditorListener
+ * @see jbvbx.swing.event.CellEditorListener
  *
- * @author Alan Chung
+ * @buthor Albn Chung
  * @since 1.2
  */
-public interface CellEditor {
+public interfbce CellEditor {
 
     /**
-     * Returns the value contained in the editor.
-     * @return the value contained in the editor
+     * Returns the vblue contbined in the editor.
+     * @return the vblue contbined in the editor
      */
-    public Object getCellEditorValue();
+    public Object getCellEditorVblue();
 
     /**
-     * Asks the editor if it can start editing using <code>anEvent</code>.
-     * <code>anEvent</code> is in the invoking component coordinate system.
-     * The editor can not assume the Component returned by
-     * <code>getCellEditorComponent</code> is installed.  This method
-     * is intended for the use of client to avoid the cost of setting up
-     * and installing the editor component if editing is not possible.
-     * If editing can be started this method returns true.
+     * Asks the editor if it cbn stbrt editing using <code>bnEvent</code>.
+     * <code>bnEvent</code> is in the invoking component coordinbte system.
+     * The editor cbn not bssume the Component returned by
+     * <code>getCellEditorComponent</code> is instblled.  This method
+     * is intended for the use of client to bvoid the cost of setting up
+     * bnd instblling the editor component if editing is not possible.
+     * If editing cbn be stbrted this method returns true.
      *
-     * @param   anEvent         the event the editor should use to consider
+     * @pbrbm   bnEvent         the event the editor should use to consider
      *                          whether to begin editing or not
-     * @return  true if editing can be started
+     * @return  true if editing cbn be stbrted
      * @see #shouldSelectCell
      */
-    public boolean isCellEditable(EventObject anEvent);
+    public boolebn isCellEditbble(EventObject bnEvent);
 
     /**
-     * Returns true if the editing cell should be selected, false otherwise.
-     * Typically, the return value is true, because is most cases the editing
-     * cell should be selected.  However, it is useful to return false to
-     * keep the selection from changing for some types of edits.
-     * eg. A table that contains a column of check boxes, the user might
-     * want to be able to change those checkboxes without altering the
-     * selection.  (See Netscape Communicator for just such an example)
+     * Returns true if the editing cell should be selected, fblse otherwise.
+     * Typicblly, the return vblue is true, becbuse is most cbses the editing
+     * cell should be selected.  However, it is useful to return fblse to
+     * keep the selection from chbnging for some types of edits.
+     * eg. A tbble thbt contbins b column of check boxes, the user might
+     * wbnt to be bble to chbnge those checkboxes without bltering the
+     * selection.  (See Netscbpe Communicbtor for just such bn exbmple)
      * Of course, it is up to the client of the editor to use the return
-     * value, but it doesn't need to if it doesn't want to.
+     * vblue, but it doesn't need to if it doesn't wbnt to.
      *
-     * @param   anEvent         the event the editor should use to start
+     * @pbrbm   bnEvent         the event the editor should use to stbrt
      *                          editing
      * @return  true if the editor would like the editing cell to be selected;
-     *    otherwise returns false
-     * @see #isCellEditable
+     *    otherwise returns fblse
+     * @see #isCellEditbble
      */
-    public boolean shouldSelectCell(EventObject anEvent);
+    public boolebn shouldSelectCell(EventObject bnEvent);
 
     /**
-     * Tells the editor to stop editing and accept any partially edited
-     * value as the value of the editor.  The editor returns false if
-     * editing was not stopped; this is useful for editors that validate
-     * and can not accept invalid entries.
+     * Tells the editor to stop editing bnd bccept bny pbrtiblly edited
+     * vblue bs the vblue of the editor.  The editor returns fblse if
+     * editing wbs not stopped; this is useful for editors thbt vblidbte
+     * bnd cbn not bccept invblid entries.
      *
-     * @return  true if editing was stopped; false otherwise
+     * @return  true if editing wbs stopped; fblse otherwise
      */
-    public boolean stopCellEditing();
+    public boolebn stopCellEditing();
 
     /**
-     * Tells the editor to cancel editing and not accept any partially
-     * edited value.
+     * Tells the editor to cbncel editing bnd not bccept bny pbrtiblly
+     * edited vblue.
      */
-    public void cancelCellEditing();
+    public void cbncelCellEditing();
 
     /**
-     * Adds a listener to the list that's notified when the editor
-     * stops, or cancels editing.
+     * Adds b listener to the list thbt's notified when the editor
+     * stops, or cbncels editing.
      *
-     * @param   l               the CellEditorListener
+     * @pbrbm   l               the CellEditorListener
      */
-    public void addCellEditorListener(CellEditorListener l);
+    public void bddCellEditorListener(CellEditorListener l);
 
     /**
-     * Removes a listener from the list that's notified
+     * Removes b listener from the list thbt's notified
      *
-     * @param   l               the CellEditorListener
+     * @pbrbm   l               the CellEditorListener
      */
     public void removeCellEditorListener(CellEditorListener l);
 }

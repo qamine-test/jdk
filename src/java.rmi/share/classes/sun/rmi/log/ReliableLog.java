@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.log;
+pbckbge sun.rmi.log;
 
-import java.io.*;
-import java.lang.reflect.Constructor;
-import java.rmi.server.RMIClassLoader;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.*;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.rmi.server.RMIClbssLobder;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * This class is a simple implementation of a reliable Log.  The
- * client of a ReliableLog must provide a set of callbacks (via a
- * LogHandler) that enables a ReliableLog to read and write
- * checkpoints and log records.  This implementation ensures that the
- * current value of the data stored (via a ReliableLog) is recoverable
- * after a system crash. <p>
+ * This clbss is b simple implementbtion of b relibble Log.  The
+ * client of b RelibbleLog must provide b set of cbllbbcks (vib b
+ * LogHbndler) thbt enbbles b RelibbleLog to rebd bnd write
+ * checkpoints bnd log records.  This implementbtion ensures thbt the
+ * current vblue of the dbtb stored (vib b RelibbleLog) is recoverbble
+ * bfter b system crbsh. <p>
  *
- * The secondary storage strategy is to record values in files using a
- * representation of the caller's choosing.  Two sorts of files are
- * kept: snapshots and logs.  At any instant, one snapshot is current.
- * The log consists of a sequence of updates that have occurred since
- * the current snapshot was taken.  The current stable state is the
- * value of the snapshot, as modified by the sequence of updates in
- * the log.  From time to time, the client of a ReliableLog instructs
- * the package to make a new snapshot and clear the log.  A ReliableLog
- * arranges disk writes such that updates are stable (as long as the
- * changes are force-written to disk) and atomic : no update is lost,
- * and each update either is recorded completely in the log or not at
- * all.  Making a new snapshot is also atomic. <p>
+ * The secondbry storbge strbtegy is to record vblues in files using b
+ * representbtion of the cbller's choosing.  Two sorts of files bre
+ * kept: snbpshots bnd logs.  At bny instbnt, one snbpshot is current.
+ * The log consists of b sequence of updbtes thbt hbve occurred since
+ * the current snbpshot wbs tbken.  The current stbble stbte is the
+ * vblue of the snbpshot, bs modified by the sequence of updbtes in
+ * the log.  From time to time, the client of b RelibbleLog instructs
+ * the pbckbge to mbke b new snbpshot bnd clebr the log.  A RelibbleLog
+ * brrbnges disk writes such thbt updbtes bre stbble (bs long bs the
+ * chbnges bre force-written to disk) bnd btomic : no updbte is lost,
+ * bnd ebch updbte either is recorded completely in the log or not bt
+ * bll.  Mbking b new snbpshot is blso btomic. <p>
  *
- * Normal use for maintaining the recoverable store is as follows: The
- * client maintains the relevant data structure in virtual memory.  As
- * updates happen to the structure, the client informs the ReliableLog
- * (all it "log") by calling log.update.  Periodically, the client
- * calls log.snapshot to provide the current value of the data
- * structure.  On restart, the client calls log.recover to obtain the
- * latest snapshot and the following sequences of updates; the client
- * applies the updates to the snapshot to obtain the state that
- * existed before the crash. <p>
+ * Normbl use for mbintbining the recoverbble store is bs follows: The
+ * client mbintbins the relevbnt dbtb structure in virtubl memory.  As
+ * updbtes hbppen to the structure, the client informs the RelibbleLog
+ * (bll it "log") by cblling log.updbte.  Periodicblly, the client
+ * cblls log.snbpshot to provide the current vblue of the dbtb
+ * structure.  On restbrt, the client cblls log.recover to obtbin the
+ * lbtest snbpshot bnd the following sequences of updbtes; the client
+ * bpplies the updbtes to the snbpshot to obtbin the stbte thbt
+ * existed before the crbsh. <p>
  *
- * The current logfile format is: <ol>
- * <li> a format version number (two 4-octet integers, major and
+ * The current logfile formbt is: <ol>
+ * <li> b formbt version number (two 4-octet integers, mbjor bnd
  * minor), followed by
- * <li> a sequence of log records.  Each log record contains, in
+ * <li> b sequence of log records.  Ebch log record contbins, in
  * order, <ol>
- * <li> a 4-octet integer representing the length of the following log
- * data,
- * <li> the log data (variable length). </ol> </ol> <p>
+ * <li> b 4-octet integer representing the length of the following log
+ * dbtb,
+ * <li> the log dbtb (vbribble length). </ol> </ol> <p>
  *
- * @see LogHandler
+ * @see LogHbndler
  *
- * @author Ann Wollrath
+ * @buthor Ann Wollrbth
  *
  */
-public class ReliableLog {
+public clbss RelibbleLog {
 
-    public final static int PreferredMajorVersion = 0;
-    public final static int PreferredMinorVersion = 2;
+    public finbl stbtic int PreferredMbjorVersion = 0;
+    public finbl stbtic int PreferredMinorVersion = 2;
 
-    // sun.rmi.log.debug=false
-    private boolean Debug = false;
+    // sun.rmi.log.debug=fblse
+    privbte boolebn Debug = fblse;
 
-    private static String snapshotPrefix = "Snapshot.";
-    private static String logfilePrefix = "Logfile.";
-    private static String versionFile = "Version_Number";
-    private static String newVersionFile = "New_Version_Number";
-    private static int    intBytes = 4;
-    private static long   diskPageSize = 512;
+    privbte stbtic String snbpshotPrefix = "Snbpshot.";
+    privbte stbtic String logfilePrefix = "Logfile.";
+    privbte stbtic String versionFile = "Version_Number";
+    privbte stbtic String newVersionFile = "New_Version_Number";
+    privbte stbtic int    intBytes = 4;
+    privbte stbtic long   diskPbgeSize = 512;
 
-    private File dir;                   // base directory
-    private int version = 0;            // current snapshot and log version
-    private String logName = null;
-    private LogFile log = null;
-    private long snapshotBytes = 0;
-    private long logBytes = 0;
-    private int logEntries = 0;
-    private long lastSnapshot = 0;
-    private long lastLog = 0;
-    //private long padBoundary = intBytes;
-    private LogHandler handler;
-    private final byte[] intBuf = new byte[4];
+    privbte File dir;                   // bbse directory
+    privbte int version = 0;            // current snbpshot bnd log version
+    privbte String logNbme = null;
+    privbte LogFile log = null;
+    privbte long snbpshotBytes = 0;
+    privbte long logBytes = 0;
+    privbte int logEntries = 0;
+    privbte long lbstSnbpshot = 0;
+    privbte long lbstLog = 0;
+    //privbte long pbdBoundbry = intBytes;
+    privbte LogHbndler hbndler;
+    privbte finbl byte[] intBuf = new byte[4];
 
-    // format version numbers read from/written to this.log
-    private int majorFormatVersion = 0;
-    private int minorFormatVersion = 0;
+    // formbt version numbers rebd from/written to this.log
+    privbte int mbjorFormbtVersion = 0;
+    privbte int minorFormbtVersion = 0;
 
 
     /**
      * Constructor for the log file.  If the system property
-     * sun.rmi.log.class is non-null and the class specified by this
-     * property a) can be loaded, b) is a subclass of LogFile, and c) has a
-     * public two-arg constructor (String, String), ReliableLog uses the
+     * sun.rmi.log.clbss is non-null bnd the clbss specified by this
+     * property b) cbn be lobded, b) is b subclbss of LogFile, bnd c) hbs b
+     * public two-brg constructor (String, String), RelibbleLog uses the
      * constructor to construct the LogFile.
      **/
-    private static final Constructor<? extends LogFile>
-        logClassConstructor = getLogClassConstructor();
+    privbte stbtic finbl Constructor<? extends LogFile>
+        logClbssConstructor = getLogClbssConstructor();
 
     /**
-     * Creates a ReliableLog to handle checkpoints and logging in a
-     * stable storage directory.
+     * Crebtes b RelibbleLog to hbndle checkpoints bnd logging in b
+     * stbble storbge directory.
      *
-     * @param dirPath path to the stable storage directory
-     * @param logCl the closure object containing callbacks for logging and
+     * @pbrbm dirPbth pbth to the stbble storbge directory
+     * @pbrbm logCl the closure object contbining cbllbbcks for logging bnd
      * recovery
-     * @param pad ignored
-     * @exception IOException If a directory creation error has
-     * occurred or if initialSnapshot callback raises an exception or
-     * if an exception occurs during invocation of the handler's
-     * snapshot method or if other IOException occurs.
+     * @pbrbm pbd ignored
+     * @exception IOException If b directory crebtion error hbs
+     * occurred or if initiblSnbpshot cbllbbck rbises bn exception or
+     * if bn exception occurs during invocbtion of the hbndler's
+     * snbpshot method or if other IOException occurs.
      */
-    public ReliableLog(String dirPath,
-                     LogHandler handler,
-                     boolean pad)
+    public RelibbleLog(String dirPbth,
+                     LogHbndler hbndler,
+                     boolebn pbd)
         throws IOException
     {
         super();
         this.Debug = AccessController.doPrivileged(
-            (PrivilegedAction<Boolean>) () -> Boolean.getBoolean("sun.rmi.log.debug"));
-        dir = new File(dirPath);
+            (PrivilegedAction<Boolebn>) () -> Boolebn.getBoolebn("sun.rmi.log.debug"));
+        dir = new File(dirPbth);
         if (!(dir.exists() && dir.isDirectory())) {
-            // create directory
+            // crebte directory
             if (!dir.mkdir()) {
-                throw new IOException("could not create directory for log: " +
-                                      dirPath);
+                throw new IOException("could not crebte directory for log: " +
+                                      dirPbth);
             }
         }
-        //padBoundary = (pad ? diskPageSize : intBytes);
-        this.handler = handler;
-        lastSnapshot = 0;
-        lastLog = 0;
+        //pbdBoundbry = (pbd ? diskPbgeSize : intBytes);
+        this.hbndler = hbndler;
+        lbstSnbpshot = 0;
+        lbstLog = 0;
         getVersion();
         if (version == 0) {
             try {
-                snapshot(handler.initialSnapshot());
-            } catch (IOException e) {
+                snbpshot(hbndler.initiblSnbpshot());
+            } cbtch (IOException e) {
                 throw e;
-            } catch (Exception e) {
-                throw new IOException("initial snapshot failed with " +
+            } cbtch (Exception e) {
+                throw new IOException("initibl snbpshot fbiled with " +
                                       "exception: " + e);
             }
         }
     }
 
     /**
-     * Creates a ReliableLog to handle checkpoints and logging in a
-     * stable storage directory.
+     * Crebtes b RelibbleLog to hbndle checkpoints bnd logging in b
+     * stbble storbge directory.
      *
-     * @param dirPath path to the stable storage directory
-     * @param logCl the closure object containing callbacks for logging and
+     * @pbrbm dirPbth pbth to the stbble storbge directory
+     * @pbrbm logCl the closure object contbining cbllbbcks for logging bnd
      * recovery
-     * @exception IOException If a directory creation error has
-     * occurred or if initialSnapshot callback raises an exception
+     * @exception IOException If b directory crebtion error hbs
+     * occurred or if initiblSnbpshot cbllbbck rbises bn exception
      */
-    public ReliableLog(String dirPath,
-                     LogHandler handler)
+    public RelibbleLog(String dirPbth,
+                     LogHbndler hbndler)
         throws IOException
     {
-        this(dirPath, handler, false);
+        this(dirPbth, hbndler, fblse);
     }
 
     /* public methods */
 
     /**
-     * Returns an object which is the value recorded in the current
-     * snapshot.  This snapshot is recovered by calling the client
-     * supplied callback "recover" and then subsequently invoking
-     * the "readUpdate" callback to apply any logged updates to the state.
+     * Returns bn object which is the vblue recorded in the current
+     * snbpshot.  This snbpshot is recovered by cblling the client
+     * supplied cbllbbck "recover" bnd then subsequently invoking
+     * the "rebdUpdbte" cbllbbck to bpply bny logged updbtes to the stbte.
      *
-     * @exception IOException If recovery fails due to serious log
-     * corruption, read update failure, or if an exception occurs
-     * during the recover callback
+     * @exception IOException If recovery fbils due to serious log
+     * corruption, rebd updbte fbilure, or if bn exception occurs
+     * during the recover cbllbbck
      */
     public synchronized Object recover()
         throws IOException
@@ -203,215 +203,215 @@ public class ReliableLog {
         if (version == 0)
             return null;
 
-        Object snapshot;
-        String fname = versionName(snapshotPrefix);
-        File snapshotFile = new File(fname);
-        InputStream in =
-                new BufferedInputStream(new FileInputStream(snapshotFile));
+        Object snbpshot;
+        String fnbme = versionNbme(snbpshotPrefix);
+        File snbpshotFile = new File(fnbme);
+        InputStrebm in =
+                new BufferedInputStrebm(new FileInputStrebm(snbpshotFile));
 
         if (Debug)
-            System.err.println("log.debug: recovering from " + fname);
+            System.err.println("log.debug: recovering from " + fnbme);
 
         try {
             try {
-                snapshot = handler.recover(in);
+                snbpshot = hbndler.recover(in);
 
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 throw e;
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 if (Debug)
-                    System.err.println("log.debug: recovery failed: " + e);
-                throw new IOException("log recover failed with " +
+                    System.err.println("log.debug: recovery fbiled: " + e);
+                throw new IOException("log recover fbiled with " +
                                       "exception: " + e);
             }
-            snapshotBytes = snapshotFile.length();
-        } finally {
+            snbpshotBytes = snbpshotFile.length();
+        } finblly {
             in.close();
         }
 
-        return recoverUpdates(snapshot);
+        return recoverUpdbtes(snbpshot);
     }
 
     /**
-     * Records this update in the log file (does not force update to disk).
-     * The update is recorded by calling the client's "writeUpdate" callback.
-     * This method must not be called until this log's recover method has
-     * been invoked (and completed).
+     * Records this updbte in the log file (does not force updbte to disk).
+     * The updbte is recorded by cblling the client's "writeUpdbte" cbllbbck.
+     * This method must not be cblled until this log's recover method hbs
+     * been invoked (bnd completed).
      *
-     * @param value the object representing the update
-     * @exception IOException If an exception occurred during a
-     * writeUpdate callback or if other I/O error has occurred.
+     * @pbrbm vblue the object representing the updbte
+     * @exception IOException If bn exception occurred during b
+     * writeUpdbte cbllbbck or if other I/O error hbs occurred.
      */
-    public synchronized void update(Object value) throws IOException {
-        update(value, true);
+    public synchronized void updbte(Object vblue) throws IOException {
+        updbte(vblue, true);
     }
 
     /**
-     * Records this update in the log file.  The update is recorded by
-     * calling the client's writeUpdate callback.  This method must not be
-     * called until this log's recover method has been invoked
-     * (and completed).
+     * Records this updbte in the log file.  The updbte is recorded by
+     * cblling the client's writeUpdbte cbllbbck.  This method must not be
+     * cblled until this log's recover method hbs been invoked
+     * (bnd completed).
      *
-     * @param value the object representing the update
-     * @param forceToDisk ignored; changes are always forced to disk
-     * @exception IOException If force-write to log failed or an
-     * exception occurred during the writeUpdate callback or if other
-     * I/O error occurs while updating the log.
+     * @pbrbm vblue the object representing the updbte
+     * @pbrbm forceToDisk ignored; chbnges bre blwbys forced to disk
+     * @exception IOException If force-write to log fbiled or bn
+     * exception occurred during the writeUpdbte cbllbbck or if other
+     * I/O error occurs while updbting the log.
      */
-    public synchronized void update(Object value, boolean forceToDisk)
+    public synchronized void updbte(Object vblue, boolebn forceToDisk)
         throws IOException
     {
-        // avoid accessing a null log field.
+        // bvoid bccessing b null log field.
         if (log == null) {
-            throw new IOException("log is inaccessible, " +
-                "it may have been corrupted or closed");
+            throw new IOException("log is inbccessible, " +
+                "it mby hbve been corrupted or closed");
         }
 
         /*
-         * If the entry length field spans a sector boundary, write
+         * If the entry length field spbns b sector boundbry, write
          * the high order bit of the entry length, otherwise write zero for
          * the entry length.
          */
-        long entryStart = log.getFilePointer();
-        boolean spansBoundary = log.checkSpansBoundary(entryStart);
-        writeInt(log, spansBoundary? 1<<31 : 0);
+        long entryStbrt = log.getFilePointer();
+        boolebn spbnsBoundbry = log.checkSpbnsBoundbry(entryStbrt);
+        writeInt(log, spbnsBoundbry? 1<<31 : 0);
 
         /*
-         * Write update, and sync.
+         * Write updbte, bnd sync.
          */
         try {
-            handler.writeUpdate(new LogOutputStream(log), value);
-        } catch (IOException e) {
+            hbndler.writeUpdbte(new LogOutputStrebm(log), vblue);
+        } cbtch (IOException e) {
             throw e;
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw (IOException)
-                new IOException("write update failed").initCause(e);
+                new IOException("write updbte fbiled").initCbuse(e);
         }
         log.sync();
 
         long entryEnd = log.getFilePointer();
-        int updateLen = (int) ((entryEnd - entryStart) - intBytes);
-        log.seek(entryStart);
+        int updbteLen = (int) ((entryEnd - entryStbrt) - intBytes);
+        log.seek(entryStbrt);
 
-        if (spansBoundary) {
+        if (spbnsBoundbry) {
             /*
-             * If length field spans a sector boundary, then
-             * the next two steps are required (see 4652922):
+             * If length field spbns b sector boundbry, then
+             * the next two steps bre required (see 4652922):
              *
-             * 1) Write actual length with high order bit set; sync.
-             * 2) Then clear high order bit of length; sync.
+             * 1) Write bctubl length with high order bit set; sync.
+             * 2) Then clebr high order bit of length; sync.
              */
-            writeInt(log, updateLen | 1<<31);
+            writeInt(log, updbteLen | 1<<31);
             log.sync();
 
-            log.seek(entryStart);
-            log.writeByte(updateLen >> 24);
+            log.seek(entryStbrt);
+            log.writeByte(updbteLen >> 24);
             log.sync();
 
         } else {
             /*
-             * Write actual length; sync.
+             * Write bctubl length; sync.
              */
-            writeInt(log, updateLen);
+            writeInt(log, updbteLen);
             log.sync();
         }
 
         log.seek(entryEnd);
         logBytes = entryEnd;
-        lastLog = System.currentTimeMillis();
+        lbstLog = System.currentTimeMillis();
         logEntries++;
     }
 
     /**
      * Returns the constructor for the log file if the system property
-     * sun.rmi.log.class is non-null and the class specified by the
-     * property a) can be loaded, b) is a subclass of LogFile, and c) has a
-     * public two-arg constructor (String, String); otherwise returns null.
+     * sun.rmi.log.clbss is non-null bnd the clbss specified by the
+     * property b) cbn be lobded, b) is b subclbss of LogFile, bnd c) hbs b
+     * public two-brg constructor (String, String); otherwise returns null.
      **/
-    private static Constructor<? extends LogFile>
-        getLogClassConstructor() {
+    privbte stbtic Constructor<? extends LogFile>
+        getLogClbssConstructor() {
 
-        String logClassName = AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.log.class"));
-        if (logClassName != null) {
+        String logClbssNbme = AccessController.doPrivileged(
+            (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.log.clbss"));
+        if (logClbssNbme != null) {
             try {
-                ClassLoader loader =
+                ClbssLobder lobder =
                     AccessController.doPrivileged(
-                        new PrivilegedAction<ClassLoader>() {
-                            public ClassLoader run() {
-                               return ClassLoader.getSystemClassLoader();
+                        new PrivilegedAction<ClbssLobder>() {
+                            public ClbssLobder run() {
+                               return ClbssLobder.getSystemClbssLobder();
                             }
                         });
-                Class<? extends LogFile> cl =
-                    loader.loadClass(logClassName).asSubclass(LogFile.class);
-                return cl.getConstructor(String.class, String.class);
-            } catch (Exception e) {
+                Clbss<? extends LogFile> cl =
+                    lobder.lobdClbss(logClbssNbme).bsSubclbss(LogFile.clbss);
+                return cl.getConstructor(String.clbss, String.clbss);
+            } cbtch (Exception e) {
                 System.err.println("Exception occurred:");
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
         }
         return null;
     }
 
     /**
-     * Records this value as the current snapshot by invoking the client
-     * supplied "snapshot" callback and then empties the log.
+     * Records this vblue bs the current snbpshot by invoking the client
+     * supplied "snbpshot" cbllbbck bnd then empties the log.
      *
-     * @param value the object representing the new snapshot
-     * @exception IOException If an exception occurred during the
-     * snapshot callback or if other I/O error has occurred during the
-     * snapshot process
+     * @pbrbm vblue the object representing the new snbpshot
+     * @exception IOException If bn exception occurred during the
+     * snbpshot cbllbbck or if other I/O error hbs occurred during the
+     * snbpshot process
      */
-    public synchronized void snapshot(Object value)
+    public synchronized void snbpshot(Object vblue)
         throws IOException
     {
         int oldVersion = version;
         incrVersion();
 
-        String fname = versionName(snapshotPrefix);
-        File snapshotFile = new File(fname);
-        FileOutputStream out = new FileOutputStream(snapshotFile);
+        String fnbme = versionNbme(snbpshotPrefix);
+        File snbpshotFile = new File(fnbme);
+        FileOutputStrebm out = new FileOutputStrebm(snbpshotFile);
         try {
             try {
-                handler.snapshot(out, value);
-            } catch (IOException e) {
+                hbndler.snbpshot(out, vblue);
+            } cbtch (IOException e) {
                 throw e;
-            } catch (Exception e) {
-                throw new IOException("snapshot failed", e);
+            } cbtch (Exception e) {
+                throw new IOException("snbpshot fbiled", e);
             }
-            lastSnapshot = System.currentTimeMillis();
-        } finally {
+            lbstSnbpshot = System.currentTimeMillis();
+        } finblly {
             out.close();
-            snapshotBytes = snapshotFile.length();
+            snbpshotBytes = snbpshotFile.length();
         }
 
         openLogFile(true);
         writeVersionFile(true);
         commitToNewVersion();
-        deleteSnapshot(oldVersion);
+        deleteSnbpshot(oldVersion);
         deleteLogFile(oldVersion);
     }
 
     /**
-     * Close the stable storage directory in an orderly manner.
+     * Close the stbble storbge directory in bn orderly mbnner.
      *
-     * @exception IOException If an I/O error occurs when the log is
+     * @exception IOException If bn I/O error occurs when the log is
      * closed
      */
     public synchronized void close() throws IOException {
         if (log == null) return;
         try {
             log.close();
-        } finally {
+        } finblly {
             log = null;
         }
     }
 
     /**
-     * Returns the size of the snapshot file in bytes;
+     * Returns the size of the snbpshot file in bytes;
      */
-    public long snapshotSize() {
-        return snapshotBytes;
+    public long snbpshotSize() {
+        return snbpshotBytes;
     }
 
     /**
@@ -421,158 +421,158 @@ public class ReliableLog {
         return logBytes;
     }
 
-    /* private methods */
+    /* privbte methods */
 
     /**
-     * Write an int value in single write operation.  This method
-     * assumes that the caller is synchronized on the log file.
+     * Write bn int vblue in single write operbtion.  This method
+     * bssumes thbt the cbller is synchronized on the log file.
      *
-     * @param out output stream
-     * @param val int value
-     * @throws IOException if any other I/O error occurs
+     * @pbrbm out output strebm
+     * @pbrbm vbl int vblue
+     * @throws IOException if bny other I/O error occurs
      */
-    private void writeInt(DataOutput out, int val)
+    privbte void writeInt(DbtbOutput out, int vbl)
         throws IOException
     {
-        intBuf[0] = (byte) (val >> 24);
-        intBuf[1] = (byte) (val >> 16);
-        intBuf[2] = (byte) (val >> 8);
-        intBuf[3] = (byte) val;
+        intBuf[0] = (byte) (vbl >> 24);
+        intBuf[1] = (byte) (vbl >> 16);
+        intBuf[2] = (byte) (vbl >> 8);
+        intBuf[3] = (byte) vbl;
         out.write(intBuf);
     }
 
     /**
-     * Generates a filename prepended with the stable storage directory path.
+     * Generbtes b filenbme prepended with the stbble storbge directory pbth.
      *
-     * @param name the leaf name of the file
+     * @pbrbm nbme the lebf nbme of the file
      */
-    private String fName(String name) {
-        return dir.getPath() + File.separator + name;
+    privbte String fNbme(String nbme) {
+        return dir.getPbth() + File.sepbrbtor + nbme;
     }
 
     /**
-     * Generates a version 0 filename prepended with the stable storage
-     * directory path
+     * Generbtes b version 0 filenbme prepended with the stbble storbge
+     * directory pbth
      *
-     * @param name version file name
+     * @pbrbm nbme version file nbme
      */
-    private String versionName(String name) {
-        return versionName(name, 0);
+    privbte String versionNbme(String nbme) {
+        return versionNbme(nbme, 0);
     }
 
     /**
-     * Generates a version filename prepended with the stable storage
-     * directory path with the version number as a suffix.
+     * Generbtes b version filenbme prepended with the stbble storbge
+     * directory pbth with the version number bs b suffix.
      *
-     * @param name version file name
-     * @thisversion a version number
+     * @pbrbm nbme version file nbme
+     * @thisversion b version number
      */
-    private String versionName(String prefix, int ver) {
+    privbte String versionNbme(String prefix, int ver) {
         ver = (ver == 0) ? version : ver;
-        return fName(prefix) + String.valueOf(ver);
+        return fNbme(prefix) + String.vblueOf(ver);
     }
 
     /**
      * Increments the directory version number.
      */
-    private void incrVersion() {
+    privbte void incrVersion() {
         do { version++; } while (version==0);
     }
 
     /**
-     * Delete a file.
+     * Delete b file.
      *
-     * @param name the name of the file
+     * @pbrbm nbme the nbme of the file
      * @exception IOException If new version file couldn't be removed
      */
-    private void deleteFile(String name) throws IOException {
+    privbte void deleteFile(String nbme) throws IOException {
 
-        File f = new File(name);
+        File f = new File(nbme);
         if (!f.delete())
-            throw new IOException("couldn't remove file: " + name);
+            throw new IOException("couldn't remove file: " + nbme);
     }
 
     /**
      * Removes the new version number file.
      *
-     * @exception IOException If an I/O error has occurred.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private void deleteNewVersionFile() throws IOException {
-        deleteFile(fName(newVersionFile));
+    privbte void deleteNewVersionFile() throws IOException {
+        deleteFile(fNbme(newVersionFile));
     }
 
     /**
-     * Removes the snapshot file.
+     * Removes the snbpshot file.
      *
-     * @param ver the version to remove
-     * @exception IOException If an I/O error has occurred.
+     * @pbrbm ver the version to remove
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private void deleteSnapshot(int ver) throws IOException {
+    privbte void deleteSnbpshot(int ver) throws IOException {
         if (ver == 0) return;
-        deleteFile(versionName(snapshotPrefix, ver));
+        deleteFile(versionNbme(snbpshotPrefix, ver));
     }
 
     /**
      * Removes the log file.
      *
-     * @param ver the version to remove
-     * @exception IOException If an I/O error has occurred.
+     * @pbrbm ver the version to remove
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private void deleteLogFile(int ver) throws IOException {
+    privbte void deleteLogFile(int ver) throws IOException {
         if (ver == 0) return;
-        deleteFile(versionName(logfilePrefix, ver));
+        deleteFile(versionNbme(logfilePrefix, ver));
     }
 
     /**
-     * Opens the log file in read/write mode.  If file does not exist, it is
-     * created.
+     * Opens the log file in rebd/write mode.  If file does not exist, it is
+     * crebted.
      *
-     * @param truncate if true and file exists, file is truncated to zero
+     * @pbrbm truncbte if true bnd file exists, file is truncbted to zero
      * length
-     * @exception IOException If an I/O error has occurred.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private void openLogFile(boolean truncate) throws IOException {
+    privbte void openLogFile(boolebn truncbte) throws IOException {
         try {
             close();
-        } catch (IOException e) { /* assume this is okay */
+        } cbtch (IOException e) { /* bssume this is okby */
         }
 
-        logName = versionName(logfilePrefix);
+        logNbme = versionNbme(logfilePrefix);
 
         try {
-            log = (logClassConstructor == null ?
-                   new LogFile(logName, "rw") :
-                   logClassConstructor.newInstance(logName, "rw"));
-        } catch (Exception e) {
+            log = (logClbssConstructor == null ?
+                   new LogFile(logNbme, "rw") :
+                   logClbssConstructor.newInstbnce(logNbme, "rw"));
+        } cbtch (Exception e) {
             throw (IOException) new IOException(
-                "unable to construct LogFile instance").initCause(e);
+                "unbble to construct LogFile instbnce").initCbuse(e);
         }
 
-        if (truncate) {
-            initializeLogFile();
+        if (truncbte) {
+            initiblizeLogFile();
         }
     }
 
     /**
-     * Creates a new log file, truncated and initialized with the format
-     * version number preferred by this implementation.
+     * Crebtes b new log file, truncbted bnd initiblized with the formbt
+     * version number preferred by this implementbtion.
      * <p>Environment: inited, synchronized
-     * <p>Precondition: valid: log, log contains nothing useful
-     * <p>Postcondition: if successful, log is initialised with the format
-     * version number (Preferred{Major,Minor}Version), and logBytes is
-     * set to the resulting size of the updatelog, and logEntries is set to
-     * zero.  Otherwise, log is in an indeterminate state, and logBytes
-     * is unchanged, and logEntries is unchanged.
+     * <p>Precondition: vblid: log, log contbins nothing useful
+     * <p>Postcondition: if successful, log is initiblised with the formbt
+     * version number (Preferred{Mbjor,Minor}Version), bnd logBytes is
+     * set to the resulting size of the updbtelog, bnd logEntries is set to
+     * zero.  Otherwise, log is in bn indeterminbte stbte, bnd logBytes
+     * is unchbnged, bnd logEntries is unchbnged.
      *
-     * @exception IOException If an I/O error has occurred.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private void initializeLogFile()
+    privbte void initiblizeLogFile()
         throws IOException
     {
         log.setLength(0);
-        majorFormatVersion = PreferredMajorVersion;
-        writeInt(log, PreferredMajorVersion);
-        minorFormatVersion = PreferredMinorVersion;
+        mbjorFormbtVersion = PreferredMbjorVersion;
+        writeInt(log, PreferredMbjorVersion);
+        minorFormbtVersion = PreferredMinorVersion;
         writeInt(log, PreferredMinorVersion);
         logBytes = intBytes * 2;
         logEntries = 0;
@@ -582,224 +582,224 @@ public class ReliableLog {
     /**
      * Writes out version number to file.
      *
-     * @param newVersion if true, writes to a new version file
-     * @exception IOException If an I/O error has occurred.
+     * @pbrbm newVersion if true, writes to b new version file
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private void writeVersionFile(boolean newVersion) throws IOException {
-        String name;
+    privbte void writeVersionFile(boolebn newVersion) throws IOException {
+        String nbme;
         if (newVersion) {
-            name = newVersionFile;
+            nbme = newVersionFile;
         } else {
-            name = versionFile;
+            nbme = versionFile;
         }
-        try (FileOutputStream fos = new FileOutputStream(fName(name));
-             DataOutputStream out = new DataOutputStream(fos)) {
+        try (FileOutputStrebm fos = new FileOutputStrebm(fNbme(nbme));
+             DbtbOutputStrebm out = new DbtbOutputStrebm(fos)) {
             writeInt(out, version);
         }
     }
 
     /**
-     * Creates the initial version file
+     * Crebtes the initibl version file
      *
-     * @exception IOException If an I/O error has occurred.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private void createFirstVersion() throws IOException {
+    privbte void crebteFirstVersion() throws IOException {
         version = 0;
-        writeVersionFile(false);
+        writeVersionFile(fblse);
     }
 
     /**
-     * Commits (atomically) the new version.
+     * Commits (btomicblly) the new version.
      *
-     * @exception IOException If an I/O error has occurred.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private void commitToNewVersion() throws IOException {
-        writeVersionFile(false);
+    privbte void commitToNewVersion() throws IOException {
+        writeVersionFile(fblse);
         deleteNewVersionFile();
     }
 
     /**
-     * Reads version number from a file.
+     * Rebds version number from b file.
      *
-     * @param name the name of the version file
+     * @pbrbm nbme the nbme of the version file
      * @return the version
-     * @exception IOException If an I/O error has occurred.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private int readVersion(String name) throws IOException {
-        try (DataInputStream in = new DataInputStream
-                (new FileInputStream(name))) {
-            return in.readInt();
+    privbte int rebdVersion(String nbme) throws IOException {
+        try (DbtbInputStrebm in = new DbtbInputStrebm
+                (new FileInputStrebm(nbme))) {
+            return in.rebdInt();
         }
     }
 
     /**
-     * Sets the version.  If version file does not exist, the initial
-     * version file is created.
+     * Sets the version.  If version file does not exist, the initibl
+     * version file is crebted.
      *
-     * @exception IOException If an I/O error has occurred.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private void getVersion() throws IOException {
+    privbte void getVersion() throws IOException {
         try {
-            version = readVersion(fName(newVersionFile));
+            version = rebdVersion(fNbme(newVersionFile));
             commitToNewVersion();
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             try {
                 deleteNewVersionFile();
             }
-            catch (IOException ex) {
+            cbtch (IOException ex) {
             }
 
             try {
-                version = readVersion(fName(versionFile));
+                version = rebdVersion(fNbme(versionFile));
             }
-            catch (IOException ex) {
-                createFirstVersion();
+            cbtch (IOException ex) {
+                crebteFirstVersion();
             }
         }
     }
 
     /**
-     * Applies outstanding updates to the snapshot.
+     * Applies outstbnding updbtes to the snbpshot.
      *
-     * @param state the most recent snapshot
+     * @pbrbm stbte the most recent snbpshot
      * @exception IOException If serious log corruption is detected or
-     * if an exception occurred during a readUpdate callback or if
-     * other I/O error has occurred.
-     * @return the resulting state of the object after all updates
+     * if bn exception occurred during b rebdUpdbte cbllbbck or if
+     * other I/O error hbs occurred.
+     * @return the resulting stbte of the object bfter bll updbtes
      */
-    private Object recoverUpdates(Object state)
+    privbte Object recoverUpdbtes(Object stbte)
         throws IOException
     {
         logBytes = 0;
         logEntries = 0;
 
-        if (version == 0) return state;
+        if (version == 0) return stbte;
 
-        String fname = versionName(logfilePrefix);
-        InputStream in =
-                new BufferedInputStream(new FileInputStream(fname));
-        DataInputStream dataIn = new DataInputStream(in);
+        String fnbme = versionNbme(logfilePrefix);
+        InputStrebm in =
+                new BufferedInputStrebm(new FileInputStrebm(fnbme));
+        DbtbInputStrebm dbtbIn = new DbtbInputStrebm(in);
 
         if (Debug)
-            System.err.println("log.debug: reading updates from " + fname);
+            System.err.println("log.debug: rebding updbtes from " + fnbme);
 
         try {
-            majorFormatVersion = dataIn.readInt(); logBytes += intBytes;
-            minorFormatVersion = dataIn.readInt(); logBytes += intBytes;
-        } catch (EOFException e) {
-            /* This is a log which was corrupted and/or cleared (by
-             * fsck or equivalent).  This is not an error.
+            mbjorFormbtVersion = dbtbIn.rebdInt(); logBytes += intBytes;
+            minorFormbtVersion = dbtbIn.rebdInt(); logBytes += intBytes;
+        } cbtch (EOFException e) {
+            /* This is b log which wbs corrupted bnd/or clebred (by
+             * fsck or equivblent).  This is not bn error.
              */
-            openLogFile(true);  // create and truncate
+            openLogFile(true);  // crebte bnd truncbte
             in = null;
         }
-        /* A new major version number is a catastrophe (it means
-         * that the file format is incompatible with older
-         * clients, and we'll only be breaking things by trying to
-         * use the log).  A new minor version is no big deal for
-         * upward compatibility.
+        /* A new mbjor version number is b cbtbstrophe (it mebns
+         * thbt the file formbt is incompbtible with older
+         * clients, bnd we'll only be brebking things by trying to
+         * use the log).  A new minor version is no big debl for
+         * upwbrd compbtibility.
          */
-        if (majorFormatVersion != PreferredMajorVersion) {
+        if (mbjorFormbtVersion != PreferredMbjorVersion) {
             if (Debug) {
-                System.err.println("log.debug: major version mismatch: " +
-                        majorFormatVersion + "." + minorFormatVersion);
+                System.err.println("log.debug: mbjor version mismbtch: " +
+                        mbjorFormbtVersion + "." + minorFormbtVersion);
             }
-            throw new IOException("Log file " + logName + " has a " +
-                                  "version " + majorFormatVersion +
-                                  "." + minorFormatVersion +
-                                  " format, and this implementation " +
-                                  " understands only version " +
-                                  PreferredMajorVersion + "." +
+            throw new IOException("Log file " + logNbme + " hbs b " +
+                                  "version " + mbjorFormbtVersion +
+                                  "." + minorFormbtVersion +
+                                  " formbt, bnd this implementbtion " +
+                                  " understbnds only version " +
+                                  PreferredMbjorVersion + "." +
                                   PreferredMinorVersion);
         }
 
         try {
             while (in != null) {
-                int updateLen = 0;
+                int updbteLen = 0;
 
                 try {
-                    updateLen = dataIn.readInt();
-                } catch (EOFException e) {
+                    updbteLen = dbtbIn.rebdInt();
+                } cbtch (EOFException e) {
                     if (Debug)
-                        System.err.println("log.debug: log was sync'd cleanly");
-                    break;
+                        System.err.println("log.debug: log wbs sync'd clebnly");
+                    brebk;
                 }
-                if (updateLen <= 0) {/* crashed while writing last log entry */
+                if (updbteLen <= 0) {/* crbshed while writing lbst log entry */
                     if (Debug) {
                         System.err.println(
-                            "log.debug: last update incomplete, " +
-                            "updateLen = 0x" +
-                            Integer.toHexString(updateLen));
+                            "log.debug: lbst updbte incomplete, " +
+                            "updbteLen = 0x" +
+                            Integer.toHexString(updbteLen));
                     }
-                    break;
+                    brebk;
                 }
 
-                // this is a fragile use of available() which relies on the
-                // twin facts that BufferedInputStream correctly consults
-                // the underlying stream, and that FileInputStream returns
-                // the number of bytes remaining in the file (via FIONREAD).
-                if (in.available() < updateLen) {
-                    /* corrupted record at end of log (can happen since we
+                // this is b frbgile use of bvbilbble() which relies on the
+                // twin fbcts thbt BufferedInputStrebm correctly consults
+                // the underlying strebm, bnd thbt FileInputStrebm returns
+                // the number of bytes rembining in the file (vib FIONREAD).
+                if (in.bvbilbble() < updbteLen) {
+                    /* corrupted record bt end of log (cbn hbppen since we
                      * do only one fsync)
                      */
                     if (Debug)
-                        System.err.println("log.debug: log was truncated");
-                    break;
+                        System.err.println("log.debug: log wbs truncbted");
+                    brebk;
                 }
 
                 if (Debug)
-                    System.err.println("log.debug: rdUpdate size " + updateLen);
+                    System.err.println("log.debug: rdUpdbte size " + updbteLen);
                 try {
-                    state = handler.readUpdate(new LogInputStream(in, updateLen),
-                                          state);
-                } catch (IOException e) {
+                    stbte = hbndler.rebdUpdbte(new LogInputStrebm(in, updbteLen),
+                                          stbte);
+                } cbtch (IOException e) {
                     throw e;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    throw new IOException("read update failed with " +
+                } cbtch (Exception e) {
+                    e.printStbckTrbce();
+                    throw new IOException("rebd updbte fbiled with " +
                                           "exception: " + e);
                 }
-                logBytes += (intBytes + updateLen);
+                logBytes += (intBytes + updbteLen);
                 logEntries++;
             } /* while */
-        } finally {
+        } finblly {
             if (in != null)
                 in.close();
         }
 
         if (Debug)
-            System.err.println("log.debug: recovered updates: " + logEntries);
+            System.err.println("log.debug: recovered updbtes: " + logEntries);
 
-        /* reopen log file at end */
-        openLogFile(false);
+        /* reopen log file bt end */
+        openLogFile(fblse);
 
-        // avoid accessing a null log field
+        // bvoid bccessing b null log field
         if (log == null) {
-            throw new IOException("rmid's log is inaccessible, " +
-                "it may have been corrupted or closed");
+            throw new IOException("rmid's log is inbccessible, " +
+                "it mby hbve been corrupted or closed");
         }
 
         log.seek(logBytes);
         log.setLength(logBytes);
 
-        return state;
+        return stbte;
     }
 
     /**
-     * ReliableLog's log file implementation.  This implementation
-     * is subclassable for testing purposes.
+     * RelibbleLog's log file implementbtion.  This implementbtion
+     * is subclbssbble for testing purposes.
      */
-    public static class LogFile extends RandomAccessFile {
+    public stbtic clbss LogFile extends RbndomAccessFile {
 
-        private final FileDescriptor fd;
+        privbte finbl FileDescriptor fd;
 
         /**
-         * Constructs a LogFile and initializes the file descriptor.
+         * Constructs b LogFile bnd initiblizes the file descriptor.
          **/
-        public LogFile(String name, String mode)
+        public LogFile(String nbme, String mode)
             throws FileNotFoundException, IOException
         {
-            super(name, mode);
+            super(nbme, mode);
             this.fd = getFD();
         }
 
@@ -811,11 +811,11 @@ public class ReliableLog {
         }
 
         /**
-         * Returns true if writing 4 bytes starting at the specified file
-         * position, would span a 512 byte sector boundary; otherwise returns
-         * false.
+         * Returns true if writing 4 bytes stbrting bt the specified file
+         * position, would spbn b 512 byte sector boundbry; otherwise returns
+         * fblse.
          **/
-        protected boolean checkSpansBoundary(long fp) {
+        protected boolebn checkSpbnsBoundbry(long fp) {
             return  fp % 512 > 508;
         }
     }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,79 +30,79 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.applet.Applet;
-import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.CardLayout;
-import java.awt.Choice;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
-import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import jbvb.bpplet.Applet;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Button;
+import jbvb.bwt.CbrdLbyout;
+import jbvb.bwt.Choice;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.GridLbyout;
+import jbvb.bwt.LbyoutMbnbger;
+import jbvb.bwt.Pbnel;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.event.ItemEvent;
+import jbvb.bwt.event.ItemListener;
 
 
-@SuppressWarnings("serial")
-final class CardPanel extends Panel {
+@SuppressWbrnings("seribl")
+finbl clbss CbrdPbnel extends Pbnel {
 
     ActionListener listener;
 
-    Panel create(LayoutManager layout) {
+    Pbnel crebte(LbyoutMbnbger lbyout) {
         Button b = null;
-        Panel p = new Panel();
+        Pbnel p = new Pbnel();
 
-        p.setLayout(layout);
+        p.setLbyout(lbyout);
 
         b = new Button("one");
-        b.addActionListener(listener);
-        p.add("North", b);
+        b.bddActionListener(listener);
+        p.bdd("North", b);
 
         b = new Button("two");
-        b.addActionListener(listener);
-        p.add("West", b);
+        b.bddActionListener(listener);
+        p.bdd("West", b);
 
         b = new Button("three");
-        b.addActionListener(listener);
-        p.add("South", b);
+        b.bddActionListener(listener);
+        p.bdd("South", b);
 
         b = new Button("four");
-        b.addActionListener(listener);
-        p.add("East", b);
+        b.bddActionListener(listener);
+        p.bdd("Ebst", b);
 
         b = new Button("five");
-        b.addActionListener(listener);
-        p.add("Center", b);
+        b.bddActionListener(listener);
+        p.bdd("Center", b);
 
         b = new Button("six");
-        b.addActionListener(listener);
-        p.add("Center", b);
+        b.bddActionListener(listener);
+        p.bdd("Center", b);
 
         return p;
     }
 
-    CardPanel(ActionListener actionListener) {
-        listener = actionListener;
-        setLayout(new CardLayout());
-        add("one", create(new FlowLayout()));
-        add("two", create(new BorderLayout()));
-        add("three", create(new GridLayout(2, 2)));
-        add("four", create(new BorderLayout(10, 10)));
-        add("five", create(new FlowLayout(FlowLayout.LEFT, 10, 10)));
-        add("six", create(new GridLayout(2, 2, 10, 10)));
+    CbrdPbnel(ActionListener bctionListener) {
+        listener = bctionListener;
+        setLbyout(new CbrdLbyout());
+        bdd("one", crebte(new FlowLbyout()));
+        bdd("two", crebte(new BorderLbyout()));
+        bdd("three", crebte(new GridLbyout(2, 2)));
+        bdd("four", crebte(new BorderLbyout(10, 10)));
+        bdd("five", crebte(new FlowLbyout(FlowLbyout.LEFT, 10, 10)));
+        bdd("six", crebte(new GridLbyout(2, 2, 10, 10)));
     }
 
     @Override
@@ -112,84 +112,84 @@ final class CardPanel extends Panel {
 }
 
 
-@SuppressWarnings("serial")
-public class CardTest extends Applet
+@SuppressWbrnings("seribl")
+public clbss CbrdTest extends Applet
         implements ActionListener,
         ItemListener {
 
-    CardPanel cards;
+    CbrdPbnel cbrds;
 
-    @SuppressWarnings("LeakingThisInConstructor")
-    public CardTest() {
-        setLayout(new BorderLayout());
-        add("Center", cards = new CardPanel(this));
-        Panel p = new Panel();
-        p.setLayout(new FlowLayout());
-        add("South", p);
+    @SuppressWbrnings("LebkingThisInConstructor")
+    public CbrdTest() {
+        setLbyout(new BorderLbyout());
+        bdd("Center", cbrds = new CbrdPbnel(this));
+        Pbnel p = new Pbnel();
+        p.setLbyout(new FlowLbyout());
+        bdd("South", p);
 
         Button b = new Button("first");
-        b.addActionListener(this);
-        p.add(b);
+        b.bddActionListener(this);
+        p.bdd(b);
 
         b = new Button("next");
-        b.addActionListener(this);
-        p.add(b);
+        b.bddActionListener(this);
+        p.bdd(b);
 
         b = new Button("previous");
-        b.addActionListener(this);
-        p.add(b);
+        b.bddActionListener(this);
+        p.bdd(b);
 
-        b = new Button("last");
-        b.addActionListener(this);
-        p.add(b);
+        b = new Button("lbst");
+        b.bddActionListener(this);
+        p.bdd(b);
 
         Choice c = new Choice();
-        c.addItem("one");
-        c.addItem("two");
-        c.addItem("three");
-        c.addItem("four");
-        c.addItem("five");
-        c.addItem("six");
-        c.addItemListener(this);
-        p.add(c);
+        c.bddItem("one");
+        c.bddItem("two");
+        c.bddItem("three");
+        c.bddItem("four");
+        c.bddItem("five");
+        c.bddItem("six");
+        c.bddItemListener(this);
+        p.bdd(c);
     }
 
     @Override
-    public void itemStateChanged(ItemEvent e) {
-        ((CardLayout) cards.getLayout()).show(cards,
+    public void itemStbteChbnged(ItemEvent e) {
+        ((CbrdLbyout) cbrds.getLbyout()).show(cbrds,
                 (String) (e.getItem()));
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        String arg = e.getActionCommand();
+    public void bctionPerformed(ActionEvent e) {
+        String brg = e.getActionCommbnd();
 
-        if ("first".equals(arg)) {
-            ((CardLayout) cards.getLayout()).first(cards);
-        } else if ("next".equals(arg)) {
-            ((CardLayout) cards.getLayout()).next(cards);
-        } else if ("previous".equals(arg)) {
-            ((CardLayout) cards.getLayout()).previous(cards);
-        } else if ("last".equals(arg)) {
-            ((CardLayout) cards.getLayout()).last(cards);
+        if ("first".equbls(brg)) {
+            ((CbrdLbyout) cbrds.getLbyout()).first(cbrds);
+        } else if ("next".equbls(brg)) {
+            ((CbrdLbyout) cbrds.getLbyout()).next(cbrds);
+        } else if ("previous".equbls(brg)) {
+            ((CbrdLbyout) cbrds.getLbyout()).previous(cbrds);
+        } else if ("lbst".equbls(brg)) {
+            ((CbrdLbyout) cbrds.getLbyout()).lbst(cbrds);
         } else {
-            ((CardLayout) cards.getLayout()).show(cards, arg);
+            ((CbrdLbyout) cbrds.getLbyout()).show(cbrds, brg);
         }
     }
 
-    public static void main(String args[]) {
-        Frame f = new Frame("CardTest");
-        CardTest cardTest = new CardTest();
-        cardTest.init();
-        cardTest.start();
+    public stbtic void mbin(String brgs[]) {
+        Frbme f = new Frbme("CbrdTest");
+        CbrdTest cbrdTest = new CbrdTest();
+        cbrdTest.init();
+        cbrdTest.stbrt();
 
-        f.add("Center", cardTest);
+        f.bdd("Center", cbrdTest);
         f.setSize(300, 300);
         f.setVisible(true);
     }
 
     @Override
     public String getAppletInfo() {
-        return "Demonstrates the different types of layout managers.";
+        return "Demonstrbtes the different types of lbyout mbnbgers.";
     }
 }

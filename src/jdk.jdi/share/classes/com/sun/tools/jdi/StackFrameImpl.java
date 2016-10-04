@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.Collections;
 
-public class StackFrameImpl extends MirrorImpl
-                            implements StackFrame, ThreadListener
+public clbss StbckFrbmeImpl extends MirrorImpl
+                            implements StbckFrbme, ThrebdListener
 {
-    /* Once false, frame should not be used.
-     * access synchronized on (vm.state())
+    /* Once fblse, frbme should not be used.
+     * bccess synchronized on (vm.stbte())
      */
-    private boolean isValid = true;
+    privbte boolebn isVblid = true;
 
-    private final ThreadReferenceImpl thread;
-    private final long id;
-    private final Location location;
-    private Map<String, LocalVariable> visibleVariables =  null;
-    private ObjectReference thisObject = null;
+    privbte finbl ThrebdReferenceImpl threbd;
+    privbte finbl long id;
+    privbte finbl Locbtion locbtion;
+    privbte Mbp<String, LocblVbribble> visibleVbribbles =  null;
+    privbte ObjectReference thisObject = null;
 
-    StackFrameImpl(VirtualMachine vm, ThreadReferenceImpl thread,
-                   long id, Location location) {
+    StbckFrbmeImpl(VirtublMbchine vm, ThrebdReferenceImpl threbd,
+                   long id, Locbtion locbtion) {
         super(vm);
-        this.thread = thread;
+        this.threbd = threbd;
         this.id = id;
-        this.location = location;
-        thread.addListener(this);
+        this.locbtion = locbtion;
+        threbd.bddListener(this);
     }
 
     /*
-     * ThreadListener implementation
-     * Must be synchronized since we must protect against
-     * sending defunct (isValid == false) stack ids to the back-end.
+     * ThrebdListener implementbtion
+     * Must be synchronized since we must protect bgbinst
+     * sending defunct (isVblid == fblse) stbck ids to the bbck-end.
      */
-    public boolean threadResumable(ThreadAction action) {
-        synchronized (vm.state()) {
-            if (isValid) {
-                isValid = false;
-                return false;   /* remove this stack frame as a listener */
+    public boolebn threbdResumbble(ThrebdAction bction) {
+        synchronized (vm.stbte()) {
+            if (isVblid) {
+                isVblid = fblse;
+                return fblse;   /* remove this stbck frbme bs b listener */
             } else {
-                throw new InternalException(
-                                  "Invalid stack frame thread listener");
+                throw new InternblException(
+                                  "Invblid stbck frbme threbd listener");
             }
         }
     }
 
-    void validateStackFrame() {
-        if (!isValid) {
-            throw new InvalidStackFrameException("Thread has been resumed");
+    void vblidbteStbckFrbme() {
+        if (!isVblid) {
+            throw new InvblidStbckFrbmeException("Threbd hbs been resumed");
         }
     }
 
     /**
-     * Return the frame location.
-     * Need not be synchronized since it cannot be provably stale.
+     * Return the frbme locbtion.
+     * Need not be synchronized since it cbnnot be provbbly stble.
      */
-    public Location location() {
-        validateStackFrame();
-        return location;
+    public Locbtion locbtion() {
+        vblidbteStbckFrbme();
+        return locbtion;
     }
 
     /**
-     * Return the thread holding the frame.
-     * Need not be synchronized since it cannot be provably stale.
+     * Return the threbd holding the frbme.
+     * Need not be synchronized since it cbnnot be provbbly stble.
      */
-    public ThreadReference thread() {
-        validateStackFrame();
-        return thread;
+    public ThrebdReference threbd() {
+        vblidbteStbckFrbme();
+        return threbd;
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof StackFrameImpl)) {
-            StackFrameImpl other = (StackFrameImpl)obj;
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof StbckFrbmeImpl)) {
+            StbckFrbmeImpl other = (StbckFrbmeImpl)obj;
             return (id == other.id) &&
-                   (thread().equals(other.thread())) &&
-                   (location().equals(other.location())) &&
-                    super.equals(obj);
+                   (threbd().equbls(other.threbd())) &&
+                   (locbtion().equbls(other.locbtion())) &&
+                    super.equbls(obj);
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public int hashCode() {
-        return (thread().hashCode() << 4) + ((int)id);
+    public int hbshCode() {
+        return (threbd().hbshCode() << 4) + ((int)id);
     }
 
     public ObjectReference thisObject() {
-        validateStackFrame();
-        MethodImpl currentMethod = (MethodImpl)location.method();
-        if (currentMethod.isStatic() || currentMethod.isNative()) {
+        vblidbteStbckFrbme();
+        MethodImpl currentMethod = (MethodImpl)locbtion.method();
+        if (currentMethod.isStbtic() || currentMethod.isNbtive()) {
             return null;
         } else {
             if (thisObject == null) {
-                PacketStream ps;
+                PbcketStrebm ps;
 
-                /* protect against defunct frame id */
-                synchronized (vm.state()) {
-                    validateStackFrame();
-                    ps = JDWP.StackFrame.ThisObject.
-                                      enqueueCommand(vm, thread, id);
+                /* protect bgbinst defunct frbme id */
+                synchronized (vm.stbte()) {
+                    vblidbteStbckFrbme();
+                    ps = JDWP.StbckFrbme.ThisObject.
+                                      enqueueCommbnd(vm, threbd, id);
                 }
 
-                /* actually get it, now that order is guaranteed */
+                /* bctublly get it, now thbt order is gubrbnteed */
                 try {
-                    thisObject = JDWP.StackFrame.ThisObject.
-                                      waitForReply(vm, ps).objectThis;
-                } catch (JDWPException exc) {
+                    thisObject = JDWP.StbckFrbme.ThisObject.
+                                      wbitForReply(vm, ps).objectThis;
+                } cbtch (JDWPException exc) {
                     switch (exc.errorCode()) {
-                    case JDWP.Error.INVALID_FRAMEID:
-                    case JDWP.Error.THREAD_NOT_SUSPENDED:
-                    case JDWP.Error.INVALID_THREAD:
-                        throw new InvalidStackFrameException();
-                    default:
+                    cbse JDWP.Error.INVALID_FRAMEID:
+                    cbse JDWP.Error.THREAD_NOT_SUSPENDED:
+                    cbse JDWP.Error.INVALID_THREAD:
+                        throw new InvblidStbckFrbmeException();
+                    defbult:
                         throw exc.toJDIException();
                     }
                 }
@@ -151,254 +151,254 @@ public class StackFrameImpl extends MirrorImpl
     }
 
     /**
-     * Build the visible variable map.
-     * Need not be synchronized since it cannot be provably stale.
+     * Build the visible vbribble mbp.
+     * Need not be synchronized since it cbnnot be provbbly stble.
      */
-    private void createVisibleVariables() throws AbsentInformationException {
-        if (visibleVariables == null) {
-            List<LocalVariable> allVariables = location.method().variables();
-            Map<String, LocalVariable> map = new HashMap<String, LocalVariable>(allVariables.size());
+    privbte void crebteVisibleVbribbles() throws AbsentInformbtionException {
+        if (visibleVbribbles == null) {
+            List<LocblVbribble> bllVbribbles = locbtion.method().vbribbles();
+            Mbp<String, LocblVbribble> mbp = new HbshMbp<String, LocblVbribble>(bllVbribbles.size());
 
-            for (LocalVariable variable : allVariables) {
-                String name = variable.name();
-                if (variable.isVisible(this)) {
-                    LocalVariable existing = map.get(name);
+            for (LocblVbribble vbribble : bllVbribbles) {
+                String nbme = vbribble.nbme();
+                if (vbribble.isVisible(this)) {
+                    LocblVbribble existing = mbp.get(nbme);
                     if ((existing == null) ||
-                        ((LocalVariableImpl)variable).hides(existing)) {
-                        map.put(name, variable);
+                        ((LocblVbribbleImpl)vbribble).hides(existing)) {
+                        mbp.put(nbme, vbribble);
                     }
                 }
             }
-            visibleVariables = map;
+            visibleVbribbles = mbp;
         }
     }
 
     /**
-     * Return the list of visible variable in the frame.
-     * Need not be synchronized since it cannot be provably stale.
+     * Return the list of visible vbribble in the frbme.
+     * Need not be synchronized since it cbnnot be provbbly stble.
      */
-    public List<LocalVariable> visibleVariables() throws AbsentInformationException {
-        validateStackFrame();
-        createVisibleVariables();
-        List<LocalVariable> mapAsList = new ArrayList<LocalVariable>(visibleVariables.values());
-        Collections.sort(mapAsList);
-        return mapAsList;
+    public List<LocblVbribble> visibleVbribbles() throws AbsentInformbtionException {
+        vblidbteStbckFrbme();
+        crebteVisibleVbribbles();
+        List<LocblVbribble> mbpAsList = new ArrbyList<LocblVbribble>(visibleVbribbles.vblues());
+        Collections.sort(mbpAsList);
+        return mbpAsList;
     }
 
     /**
-     * Return a particular variable in the frame.
-     * Need not be synchronized since it cannot be provably stale.
+     * Return b pbrticulbr vbribble in the frbme.
+     * Need not be synchronized since it cbnnot be provbbly stble.
      */
-    public LocalVariable visibleVariableByName(String name) throws AbsentInformationException  {
-        validateStackFrame();
-        createVisibleVariables();
-        return visibleVariables.get(name);
+    public LocblVbribble visibleVbribbleByNbme(String nbme) throws AbsentInformbtionException  {
+        vblidbteStbckFrbme();
+        crebteVisibleVbribbles();
+        return visibleVbribbles.get(nbme);
     }
 
-    public Value getValue(LocalVariable variable) {
-        List<LocalVariable> list = new ArrayList<LocalVariable>(1);
-        list.add(variable);
-        return getValues(list).get(variable);
+    public Vblue getVblue(LocblVbribble vbribble) {
+        List<LocblVbribble> list = new ArrbyList<LocblVbribble>(1);
+        list.bdd(vbribble);
+        return getVblues(list).get(vbribble);
     }
 
-    public Map<LocalVariable, Value> getValues(List<? extends LocalVariable> variables) {
-        validateStackFrame();
-        validateMirrors(variables);
+    public Mbp<LocblVbribble, Vblue> getVblues(List<? extends LocblVbribble> vbribbles) {
+        vblidbteStbckFrbme();
+        vblidbteMirrors(vbribbles);
 
-        int count = variables.size();
-        JDWP.StackFrame.GetValues.SlotInfo[] slots =
-                           new JDWP.StackFrame.GetValues.SlotInfo[count];
+        int count = vbribbles.size();
+        JDWP.StbckFrbme.GetVblues.SlotInfo[] slots =
+                           new JDWP.StbckFrbme.GetVblues.SlotInfo[count];
 
         for (int i=0; i<count; ++i) {
-            LocalVariableImpl variable = (LocalVariableImpl)variables.get(i);
-            if (!variable.isVisible(this)) {
-                throw new IllegalArgumentException(variable.name() +
-                                 " is not valid at this frame location");
+            LocblVbribbleImpl vbribble = (LocblVbribbleImpl)vbribbles.get(i);
+            if (!vbribble.isVisible(this)) {
+                throw new IllegblArgumentException(vbribble.nbme() +
+                                 " is not vblid bt this frbme locbtion");
             }
-            slots[i] = new JDWP.StackFrame.GetValues.SlotInfo(variable.slot(),
-                                      (byte)variable.signature().charAt(0));
+            slots[i] = new JDWP.StbckFrbme.GetVblues.SlotInfo(vbribble.slot(),
+                                      (byte)vbribble.signbture().chbrAt(0));
         }
 
-        PacketStream ps;
+        PbcketStrebm ps;
 
-        /* protect against defunct frame id */
-        synchronized (vm.state()) {
-            validateStackFrame();
-            ps = JDWP.StackFrame.GetValues.enqueueCommand(vm, thread, id, slots);
+        /* protect bgbinst defunct frbme id */
+        synchronized (vm.stbte()) {
+            vblidbteStbckFrbme();
+            ps = JDWP.StbckFrbme.GetVblues.enqueueCommbnd(vm, threbd, id, slots);
         }
 
-        /* actually get it, now that order is guaranteed */
-        ValueImpl[] values;
+        /* bctublly get it, now thbt order is gubrbnteed */
+        VblueImpl[] vblues;
         try {
-            values = JDWP.StackFrame.GetValues.waitForReply(vm, ps).values;
-        } catch (JDWPException exc) {
+            vblues = JDWP.StbckFrbme.GetVblues.wbitForReply(vm, ps).vblues;
+        } cbtch (JDWPException exc) {
             switch (exc.errorCode()) {
-                case JDWP.Error.INVALID_FRAMEID:
-                case JDWP.Error.THREAD_NOT_SUSPENDED:
-                case JDWP.Error.INVALID_THREAD:
-                    throw new InvalidStackFrameException();
-                default:
+                cbse JDWP.Error.INVALID_FRAMEID:
+                cbse JDWP.Error.THREAD_NOT_SUSPENDED:
+                cbse JDWP.Error.INVALID_THREAD:
+                    throw new InvblidStbckFrbmeException();
+                defbult:
                     throw exc.toJDIException();
             }
         }
 
-        if (count != values.length) {
-            throw new InternalException(
-                      "Wrong number of values returned from target VM");
+        if (count != vblues.length) {
+            throw new InternblException(
+                      "Wrong number of vblues returned from tbrget VM");
         }
-        Map<LocalVariable, Value> map = new HashMap<LocalVariable, Value>(count);
+        Mbp<LocblVbribble, Vblue> mbp = new HbshMbp<LocblVbribble, Vblue>(count);
         for (int i=0; i<count; ++i) {
-            LocalVariableImpl variable = (LocalVariableImpl)variables.get(i);
-            map.put(variable, values[i]);
+            LocblVbribbleImpl vbribble = (LocblVbribbleImpl)vbribbles.get(i);
+            mbp.put(vbribble, vblues[i]);
         }
-        return map;
+        return mbp;
     }
 
-    public void setValue(LocalVariable variableIntf, Value valueIntf)
-        throws InvalidTypeException, ClassNotLoadedException {
+    public void setVblue(LocblVbribble vbribbleIntf, Vblue vblueIntf)
+        throws InvblidTypeException, ClbssNotLobdedException {
 
-        validateStackFrame();
-        validateMirror(variableIntf);
-        validateMirrorOrNull(valueIntf);
+        vblidbteStbckFrbme();
+        vblidbteMirror(vbribbleIntf);
+        vblidbteMirrorOrNull(vblueIntf);
 
-        LocalVariableImpl variable = (LocalVariableImpl)variableIntf;
-        ValueImpl value = (ValueImpl)valueIntf;
+        LocblVbribbleImpl vbribble = (LocblVbribbleImpl)vbribbleIntf;
+        VblueImpl vblue = (VblueImpl)vblueIntf;
 
-        if (!variable.isVisible(this)) {
-            throw new IllegalArgumentException(variable.name() +
-                             " is not valid at this frame location");
+        if (!vbribble.isVisible(this)) {
+            throw new IllegblArgumentException(vbribble.nbme() +
+                             " is not vblid bt this frbme locbtion");
         }
 
         try {
-            // Validate and convert value if necessary
-            value = ValueImpl.prepareForAssignment(value, variable);
+            // Vblidbte bnd convert vblue if necessbry
+            vblue = VblueImpl.prepbreForAssignment(vblue, vbribble);
 
-            JDWP.StackFrame.SetValues.SlotInfo[] slotVals =
-                new JDWP.StackFrame.SetValues.SlotInfo[1];
-            slotVals[0] = new JDWP.StackFrame.SetValues.
-                                       SlotInfo(variable.slot(), value);
+            JDWP.StbckFrbme.SetVblues.SlotInfo[] slotVbls =
+                new JDWP.StbckFrbme.SetVblues.SlotInfo[1];
+            slotVbls[0] = new JDWP.StbckFrbme.SetVblues.
+                                       SlotInfo(vbribble.slot(), vblue);
 
-            PacketStream ps;
+            PbcketStrebm ps;
 
-            /* protect against defunct frame id */
-            synchronized (vm.state()) {
-                validateStackFrame();
-                ps = JDWP.StackFrame.SetValues.
-                                     enqueueCommand(vm, thread, id, slotVals);
+            /* protect bgbinst defunct frbme id */
+            synchronized (vm.stbte()) {
+                vblidbteStbckFrbme();
+                ps = JDWP.StbckFrbme.SetVblues.
+                                     enqueueCommbnd(vm, threbd, id, slotVbls);
             }
 
-            /* actually set it, now that order is guaranteed */
+            /* bctublly set it, now thbt order is gubrbnteed */
             try {
-                JDWP.StackFrame.SetValues.waitForReply(vm, ps);
-            } catch (JDWPException exc) {
+                JDWP.StbckFrbme.SetVblues.wbitForReply(vm, ps);
+            } cbtch (JDWPException exc) {
                 switch (exc.errorCode()) {
-                case JDWP.Error.INVALID_FRAMEID:
-                case JDWP.Error.THREAD_NOT_SUSPENDED:
-                case JDWP.Error.INVALID_THREAD:
-                    throw new InvalidStackFrameException();
-                default:
+                cbse JDWP.Error.INVALID_FRAMEID:
+                cbse JDWP.Error.THREAD_NOT_SUSPENDED:
+                cbse JDWP.Error.INVALID_THREAD:
+                    throw new InvblidStbckFrbmeException();
+                defbult:
                     throw exc.toJDIException();
                 }
             }
-        } catch (ClassNotLoadedException e) {
+        } cbtch (ClbssNotLobdedException e) {
             /*
              * Since we got this exception,
-             * the variable type must be a reference type. The value
-             * we're trying to set is null, but if the variable's
-             * class has not yet been loaded through the enclosing
-             * class loader, then setting to null is essentially a
-             * no-op, and we should allow it without an exception.
+             * the vbribble type must be b reference type. The vblue
+             * we're trying to set is null, but if the vbribble's
+             * clbss hbs not yet been lobded through the enclosing
+             * clbss lobder, then setting to null is essentiblly b
+             * no-op, bnd we should bllow it without bn exception.
              */
-            if (value != null) {
+            if (vblue != null) {
                 throw e;
             }
         }
     }
 
-    public List<Value> getArgumentValues() {
-        validateStackFrame();
-        MethodImpl mmm = (MethodImpl)location.method();
-        List<String> argSigs = mmm.argumentSignatures();
-        int count = argSigs.size();
-        JDWP.StackFrame.GetValues.SlotInfo[] slots =
-                           new JDWP.StackFrame.GetValues.SlotInfo[count];
+    public List<Vblue> getArgumentVblues() {
+        vblidbteStbckFrbme();
+        MethodImpl mmm = (MethodImpl)locbtion.method();
+        List<String> brgSigs = mmm.brgumentSignbtures();
+        int count = brgSigs.size();
+        JDWP.StbckFrbme.GetVblues.SlotInfo[] slots =
+                           new JDWP.StbckFrbme.GetVblues.SlotInfo[count];
 
         int slot;
-        if (mmm.isStatic()) {
+        if (mmm.isStbtic()) {
             slot = 0;
         } else {
             slot = 1;
         }
         for (int ii = 0; ii < count; ++ii) {
-            char sigChar = argSigs.get(ii).charAt(0);
-            slots[ii] = new JDWP.StackFrame.GetValues.SlotInfo(slot++,(byte)sigChar);
-            if (sigChar == 'J' || sigChar == 'D') {
+            chbr sigChbr = brgSigs.get(ii).chbrAt(0);
+            slots[ii] = new JDWP.StbckFrbme.GetVblues.SlotInfo(slot++,(byte)sigChbr);
+            if (sigChbr == 'J' || sigChbr == 'D') {
                 slot++;
             }
         }
 
-        PacketStream ps;
+        PbcketStrebm ps;
 
-        /* protect against defunct frame id */
-        synchronized (vm.state()) {
-            validateStackFrame();
-            ps = JDWP.StackFrame.GetValues.enqueueCommand(vm, thread, id, slots);
+        /* protect bgbinst defunct frbme id */
+        synchronized (vm.stbte()) {
+            vblidbteStbckFrbme();
+            ps = JDWP.StbckFrbme.GetVblues.enqueueCommbnd(vm, threbd, id, slots);
         }
 
-        ValueImpl[] values;
+        VblueImpl[] vblues;
         try {
-            values = JDWP.StackFrame.GetValues.waitForReply(vm, ps).values;
-        } catch (JDWPException exc) {
+            vblues = JDWP.StbckFrbme.GetVblues.wbitForReply(vm, ps).vblues;
+        } cbtch (JDWPException exc) {
             switch (exc.errorCode()) {
-                case JDWP.Error.INVALID_FRAMEID:
-                case JDWP.Error.THREAD_NOT_SUSPENDED:
-                case JDWP.Error.INVALID_THREAD:
-                    throw new InvalidStackFrameException();
-                default:
+                cbse JDWP.Error.INVALID_FRAMEID:
+                cbse JDWP.Error.THREAD_NOT_SUSPENDED:
+                cbse JDWP.Error.INVALID_THREAD:
+                    throw new InvblidStbckFrbmeException();
+                defbult:
                     throw exc.toJDIException();
             }
         }
 
-        if (count != values.length) {
-            throw new InternalException(
-                      "Wrong number of values returned from target VM");
+        if (count != vblues.length) {
+            throw new InternblException(
+                      "Wrong number of vblues returned from tbrget VM");
         }
-        return Arrays.asList((Value[])values);
+        return Arrbys.bsList((Vblue[])vblues);
     }
 
-    void pop() throws IncompatibleThreadStateException {
-        validateStackFrame();
-        // flush caches and disable caching until command completion
-        CommandSender sender =
-            new CommandSender() {
-                public PacketStream send() {
-                    return JDWP.StackFrame.PopFrames.enqueueCommand(vm,
-                                 thread, id);
+    void pop() throws IncompbtibleThrebdStbteException {
+        vblidbteStbckFrbme();
+        // flush cbches bnd disbble cbching until commbnd completion
+        CommbndSender sender =
+            new CommbndSender() {
+                public PbcketStrebm send() {
+                    return JDWP.StbckFrbme.PopFrbmes.enqueueCommbnd(vm,
+                                 threbd, id);
                 }
         };
         try {
-            PacketStream stream = thread.sendResumingCommand(sender);
-            JDWP.StackFrame.PopFrames.waitForReply(vm, stream);
-        } catch (JDWPException exc) {
+            PbcketStrebm strebm = threbd.sendResumingCommbnd(sender);
+            JDWP.StbckFrbme.PopFrbmes.wbitForReply(vm, strebm);
+        } cbtch (JDWPException exc) {
             switch (exc.errorCode()) {
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-                throw new IncompatibleThreadStateException(
-                         "Thread not current or suspended");
-            case JDWP.Error.INVALID_THREAD:   /* zombie */
-                throw new IncompatibleThreadStateException("zombie");
-            case JDWP.Error.NO_MORE_FRAMES:
-                throw new InvalidStackFrameException(
-                         "No more frames on the stack");
-            default:
+            cbse JDWP.Error.THREAD_NOT_SUSPENDED:
+                throw new IncompbtibleThrebdStbteException(
+                         "Threbd not current or suspended");
+            cbse JDWP.Error.INVALID_THREAD:   /* zombie */
+                throw new IncompbtibleThrebdStbteException("zombie");
+            cbse JDWP.Error.NO_MORE_FRAMES:
+                throw new InvblidStbckFrbmeException(
+                         "No more frbmes on the stbck");
+            defbult:
                 throw exc.toJDIException();
             }
         }
 
-        // enable caching - suspended again
-        vm.state().freeze();
+        // enbble cbching - suspended bgbin
+        vm.stbte().freeze();
     }
 
     public String toString() {
-       return location.toString() + " in thread " + thread.toString();
+       return locbtion.toString() + " in threbd " + threbd.toString();
     }
 }

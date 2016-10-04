@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.d3d;
+pbckbge sun.jbvb2d.d3d;
 
-import java.awt.Component;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.Transparency;
-import java.awt.image.ColorModel;
-import sun.awt.Win32GraphicsConfig;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.SurfaceManager;
-import sun.awt.image.VolatileSurfaceManager;
-import sun.awt.windows.WComponentPeer;
-import sun.java2d.InvalidPipeException;
-import sun.java2d.SurfaceData;
-import static sun.java2d.pipe.hw.AccelSurface.*;
-import static sun.java2d.d3d.D3DContext.D3DContextCaps.*;
-import sun.java2d.windows.GDIWindowSurfaceData;
+import jbvb.bwt.Component;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.imbge.ColorModel;
+import sun.bwt.Win32GrbphicsConfig;
+import sun.bwt.imbge.SunVolbtileImbge;
+import sun.bwt.imbge.SurfbceMbnbger;
+import sun.bwt.imbge.VolbtileSurfbceMbnbger;
+import sun.bwt.windows.WComponentPeer;
+import sun.jbvb2d.InvblidPipeException;
+import sun.jbvb2d.SurfbceDbtb;
+import stbtic sun.jbvb2d.pipe.hw.AccelSurfbce.*;
+import stbtic sun.jbvb2d.d3d.D3DContext.D3DContextCbps.*;
+import sun.jbvb2d.windows.GDIWindowSurfbceDbtb;
 
-public class D3DVolatileSurfaceManager
-    extends VolatileSurfaceManager
+public clbss D3DVolbtileSurfbceMbnbger
+    extends VolbtileSurfbceMbnbger
 {
-    private boolean accelerationEnabled;
-    private int restoreCountdown;
+    privbte boolebn bccelerbtionEnbbled;
+    privbte int restoreCountdown;
 
-    public D3DVolatileSurfaceManager(SunVolatileImage vImg, Object context) {
+    public D3DVolbtileSurfbceMbnbger(SunVolbtileImbge vImg, Object context) {
         super(vImg, context);
 
         /*
-         * We will attempt to accelerate this image only under the
+         * We will bttempt to bccelerbte this imbge only under the
          * following conditions:
-         *   - the image is opaque OR
-         *   - the image is translucent AND
-         *       - the GraphicsConfig supports the FBO extension OR
-         *       - the GraphicsConfig has a stored alpha channel
+         *   - the imbge is opbque OR
+         *   - the imbge is trbnslucent AND
+         *       - the GrbphicsConfig supports the FBO extension OR
+         *       - the GrbphicsConfig hbs b stored blphb chbnnel
          */
-        int transparency = vImg.getTransparency();
-        D3DGraphicsDevice gd = (D3DGraphicsDevice)
-            vImg.getGraphicsConfig().getDevice();
-        accelerationEnabled =
-            (transparency == Transparency.OPAQUE) ||
-            (transparency == Transparency.TRANSLUCENT &&
-             (gd.isCapPresent(CAPS_RT_PLAIN_ALPHA) ||
-              gd.isCapPresent(CAPS_RT_TEXTURE_ALPHA)));
+        int trbnspbrency = vImg.getTrbnspbrency();
+        D3DGrbphicsDevice gd = (D3DGrbphicsDevice)
+            vImg.getGrbphicsConfig().getDevice();
+        bccelerbtionEnbbled =
+            (trbnspbrency == Trbnspbrency.OPAQUE) ||
+            (trbnspbrency == Trbnspbrency.TRANSLUCENT &&
+             (gd.isCbpPresent(CAPS_RT_PLAIN_ALPHA) ||
+              gd.isCbpPresent(CAPS_RT_TEXTURE_ALPHA)));
     }
 
-    protected boolean isAccelerationEnabled() {
-        return accelerationEnabled;
+    protected boolebn isAccelerbtionEnbbled() {
+        return bccelerbtionEnbbled;
     }
-    public void setAccelerationEnabled(boolean accelerationEnabled) {
-        this.accelerationEnabled = accelerationEnabled;
+    public void setAccelerbtionEnbbled(boolebn bccelerbtionEnbbled) {
+        this.bccelerbtionEnbbled = bccelerbtionEnbbled;
     }
 
     /**
-     * Create a pbuffer-based SurfaceData object (or init the backbuffer
-     * of an existing window if this is a double buffered GraphicsConfig).
+     * Crebte b pbuffer-bbsed SurfbceDbtb object (or init the bbckbuffer
+     * of bn existing window if this is b double buffered GrbphicsConfig).
      */
-    protected SurfaceData initAcceleratedSurface() {
-        SurfaceData sData;
+    protected SurfbceDbtb initAccelerbtedSurfbce() {
+        SurfbceDbtb sDbtb;
         Component comp = vImg.getComponent();
         WComponentPeer peer =
             (comp != null) ? (WComponentPeer)comp.getPeer() : null;
 
         try {
-            boolean forceback = false;
-            if (context instanceof Boolean) {
-                forceback = ((Boolean)context).booleanValue();
+            boolebn forcebbck = fblse;
+            if (context instbnceof Boolebn) {
+                forcebbck = ((Boolebn)context).boolebnVblue();
             }
 
-            if (forceback) {
-                // peer must be non-null in this case
-                sData = D3DSurfaceData.createData(peer, vImg);
+            if (forcebbck) {
+                // peer must be non-null in this cbse
+                sDbtb = D3DSurfbceDbtb.crebteDbtb(peer, vImg);
             } else {
-                D3DGraphicsConfig gc =
-                    (D3DGraphicsConfig)vImg.getGraphicsConfig();
-                ColorModel cm = gc.getColorModel(vImg.getTransparency());
-                int type = vImg.getForcedAccelSurfaceType();
-                // if acceleration type is forced (type != UNDEFINED) then
+                D3DGrbphicsConfig gc =
+                    (D3DGrbphicsConfig)vImg.getGrbphicsConfig();
+                ColorModel cm = gc.getColorModel(vImg.getTrbnspbrency());
+                int type = vImg.getForcedAccelSurfbceType();
+                // if bccelerbtion type is forced (type != UNDEFINED) then
                 // use the forced type, otherwise use RT_TEXTURE
                 if (type == UNDEFINED) {
                     type = RT_TEXTURE;
                 }
-                sData = D3DSurfaceData.createData(gc,
+                sDbtb = D3DSurfbceDbtb.crebteDbtb(gc,
                                                   vImg.getWidth(),
                                                   vImg.getHeight(),
                                                   cm, vImg,
                                                   type);
             }
-        } catch (NullPointerException ex) {
-            sData = null;
-        } catch (OutOfMemoryError er) {
-            sData = null;
-        } catch (InvalidPipeException ipe) {
-            sData = null;
+        } cbtch (NullPointerException ex) {
+            sDbtb = null;
+        } cbtch (OutOfMemoryError er) {
+            sDbtb = null;
+        } cbtch (InvblidPipeException ipe) {
+            sDbtb = null;
         }
 
-        return sData;
+        return sDbtb;
     }
 
-    protected boolean isConfigValid(GraphicsConfiguration gc) {
-        return ((gc == null) || (gc == vImg.getGraphicsConfig()));
+    protected boolebn isConfigVblid(GrbphicsConfigurbtion gc) {
+        return ((gc == null) || (gc == vImg.getGrbphicsConfig()));
     }
 
     /**
-     * Set the number of iterations for restoreAcceleratedSurface to fail
-     * before attempting to restore the accelerated surface.
+     * Set the number of iterbtions for restoreAccelerbtedSurfbce to fbil
+     * before bttempting to restore the bccelerbted surfbce.
      *
-     * @see #restoreAcceleratedSurface
-     * @see #handleVItoScreenOp
+     * @see #restoreAccelerbtedSurfbce
+     * @see #hbndleVItoScreenOp
      */
-    private synchronized void setRestoreCountdown(int count) {
+    privbte synchronized void setRestoreCountdown(int count) {
         restoreCountdown = count;
     }
 
     /**
-     * Note that we create a new surface instead of restoring
-     * an old one. This will help with D3DContext revalidation.
+     * Note thbt we crebte b new surfbce instebd of restoring
+     * bn old one. This will help with D3DContext revblidbtion.
      */
     @Override
-    protected void restoreAcceleratedSurface() {
+    protected void restoreAccelerbtedSurfbce() {
         synchronized (this) {
             if (restoreCountdown > 0) {
                 restoreCountdown--;
                 throw new
-                    InvalidPipeException("Will attempt to restore surface " +
+                    InvblidPipeException("Will bttempt to restore surfbce " +
                                           " in " + restoreCountdown);
             }
         }
 
-        SurfaceData sData = initAcceleratedSurface();
-        if (sData != null) {
-            sdAccel = sData;
+        SurfbceDbtb sDbtb = initAccelerbtedSurfbce();
+        if (sDbtb != null) {
+            sdAccel = sDbtb;
         } else {
-            throw new InvalidPipeException("could not restore surface");
-            // REMIND: alternatively, we could try this:
-//            ((D3DSurfaceData)sdAccel).restoreSurface();
+            throw new InvblidPipeException("could not restore surfbce");
+            // REMIND: blternbtively, we could try this:
+//            ((D3DSurfbceDbtb)sdAccel).restoreSurfbce();
         }
     }
 
     /**
-     * We're asked to restore contents by the accelerated surface, which means
-     * that it had been lost.
+     * We're bsked to restore contents by the bccelerbted surfbce, which mebns
+     * thbt it hbd been lost.
      */
     @Override
-    public SurfaceData restoreContents() {
-        acceleratedSurfaceLost();
+    public SurfbceDbtb restoreContents() {
+        bccelerbtedSurfbceLost();
         return super.restoreContents();
     }
 
     /**
-     * If the destination surface's peer can potentially handle accelerated
-     * on-screen rendering then it is likely that the condition which resulted
-     * in VI to Screen operation is temporary, so this method sets the
-     * restore countdown in hope that the on-screen accelerated rendering will
-     * resume. In the meantime the backup surface of the VISM will be used.
+     * If the destinbtion surfbce's peer cbn potentiblly hbndle bccelerbted
+     * on-screen rendering then it is likely thbt the condition which resulted
+     * in VI to Screen operbtion is temporbry, so this method sets the
+     * restore countdown in hope thbt the on-screen bccelerbted rendering will
+     * resume. In the mebntime the bbckup surfbce of the VISM will be used.
      *
-     * The countdown is needed because otherwise we may never break out
-     * of "do { vi.validate()..} while(vi.lost)" loop since validate() could
-     * restore the source surface every time and it will get lost again on the
-     * next copy attempt, and we would never get a chance to use the backup
-     * surface. By using the countdown we allow the backup surface to be used
-     * while the screen surface gets sorted out, or if it for some reason can
+     * The countdown is needed becbuse otherwise we mby never brebk out
+     * of "do { vi.vblidbte()..} while(vi.lost)" loop since vblidbte() could
+     * restore the source surfbce every time bnd it will get lost bgbin on the
+     * next copy bttempt, bnd we would never get b chbnce to use the bbckup
+     * surfbce. By using the countdown we bllow the bbckup surfbce to be used
+     * while the screen surfbce gets sorted out, or if it for some rebson cbn
      * never be restored.
      *
-     * If the destination surface's peer could never do accelerated onscreen
-     * rendering then the acceleration for the SurfaceManager associated with
-     * the source surface is disabled forever.
+     * If the destinbtion surfbce's peer could never do bccelerbted onscreen
+     * rendering then the bccelerbtion for the SurfbceMbnbger bssocibted with
+     * the source surfbce is disbbled forever.
      */
-    static void handleVItoScreenOp(SurfaceData src, SurfaceData dst) {
-        if (src instanceof D3DSurfaceData &&
-            dst instanceof GDIWindowSurfaceData)
+    stbtic void hbndleVItoScreenOp(SurfbceDbtb src, SurfbceDbtb dst) {
+        if (src instbnceof D3DSurfbceDbtb &&
+            dst instbnceof GDIWindowSurfbceDbtb)
         {
-            D3DSurfaceData d3dsd = (D3DSurfaceData)src;
-            SurfaceManager mgr =
-                SurfaceManager.getManager((Image)d3dsd.getDestination());
-            if (mgr instanceof D3DVolatileSurfaceManager) {
-                D3DVolatileSurfaceManager vsm = (D3DVolatileSurfaceManager)mgr;
+            D3DSurfbceDbtb d3dsd = (D3DSurfbceDbtb)src;
+            SurfbceMbnbger mgr =
+                SurfbceMbnbger.getMbnbger((Imbge)d3dsd.getDestinbtion());
+            if (mgr instbnceof D3DVolbtileSurfbceMbnbger) {
+                D3DVolbtileSurfbceMbnbger vsm = (D3DVolbtileSurfbceMbnbger)mgr;
                 if (vsm != null) {
-                    d3dsd.setSurfaceLost(true);
+                    d3dsd.setSurfbceLost(true);
 
-                    GDIWindowSurfaceData wsd = (GDIWindowSurfaceData)dst;
+                    GDIWindowSurfbceDbtb wsd = (GDIWindowSurfbceDbtb)dst;
                     WComponentPeer p = wsd.getPeer();
-                    if (D3DScreenUpdateManager.canUseD3DOnScreen(p,
-                            (Win32GraphicsConfig)p.getGraphicsConfiguration(),
-                            p.getBackBuffersNum()))
+                    if (D3DScreenUpdbteMbnbger.cbnUseD3DOnScreen(p,
+                            (Win32GrbphicsConfig)p.getGrbphicsConfigurbtion(),
+                            p.getBbckBuffersNum()))
                     {
-                        // 10 is only chosen to be greater than the number of
-                        // times a sane person would call validate() inside
-                        // a validation loop, and to reduce thrashing between
-                        // accelerated and backup surfaces
+                        // 10 is only chosen to be grebter thbn the number of
+                        // times b sbne person would cbll vblidbte() inside
+                        // b vblidbtion loop, bnd to reduce thrbshing between
+                        // bccelerbted bnd bbckup surfbces
                         vsm.setRestoreCountdown(10);
                     } else {
-                        vsm.setAccelerationEnabled(false);
+                        vsm.setAccelerbtionEnbbled(fblse);
                     }
                 }
             }
@@ -223,7 +223,7 @@ public class D3DVolatileSurfaceManager
 
     @Override
     public void initContents() {
-        if (vImg.getForcedAccelSurfaceType() != TEXTURE) {
+        if (vImg.getForcedAccelSurfbceType() != TEXTURE) {
             super.initContents();
         }
     }

@@ -1,320 +1,320 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Rectbngle;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JScrollBar;
-import javax.swing.UIManager;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicScrollBarUI;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JScrollBbr;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.bbsic.BbsicScrollBbrUI;
 
-import static sun.swing.SwingUtilities2.drawHLine;
-import static sun.swing.SwingUtilities2.drawRect;
-import static sun.swing.SwingUtilities2.drawVLine;
+import stbtic sun.swing.SwingUtilities2.drbwHLine;
+import stbtic sun.swing.SwingUtilities2.drbwRect;
+import stbtic sun.swing.SwingUtilities2.drbwVLine;
 
 
 /**
- * Implementation of ScrollBarUI for the Metal Look and Feel
+ * Implementbtion of ScrollBbrUI for the Metbl Look bnd Feel
  *
- * @author Tom Santos
- * @author Steve Wilson
+ * @buthor Tom Sbntos
+ * @buthor Steve Wilson
  */
-public class MetalScrollBarUI extends BasicScrollBarUI
+public clbss MetblScrollBbrUI extends BbsicScrollBbrUI
 {
-    private static Color shadowColor;
-    private static Color highlightColor;
-    private static Color darkShadowColor;
-    private static Color thumbColor;
-    private static Color thumbShadow;
-    private static Color thumbHighlightColor;
+    privbte stbtic Color shbdowColor;
+    privbte stbtic Color highlightColor;
+    privbte stbtic Color dbrkShbdowColor;
+    privbte stbtic Color thumbColor;
+    privbte stbtic Color thumbShbdow;
+    privbte stbtic Color thumbHighlightColor;
 
     /**
-     * The metal bumps.
+     * The metbl bumps.
      */
-    protected MetalBumps bumps;
+    protected MetblBumps bumps;
 
     /**
-     * The increase button.
+     * The increbse button.
      */
-    protected MetalScrollButton increaseButton;
+    protected MetblScrollButton increbseButton;
 
     /**
-     * The decrease button.
+     * The decrebse button.
      */
-    protected MetalScrollButton decreaseButton;
+    protected MetblScrollButton decrebseButton;
 
     /**
-     * The width of the scroll bar.
+     * The width of the scroll bbr.
      */
-    protected  int scrollBarWidth;
+    protected  int scrollBbrWidth;
 
     /**
-     * The property {@code JScrollBar.isFreeStanding}.
+     * The property {@code JScrollBbr.isFreeStbnding}.
      */
-    public static final String FREE_STANDING_PROP = "JScrollBar.isFreeStanding";
+    public stbtic finbl String FREE_STANDING_PROP = "JScrollBbr.isFreeStbnding";
 
     /**
-     * The value of the property {@code JScrollBar.isFreeStanding}.
+     * The vblue of the property {@code JScrollBbr.isFreeStbnding}.
      */
-    protected boolean isFreeStanding = true;
+    protected boolebn isFreeStbnding = true;
 
     /**
-     * Constructs a new {@code MetalScrollBarUI} instance.
+     * Constructs b new {@code MetblScrollBbrUI} instbnce.
      *
-     * @param c a component
-     * @return a new {@code MetalScrollBarUI} instance
+     * @pbrbm c b component
+     * @return b new {@code MetblScrollBbrUI} instbnce
      */
-    public static ComponentUI createUI( JComponent c )
+    public stbtic ComponentUI crebteUI( JComponent c )
     {
-        return new MetalScrollBarUI();
+        return new MetblScrollBbrUI();
     }
 
-    protected void installDefaults() {
-        scrollBarWidth = ((Integer)(UIManager.get( "ScrollBar.width" ))).intValue();
-        super.installDefaults();
-        bumps = new MetalBumps( 10, 10, thumbHighlightColor, thumbShadow, thumbColor );
+    protected void instbllDefbults() {
+        scrollBbrWidth = ((Integer)(UIMbnbger.get( "ScrollBbr.width" ))).intVblue();
+        super.instbllDefbults();
+        bumps = new MetblBumps( 10, 10, thumbHighlightColor, thumbShbdow, thumbColor );
     }
 
-    protected void installListeners(){
-        super.installListeners();
-        ((ScrollBarListener)propertyChangeListener).handlePropertyChange( scrollbar.getClientProperty( FREE_STANDING_PROP ) );
+    protected void instbllListeners(){
+        super.instbllListeners();
+        ((ScrollBbrListener)propertyChbngeListener).hbndlePropertyChbnge( scrollbbr.getClientProperty( FREE_STANDING_PROP ) );
     }
 
-    protected PropertyChangeListener createPropertyChangeListener(){
-        return new ScrollBarListener();
+    protected PropertyChbngeListener crebtePropertyChbngeListener(){
+        return new ScrollBbrListener();
     }
 
-    protected void configureScrollBarColors()
+    protected void configureScrollBbrColors()
     {
-        super.configureScrollBarColors();
-        shadowColor         = UIManager.getColor("ScrollBar.shadow");
-        highlightColor      = UIManager.getColor("ScrollBar.highlight");
-        darkShadowColor     = UIManager.getColor("ScrollBar.darkShadow");
-        thumbColor          = UIManager.getColor("ScrollBar.thumb");
-        thumbShadow         = UIManager.getColor("ScrollBar.thumbShadow");
-        thumbHighlightColor = UIManager.getColor("ScrollBar.thumbHighlight");
+        super.configureScrollBbrColors();
+        shbdowColor         = UIMbnbger.getColor("ScrollBbr.shbdow");
+        highlightColor      = UIMbnbger.getColor("ScrollBbr.highlight");
+        dbrkShbdowColor     = UIMbnbger.getColor("ScrollBbr.dbrkShbdow");
+        thumbColor          = UIMbnbger.getColor("ScrollBbr.thumb");
+        thumbShbdow         = UIMbnbger.getColor("ScrollBbr.thumbShbdow");
+        thumbHighlightColor = UIMbnbger.getColor("ScrollBbr.thumbHighlight");
 
 
     }
 
     public Dimension getPreferredSize( JComponent c )
     {
-        if ( scrollbar.getOrientation() == JScrollBar.VERTICAL )
+        if ( scrollbbr.getOrientbtion() == JScrollBbr.VERTICAL )
         {
-            return new Dimension( scrollBarWidth, scrollBarWidth * 3 + 10 );
+            return new Dimension( scrollBbrWidth, scrollBbrWidth * 3 + 10 );
         }
-        else  // Horizontal
+        else  // Horizontbl
         {
-            return new Dimension( scrollBarWidth * 3 + 10, scrollBarWidth );
+            return new Dimension( scrollBbrWidth * 3 + 10, scrollBbrWidth );
         }
 
     }
 
-    /** Returns the view that represents the decrease view.
+    /** Returns the view thbt represents the decrebse view.
       */
-    protected JButton createDecreaseButton( int orientation )
+    protected JButton crebteDecrebseButton( int orientbtion )
     {
-        decreaseButton = new MetalScrollButton( orientation, scrollBarWidth, isFreeStanding );
-        return decreaseButton;
+        decrebseButton = new MetblScrollButton( orientbtion, scrollBbrWidth, isFreeStbnding );
+        return decrebseButton;
     }
 
-    /** Returns the view that represents the increase view. */
-    protected JButton createIncreaseButton( int orientation )
+    /** Returns the view thbt represents the increbse view. */
+    protected JButton crebteIncrebseButton( int orientbtion )
     {
-        increaseButton =  new MetalScrollButton( orientation, scrollBarWidth, isFreeStanding );
-        return increaseButton;
+        increbseButton =  new MetblScrollButton( orientbtion, scrollBbrWidth, isFreeStbnding );
+        return increbseButton;
     }
 
-    protected void paintTrack( Graphics g, JComponent c, Rectangle trackBounds )
+    protected void pbintTrbck( Grbphics g, JComponent c, Rectbngle trbckBounds )
     {
-        g.translate( trackBounds.x, trackBounds.y );
+        g.trbnslbte( trbckBounds.x, trbckBounds.y );
 
-        boolean leftToRight = MetalUtils.isLeftToRight(c);
+        boolebn leftToRight = MetblUtils.isLeftToRight(c);
 
-        if ( scrollbar.getOrientation() == JScrollBar.VERTICAL )
+        if ( scrollbbr.getOrientbtion() == JScrollBbr.VERTICAL )
         {
-            if ( !isFreeStanding ) {
-                trackBounds.width += 2;
+            if ( !isFreeStbnding ) {
+                trbckBounds.width += 2;
                 if ( !leftToRight ) {
-                    g.translate( -1, 0 );
+                    g.trbnslbte( -1, 0 );
                 }
             }
 
-            if ( c.isEnabled() ) {
-                g.setColor( darkShadowColor );
-                drawVLine(g, 0, 0, trackBounds.height - 1);
-                drawVLine(g, trackBounds.width - 2, 0, trackBounds.height - 1);
-                drawHLine(g, 2, trackBounds.width - 1, trackBounds.height - 1);
-                drawHLine(g, 2, trackBounds.width - 2, 0);
+            if ( c.isEnbbled() ) {
+                g.setColor( dbrkShbdowColor );
+                drbwVLine(g, 0, 0, trbckBounds.height - 1);
+                drbwVLine(g, trbckBounds.width - 2, 0, trbckBounds.height - 1);
+                drbwHLine(g, 2, trbckBounds.width - 1, trbckBounds.height - 1);
+                drbwHLine(g, 2, trbckBounds.width - 2, 0);
 
-                g.setColor( shadowColor );
+                g.setColor( shbdowColor );
                 //      g.setColor( Color.red);
-                drawVLine(g, 1, 1, trackBounds.height - 2);
-                drawHLine(g, 1, trackBounds.width - 3, 1);
-                if (scrollbar.getValue() != scrollbar.getMaximum()) {  // thumb shadow
-                    int y = thumbRect.y + thumbRect.height - trackBounds.y;
-                    drawHLine(g, 1, trackBounds.width - 1, y);
+                drbwVLine(g, 1, 1, trbckBounds.height - 2);
+                drbwHLine(g, 1, trbckBounds.width - 3, 1);
+                if (scrollbbr.getVblue() != scrollbbr.getMbximum()) {  // thumb shbdow
+                    int y = thumbRect.y + thumbRect.height - trbckBounds.y;
+                    drbwHLine(g, 1, trbckBounds.width - 1, y);
                 }
                 g.setColor(highlightColor);
-                drawVLine(g, trackBounds.width - 1, 0, trackBounds.height - 1);
+                drbwVLine(g, trbckBounds.width - 1, 0, trbckBounds.height - 1);
             } else {
-                MetalUtils.drawDisabledBorder(g, 0, 0, trackBounds.width, trackBounds.height );
+                MetblUtils.drbwDisbbledBorder(g, 0, 0, trbckBounds.width, trbckBounds.height );
             }
 
-            if ( !isFreeStanding ) {
-                trackBounds.width -= 2;
+            if ( !isFreeStbnding ) {
+                trbckBounds.width -= 2;
                 if ( !leftToRight ) {
-                    g.translate( 1, 0 );
+                    g.trbnslbte( 1, 0 );
                 }
             }
         }
         else  // HORIZONTAL
         {
-            if ( !isFreeStanding ) {
-                trackBounds.height += 2;
+            if ( !isFreeStbnding ) {
+                trbckBounds.height += 2;
             }
 
-            if ( c.isEnabled() ) {
-                g.setColor( darkShadowColor );
-                drawHLine(g, 0, trackBounds.width - 1, 0);  // top
-                drawVLine(g, 0, 2, trackBounds.height - 2); // left
-                drawHLine(g, 0, trackBounds.width - 1, trackBounds.height - 2 ); // bottom
-                drawVLine(g, trackBounds.width - 1, 2,  trackBounds.height - 1 ); // right
+            if ( c.isEnbbled() ) {
+                g.setColor( dbrkShbdowColor );
+                drbwHLine(g, 0, trbckBounds.width - 1, 0);  // top
+                drbwVLine(g, 0, 2, trbckBounds.height - 2); // left
+                drbwHLine(g, 0, trbckBounds.width - 1, trbckBounds.height - 2 ); // bottom
+                drbwVLine(g, trbckBounds.width - 1, 2,  trbckBounds.height - 1 ); // right
 
-                g.setColor( shadowColor );
+                g.setColor( shbdowColor );
                 //      g.setColor( Color.red);
-                drawHLine(g, 1, trackBounds.width - 2, 1 );  // top
-                drawVLine(g, 1, 1, trackBounds.height - 3 ); // left
-                drawHLine(g, 0, trackBounds.width - 1, trackBounds.height - 1 ); // bottom
-                if (scrollbar.getValue() != scrollbar.getMaximum()) {  // thumb shadow
-                    int x = thumbRect.x + thumbRect.width - trackBounds.x;
-                    drawVLine(g, x, 1, trackBounds.height-1);
+                drbwHLine(g, 1, trbckBounds.width - 2, 1 );  // top
+                drbwVLine(g, 1, 1, trbckBounds.height - 3 ); // left
+                drbwHLine(g, 0, trbckBounds.width - 1, trbckBounds.height - 1 ); // bottom
+                if (scrollbbr.getVblue() != scrollbbr.getMbximum()) {  // thumb shbdow
+                    int x = thumbRect.x + thumbRect.width - trbckBounds.x;
+                    drbwVLine(g, x, 1, trbckBounds.height-1);
                 }
             } else {
-                MetalUtils.drawDisabledBorder(g, 0, 0, trackBounds.width, trackBounds.height );
+                MetblUtils.drbwDisbbledBorder(g, 0, 0, trbckBounds.width, trbckBounds.height );
             }
 
-            if ( !isFreeStanding ) {
-                trackBounds.height -= 2;
+            if ( !isFreeStbnding ) {
+                trbckBounds.height -= 2;
             }
         }
 
-        g.translate( -trackBounds.x, -trackBounds.y );
+        g.trbnslbte( -trbckBounds.x, -trbckBounds.y );
     }
 
-    protected void paintThumb( Graphics g, JComponent c, Rectangle thumbBounds )
+    protected void pbintThumb( Grbphics g, JComponent c, Rectbngle thumbBounds )
     {
-        if (!c.isEnabled()) {
+        if (!c.isEnbbled()) {
             return;
         }
 
-        if (MetalLookAndFeel.usingOcean()) {
-            oceanPaintThumb(g, c, thumbBounds);
+        if (MetblLookAndFeel.usingOcebn()) {
+            ocebnPbintThumb(g, c, thumbBounds);
             return;
         }
 
-        boolean leftToRight = MetalUtils.isLeftToRight(c);
+        boolebn leftToRight = MetblUtils.isLeftToRight(c);
 
-        g.translate( thumbBounds.x, thumbBounds.y );
+        g.trbnslbte( thumbBounds.x, thumbBounds.y );
 
-        if ( scrollbar.getOrientation() == JScrollBar.VERTICAL )
+        if ( scrollbbr.getOrientbtion() == JScrollBbr.VERTICAL )
         {
-            if ( !isFreeStanding ) {
+            if ( !isFreeStbnding ) {
                 thumbBounds.width += 2;
                 if ( !leftToRight ) {
-                    g.translate( -1, 0 );
+                    g.trbnslbte( -1, 0 );
                 }
             }
 
             g.setColor( thumbColor );
             g.fillRect( 0, 0, thumbBounds.width - 2, thumbBounds.height - 1 );
 
-            g.setColor( thumbShadow );
-            drawRect(g, 0, 0, thumbBounds.width - 2, thumbBounds.height - 1);
+            g.setColor( thumbShbdow );
+            drbwRect(g, 0, 0, thumbBounds.width - 2, thumbBounds.height - 1);
 
             g.setColor( thumbHighlightColor );
-            drawHLine(g, 1, thumbBounds.width - 3, 1);
-            drawVLine(g, 1, 1, thumbBounds.height - 2);
+            drbwHLine(g, 1, thumbBounds.width - 3, 1);
+            drbwVLine(g, 1, 1, thumbBounds.height - 2);
 
-            bumps.setBumpArea( thumbBounds.width - 6, thumbBounds.height - 7 );
-            bumps.paintIcon( c, g, 3, 4 );
+            bumps.setBumpAreb( thumbBounds.width - 6, thumbBounds.height - 7 );
+            bumps.pbintIcon( c, g, 3, 4 );
 
-            if ( !isFreeStanding ) {
+            if ( !isFreeStbnding ) {
                 thumbBounds.width -= 2;
                 if ( !leftToRight ) {
-                    g.translate( 1, 0 );
+                    g.trbnslbte( 1, 0 );
                 }
             }
         }
         else  // HORIZONTAL
         {
-            if ( !isFreeStanding ) {
+            if ( !isFreeStbnding ) {
                 thumbBounds.height += 2;
             }
 
             g.setColor( thumbColor );
             g.fillRect( 0, 0, thumbBounds.width - 1, thumbBounds.height - 2 );
 
-            g.setColor( thumbShadow );
-            drawRect(g, 0, 0, thumbBounds.width - 1, thumbBounds.height - 2);
+            g.setColor( thumbShbdow );
+            drbwRect(g, 0, 0, thumbBounds.width - 1, thumbBounds.height - 2);
 
             g.setColor( thumbHighlightColor );
-            drawHLine(g, 1, thumbBounds.width - 3, 1);
-            drawVLine(g, 1, 1, thumbBounds.height - 3);
+            drbwHLine(g, 1, thumbBounds.width - 3, 1);
+            drbwVLine(g, 1, 1, thumbBounds.height - 3);
 
-            bumps.setBumpArea( thumbBounds.width - 7, thumbBounds.height - 6 );
-            bumps.paintIcon( c, g, 4, 3 );
+            bumps.setBumpAreb( thumbBounds.width - 7, thumbBounds.height - 6 );
+            bumps.pbintIcon( c, g, 4, 3 );
 
-            if ( !isFreeStanding ) {
+            if ( !isFreeStbnding ) {
                 thumbBounds.height -= 2;
             }
         }
 
-        g.translate( -thumbBounds.x, -thumbBounds.y );
+        g.trbnslbte( -thumbBounds.x, -thumbBounds.y );
     }
 
-    private void oceanPaintThumb(Graphics g, JComponent c,
-                                   Rectangle thumbBounds) {
-        boolean leftToRight = MetalUtils.isLeftToRight(c);
+    privbte void ocebnPbintThumb(Grbphics g, JComponent c,
+                                   Rectbngle thumbBounds) {
+        boolebn leftToRight = MetblUtils.isLeftToRight(c);
 
-        g.translate(thumbBounds.x, thumbBounds.y);
+        g.trbnslbte(thumbBounds.x, thumbBounds.y);
 
-        if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
-            if (!isFreeStanding) {
+        if (scrollbbr.getOrientbtion() == JScrollBbr.VERTICAL) {
+            if (!isFreeStbnding) {
                 thumbBounds.width += 2;
                 if (!leftToRight) {
-                    g.translate(-1, 0);
+                    g.trbnslbte(-1, 0);
                 }
             }
 
@@ -323,40 +323,40 @@ public class MetalScrollBarUI extends BasicScrollBarUI
                 g.fillRect(0, 0, thumbBounds.width - 2,thumbBounds.height - 1);
             }
 
-            g.setColor(thumbShadow);
-            drawRect(g, 0, 0, thumbBounds.width - 2, thumbBounds.height - 1);
+            g.setColor(thumbShbdow);
+            drbwRect(g, 0, 0, thumbBounds.width - 2, thumbBounds.height - 1);
 
             g.setColor(thumbHighlightColor);
-            drawHLine(g, 1, thumbBounds.width - 3, 1);
-            drawVLine(g, 1, 1, thumbBounds.height - 2);
+            drbwHLine(g, 1, thumbBounds.width - 3, 1);
+            drbwVLine(g, 1, 1, thumbBounds.height - 2);
 
-            MetalUtils.drawGradient(c, g, "ScrollBar.gradient", 2, 2,
+            MetblUtils.drbwGrbdient(c, g, "ScrollBbr.grbdient", 2, 2,
                                     thumbBounds.width - 4,
-                                    thumbBounds.height - 3, false);
+                                    thumbBounds.height - 3, fblse);
 
             int gripSize = thumbBounds.width - 8;
             if (gripSize > 2 && thumbBounds.height >= 10) {
-                g.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
+                g.setColor(MetblLookAndFeel.getPrimbryControlDbrkShbdow());
                 int gripY = thumbBounds.height / 2 - 2;
                 for (int counter = 0; counter < 6; counter += 2) {
                     g.fillRect(4, counter + gripY, gripSize, 1);
                 }
 
-                g.setColor(MetalLookAndFeel.getWhite());
+                g.setColor(MetblLookAndFeel.getWhite());
                 gripY++;
                 for (int counter = 0; counter < 6; counter += 2) {
                     g.fillRect(5, counter + gripY, gripSize, 1);
                 }
             }
-            if (!isFreeStanding) {
+            if (!isFreeStbnding) {
                 thumbBounds.width -= 2;
                 if (!leftToRight) {
-                    g.translate(1, 0);
+                    g.trbnslbte(1, 0);
                 }
             }
         }
         else { // HORIZONTAL
-            if (!isFreeStanding) {
+            if (!isFreeStbnding) {
                 thumbBounds.height += 2;
             }
 
@@ -365,52 +365,52 @@ public class MetalScrollBarUI extends BasicScrollBarUI
                 g.fillRect(0, 0, thumbBounds.width - 1,thumbBounds.height - 2);
             }
 
-            g.setColor(thumbShadow);
-            drawRect(g, 0, 0, thumbBounds.width - 1, thumbBounds.height - 2);
+            g.setColor(thumbShbdow);
+            drbwRect(g, 0, 0, thumbBounds.width - 1, thumbBounds.height - 2);
 
             g.setColor(thumbHighlightColor);
-            drawHLine(g, 1, thumbBounds.width - 2, 1);
-            drawVLine(g, 1, 1, thumbBounds.height - 3);
+            drbwHLine(g, 1, thumbBounds.width - 2, 1);
+            drbwVLine(g, 1, 1, thumbBounds.height - 3);
 
-            MetalUtils.drawGradient(c, g, "ScrollBar.gradient", 2, 2,
+            MetblUtils.drbwGrbdient(c, g, "ScrollBbr.grbdient", 2, 2,
                                     thumbBounds.width - 3,
                                     thumbBounds.height - 4, true);
 
             int gripSize = thumbBounds.height - 8;
             if (gripSize > 2 && thumbBounds.width >= 10) {
-                g.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
+                g.setColor(MetblLookAndFeel.getPrimbryControlDbrkShbdow());
                 int gripX = thumbBounds.width / 2 - 2;
                 for (int counter = 0; counter < 6; counter += 2) {
                     g.fillRect(gripX + counter, 4, 1, gripSize);
                 }
 
-                g.setColor(MetalLookAndFeel.getWhite());
+                g.setColor(MetblLookAndFeel.getWhite());
                 gripX++;
                 for (int counter = 0; counter < 6; counter += 2) {
                     g.fillRect(gripX + counter, 5, 1, gripSize);
                 }
             }
 
-            if (!isFreeStanding) {
+            if (!isFreeStbnding) {
                 thumbBounds.height -= 2;
             }
         }
 
-        g.translate( -thumbBounds.x, -thumbBounds.y );
+        g.trbnslbte( -thumbBounds.x, -thumbBounds.y );
     }
 
     protected Dimension getMinimumThumbSize()
     {
-        return new Dimension( scrollBarWidth, scrollBarWidth );
+        return new Dimension( scrollBbrWidth, scrollBbrWidth );
     }
 
     /**
-      * This is overridden only to increase the invalid area.  This
-      * ensures that the "Shadow" below the thumb is invalidated
+      * This is overridden only to increbse the invblid breb.  This
+      * ensures thbt the "Shbdow" below the thumb is invblidbted
       */
     protected void setThumbBounds(int x, int y, int width, int height)
     {
-        /* If the thumbs bounds haven't changed, we're done.
+        /* If the thumbs bounds hbven't chbnged, we're done.
          */
         if ((thumbRect.x == x) &&
             (thumbRect.y == y) &&
@@ -419,84 +419,84 @@ public class MetalScrollBarUI extends BasicScrollBarUI
             return;
         }
 
-        /* Update thumbRect, and repaint the union of x,y,w,h and
+        /* Updbte thumbRect, bnd repbint the union of x,y,w,h bnd
          * the old thumbRect.
          */
-        int minX = Math.min(x, thumbRect.x);
-        int minY = Math.min(y, thumbRect.y);
-        int maxX = Math.max(x + width, thumbRect.x + thumbRect.width);
-        int maxY = Math.max(y + height, thumbRect.y + thumbRect.height);
+        int minX = Mbth.min(x, thumbRect.x);
+        int minY = Mbth.min(y, thumbRect.y);
+        int mbxX = Mbth.mbx(x + width, thumbRect.x + thumbRect.width);
+        int mbxY = Mbth.mbx(y + height, thumbRect.y + thumbRect.height);
 
         thumbRect.setBounds(x, y, width, height);
-        scrollbar.repaint(minX, minY, (maxX - minX)+1, (maxY - minY)+1);
+        scrollbbr.repbint(minX, minY, (mbxX - minX)+1, (mbxY - minY)+1);
     }
 
 
 
-    class ScrollBarListener extends BasicScrollBarUI.PropertyChangeHandler
+    clbss ScrollBbrListener extends BbsicScrollBbrUI.PropertyChbngeHbndler
     {
-        public void propertyChange(PropertyChangeEvent e)
+        public void propertyChbnge(PropertyChbngeEvent e)
         {
-            String name = e.getPropertyName();
-            if ( name.equals( FREE_STANDING_PROP ) )
+            String nbme = e.getPropertyNbme();
+            if ( nbme.equbls( FREE_STANDING_PROP ) )
             {
-                handlePropertyChange( e.getNewValue() );
+                hbndlePropertyChbnge( e.getNewVblue() );
             }
             else {
-                super.propertyChange( e );
+                super.propertyChbnge( e );
             }
         }
 
-        public void handlePropertyChange( Object newValue )
+        public void hbndlePropertyChbnge( Object newVblue )
         {
-            if ( newValue != null )
+            if ( newVblue != null )
             {
-                boolean temp = ((Boolean)newValue).booleanValue();
-                boolean becameFlush = temp == false && isFreeStanding == true;
-                boolean becameNormal = temp == true && isFreeStanding == false;
+                boolebn temp = ((Boolebn)newVblue).boolebnVblue();
+                boolebn becbmeFlush = temp == fblse && isFreeStbnding == true;
+                boolebn becbmeNormbl = temp == true && isFreeStbnding == fblse;
 
-                isFreeStanding = temp;
+                isFreeStbnding = temp;
 
-                if ( becameFlush ) {
+                if ( becbmeFlush ) {
                     toFlush();
                 }
-                else if ( becameNormal ) {
-                    toFreeStanding();
+                else if ( becbmeNormbl ) {
+                    toFreeStbnding();
                 }
             }
             else
             {
 
-                if ( !isFreeStanding ) {
-                    isFreeStanding = true;
-                    toFreeStanding();
+                if ( !isFreeStbnding ) {
+                    isFreeStbnding = true;
+                    toFreeStbnding();
                 }
 
-                // This commented-out block is used for testing flush scrollbars.
+                // This commented-out block is used for testing flush scrollbbrs.
 /*
-                if ( isFreeStanding ) {
-                    isFreeStanding = false;
+                if ( isFreeStbnding ) {
+                    isFreeStbnding = fblse;
                     toFlush();
                 }
 */
             }
 
-            if ( increaseButton != null )
+            if ( increbseButton != null )
             {
-                increaseButton.setFreeStanding( isFreeStanding );
+                increbseButton.setFreeStbnding( isFreeStbnding );
             }
-            if ( decreaseButton != null )
+            if ( decrebseButton != null )
             {
-                decreaseButton.setFreeStanding( isFreeStanding );
+                decrebseButton.setFreeStbnding( isFreeStbnding );
             }
         }
 
         protected void toFlush() {
-            scrollBarWidth -= 2;
+            scrollBbrWidth -= 2;
         }
 
-        protected void toFreeStanding() {
-            scrollBarWidth += 2;
+        protected void toFreeStbnding() {
+            scrollBbrWidth += 2;
         }
-    } // end class ScrollBarListener
+    } // end clbss ScrollBbrListener
 }

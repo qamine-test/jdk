@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,149 +30,149 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.io.*;
-import java.net.*;
-import java.lang.Byte;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.lbng.Byte;
 
 /**
- * Simple Java "server" using the Poller class
+ * Simple Jbvb "server" using the Poller clbss
  * to multiplex on incoming connections.  Note
- * that handoff of events, via linked Q is not
- * actually be a performance booster here, since
- * the processing of events is cheaper than
- * the overhead in scheduling/executing them.
- * Although this demo does allow for concurrency
- * in handling connections, it uses a rather
- * primitive "gang scheduling" policy to keep
+ * thbt hbndoff of events, vib linked Q is not
+ * bctublly be b performbnce booster here, since
+ * the processing of events is chebper thbn
+ * the overhebd in scheduling/executing them.
+ * Although this demo does bllow for concurrency
+ * in hbndling connections, it uses b rbther
+ * primitive "gbng scheduling" policy to keep
  * the code simpler.
  */
 
-public class PollingServer
+public clbss PollingServer
 {
-  public final static int MAXCONN    = 10000;
-  public final static int PORTNUM    = 4444;
-  public final static int BYTESPEROP = 10;
+  public finbl stbtic int MAXCONN    = 10000;
+  public finbl stbtic int PORTNUM    = 4444;
+  public finbl stbtic int BYTESPEROP = 10;
 
   /**
-   * This synchronization object protects access to certain
-   * data (bytesRead,eventsToProcess) by concurrent Consumer threads.
+   * This synchronizbtion object protects bccess to certbin
+   * dbtb (bytesRebd,eventsToProcess) by concurrent Consumer threbds.
    */
-  private final static Object eventSync = new Object();
+  privbte finbl stbtic Object eventSync = new Object();
 
-  private static InputStream[] instr = new InputStream[MAXCONN];
-  private static int[] mapping = new int[65535];
-  private static LinkedQueue linkedQ = new LinkedQueue();
-  private static int bytesRead = 0;
-  private static int bytesToRead;
-  private static int eventsToProcess=0;
+  privbte stbtic InputStrebm[] instr = new InputStrebm[MAXCONN];
+  privbte stbtic int[] mbpping = new int[65535];
+  privbte stbtic LinkedQueue linkedQ = new LinkedQueue();
+  privbte stbtic int bytesRebd = 0;
+  privbte stbtic int bytesToRebd;
+  privbte stbtic int eventsToProcess=0;
 
   public PollingServer(int concurrency) {
     Socket[] sockArr = new Socket[MAXCONN];
-    long timestart, timestop;
+    long timestbrt, timestop;
     short[] revents = new short[MAXCONN];
     int[] fds = new int[MAXCONN];
     int bytes;
     Poller Mux;
     int serverFd;
-    int totalConn=0;
+    int totblConn=0;
     int connects=0;
 
-    System.out.println ("Serv: Initializing port " + PORTNUM);
+    System.out.println ("Serv: Initiblizing port " + PORTNUM);
     try {
 
-      ServerSocket skMain = new ServerSocket (PORTNUM);
+      ServerSocket skMbin = new ServerSocket (PORTNUM);
       /*
-       * Create the Poller object Mux, allow for up to MAXCONN
+       * Crebte the Poller object Mux, bllow for up to MAXCONN
        * sockets/filedescriptors to be polled.
        */
       Mux = new Poller(MAXCONN);
-      serverFd = Mux.add(skMain, Poller.POLLIN);
+      serverFd = Mux.bdd(skMbin, Poller.POLLIN);
 
-      Socket ctrlSock = skMain.accept();
+      Socket ctrlSock = skMbin.bccept();
 
-      BufferedReader ctrlReader =
-        new BufferedReader(new InputStreamReader(ctrlSock.getInputStream()));
-      String ctrlString = ctrlReader.readLine();
-      bytesToRead = Integer.valueOf(ctrlString).intValue();
-      ctrlString = ctrlReader.readLine();
-      totalConn = Integer.valueOf(ctrlString).intValue();
+      BufferedRebder ctrlRebder =
+        new BufferedRebder(new InputStrebmRebder(ctrlSock.getInputStrebm()));
+      String ctrlString = ctrlRebder.rebdLine();
+      bytesToRebd = Integer.vblueOf(ctrlString).intVblue();
+      ctrlString = ctrlRebder.rebdLine();
+      totblConn = Integer.vblueOf(ctrlString).intVblue();
 
-      System.out.println("Receiving " + bytesToRead + " bytes from " +
-                         totalConn + " client connections");
+      System.out.println("Receiving " + bytesToRebd + " bytes from " +
+                         totblConn + " client connections");
 
-      timestart = System.currentTimeMillis();
+      timestbrt = System.currentTimeMillis();
 
       /*
-       * Start the consumer threads to read data.
+       * Stbrt the consumer threbds to rebd dbtb.
        */
-      for (int consumerThread = 0;
-           consumerThread < concurrency; consumerThread++ ) {
-        new Consumer(consumerThread).start();
+      for (int consumerThrebd = 0;
+           consumerThrebd < concurrency; consumerThrebd++ ) {
+        new Consumer(consumerThrebd).stbrt();
       }
 
       /*
-       * Take connections, read Data
+       * Tbke connections, rebd Dbtb
        */
       int numEvents=0;
 
-      while ( bytesRead < bytesToRead ) {
+      while ( bytesRebd < bytesToRebd ) {
 
-        int loopWaits=0;
+        int loopWbits=0;
         while (eventsToProcess > 0) {
           synchronized (eventSync) {
-            loopWaits++;
-            if (eventsToProcess <= 0) break;
-            try { eventSync.wait(); } catch (Exception e) {e.printStackTrace();};
+            loopWbits++;
+            if (eventsToProcess <= 0) brebk;
+            try { eventSync.wbit(); } cbtch (Exception e) {e.printStbckTrbce();};
           }
         }
-        if (loopWaits > 1)
-          System.out.println("Done waiting...loops = " + loopWaits +
+        if (loopWbits > 1)
+          System.out.println("Done wbiting...loops = " + loopWbits +
                              " events " + numEvents +
-                             " bytes read : " + bytesRead );
+                             " bytes rebd : " + bytesRebd );
 
-        if (bytesRead >= bytesToRead) break; // may be done!
+        if (bytesRebd >= bytesToRebd) brebk; // mby be done!
 
         /*
-         * Wait for events
+         * Wbit for events
          */
-        numEvents = Mux.waitMultiple(100, fds, revents);
+        numEvents = Mux.wbitMultiple(100, fds, revents);
         synchronized (eventSync) {
           eventsToProcess = numEvents;
         }
         /*
-         * Process all the events we got from Mux.waitMultiple
+         * Process bll the events we got from Mux.wbitMultiple
          */
         int cnt = 0;
-        while ( (cnt < numEvents) && (bytesRead < bytesToRead) ) {
+        while ( (cnt < numEvents) && (bytesRebd < bytesToRebd) ) {
           int fd = fds[cnt];
 
           if (revents[cnt] == Poller.POLLIN) {
             if (fd == serverFd) {
               /*
                * New connection coming in on the ServerSocket
-               * Add the socket to the Mux, keep track of mapping
-               * the fdval returned by Mux.add to the connection.
+               * Add the socket to the Mux, keep trbck of mbpping
+               * the fdvbl returned by Mux.bdd to the connection.
                */
-              sockArr[connects] = skMain.accept();
-              instr[connects] = sockArr[connects].getInputStream();
-              int fdval = Mux.add(sockArr[connects], Poller.POLLIN);
-              mapping[fdval] = connects;
+              sockArr[connects] = skMbin.bccept();
+              instr[connects] = sockArr[connects].getInputStrebm();
+              int fdvbl = Mux.bdd(sockArr[connects], Poller.POLLIN);
+              mbpping[fdvbl] = connects;
               synchronized(eventSync) {
                 eventsToProcess--; // just processed this one!
               }
               connects++;
             } else {
               /*
-               * We've got data from this client connection.
-               * Put it on the queue for the consumer threads to process.
+               * We've got dbtb from this client connection.
+               * Put it on the queue for the consumer threbds to process.
                */
               linkedQ.put(new Integer(fd));
             }
@@ -183,76 +183,76 @@ public class PollingServer
         }
       }
       timestop = System.currentTimeMillis();
-      System.out.println("Time for all reads (" + totalConn +
-                         " sockets) : " + (timestop-timestart));
+      System.out.println("Time for bll rebds (" + totblConn +
+                         " sockets) : " + (timestop-timestbrt));
 
-      // Tell the client it can now go away
+      // Tell the client it cbn now go bwby
       byte[] buff = new byte[BYTESPEROP];
-      ctrlSock.getOutputStream().write(buff,0,BYTESPEROP);
+      ctrlSock.getOutputStrebm().write(buff,0,BYTESPEROP);
 
-      // Tell the cunsumer threads they can exit.
-      for (int cThread = 0; cThread < concurrency; cThread++ ) {
+      // Tell the cunsumer threbds they cbn exit.
+      for (int cThrebd = 0; cThrebd < concurrency; cThrebd++ ) {
         linkedQ.put(new Integer(-1));
       }
-    } catch (Exception exc) { exc.printStackTrace(); }
+    } cbtch (Exception exc) { exc.printStbckTrbce(); }
   }
 
   /*
-   * main ... just check if a concurrency was specified
+   * mbin ... just check if b concurrency wbs specified
    */
-  public static void main (String args[])
+  public stbtic void mbin (String brgs[])
   {
     int concurrency;
 
-    if (args.length == 1)
-      concurrency = java.lang.Integer.valueOf(args[0]).intValue();
+    if (brgs.length == 1)
+      concurrency = jbvb.lbng.Integer.vblueOf(brgs[0]).intVblue();
     else
       concurrency = Poller.getNumCPUs() + 1;
     PollingServer server = new PollingServer(concurrency);
   }
 
   /*
-   * This class is for handling the Client data.
-   * The PollingServer spawns off a number of these based upon
-   * the number of CPUs (or concurrency argument).
-   * Each just loops grabbing events off the queue and
+   * This clbss is for hbndling the Client dbtb.
+   * The PollingServer spbwns off b number of these bbsed upon
+   * the number of CPUs (or concurrency brgument).
+   * Ebch just loops grbbbing events off the queue bnd
    * processing them.
    */
-  class Consumer extends Thread {
-    private int threadNumber;
-    public Consumer(int i) { threadNumber = i; }
+  clbss Consumer extends Threbd {
+    privbte int threbdNumber;
+    public Consumer(int i) { threbdNumber = i; }
 
     public void run() {
       byte[] buff = new byte[BYTESPEROP];
       int bytes = 0;
 
-      InputStream instream;
-      while (bytesRead < bytesToRead) {
+      InputStrebm instrebm;
+      while (bytesRebd < bytesToRebd) {
         try {
-          Integer Fd = (Integer) linkedQ.take();
-          int fd = Fd.intValue();
-          if (fd == -1) break; /* got told we could exit */
+          Integer Fd = (Integer) linkedQ.tbke();
+          int fd = Fd.intVblue();
+          if (fd == -1) brebk; /* got told we could exit */
 
           /*
-           * We have to map the fd value returned from waitMultiple
-           * to the actual input stream associated with that fd.
-           * Take a look at how the Mux.add() was done to see how
-           * we stored that.
+           * We hbve to mbp the fd vblue returned from wbitMultiple
+           * to the bctubl input strebm bssocibted with thbt fd.
+           * Tbke b look bt how the Mux.bdd() wbs done to see how
+           * we stored thbt.
            */
-          int map = mapping[fd];
-          instream = instr[map];
-          bytes = instream.read(buff,0,BYTESPEROP);
-        } catch (Exception e) { System.out.println(e.toString()); }
+          int mbp = mbpping[fd];
+          instrebm = instr[mbp];
+          bytes = instrebm.rebd(buff,0,BYTESPEROP);
+        } cbtch (Exception e) { System.out.println(e.toString()); }
 
         if (bytes > 0) {
           /*
-           * Any real server would do some synchronized and some
-           * unsynchronized work on behalf of the client, and
-           * most likely send some data back...but this is a
-           * gross oversimplification.
+           * Any rebl server would do some synchronized bnd some
+           * unsynchronized work on behblf of the client, bnd
+           * most likely send some dbtb bbck...but this is b
+           * gross oversimplificbtion.
            */
           synchronized(eventSync) {
-            bytesRead += bytes;
+            bytesRebd += bytes;
             eventsToProcess--;
             if (eventsToProcess <= 0) {
               eventSync.notify();

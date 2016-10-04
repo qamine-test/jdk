@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1996, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * This class implements a character buffer that can be used as a
- * character-input stream.
+ * This clbss implements b chbrbcter buffer thbt cbn be used bs b
+ * chbrbcter-input strebm.
  *
- * @author      Herb Jellinek
+ * @buthor      Herb Jellinek
  * @since       1.1
  */
-public class CharArrayReader extends Reader {
-    /** The character buffer. */
-    protected char buf[];
+public clbss ChbrArrbyRebder extends Rebder {
+    /** The chbrbcter buffer. */
+    protected chbr buf[];
 
     /** The current buffer position. */
     protected int pos;
 
-    /** The position of mark in buffer. */
-    protected int markedPos = 0;
+    /** The position of mbrk in buffer. */
+    protected int mbrkedPos = 0;
 
     /**
-     *  The index of the end of this buffer.  There is not valid
-     *  data at or beyond this index.
+     *  The index of the end of this buffer.  There is not vblid
+     *  dbtb bt or beyond this index.
      */
     protected int count;
 
     /**
-     * Creates a CharArrayReader from the specified array of chars.
-     * @param buf       Input buffer (not copied)
+     * Crebtes b ChbrArrbyRebder from the specified brrby of chbrs.
+     * @pbrbm buf       Input buffer (not copied)
      */
-    public CharArrayReader(char buf[]) {
+    public ChbrArrbyRebder(chbr buf[]) {
         this.buf = buf;
         this.pos = 0;
         this.count = buf.length;
     }
 
     /**
-     * Creates a CharArrayReader from the specified array of chars.
+     * Crebtes b ChbrArrbyRebder from the specified brrby of chbrs.
      *
-     * <p> The resulting reader will start reading at the given
-     * <tt>offset</tt>.  The total number of <tt>char</tt> values that can be
-     * read from this reader will be either <tt>length</tt> or
-     * <tt>buf.length-offset</tt>, whichever is smaller.
+     * <p> The resulting rebder will stbrt rebding bt the given
+     * <tt>offset</tt>.  The totbl number of <tt>chbr</tt> vblues thbt cbn be
+     * rebd from this rebder will be either <tt>length</tt> or
+     * <tt>buf.length-offset</tt>, whichever is smbller.
      *
-     * @throws IllegalArgumentException
-     *         If <tt>offset</tt> is negative or greater than
-     *         <tt>buf.length</tt>, or if <tt>length</tt> is negative, or if
-     *         the sum of these two values is negative.
+     * @throws IllegblArgumentException
+     *         If <tt>offset</tt> is negbtive or grebter thbn
+     *         <tt>buf.length</tt>, or if <tt>length</tt> is negbtive, or if
+     *         the sum of these two vblues is negbtive.
      *
-     * @param buf       Input buffer (not copied)
-     * @param offset    Offset of the first char to read
-     * @param length    Number of chars to read
+     * @pbrbm buf       Input buffer (not copied)
+     * @pbrbm offset    Offset of the first chbr to rebd
+     * @pbrbm length    Number of chbrs to rebd
      */
-    public CharArrayReader(char buf[], int offset, int length) {
+    public ChbrArrbyRebder(chbr buf[], int offset, int length) {
         if ((offset < 0) || (offset > buf.length) || (length < 0) ||
             ((offset + length) < 0)) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
         this.buf = buf;
         this.pos = offset;
-        this.count = Math.min(offset + length, buf.length);
-        this.markedPos = offset;
+        this.count = Mbth.min(offset + length, buf.length);
+        this.mbrkedPos = offset;
     }
 
-    /** Checks to make sure that the stream has not been closed */
-    private void ensureOpen() throws IOException {
+    /** Checks to mbke sure thbt the strebm hbs not been closed */
+    privbte void ensureOpen() throws IOException {
         if (buf == null)
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
     }
 
     /**
-     * Reads a single character.
+     * Rebds b single chbrbcter.
      *
-     * @exception   IOException  If an I/O error occurs
+     * @exception   IOException  If bn I/O error occurs
      */
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         synchronized (lock) {
             ensureOpen();
             if (pos >= count)
@@ -108,16 +108,16 @@ public class CharArrayReader extends Reader {
     }
 
     /**
-     * Reads characters into a portion of an array.
-     * @param b  Destination buffer
-     * @param off  Offset at which to start storing characters
-     * @param len   Maximum number of characters to read
-     * @return  The actual number of characters read, or -1 if
-     *          the end of the stream has been reached
+     * Rebds chbrbcters into b portion of bn brrby.
+     * @pbrbm b  Destinbtion buffer
+     * @pbrbm off  Offset bt which to stbrt storing chbrbcters
+     * @pbrbm len   Mbximum number of chbrbcters to rebd
+     * @return  The bctubl number of chbrbcters rebd, or -1 if
+     *          the end of the strebm hbs been rebched
      *
-     * @exception   IOException  If an I/O error occurs
+     * @exception   IOException  If bn I/O error occurs
      */
-    public int read(char b[], int off, int len) throws IOException {
+    public int rebd(chbr b[], int off, int len) throws IOException {
         synchronized (lock) {
             ensureOpen();
             if ((off < 0) || (off > b.length) || (len < 0) ||
@@ -136,23 +136,23 @@ public class CharArrayReader extends Reader {
             if (len <= 0) {
                 return 0;
             }
-            System.arraycopy(buf, pos, b, off, len);
+            System.brrbycopy(buf, pos, b, off, len);
             pos += len;
             return len;
         }
     }
 
     /**
-     * Skips characters.  Returns the number of characters that were skipped.
+     * Skips chbrbcters.  Returns the number of chbrbcters thbt were skipped.
      *
-     * <p>The <code>n</code> parameter may be negative, even though the
-     * <code>skip</code> method of the {@link Reader} superclass throws
-     * an exception in this case. If <code>n</code> is negative, then
-     * this method does nothing and returns <code>0</code>.
+     * <p>The <code>n</code> pbrbmeter mby be negbtive, even though the
+     * <code>skip</code> method of the {@link Rebder} superclbss throws
+     * bn exception in this cbse. If <code>n</code> is negbtive, then
+     * this method does nothing bnd returns <code>0</code>.
      *
-     * @param n The number of characters to skip
-     * @return       The number of characters actually skipped
-     * @exception  IOException If the stream is closed, or an I/O error occurs
+     * @pbrbm n The number of chbrbcters to skip
+     * @return       The number of chbrbcters bctublly skipped
+     * @exception  IOException If the strebm is closed, or bn I/O error occurs
      */
     public long skip(long n) throws IOException {
         synchronized (lock) {
@@ -169,12 +169,12 @@ public class CharArrayReader extends Reader {
     }
 
     /**
-     * Tells whether this stream is ready to be read.  Character-array readers
-     * are always ready to be read.
+     * Tells whether this strebm is rebdy to be rebd.  Chbrbcter-brrby rebders
+     * bre blwbys rebdy to be rebd.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public boolean ready() throws IOException {
+    public boolebn rebdy() throws IOException {
         synchronized (lock) {
             ensureOpen();
             return (count - pos) > 0;
@@ -182,49 +182,49 @@ public class CharArrayReader extends Reader {
     }
 
     /**
-     * Tells whether this stream supports the mark() operation, which it does.
+     * Tells whether this strebm supports the mbrk() operbtion, which it does.
      */
-    public boolean markSupported() {
+    public boolebn mbrkSupported() {
         return true;
     }
 
     /**
-     * Marks the present position in the stream.  Subsequent calls to reset()
-     * will reposition the stream to this point.
+     * Mbrks the present position in the strebm.  Subsequent cblls to reset()
+     * will reposition the strebm to this point.
      *
-     * @param  readAheadLimit  Limit on the number of characters that may be
-     *                         read while still preserving the mark.  Because
-     *                         the stream's input comes from a character array,
-     *                         there is no actual limit; hence this argument is
+     * @pbrbm  rebdAhebdLimit  Limit on the number of chbrbcters thbt mby be
+     *                         rebd while still preserving the mbrk.  Becbuse
+     *                         the strebm's input comes from b chbrbcter brrby,
+     *                         there is no bctubl limit; hence this brgument is
      *                         ignored.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public void mark(int readAheadLimit) throws IOException {
+    public void mbrk(int rebdAhebdLimit) throws IOException {
         synchronized (lock) {
             ensureOpen();
-            markedPos = pos;
+            mbrkedPos = pos;
         }
     }
 
     /**
-     * Resets the stream to the most recent mark, or to the beginning if it has
-     * never been marked.
+     * Resets the strebm to the most recent mbrk, or to the beginning if it hbs
+     * never been mbrked.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
     public void reset() throws IOException {
         synchronized (lock) {
             ensureOpen();
-            pos = markedPos;
+            pos = mbrkedPos;
         }
     }
 
     /**
-     * Closes the stream and releases any system resources associated with
-     * it.  Once the stream has been closed, further read(), ready(),
-     * mark(), reset(), or skip() invocations will throw an IOException.
-     * Closing a previously closed stream has no effect.
+     * Closes the strebm bnd relebses bny system resources bssocibted with
+     * it.  Once the strebm hbs been closed, further rebd(), rebdy(),
+     * mbrk(), reset(), or skip() invocbtions will throw bn IOException.
+     * Closing b previously closed strebm hbs no effect.
      */
     public void close() {
         buf = null;

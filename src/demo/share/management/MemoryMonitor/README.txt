@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Redistribution bnd use in source bnd binbry forms, with or without
+# modificbtion, bre permitted provided thbt the following conditions
+# bre met:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Redistributions of source code must retbin the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Redistributions in binbry form must reproduce the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer in the
+#     documentbtion bnd/or other mbteribls provided with the distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Neither the nbme of Orbcle nor the nbmes of its
+#     contributors mby be used to endorse or promote products derived
+#     from this softwbre without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,20 +29,20 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-MemoryMonitor demonstrates the use of the java.lang.management API 
-in observing the memory usage of all memory pools consumed by
-the application.
+MemoryMonitor demonstrbtes the use of the jbvb.lbng.mbnbgement API 
+in observing the memory usbge of bll memory pools consumed by
+the bpplicbtion.
 
-This simple demo program queries the memory usage of each memory pool
-and plots the memory usage history graph.
+This simple demo progrbm queries the memory usbge of ebch memory pool
+bnd plots the memory usbge history grbph.
 
 To run the MemoryMonitor demo
 
-   java -jar <JDK_HOME>/demo/management/MemoryMonitor/MemoryMonitor.jar 
+   jbvb -jbr <JDK_HOME>/demo/mbnbgement/MemoryMonitor/MemoryMonitor.jbr 
 
-These instructions assume that this installation's version of the java
-command is in your path.  If it isn't, then you should either
-specify the complete path to the java command or update your
-PATH environment variable as described in the installation
-instructions for the Java(TM) SDK.
+These instructions bssume thbt this instbllbtion's version of the jbvb
+commbnd is in your pbth.  If it isn't, then you should either
+specify the complete pbth to the jbvb commbnd or updbte your
+PATH environment vbribble bs described in the instbllbtion
+instructions for the Jbvb(TM) SDK.
 

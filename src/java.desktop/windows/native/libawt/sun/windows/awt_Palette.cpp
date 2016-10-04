@@ -1,36 +1,36 @@
 /*
- * Copyright (c) 2001, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt.h"
-#include "awt_Palette.h"
-#include "awt_Component.h"
+#include "bwt.h"
+#include "bwt_Pblette.h"
+#include "bwt_Component.h"
 #include "img_util_md.h"
-#include "awt_CustomPaletteDef.h"
-#include "Trace.h"
+#include "bwt_CustomPbletteDef.h"
+#include "Trbce.h"
 
-BOOL AwtPalette::m_useCustomPalette = TRUE;
+BOOL AwtPblette::m_useCustomPblette = TRUE;
 
 #define ERROR_GRAY (-1)
 #define NON_GRAY 0
@@ -38,213 +38,213 @@ BOOL AwtPalette::m_useCustomPalette = TRUE;
 #define NON_LINEAR_STATIC_GRAY 2
 
 /**
- * Select the palette into the given HDC.  This will
- * allow operations using this HDC to access the palette
+ * Select the pblette into the given HDC.  This will
+ * bllow operbtions using this HDC to bccess the pblette
  * colors/indices.
  */
-HPALETTE AwtPalette::Select(HDC hDC)
+HPALETTE AwtPblette::Select(HDC hDC)
 {
-    HPALETTE prevPalette = NULL;
-    if (logicalPalette) {
-        BOOL background = !(m_useCustomPalette);
-        prevPalette = ::SelectPalette(hDC, logicalPalette, background);
+    HPALETTE prevPblette = NULL;
+    if (logicblPblette) {
+        BOOL bbckground = !(m_useCustomPblette);
+        prevPblette = ::SelectPblette(hDC, logicblPblette, bbckground);
     }
-    return prevPalette;
+    return prevPblette;
 }
 
 /**
- * Realize the palette of the given HDC.  This will attempt to
- * install the palette of the HDC onto the device associated with
- * that HDC.
+ * Reblize the pblette of the given HDC.  This will bttempt to
+ * instbll the pblette of the HDC onto the device bssocibted with
+ * thbt HDC.
  */
-void AwtPalette::Realize(HDC hDC)
+void AwtPblette::Reblize(HDC hDC)
 {
-    if (logicalPalette) {
-        if (!m_useCustomPalette ||
-            AwtComponent::QueryNewPaletteCalled() ||
-            AwtToolkit::GetInstance().HasDisplayChanged()) {
-            // Fix for bug 4178909, workaround for Windows bug.  Shouldn't
-            // do a RealizePalette until the first QueryNewPalette message
-            // has been processed.
-            // But if we are switching the primary monitor from non-8bpp
-            // to 8bpp mode, we may not get any palette messages during
-            // the display change event.  Go ahead and realize the palette
-            // now anyway in this situation.  This was especially noticeable
-            // on win2k in multimon.  Note that there still seems to be some
-            // problem with actually setting the palette on the primary
-            // screen until after QNP is called, but at least the
-            // secondary devices can correctly realize the palette.
-            ::RealizePalette(hDC);
+    if (logicblPblette) {
+        if (!m_useCustomPblette ||
+            AwtComponent::QueryNewPbletteCblled() ||
+            AwtToolkit::GetInstbnce().HbsDisplbyChbnged()) {
+            // Fix for bug 4178909, workbround for Windows bug.  Shouldn't
+            // do b ReblizePblette until the first QueryNewPblette messbge
+            // hbs been processed.
+            // But if we bre switching the primbry monitor from non-8bpp
+            // to 8bpp mode, we mby not get bny pblette messbges during
+            // the displby chbnge event.  Go bhebd bnd reblize the pblette
+            // now bnywby in this situbtion.  This wbs especiblly noticebble
+            // on win2k in multimon.  Note thbt there still seems to be some
+            // problem with bctublly setting the pblette on the primbry
+            // screen until bfter QNP is cblled, but bt lebst the
+            // secondbry devices cbn correctly reblize the pblette.
+            ::ReblizePblette(hDC);
         }
     }
 }
 
 /**
- * Disable the use of our custom palette.  This method is called
- * during initialization if we detect that we are running inside
- * the plugin; we do not want to clobber our parent application's
- * palette with our own in that situation.
+ * Disbble the use of our custom pblette.  This method is cblled
+ * during initiblizbtion if we detect thbt we bre running inside
+ * the plugin; we do not wbnt to clobber our pbrent bpplicbtion's
+ * pblette with our own in thbt situbtion.
  */
-void AwtPalette::DisableCustomPalette()
+void AwtPblette::DisbbleCustomPblette()
 {
-    m_useCustomPalette = FALSE;
+    m_useCustomPblette = FALSE;
 }
 
 /**
- * Returns whether we are currently using a custom palette.  Used
- * by AwtWin32GraphicsDevice when creating the colorModel of the
+ * Returns whether we bre currently using b custom pblette.  Used
+ * by AwtWin32GrbphicsDevice when crebting the colorModel of the
  * device.
  */
-BOOL AwtPalette::UseCustomPalette()
+BOOL AwtPblette::UseCustomPblette()
 {
-    return m_useCustomPalette;
+    return m_useCustomPblette;
 }
 
 
 /**
- * Constructor.  Initialize the system and logical palettes.
+ * Constructor.  Initiblize the system bnd logicbl pblettes.
  * used by this object.
  */
-AwtPalette::AwtPalette(AwtWin32GraphicsDevice *device)
+AwtPblette::AwtPblette(AwtWin32GrbphicsDevice *device)
 {
     this->device = device;
-    Update();
-    UpdateLogical();
+    Updbte();
+    UpdbteLogicbl();
 }
 
 /**
- * Retrieves system palette entries. Includes a workaround for for some
- * video drivers which may not support the GSPE call but may return
- * valid values from this procedure.
+ * Retrieves system pblette entries. Includes b workbround for for some
+ * video drivers which mby not support the GSPE cbll but mby return
+ * vblid vblues from this procedure.
  */
-int AwtPalette::FetchPaletteEntries(HDC hDC, PALETTEENTRY* pPalEntries)
+int AwtPblette::FetchPbletteEntries(HDC hDC, PALETTEENTRY* pPblEntries)
 {
-    LOGPALETTE* pLogPal = 0;
-    HPALETTE hPal = 0;
-    HPALETTE hPalOld = 0;
+    LOGPALETTE* pLogPbl = 0;
+    HPALETTE hPbl = 0;
+    HPALETTE hPblOld = 0;
     int numEntries;
 
-    numEntries = ::GetSystemPaletteEntries(hDC, 0, 256, pPalEntries);
+    numEntries = ::GetSystemPbletteEntries(hDC, 0, 256, pPblEntries);
 
     if (numEntries > 0) {
         return numEntries;
     }
-    // Workaround: some drivers do not support GetSysPalEntries
+    // Workbround: some drivers do not support GetSysPblEntries
 
-    pLogPal = (LOGPALETTE*) new char[sizeof(LOGPALETTE)
+    pLogPbl = (LOGPALETTE*) new chbr[sizeof(LOGPALETTE)
                                     + 256*sizeof(PALETTEENTRY)];
-    if (pLogPal == NULL) {
+    if (pLogPbl == NULL) {
         return 0;
     }
 
-    pLogPal->palVersion = 0x300;
-    pLogPal->palNumEntries = 256;
+    pLogPbl->pblVersion = 0x300;
+    pLogPbl->pblNumEntries = 256;
     int iEntry;
     PALETTEENTRY* pEntry;
     for (iEntry = 0; iEntry < 256; iEntry++) {
-        pEntry = pLogPal->palPalEntry + iEntry;
+        pEntry = pLogPbl->pblPblEntry + iEntry;
         pEntry->peRed = iEntry;
         pEntry->peGreen = pEntry->peBlue = 0;
-        pEntry->peFlags = PC_EXPLICIT;
+        pEntry->peFlbgs = PC_EXPLICIT;
     }
-    hPal = ::CreatePalette(pLogPal);
-    delete pLogPal;
-    if ( hPal == 0 ) {
+    hPbl = ::CrebtePblette(pLogPbl);
+    delete pLogPbl;
+    if ( hPbl == 0 ) {
         return 0;
     }
 
-    hPalOld = ::SelectPalette(hDC, hPal, 1);
-    if (hPalOld == 0) {
-        ::DeleteObject(hPal);
+    hPblOld = ::SelectPblette(hDC, hPbl, 1);
+    if (hPblOld == 0) {
+        ::DeleteObject(hPbl);
         return 0;
     }
-    ::RealizePalette(hDC);
+    ::ReblizePblette(hDC);
 
     COLORREF rgb;
     for (iEntry = 0; iEntry < 256; iEntry++) {
-        rgb = ::GetNearestColor(hDC, PALETTEINDEX(iEntry));
-        pPalEntries[iEntry].peRed = GetRValue(rgb);
-        pPalEntries[iEntry].peGreen = GetGValue(rgb);
-        pPalEntries[iEntry].peBlue = GetBValue(rgb);
+        rgb = ::GetNebrestColor(hDC, PALETTEINDEX(iEntry));
+        pPblEntries[iEntry].peRed = GetRVblue(rgb);
+        pPblEntries[iEntry].peGreen = GetGVblue(rgb);
+        pPblEntries[iEntry].peBlue = GetBVblue(rgb);
     }
 
-    ::SelectPalette(hDC, hPalOld, 0 );
-    ::DeleteObject(hPal);
-    ::RealizePalette(hDC);
+    ::SelectPblette(hDC, hPblOld, 0 );
+    ::DeleteObject(hPbl);
+    ::ReblizePblette(hDC);
 
     return 256;
 }
 
-int AwtPalette::GetGSType(PALETTEENTRY* pPalEntries)
+int AwtPblette::GetGSType(PALETTEENTRY* pPblEntries)
 {
-    int isGray = 1;
-    int isLinearStaticGray = 1;
-    int isNonLinearStaticGray = 1;
+    int isGrby = 1;
+    int isLinebrStbticGrby = 1;
+    int isNonLinebrStbticGrby = 1;
     int iEntry;
-    char bUsed[256];
+    chbr bUsed[256];
     BYTE r, g, b;
 
     memset(bUsed, 0, sizeof(bUsed));
     for (iEntry = 0; iEntry < 256; iEntry++) {
-        r = pPalEntries[iEntry].peRed;
-        g = pPalEntries[iEntry].peGreen;
-        b = pPalEntries[iEntry].peBlue;
+        r = pPblEntries[iEntry].peRed;
+        g = pPblEntries[iEntry].peGreen;
+        b = pPblEntries[iEntry].peBlue;
         if (r != g || r != b) {
-            isGray = 0;
-            break;
+            isGrby = 0;
+            brebk;
         } else {
-            // the values are gray
+            // the vblues bre grby
             if (r != iEntry) {
-                // it's not linear
-                // but it could be non-linear static gray
-                isLinearStaticGray = 0;
+                // it's not linebr
+                // but it could be non-linebr stbtic grby
+                isLinebrStbticGrby = 0;
             }
             bUsed[r] = 1;
         }
     }
 
-    if (isGray && !isLinearStaticGray) {
-        // check if all 256 grays are there
-        // if that's the case, it's non-linear static gray
+    if (isGrby && !isLinebrStbticGrby) {
+        // check if bll 256 grbys bre there
+        // if thbt's the cbse, it's non-linebr stbtic grby
         for (iEntry = 0; iEntry < 256; iEntry++ ) {
             if (!bUsed[iEntry]) {
-                // not non-linear (not all 256 colors are used)
-                isNonLinearStaticGray = 0;
-                break;
+                // not non-linebr (not bll 256 colors bre used)
+                isNonLinebrStbticGrby = 0;
+                brebk;
             }
         }
     }
 
-    if (!isGray) {
-        J2dTraceLn(J2D_TRACE_INFO,
-                   "Detected palette: NON_GRAY/USER-MODIFIABLE");
+    if (!isGrby) {
+        J2dTrbceLn(J2D_TRACE_INFO,
+                   "Detected pblette: NON_GRAY/USER-MODIFIABLE");
         return NON_GRAY;
     }
-    if (isLinearStaticGray) {
-        J2dTraceLn(J2D_TRACE_INFO,
-                   "Detected palette: LINEAR_STATIC_GRAY");
+    if (isLinebrStbticGrby) {
+        J2dTrbceLn(J2D_TRACE_INFO,
+                   "Detected pblette: LINEAR_STATIC_GRAY");
         return LINEAR_STATIC_GRAY;
     }
-    if (isNonLinearStaticGray) {
-        J2dTraceLn(J2D_TRACE_INFO,
-                   "Detected palette: NON_LINEAR_STATIC_GRAY");
+    if (isNonLinebrStbticGrby) {
+        J2dTrbceLn(J2D_TRACE_INFO,
+                   "Detected pblette: NON_LINEAR_STATIC_GRAY");
         return NON_LINEAR_STATIC_GRAY;
     }
 
-    J2dTraceLn(J2D_TRACE_ERROR,
-               "Unable to detect palette type, non-gray is assumed");
+    J2dTrbceLn(J2D_TRACE_ERROR,
+               "Unbble to detect pblette type, non-grby is bssumed");
     // not supposed to be here, error
     return ERROR_GRAY;
 }
 
 /**
- * Updates our system palette variables to make sure they match
- * the current state of the actual system palette.  This method
- * is called during AwtPalette creation and after palette changes.
- * Return whether there were any palette changes from the previous
- * system palette.
+ * Updbtes our system pblette vbribbles to mbke sure they mbtch
+ * the current stbte of the bctubl system pblette.  This method
+ * is cblled during AwtPblette crebtion bnd bfter pblette chbnges.
+ * Return whether there were bny pblette chbnges from the previous
+ * system pblette.
  */
-BOOL AwtPalette::Update()
+BOOL AwtPblette::Updbte()
 {
     PALETTEENTRY pe[256];
     int numEntries = 0;
@@ -256,16 +256,16 @@ BOOL AwtPalette::Update()
     if (!hDC) {
         return FALSE;
     }
-    bitsPerPixel = ::GetDeviceCaps(hDC, BITSPIXEL);
-    device->ReleaseDC(hDC);
+    bitsPerPixel = ::GetDeviceCbps(hDC, BITSPIXEL);
+    device->RelebseDC(hDC);
     if (8 != bitsPerPixel) {
         return FALSE;
     }
 
     hDC = device->GetDC();
-    numEntries = FetchPaletteEntries(hDC, pe);
+    numEntries = FetchPbletteEntries(hDC, pe);
 
-    device->ReleaseDC(hDC);
+    device->RelebseDC(hDC);
 
     if ((numEntries == numSystemEntries) &&
         (0 == memcmp(pe, systemEntriesWin32, numEntries * sizeof(PALETTEENTRY))))
@@ -273,38 +273,38 @@ BOOL AwtPalette::Update()
         return FALSE;
     }
 
-    // make this system palette the new cached win32 palette
+    // mbke this system pblette the new cbched win32 pblette
     numEntries = (numEntries > 256)? 256: numEntries;
     memcpy(systemEntriesWin32, pe, numEntries * sizeof(PALETTEENTRY));
     numSystemEntries = numEntries;
 
-    // Create jdk-style system palette
-    int startIndex = 0, endIndex = numEntries-1;
-    int staticGrayType = GetGSType(systemEntriesWin32);
+    // Crebte jdk-style system pblette
+    int stbrtIndex = 0, endIndex = numEntries-1;
+    int stbticGrbyType = GetGSType(systemEntriesWin32);
 
-    if (staticGrayType == LINEAR_STATIC_GRAY) {
-        device->SetGrayness(GS_STATICGRAY);
-    } else if (staticGrayType == NON_LINEAR_STATIC_GRAY) {
-        device->SetGrayness(GS_NONLINGRAY);
+    if (stbticGrbyType == LINEAR_STATIC_GRAY) {
+        device->SetGrbyness(GS_STATICGRAY);
+    } else if (stbticGrbyType == NON_LINEAR_STATIC_GRAY) {
+        device->SetGrbyness(GS_NONLINGRAY);
     } else if (getenv("FORCEGRAY")) {
-        J2dTraceLn(J2D_TRACE_INFO,
-                    "Gray Palette Forced via FORCEGRAY");
-        // Need to zero first and last ten
-        // palette entries. Otherwise in UpdateDynamicColorModel
-        // we could set non-gray values to the palette.
+        J2dTrbceLn(J2D_TRACE_INFO,
+                    "Grby Pblette Forced vib FORCEGRAY");
+        // Need to zero first bnd lbst ten
+        // pblette entries. Otherwise in UpdbteDynbmicColorModel
+        // we could set non-grby vblues to the pblette.
         for (i = 0; i < 10; i++) {
             systemEntries[i] = 0x00000000;
             systemEntries[i+246] = 0x00000000;
         }
         numEntries -= 20;
-        startIndex = 10;
+        stbrtIndex = 10;
         endIndex -= 10;
-        device->SetGrayness(GS_INDEXGRAY);
+        device->SetGrbyness(GS_INDEXGRAY);
     } else {
-        device->SetGrayness(GS_NOTGRAY);
+        device->SetGrbyness(GS_NOTGRAY);
     }
 
-    for (i = startIndex; i <= endIndex; i++) {
+    for (i = stbrtIndex; i <= endIndex; i++) {
         systemEntries[i] =  0xff000000
                         | (pe[i].peRed << 16)
                         | (pe[i].peGreen << 8)
@@ -312,18 +312,18 @@ BOOL AwtPalette::Update()
     }
 
     systemInverseLUT =
-        initCubemap((int *)systemEntries, numEntries, 32);
+        initCubembp((int *)systemEntries, numEntries, 32);
 
-    ColorData *cData = device->GetColorData();
-    if ((device->GetGrayness() == GS_NONLINGRAY ||
-         device->GetGrayness() == GS_INDEXGRAY) &&
-        cData != NULL) {
+    ColorDbtb *cDbtb = device->GetColorDbtb();
+    if ((device->GetGrbyness() == GS_NONLINGRAY ||
+         device->GetGrbyness() == GS_INDEXGRAY) &&
+        cDbtb != NULL) {
 
-        if (cData->pGrayInverseLutData != NULL) {
-            free(cData->pGrayInverseLutData);
-            cData->pGrayInverseLutData = NULL;
+        if (cDbtb->pGrbyInverseLutDbtb != NULL) {
+            free(cDbtb->pGrbyInverseLutDbtb);
+            cDbtb->pGrbyInverseLutDbtb = NULL;
         }
-        initInverseGrayLut((int*)systemEntries, 256, device->GetColorData());
+        initInverseGrbyLut((int*)systemEntries, 256, device->GetColorDbtb());
     }
 
     return TRUE;
@@ -331,50 +331,50 @@ BOOL AwtPalette::Update()
 
 
 /**
- * Creates our custom palette based on: the current system palette,
- * the grayscale-ness of the system palette, and the state of the
- * primary device.
+ * Crebtes our custom pblette bbsed on: the current system pblette,
+ * the grbyscble-ness of the system pblette, bnd the stbte of the
+ * primbry device.
  */
-void AwtPalette::UpdateLogical()
+void AwtPblette::UpdbteLogicbl()
 {
-    // Create and initialize a palette
+    // Crebte bnd initiblize b pblette
     int nEntries = 256;
-    char *buf = NULL;
-    buf = new char[sizeof(LOGPALETTE) + nEntries *
+    chbr *buf = NULL;
+    buf = new chbr[sizeof(LOGPALETTE) + nEntries *
         sizeof(PALETTEENTRY)];
 
-    LOGPALETTE *pLogPal = (LOGPALETTE*)buf;
-    PALETTEENTRY *pPalEntries = (PALETTEENTRY *)(&(pLogPal->palPalEntry[0]));
+    LOGPALETTE *pLogPbl = (LOGPALETTE*)buf;
+    PALETTEENTRY *pPblEntries = (PALETTEENTRY *)(&(pLogPbl->pblPblEntry[0]));
 
-    memcpy(pPalEntries, systemEntriesWin32, 256 * sizeof(PALETTEENTRY));
+    memcpy(pPblEntries, systemEntriesWin32, 256 * sizeof(PALETTEENTRY));
 
-    PALETTEENTRY *pPal = pPalEntries;
+    PALETTEENTRY *pPbl = pPblEntries;
     int i;
-    int staticGrayType = device->GetGrayness();
-    if (staticGrayType == GS_INDEXGRAY) {
-        float m = 255.0f / 235.0f;
-        float g = 0.5f;
-        pPal = &pPalEntries[10];
-        for (i = 10; i < 246; i++, pPal++) {
-            pPal->peRed = pPal->peGreen = pPal->peBlue =
+    int stbticGrbyType = device->GetGrbyness();
+    if (stbticGrbyType == GS_INDEXGRAY) {
+        flobt m = 255.0f / 235.0f;
+        flobt g = 0.5f;
+        pPbl = &pPblEntries[10];
+        for (i = 10; i < 246; i++, pPbl++) {
+            pPbl->peRed = pPbl->peGreen = pPbl->peBlue =
                 (int)g;
             g += m;
-            pPal->peFlags = PC_NOCOLLAPSE;
+            pPbl->peFlbgs = PC_NOCOLLAPSE;
         }
-    } else if (staticGrayType == GS_NOTGRAY) {
+    } else if (stbticGrbyType == GS_NOTGRAY) {
         for (i = 10; i < 246; i++) {
-            pPalEntries[i] = customPalette[i-10];
+            pPblEntries[i] = customPblette[i-10];
         }
     }
-    pLogPal->palNumEntries = 256;
-    pLogPal->palVersion = 0x300;
-    logicalPalette = ::CreatePalette(pLogPal);
+    pLogPbl->pblNumEntries = 256;
+    pLogPbl->pblVersion = 0x300;
+    logicblPblette = ::CrebtePblette(pLogPbl);
 
     for (i = 0; i < nEntries; i++) {
-        logicalEntries[i] =  0xff000000
-                        | (pPalEntries[i].peRed << 16)
-                        | (pPalEntries[i].peGreen << 8)
-                        | (pPalEntries[i].peBlue);
+        logicblEntries[i] =  0xff000000
+                        | (pPblEntries[i].peRed << 16)
+                        | (pPblEntries[i].peGreen << 8)
+                        | (pPblEntries[i].peBlue);
     }
     delete [] buf;
 }

@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.ldap;
+pbckbge jbvbx.nbming.ldbp;
 
-import java.io.IOException;
-import com.sun.jndi.ldap.Ber;
-import com.sun.jndi.ldap.BerEncoder;
+import jbvb.io.IOException;
+import com.sun.jndi.ldbp.Ber;
+import com.sun.jndi.ldbp.BerEncoder;
 
 /**
- * Requests that the results of a search operation be sorted by the LDAP server
+ * Requests thbt the results of b sebrch operbtion be sorted by the LDAP server
  * before being returned.
- * The sort criteria are specified using an ordered list of one or more sort
- * keys, with associated sort parameters.
- * Search results are sorted at the LDAP server according to the parameters
- * supplied in the sort control and then returned to the requestor. If sorting
- * is not supported at the server (and the sort control is marked as critical)
- * then the search operation is not performed and an error is returned.
+ * The sort criterib bre specified using bn ordered list of one or more sort
+ * keys, with bssocibted sort pbrbmeters.
+ * Sebrch results bre sorted bt the LDAP server bccording to the pbrbmeters
+ * supplied in the sort control bnd then returned to the requestor. If sorting
+ * is not supported bt the server (bnd the sort control is mbrked bs criticbl)
+ * then the sebrch operbtion is not performed bnd bn error is returned.
  * <p>
- * The following code sample shows how the class may be used:
+ * The following code sbmple shows how the clbss mby be used:
  * <pre>{@code
  *
- *     // Open an LDAP association
- *     LdapContext ctx = new InitialLdapContext();
+ *     // Open bn LDAP bssocibtion
+ *     LdbpContext ctx = new InitiblLdbpContext();
  *
- *     // Activate sorting
+ *     // Activbte sorting
  *     String sortKey = "cn";
  *     ctx.setRequestControls(new Control[]{
  *         new SortControl(sortKey, Control.CRITICAL) });
  *
- *     // Perform a search
- *     NamingEnumeration results =
- *         ctx.search("", "(objectclass=*)", new SearchControls());
+ *     // Perform b sebrch
+ *     NbmingEnumerbtion results =
+ *         ctx.sebrch("", "(objectclbss=*)", new SebrchControls());
  *
- *     // Iterate over search results
- *     while (results != null && results.hasMore()) {
- *         // Display an entry
- *         SearchResult entry = (SearchResult)results.next();
- *         System.out.println(entry.getName());
+ *     // Iterbte over sebrch results
+ *     while (results != null && results.hbsMore()) {
+ *         // Displby bn entry
+ *         SebrchResult entry = (SebrchResult)results.next();
+ *         System.out.println(entry.getNbme());
  *         System.out.println(entry.getAttributes());
  *
- *         // Handle the entry's response controls (if any)
- *         if (entry instanceof HasControls) {
- *             // ((HasControls)entry).getControls();
+ *         // Hbndle the entry's response controls (if bny)
+ *         if (entry instbnceof HbsControls) {
+ *             // ((HbsControls)entry).getControls();
  *         }
  *     }
- *     // Examine the sort control response
+ *     // Exbmine the sort control response
  *     Control[] controls = ctx.getResponseControls();
  *     if (controls != null) {
  *         for (int i = 0; i < controls.length; i++) {
- *             if (controls[i] instanceof SortResponseControl) {
+ *             if (controls[i] instbnceof SortResponseControl) {
  *                 SortResponseControl src = (SortResponseControl)controls[i];
  *                 if (! src.isSorted()) {
  *                     throw src.getException();
  *                 }
  *             } else {
- *                 // Handle other response controls (if any)
+ *                 // Hbndle other response controls (if bny)
  *             }
  *         }
  *     }
  *
- *     // Close the LDAP association
+ *     // Close the LDAP bssocibtion
  *     ctx.close();
  *     ...
  *
  * }</pre>
  * <p>
- * This class implements the LDAPv3 Request Control for server-side sorting
- * as defined in
- * <a href="http://www.ietf.org/rfc/rfc2891.txt">RFC 2891</a>.
+ * This clbss implements the LDAPv3 Request Control for server-side sorting
+ * bs defined in
+ * <b href="http://www.ietf.org/rfc/rfc2891.txt">RFC 2891</b>.
  *
- * The control's value has the following ASN.1 definition:
+ * The control's vblue hbs the following ASN.1 definition:
  * <pre>
  *
  *     SortKeyList ::= SEQUENCE OF SEQUENCE {
- *         attributeType     AttributeDescription,
- *         orderingRule  [0] MatchingRuleId OPTIONAL,
+ *         bttributeType     AttributeDescription,
+ *         orderingRule  [0] MbtchingRuleId OPTIONAL,
  *         reverseOrder  [1] BOOLEAN DEFAULT FALSE }
  *
  * </pre>
@@ -104,102 +104,102 @@ import com.sun.jndi.ldap.BerEncoder;
  * @since 1.5
  * @see SortKey
  * @see SortResponseControl
- * @author Vincent Ryan
+ * @buthor Vincent Rybn
  */
-final public class SortControl extends BasicControl {
+finbl public clbss SortControl extends BbsicControl {
 
     /**
-     * The server-side sort control's assigned object identifier
+     * The server-side sort control's bssigned object identifier
      * is 1.2.840.113556.1.4.473.
      */
-    public static final String OID = "1.2.840.113556.1.4.473";
+    public stbtic finbl String OID = "1.2.840.113556.1.4.473";
 
-    private static final long serialVersionUID = -1965961680233330744L;
+    privbte stbtic finbl long seriblVersionUID = -1965961680233330744L;
 
     /**
-     * Constructs a control to sort on a single attribute in ascending order.
-     * Sorting will be performed using the ordering matching rule defined
-     * for use with the specified attribute.
+     * Constructs b control to sort on b single bttribute in bscending order.
+     * Sorting will be performed using the ordering mbtching rule defined
+     * for use with the specified bttribute.
      *
-     * @param   sortBy  An attribute ID to sort by.
-     * @param   criticality     If true then the server must honor the control
-     *                          and return the search results sorted as
-     *                          requested or refuse to perform the search.
-     *                          If false, then the server need not honor the
+     * @pbrbm   sortBy  An bttribute ID to sort by.
+     * @pbrbm   criticblity     If true then the server must honor the control
+     *                          bnd return the sebrch results sorted bs
+     *                          requested or refuse to perform the sebrch.
+     *                          If fblse, then the server need not honor the
      *                          control.
-     * @exception IOException If an error was encountered while encoding the
-     *                        supplied arguments into a control.
+     * @exception IOException If bn error wbs encountered while encoding the
+     *                        supplied brguments into b control.
      */
-    public SortControl(String sortBy, boolean criticality) throws IOException {
+    public SortControl(String sortBy, boolebn criticblity) throws IOException {
 
-        super(OID, criticality, null);
-        super.value = setEncodedValue(new SortKey[]{ new SortKey(sortBy) });
+        super(OID, criticblity, null);
+        super.vblue = setEncodedVblue(new SortKey[]{ new SortKey(sortBy) });
     }
 
     /**
-     * Constructs a control to sort on a list of attributes in ascending order.
-     * Sorting will be performed using the ordering matching rule defined
-     * for use with each of the specified attributes.
+     * Constructs b control to sort on b list of bttributes in bscending order.
+     * Sorting will be performed using the ordering mbtching rule defined
+     * for use with ebch of the specified bttributes.
      *
-     * @param   sortBy  A non-null list of attribute IDs to sort by.
+     * @pbrbm   sortBy  A non-null list of bttribute IDs to sort by.
      *                  The list is in order of highest to lowest sort key
      *                  precedence.
-     * @param   criticality     If true then the server must honor the control
-     *                          and return the search results sorted as
-     *                          requested or refuse to perform the search.
-     *                          If false, then the server need not honor the
+     * @pbrbm   criticblity     If true then the server must honor the control
+     *                          bnd return the sebrch results sorted bs
+     *                          requested or refuse to perform the sebrch.
+     *                          If fblse, then the server need not honor the
      *                          control.
-     * @exception IOException If an error was encountered while encoding the
-     *                        supplied arguments into a control.
+     * @exception IOException If bn error wbs encountered while encoding the
+     *                        supplied brguments into b control.
      */
-    public SortControl(String[] sortBy, boolean criticality)
+    public SortControl(String[] sortBy, boolebn criticblity)
         throws IOException {
 
-        super(OID, criticality, null);
+        super(OID, criticblity, null);
         SortKey[] sortKeys = new SortKey[sortBy.length];
         for (int i = 0; i < sortBy.length; i++) {
             sortKeys[i] = new SortKey(sortBy[i]);
         }
-        super.value = setEncodedValue(sortKeys);
+        super.vblue = setEncodedVblue(sortKeys);
     }
 
     /**
-     * Constructs a control to sort on a list of sort keys.
-     * Each sort key specifies the sort order and ordering matching rule to use.
+     * Constructs b control to sort on b list of sort keys.
+     * Ebch sort key specifies the sort order bnd ordering mbtching rule to use.
      *
-     * @param   sortBy      A non-null list of keys to sort by.
+     * @pbrbm   sortBy      A non-null list of keys to sort by.
      *                      The list is in order of highest to lowest sort key
      *                      precedence.
-     * @param   criticality     If true then the server must honor the control
-     *                          and return the search results sorted as
-     *                          requested or refuse to perform the search.
-     *                          If false, then the server need not honor the
+     * @pbrbm   criticblity     If true then the server must honor the control
+     *                          bnd return the sebrch results sorted bs
+     *                          requested or refuse to perform the sebrch.
+     *                          If fblse, then the server need not honor the
      *                          control.
-     * @exception IOException If an error was encountered while encoding the
-     *                        supplied arguments into a control.
+     * @exception IOException If bn error wbs encountered while encoding the
+     *                        supplied brguments into b control.
      */
-    public SortControl(SortKey[] sortBy, boolean criticality)
+    public SortControl(SortKey[] sortBy, boolebn criticblity)
         throws IOException {
 
-        super(OID, criticality, null);
-        super.value = setEncodedValue(sortBy);
+        super(OID, criticblity, null);
+        super.vblue = setEncodedVblue(sortBy);
     }
 
     /*
-     * Encodes the sort control's value using ASN.1 BER.
-     * The result includes the BER tag and length for the control's value but
-     * does not include the control's object identifier and criticality setting.
+     * Encodes the sort control's vblue using ASN.1 BER.
+     * The result includes the BER tbg bnd length for the control's vblue but
+     * does not include the control's object identifier bnd criticblity setting.
      *
-     * @param   sortKeys    A non-null list of keys to sort by.
-     * @return A possibly null byte array representing the ASN.1 BER encoded
-     *         value of the sort control.
-     * @exception IOException If a BER encoding error occurs.
+     * @pbrbm   sortKeys    A non-null list of keys to sort by.
+     * @return A possibly null byte brrby representing the ASN.1 BER encoded
+     *         vblue of the sort control.
+     * @exception IOException If b BER encoding error occurs.
      */
-    private byte[] setEncodedValue(SortKey[] sortKeys) throws IOException {
+    privbte byte[] setEncodedVblue(SortKey[] sortKeys) throws IOException {
 
         // build the ASN.1 BER encoding
         BerEncoder ber = new BerEncoder(30 * sortKeys.length + 10);
-        String matchingRule;
+        String mbtchingRule;
 
         ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
 
@@ -207,11 +207,11 @@ final public class SortControl extends BasicControl {
             ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
             ber.encodeString(sortKeys[i].getAttributeID(), true); // v3
 
-            if ((matchingRule = sortKeys[i].getMatchingRuleID()) != null) {
-                ber.encodeString(matchingRule, (Ber.ASN_CONTEXT | 0), true);
+            if ((mbtchingRule = sortKeys[i].getMbtchingRuleID()) != null) {
+                ber.encodeString(mbtchingRule, (Ber.ASN_CONTEXT | 0), true);
             }
             if (! sortKeys[i].isAscending()) {
-                ber.encodeBoolean(true, (Ber.ASN_CONTEXT | 1));
+                ber.encodeBoolebn(true, (Ber.ASN_CONTEXT | 1));
             }
             ber.endSeq();
         }

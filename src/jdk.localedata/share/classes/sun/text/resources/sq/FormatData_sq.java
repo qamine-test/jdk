@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package sun.text.resources.sq;
+pbckbge sun.text.resources.sq;
 
-import sun.util.resources.ParallelListResourceBundle;
+import sun.util.resources.PbrbllelListResourceBundle;
 
-public class FormatData_sq extends ParallelListResourceBundle {
+public clbss FormbtDbtb_sq extends PbrbllelListResourceBundle {
     /**
-     * Overrides ParallelListResourceBundle
+     * Overrides PbrbllelListResourceBundle
      */
-    protected final Object[][] getContents() {
+    protected finbl Object[][] getContents() {
         return new Object[][] {
-            { "MonthNames",
+            { "MonthNbmes",
                 new String[] {
-                    "janar", // january
-                    "shkurt", // february
-                    "mars", // march
-                    "prill", // april
-                    "maj", // may
+                    "jbnbr", // jbnubry
+                    "shkurt", // februbry
+                    "mbrs", // mbrch
+                    "prill", // bpril
+                    "mbj", // mby
                     "qershor", // june
                     "korrik", // july
-                    "gusht", // august
-                    "shtator", // september
+                    "gusht", // bugust
+                    "shtbtor", // september
                     "tetor", // october
                     "n\u00ebntor", // november
                     "dhjetor", // december
-                    "" // month 13 if applicable
+                    "" // month 13 if bpplicbble
                 }
             },
-            { "MonthAbbreviations",
+            { "MonthAbbrevibtions",
                 new String[] {
-                    "Jan", // abb january
-                    "Shk", // abb february
-                    "Mar", // abb march
-                    "Pri", // abb april
-                    "Maj", // abb may
-                    "Qer", // abb june
-                    "Kor", // abb july
-                    "Gsh", // abb august
-                    "Sht", // abb september
-                    "Tet", // abb october
-                    "N\u00ebn", // abb november
-                    "Dhj", // abb december
-                    "" // abb month 13 if applicable
+                    "Jbn", // bbb jbnubry
+                    "Shk", // bbb februbry
+                    "Mbr", // bbb mbrch
+                    "Pri", // bbb bpril
+                    "Mbj", // bbb mby
+                    "Qer", // bbb june
+                    "Kor", // bbb july
+                    "Gsh", // bbb bugust
+                    "Sht", // bbb september
+                    "Tet", // bbb october
+                    "N\u00ebn", // bbb november
+                    "Dhj", // bbb december
+                    "" // bbb month 13 if bpplicbble
                 }
             },
-            { "MonthNarrows",
+            { "MonthNbrrows",
                 new String[] {
                     "J",
                     "S",
@@ -99,29 +99,29 @@ public class FormatData_sq extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "DayNames",
+            { "DbyNbmes",
                 new String[] {
-                    "e diel", // Sunday
-                    "e h\u00ebn\u00eb", // Monday
-                    "e mart\u00eb", // Tuesday
-                    "e m\u00ebrkur\u00eb", // Wednesday
-                    "e enjte", // Thursday
-                    "e premte", // Friday
-                    "e shtun\u00eb" // Saturday
+                    "e diel", // Sundby
+                    "e h\u00ebn\u00eb", // Mondby
+                    "e mbrt\u00eb", // Tuesdby
+                    "e m\u00ebrkur\u00eb", // Wednesdby
+                    "e enjte", // Thursdby
+                    "e premte", // Fridby
+                    "e shtun\u00eb" // Sbturdby
                 }
             },
-            { "DayAbbreviations",
+            { "DbyAbbrevibtions",
                 new String[] {
-                    "Die", // abb Sunday
-                    "H\u00ebn", // abb Monday
-                    "Mar", // abb Tuesday
-                    "M\u00ebr", // abb Wednesday
-                    "Enj", // abb Thursday
-                    "Pre", // abb Friday
-                    "Sht" // abb Saturday
+                    "Die", // bbb Sundby
+                    "H\u00ebn", // bbb Mondby
+                    "Mbr", // bbb Tuesdby
+                    "M\u00ebr", // bbb Wednesdby
+                    "Enj", // bbb Thursdby
+                    "Pre", // bbb Fridby
+                    "Sht" // bbb Sbturdby
                 }
             },
-            { "DayNarrows",
+            { "DbyNbrrows",
                 new String[] {
                     "D",
                     "H",
@@ -132,55 +132,55 @@ public class FormatData_sq extends ParallelListResourceBundle {
                     "S",
                 }
             },
-            { "AmPmMarkers",
+            { "AmPmMbrkers",
                 new String[] {
-                    "PD", // am marker
-                    "MD" // pm marker
+                    "PD", // bm mbrker
+                    "MD" // pm mbrker
                 }
             },
-            { "Eras",
-                new String[] { // era strings
+            { "Erbs",
+                new String[] { // erb strings
                     "p.e.r.",
                     "n.e.r."
                 }
             },
             { "NumberElements",
                 new String[] {
-                    ",", // decimal separator
-                    ".", // group (thousands) separator
-                    ";", // list separator
+                    ",", // decimbl sepbrbtor
+                    ".", // group (thousbnds) sepbrbtor
+                    ";", // list sepbrbtor
                     "%", // percent sign
-                    "0", // native 0 digit
-                    "#", // pattern digit
+                    "0", // nbtive 0 digit
+                    "#", // pbttern digit
                     "-", // minus sign
-                    "E", // exponential
+                    "E", // exponentibl
                     "\u2030", // per mille
                     "\u221e", // infinity
-                    "\ufffd" // NaN
+                    "\ufffd" // NbN
                 }
             },
-            { "TimePatterns",
+            { "TimePbtterns",
                 new String[] {
-                    "h.mm.ss.a z", // full time pattern
-                    "h.mm.ss.a z", // long time pattern
-                    "h:mm:ss.a", // medium time pattern
-                    "h.mm.a", // short time pattern
+                    "h.mm.ss.b z", // full time pbttern
+                    "h.mm.ss.b z", // long time pbttern
+                    "h:mm:ss.b", // medium time pbttern
+                    "h.mm.b", // short time pbttern
                 }
             },
-            { "DatePatterns",
+            { "DbtePbtterns",
                 new String[] {
-                    "yyyy-MM-dd", // full date pattern
-                    "yyyy-MM-dd", // long date pattern
-                    "yyyy-MM-dd", // medium date pattern
-                    "yy-MM-dd", // short date pattern
+                    "yyyy-MM-dd", // full dbte pbttern
+                    "yyyy-MM-dd", // long dbte pbttern
+                    "yyyy-MM-dd", // medium dbte pbttern
+                    "yy-MM-dd", // short dbte pbttern
                 }
             },
-            { "DateTimePatterns",
+            { "DbteTimePbtterns",
                 new String[] {
-                    "{1} {0}" // date-time pattern
+                    "{1} {0}" // dbte-time pbttern
                 }
             },
-            { "DateTimePatternChars", "GanjkHmsSEDFwWxhKzZ" },
+            { "DbteTimePbtternChbrs", "GbnjkHmsSEDFwWxhKzZ" },
         };
     }
 }

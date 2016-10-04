@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -30,10 +30,10 @@
 #include <lm.h>
 
 #include <stdio.h>
-#include <stdarg.h>
+#include <stdbrg.h>
 #include <stdlib.h>
 #include <string.h>
-#include <tchar.h>
+#include <tchbr.h>
 #include <fcntl.h>
 
 #include "jni_util.h"
@@ -41,116 +41,116 @@
 #define SECURITY_WIN32
 #include "sspi.h"
 
-static void endSequence (PCredHandle credHand, PCtxtHandle ctxHandle, JNIEnv *env, jobject status);
+stbtic void endSequence (PCredHbndle credHbnd, PCtxtHbndle ctxHbndle, JNIEnv *env, jobject stbtus);
 
-static jfieldID ntlm_ctxHandleID;
-static jfieldID ntlm_crdHandleID;
-static jfieldID status_seqCompleteID;
+stbtic jfieldID ntlm_ctxHbndleID;
+stbtic jfieldID ntlm_crdHbndleID;
+stbtic jfieldID stbtus_seqCompleteID;
 
-static HINSTANCE lib = NULL;
+stbtic HINSTANCE lib = NULL;
 
-JNIEXPORT void JNICALL Java_sun_net_www_protocol_http_ntlm_NTLMAuthSequence_initFirst
-(JNIEnv *env, jclass authseq_clazz, jclass status_clazz)
+JNIEXPORT void JNICALL Jbvb_sun_net_www_protocol_http_ntlm_NTLMAuthSequence_initFirst
+(JNIEnv *env, jclbss buthseq_clbzz, jclbss stbtus_clbzz)
 {
-    ntlm_ctxHandleID = (*env)->GetFieldID(env, authseq_clazz, "ctxHandle", "J");
-    CHECK_NULL(ntlm_ctxHandleID);
-    ntlm_crdHandleID = (*env)->GetFieldID(env, authseq_clazz, "crdHandle", "J");
-    CHECK_NULL(ntlm_crdHandleID);
-    status_seqCompleteID = (*env)->GetFieldID(env, status_clazz, "sequenceComplete", "Z");
+    ntlm_ctxHbndleID = (*env)->GetFieldID(env, buthseq_clbzz, "ctxHbndle", "J");
+    CHECK_NULL(ntlm_ctxHbndleID);
+    ntlm_crdHbndleID = (*env)->GetFieldID(env, buthseq_clbzz, "crdHbndle", "J");
+    CHECK_NULL(ntlm_crdHbndleID);
+    stbtus_seqCompleteID = (*env)->GetFieldID(env, stbtus_clbzz, "sequenceComplete", "Z");
 }
 
 /*
- * Class:     sun_net_www_protocol_http_NTLMAuthSequence
- * Method:    getCredentialsHandle
- * Signature: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)J
+ * Clbss:     sun_net_www_protocol_http_NTLMAuthSequence
+ * Method:    getCredentiblsHbndle
+ * Signbture: (Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;)J
  */
 
-JNIEXPORT jlong JNICALL Java_sun_net_www_protocol_http_ntlm_NTLMAuthSequence_getCredentialsHandle
-(JNIEnv *env, jobject this, jstring user, jstring domain, jstring password)
+JNIEXPORT jlong JNICALL Jbvb_sun_net_www_protocol_http_ntlm_NTLMAuthSequence_getCredentiblsHbndle
+(JNIEnv *env, jobject this, jstring user, jstring dombin, jstring pbssword)
 {
     SEC_WINNT_AUTH_IDENTITY   AuthId;
     SEC_WINNT_AUTH_IDENTITY * pAuthId;
     const CHAR        *pUser = 0;
-    const CHAR        *pDomain = 0;
-    const CHAR        *pPassword = 0;
-    CredHandle      *pCred;
-    TimeStamp            ltime;
-    jboolean         isCopy;
+    const CHAR        *pDombin = 0;
+    const CHAR        *pPbssword = 0;
+    CredHbndle      *pCred;
+    TimeStbmp            ltime;
+    jboolebn         isCopy;
     SECURITY_STATUS      ss;
 
     if (user != 0) {
-        pUser = JNU_GetStringPlatformChars(env, user, &isCopy);
+        pUser = JNU_GetStringPlbtformChbrs(env, user, &isCopy);
         if (pUser == NULL)
             return 0;  // pending Exception
     }
-    if (domain != 0) {
-        pDomain = JNU_GetStringPlatformChars(env, domain, &isCopy);
-        if (pDomain == NULL) {
+    if (dombin != 0) {
+        pDombin = JNU_GetStringPlbtformChbrs(env, dombin, &isCopy);
+        if (pDombin == NULL) {
             if (pUser != NULL)
-                JNU_ReleaseStringPlatformChars(env, user, pUser);
+                JNU_RelebseStringPlbtformChbrs(env, user, pUser);
             return 0;  // pending Exception
         }
     }
-    if (password != 0) {
-        pPassword = JNU_GetStringPlatformChars(env, password, &isCopy);
-        if (pPassword == NULL) {
+    if (pbssword != 0) {
+        pPbssword = JNU_GetStringPlbtformChbrs(env, pbssword, &isCopy);
+        if (pPbssword == NULL) {
             if(pUser != NULL)
-                JNU_ReleaseStringPlatformChars(env, user, pUser);
-            if(pDomain != NULL)
-                JNU_ReleaseStringPlatformChars(env, domain, pDomain);
+                JNU_RelebseStringPlbtformChbrs(env, user, pUser);
+            if(pDombin != NULL)
+                JNU_RelebseStringPlbtformChbrs(env, dombin, pDombin);
             return 0;  // pending Exception
         }
     }
-    pCred = (CredHandle *)malloc(sizeof (CredHandle));
+    pCred = (CredHbndle *)mblloc(sizeof (CredHbndle));
     if (pCred == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "native memory allocation failed");
+        JNU_ThrowOutOfMemoryError(env, "nbtive memory bllocbtion fbiled");
         if (pUser != NULL)
-            JNU_ReleaseStringPlatformChars(env, user, pUser);
-        if (pPassword != NULL)
-            JNU_ReleaseStringPlatformChars(env, password, pPassword);
-        if (pDomain != NULL)
-            JNU_ReleaseStringPlatformChars(env, domain, pDomain);
+            JNU_RelebseStringPlbtformChbrs(env, user, pUser);
+        if (pPbssword != NULL)
+            JNU_RelebseStringPlbtformChbrs(env, pbssword, pPbssword);
+        if (pDombin != NULL)
+            JNU_RelebseStringPlbtformChbrs(env, dombin, pDombin);
         return NULL;
     }
 
-    if ( ((pUser != NULL) || (pPassword != NULL)) || (pDomain != NULL)) {
+    if ( ((pUser != NULL) || (pPbssword != NULL)) || (pDombin != NULL)) {
         pAuthId = &AuthId;
 
         memset( &AuthId, 0, sizeof( AuthId ));
 
         if ( pUser != NULL ) {
-            AuthId.User       = (unsigned char *) pUser;
+            AuthId.User       = (unsigned chbr *) pUser;
             AuthId.UserLength = (unsigned long) strlen( pUser );
         }
 
-        if ( pPassword != NULL ) {
-            AuthId.Password       = (unsigned char *) pPassword;
-            AuthId.PasswordLength = (unsigned long) strlen( pPassword );
+        if ( pPbssword != NULL ) {
+            AuthId.Pbssword       = (unsigned chbr *) pPbssword;
+            AuthId.PbsswordLength = (unsigned long) strlen( pPbssword );
         }
 
-        if ( pDomain != NULL ) {
-            AuthId.Domain       = (unsigned char *) pDomain;
-            AuthId.DomainLength = (unsigned long) strlen( pDomain );
+        if ( pDombin != NULL ) {
+            AuthId.Dombin       = (unsigned chbr *) pDombin;
+            AuthId.DombinLength = (unsigned long) strlen( pDombin );
         }
 
-        AuthId.Flags = SEC_WINNT_AUTH_IDENTITY_ANSI;
+        AuthId.Flbgs = SEC_WINNT_AUTH_IDENTITY_ANSI;
     } else {
         pAuthId = NULL;
     }
 
-    ss = AcquireCredentialsHandleA(
+    ss = AcquireCredentiblsHbndleA(
         NULL, "NTLM", SECPKG_CRED_OUTBOUND,
         NULL, pAuthId, NULL, NULL,
         pCred, &ltime
         );
 
-    /* Release resources held by JNU_GetStringPlatformChars */
+    /* Relebse resources held by JNU_GetStringPlbtformChbrs */
     if (pUser != NULL)
-        JNU_ReleaseStringPlatformChars(env, user, pUser);
-    if (pPassword != NULL)
-        JNU_ReleaseStringPlatformChars(env, password, pPassword);
-    if (pDomain != NULL)
-        JNU_ReleaseStringPlatformChars(env, domain, pDomain);
+        JNU_RelebseStringPlbtformChbrs(env, user, pUser);
+    if (pPbssword != NULL)
+        JNU_RelebseStringPlbtformChbrs(env, pbssword, pPbssword);
+    if (pDombin != NULL)
+        JNU_RelebseStringPlbtformChbrs(env, dombin, pDombin);
 
     if (ss == 0) {
         return (jlong) pCred;
@@ -161,38 +161,38 @@ JNIEXPORT jlong JNICALL Java_sun_net_www_protocol_http_ntlm_NTLMAuthSequence_get
 
 
 /*
- * Class:     sun_net_www_protocol_http_ntlm_NTLMAuthSequence
+ * Clbss:     sun_net_www_protocol_http_ntlm_NTLMAuthSequence
  * Method:    getNextToken
- * Signature: (J[BLsun/net/www/protocol/http/ntlm/NTLMAuthSequence/Status;)[B
+ * Signbture: (J[BLsun/net/www/protocol/http/ntlm/NTLMAuthSequence/Stbtus;)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_net_www_protocol_http_ntlm_NTLMAuthSequence_getNextToken
-(JNIEnv *env, jobject this, jlong crdHandle, jbyteArray lastToken, jobject status)
+JNIEXPORT jbyteArrby JNICALL Jbvb_sun_net_www_protocol_http_ntlm_NTLMAuthSequence_getNextToken
+(JNIEnv *env, jobject this, jlong crdHbndle, jbyteArrby lbstToken, jobject stbtus)
 {
 
     VOID        *pInput = 0;
     DWORD            inputLen;
     CHAR         buffOut[1024];
-    jboolean         isCopy;
+    jboolebn         isCopy;
     SECURITY_STATUS      ss;
     SecBufferDesc        OutBuffDesc;
     SecBuffer            OutSecBuff;
     SecBufferDesc        InBuffDesc;
     SecBuffer            InSecBuff;
     ULONG                ContextAttributes;
-    CredHandle      *pCred = (CredHandle *)crdHandle;
-    CtxtHandle      *pCtx;
-    CtxtHandle      *newContext;
-    TimeStamp            ltime;
-    jbyteArray       result;
+    CredHbndle      *pCred = (CredHbndle *)crdHbndle;
+    CtxtHbndle      *pCtx;
+    CtxtHbndle      *newContext;
+    TimeStbmp            ltime;
+    jbyteArrby       result;
 
 
-    pCtx = (CtxtHandle *) (*env)->GetLongField (env, this, ntlm_ctxHandleID);
-    if (pCtx == 0) { /* first call */
-        newContext = (CtxtHandle *)malloc(sizeof(CtxtHandle));
+    pCtx = (CtxtHbndle *) (*env)->GetLongField (env, this, ntlm_ctxHbndleID);
+    if (pCtx == 0) { /* first cbll */
+        newContext = (CtxtHbndle *)mblloc(sizeof(CtxtHbndle));
         if (newContext != NULL) {
-            (*env)->SetLongField (env, this, ntlm_ctxHandleID, (jlong)newContext);
+            (*env)->SetLongField (env, this, ntlm_ctxHbndleID, (jlong)newContext);
         } else {
-            JNU_ThrowOutOfMemoryError(env, "native memory allocation failed");
+            JNU_ThrowOutOfMemoryError(env, "nbtive memory bllocbtion fbiled");
             return NULL;
         }
     } else {
@@ -208,15 +208,15 @@ JNIEXPORT jbyteArray JNICALL Java_sun_net_www_protocol_http_ntlm_NTLMAuthSequenc
     OutSecBuff.pvBuffer   = buffOut;
 
     /*
-     *  Prepare our Input buffer - Note the server is expecting the client's
-     *  negotiation packet on the first call
+     *  Prepbre our Input buffer - Note the server is expecting the client's
+     *  negotibtion pbcket on the first cbll
      */
 
-    if (lastToken != 0)
+    if (lbstToken != 0)
     {
-        pInput = (VOID *)(*env)->GetByteArrayElements(env, lastToken, &isCopy);
+        pInput = (VOID *)(*env)->GetByteArrbyElements(env, lbstToken, &isCopy);
         CHECK_NULL_RETURN(pInput, NULL);
-        inputLen = (*env)->GetArrayLength(env, lastToken);
+        inputLen = (*env)->GetArrbyLength(env, lbstToken);
 
         InBuffDesc.ulVersion = 0;
         InBuffDesc.cBuffers  = 1;
@@ -229,21 +229,21 @@ JNIEXPORT jbyteArray JNICALL Java_sun_net_www_protocol_http_ntlm_NTLMAuthSequenc
 
     /*
      *  will return success when its done but we still
-     *  need to send the out buffer if there are bytes to send
+     *  need to send the out buffer if there bre bytes to send
      */
 
-    ss = InitializeSecurityContextA(
+    ss = InitiblizeSecurityContextA(
         pCred, pCtx, NULL, 0, 0, SECURITY_NATIVE_DREP,
-        lastToken ? &InBuffDesc : NULL, 0, newContext, &OutBuffDesc,
+        lbstToken ? &InBuffDesc : NULL, 0, newContext, &OutBuffDesc,
         &ContextAttributes, &ltime
     );
 
     if (pInput != 0) {
-        (*env)->ReleaseByteArrayElements(env, lastToken, pInput, JNI_ABORT);
+        (*env)->RelebseByteArrbyElements(env, lbstToken, pInput, JNI_ABORT);
     }
 
     if (ss < 0) {
-        endSequence (pCred, pCtx, env, status);
+        endSequence (pCred, pCtx, env, stbtus);
         return 0;
     }
 
@@ -251,40 +251,40 @@ JNIEXPORT jbyteArray JNICALL Java_sun_net_www_protocol_http_ntlm_NTLMAuthSequenc
         ss = CompleteAuthToken( pCtx, &OutBuffDesc );
 
         if (ss < 0) {
-            endSequence (pCred, pCtx, env, status);
+            endSequence (pCred, pCtx, env, stbtus);
             return 0;
         }
     }
 
     if ( OutSecBuff.cbBuffer > 0 ) {
-        jbyteArray ret = (*env)->NewByteArray(env, OutSecBuff.cbBuffer);
+        jbyteArrby ret = (*env)->NewByteArrby(env, OutSecBuff.cbBuffer);
         if (ret != NULL) {
-            (*env)->SetByteArrayRegion(env, ret, 0, OutSecBuff.cbBuffer,
+            (*env)->SetByteArrbyRegion(env, ret, 0, OutSecBuff.cbBuffer,
                     OutSecBuff.pvBuffer);
         }
-        if (lastToken != 0) // 2nd stage
-            endSequence (pCred, pCtx, env, status);
+        if (lbstToken != 0) // 2nd stbge
+            endSequence (pCred, pCtx, env, stbtus);
         result = ret;
     }
 
     if ((ss != SEC_I_CONTINUE_NEEDED) && (ss == SEC_I_COMPLETE_AND_CONTINUE)) {
-        endSequence (pCred, pCtx, env, status);
+        endSequence (pCred, pCtx, env, stbtus);
     }
 
     return result;
 }
 
-static void endSequence (PCredHandle credHand, PCtxtHandle ctxHandle, JNIEnv *env, jobject status) {
-    if (credHand != 0) {
-        FreeCredentialsHandle(credHand);
-        free(credHand);
+stbtic void endSequence (PCredHbndle credHbnd, PCtxtHbndle ctxHbndle, JNIEnv *env, jobject stbtus) {
+    if (credHbnd != 0) {
+        FreeCredentiblsHbndle(credHbnd);
+        free(credHbnd);
     }
 
-    if (ctxHandle != 0) {
-        DeleteSecurityContext(ctxHandle);
-        free(ctxHandle);
+    if (ctxHbndle != 0) {
+        DeleteSecurityContext(ctxHbndle);
+        free(ctxHbndle);
     }
 
-    /* Sequence is complete so set flag */
-    (*env)->SetBooleanField(env, status, status_seqCompleteID, JNI_TRUE);
+    /* Sequence is complete so set flbg */
+    (*env)->SetBoolebnField(env, stbtus, stbtus_seqCompleteID, JNI_TRUE);
 }

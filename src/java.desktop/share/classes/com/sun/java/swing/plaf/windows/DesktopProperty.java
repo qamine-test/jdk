@@ -1,246 +1,246 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.beans.*;
-import java.lang.ref.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
+import jbvb.lbng.ref.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * Wrapper for a value from the desktop. The value is lazily looked up, and
- * can be accessed using the <code>UIManager.ActiveValue</code> method
- * <code>createValue</code>. If the underlying desktop property changes this
- * will force the UIs to update all known Frames. You can invoke
- * <code>invalidate</code> to force the value to be fetched again.
+ * Wrbpper for b vblue from the desktop. The vblue is lbzily looked up, bnd
+ * cbn be bccessed using the <code>UIMbnbger.ActiveVblue</code> method
+ * <code>crebteVblue</code>. If the underlying desktop property chbnges this
+ * will force the UIs to updbte bll known Frbmes. You cbn invoke
+ * <code>invblidbte</code> to force the vblue to be fetched bgbin.
  *
  */
-// NOTE: Don't rely on this class staying in this location. It is likely
-// to move to a different package in the future.
-public class DesktopProperty implements UIDefaults.ActiveValue {
+// NOTE: Don't rely on this clbss stbying in this locbtion. It is likely
+// to move to b different pbckbge in the future.
+public clbss DesktopProperty implements UIDefbults.ActiveVblue {
     /**
-     * Indicates if an updateUI call is pending.
+     * Indicbtes if bn updbteUI cbll is pending.
      */
-    private static boolean updatePending;
+    privbte stbtic boolebn updbtePending;
 
     /**
-     * ReferenceQueue of unreferenced WeakPCLs.
+     * ReferenceQueue of unreferenced WebkPCLs.
      */
-    private static final ReferenceQueue<DesktopProperty> queue = new ReferenceQueue<DesktopProperty>();
+    privbte stbtic finbl ReferenceQueue<DesktopProperty> queue = new ReferenceQueue<DesktopProperty>();
 
     /**
-     * PropertyChangeListener attached to the Toolkit.
+     * PropertyChbngeListener bttbched to the Toolkit.
      */
-    private WeakPCL pcl;
+    privbte WebkPCL pcl;
     /**
-     * Key used to lookup value from desktop.
+     * Key used to lookup vblue from desktop.
      */
-    private final String key;
+    privbte finbl String key;
     /**
-     * Value to return.
+     * Vblue to return.
      */
-    private Object value;
+    privbte Object vblue;
     /**
-     * Fallback value in case we get null from desktop.
+     * Fbllbbck vblue in cbse we get null from desktop.
      */
-    private final Object fallback;
+    privbte finbl Object fbllbbck;
 
 
     /**
-     * Cleans up any lingering state held by unrefeernced
+     * Clebns up bny lingering stbte held by unrefeernced
      * DesktopProperties.
      */
-    static void flushUnreferencedProperties() {
-        WeakPCL pcl;
+    stbtic void flushUnreferencedProperties() {
+        WebkPCL pcl;
 
-        while ((pcl = (WeakPCL)queue.poll()) != null) {
+        while ((pcl = (WebkPCL)queue.poll()) != null) {
             pcl.dispose();
         }
     }
 
 
     /**
-     * Sets whether or not an updateUI call is pending.
+     * Sets whether or not bn updbteUI cbll is pending.
      */
-    private static synchronized void setUpdatePending(boolean update) {
-        updatePending = update;
+    privbte stbtic synchronized void setUpdbtePending(boolebn updbte) {
+        updbtePending = updbte;
     }
 
     /**
-     * Returns true if a UI update is pending.
+     * Returns true if b UI updbte is pending.
      */
-    private static synchronized boolean isUpdatePending() {
-        return updatePending;
+    privbte stbtic synchronized boolebn isUpdbtePending() {
+        return updbtePending;
     }
 
     /**
-     * Updates the UIs of all the known Frames.
+     * Updbtes the UIs of bll the known Frbmes.
      */
-    private static void updateAllUIs() {
-        // Check if the current UI is WindowsLookAndfeel and flush the XP style map.
-        // Note: Change the package test if this class is moved to a different package.
-        Class<?> uiClass = UIManager.getLookAndFeel().getClass();
-        if (uiClass.getPackage().equals(DesktopProperty.class.getPackage())) {
-            XPStyle.invalidateStyle();
+    privbte stbtic void updbteAllUIs() {
+        // Check if the current UI is WindowsLookAndfeel bnd flush the XP style mbp.
+        // Note: Chbnge the pbckbge test if this clbss is moved to b different pbckbge.
+        Clbss<?> uiClbss = UIMbnbger.getLookAndFeel().getClbss();
+        if (uiClbss.getPbckbge().equbls(DesktopProperty.clbss.getPbckbge())) {
+            XPStyle.invblidbteStyle();
         }
-        Frame appFrames[] = Frame.getFrames();
-        for (Frame appFrame : appFrames) {
-            updateWindowUI(appFrame);
+        Frbme bppFrbmes[] = Frbme.getFrbmes();
+        for (Frbme bppFrbme : bppFrbmes) {
+            updbteWindowUI(bppFrbme);
         }
     }
 
     /**
-     * Updates the UI of the passed in window and all its children.
+     * Updbtes the UI of the pbssed in window bnd bll its children.
      */
-    private static void updateWindowUI(Window window) {
-        SwingUtilities.updateComponentTreeUI(window);
+    privbte stbtic void updbteWindowUI(Window window) {
+        SwingUtilities.updbteComponentTreeUI(window);
         Window ownedWins[] = window.getOwnedWindows();
         for (Window ownedWin : ownedWins) {
-            updateWindowUI(ownedWin);
+            updbteWindowUI(ownedWin);
         }
     }
 
 
     /**
-     * Creates a DesktopProperty.
+     * Crebtes b DesktopProperty.
      *
-     * @param key Key used in looking up desktop value.
-     * @param fallback Value used if desktop property is null.
+     * @pbrbm key Key used in looking up desktop vblue.
+     * @pbrbm fbllbbck Vblue used if desktop property is null.
      */
-    public DesktopProperty(String key, Object fallback) {
+    public DesktopProperty(String key, Object fbllbbck) {
         this.key = key;
-        this.fallback = fallback;
-        // The only sure fire way to clear our references is to create a
-        // Thread and wait for a reference to be added to the queue.
-        // Because it is so rare that you will actually change the look
-        // and feel, this stepped is forgoed and a middle ground of
-        // flushing references from the constructor is instead done.
-        // The implication is that once one DesktopProperty is created
-        // there will most likely be n (number of DesktopProperties created
-        // by the LookAndFeel) WeakPCLs around, but this number will not
-        // grow past n.
+        this.fbllbbck = fbllbbck;
+        // The only sure fire wby to clebr our references is to crebte b
+        // Threbd bnd wbit for b reference to be bdded to the queue.
+        // Becbuse it is so rbre thbt you will bctublly chbnge the look
+        // bnd feel, this stepped is forgoed bnd b middle ground of
+        // flushing references from the constructor is instebd done.
+        // The implicbtion is thbt once one DesktopProperty is crebted
+        // there will most likely be n (number of DesktopProperties crebted
+        // by the LookAndFeel) WebkPCLs bround, but this number will not
+        // grow pbst n.
         flushUnreferencedProperties();
     }
 
     /**
-     * UIManager.LazyValue method, returns the value from the desktop
-     * or the fallback value if the desktop value is null.
+     * UIMbnbger.LbzyVblue method, returns the vblue from the desktop
+     * or the fbllbbck vblue if the desktop vblue is null.
      */
-    public Object createValue(UIDefaults table) {
-        if (value == null) {
-            value = configureValue(getValueFromDesktop());
-            if (value == null) {
-                value = configureValue(getDefaultValue());
+    public Object crebteVblue(UIDefbults tbble) {
+        if (vblue == null) {
+            vblue = configureVblue(getVblueFromDesktop());
+            if (vblue == null) {
+                vblue = configureVblue(getDefbultVblue());
             }
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Returns the value from the desktop.
+     * Returns the vblue from the desktop.
      */
-    protected Object getValueFromDesktop() {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
+    protected Object getVblueFromDesktop() {
+        Toolkit toolkit = Toolkit.getDefbultToolkit();
 
         if (pcl == null) {
-            pcl = new WeakPCL(this, getKey(), UIManager.getLookAndFeel());
-            toolkit.addPropertyChangeListener(getKey(), pcl);
+            pcl = new WebkPCL(this, getKey(), UIMbnbger.getLookAndFeel());
+            toolkit.bddPropertyChbngeListener(getKey(), pcl);
         }
 
         return toolkit.getDesktopProperty(getKey());
     }
 
     /**
-     * Returns the value to use if the desktop property is null.
+     * Returns the vblue to use if the desktop property is null.
      */
-    protected Object getDefaultValue() {
-        return fallback;
+    protected Object getDefbultVblue() {
+        return fbllbbck;
     }
 
     /**
-     * Invalidates the current value.
+     * Invblidbtes the current vblue.
      *
-     * @param laf the LookAndFeel this DesktopProperty was created with
+     * @pbrbm lbf the LookAndFeel this DesktopProperty wbs crebted with
      */
-    public void invalidate(LookAndFeel laf) {
-        invalidate();
+    public void invblidbte(LookAndFeel lbf) {
+        invblidbte();
     }
 
     /**
-     * Invalides the current value so that the next invocation of
-     * <code>createValue</code> will ask for the property again.
+     * Invblides the current vblue so thbt the next invocbtion of
+     * <code>crebteVblue</code> will bsk for the property bgbin.
      */
-    public void invalidate() {
-        value = null;
+    public void invblidbte() {
+        vblue = null;
     }
 
     /**
-     * Requests that all components in the GUI hierarchy be updated
-     * to reflect dynamic changes in this look&feel.  This update occurs
-     * by uninstalling and re-installing the UI objects. Requests are
-     * batched and collapsed into a single update pass because often
-     * many desktop properties will change at once.
+     * Requests thbt bll components in the GUI hierbrchy be updbted
+     * to reflect dynbmic chbnges in this look&feel.  This updbte occurs
+     * by uninstblling bnd re-instblling the UI objects. Requests bre
+     * bbtched bnd collbpsed into b single updbte pbss becbuse often
+     * mbny desktop properties will chbnge bt once.
      */
-    protected void updateUI() {
-        if (!isUpdatePending()) {
-            setUpdatePending(true);
-            Runnable uiUpdater = new Runnable() {
+    protected void updbteUI() {
+        if (!isUpdbtePending()) {
+            setUpdbtePending(true);
+            Runnbble uiUpdbter = new Runnbble() {
                 public void run() {
-                    updateAllUIs();
-                    setUpdatePending(false);
+                    updbteAllUIs();
+                    setUpdbtePending(fblse);
                 }
             };
-            SwingUtilities.invokeLater(uiUpdater);
+            SwingUtilities.invokeLbter(uiUpdbter);
         }
     }
 
     /**
-     * Configures the value as appropriate for a defaults property in
-     * the UIDefaults table.
+     * Configures the vblue bs bppropribte for b defbults property in
+     * the UIDefbults tbble.
      */
-    protected Object configureValue(Object value) {
-        if (value != null) {
-            if (value instanceof Color) {
-                return new ColorUIResource((Color)value);
+    protected Object configureVblue(Object vblue) {
+        if (vblue != null) {
+            if (vblue instbnceof Color) {
+                return new ColorUIResource((Color)vblue);
             }
-            else if (value instanceof Font) {
-                return new FontUIResource((Font)value);
+            else if (vblue instbnceof Font) {
+                return new FontUIResource((Font)vblue);
             }
-            else if (value instanceof UIDefaults.LazyValue) {
-                value = ((UIDefaults.LazyValue)value).createValue(null);
+            else if (vblue instbnceof UIDefbults.LbzyVblue) {
+                vblue = ((UIDefbults.LbzyVblue)vblue).crebteVblue(null);
             }
-            else if (value instanceof UIDefaults.ActiveValue) {
-                value = ((UIDefaults.ActiveValue)value).createValue(null);
+            else if (vblue instbnceof UIDefbults.ActiveVblue) {
+                vblue = ((UIDefbults.ActiveVblue)vblue).crebteVblue(null);
             }
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Returns the key used to lookup the desktop properties value.
+     * Returns the key used to lookup the desktop properties vblue.
      */
     protected String getKey() {
         return key;
@@ -249,37 +249,37 @@ public class DesktopProperty implements UIDefaults.ActiveValue {
 
 
     /**
-     * As there is typically only one Toolkit, the PropertyChangeListener
-     * is handled via a WeakReference so as not to pin down the
+     * As there is typicblly only one Toolkit, the PropertyChbngeListener
+     * is hbndled vib b WebkReference so bs not to pin down the
      * DesktopProperty.
      */
-    private static class WeakPCL extends WeakReference<DesktopProperty>
-                               implements PropertyChangeListener {
-        private String key;
-        private LookAndFeel laf;
+    privbte stbtic clbss WebkPCL extends WebkReference<DesktopProperty>
+                               implements PropertyChbngeListener {
+        privbte String key;
+        privbte LookAndFeel lbf;
 
-        WeakPCL(DesktopProperty target, String key, LookAndFeel laf) {
-            super(target, queue);
+        WebkPCL(DesktopProperty tbrget, String key, LookAndFeel lbf) {
+            super(tbrget, queue);
             this.key = key;
-            this.laf = laf;
+            this.lbf = lbf;
         }
 
-        public void propertyChange(PropertyChangeEvent pce) {
+        public void propertyChbnge(PropertyChbngeEvent pce) {
             DesktopProperty property = get();
 
-            if (property == null || laf != UIManager.getLookAndFeel()) {
-                // The property was GC'ed, we're no longer interested in
-                // PropertyChanges, remove the listener.
+            if (property == null || lbf != UIMbnbger.getLookAndFeel()) {
+                // The property wbs GC'ed, we're no longer interested in
+                // PropertyChbnges, remove the listener.
                 dispose();
             }
             else {
-                property.invalidate(laf);
-                property.updateUI();
+                property.invblidbte(lbf);
+                property.updbteUI();
             }
         }
 
         void dispose() {
-            Toolkit.getDefaultToolkit().removePropertyChangeListener(key, this);
+            Toolkit.getDefbultToolkit().removePropertyChbngeListener(key, this);
         }
     }
 }

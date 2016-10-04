@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the Netscape security libraries.
+ * The Originbl Code is the Netscbpe security librbries.
  *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1994-2000
- * the Initial Developer. All Rights Reserved.
+ * The Initibl Developer of the Originbl Code is
+ * Netscbpe Communicbtions Corporbtion.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 1994-2000
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
  *
  *********************************************************************** */
 
 /*
- * Support routines for SECItem data structure.
+ * Support routines for SECItem dbtb structure.
  *
- * $Id: secitem.c,v 1.14 2006/05/22 22:24:34 wtchang%redhat.com Exp $
+ * $Id: secitem.c,v 1.14 2006/05/22 22:24:34 wtchbng%redhbt.com Exp $
  */
 
 #include <sys/types.h>
@@ -46,7 +46,7 @@
 #if !defined(__linux__) && !defined(_ALLBSD_SOURCE)
 #include <sys/systm.h>
 #endif /* __linux__ || _ALLBSD_SOURCE */
-#include <sys/param.h>
+#include <sys/pbrbm.h>
 #endif /* _WIN32 */
 
 #ifdef _KERNEL
@@ -58,7 +58,7 @@
 #include <strings.h>
 #endif /* _WIN32 */
 
-#include <assert.h>
+#include <bssert.h>
 #endif
 #include "ec.h"
 #include "ecl-curve.h"
@@ -67,56 +67,56 @@
 void SECITEM_FreeItem(SECItem *, PRBool);
 
 SECItem *
-SECITEM_AllocItem(PRArenaPool *arena, SECItem *item, unsigned int len,
-    int kmflag)
+SECITEM_AllocItem(PRArenbPool *brenb, SECItem *item, unsigned int len,
+    int kmflbg)
 {
     SECItem *result = NULL;
-    void *mark = NULL;
+    void *mbrk = NULL;
 
-    if (arena != NULL) {
-        mark = PORT_ArenaMark(arena);
+    if (brenb != NULL) {
+        mbrk = PORT_ArenbMbrk(brenb);
     }
 
     if (item == NULL) {
-        if (arena != NULL) {
-            result = PORT_ArenaZAlloc(arena, sizeof(SECItem), kmflag);
+        if (brenb != NULL) {
+            result = PORT_ArenbZAlloc(brenb, sizeof(SECItem), kmflbg);
         } else {
-            result = PORT_ZAlloc(sizeof(SECItem), kmflag);
+            result = PORT_ZAlloc(sizeof(SECItem), kmflbg);
         }
         if (result == NULL) {
             goto loser;
         }
     } else {
-        PORT_Assert(item->data == NULL);
+        PORT_Assert(item->dbtb == NULL);
         result = item;
     }
 
     result->len = len;
     if (len) {
-        if (arena != NULL) {
-            result->data = PORT_ArenaAlloc(arena, len, kmflag);
+        if (brenb != NULL) {
+            result->dbtb = PORT_ArenbAlloc(brenb, len, kmflbg);
         } else {
-            result->data = PORT_Alloc(len, kmflag);
+            result->dbtb = PORT_Alloc(len, kmflbg);
         }
-        if (result->data == NULL) {
+        if (result->dbtb == NULL) {
             goto loser;
         }
     } else {
-        result->data = NULL;
+        result->dbtb = NULL;
     }
 
-    if (mark) {
-        PORT_ArenaUnmark(arena, mark);
+    if (mbrk) {
+        PORT_ArenbUnmbrk(brenb, mbrk);
     }
     return(result);
 
 loser:
-    if ( arena != NULL ) {
-        if (mark) {
-            PORT_ArenaRelease(arena, mark);
+    if ( brenb != NULL ) {
+        if (mbrk) {
+            PORT_ArenbRelebse(brenb, mbrk);
         }
         if (item != NULL) {
-            item->data = NULL;
+            item->dbtb = NULL;
             item->len = 0;
         }
     } else {
@@ -124,54 +124,54 @@ loser:
             SECITEM_FreeItem(result, (item == NULL) ? PR_TRUE : PR_FALSE);
         }
         /*
-         * If item is not NULL, the above has set item->data and
+         * If item is not NULL, the bbove hbs set item->dbtb bnd
          * item->len to 0.
          */
     }
     return(NULL);
 }
 
-SECStatus
-SECITEM_CopyItem(PRArenaPool *arena, SECItem *to, const SECItem *from,
-   int kmflag)
+SECStbtus
+SECITEM_CopyItem(PRArenbPool *brenb, SECItem *to, const SECItem *from,
+   int kmflbg)
 {
     to->type = from->type;
-    if (from->data && from->len) {
-        if ( arena ) {
-            to->data = (unsigned char*) PORT_ArenaAlloc(arena, from->len,
-                kmflag);
+    if (from->dbtb && from->len) {
+        if ( brenb ) {
+            to->dbtb = (unsigned chbr*) PORT_ArenbAlloc(brenb, from->len,
+                kmflbg);
         } else {
-            to->data = (unsigned char*) PORT_Alloc(from->len, kmflag);
+            to->dbtb = (unsigned chbr*) PORT_Alloc(from->len, kmflbg);
         }
 
-        if (!to->data) {
-            return SECFailure;
+        if (!to->dbtb) {
+            return SECFbilure;
         }
-        PORT_Memcpy(to->data, from->data, from->len);
+        PORT_Memcpy(to->dbtb, from->dbtb, from->len);
         to->len = from->len;
     } else {
-        to->data = 0;
+        to->dbtb = 0;
         to->len = 0;
     }
     return SECSuccess;
 }
 
 void
-SECITEM_FreeItem(SECItem *zap, PRBool freeit)
+SECITEM_FreeItem(SECItem *zbp, PRBool freeit)
 {
-    if (zap) {
+    if (zbp) {
 #ifdef _KERNEL
-        kmem_free(zap->data, zap->len);
+        kmem_free(zbp->dbtb, zbp->len);
 #else
-        free(zap->data);
+        free(zbp->dbtb);
 #endif
-        zap->data = 0;
-        zap->len = 0;
+        zbp->dbtb = 0;
+        zbp->len = 0;
         if (freeit) {
 #ifdef _KERNEL
-            kmem_free(zap, sizeof (SECItem));
+            kmem_free(zbp, sizeof (SECItem));
 #else
-            free(zap);
+            free(zbp);
 #endif
         }
     }

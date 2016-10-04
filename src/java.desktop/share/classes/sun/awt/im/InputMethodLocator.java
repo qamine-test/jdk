@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.im;
+pbckbge sun.bwt.im;
 
-import java.awt.AWTException;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.util.Locale;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.im.spi.InputMethodDescriptor;
+import jbvb.util.Locble;
 
 /**
- * Provides complete information to make and handle the selection
- * of an input method and a locale. Immutable class.
+ * Provides complete informbtion to mbke bnd hbndle the selection
+ * of bn input method bnd b locble. Immutbble clbss.
  */
-final class InputMethodLocator {
+finbl clbss InputMethodLocbtor {
 
-    private InputMethodDescriptor descriptor;
+    privbte InputMethodDescriptor descriptor;
 
-    // Currently `loader' is always the class loader for a
-    // descriptor. `loader' is provided for future extensions to be
-    // able to load input methods from somewhere else, and to support
-    // per input method name space.
-    private ClassLoader loader;
+    // Currently `lobder' is blwbys the clbss lobder for b
+    // descriptor. `lobder' is provided for future extensions to be
+    // bble to lobd input methods from somewhere else, bnd to support
+    // per input method nbme spbce.
+    privbte ClbssLobder lobder;
 
-    private Locale locale;
+    privbte Locble locble;
 
-    InputMethodLocator(InputMethodDescriptor descriptor, ClassLoader loader, Locale locale) {
+    InputMethodLocbtor(InputMethodDescriptor descriptor, ClbssLobder lobder, Locble locble) {
         if (descriptor == null) {
-            throw new NullPointerException("descriptor can't be null");
+            throw new NullPointerException("descriptor cbn't be null");
         }
         this.descriptor = descriptor;
-        this.loader = loader;
-        this.locale = locale;
+        this.lobder = lobder;
+        this.locble = locble;
     }
 
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (other == this) {
             return true;
         }
-        if (other == null || this.getClass() != other.getClass()) {
-            return false;
+        if (other == null || this.getClbss() != other.getClbss()) {
+            return fblse;
         }
 
-        InputMethodLocator otherLocator = (InputMethodLocator) other;
-        if (!descriptor.getClass().equals(otherLocator.descriptor.getClass())) {
-            return false;
+        InputMethodLocbtor otherLocbtor = (InputMethodLocbtor) other;
+        if (!descriptor.getClbss().equbls(otherLocbtor.descriptor.getClbss())) {
+            return fblse;
         }
-        if (loader == null && otherLocator.loader != null
-            || loader != null && !loader.equals(otherLocator.loader)) {
-            return false;
+        if (lobder == null && otherLocbtor.lobder != null
+            || lobder != null && !lobder.equbls(otherLocbtor.lobder)) {
+            return fblse;
         }
-        if (locale == null && otherLocator.locale != null
-            || locale != null && !locale.equals(otherLocator.locale)) {
-            return false;
+        if (locble == null && otherLocbtor.locble != null
+            || locble != null && !locble.equbls(otherLocbtor.locble)) {
+            return fblse;
         }
         return true;
     }
 
-    public int hashCode() {
-        int result = descriptor.hashCode();
-        if (loader != null) {
-            result |= loader.hashCode() << 10;
+    public int hbshCode() {
+        int result = descriptor.hbshCode();
+        if (lobder != null) {
+            result |= lobder.hbshCode() << 10;
         }
-        if (locale != null) {
-            result |= locale.hashCode() << 20;
+        if (locble != null) {
+            result |= locble.hbshCode() << 20;
         }
         return result;
     }
@@ -92,80 +92,80 @@ final class InputMethodLocator {
         return descriptor;
     }
 
-    ClassLoader getClassLoader() {
-        return loader;
+    ClbssLobder getClbssLobder() {
+        return lobder;
     }
 
-    Locale getLocale() {
-        return locale;
+    Locble getLocble() {
+        return locble;
     }
 
     /**
-     * Returns whether support for locale is available from
+     * Returns whether support for locble is bvbilbble from
      * the input method.
      */
-    boolean isLocaleAvailable(Locale locale) {
+    boolebn isLocbleAvbilbble(Locble locble) {
         try {
-            Locale[] locales = descriptor.getAvailableLocales();
-            for (int i = 0; i < locales.length; i++) {
-                if (locales[i].equals(locale)) {
+            Locble[] locbles = descriptor.getAvbilbbleLocbles();
+            for (int i = 0; i < locbles.length; i++) {
+                if (locbles[i].equbls(locble)) {
                     return true;
                 }
             }
-        } catch (AWTException e) {
-            // treat this as no locale available
+        } cbtch (AWTException e) {
+            // trebt this bs no locble bvbilbble
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns an input method locator that has locale forLocale,
-     * but otherwise the same data as this locator. Does not
-     * check whether the input method actually supports forLocale -
-     * use {@link #isLocaleAvailable} for that.
+     * Returns bn input method locbtor thbt hbs locble forLocble,
+     * but otherwise the sbme dbtb bs this locbtor. Does not
+     * check whether the input method bctublly supports forLocble -
+     * use {@link #isLocbleAvbilbble} for thbt.
      */
-    InputMethodLocator deriveLocator(Locale forLocale) {
-        if (forLocale == locale) {
+    InputMethodLocbtor deriveLocbtor(Locble forLocble) {
+        if (forLocble == locble) {
             return this;
         } else {
-            return new InputMethodLocator(descriptor, loader, forLocale);
+            return new InputMethodLocbtor(descriptor, lobder, forLocble);
         }
     }
 
     /**
-     * Returns whether this and other describe the same input method
-     * engine, ignoring the locale setting.
+     * Returns whether this bnd other describe the sbme input method
+     * engine, ignoring the locble setting.
      */
-    boolean sameInputMethod(InputMethodLocator other) {
+    boolebn sbmeInputMethod(InputMethodLocbtor other) {
         if (other == this) {
             return true;
         }
         if (other == null) {
-            return false;
+            return fblse;
         }
 
-        if (!descriptor.getClass().equals(other.descriptor.getClass())) {
-            return false;
+        if (!descriptor.getClbss().equbls(other.descriptor.getClbss())) {
+            return fblse;
         }
-        if (loader == null && other.loader != null
-            || loader != null && !loader.equals(other.loader)) {
-            return false;
+        if (lobder == null && other.lobder != null
+            || lobder != null && !lobder.equbls(other.lobder)) {
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Returns a string that can be used as an action command string.
-     * The first part of the string identifies the input method; it does
-     * not include '\n'. If getLocale is not null, getLocale().toString()
-     * is appended, separated by '\n'.
+     * Returns b string thbt cbn be used bs bn bction commbnd string.
+     * The first pbrt of the string identifies the input method; it does
+     * not include '\n'. If getLocble is not null, getLocble().toString()
+     * is bppended, sepbrbted by '\n'.
      */
-    String getActionCommandString() {
-        String inputMethodString = descriptor.getClass().getName();
-        if (locale == null) {
+    String getActionCommbndString() {
+        String inputMethodString = descriptor.getClbss().getNbme();
+        if (locble == null) {
             return inputMethodString;
         } else {
-            return inputMethodString + "\n" + locale.toString();
+            return inputMethodString + "\n" + locble.toString();
         }
     }
 }

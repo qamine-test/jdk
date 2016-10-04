@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1996, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.event.KeyEvent;
+import jbvb.bwt.event.KeyEvent;
 
 /**
- * The <code>MenuShortcut</code>class represents a keyboard accelerator
- * for a MenuItem.
+ * The <code>MenuShortcut</code>clbss represents b keybobrd bccelerbtor
+ * for b MenuItem.
  * <p>
- * Menu shortcuts are created using virtual keycodes, not characters.
- * For example, a menu shortcut for Ctrl-a (assuming that Control is
- * the accelerator key) would be created with code like the following:
+ * Menu shortcuts bre crebted using virtubl keycodes, not chbrbcters.
+ * For exbmple, b menu shortcut for Ctrl-b (bssuming thbt Control is
+ * the bccelerbtor key) would be crebted with code like the following:
  * <p>
- * <code>MenuShortcut ms = new MenuShortcut(KeyEvent.VK_A, false);</code>
- * <p> or alternatively
+ * <code>MenuShortcut ms = new MenuShortcut(KeyEvent.VK_A, fblse);</code>
+ * <p> or blternbtively
  * <p>
- * <code>MenuShortcut ms = new MenuShortcut(KeyEvent.getExtendedKeyCodeForChar('A'), false);</code>
+ * <code>MenuShortcut ms = new MenuShortcut(KeyEvent.getExtendedKeyCodeForChbr('A'), fblse);</code>
  * <p>
- * Menu shortcuts may also be constructed for a wider set of keycodes
- * using the <code>java.awt.event.KeyEvent.getExtendedKeyCodeForChar</code> call.
- * For example, a menu shortcut for "Ctrl+cyrillic ef" is created by
+ * Menu shortcuts mby blso be constructed for b wider set of keycodes
+ * using the <code>jbvb.bwt.event.KeyEvent.getExtendedKeyCodeForChbr</code> cbll.
+ * For exbmple, b menu shortcut for "Ctrl+cyrillic ef" is crebted by
  * <p>
- * <code>MenuShortcut ms = new MenuShortcut(KeyEvent.getExtendedKeyCodeForChar('\u0444'), false);</code>
+ * <code>MenuShortcut ms = new MenuShortcut(KeyEvent.getExtendedKeyCodeForChbr('\u0444'), fblse);</code>
  * <p>
- * Note that shortcuts created with a keycode or an extended keycode defined as a constant in <code>KeyEvent</code>
- * work regardless of the current keyboard layout. However, a shortcut made of
- * an extended keycode not listed in <code>KeyEvent</code>
- * only work if the current keyboard layout produces a corresponding letter.
+ * Note thbt shortcuts crebted with b keycode or bn extended keycode defined bs b constbnt in <code>KeyEvent</code>
+ * work regbrdless of the current keybobrd lbyout. However, b shortcut mbde of
+ * bn extended keycode not listed in <code>KeyEvent</code>
+ * only work if the current keybobrd lbyout produces b corresponding letter.
  * <p>
- * The accelerator key is platform-dependent and may be obtained
- * via {@link Toolkit#getMenuShortcutKeyMask}.
+ * The bccelerbtor key is plbtform-dependent bnd mby be obtbined
+ * vib {@link Toolkit#getMenuShortcutKeyMbsk}.
  *
- * @author Thomas Ball
+ * @buthor Thombs Bbll
  * @since 1.1
  */
-public class MenuShortcut implements java.io.Serializable
+public clbss MenuShortcut implements jbvb.io.Seriblizbble
 {
     /**
-     * The virtual keycode for the menu shortcut.
-     * This is the keycode with which the menu shortcut will be created.
-     * Note that it is a virtual keycode, not a character,
-     * e.g. KeyEvent.VK_A, not 'a'.
-     * Note: in 1.1.x you must use setActionCommand() on a menu item
-     * in order for its shortcut to work, otherwise it will fire a null
-     * action command.
+     * The virtubl keycode for the menu shortcut.
+     * This is the keycode with which the menu shortcut will be crebted.
+     * Note thbt it is b virtubl keycode, not b chbrbcter,
+     * e.g. KeyEvent.VK_A, not 'b'.
+     * Note: in 1.1.x you must use setActionCommbnd() on b menu item
+     * in order for its shortcut to work, otherwise it will fire b null
+     * bction commbnd.
      *
-     * @serial
+     * @seribl
      * @see #getKey()
      * @see #usesShiftModifier()
-     * @see java.awt.event.KeyEvent
+     * @see jbvb.bwt.event.KeyEvent
      * @since 1.1
      */
     int key;
 
     /**
-     * Indicates whether the shft key was pressed.
-     * If true, the shift key was pressed.
-     * If false, the shift key was not pressed
+     * Indicbtes whether the shft key wbs pressed.
+     * If true, the shift key wbs pressed.
+     * If fblse, the shift key wbs not pressed
      *
-     * @serial
+     * @seribl
      * @see #usesShiftModifier()
      * @since 1.1
      */
-    boolean usesShift;
+    boolebn usesShift;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = 143448358473180225L;
+     privbte stbtic finbl long seriblVersionUID = 143448358473180225L;
 
     /**
-     * Constructs a new MenuShortcut for the specified virtual keycode.
-     * @param key the raw keycode for this MenuShortcut, as would be returned
-     * in the keyCode field of a {@link java.awt.event.KeyEvent KeyEvent} if
+     * Constructs b new MenuShortcut for the specified virtubl keycode.
+     * @pbrbm key the rbw keycode for this MenuShortcut, bs would be returned
+     * in the keyCode field of b {@link jbvb.bwt.event.KeyEvent KeyEvent} if
      * this key were pressed.
-     * @see java.awt.event.KeyEvent
+     * @see jbvb.bwt.event.KeyEvent
      **/
     public MenuShortcut(int key) {
-        this(key, false);
+        this(key, fblse);
     }
 
     /**
-     * Constructs a new MenuShortcut for the specified virtual keycode.
-     * @param key the raw keycode for this MenuShortcut, as would be returned
-     * in the keyCode field of a {@link java.awt.event.KeyEvent KeyEvent} if
+     * Constructs b new MenuShortcut for the specified virtubl keycode.
+     * @pbrbm key the rbw keycode for this MenuShortcut, bs would be returned
+     * in the keyCode field of b {@link jbvb.bwt.event.KeyEvent KeyEvent} if
      * this key were pressed.
-     * @param useShiftModifier indicates whether this MenuShortcut is invoked
+     * @pbrbm useShiftModifier indicbtes whether this MenuShortcut is invoked
      * with the SHIFT key down.
-     * @see java.awt.event.KeyEvent
+     * @see jbvb.bwt.event.KeyEvent
      **/
-    public MenuShortcut(int key, boolean useShiftModifier) {
+    public MenuShortcut(int key, boolebn useShiftModifier) {
         this.key = key;
         this.usesShift = useShiftModifier;
     }
 
     /**
-     * Returns the raw keycode of this MenuShortcut.
-     * @return the raw keycode of this MenuShortcut.
-     * @see java.awt.event.KeyEvent
+     * Returns the rbw keycode of this MenuShortcut.
+     * @return the rbw keycode of this MenuShortcut.
+     * @see jbvb.bwt.event.KeyEvent
      * @since 1.1
      */
     public int getKey() {
@@ -129,61 +129,61 @@ public class MenuShortcut implements java.io.Serializable
     /**
      * Returns whether this MenuShortcut must be invoked using the SHIFT key.
      * @return <code>true</code> if this MenuShortcut must be invoked using the
-     * SHIFT key, <code>false</code> otherwise.
+     * SHIFT key, <code>fblse</code> otherwise.
      * @since 1.1
      */
-    public boolean usesShiftModifier() {
+    public boolebn usesShiftModifier() {
         return usesShift;
     }
 
     /**
-     * Returns whether this MenuShortcut is the same as another:
-     * equality is defined to mean that both MenuShortcuts use the same key
-     * and both either use or don't use the SHIFT key.
-     * @param s the MenuShortcut to compare with this.
-     * @return <code>true</code> if this MenuShortcut is the same as another,
-     * <code>false</code> otherwise.
+     * Returns whether this MenuShortcut is the sbme bs bnother:
+     * equblity is defined to mebn thbt both MenuShortcuts use the sbme key
+     * bnd both either use or don't use the SHIFT key.
+     * @pbrbm s the MenuShortcut to compbre with this.
+     * @return <code>true</code> if this MenuShortcut is the sbme bs bnother,
+     * <code>fblse</code> otherwise.
      * @since 1.1
      */
-    public boolean equals(MenuShortcut s) {
+    public boolebn equbls(MenuShortcut s) {
         return (s != null && (s.getKey() == key) &&
                 (s.usesShiftModifier() == usesShift));
     }
 
     /**
-     * Returns whether this MenuShortcut is the same as another:
-     * equality is defined to mean that both MenuShortcuts use the same key
-     * and both either use or don't use the SHIFT key.
-     * @param obj the Object to compare with this.
-     * @return <code>true</code> if this MenuShortcut is the same as another,
-     * <code>false</code> otherwise.
+     * Returns whether this MenuShortcut is the sbme bs bnother:
+     * equblity is defined to mebn thbt both MenuShortcuts use the sbme key
+     * bnd both either use or don't use the SHIFT key.
+     * @pbrbm obj the Object to compbre with this.
+     * @return <code>true</code> if this MenuShortcut is the sbme bs bnother,
+     * <code>fblse</code> otherwise.
      * @since 1.2
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof MenuShortcut) {
-            return equals( (MenuShortcut) obj );
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof MenuShortcut) {
+            return equbls( (MenuShortcut) obj );
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the hashcode for this MenuShortcut.
-     * @return the hashcode for this MenuShortcut.
+     * Returns the hbshcode for this MenuShortcut.
+     * @return the hbshcode for this MenuShortcut.
      * @since 1.2
      */
-    public int hashCode() {
+    public int hbshCode() {
         return (usesShift) ? (~key) : key;
     }
 
     /**
-     * Returns an internationalized description of the MenuShortcut.
-     * @return a string representation of this MenuShortcut.
+     * Returns bn internbtionblized description of the MenuShortcut.
+     * @return b string representbtion of this MenuShortcut.
      * @since 1.1
      */
     public String toString() {
         int modifiers = 0;
-        if (!GraphicsEnvironment.isHeadless()) {
-            modifiers = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        if (!GrbphicsEnvironment.isHebdless()) {
+            modifiers = Toolkit.getDefbultToolkit().getMenuShortcutKeyMbsk();
         }
         if (usesShiftModifier()) {
             modifiers |= Event.SHIFT_MASK;
@@ -193,12 +193,12 @@ public class MenuShortcut implements java.io.Serializable
     }
 
     /**
-     * Returns the parameter string representing the state of this
+     * Returns the pbrbmeter string representing the stbte of this
      * MenuShortcut. This string is useful for debugging.
-     * @return    the parameter string of this MenuShortcut.
+     * @return    the pbrbmeter string of this MenuShortcut.
      * @since 1.1
      */
-    protected String paramString() {
+    protected String pbrbmString() {
         String str = "key=" + key;
         if (usesShiftModifier()) {
             str += ",usesShiftModifier";

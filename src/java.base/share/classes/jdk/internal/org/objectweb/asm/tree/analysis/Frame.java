@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,712 +56,712 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree.analysis;
+pbckbge jdk.internbl.org.objectweb.bsm.tree.bnblysis;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.AbstractInsnNode;
-import jdk.internal.org.objectweb.asm.tree.IincInsnNode;
-import jdk.internal.org.objectweb.asm.tree.InvokeDynamicInsnNode;
-import jdk.internal.org.objectweb.asm.tree.MethodInsnNode;
-import jdk.internal.org.objectweb.asm.tree.MultiANewArrayInsnNode;
-import jdk.internal.org.objectweb.asm.tree.VarInsnNode;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Type;
+import jdk.internbl.org.objectweb.bsm.tree.AbstrbctInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.IincInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.InvokeDynbmicInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.MethodInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.MultiANewArrbyInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.VbrInsnNode;
 
 /**
- * A symbolic execution stack frame. A stack frame contains a set of local
- * variable slots, and an operand stack. Warning: long and double values are
- * represented by <i>two</i> slots in local variables, and by <i>one</i> slot in
- * the operand stack.
+ * A symbolic execution stbck frbme. A stbck frbme contbins b set of locbl
+ * vbribble slots, bnd bn operbnd stbck. Wbrning: long bnd double vblues bre
+ * represented by <i>two</i> slots in locbl vbribbles, bnd by <i>one</i> slot in
+ * the operbnd stbck.
  *
- * @param <V>
- *            type of the Value used for the analysis.
+ * @pbrbm <V>
+ *            type of the Vblue used for the bnblysis.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class Frame<V extends Value> {
+public clbss Frbme<V extends Vblue> {
 
     /**
-     * The expected return type of the analyzed method, or <tt>null</tt> if the
+     * The expected return type of the bnblyzed method, or <tt>null</tt> if the
      * method returns void.
      */
-    private V returnValue;
+    privbte V returnVblue;
 
     /**
-     * The local variables and operand stack of this frame.
+     * The locbl vbribbles bnd operbnd stbck of this frbme.
      */
-    private V[] values;
+    privbte V[] vblues;
 
     /**
-     * The number of local variables of this frame.
+     * The number of locbl vbribbles of this frbme.
      */
-    private int locals;
+    privbte int locbls;
 
     /**
-     * The number of elements in the operand stack.
+     * The number of elements in the operbnd stbck.
      */
-    private int top;
+    privbte int top;
 
     /**
-     * Constructs a new frame with the given size.
+     * Constructs b new frbme with the given size.
      *
-     * @param nLocals
-     *            the maximum number of local variables of the frame.
-     * @param nStack
-     *            the maximum stack size of the frame.
+     * @pbrbm nLocbls
+     *            the mbximum number of locbl vbribbles of the frbme.
+     * @pbrbm nStbck
+     *            the mbximum stbck size of the frbme.
      */
-    @SuppressWarnings("unchecked")
-    public Frame(final int nLocals, final int nStack) {
-        this.values = (V[]) new Value[nLocals + nStack];
-        this.locals = nLocals;
+    @SuppressWbrnings("unchecked")
+    public Frbme(finbl int nLocbls, finbl int nStbck) {
+        this.vblues = (V[]) new Vblue[nLocbls + nStbck];
+        this.locbls = nLocbls;
     }
 
     /**
-     * Constructs a new frame that is identical to the given frame.
+     * Constructs b new frbme thbt is identicbl to the given frbme.
      *
-     * @param src
-     *            a frame.
+     * @pbrbm src
+     *            b frbme.
      */
-    public Frame(final Frame<? extends V> src) {
-        this(src.locals, src.values.length - src.locals);
+    public Frbme(finbl Frbme<? extends V> src) {
+        this(src.locbls, src.vblues.length - src.locbls);
         init(src);
     }
 
     /**
-     * Copies the state of the given frame into this frame.
+     * Copies the stbte of the given frbme into this frbme.
      *
-     * @param src
-     *            a frame.
-     * @return this frame.
+     * @pbrbm src
+     *            b frbme.
+     * @return this frbme.
      */
-    public Frame<V> init(final Frame<? extends V> src) {
-        returnValue = src.returnValue;
-        System.arraycopy(src.values, 0, values, 0, values.length);
+    public Frbme<V> init(finbl Frbme<? extends V> src) {
+        returnVblue = src.returnVblue;
+        System.brrbycopy(src.vblues, 0, vblues, 0, vblues.length);
         top = src.top;
         return this;
     }
 
     /**
-     * Sets the expected return type of the analyzed method.
+     * Sets the expected return type of the bnblyzed method.
      *
-     * @param v
-     *            the expected return type of the analyzed method, or
+     * @pbrbm v
+     *            the expected return type of the bnblyzed method, or
      *            <tt>null</tt> if the method returns void.
      */
-    public void setReturn(final V v) {
-        returnValue = v;
+    public void setReturn(finbl V v) {
+        returnVblue = v;
     }
 
     /**
-     * Returns the maximum number of local variables of this frame.
+     * Returns the mbximum number of locbl vbribbles of this frbme.
      *
-     * @return the maximum number of local variables of this frame.
+     * @return the mbximum number of locbl vbribbles of this frbme.
      */
-    public int getLocals() {
-        return locals;
+    public int getLocbls() {
+        return locbls;
     }
 
     /**
-     * Returns the maximum stack size of this frame.
+     * Returns the mbximum stbck size of this frbme.
      *
-     * @return the maximum stack size of this frame.
+     * @return the mbximum stbck size of this frbme.
      */
-    public int getMaxStackSize() {
-        return values.length - locals;
+    public int getMbxStbckSize() {
+        return vblues.length - locbls;
     }
 
     /**
-     * Returns the value of the given local variable.
+     * Returns the vblue of the given locbl vbribble.
      *
-     * @param i
-     *            a local variable index.
-     * @return the value of the given local variable.
+     * @pbrbm i
+     *            b locbl vbribble index.
+     * @return the vblue of the given locbl vbribble.
      * @throws IndexOutOfBoundsException
-     *             if the variable does not exist.
+     *             if the vbribble does not exist.
      */
-    public V getLocal(final int i) throws IndexOutOfBoundsException {
-        if (i >= locals) {
+    public V getLocbl(finbl int i) throws IndexOutOfBoundsException {
+        if (i >= locbls) {
             throw new IndexOutOfBoundsException(
-                    "Trying to access an inexistant local variable");
+                    "Trying to bccess bn inexistbnt locbl vbribble");
         }
-        return values[i];
+        return vblues[i];
     }
 
     /**
-     * Sets the value of the given local variable.
+     * Sets the vblue of the given locbl vbribble.
      *
-     * @param i
-     *            a local variable index.
-     * @param value
-     *            the new value of this local variable.
+     * @pbrbm i
+     *            b locbl vbribble index.
+     * @pbrbm vblue
+     *            the new vblue of this locbl vbribble.
      * @throws IndexOutOfBoundsException
-     *             if the variable does not exist.
+     *             if the vbribble does not exist.
      */
-    public void setLocal(final int i, final V value)
+    public void setLocbl(finbl int i, finbl V vblue)
             throws IndexOutOfBoundsException {
-        if (i >= locals) {
+        if (i >= locbls) {
             throw new IndexOutOfBoundsException(
-                    "Trying to access an inexistant local variable " + i);
+                    "Trying to bccess bn inexistbnt locbl vbribble " + i);
         }
-        values[i] = value;
+        vblues[i] = vblue;
     }
 
     /**
-     * Returns the number of values in the operand stack of this frame. Long and
-     * double values are treated as single values.
+     * Returns the number of vblues in the operbnd stbck of this frbme. Long bnd
+     * double vblues bre trebted bs single vblues.
      *
-     * @return the number of values in the operand stack of this frame.
+     * @return the number of vblues in the operbnd stbck of this frbme.
      */
-    public int getStackSize() {
+    public int getStbckSize() {
         return top;
     }
 
     /**
-     * Returns the value of the given operand stack slot.
+     * Returns the vblue of the given operbnd stbck slot.
      *
-     * @param i
-     *            the index of an operand stack slot.
-     * @return the value of the given operand stack slot.
+     * @pbrbm i
+     *            the index of bn operbnd stbck slot.
+     * @return the vblue of the given operbnd stbck slot.
      * @throws IndexOutOfBoundsException
-     *             if the operand stack slot does not exist.
+     *             if the operbnd stbck slot does not exist.
      */
-    public V getStack(final int i) throws IndexOutOfBoundsException {
-        return values[i + locals];
+    public V getStbck(finbl int i) throws IndexOutOfBoundsException {
+        return vblues[i + locbls];
     }
 
     /**
-     * Clears the operand stack of this frame.
+     * Clebrs the operbnd stbck of this frbme.
      */
-    public void clearStack() {
+    public void clebrStbck() {
         top = 0;
     }
 
     /**
-     * Pops a value from the operand stack of this frame.
+     * Pops b vblue from the operbnd stbck of this frbme.
      *
-     * @return the value that has been popped from the stack.
+     * @return the vblue thbt hbs been popped from the stbck.
      * @throws IndexOutOfBoundsException
-     *             if the operand stack is empty.
+     *             if the operbnd stbck is empty.
      */
     public V pop() throws IndexOutOfBoundsException {
         if (top == 0) {
             throw new IndexOutOfBoundsException(
-                    "Cannot pop operand off an empty stack.");
+                    "Cbnnot pop operbnd off bn empty stbck.");
         }
-        return values[--top + locals];
+        return vblues[--top + locbls];
     }
 
     /**
-     * Pushes a value into the operand stack of this frame.
+     * Pushes b vblue into the operbnd stbck of this frbme.
      *
-     * @param value
-     *            the value that must be pushed into the stack.
+     * @pbrbm vblue
+     *            the vblue thbt must be pushed into the stbck.
      * @throws IndexOutOfBoundsException
-     *             if the operand stack is full.
+     *             if the operbnd stbck is full.
      */
-    public void push(final V value) throws IndexOutOfBoundsException {
-        if (top + locals >= values.length) {
+    public void push(finbl V vblue) throws IndexOutOfBoundsException {
+        if (top + locbls >= vblues.length) {
             throw new IndexOutOfBoundsException(
-                    "Insufficient maximum stack size.");
+                    "Insufficient mbximum stbck size.");
         }
-        values[top++ + locals] = value;
+        vblues[top++ + locbls] = vblue;
     }
 
-    public void execute(final AbstractInsnNode insn,
-            final Interpreter<V> interpreter) throws AnalyzerException {
-        V value1, value2, value3, value4;
-        List<V> values;
-        int var;
+    public void execute(finbl AbstrbctInsnNode insn,
+            finbl Interpreter<V> interpreter) throws AnblyzerException {
+        V vblue1, vblue2, vblue3, vblue4;
+        List<V> vblues;
+        int vbr;
 
         switch (insn.getOpcode()) {
-        case Opcodes.NOP:
-            break;
-        case Opcodes.ACONST_NULL:
-        case Opcodes.ICONST_M1:
-        case Opcodes.ICONST_0:
-        case Opcodes.ICONST_1:
-        case Opcodes.ICONST_2:
-        case Opcodes.ICONST_3:
-        case Opcodes.ICONST_4:
-        case Opcodes.ICONST_5:
-        case Opcodes.LCONST_0:
-        case Opcodes.LCONST_1:
-        case Opcodes.FCONST_0:
-        case Opcodes.FCONST_1:
-        case Opcodes.FCONST_2:
-        case Opcodes.DCONST_0:
-        case Opcodes.DCONST_1:
-        case Opcodes.BIPUSH:
-        case Opcodes.SIPUSH:
-        case Opcodes.LDC:
-            push(interpreter.newOperation(insn));
-            break;
-        case Opcodes.ILOAD:
-        case Opcodes.LLOAD:
-        case Opcodes.FLOAD:
-        case Opcodes.DLOAD:
-        case Opcodes.ALOAD:
-            push(interpreter.copyOperation(insn,
-                    getLocal(((VarInsnNode) insn).var)));
-            break;
-        case Opcodes.IALOAD:
-        case Opcodes.LALOAD:
-        case Opcodes.FALOAD:
-        case Opcodes.DALOAD:
-        case Opcodes.AALOAD:
-        case Opcodes.BALOAD:
-        case Opcodes.CALOAD:
-        case Opcodes.SALOAD:
-            value2 = pop();
-            value1 = pop();
-            push(interpreter.binaryOperation(insn, value1, value2));
-            break;
-        case Opcodes.ISTORE:
-        case Opcodes.LSTORE:
-        case Opcodes.FSTORE:
-        case Opcodes.DSTORE:
-        case Opcodes.ASTORE:
-            value1 = interpreter.copyOperation(insn, pop());
-            var = ((VarInsnNode) insn).var;
-            setLocal(var, value1);
-            if (value1.getSize() == 2) {
-                setLocal(var + 1, interpreter.newValue(null));
+        cbse Opcodes.NOP:
+            brebk;
+        cbse Opcodes.ACONST_NULL:
+        cbse Opcodes.ICONST_M1:
+        cbse Opcodes.ICONST_0:
+        cbse Opcodes.ICONST_1:
+        cbse Opcodes.ICONST_2:
+        cbse Opcodes.ICONST_3:
+        cbse Opcodes.ICONST_4:
+        cbse Opcodes.ICONST_5:
+        cbse Opcodes.LCONST_0:
+        cbse Opcodes.LCONST_1:
+        cbse Opcodes.FCONST_0:
+        cbse Opcodes.FCONST_1:
+        cbse Opcodes.FCONST_2:
+        cbse Opcodes.DCONST_0:
+        cbse Opcodes.DCONST_1:
+        cbse Opcodes.BIPUSH:
+        cbse Opcodes.SIPUSH:
+        cbse Opcodes.LDC:
+            push(interpreter.newOperbtion(insn));
+            brebk;
+        cbse Opcodes.ILOAD:
+        cbse Opcodes.LLOAD:
+        cbse Opcodes.FLOAD:
+        cbse Opcodes.DLOAD:
+        cbse Opcodes.ALOAD:
+            push(interpreter.copyOperbtion(insn,
+                    getLocbl(((VbrInsnNode) insn).vbr)));
+            brebk;
+        cbse Opcodes.IALOAD:
+        cbse Opcodes.LALOAD:
+        cbse Opcodes.FALOAD:
+        cbse Opcodes.DALOAD:
+        cbse Opcodes.AALOAD:
+        cbse Opcodes.BALOAD:
+        cbse Opcodes.CALOAD:
+        cbse Opcodes.SALOAD:
+            vblue2 = pop();
+            vblue1 = pop();
+            push(interpreter.binbryOperbtion(insn, vblue1, vblue2));
+            brebk;
+        cbse Opcodes.ISTORE:
+        cbse Opcodes.LSTORE:
+        cbse Opcodes.FSTORE:
+        cbse Opcodes.DSTORE:
+        cbse Opcodes.ASTORE:
+            vblue1 = interpreter.copyOperbtion(insn, pop());
+            vbr = ((VbrInsnNode) insn).vbr;
+            setLocbl(vbr, vblue1);
+            if (vblue1.getSize() == 2) {
+                setLocbl(vbr + 1, interpreter.newVblue(null));
             }
-            if (var > 0) {
-                Value local = getLocal(var - 1);
-                if (local != null && local.getSize() == 2) {
-                    setLocal(var - 1, interpreter.newValue(null));
+            if (vbr > 0) {
+                Vblue locbl = getLocbl(vbr - 1);
+                if (locbl != null && locbl.getSize() == 2) {
+                    setLocbl(vbr - 1, interpreter.newVblue(null));
                 }
             }
-            break;
-        case Opcodes.IASTORE:
-        case Opcodes.LASTORE:
-        case Opcodes.FASTORE:
-        case Opcodes.DASTORE:
-        case Opcodes.AASTORE:
-        case Opcodes.BASTORE:
-        case Opcodes.CASTORE:
-        case Opcodes.SASTORE:
-            value3 = pop();
-            value2 = pop();
-            value1 = pop();
-            interpreter.ternaryOperation(insn, value1, value2, value3);
-            break;
-        case Opcodes.POP:
+            brebk;
+        cbse Opcodes.IASTORE:
+        cbse Opcodes.LASTORE:
+        cbse Opcodes.FASTORE:
+        cbse Opcodes.DASTORE:
+        cbse Opcodes.AASTORE:
+        cbse Opcodes.BASTORE:
+        cbse Opcodes.CASTORE:
+        cbse Opcodes.SASTORE:
+            vblue3 = pop();
+            vblue2 = pop();
+            vblue1 = pop();
+            interpreter.ternbryOperbtion(insn, vblue1, vblue2, vblue3);
+            brebk;
+        cbse Opcodes.POP:
             if (pop().getSize() == 2) {
-                throw new AnalyzerException(insn, "Illegal use of POP");
+                throw new AnblyzerException(insn, "Illegbl use of POP");
             }
-            break;
-        case Opcodes.POP2:
+            brebk;
+        cbse Opcodes.POP2:
             if (pop().getSize() == 1) {
                 if (pop().getSize() != 1) {
-                    throw new AnalyzerException(insn, "Illegal use of POP2");
+                    throw new AnblyzerException(insn, "Illegbl use of POP2");
                 }
             }
-            break;
-        case Opcodes.DUP:
-            value1 = pop();
-            if (value1.getSize() != 1) {
-                throw new AnalyzerException(insn, "Illegal use of DUP");
+            brebk;
+        cbse Opcodes.DUP:
+            vblue1 = pop();
+            if (vblue1.getSize() != 1) {
+                throw new AnblyzerException(insn, "Illegbl use of DUP");
             }
-            push(value1);
-            push(interpreter.copyOperation(insn, value1));
-            break;
-        case Opcodes.DUP_X1:
-            value1 = pop();
-            value2 = pop();
-            if (value1.getSize() != 1 || value2.getSize() != 1) {
-                throw new AnalyzerException(insn, "Illegal use of DUP_X1");
+            push(vblue1);
+            push(interpreter.copyOperbtion(insn, vblue1));
+            brebk;
+        cbse Opcodes.DUP_X1:
+            vblue1 = pop();
+            vblue2 = pop();
+            if (vblue1.getSize() != 1 || vblue2.getSize() != 1) {
+                throw new AnblyzerException(insn, "Illegbl use of DUP_X1");
             }
-            push(interpreter.copyOperation(insn, value1));
-            push(value2);
-            push(value1);
-            break;
-        case Opcodes.DUP_X2:
-            value1 = pop();
-            if (value1.getSize() == 1) {
-                value2 = pop();
-                if (value2.getSize() == 1) {
-                    value3 = pop();
-                    if (value3.getSize() == 1) {
-                        push(interpreter.copyOperation(insn, value1));
-                        push(value3);
-                        push(value2);
-                        push(value1);
-                        break;
+            push(interpreter.copyOperbtion(insn, vblue1));
+            push(vblue2);
+            push(vblue1);
+            brebk;
+        cbse Opcodes.DUP_X2:
+            vblue1 = pop();
+            if (vblue1.getSize() == 1) {
+                vblue2 = pop();
+                if (vblue2.getSize() == 1) {
+                    vblue3 = pop();
+                    if (vblue3.getSize() == 1) {
+                        push(interpreter.copyOperbtion(insn, vblue1));
+                        push(vblue3);
+                        push(vblue2);
+                        push(vblue1);
+                        brebk;
                     }
                 } else {
-                    push(interpreter.copyOperation(insn, value1));
-                    push(value2);
-                    push(value1);
-                    break;
+                    push(interpreter.copyOperbtion(insn, vblue1));
+                    push(vblue2);
+                    push(vblue1);
+                    brebk;
                 }
             }
-            throw new AnalyzerException(insn, "Illegal use of DUP_X2");
-        case Opcodes.DUP2:
-            value1 = pop();
-            if (value1.getSize() == 1) {
-                value2 = pop();
-                if (value2.getSize() == 1) {
-                    push(value2);
-                    push(value1);
-                    push(interpreter.copyOperation(insn, value2));
-                    push(interpreter.copyOperation(insn, value1));
-                    break;
+            throw new AnblyzerException(insn, "Illegbl use of DUP_X2");
+        cbse Opcodes.DUP2:
+            vblue1 = pop();
+            if (vblue1.getSize() == 1) {
+                vblue2 = pop();
+                if (vblue2.getSize() == 1) {
+                    push(vblue2);
+                    push(vblue1);
+                    push(interpreter.copyOperbtion(insn, vblue2));
+                    push(interpreter.copyOperbtion(insn, vblue1));
+                    brebk;
                 }
             } else {
-                push(value1);
-                push(interpreter.copyOperation(insn, value1));
-                break;
+                push(vblue1);
+                push(interpreter.copyOperbtion(insn, vblue1));
+                brebk;
             }
-            throw new AnalyzerException(insn, "Illegal use of DUP2");
-        case Opcodes.DUP2_X1:
-            value1 = pop();
-            if (value1.getSize() == 1) {
-                value2 = pop();
-                if (value2.getSize() == 1) {
-                    value3 = pop();
-                    if (value3.getSize() == 1) {
-                        push(interpreter.copyOperation(insn, value2));
-                        push(interpreter.copyOperation(insn, value1));
-                        push(value3);
-                        push(value2);
-                        push(value1);
-                        break;
+            throw new AnblyzerException(insn, "Illegbl use of DUP2");
+        cbse Opcodes.DUP2_X1:
+            vblue1 = pop();
+            if (vblue1.getSize() == 1) {
+                vblue2 = pop();
+                if (vblue2.getSize() == 1) {
+                    vblue3 = pop();
+                    if (vblue3.getSize() == 1) {
+                        push(interpreter.copyOperbtion(insn, vblue2));
+                        push(interpreter.copyOperbtion(insn, vblue1));
+                        push(vblue3);
+                        push(vblue2);
+                        push(vblue1);
+                        brebk;
                     }
                 }
             } else {
-                value2 = pop();
-                if (value2.getSize() == 1) {
-                    push(interpreter.copyOperation(insn, value1));
-                    push(value2);
-                    push(value1);
-                    break;
+                vblue2 = pop();
+                if (vblue2.getSize() == 1) {
+                    push(interpreter.copyOperbtion(insn, vblue1));
+                    push(vblue2);
+                    push(vblue1);
+                    brebk;
                 }
             }
-            throw new AnalyzerException(insn, "Illegal use of DUP2_X1");
-        case Opcodes.DUP2_X2:
-            value1 = pop();
-            if (value1.getSize() == 1) {
-                value2 = pop();
-                if (value2.getSize() == 1) {
-                    value3 = pop();
-                    if (value3.getSize() == 1) {
-                        value4 = pop();
-                        if (value4.getSize() == 1) {
-                            push(interpreter.copyOperation(insn, value2));
-                            push(interpreter.copyOperation(insn, value1));
-                            push(value4);
-                            push(value3);
-                            push(value2);
-                            push(value1);
-                            break;
+            throw new AnblyzerException(insn, "Illegbl use of DUP2_X1");
+        cbse Opcodes.DUP2_X2:
+            vblue1 = pop();
+            if (vblue1.getSize() == 1) {
+                vblue2 = pop();
+                if (vblue2.getSize() == 1) {
+                    vblue3 = pop();
+                    if (vblue3.getSize() == 1) {
+                        vblue4 = pop();
+                        if (vblue4.getSize() == 1) {
+                            push(interpreter.copyOperbtion(insn, vblue2));
+                            push(interpreter.copyOperbtion(insn, vblue1));
+                            push(vblue4);
+                            push(vblue3);
+                            push(vblue2);
+                            push(vblue1);
+                            brebk;
                         }
                     } else {
-                        push(interpreter.copyOperation(insn, value2));
-                        push(interpreter.copyOperation(insn, value1));
-                        push(value3);
-                        push(value2);
-                        push(value1);
-                        break;
+                        push(interpreter.copyOperbtion(insn, vblue2));
+                        push(interpreter.copyOperbtion(insn, vblue1));
+                        push(vblue3);
+                        push(vblue2);
+                        push(vblue1);
+                        brebk;
                     }
                 }
             } else {
-                value2 = pop();
-                if (value2.getSize() == 1) {
-                    value3 = pop();
-                    if (value3.getSize() == 1) {
-                        push(interpreter.copyOperation(insn, value1));
-                        push(value3);
-                        push(value2);
-                        push(value1);
-                        break;
+                vblue2 = pop();
+                if (vblue2.getSize() == 1) {
+                    vblue3 = pop();
+                    if (vblue3.getSize() == 1) {
+                        push(interpreter.copyOperbtion(insn, vblue1));
+                        push(vblue3);
+                        push(vblue2);
+                        push(vblue1);
+                        brebk;
                     }
                 } else {
-                    push(interpreter.copyOperation(insn, value1));
-                    push(value2);
-                    push(value1);
-                    break;
+                    push(interpreter.copyOperbtion(insn, vblue1));
+                    push(vblue2);
+                    push(vblue1);
+                    brebk;
                 }
             }
-            throw new AnalyzerException(insn, "Illegal use of DUP2_X2");
-        case Opcodes.SWAP:
-            value2 = pop();
-            value1 = pop();
-            if (value1.getSize() != 1 || value2.getSize() != 1) {
-                throw new AnalyzerException(insn, "Illegal use of SWAP");
+            throw new AnblyzerException(insn, "Illegbl use of DUP2_X2");
+        cbse Opcodes.SWAP:
+            vblue2 = pop();
+            vblue1 = pop();
+            if (vblue1.getSize() != 1 || vblue2.getSize() != 1) {
+                throw new AnblyzerException(insn, "Illegbl use of SWAP");
             }
-            push(interpreter.copyOperation(insn, value2));
-            push(interpreter.copyOperation(insn, value1));
-            break;
-        case Opcodes.IADD:
-        case Opcodes.LADD:
-        case Opcodes.FADD:
-        case Opcodes.DADD:
-        case Opcodes.ISUB:
-        case Opcodes.LSUB:
-        case Opcodes.FSUB:
-        case Opcodes.DSUB:
-        case Opcodes.IMUL:
-        case Opcodes.LMUL:
-        case Opcodes.FMUL:
-        case Opcodes.DMUL:
-        case Opcodes.IDIV:
-        case Opcodes.LDIV:
-        case Opcodes.FDIV:
-        case Opcodes.DDIV:
-        case Opcodes.IREM:
-        case Opcodes.LREM:
-        case Opcodes.FREM:
-        case Opcodes.DREM:
-            value2 = pop();
-            value1 = pop();
-            push(interpreter.binaryOperation(insn, value1, value2));
-            break;
-        case Opcodes.INEG:
-        case Opcodes.LNEG:
-        case Opcodes.FNEG:
-        case Opcodes.DNEG:
-            push(interpreter.unaryOperation(insn, pop()));
-            break;
-        case Opcodes.ISHL:
-        case Opcodes.LSHL:
-        case Opcodes.ISHR:
-        case Opcodes.LSHR:
-        case Opcodes.IUSHR:
-        case Opcodes.LUSHR:
-        case Opcodes.IAND:
-        case Opcodes.LAND:
-        case Opcodes.IOR:
-        case Opcodes.LOR:
-        case Opcodes.IXOR:
-        case Opcodes.LXOR:
-            value2 = pop();
-            value1 = pop();
-            push(interpreter.binaryOperation(insn, value1, value2));
-            break;
-        case Opcodes.IINC:
-            var = ((IincInsnNode) insn).var;
-            setLocal(var, interpreter.unaryOperation(insn, getLocal(var)));
-            break;
-        case Opcodes.I2L:
-        case Opcodes.I2F:
-        case Opcodes.I2D:
-        case Opcodes.L2I:
-        case Opcodes.L2F:
-        case Opcodes.L2D:
-        case Opcodes.F2I:
-        case Opcodes.F2L:
-        case Opcodes.F2D:
-        case Opcodes.D2I:
-        case Opcodes.D2L:
-        case Opcodes.D2F:
-        case Opcodes.I2B:
-        case Opcodes.I2C:
-        case Opcodes.I2S:
-            push(interpreter.unaryOperation(insn, pop()));
-            break;
-        case Opcodes.LCMP:
-        case Opcodes.FCMPL:
-        case Opcodes.FCMPG:
-        case Opcodes.DCMPL:
-        case Opcodes.DCMPG:
-            value2 = pop();
-            value1 = pop();
-            push(interpreter.binaryOperation(insn, value1, value2));
-            break;
-        case Opcodes.IFEQ:
-        case Opcodes.IFNE:
-        case Opcodes.IFLT:
-        case Opcodes.IFGE:
-        case Opcodes.IFGT:
-        case Opcodes.IFLE:
-            interpreter.unaryOperation(insn, pop());
-            break;
-        case Opcodes.IF_ICMPEQ:
-        case Opcodes.IF_ICMPNE:
-        case Opcodes.IF_ICMPLT:
-        case Opcodes.IF_ICMPGE:
-        case Opcodes.IF_ICMPGT:
-        case Opcodes.IF_ICMPLE:
-        case Opcodes.IF_ACMPEQ:
-        case Opcodes.IF_ACMPNE:
-            value2 = pop();
-            value1 = pop();
-            interpreter.binaryOperation(insn, value1, value2);
-            break;
-        case Opcodes.GOTO:
-            break;
-        case Opcodes.JSR:
-            push(interpreter.newOperation(insn));
-            break;
-        case Opcodes.RET:
-            break;
-        case Opcodes.TABLESWITCH:
-        case Opcodes.LOOKUPSWITCH:
-            interpreter.unaryOperation(insn, pop());
-            break;
-        case Opcodes.IRETURN:
-        case Opcodes.LRETURN:
-        case Opcodes.FRETURN:
-        case Opcodes.DRETURN:
-        case Opcodes.ARETURN:
-            value1 = pop();
-            interpreter.unaryOperation(insn, value1);
-            interpreter.returnOperation(insn, value1, returnValue);
-            break;
-        case Opcodes.RETURN:
-            if (returnValue != null) {
-                throw new AnalyzerException(insn, "Incompatible return type");
+            push(interpreter.copyOperbtion(insn, vblue2));
+            push(interpreter.copyOperbtion(insn, vblue1));
+            brebk;
+        cbse Opcodes.IADD:
+        cbse Opcodes.LADD:
+        cbse Opcodes.FADD:
+        cbse Opcodes.DADD:
+        cbse Opcodes.ISUB:
+        cbse Opcodes.LSUB:
+        cbse Opcodes.FSUB:
+        cbse Opcodes.DSUB:
+        cbse Opcodes.IMUL:
+        cbse Opcodes.LMUL:
+        cbse Opcodes.FMUL:
+        cbse Opcodes.DMUL:
+        cbse Opcodes.IDIV:
+        cbse Opcodes.LDIV:
+        cbse Opcodes.FDIV:
+        cbse Opcodes.DDIV:
+        cbse Opcodes.IREM:
+        cbse Opcodes.LREM:
+        cbse Opcodes.FREM:
+        cbse Opcodes.DREM:
+            vblue2 = pop();
+            vblue1 = pop();
+            push(interpreter.binbryOperbtion(insn, vblue1, vblue2));
+            brebk;
+        cbse Opcodes.INEG:
+        cbse Opcodes.LNEG:
+        cbse Opcodes.FNEG:
+        cbse Opcodes.DNEG:
+            push(interpreter.unbryOperbtion(insn, pop()));
+            brebk;
+        cbse Opcodes.ISHL:
+        cbse Opcodes.LSHL:
+        cbse Opcodes.ISHR:
+        cbse Opcodes.LSHR:
+        cbse Opcodes.IUSHR:
+        cbse Opcodes.LUSHR:
+        cbse Opcodes.IAND:
+        cbse Opcodes.LAND:
+        cbse Opcodes.IOR:
+        cbse Opcodes.LOR:
+        cbse Opcodes.IXOR:
+        cbse Opcodes.LXOR:
+            vblue2 = pop();
+            vblue1 = pop();
+            push(interpreter.binbryOperbtion(insn, vblue1, vblue2));
+            brebk;
+        cbse Opcodes.IINC:
+            vbr = ((IincInsnNode) insn).vbr;
+            setLocbl(vbr, interpreter.unbryOperbtion(insn, getLocbl(vbr)));
+            brebk;
+        cbse Opcodes.I2L:
+        cbse Opcodes.I2F:
+        cbse Opcodes.I2D:
+        cbse Opcodes.L2I:
+        cbse Opcodes.L2F:
+        cbse Opcodes.L2D:
+        cbse Opcodes.F2I:
+        cbse Opcodes.F2L:
+        cbse Opcodes.F2D:
+        cbse Opcodes.D2I:
+        cbse Opcodes.D2L:
+        cbse Opcodes.D2F:
+        cbse Opcodes.I2B:
+        cbse Opcodes.I2C:
+        cbse Opcodes.I2S:
+            push(interpreter.unbryOperbtion(insn, pop()));
+            brebk;
+        cbse Opcodes.LCMP:
+        cbse Opcodes.FCMPL:
+        cbse Opcodes.FCMPG:
+        cbse Opcodes.DCMPL:
+        cbse Opcodes.DCMPG:
+            vblue2 = pop();
+            vblue1 = pop();
+            push(interpreter.binbryOperbtion(insn, vblue1, vblue2));
+            brebk;
+        cbse Opcodes.IFEQ:
+        cbse Opcodes.IFNE:
+        cbse Opcodes.IFLT:
+        cbse Opcodes.IFGE:
+        cbse Opcodes.IFGT:
+        cbse Opcodes.IFLE:
+            interpreter.unbryOperbtion(insn, pop());
+            brebk;
+        cbse Opcodes.IF_ICMPEQ:
+        cbse Opcodes.IF_ICMPNE:
+        cbse Opcodes.IF_ICMPLT:
+        cbse Opcodes.IF_ICMPGE:
+        cbse Opcodes.IF_ICMPGT:
+        cbse Opcodes.IF_ICMPLE:
+        cbse Opcodes.IF_ACMPEQ:
+        cbse Opcodes.IF_ACMPNE:
+            vblue2 = pop();
+            vblue1 = pop();
+            interpreter.binbryOperbtion(insn, vblue1, vblue2);
+            brebk;
+        cbse Opcodes.GOTO:
+            brebk;
+        cbse Opcodes.JSR:
+            push(interpreter.newOperbtion(insn));
+            brebk;
+        cbse Opcodes.RET:
+            brebk;
+        cbse Opcodes.TABLESWITCH:
+        cbse Opcodes.LOOKUPSWITCH:
+            interpreter.unbryOperbtion(insn, pop());
+            brebk;
+        cbse Opcodes.IRETURN:
+        cbse Opcodes.LRETURN:
+        cbse Opcodes.FRETURN:
+        cbse Opcodes.DRETURN:
+        cbse Opcodes.ARETURN:
+            vblue1 = pop();
+            interpreter.unbryOperbtion(insn, vblue1);
+            interpreter.returnOperbtion(insn, vblue1, returnVblue);
+            brebk;
+        cbse Opcodes.RETURN:
+            if (returnVblue != null) {
+                throw new AnblyzerException(insn, "Incompbtible return type");
             }
-            break;
-        case Opcodes.GETSTATIC:
-            push(interpreter.newOperation(insn));
-            break;
-        case Opcodes.PUTSTATIC:
-            interpreter.unaryOperation(insn, pop());
-            break;
-        case Opcodes.GETFIELD:
-            push(interpreter.unaryOperation(insn, pop()));
-            break;
-        case Opcodes.PUTFIELD:
-            value2 = pop();
-            value1 = pop();
-            interpreter.binaryOperation(insn, value1, value2);
-            break;
-        case Opcodes.INVOKEVIRTUAL:
-        case Opcodes.INVOKESPECIAL:
-        case Opcodes.INVOKESTATIC:
-        case Opcodes.INVOKEINTERFACE: {
-            values = new ArrayList<V>();
+            brebk;
+        cbse Opcodes.GETSTATIC:
+            push(interpreter.newOperbtion(insn));
+            brebk;
+        cbse Opcodes.PUTSTATIC:
+            interpreter.unbryOperbtion(insn, pop());
+            brebk;
+        cbse Opcodes.GETFIELD:
+            push(interpreter.unbryOperbtion(insn, pop()));
+            brebk;
+        cbse Opcodes.PUTFIELD:
+            vblue2 = pop();
+            vblue1 = pop();
+            interpreter.binbryOperbtion(insn, vblue1, vblue2);
+            brebk;
+        cbse Opcodes.INVOKEVIRTUAL:
+        cbse Opcodes.INVOKESPECIAL:
+        cbse Opcodes.INVOKESTATIC:
+        cbse Opcodes.INVOKEINTERFACE: {
+            vblues = new ArrbyList<V>();
             String desc = ((MethodInsnNode) insn).desc;
             for (int i = Type.getArgumentTypes(desc).length; i > 0; --i) {
-                values.add(0, pop());
+                vblues.bdd(0, pop());
             }
             if (insn.getOpcode() != Opcodes.INVOKESTATIC) {
-                values.add(0, pop());
+                vblues.bdd(0, pop());
             }
             if (Type.getReturnType(desc) == Type.VOID_TYPE) {
-                interpreter.naryOperation(insn, values);
+                interpreter.nbryOperbtion(insn, vblues);
             } else {
-                push(interpreter.naryOperation(insn, values));
+                push(interpreter.nbryOperbtion(insn, vblues));
             }
-            break;
+            brebk;
         }
-        case Opcodes.INVOKEDYNAMIC: {
-            values = new ArrayList<V>();
-            String desc = ((InvokeDynamicInsnNode) insn).desc;
+        cbse Opcodes.INVOKEDYNAMIC: {
+            vblues = new ArrbyList<V>();
+            String desc = ((InvokeDynbmicInsnNode) insn).desc;
             for (int i = Type.getArgumentTypes(desc).length; i > 0; --i) {
-                values.add(0, pop());
+                vblues.bdd(0, pop());
             }
             if (Type.getReturnType(desc) == Type.VOID_TYPE) {
-                interpreter.naryOperation(insn, values);
+                interpreter.nbryOperbtion(insn, vblues);
             } else {
-                push(interpreter.naryOperation(insn, values));
+                push(interpreter.nbryOperbtion(insn, vblues));
             }
-            break;
+            brebk;
         }
-        case Opcodes.NEW:
-            push(interpreter.newOperation(insn));
-            break;
-        case Opcodes.NEWARRAY:
-        case Opcodes.ANEWARRAY:
-        case Opcodes.ARRAYLENGTH:
-            push(interpreter.unaryOperation(insn, pop()));
-            break;
-        case Opcodes.ATHROW:
-            interpreter.unaryOperation(insn, pop());
-            break;
-        case Opcodes.CHECKCAST:
-        case Opcodes.INSTANCEOF:
-            push(interpreter.unaryOperation(insn, pop()));
-            break;
-        case Opcodes.MONITORENTER:
-        case Opcodes.MONITOREXIT:
-            interpreter.unaryOperation(insn, pop());
-            break;
-        case Opcodes.MULTIANEWARRAY:
-            values = new ArrayList<V>();
-            for (int i = ((MultiANewArrayInsnNode) insn).dims; i > 0; --i) {
-                values.add(0, pop());
+        cbse Opcodes.NEW:
+            push(interpreter.newOperbtion(insn));
+            brebk;
+        cbse Opcodes.NEWARRAY:
+        cbse Opcodes.ANEWARRAY:
+        cbse Opcodes.ARRAYLENGTH:
+            push(interpreter.unbryOperbtion(insn, pop()));
+            brebk;
+        cbse Opcodes.ATHROW:
+            interpreter.unbryOperbtion(insn, pop());
+            brebk;
+        cbse Opcodes.CHECKCAST:
+        cbse Opcodes.INSTANCEOF:
+            push(interpreter.unbryOperbtion(insn, pop()));
+            brebk;
+        cbse Opcodes.MONITORENTER:
+        cbse Opcodes.MONITOREXIT:
+            interpreter.unbryOperbtion(insn, pop());
+            brebk;
+        cbse Opcodes.MULTIANEWARRAY:
+            vblues = new ArrbyList<V>();
+            for (int i = ((MultiANewArrbyInsnNode) insn).dims; i > 0; --i) {
+                vblues.bdd(0, pop());
             }
-            push(interpreter.naryOperation(insn, values));
-            break;
-        case Opcodes.IFNULL:
-        case Opcodes.IFNONNULL:
-            interpreter.unaryOperation(insn, pop());
-            break;
-        default:
-            throw new RuntimeException("Illegal opcode " + insn.getOpcode());
+            push(interpreter.nbryOperbtion(insn, vblues));
+            brebk;
+        cbse Opcodes.IFNULL:
+        cbse Opcodes.IFNONNULL:
+            interpreter.unbryOperbtion(insn, pop());
+            brebk;
+        defbult:
+            throw new RuntimeException("Illegbl opcode " + insn.getOpcode());
         }
     }
 
     /**
-     * Merges this frame with the given frame.
+     * Merges this frbme with the given frbme.
      *
-     * @param frame
-     *            a frame.
-     * @param interpreter
-     *            the interpreter used to merge values.
-     * @return <tt>true</tt> if this frame has been changed as a result of the
-     *         merge operation, or <tt>false</tt> otherwise.
-     * @throws AnalyzerException
-     *             if the frames have incompatible sizes.
+     * @pbrbm frbme
+     *            b frbme.
+     * @pbrbm interpreter
+     *            the interpreter used to merge vblues.
+     * @return <tt>true</tt> if this frbme hbs been chbnged bs b result of the
+     *         merge operbtion, or <tt>fblse</tt> otherwise.
+     * @throws AnblyzerException
+     *             if the frbmes hbve incompbtible sizes.
      */
-    public boolean merge(final Frame<? extends V> frame,
-            final Interpreter<V> interpreter) throws AnalyzerException {
-        if (top != frame.top) {
-            throw new AnalyzerException(null, "Incompatible stack heights");
+    public boolebn merge(finbl Frbme<? extends V> frbme,
+            finbl Interpreter<V> interpreter) throws AnblyzerException {
+        if (top != frbme.top) {
+            throw new AnblyzerException(null, "Incompbtible stbck heights");
         }
-        boolean changes = false;
-        for (int i = 0; i < locals + top; ++i) {
-            V v = interpreter.merge(values[i], frame.values[i]);
-            if (!v.equals(values[i])) {
-                values[i] = v;
-                changes = true;
+        boolebn chbnges = fblse;
+        for (int i = 0; i < locbls + top; ++i) {
+            V v = interpreter.merge(vblues[i], frbme.vblues[i]);
+            if (!v.equbls(vblues[i])) {
+                vblues[i] = v;
+                chbnges = true;
             }
         }
-        return changes;
+        return chbnges;
     }
 
     /**
-     * Merges this frame with the given frame (case of a RET instruction).
+     * Merges this frbme with the given frbme (cbse of b RET instruction).
      *
-     * @param frame
-     *            a frame
-     * @param access
-     *            the local variables that have been accessed by the subroutine
+     * @pbrbm frbme
+     *            b frbme
+     * @pbrbm bccess
+     *            the locbl vbribbles thbt hbve been bccessed by the subroutine
      *            to which the RET instruction corresponds.
-     * @return <tt>true</tt> if this frame has been changed as a result of the
-     *         merge operation, or <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if this frbme hbs been chbnged bs b result of the
+     *         merge operbtion, or <tt>fblse</tt> otherwise.
      */
-    public boolean merge(final Frame<? extends V> frame, final boolean[] access) {
-        boolean changes = false;
-        for (int i = 0; i < locals; ++i) {
-            if (!access[i] && !values[i].equals(frame.values[i])) {
-                values[i] = frame.values[i];
-                changes = true;
+    public boolebn merge(finbl Frbme<? extends V> frbme, finbl boolebn[] bccess) {
+        boolebn chbnges = fblse;
+        for (int i = 0; i < locbls; ++i) {
+            if (!bccess[i] && !vblues[i].equbls(frbme.vblues[i])) {
+                vblues[i] = frbme.vblues[i];
+                chbnges = true;
             }
         }
-        return changes;
+        return chbnges;
     }
 
     /**
-     * Returns a string representation of this frame.
+     * Returns b string representbtion of this frbme.
      *
-     * @return a string representation of this frame.
+     * @return b string representbtion of this frbme.
      */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < getLocals(); ++i) {
-            sb.append(getLocal(i));
+        for (int i = 0; i < getLocbls(); ++i) {
+            sb.bppend(getLocbl(i));
         }
-        sb.append(' ');
-        for (int i = 0; i < getStackSize(); ++i) {
-            sb.append(getStack(i).toString());
+        sb.bppend(' ');
+        for (int i = 0; i < getStbckSize(); ++i) {
+            sb.bppend(getStbck(i).toString());
         }
         return sb.toString();
     }

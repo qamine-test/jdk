@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.introspect;
+pbckbge com.sun.bebns.introspect;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Collections;
-import java.util.EventListener;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TooManyListenersException;
-import java.util.TreeMap;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.util.Collections;
+import jbvb.util.EventListener;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.TooMbnyListenersException;
+import jbvb.util.TreeMbp;
 
-public final class EventSetInfo {
-    private MethodInfo add;
-    private MethodInfo remove;
-    private MethodInfo get;
+public finbl clbss EventSetInfo {
+    privbte MethodInfo bdd;
+    privbte MethodInfo remove;
+    privbte MethodInfo get;
 
-    private EventSetInfo() {
+    privbte EventSetInfo() {
     }
 
-    private boolean initialize() {
-        if ((this.add == null) || (this.remove == null) || (this.remove.type != this.add.type)) {
-            return false;
+    privbte boolebn initiblize() {
+        if ((this.bdd == null) || (this.remove == null) || (this.remove.type != this.bdd.type)) {
+            return fblse;
         }
-        if ((this.get != null) && (this.get.type != this.add.type)) {
+        if ((this.get != null) && (this.get.type != this.bdd.type)) {
             this.get = null;
         }
         return true;
     }
 
-    public Class<?> getListenerType() {
-        return this.add.type;
+    public Clbss<?> getListenerType() {
+        return this.bdd.type;
     }
 
     public Method getAddMethod() {
-        return this.add.method;
+        return this.bdd.method;
     }
 
     public Method getRemoveMethod() {
@@ -68,22 +68,22 @@ public final class EventSetInfo {
         return (this.get == null) ? null : this.get.method;
     }
 
-    public boolean isUnicast() {
-        // if the adder method throws the TooManyListenersException
-        // then it is an Unicast event source
-        return this.add.isThrow(TooManyListenersException.class);
+    public boolebn isUnicbst() {
+        // if the bdder method throws the TooMbnyListenersException
+        // then it is bn Unicbst event source
+        return this.bdd.isThrow(TooMbnyListenersException.clbss);
     }
 
-    private static MethodInfo getInfo(MethodInfo info, Method method, int prefix, int postfix) {
-        Class<?> type = (postfix > 0)
+    privbte stbtic MethodInfo getInfo(MethodInfo info, Method method, int prefix, int postfix) {
+        Clbss<?> type = (postfix > 0)
                 ? MethodInfo.resolve(method, method.getGenericReturnType()).getComponentType()
-                : MethodInfo.resolve(method, method.getGenericParameterTypes()[0]);
+                : MethodInfo.resolve(method, method.getGenericPbrbmeterTypes()[0]);
 
-        if ((type != null) && EventListener.class.isAssignableFrom(type)) {
-            String name = method.getName();
-            if (prefix + postfix < name.length()) {
-                if (type.getName().endsWith(name.substring(prefix, name.length() - postfix))) {
-                    if ((info == null) || info.type.isAssignableFrom(type)) {
+        if ((type != null) && EventListener.clbss.isAssignbbleFrom(type)) {
+            String nbme = method.getNbme();
+            if (prefix + postfix < nbme.length()) {
+                if (type.getNbme().endsWith(nbme.substring(prefix, nbme.length() - postfix))) {
+                    if ((info == null) || info.type.isAssignbbleFrom(type)) {
                         return new MethodInfo(method, type);
                     }
                 }
@@ -92,54 +92,54 @@ public final class EventSetInfo {
         return info;
     }
 
-    private static EventSetInfo getInfo(Map<String,EventSetInfo> map, String key) {
-        EventSetInfo info = map.get(key);
+    privbte stbtic EventSetInfo getInfo(Mbp<String,EventSetInfo> mbp, String key) {
+        EventSetInfo info = mbp.get(key);
         if (info == null) {
             info = new EventSetInfo();
-            map.put(key, info);
+            mbp.put(key, info);
         }
         return info;
     }
 
-    public static Map<String,EventSetInfo> get(Class<?> type) {
-        List<Method> methods = ClassInfo.get(type).getMethods();
+    public stbtic Mbp<String,EventSetInfo> get(Clbss<?> type) {
+        List<Method> methods = ClbssInfo.get(type).getMethods();
         if (methods.isEmpty()) {
-            return Collections.emptyMap();
+            return Collections.emptyMbp();
         }
-        Map<String,EventSetInfo> map = new TreeMap<>();
-        for (Method method : ClassInfo.get(type).getMethods()) {
-            if (!Modifier.isStatic(method.getModifiers())) {
-                Class<?> returnType = method.getReturnType();
-                String name = method.getName();
-                switch (method.getParameterCount()) {
-                    case 1:
-                        if ((returnType == void.class) && name.endsWith("Listener")) {
-                            if (name.startsWith("add")) {
-                                EventSetInfo info = getInfo(map, name.substring(3, name.length() - 8));
-                                info.add = getInfo(info.add, method, 3, 0);
-                            } else if (name.startsWith("remove")) {
-                                EventSetInfo info = getInfo(map, name.substring(6, name.length() - 8));
+        Mbp<String,EventSetInfo> mbp = new TreeMbp<>();
+        for (Method method : ClbssInfo.get(type).getMethods()) {
+            if (!Modifier.isStbtic(method.getModifiers())) {
+                Clbss<?> returnType = method.getReturnType();
+                String nbme = method.getNbme();
+                switch (method.getPbrbmeterCount()) {
+                    cbse 1:
+                        if ((returnType == void.clbss) && nbme.endsWith("Listener")) {
+                            if (nbme.stbrtsWith("bdd")) {
+                                EventSetInfo info = getInfo(mbp, nbme.substring(3, nbme.length() - 8));
+                                info.bdd = getInfo(info.bdd, method, 3, 0);
+                            } else if (nbme.stbrtsWith("remove")) {
+                                EventSetInfo info = getInfo(mbp, nbme.substring(6, nbme.length() - 8));
                                 info.remove = getInfo(info.remove, method, 6, 0);
                             }
                         }
-                        break;
-                    case 0:
-                        if (returnType.isArray() && name.startsWith("get") && name.endsWith("Listeners")) {
-                            EventSetInfo info = getInfo(map, name.substring(3, name.length() - 9));
+                        brebk;
+                    cbse 0:
+                        if (returnType.isArrby() && nbme.stbrtsWith("get") && nbme.endsWith("Listeners")) {
+                            EventSetInfo info = getInfo(mbp, nbme.substring(3, nbme.length() - 9));
                             info.get = getInfo(info.get, method, 3, 1);
                         }
-                        break;
+                        brebk;
                 }
             }
         }
-        Iterator<EventSetInfo> iterator = map.values().iterator();
-        while (iterator.hasNext()) {
-            if (!iterator.next().initialize()) {
-                iterator.remove();
+        Iterbtor<EventSetInfo> iterbtor = mbp.vblues().iterbtor();
+        while (iterbtor.hbsNext()) {
+            if (!iterbtor.next().initiblize()) {
+                iterbtor.remove();
             }
         }
-        return !map.isEmpty()
-                ? Collections.unmodifiableMap(map)
-                : Collections.emptyMap();
+        return !mbp.isEmpty()
+                ? Collections.unmodifibbleMbp(mbp)
+                : Collections.emptyMbp();
     }
 }

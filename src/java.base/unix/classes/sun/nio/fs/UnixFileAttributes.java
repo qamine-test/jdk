@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.util.concurrent.TimeUnit;
-import java.util.Set;
-import java.util.HashSet;
+import jbvb.nio.file.bttribute.*;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
 
 /**
- * Unix implementation of PosixFileAttributes.
+ * Unix implementbtion of PosixFileAttributes.
  */
 
-class UnixFileAttributes
+clbss UnixFileAttributes
     implements PosixFileAttributes
 {
-    private int     st_mode;
-    private long    st_ino;
-    private long    st_dev;
-    private long    st_rdev;
-    private int     st_nlink;
-    private int     st_uid;
-    private int     st_gid;
-    private long    st_size;
-    private long    st_atime_sec;
-    private long    st_atime_nsec;
-    private long    st_mtime_sec;
-    private long    st_mtime_nsec;
-    private long    st_ctime_sec;
-    private long    st_ctime_nsec;
-    private long    st_birthtime_sec;
+    privbte int     st_mode;
+    privbte long    st_ino;
+    privbte long    st_dev;
+    privbte long    st_rdev;
+    privbte int     st_nlink;
+    privbte int     st_uid;
+    privbte int     st_gid;
+    privbte long    st_size;
+    privbte long    st_btime_sec;
+    privbte long    st_btime_nsec;
+    privbte long    st_mtime_sec;
+    privbte long    st_mtime_nsec;
+    privbte long    st_ctime_sec;
+    privbte long    st_ctime_nsec;
+    privbte long    st_birthtime_sec;
 
-    // created lazily
-    private volatile UserPrincipal owner;
-    private volatile GroupPrincipal group;
-    private volatile UnixFileKey key;
+    // crebted lbzily
+    privbte volbtile UserPrincipbl owner;
+    privbte volbtile GroupPrincipbl group;
+    privbte volbtile UnixFileKey key;
 
-    private UnixFileAttributes() {
+    privbte UnixFileAttributes() {
     }
 
-    // get the UnixFileAttributes for a given file
-    static UnixFileAttributes get(UnixPath path, boolean followLinks)
+    // get the UnixFileAttributes for b given file
+    stbtic UnixFileAttributes get(UnixPbth pbth, boolebn followLinks)
         throws UnixException
     {
-        UnixFileAttributes attrs = new UnixFileAttributes();
+        UnixFileAttributes bttrs = new UnixFileAttributes();
         if (followLinks) {
-            UnixNativeDispatcher.stat(path, attrs);
+            UnixNbtiveDispbtcher.stbt(pbth, bttrs);
         } else {
-            UnixNativeDispatcher.lstat(path, attrs);
+            UnixNbtiveDispbtcher.lstbt(pbth, bttrs);
         }
-        return attrs;
+        return bttrs;
     }
 
-    // get the UnixFileAttributes for an open file
-    static UnixFileAttributes get(int fd) throws UnixException {
-        UnixFileAttributes attrs = new UnixFileAttributes();
-        UnixNativeDispatcher.fstat(fd, attrs);
-        return attrs;
+    // get the UnixFileAttributes for bn open file
+    stbtic UnixFileAttributes get(int fd) throws UnixException {
+        UnixFileAttributes bttrs = new UnixFileAttributes();
+        UnixNbtiveDispbtcher.fstbt(fd, bttrs);
+        return bttrs;
     }
 
-    // get the UnixFileAttributes for a given file, relative to open directory
-    static UnixFileAttributes get(int dfd, UnixPath path, boolean followLinks)
+    // get the UnixFileAttributes for b given file, relbtive to open directory
+    stbtic UnixFileAttributes get(int dfd, UnixPbth pbth, boolebn followLinks)
         throws UnixException
     {
-        UnixFileAttributes attrs = new UnixFileAttributes();
-        int flag = (followLinks) ? 0 : UnixConstants.AT_SYMLINK_NOFOLLOW;
-        UnixNativeDispatcher.fstatat(dfd, path.asByteArray(), flag, attrs);
-        return attrs;
+        UnixFileAttributes bttrs = new UnixFileAttributes();
+        int flbg = (followLinks) ? 0 : UnixConstbnts.AT_SYMLINK_NOFOLLOW;
+        UnixNbtiveDispbtcher.fstbtbt(dfd, pbth.bsByteArrby(), flbg, bttrs);
+        return bttrs;
     }
 
-    // package-private
-    boolean isSameFile(UnixFileAttributes attrs) {
-        return ((st_ino == attrs.st_ino) && (st_dev == attrs.st_dev));
+    // pbckbge-privbte
+    boolebn isSbmeFile(UnixFileAttributes bttrs) {
+        return ((st_ino == bttrs.st_ino) && (st_dev == bttrs.st_dev));
     }
 
-    // package-private
+    // pbckbge-privbte
     int mode()  { return st_mode; }
     long ino()  { return st_ino; }
     long dev()  { return st_dev; }
@@ -105,13 +105,13 @@ class UnixFileAttributes
     int uid()   { return st_uid; }
     int gid()   { return st_gid; }
 
-    private static FileTime toFileTime(long sec, long nsec) {
+    privbte stbtic FileTime toFileTime(long sec, long nsec) {
         if (nsec == 0) {
             return FileTime.from(sec, TimeUnit.SECONDS);
         } else {
-            // truncate to microseconds to avoid overflow with timestamps
-            // way out into the future. We can re-visit this if FileTime
-            // is updated to define a from(secs,nsecs) method.
+            // truncbte to microseconds to bvoid overflow with timestbmps
+            // wby out into the future. We cbn re-visit this if FileTime
+            // is updbted to define b from(secs,nsecs) method.
             long micro = sec*1000000L + nsec/1000L;
             return FileTime.from(micro, TimeUnit.MICROSECONDS);
         }
@@ -121,54 +121,54 @@ class UnixFileAttributes
         return toFileTime(st_ctime_sec, st_ctime_nsec);
     }
 
-    boolean isDevice() {
-        int type = st_mode & UnixConstants.S_IFMT;
-        return (type == UnixConstants.S_IFCHR ||
-                type == UnixConstants.S_IFBLK  ||
-                type == UnixConstants.S_IFIFO);
+    boolebn isDevice() {
+        int type = st_mode & UnixConstbnts.S_IFMT;
+        return (type == UnixConstbnts.S_IFCHR ||
+                type == UnixConstbnts.S_IFBLK  ||
+                type == UnixConstbnts.S_IFIFO);
     }
 
     @Override
-    public FileTime lastModifiedTime() {
+    public FileTime lbstModifiedTime() {
         return toFileTime(st_mtime_sec, st_mtime_nsec);
     }
 
     @Override
-    public FileTime lastAccessTime() {
-        return toFileTime(st_atime_sec, st_atime_nsec);
+    public FileTime lbstAccessTime() {
+        return toFileTime(st_btime_sec, st_btime_nsec);
     }
 
     @Override
-    public FileTime creationTime() {
-        if (UnixNativeDispatcher.birthtimeSupported()) {
+    public FileTime crebtionTime() {
+        if (UnixNbtiveDispbtcher.birthtimeSupported()) {
             return FileTime.from(st_birthtime_sec, TimeUnit.SECONDS);
         } else {
-            // return last modified when birth time not supported
-            return lastModifiedTime();
+            // return lbst modified when birth time not supported
+            return lbstModifiedTime();
         }
     }
 
     @Override
-    public boolean isRegularFile() {
-       return ((st_mode & UnixConstants.S_IFMT) == UnixConstants.S_IFREG);
+    public boolebn isRegulbrFile() {
+       return ((st_mode & UnixConstbnts.S_IFMT) == UnixConstbnts.S_IFREG);
     }
 
     @Override
-    public boolean isDirectory() {
-        return ((st_mode & UnixConstants.S_IFMT) == UnixConstants.S_IFDIR);
+    public boolebn isDirectory() {
+        return ((st_mode & UnixConstbnts.S_IFMT) == UnixConstbnts.S_IFDIR);
     }
 
     @Override
-    public boolean isSymbolicLink() {
-        return ((st_mode & UnixConstants.S_IFMT) == UnixConstants.S_IFLNK);
+    public boolebn isSymbolicLink() {
+        return ((st_mode & UnixConstbnts.S_IFMT) == UnixConstbnts.S_IFLNK);
     }
 
     @Override
-    public boolean isOther() {
-        int type = st_mode & UnixConstants.S_IFMT;
-        return (type != UnixConstants.S_IFREG &&
-                type != UnixConstants.S_IFDIR &&
-                type != UnixConstants.S_IFLNK);
+    public boolebn isOther() {
+        int type = st_mode & UnixConstbnts.S_IFMT;
+        return (type != UnixConstbnts.S_IFREG &&
+                type != UnixConstbnts.S_IFDIR &&
+                type != UnixConstbnts.S_IFLNK);
     }
 
     @Override
@@ -189,11 +189,11 @@ class UnixFileAttributes
     }
 
     @Override
-    public UserPrincipal owner() {
+    public UserPrincipbl owner() {
         if (owner == null) {
             synchronized (this) {
                 if (owner == null) {
-                    owner = UnixUserPrincipals.fromUid(st_uid);
+                    owner = UnixUserPrincipbls.fromUid(st_uid);
                 }
             }
         }
@@ -201,11 +201,11 @@ class UnixFileAttributes
     }
 
     @Override
-    public GroupPrincipal group() {
+    public GroupPrincipbl group() {
         if (group == null) {
             synchronized (this) {
                 if (group == null) {
-                    group = UnixUserPrincipals.fromGid(st_gid);
+                    group = UnixUserPrincipbls.fromGid(st_gid);
                 }
             }
         }
@@ -214,101 +214,101 @@ class UnixFileAttributes
 
     @Override
     public Set<PosixFilePermission> permissions() {
-        int bits = (st_mode & UnixConstants.S_IAMB);
-        HashSet<PosixFilePermission> perms = new HashSet<>();
+        int bits = (st_mode & UnixConstbnts.S_IAMB);
+        HbshSet<PosixFilePermission> perms = new HbshSet<>();
 
-        if ((bits & UnixConstants.S_IRUSR) > 0)
-            perms.add(PosixFilePermission.OWNER_READ);
-        if ((bits & UnixConstants.S_IWUSR) > 0)
-            perms.add(PosixFilePermission.OWNER_WRITE);
-        if ((bits & UnixConstants.S_IXUSR) > 0)
-            perms.add(PosixFilePermission.OWNER_EXECUTE);
+        if ((bits & UnixConstbnts.S_IRUSR) > 0)
+            perms.bdd(PosixFilePermission.OWNER_READ);
+        if ((bits & UnixConstbnts.S_IWUSR) > 0)
+            perms.bdd(PosixFilePermission.OWNER_WRITE);
+        if ((bits & UnixConstbnts.S_IXUSR) > 0)
+            perms.bdd(PosixFilePermission.OWNER_EXECUTE);
 
-        if ((bits & UnixConstants.S_IRGRP) > 0)
-            perms.add(PosixFilePermission.GROUP_READ);
-        if ((bits & UnixConstants.S_IWGRP) > 0)
-            perms.add(PosixFilePermission.GROUP_WRITE);
-        if ((bits & UnixConstants.S_IXGRP) > 0)
-            perms.add(PosixFilePermission.GROUP_EXECUTE);
+        if ((bits & UnixConstbnts.S_IRGRP) > 0)
+            perms.bdd(PosixFilePermission.GROUP_READ);
+        if ((bits & UnixConstbnts.S_IWGRP) > 0)
+            perms.bdd(PosixFilePermission.GROUP_WRITE);
+        if ((bits & UnixConstbnts.S_IXGRP) > 0)
+            perms.bdd(PosixFilePermission.GROUP_EXECUTE);
 
-        if ((bits & UnixConstants.S_IROTH) > 0)
-            perms.add(PosixFilePermission.OTHERS_READ);
-        if ((bits & UnixConstants.S_IWOTH) > 0)
-            perms.add(PosixFilePermission.OTHERS_WRITE);
-        if ((bits & UnixConstants.S_IXOTH) > 0)
-            perms.add(PosixFilePermission.OTHERS_EXECUTE);
+        if ((bits & UnixConstbnts.S_IROTH) > 0)
+            perms.bdd(PosixFilePermission.OTHERS_READ);
+        if ((bits & UnixConstbnts.S_IWOTH) > 0)
+            perms.bdd(PosixFilePermission.OTHERS_WRITE);
+        if ((bits & UnixConstbnts.S_IXOTH) > 0)
+            perms.bdd(PosixFilePermission.OTHERS_EXECUTE);
 
         return perms;
     }
 
-    // wrap this object with BasicFileAttributes object to prevent leaking of
-    // user information
-    BasicFileAttributes asBasicFileAttributes() {
-        return UnixAsBasicFileAttributes.wrap(this);
+    // wrbp this object with BbsicFileAttributes object to prevent lebking of
+    // user informbtion
+    BbsicFileAttributes bsBbsicFileAttributes() {
+        return UnixAsBbsicFileAttributes.wrbp(this);
     }
 
-    // unwrap BasicFileAttributes to get the underlying UnixFileAttributes
-    // object. Returns null is not wrapped.
-    static UnixFileAttributes toUnixFileAttributes(BasicFileAttributes attrs) {
-        if (attrs instanceof UnixFileAttributes)
-            return (UnixFileAttributes)attrs;
-        if (attrs instanceof UnixAsBasicFileAttributes) {
-            return ((UnixAsBasicFileAttributes)attrs).unwrap();
+    // unwrbp BbsicFileAttributes to get the underlying UnixFileAttributes
+    // object. Returns null is not wrbpped.
+    stbtic UnixFileAttributes toUnixFileAttributes(BbsicFileAttributes bttrs) {
+        if (bttrs instbnceof UnixFileAttributes)
+            return (UnixFileAttributes)bttrs;
+        if (bttrs instbnceof UnixAsBbsicFileAttributes) {
+            return ((UnixAsBbsicFileAttributes)bttrs).unwrbp();
         }
         return null;
     }
 
-    // wrap a UnixFileAttributes object as a BasicFileAttributes
-    private static class UnixAsBasicFileAttributes implements BasicFileAttributes {
-        private final UnixFileAttributes attrs;
+    // wrbp b UnixFileAttributes object bs b BbsicFileAttributes
+    privbte stbtic clbss UnixAsBbsicFileAttributes implements BbsicFileAttributes {
+        privbte finbl UnixFileAttributes bttrs;
 
-        private UnixAsBasicFileAttributes(UnixFileAttributes attrs) {
-            this.attrs = attrs;
-        }
-
-        static UnixAsBasicFileAttributes wrap(UnixFileAttributes attrs) {
-            return new UnixAsBasicFileAttributes(attrs);
+        privbte UnixAsBbsicFileAttributes(UnixFileAttributes bttrs) {
+            this.bttrs = bttrs;
         }
 
-        UnixFileAttributes unwrap() {
-            return attrs;
+        stbtic UnixAsBbsicFileAttributes wrbp(UnixFileAttributes bttrs) {
+            return new UnixAsBbsicFileAttributes(bttrs);
+        }
+
+        UnixFileAttributes unwrbp() {
+            return bttrs;
         }
 
         @Override
-        public FileTime lastModifiedTime() {
-            return attrs.lastModifiedTime();
+        public FileTime lbstModifiedTime() {
+            return bttrs.lbstModifiedTime();
         }
         @Override
-        public FileTime lastAccessTime() {
-            return attrs.lastAccessTime();
+        public FileTime lbstAccessTime() {
+            return bttrs.lbstAccessTime();
         }
         @Override
-        public FileTime creationTime() {
-            return attrs.creationTime();
+        public FileTime crebtionTime() {
+            return bttrs.crebtionTime();
         }
         @Override
-        public boolean isRegularFile() {
-            return attrs.isRegularFile();
+        public boolebn isRegulbrFile() {
+            return bttrs.isRegulbrFile();
         }
         @Override
-        public boolean isDirectory() {
-            return attrs.isDirectory();
+        public boolebn isDirectory() {
+            return bttrs.isDirectory();
         }
         @Override
-        public boolean isSymbolicLink() {
-            return attrs.isSymbolicLink();
+        public boolebn isSymbolicLink() {
+            return bttrs.isSymbolicLink();
         }
         @Override
-        public boolean isOther() {
-            return attrs.isOther();
+        public boolebn isOther() {
+            return bttrs.isOther();
         }
         @Override
         public long size() {
-            return attrs.size();
+            return bttrs.size();
         }
         @Override
         public Object fileKey() {
-            return attrs.fileKey();
+            return bttrs.fileKey();
         }
     }
 }

@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.util.*;
-import java.awt.event.*;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.event.*;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 import sun.swing.SwingUtilities2;
 
 /**
- * A MenuSelectionManager owns the selection in menu hierarchy.
+ * A MenuSelectionMbnbger owns the selection in menu hierbrchy.
  *
- * @author Arnaud Weber
+ * @buthor Arnbud Weber
  * @since 1.2
  */
-public class MenuSelectionManager {
-    private Vector<MenuElement> selection = new Vector<MenuElement>();
+public clbss MenuSelectionMbnbger {
+    privbte Vector<MenuElement> selection = new Vector<MenuElement>();
 
-    /* diagnostic aids -- should be false for production builds. */
-    private static final boolean TRACE =   false; // trace creates and disposes
-    private static final boolean VERBOSE = false; // show reuse hits/misses
-    private static final boolean DEBUG =   false;  // show bad params, misc.
+    /* dibgnostic bids -- should be fblse for production builds. */
+    privbte stbtic finbl boolebn TRACE =   fblse; // trbce crebtes bnd disposes
+    privbte stbtic finbl boolebn VERBOSE = fblse; // show reuse hits/misses
+    privbte stbtic finbl boolebn DEBUG =   fblse;  // show bbd pbrbms, misc.
 
-    private static final StringBuilder MENU_SELECTION_MANAGER_KEY =
-                       new StringBuilder("javax.swing.MenuSelectionManager");
+    privbte stbtic finbl StringBuilder MENU_SELECTION_MANAGER_KEY =
+                       new StringBuilder("jbvbx.swing.MenuSelectionMbnbger");
 
     /**
-     * Returns the default menu selection manager.
+     * Returns the defbult menu selection mbnbger.
      *
-     * @return a MenuSelectionManager object
+     * @return b MenuSelectionMbnbger object
      */
-    public static MenuSelectionManager defaultManager() {
+    public stbtic MenuSelectionMbnbger defbultMbnbger() {
         synchronized (MENU_SELECTION_MANAGER_KEY) {
             AppContext context = AppContext.getAppContext();
-            MenuSelectionManager msm = (MenuSelectionManager)context.get(
+            MenuSelectionMbnbger msm = (MenuSelectionMbnbger)context.get(
                                                  MENU_SELECTION_MANAGER_KEY);
             if (msm == null) {
-                msm = new MenuSelectionManager();
+                msm = new MenuSelectionMbnbger();
                 context.put(MENU_SELECTION_MANAGER_KEY, msm);
 
-                // installing additional listener if found in the AppContext
+                // instblling bdditionbl listener if found in the AppContext
                 Object o = context.get(SwingUtilities2.MENU_SELECTION_MANAGER_LISTENER_KEY);
-                if (o != null && o instanceof ChangeListener) {
-                    msm.addChangeListener((ChangeListener) o);
+                if (o != null && o instbnceof ChbngeListener) {
+                    msm.bddChbngeListener((ChbngeListener) o);
                 }
             }
 
@@ -75,68 +75,68 @@ public class MenuSelectionManager {
     }
 
     /**
-     * Only one ChangeEvent is needed per button model instance since the
-     * event's only state is the source property.  The source of events
-     * generated is always "this".
+     * Only one ChbngeEvent is needed per button model instbnce since the
+     * event's only stbte is the source property.  The source of events
+     * generbted is blwbys "this".
      */
-    protected transient ChangeEvent changeEvent = null;
+    protected trbnsient ChbngeEvent chbngeEvent = null;
     /** The collection of registered listeners */
     protected EventListenerList listenerList = new EventListenerList();
 
     /**
-     * Changes the selection in the menu hierarchy.  The elements
-     * in the array are sorted in order from the root menu
+     * Chbnges the selection in the menu hierbrchy.  The elements
+     * in the brrby bre sorted in order from the root menu
      * element to the currently selected menu element.
      * <p>
-     * Note that this method is public but is used by the look and
-     * feel engine and should not be called by client applications.
+     * Note thbt this method is public but is used by the look bnd
+     * feel engine bnd should not be cblled by client bpplicbtions.
      *
-     * @param path  an array of <code>MenuElement</code> objects specifying
-     *        the selected path
+     * @pbrbm pbth  bn brrby of <code>MenuElement</code> objects specifying
+     *        the selected pbth
      */
-    public void setSelectedPath(MenuElement[] path) {
+    public void setSelectedPbth(MenuElement[] pbth) {
         int i,c;
         int currentSelectionCount = selection.size();
         int firstDifference = 0;
 
-        if(path == null) {
-            path = new MenuElement[0];
+        if(pbth == null) {
+            pbth = new MenuElement[0];
         }
 
         if (DEBUG) {
-            System.out.print("Previous:  "); printMenuElementArray(getSelectedPath());
-            System.out.print("New:  "); printMenuElementArray(path);
+            System.out.print("Previous:  "); printMenuElementArrby(getSelectedPbth());
+            System.out.print("New:  "); printMenuElementArrby(pbth);
         }
 
-        for(i=0,c=path.length;i<c;i++) {
-            if (i < currentSelectionCount && selection.elementAt(i) == path[i])
+        for(i=0,c=pbth.length;i<c;i++) {
+            if (i < currentSelectionCount && selection.elementAt(i) == pbth[i])
                 firstDifference++;
             else
-                break;
+                brebk;
         }
 
         for(i=currentSelectionCount - 1 ; i >= firstDifference ; i--) {
             MenuElement me = selection.elementAt(i);
             selection.removeElementAt(i);
-            me.menuSelectionChanged(false);
+            me.menuSelectionChbnged(fblse);
         }
 
-        for(i = firstDifference, c = path.length ; i < c ; i++) {
-            if (path[i] != null) {
-                selection.addElement(path[i]);
-                path[i].menuSelectionChanged(true);
+        for(i = firstDifference, c = pbth.length ; i < c ; i++) {
+            if (pbth[i] != null) {
+                selection.bddElement(pbth[i]);
+                pbth[i].menuSelectionChbnged(true);
             }
         }
 
-        fireStateChanged();
+        fireStbteChbnged();
     }
 
     /**
-     * Returns the path to the currently selected menu item
+     * Returns the pbth to the currently selected menu item
      *
-     * @return an array of MenuElement objects representing the selected path
+     * @return bn brrby of MenuElement objects representing the selected pbth
      */
-    public MenuElement[] getSelectedPath() {
+    public MenuElement[] getSelectedPbth() {
         MenuElement res[] = new MenuElement[selection.size()];
         int i,c;
         for(i=0,c=selection.size();i<c;i++)
@@ -145,97 +145,97 @@ public class MenuSelectionManager {
     }
 
     /**
-     * Tell the menu selection to close and unselect all the menu components. Call this method
-     * when a choice has been made
+     * Tell the menu selection to close bnd unselect bll the menu components. Cbll this method
+     * when b choice hbs been mbde
      */
-    public void clearSelectedPath() {
+    public void clebrSelectedPbth() {
         if (selection.size() > 0) {
-            setSelectedPath(null);
+            setSelectedPbth(null);
         }
     }
 
     /**
-     * Adds a ChangeListener to the button.
+     * Adds b ChbngeListener to the button.
      *
-     * @param l the listener to add
+     * @pbrbm l the listener to bdd
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    public void bddChbngeListener(ChbngeListener l) {
+        listenerList.bdd(ChbngeListener.clbss, l);
     }
 
     /**
-     * Removes a ChangeListener from the button.
+     * Removes b ChbngeListener from the button.
      *
-     * @param l the listener to remove
+     * @pbrbm l the listener to remove
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    public void removeChbngeListener(ChbngeListener l) {
+        listenerList.remove(ChbngeListener.clbss, l);
     }
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this MenuSelectionManager with addChangeListener().
+     * Returns bn brrby of bll the <code>ChbngeListener</code>s bdded
+     * to this MenuSelectionMbnbger with bddChbngeListener().
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>ChbngeListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    public ChbngeListener[] getChbngeListeners() {
+        return listenerList.getListeners(ChbngeListener.clbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is created lazily.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is crebted lbzily.
      *
      * @see EventListenerList
      */
-    protected void fireStateChanged() {
-        // Guaranteed to return a non-null array
+    protected void fireStbteChbnged() {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ChangeListener.class) {
-                // Lazily create the event:
-                if (changeEvent == null)
-                    changeEvent = new ChangeEvent(this);
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+            if (listeners[i]==ChbngeListener.clbss) {
+                // Lbzily crebte the event:
+                if (chbngeEvent == null)
+                    chbngeEvent = new ChbngeEvent(this);
+                ((ChbngeListener)listeners[i+1]).stbteChbnged(chbngeEvent);
             }
         }
     }
 
     /**
-     * When a MenuElement receives an event from a MouseListener, it should never process the event
-     * directly. Instead all MenuElements should call this method with the event.
+     * When b MenuElement receives bn event from b MouseListener, it should never process the event
+     * directly. Instebd bll MenuElements should cbll this method with the event.
      *
-     * @param event  a MouseEvent object
+     * @pbrbm event  b MouseEvent object
      */
     public void processMouseEvent(MouseEvent event) {
         int screenX,screenY;
         Point p;
         int i,c,j,d;
         Component mc;
-        Rectangle r2;
+        Rectbngle r2;
         int cWidth,cHeight;
         MenuElement menuElement;
         MenuElement subElements[];
-        MenuElement path[];
+        MenuElement pbth[];
         int selectionSize;
         p = event.getPoint();
 
         Component source = event.getComponent();
 
         if ((source != null) && !source.isShowing()) {
-            // This can happen if a mouseReleased removes the
-            // containing component -- bug 4146684
+            // This cbn hbppen if b mouseRelebsed removes the
+            // contbining component -- bug 4146684
             return;
         }
 
         int type = event.getID();
         int modifiers = event.getModifiers();
-        // 4188027: drag enter/exit added in JDK 1.1.7A, JDK1.2
+        // 4188027: drbg enter/exit bdded in JDK 1.1.7A, JDK1.2
         if ((type==MouseEvent.MOUSE_ENTERED||
              type==MouseEvent.MOUSE_EXITED)
             && ((modifiers & (InputEvent.BUTTON1_MASK |
@@ -250,22 +250,22 @@ public class MenuSelectionManager {
         screenX = p.x;
         screenY = p.y;
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         Vector<MenuElement> tmp = (Vector<MenuElement>)selection.clone();
         selectionSize = tmp.size();
-        boolean success = false;
-        for (i=selectionSize - 1;i >= 0 && success == false; i--) {
+        boolebn success = fblse;
+        for (i=selectionSize - 1;i >= 0 && success == fblse; i--) {
             menuElement = tmp.elementAt(i);
             subElements = menuElement.getSubElements();
 
-            path = null;
-            for (j = 0, d = subElements.length;j < d && success == false; j++) {
+            pbth = null;
+            for (j = 0, d = subElements.length;j < d && success == fblse; j++) {
                 if (subElements[j] == null)
                     continue;
                 mc = subElements[j].getComponent();
                 if(!mc.isShowing())
                     continue;
-                if(mc instanceof JComponent) {
+                if(mc instbnceof JComponent) {
                     cWidth  = mc.getWidth();
                     cHeight = mc.getHeight();
                 } else {
@@ -278,25 +278,25 @@ public class MenuSelectionManager {
                 SwingUtilities.convertPointFromScreen(p,mc);
 
                 /** Send the event to visible menu element if menu element currently in
-                 *  the selected path or contains the event location
+                 *  the selected pbth or contbins the event locbtion
                  */
                 if(
                    (p.x >= 0 && p.x < cWidth && p.y >= 0 && p.y < cHeight)) {
                     int k;
-                    if(path == null) {
-                        path = new MenuElement[i+2];
+                    if(pbth == null) {
+                        pbth = new MenuElement[i+2];
                         for(k=0;k<=i;k++)
-                            path[k] = tmp.elementAt(k);
+                            pbth[k] = tmp.elementAt(k);
                     }
-                    path[i+1] = subElements[j];
-                    MenuElement currentSelection[] = getSelectedPath();
+                    pbth[i+1] = subElements[j];
+                    MenuElement currentSelection[] = getSelectedPbth();
 
                     // Enter/exit detection -- needs tuning...
                     if (currentSelection[currentSelection.length-1] !=
-                        path[i+1] &&
+                        pbth[i+1] &&
                         (currentSelection.length < 2 ||
                          currentSelection[currentSelection.length-2] !=
-                         path[i+1])) {
+                         pbth[i+1])) {
                         Component oldMC = currentSelection[currentSelection.length-1].getComponent();
 
                         MouseEvent exitEvent = new MouseEvent(oldMC, MouseEvent.MOUSE_EXITED,
@@ -308,7 +308,7 @@ public class MenuSelectionManager {
                                                               event.isPopupTrigger(),
                                                               MouseEvent.NOBUTTON);
                         currentSelection[currentSelection.length-1].
-                            processMouseEvent(exitEvent, path, this);
+                            processMouseEvent(exitEvent, pbth, this);
 
                         MouseEvent enterEvent = new MouseEvent(mc,
                                                                MouseEvent.MOUSE_ENTERED,
@@ -319,7 +319,7 @@ public class MenuSelectionManager {
                                                                event.getClickCount(),
                                                                event.isPopupTrigger(),
                                                                MouseEvent.NOBUTTON);
-                        subElements[j].processMouseEvent(enterEvent, path, this);
+                        subElements[j].processMouseEvent(enterEvent, pbth, this);
                     }
                     MouseEvent mouseEvent = new MouseEvent(mc, event.getID(),event. getWhen(),
                                                            event.getModifiers(), p.x, p.y,
@@ -328,7 +328,7 @@ public class MenuSelectionManager {
                                                            event.getClickCount(),
                                                            event.isPopupTrigger(),
                                                            MouseEvent.NOBUTTON);
-                    subElements[j].processMouseEvent(mouseEvent, path, this);
+                    subElements[j].processMouseEvent(mouseEvent, pbth, this);
                     success = true;
                     event.consume();
                 }
@@ -336,22 +336,22 @@ public class MenuSelectionManager {
         }
     }
 
-    private void printMenuElementArray(MenuElement path[]) {
-        printMenuElementArray(path, false);
+    privbte void printMenuElementArrby(MenuElement pbth[]) {
+        printMenuElementArrby(pbth, fblse);
     }
 
-    private void printMenuElementArray(MenuElement path[], boolean dumpStack) {
-        System.out.println("Path is(");
+    privbte void printMenuElementArrby(MenuElement pbth[], boolebn dumpStbck) {
+        System.out.println("Pbth is(");
         int i, j;
-        for(i=0,j=path.length; i<j ;i++){
+        for(i=0,j=pbth.length; i<j ;i++){
             for (int k=0; k<=i; k++)
                 System.out.print("  ");
-            MenuElement me = path[i];
-            if(me instanceof JMenuItem) {
+            MenuElement me = pbth[i];
+            if(me instbnceof JMenuItem) {
                 System.out.println(((JMenuItem)me).getText() + ", ");
-            } else if (me instanceof JMenuBar) {
-                System.out.println("JMenuBar, ");
-            } else if(me instanceof JPopupMenu) {
+            } else if (me instbnceof JMenuBbr) {
+                System.out.println("JMenuBbr, ");
+            } else if(me instbnceof JPopupMenu) {
                 System.out.println("JPopupMenu, ");
             } else if (me == null) {
                 System.out.println("NULL , ");
@@ -361,28 +361,28 @@ public class MenuSelectionManager {
         }
         System.out.println(")");
 
-        if (dumpStack == true)
-            Thread.dumpStack();
+        if (dumpStbck == true)
+            Threbd.dumpStbck();
     }
 
     /**
-     * Returns the component in the currently selected path
-     * which contains sourcePoint.
+     * Returns the component in the currently selected pbth
+     * which contbins sourcePoint.
      *
-     * @param source The component in whose coordinate space sourcePoint
+     * @pbrbm source The component in whose coordinbte spbce sourcePoint
      *        is given
-     * @param sourcePoint The point which is being tested
-     * @return The component in the currently selected path which
-     *         contains sourcePoint (relative to the source component's
-     *         coordinate space.  If sourcePoint is not inside a component
-     *         on the currently selected path, null is returned.
+     * @pbrbm sourcePoint The point which is being tested
+     * @return The component in the currently selected pbth which
+     *         contbins sourcePoint (relbtive to the source component's
+     *         coordinbte spbce.  If sourcePoint is not inside b component
+     *         on the currently selected pbth, null is returned.
      */
     public Component componentForPoint(Component source, Point sourcePoint) {
         int screenX,screenY;
         Point p = sourcePoint;
         int i,c,j,d;
         Component mc;
-        Rectangle r2;
+        Rectbngle r2;
         int cWidth,cHeight;
         MenuElement menuElement;
         MenuElement subElements[];
@@ -393,7 +393,7 @@ public class MenuSelectionManager {
         screenX = p.x;
         screenY = p.y;
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         Vector<MenuElement> tmp = (Vector<MenuElement>)selection.clone();
         selectionSize = tmp.size();
         for(i=selectionSize - 1 ; i >= 0 ; i--) {
@@ -406,7 +406,7 @@ public class MenuSelectionManager {
                 mc = subElements[j].getComponent();
                 if(!mc.isShowing())
                     continue;
-                if(mc instanceof JComponent) {
+                if(mc instbnceof JComponent) {
                     cWidth  = mc.getWidth();
                     cHeight = mc.getHeight();
                 } else {
@@ -419,7 +419,7 @@ public class MenuSelectionManager {
                 SwingUtilities.convertPointFromScreen(p,mc);
 
                 /** Return the deepest component on the selection
-                 *  path in whose bounds the event's point occurs
+                 *  pbth in whose bounds the event's point occurs
                  */
                 if (p.x >= 0 && p.x < cWidth && p.y >= 0 && p.y < cHeight) {
                     return mc;
@@ -430,16 +430,16 @@ public class MenuSelectionManager {
     }
 
     /**
-     * When a MenuElement receives an event from a KeyListener, it should never process the event
-     * directly. Instead all MenuElements should call this method with the event.
+     * When b MenuElement receives bn event from b KeyListener, it should never process the event
+     * directly. Instebd bll MenuElements should cbll this method with the event.
      *
-     * @param e  a KeyEvent object
+     * @pbrbm e  b KeyEvent object
      */
     public void processKeyEvent(KeyEvent e) {
         MenuElement[] sel2 = new MenuElement[0];
-        sel2 = selection.toArray(sel2);
+        sel2 = selection.toArrby(sel2);
         int selSize = sel2.length;
-        MenuElement[] path;
+        MenuElement[] pbth;
 
         if (selSize < 1) {
             return;
@@ -448,66 +448,66 @@ public class MenuSelectionManager {
         for (int i=selSize-1; i>=0; i--) {
             MenuElement elem = sel2[i];
             MenuElement[] subs = elem.getSubElements();
-            path = null;
+            pbth = null;
 
             for (int j=0; j<subs.length; j++) {
                 if (subs[j] == null || !subs[j].getComponent().isShowing()
-                    || !subs[j].getComponent().isEnabled()) {
+                    || !subs[j].getComponent().isEnbbled()) {
                     continue;
                 }
 
-                if(path == null) {
-                    path = new MenuElement[i+2];
-                    System.arraycopy(sel2, 0, path, 0, i+1);
+                if(pbth == null) {
+                    pbth = new MenuElement[i+2];
+                    System.brrbycopy(sel2, 0, pbth, 0, i+1);
                     }
-                path[i+1] = subs[j];
-                subs[j].processKeyEvent(e, path, this);
+                pbth[i+1] = subs[j];
+                subs[j].processKeyEvent(e, pbth, this);
                 if (e.isConsumed()) {
                     return;
             }
         }
     }
 
-        // finally dispatch event to the first component in path
-        path = new MenuElement[1];
-        path[0] = sel2[0];
-        path[0].processKeyEvent(e, path, this);
+        // finblly dispbtch event to the first component in pbth
+        pbth = new MenuElement[1];
+        pbth[0] = sel2[0];
+        pbth[0].processKeyEvent(e, pbth, this);
         if (e.isConsumed()) {
             return;
         }
     }
 
     /**
-     * Return true if {@code c} is part of the currently used menu
+     * Return true if {@code c} is pbrt of the currently used menu
      *
-     * @param c a {@code Component}
-     * @return true if {@code c} is part of the currently used menu,
-     *         false otherwise
+     * @pbrbm c b {@code Component}
+     * @return true if {@code c} is pbrt of the currently used menu,
+     *         fblse otherwise
      */
-    public boolean isComponentPartOfCurrentMenu(Component c) {
+    public boolebn isComponentPbrtOfCurrentMenu(Component c) {
         if(selection.size() > 0) {
             MenuElement me = selection.elementAt(0);
-            return isComponentPartOfCurrentMenu(me,c);
+            return isComponentPbrtOfCurrentMenu(me,c);
         } else
-            return false;
+            return fblse;
     }
 
-    private boolean isComponentPartOfCurrentMenu(MenuElement root,Component c) {
+    privbte boolebn isComponentPbrtOfCurrentMenu(MenuElement root,Component c) {
         MenuElement children[];
         int i,d;
 
         if (root == null)
-            return false;
+            return fblse;
 
         if(root.getComponent() == c)
             return true;
         else {
             children = root.getSubElements();
             for(i=0,d=children.length;i<d;i++) {
-                if(isComponentPartOfCurrentMenu(children[i],c))
+                if(isComponentPbrtOfCurrentMenu(children[i],c))
                     return true;
             }
         }
-        return false;
+        return fblse;
     }
 }

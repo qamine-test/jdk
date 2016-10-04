@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: Reference.java,v 1.9 2005/05/10 16:03:46 mullan Exp $
+ * $Id: Reference.jbvb,v 1.9 2005/05/10 16:03:46 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbckbge jbvbx.xml.crypto.dsig;
 
-import javax.xml.crypto.Data;
-import javax.xml.crypto.URIReference;
-import javax.xml.crypto.XMLStructure;
-import java.io.InputStream;
-import java.util.List;
+import jbvbx.xml.crypto.Dbtb;
+import jbvbx.xml.crypto.URIReference;
+import jbvbx.xml.crypto.XMLStructure;
+import jbvb.io.InputStrebm;
+import jbvb.util.List;
 
 /**
- * A representation of the <code>Reference</code> element as defined in the
- * <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * The XML schema is defined as:
+ * A representbtion of the <code>Reference</code> element bs defined in the
+ * <b href="http://www.w3.org/TR/xmldsig-core/">
+ * W3C Recommendbtion for XML-Signbture Syntbx bnd Processing</b>.
+ * The XML schemb is defined bs:
  * <pre>
- * &lt;element name="Reference" type="ds:ReferenceType"/&gt;
- * &lt;complexType name="ReferenceType"&gt;
+ * &lt;element nbme="Reference" type="ds:ReferenceType"/&gt;
+ * &lt;complexType nbme="ReferenceType"&gt;
  *   &lt;sequence&gt;
- *     &lt;element ref="ds:Transforms" minOccurs="0"/&gt;
+ *     &lt;element ref="ds:Trbnsforms" minOccurs="0"/&gt;
  *     &lt;element ref="ds:DigestMethod"/&gt;
- *     &lt;element ref="ds:DigestValue"/&gt;
+ *     &lt;element ref="ds:DigestVblue"/&gt;
  *   &lt;/sequence&gt;
- *   &lt;attribute name="Id" type="ID" use="optional"/&gt;
- *   &lt;attribute name="URI" type="anyURI" use="optional"/&gt;
- *   &lt;attribute name="Type" type="anyURI" use="optional"/&gt;
+ *   &lt;bttribute nbme="Id" type="ID" use="optionbl"/&gt;
+ *   &lt;bttribute nbme="URI" type="bnyURI" use="optionbl"/&gt;
+ *   &lt;bttribute nbme="Type" type="bnyURI" use="optionbl"/&gt;
  * &lt;/complexType&gt;
  *
- * &lt;element name="DigestValue" type="ds:DigestValueType"/&gt;
- * &lt;simpleType name="DigestValueType"&gt;
- *   &lt;restriction base="base64Binary"/&gt;
+ * &lt;element nbme="DigestVblue" type="ds:DigestVblueType"/&gt;
+ * &lt;simpleType nbme="DigestVblueType"&gt;
+ *   &lt;restriction bbse="bbse64Binbry"/&gt;
  * &lt;/simpleType&gt;
  * </pre>
  *
- * <p>A <code>Reference</code> instance may be created by invoking one of the
- * {@link XMLSignatureFactory#newReference newReference} methods of the
- * {@link XMLSignatureFactory} class; for example:
+ * <p>A <code>Reference</code> instbnce mby be crebted by invoking one of the
+ * {@link XMLSignbtureFbctory#newReference newReference} methods of the
+ * {@link XMLSignbtureFbctory} clbss; for exbmple:
  *
  * <pre>
- *   XMLSignatureFactory factory = XMLSignatureFactory.getInstance("DOM");
- *   Reference ref = factory.newReference
+ *   XMLSignbtureFbctory fbctory = XMLSignbtureFbctory.getInstbnce("DOM");
+ *   Reference ref = fbctory.newReference
  *     ("http://www.ietf.org/rfc/rfc3275.txt",
- *      factory.newDigestMethod(DigestMethod.SHA1, null));
+ *      fbctory.newDigestMethod(DigestMethod.SHA1, null));
  * </pre>
  *
- * @author Sean Mullan
- * @author Erwin van der Koogh
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor Erwin vbn der Koogh
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see XMLSignatureFactory#newReference(String, DigestMethod)
- * @see XMLSignatureFactory#newReference(String, DigestMethod, List, String, String)
+ * @see XMLSignbtureFbctory#newReference(String, DigestMethod)
+ * @see XMLSignbtureFbctory#newReference(String, DigestMethod, List, String, String)
  */
-public interface Reference extends URIReference, XMLStructure {
+public interfbce Reference extends URIReference, XMLStructure {
 
     /**
-     * Returns an {@link java.util.Collections#unmodifiableList unmodifiable
-     * list} of {@link Transform}s that are contained in this
+     * Returns bn {@link jbvb.util.Collections#unmodifibbleList unmodifibble
+     * list} of {@link Trbnsform}s thbt bre contbined in this
      * <code>Reference</code>.
      *
-     * @return an unmodifiable list of <code>Transform</code>s
-     *    (may be empty but never <code>null</code>)
+     * @return bn unmodifibble list of <code>Trbnsform</code>s
+     *    (mby be empty but never <code>null</code>)
      */
-    @SuppressWarnings("rawtypes")
-    List getTransforms();
+    @SuppressWbrnings("rbwtypes")
+    List getTrbnsforms();
 
     /**
      * Returns the digest method of this <code>Reference</code>.
@@ -96,74 +96,74 @@ public interface Reference extends URIReference, XMLStructure {
     DigestMethod getDigestMethod();
 
     /**
-     * Returns the optional <code>Id</code> attribute of this
+     * Returns the optionbl <code>Id</code> bttribute of this
      * <code>Reference</code>, which permits this reference to be
      * referenced from elsewhere.
      *
-     * @return the <code>Id</code> attribute (may be <code>null</code> if not
+     * @return the <code>Id</code> bttribute (mby be <code>null</code> if not
      *    specified)
      */
     String getId();
 
     /**
-     * Returns the digest value of this <code>Reference</code>.
+     * Returns the digest vblue of this <code>Reference</code>.
      *
-     * @return the raw digest value, or <code>null</code> if this reference has
-     *    not been digested yet. Each invocation of this method returns a new
-     *    clone to protect against subsequent modification.
+     * @return the rbw digest vblue, or <code>null</code> if this reference hbs
+     *    not been digested yet. Ebch invocbtion of this method returns b new
+     *    clone to protect bgbinst subsequent modificbtion.
      */
-    byte[] getDigestValue();
+    byte[] getDigestVblue();
 
     /**
-     * Returns the calculated digest value of this <code>Reference</code>
-     * after a validation operation. This method is useful for debugging if
-     * the reference fails to validate.
+     * Returns the cblculbted digest vblue of this <code>Reference</code>
+     * bfter b vblidbtion operbtion. This method is useful for debugging if
+     * the reference fbils to vblidbte.
      *
-     * @return the calculated digest value, or <code>null</code> if this
-     *    reference has not been validated yet. Each invocation of this method
-     *    returns a new clone to protect against subsequent modification.
+     * @return the cblculbted digest vblue, or <code>null</code> if this
+     *    reference hbs not been vblidbted yet. Ebch invocbtion of this method
+     *    returns b new clone to protect bgbinst subsequent modificbtion.
      */
-    byte[] getCalculatedDigestValue();
+    byte[] getCblculbtedDigestVblue();
 
     /**
-     * Validates this reference. This method verifies the digest of this
+     * Vblidbtes this reference. This method verifies the digest of this
      * reference.
      *
-     * <p>This method only validates the reference the first time it is
-     * invoked. On subsequent invocations, it returns a cached result.
+     * <p>This method only vblidbtes the reference the first time it is
+     * invoked. On subsequent invocbtions, it returns b cbched result.
      *
-     * @return <code>true</code> if this reference was validated successfully;
-     *    <code>false</code> otherwise
-     * @param validateContext the validating context
-     * @throws NullPointerException if <code>validateContext</code> is
+     * @return <code>true</code> if this reference wbs vblidbted successfully;
+     *    <code>fblse</code> otherwise
+     * @pbrbm vblidbteContext the vblidbting context
+     * @throws NullPointerException if <code>vblidbteContext</code> is
      *    <code>null</code>
-     * @throws XMLSignatureException if an unexpected exception occurs while
-     *    validating the reference
+     * @throws XMLSignbtureException if bn unexpected exception occurs while
+     *    vblidbting the reference
      */
-    boolean validate(XMLValidateContext validateContext)
-        throws XMLSignatureException;
+    boolebn vblidbte(XMLVblidbteContext vblidbteContext)
+        throws XMLSignbtureException;
 
     /**
-     * Returns the dereferenced data, if
-     * <a href="XMLSignContext.html#Supported%20Properties">reference caching</a>
-     * is enabled. This is the result of dereferencing the URI of this
-     * reference during a validation or generation operation.
+     * Returns the dereferenced dbtb, if
+     * <b href="XMLSignContext.html#Supported%20Properties">reference cbching</b>
+     * is enbbled. This is the result of dereferencing the URI of this
+     * reference during b vblidbtion or generbtion operbtion.
      *
-     * @return the dereferenced data, or <code>null</code> if reference
-     *    caching is not enabled or this reference has not been generated or
-     *    validated
+     * @return the dereferenced dbtb, or <code>null</code> if reference
+     *    cbching is not enbbled or this reference hbs not been generbted or
+     *    vblidbted
      */
-    Data getDereferencedData();
+    Dbtb getDereferencedDbtb();
 
     /**
-     * Returns the pre-digested input stream, if
-     * <a href="XMLSignContext.html#Supported%20Properties">reference caching</a>
-     * is enabled. This is the input to the digest operation during a
-     * validation or signing operation.
+     * Returns the pre-digested input strebm, if
+     * <b href="XMLSignContext.html#Supported%20Properties">reference cbching</b>
+     * is enbbled. This is the input to the digest operbtion during b
+     * vblidbtion or signing operbtion.
      *
-     * @return an input stream containing the pre-digested input, or
-     *    <code>null</code> if reference caching is not enabled or this
-     *    reference has not been generated or validated
+     * @return bn input strebm contbining the pre-digested input, or
+     *    <code>null</code> if reference cbching is not enbbled or this
+     *    reference hbs not been generbted or vblidbted
      */
-    InputStream getDigestInputStream();
+    InputStrebm getDigestInputStrebm();
 }

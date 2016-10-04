@@ -1,273 +1,273 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import javax.swing.*;
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
+import jbvbx.swing.*;
+import jbvb.bwt.Component;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.event.InputEvent;
 
 import sun.swing.SwingUtilities2;
 
 
 /**
- * Convenient util class.
+ * Convenient util clbss.
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  */
-public class BasicGraphicsUtils
+public clbss BbsicGrbphicsUtils
 {
 
-    private static final Insets GROOVE_INSETS = new Insets(2, 2, 2, 2);
-    private static final Insets ETCHED_INSETS = new Insets(2, 2, 2, 2);
+    privbte stbtic finbl Insets GROOVE_INSETS = new Insets(2, 2, 2, 2);
+    privbte stbtic finbl Insets ETCHED_INSETS = new Insets(2, 2, 2, 2);
 
     /**
-     * Draws an etched rectangle.
+     * Drbws bn etched rectbngle.
      *
-     * @param g an instance of {@code Graphics}
-     * @param x an X coordinate
-     * @param y an Y coordinate
-     * @param w a width
-     * @param h a height
-     * @param shadow a color of shadow
-     * @param darkShadow a color of dark shadow
-     * @param highlight a color highlighting
-     * @param lightHighlight a color of light highlighting
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm x bn X coordinbte
+     * @pbrbm y bn Y coordinbte
+     * @pbrbm w b width
+     * @pbrbm h b height
+     * @pbrbm shbdow b color of shbdow
+     * @pbrbm dbrkShbdow b color of dbrk shbdow
+     * @pbrbm highlight b color highlighting
+     * @pbrbm lightHighlight b color of light highlighting
      */
-    public static void drawEtchedRect(Graphics g, int x, int y, int w, int h,
-                                      Color shadow, Color darkShadow,
+    public stbtic void drbwEtchedRect(Grbphics g, int x, int y, int w, int h,
+                                      Color shbdow, Color dbrkShbdow,
                                       Color highlight, Color lightHighlight)
     {
-        Color oldColor = g.getColor();  // Make no net change to g
-        g.translate(x, y);
+        Color oldColor = g.getColor();  // Mbke no net chbnge to g
+        g.trbnslbte(x, y);
 
-        g.setColor(shadow);
-        g.drawLine(0, 0, w-1, 0);      // outer border, top
-        g.drawLine(0, 1, 0, h-2);      // outer border, left
+        g.setColor(shbdow);
+        g.drbwLine(0, 0, w-1, 0);      // outer border, top
+        g.drbwLine(0, 1, 0, h-2);      // outer border, left
 
-        g.setColor(darkShadow);
-        g.drawLine(1, 1, w-3, 1);      // inner border, top
-        g.drawLine(1, 2, 1, h-3);      // inner border, left
+        g.setColor(dbrkShbdow);
+        g.drbwLine(1, 1, w-3, 1);      // inner border, top
+        g.drbwLine(1, 2, 1, h-3);      // inner border, left
 
         g.setColor(lightHighlight);
-        g.drawLine(w-1, 0, w-1, h-1);  // outer border, bottom
-        g.drawLine(0, h-1, w-1, h-1);  // outer border, right
+        g.drbwLine(w-1, 0, w-1, h-1);  // outer border, bottom
+        g.drbwLine(0, h-1, w-1, h-1);  // outer border, right
 
         g.setColor(highlight);
-        g.drawLine(w-2, 1, w-2, h-3);  // inner border, right
-        g.drawLine(1, h-2, w-2, h-2);  // inner border, bottom
+        g.drbwLine(w-2, 1, w-2, h-3);  // inner border, right
+        g.drbwLine(1, h-2, w-2, h-2);  // inner border, bottom
 
-        g.translate(-x, -y);
+        g.trbnslbte(-x, -y);
         g.setColor(oldColor);
     }
 
 
     /**
-     * Returns the amount of space taken up by a border drawn by
-     * <code>drawEtchedRect()</code>
+     * Returns the bmount of spbce tbken up by b border drbwn by
+     * <code>drbwEtchedRect()</code>
      *
-     * @return  the inset of an etched rect
+     * @return  the inset of bn etched rect
      */
-    public static Insets getEtchedInsets() {
+    public stbtic Insets getEtchedInsets() {
         return ETCHED_INSETS;
     }
 
 
     /**
-     * Draws a groove.
+     * Drbws b groove.
      *
-     * @param g an instance of {@code Graphics}
-     * @param x an X coordinate
-     * @param y an Y coordinate
-     * @param w a width
-     * @param h a height
-     * @param shadow a color of shadow
-     * @param highlight a color highlighting
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm x bn X coordinbte
+     * @pbrbm y bn Y coordinbte
+     * @pbrbm w b width
+     * @pbrbm h b height
+     * @pbrbm shbdow b color of shbdow
+     * @pbrbm highlight b color highlighting
      */
-    public static void drawGroove(Graphics g, int x, int y, int w, int h,
-                                  Color shadow, Color highlight)
+    public stbtic void drbwGroove(Grbphics g, int x, int y, int w, int h,
+                                  Color shbdow, Color highlight)
     {
-        Color oldColor = g.getColor();  // Make no net change to g
-        g.translate(x, y);
+        Color oldColor = g.getColor();  // Mbke no net chbnge to g
+        g.trbnslbte(x, y);
 
-        g.setColor(shadow);
-        g.drawRect(0, 0, w-2, h-2);
+        g.setColor(shbdow);
+        g.drbwRect(0, 0, w-2, h-2);
 
         g.setColor(highlight);
-        g.drawLine(1, h-3, 1, 1);
-        g.drawLine(1, 1, w-3, 1);
+        g.drbwLine(1, h-3, 1, 1);
+        g.drbwLine(1, 1, w-3, 1);
 
-        g.drawLine(0, h-1, w-1, h-1);
-        g.drawLine(w-1, h-1, w-1, 0);
+        g.drbwLine(0, h-1, w-1, h-1);
+        g.drbwLine(w-1, h-1, w-1, 0);
 
-        g.translate(-x, -y);
+        g.trbnslbte(-x, -y);
         g.setColor(oldColor);
     }
 
     /**
-     * Returns the amount of space taken up by a border drawn by
-     * <code>drawGroove()</code>
+     * Returns the bmount of spbce tbken up by b border drbwn by
+     * <code>drbwGroove()</code>
      *
-     * @return  the inset of a groove border
+     * @return  the inset of b groove border
      */
-    public static Insets getGrooveInsets() {
+    public stbtic Insets getGrooveInsets() {
         return GROOVE_INSETS;
     }
 
 
     /**
-     * Draws a bezel.
+     * Drbws b bezel.
      *
-     * @param g an instance of {@code Graphics}
-     * @param x an X coordinate
-     * @param y an Y coordinate
-     * @param w a width
-     * @param h a height
-     * @param isPressed is component pressed
-     * @param isDefault is default drawing
-     * @param shadow a color of shadow
-     * @param darkShadow a color of dark shadow
-     * @param highlight a color highlighting
-     * @param lightHighlight a color of light highlighting
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm x bn X coordinbte
+     * @pbrbm y bn Y coordinbte
+     * @pbrbm w b width
+     * @pbrbm h b height
+     * @pbrbm isPressed is component pressed
+     * @pbrbm isDefbult is defbult drbwing
+     * @pbrbm shbdow b color of shbdow
+     * @pbrbm dbrkShbdow b color of dbrk shbdow
+     * @pbrbm highlight b color highlighting
+     * @pbrbm lightHighlight b color of light highlighting
      */
-    public static void drawBezel(Graphics g, int x, int y, int w, int h,
-                                 boolean isPressed, boolean isDefault,
-                                 Color shadow, Color darkShadow,
+    public stbtic void drbwBezel(Grbphics g, int x, int y, int w, int h,
+                                 boolebn isPressed, boolebn isDefbult,
+                                 Color shbdow, Color dbrkShbdow,
                                  Color highlight, Color lightHighlight)
     {
-        Color oldColor = g.getColor();  // Make no net change to g
-        g.translate(x, y);
+        Color oldColor = g.getColor();  // Mbke no net chbnge to g
+        g.trbnslbte(x, y);
 
-        if (isPressed && isDefault) {
-            g.setColor(darkShadow);
-            g.drawRect(0, 0, w - 1, h - 1);
-            g.setColor(shadow);
-            g.drawRect(1, 1, w - 3, h - 3);
+        if (isPressed && isDefbult) {
+            g.setColor(dbrkShbdow);
+            g.drbwRect(0, 0, w - 1, h - 1);
+            g.setColor(shbdow);
+            g.drbwRect(1, 1, w - 3, h - 3);
         } else if (isPressed) {
-            drawLoweredBezel(g, x, y, w, h,
-                             shadow, darkShadow, highlight, lightHighlight);
-        } else if (isDefault) {
-            g.setColor(darkShadow);
-            g.drawRect(0, 0, w-1, h-1);
+            drbwLoweredBezel(g, x, y, w, h,
+                             shbdow, dbrkShbdow, highlight, lightHighlight);
+        } else if (isDefbult) {
+            g.setColor(dbrkShbdow);
+            g.drbwRect(0, 0, w-1, h-1);
 
             g.setColor(lightHighlight);
-            g.drawLine(1, 1, 1, h-3);
-            g.drawLine(2, 1, w-3, 1);
+            g.drbwLine(1, 1, 1, h-3);
+            g.drbwLine(2, 1, w-3, 1);
 
             g.setColor(highlight);
-            g.drawLine(2, 2, 2, h-4);
-            g.drawLine(3, 2, w-4, 2);
+            g.drbwLine(2, 2, 2, h-4);
+            g.drbwLine(3, 2, w-4, 2);
 
-            g.setColor(shadow);
-            g.drawLine(2, h-3, w-3, h-3);
-            g.drawLine(w-3, 2, w-3, h-4);
+            g.setColor(shbdow);
+            g.drbwLine(2, h-3, w-3, h-3);
+            g.drbwLine(w-3, 2, w-3, h-4);
 
-            g.setColor(darkShadow);
-            g.drawLine(1, h-2, w-2, h-2);
-            g.drawLine(w-2, h-2, w-2, 1);
+            g.setColor(dbrkShbdow);
+            g.drbwLine(1, h-2, w-2, h-2);
+            g.drbwLine(w-2, h-2, w-2, 1);
         } else {
             g.setColor(lightHighlight);
-            g.drawLine(0, 0, 0, h-1);
-            g.drawLine(1, 0, w-2, 0);
+            g.drbwLine(0, 0, 0, h-1);
+            g.drbwLine(1, 0, w-2, 0);
 
             g.setColor(highlight);
-            g.drawLine(1, 1, 1, h-3);
-            g.drawLine(2, 1, w-3, 1);
+            g.drbwLine(1, 1, 1, h-3);
+            g.drbwLine(2, 1, w-3, 1);
 
-            g.setColor(shadow);
-            g.drawLine(1, h-2, w-2, h-2);
-            g.drawLine(w-2, 1, w-2, h-3);
+            g.setColor(shbdow);
+            g.drbwLine(1, h-2, w-2, h-2);
+            g.drbwLine(w-2, 1, w-2, h-3);
 
-            g.setColor(darkShadow);
-            g.drawLine(0, h-1, w-1, h-1);
-            g.drawLine(w-1, h-1, w-1, 0);
+            g.setColor(dbrkShbdow);
+            g.drbwLine(0, h-1, w-1, h-1);
+            g.drbwLine(w-1, h-1, w-1, 0);
         }
-        g.translate(-x, -y);
+        g.trbnslbte(-x, -y);
         g.setColor(oldColor);
     }
 
     /**
-     * Draws a lowered bezel.
+     * Drbws b lowered bezel.
      *
-     * @param g an instance of {@code Graphics}
-     * @param x an X coordinate
-     * @param y an Y coordinate
-     * @param w a width
-     * @param h a height
-     * @param shadow a color of shadow
-     * @param darkShadow a color of dark shadow
-     * @param highlight a color highlighting
-     * @param lightHighlight a color of light highlighting
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm x bn X coordinbte
+     * @pbrbm y bn Y coordinbte
+     * @pbrbm w b width
+     * @pbrbm h b height
+     * @pbrbm shbdow b color of shbdow
+     * @pbrbm dbrkShbdow b color of dbrk shbdow
+     * @pbrbm highlight b color highlighting
+     * @pbrbm lightHighlight b color of light highlighting
      */
-    public static void drawLoweredBezel(Graphics g, int x, int y, int w, int h,
-                                        Color shadow, Color darkShadow,
+    public stbtic void drbwLoweredBezel(Grbphics g, int x, int y, int w, int h,
+                                        Color shbdow, Color dbrkShbdow,
                                         Color highlight, Color lightHighlight)  {
-        g.setColor(darkShadow);
-        g.drawLine(0, 0, 0, h-1);
-        g.drawLine(1, 0, w-2, 0);
+        g.setColor(dbrkShbdow);
+        g.drbwLine(0, 0, 0, h-1);
+        g.drbwLine(1, 0, w-2, 0);
 
-        g.setColor(shadow);
-        g.drawLine(1, 1, 1, h-2);
-        g.drawLine(1, 1, w-3, 1);
+        g.setColor(shbdow);
+        g.drbwLine(1, 1, 1, h-2);
+        g.drbwLine(1, 1, w-3, 1);
 
         g.setColor(lightHighlight);
-        g.drawLine(0, h-1, w-1, h-1);
-        g.drawLine(w-1, h-1, w-1, 0);
+        g.drbwLine(0, h-1, w-1, h-1);
+        g.drbwLine(w-1, h-1, w-1, 0);
 
         g.setColor(highlight);
-        g.drawLine(1, h-2, w-2, h-2);
-        g.drawLine(w-2, h-2, w-2, 1);
+        g.drbwLine(1, h-2, w-2, h-2);
+        g.drbwLine(w-2, h-2, w-2, 1);
      }
 
 
     /**
-     * Draw a string with the graphics {@code g} at location (x,y)
-     * just like {@code g.drawString} would. The first occurrence
-     * of {@code underlineChar} in text will be underlined.
-     * The matching algorithm is not case sensitive.
+     * Drbw b string with the grbphics {@code g} bt locbtion (x,y)
+     * just like {@code g.drbwString} would. The first occurrence
+     * of {@code underlineChbr} in text will be underlined.
+     * The mbtching blgorithm is not cbse sensitive.
      *
-     * @param g an instance of {@code Graphics}
-     * @param text a text
-     * @param underlinedChar an underlined char
-     * @param x an X coordinate
-     * @param y an Y coordinate
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm text b text
+     * @pbrbm underlinedChbr bn underlined chbr
+     * @pbrbm x bn X coordinbte
+     * @pbrbm y bn Y coordinbte
      */
-    public static void drawString(Graphics g,String text,int underlinedChar,int x,int y) {
+    public stbtic void drbwString(Grbphics g,String text,int underlinedChbr,int x,int y) {
         int index=-1;
 
-        if (underlinedChar != '\0') {
-            char uc = Character.toUpperCase((char)underlinedChar);
-            char lc = Character.toLowerCase((char)underlinedChar);
+        if (underlinedChbr != '\0') {
+            chbr uc = Chbrbcter.toUpperCbse((chbr)underlinedChbr);
+            chbr lc = Chbrbcter.toLowerCbse((chbr)underlinedChbr);
             int uci = text.indexOf(uc);
             int lci = text.indexOf(lc);
 
@@ -281,50 +281,50 @@ public class BasicGraphicsUtils
                 index = (lci < uci) ? lci : uci;
             }
         }
-        drawStringUnderlineCharAt(g, text, index, x, y);
+        drbwStringUnderlineChbrAt(g, text, index, x, y);
     }
 
     /**
-     * Draw a string with the graphics <code>g</code> at location
+     * Drbw b string with the grbphics <code>g</code> bt locbtion
      * (<code>x</code>, <code>y</code>)
-     * just like <code>g.drawString</code> would.
-     * The character at index <code>underlinedIndex</code>
+     * just like <code>g.drbwString</code> would.
+     * The chbrbcter bt index <code>underlinedIndex</code>
      * in text will be underlined. If <code>index</code> is beyond the
      * bounds of <code>text</code> (including &lt; 0), nothing will be
      * underlined.
      *
-     * @param g Graphics to draw with
-     * @param text String to draw
-     * @param underlinedIndex Index of character in text to underline
-     * @param x x coordinate to draw at
-     * @param y y coordinate to draw at
+     * @pbrbm g Grbphics to drbw with
+     * @pbrbm text String to drbw
+     * @pbrbm underlinedIndex Index of chbrbcter in text to underline
+     * @pbrbm x x coordinbte to drbw bt
+     * @pbrbm y y coordinbte to drbw bt
      * @since 1.4
      */
-    public static void drawStringUnderlineCharAt(Graphics g, String text,
+    public stbtic void drbwStringUnderlineChbrAt(Grbphics g, String text,
                            int underlinedIndex, int x,int y) {
-        SwingUtilities2.drawStringUnderlineCharAt(null, g, text,
+        SwingUtilities2.drbwStringUnderlineChbrAt(null, g, text,
                 underlinedIndex, x, y);
     }
 
     /**
-     * Draws dashed rectangle.
+     * Drbws dbshed rectbngle.
      *
-     * @param g an instance of {@code Graphics}
-     * @param x an X coordinate
-     * @param y an Y coordinate
-     * @param width a width of rectangle
-     * @param height a height of rectangle
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm x bn X coordinbte
+     * @pbrbm y bn Y coordinbte
+     * @pbrbm width b width of rectbngle
+     * @pbrbm height b height of rectbngle
      */
-    public static void drawDashedRect(Graphics g,int x,int y,int width,int height) {
+    public stbtic void drbwDbshedRect(Grbphics g,int x,int y,int width,int height) {
         int vx,vy;
 
-        // draw upper and lower horizontal dashes
+        // drbw upper bnd lower horizontbl dbshes
         for (vx = x; vx < (x + width); vx+=2) {
             g.fillRect(vx, y, 1, 1);
             g.fillRect(vx, y + height-1, 1, 1);
         }
 
-        // draw left and right vertical dashes
+        // drbw left bnd right verticbl dbshes
         for (vy = y; vy < (y + height); vy+=2) {
             g.fillRect(x, vy, 1, 1);
             g.fillRect(x+width-1, vy, 1, 1);
@@ -334,11 +334,11 @@ public class BasicGraphicsUtils
     /**
      * Returns the preferred size of the button.
      *
-     * @param b an instance of {@code AbstractButton}
-     * @param textIconGap a gap between text and icon
+     * @pbrbm b bn instbnce of {@code AbstrbctButton}
+     * @pbrbm textIconGbp b gbp between text bnd icon
      * @return the preferred size of the button
      */
-    public static Dimension getPreferredButtonSize(AbstractButton b, int textIconGap)
+    public stbtic Dimension getPreferredButtonSize(AbstrbctButton b, int textIconGbp)
     {
         if(b.getComponentCount() > 0) {
             return null;
@@ -350,22 +350,22 @@ public class BasicGraphicsUtils
         Font font = b.getFont();
         FontMetrics fm = b.getFontMetrics(font);
 
-        Rectangle iconR = new Rectangle();
-        Rectangle textR = new Rectangle();
-        Rectangle viewR = new Rectangle(Short.MAX_VALUE, Short.MAX_VALUE);
+        Rectbngle iconR = new Rectbngle();
+        Rectbngle textR = new Rectbngle();
+        Rectbngle viewR = new Rectbngle(Short.MAX_VALUE, Short.MAX_VALUE);
 
-        SwingUtilities.layoutCompoundLabel(
+        SwingUtilities.lbyoutCompoundLbbel(
             b, fm, text, icon,
-            b.getVerticalAlignment(), b.getHorizontalAlignment(),
-            b.getVerticalTextPosition(), b.getHorizontalTextPosition(),
-            viewR, iconR, textR, (text == null ? 0 : textIconGap)
+            b.getVerticblAlignment(), b.getHorizontblAlignment(),
+            b.getVerticblTextPosition(), b.getHorizontblTextPosition(),
+            viewR, iconR, textR, (text == null ? 0 : textIconGbp)
         );
 
         /* The preferred size of the button is the size of
-         * the text and icon rectangles plus the buttons insets.
+         * the text bnd icon rectbngles plus the buttons insets.
          */
 
-        Rectangle r = iconR.union(textR);
+        Rectbngle r = iconR.union(textR);
 
         Insets insets = b.getInsets();
         r.width += insets.left + insets.right;
@@ -375,15 +375,15 @@ public class BasicGraphicsUtils
     }
 
     /*
-     * Convenience function for determining ComponentOrientation.  Helps us
-     * avoid having Munge directives throughout the code.
+     * Convenience function for determining ComponentOrientbtion.  Helps us
+     * bvoid hbving Munge directives throughout the code.
      */
-    static boolean isLeftToRight( Component c ) {
-        return c.getComponentOrientation().isLeftToRight();
+    stbtic boolebn isLeftToRight( Component c ) {
+        return c.getComponentOrientbtion().isLeftToRight();
     }
 
-    static boolean isMenuShortcutKeyDown(InputEvent event) {
+    stbtic boolebn isMenuShortcutKeyDown(InputEvent event) {
         return (event.getModifiers() &
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0;
+                Toolkit.getDefbultToolkit().getMenuShortcutKeyMbsk()) != 0;
     }
 }

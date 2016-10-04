@@ -1,702 +1,702 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.im.InputContext;
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import javax.swing.UIManager;
-import javax.swing.event.*;
-import javax.swing.plaf.UIResource;
-import javax.swing.text.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.im.InputContext;
+import jbvb.io.*;
+import jbvb.text.*;
+import jbvb.util.*;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.text.*;
 
 /**
- * <code>JFormattedTextField</code> extends <code>JTextField</code> adding
- * support for formatting arbitrary values, as well as retrieving a particular
- * object once the user has edited the text. The following illustrates
- * configuring a <code>JFormattedTextField</code> to edit dates:
+ * <code>JFormbttedTextField</code> extends <code>JTextField</code> bdding
+ * support for formbtting brbitrbry vblues, bs well bs retrieving b pbrticulbr
+ * object once the user hbs edited the text. The following illustrbtes
+ * configuring b <code>JFormbttedTextField</code> to edit dbtes:
  * <pre>
- *   JFormattedTextField ftf = new JFormattedTextField();
- *   ftf.setValue(new Date());
+ *   JFormbttedTextField ftf = new JFormbttedTextField();
+ *   ftf.setVblue(new Dbte());
  * </pre>
  * <p>
- * Once a <code>JFormattedTextField</code> has been created, you can
- * listen for editing changes by way of adding
- * a <code>PropertyChangeListener</code> and listening for
- * <code>PropertyChangeEvent</code>s with the property name <code>value</code>.
+ * Once b <code>JFormbttedTextField</code> hbs been crebted, you cbn
+ * listen for editing chbnges by wby of bdding
+ * b <code>PropertyChbngeListener</code> bnd listening for
+ * <code>PropertyChbngeEvent</code>s with the property nbme <code>vblue</code>.
  * <p>
- * <code>JFormattedTextField</code> allows
- * configuring what action should be taken when focus is lost. The possible
- * configurations are:
- * <table summary="Possible JFormattedTextField configurations and their descriptions">
- * <tr><th><p style="text-align:left">Value</p></th><th><p style="text-align:left">Description</p></th></tr>
- * <tr><td>JFormattedTextField.REVERT
- *            <td>Revert the display to match that of <code>getValue</code>,
+ * <code>JFormbttedTextField</code> bllows
+ * configuring whbt bction should be tbken when focus is lost. The possible
+ * configurbtions bre:
+ * <tbble summbry="Possible JFormbttedTextField configurbtions bnd their descriptions">
+ * <tr><th><p style="text-blign:left">Vblue</p></th><th><p style="text-blign:left">Description</p></th></tr>
+ * <tr><td>JFormbttedTextField.REVERT
+ *            <td>Revert the displby to mbtch thbt of <code>getVblue</code>,
  *                possibly losing the current edit.
- *        <tr><td>JFormattedTextField.COMMIT
- *            <td>Commits the current value. If the value being edited
- *                isn't considered a legal value by the
- *                <code>AbstractFormatter</code> that is, a
- *                <code>ParseException</code> is thrown, then the value
- *                will not change, and then edited value will persist.
- *        <tr><td>JFormattedTextField.COMMIT_OR_REVERT
- *            <td>Similar to <code>COMMIT</code>, but if the value isn't
- *                legal, behave like <code>REVERT</code>.
- *        <tr><td>JFormattedTextField.PERSIST
- *            <td>Do nothing, don't obtain a new
- *                <code>AbstractFormatter</code>, and don't update the value.
- * </table>
- * The default is <code>JFormattedTextField.COMMIT_OR_REVERT</code>,
- * refer to {@link #setFocusLostBehavior} for more information on this.
+ *        <tr><td>JFormbttedTextField.COMMIT
+ *            <td>Commits the current vblue. If the vblue being edited
+ *                isn't considered b legbl vblue by the
+ *                <code>AbstrbctFormbtter</code> thbt is, b
+ *                <code>PbrseException</code> is thrown, then the vblue
+ *                will not chbnge, bnd then edited vblue will persist.
+ *        <tr><td>JFormbttedTextField.COMMIT_OR_REVERT
+ *            <td>Similbr to <code>COMMIT</code>, but if the vblue isn't
+ *                legbl, behbve like <code>REVERT</code>.
+ *        <tr><td>JFormbttedTextField.PERSIST
+ *            <td>Do nothing, don't obtbin b new
+ *                <code>AbstrbctFormbtter</code>, bnd don't updbte the vblue.
+ * </tbble>
+ * The defbult is <code>JFormbttedTextField.COMMIT_OR_REVERT</code>,
+ * refer to {@link #setFocusLostBehbvior} for more informbtion on this.
  * <p>
- * <code>JFormattedTextField</code> allows the focus to leave, even if
- * the currently edited value is invalid. To lock the focus down while the
- * <code>JFormattedTextField</code> is an invalid edit state
- * you can attach an <code>InputVerifier</code>. The following code snippet
- * shows a potential implementation of such an <code>InputVerifier</code>:
+ * <code>JFormbttedTextField</code> bllows the focus to lebve, even if
+ * the currently edited vblue is invblid. To lock the focus down while the
+ * <code>JFormbttedTextField</code> is bn invblid edit stbte
+ * you cbn bttbch bn <code>InputVerifier</code>. The following code snippet
+ * shows b potentibl implementbtion of such bn <code>InputVerifier</code>:
  * <pre>
- * public class FormattedTextFieldVerifier extends InputVerifier {
- *     public boolean verify(JComponent input) {
- *         if (input instanceof JFormattedTextField) {
- *             JFormattedTextField ftf = (JFormattedTextField)input;
- *             AbstractFormatter formatter = ftf.getFormatter();
- *             if (formatter != null) {
+ * public clbss FormbttedTextFieldVerifier extends InputVerifier {
+ *     public boolebn verify(JComponent input) {
+ *         if (input instbnceof JFormbttedTextField) {
+ *             JFormbttedTextField ftf = (JFormbttedTextField)input;
+ *             AbstrbctFormbtter formbtter = ftf.getFormbtter();
+ *             if (formbtter != null) {
  *                 String text = ftf.getText();
  *                 try {
- *                      formatter.stringToValue(text);
+ *                      formbtter.stringToVblue(text);
  *                      return true;
- *                  } catch (ParseException pe) {
- *                      return false;
+ *                  } cbtch (PbrseException pe) {
+ *                      return fblse;
  *                  }
  *              }
  *          }
  *          return true;
  *      }
- *      public boolean shouldYieldFocus(JComponent input) {
+ *      public boolebn shouldYieldFocus(JComponent input) {
  *          return verify(input);
  *      }
  *  }
  * </pre>
  * <p>
- * Alternatively, you could invoke <code>commitEdit</code>, which would also
- * commit the value.
+ * Alternbtively, you could invoke <code>commitEdit</code>, which would blso
+ * commit the vblue.
  * <p>
- * <code>JFormattedTextField</code> does not do the formatting it self,
- * rather formatting is done through an instance of
- * <code>JFormattedTextField.AbstractFormatter</code> which is obtained from
- * an instance of <code>JFormattedTextField.AbstractFormatterFactory</code>.
- * Instances of <code>JFormattedTextField.AbstractFormatter</code> are
- * notified when they become active by way of the
- * <code>install</code> method, at which point the
- * <code>JFormattedTextField.AbstractFormatter</code> can install whatever
- * it needs to, typically a <code>DocumentFilter</code>. Similarly when
- * <code>JFormattedTextField</code> no longer
- * needs the <code>AbstractFormatter</code>, it will invoke
- * <code>uninstall</code>.
+ * <code>JFormbttedTextField</code> does not do the formbtting it self,
+ * rbther formbtting is done through bn instbnce of
+ * <code>JFormbttedTextField.AbstrbctFormbtter</code> which is obtbined from
+ * bn instbnce of <code>JFormbttedTextField.AbstrbctFormbtterFbctory</code>.
+ * Instbnces of <code>JFormbttedTextField.AbstrbctFormbtter</code> bre
+ * notified when they become bctive by wby of the
+ * <code>instbll</code> method, bt which point the
+ * <code>JFormbttedTextField.AbstrbctFormbtter</code> cbn instbll whbtever
+ * it needs to, typicblly b <code>DocumentFilter</code>. Similbrly when
+ * <code>JFormbttedTextField</code> no longer
+ * needs the <code>AbstrbctFormbtter</code>, it will invoke
+ * <code>uninstbll</code>.
  * <p>
- * <code>JFormattedTextField</code> typically
- * queries the <code>AbstractFormatterFactory</code> for an
- * <code>AbstractFormat</code> when it gains or loses focus. Although this
- * can change based on the focus lost policy. If the focus lost
- * policy is <code>JFormattedTextField.PERSIST</code>
- * and the <code>JFormattedTextField</code> has been edited, the
- * <code>AbstractFormatterFactory</code> will not be queried until the
- * value has been committed. Similarly if the focus lost policy is
- * <code>JFormattedTextField.COMMIT</code> and an exception
- * is thrown from <code>stringToValue</code>, the
- * <code>AbstractFormatterFactory</code> will not be queried when focus is
- * lost or gained.
+ * <code>JFormbttedTextField</code> typicblly
+ * queries the <code>AbstrbctFormbtterFbctory</code> for bn
+ * <code>AbstrbctFormbt</code> when it gbins or loses focus. Although this
+ * cbn chbnge bbsed on the focus lost policy. If the focus lost
+ * policy is <code>JFormbttedTextField.PERSIST</code>
+ * bnd the <code>JFormbttedTextField</code> hbs been edited, the
+ * <code>AbstrbctFormbtterFbctory</code> will not be queried until the
+ * vblue hbs been committed. Similbrly if the focus lost policy is
+ * <code>JFormbttedTextField.COMMIT</code> bnd bn exception
+ * is thrown from <code>stringToVblue</code>, the
+ * <code>AbstrbctFormbtterFbctory</code> will not be queried when focus is
+ * lost or gbined.
  * <p>
- * <code>JFormattedTextField.AbstractFormatter</code>
- * is also responsible for determining when values are committed to
- * the <code>JFormattedTextField</code>. Some
- * <code>JFormattedTextField.AbstractFormatter</code>s will make new values
- * available on every edit, and others will never commit the value. You can
- * force the current value to be obtained
- * from the current <code>JFormattedTextField.AbstractFormatter</code>
- * by way of invoking <code>commitEdit</code>. <code>commitEdit</code> will
+ * <code>JFormbttedTextField.AbstrbctFormbtter</code>
+ * is blso responsible for determining when vblues bre committed to
+ * the <code>JFormbttedTextField</code>. Some
+ * <code>JFormbttedTextField.AbstrbctFormbtter</code>s will mbke new vblues
+ * bvbilbble on every edit, bnd others will never commit the vblue. You cbn
+ * force the current vblue to be obtbined
+ * from the current <code>JFormbttedTextField.AbstrbctFormbtter</code>
+ * by wby of invoking <code>commitEdit</code>. <code>commitEdit</code> will
  * be invoked whenever return is pressed in the
- * <code>JFormattedTextField</code>.
+ * <code>JFormbttedTextField</code>.
  * <p>
- * If an <code>AbstractFormatterFactory</code> has not been explicitly
- * set, one will be set based on the <code>Class</code> of the value type after
- * <code>setValue</code> has been invoked (assuming value is non-null).
- * For example, in the following code an appropriate
- * <code>AbstractFormatterFactory</code> and <code>AbstractFormatter</code>
- * will be created to handle formatting of numbers:
+ * If bn <code>AbstrbctFormbtterFbctory</code> hbs not been explicitly
+ * set, one will be set bbsed on the <code>Clbss</code> of the vblue type bfter
+ * <code>setVblue</code> hbs been invoked (bssuming vblue is non-null).
+ * For exbmple, in the following code bn bppropribte
+ * <code>AbstrbctFormbtterFbctory</code> bnd <code>AbstrbctFormbtter</code>
+ * will be crebted to hbndle formbtting of numbers:
  * <pre>
- *   JFormattedTextField tf = new JFormattedTextField();
- *   tf.setValue(new Number(100));
+ *   JFormbttedTextField tf = new JFormbttedTextField();
+ *   tf.setVblue(new Number(100));
  * </pre>
  * <p>
- * <strong>Warning:</strong> As the <code>AbstractFormatter</code> will
- * typically install a <code>DocumentFilter</code> on the
- * <code>Document</code>, and a <code>NavigationFilter</code> on the
- * <code>JFormattedTextField</code> you should not install your own. If you do,
- * you are likely to see odd behavior in that the editing policy of the
- * <code>AbstractFormatter</code> will not be enforced.
+ * <strong>Wbrning:</strong> As the <code>AbstrbctFormbtter</code> will
+ * typicblly instbll b <code>DocumentFilter</code> on the
+ * <code>Document</code>, bnd b <code>NbvigbtionFilter</code> on the
+ * <code>JFormbttedTextField</code> you should not instbll your own. If you do,
+ * you bre likely to see odd behbvior in thbt the editing policy of the
+ * <code>AbstrbctFormbtter</code> will not be enforced.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
  * @since 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JFormattedTextField extends JTextField {
-    private static final String uiClassID = "FormattedTextFieldUI";
-    private static final Action[] defaultActions =
-            { new CommitAction(), new CancelAction() };
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JFormbttedTextField extends JTextField {
+    privbte stbtic finbl String uiClbssID = "FormbttedTextFieldUI";
+    privbte stbtic finbl Action[] defbultActions =
+            { new CommitAction(), new CbncelAction() };
 
     /**
-     * Constant identifying that when focus is lost,
+     * Constbnt identifying thbt when focus is lost,
      * <code>commitEdit</code> should be invoked. If in committing the
-     * new value a <code>ParseException</code> is thrown, the invalid
-     * value will remain.
+     * new vblue b <code>PbrseException</code> is thrown, the invblid
+     * vblue will rembin.
      *
-     * @see #setFocusLostBehavior
+     * @see #setFocusLostBehbvior
      */
-    public static final int COMMIT = 0;
+    public stbtic finbl int COMMIT = 0;
 
     /**
-     * Constant identifying that when focus is lost,
+     * Constbnt identifying thbt when focus is lost,
      * <code>commitEdit</code> should be invoked. If in committing the new
-     * value a <code>ParseException</code> is thrown, the value will be
+     * vblue b <code>PbrseException</code> is thrown, the vblue will be
      * reverted.
      *
-     * @see #setFocusLostBehavior
+     * @see #setFocusLostBehbvior
      */
-    public static final int COMMIT_OR_REVERT = 1;
+    public stbtic finbl int COMMIT_OR_REVERT = 1;
 
     /**
-     * Constant identifying that when focus is lost, editing value should
-     * be reverted to current value set on the
-     * <code>JFormattedTextField</code>.
+     * Constbnt identifying thbt when focus is lost, editing vblue should
+     * be reverted to current vblue set on the
+     * <code>JFormbttedTextField</code>.
      *
-     * @see #setFocusLostBehavior
+     * @see #setFocusLostBehbvior
      */
-    public static final int REVERT = 2;
+    public stbtic finbl int REVERT = 2;
 
     /**
-     * Constant identifying that when focus is lost, the edited value
+     * Constbnt identifying thbt when focus is lost, the edited vblue
      * should be left.
      *
-     * @see #setFocusLostBehavior
+     * @see #setFocusLostBehbvior
      */
-    public static final int PERSIST = 3;
+    public stbtic finbl int PERSIST = 3;
 
 
     /**
-     * Factory used to obtain an instance of AbstractFormatter.
+     * Fbctory used to obtbin bn instbnce of AbstrbctFormbtter.
      */
-    private AbstractFormatterFactory factory;
+    privbte AbstrbctFormbtterFbctory fbctory;
     /**
-     * Object responsible for formatting the current value.
+     * Object responsible for formbtting the current vblue.
      */
-    private AbstractFormatter format;
+    privbte AbstrbctFormbtter formbt;
     /**
-     * Last valid value.
+     * Lbst vblid vblue.
      */
-    private Object value;
+    privbte Object vblue;
     /**
-     * True while the value being edited is valid.
+     * True while the vblue being edited is vblid.
      */
-    private boolean editValid;
+    privbte boolebn editVblid;
     /**
-     * Behavior when focus is lost.
+     * Behbvior when focus is lost.
      */
-    private int focusLostBehavior;
+    privbte int focusLostBehbvior;
     /**
-     * Indicates the current value has been edited.
+     * Indicbtes the current vblue hbs been edited.
      */
-    private boolean edited;
+    privbte boolebn edited;
     /**
-     * Used to set the dirty state.
+     * Used to set the dirty stbte.
      */
-    private DocumentListener documentListener;
+    privbte DocumentListener documentListener;
     /**
-     * Masked used to set the AbstractFormatterFactory.
+     * Mbsked used to set the AbstrbctFormbtterFbctory.
      */
-    private Object mask;
+    privbte Object mbsk;
     /**
-     * ActionMap that the TextFormatter Actions are added to.
+     * ActionMbp thbt the TextFormbtter Actions bre bdded to.
      */
-    private ActionMap textFormatterActionMap;
+    privbte ActionMbp textFormbtterActionMbp;
     /**
-     * Indicates the input method composed text is in the document
+     * Indicbtes the input method composed text is in the document
      */
-    private boolean composedTextExists = false;
+    privbte boolebn composedTextExists = fblse;
     /**
-     * A handler for FOCUS_LOST event
+     * A hbndler for FOCUS_LOST event
      */
-    private FocusLostHandler focusLostHandler;
+    privbte FocusLostHbndler focusLostHbndler;
 
 
     /**
-     * Creates a <code>JFormattedTextField</code> with no
-     * <code>AbstractFormatterFactory</code>. Use <code>setMask</code> or
-     * <code>setFormatterFactory</code> to configure the
-     * <code>JFormattedTextField</code> to edit a particular type of
-     * value.
+     * Crebtes b <code>JFormbttedTextField</code> with no
+     * <code>AbstrbctFormbtterFbctory</code>. Use <code>setMbsk</code> or
+     * <code>setFormbtterFbctory</code> to configure the
+     * <code>JFormbttedTextField</code> to edit b pbrticulbr type of
+     * vblue.
      */
-    public JFormattedTextField() {
+    public JFormbttedTextField() {
         super();
-        enableEvents(AWTEvent.FOCUS_EVENT_MASK);
-        setFocusLostBehavior(COMMIT_OR_REVERT);
+        enbbleEvents(AWTEvent.FOCUS_EVENT_MASK);
+        setFocusLostBehbvior(COMMIT_OR_REVERT);
     }
 
     /**
-     * Creates a JFormattedTextField with the specified value. This will
-     * create an <code>AbstractFormatterFactory</code> based on the
-     * type of <code>value</code>.
+     * Crebtes b JFormbttedTextField with the specified vblue. This will
+     * crebte bn <code>AbstrbctFormbtterFbctory</code> bbsed on the
+     * type of <code>vblue</code>.
      *
-     * @param value Initial value for the JFormattedTextField
+     * @pbrbm vblue Initibl vblue for the JFormbttedTextField
      */
-    public JFormattedTextField(Object value) {
+    public JFormbttedTextField(Object vblue) {
         this();
-        setValue(value);
+        setVblue(vblue);
     }
 
     /**
-     * Creates a <code>JFormattedTextField</code>. <code>format</code> is
-     * wrapped in an appropriate <code>AbstractFormatter</code> which is
-     * then wrapped in an <code>AbstractFormatterFactory</code>.
+     * Crebtes b <code>JFormbttedTextField</code>. <code>formbt</code> is
+     * wrbpped in bn bppropribte <code>AbstrbctFormbtter</code> which is
+     * then wrbpped in bn <code>AbstrbctFormbtterFbctory</code>.
      *
-     * @param format Format used to look up an AbstractFormatter
+     * @pbrbm formbt Formbt used to look up bn AbstrbctFormbtter
      */
-    public JFormattedTextField(java.text.Format format) {
+    public JFormbttedTextField(jbvb.text.Formbt formbt) {
         this();
-        setFormatterFactory(getDefaultFormatterFactory(format));
+        setFormbtterFbctory(getDefbultFormbtterFbctory(formbt));
     }
 
     /**
-     * Creates a <code>JFormattedTextField</code> with the specified
-     * <code>AbstractFormatter</code>. The <code>AbstractFormatter</code>
-     * is placed in an <code>AbstractFormatterFactory</code>.
+     * Crebtes b <code>JFormbttedTextField</code> with the specified
+     * <code>AbstrbctFormbtter</code>. The <code>AbstrbctFormbtter</code>
+     * is plbced in bn <code>AbstrbctFormbtterFbctory</code>.
      *
-     * @param formatter AbstractFormatter to use for formatting.
+     * @pbrbm formbtter AbstrbctFormbtter to use for formbtting.
      */
-    public JFormattedTextField(AbstractFormatter formatter) {
-        this(new DefaultFormatterFactory(formatter));
+    public JFormbttedTextField(AbstrbctFormbtter formbtter) {
+        this(new DefbultFormbtterFbctory(formbtter));
     }
 
     /**
-     * Creates a <code>JFormattedTextField</code> with the specified
-     * <code>AbstractFormatterFactory</code>.
+     * Crebtes b <code>JFormbttedTextField</code> with the specified
+     * <code>AbstrbctFormbtterFbctory</code>.
      *
-     * @param factory AbstractFormatterFactory used for formatting.
+     * @pbrbm fbctory AbstrbctFormbtterFbctory used for formbtting.
      */
-    public JFormattedTextField(AbstractFormatterFactory factory) {
+    public JFormbttedTextField(AbstrbctFormbtterFbctory fbctory) {
         this();
-        setFormatterFactory(factory);
+        setFormbtterFbctory(fbctory);
     }
 
     /**
-     * Creates a <code>JFormattedTextField</code> with the specified
-     * <code>AbstractFormatterFactory</code> and initial value.
+     * Crebtes b <code>JFormbttedTextField</code> with the specified
+     * <code>AbstrbctFormbtterFbctory</code> bnd initibl vblue.
      *
-     * @param factory <code>AbstractFormatterFactory</code> used for
-     *        formatting.
-     * @param currentValue Initial value to use
+     * @pbrbm fbctory <code>AbstrbctFormbtterFbctory</code> used for
+     *        formbtting.
+     * @pbrbm currentVblue Initibl vblue to use
      */
-    public JFormattedTextField(AbstractFormatterFactory factory,
-                               Object currentValue) {
-        this(currentValue);
-        setFormatterFactory(factory);
+    public JFormbttedTextField(AbstrbctFormbtterFbctory fbctory,
+                               Object currentVblue) {
+        this(currentVblue);
+        setFormbtterFbctory(fbctory);
     }
 
     /**
-     * Sets the behavior when focus is lost. This will be one of
-     * <code>JFormattedTextField.COMMIT_OR_REVERT</code>,
-     * <code>JFormattedTextField.REVERT</code>,
-     * <code>JFormattedTextField.COMMIT</code> or
-     * <code>JFormattedTextField.PERSIST</code>
-     * Note that some <code>AbstractFormatter</code>s may push changes as
-     * they occur, so that the value of this will have no effect.
+     * Sets the behbvior when focus is lost. This will be one of
+     * <code>JFormbttedTextField.COMMIT_OR_REVERT</code>,
+     * <code>JFormbttedTextField.REVERT</code>,
+     * <code>JFormbttedTextField.COMMIT</code> or
+     * <code>JFormbttedTextField.PERSIST</code>
+     * Note thbt some <code>AbstrbctFormbtter</code>s mby push chbnges bs
+     * they occur, so thbt the vblue of this will hbve no effect.
      * <p>
-     * This will throw an <code>IllegalArgumentException</code> if the object
-     * passed in is not one of the afore mentioned values.
+     * This will throw bn <code>IllegblArgumentException</code> if the object
+     * pbssed in is not one of the bfore mentioned vblues.
      * <p>
-     * The default value of this property is
-     * <code>JFormattedTextField.COMMIT_OR_REVERT</code>.
+     * The defbult vblue of this property is
+     * <code>JFormbttedTextField.COMMIT_OR_REVERT</code>.
      *
-     * @param behavior Identifies behavior when focus is lost
-     * @throws IllegalArgumentException if behavior is not one of the known
-     *         values
-     * @beaninfo
-     *  enum: COMMIT         JFormattedTextField.COMMIT
-     *        COMMIT_OR_REVERT JFormattedTextField.COMMIT_OR_REVERT
-     *        REVERT         JFormattedTextField.REVERT
-     *        PERSIST        JFormattedTextField.PERSIST
-     *  description: Behavior when component loses focus
+     * @pbrbm behbvior Identifies behbvior when focus is lost
+     * @throws IllegblArgumentException if behbvior is not one of the known
+     *         vblues
+     * @bebninfo
+     *  enum: COMMIT         JFormbttedTextField.COMMIT
+     *        COMMIT_OR_REVERT JFormbttedTextField.COMMIT_OR_REVERT
+     *        REVERT         JFormbttedTextField.REVERT
+     *        PERSIST        JFormbttedTextField.PERSIST
+     *  description: Behbvior when component loses focus
      */
-    public void setFocusLostBehavior(int behavior) {
-        if (behavior != COMMIT && behavior != COMMIT_OR_REVERT &&
-            behavior != PERSIST && behavior != REVERT) {
-            throw new IllegalArgumentException("setFocusLostBehavior must be one of: JFormattedTextField.COMMIT, JFormattedTextField.COMMIT_OR_REVERT, JFormattedTextField.PERSIST or JFormattedTextField.REVERT");
+    public void setFocusLostBehbvior(int behbvior) {
+        if (behbvior != COMMIT && behbvior != COMMIT_OR_REVERT &&
+            behbvior != PERSIST && behbvior != REVERT) {
+            throw new IllegblArgumentException("setFocusLostBehbvior must be one of: JFormbttedTextField.COMMIT, JFormbttedTextField.COMMIT_OR_REVERT, JFormbttedTextField.PERSIST or JFormbttedTextField.REVERT");
         }
-        focusLostBehavior = behavior;
+        focusLostBehbvior = behbvior;
     }
 
     /**
-     * Returns the behavior when focus is lost. This will be one of
+     * Returns the behbvior when focus is lost. This will be one of
      * <code>COMMIT_OR_REVERT</code>,
      * <code>COMMIT</code>,
      * <code>REVERT</code> or
      * <code>PERSIST</code>
-     * Note that some <code>AbstractFormatter</code>s may push changes as
-     * they occur, so that the value of this will have no effect.
+     * Note thbt some <code>AbstrbctFormbtter</code>s mby push chbnges bs
+     * they occur, so thbt the vblue of this will hbve no effect.
      *
-     * @return returns behavior when focus is lost
+     * @return returns behbvior when focus is lost
      */
-    public int getFocusLostBehavior() {
-        return focusLostBehavior;
+    public int getFocusLostBehbvior() {
+        return focusLostBehbvior;
     }
 
     /**
-     * Sets the <code>AbstractFormatterFactory</code>.
-     * <code>AbstractFormatterFactory</code> is
-     * able to return an instance of <code>AbstractFormatter</code> that is
-     * used to format a value for display, as well an enforcing an editing
+     * Sets the <code>AbstrbctFormbtterFbctory</code>.
+     * <code>AbstrbctFormbtterFbctory</code> is
+     * bble to return bn instbnce of <code>AbstrbctFormbtter</code> thbt is
+     * used to formbt b vblue for displby, bs well bn enforcing bn editing
      * policy.
      * <p>
-     * If you have not explicitly set an <code>AbstractFormatterFactory</code>
-     * by way of this method (or a constructor) an
-     * <code>AbstractFormatterFactory</code> and consequently an
-     * <code>AbstractFormatter</code> will be used based on the
-     * <code>Class</code> of the value. <code>NumberFormatter</code> will
-     * be used for <code>Number</code>s, <code>DateFormatter</code> will
-     * be used for <code>Dates</code>, otherwise <code>DefaultFormatter</code>
+     * If you hbve not explicitly set bn <code>AbstrbctFormbtterFbctory</code>
+     * by wby of this method (or b constructor) bn
+     * <code>AbstrbctFormbtterFbctory</code> bnd consequently bn
+     * <code>AbstrbctFormbtter</code> will be used bbsed on the
+     * <code>Clbss</code> of the vblue. <code>NumberFormbtter</code> will
+     * be used for <code>Number</code>s, <code>DbteFormbtter</code> will
+     * be used for <code>Dbtes</code>, otherwise <code>DefbultFormbtter</code>
      * will be used.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param tf <code>AbstractFormatterFactory</code> used to lookup
-     *          instances of <code>AbstractFormatter</code>
-     * @beaninfo
+     * @pbrbm tf <code>AbstrbctFormbtterFbctory</code> used to lookup
+     *          instbnces of <code>AbstrbctFormbtter</code>
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: AbstractFormatterFactory, responsible for returning an
-     *              AbstractFormatter that can format the current value.
+     *   bttribute: visublUpdbte true
+     * description: AbstrbctFormbtterFbctory, responsible for returning bn
+     *              AbstrbctFormbtter thbt cbn formbt the current vblue.
      */
-    public void setFormatterFactory(AbstractFormatterFactory tf) {
-        AbstractFormatterFactory oldFactory = factory;
+    public void setFormbtterFbctory(AbstrbctFormbtterFbctory tf) {
+        AbstrbctFormbtterFbctory oldFbctory = fbctory;
 
-        factory = tf;
-        firePropertyChange("formatterFactory", oldFactory, tf);
-        setValue(getValue(), true, false);
+        fbctory = tf;
+        firePropertyChbnge("formbtterFbctory", oldFbctory, tf);
+        setVblue(getVblue(), true, fblse);
     }
 
     /**
-     * Returns the current <code>AbstractFormatterFactory</code>.
+     * Returns the current <code>AbstrbctFormbtterFbctory</code>.
      *
-     * @see #setFormatterFactory
-     * @return <code>AbstractFormatterFactory</code> used to determine
-     *         <code>AbstractFormatter</code>s
+     * @see #setFormbtterFbctory
+     * @return <code>AbstrbctFormbtterFbctory</code> used to determine
+     *         <code>AbstrbctFormbtter</code>s
      */
-    public AbstractFormatterFactory getFormatterFactory() {
-        return factory;
+    public AbstrbctFormbtterFbctory getFormbtterFbctory() {
+        return fbctory;
     }
 
     /**
-     * Sets the current <code>AbstractFormatter</code>.
+     * Sets the current <code>AbstrbctFormbtter</code>.
      * <p>
-     * You should not normally invoke this, instead set the
-     * <code>AbstractFormatterFactory</code> or set the value.
-     * <code>JFormattedTextField</code> will
-     * invoke this as the state of the <code>JFormattedTextField</code>
-     * changes and requires the value to be reset.
-     * <code>JFormattedTextField</code> passes in the
-     * <code>AbstractFormatter</code> obtained from the
-     * <code>AbstractFormatterFactory</code>.
+     * You should not normblly invoke this, instebd set the
+     * <code>AbstrbctFormbtterFbctory</code> or set the vblue.
+     * <code>JFormbttedTextField</code> will
+     * invoke this bs the stbte of the <code>JFormbttedTextField</code>
+     * chbnges bnd requires the vblue to be reset.
+     * <code>JFormbttedTextField</code> pbsses in the
+     * <code>AbstrbctFormbtter</code> obtbined from the
+     * <code>AbstrbctFormbtterFbctory</code>.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @see #setFormatterFactory
-     * @param format AbstractFormatter to use for formatting
-     * @beaninfo
+     * @see #setFormbtterFbctory
+     * @pbrbm formbt AbstrbctFormbtter to use for formbtting
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: TextFormatter, responsible for formatting the current value
+     *   bttribute: visublUpdbte true
+     * description: TextFormbtter, responsible for formbtting the current vblue
      */
-    protected void setFormatter(AbstractFormatter format) {
-        AbstractFormatter oldFormat = this.format;
+    protected void setFormbtter(AbstrbctFormbtter formbt) {
+        AbstrbctFormbtter oldFormbt = this.formbt;
 
-        if (oldFormat != null) {
-            oldFormat.uninstall();
+        if (oldFormbt != null) {
+            oldFormbt.uninstbll();
         }
-        setEditValid(true);
-        this.format = format;
-        if (format != null) {
-            format.install(this);
+        setEditVblid(true);
+        this.formbt = formbt;
+        if (formbt != null) {
+            formbt.instbll(this);
         }
-        setEdited(false);
-        firePropertyChange("textFormatter", oldFormat, format);
+        setEdited(fblse);
+        firePropertyChbnge("textFormbtter", oldFormbt, formbt);
     }
 
     /**
-     * Returns the <code>AbstractFormatter</code> that is used to format and
-     * parse the current value.
+     * Returns the <code>AbstrbctFormbtter</code> thbt is used to formbt bnd
+     * pbrse the current vblue.
      *
-     * @return AbstractFormatter used for formatting
+     * @return AbstrbctFormbtter used for formbtting
      */
-    public AbstractFormatter getFormatter() {
-        return format;
+    public AbstrbctFormbtter getFormbtter() {
+        return formbt;
     }
 
     /**
-     * Sets the value that will be formatted by an
-     * <code>AbstractFormatter</code> obtained from the current
-     * <code>AbstractFormatterFactory</code>. If no
-     * <code>AbstractFormatterFactory</code> has been specified, this will
-     * attempt to create one based on the type of <code>value</code>.
+     * Sets the vblue thbt will be formbtted by bn
+     * <code>AbstrbctFormbtter</code> obtbined from the current
+     * <code>AbstrbctFormbtterFbctory</code>. If no
+     * <code>AbstrbctFormbtterFbctory</code> hbs been specified, this will
+     * bttempt to crebte one bbsed on the type of <code>vblue</code>.
      * <p>
-     * The default value of this property is null.
+     * The defbult vblue of this property is null.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param value Current value to display
-     * @beaninfo
+     * @pbrbm vblue Current vblue to displby
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: The value to be formatted.
+     *   bttribute: visublUpdbte true
+     * description: The vblue to be formbtted.
      */
-    public void setValue(Object value) {
-        if (value != null && getFormatterFactory() == null) {
-            setFormatterFactory(getDefaultFormatterFactory(value));
+    public void setVblue(Object vblue) {
+        if (vblue != null && getFormbtterFbctory() == null) {
+            setFormbtterFbctory(getDefbultFormbtterFbctory(vblue));
         }
-        setValue(value, true, true);
+        setVblue(vblue, true, true);
     }
 
     /**
-     * Returns the last valid value. Based on the editing policy of
-     * the <code>AbstractFormatter</code> this may not return the current
-     * value. The currently edited value can be obtained by invoking
-     * <code>commitEdit</code> followed by <code>getValue</code>.
+     * Returns the lbst vblid vblue. Bbsed on the editing policy of
+     * the <code>AbstrbctFormbtter</code> this mby not return the current
+     * vblue. The currently edited vblue cbn be obtbined by invoking
+     * <code>commitEdit</code> followed by <code>getVblue</code>.
      *
-     * @return Last valid value
+     * @return Lbst vblid vblue
      */
-    public Object getValue() {
-        return value;
+    public Object getVblue() {
+        return vblue;
     }
 
     /**
-     * Forces the current value to be taken from the
-     * <code>AbstractFormatter</code> and set as the current value.
-     * This has no effect if there is no current
-     * <code>AbstractFormatter</code> installed.
+     * Forces the current vblue to be tbken from the
+     * <code>AbstrbctFormbtter</code> bnd set bs the current vblue.
+     * This hbs no effect if there is no current
+     * <code>AbstrbctFormbtter</code> instblled.
      *
-     * @throws ParseException if the <code>AbstractFormatter</code> is not able
-     *         to format the current value
+     * @throws PbrseException if the <code>AbstrbctFormbtter</code> is not bble
+     *         to formbt the current vblue
      */
-    public void commitEdit() throws ParseException {
-        AbstractFormatter format = getFormatter();
+    public void commitEdit() throws PbrseException {
+        AbstrbctFormbtter formbt = getFormbtter();
 
-        if (format != null) {
-            setValue(format.stringToValue(getText()), false, true);
+        if (formbt != null) {
+            setVblue(formbt.stringToVblue(getText()), fblse, true);
         }
     }
 
     /**
-     * Sets the validity of the edit on the receiver. You should not normally
+     * Sets the vblidity of the edit on the receiver. You should not normblly
      * invoke this. This will be invoked by the
-     * <code>AbstractFormatter</code> as the user edits the value.
+     * <code>AbstrbctFormbtter</code> bs the user edits the vblue.
      * <p>
-     * Not all formatters will allow the component to get into an invalid
-     * state, and thus this may never be invoked.
+     * Not bll formbtters will bllow the component to get into bn invblid
+     * stbte, bnd thus this mby never be invoked.
      * <p>
-     * Based on the look and feel this may visually change the state of
+     * Bbsed on the look bnd feel this mby visublly chbnge the stbte of
      * the receiver.
      *
-     * @param isValid boolean indicating if the currently edited value is
-     *        valid.
-     * @beaninfo
+     * @pbrbm isVblid boolebn indicbting if the currently edited vblue is
+     *        vblid.
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: True indicates the edited value is valid
+     *   bttribute: visublUpdbte true
+     * description: True indicbtes the edited vblue is vblid
      */
-    private void setEditValid(boolean isValid) {
-        if (isValid != editValid) {
-            editValid = isValid;
-            firePropertyChange("editValid", Boolean.valueOf(!isValid),
-                               Boolean.valueOf(isValid));
+    privbte void setEditVblid(boolebn isVblid) {
+        if (isVblid != editVblid) {
+            editVblid = isVblid;
+            firePropertyChbnge("editVblid", Boolebn.vblueOf(!isVblid),
+                               Boolebn.vblueOf(isVblid));
         }
     }
 
     /**
-     * Returns true if the current value being edited is valid. The value of
-     * this is managed by the current <code>AbstractFormatter</code>, as such
+     * Returns true if the current vblue being edited is vblid. The vblue of
+     * this is mbnbged by the current <code>AbstrbctFormbtter</code>, bs such
      * there is no public setter for it.
      *
-     * @return true if the current value being edited is valid.
+     * @return true if the current vblue being edited is vblid.
      */
-    public boolean isEditValid() {
-        return editValid;
+    public boolebn isEditVblid() {
+        return editVblid;
     }
 
     /**
-     * Invoked when the user inputs an invalid value. This gives the
-     * component a chance to provide feedback. The default
-     * implementation beeps.
+     * Invoked when the user inputs bn invblid vblue. This gives the
+     * component b chbnce to provide feedbbck. The defbult
+     * implementbtion beeps.
      */
-    protected void invalidEdit() {
-        UIManager.getLookAndFeel().provideErrorFeedback(JFormattedTextField.this);
+    protected void invblidEdit() {
+        UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JFormbttedTextField.this);
     }
 
     /**
-     * Processes any input method events, such as
+     * Processes bny input method events, such bs
      * <code>InputMethodEvent.INPUT_METHOD_TEXT_CHANGED</code> or
      * <code>InputMethodEvent.CARET_POSITION_CHANGED</code>.
      *
-     * @param e the <code>InputMethodEvent</code>
+     * @pbrbm e the <code>InputMethodEvent</code>
      * @see InputMethodEvent
      */
     protected void processInputMethodEvent(InputMethodEvent e) {
-        AttributedCharacterIterator text = e.getText();
-        int commitCount = e.getCommittedCharacterCount();
+        AttributedChbrbcterIterbtor text = e.getText();
+        int commitCount = e.getCommittedChbrbcterCount();
 
-        // Keep track of the composed text
+        // Keep trbck of the composed text
         if (text != null) {
             int begin = text.getBeginIndex();
             int end = text.getEndIndex();
             composedTextExists = ((end - begin) > commitCount);
         } else {
-            composedTextExists = false;
+            composedTextExists = fblse;
         }
 
         super.processInputMethodEvent(e);
     }
 
     /**
-     * Processes any focus events, such as
+     * Processes bny focus events, such bs
      * <code>FocusEvent.FOCUS_GAINED</code> or
      * <code>FocusEvent.FOCUS_LOST</code>.
      *
-     * @param e the <code>FocusEvent</code>
+     * @pbrbm e the <code>FocusEvent</code>
      * @see FocusEvent
      */
     protected void processFocusEvent(FocusEvent e) {
         super.processFocusEvent(e);
 
-        // ignore temporary focus event
-        if (e.isTemporary()) {
+        // ignore temporbry focus event
+        if (e.isTemporbry()) {
             return;
         }
 
         if (isEdited() && e.getID() == FocusEvent.FOCUS_LOST) {
             InputContext ic = getInputContext();
-            if (focusLostHandler == null) {
-                focusLostHandler = new FocusLostHandler();
+            if (focusLostHbndler == null) {
+                focusLostHbndler = new FocusLostHbndler();
             }
 
-            // if there is a composed text, process it first
+            // if there is b composed text, process it first
             if ((ic != null) && composedTextExists) {
                 ic.endComposition();
-                EventQueue.invokeLater(focusLostHandler);
+                EventQueue.invokeLbter(focusLostHbndler);
             } else {
-                focusLostHandler.run();
+                focusLostHbndler.run();
             }
         }
         else if (!isEdited()) {
-            // reformat
-            setValue(getValue(), true, true);
+            // reformbt
+            setVblue(getVblue(), true, true);
         }
     }
 
     /**
-     * FOCUS_LOST behavior implementation
+     * FOCUS_LOST behbvior implementbtion
      */
-    private class FocusLostHandler implements Runnable, Serializable {
+    privbte clbss FocusLostHbndler implements Runnbble, Seriblizbble {
         public void run() {
-            int fb = JFormattedTextField.this.getFocusLostBehavior();
-            if (fb == JFormattedTextField.COMMIT ||
-                fb == JFormattedTextField.COMMIT_OR_REVERT) {
+            int fb = JFormbttedTextField.this.getFocusLostBehbvior();
+            if (fb == JFormbttedTextField.COMMIT ||
+                fb == JFormbttedTextField.COMMIT_OR_REVERT) {
                 try {
-                    JFormattedTextField.this.commitEdit();
-                    // Give it a chance to reformat.
-                    JFormattedTextField.this.setValue(
-                        JFormattedTextField.this.getValue(), true, true);
-                } catch (ParseException pe) {
-                    if (fb == JFormattedTextField.COMMIT_OR_REVERT) {
-                        JFormattedTextField.this.setValue(
-                            JFormattedTextField.this.getValue(), true, true);
+                    JFormbttedTextField.this.commitEdit();
+                    // Give it b chbnce to reformbt.
+                    JFormbttedTextField.this.setVblue(
+                        JFormbttedTextField.this.getVblue(), true, true);
+                } cbtch (PbrseException pe) {
+                    if (fb == JFormbttedTextField.COMMIT_OR_REVERT) {
+                        JFormbttedTextField.this.setVblue(
+                            JFormbttedTextField.this.getVblue(), true, true);
                     }
                 }
             }
-            else if (fb == JFormattedTextField.REVERT) {
-                JFormattedTextField.this.setValue(
-                    JFormattedTextField.this.getValue(), true, true);
+            else if (fb == JFormbttedTextField.REVERT) {
+                JFormbttedTextField.this.setVblue(
+                    JFormbttedTextField.this.getVblue(), true, true);
             }
         }
     }
 
     /**
-     * Fetches the command list for the editor.  This is
-     * the list of commands supported by the plugged-in UI
-     * augmented by the collection of commands that the
-     * editor itself supports.  These are useful for binding
-     * to events, such as in a keymap.
+     * Fetches the commbnd list for the editor.  This is
+     * the list of commbnds supported by the plugged-in UI
+     * bugmented by the collection of commbnds thbt the
+     * editor itself supports.  These bre useful for binding
+     * to events, such bs in b keymbp.
      *
-     * @return the command list
+     * @return the commbnd list
      */
     public Action[] getActions() {
-        return TextAction.augmentList(super.getActions(), defaultActions);
+        return TextAction.bugmentList(super.getActions(), defbultActions);
     }
 
     /**
-     * Gets the class ID for a UI.
+     * Gets the clbss ID for b UI.
      *
-     * @return the string "FormattedTextFieldUI"
-     * @see JComponent#getUIClassID
+     * @return the string "FormbttedTextFieldUI"
+     * @see JComponent#getUIClbssID
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
     /**
-     * Associates the editor with a text document.
-     * The currently registered factory is used to build a view for
-     * the document, which gets displayed by the editor after revalidation.
-     * A PropertyChange event ("document") is propagated to each listener.
+     * Associbtes the editor with b text document.
+     * The currently registered fbctory is used to build b view for
+     * the document, which gets displbyed by the editor bfter revblidbtion.
+     * A PropertyChbnge event ("document") is propbgbted to ebch listener.
      *
-     * @param doc  the document to display/edit
+     * @pbrbm doc  the document to displby/edit
      * @see #getDocument
-     * @beaninfo
+     * @bebninfo
      *  description: the text document model
      *        bound: true
      *       expert: true
@@ -707,347 +707,347 @@ public class JFormattedTextField extends JTextField {
         }
         super.setDocument(doc);
         if (documentListener == null) {
-            documentListener = new DocumentHandler();
+            documentListener = new DocumentHbndler();
         }
-        doc.addDocumentListener(documentListener);
+        doc.bddDocumentListener(documentListener);
     }
 
     /*
-     * See readObject and writeObject in JComponent for more
-     * information about serialization in Swing.
+     * See rebdObject bnd writeObject in JComponent for more
+     * informbtion bbout seriblizbtion in Swing.
      *
-     * @param s Stream to write to
+     * @pbrbm s Strebm to write to
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
     /**
-     * Resets the Actions that come from the TextFormatter to
-     * <code>actions</code>.
+     * Resets the Actions thbt come from the TextFormbtter to
+     * <code>bctions</code>.
      */
-    private void setFormatterActions(Action[] actions) {
-        if (actions == null) {
-            if (textFormatterActionMap != null) {
-                textFormatterActionMap.clear();
+    privbte void setFormbtterActions(Action[] bctions) {
+        if (bctions == null) {
+            if (textFormbtterActionMbp != null) {
+                textFormbtterActionMbp.clebr();
             }
         }
         else {
-            if (textFormatterActionMap == null) {
-                ActionMap map = getActionMap();
+            if (textFormbtterActionMbp == null) {
+                ActionMbp mbp = getActionMbp();
 
-                textFormatterActionMap = new ActionMap();
-                while (map != null) {
-                    ActionMap parent = map.getParent();
+                textFormbtterActionMbp = new ActionMbp();
+                while (mbp != null) {
+                    ActionMbp pbrent = mbp.getPbrent();
 
-                    if (parent instanceof UIResource || parent == null) {
-                        map.setParent(textFormatterActionMap);
-                        textFormatterActionMap.setParent(parent);
-                        break;
+                    if (pbrent instbnceof UIResource || pbrent == null) {
+                        mbp.setPbrent(textFormbtterActionMbp);
+                        textFormbtterActionMbp.setPbrent(pbrent);
+                        brebk;
                     }
-                    map = parent;
+                    mbp = pbrent;
                 }
             }
-            for (int counter = actions.length - 1; counter >= 0;
+            for (int counter = bctions.length - 1; counter >= 0;
                  counter--) {
-                Object key = actions[counter].getValue(Action.NAME);
+                Object key = bctions[counter].getVblue(Action.NAME);
 
                 if (key != null) {
-                    textFormatterActionMap.put(key, actions[counter]);
+                    textFormbtterActionMbp.put(key, bctions[counter]);
                 }
             }
         }
     }
 
     /**
-     * Does the setting of the value. If <code>createFormat</code> is true,
-     * this will also obtain a new <code>AbstractFormatter</code> from the
-     * current factory. The property change event will be fired if
+     * Does the setting of the vblue. If <code>crebteFormbt</code> is true,
+     * this will blso obtbin b new <code>AbstrbctFormbtter</code> from the
+     * current fbctory. The property chbnge event will be fired if
      * <code>firePC</code> is true.
      */
-    private void setValue(Object value, boolean createFormat, boolean firePC) {
-        Object oldValue = this.value;
+    privbte void setVblue(Object vblue, boolebn crebteFormbt, boolebn firePC) {
+        Object oldVblue = this.vblue;
 
-        this.value = value;
+        this.vblue = vblue;
 
-        if (createFormat) {
-            AbstractFormatterFactory factory = getFormatterFactory();
-            AbstractFormatter atf;
+        if (crebteFormbt) {
+            AbstrbctFormbtterFbctory fbctory = getFormbtterFbctory();
+            AbstrbctFormbtter btf;
 
-            if (factory != null) {
-                atf = factory.getFormatter(this);
+            if (fbctory != null) {
+                btf = fbctory.getFormbtter(this);
             }
             else {
-                atf = null;
+                btf = null;
             }
-            setFormatter(atf);
+            setFormbtter(btf);
         }
         else {
-            // Assumed to be valid
-            setEditValid(true);
+            // Assumed to be vblid
+            setEditVblid(true);
         }
 
-        setEdited(false);
+        setEdited(fblse);
 
         if (firePC) {
-            firePropertyChange("value", oldValue, value);
+            firePropertyChbnge("vblue", oldVblue, vblue);
         }
     }
 
     /**
-     * Sets the edited state of the receiver.
+     * Sets the edited stbte of the receiver.
      */
-    private void setEdited(boolean edited) {
+    privbte void setEdited(boolebn edited) {
         this.edited = edited;
     }
 
     /**
-     * Returns true if the receiver has been edited.
+     * Returns true if the receiver hbs been edited.
      */
-    private boolean isEdited() {
+    privbte boolebn isEdited() {
         return edited;
     }
 
     /**
-     * Returns an AbstractFormatterFactory suitable for the passed in
+     * Returns bn AbstrbctFormbtterFbctory suitbble for the pbssed in
      * Object type.
      */
-    private AbstractFormatterFactory getDefaultFormatterFactory(Object type) {
-        if (type instanceof DateFormat) {
-            return new DefaultFormatterFactory(new DateFormatter
-                                               ((DateFormat)type));
+    privbte AbstrbctFormbtterFbctory getDefbultFormbtterFbctory(Object type) {
+        if (type instbnceof DbteFormbt) {
+            return new DefbultFormbtterFbctory(new DbteFormbtter
+                                               ((DbteFormbt)type));
         }
-        if (type instanceof NumberFormat) {
-            return new DefaultFormatterFactory(new NumberFormatter(
-                                               (NumberFormat)type));
+        if (type instbnceof NumberFormbt) {
+            return new DefbultFormbtterFbctory(new NumberFormbtter(
+                                               (NumberFormbt)type));
         }
-        if (type instanceof Format) {
-            return new DefaultFormatterFactory(new InternationalFormatter(
-                                               (Format)type));
+        if (type instbnceof Formbt) {
+            return new DefbultFormbtterFbctory(new InternbtionblFormbtter(
+                                               (Formbt)type));
         }
-        if (type instanceof Date) {
-            return new DefaultFormatterFactory(new DateFormatter());
+        if (type instbnceof Dbte) {
+            return new DefbultFormbtterFbctory(new DbteFormbtter());
         }
-        if (type instanceof Number) {
-            AbstractFormatter displayFormatter = new NumberFormatter();
-            ((NumberFormatter)displayFormatter).setValueClass(type.getClass());
-            AbstractFormatter editFormatter = new NumberFormatter(
-                                  new DecimalFormat("#.#"));
-            ((NumberFormatter)editFormatter).setValueClass(type.getClass());
+        if (type instbnceof Number) {
+            AbstrbctFormbtter displbyFormbtter = new NumberFormbtter();
+            ((NumberFormbtter)displbyFormbtter).setVblueClbss(type.getClbss());
+            AbstrbctFormbtter editFormbtter = new NumberFormbtter(
+                                  new DecimblFormbt("#.#"));
+            ((NumberFormbtter)editFormbtter).setVblueClbss(type.getClbss());
 
-            return new DefaultFormatterFactory(displayFormatter,
-                                               displayFormatter,editFormatter);
+            return new DefbultFormbtterFbctory(displbyFormbtter,
+                                               displbyFormbtter,editFormbtter);
         }
-        return new DefaultFormatterFactory(new DefaultFormatter());
+        return new DefbultFormbtterFbctory(new DefbultFormbtter());
     }
 
 
     /**
-     * Instances of <code>AbstractFormatterFactory</code> are used by
-     * <code>JFormattedTextField</code> to obtain instances of
-     * <code>AbstractFormatter</code> which in turn are used to format values.
-     * <code>AbstractFormatterFactory</code> can return different
-     * <code>AbstractFormatter</code>s based on the state of the
-     * <code>JFormattedTextField</code>, perhaps returning different
-     * <code>AbstractFormatter</code>s when the
-     * <code>JFormattedTextField</code> has focus vs when it
-     * doesn't have focus.
+     * Instbnces of <code>AbstrbctFormbtterFbctory</code> bre used by
+     * <code>JFormbttedTextField</code> to obtbin instbnces of
+     * <code>AbstrbctFormbtter</code> which in turn bre used to formbt vblues.
+     * <code>AbstrbctFormbtterFbctory</code> cbn return different
+     * <code>AbstrbctFormbtter</code>s bbsed on the stbte of the
+     * <code>JFormbttedTextField</code>, perhbps returning different
+     * <code>AbstrbctFormbtter</code>s when the
+     * <code>JFormbttedTextField</code> hbs focus vs when it
+     * doesn't hbve focus.
      * @since 1.4
      */
-    public static abstract class AbstractFormatterFactory {
+    public stbtic bbstrbct clbss AbstrbctFormbtterFbctory {
         /**
-         * Returns an <code>AbstractFormatter</code> that can handle formatting
-         * of the passed in <code>JFormattedTextField</code>.
+         * Returns bn <code>AbstrbctFormbtter</code> thbt cbn hbndle formbtting
+         * of the pbssed in <code>JFormbttedTextField</code>.
          *
-         * @param tf JFormattedTextField requesting AbstractFormatter
-         * @return AbstractFormatter to handle formatting duties, a null
-         *         return value implies the JFormattedTextField should behave
-         *         like a normal JTextField
+         * @pbrbm tf JFormbttedTextField requesting AbstrbctFormbtter
+         * @return AbstrbctFormbtter to hbndle formbtting duties, b null
+         *         return vblue implies the JFormbttedTextField should behbve
+         *         like b normbl JTextField
          */
-        public abstract AbstractFormatter getFormatter(JFormattedTextField tf);
+        public bbstrbct AbstrbctFormbtter getFormbtter(JFormbttedTextField tf);
     }
 
 
     /**
-     * Instances of <code>AbstractFormatter</code> are used by
-     * <code>JFormattedTextField</code> to handle the conversion both
-     * from an Object to a String, and back from a String to an Object.
-     * <code>AbstractFormatter</code>s can also enforce editing policies,
-     * or navigation policies, or manipulate the
-     * <code>JFormattedTextField</code> in any way it sees fit to
+     * Instbnces of <code>AbstrbctFormbtter</code> bre used by
+     * <code>JFormbttedTextField</code> to hbndle the conversion both
+     * from bn Object to b String, bnd bbck from b String to bn Object.
+     * <code>AbstrbctFormbtter</code>s cbn blso enforce editing policies,
+     * or nbvigbtion policies, or mbnipulbte the
+     * <code>JFormbttedTextField</code> in bny wby it sees fit to
      * enforce the desired policy.
      * <p>
-     * An <code>AbstractFormatter</code> can only be active in
-     * one <code>JFormattedTextField</code> at a time.
-     * <code>JFormattedTextField</code> invokes
-     * <code>install</code> when it is ready to use it followed
-     * by <code>uninstall</code> when done. Subclasses
-     * that wish to install additional state should override
-     * <code>install</code> and message super appropriately.
+     * An <code>AbstrbctFormbtter</code> cbn only be bctive in
+     * one <code>JFormbttedTextField</code> bt b time.
+     * <code>JFormbttedTextField</code> invokes
+     * <code>instbll</code> when it is rebdy to use it followed
+     * by <code>uninstbll</code> when done. Subclbsses
+     * thbt wish to instbll bdditionbl stbte should override
+     * <code>instbll</code> bnd messbge super bppropribtely.
      * <p>
-     * Subclasses must override the conversion methods
-     * <code>stringToValue</code> and <code>valueToString</code>. Optionally
-     * they can override <code>getActions</code>,
-     * <code>getNavigationFilter</code> and <code>getDocumentFilter</code>
-     * to restrict the <code>JFormattedTextField</code> in a particular
-     * way.
+     * Subclbsses must override the conversion methods
+     * <code>stringToVblue</code> bnd <code>vblueToString</code>. Optionblly
+     * they cbn override <code>getActions</code>,
+     * <code>getNbvigbtionFilter</code> bnd <code>getDocumentFilter</code>
+     * to restrict the <code>JFormbttedTextField</code> in b pbrticulbr
+     * wby.
      * <p>
-     * Subclasses that allow the <code>JFormattedTextField</code> to be in
-     * a temporarily invalid state should invoke <code>setEditValid</code>
-     * at the appropriate times.
+     * Subclbsses thbt bllow the <code>JFormbttedTextField</code> to be in
+     * b temporbrily invblid stbte should invoke <code>setEditVblid</code>
+     * bt the bppropribte times.
      * @since 1.4
      */
-    public static abstract class AbstractFormatter implements Serializable {
-        private JFormattedTextField ftf;
+    public stbtic bbstrbct clbss AbstrbctFormbtter implements Seriblizbble {
+        privbte JFormbttedTextField ftf;
 
         /**
-         * Installs the <code>AbstractFormatter</code> onto a particular
-         * <code>JFormattedTextField</code>.
-         * This will invoke <code>valueToString</code> to convert the
-         * current value from the <code>JFormattedTextField</code> to
-         * a String. This will then install the <code>Action</code>s from
+         * Instblls the <code>AbstrbctFormbtter</code> onto b pbrticulbr
+         * <code>JFormbttedTextField</code>.
+         * This will invoke <code>vblueToString</code> to convert the
+         * current vblue from the <code>JFormbttedTextField</code> to
+         * b String. This will then instbll the <code>Action</code>s from
          * <code>getActions</code>, the <code>DocumentFilter</code>
-         * returned from <code>getDocumentFilter</code> and the
-         * <code>NavigationFilter</code> returned from
-         * <code>getNavigationFilter</code> onto the
-         * <code>JFormattedTextField</code>.
+         * returned from <code>getDocumentFilter</code> bnd the
+         * <code>NbvigbtionFilter</code> returned from
+         * <code>getNbvigbtionFilter</code> onto the
+         * <code>JFormbttedTextField</code>.
          * <p>
-         * Subclasses will typically only need to override this if they
-         * wish to install additional listeners on the
-         * <code>JFormattedTextField</code>.
+         * Subclbsses will typicblly only need to override this if they
+         * wish to instbll bdditionbl listeners on the
+         * <code>JFormbttedTextField</code>.
          * <p>
-         * If there is a <code>ParseException</code> in converting the
-         * current value to a String, this will set the text to an empty
-         * String, and mark the <code>JFormattedTextField</code> as being
-         * in an invalid state.
+         * If there is b <code>PbrseException</code> in converting the
+         * current vblue to b String, this will set the text to bn empty
+         * String, bnd mbrk the <code>JFormbttedTextField</code> bs being
+         * in bn invblid stbte.
          * <p>
-         * While this is a public method, this is typically only useful
-         * for subclassers of <code>JFormattedTextField</code>.
-         * <code>JFormattedTextField</code> will invoke this method at
-         * the appropriate times when the value changes, or its internal
-         * state changes.  You will only need to invoke this yourself if
-         * you are subclassing <code>JFormattedTextField</code> and
-         * installing/uninstalling <code>AbstractFormatter</code> at a
-         * different time than <code>JFormattedTextField</code> does.
+         * While this is b public method, this is typicblly only useful
+         * for subclbssers of <code>JFormbttedTextField</code>.
+         * <code>JFormbttedTextField</code> will invoke this method bt
+         * the bppropribte times when the vblue chbnges, or its internbl
+         * stbte chbnges.  You will only need to invoke this yourself if
+         * you bre subclbssing <code>JFormbttedTextField</code> bnd
+         * instblling/uninstblling <code>AbstrbctFormbtter</code> bt b
+         * different time thbn <code>JFormbttedTextField</code> does.
          *
-         * @param ftf JFormattedTextField to format for, may be null indicating
-         *            uninstall from current JFormattedTextField.
+         * @pbrbm ftf JFormbttedTextField to formbt for, mby be null indicbting
+         *            uninstbll from current JFormbttedTextField.
          */
-        public void install(JFormattedTextField ftf) {
+        public void instbll(JFormbttedTextField ftf) {
             if (this.ftf != null) {
-                uninstall();
+                uninstbll();
             }
             this.ftf = ftf;
             if (ftf != null) {
                 try {
-                    ftf.setText(valueToString(ftf.getValue()));
-                } catch (ParseException pe) {
+                    ftf.setText(vblueToString(ftf.getVblue()));
+                } cbtch (PbrseException pe) {
                     ftf.setText("");
-                    setEditValid(false);
+                    setEditVblid(fblse);
                 }
-                installDocumentFilter(getDocumentFilter());
-                ftf.setNavigationFilter(getNavigationFilter());
-                ftf.setFormatterActions(getActions());
+                instbllDocumentFilter(getDocumentFilter());
+                ftf.setNbvigbtionFilter(getNbvigbtionFilter());
+                ftf.setFormbtterActions(getActions());
             }
         }
 
         /**
-         * Uninstalls any state the <code>AbstractFormatter</code> may have
-         * installed on the <code>JFormattedTextField</code>. This resets the
-         * <code>DocumentFilter</code>, <code>NavigationFilter</code>
-         * and additional <code>Action</code>s installed on the
-         * <code>JFormattedTextField</code>.
+         * Uninstblls bny stbte the <code>AbstrbctFormbtter</code> mby hbve
+         * instblled on the <code>JFormbttedTextField</code>. This resets the
+         * <code>DocumentFilter</code>, <code>NbvigbtionFilter</code>
+         * bnd bdditionbl <code>Action</code>s instblled on the
+         * <code>JFormbttedTextField</code>.
          */
-        public void uninstall() {
+        public void uninstbll() {
             if (this.ftf != null) {
-                installDocumentFilter(null);
-                this.ftf.setNavigationFilter(null);
-                this.ftf.setFormatterActions(null);
+                instbllDocumentFilter(null);
+                this.ftf.setNbvigbtionFilter(null);
+                this.ftf.setFormbtterActions(null);
             }
         }
 
         /**
-         * Parses <code>text</code> returning an arbitrary Object. Some
-         * formatters may return null.
+         * Pbrses <code>text</code> returning bn brbitrbry Object. Some
+         * formbtters mby return null.
          *
-         * @throws ParseException if there is an error in the conversion
-         * @param text String to convert
-         * @return Object representation of text
+         * @throws PbrseException if there is bn error in the conversion
+         * @pbrbm text String to convert
+         * @return Object representbtion of text
          */
-        public abstract Object stringToValue(String text) throws
-                                     ParseException;
+        public bbstrbct Object stringToVblue(String text) throws
+                                     PbrseException;
 
         /**
-         * Returns the string value to display for <code>value</code>.
+         * Returns the string vblue to displby for <code>vblue</code>.
          *
-         * @throws ParseException if there is an error in the conversion
-         * @param value Value to convert
-         * @return String representation of value
+         * @throws PbrseException if there is bn error in the conversion
+         * @pbrbm vblue Vblue to convert
+         * @return String representbtion of vblue
          */
-        public abstract String valueToString(Object value) throws
-                        ParseException;
+        public bbstrbct String vblueToString(Object vblue) throws
+                        PbrseException;
 
         /**
-         * Returns the current <code>JFormattedTextField</code> the
-         * <code>AbstractFormatter</code> is installed on.
+         * Returns the current <code>JFormbttedTextField</code> the
+         * <code>AbstrbctFormbtter</code> is instblled on.
          *
-         * @return JFormattedTextField formatting for.
+         * @return JFormbttedTextField formbtting for.
          */
-        protected JFormattedTextField getFormattedTextField() {
+        protected JFormbttedTextField getFormbttedTextField() {
             return ftf;
         }
 
         /**
-         * This should be invoked when the user types an invalid character.
-         * This forwards the call to the current JFormattedTextField.
+         * This should be invoked when the user types bn invblid chbrbcter.
+         * This forwbrds the cbll to the current JFormbttedTextField.
          */
-        protected void invalidEdit() {
-            JFormattedTextField ftf = getFormattedTextField();
+        protected void invblidEdit() {
+            JFormbttedTextField ftf = getFormbttedTextField();
 
             if (ftf != null) {
-                ftf.invalidEdit();
+                ftf.invblidEdit();
             }
         }
 
         /**
-         * Invoke this to update the <code>editValid</code> property of the
-         * <code>JFormattedTextField</code>. If you an enforce a policy
-         * such that the <code>JFormattedTextField</code> is always in a
-         * valid state, you will never need to invoke this.
+         * Invoke this to updbte the <code>editVblid</code> property of the
+         * <code>JFormbttedTextField</code>. If you bn enforce b policy
+         * such thbt the <code>JFormbttedTextField</code> is blwbys in b
+         * vblid stbte, you will never need to invoke this.
          *
-         * @param valid Valid state of the JFormattedTextField
+         * @pbrbm vblid Vblid stbte of the JFormbttedTextField
          */
-        protected void setEditValid(boolean valid) {
-            JFormattedTextField ftf = getFormattedTextField();
+        protected void setEditVblid(boolebn vblid) {
+            JFormbttedTextField ftf = getFormbttedTextField();
 
             if (ftf != null) {
-                ftf.setEditValid(valid);
+                ftf.setEditVblid(vblid);
             }
         }
 
         /**
-         * Subclass and override if you wish to provide a custom set of
-         * <code>Action</code>s. <code>install</code> will install these
-         * on the <code>JFormattedTextField</code>'s <code>ActionMap</code>.
+         * Subclbss bnd override if you wish to provide b custom set of
+         * <code>Action</code>s. <code>instbll</code> will instbll these
+         * on the <code>JFormbttedTextField</code>'s <code>ActionMbp</code>.
          *
-         * @return Array of Actions to install on JFormattedTextField
+         * @return Arrby of Actions to instbll on JFormbttedTextField
          */
         protected Action[] getActions() {
             return null;
         }
 
         /**
-         * Subclass and override if you wish to provide a
-         * <code>DocumentFilter</code> to restrict what can be input.
-         * <code>install</code> will install the returned value onto
-         * the <code>JFormattedTextField</code>.
+         * Subclbss bnd override if you wish to provide b
+         * <code>DocumentFilter</code> to restrict whbt cbn be input.
+         * <code>instbll</code> will instbll the returned vblue onto
+         * the <code>JFormbttedTextField</code>.
          *
          * @return DocumentFilter to restrict edits
          */
@@ -1056,46 +1056,46 @@ public class JFormattedTextField extends JTextField {
         }
 
         /**
-         * Subclass and override if you wish to provide a filter to restrict
-         * where the user can navigate to.
-         * <code>install</code> will install the returned value onto
-         * the <code>JFormattedTextField</code>.
+         * Subclbss bnd override if you wish to provide b filter to restrict
+         * where the user cbn nbvigbte to.
+         * <code>instbll</code> will instbll the returned vblue onto
+         * the <code>JFormbttedTextField</code>.
          *
-         * @return NavigationFilter to restrict navigation
+         * @return NbvigbtionFilter to restrict nbvigbtion
          */
-        protected NavigationFilter getNavigationFilter() {
+        protected NbvigbtionFilter getNbvigbtionFilter() {
             return null;
         }
 
         /**
-         * Clones the <code>AbstractFormatter</code>. The returned instance
-         * is not associated with a <code>JFormattedTextField</code>.
+         * Clones the <code>AbstrbctFormbtter</code>. The returned instbnce
+         * is not bssocibted with b <code>JFormbttedTextField</code>.
          *
-         * @return Copy of the AbstractFormatter
+         * @return Copy of the AbstrbctFormbtter
          */
         protected Object clone() throws CloneNotSupportedException {
-            AbstractFormatter formatter = (AbstractFormatter)super.clone();
+            AbstrbctFormbtter formbtter = (AbstrbctFormbtter)super.clone();
 
-            formatter.ftf = null;
-            return formatter;
+            formbtter.ftf = null;
+            return formbtter;
         }
 
         /**
-         * Installs the <code>DocumentFilter</code> <code>filter</code>
-         * onto the current <code>JFormattedTextField</code>.
+         * Instblls the <code>DocumentFilter</code> <code>filter</code>
+         * onto the current <code>JFormbttedTextField</code>.
          *
-         * @param filter DocumentFilter to install on the Document.
+         * @pbrbm filter DocumentFilter to instbll on the Document.
          */
-        private void installDocumentFilter(DocumentFilter filter) {
-            JFormattedTextField ftf = getFormattedTextField();
+        privbte void instbllDocumentFilter(DocumentFilter filter) {
+            JFormbttedTextField ftf = getFormbttedTextField();
 
             if (ftf != null) {
                 Document doc = ftf.getDocument();
 
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).setDocumentFilter(filter);
+                if (doc instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)doc).setDocumentFilter(filter);
                 }
-                doc.putProperty(DocumentFilter.class, null);
+                doc.putProperty(DocumentFilter.clbss, null);
             }
         }
     }
@@ -1103,86 +1103,86 @@ public class JFormattedTextField extends JTextField {
 
     /**
      * Used to commit the edit. This extends JTextField.NotifyAction
-     * so that <code>isEnabled</code> is true while a JFormattedTextField
-     * has focus, and extends <code>actionPerformed</code> to invoke
+     * so thbt <code>isEnbbled</code> is true while b JFormbttedTextField
+     * hbs focus, bnd extends <code>bctionPerformed</code> to invoke
      * commitEdit.
      */
-    static class CommitAction extends JTextField.NotifyAction {
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getFocusedComponent();
+    stbtic clbss CommitAction extends JTextField.NotifyAction {
+        public void bctionPerformed(ActionEvent e) {
+            JTextComponent tbrget = getFocusedComponent();
 
-            if (target instanceof JFormattedTextField) {
-                // Attempt to commit the value
+            if (tbrget instbnceof JFormbttedTextField) {
+                // Attempt to commit the vblue
                 try {
-                    ((JFormattedTextField)target).commitEdit();
-                } catch (ParseException pe) {
-                    ((JFormattedTextField)target).invalidEdit();
-                    // value not committed, don't notify ActionListeners
+                    ((JFormbttedTextField)tbrget).commitEdit();
+                } cbtch (PbrseException pe) {
+                    ((JFormbttedTextField)tbrget).invblidEdit();
+                    // vblue not committed, don't notify ActionListeners
                     return;
                 }
             }
-            // Super behavior.
-            super.actionPerformed(e);
+            // Super behbvior.
+            super.bctionPerformed(e);
         }
 
-        public boolean isEnabled() {
-            JTextComponent target = getFocusedComponent();
-            if (target instanceof JFormattedTextField) {
-                JFormattedTextField ftf = (JFormattedTextField)target;
+        public boolebn isEnbbled() {
+            JTextComponent tbrget = getFocusedComponent();
+            if (tbrget instbnceof JFormbttedTextField) {
+                JFormbttedTextField ftf = (JFormbttedTextField)tbrget;
                 if (!ftf.isEdited()) {
-                    return false;
+                    return fblse;
                 }
                 return true;
             }
-            return super.isEnabled();
+            return super.isEnbbled();
         }
     }
 
 
     /**
-     * CancelAction will reset the value in the JFormattedTextField when
-     * <code>actionPerformed</code> is invoked. It will only be
-     * enabled if the focused component is an instance of
-     * JFormattedTextField.
+     * CbncelAction will reset the vblue in the JFormbttedTextField when
+     * <code>bctionPerformed</code> is invoked. It will only be
+     * enbbled if the focused component is bn instbnce of
+     * JFormbttedTextField.
      */
-    private static class CancelAction extends TextAction {
-        public CancelAction() {
+    privbte stbtic clbss CbncelAction extends TextAction {
+        public CbncelAction() {
             super("reset-field-edit");
         }
 
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getFocusedComponent();
+        public void bctionPerformed(ActionEvent e) {
+            JTextComponent tbrget = getFocusedComponent();
 
-            if (target instanceof JFormattedTextField) {
-                JFormattedTextField ftf = (JFormattedTextField)target;
-                ftf.setValue(ftf.getValue());
+            if (tbrget instbnceof JFormbttedTextField) {
+                JFormbttedTextField ftf = (JFormbttedTextField)tbrget;
+                ftf.setVblue(ftf.getVblue());
             }
         }
 
-        public boolean isEnabled() {
-            JTextComponent target = getFocusedComponent();
-            if (target instanceof JFormattedTextField) {
-                JFormattedTextField ftf = (JFormattedTextField)target;
+        public boolebn isEnbbled() {
+            JTextComponent tbrget = getFocusedComponent();
+            if (tbrget instbnceof JFormbttedTextField) {
+                JFormbttedTextField ftf = (JFormbttedTextField)tbrget;
                 if (!ftf.isEdited()) {
-                    return false;
+                    return fblse;
                 }
                 return true;
             }
-            return super.isEnabled();
+            return super.isEnbbled();
         }
     }
 
 
     /**
-     * Sets the dirty state as the document changes.
+     * Sets the dirty stbte bs the document chbnges.
      */
-    private class DocumentHandler implements DocumentListener, Serializable {
-        public void insertUpdate(DocumentEvent e) {
+    privbte clbss DocumentHbndler implements DocumentListener, Seriblizbble {
+        public void insertUpdbte(DocumentEvent e) {
             setEdited(true);
         }
-        public void removeUpdate(DocumentEvent e) {
+        public void removeUpdbte(DocumentEvent e) {
             setEdited(true);
         }
-        public void changedUpdate(DocumentEvent e) {}
+        public void chbngedUpdbte(DocumentEvent e) {}
     }
 }

@@ -1,338 +1,338 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.d3d;
+pbckbge sun.jbvb2d.d3d;
 
-import java.awt.AlphaComposite;
-import java.awt.BufferCapabilities;
-import java.awt.Component;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.Transparency;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DirectColorModel;
-import java.awt.image.Raster;
-import java.awt.image.SampleModel;
-import java.awt.image.SinglePixelPackedSampleModel;
-import sun.awt.SunHints;
-import sun.awt.image.DataBufferNative;
-import sun.awt.image.PixelConverter;
-import sun.awt.image.SurfaceManager;
-import sun.awt.image.WritableRasterNative;
-import sun.awt.windows.WComponentPeer;
-import sun.java2d.pipe.hw.AccelSurface;
-import sun.java2d.InvalidPipeException;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.loops.MaskFill;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.pipe.ParallelogramPipe;
-import sun.java2d.pipe.PixelToParallelogramConverter;
-import sun.java2d.pipe.RenderBuffer;
-import sun.java2d.pipe.TextPipe;
-import static sun.java2d.pipe.BufferedOpCodes.*;
-import static sun.java2d.d3d.D3DContext.D3DContextCaps.*;
-import static sun.java2d.pipe.hw.ExtendedBufferCapabilities.VSyncType.*;
-import sun.java2d.pipe.hw.ExtendedBufferCapabilities.VSyncType;
-import java.awt.BufferCapabilities.FlipContents;
-import java.awt.Window;
-import sun.awt.SunToolkit;
-import sun.awt.image.SunVolatileImage;
-import sun.java2d.ScreenUpdateManager;
-import sun.java2d.StateTracker;
-import sun.java2d.SurfaceDataProxy;
-import sun.java2d.pipe.hw.ExtendedBufferCapabilities;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.BufferCbpbbilities;
+import jbvb.bwt.Component;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.bwt.imbge.SinglePixelPbckedSbmpleModel;
+import sun.bwt.SunHints;
+import sun.bwt.imbge.DbtbBufferNbtive;
+import sun.bwt.imbge.PixelConverter;
+import sun.bwt.imbge.SurfbceMbnbger;
+import sun.bwt.imbge.WritbbleRbsterNbtive;
+import sun.bwt.windows.WComponentPeer;
+import sun.jbvb2d.pipe.hw.AccelSurfbce;
+import sun.jbvb2d.InvblidPipeException;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.loops.MbskFill;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.pipe.PbrbllelogrbmPipe;
+import sun.jbvb2d.pipe.PixelToPbrbllelogrbmConverter;
+import sun.jbvb2d.pipe.RenderBuffer;
+import sun.jbvb2d.pipe.TextPipe;
+import stbtic sun.jbvb2d.pipe.BufferedOpCodes.*;
+import stbtic sun.jbvb2d.d3d.D3DContext.D3DContextCbps.*;
+import stbtic sun.jbvb2d.pipe.hw.ExtendedBufferCbpbbilities.VSyncType.*;
+import sun.jbvb2d.pipe.hw.ExtendedBufferCbpbbilities.VSyncType;
+import jbvb.bwt.BufferCbpbbilities.FlipContents;
+import jbvb.bwt.Window;
+import sun.bwt.SunToolkit;
+import sun.bwt.imbge.SunVolbtileImbge;
+import sun.jbvb2d.ScreenUpdbteMbnbger;
+import sun.jbvb2d.StbteTrbcker;
+import sun.jbvb2d.SurfbceDbtbProxy;
+import sun.jbvb2d.pipe.hw.ExtendedBufferCbpbbilities;
 
 /**
- * This class describes a D3D "surface", that is, a region of pixels
- * managed via D3D.  An D3DSurfaceData can be tagged with one of three
- * different SurfaceType objects for the purpose of registering loops, etc.
- * This diagram shows the hierarchy of D3D SurfaceTypes:
+ * This clbss describes b D3D "surfbce", thbt is, b region of pixels
+ * mbnbged vib D3D.  An D3DSurfbceDbtb cbn be tbgged with one of three
+ * different SurfbceType objects for the purpose of registering loops, etc.
+ * This dibgrbm shows the hierbrchy of D3D SurfbceTypes:
  *
  *                               Any
  *                             /     \
- *                    D3DSurface     D3DTexture
+ *                    D3DSurfbce     D3DTexture
  *                         |
- *                   D3DSurfaceRTT
+ *                   D3DSurfbceRTT
  *
- * D3DSurface
- * This kind of surface can be rendered to using D3D APIs.  It is also
- * possible to copy a D3DSurface to another D3DSurface (or to itself).
+ * D3DSurfbce
+ * This kind of surfbce cbn be rendered to using D3D APIs.  It is blso
+ * possible to copy b D3DSurfbce to bnother D3DSurfbce (or to itself).
  *
  * D3DTexture
- * This kind of surface cannot be rendered to using D3D (in the same sense
- * as in D3DSurface).  However, it is possible to upload a region of pixels
- * to a D3DTexture object via Lock/UnlockRect().  One can also copy a
- * surface of type D3DTexture to a D3DSurface by binding the texture
- * to a quad and then rendering it to the destination surface (this process
- * is known as "texture mapping").
+ * This kind of surfbce cbnnot be rendered to using D3D (in the sbme sense
+ * bs in D3DSurfbce).  However, it is possible to uplobd b region of pixels
+ * to b D3DTexture object vib Lock/UnlockRect().  One cbn blso copy b
+ * surfbce of type D3DTexture to b D3DSurfbce by binding the texture
+ * to b qubd bnd then rendering it to the destinbtion surfbce (this process
+ * is known bs "texture mbpping").
  *
- * D3DSurfaceRTT
- * This kind of surface can be thought of as a sort of hybrid between
- * D3DSurface and D3DTexture, in that one can render to this kind of
- * surface as if it were of type D3DSurface, but the process of copying
- * this kind of surface to another is more like a D3DTexture.  (Note that
- * "RTT" stands for "render-to-texture".)
+ * D3DSurfbceRTT
+ * This kind of surfbce cbn be thought of bs b sort of hybrid between
+ * D3DSurfbce bnd D3DTexture, in thbt one cbn render to this kind of
+ * surfbce bs if it were of type D3DSurfbce, but the process of copying
+ * this kind of surfbce to bnother is more like b D3DTexture.  (Note thbt
+ * "RTT" stbnds for "render-to-texture".)
  *
- * In addition to these SurfaceType variants, we have also defined some
- * constants that describe in more detail the type of underlying D3D
- * surface.  This table helps explain the relationships between those
- * "type" constants and their corresponding SurfaceType:
+ * In bddition to these SurfbceType vbribnts, we hbve blso defined some
+ * constbnts thbt describe in more detbil the type of underlying D3D
+ * surfbce.  This tbble helps explbin the relbtionships between those
+ * "type" constbnts bnd their corresponding SurfbceType:
  *
- * D3D Type          Corresponding SurfaceType
+ * D3D Type          Corresponding SurfbceType
  * --------          -------------------------
- * RT_PLAIN          D3DSurface
+ * RT_PLAIN          D3DSurfbce
  * TEXTURE           D3DTexture
- * FLIP_BACKBUFFER   D3DSurface
- * RT_TEXTURE        D3DSurfaceRTT
+ * FLIP_BACKBUFFER   D3DSurfbce
+ * RT_TEXTURE        D3DSurfbceRTT
  */
-public class D3DSurfaceData extends SurfaceData implements AccelSurface {
+public clbss D3DSurfbceDbtb extends SurfbceDbtb implements AccelSurfbce {
 
     /**
-     * To be used with getNativeResource() only.
-     * @see #getNativeResource()
+     * To be used with getNbtiveResource() only.
+     * @see #getNbtiveResource()
      */
-    public static final int D3D_DEVICE_RESOURCE= 100;
+    public stbtic finbl int D3D_DEVICE_RESOURCE= 100;
     /*
-     * Surface types.
-     * We use these surface types when copying from a sw surface
-     * to a surface or texture.
+     * Surfbce types.
+     * We use these surfbce types when copying from b sw surfbce
+     * to b surfbce or texture.
      */
-    public static final int ST_INT_ARGB        = 0;
-    public static final int ST_INT_ARGB_PRE    = 1;
-    public static final int ST_INT_ARGB_BM     = 2;
-    public static final int ST_INT_RGB         = 3;
-    public static final int ST_INT_BGR         = 4;
-    public static final int ST_USHORT_565_RGB  = 5;
-    public static final int ST_USHORT_555_RGB  = 6;
-    public static final int ST_BYTE_INDEXED    = 7;
-    public static final int ST_BYTE_INDEXED_BM = 8;
-    public static final int ST_3BYTE_BGR       = 9;
+    public stbtic finbl int ST_INT_ARGB        = 0;
+    public stbtic finbl int ST_INT_ARGB_PRE    = 1;
+    public stbtic finbl int ST_INT_ARGB_BM     = 2;
+    public stbtic finbl int ST_INT_RGB         = 3;
+    public stbtic finbl int ST_INT_BGR         = 4;
+    public stbtic finbl int ST_USHORT_565_RGB  = 5;
+    public stbtic finbl int ST_USHORT_555_RGB  = 6;
+    public stbtic finbl int ST_BYTE_INDEXED    = 7;
+    public stbtic finbl int ST_BYTE_INDEXED_BM = 8;
+    public stbtic finbl int ST_3BYTE_BGR       = 9;
 
-    /** Equals to D3DSWAPEFFECT_DISCARD */
-    public static final int SWAP_DISCARD       = 1;
-    /** Equals to D3DSWAPEFFECT_FLIP    */
-    public static final int SWAP_FLIP          = 2;
-    /** Equals to D3DSWAPEFFECT_COPY    */
-    public static final int SWAP_COPY          = 3;
+    /** Equbls to D3DSWAPEFFECT_DISCARD */
+    public stbtic finbl int SWAP_DISCARD       = 1;
+    /** Equbls to D3DSWAPEFFECT_FLIP    */
+    public stbtic finbl int SWAP_FLIP          = 2;
+    /** Equbls to D3DSWAPEFFECT_COPY    */
+    public stbtic finbl int SWAP_COPY          = 3;
     /*
-     * SurfaceTypes
+     * SurfbceTypes
      */
-    private static final String DESC_D3D_SURFACE = "D3D Surface";
-    private static final String DESC_D3D_SURFACE_RTT =
-        "D3D Surface (render-to-texture)";
-    private static final String DESC_D3D_TEXTURE = "D3D Texture";
+    privbte stbtic finbl String DESC_D3D_SURFACE = "D3D Surfbce";
+    privbte stbtic finbl String DESC_D3D_SURFACE_RTT =
+        "D3D Surfbce (render-to-texture)";
+    privbte stbtic finbl String DESC_D3D_TEXTURE = "D3D Texture";
 
-    // REMIND: regarding ArgbPre??
-    static final SurfaceType D3DSurface =
-        SurfaceType.Any.deriveSubType(DESC_D3D_SURFACE,
-                                      PixelConverter.ArgbPre.instance);
-    static final SurfaceType D3DSurfaceRTT =
-        D3DSurface.deriveSubType(DESC_D3D_SURFACE_RTT);
-    static final SurfaceType D3DTexture =
-        SurfaceType.Any.deriveSubType(DESC_D3D_TEXTURE);
+    // REMIND: regbrding ArgbPre??
+    stbtic finbl SurfbceType D3DSurfbce =
+        SurfbceType.Any.deriveSubType(DESC_D3D_SURFACE,
+                                      PixelConverter.ArgbPre.instbnce);
+    stbtic finbl SurfbceType D3DSurfbceRTT =
+        D3DSurfbce.deriveSubType(DESC_D3D_SURFACE_RTT);
+    stbtic finbl SurfbceType D3DTexture =
+        SurfbceType.Any.deriveSubType(DESC_D3D_TEXTURE);
 
-    private int type;
-    private int width, height;
-    // these fields are set from the native code when the surface is
-    // initialized
-    private int nativeWidth, nativeHeight;
+    privbte int type;
+    privbte int width, height;
+    // these fields bre set from the nbtive code when the surfbce is
+    // initiblized
+    privbte int nbtiveWidth, nbtiveHeight;
     protected WComponentPeer peer;
-    private Image offscreenImage;
-    protected D3DGraphicsDevice graphicsDevice;
+    privbte Imbge offscreenImbge;
+    protected D3DGrbphicsDevice grbphicsDevice;
 
-    private int swapEffect;
-    private VSyncType syncType;
-    private int backBuffersNum;
+    privbte int swbpEffect;
+    privbte VSyncType syncType;
+    privbte int bbckBuffersNum;
 
-    private WritableRasterNative wrn;
+    privbte WritbbleRbsterNbtive wrn;
 
-    protected static D3DRenderer d3dRenderPipe;
-    protected static PixelToParallelogramConverter d3dTxRenderPipe;
-    protected static ParallelogramPipe d3dAAPgramPipe;
-    protected static D3DTextRenderer d3dTextPipe;
-    protected static D3DDrawImage d3dImagePipe;
+    protected stbtic D3DRenderer d3dRenderPipe;
+    protected stbtic PixelToPbrbllelogrbmConverter d3dTxRenderPipe;
+    protected stbtic PbrbllelogrbmPipe d3dAAPgrbmPipe;
+    protected stbtic D3DTextRenderer d3dTextPipe;
+    protected stbtic D3DDrbwImbge d3dImbgePipe;
 
-    private native boolean initTexture(long pData, boolean isRTT,
-                                       boolean isOpaque);
-    private native boolean initFlipBackbuffer(long pData, long pPeerData,
+    privbte nbtive boolebn initTexture(long pDbtb, boolebn isRTT,
+                                       boolebn isOpbque);
+    privbte nbtive boolebn initFlipBbckbuffer(long pDbtb, long pPeerDbtb,
                                               int numbuffers,
-                                              int swapEffect, int syncType);
-    private native boolean initRTSurface(long pData, boolean isOpaque);
-    private native void initOps(int screen, int width, int height);
+                                              int swbpEffect, int syncType);
+    privbte nbtive boolebn initRTSurfbce(long pDbtb, boolebn isOpbque);
+    privbte nbtive void initOps(int screen, int width, int height);
 
-    static {
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
-        d3dImagePipe = new D3DDrawImage();
+    stbtic {
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
+        d3dImbgePipe = new D3DDrbwImbge();
         d3dTextPipe = new D3DTextRenderer(rq);
         d3dRenderPipe = new D3DRenderer(rq);
-        if (GraphicsPrimitive.tracingEnabled()) {
-            d3dTextPipe = d3dTextPipe.traceWrap();
-            d3dRenderPipe = d3dRenderPipe.traceWrap();
-            //The wrapped d3dRenderPipe will wrap the AA pipe as well...
-            //d3dAAPgramPipe = d3dRenderPipe.traceWrap();
+        if (GrbphicsPrimitive.trbcingEnbbled()) {
+            d3dTextPipe = d3dTextPipe.trbceWrbp();
+            d3dRenderPipe = d3dRenderPipe.trbceWrbp();
+            //The wrbpped d3dRenderPipe will wrbp the AA pipe bs well...
+            //d3dAAPgrbmPipe = d3dRenderPipe.trbceWrbp();
         }
-        d3dAAPgramPipe = d3dRenderPipe.getAAParallelogramPipe();
+        d3dAAPgrbmPipe = d3dRenderPipe.getAAPbrbllelogrbmPipe();
         d3dTxRenderPipe =
-            new PixelToParallelogramConverter(d3dRenderPipe, d3dRenderPipe,
+            new PixelToPbrbllelogrbmConverter(d3dRenderPipe, d3dRenderPipe,
                                               1.0, 0.25, true);
 
         D3DBlitLoops.register();
-        D3DMaskFill.register();
-        D3DMaskBlit.register();
+        D3DMbskFill.register();
+        D3DMbskBlit.register();
     }
 
-    protected D3DSurfaceData(WComponentPeer peer, D3DGraphicsConfig gc,
-                             int width, int height, Image image,
-                             ColorModel cm, int numBackBuffers,
-                             int swapEffect, VSyncType vSyncType,
+    protected D3DSurfbceDbtb(WComponentPeer peer, D3DGrbphicsConfig gc,
+                             int width, int height, Imbge imbge,
+                             ColorModel cm, int numBbckBuffers,
+                             int swbpEffect, VSyncType vSyncType,
                              int type)
     {
-        super(getCustomSurfaceType(type), cm);
-        this.graphicsDevice = gc.getD3DDevice();
+        super(getCustomSurfbceType(type), cm);
+        this.grbphicsDevice = gc.getD3DDevice();
         this.peer = peer;
         this.type = type;
         this.width = width;
         this.height = height;
-        this.offscreenImage = image;
-        this.backBuffersNum = numBackBuffers;
-        this.swapEffect = swapEffect;
+        this.offscreenImbge = imbge;
+        this.bbckBuffersNum = numBbckBuffers;
+        this.swbpEffect = swbpEffect;
         this.syncType = vSyncType;
 
-        initOps(graphicsDevice.getScreen(), width, height);
+        initOps(grbphicsDevice.getScreen(), width, height);
         if (type == WINDOW) {
-            // we put the surface into the "lost"
-            // state; it will be restored by the D3DScreenUpdateManager
+            // we put the surfbce into the "lost"
+            // stbte; it will be restored by the D3DScreenUpdbteMbnbger
             // prior to rendering to it for the first time. This is done
-            // so that vram is not wasted for surfaces never rendered to
-            setSurfaceLost(true);
+            // so thbt vrbm is not wbsted for surfbces never rendered to
+            setSurfbceLost(true);
         } else {
-            initSurface();
+            initSurfbce();
         }
         setBlitProxyKey(gc.getProxyKey());
     }
 
     @Override
-    public SurfaceDataProxy makeProxyFor(SurfaceData srcData) {
-        return D3DSurfaceDataProxy.
-            createProxy(srcData,
-                        (D3DGraphicsConfig)graphicsDevice.getDefaultConfiguration());
+    public SurfbceDbtbProxy mbkeProxyFor(SurfbceDbtb srcDbtb) {
+        return D3DSurfbceDbtbProxy.
+            crebteProxy(srcDbtb,
+                        (D3DGrbphicsConfig)grbphicsDevice.getDefbultConfigurbtion());
     }
 
     /**
-     * Creates a SurfaceData object representing the back buffer of a
+     * Crebtes b SurfbceDbtb object representing the bbck buffer of b
      * double-buffered on-screen Window.
      */
-    public static D3DSurfaceData createData(WComponentPeer peer, Image image) {
-        D3DGraphicsConfig gc = getGC(peer);
-        if (gc == null || !peer.isAccelCapable()) {
+    public stbtic D3DSurfbceDbtb crebteDbtb(WComponentPeer peer, Imbge imbge) {
+        D3DGrbphicsConfig gc = getGC(peer);
+        if (gc == null || !peer.isAccelCbpbble()) {
             return null;
         }
-        BufferCapabilities caps = peer.getBackBufferCaps();
+        BufferCbpbbilities cbps = peer.getBbckBufferCbps();
         VSyncType vSyncType = VSYNC_DEFAULT;
-        if (caps instanceof ExtendedBufferCapabilities) {
-            vSyncType = ((ExtendedBufferCapabilities)caps).getVSync();
+        if (cbps instbnceof ExtendedBufferCbpbbilities) {
+            vSyncType = ((ExtendedBufferCbpbbilities)cbps).getVSync();
         }
-        Rectangle r = peer.getBounds();
-        BufferCapabilities.FlipContents flip = caps.getFlipContents();
-        int swapEffect;
+        Rectbngle r = peer.getBounds();
+        BufferCbpbbilities.FlipContents flip = cbps.getFlipContents();
+        int swbpEffect;
         if (flip == FlipContents.COPIED) {
-            swapEffect = SWAP_COPY;
+            swbpEffect = SWAP_COPY;
         } else if (flip == FlipContents.PRIOR) {
-            swapEffect = SWAP_FLIP;
+            swbpEffect = SWAP_FLIP;
         } else { // flip == FlipContents.UNDEFINED || .BACKGROUND
-            swapEffect = SWAP_DISCARD;
+            swbpEffect = SWAP_DISCARD;
         }
-        return new D3DSurfaceData(peer, gc, r.width, r.height,
-                                  image, peer.getColorModel(),
-                                  peer.getBackBuffersNum(),
-                                  swapEffect, vSyncType, FLIP_BACKBUFFER);
+        return new D3DSurfbceDbtb(peer, gc, r.width, r.height,
+                                  imbge, peer.getColorModel(),
+                                  peer.getBbckBuffersNum(),
+                                  swbpEffect, vSyncType, FLIP_BACKBUFFER);
     }
 
     /**
-     * Returns a WINDOW type of surface - a
-     * swap chain which serves as an on-screen surface,
-     * handled by the D3DScreenUpdateManager.
+     * Returns b WINDOW type of surfbce - b
+     * swbp chbin which serves bs bn on-screen surfbce,
+     * hbndled by the D3DScreenUpdbteMbnbger.
      *
-     * Note that the native surface is not initialized
-     * when the surface is created to avoid using excessive
-     * resources, and the surface is placed into the lost
-     * state. It will be restored prior to any rendering
+     * Note thbt the nbtive surfbce is not initiblized
+     * when the surfbce is crebted to bvoid using excessive
+     * resources, bnd the surfbce is plbced into the lost
+     * stbte. It will be restored prior to bny rendering
      * to it.
      *
-     * @param peer peer for which the onscreen surface is to be created
-     * @return a D3DWindowSurfaceData (flip chain) surface
+     * @pbrbm peer peer for which the onscreen surfbce is to be crebted
+     * @return b D3DWindowSurfbceDbtb (flip chbin) surfbce
      */
-    public static D3DSurfaceData createData(WComponentPeer peer) {
-        D3DGraphicsConfig gc = getGC(peer);
-        if (gc == null || !peer.isAccelCapable()) {
+    public stbtic D3DSurfbceDbtb crebteDbtb(WComponentPeer peer) {
+        D3DGrbphicsConfig gc = getGC(peer);
+        if (gc == null || !peer.isAccelCbpbble()) {
             return null;
         }
-        return new D3DWindowSurfaceData(peer, gc);
+        return new D3DWindowSurfbceDbtb(peer, gc);
     }
 
     /**
-     * Creates a SurfaceData object representing an off-screen buffer (either
-     * a plain surface or Texture).
+     * Crebtes b SurfbceDbtb object representing bn off-screen buffer (either
+     * b plbin surfbce or Texture).
      */
-    public static D3DSurfaceData createData(D3DGraphicsConfig gc,
+    public stbtic D3DSurfbceDbtb crebteDbtb(D3DGrbphicsConfig gc,
                                             int width, int height,
                                             ColorModel cm,
-                                            Image image, int type)
+                                            Imbge imbge, int type)
     {
         if (type == RT_TEXTURE) {
-            boolean isOpaque = cm.getTransparency() == Transparency.OPAQUE;
-            int cap = isOpaque ? CAPS_RT_TEXTURE_OPAQUE : CAPS_RT_TEXTURE_ALPHA;
-            if (!gc.getD3DDevice().isCapPresent(cap)) {
+            boolebn isOpbque = cm.getTrbnspbrency() == Trbnspbrency.OPAQUE;
+            int cbp = isOpbque ? CAPS_RT_TEXTURE_OPAQUE : CAPS_RT_TEXTURE_ALPHA;
+            if (!gc.getD3DDevice().isCbpPresent(cbp)) {
                 type = RT_PLAIN;
             }
         }
-        D3DSurfaceData ret = null;
+        D3DSurfbceDbtb ret = null;
         try {
-            ret = new D3DSurfaceData(null, gc, width, height,
-                                     image, cm, 0, SWAP_DISCARD, VSYNC_DEFAULT,
+            ret = new D3DSurfbceDbtb(null, gc, width, height,
+                                     imbge, cm, 0, SWAP_DISCARD, VSYNC_DEFAULT,
                                      type);
-        } catch (InvalidPipeException ipe) {
-            // try again - we might have ran out of vram, and rt textures
-            // could take up more than a plain surface, so it might succeed
+        } cbtch (InvblidPipeException ipe) {
+            // try bgbin - we might hbve rbn out of vrbm, bnd rt textures
+            // could tbke up more thbn b plbin surfbce, so it might succeed
             if (type == RT_TEXTURE) {
-                // If a RT_TEXTURE was requested do not attempt to create a
-                // plain surface. (note that RT_TEXTURE can only be requested
-                // from a VI so the cast is safe)
-                if (((SunVolatileImage)image).getForcedAccelSurfaceType() !=
+                // If b RT_TEXTURE wbs requested do not bttempt to crebte b
+                // plbin surfbce. (note thbt RT_TEXTURE cbn only be requested
+                // from b VI so the cbst is sbfe)
+                if (((SunVolbtileImbge)imbge).getForcedAccelSurfbceType() !=
                     RT_TEXTURE)
                 {
                     type = RT_PLAIN;
-                    ret = new D3DSurfaceData(null, gc, width, height,
-                                             image, cm, 0, SWAP_DISCARD,
+                    ret = new D3DSurfbceDbtb(null, gc, width, height,
+                                             imbge, cm, 0, SWAP_DISCARD,
                                              VSYNC_DEFAULT, type);
                 }
             }
@@ -341,411 +341,411 @@ public class D3DSurfaceData extends SurfaceData implements AccelSurface {
     }
 
     /**
-     * Returns the appropriate SurfaceType corresponding to the given D3D
-     * surface type constant (e.g. TEXTURE -> D3DTexture).
+     * Returns the bppropribte SurfbceType corresponding to the given D3D
+     * surfbce type constbnt (e.g. TEXTURE -> D3DTexture).
      */
-    private static SurfaceType getCustomSurfaceType(int d3dType) {
+    privbte stbtic SurfbceType getCustomSurfbceType(int d3dType) {
         switch (d3dType) {
-        case TEXTURE:
+        cbse TEXTURE:
             return D3DTexture;
-        case RT_TEXTURE:
-            return D3DSurfaceRTT;
-        default:
-            return D3DSurface;
+        cbse RT_TEXTURE:
+            return D3DSurfbceRTT;
+        defbult:
+            return D3DSurfbce;
         }
     }
 
-    private boolean initSurfaceNow() {
-        boolean isOpaque = (getTransparency() == Transparency.OPAQUE);
+    privbte boolebn initSurfbceNow() {
+        boolebn isOpbque = (getTrbnspbrency() == Trbnspbrency.OPAQUE);
         switch (type) {
-            case RT_PLAIN:
-                return initRTSurface(getNativeOps(), isOpaque);
-            case TEXTURE:
-                return initTexture(getNativeOps(), false/*isRTT*/, isOpaque);
-            case RT_TEXTURE:
-                return initTexture(getNativeOps(), true/*isRTT*/,  isOpaque);
-            // REMIND: we may want to pass the exact type to the native
-            // level here so that we could choose the right presentation
-            // interval for the frontbuffer (immediate vs v-synced)
-            case WINDOW:
-            case FLIP_BACKBUFFER:
-                return initFlipBackbuffer(getNativeOps(), peer.getData(),
-                                          backBuffersNum, swapEffect,
+            cbse RT_PLAIN:
+                return initRTSurfbce(getNbtiveOps(), isOpbque);
+            cbse TEXTURE:
+                return initTexture(getNbtiveOps(), fblse/*isRTT*/, isOpbque);
+            cbse RT_TEXTURE:
+                return initTexture(getNbtiveOps(), true/*isRTT*/,  isOpbque);
+            // REMIND: we mby wbnt to pbss the exbct type to the nbtive
+            // level here so thbt we could choose the right presentbtion
+            // intervbl for the frontbuffer (immedibte vs v-synced)
+            cbse WINDOW:
+            cbse FLIP_BACKBUFFER:
+                return initFlipBbckbuffer(getNbtiveOps(), peer.getDbtb(),
+                                          bbckBuffersNum, swbpEffect,
                                           syncType.id());
-            default:
-                return false;
+            defbult:
+                return fblse;
         }
     }
 
     /**
-     * Initializes the appropriate D3D offscreen surface based on the value
-     * of the type parameter.  If the surface creation fails for any reason,
-     * an OutOfMemoryError will be thrown.
+     * Initiblizes the bppropribte D3D offscreen surfbce bbsed on the vblue
+     * of the type pbrbmeter.  If the surfbce crebtion fbils for bny rebson,
+     * bn OutOfMemoryError will be thrown.
      */
-    protected void initSurface() {
-        // any time we create or restore the surface, recreate the raster
+    protected void initSurfbce() {
+        // bny time we crebte or restore the surfbce, recrebte the rbster
         synchronized (this) {
             wrn = null;
         }
-        // REMIND: somewhere a puppy died
-        class Status {
-            boolean success = false;
+        // REMIND: somewhere b puppy died
+        clbss Stbtus {
+            boolebn success = fblse;
         };
-        final Status status = new Status();
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+        finbl Stbtus stbtus = new Stbtus();
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
-            rq.flushAndInvokeNow(new Runnable() {
+            rq.flushAndInvokeNow(new Runnbble() {
                 public void run() {
-                    status.success = initSurfaceNow();
+                    stbtus.success = initSurfbceNow();
                 }
             });
-            if (!status.success) {
-                throw new InvalidPipeException("Error creating D3DSurface");
+            if (!stbtus.success) {
+                throw new InvblidPipeException("Error crebting D3DSurfbce");
             }
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 
     /**
-     * Returns the D3DContext for the GraphicsConfig associated with this
-     * surface.
+     * Returns the D3DContext for the GrbphicsConfig bssocibted with this
+     * surfbce.
      */
-    public final D3DContext getContext() {
-        return graphicsDevice.getContext();
+    public finbl D3DContext getContext() {
+        return grbphicsDevice.getContext();
     }
 
     /**
-     * Returns one of the surface type constants defined above.
+     * Returns one of the surfbce type constbnts defined bbove.
      */
-    public final int getType() {
+    public finbl int getType() {
         return type;
     }
 
-    private static native int  dbGetPixelNative(long pData, int x, int y);
-    private static native void dbSetPixelNative(long pData, int x, int y,
+    privbte stbtic nbtive int  dbGetPixelNbtive(long pDbtb, int x, int y);
+    privbte stbtic nbtive void dbSetPixelNbtive(long pDbtb, int x, int y,
                                                 int pixel);
-    static class D3DDataBufferNative extends DataBufferNative {
+    stbtic clbss D3DDbtbBufferNbtive extends DbtbBufferNbtive {
         int pixel;
-        protected D3DDataBufferNative(SurfaceData sData,
+        protected D3DDbtbBufferNbtive(SurfbceDbtb sDbtb,
                                       int type, int w, int h)
         {
-            super(sData, type, w, h);
+            super(sDbtb, type, w, h);
         }
 
-        protected int getElem(final int x, final int y,
-                              final SurfaceData sData)
+        protected int getElem(finbl int x, finbl int y,
+                              finbl SurfbceDbtb sDbtb)
         {
-            if (sData.isSurfaceLost()) {
+            if (sDbtb.isSurfbceLost()) {
                 return 0;
             }
 
             int retPixel;
-            D3DRenderQueue rq = D3DRenderQueue.getInstance();
+            D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
             rq.lock();
             try {
-                rq.flushAndInvokeNow(new Runnable() {
+                rq.flushAndInvokeNow(new Runnbble() {
                     public void run() {
-                        pixel = dbGetPixelNative(sData.getNativeOps(), x, y);
+                        pixel = dbGetPixelNbtive(sDbtb.getNbtiveOps(), x, y);
                     }
                 });
-            } finally {
+            } finblly {
                 retPixel = pixel;
                 rq.unlock();
             }
             return retPixel;
         }
 
-        protected void setElem(final int x, final int y, final int pixel,
-                               final SurfaceData sData)
+        protected void setElem(finbl int x, finbl int y, finbl int pixel,
+                               finbl SurfbceDbtb sDbtb)
         {
-            if (sData.isSurfaceLost()) {
+            if (sDbtb.isSurfbceLost()) {
                   return;
             }
 
-            D3DRenderQueue rq = D3DRenderQueue.getInstance();
+            D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
             rq.lock();
             try {
-                rq.flushAndInvokeNow(new Runnable() {
+                rq.flushAndInvokeNow(new Runnbble() {
                     public void run() {
-                        dbSetPixelNative(sData.getNativeOps(), x, y, pixel);
+                        dbSetPixelNbtive(sDbtb.getNbtiveOps(), x, y, pixel);
                     }
                 });
-                sData.markDirty();
-            } finally {
+                sDbtb.mbrkDirty();
+            } finblly {
                 rq.unlock();
             }
         }
     }
 
-    public synchronized Raster getRaster(int x, int y, int w, int h) {
+    public synchronized Rbster getRbster(int x, int y, int w, int h) {
         if (wrn == null) {
             DirectColorModel dcm = (DirectColorModel)getColorModel();
-            SampleModel smHw;
-            int dataType = 0;
-            int scanStride = width;
+            SbmpleModel smHw;
+            int dbtbType = 0;
+            int scbnStride = width;
 
             if (dcm.getPixelSize() > 16) {
-                dataType = DataBuffer.TYPE_INT;
+                dbtbType = DbtbBuffer.TYPE_INT;
             } else {
                 // 15, 16
-                dataType = DataBuffer.TYPE_USHORT;
+                dbtbType = DbtbBuffer.TYPE_USHORT;
             }
 
-            // note that we have to use the surface width and height here,
-            // not the passed w,h
-            smHw = new SinglePixelPackedSampleModel(dataType, width, height,
-                                                    scanStride, dcm.getMasks());
-            DataBuffer dbn = new D3DDataBufferNative(this, dataType,
+            // note thbt we hbve to use the surfbce width bnd height here,
+            // not the pbssed w,h
+            smHw = new SinglePixelPbckedSbmpleModel(dbtbType, width, height,
+                                                    scbnStride, dcm.getMbsks());
+            DbtbBuffer dbn = new D3DDbtbBufferNbtive(this, dbtbType,
                                                      width, height);
-            wrn = WritableRasterNative.createNativeRaster(smHw, dbn);
+            wrn = WritbbleRbsterNbtive.crebteNbtiveRbster(smHw, dbn);
         }
 
         return wrn;
     }
 
     /**
-     * For now, we can only render LCD text if:
-     *   - the pixel shaders are available, and
-     *   - blending is disabled, and
-     *   - the source color is opaque
-     *   - and the destination is opaque
+     * For now, we cbn only render LCD text if:
+     *   - the pixel shbders bre bvbilbble, bnd
+     *   - blending is disbbled, bnd
+     *   - the source color is opbque
+     *   - bnd the destinbtion is opbque
      */
-    public boolean canRenderLCDText(SunGraphics2D sg2d) {
+    public boolebn cbnRenderLCDText(SunGrbphics2D sg2d) {
         return
-            graphicsDevice.isCapPresent(CAPS_LCD_SHADER) &&
-            sg2d.compositeState <= SunGraphics2D.COMP_ISCOPY &&
-            sg2d.paintState <= SunGraphics2D.PAINT_OPAQUECOLOR   &&
-            sg2d.surfaceData.getTransparency() == Transparency.OPAQUE;
+            grbphicsDevice.isCbpPresent(CAPS_LCD_SHADER) &&
+            sg2d.compositeStbte <= SunGrbphics2D.COMP_ISCOPY &&
+            sg2d.pbintStbte <= SunGrbphics2D.PAINT_OPAQUECOLOR   &&
+            sg2d.surfbceDbtb.getTrbnspbrency() == Trbnspbrency.OPAQUE;
     }
 
     /**
-     * If acceleration should no longer be used for this surface.
-     * This implementation flags to the manager that it should no
-     * longer attempt to re-create a D3DSurface.
+     * If bccelerbtion should no longer be used for this surfbce.
+     * This implementbtion flbgs to the mbnbger thbt it should no
+     * longer bttempt to re-crebte b D3DSurfbce.
      */
-    void disableAccelerationForSurface() {
-        if (offscreenImage != null) {
-            SurfaceManager sm = SurfaceManager.getManager(offscreenImage);
-            if (sm instanceof D3DVolatileSurfaceManager) {
-                setSurfaceLost(true);
-                ((D3DVolatileSurfaceManager)sm).setAccelerationEnabled(false);
+    void disbbleAccelerbtionForSurfbce() {
+        if (offscreenImbge != null) {
+            SurfbceMbnbger sm = SurfbceMbnbger.getMbnbger(offscreenImbge);
+            if (sm instbnceof D3DVolbtileSurfbceMbnbger) {
+                setSurfbceLost(true);
+                ((D3DVolbtileSurfbceMbnbger)sm).setAccelerbtionEnbbled(fblse);
             }
         }
     }
 
-    public void validatePipe(SunGraphics2D sg2d) {
+    public void vblidbtePipe(SunGrbphics2D sg2d) {
         TextPipe textpipe;
-        boolean validated = false;
+        boolebn vblidbted = fblse;
 
         // REMIND: the D3D pipeline doesn't support XOR!, more
-        // fixes will be needed below. For now we disable D3D rendering
-        // for the surface which had any XOR rendering done to.
-        if (sg2d.compositeState >= SunGraphics2D.COMP_XOR) {
-            super.validatePipe(sg2d);
-            sg2d.imagepipe = d3dImagePipe;
-            disableAccelerationForSurface();
+        // fixes will be needed below. For now we disbble D3D rendering
+        // for the surfbce which hbd bny XOR rendering done to.
+        if (sg2d.compositeStbte >= SunGrbphics2D.COMP_XOR) {
+            super.vblidbtePipe(sg2d);
+            sg2d.imbgepipe = d3dImbgePipe;
+            disbbleAccelerbtionForSurfbce();
             return;
         }
 
-        // D3DTextRenderer handles both AA and non-AA text, but
+        // D3DTextRenderer hbndles both AA bnd non-AA text, but
         // only works with the following modes:
-        // (Note: For LCD text we only enter this code path if
-        // canRenderLCDText() has already validated that the mode is
-        // CompositeType.SrcNoEa (opaque color), which will be subsumed
-        // by the CompositeType.SrcNoEa (any color) test below.)
+        // (Note: For LCD text we only enter this code pbth if
+        // cbnRenderLCDText() hbs blrebdy vblidbted thbt the mode is
+        // CompositeType.SrcNoEb (opbque color), which will be subsumed
+        // by the CompositeType.SrcNoEb (bny color) test below.)
 
-        if (/* CompositeType.SrcNoEa (any color) */
-            (sg2d.compositeState <= SunGraphics2D.COMP_ISCOPY &&
-             sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR)        ||
+        if (/* CompositeType.SrcNoEb (bny color) */
+            (sg2d.compositeStbte <= SunGrbphics2D.COMP_ISCOPY &&
+             sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR)        ||
 
-            /* CompositeType.SrcOver (any color) */
-            (sg2d.compositeState == SunGraphics2D.COMP_ALPHA    &&
-             sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR &&
-             (((AlphaComposite)sg2d.composite).getRule() ==
-              AlphaComposite.SRC_OVER))                       ||
+            /* CompositeType.SrcOver (bny color) */
+            (sg2d.compositeStbte == SunGrbphics2D.COMP_ALPHA    &&
+             sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR &&
+             (((AlphbComposite)sg2d.composite).getRule() ==
+              AlphbComposite.SRC_OVER))                       ||
 
-            /* CompositeType.Xor (any color) */
-            (sg2d.compositeState == SunGraphics2D.COMP_XOR &&
-             sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR))
+            /* CompositeType.Xor (bny color) */
+            (sg2d.compositeStbte == SunGrbphics2D.COMP_XOR &&
+             sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR))
         {
             textpipe = d3dTextPipe;
         } else {
-            // do this to initialize textpipe correctly; we will attempt
+            // do this to initiblize textpipe correctly; we will bttempt
             // to override the non-text pipes below
-            super.validatePipe(sg2d);
+            super.vblidbtePipe(sg2d);
             textpipe = sg2d.textpipe;
-            validated = true;
+            vblidbted = true;
         }
 
-        PixelToParallelogramConverter txPipe = null;
+        PixelToPbrbllelogrbmConverter txPipe = null;
         D3DRenderer nonTxPipe = null;
 
-        if (sg2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_ON) {
-            if (sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR) {
-                if (sg2d.compositeState <= SunGraphics2D.COMP_XOR) {
+        if (sg2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON) {
+            if (sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR) {
+                if (sg2d.compositeStbte <= SunGrbphics2D.COMP_XOR) {
                     txPipe = d3dTxRenderPipe;
                     nonTxPipe = d3dRenderPipe;
                 }
-            } else if (sg2d.compositeState <= SunGraphics2D.COMP_ALPHA) {
-                if (D3DPaints.isValid(sg2d)) {
+            } else if (sg2d.compositeStbte <= SunGrbphics2D.COMP_ALPHA) {
+                if (D3DPbints.isVblid(sg2d)) {
                     txPipe = d3dTxRenderPipe;
                     nonTxPipe = d3dRenderPipe;
                 }
-                // custom paints handled by super.validatePipe() below
+                // custom pbints hbndled by super.vblidbtePipe() below
             }
         } else {
-            if (sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR) {
-                if (graphicsDevice.isCapPresent(CAPS_AA_SHADER) &&
-                    (sg2d.imageComp == CompositeType.SrcOverNoEa ||
-                     sg2d.imageComp == CompositeType.SrcOver))
+            if (sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR) {
+                if (grbphicsDevice.isCbpPresent(CAPS_AA_SHADER) &&
+                    (sg2d.imbgeComp == CompositeType.SrcOverNoEb ||
+                     sg2d.imbgeComp == CompositeType.SrcOver))
                 {
-                    if (!validated) {
-                        super.validatePipe(sg2d);
-                        validated = true;
+                    if (!vblidbted) {
+                        super.vblidbtePipe(sg2d);
+                        vblidbted = true;
                     }
-                    PixelToParallelogramConverter aaConverter =
-                        new PixelToParallelogramConverter(sg2d.shapepipe,
-                                                          d3dAAPgramPipe,
+                    PixelToPbrbllelogrbmConverter bbConverter =
+                        new PixelToPbrbllelogrbmConverter(sg2d.shbpepipe,
+                                                          d3dAAPgrbmPipe,
                                                           1.0/8.0, 0.499,
-                                                          false);
-                    sg2d.drawpipe = aaConverter;
-                    sg2d.fillpipe = aaConverter;
-                    sg2d.shapepipe = aaConverter;
-                } else if (sg2d.compositeState == SunGraphics2D.COMP_XOR) {
-                    // install the solid pipes when AA and XOR are both enabled
+                                                          fblse);
+                    sg2d.drbwpipe = bbConverter;
+                    sg2d.fillpipe = bbConverter;
+                    sg2d.shbpepipe = bbConverter;
+                } else if (sg2d.compositeStbte == SunGrbphics2D.COMP_XOR) {
+                    // instbll the solid pipes when AA bnd XOR bre both enbbled
                     txPipe = d3dTxRenderPipe;
                     nonTxPipe = d3dRenderPipe;
                 }
             }
-            // other cases handled by super.validatePipe() below
+            // other cbses hbndled by super.vblidbtePipe() below
         }
 
         if (txPipe != null) {
-            if (sg2d.transformState >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
-                sg2d.drawpipe = txPipe;
+            if (sg2d.trbnsformStbte >= SunGrbphics2D.TRANSFORM_TRANSLATESCALE) {
+                sg2d.drbwpipe = txPipe;
                 sg2d.fillpipe = txPipe;
-            } else if (sg2d.strokeState != SunGraphics2D.STROKE_THIN) {
-                sg2d.drawpipe = txPipe;
+            } else if (sg2d.strokeStbte != SunGrbphics2D.STROKE_THIN) {
+                sg2d.drbwpipe = txPipe;
                 sg2d.fillpipe = nonTxPipe;
             } else {
-                sg2d.drawpipe = nonTxPipe;
+                sg2d.drbwpipe = nonTxPipe;
                 sg2d.fillpipe = nonTxPipe;
             }
-            // Note that we use the transforming pipe here because it
-            // will examine the shape and possibly perform an optimized
-            // operation if it can be simplified.  The simplifications
-            // will be valid for all STROKE and TRANSFORM types.
-            sg2d.shapepipe = txPipe;
+            // Note thbt we use the trbnsforming pipe here becbuse it
+            // will exbmine the shbpe bnd possibly perform bn optimized
+            // operbtion if it cbn be simplified.  The simplificbtions
+            // will be vblid for bll STROKE bnd TRANSFORM types.
+            sg2d.shbpepipe = txPipe;
         } else {
-            if (!validated) {
-                super.validatePipe(sg2d);
+            if (!vblidbted) {
+                super.vblidbtePipe(sg2d);
             }
         }
 
-        // install the text pipe based on our earlier decision
+        // instbll the text pipe bbsed on our ebrlier decision
         sg2d.textpipe = textpipe;
 
-        // always override the image pipe with the specialized D3D pipe
-        sg2d.imagepipe = d3dImagePipe;
+        // blwbys override the imbge pipe with the speciblized D3D pipe
+        sg2d.imbgepipe = d3dImbgePipe;
     }
 
     @Override
-    protected MaskFill getMaskFill(SunGraphics2D sg2d) {
-        if (sg2d.paintState > SunGraphics2D.PAINT_ALPHACOLOR) {
+    protected MbskFill getMbskFill(SunGrbphics2D sg2d) {
+        if (sg2d.pbintStbte > SunGrbphics2D.PAINT_ALPHACOLOR) {
             /*
-             * We can only accelerate non-Color MaskFill operations if
-             * all of the following conditions hold true:
-             *   - there is an implementation for the given paintState
-             *   - the current Paint can be accelerated for this destination
-             *   - multitexturing is available (since we need to modulate
-             *     the alpha mask texture with the paint texture)
+             * We cbn only bccelerbte non-Color MbskFill operbtions if
+             * bll of the following conditions hold true:
+             *   - there is bn implementbtion for the given pbintStbte
+             *   - the current Pbint cbn be bccelerbted for this destinbtion
+             *   - multitexturing is bvbilbble (since we need to modulbte
+             *     the blphb mbsk texture with the pbint texture)
              *
-             * In all other cases, we return null, in which case the
-             * validation code will choose a more general software-based loop.
+             * In bll other cbses, we return null, in which cbse the
+             * vblidbtion code will choose b more generbl softwbre-bbsed loop.
              */
-            if (!D3DPaints.isValid(sg2d) ||
-                !graphicsDevice.isCapPresent(CAPS_MULTITEXTURE))
+            if (!D3DPbints.isVblid(sg2d) ||
+                !grbphicsDevice.isCbpPresent(CAPS_MULTITEXTURE))
             {
                 return null;
             }
         }
-        return super.getMaskFill(sg2d);
+        return super.getMbskFill(sg2d);
     }
 
     @Override
-    public boolean copyArea(SunGraphics2D sg2d,
+    public boolebn copyAreb(SunGrbphics2D sg2d,
                             int x, int y, int w, int h, int dx, int dy)
     {
-        if (sg2d.transformState < SunGraphics2D.TRANSFORM_TRANSLATESCALE &&
-            sg2d.compositeState < SunGraphics2D.COMP_XOR)
+        if (sg2d.trbnsformStbte < SunGrbphics2D.TRANSFORM_TRANSLATESCALE &&
+            sg2d.compositeStbte < SunGrbphics2D.COMP_XOR)
         {
-            x += sg2d.transX;
-            y += sg2d.transY;
+            x += sg2d.trbnsX;
+            y += sg2d.trbnsY;
 
-            d3dRenderPipe.copyArea(sg2d, x, y, w, h, dx, dy);
+            d3dRenderPipe.copyAreb(sg2d, x, y, w, h, dx, dy);
 
             return true;
         }
-        return false;
+        return fblse;
     }
 
     @Override
     public void flush() {
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
             RenderBuffer buf = rq.getBuffer();
-            rq.ensureCapacityAndAlignment(12, 4);
+            rq.ensureCbpbcityAndAlignment(12, 4);
             buf.putInt(FLUSH_SURFACE);
-            buf.putLong(getNativeOps());
+            buf.putLong(getNbtiveOps());
 
-            // this call is expected to complete synchronously, so flush now
+            // this cbll is expected to complete synchronously, so flush now
             rq.flushNow();
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 
     /**
-     * Disposes the native resources associated with the given D3DSurfaceData
-     * (referenced by the pData parameter).  This method is invoked from
-     * the native Dispose() method from the Disposer thread when the
-     * Java-level D3DSurfaceData object is about to go away.
+     * Disposes the nbtive resources bssocibted with the given D3DSurfbceDbtb
+     * (referenced by the pDbtb pbrbmeter).  This method is invoked from
+     * the nbtive Dispose() method from the Disposer threbd when the
+     * Jbvb-level D3DSurfbceDbtb object is bbout to go bwby.
      */
-    static void dispose(long pData) {
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+    stbtic void dispose(long pDbtb) {
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
             RenderBuffer buf = rq.getBuffer();
-            rq.ensureCapacityAndAlignment(12, 4);
+            rq.ensureCbpbcityAndAlignment(12, 4);
             buf.putInt(DISPOSE_SURFACE);
-            buf.putLong(pData);
+            buf.putLong(pDbtb);
 
-            // this call is expected to complete synchronously, so flush now
+            // this cbll is expected to complete synchronously, so flush now
             rq.flushNow();
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 
-    static void swapBuffers(D3DSurfaceData sd,
-                            final int x1, final int y1,
-                            final int x2, final int y2)
+    stbtic void swbpBuffers(D3DSurfbceDbtb sd,
+                            finbl int x1, finbl int y1,
+                            finbl int x2, finbl int y2)
     {
-        long pData = sd.getNativeOps();
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
-        // swapBuffers can be called from the toolkit thread by swing, we
-        // should detect this and prevent the deadlocks
-        if (D3DRenderQueue.isRenderQueueThread()) {
+        long pDbtb = sd.getNbtiveOps();
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
+        // swbpBuffers cbn be cblled from the toolkit threbd by swing, we
+        // should detect this bnd prevent the debdlocks
+        if (D3DRenderQueue.isRenderQueueThrebd()) {
             if (!rq.tryLock()) {
-                // if we could not obtain the lock, repaint the area
-                // that was supposed to be swapped, and no-op this swap
-                final Component target = (Component)sd.getPeer().getTarget();
-                SunToolkit.executeOnEventHandlerThread(target, new Runnable() {
+                // if we could not obtbin the lock, repbint the breb
+                // thbt wbs supposed to be swbpped, bnd no-op this swbp
+                finbl Component tbrget = (Component)sd.getPeer().getTbrget();
+                SunToolkit.executeOnEventHbndlerThrebd(tbrget, new Runnbble() {
                     public void run() {
-                        target.repaint(x1, y1, x2, y2);
+                        tbrget.repbint(x1, y1, x2, y2);
                     }
                 });
                 return;
@@ -755,77 +755,77 @@ public class D3DSurfaceData extends SurfaceData implements AccelSurface {
         }
         try {
             RenderBuffer buf = rq.getBuffer();
-            rq.ensureCapacityAndAlignment(28, 4);
+            rq.ensureCbpbcityAndAlignment(28, 4);
             buf.putInt(SWAP_BUFFERS);
-            buf.putLong(pData);
+            buf.putLong(pDbtb);
             buf.putInt(x1);
             buf.putInt(y1);
             buf.putInt(x2);
             buf.putInt(y2);
             rq.flushNow();
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 
     /**
-     * Returns destination Image associated with this SurfaceData.
+     * Returns destinbtion Imbge bssocibted with this SurfbceDbtb.
      */
-    public Object getDestination() {
-        return offscreenImage;
+    public Object getDestinbtion() {
+        return offscreenImbge;
     }
 
-    public Rectangle getBounds() {
+    public Rectbngle getBounds() {
         if (type == FLIP_BACKBUFFER || type == WINDOW) {
-            Rectangle r = peer.getBounds();
+            Rectbngle r = peer.getBounds();
             r.x = r.y = 0;
             return r;
         } else {
-            return new Rectangle(width, height);
+            return new Rectbngle(width, height);
         }
     }
 
-    public Rectangle getNativeBounds() {
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
-        // need to lock to make sure nativeWidth and Height are consistent
-        // since they are set from the render thread from the native
+    public Rectbngle getNbtiveBounds() {
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
+        // need to lock to mbke sure nbtiveWidth bnd Height bre consistent
+        // since they bre set from the render threbd from the nbtive
         // level
         rq.lock();
         try {
             // REMIND: use xyoffsets?
-            return new Rectangle(nativeWidth, nativeHeight);
-        } finally {
+            return new Rectbngle(nbtiveWidth, nbtiveHeight);
+        } finblly {
             rq.unlock();
         }
     }
 
 
-    public GraphicsConfiguration getDeviceConfiguration() {
-        return graphicsDevice.getDefaultConfiguration();
+    public GrbphicsConfigurbtion getDeviceConfigurbtion() {
+        return grbphicsDevice.getDefbultConfigurbtion();
     }
 
-    public SurfaceData getReplacement() {
-        return restoreContents(offscreenImage);
+    public SurfbceDbtb getReplbcement() {
+        return restoreContents(offscreenImbge);
     }
 
-    private static D3DGraphicsConfig getGC(WComponentPeer peer) {
-        GraphicsConfiguration gc;
+    privbte stbtic D3DGrbphicsConfig getGC(WComponentPeer peer) {
+        GrbphicsConfigurbtion gc;
         if (peer != null) {
-            gc =  peer.getGraphicsConfiguration();
+            gc =  peer.getGrbphicsConfigurbtion();
         } else {
-            GraphicsEnvironment env =
-                    GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice gd = env.getDefaultScreenDevice();
-            gc = gd.getDefaultConfiguration();
+            GrbphicsEnvironment env =
+                    GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+            GrbphicsDevice gd = env.getDefbultScreenDevice();
+            gc = gd.getDefbultConfigurbtion();
         }
-        return (gc instanceof D3DGraphicsConfig) ? (D3DGraphicsConfig)gc : null;
+        return (gc instbnceof D3DGrbphicsConfig) ? (D3DGrbphicsConfig)gc : null;
     }
 
     /**
-     * Attempts to restore the surface by initializing the native data
+     * Attempts to restore the surfbce by initiblizing the nbtive dbtb
      */
-    void restoreSurface() {
-        initSurface();
+    void restoreSurfbce() {
+        initSurfbce();
     }
 
     WComponentPeer getPeer() {
@@ -833,158 +833,158 @@ public class D3DSurfaceData extends SurfaceData implements AccelSurface {
     }
 
     /**
-     * We need to let the surface manager know that the surface is lost so
-     * that for example BufferStrategy.contentsLost() returns correct result.
-     * Normally the status of contentsLost is set in validate(), but in some
-     * cases (like Swing's buffer per window) we intentionally don't call
-     * validate from the toolkit thread but only check for the BS status.
+     * We need to let the surfbce mbnbger know thbt the surfbce is lost so
+     * thbt for exbmple BufferStrbtegy.contentsLost() returns correct result.
+     * Normblly the stbtus of contentsLost is set in vblidbte(), but in some
+     * cbses (like Swing's buffer per window) we intentionblly don't cbll
+     * vblidbte from the toolkit threbd but only check for the BS stbtus.
      */
     @Override
-    public void setSurfaceLost(boolean lost) {
-        super.setSurfaceLost(lost);
-        if (lost && offscreenImage != null) {
-            SurfaceManager sm = SurfaceManager.getManager(offscreenImage);
-            sm.acceleratedSurfaceLost();
+    public void setSurfbceLost(boolebn lost) {
+        super.setSurfbceLost(lost);
+        if (lost && offscreenImbge != null) {
+            SurfbceMbnbger sm = SurfbceMbnbger.getMbnbger(offscreenImbge);
+            sm.bccelerbtedSurfbceLost();
         }
     }
 
-    private static native long getNativeResourceNative(long sdops, int resType);
+    privbte stbtic nbtive long getNbtiveResourceNbtive(long sdops, int resType);
     /**
-     * Returns a pointer to the native resource of specified {@code resType}
-     * associated with this surface.
+     * Returns b pointer to the nbtive resource of specified {@code resType}
+     * bssocibted with this surfbce.
      *
-     * Specifically, for {@code D3DSurfaceData} this method returns pointers of
+     * Specificblly, for {@code D3DSurfbceDbtb} this method returns pointers of
      * the following:
      * <pre>
      * TEXTURE              - (IDirect3DTexture9*)
-     * RT_TEXTURE, RT_PLAIN - (IDirect3DSurface9*)
-     * FLIP_BACKBUFFER      - (IDirect3DSwapChain9*)
+     * RT_TEXTURE, RT_PLAIN - (IDirect3DSurfbce9*)
+     * FLIP_BACKBUFFER      - (IDirect3DSwbpChbin9*)
      * D3D_DEVICE_RESOURCE  - (IDirect3DDevice9*)
      * </pre>
      *
-     * Multiple resources may be available for some types (i.e. for render to
-     * texture one could retrieve both a destination surface by specifying
-     * RT_TEXTURE, and a texture by using TEXTURE).
+     * Multiple resources mby be bvbilbble for some types (i.e. for render to
+     * texture one could retrieve both b destinbtion surfbce by specifying
+     * RT_TEXTURE, bnd b texture by using TEXTURE).
      *
-     * Note: the pointer returned by this method is only valid on the rendering
-     * thread.
+     * Note: the pointer returned by this method is only vblid on the rendering
+     * threbd.
      *
-     * @return pointer to the native resource of specified type or 0L if
-     * such resource doesn't exist or can not be retrieved.
-     * @see sun.java2d.pipe.hw.AccelSurface#getNativeResource
+     * @return pointer to the nbtive resource of specified type or 0L if
+     * such resource doesn't exist or cbn not be retrieved.
+     * @see sun.jbvb2d.pipe.hw.AccelSurfbce#getNbtiveResource
      */
-    public long getNativeResource(int resType) {
-        return getNativeResourceNative(getNativeOps(), resType);
+    public long getNbtiveResource(int resType) {
+        return getNbtiveResourceNbtive(getNbtiveOps(), resType);
     }
 
     /**
-     * Class representing an on-screen d3d surface. Since d3d can't
-     * render to the screen directly, it is implemented as a swap chain,
-     * controlled by D3DScreenUpdateManager.
+     * Clbss representing bn on-screen d3d surfbce. Since d3d cbn't
+     * render to the screen directly, it is implemented bs b swbp chbin,
+     * controlled by D3DScreenUpdbteMbnbger.
      *
-     * @see D3DScreenUpdateManager
+     * @see D3DScreenUpdbteMbnbger
      */
-    public static class D3DWindowSurfaceData extends D3DSurfaceData {
-        StateTracker dirtyTracker;
+    public stbtic clbss D3DWindowSurfbceDbtb extends D3DSurfbceDbtb {
+        StbteTrbcker dirtyTrbcker;
 
-        public D3DWindowSurfaceData(WComponentPeer peer,
-                                    D3DGraphicsConfig gc)
+        public D3DWindowSurfbceDbtb(WComponentPeer peer,
+                                    D3DGrbphicsConfig gc)
         {
             super(peer, gc,
                   peer.getBounds().width, peer.getBounds().height,
                   null, peer.getColorModel(), 1, SWAP_COPY, VSYNC_DEFAULT,
                   WINDOW);
-            dirtyTracker = getStateTracker();
+            dirtyTrbcker = getStbteTrbcker();
         }
 
         /**
          * {@inheritDoc}
          *
-         * Overridden to use ScreenUpdateManager to obtain the replacement
-         * surface.
+         * Overridden to use ScreenUpdbteMbnbger to obtbin the replbcement
+         * surfbce.
          *
-         * @see sun.java2d.ScreenUpdateManager#getReplacementScreenSurface
+         * @see sun.jbvb2d.ScreenUpdbteMbnbger#getReplbcementScreenSurfbce
          */
         @Override
-        public SurfaceData getReplacement() {
-            ScreenUpdateManager mgr = ScreenUpdateManager.getInstance();
-            return mgr.getReplacementScreenSurface(peer, this);
+        public SurfbceDbtb getReplbcement() {
+            ScreenUpdbteMbnbger mgr = ScreenUpdbteMbnbger.getInstbnce();
+            return mgr.getReplbcementScreenSurfbce(peer, this);
         }
 
         /**
-         * Returns destination Component associated with this SurfaceData.
+         * Returns destinbtion Component bssocibted with this SurfbceDbtb.
          */
         @Override
-        public Object getDestination() {
-            return peer.getTarget();
+        public Object getDestinbtion() {
+            return peer.getTbrget();
         }
 
         @Override
-        void disableAccelerationForSurface() {
-            // for on-screen surfaces we need to make sure a backup GDI surface is
-            // is used until a new one is set (which may happen during a resize). We
-            // don't want the screen update maanger to replace the surface right way
-            // because it causes repainting issues in Swing, so we invalidate it,
-            // this will prevent SUM from issuing a replaceSurfaceData call.
-            setSurfaceLost(true);
-            invalidate();
+        void disbbleAccelerbtionForSurfbce() {
+            // for on-screen surfbces we need to mbke sure b bbckup GDI surfbce is
+            // is used until b new one is set (which mby hbppen during b resize). We
+            // don't wbnt the screen updbte mbbnger to replbce the surfbce right wby
+            // becbuse it cbuses repbinting issues in Swing, so we invblidbte it,
+            // this will prevent SUM from issuing b replbceSurfbceDbtb cbll.
+            setSurfbceLost(true);
+            invblidbte();
             flush();
-            peer.disableAcceleration();
-            ScreenUpdateManager.getInstance().dropScreenSurface(this);
+            peer.disbbleAccelerbtion();
+            ScreenUpdbteMbnbger.getInstbnce().dropScreenSurfbce(this);
         }
 
         @Override
-        void restoreSurface() {
-            if (!peer.isAccelCapable()) {
-                throw new InvalidPipeException("Onscreen acceleration " +
-                                               "disabled for this surface");
+        void restoreSurfbce() {
+            if (!peer.isAccelCbpbble()) {
+                throw new InvblidPipeException("Onscreen bccelerbtion " +
+                                               "disbbled for this surfbce");
             }
-            Window fsw = graphicsDevice.getFullScreenWindow();
-            if (fsw != null && fsw != peer.getTarget()) {
-                throw new InvalidPipeException("Can't restore onscreen surface"+
+            Window fsw = grbphicsDevice.getFullScreenWindow();
+            if (fsw != null && fsw != peer.getTbrget()) {
+                throw new InvblidPipeException("Cbn't restore onscreen surfbce"+
                                                " when in full-screen mode");
             }
-            super.restoreSurface();
-            // if initialization was unsuccessful, an IPE will be thrown
-            // and the surface will remain lost
-            setSurfaceLost(false);
+            super.restoreSurfbce();
+            // if initiblizbtion wbs unsuccessful, bn IPE will be thrown
+            // bnd the surfbce will rembin lost
+            setSurfbceLost(fblse);
 
-            // This is to make sure the render target is reset after this
-            // surface is restored. The reason for this is that sometimes this
-            // surface can be restored from multiple threads (the screen update
-            // manager's thread and app's rendering thread) at the same time,
-            // and when that happens the second restoration will create the
-            // native resource which will not be set as render target because
-            // the BufferedContext's validate method will think that since the
-            // surface data object didn't change then the current render target
-            // is correct and no rendering will appear on the screen.
-            D3DRenderQueue rq = D3DRenderQueue.getInstance();
+            // This is to mbke sure the render tbrget is reset bfter this
+            // surfbce is restored. The rebson for this is thbt sometimes this
+            // surfbce cbn be restored from multiple threbds (the screen updbte
+            // mbnbger's threbd bnd bpp's rendering threbd) bt the sbme time,
+            // bnd when thbt hbppens the second restorbtion will crebte the
+            // nbtive resource which will not be set bs render tbrget becbuse
+            // the BufferedContext's vblidbte method will think thbt since the
+            // surfbce dbtb object didn't chbnge then the current render tbrget
+            // is correct bnd no rendering will bppebr on the screen.
+            D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
             rq.lock();
             try {
-                getContext().invalidateContext();
-            } finally {
+                getContext().invblidbteContext();
+            } finblly {
                 rq.unlock();
             }
         }
 
-        public boolean isDirty() {
-            return !dirtyTracker.isCurrent();
+        public boolebn isDirty() {
+            return !dirtyTrbcker.isCurrent();
         }
 
-        public void markClean() {
-            dirtyTracker = getStateTracker();
+        public void mbrkClebn() {
+            dirtyTrbcker = getStbteTrbcker();
         }
     }
 
     /**
-     * Updates the layered window with the contents of the surface.
+     * Updbtes the lbyered window with the contents of the surfbce.
      *
-     * @param pd3dsd pointer to the D3DSDOps structure
-     * @param pData pointer to the AwtWindow peer data
-     * @param w width of the window
-     * @param h height of the window
-     * @see sun.awt.windows.TranslucentWindowPainter
+     * @pbrbm pd3dsd pointer to the D3DSDOps structure
+     * @pbrbm pDbtb pointer to the AwtWindow peer dbtb
+     * @pbrbm w width of the window
+     * @pbrbm h height of the window
+     * @see sun.bwt.windows.TrbnslucentWindowPbinter
      */
-    public static native boolean updateWindowAccelImpl(long pd3dsd, long pData,
+    public stbtic nbtive boolebn updbteWindowAccelImpl(long pd3dsd, long pDbtb,
                                                        int w, int h);
 }

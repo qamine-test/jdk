@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.decoder;
+pbckbge com.sun.bebns.decoder;
 
 /**
- * This class is intended to handle &lt;string&gt; element.
- * This element specifies {@link String} values.
- * The result value is created from text of the body of this element.
- * For example:<pre>
+ * This clbss is intended to hbndle &lt;string&gt; element.
+ * This element specifies {@link String} vblues.
+ * The result vblue is crebted from text of the body of this element.
+ * For exbmple:<pre>
  * &lt;string&gt;description&lt;/string&gt;</pre>
- * is equivalent to {@code "description"} in Java code.
- * The value of inner element is calculated
- * before adding to the string using {@link String#valueOf(Object)}.
- * Note that all characters are used including whitespaces (' ', '\t', '\n', '\r').
- * So the value of the element<pre>
+ * is equivblent to {@code "description"} in Jbvb code.
+ * The vblue of inner element is cblculbted
+ * before bdding to the string using {@link String#vblueOf(Object)}.
+ * Note thbt bll chbrbcters bre used including whitespbces (' ', '\t', '\n', '\r').
+ * So the vblue of the element<pre>
  * &lt;string&gt&lt;true&gt&lt;/string&gt;</pre>
- * is not equal to the value of the element<pre>
+ * is not equbl to the vblue of the element<pre>
  * &lt;string&gt;
  *     &lt;true&gt;
  * &lt;/string&gt;</pre>
- * <p>The following attribute is supported:
+ * <p>The following bttribute is supported:
  * <dl>
  * <dt>id
- * <dd>the identifier of the variable that is intended to store the result
+ * <dd>the identifier of the vbribble thbt is intended to store the result
  * </dl>
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-public class StringElementHandler extends ElementHandler {
-    private StringBuilder sb = new StringBuilder();
-    private ValueObject value = ValueObjectImpl.NULL;
+public clbss StringElementHbndler extends ElementHbndler {
+    privbte StringBuilder sb = new StringBuilder();
+    privbte VblueObject vblue = VblueObjectImpl.NULL;
 
     /**
-     * Adds the character that contained in this element.
+     * Adds the chbrbcter thbt contbined in this element.
      *
-     * @param ch  the character
+     * @pbrbm ch  the chbrbcter
      */
     @Override
-    public final void addCharacter(char ch) {
+    public finbl void bddChbrbcter(chbr ch) {
         if (this.sb == null) {
-            throw new IllegalStateException("Could not add chararcter to evaluated string element");
+            throw new IllegblStbteException("Could not bdd chbrbrcter to evblubted string element");
         }
-        this.sb.append(ch);
+        this.sb.bppend(ch);
     }
 
     /**
-     * Adds the string value of the argument to the string value of this element.
+     * Adds the string vblue of the brgument to the string vblue of this element.
      *
-     * @param argument  the value of the element that contained in this one
+     * @pbrbm brgument  the vblue of the element thbt contbined in this one
      */
     @Override
-    protected final void addArgument(Object argument) {
+    protected finbl void bddArgument(Object brgument) {
         if (this.sb == null) {
-            throw new IllegalStateException("Could not add argument to evaluated string element");
+            throw new IllegblStbteException("Could not bdd brgument to evblubted string element");
         }
-        this.sb.append(argument);
+        this.sb.bppend(brgument);
     }
 
     /**
-     * Returns the value of this element.
+     * Returns the vblue of this element.
      *
-     * @return the value of this element
+     * @return the vblue of this element
      */
     @Override
-    protected final ValueObject getValueObject() {
+    protected finbl VblueObject getVblueObject() {
         if (this.sb != null) {
             try {
-                this.value = ValueObjectImpl.create(getValue(this.sb.toString()));
+                this.vblue = VblueObjectImpl.crebte(getVblue(this.sb.toString()));
             }
-            catch (RuntimeException exception) {
-                getOwner().handleException(exception);
+            cbtch (RuntimeException exception) {
+                getOwner().hbndleException(exception);
             }
-            finally {
+            finblly {
                 this.sb = null;
             }
         }
-        return this.value;
+        return this.vblue;
     }
 
     /**
      * Returns the text of the body of this element.
-     * This method evaluates value from text of the body,
-     * and should be overridden in those handlers
-     * that extend behavior of this element.
+     * This method evblubtes vblue from text of the body,
+     * bnd should be overridden in those hbndlers
+     * thbt extend behbvior of this element.
      *
-     * @param argument  the text of the body
-     * @return evaluated value
+     * @pbrbm brgument  the text of the body
+     * @return evblubted vblue
      */
-    protected Object getValue(String argument) {
-        return argument;
+    protected Object getVblue(String brgument) {
+        return brgument;
     }
 }

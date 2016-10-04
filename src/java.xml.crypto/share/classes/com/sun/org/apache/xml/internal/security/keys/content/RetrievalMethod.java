@@ -3,93 +3,93 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.content;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.content;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureException;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureException;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsforms;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class RetrievalMethod extends SignatureElementProxy implements KeyInfoContent {
+public clbss RetrievblMethod extends SignbtureElementProxy implements KeyInfoContent {
 
-    /** DSA retrieval */
-    public static final String TYPE_DSA     = Constants.SignatureSpecNS + "DSAKeyValue";
-    /** RSA retrieval */
-    public static final String TYPE_RSA     = Constants.SignatureSpecNS + "RSAKeyValue";
-    /** PGP retrieval */
-    public static final String TYPE_PGP     = Constants.SignatureSpecNS + "PGPData";
-    /** SPKI retrieval */
-    public static final String TYPE_SPKI    = Constants.SignatureSpecNS + "SPKIData";
-    /** MGMT retrieval */
-    public static final String TYPE_MGMT    = Constants.SignatureSpecNS + "MgmtData";
-    /** X509 retrieval */
-    public static final String TYPE_X509    = Constants.SignatureSpecNS + "X509Data";
-    /** RAWX509 retrieval */
-    public static final String TYPE_RAWX509 = Constants.SignatureSpecNS + "rawX509Certificate";
+    /** DSA retrievbl */
+    public stbtic finbl String TYPE_DSA     = Constbnts.SignbtureSpecNS + "DSAKeyVblue";
+    /** RSA retrievbl */
+    public stbtic finbl String TYPE_RSA     = Constbnts.SignbtureSpecNS + "RSAKeyVblue";
+    /** PGP retrievbl */
+    public stbtic finbl String TYPE_PGP     = Constbnts.SignbtureSpecNS + "PGPDbtb";
+    /** SPKI retrievbl */
+    public stbtic finbl String TYPE_SPKI    = Constbnts.SignbtureSpecNS + "SPKIDbtb";
+    /** MGMT retrievbl */
+    public stbtic finbl String TYPE_MGMT    = Constbnts.SignbtureSpecNS + "MgmtDbtb";
+    /** X509 retrievbl */
+    public stbtic finbl String TYPE_X509    = Constbnts.SignbtureSpecNS + "X509Dbtb";
+    /** RAWX509 retrievbl */
+    public stbtic finbl String TYPE_RAWX509 = Constbnts.SignbtureSpecNS + "rbwX509Certificbte";
 
     /**
-     * Constructor RetrievalMethod
+     * Constructor RetrievblMethod
      *
-     * @param element
-     * @param BaseURI
+     * @pbrbm element
+     * @pbrbm BbseURI
      * @throws XMLSecurityException
      */
-    public RetrievalMethod(Element element, String BaseURI) throws XMLSecurityException {
-        super(element, BaseURI);
+    public RetrievblMethod(Element element, String BbseURI) throws XMLSecurityException {
+        super(element, BbseURI);
     }
 
     /**
-     * Constructor RetrievalMethod
+     * Constructor RetrievblMethod
      *
-     * @param doc
-     * @param URI
-     * @param transforms
-     * @param Type
+     * @pbrbm doc
+     * @pbrbm URI
+     * @pbrbm trbnsforms
+     * @pbrbm Type
      */
-    public RetrievalMethod(Document doc, String URI, Transforms transforms, String Type) {
+    public RetrievblMethod(Document doc, String URI, Trbnsforms trbnsforms, String Type) {
         super(doc);
 
-        this.constructionElement.setAttributeNS(null, Constants._ATT_URI, URI);
+        this.constructionElement.setAttributeNS(null, Constbnts._ATT_URI, URI);
 
         if (Type != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_TYPE, Type);
+            this.constructionElement.setAttributeNS(null, Constbnts._ATT_TYPE, Type);
         }
 
-        if (transforms != null) {
-            this.constructionElement.appendChild(transforms.getElement());
-            XMLUtils.addReturnToElement(this.constructionElement);
+        if (trbnsforms != null) {
+            this.constructionElement.bppendChild(trbnsforms.getElement());
+            XMLUtils.bddReturnToElement(this.constructionElement);
         }
     }
 
     /**
      * Method getURIAttr
      *
-     * @return the URI attribute
+     * @return the URI bttribute
      */
     public Attr getURIAttr() {
-        return this.constructionElement.getAttributeNodeNS(null, Constants._ATT_URI);
+        return this.constructionElement.getAttributeNodeNS(null, Constbnts._ATT_URI);
     }
 
     /**
@@ -98,38 +98,38 @@ public class RetrievalMethod extends SignatureElementProxy implements KeyInfoCon
      * @return URI string
      */
     public String getURI() {
-        return this.getURIAttr().getNodeValue();
+        return this.getURIAttr().getNodeVblue();
     }
 
     /** @return the type*/
     public String getType() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_TYPE);
+        return this.constructionElement.getAttributeNS(null, Constbnts._ATT_TYPE);
     }
 
     /**
-     * Method getTransforms
+     * Method getTrbnsforms
      *
      * @throws XMLSecurityException
-     * @return the transformations
+     * @return the trbnsformbtions
      */
-    public Transforms getTransforms() throws XMLSecurityException {
+    public Trbnsforms getTrbnsforms() throws XMLSecurityException {
         try {
-            Element transformsElem =
+            Element trbnsformsElem =
                 XMLUtils.selectDsNode(
-                    this.constructionElement.getFirstChild(), Constants._TAG_TRANSFORMS, 0);
+                    this.constructionElement.getFirstChild(), Constbnts._TAG_TRANSFORMS, 0);
 
-            if (transformsElem != null) {
-                return new Transforms(transformsElem, this.baseURI);
+            if (trbnsformsElem != null) {
+                return new Trbnsforms(trbnsformsElem, this.bbseURI);
             }
 
             return null;
-        } catch (XMLSignatureException ex) {
+        } cbtch (XMLSignbtureException ex) {
             throw new XMLSecurityException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_RETRIEVALMETHOD;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_RETRIEVALMETHOD;
     }
 }

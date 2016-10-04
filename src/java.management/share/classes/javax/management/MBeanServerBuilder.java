@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import com.sun.jmx.mbeanserver.JmxMBeanServer;
+import com.sun.jmx.mbebnserver.JmxMBebnServer;
 
 /**
- * <p>This class represents a builder that creates a default
- * {@link javax.management.MBeanServer} implementation.
- * The JMX {@link javax.management.MBeanServerFactory} allows
- * applications to provide their custom MBeanServer
- * implementation by providing a subclass of this class.</p>
+ * <p>This clbss represents b builder thbt crebtes b defbult
+ * {@link jbvbx.mbnbgement.MBebnServer} implementbtion.
+ * The JMX {@link jbvbx.mbnbgement.MBebnServerFbctory} bllows
+ * bpplicbtions to provide their custom MBebnServer
+ * implementbtion by providing b subclbss of this clbss.</p>
  *
- * @see MBeanServer
- * @see MBeanServerFactory
+ * @see MBebnServer
+ * @see MBebnServerFbctory
  *
  * @since 1.5
  */
-public class MBeanServerBuilder {
+public clbss MBebnServerBuilder {
     /**
-     * Public default constructor.
+     * Public defbult constructor.
      **/
-    public MBeanServerBuilder() {
+    public MBebnServerBuilder() {
     }
 
     /**
-     * This method creates a new MBeanServerDelegate for a new MBeanServer.
-     * When creating a new MBeanServer the
-     * {@link javax.management.MBeanServerFactory} first calls this method
-     * in order to create a new MBeanServerDelegate.
-     * <br>Then it calls
-     * <code>newMBeanServer(defaultDomain,outer,delegate)</code>
-     * passing the <var>delegate</var> that should be used by the MBeanServer
-     * implementation.
-     * <p>Note that the passed <var>delegate</var> might not be directly the
-     * MBeanServerDelegate that was returned by this method. It could
-     * be, for instance, a new object wrapping the previously
+     * This method crebtes b new MBebnServerDelegbte for b new MBebnServer.
+     * When crebting b new MBebnServer the
+     * {@link jbvbx.mbnbgement.MBebnServerFbctory} first cblls this method
+     * in order to crebte b new MBebnServerDelegbte.
+     * <br>Then it cblls
+     * <code>newMBebnServer(defbultDombin,outer,delegbte)</code>
+     * pbssing the <vbr>delegbte</vbr> thbt should be used by the MBebnServer
+     * implementbtion.
+     * <p>Note thbt the pbssed <vbr>delegbte</vbr> might not be directly the
+     * MBebnServerDelegbte thbt wbs returned by this method. It could
+     * be, for instbnce, b new object wrbpping the previously
      * returned object.
      *
-     * @return A new {@link javax.management.MBeanServerDelegate}.
+     * @return A new {@link jbvbx.mbnbgement.MBebnServerDelegbte}.
      **/
-    public MBeanServerDelegate newMBeanServerDelegate() {
-        return JmxMBeanServer.newMBeanServerDelegate();
+    public MBebnServerDelegbte newMBebnServerDelegbte() {
+        return JmxMBebnServer.newMBebnServerDelegbte();
     }
 
     /**
-     * This method creates a new MBeanServer implementation object.
-     * When creating a new MBeanServer the
-     * {@link javax.management.MBeanServerFactory} first calls
-     * <code>newMBeanServerDelegate()</code> in order to obtain a new
-     * {@link javax.management.MBeanServerDelegate} for the new
-     * MBeanServer. Then it calls
-     * <code>newMBeanServer(defaultDomain,outer,delegate)</code>
-     * passing the <var>delegate</var> that should be used by the MBeanServer
-     * implementation.
-     * <p>Note that the passed <var>delegate</var> might not be directly the
-     * MBeanServerDelegate that was returned by this implementation. It could
-     * be, for instance, a new object wrapping the previously
-     * returned delegate.
-     * <p>The <var>outer</var> parameter is a pointer to the MBeanServer that
-     * should be passed to the {@link javax.management.MBeanRegistration}
-     * interface when registering MBeans inside the MBeanServer.
-     * If <var>outer</var> is <code>null</code>, then the MBeanServer
-     * implementation must use its own <code>this</code> reference when
-     * invoking the {@link javax.management.MBeanRegistration} interface.
-     * <p>This makes it possible for a MBeanServer implementation to wrap
-     * another MBeanServer implementation, in order to implement, e.g,
-     * security checks, or to prevent access to the actual MBeanServer
-     * implementation by returning a pointer to a wrapping object.
+     * This method crebtes b new MBebnServer implementbtion object.
+     * When crebting b new MBebnServer the
+     * {@link jbvbx.mbnbgement.MBebnServerFbctory} first cblls
+     * <code>newMBebnServerDelegbte()</code> in order to obtbin b new
+     * {@link jbvbx.mbnbgement.MBebnServerDelegbte} for the new
+     * MBebnServer. Then it cblls
+     * <code>newMBebnServer(defbultDombin,outer,delegbte)</code>
+     * pbssing the <vbr>delegbte</vbr> thbt should be used by the MBebnServer
+     * implementbtion.
+     * <p>Note thbt the pbssed <vbr>delegbte</vbr> might not be directly the
+     * MBebnServerDelegbte thbt wbs returned by this implementbtion. It could
+     * be, for instbnce, b new object wrbpping the previously
+     * returned delegbte.
+     * <p>The <vbr>outer</vbr> pbrbmeter is b pointer to the MBebnServer thbt
+     * should be pbssed to the {@link jbvbx.mbnbgement.MBebnRegistrbtion}
+     * interfbce when registering MBebns inside the MBebnServer.
+     * If <vbr>outer</vbr> is <code>null</code>, then the MBebnServer
+     * implementbtion must use its own <code>this</code> reference when
+     * invoking the {@link jbvbx.mbnbgement.MBebnRegistrbtion} interfbce.
+     * <p>This mbkes it possible for b MBebnServer implementbtion to wrbp
+     * bnother MBebnServer implementbtion, in order to implement, e.g,
+     * security checks, or to prevent bccess to the bctubl MBebnServer
+     * implementbtion by returning b pointer to b wrbpping object.
      *
-     * @param defaultDomain Default domain of the new MBeanServer.
-     * @param outer A pointer to the MBeanServer object that must be
-     *        passed to the MBeans when invoking their
-     *        {@link javax.management.MBeanRegistration} interface.
-     * @param delegate A pointer to the MBeanServerDelegate associated
-     *        with the new MBeanServer. The new MBeanServer must register
-     *        this MBean in its MBean repository.
+     * @pbrbm defbultDombin Defbult dombin of the new MBebnServer.
+     * @pbrbm outer A pointer to the MBebnServer object thbt must be
+     *        pbssed to the MBebns when invoking their
+     *        {@link jbvbx.mbnbgement.MBebnRegistrbtion} interfbce.
+     * @pbrbm delegbte A pointer to the MBebnServerDelegbte bssocibted
+     *        with the new MBebnServer. The new MBebnServer must register
+     *        this MBebn in its MBebn repository.
      *
-     * @return A new private implementation of an MBeanServer.
+     * @return A new privbte implementbtion of bn MBebnServer.
      **/
-    public MBeanServer newMBeanServer(String              defaultDomain,
-                                      MBeanServer         outer,
-                                      MBeanServerDelegate delegate) {
-        // By default, MBeanServerInterceptors are disabled.
-        // Use com.sun.jmx.mbeanserver.MBeanServerBuilder to obtain
-        // MBeanServers on which MBeanServerInterceptors are enabled.
-        return JmxMBeanServer.newMBeanServer(defaultDomain,outer,delegate,
-                                             false);
+    public MBebnServer newMBebnServer(String              defbultDombin,
+                                      MBebnServer         outer,
+                                      MBebnServerDelegbte delegbte) {
+        // By defbult, MBebnServerInterceptors bre disbbled.
+        // Use com.sun.jmx.mbebnserver.MBebnServerBuilder to obtbin
+        // MBebnServers on which MBebnServerInterceptors bre enbbled.
+        return JmxMBebnServer.newMBebnServer(defbultDombin,outer,delegbte,
+                                             fblse);
     }
 }

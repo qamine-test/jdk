@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.beans.PropertyVetoException;
+import jbvb.bwt.*;
+import jbvb.bebns.PropertyVetoException;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.UIResource;
 
 import sun.swing.SwingUtilities2;
 
-import apple.laf.*;
-import apple.laf.JRSUIConstants.*;
-import apple.laf.JRSUIState.TitleBarHeightState;
+import bpple.lbf.*;
+import bpple.lbf.JRSUIConstbnts.*;
+import bpple.lbf.JRSUIStbte.TitleBbrHeightStbte;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaInternalFrameBorderMetrics;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
+import com.bpple.lbf.AqubInternblFrbmeBorderMetrics;
 
-public class AquaInternalFrameBorder implements Border, UIResource {
-    private static final int kCloseButton = 0;
-    private static final int kIconButton = 1;
-    private static final int kGrowButton = 2;
+public clbss AqubInternblFrbmeBorder implements Border, UIResource {
+    privbte stbtic finbl int kCloseButton = 0;
+    privbte stbtic finbl int kIconButton = 1;
+    privbte stbtic finbl int kGrowButton = 2;
 
-    private static final int sMaxIconWidth = 15;
-    private static final int sMaxIconHeight = sMaxIconWidth;
-    private static final int sAfterButtonPad = 11;
-    private static final int sAfterIconPad = 5;
-    private static final int sRightSideTitleClip = 0;
+    privbte stbtic finbl int sMbxIconWidth = 15;
+    privbte stbtic finbl int sMbxIconHeight = sMbxIconWidth;
+    privbte stbtic finbl int sAfterButtonPbd = 11;
+    privbte stbtic finbl int sAfterIconPbd = 5;
+    privbte stbtic finbl int sRightSideTitleClip = 0;
 
-    private static final int kContentTester = 100; // For getting region insets
+    privbte stbtic finbl int kContentTester = 100; // For getting region insets
 
-    static final RecyclableSingleton<AquaInternalFrameBorder> documentWindowFrame = new RecyclableSingleton<AquaInternalFrameBorder>() {
-        protected AquaInternalFrameBorder getInstance() {
-            return new AquaInternalFrameBorder(WindowType.DOCUMENT);
+    stbtic finbl RecyclbbleSingleton<AqubInternblFrbmeBorder> documentWindowFrbme = new RecyclbbleSingleton<AqubInternblFrbmeBorder>() {
+        protected AqubInternblFrbmeBorder getInstbnce() {
+            return new AqubInternblFrbmeBorder(WindowType.DOCUMENT);
         }
     };
-    protected static AquaInternalFrameBorder window() {
-        return documentWindowFrame.get();
+    protected stbtic AqubInternblFrbmeBorder window() {
+        return documentWindowFrbme.get();
     }
 
-    static final RecyclableSingleton<AquaInternalFrameBorder> utilityWindowFrame = new RecyclableSingleton<AquaInternalFrameBorder>() {
-        protected AquaInternalFrameBorder getInstance() {
-            return new AquaInternalFrameBorder(WindowType.UTILITY);
+    stbtic finbl RecyclbbleSingleton<AqubInternblFrbmeBorder> utilityWindowFrbme = new RecyclbbleSingleton<AqubInternblFrbmeBorder>() {
+        protected AqubInternblFrbmeBorder getInstbnce() {
+            return new AqubInternblFrbmeBorder(WindowType.UTILITY);
         }
     };
-    protected static AquaInternalFrameBorder utility() {
-        return utilityWindowFrame.get();
+    protected stbtic AqubInternblFrbmeBorder utility() {
+        return utilityWindowFrbme.get();
     }
 
-    static final RecyclableSingleton<AquaInternalFrameBorder> dialogWindowFrame = new RecyclableSingleton<AquaInternalFrameBorder>() {
-        protected AquaInternalFrameBorder getInstance() {
-            return new AquaInternalFrameBorder(WindowType.DOCUMENT);
+    stbtic finbl RecyclbbleSingleton<AqubInternblFrbmeBorder> diblogWindowFrbme = new RecyclbbleSingleton<AqubInternblFrbmeBorder>() {
+        protected AqubInternblFrbmeBorder getInstbnce() {
+            return new AqubInternblFrbmeBorder(WindowType.DOCUMENT);
         }
     };
-    protected static AquaInternalFrameBorder dialog() {
-        return dialogWindowFrame.get();
+    protected stbtic AqubInternblFrbmeBorder diblog() {
+        return diblogWindowFrbme.get();
     }
 
-    private final AquaInternalFrameBorderMetrics metrics;
+    privbte finbl AqubInternblFrbmeBorderMetrics metrics;
 
-    private final int fThisButtonSpan;
-    private final int fThisLeftSideTotal;
+    privbte finbl int fThisButtonSpbn;
+    privbte finbl int fThisLeftSideTotbl;
 
-    private final boolean fIsUtility;
+    privbte finbl boolebn fIsUtility;
 
-    // Instance variables
-    private final WindowType fWindowKind; // Which kind of window to draw
-    private Insets fBorderInsets; // Cached insets object
+    // Instbnce vbribbles
+    privbte finbl WindowType fWindowKind; // Which kind of window to drbw
+    privbte Insets fBorderInsets; // Cbched insets object
 
-    private Color selectedTextColor;
-    private Color notSelectedTextColor;
+    privbte Color selectedTextColor;
+    privbte Color notSelectedTextColor;
 
-    private Rectangle fInBounds; // Cached bounds rect object
+    privbte Rectbngle fInBounds; // Cbched bounds rect object
 
-    protected final AquaPainter<TitleBarHeightState> titleBarPainter = AquaPainter.create(JRSUIStateFactory.getTitleBar());
-    protected final AquaPainter<JRSUIState> widgetPainter = AquaPainter.create(JRSUIState.getInstance());
+    protected finbl AqubPbinter<TitleBbrHeightStbte> titleBbrPbinter = AqubPbinter.crebte(JRSUIStbteFbctory.getTitleBbr());
+    protected finbl AqubPbinter<JRSUIStbte> widgetPbinter = AqubPbinter.crebte(JRSUIStbte.getInstbnce());
 
-    protected AquaInternalFrameBorder(final WindowType kind) {
+    protected AqubInternblFrbmeBorder(finbl WindowType kind) {
         fWindowKind = kind;
 
-        titleBarPainter.state.set(WindowClipCorners.YES);
+        titleBbrPbinter.stbte.set(WindowClipCorners.YES);
         if (fWindowKind == WindowType.UTILITY) {
             fIsUtility = true;
-            metrics = AquaInternalFrameBorderMetrics.getMetrics(true);
+            metrics = AqubInternblFrbmeBorderMetrics.getMetrics(true);
 
-            widgetPainter.state.set(WindowType.UTILITY);
-            titleBarPainter.state.set(WindowType.UTILITY);
+            widgetPbinter.stbte.set(WindowType.UTILITY);
+            titleBbrPbinter.stbte.set(WindowType.UTILITY);
         } else {
-            fIsUtility = false;
-            metrics = AquaInternalFrameBorderMetrics.getMetrics(false);
+            fIsUtility = fblse;
+            metrics = AqubInternblFrbmeBorderMetrics.getMetrics(fblse);
 
-            widgetPainter.state.set(WindowType.DOCUMENT);
-            titleBarPainter.state.set(WindowType.DOCUMENT);
+            widgetPbinter.stbte.set(WindowType.DOCUMENT);
+            titleBbrPbinter.stbte.set(WindowType.DOCUMENT);
         }
-        titleBarPainter.state.setValue(metrics.titleBarHeight);
-        titleBarPainter.state.set(WindowTitleBarSeparator.YES);
-        widgetPainter.state.set(AlignmentVertical.CENTER);
+        titleBbrPbinter.stbte.setVblue(metrics.titleBbrHeight);
+        titleBbrPbinter.stbte.set(WindowTitleBbrSepbrbtor.YES);
+        widgetPbinter.stbte.set(AlignmentVerticbl.CENTER);
 
-        fThisButtonSpan = (metrics.buttonWidth * 3) + (metrics.buttonPadding * 2);
-        fThisLeftSideTotal = metrics.leftSidePadding + fThisButtonSpan + sAfterButtonPad;
+        fThisButtonSpbn = (metrics.buttonWidth * 3) + (metrics.buttonPbdding * 2);
+        fThisLeftSideTotbl = metrics.leftSidePbdding + fThisButtonSpbn + sAfterButtonPbd;
     }
 
-    public void setColors(final Color inSelectedTextColor, final Color inNotSelectedTextColor) {
+    public void setColors(finbl Color inSelectedTextColor, finbl Color inNotSelectedTextColor) {
         selectedTextColor = inSelectedTextColor;
         notSelectedTextColor = inNotSelectedTextColor;
     }
 
-    // Utility to lazy-init and fill in fInBounds
-    protected void setInBounds(final int x, final int y, final int w, final int h) {
-        if (fInBounds == null) fInBounds = new Rectangle();
+    // Utility to lbzy-init bnd fill in fInBounds
+    protected void setInBounds(finbl int x, finbl int y, finbl int w, finbl int h) {
+        if (fInBounds == null) fInBounds = new Rectbngle();
 
         fInBounds.x = x;
         fInBounds.y = y;
@@ -140,76 +140,76 @@ public class AquaInternalFrameBorder implements Border, UIResource {
         fInBounds.height = h;
     }
 
-    // Border interface
-    public boolean isBorderOpaque() {
-        return false;
+    // Border interfbce
+    public boolebn isBorderOpbque() {
+        return fblse;
     }
 
-    // Border interface
-    public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int w, final int h) {
-        // For expanded InternalFrames, the frame & component are the same object
-        paintBorder((JInternalFrame)c, c, g, x, y, w, h);
+    // Border interfbce
+    public void pbintBorder(finbl Component c, finbl Grbphics g, finbl int x, finbl int y, finbl int w, finbl int h) {
+        // For expbnded InternblFrbmes, the frbme & component bre the sbme object
+        pbintBorder((JInternblFrbme)c, c, g, x, y, w, h);
     }
 
-    protected void paintTitleContents(final Graphics g, final JInternalFrame frame, final int x, final int y, final int w, final int h) {
-        final boolean isSelected = frame.isSelected();
-        final Font f = g.getFont();
+    protected void pbintTitleContents(finbl Grbphics g, finbl JInternblFrbme frbme, finbl int x, finbl int y, finbl int w, finbl int h) {
+        finbl boolebn isSelected = frbme.isSelected();
+        finbl Font f = g.getFont();
 
         g.setFont(metrics.font);
 
-        // Center text vertically.
-        final FontMetrics fm = g.getFontMetrics();
-        final int baseline = (metrics.titleBarHeight + fm.getAscent() - fm.getLeading() - fm.getDescent()) / 2;
+        // Center text verticblly.
+        finbl FontMetrics fm = g.getFontMetrics();
+        finbl int bbseline = (metrics.titleBbrHeight + fm.getAscent() - fm.getLebding() - fm.getDescent()) / 2;
 
-        // max button is the rightmost so use it
-        final int usedWidth = fThisLeftSideTotal + sRightSideTitleClip;
-        int iconWidth = getIconWidth(frame);
-        if (iconWidth > 0) iconWidth += sAfterIconPad;
+        // mbx button is the rightmost so use it
+        finbl int usedWidth = fThisLeftSideTotbl + sRightSideTitleClip;
+        int iconWidth = getIconWidth(frbme);
+        if (iconWidth > 0) iconWidth += sAfterIconPbd;
 
-        final int totalWidth = w;
+        finbl int totblWidth = w;
 
-        // window title looks like: | 0 0 0(sAfterButtonPad)IconWidth Title(right pad) |
-        final int availTextWidth = totalWidth - usedWidth - iconWidth - sAfterButtonPad;
+        // window title looks like: | 0 0 0(sAfterButtonPbd)IconWidth Title(right pbd) |
+        finbl int bvbilTextWidth = totblWidth - usedWidth - iconWidth - sAfterButtonPbd;
 
-        final String title = frame.getTitle();
+        finbl String title = frbme.getTitle();
 
         String text = title;
-        int totalTextWidth = 0;
+        int totblTextWidth = 0;
 
-        int startXPosition = fThisLeftSideTotal;
-        boolean wasTextShortened = false;
+        int stbrtXPosition = fThisLeftSideTotbl;
+        boolebn wbsTextShortened = fblse;
         // shorten the string to fit in the
-        if ((text != null) && !(text.equals(""))) {
-            totalTextWidth = SwingUtilities.computeStringWidth(fm, text);
-            final String clipString = "\u2026";
-            if (totalTextWidth > availTextWidth) {
-                wasTextShortened = true;
-                totalTextWidth = SwingUtilities.computeStringWidth(fm, clipString);
-                int nChars;
-                for (nChars = 0; nChars < text.length(); nChars++) {
-                    final int nextCharWidth = fm.charWidth(text.charAt(nChars));
-                    if ((totalTextWidth + nextCharWidth) > availTextWidth) {
-                        break;
+        if ((text != null) && !(text.equbls(""))) {
+            totblTextWidth = SwingUtilities.computeStringWidth(fm, text);
+            finbl String clipString = "\u2026";
+            if (totblTextWidth > bvbilTextWidth) {
+                wbsTextShortened = true;
+                totblTextWidth = SwingUtilities.computeStringWidth(fm, clipString);
+                int nChbrs;
+                for (nChbrs = 0; nChbrs < text.length(); nChbrs++) {
+                    finbl int nextChbrWidth = fm.chbrWidth(text.chbrAt(nChbrs));
+                    if ((totblTextWidth + nextChbrWidth) > bvbilTextWidth) {
+                        brebk;
                     }
-                    totalTextWidth += nextCharWidth;
+                    totblTextWidth += nextChbrWidth;
                 }
-                text = text.substring(0, nChars) + clipString;
+                text = text.substring(0, nChbrs) + clipString;
             }
 
-            if (!wasTextShortened) {
+            if (!wbsTextShortened) {
                 // center it!
-                startXPosition = (totalWidth - (totalTextWidth + iconWidth)) / 2;
-                if (startXPosition < fThisLeftSideTotal) {
-                    startXPosition = fThisLeftSideTotal;
+                stbrtXPosition = (totblWidth - (totblTextWidth + iconWidth)) / 2;
+                if (stbrtXPosition < fThisLeftSideTotbl) {
+                    stbrtXPosition = fThisLeftSideTotbl;
                 }
             }
 
             if (isSelected || fIsUtility) {
-                g.setColor(Color.lightGray);
+                g.setColor(Color.lightGrby);
             } else {
                 g.setColor(Color.white);
             }
-            SwingUtilities2.drawString(frame, g, text, x + startXPosition + iconWidth, y + baseline + 1);
+            SwingUtilities2.drbwString(frbme, g, text, x + stbrtXPosition + iconWidth, y + bbseline + 1);
 
             if (isSelected || fIsUtility) {
                 g.setColor(selectedTextColor);
@@ -217,35 +217,35 @@ public class AquaInternalFrameBorder implements Border, UIResource {
                 g.setColor(notSelectedTextColor);
             }
 
-            SwingUtilities2.drawString(frame, g, text, x + startXPosition + iconWidth, y + baseline);
+            SwingUtilities2.drbwString(frbme, g, text, x + stbrtXPosition + iconWidth, y + bbseline);
             g.setFont(f);
         }
 
-        // sja fix x & y
-        final int iconYPostion = (metrics.titleBarHeight - getIconHeight(frame)) / 2;
-        paintTitleIcon(g, frame, x + startXPosition, y + iconYPostion);
+        // sjb fix x & y
+        finbl int iconYPostion = (metrics.titleBbrHeight - getIconHeight(frbme)) / 2;
+        pbintTitleIcon(g, frbme, x + stbrtXPosition, y + iconYPostion);
     }
 
-    public int getWhichButtonHit(final JInternalFrame frame, final int x, final int y) {
+    public int getWhichButtonHit(finbl JInternblFrbme frbme, finbl int x, finbl int y) {
         int buttonHit = -1;
 
-        final Insets i = frame.getInsets();
-        int startX = i.left + metrics.leftSidePadding - 1;
-        if (isInsideYButtonArea(i, y) && x >= startX) {
-            if (x <= (startX + metrics.buttonWidth)) {
-                if (frame.isClosable()) {
+        finbl Insets i = frbme.getInsets();
+        int stbrtX = i.left + metrics.leftSidePbdding - 1;
+        if (isInsideYButtonAreb(i, y) && x >= stbrtX) {
+            if (x <= (stbrtX + metrics.buttonWidth)) {
+                if (frbme.isClosbble()) {
                     buttonHit = kCloseButton;
                 }
             } else {
-                startX += metrics.buttonWidth + metrics.buttonPadding;
-                if (x >= startX && x <= (startX + metrics.buttonWidth)) {
-                    if (frame.isIconifiable()) {
+                stbrtX += metrics.buttonWidth + metrics.buttonPbdding;
+                if (x >= stbrtX && x <= (stbrtX + metrics.buttonWidth)) {
+                    if (frbme.isIconifibble()) {
                         buttonHit = kIconButton;
                     }
                 } else {
-                    startX += metrics.buttonWidth + metrics.buttonPadding;
-                    if (x >= startX && x <= (startX + metrics.buttonWidth)) {
-                        if (frame.isMaximizable()) {
+                    stbrtX += metrics.buttonWidth + metrics.buttonPbdding;
+                    if (x >= stbrtX && x <= (stbrtX + metrics.buttonWidth)) {
+                        if (frbme.isMbximizbble()) {
                             buttonHit = kGrowButton;
                         }
                     }
@@ -256,243 +256,243 @@ public class AquaInternalFrameBorder implements Border, UIResource {
         return buttonHit;
     }
 
-    public void doButtonAction(final JInternalFrame frame, final int whichButton) {
+    public void doButtonAction(finbl JInternblFrbme frbme, finbl int whichButton) {
         switch (whichButton) {
-            case kCloseButton:
-                frame.doDefaultCloseAction();
-                break;
+            cbse kCloseButton:
+                frbme.doDefbultCloseAction();
+                brebk;
 
-            case kIconButton:
-                if (frame.isIconifiable()) {
-                    if (!frame.isIcon()) {
+            cbse kIconButton:
+                if (frbme.isIconifibble()) {
+                    if (!frbme.isIcon()) {
                         try {
-                            frame.setIcon(true);
-                        } catch(final PropertyVetoException e1) {}
+                            frbme.setIcon(true);
+                        } cbtch(finbl PropertyVetoException e1) {}
                     } else {
                         try {
-                            frame.setIcon(false);
-                        } catch(final PropertyVetoException e1) {}
+                            frbme.setIcon(fblse);
+                        } cbtch(finbl PropertyVetoException e1) {}
                     }
                 }
-                break;
+                brebk;
 
-            case kGrowButton:
-                if (frame.isMaximizable()) {
-                    if (!frame.isMaximum()) {
+            cbse kGrowButton:
+                if (frbme.isMbximizbble()) {
+                    if (!frbme.isMbximum()) {
                         try {
-                            frame.setMaximum(true);
-                        } catch(final PropertyVetoException e5) {}
+                            frbme.setMbximum(true);
+                        } cbtch(finbl PropertyVetoException e5) {}
                     } else {
                         try {
-                            frame.setMaximum(false);
-                        } catch(final PropertyVetoException e6) {}
+                            frbme.setMbximum(fblse);
+                        } cbtch(finbl PropertyVetoException e6) {}
                     }
                 }
-                break;
+                brebk;
 
-            default:
-                System.err.println("AquaInternalFrameBorder should never get here!!!!");
-                Thread.dumpStack();
-                break;
+            defbult:
+                System.err.println("AqubInternblFrbmeBorder should never get here!!!!");
+                Threbd.dumpStbck();
+                brebk;
         }
     }
 
-    public boolean isInsideYButtonArea(final Insets i, final int y) {
-        final int startY = (i.top - metrics.titleBarHeight / 2) - (metrics.buttonHeight / 2) - 1;
-        final int endY = startY + metrics.buttonHeight;
-        return y >= startY && y <= endY;
+    public boolebn isInsideYButtonAreb(finbl Insets i, finbl int y) {
+        finbl int stbrtY = (i.top - metrics.titleBbrHeight / 2) - (metrics.buttonHeight / 2) - 1;
+        finbl int endY = stbrtY + metrics.buttonHeight;
+        return y >= stbrtY && y <= endY;
     }
 
-    public boolean getWithinRolloverArea(final Insets i, final int x, final int y) {
-        final int startX = i.left + metrics.leftSidePadding;
-        final int endX = startX + fThisButtonSpan;
-        return isInsideYButtonArea(i, y) && x >= startX && x <= endX;
+    public boolebn getWithinRolloverAreb(finbl Insets i, finbl int x, finbl int y) {
+        finbl int stbrtX = i.left + metrics.leftSidePbdding;
+        finbl int endX = stbrtX + fThisButtonSpbn;
+        return isInsideYButtonAreb(i, y) && x >= stbrtX && x <= endX;
     }
 
-    protected void paintTitleIcon(final Graphics g, final JInternalFrame frame, final int x, final int y) {
-        Icon icon = frame.getFrameIcon();
-        if (icon == null) icon = UIManager.getIcon("InternalFrame.icon");
+    protected void pbintTitleIcon(finbl Grbphics g, finbl JInternblFrbme frbme, finbl int x, finbl int y) {
+        Icon icon = frbme.getFrbmeIcon();
+        if (icon == null) icon = UIMbnbger.getIcon("InternblFrbme.icon");
         if (icon == null) return;
 
-        // Resize to 16x16 if necessary.
-        if (icon instanceof ImageIcon && (icon.getIconWidth() > sMaxIconWidth || icon.getIconHeight() > sMaxIconHeight)) {
-            final Image img = ((ImageIcon)icon).getImage();
-            ((ImageIcon)icon).setImage(img.getScaledInstance(sMaxIconWidth, sMaxIconHeight, Image.SCALE_SMOOTH));
+        // Resize to 16x16 if necessbry.
+        if (icon instbnceof ImbgeIcon && (icon.getIconWidth() > sMbxIconWidth || icon.getIconHeight() > sMbxIconHeight)) {
+            finbl Imbge img = ((ImbgeIcon)icon).getImbge();
+            ((ImbgeIcon)icon).setImbge(img.getScbledInstbnce(sMbxIconWidth, sMbxIconHeight, Imbge.SCALE_SMOOTH));
         }
 
-        icon.paintIcon(frame, g, x, y);
+        icon.pbintIcon(frbme, g, x, y);
     }
 
-    protected int getIconWidth(final JInternalFrame frame) {
+    protected int getIconWidth(finbl JInternblFrbme frbme) {
         int width = 0;
 
-        Icon icon = frame.getFrameIcon();
+        Icon icon = frbme.getFrbmeIcon();
         if (icon == null) {
-            icon = UIManager.getIcon("InternalFrame.icon");
+            icon = UIMbnbger.getIcon("InternblFrbme.icon");
         }
 
-        if (icon != null && icon instanceof ImageIcon) {
-            // Resize to 16x16 if necessary.
-            width = Math.min(icon.getIconWidth(), sMaxIconWidth);
+        if (icon != null && icon instbnceof ImbgeIcon) {
+            // Resize to 16x16 if necessbry.
+            width = Mbth.min(icon.getIconWidth(), sMbxIconWidth);
         }
 
         return width;
     }
 
-    protected int getIconHeight(final JInternalFrame frame) {
+    protected int getIconHeight(finbl JInternblFrbme frbme) {
         int height = 0;
 
-        Icon icon = frame.getFrameIcon();
+        Icon icon = frbme.getFrbmeIcon();
         if (icon == null) {
-            icon = UIManager.getIcon("InternalFrame.icon");
+            icon = UIMbnbger.getIcon("InternblFrbme.icon");
         }
 
-        if (icon != null && icon instanceof ImageIcon) {
-            // Resize to 16x16 if necessary.
-            height = Math.min(icon.getIconHeight(), sMaxIconHeight);
+        if (icon != null && icon instbnceof ImbgeIcon) {
+            // Resize to 16x16 if necessbry.
+            height = Mbth.min(icon.getIconHeight(), sMbxIconHeight);
         }
 
         return height;
     }
 
-    public void drawWindowTitle(final Graphics g, final JInternalFrame frame, final int inX, final int inY, final int inW, final int inH) {
-        final int x = inX;
-        final int y = inY;
-        final int w = inW;
+    public void drbwWindowTitle(finbl Grbphics g, finbl JInternblFrbme frbme, finbl int inX, finbl int inY, finbl int inW, finbl int inH) {
+        finbl int x = inX;
+        finbl int y = inY;
+        finbl int w = inW;
         int h = inH;
 
-        h = metrics.titleBarHeight + inH;
+        h = metrics.titleBbrHeight + inH;
 
-        // paint the background
-        titleBarPainter.state.set(frame.isSelected() ? State.ACTIVE : State.INACTIVE);
-        titleBarPainter.paint(g, frame, x, y, w, h);
+        // pbint the bbckground
+        titleBbrPbinter.stbte.set(frbme.isSelected() ? Stbte.ACTIVE : Stbte.INACTIVE);
+        titleBbrPbinter.pbint(g, frbme, x, y, w, h);
 
-        // now the title and the icon
-        paintTitleContents(g, frame, x, y, w, h);
+        // now the title bnd the icon
+        pbintTitleContents(g, frbme, x, y, w, h);
 
-        // finally the widgets
-        drawAllWidgets(g, frame); // rollover is last attribute
+        // finblly the widgets
+        drbwAllWidgets(g, frbme); // rollover is lbst bttribute
     }
 
-    // Component could be a JInternalFrame or a JDesktopIcon
-    void paintBorder(final JInternalFrame frame, final Component c, final Graphics g, final int x, final int y, final int w, final int h) {
+    // Component could be b JInternblFrbme or b JDesktopIcon
+    void pbintBorder(finbl JInternblFrbme frbme, finbl Component c, finbl Grbphics g, finbl int x, finbl int y, finbl int w, finbl int h) {
         if (fBorderInsets == null) getBorderInsets(c);
         // Set the contentRect - inset by border size
         setInBounds(x + fBorderInsets.left, y + fBorderInsets.top, w - (fBorderInsets.right + fBorderInsets.left), h - (fBorderInsets.top + fBorderInsets.bottom));
 
-        // Set parameters
-        setMetrics(frame, c);
+        // Set pbrbmeters
+        setMetrics(frbme, c);
 
-        // Draw the frame
-        drawWindowTitle(g, frame, x, y, w, h);
+        // Drbw the frbme
+        drbwWindowTitle(g, frbme, x, y, w, h);
     }
 
-    // defaults to false
-    boolean isDirty(final JInternalFrame frame) {
-        final Object dirty = frame.getClientProperty("windowModified");
-        if (dirty == null || dirty == Boolean.FALSE) return false;
+    // defbults to fblse
+    boolebn isDirty(finbl JInternblFrbme frbme) {
+        finbl Object dirty = frbme.getClientProperty("windowModified");
+        if (dirty == null || dirty == Boolebn.FALSE) return fblse;
         return true;
     }
 
-    // Border interface
-    public Insets getBorderInsets(final Component c) {
+    // Border interfbce
+    public Insets getBorderInsets(finbl Component c) {
         if (fBorderInsets == null) fBorderInsets = new Insets(0, 0, 0, 0);
 
-        // Paranoia check
-        if (!(c instanceof JInternalFrame)) return fBorderInsets;
+        // Pbrbnoib check
+        if (!(c instbnceof JInternblFrbme)) return fBorderInsets;
 
-        final JInternalFrame frame = (JInternalFrame)c;
+        finbl JInternblFrbme frbme = (JInternblFrbme)c;
 
-        // Set the contentRect to an arbitrary value (in case the current real one is too small)
+        // Set the contentRect to bn brbitrbry vblue (in cbse the current rebl one is too smbll)
         setInBounds(0, 0, kContentTester, kContentTester);
 
-        // Set parameters
-        setMetrics(frame, c);
+        // Set pbrbmeters
+        setMetrics(frbme, c);
 
         fBorderInsets.left = 0;
-        fBorderInsets.top = metrics.titleBarHeight;
+        fBorderInsets.top = metrics.titleBbrHeight;
         fBorderInsets.right = 0;
         fBorderInsets.bottom = 0;
 
         return fBorderInsets;
     }
 
-    public void repaintButtonArea(final JInternalFrame frame) {
-        final Insets i = frame.getInsets();
-        final int x = i.left + metrics.leftSidePadding;
-        final int y = i.top - metrics.titleBarHeight + 1;
-        frame.repaint(x, y, fThisButtonSpan, metrics.titleBarHeight - 2);
+    public void repbintButtonAreb(finbl JInternblFrbme frbme) {
+        finbl Insets i = frbme.getInsets();
+        finbl int x = i.left + metrics.leftSidePbdding;
+        finbl int y = i.top - metrics.titleBbrHeight + 1;
+        frbme.repbint(x, y, fThisButtonSpbn, metrics.titleBbrHeight - 2);
     }
 
-    // Draw all the widgets this frame supports
-    void drawAllWidgets(final Graphics g, final JInternalFrame frame) {
-        int x = metrics.leftSidePadding;
-        int y = (metrics.titleBarHeight - metrics.buttonHeight) / 2 - metrics.titleBarHeight;
+    // Drbw bll the widgets this frbme supports
+    void drbwAllWidgets(finbl Grbphics g, finbl JInternblFrbme frbme) {
+        int x = metrics.leftSidePbdding;
+        int y = (metrics.titleBbrHeight - metrics.buttonHeight) / 2 - metrics.titleBbrHeight;
 
-        final Insets insets = frame.getInsets();
+        finbl Insets insets = frbme.getInsets();
         x += insets.left;
         y += insets.top + metrics.downShift;
 
-        final AquaInternalFrameUI ui = (AquaInternalFrameUI)frame.getUI();
-        final int buttonPressedIndex = ui.getWhichButtonPressed();
-        final boolean overButton = ui.getMouseOverPressedButton();
-        final boolean rollover = ui.getRollover();
+        finbl AqubInternblFrbmeUI ui = (AqubInternblFrbmeUI)frbme.getUI();
+        finbl int buttonPressedIndex = ui.getWhichButtonPressed();
+        finbl boolebn overButton = ui.getMouseOverPressedButton();
+        finbl boolebn rollover = ui.getRollover();
 
-        final boolean frameSelected = frame.isSelected() || fIsUtility;
-        final boolean generalActive = rollover || frameSelected;
+        finbl boolebn frbmeSelected = frbme.isSelected() || fIsUtility;
+        finbl boolebn generblActive = rollover || frbmeSelected;
 
-        final boolean dirty = isDirty(frame);
+        finbl boolebn dirty = isDirty(frbme);
 
-        paintButton(g, frame, x, y, kCloseButton, buttonPressedIndex, overButton, frame.isClosable(), generalActive, rollover, dirty);
+        pbintButton(g, frbme, x, y, kCloseButton, buttonPressedIndex, overButton, frbme.isClosbble(), generblActive, rollover, dirty);
 
-        x += metrics.buttonPadding + metrics.buttonWidth;
-        paintButton(g, frame, x, y, kIconButton, buttonPressedIndex, overButton, frame.isIconifiable(), generalActive, rollover, false);
+        x += metrics.buttonPbdding + metrics.buttonWidth;
+        pbintButton(g, frbme, x, y, kIconButton, buttonPressedIndex, overButton, frbme.isIconifibble(), generblActive, rollover, fblse);
 
-        x += metrics.buttonPadding + metrics.buttonWidth;
-        paintButton(g, frame, x, y, kGrowButton, buttonPressedIndex, overButton, frame.isMaximizable(), generalActive, rollover, false);
+        x += metrics.buttonPbdding + metrics.buttonWidth;
+        pbintButton(g, frbme, x, y, kGrowButton, buttonPressedIndex, overButton, frbme.isMbximizbble(), generblActive, rollover, fblse);
     }
 
-    public void paintButton(final Graphics g, final JInternalFrame frame, final int x, final int y, final int buttonType, final int buttonPressedIndex, final boolean overButton, final boolean enabled, final boolean active, final boolean anyRollover, final boolean dirty) {
-        widgetPainter.state.set(getWidget(frame, buttonType));
-        widgetPainter.state.set(getState(buttonPressedIndex == buttonType && overButton, anyRollover, active, enabled));
-        widgetPainter.state.set(dirty ? BooleanValue.YES : BooleanValue.NO);
-        widgetPainter.paint(g, frame, x, y, metrics.buttonWidth, metrics.buttonHeight);
+    public void pbintButton(finbl Grbphics g, finbl JInternblFrbme frbme, finbl int x, finbl int y, finbl int buttonType, finbl int buttonPressedIndex, finbl boolebn overButton, finbl boolebn enbbled, finbl boolebn bctive, finbl boolebn bnyRollover, finbl boolebn dirty) {
+        widgetPbinter.stbte.set(getWidget(frbme, buttonType));
+        widgetPbinter.stbte.set(getStbte(buttonPressedIndex == buttonType && overButton, bnyRollover, bctive, enbbled));
+        widgetPbinter.stbte.set(dirty ? BoolebnVblue.YES : BoolebnVblue.NO);
+        widgetPbinter.pbint(g, frbme, x, y, metrics.buttonWidth, metrics.buttonHeight);
     }
 
-    static Widget getWidget(final JInternalFrame frame, final int buttonType) {
+    stbtic Widget getWidget(finbl JInternblFrbme frbme, finbl int buttonType) {
         switch (buttonType) {
-            case kIconButton: return Widget.TITLE_BAR_COLLAPSE_BOX;
-            case kGrowButton: return Widget.TITLE_BAR_ZOOM_BOX;
+            cbse kIconButton: return Widget.TITLE_BAR_COLLAPSE_BOX;
+            cbse kGrowButton: return Widget.TITLE_BAR_ZOOM_BOX;
         }
 
         return Widget.TITLE_BAR_CLOSE_BOX;
     }
 
-    static State getState(final boolean pressed, final boolean rollover, final boolean active, final boolean enabled) {
-        if (!enabled) return State.DISABLED;
-        if (!active) return State.INACTIVE;
-        if (pressed) return State.PRESSED;
-        if (rollover) return State.ROLLOVER;
-        return State.ACTIVE;
+    stbtic Stbte getStbte(finbl boolebn pressed, finbl boolebn rollover, finbl boolebn bctive, finbl boolebn enbbled) {
+        if (!enbbled) return Stbte.DISABLED;
+        if (!bctive) return Stbte.INACTIVE;
+        if (pressed) return Stbte.PRESSED;
+        if (rollover) return Stbte.ROLLOVER;
+        return Stbte.ACTIVE;
     }
 
-    protected void setMetrics(final JInternalFrame frame, final Component window) {
-        final String title = frame.getTitle();
-        final FontMetrics fm = frame.getFontMetrics(UIManager.getFont("InternalFrame.titleFont"));
+    protected void setMetrics(finbl JInternblFrbme frbme, finbl Component window) {
+        finbl String title = frbme.getTitle();
+        finbl FontMetrics fm = frbme.getFontMetrics(UIMbnbger.getFont("InternblFrbme.titleFont"));
         int titleWidth = 0;
         int titleHeight = fm.getAscent();
         if (title != null) {
             titleWidth = SwingUtilities.computeStringWidth(fm, title);
         }
-        // Icon space
-        final Icon icon = frame.getFrameIcon();
+        // Icon spbce
+        finbl Icon icon = frbme.getFrbmeIcon();
         if (icon != null) {
             titleWidth += icon.getIconWidth();
-            titleHeight = Math.max(titleHeight, icon.getIconHeight());
+            titleHeight = Mbth.mbx(titleHeight, icon.getIconHeight());
         }
     }
 
     protected int getTitleHeight() {
-        return metrics.titleBarHeight;
+        return metrics.titleBbrHeight;
     }
 }

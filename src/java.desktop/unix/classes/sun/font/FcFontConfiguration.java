@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Scanner;
-import sun.awt.FontConfiguration;
-import sun.awt.FontDescriptor;
-import sun.awt.SunToolkit;
-import sun.awt.X11FontManager;
+import jbvb.bwt.Font;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.net.UnknownHostException;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.StbndbrdChbrsets;
+import jbvb.nio.file.Files;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Properties;
+import jbvb.util.Scbnner;
+import sun.bwt.FontConfigurbtion;
+import sun.bwt.FontDescriptor;
+import sun.bwt.SunToolkit;
+import sun.bwt.X11FontMbnbger;
 import sun.font.CompositeFontDescriptor;
-import sun.font.FontManager;
-import sun.font.FontConfigManager.FontConfigInfo;
-import sun.font.FontConfigManager.FcCompFont;
-import sun.font.FontConfigManager.FontConfigFont;
-import sun.java2d.SunGraphicsEnvironment;
-import sun.util.logging.PlatformLogger;
+import sun.font.FontMbnbger;
+import sun.font.FontConfigMbnbger.FontConfigInfo;
+import sun.font.FontConfigMbnbger.FcCompFont;
+import sun.font.FontConfigMbnbger.FontConfigFont;
+import sun.jbvb2d.SunGrbphicsEnvironment;
+import sun.util.logging.PlbtformLogger;
 
-public class FcFontConfiguration extends FontConfiguration {
+public clbss FcFontConfigurbtion extends FontConfigurbtion {
 
-    /** Version of the cache file format understood by this code.
-     * Its part of the file name so that we can rev this at
-     * any time, even in a minor JDK update.
-     * It is stored as the value of the "version" property.
-     * This is distinct from the version of "libfontconfig" that generated
-     * the cached results, and which is the "fcversion" property in the file.
-     * {@code FontConfiguration.getVersion()} also returns a version string,
-     * and has meant the version of the fontconfiguration.properties file
-     * that was read. Since this class doesn't use such files, then what
-     * that really means is whether the methods on this class return
-     * values that are compatible with the classes that do directly read
-     * from such files. It is a compatible subset of version "1".
+    /** Version of the cbche file formbt understood by this code.
+     * Its pbrt of the file nbme so thbt we cbn rev this bt
+     * bny time, even in b minor JDK updbte.
+     * It is stored bs the vblue of the "version" property.
+     * This is distinct from the version of "libfontconfig" thbt generbted
+     * the cbched results, bnd which is the "fcversion" property in the file.
+     * {@code FontConfigurbtion.getVersion()} blso returns b version string,
+     * bnd hbs mebnt the version of the fontconfigurbtion.properties file
+     * thbt wbs rebd. Since this clbss doesn't use such files, then whbt
+     * thbt reblly mebns is whether the methods on this clbss return
+     * vblues thbt bre compbtible with the clbsses thbt do directly rebd
+     * from such files. It is b compbtible subset of version "1".
      */
-    private static final String fileVersion = "1";
-    private String fcInfoFileName = null;
+    privbte stbtic finbl String fileVersion = "1";
+    privbte String fcInfoFileNbme = null;
 
-    private FcCompFont[] fcCompFonts = null;
+    privbte FcCompFont[] fcCompFonts = null;
 
-    public FcFontConfiguration(SunFontManager fm) {
+    public FcFontConfigurbtion(SunFontMbnbger fm) {
         super(fm);
         init();
     }
 
-    /* This isn't called but is needed to satisfy super-class contract. */
-    public FcFontConfiguration(SunFontManager fm,
-                               boolean preferLocaleFonts,
-                               boolean preferPropFonts) {
-        super(fm, preferLocaleFonts, preferPropFonts);
+    /* This isn't cblled but is needed to sbtisfy super-clbss contrbct. */
+    public FcFontConfigurbtion(SunFontMbnbger fm,
+                               boolebn preferLocbleFonts,
+                               boolebn preferPropFonts) {
+        super(fm, preferLocbleFonts, preferPropFonts);
         init();
     }
 
     @Override
-    public synchronized boolean init() {
+    public synchronized boolebn init() {
         if (fcCompFonts != null) {
             return true;
         }
 
-        setFontConfiguration();
-        readFcInfo();
-        X11FontManager fm = (X11FontManager) fontManager;
-        FontConfigManager fcm = fm.getFontConfigManager();
+        setFontConfigurbtion();
+        rebdFcInfo();
+        X11FontMbnbger fm = (X11FontMbnbger) fontMbnbger;
+        FontConfigMbnbger fcm = fm.getFontConfigMbnbger();
         if (fcCompFonts == null) {
-            fcCompFonts = fcm.loadFontConfig();
+            fcCompFonts = fcm.lobdFontConfig();
             if (fcCompFonts != null) {
                 try {
                     writeFcInfo();
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                     if (FontUtilities.debugFonts()) {
-                        warning("Exception writing fcInfo " + e);
+                        wbrning("Exception writing fcInfo " + e);
                     }
                 }
             } else if (FontUtilities.debugFonts()) {
-                warning("Failed to get info from libfontconfig");
+                wbrning("Fbiled to get info from libfontconfig");
             }
         } else {
-            fcm.populateFontConfig(fcCompFonts);
+            fcm.populbteFontConfig(fcCompFonts);
         }
 
         if (fcCompFonts == null) {
-            return false; // couldn't load fontconfig.
+            return fblse; // couldn't lobd fontconfig.
         }
 
-        // NB already in a privileged block from SGE
-        String javaHome = System.getProperty("java.home");
-        if (javaHome == null) {
-            throw new Error("java.home property not set");
+        // NB blrebdy in b privileged block from SGE
+        String jbvbHome = System.getProperty("jbvb.home");
+        if (jbvbHome == null) {
+            throw new Error("jbvb.home property not set");
         }
-        String javaLib = javaHome + File.separator + "lib";
-        getInstalledFallbackFonts(javaLib);
+        String jbvbLib = jbvbHome + File.sepbrbtor + "lib";
+        getInstblledFbllbbckFonts(jbvbLib);
 
         return true;
     }
 
     @Override
-    public String getFallbackFamilyName(String fontName,
-                                        String defaultFallback) {
-        // maintain compatibility with old font.properties files, which either
-        // had aliases for TimesRoman & Co. or defined mappings for them.
-        String compatibilityName = getCompatibilityFamilyName(fontName);
-        if (compatibilityName != null) {
-            return compatibilityName;
+    public String getFbllbbckFbmilyNbme(String fontNbme,
+                                        String defbultFbllbbck) {
+        // mbintbin compbtibility with old font.properties files, which either
+        // hbd blibses for TimesRombn & Co. or defined mbppings for them.
+        String compbtibilityNbme = getCompbtibilityFbmilyNbme(fontNbme);
+        if (compbtibilityNbme != null) {
+            return compbtibilityNbme;
         }
-        return defaultFallback;
+        return defbultFbllbbck;
     }
 
     @Override
     protected String
-        getFaceNameFromComponentFontName(String componentFontName) {
+        getFbceNbmeFromComponentFontNbme(String componentFontNbme) {
         return null;
     }
 
     @Override
     protected String
-        getFileNameFromComponentFontName(String componentFontName) {
+        getFileNbmeFromComponentFontNbme(String componentFontNbme) {
         return null;
     }
 
     @Override
-    public String getFileNameFromPlatformName(String platformName) {
-        /* Platform name is the file name, but rather than returning
-         * the arg, return null*/
+    public String getFileNbmeFromPlbtformNbme(String plbtformNbme) {
+        /* Plbtform nbme is the file nbme, but rbther thbn returning
+         * the brg, return null*/
         return null;
     }
 
     @Override
-    protected Charset getDefaultFontCharset(String fontName) {
-        return Charset.forName("ISO8859_1");
+    protected Chbrset getDefbultFontChbrset(String fontNbme) {
+        return Chbrset.forNbme("ISO8859_1");
     }
 
     @Override
-    protected String getEncoding(String awtFontName,
-                                 String characterSubsetName) {
-        return "default";
+    protected String getEncoding(String bwtFontNbme,
+                                 String chbrbcterSubsetNbme) {
+        return "defbult";
     }
 
     @Override
-    protected void initReorderMap() {
-        reorderMap = new HashMap<>();
+    protected void initReorderMbp() {
+        reorderMbp = new HbshMbp<>();
     }
 
     @Override
     protected FontDescriptor[] buildFontDescriptors(int fontIndex, int styleIndex) {
         CompositeFontDescriptor[] cfi = get2DCompositeFontInfo();
         int idx = fontIndex * NUM_STYLES + styleIndex;
-        String[] componentFaceNames = cfi[idx].getComponentFaceNames();
-        FontDescriptor[] ret = new FontDescriptor[componentFaceNames.length];
-        for (int i = 0; i < componentFaceNames.length; i++) {
-            ret[i] = new FontDescriptor(componentFaceNames[i], StandardCharsets.UTF_8.newEncoder(), new int[0]);
+        String[] componentFbceNbmes = cfi[idx].getComponentFbceNbmes();
+        FontDescriptor[] ret = new FontDescriptor[componentFbceNbmes.length];
+        for (int i = 0; i < componentFbceNbmes.length; i++) {
+            ret[i] = new FontDescriptor(componentFbceNbmes[i], StbndbrdChbrsets.UTF_8.newEncoder(), new int[0]);
         }
 
         return ret;
@@ -192,93 +192,93 @@ public class FcFontConfiguration extends FontConfiguration {
     }
 
     @Override
-    public String[] getPlatformFontNames() {
-        HashSet<String> nameSet = new HashSet<String>();
-        X11FontManager fm = (X11FontManager) fontManager;
-        FontConfigManager fcm = fm.getFontConfigManager();
-        FcCompFont[] fcCompFonts = fcm.loadFontConfig();
+    public String[] getPlbtformFontNbmes() {
+        HbshSet<String> nbmeSet = new HbshSet<String>();
+        X11FontMbnbger fm = (X11FontMbnbger) fontMbnbger;
+        FontConfigMbnbger fcm = fm.getFontConfigMbnbger();
+        FcCompFont[] fcCompFonts = fcm.lobdFontConfig();
         for (int i=0; i<fcCompFonts.length; i++) {
-            for (int j=0; j<fcCompFonts[i].allFonts.length; j++) {
-                nameSet.add(fcCompFonts[i].allFonts[j].fontFile);
+            for (int j=0; j<fcCompFonts[i].bllFonts.length; j++) {
+                nbmeSet.bdd(fcCompFonts[i].bllFonts[j].fontFile);
             }
         }
-        return nameSet.toArray(new String[0]);
+        return nbmeSet.toArrby(new String[0]);
     }
 
     @Override
-    public String getExtraFontPath() {
+    public String getExtrbFontPbth() {
         return null;
     }
 
     @Override
-    public boolean needToSearchForFile(String fileName) {
-        return false;
+    public boolebn needToSebrchForFile(String fileNbme) {
+        return fblse;
     }
 
-    private FontConfigFont[] getFcFontList(FcCompFont[] fcFonts,
-                                           String fontname, int style) {
+    privbte FontConfigFont[] getFcFontList(FcCompFont[] fcFonts,
+                                           String fontnbme, int style) {
 
-        if (fontname.equals("dialog")) {
-            fontname = "sansserif";
-        } else if (fontname.equals("dialoginput")) {
-            fontname = "monospaced";
+        if (fontnbme.equbls("diblog")) {
+            fontnbme = "sbnsserif";
+        } else if (fontnbme.equbls("dibloginput")) {
+            fontnbme = "monospbced";
         }
         for (int i=0; i<fcFonts.length; i++) {
-            if (fontname.equals(fcFonts[i].jdkName) &&
+            if (fontnbme.equbls(fcFonts[i].jdkNbme) &&
                 style == fcFonts[i].style) {
-                return fcFonts[i].allFonts;
+                return fcFonts[i].bllFonts;
             }
         }
-        return fcFonts[0].allFonts;
+        return fcFonts[0].bllFonts;
     }
 
     @Override
     public CompositeFontDescriptor[] get2DCompositeFontInfo() {
 
-        X11FontManager fm = (X11FontManager) fontManager;
-        FontConfigManager fcm = fm.getFontConfigManager();
-        FcCompFont[] fcCompFonts = fcm.loadFontConfig();
+        X11FontMbnbger fm = (X11FontMbnbger) fontMbnbger;
+        FontConfigMbnbger fcm = fm.getFontConfigMbnbger();
+        FcCompFont[] fcCompFonts = fcm.lobdFontConfig();
 
         CompositeFontDescriptor[] result =
                 new CompositeFontDescriptor[NUM_FONTS * NUM_STYLES];
 
         for (int fontIndex = 0; fontIndex < NUM_FONTS; fontIndex++) {
-            String fontName = publicFontNames[fontIndex];
+            String fontNbme = publicFontNbmes[fontIndex];
 
             for (int styleIndex = 0; styleIndex < NUM_STYLES; styleIndex++) {
 
-                String faceName = fontName + "." + styleNames[styleIndex];
+                String fbceNbme = fontNbme + "." + styleNbmes[styleIndex];
                 FontConfigFont[] fcFonts =
                     getFcFontList(fcCompFonts,
-                                  fontNames[fontIndex], styleIndex);
+                                  fontNbmes[fontIndex], styleIndex);
 
                 int numFonts = fcFonts.length;
-                // fall back fonts listed in the lib/fonts/fallback directory
-                if (installedFallbackFontFiles != null) {
-                    numFonts += installedFallbackFontFiles.length;
+                // fbll bbck fonts listed in the lib/fonts/fbllbbck directory
+                if (instblledFbllbbckFontFiles != null) {
+                    numFonts += instblledFbllbbckFontFiles.length;
                 }
 
-                String[] fileNames = new String[numFonts];
-                String[] faceNames = new String[numFonts];
+                String[] fileNbmes = new String[numFonts];
+                String[] fbceNbmes = new String[numFonts];
 
                 int index;
                 for (index = 0; index < fcFonts.length; index++) {
-                    fileNames[index] = fcFonts[index].fontFile;
-                    faceNames[index] = fcFonts[index].familyName;
+                    fileNbmes[index] = fcFonts[index].fontFile;
+                    fbceNbmes[index] = fcFonts[index].fbmilyNbme;
                 }
 
-                if (installedFallbackFontFiles != null) {
-                    System.arraycopy(installedFallbackFontFiles, 0,
-                                     fileNames, fcFonts.length,
-                                     installedFallbackFontFiles.length);
+                if (instblledFbllbbckFontFiles != null) {
+                    System.brrbycopy(instblledFbllbbckFontFiles, 0,
+                                     fileNbmes, fcFonts.length,
+                                     instblledFbllbbckFontFiles.length);
                 }
 
                 result[fontIndex * NUM_STYLES + styleIndex]
                         = new CompositeFontDescriptor(
-                            faceName,
+                            fbceNbme,
                             1,
-                            faceNames,
-                            fileNames,
+                            fbceNbmes,
+                            fileNbmes,
                             null, null);
             }
         }
@@ -286,247 +286,247 @@ public class FcFontConfiguration extends FontConfiguration {
     }
 
     /**
-     * Gets the OS version string from a Linux release-specific file.
+     * Gets the OS version string from b Linux relebse-specific file.
      */
-    private String getVersionString(File f){
+    privbte String getVersionString(File f){
         try {
-            Scanner sc  = new Scanner(f);
+            Scbnner sc  = new Scbnner(f);
             return sc.findInLine("(\\d)+((\\.)(\\d)+)*");
         }
-        catch (Exception e){
+        cbtch (Exception e){
         }
         return null;
     }
 
     /**
-     * Sets the OS name and version from environment information.
+     * Sets the OS nbme bnd version from environment informbtion.
      */
     @Override
-    protected void setOsNameAndVersion() {
+    protected void setOsNbmeAndVersion() {
 
-        super.setOsNameAndVersion();
+        super.setOsNbmeAndVersion();
 
-        if (!osName.equals("Linux")) {
+        if (!osNbme.equbls("Linux")) {
             return;
         }
         try {
             File f;
-            if ((f = new File("/etc/lsb-release")).canRead()) {
-                    /* Ubuntu and (perhaps others) use only lsb-release.
-                     * Syntax and encoding is compatible with java properties.
+            if ((f = new File("/etc/lsb-relebse")).cbnRebd()) {
+                    /* Ubuntu bnd (perhbps others) use only lsb-relebse.
+                     * Syntbx bnd encoding is compbtible with jbvb properties.
                      * For Ubuntu the ID is "Ubuntu".
                      */
                     Properties props = new Properties();
-                    props.load(new FileInputStream(f));
-                    osName = props.getProperty("DISTRIB_ID");
+                    props.lobd(new FileInputStrebm(f));
+                    osNbme = props.getProperty("DISTRIB_ID");
                     osVersion =  props.getProperty("DISTRIB_RELEASE");
-            } else if ((f = new File("/etc/redhat-release")).canRead()) {
-                osName = "RedHat";
+            } else if ((f = new File("/etc/redhbt-relebse")).cbnRebd()) {
+                osNbme = "RedHbt";
                 osVersion = getVersionString(f);
-            } else if ((f = new File("/etc/SuSE-release")).canRead()) {
-                osName = "SuSE";
+            } else if ((f = new File("/etc/SuSE-relebse")).cbnRebd()) {
+                osNbme = "SuSE";
                 osVersion = getVersionString(f);
-            } else if ((f = new File("/etc/turbolinux-release")).canRead()) {
-                osName = "Turbo";
+            } else if ((f = new File("/etc/turbolinux-relebse")).cbnRebd()) {
+                osNbme = "Turbo";
                 osVersion = getVersionString(f);
-            } else if ((f = new File("/etc/fedora-release")).canRead()) {
-                osName = "Fedora";
+            } else if ((f = new File("/etc/fedorb-relebse")).cbnRebd()) {
+                osNbme = "Fedorb";
                 osVersion = getVersionString(f);
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             if (FontUtilities.debugFonts()) {
-                warning("Exception identifying Linux distro.");
+                wbrning("Exception identifying Linux distro.");
             }
         }
     }
 
-    private File getFcInfoFile() {
-        if (fcInfoFileName == null) {
-            // NB need security permissions to get true IP address, and
-            // we should have those as the whole initialisation is in a
-            // doPrivileged block. But in this case no exception is thrown,
-            // and it returns the loop back address, and so we end up with
-            // "localhost"
-            String hostname;
+    privbte File getFcInfoFile() {
+        if (fcInfoFileNbme == null) {
+            // NB need security permissions to get true IP bddress, bnd
+            // we should hbve those bs the whole initiblisbtion is in b
+            // doPrivileged block. But in this cbse no exception is thrown,
+            // bnd it returns the loop bbck bddress, bnd so we end up with
+            // "locblhost"
+            String hostnbme;
             try {
-                hostname = InetAddress.getLocalHost().getHostName();
-            } catch (UnknownHostException e) {
-                hostname = "localhost";
+                hostnbme = InetAddress.getLocblHost().getHostNbme();
+            } cbtch (UnknownHostException e) {
+                hostnbme = "locblhost";
             }
             String userDir = System.getProperty("user.home");
-            String version = System.getProperty("java.version");
-            String fs = File.separator;
-            String dir = userDir+fs+".java"+fs+"fonts"+fs+version;
-            String lang = SunToolkit.getStartupLocale().getLanguage();
-            String name = "fcinfo-"+fileVersion+"-"+hostname+"-"+
-                osName+"-"+osVersion+"-"+lang+".properties";
-            fcInfoFileName = dir+fs+name;
+            String version = System.getProperty("jbvb.version");
+            String fs = File.sepbrbtor;
+            String dir = userDir+fs+".jbvb"+fs+"fonts"+fs+version;
+            String lbng = SunToolkit.getStbrtupLocble().getLbngubge();
+            String nbme = "fcinfo-"+fileVersion+"-"+hostnbme+"-"+
+                osNbme+"-"+osVersion+"-"+lbng+".properties";
+            fcInfoFileNbme = dir+fs+nbme;
         }
-        return new File(fcInfoFileName);
+        return new File(fcInfoFileNbme);
     }
 
-    private void writeFcInfo() {
+    privbte void writeFcInfo() {
         Properties props = new Properties();
         props.setProperty("version", fileVersion);
-        X11FontManager fm = (X11FontManager) fontManager;
-        FontConfigManager fcm = fm.getFontConfigManager();
+        X11FontMbnbger fm = (X11FontMbnbger) fontMbnbger;
+        FontConfigMbnbger fcm = fm.getFontConfigMbnbger();
         FontConfigInfo fcInfo = fcm.getFontConfigInfo();
         props.setProperty("fcversion", Integer.toString(fcInfo.fcVersion));
-        if (fcInfo.cacheDirs != null) {
-            for (int i=0;i<fcInfo.cacheDirs.length;i++) {
-                if (fcInfo.cacheDirs[i] != null) {
-                   props.setProperty("cachedir."+i,  fcInfo.cacheDirs[i]);
+        if (fcInfo.cbcheDirs != null) {
+            for (int i=0;i<fcInfo.cbcheDirs.length;i++) {
+                if (fcInfo.cbcheDirs[i] != null) {
+                   props.setProperty("cbchedir."+i,  fcInfo.cbcheDirs[i]);
                 }
             }
         }
         for (int i=0; i<fcCompFonts.length; i++) {
             FcCompFont fci = fcCompFonts[i];
-            String styleKey = fci.jdkName+"."+fci.style;
+            String styleKey = fci.jdkNbme+"."+fci.style;
             props.setProperty(styleKey+".length",
-                              Integer.toString(fci.allFonts.length));
-            for (int j=0; j<fci.allFonts.length; j++) {
-                props.setProperty(styleKey+"."+j+".family",
-                                  fci.allFonts[j].familyName);
+                              Integer.toString(fci.bllFonts.length));
+            for (int j=0; j<fci.bllFonts.length; j++) {
+                props.setProperty(styleKey+"."+j+".fbmily",
+                                  fci.bllFonts[j].fbmilyNbme);
                 props.setProperty(styleKey+"."+j+".file",
-                                  fci.allFonts[j].fontFile);
+                                  fci.bllFonts[j].fontFile);
             }
         }
         try {
-            /* This writes into a temp file then renames when done.
-             * Since the rename is an atomic action within the same
-             * directory no client will ever see a partially written file.
+            /* This writes into b temp file then renbmes when done.
+             * Since the renbme is bn btomic bction within the sbme
+             * directory no client will ever see b pbrtiblly written file.
              */
             File fcInfoFile = getFcInfoFile();
-            File dir = fcInfoFile.getParentFile();
+            File dir = fcInfoFile.getPbrentFile();
             dir.mkdirs();
-            File tempFile = Files.createTempFile(dir.toPath(), "fcinfo", null).toFile();
-            FileOutputStream fos = new FileOutputStream(tempFile);
+            File tempFile = Files.crebteTempFile(dir.toPbth(), "fcinfo", null).toFile();
+            FileOutputStrebm fos = new FileOutputStrebm(tempFile);
             props.store(fos,
-                      "JDK Font Configuration Generated File: *Do Not Edit*");
+                      "JDK Font Configurbtion Generbted File: *Do Not Edit*");
             fos.close();
-            boolean renamed = tempFile.renameTo(fcInfoFile);
-            if (!renamed && FontUtilities.debugFonts()) {
-                System.out.println("rename failed");
-                warning("Failed renaming file to "+ getFcInfoFile());
+            boolebn renbmed = tempFile.renbmeTo(fcInfoFile);
+            if (!renbmed && FontUtilities.debugFonts()) {
+                System.out.println("renbme fbiled");
+                wbrning("Fbiled renbming file to "+ getFcInfoFile());
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             if (FontUtilities.debugFonts()) {
-                warning("IOException writing to "+ getFcInfoFile());
+                wbrning("IOException writing to "+ getFcInfoFile());
             }
         }
     }
 
-    /* We want to be able to use this cache instead of invoking
-     * fontconfig except when we can detect the system cache has changed.
-     * But there doesn't seem to be a way to find the location of
-     * the system cache.
+    /* We wbnt to be bble to use this cbche instebd of invoking
+     * fontconfig except when we cbn detect the system cbche hbs chbnged.
+     * But there doesn't seem to be b wby to find the locbtion of
+     * the system cbche.
      */
-    private void readFcInfo() {
+    privbte void rebdFcInfo() {
         File fcFile = getFcInfoFile();
         if (!fcFile.exists()) {
             return;
         }
         Properties props = new Properties();
-        X11FontManager fm = (X11FontManager) fontManager;
-        FontConfigManager fcm = fm.getFontConfigManager();
+        X11FontMbnbger fm = (X11FontMbnbger) fontMbnbger;
+        FontConfigMbnbger fcm = fm.getFontConfigMbnbger();
         try {
-            FileInputStream fis = new FileInputStream(fcFile);
-            props.load(fis);
+            FileInputStrebm fis = new FileInputStrebm(fcFile);
+            props.lobd(fis);
             fis.close();
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             if (FontUtilities.debugFonts()) {
-                warning("IOException reading from "+fcFile.toString());
+                wbrning("IOException rebding from "+fcFile.toString());
             }
             return;
         }
         String version = (String)props.get("version");
-        if (version == null || !version.equals(fileVersion)) {
+        if (version == null || !version.equbls(fileVersion)) {
             return;
         }
 
-        // If there's a new, different fontconfig installed on the
-        // system, we invalidate our fontconfig file.
+        // If there's b new, different fontconfig instblled on the
+        // system, we invblidbte our fontconfig file.
         String fcVersionStr = (String)props.get("fcversion");
         if (fcVersionStr != null) {
             int fcVersion;
             try {
-                fcVersion = Integer.parseInt(fcVersionStr);
+                fcVersion = Integer.pbrseInt(fcVersionStr);
                 if (fcVersion != 0 &&
-                    fcVersion != FontConfigManager.getFontConfigVersion()) {
+                    fcVersion != FontConfigMbnbger.getFontConfigVersion()) {
                     return;
                 }
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 if (FontUtilities.debugFonts()) {
-                    warning("Exception parsing version " + fcVersionStr);
+                    wbrning("Exception pbrsing version " + fcVersionStr);
                 }
                 return;
             }
         }
 
-        // If we can locate the fontconfig cache dirs, then compare the
-        // time stamp of those with our properties file. If we are out
-        // of date then re-generate.
-        long lastModified = fcFile.lastModified();
-        int cacheDirIndex = 0;
-        while (cacheDirIndex<4) { // should never be more than 2 anyway.
-            String dir = (String)props.get("cachedir."+cacheDirIndex);
+        // If we cbn locbte the fontconfig cbche dirs, then compbre the
+        // time stbmp of those with our properties file. If we bre out
+        // of dbte then re-generbte.
+        long lbstModified = fcFile.lbstModified();
+        int cbcheDirIndex = 0;
+        while (cbcheDirIndex<4) { // should never be more thbn 2 bnywby.
+            String dir = (String)props.get("cbchedir."+cbcheDirIndex);
             if (dir == null) {
-                break;
+                brebk;
             }
             File dirFile = new File(dir);
-            if (dirFile.exists() && dirFile.lastModified() > lastModified) {
+            if (dirFile.exists() && dirFile.lbstModified() > lbstModified) {
                 return;
             }
-            cacheDirIndex++;
+            cbcheDirIndex++;
         }
 
-        String[] names = { "sansserif", "serif", "monospaced" };
-        String[] fcnames = { "sans", "serif", "monospace" };
-        int namesLen = names.length;
+        String[] nbmes = { "sbnsserif", "serif", "monospbced" };
+        String[] fcnbmes = { "sbns", "serif", "monospbce" };
+        int nbmesLen = nbmes.length;
         int numStyles = 4;
-        FcCompFont[] fci = new FcCompFont[namesLen*numStyles];
+        FcCompFont[] fci = new FcCompFont[nbmesLen*numStyles];
 
         try {
-            for (int i=0; i<namesLen; i++) {
+            for (int i=0; i<nbmesLen; i++) {
                 for (int s=0; s<numStyles; s++) {
                     int index = i*numStyles+s;
                     fci[index] = new FcCompFont();
-                    String key = names[i]+"."+s;
-                    fci[index].jdkName = names[i];
-                    fci[index].fcFamily = fcnames[i];
+                    String key = nbmes[i]+"."+s;
+                    fci[index].jdkNbme = nbmes[i];
+                    fci[index].fcFbmily = fcnbmes[i];
                     fci[index].style = s;
                     String lenStr = (String)props.get(key+".length");
-                    int nfonts = Integer.parseInt(lenStr);
+                    int nfonts = Integer.pbrseInt(lenStr);
                     if (nfonts <= 0) {
-                        return; // bad file
+                        return; // bbd file
                     }
-                    fci[index].allFonts = new FontConfigFont[nfonts];
+                    fci[index].bllFonts = new FontConfigFont[nfonts];
                     for (int f=0; f<nfonts; f++) {
-                        fci[index].allFonts[f] = new FontConfigFont();
-                        String fkey = key+"."+f+".family";
-                        String family = (String)props.get(fkey);
-                        fci[index].allFonts[f].familyName = family;
+                        fci[index].bllFonts[f] = new FontConfigFont();
+                        String fkey = key+"."+f+".fbmily";
+                        String fbmily = (String)props.get(fkey);
+                        fci[index].bllFonts[f].fbmilyNbme = fbmily;
                         fkey = key+"."+f+".file";
                         String file = (String)props.get(fkey);
                         if (file == null) {
-                            return; // bad file
+                            return; // bbd file
                         }
-                        fci[index].allFonts[f].fontFile = file;
+                        fci[index].bllFonts[f].fontFile = file;
                     }
-                    fci[index].firstFont =  fci[index].allFonts[0];
+                    fci[index].firstFont =  fci[index].bllFonts[0];
 
                 }
             }
             fcCompFonts = fci;
-        } catch (Throwable t) {
+        } cbtch (Throwbble t) {
             if (FontUtilities.debugFonts()) {
-                warning(t.toString());
+                wbrning(t.toString());
             }
         }
     }
 
-    private static void warning(String msg) {
-        PlatformLogger logger = PlatformLogger.getLogger("sun.awt.FontConfiguration");
-        logger.warning(msg);
+    privbte stbtic void wbrning(String msg) {
+        PlbtformLogger logger = PlbtformLogger.getLogger("sun.bwt.FontConfigurbtion");
+        logger.wbrning(msg);
     }
 }

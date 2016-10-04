@@ -3,72 +3,72 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbckbge com.sun.org.bpbche.xml.internbl.security.signbture;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Handles <code>&lt;ds:SignatureProperties&gt;</code> elements
- * This Element holds {@link SignatureProperty} that contian additional information items
- * concerning the generation of the signature.
- * for example, data-time stamp, serial number of cryptographic hardware.
+ * Hbndles <code>&lt;ds:SignbtureProperties&gt;</code> elements
+ * This Element holds {@link SignbtureProperty} thbt contibn bdditionbl informbtion items
+ * concerning the generbtion of the signbture.
+ * for exbmple, dbtb-time stbmp, seribl number of cryptogrbphic hbrdwbre.
  *
- * @author Christian Geuer-Pollmann
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public class SignatureProperties extends SignatureElementProxy {
+public clbss SignbtureProperties extends SignbtureElementProxy {
 
     /**
-     * Constructor SignatureProperties
+     * Constructor SignbtureProperties
      *
-     * @param doc
+     * @pbrbm doc
      */
-    public SignatureProperties(Document doc) {
+    public SignbtureProperties(Document doc) {
         super(doc);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Constructs {@link SignatureProperties} from {@link Element}
-     * @param element <code>SignatureProperties</code> element
-     * @param BaseURI the URI of the resource where the XML instance was stored
+     * Constructs {@link SignbtureProperties} from {@link Element}
+     * @pbrbm element <code>SignbtureProperties</code> element
+     * @pbrbm BbseURI the URI of the resource where the XML instbnce wbs stored
      * @throws XMLSecurityException
      */
-    public SignatureProperties(Element element, String BaseURI) throws XMLSecurityException {
-        super(element, BaseURI);
+    public SignbtureProperties(Element element, String BbseURI) throws XMLSecurityException {
+        super(element, BbseURI);
 
-        Attr attr = element.getAttributeNodeNS(null, "Id");
-        if (attr != null) {
-            element.setIdAttributeNode(attr, true);
+        Attr bttr = element.getAttributeNodeNS(null, "Id");
+        if (bttr != null) {
+            element.setIdAttributeNode(bttr, true);
         }
 
         int length = getLength();
         for (int i = 0; i < length; i++) {
             Element propertyElem =
-                XMLUtils.selectDsNode(this.constructionElement, Constants._TAG_SIGNATUREPROPERTY, i);
+                XMLUtils.selectDsNode(this.constructionElement, Constbnts._TAG_SIGNATUREPROPERTY, i);
             Attr propertyAttr = propertyElem.getAttributeNodeNS(null, "Id");
             if (propertyAttr != null) {
                 propertyElem.setIdAttributeNode(propertyAttr, true);
@@ -77,72 +77,72 @@ public class SignatureProperties extends SignatureElementProxy {
     }
 
     /**
-     * Return the nonnegative number of added SignatureProperty elements.
+     * Return the nonnegbtive number of bdded SignbtureProperty elements.
      *
-     * @return the number of SignatureProperty elements
+     * @return the number of SignbtureProperty elements
      */
     public int getLength() {
         Element[] propertyElems =
-            XMLUtils.selectDsNodes(this.constructionElement, Constants._TAG_SIGNATUREPROPERTY);
+            XMLUtils.selectDsNodes(this.constructionElement, Constbnts._TAG_SIGNATUREPROPERTY);
 
         return propertyElems.length;
     }
 
     /**
-     * Return the <it>i</it><sup>th</sup> SignatureProperty. Valid <code>i</code>
-     * values are 0 to <code>{link@ getSize}-1</code>.
+     * Return the <it>i</it><sup>th</sup> SignbtureProperty. Vblid <code>i</code>
+     * vblues bre 0 to <code>{link@ getSize}-1</code>.
      *
-     * @param i Index of the requested {@link SignatureProperty}
-     * @return the <it>i</it><sup>th</sup> SignatureProperty
-     * @throws XMLSignatureException
+     * @pbrbm i Index of the requested {@link SignbtureProperty}
+     * @return the <it>i</it><sup>th</sup> SignbtureProperty
+     * @throws XMLSignbtureException
      */
-    public SignatureProperty item(int i) throws XMLSignatureException {
+    public SignbtureProperty item(int i) throws XMLSignbtureException {
         try {
             Element propertyElem =
-                XMLUtils.selectDsNode(this.constructionElement, Constants._TAG_SIGNATUREPROPERTY, i);
+                XMLUtils.selectDsNode(this.constructionElement, Constbnts._TAG_SIGNATUREPROPERTY, i);
 
             if (propertyElem == null) {
                 return null;
             }
-            return new SignatureProperty(propertyElem, this.baseURI);
-        } catch (XMLSecurityException ex) {
-            throw new XMLSignatureException("empty", ex);
+            return new SignbtureProperty(propertyElem, this.bbseURI);
+        } cbtch (XMLSecurityException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /**
-     * Sets the <code>Id</code> attribute
+     * Sets the <code>Id</code> bttribute
      *
-     * @param Id the <code>Id</code> attribute
+     * @pbrbm Id the <code>Id</code> bttribute
      */
     public void setId(String Id) {
         if (Id != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_ID, Id);
-            this.constructionElement.setIdAttributeNS(null, Constants._ATT_ID, true);
+            this.constructionElement.setAttributeNS(null, Constbnts._ATT_ID, Id);
+            this.constructionElement.setIdAttributeNS(null, Constbnts._ATT_ID, true);
         }
     }
 
     /**
-     * Returns the <code>Id</code> attribute
+     * Returns the <code>Id</code> bttribute
      *
-     * @return the <code>Id</code> attribute
+     * @return the <code>Id</code> bttribute
      */
     public String getId() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_ID);
+        return this.constructionElement.getAttributeNS(null, Constbnts._ATT_ID);
     }
 
     /**
-     * Method addSignatureProperty
+     * Method bddSignbtureProperty
      *
-     * @param sp
+     * @pbrbm sp
      */
-    public void addSignatureProperty(SignatureProperty sp) {
-        this.constructionElement.appendChild(sp.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+    public void bddSignbtureProperty(SignbtureProperty sp) {
+        this.constructionElement.bppendChild(sp.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_SIGNATUREPROPERTIES;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_SIGNATUREPROPERTIES;
     }
 }

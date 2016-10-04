@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,109 +30,109 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 #include "hprof.h"
 
-/* Thread Local Storage Table and method entry/exit handling. */
+/* Threbd Locbl Storbge Tbble bnd method entry/exit hbndling. */
 
 /*
- * The tls table items have a key of it's serial number, but may be
- *   searched via a walk of the table looking for a jthread match.
- *   This isn't a performance
- *   issue because the table index should normally be stored in the
- *   Thread Local Storage for the thread. The table is only searched
- *   when the jthread is seen before the Thread Local Storage is set
- *   (e.g. before VM_INIT or the ThreadStart).
- *   The key is only used when we need to lookup a tls table entry by
- *   way of it's serial number, which should be unique per thread.
+ * The tls tbble items hbve b key of it's seribl number, but mby be
+ *   sebrched vib b wblk of the tbble looking for b jthrebd mbtch.
+ *   This isn't b performbnce
+ *   issue becbuse the tbble index should normblly be stored in the
+ *   Threbd Locbl Storbge for the threbd. The tbble is only sebrched
+ *   when the jthrebd is seen before the Threbd Locbl Storbge is set
+ *   (e.g. before VM_INIT or the ThrebdStbrt).
+ *   The key is only used when we need to lookup b tls tbble entry by
+ *   wby of it's seribl number, which should be unique per threbd.
  *
- * Each active thread that we have seen should have a unique TlsIndex
- *   which is an index into this table.
+ * Ebch bctive threbd thbt we hbve seen should hbve b unique TlsIndex
+ *   which is bn index into this tbble.
  *
- * For cpu=times, each table entry will have a stack to hold the method
- *   that have been called, effectively keeping an active stack trace
- *   for the thread. As each method exits, the statistics for the trace
- *   associated with the current stack contents is updated.
+ * For cpu=times, ebch tbble entry will hbve b stbck to hold the method
+ *   thbt hbve been cblled, effectively keeping bn bctive stbck trbce
+ *   for the threbd. As ebch method exits, the stbtistics for the trbce
+ *   bssocibted with the current stbck contents is updbted.
  *
- * For cpu=samples, each thread is checked to see if it's runnable,
- *   and not suspended, and has a stack associated with it, and then
- *   that stack trace is updated with an additional 'hit'.
+ * For cpu=sbmples, ebch threbd is checked to see if it's runnbble,
+ *   bnd not suspended, bnd hbs b stbck bssocibted with it, bnd then
+ *   thbt stbck trbce is updbted with bn bdditionbl 'hit'.
  *
- * This file also contains the dump logic for owned monitors, and for
- *   threads.
+ * This file blso contbins the dump logic for owned monitors, bnd for
+ *   threbds.
  *
  */
 
 /*
- * Initial number of stack elements to track per thread. This
- * value should be set to a reasonable guess as to the number of
- * methods deep a thread calls. This stack doubles in size for each
- * reallocation and does not shrink.
+ * Initibl number of stbck elements to trbck per threbd. This
+ * vblue should be set to b rebsonbble guess bs to the number of
+ * methods deep b threbd cblls. This stbck doubles in size for ebch
+ * rebllocbtion bnd does not shrink.
  */
 
 #define INITIAL_THREAD_STACK_LIMIT 64
 
-typedef struct StackElement {
-    FrameIndex  frame_index;            /* Frame (method/location(-1)) */
+typedef struct StbckElement {
+    FrbmeIndex  frbme_index;            /* Frbme (method/locbtion(-1)) */
     jmethodID   method;                 /* Method ID */
-    jlong       method_start_time;      /* method start time */
-    jlong       time_in_callees;        /* time in callees */
-} StackElement;
+    jlong       method_stbrt_time;      /* method stbrt time */
+    jlong       time_in_cbllees;        /* time in cbllees */
+} StbckElement;
 
 typedef struct TlsInfo {
-    jint            sample_status;      /* Thread status for cpu sampling */
-    jboolean        agent_thread;       /* Is thread our own agent thread? */
-    jthread         globalref;          /* Global reference for thread */
-    Stack          *stack;              /* Stack of StackElements entry/exit */
-    MonitorIndex    monitor_index;      /* last contended mon */
-    jint            tracker_status;     /* If we are inside Tracker class */
-    FrameIndex     *frames_buffer;      /* Buffer used to create TraceIndex */
-    jvmtiFrameInfo *jframes_buffer;     /* Buffer used to create TraceIndex */
-    int             buffer_depth;       /* Frames allowed in buffer */
-    TraceIndex      last_trace;         /* Last trace for this thread */
-    ObjectIndex     thread_object_index;/* If heap=dump */
-    jlong           monitor_start_time; /* Start time for monitor */
-    jint            in_heap_dump;       /* If we are an object in the dump */
+    jint            sbmple_stbtus;      /* Threbd stbtus for cpu sbmpling */
+    jboolebn        bgent_threbd;       /* Is threbd our own bgent threbd? */
+    jthrebd         globblref;          /* Globbl reference for threbd */
+    Stbck          *stbck;              /* Stbck of StbckElements entry/exit */
+    MonitorIndex    monitor_index;      /* lbst contended mon */
+    jint            trbcker_stbtus;     /* If we bre inside Trbcker clbss */
+    FrbmeIndex     *frbmes_buffer;      /* Buffer used to crebte TrbceIndex */
+    jvmtiFrbmeInfo *jfrbmes_buffer;     /* Buffer used to crebte TrbceIndex */
+    int             buffer_depth;       /* Frbmes bllowed in buffer */
+    TrbceIndex      lbst_trbce;         /* Lbst trbce for this threbd */
+    ObjectIndex     threbd_object_index;/* If hebp=dump */
+    jlong           monitor_stbrt_time; /* Stbrt time for monitor */
+    jint            in_hebp_dump;       /* If we bre bn object in the dump */
 } TlsInfo;
 
-typedef struct SearchData {
+typedef struct SebrchDbtb {
     JNIEnv      *env;
-    jthread      thread;
+    jthrebd      threbd;
     TlsIndex     found;
-} SearchData;
+} SebrchDbtb;
 
-typedef struct IterateInfo {
+typedef struct IterbteInfo {
     TlsIndex *          ptls_index;
-    jthread  *          pthreads;
+    jthrebd  *          pthrebds;
     jint                count;
-} IterateInfo;
+} IterbteInfo;
 
-typedef struct ThreadList {
-    jthread      *threads;
-    SerialNumber *serial_nums;
+typedef struct ThrebdList {
+    jthrebd      *threbds;
+    SeriblNumber *seribl_nums;
     TlsInfo     **infos;
     jint          count;
     JNIEnv       *env;
-} ThreadList;
+} ThrebdList;
 
-typedef struct SampleData {
-    ObjectIndex  thread_object_index;
-    jint         sample_status;
-} SampleData;
+typedef struct SbmpleDbtb {
+    ObjectIndex  threbd_object_index;
+    jint         sbmple_stbtus;
+} SbmpleDbtb;
 
-/* Private internal functions. */
+/* Privbte internbl functions. */
 
-static SerialNumber
+stbtic SeriblNumber
 get_key(TlsIndex index)
 {
-    SerialNumber *pkey;
+    SeriblNumber *pkey;
     int           key_len;
 
     if ( index == 0 ) {
@@ -140,665 +140,665 @@ get_key(TlsIndex index)
     }
     pkey    = NULL;
     key_len = 0;
-    table_get_key(gdata->tls_table, index, (void**)&pkey, &key_len);
+    tbble_get_key(gdbtb->tls_tbble, index, (void**)&pkey, &key_len);
     HPROF_ASSERT(pkey!=NULL);
-    HPROF_ASSERT(key_len==(int)sizeof(SerialNumber));
+    HPROF_ASSERT(key_len==(int)sizeof(SeriblNumber));
     return *pkey;
 }
 
-static TlsInfo *
+stbtic TlsInfo *
 get_info(TlsIndex index)
 {
-    return (TlsInfo*)table_get_info(gdata->tls_table, index);
+    return (TlsInfo*)tbble_get_info(gdbtb->tls_tbble, index);
 }
 
-static void
-delete_globalref(JNIEnv *env, TlsInfo *info)
+stbtic void
+delete_globblref(JNIEnv *env, TlsInfo *info)
 {
-    jthread ref;
+    jthrebd ref;
 
     HPROF_ASSERT(env!=NULL);
     HPROF_ASSERT(info!=NULL);
-    ref = info->globalref;
-    info->globalref = NULL;
+    ref = info->globblref;
+    info->globblref = NULL;
     if ( ref != NULL ) {
-        deleteWeakGlobalReference(env, ref);
+        deleteWebkGlobblReference(env, ref);
     }
 }
 
-static void
-clean_info(TlsInfo *info)
+stbtic void
+clebn_info(TlsInfo *info)
 {
-    /* Free up any allocated space in this TlsInfo structure */
-    if ( info->stack != NULL ) {
-        stack_term(info->stack);
-        info->stack = NULL;
+    /* Free up bny bllocbted spbce in this TlsInfo structure */
+    if ( info->stbck != NULL ) {
+        stbck_term(info->stbck);
+        info->stbck = NULL;
     }
-    if ( info->frames_buffer != NULL ) {
-        HPROF_FREE(info->frames_buffer);
-        info->frames_buffer = NULL;
+    if ( info->frbmes_buffer != NULL ) {
+        HPROF_FREE(info->frbmes_buffer);
+        info->frbmes_buffer = NULL;
     }
-    if ( info->jframes_buffer != NULL ) {
-        HPROF_FREE(info->jframes_buffer);
-        info->jframes_buffer = NULL;
+    if ( info->jfrbmes_buffer != NULL ) {
+        HPROF_FREE(info->jfrbmes_buffer);
+        info->jfrbmes_buffer = NULL;
     }
 }
 
-static void
-cleanup_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtic void
+clebnup_item(TbbleIndex index, void *key_ptr, int key_len,
+                        void *info_ptr, void *brg)
 {
     TlsInfo *   info;
 
     info = (TlsInfo*)info_ptr;
-    clean_info(info);
+    clebn_info(info);
 }
 
-static void
-delete_ref_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtic void
+delete_ref_item(TbbleIndex index, void *key_ptr, int key_len,
+                        void *info_ptr, void *brg)
 {
-    delete_globalref((JNIEnv*)arg, (TlsInfo*)info_ptr);
+    delete_globblref((JNIEnv*)brg, (TlsInfo*)info_ptr);
 }
 
-static void
-list_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtic void
+list_item(TbbleIndex index, void *key_ptr, int key_len,
+                        void *info_ptr, void *brg)
 {
     TlsInfo     *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
 
     info        = (TlsInfo*)info_ptr;
-    debug_message( "Tls 0x%08x: SN=%u, sample_status=%d, agent=%d, "
-                          "thread=%p, monitor=0x%08x, "
-                          "tracker_status=%d\n",
+    debug_messbge( "Tls 0x%08x: SN=%u, sbmple_stbtus=%d, bgent=%d, "
+                          "threbd=%p, monitor=0x%08x, "
+                          "trbcker_stbtus=%d\n",
                 index,
-                *(SerialNumber*)key_ptr,
-                info->sample_status,
-                info->agent_thread,
-                (void*)info->globalref,
+                *(SeriblNumber*)key_ptr,
+                info->sbmple_stbtus,
+                info->bgent_threbd,
+                (void*)info->globblref,
                 info->monitor_index,
-                info->tracker_status);
+                info->trbcker_stbtus);
 }
 
-static void
-search_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtic void
+sebrch_item(TbbleIndex index, void *key_ptr, int key_len,
+                        void *info_ptr, void *brg)
 {
     TlsInfo     *info;
-    SearchData  *data;
+    SebrchDbtb  *dbtb;
     jobject      lref;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    HPROF_ASSERT(arg!=NULL);
+    HPROF_ASSERT(brg!=NULL);
     info        = (TlsInfo*)info_ptr;
-    data        = (SearchData*)arg;
-    lref        = newLocalReference(data->env, info->globalref);
+    dbtb        = (SebrchDbtb*)brg;
+    lref        = newLocblReference(dbtb->env, info->globblref);
     if ( lref != NULL ) {
-        if ( isSameObject(data->env, data->thread, lref) ) {
-            HPROF_ASSERT(data->found==0); /* Did we find more than one? */
-            data->found = index;
+        if ( isSbmeObject(dbtb->env, dbtb->threbd, lref) ) {
+            HPROF_ASSERT(dbtb->found==0); /* Did we find more thbn one? */
+            dbtb->found = index;
         }
-        deleteLocalReference(data->env, lref);
+        deleteLocblReference(dbtb->env, lref);
     }
 }
 
-static TlsIndex
-search(JNIEnv *env, jthread thread)
+stbtic TlsIndex
+sebrch(JNIEnv *env, jthrebd threbd)
 {
-    SearchData  data;
+    SebrchDbtb  dbtb;
 
     HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(thread!=NULL);
+    HPROF_ASSERT(threbd!=NULL);
 
-    data.env = env;
-    data.thread = thread;
-    data.found = 0;
-    table_walk_items(gdata->tls_table, &search_item, (void*)&data);
-    return data.found;
+    dbtb.env = env;
+    dbtb.threbd = threbd;
+    dbtb.found = 0;
+    tbble_wblk_items(gdbtb->tls_tbble, &sebrch_item, (void*)&dbtb);
+    return dbtb.found;
 }
 
-static void
-garbage_collect_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtic void
+gbrbbge_collect_item(TbbleIndex index, void *key_ptr, int key_len,
+                        void *info_ptr, void *brg)
 {
     TlsInfo     *info;
     JNIEnv      *env;
     jobject      lref;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    HPROF_ASSERT(arg!=NULL);
+    HPROF_ASSERT(brg!=NULL);
     info        = (TlsInfo*)info_ptr;
-    env         = (JNIEnv*)arg;
-    lref        = newLocalReference(env, info->globalref);
+    env         = (JNIEnv*)brg;
+    lref        = newLocblReference(env, info->globblref);
     if ( lref == NULL ) {
-        delete_globalref(env, info);
-        clean_info(info);
-        table_free_entry(gdata->tls_table, index);
+        delete_globblref(env, info);
+        clebn_info(info);
+        tbble_free_entry(gdbtb->tls_tbble, index);
     } else {
-        deleteLocalReference(env, lref);
+        deleteLocblReference(env, lref);
     }
 }
 
 void
-tls_garbage_collect(JNIEnv *env)
+tls_gbrbbge_collect(JNIEnv *env)
 {
     HPROF_ASSERT(env!=NULL);
-    rawMonitorEnter(gdata->data_access_lock); {
-        table_walk_items(gdata->tls_table, &garbage_collect_item, (void*)env);
-    } rawMonitorExit(gdata->data_access_lock);
+    rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+        tbble_wblk_items(gdbtb->tls_tbble, &gbrbbge_collect_item, (void*)env);
+    } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 }
 
-static void
-sum_sample_status_item(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+sum_sbmple_stbtus_item(TbbleIndex index, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
     TlsInfo     *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
     info                = (TlsInfo*)info_ptr;
-    if ( !info->agent_thread ) {
-        (*(jint*)arg)      += info->sample_status;
+    if ( !info->bgent_threbd ) {
+        (*(jint*)brg)      += info->sbmple_stbtus;
     }
 }
 
-static void
-setup_trace_buffers(TlsInfo *info, int max_depth)
+stbtic void
+setup_trbce_buffers(TlsInfo *info, int mbx_depth)
 {
     int nbytes;
-    int max_frames;
+    int mbx_frbmes;
 
-    if ( info->frames_buffer != NULL && info->buffer_depth >= max_depth ) {
+    if ( info->frbmes_buffer != NULL && info->buffer_depth >= mbx_depth ) {
         return;
     }
-    if ( info->frames_buffer != NULL ) {
-        HPROF_FREE(info->frames_buffer);
+    if ( info->frbmes_buffer != NULL ) {
+        HPROF_FREE(info->frbmes_buffer);
     }
-    if ( info->jframes_buffer != NULL ) {
-        HPROF_FREE(info->jframes_buffer);
+    if ( info->jfrbmes_buffer != NULL ) {
+        HPROF_FREE(info->jfrbmes_buffer);
     }
-    info->buffer_depth      = max_depth;
-    max_frames              = max_depth + 4; /* Allow for BCI & <init> */
-    nbytes                  = (int)sizeof(FrameIndex)*(max_frames+1);
-    info->frames_buffer     = HPROF_MALLOC(nbytes);
-    nbytes                  = (int)sizeof(jvmtiFrameInfo)*(max_frames+1);
-    info->jframes_buffer    = HPROF_MALLOC(nbytes);
+    info->buffer_depth      = mbx_depth;
+    mbx_frbmes              = mbx_depth + 4; /* Allow for BCI & <init> */
+    nbytes                  = (int)sizeof(FrbmeIndex)*(mbx_frbmes+1);
+    info->frbmes_buffer     = HPROF_MALLOC(nbytes);
+    nbytes                  = (int)sizeof(jvmtiFrbmeInfo)*(mbx_frbmes+1);
+    info->jfrbmes_buffer    = HPROF_MALLOC(nbytes);
 }
 
-static TraceIndex
-get_trace(jthread thread, SerialNumber thread_serial_num,
-                int depth, jboolean skip_init,
-                FrameIndex *frames_buffer, jvmtiFrameInfo *jframes_buffer)
+stbtic TrbceIndex
+get_trbce(jthrebd threbd, SeriblNumber threbd_seribl_num,
+                int depth, jboolebn skip_init,
+                FrbmeIndex *frbmes_buffer, jvmtiFrbmeInfo *jfrbmes_buffer)
 {
-    TraceIndex trace_index;
+    TrbceIndex trbce_index;
 
-    trace_index = gdata->system_trace_index;
-    if ( thread != NULL ) {
-        trace_index = trace_get_current(thread,
-                        thread_serial_num, depth, skip_init,
-                        frames_buffer, jframes_buffer);
+    trbce_index = gdbtb->system_trbce_index;
+    if ( threbd != NULL ) {
+        trbce_index = trbce_get_current(threbd,
+                        threbd_seribl_num, depth, skip_init,
+                        frbmes_buffer, jfrbmes_buffer);
     }
-    return trace_index;
+    return trbce_index;
 }
 
-/* Find thread with certain object index */
-static void
-sample_setter(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+/* Find threbd with certbin object index */
+stbtic void
+sbmple_setter(TbbleIndex index, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
     TlsInfo *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
 
     info  = (TlsInfo*)info_ptr;
-    if ( info->globalref != NULL && !info->agent_thread ) {
-        SampleData *data;
+    if ( info->globblref != NULL && !info->bgent_threbd ) {
+        SbmpleDbtb *dbtb;
 
-        data   = (SampleData*)arg;
-        if ( data->thread_object_index == info->thread_object_index ) {
-            info->sample_status = data->sample_status;
+        dbtb   = (SbmpleDbtb*)brg;
+        if ( dbtb->threbd_object_index == info->threbd_object_index ) {
+            info->sbmple_stbtus = dbtb->sbmple_stbtus;
         }
     }
 }
 
-/* Get various lists on known threads */
-static void
-get_thread_list(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+/* Get vbrious lists on known threbds */
+stbtic void
+get_threbd_list(TbbleIndex index, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
-    SerialNumber thread_serial_num;
+    SeriblNumber threbd_seribl_num;
     TlsInfo     *info;
-    ThreadList  *list;
-    jthread      thread;
+    ThrebdList  *list;
+    jthrebd      threbd;
 
     HPROF_ASSERT(key_ptr!=NULL);
     HPROF_ASSERT(info_ptr!=NULL);
 
-    thread_serial_num = *(SerialNumber*)key_ptr;
+    threbd_seribl_num = *(SeriblNumber*)key_ptr;
     info              = (TlsInfo*)info_ptr;
-    list              = (ThreadList*)arg;
-    thread            = newLocalReference(list->env, info->globalref);
-    if ( thread != NULL && info->sample_status != 0 && !info->agent_thread ) {
+    list              = (ThrebdList*)brg;
+    threbd            = newLocblReference(list->env, info->globblref);
+    if ( threbd != NULL && info->sbmple_stbtus != 0 && !info->bgent_threbd ) {
         if ( list->infos != NULL ) {
             list->infos[list->count] = info;
         }
-        if ( list->serial_nums != NULL ) {
-            list->serial_nums[list->count] = thread_serial_num;
+        if ( list->seribl_nums != NULL ) {
+            list->seribl_nums[list->count] = threbd_seribl_num;
         }
-        list->threads[list->count] = thread;
+        list->threbds[list->count] = threbd;
         list->count++;
-        /* Local reference gets freed by caller */
+        /* Locbl reference gets freed by cbller */
     } else {
-        /* If we don't use the local reference, delete it now */
-        if ( thread != NULL ) {
-            deleteLocalReference(list->env, thread);
+        /* If we don't use the locbl reference, delete it now */
+        if ( threbd != NULL ) {
+            deleteLocblReference(list->env, threbd);
         }
     }
 }
 
-static void
-adjust_stats(jlong total_time, jlong self_time, TraceIndex trace_index,
-             StackElement *parent)
+stbtic void
+bdjust_stbts(jlong totbl_time, jlong self_time, TrbceIndex trbce_index,
+             StbckElement *pbrent)
 {
-    if ( total_time > 0 && parent != NULL ) {  /* if a caller exists */
-        parent->time_in_callees += total_time;
+    if ( totbl_time > 0 && pbrent != NULL ) {  /* if b cbller exists */
+        pbrent->time_in_cbllees += totbl_time;
     }
-    trace_increment_cost(trace_index, 1, self_time, total_time);
+    trbce_increment_cost(trbce_index, 1, self_time, totbl_time);
 }
 
-static void
-push_method(Stack *stack, jlong method_start_time, jmethodID method)
+stbtic void
+push_method(Stbck *stbck, jlong method_stbrt_time, jmethodID method)
 {
-    StackElement new_element;
-    FrameIndex   frame_index;
+    StbckElement new_element;
+    FrbmeIndex   frbme_index;
 
     HPROF_ASSERT(method!=NULL);
-    HPROF_ASSERT(stack!=NULL);
+    HPROF_ASSERT(stbck!=NULL);
 
-    frame_index                  = frame_find_or_create(method, -1);
-    HPROF_ASSERT(frame_index != 0);
-    new_element.frame_index      = frame_index;
+    frbme_index                  = frbme_find_or_crebte(method, -1);
+    HPROF_ASSERT(frbme_index != 0);
+    new_element.frbme_index      = frbme_index;
     new_element.method           = method;
-    new_element.method_start_time= method_start_time;
-    new_element.time_in_callees  = (jlong)0;
-    stack_push(stack, &new_element);
+    new_element.method_stbrt_time= method_stbrt_time;
+    new_element.time_in_cbllees  = (jlong)0;
+    stbck_push(stbck, &new_element);
 }
 
-static Stack *
-insure_method_on_stack(jthread thread, TlsInfo *info, jlong current_time,
-                FrameIndex frame_index, jmethodID method)
+stbtic Stbck *
+insure_method_on_stbck(jthrebd threbd, TlsInfo *info, jlong current_time,
+                FrbmeIndex frbme_index, jmethodID method)
 {
-    StackElement  element;
+    StbckElement  element;
     void         *p;
     int           depth;
     int           count;
     int           fcount;
     int           i;
-    Stack         *new_stack;
-    Stack         *stack;
+    Stbck         *new_stbck;
+    Stbck         *stbck;
 
-    stack = info->stack;
+    stbck = info->stbck;
 
     HPROF_ASSERT(method!=NULL);
 
-    /* If this method is on the stack, just return */
-    depth   = stack_depth(stack);
-    p = stack_top(stack);
+    /* If this method is on the stbck, just return */
+    depth   = stbck_depth(stbck);
+    p = stbck_top(stbck);
     if ( p != NULL ) {
-        element = *(StackElement*)p;
-        if ( element.frame_index == frame_index ) {
-            return stack;
+        element = *(StbckElement*)p;
+        if ( element.frbme_index == frbme_index ) {
+            return stbck;
         }
     }
     for ( i = 0 ; i < depth ; i++ ) {
-        p = stack_element(stack, i);
-        element = *(StackElement*)p;
-        if ( element.frame_index == frame_index ) {
-            return stack;
+        p = stbck_element(stbck, i);
+        element = *(StbckElement*)p;
+        if ( element.frbme_index == frbme_index ) {
+            return stbck;
         }
     }
 
-    /* It wasn't found, create a new stack */
-    getFrameCount(thread, &count);
+    /* It wbsn't found, crebte b new stbck */
+    getFrbmeCount(threbd, &count);
     if ( count <= 0 ) {
-        HPROF_ERROR(JNI_FALSE, "no frames, method can't be on stack");
+        HPROF_ERROR(JNI_FALSE, "no frbmes, method cbn't be on stbck");
     }
-    setup_trace_buffers(info, count);
-    getStackTrace(thread, info->jframes_buffer, count, &fcount);
+    setup_trbce_buffers(info, count);
+    getStbckTrbce(threbd, info->jfrbmes_buffer, count, &fcount);
     HPROF_ASSERT(count==fcount);
 
-    /* Create a new stack */
-    new_stack = stack_init(INITIAL_THREAD_STACK_LIMIT,
+    /* Crebte b new stbck */
+    new_stbck = stbck_init(INITIAL_THREAD_STACK_LIMIT,
                             INITIAL_THREAD_STACK_LIMIT,
-                            (int)sizeof(StackElement));
+                            (int)sizeof(StbckElement));
     for ( i = count-1; i >= 0 ; i-- ) {
-        push_method(new_stack, current_time, info->jframes_buffer[i].method);
+        push_method(new_stbck, current_time, info->jfrbmes_buffer[i].method);
     }
     if ( depth > 0 ) {
         for ( i = depth-1 ; i >= 0; i-- ) {
-            stack_push(new_stack, stack_element(stack, i));
+            stbck_push(new_stbck, stbck_element(stbck, i));
         }
     }
-    stack_term(stack);
-    return new_stack;
+    stbck_term(stbck);
+    return new_stbck;
 }
 
-static void
-pop_method(TlsIndex index, jlong current_time, jmethodID method, FrameIndex frame_index)
+stbtic void
+pop_method(TlsIndex index, jlong current_time, jmethodID method, FrbmeIndex frbme_index)
 {
-    SerialNumber  thread_serial_num;
+    SeriblNumber  threbd_seribl_num;
     TlsInfo  *    info;
-    StackElement  element;
+    StbckElement  element;
     void         *p;
     int           depth;
-    int           trace_depth;
-    jlong         total_time;
+    int           trbce_depth;
+    jlong         totbl_time;
     jlong         self_time;
     int           i;
-    TraceIndex    trace_index;
+    TrbceIndex    trbce_index;
 
     HPROF_ASSERT(method!=NULL);
-    HPROF_ASSERT(frame_index!=0);
+    HPROF_ASSERT(frbme_index!=0);
 
-    thread_serial_num  = get_key(index);
+    threbd_seribl_num  = get_key(index);
     info               = get_info(index);
     HPROF_ASSERT(info!=NULL);
-    HPROF_ASSERT(info->stack!=NULL);
-    depth   = stack_depth(info->stack);
-    p = stack_pop(info->stack);
+    HPROF_ASSERT(info->stbck!=NULL);
+    depth   = stbck_depth(info->stbck);
+    p = stbck_pop(info->stbck);
     if (p == NULL) {
-        HPROF_ERROR(JNI_FALSE, "method return tracked, but stack is empty");
+        HPROF_ERROR(JNI_FALSE, "method return trbcked, but stbck is empty");
         return;
     }
-    element = *(StackElement*)p;
-    HPROF_ASSERT(element.frame_index!=0);
+    element = *(StbckElement*)p;
+    HPROF_ASSERT(element.frbme_index!=0);
 
-    /* The depth of frames we should keep track for reporting */
-    if (gdata->prof_trace_depth > depth) {
-        trace_depth = depth;
+    /* The depth of frbmes we should keep trbck for reporting */
+    if (gdbtb->prof_trbce_depth > depth) {
+        trbce_depth = depth;
     } else {
-        trace_depth = gdata->prof_trace_depth;
+        trbce_depth = gdbtb->prof_trbce_depth;
     }
 
-    /* Create a trace entry */
-    HPROF_ASSERT(info->frames_buffer!=NULL);
-    HPROF_ASSERT(info->jframes_buffer!=NULL);
-    setup_trace_buffers(info, trace_depth);
-    info->frames_buffer[0] = element.frame_index;
-    for (i = 1; i < trace_depth; i++) {
-        StackElement e;
+    /* Crebte b trbce entry */
+    HPROF_ASSERT(info->frbmes_buffer!=NULL);
+    HPROF_ASSERT(info->jfrbmes_buffer!=NULL);
+    setup_trbce_buffers(info, trbce_depth);
+    info->frbmes_buffer[0] = element.frbme_index;
+    for (i = 1; i < trbce_depth; i++) {
+        StbckElement e;
 
-        e = *(StackElement*)stack_element(info->stack, (depth - i) - 1);
-        info->frames_buffer[i] = e.frame_index;
-        HPROF_ASSERT(e.frame_index!=0);
+        e = *(StbckElement*)stbck_element(info->stbck, (depth - i) - 1);
+        info->frbmes_buffer[i] = e.frbme_index;
+        HPROF_ASSERT(e.frbme_index!=0);
     }
-    trace_index = trace_find_or_create(thread_serial_num,
-                    trace_depth, info->frames_buffer, info->jframes_buffer);
+    trbce_index = trbce_find_or_crebte(threbd_seribl_num,
+                    trbce_depth, info->frbmes_buffer, info->jfrbmes_buffer);
 
-    /* Calculate time spent */
-    total_time = current_time - element.method_start_time;
-    if ( total_time < 0 ) {
-        total_time = 0;
+    /* Cblculbte time spent */
+    totbl_time = current_time - element.method_stbrt_time;
+    if ( totbl_time < 0 ) {
+        totbl_time = 0;
         self_time = 0;
     } else {
-        self_time = total_time - element.time_in_callees;
+        self_time = totbl_time - element.time_in_cbllees;
     }
 
-    /* Update stats */
-    p = stack_top(info->stack);
+    /* Updbte stbts */
+    p = stbck_top(info->stbck);
     if ( p != NULL ) {
-        adjust_stats(total_time, self_time, trace_index, (StackElement*)p);
+        bdjust_stbts(totbl_time, self_time, trbce_index, (StbckElement*)p);
     } else {
-        adjust_stats(total_time, self_time, trace_index, NULL);
+        bdjust_stbts(totbl_time, self_time, trbce_index, NULL);
     }
 }
 
-static void
-dump_thread_state(TlsIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+dump_threbd_stbte(TlsIndex index, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
-    SerialNumber thread_serial_num;
+    SeriblNumber threbd_seribl_num;
     TlsInfo     *info;
-    jthread      thread;
+    jthrebd      threbd;
     JNIEnv      *env;
 
     HPROF_ASSERT(key_ptr!=NULL);
     HPROF_ASSERT(info_ptr!=NULL);
-    env                  = (JNIEnv*)arg;
-    thread_serial_num    = *(SerialNumber*)key_ptr;
+    env                  = (JNIEnv*)brg;
+    threbd_seribl_num    = *(SeriblNumber*)key_ptr;
     info                 = (TlsInfo*)info_ptr;
-    thread               = newLocalReference(env, info->globalref);
-    if ( thread != NULL ) {
-        jint         threadState;
-        SerialNumber trace_serial_num;
+    threbd               = newLocblReference(env, info->globblref);
+    if ( threbd != NULL ) {
+        jint         threbdStbte;
+        SeriblNumber trbce_seribl_num;
 
-        getThreadState(thread, &threadState);
-        /* A 0 trace at this time means the thread is in unknown territory.
-         *   The trace serial number MUST be a valid serial number, so we use
-         *   the system trace (empty) just so it has a valid trace.
+        getThrebdStbte(threbd, &threbdStbte);
+        /* A 0 trbce bt this time mebns the threbd is in unknown territory.
+         *   The trbce seribl number MUST be b vblid seribl number, so we use
+         *   the system trbce (empty) just so it hbs b vblid trbce.
          */
-        if ( info->last_trace == 0 ) {
-            trace_serial_num = trace_get_serial_number(gdata->system_trace_index);
+        if ( info->lbst_trbce == 0 ) {
+            trbce_seribl_num = trbce_get_seribl_number(gdbtb->system_trbce_index);
         } else {
-            trace_serial_num = trace_get_serial_number(info->last_trace);
+            trbce_seribl_num = trbce_get_seribl_number(info->lbst_trbce);
         }
-        io_write_monitor_dump_thread_state(thread_serial_num,
-                       trace_serial_num, threadState);
-        deleteLocalReference(env, thread);
+        io_write_monitor_dump_threbd_stbte(threbd_seribl_num,
+                       trbce_seribl_num, threbdStbte);
+        deleteLocblReference(env, threbd);
     }
 }
 
-static SerialNumber
-get_serial_number(JNIEnv *env, jthread thread)
+stbtic SeriblNumber
+get_seribl_number(JNIEnv *env, jthrebd threbd)
 {
     TlsIndex     index;
 
-    if ( thread == NULL ) {
-        return gdata->unknown_thread_serial_num;
+    if ( threbd == NULL ) {
+        return gdbtb->unknown_threbd_seribl_num;
     }
     HPROF_ASSERT(env!=NULL);
-    index = tls_find_or_create(env, thread);
+    index = tls_find_or_crebte(env, threbd);
     return get_key(index);
 }
 
-static void
-dump_monitor_state(TlsIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+dump_monitor_stbte(TlsIndex index, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
     TlsInfo *info;
-    jthread  thread;
+    jthrebd  threbd;
     JNIEnv  *env;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    env = (JNIEnv*)arg;
+    env = (JNIEnv*)brg;
     info = (TlsInfo*)info_ptr;
-    thread = newLocalReference(env, info->globalref);
-    if ( thread != NULL ) {
+    threbd = newLocblReference(env, info->globblref);
+    if ( threbd != NULL ) {
         jobject *objects;
         jint     ocount;
         int      i;
 
-        getOwnedMonitorInfo(thread, &objects, &ocount);
+        getOwnedMonitorInfo(threbd, &objects, &ocount);
         if ( ocount > 0 ) {
             for ( i = 0 ; i < ocount ; i++ ) {
-                jvmtiMonitorUsage usage;
-                SerialNumber *waiter_nums;
-                SerialNumber *notify_waiter_nums;
+                jvmtiMonitorUsbge usbge;
+                SeriblNumber *wbiter_nums;
+                SeriblNumber *notify_wbiter_nums;
                 int           t;
-                char *        sig;
+                chbr *        sig;
 
                 WITH_LOCAL_REFS(env, 1) {
-                    jclass clazz;
+                    jclbss clbzz;
 
-                    clazz = getObjectClass(env, objects[i]);
-                    getClassSignature(clazz, &sig, NULL);
+                    clbzz = getObjectClbss(env, objects[i]);
+                    getClbssSignbture(clbzz, &sig, NULL);
                 } END_WITH_LOCAL_REFS;
 
-                getObjectMonitorUsage(objects[i], &usage);
-                waiter_nums = HPROF_MALLOC(usage.waiter_count*
-                                        (int)sizeof(SerialNumber)+1);
-                for ( t = 0 ; t < usage.waiter_count ; t++ ) {
-                    waiter_nums[t] =
-                        get_serial_number(env, usage.waiters[t]);
+                getObjectMonitorUsbge(objects[i], &usbge);
+                wbiter_nums = HPROF_MALLOC(usbge.wbiter_count*
+                                        (int)sizeof(SeriblNumber)+1);
+                for ( t = 0 ; t < usbge.wbiter_count ; t++ ) {
+                    wbiter_nums[t] =
+                        get_seribl_number(env, usbge.wbiters[t]);
                 }
-                notify_waiter_nums = HPROF_MALLOC(usage.notify_waiter_count*
-                                        (int)sizeof(SerialNumber)+1);
-                for ( t = 0 ; t < usage.notify_waiter_count ; t++ ) {
-                    notify_waiter_nums[t] =
-                        get_serial_number(env, usage.notify_waiters[t]);
+                notify_wbiter_nums = HPROF_MALLOC(usbge.notify_wbiter_count*
+                                        (int)sizeof(SeriblNumber)+1);
+                for ( t = 0 ; t < usbge.notify_wbiter_count ; t++ ) {
+                    notify_wbiter_nums[t] =
+                        get_seribl_number(env, usbge.notify_wbiters[t]);
                 }
-                io_write_monitor_dump_state(sig,
-                       get_serial_number(env, usage.owner),
-                       usage.entry_count,
-                       waiter_nums, usage.waiter_count,
-                       notify_waiter_nums, usage.notify_waiter_count);
-                jvmtiDeallocate(sig);
-                jvmtiDeallocate(usage.waiters);
-                jvmtiDeallocate(usage.notify_waiters);
-                HPROF_FREE(waiter_nums);
-                HPROF_FREE(notify_waiter_nums);
+                io_write_monitor_dump_stbte(sig,
+                       get_seribl_number(env, usbge.owner),
+                       usbge.entry_count,
+                       wbiter_nums, usbge.wbiter_count,
+                       notify_wbiter_nums, usbge.notify_wbiter_count);
+                jvmtiDebllocbte(sig);
+                jvmtiDebllocbte(usbge.wbiters);
+                jvmtiDebllocbte(usbge.notify_wbiters);
+                HPROF_FREE(wbiter_nums);
+                HPROF_FREE(notify_wbiter_nums);
             }
         }
-        jvmtiDeallocate(objects);
-        deleteLocalReference(env, thread);
+        jvmtiDebllocbte(objects);
+        deleteLocblReference(env, threbd);
     }
 }
 
-static jlong
+stbtic jlong
 monitor_time(void)
 {
     jlong mtime;
 
-    mtime = md_get_timemillis(); /* gettimeofday() */
+    mtime = md_get_timemillis(); /* gettimeofdby() */
     return mtime;
 }
 
-static jlong
+stbtic jlong
 method_time(void)
 {
     jlong method_time;
 
-    method_time = md_get_thread_cpu_timemillis(); /* thread CPU time */
+    method_time = md_get_threbd_cpu_timemillis(); /* threbd CPU time */
     return method_time;
 }
 
-/* External interfaces */
+/* Externbl interfbces */
 
 TlsIndex
-tls_find_or_create(JNIEnv *env, jthread thread)
+tls_find_or_crebte(JNIEnv *env, jthrebd threbd)
 {
-    SerialNumber    thread_serial_num;
-    static TlsInfo  empty_info;
+    SeriblNumber    threbd_seribl_num;
+    stbtic TlsInfo  empty_info;
     TlsInfo         info;
     TlsIndex        index;
 
     HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(thread!=NULL);
+    HPROF_ASSERT(threbd!=NULL);
 
     /*LINTED*/
-    index = (TlsIndex)(ptrdiff_t)getThreadLocalStorage(thread);
+    index = (TlsIndex)(ptrdiff_t)getThrebdLocblStorbge(threbd);
     if ( index != 0 ) {
-        HPROF_ASSERT(isSameObject(env, thread, get_info(index)->globalref));
+        HPROF_ASSERT(isSbmeObject(env, threbd, get_info(index)->globblref));
         return index;
     }
-    index = search(env, thread);
+    index = sebrch(env, threbd);
     if ( index != 0 ) {
-        setThreadLocalStorage(thread, (void*)(ptrdiff_t)index);
+        setThrebdLocblStorbge(threbd, (void*)(ptrdiff_t)index);
         return index;
     }
-    thread_serial_num      = gdata->thread_serial_number_counter++;
+    threbd_seribl_num      = gdbtb->threbd_seribl_number_counter++;
     info                   = empty_info;
     info.monitor_index     = 0;
-    info.sample_status     = 1;
-    info.agent_thread      = JNI_FALSE;
-    info.stack             = stack_init(INITIAL_THREAD_STACK_LIMIT,
+    info.sbmple_stbtus     = 1;
+    info.bgent_threbd      = JNI_FALSE;
+    info.stbck             = stbck_init(INITIAL_THREAD_STACK_LIMIT,
                                 INITIAL_THREAD_STACK_LIMIT,
-                                (int)sizeof(StackElement));
-    setup_trace_buffers(&info, gdata->max_trace_depth);
-    info.globalref = newWeakGlobalReference(env, thread);
-    index = table_create_entry(gdata->tls_table, &thread_serial_num, (int)sizeof(SerialNumber), (void*)&info);
-    setThreadLocalStorage(thread, (void*)(ptrdiff_t)index);
-    HPROF_ASSERT(search(env,thread)==index);
+                                (int)sizeof(StbckElement));
+    setup_trbce_buffers(&info, gdbtb->mbx_trbce_depth);
+    info.globblref = newWebkGlobblReference(env, threbd);
+    index = tbble_crebte_entry(gdbtb->tls_tbble, &threbd_seribl_num, (int)sizeof(SeriblNumber), (void*)&info);
+    setThrebdLocblStorbge(threbd, (void*)(ptrdiff_t)index);
+    HPROF_ASSERT(sebrch(env,threbd)==index);
     return index;
 }
 
-/* Mark a new or existing entry as being an agent thread */
+/* Mbrk b new or existing entry bs being bn bgent threbd */
 void
-tls_agent_thread(JNIEnv *env, jthread thread)
+tls_bgent_threbd(JNIEnv *env, jthrebd threbd)
 {
     TlsIndex  index;
     TlsInfo  *info;
 
-    index              = tls_find_or_create(env, thread);
+    index              = tls_find_or_crebte(env, threbd);
     info               = get_info(index);
-    info->agent_thread = JNI_TRUE;
+    info->bgent_threbd = JNI_TRUE;
 }
 
 void
 tls_init(void)
 {
-    gdata->tls_table = table_initialize("TLS",
+    gdbtb->tls_tbble = tbble_initiblize("TLS",
                             16, 16, 16, (int)sizeof(TlsInfo));
 }
 
 void
 tls_list(void)
 {
-    debug_message(
-        "--------------------- TLS Table ------------------------\n");
-    table_walk_items(gdata->tls_table, &list_item, NULL);
-    debug_message(
+    debug_messbge(
+        "--------------------- TLS Tbble ------------------------\n");
+    tbble_wblk_items(gdbtb->tls_tbble, &list_item, NULL);
+    debug_messbge(
         "----------------------------------------------------------\n");
 }
 
 jint
-tls_sum_sample_status(void)
+tls_sum_sbmple_stbtus(void)
 {
-    jint sample_status_total;
+    jint sbmple_stbtus_totbl;
 
-    sample_status_total = 0;
-    table_walk_items(gdata->tls_table, &sum_sample_status_item, (void*)&sample_status_total);
-    return sample_status_total;
+    sbmple_stbtus_totbl = 0;
+    tbble_wblk_items(gdbtb->tls_tbble, &sum_sbmple_stbtus_item, (void*)&sbmple_stbtus_totbl);
+    return sbmple_stbtus_totbl;
 }
 
 void
-tls_set_sample_status(ObjectIndex object_index, jint sample_status)
+tls_set_sbmple_stbtus(ObjectIndex object_index, jint sbmple_stbtus)
 {
-    SampleData  data;
+    SbmpleDbtb  dbtb;
 
-    data.thread_object_index = object_index;
-    data.sample_status       = sample_status;
-    table_walk_items(gdata->tls_table, &sample_setter, (void*)&data);
+    dbtb.threbd_object_index = object_index;
+    dbtb.sbmple_stbtus       = sbmple_stbtus;
+    tbble_wblk_items(gdbtb->tls_tbble, &sbmple_setter, (void*)&dbtb);
 }
 
 jint
-tls_get_tracker_status(JNIEnv *env, jthread thread, jboolean skip_init,
-        jint **ppstatus, TlsIndex* pindex,
-        SerialNumber *pthread_serial_num, TraceIndex *ptrace_index)
+tls_get_trbcker_stbtus(JNIEnv *env, jthrebd threbd, jboolebn skip_init,
+        jint **ppstbtus, TlsIndex* pindex,
+        SeriblNumber *pthrebd_seribl_num, TrbceIndex *ptrbce_index)
 {
     TlsInfo      *info;
     TlsIndex      index;
-    SerialNumber  thread_serial_num;
-    jint          status;
+    SeriblNumber  threbd_seribl_num;
+    jint          stbtus;
 
-    index             = tls_find_or_create(env, thread);
+    index             = tls_find_or_crebte(env, threbd);
     info              = get_info(index);
-    *ppstatus         = &(info->tracker_status);
-    status            = **ppstatus;
-    thread_serial_num = get_key(index);
+    *ppstbtus         = &(info->trbcker_stbtus);
+    stbtus            = **ppstbtus;
+    threbd_seribl_num = get_key(index);
 
     if ( pindex != NULL ) {
         *pindex = index;
     }
-    if ( status != 0 ) {
-        return status;
+    if ( stbtus != 0 ) {
+        return stbtus;
     }
-    if ( ptrace_index != NULL ) {
-        setup_trace_buffers(info, gdata->max_trace_depth);
-        *ptrace_index = get_trace(thread, thread_serial_num,
-                            gdata->max_trace_depth, skip_init,
-                            info->frames_buffer, info->jframes_buffer);
+    if ( ptrbce_index != NULL ) {
+        setup_trbce_buffers(info, gdbtb->mbx_trbce_depth);
+        *ptrbce_index = get_trbce(threbd, threbd_seribl_num,
+                            gdbtb->mbx_trbce_depth, skip_init,
+                            info->frbmes_buffer, info->jfrbmes_buffer);
     }
-    if ( pthread_serial_num != NULL ) {
-        *pthread_serial_num = thread_serial_num;
+    if ( pthrebd_seribl_num != NULL ) {
+        *pthrebd_seribl_num = threbd_seribl_num;
     }
-    return status;
+    return stbtus;
 }
 
 MonitorIndex
@@ -811,16 +811,16 @@ tls_get_monitor(TlsIndex index)
 }
 
 void
-tls_set_thread_object_index(TlsIndex index, ObjectIndex thread_object_index)
+tls_set_threbd_object_index(TlsIndex index, ObjectIndex threbd_object_index)
 {
     TlsInfo  *info;
 
     info = get_info(index);
-    info->thread_object_index = thread_object_index;
+    info->threbd_object_index = threbd_object_index;
 }
 
-SerialNumber
-tls_get_thread_serial_number(TlsIndex index)
+SeriblNumber
+tls_get_threbd_seribl_number(TlsIndex index)
 {
     return get_key(index);
 }
@@ -835,275 +835,275 @@ tls_set_monitor(TlsIndex index, MonitorIndex monitor_index)
 }
 
 void
-tls_cleanup(void)
+tls_clebnup(void)
 {
-    table_cleanup(gdata->tls_table, &cleanup_item, NULL);
-    gdata->tls_table = NULL;
+    tbble_clebnup(gdbtb->tls_tbble, &clebnup_item, NULL);
+    gdbtb->tls_tbble = NULL;
 }
 
 void
-tls_delete_global_references(JNIEnv *env)
+tls_delete_globbl_references(JNIEnv *env)
 {
-    table_walk_items(gdata->tls_table, &delete_ref_item, (void*)env);
+    tbble_wblk_items(gdbtb->tls_tbble, &delete_ref_item, (void*)env);
 }
 
 void
-tls_thread_ended(JNIEnv *env, TlsIndex index)
+tls_threbd_ended(JNIEnv *env, TlsIndex index)
 {
     HPROF_ASSERT(env!=NULL);
 
-    /* Sample thread stack for last time, do NOT free the entry yet. */
-    table_lock_enter(gdata->tls_table); {
-        SerialNumber thread_serial_num;
+    /* Sbmple threbd stbck for lbst time, do NOT free the entry yet. */
+    tbble_lock_enter(gdbtb->tls_tbble); {
+        SeriblNumber threbd_seribl_num;
         TlsInfo     *info;
-        jthread      thread;
+        jthrebd      threbd;
 
-        thread_serial_num = get_key(index);
+        threbd_seribl_num = get_key(index);
         info              = get_info(index);
-        thread            = newLocalReference(env, info->globalref);
-        if (gdata->heap_dump && thread!=NULL) {
-            setup_trace_buffers(info, gdata->max_trace_depth);
-            info->last_trace = get_trace(thread, thread_serial_num,
-                                    gdata->max_trace_depth, JNI_FALSE,
-                                    info->frames_buffer, info->jframes_buffer);
+        threbd            = newLocblReference(env, info->globblref);
+        if (gdbtb->hebp_dump && threbd!=NULL) {
+            setup_trbce_buffers(info, gdbtb->mbx_trbce_depth);
+            info->lbst_trbce = get_trbce(threbd, threbd_seribl_num,
+                                    gdbtb->mbx_trbce_depth, JNI_FALSE,
+                                    info->frbmes_buffer, info->jfrbmes_buffer);
         }
-        if ( thread != NULL ) {
-            deleteLocalReference(env, thread);
+        if ( threbd != NULL ) {
+            deleteLocblReference(env, threbd);
         }
-    } table_lock_exit(gdata->tls_table);
+    } tbble_lock_exit(gdbtb->tls_tbble);
 
 }
 
-/* Sample ALL threads and update the trace costs */
+/* Sbmple ALL threbds bnd updbte the trbce costs */
 void
-tls_sample_all_threads(JNIEnv *env)
+tls_sbmple_bll_threbds(JNIEnv *env)
 {
-    ThreadList    list;
-    jthread      *threads;
-    SerialNumber *serial_nums;
+    ThrebdList    list;
+    jthrebd      *threbds;
+    SeriblNumber *seribl_nums;
 
-    table_lock_enter(gdata->tls_table); {
-        int           max_count;
+    tbble_lock_enter(gdbtb->tls_tbble); {
+        int           mbx_count;
         int           nbytes;
         int           i;
 
-        /* Get buffers to hold thread list and serial number list */
-        max_count   = table_element_count(gdata->tls_table);
-        nbytes      = (int)sizeof(jthread)*max_count;
-        threads     = (jthread*)HPROF_MALLOC(nbytes);
-        nbytes      = (int)sizeof(SerialNumber)*max_count;
-        serial_nums = (SerialNumber*)HPROF_MALLOC(nbytes);
+        /* Get buffers to hold threbd list bnd seribl number list */
+        mbx_count   = tbble_element_count(gdbtb->tls_tbble);
+        nbytes      = (int)sizeof(jthrebd)*mbx_count;
+        threbds     = (jthrebd*)HPROF_MALLOC(nbytes);
+        nbytes      = (int)sizeof(SeriblNumber)*mbx_count;
+        seribl_nums = (SeriblNumber*)HPROF_MALLOC(nbytes);
 
-        /* Get list of threads and serial numbers */
-        list.threads     = threads;
+        /* Get list of threbds bnd seribl numbers */
+        list.threbds     = threbds;
         list.infos       = NULL;
-        list.serial_nums = serial_nums;
+        list.seribl_nums = seribl_nums;
         list.count       = 0;
         list.env         = env;
-        table_walk_items(gdata->tls_table, &get_thread_list, (void*)&list);
+        tbble_wblk_items(gdbtb->tls_tbble, &get_threbd_list, (void*)&list);
 
-        /* Increment the cost on the traces for these threads */
-        trace_increment_all_sample_costs(list.count, threads, serial_nums,
-                              gdata->max_trace_depth, JNI_FALSE);
+        /* Increment the cost on the trbces for these threbds */
+        trbce_increment_bll_sbmple_costs(list.count, threbds, seribl_nums,
+                              gdbtb->mbx_trbce_depth, JNI_FALSE);
 
-        /* Loop over local refs and free them */
+        /* Loop over locbl refs bnd free them */
         for ( i = 0 ; i < list.count ; i++ ) {
-            if ( threads[i] != NULL ) {
-                deleteLocalReference(env, threads[i]);
+            if ( threbds[i] != NULL ) {
+                deleteLocblReference(env, threbds[i]);
             }
         }
 
-    } table_lock_exit(gdata->tls_table);
+    } tbble_lock_exit(gdbtb->tls_tbble);
 
-    /* Free up allocated space */
-    HPROF_FREE(threads);
-    HPROF_FREE(serial_nums);
+    /* Free up bllocbted spbce */
+    HPROF_FREE(threbds);
+    HPROF_FREE(seribl_nums);
 
 }
 
 void
 tls_push_method(TlsIndex index, jmethodID method)
 {
-    jlong    method_start_time;
+    jlong    method_stbrt_time;
     TlsInfo *info;
 
     HPROF_ASSERT(method!=NULL);
     info        = get_info(index);
     HPROF_ASSERT(info!=NULL);
-    method_start_time  = method_time();
-    HPROF_ASSERT(info->stack!=NULL);
-    push_method(info->stack, method_start_time, method);
+    method_stbrt_time  = method_time();
+    HPROF_ASSERT(info->stbck!=NULL);
+    push_method(info->stbck, method_stbrt_time, method);
 }
 
 void
-tls_pop_exception_catch(TlsIndex index, jthread thread, jmethodID method)
+tls_pop_exception_cbtch(TlsIndex index, jthrebd threbd, jmethodID method)
 {
     TlsInfo      *info;
-    StackElement  element;
+    StbckElement  element;
     void         *p;
-    FrameIndex    frame_index;
+    FrbmeIndex    frbme_index;
     jlong         current_time;
 
     HPROF_ASSERT(method!=NULL);
-    frame_index = frame_find_or_create(method, -1);
-    HPROF_ASSERT(frame_index != 0);
+    frbme_index = frbme_find_or_crebte(method, -1);
+    HPROF_ASSERT(frbme_index != 0);
 
     info = get_info(index);
 
     HPROF_ASSERT(info!=NULL);
-    HPROF_ASSERT(info->stack!=NULL);
-    HPROF_ASSERT(frame_index!=0);
+    HPROF_ASSERT(info->stbck!=NULL);
+    HPROF_ASSERT(frbme_index!=0);
     current_time = method_time();
-    info->stack = insure_method_on_stack(thread, info, current_time,
-                        frame_index, method);
-    p = stack_top(info->stack);
+    info->stbck = insure_method_on_stbck(threbd, info, current_time,
+                        frbme_index, method);
+    p = stbck_top(info->stbck);
     if (p == NULL) {
-        HPROF_ERROR(JNI_FALSE, "expection pop, nothing on stack");
+        HPROF_ERROR(JNI_FALSE, "expection pop, nothing on stbck");
         return;
     }
-    element = *(StackElement*)p;
-    HPROF_ASSERT(element.frame_index!=0);
-    while ( element.frame_index != frame_index ) {
-        pop_method(index, current_time, element.method, frame_index);
-        p = stack_top(info->stack);
+    element = *(StbckElement*)p;
+    HPROF_ASSERT(element.frbme_index!=0);
+    while ( element.frbme_index != frbme_index ) {
+        pop_method(index, current_time, element.method, frbme_index);
+        p = stbck_top(info->stbck);
         if ( p == NULL ) {
-            break;
+            brebk;
         }
-        element = *(StackElement*)p;
+        element = *(StbckElement*)p;
     }
     if (p == NULL) {
-        HPROF_ERROR(JNI_FALSE, "exception pop stack empty");
+        HPROF_ERROR(JNI_FALSE, "exception pop stbck empty");
     }
 }
 
 void
-tls_pop_method(TlsIndex index, jthread thread, jmethodID method)
+tls_pop_method(TlsIndex index, jthrebd threbd, jmethodID method)
 {
     TlsInfo      *info;
-    StackElement  element;
+    StbckElement  element;
     void         *p;
-    FrameIndex    frame_index;
+    FrbmeIndex    frbme_index;
     jlong         current_time;
 
     HPROF_ASSERT(method!=NULL);
-    frame_index = frame_find_or_create(method, -1);
-    HPROF_ASSERT(frame_index != 0);
+    frbme_index = frbme_find_or_crebte(method, -1);
+    HPROF_ASSERT(frbme_index != 0);
 
     info = get_info(index);
     HPROF_ASSERT(info!=NULL);
-    HPROF_ASSERT(info->stack!=NULL);
+    HPROF_ASSERT(info->stbck!=NULL);
     current_time = method_time();
-    HPROF_ASSERT(frame_index!=0);
-    info->stack = insure_method_on_stack(thread, info, current_time,
-                frame_index, method);
-    p = stack_top(info->stack);
+    HPROF_ASSERT(frbme_index!=0);
+    info->stbck = insure_method_on_stbck(threbd, info, current_time,
+                frbme_index, method);
+    p = stbck_top(info->stbck);
     HPROF_ASSERT(p!=NULL);
-    element = *(StackElement*)p;
-    while ( element.frame_index != frame_index ) {
-        pop_method(index, current_time, element.method, frame_index);
-        p = stack_top(info->stack);
+    element = *(StbckElement*)p;
+    while ( element.frbme_index != frbme_index ) {
+        pop_method(index, current_time, element.method, frbme_index);
+        p = stbck_top(info->stbck);
         if ( p == NULL ) {
-            break;
+            brebk;
         }
-        element = *(StackElement*)p;
+        element = *(StbckElement*)p;
     }
-    pop_method(index, current_time, method, frame_index);
+    pop_method(index, current_time, method, frbme_index);
 }
 
-/* For all TLS entries, update the last_trace on all threads */
-static void
-update_all_last_traces(JNIEnv *env)
+/* For bll TLS entries, updbte the lbst_trbce on bll threbds */
+stbtic void
+updbte_bll_lbst_trbces(JNIEnv *env)
 {
-    jthread        *threads;
+    jthrebd        *threbds;
     TlsInfo       **infos;
-    SerialNumber   *serial_nums;
-    TraceIndex     *traces;
+    SeriblNumber   *seribl_nums;
+    TrbceIndex     *trbces;
 
-    if ( gdata->max_trace_depth == 0 ) {
+    if ( gdbtb->mbx_trbce_depth == 0 ) {
         return;
     }
 
-    table_lock_enter(gdata->tls_table); {
+    tbble_lock_enter(gdbtb->tls_tbble); {
 
-        ThreadList      list;
-        int             max_count;
+        ThrebdList      list;
+        int             mbx_count;
         int             nbytes;
         int             i;
 
-        /* Get buffers to hold thread list and serial number list */
-        max_count   = table_element_count(gdata->tls_table);
-        nbytes      = (int)sizeof(jthread)*max_count;
-        threads     = (jthread*)HPROF_MALLOC(nbytes);
-        nbytes      = (int)sizeof(SerialNumber)*max_count;
-        serial_nums = (SerialNumber*)HPROF_MALLOC(nbytes);
-        nbytes      = (int)sizeof(TlsInfo*)*max_count;
+        /* Get buffers to hold threbd list bnd seribl number list */
+        mbx_count   = tbble_element_count(gdbtb->tls_tbble);
+        nbytes      = (int)sizeof(jthrebd)*mbx_count;
+        threbds     = (jthrebd*)HPROF_MALLOC(nbytes);
+        nbytes      = (int)sizeof(SeriblNumber)*mbx_count;
+        seribl_nums = (SeriblNumber*)HPROF_MALLOC(nbytes);
+        nbytes      = (int)sizeof(TlsInfo*)*mbx_count;
         infos       = (TlsInfo**)HPROF_MALLOC(nbytes);
 
-        /* Get list of threads, serial numbers, and info pointers */
-        list.threads     = threads;
-        list.serial_nums = serial_nums;
+        /* Get list of threbds, seribl numbers, bnd info pointers */
+        list.threbds     = threbds;
+        list.seribl_nums = seribl_nums;
         list.infos       = infos;
         list.count       = 0;
         list.env         = env;
-        table_walk_items(gdata->tls_table, &get_thread_list, (void*)&list);
+        tbble_wblk_items(gdbtb->tls_tbble, &get_threbd_list, (void*)&list);
 
-        /* Get all stack trace index's for all these threadss */
-        nbytes      = (int)sizeof(TraceIndex)*max_count;
-        traces      = (TraceIndex*)HPROF_MALLOC(nbytes);
-        trace_get_all_current(list.count, threads, serial_nums,
-                              gdata->max_trace_depth, JNI_FALSE,
-                              traces, JNI_TRUE);
+        /* Get bll stbck trbce index's for bll these threbdss */
+        nbytes      = (int)sizeof(TrbceIndex)*mbx_count;
+        trbces      = (TrbceIndex*)HPROF_MALLOC(nbytes);
+        trbce_get_bll_current(list.count, threbds, seribl_nums,
+                              gdbtb->mbx_trbce_depth, JNI_FALSE,
+                              trbces, JNI_TRUE);
 
-        /* Loop over traces and update last_trace's */
+        /* Loop over trbces bnd updbte lbst_trbce's */
         for ( i = 0 ; i < list.count ; i++ ) {
-            if ( threads[i] != NULL ) {
-                deleteLocalReference(env, threads[i]);
+            if ( threbds[i] != NULL ) {
+                deleteLocblReference(env, threbds[i]);
             }
-            infos[i]->last_trace = traces[i];
+            infos[i]->lbst_trbce = trbces[i];
         }
 
-    } table_lock_exit(gdata->tls_table);
+    } tbble_lock_exit(gdbtb->tls_tbble);
 
-    /* Free up all allocated space */
-    HPROF_FREE(threads);
-    HPROF_FREE(serial_nums);
+    /* Free up bll bllocbted spbce */
+    HPROF_FREE(threbds);
+    HPROF_FREE(seribl_nums);
     HPROF_FREE(infos);
-    HPROF_FREE(traces);
+    HPROF_FREE(trbces);
 
 }
 
 void
-tls_dump_traces(JNIEnv *env)
+tls_dump_trbces(JNIEnv *env)
 {
-    rawMonitorEnter(gdata->data_access_lock); {
-        update_all_last_traces(env);
-        trace_output_unmarked(env);
-    } rawMonitorExit(gdata->data_access_lock);
+    rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+        updbte_bll_lbst_trbces(env);
+        trbce_output_unmbrked(env);
+    } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 }
 
 void
-tls_dump_monitor_state(JNIEnv *env)
+tls_dump_monitor_stbte(JNIEnv *env)
 {
     HPROF_ASSERT(env!=NULL);
 
-    rawMonitorEnter(gdata->data_access_lock); {
-        tls_dump_traces(env);
-        io_write_monitor_dump_header();
-        table_walk_items(gdata->tls_table, &dump_thread_state, (void*)env);
-        table_walk_items(gdata->tls_table, &dump_monitor_state, (void*)env);
+    rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+        tls_dump_trbces(env);
+        io_write_monitor_dump_hebder();
+        tbble_wblk_items(gdbtb->tls_tbble, &dump_threbd_stbte, (void*)env);
+        tbble_wblk_items(gdbtb->tls_tbble, &dump_monitor_stbte, (void*)env);
         io_write_monitor_dump_footer();
-    } rawMonitorExit(gdata->data_access_lock);
+    } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 }
 
 void
-tls_monitor_start_timer(TlsIndex index)
+tls_monitor_stbrt_timer(TlsIndex index)
 {
     TlsInfo *info;
 
     info = get_info(index);
     HPROF_ASSERT(info!=NULL);
-    HPROF_ASSERT(info->globalref!=NULL);
-    info->monitor_start_time = monitor_time();
+    HPROF_ASSERT(info->globblref!=NULL);
+    info->monitor_stbrt_time = monitor_time();
 }
 
 jlong
@@ -1114,77 +1114,77 @@ tls_monitor_stop_timer(TlsIndex index)
 
     info = get_info(index);
     HPROF_ASSERT(info!=NULL);
-    t =  monitor_time() - info->monitor_start_time;
-    info->monitor_start_time = 0;
+    t =  monitor_time() - info->monitor_stbrt_time;
+    info->monitor_stbrt_time = 0;
     return t;
 }
 
-TraceIndex
-tls_get_trace(TlsIndex index, JNIEnv *env, int depth, jboolean skip_init)
+TrbceIndex
+tls_get_trbce(TlsIndex index, JNIEnv *env, int depth, jboolebn skip_init)
 {
-    SerialNumber thread_serial_num;
-    TraceIndex   trace_index;
+    SeriblNumber threbd_seribl_num;
+    TrbceIndex   trbce_index;
     TlsInfo     *info;
-    jthread      thread;
+    jthrebd      threbd;
 
-    thread_serial_num = get_key(index);
+    threbd_seribl_num = get_key(index);
     info              = get_info(index);
     HPROF_ASSERT(info!=NULL);
-    setup_trace_buffers(info, depth);
-    thread = newLocalReference(env, info->globalref);
-    if ( thread != NULL ) {
-        trace_index = get_trace(thread, thread_serial_num, depth, skip_init,
-                        info->frames_buffer, info->jframes_buffer);
-        deleteLocalReference(env, thread);
+    setup_trbce_buffers(info, depth);
+    threbd = newLocblReference(env, info->globblref);
+    if ( threbd != NULL ) {
+        trbce_index = get_trbce(threbd, threbd_seribl_num, depth, skip_init,
+                        info->frbmes_buffer, info->jfrbmes_buffer);
+        deleteLocblReference(env, threbd);
     } else {
-        trace_index = gdata->system_trace_index;
+        trbce_index = gdbtb->system_trbce_index;
     }
-    return trace_index;
+    return trbce_index;
 }
 
 void
-tls_set_in_heap_dump(TlsIndex index, jint in_heap_dump)
+tls_set_in_hebp_dump(TlsIndex index, jint in_hebp_dump)
 {
     TlsInfo  *info;
 
     info = get_info(index);
-    info->in_heap_dump = in_heap_dump;
+    info->in_hebp_dump = in_hebp_dump;
 }
 
 jint
-tls_get_in_heap_dump(TlsIndex index)
+tls_get_in_hebp_dump(TlsIndex index)
 {
     TlsInfo  *info;
 
     info = get_info(index);
-    return info->in_heap_dump;
+    return info->in_hebp_dump;
 }
 
-static void
-clean_in_heap_dump(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+clebn_in_hebp_dump(TbbleIndex index, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
     TlsInfo *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
     info  = (TlsInfo*)info_ptr;
-    info->in_heap_dump = 0;
+    info->in_hebp_dump = 0;
 }
 
 void
-tls_clear_in_heap_dump(void)
+tls_clebr_in_hebp_dump(void)
 {
-    table_walk_items(gdata->tls_table, &clean_in_heap_dump, NULL);
+    tbble_wblk_items(gdbtb->tls_tbble, &clebn_in_hebp_dump, NULL);
 }
 
 TlsIndex
-tls_find(SerialNumber thread_serial_num)
+tls_find(SeriblNumber threbd_seribl_num)
 {
     TlsIndex index;
 
-    if ( thread_serial_num == 0 ) {
+    if ( threbd_seribl_num == 0 ) {
         return 0;
     }
-    index = table_find_entry(gdata->tls_table,
-          (void*)&thread_serial_num, (int)sizeof(SerialNumber));
+    index = tbble_find_entry(gdbtb->tls_tbble,
+          (void*)&threbd_seribl_num, (int)sizeof(SeriblNumber));
     return index;
 }

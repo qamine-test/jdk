@@ -1,474 +1,474 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import static com.sun.jmx.defaults.JmxProperties.MISC_LOGGER;
-import com.sun.jmx.mbeanserver.DescriptorCache;
-import com.sun.jmx.mbeanserver.Introspector;
-import com.sun.jmx.mbeanserver.MBeanSupport;
-import com.sun.jmx.mbeanserver.MXBeanSupport;
-import com.sun.jmx.mbeanserver.StandardMBeanSupport;
-import com.sun.jmx.mbeanserver.Util;
+import stbtic com.sun.jmx.defbults.JmxProperties.MISC_LOGGER;
+import com.sun.jmx.mbebnserver.DescriptorCbche;
+import com.sun.jmx.mbebnserver.Introspector;
+import com.sun.jmx.mbebnserver.MBebnSupport;
+import com.sun.jmx.mbebnserver.MXBebnSupport;
+import com.sun.jmx.mbebnserver.StbndbrdMBebnSupport;
+import com.sun.jmx.mbebnserver.Util;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.logging.Level;
-import javax.management.openmbean.OpenMBeanAttributeInfo;
-import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
-import javax.management.openmbean.OpenMBeanConstructorInfo;
-import javax.management.openmbean.OpenMBeanConstructorInfoSupport;
-import javax.management.openmbean.OpenMBeanOperationInfo;
-import javax.management.openmbean.OpenMBeanOperationInfoSupport;
-import javax.management.openmbean.OpenMBeanParameterInfo;
-import javax.management.openmbean.OpenMBeanParameterInfoSupport;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
+import jbvb.util.logging.Level;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnAttributeInfo;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnAttributeInfoSupport;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnConstructorInfo;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnConstructorInfoSupport;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnOperbtionInfo;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnOperbtionInfoSupport;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnPbrbmeterInfo;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnPbrbmeterInfoSupport;
 
 /**
- * <p>An MBean whose management interface is determined by reflection
- * on a Java interface.</p>
+ * <p>An MBebn whose mbnbgement interfbce is determined by reflection
+ * on b Jbvb interfbce.</p>
  *
- * <p>This class brings more flexibility to the notion of Management
- * Interface in the use of Standard MBeans.  Straightforward use of
- * the patterns for Standard MBeans described in the JMX Specification
- * means that there is a fixed relationship between the implementation
- * class of an MBean and its management interface (i.e., if the
- * implementation class is Thing, the management interface must be
- * ThingMBean).  This class makes it possible to keep the convenience
- * of specifying the management interface with a Java interface,
- * without requiring that there be any naming relationship between the
- * implementation and interface classes.</p>
+ * <p>This clbss brings more flexibility to the notion of Mbnbgement
+ * Interfbce in the use of Stbndbrd MBebns.  Strbightforwbrd use of
+ * the pbtterns for Stbndbrd MBebns described in the JMX Specificbtion
+ * mebns thbt there is b fixed relbtionship between the implementbtion
+ * clbss of bn MBebn bnd its mbnbgement interfbce (i.e., if the
+ * implementbtion clbss is Thing, the mbnbgement interfbce must be
+ * ThingMBebn).  This clbss mbkes it possible to keep the convenience
+ * of specifying the mbnbgement interfbce with b Jbvb interfbce,
+ * without requiring thbt there be bny nbming relbtionship between the
+ * implementbtion bnd interfbce clbsses.</p>
  *
- * <p>By making a DynamicMBean out of an MBean, this class makes
- * it possible to select any interface implemented by the MBean as its
- * management interface, provided that it complies with JMX patterns
- * (i.e., attributes defined by getter/setter etc...).</p>
+ * <p>By mbking b DynbmicMBebn out of bn MBebn, this clbss mbkes
+ * it possible to select bny interfbce implemented by the MBebn bs its
+ * mbnbgement interfbce, provided thbt it complies with JMX pbtterns
+ * (i.e., bttributes defined by getter/setter etc...).</p>
  *
- * <p> This class also provides hooks that make it possible to supply
- * custom descriptions and names for the {@link MBeanInfo} returned by
- * the DynamicMBean interface.</p>
+ * <p> This clbss blso provides hooks thbt mbke it possible to supply
+ * custom descriptions bnd nbmes for the {@link MBebnInfo} returned by
+ * the DynbmicMBebn interfbce.</p>
  *
- * <p>Using this class, an MBean can be created with any
- * implementation class name <i>Impl</i> and with a management
- * interface defined (as for current Standard MBeans) by any interface
- * <i>Intf</i>, in one of two general ways:</p>
+ * <p>Using this clbss, bn MBebn cbn be crebted with bny
+ * implementbtion clbss nbme <i>Impl</i> bnd with b mbnbgement
+ * interfbce defined (bs for current Stbndbrd MBebns) by bny interfbce
+ * <i>Intf</i>, in one of two generbl wbys:</p>
  *
  * <ul>
  *
  * <li>Using the public constructor
- *     {@link #StandardMBean(java.lang.Object, java.lang.Class, boolean)
- *     StandardMBean(impl,interface)}:
+ *     {@link #StbndbrdMBebn(jbvb.lbng.Object, jbvb.lbng.Clbss, boolebn)
+ *     StbndbrdMBebn(impl,interfbce)}:
  *     <pre>
- *     MBeanServer mbs;
+ *     MBebnServer mbs;
  *     ...
  *     Impl impl = new Impl(...);
- *     StandardMBean mbean = new StandardMBean(impl, Intf.class, false);
- *     mbs.registerMBean(mbean, objectName);
+ *     StbndbrdMBebn mbebn = new StbndbrdMBebn(impl, Intf.clbss, fblse);
+ *     mbs.registerMBebn(mbebn, objectNbme);
  *     </pre></li>
  *
- * <li>Subclassing StandardMBean:
+ * <li>Subclbssing StbndbrdMBebn:
  *     <pre>
- *     public class Impl extends StandardMBean implements Intf {
+ *     public clbss Impl extends StbndbrdMBebn implements Intf {
  *        public Impl() {
- *          super(Intf.class, false);
+ *          super(Intf.clbss, fblse);
  *       }
  *       // implement methods of Intf
  *     }
  *
  *     [...]
  *
- *     MBeanServer mbs;
+ *     MBebnServer mbs;
  *     ....
  *     Impl impl = new Impl();
- *     mbs.registerMBean(impl, objectName);
+ *     mbs.registerMBebn(impl, objectNbme);
  *     </pre></li>
  *
  * </ul>
  *
- * <p>In either case, the class <i>Impl</i> must implement the
- * interface <i>Intf</i>.</p>
+ * <p>In either cbse, the clbss <i>Impl</i> must implement the
+ * interfbce <i>Intf</i>.</p>
  *
- * <p>Standard MBeans based on the naming relationship between
- * implementation and interface classes are of course still
- * available.</p>
+ * <p>Stbndbrd MBebns bbsed on the nbming relbtionship between
+ * implementbtion bnd interfbce clbsses bre of course still
+ * bvbilbble.</p>
  *
- * <p>This class may also be used to construct MXBeans.  The usage
- * is exactly the same as for Standard MBeans except that in the
- * examples above, the {@code false} parameter to the constructor or
- * {@code super(...)} invocation is instead {@code true}.</p>
+ * <p>This clbss mby blso be used to construct MXBebns.  The usbge
+ * is exbctly the sbme bs for Stbndbrd MBebns except thbt in the
+ * exbmples bbove, the {@code fblse} pbrbmeter to the constructor or
+ * {@code super(...)} invocbtion is instebd {@code true}.</p>
  *
  * @since 1.5
  */
-public class StandardMBean implements DynamicMBean, MBeanRegistration {
+public clbss StbndbrdMBebn implements DynbmicMBebn, MBebnRegistrbtion {
 
-    private final static DescriptorCache descriptors =
-        DescriptorCache.getInstance(JMX.proof);
-
-    /**
-     * The DynamicMBean that wraps the MXBean or Standard MBean implementation.
-     **/
-    private volatile MBeanSupport<?> mbean;
+    privbte finbl stbtic DescriptorCbche descriptors =
+        DescriptorCbche.getInstbnce(JMX.proof);
 
     /**
-     * The cached MBeanInfo.
+     * The DynbmicMBebn thbt wrbps the MXBebn or Stbndbrd MBebn implementbtion.
      **/
-    private volatile MBeanInfo cachedMBeanInfo;
+    privbte volbtile MBebnSupport<?> mbebn;
 
     /**
-     * Make a DynamicMBean out of <var>implementation</var>, using the
-     * specified <var>mbeanInterface</var> class.
-     * @param implementation The implementation of this MBean.
-     *        If <code>null</code>, and null implementation is allowed,
-     *        then the implementation is assumed to be <var>this</var>.
-     * @param mbeanInterface The Management Interface exported by this
-     *        MBean's implementation. If <code>null</code>, then this
-     *        object will use standard JMX design pattern to determine
-     *        the management interface associated with the given
-     *        implementation.
-     * @param nullImplementationAllowed <code>true</code> if a null
-     *        implementation is allowed. If null implementation is allowed,
-     *        and a null implementation is passed, then the implementation
-     *        is assumed to be <var>this</var>.
-     * @exception IllegalArgumentException if the given
-     *    <var>implementation</var> is null, and null is not allowed.
+     * The cbched MBebnInfo.
      **/
-    private <T> void construct(T implementation, Class<T> mbeanInterface,
-                               boolean nullImplementationAllowed,
-                               boolean isMXBean)
-                               throws NotCompliantMBeanException {
-        if (implementation == null) {
-            // Have to use (T)this rather than mbeanInterface.cast(this)
-            // because mbeanInterface might be null.
-            if (nullImplementationAllowed)
-                implementation = Util.<T>cast(this);
-            else throw new IllegalArgumentException("implementation is null");
+    privbte volbtile MBebnInfo cbchedMBebnInfo;
+
+    /**
+     * Mbke b DynbmicMBebn out of <vbr>implementbtion</vbr>, using the
+     * specified <vbr>mbebnInterfbce</vbr> clbss.
+     * @pbrbm implementbtion The implementbtion of this MBebn.
+     *        If <code>null</code>, bnd null implementbtion is bllowed,
+     *        then the implementbtion is bssumed to be <vbr>this</vbr>.
+     * @pbrbm mbebnInterfbce The Mbnbgement Interfbce exported by this
+     *        MBebn's implementbtion. If <code>null</code>, then this
+     *        object will use stbndbrd JMX design pbttern to determine
+     *        the mbnbgement interfbce bssocibted with the given
+     *        implementbtion.
+     * @pbrbm nullImplementbtionAllowed <code>true</code> if b null
+     *        implementbtion is bllowed. If null implementbtion is bllowed,
+     *        bnd b null implementbtion is pbssed, then the implementbtion
+     *        is bssumed to be <vbr>this</vbr>.
+     * @exception IllegblArgumentException if the given
+     *    <vbr>implementbtion</vbr> is null, bnd null is not bllowed.
+     **/
+    privbte <T> void construct(T implementbtion, Clbss<T> mbebnInterfbce,
+                               boolebn nullImplementbtionAllowed,
+                               boolebn isMXBebn)
+                               throws NotComplibntMBebnException {
+        if (implementbtion == null) {
+            // Hbve to use (T)this rbther thbn mbebnInterfbce.cbst(this)
+            // becbuse mbebnInterfbce might be null.
+            if (nullImplementbtionAllowed)
+                implementbtion = Util.<T>cbst(this);
+            else throw new IllegblArgumentException("implementbtion is null");
         }
-        if (isMXBean) {
-            if (mbeanInterface == null) {
-                mbeanInterface = Util.cast(Introspector.getMXBeanInterface(
-                        implementation.getClass()));
+        if (isMXBebn) {
+            if (mbebnInterfbce == null) {
+                mbebnInterfbce = Util.cbst(Introspector.getMXBebnInterfbce(
+                        implementbtion.getClbss()));
             }
-            this.mbean = new MXBeanSupport(implementation, mbeanInterface);
+            this.mbebn = new MXBebnSupport(implementbtion, mbebnInterfbce);
         } else {
-            if (mbeanInterface == null) {
-                mbeanInterface = Util.cast(Introspector.getStandardMBeanInterface(
-                        implementation.getClass()));
+            if (mbebnInterfbce == null) {
+                mbebnInterfbce = Util.cbst(Introspector.getStbndbrdMBebnInterfbce(
+                        implementbtion.getClbss()));
             }
-            this.mbean =
-                    new StandardMBeanSupport(implementation, mbeanInterface);
+            this.mbebn =
+                    new StbndbrdMBebnSupport(implementbtion, mbebnInterfbce);
         }
     }
 
     /**
-     * <p>Make a DynamicMBean out of the object
-     * <var>implementation</var>, using the specified
-     * <var>mbeanInterface</var> class.</p>
+     * <p>Mbke b DynbmicMBebn out of the object
+     * <vbr>implementbtion</vbr>, using the specified
+     * <vbr>mbebnInterfbce</vbr> clbss.</p>
      *
-     * @param implementation The implementation of this MBean.
-     * @param mbeanInterface The Management Interface exported by this
-     *        MBean's implementation. If <code>null</code>, then this
-     *        object will use standard JMX design pattern to determine
-     *        the management interface associated with the given
-     *        implementation.
-     * @param <T> Allows the compiler to check
-     * that {@code implementation} does indeed implement the class
-     * described by {@code mbeanInterface}.  The compiler can only
-     * check this if {@code mbeanInterface} is a class literal such
-     * as {@code MyMBean.class}.
+     * @pbrbm implementbtion The implementbtion of this MBebn.
+     * @pbrbm mbebnInterfbce The Mbnbgement Interfbce exported by this
+     *        MBebn's implementbtion. If <code>null</code>, then this
+     *        object will use stbndbrd JMX design pbttern to determine
+     *        the mbnbgement interfbce bssocibted with the given
+     *        implementbtion.
+     * @pbrbm <T> Allows the compiler to check
+     * thbt {@code implementbtion} does indeed implement the clbss
+     * described by {@code mbebnInterfbce}.  The compiler cbn only
+     * check this if {@code mbebnInterfbce} is b clbss literbl such
+     * bs {@code MyMBebn.clbss}.
      *
-     * @exception IllegalArgumentException if the given
-     *    <var>implementation</var> is null.
-     * @exception NotCompliantMBeanException if the <var>mbeanInterface</var>
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if the given <var>implementation</var> does not implement the
-     *    specified interface.
+     * @exception IllegblArgumentException if the given
+     *    <vbr>implementbtion</vbr> is null.
+     * @exception NotComplibntMBebnException if the <vbr>mbebnInterfbce</vbr>
+     *    does not follow JMX design pbtterns for Mbnbgement Interfbces, or
+     *    if the given <vbr>implementbtion</vbr> does not implement the
+     *    specified interfbce.
      **/
-    public <T> StandardMBean(T implementation, Class<T> mbeanInterface)
-        throws NotCompliantMBeanException {
-        construct(implementation, mbeanInterface, false, false);
+    public <T> StbndbrdMBebn(T implementbtion, Clbss<T> mbebnInterfbce)
+        throws NotComplibntMBebnException {
+        construct(implementbtion, mbebnInterfbce, fblse, fblse);
     }
 
     /**
-     * <p>Make a DynamicMBean out of <var>this</var>, using the specified
-     * <var>mbeanInterface</var> class.</p>
+     * <p>Mbke b DynbmicMBebn out of <vbr>this</vbr>, using the specified
+     * <vbr>mbebnInterfbce</vbr> clbss.</p>
      *
-     * <p>Calls {@link #StandardMBean(java.lang.Object, java.lang.Class)
-     *       this(this,mbeanInterface)}.
-     * This constructor is reserved to subclasses.</p>
+     * <p>Cblls {@link #StbndbrdMBebn(jbvb.lbng.Object, jbvb.lbng.Clbss)
+     *       this(this,mbebnInterfbce)}.
+     * This constructor is reserved to subclbsses.</p>
      *
-     * @param mbeanInterface The Management Interface exported by this
-     *        MBean.
+     * @pbrbm mbebnInterfbce The Mbnbgement Interfbce exported by this
+     *        MBebn.
      *
-     * @exception NotCompliantMBeanException if the <var>mbeanInterface</var>
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if <var>this</var> does not implement the specified interface.
+     * @exception NotComplibntMBebnException if the <vbr>mbebnInterfbce</vbr>
+     *    does not follow JMX design pbtterns for Mbnbgement Interfbces, or
+     *    if <vbr>this</vbr> does not implement the specified interfbce.
      **/
-    protected StandardMBean(Class<?> mbeanInterface)
-        throws NotCompliantMBeanException {
-        construct(null, mbeanInterface, true, false);
+    protected StbndbrdMBebn(Clbss<?> mbebnInterfbce)
+        throws NotComplibntMBebnException {
+        construct(null, mbebnInterfbce, true, fblse);
     }
 
     /**
-     * <p>Make a DynamicMBean out of the object
-     * <var>implementation</var>, using the specified
-     * <var>mbeanInterface</var> class, and choosing whether the
-     * resultant MBean is an MXBean.  This constructor can be used
-     * to make either Standard MBeans or MXBeans.  Unlike the
-     * constructor {@link #StandardMBean(Object, Class)}, it
-     * does not throw NotCompliantMBeanException.</p>
+     * <p>Mbke b DynbmicMBebn out of the object
+     * <vbr>implementbtion</vbr>, using the specified
+     * <vbr>mbebnInterfbce</vbr> clbss, bnd choosing whether the
+     * resultbnt MBebn is bn MXBebn.  This constructor cbn be used
+     * to mbke either Stbndbrd MBebns or MXBebns.  Unlike the
+     * constructor {@link #StbndbrdMBebn(Object, Clbss)}, it
+     * does not throw NotComplibntMBebnException.</p>
      *
-     * @param implementation The implementation of this MBean.
-     * @param mbeanInterface The Management Interface exported by this
-     *        MBean's implementation. If <code>null</code>, then this
-     *        object will use standard JMX design pattern to determine
-     *        the management interface associated with the given
-     *        implementation.
-     * @param isMXBean If true, the {@code mbeanInterface} parameter
-     * names an MXBean interface and the resultant MBean is an MXBean.
-     * @param <T> Allows the compiler to check
-     * that {@code implementation} does indeed implement the class
-     * described by {@code mbeanInterface}.  The compiler can only
-     * check this if {@code mbeanInterface} is a class literal such
-     * as {@code MyMBean.class}.
+     * @pbrbm implementbtion The implementbtion of this MBebn.
+     * @pbrbm mbebnInterfbce The Mbnbgement Interfbce exported by this
+     *        MBebn's implementbtion. If <code>null</code>, then this
+     *        object will use stbndbrd JMX design pbttern to determine
+     *        the mbnbgement interfbce bssocibted with the given
+     *        implementbtion.
+     * @pbrbm isMXBebn If true, the {@code mbebnInterfbce} pbrbmeter
+     * nbmes bn MXBebn interfbce bnd the resultbnt MBebn is bn MXBebn.
+     * @pbrbm <T> Allows the compiler to check
+     * thbt {@code implementbtion} does indeed implement the clbss
+     * described by {@code mbebnInterfbce}.  The compiler cbn only
+     * check this if {@code mbebnInterfbce} is b clbss literbl such
+     * bs {@code MyMBebn.clbss}.
      *
-     * @exception IllegalArgumentException if the given
-     *    <var>implementation</var> is null, or if the <var>mbeanInterface</var>
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if the given <var>implementation</var> does not implement the
-     *    specified interface.
+     * @exception IllegblArgumentException if the given
+     *    <vbr>implementbtion</vbr> is null, or if the <vbr>mbebnInterfbce</vbr>
+     *    does not follow JMX design pbtterns for Mbnbgement Interfbces, or
+     *    if the given <vbr>implementbtion</vbr> does not implement the
+     *    specified interfbce.
      *
      * @since 1.6
      **/
-    public <T> StandardMBean(T implementation, Class<T> mbeanInterface,
-                             boolean isMXBean) {
+    public <T> StbndbrdMBebn(T implementbtion, Clbss<T> mbebnInterfbce,
+                             boolebn isMXBebn) {
         try {
-            construct(implementation, mbeanInterface, false, isMXBean);
-        } catch (NotCompliantMBeanException e) {
-            throw new IllegalArgumentException(e);
+            construct(implementbtion, mbebnInterfbce, fblse, isMXBebn);
+        } cbtch (NotComplibntMBebnException e) {
+            throw new IllegblArgumentException(e);
         }
     }
 
     /**
-     * <p>Make a DynamicMBean out of <var>this</var>, using the specified
-     * <var>mbeanInterface</var> class, and choosing whether the resulting
-     * MBean is an MXBean.  This constructor can be used
-     * to make either Standard MBeans or MXBeans.  Unlike the
-     * constructor {@link #StandardMBean(Object, Class)}, it
-     * does not throw NotCompliantMBeanException.</p>
+     * <p>Mbke b DynbmicMBebn out of <vbr>this</vbr>, using the specified
+     * <vbr>mbebnInterfbce</vbr> clbss, bnd choosing whether the resulting
+     * MBebn is bn MXBebn.  This constructor cbn be used
+     * to mbke either Stbndbrd MBebns or MXBebns.  Unlike the
+     * constructor {@link #StbndbrdMBebn(Object, Clbss)}, it
+     * does not throw NotComplibntMBebnException.</p>
      *
-     * <p>Calls {@link #StandardMBean(java.lang.Object, java.lang.Class, boolean)
-     *       this(this, mbeanInterface, isMXBean)}.
-     * This constructor is reserved to subclasses.</p>
+     * <p>Cblls {@link #StbndbrdMBebn(jbvb.lbng.Object, jbvb.lbng.Clbss, boolebn)
+     *       this(this, mbebnInterfbce, isMXBebn)}.
+     * This constructor is reserved to subclbsses.</p>
      *
-     * @param mbeanInterface The Management Interface exported by this
-     *        MBean.
-     * @param isMXBean If true, the {@code mbeanInterface} parameter
-     * names an MXBean interface and the resultant MBean is an MXBean.
+     * @pbrbm mbebnInterfbce The Mbnbgement Interfbce exported by this
+     *        MBebn.
+     * @pbrbm isMXBebn If true, the {@code mbebnInterfbce} pbrbmeter
+     * nbmes bn MXBebn interfbce bnd the resultbnt MBebn is bn MXBebn.
      *
-     * @exception IllegalArgumentException if the <var>mbeanInterface</var>
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if <var>this</var> does not implement the specified interface.
+     * @exception IllegblArgumentException if the <vbr>mbebnInterfbce</vbr>
+     *    does not follow JMX design pbtterns for Mbnbgement Interfbces, or
+     *    if <vbr>this</vbr> does not implement the specified interfbce.
      *
      * @since 1.6
      **/
-    protected StandardMBean(Class<?> mbeanInterface, boolean isMXBean) {
+    protected StbndbrdMBebn(Clbss<?> mbebnInterfbce, boolebn isMXBebn) {
         try {
-            construct(null, mbeanInterface, true, isMXBean);
-        } catch (NotCompliantMBeanException e) {
-            throw new IllegalArgumentException(e);
+            construct(null, mbebnInterfbce, true, isMXBebn);
+        } cbtch (NotComplibntMBebnException e) {
+            throw new IllegblArgumentException(e);
         }
     }
 
     /**
-     * <p>Replace the implementation object wrapped in this object.</p>
+     * <p>Replbce the implementbtion object wrbpped in this object.</p>
      *
-     * @param implementation The new implementation of this Standard MBean
-     * (or MXBean). The <code>implementation</code> object must implement
-     * the Standard MBean (or MXBean) interface that was supplied when this
-     * <code>StandardMBean</code> was constructed.
+     * @pbrbm implementbtion The new implementbtion of this Stbndbrd MBebn
+     * (or MXBebn). The <code>implementbtion</code> object must implement
+     * the Stbndbrd MBebn (or MXBebn) interfbce thbt wbs supplied when this
+     * <code>StbndbrdMBebn</code> wbs constructed.
      *
-     * @exception IllegalArgumentException if the given
-     * <var>implementation</var> is null.
+     * @exception IllegblArgumentException if the given
+     * <vbr>implementbtion</vbr> is null.
      *
-     * @exception NotCompliantMBeanException if the given
-     * <var>implementation</var> does not implement the
-     * Standard MBean (or MXBean) interface that was
-     * supplied at construction.
+     * @exception NotComplibntMBebnException if the given
+     * <vbr>implementbtion</vbr> does not implement the
+     * Stbndbrd MBebn (or MXBebn) interfbce thbt wbs
+     * supplied bt construction.
      *
-     * @see #getImplementation
+     * @see #getImplementbtion
      **/
-    public void setImplementation(Object implementation)
-        throws NotCompliantMBeanException {
+    public void setImplementbtion(Object implementbtion)
+        throws NotComplibntMBebnException {
 
-        if (implementation == null)
-            throw new IllegalArgumentException("implementation is null");
+        if (implementbtion == null)
+            throw new IllegblArgumentException("implementbtion is null");
 
-        if (isMXBean()) {
-            this.mbean = new MXBeanSupport(implementation,
-                    Util.<Class<Object>>cast(getMBeanInterface()));
+        if (isMXBebn()) {
+            this.mbebn = new MXBebnSupport(implementbtion,
+                    Util.<Clbss<Object>>cbst(getMBebnInterfbce()));
         } else {
-            this.mbean = new StandardMBeanSupport(implementation,
-                    Util.<Class<Object>>cast(getMBeanInterface()));
+            this.mbebn = new StbndbrdMBebnSupport(implementbtion,
+                    Util.<Clbss<Object>>cbst(getMBebnInterfbce()));
         }
     }
 
     /**
-     * Get the implementation of this Standard MBean (or MXBean).
-     * @return The implementation of this Standard MBean (or MXBean).
+     * Get the implementbtion of this Stbndbrd MBebn (or MXBebn).
+     * @return The implementbtion of this Stbndbrd MBebn (or MXBebn).
      *
-     * @see #setImplementation
+     * @see #setImplementbtion
      **/
-    public Object getImplementation() {
-        return mbean.getResource();
+    public Object getImplementbtion() {
+        return mbebn.getResource();
     }
 
     /**
-     * Get the Management Interface of this Standard MBean (or MXBean).
-     * @return The management interface of this Standard MBean (or MXBean).
+     * Get the Mbnbgement Interfbce of this Stbndbrd MBebn (or MXBebn).
+     * @return The mbnbgement interfbce of this Stbndbrd MBebn (or MXBebn).
      **/
-    public final Class<?> getMBeanInterface() {
-        return mbean.getMBeanInterface();
+    public finbl Clbss<?> getMBebnInterfbce() {
+        return mbebn.getMBebnInterfbce();
     }
 
     /**
-     * Get the class of the implementation of this Standard MBean (or MXBean).
-     * @return The class of the implementation of this Standard MBean (or MXBean).
+     * Get the clbss of the implementbtion of this Stbndbrd MBebn (or MXBebn).
+     * @return The clbss of the implementbtion of this Stbndbrd MBebn (or MXBebn).
      **/
-    public Class<?> getImplementationClass() {
-        return mbean.getResource().getClass();
+    public Clbss<?> getImplementbtionClbss() {
+        return mbebn.getResource().getClbss();
     }
 
     // ------------------------------------------------------------------
-    // From the DynamicMBean interface.
+    // From the DynbmicMBebn interfbce.
     // ------------------------------------------------------------------
-    public Object getAttribute(String attribute)
+    public Object getAttribute(String bttribute)
         throws AttributeNotFoundException,
-               MBeanException,
+               MBebnException,
                ReflectionException {
-        return mbean.getAttribute(attribute);
+        return mbebn.getAttribute(bttribute);
     }
 
     // ------------------------------------------------------------------
-    // From the DynamicMBean interface.
+    // From the DynbmicMBebn interfbce.
     // ------------------------------------------------------------------
-    public void setAttribute(Attribute attribute)
+    public void setAttribute(Attribute bttribute)
         throws AttributeNotFoundException,
-               InvalidAttributeValueException,
-               MBeanException,
+               InvblidAttributeVblueException,
+               MBebnException,
                ReflectionException {
-        mbean.setAttribute(attribute);
+        mbebn.setAttribute(bttribute);
     }
 
     // ------------------------------------------------------------------
-    // From the DynamicMBean interface.
+    // From the DynbmicMBebn interfbce.
     // ------------------------------------------------------------------
-    public AttributeList getAttributes(String[] attributes) {
-        return mbean.getAttributes(attributes);
+    public AttributeList getAttributes(String[] bttributes) {
+        return mbebn.getAttributes(bttributes);
     }
 
     // ------------------------------------------------------------------
-    // From the DynamicMBean interface.
+    // From the DynbmicMBebn interfbce.
     // ------------------------------------------------------------------
-    public AttributeList setAttributes(AttributeList attributes) {
-        return mbean.setAttributes(attributes);
+    public AttributeList setAttributes(AttributeList bttributes) {
+        return mbebn.setAttributes(bttributes);
     }
 
     // ------------------------------------------------------------------
-    // From the DynamicMBean interface.
+    // From the DynbmicMBebn interfbce.
     // ------------------------------------------------------------------
-    public Object invoke(String actionName, Object params[], String signature[])
-            throws MBeanException, ReflectionException {
-        return mbean.invoke(actionName, params, signature);
+    public Object invoke(String bctionNbme, Object pbrbms[], String signbture[])
+            throws MBebnException, ReflectionException {
+        return mbebn.invoke(bctionNbme, pbrbms, signbture);
     }
 
     /**
-     * Get the {@link MBeanInfo} for this MBean.
+     * Get the {@link MBebnInfo} for this MBebn.
      * <p>
      * This method implements
-     * {@link javax.management.DynamicMBean#getMBeanInfo()
-     *   DynamicMBean.getMBeanInfo()}.
+     * {@link jbvbx.mbnbgement.DynbmicMBebn#getMBebnInfo()
+     *   DynbmicMBebn.getMBebnInfo()}.
      * <p>
-     * This method first calls {@link #getCachedMBeanInfo()} in order to
-     * retrieve the cached MBeanInfo for this MBean, if any. If the
-     * MBeanInfo returned by {@link #getCachedMBeanInfo()} is not null,
+     * This method first cblls {@link #getCbchedMBebnInfo()} in order to
+     * retrieve the cbched MBebnInfo for this MBebn, if bny. If the
+     * MBebnInfo returned by {@link #getCbchedMBebnInfo()} is not null,
      * then it is returned.<br>
-     * Otherwise, this method builds a default MBeanInfo for this MBean,
-     * using the Management Interface specified for this MBean.
+     * Otherwise, this method builds b defbult MBebnInfo for this MBebn,
+     * using the Mbnbgement Interfbce specified for this MBebn.
      * <p>
-     * While building the MBeanInfo, this method calls the customization
-     * hooks that make it possible for subclasses to supply their custom
-     * descriptions, parameter names, etc...<br>
-     * Finally, it calls {@link #cacheMBeanInfo(javax.management.MBeanInfo)
-     * cacheMBeanInfo()} in order to cache the new MBeanInfo.
-     * @return The cached MBeanInfo for that MBean, if not null, or a
-     *         newly built MBeanInfo if none was cached.
+     * While building the MBebnInfo, this method cblls the customizbtion
+     * hooks thbt mbke it possible for subclbsses to supply their custom
+     * descriptions, pbrbmeter nbmes, etc...<br>
+     * Finblly, it cblls {@link #cbcheMBebnInfo(jbvbx.mbnbgement.MBebnInfo)
+     * cbcheMBebnInfo()} in order to cbche the new MBebnInfo.
+     * @return The cbched MBebnInfo for thbt MBebn, if not null, or b
+     *         newly built MBebnInfo if none wbs cbched.
      **/
-    public MBeanInfo getMBeanInfo() {
+    public MBebnInfo getMBebnInfo() {
         try {
-            final MBeanInfo cached = getCachedMBeanInfo();
-            if (cached != null) return cached;
-        } catch (RuntimeException x) {
-            if (MISC_LOGGER.isLoggable(Level.FINEST)) {
+            finbl MBebnInfo cbched = getCbchedMBebnInfo();
+            if (cbched != null) return cbched;
+        } cbtch (RuntimeException x) {
+            if (MISC_LOGGER.isLoggbble(Level.FINEST)) {
                 MISC_LOGGER.logp(Level.FINEST,
-                        MBeanServerFactory.class.getName(), "getMBeanInfo",
-                        "Failed to get cached MBeanInfo", x);
+                        MBebnServerFbctory.clbss.getNbme(), "getMBebnInfo",
+                        "Fbiled to get cbched MBebnInfo", x);
             }
         }
 
-        if (MISC_LOGGER.isLoggable(Level.FINER)) {
+        if (MISC_LOGGER.isLoggbble(Level.FINER)) {
             MISC_LOGGER.logp(Level.FINER,
-                    MBeanServerFactory.class.getName(), "getMBeanInfo",
-                    "Building MBeanInfo for " +
-                    getImplementationClass().getName());
+                    MBebnServerFbctory.clbss.getNbme(), "getMBebnInfo",
+                    "Building MBebnInfo for " +
+                    getImplementbtionClbss().getNbme());
         }
 
-        MBeanSupport<?> msupport = mbean;
-        final MBeanInfo bi = msupport.getMBeanInfo();
-        final Object impl = msupport.getResource();
+        MBebnSupport<?> msupport = mbebn;
+        finbl MBebnInfo bi = msupport.getMBebnInfo();
+        finbl Object impl = msupport.getResource();
 
-        final boolean immutableInfo = immutableInfo(this.getClass());
+        finbl boolebn immutbbleInfo = immutbbleInfo(this.getClbss());
 
-        final String                  cname = getClassName(bi);
-        final String                  text  = getDescription(bi);
-        final MBeanConstructorInfo[]  ctors = getConstructors(bi,impl);
-        final MBeanAttributeInfo[]    attrs = getAttributes(bi);
-        final MBeanOperationInfo[]    ops   = getOperations(bi);
-        final MBeanNotificationInfo[] ntfs  = getNotifications(bi);
-        final Descriptor              desc  = getDescriptor(bi, immutableInfo);
+        finbl String                  cnbme = getClbssNbme(bi);
+        finbl String                  text  = getDescription(bi);
+        finbl MBebnConstructorInfo[]  ctors = getConstructors(bi,impl);
+        finbl MBebnAttributeInfo[]    bttrs = getAttributes(bi);
+        finbl MBebnOperbtionInfo[]    ops   = getOperbtions(bi);
+        finbl MBebnNotificbtionInfo[] ntfs  = getNotificbtions(bi);
+        finbl Descriptor              desc  = getDescriptor(bi, immutbbleInfo);
 
-        final MBeanInfo nmbi = new MBeanInfo(
-                cname, text, attrs, ctors, ops, ntfs, desc);
+        finbl MBebnInfo nmbi = new MBebnInfo(
+                cnbme, text, bttrs, ctors, ops, ntfs, desc);
         try {
-            cacheMBeanInfo(nmbi);
-        } catch (RuntimeException x) {
-            if (MISC_LOGGER.isLoggable(Level.FINEST)) {
+            cbcheMBebnInfo(nmbi);
+        } cbtch (RuntimeException x) {
+            if (MISC_LOGGER.isLoggbble(Level.FINEST)) {
                 MISC_LOGGER.logp(Level.FINEST,
-                        MBeanServerFactory.class.getName(), "getMBeanInfo",
-                        "Failed to cache MBeanInfo", x);
+                        MBebnServerFbctory.clbss.getNbme(), "getMBebnInfo",
+                        "Fbiled to cbche MBebnInfo", x);
             }
         }
 
@@ -476,498 +476,498 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     }
 
     /**
-     * Customization hook:
-     * Get the className that will be used in the MBeanInfo returned by
-     * this MBean.
+     * Customizbtion hook:
+     * Get the clbssNbme thbt will be used in the MBebnInfo returned by
+     * this MBebn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom class name.  The default implementation returns
-     * {@link MBeanInfo#getClassName() info.getClassName()}.
-     * @param info The default MBeanInfo derived by reflection.
-     * @return the class name for the new MBeanInfo.
+     * Subclbsses mby redefine this method in order to supply their
+     * custom clbss nbme.  The defbult implementbtion returns
+     * {@link MBebnInfo#getClbssNbme() info.getClbssNbme()}.
+     * @pbrbm info The defbult MBebnInfo derived by reflection.
+     * @return the clbss nbme for the new MBebnInfo.
      **/
-    protected String getClassName(MBeanInfo info) {
-        if (info == null) return getImplementationClass().getName();
-        return info.getClassName();
+    protected String getClbssNbme(MBebnInfo info) {
+        if (info == null) return getImplementbtionClbss().getNbme();
+        return info.getClbssNbme();
     }
 
     /**
-     * Customization hook:
-     * Get the description that will be used in the MBeanInfo returned by
-     * this MBean.
+     * Customizbtion hook:
+     * Get the description thbt will be used in the MBebnInfo returned by
+     * this MBebn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom MBean description.  The default implementation returns
-     * {@link MBeanInfo#getDescription() info.getDescription()}.
-     * @param info The default MBeanInfo derived by reflection.
-     * @return the description for the new MBeanInfo.
+     * Subclbsses mby redefine this method in order to supply their
+     * custom MBebn description.  The defbult implementbtion returns
+     * {@link MBebnInfo#getDescription() info.getDescription()}.
+     * @pbrbm info The defbult MBebnInfo derived by reflection.
+     * @return the description for the new MBebnInfo.
      **/
-    protected String getDescription(MBeanInfo info) {
+    protected String getDescription(MBebnInfo info) {
         if (info == null) return null;
         return info.getDescription();
     }
 
     /**
-     * <p>Customization hook:
-     * Get the description that will be used in the MBeanFeatureInfo
-     * returned by this MBean.</p>
+     * <p>Customizbtion hook:
+     * Get the description thbt will be used in the MBebnFebtureInfo
+     * returned by this MBebn.</p>
      *
-     * <p>Subclasses may redefine this method in order to supply
-     * their custom description.  The default implementation returns
-     * {@link MBeanFeatureInfo#getDescription()
+     * <p>Subclbsses mby redefine this method in order to supply
+     * their custom description.  The defbult implementbtion returns
+     * {@link MBebnFebtureInfo#getDescription()
      * info.getDescription()}.</p>
      *
-     * <p>This method is called by
-     *      {@link #getDescription(MBeanAttributeInfo)},
-     *      {@link #getDescription(MBeanOperationInfo)},
-     *      {@link #getDescription(MBeanConstructorInfo)}.</p>
+     * <p>This method is cblled by
+     *      {@link #getDescription(MBebnAttributeInfo)},
+     *      {@link #getDescription(MBebnOperbtionInfo)},
+     *      {@link #getDescription(MBebnConstructorInfo)}.</p>
      *
-     * @param info The default MBeanFeatureInfo derived by reflection.
-     * @return the description for the given MBeanFeatureInfo.
+     * @pbrbm info The defbult MBebnFebtureInfo derived by reflection.
+     * @return the description for the given MBebnFebtureInfo.
      **/
-    protected String getDescription(MBeanFeatureInfo info) {
+    protected String getDescription(MBebnFebtureInfo info) {
         if (info == null) return null;
         return info.getDescription();
     }
 
     /**
-     * Customization hook:
-     * Get the description that will be used in the MBeanAttributeInfo
-     * returned by this MBean.
+     * Customizbtion hook:
+     * Get the description thbt will be used in the MBebnAttributeInfo
+     * returned by this MBebn.
      *
-     * <p>Subclasses may redefine this method in order to supply their
-     * custom description.  The default implementation returns {@link
-     * #getDescription(MBeanFeatureInfo)
-     * getDescription((MBeanFeatureInfo) info)}.
-     * @param info The default MBeanAttributeInfo derived by reflection.
-     * @return the description for the given MBeanAttributeInfo.
+     * <p>Subclbsses mby redefine this method in order to supply their
+     * custom description.  The defbult implementbtion returns {@link
+     * #getDescription(MBebnFebtureInfo)
+     * getDescription((MBebnFebtureInfo) info)}.
+     * @pbrbm info The defbult MBebnAttributeInfo derived by reflection.
+     * @return the description for the given MBebnAttributeInfo.
      **/
-    protected String getDescription(MBeanAttributeInfo info) {
-        return getDescription((MBeanFeatureInfo)info);
+    protected String getDescription(MBebnAttributeInfo info) {
+        return getDescription((MBebnFebtureInfo)info);
     }
 
     /**
-     * Customization hook:
-     * Get the description that will be used in the MBeanConstructorInfo
-     * returned by this MBean.
+     * Customizbtion hook:
+     * Get the description thbt will be used in the MBebnConstructorInfo
+     * returned by this MBebn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
+     * Subclbsses mby redefine this method in order to supply their
      * custom description.
-     * The default implementation returns {@link
-     * #getDescription(MBeanFeatureInfo)
-     * getDescription((MBeanFeatureInfo) info)}.
-     * @param info The default MBeanConstructorInfo derived by reflection.
-     * @return the description for the given MBeanConstructorInfo.
+     * The defbult implementbtion returns {@link
+     * #getDescription(MBebnFebtureInfo)
+     * getDescription((MBebnFebtureInfo) info)}.
+     * @pbrbm info The defbult MBebnConstructorInfo derived by reflection.
+     * @return the description for the given MBebnConstructorInfo.
      **/
-    protected String getDescription(MBeanConstructorInfo info) {
-        return getDescription((MBeanFeatureInfo)info);
+    protected String getDescription(MBebnConstructorInfo info) {
+        return getDescription((MBebnFebtureInfo)info);
     }
 
     /**
-     * Customization hook:
-     * Get the description that will be used for the  <var>sequence</var>
-     * MBeanParameterInfo of the MBeanConstructorInfo returned by this MBean.
+     * Customizbtion hook:
+     * Get the description thbt will be used for the  <vbr>sequence</vbr>
+     * MBebnPbrbmeterInfo of the MBebnConstructorInfo returned by this MBebn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom description.  The default implementation returns
-     * {@link MBeanParameterInfo#getDescription() param.getDescription()}.
+     * Subclbsses mby redefine this method in order to supply their
+     * custom description.  The defbult implementbtion returns
+     * {@link MBebnPbrbmeterInfo#getDescription() pbrbm.getDescription()}.
      *
-     * @param ctor  The default MBeanConstructorInfo derived by reflection.
-     * @param param The default MBeanParameterInfo derived by reflection.
-     * @param sequence The sequence number of the parameter considered
-     *        ("0" for the first parameter, "1" for the second parameter,
+     * @pbrbm ctor  The defbult MBebnConstructorInfo derived by reflection.
+     * @pbrbm pbrbm The defbult MBebnPbrbmeterInfo derived by reflection.
+     * @pbrbm sequence The sequence number of the pbrbmeter considered
+     *        ("0" for the first pbrbmeter, "1" for the second pbrbmeter,
      *        etc...).
-     * @return the description for the given MBeanParameterInfo.
+     * @return the description for the given MBebnPbrbmeterInfo.
      **/
-    protected String getDescription(MBeanConstructorInfo ctor,
-                                    MBeanParameterInfo   param,
+    protected String getDescription(MBebnConstructorInfo ctor,
+                                    MBebnPbrbmeterInfo   pbrbm,
                                     int sequence) {
-        if (param == null) return null;
-        return param.getDescription();
+        if (pbrbm == null) return null;
+        return pbrbm.getDescription();
     }
 
     /**
-     * Customization hook:
-     * Get the name that will be used for the <var>sequence</var>
-     * MBeanParameterInfo of the MBeanConstructorInfo returned by this MBean.
+     * Customizbtion hook:
+     * Get the nbme thbt will be used for the <vbr>sequence</vbr>
+     * MBebnPbrbmeterInfo of the MBebnConstructorInfo returned by this MBebn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom parameter name.  The default implementation returns
-     * {@link MBeanParameterInfo#getName() param.getName()}.
+     * Subclbsses mby redefine this method in order to supply their
+     * custom pbrbmeter nbme.  The defbult implementbtion returns
+     * {@link MBebnPbrbmeterInfo#getNbme() pbrbm.getNbme()}.
      *
-     * @param ctor  The default MBeanConstructorInfo derived by reflection.
-     * @param param The default MBeanParameterInfo derived by reflection.
-     * @param sequence The sequence number of the parameter considered
-     *        ("0" for the first parameter, "1" for the second parameter,
+     * @pbrbm ctor  The defbult MBebnConstructorInfo derived by reflection.
+     * @pbrbm pbrbm The defbult MBebnPbrbmeterInfo derived by reflection.
+     * @pbrbm sequence The sequence number of the pbrbmeter considered
+     *        ("0" for the first pbrbmeter, "1" for the second pbrbmeter,
      *        etc...).
-     * @return the name for the given MBeanParameterInfo.
+     * @return the nbme for the given MBebnPbrbmeterInfo.
      **/
-    protected String getParameterName(MBeanConstructorInfo ctor,
-                                      MBeanParameterInfo param,
+    protected String getPbrbmeterNbme(MBebnConstructorInfo ctor,
+                                      MBebnPbrbmeterInfo pbrbm,
                                       int sequence) {
-        if (param == null) return null;
-        return param.getName();
+        if (pbrbm == null) return null;
+        return pbrbm.getNbme();
     }
 
     /**
-     * Customization hook:
-     * Get the description that will be used in the MBeanOperationInfo
-     * returned by this MBean.
+     * Customizbtion hook:
+     * Get the description thbt will be used in the MBebnOperbtionInfo
+     * returned by this MBebn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom description.  The default implementation returns
-     * {@link #getDescription(MBeanFeatureInfo)
-     * getDescription((MBeanFeatureInfo) info)}.
-     * @param info The default MBeanOperationInfo derived by reflection.
-     * @return the description for the given MBeanOperationInfo.
+     * Subclbsses mby redefine this method in order to supply their
+     * custom description.  The defbult implementbtion returns
+     * {@link #getDescription(MBebnFebtureInfo)
+     * getDescription((MBebnFebtureInfo) info)}.
+     * @pbrbm info The defbult MBebnOperbtionInfo derived by reflection.
+     * @return the description for the given MBebnOperbtionInfo.
      **/
-    protected String getDescription(MBeanOperationInfo info) {
-        return getDescription((MBeanFeatureInfo)info);
+    protected String getDescription(MBebnOperbtionInfo info) {
+        return getDescription((MBebnFebtureInfo)info);
     }
 
     /**
-     * Customization hook:
-     * Get the <var>impact</var> flag of the operation that will be used in
-     * the MBeanOperationInfo returned by this MBean.
+     * Customizbtion hook:
+     * Get the <vbr>impbct</vbr> flbg of the operbtion thbt will be used in
+     * the MBebnOperbtionInfo returned by this MBebn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom impact flag.  The default implementation returns
-     * {@link MBeanOperationInfo#getImpact() info.getImpact()}.
-     * @param info The default MBeanOperationInfo derived by reflection.
-     * @return the impact flag for the given MBeanOperationInfo.
+     * Subclbsses mby redefine this method in order to supply their
+     * custom impbct flbg.  The defbult implementbtion returns
+     * {@link MBebnOperbtionInfo#getImpbct() info.getImpbct()}.
+     * @pbrbm info The defbult MBebnOperbtionInfo derived by reflection.
+     * @return the impbct flbg for the given MBebnOperbtionInfo.
      **/
-    protected int getImpact(MBeanOperationInfo info) {
-        if (info == null) return MBeanOperationInfo.UNKNOWN;
-        return info.getImpact();
+    protected int getImpbct(MBebnOperbtionInfo info) {
+        if (info == null) return MBebnOperbtionInfo.UNKNOWN;
+        return info.getImpbct();
     }
 
     /**
-     * Customization hook:
-     * Get the name that will be used for the <var>sequence</var>
-     * MBeanParameterInfo of the MBeanOperationInfo returned by this MBean.
+     * Customizbtion hook:
+     * Get the nbme thbt will be used for the <vbr>sequence</vbr>
+     * MBebnPbrbmeterInfo of the MBebnOperbtionInfo returned by this MBebn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom parameter name.  The default implementation returns
-     * {@link MBeanParameterInfo#getName() param.getName()}.
+     * Subclbsses mby redefine this method in order to supply their
+     * custom pbrbmeter nbme.  The defbult implementbtion returns
+     * {@link MBebnPbrbmeterInfo#getNbme() pbrbm.getNbme()}.
      *
-     * @param op    The default MBeanOperationInfo derived by reflection.
-     * @param param The default MBeanParameterInfo derived by reflection.
-     * @param sequence The sequence number of the parameter considered
-     *        ("0" for the first parameter, "1" for the second parameter,
+     * @pbrbm op    The defbult MBebnOperbtionInfo derived by reflection.
+     * @pbrbm pbrbm The defbult MBebnPbrbmeterInfo derived by reflection.
+     * @pbrbm sequence The sequence number of the pbrbmeter considered
+     *        ("0" for the first pbrbmeter, "1" for the second pbrbmeter,
      *        etc...).
-     * @return the name to use for the given MBeanParameterInfo.
+     * @return the nbme to use for the given MBebnPbrbmeterInfo.
      **/
-    protected String getParameterName(MBeanOperationInfo op,
-                                      MBeanParameterInfo param,
+    protected String getPbrbmeterNbme(MBebnOperbtionInfo op,
+                                      MBebnPbrbmeterInfo pbrbm,
                                       int sequence) {
-        if (param == null) return null;
-        return param.getName();
+        if (pbrbm == null) return null;
+        return pbrbm.getNbme();
     }
 
     /**
-     * Customization hook:
-     * Get the description that will be used for the  <var>sequence</var>
-     * MBeanParameterInfo of the MBeanOperationInfo returned by this MBean.
+     * Customizbtion hook:
+     * Get the description thbt will be used for the  <vbr>sequence</vbr>
+     * MBebnPbrbmeterInfo of the MBebnOperbtionInfo returned by this MBebn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom description.  The default implementation returns
-     * {@link MBeanParameterInfo#getDescription() param.getDescription()}.
+     * Subclbsses mby redefine this method in order to supply their
+     * custom description.  The defbult implementbtion returns
+     * {@link MBebnPbrbmeterInfo#getDescription() pbrbm.getDescription()}.
      *
-     * @param op    The default MBeanOperationInfo derived by reflection.
-     * @param param The default MBeanParameterInfo derived by reflection.
-     * @param sequence The sequence number of the parameter considered
-     *        ("0" for the first parameter, "1" for the second parameter,
+     * @pbrbm op    The defbult MBebnOperbtionInfo derived by reflection.
+     * @pbrbm pbrbm The defbult MBebnPbrbmeterInfo derived by reflection.
+     * @pbrbm sequence The sequence number of the pbrbmeter considered
+     *        ("0" for the first pbrbmeter, "1" for the second pbrbmeter,
      *        etc...).
-     * @return the description for the given MBeanParameterInfo.
+     * @return the description for the given MBebnPbrbmeterInfo.
      **/
-    protected String getDescription(MBeanOperationInfo op,
-                                    MBeanParameterInfo param,
+    protected String getDescription(MBebnOperbtionInfo op,
+                                    MBebnPbrbmeterInfo pbrbm,
                                     int sequence) {
-        if (param == null) return null;
-        return param.getDescription();
+        if (pbrbm == null) return null;
+        return pbrbm.getDescription();
     }
 
     /**
-     * Customization hook:
-     * Get the MBeanConstructorInfo[] that will be used in the MBeanInfo
-     * returned by this MBean.
+     * Customizbtion hook:
+     * Get the MBebnConstructorInfo[] thbt will be used in the MBebnInfo
+     * returned by this MBebn.
      * <br>
-     * By default, this method returns <code>null</code> if the wrapped
-     * implementation is not <var>this</var>. Indeed, if the wrapped
-     * implementation is not this object itself, it will not be possible
-     * to recreate a wrapped implementation by calling the implementation
-     * constructors through <code>MBeanServer.createMBean(...)</code>.<br>
-     * Otherwise, if the wrapped implementation is <var>this</var>,
-     * <var>ctors</var> is returned.
+     * By defbult, this method returns <code>null</code> if the wrbpped
+     * implementbtion is not <vbr>this</vbr>. Indeed, if the wrbpped
+     * implementbtion is not this object itself, it will not be possible
+     * to recrebte b wrbpped implementbtion by cblling the implementbtion
+     * constructors through <code>MBebnServer.crebteMBebn(...)</code>.<br>
+     * Otherwise, if the wrbpped implementbtion is <vbr>this</vbr>,
+     * <vbr>ctors</vbr> is returned.
      * <br>
-     * Subclasses may redefine this method in order to modify this
-     * behavior, if needed.
-     * @param ctors The default MBeanConstructorInfo[] derived by reflection.
-     * @param impl  The wrapped implementation. If <code>null</code> is
-     *        passed, the wrapped implementation is ignored and
-     *        <var>ctors</var> is returned.
-     * @return the MBeanConstructorInfo[] for the new MBeanInfo.
+     * Subclbsses mby redefine this method in order to modify this
+     * behbvior, if needed.
+     * @pbrbm ctors The defbult MBebnConstructorInfo[] derived by reflection.
+     * @pbrbm impl  The wrbpped implementbtion. If <code>null</code> is
+     *        pbssed, the wrbpped implementbtion is ignored bnd
+     *        <vbr>ctors</vbr> is returned.
+     * @return the MBebnConstructorInfo[] for the new MBebnInfo.
      **/
-    protected MBeanConstructorInfo[]
-        getConstructors(MBeanConstructorInfo[] ctors, Object impl) {
+    protected MBebnConstructorInfo[]
+        getConstructors(MBebnConstructorInfo[] ctors, Object impl) {
             if (ctors == null) return null;
             if (impl != null && impl != this) return null;
             return ctors;
     }
 
     /**
-     * Customization hook:
-     * Get the MBeanNotificationInfo[] that will be used in the MBeanInfo
-     * returned by this MBean.
+     * Customizbtion hook:
+     * Get the MBebnNotificbtionInfo[] thbt will be used in the MBebnInfo
+     * returned by this MBebn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom notifications.
-     * @param info The default MBeanInfo derived by reflection.
-     * @return the MBeanNotificationInfo[] for the new MBeanInfo.
+     * Subclbsses mby redefine this method in order to supply their
+     * custom notificbtions.
+     * @pbrbm info The defbult MBebnInfo derived by reflection.
+     * @return the MBebnNotificbtionInfo[] for the new MBebnInfo.
      **/
-    MBeanNotificationInfo[] getNotifications(MBeanInfo info) {
+    MBebnNotificbtionInfo[] getNotificbtions(MBebnInfo info) {
         return null;
     }
 
     /**
-     * <p>Get the Descriptor that will be used in the MBeanInfo
-     * returned by this MBean.</p>
+     * <p>Get the Descriptor thbt will be used in the MBebnInfo
+     * returned by this MBebn.</p>
      *
-     * <p>Subclasses may redefine this method in order to supply
+     * <p>Subclbsses mby redefine this method in order to supply
      * their custom descriptor.</p>
      *
-     * <p>The default implementation of this method returns a Descriptor
-     * that contains at least the field {@code interfaceClassName}, with
-     * value {@link #getMBeanInterface()}.getName(). It may also contain
-     * the field {@code immutableInfo}, with a value that is the string
-     * {@code "true"} if the implementation can determine that the
-     * {@code MBeanInfo} returned by {@link #getMBeanInfo()} will always
-     * be the same. It may contain other fields: fields defined by the
-     * JMX specification must have appropriate values, and other fields
-     * must follow the conventions for non-standard field names.</p>
+     * <p>The defbult implementbtion of this method returns b Descriptor
+     * thbt contbins bt lebst the field {@code interfbceClbssNbme}, with
+     * vblue {@link #getMBebnInterfbce()}.getNbme(). It mby blso contbin
+     * the field {@code immutbbleInfo}, with b vblue thbt is the string
+     * {@code "true"} if the implementbtion cbn determine thbt the
+     * {@code MBebnInfo} returned by {@link #getMBebnInfo()} will blwbys
+     * be the sbme. It mby contbin other fields: fields defined by the
+     * JMX specificbtion must hbve bppropribte vblues, bnd other fields
+     * must follow the conventions for non-stbndbrd field nbmes.</p>
      *
-     * @param info The default MBeanInfo derived by reflection.
-     * @return the Descriptor for the new MBeanInfo.
+     * @pbrbm info The defbult MBebnInfo derived by reflection.
+     * @return the Descriptor for the new MBebnInfo.
      */
-    Descriptor getDescriptor(MBeanInfo info, boolean immutableInfo) {
-        ImmutableDescriptor desc;
+    Descriptor getDescriptor(MBebnInfo info, boolebn immutbbleInfo) {
+        ImmutbbleDescriptor desc;
         if (info == null ||
             info.getDescriptor() == null ||
-            info.getDescriptor().getFieldNames().length == 0) {
-            final String interfaceClassNameS =
-                "interfaceClassName=" + getMBeanInterface().getName();
-            final String immutableInfoS =
-                "immutableInfo=" + immutableInfo;
-            desc = new ImmutableDescriptor(interfaceClassNameS, immutableInfoS);
+            info.getDescriptor().getFieldNbmes().length == 0) {
+            finbl String interfbceClbssNbmeS =
+                "interfbceClbssNbme=" + getMBebnInterfbce().getNbme();
+            finbl String immutbbleInfoS =
+                "immutbbleInfo=" + immutbbleInfo;
+            desc = new ImmutbbleDescriptor(interfbceClbssNbmeS, immutbbleInfoS);
             desc = descriptors.get(desc);
         } else {
             Descriptor d = info.getDescriptor();
-            Map<String,Object> fields = new HashMap<String,Object>();
-            for (String fieldName : d.getFieldNames()) {
-                if (fieldName.equals("immutableInfo")) {
-                    // Replace immutableInfo as the underlying MBean/MXBean
-                    // could already implement NotificationBroadcaster and
-                    // return immutableInfo=true in its MBeanInfo.
-                    fields.put(fieldName, Boolean.toString(immutableInfo));
+            Mbp<String,Object> fields = new HbshMbp<String,Object>();
+            for (String fieldNbme : d.getFieldNbmes()) {
+                if (fieldNbme.equbls("immutbbleInfo")) {
+                    // Replbce immutbbleInfo bs the underlying MBebn/MXBebn
+                    // could blrebdy implement NotificbtionBrobdcbster bnd
+                    // return immutbbleInfo=true in its MBebnInfo.
+                    fields.put(fieldNbme, Boolebn.toString(immutbbleInfo));
                 } else {
-                    fields.put(fieldName, d.getFieldValue(fieldName));
+                    fields.put(fieldNbme, d.getFieldVblue(fieldNbme));
                 }
             }
-            desc = new ImmutableDescriptor(fields);
+            desc = new ImmutbbleDescriptor(fields);
         }
         return desc;
     }
 
     /**
-     * Customization hook:
-     * Return the MBeanInfo cached for this object.
+     * Customizbtion hook:
+     * Return the MBebnInfo cbched for this object.
      *
-     * <p>Subclasses may redefine this method in order to implement their
-     * own caching policy.  The default implementation stores one
-     * {@link MBeanInfo} object per instance.
+     * <p>Subclbsses mby redefine this method in order to implement their
+     * own cbching policy.  The defbult implementbtion stores one
+     * {@link MBebnInfo} object per instbnce.
      *
-     * @return The cached MBeanInfo, or null if no MBeanInfo is cached.
+     * @return The cbched MBebnInfo, or null if no MBebnInfo is cbched.
      *
-     * @see #cacheMBeanInfo(MBeanInfo)
+     * @see #cbcheMBebnInfo(MBebnInfo)
      **/
-    protected MBeanInfo getCachedMBeanInfo() {
-        return cachedMBeanInfo;
+    protected MBebnInfo getCbchedMBebnInfo() {
+        return cbchedMBebnInfo;
     }
 
     /**
-     * Customization hook:
-     * cache the MBeanInfo built for this object.
+     * Customizbtion hook:
+     * cbche the MBebnInfo built for this object.
      *
-     * <p>Subclasses may redefine this method in order to implement
-     * their own caching policy.  The default implementation stores
-     * <code>info</code> in this instance.  A subclass can define
-     * other policies, such as not saving <code>info</code> (so it is
-     * reconstructed every time {@link #getMBeanInfo()} is called) or
-     * sharing a unique {@link MBeanInfo} object when several
-     * <code>StandardMBean</code> instances have equal {@link
-     * MBeanInfo} values.
+     * <p>Subclbsses mby redefine this method in order to implement
+     * their own cbching policy.  The defbult implementbtion stores
+     * <code>info</code> in this instbnce.  A subclbss cbn define
+     * other policies, such bs not sbving <code>info</code> (so it is
+     * reconstructed every time {@link #getMBebnInfo()} is cblled) or
+     * shbring b unique {@link MBebnInfo} object when severbl
+     * <code>StbndbrdMBebn</code> instbnces hbve equbl {@link
+     * MBebnInfo} vblues.
      *
-     * @param info the new <code>MBeanInfo</code> to cache.  Any
-     * previously cached value is discarded.  This parameter may be
-     * null, in which case there is no new cached value.
+     * @pbrbm info the new <code>MBebnInfo</code> to cbche.  Any
+     * previously cbched vblue is discbrded.  This pbrbmeter mby be
+     * null, in which cbse there is no new cbched vblue.
      **/
-    protected void cacheMBeanInfo(MBeanInfo info) {
-        cachedMBeanInfo = info;
+    protected void cbcheMBebnInfo(MBebnInfo info) {
+        cbchedMBebnInfo = info;
     }
 
-    private boolean isMXBean() {
-        return mbean.isMXBean();
+    privbte boolebn isMXBebn() {
+        return mbebn.isMXBebn();
     }
 
-    private static <T> boolean identicalArrays(T[] a, T[] b) {
-        if (a == b)
+    privbte stbtic <T> boolebn identicblArrbys(T[] b, T[] b) {
+        if (b == b)
             return true;
-        if (a == null || b == null || a.length != b.length)
-            return false;
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] != b[i])
-                return false;
+        if (b == null || b == null || b.length != b.length)
+            return fblse;
+        for (int i = 0; i < b.length; i++) {
+            if (b[i] != b[i])
+                return fblse;
         }
         return true;
     }
 
-    private static <T> boolean equal(T a, T b) {
-        if (a == b)
+    privbte stbtic <T> boolebn equbl(T b, T b) {
+        if (b == b)
             return true;
-        if (a == null || b == null)
-            return false;
-        return a.equals(b);
+        if (b == null || b == null)
+            return fblse;
+        return b.equbls(b);
     }
 
-    private static MBeanParameterInfo
-            customize(MBeanParameterInfo pi,
-                      String name,
+    privbte stbtic MBebnPbrbmeterInfo
+            customize(MBebnPbrbmeterInfo pi,
+                      String nbme,
                       String description) {
-        if (equal(name, pi.getName()) &&
-                equal(description, pi.getDescription()))
+        if (equbl(nbme, pi.getNbme()) &&
+                equbl(description, pi.getDescription()))
             return pi;
-        else if (pi instanceof OpenMBeanParameterInfo) {
-            OpenMBeanParameterInfo opi = (OpenMBeanParameterInfo) pi;
-            return new OpenMBeanParameterInfoSupport(name,
+        else if (pi instbnceof OpenMBebnPbrbmeterInfo) {
+            OpenMBebnPbrbmeterInfo opi = (OpenMBebnPbrbmeterInfo) pi;
+            return new OpenMBebnPbrbmeterInfoSupport(nbme,
                                                      description,
                                                      opi.getOpenType(),
                                                      pi.getDescriptor());
         } else {
-            return new MBeanParameterInfo(name,
+            return new MBebnPbrbmeterInfo(nbme,
                                           pi.getType(),
                                           description,
                                           pi.getDescriptor());
         }
     }
 
-    private static MBeanConstructorInfo
-            customize(MBeanConstructorInfo ci,
+    privbte stbtic MBebnConstructorInfo
+            customize(MBebnConstructorInfo ci,
                       String description,
-                      MBeanParameterInfo[] signature) {
-        if (equal(description, ci.getDescription()) &&
-                identicalArrays(signature, ci.getSignature()))
+                      MBebnPbrbmeterInfo[] signbture) {
+        if (equbl(description, ci.getDescription()) &&
+                identicblArrbys(signbture, ci.getSignbture()))
             return ci;
-        if (ci instanceof OpenMBeanConstructorInfo) {
-            OpenMBeanParameterInfo[] oparams =
-                paramsToOpenParams(signature);
-            return new OpenMBeanConstructorInfoSupport(ci.getName(),
+        if (ci instbnceof OpenMBebnConstructorInfo) {
+            OpenMBebnPbrbmeterInfo[] opbrbms =
+                pbrbmsToOpenPbrbms(signbture);
+            return new OpenMBebnConstructorInfoSupport(ci.getNbme(),
                                                        description,
-                                                       oparams,
+                                                       opbrbms,
                                                        ci.getDescriptor());
         } else {
-            return new MBeanConstructorInfo(ci.getName(),
+            return new MBebnConstructorInfo(ci.getNbme(),
                                             description,
-                                            signature,
+                                            signbture,
                                             ci.getDescriptor());
         }
     }
 
-    private static MBeanOperationInfo
-            customize(MBeanOperationInfo oi,
+    privbte stbtic MBebnOperbtionInfo
+            customize(MBebnOperbtionInfo oi,
                       String description,
-                      MBeanParameterInfo[] signature,
-                      int impact) {
-        if (equal(description, oi.getDescription()) &&
-                identicalArrays(signature, oi.getSignature()) &&
-                impact == oi.getImpact())
+                      MBebnPbrbmeterInfo[] signbture,
+                      int impbct) {
+        if (equbl(description, oi.getDescription()) &&
+                identicblArrbys(signbture, oi.getSignbture()) &&
+                impbct == oi.getImpbct())
             return oi;
-        if (oi instanceof OpenMBeanOperationInfo) {
-            OpenMBeanOperationInfo ooi = (OpenMBeanOperationInfo) oi;
-            OpenMBeanParameterInfo[] oparams =
-                paramsToOpenParams(signature);
-            return new OpenMBeanOperationInfoSupport(oi.getName(),
+        if (oi instbnceof OpenMBebnOperbtionInfo) {
+            OpenMBebnOperbtionInfo ooi = (OpenMBebnOperbtionInfo) oi;
+            OpenMBebnPbrbmeterInfo[] opbrbms =
+                pbrbmsToOpenPbrbms(signbture);
+            return new OpenMBebnOperbtionInfoSupport(oi.getNbme(),
                                                      description,
-                                                     oparams,
+                                                     opbrbms,
                                                      ooi.getReturnOpenType(),
-                                                     impact,
+                                                     impbct,
                                                      oi.getDescriptor());
         } else {
-            return new MBeanOperationInfo(oi.getName(),
+            return new MBebnOperbtionInfo(oi.getNbme(),
                                           description,
-                                          signature,
+                                          signbture,
                                           oi.getReturnType(),
-                                          impact,
+                                          impbct,
                                           oi.getDescriptor());
         }
     }
 
-    private static MBeanAttributeInfo
-            customize(MBeanAttributeInfo ai,
+    privbte stbtic MBebnAttributeInfo
+            customize(MBebnAttributeInfo bi,
                       String description) {
-        if (equal(description, ai.getDescription()))
-            return ai;
-        if (ai instanceof OpenMBeanAttributeInfo) {
-            OpenMBeanAttributeInfo oai = (OpenMBeanAttributeInfo) ai;
-            return new OpenMBeanAttributeInfoSupport(ai.getName(),
+        if (equbl(description, bi.getDescription()))
+            return bi;
+        if (bi instbnceof OpenMBebnAttributeInfo) {
+            OpenMBebnAttributeInfo obi = (OpenMBebnAttributeInfo) bi;
+            return new OpenMBebnAttributeInfoSupport(bi.getNbme(),
                                                      description,
-                                                     oai.getOpenType(),
-                                                     ai.isReadable(),
-                                                     ai.isWritable(),
-                                                     ai.isIs(),
-                                                     ai.getDescriptor());
+                                                     obi.getOpenType(),
+                                                     bi.isRebdbble(),
+                                                     bi.isWritbble(),
+                                                     bi.isIs(),
+                                                     bi.getDescriptor());
         } else {
-            return new MBeanAttributeInfo(ai.getName(),
-                                          ai.getType(),
+            return new MBebnAttributeInfo(bi.getNbme(),
+                                          bi.getType(),
                                           description,
-                                          ai.isReadable(),
-                                          ai.isWritable(),
-                                          ai.isIs(),
-                                          ai.getDescriptor());
+                                          bi.isRebdbble(),
+                                          bi.isWritbble(),
+                                          bi.isIs(),
+                                          bi.getDescriptor());
         }
     }
 
-    private static OpenMBeanParameterInfo[]
-            paramsToOpenParams(MBeanParameterInfo[] params) {
-        if (params instanceof OpenMBeanParameterInfo[])
-            return (OpenMBeanParameterInfo[]) params;
-        OpenMBeanParameterInfo[] oparams =
-            new OpenMBeanParameterInfoSupport[params.length];
-        System.arraycopy(params, 0, oparams, 0, params.length);
-        return oparams;
+    privbte stbtic OpenMBebnPbrbmeterInfo[]
+            pbrbmsToOpenPbrbms(MBebnPbrbmeterInfo[] pbrbms) {
+        if (pbrbms instbnceof OpenMBebnPbrbmeterInfo[])
+            return (OpenMBebnPbrbmeterInfo[]) pbrbms;
+        OpenMBebnPbrbmeterInfo[] opbrbms =
+            new OpenMBebnPbrbmeterInfoSupport[pbrbms.length];
+        System.brrbycopy(pbrbms, 0, opbrbms, 0, pbrbms.length);
+        return opbrbms;
     }
 
     // ------------------------------------------------------------------
-    // Build the custom MBeanConstructorInfo[]
+    // Build the custom MBebnConstructorInfo[]
     // ------------------------------------------------------------------
-    private MBeanConstructorInfo[]
-            getConstructors(MBeanInfo info, Object impl) {
-        final MBeanConstructorInfo[] ctors =
+    privbte MBebnConstructorInfo[]
+            getConstructors(MBebnInfo info, Object impl) {
+        finbl MBebnConstructorInfo[] ctors =
             getConstructors(info.getConstructors(), impl);
         if (ctors == null)
             return null;
-        final int ctorlen = ctors.length;
-        final MBeanConstructorInfo[] nctors = new MBeanConstructorInfo[ctorlen];
+        finbl int ctorlen = ctors.length;
+        finbl MBebnConstructorInfo[] nctors = new MBebnConstructorInfo[ctorlen];
         for (int i=0; i<ctorlen; i++) {
-            final MBeanConstructorInfo c = ctors[i];
-            final MBeanParameterInfo[] params = c.getSignature();
-            final MBeanParameterInfo[] nps;
-            if (params != null) {
-                final int plen = params.length;
-                nps = new MBeanParameterInfo[plen];
+            finbl MBebnConstructorInfo c = ctors[i];
+            finbl MBebnPbrbmeterInfo[] pbrbms = c.getSignbture();
+            finbl MBebnPbrbmeterInfo[] nps;
+            if (pbrbms != null) {
+                finbl int plen = pbrbms.length;
+                nps = new MBebnPbrbmeterInfo[plen];
                 for (int ii=0;ii<plen;ii++) {
-                    MBeanParameterInfo p = params[ii];
+                    MBebnPbrbmeterInfo p = pbrbms[ii];
                     nps[ii] = customize(p,
-                                        getParameterName(c,p,ii),
+                                        getPbrbmeterNbme(c,p,ii),
                                         getDescription(c,p,ii));
                 }
             } else {
@@ -980,138 +980,138 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     }
 
     // ------------------------------------------------------------------
-    // Build the custom MBeanOperationInfo[]
+    // Build the custom MBebnOperbtionInfo[]
     // ------------------------------------------------------------------
-    private MBeanOperationInfo[] getOperations(MBeanInfo info) {
-        final MBeanOperationInfo[] ops = info.getOperations();
+    privbte MBebnOperbtionInfo[] getOperbtions(MBebnInfo info) {
+        finbl MBebnOperbtionInfo[] ops = info.getOperbtions();
         if (ops == null)
             return null;
-        final int oplen = ops.length;
-        final MBeanOperationInfo[] nops = new MBeanOperationInfo[oplen];
+        finbl int oplen = ops.length;
+        finbl MBebnOperbtionInfo[] nops = new MBebnOperbtionInfo[oplen];
         for (int i=0; i<oplen; i++) {
-            final MBeanOperationInfo o = ops[i];
-            final MBeanParameterInfo[] params = o.getSignature();
-            final MBeanParameterInfo[] nps;
-            if (params != null) {
-                final int plen = params.length;
-                nps = new MBeanParameterInfo[plen];
+            finbl MBebnOperbtionInfo o = ops[i];
+            finbl MBebnPbrbmeterInfo[] pbrbms = o.getSignbture();
+            finbl MBebnPbrbmeterInfo[] nps;
+            if (pbrbms != null) {
+                finbl int plen = pbrbms.length;
+                nps = new MBebnPbrbmeterInfo[plen];
                 for (int ii=0;ii<plen;ii++) {
-                    MBeanParameterInfo p = params[ii];
+                    MBebnPbrbmeterInfo p = pbrbms[ii];
                     nps[ii] = customize(p,
-                                        getParameterName(o,p,ii),
+                                        getPbrbmeterNbme(o,p,ii),
                                         getDescription(o,p,ii));
                 }
             } else {
                 nps = null;
             }
-            nops[i] = customize(o, getDescription(o), nps, getImpact(o));
+            nops[i] = customize(o, getDescription(o), nps, getImpbct(o));
         }
         return nops;
     }
 
     // ------------------------------------------------------------------
-    // Build the custom MBeanAttributeInfo[]
+    // Build the custom MBebnAttributeInfo[]
     // ------------------------------------------------------------------
-    private MBeanAttributeInfo[] getAttributes(MBeanInfo info) {
-        final MBeanAttributeInfo[] atts = info.getAttributes();
-        if (atts == null)
-            return null; // should not happen
-        final MBeanAttributeInfo[] natts;
-        final int attlen = atts.length;
-        natts = new MBeanAttributeInfo[attlen];
-        for (int i=0; i<attlen; i++) {
-            final MBeanAttributeInfo a = atts[i];
-            natts[i] = customize(a, getDescription(a));
+    privbte MBebnAttributeInfo[] getAttributes(MBebnInfo info) {
+        finbl MBebnAttributeInfo[] btts = info.getAttributes();
+        if (btts == null)
+            return null; // should not hbppen
+        finbl MBebnAttributeInfo[] nbtts;
+        finbl int bttlen = btts.length;
+        nbtts = new MBebnAttributeInfo[bttlen];
+        for (int i=0; i<bttlen; i++) {
+            finbl MBebnAttributeInfo b = btts[i];
+            nbtts[i] = customize(b, getDescription(b));
         }
-        return natts;
+        return nbtts;
     }
 
     /**
-     * <p>Allows the MBean to perform any operations it needs before
-     * being registered in the MBean server.  If the name of the MBean
-     * is not specified, the MBean can provide a name for its
-     * registration.  If any exception is raised, the MBean will not be
-     * registered in the MBean server.</p>
+     * <p>Allows the MBebn to perform bny operbtions it needs before
+     * being registered in the MBebn server.  If the nbme of the MBebn
+     * is not specified, the MBebn cbn provide b nbme for its
+     * registrbtion.  If bny exception is rbised, the MBebn will not be
+     * registered in the MBebn server.</p>
      *
-     * <p>The default implementation of this method returns the {@code name}
-     * parameter.  It does nothing else for
-     * Standard MBeans.  For MXBeans, it records the {@code MBeanServer}
-     * and {@code ObjectName} parameters so they can be used to translate
-     * inter-MXBean references.</p>
+     * <p>The defbult implementbtion of this method returns the {@code nbme}
+     * pbrbmeter.  It does nothing else for
+     * Stbndbrd MBebns.  For MXBebns, it records the {@code MBebnServer}
+     * bnd {@code ObjectNbme} pbrbmeters so they cbn be used to trbnslbte
+     * inter-MXBebn references.</p>
      *
-     * <p>It is good practice for a subclass that overrides this method
-     * to call the overridden method via {@code super.preRegister(...)}.
-     * This is necessary if this object is an MXBean that is referenced
-     * by attributes or operations in other MXBeans.</p>
+     * <p>It is good prbctice for b subclbss thbt overrides this method
+     * to cbll the overridden method vib {@code super.preRegister(...)}.
+     * This is necessbry if this object is bn MXBebn thbt is referenced
+     * by bttributes or operbtions in other MXBebns.</p>
      *
-     * @param server The MBean server in which the MBean will be registered.
+     * @pbrbm server The MBebn server in which the MBebn will be registered.
      *
-     * @param name The object name of the MBean.  This name is null if
-     * the name parameter to one of the <code>createMBean</code> or
-     * <code>registerMBean</code> methods in the {@link MBeanServer}
-     * interface is null.  In that case, this method must return a
-     * non-null ObjectName for the new MBean.
+     * @pbrbm nbme The object nbme of the MBebn.  This nbme is null if
+     * the nbme pbrbmeter to one of the <code>crebteMBebn</code> or
+     * <code>registerMBebn</code> methods in the {@link MBebnServer}
+     * interfbce is null.  In thbt cbse, this method must return b
+     * non-null ObjectNbme for the new MBebn.
      *
-     * @return The name under which the MBean is to be registered.
-     * This value must not be null.  If the <code>name</code>
-     * parameter is not null, it will usually but not necessarily be
-     * the returned value.
+     * @return The nbme under which the MBebn is to be registered.
+     * This vblue must not be null.  If the <code>nbme</code>
+     * pbrbmeter is not null, it will usublly but not necessbrily be
+     * the returned vblue.
      *
-     * @throws IllegalArgumentException if this is an MXBean and
-     * {@code name} is null.
+     * @throws IllegblArgumentException if this is bn MXBebn bnd
+     * {@code nbme} is null.
      *
-     * @throws InstanceAlreadyExistsException if this is an MXBean and
-     * it has already been registered under another name (in this
-     * MBean Server or another).
+     * @throws InstbnceAlrebdyExistsException if this is bn MXBebn bnd
+     * it hbs blrebdy been registered under bnother nbme (in this
+     * MBebn Server or bnother).
      *
-     * @throws Exception no other checked exceptions are thrown by
-     * this method but {@code Exception} is declared so that subclasses
-     * can override the method and throw their own exceptions.
+     * @throws Exception no other checked exceptions bre thrown by
+     * this method but {@code Exception} is declbred so thbt subclbsses
+     * cbn override the method bnd throw their own exceptions.
      *
      * @since 1.6
      */
-    public ObjectName preRegister(MBeanServer server, ObjectName name)
+    public ObjectNbme preRegister(MBebnServer server, ObjectNbme nbme)
             throws Exception {
-        mbean.register(server, name);
-        return name;
+        mbebn.register(server, nbme);
+        return nbme;
     }
 
     /**
-     * <p>Allows the MBean to perform any operations needed after having been
-     * registered in the MBean server or after the registration has failed.</p>
+     * <p>Allows the MBebn to perform bny operbtions needed bfter hbving been
+     * registered in the MBebn server or bfter the registrbtion hbs fbiled.</p>
      *
-     * <p>The default implementation of this method does nothing for
-     * Standard MBeans.  For MXBeans, it undoes any work done by
-     * {@link #preRegister preRegister} if registration fails.</p>
+     * <p>The defbult implementbtion of this method does nothing for
+     * Stbndbrd MBebns.  For MXBebns, it undoes bny work done by
+     * {@link #preRegister preRegister} if registrbtion fbils.</p>
      *
-     * <p>It is good practice for a subclass that overrides this method
-     * to call the overridden method via {@code super.postRegister(...)}.
-     * This is necessary if this object is an MXBean that is referenced
-     * by attributes or operations in other MXBeans.</p>
+     * <p>It is good prbctice for b subclbss thbt overrides this method
+     * to cbll the overridden method vib {@code super.postRegister(...)}.
+     * This is necessbry if this object is bn MXBebn thbt is referenced
+     * by bttributes or operbtions in other MXBebns.</p>
      *
-     * @param registrationDone Indicates whether or not the MBean has
-     * been successfully registered in the MBean server. The value
-     * false means that the registration phase has failed.
+     * @pbrbm registrbtionDone Indicbtes whether or not the MBebn hbs
+     * been successfully registered in the MBebn server. The vblue
+     * fblse mebns thbt the registrbtion phbse hbs fbiled.
      *
      * @since 1.6
      */
-    public void postRegister(Boolean registrationDone) {
-        if (!registrationDone)
-            mbean.unregister();
+    public void postRegister(Boolebn registrbtionDone) {
+        if (!registrbtionDone)
+            mbebn.unregister();
     }
 
     /**
-     * <p>Allows the MBean to perform any operations it needs before
-     * being unregistered by the MBean server.</p>
+     * <p>Allows the MBebn to perform bny operbtions it needs before
+     * being unregistered by the MBebn server.</p>
      *
-     * <p>The default implementation of this method does nothing.</p>
+     * <p>The defbult implementbtion of this method does nothing.</p>
      *
-     * <p>It is good practice for a subclass that overrides this method
-     * to call the overridden method via {@code super.preDeregister(...)}.</p>
+     * <p>It is good prbctice for b subclbss thbt overrides this method
+     * to cbll the overridden method vib {@code super.preDeregister(...)}.</p>
      *
-     * @throws Exception no checked exceptions are throw by this method
-     * but {@code Exception} is declared so that subclasses can override
-     * this method and throw their own exceptions.
+     * @throws Exception no checked exceptions bre throw by this method
+     * but {@code Exception} is declbred so thbt subclbsses cbn override
+     * this method bnd throw their own exceptions.
      *
      * @since 1.6
      */
@@ -1119,118 +1119,118 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     }
 
     /**
-     * <p>Allows the MBean to perform any operations needed after having been
-     * unregistered in the MBean server.</p>
+     * <p>Allows the MBebn to perform bny operbtions needed bfter hbving been
+     * unregistered in the MBebn server.</p>
      *
-     * <p>The default implementation of this method does nothing for
-     * Standard MBeans.  For MXBeans, it removes any information that
-     * was recorded by the {@link #preRegister preRegister} method.</p>
+     * <p>The defbult implementbtion of this method does nothing for
+     * Stbndbrd MBebns.  For MXBebns, it removes bny informbtion thbt
+     * wbs recorded by the {@link #preRegister preRegister} method.</p>
      *
-     * <p>It is good practice for a subclass that overrides this method
-     * to call the overridden method via {@code super.postRegister(...)}.
-     * This is necessary if this object is an MXBean that is referenced
-     * by attributes or operations in other MXBeans.</p>
+     * <p>It is good prbctice for b subclbss thbt overrides this method
+     * to cbll the overridden method vib {@code super.postRegister(...)}.
+     * This is necessbry if this object is bn MXBebn thbt is referenced
+     * by bttributes or operbtions in other MXBebns.</p>
      *
      * @since 1.6
      */
     public void postDeregister() {
-        mbean.unregister();
+        mbebn.unregister();
     }
 
     //
-    // MBeanInfo immutability
+    // MBebnInfo immutbbility
     //
 
     /**
-     * Cached results of previous calls to immutableInfo. This is
-     * a WeakHashMap so that we don't prevent a class from being
-     * garbage collected just because we know whether its MBeanInfo
-     * is immutable.
+     * Cbched results of previous cblls to immutbbleInfo. This is
+     * b WebkHbshMbp so thbt we don't prevent b clbss from being
+     * gbrbbge collected just becbuse we know whether its MBebnInfo
+     * is immutbble.
      */
-    private static final Map<Class<?>, Boolean> mbeanInfoSafeMap =
-        new WeakHashMap<Class<?>, Boolean>();
+    privbte stbtic finbl Mbp<Clbss<?>, Boolebn> mbebnInfoSbfeMbp =
+        new WebkHbshMbp<Clbss<?>, Boolebn>();
 
     /**
-     * Return true if {@code subclass} is known to preserve the immutability
-     * of the {@code MBeanInfo}. The {@code subclass} is considered to have
-     * an immutable {@code MBeanInfo} if it does not override any of the
-     * getMBeanInfo, getCachedMBeanInfo, cacheMBeanInfo and getNotificationInfo
+     * Return true if {@code subclbss} is known to preserve the immutbbility
+     * of the {@code MBebnInfo}. The {@code subclbss} is considered to hbve
+     * bn immutbble {@code MBebnInfo} if it does not override bny of the
+     * getMBebnInfo, getCbchedMBebnInfo, cbcheMBebnInfo bnd getNotificbtionInfo
      * methods.
      */
-    static boolean immutableInfo(Class<? extends StandardMBean> subclass) {
-        if (subclass == StandardMBean.class ||
-            subclass == StandardEmitterMBean.class)
+    stbtic boolebn immutbbleInfo(Clbss<? extends StbndbrdMBebn> subclbss) {
+        if (subclbss == StbndbrdMBebn.clbss ||
+            subclbss == StbndbrdEmitterMBebn.clbss)
             return true;
-        synchronized (mbeanInfoSafeMap) {
-            Boolean safe = mbeanInfoSafeMap.get(subclass);
-            if (safe == null) {
+        synchronized (mbebnInfoSbfeMbp) {
+            Boolebn sbfe = mbebnInfoSbfeMbp.get(subclbss);
+            if (sbfe == null) {
                 try {
-                    MBeanInfoSafeAction action =
-                        new MBeanInfoSafeAction(subclass);
-                    safe = AccessController.doPrivileged(action);
-                } catch (Exception e) { // e.g. SecurityException
-                    /* We don't know, so we assume it isn't.  */
-                    safe = false;
+                    MBebnInfoSbfeAction bction =
+                        new MBebnInfoSbfeAction(subclbss);
+                    sbfe = AccessController.doPrivileged(bction);
+                } cbtch (Exception e) { // e.g. SecurityException
+                    /* We don't know, so we bssume it isn't.  */
+                    sbfe = fblse;
                 }
-                mbeanInfoSafeMap.put(subclass, safe);
+                mbebnInfoSbfeMbp.put(subclbss, sbfe);
             }
-            return safe;
+            return sbfe;
         }
     }
 
-    static boolean overrides(Class<?> subclass, Class<?> superclass,
-                             String name, Class<?>... params) {
-        for (Class<?> c = subclass; c != superclass; c = c.getSuperclass()) {
+    stbtic boolebn overrides(Clbss<?> subclbss, Clbss<?> superclbss,
+                             String nbme, Clbss<?>... pbrbms) {
+        for (Clbss<?> c = subclbss; c != superclbss; c = c.getSuperclbss()) {
             try {
-                c.getDeclaredMethod(name, params);
+                c.getDeclbredMethod(nbme, pbrbms);
                 return true;
-            } catch (NoSuchMethodException e) {
-                // OK: this class doesn't override it
+            } cbtch (NoSuchMethodException e) {
+                // OK: this clbss doesn't override it
             }
         }
-        return false;
+        return fblse;
     }
 
-    private static class MBeanInfoSafeAction
-            implements PrivilegedAction<Boolean> {
+    privbte stbtic clbss MBebnInfoSbfeAction
+            implements PrivilegedAction<Boolebn> {
 
-        private final Class<?> subclass;
+        privbte finbl Clbss<?> subclbss;
 
-        MBeanInfoSafeAction(Class<?> subclass) {
-            this.subclass = subclass;
+        MBebnInfoSbfeAction(Clbss<?> subclbss) {
+            this.subclbss = subclbss;
         }
 
-        public Boolean run() {
-            // Check for "void cacheMBeanInfo(MBeanInfo)" method.
+        public Boolebn run() {
+            // Check for "void cbcheMBebnInfo(MBebnInfo)" method.
             //
-            if (overrides(subclass, StandardMBean.class,
-                          "cacheMBeanInfo", MBeanInfo.class))
-                return false;
+            if (overrides(subclbss, StbndbrdMBebn.clbss,
+                          "cbcheMBebnInfo", MBebnInfo.clbss))
+                return fblse;
 
-            // Check for "MBeanInfo getCachedMBeanInfo()" method.
+            // Check for "MBebnInfo getCbchedMBebnInfo()" method.
             //
-            if (overrides(subclass, StandardMBean.class,
-                          "getCachedMBeanInfo", (Class<?>[]) null))
-                return false;
+            if (overrides(subclbss, StbndbrdMBebn.clbss,
+                          "getCbchedMBebnInfo", (Clbss<?>[]) null))
+                return fblse;
 
-            // Check for "MBeanInfo getMBeanInfo()" method.
+            // Check for "MBebnInfo getMBebnInfo()" method.
             //
-            if (overrides(subclass, StandardMBean.class,
-                          "getMBeanInfo", (Class<?>[]) null))
-                return false;
+            if (overrides(subclbss, StbndbrdMBebn.clbss,
+                          "getMBebnInfo", (Clbss<?>[]) null))
+                return fblse;
 
-            // Check for "MBeanNotificationInfo[] getNotificationInfo()"
+            // Check for "MBebnNotificbtionInfo[] getNotificbtionInfo()"
             // method.
             //
-            // This method is taken into account for the MBeanInfo
-            // immutability checks if and only if the given subclass is
-            // StandardEmitterMBean itself or can be assigned to
-            // StandardEmitterMBean.
+            // This method is tbken into bccount for the MBebnInfo
+            // immutbbility checks if bnd only if the given subclbss is
+            // StbndbrdEmitterMBebn itself or cbn be bssigned to
+            // StbndbrdEmitterMBebn.
             //
-            if (StandardEmitterMBean.class.isAssignableFrom(subclass))
-                if (overrides(subclass, StandardEmitterMBean.class,
-                              "getNotificationInfo", (Class<?>[]) null))
-                    return false;
+            if (StbndbrdEmitterMBebn.clbss.isAssignbbleFrom(subclbss))
+                if (overrides(subclbss, StbndbrdEmitterMBebn.clbss,
+                              "getNotificbtionInfo", (Clbss<?>[]) null))
+                    return fblse;
             return true;
         }
     }

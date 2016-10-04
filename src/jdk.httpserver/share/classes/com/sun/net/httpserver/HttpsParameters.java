@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.net.httpserver;
-import java.net.InetSocketAddress;
+pbckbge com.sun.net.httpserver;
+import jbvb.net.InetSocketAddress;
 //BEGIN_TIGER_EXCLUDE
-import javax.net.ssl.SSLParameters;
+import jbvbx.net.ssl.SSLPbrbmeters;
 //END_TIGER_EXCLUDE
 
 /**
- * Represents the set of parameters for each https
- * connection negotiated with clients. One of these
- * is created and passed to
- * {@link HttpsConfigurator#configure(HttpsParameters)}
+ * Represents the set of pbrbmeters for ebch https
+ * connection negotibted with clients. One of these
+ * is crebted bnd pbssed to
+ * {@link HttpsConfigurbtor#configure(HttpsPbrbmeters)}
  * for every incoming https connection,
- * in order to determine the parameters to use.
+ * in order to determine the pbrbmeters to use.
  * <p>
- * The underlying SSL parameters may be established either
- * via the set/get methods of this class, or else via
- * a {@link javax.net.ssl.SSLParameters} object. SSLParameters
- * is the preferred method, because in the future,
- * additional configuration capabilities may be added to that class, and
- * it is easier to determine the set of supported parameters and their
- * default values with SSLParameters. Also, if an SSLParameters object is
- * provided via
- * {@link #setSSLParameters(SSLParameters)} then those parameter settings
- * are used, and any settings made in this object are ignored.
+ * The underlying SSL pbrbmeters mby be estbblished either
+ * vib the set/get methods of this clbss, or else vib
+ * b {@link jbvbx.net.ssl.SSLPbrbmeters} object. SSLPbrbmeters
+ * is the preferred method, becbuse in the future,
+ * bdditionbl configurbtion cbpbbilities mby be bdded to thbt clbss, bnd
+ * it is ebsier to determine the set of supported pbrbmeters bnd their
+ * defbult vblues with SSLPbrbmeters. Also, if bn SSLPbrbmeters object is
+ * provided vib
+ * {@link #setSSLPbrbmeters(SSLPbrbmeters)} then those pbrbmeter settings
+ * bre used, bnd bny settings mbde in this object bre ignored.
  * @since 1.6
  */
 @jdk.Exported
-public abstract class HttpsParameters {
+public bbstrbct clbss HttpsPbrbmeters {
 
-    private String[] cipherSuites;
-    private String[] protocols;
-    private boolean wantClientAuth;
-    private boolean needClientAuth;
+    privbte String[] cipherSuites;
+    privbte String[] protocols;
+    privbte boolebn wbntClientAuth;
+    privbte boolebn needClientAuth;
 
-    protected HttpsParameters() {}
+    protected HttpsPbrbmeters() {}
 
     /**
-     * Returns the HttpsConfigurator for this HttpsParameters.
+     * Returns the HttpsConfigurbtor for this HttpsPbrbmeters.
      */
-    public abstract HttpsConfigurator getHttpsConfigurator();
+    public bbstrbct HttpsConfigurbtor getHttpsConfigurbtor();
 
     /**
-     * Returns the address of the remote client initiating the
+     * Returns the bddress of the remote client initibting the
      * connection.
      */
-    public abstract InetSocketAddress getClientAddress();
+    public bbstrbct InetSocketAddress getClientAddress();
 
 //BEGIN_TIGER_EXCLUDE
     /**
-     * Sets the SSLParameters to use for this HttpsParameters.
-     * The parameters must be supported by the SSLContext contained
-     * by the HttpsConfigurator associated with this HttpsParameters.
-     * If no parameters are set, then the default behavior is to use
-     * the default parameters from the associated SSLContext.
-     * @param params the SSLParameters to set. If <code>null</code>
-     * then the existing parameters (if any) remain unchanged.
-     * @throws IllegalArgumentException if any of the parameters are
-     *   invalid or unsupported.
+     * Sets the SSLPbrbmeters to use for this HttpsPbrbmeters.
+     * The pbrbmeters must be supported by the SSLContext contbined
+     * by the HttpsConfigurbtor bssocibted with this HttpsPbrbmeters.
+     * If no pbrbmeters bre set, then the defbult behbvior is to use
+     * the defbult pbrbmeters from the bssocibted SSLContext.
+     * @pbrbm pbrbms the SSLPbrbmeters to set. If <code>null</code>
+     * then the existing pbrbmeters (if bny) rembin unchbnged.
+     * @throws IllegblArgumentException if bny of the pbrbmeters bre
+     *   invblid or unsupported.
      */
-    public abstract void setSSLParameters (SSLParameters params);
+    public bbstrbct void setSSLPbrbmeters (SSLPbrbmeters pbrbms);
 //END_TIGER_EXCLUDE
 
     /**
-     * Returns a copy of the array of ciphersuites or null if none
-     * have been set.
+     * Returns b copy of the brrby of ciphersuites or null if none
+     * hbve been set.
      *
-     * @return a copy of the array of ciphersuites or null if none
-     * have been set.
+     * @return b copy of the brrby of ciphersuites or null if none
+     * hbve been set.
      */
     public String[] getCipherSuites() {
         return cipherSuites != null ? cipherSuites.clone() : null;
     }
 
     /**
-     * Sets the array of ciphersuites.
+     * Sets the brrby of ciphersuites.
      *
-     * @param cipherSuites the array of ciphersuites (or null)
+     * @pbrbm cipherSuites the brrby of ciphersuites (or null)
      */
     public void setCipherSuites(String[] cipherSuites) {
         this.cipherSuites = cipherSuites != null ? cipherSuites.clone() : null;
     }
 
     /**
-     * Returns a copy of the array of protocols or null if none
-     * have been set.
+     * Returns b copy of the brrby of protocols or null if none
+     * hbve been set.
      *
-     * @return a copy of the array of protocols or null if none
-     * have been set.
+     * @return b copy of the brrby of protocols or null if none
+     * hbve been set.
      */
     public String[] getProtocols() {
         return protocols != null ? protocols.clone() : null;
     }
 
     /**
-     * Sets the array of protocols.
+     * Sets the brrby of protocols.
      *
-     * @param protocols the array of protocols (or null)
+     * @pbrbm protocols the brrby of protocols (or null)
      */
     public void setProtocols(String[] protocols) {
         this.protocols = protocols != null ? protocols.clone() : null;
     }
 
     /**
-     * Returns whether client authentication should be requested.
+     * Returns whether client buthenticbtion should be requested.
      *
-     * @return whether client authentication should be requested.
+     * @return whether client buthenticbtion should be requested.
      */
-    public boolean getWantClientAuth() {
-        return wantClientAuth;
+    public boolebn getWbntClientAuth() {
+        return wbntClientAuth;
     }
 
     /**
-     * Sets whether client authentication should be requested. Calling
-     * this method clears the <code>needClientAuth</code> flag.
+     * Sets whether client buthenticbtion should be requested. Cblling
+     * this method clebrs the <code>needClientAuth</code> flbg.
      *
-     * @param wantClientAuth whether client authentication should be requested
+     * @pbrbm wbntClientAuth whether client buthenticbtion should be requested
      */
-    public void setWantClientAuth(boolean wantClientAuth) {
-        this.wantClientAuth = wantClientAuth;
+    public void setWbntClientAuth(boolebn wbntClientAuth) {
+        this.wbntClientAuth = wbntClientAuth;
     }
 
     /**
-     * Returns whether client authentication should be required.
+     * Returns whether client buthenticbtion should be required.
      *
-     * @return whether client authentication should be required.
+     * @return whether client buthenticbtion should be required.
      */
-    public boolean getNeedClientAuth() {
+    public boolebn getNeedClientAuth() {
         return needClientAuth;
     }
 
     /**
-     * Sets whether client authentication should be required. Calling
-     * this method clears the <code>wantClientAuth</code> flag.
+     * Sets whether client buthenticbtion should be required. Cblling
+     * this method clebrs the <code>wbntClientAuth</code> flbg.
      *
-     * @param needClientAuth whether client authentication should be required
+     * @pbrbm needClientAuth whether client buthenticbtion should be required
      */
-    public void setNeedClientAuth(boolean needClientAuth) {
+    public void setNeedClientAuth(boolebn needClientAuth) {
         this.needClientAuth = needClientAuth;
     }
 }

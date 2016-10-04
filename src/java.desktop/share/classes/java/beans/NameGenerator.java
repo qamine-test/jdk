@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.Map;
+import jbvb.util.HbshMbp;
+import jbvb.util.IdentityHbshMbp;
+import jbvb.util.Mbp;
 
-import static java.util.Locale.ENGLISH;
+import stbtic jbvb.util.Locble.ENGLISH;
 
 /**
- * A utility class which generates unique names for object instances.
- * The name will be a concatenation of the unqualified class name
- * and an instance number.
+ * A utility clbss which generbtes unique nbmes for object instbnces.
+ * The nbme will be b concbtenbtion of the unqublified clbss nbme
+ * bnd bn instbnce number.
  * <p>
- * For example, if the first object instance javax.swing.JButton
- * is passed into <code>instanceName</code> then the returned
+ * For exbmple, if the first object instbnce jbvbx.swing.JButton
+ * is pbssed into <code>instbnceNbme</code> then the returned
  * string identifier will be &quot;JButton0&quot;.
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  */
-class NameGenerator {
+clbss NbmeGenerbtor {
 
-    private Map<Object, String> valueToName;
-    private Map<String, Integer> nameToCount;
+    privbte Mbp<Object, String> vblueToNbme;
+    privbte Mbp<String, Integer> nbmeToCount;
 
-    public NameGenerator() {
-        valueToName = new IdentityHashMap<>();
-        nameToCount = new HashMap<>();
+    public NbmeGenerbtor() {
+        vblueToNbme = new IdentityHbshMbp<>();
+        nbmeToCount = new HbshMbp<>();
     }
 
     /**
-     * Clears the name cache. Should be called to near the end of
+     * Clebrs the nbme cbche. Should be cblled to nebr the end of
      * the encoding cycle.
      */
-    public void clear() {
-        valueToName.clear();
-        nameToCount.clear();
+    public void clebr() {
+        vblueToNbme.clebr();
+        nbmeToCount.clebr();
     }
 
     /**
-     * Returns the root name of the class.
+     * Returns the root nbme of the clbss.
      */
-    @SuppressWarnings("rawtypes")
-    public static String unqualifiedClassName(Class type) {
-        if (type.isArray()) {
-            return unqualifiedClassName(type.getComponentType())+"Array";
+    @SuppressWbrnings("rbwtypes")
+    public stbtic String unqublifiedClbssNbme(Clbss type) {
+        if (type.isArrby()) {
+            return unqublifiedClbssNbme(type.getComponentType())+"Arrby";
         }
-        String name = type.getName();
-        return name.substring(name.lastIndexOf('.')+1);
+        String nbme = type.getNbme();
+        return nbme.substring(nbme.lbstIndexOf('.')+1);
     }
 
     /**
-     * Returns a String which capitalizes the first letter of the string.
+     * Returns b String which cbpitblizes the first letter of the string.
      */
-    public static String capitalize(String name) {
-        if (name == null || name.length() == 0) {
-            return name;
+    public stbtic String cbpitblize(String nbme) {
+        if (nbme == null || nbme.length() == 0) {
+            return nbme;
         }
-        return name.substring(0, 1).toUpperCase(ENGLISH) + name.substring(1);
+        return nbme.substring(0, 1).toUpperCbse(ENGLISH) + nbme.substring(1);
     }
 
     /**
-     * Returns a unique string which identifies the object instance.
-     * Invocations are cached so that if an object has been previously
-     * passed into this method then the same identifier is returned.
+     * Returns b unique string which identifies the object instbnce.
+     * Invocbtions bre cbched so thbt if bn object hbs been previously
+     * pbssed into this method then the sbme identifier is returned.
      *
-     * @param instance object used to generate string
-     * @return a unique string representing the object
+     * @pbrbm instbnce object used to generbte string
+     * @return b unique string representing the object
      */
-    public String instanceName(Object instance) {
-        if (instance == null) {
+    public String instbnceNbme(Object instbnce) {
+        if (instbnce == null) {
             return "null";
         }
-        if (instance instanceof Class) {
-            return unqualifiedClassName((Class)instance);
+        if (instbnce instbnceof Clbss) {
+            return unqublifiedClbssNbme((Clbss)instbnce);
         }
         else {
-            String result = valueToName.get(instance);
+            String result = vblueToNbme.get(instbnce);
             if (result != null) {
                 return result;
             }
-            Class<?> type = instance.getClass();
-            String className = unqualifiedClassName(type);
+            Clbss<?> type = instbnce.getClbss();
+            String clbssNbme = unqublifiedClbssNbme(type);
 
-            Integer size = nameToCount.get(className);
-            int instanceNumber = (size == null) ? 0 : (size).intValue() + 1;
-            nameToCount.put(className, instanceNumber);
+            Integer size = nbmeToCount.get(clbssNbme);
+            int instbnceNumber = (size == null) ? 0 : (size).intVblue() + 1;
+            nbmeToCount.put(clbssNbme, instbnceNumber);
 
-            result = className + instanceNumber;
-            valueToName.put(instance, result);
+            result = clbssNbme + instbnceNumber;
+            vblueToNbme.put(instbnce, result);
             return result;
         }
     }

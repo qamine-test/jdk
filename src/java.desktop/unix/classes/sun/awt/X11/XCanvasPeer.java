@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
 
-import sun.awt.SunToolkit;
+import sun.bwt.SunToolkit;
 
-import sun.awt.X11GraphicsConfig;
-import sun.awt.X11GraphicsDevice;
+import sun.bwt.X11GrbphicsConfig;
+import sun.bwt.X11GrbphicsDevice;
 
-class XCanvasPeer extends XComponentPeer implements CanvasPeer {
+clbss XCbnvbsPeer extends XComponentPeer implements CbnvbsPeer {
 
-    private boolean eraseBackgroundDisabled;
+    privbte boolebn erbseBbckgroundDisbbled;
 
-    XCanvasPeer() {}
+    XCbnvbsPeer() {}
 
-    XCanvasPeer(XCreateWindowParams params) {
-        super(params);
+    XCbnvbsPeer(XCrebteWindowPbrbms pbrbms) {
+        super(pbrbms);
     }
 
-    XCanvasPeer(Component target) {
-        super(target);
+    XCbnvbsPeer(Component tbrget) {
+        super(tbrget);
     }
 
-    void preInit(XCreateWindowParams params) {
-        super.preInit(params);
-        if (SunToolkit.getSunAwtNoerasebackground()) {
-            disableBackgroundErase();
+    void preInit(XCrebteWindowPbrbms pbrbms) {
+        super.preInit(pbrbms);
+        if (SunToolkit.getSunAwtNoerbsebbckground()) {
+            disbbleBbckgroundErbse();
         }
     }
 
-    /* Get a GraphicsConfig with the same visual on the new
-     * screen, which should be easy in Xinerama mode.
+    /* Get b GrbphicsConfig with the sbme visubl on the new
+     * screen, which should be ebsy in Xinerbmb mode.
      */
-    public GraphicsConfiguration getAppropriateGraphicsConfiguration(
-                                    GraphicsConfiguration gc)
+    public GrbphicsConfigurbtion getAppropribteGrbphicsConfigurbtion(
+                                    GrbphicsConfigurbtion gc)
     {
-        if (graphicsConfig == null || gc == null) {
+        if (grbphicsConfig == null || gc == null) {
             return gc;
         }
-        // Opt: Only need to do if we're not using the default GC
+        // Opt: Only need to do if we're not using the defbult GC
 
-        int screenNum = ((X11GraphicsDevice)gc.getDevice()).getScreen();
+        int screenNum = ((X11GrbphicsDevice)gc.getDevice()).getScreen();
 
-        X11GraphicsConfig parentgc;
-        // save vis id of current gc
-        int visual = graphicsConfig.getVisual();
+        X11GrbphicsConfig pbrentgc;
+        // sbve vis id of current gc
+        int visubl = grbphicsConfig.getVisubl();
 
-        X11GraphicsDevice newDev = (X11GraphicsDevice) GraphicsEnvironment.
-            getLocalGraphicsEnvironment().
+        X11GrbphicsDevice newDev = (X11GrbphicsDevice) GrbphicsEnvironment.
+            getLocblGrbphicsEnvironment().
             getScreenDevices()[screenNum];
 
         for (int i = 0; i < newDev.getNumConfigs(screenNum); i++) {
-            if (visual == newDev.getConfigVisualId(i, screenNum)) {
-                // use that
-                graphicsConfig = (X11GraphicsConfig)newDev.getConfigurations()[i];
-                break;
+            if (visubl == newDev.getConfigVisublId(i, screenNum)) {
+                // use thbt
+                grbphicsConfig = (X11GrbphicsConfig)newDev.getConfigurbtions()[i];
+                brebk;
             }
         }
-        // just in case...
-        if (graphicsConfig == null) {
-            graphicsConfig = (X11GraphicsConfig) GraphicsEnvironment.
-                getLocalGraphicsEnvironment().
+        // just in cbse...
+        if (grbphicsConfig == null) {
+            grbphicsConfig = (X11GrbphicsConfig) GrbphicsEnvironment.
+                getLocblGrbphicsEnvironment().
                 getScreenDevices()[screenNum].
-                getDefaultConfiguration();
+                getDefbultConfigurbtion();
         }
 
-        return graphicsConfig;
+        return grbphicsConfig;
     }
 
-    protected boolean shouldFocusOnClick() {
-        // Canvas should always be able to be focused by mouse clicks.
+    protected boolebn shouldFocusOnClick() {
+        // Cbnvbs should blwbys be bble to be focused by mouse clicks.
         return true;
     }
 
-    public void disableBackgroundErase() {
-        eraseBackgroundDisabled = true;
+    public void disbbleBbckgroundErbse() {
+        erbseBbckgroundDisbbled = true;
     }
-    protected boolean doEraseBackground() {
-        return !eraseBackgroundDisabled;
+    protected boolebn doErbseBbckground() {
+        return !erbseBbckgroundDisbbled;
     }
 }

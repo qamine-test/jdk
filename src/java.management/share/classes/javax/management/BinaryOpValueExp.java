@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
 /**
- * This class is used by the query-building mechanism to represent binary
- * operations.
- * @serial include
+ * This clbss is used by the query-building mechbnism to represent binbry
+ * operbtions.
+ * @seribl include
  *
  * @since 1.5
  */
-class BinaryOpValueExp extends QueryEval implements ValueExp {
+clbss BinbryOpVblueExp extends QueryEvbl implements VblueExp {
 
-    /* Serial version */
-    private static final long serialVersionUID = 1216286847881456786L;
-
-    /**
-     * @serial The operator
-     */
-    private int op;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = 1216286847881456786L;
 
     /**
-     * @serial The first value
+     * @seribl The operbtor
      */
-    private ValueExp exp1;
+    privbte int op;
 
     /**
-     * @serial The second value
+     * @seribl The first vblue
      */
-    private ValueExp exp2;
+    privbte VblueExp exp1;
+
+    /**
+     * @seribl The second vblue
+     */
+    privbte VblueExp exp2;
 
 
     /**
-     * Basic Constructor.
+     * Bbsic Constructor.
      */
-    public BinaryOpValueExp() {
+    public BinbryOpVblueExp() {
     }
 
     /**
-     * Creates a new BinaryOpValueExp using operator o applied on v1 and
-     * v2 values.
+     * Crebtes b new BinbryOpVblueExp using operbtor o bpplied on v1 bnd
+     * v2 vblues.
      */
-    public BinaryOpValueExp(int o, ValueExp v1, ValueExp v2) {
+    public BinbryOpVblueExp(int o, VblueExp v1, VblueExp v2) {
         op   = o;
         exp1 = v1;
         exp2 = v2;
@@ -72,94 +72,94 @@ class BinaryOpValueExp extends QueryEval implements ValueExp {
 
 
     /**
-     * Returns the operator of the value expression.
+     * Returns the operbtor of the vblue expression.
      */
-    public int getOperator()  {
+    public int getOperbtor()  {
         return op;
     }
 
     /**
-     * Returns the left value of the value expression.
+     * Returns the left vblue of the vblue expression.
      */
-    public ValueExp getLeftValue()  {
+    public VblueExp getLeftVblue()  {
         return exp1;
     }
 
     /**
-     * Returns the right value of the value expression.
+     * Returns the right vblue of the vblue expression.
      */
-    public ValueExp getRightValue()  {
+    public VblueExp getRightVblue()  {
         return exp2;
     }
 
     /**
-     * Applies the BinaryOpValueExp on a MBean.
+     * Applies the BinbryOpVblueExp on b MBebn.
      *
-     * @param name The name of the MBean on which the BinaryOpValueExp will be applied.
+     * @pbrbm nbme The nbme of the MBebn on which the BinbryOpVblueExp will be bpplied.
      *
-     * @return  The ValueExp.
+     * @return  The VblueExp.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @exception BbdStringOperbtionException
+     * @exception BbdBinbryOpVblueExpException
+     * @exception BbdAttributeVblueExpException
+     * @exception InvblidApplicbtionException
      */
-    public ValueExp apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
-        BadAttributeValueExpException, InvalidApplicationException  {
-        ValueExp val1 = exp1.apply(name);
-        ValueExp val2 = exp2.apply(name);
-        String sval1;
-        String sval2;
-        double dval1;
-        double dval2;
-        long   lval1;
-        long   lval2;
-        boolean numeric = val1 instanceof NumericValueExp;
+    public VblueExp bpply(ObjectNbme nbme) throws BbdStringOperbtionException, BbdBinbryOpVblueExpException,
+        BbdAttributeVblueExpException, InvblidApplicbtionException  {
+        VblueExp vbl1 = exp1.bpply(nbme);
+        VblueExp vbl2 = exp2.bpply(nbme);
+        String svbl1;
+        String svbl2;
+        double dvbl1;
+        double dvbl2;
+        long   lvbl1;
+        long   lvbl2;
+        boolebn numeric = vbl1 instbnceof NumericVblueExp;
 
         if (numeric) {
-            if (((NumericValueExp)val1).isLong()) {
-                lval1 = ((NumericValueExp)val1).longValue();
-                lval2 = ((NumericValueExp)val2).longValue();
+            if (((NumericVblueExp)vbl1).isLong()) {
+                lvbl1 = ((NumericVblueExp)vbl1).longVblue();
+                lvbl2 = ((NumericVblueExp)vbl2).longVblue();
 
                 switch (op) {
-                case Query.PLUS:
-                    return Query.value(lval1 + lval2);
-                case Query.TIMES:
-                    return Query.value(lval1 * lval2);
-                case Query.MINUS:
-                    return Query.value(lval1 - lval2);
-                case Query.DIV:
-                    return Query.value(lval1 / lval2);
+                cbse Query.PLUS:
+                    return Query.vblue(lvbl1 + lvbl2);
+                cbse Query.TIMES:
+                    return Query.vblue(lvbl1 * lvbl2);
+                cbse Query.MINUS:
+                    return Query.vblue(lvbl1 - lvbl2);
+                cbse Query.DIV:
+                    return Query.vblue(lvbl1 / lvbl2);
                 }
 
             } else {
-                dval1 = ((NumericValueExp)val1).doubleValue();
-                dval2 = ((NumericValueExp)val2).doubleValue();
+                dvbl1 = ((NumericVblueExp)vbl1).doubleVblue();
+                dvbl2 = ((NumericVblueExp)vbl2).doubleVblue();
 
                 switch (op) {
-                case Query.PLUS:
-                    return Query.value(dval1 + dval2);
-                case Query.TIMES:
-                    return Query.value(dval1 * dval2);
-                case Query.MINUS:
-                    return Query.value(dval1 - dval2);
-                case Query.DIV:
-                    return Query.value(dval1 / dval2);
+                cbse Query.PLUS:
+                    return Query.vblue(dvbl1 + dvbl2);
+                cbse Query.TIMES:
+                    return Query.vblue(dvbl1 * dvbl2);
+                cbse Query.MINUS:
+                    return Query.vblue(dvbl1 - dvbl2);
+                cbse Query.DIV:
+                    return Query.vblue(dvbl1 / dvbl2);
                 }
             }
         } else {
-            sval1 = ((StringValueExp)val1).getValue();
-            sval2 = ((StringValueExp)val2).getValue();
+            svbl1 = ((StringVblueExp)vbl1).getVblue();
+            svbl2 = ((StringVblueExp)vbl2).getVblue();
 
             switch (op) {
-            case Query.PLUS:
-                return new StringValueExp(sval1 + sval2);
-            default:
-                throw new BadStringOperationException(opString());
+            cbse Query.PLUS:
+                return new StringVblueExp(svbl1 + svbl2);
+            defbult:
+                throw new BbdStringOperbtionException(opString());
             }
         }
 
-        throw new BadBinaryOpValueExpException(this);
+        throw new BbdBinbryOpVblueExpException(this);
     }
 
     /**
@@ -167,37 +167,37 @@ class BinaryOpValueExp extends QueryEval implements ValueExp {
      */
     public String toString()  {
         try {
-            return parens(exp1, true) + " " + opString() + " " + parens(exp2, false);
-        } catch (BadBinaryOpValueExpException ex) {
-            return "invalid expression";
+            return pbrens(exp1, true) + " " + opString() + " " + pbrens(exp2, fblse);
+        } cbtch (BbdBinbryOpVblueExpException ex) {
+            return "invblid expression";
         }
     }
 
     /*
-     * Add parentheses to the given subexpression if necessary to
-     * preserve meaning.  Suppose this BinaryOpValueExp is
-     * Query.times(Query.plus(Query.attr("A"), Query.attr("B")), Query.attr("C")).
-     * Then the original toString() logic would return A + B * C.
+     * Add pbrentheses to the given subexpression if necessbry to
+     * preserve mebning.  Suppose this BinbryOpVblueExp is
+     * Query.times(Query.plus(Query.bttr("A"), Query.bttr("B")), Query.bttr("C")).
+     * Then the originbl toString() logic would return A + B * C.
      * We check precedences in order to return (A + B) * C, which is the
-     * meaning of the ValueExp.
+     * mebning of the VblueExp.
      *
-     * We need to add parentheses if the unparenthesized expression would
-     * be parsed as a different ValueExp from the original.
-     * We cannot omit parentheses even when mathematically
-     * the result would be equivalent, because we do not know whether the
-     * numeric values will be integer or floating-point.  Addition and
-     * multiplication are associative for integers but not always for
-     * floating-point.
+     * We need to bdd pbrentheses if the unpbrenthesized expression would
+     * be pbrsed bs b different VblueExp from the originbl.
+     * We cbnnot omit pbrentheses even when mbthembticblly
+     * the result would be equivblent, becbuse we do not know whether the
+     * numeric vblues will be integer or flobting-point.  Addition bnd
+     * multiplicbtion bre bssocibtive for integers but not blwbys for
+     * flobting-point.
      *
-     * So the rule is that we omit parentheses if the ValueExp
-     * is (A op1 B) op2 C and the precedence of op1 is greater than or
-     * equal to that of op2; or if the ValueExp is A op1 (B op2 C) and
-     * the precedence of op2 is greater than that of op1.  (There are two
-     * precedences: that of * and / is greater than that of + and -.)
-     * The case of (A op1 B) op2 (C op3 D) applies each rule in turn.
+     * So the rule is thbt we omit pbrentheses if the VblueExp
+     * is (A op1 B) op2 C bnd the precedence of op1 is grebter thbn or
+     * equbl to thbt of op2; or if the VblueExp is A op1 (B op2 C) bnd
+     * the precedence of op2 is grebter thbn thbt of op1.  (There bre two
+     * precedences: thbt of * bnd / is grebter thbn thbt of + bnd -.)
+     * The cbse of (A op1 B) op2 (C op3 D) bpplies ebch rule in turn.
      *
-     * The following examples show the rules in action.  On the left,
-     * the original ValueExp.  On the right, the string representation.
+     * The following exbmples show the rules in bction.  On the left,
+     * the originbl VblueExp.  On the right, the string representbtion.
      *
      * (A + B) + C     A + B + C
      * (A * B) + C     A * B + C
@@ -208,11 +208,11 @@ class BinaryOpValueExp extends QueryEval implements ValueExp {
      * A * (B + C)     A * (B + C)
      * A * (B * C)     A * (B * C)
      */
-    private String parens(ValueExp subexp, boolean left)
-    throws BadBinaryOpValueExpException {
-        boolean omit;
-        if (subexp instanceof BinaryOpValueExp) {
-            int subop = ((BinaryOpValueExp) subexp).op;
+    privbte String pbrens(VblueExp subexp, boolebn left)
+    throws BbdBinbryOpVblueExpException {
+        boolebn omit;
+        if (subexp instbnceof BinbryOpVblueExp) {
+            int subop = ((BinbryOpVblueExp) subexp).op;
             if (left)
                 omit = (precedence(subop) >= precedence(op));
             else
@@ -226,32 +226,32 @@ class BinaryOpValueExp extends QueryEval implements ValueExp {
             return "(" + subexp + ")";
     }
 
-    private int precedence(int xop) throws BadBinaryOpValueExpException {
+    privbte int precedence(int xop) throws BbdBinbryOpVblueExpException {
         switch (xop) {
-            case Query.PLUS: case Query.MINUS: return 0;
-            case Query.TIMES: case Query.DIV: return 1;
-            default:
-                throw new BadBinaryOpValueExpException(this);
+            cbse Query.PLUS: cbse Query.MINUS: return 0;
+            cbse Query.TIMES: cbse Query.DIV: return 1;
+            defbult:
+                throw new BbdBinbryOpVblueExpException(this);
         }
     }
 
-    private String opString() throws BadBinaryOpValueExpException {
+    privbte String opString() throws BbdBinbryOpVblueExpException {
         switch (op) {
-        case Query.PLUS:
+        cbse Query.PLUS:
             return "+";
-        case Query.TIMES:
+        cbse Query.TIMES:
             return "*";
-        case Query.MINUS:
+        cbse Query.MINUS:
             return "-";
-        case Query.DIV:
+        cbse Query.DIV:
             return "/";
         }
 
-        throw new BadBinaryOpValueExpException(this);
+        throw new BbdBinbryOpVblueExpException(this);
     }
 
-    @Deprecated
-    public void setMBeanServer(MBeanServer s) {
-        super.setMBeanServer(s);
+    @Deprecbted
+    public void setMBebnServer(MBebnServer s) {
+        super.setMBebnServer(s);
      }
  }

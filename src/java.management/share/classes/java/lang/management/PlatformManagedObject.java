@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * A platform managed object is a {@linkplain javax.management.MXBean JMX MXBean}
- * for monitoring and managing a component in the Java platform.
- * Each platform managed object has a unique
- * <a href="ManagementFactory.html#MXBean">object name</a>
- * for the {@linkplain ManagementFactory#getPlatformMBeanServer
- * platform MBeanServer} access.
- * All platform MXBeans will implement this interface.
+ * A plbtform mbnbged object is b {@linkplbin jbvbx.mbnbgement.MXBebn JMX MXBebn}
+ * for monitoring bnd mbnbging b component in the Jbvb plbtform.
+ * Ebch plbtform mbnbged object hbs b unique
+ * <b href="MbnbgementFbctory.html#MXBebn">object nbme</b>
+ * for the {@linkplbin MbnbgementFbctory#getPlbtformMBebnServer
+ * plbtform MBebnServer} bccess.
+ * All plbtform MXBebns will implement this interfbce.
  *
  * <p>
  * Note:
- * The platform MXBean interfaces (i.e. all subinterfaces
- * of {@code PlatformManagedObject}) are implemented
- * by the Java platform only.  New methods may be added in these interfaces
- * in future Java SE releases.
- * In addition, this {@code PlatformManagedObject} interface is only
- * intended for the management interfaces for the platform to extend but
- * not for applications.
+ * The plbtform MXBebn interfbces (i.e. bll subinterfbces
+ * of {@code PlbtformMbnbgedObject}) bre implemented
+ * by the Jbvb plbtform only.  New methods mby be bdded in these interfbces
+ * in future Jbvb SE relebses.
+ * In bddition, this {@code PlbtformMbnbgedObject} interfbce is only
+ * intended for the mbnbgement interfbces for the plbtform to extend but
+ * not for bpplicbtions.
  *
- * @see ManagementFactory
+ * @see MbnbgementFbctory
  * @since 1.7
  */
-public interface PlatformManagedObject {
+public interfbce PlbtformMbnbgedObject {
     /**
-     * Returns an {@link ObjectName ObjectName} instance representing
-     * the object name of this platform managed object.
+     * Returns bn {@link ObjectNbme ObjectNbme} instbnce representing
+     * the object nbme of this plbtform mbnbged object.
      *
-     * @return an {@link ObjectName ObjectName} instance representing
-     * the object name of this platform managed object.
+     * @return bn {@link ObjectNbme ObjectNbme} instbnce representing
+     * the object nbme of this plbtform mbnbged object.
      */
-    public ObjectName getObjectName();
+    public ObjectNbme getObjectNbme();
 }

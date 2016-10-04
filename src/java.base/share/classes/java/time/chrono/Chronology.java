@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,209 +59,209 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import java.time.Clock;
-import java.time.DateTimeException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.ResolverStyle;
-import java.time.format.TextStyle;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import jbvb.time.Clock;
+import jbvb.time.DbteTimeException;
+import jbvb.time.Instbnt;
+import jbvb.time.LocblDbte;
+import jbvb.time.LocblTime;
+import jbvb.time.ZoneId;
+import jbvb.time.formbt.DbteTimeFormbtterBuilder;
+import jbvb.time.formbt.ResolverStyle;
+import jbvb.time.formbt.TextStyle;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
+import jbvb.util.Set;
 
 /**
- * A calendar system, used to organize and identify dates.
+ * A cblendbr system, used to orgbnize bnd identify dbtes.
  * <p>
- * The main date and time API is built on the ISO calendar system.
- * The chronology operates behind the scenes to represent the general concept of a calendar system.
- * For example, the Japanese, Minguo, Thai Buddhist and others.
+ * The mbin dbte bnd time API is built on the ISO cblendbr system.
+ * The chronology operbtes behind the scenes to represent the generbl concept of b cblendbr system.
+ * For exbmple, the Jbpbnese, Minguo, Thbi Buddhist bnd others.
  * <p>
- * Most other calendar systems also operate on the shared concepts of year, month and day,
- * linked to the cycles of the Earth around the Sun, and the Moon around the Earth.
- * These shared concepts are defined by {@link ChronoField} and are available
- * for use by any {@code Chronology} implementation:
+ * Most other cblendbr systems blso operbte on the shbred concepts of yebr, month bnd dby,
+ * linked to the cycles of the Ebrth bround the Sun, bnd the Moon bround the Ebrth.
+ * These shbred concepts bre defined by {@link ChronoField} bnd bre bvbilbble
+ * for use by bny {@code Chronology} implementbtion:
  * <pre>
- *   LocalDate isoDate = ...
- *   ThaiBuddhistDate thaiDate = ...
- *   int isoYear = isoDate.get(ChronoField.YEAR);
- *   int thaiYear = thaiDate.get(ChronoField.YEAR);
+ *   LocblDbte isoDbte = ...
+ *   ThbiBuddhistDbte thbiDbte = ...
+ *   int isoYebr = isoDbte.get(ChronoField.YEAR);
+ *   int thbiYebr = thbiDbte.get(ChronoField.YEAR);
  * </pre>
- * As shown, although the date objects are in different calendar systems, represented by different
- * {@code Chronology} instances, both can be queried using the same constant on {@code ChronoField}.
- * For a full discussion of the implications of this, see {@link ChronoLocalDate}.
- * In general, the advice is to use the known ISO-based {@code LocalDate}, rather than
- * {@code ChronoLocalDate}.
+ * As shown, blthough the dbte objects bre in different cblendbr systems, represented by different
+ * {@code Chronology} instbnces, both cbn be queried using the sbme constbnt on {@code ChronoField}.
+ * For b full discussion of the implicbtions of this, see {@link ChronoLocblDbte}.
+ * In generbl, the bdvice is to use the known ISO-bbsed {@code LocblDbte}, rbther thbn
+ * {@code ChronoLocblDbte}.
  * <p>
- * While a {@code Chronology} object typically uses {@code ChronoField} and is based on
- * an era, year-of-era, month-of-year, day-of-month model of a date, this is not required.
- * A {@code Chronology} instance may represent a totally different kind of calendar system,
- * such as the Mayan.
+ * While b {@code Chronology} object typicblly uses {@code ChronoField} bnd is bbsed on
+ * bn erb, yebr-of-erb, month-of-yebr, dby-of-month model of b dbte, this is not required.
+ * A {@code Chronology} instbnce mby represent b totblly different kind of cblendbr system,
+ * such bs the Mbybn.
  * <p>
- * In practical terms, the {@code Chronology} instance also acts as a factory.
- * The {@link #of(String)} method allows an instance to be looked up by identifier,
- * while the {@link #ofLocale(Locale)} method allows lookup by locale.
+ * In prbcticbl terms, the {@code Chronology} instbnce blso bcts bs b fbctory.
+ * The {@link #of(String)} method bllows bn instbnce to be looked up by identifier,
+ * while the {@link #ofLocble(Locble)} method bllows lookup by locble.
  * <p>
- * The {@code Chronology} instance provides a set of methods to create {@code ChronoLocalDate} instances.
- * The date classes are used to manipulate specific dates.
+ * The {@code Chronology} instbnce provides b set of methods to crebte {@code ChronoLocblDbte} instbnces.
+ * The dbte clbsses bre used to mbnipulbte specific dbtes.
  * <ul>
- * <li> {@link #dateNow() dateNow()}
- * <li> {@link #dateNow(Clock) dateNow(clock)}
- * <li> {@link #dateNow(ZoneId) dateNow(zone)}
- * <li> {@link #date(int, int, int) date(yearProleptic, month, day)}
- * <li> {@link #date(Era, int, int, int) date(era, yearOfEra, month, day)}
- * <li> {@link #dateYearDay(int, int) dateYearDay(yearProleptic, dayOfYear)}
- * <li> {@link #dateYearDay(Era, int, int) dateYearDay(era, yearOfEra, dayOfYear)}
- * <li> {@link #date(TemporalAccessor) date(TemporalAccessor)}
+ * <li> {@link #dbteNow() dbteNow()}
+ * <li> {@link #dbteNow(Clock) dbteNow(clock)}
+ * <li> {@link #dbteNow(ZoneId) dbteNow(zone)}
+ * <li> {@link #dbte(int, int, int) dbte(yebrProleptic, month, dby)}
+ * <li> {@link #dbte(Erb, int, int, int) dbte(erb, yebrOfErb, month, dby)}
+ * <li> {@link #dbteYebrDby(int, int) dbteYebrDby(yebrProleptic, dbyOfYebr)}
+ * <li> {@link #dbteYebrDby(Erb, int, int) dbteYebrDby(erb, yebrOfErb, dbyOfYebr)}
+ * <li> {@link #dbte(TemporblAccessor) dbte(TemporblAccessor)}
  * </ul>
  *
- * <h3 id="addcalendars">Adding New Calendars</h3>
- * The set of available chronologies can be extended by applications.
- * Adding a new calendar system requires the writing of an implementation of
- * {@code Chronology}, {@code ChronoLocalDate} and {@code Era}.
- * The majority of the logic specific to the calendar system will be in the
- * {@code ChronoLocalDate} implementation.
- * The {@code Chronology} implementation acts as a factory.
+ * <h3 id="bddcblendbrs">Adding New Cblendbrs</h3>
+ * The set of bvbilbble chronologies cbn be extended by bpplicbtions.
+ * Adding b new cblendbr system requires the writing of bn implementbtion of
+ * {@code Chronology}, {@code ChronoLocblDbte} bnd {@code Erb}.
+ * The mbjority of the logic specific to the cblendbr system will be in the
+ * {@code ChronoLocblDbte} implementbtion.
+ * The {@code Chronology} implementbtion bcts bs b fbctory.
  * <p>
- * To permit the discovery of additional chronologies, the {@link java.util.ServiceLoader ServiceLoader}
- * is used. A file must be added to the {@code META-INF/services} directory with the
- * name 'java.time.chrono.Chronology' listing the implementation classes.
- * See the ServiceLoader for more details on service loading.
- * For lookup by id or calendarType, the system provided calendars are found
- * first followed by application provided calendars.
+ * To permit the discovery of bdditionbl chronologies, the {@link jbvb.util.ServiceLobder ServiceLobder}
+ * is used. A file must be bdded to the {@code META-INF/services} directory with the
+ * nbme 'jbvb.time.chrono.Chronology' listing the implementbtion clbsses.
+ * See the ServiceLobder for more detbils on service lobding.
+ * For lookup by id or cblendbrType, the system provided cblendbrs bre found
+ * first followed by bpplicbtion provided cblendbrs.
  * <p>
- * Each chronology must define a chronology ID that is unique within the system.
- * If the chronology represents a calendar system defined by the
- * CLDR specification then the calendar type is the concatenation of the
- * CLDR type and, if applicable, the CLDR variant,
+ * Ebch chronology must define b chronology ID thbt is unique within the system.
+ * If the chronology represents b cblendbr system defined by the
+ * CLDR specificbtion then the cblendbr type is the concbtenbtion of the
+ * CLDR type bnd, if bpplicbble, the CLDR vbribnt,
  *
  * @implSpec
- * This interface must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
- * Subclasses should be Serializable wherever possible.
+ * This interfbce must be implemented with cbre to ensure other clbsses operbte correctly.
+ * All implementbtions thbt cbn be instbntibted must be finbl, immutbble bnd threbd-sbfe.
+ * Subclbsses should be Seriblizbble wherever possible.
  *
  * @since 1.8
  */
-public interface Chronology extends Comparable<Chronology> {
+public interfbce Chronology extends Compbrbble<Chronology> {
 
     /**
-     * Obtains an instance of {@code Chronology} from a temporal object.
+     * Obtbins bn instbnce of {@code Chronology} from b temporbl object.
      * <p>
-     * This obtains a chronology based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code Chronology}.
+     * This obtbins b chronology bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code Chronology}.
      * <p>
-     * The conversion will obtain the chronology using {@link TemporalQueries#chronology()}.
-     * If the specified temporal object does not have a chronology, {@link IsoChronology} is returned.
+     * The conversion will obtbin the chronology using {@link TemporblQueries#chronology()}.
+     * If the specified temporbl object does not hbve b chronology, {@link IsoChronology} is returned.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code Chronology::from}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code Chronology::from}.
      *
-     * @param temporal  the temporal to convert, not null
+     * @pbrbm temporbl  the temporbl to convert, not null
      * @return the chronology, not null
-     * @throws DateTimeException if unable to convert to an {@code Chronology}
+     * @throws DbteTimeException if unbble to convert to bn {@code Chronology}
      */
-    static Chronology from(TemporalAccessor temporal) {
-        Objects.requireNonNull(temporal, "temporal");
-        Chronology obj = temporal.query(TemporalQueries.chronology());
+    stbtic Chronology from(TemporblAccessor temporbl) {
+        Objects.requireNonNull(temporbl, "temporbl");
+        Chronology obj = temporbl.query(TemporblQueries.chronology());
         return (obj != null ? obj : IsoChronology.INSTANCE);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Chronology} from a locale.
+     * Obtbins bn instbnce of {@code Chronology} from b locble.
      * <p>
-     * This returns a {@code Chronology} based on the specified locale,
-     * typically returning {@code IsoChronology}. Other calendar systems
-     * are only returned if they are explicitly selected within the locale.
+     * This returns b {@code Chronology} bbsed on the specified locble,
+     * typicblly returning {@code IsoChronology}. Other cblendbr systems
+     * bre only returned if they bre explicitly selected within the locble.
      * <p>
-     * The {@link Locale} class provide access to a range of information useful
-     * for localizing an application. This includes the language and region,
-     * such as "en-GB" for English as used in Great Britain.
+     * The {@link Locble} clbss provide bccess to b rbnge of informbtion useful
+     * for locblizing bn bpplicbtion. This includes the lbngubge bnd region,
+     * such bs "en-GB" for English bs used in Grebt Britbin.
      * <p>
-     * The {@code Locale} class also supports an extension mechanism that
-     * can be used to identify a calendar system. The mechanism is a form
-     * of key-value pairs, where the calendar system has the key "ca".
-     * For example, the locale "en-JP-u-ca-japanese" represents the English
-     * language as used in Japan with the Japanese calendar system.
+     * The {@code Locble} clbss blso supports bn extension mechbnism thbt
+     * cbn be used to identify b cblendbr system. The mechbnism is b form
+     * of key-vblue pbirs, where the cblendbr system hbs the key "cb".
+     * For exbmple, the locble "en-JP-u-cb-jbpbnese" represents the English
+     * lbngubge bs used in Jbpbn with the Jbpbnese cblendbr system.
      * <p>
-     * This method finds the desired calendar system by in a manner equivalent
-     * to passing "ca" to {@link Locale#getUnicodeLocaleType(String)}.
-     * If the "ca" key is not present, then {@code IsoChronology} is returned.
+     * This method finds the desired cblendbr system by in b mbnner equivblent
+     * to pbssing "cb" to {@link Locble#getUnicodeLocbleType(String)}.
+     * If the "cb" key is not present, then {@code IsoChronology} is returned.
      * <p>
-     * Note that the behavior of this method differs from the older
-     * {@link java.util.Calendar#getInstance(Locale)} method.
-     * If that method receives a locale of "th_TH" it will return {@code BuddhistCalendar}.
-     * By contrast, this method will return {@code IsoChronology}.
-     * Passing the locale "th-TH-u-ca-buddhist" into either method will
-     * result in the Thai Buddhist calendar system and is therefore the
-     * recommended approach going forward for Thai calendar system localization.
+     * Note thbt the behbvior of this method differs from the older
+     * {@link jbvb.util.Cblendbr#getInstbnce(Locble)} method.
+     * If thbt method receives b locble of "th_TH" it will return {@code BuddhistCblendbr}.
+     * By contrbst, this method will return {@code IsoChronology}.
+     * Pbssing the locble "th-TH-u-cb-buddhist" into either method will
+     * result in the Thbi Buddhist cblendbr system bnd is therefore the
+     * recommended bpprobch going forwbrd for Thbi cblendbr system locblizbtion.
      * <p>
-     * A similar, but simpler, situation occurs for the Japanese calendar system.
-     * The locale "jp_JP_JP" has previously been used to access the calendar.
-     * However, unlike the Thai locale, "ja_JP_JP" is automatically converted by
-     * {@code Locale} to the modern and recommended form of "ja-JP-u-ca-japanese".
-     * Thus, there is no difference in behavior between this method and
-     * {@code Calendar#getInstance(Locale)}.
+     * A similbr, but simpler, situbtion occurs for the Jbpbnese cblendbr system.
+     * The locble "jp_JP_JP" hbs previously been used to bccess the cblendbr.
+     * However, unlike the Thbi locble, "jb_JP_JP" is butombticblly converted by
+     * {@code Locble} to the modern bnd recommended form of "jb-JP-u-cb-jbpbnese".
+     * Thus, there is no difference in behbvior between this method bnd
+     * {@code Cblendbr#getInstbnce(Locble)}.
      *
-     * @param locale  the locale to use to obtain the calendar system, not null
-     * @return the calendar system associated with the locale, not null
-     * @throws DateTimeException if the locale-specified calendar cannot be found
+     * @pbrbm locble  the locble to use to obtbin the cblendbr system, not null
+     * @return the cblendbr system bssocibted with the locble, not null
+     * @throws DbteTimeException if the locble-specified cblendbr cbnnot be found
      */
-    static Chronology ofLocale(Locale locale) {
-        return AbstractChronology.ofLocale(locale);
+    stbtic Chronology ofLocble(Locble locble) {
+        return AbstrbctChronology.ofLocble(locble);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Chronology} from a chronology ID or
-     * calendar system type.
+     * Obtbins bn instbnce of {@code Chronology} from b chronology ID or
+     * cblendbr system type.
      * <p>
-     * This returns a chronology based on either the ID or the type.
+     * This returns b chronology bbsed on either the ID or the type.
      * The {@link #getId() chronology ID} uniquely identifies the chronology.
-     * The {@link #getCalendarType() calendar system type} is defined by the
-     * CLDR specification.
+     * The {@link #getCblendbrType() cblendbr system type} is defined by the
+     * CLDR specificbtion.
      * <p>
-     * The chronology may be a system chronology or a chronology
-     * provided by the application via ServiceLoader configuration.
+     * The chronology mby be b system chronology or b chronology
+     * provided by the bpplicbtion vib ServiceLobder configurbtion.
      * <p>
-     * Since some calendars can be customized, the ID or type typically refers
-     * to the default customization. For example, the Gregorian calendar can have multiple
-     * cutover dates from the Julian, but the lookup only provides the default cutover date.
+     * Since some cblendbrs cbn be customized, the ID or type typicblly refers
+     * to the defbult customizbtion. For exbmple, the Gregoribn cblendbr cbn hbve multiple
+     * cutover dbtes from the Julibn, but the lookup only provides the defbult cutover dbte.
      *
-     * @param id  the chronology ID or calendar system type, not null
+     * @pbrbm id  the chronology ID or cblendbr system type, not null
      * @return the chronology with the identifier requested, not null
-     * @throws DateTimeException if the chronology cannot be found
+     * @throws DbteTimeException if the chronology cbnnot be found
      */
-    static Chronology of(String id) {
-        return AbstractChronology.of(id);
+    stbtic Chronology of(String id) {
+        return AbstrbctChronology.of(id);
     }
 
     /**
-     * Returns the available chronologies.
+     * Returns the bvbilbble chronologies.
      * <p>
-     * Each returned {@code Chronology} is available for use in the system.
-     * The set of chronologies includes the system chronologies and
-     * any chronologies provided by the application via ServiceLoader
-     * configuration.
+     * Ebch returned {@code Chronology} is bvbilbble for use in the system.
+     * The set of chronologies includes the system chronologies bnd
+     * bny chronologies provided by the bpplicbtion vib ServiceLobder
+     * configurbtion.
      *
-     * @return the independent, modifiable set of the available chronology IDs, not null
+     * @return the independent, modifibble set of the bvbilbble chronology IDs, not null
      */
-    static Set<Chronology> getAvailableChronologies() {
-        return AbstractChronology.getAvailableChronologies();
+    stbtic Set<Chronology> getAvbilbbleChronologies() {
+        return AbstrbctChronology.getAvbilbbleChronologies();
     }
 
     //-----------------------------------------------------------------------
@@ -269,484 +269,484 @@ public interface Chronology extends Comparable<Chronology> {
      * Gets the ID of the chronology.
      * <p>
      * The ID uniquely identifies the {@code Chronology}.
-     * It can be used to lookup the {@code Chronology} using {@link #of(String)}.
+     * It cbn be used to lookup the {@code Chronology} using {@link #of(String)}.
      *
      * @return the chronology ID, not null
-     * @see #getCalendarType()
+     * @see #getCblendbrType()
      */
     String getId();
 
     /**
-     * Gets the calendar type of the calendar system.
+     * Gets the cblendbr type of the cblendbr system.
      * <p>
-     * The calendar type is an identifier defined by the CLDR and
-     * <em>Unicode Locale Data Markup Language (LDML)</em> specifications
-     * to uniquely identification a calendar.
-     * The {@code getCalendarType} is the concatenation of the CLDR calendar type
-     * and the variant, if applicable, is appended separated by "-".
-     * The calendar type is used to lookup the {@code Chronology} using {@link #of(String)}.
+     * The cblendbr type is bn identifier defined by the CLDR bnd
+     * <em>Unicode Locble Dbtb Mbrkup Lbngubge (LDML)</em> specificbtions
+     * to uniquely identificbtion b cblendbr.
+     * The {@code getCblendbrType} is the concbtenbtion of the CLDR cblendbr type
+     * bnd the vbribnt, if bpplicbble, is bppended sepbrbted by "-".
+     * The cblendbr type is used to lookup the {@code Chronology} using {@link #of(String)}.
      *
-     * @return the calendar system type, null if the calendar is not defined by CLDR/LDML
+     * @return the cblendbr system type, null if the cblendbr is not defined by CLDR/LDML
      * @see #getId()
      */
-    String getCalendarType();
+    String getCblendbrType();
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a local date in this chronology from the era, year-of-era,
-     * month-of-year and day-of-month fields.
+     * Obtbins b locbl dbte in this chronology from the erb, yebr-of-erb,
+     * month-of-yebr bnd dby-of-month fields.
      *
      * @implSpec
-     * The default implementation combines the era and year-of-era into a proleptic
-     * year before calling {@link #date(int, int, int)}.
+     * The defbult implementbtion combines the erb bnd yebr-of-erb into b proleptic
+     * yebr before cblling {@link #dbte(int, int, int)}.
      *
-     * @param era  the era of the correct type for the chronology, not null
-     * @param yearOfEra  the chronology year-of-era
-     * @param month  the chronology month-of-year
-     * @param dayOfMonth  the chronology day-of-month
-     * @return the local date in this chronology, not null
-     * @throws DateTimeException if unable to create the date
-     * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
+     * @pbrbm erb  the erb of the correct type for the chronology, not null
+     * @pbrbm yebrOfErb  the chronology yebr-of-erb
+     * @pbrbm month  the chronology month-of-yebr
+     * @pbrbm dbyOfMonth  the chronology dby-of-month
+     * @return the locbl dbte in this chronology, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
+     * @throws ClbssCbstException if the {@code erb} is not of the correct type for the chronology
      */
-    default ChronoLocalDate date(Era era, int yearOfEra, int month, int dayOfMonth) {
-        return date(prolepticYear(era, yearOfEra), month, dayOfMonth);
+    defbult ChronoLocblDbte dbte(Erb erb, int yebrOfErb, int month, int dbyOfMonth) {
+        return dbte(prolepticYebr(erb, yebrOfErb), month, dbyOfMonth);
     }
 
     /**
-     * Obtains a local date in this chronology from the proleptic-year,
-     * month-of-year and day-of-month fields.
+     * Obtbins b locbl dbte in this chronology from the proleptic-yebr,
+     * month-of-yebr bnd dby-of-month fields.
      *
-     * @param prolepticYear  the chronology proleptic-year
-     * @param month  the chronology month-of-year
-     * @param dayOfMonth  the chronology day-of-month
-     * @return the local date in this chronology, not null
-     * @throws DateTimeException if unable to create the date
+     * @pbrbm prolepticYebr  the chronology proleptic-yebr
+     * @pbrbm month  the chronology month-of-yebr
+     * @pbrbm dbyOfMonth  the chronology dby-of-month
+     * @return the locbl dbte in this chronology, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
      */
-    ChronoLocalDate date(int prolepticYear, int month, int dayOfMonth);
+    ChronoLocblDbte dbte(int prolepticYebr, int month, int dbyOfMonth);
 
     /**
-     * Obtains a local date in this chronology from the era, year-of-era and
-     * day-of-year fields.
+     * Obtbins b locbl dbte in this chronology from the erb, yebr-of-erb bnd
+     * dby-of-yebr fields.
      *
      * @implSpec
-     * The default implementation combines the era and year-of-era into a proleptic
-     * year before calling {@link #dateYearDay(int, int)}.
+     * The defbult implementbtion combines the erb bnd yebr-of-erb into b proleptic
+     * yebr before cblling {@link #dbteYebrDby(int, int)}.
      *
-     * @param era  the era of the correct type for the chronology, not null
-     * @param yearOfEra  the chronology year-of-era
-     * @param dayOfYear  the chronology day-of-year
-     * @return the local date in this chronology, not null
-     * @throws DateTimeException if unable to create the date
-     * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
+     * @pbrbm erb  the erb of the correct type for the chronology, not null
+     * @pbrbm yebrOfErb  the chronology yebr-of-erb
+     * @pbrbm dbyOfYebr  the chronology dby-of-yebr
+     * @return the locbl dbte in this chronology, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
+     * @throws ClbssCbstException if the {@code erb} is not of the correct type for the chronology
      */
-    default ChronoLocalDate dateYearDay(Era era, int yearOfEra, int dayOfYear) {
-        return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear);
+    defbult ChronoLocblDbte dbteYebrDby(Erb erb, int yebrOfErb, int dbyOfYebr) {
+        return dbteYebrDby(prolepticYebr(erb, yebrOfErb), dbyOfYebr);
     }
 
     /**
-     * Obtains a local date in this chronology from the proleptic-year and
-     * day-of-year fields.
+     * Obtbins b locbl dbte in this chronology from the proleptic-yebr bnd
+     * dby-of-yebr fields.
      *
-     * @param prolepticYear  the chronology proleptic-year
-     * @param dayOfYear  the chronology day-of-year
-     * @return the local date in this chronology, not null
-     * @throws DateTimeException if unable to create the date
+     * @pbrbm prolepticYebr  the chronology proleptic-yebr
+     * @pbrbm dbyOfYebr  the chronology dby-of-yebr
+     * @return the locbl dbte in this chronology, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
      */
-    ChronoLocalDate dateYearDay(int prolepticYear, int dayOfYear);
+    ChronoLocblDbte dbteYebrDby(int prolepticYebr, int dbyOfYebr);
 
     /**
-     * Obtains a local date in this chronology from the epoch-day.
+     * Obtbins b locbl dbte in this chronology from the epoch-dby.
      * <p>
-     * The definition of {@link ChronoField#EPOCH_DAY EPOCH_DAY} is the same
-     * for all calendar systems, thus it can be used for conversion.
+     * The definition of {@link ChronoField#EPOCH_DAY EPOCH_DAY} is the sbme
+     * for bll cblendbr systems, thus it cbn be used for conversion.
      *
-     * @param epochDay  the epoch day
-     * @return the local date in this chronology, not null
-     * @throws DateTimeException if unable to create the date
+     * @pbrbm epochDby  the epoch dby
+     * @return the locbl dbte in this chronology, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
      */
-    ChronoLocalDate dateEpochDay(long epochDay);
+    ChronoLocblDbte dbteEpochDby(long epochDby);
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains the current local date in this chronology from the system clock in the default time-zone.
+     * Obtbins the current locbl dbte in this chronology from the system clock in the defbult time-zone.
      * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current date.
+     * This will query the {@link Clock#systemDefbultZone() system clock} in the defbult
+     * time-zone to obtbin the current dbte.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
      * @implSpec
-     * The default implementation invokes {@link #dateNow(Clock)}.
+     * The defbult implementbtion invokes {@link #dbteNow(Clock)}.
      *
-     * @return the current local date using the system clock and default time-zone, not null
-     * @throws DateTimeException if unable to create the date
+     * @return the current locbl dbte using the system clock bnd defbult time-zone, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
      */
-    default ChronoLocalDate dateNow() {
-        return dateNow(Clock.systemDefaultZone());
+    defbult ChronoLocblDbte dbteNow() {
+        return dbteNow(Clock.systemDefbultZone());
     }
 
     /**
-     * Obtains the current local date in this chronology from the system clock in the specified time-zone.
+     * Obtbins the current locbl dbte in this chronology from the system clock in the specified time-zone.
      * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current date.
-     * Specifying the time-zone avoids dependence on the default time-zone.
+     * This will query the {@link Clock#system(ZoneId) system clock} to obtbin the current dbte.
+     * Specifying the time-zone bvoids dependence on the defbult time-zone.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
      * @implSpec
-     * The default implementation invokes {@link #dateNow(Clock)}.
+     * The defbult implementbtion invokes {@link #dbteNow(Clock)}.
      *
-     * @param zone  the zone ID to use, not null
-     * @return the current local date using the system clock, not null
-     * @throws DateTimeException if unable to create the date
+     * @pbrbm zone  the zone ID to use, not null
+     * @return the current locbl dbte using the system clock, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
      */
-    default ChronoLocalDate dateNow(ZoneId zone) {
-        return dateNow(Clock.system(zone));
+    defbult ChronoLocblDbte dbteNow(ZoneId zone) {
+        return dbteNow(Clock.system(zone));
     }
 
     /**
-     * Obtains the current local date in this chronology from the specified clock.
+     * Obtbins the current locbl dbte in this chronology from the specified clock.
      * <p>
-     * This will query the specified clock to obtain the current date - today.
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@link Clock dependency injection}.
+     * This will query the specified clock to obtbin the current dbte - todby.
+     * Using this method bllows the use of bn blternbte clock for testing.
+     * The blternbte clock mby be introduced using {@link Clock dependency injection}.
      *
      * @implSpec
-     * The default implementation invokes {@link #date(TemporalAccessor)}.
+     * The defbult implementbtion invokes {@link #dbte(TemporblAccessor)}.
      *
-     * @param clock  the clock to use, not null
-     * @return the current local date, not null
-     * @throws DateTimeException if unable to create the date
+     * @pbrbm clock  the clock to use, not null
+     * @return the current locbl dbte, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
      */
-    default ChronoLocalDate dateNow(Clock clock) {
+    defbult ChronoLocblDbte dbteNow(Clock clock) {
         Objects.requireNonNull(clock, "clock");
-        return date(LocalDate.now(clock));
+        return dbte(LocblDbte.now(clock));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a local date in this chronology from another temporal object.
+     * Obtbins b locbl dbte in this chronology from bnother temporbl object.
      * <p>
-     * This obtains a date in this chronology based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code ChronoLocalDate}.
+     * This obtbins b dbte in this chronology bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code ChronoLocblDbte}.
      * <p>
-     * The conversion typically uses the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
-     * field, which is standardized across calendar systems.
+     * The conversion typicblly uses the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
+     * field, which is stbndbrdized bcross cblendbr systems.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code aChronology::date}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code bChronology::dbte}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the local date in this chronology, not null
-     * @throws DateTimeException if unable to create the date
-     * @see ChronoLocalDate#from(TemporalAccessor)
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the locbl dbte in this chronology, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
+     * @see ChronoLocblDbte#from(TemporblAccessor)
      */
-    ChronoLocalDate date(TemporalAccessor temporal);
+    ChronoLocblDbte dbte(TemporblAccessor temporbl);
 
     /**
-     * Obtains a local date-time in this chronology from another temporal object.
+     * Obtbins b locbl dbte-time in this chronology from bnother temporbl object.
      * <p>
-     * This obtains a date-time in this chronology based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code ChronoLocalDateTime}.
+     * This obtbins b dbte-time in this chronology bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code ChronoLocblDbteTime}.
      * <p>
-     * The conversion extracts and combines the {@code ChronoLocalDate} and the
-     * {@code LocalTime} from the temporal object.
-     * Implementations are permitted to perform optimizations such as accessing
-     * those fields that are equivalent to the relevant objects.
+     * The conversion extrbcts bnd combines the {@code ChronoLocblDbte} bnd the
+     * {@code LocblTime} from the temporbl object.
+     * Implementbtions bre permitted to perform optimizbtions such bs bccessing
+     * those fields thbt bre equivblent to the relevbnt objects.
      * The result uses this chronology.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code aChronology::localDateTime}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code bChronology::locblDbteTime}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the local date-time in this chronology, not null
-     * @throws DateTimeException if unable to create the date-time
-     * @see ChronoLocalDateTime#from(TemporalAccessor)
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the locbl dbte-time in this chronology, not null
+     * @throws DbteTimeException if unbble to crebte the dbte-time
+     * @see ChronoLocblDbteTime#from(TemporblAccessor)
      */
-    default ChronoLocalDateTime<? extends ChronoLocalDate> localDateTime(TemporalAccessor temporal) {
+    defbult ChronoLocblDbteTime<? extends ChronoLocblDbte> locblDbteTime(TemporblAccessor temporbl) {
         try {
-            return date(temporal).atTime(LocalTime.from(temporal));
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain ChronoLocalDateTime from TemporalAccessor: " + temporal.getClass(), ex);
+            return dbte(temporbl).btTime(LocblTime.from(temporbl));
+        } cbtch (DbteTimeException ex) {
+            throw new DbteTimeException("Unbble to obtbin ChronoLocblDbteTime from TemporblAccessor: " + temporbl.getClbss(), ex);
         }
     }
 
     /**
-     * Obtains a {@code ChronoZonedDateTime} in this chronology from another temporal object.
+     * Obtbins b {@code ChronoZonedDbteTime} in this chronology from bnother temporbl object.
      * <p>
-     * This obtains a zoned date-time in this chronology based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code ChronoZonedDateTime}.
+     * This obtbins b zoned dbte-time in this chronology bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code ChronoZonedDbteTime}.
      * <p>
-     * The conversion will first obtain a {@code ZoneId} from the temporal object,
-     * falling back to a {@code ZoneOffset} if necessary. It will then try to obtain
-     * an {@code Instant}, falling back to a {@code ChronoLocalDateTime} if necessary.
-     * The result will be either the combination of {@code ZoneId} or {@code ZoneOffset}
-     * with {@code Instant} or {@code ChronoLocalDateTime}.
-     * Implementations are permitted to perform optimizations such as accessing
-     * those fields that are equivalent to the relevant objects.
+     * The conversion will first obtbin b {@code ZoneId} from the temporbl object,
+     * fblling bbck to b {@code ZoneOffset} if necessbry. It will then try to obtbin
+     * bn {@code Instbnt}, fblling bbck to b {@code ChronoLocblDbteTime} if necessbry.
+     * The result will be either the combinbtion of {@code ZoneId} or {@code ZoneOffset}
+     * with {@code Instbnt} or {@code ChronoLocblDbteTime}.
+     * Implementbtions bre permitted to perform optimizbtions such bs bccessing
+     * those fields thbt bre equivblent to the relevbnt objects.
      * The result uses this chronology.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code aChronology::zonedDateTime}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code bChronology::zonedDbteTime}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the zoned date-time in this chronology, not null
-     * @throws DateTimeException if unable to create the date-time
-     * @see ChronoZonedDateTime#from(TemporalAccessor)
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the zoned dbte-time in this chronology, not null
+     * @throws DbteTimeException if unbble to crebte the dbte-time
+     * @see ChronoZonedDbteTime#from(TemporblAccessor)
      */
-    default ChronoZonedDateTime<? extends ChronoLocalDate> zonedDateTime(TemporalAccessor temporal) {
+    defbult ChronoZonedDbteTime<? extends ChronoLocblDbte> zonedDbteTime(TemporblAccessor temporbl) {
         try {
-            ZoneId zone = ZoneId.from(temporal);
+            ZoneId zone = ZoneId.from(temporbl);
             try {
-                Instant instant = Instant.from(temporal);
-                return zonedDateTime(instant, zone);
+                Instbnt instbnt = Instbnt.from(temporbl);
+                return zonedDbteTime(instbnt, zone);
 
-            } catch (DateTimeException ex1) {
-                ChronoLocalDateTimeImpl<?> cldt = ChronoLocalDateTimeImpl.ensureValid(this, localDateTime(temporal));
-                return ChronoZonedDateTimeImpl.ofBest(cldt, zone, null);
+            } cbtch (DbteTimeException ex1) {
+                ChronoLocblDbteTimeImpl<?> cldt = ChronoLocblDbteTimeImpl.ensureVblid(this, locblDbteTime(temporbl));
+                return ChronoZonedDbteTimeImpl.ofBest(cldt, zone, null);
             }
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain ChronoZonedDateTime from TemporalAccessor: " + temporal.getClass(), ex);
+        } cbtch (DbteTimeException ex) {
+            throw new DbteTimeException("Unbble to obtbin ChronoZonedDbteTime from TemporblAccessor: " + temporbl.getClbss(), ex);
         }
     }
 
     /**
-     * Obtains a {@code ChronoZonedDateTime} in this chronology from an {@code Instant}.
+     * Obtbins b {@code ChronoZonedDbteTime} in this chronology from bn {@code Instbnt}.
      * <p>
-     * This obtains a zoned date-time with the same instant as that specified.
+     * This obtbins b zoned dbte-time with the sbme instbnt bs thbt specified.
      *
-     * @param instant  the instant to create the date-time from, not null
-     * @param zone  the time-zone, not null
-     * @return the zoned date-time, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm instbnt  the instbnt to crebte the dbte-time from, not null
+     * @pbrbm zone  the time-zone, not null
+     * @return the zoned dbte-time, not null
+     * @throws DbteTimeException if the result exceeds the supported rbnge
      */
-    default ChronoZonedDateTime<? extends ChronoLocalDate> zonedDateTime(Instant instant, ZoneId zone) {
-        return ChronoZonedDateTimeImpl.ofInstant(this, instant, zone);
+    defbult ChronoZonedDbteTime<? extends ChronoLocblDbte> zonedDbteTime(Instbnt instbnt, ZoneId zone) {
+        return ChronoZonedDbteTimeImpl.ofInstbnt(this, instbnt, zone);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if the specified year is a leap year.
+     * Checks if the specified yebr is b lebp yebr.
      * <p>
-     * A leap-year is a year of a longer length than normal.
-     * The exact meaning is determined by the chronology according to the following constraints.
+     * A lebp-yebr is b yebr of b longer length thbn normbl.
+     * The exbct mebning is determined by the chronology bccording to the following constrbints.
      * <ul>
-     * <li>a leap-year must imply a year-length longer than a non leap-year.
-     * <li>a chronology that does not support the concept of a year must return false.
+     * <li>b lebp-yebr must imply b yebr-length longer thbn b non lebp-yebr.
+     * <li>b chronology thbt does not support the concept of b yebr must return fblse.
      * </ul>
      *
-     * @param prolepticYear  the proleptic-year to check, not validated for range
-     * @return true if the year is a leap year
+     * @pbrbm prolepticYebr  the proleptic-yebr to check, not vblidbted for rbnge
+     * @return true if the yebr is b lebp yebr
      */
-    boolean isLeapYear(long prolepticYear);
+    boolebn isLebpYebr(long prolepticYebr);
 
     /**
-     * Calculates the proleptic-year given the era and year-of-era.
+     * Cblculbtes the proleptic-yebr given the erb bnd yebr-of-erb.
      * <p>
-     * This combines the era and year-of-era into the single proleptic-year field.
+     * This combines the erb bnd yebr-of-erb into the single proleptic-yebr field.
      * <p>
-     * If the chronology makes active use of eras, such as {@code JapaneseChronology}
-     * then the year-of-era will be validated against the era.
-     * For other chronologies, validation is optional.
+     * If the chronology mbkes bctive use of erbs, such bs {@code JbpbneseChronology}
+     * then the yebr-of-erb will be vblidbted bgbinst the erb.
+     * For other chronologies, vblidbtion is optionbl.
      *
-     * @param era  the era of the correct type for the chronology, not null
-     * @param yearOfEra  the chronology year-of-era
-     * @return the proleptic-year
-     * @throws DateTimeException if unable to convert to a proleptic-year,
-     *  such as if the year is invalid for the era
-     * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
+     * @pbrbm erb  the erb of the correct type for the chronology, not null
+     * @pbrbm yebrOfErb  the chronology yebr-of-erb
+     * @return the proleptic-yebr
+     * @throws DbteTimeException if unbble to convert to b proleptic-yebr,
+     *  such bs if the yebr is invblid for the erb
+     * @throws ClbssCbstException if the {@code erb} is not of the correct type for the chronology
      */
-    int prolepticYear(Era era, int yearOfEra);
+    int prolepticYebr(Erb erb, int yebrOfErb);
 
     /**
-     * Creates the chronology era object from the numeric value.
+     * Crebtes the chronology erb object from the numeric vblue.
      * <p>
-     * The era is, conceptually, the largest division of the time-line.
-     * Most calendar systems have a single epoch dividing the time-line into two eras.
-     * However, some have multiple eras, such as one for the reign of each leader.
-     * The exact meaning is determined by the chronology according to the following constraints.
+     * The erb is, conceptublly, the lbrgest division of the time-line.
+     * Most cblendbr systems hbve b single epoch dividing the time-line into two erbs.
+     * However, some hbve multiple erbs, such bs one for the reign of ebch lebder.
+     * The exbct mebning is determined by the chronology bccording to the following constrbints.
      * <p>
-     * The era in use at 1970-01-01 must have the value 1.
-     * Later eras must have sequentially higher values.
-     * Earlier eras must have sequentially lower values.
-     * Each chronology must refer to an enum or similar singleton to provide the era values.
+     * The erb in use bt 1970-01-01 must hbve the vblue 1.
+     * Lbter erbs must hbve sequentiblly higher vblues.
+     * Ebrlier erbs must hbve sequentiblly lower vblues.
+     * Ebch chronology must refer to bn enum or similbr singleton to provide the erb vblues.
      * <p>
-     * This method returns the singleton era of the correct type for the specified era value.
+     * This method returns the singleton erb of the correct type for the specified erb vblue.
      *
-     * @param eraValue  the era value
-     * @return the calendar system era, not null
-     * @throws DateTimeException if unable to create the era
+     * @pbrbm erbVblue  the erb vblue
+     * @return the cblendbr system erb, not null
+     * @throws DbteTimeException if unbble to crebte the erb
      */
-    Era eraOf(int eraValue);
+    Erb erbOf(int erbVblue);
 
     /**
-     * Gets the list of eras for the chronology.
+     * Gets the list of erbs for the chronology.
      * <p>
-     * Most calendar systems have an era, within which the year has meaning.
-     * If the calendar system does not support the concept of eras, an empty
+     * Most cblendbr systems hbve bn erb, within which the yebr hbs mebning.
+     * If the cblendbr system does not support the concept of erbs, bn empty
      * list must be returned.
      *
-     * @return the list of eras for the chronology, may be immutable, not null
+     * @return the list of erbs for the chronology, mby be immutbble, not null
      */
-    List<Era> eras();
+    List<Erb> erbs();
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the range of valid values for the specified field.
+     * Gets the rbnge of vblid vblues for the specified field.
      * <p>
-     * All fields can be expressed as a {@code long} integer.
-     * This method returns an object that describes the valid range for that value.
+     * All fields cbn be expressed bs b {@code long} integer.
+     * This method returns bn object thbt describes the vblid rbnge for thbt vblue.
      * <p>
-     * Note that the result only describes the minimum and maximum valid values
-     * and it is important not to read too much into them. For example, there
-     * could be values within the range that are invalid for the field.
+     * Note thbt the result only describes the minimum bnd mbximum vblid vblues
+     * bnd it is importbnt not to rebd too much into them. For exbmple, there
+     * could be vblues within the rbnge thbt bre invblid for the field.
      * <p>
-     * This method will return a result whether or not the chronology supports the field.
+     * This method will return b result whether or not the chronology supports the field.
      *
-     * @param field  the field to get the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
+     * @pbrbm field  the field to get the rbnge for, not null
+     * @return the rbnge of vblid vblues for the field, not null
+     * @throws DbteTimeException if the rbnge for the field cbnnot be obtbined
      */
-    ValueRange range(ChronoField field);
+    VblueRbnge rbnge(ChronoField field);
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the textual representation of this chronology.
+     * Gets the textubl representbtion of this chronology.
      * <p>
-     * This returns the textual name used to identify the chronology,
-     * suitable for presentation to the user.
-     * The parameters control the style of the returned text and the locale.
+     * This returns the textubl nbme used to identify the chronology,
+     * suitbble for presentbtion to the user.
+     * The pbrbmeters control the style of the returned text bnd the locble.
      *
      * @implSpec
-     * The default implementation behaves as though the formatter was used to
-     * format the chronology textual name.
+     * The defbult implementbtion behbves bs though the formbtter wbs used to
+     * formbt the chronology textubl nbme.
      *
-     * @param style  the style of the text required, not null
-     * @param locale  the locale to use, not null
-     * @return the text value of the chronology, not null
+     * @pbrbm style  the style of the text required, not null
+     * @pbrbm locble  the locble to use, not null
+     * @return the text vblue of the chronology, not null
      */
-    default String getDisplayName(TextStyle style, Locale locale) {
-        TemporalAccessor temporal = new TemporalAccessor() {
+    defbult String getDisplbyNbme(TextStyle style, Locble locble) {
+        TemporblAccessor temporbl = new TemporblAccessor() {
             @Override
-            public boolean isSupported(TemporalField field) {
-                return false;
+            public boolebn isSupported(TemporblField field) {
+                return fblse;
             }
             @Override
-            public long getLong(TemporalField field) {
-                throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            public long getLong(TemporblField field) {
+                throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
             }
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             @Override
-            public <R> R query(TemporalQuery<R> query) {
-                if (query == TemporalQueries.chronology()) {
+            public <R> R query(TemporblQuery<R> query) {
+                if (query == TemporblQueries.chronology()) {
                     return (R) Chronology.this;
                 }
-                return TemporalAccessor.super.query(query);
+                return TemporblAccessor.super.query(query);
             }
         };
-        return new DateTimeFormatterBuilder().appendChronologyText(style).toFormatter(locale).format(temporal);
+        return new DbteTimeFormbtterBuilder().bppendChronologyText(style).toFormbtter(locble).formbt(temporbl);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Resolves parsed {@code ChronoField} values into a date during parsing.
+     * Resolves pbrsed {@code ChronoField} vblues into b dbte during pbrsing.
      * <p>
-     * Most {@code TemporalField} implementations are resolved using the
-     * resolve method on the field. By contrast, the {@code ChronoField} class
-     * defines fields that only have meaning relative to the chronology.
-     * As such, {@code ChronoField} date fields are resolved here in the
-     * context of a specific chronology.
+     * Most {@code TemporblField} implementbtions bre resolved using the
+     * resolve method on the field. By contrbst, the {@code ChronoField} clbss
+     * defines fields thbt only hbve mebning relbtive to the chronology.
+     * As such, {@code ChronoField} dbte fields bre resolved here in the
+     * context of b specific chronology.
      * <p>
-     * The default implementation, which explains typical resolve behaviour,
-     * is provided in {@link AbstractChronology}.
+     * The defbult implementbtion, which explbins typicbl resolve behbviour,
+     * is provided in {@link AbstrbctChronology}.
      *
-     * @param fieldValues  the map of fields to values, which can be updated, not null
-     * @param resolverStyle  the requested type of resolve, not null
-     * @return the resolved date, null if insufficient information to create a date
-     * @throws DateTimeException if the date cannot be resolved, typically
-     *  because of a conflict in the input data
+     * @pbrbm fieldVblues  the mbp of fields to vblues, which cbn be updbted, not null
+     * @pbrbm resolverStyle  the requested type of resolve, not null
+     * @return the resolved dbte, null if insufficient informbtion to crebte b dbte
+     * @throws DbteTimeException if the dbte cbnnot be resolved, typicblly
+     *  becbuse of b conflict in the input dbtb
      */
-    ChronoLocalDate resolveDate(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle);
+    ChronoLocblDbte resolveDbte(Mbp<TemporblField, Long> fieldVblues, ResolverStyle resolverStyle);
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a period for this chronology based on years, months and days.
+     * Obtbins b period for this chronology bbsed on yebrs, months bnd dbys.
      * <p>
-     * This returns a period tied to this chronology using the specified
-     * years, months and days.  All supplied chronologies use periods
-     * based on years, months and days, however the {@code ChronoPeriod} API
-     * allows the period to be represented using other units.
+     * This returns b period tied to this chronology using the specified
+     * yebrs, months bnd dbys.  All supplied chronologies use periods
+     * bbsed on yebrs, months bnd dbys, however the {@code ChronoPeriod} API
+     * bllows the period to be represented using other units.
      *
      * @implSpec
-     * The default implementation returns an implementation class suitable
-     * for most calendar systems. It is based solely on the three units.
-     * Normalization, addition and subtraction derive the number of months
-     * in a year from the {@link #range(ChronoField)}. If the number of
-     * months within a year is fixed, then the calculation approach for
-     * addition, subtraction and normalization is slightly different.
+     * The defbult implementbtion returns bn implementbtion clbss suitbble
+     * for most cblendbr systems. It is bbsed solely on the three units.
+     * Normblizbtion, bddition bnd subtrbction derive the number of months
+     * in b yebr from the {@link #rbnge(ChronoField)}. If the number of
+     * months within b yebr is fixed, then the cblculbtion bpprobch for
+     * bddition, subtrbction bnd normblizbtion is slightly different.
      * <p>
-     * If implementing an unusual calendar system that is not based on
-     * years, months and days, or where you want direct control, then
-     * the {@code ChronoPeriod} interface must be directly implemented.
+     * If implementing bn unusubl cblendbr system thbt is not bbsed on
+     * yebrs, months bnd dbys, or where you wbnt direct control, then
+     * the {@code ChronoPeriod} interfbce must be directly implemented.
      * <p>
-     * The returned period is immutable and thread-safe.
+     * The returned period is immutbble bnd threbd-sbfe.
      *
-     * @param years  the number of years, may be negative
-     * @param months  the number of years, may be negative
-     * @param days  the number of years, may be negative
+     * @pbrbm yebrs  the number of yebrs, mby be negbtive
+     * @pbrbm months  the number of yebrs, mby be negbtive
+     * @pbrbm dbys  the number of yebrs, mby be negbtive
      * @return the period in terms of this chronology, not null
      */
-    default ChronoPeriod period(int years, int months, int days) {
-        return new ChronoPeriodImpl(this, years, months, days);
+    defbult ChronoPeriod period(int yebrs, int months, int dbys) {
+        return new ChronoPeriodImpl(this, yebrs, months, dbys);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this chronology to another chronology.
+     * Compbres this chronology to bnother chronology.
      * <p>
-     * The comparison order first by the chronology ID string, then by any
-     * additional information specific to the subclass.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * The compbrison order first by the chronology ID string, then by bny
+     * bdditionbl informbtion specific to the subclbss.
+     * It is "consistent with equbls", bs defined by {@link Compbrbble}.
      *
-     * @param other  the other chronology to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm other  the other chronology to compbre to, not null
+     * @return the compbrbtor vblue, negbtive if less, positive if grebter
      */
     @Override
-    int compareTo(Chronology other);
+    int compbreTo(Chronology other);
 
     /**
-     * Checks if this chronology is equal to another chronology.
+     * Checks if this chronology is equbl to bnother chronology.
      * <p>
-     * The comparison is based on the entire state of the object.
+     * The compbrison is bbsed on the entire stbte of the object.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other chronology
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other chronology
      */
     @Override
-    boolean equals(Object obj);
+    boolebn equbls(Object obj);
 
     /**
-     * A hash code for this chronology.
+     * A hbsh code for this chronology.
      * <p>
-     * The hash code should be based on the entire state of the object.
+     * The hbsh code should be bbsed on the entire stbte of the object.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    int hashCode();
+    int hbshCode();
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this chronology as a {@code String}.
+     * Outputs this chronology bs b {@code String}.
      * <p>
-     * The format should include the entire state of the object.
+     * The formbt should include the entire stbte of the object.
      *
-     * @return a string representation of this chronology, not null
+     * @return b string representbtion of this chronology, not null
      */
     @Override
     String toString();

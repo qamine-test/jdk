@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.IOException;
-import java.security.spec.ECParameterSpec;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.io.IOException;
+import jbvb.security.spec.ECPbrbmeterSpec;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
-import javax.net.ssl.SSLProtocolException;
+import jbvbx.net.ssl.SSLProtocolException;
 
-final class SupportedEllipticCurvesExtension extends HelloExtension {
+finbl clbss SupportedEllipticCurvesExtension extends HelloExtension {
 
-    // the extension value to send in the ClientHello message
-    static final SupportedEllipticCurvesExtension DEFAULT;
+    // the extension vblue to send in the ClientHello messbge
+    stbtic finbl SupportedEllipticCurvesExtension DEFAULT;
 
-    private static final boolean fips;
+    privbte stbtic finbl boolebn fips;
 
-    static {
+    stbtic {
         int[] ids;
         fips = SunJSSE.isFIPS();
-        if (fips == false) {
+        if (fips == fblse) {
             ids = new int[] {
                 // NIST curves first
-                // prefer NIST P-256, rest in order of increasing key length
+                // prefer NIST P-256, rest in order of increbsing key length
                 23, 1, 3, 19, 21, 6, 7, 9, 10, 24, 11, 12, 25, 13, 14,
                 // non-NIST curves
                 15, 16, 17, 2, 18, 4, 5, 20, 8, 22,
             };
         } else {
             ids = new int[] {
-                // same as above, but allow only NIST curves in FIPS mode
+                // sbme bs bbove, but bllow only NIST curves in FIPS mode
                 23, 1, 3, 19, 21, 6, 7, 9, 10, 24, 11, 12, 25, 13, 14,
             };
         }
         DEFAULT = new SupportedEllipticCurvesExtension(ids);
     }
 
-    private final int[] curveIds;
+    privbte finbl int[] curveIds;
 
-    private SupportedEllipticCurvesExtension(int[] curveIds) {
+    privbte SupportedEllipticCurvesExtension(int[] curveIds) {
         super(ExtensionType.EXT_ELLIPTIC_CURVES);
         this.curveIds = curveIds;
     }
 
-    SupportedEllipticCurvesExtension(HandshakeInStream s, int len)
+    SupportedEllipticCurvesExtension(HbndshbkeInStrebm s, int len)
             throws IOException {
         super(ExtensionType.EXT_ELLIPTIC_CURVES);
         int k = s.getInt16();
         if (((len & 1) != 0) || (k + 2 != len)) {
-            throw new SSLProtocolException("Invalid " + type + " extension");
+            throw new SSLProtocolException("Invblid " + type + " extension");
         }
         curveIds = new int[k >> 1];
         for (int i = 0; i < curveIds.length; i++) {
@@ -79,17 +79,17 @@ final class SupportedEllipticCurvesExtension extends HelloExtension {
         }
     }
 
-    boolean contains(int index) {
+    boolebn contbins(int index) {
         for (int curveId : curveIds) {
             if (index == curveId) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    // Return a reference to the internal curveIds array.
-    // The caller must NOT modify the contents.
+    // Return b reference to the internbl curveIds brrby.
+    // The cbller must NOT modify the contents.
     int[] curveIds() {
         return curveIds;
     }
@@ -100,7 +100,7 @@ final class SupportedEllipticCurvesExtension extends HelloExtension {
     }
 
     @Override
-    void send(HandshakeOutStream s) throws IOException {
+    void send(HbndshbkeOutStrebm s) throws IOException {
         s.putInt16(type.id);
         int k = curveIds.length << 1;
         s.putInt16(k + 2);
@@ -113,52 +113,52 @@ final class SupportedEllipticCurvesExtension extends HelloExtension {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Extension " + type + ", curve names: {");
-        boolean first = true;
+        sb.bppend("Extension " + type + ", curve nbmes: {");
+        boolebn first = true;
         for (int curveId : curveIds) {
             if (first) {
-                first = false;
+                first = fblse;
             } else {
-                sb.append(", ");
+                sb.bppend(", ");
             }
-            // first check if it is a known named curve, then try other cases.
+            // first check if it is b known nbmed curve, then try other cbses.
             String oid = getCurveOid(curveId);
             if (oid != null) {
-                ECParameterSpec spec = JsseJce.getECParameterSpec(oid);
+                ECPbrbmeterSpec spec = JsseJce.getECPbrbmeterSpec(oid);
                 // this toString() output will look nice for the current
-                // implementation of the ECParameterSpec class in the Sun
-                // provider, but may not look good for other implementations.
+                // implementbtion of the ECPbrbmeterSpec clbss in the Sun
+                // provider, but mby not look good for other implementbtions.
                 if (spec != null) {
-                    sb.append(spec.toString().split(" ")[0]);
+                    sb.bppend(spec.toString().split(" ")[0]);
                 } else {
-                    sb.append(oid);
+                    sb.bppend(oid);
                 }
             } else if (curveId == ARBITRARY_PRIME) {
-                sb.append("arbitrary_explicit_prime_curves");
+                sb.bppend("brbitrbry_explicit_prime_curves");
             } else if (curveId == ARBITRARY_CHAR2) {
-                sb.append("arbitrary_explicit_char2_curves");
+                sb.bppend("brbitrbry_explicit_chbr2_curves");
             } else {
-                sb.append("unknown curve " + curveId);
+                sb.bppend("unknown curve " + curveId);
             }
         }
-        sb.append("}");
+        sb.bppend("}");
         return sb.toString();
     }
 
     // Test whether we support the curve with the given index.
-    static boolean isSupported(int index) {
+    stbtic boolebn isSupported(int index) {
         if ((index <= 0) || (index >= NAMED_CURVE_OID_TABLE.length)) {
-            return false;
+            return fblse;
         }
-        if (fips == false) {
-            // in non-FIPS mode, we support all valid indices
+        if (fips == fblse) {
+            // in non-FIPS mode, we support bll vblid indices
             return true;
         }
-        return DEFAULT.contains(index);
+        return DEFAULT.contbins(index);
     }
 
-    static int getCurveIndex(ECParameterSpec params) {
-        String oid = JsseJce.getNamedCurveOid(params);
+    stbtic int getCurveIndex(ECPbrbmeterSpec pbrbms) {
+        String oid = JsseJce.getNbmedCurveOid(pbrbms);
         if (oid == null) {
             return -1;
         }
@@ -166,18 +166,18 @@ final class SupportedEllipticCurvesExtension extends HelloExtension {
         return (n == null) ? -1 : n;
     }
 
-    static String getCurveOid(int index) {
+    stbtic String getCurveOid(int index) {
         if ((index > 0) && (index < NAMED_CURVE_OID_TABLE.length)) {
             return NAMED_CURVE_OID_TABLE[index];
         }
         return null;
     }
 
-    private final static int ARBITRARY_PRIME = 0xff01;
-    private final static int ARBITRARY_CHAR2 = 0xff02;
+    privbte finbl stbtic int ARBITRARY_PRIME = 0xff01;
+    privbte finbl stbtic int ARBITRARY_CHAR2 = 0xff02;
 
-    // See sun.security.util.NamedCurve for the OIDs
-    private final static String[] NAMED_CURVE_OID_TABLE = new String[] {
+    // See sun.security.util.NbmedCurve for the OIDs
+    privbte finbl stbtic String[] NAMED_CURVE_OID_TABLE = new String[] {
         null,                   //  (0) unused
         "1.3.132.0.1",          //  (1) sect163k1, NIST K-163
         "1.3.132.0.2",          //  (2) sect163r1
@@ -206,10 +206,10 @@ final class SupportedEllipticCurvesExtension extends HelloExtension {
         "1.3.132.0.35",         // (25) secp521r1, NIST P-521
     };
 
-    private final static Map<String,Integer> curveIndices;
+    privbte finbl stbtic Mbp<String,Integer> curveIndices;
 
-    static {
-        curveIndices = new HashMap<String,Integer>();
+    stbtic {
+        curveIndices = new HbshMbp<String,Integer>();
         for (int i = 1; i < NAMED_CURVE_OID_TABLE.length; i++) {
             curveIndices.put(NAMED_CURVE_OID_TABLE[i], i);
         }

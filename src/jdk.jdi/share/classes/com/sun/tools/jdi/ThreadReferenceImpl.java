@@ -1,644 +1,644 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
-import com.sun.jdi.request.BreakpointRequest;
-import java.util.*;
-import java.lang.ref.WeakReference;
+import com.sun.jdi.request.BrebkpointRequest;
+import jbvb.util.*;
+import jbvb.lbng.ref.WebkReference;
 
-public class ThreadReferenceImpl extends ObjectReferenceImpl
-             implements ThreadReference, VMListener {
-    static final int SUSPEND_STATUS_SUSPENDED = 0x1;
-    static final int SUSPEND_STATUS_BREAK = 0x2;
+public clbss ThrebdReferenceImpl extends ObjectReferenceImpl
+             implements ThrebdReference, VMListener {
+    stbtic finbl int SUSPEND_STATUS_SUSPENDED = 0x1;
+    stbtic finbl int SUSPEND_STATUS_BREAK = 0x2;
 
-    private int suspendedZombieCount = 0;
+    privbte int suspendedZombieCount = 0;
 
     /*
-     * Some objects can only be created while a thread is suspended and are valid
-     * only while the thread remains suspended.  Examples are StackFrameImpl
-     * and MonitorInfoImpl.  When the thread resumes, these objects have to be
-     * marked as invalid so that their methods can throw
-     * InvalidStackFrameException if they are called.  To do this, such objects
-     * register themselves as listeners of the associated thread.  When the
-     * thread is resumed, its listeners are notified and mark themselves
-     * invalid.
-     * Also, note that ThreadReferenceImpl itself caches some info that
-     * is valid only as long as the thread is suspended.  When the thread
-     * is resumed, that cache must be purged.
-     * Lastly, note that ThreadReferenceImpl and its super, ObjectReferenceImpl
-     * cache some info that is only valid as long as the entire VM is suspended.
-     * If _any_ thread is resumed, this cache must be purged.  To handle this,
-     * both ThreadReferenceImpl and ObjectReferenceImpl register themselves as
-     * VMListeners so that they get notified when all threads are suspended and
-     * when any thread is resumed.
+     * Some objects cbn only be crebted while b threbd is suspended bnd bre vblid
+     * only while the threbd rembins suspended.  Exbmples bre StbckFrbmeImpl
+     * bnd MonitorInfoImpl.  When the threbd resumes, these objects hbve to be
+     * mbrked bs invblid so thbt their methods cbn throw
+     * InvblidStbckFrbmeException if they bre cblled.  To do this, such objects
+     * register themselves bs listeners of the bssocibted threbd.  When the
+     * threbd is resumed, its listeners bre notified bnd mbrk themselves
+     * invblid.
+     * Also, note thbt ThrebdReferenceImpl itself cbches some info thbt
+     * is vblid only bs long bs the threbd is suspended.  When the threbd
+     * is resumed, thbt cbche must be purged.
+     * Lbstly, note thbt ThrebdReferenceImpl bnd its super, ObjectReferenceImpl
+     * cbche some info thbt is only vblid bs long bs the entire VM is suspended.
+     * If _bny_ threbd is resumed, this cbche must be purged.  To hbndle this,
+     * both ThrebdReferenceImpl bnd ObjectReferenceImpl register themselves bs
+     * VMListeners so thbt they get notified when bll threbds bre suspended bnd
+     * when bny threbd is resumed.
      */
 
-    // This is cached for the life of the thread
-    private ThreadGroupReference threadGroup;
+    // This is cbched for the life of the threbd
+    privbte ThrebdGroupReference threbdGroup;
 
-    // This is cached only while this one thread is suspended.  Each time
-    // the thread is resumed, we abandon the current cache object and
-    // create a new initialized one.
-    private static class LocalCache {
-        JDWP.ThreadReference.Status status = null;
-        List<StackFrame> frames = null;
-        int framesStart = -1;
-        int framesLength = 0;
-        int frameCount = -1;
+    // This is cbched only while this one threbd is suspended.  Ebch time
+    // the threbd is resumed, we bbbndon the current cbche object bnd
+    // crebte b new initiblized one.
+    privbte stbtic clbss LocblCbche {
+        JDWP.ThrebdReference.Stbtus stbtus = null;
+        List<StbckFrbme> frbmes = null;
+        int frbmesStbrt = -1;
+        int frbmesLength = 0;
+        int frbmeCount = -1;
         List<ObjectReference> ownedMonitors = null;
         List<MonitorInfo> ownedMonitorsInfo = null;
         ObjectReference contendedMonitor = null;
-        boolean triedCurrentContended = false;
+        boolebn triedCurrentContended = fblse;
     }
 
     /*
-     * The localCache instance var is set by resetLocalCache to an initialized
-     * object as shown above.  This occurs when the ThreadReference
-     * object is created, and when the mirrored thread is resumed.
-     * The fields are then filled in by the relevant methods as they
-     * are called.  A problem can occur if resetLocalCache is called
-     * (ie, a resume() is executed) at certain points in the execution
-     * of some of these methods - see 6751643.  To avoid this, each
-     * method that wants to use this cache must make a local copy of
-     * this variable and use that.  This means that each invocation of
-     * these methods will use a copy of the cache object that was in
-     * effect at the point that the copy was made; if a racy resume
-     * occurs, it won't affect the method's local copy.  This means that
-     * the values returned by these calls may not match the state of
-     * the debuggee at the time the caller gets the values.  EG,
-     * frameCount() is called and comes up with 5 frames.  But before
-     * it returns this, a resume of the debuggee thread is executed in a
-     * different debugger thread.  The thread is resumed and running at
-     * the time that the value 5 is returned.  Or even worse, the thread
-     * could be suspended again and have a different number of frames, eg, 24,
-     * but this call will still return 5.
+     * The locblCbche instbnce vbr is set by resetLocblCbche to bn initiblized
+     * object bs shown bbove.  This occurs when the ThrebdReference
+     * object is crebted, bnd when the mirrored threbd is resumed.
+     * The fields bre then filled in by the relevbnt methods bs they
+     * bre cblled.  A problem cbn occur if resetLocblCbche is cblled
+     * (ie, b resume() is executed) bt certbin points in the execution
+     * of some of these methods - see 6751643.  To bvoid this, ebch
+     * method thbt wbnts to use this cbche must mbke b locbl copy of
+     * this vbribble bnd use thbt.  This mebns thbt ebch invocbtion of
+     * these methods will use b copy of the cbche object thbt wbs in
+     * effect bt the point thbt the copy wbs mbde; if b rbcy resume
+     * occurs, it won't bffect the method's locbl copy.  This mebns thbt
+     * the vblues returned by these cblls mby not mbtch the stbte of
+     * the debuggee bt the time the cbller gets the vblues.  EG,
+     * frbmeCount() is cblled bnd comes up with 5 frbmes.  But before
+     * it returns this, b resume of the debuggee threbd is executed in b
+     * different debugger threbd.  The threbd is resumed bnd running bt
+     * the time thbt the vblue 5 is returned.  Or even worse, the threbd
+     * could be suspended bgbin bnd hbve b different number of frbmes, eg, 24,
+     * but this cbll will still return 5.
      */
-    private LocalCache localCache;
+    privbte LocblCbche locblCbche;
 
-    private void resetLocalCache() {
-        localCache = new LocalCache();
+    privbte void resetLocblCbche() {
+        locblCbche = new LocblCbche();
     }
 
-    // This is cached only while all threads in the VM are suspended
-    // Yes, someone could change the name of a thread while it is suspended.
-    private static class Cache extends ObjectReferenceImpl.Cache {
-        String name = null;
+    // This is cbched only while bll threbds in the VM bre suspended
+    // Yes, someone could chbnge the nbme of b threbd while it is suspended.
+    privbte stbtic clbss Cbche extends ObjectReferenceImpl.Cbche {
+        String nbme = null;
     }
-    protected ObjectReferenceImpl.Cache newCache() {
-        return new Cache();
+    protected ObjectReferenceImpl.Cbche newCbche() {
+        return new Cbche();
     }
 
-    // Listeners - synchronized on vm.state()
-    private List<WeakReference<ThreadListener>> listeners = new ArrayList<WeakReference<ThreadListener>>();
+    // Listeners - synchronized on vm.stbte()
+    privbte List<WebkReference<ThrebdListener>> listeners = new ArrbyList<WebkReference<ThrebdListener>>();
 
 
-    ThreadReferenceImpl(VirtualMachine aVm, long aRef) {
-        super(aVm,aRef);
-        resetLocalCache();
-        vm.state().addListener(this);
+    ThrebdReferenceImpl(VirtublMbchine bVm, long bRef) {
+        super(bVm,bRef);
+        resetLocblCbche();
+        vm.stbte().bddListener(this);
     }
 
     protected String description() {
-        return "ThreadReference " + uniqueID();
+        return "ThrebdReference " + uniqueID();
     }
 
     /*
-     * VMListener implementation
+     * VMListener implementbtion
      */
-    public boolean vmNotSuspended(VMAction action) {
-        if (action.resumingThread() == null) {
-            // all threads are being resumed
-            synchronized (vm.state()) {
-                processThreadAction(new ThreadAction(this,
-                                            ThreadAction.THREAD_RESUMABLE));
+    public boolebn vmNotSuspended(VMAction bction) {
+        if (bction.resumingThrebd() == null) {
+            // bll threbds bre being resumed
+            synchronized (vm.stbte()) {
+                processThrebdAction(new ThrebdAction(this,
+                                            ThrebdAction.THREAD_RESUMABLE));
             }
 
         }
 
         /*
-         * Othewise, only one thread is being resumed:
+         * Othewise, only one threbd is being resumed:
          *   if it is us,
-         *      we have already done our processThreadAction to notify our
+         *      we hbve blrebdy done our processThrebdAction to notify our
          *      listeners when we processed the resume.
          *   if it is not us,
-         *      we don't want to notify our listeners
-         *       because we are not being resumed.
+         *      we don't wbnt to notify our listeners
+         *       becbuse we bre not being resumed.
          */
-        return super.vmNotSuspended(action);
+        return super.vmNotSuspended(bction);
     }
 
     /**
-     * Note that we only cache the name string while the entire VM is suspended
-     * because the name can change via Thread.setName arbitrarily while this
-     * thread is running.
+     * Note thbt we only cbche the nbme string while the entire VM is suspended
+     * becbuse the nbme cbn chbnge vib Threbd.setNbme brbitrbrily while this
+     * threbd is running.
      */
-    public String name() {
-        String name = null;
+    public String nbme() {
+        String nbme = null;
         try {
-            Cache local = (Cache)getCache();
+            Cbche locbl = (Cbche)getCbche();
 
-            if (local != null) {
-                name = local.name;
+            if (locbl != null) {
+                nbme = locbl.nbme;
             }
-            if (name == null) {
-                name = JDWP.ThreadReference.Name.process(vm, this)
-                                                             .threadName;
-                if (local != null) {
-                    local.name = name;
+            if (nbme == null) {
+                nbme = JDWP.ThrebdReference.Nbme.process(vm, this)
+                                                             .threbdNbme;
+                if (locbl != null) {
+                    locbl.nbme = nbme;
                 }
             }
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
-        return name;
+        return nbme;
     }
 
     /*
-     * Sends a command to the back end which is defined to do an
+     * Sends b commbnd to the bbck end which is defined to do bn
      * implicit vm-wide resume.
      */
-    PacketStream sendResumingCommand(CommandSender sender) {
-        synchronized (vm.state()) {
-            processThreadAction(new ThreadAction(this,
-                                        ThreadAction.THREAD_RESUMABLE));
+    PbcketStrebm sendResumingCommbnd(CommbndSender sender) {
+        synchronized (vm.stbte()) {
+            processThrebdAction(new ThrebdAction(this,
+                                        ThrebdAction.THREAD_RESUMABLE));
             return sender.send();
         }
     }
 
     public void suspend() {
         try {
-            JDWP.ThreadReference.Suspend.process(vm, this);
-        } catch (JDWPException exc) {
+            JDWP.ThrebdReference.Suspend.process(vm, this);
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
-        // Don't consider the thread suspended yet. On reply, notifySuspend()
-        // will be called.
+        // Don't consider the threbd suspended yet. On reply, notifySuspend()
+        // will be cblled.
     }
 
     public void resume() {
         /*
-         * If it's a zombie, we can just update internal state without
-         * going to back end.
+         * If it's b zombie, we cbn just updbte internbl stbte without
+         * going to bbck end.
          */
         if (suspendedZombieCount > 0) {
             suspendedZombieCount--;
             return;
         }
 
-        PacketStream stream;
-        synchronized (vm.state()) {
-            processThreadAction(new ThreadAction(this,
-                                      ThreadAction.THREAD_RESUMABLE));
-            stream = JDWP.ThreadReference.Resume.enqueueCommand(vm, this);
+        PbcketStrebm strebm;
+        synchronized (vm.stbte()) {
+            processThrebdAction(new ThrebdAction(this,
+                                      ThrebdAction.THREAD_RESUMABLE));
+            strebm = JDWP.ThrebdReference.Resume.enqueueCommbnd(vm, this);
         }
         try {
-            JDWP.ThreadReference.Resume.waitForReply(vm, stream);
-        } catch (JDWPException exc) {
+            JDWP.ThrebdReference.Resume.wbitForReply(vm, strebm);
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
     }
 
     public int suspendCount() {
         /*
-         * If it's a zombie, we maintain the count in the front end.
+         * If it's b zombie, we mbintbin the count in the front end.
          */
         if (suspendedZombieCount > 0) {
             return suspendedZombieCount;
         }
 
         try {
-            return JDWP.ThreadReference.SuspendCount.process(vm, this).suspendCount;
-        } catch (JDWPException exc) {
+            return JDWP.ThrebdReference.SuspendCount.process(vm, this).suspendCount;
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
     }
 
-    public void stop(ObjectReference throwable) throws InvalidTypeException {
-        validateMirror(throwable);
-        // Verify that the given object is a Throwable instance
-        List<ReferenceType> list = vm.classesByName("java.lang.Throwable");
-        ClassTypeImpl throwableClass = (ClassTypeImpl)list.get(0);
-        if ((throwable == null) ||
-            !throwableClass.isAssignableFrom(throwable)) {
-             throw new InvalidTypeException("Not an instance of Throwable");
+    public void stop(ObjectReference throwbble) throws InvblidTypeException {
+        vblidbteMirror(throwbble);
+        // Verify thbt the given object is b Throwbble instbnce
+        List<ReferenceType> list = vm.clbssesByNbme("jbvb.lbng.Throwbble");
+        ClbssTypeImpl throwbbleClbss = (ClbssTypeImpl)list.get(0);
+        if ((throwbble == null) ||
+            !throwbbleClbss.isAssignbbleFrom(throwbble)) {
+             throw new InvblidTypeException("Not bn instbnce of Throwbble");
         }
 
         try {
-            JDWP.ThreadReference.Stop.process(vm, this,
-                                         (ObjectReferenceImpl)throwable);
-        } catch (JDWPException exc) {
+            JDWP.ThrebdReference.Stop.process(vm, this,
+                                         (ObjectReferenceImpl)throwbble);
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
     }
 
     public void interrupt() {
         try {
-            JDWP.ThreadReference.Interrupt.process(vm, this);
-        } catch (JDWPException exc) {
+            JDWP.ThrebdReference.Interrupt.process(vm, this);
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
     }
 
-    private JDWP.ThreadReference.Status jdwpStatus() {
-        LocalCache snapshot = localCache;
-        JDWP.ThreadReference.Status myStatus = snapshot.status;
+    privbte JDWP.ThrebdReference.Stbtus jdwpStbtus() {
+        LocblCbche snbpshot = locblCbche;
+        JDWP.ThrebdReference.Stbtus myStbtus = snbpshot.stbtus;
         try {
-             if (myStatus == null) {
-                 myStatus = JDWP.ThreadReference.Status.process(vm, this);
-                if ((myStatus.suspendStatus & SUSPEND_STATUS_SUSPENDED) != 0) {
-                    // thread is suspended, we can cache the status.
-                    snapshot.status = myStatus;
+             if (myStbtus == null) {
+                 myStbtus = JDWP.ThrebdReference.Stbtus.process(vm, this);
+                if ((myStbtus.suspendStbtus & SUSPEND_STATUS_SUSPENDED) != 0) {
+                    // threbd is suspended, we cbn cbche the stbtus.
+                    snbpshot.stbtus = myStbtus;
                 }
             }
-         } catch (JDWPException exc) {
+         } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
-        return myStatus;
+        return myStbtus;
     }
 
-    public int status() {
-        return jdwpStatus().threadStatus;
+    public int stbtus() {
+        return jdwpStbtus().threbdStbtus;
     }
 
-    public boolean isSuspended() {
+    public boolebn isSuspended() {
         return ((suspendedZombieCount > 0) ||
-                ((jdwpStatus().suspendStatus & SUSPEND_STATUS_SUSPENDED) != 0));
+                ((jdwpStbtus().suspendStbtus & SUSPEND_STATUS_SUSPENDED) != 0));
     }
 
-    public boolean isAtBreakpoint() {
+    public boolebn isAtBrebkpoint() {
         /*
-         * TO DO: This fails to take filters into account.
+         * TO DO: This fbils to tbke filters into bccount.
          */
         try {
-            StackFrame frame = frame(0);
-            Location location = frame.location();
-            List<BreakpointRequest> requests = vm.eventRequestManager().breakpointRequests();
-            Iterator<BreakpointRequest> iter = requests.iterator();
-            while (iter.hasNext()) {
-                BreakpointRequest request = iter.next();
-                if (location.equals(request.location())) {
+            StbckFrbme frbme = frbme(0);
+            Locbtion locbtion = frbme.locbtion();
+            List<BrebkpointRequest> requests = vm.eventRequestMbnbger().brebkpointRequests();
+            Iterbtor<BrebkpointRequest> iter = requests.iterbtor();
+            while (iter.hbsNext()) {
+                BrebkpointRequest request = iter.next();
+                if (locbtion.equbls(request.locbtion())) {
                     return true;
                 }
             }
-            return false;
-        } catch (IndexOutOfBoundsException iobe) {
-            return false;  // no frames on stack => not at breakpoint
-        } catch (IncompatibleThreadStateException itse) {
-            // Per the javadoc, not suspended => return false
-            return false;
+            return fblse;
+        } cbtch (IndexOutOfBoundsException iobe) {
+            return fblse;  // no frbmes on stbck => not bt brebkpoint
+        } cbtch (IncompbtibleThrebdStbteException itse) {
+            // Per the jbvbdoc, not suspended => return fblse
+            return fblse;
         }
     }
 
-    public ThreadGroupReference threadGroup() {
+    public ThrebdGroupReference threbdGroup() {
         /*
-         * Thread group can't change, so it's cached once and for all.
+         * Threbd group cbn't chbnge, so it's cbched once bnd for bll.
          */
-        if (threadGroup == null) {
+        if (threbdGroup == null) {
             try {
-                threadGroup = JDWP.ThreadReference.ThreadGroup.
+                threbdGroup = JDWP.ThrebdReference.ThrebdGroup.
                     process(vm, this).group;
-            } catch (JDWPException exc) {
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
         }
-        return threadGroup;
+        return threbdGroup;
     }
 
-    public int frameCount() throws IncompatibleThreadStateException  {
-        LocalCache snapshot = localCache;
+    public int frbmeCount() throws IncompbtibleThrebdStbteException  {
+        LocblCbche snbpshot = locblCbche;
         try {
-            if (snapshot.frameCount == -1) {
-                snapshot.frameCount = JDWP.ThreadReference.FrameCount
-                                          .process(vm, this).frameCount;
+            if (snbpshot.frbmeCount == -1) {
+                snbpshot.frbmeCount = JDWP.ThrebdReference.FrbmeCount
+                                          .process(vm, this).frbmeCount;
             }
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             switch (exc.errorCode()) {
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-            case JDWP.Error.INVALID_THREAD:   /* zombie */
-                throw new IncompatibleThreadStateException();
-            default:
+            cbse JDWP.Error.THREAD_NOT_SUSPENDED:
+            cbse JDWP.Error.INVALID_THREAD:   /* zombie */
+                throw new IncompbtibleThrebdStbteException();
+            defbult:
                 throw exc.toJDIException();
             }
         }
-        return snapshot.frameCount;
+        return snbpshot.frbmeCount;
     }
 
-    public List<StackFrame> frames() throws IncompatibleThreadStateException  {
-        return privateFrames(0, -1);
+    public List<StbckFrbme> frbmes() throws IncompbtibleThrebdStbteException  {
+        return privbteFrbmes(0, -1);
     }
 
-    public StackFrame frame(int index) throws IncompatibleThreadStateException  {
-        List<StackFrame> list = privateFrames(index, 1);
+    public StbckFrbme frbme(int index) throws IncompbtibleThrebdStbteException  {
+        List<StbckFrbme> list = privbteFrbmes(index, 1);
         return list.get(0);
     }
 
     /**
-     * Is the requested subrange within what has been retrieved?
-     * local is known to be non-null.  Should only be called from
-     * a sync method.
+     * Is the requested subrbnge within whbt hbs been retrieved?
+     * locbl is known to be non-null.  Should only be cblled from
+     * b sync method.
      */
-    private boolean isSubrange(LocalCache snapshot,
-                               int start, int length) {
-        if (start < snapshot.framesStart) {
-            return false;
+    privbte boolebn isSubrbnge(LocblCbche snbpshot,
+                               int stbrt, int length) {
+        if (stbrt < snbpshot.frbmesStbrt) {
+            return fblse;
         }
         if (length == -1) {
-            return (snapshot.framesLength == -1);
+            return (snbpshot.frbmesLength == -1);
         }
-        if (snapshot.framesLength == -1) {
-            if ((start + length) > (snapshot.framesStart +
-                                    snapshot.frames.size())) {
+        if (snbpshot.frbmesLength == -1) {
+            if ((stbrt + length) > (snbpshot.frbmesStbrt +
+                                    snbpshot.frbmes.size())) {
                 throw new IndexOutOfBoundsException();
             }
             return true;
         }
-        return ((start + length) <= (snapshot.framesStart + snapshot.framesLength));
+        return ((stbrt + length) <= (snbpshot.frbmesStbrt + snbpshot.frbmesLength));
     }
 
-    public List<StackFrame> frames(int start, int length)
-                              throws IncompatibleThreadStateException  {
+    public List<StbckFrbme> frbmes(int stbrt, int length)
+                              throws IncompbtibleThrebdStbteException  {
         if (length < 0) {
             throw new IndexOutOfBoundsException(
-                "length must be greater than or equal to zero");
+                "length must be grebter thbn or equbl to zero");
         }
-        return privateFrames(start, length);
+        return privbteFrbmes(stbrt, length);
     }
 
     /**
-     * Private version of frames() allows "-1" to specify all
-     * remaining frames.
+     * Privbte version of frbmes() bllows "-1" to specify bll
+     * rembining frbmes.
      */
-    synchronized private List<StackFrame> privateFrames(int start, int length)
-                              throws IncompatibleThreadStateException  {
+    synchronized privbte List<StbckFrbme> privbteFrbmes(int stbrt, int length)
+                              throws IncompbtibleThrebdStbteException  {
 
-        // Lock must be held while creating stack frames so if that two threads
-        // do this at the same time, one won't clobber the subset created by the other.
-        LocalCache snapshot = localCache;
+        // Lock must be held while crebting stbck frbmes so if thbt two threbds
+        // do this bt the sbme time, one won't clobber the subset crebted by the other.
+        LocblCbche snbpshot = locblCbche;
         try {
-            if (snapshot.frames == null || !isSubrange(snapshot, start, length)) {
-                JDWP.ThreadReference.Frames.Frame[] jdwpFrames
-                    = JDWP.ThreadReference.Frames.
-                    process(vm, this, start, length).frames;
-                int count = jdwpFrames.length;
-                snapshot.frames = new ArrayList<StackFrame>(count);
+            if (snbpshot.frbmes == null || !isSubrbnge(snbpshot, stbrt, length)) {
+                JDWP.ThrebdReference.Frbmes.Frbme[] jdwpFrbmes
+                    = JDWP.ThrebdReference.Frbmes.
+                    process(vm, this, stbrt, length).frbmes;
+                int count = jdwpFrbmes.length;
+                snbpshot.frbmes = new ArrbyList<StbckFrbme>(count);
 
                 for (int i = 0; i<count; i++) {
-                    if (jdwpFrames[i].location == null) {
-                        throw new InternalException("Invalid frame location");
+                    if (jdwpFrbmes[i].locbtion == null) {
+                        throw new InternblException("Invblid frbme locbtion");
                     }
-                    StackFrame frame = new StackFrameImpl(vm, this,
-                                                          jdwpFrames[i].frameID,
-                                                          jdwpFrames[i].location);
-                    // Add to the frame list
-                    snapshot.frames.add(frame);
+                    StbckFrbme frbme = new StbckFrbmeImpl(vm, this,
+                                                          jdwpFrbmes[i].frbmeID,
+                                                          jdwpFrbmes[i].locbtion);
+                    // Add to the frbme list
+                    snbpshot.frbmes.bdd(frbme);
                 }
-                snapshot.framesStart = start;
-                snapshot.framesLength = length;
-                return Collections.unmodifiableList(snapshot.frames);
+                snbpshot.frbmesStbrt = stbrt;
+                snbpshot.frbmesLength = length;
+                return Collections.unmodifibbleList(snbpshot.frbmes);
             } else {
-                int fromIndex = start - snapshot.framesStart;
+                int fromIndex = stbrt - snbpshot.frbmesStbrt;
                 int toIndex;
                 if (length == -1) {
-                    toIndex = snapshot.frames.size() - fromIndex;
+                    toIndex = snbpshot.frbmes.size() - fromIndex;
                 } else {
                     toIndex = fromIndex + length;
                 }
-                return Collections.unmodifiableList(snapshot.frames.subList(fromIndex, toIndex));
+                return Collections.unmodifibbleList(snbpshot.frbmes.subList(fromIndex, toIndex));
             }
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             switch (exc.errorCode()) {
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-            case JDWP.Error.INVALID_THREAD:   /* zombie */
-                throw new IncompatibleThreadStateException();
-            default:
+            cbse JDWP.Error.THREAD_NOT_SUSPENDED:
+            cbse JDWP.Error.INVALID_THREAD:   /* zombie */
+                throw new IncompbtibleThrebdStbteException();
+            defbult:
                 throw exc.toJDIException();
             }
         }
     }
 
-    public List<ObjectReference> ownedMonitors()  throws IncompatibleThreadStateException  {
-        LocalCache snapshot = localCache;
+    public List<ObjectReference> ownedMonitors()  throws IncompbtibleThrebdStbteException  {
+        LocblCbche snbpshot = locblCbche;
         try {
-            if (snapshot.ownedMonitors == null) {
-                snapshot.ownedMonitors = Arrays.asList(
-                                 (ObjectReference[])JDWP.ThreadReference.OwnedMonitors.
+            if (snbpshot.ownedMonitors == null) {
+                snbpshot.ownedMonitors = Arrbys.bsList(
+                                 (ObjectReference[])JDWP.ThrebdReference.OwnedMonitors.
                                          process(vm, this).owned);
-                if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                    vm.printTrace(description() +
-                                  " temporarily caching owned monitors"+
-                                  " (count = " + snapshot.ownedMonitors.size() + ")");
+                if ((vm.trbceFlbgs & VirtublMbchine.TRACE_OBJREFS) != 0) {
+                    vm.printTrbce(description() +
+                                  " temporbrily cbching owned monitors"+
+                                  " (count = " + snbpshot.ownedMonitors.size() + ")");
                 }
             }
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             switch (exc.errorCode()) {
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-            case JDWP.Error.INVALID_THREAD:   /* zombie */
-                throw new IncompatibleThreadStateException();
-            default:
+            cbse JDWP.Error.THREAD_NOT_SUSPENDED:
+            cbse JDWP.Error.INVALID_THREAD:   /* zombie */
+                throw new IncompbtibleThrebdStbteException();
+            defbult:
                 throw exc.toJDIException();
             }
         }
-        return snapshot.ownedMonitors;
+        return snbpshot.ownedMonitors;
     }
 
     public ObjectReference currentContendedMonitor()
-                              throws IncompatibleThreadStateException  {
-        LocalCache snapshot = localCache;
+                              throws IncompbtibleThrebdStbteException  {
+        LocblCbche snbpshot = locblCbche;
         try {
-            if (snapshot.contendedMonitor == null &&
-                !snapshot.triedCurrentContended) {
-                snapshot.contendedMonitor = JDWP.ThreadReference.CurrentContendedMonitor.
+            if (snbpshot.contendedMonitor == null &&
+                !snbpshot.triedCurrentContended) {
+                snbpshot.contendedMonitor = JDWP.ThrebdReference.CurrentContendedMonitor.
                     process(vm, this).monitor;
-                snapshot.triedCurrentContended = true;
-                if ((snapshot.contendedMonitor != null) &&
-                    ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0)) {
-                    vm.printTrace(description() +
-                                  " temporarily caching contended monitor"+
-                                  " (id = " + snapshot.contendedMonitor.uniqueID() + ")");
+                snbpshot.triedCurrentContended = true;
+                if ((snbpshot.contendedMonitor != null) &&
+                    ((vm.trbceFlbgs & VirtublMbchine.TRACE_OBJREFS) != 0)) {
+                    vm.printTrbce(description() +
+                                  " temporbrily cbching contended monitor"+
+                                  " (id = " + snbpshot.contendedMonitor.uniqueID() + ")");
                 }
             }
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             switch (exc.errorCode()) {
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-            case JDWP.Error.INVALID_THREAD:   /* zombie */
-                throw new IncompatibleThreadStateException();
-            default:
+            cbse JDWP.Error.THREAD_NOT_SUSPENDED:
+            cbse JDWP.Error.INVALID_THREAD:   /* zombie */
+                throw new IncompbtibleThrebdStbteException();
+            defbult:
                 throw exc.toJDIException();
             }
         }
-        return snapshot.contendedMonitor;
+        return snbpshot.contendedMonitor;
     }
 
-    public List<MonitorInfo> ownedMonitorsAndFrames()  throws IncompatibleThreadStateException  {
-        LocalCache snapshot = localCache;
+    public List<MonitorInfo> ownedMonitorsAndFrbmes()  throws IncompbtibleThrebdStbteException  {
+        LocblCbche snbpshot = locblCbche;
         try {
-            if (snapshot.ownedMonitorsInfo == null) {
-                JDWP.ThreadReference.OwnedMonitorsStackDepthInfo.monitor[] minfo;
-                minfo = JDWP.ThreadReference.OwnedMonitorsStackDepthInfo.process(vm, this).owned;
+            if (snbpshot.ownedMonitorsInfo == null) {
+                JDWP.ThrebdReference.OwnedMonitorsStbckDepthInfo.monitor[] minfo;
+                minfo = JDWP.ThrebdReference.OwnedMonitorsStbckDepthInfo.process(vm, this).owned;
 
-                snapshot.ownedMonitorsInfo = new ArrayList<MonitorInfo>(minfo.length);
+                snbpshot.ownedMonitorsInfo = new ArrbyList<MonitorInfo>(minfo.length);
 
                 for (int i=0; i < minfo.length; i++) {
-                    JDWP.ThreadReference.OwnedMonitorsStackDepthInfo.monitor mi =
+                    JDWP.ThrebdReference.OwnedMonitorsStbckDepthInfo.monitor mi =
                                                                          minfo[i];
-                    MonitorInfo mon = new MonitorInfoImpl(vm, minfo[i].monitor, this, minfo[i].stack_depth);
-                    snapshot.ownedMonitorsInfo.add(mon);
+                    MonitorInfo mon = new MonitorInfoImpl(vm, minfo[i].monitor, this, minfo[i].stbck_depth);
+                    snbpshot.ownedMonitorsInfo.bdd(mon);
                 }
 
-                if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                    vm.printTrace(description() +
-                                  " temporarily caching owned monitors"+
-                                  " (count = " + snapshot.ownedMonitorsInfo.size() + ")");
+                if ((vm.trbceFlbgs & VirtublMbchine.TRACE_OBJREFS) != 0) {
+                    vm.printTrbce(description() +
+                                  " temporbrily cbching owned monitors"+
+                                  " (count = " + snbpshot.ownedMonitorsInfo.size() + ")");
                     }
                 }
 
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             switch (exc.errorCode()) {
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-            case JDWP.Error.INVALID_THREAD:   /* zombie */
-                throw new IncompatibleThreadStateException();
-            default:
+            cbse JDWP.Error.THREAD_NOT_SUSPENDED:
+            cbse JDWP.Error.INVALID_THREAD:   /* zombie */
+                throw new IncompbtibleThrebdStbteException();
+            defbult:
                 throw exc.toJDIException();
             }
         }
-        return snapshot.ownedMonitorsInfo;
+        return snbpshot.ownedMonitorsInfo;
     }
 
-    public void popFrames(StackFrame frame) throws IncompatibleThreadStateException {
-        // Note that interface-wise this functionality belongs
-        // here in ThreadReference, but implementation-wise it
-        // belongs in StackFrame, so we just forward it.
-        if (!frame.thread().equals(this)) {
-            throw new IllegalArgumentException("frame does not belong to this thread");
+    public void popFrbmes(StbckFrbme frbme) throws IncompbtibleThrebdStbteException {
+        // Note thbt interfbce-wise this functionblity belongs
+        // here in ThrebdReference, but implementbtion-wise it
+        // belongs in StbckFrbme, so we just forwbrd it.
+        if (!frbme.threbd().equbls(this)) {
+            throw new IllegblArgumentException("frbme does not belong to this threbd");
         }
-        if (!vm.canPopFrames()) {
-            throw new UnsupportedOperationException(
-                "target does not support popping frames");
+        if (!vm.cbnPopFrbmes()) {
+            throw new UnsupportedOperbtionException(
+                "tbrget does not support popping frbmes");
         }
-        ((StackFrameImpl)frame).pop();
+        ((StbckFrbmeImpl)frbme).pop();
     }
 
-    public void forceEarlyReturn(Value  returnValue) throws InvalidTypeException,
-                                                            ClassNotLoadedException,
-                                             IncompatibleThreadStateException {
-        if (!vm.canForceEarlyReturn()) {
-            throw new UnsupportedOperationException(
-                "target does not support the forcing of a method to return early");
+    public void forceEbrlyReturn(Vblue  returnVblue) throws InvblidTypeException,
+                                                            ClbssNotLobdedException,
+                                             IncompbtibleThrebdStbteException {
+        if (!vm.cbnForceEbrlyReturn()) {
+            throw new UnsupportedOperbtionException(
+                "tbrget does not support the forcing of b method to return ebrly");
         }
 
-        validateMirrorOrNull(returnValue);
+        vblidbteMirrorOrNull(returnVblue);
 
-        StackFrameImpl sf;
+        StbckFrbmeImpl sf;
         try {
-           sf = (StackFrameImpl)frame(0);
-        } catch (IndexOutOfBoundsException exc) {
-           throw new InvalidStackFrameException("No more frames on the stack");
+           sf = (StbckFrbmeImpl)frbme(0);
+        } cbtch (IndexOutOfBoundsException exc) {
+           throw new InvblidStbckFrbmeException("No more frbmes on the stbck");
         }
-        sf.validateStackFrame();
-        MethodImpl meth = (MethodImpl)sf.location().method();
-        ValueImpl convertedValue  = ValueImpl.prepareForAssignment(returnValue,
-                                                                   meth.getReturnValueContainer());
+        sf.vblidbteStbckFrbme();
+        MethodImpl meth = (MethodImpl)sf.locbtion().method();
+        VblueImpl convertedVblue  = VblueImpl.prepbreForAssignment(returnVblue,
+                                                                   meth.getReturnVblueContbiner());
 
         try {
-            JDWP.ThreadReference.ForceEarlyReturn.process(vm, this, convertedValue);
-        } catch (JDWPException exc) {
+            JDWP.ThrebdReference.ForceEbrlyReturn.process(vm, this, convertedVblue);
+        } cbtch (JDWPException exc) {
             switch (exc.errorCode()) {
-            case JDWP.Error.OPAQUE_FRAME:
-                throw new NativeMethodException();
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-                throw new IncompatibleThreadStateException(
-                         "Thread not suspended");
-            case JDWP.Error.THREAD_NOT_ALIVE:
-                throw new IncompatibleThreadStateException(
-                                     "Thread has not started or has finished");
-            case JDWP.Error.NO_MORE_FRAMES:
-                throw new InvalidStackFrameException(
-                         "No more frames on the stack");
-            default:
+            cbse JDWP.Error.OPAQUE_FRAME:
+                throw new NbtiveMethodException();
+            cbse JDWP.Error.THREAD_NOT_SUSPENDED:
+                throw new IncompbtibleThrebdStbteException(
+                         "Threbd not suspended");
+            cbse JDWP.Error.THREAD_NOT_ALIVE:
+                throw new IncompbtibleThrebdStbteException(
+                                     "Threbd hbs not stbrted or hbs finished");
+            cbse JDWP.Error.NO_MORE_FRAMES:
+                throw new InvblidStbckFrbmeException(
+                         "No more frbmes on the stbck");
+            defbult:
                 throw exc.toJDIException();
             }
         }
     }
 
     public String toString() {
-        return "instance of " + referenceType().name() +
-               "(name='" + name() + "', " + "id=" + uniqueID() + ")";
+        return "instbnce of " + referenceType().nbme() +
+               "(nbme='" + nbme() + "', " + "id=" + uniqueID() + ")";
     }
 
-    byte typeValueKey() {
-        return JDWP.Tag.THREAD;
+    byte typeVblueKey() {
+        return JDWP.Tbg.THREAD;
     }
 
-    void addListener(ThreadListener listener) {
-        synchronized (vm.state()) {
-            listeners.add(new WeakReference<ThreadListener>(listener));
+    void bddListener(ThrebdListener listener) {
+        synchronized (vm.stbte()) {
+            listeners.bdd(new WebkReference<ThrebdListener>(listener));
         }
     }
 
-    void removeListener(ThreadListener listener) {
-        synchronized (vm.state()) {
-            Iterator<WeakReference<ThreadListener>> iter = listeners.iterator();
-            while (iter.hasNext()) {
-                WeakReference<ThreadListener> ref = iter.next();
-                if (listener.equals(ref.get())) {
+    void removeListener(ThrebdListener listener) {
+        synchronized (vm.stbte()) {
+            Iterbtor<WebkReference<ThrebdListener>> iter = listeners.iterbtor();
+            while (iter.hbsNext()) {
+                WebkReference<ThrebdListener> ref = iter.next();
+                if (listener.equbls(ref.get())) {
                     iter.remove();
-                    break;
+                    brebk;
                 }
             }
         }
     }
 
     /**
-     * Propagate the the thread state change information
+     * Propbgbte the the threbd stbte chbnge informbtion
      * to registered listeners.
-     * Must be entered while synchronized on vm.state()
+     * Must be entered while synchronized on vm.stbte()
      */
-    private void processThreadAction(ThreadAction action) {
-        synchronized (vm.state()) {
-            Iterator<WeakReference<ThreadListener>> iter = listeners.iterator();
-            while (iter.hasNext()) {
-                WeakReference<ThreadListener> ref = iter.next();
-                ThreadListener listener = ref.get();
+    privbte void processThrebdAction(ThrebdAction bction) {
+        synchronized (vm.stbte()) {
+            Iterbtor<WebkReference<ThrebdListener>> iter = listeners.iterbtor();
+            while (iter.hbsNext()) {
+                WebkReference<ThrebdListener> ref = iter.next();
+                ThrebdListener listener = ref.get();
                 if (listener != null) {
-                    switch (action.id()) {
-                        case ThreadAction.THREAD_RESUMABLE:
-                            if (!listener.threadResumable(action)) {
+                    switch (bction.id()) {
+                        cbse ThrebdAction.THREAD_RESUMABLE:
+                            if (!listener.threbdResumbble(bction)) {
                                 iter.remove();
                             }
-                            break;
+                            brebk;
                     }
                 } else {
-                    // Listener is unreachable; clean up
+                    // Listener is unrebchbble; clebn up
                     iter.remove();
                 }
             }
 
-            // Discard our local cache
-            resetLocalCache();
+            // Discbrd our locbl cbche
+            resetLocblCbche();
         }
     }
 }

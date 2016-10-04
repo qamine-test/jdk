@@ -1,365 +1,365 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.beans.ConstructorProperties;
-import java.awt.image.ColorModel;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.color.ColorSpace;
+import jbvb.bebns.ConstructorProperties;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.color.ColorSpbce;
 
 /**
- * The <code>Color</code> class is used to encapsulate colors in the default
- * sRGB color space or colors in arbitrary color spaces identified by a
- * {@link ColorSpace}.  Every color has an implicit alpha value of 1.0 or
- * an explicit one provided in the constructor.  The alpha value
- * defines the transparency of a color and can be represented by
- * a float value in the range 0.0&nbsp;-&nbsp;1.0 or 0&nbsp;-&nbsp;255.
- * An alpha value of 1.0 or 255 means that the color is completely
- * opaque and an alpha value of 0 or 0.0 means that the color is
- * completely transparent.
- * When constructing a <code>Color</code> with an explicit alpha or
- * getting the color/alpha components of a <code>Color</code>, the color
- * components are never premultiplied by the alpha component.
+ * The <code>Color</code> clbss is used to encbpsulbte colors in the defbult
+ * sRGB color spbce or colors in brbitrbry color spbces identified by b
+ * {@link ColorSpbce}.  Every color hbs bn implicit blphb vblue of 1.0 or
+ * bn explicit one provided in the constructor.  The blphb vblue
+ * defines the trbnspbrency of b color bnd cbn be represented by
+ * b flobt vblue in the rbnge 0.0&nbsp;-&nbsp;1.0 or 0&nbsp;-&nbsp;255.
+ * An blphb vblue of 1.0 or 255 mebns thbt the color is completely
+ * opbque bnd bn blphb vblue of 0 or 0.0 mebns thbt the color is
+ * completely trbnspbrent.
+ * When constructing b <code>Color</code> with bn explicit blphb or
+ * getting the color/blphb components of b <code>Color</code>, the color
+ * components bre never premultiplied by the blphb component.
  * <p>
- * The default color space for the Java 2D(tm) API is sRGB, a proposed
- * standard RGB color space.  For further information on sRGB,
- * see <A href="http://www.w3.org/pub/WWW/Graphics/Color/sRGB.html">
- * http://www.w3.org/pub/WWW/Graphics/Color/sRGB.html
+ * The defbult color spbce for the Jbvb 2D(tm) API is sRGB, b proposed
+ * stbndbrd RGB color spbce.  For further informbtion on sRGB,
+ * see <A href="http://www.w3.org/pub/WWW/Grbphics/Color/sRGB.html">
+ * http://www.w3.org/pub/WWW/Grbphics/Color/sRGB.html
  * </A>.
  *
  * @version     10 Feb 1997
- * @author      Sami Shaio
- * @author      Arthur van Hoff
- * @see         ColorSpace
- * @see         AlphaComposite
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
+ * @see         ColorSpbce
+ * @see         AlphbComposite
  */
-public class Color implements Paint, java.io.Serializable {
+public clbss Color implements Pbint, jbvb.io.Seriblizbble {
 
     /**
-     * The color white.  In the default sRGB space.
+     * The color white.  In the defbult sRGB spbce.
      */
-    public final static Color white     = new Color(255, 255, 255);
+    public finbl stbtic Color white     = new Color(255, 255, 255);
 
     /**
-     * The color white.  In the default sRGB space.
+     * The color white.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color WHITE = white;
+    public finbl stbtic Color WHITE = white;
 
     /**
-     * The color light gray.  In the default sRGB space.
+     * The color light grby.  In the defbult sRGB spbce.
      */
-    public final static Color lightGray = new Color(192, 192, 192);
+    public finbl stbtic Color lightGrby = new Color(192, 192, 192);
 
     /**
-     * The color light gray.  In the default sRGB space.
+     * The color light grby.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color LIGHT_GRAY = lightGray;
+    public finbl stbtic Color LIGHT_GRAY = lightGrby;
 
     /**
-     * The color gray.  In the default sRGB space.
+     * The color grby.  In the defbult sRGB spbce.
      */
-    public final static Color gray      = new Color(128, 128, 128);
+    public finbl stbtic Color grby      = new Color(128, 128, 128);
 
     /**
-     * The color gray.  In the default sRGB space.
+     * The color grby.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color GRAY = gray;
+    public finbl stbtic Color GRAY = grby;
 
     /**
-     * The color dark gray.  In the default sRGB space.
+     * The color dbrk grby.  In the defbult sRGB spbce.
      */
-    public final static Color darkGray  = new Color(64, 64, 64);
+    public finbl stbtic Color dbrkGrby  = new Color(64, 64, 64);
 
     /**
-     * The color dark gray.  In the default sRGB space.
+     * The color dbrk grby.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color DARK_GRAY = darkGray;
+    public finbl stbtic Color DARK_GRAY = dbrkGrby;
 
     /**
-     * The color black.  In the default sRGB space.
+     * The color blbck.  In the defbult sRGB spbce.
      */
-    public final static Color black     = new Color(0, 0, 0);
+    public finbl stbtic Color blbck     = new Color(0, 0, 0);
 
     /**
-     * The color black.  In the default sRGB space.
+     * The color blbck.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color BLACK = black;
+    public finbl stbtic Color BLACK = blbck;
 
     /**
-     * The color red.  In the default sRGB space.
+     * The color red.  In the defbult sRGB spbce.
      */
-    public final static Color red       = new Color(255, 0, 0);
+    public finbl stbtic Color red       = new Color(255, 0, 0);
 
     /**
-     * The color red.  In the default sRGB space.
+     * The color red.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color RED = red;
+    public finbl stbtic Color RED = red;
 
     /**
-     * The color pink.  In the default sRGB space.
+     * The color pink.  In the defbult sRGB spbce.
      */
-    public final static Color pink      = new Color(255, 175, 175);
+    public finbl stbtic Color pink      = new Color(255, 175, 175);
 
     /**
-     * The color pink.  In the default sRGB space.
+     * The color pink.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color PINK = pink;
+    public finbl stbtic Color PINK = pink;
 
     /**
-     * The color orange.  In the default sRGB space.
+     * The color orbnge.  In the defbult sRGB spbce.
      */
-    public final static Color orange    = new Color(255, 200, 0);
+    public finbl stbtic Color orbnge    = new Color(255, 200, 0);
 
     /**
-     * The color orange.  In the default sRGB space.
+     * The color orbnge.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color ORANGE = orange;
+    public finbl stbtic Color ORANGE = orbnge;
 
     /**
-     * The color yellow.  In the default sRGB space.
+     * The color yellow.  In the defbult sRGB spbce.
      */
-    public final static Color yellow    = new Color(255, 255, 0);
+    public finbl stbtic Color yellow    = new Color(255, 255, 0);
 
     /**
-     * The color yellow.  In the default sRGB space.
+     * The color yellow.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color YELLOW = yellow;
+    public finbl stbtic Color YELLOW = yellow;
 
     /**
-     * The color green.  In the default sRGB space.
+     * The color green.  In the defbult sRGB spbce.
      */
-    public final static Color green     = new Color(0, 255, 0);
+    public finbl stbtic Color green     = new Color(0, 255, 0);
 
     /**
-     * The color green.  In the default sRGB space.
+     * The color green.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color GREEN = green;
+    public finbl stbtic Color GREEN = green;
 
     /**
-     * The color magenta.  In the default sRGB space.
+     * The color mbgentb.  In the defbult sRGB spbce.
      */
-    public final static Color magenta   = new Color(255, 0, 255);
+    public finbl stbtic Color mbgentb   = new Color(255, 0, 255);
 
     /**
-     * The color magenta.  In the default sRGB space.
+     * The color mbgentb.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color MAGENTA = magenta;
+    public finbl stbtic Color MAGENTA = mbgentb;
 
     /**
-     * The color cyan.  In the default sRGB space.
+     * The color cybn.  In the defbult sRGB spbce.
      */
-    public final static Color cyan      = new Color(0, 255, 255);
+    public finbl stbtic Color cybn      = new Color(0, 255, 255);
 
     /**
-     * The color cyan.  In the default sRGB space.
+     * The color cybn.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color CYAN = cyan;
+    public finbl stbtic Color CYAN = cybn;
 
     /**
-     * The color blue.  In the default sRGB space.
+     * The color blue.  In the defbult sRGB spbce.
      */
-    public final static Color blue      = new Color(0, 0, 255);
+    public finbl stbtic Color blue      = new Color(0, 0, 255);
 
     /**
-     * The color blue.  In the default sRGB space.
+     * The color blue.  In the defbult sRGB spbce.
      * @since 1.4
      */
-    public final static Color BLUE = blue;
+    public finbl stbtic Color BLUE = blue;
 
     /**
-     * The color value.
-     * @serial
+     * The color vblue.
+     * @seribl
      * @see #getRGB
      */
-    int value;
+    int vblue;
 
     /**
-     * The color value in the default sRGB <code>ColorSpace</code> as
-     * <code>float</code> components (no alpha).
-     * If <code>null</code> after object construction, this must be an
+     * The color vblue in the defbult sRGB <code>ColorSpbce</code> bs
+     * <code>flobt</code> components (no blphb).
+     * If <code>null</code> bfter object construction, this must be bn
      * sRGB color constructed with 8-bit precision, so compute from the
-     * <code>int</code> color value.
-     * @serial
+     * <code>int</code> color vblue.
+     * @seribl
      * @see #getRGBColorComponents
      * @see #getRGBComponents
      */
-    private float frgbvalue[] = null;
+    privbte flobt frgbvblue[] = null;
 
     /**
-     * The color value in the native <code>ColorSpace</code> as
-     * <code>float</code> components (no alpha).
-     * If <code>null</code> after object construction, this must be an
+     * The color vblue in the nbtive <code>ColorSpbce</code> bs
+     * <code>flobt</code> components (no blphb).
+     * If <code>null</code> bfter object construction, this must be bn
      * sRGB color constructed with 8-bit precision, so compute from the
-     * <code>int</code> color value.
-     * @serial
+     * <code>int</code> color vblue.
+     * @seribl
      * @see #getRGBColorComponents
      * @see #getRGBComponents
      */
-    private float fvalue[] = null;
+    privbte flobt fvblue[] = null;
 
     /**
-     * The alpha value as a <code>float</code> component.
-     * If <code>frgbvalue</code> is <code>null</code>, this is not valid
-     * data, so compute from the <code>int</code> color value.
-     * @serial
+     * The blphb vblue bs b <code>flobt</code> component.
+     * If <code>frgbvblue</code> is <code>null</code>, this is not vblid
+     * dbtb, so compute from the <code>int</code> color vblue.
+     * @seribl
      * @see #getRGBComponents
      * @see #getComponents
      */
-    private float falpha = 0.0f;
+    privbte flobt fblphb = 0.0f;
 
     /**
-     * The <code>ColorSpace</code>.  If <code>null</code>, then it's
-     * default is sRGB.
-     * @serial
+     * The <code>ColorSpbce</code>.  If <code>null</code>, then it's
+     * defbult is sRGB.
+     * @seribl
      * @see #getColor
-     * @see #getColorSpace
+     * @see #getColorSpbce
      * @see #getColorComponents
      */
-    private ColorSpace cs = null;
+    privbte ColorSpbce cs = null;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = 118526816881161077L;
+     privbte stbtic finbl long seriblVersionUID = 118526816881161077L;
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static {
-        /** 4112352 - Calling getDefaultToolkit()
-         ** here can cause this class to be accessed before it is fully
-         ** initialized. DON'T DO IT!!!
+    stbtic {
+        /** 4112352 - Cblling getDefbultToolkit()
+         ** here cbn cbuse this clbss to be bccessed before it is fully
+         ** initiblized. DON'T DO IT!!!
          **
-         ** Toolkit.getDefaultToolkit();
+         ** Toolkit.getDefbultToolkit();
          **/
 
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
     /**
-     * Checks the color integer components supplied for validity.
-     * Throws an {@link IllegalArgumentException} if the value is out of
-     * range.
-     * @param r the Red component
-     * @param g the Green component
-     * @param b the Blue component
+     * Checks the color integer components supplied for vblidity.
+     * Throws bn {@link IllegblArgumentException} if the vblue is out of
+     * rbnge.
+     * @pbrbm r the Red component
+     * @pbrbm g the Green component
+     * @pbrbm b the Blue component
      **/
-    private static void testColorValueRange(int r, int g, int b, int a) {
-        boolean rangeError = false;
-        String badComponentString = "";
+    privbte stbtic void testColorVblueRbnge(int r, int g, int b, int b) {
+        boolebn rbngeError = fblse;
+        String bbdComponentString = "";
 
-        if ( a < 0 || a > 255) {
-            rangeError = true;
-            badComponentString = badComponentString + " Alpha";
+        if ( b < 0 || b > 255) {
+            rbngeError = true;
+            bbdComponentString = bbdComponentString + " Alphb";
         }
         if ( r < 0 || r > 255) {
-            rangeError = true;
-            badComponentString = badComponentString + " Red";
+            rbngeError = true;
+            bbdComponentString = bbdComponentString + " Red";
         }
         if ( g < 0 || g > 255) {
-            rangeError = true;
-            badComponentString = badComponentString + " Green";
+            rbngeError = true;
+            bbdComponentString = bbdComponentString + " Green";
         }
         if ( b < 0 || b > 255) {
-            rangeError = true;
-            badComponentString = badComponentString + " Blue";
+            rbngeError = true;
+            bbdComponentString = bbdComponentString + " Blue";
         }
-        if ( rangeError == true ) {
-        throw new IllegalArgumentException("Color parameter outside of expected range:"
-                                           + badComponentString);
+        if ( rbngeError == true ) {
+        throw new IllegblArgumentException("Color pbrbmeter outside of expected rbnge:"
+                                           + bbdComponentString);
         }
     }
 
     /**
-     * Checks the color <code>float</code> components supplied for
-     * validity.
-     * Throws an <code>IllegalArgumentException</code> if the value is out
-     * of range.
-     * @param r the Red component
-     * @param g the Green component
-     * @param b the Blue component
+     * Checks the color <code>flobt</code> components supplied for
+     * vblidity.
+     * Throws bn <code>IllegblArgumentException</code> if the vblue is out
+     * of rbnge.
+     * @pbrbm r the Red component
+     * @pbrbm g the Green component
+     * @pbrbm b the Blue component
      **/
-    private static void testColorValueRange(float r, float g, float b, float a) {
-        boolean rangeError = false;
-        String badComponentString = "";
-        if ( a < 0.0 || a > 1.0) {
-            rangeError = true;
-            badComponentString = badComponentString + " Alpha";
+    privbte stbtic void testColorVblueRbnge(flobt r, flobt g, flobt b, flobt b) {
+        boolebn rbngeError = fblse;
+        String bbdComponentString = "";
+        if ( b < 0.0 || b > 1.0) {
+            rbngeError = true;
+            bbdComponentString = bbdComponentString + " Alphb";
         }
         if ( r < 0.0 || r > 1.0) {
-            rangeError = true;
-            badComponentString = badComponentString + " Red";
+            rbngeError = true;
+            bbdComponentString = bbdComponentString + " Red";
         }
         if ( g < 0.0 || g > 1.0) {
-            rangeError = true;
-            badComponentString = badComponentString + " Green";
+            rbngeError = true;
+            bbdComponentString = bbdComponentString + " Green";
         }
         if ( b < 0.0 || b > 1.0) {
-            rangeError = true;
-            badComponentString = badComponentString + " Blue";
+            rbngeError = true;
+            bbdComponentString = bbdComponentString + " Blue";
         }
-        if ( rangeError == true ) {
-        throw new IllegalArgumentException("Color parameter outside of expected range:"
-                                           + badComponentString);
+        if ( rbngeError == true ) {
+        throw new IllegblArgumentException("Color pbrbmeter outside of expected rbnge:"
+                                           + bbdComponentString);
         }
     }
 
     /**
-     * Creates an opaque sRGB color with the specified red, green,
-     * and blue values in the range (0 - 255).
-     * The actual color used in rendering depends
-     * on finding the best match given the color space
-     * available for a given output device.
-     * Alpha is defaulted to 255.
+     * Crebtes bn opbque sRGB color with the specified red, green,
+     * bnd blue vblues in the rbnge (0 - 255).
+     * The bctubl color used in rendering depends
+     * on finding the best mbtch given the color spbce
+     * bvbilbble for b given output device.
+     * Alphb is defbulted to 255.
      *
-     * @throws IllegalArgumentException if <code>r</code>, <code>g</code>
-     *        or <code>b</code> are outside of the range
+     * @throws IllegblArgumentException if <code>r</code>, <code>g</code>
+     *        or <code>b</code> bre outside of the rbnge
      *        0 to 255, inclusive
-     * @param r the red component
-     * @param g the green component
-     * @param b the blue component
+     * @pbrbm r the red component
+     * @pbrbm g the green component
+     * @pbrbm b the blue component
      * @see #getRed
      * @see #getGreen
      * @see #getBlue
@@ -370,186 +370,186 @@ public class Color implements Paint, java.io.Serializable {
     }
 
     /**
-     * Creates an sRGB color with the specified red, green, blue, and alpha
-     * values in the range (0 - 255).
+     * Crebtes bn sRGB color with the specified red, green, blue, bnd blphb
+     * vblues in the rbnge (0 - 255).
      *
-     * @throws IllegalArgumentException if <code>r</code>, <code>g</code>,
-     *        <code>b</code> or <code>a</code> are outside of the range
+     * @throws IllegblArgumentException if <code>r</code>, <code>g</code>,
+     *        <code>b</code> or <code>b</code> bre outside of the rbnge
      *        0 to 255, inclusive
-     * @param r the red component
-     * @param g the green component
-     * @param b the blue component
-     * @param a the alpha component
+     * @pbrbm r the red component
+     * @pbrbm g the green component
+     * @pbrbm b the blue component
+     * @pbrbm b the blphb component
      * @see #getRed
      * @see #getGreen
      * @see #getBlue
-     * @see #getAlpha
+     * @see #getAlphb
      * @see #getRGB
      */
-    @ConstructorProperties({"red", "green", "blue", "alpha"})
-    public Color(int r, int g, int b, int a) {
-        value = ((a & 0xFF) << 24) |
+    @ConstructorProperties({"red", "green", "blue", "blphb"})
+    public Color(int r, int g, int b, int b) {
+        vblue = ((b & 0xFF) << 24) |
                 ((r & 0xFF) << 16) |
                 ((g & 0xFF) << 8)  |
                 ((b & 0xFF) << 0);
-        testColorValueRange(r,g,b,a);
+        testColorVblueRbnge(r,g,b,b);
     }
 
     /**
-     * Creates an opaque sRGB color with the specified combined RGB value
+     * Crebtes bn opbque sRGB color with the specified combined RGB vblue
      * consisting of the red component in bits 16-23, the green component
-     * in bits 8-15, and the blue component in bits 0-7.  The actual color
-     * used in rendering depends on finding the best match given the
-     * color space available for a particular output device.  Alpha is
-     * defaulted to 255.
+     * in bits 8-15, bnd the blue component in bits 0-7.  The bctubl color
+     * used in rendering depends on finding the best mbtch given the
+     * color spbce bvbilbble for b pbrticulbr output device.  Alphb is
+     * defbulted to 255.
      *
-     * @param rgb the combined RGB components
-     * @see java.awt.image.ColorModel#getRGBdefault
+     * @pbrbm rgb the combined RGB components
+     * @see jbvb.bwt.imbge.ColorModel#getRGBdefbult
      * @see #getRed
      * @see #getGreen
      * @see #getBlue
      * @see #getRGB
      */
     public Color(int rgb) {
-        value = 0xff000000 | rgb;
+        vblue = 0xff000000 | rgb;
     }
 
     /**
-     * Creates an sRGB color with the specified combined RGBA value consisting
-     * of the alpha component in bits 24-31, the red component in bits 16-23,
-     * the green component in bits 8-15, and the blue component in bits 0-7.
-     * If the <code>hasalpha</code> argument is <code>false</code>, alpha
-     * is defaulted to 255.
+     * Crebtes bn sRGB color with the specified combined RGBA vblue consisting
+     * of the blphb component in bits 24-31, the red component in bits 16-23,
+     * the green component in bits 8-15, bnd the blue component in bits 0-7.
+     * If the <code>hbsblphb</code> brgument is <code>fblse</code>, blphb
+     * is defbulted to 255.
      *
-     * @param rgba the combined RGBA components
-     * @param hasalpha <code>true</code> if the alpha bits are valid;
-     *        <code>false</code> otherwise
-     * @see java.awt.image.ColorModel#getRGBdefault
+     * @pbrbm rgbb the combined RGBA components
+     * @pbrbm hbsblphb <code>true</code> if the blphb bits bre vblid;
+     *        <code>fblse</code> otherwise
+     * @see jbvb.bwt.imbge.ColorModel#getRGBdefbult
      * @see #getRed
      * @see #getGreen
      * @see #getBlue
-     * @see #getAlpha
+     * @see #getAlphb
      * @see #getRGB
      */
-    public Color(int rgba, boolean hasalpha) {
-        if (hasalpha) {
-            value = rgba;
+    public Color(int rgbb, boolebn hbsblphb) {
+        if (hbsblphb) {
+            vblue = rgbb;
         } else {
-            value = 0xff000000 | rgba;
+            vblue = 0xff000000 | rgbb;
         }
     }
 
     /**
-     * Creates an opaque sRGB color with the specified red, green, and blue
-     * values in the range (0.0 - 1.0).  Alpha is defaulted to 1.0.  The
-     * actual color used in rendering depends on finding the best
-     * match given the color space available for a particular output
+     * Crebtes bn opbque sRGB color with the specified red, green, bnd blue
+     * vblues in the rbnge (0.0 - 1.0).  Alphb is defbulted to 1.0.  The
+     * bctubl color used in rendering depends on finding the best
+     * mbtch given the color spbce bvbilbble for b pbrticulbr output
      * device.
      *
-     * @throws IllegalArgumentException if <code>r</code>, <code>g</code>
-     *        or <code>b</code> are outside of the range
+     * @throws IllegblArgumentException if <code>r</code>, <code>g</code>
+     *        or <code>b</code> bre outside of the rbnge
      *        0.0 to 1.0, inclusive
-     * @param r the red component
-     * @param g the green component
-     * @param b the blue component
+     * @pbrbm r the red component
+     * @pbrbm g the green component
+     * @pbrbm b the blue component
      * @see #getRed
      * @see #getGreen
      * @see #getBlue
      * @see #getRGB
      */
-    public Color(float r, float g, float b) {
+    public Color(flobt r, flobt g, flobt b) {
         this( (int) (r*255+0.5), (int) (g*255+0.5), (int) (b*255+0.5));
-        testColorValueRange(r,g,b,1.0f);
-        frgbvalue = new float[3];
-        frgbvalue[0] = r;
-        frgbvalue[1] = g;
-        frgbvalue[2] = b;
-        falpha = 1.0f;
-        fvalue = frgbvalue;
+        testColorVblueRbnge(r,g,b,1.0f);
+        frgbvblue = new flobt[3];
+        frgbvblue[0] = r;
+        frgbvblue[1] = g;
+        frgbvblue[2] = b;
+        fblphb = 1.0f;
+        fvblue = frgbvblue;
     }
 
     /**
-     * Creates an sRGB color with the specified red, green, blue, and
-     * alpha values in the range (0.0 - 1.0).  The actual color
-     * used in rendering depends on finding the best match given the
-     * color space available for a particular output device.
-     * @throws IllegalArgumentException if <code>r</code>, <code>g</code>
-     *        <code>b</code> or <code>a</code> are outside of the range
+     * Crebtes bn sRGB color with the specified red, green, blue, bnd
+     * blphb vblues in the rbnge (0.0 - 1.0).  The bctubl color
+     * used in rendering depends on finding the best mbtch given the
+     * color spbce bvbilbble for b pbrticulbr output device.
+     * @throws IllegblArgumentException if <code>r</code>, <code>g</code>
+     *        <code>b</code> or <code>b</code> bre outside of the rbnge
      *        0.0 to 1.0, inclusive
-     * @param r the red component
-     * @param g the green component
-     * @param b the blue component
-     * @param a the alpha component
+     * @pbrbm r the red component
+     * @pbrbm g the green component
+     * @pbrbm b the blue component
+     * @pbrbm b the blphb component
      * @see #getRed
      * @see #getGreen
      * @see #getBlue
-     * @see #getAlpha
+     * @see #getAlphb
      * @see #getRGB
      */
-    public Color(float r, float g, float b, float a) {
-        this((int)(r*255+0.5), (int)(g*255+0.5), (int)(b*255+0.5), (int)(a*255+0.5));
-        frgbvalue = new float[3];
-        frgbvalue[0] = r;
-        frgbvalue[1] = g;
-        frgbvalue[2] = b;
-        falpha = a;
-        fvalue = frgbvalue;
+    public Color(flobt r, flobt g, flobt b, flobt b) {
+        this((int)(r*255+0.5), (int)(g*255+0.5), (int)(b*255+0.5), (int)(b*255+0.5));
+        frgbvblue = new flobt[3];
+        frgbvblue[0] = r;
+        frgbvblue[1] = g;
+        frgbvblue[2] = b;
+        fblphb = b;
+        fvblue = frgbvblue;
     }
 
     /**
-     * Creates a color in the specified <code>ColorSpace</code>
-     * with the color components specified in the <code>float</code>
-     * array and the specified alpha.  The number of components is
-     * determined by the type of the <code>ColorSpace</code>.  For
-     * example, RGB requires 3 components, but CMYK requires 4
+     * Crebtes b color in the specified <code>ColorSpbce</code>
+     * with the color components specified in the <code>flobt</code>
+     * brrby bnd the specified blphb.  The number of components is
+     * determined by the type of the <code>ColorSpbce</code>.  For
+     * exbmple, RGB requires 3 components, but CMYK requires 4
      * components.
-     * @param cspace the <code>ColorSpace</code> to be used to
+     * @pbrbm cspbce the <code>ColorSpbce</code> to be used to
      *                  interpret the components
-     * @param components an arbitrary number of color components
-     *                      that is compatible with the <code>ColorSpace</code>
-     * @param alpha alpha value
-     * @throws IllegalArgumentException if any of the values in the
-     *         <code>components</code> array or <code>alpha</code> is
-     *         outside of the range 0.0 to 1.0
+     * @pbrbm components bn brbitrbry number of color components
+     *                      thbt is compbtible with the <code>ColorSpbce</code>
+     * @pbrbm blphb blphb vblue
+     * @throws IllegblArgumentException if bny of the vblues in the
+     *         <code>components</code> brrby or <code>blphb</code> is
+     *         outside of the rbnge 0.0 to 1.0
      * @see #getComponents
      * @see #getColorComponents
      */
-    public Color(ColorSpace cspace, float components[], float alpha) {
-        boolean rangeError = false;
-        String badComponentString = "";
-        int n = cspace.getNumComponents();
-        fvalue = new float[n];
+    public Color(ColorSpbce cspbce, flobt components[], flobt blphb) {
+        boolebn rbngeError = fblse;
+        String bbdComponentString = "";
+        int n = cspbce.getNumComponents();
+        fvblue = new flobt[n];
         for (int i = 0; i < n; i++) {
             if (components[i] < 0.0 || components[i] > 1.0) {
-                rangeError = true;
-                badComponentString = badComponentString + "Component " + i
+                rbngeError = true;
+                bbdComponentString = bbdComponentString + "Component " + i
                                      + " ";
             } else {
-                fvalue[i] = components[i];
+                fvblue[i] = components[i];
             }
         }
-        if (alpha < 0.0 || alpha > 1.0) {
-            rangeError = true;
-            badComponentString = badComponentString + "Alpha";
+        if (blphb < 0.0 || blphb > 1.0) {
+            rbngeError = true;
+            bbdComponentString = bbdComponentString + "Alphb";
         } else {
-            falpha = alpha;
+            fblphb = blphb;
         }
-        if (rangeError) {
-            throw new IllegalArgumentException(
-                "Color parameter outside of expected range: " +
-                badComponentString);
+        if (rbngeError) {
+            throw new IllegblArgumentException(
+                "Color pbrbmeter outside of expected rbnge: " +
+                bbdComponentString);
         }
-        frgbvalue = cspace.toRGB(fvalue);
-        cs = cspace;
-        value = ((((int)(falpha*255)) & 0xFF) << 24) |
-                ((((int)(frgbvalue[0]*255)) & 0xFF) << 16) |
-                ((((int)(frgbvalue[1]*255)) & 0xFF) << 8)  |
-                ((((int)(frgbvalue[2]*255)) & 0xFF) << 0);
+        frgbvblue = cspbce.toRGB(fvblue);
+        cs = cspbce;
+        vblue = ((((int)(fblphb*255)) & 0xFF) << 24) |
+                ((((int)(frgbvblue[0]*255)) & 0xFF) << 16) |
+                ((((int)(frgbvblue[1]*255)) & 0xFF) << 8)  |
+                ((((int)(frgbvblue[2]*255)) & 0xFF) << 0);
     }
 
     /**
-     * Returns the red component in the range 0-255 in the default sRGB
-     * space.
+     * Returns the red component in the rbnge 0-255 in the defbult sRGB
+     * spbce.
      * @return the red component.
      * @see #getRGB
      */
@@ -558,8 +558,8 @@ public class Color implements Paint, java.io.Serializable {
     }
 
     /**
-     * Returns the green component in the range 0-255 in the default sRGB
-     * space.
+     * Returns the green component in the rbnge 0-255 in the defbult sRGB
+     * spbce.
      * @return the green component.
      * @see #getRGB
      */
@@ -568,8 +568,8 @@ public class Color implements Paint, java.io.Serializable {
     }
 
     /**
-     * Returns the blue component in the range 0-255 in the default sRGB
-     * space.
+     * Returns the blue component in the rbnge 0-255 in the defbult sRGB
+     * spbce.
      * @return the blue component.
      * @see #getRGB
      */
@@ -578,356 +578,356 @@ public class Color implements Paint, java.io.Serializable {
     }
 
     /**
-     * Returns the alpha component in the range 0-255.
-     * @return the alpha component.
+     * Returns the blphb component in the rbnge 0-255.
+     * @return the blphb component.
      * @see #getRGB
      */
-    public int getAlpha() {
+    public int getAlphb() {
         return (getRGB() >> 24) & 0xff;
     }
 
     /**
-     * Returns the RGB value representing the color in the default sRGB
+     * Returns the RGB vblue representing the color in the defbult sRGB
      * {@link ColorModel}.
-     * (Bits 24-31 are alpha, 16-23 are red, 8-15 are green, 0-7 are
+     * (Bits 24-31 bre blphb, 16-23 bre red, 8-15 bre green, 0-7 bre
      * blue).
-     * @return the RGB value of the color in the default sRGB
+     * @return the RGB vblue of the color in the defbult sRGB
      *         <code>ColorModel</code>.
-     * @see java.awt.image.ColorModel#getRGBdefault
+     * @see jbvb.bwt.imbge.ColorModel#getRGBdefbult
      * @see #getRed
      * @see #getGreen
      * @see #getBlue
      * @since 1.0
      */
     public int getRGB() {
-        return value;
+        return vblue;
     }
 
-    private static final double FACTOR = 0.7;
+    privbte stbtic finbl double FACTOR = 0.7;
 
     /**
-     * Creates a new <code>Color</code> that is a brighter version of this
+     * Crebtes b new <code>Color</code> thbt is b brighter version of this
      * <code>Color</code>.
      * <p>
-     * This method applies an arbitrary scale factor to each of the three RGB
-     * components of this <code>Color</code> to create a brighter version
+     * This method bpplies bn brbitrbry scble fbctor to ebch of the three RGB
+     * components of this <code>Color</code> to crebte b brighter version
      * of this <code>Color</code>.
-     * The {@code alpha} value is preserved.
-     * Although <code>brighter</code> and
-     * <code>darker</code> are inverse operations, the results of a
-     * series of invocations of these two methods might be inconsistent
-     * because of rounding errors.
-     * @return     a new <code>Color</code> object that is
-     *                 a brighter version of this <code>Color</code>
-     *                 with the same {@code alpha} value.
-     * @see        java.awt.Color#darker
+     * The {@code blphb} vblue is preserved.
+     * Although <code>brighter</code> bnd
+     * <code>dbrker</code> bre inverse operbtions, the results of b
+     * series of invocbtions of these two methods might be inconsistent
+     * becbuse of rounding errors.
+     * @return     b new <code>Color</code> object thbt is
+     *                 b brighter version of this <code>Color</code>
+     *                 with the sbme {@code blphb} vblue.
+     * @see        jbvb.bwt.Color#dbrker
      * @since      1.0
      */
     public Color brighter() {
         int r = getRed();
         int g = getGreen();
         int b = getBlue();
-        int alpha = getAlpha();
+        int blphb = getAlphb();
 
         /* From 2D group:
-         * 1. black.brighter() should return grey
-         * 2. applying brighter to blue will always return blue, brighter
-         * 3. non pure color (non zero rgb) will eventually return white
+         * 1. blbck.brighter() should return grey
+         * 2. bpplying brighter to blue will blwbys return blue, brighter
+         * 3. non pure color (non zero rgb) will eventublly return white
          */
         int i = (int)(1.0/(1.0-FACTOR));
         if ( r == 0 && g == 0 && b == 0) {
-            return new Color(i, i, i, alpha);
+            return new Color(i, i, i, blphb);
         }
         if ( r > 0 && r < i ) r = i;
         if ( g > 0 && g < i ) g = i;
         if ( b > 0 && b < i ) b = i;
 
-        return new Color(Math.min((int)(r/FACTOR), 255),
-                         Math.min((int)(g/FACTOR), 255),
-                         Math.min((int)(b/FACTOR), 255),
-                         alpha);
+        return new Color(Mbth.min((int)(r/FACTOR), 255),
+                         Mbth.min((int)(g/FACTOR), 255),
+                         Mbth.min((int)(b/FACTOR), 255),
+                         blphb);
     }
 
     /**
-     * Creates a new <code>Color</code> that is a darker version of this
+     * Crebtes b new <code>Color</code> thbt is b dbrker version of this
      * <code>Color</code>.
      * <p>
-     * This method applies an arbitrary scale factor to each of the three RGB
-     * components of this <code>Color</code> to create a darker version of
+     * This method bpplies bn brbitrbry scble fbctor to ebch of the three RGB
+     * components of this <code>Color</code> to crebte b dbrker version of
      * this <code>Color</code>.
-     * The {@code alpha} value is preserved.
-     * Although <code>brighter</code> and
-     * <code>darker</code> are inverse operations, the results of a series
-     * of invocations of these two methods might be inconsistent because
+     * The {@code blphb} vblue is preserved.
+     * Although <code>brighter</code> bnd
+     * <code>dbrker</code> bre inverse operbtions, the results of b series
+     * of invocbtions of these two methods might be inconsistent becbuse
      * of rounding errors.
-     * @return  a new <code>Color</code> object that is
-     *                    a darker version of this <code>Color</code>
-     *                    with the same {@code alpha} value.
-     * @see        java.awt.Color#brighter
+     * @return  b new <code>Color</code> object thbt is
+     *                    b dbrker version of this <code>Color</code>
+     *                    with the sbme {@code blphb} vblue.
+     * @see        jbvb.bwt.Color#brighter
      * @since      1.0
      */
-    public Color darker() {
-        return new Color(Math.max((int)(getRed()  *FACTOR), 0),
-                         Math.max((int)(getGreen()*FACTOR), 0),
-                         Math.max((int)(getBlue() *FACTOR), 0),
-                         getAlpha());
+    public Color dbrker() {
+        return new Color(Mbth.mbx((int)(getRed()  *FACTOR), 0),
+                         Mbth.mbx((int)(getGreen()*FACTOR), 0),
+                         Mbth.mbx((int)(getBlue() *FACTOR), 0),
+                         getAlphb());
     }
 
     /**
-     * Computes the hash code for this <code>Color</code>.
-     * @return     a hash code value for this object.
+     * Computes the hbsh code for this <code>Color</code>.
+     * @return     b hbsh code vblue for this object.
      * @since      1.0
      */
-    public int hashCode() {
-        return value;
+    public int hbshCode() {
+        return vblue;
     }
 
     /**
-     * Determines whether another object is equal to this
+     * Determines whether bnother object is equbl to this
      * <code>Color</code>.
      * <p>
-     * The result is <code>true</code> if and only if the argument is not
-     * <code>null</code> and is a <code>Color</code> object that has the same
-     * red, green, blue, and alpha values as this object.
-     * @param       obj   the object to test for equality with this
+     * The result is <code>true</code> if bnd only if the brgument is not
+     * <code>null</code> bnd is b <code>Color</code> object thbt hbs the sbme
+     * red, green, blue, bnd blphb vblues bs this object.
+     * @pbrbm       obj   the object to test for equblity with this
      *                          <code>Color</code>
-     * @return      <code>true</code> if the objects are the same;
-     *                             <code>false</code> otherwise.
+     * @return      <code>true</code> if the objects bre the sbme;
+     *                             <code>fblse</code> otherwise.
      * @since   1.0
      */
-    public boolean equals(Object obj) {
-        return obj instanceof Color && ((Color)obj).getRGB() == this.getRGB();
+    public boolebn equbls(Object obj) {
+        return obj instbnceof Color && ((Color)obj).getRGB() == this.getRGB();
     }
 
     /**
-     * Returns a string representation of this <code>Color</code>. This
+     * Returns b string representbtion of this <code>Color</code>. This
      * method is intended to be used only for debugging purposes.  The
-     * content and format of the returned string might vary between
-     * implementations. The returned string might be empty but cannot
+     * content bnd formbt of the returned string might vbry between
+     * implementbtions. The returned string might be empty but cbnnot
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>Color</code>.
+     * @return  b string representbtion of this <code>Color</code>.
      */
     public String toString() {
-        return getClass().getName() + "[r=" + getRed() + ",g=" + getGreen() + ",b=" + getBlue() + "]";
+        return getClbss().getNbme() + "[r=" + getRed() + ",g=" + getGreen() + ",b=" + getBlue() + "]";
     }
 
     /**
-     * Converts a <code>String</code> to an integer and returns the
-     * specified opaque <code>Color</code>. This method handles string
-     * formats that are used to represent octal and hexadecimal numbers.
-     * @param      nm a <code>String</code> that represents
-     *                            an opaque color as a 24-bit integer
+     * Converts b <code>String</code> to bn integer bnd returns the
+     * specified opbque <code>Color</code>. This method hbndles string
+     * formbts thbt bre used to represent octbl bnd hexbdecimbl numbers.
+     * @pbrbm      nm b <code>String</code> thbt represents
+     *                            bn opbque color bs b 24-bit integer
      * @return     the new <code>Color</code> object.
-     * @see        java.lang.Integer#decode
-     * @exception  NumberFormatException  if the specified string cannot
-     *                      be interpreted as a decimal,
-     *                      octal, or hexadecimal integer.
+     * @see        jbvb.lbng.Integer#decode
+     * @exception  NumberFormbtException  if the specified string cbnnot
+     *                      be interpreted bs b decimbl,
+     *                      octbl, or hexbdecimbl integer.
      * @since      1.1
      */
-    public static Color decode(String nm) throws NumberFormatException {
-        Integer intval = Integer.decode(nm);
-        int i = intval.intValue();
+    public stbtic Color decode(String nm) throws NumberFormbtException {
+        Integer intvbl = Integer.decode(nm);
+        int i = intvbl.intVblue();
         return new Color((i >> 16) & 0xFF, (i >> 8) & 0xFF, i & 0xFF);
     }
 
     /**
-     * Finds a color in the system properties.
+     * Finds b color in the system properties.
      * <p>
-     * The argument is treated as the name of a system property to
-     * be obtained. The string value of this property is then interpreted
-     * as an integer which is then converted to a <code>Color</code>
+     * The brgument is trebted bs the nbme of b system property to
+     * be obtbined. The string vblue of this property is then interpreted
+     * bs bn integer which is then converted to b <code>Color</code>
      * object.
      * <p>
-     * If the specified property is not found or could not be parsed as
-     * an integer then <code>null</code> is returned.
-     * @param    nm the name of the color property
+     * If the specified property is not found or could not be pbrsed bs
+     * bn integer then <code>null</code> is returned.
+     * @pbrbm    nm the nbme of the color property
      * @return   the <code>Color</code> converted from the system
      *          property.
-     * @see      java.lang.System#getProperty(java.lang.String)
-     * @see      java.lang.Integer#getInteger(java.lang.String)
-     * @see      java.awt.Color#Color(int)
+     * @see      jbvb.lbng.System#getProperty(jbvb.lbng.String)
+     * @see      jbvb.lbng.Integer#getInteger(jbvb.lbng.String)
+     * @see      jbvb.bwt.Color#Color(int)
      * @since    1.0
      */
-    public static Color getColor(String nm) {
+    public stbtic Color getColor(String nm) {
         return getColor(nm, null);
     }
 
     /**
-     * Finds a color in the system properties.
+     * Finds b color in the system properties.
      * <p>
-     * The first argument is treated as the name of a system property to
-     * be obtained. The string value of this property is then interpreted
-     * as an integer which is then converted to a <code>Color</code>
+     * The first brgument is trebted bs the nbme of b system property to
+     * be obtbined. The string vblue of this property is then interpreted
+     * bs bn integer which is then converted to b <code>Color</code>
      * object.
      * <p>
-     * If the specified property is not found or cannot be parsed as
-     * an integer then the <code>Color</code> specified by the second
-     * argument is returned instead.
-     * @param    nm the name of the color property
-     * @param    v    the default <code>Color</code>
+     * If the specified property is not found or cbnnot be pbrsed bs
+     * bn integer then the <code>Color</code> specified by the second
+     * brgument is returned instebd.
+     * @pbrbm    nm the nbme of the color property
+     * @pbrbm    v    the defbult <code>Color</code>
      * @return   the <code>Color</code> converted from the system
      *          property, or the specified <code>Color</code>.
-     * @see      java.lang.System#getProperty(java.lang.String)
-     * @see      java.lang.Integer#getInteger(java.lang.String)
-     * @see      java.awt.Color#Color(int)
+     * @see      jbvb.lbng.System#getProperty(jbvb.lbng.String)
+     * @see      jbvb.lbng.Integer#getInteger(jbvb.lbng.String)
+     * @see      jbvb.bwt.Color#Color(int)
      * @since    1.0
      */
-    public static Color getColor(String nm, Color v) {
-        Integer intval = Integer.getInteger(nm);
-        if (intval == null) {
+    public stbtic Color getColor(String nm, Color v) {
+        Integer intvbl = Integer.getInteger(nm);
+        if (intvbl == null) {
             return v;
         }
-        int i = intval.intValue();
+        int i = intvbl.intVblue();
         return new Color((i >> 16) & 0xFF, (i >> 8) & 0xFF, i & 0xFF);
     }
 
     /**
-     * Finds a color in the system properties.
+     * Finds b color in the system properties.
      * <p>
-     * The first argument is treated as the name of a system property to
-     * be obtained. The string value of this property is then interpreted
-     * as an integer which is then converted to a <code>Color</code>
+     * The first brgument is trebted bs the nbme of b system property to
+     * be obtbined. The string vblue of this property is then interpreted
+     * bs bn integer which is then converted to b <code>Color</code>
      * object.
      * <p>
-     * If the specified property is not found or could not be parsed as
-     * an integer then the integer value <code>v</code> is used instead,
-     * and is converted to a <code>Color</code> object.
-     * @param    nm  the name of the color property
-     * @param    v   the default color value, as an integer
+     * If the specified property is not found or could not be pbrsed bs
+     * bn integer then the integer vblue <code>v</code> is used instebd,
+     * bnd is converted to b <code>Color</code> object.
+     * @pbrbm    nm  the nbme of the color property
+     * @pbrbm    v   the defbult color vblue, bs bn integer
      * @return   the <code>Color</code> converted from the system
      *          property or the <code>Color</code> converted from
      *          the specified integer.
-     * @see      java.lang.System#getProperty(java.lang.String)
-     * @see      java.lang.Integer#getInteger(java.lang.String)
-     * @see      java.awt.Color#Color(int)
+     * @see      jbvb.lbng.System#getProperty(jbvb.lbng.String)
+     * @see      jbvb.lbng.Integer#getInteger(jbvb.lbng.String)
+     * @see      jbvb.bwt.Color#Color(int)
      * @since    1.0
      */
-    public static Color getColor(String nm, int v) {
-        Integer intval = Integer.getInteger(nm);
-        int i = (intval != null) ? intval.intValue() : v;
+    public stbtic Color getColor(String nm, int v) {
+        Integer intvbl = Integer.getInteger(nm);
+        int i = (intvbl != null) ? intvbl.intVblue() : v;
         return new Color((i >> 16) & 0xFF, (i >> 8) & 0xFF, (i >> 0) & 0xFF);
     }
 
     /**
-     * Converts the components of a color, as specified by the HSB
-     * model, to an equivalent set of values for the default RGB model.
+     * Converts the components of b color, bs specified by the HSB
+     * model, to bn equivblent set of vblues for the defbult RGB model.
      * <p>
-     * The <code>saturation</code> and <code>brightness</code> components
-     * should be floating-point values between zero and one
-     * (numbers in the range 0.0-1.0).  The <code>hue</code> component
-     * can be any floating-point number.  The floor of this number is
-     * subtracted from it to create a fraction between 0 and 1.  This
-     * fractional number is then multiplied by 360 to produce the hue
-     * angle in the HSB color model.
+     * The <code>sbturbtion</code> bnd <code>brightness</code> components
+     * should be flobting-point vblues between zero bnd one
+     * (numbers in the rbnge 0.0-1.0).  The <code>hue</code> component
+     * cbn be bny flobting-point number.  The floor of this number is
+     * subtrbcted from it to crebte b frbction between 0 bnd 1.  This
+     * frbctionbl number is then multiplied by 360 to produce the hue
+     * bngle in the HSB color model.
      * <p>
-     * The integer that is returned by <code>HSBtoRGB</code> encodes the
-     * value of a color in bits 0-23 of an integer value that is the same
-     * format used by the method {@link #getRGB() getRGB}.
-     * This integer can be supplied as an argument to the
-     * <code>Color</code> constructor that takes a single integer argument.
-     * @param     hue   the hue component of the color
-     * @param     saturation   the saturation of the color
-     * @param     brightness   the brightness of the color
-     * @return    the RGB value of the color with the indicated hue,
-     *                            saturation, and brightness.
-     * @see       java.awt.Color#getRGB()
-     * @see       java.awt.Color#Color(int)
-     * @see       java.awt.image.ColorModel#getRGBdefault()
+     * The integer thbt is returned by <code>HSBtoRGB</code> encodes the
+     * vblue of b color in bits 0-23 of bn integer vblue thbt is the sbme
+     * formbt used by the method {@link #getRGB() getRGB}.
+     * This integer cbn be supplied bs bn brgument to the
+     * <code>Color</code> constructor thbt tbkes b single integer brgument.
+     * @pbrbm     hue   the hue component of the color
+     * @pbrbm     sbturbtion   the sbturbtion of the color
+     * @pbrbm     brightness   the brightness of the color
+     * @return    the RGB vblue of the color with the indicbted hue,
+     *                            sbturbtion, bnd brightness.
+     * @see       jbvb.bwt.Color#getRGB()
+     * @see       jbvb.bwt.Color#Color(int)
+     * @see       jbvb.bwt.imbge.ColorModel#getRGBdefbult()
      * @since     1.0
      */
-    public static int HSBtoRGB(float hue, float saturation, float brightness) {
+    public stbtic int HSBtoRGB(flobt hue, flobt sbturbtion, flobt brightness) {
         int r = 0, g = 0, b = 0;
-        if (saturation == 0) {
+        if (sbturbtion == 0) {
             r = g = b = (int) (brightness * 255.0f + 0.5f);
         } else {
-            float h = (hue - (float)Math.floor(hue)) * 6.0f;
-            float f = h - (float)java.lang.Math.floor(h);
-            float p = brightness * (1.0f - saturation);
-            float q = brightness * (1.0f - saturation * f);
-            float t = brightness * (1.0f - (saturation * (1.0f - f)));
+            flobt h = (hue - (flobt)Mbth.floor(hue)) * 6.0f;
+            flobt f = h - (flobt)jbvb.lbng.Mbth.floor(h);
+            flobt p = brightness * (1.0f - sbturbtion);
+            flobt q = brightness * (1.0f - sbturbtion * f);
+            flobt t = brightness * (1.0f - (sbturbtion * (1.0f - f)));
             switch ((int) h) {
-            case 0:
+            cbse 0:
                 r = (int) (brightness * 255.0f + 0.5f);
                 g = (int) (t * 255.0f + 0.5f);
                 b = (int) (p * 255.0f + 0.5f);
-                break;
-            case 1:
+                brebk;
+            cbse 1:
                 r = (int) (q * 255.0f + 0.5f);
                 g = (int) (brightness * 255.0f + 0.5f);
                 b = (int) (p * 255.0f + 0.5f);
-                break;
-            case 2:
+                brebk;
+            cbse 2:
                 r = (int) (p * 255.0f + 0.5f);
                 g = (int) (brightness * 255.0f + 0.5f);
                 b = (int) (t * 255.0f + 0.5f);
-                break;
-            case 3:
+                brebk;
+            cbse 3:
                 r = (int) (p * 255.0f + 0.5f);
                 g = (int) (q * 255.0f + 0.5f);
                 b = (int) (brightness * 255.0f + 0.5f);
-                break;
-            case 4:
+                brebk;
+            cbse 4:
                 r = (int) (t * 255.0f + 0.5f);
                 g = (int) (p * 255.0f + 0.5f);
                 b = (int) (brightness * 255.0f + 0.5f);
-                break;
-            case 5:
+                brebk;
+            cbse 5:
                 r = (int) (brightness * 255.0f + 0.5f);
                 g = (int) (p * 255.0f + 0.5f);
                 b = (int) (q * 255.0f + 0.5f);
-                break;
+                brebk;
             }
         }
         return 0xff000000 | (r << 16) | (g << 8) | (b << 0);
     }
 
     /**
-     * Converts the components of a color, as specified by the default RGB
-     * model, to an equivalent set of values for hue, saturation, and
-     * brightness that are the three components of the HSB model.
+     * Converts the components of b color, bs specified by the defbult RGB
+     * model, to bn equivblent set of vblues for hue, sbturbtion, bnd
+     * brightness thbt bre the three components of the HSB model.
      * <p>
-     * If the <code>hsbvals</code> argument is <code>null</code>, then a
-     * new array is allocated to return the result. Otherwise, the method
-     * returns the array <code>hsbvals</code>, with the values put into
-     * that array.
-     * @param     r   the red component of the color
-     * @param     g   the green component of the color
-     * @param     b   the blue component of the color
-     * @param     hsbvals  the array used to return the
-     *                     three HSB values, or <code>null</code>
-     * @return    an array of three elements containing the hue, saturation,
-     *                     and brightness (in that order), of the color with
-     *                     the indicated red, green, and blue components.
-     * @see       java.awt.Color#getRGB()
-     * @see       java.awt.Color#Color(int)
-     * @see       java.awt.image.ColorModel#getRGBdefault()
+     * If the <code>hsbvbls</code> brgument is <code>null</code>, then b
+     * new brrby is bllocbted to return the result. Otherwise, the method
+     * returns the brrby <code>hsbvbls</code>, with the vblues put into
+     * thbt brrby.
+     * @pbrbm     r   the red component of the color
+     * @pbrbm     g   the green component of the color
+     * @pbrbm     b   the blue component of the color
+     * @pbrbm     hsbvbls  the brrby used to return the
+     *                     three HSB vblues, or <code>null</code>
+     * @return    bn brrby of three elements contbining the hue, sbturbtion,
+     *                     bnd brightness (in thbt order), of the color with
+     *                     the indicbted red, green, bnd blue components.
+     * @see       jbvb.bwt.Color#getRGB()
+     * @see       jbvb.bwt.Color#Color(int)
+     * @see       jbvb.bwt.imbge.ColorModel#getRGBdefbult()
      * @since     1.0
      */
-    public static float[] RGBtoHSB(int r, int g, int b, float[] hsbvals) {
-        float hue, saturation, brightness;
-        if (hsbvals == null) {
-            hsbvals = new float[3];
+    public stbtic flobt[] RGBtoHSB(int r, int g, int b, flobt[] hsbvbls) {
+        flobt hue, sbturbtion, brightness;
+        if (hsbvbls == null) {
+            hsbvbls = new flobt[3];
         }
-        int cmax = (r > g) ? r : g;
-        if (b > cmax) cmax = b;
+        int cmbx = (r > g) ? r : g;
+        if (b > cmbx) cmbx = b;
         int cmin = (r < g) ? r : g;
         if (b < cmin) cmin = b;
 
-        brightness = ((float) cmax) / 255.0f;
-        if (cmax != 0)
-            saturation = ((float) (cmax - cmin)) / ((float) cmax);
+        brightness = ((flobt) cmbx) / 255.0f;
+        if (cmbx != 0)
+            sbturbtion = ((flobt) (cmbx - cmin)) / ((flobt) cmbx);
         else
-            saturation = 0;
-        if (saturation == 0)
+            sbturbtion = 0;
+        if (sbturbtion == 0)
             hue = 0;
         else {
-            float redc = ((float) (cmax - r)) / ((float) (cmax - cmin));
-            float greenc = ((float) (cmax - g)) / ((float) (cmax - cmin));
-            float bluec = ((float) (cmax - b)) / ((float) (cmax - cmin));
-            if (r == cmax)
+            flobt redc = ((flobt) (cmbx - r)) / ((flobt) (cmbx - cmin));
+            flobt greenc = ((flobt) (cmbx - g)) / ((flobt) (cmbx - cmin));
+            flobt bluec = ((flobt) (cmbx - b)) / ((flobt) (cmbx - cmin));
+            if (r == cmbx)
                 hue = bluec - greenc;
-            else if (g == cmax)
+            else if (g == cmbx)
                 hue = 2.0f + redc - bluec;
             else
                 hue = 4.0f + greenc - redc;
@@ -935,309 +935,309 @@ public class Color implements Paint, java.io.Serializable {
             if (hue < 0)
                 hue = hue + 1.0f;
         }
-        hsbvals[0] = hue;
-        hsbvals[1] = saturation;
-        hsbvals[2] = brightness;
-        return hsbvals;
+        hsbvbls[0] = hue;
+        hsbvbls[1] = sbturbtion;
+        hsbvbls[2] = brightness;
+        return hsbvbls;
     }
 
     /**
-     * Creates a <code>Color</code> object based on the specified values
+     * Crebtes b <code>Color</code> object bbsed on the specified vblues
      * for the HSB color model.
      * <p>
-     * The <code>s</code> and <code>b</code> components should be
-     * floating-point values between zero and one
-     * (numbers in the range 0.0-1.0).  The <code>h</code> component
-     * can be any floating-point number.  The floor of this number is
-     * subtracted from it to create a fraction between 0 and 1.  This
-     * fractional number is then multiplied by 360 to produce the hue
-     * angle in the HSB color model.
-     * @param  h   the hue component
-     * @param  s   the saturation of the color
-     * @param  b   the brightness of the color
-     * @return  a <code>Color</code> object with the specified hue,
-     *                                 saturation, and brightness.
+     * The <code>s</code> bnd <code>b</code> components should be
+     * flobting-point vblues between zero bnd one
+     * (numbers in the rbnge 0.0-1.0).  The <code>h</code> component
+     * cbn be bny flobting-point number.  The floor of this number is
+     * subtrbcted from it to crebte b frbction between 0 bnd 1.  This
+     * frbctionbl number is then multiplied by 360 to produce the hue
+     * bngle in the HSB color model.
+     * @pbrbm  h   the hue component
+     * @pbrbm  s   the sbturbtion of the color
+     * @pbrbm  b   the brightness of the color
+     * @return  b <code>Color</code> object with the specified hue,
+     *                                 sbturbtion, bnd brightness.
      * @since   1.0
      */
-    public static Color getHSBColor(float h, float s, float b) {
+    public stbtic Color getHSBColor(flobt h, flobt s, flobt b) {
         return new Color(HSBtoRGB(h, s, b));
     }
 
     /**
-     * Returns a <code>float</code> array containing the color and alpha
-     * components of the <code>Color</code>, as represented in the default
-     * sRGB color space.
-     * If <code>compArray</code> is <code>null</code>, an array of length
-     * 4 is created for the return value.  Otherwise,
-     * <code>compArray</code> must have length 4 or greater,
-     * and it is filled in with the components and returned.
-     * @param compArray an array that this method fills with
-     *                  color and alpha components and returns
-     * @return the RGBA components in a <code>float</code> array.
+     * Returns b <code>flobt</code> brrby contbining the color bnd blphb
+     * components of the <code>Color</code>, bs represented in the defbult
+     * sRGB color spbce.
+     * If <code>compArrby</code> is <code>null</code>, bn brrby of length
+     * 4 is crebted for the return vblue.  Otherwise,
+     * <code>compArrby</code> must hbve length 4 or grebter,
+     * bnd it is filled in with the components bnd returned.
+     * @pbrbm compArrby bn brrby thbt this method fills with
+     *                  color bnd blphb components bnd returns
+     * @return the RGBA components in b <code>flobt</code> brrby.
      */
-    public float[] getRGBComponents(float[] compArray) {
-        float[] f;
-        if (compArray == null) {
-            f = new float[4];
+    public flobt[] getRGBComponents(flobt[] compArrby) {
+        flobt[] f;
+        if (compArrby == null) {
+            f = new flobt[4];
         } else {
-            f = compArray;
+            f = compArrby;
         }
-        if (frgbvalue == null) {
-            f[0] = ((float)getRed())/255f;
-            f[1] = ((float)getGreen())/255f;
-            f[2] = ((float)getBlue())/255f;
-            f[3] = ((float)getAlpha())/255f;
+        if (frgbvblue == null) {
+            f[0] = ((flobt)getRed())/255f;
+            f[1] = ((flobt)getGreen())/255f;
+            f[2] = ((flobt)getBlue())/255f;
+            f[3] = ((flobt)getAlphb())/255f;
         } else {
-            f[0] = frgbvalue[0];
-            f[1] = frgbvalue[1];
-            f[2] = frgbvalue[2];
-            f[3] = falpha;
+            f[0] = frgbvblue[0];
+            f[1] = frgbvblue[1];
+            f[2] = frgbvblue[2];
+            f[3] = fblphb;
         }
         return f;
     }
 
     /**
-     * Returns a <code>float</code> array containing only the color
-     * components of the <code>Color</code>, in the default sRGB color
-     * space.  If <code>compArray</code> is <code>null</code>, an array of
-     * length 3 is created for the return value.  Otherwise,
-     * <code>compArray</code> must have length 3 or greater, and it is
-     * filled in with the components and returned.
-     * @param compArray an array that this method fills with color
-     *          components and returns
-     * @return the RGB components in a <code>float</code> array.
+     * Returns b <code>flobt</code> brrby contbining only the color
+     * components of the <code>Color</code>, in the defbult sRGB color
+     * spbce.  If <code>compArrby</code> is <code>null</code>, bn brrby of
+     * length 3 is crebted for the return vblue.  Otherwise,
+     * <code>compArrby</code> must hbve length 3 or grebter, bnd it is
+     * filled in with the components bnd returned.
+     * @pbrbm compArrby bn brrby thbt this method fills with color
+     *          components bnd returns
+     * @return the RGB components in b <code>flobt</code> brrby.
      */
-    public float[] getRGBColorComponents(float[] compArray) {
-        float[] f;
-        if (compArray == null) {
-            f = new float[3];
+    public flobt[] getRGBColorComponents(flobt[] compArrby) {
+        flobt[] f;
+        if (compArrby == null) {
+            f = new flobt[3];
         } else {
-            f = compArray;
+            f = compArrby;
         }
-        if (frgbvalue == null) {
-            f[0] = ((float)getRed())/255f;
-            f[1] = ((float)getGreen())/255f;
-            f[2] = ((float)getBlue())/255f;
+        if (frgbvblue == null) {
+            f[0] = ((flobt)getRed())/255f;
+            f[1] = ((flobt)getGreen())/255f;
+            f[2] = ((flobt)getBlue())/255f;
         } else {
-            f[0] = frgbvalue[0];
-            f[1] = frgbvalue[1];
-            f[2] = frgbvalue[2];
+            f[0] = frgbvblue[0];
+            f[1] = frgbvblue[1];
+            f[2] = frgbvblue[2];
         }
         return f;
     }
 
     /**
-     * Returns a <code>float</code> array containing the color and alpha
+     * Returns b <code>flobt</code> brrby contbining the color bnd blphb
      * components of the <code>Color</code>, in the
-     * <code>ColorSpace</code> of the <code>Color</code>.
-     * If <code>compArray</code> is <code>null</code>, an array with
-     * length equal to the number of components in the associated
-     * <code>ColorSpace</code> plus one is created for
-     * the return value.  Otherwise, <code>compArray</code> must have at
-     * least this length and it is filled in with the components and
+     * <code>ColorSpbce</code> of the <code>Color</code>.
+     * If <code>compArrby</code> is <code>null</code>, bn brrby with
+     * length equbl to the number of components in the bssocibted
+     * <code>ColorSpbce</code> plus one is crebted for
+     * the return vblue.  Otherwise, <code>compArrby</code> must hbve bt
+     * lebst this length bnd it is filled in with the components bnd
      * returned.
-     * @param compArray an array that this method fills with the color and
-     *          alpha components of this <code>Color</code> in its
-     *          <code>ColorSpace</code> and returns
-     * @return the color and alpha components in a <code>float</code>
-     *          array.
+     * @pbrbm compArrby bn brrby thbt this method fills with the color bnd
+     *          blphb components of this <code>Color</code> in its
+     *          <code>ColorSpbce</code> bnd returns
+     * @return the color bnd blphb components in b <code>flobt</code>
+     *          brrby.
      */
-    public float[] getComponents(float[] compArray) {
-        if (fvalue == null)
-            return getRGBComponents(compArray);
-        float[] f;
-        int n = fvalue.length;
-        if (compArray == null) {
-            f = new float[n + 1];
+    public flobt[] getComponents(flobt[] compArrby) {
+        if (fvblue == null)
+            return getRGBComponents(compArrby);
+        flobt[] f;
+        int n = fvblue.length;
+        if (compArrby == null) {
+            f = new flobt[n + 1];
         } else {
-            f = compArray;
+            f = compArrby;
         }
         for (int i = 0; i < n; i++) {
-            f[i] = fvalue[i];
+            f[i] = fvblue[i];
         }
-        f[n] = falpha;
+        f[n] = fblphb;
         return f;
     }
 
     /**
-     * Returns a <code>float</code> array containing only the color
+     * Returns b <code>flobt</code> brrby contbining only the color
      * components of the <code>Color</code>, in the
-     * <code>ColorSpace</code> of the <code>Color</code>.
-     * If <code>compArray</code> is <code>null</code>, an array with
-     * length equal to the number of components in the associated
-     * <code>ColorSpace</code> is created for
-     * the return value.  Otherwise, <code>compArray</code> must have at
-     * least this length and it is filled in with the components and
+     * <code>ColorSpbce</code> of the <code>Color</code>.
+     * If <code>compArrby</code> is <code>null</code>, bn brrby with
+     * length equbl to the number of components in the bssocibted
+     * <code>ColorSpbce</code> is crebted for
+     * the return vblue.  Otherwise, <code>compArrby</code> must hbve bt
+     * lebst this length bnd it is filled in with the components bnd
      * returned.
-     * @param compArray an array that this method fills with the color
+     * @pbrbm compArrby bn brrby thbt this method fills with the color
      *          components of this <code>Color</code> in its
-     *          <code>ColorSpace</code> and returns
-     * @return the color components in a <code>float</code> array.
+     *          <code>ColorSpbce</code> bnd returns
+     * @return the color components in b <code>flobt</code> brrby.
      */
-    public float[] getColorComponents(float[] compArray) {
-        if (fvalue == null)
-            return getRGBColorComponents(compArray);
-        float[] f;
-        int n = fvalue.length;
-        if (compArray == null) {
-            f = new float[n];
+    public flobt[] getColorComponents(flobt[] compArrby) {
+        if (fvblue == null)
+            return getRGBColorComponents(compArrby);
+        flobt[] f;
+        int n = fvblue.length;
+        if (compArrby == null) {
+            f = new flobt[n];
         } else {
-            f = compArray;
+            f = compArrby;
         }
         for (int i = 0; i < n; i++) {
-            f[i] = fvalue[i];
+            f[i] = fvblue[i];
         }
         return f;
     }
 
     /**
-     * Returns a <code>float</code> array containing the color and alpha
+     * Returns b <code>flobt</code> brrby contbining the color bnd blphb
      * components of the <code>Color</code>, in the
-     * <code>ColorSpace</code> specified by the <code>cspace</code>
-     * parameter.  If <code>compArray</code> is <code>null</code>, an
-     * array with length equal to the number of components in
-     * <code>cspace</code> plus one is created for the return value.
-     * Otherwise, <code>compArray</code> must have at least this
-     * length, and it is filled in with the components and returned.
-     * @param cspace a specified <code>ColorSpace</code>
-     * @param compArray an array that this method fills with the
-     *          color and alpha components of this <code>Color</code> in
-     *          the specified <code>ColorSpace</code> and returns
-     * @return the color and alpha components in a <code>float</code>
-     *          array.
+     * <code>ColorSpbce</code> specified by the <code>cspbce</code>
+     * pbrbmeter.  If <code>compArrby</code> is <code>null</code>, bn
+     * brrby with length equbl to the number of components in
+     * <code>cspbce</code> plus one is crebted for the return vblue.
+     * Otherwise, <code>compArrby</code> must hbve bt lebst this
+     * length, bnd it is filled in with the components bnd returned.
+     * @pbrbm cspbce b specified <code>ColorSpbce</code>
+     * @pbrbm compArrby bn brrby thbt this method fills with the
+     *          color bnd blphb components of this <code>Color</code> in
+     *          the specified <code>ColorSpbce</code> bnd returns
+     * @return the color bnd blphb components in b <code>flobt</code>
+     *          brrby.
      */
-    public float[] getComponents(ColorSpace cspace, float[] compArray) {
+    public flobt[] getComponents(ColorSpbce cspbce, flobt[] compArrby) {
         if (cs == null) {
-            cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+            cs = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
         }
-        float f[];
-        if (fvalue == null) {
-            f = new float[3];
-            f[0] = ((float)getRed())/255f;
-            f[1] = ((float)getGreen())/255f;
-            f[2] = ((float)getBlue())/255f;
+        flobt f[];
+        if (fvblue == null) {
+            f = new flobt[3];
+            f[0] = ((flobt)getRed())/255f;
+            f[1] = ((flobt)getGreen())/255f;
+            f[2] = ((flobt)getBlue())/255f;
         } else {
-            f = fvalue;
+            f = fvblue;
         }
-        float tmp[] = cs.toCIEXYZ(f);
-        float tmpout[] = cspace.fromCIEXYZ(tmp);
-        if (compArray == null) {
-            compArray = new float[tmpout.length + 1];
+        flobt tmp[] = cs.toCIEXYZ(f);
+        flobt tmpout[] = cspbce.fromCIEXYZ(tmp);
+        if (compArrby == null) {
+            compArrby = new flobt[tmpout.length + 1];
         }
         for (int i = 0 ; i < tmpout.length ; i++) {
-            compArray[i] = tmpout[i];
+            compArrby[i] = tmpout[i];
         }
-        if (fvalue == null) {
-            compArray[tmpout.length] = ((float)getAlpha())/255f;
+        if (fvblue == null) {
+            compArrby[tmpout.length] = ((flobt)getAlphb())/255f;
         } else {
-            compArray[tmpout.length] = falpha;
+            compArrby[tmpout.length] = fblphb;
         }
-        return compArray;
+        return compArrby;
     }
 
     /**
-     * Returns a <code>float</code> array containing only the color
+     * Returns b <code>flobt</code> brrby contbining only the color
      * components of the <code>Color</code> in the
-     * <code>ColorSpace</code> specified by the <code>cspace</code>
-     * parameter. If <code>compArray</code> is <code>null</code>, an array
-     * with length equal to the number of components in
-     * <code>cspace</code> is created for the return value.  Otherwise,
-     * <code>compArray</code> must have at least this length, and it is
-     * filled in with the components and returned.
-     * @param cspace a specified <code>ColorSpace</code>
-     * @param compArray an array that this method fills with the color
+     * <code>ColorSpbce</code> specified by the <code>cspbce</code>
+     * pbrbmeter. If <code>compArrby</code> is <code>null</code>, bn brrby
+     * with length equbl to the number of components in
+     * <code>cspbce</code> is crebted for the return vblue.  Otherwise,
+     * <code>compArrby</code> must hbve bt lebst this length, bnd it is
+     * filled in with the components bnd returned.
+     * @pbrbm cspbce b specified <code>ColorSpbce</code>
+     * @pbrbm compArrby bn brrby thbt this method fills with the color
      *          components of this <code>Color</code> in the specified
-     *          <code>ColorSpace</code>
-     * @return the color components in a <code>float</code> array.
+     *          <code>ColorSpbce</code>
+     * @return the color components in b <code>flobt</code> brrby.
      */
-    public float[] getColorComponents(ColorSpace cspace, float[] compArray) {
+    public flobt[] getColorComponents(ColorSpbce cspbce, flobt[] compArrby) {
         if (cs == null) {
-            cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+            cs = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
         }
-        float f[];
-        if (fvalue == null) {
-            f = new float[3];
-            f[0] = ((float)getRed())/255f;
-            f[1] = ((float)getGreen())/255f;
-            f[2] = ((float)getBlue())/255f;
+        flobt f[];
+        if (fvblue == null) {
+            f = new flobt[3];
+            f[0] = ((flobt)getRed())/255f;
+            f[1] = ((flobt)getGreen())/255f;
+            f[2] = ((flobt)getBlue())/255f;
         } else {
-            f = fvalue;
+            f = fvblue;
         }
-        float tmp[] = cs.toCIEXYZ(f);
-        float tmpout[] = cspace.fromCIEXYZ(tmp);
-        if (compArray == null) {
+        flobt tmp[] = cs.toCIEXYZ(f);
+        flobt tmpout[] = cspbce.fromCIEXYZ(tmp);
+        if (compArrby == null) {
             return tmpout;
         }
         for (int i = 0 ; i < tmpout.length ; i++) {
-            compArray[i] = tmpout[i];
+            compArrby[i] = tmpout[i];
         }
-        return compArray;
+        return compArrby;
     }
 
     /**
-     * Returns the <code>ColorSpace</code> of this <code>Color</code>.
-     * @return this <code>Color</code> object's <code>ColorSpace</code>.
+     * Returns the <code>ColorSpbce</code> of this <code>Color</code>.
+     * @return this <code>Color</code> object's <code>ColorSpbce</code>.
      */
-    public ColorSpace getColorSpace() {
+    public ColorSpbce getColorSpbce() {
         if (cs == null) {
-            cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+            cs = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
         }
         return cs;
     }
 
     /**
-     * Creates and returns a {@link PaintContext} used to
-     * generate a solid color field pattern.
-     * See the {@link Paint#createContext specification} of the
-     * method in the {@link Paint} interface for information
-     * on null parameter handling.
+     * Crebtes bnd returns b {@link PbintContext} used to
+     * generbte b solid color field pbttern.
+     * See the {@link Pbint#crebteContext specificbtion} of the
+     * method in the {@link Pbint} interfbce for informbtion
+     * on null pbrbmeter hbndling.
      *
-     * @param cm the preferred {@link ColorModel} which represents the most convenient
-     *           format for the caller to receive the pixel data, or {@code null}
+     * @pbrbm cm the preferred {@link ColorModel} which represents the most convenient
+     *           formbt for the cbller to receive the pixel dbtb, or {@code null}
      *           if there is no preference.
-     * @param r the device space bounding box
-     *                     of the graphics primitive being rendered.
-     * @param r2d the user space bounding box
-     *                   of the graphics primitive being rendered.
-     * @param xform the {@link AffineTransform} from user
-     *              space into device space.
-     * @param hints the set of hints that the context object can use to
-     *              choose between rendering alternatives.
-     * @return the {@code PaintContext} for
-     *         generating color patterns.
-     * @see Paint
-     * @see PaintContext
+     * @pbrbm r the device spbce bounding box
+     *                     of the grbphics primitive being rendered.
+     * @pbrbm r2d the user spbce bounding box
+     *                   of the grbphics primitive being rendered.
+     * @pbrbm xform the {@link AffineTrbnsform} from user
+     *              spbce into device spbce.
+     * @pbrbm hints the set of hints thbt the context object cbn use to
+     *              choose between rendering blternbtives.
+     * @return the {@code PbintContext} for
+     *         generbting color pbtterns.
+     * @see Pbint
+     * @see PbintContext
      * @see ColorModel
-     * @see Rectangle
-     * @see Rectangle2D
-     * @see AffineTransform
+     * @see Rectbngle
+     * @see Rectbngle2D
+     * @see AffineTrbnsform
      * @see RenderingHints
      */
-    public synchronized PaintContext createContext(ColorModel cm, Rectangle r,
-                                                   Rectangle2D r2d,
-                                                   AffineTransform xform,
+    public synchronized PbintContext crebteContext(ColorModel cm, Rectbngle r,
+                                                   Rectbngle2D r2d,
+                                                   AffineTrbnsform xform,
                                                    RenderingHints hints) {
-        return new ColorPaintContext(getRGB(), cm);
+        return new ColorPbintContext(getRGB(), cm);
     }
 
     /**
-     * Returns the transparency mode for this <code>Color</code>.  This is
-     * required to implement the <code>Paint</code> interface.
-     * @return this <code>Color</code> object's transparency mode.
-     * @see Paint
-     * @see Transparency
-     * @see #createContext
+     * Returns the trbnspbrency mode for this <code>Color</code>.  This is
+     * required to implement the <code>Pbint</code> interfbce.
+     * @return this <code>Color</code> object's trbnspbrency mode.
+     * @see Pbint
+     * @see Trbnspbrency
+     * @see #crebteContext
      */
-    public int getTransparency() {
-        int alpha = getAlpha();
-        if (alpha == 0xff) {
-            return Transparency.OPAQUE;
+    public int getTrbnspbrency() {
+        int blphb = getAlphb();
+        if (blphb == 0xff) {
+            return Trbnspbrency.OPAQUE;
         }
-        else if (alpha == 0) {
-            return Transparency.BITMASK;
+        else if (blphb == 0) {
+            return Trbnspbrency.BITMASK;
         }
         else {
-            return Transparency.TRANSLUCENT;
+            return Trbnspbrency.TRANSLUCENT;
         }
     }
 

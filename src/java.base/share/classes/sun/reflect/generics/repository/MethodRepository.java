@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.generics.repository;
+pbckbge sun.reflect.generics.repository;
 
 
-import java.lang.reflect.Type;
-import sun.reflect.generics.factory.GenericsFactory;
+import jbvb.lbng.reflect.Type;
+import sun.reflect.generics.fbctory.GenericsFbctory;
 import sun.reflect.generics.visitor.Reifier;
 
 
 
 /**
- * This class represents the generic type information for a method.
- * The code is not dependent on a particular reflective implementation.
- * It is designed to be used unchanged by at least core reflection and JDI.
+ * This clbss represents the generic type informbtion for b method.
+ * The code is not dependent on b pbrticulbr reflective implementbtion.
+ * It is designed to be used unchbnged by bt lebst core reflection bnd JDI.
  */
-public class MethodRepository extends ConstructorRepository {
+public clbss MethodRepository extends ConstructorRepository {
 
-    private Type returnType; // caches the generic return type info
+    privbte Type returnType; // cbches the generic return type info
 
- // private, to enforce use of static factory
-    private MethodRepository(String rawSig, GenericsFactory f) {
-      super(rawSig, f);
+ // privbte, to enforce use of stbtic fbctory
+    privbte MethodRepository(String rbwSig, GenericsFbctory f) {
+      super(rbwSig, f);
     }
 
     /**
-     * Static factory method.
-     * @param rawSig - the generic signature of the reflective object
-     * that this repository is servicing
-     * @param f - a factory that will provide instances of reflective
+     * Stbtic fbctory method.
+     * @pbrbm rbwSig - the generic signbture of the reflective object
+     * thbt this repository is servicing
+     * @pbrbm f - b fbctory thbt will provide instbnces of reflective
      * objects when this repository converts its AST
-     * @return a <tt>MethodRepository</tt> that manages the generic type
-     * information represented in the signature <tt>rawSig</tt>
+     * @return b <tt>MethodRepository</tt> thbt mbnbges the generic type
+     * informbtion represented in the signbture <tt>rbwSig</tt>
      */
-    public static MethodRepository make(String rawSig, GenericsFactory f) {
-        return new MethodRepository(rawSig, f);
+    public stbtic MethodRepository mbke(String rbwSig, GenericsFbctory f) {
+        return new MethodRepository(rbwSig, f);
     }
 
     // public API
 
     public Type getReturnType() {
-        if (returnType == null) { // lazily initialize return type
-            Reifier r = getReifier(); // obtain visitor
-            // Extract return type subtree from AST and reify
-            getTree().getReturnType().accept(r);
-            // extract result from visitor and cache it
+        if (returnType == null) { // lbzily initiblize return type
+            Reifier r = getReifier(); // obtbin visitor
+            // Extrbct return type subtree from AST bnd reify
+            getTree().getReturnType().bccept(r);
+            // extrbct result from visitor bnd cbche it
             returnType = r.getResult();
             }
-        return returnType; // return cached result
+        return returnType; // return cbched result
     }
 
 

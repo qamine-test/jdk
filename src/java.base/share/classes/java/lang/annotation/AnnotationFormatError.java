@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.annotation;
+pbckbge jbvb.lbng.bnnotbtion;
 
 /**
- * Thrown when the annotation parser attempts to read an annotation
- * from a class file and determines that the annotation is malformed.
- * This error can be thrown by the {@linkplain
- * java.lang.reflect.AnnotatedElement API used to read annotations
+ * Thrown when the bnnotbtion pbrser bttempts to rebd bn bnnotbtion
+ * from b clbss file bnd determines thbt the bnnotbtion is mblformed.
+ * This error cbn be thrown by the {@linkplbin
+ * jbvb.lbng.reflect.AnnotbtedElement API used to rebd bnnotbtions
  * reflectively}.
  *
- * @author  Josh Bloch
- * @see     java.lang.reflect.AnnotatedElement
+ * @buthor  Josh Bloch
+ * @see     jbvb.lbng.reflect.AnnotbtedElement
  * @since   1.5
  */
-public class AnnotationFormatError extends Error {
-    private static final long serialVersionUID = -4256701562333669892L;
+public clbss AnnotbtionFormbtError extends Error {
+    privbte stbtic finbl long seriblVersionUID = -4256701562333669892L;
 
     /**
-     * Constructs a new <tt>AnnotationFormatError</tt> with the specified
-     * detail message.
+     * Constructs b new <tt>AnnotbtionFormbtError</tt> with the specified
+     * detbil messbge.
      *
-     * @param   message   the detail message.
+     * @pbrbm   messbge   the detbil messbge.
      */
-    public AnnotationFormatError(String message) {
-        super(message);
+    public AnnotbtionFormbtError(String messbge) {
+        super(messbge);
     }
 
     /**
-     * Constructs a new <tt>AnnotationFormatError</tt> with the specified
-     * detail message and cause.  Note that the detail message associated
-     * with <code>cause</code> is <i>not</i> automatically incorporated in
-     * this error's detail message.
+     * Constructs b new <tt>AnnotbtionFormbtError</tt> with the specified
+     * detbil messbge bnd cbuse.  Note thbt the detbil messbge bssocibted
+     * with <code>cbuse</code> is <i>not</i> butombticblly incorporbted in
+     * this error's detbil messbge.
      *
-     * @param  message the detail message
-     * @param  cause the cause (A <tt>null</tt> value is permitted, and
-     *     indicates that the cause is nonexistent or unknown.)
+     * @pbrbm  messbge the detbil messbge
+     * @pbrbm  cbuse the cbuse (A <tt>null</tt> vblue is permitted, bnd
+     *     indicbtes thbt the cbuse is nonexistent or unknown.)
      */
-    public AnnotationFormatError(String message, Throwable cause) {
-        super(message, cause);
+    public AnnotbtionFormbtError(String messbge, Throwbble cbuse) {
+        super(messbge, cbuse);
     }
 
 
     /**
-     * Constructs a new <tt>AnnotationFormatError</tt> with the specified
-     * cause and a detail message of
-     * <tt>(cause == null ? null : cause.toString())</tt> (which
-     * typically contains the class and detail message of <tt>cause</tt>).
+     * Constructs b new <tt>AnnotbtionFormbtError</tt> with the specified
+     * cbuse bnd b detbil messbge of
+     * <tt>(cbuse == null ? null : cbuse.toString())</tt> (which
+     * typicblly contbins the clbss bnd detbil messbge of <tt>cbuse</tt>).
      *
-     * @param  cause the cause (A <tt>null</tt> value is permitted, and
-     *     indicates that the cause is nonexistent or unknown.)
+     * @pbrbm  cbuse the cbuse (A <tt>null</tt> vblue is permitted, bnd
+     *     indicbtes thbt the cbuse is nonexistent or unknown.)
      */
-    public AnnotationFormatError(Throwable cause) {
-        super(cause);
+    public AnnotbtionFormbtError(Throwbble cbuse) {
+        super(cbuse);
     }
 }

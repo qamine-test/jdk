@@ -1,215 +1,215 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import com.sun.jmx.mbeanserver.Introspector;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.util.Arrays;
-import java.util.Objects;
+import com.sun.jmx.mbebnserver.Introspector;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.util.Arrbys;
+import jbvb.util.Objects;
 
 /**
- * Describes a constructor exposed by an MBean.  Instances of this
- * class are immutable.  Subclasses may be mutable but this is not
+ * Describes b constructor exposed by bn MBebn.  Instbnces of this
+ * clbss bre immutbble.  Subclbsses mby be mutbble but this is not
  * recommended.
  *
  * @since 1.5
  */
-public class MBeanConstructorInfo extends MBeanFeatureInfo implements Cloneable {
+public clbss MBebnConstructorInfo extends MBebnFebtureInfo implements Clonebble {
 
-    /* Serial version */
-    static final long serialVersionUID = 4433990064191844427L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = 4433990064191844427L;
 
-    static final MBeanConstructorInfo[] NO_CONSTRUCTORS =
-        new MBeanConstructorInfo[0];
+    stbtic finbl MBebnConstructorInfo[] NO_CONSTRUCTORS =
+        new MBebnConstructorInfo[0];
 
-    /** @see MBeanInfo#arrayGettersSafe */
-    private final transient boolean arrayGettersSafe;
+    /** @see MBebnInfo#brrbyGettersSbfe */
+    privbte finbl trbnsient boolebn brrbyGettersSbfe;
 
     /**
-     * @serial The signature of the method, that is, the class names of the arguments.
+     * @seribl The signbture of the method, thbt is, the clbss nbmes of the brguments.
      */
-    private final MBeanParameterInfo[] signature;
+    privbte finbl MBebnPbrbmeterInfo[] signbture;
 
     /**
-     * Constructs an <CODE>MBeanConstructorInfo</CODE> object.  The
+     * Constructs bn <CODE>MBebnConstructorInfo</CODE> object.  The
      * {@link Descriptor} of the constructed object will include
-     * fields contributed by any annotations on the {@code
-     * Constructor} object that contain the {@link DescriptorKey}
-     * meta-annotation.
+     * fields contributed by bny bnnotbtions on the {@code
+     * Constructor} object thbt contbin the {@link DescriptorKey}
+     * metb-bnnotbtion.
      *
-     * @param description A human readable description of the operation.
-     * @param constructor The <CODE>java.lang.reflect.Constructor</CODE>
-     * object describing the MBean constructor.
+     * @pbrbm description A humbn rebdbble description of the operbtion.
+     * @pbrbm constructor The <CODE>jbvb.lbng.reflect.Constructor</CODE>
+     * object describing the MBebn constructor.
      */
-    public MBeanConstructorInfo(String description, Constructor<?> constructor) {
-        this(constructor.getName(), description,
-             constructorSignature(constructor),
+    public MBebnConstructorInfo(String description, Constructor<?> constructor) {
+        this(constructor.getNbme(), description,
+             constructorSignbture(constructor),
              Introspector.descriptorForElement(constructor));
     }
 
     /**
-     * Constructs an <CODE>MBeanConstructorInfo</CODE> object.
+     * Constructs bn <CODE>MBebnConstructorInfo</CODE> object.
      *
-     * @param name The name of the constructor.
-     * @param signature <CODE>MBeanParameterInfo</CODE> objects
-     * describing the parameters(arguments) of the constructor.  This
-     * may be null with the same effect as a zero-length array.
-     * @param description A human readable description of the constructor.
+     * @pbrbm nbme The nbme of the constructor.
+     * @pbrbm signbture <CODE>MBebnPbrbmeterInfo</CODE> objects
+     * describing the pbrbmeters(brguments) of the constructor.  This
+     * mby be null with the sbme effect bs b zero-length brrby.
+     * @pbrbm description A humbn rebdbble description of the constructor.
      */
-    public MBeanConstructorInfo(String name,
+    public MBebnConstructorInfo(String nbme,
                                 String description,
-                                MBeanParameterInfo[] signature) {
-        this(name, description, signature, null);
+                                MBebnPbrbmeterInfo[] signbture) {
+        this(nbme, description, signbture, null);
     }
 
     /**
-     * Constructs an <CODE>MBeanConstructorInfo</CODE> object.
+     * Constructs bn <CODE>MBebnConstructorInfo</CODE> object.
      *
-     * @param name The name of the constructor.
-     * @param signature <CODE>MBeanParameterInfo</CODE> objects
-     * describing the parameters(arguments) of the constructor.  This
-     * may be null with the same effect as a zero-length array.
-     * @param description A human readable description of the constructor.
-     * @param descriptor The descriptor for the constructor.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm nbme The nbme of the constructor.
+     * @pbrbm signbture <CODE>MBebnPbrbmeterInfo</CODE> objects
+     * describing the pbrbmeters(brguments) of the constructor.  This
+     * mby be null with the sbme effect bs b zero-length brrby.
+     * @pbrbm description A humbn rebdbble description of the constructor.
+     * @pbrbm descriptor The descriptor for the constructor.  This mby be null
+     * which is equivblent to bn empty descriptor.
      *
      * @since 1.6
      */
-    public MBeanConstructorInfo(String name,
+    public MBebnConstructorInfo(String nbme,
                                 String description,
-                                MBeanParameterInfo[] signature,
+                                MBebnPbrbmeterInfo[] signbture,
                                 Descriptor descriptor) {
-        super(name, description, descriptor);
+        super(nbme, description, descriptor);
 
-        if (signature == null || signature.length == 0)
-            signature = MBeanParameterInfo.NO_PARAMS;
+        if (signbture == null || signbture.length == 0)
+            signbture = MBebnPbrbmeterInfo.NO_PARAMS;
         else
-            signature = signature.clone();
-        this.signature = signature;
-        this.arrayGettersSafe =
-            MBeanInfo.arrayGettersSafe(this.getClass(),
-                                       MBeanConstructorInfo.class);
+            signbture = signbture.clone();
+        this.signbture = signbture;
+        this.brrbyGettersSbfe =
+            MBebnInfo.brrbyGettersSbfe(this.getClbss(),
+                                       MBebnConstructorInfo.clbss);
     }
 
 
     /**
-     * <p>Returns a shallow clone of this instance.  The clone is
-     * obtained by simply calling <tt>super.clone()</tt>, thus calling
-     * the default native shallow cloning mechanism implemented by
-     * <tt>Object.clone()</tt>.  No deeper cloning of any internal
-     * field is made.</p>
+     * <p>Returns b shbllow clone of this instbnce.  The clone is
+     * obtbined by simply cblling <tt>super.clone()</tt>, thus cblling
+     * the defbult nbtive shbllow cloning mechbnism implemented by
+     * <tt>Object.clone()</tt>.  No deeper cloning of bny internbl
+     * field is mbde.</p>
      *
-     * <p>Since this class is immutable, cloning is chiefly of
-     * interest to subclasses.</p>
+     * <p>Since this clbss is immutbble, cloning is chiefly of
+     * interest to subclbsses.</p>
      */
      public Object clone () {
          try {
              return super.clone() ;
-         } catch (CloneNotSupportedException e) {
-             // should not happen as this class is cloneable
+         } cbtch (CloneNotSupportedException e) {
+             // should not hbppen bs this clbss is clonebble
              return null;
          }
      }
 
     /**
-     * <p>Returns the list of parameters for this constructor.  Each
-     * parameter is described by an <CODE>MBeanParameterInfo</CODE>
+     * <p>Returns the list of pbrbmeters for this constructor.  Ebch
+     * pbrbmeter is described by bn <CODE>MBebnPbrbmeterInfo</CODE>
      * object.</p>
      *
-     * <p>The returned array is a shallow copy of the internal array,
-     * which means that it is a copy of the internal array of
-     * references to the <CODE>MBeanParameterInfo</CODE> objects but
-     * that each referenced <CODE>MBeanParameterInfo</CODE> object is
+     * <p>The returned brrby is b shbllow copy of the internbl brrby,
+     * which mebns thbt it is b copy of the internbl brrby of
+     * references to the <CODE>MBebnPbrbmeterInfo</CODE> objects but
+     * thbt ebch referenced <CODE>MBebnPbrbmeterInfo</CODE> object is
      * not copied.</p>
      *
-     * @return  An array of <CODE>MBeanParameterInfo</CODE> objects.
+     * @return  An brrby of <CODE>MBebnPbrbmeterInfo</CODE> objects.
      */
-    public MBeanParameterInfo[] getSignature() {
-        if (signature.length == 0)
-            return signature;
+    public MBebnPbrbmeterInfo[] getSignbture() {
+        if (signbture.length == 0)
+            return signbture;
         else
-            return signature.clone();
+            return signbture.clone();
     }
 
-    private MBeanParameterInfo[] fastGetSignature() {
-        if (arrayGettersSafe)
-            return signature;
+    privbte MBebnPbrbmeterInfo[] fbstGetSignbture() {
+        if (brrbyGettersSbfe)
+            return signbture;
         else
-            return getSignature();
+            return getSignbture();
     }
 
     public String toString() {
         return
-            getClass().getName() + "[" +
+            getClbss().getNbme() + "[" +
             "description=" + getDescription() + ", " +
-            "name=" + getName() + ", " +
-            "signature=" + Arrays.asList(fastGetSignature()) + ", " +
+            "nbme=" + getNbme() + ", " +
+            "signbture=" + Arrbys.bsList(fbstGetSignbture()) + ", " +
             "descriptor=" + getDescriptor() +
             "]";
     }
 
     /**
-     * Compare this MBeanConstructorInfo to another.
+     * Compbre this MBebnConstructorInfo to bnother.
      *
-     * @param o the object to compare to.
+     * @pbrbm o the object to compbre to.
      *
-     * @return true if and only if <code>o</code> is an MBeanConstructorInfo such
-     * that its {@link #getName()}, {@link #getDescription()},
-     * {@link #getSignature()}, and {@link #getDescriptor()}
-     * values are equal (not necessarily
-     * identical) to those of this MBeanConstructorInfo.  Two
-     * signature arrays are equal if their elements are pairwise
-     * equal.
+     * @return true if bnd only if <code>o</code> is bn MBebnConstructorInfo such
+     * thbt its {@link #getNbme()}, {@link #getDescription()},
+     * {@link #getSignbture()}, bnd {@link #getDescriptor()}
+     * vblues bre equbl (not necessbrily
+     * identicbl) to those of this MBebnConstructorInfo.  Two
+     * signbture brrbys bre equbl if their elements bre pbirwise
+     * equbl.
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof MBeanConstructorInfo))
-            return false;
-        MBeanConstructorInfo p = (MBeanConstructorInfo) o;
-        return (Objects.equals(p.getName(), getName()) &&
-                Objects.equals(p.getDescription(), getDescription()) &&
-                Arrays.equals(p.fastGetSignature(), fastGetSignature()) &&
-                Objects.equals(p.getDescriptor(), getDescriptor()));
+        if (!(o instbnceof MBebnConstructorInfo))
+            return fblse;
+        MBebnConstructorInfo p = (MBebnConstructorInfo) o;
+        return (Objects.equbls(p.getNbme(), getNbme()) &&
+                Objects.equbls(p.getDescription(), getDescription()) &&
+                Arrbys.equbls(p.fbstGetSignbture(), fbstGetSignbture()) &&
+                Objects.equbls(p.getDescriptor(), getDescriptor()));
     }
 
-    /* Unlike attributes and operations, it's quite likely we'll have
-       more than one constructor with the same name and even
-       description, so we include the parameter array in the hashcode.
-       We don't include the description, though, because it could be
-       quite long and yet the same between constructors.  Likewise for
+    /* Unlike bttributes bnd operbtions, it's quite likely we'll hbve
+       more thbn one constructor with the sbme nbme bnd even
+       description, so we include the pbrbmeter brrby in the hbshcode.
+       We don't include the description, though, becbuse it could be
+       quite long bnd yet the sbme between constructors.  Likewise for
        the descriptor.  */
-    public int hashCode() {
-        return Objects.hash(getName()) ^ Arrays.hashCode(fastGetSignature());
+    public int hbshCode() {
+        return Objects.hbsh(getNbme()) ^ Arrbys.hbshCode(fbstGetSignbture());
     }
 
-    private static MBeanParameterInfo[] constructorSignature(Constructor<?> cn) {
-        final Class<?>[] classes = cn.getParameterTypes();
-        final Annotation[][] annots = cn.getParameterAnnotations();
-        return MBeanOperationInfo.parameters(classes, annots);
+    privbte stbtic MBebnPbrbmeterInfo[] constructorSignbture(Constructor<?> cn) {
+        finbl Clbss<?>[] clbsses = cn.getPbrbmeterTypes();
+        finbl Annotbtion[][] bnnots = cn.getPbrbmeterAnnotbtions();
+        return MBebnOperbtionInfo.pbrbmeters(clbsses, bnnots);
     }
 }

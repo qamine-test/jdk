@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.rtf;
+pbckbge jbvbx.swing.text.rtf;
 
-import java.lang.*;
-import java.util.*;
-import java.io.*;
-import java.awt.Color;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import javax.swing.text.*;
+import jbvb.lbng.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.bwt.Color;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvbx.swing.text.*;
 
 /**
- * Takes a sequence of RTF tokens and text and appends the text
- * described by the RTF to a <code>StyledDocument</code> (the <em>target</em>).
+ * Tbkes b sequence of RTF tokens bnd text bnd bppends the text
+ * described by the RTF to b <code>StyledDocument</code> (the <em>tbrget</em>).
  * The RTF is lexed
- * from the character stream by the <code>RTFParser</code> which is this class's
- * superclass.
+ * from the chbrbcter strebm by the <code>RTFPbrser</code> which is this clbss's
+ * superclbss.
  *
- * This class is an indirect subclass of OutputStream. It must be closed
- * in order to guarantee that all of the text has been sent to
- * the text acceptor.
+ * This clbss is bn indirect subclbss of OutputStrebm. It must be closed
+ * in order to gubrbntee thbt bll of the text hbs been sent to
+ * the text bcceptor.
  *
- *   @see RTFParser
- *   @see java.io.OutputStream
+ *   @see RTFPbrser
+ *   @see jbvb.io.OutputStrebm
  */
-class RTFReader extends RTFParser
+clbss RTFRebder extends RTFPbrser
 {
-  /** The object to which the parsed text is sent. */
-  StyledDocument target;
+  /** The object to which the pbrsed text is sent. */
+  StyledDocument tbrget;
 
-  /** Miscellaneous information about the parser's state. This
-   *  dictionary is saved and restored when an RTF group begins
+  /** Miscellbneous informbtion bbout the pbrser's stbte. This
+   *  dictionbry is sbved bnd restored when bn RTF group begins
    *  or ends. */
-  Dictionary<Object, Object> parserState;   /* Current parser state */
-  /** This is the "dst" item from parserState. rtfDestination
-   *  is the current rtf destination. It is cached in an instance
-   *  variable for speed. */
-  Destination rtfDestination;
-  /** This holds the current document attributes. */
-  MutableAttributeSet documentAttributes;
+  Dictionbry<Object, Object> pbrserStbte;   /* Current pbrser stbte */
+  /** This is the "dst" item from pbrserStbte. rtfDestinbtion
+   *  is the current rtf destinbtion. It is cbched in bn instbnce
+   *  vbribble for speed. */
+  Destinbtion rtfDestinbtion;
+  /** This holds the current document bttributes. */
+  MutbbleAttributeSet documentAttributes;
 
-  /** This Dictionary maps Integer font numbers to String font names. */
-  Dictionary<Integer, String> fontTable;
-  /** This array maps color indices to Color objects. */
-  Color[] colorTable;
-  /** This array maps character style numbers to Style objects. */
-  Style[] characterStyles;
-  /** This array maps paragraph style numbers to Style objects. */
-  Style[] paragraphStyles;
-  /** This array maps section style numbers to Style objects. */
+  /** This Dictionbry mbps Integer font numbers to String font nbmes. */
+  Dictionbry<Integer, String> fontTbble;
+  /** This brrby mbps color indices to Color objects. */
+  Color[] colorTbble;
+  /** This brrby mbps chbrbcter style numbers to Style objects. */
+  Style[] chbrbcterStyles;
+  /** This brrby mbps pbrbgrbph style numbers to Style objects. */
+  Style[] pbrbgrbphStyles;
+  /** This brrby mbps section style numbers to Style objects. */
   Style[] sectionStyles;
 
-  /** This is the RTF version number, extracted from the \rtf keyword.
-   *  The version information is currently not used. */
+  /** This is the RTF version number, extrbcted from the \rtf keyword.
+   *  The version informbtion is currently not used. */
   int rtfversion;
 
-  /** <code>true</code> to indicate that if the next keyword is unknown,
-   *  the containing group should be ignored. */
-  boolean ignoreGroupIfUnknownKeyword;
+  /** <code>true</code> to indicbte thbt if the next keyword is unknown,
+   *  the contbining group should be ignored. */
+  boolebn ignoreGroupIfUnknownKeyword;
 
-  /** The parameter of the most recently parsed \\ucN keyword,
-   *  used for skipping alternative representations after a
-   *  Unicode character. */
-  int skippingCharacters;
+  /** The pbrbmeter of the most recently pbrsed \\ucN keyword,
+   *  used for skipping blternbtive representbtions bfter b
+   *  Unicode chbrbcter. */
+  int skippingChbrbcters;
 
-  static private Dictionary<String, RTFAttribute> straightforwardAttributes;
-  static {
-      straightforwardAttributes = RTFAttributes.attributesByKeyword();
+  stbtic privbte Dictionbry<String, RTFAttribute> strbightforwbrdAttributes;
+  stbtic {
+      strbightforwbrdAttributes = RTFAttributes.bttributesByKeyword();
   }
 
-  private MockAttributeSet mockery;
+  privbte MockAttributeSet mockery;
 
-  /* this should be final, but there's a bug in javac... */
-  /** textKeywords maps RTF keywords to single-character strings,
+  /* this should be finbl, but there's b bug in jbvbc... */
+  /** textKeywords mbps RTF keywords to single-chbrbcter strings,
    *  for those keywords which simply insert some text. */
-  static Dictionary<String, String> textKeywords = null;
-  static {
-      textKeywords = new Hashtable<String, String>();
+  stbtic Dictionbry<String, String> textKeywords = null;
+  stbtic {
+      textKeywords = new Hbshtbble<String, String>();
       textKeywords.put("\\",         "\\");
       textKeywords.put("{",          "{");
       textKeywords.put("}",          "}");
       textKeywords.put(" ",          "\u00A0");  /* not in the spec... */
-      textKeywords.put("~",          "\u00A0");  /* nonbreaking space */
-      textKeywords.put("_",          "\u2011");  /* nonbreaking hyphen */
+      textKeywords.put("~",          "\u00A0");  /* nonbrebking spbce */
+      textKeywords.put("_",          "\u2011");  /* nonbrebking hyphen */
       textKeywords.put("bullet",     "\u2022");
-      textKeywords.put("emdash",     "\u2014");
-      textKeywords.put("emspace",    "\u2003");
-      textKeywords.put("endash",     "\u2013");
-      textKeywords.put("enspace",    "\u2002");
+      textKeywords.put("emdbsh",     "\u2014");
+      textKeywords.put("emspbce",    "\u2003");
+      textKeywords.put("endbsh",     "\u2013");
+      textKeywords.put("enspbce",    "\u2002");
       textKeywords.put("ldblquote",  "\u201C");
       textKeywords.put("lquote",     "\u2018");
-      textKeywords.put("ltrmark",    "\u200E");
+      textKeywords.put("ltrmbrk",    "\u200E");
       textKeywords.put("rdblquote",  "\u201D");
       textKeywords.put("rquote",     "\u2019");
-      textKeywords.put("rtlmark",    "\u200F");
-      textKeywords.put("tab",        "\u0009");
+      textKeywords.put("rtlmbrk",    "\u200F");
+      textKeywords.put("tbb",        "\u0009");
       textKeywords.put("zwj",        "\u200D");
       textKeywords.put("zwnj",       "\u200C");
 
-      /* There is no Unicode equivalent to an optional hyphen, as far as
-         I can tell. */
-      textKeywords.put("-",          "\u2027");  /* TODO: optional hyphen */
+      /* There is no Unicode equivblent to bn optionbl hyphen, bs fbr bs
+         I cbn tell. */
+      textKeywords.put("-",          "\u2027");  /* TODO: optionbl hyphen */
   }
 
-  /* some entries in parserState */
-  static final String TabAlignmentKey = "tab_alignment";
-  static final String TabLeaderKey = "tab_leader";
+  /* some entries in pbrserStbte */
+  stbtic finbl String TbbAlignmentKey = "tbb_blignment";
+  stbtic finbl String TbbLebderKey = "tbb_lebder";
 
-  static Dictionary<String, char[]> characterSets;
-  static boolean useNeXTForAnsi = false;
-  static {
-      characterSets = new Hashtable<String, char[]>();
+  stbtic Dictionbry<String, chbr[]> chbrbcterSets;
+  stbtic boolebn useNeXTForAnsi = fblse;
+  stbtic {
+      chbrbcterSets = new Hbshtbble<String, chbr[]>();
   }
 
-/* TODO: per-font font encodings ( \fcharset control word ) ? */
+/* TODO: per-font font encodings ( \fchbrset control word ) ? */
 
 /**
- * Creates a new RTFReader instance. Text will be sent to
+ * Crebtes b new RTFRebder instbnce. Text will be sent to
  * the specified TextAcceptor.
  *
- * @param destination The TextAcceptor which is to receive the text.
+ * @pbrbm destinbtion The TextAcceptor which is to receive the text.
  */
-public RTFReader(StyledDocument destination)
+public RTFRebder(StyledDocument destinbtion)
 {
     int i;
 
-    target = destination;
-    parserState = new Hashtable<Object, Object>();
-    fontTable = new Hashtable<Integer, String>();
+    tbrget = destinbtion;
+    pbrserStbte = new Hbshtbble<Object, Object>();
+    fontTbble = new Hbshtbble<Integer, String>();
 
     rtfversion = -1;
 
@@ -157,680 +157,680 @@ public RTFReader(StyledDocument destination)
     documentAttributes = new SimpleAttributeSet();
 }
 
-/** Called when the RTFParser encounters a bin keyword in the
- *  RTF stream.
+/** Cblled when the RTFPbrser encounters b bin keyword in the
+ *  RTF strebm.
  *
- *  @see RTFParser
+ *  @see RTFPbrser
  */
-public void handleBinaryBlob(byte[] data)
+public void hbndleBinbryBlob(byte[] dbtb)
 {
-    if (skippingCharacters > 0) {
-        /* a blob only counts as one character for skipping purposes */
-        skippingCharacters --;
+    if (skippingChbrbcters > 0) {
+        /* b blob only counts bs one chbrbcter for skipping purposes */
+        skippingChbrbcters --;
         return;
     }
 
-    /* someday, someone will want to do something with blobs */
+    /* somedby, someone will wbnt to do something with blobs */
 }
 
 
 /**
- * Handles any pure text (containing no control characters) in the input
- * stream. Called by the superclass. */
-public void handleText(String text)
+ * Hbndles bny pure text (contbining no control chbrbcters) in the input
+ * strebm. Cblled by the superclbss. */
+public void hbndleText(String text)
 {
-    if (skippingCharacters > 0) {
-        if (skippingCharacters >= text.length()) {
-            skippingCharacters -= text.length();
+    if (skippingChbrbcters > 0) {
+        if (skippingChbrbcters >= text.length()) {
+            skippingChbrbcters -= text.length();
             return;
         } else {
-            text = text.substring(skippingCharacters);
-            skippingCharacters = 0;
+            text = text.substring(skippingChbrbcters);
+            skippingChbrbcters = 0;
         }
     }
 
-    if (rtfDestination != null) {
-        rtfDestination.handleText(text);
+    if (rtfDestinbtion != null) {
+        rtfDestinbtion.hbndleText(text);
         return;
     }
 
-    warning("Text with no destination. oops.");
+    wbrning("Text with no destinbtion. oops.");
 }
 
-/** The default color for text which has no specified color. */
-Color defaultColor()
+/** The defbult color for text which hbs no specified color. */
+Color defbultColor()
 {
-    return Color.black;
+    return Color.blbck;
 }
 
-/** Called by the superclass when a new RTF group is begun.
- *  This implementation saves the current <code>parserState</code>, and gives
- *  the current destination a chance to save its own state.
- * @see RTFParser#begingroup
+/** Cblled by the superclbss when b new RTF group is begun.
+ *  This implementbtion sbves the current <code>pbrserStbte</code>, bnd gives
+ *  the current destinbtion b chbnce to sbve its own stbte.
+ * @see RTFPbrser#begingroup
  */
 public void begingroup()
 {
-    if (skippingCharacters > 0) {
-        /* TODO this indicates an error in the RTF. Log it? */
-        skippingCharacters = 0;
+    if (skippingChbrbcters > 0) {
+        /* TODO this indicbtes bn error in the RTF. Log it? */
+        skippingChbrbcters = 0;
     }
 
-    /* we do this little dance to avoid cloning the entire state stack and
-       immediately throwing it away. */
-    Object oldSaveState = parserState.get("_savedState");
-    if (oldSaveState != null)
-        parserState.remove("_savedState");
-    @SuppressWarnings("unchecked")
-    Dictionary<String, Object> saveState = (Dictionary<String, Object>)((Hashtable)parserState).clone();
-    if (oldSaveState != null)
-        saveState.put("_savedState", oldSaveState);
-    parserState.put("_savedState", saveState);
+    /* we do this little dbnce to bvoid cloning the entire stbte stbck bnd
+       immedibtely throwing it bwby. */
+    Object oldSbveStbte = pbrserStbte.get("_sbvedStbte");
+    if (oldSbveStbte != null)
+        pbrserStbte.remove("_sbvedStbte");
+    @SuppressWbrnings("unchecked")
+    Dictionbry<String, Object> sbveStbte = (Dictionbry<String, Object>)((Hbshtbble)pbrserStbte).clone();
+    if (oldSbveStbte != null)
+        sbveStbte.put("_sbvedStbte", oldSbveStbte);
+    pbrserStbte.put("_sbvedStbte", sbveStbte);
 
-    if (rtfDestination != null)
-        rtfDestination.begingroup();
+    if (rtfDestinbtion != null)
+        rtfDestinbtion.begingroup();
 }
 
-/** Called by the superclass when the current RTF group is closed.
- *  This restores the parserState saved by <code>begingroup()</code>
- *  as well as invoking the endgroup method of the current
- *  destination.
- * @see RTFParser#endgroup
+/** Cblled by the superclbss when the current RTF group is closed.
+ *  This restores the pbrserStbte sbved by <code>begingroup()</code>
+ *  bs well bs invoking the endgroup method of the current
+ *  destinbtion.
+ * @see RTFPbrser#endgroup
  */
 public void endgroup()
 {
-    if (skippingCharacters > 0) {
-        /* NB this indicates an error in the RTF. Log it? */
-        skippingCharacters = 0;
+    if (skippingChbrbcters > 0) {
+        /* NB this indicbtes bn error in the RTF. Log it? */
+        skippingChbrbcters = 0;
     }
 
-    @SuppressWarnings("unchecked")
-    Dictionary<Object, Object> restoredState = (Dictionary<Object, Object>)parserState.get("_savedState");
-    Destination restoredDestination = (Destination)restoredState.get("dst");
-    if (restoredDestination != rtfDestination) {
-        rtfDestination.close(); /* allow the destination to clean up */
-        rtfDestination = restoredDestination;
+    @SuppressWbrnings("unchecked")
+    Dictionbry<Object, Object> restoredStbte = (Dictionbry<Object, Object>)pbrserStbte.get("_sbvedStbte");
+    Destinbtion restoredDestinbtion = (Destinbtion)restoredStbte.get("dst");
+    if (restoredDestinbtion != rtfDestinbtion) {
+        rtfDestinbtion.close(); /* bllow the destinbtion to clebn up */
+        rtfDestinbtion = restoredDestinbtion;
     }
-    Dictionary<Object, Object> oldParserState = parserState;
-    parserState = restoredState;
-    if (rtfDestination != null)
-        rtfDestination.endgroup(oldParserState);
+    Dictionbry<Object, Object> oldPbrserStbte = pbrserStbte;
+    pbrserStbte = restoredStbte;
+    if (rtfDestinbtion != null)
+        rtfDestinbtion.endgroup(oldPbrserStbte);
 }
 
-protected void setRTFDestination(Destination newDestination)
+protected void setRTFDestinbtion(Destinbtion newDestinbtion)
 {
-    /* Check that setting the destination won't close the
-       current destination (should never happen) */
-    @SuppressWarnings("unchecked")
-    Dictionary<Object, Object> previousState = (Dictionary)parserState.get("_savedState");
-    if (previousState != null) {
-        if (rtfDestination != previousState.get("dst")) {
-            warning("Warning, RTF destination overridden, invalid RTF.");
-            rtfDestination.close();
+    /* Check thbt setting the destinbtion won't close the
+       current destinbtion (should never hbppen) */
+    @SuppressWbrnings("unchecked")
+    Dictionbry<Object, Object> previousStbte = (Dictionbry)pbrserStbte.get("_sbvedStbte");
+    if (previousStbte != null) {
+        if (rtfDestinbtion != previousStbte.get("dst")) {
+            wbrning("Wbrning, RTF destinbtion overridden, invblid RTF.");
+            rtfDestinbtion.close();
         }
     }
-    rtfDestination = newDestination;
-    parserState.put("dst", rtfDestination);
+    rtfDestinbtion = newDestinbtion;
+    pbrserStbte.put("dst", rtfDestinbtion);
 }
 
-/** Called by the user when there is no more input (<i>i.e.</i>,
- * at the end of the RTF file.)
+/** Cblled by the user when there is no more input (<i>i.e.</i>,
+ * bt the end of the RTF file.)
  *
- * @see OutputStream#close
+ * @see OutputStrebm#close
  */
 public void close()
     throws IOException
 {
-    Enumeration<?> docProps = documentAttributes.getAttributeNames();
-    while(docProps.hasMoreElements()) {
-        Object propName = docProps.nextElement();
-        target.putProperty(propName,
-                           documentAttributes.getAttribute(propName));
+    Enumerbtion<?> docProps = documentAttributes.getAttributeNbmes();
+    while(docProps.hbsMoreElements()) {
+        Object propNbme = docProps.nextElement();
+        tbrget.putProperty(propNbme,
+                           documentAttributes.getAttribute(propNbme));
     }
 
-    /* RTFParser should have ensured that all our groups are closed */
+    /* RTFPbrser should hbve ensured thbt bll our groups bre closed */
 
-    warning("RTF filter done.");
+    wbrning("RTF filter done.");
 
     super.close();
 }
 
 /**
- * Handles a parameterless RTF keyword. This is called by the superclass
- * (RTFParser) when a keyword is found in the input stream.
+ * Hbndles b pbrbmeterless RTF keyword. This is cblled by the superclbss
+ * (RTFPbrser) when b keyword is found in the input strebm.
  *
- * @returns <code>true</code> if the keyword is recognized and handled;
- *          <code>false</code> otherwise
- * @see RTFParser#handleKeyword
+ * @returns <code>true</code> if the keyword is recognized bnd hbndled;
+ *          <code>fblse</code> otherwise
+ * @see RTFPbrser#hbndleKeyword
  */
-public boolean handleKeyword(String keyword)
+public boolebn hbndleKeyword(String keyword)
 {
     String item;
-    boolean ignoreGroupIfUnknownKeywordSave = ignoreGroupIfUnknownKeyword;
+    boolebn ignoreGroupIfUnknownKeywordSbve = ignoreGroupIfUnknownKeyword;
 
-    if (skippingCharacters > 0) {
-        skippingCharacters --;
+    if (skippingChbrbcters > 0) {
+        skippingChbrbcters --;
         return true;
     }
 
-    ignoreGroupIfUnknownKeyword = false;
+    ignoreGroupIfUnknownKeyword = fblse;
 
     if ((item = textKeywords.get(keyword)) != null) {
-        handleText(item);
+        hbndleText(item);
         return true;
     }
 
-    if (keyword.equals("fonttbl")) {
-        setRTFDestination(new FonttblDestination());
+    if (keyword.equbls("fonttbl")) {
+        setRTFDestinbtion(new FonttblDestinbtion());
         return true;
     }
 
-    if (keyword.equals("colortbl")) {
-        setRTFDestination(new ColortblDestination());
+    if (keyword.equbls("colortbl")) {
+        setRTFDestinbtion(new ColortblDestinbtion());
         return true;
     }
 
-    if (keyword.equals("stylesheet")) {
-        setRTFDestination(new StylesheetDestination());
+    if (keyword.equbls("stylesheet")) {
+        setRTFDestinbtion(new StylesheetDestinbtion());
         return true;
     }
 
-    if (keyword.equals("info")) {
-        setRTFDestination(new InfoDestination());
-        return false;
+    if (keyword.equbls("info")) {
+        setRTFDestinbtion(new InfoDestinbtion());
+        return fblse;
     }
 
-    if (keyword.equals("mac")) {
-        setCharacterSet("mac");
+    if (keyword.equbls("mbc")) {
+        setChbrbcterSet("mbc");
         return true;
     }
 
-    if (keyword.equals("ansi")) {
+    if (keyword.equbls("bnsi")) {
         if (useNeXTForAnsi)
-            setCharacterSet("NeXT");
+            setChbrbcterSet("NeXT");
         else
-            setCharacterSet("ansi");
+            setChbrbcterSet("bnsi");
         return true;
     }
 
-    if (keyword.equals("next")) {
-        setCharacterSet("NeXT");
+    if (keyword.equbls("next")) {
+        setChbrbcterSet("NeXT");
         return true;
     }
 
-    if (keyword.equals("pc")) {
-        setCharacterSet("cpg437"); /* IBM Code Page 437 */
+    if (keyword.equbls("pc")) {
+        setChbrbcterSet("cpg437"); /* IBM Code Pbge 437 */
         return true;
     }
 
-    if (keyword.equals("pca")) {
-        setCharacterSet("cpg850"); /* IBM Code Page 850 */
+    if (keyword.equbls("pcb")) {
+        setChbrbcterSet("cpg850"); /* IBM Code Pbge 850 */
         return true;
     }
 
-    if (keyword.equals("*")) {
+    if (keyword.equbls("*")) {
         ignoreGroupIfUnknownKeyword = true;
         return true;
     }
 
-    if (rtfDestination != null) {
-        if(rtfDestination.handleKeyword(keyword))
+    if (rtfDestinbtion != null) {
+        if(rtfDestinbtion.hbndleKeyword(keyword))
             return true;
     }
 
-    /* this point is reached only if the keyword is unrecognized */
+    /* this point is rebched only if the keyword is unrecognized */
 
-    /* other destinations we don't understand and therefore ignore */
-    if (keyword.equals("aftncn") ||
-        keyword.equals("aftnsep") ||
-        keyword.equals("aftnsepc") ||
-        keyword.equals("annotation") ||
-        keyword.equals("atnauthor") ||
-        keyword.equals("atnicn") ||
-        keyword.equals("atnid") ||
-        keyword.equals("atnref") ||
-        keyword.equals("atntime") ||
-        keyword.equals("atrfend") ||
-        keyword.equals("atrfstart") ||
-        keyword.equals("bkmkend") ||
-        keyword.equals("bkmkstart") ||
-        keyword.equals("datafield") ||
-        keyword.equals("do") ||
-        keyword.equals("dptxbxtext") ||
-        keyword.equals("falt") ||
-        keyword.equals("field") ||
-        keyword.equals("file") ||
-        keyword.equals("filetbl") ||
-        keyword.equals("fname") ||
-        keyword.equals("fontemb") ||
-        keyword.equals("fontfile") ||
-        keyword.equals("footer") ||
-        keyword.equals("footerf") ||
-        keyword.equals("footerl") ||
-        keyword.equals("footerr") ||
-        keyword.equals("footnote") ||
-        keyword.equals("ftncn") ||
-        keyword.equals("ftnsep") ||
-        keyword.equals("ftnsepc") ||
-        keyword.equals("header") ||
-        keyword.equals("headerf") ||
-        keyword.equals("headerl") ||
-        keyword.equals("headerr") ||
-        keyword.equals("keycode") ||
-        keyword.equals("nextfile") ||
-        keyword.equals("object") ||
-        keyword.equals("pict") ||
-        keyword.equals("pn") ||
-        keyword.equals("pnseclvl") ||
-        keyword.equals("pntxtb") ||
-        keyword.equals("pntxta") ||
-        keyword.equals("revtbl") ||
-        keyword.equals("rxe") ||
-        keyword.equals("tc") ||
-        keyword.equals("template") ||
-        keyword.equals("txe") ||
-        keyword.equals("xe")) {
-        ignoreGroupIfUnknownKeywordSave = true;
+    /* other destinbtions we don't understbnd bnd therefore ignore */
+    if (keyword.equbls("bftncn") ||
+        keyword.equbls("bftnsep") ||
+        keyword.equbls("bftnsepc") ||
+        keyword.equbls("bnnotbtion") ||
+        keyword.equbls("btnbuthor") ||
+        keyword.equbls("btnicn") ||
+        keyword.equbls("btnid") ||
+        keyword.equbls("btnref") ||
+        keyword.equbls("btntime") ||
+        keyword.equbls("btrfend") ||
+        keyword.equbls("btrfstbrt") ||
+        keyword.equbls("bkmkend") ||
+        keyword.equbls("bkmkstbrt") ||
+        keyword.equbls("dbtbfield") ||
+        keyword.equbls("do") ||
+        keyword.equbls("dptxbxtext") ||
+        keyword.equbls("fblt") ||
+        keyword.equbls("field") ||
+        keyword.equbls("file") ||
+        keyword.equbls("filetbl") ||
+        keyword.equbls("fnbme") ||
+        keyword.equbls("fontemb") ||
+        keyword.equbls("fontfile") ||
+        keyword.equbls("footer") ||
+        keyword.equbls("footerf") ||
+        keyword.equbls("footerl") ||
+        keyword.equbls("footerr") ||
+        keyword.equbls("footnote") ||
+        keyword.equbls("ftncn") ||
+        keyword.equbls("ftnsep") ||
+        keyword.equbls("ftnsepc") ||
+        keyword.equbls("hebder") ||
+        keyword.equbls("hebderf") ||
+        keyword.equbls("hebderl") ||
+        keyword.equbls("hebderr") ||
+        keyword.equbls("keycode") ||
+        keyword.equbls("nextfile") ||
+        keyword.equbls("object") ||
+        keyword.equbls("pict") ||
+        keyword.equbls("pn") ||
+        keyword.equbls("pnseclvl") ||
+        keyword.equbls("pntxtb") ||
+        keyword.equbls("pntxtb") ||
+        keyword.equbls("revtbl") ||
+        keyword.equbls("rxe") ||
+        keyword.equbls("tc") ||
+        keyword.equbls("templbte") ||
+        keyword.equbls("txe") ||
+        keyword.equbls("xe")) {
+        ignoreGroupIfUnknownKeywordSbve = true;
     }
 
-    if (ignoreGroupIfUnknownKeywordSave) {
-        setRTFDestination(new DiscardingDestination());
+    if (ignoreGroupIfUnknownKeywordSbve) {
+        setRTFDestinbtion(new DiscbrdingDestinbtion());
     }
 
-    return false;
+    return fblse;
 }
 
 /**
- * Handles an RTF keyword and its integer parameter.
- * This is called by the superclass
- * (RTFParser) when a keyword is found in the input stream.
+ * Hbndles bn RTF keyword bnd its integer pbrbmeter.
+ * This is cblled by the superclbss
+ * (RTFPbrser) when b keyword is found in the input strebm.
  *
- * @returns <code>true</code> if the keyword is recognized and handled;
- *          <code>false</code> otherwise
- * @see RTFParser#handleKeyword
+ * @returns <code>true</code> if the keyword is recognized bnd hbndled;
+ *          <code>fblse</code> otherwise
+ * @see RTFPbrser#hbndleKeyword
  */
-public boolean handleKeyword(String keyword, int parameter)
+public boolebn hbndleKeyword(String keyword, int pbrbmeter)
 {
-    boolean ignoreGroupIfUnknownKeywordSave = ignoreGroupIfUnknownKeyword;
+    boolebn ignoreGroupIfUnknownKeywordSbve = ignoreGroupIfUnknownKeyword;
 
-    if (skippingCharacters > 0) {
-        skippingCharacters --;
+    if (skippingChbrbcters > 0) {
+        skippingChbrbcters --;
         return true;
     }
 
-    ignoreGroupIfUnknownKeyword = false;
+    ignoreGroupIfUnknownKeyword = fblse;
 
-    if (keyword.equals("uc")) {
-        /* count of characters to skip after a unicode character */
-        parserState.put("UnicodeSkip", Integer.valueOf(parameter));
+    if (keyword.equbls("uc")) {
+        /* count of chbrbcters to skip bfter b unicode chbrbcter */
+        pbrserStbte.put("UnicodeSkip", Integer.vblueOf(pbrbmeter));
         return true;
     }
-    if (keyword.equals("u")) {
-        if (parameter < 0)
-            parameter = parameter + 65536;
-        handleText((char)parameter);
-        Number skip = (Number)(parserState.get("UnicodeSkip"));
+    if (keyword.equbls("u")) {
+        if (pbrbmeter < 0)
+            pbrbmeter = pbrbmeter + 65536;
+        hbndleText((chbr)pbrbmeter);
+        Number skip = (Number)(pbrserStbte.get("UnicodeSkip"));
         if (skip != null) {
-            skippingCharacters = skip.intValue();
+            skippingChbrbcters = skip.intVblue();
         } else {
-            skippingCharacters = 1;
+            skippingChbrbcters = 1;
         }
         return true;
     }
 
-    if (keyword.equals("rtf")) {
-        rtfversion = parameter;
-        setRTFDestination(new DocumentDestination());
+    if (keyword.equbls("rtf")) {
+        rtfversion = pbrbmeter;
+        setRTFDestinbtion(new DocumentDestinbtion());
         return true;
     }
 
-    if (keyword.startsWith("NeXT") ||
-        keyword.equals("private"))
-        ignoreGroupIfUnknownKeywordSave = true;
+    if (keyword.stbrtsWith("NeXT") ||
+        keyword.equbls("privbte"))
+        ignoreGroupIfUnknownKeywordSbve = true;
 
-    if (rtfDestination != null) {
-        if(rtfDestination.handleKeyword(keyword, parameter))
+    if (rtfDestinbtion != null) {
+        if(rtfDestinbtion.hbndleKeyword(keyword, pbrbmeter))
             return true;
     }
 
-    /* this point is reached only if the keyword is unrecognized */
+    /* this point is rebched only if the keyword is unrecognized */
 
-    if (ignoreGroupIfUnknownKeywordSave) {
-        setRTFDestination(new DiscardingDestination());
+    if (ignoreGroupIfUnknownKeywordSbve) {
+        setRTFDestinbtion(new DiscbrdingDestinbtion());
     }
 
-    return false;
+    return fblse;
 }
 
-private void setTargetAttribute(String name, Object value)
+privbte void setTbrgetAttribute(String nbme, Object vblue)
 {
-//    target.changeAttributes(new LFDictionary(LFArray.arrayWithObject(value), LFArray.arrayWithObject(name)));
+//    tbrget.chbngeAttributes(new LFDictionbry(LFArrby.brrbyWithObject(vblue), LFArrby.brrbyWithObject(nbme)));
 }
 
 /**
- * setCharacterSet sets the current translation table to correspond with
- * the named character set. The character set is loaded if necessary.
+ * setChbrbcterSet sets the current trbnslbtion tbble to correspond with
+ * the nbmed chbrbcter set. The chbrbcter set is lobded if necessbry.
  *
- * @see AbstractFilter
+ * @see AbstrbctFilter
  */
-public void setCharacterSet(String name)
+public void setChbrbcterSet(String nbme)
 {
     Object set;
 
     try {
-        set = getCharacterSet(name);
-    } catch (Exception e) {
-        warning("Exception loading RTF character set \"" + name + "\": " + e);
+        set = getChbrbcterSet(nbme);
+    } cbtch (Exception e) {
+        wbrning("Exception lobding RTF chbrbcter set \"" + nbme + "\": " + e);
         set = null;
     }
 
     if (set != null) {
-        translationTable = (char[])set;
+        trbnslbtionTbble = (chbr[])set;
     } else {
-        warning("Unknown RTF character set \"" + name + "\"");
-        if (!name.equals("ansi")) {
+        wbrning("Unknown RTF chbrbcter set \"" + nbme + "\"");
+        if (!nbme.equbls("bnsi")) {
             try {
-                translationTable = (char[])getCharacterSet("ansi");
-            } catch (IOException e) {
-                throw new InternalError("RTFReader: Unable to find character set resources (" + e + ")", e);
+                trbnslbtionTbble = (chbr[])getChbrbcterSet("bnsi");
+            } cbtch (IOException e) {
+                throw new InternblError("RTFRebder: Unbble to find chbrbcter set resources (" + e + ")", e);
             }
         }
     }
 
-    setTargetAttribute(Constants.RTFCharacterSet, name);
+    setTbrgetAttribute(Constbnts.RTFChbrbcterSet, nbme);
 }
 
-/** Adds a character set to the RTFReader's list
- *  of known character sets */
-public static void
-defineCharacterSet(String name, char[] table)
+/** Adds b chbrbcter set to the RTFRebder's list
+ *  of known chbrbcter sets */
+public stbtic void
+defineChbrbcterSet(String nbme, chbr[] tbble)
 {
-    if (table.length < 256)
-        throw new IllegalArgumentException("Translation table must have 256 entries.");
-    characterSets.put(name, table);
+    if (tbble.length < 256)
+        throw new IllegblArgumentException("Trbnslbtion tbble must hbve 256 entries.");
+    chbrbcterSets.put(nbme, tbble);
 }
 
-/** Looks up a named character set. A character set is a 256-entry
- *  array of characters, mapping unsigned byte values to their Unicode
- *  equivalents. The character set is loaded if necessary.
+/** Looks up b nbmed chbrbcter set. A chbrbcter set is b 256-entry
+ *  brrby of chbrbcters, mbpping unsigned byte vblues to their Unicode
+ *  equivblents. The chbrbcter set is lobded if necessbry.
  *
- *  @returns the character set
+ *  @returns the chbrbcter set
  */
-public static Object
-getCharacterSet(final String name)
+public stbtic Object
+getChbrbcterSet(finbl String nbme)
     throws IOException
 {
-    char[] set = characterSets.get(name);
+    chbr[] set = chbrbcterSets.get(nbme);
     if (set == null) {
-        InputStream charsetStream = AccessController.doPrivileged(
-                new PrivilegedAction<InputStream>() {
-                    public InputStream run() {
-                        return RTFReader.class.getResourceAsStream("charsets/" + name + ".txt");
+        InputStrebm chbrsetStrebm = AccessController.doPrivileged(
+                new PrivilegedAction<InputStrebm>() {
+                    public InputStrebm run() {
+                        return RTFRebder.clbss.getResourceAsStrebm("chbrsets/" + nbme + ".txt");
                     }
                 });
-        set = readCharset(charsetStream);
-        defineCharacterSet(name, set);
+        set = rebdChbrset(chbrsetStrebm);
+        defineChbrbcterSet(nbme, set);
     }
     return set;
 }
 
-/** Parses a character set from an InputStream. The character set
- * must contain 256 decimal integers, separated by whitespace, with
- * no punctuation. B- and C- style comments are allowed.
+/** Pbrses b chbrbcter set from bn InputStrebm. The chbrbcter set
+ * must contbin 256 decimbl integers, sepbrbted by whitespbce, with
+ * no punctubtion. B- bnd C- style comments bre bllowed.
  *
- * @returns the newly read character set
+ * @returns the newly rebd chbrbcter set
  */
-static char[] readCharset(InputStream strm)
+stbtic chbr[] rebdChbrset(InputStrebm strm)
      throws IOException
 {
-    char[] values = new char[256];
+    chbr[] vblues = new chbr[256];
     int i;
-    StreamTokenizer in = new StreamTokenizer(new BufferedReader(
-            new InputStreamReader(strm, "ISO-8859-1")));
+    StrebmTokenizer in = new StrebmTokenizer(new BufferedRebder(
+            new InputStrebmRebder(strm, "ISO-8859-1")));
 
-    in.eolIsSignificant(false);
-    in.commentChar('#');
-    in.slashSlashComments(true);
-    in.slashStarComments(true);
+    in.eolIsSignificbnt(fblse);
+    in.commentChbr('#');
+    in.slbshSlbshComments(true);
+    in.slbshStbrComments(true);
 
     i = 0;
     while (i < 256) {
         int ttype;
         try {
             ttype = in.nextToken();
-        } catch (Exception e) {
-            throw new IOException("Unable to read from character set file (" + e + ")");
+        } cbtch (Exception e) {
+            throw new IOException("Unbble to rebd from chbrbcter set file (" + e + ")");
         }
-        if (ttype != StreamTokenizer.TT_NUMBER) {
-//          System.out.println("Bad token: type=" + ttype + " tok=" + in.sval);
-            throw new IOException("Unexpected token in character set file");
+        if (ttype != StrebmTokenizer.TT_NUMBER) {
+//          System.out.println("Bbd token: type=" + ttype + " tok=" + in.svbl);
+            throw new IOException("Unexpected token in chbrbcter set file");
 //          continue;
         }
-        values[i] = (char)(in.nval);
+        vblues[i] = (chbr)(in.nvbl);
         i++;
     }
 
-    return values;
+    return vblues;
 }
 
-static char[] readCharset(java.net.URL href)
+stbtic chbr[] rebdChbrset(jbvb.net.URL href)
      throws IOException
 {
-    return readCharset(href.openStream());
+    return rebdChbrset(href.openStrebm());
 }
 
-/** An interface (could be an entirely abstract class) describing
- *  a destination. The RTF reader always has a current destination
+/** An interfbce (could be bn entirely bbstrbct clbss) describing
+ *  b destinbtion. The RTF rebder blwbys hbs b current destinbtion
  *  which is where text is sent.
  *
- *  @see RTFReader
+ *  @see RTFRebder
  */
-interface Destination {
-    void handleBinaryBlob(byte[] data);
-    void handleText(String text);
-    boolean handleKeyword(String keyword);
-    boolean handleKeyword(String keyword, int parameter);
+interfbce Destinbtion {
+    void hbndleBinbryBlob(byte[] dbtb);
+    void hbndleText(String text);
+    boolebn hbndleKeyword(String keyword);
+    boolebn hbndleKeyword(String keyword, int pbrbmeter);
 
     void begingroup();
-    void endgroup(Dictionary<Object, Object> oldState);
+    void endgroup(Dictionbry<Object, Object> oldStbte);
 
     void close();
 }
 
-/** This data-sink class is used to implement ignored destinations
- *  (e.g. {\*\blegga blah blah blah} )
- *  It accepts all keywords and text but does nothing with them. */
-class DiscardingDestination implements Destination
+/** This dbtb-sink clbss is used to implement ignored destinbtions
+ *  (e.g. {\*\bleggb blbh blbh blbh} )
+ *  It bccepts bll keywords bnd text but does nothing with them. */
+clbss DiscbrdingDestinbtion implements Destinbtion
 {
-    public void handleBinaryBlob(byte[] data)
+    public void hbndleBinbryBlob(byte[] dbtb)
     {
-        /* Discard binary blobs. */
+        /* Discbrd binbry blobs. */
     }
 
-    public void handleText(String text)
+    public void hbndleText(String text)
     {
-        /* Discard text. */
+        /* Discbrd text. */
     }
 
-    public boolean handleKeyword(String text)
+    public boolebn hbndleKeyword(String text)
     {
-        /* Accept and discard keywords. */
+        /* Accept bnd discbrd keywords. */
         return true;
     }
 
-    public boolean handleKeyword(String text, int parameter)
+    public boolebn hbndleKeyword(String text, int pbrbmeter)
     {
-        /* Accept and discard parameterized keywords. */
+        /* Accept bnd discbrd pbrbmeterized keywords. */
         return true;
     }
 
     public void begingroup()
     {
-        /* Ignore groups --- the RTFReader will keep track of the
-           current group level as necessary */
+        /* Ignore groups --- the RTFRebder will keep trbck of the
+           current group level bs necessbry */
     }
 
-    public void endgroup(Dictionary<Object, Object> oldState)
+    public void endgroup(Dictionbry<Object, Object> oldStbte)
     {
         /* Ignore groups */
     }
 
     public void close()
     {
-        /* No end-of-destination cleanup needed */
+        /* No end-of-destinbtion clebnup needed */
     }
 }
 
-/** Reads the fonttbl group, inserting fonts into the RTFReader's
- *  fontTable dictionary. */
-class FonttblDestination implements Destination
+/** Rebds the fonttbl group, inserting fonts into the RTFRebder's
+ *  fontTbble dictionbry. */
+clbss FonttblDestinbtion implements Destinbtion
 {
     int nextFontNumber;
     Integer fontNumberKey = null;
-    String nextFontFamily;
+    String nextFontFbmily;
 
-    public void handleBinaryBlob(byte[] data)
-    { /* Discard binary blobs. */ }
+    public void hbndleBinbryBlob(byte[] dbtb)
+    { /* Discbrd binbry blobs. */ }
 
-    public void handleText(String text)
+    public void hbndleText(String text)
     {
         int semicolon = text.indexOf(';');
-        String fontName;
+        String fontNbme;
 
         if (semicolon > -1)
-            fontName = text.substring(0, semicolon);
+            fontNbme = text.substring(0, semicolon);
         else
-            fontName = text;
+            fontNbme = text;
 
 
-        /* TODO: do something with the font family. */
+        /* TODO: do something with the font fbmily. */
 
         if (nextFontNumber == -1
             && fontNumberKey != null) {
-            //font name might be broken across multiple calls
-            fontName = fontTable.get(fontNumberKey) + fontName;
+            //font nbme might be broken bcross multiple cblls
+            fontNbme = fontTbble.get(fontNumberKey) + fontNbme;
         } else {
-            fontNumberKey = Integer.valueOf(nextFontNumber);
+            fontNumberKey = Integer.vblueOf(nextFontNumber);
         }
-        fontTable.put(fontNumberKey, fontName);
+        fontTbble.put(fontNumberKey, fontNbme);
 
         nextFontNumber = -1;
-        nextFontFamily = null;
+        nextFontFbmily = null;
     }
 
-    public boolean handleKeyword(String keyword)
+    public boolebn hbndleKeyword(String keyword)
     {
-        if (keyword.charAt(0) == 'f') {
-            nextFontFamily = keyword.substring(1);
+        if (keyword.chbrAt(0) == 'f') {
+            nextFontFbmily = keyword.substring(1);
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
-    public boolean handleKeyword(String keyword, int parameter)
+    public boolebn hbndleKeyword(String keyword, int pbrbmeter)
     {
-        if (keyword.equals("f")) {
-            nextFontNumber = parameter;
+        if (keyword.equbls("f")) {
+            nextFontNumber = pbrbmeter;
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
-    /* Groups are irrelevant. */
+    /* Groups bre irrelevbnt. */
     public void begingroup() {}
-    public void endgroup(Dictionary<Object, Object> oldState) {}
+    public void endgroup(Dictionbry<Object, Object> oldStbte) {}
 
-    /* currently, the only thing we do when the font table ends is
+    /* currently, the only thing we do when the font tbble ends is
        dump its contents to the debugging log. */
     public void close()
     {
-        Enumeration<Integer> nums = fontTable.keys();
-        warning("Done reading font table.");
-        while(nums.hasMoreElements()) {
+        Enumerbtion<Integer> nums = fontTbble.keys();
+        wbrning("Done rebding font tbble.");
+        while(nums.hbsMoreElements()) {
             Integer num = nums.nextElement();
-            warning("Number " + num + ": " + fontTable.get(num));
+            wbrning("Number " + num + ": " + fontTbble.get(num));
         }
     }
 }
 
-/** Reads the colortbl group. Upon end-of-group, the RTFReader's
- *  color table is set to an array containing the read colors. */
-class ColortblDestination implements Destination
+/** Rebds the colortbl group. Upon end-of-group, the RTFRebder's
+ *  color tbble is set to bn brrby contbining the rebd colors. */
+clbss ColortblDestinbtion implements Destinbtion
 {
     int red, green, blue;
-    Vector<Color> proTemTable;
+    Vector<Color> proTemTbble;
 
-    public ColortblDestination()
+    public ColortblDestinbtion()
     {
         red = 0;
         green = 0;
         blue = 0;
-        proTemTable = new Vector<Color>();
+        proTemTbble = new Vector<Color>();
     }
 
-    public void handleText(String text)
+    public void hbndleText(String text)
     {
         int index;
 
         for (index = 0; index < text.length(); index ++) {
-            if (text.charAt(index) == ';') {
+            if (text.chbrAt(index) == ';') {
                 Color newColor;
                 newColor = new Color(red, green, blue);
-                proTemTable.addElement(newColor);
+                proTemTbble.bddElement(newColor);
             }
         }
     }
 
     public void close()
     {
-        int count = proTemTable.size();
-        warning("Done reading color table, " + count + " entries.");
-        colorTable = new Color[count];
-        proTemTable.copyInto(colorTable);
+        int count = proTemTbble.size();
+        wbrning("Done rebding color tbble, " + count + " entries.");
+        colorTbble = new Color[count];
+        proTemTbble.copyInto(colorTbble);
     }
 
-    public boolean handleKeyword(String keyword, int parameter)
+    public boolebn hbndleKeyword(String keyword, int pbrbmeter)
     {
-        if (keyword.equals("red"))
-            red = parameter;
-        else if (keyword.equals("green"))
-            green = parameter;
-        else if (keyword.equals("blue"))
-            blue = parameter;
+        if (keyword.equbls("red"))
+            red = pbrbmeter;
+        else if (keyword.equbls("green"))
+            green = pbrbmeter;
+        else if (keyword.equbls("blue"))
+            blue = pbrbmeter;
         else
-            return false;
+            return fblse;
 
         return true;
     }
 
-    /* Colortbls don't understand any parameterless keywords */
-    public boolean handleKeyword(String keyword) { return false; }
+    /* Colortbls don't understbnd bny pbrbmeterless keywords */
+    public boolebn hbndleKeyword(String keyword) { return fblse; }
 
-    /* Groups are irrelevant. */
+    /* Groups bre irrelevbnt. */
     public void begingroup() {}
-    public void endgroup(Dictionary<Object, Object> oldState) {}
+    public void endgroup(Dictionbry<Object, Object> oldStbte) {}
 
-    /* Shouldn't see any binary blobs ... */
-    public void handleBinaryBlob(byte[] data) {}
+    /* Shouldn't see bny binbry blobs ... */
+    public void hbndleBinbryBlob(byte[] dbtb) {}
 }
 
-/** Handles the stylesheet keyword. Styles are read and sorted
- *  into the three style arrays in the RTFReader. */
-class StylesheetDestination
-    extends DiscardingDestination
-    implements Destination
+/** Hbndles the stylesheet keyword. Styles bre rebd bnd sorted
+ *  into the three style brrbys in the RTFRebder. */
+clbss StylesheetDestinbtion
+    extends DiscbrdingDestinbtion
+    implements Destinbtion
 {
-    Dictionary<Integer, StyleDefiningDestination> definedStyles;
+    Dictionbry<Integer, StyleDefiningDestinbtion> definedStyles;
 
-    public StylesheetDestination()
+    public StylesheetDestinbtion()
     {
-        definedStyles = new Hashtable<Integer, StyleDefiningDestination>();
+        definedStyles = new Hbshtbble<Integer, StyleDefiningDestinbtion>();
     }
 
     public void begingroup()
     {
-        setRTFDestination(new StyleDefiningDestination());
+        setRTFDestinbtion(new StyleDefiningDestinbtion());
     }
 
     public void close()
@@ -838,18 +838,18 @@ class StylesheetDestination
         Vector<Style> chrStyles = new Vector<Style>();
         Vector<Style> pgfStyles = new Vector<Style>();
         Vector<Style> secStyles = new Vector<Style>();
-        Enumeration<StyleDefiningDestination> styles = definedStyles.elements();
-        while(styles.hasMoreElements()) {
-            StyleDefiningDestination style;
+        Enumerbtion<StyleDefiningDestinbtion> styles = definedStyles.elements();
+        while(styles.hbsMoreElements()) {
+            StyleDefiningDestinbtion style;
             Style defined;
             style = styles.nextElement();
-            defined = style.realize();
-            warning("Style "+style.number+" ("+style.styleName+"): "+defined);
-            String stype = (String)defined.getAttribute(Constants.StyleType);
+            defined = style.reblize();
+            wbrning("Style "+style.number+" ("+style.styleNbme+"): "+defined);
+            String stype = (String)defined.getAttribute(Constbnts.StyleType);
             Vector<Style> toSet;
-            if (stype.equals(Constants.STSection)) {
+            if (stype.equbls(Constbnts.STSection)) {
                 toSet = secStyles;
-            } else if (stype.equals(Constants.STCharacter)) {
+            } else if (stype.equbls(Constbnts.STChbrbcter)) {
                 toSet = chrStyles;
             } else {
                 toSet = pgfStyles;
@@ -859,292 +859,292 @@ class StylesheetDestination
             toSet.setElementAt(defined, style.number);
         }
         if (!(chrStyles.isEmpty())) {
-            Style[] styleArray = new Style[chrStyles.size()];
-            chrStyles.copyInto(styleArray);
-            characterStyles = styleArray;
+            Style[] styleArrby = new Style[chrStyles.size()];
+            chrStyles.copyInto(styleArrby);
+            chbrbcterStyles = styleArrby;
         }
         if (!(pgfStyles.isEmpty())) {
-            Style[] styleArray = new Style[pgfStyles.size()];
-            pgfStyles.copyInto(styleArray);
-            paragraphStyles = styleArray;
+            Style[] styleArrby = new Style[pgfStyles.size()];
+            pgfStyles.copyInto(styleArrby);
+            pbrbgrbphStyles = styleArrby;
         }
         if (!(secStyles.isEmpty())) {
-            Style[] styleArray = new Style[secStyles.size()];
-            secStyles.copyInto(styleArray);
-            sectionStyles = styleArray;
+            Style[] styleArrby = new Style[secStyles.size()];
+            secStyles.copyInto(styleArrby);
+            sectionStyles = styleArrby;
         }
 
 /* (old debugging code)
         int i, m;
-        if (characterStyles != null) {
-          m = characterStyles.length;
+        if (chbrbcterStyles != null) {
+          m = chbrbcterStyles.length;
           for(i=0;i<m;i++)
-            warnings.println("chrStyle["+i+"]="+characterStyles[i]);
-        } else warnings.println("No character styles.");
-        if (paragraphStyles != null) {
-          m = paragraphStyles.length;
+            wbrnings.println("chrStyle["+i+"]="+chbrbcterStyles[i]);
+        } else wbrnings.println("No chbrbcter styles.");
+        if (pbrbgrbphStyles != null) {
+          m = pbrbgrbphStyles.length;
           for(i=0;i<m;i++)
-            warnings.println("pgfStyle["+i+"]="+paragraphStyles[i]);
-        } else warnings.println("No paragraph styles.");
+            wbrnings.println("pgfStyle["+i+"]="+pbrbgrbphStyles[i]);
+        } else wbrnings.println("No pbrbgrbph styles.");
         if (sectionStyles != null) {
-          m = characterStyles.length;
+          m = chbrbcterStyles.length;
           for(i=0;i<m;i++)
-            warnings.println("secStyle["+i+"]="+sectionStyles[i]);
-        } else warnings.println("No section styles.");
+            wbrnings.println("secStyle["+i+"]="+sectionStyles[i]);
+        } else wbrnings.println("No section styles.");
 */
     }
 
-    /** This subclass handles an individual style */
-    class StyleDefiningDestination
-        extends AttributeTrackingDestination
-        implements Destination
+    /** This subclbss hbndles bn individubl style */
+    clbss StyleDefiningDestinbtion
+        extends AttributeTrbckingDestinbtion
+        implements Destinbtion
     {
-        final int STYLENUMBER_NONE = 222;
-        boolean additive;
-        boolean characterStyle;
-        boolean sectionStyle;
-        public String styleName;
+        finbl int STYLENUMBER_NONE = 222;
+        boolebn bdditive;
+        boolebn chbrbcterStyle;
+        boolebn sectionStyle;
+        public String styleNbme;
         public int number;
-        int basedOn;
+        int bbsedOn;
         int nextStyle;
-        boolean hidden;
+        boolebn hidden;
 
-        Style realizedStyle;
+        Style reblizedStyle;
 
-        public StyleDefiningDestination()
+        public StyleDefiningDestinbtion()
         {
-            additive = false;
-            characterStyle = false;
-            sectionStyle = false;
-            styleName = null;
+            bdditive = fblse;
+            chbrbcterStyle = fblse;
+            sectionStyle = fblse;
+            styleNbme = null;
             number = 0;
-            basedOn = STYLENUMBER_NONE;
+            bbsedOn = STYLENUMBER_NONE;
             nextStyle = STYLENUMBER_NONE;
-            hidden = false;
+            hidden = fblse;
         }
 
-        public void handleText(String text)
+        public void hbndleText(String text)
         {
-            if (styleName != null)
-                styleName = styleName + text;
+            if (styleNbme != null)
+                styleNbme = styleNbme + text;
             else
-                styleName = text;
+                styleNbme = text;
         }
 
         public void close() {
-            int semicolon = (styleName == null) ? 0 : styleName.indexOf(';');
+            int semicolon = (styleNbme == null) ? 0 : styleNbme.indexOf(';');
             if (semicolon > 0)
-                styleName = styleName.substring(0, semicolon);
-            definedStyles.put(Integer.valueOf(number), this);
+                styleNbme = styleNbme.substring(0, semicolon);
+            definedStyles.put(Integer.vblueOf(number), this);
             super.close();
         }
 
-        public boolean handleKeyword(String keyword)
+        public boolebn hbndleKeyword(String keyword)
         {
-            if (keyword.equals("additive")) {
-                additive = true;
+            if (keyword.equbls("bdditive")) {
+                bdditive = true;
                 return true;
             }
-            if (keyword.equals("shidden")) {
+            if (keyword.equbls("shidden")) {
                 hidden = true;
                 return true;
             }
-            return super.handleKeyword(keyword);
+            return super.hbndleKeyword(keyword);
         }
 
-        public boolean handleKeyword(String keyword, int parameter)
+        public boolebn hbndleKeyword(String keyword, int pbrbmeter)
         {
-            if (keyword.equals("s")) {
-                characterStyle = false;
-                sectionStyle = false;
-                number = parameter;
-            } else if (keyword.equals("cs")) {
-                characterStyle = true;
-                sectionStyle = false;
-                number = parameter;
-            } else if (keyword.equals("ds")) {
-                characterStyle = false;
+            if (keyword.equbls("s")) {
+                chbrbcterStyle = fblse;
+                sectionStyle = fblse;
+                number = pbrbmeter;
+            } else if (keyword.equbls("cs")) {
+                chbrbcterStyle = true;
+                sectionStyle = fblse;
+                number = pbrbmeter;
+            } else if (keyword.equbls("ds")) {
+                chbrbcterStyle = fblse;
                 sectionStyle = true;
-                number = parameter;
-            } else if (keyword.equals("sbasedon")) {
-                basedOn = parameter;
-            } else if (keyword.equals("snext")) {
-                nextStyle = parameter;
+                number = pbrbmeter;
+            } else if (keyword.equbls("sbbsedon")) {
+                bbsedOn = pbrbmeter;
+            } else if (keyword.equbls("snext")) {
+                nextStyle = pbrbmeter;
             } else {
-                return super.handleKeyword(keyword, parameter);
+                return super.hbndleKeyword(keyword, pbrbmeter);
             }
             return true;
         }
 
-        public Style realize()
+        public Style reblize()
         {
-            Style basis = null;
+            Style bbsis = null;
             Style next = null;
 
-            if (realizedStyle != null)
-                return realizedStyle;
+            if (reblizedStyle != null)
+                return reblizedStyle;
 
-            if (basedOn != STYLENUMBER_NONE) {
-                StyleDefiningDestination styleDest;
-                styleDest = definedStyles.get(Integer.valueOf(basedOn));
+            if (bbsedOn != STYLENUMBER_NONE) {
+                StyleDefiningDestinbtion styleDest;
+                styleDest = definedStyles.get(Integer.vblueOf(bbsedOn));
                 if (styleDest != null && styleDest != this) {
-                    basis = styleDest.realize();
+                    bbsis = styleDest.reblize();
                 }
             }
 
-            /* NB: Swing StyleContext doesn't allow distinct styles with
-               the same name; RTF apparently does. This may confuse the
+            /* NB: Swing StyleContext doesn't bllow distinct styles with
+               the sbme nbme; RTF bppbrently does. This mby confuse the
                user. */
-            realizedStyle = target.addStyle(styleName, basis);
+            reblizedStyle = tbrget.bddStyle(styleNbme, bbsis);
 
-            if (characterStyle) {
-                realizedStyle.addAttributes(currentTextAttributes());
-                realizedStyle.addAttribute(Constants.StyleType,
-                                           Constants.STCharacter);
+            if (chbrbcterStyle) {
+                reblizedStyle.bddAttributes(currentTextAttributes());
+                reblizedStyle.bddAttribute(Constbnts.StyleType,
+                                           Constbnts.STChbrbcter);
             } else if (sectionStyle) {
-                realizedStyle.addAttributes(currentSectionAttributes());
-                realizedStyle.addAttribute(Constants.StyleType,
-                                           Constants.STSection);
-            } else { /* must be a paragraph style */
-                realizedStyle.addAttributes(currentParagraphAttributes());
-                realizedStyle.addAttribute(Constants.StyleType,
-                                           Constants.STParagraph);
+                reblizedStyle.bddAttributes(currentSectionAttributes());
+                reblizedStyle.bddAttribute(Constbnts.StyleType,
+                                           Constbnts.STSection);
+            } else { /* must be b pbrbgrbph style */
+                reblizedStyle.bddAttributes(currentPbrbgrbphAttributes());
+                reblizedStyle.bddAttribute(Constbnts.StyleType,
+                                           Constbnts.STPbrbgrbph);
             }
 
             if (nextStyle != STYLENUMBER_NONE) {
-                StyleDefiningDestination styleDest;
-                styleDest = definedStyles.get(Integer.valueOf(nextStyle));
+                StyleDefiningDestinbtion styleDest;
+                styleDest = definedStyles.get(Integer.vblueOf(nextStyle));
                 if (styleDest != null) {
-                    next = styleDest.realize();
+                    next = styleDest.reblize();
                 }
             }
 
             if (next != null)
-                realizedStyle.addAttribute(Constants.StyleNext, next);
-            realizedStyle.addAttribute(Constants.StyleAdditive,
-                                       Boolean.valueOf(additive));
-            realizedStyle.addAttribute(Constants.StyleHidden,
-                                       Boolean.valueOf(hidden));
+                reblizedStyle.bddAttribute(Constbnts.StyleNext, next);
+            reblizedStyle.bddAttribute(Constbnts.StyleAdditive,
+                                       Boolebn.vblueOf(bdditive));
+            reblizedStyle.bddAttribute(Constbnts.StyleHidden,
+                                       Boolebn.vblueOf(hidden));
 
-            return realizedStyle;
+            return reblizedStyle;
         }
     }
 }
 
-/** Handles the info group. Currently no info keywords are recognized
- *  so this is a subclass of DiscardingDestination. */
-class InfoDestination
-    extends DiscardingDestination
-    implements Destination
+/** Hbndles the info group. Currently no info keywords bre recognized
+ *  so this is b subclbss of DiscbrdingDestinbtion. */
+clbss InfoDestinbtion
+    extends DiscbrdingDestinbtion
+    implements Destinbtion
 {
 }
 
-/** RTFReader.TextHandlingDestination is an abstract RTF destination
- *  which simply tracks the attributes specified by the RTF control words
- *  in internal form and can produce acceptable AttributeSets for the
- *  current character, paragraph, and section attributes. It is up
- *  to the subclasses to determine what is done with the actual text. */
-abstract class AttributeTrackingDestination implements Destination
+/** RTFRebder.TextHbndlingDestinbtion is bn bbstrbct RTF destinbtion
+ *  which simply trbcks the bttributes specified by the RTF control words
+ *  in internbl form bnd cbn produce bcceptbble AttributeSets for the
+ *  current chbrbcter, pbrbgrbph, bnd section bttributes. It is up
+ *  to the subclbsses to determine whbt is done with the bctubl text. */
+bbstrbct clbss AttributeTrbckingDestinbtion implements Destinbtion
 {
-    /** This is the "chr" element of parserState, cached for
+    /** This is the "chr" element of pbrserStbte, cbched for
      *  more efficient use */
-    MutableAttributeSet characterAttributes;
-    /** This is the "pgf" element of parserState, cached for
+    MutbbleAttributeSet chbrbcterAttributes;
+    /** This is the "pgf" element of pbrserStbte, cbched for
      *  more efficient use */
-    MutableAttributeSet paragraphAttributes;
-    /** This is the "sec" element of parserState, cached for
+    MutbbleAttributeSet pbrbgrbphAttributes;
+    /** This is the "sec" element of pbrserStbte, cbched for
      *  more efficient use */
-    MutableAttributeSet sectionAttributes;
+    MutbbleAttributeSet sectionAttributes;
 
-    public AttributeTrackingDestination()
+    public AttributeTrbckingDestinbtion()
     {
-        characterAttributes = rootCharacterAttributes();
-        parserState.put("chr", characterAttributes);
-        paragraphAttributes = rootParagraphAttributes();
-        parserState.put("pgf", paragraphAttributes);
+        chbrbcterAttributes = rootChbrbcterAttributes();
+        pbrserStbte.put("chr", chbrbcterAttributes);
+        pbrbgrbphAttributes = rootPbrbgrbphAttributes();
+        pbrserStbte.put("pgf", pbrbgrbphAttributes);
         sectionAttributes = rootSectionAttributes();
-        parserState.put("sec", sectionAttributes);
+        pbrserStbte.put("sec", sectionAttributes);
     }
 
-    abstract public void handleText(String text);
+    bbstrbct public void hbndleText(String text);
 
-    public void handleBinaryBlob(byte[] data)
+    public void hbndleBinbryBlob(byte[] dbtb)
     {
-        /* This should really be in TextHandlingDestination, but
-         * since *nobody* does anything with binary blobs, this
+        /* This should reblly be in TextHbndlingDestinbtion, but
+         * since *nobody* does bnything with binbry blobs, this
          * is more convenient. */
-        warning("Unexpected binary data in RTF file.");
+        wbrning("Unexpected binbry dbtb in RTF file.");
     }
 
     public void begingroup()
     {
-        AttributeSet characterParent = currentTextAttributes();
-        AttributeSet paragraphParent = currentParagraphAttributes();
-        AttributeSet sectionParent = currentSectionAttributes();
+        AttributeSet chbrbcterPbrent = currentTextAttributes();
+        AttributeSet pbrbgrbphPbrent = currentPbrbgrbphAttributes();
+        AttributeSet sectionPbrent = currentSectionAttributes();
 
-        /* It would probably be more efficient to use the
-         * resolver property of the attributes set for
+        /* It would probbbly be more efficient to use the
+         * resolver property of the bttributes set for
          * implementing rtf groups,
-         * but that's needed for styles. */
+         * but thbt's needed for styles. */
 
-        /* update the cached attribute dictionaries */
-        characterAttributes = new SimpleAttributeSet();
-        characterAttributes.addAttributes(characterParent);
-        parserState.put("chr", characterAttributes);
+        /* updbte the cbched bttribute dictionbries */
+        chbrbcterAttributes = new SimpleAttributeSet();
+        chbrbcterAttributes.bddAttributes(chbrbcterPbrent);
+        pbrserStbte.put("chr", chbrbcterAttributes);
 
-        paragraphAttributes = new SimpleAttributeSet();
-        paragraphAttributes.addAttributes(paragraphParent);
-        parserState.put("pgf", paragraphAttributes);
+        pbrbgrbphAttributes = new SimpleAttributeSet();
+        pbrbgrbphAttributes.bddAttributes(pbrbgrbphPbrent);
+        pbrserStbte.put("pgf", pbrbgrbphAttributes);
 
         sectionAttributes = new SimpleAttributeSet();
-        sectionAttributes.addAttributes(sectionParent);
-        parserState.put("sec", sectionAttributes);
+        sectionAttributes.bddAttributes(sectionPbrent);
+        pbrserStbte.put("sec", sectionAttributes);
     }
 
-    public void endgroup(Dictionary<Object, Object> oldState)
+    public void endgroup(Dictionbry<Object, Object> oldStbte)
     {
-        characterAttributes = (MutableAttributeSet)parserState.get("chr");
-        paragraphAttributes = (MutableAttributeSet)parserState.get("pgf");
-        sectionAttributes   = (MutableAttributeSet)parserState.get("sec");
+        chbrbcterAttributes = (MutbbleAttributeSet)pbrserStbte.get("chr");
+        pbrbgrbphAttributes = (MutbbleAttributeSet)pbrserStbte.get("pgf");
+        sectionAttributes   = (MutbbleAttributeSet)pbrserStbte.get("sec");
     }
 
     public void close()
     {
     }
 
-    public boolean handleKeyword(String keyword)
+    public boolebn hbndleKeyword(String keyword)
     {
-        if (keyword.equals("ulnone")) {
-            return handleKeyword("ul", 0);
+        if (keyword.equbls("ulnone")) {
+            return hbndleKeyword("ul", 0);
         }
 
         {
-            RTFAttribute attr = straightforwardAttributes.get(keyword);
-            if (attr != null) {
-                boolean ok;
+            RTFAttribute bttr = strbightforwbrdAttributes.get(keyword);
+            if (bttr != null) {
+                boolebn ok;
 
-                switch(attr.domain()) {
-                  case RTFAttribute.D_CHARACTER:
-                    ok = attr.set(characterAttributes);
-                    break;
-                  case RTFAttribute.D_PARAGRAPH:
-                    ok = attr.set(paragraphAttributes);
-                    break;
-                  case RTFAttribute.D_SECTION:
-                    ok = attr.set(sectionAttributes);
-                    break;
-                  case RTFAttribute.D_META:
-                    mockery.backing = parserState;
-                    ok = attr.set(mockery);
-                    mockery.backing = null;
-                    break;
-                  case RTFAttribute.D_DOCUMENT:
-                    ok = attr.set(documentAttributes);
-                    break;
-                  default:
-                    /* should never happen */
-                    ok = false;
-                    break;
+                switch(bttr.dombin()) {
+                  cbse RTFAttribute.D_CHARACTER:
+                    ok = bttr.set(chbrbcterAttributes);
+                    brebk;
+                  cbse RTFAttribute.D_PARAGRAPH:
+                    ok = bttr.set(pbrbgrbphAttributes);
+                    brebk;
+                  cbse RTFAttribute.D_SECTION:
+                    ok = bttr.set(sectionAttributes);
+                    brebk;
+                  cbse RTFAttribute.D_META:
+                    mockery.bbcking = pbrserStbte;
+                    ok = bttr.set(mockery);
+                    mockery.bbcking = null;
+                    brebk;
+                  cbse RTFAttribute.D_DOCUMENT:
+                    ok = bttr.set(documentAttributes);
+                    brebk;
+                  defbult:
+                    /* should never hbppen */
+                    ok = fblse;
+                    brebk;
                 }
                 if (ok)
                     return true;
@@ -1152,487 +1152,487 @@ abstract class AttributeTrackingDestination implements Destination
         }
 
 
-        if (keyword.equals("plain")) {
-            resetCharacterAttributes();
+        if (keyword.equbls("plbin")) {
+            resetChbrbcterAttributes();
             return true;
         }
 
-        if (keyword.equals("pard")) {
-            resetParagraphAttributes();
+        if (keyword.equbls("pbrd")) {
+            resetPbrbgrbphAttributes();
             return true;
         }
 
-        if (keyword.equals("sectd")) {
+        if (keyword.equbls("sectd")) {
             resetSectionAttributes();
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
-    public boolean handleKeyword(String keyword, int parameter)
+    public boolebn hbndleKeyword(String keyword, int pbrbmeter)
     {
-        boolean booleanParameter = (parameter != 0);
+        boolebn boolebnPbrbmeter = (pbrbmeter != 0);
 
-        if (keyword.equals("fc"))
-            keyword = "cf"; /* whatEVER, dude. */
+        if (keyword.equbls("fc"))
+            keyword = "cf"; /* whbtEVER, dude. */
 
-        if (keyword.equals("f")) {
-            parserState.put(keyword, Integer.valueOf(parameter));
+        if (keyword.equbls("f")) {
+            pbrserStbte.put(keyword, Integer.vblueOf(pbrbmeter));
             return true;
         }
-        if (keyword.equals("cf")) {
-            parserState.put(keyword, Integer.valueOf(parameter));
+        if (keyword.equbls("cf")) {
+            pbrserStbte.put(keyword, Integer.vblueOf(pbrbmeter));
             return true;
         }
 
         {
-            RTFAttribute attr = straightforwardAttributes.get(keyword);
-            if (attr != null) {
-                boolean ok;
+            RTFAttribute bttr = strbightforwbrdAttributes.get(keyword);
+            if (bttr != null) {
+                boolebn ok;
 
-                switch(attr.domain()) {
-                  case RTFAttribute.D_CHARACTER:
-                    ok = attr.set(characterAttributes, parameter);
-                    break;
-                  case RTFAttribute.D_PARAGRAPH:
-                    ok = attr.set(paragraphAttributes, parameter);
-                    break;
-                  case RTFAttribute.D_SECTION:
-                    ok = attr.set(sectionAttributes, parameter);
-                    break;
-                  case RTFAttribute.D_META:
-                    mockery.backing = parserState;
-                    ok = attr.set(mockery, parameter);
-                    mockery.backing = null;
-                    break;
-                  case RTFAttribute.D_DOCUMENT:
-                    ok = attr.set(documentAttributes, parameter);
-                    break;
-                  default:
-                    /* should never happen */
-                    ok = false;
-                    break;
+                switch(bttr.dombin()) {
+                  cbse RTFAttribute.D_CHARACTER:
+                    ok = bttr.set(chbrbcterAttributes, pbrbmeter);
+                    brebk;
+                  cbse RTFAttribute.D_PARAGRAPH:
+                    ok = bttr.set(pbrbgrbphAttributes, pbrbmeter);
+                    brebk;
+                  cbse RTFAttribute.D_SECTION:
+                    ok = bttr.set(sectionAttributes, pbrbmeter);
+                    brebk;
+                  cbse RTFAttribute.D_META:
+                    mockery.bbcking = pbrserStbte;
+                    ok = bttr.set(mockery, pbrbmeter);
+                    mockery.bbcking = null;
+                    brebk;
+                  cbse RTFAttribute.D_DOCUMENT:
+                    ok = bttr.set(documentAttributes, pbrbmeter);
+                    brebk;
+                  defbult:
+                    /* should never hbppen */
+                    ok = fblse;
+                    brebk;
                 }
                 if (ok)
                     return true;
             }
         }
 
-        if (keyword.equals("fs")) {
-            StyleConstants.setFontSize(characterAttributes, (parameter / 2));
+        if (keyword.equbls("fs")) {
+            StyleConstbnts.setFontSize(chbrbcterAttributes, (pbrbmeter / 2));
             return true;
         }
 
         /* TODO: superscript/subscript */
 
-        if (keyword.equals("sl")) {
-            if (parameter == 1000) {  /* magic value! */
-                characterAttributes.removeAttribute(StyleConstants.LineSpacing);
+        if (keyword.equbls("sl")) {
+            if (pbrbmeter == 1000) {  /* mbgic vblue! */
+                chbrbcterAttributes.removeAttribute(StyleConstbnts.LineSpbcing);
             } else {
-                /* TODO: The RTF sl attribute has special meaning if it's
-                   negative. Make sure that SwingText has the same special
-                   meaning, or find a way to imitate that. When SwingText
-                   handles this, also recognize the slmult keyword. */
-                StyleConstants.setLineSpacing(characterAttributes,
-                                              parameter / 20f);
+                /* TODO: The RTF sl bttribute hbs specibl mebning if it's
+                   negbtive. Mbke sure thbt SwingText hbs the sbme specibl
+                   mebning, or find b wby to imitbte thbt. When SwingText
+                   hbndles this, blso recognize the slmult keyword. */
+                StyleConstbnts.setLineSpbcing(chbrbcterAttributes,
+                                              pbrbmeter / 20f);
             }
             return true;
         }
 
         /* TODO: Other kinds of underlining */
 
-        if (keyword.equals("tx") || keyword.equals("tb")) {
-            float tabPosition = parameter / 20f;
-            int tabAlignment, tabLeader;
+        if (keyword.equbls("tx") || keyword.equbls("tb")) {
+            flobt tbbPosition = pbrbmeter / 20f;
+            int tbbAlignment, tbbLebder;
             Number item;
 
-            tabAlignment = TabStop.ALIGN_LEFT;
-            item = (Number)(parserState.get("tab_alignment"));
+            tbbAlignment = TbbStop.ALIGN_LEFT;
+            item = (Number)(pbrserStbte.get("tbb_blignment"));
             if (item != null)
-                tabAlignment = item.intValue();
-            tabLeader = TabStop.LEAD_NONE;
-            item = (Number)(parserState.get("tab_leader"));
+                tbbAlignment = item.intVblue();
+            tbbLebder = TbbStop.LEAD_NONE;
+            item = (Number)(pbrserStbte.get("tbb_lebder"));
             if (item != null)
-                tabLeader = item.intValue();
-            if (keyword.equals("tb"))
-                tabAlignment = TabStop.ALIGN_BAR;
+                tbbLebder = item.intVblue();
+            if (keyword.equbls("tb"))
+                tbbAlignment = TbbStop.ALIGN_BAR;
 
-            parserState.remove("tab_alignment");
-            parserState.remove("tab_leader");
+            pbrserStbte.remove("tbb_blignment");
+            pbrserStbte.remove("tbb_lebder");
 
-            TabStop newStop = new TabStop(tabPosition, tabAlignment, tabLeader);
-            Dictionary<Object, Object> tabs;
+            TbbStop newStop = new TbbStop(tbbPosition, tbbAlignment, tbbLebder);
+            Dictionbry<Object, Object> tbbs;
             Integer stopCount;
 
-            @SuppressWarnings("unchecked")
-            Dictionary<Object, Object>tmp = (Dictionary)parserState.get("_tabs");
-            tabs = tmp;
-            if (tabs == null) {
-                tabs = new Hashtable<Object, Object>();
-                parserState.put("_tabs", tabs);
-                stopCount = Integer.valueOf(1);
+            @SuppressWbrnings("unchecked")
+            Dictionbry<Object, Object>tmp = (Dictionbry)pbrserStbte.get("_tbbs");
+            tbbs = tmp;
+            if (tbbs == null) {
+                tbbs = new Hbshtbble<Object, Object>();
+                pbrserStbte.put("_tbbs", tbbs);
+                stopCount = Integer.vblueOf(1);
             } else {
-                stopCount = (Integer)tabs.get("stop count");
-                stopCount = Integer.valueOf(1 + stopCount.intValue());
+                stopCount = (Integer)tbbs.get("stop count");
+                stopCount = Integer.vblueOf(1 + stopCount.intVblue());
             }
-            tabs.put(stopCount, newStop);
-            tabs.put("stop count", stopCount);
-            parserState.remove("_tabs_immutable");
+            tbbs.put(stopCount, newStop);
+            tbbs.put("stop count", stopCount);
+            pbrserStbte.remove("_tbbs_immutbble");
 
             return true;
         }
 
-        if (keyword.equals("s") &&
-            paragraphStyles != null) {
-            parserState.put("paragraphStyle", paragraphStyles[parameter]);
+        if (keyword.equbls("s") &&
+            pbrbgrbphStyles != null) {
+            pbrserStbte.put("pbrbgrbphStyle", pbrbgrbphStyles[pbrbmeter]);
             return true;
         }
 
-        if (keyword.equals("cs") &&
-            characterStyles != null) {
-            parserState.put("characterStyle", characterStyles[parameter]);
+        if (keyword.equbls("cs") &&
+            chbrbcterStyles != null) {
+            pbrserStbte.put("chbrbcterStyle", chbrbcterStyles[pbrbmeter]);
             return true;
         }
 
-        if (keyword.equals("ds") &&
+        if (keyword.equbls("ds") &&
             sectionStyles != null) {
-            parserState.put("sectionStyle", sectionStyles[parameter]);
+            pbrserStbte.put("sectionStyle", sectionStyles[pbrbmeter]);
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
-    /** Returns a new MutableAttributeSet containing the
-     *  default character attributes */
-    protected MutableAttributeSet rootCharacterAttributes()
+    /** Returns b new MutbbleAttributeSet contbining the
+     *  defbult chbrbcter bttributes */
+    protected MutbbleAttributeSet rootChbrbcterAttributes()
     {
-        MutableAttributeSet set = new SimpleAttributeSet();
+        MutbbleAttributeSet set = new SimpleAttributeSet();
 
-        /* TODO: default font */
+        /* TODO: defbult font */
 
-        StyleConstants.setItalic(set, false);
-        StyleConstants.setBold(set, false);
-        StyleConstants.setUnderline(set, false);
-        StyleConstants.setForeground(set, defaultColor());
+        StyleConstbnts.setItblic(set, fblse);
+        StyleConstbnts.setBold(set, fblse);
+        StyleConstbnts.setUnderline(set, fblse);
+        StyleConstbnts.setForeground(set, defbultColor());
 
         return set;
     }
 
-    /** Returns a new MutableAttributeSet containing the
-     *  default paragraph attributes */
-    protected MutableAttributeSet rootParagraphAttributes()
+    /** Returns b new MutbbleAttributeSet contbining the
+     *  defbult pbrbgrbph bttributes */
+    protected MutbbleAttributeSet rootPbrbgrbphAttributes()
     {
-        MutableAttributeSet set = new SimpleAttributeSet();
+        MutbbleAttributeSet set = new SimpleAttributeSet();
 
-        StyleConstants.setLeftIndent(set, 0f);
-        StyleConstants.setRightIndent(set, 0f);
-        StyleConstants.setFirstLineIndent(set, 0f);
+        StyleConstbnts.setLeftIndent(set, 0f);
+        StyleConstbnts.setRightIndent(set, 0f);
+        StyleConstbnts.setFirstLineIndent(set, 0f);
 
-        /* TODO: what should this be, really? */
-        set.setResolveParent(target.getStyle(StyleContext.DEFAULT_STYLE));
+        /* TODO: whbt should this be, reblly? */
+        set.setResolvePbrent(tbrget.getStyle(StyleContext.DEFAULT_STYLE));
 
         return set;
     }
 
-    /** Returns a new MutableAttributeSet containing the
-     *  default section attributes */
-    protected MutableAttributeSet rootSectionAttributes()
+    /** Returns b new MutbbleAttributeSet contbining the
+     *  defbult section bttributes */
+    protected MutbbleAttributeSet rootSectionAttributes()
     {
-        MutableAttributeSet set = new SimpleAttributeSet();
+        MutbbleAttributeSet set = new SimpleAttributeSet();
 
         return set;
     }
 
     /**
-     * Calculates the current text (character) attributes in a form suitable
-     * for SwingText from the current parser state.
+     * Cblculbtes the current text (chbrbcter) bttributes in b form suitbble
+     * for SwingText from the current pbrser stbte.
      *
-     * @returns a new MutableAttributeSet containing the text attributes.
+     * @returns b new MutbbleAttributeSet contbining the text bttributes.
      */
-    MutableAttributeSet currentTextAttributes()
+    MutbbleAttributeSet currentTextAttributes()
     {
-        MutableAttributeSet attributes =
-            new SimpleAttributeSet(characterAttributes);
+        MutbbleAttributeSet bttributes =
+            new SimpleAttributeSet(chbrbcterAttributes);
         Integer fontnum;
-        Integer stateItem;
+        Integer stbteItem;
 
-        /* figure out the font name */
-        /* TODO: catch exceptions for undefined attributes,
-           bad font indices, etc.? (as it stands, it is the caller's
-           job to clean up after corrupt RTF) */
-        fontnum = (Integer)parserState.get("f");
-        /* note setFontFamily() can not handle a null font */
-        String fontFamily;
+        /* figure out the font nbme */
+        /* TODO: cbtch exceptions for undefined bttributes,
+           bbd font indices, etc.? (bs it stbnds, it is the cbller's
+           job to clebn up bfter corrupt RTF) */
+        fontnum = (Integer)pbrserStbte.get("f");
+        /* note setFontFbmily() cbn not hbndle b null font */
+        String fontFbmily;
         if (fontnum != null)
-            fontFamily = fontTable.get(fontnum);
+            fontFbmily = fontTbble.get(fontnum);
         else
-            fontFamily = null;
-        if (fontFamily != null)
-            StyleConstants.setFontFamily(attributes, fontFamily);
+            fontFbmily = null;
+        if (fontFbmily != null)
+            StyleConstbnts.setFontFbmily(bttributes, fontFbmily);
         else
-            attributes.removeAttribute(StyleConstants.FontFamily);
+            bttributes.removeAttribute(StyleConstbnts.FontFbmily);
 
-        if (colorTable != null) {
-            stateItem = (Integer)parserState.get("cf");
-            if (stateItem != null) {
-                Color fg = colorTable[stateItem.intValue()];
-                StyleConstants.setForeground(attributes, fg);
+        if (colorTbble != null) {
+            stbteItem = (Integer)pbrserStbte.get("cf");
+            if (stbteItem != null) {
+                Color fg = colorTbble[stbteItem.intVblue()];
+                StyleConstbnts.setForeground(bttributes, fg);
             } else {
-                /* AttributeSet dies if you set a value to null */
-                attributes.removeAttribute(StyleConstants.Foreground);
+                /* AttributeSet dies if you set b vblue to null */
+                bttributes.removeAttribute(StyleConstbnts.Foreground);
             }
         }
 
-        if (colorTable != null) {
-            stateItem = (Integer)parserState.get("cb");
-            if (stateItem != null) {
-                Color bg = colorTable[stateItem.intValue()];
-                attributes.addAttribute(StyleConstants.Background,
+        if (colorTbble != null) {
+            stbteItem = (Integer)pbrserStbte.get("cb");
+            if (stbteItem != null) {
+                Color bg = colorTbble[stbteItem.intVblue()];
+                bttributes.bddAttribute(StyleConstbnts.Bbckground,
                                         bg);
             } else {
-                /* AttributeSet dies if you set a value to null */
-                attributes.removeAttribute(StyleConstants.Background);
+                /* AttributeSet dies if you set b vblue to null */
+                bttributes.removeAttribute(StyleConstbnts.Bbckground);
             }
         }
 
-        Style characterStyle = (Style)parserState.get("characterStyle");
-        if (characterStyle != null)
-            attributes.setResolveParent(characterStyle);
+        Style chbrbcterStyle = (Style)pbrserStbte.get("chbrbcterStyle");
+        if (chbrbcterStyle != null)
+            bttributes.setResolvePbrent(chbrbcterStyle);
 
-        /* Other attributes are maintained directly in "attributes" */
+        /* Other bttributes bre mbintbined directly in "bttributes" */
 
-        return attributes;
+        return bttributes;
     }
 
     /**
-     * Calculates the current paragraph attributes (with keys
-     * as given in StyleConstants) from the current parser state.
+     * Cblculbtes the current pbrbgrbph bttributes (with keys
+     * bs given in StyleConstbnts) from the current pbrser stbte.
      *
-     * @returns a newly created MutableAttributeSet.
-     * @see StyleConstants
+     * @returns b newly crebted MutbbleAttributeSet.
+     * @see StyleConstbnts
      */
-    MutableAttributeSet currentParagraphAttributes()
+    MutbbleAttributeSet currentPbrbgrbphAttributes()
     {
-        /* NB if there were a mutableCopy() method we should use it */
-        MutableAttributeSet bld = new SimpleAttributeSet(paragraphAttributes);
+        /* NB if there were b mutbbleCopy() method we should use it */
+        MutbbleAttributeSet bld = new SimpleAttributeSet(pbrbgrbphAttributes);
 
-        Integer stateItem;
+        Integer stbteItem;
 
-        /*** Tab stops ***/
-        TabStop tabs[];
+        /*** Tbb stops ***/
+        TbbStop tbbs[];
 
-        tabs = (TabStop[])parserState.get("_tabs_immutable");
-        if (tabs == null) {
-            @SuppressWarnings("unchecked")
-            Dictionary<Object, Object> workingTabs = (Dictionary)parserState.get("_tabs");
-            if (workingTabs != null) {
-                int count = ((Integer)workingTabs.get("stop count")).intValue();
-                tabs = new TabStop[count];
+        tbbs = (TbbStop[])pbrserStbte.get("_tbbs_immutbble");
+        if (tbbs == null) {
+            @SuppressWbrnings("unchecked")
+            Dictionbry<Object, Object> workingTbbs = (Dictionbry)pbrserStbte.get("_tbbs");
+            if (workingTbbs != null) {
+                int count = ((Integer)workingTbbs.get("stop count")).intVblue();
+                tbbs = new TbbStop[count];
                 for (int ix = 1; ix <= count; ix ++)
-                    tabs[ix-1] = (TabStop)workingTabs.get(Integer.valueOf(ix));
-                parserState.put("_tabs_immutable", tabs);
+                    tbbs[ix-1] = (TbbStop)workingTbbs.get(Integer.vblueOf(ix));
+                pbrserStbte.put("_tbbs_immutbble", tbbs);
             }
         }
-        if (tabs != null)
-            bld.addAttribute(Constants.Tabs, tabs);
+        if (tbbs != null)
+            bld.bddAttribute(Constbnts.Tbbs, tbbs);
 
-        Style paragraphStyle = (Style)parserState.get("paragraphStyle");
-        if (paragraphStyle != null)
-            bld.setResolveParent(paragraphStyle);
+        Style pbrbgrbphStyle = (Style)pbrserStbte.get("pbrbgrbphStyle");
+        if (pbrbgrbphStyle != null)
+            bld.setResolvePbrent(pbrbgrbphStyle);
 
         return bld;
     }
 
     /**
-     * Calculates the current section attributes
-     * from the current parser state.
+     * Cblculbtes the current section bttributes
+     * from the current pbrser stbte.
      *
-     * @returns a newly created MutableAttributeSet.
+     * @returns b newly crebted MutbbleAttributeSet.
      */
     public AttributeSet currentSectionAttributes()
     {
-        MutableAttributeSet attributes = new SimpleAttributeSet(sectionAttributes);
+        MutbbleAttributeSet bttributes = new SimpleAttributeSet(sectionAttributes);
 
-        Style sectionStyle = (Style)parserState.get("sectionStyle");
+        Style sectionStyle = (Style)pbrserStbte.get("sectionStyle");
         if (sectionStyle != null)
-            attributes.setResolveParent(sectionStyle);
+            bttributes.setResolvePbrent(sectionStyle);
 
-        return attributes;
+        return bttributes;
     }
 
-    /** Resets the filter's internal notion of the current character
-     *  attributes to their default values. Invoked to handle the
-     *  \plain keyword. */
-    protected void resetCharacterAttributes()
+    /** Resets the filter's internbl notion of the current chbrbcter
+     *  bttributes to their defbult vblues. Invoked to hbndle the
+     *  \plbin keyword. */
+    protected void resetChbrbcterAttributes()
     {
-        handleKeyword("f", 0);
-        handleKeyword("cf", 0);
+        hbndleKeyword("f", 0);
+        hbndleKeyword("cf", 0);
 
-        handleKeyword("fs", 24);  /* 12 pt. */
+        hbndleKeyword("fs", 24);  /* 12 pt. */
 
-        Enumeration<RTFAttribute> attributes = straightforwardAttributes.elements();
-        while(attributes.hasMoreElements()) {
-            RTFAttribute attr = attributes.nextElement();
-            if (attr.domain() == RTFAttribute.D_CHARACTER)
-                attr.setDefault(characterAttributes);
+        Enumerbtion<RTFAttribute> bttributes = strbightforwbrdAttributes.elements();
+        while(bttributes.hbsMoreElements()) {
+            RTFAttribute bttr = bttributes.nextElement();
+            if (bttr.dombin() == RTFAttribute.D_CHARACTER)
+                bttr.setDefbult(chbrbcterAttributes);
         }
 
-        handleKeyword("sl", 1000);
+        hbndleKeyword("sl", 1000);
 
-        parserState.remove("characterStyle");
+        pbrserStbte.remove("chbrbcterStyle");
     }
 
-    /** Resets the filter's internal notion of the current paragraph's
-     *  attributes to their default values. Invoked to handle the
-     *  \pard keyword. */
-    protected void resetParagraphAttributes()
+    /** Resets the filter's internbl notion of the current pbrbgrbph's
+     *  bttributes to their defbult vblues. Invoked to hbndle the
+     *  \pbrd keyword. */
+    protected void resetPbrbgrbphAttributes()
     {
-        parserState.remove("_tabs");
-        parserState.remove("_tabs_immutable");
-        parserState.remove("paragraphStyle");
+        pbrserStbte.remove("_tbbs");
+        pbrserStbte.remove("_tbbs_immutbble");
+        pbrserStbte.remove("pbrbgrbphStyle");
 
-        StyleConstants.setAlignment(paragraphAttributes,
-                                    StyleConstants.ALIGN_LEFT);
+        StyleConstbnts.setAlignment(pbrbgrbphAttributes,
+                                    StyleConstbnts.ALIGN_LEFT);
 
-        Enumeration<RTFAttribute> attributes = straightforwardAttributes.elements();
-        while(attributes.hasMoreElements()) {
-            RTFAttribute attr = attributes.nextElement();
-            if (attr.domain() == RTFAttribute.D_PARAGRAPH)
-                attr.setDefault(characterAttributes);
+        Enumerbtion<RTFAttribute> bttributes = strbightforwbrdAttributes.elements();
+        while(bttributes.hbsMoreElements()) {
+            RTFAttribute bttr = bttributes.nextElement();
+            if (bttr.dombin() == RTFAttribute.D_PARAGRAPH)
+                bttr.setDefbult(chbrbcterAttributes);
         }
     }
 
-    /** Resets the filter's internal notion of the current section's
-     *  attributes to their default values. Invoked to handle the
+    /** Resets the filter's internbl notion of the current section's
+     *  bttributes to their defbult vblues. Invoked to hbndle the
      *  \sectd keyword. */
     protected void resetSectionAttributes()
     {
-        Enumeration<RTFAttribute> attributes = straightforwardAttributes.elements();
-        while(attributes.hasMoreElements()) {
-            RTFAttribute attr = attributes.nextElement();
-            if (attr.domain() == RTFAttribute.D_SECTION)
-                attr.setDefault(characterAttributes);
+        Enumerbtion<RTFAttribute> bttributes = strbightforwbrdAttributes.elements();
+        while(bttributes.hbsMoreElements()) {
+            RTFAttribute bttr = bttributes.nextElement();
+            if (bttr.dombin() == RTFAttribute.D_SECTION)
+                bttr.setDefbult(chbrbcterAttributes);
         }
 
-        parserState.remove("sectionStyle");
+        pbrserStbte.remove("sectionStyle");
     }
 }
 
-/** RTFReader.TextHandlingDestination provides basic text handling
- *  functionality. Subclasses must implement: <dl>
- *  <dt>deliverText()<dd>to handle a run of text with the same
- *                       attributes
- *  <dt>finishParagraph()<dd>to end the current paragraph and
- *                           set the paragraph's attributes
+/** RTFRebder.TextHbndlingDestinbtion provides bbsic text hbndling
+ *  functionblity. Subclbsses must implement: <dl>
+ *  <dt>deliverText()<dd>to hbndle b run of text with the sbme
+ *                       bttributes
+ *  <dt>finishPbrbgrbph()<dd>to end the current pbrbgrbph bnd
+ *                           set the pbrbgrbph's bttributes
  *  <dt>endSection()<dd>to end the current section
  *  </dl>
  */
-abstract class TextHandlingDestination
-    extends AttributeTrackingDestination
-    implements Destination
+bbstrbct clbss TextHbndlingDestinbtion
+    extends AttributeTrbckingDestinbtion
+    implements Destinbtion
 {
-    /** <code>true</code> if the reader has not just finished
-     *  a paragraph; false upon startup */
-    boolean inParagraph;
+    /** <code>true</code> if the rebder hbs not just finished
+     *  b pbrbgrbph; fblse upon stbrtup */
+    boolebn inPbrbgrbph;
 
-    public TextHandlingDestination()
+    public TextHbndlingDestinbtion()
     {
         super();
-        inParagraph = false;
+        inPbrbgrbph = fblse;
     }
 
-    public void handleText(String text)
+    public void hbndleText(String text)
     {
-        if (! inParagraph)
-            beginParagraph();
+        if (! inPbrbgrbph)
+            beginPbrbgrbph();
 
         deliverText(text, currentTextAttributes());
     }
 
-    abstract void deliverText(String text, AttributeSet characterAttributes);
+    bbstrbct void deliverText(String text, AttributeSet chbrbcterAttributes);
 
     public void close()
     {
-        if (inParagraph)
-            endParagraph();
+        if (inPbrbgrbph)
+            endPbrbgrbph();
 
         super.close();
     }
 
-    public boolean handleKeyword(String keyword)
+    public boolebn hbndleKeyword(String keyword)
     {
-        if (keyword.equals("\r") || keyword.equals("\n")) {
-            keyword = "par";
+        if (keyword.equbls("\r") || keyword.equbls("\n")) {
+            keyword = "pbr";
         }
 
-        if (keyword.equals("par")) {
-//          warnings.println("Ending paragraph.");
-            endParagraph();
+        if (keyword.equbls("pbr")) {
+//          wbrnings.println("Ending pbrbgrbph.");
+            endPbrbgrbph();
             return true;
         }
 
-        if (keyword.equals("sect")) {
-//          warnings.println("Ending section.");
+        if (keyword.equbls("sect")) {
+//          wbrnings.println("Ending section.");
             endSection();
             return true;
         }
 
-        return super.handleKeyword(keyword);
+        return super.hbndleKeyword(keyword);
     }
 
-    protected void beginParagraph()
+    protected void beginPbrbgrbph()
     {
-        inParagraph = true;
+        inPbrbgrbph = true;
     }
 
-    protected void endParagraph()
+    protected void endPbrbgrbph()
     {
-        AttributeSet pgfAttributes = currentParagraphAttributes();
+        AttributeSet pgfAttributes = currentPbrbgrbphAttributes();
         AttributeSet chrAttributes = currentTextAttributes();
-        finishParagraph(pgfAttributes, chrAttributes);
-        inParagraph = false;
+        finishPbrbgrbph(pgfAttributes, chrAttributes);
+        inPbrbgrbph = fblse;
     }
 
-    abstract void finishParagraph(AttributeSet pgfA, AttributeSet chrA);
+    bbstrbct void finishPbrbgrbph(AttributeSet pgfA, AttributeSet chrA);
 
-    abstract void endSection();
+    bbstrbct void endSection();
 }
 
-/** RTFReader.DocumentDestination is a concrete subclass of
- *  TextHandlingDestination which appends the text to the
- *  StyledDocument given by the <code>target</code> ivar of the
- *  containing RTFReader.
+/** RTFRebder.DocumentDestinbtion is b concrete subclbss of
+ *  TextHbndlingDestinbtion which bppends the text to the
+ *  StyledDocument given by the <code>tbrget</code> ivbr of the
+ *  contbining RTFRebder.
  */
-class DocumentDestination
-    extends TextHandlingDestination
-    implements Destination
+clbss DocumentDestinbtion
+    extends TextHbndlingDestinbtion
+    implements Destinbtion
 {
-    public void deliverText(String text, AttributeSet characterAttributes)
+    public void deliverText(String text, AttributeSet chbrbcterAttributes)
     {
         try {
-            target.insertString(target.getLength(),
+            tbrget.insertString(tbrget.getLength(),
                                 text,
                                 currentTextAttributes());
-        } catch (BadLocationException ble) {
-            /* This shouldn't be able to happen, of course */
-            /* TODO is InternalError the correct error to throw? */
-            throw new InternalError(ble.getMessage(), ble);
+        } cbtch (BbdLocbtionException ble) {
+            /* This shouldn't be bble to hbppen, of course */
+            /* TODO is InternblError the correct error to throw? */
+            throw new InternblError(ble.getMessbge(), ble);
         }
     }
 
-    public void finishParagraph(AttributeSet pgfAttributes,
+    public void finishPbrbgrbph(AttributeSet pgfAttributes,
                                 AttributeSet chrAttributes)
     {
-        int pgfEndPosition = target.getLength();
+        int pgfEndPosition = tbrget.getLength();
         try {
-            target.insertString(pgfEndPosition, "\n", chrAttributes);
-            target.setParagraphAttributes(pgfEndPosition, 1, pgfAttributes, true);
-        } catch (BadLocationException ble) {
-            /* This shouldn't be able to happen, of course */
-            /* TODO is InternalError the correct error to throw? */
-            throw new InternalError(ble.getMessage(), ble);
+            tbrget.insertString(pgfEndPosition, "\n", chrAttributes);
+            tbrget.setPbrbgrbphAttributes(pgfEndPosition, 1, pgfAttributes, true);
+        } cbtch (BbdLocbtionException ble) {
+            /* This shouldn't be bble to hbppen, of course */
+            /* TODO is InternblError the correct error to throw? */
+            throw new InternblError(ble.getMessbge(), ble);
         }
     }
 

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -38,61 +38,61 @@
 #ifdef HEADLESS
 
 typedef struct {
-    unsigned char byte1;
-    unsigned char byte2;
-} AWTChar2b;
+    unsigned chbr byte1;
+    unsigned chbr byte2;
+} AWTChbr2b;
 
 #define Success 1
 
 #else /* !HEADLESS */
 
-extern Display *awt_display;
-typedef XChar2b AWTChar2b;
+extern Displby *bwt_displby;
+typedef XChbr2b AWTChbr2b;
 
 #endif /* !HEADLESS */
 
-typedef void *AWTChar;
+typedef void *AWTChbr;
 typedef void *AWTFont;
 
-typedef struct NativeScalerContext {
+typedef struct NbtiveScblerContext {
     AWTFont xFont;
     int minGlyph;
-    int maxGlyph;
+    int mbxGlyph;
     int numGlyphs;
-    int defaultGlyph;
+    int defbultGlyph;
     int ptSize;
-    double scale;
-} NativeScalerContext;
+    double scble;
+} NbtiveScblerContext;
 
 
 /*
- * Important note : All AWTxxx functions are defined in font.h.
- * These were added to remove the dependency of certain files on X11.
- * These functions are used to perform X11 operations and should
- * be "stubbed out" in environments that do not support X11.
+ * Importbnt note : All AWTxxx functions bre defined in font.h.
+ * These were bdded to remove the dependency of certbin files on X11.
+ * These functions bre used to perform X11 operbtions bnd should
+ * be "stubbed out" in environments thbt do not support X11.
  */
-JNIEXPORT int JNICALL AWTCountFonts(char* xlfd);
-JNIEXPORT void JNICALL AWTLoadFont(char* name, AWTFont* pReturn);
+JNIEXPORT int JNICALL AWTCountFonts(chbr* xlfd);
+JNIEXPORT void JNICALL AWTLobdFont(chbr* nbme, AWTFont* pReturn);
 JNIEXPORT void JNICALL AWTFreeFont(AWTFont font);
 JNIEXPORT unsigned JNICALL AWTFontMinByte1(AWTFont font);
-JNIEXPORT unsigned JNICALL AWTFontMaxByte1(AWTFont font);
-JNIEXPORT unsigned JNICALL AWTFontMinCharOrByte2(AWTFont font);
-JNIEXPORT unsigned JNICALL AWTFontMaxCharOrByte2(AWTFont font);
-JNIEXPORT unsigned JNICALL AWTFontDefaultChar(AWTFont font);
-/* Do not call AWTFreeChar() after AWTFontPerChar() or AWTFontMaxBounds() */
-JNIEXPORT AWTChar JNICALL AWTFontPerChar(AWTFont font, int index);
-JNIEXPORT AWTChar JNICALL AWTFontMaxBounds(AWTFont font);
+JNIEXPORT unsigned JNICALL AWTFontMbxByte1(AWTFont font);
+JNIEXPORT unsigned JNICALL AWTFontMinChbrOrByte2(AWTFont font);
+JNIEXPORT unsigned JNICALL AWTFontMbxChbrOrByte2(AWTFont font);
+JNIEXPORT unsigned JNICALL AWTFontDefbultChbr(AWTFont font);
+/* Do not cbll AWTFreeChbr() bfter AWTFontPerChbr() or AWTFontMbxBounds() */
+JNIEXPORT AWTChbr JNICALL AWTFontPerChbr(AWTFont font, int index);
+JNIEXPORT AWTChbr JNICALL AWTFontMbxBounds(AWTFont font);
 JNIEXPORT int JNICALL AWTFontAscent(AWTFont font);
 JNIEXPORT int JNICALL AWTFontDescent(AWTFont font);
-/* Call AWTFreeChar() on overall after calling AWTFontQueryTextExtents16() */
-JNIEXPORT void JNICALL AWTFontTextExtents16(AWTFont font, AWTChar2b* xChar,
-                                            AWTChar* overall);
-JNIEXPORT void JNICALL AWTFreeChar(AWTChar xChar);
-JNIEXPORT jlong JNICALL AWTFontGenerateImage(AWTFont xFont, AWTChar2b* xChar);
-JNIEXPORT short JNICALL AWTCharAdvance(AWTChar xChar);
-JNIEXPORT short JNICALL AWTCharLBearing(AWTChar xChar);
-JNIEXPORT short JNICALL AWTCharRBearing(AWTChar xChar);
-JNIEXPORT short JNICALL AWTCharAscent(AWTChar xChar);
-JNIEXPORT short JNICALL AWTCharDescent(AWTChar xChar);
+/* Cbll AWTFreeChbr() on overbll bfter cblling AWTFontQueryTextExtents16() */
+JNIEXPORT void JNICALL AWTFontTextExtents16(AWTFont font, AWTChbr2b* xChbr,
+                                            AWTChbr* overbll);
+JNIEXPORT void JNICALL AWTFreeChbr(AWTChbr xChbr);
+JNIEXPORT jlong JNICALL AWTFontGenerbteImbge(AWTFont xFont, AWTChbr2b* xChbr);
+JNIEXPORT short JNICALL AWTChbrAdvbnce(AWTChbr xChbr);
+JNIEXPORT short JNICALL AWTChbrLBebring(AWTChbr xChbr);
+JNIEXPORT short JNICALL AWTChbrRBebring(AWTChbr xChbr);
+JNIEXPORT short JNICALL AWTChbrAscent(AWTChbr xChbr);
+JNIEXPORT short JNICALL AWTChbrDescent(AWTChbr xChbr);
 
 #endif

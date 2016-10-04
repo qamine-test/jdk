@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.acl;
+pbckbge jbvb.security.bcl;
 
-import java.util.Enumeration;
-import java.security.Principal;
+import jbvb.util.Enumerbtion;
+import jbvb.security.Principbl;
 
 /**
- * Interface representing an Access Control List (ACL).  An Access
- * Control List is a data structure used to guard access to
+ * Interfbce representing bn Access Control List (ACL).  An Access
+ * Control List is b dbtb structure used to gubrd bccess to
  * resources.<p>
  *
- * An ACL can be thought of as a data structure with multiple ACL
- * entries.  Each ACL entry, of interface type AclEntry, contains a
- * set of permissions associated with a particular principal. (A
- * principal represents an entity such as an individual user or a
- * group). Additionally, each ACL entry is specified as being either
- * positive or negative. If positive, the permissions are to be
- * granted to the associated principal. If negative, the permissions
- * are to be denied.<p>
+ * An ACL cbn be thought of bs b dbtb structure with multiple ACL
+ * entries.  Ebch ACL entry, of interfbce type AclEntry, contbins b
+ * set of permissions bssocibted with b pbrticulbr principbl. (A
+ * principbl represents bn entity such bs bn individubl user or b
+ * group). Additionblly, ebch ACL entry is specified bs being either
+ * positive or negbtive. If positive, the permissions bre to be
+ * grbnted to the bssocibted principbl. If negbtive, the permissions
+ * bre to be denied.<p>
  *
- * The ACL Entries in each ACL observe the following rules:
+ * The ACL Entries in ebch ACL observe the following rules:
  *
- * <ul> <li>Each principal can have at most one positive ACL entry and
- * one negative entry; that is, multiple positive or negative ACL
- * entries are not allowed for any principal.  Each entry specifies
- * the set of permissions that are to be granted (if positive) or
- * denied (if negative).
+ * <ul> <li>Ebch principbl cbn hbve bt most one positive ACL entry bnd
+ * one negbtive entry; thbt is, multiple positive or negbtive ACL
+ * entries bre not bllowed for bny principbl.  Ebch entry specifies
+ * the set of permissions thbt bre to be grbnted (if positive) or
+ * denied (if negbtive).
  *
- * <li>If there is no entry for a particular principal, then the
- * principal is considered to have a null (empty) permission set.
+ * <li>If there is no entry for b pbrticulbr principbl, then the
+ * principbl is considered to hbve b null (empty) permission set.
  *
- * <li>If there is a positive entry that grants a principal a
- * particular permission, and a negative entry that denies the
- * principal the same permission, the result is as though the
- * permission was never granted or denied.
+ * <li>If there is b positive entry thbt grbnts b principbl b
+ * pbrticulbr permission, bnd b negbtive entry thbt denies the
+ * principbl the sbme permission, the result is bs though the
+ * permission wbs never grbnted or denied.
  *
- * <li>Individual permissions always override permissions of the
- * group(s) to which the individual belongs. That is, individual
- * negative permissions (specific denial of permissions) override the
- * groups' positive permissions. And individual positive permissions
- * override the groups' negative permissions.
+ * <li>Individubl permissions blwbys override permissions of the
+ * group(s) to which the individubl belongs. Thbt is, individubl
+ * negbtive permissions (specific denibl of permissions) override the
+ * groups' positive permissions. And individubl positive permissions
+ * override the groups' negbtive permissions.
  *
  * </ul>
  *
- * The {@code  java.security.acl } package provides the
- * interfaces to the ACL and related data structures (ACL entries,
- * groups, permissions, etc.), and the {@code  sun.security.acl }
- * classes provide a default implementation of the interfaces. For
- * example, {@code  java.security.acl.Acl } provides the
- * interface to an ACL and the {@code  sun.security.acl.AclImpl }
- * class provides the default implementation of the interface.<p>
+ * The {@code  jbvb.security.bcl } pbckbge provides the
+ * interfbces to the ACL bnd relbted dbtb structures (ACL entries,
+ * groups, permissions, etc.), bnd the {@code  sun.security.bcl }
+ * clbsses provide b defbult implementbtion of the interfbces. For
+ * exbmple, {@code  jbvb.security.bcl.Acl } provides the
+ * interfbce to bn ACL bnd the {@code  sun.security.bcl.AclImpl }
+ * clbss provides the defbult implementbtion of the interfbce.<p>
  *
- * The {@code  java.security.acl.Acl } interface extends the
- * {@code  java.security.acl.Owner } interface. The Owner
- * interface is used to maintain a list of owners for each ACL.  Only
- * owners are allowed to modify an ACL. For example, only an owner can
- * call the ACL's {@code addEntry} method to add a new ACL entry
+ * The {@code  jbvb.security.bcl.Acl } interfbce extends the
+ * {@code  jbvb.security.bcl.Owner } interfbce. The Owner
+ * interfbce is used to mbintbin b list of owners for ebch ACL.  Only
+ * owners bre bllowed to modify bn ACL. For exbmple, only bn owner cbn
+ * cbll the ACL's {@code bddEntry} method to bdd b new ACL entry
  * to the ACL.
  *
- * @see java.security.acl.AclEntry
- * @see java.security.acl.Owner
- * @see java.security.acl.Acl#getPermissions
+ * @see jbvb.security.bcl.AclEntry
+ * @see jbvb.security.bcl.Owner
+ * @see jbvb.security.bcl.Acl#getPermissions
  *
- * @author Satish Dharmaraj
+ * @buthor Sbtish Dhbrmbrbj
  */
 
-public interface Acl extends Owner {
+public interfbce Acl extends Owner {
 
     /**
-     * Sets the name of this ACL.
+     * Sets the nbme of this ACL.
      *
-     * @param caller the principal invoking this method. It must be an
+     * @pbrbm cbller the principbl invoking this method. It must be bn
      * owner of this ACL.
      *
-     * @param name the name to be given to this ACL.
+     * @pbrbm nbme the nbme to be given to this ACL.
      *
-     * @exception NotOwnerException if the caller principal
-     * is not an owner of this ACL.
+     * @exception NotOwnerException if the cbller principbl
+     * is not bn owner of this ACL.
      *
-     * @see #getName
+     * @see #getNbme
      */
-    public void setName(Principal caller, String name)
+    public void setNbme(Principbl cbller, String nbme)
       throws NotOwnerException;
 
     /**
-     * Returns the name of this ACL.
+     * Returns the nbme of this ACL.
      *
-     * @return the name of this ACL.
+     * @return the nbme of this ACL.
      *
-     * @see #setName
+     * @see #setNbme
      */
-    public String getName();
+    public String getNbme();
 
     /**
-     * Adds an ACL entry to this ACL. An entry associates a principal
-     * (e.g., an individual or a group) with a set of
-     * permissions. Each principal can have at most one positive ACL
-     * entry (specifying permissions to be granted to the principal)
-     * and one negative ACL entry (specifying permissions to be
-     * denied). If there is already an ACL entry of the same type
-     * (negative or positive) already in the ACL, false is returned.
+     * Adds bn ACL entry to this ACL. An entry bssocibtes b principbl
+     * (e.g., bn individubl or b group) with b set of
+     * permissions. Ebch principbl cbn hbve bt most one positive ACL
+     * entry (specifying permissions to be grbnted to the principbl)
+     * bnd one negbtive ACL entry (specifying permissions to be
+     * denied). If there is blrebdy bn ACL entry of the sbme type
+     * (negbtive or positive) blrebdy in the ACL, fblse is returned.
      *
-     * @param caller the principal invoking this method. It must be an
+     * @pbrbm cbller the principbl invoking this method. It must be bn
      * owner of this ACL.
      *
-     * @param entry the ACL entry to be added to this ACL.
+     * @pbrbm entry the ACL entry to be bdded to this ACL.
      *
-     * @return true on success, false if an entry of the same type
-     * (positive or negative) for the same principal is already
+     * @return true on success, fblse if bn entry of the sbme type
+     * (positive or negbtive) for the sbme principbl is blrebdy
      * present in this ACL.
      *
-     * @exception NotOwnerException if the caller principal
-     *  is not an owner of this ACL.
+     * @exception NotOwnerException if the cbller principbl
+     *  is not bn owner of this ACL.
      */
-    public boolean addEntry(Principal caller, AclEntry entry)
+    public boolebn bddEntry(Principbl cbller, AclEntry entry)
       throws NotOwnerException;
 
     /**
-     * Removes an ACL entry from this ACL.
+     * Removes bn ACL entry from this ACL.
      *
-     * @param caller the principal invoking this method. It must be an
+     * @pbrbm cbller the principbl invoking this method. It must be bn
      * owner of this ACL.
      *
-     * @param entry the ACL entry to be removed from this ACL.
+     * @pbrbm entry the ACL entry to be removed from this ACL.
      *
-     * @return true on success, false if the entry is not part of this ACL.
+     * @return true on success, fblse if the entry is not pbrt of this ACL.
      *
-     * @exception NotOwnerException if the caller principal is not
-     * an owner of this Acl.
+     * @exception NotOwnerException if the cbller principbl is not
+     * bn owner of this Acl.
      */
-    public boolean removeEntry(Principal caller, AclEntry entry)
+    public boolebn removeEntry(Principbl cbller, AclEntry entry)
           throws NotOwnerException;
 
     /**
-     * Returns an enumeration for the set of allowed permissions for the
-     * specified principal (representing an entity such as an individual or
-     * a group). This set of allowed permissions is calculated as
+     * Returns bn enumerbtion for the set of bllowed permissions for the
+     * specified principbl (representing bn entity such bs bn individubl or
+     * b group). This set of bllowed permissions is cblculbted bs
      * follows:
      *
      * <ul>
      *
      * <li>If there is no entry in this Access Control List for the
-     * specified principal, an empty permission set is returned.
+     * specified principbl, bn empty permission set is returned.
      *
-     * <li>Otherwise, the principal's group permission sets are determined.
-     * (A principal can belong to one or more groups, where a group is a
-     * group of principals, represented by the Group interface.)
-     * The group positive permission set is the union of all
-     * the positive permissions of each group that the principal belongs to.
-     * The group negative permission set is the union of all
-     * the negative permissions of each group that the principal belongs to.
-     * If there is a specific permission that occurs in both
-     * the positive permission set and the negative permission set,
+     * <li>Otherwise, the principbl's group permission sets bre determined.
+     * (A principbl cbn belong to one or more groups, where b group is b
+     * group of principbls, represented by the Group interfbce.)
+     * The group positive permission set is the union of bll
+     * the positive permissions of ebch group thbt the principbl belongs to.
+     * The group negbtive permission set is the union of bll
+     * the negbtive permissions of ebch group thbt the principbl belongs to.
+     * If there is b specific permission thbt occurs in both
+     * the positive permission set bnd the negbtive permission set,
      * it is removed from both.<p>
      *
-     * The individual positive and negative permission sets are also
-     * determined. The positive permission set contains the permissions
-     * specified in the positive ACL entry (if any) for the principal.
-     * Similarly, the negative permission set contains the permissions
-     * specified in the negative ACL entry (if any) for the principal.
-     * The individual positive (or negative) permission set is considered
-     * to be null if there is not a positive (negative) ACL entry for the
-     * principal in this ACL.<p>
+     * The individubl positive bnd negbtive permission sets bre blso
+     * determined. The positive permission set contbins the permissions
+     * specified in the positive ACL entry (if bny) for the principbl.
+     * Similbrly, the negbtive permission set contbins the permissions
+     * specified in the negbtive ACL entry (if bny) for the principbl.
+     * The individubl positive (or negbtive) permission set is considered
+     * to be null if there is not b positive (negbtive) ACL entry for the
+     * principbl in this ACL.<p>
      *
-     * The set of permissions granted to the principal is then calculated
-     * using the simple rule that individual permissions always override
-     * the group permissions. That is, the principal's individual negative
-     * permission set (specific denial of permissions) overrides the group
-     * positive permission set, and the principal's individual positive
-     * permission set overrides the group negative permission set.
+     * The set of permissions grbnted to the principbl is then cblculbted
+     * using the simple rule thbt individubl permissions blwbys override
+     * the group permissions. Thbt is, the principbl's individubl negbtive
+     * permission set (specific denibl of permissions) overrides the group
+     * positive permission set, bnd the principbl's individubl positive
+     * permission set overrides the group negbtive permission set.
      *
      * </ul>
      *
-     * @param user the principal whose permission set is to be returned.
+     * @pbrbm user the principbl whose permission set is to be returned.
      *
-     * @return the permission set specifying the permissions the principal
-     * is allowed.
+     * @return the permission set specifying the permissions the principbl
+     * is bllowed.
      */
-    public Enumeration<Permission> getPermissions(Principal user);
+    public Enumerbtion<Permission> getPermissions(Principbl user);
 
     /**
-     * Returns an enumeration of the entries in this ACL. Each element in
-     * the enumeration is of type AclEntry.
+     * Returns bn enumerbtion of the entries in this ACL. Ebch element in
+     * the enumerbtion is of type AclEntry.
      *
-     * @return an enumeration of the entries in this ACL.
+     * @return bn enumerbtion of the entries in this ACL.
      */
-    public Enumeration<AclEntry> entries();
+    public Enumerbtion<AclEntry> entries();
 
     /**
-     * Checks whether or not the specified principal has the specified
-     * permission. If it does, true is returned, otherwise false is returned.
+     * Checks whether or not the specified principbl hbs the specified
+     * permission. If it does, true is returned, otherwise fblse is returned.
      *
-     * More specifically, this method checks whether the passed permission
-     * is a member of the allowed permission set of the specified principal.
-     * The allowed permission set is determined by the same algorithm as is
+     * More specificblly, this method checks whether the pbssed permission
+     * is b member of the bllowed permission set of the specified principbl.
+     * The bllowed permission set is determined by the sbme blgorithm bs is
      * used by the {@code getPermissions} method.
      *
-     * @param principal the principal, assumed to be a valid authenticated
-     * Principal.
+     * @pbrbm principbl the principbl, bssumed to be b vblid buthenticbted
+     * Principbl.
      *
-     * @param permission the permission to be checked for.
+     * @pbrbm permission the permission to be checked for.
      *
-     * @return true if the principal has the specified permission, false
+     * @return true if the principbl hbs the specified permission, fblse
      * otherwise.
      *
      * @see #getPermissions
      */
-    public boolean checkPermission(Principal principal, Permission permission);
+    public boolebn checkPermission(Principbl principbl, Permission permission);
 
     /**
-     * Returns a string representation of the
+     * Returns b string representbtion of the
      * ACL contents.
      *
-     * @return a string representation of the ACL contents.
+     * @return b string representbtion of the ACL contents.
      */
     public String toString();
 }

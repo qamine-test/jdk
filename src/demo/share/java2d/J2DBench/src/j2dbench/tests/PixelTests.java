@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,174 +30,174 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench.tests;
+pbckbge j2dbench.tests;
 
-import j2dbench.Destinations;
+import j2dbench.Destinbtions;
 import j2dbench.Group;
 import j2dbench.Modifier;
 import j2dbench.Option;
 import j2dbench.Test;
 import j2dbench.Result;
 import j2dbench.TestEnvironment;
-import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.image.VolatileImage;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferShort;
-import java.awt.image.DataBufferInt;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.IndexColorModel;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Color;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.imbge.VolbtileImbge;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DbtbBufferByte;
+import jbvb.bwt.imbge.DbtbBufferShort;
+import jbvb.bwt.imbge.DbtbBufferInt;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.imbge.IndexColorModel;
 
-public abstract class PixelTests extends Test {
-    static Group pixelroot;
+public bbstrbct clbss PixelTests extends Test {
+    stbtic Group pixelroot;
 
-    static Group pixeloptroot;
-    static Group.EnableSet bufimgsrcroot;
+    stbtic Group pixeloptroot;
+    stbtic Group.EnbbleSet bufimgsrcroot;
 
-    static Option doRenderTo;
-    static Option doRenderFrom;
+    stbtic Option doRenderTo;
+    stbtic Option doRenderFrom;
 
-    static Group bufimgtestroot;
-    static Group rastertestroot;
-    static Group dbtestroot;
+    stbtic Group bufimgtestroot;
+    stbtic Group rbstertestroot;
+    stbtic Group dbtestroot;
 
-    public static void init() {
-        pixelroot = new Group("pixel", "Pixel Access Benchmarks");
+    public stbtic void init() {
+        pixelroot = new Group("pixel", "Pixel Access Benchmbrks");
 
         pixeloptroot = new Group(pixelroot, "opts", "Pixel Access Options");
         doRenderTo = new Option.Toggle(pixeloptroot, "renderto",
-                                       "Render to Image before test",
+                                       "Render to Imbge before test",
                                        Option.Toggle.Off);
         doRenderFrom = new Option.Toggle(pixeloptroot, "renderfrom",
-                                         "Render from Image before test",
+                                         "Render from Imbge before test",
                                          Option.Toggle.Off);
 
-        // BufferedImage Sources
-        bufimgsrcroot = new Group.EnableSet(pixelroot, "src",
-                                            "BufferedImage Sources");
-        new BufImg(BufferedImage.TYPE_BYTE_BINARY, 1);
-        new BufImg(BufferedImage.TYPE_BYTE_BINARY, 2);
-        new BufImg(BufferedImage.TYPE_BYTE_BINARY, 4);
-        new BufImg(BufferedImage.TYPE_BYTE_INDEXED);
-        new BufImg(BufferedImage.TYPE_BYTE_GRAY);
-        new BufImg(BufferedImage.TYPE_USHORT_555_RGB);
-        new BufImg(BufferedImage.TYPE_USHORT_565_RGB);
-        new BufImg(BufferedImage.TYPE_USHORT_GRAY);
-        new BufImg(BufferedImage.TYPE_3BYTE_BGR);
-        new BufImg(BufferedImage.TYPE_4BYTE_ABGR);
-        new BufImg(BufferedImage.TYPE_INT_RGB);
-        new BufImg(BufferedImage.TYPE_INT_BGR);
-        new BufImg(BufferedImage.TYPE_INT_ARGB);
+        // BufferedImbge Sources
+        bufimgsrcroot = new Group.EnbbleSet(pixelroot, "src",
+                                            "BufferedImbge Sources");
+        new BufImg(BufferedImbge.TYPE_BYTE_BINARY, 1);
+        new BufImg(BufferedImbge.TYPE_BYTE_BINARY, 2);
+        new BufImg(BufferedImbge.TYPE_BYTE_BINARY, 4);
+        new BufImg(BufferedImbge.TYPE_BYTE_INDEXED);
+        new BufImg(BufferedImbge.TYPE_BYTE_GRAY);
+        new BufImg(BufferedImbge.TYPE_USHORT_555_RGB);
+        new BufImg(BufferedImbge.TYPE_USHORT_565_RGB);
+        new BufImg(BufferedImbge.TYPE_USHORT_GRAY);
+        new BufImg(BufferedImbge.TYPE_3BYTE_BGR);
+        new BufImg(BufferedImbge.TYPE_4BYTE_ABGR);
+        new BufImg(BufferedImbge.TYPE_INT_RGB);
+        new BufImg(BufferedImbge.TYPE_INT_BGR);
+        new BufImg(BufferedImbge.TYPE_INT_ARGB);
 
-        // BufferedImage Tests
+        // BufferedImbge Tests
         bufimgtestroot = new Group(pixelroot, "bimgtests",
-                                   "BufferedImage Tests");
+                                   "BufferedImbge Tests");
         new BufImgTest.GetRGB();
         new BufImgTest.SetRGB();
 
-        // Raster Tests
-        rastertestroot = new Group(pixelroot, "rastests",
-                                   "Raster Tests");
-        new RasTest.GetDataElements();
-        new RasTest.SetDataElements();
-        new RasTest.GetPixel();
-        new RasTest.SetPixel();
+        // Rbster Tests
+        rbstertestroot = new Group(pixelroot, "rbstests",
+                                   "Rbster Tests");
+        new RbsTest.GetDbtbElements();
+        new RbsTest.SetDbtbElements();
+        new RbsTest.GetPixel();
+        new RbsTest.SetPixel();
 
-        // DataBuffer Tests
+        // DbtbBuffer Tests
         dbtestroot = new Group(pixelroot, "dbtests",
-                               "DataBuffer Tests");
-        new DataBufTest.GetElem();
-        new DataBufTest.SetElem();
+                               "DbtbBuffer Tests");
+        new DbtbBufTest.GetElem();
+        new DbtbBufTest.SetElem();
     }
 
-    public PixelTests(Group root, String nodeName, String description) {
-        super(root, nodeName, description);
-        addDependency(bufimgsrcroot);
-        addDependencies(pixeloptroot, false);
+    public PixelTests(Group root, String nodeNbme, String description) {
+        super(root, nodeNbme, description);
+        bddDependency(bufimgsrcroot);
+        bddDependencies(pixeloptroot, fblse);
     }
 
-    public static class Context {
-        BufferedImage bimg;
-        WritableRaster ras;
-        DataBuffer db;
-        int pixeldata[];
-        Object elemdata;
+    public stbtic clbss Context {
+        BufferedImbge bimg;
+        WritbbleRbster rbs;
+        DbtbBuffer db;
+        int pixeldbtb[];
+        Object elemdbtb;
     }
 
     public Object initTest(TestEnvironment env, Result result) {
         Context ctx = new Context();
-        ctx.bimg = ((BufImg) env.getModifier(bufimgsrcroot)).getImage();
-        if (env.isEnabled(doRenderTo)) {
-            Graphics2D g2d = ctx.bimg.createGraphics();
+        ctx.bimg = ((BufImg) env.getModifier(bufimgsrcroot)).getImbge();
+        if (env.isEnbbled(doRenderTo)) {
+            Grbphics2D g2d = ctx.bimg.crebteGrbphics();
             g2d.setColor(Color.white);
             g2d.fillRect(3, 0, 1, 1);
             g2d.dispose();
         }
-        if (env.isEnabled(doRenderFrom)) {
-            GraphicsConfiguration cfg =
-                GraphicsEnvironment
-                .getLocalGraphicsEnvironment()
-                .getDefaultScreenDevice()
-                .getDefaultConfiguration();
-            VolatileImage vimg = cfg.createCompatibleVolatileImage(8, 1);
-            vimg.validate(cfg);
-            Graphics2D g2d = vimg.createGraphics();
+        if (env.isEnbbled(doRenderFrom)) {
+            GrbphicsConfigurbtion cfg =
+                GrbphicsEnvironment
+                .getLocblGrbphicsEnvironment()
+                .getDefbultScreenDevice()
+                .getDefbultConfigurbtion();
+            VolbtileImbge vimg = cfg.crebteCompbtibleVolbtileImbge(8, 1);
+            vimg.vblidbte(cfg);
+            Grbphics2D g2d = vimg.crebteGrbphics();
             for (int i = 0; i < 100; i++) {
-                g2d.drawImage(ctx.bimg, 0, 0, null);
+                g2d.drbwImbge(ctx.bimg, 0, 0, null);
             }
             g2d.dispose();
             vimg.flush();
         }
         result.setUnits(1);
-        result.setUnitName(getUnitName());
+        result.setUnitNbme(getUnitNbme());
         return ctx;
     }
 
-    public abstract String getUnitName();
+    public bbstrbct String getUnitNbme();
 
-    public void cleanupTest(TestEnvironment env, Object context) {
+    public void clebnupTest(TestEnvironment env, Object context) {
     }
 
-    public static class BufImg extends Option.Enable {
-        public static int rgbvals[] = {
+    public stbtic clbss BufImg extends Option.Enbble {
+        public stbtic int rgbvbls[] = {
             0x00000000,
             0xff0000ff,
             0x8000ff00,
             0xffffffff
         };
 
-        static int cmap[] = {
-            0xff000000,  // 0: opaque black
-            0xffffffff,  // 1: opaque white
+        stbtic int cmbp[] = {
+            0xff000000,  // 0: opbque blbck
+            0xffffffff,  // 1: opbque white
 
-            0x00000000,  // 2: transparent black
-            0x80ffffff,  // 3: translucent white
+            0x00000000,  // 2: trbnspbrent blbck
+            0x80ffffff,  // 3: trbnslucent white
 
-            0x00ffffff,  // 4: transparent white
-            0x80000000,  // 5: translucent black
-            0xff333333,  // 6: opaque dark gray
-            0xff666666,  // 7: opaque medium gray
-            0xff999999,  // 8: opaque gray
-            0xffcccccc,  // 9: opaque light gray
-            0xff0000ff,  // A: opaque blue
-            0xff00ff00,  // B: opaque green
-            0xff00ffff,  // C: opaque cyan
-            0xffff0000,  // D: opaque red
-            0xffff00ff,  // E: opaque magenta
-            0xffffff00,  // F: opaque yellow
+            0x00ffffff,  // 4: trbnspbrent white
+            0x80000000,  // 5: trbnslucent blbck
+            0xff333333,  // 6: opbque dbrk grby
+            0xff666666,  // 7: opbque medium grby
+            0xff999999,  // 8: opbque grby
+            0xffcccccc,  // 9: opbque light grby
+            0xff0000ff,  // A: opbque blue
+            0xff00ff00,  // B: opbque green
+            0xff00ffff,  // C: opbque cybn
+            0xffff0000,  // D: opbque red
+            0xffff00ff,  // E: opbque mbgentb
+            0xffffff00,  // F: opbque yellow
         };
 
         int type;
@@ -205,191 +205,191 @@ public abstract class PixelTests extends Test {
 
         public BufImg(int type) {
             super(bufimgsrcroot,
-                  Destinations.BufImg.ShortNames[type],
-                  Destinations.BufImg.Descriptions[type], false);
+                  Destinbtions.BufImg.ShortNbmes[type],
+                  Destinbtions.BufImg.Descriptions[type], fblse);
             this.type = type;
             this.nbits = 0;
         }
 
         public BufImg(int type, int nbits) {
             super(bufimgsrcroot,
-                  nbits+"BitBinary",
-                  nbits+"-bit Binary Image", false);
+                  nbits+"BitBinbry",
+                  nbits+"-bit Binbry Imbge", fblse);
             this.type = type;
             this.nbits = nbits;
         }
 
-        public String getModifierValueName(Object val) {
-            return "BufImg("+getNodeName()+")";
+        public String getModifierVblueNbme(Object vbl) {
+            return "BufImg("+getNodeNbme()+")";
         }
 
-        public BufferedImage getImage() {
-            BufferedImage bimg;
+        public BufferedImbge getImbge() {
+            BufferedImbge bimg;
             if (nbits == 0) {
-                bimg = new BufferedImage(8, 1, type);
+                bimg = new BufferedImbge(8, 1, type);
             } else {
                 IndexColorModel icm =
                     new IndexColorModel(nbits, (1 << nbits),
-                                        cmap, 0, (nbits > 1), -1,
-                                        DataBuffer.TYPE_BYTE);
-                // Note that this constructor has bugs pre 1.4...
-                // bimg = new BufferedImage(64/nbits, 1, type, icm);
-                WritableRaster wr =
-                    icm.createCompatibleWritableRaster(64/nbits, 1);
-                bimg = new BufferedImage(icm, wr, false, null);
+                                        cmbp, 0, (nbits > 1), -1,
+                                        DbtbBuffer.TYPE_BYTE);
+                // Note thbt this constructor hbs bugs pre 1.4...
+                // bimg = new BufferedImbge(64/nbits, 1, type, icm);
+                WritbbleRbster wr =
+                    icm.crebteCompbtibleWritbbleRbster(64/nbits, 1);
+                bimg = new BufferedImbge(icm, wr, fblse, null);
             }
             for (int i = 0; i < bimg.getWidth(); i++) {
-                bimg.setRGB(i, 0, rgbvals[i&3]);
+                bimg.setRGB(i, 0, rgbvbls[i&3]);
             }
             return bimg;
         }
     }
 
-    public static abstract class BufImgTest extends PixelTests {
-        public BufImgTest(String nodeName, String description) {
-            super(bufimgtestroot, nodeName, description);
+    public stbtic bbstrbct clbss BufImgTest extends PixelTests {
+        public BufImgTest(String nodeNbme, String description) {
+            super(bufimgtestroot, nodeNbme, description);
         }
 
-        public String getUnitName() {
+        public String getUnitNbme() {
             return "pixel";
         }
 
-        public static class GetRGB extends BufImgTest {
+        public stbtic clbss GetRGB extends BufImgTest {
             public GetRGB() {
-                super("getrgb", "BufferedImage.getRGB(x, y)");
+                super("getrgb", "BufferedImbge.getRGB(x, y)");
             }
 
             public void runTest(Object context, int numReps) {
-                BufferedImage bimg = ((Context) context).bimg;
+                BufferedImbge bimg = ((Context) context).bimg;
                 do {
                     bimg.getRGB(numReps&7, 0);
                 } while (--numReps > 0);
             }
         }
 
-        public static class SetRGB extends BufImgTest {
+        public stbtic clbss SetRGB extends BufImgTest {
             public SetRGB() {
-                super("setrgb", "BufferedImage.setRGB(x, y, rgb)");
+                super("setrgb", "BufferedImbge.setRGB(x, y, rgb)");
             }
 
             public void runTest(Object context, int numReps) {
-                BufferedImage bimg = ((Context) context).bimg;
+                BufferedImbge bimg = ((Context) context).bimg;
                 do {
-                    bimg.setRGB(numReps&7, 0, BufImg.rgbvals[numReps&3]);
+                    bimg.setRGB(numReps&7, 0, BufImg.rgbvbls[numReps&3]);
                 } while (--numReps > 0);
             }
         }
     }
 
-    public static abstract class RasTest extends PixelTests {
-        public RasTest(String nodeName, String description) {
-            super(rastertestroot, nodeName, description);
+    public stbtic bbstrbct clbss RbsTest extends PixelTests {
+        public RbsTest(String nodeNbme, String description) {
+            super(rbstertestroot, nodeNbme, description);
         }
 
-        public String getUnitName() {
+        public String getUnitNbme() {
             return "pixel";
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = (Context) super.initTest(env, result);
-            ctx.ras = ctx.bimg.getRaster();
-            ctx.pixeldata = ctx.ras.getPixel(0, 0, (int[]) null);
-            ctx.elemdata = ctx.ras.getDataElements(0, 0, null);
+            ctx.rbs = ctx.bimg.getRbster();
+            ctx.pixeldbtb = ctx.rbs.getPixel(0, 0, (int[]) null);
+            ctx.elemdbtb = ctx.rbs.getDbtbElements(0, 0, null);
             return ctx;
         }
 
-        public static class GetDataElements extends RasTest {
-            public GetDataElements() {
-                super("getdataelem", "Raster.getDataElements(x, y, o)");
+        public stbtic clbss GetDbtbElements extends RbsTest {
+            public GetDbtbElements() {
+                super("getdbtbelem", "Rbster.getDbtbElements(x, y, o)");
             }
 
             public void runTest(Object context, int numReps) {
-                Raster ras = ((Context) context).ras;
-                Object elemdata = ((Context) context).elemdata;
+                Rbster rbs = ((Context) context).rbs;
+                Object elemdbtb = ((Context) context).elemdbtb;
                 do {
-                    ras.getDataElements(numReps&7, 0, elemdata);
+                    rbs.getDbtbElements(numReps&7, 0, elemdbtb);
                 } while (--numReps > 0);
             }
         }
 
-        public static class SetDataElements extends RasTest {
-            public SetDataElements() {
-                super("setdataelem", "WritableRaster.setDataElements(x, y, o)");
+        public stbtic clbss SetDbtbElements extends RbsTest {
+            public SetDbtbElements() {
+                super("setdbtbelem", "WritbbleRbster.setDbtbElements(x, y, o)");
             }
 
             public void runTest(Object context, int numReps) {
-                WritableRaster ras = ((Context) context).ras;
-                Object elemdata = ((Context) context).elemdata;
+                WritbbleRbster rbs = ((Context) context).rbs;
+                Object elemdbtb = ((Context) context).elemdbtb;
                 do {
-                    ras.setDataElements(numReps&7, 0, elemdata);
+                    rbs.setDbtbElements(numReps&7, 0, elemdbtb);
                 } while (--numReps > 0);
             }
         }
 
-        public static class GetPixel extends RasTest {
+        public stbtic clbss GetPixel extends RbsTest {
             public GetPixel() {
-                super("getpixel", "Raster.getPixel(x, y, v[])");
+                super("getpixel", "Rbster.getPixel(x, y, v[])");
             }
 
             public void runTest(Object context, int numReps) {
-                Raster ras = ((Context) context).ras;
-                int pixeldata[] = ((Context) context).pixeldata;
+                Rbster rbs = ((Context) context).rbs;
+                int pixeldbtb[] = ((Context) context).pixeldbtb;
                 do {
-                    ras.getPixel(numReps&7, 0, pixeldata);
+                    rbs.getPixel(numReps&7, 0, pixeldbtb);
                 } while (--numReps > 0);
             }
         }
 
-        public static class SetPixel extends RasTest {
+        public stbtic clbss SetPixel extends RbsTest {
             public SetPixel() {
-                super("setpixel", "WritableRaster.setPixel(x, y, v[])");
+                super("setpixel", "WritbbleRbster.setPixel(x, y, v[])");
             }
 
             public void runTest(Object context, int numReps) {
-                WritableRaster ras = ((Context) context).ras;
-                int pixeldata[] = ((Context) context).pixeldata;
+                WritbbleRbster rbs = ((Context) context).rbs;
+                int pixeldbtb[] = ((Context) context).pixeldbtb;
                 do {
-                    ras.setPixel(numReps&7, 0, pixeldata);
+                    rbs.setPixel(numReps&7, 0, pixeldbtb);
                 } while (--numReps > 0);
             }
         }
     }
 
-    public static abstract class DataBufTest extends PixelTests {
-        public DataBufTest(String nodeName, String description) {
-            super(dbtestroot, nodeName, description);
+    public stbtic bbstrbct clbss DbtbBufTest extends PixelTests {
+        public DbtbBufTest(String nodeNbme, String description) {
+            super(dbtestroot, nodeNbme, description);
         }
 
-        public String getUnitName() {
+        public String getUnitNbme() {
             return "element";
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = (Context) super.initTest(env, result);
-            ctx.db = ctx.bimg.getRaster().getDataBuffer();
+            ctx.db = ctx.bimg.getRbster().getDbtbBuffer();
             return ctx;
         }
 
-        public static class GetElem extends DataBufTest {
+        public stbtic clbss GetElem extends DbtbBufTest {
             public GetElem() {
-                super("getelem", "DataBuffer.getElem(i)");
+                super("getelem", "DbtbBuffer.getElem(i)");
             }
 
             public void runTest(Object context, int numReps) {
-                DataBuffer db = ((Context) context).db;
+                DbtbBuffer db = ((Context) context).db;
                 do {
                     db.getElem(numReps&7);
                 } while (--numReps > 0);
             }
         }
 
-        public static class SetElem extends DataBufTest {
+        public stbtic clbss SetElem extends DbtbBufTest {
             public SetElem() {
-                super("setelem", "DataBuffer.setElem(i, v)");
+                super("setelem", "DbtbBuffer.setElem(i, v)");
             }
 
             public void runTest(Object context, int numReps) {
-                DataBuffer db = ((Context) context).db;
+                DbtbBuffer db = ((Context) context).db;
                 do {
                     db.setElem(numReps&7, 0);
                 } while (--numReps > 0);

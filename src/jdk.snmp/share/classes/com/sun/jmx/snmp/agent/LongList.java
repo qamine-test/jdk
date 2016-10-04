@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbckbge com.sun.jmx.snmp.bgent;
 
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.Vector;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Enumerbtion;
+import jbvb.util.logging.Level;
+import jbvb.util.Vector;
 
-import javax.management.ObjectName;
-import javax.management.MBeanServer;
-import javax.management.MalformedObjectNameException;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.MBeanRegistrationException;
-import javax.management.NotCompliantMBeanException;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MblformedObjectNbmeException;
+import jbvbx.mbnbgement.InstbnceAlrebdyExistsException;
+import jbvbx.mbnbgement.MBebnRegistrbtionException;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
+import stbtic com.sun.jmx.defbults.JmxProperties.SNMP_ADAPTOR_LOGGER;
 import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpVarBind;
+import com.sun.jmx.snmp.SnmpVbrBind;
 import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpEngine;
 import com.sun.jmx.snmp.SnmpUnknownModelException;
-import com.sun.jmx.snmp.internal.SnmpAccessControlModel;
-import com.sun.jmx.snmp.internal.SnmpEngineImpl;
+import com.sun.jmx.snmp.internbl.SnmpAccessControlModel;
+import com.sun.jmx.snmp.internbl.SnmpEngineImpl;
 
 /**
  * This list is used in order to construct the OID during the getnext.
  * The constructed oid is checked by the checker AcmChecker.
  */
-final class LongList {
+finbl clbss LongList {
 
-    public static int DEFAULT_CAPACITY = 10;
+    public stbtic int DEFAULT_CAPACITY = 10;
 
-    public static int DEFAULT_INCREMENT = 10;
+    public stbtic int DEFAULT_INCREMENT = 10;
 
 
-    private final int DELTA;
-    private int size;
+    privbte finbl int DELTA;
+    privbte int size;
 
     /**
-     * The list content. Any access to this variable must be protected
-     * by a synchronized block on the LongList object.
-     * Only read-only action should be performed on this object.
+     * The list content. Any bccess to this vbribble must be protected
+     * by b synchronized block on the LongList object.
+     * Only rebd-only bction should be performed on this object.
      **/
     public  long[] list;
 
@@ -72,27 +72,27 @@ final class LongList {
         this(DEFAULT_CAPACITY,DEFAULT_INCREMENT);
     }
 
-    LongList(int initialCapacity) {
-        this(initialCapacity,DEFAULT_INCREMENT);
+    LongList(int initiblCbpbcity) {
+        this(initiblCbpbcity,DEFAULT_INCREMENT);
     }
 
-    LongList(int initialCapacity, int delta) {
+    LongList(int initiblCbpbcity, int deltb) {
         size = 0;
-        DELTA = delta;
-        list = allocate(initialCapacity);
+        DELTA = deltb;
+        list = bllocbte(initiblCbpbcity);
     }
 
     /**
-     * Same behaviour than size() in {@link java.util.List}.
+     * Sbme behbviour thbn size() in {@link jbvb.util.List}.
      **/
-    public final int size() { return size;}
+    public finbl int size() { return size;}
 
     /**
-     * Same behaviour than add(long o) in {@link java.util.List}.
-     * Any access to this method should be protected in a synchronized
+     * Sbme behbviour thbn bdd(long o) in {@link jbvb.util.List}.
+     * Any bccess to this method should be protected in b synchronized
      * block on the LongList object.
      **/
-    public final boolean add(final long o) {
+    public finbl boolebn bdd(finbl long o) {
         if (size >= list.length)
             resize();
         list[size++]=o;
@@ -100,12 +100,12 @@ final class LongList {
     }
 
     /**
-     * Same behaviour than add(int index, long o) in
-     * {@link java.util.List}.
-     * Any access to this method should be protected in a synchronized
+     * Sbme behbviour thbn bdd(int index, long o) in
+     * {@link jbvb.util.List}.
+     * Any bccess to this method should be protected in b synchronized
      * block on the LongList object.
      **/
-    public final void add(final int index, final long o) {
+    public finbl void bdd(finbl int index, finbl long o) {
         if (index >  size) throw new IndexOutOfBoundsException();
         if (index >= list.length) resize();
         if (index == size) {
@@ -113,122 +113,122 @@ final class LongList {
             return;
         }
 
-        java.lang.System.arraycopy(list,index,list,index+1,size-index);
+        jbvb.lbng.System.brrbycopy(list,index,list,index+1,size-index);
         list[index]=o;
         size++;
     }
 
     /**
-     * Adds <var>count</var> elements to the list.
-     * @param at index at which the elements must be inserted. The
-     *        first element will be inserted at this index.
-     * @param src  An array containing the elements we want to insert.
-     * @param from Index of the first element from <var>src</var> that
+     * Adds <vbr>count</vbr> elements to the list.
+     * @pbrbm bt index bt which the elements must be inserted. The
+     *        first element will be inserted bt this index.
+     * @pbrbm src  An brrby contbining the elements we wbnt to insert.
+     * @pbrbm from Index of the first element from <vbr>src</vbr> thbt
      *        must be inserted.
-     * @param count number of elements to insert.
-     * Any access to this method should be protected in a synchronized
+     * @pbrbm count number of elements to insert.
+     * Any bccess to this method should be protected in b synchronized
      * block on the LongList object.
      **/
-    public final void add(final int at,final long[] src, final int from,
-                          final int count) {
+    public finbl void bdd(finbl int bt,finbl long[] src, finbl int from,
+                          finbl int count) {
         if (count <= 0) return;
-        if (at > size) throw new IndexOutOfBoundsException();
+        if (bt > size) throw new IndexOutOfBoundsException();
         ensure(size+count);
-        if (at < size) {
-            java.lang.System.arraycopy(list,at,list,at+count,size-at);
+        if (bt < size) {
+            jbvb.lbng.System.brrbycopy(list,bt,list,bt+count,size-bt);
         }
-        java.lang.System.arraycopy(src,from,list,at,count);
+        jbvb.lbng.System.brrbycopy(src,from,list,bt,count);
         size+=count;
     }
 
     /**
-     * Any access to this method should be protected in a synchronized
+     * Any bccess to this method should be protected in b synchronized
      * block on the LongList object.
      **/
-    public final long remove(final int from, final int count) {
+    public finbl long remove(finbl int from, finbl int count) {
         if (count < 1 || from < 0) return -1;
         if (from+count > size) return -1;
 
-        final long o = list[from];
-        final int oldsize = size;
+        finbl long o = list[from];
+        finbl int oldsize = size;
         size = size - count;
 
         if (from == size) return o;
 
-        java.lang.System.arraycopy(list,from+count,list,from,
+        jbvb.lbng.System.brrbycopy(list,from+count,list,from,
                                    size-from);
         return o;
     }
 
     /**
-     * Same behaviour than remove(int index) in {@link java.util.List}.
-     * Any access to this method should be protected in a synchronized
+     * Sbme behbviour thbn remove(int index) in {@link jbvb.util.List}.
+     * Any bccess to this method should be protected in b synchronized
      * block on the LongList object.
      **/
-    public final long remove(final int index) {
+    public finbl long remove(finbl int index) {
         if (index >= size) return -1;
-        final long o = list[index];
+        finbl long o = list[index];
         list[index]=0;
         if (index == --size) return o;
 
-        java.lang.System.arraycopy(list,index+1,list,index,
+        jbvb.lbng.System.brrbycopy(list,index+1,list,index,
                                    size-index);
         return o;
     }
 
     /**
-     * Same behaviour than the toArray(long[] a) method in
-     * {@link java.util.List}.
-     * Any access to this method should be protected in a synchronized
+     * Sbme behbviour thbn the toArrby(long[] b) method in
+     * {@link jbvb.util.List}.
+     * Any bccess to this method should be protected in b synchronized
      * block on the LongList object.
      **/
-    public final long[] toArray(long[] a) {
-        java.lang.System.arraycopy(list,0,a,0,size);
-        return a;
+    public finbl long[] toArrby(long[] b) {
+        jbvb.lbng.System.brrbycopy(list,0,b,0,size);
+        return b;
     }
 
     /**
-     * Same behaviour than the toArray() method in
-     * {@link java.util.List}.
-     * Any access to this method should be protected in a synchronized
+     * Sbme behbviour thbn the toArrby() method in
+     * {@link jbvb.util.List}.
+     * Any bccess to this method should be protected in b synchronized
      * block on the LongList object.
      **/
-    public final long[] toArray() {
-        return toArray(new long[size]);
+    public finbl long[] toArrby() {
+        return toArrby(new long[size]);
     }
 
     /**
-     * Resize the list. Increase its capacity by DELTA elements.
-     * Any call to this method must be protected by a synchronized
+     * Resize the list. Increbse its cbpbcity by DELTA elements.
+     * Any cbll to this method must be protected by b synchronized
      * block on this LongList.
      **/
-    private final void resize() {
-        final long[] newlist = allocate(list.length + DELTA);
-        java.lang.System.arraycopy(list,0,newlist,0,size);
+    privbte finbl void resize() {
+        finbl long[] newlist = bllocbte(list.length + DELTA);
+        jbvb.lbng.System.brrbycopy(list,0,newlist,0,size);
         list = newlist;
     }
 
     /**
-     * Resize the list. Insure that the new length will be at
-     * least equal to <var>length</var>.
-     * @param length new minimal length requested.
-     * Any call to this method must be protected by a synchronized
+     * Resize the list. Insure thbt the new length will be bt
+     * lebst equbl to <vbr>length</vbr>.
+     * @pbrbm length new minimbl length requested.
+     * Any cbll to this method must be protected by b synchronized
      * block on this LongList.
      **/
-    private final void ensure(int length) {
+    privbte finbl void ensure(int length) {
         if (list.length < length) {
-            final int min = list.length+DELTA;
+            finbl int min = list.length+DELTA;
             length=(length<min)?min:length;
-            final long[] newlist = allocate(length);
-            java.lang.System.arraycopy(list,0,newlist,0,size);
+            finbl long[] newlist = bllocbte(length);
+            jbvb.lbng.System.brrbycopy(list,0,newlist,0,size);
             list = newlist;
         }
     }
 
     /**
-     * Allocate a new array of object of specified length.
+     * Allocbte b new brrby of object of specified length.
      **/
-    private final long[] allocate(final int length) {
+    privbte finbl long[] bllocbte(finbl int length) {
         return new long[length];
     }
 

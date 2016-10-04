@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
 
 /**
- * A package private utility class to convert indefinite length DER
- * encoded byte arrays to definite length DER encoded byte arrays.
+ * A pbckbge privbte utility clbss to convert indefinite length DER
+ * encoded byte brrbys to definite length DER encoded byte brrbys.
  *
- * This assumes that the basic data structure is "tag, length, value"
- * triplet. In the case where the length is "indefinite", terminating
- * end-of-contents bytes are expected.
+ * This bssumes thbt the bbsic dbtb structure is "tbg, length, vblue"
+ * triplet. In the cbse where the length is "indefinite", terminbting
+ * end-of-contents bytes bre expected.
  *
- * @author Hemma Prafullchandra
+ * @buthor Hemmb Prbfullchbndrb
  */
-class DerIndefLenConverter {
+clbss DerIndefLenConverter {
 
-    private static final int TAG_MASK            = 0x1f; // bits 5-1
-    private static final int FORM_MASK           = 0x20; // bits 6
-    private static final int CLASS_MASK          = 0xC0; // bits 8 and 7
+    privbte stbtic finbl int TAG_MASK            = 0x1f; // bits 5-1
+    privbte stbtic finbl int FORM_MASK           = 0x20; // bits 6
+    privbte stbtic finbl int CLASS_MASK          = 0xC0; // bits 8 bnd 7
 
-    private static final int LEN_LONG            = 0x80; // bit 8 set
-    private static final int LEN_MASK            = 0x7f; // bits 7 - 1
-    private static final int SKIP_EOC_BYTES      = 2;
+    privbte stbtic finbl int LEN_LONG            = 0x80; // bit 8 set
+    privbte stbtic finbl int LEN_MASK            = 0x7f; // bits 7 - 1
+    privbte stbtic finbl int SKIP_EOC_BYTES      = 2;
 
-    private byte[] data, newData;
-    private int newDataPos, dataPos, dataSize, index;
-    private int unresolved = 0;
+    privbte byte[] dbtb, newDbtb;
+    privbte int newDbtbPos, dbtbPos, dbtbSize, index;
+    privbte int unresolved = 0;
 
-    private ArrayList<Object> ndefsList = new ArrayList<Object>();
+    privbte ArrbyList<Object> ndefsList = new ArrbyList<Object>();
 
-    private int numOfTotalLenBytes = 0;
+    privbte int numOfTotblLenBytes = 0;
 
-    private boolean isEOC(int tag) {
-        return (((tag & TAG_MASK) == 0x00) &&  // EOC
-                ((tag & FORM_MASK) == 0x00) && // primitive
-                ((tag & CLASS_MASK) == 0x00)); // universal
+    privbte boolebn isEOC(int tbg) {
+        return (((tbg & TAG_MASK) == 0x00) &&  // EOC
+                ((tbg & FORM_MASK) == 0x00) && // primitive
+                ((tbg & CLASS_MASK) == 0x00)); // universbl
     }
 
     // if bit 8 is set then it implies either indefinite length or long form
-    static boolean isLongForm(int lengthByte) {
+    stbtic boolebn isLongForm(int lengthByte) {
         return ((lengthByte & LEN_LONG) == LEN_LONG);
     }
 
     /*
-     * Default package private constructor
+     * Defbult pbckbge privbte constructor
      */
     DerIndefLenConverter() { }
 
@@ -76,92 +76,92 @@ class DerIndefLenConverter {
      * Checks whether the given length byte is of the form
      * <em>Indefinite</em>.
      *
-     * @param lengthByte the length byte from a DER encoded
+     * @pbrbm lengthByte the length byte from b DER encoded
      *        object.
      * @return true if the byte is of Indefinite form otherwise
-     *         returns false.
+     *         returns fblse.
      */
-    static boolean isIndefinite(int lengthByte) {
+    stbtic boolebn isIndefinite(int lengthByte) {
         return (isLongForm(lengthByte) && ((lengthByte & LEN_MASK) == 0));
     }
 
     /**
-     * Parse the tag and if it is an end-of-contents tag then
-     * add the current position to the <code>eocList</code> vector.
+     * Pbrse the tbg bnd if it is bn end-of-contents tbg then
+     * bdd the current position to the <code>eocList</code> vector.
      */
-    private void parseTag() throws IOException {
-        if (dataPos == dataSize)
+    privbte void pbrseTbg() throws IOException {
+        if (dbtbPos == dbtbSize)
             return;
-        if (isEOC(data[dataPos]) && (data[dataPos + 1] == 0)) {
-            int numOfEncapsulatedLenBytes = 0;
+        if (isEOC(dbtb[dbtbPos]) && (dbtb[dbtbPos + 1] == 0)) {
+            int numOfEncbpsulbtedLenBytes = 0;
             Object elem = null;
             int index;
             for (index = ndefsList.size()-1; index >= 0; index--) {
-                // Determine the first element in the vector that does not
-                // have a matching EOC
+                // Determine the first element in the vector thbt does not
+                // hbve b mbtching EOC
                 elem = ndefsList.get(index);
-                if (elem instanceof Integer) {
-                    break;
+                if (elem instbnceof Integer) {
+                    brebk;
                 } else {
-                    numOfEncapsulatedLenBytes += ((byte[])elem).length - 3;
+                    numOfEncbpsulbtedLenBytes += ((byte[])elem).length - 3;
                 }
             }
             if (index < 0) {
-                throw new IOException("EOC does not have matching " +
-                                      "indefinite-length tag");
+                throw new IOException("EOC does not hbve mbtching " +
+                                      "indefinite-length tbg");
             }
-            int sectionLen = dataPos - ((Integer)elem).intValue() +
-                             numOfEncapsulatedLenBytes;
+            int sectionLen = dbtbPos - ((Integer)elem).intVblue() +
+                             numOfEncbpsulbtedLenBytes;
             byte[] sectionLenBytes = getLengthBytes(sectionLen);
             ndefsList.set(index, sectionLenBytes);
             unresolved--;
 
             // Add the number of bytes required to represent this section
-            // to the total number of length bytes,
-            // and subtract the indefinite-length tag (1 byte) and
+            // to the totbl number of length bytes,
+            // bnd subtrbct the indefinite-length tbg (1 byte) bnd
             // EOC bytes (2 bytes) for this section
-            numOfTotalLenBytes += (sectionLenBytes.length - 3);
+            numOfTotblLenBytes += (sectionLenBytes.length - 3);
         }
-        dataPos++;
+        dbtbPos++;
     }
 
     /**
-     * Write the tag and if it is an end-of-contents tag
-     * then skip the tag and its 1 byte length of zero.
+     * Write the tbg bnd if it is bn end-of-contents tbg
+     * then skip the tbg bnd its 1 byte length of zero.
      */
-    private void writeTag() {
-        if (dataPos == dataSize)
+    privbte void writeTbg() {
+        if (dbtbPos == dbtbSize)
             return;
-        int tag = data[dataPos++];
-        if (isEOC(tag) && (data[dataPos] == 0)) {
-            dataPos++;  // skip length
-            writeTag();
+        int tbg = dbtb[dbtbPos++];
+        if (isEOC(tbg) && (dbtb[dbtbPos] == 0)) {
+            dbtbPos++;  // skip length
+            writeTbg();
         } else
-            newData[newDataPos++] = (byte)tag;
+            newDbtb[newDbtbPos++] = (byte)tbg;
     }
 
     /**
-     * Parse the length and if it is an indefinite length then add
+     * Pbrse the length bnd if it is bn indefinite length then bdd
      * the current position to the <code>ndefsList</code> vector.
      */
-    private int parseLength() throws IOException {
+    privbte int pbrseLength() throws IOException {
         int curLen = 0;
-        if (dataPos == dataSize)
+        if (dbtbPos == dbtbSize)
             return curLen;
-        int lenByte = data[dataPos++] & 0xff;
+        int lenByte = dbtb[dbtbPos++] & 0xff;
         if (isIndefinite(lenByte)) {
-            ndefsList.add(dataPos);
+            ndefsList.bdd(dbtbPos);
             unresolved++;
             return curLen;
         }
         if (isLongForm(lenByte)) {
             lenByte &= LEN_MASK;
             if (lenByte > 4)
-                throw new IOException("Too much data");
-            if ((dataSize - dataPos) < (lenByte + 1))
-                throw new IOException("Too little data");
+                throw new IOException("Too much dbtb");
+            if ((dbtbSize - dbtbPos) < (lenByte + 1))
+                throw new IOException("Too little dbtb");
             for (int i = 0; i < lenByte; i++)
-                curLen = (curLen << 8) + (data[dataPos++] & 0xff);
+                curLen = (curLen << 8) + (dbtb[dbtbPos++] & 0xff);
         } else {
            curLen = (lenByte & LEN_MASK);
         }
@@ -169,62 +169,62 @@ class DerIndefLenConverter {
     }
 
     /**
-     * Write the length and if it is an indefinite length
-     * then calculate the definite length from the positions
-     * of the indefinite length and its matching EOC terminator.
-     * Then, write the value.
+     * Write the length bnd if it is bn indefinite length
+     * then cblculbte the definite length from the positions
+     * of the indefinite length bnd its mbtching EOC terminbtor.
+     * Then, write the vblue.
      */
-    private void writeLengthAndValue() throws IOException {
-        if (dataPos == dataSize)
+    privbte void writeLengthAndVblue() throws IOException {
+        if (dbtbPos == dbtbSize)
            return;
         int curLen = 0;
-        int lenByte = data[dataPos++] & 0xff;
+        int lenByte = dbtb[dbtbPos++] & 0xff;
         if (isIndefinite(lenByte)) {
             byte[] lenBytes = (byte[])ndefsList.get(index++);
-            System.arraycopy(lenBytes, 0, newData, newDataPos,
+            System.brrbycopy(lenBytes, 0, newDbtb, newDbtbPos,
                              lenBytes.length);
-            newDataPos += lenBytes.length;
+            newDbtbPos += lenBytes.length;
             return;
         }
         if (isLongForm(lenByte)) {
             lenByte &= LEN_MASK;
             for (int i = 0; i < lenByte; i++)
-                curLen = (curLen << 8) + (data[dataPos++] & 0xff);
+                curLen = (curLen << 8) + (dbtb[dbtbPos++] & 0xff);
         } else
             curLen = (lenByte & LEN_MASK);
         writeLength(curLen);
-        writeValue(curLen);
+        writeVblue(curLen);
     }
 
-    private void writeLength(int curLen) {
+    privbte void writeLength(int curLen) {
         if (curLen < 128) {
-            newData[newDataPos++] = (byte)curLen;
+            newDbtb[newDbtbPos++] = (byte)curLen;
 
         } else if (curLen < (1 << 8)) {
-            newData[newDataPos++] = (byte)0x81;
-            newData[newDataPos++] = (byte)curLen;
+            newDbtb[newDbtbPos++] = (byte)0x81;
+            newDbtb[newDbtbPos++] = (byte)curLen;
 
         } else if (curLen < (1 << 16)) {
-            newData[newDataPos++] = (byte)0x82;
-            newData[newDataPos++] = (byte)(curLen >> 8);
-            newData[newDataPos++] = (byte)curLen;
+            newDbtb[newDbtbPos++] = (byte)0x82;
+            newDbtb[newDbtbPos++] = (byte)(curLen >> 8);
+            newDbtb[newDbtbPos++] = (byte)curLen;
 
         } else if (curLen < (1 << 24)) {
-            newData[newDataPos++] = (byte)0x83;
-            newData[newDataPos++] = (byte)(curLen >> 16);
-            newData[newDataPos++] = (byte)(curLen >> 8);
-            newData[newDataPos++] = (byte)curLen;
+            newDbtb[newDbtbPos++] = (byte)0x83;
+            newDbtb[newDbtbPos++] = (byte)(curLen >> 16);
+            newDbtb[newDbtbPos++] = (byte)(curLen >> 8);
+            newDbtb[newDbtbPos++] = (byte)curLen;
 
         } else {
-            newData[newDataPos++] = (byte)0x84;
-            newData[newDataPos++] = (byte)(curLen >> 24);
-            newData[newDataPos++] = (byte)(curLen >> 16);
-            newData[newDataPos++] = (byte)(curLen >> 8);
-            newData[newDataPos++] = (byte)curLen;
+            newDbtb[newDbtbPos++] = (byte)0x84;
+            newDbtb[newDbtbPos++] = (byte)(curLen >> 24);
+            newDbtb[newDbtbPos++] = (byte)(curLen >> 16);
+            newDbtb[newDbtbPos++] = (byte)(curLen >> 8);
+            newDbtb[newDbtbPos++] = (byte)curLen;
         }
     }
 
-    private byte[] getLengthBytes(int curLen) {
+    privbte byte[] getLengthBytes(int curLen) {
         byte[] lenBytes;
         int index = 0;
 
@@ -263,8 +263,8 @@ class DerIndefLenConverter {
     }
 
     // Returns the number of bytes needed to represent the given length
-    // in ASN.1 notation
-    private int getNumOfLenBytes(int len) {
+    // in ASN.1 notbtion
+    privbte int getNumOfLenBytes(int len) {
         int numOfLenBytes = 0;
 
         if (len < 128) {
@@ -282,65 +282,65 @@ class DerIndefLenConverter {
     }
 
     /**
-     * Parse the value;
+     * Pbrse the vblue;
      */
-    private void parseValue(int curLen) {
-        dataPos += curLen;
+    privbte void pbrseVblue(int curLen) {
+        dbtbPos += curLen;
     }
 
     /**
-     * Write the value;
+     * Write the vblue;
      */
-    private void writeValue(int curLen) {
+    privbte void writeVblue(int curLen) {
         for (int i=0; i < curLen; i++)
-            newData[newDataPos++] = data[dataPos++];
+            newDbtb[newDbtbPos++] = dbtb[dbtbPos++];
     }
 
     /**
-     * Converts a indefinite length DER encoded byte array to
-     * a definte length DER encoding.
+     * Converts b indefinite length DER encoded byte brrby to
+     * b definte length DER encoding.
      *
-     * @param indefData the byte array holding the indefinite
+     * @pbrbm indefDbtb the byte brrby holding the indefinite
      *        length encoding.
-     * @return the byte array containing the definite length
+     * @return the byte brrby contbining the definite length
      *         DER encoding.
-     * @exception IOException on parsing or re-writing errors.
+     * @exception IOException on pbrsing or re-writing errors.
      */
-    byte[] convert(byte[] indefData) throws IOException {
-        data = indefData;
-        dataPos=0; index=0;
-        dataSize = data.length;
+    byte[] convert(byte[] indefDbtb) throws IOException {
+        dbtb = indefDbtb;
+        dbtbPos=0; index=0;
+        dbtbSize = dbtb.length;
         int len=0;
         int unused = 0;
 
-        // parse and set up the vectors of all the indefinite-lengths
-        while (dataPos < dataSize) {
-            parseTag();
-            len = parseLength();
-            parseValue(len);
+        // pbrse bnd set up the vectors of bll the indefinite-lengths
+        while (dbtbPos < dbtbSize) {
+            pbrseTbg();
+            len = pbrseLength();
+            pbrseVblue(len);
             if (unresolved == 0) {
-                unused = dataSize - dataPos;
-                dataSize = dataPos;
-                break;
+                unused = dbtbSize - dbtbPos;
+                dbtbSize = dbtbPos;
+                brebk;
             }
         }
 
         if (unresolved != 0) {
-            throw new IOException("not all indef len BER resolved");
+            throw new IOException("not bll indef len BER resolved");
         }
 
-        newData = new byte[dataSize + numOfTotalLenBytes + unused];
-        dataPos=0; newDataPos=0; index=0;
+        newDbtb = new byte[dbtbSize + numOfTotblLenBytes + unused];
+        dbtbPos=0; newDbtbPos=0; index=0;
 
-        // write out the new byte array replacing all the indefinite-lengths
-        // and EOCs
-        while (dataPos < dataSize) {
-           writeTag();
-           writeLengthAndValue();
+        // write out the new byte brrby replbcing bll the indefinite-lengths
+        // bnd EOCs
+        while (dbtbPos < dbtbSize) {
+           writeTbg();
+           writeLengthAndVblue();
         }
-        System.arraycopy(indefData, dataSize,
-                         newData, dataSize + numOfTotalLenBytes, unused);
+        System.brrbycopy(indefDbtb, dbtbSize,
+                         newDbtb, dbtbSize + numOfTotblLenBytes, unused);
 
-        return newData;
+        return newDbtb;
     }
 }

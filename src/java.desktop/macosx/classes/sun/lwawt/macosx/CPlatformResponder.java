@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import sun.awt.SunToolkit;
-import sun.lwawt.LWWindowPeer;
-import sun.lwawt.PlatformEventNotifier;
+import sun.bwt.SunToolkit;
+import sun.lwbwt.LWWindowPeer;
+import sun.lwbwt.PlbtformEventNotifier;
 
-import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.KeyEvent;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.event.MouseWheelEvent;
+import jbvb.bwt.event.KeyEvent;
 
 /**
- * Translates NSEvents/NPCocoaEvents into AWT events.
+ * Trbnslbtes NSEvents/NPCocobEvents into AWT events.
  */
-final class CPlatformResponder {
+finbl clbss CPlbtformResponder {
 
-    private final PlatformEventNotifier eventNotifier;
-    private final boolean isNpapiCallback;
-    private int lastKeyPressCode = KeyEvent.VK_UNDEFINED;
+    privbte finbl PlbtformEventNotifier eventNotifier;
+    privbte finbl boolebn isNpbpiCbllbbck;
+    privbte int lbstKeyPressCode = KeyEvent.VK_UNDEFINED;
 
-    CPlatformResponder(final PlatformEventNotifier eventNotifier,
-                       final boolean isNpapiCallback) {
+    CPlbtformResponder(finbl PlbtformEventNotifier eventNotifier,
+                       finbl boolebn isNpbpiCbllbbck) {
         this.eventNotifier = eventNotifier;
-        this.isNpapiCallback = isNpapiCallback;
+        this.isNpbpiCbllbbck = isNpbpiCbllbbck;
     }
 
     /**
-     * Handles mouse events.
+     * Hbndles mouse events.
      */
-    void handleMouseEvent(int eventType, int modifierFlags, int buttonNumber,
-                          int clickCount, int x, int y, int absoluteX,
-                          int absoluteY) {
-        final SunToolkit tk = (SunToolkit)Toolkit.getDefaultToolkit();
-        if ((buttonNumber > 2 && !tk.areExtraMouseButtonsEnabled())
+    void hbndleMouseEvent(int eventType, int modifierFlbgs, int buttonNumber,
+                          int clickCount, int x, int y, int bbsoluteX,
+                          int bbsoluteY) {
+        finbl SunToolkit tk = (SunToolkit)Toolkit.getDefbultToolkit();
+        if ((buttonNumber > 2 && !tk.breExtrbMouseButtonsEnbbled())
                 || buttonNumber > tk.getNumberOfButtons() - 1) {
             return;
         }
 
-        int jeventType = isNpapiCallback ? NSEvent.npToJavaEventType(eventType) :
-                                           NSEvent.nsToJavaEventType(eventType);
+        int jeventType = isNpbpiCbllbbck ? NSEvent.npToJbvbEventType(eventType) :
+                                           NSEvent.nsToJbvbEventType(eventType);
 
         int jbuttonNumber = MouseEvent.NOBUTTON;
         int jclickCount = 0;
@@ -72,163 +72,163 @@ final class CPlatformResponder {
             jeventType != MouseEvent.MOUSE_ENTERED &&
             jeventType != MouseEvent.MOUSE_EXITED)
         {
-            jbuttonNumber = NSEvent.nsToJavaButton(buttonNumber);
+            jbuttonNumber = NSEvent.nsToJbvbButton(buttonNumber);
             jclickCount = clickCount;
         }
 
-        int jmodifiers = NSEvent.nsToJavaMouseModifiers(buttonNumber,
-                                                        modifierFlags);
-        boolean jpopupTrigger = NSEvent.isPopupTrigger(jmodifiers);
+        int jmodifiers = NSEvent.nsToJbvbMouseModifiers(buttonNumber,
+                                                        modifierFlbgs);
+        boolebn jpopupTrigger = NSEvent.isPopupTrigger(jmodifiers);
 
         eventNotifier.notifyMouseEvent(jeventType, System.currentTimeMillis(), jbuttonNumber,
-                x, y, absoluteX, absoluteY, jmodifiers, jclickCount,
+                x, y, bbsoluteX, bbsoluteY, jmodifiers, jclickCount,
                 jpopupTrigger, null);
     }
 
     /**
-     * Handles scroll events.
+     * Hbndles scroll events.
      */
-    void handleScrollEvent(final int x, final int y, final int modifierFlags,
-                           final double deltaX, final double deltaY) {
-        final int buttonNumber = CocoaConstants.kCGMouseButtonCenter;
-        int jmodifiers = NSEvent.nsToJavaMouseModifiers(buttonNumber,
-                                                        modifierFlags);
-        final boolean isShift = (jmodifiers & InputEvent.SHIFT_DOWN_MASK) != 0;
+    void hbndleScrollEvent(finbl int x, finbl int y, finbl int modifierFlbgs,
+                           finbl double deltbX, finbl double deltbY) {
+        finbl int buttonNumber = CocobConstbnts.kCGMouseButtonCenter;
+        int jmodifiers = NSEvent.nsToJbvbMouseModifiers(buttonNumber,
+                                                        modifierFlbgs);
+        finbl boolebn isShift = (jmodifiers & InputEvent.SHIFT_DOWN_MASK) != 0;
 
-        // Vertical scroll.
-        if (!isShift && deltaY != 0.0) {
-            dispatchScrollEvent(x, y, jmodifiers, deltaY);
+        // Verticbl scroll.
+        if (!isShift && deltbY != 0.0) {
+            dispbtchScrollEvent(x, y, jmodifiers, deltbY);
         }
-        // Horizontal scroll or shirt+vertical scroll.
-        final double delta = isShift && deltaY != 0.0 ? deltaY : deltaX;
-        if (delta != 0.0) {
+        // Horizontbl scroll or shirt+verticbl scroll.
+        finbl double deltb = isShift && deltbY != 0.0 ? deltbY : deltbX;
+        if (deltb != 0.0) {
             jmodifiers |= InputEvent.SHIFT_DOWN_MASK;
-            dispatchScrollEvent(x, y, jmodifiers, delta);
+            dispbtchScrollEvent(x, y, jmodifiers, deltb);
         }
     }
 
-    private void dispatchScrollEvent(final int x, final int y,
-                                     final int modifiers, final double delta) {
-        final long when = System.currentTimeMillis();
-        final int scrollType = MouseWheelEvent.WHEEL_UNIT_SCROLL;
-        final int scrollAmount = 1;
-        int wheelRotation = (int) delta;
-        int signum = (int) Math.signum(delta);
-        if (signum * delta < 1) {
-            wheelRotation = signum;
+    privbte void dispbtchScrollEvent(finbl int x, finbl int y,
+                                     finbl int modifiers, finbl double deltb) {
+        finbl long when = System.currentTimeMillis();
+        finbl int scrollType = MouseWheelEvent.WHEEL_UNIT_SCROLL;
+        finbl int scrollAmount = 1;
+        int wheelRotbtion = (int) deltb;
+        int signum = (int) Mbth.signum(deltb);
+        if (signum * deltb < 1) {
+            wheelRotbtion = signum;
         }
-        // invert the wheelRotation for the peer
+        // invert the wheelRotbtion for the peer
         eventNotifier.notifyMouseWheelEvent(when, x, y, modifiers, scrollType,
-                scrollAmount, -wheelRotation, -delta, null);
+                scrollAmount, -wheelRotbtion, -deltb, null);
     }
 
     /**
-     * Handles key events.
+     * Hbndles key events.
      */
-    void handleKeyEvent(int eventType, int modifierFlags, String chars, String charsIgnoringModifiers,
-                        short keyCode, boolean needsKeyTyped, boolean needsKeyReleased) {
-        boolean isFlagsChangedEvent =
-            isNpapiCallback ? (eventType == CocoaConstants.NPCocoaEventFlagsChanged) :
-                              (eventType == CocoaConstants.NSFlagsChanged);
+    void hbndleKeyEvent(int eventType, int modifierFlbgs, String chbrs, String chbrsIgnoringModifiers,
+                        short keyCode, boolebn needsKeyTyped, boolebn needsKeyRelebsed) {
+        boolebn isFlbgsChbngedEvent =
+            isNpbpiCbllbbck ? (eventType == CocobConstbnts.NPCocobEventFlbgsChbnged) :
+                              (eventType == CocobConstbnts.NSFlbgsChbnged);
 
         int jeventType = KeyEvent.KEY_PRESSED;
         int jkeyCode = KeyEvent.VK_UNDEFINED;
-        int jkeyLocation = KeyEvent.KEY_LOCATION_UNKNOWN;
-        boolean postsTyped = false;
+        int jkeyLocbtion = KeyEvent.KEY_LOCATION_UNKNOWN;
+        boolebn postsTyped = fblse;
 
-        char testChar = KeyEvent.CHAR_UNDEFINED;
-        boolean isDeadChar = (chars!= null && chars.length() == 0);
+        chbr testChbr = KeyEvent.CHAR_UNDEFINED;
+        boolebn isDebdChbr = (chbrs!= null && chbrs.length() == 0);
 
-        if (isFlagsChangedEvent) {
-            int[] in = new int[] {modifierFlags, keyCode};
-            int[] out = new int[3]; // [jkeyCode, jkeyLocation, jkeyType]
+        if (isFlbgsChbngedEvent) {
+            int[] in = new int[] {modifierFlbgs, keyCode};
+            int[] out = new int[3]; // [jkeyCode, jkeyLocbtion, jkeyType]
 
-            NSEvent.nsKeyModifiersToJavaKeyInfo(in, out);
+            NSEvent.nsKeyModifiersToJbvbKeyInfo(in, out);
 
             jkeyCode = out[0];
-            jkeyLocation = out[1];
+            jkeyLocbtion = out[1];
             jeventType = out[2];
         } else {
-            if (chars != null && chars.length() > 0) {
-                testChar = chars.charAt(0);
+            if (chbrs != null && chbrs.length() > 0) {
+                testChbr = chbrs.chbrAt(0);
             }
 
-            char testCharIgnoringModifiers = charsIgnoringModifiers != null && charsIgnoringModifiers.length() > 0 ?
-                    charsIgnoringModifiers.charAt(0) : KeyEvent.CHAR_UNDEFINED;
+            chbr testChbrIgnoringModifiers = chbrsIgnoringModifiers != null && chbrsIgnoringModifiers.length() > 0 ?
+                    chbrsIgnoringModifiers.chbrAt(0) : KeyEvent.CHAR_UNDEFINED;
 
-            int[] in = new int[] {testCharIgnoringModifiers, isDeadChar ? 1 : 0, modifierFlags, keyCode};
-            int[] out = new int[3]; // [jkeyCode, jkeyLocation, deadChar]
+            int[] in = new int[] {testChbrIgnoringModifiers, isDebdChbr ? 1 : 0, modifierFlbgs, keyCode};
+            int[] out = new int[3]; // [jkeyCode, jkeyLocbtion, debdChbr]
 
-            postsTyped = NSEvent.nsToJavaKeyInfo(in, out);
+            postsTyped = NSEvent.nsToJbvbKeyInfo(in, out);
             if (!postsTyped) {
-                testChar = KeyEvent.CHAR_UNDEFINED;
+                testChbr = KeyEvent.CHAR_UNDEFINED;
             }
 
-            if(isDeadChar){
-                testChar = (char) out[2];
-                if(testChar == 0){
+            if(isDebdChbr){
+                testChbr = (chbr) out[2];
+                if(testChbr == 0){
                     return;
                 }
             }
 
             jkeyCode = out[0];
-            jkeyLocation = out[1];
-            jeventType = isNpapiCallback ? NSEvent.npToJavaEventType(eventType) :
-                                           NSEvent.nsToJavaEventType(eventType);
+            jkeyLocbtion = out[1];
+            jeventType = isNpbpiCbllbbck ? NSEvent.npToJbvbEventType(eventType) :
+                                           NSEvent.nsToJbvbEventType(eventType);
         }
 
-        char javaChar = NSEvent.nsToJavaChar(testChar, modifierFlags);
-        // Some keys may generate a KEY_TYPED, but we can't determine
-        // what that character is. That's likely a bug, but for now we
+        chbr jbvbChbr = NSEvent.nsToJbvbChbr(testChbr, modifierFlbgs);
+        // Some keys mby generbte b KEY_TYPED, but we cbn't determine
+        // whbt thbt chbrbcter is. Thbt's likely b bug, but for now we
         // just check for CHAR_UNDEFINED.
-        if (javaChar == KeyEvent.CHAR_UNDEFINED) {
-            postsTyped = false;
+        if (jbvbChbr == KeyEvent.CHAR_UNDEFINED) {
+            postsTyped = fblse;
         }
 
 
-        int jmodifiers = NSEvent.nsToJavaKeyModifiers(modifierFlags);
+        int jmodifiers = NSEvent.nsToJbvbKeyModifiers(modifierFlbgs);
         long when = System.currentTimeMillis();
 
         if (jeventType == KeyEvent.KEY_PRESSED) {
-            lastKeyPressCode = jkeyCode;
+            lbstKeyPressCode = jkeyCode;
         }
         eventNotifier.notifyKeyEvent(jeventType, when, jmodifiers,
-                jkeyCode, javaChar, jkeyLocation);
+                jkeyCode, jbvbChbr, jkeyLocbtion);
 
-        // Current browser may be sending input events, so don't
+        // Current browser mby be sending input events, so don't
         // post the KEY_TYPED here.
         postsTyped &= needsKeyTyped;
 
-        // That's the reaction on the PRESSED (not RELEASED) event as it comes to
-        // appear in MacOSX.
-        // Modifier keys (shift, etc) don't want to send TYPED events.
-        // On the other hand we don't want to generate keyTyped events
-        // for clipboard related shortcuts like Meta + [CVX]
+        // Thbt's the rebction on the PRESSED (not RELEASED) event bs it comes to
+        // bppebr in MbcOSX.
+        // Modifier keys (shift, etc) don't wbnt to send TYPED events.
+        // On the other hbnd we don't wbnt to generbte keyTyped events
+        // for clipbobrd relbted shortcuts like Metb + [CVX]
         if (jeventType == KeyEvent.KEY_PRESSED && postsTyped &&
                 (jmodifiers & KeyEvent.META_DOWN_MASK) == 0) {
-            // Enter and Space keys finish the input method processing,
-            // KEY_TYPED and KEY_RELEASED events for them are synthesized in handleInputEvent.
-            if (needsKeyReleased && (jkeyCode == KeyEvent.VK_ENTER || jkeyCode == KeyEvent.VK_SPACE)) {
+            // Enter bnd Spbce keys finish the input method processing,
+            // KEY_TYPED bnd KEY_RELEASED events for them bre synthesized in hbndleInputEvent.
+            if (needsKeyRelebsed && (jkeyCode == KeyEvent.VK_ENTER || jkeyCode == KeyEvent.VK_SPACE)) {
                 return;
             }
             eventNotifier.notifyKeyEvent(KeyEvent.KEY_TYPED, when, jmodifiers,
-                    KeyEvent.VK_UNDEFINED, javaChar,
+                    KeyEvent.VK_UNDEFINED, jbvbChbr,
                     KeyEvent.KEY_LOCATION_UNKNOWN);
-            //If events come from Firefox, released events should also be generated.
-            if (needsKeyReleased) {
+            //If events come from Firefox, relebsed events should blso be generbted.
+            if (needsKeyRelebsed) {
                 eventNotifier.notifyKeyEvent(KeyEvent.KEY_RELEASED, when, jmodifiers,
-                        jkeyCode, javaChar,
+                        jkeyCode, jbvbChbr,
                         KeyEvent.KEY_LOCATION_UNKNOWN);
             }
         }
     }
 
-    void handleInputEvent(String text) {
+    void hbndleInputEvent(String text) {
         if (text != null) {
             int index = 0, length = text.length();
-            char c = 0;
+            chbr c = 0;
             while (index < length) {
-                c = text.charAt(index);
+                c = text.chbrAt(index);
                 eventNotifier.notifyKeyEvent(KeyEvent.KEY_TYPED,
                         System.currentTimeMillis(),
                         0, KeyEvent.VK_UNDEFINED, c,
@@ -237,12 +237,12 @@ final class CPlatformResponder {
             }
             eventNotifier.notifyKeyEvent(KeyEvent.KEY_RELEASED,
                     System.currentTimeMillis(),
-                    0, lastKeyPressCode, c,
+                    0, lbstKeyPressCode, c,
                     KeyEvent.KEY_LOCATION_UNKNOWN);
         }
     }
 
-    void handleWindowFocusEvent(boolean gained, LWWindowPeer opposite) {
-        eventNotifier.notifyActivation(gained, opposite);
+    void hbndleWindowFocusEvent(boolebn gbined, LWWindowPeer opposite) {
+        eventNotifier.notifyActivbtion(gbined, opposite);
     }
 }

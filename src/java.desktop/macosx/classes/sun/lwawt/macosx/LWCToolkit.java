@@ -1,466 +1,466 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.dnd.*;
-import java.awt.dnd.peer.DragSourceContextPeer;
-import java.awt.event.InputEvent;
-import java.awt.event.InvocationEvent;
-import java.awt.event.KeyEvent;
-import java.awt.font.TextAttribute;
-import java.awt.im.InputMethodHighlight;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.awt.peer.*;
-import java.lang.reflect.*;
-import java.net.URL;
-import java.security.*;
-import java.util.*;
-import java.util.concurrent.Callable;
-import java.net.MalformedURLException;
+import jbvb.bwt.*;
+import jbvb.bwt.dbtbtrbnsfer.Clipbobrd;
+import jbvb.bwt.dnd.*;
+import jbvb.bwt.dnd.peer.DrbgSourceContextPeer;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.event.InvocbtionEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.font.TextAttribute;
+import jbvb.bwt.im.InputMethodHighlight;
+import jbvb.bwt.im.spi.InputMethodDescriptor;
+import jbvb.bwt.peer.*;
+import jbvb.lbng.reflect.*;
+import jbvb.net.URL;
+import jbvb.security.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.Cbllbble;
+import jbvb.net.MblformedURLException;
 
-import sun.awt.*;
-import sun.awt.datatransfer.DataTransferer;
-import sun.awt.util.ThreadGroupUtils;
-import sun.java2d.opengl.OGLRenderQueue;
-import sun.lwawt.*;
-import sun.lwawt.LWWindowPeer.PeerType;
-import sun.security.action.GetBooleanAction;
+import sun.bwt.*;
+import sun.bwt.dbtbtrbnsfer.DbtbTrbnsferer;
+import sun.bwt.util.ThrebdGroupUtils;
+import sun.jbvb2d.opengl.OGLRenderQueue;
+import sun.lwbwt.*;
+import sun.lwbwt.LWWindowPeer.PeerType;
+import sun.security.bction.GetBoolebnAction;
 
 import sun.util.CoreResourceBundleControl;
 
-@SuppressWarnings("serial") // JDK implementation class
-final class NamedCursor extends Cursor {
-    NamedCursor(String name) {
-        super(name);
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+finbl clbss NbmedCursor extends Cursor {
+    NbmedCursor(String nbme) {
+        super(nbme);
     }
 }
 
 /**
- * Mac OS X Cocoa-based AWT Toolkit.
+ * Mbc OS X Cocob-bbsed AWT Toolkit.
  */
-public final class LWCToolkit extends LWToolkit {
-    // While it is possible to enumerate all mouse devices
-    // and query them for the number of buttons, the code
-    // that does it is rather complex. Instead, we opt for
-    // the easy way and just support up to 5 mouse buttons,
+public finbl clbss LWCToolkit extends LWToolkit {
+    // While it is possible to enumerbte bll mouse devices
+    // bnd query them for the number of buttons, the code
+    // thbt does it is rbther complex. Instebd, we opt for
+    // the ebsy wby bnd just support up to 5 mouse buttons,
     // like Windows.
-    private static final int BUTTONS = 5;
+    privbte stbtic finbl int BUTTONS = 5;
 
-    private static native void initIDs();
-    private static native void initAppkit(ThreadGroup appKitThreadGroup, boolean headless);
-    private static CInputMethodDescriptor sInputMethodDescriptor;
+    privbte stbtic nbtive void initIDs();
+    privbte stbtic nbtive void initAppkit(ThrebdGroup bppKitThrebdGroup, boolebn hebdless);
+    privbte stbtic CInputMethodDescriptor sInputMethodDescriptor;
 
-    static {
+    stbtic {
         System.err.flush();
 
-        ResourceBundle platformResources = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<ResourceBundle>() {
+        ResourceBundle plbtformResources = jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<ResourceBundle>() {
             @Override
             public ResourceBundle run() {
-                ResourceBundle platformResources = null;
+                ResourceBundle plbtformResources = null;
                 try {
-                    platformResources =
-                            ResourceBundle.getBundle("sun.awt.resources.awtosx",
-                                    CoreResourceBundleControl.getRBControlInstance());
-                } catch (MissingResourceException e) {
-                    // No resource file; defaults will be used.
+                    plbtformResources =
+                            ResourceBundle.getBundle("sun.bwt.resources.bwtosx",
+                                    CoreResourceBundleControl.getRBControlInstbnce());
+                } cbtch (MissingResourceException e) {
+                    // No resource file; defbults will be used.
                 }
 
-                System.loadLibrary("awt");
-                System.loadLibrary("fontmanager");
+                System.lobdLibrbry("bwt");
+                System.lobdLibrbry("fontmbnbger");
 
-                return platformResources;
+                return plbtformResources;
             }
         });
 
-        AWTAccessor.getToolkitAccessor().setPlatformResources(platformResources);
+        AWTAccessor.getToolkitAccessor().setPlbtformResources(plbtformResources);
 
-        if (!GraphicsEnvironment.isHeadless()) {
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
-        inAWT = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
+        inAWT = AccessController.doPrivileged(new PrivilegedAction<Boolebn>() {
             @Override
-            public Boolean run() {
-                return !Boolean.parseBoolean(System.getProperty("javafx.embed.singleThread", "false"));
+            public Boolebn run() {
+                return !Boolebn.pbrseBoolebn(System.getProperty("jbvbfx.embed.singleThrebd", "fblse"));
             }
         });
     }
 
     /*
-     * If true  we operate in normal mode and nested runloop is executed in JavaRunLoopMode
-     * If false we operate in singleThreaded FX/AWT interop mode and nested loop uses NSDefaultRunLoopMode
+     * If true  we operbte in normbl mode bnd nested runloop is executed in JbvbRunLoopMode
+     * If fblse we operbte in singleThrebded FX/AWT interop mode bnd nested loop uses NSDefbultRunLoopMode
      */
-    private static final boolean inAWT;
+    privbte stbtic finbl boolebn inAWT;
 
     public LWCToolkit() {
-        areExtraMouseButtonsEnabled = Boolean.parseBoolean(System.getProperty("sun.awt.enableExtraMouseButtons", "true"));
-        //set system property if not yet assigned
-        System.setProperty("sun.awt.enableExtraMouseButtons", ""+areExtraMouseButtonsEnabled);
-        initAppkit(ThreadGroupUtils.getRootThreadGroup(), GraphicsEnvironment.isHeadless());
+        breExtrbMouseButtonsEnbbled = Boolebn.pbrseBoolebn(System.getProperty("sun.bwt.enbbleExtrbMouseButtons", "true"));
+        //set system property if not yet bssigned
+        System.setProperty("sun.bwt.enbbleExtrbMouseButtons", ""+breExtrbMouseButtonsEnbbled);
+        initAppkit(ThrebdGroupUtils.getRootThrebdGroup(), GrbphicsEnvironment.isHebdless());
     }
 
     /*
-     * System colors with default initial values, overwritten by toolkit if system values differ and are available.
+     * System colors with defbult initibl vblues, overwritten by toolkit if system vblues differ bnd bre bvbilbble.
      */
-    private final static int NUM_APPLE_COLORS = 3;
-    public final static int KEYBOARD_FOCUS_COLOR = 0;
-    public final static int INACTIVE_SELECTION_BACKGROUND_COLOR = 1;
-    public final static int INACTIVE_SELECTION_FOREGROUND_COLOR = 2;
-    private static int[] appleColors = {
-        0xFF808080, // keyboardFocusColor = Color.gray;
-        0xFFC0C0C0, // secondarySelectedControlColor
-        0xFF303030, // controlDarkShadowColor
+    privbte finbl stbtic int NUM_APPLE_COLORS = 3;
+    public finbl stbtic int KEYBOARD_FOCUS_COLOR = 0;
+    public finbl stbtic int INACTIVE_SELECTION_BACKGROUND_COLOR = 1;
+    public finbl stbtic int INACTIVE_SELECTION_FOREGROUND_COLOR = 2;
+    privbte stbtic int[] bppleColors = {
+        0xFF808080, // keybobrdFocusColor = Color.grby;
+        0xFFC0C0C0, // secondbrySelectedControlColor
+        0xFF303030, // controlDbrkShbdowColor
     };
 
-    private native void loadNativeColors(final int[] systemColors, final int[] appleColors);
+    privbte nbtive void lobdNbtiveColors(finbl int[] systemColors, finbl int[] bppleColors);
 
     @Override
-    protected void loadSystemColors(final int[] systemColors) {
+    protected void lobdSystemColors(finbl int[] systemColors) {
         if (systemColors == null) return;
-        loadNativeColors(systemColors, appleColors);
+        lobdNbtiveColors(systemColors, bppleColors);
     }
 
-    @SuppressWarnings("serial") // JDK implementation class
-    private static class AppleSpecificColor extends Color {
-        private final int index;
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    privbte stbtic clbss AppleSpecificColor extends Color {
+        privbte finbl int index;
         AppleSpecificColor(int index) {
-            super(appleColors[index]);
+            super(bppleColors[index]);
             this.index = index;
         }
 
         @Override
         public int getRGB() {
-            return appleColors[index];
+            return bppleColors[index];
         }
     }
 
     /**
-     * Returns Apple specific colors that we may expose going forward.
+     * Returns Apple specific colors thbt we mby expose going forwbrd.
      */
-    public static Color getAppleColor(int color) {
+    public stbtic Color getAppleColor(int color) {
         return new AppleSpecificColor(color);
     }
 
-    // This is only called from native code.
-    static void systemColorsChanged() {
-        EventQueue.invokeLater(() -> {
+    // This is only cblled from nbtive code.
+    stbtic void systemColorsChbnged() {
+        EventQueue.invokeLbter(() -> {
             AccessController.doPrivileged( (PrivilegedAction<Object>) () -> {
-                AWTAccessor.getSystemColorAccessor().updateSystemColors();
+                AWTAccessor.getSystemColorAccessor().updbteSystemColors();
                 return null;
             });
         });
     }
 
-    public static LWCToolkit getLWCToolkit() {
-        return (LWCToolkit)Toolkit.getDefaultToolkit();
+    public stbtic LWCToolkit getLWCToolkit() {
+        return (LWCToolkit)Toolkit.getDefbultToolkit();
     }
 
     @Override
-    protected PlatformWindow createPlatformWindow(PeerType peerType) {
+    protected PlbtformWindow crebtePlbtformWindow(PeerType peerType) {
         if (peerType == PeerType.EMBEDDED_FRAME) {
-            return new CPlatformEmbeddedFrame();
+            return new CPlbtformEmbeddedFrbme();
         } else if (peerType == PeerType.VIEW_EMBEDDED_FRAME) {
-            return new CViewPlatformEmbeddedFrame();
+            return new CViewPlbtformEmbeddedFrbme();
         } else if (peerType == PeerType.LW_FRAME) {
-            return new CPlatformLWWindow();
+            return new CPlbtformLWWindow();
         } else {
-            assert (peerType == PeerType.SIMPLEWINDOW
+            bssert (peerType == PeerType.SIMPLEWINDOW
                     || peerType == PeerType.DIALOG
                     || peerType == PeerType.FRAME);
-            return new CPlatformWindow();
+            return new CPlbtformWindow();
         }
     }
 
-    LWWindowPeer createEmbeddedFrame(CEmbeddedFrame target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        PlatformWindow platformWindow = createPlatformWindow(PeerType.EMBEDDED_FRAME);
-        return createDelegatedPeer(target, platformComponent, platformWindow, PeerType.EMBEDDED_FRAME);
+    LWWindowPeer crebteEmbeddedFrbme(CEmbeddedFrbme tbrget) {
+        PlbtformComponent plbtformComponent = crebtePlbtformComponent();
+        PlbtformWindow plbtformWindow = crebtePlbtformWindow(PeerType.EMBEDDED_FRAME);
+        return crebteDelegbtedPeer(tbrget, plbtformComponent, plbtformWindow, PeerType.EMBEDDED_FRAME);
     }
 
-    LWWindowPeer createEmbeddedFrame(CViewEmbeddedFrame target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        PlatformWindow platformWindow = createPlatformWindow(PeerType.VIEW_EMBEDDED_FRAME);
-        return createDelegatedPeer(target, platformComponent, platformWindow, PeerType.VIEW_EMBEDDED_FRAME);
+    LWWindowPeer crebteEmbeddedFrbme(CViewEmbeddedFrbme tbrget) {
+        PlbtformComponent plbtformComponent = crebtePlbtformComponent();
+        PlbtformWindow plbtformWindow = crebtePlbtformWindow(PeerType.VIEW_EMBEDDED_FRAME);
+        return crebteDelegbtedPeer(tbrget, plbtformComponent, plbtformWindow, PeerType.VIEW_EMBEDDED_FRAME);
     }
 
-    private CPrinterDialogPeer createCPrinterDialog(CPrinterDialog target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        PlatformWindow platformWindow = createPlatformWindow(PeerType.DIALOG);
-        CPrinterDialogPeer peer = new CPrinterDialogPeer(target, platformComponent, platformWindow);
-        targetCreatedPeer(target, peer);
+    privbte CPrinterDiblogPeer crebteCPrinterDiblog(CPrinterDiblog tbrget) {
+        PlbtformComponent plbtformComponent = crebtePlbtformComponent();
+        PlbtformWindow plbtformWindow = crebtePlbtformWindow(PeerType.DIALOG);
+        CPrinterDiblogPeer peer = new CPrinterDiblogPeer(tbrget, plbtformComponent, plbtformWindow);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public DialogPeer createDialog(Dialog target) {
-        if (target instanceof CPrinterDialog) {
-            return createCPrinterDialog((CPrinterDialog)target);
+    public DiblogPeer crebteDiblog(Diblog tbrget) {
+        if (tbrget instbnceof CPrinterDiblog) {
+            return crebteCPrinterDiblog((CPrinterDiblog)tbrget);
         }
-        return super.createDialog(target);
+        return super.crebteDiblog(tbrget);
     }
 
     @Override
-    protected SecurityWarningWindow createSecurityWarning(Window ownerWindow,
+    protected SecurityWbrningWindow crebteSecurityWbrning(Window ownerWindow,
                                                           LWWindowPeer ownerPeer) {
-        return new CWarningWindow(ownerWindow, ownerPeer);
+        return new CWbrningWindow(ownerWindow, ownerPeer);
     }
 
     @Override
-    protected PlatformComponent createPlatformComponent() {
-        return new CPlatformComponent();
+    protected PlbtformComponent crebtePlbtformComponent() {
+        return new CPlbtformComponent();
     }
 
     @Override
-    protected PlatformComponent createLwPlatformComponent() {
-        return new CPlatformLWComponent();
+    protected PlbtformComponent crebteLwPlbtformComponent() {
+        return new CPlbtformLWComponent();
     }
 
     @Override
-    protected FileDialogPeer createFileDialogPeer(FileDialog target) {
-        return new CFileDialog(target);
+    protected FileDiblogPeer crebteFileDiblogPeer(FileDiblog tbrget) {
+        return new CFileDiblog(tbrget);
     }
 
     @Override
-    public MenuPeer createMenu(Menu target) {
-        MenuPeer peer = new CMenu(target);
-        targetCreatedPeer(target, peer);
+    public MenuPeer crebteMenu(Menu tbrget) {
+        MenuPeer peer = new CMenu(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public MenuBarPeer createMenuBar(MenuBar target) {
-        MenuBarPeer peer = new CMenuBar(target);
-        targetCreatedPeer(target, peer);
+    public MenuBbrPeer crebteMenuBbr(MenuBbr tbrget) {
+        MenuBbrPeer peer = new CMenuBbr(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public MenuItemPeer createMenuItem(MenuItem target) {
-        MenuItemPeer peer = new CMenuItem(target);
-        targetCreatedPeer(target, peer);
+    public MenuItemPeer crebteMenuItem(MenuItem tbrget) {
+        MenuItemPeer peer = new CMenuItem(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public CheckboxMenuItemPeer createCheckboxMenuItem(CheckboxMenuItem target) {
-        CheckboxMenuItemPeer peer = new CCheckboxMenuItem(target);
-        targetCreatedPeer(target, peer);
+    public CheckboxMenuItemPeer crebteCheckboxMenuItem(CheckboxMenuItem tbrget) {
+        CheckboxMenuItemPeer peer = new CCheckboxMenuItem(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public PopupMenuPeer createPopupMenu(PopupMenu target) {
-        PopupMenuPeer peer = new CPopupMenu(target);
-        targetCreatedPeer(target, peer);
+    public PopupMenuPeer crebtePopupMenu(PopupMenu tbrget) {
+        PopupMenuPeer peer = new CPopupMenu(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    public SystemTrayPeer createSystemTray(SystemTray target) {
-        return new CSystemTray();
+    public SystemTrbyPeer crebteSystemTrby(SystemTrby tbrget) {
+        return new CSystemTrby();
     }
 
     @Override
-    public TrayIconPeer createTrayIcon(TrayIcon target) {
-        TrayIconPeer peer = new CTrayIcon(target);
-        targetCreatedPeer(target, peer);
+    public TrbyIconPeer crebteTrbyIcon(TrbyIcon tbrget) {
+        TrbyIconPeer peer = new CTrbyIcon(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
     @Override
-    protected DesktopPeer createDesktopPeer(Desktop target) {
+    protected DesktopPeer crebteDesktopPeer(Desktop tbrget) {
         return new CDesktopPeer();
     }
 
     @Override
-    public LWCursorManager getCursorManager() {
-        return CCursorManager.getInstance();
+    public LWCursorMbnbger getCursorMbnbger() {
+        return CCursorMbnbger.getInstbnce();
     }
 
     @Override
-    public Cursor createCustomCursor(final Image cursor, final Point hotSpot,
-                                     final String name)
-            throws IndexOutOfBoundsException, HeadlessException {
-        return new CCustomCursor(cursor, hotSpot, name);
+    public Cursor crebteCustomCursor(finbl Imbge cursor, finbl Point hotSpot,
+                                     finbl String nbme)
+            throws IndexOutOfBoundsException, HebdlessException {
+        return new CCustomCursor(cursor, hotSpot, nbme);
     }
 
     @Override
-    public Dimension getBestCursorSize(final int preferredWidth,
-                                       final int preferredHeight)
-            throws HeadlessException {
+    public Dimension getBestCursorSize(finbl int preferredWidth,
+                                       finbl int preferredHeight)
+            throws HebdlessException {
         return CCustomCursor.getBestCursorSize(preferredWidth, preferredHeight);
     }
 
     @Override
-    protected void platformCleanup() {
-        // TODO Auto-generated method stub
+    protected void plbtformClebnup() {
+        // TODO Auto-generbted method stub
     }
 
     @Override
-    protected void platformInit() {
-        // TODO Auto-generated method stub
+    protected void plbtformInit() {
+        // TODO Auto-generbted method stub
     }
 
     @Override
-    protected void platformRunMessage() {
-        // TODO Auto-generated method stub
+    protected void plbtformRunMessbge() {
+        // TODO Auto-generbted method stub
     }
 
     @Override
-    protected void platformShutdown() {
-        // TODO Auto-generated method stub
+    protected void plbtformShutdown() {
+        // TODO Auto-generbted method stub
     }
 
-    class OSXPlatformFont extends sun.awt.PlatformFont
+    clbss OSXPlbtformFont extends sun.bwt.PlbtformFont
     {
-        OSXPlatformFont(String name, int style)
+        OSXPlbtformFont(String nbme, int style)
         {
-            super(name, style);
+            super(nbme, style);
         }
         @Override
-        protected char getMissingGlyphCharacter()
+        protected chbr getMissingGlyphChbrbcter()
         {
-            // Follow up for real implementation
-            return (char)0xfff8; // see http://developer.apple.com/fonts/LastResortFont/
+            // Follow up for rebl implementbtion
+            return (chbr)0xfff8; // see http://developer.bpple.com/fonts/LbstResortFont/
         }
     }
     @Override
-    public FontPeer getFontPeer(String name, int style) {
-        return new OSXPlatformFont(name, style);
+    public FontPeer getFontPeer(String nbme, int style) {
+        return new OSXPlbtformFont(nbme, style);
     }
 
     @Override
     protected int getScreenHeight() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getDefaultScreenDevice().getDefaultConfiguration().getBounds().height;
+        return GrbphicsEnvironment.getLocblGrbphicsEnvironment()
+                .getDefbultScreenDevice().getDefbultConfigurbtion().getBounds().height;
     }
 
     @Override
     protected int getScreenWidth() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getDefaultScreenDevice().getDefaultConfiguration().getBounds().width;
+        return GrbphicsEnvironment.getLocblGrbphicsEnvironment()
+                .getDefbultScreenDevice().getDefbultConfigurbtion().getBounds().width;
     }
 
     @Override
-    protected void initializeDesktopProperties() {
-        super.initializeDesktopProperties();
-        Map <Object, Object> fontHints = new HashMap<>();
+    protected void initiblizeDesktopProperties() {
+        super.initiblizeDesktopProperties();
+        Mbp <Object, Object> fontHints = new HbshMbp<>();
         fontHints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         fontHints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         desktopProperties.put(SunToolkit.DESKTOPFONTHINTS, fontHints);
-        desktopProperties.put("awt.mouse.numButtons", BUTTONS);
+        desktopProperties.put("bwt.mouse.numButtons", BUTTONS);
 
         // These DnD properties must be set, otherwise Swing ends up spewing NPEs
-        // all over the place. The values came straight off of MToolkit.
-        desktopProperties.put("DnD.Autoscroll.initialDelay", new Integer(50));
-        desktopProperties.put("DnD.Autoscroll.interval", new Integer(50));
+        // bll over the plbce. The vblues cbme strbight off of MToolkit.
+        desktopProperties.put("DnD.Autoscroll.initiblDelby", new Integer(50));
+        desktopProperties.put("DnD.Autoscroll.intervbl", new Integer(50));
         desktopProperties.put("DnD.Autoscroll.cursorHysteresis", new Integer(5));
 
-        desktopProperties.put("DnD.isDragImageSupported", new Boolean(true));
+        desktopProperties.put("DnD.isDrbgImbgeSupported", new Boolebn(true));
 
         // Register DnD cursors
-        desktopProperties.put("DnD.Cursor.CopyDrop", new NamedCursor("DnD.Cursor.CopyDrop"));
-        desktopProperties.put("DnD.Cursor.MoveDrop", new NamedCursor("DnD.Cursor.MoveDrop"));
-        desktopProperties.put("DnD.Cursor.LinkDrop", new NamedCursor("DnD.Cursor.LinkDrop"));
-        desktopProperties.put("DnD.Cursor.CopyNoDrop", new NamedCursor("DnD.Cursor.CopyNoDrop"));
-        desktopProperties.put("DnD.Cursor.MoveNoDrop", new NamedCursor("DnD.Cursor.MoveNoDrop"));
-        desktopProperties.put("DnD.Cursor.LinkNoDrop", new NamedCursor("DnD.Cursor.LinkNoDrop"));
+        desktopProperties.put("DnD.Cursor.CopyDrop", new NbmedCursor("DnD.Cursor.CopyDrop"));
+        desktopProperties.put("DnD.Cursor.MoveDrop", new NbmedCursor("DnD.Cursor.MoveDrop"));
+        desktopProperties.put("DnD.Cursor.LinkDrop", new NbmedCursor("DnD.Cursor.LinkDrop"));
+        desktopProperties.put("DnD.Cursor.CopyNoDrop", new NbmedCursor("DnD.Cursor.CopyNoDrop"));
+        desktopProperties.put("DnD.Cursor.MoveNoDrop", new NbmedCursor("DnD.Cursor.MoveNoDrop"));
+        desktopProperties.put("DnD.Cursor.LinkNoDrop", new NbmedCursor("DnD.Cursor.LinkNoDrop"));
     }
 
     @Override
-    protected boolean syncNativeQueue(long timeout) {
-        return nativeSyncQueue(timeout);
+    protected boolebn syncNbtiveQueue(long timeout) {
+        return nbtiveSyncQueue(timeout);
     }
 
     @Override
-    public native void beep();
+    public nbtive void beep();
 
     @Override
-    public int getScreenResolution() throws HeadlessException {
-        return (int) ((CGraphicsDevice) GraphicsEnvironment
-                .getLocalGraphicsEnvironment().getDefaultScreenDevice())
+    public int getScreenResolution() throws HebdlessException {
+        return (int) ((CGrbphicsDevice) GrbphicsEnvironment
+                .getLocblGrbphicsEnvironment().getDefbultScreenDevice())
                 .getXResolution();
     }
 
     @Override
-    public Insets getScreenInsets(final GraphicsConfiguration gc) {
-        return ((CGraphicsConfig) gc).getDevice().getScreenInsets();
+    public Insets getScreenInsets(finbl GrbphicsConfigurbtion gc) {
+        return ((CGrbphicsConfig) gc).getDevice().getScreenInsets();
     }
 
     @Override
     public void sync() {
-        // flush the OGL pipeline (this is a no-op if OGL is not enabled)
+        // flush the OGL pipeline (this is b no-op if OGL is not enbbled)
         OGLRenderQueue.sync();
-        // setNeedsDisplay() selector was sent to the appropriate CALayer so now
-        // we have to flush the native selectors queue.
-        flushNativeSelectors();
+        // setNeedsDisplby() selector wbs sent to the bppropribte CALbyer so now
+        // we hbve to flush the nbtive selectors queue.
+        flushNbtiveSelectors();
     }
 
     @Override
-    public RobotPeer createRobot(Robot target, GraphicsDevice screen) {
-        return new CRobot(target, (CGraphicsDevice)screen);
+    public RobotPeer crebteRobot(Robot tbrget, GrbphicsDevice screen) {
+        return new CRobot(tbrget, (CGrbphicsDevice)screen);
     }
 
-    private native boolean isCapsLockOn();
+    privbte nbtive boolebn isCbpsLockOn();
 
     /*
      * NOTE: Among the keys this method is supposed to check,
-     * only Caps Lock works as a true locking key with OS X.
-     * There is no Scroll Lock key on modern Apple keyboards,
-     * and with a PC keyboard plugged in Scroll Lock is simply
+     * only Cbps Lock works bs b true locking key with OS X.
+     * There is no Scroll Lock key on modern Apple keybobrds,
+     * bnd with b PC keybobrd plugged in Scroll Lock is simply
      * ignored: no LED lights up if you press it.
-     * The key located at the same position on Apple keyboards
-     * as Num Lock on PC keyboards is called Clear, doesn't lock
-     * anything and is used for entirely different purpose.
+     * The key locbted bt the sbme position on Apple keybobrds
+     * bs Num Lock on PC keybobrds is cblled Clebr, doesn't lock
+     * bnything bnd is used for entirely different purpose.
      */
     @Override
-    public boolean getLockingKeyState(int keyCode) throws UnsupportedOperationException {
+    public boolebn getLockingKeyStbte(int keyCode) throws UnsupportedOperbtionException {
         switch (keyCode) {
-            case KeyEvent.VK_NUM_LOCK:
-            case KeyEvent.VK_SCROLL_LOCK:
-            case KeyEvent.VK_KANA_LOCK:
-                throw new UnsupportedOperationException("Toolkit.getLockingKeyState");
+            cbse KeyEvent.VK_NUM_LOCK:
+            cbse KeyEvent.VK_SCROLL_LOCK:
+            cbse KeyEvent.VK_KANA_LOCK:
+                throw new UnsupportedOperbtionException("Toolkit.getLockingKeyStbte");
 
-            case KeyEvent.VK_CAPS_LOCK:
-                return isCapsLockOn();
+            cbse KeyEvent.VK_CAPS_LOCK:
+                return isCbpsLockOn();
 
-            default:
-                throw new IllegalArgumentException("invalid key for Toolkit.getLockingKeyState");
+            defbult:
+                throw new IllegblArgumentException("invblid key for Toolkit.getLockingKeyStbte");
         }
     }
 
-    //Is it allowed to generate events assigned to extra mouse buttons.
-    //Set to true by default.
-    private static boolean areExtraMouseButtonsEnabled = true;
+    //Is it bllowed to generbte events bssigned to extrb mouse buttons.
+    //Set to true by defbult.
+    privbte stbtic boolebn breExtrbMouseButtonsEnbbled = true;
 
     @Override
-    public boolean areExtraMouseButtonsEnabled() throws HeadlessException {
-        return areExtraMouseButtonsEnabled;
+    public boolebn breExtrbMouseButtonsEnbbled() throws HebdlessException {
+        return breExtrbMouseButtonsEnbbled;
     }
 
     @Override
@@ -469,140 +469,140 @@ public final class LWCToolkit extends LWToolkit {
     }
 
     @Override
-    public boolean isTraySupported() {
+    public boolebn isTrbySupported() {
         return true;
     }
 
     @Override
-    public DataTransferer getDataTransferer() {
-        return CDataTransferer.getInstanceImpl();
+    public DbtbTrbnsferer getDbtbTrbnsferer() {
+        return CDbtbTrbnsferer.getInstbnceImpl();
     }
 
     @Override
-    public boolean isAlwaysOnTopSupported() {
+    public boolebn isAlwbysOnTopSupported() {
         return true;
     }
 
-    private static final String APPKIT_THREAD_NAME = "AppKit Thread";
+    privbte stbtic finbl String APPKIT_THREAD_NAME = "AppKit Threbd";
 
-    // Intended to be called from the LWCToolkit.m only.
-    private static void installToolkitThreadInJava() {
-        Thread.currentThread().setName(APPKIT_THREAD_NAME);
+    // Intended to be cblled from the LWCToolkit.m only.
+    privbte stbtic void instbllToolkitThrebdInJbvb() {
+        Threbd.currentThrebd().setNbme(APPKIT_THREAD_NAME);
         AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
-            Thread.currentThread().setContextClassLoader(null);
+            Threbd.currentThrebd().setContextClbssLobder(null);
             return null;
         });
     }
 
     @Override
-    public boolean isWindowOpacitySupported() {
+    public boolebn isWindowOpbcitySupported() {
         return true;
     }
 
     @Override
-    public boolean isFrameStateSupported(int state) throws HeadlessException {
-        switch (state) {
-            case Frame.NORMAL:
-            case Frame.ICONIFIED:
-            case Frame.MAXIMIZED_BOTH:
+    public boolebn isFrbmeStbteSupported(int stbte) throws HebdlessException {
+        switch (stbte) {
+            cbse Frbme.NORMAL:
+            cbse Frbme.ICONIFIED:
+            cbse Frbme.MAXIMIZED_BOTH:
                 return true;
-            default:
-                return false;
+            defbult:
+                return fblse;
         }
     }
 
     /**
-     * Determines which modifier key is the appropriate accelerator
+     * Determines which modifier key is the bppropribte bccelerbtor
      * key for menu shortcuts.
      * <p>
-     * Menu shortcuts, which are embodied in the
-     * <code>MenuShortcut</code> class, are handled by the
-     * <code>MenuBar</code> class.
+     * Menu shortcuts, which bre embodied in the
+     * <code>MenuShortcut</code> clbss, bre hbndled by the
+     * <code>MenuBbr</code> clbss.
      * <p>
-     * By default, this method returns <code>Event.CTRL_MASK</code>.
-     * Toolkit implementations should override this method if the
-     * <b>Control</b> key isn't the correct key for accelerators.
-     * @return    the modifier mask on the <code>Event</code> class
-     *                 that is used for menu shortcuts on this toolkit.
-     * @see       java.awt.MenuBar
-     * @see       java.awt.MenuShortcut
+     * By defbult, this method returns <code>Event.CTRL_MASK</code>.
+     * Toolkit implementbtions should override this method if the
+     * <b>Control</b> key isn't the correct key for bccelerbtors.
+     * @return    the modifier mbsk on the <code>Event</code> clbss
+     *                 thbt is used for menu shortcuts on this toolkit.
+     * @see       jbvb.bwt.MenuBbr
+     * @see       jbvb.bwt.MenuShortcut
      * @since     1.1
      */
     @Override
-    public int getMenuShortcutKeyMask() {
+    public int getMenuShortcutKeyMbsk() {
         return Event.META_MASK;
     }
 
     @Override
-    public Image getImage(final String filename) {
-        final Image nsImage = checkForNSImage(filename);
-        if (nsImage != null) {
-            return nsImage;
+    public Imbge getImbge(finbl String filenbme) {
+        finbl Imbge nsImbge = checkForNSImbge(filenbme);
+        if (nsImbge != null) {
+            return nsImbge;
         }
 
-        if (imageCached(filename)) {
-            return super.getImage(filename);
+        if (imbgeCbched(filenbme)) {
+            return super.getImbge(filenbme);
         }
 
-        String filename2x = getScaledImageName(filename);
-        return (imageExists(filename2x))
-                ? getImageWithResolutionVariant(filename, filename2x)
-                : super.getImage(filename);
+        String filenbme2x = getScbledImbgeNbme(filenbme);
+        return (imbgeExists(filenbme2x))
+                ? getImbgeWithResolutionVbribnt(filenbme, filenbme2x)
+                : super.getImbge(filenbme);
     }
 
     @Override
-    public Image getImage(URL url) {
+    public Imbge getImbge(URL url) {
 
-        if (imageCached(url)) {
-            return super.getImage(url);
+        if (imbgeCbched(url)) {
+            return super.getImbge(url);
         }
 
-        URL url2x = getScaledImageURL(url);
-        return (imageExists(url2x))
-                ? getImageWithResolutionVariant(url, url2x) : super.getImage(url);
+        URL url2x = getScbledImbgeURL(url);
+        return (imbgeExists(url2x))
+                ? getImbgeWithResolutionVbribnt(url, url2x) : super.getImbge(url);
     }
 
-    private static final String nsImagePrefix = "NSImage://";
-    private Image checkForNSImage(final String imageName) {
-        if (imageName == null) return null;
-        if (!imageName.startsWith(nsImagePrefix)) return null;
-        return CImage.getCreator().createImageFromName(imageName.substring(nsImagePrefix.length()));
+    privbte stbtic finbl String nsImbgePrefix = "NSImbge://";
+    privbte Imbge checkForNSImbge(finbl String imbgeNbme) {
+        if (imbgeNbme == null) return null;
+        if (!imbgeNbme.stbrtsWith(nsImbgePrefix)) return null;
+        return CImbge.getCrebtor().crebteImbgeFromNbme(imbgeNbme.substring(nsImbgePrefix.length()));
     }
 
-    // Thread-safe Object.equals() called from native
-    public static boolean doEquals(final Object a, final Object b, Component c) {
-        if (a == b) return true;
+    // Threbd-sbfe Object.equbls() cblled from nbtive
+    public stbtic boolebn doEqubls(finbl Object b, finbl Object b, Component c) {
+        if (b == b) return true;
 
-        final boolean[] ret = new boolean[1];
+        finbl boolebn[] ret = new boolebn[1];
 
-        try {  invokeAndWait(new Runnable() { public void run() { synchronized(ret) {
-            ret[0] = a.equals(b);
-        }}}, c); } catch (Exception e) { e.printStackTrace(); }
+        try {  invokeAndWbit(new Runnbble() { public void run() { synchronized(ret) {
+            ret[0] = b.equbls(b);
+        }}}, c); } cbtch (Exception e) { e.printStbckTrbce(); }
 
         synchronized(ret) { return ret[0]; }
     }
 
-    public static <T> T invokeAndWait(final Callable<T> callable,
+    public stbtic <T> T invokeAndWbit(finbl Cbllbble<T> cbllbble,
                                       Component component) throws Exception {
-        final CallableWrapper<T> wrapper = new CallableWrapper<>(callable);
-        invokeAndWait(wrapper, component);
-        return wrapper.getResult();
+        finbl CbllbbleWrbpper<T> wrbpper = new CbllbbleWrbpper<>(cbllbble);
+        invokeAndWbit(wrbpper, component);
+        return wrbpper.getResult();
     }
 
-    static final class CallableWrapper<T> implements Runnable {
-        final Callable<T> callable;
+    stbtic finbl clbss CbllbbleWrbpper<T> implements Runnbble {
+        finbl Cbllbble<T> cbllbble;
         T object;
         Exception e;
 
-        CallableWrapper(final Callable<T> callable) {
-            this.callable = callable;
+        CbllbbleWrbpper(finbl Cbllbble<T> cbllbble) {
+            this.cbllbble = cbllbble;
         }
 
         @Override
         public void run() {
             try {
-                object = callable.call();
-            } catch (final Exception e) {
+                object = cbllbble.cbll();
+            } cbtch (finbl Exception e) {
                 this.e = e;
             }
         }
@@ -614,121 +614,121 @@ public final class LWCToolkit extends LWToolkit {
     }
 
     /**
-     * Kicks an event over to the appropriate event queue and waits for it to
-     * finish To avoid deadlocking, we manually run the NSRunLoop while waiting
-     * Any selector invoked using ThreadUtilities performOnMainThread will be
-     * processed in doAWTRunLoop The InvocationEvent will call
-     * LWCToolkit.stopAWTRunLoop() when finished, which will stop our manual
-     * run loop. Does not dispatch native events while in the loop
+     * Kicks bn event over to the bppropribte event queue bnd wbits for it to
+     * finish To bvoid debdlocking, we mbnublly run the NSRunLoop while wbiting
+     * Any selector invoked using ThrebdUtilities performOnMbinThrebd will be
+     * processed in doAWTRunLoop The InvocbtionEvent will cbll
+     * LWCToolkit.stopAWTRunLoop() when finished, which will stop our mbnubl
+     * run loop. Does not dispbtch nbtive events while in the loop
      */
-    public static void invokeAndWait(Runnable runnable, Component component)
-            throws InvocationTargetException {
-        Objects.requireNonNull(component, "Null component provided to invokeAndWait");
+    public stbtic void invokeAndWbit(Runnbble runnbble, Component component)
+            throws InvocbtionTbrgetException {
+        Objects.requireNonNull(component, "Null component provided to invokeAndWbit");
 
-        long mediator = createAWTRunLoopMediator();
-        InvocationEvent invocationEvent =
-                new InvocationEvent(component,
-                        runnable,
+        long medibtor = crebteAWTRunLoopMedibtor();
+        InvocbtionEvent invocbtionEvent =
+                new InvocbtionEvent(component,
+                        runnbble,
                         () -> {
-                            if (mediator != 0) {
-                                stopAWTRunLoop(mediator);
+                            if (medibtor != 0) {
+                                stopAWTRunLoop(medibtor);
                             }
                         },
                         true);
 
-        AppContext appContext = SunToolkit.targetToAppContext(component);
-        SunToolkit.postEvent(appContext, invocationEvent);
-        // 3746956 - flush events from PostEventQueue to prevent them from getting stuck and causing a deadlock
-        SunToolkit.flushPendingEvents(appContext);
-        doAWTRunLoop(mediator, false);
+        AppContext bppContext = SunToolkit.tbrgetToAppContext(component);
+        SunToolkit.postEvent(bppContext, invocbtionEvent);
+        // 3746956 - flush events from PostEventQueue to prevent them from getting stuck bnd cbusing b debdlock
+        SunToolkit.flushPendingEvents(bppContext);
+        doAWTRunLoop(medibtor, fblse);
 
-        checkException(invocationEvent);
+        checkException(invocbtionEvent);
     }
 
-    public static void invokeLater(Runnable event, Component component)
-            throws InvocationTargetException {
-        Objects.requireNonNull(component, "Null component provided to invokeLater");
+    public stbtic void invokeLbter(Runnbble event, Component component)
+            throws InvocbtionTbrgetException {
+        Objects.requireNonNull(component, "Null component provided to invokeLbter");
 
-        InvocationEvent invocationEvent = new InvocationEvent(component, event);
+        InvocbtionEvent invocbtionEvent = new InvocbtionEvent(component, event);
 
-        AppContext appContext = SunToolkit.targetToAppContext(component);
-        SunToolkit.postEvent(SunToolkit.targetToAppContext(component), invocationEvent);
-        // 3746956 - flush events from PostEventQueue to prevent them from getting stuck and causing a deadlock
-        SunToolkit.flushPendingEvents(appContext);
+        AppContext bppContext = SunToolkit.tbrgetToAppContext(component);
+        SunToolkit.postEvent(SunToolkit.tbrgetToAppContext(component), invocbtionEvent);
+        // 3746956 - flush events from PostEventQueue to prevent them from getting stuck bnd cbusing b debdlock
+        SunToolkit.flushPendingEvents(bppContext);
 
-        checkException(invocationEvent);
+        checkException(invocbtionEvent);
     }
 
     /**
-     * Checks if exception occurred while {@code InvocationEvent} was processed and rethrows it as
-     * an {@code InvocationTargetException}
+     * Checks if exception occurred while {@code InvocbtionEvent} wbs processed bnd rethrows it bs
+     * bn {@code InvocbtionTbrgetException}
      *
-     * @param event the event to check for an exception
-     * @throws InvocationTargetException if exception occurred when event was processed
+     * @pbrbm event the event to check for bn exception
+     * @throws InvocbtionTbrgetException if exception occurred when event wbs processed
      */
-    private static void checkException(InvocationEvent event) throws InvocationTargetException {
-        Throwable eventException = event.getException();
+    privbte stbtic void checkException(InvocbtionEvent event) throws InvocbtionTbrgetException {
+        Throwbble eventException = event.getException();
         if (eventException == null) return;
 
-        if (eventException instanceof UndeclaredThrowableException) {
-            eventException = ((UndeclaredThrowableException)eventException).getUndeclaredThrowable();
+        if (eventException instbnceof UndeclbredThrowbbleException) {
+            eventException = ((UndeclbredThrowbbleException)eventException).getUndeclbredThrowbble();
         }
-        throw new InvocationTargetException(eventException);
+        throw new InvocbtionTbrgetException(eventException);
     }
 
     /**
-     * Schedules a {@code Runnable} execution on the Appkit thread after a delay
-     * @param r a {@code Runnable} to execute
-     * @param delay a delay in milliseconds
+     * Schedules b {@code Runnbble} execution on the Appkit threbd bfter b delby
+     * @pbrbm r b {@code Runnbble} to execute
+     * @pbrbm delby b delby in milliseconds
      */
-    native static void performOnMainThreadAfterDelay(Runnable r, long delay);
+    nbtive stbtic void performOnMbinThrebdAfterDelby(Runnbble r, long delby);
 
 // DnD support
 
     @Override
-    public DragSourceContextPeer createDragSourceContextPeer(
-            DragGestureEvent dge) throws InvalidDnDOperationException {
-        return CDragSourceContextPeer.createDragSourceContextPeer(dge);
+    public DrbgSourceContextPeer crebteDrbgSourceContextPeer(
+            DrbgGestureEvent dge) throws InvblidDnDOperbtionException {
+        return CDrbgSourceContextPeer.crebteDrbgSourceContextPeer(dge);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T extends DragGestureRecognizer> T createDragGestureRecognizer(
-            Class<T> abstractRecognizerClass, DragSource ds, Component c,
-            int srcActions, DragGestureListener dgl) {
-        DragGestureRecognizer dgr = null;
+    @SuppressWbrnings("unchecked")
+    public <T extends DrbgGestureRecognizer> T crebteDrbgGestureRecognizer(
+            Clbss<T> bbstrbctRecognizerClbss, DrbgSource ds, Component c,
+            int srcActions, DrbgGestureListener dgl) {
+        DrbgGestureRecognizer dgr = null;
 
-        // Create a new mouse drag gesture recognizer if we have a class match:
-        if (MouseDragGestureRecognizer.class.equals(abstractRecognizerClass))
-            dgr = new CMouseDragGestureRecognizer(ds, c, srcActions, dgl);
+        // Crebte b new mouse drbg gesture recognizer if we hbve b clbss mbtch:
+        if (MouseDrbgGestureRecognizer.clbss.equbls(bbstrbctRecognizerClbss))
+            dgr = new CMouseDrbgGestureRecognizer(ds, c, srcActions, dgl);
 
         return (T)dgr;
     }
 
     @Override
-    protected PlatformDropTarget createDropTarget(DropTarget dropTarget,
+    protected PlbtformDropTbrget crebteDropTbrget(DropTbrget dropTbrget,
                                                   Component component,
                                                   LWComponentPeer<?, ?> peer) {
-        return new CDropTarget(dropTarget, component, peer);
+        return new CDropTbrget(dropTbrget, component, peer);
     }
 
     // InputMethodSupport Method
     /**
-     * Returns the default keyboard locale of the underlying operating system
+     * Returns the defbult keybobrd locble of the underlying operbting system
      */
     @Override
-    public Locale getDefaultKeyboardLocale() {
-        Locale locale = CInputMethod.getNativeLocale();
+    public Locble getDefbultKeybobrdLocble() {
+        Locble locble = CInputMethod.getNbtiveLocble();
 
-        if (locale == null) {
-            return super.getDefaultKeyboardLocale();
+        if (locble == null) {
+            return super.getDefbultKeybobrdLocble();
         }
 
-        return locale;
+        return locble;
     }
 
     @Override
-    public InputMethodDescriptor getInputMethodAdapterDescriptor() {
+    public InputMethodDescriptor getInputMethodAdbpterDescriptor() {
         if (sInputMethodDescriptor == null)
             sInputMethodDescriptor = new CInputMethodDescriptor();
 
@@ -736,181 +736,181 @@ public final class LWCToolkit extends LWToolkit {
     }
 
     /**
-     * Returns a map of visual attributes for thelevel description
-     * of the given input method highlight, or null if no mapping is found.
-     * The style field of the input method highlight is ignored. The map
-     * returned is unmodifiable.
-     * @param highlight input method highlight
-     * @return style attribute map, or null
+     * Returns b mbp of visubl bttributes for thelevel description
+     * of the given input method highlight, or null if no mbpping is found.
+     * The style field of the input method highlight is ignored. The mbp
+     * returned is unmodifibble.
+     * @pbrbm highlight input method highlight
+     * @return style bttribute mbp, or null
      * @since 1.3
      */
     @Override
-    public Map<TextAttribute, ?> mapInputMethodHighlight(InputMethodHighlight highlight) {
-        return CInputMethod.mapInputMethodHighlight(highlight);
+    public Mbp<TextAttribute, ?> mbpInputMethodHighlight(InputMethodHighlight highlight) {
+        return CInputMethod.mbpInputMethodHighlight(highlight);
     }
 
     /**
-     * Returns key modifiers used by Swing to set up a focus accelerator key
+     * Returns key modifiers used by Swing to set up b focus bccelerbtor key
      * stroke.
      */
     @Override
-    public int getFocusAcceleratorKeyMask() {
+    public int getFocusAccelerbtorKeyMbsk() {
         return InputEvent.CTRL_MASK | InputEvent.ALT_MASK;
     }
 
     /**
-     * Tests whether specified key modifiers mask can be used to enter a
-     * printable character.
+     * Tests whether specified key modifiers mbsk cbn be used to enter b
+     * printbble chbrbcter.
      */
     @Override
-    public boolean isPrintableCharacterModifiersMask(int mods) {
+    public boolebn isPrintbbleChbrbcterModifiersMbsk(int mods) {
         return ((mods & (InputEvent.META_MASK | InputEvent.CTRL_MASK)) == 0);
     }
 
     /**
-     * Returns whether popup is allowed to be shown above the task bar.
+     * Returns whether popup is bllowed to be shown bbove the tbsk bbr.
      */
     @Override
-    public boolean canPopupOverlapTaskBar() {
-        return false;
+    public boolebn cbnPopupOverlbpTbskBbr() {
+        return fblse;
     }
 
-    private static Boolean sunAwtDisableCALayers = null;
+    privbte stbtic Boolebn sunAwtDisbbleCALbyers = null;
 
     /**
-     * Returns the value of "sun.awt.disableCALayers" property. Default
-     * value is {@code false}.
+     * Returns the vblue of "sun.bwt.disbbleCALbyers" property. Defbult
+     * vblue is {@code fblse}.
      */
-    public static synchronized boolean getSunAwtDisableCALayers() {
-        if (sunAwtDisableCALayers == null) {
-            sunAwtDisableCALayers = AccessController.doPrivileged(
-                new GetBooleanAction("sun.awt.disableCALayers"));
+    public stbtic synchronized boolebn getSunAwtDisbbleCALbyers() {
+        if (sunAwtDisbbleCALbyers == null) {
+            sunAwtDisbbleCALbyers = AccessController.doPrivileged(
+                new GetBoolebnAction("sun.bwt.disbbleCALbyers"));
         }
-        return sunAwtDisableCALayers;
+        return sunAwtDisbbleCALbyers;
     }
 
     /*
-     * Returns true if the application (one of its windows) owns keyboard focus.
+     * Returns true if the bpplicbtion (one of its windows) owns keybobrd focus.
      */
-    native boolean isApplicationActive();
+    nbtive boolebn isApplicbtionActive();
 
     /**
-     * Returns true if AWT toolkit is embedded, false otherwise.
+     * Returns true if AWT toolkit is embedded, fblse otherwise.
      *
-     * @return true if AWT toolkit is embedded, false otherwise
+     * @return true if AWT toolkit is embedded, fblse otherwise
      */
-    public static native boolean isEmbedded();
+    public stbtic nbtive boolebn isEmbedded();
 
     /************************
-     * Native methods section
+     * Nbtive methods section
      ************************/
 
-    static native long createAWTRunLoopMediator();
+    stbtic nbtive long crebteAWTRunLoopMedibtor();
     /**
-     * Method to run a nested run-loop. The nested loop is spinned in the javaRunLoop mode, so selectors sent
-     * by [JNFRunLoop performOnMainThreadWaiting] are processed.
-     * @param mediator a native pointer to the mediator object created by createAWTRunLoopMediator
-     * @param processEvents if true - dispatches event while in the nested loop. Used in DnD.
-     *                      Additional attention is needed when using this feature as we short-circuit normal event
-     *                      processing which could break Appkit.
-     *                      (One known example is when the window is resized with the mouse)
+     * Method to run b nested run-loop. The nested loop is spinned in the jbvbRunLoop mode, so selectors sent
+     * by [JNFRunLoop performOnMbinThrebdWbiting] bre processed.
+     * @pbrbm medibtor b nbtive pointer to the medibtor object crebted by crebteAWTRunLoopMedibtor
+     * @pbrbm processEvents if true - dispbtches event while in the nested loop. Used in DnD.
+     *                      Additionbl bttention is needed when using this febture bs we short-circuit normbl event
+     *                      processing which could brebk Appkit.
+     *                      (One known exbmple is when the window is resized with the mouse)
      *
-     *                      if false - all events come after exit form the nested loop
+     *                      if fblse - bll events come bfter exit form the nested loop
      */
-    static void doAWTRunLoop(long mediator, boolean processEvents) {
-        doAWTRunLoopImpl(mediator, processEvents, inAWT);
+    stbtic void doAWTRunLoop(long medibtor, boolebn processEvents) {
+        doAWTRunLoopImpl(medibtor, processEvents, inAWT);
     }
-    private static native void doAWTRunLoopImpl(long mediator, boolean processEvents, boolean inAWT);
-    static native void stopAWTRunLoop(long mediator);
+    privbte stbtic nbtive void doAWTRunLoopImpl(long medibtor, boolebn processEvents, boolebn inAWT);
+    stbtic nbtive void stopAWTRunLoop(long medibtor);
 
-    private native boolean nativeSyncQueue(long timeout);
+    privbte nbtive boolebn nbtiveSyncQueue(long timeout);
 
     /**
-     * Just spin a single empty block synchronously.
+     * Just spin b single empty block synchronously.
      */
-    private static native void flushNativeSelectors();
+    privbte stbtic nbtive void flushNbtiveSelectors();
 
     @Override
-    public Clipboard createPlatformClipboard() {
-        return new CClipboard("System");
+    public Clipbobrd crebtePlbtformClipbobrd() {
+        return new CClipbobrd("System");
     }
 
     @Override
-    public boolean isModalExclusionTypeSupported(Dialog.ModalExclusionType exclusionType) {
+    public boolebn isModblExclusionTypeSupported(Diblog.ModblExclusionType exclusionType) {
         return (exclusionType == null) ||
-            (exclusionType == Dialog.ModalExclusionType.NO_EXCLUDE) ||
-            (exclusionType == Dialog.ModalExclusionType.APPLICATION_EXCLUDE) ||
-            (exclusionType == Dialog.ModalExclusionType.TOOLKIT_EXCLUDE);
+            (exclusionType == Diblog.ModblExclusionType.NO_EXCLUDE) ||
+            (exclusionType == Diblog.ModblExclusionType.APPLICATION_EXCLUDE) ||
+            (exclusionType == Diblog.ModblExclusionType.TOOLKIT_EXCLUDE);
     }
 
     @Override
-    public boolean isModalityTypeSupported(Dialog.ModalityType modalityType) {
-        //TODO: FileDialog blocks excluded windows...
-        //TODO: Test: 2 file dialogs, separate AppContexts: a) Dialog 1 blocked, shouldn't be. Frame 4 blocked (shouldn't be).
-        return (modalityType == null) ||
-            (modalityType == Dialog.ModalityType.MODELESS) ||
-            (modalityType == Dialog.ModalityType.DOCUMENT_MODAL) ||
-            (modalityType == Dialog.ModalityType.APPLICATION_MODAL) ||
-            (modalityType == Dialog.ModalityType.TOOLKIT_MODAL);
+    public boolebn isModblityTypeSupported(Diblog.ModblityType modblityType) {
+        //TODO: FileDiblog blocks excluded windows...
+        //TODO: Test: 2 file diblogs, sepbrbte AppContexts: b) Diblog 1 blocked, shouldn't be. Frbme 4 blocked (shouldn't be).
+        return (modblityType == null) ||
+            (modblityType == Diblog.ModblityType.MODELESS) ||
+            (modblityType == Diblog.ModblityType.DOCUMENT_MODAL) ||
+            (modblityType == Diblog.ModblityType.APPLICATION_MODAL) ||
+            (modblityType == Diblog.ModblityType.TOOLKIT_MODAL);
     }
 
     @Override
-    public boolean isWindowShapingSupported() {
+    public boolebn isWindowShbpingSupported() {
         return true;
     }
 
     @Override
-    public boolean isWindowTranslucencySupported() {
+    public boolebn isWindowTrbnslucencySupported() {
         return true;
     }
 
     @Override
-    public boolean isTranslucencyCapable(GraphicsConfiguration gc) {
+    public boolebn isTrbnslucencyCbpbble(GrbphicsConfigurbtion gc) {
         return true;
     }
 
     @Override
-    public boolean isSwingBackbufferTranslucencySupported() {
+    public boolebn isSwingBbckbufferTrbnslucencySupported() {
         return true;
     }
 
     @Override
-    public boolean enableInputMethodsForTextComponent() {
+    public boolebn enbbleInputMethodsForTextComponent() {
         return true;
     }
 
-    private static URL getScaledImageURL(URL url) {
+    privbte stbtic URL getScbledImbgeURL(URL url) {
         try {
-            String scaledImagePath = getScaledImageName(url.getPath());
-            return scaledImagePath == null ? null : new URL(url.getProtocol(),
-                    url.getHost(), url.getPort(), scaledImagePath);
-        } catch (MalformedURLException e) {
+            String scbledImbgePbth = getScbledImbgeNbme(url.getPbth());
+            return scbledImbgePbth == null ? null : new URL(url.getProtocol(),
+                    url.getHost(), url.getPort(), scbledImbgePbth);
+        } cbtch (MblformedURLException e) {
             return null;
         }
     }
 
-    private static String getScaledImageName(String path) {
-        if (!isValidPath(path)) {
+    privbte stbtic String getScbledImbgeNbme(String pbth) {
+        if (!isVblidPbth(pbth)) {
             return null;
         }
 
-        int slash = path.lastIndexOf('/');
-        String name = (slash < 0) ? path : path.substring(slash + 1);
+        int slbsh = pbth.lbstIndexOf('/');
+        String nbme = (slbsh < 0) ? pbth : pbth.substring(slbsh + 1);
 
-        if (name.contains("@2x")) {
+        if (nbme.contbins("@2x")) {
             return null;
         }
 
-        int dot = name.lastIndexOf('.');
-        String name2x = (dot < 0) ? name + "@2x"
-                : name.substring(0, dot) + "@2x" + name.substring(dot);
-        return (slash < 0) ? name2x : path.substring(0, slash + 1) + name2x;
+        int dot = nbme.lbstIndexOf('.');
+        String nbme2x = (dot < 0) ? nbme + "@2x"
+                : nbme.substring(0, dot) + "@2x" + nbme.substring(dot);
+        return (slbsh < 0) ? nbme2x : pbth.substring(0, slbsh + 1) + nbme2x;
     }
 
-    private static boolean isValidPath(String path) {
-        return path != null &&
-                !path.isEmpty() &&
-                !path.endsWith("/") &&
-                !path.endsWith(".");
+    privbte stbtic boolebn isVblidPbth(String pbth) {
+        return pbth != null &&
+                !pbth.isEmpty() &&
+                !pbth.endsWith("/") &&
+                !pbth.endsWith(".");
     }
 }

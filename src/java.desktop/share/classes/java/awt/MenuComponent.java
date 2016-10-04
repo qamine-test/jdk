@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.peer.MenuComponentPeer;
-import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import sun.awt.AppContext;
-import sun.awt.AWTAccessor;
-import javax.accessibility.*;
+import jbvb.bwt.peer.MenuComponentPeer;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import sun.bwt.AppContext;
+import sun.bwt.AWTAccessor;
+import jbvbx.bccessibility.*;
 
-import java.security.AccessControlContext;
-import java.security.AccessController;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
 
 /**
- * The abstract class <code>MenuComponent</code> is the superclass
- * of all menu-related components. In this respect, the class
- * <code>MenuComponent</code> is analogous to the abstract superclass
+ * The bbstrbct clbss <code>MenuComponent</code> is the superclbss
+ * of bll menu-relbted components. In this respect, the clbss
+ * <code>MenuComponent</code> is bnblogous to the bbstrbct superclbss
  * <code>Component</code> for AWT components.
  * <p>
- * Menu components receive and process AWT events, just as components do,
+ * Menu components receive bnd process AWT events, just bs components do,
  * through the method <code>processEvent</code>.
  *
- * @author      Arthur van Hoff
+ * @buthor      Arthur vbn Hoff
  * @since       1.0
  */
-public abstract class MenuComponent implements java.io.Serializable {
+public bbstrbct clbss MenuComponent implements jbvb.io.Seriblizbble {
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
-    transient MenuComponentPeer peer;
-    transient MenuContainer parent;
+    trbnsient MenuComponentPeer peer;
+    trbnsient MenuContbiner pbrent;
 
     /**
      * The <code>AppContext</code> of the <code>MenuComponent</code>.
-     * This is set in the constructor and never changes.
+     * This is set in the constructor bnd never chbnges.
      */
-    transient AppContext appContext;
+    trbnsient AppContext bppContext;
 
     /**
-     * The menu component's font. This value can be
-     * <code>null</code> at which point a default will be used.
-     * This defaults to <code>null</code>.
+     * The menu component's font. This vblue cbn be
+     * <code>null</code> bt which point b defbult will be used.
+     * This defbults to <code>null</code>.
      *
-     * @serial
+     * @seribl
      * @see #setFont(Font)
      * @see #getFont()
      */
     Font font;
 
     /**
-     * The menu component's name, which defaults to <code>null</code>.
-     * @serial
-     * @see #getName()
-     * @see #setName(String)
+     * The menu component's nbme, which defbults to <code>null</code>.
+     * @seribl
+     * @see #getNbme()
+     * @see #setNbme(String)
      */
-    private String name;
+    privbte String nbme;
 
     /**
-     * A variable to indicate whether a name is explicitly set.
-     * If <code>true</code> the name will be set explicitly.
-     * This defaults to <code>false</code>.
-     * @serial
-     * @see #setName(String)
+     * A vbribble to indicbte whether b nbme is explicitly set.
+     * If <code>true</code> the nbme will be set explicitly.
+     * This defbults to <code>fblse</code>.
+     * @seribl
+     * @see #setNbme(String)
      */
-    private boolean nameExplicitlySet = false;
+    privbte boolebn nbmeExplicitlySet = fblse;
 
     /**
-     * Defaults to <code>false</code>.
-     * @serial
-     * @see #dispatchEvent(AWTEvent)
+     * Defbults to <code>fblse</code>.
+     * @seribl
+     * @see #dispbtchEvent(AWTEvent)
      */
-    boolean newEventsOnly = false;
+    boolebn newEventsOnly = fblse;
 
     /*
      * The menu's AccessControlContext.
      */
-    private transient volatile AccessControlContext acc =
+    privbte trbnsient volbtile AccessControlContext bcc =
             AccessController.getContext();
 
     /*
-     * Returns the acc this menu component was constructed with.
+     * Returns the bcc this menu component wbs constructed with.
      */
-    final AccessControlContext getAccessControlContext() {
-        if (acc == null) {
+    finbl AccessControlContext getAccessControlContext() {
+        if (bcc == null) {
             throw new SecurityException(
                     "MenuComponent is missing AccessControlContext");
         }
-        return acc;
+        return bcc;
     }
 
     /*
-     * Internal constants for serialization.
+     * Internbl constbnts for seriblizbtion.
      */
-    final static String actionListenerK = Component.actionListenerK;
-    final static String itemListenerK = Component.itemListenerK;
+    finbl stbtic String bctionListenerK = Component.bctionListenerK;
+    finbl stbtic String itemListenerK = Component.itemListenerK;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = -4536902356223894379L;
+    privbte stbtic finbl long seriblVersionUID = -4536902356223894379L;
 
-    static {
+    stbtic {
         AWTAccessor.setMenuComponentAccessor(
             new AWTAccessor.MenuComponentAccessor() {
                 @Override
                 public AppContext getAppContext(MenuComponent menuComp) {
-                    return menuComp.appContext;
+                    return menuComp.bppContext;
                 }
                 @Override
                 public void setAppContext(MenuComponent menuComp,
-                                          AppContext appContext) {
-                    menuComp.appContext = appContext;
+                                          AppContext bppContext) {
+                    menuComp.bppContext = bppContext;
                 }
                 @Override
-                public MenuContainer getParent(MenuComponent menuComp) {
-                    return menuComp.parent;
+                public MenuContbiner getPbrent(MenuComponent menuComp) {
+                    return menuComp.pbrent;
                 }
                 @Override
-                public void setParent(MenuComponent menuComp, MenuContainer menuContainer) {
-                    menuComp.parent = menuContainer;
+                public void setPbrent(MenuComponent menuComp, MenuContbiner menuContbiner) {
+                    menuComp.pbrent = menuContbiner;
                 }
                 @Override
                 public Font getFont_NoClientCode(MenuComponent menuComp) {
@@ -157,80 +157,80 @@ public abstract class MenuComponent implements java.io.Serializable {
     }
 
     /**
-     * Creates a <code>MenuComponent</code>.
-     * @exception HeadlessException if
-     *    <code>GraphicsEnvironment.isHeadless</code>
+     * Crebtes b <code>MenuComponent</code>.
+     * @exception HebdlessException if
+     *    <code>GrbphicsEnvironment.isHebdless</code>
      *    returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public MenuComponent() throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        appContext = AppContext.getAppContext();
+    public MenuComponent() throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
+        bppContext = AppContext.getAppContext();
     }
 
     /**
-     * Constructs a name for this <code>MenuComponent</code>.
-     * Called by <code>getName</code> when the name is <code>null</code>.
-     * @return a name for this <code>MenuComponent</code>
+     * Constructs b nbme for this <code>MenuComponent</code>.
+     * Cblled by <code>getNbme</code> when the nbme is <code>null</code>.
+     * @return b nbme for this <code>MenuComponent</code>
      */
-    String constructComponentName() {
-        return null; // For strict compliance with prior platform versions, a MenuComponent
-                     // that doesn't set its name should return null from
-                     // getName()
+    String constructComponentNbme() {
+        return null; // For strict complibnce with prior plbtform versions, b MenuComponent
+                     // thbt doesn't set its nbme should return null from
+                     // getNbme()
     }
 
     /**
-     * Gets the name of the menu component.
-     * @return        the name of the menu component
-     * @see           java.awt.MenuComponent#setName(java.lang.String)
+     * Gets the nbme of the menu component.
+     * @return        the nbme of the menu component
+     * @see           jbvb.bwt.MenuComponent#setNbme(jbvb.lbng.String)
      * @since         1.1
      */
-    public String getName() {
-        if (name == null && !nameExplicitlySet) {
+    public String getNbme() {
+        if (nbme == null && !nbmeExplicitlySet) {
             synchronized(this) {
-                if (name == null && !nameExplicitlySet)
-                    name = constructComponentName();
+                if (nbme == null && !nbmeExplicitlySet)
+                    nbme = constructComponentNbme();
             }
         }
-        return name;
+        return nbme;
     }
 
     /**
-     * Sets the name of the component to the specified string.
-     * @param         name    the name of the menu component
-     * @see           java.awt.MenuComponent#getName
+     * Sets the nbme of the component to the specified string.
+     * @pbrbm         nbme    the nbme of the menu component
+     * @see           jbvb.bwt.MenuComponent#getNbme
      * @since         1.1
      */
-    public void setName(String name) {
+    public void setNbme(String nbme) {
         synchronized(this) {
-            this.name = name;
-            nameExplicitlySet = true;
+            this.nbme = nbme;
+            nbmeExplicitlySet = true;
         }
     }
 
     /**
-     * Returns the parent container for this menu component.
-     * @return    the menu component containing this menu component,
+     * Returns the pbrent contbiner for this menu component.
+     * @return    the menu component contbining this menu component,
      *                 or <code>null</code> if this menu component
-     *                 is the outermost component, the menu bar itself
+     *                 is the outermost component, the menu bbr itself
      */
-    public MenuContainer getParent() {
-        return getParent_NoClientCode();
+    public MenuContbiner getPbrent() {
+        return getPbrent_NoClientCode();
     }
-    // NOTE: This method may be called by privileged threads.
-    //       This functionality is implemented in a package-private method
-    //       to insure that it cannot be overridden by client subclasses.
+    // NOTE: This method mby be cblled by privileged threbds.
+    //       This functionblity is implemented in b pbckbge-privbte method
+    //       to insure thbt it cbnnot be overridden by client subclbsses.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    final MenuContainer getParent_NoClientCode() {
-        return parent;
+    finbl MenuContbiner getPbrent_NoClientCode() {
+        return pbrent;
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * programs should not directly manipulate peers.
+     * @deprecbted As of JDK version 1.1,
+     * progrbms should not directly mbnipulbte peers.
      * @return the peer for this component
      */
-    @Deprecated
+    @Deprecbted
     public MenuComponentPeer getPeer() {
         return peer;
     }
@@ -239,40 +239,40 @@ public abstract class MenuComponent implements java.io.Serializable {
      * Gets the font used for this menu component.
      * @return   the font used in this menu component, if there is one;
      *                  <code>null</code> otherwise
-     * @see     java.awt.MenuComponent#setFont
+     * @see     jbvb.bwt.MenuComponent#setFont
      */
     public Font getFont() {
         Font font = this.font;
         if (font != null) {
             return font;
         }
-        MenuContainer parent = this.parent;
-        if (parent != null) {
-            return parent.getFont();
+        MenuContbiner pbrent = this.pbrent;
+        if (pbrent != null) {
+            return pbrent.getFont();
         }
         return null;
     }
 
-    // NOTE: This method may be called by privileged threads.
-    //       This functionality is implemented in a package-private method
-    //       to insure that it cannot be overridden by client subclasses.
+    // NOTE: This method mby be cblled by privileged threbds.
+    //       This functionblity is implemented in b pbckbge-privbte method
+    //       to insure thbt it cbnnot be overridden by client subclbsses.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    final Font getFont_NoClientCode() {
+    finbl Font getFont_NoClientCode() {
         Font font = this.font;
         if (font != null) {
             return font;
         }
 
-        // The MenuContainer interface does not have getFont_NoClientCode()
-        // and it cannot, because it must be package-private. Because of
-        // this, we must manually cast classes that implement
-        // MenuContainer.
-        Object parent = this.parent;
-        if (parent != null) {
-            if (parent instanceof Component) {
-                font = ((Component)parent).getFont_NoClientCode();
-            } else if (parent instanceof MenuComponent) {
-                font = ((MenuComponent)parent).getFont_NoClientCode();
+        // The MenuContbiner interfbce does not hbve getFont_NoClientCode()
+        // bnd it cbnnot, becbuse it must be pbckbge-privbte. Becbuse of
+        // this, we must mbnublly cbst clbsses thbt implement
+        // MenuContbiner.
+        Object pbrent = this.pbrent;
+        if (pbrent != null) {
+            if (pbrent instbnceof Component) {
+                font = ((Component)pbrent).getFont_NoClientCode();
+            } else if (pbrent instbnceof MenuComponent) {
+                font = ((MenuComponent)pbrent).getFont_NoClientCode();
             }
         }
         return font;
@@ -281,20 +281,20 @@ public abstract class MenuComponent implements java.io.Serializable {
 
     /**
      * Sets the font to be used for this menu component to the specified
-     * font. This font is also used by all subcomponents of this menu
-     * component, unless those subcomponents specify a different font.
+     * font. This font is blso used by bll subcomponents of this menu
+     * component, unless those subcomponents specify b different font.
      * <p>
-     * Some platforms may not support setting of all font attributes
-     * of a menu component; in such cases, calling <code>setFont</code>
-     * will have no effect on the unsupported font attributes of this
+     * Some plbtforms mby not support setting of bll font bttributes
+     * of b menu component; in such cbses, cblling <code>setFont</code>
+     * will hbve no effect on the unsupported font bttributes of this
      * menu component.  Unless subcomponents of this menu component
-     * specify a different font, this font will be used by those
-     * subcomponents if supported by the underlying platform.
+     * specify b different font, this font will be used by those
+     * subcomponents if supported by the underlying plbtform.
      *
-     * @param     f   the font to be set
+     * @pbrbm     f   the font to be set
      * @see       #getFont
      * @see       Font#getAttributes
-     * @see       java.awt.font.TextAttribute
+     * @see       jbvb.bwt.font.TextAttribute
      */
     public void setFont(Font f) {
         font = f;
@@ -306,8 +306,8 @@ public abstract class MenuComponent implements java.io.Serializable {
     }
 
     /**
-     * Removes the menu component's peer.  The peer allows us to modify the
-     * appearance of the menu component without changing the functionality of
+     * Removes the menu component's peer.  The peer bllows us to modify the
+     * bppebrbnce of the menu component without chbnging the functionblity of
      * the menu component.
      */
     public void removeNotify() {
@@ -323,47 +323,47 @@ public abstract class MenuComponent implements java.io.Serializable {
 
     /**
      * Posts the specified event to the menu.
-     * This method is part of the Java&nbsp;1.0 event system
-     * and it is maintained only for backwards compatibility.
-     * Its use is discouraged, and it may not be supported
+     * This method is pbrt of the Jbvb&nbsp;1.0 event system
+     * bnd it is mbintbined only for bbckwbrds compbtibility.
+     * Its use is discourbged, bnd it mby not be supported
      * in the future.
-     * @param evt the event which is to take place
-     * @deprecated As of JDK version 1.1, replaced by {@link
-     * #dispatchEvent(AWTEvent) dispatchEvent}.
+     * @pbrbm evt the event which is to tbke plbce
+     * @deprecbted As of JDK version 1.1, replbced by {@link
+     * #dispbtchEvent(AWTEvent) dispbtchEvent}.
      */
-    @Deprecated
-    public boolean postEvent(Event evt) {
-        MenuContainer parent = this.parent;
-        if (parent != null) {
-            parent.postEvent(evt);
+    @Deprecbted
+    public boolebn postEvent(Event evt) {
+        MenuContbiner pbrent = this.pbrent;
+        if (pbrent != null) {
+            pbrent.postEvent(evt);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Delivers an event to this component or one of its sub components.
-     * @param e the event
+     * Delivers bn event to this component or one of its sub components.
+     * @pbrbm e the event
      */
-    public final void dispatchEvent(AWTEvent e) {
-        dispatchEventImpl(e);
+    public finbl void dispbtchEvent(AWTEvent e) {
+        dispbtchEventImpl(e);
     }
 
-    void dispatchEventImpl(AWTEvent e) {
+    void dispbtchEventImpl(AWTEvent e) {
         EventQueue.setCurrentEventAndMostRecentTime(e);
 
-        Toolkit.getDefaultToolkit().notifyAWTEventListeners(e);
+        Toolkit.getDefbultToolkit().notifyAWTEventListeners(e);
 
         if (newEventsOnly ||
-            (parent != null && parent instanceof MenuComponent &&
-             ((MenuComponent)parent).newEventsOnly)) {
-            if (eventEnabled(e)) {
+            (pbrent != null && pbrent instbnceof MenuComponent &&
+             ((MenuComponent)pbrent).newEventsOnly)) {
+            if (eventEnbbled(e)) {
                 processEvent(e);
-            } else if (e instanceof ActionEvent && parent != null) {
-                e.setSource(parent);
-                ((MenuComponent)parent).dispatchEvent(e);
+            } else if (e instbnceof ActionEvent && pbrent != null) {
+                e.setSource(pbrent);
+                ((MenuComponent)pbrent).dispbtchEvent(e);
             }
 
-        } else { // backward compatibility
+        } else { // bbckwbrd compbtibility
             Event olde = e.convertToOld();
             if (olde != null) {
                 postEvent(olde);
@@ -371,131 +371,131 @@ public abstract class MenuComponent implements java.io.Serializable {
         }
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
-        return false;
+    // REMIND: remove when filtering is done bt lower level
+    boolebn eventEnbbled(AWTEvent e) {
+        return fblse;
     }
     /**
      * Processes events occurring on this menu component.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param e the event
+     * @pbrbm e the event
      * @since 1.1
      */
     protected void processEvent(AWTEvent e) {
     }
 
     /**
-     * Returns a string representing the state of this
+     * Returns b string representing the stbte of this
      * <code>MenuComponent</code>. This method is intended to be used
-     * only for debugging purposes, and the content and format of the
-     * returned string may vary between implementations. The returned
-     * string may be empty but may not be <code>null</code>.
+     * only for debugging purposes, bnd the content bnd formbt of the
+     * returned string mby vbry between implementbtions. The returned
+     * string mby be empty but mby not be <code>null</code>.
      *
-     * @return     the parameter string of this menu component
+     * @return     the pbrbmeter string of this menu component
      */
-    protected String paramString() {
-        String thisName = getName();
-        return (thisName != null? thisName : "");
+    protected String pbrbmString() {
+        String thisNbme = getNbme();
+        return (thisNbme != null? thisNbme : "");
     }
 
     /**
-     * Returns a representation of this menu component as a string.
-     * @return  a string representation of this menu component
+     * Returns b representbtion of this menu component bs b string.
+     * @return  b string representbtion of this menu component
      */
     public String toString() {
-        return getClass().getName() + "[" + paramString() + "]";
+        return getClbss().getNbme() + "[" + pbrbmString() + "]";
     }
 
     /**
-     * Gets this component's locking object (the object that owns the thread
-     * synchronization monitor) for AWT component-tree and layout
-     * operations.
+     * Gets this component's locking object (the object thbt owns the threbd
+     * synchronizbtion monitor) for AWT component-tree bnd lbyout
+     * operbtions.
      * @return this component's locking object
      */
-    protected final Object getTreeLock() {
+    protected finbl Object getTreeLock() {
         return Component.LOCK;
     }
 
     /**
-     * Reads the menu component from an object input stream.
+     * Rebds the menu component from bn object input strebm.
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm s the <code>ObjectInputStrebm</code> to rebd
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @serial
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @seribl
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException, HeadlessException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException, HebdlessException
     {
-        GraphicsEnvironment.checkHeadless();
+        GrbphicsEnvironment.checkHebdless();
 
-        acc = AccessController.getContext();
+        bcc = AccessController.getContext();
 
-        s.defaultReadObject();
+        s.defbultRebdObject();
 
-        appContext = AppContext.getAppContext();
+        bppContext = AppContext.getAppContext();
     }
 
     /**
-     * Initialize JNI field and method IDs.
+     * Initiblize JNI field bnd method IDs.
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
 
     /*
      * --- Accessibility Support ---
      *
-     *  MenuComponent will contain all of the methods in interface Accessible,
-     *  though it won't actually implement the interface - that will be up
-     *  to the individual objects which extend MenuComponent.
+     *  MenuComponent will contbin bll of the methods in interfbce Accessible,
+     *  though it won't bctublly implement the interfbce - thbt will be up
+     *  to the individubl objects which extend MenuComponent.
      */
 
-    AccessibleContext accessibleContext = null;
+    AccessibleContext bccessibleContext = null;
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with
+     * Gets the <code>AccessibleContext</code> bssocibted with
      * this <code>MenuComponent</code>.
      *
-     * The method implemented by this base class returns <code>null</code>.
-     * Classes that extend <code>MenuComponent</code>
+     * The method implemented by this bbse clbss returns <code>null</code>.
+     * Clbsses thbt extend <code>MenuComponent</code>
      * should implement this method to return the
-     * <code>AccessibleContext</code> associated with the subclass.
+     * <code>AccessibleContext</code> bssocibted with the subclbss.
      *
      * @return the <code>AccessibleContext</code> of this
      *     <code>MenuComponent</code>
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * Inner class of <code>MenuComponent</code> used to provide
-     * default support for accessibility.  This class is not meant
-     * to be used directly by application developers, but is instead
-     * meant only to be subclassed by menu component developers.
+     * Inner clbss of <code>MenuComponent</code> used to provide
+     * defbult support for bccessibility.  This clbss is not mebnt
+     * to be used directly by bpplicbtion developers, but is instebd
+     * mebnt only to be subclbssed by menu component developers.
      * <p>
-     * The class used to obtain the accessible role for this object.
+     * The clbss used to obtbin the bccessible role for this object.
      * @since 1.3
      */
-    protected abstract class AccessibleAWTMenuComponent
+    protected bbstrbct clbss AccessibleAWTMenuComponent
         extends AccessibleContext
-        implements java.io.Serializable, AccessibleComponent,
+        implements jbvb.io.Seriblizbble, AccessibleComponent,
                    AccessibleSelection
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = -4269533416223798698L;
+        privbte stbtic finbl long seriblVersionUID = -4269533416223798698L;
 
         /**
-         * Although the class is abstract, this should be called by
-         * all sub-classes.
+         * Although the clbss is bbstrbct, this should be cblled by
+         * bll sub-clbsses.
          */
         protected AccessibleAWTMenuComponent() {
         }
@@ -504,8 +504,8 @@ public abstract class MenuComponent implements java.io.Serializable {
         //
 
         /**
-         * Gets the <code>AccessibleSelection</code> associated with this
-         * object which allows its <code>Accessible</code> children to be selected.
+         * Gets the <code>AccessibleSelection</code> bssocibted with this
+         * object which bllows its <code>Accessible</code> children to be selected.
          *
          * @return <code>AccessibleSelection</code> if supported by object;
          *      else return <code>null</code>
@@ -516,131 +516,131 @@ public abstract class MenuComponent implements java.io.Serializable {
         }
 
         /**
-         * Gets the accessible name of this object.  This should almost never
-         * return <code>java.awt.MenuComponent.getName</code>, as that
-         * generally isn't a localized name, and doesn't have meaning for the
-         * user.  If the object is fundamentally a text object (e.g. a menu item), the
-         * accessible name should be the text of the object (e.g. "save").
-         * If the object has a tooltip, the tooltip text may also be an
-         * appropriate String to return.
+         * Gets the bccessible nbme of this object.  This should blmost never
+         * return <code>jbvb.bwt.MenuComponent.getNbme</code>, bs thbt
+         * generblly isn't b locblized nbme, bnd doesn't hbve mebning for the
+         * user.  If the object is fundbmentblly b text object (e.g. b menu item), the
+         * bccessible nbme should be the text of the object (e.g. "sbve").
+         * If the object hbs b tooltip, the tooltip text mby blso be bn
+         * bppropribte String to return.
          *
-         * @return the localized name of the object -- can be <code>null</code>
-         *         if this object does not have a name
-         * @see AccessibleContext#setAccessibleName
+         * @return the locblized nbme of the object -- cbn be <code>null</code>
+         *         if this object does not hbve b nbme
+         * @see AccessibleContext#setAccessibleNbme
          */
-        public String getAccessibleName() {
-            return accessibleName;
+        public String getAccessibleNbme() {
+            return bccessibleNbme;
         }
 
         /**
-         * Gets the accessible description of this object.  This should be
-         * a concise, localized description of what this object is - what
-         * is its meaning to the user.  If the object has a tooltip, the
-         * tooltip text may be an appropriate string to return, assuming
-         * it contains a concise description of the object (instead of just
-         * the name of the object - e.g. a "Save" icon on a toolbar that
-         * had "save" as the tooltip text shouldn't return the tooltip
-         * text as the description, but something like "Saves the current
-         * text document" instead).
+         * Gets the bccessible description of this object.  This should be
+         * b concise, locblized description of whbt this object is - whbt
+         * is its mebning to the user.  If the object hbs b tooltip, the
+         * tooltip text mby be bn bppropribte string to return, bssuming
+         * it contbins b concise description of the object (instebd of just
+         * the nbme of the object - e.g. b "Sbve" icon on b toolbbr thbt
+         * hbd "sbve" bs the tooltip text shouldn't return the tooltip
+         * text bs the description, but something like "Sbves the current
+         * text document" instebd).
          *
-         * @return the localized description of the object -- can be
-         *     <code>null</code> if this object does not have a description
+         * @return the locblized description of the object -- cbn be
+         *     <code>null</code> if this object does not hbve b description
          * @see AccessibleContext#setAccessibleDescription
          */
         public String getAccessibleDescription() {
-            return accessibleDescription;
+            return bccessibleDescription;
         }
 
         /**
          * Gets the role of this object.
          *
-         * @return an instance of <code>AccessibleRole</code>
+         * @return bn instbnce of <code>AccessibleRole</code>
          *     describing the role of the object
          * @see AccessibleRole
          */
         public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.AWT_COMPONENT; // Non-specific -- overridden in subclasses
+            return AccessibleRole.AWT_COMPONENT; // Non-specific -- overridden in subclbsses
         }
 
         /**
-         * Gets the state of this object.
+         * Gets the stbte of this object.
          *
-         * @return an instance of <code>AccessibleStateSet</code>
-         *     containing the current state set of the object
-         * @see AccessibleState
+         * @return bn instbnce of <code>AccessibleStbteSet</code>
+         *     contbining the current stbte set of the object
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            return MenuComponent.this.getAccessibleStateSet();
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            return MenuComponent.this.getAccessibleStbteSet();
         }
 
         /**
-         * Gets the <code>Accessible</code> parent of this object.
-         * If the parent of this object implements <code>Accessible</code>,
-         * this method should simply return <code>getParent</code>.
+         * Gets the <code>Accessible</code> pbrent of this object.
+         * If the pbrent of this object implements <code>Accessible</code>,
+         * this method should simply return <code>getPbrent</code>.
          *
-         * @return the <code>Accessible</code> parent of this object -- can
-         *    be <code>null</code> if this object does not have an
-         *    <code>Accessible</code> parent
+         * @return the <code>Accessible</code> pbrent of this object -- cbn
+         *    be <code>null</code> if this object does not hbve bn
+         *    <code>Accessible</code> pbrent
          */
-        public Accessible getAccessibleParent() {
-            if (accessibleParent != null) {
-                return accessibleParent;
+        public Accessible getAccessiblePbrent() {
+            if (bccessiblePbrent != null) {
+                return bccessiblePbrent;
             } else {
-                MenuContainer parent = MenuComponent.this.getParent();
-                if (parent instanceof Accessible) {
-                    return (Accessible) parent;
+                MenuContbiner pbrent = MenuComponent.this.getPbrent();
+                if (pbrent instbnceof Accessible) {
+                    return (Accessible) pbrent;
                 }
             }
             return null;
         }
 
         /**
-         * Gets the index of this object in its accessible parent.
+         * Gets the index of this object in its bccessible pbrent.
          *
-         * @return the index of this object in its parent; -1 if this
-         *     object does not have an accessible parent
-         * @see #getAccessibleParent
+         * @return the index of this object in its pbrent; -1 if this
+         *     object does not hbve bn bccessible pbrent
+         * @see #getAccessiblePbrent
          */
-        public int getAccessibleIndexInParent() {
-            return MenuComponent.this.getAccessibleIndexInParent();
+        public int getAccessibleIndexInPbrent() {
+            return MenuComponent.this.getAccessibleIndexInPbrent();
         }
 
         /**
-         * Returns the number of accessible children in the object.  If all
+         * Returns the number of bccessible children in the object.  If bll
          * of the children of this object implement <code>Accessible</code>,
          * then this method should return the number of children of this object.
          *
-         * @return the number of accessible children in the object
+         * @return the number of bccessible children in the object
          */
         public int getAccessibleChildrenCount() {
-            return 0; // MenuComponents don't have children
+            return 0; // MenuComponents don't hbve children
         }
 
         /**
          * Returns the nth <code>Accessible</code> child of the object.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the nth Accessible child of the object
          */
         public Accessible getAccessibleChild(int i) {
-            return null; // MenuComponents don't have children
+            return null; // MenuComponents don't hbve children
         }
 
         /**
-         * Returns the locale of this object.
+         * Returns the locble of this object.
          *
-         * @return the locale of this object
+         * @return the locble of this object
          */
-        public java.util.Locale getLocale() {
-            MenuContainer parent = MenuComponent.this.getParent();
-            if (parent instanceof Component)
-                return ((Component)parent).getLocale();
+        public jbvb.util.Locble getLocble() {
+            MenuContbiner pbrent = MenuComponent.this.getPbrent();
+            if (pbrent instbnceof Component)
+                return ((Component)pbrent).getLocble();
             else
-                return java.util.Locale.getDefault();
+                return jbvb.util.Locble.getDefbult();
         }
 
         /**
-         * Gets the <code>AccessibleComponent</code> associated with
+         * Gets the <code>AccessibleComponent</code> bssocibted with
          * this object if one exists.  Otherwise return <code>null</code>.
          *
          * @return the component
@@ -653,23 +653,23 @@ public abstract class MenuComponent implements java.io.Serializable {
         // AccessibleComponent methods
         //
         /**
-         * Gets the background color of this object.
+         * Gets the bbckground color of this object.
          *
-         * @return the background color, if supported, of the object;
+         * @return the bbckground color, if supported, of the object;
          *     otherwise, <code>null</code>
          */
-        public Color getBackground() {
+        public Color getBbckground() {
             return null; // Not supported for MenuComponents
         }
 
         /**
-         * Sets the background color of this object.
-         * (For transparency, see <code>isOpaque</code>.)
+         * Sets the bbckground color of this object.
+         * (For trbnspbrency, see <code>isOpbque</code>.)
          *
-         * @param c the new <code>Color</code> for the background
-         * @see Component#isOpaque
+         * @pbrbm c the new <code>Color</code> for the bbckground
+         * @see Component#isOpbque
          */
-        public void setBackground(Color c) {
+        public void setBbckground(Color c) {
             // Not supported for MenuComponents
         }
 
@@ -686,7 +686,7 @@ public abstract class MenuComponent implements java.io.Serializable {
         /**
          * Sets the foreground color of this object.
          *
-         * @param c the new <code>Color</code> for the foreground
+         * @pbrbm c the new <code>Color</code> for the foreground
          */
         public void setForeground(Color c) {
             // Not supported for MenuComponents
@@ -705,10 +705,10 @@ public abstract class MenuComponent implements java.io.Serializable {
         /**
          * Sets the <code>Cursor</code> of this object.
          * <p>
-         * The method may have no visual effect if the Java platform
-         * implementation and/or the native system do not support
-         * changing the mouse cursor shape.
-         * @param cursor the new <code>Cursor</code> for the object
+         * The method mby hbve no visubl effect if the Jbvb plbtform
+         * implementbtion bnd/or the nbtive system do not support
+         * chbnging the mouse cursor shbpe.
+         * @pbrbm cursor the new <code>Cursor</code> for the object
          */
         public void setCursor(Cursor cursor) {
             // Not supported for MenuComponents
@@ -727,7 +727,7 @@ public abstract class MenuComponent implements java.io.Serializable {
         /**
          * Sets the <code>Font</code> of this object.
          *
-         * @param f the new <code>Font</code> for the object
+         * @pbrbm f the new <code>Font</code> for the object
          */
         public void setFont(Font f) {
             MenuComponent.this.setFont(f);
@@ -736,7 +736,7 @@ public abstract class MenuComponent implements java.io.Serializable {
         /**
          * Gets the <code>FontMetrics</code> of this object.
          *
-         * @param f the <code>Font</code>
+         * @pbrbm f the <code>Font</code>
          * @return the FontMetrics, if supported, the object;
          *              otherwise, <code>null</code>
          * @see #getFont
@@ -746,135 +746,135 @@ public abstract class MenuComponent implements java.io.Serializable {
         }
 
         /**
-         * Determines if the object is enabled.
+         * Determines if the object is enbbled.
          *
-         * @return true if object is enabled; otherwise, false
+         * @return true if object is enbbled; otherwise, fblse
          */
-        public boolean isEnabled() {
+        public boolebn isEnbbled() {
             return true; // Not supported for MenuComponents
         }
 
         /**
-         * Sets the enabled state of the object.
+         * Sets the enbbled stbte of the object.
          *
-         * @param b if true, enables this object; otherwise, disables it
+         * @pbrbm b if true, enbbles this object; otherwise, disbbles it
          */
-        public void setEnabled(boolean b) {
+        public void setEnbbled(boolebn b) {
             // Not supported for MenuComponents
         }
 
         /**
-         * Determines if the object is visible.  Note: this means that the
-         * object intends to be visible; however, it may not in fact be
-         * showing on the screen because one of the objects that this object
-         * is contained by is not visible.  To determine if an object is
+         * Determines if the object is visible.  Note: this mebns thbt the
+         * object intends to be visible; however, it mby not in fbct be
+         * showing on the screen becbuse one of the objects thbt this object
+         * is contbined by is not visible.  To determine if bn object is
          * showing on the screen, use <code>isShowing</code>.
          *
-         * @return true if object is visible; otherwise, false
+         * @return true if object is visible; otherwise, fblse
          */
-        public boolean isVisible() {
+        public boolebn isVisible() {
             return true; // Not supported for MenuComponents
         }
 
         /**
-         * Sets the visible state of the object.
+         * Sets the visible stbte of the object.
          *
-         * @param b if true, shows this object; otherwise, hides it
+         * @pbrbm b if true, shows this object; otherwise, hides it
          */
-        public void setVisible(boolean b) {
+        public void setVisible(boolebn b) {
             // Not supported for MenuComponents
         }
 
         /**
          * Determines if the object is showing.  This is determined by checking
-         * the visibility of the object and ancestors of the object.  Note:
-         * this will return true even if the object is obscured by another
-         * (for example, it happens to be underneath a menu that was pulled
+         * the visibility of the object bnd bncestors of the object.  Note:
+         * this will return true even if the object is obscured by bnother
+         * (for exbmple, it hbppens to be undernebth b menu thbt wbs pulled
          * down).
          *
-         * @return true if object is showing; otherwise, false
+         * @return true if object is showing; otherwise, fblse
          */
-        public boolean isShowing() {
+        public boolebn isShowing() {
             return true; // Not supported for MenuComponents
         }
 
         /**
          * Checks whether the specified point is within this object's bounds,
-         * where the point's x and y coordinates are defined to be relative to
-         * the coordinate system of the object.
+         * where the point's x bnd y coordinbtes bre defined to be relbtive to
+         * the coordinbte system of the object.
          *
-         * @param p the <code>Point</code> relative to the coordinate
+         * @pbrbm p the <code>Point</code> relbtive to the coordinbte
          *     system of the object
-         * @return true if object contains <code>Point</code>; otherwise false
+         * @return true if object contbins <code>Point</code>; otherwise fblse
          */
-        public boolean contains(Point p) {
-            return false; // Not supported for MenuComponents
+        public boolebn contbins(Point p) {
+            return fblse; // Not supported for MenuComponents
         }
 
         /**
-         * Returns the location of the object on the screen.
+         * Returns the locbtion of the object on the screen.
          *
-         * @return location of object on screen -- can be <code>null</code>
+         * @return locbtion of object on screen -- cbn be <code>null</code>
          *     if this object is not on the screen
          */
-        public Point getLocationOnScreen() {
+        public Point getLocbtionOnScreen() {
             return null; // Not supported for MenuComponents
         }
 
         /**
-         * Gets the location of the object relative to the parent in the form
-         * of a point specifying the object's top-left corner in the screen's
-         * coordinate space.
+         * Gets the locbtion of the object relbtive to the pbrent in the form
+         * of b point specifying the object's top-left corner in the screen's
+         * coordinbte spbce.
          *
-         * @return an instance of <code>Point</code> representing the
-         *    top-left corner of the object's bounds in the coordinate
-         *    space of the screen; <code>null</code> if
-         *    this object or its parent are not on the screen
+         * @return bn instbnce of <code>Point</code> representing the
+         *    top-left corner of the object's bounds in the coordinbte
+         *    spbce of the screen; <code>null</code> if
+         *    this object or its pbrent bre not on the screen
          */
-        public Point getLocation() {
+        public Point getLocbtion() {
             return null; // Not supported for MenuComponents
         }
 
         /**
-         * Sets the location of the object relative to the parent.
+         * Sets the locbtion of the object relbtive to the pbrent.
          */
-        public void setLocation(Point p) {
+        public void setLocbtion(Point p) {
             // Not supported for MenuComponents
         }
 
         /**
-         * Gets the bounds of this object in the form of a
-         * <code>Rectangle</code> object.
-         * The bounds specify this object's width, height, and location
-         * relative to its parent.
+         * Gets the bounds of this object in the form of b
+         * <code>Rectbngle</code> object.
+         * The bounds specify this object's width, height, bnd locbtion
+         * relbtive to its pbrent.
          *
-         * @return a rectangle indicating this component's bounds;
+         * @return b rectbngle indicbting this component's bounds;
          *     <code>null</code> if this object is not on the screen
          */
-        public Rectangle getBounds() {
+        public Rectbngle getBounds() {
             return null; // Not supported for MenuComponents
         }
 
         /**
-         * Sets the bounds of this object in the form of a
-         * <code>Rectangle</code> object.
-         * The bounds specify this object's width, height, and location
-         * relative to its parent.
+         * Sets the bounds of this object in the form of b
+         * <code>Rectbngle</code> object.
+         * The bounds specify this object's width, height, bnd locbtion
+         * relbtive to its pbrent.
          *
-         * @param r a rectangle indicating this component's bounds
+         * @pbrbm r b rectbngle indicbting this component's bounds
          */
-        public void setBounds(Rectangle r) {
+        public void setBounds(Rectbngle r) {
             // Not supported for MenuComponents
         }
 
         /**
-         * Returns the size of this object in the form of a
+         * Returns the size of this object in the form of b
          * <code>Dimension</code> object. The height field of
-         * the <code>Dimension</code> object contains this object's
-         * height, and the width field of the <code>Dimension</code>
-         * object contains this object's width.
+         * the <code>Dimension</code> object contbins this object's
+         * height, bnd the width field of the <code>Dimension</code>
+         * object contbins this object's width.
          *
-         * @return a <code>Dimension</code> object that indicates the
+         * @return b <code>Dimension</code> object thbt indicbtes the
          *         size of this component; <code>null</code>
          *         if this object is not on the screen
          */
@@ -885,7 +885,7 @@ public abstract class MenuComponent implements java.io.Serializable {
         /**
          * Resizes this object.
          *
-         * @param d - the <code>Dimension</code> specifying the
+         * @pbrbm d - the <code>Dimension</code> specifying the
          *    new size of the object
          */
         public void setSize(Dimension d) {
@@ -894,26 +894,26 @@ public abstract class MenuComponent implements java.io.Serializable {
 
         /**
          * Returns the <code>Accessible</code> child, if one exists,
-         * contained at the local coordinate <code>Point</code>.
+         * contbined bt the locbl coordinbte <code>Point</code>.
          * If there is no <code>Accessible</code> child, <code>null</code>
          * is returned.
          *
-         * @param p the point defining the top-left corner of the
-         *    <code>Accessible</code>, given in the coordinate space
-         *    of the object's parent
+         * @pbrbm p the point defining the top-left corner of the
+         *    <code>Accessible</code>, given in the coordinbte spbce
+         *    of the object's pbrent
          * @return the <code>Accessible</code>, if it exists,
-         *    at the specified location; else <code>null</code>
+         *    bt the specified locbtion; else <code>null</code>
          */
         public Accessible getAccessibleAt(Point p) {
-            return null; // MenuComponents don't have children
+            return null; // MenuComponents don't hbve children
         }
 
         /**
-         * Returns whether this object can accept focus or not.
+         * Returns whether this object cbn bccept focus or not.
          *
-         * @return true if object can accept focus; otherwise false
+         * @return true if object cbn bccept focus; otherwise fblse
          */
-        public boolean isFocusTraversable() {
+        public boolebn isFocusTrbversbble() {
             return true; // Not supported for MenuComponents
         }
 
@@ -928,9 +928,9 @@ public abstract class MenuComponent implements java.io.Serializable {
          * Adds the specified focus listener to receive focus events from this
          * component.
          *
-         * @param l the focus listener
+         * @pbrbm l the focus listener
          */
-        public void addFocusListener(java.awt.event.FocusListener l) {
+        public void bddFocusListener(jbvb.bwt.event.FocusListener l) {
             // Not supported for MenuComponents
         }
 
@@ -938,9 +938,9 @@ public abstract class MenuComponent implements java.io.Serializable {
          * Removes the specified focus listener so it no longer receives focus
          * events from this component.
          *
-         * @param l the focus listener
+         * @pbrbm l the focus listener
          */
-        public void removeFocusListener(java.awt.event.FocusListener l) {
+        public void removeFocusListener(jbvb.bwt.event.FocusListener l) {
             // Not supported for MenuComponents
         }
 
@@ -949,124 +949,124 @@ public abstract class MenuComponent implements java.io.Serializable {
 
         /**
          * Returns the number of <code>Accessible</code> children currently selected.
-         * If no children are selected, the return value will be 0.
+         * If no children bre selected, the return vblue will be 0.
          *
          * @return the number of items currently selected
          */
          public int getAccessibleSelectionCount() {
-             return 0;  //  To be fully implemented in a future release
+             return 0;  //  To be fully implemented in b future relebse
          }
 
         /**
-         * Returns an <code>Accessible</code> representing the specified
-         * selected child in the object.  If there isn't a selection, or there are
-         * fewer children selected than the integer passed in, the return
-         * value will be <code>null</code>.
-         * <p>Note that the index represents the i-th selected child, which
+         * Returns bn <code>Accessible</code> representing the specified
+         * selected child in the object.  If there isn't b selection, or there bre
+         * fewer children selected thbn the integer pbssed in, the return
+         * vblue will be <code>null</code>.
+         * <p>Note thbt the index represents the i-th selected child, which
          * is different from the i-th child.
          *
-         * @param i the zero-based index of selected children
+         * @pbrbm i the zero-bbsed index of selected children
          * @return the i-th selected child
          * @see #getAccessibleSelectionCount
          */
          public Accessible getAccessibleSelection(int i) {
-             return null;  //  To be fully implemented in a future release
+             return null;  //  To be fully implemented in b future relebse
          }
 
         /**
          * Determines if the current child of this object is selected.
          *
          * @return true if the current child of this object is selected;
-         *    else false
-         * @param i the zero-based index of the child in this
+         *    else fblse
+         * @pbrbm i the zero-bbsed index of the child in this
          *      <code>Accessible</code> object
          * @see AccessibleContext#getAccessibleChild
          */
-         public boolean isAccessibleChildSelected(int i) {
-             return false;  //  To be fully implemented in a future release
+         public boolebn isAccessibleChildSelected(int i) {
+             return fblse;  //  To be fully implemented in b future relebse
          }
 
         /**
          * Adds the specified <code>Accessible</code> child of the object
          * to the object's selection.  If the object supports multiple selections,
-         * the specified child is added to any existing selection, otherwise
-         * it replaces any existing selection in the object.  If the
-         * specified child is already selected, this method has no effect.
+         * the specified child is bdded to bny existing selection, otherwise
+         * it replbces bny existing selection in the object.  If the
+         * specified child is blrebdy selected, this method hbs no effect.
          *
-         * @param i the zero-based index of the child
+         * @pbrbm i the zero-bbsed index of the child
          * @see AccessibleContext#getAccessibleChild
          */
-         public void addAccessibleSelection(int i) {
-               //  To be fully implemented in a future release
+         public void bddAccessibleSelection(int i) {
+               //  To be fully implemented in b future relebse
          }
 
         /**
          * Removes the specified child of the object from the object's
          * selection.  If the specified item isn't currently selected, this
-         * method has no effect.
+         * method hbs no effect.
          *
-         * @param i the zero-based index of the child
+         * @pbrbm i the zero-bbsed index of the child
          * @see AccessibleContext#getAccessibleChild
          */
          public void removeAccessibleSelection(int i) {
-               //  To be fully implemented in a future release
+               //  To be fully implemented in b future relebse
          }
 
         /**
-         * Clears the selection in the object, so that no children in the
-         * object are selected.
+         * Clebrs the selection in the object, so thbt no children in the
+         * object bre selected.
          */
-         public void clearAccessibleSelection() {
-               //  To be fully implemented in a future release
+         public void clebrAccessibleSelection() {
+               //  To be fully implemented in b future relebse
          }
 
         /**
-         * Causes every child of the object to be selected
+         * Cbuses every child of the object to be selected
          * if the object supports multiple selections.
          */
          public void selectAllAccessibleSelection() {
-               //  To be fully implemented in a future release
+               //  To be fully implemented in b future relebse
          }
 
-    } // inner class AccessibleAWTComponent
+    } // inner clbss AccessibleAWTComponent
 
     /**
-     * Gets the index of this object in its accessible parent.
+     * Gets the index of this object in its bccessible pbrent.
      *
-     * @return -1 if this object does not have an accessible parent;
-     *      otherwise, the index of the child in its accessible parent.
+     * @return -1 if this object does not hbve bn bccessible pbrent;
+     *      otherwise, the index of the child in its bccessible pbrent.
      */
-    int getAccessibleIndexInParent() {
-        MenuContainer localParent = parent;
-        if (!(localParent instanceof MenuComponent)) {
-            // MenuComponents only have accessible index when inside MenuComponents
+    int getAccessibleIndexInPbrent() {
+        MenuContbiner locblPbrent = pbrent;
+        if (!(locblPbrent instbnceof MenuComponent)) {
+            // MenuComponents only hbve bccessible index when inside MenuComponents
             return -1;
         }
-        MenuComponent localParentMenu = (MenuComponent)localParent;
-        return localParentMenu.getAccessibleChildIndex(this);
+        MenuComponent locblPbrentMenu = (MenuComponent)locblPbrent;
+        return locblPbrentMenu.getAccessibleChildIndex(this);
     }
 
     /**
      * Gets the index of the child within this MenuComponent.
      *
-     * @param child MenuComponent whose index we are interested in.
-     * @return -1 if this object doesn't contain the child,
+     * @pbrbm child MenuComponent whose index we bre interested in.
+     * @return -1 if this object doesn't contbin the child,
      *      otherwise, index of the child.
      */
     int getAccessibleChildIndex(MenuComponent child) {
-        return -1; // Overridden in subclasses.
+        return -1; // Overridden in subclbsses.
     }
 
     /**
-     * Gets the state of this object.
+     * Gets the stbte of this object.
      *
-     * @return an instance of <code>AccessibleStateSet</code>
-     *     containing the current state set of the object
-     * @see AccessibleState
+     * @return bn instbnce of <code>AccessibleStbteSet</code>
+     *     contbining the current stbte set of the object
+     * @see AccessibleStbte
      */
-    AccessibleStateSet getAccessibleStateSet() {
-        AccessibleStateSet states = new AccessibleStateSet();
-        return states;
+    AccessibleStbteSet getAccessibleStbteSet() {
+        AccessibleStbteSet stbtes = new AccessibleStbteSet();
+        return stbtes;
     }
 
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,7 +27,7 @@
 #include "jni_util.h"
 
 extern jfieldID IO_fd_fdID;
-extern jfieldID IO_handle_fdID;
+extern jfieldID IO_hbndle_fdID;
 
 #ifdef _ALLBSD_SOURCE
 #include <fcntl.h>
@@ -46,84 +46,84 @@ extern jfieldID IO_handle_fdID;
  * IO helper functions
  */
 
-jint readSingle(JNIEnv *env, jobject this, jfieldID fid);
-jint readBytes(JNIEnv *env, jobject this, jbyteArray bytes, jint off,
+jint rebdSingle(JNIEnv *env, jobject this, jfieldID fid);
+jint rebdBytes(JNIEnv *env, jobject this, jbyteArrby bytes, jint off,
                jint len, jfieldID fid);
-void writeSingle(JNIEnv *env, jobject this, jint byte, jboolean append, jfieldID fid);
-void writeBytes(JNIEnv *env, jobject this, jbyteArray bytes, jint off,
-                jint len, jboolean append, jfieldID fid);
-void fileOpen(JNIEnv *env, jobject this, jstring path, jfieldID fid, int flags);
-void throwFileNotFoundException(JNIEnv *env, jstring path);
-size_t getLastErrorString(char *buf, size_t len);
+void writeSingle(JNIEnv *env, jobject this, jint byte, jboolebn bppend, jfieldID fid);
+void writeBytes(JNIEnv *env, jobject this, jbyteArrby bytes, jint off,
+                jint len, jboolebn bppend, jfieldID fid);
+void fileOpen(JNIEnv *env, jobject this, jstring pbth, jfieldID fid, int flbgs);
+void throwFileNotFoundException(JNIEnv *env, jstring pbth);
+size_t getLbstErrorString(chbr *buf, size_t len);
 
 /*
- * Macros for managing platform strings.  The typical usage pattern is:
+ * Mbcros for mbnbging plbtform strings.  The typicbl usbge pbttern is:
  *
- *     WITH_PLATFORM_STRING(env, string, var) {
- *         doSomethingWith(var);
- *     } END_PLATFORM_STRING(env, var);
+ *     WITH_PLATFORM_STRING(env, string, vbr) {
+ *         doSomethingWith(vbr);
+ *     } END_PLATFORM_STRING(env, vbr);
  *
- *  where  env      is the prevailing JNIEnv,
- *         string   is a JNI reference to a java.lang.String object, and
- *         var      is the char * variable that will point to the string,
- *                  after being converted into the platform encoding.
+ *  where  env      is the prevbiling JNIEnv,
+ *         string   is b JNI reference to b jbvb.lbng.String object, bnd
+ *         vbr      is the chbr * vbribble thbt will point to the string,
+ *                  bfter being converted into the plbtform encoding.
  *
- * The related macro WITH_FIELD_PLATFORM_STRING first extracts the string from
- * a given field of a given object:
+ * The relbted mbcro WITH_FIELD_PLATFORM_STRING first extrbcts the string from
+ * b given field of b given object:
  *
- *     WITH_FIELD_PLATFORM_STRING(env, object, id, var) {
- *         doSomethingWith(var);
- *     } END_PLATFORM_STRING(env, var);
+ *     WITH_FIELD_PLATFORM_STRING(env, object, id, vbr) {
+ *         doSomethingWith(vbr);
+ *     } END_PLATFORM_STRING(env, vbr);
  *
- *  where  env      is the prevailing JNIEnv,
- *         object   is a jobject,
- *         id       is the field ID of the String field to be extracted, and
- *         var      is the char * variable that will point to the string.
+ *  where  env      is the prevbiling JNIEnv,
+ *         object   is b jobject,
+ *         id       is the field ID of the String field to be extrbcted, bnd
+ *         vbr      is the chbr * vbribble thbt will point to the string.
  *
- * Uses of these macros may be nested as long as each WITH_.._STRING macro
- * declares a unique variable.
+ * Uses of these mbcros mby be nested bs long bs ebch WITH_.._STRING mbcro
+ * declbres b unique vbribble.
  */
 
-#define WITH_PLATFORM_STRING(env, strexp, var)                                \
+#define WITH_PLATFORM_STRING(env, strexp, vbr)                                \
     if (1) {                                                                  \
-        const char *var;                                                      \
-        jstring _##var##str = (strexp);                                       \
-        if (_##var##str == NULL) {                                            \
+        const chbr *vbr;                                                      \
+        jstring _##vbr##str = (strexp);                                       \
+        if (_##vbr##str == NULL) {                                            \
             JNU_ThrowNullPointerException((env), NULL);                       \
-            goto _##var##end;                                                 \
+            goto _##vbr##end;                                                 \
         }                                                                     \
-        var = JNU_GetStringPlatformChars((env), _##var##str, NULL);           \
-        if (var == NULL) goto _##var##end;
+        vbr = JNU_GetStringPlbtformChbrs((env), _##vbr##str, NULL);           \
+        if (vbr == NULL) goto _##vbr##end;
 
-#define WITH_FIELD_PLATFORM_STRING(env, object, id, var)                      \
+#define WITH_FIELD_PLATFORM_STRING(env, object, id, vbr)                      \
     WITH_PLATFORM_STRING(env,                                                 \
                          ((object == NULL)                                    \
                           ? NULL                                              \
                           : (*(env))->GetObjectField((env), (object), (id))), \
-                         var)
+                         vbr)
 
-#define END_PLATFORM_STRING(env, var)                                         \
-        JNU_ReleaseStringPlatformChars(env, _##var##str, var);                \
-    _##var##end: ;                                                            \
+#define END_PLATFORM_STRING(env, vbr)                                         \
+        JNU_RelebseStringPlbtformChbrs(env, _##vbr##str, vbr);                \
+    _##vbr##end: ;                                                            \
     } else ((void)NULL)
 
 
-/* Macros for transforming Java Strings into native Unicode strings.
- * Works analogously to WITH_PLATFORM_STRING.
+/* Mbcros for trbnsforming Jbvb Strings into nbtive Unicode strings.
+ * Works bnblogously to WITH_PLATFORM_STRING.
  */
 
-#define WITH_UNICODE_STRING(env, strexp, var)                                 \
+#define WITH_UNICODE_STRING(env, strexp, vbr)                                 \
     if (1) {                                                                  \
-        const jchar *var;                                                     \
-        jstring _##var##str = (strexp);                                       \
-        if (_##var##str == NULL) {                                            \
+        const jchbr *vbr;                                                     \
+        jstring _##vbr##str = (strexp);                                       \
+        if (_##vbr##str == NULL) {                                            \
             JNU_ThrowNullPointerException((env), NULL);                       \
-            goto _##var##end;                                                 \
+            goto _##vbr##end;                                                 \
         }                                                                     \
-        var = (*(env))->GetStringChars((env), _##var##str, NULL);             \
-        if (var == NULL) goto _##var##end;
+        vbr = (*(env))->GetStringChbrs((env), _##vbr##str, NULL);             \
+        if (vbr == NULL) goto _##vbr##end;
 
-#define END_UNICODE_STRING(env, var)                                          \
-        (*(env))->ReleaseStringChars(env, _##var##str, var);                  \
-    _##var##end: ;                                                            \
+#define END_UNICODE_STRING(env, vbr)                                          \
+        (*(env))->RelebseStringChbrs(env, _##vbr##str, vbr);                  \
+    _##vbr##end: ;                                                            \
     } else ((void)NULL)

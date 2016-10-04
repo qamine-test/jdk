@@ -3,76 +3,76 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
 
 /**
- * A collection of different, general-purpose methods for JAVA-specific things
- * @author Christian Geuer-Pollmann
+ * A collection of different, generbl-purpose methods for JAVA-specific things
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public class JavaUtils {
+public clbss JbvbUtils {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(JavaUtils.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(JbvbUtils.clbss.getNbme());
 
-    private JavaUtils() {
-        // we don't allow instantiation
+    privbte JbvbUtils() {
+        // we don't bllow instbntibtion
     }
 
     /**
      * Method getBytesFromFile
      *
-     * @param fileName
-     * @return the bytes read from the file
+     * @pbrbm fileNbme
+     * @return the bytes rebd from the file
      *
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public static byte[] getBytesFromFile(String fileName)
+    public stbtic byte[] getBytesFromFile(String fileNbme)
         throws FileNotFoundException, IOException {
 
         byte refBytes[] = null;
 
-        FileInputStream fisRef = null;
-        UnsyncByteArrayOutputStream baos = null;
+        FileInputStrebm fisRef = null;
+        UnsyncByteArrbyOutputStrebm bbos = null;
         try {
-            fisRef = new FileInputStream(fileName);
-            baos = new UnsyncByteArrayOutputStream();
+            fisRef = new FileInputStrebm(fileNbme);
+            bbos = new UnsyncByteArrbyOutputStrebm();
             byte buf[] = new byte[1024];
             int len;
 
-            while ((len = fisRef.read(buf)) > 0) {
-                baos.write(buf, 0, len);
+            while ((len = fisRef.rebd(buf)) > 0) {
+                bbos.write(buf, 0, len);
             }
 
-            refBytes = baos.toByteArray();
-        } finally {
-            if (baos != null) {
-                baos.close();
+            refBytes = bbos.toByteArrby();
+        } finblly {
+            if (bbos != null) {
+                bbos.close();
             }
             if (fisRef != null) {
                 fisRef.close();
@@ -83,33 +83,33 @@ public class JavaUtils {
     }
 
     /**
-     * Method writeBytesToFilename
+     * Method writeBytesToFilenbme
      *
-     * @param filename
-     * @param bytes
+     * @pbrbm filenbme
+     * @pbrbm bytes
      */
-    public static void writeBytesToFilename(String filename, byte[] bytes) {
-        FileOutputStream fos = null;
+    public stbtic void writeBytesToFilenbme(String filenbme, byte[] bytes) {
+        FileOutputStrebm fos = null;
         try {
-            if (filename != null && bytes != null) {
-                File f = new File(filename);
+            if (filenbme != null && bytes != null) {
+                File f = new File(filenbme);
 
-                fos = new FileOutputStream(f);
+                fos = new FileOutputStrebm(f);
 
                 fos.write(bytes);
                 fos.close();
             } else {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "writeBytesToFilename got null byte[] pointed");
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "writeBytesToFilenbme got null byte[] pointed");
                 }
             }
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             if (fos != null) {
                 try {
                     fos.close();
-                } catch (IOException ioe) {
-                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                        log.log(java.util.logging.Level.FINE, ioe.getMessage(), ioe);
+                } cbtch (IOException ioe) {
+                    if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                        log.log(jbvb.util.logging.Level.FINE, ioe.getMessbge(), ioe);
                     }
                 }
             }
@@ -117,96 +117,96 @@ public class JavaUtils {
     }
 
     /**
-     * This method reads all bytes from the given InputStream till EOF and
-     * returns them as a byte array.
+     * This method rebds bll bytes from the given InputStrebm till EOF bnd
+     * returns them bs b byte brrby.
      *
-     * @param inputStream
-     * @return the bytes read from the stream
+     * @pbrbm inputStrebm
+     * @return the bytes rebd from the strebm
      *
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public static byte[] getBytesFromStream(InputStream inputStream) throws IOException {
-        UnsyncByteArrayOutputStream baos = null;
+    public stbtic byte[] getBytesFromStrebm(InputStrebm inputStrebm) throws IOException {
+        UnsyncByteArrbyOutputStrebm bbos = null;
 
         byte[] retBytes = null;
         try {
-            baos = new UnsyncByteArrayOutputStream();
+            bbos = new UnsyncByteArrbyOutputStrebm();
             byte buf[] = new byte[4 * 1024];
             int len;
 
-            while ((len = inputStream.read(buf)) > 0) {
-                baos.write(buf, 0, len);
+            while ((len = inputStrebm.rebd(buf)) > 0) {
+                bbos.write(buf, 0, len);
             }
-            retBytes = baos.toByteArray();
-        } finally {
-            baos.close();
+            retBytes = bbos.toByteArrby();
+        } finblly {
+            bbos.close();
         }
 
         return retBytes;
     }
 
     /**
-     * Converts an ASN.1 DSA value to a XML Signature DSA Value.
+     * Converts bn ASN.1 DSA vblue to b XML Signbture DSA Vblue.
      *
-     * The JCE DSA Signature algorithm creates ASN.1 encoded (r,s) value
-     * pairs (see section 2.2.2 of RFC 3279); the XML Signature requires the
-     * core BigInteger values.
+     * The JCE DSA Signbture blgorithm crebtes ASN.1 encoded (r,s) vblue
+     * pbirs (see section 2.2.2 of RFC 3279); the XML Signbture requires the
+     * core BigInteger vblues.
      *
-     * @param asn1Bytes the ASN.1 encoded bytes
-     * @param size size of r and s in bytes
-     * @return the XML Signature encoded bytes
-     * @throws IOException if the bytes are not encoded correctly
+     * @pbrbm bsn1Bytes the ASN.1 encoded bytes
+     * @pbrbm size size of r bnd s in bytes
+     * @return the XML Signbture encoded bytes
+     * @throws IOException if the bytes bre not encoded correctly
      * @see <A HREF="http://www.w3.org/TR/xmldsig-core1/#sec-DSA">6.4.1 DSA</A>
      */
-    public static byte[] convertDsaASN1toXMLDSIG(byte[] asn1Bytes, int size)
+    public stbtic byte[] convertDsbASN1toXMLDSIG(byte[] bsn1Bytes, int size)
         throws IOException
     {
-        if (asn1Bytes[0] != 48 || asn1Bytes[1] != asn1Bytes.length - 2
-            || asn1Bytes[2] != 2) {
-            throw new IOException("Invalid ASN.1 format of DSA signature");
+        if (bsn1Bytes[0] != 48 || bsn1Bytes[1] != bsn1Bytes.length - 2
+            || bsn1Bytes[2] != 2) {
+            throw new IOException("Invblid ASN.1 formbt of DSA signbture");
         }
 
-        byte rLength = asn1Bytes[3];
+        byte rLength = bsn1Bytes[3];
         int i;
-        for (i = rLength; i > 0 && asn1Bytes[4 + rLength - i] == 0; i--);
+        for (i = rLength; i > 0 && bsn1Bytes[4 + rLength - i] == 0; i--);
 
-        byte sLength = asn1Bytes[5 + rLength];
+        byte sLength = bsn1Bytes[5 + rLength];
         int j;
         for (j = sLength;
-             j > 0 && asn1Bytes[6 + rLength + sLength - j] == 0; j--);
+             j > 0 && bsn1Bytes[6 + rLength + sLength - j] == 0; j--);
 
-        if (i > size || asn1Bytes[4 + rLength] != 2 || j > size) {
-            throw new IOException("Invalid ASN.1 format of DSA signature");
+        if (i > size || bsn1Bytes[4 + rLength] != 2 || j > size) {
+            throw new IOException("Invblid ASN.1 formbt of DSA signbture");
         } else {
             byte[] xmldsigBytes = new byte[size * 2];
-            System.arraycopy(asn1Bytes, 4 + rLength - i, xmldsigBytes,
+            System.brrbycopy(bsn1Bytes, 4 + rLength - i, xmldsigBytes,
                              size - i, i);
-            System.arraycopy(asn1Bytes, 6 + rLength + sLength - j,
+            System.brrbycopy(bsn1Bytes, 6 + rLength + sLength - j,
                              xmldsigBytes, size * 2 - j, j);
             return xmldsigBytes;
         }
     }
 
     /**
-     * Converts an XML Signature DSA Value to a ASN.1 DSA value.
+     * Converts bn XML Signbture DSA Vblue to b ASN.1 DSA vblue.
      *
-     * The JCE DSA Signature algorithm creates ASN.1 encoded (r,s) value
-     * pairs (see section 2.2.2 of RFC 3279); the XML Signature requires the
-     * core BigInteger values.
+     * The JCE DSA Signbture blgorithm crebtes ASN.1 encoded (r,s) vblue
+     * pbirs (see section 2.2.2 of RFC 3279); the XML Signbture requires the
+     * core BigInteger vblues.
      *
-     * @param xmldsigBytes the XML Signature encoded bytes
-     * @param size size of r and s in bytes
+     * @pbrbm xmldsigBytes the XML Signbture encoded bytes
+     * @pbrbm size size of r bnd s in bytes
      * @return the ASN.1 encoded bytes
-     * @throws IOException if the bytes are not encoded correctly
+     * @throws IOException if the bytes bre not encoded correctly
      * @see <A HREF="http://www.w3.org/TR/xmldsig-core1/#sec-DSA">6.4.1 DSA</A>
      */
-    public static byte[] convertDsaXMLDSIGtoASN1(byte[] xmldsigBytes, int size)
+    public stbtic byte[] convertDsbXMLDSIGtoASN1(byte[] xmldsigBytes, int size)
         throws IOException
     {
-        int totalSize = size * 2;
-        if (xmldsigBytes.length != totalSize) {
-            throw new IOException("Invalid XMLDSIG format of DSA signature");
+        int totblSize = size * 2;
+        if (xmldsigBytes.length != totblSize) {
+            throw new IOException("Invblid XMLDSIG formbt of DSA signbture");
         }
 
         int i;
@@ -218,25 +218,25 @@ public class JavaUtils {
         }
 
         int k;
-        for (k = size; k > 0 && xmldsigBytes[totalSize - k] == 0; k--);
+        for (k = size; k > 0 && xmldsigBytes[totblSize - k] == 0; k--);
 
         int l = k;
-        if (xmldsigBytes[totalSize - k] < 0) {
+        if (xmldsigBytes[totblSize - k] < 0) {
             l++;
         }
 
-        byte[] asn1Bytes = new byte[6 + j + l];
-        asn1Bytes[0] = 48;
-        asn1Bytes[1] = (byte)(4 + j + l);
-        asn1Bytes[2] = 2;
-        asn1Bytes[3] = (byte)j;
-        System.arraycopy(xmldsigBytes, size - i, asn1Bytes, 4 + j - i, i);
+        byte[] bsn1Bytes = new byte[6 + j + l];
+        bsn1Bytes[0] = 48;
+        bsn1Bytes[1] = (byte)(4 + j + l);
+        bsn1Bytes[2] = 2;
+        bsn1Bytes[3] = (byte)j;
+        System.brrbycopy(xmldsigBytes, size - i, bsn1Bytes, 4 + j - i, i);
 
-        asn1Bytes[4 + j] = 2;
-        asn1Bytes[5 + j] = (byte) l;
-        System.arraycopy(xmldsigBytes, totalSize - k, asn1Bytes,
+        bsn1Bytes[4 + j] = 2;
+        bsn1Bytes[5 + j] = (byte) l;
+        System.brrbycopy(xmldsigBytes, totblSize - k, bsn1Bytes,
                          6 + j + l - k, k);
 
-        return asn1Bytes;
+        return bsn1Bytes;
     }
 }

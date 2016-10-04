@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.x500;
+pbckbge jbvbx.security.buth.x500;
 
-import java.security.PrivateKey;
-import java.security.cert.X509Certificate;
-import javax.security.auth.Destroyable;
+import jbvb.security.PrivbteKey;
+import jbvb.security.cert.X509Certificbte;
+import jbvbx.security.buth.Destroybble;
 
 /**
- * <p> This class represents an {@code X500PrivateCredential}.
- * It associates an X.509 certificate, corresponding private key and the
- * KeyStore alias used to reference that exact key pair in the KeyStore.
- * This enables looking up the private credentials for an X.500 principal
- * in a subject.
+ * <p> This clbss represents bn {@code X500PrivbteCredentibl}.
+ * It bssocibtes bn X.509 certificbte, corresponding privbte key bnd the
+ * KeyStore blibs used to reference thbt exbct key pbir in the KeyStore.
+ * This enbbles looking up the privbte credentibls for bn X.500 principbl
+ * in b subject.
  *
  */
-public final class X500PrivateCredential implements Destroyable {
-    private X509Certificate cert;
-    private PrivateKey key;
-    private String alias;
+public finbl clbss X500PrivbteCredentibl implements Destroybble {
+    privbte X509Certificbte cert;
+    privbte PrivbteKey key;
+    privbte String blibs;
 
     /**
-     * Creates an X500PrivateCredential that associates an X.509 certificate,
-     * a private key and the KeyStore alias.
+     * Crebtes bn X500PrivbteCredentibl thbt bssocibtes bn X.509 certificbte,
+     * b privbte key bnd the KeyStore blibs.
      * <p>
-     * @param cert X509Certificate
-     * @param key  PrivateKey for the certificate
-     * @exception IllegalArgumentException if either {@code cert} or
+     * @pbrbm cert X509Certificbte
+     * @pbrbm key  PrivbteKey for the certificbte
+     * @exception IllegblArgumentException if either {@code cert} or
      * {@code key} is null
      *
      */
 
-    public X500PrivateCredential(X509Certificate cert, PrivateKey key) {
+    public X500PrivbteCredentibl(X509Certificbte cert, PrivbteKey key) {
         if (cert == null || key == null )
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         this.cert = cert;
         this.key = key;
-        this.alias=null;
+        this.blibs=null;
     }
 
     /**
-     * Creates an X500PrivateCredential that associates an X.509 certificate,
-     * a private key and the KeyStore alias.
+     * Crebtes bn X500PrivbteCredentibl thbt bssocibtes bn X.509 certificbte,
+     * b privbte key bnd the KeyStore blibs.
      * <p>
-     * @param cert X509Certificate
-     * @param key  PrivateKey for the certificate
-     * @param alias KeyStore alias
-     * @exception IllegalArgumentException if either {@code cert},
-     * {@code key} or {@code alias} is null
+     * @pbrbm cert X509Certificbte
+     * @pbrbm key  PrivbteKey for the certificbte
+     * @pbrbm blibs KeyStore blibs
+     * @exception IllegblArgumentException if either {@code cert},
+     * {@code key} or {@code blibs} is null
      *
      */
-    public X500PrivateCredential(X509Certificate cert, PrivateKey key,
-                                 String alias) {
-        if (cert == null || key == null|| alias == null )
-            throw new IllegalArgumentException();
+    public X500PrivbteCredentibl(X509Certificbte cert, PrivbteKey key,
+                                 String blibs) {
+        if (cert == null || key == null|| blibs == null )
+            throw new IllegblArgumentException();
         this.cert = cert;
         this.key = key;
-        this.alias=alias;
+        this.blibs=blibs;
     }
 
     /**
-     * Returns the X.509 certificate.
+     * Returns the X.509 certificbte.
      * <p>
-     * @return the X509Certificate
+     * @return the X509Certificbte
      */
 
-    public X509Certificate getCertificate() {
+    public X509Certificbte getCertificbte() {
         return cert;
     }
 
     /**
-     * Returns the PrivateKey.
+     * Returns the PrivbteKey.
      * <p>
-     * @return the PrivateKey
+     * @return the PrivbteKey
      */
-    public PrivateKey getPrivateKey() {
+    public PrivbteKey getPrivbteKey() {
         return key;
     }
 
     /**
-     * Returns the KeyStore alias.
+     * Returns the KeyStore blibs.
      * <p>
-     * @return the KeyStore alias
+     * @return the KeyStore blibs
      */
 
-    public String getAlias() {
-        return alias;
+    public String getAlibs() {
+        return blibs;
     }
 
     /**
-     * Clears the references to the X.509 certificate, private key and the
-     * KeyStore alias in this object.
+     * Clebrs the references to the X.509 certificbte, privbte key bnd the
+     * KeyStore blibs in this object.
      */
 
     public void destroy() {
         cert = null;
         key = null;
-        alias =null;
+        blibs =null;
     }
 
     /**
-     * Determines if the references to the X.509 certificate and private key
-     * in this object have been cleared.
+     * Determines if the references to the X.509 certificbte bnd privbte key
+     * in this object hbve been clebred.
      * <p>
-     * @return true if X509Certificate and the PrivateKey are null
+     * @return true if X509Certificbte bnd the PrivbteKey bre null
 
      */
-    public boolean isDestroyed() {
-        return cert == null && key == null && alias==null;
+    public boolebn isDestroyed() {
+        return cert == null && key == null && blibs==null;
     }
 }

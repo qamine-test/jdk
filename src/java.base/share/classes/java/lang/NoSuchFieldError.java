@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * Thrown if an application tries to access or modify a specified
- * field of an object, and that object no longer has that field.
+ * Thrown if bn bpplicbtion tries to bccess or modify b specified
+ * field of bn object, bnd thbt object no longer hbs thbt field.
  * <p>
- * Normally, this error is caught by the compiler; this error can
- * only occur at run time if the definition of a class has
- * incompatibly changed.
+ * Normblly, this error is cbught by the compiler; this error cbn
+ * only occur bt run time if the definition of b clbss hbs
+ * incompbtibly chbnged.
  *
- * @author  unascribed
+ * @buthor  unbscribed
  * @since   1.0
  */
 public
-class NoSuchFieldError extends IncompatibleClassChangeError {
-    private static final long serialVersionUID = -3456430195886129035L;
+clbss NoSuchFieldError extends IncompbtibleClbssChbngeError {
+    privbte stbtic finbl long seriblVersionUID = -3456430195886129035L;
 
     /**
-     * Constructs a <code>NoSuchFieldError</code> with no detail message.
+     * Constructs b <code>NoSuchFieldError</code> with no detbil messbge.
      */
     public NoSuchFieldError() {
         super();
     }
 
     /**
-     * Constructs a <code>NoSuchFieldError</code> with the specified
-     * detail message.
+     * Constructs b <code>NoSuchFieldError</code> with the specified
+     * detbil messbge.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   the detbil messbge.
      */
     public NoSuchFieldError(String s) {
         super(s);

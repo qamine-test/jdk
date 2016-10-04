@@ -1,29 +1,29 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* Access APIs for Windows Vista and above */
+/* Access APIs for Windows Vistb bnd bbove */
 #ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0601
 #endif
@@ -34,16 +34,16 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <objidl.h>
-#include <locale.h>
+#include <locble.h>
 #include <sys/types.h>
 #include <sys/timeb.h>
-#include <tchar.h>
+#include <tchbr.h>
 
 #include <stdlib.h>
 #include <Wincon.h>
 
-#include "locale_str.h"
-#include "java_props.h"
+#include "locble_str.h"
+#include "jbvb_props.h"
 
 #ifndef VER_PLATFORM_WIN32_WINDOWS
 #define VER_PLATFORM_WIN32_WINDOWS 1
@@ -54,77 +54,77 @@
 #endif
 
 typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
-static boolean SetupI18nProps(LCID lcid, char** language, char** script, char** country,
-               char** variant, char** encoding);
+stbtic boolebn SetupI18nProps(LCID lcid, chbr** lbngubge, chbr** script, chbr** country,
+               chbr** vbribnt, chbr** encoding);
 
-#define PROPSIZE 9      // eight-letter + null terminator
-#define SNAMESIZE 86    // max number of chars for LOCALE_SNAME is 85
+#define PROPSIZE 9      // eight-letter + null terminbtor
+#define SNAMESIZE 86    // mbx number of chbrs for LOCALE_SNAME is 85
 
-static char *
-getEncodingInternal(LCID lcid)
+stbtic chbr *
+getEncodingInternbl(LCID lcid)
 {
-    int codepage;
-    char * ret = malloc(16);
+    int codepbge;
+    chbr * ret = mblloc(16);
     if (ret == NULL) {
         return NULL;
     }
 
-    if (GetLocaleInfo(lcid,
+    if (GetLocbleInfo(lcid,
                       LOCALE_IDEFAULTANSICODEPAGE,
                       ret+2, 14) == 0) {
-        codepage = 1252;
+        codepbge = 1252;
     } else {
-        codepage = atoi(ret+2);
+        codepbge = btoi(ret+2);
     }
 
-    switch (codepage) {
-    case 0:
+    switch (codepbge) {
+    cbse 0:
         strcpy(ret, "UTF-8");
-        break;
-    case 874:     /*  9:Thai     */
-    case 932:     /* 10:Japanese */
-    case 949:     /* 12:Korean Extended Wansung */
-    case 950:     /* 13:Chinese (Taiwan, Hongkong, Macau) */
-    case 1361:    /* 15:Korean Johab */
+        brebk;
+    cbse 874:     /*  9:Thbi     */
+    cbse 932:     /* 10:Jbpbnese */
+    cbse 949:     /* 12:Korebn Extended Wbnsung */
+    cbse 950:     /* 13:Chinese (Tbiwbn, Hongkong, Mbcbu) */
+    cbse 1361:    /* 15:Korebn Johbb */
         ret[0] = 'M';
         ret[1] = 'S';
-        break;
-    case 936:
+        brebk;
+    cbse 936:
         strcpy(ret, "GBK");
-        break;
-    case 54936:
+        brebk;
+    cbse 54936:
         strcpy(ret, "GB18030");
-        break;
-    default:
+        brebk;
+    defbult:
         ret[0] = 'C';
         ret[1] = 'p';
-        break;
+        brebk;
     }
 
-    //Traditional Chinese Windows should use MS950_HKSCS_XP as the
-    //default encoding, if HKSCS patch has been installed.
-    // "old" MS950 0xfa41 -> u+e001
-    // "new" MS950 0xfa41 -> u+92db
+    //Trbditionbl Chinese Windows should use MS950_HKSCS_XP bs the
+    //defbult encoding, if HKSCS pbtch hbs been instblled.
+    // "old" MS950 0xfb41 -> u+e001
+    // "new" MS950 0xfb41 -> u+92db
     if (strcmp(ret, "MS950") == 0) {
-        TCHAR  mbChar[2] = {(char)0xfa, (char)0x41};
-        WCHAR  unicodeChar;
-        MultiByteToWideChar(CP_ACP, 0, mbChar, 2, &unicodeChar, 1);
-        if (unicodeChar == 0x92db) {
+        TCHAR  mbChbr[2] = {(chbr)0xfb, (chbr)0x41};
+        WCHAR  unicodeChbr;
+        MultiByteToWideChbr(CP_ACP, 0, mbChbr, 2, &unicodeChbr, 1);
+        if (unicodeChbr == 0x92db) {
             strcpy(ret, "MS950_HKSCS_XP");
         }
     } else {
-        //SimpChinese Windows should use GB18030 as the default
-        //encoding, if gb18030 patch has been installed (on windows
-        //2000/XP, (1)Codepage 54936 will be available
+        //SimpChinese Windows should use GB18030 bs the defbult
+        //encoding, if gb18030 pbtch hbs been instblled (on windows
+        //2000/XP, (1)Codepbge 54936 will be bvbilbble
         //(2)simsun18030.ttc will exist under system fonts dir )
-        if (strcmp(ret, "GBK") == 0 && IsValidCodePage(54936)) {
-            char systemPath[MAX_PATH + 1];
-            char* gb18030Font = "\\FONTS\\SimSun18030.ttc";
+        if (strcmp(ret, "GBK") == 0 && IsVblidCodePbge(54936)) {
+            chbr systemPbth[MAX_PATH + 1];
+            chbr* gb18030Font = "\\FONTS\\SimSun18030.ttc";
             FILE *f = NULL;
-            if (GetWindowsDirectory(systemPath, MAX_PATH + 1) != 0 &&
-                strlen(systemPath) + strlen(gb18030Font) < MAX_PATH + 1) {
-                strcat(systemPath, "\\FONTS\\SimSun18030.ttc");
-                if ((f = fopen(systemPath, "r")) != NULL) {
+            if (GetWindowsDirectory(systemPbth, MAX_PATH + 1) != 0 &&
+                strlen(systemPbth) + strlen(gb18030Font) < MAX_PATH + 1) {
+                strcbt(systemPbth, "\\FONTS\\SimSun18030.ttc");
+                if ((f = fopen(systemPbth, "r")) != NULL) {
                     fclose(f);
                     strcpy(ret, "GB18030");
                 }
@@ -135,9 +135,9 @@ getEncodingInternal(LCID lcid)
     return ret;
 }
 
-static char* getConsoleEncoding()
+stbtic chbr* getConsoleEncoding()
 {
-    char* buf = malloc(16);
+    chbr* buf = mblloc(16);
     int cp;
     if (buf == NULL) {
         return NULL;
@@ -151,36 +151,36 @@ static char* getConsoleEncoding()
 }
 
 // Exported entries for AWT
-DllExport const char *
-getEncodingFromLangID(LANGID langID)
+DllExport const chbr *
+getEncodingFromLbngID(LANGID lbngID)
 {
-    return getEncodingInternal(MAKELCID(langID, SORT_DEFAULT));
+    return getEncodingInternbl(MAKELCID(lbngID, SORT_DEFAULT));
 }
 
-// Returns BCP47 Language Tag
-DllExport const char *
-getJavaIDFromLangID(LANGID langID)
+// Returns BCP47 Lbngubge Tbg
+DllExport const chbr *
+getJbvbIDFromLbngID(LANGID lbngID)
 {
-    char * elems[5]; // lang, script, ctry, variant, encoding
-    char * ret;
+    chbr * elems[5]; // lbng, script, ctry, vbribnt, encoding
+    chbr * ret;
     int index;
 
-    ret = malloc(SNAMESIZE);
+    ret = mblloc(SNAMESIZE);
     if (ret == NULL) {
         return NULL;
     }
 
-    if (SetupI18nProps(MAKELCID(langID, SORT_DEFAULT),
+    if (SetupI18nProps(MAKELCID(lbngID, SORT_DEFAULT),
                    &(elems[0]), &(elems[1]), &(elems[2]), &(elems[3]), &(elems[4]))) {
 
-        // there always is the "language" tag
+        // there blwbys is the "lbngubge" tbg
         strcpy(ret, elems[0]);
 
-        // append other elements, if any
+        // bppend other elements, if bny
         for (index = 1; index < 4; index++) {
             if ((elems[index])[0] != '\0') {
-                strcat(ret, "-");
-                strcat(ret, elems[index]);
+                strcbt(ret, "-");
+                strcbt(ret, elems[index]);
             }
         }
 
@@ -201,185 +201,185 @@ WCHAR*
 getHomeFromShell32()
 {
     /*
-     * Note that we don't free the memory allocated
+     * Note thbt we don't free the memory bllocbted
      * by getHomeFromShell32.
      */
-    static WCHAR *u_path = NULL;
-    if (u_path == NULL) {
+    stbtic WCHAR *u_pbth = NULL;
+    if (u_pbth == NULL) {
         HRESULT hr;
 
         /*
-         * SHELL32 DLL is delay load DLL and we can use the trick with
+         * SHELL32 DLL is delby lobd DLL bnd we cbn use the trick with
          * __try/__except block.
          */
         __try {
             /*
-             * For Windows Vista and later (or patched MS OS) we need to use
-             * [SHGetKnownFolderPath] call to avoid MAX_PATH length limitation.
-             * Shell32.dll (version 6.0.6000 or later)
+             * For Windows Vistb bnd lbter (or pbtched MS OS) we need to use
+             * [SHGetKnownFolderPbth] cbll to bvoid MAX_PATH length limitbtion.
+             * Shell32.dll (version 6.0.6000 or lbter)
              */
-            hr = SHGetKnownFolderPath(&FOLDERID_Profile, KF_FLAG_DONT_VERIFY, NULL, &u_path);
+            hr = SHGetKnownFolderPbth(&FOLDERID_Profile, KF_FLAG_DONT_VERIFY, NULL, &u_pbth);
         } __except(EXCEPTION_EXECUTE_HANDLER) {
-            /* Exception: no [SHGetKnownFolderPath] entry */
+            /* Exception: no [SHGetKnownFolderPbth] entry */
             hr = E_FAIL;
         }
 
         if (FAILED(hr)) {
-            WCHAR path[MAX_PATH+1];
+            WCHAR pbth[MAX_PATH+1];
 
-            /* fallback solution for WinXP and Windows 2000 */
-            hr = SHGetFolderPathW(NULL, CSIDL_FLAG_DONT_VERIFY | CSIDL_PROFILE, NULL, SHGFP_TYPE_CURRENT, path);
+            /* fbllbbck solution for WinXP bnd Windows 2000 */
+            hr = SHGetFolderPbthW(NULL, CSIDL_FLAG_DONT_VERIFY | CSIDL_PROFILE, NULL, SHGFP_TYPE_CURRENT, pbth);
             if (FAILED(hr)) {
-                /* we can't find the shell folder. */
-                u_path = NULL;
+                /* we cbn't find the shell folder. */
+                u_pbth = NULL;
             } else {
-                /* Just to be sure about the path length until Windows Vista approach.
-                 * [S_FALSE] could not be returned due to [CSIDL_FLAG_DONT_VERIFY] flag and UNICODE version.
+                /* Just to be sure bbout the pbth length until Windows Vistb bpprobch.
+                 * [S_FALSE] could not be returned due to [CSIDL_FLAG_DONT_VERIFY] flbg bnd UNICODE version.
                  */
-                path[MAX_PATH] = 0;
-                u_path = _wcsdup(path);
+                pbth[MAX_PATH] = 0;
+                u_pbth = _wcsdup(pbth);
             }
         }
     }
-    return u_path;
+    return u_pbth;
 }
 
-static boolean
-haveMMX(void)
+stbtic boolebn
+hbveMMX(void)
 {
-    return IsProcessorFeaturePresent(PF_MMX_INSTRUCTIONS_AVAILABLE);
+    return IsProcessorFebturePresent(PF_MMX_INSTRUCTIONS_AVAILABLE);
 }
 
-static const char *
-cpu_isalist(void)
+stbtic const chbr *
+cpu_isblist(void)
 {
     SYSTEM_INFO info;
     GetSystemInfo(&info);
     switch (info.wProcessorArchitecture) {
 #ifdef PROCESSOR_ARCHITECTURE_IA64
-    case PROCESSOR_ARCHITECTURE_IA64: return "ia64";
+    cbse PROCESSOR_ARCHITECTURE_IA64: return "ib64";
 #endif
 #ifdef PROCESSOR_ARCHITECTURE_AMD64
-    case PROCESSOR_ARCHITECTURE_AMD64: return "amd64";
+    cbse PROCESSOR_ARCHITECTURE_AMD64: return "bmd64";
 #endif
-    case PROCESSOR_ARCHITECTURE_INTEL:
+    cbse PROCESSOR_ARCHITECTURE_INTEL:
         switch (info.wProcessorLevel) {
-        case 6: return haveMMX()
+        cbse 6: return hbveMMX()
             ? "pentium_pro+mmx pentium_pro pentium+mmx pentium i486 i386 i86"
             : "pentium_pro pentium i486 i386 i86";
-        case 5: return haveMMX()
+        cbse 5: return hbveMMX()
             ? "pentium+mmx pentium i486 i386 i86"
             : "pentium i486 i386 i86";
-        case 4: return "i486 i386 i86";
-        case 3: return "i386 i86";
+        cbse 4: return "i486 i386 i86";
+        cbse 3: return "i386 i86";
         }
     }
     return NULL;
 }
 
-static boolean
-SetupI18nProps(LCID lcid, char** language, char** script, char** country,
-               char** variant, char** encoding) {
+stbtic boolebn
+SetupI18nProps(LCID lcid, chbr** lbngubge, chbr** script, chbr** country,
+               chbr** vbribnt, chbr** encoding) {
     /* script */
-    char tmp[SNAMESIZE];
-    *script = malloc(PROPSIZE);
+    chbr tmp[SNAMESIZE];
+    *script = mblloc(PROPSIZE);
     if (*script == NULL) {
         return FALSE;
     }
-    if (GetLocaleInfo(lcid,
+    if (GetLocbleInfo(lcid,
                       LOCALE_SNAME, tmp, SNAMESIZE) == 0 ||
-        sscanf(tmp, "%*[a-z\\-]%1[A-Z]%[a-z]", *script, &((*script)[1])) == 0 ||
+        sscbnf(tmp, "%*[b-z\\-]%1[A-Z]%[b-z]", *script, &((*script)[1])) == 0 ||
         strlen(*script) != 4) {
         (*script)[0] = '\0';
     }
 
     /* country */
-    *country = malloc(PROPSIZE);
+    *country = mblloc(PROPSIZE);
     if (*country == NULL) {
         return FALSE;
     }
-    if (GetLocaleInfo(lcid,
+    if (GetLocbleInfo(lcid,
                       LOCALE_SISO3166CTRYNAME, *country, PROPSIZE) == 0 &&
-        GetLocaleInfo(lcid,
+        GetLocbleInfo(lcid,
                       LOCALE_SISO3166CTRYNAME2, *country, PROPSIZE) == 0) {
         (*country)[0] = '\0';
     }
 
-    /* language */
-    *language = malloc(PROPSIZE);
-    if (*language == NULL) {
+    /* lbngubge */
+    *lbngubge = mblloc(PROPSIZE);
+    if (*lbngubge == NULL) {
         return FALSE;
     }
-    if (GetLocaleInfo(lcid,
-                      LOCALE_SISO639LANGNAME, *language, PROPSIZE) == 0 &&
-        GetLocaleInfo(lcid,
-                      LOCALE_SISO639LANGNAME2, *language, PROPSIZE) == 0) {
-            /* defaults to en_US */
-            strcpy(*language, "en");
+    if (GetLocbleInfo(lcid,
+                      LOCALE_SISO639LANGNAME, *lbngubge, PROPSIZE) == 0 &&
+        GetLocbleInfo(lcid,
+                      LOCALE_SISO639LANGNAME2, *lbngubge, PROPSIZE) == 0) {
+            /* defbults to en_US */
+            strcpy(*lbngubge, "en");
             strcpy(*country, "US");
         }
 
-    /* variant */
-    *variant = malloc(PROPSIZE);
-    if (*variant == NULL) {
+    /* vbribnt */
+    *vbribnt = mblloc(PROPSIZE);
+    if (*vbribnt == NULL) {
         return FALSE;
     }
-    (*variant)[0] = '\0';
+    (*vbribnt)[0] = '\0';
 
-    /* handling for Norwegian */
-    if (strcmp(*language, "nb") == 0) {
-        strcpy(*language, "no");
+    /* hbndling for Norwegibn */
+    if (strcmp(*lbngubge, "nb") == 0) {
+        strcpy(*lbngubge, "no");
         strcpy(*country , "NO");
-    } else if (strcmp(*language, "nn") == 0) {
-        strcpy(*language, "no");
+    } else if (strcmp(*lbngubge, "nn") == 0) {
+        strcpy(*lbngubge, "no");
         strcpy(*country , "NO");
-        strcpy(*variant, "NY");
+        strcpy(*vbribnt, "NY");
     }
 
     /* encoding */
-    *encoding = getEncodingInternal(lcid);
+    *encoding = getEncodingInternbl(lcid);
     if (*encoding == NULL) {
         return FALSE;
     }
     return TRUE;
 }
 
-java_props_t *
-GetJavaProperties(JNIEnv* env)
+jbvb_props_t *
+GetJbvbProperties(JNIEnv* env)
 {
-    static java_props_t sprops = {0};
+    stbtic jbvb_props_t sprops = {0};
 
     OSVERSIONINFOEX ver;
 
-    if (sprops.line_separator) {
+    if (sprops.line_sepbrbtor) {
         return &sprops;
     }
 
     /* AWT properties */
-    sprops.awt_toolkit = "sun.awt.windows.WToolkit";
+    sprops.bwt_toolkit = "sun.bwt.windows.WToolkit";
 
     /* tmp dir */
     {
         WCHAR tmpdir[MAX_PATH + 1];
-        /* we might want to check that this succeed */
-        GetTempPathW(MAX_PATH + 1, tmpdir);
+        /* we might wbnt to check thbt this succeed */
+        GetTempPbthW(MAX_PATH + 1, tmpdir);
         sprops.tmp_dir = _wcsdup(tmpdir);
     }
 
     /* Printing properties */
-    sprops.printerJob = "sun.awt.windows.WPrinterJob";
+    sprops.printerJob = "sun.bwt.windows.WPrinterJob";
 
-    /* Java2D properties */
-    sprops.graphics_env = "sun.awt.Win32GraphicsEnvironment";
+    /* Jbvb2D properties */
+    sprops.grbphics_env = "sun.bwt.Win32GrbphicsEnvironment";
 
     {    /* This is used only for debugging of font problems. */
-        WCHAR *path = _wgetenv(L"JAVA2D_FONTPATH");
-        sprops.font_dir = (path != NULL) ? _wcsdup(path) : NULL;
+        WCHAR *pbth = _wgetenv(L"JAVA2D_FONTPATH");
+        sprops.font_dir = (pbth != NULL) ? _wcsdup(pbth) : NULL;
     }
 
     /* OS properties */
     {
-        char buf[100];
+        chbr buf[100];
         SYSTEM_INFO si;
         PGNSI pGNSI;
 
@@ -387,20 +387,20 @@ GetJavaProperties(JNIEnv* env)
         GetVersionEx((OSVERSIONINFO *) &ver);
 
         ZeroMemory(&si, sizeof(SYSTEM_INFO));
-        // Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
+        // Cbll GetNbtiveSystemInfo if supported or GetSystemInfo otherwise.
         pGNSI = (PGNSI) GetProcAddress(
-                GetModuleHandle(TEXT("kernel32.dll")),
-                "GetNativeSystemInfo");
+                GetModuleHbndle(TEXT("kernel32.dll")),
+                "GetNbtiveSystemInfo");
         if(NULL != pGNSI)
             pGNSI(&si);
         else
             GetSystemInfo(&si);
 
         /*
-         * From msdn page on OSVERSIONINFOEX, current as of this
-         * writing, decoding of dwMajorVersion and dwMinorVersion.
+         * From msdn pbge on OSVERSIONINFOEX, current bs of this
+         * writing, decoding of dwMbjorVersion bnd dwMinorVersion.
          *
-         *  Operating system            dwMajorVersion  dwMinorVersion
+         *  Operbting system            dwMbjorVersion  dwMinorVersion
          * ==================           ==============  ==============
          *
          * Windows 95                   4               0
@@ -410,154 +410,154 @@ GetJavaProperties(JNIEnv* env)
          * Windows NT 4.0               4               0
          * Windows 2000                 5               0
          * Windows XP 32 bit            5               1
-         * Windows Server 2003 family   5               2
+         * Windows Server 2003 fbmily   5               2
          * Windows XP 64 bit            5               2
-         *       where ((&ver.wServicePackMinor) + 2) = 1
-         *       and  si.wProcessorArchitecture = 9
-         * Windows Vista family         6               0  (VER_NT_WORKSTATION)
+         *       where ((&ver.wServicePbckMinor) + 2) = 1
+         *       bnd  si.wProcessorArchitecture = 9
+         * Windows Vistb fbmily         6               0  (VER_NT_WORKSTATION)
          * Windows Server 2008          6               0  (!VER_NT_WORKSTATION)
          * Windows 7                    6               1  (VER_NT_WORKSTATION)
          * Windows Server 2008 R2       6               1  (!VER_NT_WORKSTATION)
          * Windows 8                    6               2  (VER_NT_WORKSTATION)
          * Windows Server 2012          6               2  (!VER_NT_WORKSTATION)
          *
-         * This mapping will presumably be augmented as new Windows
-         * versions are released.
+         * This mbpping will presumbbly be bugmented bs new Windows
+         * versions bre relebsed.
          */
-        switch (ver.dwPlatformId) {
-        case VER_PLATFORM_WIN32s:
-            sprops.os_name = "Windows 3.1";
-            break;
-        case VER_PLATFORM_WIN32_WINDOWS:
-           if (ver.dwMajorVersion == 4) {
+        switch (ver.dwPlbtformId) {
+        cbse VER_PLATFORM_WIN32s:
+            sprops.os_nbme = "Windows 3.1";
+            brebk;
+        cbse VER_PLATFORM_WIN32_WINDOWS:
+           if (ver.dwMbjorVersion == 4) {
                 switch (ver.dwMinorVersion) {
-                case  0: sprops.os_name = "Windows 95";           break;
-                case 10: sprops.os_name = "Windows 98";           break;
-                case 90: sprops.os_name = "Windows Me";           break;
-                default: sprops.os_name = "Windows 9X (unknown)"; break;
+                cbse  0: sprops.os_nbme = "Windows 95";           brebk;
+                cbse 10: sprops.os_nbme = "Windows 98";           brebk;
+                cbse 90: sprops.os_nbme = "Windows Me";           brebk;
+                defbult: sprops.os_nbme = "Windows 9X (unknown)"; brebk;
                 }
             } else {
-                sprops.os_name = "Windows 9X (unknown)";
+                sprops.os_nbme = "Windows 9X (unknown)";
             }
-            break;
-        case VER_PLATFORM_WIN32_NT:
-            if (ver.dwMajorVersion <= 4) {
-                sprops.os_name = "Windows NT";
-            } else if (ver.dwMajorVersion == 5) {
+            brebk;
+        cbse VER_PLATFORM_WIN32_NT:
+            if (ver.dwMbjorVersion <= 4) {
+                sprops.os_nbme = "Windows NT";
+            } else if (ver.dwMbjorVersion == 5) {
                 switch (ver.dwMinorVersion) {
-                case  0: sprops.os_name = "Windows 2000";         break;
-                case  1: sprops.os_name = "Windows XP";           break;
-                case  2:
+                cbse  0: sprops.os_nbme = "Windows 2000";         brebk;
+                cbse  1: sprops.os_nbme = "Windows XP";           brebk;
+                cbse  2:
                    /*
-                    * From MSDN OSVERSIONINFOEX and SYSTEM_INFO documentation:
+                    * From MSDN OSVERSIONINFOEX bnd SYSTEM_INFO documentbtion:
                     *
-                    * "Because the version numbers for Windows Server 2003
-                    * and Windows XP 6u4 bit are identical, you must also test
+                    * "Becbuse the version numbers for Windows Server 2003
+                    * bnd Windows XP 6u4 bit bre identicbl, you must blso test
                     * whether the wProductType member is VER_NT_WORKSTATION.
-                    * and si.wProcessorArchitecture is
+                    * bnd si.wProcessorArchitecture is
                     * PROCESSOR_ARCHITECTURE_AMD64 (which is 9)
-                    * If it is, the operating system is Windows XP 64 bit;
+                    * If it is, the operbting system is Windows XP 64 bit;
                     * otherwise, it is Windows Server 2003."
                     */
                     if(ver.wProductType == VER_NT_WORKSTATION &&
                        si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) {
-                        sprops.os_name = "Windows XP"; /* 64 bit */
+                        sprops.os_nbme = "Windows XP"; /* 64 bit */
                     } else {
-                        sprops.os_name = "Windows 2003";
+                        sprops.os_nbme = "Windows 2003";
                     }
-                    break;
-                default: sprops.os_name = "Windows NT (unknown)"; break;
+                    brebk;
+                defbult: sprops.os_nbme = "Windows NT (unknown)"; brebk;
                 }
-            } else if (ver.dwMajorVersion == 6) {
+            } else if (ver.dwMbjorVersion == 6) {
                 /*
-                 * See table in MSDN OSVERSIONINFOEX documentation.
+                 * See tbble in MSDN OSVERSIONINFOEX documentbtion.
                  */
                 if (ver.wProductType == VER_NT_WORKSTATION) {
                     switch (ver.dwMinorVersion) {
-                    case  0: sprops.os_name = "Windows Vista";        break;
-                    case  1: sprops.os_name = "Windows 7";            break;
-                    case  2: sprops.os_name = "Windows 8";            break;
-                    case  3: sprops.os_name = "Windows 8.1";          break;
-                    default: sprops.os_name = "Windows NT (unknown)";
+                    cbse  0: sprops.os_nbme = "Windows Vistb";        brebk;
+                    cbse  1: sprops.os_nbme = "Windows 7";            brebk;
+                    cbse  2: sprops.os_nbme = "Windows 8";            brebk;
+                    cbse  3: sprops.os_nbme = "Windows 8.1";          brebk;
+                    defbult: sprops.os_nbme = "Windows NT (unknown)";
                     }
                 } else {
                     switch (ver.dwMinorVersion) {
-                    case  0: sprops.os_name = "Windows Server 2008";    break;
-                    case  1: sprops.os_name = "Windows Server 2008 R2"; break;
-                    case  2: sprops.os_name = "Windows Server 2012";    break;
-                    case  3: sprops.os_name = "Windows Server 2012 R2"; break;
-                    default: sprops.os_name = "Windows NT (unknown)";
+                    cbse  0: sprops.os_nbme = "Windows Server 2008";    brebk;
+                    cbse  1: sprops.os_nbme = "Windows Server 2008 R2"; brebk;
+                    cbse  2: sprops.os_nbme = "Windows Server 2012";    brebk;
+                    cbse  3: sprops.os_nbme = "Windows Server 2012 R2"; brebk;
+                    defbult: sprops.os_nbme = "Windows NT (unknown)";
                     }
                 }
             } else {
-                sprops.os_name = "Windows NT (unknown)";
+                sprops.os_nbme = "Windows NT (unknown)";
             }
-            break;
-        default:
-            sprops.os_name = "Windows (unknown)";
-            break;
+            brebk;
+        defbult:
+            sprops.os_nbme = "Windows (unknown)";
+            brebk;
         }
-        sprintf(buf, "%d.%d", ver.dwMajorVersion, ver.dwMinorVersion);
+        sprintf(buf, "%d.%d", ver.dwMbjorVersion, ver.dwMinorVersion);
         sprops.os_version = _strdup(buf);
 #if _M_IA64
-        sprops.os_arch = "ia64";
+        sprops.os_brch = "ib64";
 #elif _M_AMD64
-        sprops.os_arch = "amd64";
+        sprops.os_brch = "bmd64";
 #elif _X86_
-        sprops.os_arch = "x86";
+        sprops.os_brch = "x86";
 #else
-        sprops.os_arch = "unknown";
+        sprops.os_brch = "unknown";
 #endif
 
-        sprops.patch_level = _strdup(ver.szCSDVersion);
+        sprops.pbtch_level = _strdup(ver.szCSDVersion);
 
         sprops.desktop = "windows";
     }
 
-    /* Endianness of platform */
+    /* Endibnness of plbtform */
     {
-        unsigned int endianTest = 0xff000000;
-        if (((char*)(&endianTest))[0] != 0) {
-            sprops.cpu_endian = "big";
+        unsigned int endibnTest = 0xff000000;
+        if (((chbr*)(&endibnTest))[0] != 0) {
+            sprops.cpu_endibn = "big";
         } else {
-            sprops.cpu_endian = "little";
+            sprops.cpu_endibn = "little";
         }
     }
 
     /* CPU ISA list */
-    sprops.cpu_isalist = cpu_isalist();
+    sprops.cpu_isblist = cpu_isblist();
 
     /*
-     * User name
-     * We try to avoid calling GetUserName as it turns out to
-     * be surprisingly expensive on NT.  It pulls in an extra
+     * User nbme
+     * We try to bvoid cblling GetUserNbme bs it turns out to
+     * be surprisingly expensive on NT.  It pulls in bn extrb
      * 100 K of footprint.
      */
     {
-        WCHAR *uname = _wgetenv(L"USERNAME");
-        if (uname != NULL && wcslen(uname) > 0) {
-            sprops.user_name = _wcsdup(uname);
+        WCHAR *unbme = _wgetenv(L"USERNAME");
+        if (unbme != NULL && wcslen(unbme) > 0) {
+            sprops.user_nbme = _wcsdup(unbme);
         } else {
             DWORD buflen = 0;
-            if (GetUserNameW(NULL, &buflen) == 0 &&
-                GetLastError() == ERROR_INSUFFICIENT_BUFFER)
+            if (GetUserNbmeW(NULL, &buflen) == 0 &&
+                GetLbstError() == ERROR_INSUFFICIENT_BUFFER)
             {
-                uname = (WCHAR*)malloc(buflen * sizeof(WCHAR));
-                if (uname != NULL && GetUserNameW(uname, &buflen) == 0) {
-                    free(uname);
-                    uname = NULL;
+                unbme = (WCHAR*)mblloc(buflen * sizeof(WCHAR));
+                if (unbme != NULL && GetUserNbmeW(unbme, &buflen) == 0) {
+                    free(unbme);
+                    unbme = NULL;
                 }
             } else {
-                uname = NULL;
+                unbme = NULL;
             }
-            sprops.user_name = (uname != NULL) ? uname : L"unknown";
+            sprops.user_nbme = (unbme != NULL) ? unbme : L"unknown";
         }
     }
 
     /*
      * Home directory
      *
-     * The normal result is that for a given user name XXX:
+     * The normbl result is thbt for b given user nbme XXX:
      *     On multi-user NT, user.home gets set to c:\winnt\profiles\XXX.
      *     On multi-user Win95, user.home gets set to c:\windows\profiles\XXX.
      *     On single-user Win95, user.home gets set to c:\windows.
@@ -571,74 +571,74 @@ GetJavaProperties(JNIEnv* env)
     }
 
     /*
-     *  user.language
-     *  user.script, user.country, user.variant (if user's environment specifies them)
+     *  user.lbngubge
+     *  user.script, user.country, user.vbribnt (if user's environment specifies them)
      *  file.encoding
      *  file.encoding.pkg
      */
     {
         /*
-         * query the system for the current system default locale
-         * (which is a Windows LCID value),
+         * query the system for the current system defbult locble
+         * (which is b Windows LCID vblue),
          */
-        LCID userDefaultLCID = GetUserDefaultLCID();
-        LCID systemDefaultLCID = GetSystemDefaultLCID();
-        LCID userDefaultUILang = GetUserDefaultUILanguage();
+        LCID userDefbultLCID = GetUserDefbultLCID();
+        LCID systemDefbultLCID = GetSystemDefbultLCID();
+        LCID userDefbultUILbng = GetUserDefbultUILbngubge();
 
         {
-            char * display_encoding;
+            chbr * displby_encoding;
             HANDLE hStdOutErr;
 
-            // Windows UI Language selection list only cares "language"
-            // information of the UI Language. For example, the list
-            // just lists "English" but it actually means "en_US", and
-            // the user cannot select "en_GB" (if exists) in the list.
-            // So, this hack is to use the user LCID region information
-            // for the UI Language, if the "language" portion of those
-            // two locales are the same.
-            if (PRIMARYLANGID(LANGIDFROMLCID(userDefaultLCID)) ==
-                PRIMARYLANGID(LANGIDFROMLCID(userDefaultUILang))) {
-                userDefaultUILang = userDefaultLCID;
+            // Windows UI Lbngubge selection list only cbres "lbngubge"
+            // informbtion of the UI Lbngubge. For exbmple, the list
+            // just lists "English" but it bctublly mebns "en_US", bnd
+            // the user cbnnot select "en_GB" (if exists) in the list.
+            // So, this hbck is to use the user LCID region informbtion
+            // for the UI Lbngubge, if the "lbngubge" portion of those
+            // two locbles bre the sbme.
+            if (PRIMARYLANGID(LANGIDFROMLCID(userDefbultLCID)) ==
+                PRIMARYLANGID(LANGIDFROMLCID(userDefbultUILbng))) {
+                userDefbultUILbng = userDefbultLCID;
             }
 
-            SetupI18nProps(userDefaultUILang,
-                           &sprops.language,
+            SetupI18nProps(userDefbultUILbng,
+                           &sprops.lbngubge,
                            &sprops.script,
                            &sprops.country,
-                           &sprops.variant,
-                           &display_encoding);
-            SetupI18nProps(userDefaultLCID,
-                           &sprops.format_language,
-                           &sprops.format_script,
-                           &sprops.format_country,
-                           &sprops.format_variant,
+                           &sprops.vbribnt,
+                           &displby_encoding);
+            SetupI18nProps(userDefbultLCID,
+                           &sprops.formbt_lbngubge,
+                           &sprops.formbt_script,
+                           &sprops.formbt_country,
+                           &sprops.formbt_vbribnt,
                            &sprops.encoding);
-            SetupI18nProps(userDefaultUILang,
-                           &sprops.display_language,
-                           &sprops.display_script,
-                           &sprops.display_country,
-                           &sprops.display_variant,
-                           &display_encoding);
+            SetupI18nProps(userDefbultUILbng,
+                           &sprops.displby_lbngubge,
+                           &sprops.displby_script,
+                           &sprops.displby_country,
+                           &sprops.displby_vbribnt,
+                           &displby_encoding);
 
-            sprops.sun_jnu_encoding = getEncodingInternal(systemDefaultLCID);
-            if (LANGIDFROMLCID(userDefaultLCID) == 0x0c04 && ver.dwMajorVersion == 6) {
-                // MS claims "Vista has built-in support for HKSCS-2004.
-                // All of the HKSCS-2004 characters have Unicode 4.1.
-                // PUA code point assignments". But what it really means
-                // is that the HKSCS-2004 is ONLY supported in Unicode.
-                // Test indicates the MS950 in its zh_HK locale is a
-                // "regular" MS950 which does not handle HKSCS-2004 at
-                // all. Set encoding to MS950_HKSCS.
+            sprops.sun_jnu_encoding = getEncodingInternbl(systemDefbultLCID);
+            if (LANGIDFROMLCID(userDefbultLCID) == 0x0c04 && ver.dwMbjorVersion == 6) {
+                // MS clbims "Vistb hbs built-in support for HKSCS-2004.
+                // All of the HKSCS-2004 chbrbcters hbve Unicode 4.1.
+                // PUA code point bssignments". But whbt it reblly mebns
+                // is thbt the HKSCS-2004 is ONLY supported in Unicode.
+                // Test indicbtes the MS950 in its zh_HK locble is b
+                // "regulbr" MS950 which does not hbndle HKSCS-2004 bt
+                // bll. Set encoding to MS950_HKSCS.
                 sprops.encoding = "MS950_HKSCS";
                 sprops.sun_jnu_encoding = "MS950_HKSCS";
             }
 
-            hStdOutErr = GetStdHandle(STD_OUTPUT_HANDLE);
+            hStdOutErr = GetStdHbndle(STD_OUTPUT_HANDLE);
             if (hStdOutErr != INVALID_HANDLE_VALUE &&
                 GetFileType(hStdOutErr) == FILE_TYPE_CHAR) {
                 sprops.sun_stdout_encoding = getConsoleEncoding();
             }
-            hStdOutErr = GetStdHandle(STD_ERROR_HANDLE);
+            hStdOutErr = GetStdHbndle(STD_ERROR_HANDLE);
             if (hStdOutErr != INVALID_HANDLE_VALUE &&
                 GetFileType(hStdOutErr) == FILE_TYPE_CHAR) {
                 if (sprops.sun_stdout_encoding != NULL)
@@ -653,10 +653,10 @@ GetJavaProperties(JNIEnv* env)
     /* User TIMEZONE */
     {
         /*
-         * We defer setting up timezone until it's actually necessary.
-         * Refer to TimeZone.getDefault(). However, the system
-         * property is necessary to be able to be set by the command
-         * line interface -D. Here temporarily set a null string to
+         * We defer setting up timezone until it's bctublly necessbry.
+         * Refer to TimeZone.getDefbult(). However, the system
+         * property is necessbry to be bble to be set by the commbnd
+         * line interfbce -D. Here temporbrily set b null string to
          * timezone.
          */
         sprops.timezone = "";
@@ -669,15 +669,15 @@ GetJavaProperties(JNIEnv* env)
             sprops.user_dir = _wcsdup(buf);
     }
 
-    sprops.file_separator = "\\";
-    sprops.path_separator = ";";
-    sprops.line_separator = "\r\n";
+    sprops.file_sepbrbtor = "\\";
+    sprops.pbth_sepbrbtor = ";";
+    sprops.line_sepbrbtor = "\r\n";
 
     return &sprops;
 }
 
 jstring
-GetStringPlatform(JNIEnv *env, nchar* wcstr)
+GetStringPlbtform(JNIEnv *env, nchbr* wcstr)
 {
     return (*env)->NewString(env, wcstr, wcslen(wcstr));
 }

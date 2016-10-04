@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,100 +59,100 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import static java.time.temporal.ChronoField.ERA;
+import stbtic jbvb.time.temporbl.ChronoField.ERA;
 
-import java.time.DateTimeException;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalField;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
+import jbvb.time.DbteTimeException;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
 
 /**
- * An era in the Hijrah calendar system.
+ * An erb in the Hijrbh cblendbr system.
  * <p>
- * The Hijrah calendar system has only one era covering the
- * proleptic years greater than zero.
+ * The Hijrbh cblendbr system hbs only one erb covering the
+ * proleptic yebrs grebter thbn zero.
  * <p>
- * <b>Do not use {@code ordinal()} to obtain the numeric representation of {@code HijrahEra}.
- * Use {@code getValue()} instead.</b>
+ * <b>Do not use {@code ordinbl()} to obtbin the numeric representbtion of {@code HijrbhErb}.
+ * Use {@code getVblue()} instebd.</b>
  *
  * @implSpec
- * This is an immutable and thread-safe enum.
+ * This is bn immutbble bnd threbd-sbfe enum.
  *
  * @since 1.8
  */
-public enum HijrahEra implements Era {
+public enum HijrbhErb implements Erb {
 
     /**
-     * The singleton instance for the current era, 'Anno Hegirae',
-     * which has the numeric value 1.
+     * The singleton instbnce for the current erb, 'Anno Hegirbe',
+     * which hbs the numeric vblue 1.
      */
     AH;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code HijrahEra} from an {@code int} value.
+     * Obtbins bn instbnce of {@code HijrbhErb} from bn {@code int} vblue.
      * <p>
-     * The current era, which is the only accepted value, has the value 1
+     * The current erb, which is the only bccepted vblue, hbs the vblue 1
      *
-     * @param hijrahEra  the era to represent, only 1 supported
-     * @return the HijrahEra.AH singleton, not null
-     * @throws DateTimeException if the value is invalid
+     * @pbrbm hijrbhErb  the erb to represent, only 1 supported
+     * @return the HijrbhErb.AH singleton, not null
+     * @throws DbteTimeException if the vblue is invblid
      */
-    public static HijrahEra of(int hijrahEra) {
-        if (hijrahEra == 1 ) {
+    public stbtic HijrbhErb of(int hijrbhErb) {
+        if (hijrbhErb == 1 ) {
             return AH;
         } else {
-            throw new DateTimeException("Invalid era: " + hijrahEra);
+            throw new DbteTimeException("Invblid erb: " + hijrbhErb);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the numeric era {@code int} value.
+     * Gets the numeric erb {@code int} vblue.
      * <p>
-     * The era AH has the value 1.
+     * The erb AH hbs the vblue 1.
      *
-     * @return the era value, 1 (AH)
+     * @return the erb vblue, 1 (AH)
      */
     @Override
-    public int getValue() {
+    public int getVblue() {
         return 1;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the range of valid values for the specified field.
+     * Gets the rbnge of vblid vblues for the specified field.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This era is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * The rbnge object expresses the minimum bnd mbximum vblid vblues for b field.
+     * This erb is used to enhbnce the bccurbcy of the returned rbnge.
+     * If it is not possible to return the rbnge, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@code ERA} field returns the range.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@code ERA} field returns the rbnge.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.rbngeRefinedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
+     * Whether the rbnge cbn be obtbined is determined by the field.
      * <p>
-     * The {@code ERA} field returns a range for the one valid Hijrah era.
+     * The {@code ERA} field returns b rbnge for the one vblid Hijrbh erb.
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm field  the field to query the rbnge for, not null
+     * @return the rbnge of vblid vblues for the field, not null
+     * @throws DbteTimeException if the rbnge for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      */
-    @Override  // override as super would return range from 0 to 1
-    public ValueRange range(TemporalField field) {
+    @Override  // override bs super would return rbnge from 0 to 1
+    public VblueRbnge rbnge(TemporblField field) {
         if (field == ERA) {
-            return ValueRange.of(1, 1);
+            return VblueRbnge.of(1, 1);
         }
-        return Era.super.range(field);
+        return Erb.super.rbnge(field);
     }
 
 }

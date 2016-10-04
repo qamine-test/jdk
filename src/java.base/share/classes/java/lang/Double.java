@@ -1,262 +1,262 @@
 /*
- * Copyright (c) 1994, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import sun.misc.FloatingDecimal;
+import sun.misc.FlobtingDecimbl;
 import sun.misc.DoubleConsts;
 
 /**
- * The {@code Double} class wraps a value of the primitive type
- * {@code double} in an object. An object of type
- * {@code Double} contains a single field whose type is
+ * The {@code Double} clbss wrbps b vblue of the primitive type
+ * {@code double} in bn object. An object of type
+ * {@code Double} contbins b single field whose type is
  * {@code double}.
  *
- * <p>In addition, this class provides several methods for converting a
- * {@code double} to a {@code String} and a
- * {@code String} to a {@code double}, as well as other
- * constants and methods useful when dealing with a
+ * <p>In bddition, this clbss provides severbl methods for converting b
+ * {@code double} to b {@code String} bnd b
+ * {@code String} to b {@code double}, bs well bs other
+ * constbnts bnd methods useful when debling with b
  * {@code double}.
  *
- * @author  Lee Boynton
- * @author  Arthur van Hoff
- * @author  Joseph D. Darcy
+ * @buthor  Lee Boynton
+ * @buthor  Arthur vbn Hoff
+ * @buthor  Joseph D. Dbrcy
  * @since 1.0
  */
-public final class Double extends Number implements Comparable<Double> {
+public finbl clbss Double extends Number implements Compbrbble<Double> {
     /**
-     * A constant holding the positive infinity of type
-     * {@code double}. It is equal to the value returned by
+     * A constbnt holding the positive infinity of type
+     * {@code double}. It is equbl to the vblue returned by
      * {@code Double.longBitsToDouble(0x7ff0000000000000L)}.
      */
-    public static final double POSITIVE_INFINITY = 1.0 / 0.0;
+    public stbtic finbl double POSITIVE_INFINITY = 1.0 / 0.0;
 
     /**
-     * A constant holding the negative infinity of type
-     * {@code double}. It is equal to the value returned by
+     * A constbnt holding the negbtive infinity of type
+     * {@code double}. It is equbl to the vblue returned by
      * {@code Double.longBitsToDouble(0xfff0000000000000L)}.
      */
-    public static final double NEGATIVE_INFINITY = -1.0 / 0.0;
+    public stbtic finbl double NEGATIVE_INFINITY = -1.0 / 0.0;
 
     /**
-     * A constant holding a Not-a-Number (NaN) value of type
-     * {@code double}. It is equivalent to the value returned by
+     * A constbnt holding b Not-b-Number (NbN) vblue of type
+     * {@code double}. It is equivblent to the vblue returned by
      * {@code Double.longBitsToDouble(0x7ff8000000000000L)}.
      */
-    public static final double NaN = 0.0d / 0.0;
+    public stbtic finbl double NbN = 0.0d / 0.0;
 
     /**
-     * A constant holding the largest positive finite value of type
+     * A constbnt holding the lbrgest positive finite vblue of type
      * {@code double},
-     * (2-2<sup>-52</sup>)&middot;2<sup>1023</sup>.  It is equal to
-     * the hexadecimal floating-point literal
-     * {@code 0x1.fffffffffffffP+1023} and also equal to
+     * (2-2<sup>-52</sup>)&middot;2<sup>1023</sup>.  It is equbl to
+     * the hexbdecimbl flobting-point literbl
+     * {@code 0x1.fffffffffffffP+1023} bnd blso equbl to
      * {@code Double.longBitsToDouble(0x7fefffffffffffffL)}.
      */
-    public static final double MAX_VALUE = 0x1.fffffffffffffP+1023; // 1.7976931348623157e+308
+    public stbtic finbl double MAX_VALUE = 0x1.fffffffffffffP+1023; // 1.7976931348623157e+308
 
     /**
-     * A constant holding the smallest positive normal value of type
-     * {@code double}, 2<sup>-1022</sup>.  It is equal to the
-     * hexadecimal floating-point literal {@code 0x1.0p-1022} and also
-     * equal to {@code Double.longBitsToDouble(0x0010000000000000L)}.
+     * A constbnt holding the smbllest positive normbl vblue of type
+     * {@code double}, 2<sup>-1022</sup>.  It is equbl to the
+     * hexbdecimbl flobting-point literbl {@code 0x1.0p-1022} bnd blso
+     * equbl to {@code Double.longBitsToDouble(0x0010000000000000L)}.
      *
      * @since 1.6
      */
-    public static final double MIN_NORMAL = 0x1.0p-1022; // 2.2250738585072014E-308
+    public stbtic finbl double MIN_NORMAL = 0x1.0p-1022; // 2.2250738585072014E-308
 
     /**
-     * A constant holding the smallest positive nonzero value of type
-     * {@code double}, 2<sup>-1074</sup>. It is equal to the
-     * hexadecimal floating-point literal
-     * {@code 0x0.0000000000001P-1022} and also equal to
+     * A constbnt holding the smbllest positive nonzero vblue of type
+     * {@code double}, 2<sup>-1074</sup>. It is equbl to the
+     * hexbdecimbl flobting-point literbl
+     * {@code 0x0.0000000000001P-1022} bnd blso equbl to
      * {@code Double.longBitsToDouble(0x1L)}.
      */
-    public static final double MIN_VALUE = 0x0.0000000000001P-1022; // 4.9e-324
+    public stbtic finbl double MIN_VALUE = 0x0.0000000000001P-1022; // 4.9e-324
 
     /**
-     * Maximum exponent a finite {@code double} variable may have.
-     * It is equal to the value returned by
-     * {@code Math.getExponent(Double.MAX_VALUE)}.
+     * Mbximum exponent b finite {@code double} vbribble mby hbve.
+     * It is equbl to the vblue returned by
+     * {@code Mbth.getExponent(Double.MAX_VALUE)}.
      *
      * @since 1.6
      */
-    public static final int MAX_EXPONENT = 1023;
+    public stbtic finbl int MAX_EXPONENT = 1023;
 
     /**
-     * Minimum exponent a normalized {@code double} variable may
-     * have.  It is equal to the value returned by
-     * {@code Math.getExponent(Double.MIN_NORMAL)}.
+     * Minimum exponent b normblized {@code double} vbribble mby
+     * hbve.  It is equbl to the vblue returned by
+     * {@code Mbth.getExponent(Double.MIN_NORMAL)}.
      *
      * @since 1.6
      */
-    public static final int MIN_EXPONENT = -1022;
+    public stbtic finbl int MIN_EXPONENT = -1022;
 
     /**
-     * The number of bits used to represent a {@code double} value.
+     * The number of bits used to represent b {@code double} vblue.
      *
      * @since 1.5
      */
-    public static final int SIZE = 64;
+    public stbtic finbl int SIZE = 64;
 
     /**
-     * The number of bytes used to represent a {@code double} value.
+     * The number of bytes used to represent b {@code double} vblue.
      *
      * @since 1.8
      */
-    public static final int BYTES = SIZE / Byte.SIZE;
+    public stbtic finbl int BYTES = SIZE / Byte.SIZE;
 
     /**
-     * The {@code Class} instance representing the primitive type
+     * The {@code Clbss} instbnce representing the primitive type
      * {@code double}.
      *
      * @since 1.1
      */
-    @SuppressWarnings("unchecked")
-    public static final Class<Double>   TYPE = (Class<Double>) Class.getPrimitiveClass("double");
+    @SuppressWbrnings("unchecked")
+    public stbtic finbl Clbss<Double>   TYPE = (Clbss<Double>) Clbss.getPrimitiveClbss("double");
 
     /**
-     * Returns a string representation of the {@code double}
-     * argument. All characters mentioned below are ASCII characters.
+     * Returns b string representbtion of the {@code double}
+     * brgument. All chbrbcters mentioned below bre ASCII chbrbcters.
      * <ul>
-     * <li>If the argument is NaN, the result is the string
-     *     "{@code NaN}".
-     * <li>Otherwise, the result is a string that represents the sign and
-     * magnitude (absolute value) of the argument. If the sign is negative,
-     * the first character of the result is '{@code -}'
-     * ({@code '\u005Cu002D'}); if the sign is positive, no sign character
-     * appears in the result. As for the magnitude <i>m</i>:
+     * <li>If the brgument is NbN, the result is the string
+     *     "{@code NbN}".
+     * <li>Otherwise, the result is b string thbt represents the sign bnd
+     * mbgnitude (bbsolute vblue) of the brgument. If the sign is negbtive,
+     * the first chbrbcter of the result is '{@code -}'
+     * ({@code '\u005Cu002D'}); if the sign is positive, no sign chbrbcter
+     * bppebrs in the result. As for the mbgnitude <i>m</i>:
      * <ul>
-     * <li>If <i>m</i> is infinity, it is represented by the characters
+     * <li>If <i>m</i> is infinity, it is represented by the chbrbcters
      * {@code "Infinity"}; thus, positive infinity produces the result
-     * {@code "Infinity"} and negative infinity produces the result
+     * {@code "Infinity"} bnd negbtive infinity produces the result
      * {@code "-Infinity"}.
      *
-     * <li>If <i>m</i> is zero, it is represented by the characters
-     * {@code "0.0"}; thus, negative zero produces the result
-     * {@code "-0.0"} and positive zero produces the result
+     * <li>If <i>m</i> is zero, it is represented by the chbrbcters
+     * {@code "0.0"}; thus, negbtive zero produces the result
+     * {@code "-0.0"} bnd positive zero produces the result
      * {@code "0.0"}.
      *
-     * <li>If <i>m</i> is greater than or equal to 10<sup>-3</sup> but less
-     * than 10<sup>7</sup>, then it is represented as the integer part of
-     * <i>m</i>, in decimal form with no leading zeroes, followed by
+     * <li>If <i>m</i> is grebter thbn or equbl to 10<sup>-3</sup> but less
+     * thbn 10<sup>7</sup>, then it is represented bs the integer pbrt of
+     * <i>m</i>, in decimbl form with no lebding zeroes, followed by
      * '{@code .}' ({@code '\u005Cu002E'}), followed by one or
-     * more decimal digits representing the fractional part of <i>m</i>.
+     * more decimbl digits representing the frbctionbl pbrt of <i>m</i>.
      *
-     * <li>If <i>m</i> is less than 10<sup>-3</sup> or greater than or
-     * equal to 10<sup>7</sup>, then it is represented in so-called
-     * "computerized scientific notation." Let <i>n</i> be the unique
-     * integer such that 10<sup><i>n</i></sup> &le; <i>m</i> {@literal <}
-     * 10<sup><i>n</i>+1</sup>; then let <i>a</i> be the
-     * mathematically exact quotient of <i>m</i> and
-     * 10<sup><i>n</i></sup> so that 1 &le; <i>a</i> {@literal <} 10. The
-     * magnitude is then represented as the integer part of <i>a</i>,
-     * as a single decimal digit, followed by '{@code .}'
-     * ({@code '\u005Cu002E'}), followed by decimal digits
-     * representing the fractional part of <i>a</i>, followed by the
+     * <li>If <i>m</i> is less thbn 10<sup>-3</sup> or grebter thbn or
+     * equbl to 10<sup>7</sup>, then it is represented in so-cblled
+     * "computerized scientific notbtion." Let <i>n</i> be the unique
+     * integer such thbt 10<sup><i>n</i></sup> &le; <i>m</i> {@literbl <}
+     * 10<sup><i>n</i>+1</sup>; then let <i>b</i> be the
+     * mbthembticblly exbct quotient of <i>m</i> bnd
+     * 10<sup><i>n</i></sup> so thbt 1 &le; <i>b</i> {@literbl <} 10. The
+     * mbgnitude is then represented bs the integer pbrt of <i>b</i>,
+     * bs b single decimbl digit, followed by '{@code .}'
+     * ({@code '\u005Cu002E'}), followed by decimbl digits
+     * representing the frbctionbl pbrt of <i>b</i>, followed by the
      * letter '{@code E}' ({@code '\u005Cu0045'}), followed
-     * by a representation of <i>n</i> as a decimal integer, as
+     * by b representbtion of <i>n</i> bs b decimbl integer, bs
      * produced by the method {@link Integer#toString(int)}.
      * </ul>
      * </ul>
-     * How many digits must be printed for the fractional part of
-     * <i>m</i> or <i>a</i>? There must be at least one digit to represent
-     * the fractional part, and beyond that as many, but only as many, more
-     * digits as are needed to uniquely distinguish the argument value from
-     * adjacent values of type {@code double}. That is, suppose that
-     * <i>x</i> is the exact mathematical value represented by the decimal
-     * representation produced by this method for a finite nonzero argument
-     * <i>d</i>. Then <i>d</i> must be the {@code double} value nearest
-     * to <i>x</i>; or if two {@code double} values are equally close
-     * to <i>x</i>, then <i>d</i> must be one of them and the least
-     * significant bit of the significand of <i>d</i> must be {@code 0}.
+     * How mbny digits must be printed for the frbctionbl pbrt of
+     * <i>m</i> or <i>b</i>? There must be bt lebst one digit to represent
+     * the frbctionbl pbrt, bnd beyond thbt bs mbny, but only bs mbny, more
+     * digits bs bre needed to uniquely distinguish the brgument vblue from
+     * bdjbcent vblues of type {@code double}. Thbt is, suppose thbt
+     * <i>x</i> is the exbct mbthembticbl vblue represented by the decimbl
+     * representbtion produced by this method for b finite nonzero brgument
+     * <i>d</i>. Then <i>d</i> must be the {@code double} vblue nebrest
+     * to <i>x</i>; or if two {@code double} vblues bre equblly close
+     * to <i>x</i>, then <i>d</i> must be one of them bnd the lebst
+     * significbnt bit of the significbnd of <i>d</i> must be {@code 0}.
      *
-     * <p>To create localized string representations of a floating-point
-     * value, use subclasses of {@link java.text.NumberFormat}.
+     * <p>To crebte locblized string representbtions of b flobting-point
+     * vblue, use subclbsses of {@link jbvb.text.NumberFormbt}.
      *
-     * @param   d   the {@code double} to be converted.
-     * @return a string representation of the argument.
+     * @pbrbm   d   the {@code double} to be converted.
+     * @return b string representbtion of the brgument.
      */
-    public static String toString(double d) {
-        return FloatingDecimal.toJavaFormatString(d);
+    public stbtic String toString(double d) {
+        return FlobtingDecimbl.toJbvbFormbtString(d);
     }
 
     /**
-     * Returns a hexadecimal string representation of the
-     * {@code double} argument. All characters mentioned below
-     * are ASCII characters.
+     * Returns b hexbdecimbl string representbtion of the
+     * {@code double} brgument. All chbrbcters mentioned below
+     * bre ASCII chbrbcters.
      *
      * <ul>
-     * <li>If the argument is NaN, the result is the string
-     *     "{@code NaN}".
-     * <li>Otherwise, the result is a string that represents the sign
-     * and magnitude of the argument. If the sign is negative, the
-     * first character of the result is '{@code -}'
+     * <li>If the brgument is NbN, the result is the string
+     *     "{@code NbN}".
+     * <li>Otherwise, the result is b string thbt represents the sign
+     * bnd mbgnitude of the brgument. If the sign is negbtive, the
+     * first chbrbcter of the result is '{@code -}'
      * ({@code '\u005Cu002D'}); if the sign is positive, no sign
-     * character appears in the result. As for the magnitude <i>m</i>:
+     * chbrbcter bppebrs in the result. As for the mbgnitude <i>m</i>:
      *
      * <ul>
      * <li>If <i>m</i> is infinity, it is represented by the string
      * {@code "Infinity"}; thus, positive infinity produces the
-     * result {@code "Infinity"} and negative infinity produces
+     * result {@code "Infinity"} bnd negbtive infinity produces
      * the result {@code "-Infinity"}.
      *
      * <li>If <i>m</i> is zero, it is represented by the string
-     * {@code "0x0.0p0"}; thus, negative zero produces the result
-     * {@code "-0x0.0p0"} and positive zero produces the result
+     * {@code "0x0.0p0"}; thus, negbtive zero produces the result
+     * {@code "-0x0.0p0"} bnd positive zero produces the result
      * {@code "0x0.0p0"}.
      *
-     * <li>If <i>m</i> is a {@code double} value with a
-     * normalized representation, substrings are used to represent the
-     * significand and exponent fields.  The significand is
-     * represented by the characters {@code "0x1."}
-     * followed by a lowercase hexadecimal representation of the rest
-     * of the significand as a fraction.  Trailing zeros in the
-     * hexadecimal representation are removed unless all the digits
-     * are zero, in which case a single zero is used. Next, the
+     * <li>If <i>m</i> is b {@code double} vblue with b
+     * normblized representbtion, substrings bre used to represent the
+     * significbnd bnd exponent fields.  The significbnd is
+     * represented by the chbrbcters {@code "0x1."}
+     * followed by b lowercbse hexbdecimbl representbtion of the rest
+     * of the significbnd bs b frbction.  Trbiling zeros in the
+     * hexbdecimbl representbtion bre removed unless bll the digits
+     * bre zero, in which cbse b single zero is used. Next, the
      * exponent is represented by {@code "p"} followed
-     * by a decimal string of the unbiased exponent as if produced by
-     * a call to {@link Integer#toString(int) Integer.toString} on the
-     * exponent value.
+     * by b decimbl string of the unbibsed exponent bs if produced by
+     * b cbll to {@link Integer#toString(int) Integer.toString} on the
+     * exponent vblue.
      *
-     * <li>If <i>m</i> is a {@code double} value with a subnormal
-     * representation, the significand is represented by the
-     * characters {@code "0x0."} followed by a
-     * hexadecimal representation of the rest of the significand as a
-     * fraction.  Trailing zeros in the hexadecimal representation are
+     * <li>If <i>m</i> is b {@code double} vblue with b subnormbl
+     * representbtion, the significbnd is represented by the
+     * chbrbcters {@code "0x0."} followed by b
+     * hexbdecimbl representbtion of the rest of the significbnd bs b
+     * frbction.  Trbiling zeros in the hexbdecimbl representbtion bre
      * removed. Next, the exponent is represented by
-     * {@code "p-1022"}.  Note that there must be at
-     * least one nonzero digit in a subnormal significand.
+     * {@code "p-1022"}.  Note thbt there must be bt
+     * lebst one nonzero digit in b subnormbl significbnd.
      *
      * </ul>
      *
      * </ul>
      *
-     * <table border>
-     * <caption>Examples</caption>
-     * <tr><th>Floating-point Value</th><th>Hexadecimal String</th>
+     * <tbble border>
+     * <cbption>Exbmples</cbption>
+     * <tr><th>Flobting-point Vblue</th><th>Hexbdecimbl String</th>
      * <tr><td>{@code 1.0}</td> <td>{@code 0x1.0p0}</td>
      * <tr><td>{@code -1.0}</td>        <td>{@code -0x1.0p0}</td>
      * <tr><td>{@code 2.0}</td> <td>{@code 0x1.0p1}</td>
@@ -265,110 +265,110 @@ public final class Double extends Number implements Comparable<Double> {
      * <tr><td>{@code 0.25}</td>        <td>{@code 0x1.0p-2}</td>
      * <tr><td>{@code Double.MAX_VALUE}</td>
      *     <td>{@code 0x1.fffffffffffffp1023}</td>
-     * <tr><td>{@code Minimum Normal Value}</td>
+     * <tr><td>{@code Minimum Normbl Vblue}</td>
      *     <td>{@code 0x1.0p-1022}</td>
-     * <tr><td>{@code Maximum Subnormal Value}</td>
+     * <tr><td>{@code Mbximum Subnormbl Vblue}</td>
      *     <td>{@code 0x0.fffffffffffffp-1022}</td>
      * <tr><td>{@code Double.MIN_VALUE}</td>
      *     <td>{@code 0x0.0000000000001p-1022}</td>
-     * </table>
-     * @param   d   the {@code double} to be converted.
-     * @return a hex string representation of the argument.
+     * </tbble>
+     * @pbrbm   d   the {@code double} to be converted.
+     * @return b hex string representbtion of the brgument.
      * @since 1.5
-     * @author Joseph D. Darcy
+     * @buthor Joseph D. Dbrcy
      */
-    public static String toHexString(double d) {
+    public stbtic String toHexString(double d) {
         /*
-         * Modeled after the "a" conversion specifier in C99, section
+         * Modeled bfter the "b" conversion specifier in C99, section
          * 7.19.6.1; however, the output of this method is more
          * tightly specified.
          */
         if (!isFinite(d) )
-            // For infinity and NaN, use the decimal output.
+            // For infinity bnd NbN, use the decimbl output.
             return Double.toString(d);
         else {
-            // Initialized to maximum size of output.
-            StringBuilder answer = new StringBuilder(24);
+            // Initiblized to mbximum size of output.
+            StringBuilder bnswer = new StringBuilder(24);
 
-            if (Math.copySign(1.0, d) == -1.0)    // value is negative,
-                answer.append("-");                  // so append sign info
+            if (Mbth.copySign(1.0, d) == -1.0)    // vblue is negbtive,
+                bnswer.bppend("-");                  // so bppend sign info
 
-            answer.append("0x");
+            bnswer.bppend("0x");
 
-            d = Math.abs(d);
+            d = Mbth.bbs(d);
 
             if(d == 0.0) {
-                answer.append("0.0p0");
+                bnswer.bppend("0.0p0");
             } else {
-                boolean subnormal = (d < DoubleConsts.MIN_NORMAL);
+                boolebn subnormbl = (d < DoubleConsts.MIN_NORMAL);
 
-                // Isolate significand bits and OR in a high-order bit
-                // so that the string representation has a known
+                // Isolbte significbnd bits bnd OR in b high-order bit
+                // so thbt the string representbtion hbs b known
                 // length.
                 long signifBits = (Double.doubleToLongBits(d)
                                    & DoubleConsts.SIGNIF_BIT_MASK) |
                     0x1000000000000000L;
 
-                // Subnormal values have a 0 implicit bit; normal
-                // values have a 1 implicit bit.
-                answer.append(subnormal ? "0." : "1.");
+                // Subnormbl vblues hbve b 0 implicit bit; normbl
+                // vblues hbve b 1 implicit bit.
+                bnswer.bppend(subnormbl ? "0." : "1.");
 
-                // Isolate the low-order 13 digits of the hex
-                // representation.  If all the digits are zero,
-                // replace with a single 0; otherwise, remove all
-                // trailing zeros.
+                // Isolbte the low-order 13 digits of the hex
+                // representbtion.  If bll the digits bre zero,
+                // replbce with b single 0; otherwise, remove bll
+                // trbiling zeros.
                 String signif = Long.toHexString(signifBits).substring(3,16);
-                answer.append(signif.equals("0000000000000") ? // 13 zeros
+                bnswer.bppend(signif.equbls("0000000000000") ? // 13 zeros
                               "0":
-                              signif.replaceFirst("0{1,12}$", ""));
+                              signif.replbceFirst("0{1,12}$", ""));
 
-                answer.append('p');
-                // If the value is subnormal, use the E_min exponent
-                // value for double; otherwise, extract and report d's
-                // exponent (the representation of a subnormal uses
+                bnswer.bppend('p');
+                // If the vblue is subnormbl, use the E_min exponent
+                // vblue for double; otherwise, extrbct bnd report d's
+                // exponent (the representbtion of b subnormbl uses
                 // E_min -1).
-                answer.append(subnormal ?
+                bnswer.bppend(subnormbl ?
                               DoubleConsts.MIN_EXPONENT:
-                              Math.getExponent(d));
+                              Mbth.getExponent(d));
             }
-            return answer.toString();
+            return bnswer.toString();
         }
     }
 
     /**
-     * Returns a {@code Double} object holding the
-     * {@code double} value represented by the argument string
+     * Returns b {@code Double} object holding the
+     * {@code double} vblue represented by the brgument string
      * {@code s}.
      *
-     * <p>If {@code s} is {@code null}, then a
+     * <p>If {@code s} is {@code null}, then b
      * {@code NullPointerException} is thrown.
      *
-     * <p>Leading and trailing whitespace characters in {@code s}
-     * are ignored.  Whitespace is removed as if by the {@link
-     * String#trim} method; that is, both ASCII space and control
-     * characters are removed. The rest of {@code s} should
-     * constitute a <i>FloatValue</i> as described by the lexical
-     * syntax rules:
+     * <p>Lebding bnd trbiling whitespbce chbrbcters in {@code s}
+     * bre ignored.  Whitespbce is removed bs if by the {@link
+     * String#trim} method; thbt is, both ASCII spbce bnd control
+     * chbrbcters bre removed. The rest of {@code s} should
+     * constitute b <i>FlobtVblue</i> bs described by the lexicbl
+     * syntbx rules:
      *
      * <blockquote>
      * <dl>
-     * <dt><i>FloatValue:</i>
-     * <dd><i>Sign<sub>opt</sub></i> {@code NaN}
+     * <dt><i>FlobtVblue:</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@code NbN}
      * <dd><i>Sign<sub>opt</sub></i> {@code Infinity}
-     * <dd><i>Sign<sub>opt</sub> FloatingPointLiteral</i>
-     * <dd><i>Sign<sub>opt</sub> HexFloatingPointLiteral</i>
+     * <dd><i>Sign<sub>opt</sub> FlobtingPointLiterbl</i>
+     * <dd><i>Sign<sub>opt</sub> HexFlobtingPointLiterbl</i>
      * <dd><i>SignedInteger</i>
      * </dl>
      *
      * <dl>
-     * <dt><i>HexFloatingPointLiteral</i>:
-     * <dd> <i>HexSignificand BinaryExponent FloatTypeSuffix<sub>opt</sub></i>
+     * <dt><i>HexFlobtingPointLiterbl</i>:
+     * <dd> <i>HexSignificbnd BinbryExponent FlobtTypeSuffix<sub>opt</sub></i>
      * </dl>
      *
      * <dl>
-     * <dt><i>HexSignificand:</i>
-     * <dd><i>HexNumeral</i>
-     * <dd><i>HexNumeral</i> {@code .}
+     * <dt><i>HexSignificbnd:</i>
+     * <dd><i>HexNumerbl</i>
+     * <dd><i>HexNumerbl</i> {@code .}
      * <dd>{@code 0x} <i>HexDigits<sub>opt</sub>
      *     </i>{@code .}<i> HexDigits</i>
      * <dd>{@code 0X}<i> HexDigits<sub>opt</sub>
@@ -376,352 +376,352 @@ public final class Double extends Number implements Comparable<Double> {
      * </dl>
      *
      * <dl>
-     * <dt><i>BinaryExponent:</i>
-     * <dd><i>BinaryExponentIndicator SignedInteger</i>
+     * <dt><i>BinbryExponent:</i>
+     * <dd><i>BinbryExponentIndicbtor SignedInteger</i>
      * </dl>
      *
      * <dl>
-     * <dt><i>BinaryExponentIndicator:</i>
+     * <dt><i>BinbryExponentIndicbtor:</i>
      * <dd>{@code p}
      * <dd>{@code P}
      * </dl>
      *
      * </blockquote>
      *
-     * where <i>Sign</i>, <i>FloatingPointLiteral</i>,
-     * <i>HexNumeral</i>, <i>HexDigits</i>, <i>SignedInteger</i> and
-     * <i>FloatTypeSuffix</i> are as defined in the lexical structure
+     * where <i>Sign</i>, <i>FlobtingPointLiterbl</i>,
+     * <i>HexNumerbl</i>, <i>HexDigits</i>, <i>SignedInteger</i> bnd
+     * <i>FlobtTypeSuffix</i> bre bs defined in the lexicbl structure
      * sections of
-     * <cite>The Java&trade; Language Specification</cite>,
-     * except that underscores are not accepted between digits.
-     * If {@code s} does not have the form of
-     * a <i>FloatValue</i>, then a {@code NumberFormatException}
-     * is thrown. Otherwise, {@code s} is regarded as
-     * representing an exact decimal value in the usual
-     * "computerized scientific notation" or as an exact
-     * hexadecimal value; this exact numerical value is then
-     * conceptually converted to an "infinitely precise"
-     * binary value that is then rounded to type {@code double}
-     * by the usual round-to-nearest rule of IEEE 754 floating-point
-     * arithmetic, which includes preserving the sign of a zero
-     * value.
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>,
+     * except thbt underscores bre not bccepted between digits.
+     * If {@code s} does not hbve the form of
+     * b <i>FlobtVblue</i>, then b {@code NumberFormbtException}
+     * is thrown. Otherwise, {@code s} is regbrded bs
+     * representing bn exbct decimbl vblue in the usubl
+     * "computerized scientific notbtion" or bs bn exbct
+     * hexbdecimbl vblue; this exbct numericbl vblue is then
+     * conceptublly converted to bn "infinitely precise"
+     * binbry vblue thbt is then rounded to type {@code double}
+     * by the usubl round-to-nebrest rule of IEEE 754 flobting-point
+     * brithmetic, which includes preserving the sign of b zero
+     * vblue.
      *
-     * Note that the round-to-nearest rule also implies overflow and
-     * underflow behaviour; if the exact value of {@code s} is large
-     * enough in magnitude (greater than or equal to ({@link
-     * #MAX_VALUE} + {@link Math#ulp(double) ulp(MAX_VALUE)}/2),
-     * rounding to {@code double} will result in an infinity and if the
-     * exact value of {@code s} is small enough in magnitude (less
-     * than or equal to {@link #MIN_VALUE}/2), rounding to float will
-     * result in a zero.
+     * Note thbt the round-to-nebrest rule blso implies overflow bnd
+     * underflow behbviour; if the exbct vblue of {@code s} is lbrge
+     * enough in mbgnitude (grebter thbn or equbl to ({@link
+     * #MAX_VALUE} + {@link Mbth#ulp(double) ulp(MAX_VALUE)}/2),
+     * rounding to {@code double} will result in bn infinity bnd if the
+     * exbct vblue of {@code s} is smbll enough in mbgnitude (less
+     * thbn or equbl to {@link #MIN_VALUE}/2), rounding to flobt will
+     * result in b zero.
      *
-     * Finally, after rounding a {@code Double} object representing
-     * this {@code double} value is returned.
+     * Finblly, bfter rounding b {@code Double} object representing
+     * this {@code double} vblue is returned.
      *
-     * <p> To interpret localized string representations of a
-     * floating-point value, use subclasses of {@link
-     * java.text.NumberFormat}.
+     * <p> To interpret locblized string representbtions of b
+     * flobting-point vblue, use subclbsses of {@link
+     * jbvb.text.NumberFormbt}.
      *
-     * <p>Note that trailing format specifiers, specifiers that
-     * determine the type of a floating-point literal
-     * ({@code 1.0f} is a {@code float} value;
-     * {@code 1.0d} is a {@code double} value), do
+     * <p>Note thbt trbiling formbt specifiers, specifiers thbt
+     * determine the type of b flobting-point literbl
+     * ({@code 1.0f} is b {@code flobt} vblue;
+     * {@code 1.0d} is b {@code double} vblue), do
      * <em>not</em> influence the results of this method.  In other
-     * words, the numerical value of the input string is converted
-     * directly to the target floating-point type.  The two-step
-     * sequence of conversions, string to {@code float} followed
-     * by {@code float} to {@code double}, is <em>not</em>
-     * equivalent to converting a string directly to
-     * {@code double}. For example, the {@code float}
-     * literal {@code 0.1f} is equal to the {@code double}
-     * value {@code 0.10000000149011612}; the {@code float}
-     * literal {@code 0.1f} represents a different numerical
-     * value than the {@code double} literal
-     * {@code 0.1}. (The numerical value 0.1 cannot be exactly
-     * represented in a binary floating-point number.)
+     * words, the numericbl vblue of the input string is converted
+     * directly to the tbrget flobting-point type.  The two-step
+     * sequence of conversions, string to {@code flobt} followed
+     * by {@code flobt} to {@code double}, is <em>not</em>
+     * equivblent to converting b string directly to
+     * {@code double}. For exbmple, the {@code flobt}
+     * literbl {@code 0.1f} is equbl to the {@code double}
+     * vblue {@code 0.10000000149011612}; the {@code flobt}
+     * literbl {@code 0.1f} represents b different numericbl
+     * vblue thbn the {@code double} literbl
+     * {@code 0.1}. (The numericbl vblue 0.1 cbnnot be exbctly
+     * represented in b binbry flobting-point number.)
      *
-     * <p>To avoid calling this method on an invalid string and having
-     * a {@code NumberFormatException} be thrown, the regular
-     * expression below can be used to screen the input string:
+     * <p>To bvoid cblling this method on bn invblid string bnd hbving
+     * b {@code NumberFormbtException} be thrown, the regulbr
+     * expression below cbn be used to screen the input string:
      *
      * <pre>{@code
-     *  final String Digits     = "(\\p{Digit}+)";
-     *  final String HexDigits  = "(\\p{XDigit}+)";
-     *  // an exponent is 'e' or 'E' followed by an optionally
-     *  // signed decimal integer.
-     *  final String Exp        = "[eE][+-]?"+Digits;
-     *  final String fpRegex    =
-     *      ("[\\x00-\\x20]*"+  // Optional leading "whitespace"
-     *       "[+-]?(" + // Optional sign character
-     *       "NaN|" +           // "NaN" string
+     *  finbl String Digits     = "(\\p{Digit}+)";
+     *  finbl String HexDigits  = "(\\p{XDigit}+)";
+     *  // bn exponent is 'e' or 'E' followed by bn optionblly
+     *  // signed decimbl integer.
+     *  finbl String Exp        = "[eE][+-]?"+Digits;
+     *  finbl String fpRegex    =
+     *      ("[\\x00-\\x20]*"+  // Optionbl lebding "whitespbce"
+     *       "[+-]?(" + // Optionbl sign chbrbcter
+     *       "NbN|" +           // "NbN" string
      *       "Infinity|" +      // "Infinity" string
      *
-     *       // A decimal floating-point string representing a finite positive
-     *       // number without a leading sign has at most five basic pieces:
-     *       // Digits . Digits ExponentPart FloatTypeSuffix
+     *       // A decimbl flobting-point string representing b finite positive
+     *       // number without b lebding sign hbs bt most five bbsic pieces:
+     *       // Digits . Digits ExponentPbrt FlobtTypeSuffix
      *       //
-     *       // Since this method allows integer-only strings as input
-     *       // in addition to strings of floating-point literals, the
-     *       // two sub-patterns below are simplifications of the grammar
+     *       // Since this method bllows integer-only strings bs input
+     *       // in bddition to strings of flobting-point literbls, the
+     *       // two sub-pbtterns below bre simplificbtions of the grbmmbr
      *       // productions from section 3.10.2 of
-     *       // The Java Language Specification.
+     *       // The Jbvb Lbngubge Specificbtion.
      *
-     *       // Digits ._opt Digits_opt ExponentPart_opt FloatTypeSuffix_opt
+     *       // Digits ._opt Digits_opt ExponentPbrt_opt FlobtTypeSuffix_opt
      *       "((("+Digits+"(\\.)?("+Digits+"?)("+Exp+")?)|"+
      *
-     *       // . Digits ExponentPart_opt FloatTypeSuffix_opt
+     *       // . Digits ExponentPbrt_opt FlobtTypeSuffix_opt
      *       "(\\.("+Digits+")("+Exp+")?)|"+
      *
-     *       // Hexadecimal strings
+     *       // Hexbdecimbl strings
      *       "((" +
-     *        // 0[xX] HexDigits ._opt BinaryExponent FloatTypeSuffix_opt
+     *        // 0[xX] HexDigits ._opt BinbryExponent FlobtTypeSuffix_opt
      *        "(0[xX]" + HexDigits + "(\\.)?)|" +
      *
-     *        // 0[xX] HexDigits_opt . HexDigits BinaryExponent FloatTypeSuffix_opt
+     *        // 0[xX] HexDigits_opt . HexDigits BinbryExponent FlobtTypeSuffix_opt
      *        "(0[xX]" + HexDigits + "?(\\.)" + HexDigits + ")" +
      *
      *        ")[pP][+-]?" + Digits + "))" +
      *       "[fFdD]?))" +
-     *       "[\\x00-\\x20]*");// Optional trailing "whitespace"
+     *       "[\\x00-\\x20]*");// Optionbl trbiling "whitespbce"
      *
-     *  if (Pattern.matches(fpRegex, myString))
-     *      Double.valueOf(myString); // Will not throw NumberFormatException
+     *  if (Pbttern.mbtches(fpRegex, myString))
+     *      Double.vblueOf(myString); // Will not throw NumberFormbtException
      *  else {
-     *      // Perform suitable alternative action
+     *      // Perform suitbble blternbtive bction
      *  }
      * }</pre>
      *
-     * @param      s   the string to be parsed.
-     * @return     a {@code Double} object holding the value
-     *             represented by the {@code String} argument.
-     * @throws     NumberFormatException  if the string does not contain a
-     *             parsable number.
+     * @pbrbm      s   the string to be pbrsed.
+     * @return     b {@code Double} object holding the vblue
+     *             represented by the {@code String} brgument.
+     * @throws     NumberFormbtException  if the string does not contbin b
+     *             pbrsbble number.
      */
-    public static Double valueOf(String s) throws NumberFormatException {
-        return new Double(parseDouble(s));
+    public stbtic Double vblueOf(String s) throws NumberFormbtException {
+        return new Double(pbrseDouble(s));
     }
 
     /**
-     * Returns a {@code Double} instance representing the specified
-     * {@code double} value.
-     * If a new {@code Double} instance is not required, this method
-     * should generally be used in preference to the constructor
-     * {@link #Double(double)}, as this method is likely to yield
-     * significantly better space and time performance by caching
-     * frequently requested values.
+     * Returns b {@code Double} instbnce representing the specified
+     * {@code double} vblue.
+     * If b new {@code Double} instbnce is not required, this method
+     * should generblly be used in preference to the constructor
+     * {@link #Double(double)}, bs this method is likely to yield
+     * significbntly better spbce bnd time performbnce by cbching
+     * frequently requested vblues.
      *
-     * @param  d a double value.
-     * @return a {@code Double} instance representing {@code d}.
+     * @pbrbm  d b double vblue.
+     * @return b {@code Double} instbnce representing {@code d}.
      * @since  1.5
      */
-    public static Double valueOf(double d) {
+    public stbtic Double vblueOf(double d) {
         return new Double(d);
     }
 
     /**
-     * Returns a new {@code double} initialized to the value
-     * represented by the specified {@code String}, as performed
-     * by the {@code valueOf} method of class
+     * Returns b new {@code double} initiblized to the vblue
+     * represented by the specified {@code String}, bs performed
+     * by the {@code vblueOf} method of clbss
      * {@code Double}.
      *
-     * @param  s   the string to be parsed.
-     * @return the {@code double} value represented by the string
-     *         argument.
+     * @pbrbm  s   the string to be pbrsed.
+     * @return the {@code double} vblue represented by the string
+     *         brgument.
      * @throws NullPointerException  if the string is null
-     * @throws NumberFormatException if the string does not contain
-     *         a parsable {@code double}.
-     * @see    java.lang.Double#valueOf(String)
+     * @throws NumberFormbtException if the string does not contbin
+     *         b pbrsbble {@code double}.
+     * @see    jbvb.lbng.Double#vblueOf(String)
      * @since 1.2
      */
-    public static double parseDouble(String s) throws NumberFormatException {
-        return FloatingDecimal.parseDouble(s);
+    public stbtic double pbrseDouble(String s) throws NumberFormbtException {
+        return FlobtingDecimbl.pbrseDouble(s);
     }
 
     /**
-     * Returns {@code true} if the specified number is a
-     * Not-a-Number (NaN) value, {@code false} otherwise.
+     * Returns {@code true} if the specified number is b
+     * Not-b-Number (NbN) vblue, {@code fblse} otherwise.
      *
-     * @param   v   the value to be tested.
-     * @return  {@code true} if the value of the argument is NaN;
-     *          {@code false} otherwise.
+     * @pbrbm   v   the vblue to be tested.
+     * @return  {@code true} if the vblue of the brgument is NbN;
+     *          {@code fblse} otherwise.
      */
-    public static boolean isNaN(double v) {
+    public stbtic boolebn isNbN(double v) {
         return (v != v);
     }
 
     /**
      * Returns {@code true} if the specified number is infinitely
-     * large in magnitude, {@code false} otherwise.
+     * lbrge in mbgnitude, {@code fblse} otherwise.
      *
-     * @param   v   the value to be tested.
-     * @return  {@code true} if the value of the argument is positive
-     *          infinity or negative infinity; {@code false} otherwise.
+     * @pbrbm   v   the vblue to be tested.
+     * @return  {@code true} if the vblue of the brgument is positive
+     *          infinity or negbtive infinity; {@code fblse} otherwise.
      */
-    public static boolean isInfinite(double v) {
+    public stbtic boolebn isInfinite(double v) {
         return (v == POSITIVE_INFINITY) || (v == NEGATIVE_INFINITY);
     }
 
     /**
-     * Returns {@code true} if the argument is a finite floating-point
-     * value; returns {@code false} otherwise (for NaN and infinity
-     * arguments).
+     * Returns {@code true} if the brgument is b finite flobting-point
+     * vblue; returns {@code fblse} otherwise (for NbN bnd infinity
+     * brguments).
      *
-     * @param d the {@code double} value to be tested
-     * @return {@code true} if the argument is a finite
-     * floating-point value, {@code false} otherwise.
+     * @pbrbm d the {@code double} vblue to be tested
+     * @return {@code true} if the brgument is b finite
+     * flobting-point vblue, {@code fblse} otherwise.
      * @since 1.8
      */
-    public static boolean isFinite(double d) {
-        return Math.abs(d) <= DoubleConsts.MAX_VALUE;
+    public stbtic boolebn isFinite(double d) {
+        return Mbth.bbs(d) <= DoubleConsts.MAX_VALUE;
     }
 
     /**
-     * The value of the Double.
+     * The vblue of the Double.
      *
-     * @serial
+     * @seribl
      */
-    private final double value;
+    privbte finbl double vblue;
 
     /**
-     * Constructs a newly allocated {@code Double} object that
-     * represents the primitive {@code double} argument.
+     * Constructs b newly bllocbted {@code Double} object thbt
+     * represents the primitive {@code double} brgument.
      *
-     * @param   value   the value to be represented by the {@code Double}.
+     * @pbrbm   vblue   the vblue to be represented by the {@code Double}.
      */
-    public Double(double value) {
-        this.value = value;
+    public Double(double vblue) {
+        this.vblue = vblue;
     }
 
     /**
-     * Constructs a newly allocated {@code Double} object that
-     * represents the floating-point value of type {@code double}
-     * represented by the string. The string is converted to a
-     * {@code double} value as if by the {@code valueOf} method.
+     * Constructs b newly bllocbted {@code Double} object thbt
+     * represents the flobting-point vblue of type {@code double}
+     * represented by the string. The string is converted to b
+     * {@code double} vblue bs if by the {@code vblueOf} method.
      *
-     * @param  s  a string to be converted to a {@code Double}.
-     * @throws    NumberFormatException  if the string does not contain a
-     *            parsable number.
-     * @see       java.lang.Double#valueOf(java.lang.String)
+     * @pbrbm  s  b string to be converted to b {@code Double}.
+     * @throws    NumberFormbtException  if the string does not contbin b
+     *            pbrsbble number.
+     * @see       jbvb.lbng.Double#vblueOf(jbvb.lbng.String)
      */
-    public Double(String s) throws NumberFormatException {
-        value = parseDouble(s);
+    public Double(String s) throws NumberFormbtException {
+        vblue = pbrseDouble(s);
     }
 
     /**
-     * Returns {@code true} if this {@code Double} value is
-     * a Not-a-Number (NaN), {@code false} otherwise.
+     * Returns {@code true} if this {@code Double} vblue is
+     * b Not-b-Number (NbN), {@code fblse} otherwise.
      *
-     * @return  {@code true} if the value represented by this object is
-     *          NaN; {@code false} otherwise.
+     * @return  {@code true} if the vblue represented by this object is
+     *          NbN; {@code fblse} otherwise.
      */
-    public boolean isNaN() {
-        return isNaN(value);
+    public boolebn isNbN() {
+        return isNbN(vblue);
     }
 
     /**
-     * Returns {@code true} if this {@code Double} value is
-     * infinitely large in magnitude, {@code false} otherwise.
+     * Returns {@code true} if this {@code Double} vblue is
+     * infinitely lbrge in mbgnitude, {@code fblse} otherwise.
      *
-     * @return  {@code true} if the value represented by this object is
-     *          positive infinity or negative infinity;
-     *          {@code false} otherwise.
+     * @return  {@code true} if the vblue represented by this object is
+     *          positive infinity or negbtive infinity;
+     *          {@code fblse} otherwise.
      */
-    public boolean isInfinite() {
-        return isInfinite(value);
+    public boolebn isInfinite() {
+        return isInfinite(vblue);
     }
 
     /**
-     * Returns a string representation of this {@code Double} object.
-     * The primitive {@code double} value represented by this
-     * object is converted to a string exactly as if by the method
-     * {@code toString} of one argument.
+     * Returns b string representbtion of this {@code Double} object.
+     * The primitive {@code double} vblue represented by this
+     * object is converted to b string exbctly bs if by the method
+     * {@code toString} of one brgument.
      *
-     * @return  a {@code String} representation of this object.
-     * @see java.lang.Double#toString(double)
+     * @return  b {@code String} representbtion of this object.
+     * @see jbvb.lbng.Double#toString(double)
      */
     public String toString() {
-        return toString(value);
+        return toString(vblue);
     }
 
     /**
-     * Returns the value of this {@code Double} as a {@code byte}
-     * after a narrowing primitive conversion.
+     * Returns the vblue of this {@code Double} bs b {@code byte}
+     * bfter b nbrrowing primitive conversion.
      *
-     * @return  the {@code double} value represented by this object
+     * @return  the {@code double} vblue represented by this object
      *          converted to type {@code byte}
-     * @jls 5.1.3 Narrowing Primitive Conversions
+     * @jls 5.1.3 Nbrrowing Primitive Conversions
      * @since 1.1
      */
-    public byte byteValue() {
-        return (byte)value;
+    public byte byteVblue() {
+        return (byte)vblue;
     }
 
     /**
-     * Returns the value of this {@code Double} as a {@code short}
-     * after a narrowing primitive conversion.
+     * Returns the vblue of this {@code Double} bs b {@code short}
+     * bfter b nbrrowing primitive conversion.
      *
-     * @return  the {@code double} value represented by this object
+     * @return  the {@code double} vblue represented by this object
      *          converted to type {@code short}
-     * @jls 5.1.3 Narrowing Primitive Conversions
+     * @jls 5.1.3 Nbrrowing Primitive Conversions
      * @since 1.1
      */
-    public short shortValue() {
-        return (short)value;
+    public short shortVblue() {
+        return (short)vblue;
     }
 
     /**
-     * Returns the value of this {@code Double} as an {@code int}
-     * after a narrowing primitive conversion.
-     * @jls 5.1.3 Narrowing Primitive Conversions
+     * Returns the vblue of this {@code Double} bs bn {@code int}
+     * bfter b nbrrowing primitive conversion.
+     * @jls 5.1.3 Nbrrowing Primitive Conversions
      *
-     * @return  the {@code double} value represented by this object
+     * @return  the {@code double} vblue represented by this object
      *          converted to type {@code int}
      */
-    public int intValue() {
-        return (int)value;
+    public int intVblue() {
+        return (int)vblue;
     }
 
     /**
-     * Returns the value of this {@code Double} as a {@code long}
-     * after a narrowing primitive conversion.
+     * Returns the vblue of this {@code Double} bs b {@code long}
+     * bfter b nbrrowing primitive conversion.
      *
-     * @return  the {@code double} value represented by this object
+     * @return  the {@code double} vblue represented by this object
      *          converted to type {@code long}
-     * @jls 5.1.3 Narrowing Primitive Conversions
+     * @jls 5.1.3 Nbrrowing Primitive Conversions
      */
-    public long longValue() {
-        return (long)value;
+    public long longVblue() {
+        return (long)vblue;
     }
 
     /**
-     * Returns the value of this {@code Double} as a {@code float}
-     * after a narrowing primitive conversion.
+     * Returns the vblue of this {@code Double} bs b {@code flobt}
+     * bfter b nbrrowing primitive conversion.
      *
-     * @return  the {@code double} value represented by this object
-     *          converted to type {@code float}
-     * @jls 5.1.3 Narrowing Primitive Conversions
+     * @return  the {@code double} vblue represented by this object
+     *          converted to type {@code flobt}
+     * @jls 5.1.3 Nbrrowing Primitive Conversions
      * @since 1.0
      */
-    public float floatValue() {
-        return (float)value;
+    public flobt flobtVblue() {
+        return (flobt)vblue;
     }
 
     /**
-     * Returns the {@code double} value of this {@code Double} object.
+     * Returns the {@code double} vblue of this {@code Double} object.
      *
-     * @return the {@code double} value represented by this object
+     * @return the {@code double} vblue represented by this object
      */
-    public double doubleValue() {
-        return value;
+    public double doubleVblue() {
+        return vblue;
     }
 
     /**
-     * Returns a hash code for this {@code Double} object. The
-     * result is the exclusive OR of the two halves of the
-     * {@code long} integer bit representation, exactly as
+     * Returns b hbsh code for this {@code Double} object. The
+     * result is the exclusive OR of the two hblves of the
+     * {@code long} integer bit representbtion, exbctly bs
      * produced by the method {@link #doubleToLongBits(double)}, of
-     * the primitive {@code double} value represented by this
-     * {@code Double} object. That is, the hash code is the value
+     * the primitive {@code double} vblue represented by this
+     * {@code Double} object. Thbt is, the hbsh code is the vblue
      * of the expression:
      *
      * <blockquote>
@@ -731,176 +731,176 @@ public final class Double extends Number implements Comparable<Double> {
      * where {@code v} is defined by:
      *
      * <blockquote>
-     *  {@code long v = Double.doubleToLongBits(this.doubleValue());}
+     *  {@code long v = Double.doubleToLongBits(this.doubleVblue());}
      * </blockquote>
      *
-     * @return  a {@code hash code} value for this object.
+     * @return  b {@code hbsh code} vblue for this object.
      */
     @Override
-    public int hashCode() {
-        return Double.hashCode(value);
+    public int hbshCode() {
+        return Double.hbshCode(vblue);
     }
 
     /**
-     * Returns a hash code for a {@code double} value; compatible with
-     * {@code Double.hashCode()}.
+     * Returns b hbsh code for b {@code double} vblue; compbtible with
+     * {@code Double.hbshCode()}.
      *
-     * @param value the value to hash
-     * @return a hash code value for a {@code double} value.
+     * @pbrbm vblue the vblue to hbsh
+     * @return b hbsh code vblue for b {@code double} vblue.
      * @since 1.8
      */
-    public static int hashCode(double value) {
-        long bits = doubleToLongBits(value);
+    public stbtic int hbshCode(double vblue) {
+        long bits = doubleToLongBits(vblue);
         return (int)(bits ^ (bits >>> 32));
     }
 
     /**
-     * Compares this object against the specified object.  The result
-     * is {@code true} if and only if the argument is not
-     * {@code null} and is a {@code Double} object that
-     * represents a {@code double} that has the same value as the
+     * Compbres this object bgbinst the specified object.  The result
+     * is {@code true} if bnd only if the brgument is not
+     * {@code null} bnd is b {@code Double} object thbt
+     * represents b {@code double} thbt hbs the sbme vblue bs the
      * {@code double} represented by this object. For this
-     * purpose, two {@code double} values are considered to be
-     * the same if and only if the method {@link
-     * #doubleToLongBits(double)} returns the identical
-     * {@code long} value when applied to each.
+     * purpose, two {@code double} vblues bre considered to be
+     * the sbme if bnd only if the method {@link
+     * #doubleToLongBits(double)} returns the identicbl
+     * {@code long} vblue when bpplied to ebch.
      *
-     * <p>Note that in most cases, for two instances of class
-     * {@code Double}, {@code d1} and {@code d2}, the
-     * value of {@code d1.equals(d2)} is {@code true} if and
+     * <p>Note thbt in most cbses, for two instbnces of clbss
+     * {@code Double}, {@code d1} bnd {@code d2}, the
+     * vblue of {@code d1.equbls(d2)} is {@code true} if bnd
      * only if
      *
      * <blockquote>
-     *  {@code d1.doubleValue() == d2.doubleValue()}
+     *  {@code d1.doubleVblue() == d2.doubleVblue()}
      * </blockquote>
      *
-     * <p>also has the value {@code true}. However, there are two
+     * <p>blso hbs the vblue {@code true}. However, there bre two
      * exceptions:
      * <ul>
-     * <li>If {@code d1} and {@code d2} both represent
-     *     {@code Double.NaN}, then the {@code equals} method
+     * <li>If {@code d1} bnd {@code d2} both represent
+     *     {@code Double.NbN}, then the {@code equbls} method
      *     returns {@code true}, even though
-     *     {@code Double.NaN==Double.NaN} has the value
-     *     {@code false}.
+     *     {@code Double.NbN==Double.NbN} hbs the vblue
+     *     {@code fblse}.
      * <li>If {@code d1} represents {@code +0.0} while
-     *     {@code d2} represents {@code -0.0}, or vice versa,
-     *     the {@code equal} test has the value {@code false},
-     *     even though {@code +0.0==-0.0} has the value {@code true}.
+     *     {@code d2} represents {@code -0.0}, or vice versb,
+     *     the {@code equbl} test hbs the vblue {@code fblse},
+     *     even though {@code +0.0==-0.0} hbs the vblue {@code true}.
      * </ul>
-     * This definition allows hash tables to operate properly.
-     * @param   obj   the object to compare with.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
-     * @see java.lang.Double#doubleToLongBits(double)
+     * This definition bllows hbsh tbbles to operbte properly.
+     * @pbrbm   obj   the object to compbre with.
+     * @return  {@code true} if the objects bre the sbme;
+     *          {@code fblse} otherwise.
+     * @see jbvb.lbng.Double#doubleToLongBits(double)
      */
-    public boolean equals(Object obj) {
-        return (obj instanceof Double)
-               && (doubleToLongBits(((Double)obj).value) ==
-                      doubleToLongBits(value));
+    public boolebn equbls(Object obj) {
+        return (obj instbnceof Double)
+               && (doubleToLongBits(((Double)obj).vblue) ==
+                      doubleToLongBits(vblue));
     }
 
     /**
-     * Returns a representation of the specified floating-point value
-     * according to the IEEE 754 floating-point "double
-     * format" bit layout.
+     * Returns b representbtion of the specified flobting-point vblue
+     * bccording to the IEEE 754 flobting-point "double
+     * formbt" bit lbyout.
      *
-     * <p>Bit 63 (the bit that is selected by the mask
+     * <p>Bit 63 (the bit thbt is selected by the mbsk
      * {@code 0x8000000000000000L}) represents the sign of the
-     * floating-point number. Bits
-     * 62-52 (the bits that are selected by the mask
+     * flobting-point number. Bits
+     * 62-52 (the bits thbt bre selected by the mbsk
      * {@code 0x7ff0000000000000L}) represent the exponent. Bits 51-0
-     * (the bits that are selected by the mask
-     * {@code 0x000fffffffffffffL}) represent the significand
-     * (sometimes called the mantissa) of the floating-point number.
+     * (the bits thbt bre selected by the mbsk
+     * {@code 0x000fffffffffffffL}) represent the significbnd
+     * (sometimes cblled the mbntissb) of the flobting-point number.
      *
-     * <p>If the argument is positive infinity, the result is
+     * <p>If the brgument is positive infinity, the result is
      * {@code 0x7ff0000000000000L}.
      *
-     * <p>If the argument is negative infinity, the result is
+     * <p>If the brgument is negbtive infinity, the result is
      * {@code 0xfff0000000000000L}.
      *
-     * <p>If the argument is NaN, the result is
+     * <p>If the brgument is NbN, the result is
      * {@code 0x7ff8000000000000L}.
      *
-     * <p>In all cases, the result is a {@code long} integer that, when
-     * given to the {@link #longBitsToDouble(long)} method, will produce a
-     * floating-point value the same as the argument to
-     * {@code doubleToLongBits} (except all NaN values are
-     * collapsed to a single "canonical" NaN value).
+     * <p>In bll cbses, the result is b {@code long} integer thbt, when
+     * given to the {@link #longBitsToDouble(long)} method, will produce b
+     * flobting-point vblue the sbme bs the brgument to
+     * {@code doubleToLongBits} (except bll NbN vblues bre
+     * collbpsed to b single "cbnonicbl" NbN vblue).
      *
-     * @param   value   a {@code double} precision floating-point number.
-     * @return the bits that represent the floating-point number.
+     * @pbrbm   vblue   b {@code double} precision flobting-point number.
+     * @return the bits thbt represent the flobting-point number.
      */
-    public static long doubleToLongBits(double value) {
-        if (!isNaN(value)) {
-            return doubleToRawLongBits(value);
+    public stbtic long doubleToLongBits(double vblue) {
+        if (!isNbN(vblue)) {
+            return doubleToRbwLongBits(vblue);
         }
         return 0x7ff8000000000000L;
     }
 
     /**
-     * Returns a representation of the specified floating-point value
-     * according to the IEEE 754 floating-point "double
-     * format" bit layout, preserving Not-a-Number (NaN) values.
+     * Returns b representbtion of the specified flobting-point vblue
+     * bccording to the IEEE 754 flobting-point "double
+     * formbt" bit lbyout, preserving Not-b-Number (NbN) vblues.
      *
-     * <p>Bit 63 (the bit that is selected by the mask
+     * <p>Bit 63 (the bit thbt is selected by the mbsk
      * {@code 0x8000000000000000L}) represents the sign of the
-     * floating-point number. Bits
-     * 62-52 (the bits that are selected by the mask
+     * flobting-point number. Bits
+     * 62-52 (the bits thbt bre selected by the mbsk
      * {@code 0x7ff0000000000000L}) represent the exponent. Bits 51-0
-     * (the bits that are selected by the mask
-     * {@code 0x000fffffffffffffL}) represent the significand
-     * (sometimes called the mantissa) of the floating-point number.
+     * (the bits thbt bre selected by the mbsk
+     * {@code 0x000fffffffffffffL}) represent the significbnd
+     * (sometimes cblled the mbntissb) of the flobting-point number.
      *
-     * <p>If the argument is positive infinity, the result is
+     * <p>If the brgument is positive infinity, the result is
      * {@code 0x7ff0000000000000L}.
      *
-     * <p>If the argument is negative infinity, the result is
+     * <p>If the brgument is negbtive infinity, the result is
      * {@code 0xfff0000000000000L}.
      *
-     * <p>If the argument is NaN, the result is the {@code long}
-     * integer representing the actual NaN value.  Unlike the
+     * <p>If the brgument is NbN, the result is the {@code long}
+     * integer representing the bctubl NbN vblue.  Unlike the
      * {@code doubleToLongBits} method,
-     * {@code doubleToRawLongBits} does not collapse all the bit
-     * patterns encoding a NaN to a single "canonical" NaN
-     * value.
+     * {@code doubleToRbwLongBits} does not collbpse bll the bit
+     * pbtterns encoding b NbN to b single "cbnonicbl" NbN
+     * vblue.
      *
-     * <p>In all cases, the result is a {@code long} integer that,
+     * <p>In bll cbses, the result is b {@code long} integer thbt,
      * when given to the {@link #longBitsToDouble(long)} method, will
-     * produce a floating-point value the same as the argument to
-     * {@code doubleToRawLongBits}.
+     * produce b flobting-point vblue the sbme bs the brgument to
+     * {@code doubleToRbwLongBits}.
      *
-     * @param   value   a {@code double} precision floating-point number.
-     * @return the bits that represent the floating-point number.
+     * @pbrbm   vblue   b {@code double} precision flobting-point number.
+     * @return the bits thbt represent the flobting-point number.
      * @since 1.3
      */
-    public static native long doubleToRawLongBits(double value);
+    public stbtic nbtive long doubleToRbwLongBits(double vblue);
 
     /**
-     * Returns the {@code double} value corresponding to a given
-     * bit representation.
-     * The argument is considered to be a representation of a
-     * floating-point value according to the IEEE 754 floating-point
-     * "double format" bit layout.
+     * Returns the {@code double} vblue corresponding to b given
+     * bit representbtion.
+     * The brgument is considered to be b representbtion of b
+     * flobting-point vblue bccording to the IEEE 754 flobting-point
+     * "double formbt" bit lbyout.
      *
-     * <p>If the argument is {@code 0x7ff0000000000000L}, the result
+     * <p>If the brgument is {@code 0x7ff0000000000000L}, the result
      * is positive infinity.
      *
-     * <p>If the argument is {@code 0xfff0000000000000L}, the result
-     * is negative infinity.
+     * <p>If the brgument is {@code 0xfff0000000000000L}, the result
+     * is negbtive infinity.
      *
-     * <p>If the argument is any value in the range
+     * <p>If the brgument is bny vblue in the rbnge
      * {@code 0x7ff0000000000001L} through
-     * {@code 0x7fffffffffffffffL} or in the range
+     * {@code 0x7fffffffffffffffL} or in the rbnge
      * {@code 0xfff0000000000001L} through
-     * {@code 0xffffffffffffffffL}, the result is a NaN.  No IEEE
-     * 754 floating-point operation provided by Java can distinguish
-     * between two NaN values of the same type with different bit
-     * patterns.  Distinct values of NaN are only distinguishable by
-     * use of the {@code Double.doubleToRawLongBits} method.
+     * {@code 0xffffffffffffffffL}, the result is b NbN.  No IEEE
+     * 754 flobting-point operbtion provided by Jbvb cbn distinguish
+     * between two NbN vblues of the sbme type with different bit
+     * pbtterns.  Distinct vblues of NbN bre only distinguishbble by
+     * use of the {@code Double.doubleToRbwLongBits} method.
      *
-     * <p>In all other cases, let <i>s</i>, <i>e</i>, and <i>m</i> be three
-     * values that can be computed from the argument:
+     * <p>In bll other cbses, let <i>s</i>, <i>e</i>, bnd <i>m</i> be three
+     * vblues thbt cbn be computed from the brgument:
      *
      * <blockquote><pre>{@code
      * int s = ((bits >> 63) == 0) ? 1 : -1;
@@ -910,144 +910,144 @@ public final class Double extends Number implements Comparable<Double> {
      *                 (bits & 0xfffffffffffffL) | 0x10000000000000L;
      * }</pre></blockquote>
      *
-     * Then the floating-point result equals the value of the mathematical
+     * Then the flobting-point result equbls the vblue of the mbthembticbl
      * expression <i>s</i>&middot;<i>m</i>&middot;2<sup><i>e</i>-1075</sup>.
      *
-     * <p>Note that this method may not be able to return a
-     * {@code double} NaN with exactly same bit pattern as the
-     * {@code long} argument.  IEEE 754 distinguishes between two
-     * kinds of NaNs, quiet NaNs and <i>signaling NaNs</i>.  The
-     * differences between the two kinds of NaN are generally not
-     * visible in Java.  Arithmetic operations on signaling NaNs turn
-     * them into quiet NaNs with a different, but often similar, bit
-     * pattern.  However, on some processors merely copying a
-     * signaling NaN also performs that conversion.  In particular,
-     * copying a signaling NaN to return it to the calling method
-     * may perform this conversion.  So {@code longBitsToDouble}
-     * may not be able to return a {@code double} with a
-     * signaling NaN bit pattern.  Consequently, for some
-     * {@code long} values,
-     * {@code doubleToRawLongBits(longBitsToDouble(start))} may
-     * <i>not</i> equal {@code start}.  Moreover, which
-     * particular bit patterns represent signaling NaNs is platform
-     * dependent; although all NaN bit patterns, quiet or signaling,
-     * must be in the NaN range identified above.
+     * <p>Note thbt this method mby not be bble to return b
+     * {@code double} NbN with exbctly sbme bit pbttern bs the
+     * {@code long} brgument.  IEEE 754 distinguishes between two
+     * kinds of NbNs, quiet NbNs bnd <i>signbling NbNs</i>.  The
+     * differences between the two kinds of NbN bre generblly not
+     * visible in Jbvb.  Arithmetic operbtions on signbling NbNs turn
+     * them into quiet NbNs with b different, but often similbr, bit
+     * pbttern.  However, on some processors merely copying b
+     * signbling NbN blso performs thbt conversion.  In pbrticulbr,
+     * copying b signbling NbN to return it to the cblling method
+     * mby perform this conversion.  So {@code longBitsToDouble}
+     * mby not be bble to return b {@code double} with b
+     * signbling NbN bit pbttern.  Consequently, for some
+     * {@code long} vblues,
+     * {@code doubleToRbwLongBits(longBitsToDouble(stbrt))} mby
+     * <i>not</i> equbl {@code stbrt}.  Moreover, which
+     * pbrticulbr bit pbtterns represent signbling NbNs is plbtform
+     * dependent; blthough bll NbN bit pbtterns, quiet or signbling,
+     * must be in the NbN rbnge identified bbove.
      *
-     * @param   bits   any {@code long} integer.
-     * @return  the {@code double} floating-point value with the same
-     *          bit pattern.
+     * @pbrbm   bits   bny {@code long} integer.
+     * @return  the {@code double} flobting-point vblue with the sbme
+     *          bit pbttern.
      */
-    public static native double longBitsToDouble(long bits);
+    public stbtic nbtive double longBitsToDouble(long bits);
 
     /**
-     * Compares two {@code Double} objects numerically.  There
-     * are two ways in which comparisons performed by this method
-     * differ from those performed by the Java language numerical
-     * comparison operators ({@code <, <=, ==, >=, >})
-     * when applied to primitive {@code double} values:
+     * Compbres two {@code Double} objects numericblly.  There
+     * bre two wbys in which compbrisons performed by this method
+     * differ from those performed by the Jbvb lbngubge numericbl
+     * compbrison operbtors ({@code <, <=, ==, >=, >})
+     * when bpplied to primitive {@code double} vblues:
      * <ul><li>
-     *          {@code Double.NaN} is considered by this method
-     *          to be equal to itself and greater than all other
-     *          {@code double} values (including
+     *          {@code Double.NbN} is considered by this method
+     *          to be equbl to itself bnd grebter thbn bll other
+     *          {@code double} vblues (including
      *          {@code Double.POSITIVE_INFINITY}).
      * <li>
-     *          {@code 0.0d} is considered by this method to be greater
-     *          than {@code -0.0d}.
+     *          {@code 0.0d} is considered by this method to be grebter
+     *          thbn {@code -0.0d}.
      * </ul>
-     * This ensures that the <i>natural ordering</i> of
+     * This ensures thbt the <i>nbturbl ordering</i> of
      * {@code Double} objects imposed by this method is <i>consistent
-     * with equals</i>.
+     * with equbls</i>.
      *
-     * @param   anotherDouble   the {@code Double} to be compared.
-     * @return  the value {@code 0} if {@code anotherDouble} is
-     *          numerically equal to this {@code Double}; a value
-     *          less than {@code 0} if this {@code Double}
-     *          is numerically less than {@code anotherDouble};
-     *          and a value greater than {@code 0} if this
-     *          {@code Double} is numerically greater than
-     *          {@code anotherDouble}.
+     * @pbrbm   bnotherDouble   the {@code Double} to be compbred.
+     * @return  the vblue {@code 0} if {@code bnotherDouble} is
+     *          numericblly equbl to this {@code Double}; b vblue
+     *          less thbn {@code 0} if this {@code Double}
+     *          is numericblly less thbn {@code bnotherDouble};
+     *          bnd b vblue grebter thbn {@code 0} if this
+     *          {@code Double} is numericblly grebter thbn
+     *          {@code bnotherDouble}.
      *
      * @since   1.2
      */
-    public int compareTo(Double anotherDouble) {
-        return Double.compare(value, anotherDouble.value);
+    public int compbreTo(Double bnotherDouble) {
+        return Double.compbre(vblue, bnotherDouble.vblue);
     }
 
     /**
-     * Compares the two specified {@code double} values. The sign
-     * of the integer value returned is the same as that of the
-     * integer that would be returned by the call:
+     * Compbres the two specified {@code double} vblues. The sign
+     * of the integer vblue returned is the sbme bs thbt of the
+     * integer thbt would be returned by the cbll:
      * <pre>
-     *    new Double(d1).compareTo(new Double(d2))
+     *    new Double(d1).compbreTo(new Double(d2))
      * </pre>
      *
-     * @param   d1        the first {@code double} to compare
-     * @param   d2        the second {@code double} to compare
-     * @return  the value {@code 0} if {@code d1} is
-     *          numerically equal to {@code d2}; a value less than
-     *          {@code 0} if {@code d1} is numerically less than
-     *          {@code d2}; and a value greater than {@code 0}
-     *          if {@code d1} is numerically greater than
+     * @pbrbm   d1        the first {@code double} to compbre
+     * @pbrbm   d2        the second {@code double} to compbre
+     * @return  the vblue {@code 0} if {@code d1} is
+     *          numericblly equbl to {@code d2}; b vblue less thbn
+     *          {@code 0} if {@code d1} is numericblly less thbn
+     *          {@code d2}; bnd b vblue grebter thbn {@code 0}
+     *          if {@code d1} is numericblly grebter thbn
      *          {@code d2}.
      * @since 1.4
      */
-    public static int compare(double d1, double d2) {
+    public stbtic int compbre(double d1, double d2) {
         if (d1 < d2)
-            return -1;           // Neither val is NaN, thisVal is smaller
+            return -1;           // Neither vbl is NbN, thisVbl is smbller
         if (d1 > d2)
-            return 1;            // Neither val is NaN, thisVal is larger
+            return 1;            // Neither vbl is NbN, thisVbl is lbrger
 
-        // Cannot use doubleToRawLongBits because of possibility of NaNs.
+        // Cbnnot use doubleToRbwLongBits becbuse of possibility of NbNs.
         long thisBits    = Double.doubleToLongBits(d1);
-        long anotherBits = Double.doubleToLongBits(d2);
+        long bnotherBits = Double.doubleToLongBits(d2);
 
-        return (thisBits == anotherBits ?  0 : // Values are equal
-                (thisBits < anotherBits ? -1 : // (-0.0, 0.0) or (!NaN, NaN)
-                 1));                          // (0.0, -0.0) or (NaN, !NaN)
+        return (thisBits == bnotherBits ?  0 : // Vblues bre equbl
+                (thisBits < bnotherBits ? -1 : // (-0.0, 0.0) or (!NbN, NbN)
+                 1));                          // (0.0, -0.0) or (NbN, !NbN)
     }
 
     /**
-     * Adds two {@code double} values together as per the + operator.
+     * Adds two {@code double} vblues together bs per the + operbtor.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @return the sum of {@code a} and {@code b}
-     * @jls 4.2.4 Floating-Point Operations
-     * @see java.util.function.BinaryOperator
+     * @pbrbm b the first operbnd
+     * @pbrbm b the second operbnd
+     * @return the sum of {@code b} bnd {@code b}
+     * @jls 4.2.4 Flobting-Point Operbtions
+     * @see jbvb.util.function.BinbryOperbtor
      * @since 1.8
      */
-    public static double sum(double a, double b) {
-        return a + b;
+    public stbtic double sum(double b, double b) {
+        return b + b;
     }
 
     /**
-     * Returns the greater of two {@code double} values
-     * as if by calling {@link Math#max(double, double) Math.max}.
+     * Returns the grebter of two {@code double} vblues
+     * bs if by cblling {@link Mbth#mbx(double, double) Mbth.mbx}.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @return the greater of {@code a} and {@code b}
-     * @see java.util.function.BinaryOperator
+     * @pbrbm b the first operbnd
+     * @pbrbm b the second operbnd
+     * @return the grebter of {@code b} bnd {@code b}
+     * @see jbvb.util.function.BinbryOperbtor
      * @since 1.8
      */
-    public static double max(double a, double b) {
-        return Math.max(a, b);
+    public stbtic double mbx(double b, double b) {
+        return Mbth.mbx(b, b);
     }
 
     /**
-     * Returns the smaller of two {@code double} values
-     * as if by calling {@link Math#min(double, double) Math.min}.
+     * Returns the smbller of two {@code double} vblues
+     * bs if by cblling {@link Mbth#min(double, double) Mbth.min}.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @return the smaller of {@code a} and {@code b}.
-     * @see java.util.function.BinaryOperator
+     * @pbrbm b the first operbnd
+     * @pbrbm b the second operbnd
+     * @return the smbller of {@code b} bnd {@code b}.
+     * @see jbvb.util.function.BinbryOperbtor
      * @since 1.8
      */
-    public static double min(double a, double b) {
-        return Math.min(a, b);
+    public stbtic double min(double b, double b) {
+        return Mbth.min(b, b);
     }
 
-    /** use serialVersionUID from JDK 1.0.2 for interoperability */
-    private static final long serialVersionUID = -9172774392245257468L;
+    /** use seriblVersionUID from JDK 1.0.2 for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = -9172774392245257468L;
 }

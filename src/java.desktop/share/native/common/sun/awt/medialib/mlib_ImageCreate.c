@@ -1,309 +1,309 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTION
- *      mlib_ImageCreateStruct   - create image data structure
- *      mlib_ImageCreate         - create image data structure and allocate
- *                                 memory for image data
- *      mlib_ImageDelete         - delete image
- *      mlib_ImageCreateSubimage - create sub-image
+ *      mlib_ImbgeCrebteStruct   - crebte imbge dbtb structure
+ *      mlib_ImbgeCrebte         - crebte imbge dbtb structure bnd bllocbte
+ *                                 memory for imbge dbtb
+ *      mlib_ImbgeDelete         - delete imbge
+ *      mlib_ImbgeCrebteSubimbge - crebte sub-imbge
  *
- *      mlib_ImageCreateRowTable - create row starts pointer table
- *      mlib_ImageDeleteRowTable - delete row starts pointer table
+ *      mlib_ImbgeCrebteRowTbble - crebte row stbrts pointer tbble
+ *      mlib_ImbgeDeleteRowTbble - delete row stbrts pointer tbble
  *
- *      mlib_ImageSetPaddings    - set paddings for clipping box borders
+ *      mlib_ImbgeSetPbddings    - set pbddings for clipping box borders
  *
- *      mlib_ImageSetFormat      - set image format
+ *      mlib_ImbgeSetFormbt      - set imbge formbt
  *
  * SYNOPSIS
- *        mlib_image *mlib_ImageCreateStruct(mlib_type  type,
- *                                           mlib_s32   channels,
+ *        mlib_imbge *mlib_ImbgeCrebteStruct(mlib_type  type,
+ *                                           mlib_s32   chbnnels,
  *                                           mlib_s32   width,
  *                                           mlib_s32   height,
  *                                           mlib_s32   stride,
- *                                           const void *data)
+ *                                           const void *dbtb)
  *
- *        mlib_image *mlib_ImageCreate(mlib_type type,
- *                                     mlib_s32  channels,
+ *        mlib_imbge *mlib_ImbgeCrebte(mlib_type type,
+ *                                     mlib_s32  chbnnels,
  *                                     mlib_s32  width,
  *                                     mlib_s32  height)
  *
- *        void mlib_ImageDelete(mlib_image *img)
+ *        void mlib_ImbgeDelete(mlib_imbge *img)
  *
- *        mlib_image *mlib_ImageCreateSubimage(mlib_image *img,
+ *        mlib_imbge *mlib_ImbgeCrebteSubimbge(mlib_imbge *img,
  *                                             mlib_s32   x,
  *                                             mlib_s32   y,
  *                                             mlib_s32   w,
  *                                             mlib_s32   h)
  *
- *        void *mlib_ImageCreateRowTable(mlib_image *img)
+ *        void *mlib_ImbgeCrebteRowTbble(mlib_imbge *img)
  *
- *        void mlib_ImageDeleteRowTable(mlib_image *img)
+ *        void mlib_ImbgeDeleteRowTbble(mlib_imbge *img)
  *
- *        mlib_status mlib_ImageSetPaddings(mlib_image *img,
+ *        mlib_stbtus mlib_ImbgeSetPbddings(mlib_imbge *img,
  *                                          mlib_u8    left,
  *                                          mlib_u8    top,
  *                                          mlib_u8    right,
  *                                          mlib_u8    bottom)
  *
- *        mlib_status mlib_ImageSetFormat(mlib_image  *img,
- *                                        mlib_format format)
+ *        mlib_stbtus mlib_ImbgeSetFormbt(mlib_imbge  *img,
+ *                                        mlib_formbt formbt)
  * ARGUMENTS
- *      img       pointer to image data structure
- *      type      image data type, one of MLIB_BIT, MLIB_BYTE, MLIB_SHORT,
+ *      img       pointer to imbge dbtb structure
+ *      type      imbge dbtb type, one of MLIB_BIT, MLIB_BYTE, MLIB_SHORT,
  *                MLIB_USHORT, MLIB_INT, MLIB_FLOAT or MLIB_DOUBLE
- *      channels  number of image channels
- *      width     image width in pixels
- *      height    image height in pixels
- *      stride    linebytes( bytes to next row) of the image
- *      data      pointer to image data allocated by user
- *      x         x coordinate of the left border in the source image
- *      y         y coordinate of the top border in the source image
- *      w         width of the sub-image
- *      h         height of the sub-image
- *      left      clipping box left padding
- *      top       clipping box top padding
- *      right     clipping box right padding
- *      bottom    clipping box bottom padding
- *      format    image format
+ *      chbnnels  number of imbge chbnnels
+ *      width     imbge width in pixels
+ *      height    imbge height in pixels
+ *      stride    linebytes( bytes to next row) of the imbge
+ *      dbtb      pointer to imbge dbtb bllocbted by user
+ *      x         x coordinbte of the left border in the source imbge
+ *      y         y coordinbte of the top border in the source imbge
+ *      w         width of the sub-imbge
+ *      h         height of the sub-imbge
+ *      left      clipping box left pbdding
+ *      top       clipping box top pbdding
+ *      right     clipping box right pbdding
+ *      bottom    clipping box bottom pbdding
+ *      formbt    imbge formbt
  *
  * DESCRIPTION
- *      mlib_ImageCreateStruct() creates a mediaLib image data structure
- *      using parameter supplied by user.
+ *      mlib_ImbgeCrebteStruct() crebtes b medibLib imbge dbtb structure
+ *      using pbrbmeter supplied by user.
  *
- *      mlib_ImageCreate() creates a mediaLib image data structure and
- *      allocates memory space for image data.
+ *      mlib_ImbgeCrebte() crebtes b medibLib imbge dbtb structure bnd
+ *      bllocbtes memory spbce for imbge dbtb.
  *
- *      mlib_ImageDelete() deletes the mediaLib image data structure
- *      and frees the memory space of the image data if it is allocated
- *      through mlib_ImageCreate().
+ *      mlib_ImbgeDelete() deletes the medibLib imbge dbtb structure
+ *      bnd frees the memory spbce of the imbge dbtb if it is bllocbted
+ *      through mlib_ImbgeCrebte().
  *
- *      mlib_ImageCreateSubimage() creates a mediaLib image structure
- *      for a sub-image based on a source image.
+ *      mlib_ImbgeCrebteSubimbge() crebtes b medibLib imbge structure
+ *      for b sub-imbge bbsed on b source imbge.
  *
- *      mlib_ImageCreateRowTable() creates row starts pointer table and
- *      puts it into mlib_image->state field.
+ *      mlib_ImbgeCrebteRowTbble() crebtes row stbrts pointer tbble bnd
+ *      puts it into mlib_imbge->stbte field.
  *
- *      mlib_ImageDeleteRowTable() deletes row starts pointer table from
- *      image and puts NULL into mlib_image->state field.
+ *      mlib_ImbgeDeleteRowTbble() deletes row stbrts pointer tbble from
+ *      imbge bnd puts NULL into mlib_imbge->stbte field.
  *
- *      mlib_ImageSetPaddings() sets new values for the clipping box paddings
+ *      mlib_ImbgeSetPbddings() sets new vblues for the clipping box pbddings
  *
- *      mlib_ImageSetFormat() sets new value for the image format
+ *      mlib_ImbgeSetFormbt() sets new vblue for the imbge formbt
  */
 
 #include <stdlib.h>
-#include "mlib_image.h"
-#include "mlib_ImageRowTable.h"
-#include "mlib_ImageCreate.h"
-#include "safe_math.h"
+#include "mlib_imbge.h"
+#include "mlib_ImbgeRowTbble.h"
+#include "mlib_ImbgeCrebte.h"
+#include "sbfe_mbth.h"
 
 /***************************************************************/
-mlib_image* mlib_ImageSet(mlib_image *image,
+mlib_imbge* mlib_ImbgeSet(mlib_imbge *imbge,
                           mlib_type  type,
-                          mlib_s32   channels,
+                          mlib_s32   chbnnels,
                           mlib_s32   width,
                           mlib_s32   height,
                           mlib_s32   stride,
-                          const void *data)
+                          const void *dbtb)
 {
   mlib_s32        wb;                /* width in bytes */
-  mlib_s32        mask;              /* mask for check of stride */
+  mlib_s32        mbsk;              /* mbsk for check of stride */
 
-  if (image == NULL) return NULL;
+  if (imbge == NULL) return NULL;
 
-/* for some ugly functions calling with incorrect parameters */
-  image -> type     = type;
-  image -> channels = channels;
-  image -> width    = width;
-  image -> height   = height;
-  image -> stride   = stride;
-  image -> data     = (void *)data;
-  image -> state    = NULL;
-  image -> format   = MLIB_FORMAT_UNKNOWN;
+/* for some ugly functions cblling with incorrect pbrbmeters */
+  imbge -> type     = type;
+  imbge -> chbnnels = chbnnels;
+  imbge -> width    = width;
+  imbge -> height   = height;
+  imbge -> stride   = stride;
+  imbge -> dbtb     = (void *)dbtb;
+  imbge -> stbte    = NULL;
+  imbge -> formbt   = MLIB_FORMAT_UNKNOWN;
 
-  image -> paddings[0] = 0;
-  image -> paddings[1] = 0;
-  image -> paddings[2] = 0;
-  image -> paddings[3] = 0;
+  imbge -> pbddings[0] = 0;
+  imbge -> pbddings[1] = 0;
+  imbge -> pbddings[2] = 0;
+  imbge -> pbddings[3] = 0;
 
-  image -> bitoffset = 0;
+  imbge -> bitoffset = 0;
 
-  if (width <= 0 || height <= 0 || channels < 1 || channels > 4) {
+  if (width <= 0 || height <= 0 || chbnnels < 1 || chbnnels > 4) {
     return NULL;
   }
 
 /* Check if stride == width
-   * If it is then image can be treated as a 1-D vector
+   * If it is then imbge cbn be trebted bs b 1-D vector
  */
 
-  if (!SAFE_TO_MULT(width, channels)) {
+  if (!SAFE_TO_MULT(width, chbnnels)) {
     return NULL;
   }
 
-  wb = width * channels;
+  wb = width * chbnnels;
 
   switch (type) {
-    case MLIB_DOUBLE:
+    cbse MLIB_DOUBLE:
       if (!SAFE_TO_MULT(wb, 8)) {
         return NULL;
       }
       wb *= 8;
-      mask = 7;
-      break;
-    case MLIB_FLOAT:
-    case MLIB_INT:
+      mbsk = 7;
+      brebk;
+    cbse MLIB_FLOAT:
+    cbse MLIB_INT:
       if (!SAFE_TO_MULT(wb, 4)) {
         return NULL;
       }
       wb *= 4;
-      mask = 3;
-      break;
-    case MLIB_USHORT:
-    case MLIB_SHORT:
+      mbsk = 3;
+      brebk;
+    cbse MLIB_USHORT:
+    cbse MLIB_SHORT:
       if (!SAFE_TO_MULT(wb, 2)) {
         return NULL;
       }
       wb *= 2;
-      mask = 1;
-      break;
-    case MLIB_BYTE:
-      // wb is ready
-      mask = 0;
-      break;
-    case MLIB_BIT:
+      mbsk = 1;
+      brebk;
+    cbse MLIB_BYTE:
+      // wb is rebdy
+      mbsk = 0;
+      brebk;
+    cbse MLIB_BIT:
       if (!SAFE_TO_ADD(7, wb)) {
         return NULL;
       }
       wb = (wb + 7) / 8;
-      mask = 0;
-      break;
-    default:
+      mbsk = 0;
+      brebk;
+    defbult:
       return NULL;
   }
 
-  if (stride & mask) {
+  if (stride & mbsk) {
     return NULL;
   }
 
-  image -> flags    = ((width & 0xf) << 8);          /* set width field */
-  image -> flags   |= ((stride & 0xf) << 16);        /* set stride field */
-  image -> flags   |= ((height & 0xf) << 12);        /* set height field */
-  image -> flags   |= (mlib_addr)data & 0xff;
-  image -> flags   |= MLIB_IMAGE_USERALLOCATED;      /* user allocated data */
+  imbge -> flbgs    = ((width & 0xf) << 8);          /* set width field */
+  imbge -> flbgs   |= ((stride & 0xf) << 16);        /* set stride field */
+  imbge -> flbgs   |= ((height & 0xf) << 12);        /* set height field */
+  imbge -> flbgs   |= (mlib_bddr)dbtb & 0xff;
+  imbge -> flbgs   |= MLIB_IMAGE_USERALLOCATED;      /* user bllocbted dbtb */
 
   if ((stride != wb) ||
-      ((type == MLIB_BIT) && (stride * 8 != width * channels))) {
-    image -> flags |= MLIB_IMAGE_ONEDVECTOR;
+      ((type == MLIB_BIT) && (stride * 8 != width * chbnnels))) {
+    imbge -> flbgs |= MLIB_IMAGE_ONEDVECTOR;
   }
 
-  image -> flags &= MLIB_IMAGE_ATTRIBUTESET;
+  imbge -> flbgs &= MLIB_IMAGE_ATTRIBUTESET;
 
-  return image;
+  return imbge;
 }
 
 /***************************************************************/
-mlib_image *mlib_ImageCreateStruct(mlib_type  type,
-                                   mlib_s32   channels,
+mlib_imbge *mlib_ImbgeCrebteStruct(mlib_type  type,
+                                   mlib_s32   chbnnels,
                                    mlib_s32   width,
                                    mlib_s32   height,
                                    mlib_s32   stride,
-                                   const void *data)
+                                   const void *dbtb)
 {
-  mlib_image *image;
+  mlib_imbge *imbge;
   if (stride <= 0) {
     return NULL;
   }
 
-  image = (mlib_image *)mlib_malloc(sizeof(mlib_image));
-  if (image == NULL) {
+  imbge = (mlib_imbge *)mlib_mblloc(sizeof(mlib_imbge));
+  if (imbge == NULL) {
     return NULL;
   }
 
-  if (mlib_ImageSet(image, type, channels, width, height, stride, data) == NULL) {
-    mlib_free(image);
-    image = NULL;
+  if (mlib_ImbgeSet(imbge, type, chbnnels, width, height, stride, dbtb) == NULL) {
+    mlib_free(imbge);
+    imbge = NULL;
   }
 
-  return image;
+  return imbge;
 }
 
 /***************************************************************/
-mlib_image *mlib_ImageCreate(mlib_type type,
-                             mlib_s32  channels,
+mlib_imbge *mlib_ImbgeCrebte(mlib_type type,
+                             mlib_s32  chbnnels,
                              mlib_s32  width,
                              mlib_s32  height)
 {
-  mlib_image *image;
+  mlib_imbge *imbge;
   mlib_s32        wb;                /* width in bytes */
-  void       *data;
+  void       *dbtb;
 
-/* sanity check */
-  if (width <= 0 || height <= 0 || channels < 1 || channels > 4) {
+/* sbnity check */
+  if (width <= 0 || height <= 0 || chbnnels < 1 || chbnnels > 4) {
     return NULL;
   };
 
-  if (!SAFE_TO_MULT(width, channels)) {
+  if (!SAFE_TO_MULT(width, chbnnels)) {
     return NULL;
   }
 
-  wb = width * channels;
+  wb = width * chbnnels;
 
   switch (type) {
-    case MLIB_DOUBLE:
+    cbse MLIB_DOUBLE:
       if (!SAFE_TO_MULT(wb, 8)) {
         return NULL;
       }
       wb *= 8;
-      break;
-    case MLIB_FLOAT:
-    case MLIB_INT:
+      brebk;
+    cbse MLIB_FLOAT:
+    cbse MLIB_INT:
       if (!SAFE_TO_MULT(wb, 4)) {
         return NULL;
       }
       wb *= 4;
-      break;
-    case MLIB_USHORT:
-    case MLIB_SHORT:
+      brebk;
+    cbse MLIB_USHORT:
+    cbse MLIB_SHORT:
       if (!SAFE_TO_MULT(wb, 2)) {
         return NULL;
       }
       wb *= 2;
-      break;
-    case MLIB_BYTE:
-      // wb is ready
-      break;
-    case MLIB_BIT:
+      brebk;
+    cbse MLIB_BYTE:
+      // wb is rebdy
+      brebk;
+    cbse MLIB_BIT:
       if (!SAFE_TO_ADD(7, wb)) {
         return NULL;
       }
       wb = (wb + 7) / 8;
-      break;
-    default:
+      brebk;
+    defbult:
       return NULL;
   }
 
@@ -311,96 +311,96 @@ mlib_image *mlib_ImageCreate(mlib_type type,
       return NULL;
   }
 
-  data = mlib_malloc(wb * height);
-  if (data == NULL) {
+  dbtb = mlib_mblloc(wb * height);
+  if (dbtb == NULL) {
     return NULL;
   }
 
-  image = (mlib_image *)mlib_malloc(sizeof(mlib_image));
-  if (image == NULL) {
-    mlib_free(data);
+  imbge = (mlib_imbge *)mlib_mblloc(sizeof(mlib_imbge));
+  if (imbge == NULL) {
+    mlib_free(dbtb);
     return NULL;
   };
 
-  image -> type     = type;
-  image -> channels = channels;
-  image -> width    = width;
-  image -> height   = height;
-  image -> stride   = wb;
-  image -> data     = data;
-  image -> flags    = ((width & 0xf) << 8);        /* set width field */
-  image -> flags   |= ((height & 0xf) << 12);      /* set height field */
-  image -> flags   |= ((wb & 0xf) << 16);          /* set stride field */
-  image -> flags   |= (mlib_addr)data & 0xff;
-  image -> format   = MLIB_FORMAT_UNKNOWN;
+  imbge -> type     = type;
+  imbge -> chbnnels = chbnnels;
+  imbge -> width    = width;
+  imbge -> height   = height;
+  imbge -> stride   = wb;
+  imbge -> dbtb     = dbtb;
+  imbge -> flbgs    = ((width & 0xf) << 8);        /* set width field */
+  imbge -> flbgs   |= ((height & 0xf) << 12);      /* set height field */
+  imbge -> flbgs   |= ((wb & 0xf) << 16);          /* set stride field */
+  imbge -> flbgs   |= (mlib_bddr)dbtb & 0xff;
+  imbge -> formbt   = MLIB_FORMAT_UNKNOWN;
 
-  image -> paddings[0] = 0;
-  image -> paddings[1] = 0;
-  image -> paddings[2] = 0;
-  image -> paddings[3] = 0;
+  imbge -> pbddings[0] = 0;
+  imbge -> pbddings[1] = 0;
+  imbge -> pbddings[2] = 0;
+  imbge -> pbddings[3] = 0;
 
-  image -> bitoffset = 0;
+  imbge -> bitoffset = 0;
 
-  if ((type == MLIB_BIT) && (wb * 8 != width * channels)) {
-    image -> flags |= MLIB_IMAGE_ONEDVECTOR;       /* not 1-d vector */
+  if ((type == MLIB_BIT) && (wb * 8 != width * chbnnels)) {
+    imbge -> flbgs |= MLIB_IMAGE_ONEDVECTOR;       /* not 1-d vector */
   }
 
-  image -> flags &= MLIB_IMAGE_ATTRIBUTESET;
-  image -> state  = NULL;
+  imbge -> flbgs &= MLIB_IMAGE_ATTRIBUTESET;
+  imbge -> stbte  = NULL;
 
-  return image;
+  return imbge;
 }
 
 /***************************************************************/
-void mlib_ImageDelete(mlib_image *img)
+void mlib_ImbgeDelete(mlib_imbge *img)
 {
   if (img == NULL) return;
-  if ((img -> flags & MLIB_IMAGE_USERALLOCATED) == 0) {
-    mlib_free(img -> data);
+  if ((img -> flbgs & MLIB_IMAGE_USERALLOCATED) == 0) {
+    mlib_free(img -> dbtb);
   }
 
-  mlib_ImageDeleteRowTable(img);
+  mlib_ImbgeDeleteRowTbble(img);
   mlib_free(img);
 }
 
 /***************************************************************/
-mlib_image *mlib_ImageCreateSubimage(mlib_image *img,
+mlib_imbge *mlib_ImbgeCrebteSubimbge(mlib_imbge *img,
                                      mlib_s32   x,
                                      mlib_s32   y,
                                      mlib_s32   w,
                                      mlib_s32   h)
 {
-  mlib_image     *subimage;
+  mlib_imbge     *subimbge;
   mlib_type      type;
-  mlib_s32       channels;
-  mlib_s32       width;                 /* for parent image */
-  mlib_s32       height;                /* for parent image */
+  mlib_s32       chbnnels;
+  mlib_s32       width;                 /* for pbrent imbge */
+  mlib_s32       height;                /* for pbrent imbge */
   mlib_s32       stride;
   mlib_s32       bitoffset = 0;
-  void           *data;
+  void           *dbtb;
 
-/* sanity check */
+/* sbnity check */
   if (w <= 0 || h <= 0 || img == NULL) return NULL;
 
   type     = img -> type;
-  channels = img -> channels;
+  chbnnels = img -> chbnnels;
   width    = img -> width;
   height   = img -> height;
   stride   = img -> stride;
 
-/* clip the sub-image with respect to the parent image */
+/* clip the sub-imbge with respect to the pbrent imbge */
   if (((x + w) <= 0) || ((y + h) <= 0) ||
       (x >= width) || (y >= height)) {
     return NULL;
   }
   else {
     if (x < 0) {
-      w += x;                                        /* x is negative */
+      w += x;                                        /* x is negbtive */
       x = 0;
     }
 
     if (y < 0) {
-      h += y;                                        /* y is negative */
+      h += y;                                        /* y is negbtive */
       y = 0;
     }
 
@@ -413,91 +413,91 @@ mlib_image *mlib_ImageCreateSubimage(mlib_image *img,
     }
   }
 
-/* compute sub-image origin */
-  data = (mlib_u8 *)(img -> data) + y * stride;
+/* compute sub-imbge origin */
+  dbtb = (mlib_u8 *)(img -> dbtb) + y * stride;
 
   switch (type) {
-    case MLIB_DOUBLE:
-      data = (mlib_u8 *)data + x * channels * 8;
-      break;
-    case MLIB_FLOAT:
-    case MLIB_INT:
-      data = (mlib_u8 *)data + x * channels * 4;
-      break;
-    case MLIB_USHORT:
-    case MLIB_SHORT:
-      data = (mlib_u8 *)data + x * channels * 2;
-      break;
-    case MLIB_BYTE:
-      data = (mlib_u8 *)data + x * channels;
-      break;
-    case MLIB_BIT:
+    cbse MLIB_DOUBLE:
+      dbtb = (mlib_u8 *)dbtb + x * chbnnels * 8;
+      brebk;
+    cbse MLIB_FLOAT:
+    cbse MLIB_INT:
+      dbtb = (mlib_u8 *)dbtb + x * chbnnels * 4;
+      brebk;
+    cbse MLIB_USHORT:
+    cbse MLIB_SHORT:
+      dbtb = (mlib_u8 *)dbtb + x * chbnnels * 2;
+      brebk;
+    cbse MLIB_BYTE:
+      dbtb = (mlib_u8 *)dbtb + x * chbnnels;
+      brebk;
+    cbse MLIB_BIT:
       bitoffset = img -> bitoffset;
-      data = (mlib_u8 *)data + (x * channels + bitoffset) / 8;
-      bitoffset = (x * channels + bitoffset) & 7;
-      break;
-    default:
+      dbtb = (mlib_u8 *)dbtb + (x * chbnnels + bitoffset) / 8;
+      bitoffset = (x * chbnnels + bitoffset) & 7;
+      brebk;
+    defbult:
       return NULL;
   }
 
-  subimage = mlib_ImageCreateStruct(type,
-                                    channels,
+  subimbge = mlib_ImbgeCrebteStruct(type,
+                                    chbnnels,
                                     w,
                                     h,
                                     stride,
-                                    data);
+                                    dbtb);
 
-  if (subimage != NULL && type == MLIB_BIT)
-    subimage -> bitoffset = bitoffset;
+  if (subimbge != NULL && type == MLIB_BIT)
+    subimbge -> bitoffset = bitoffset;
 
-  return subimage;
+  return subimbge;
 }
 
 /***************************************************************/
-mlib_image *mlib_ImageSetSubimage(mlib_image       *dst,
-                                  const mlib_image *src,
+mlib_imbge *mlib_ImbgeSetSubimbge(mlib_imbge       *dst,
+                                  const mlib_imbge *src,
                                   mlib_s32         x,
                                   mlib_s32         y,
                                   mlib_s32         w,
                                   mlib_s32         h)
 {
   mlib_type  type     = src -> type;
-  mlib_s32   channels = src -> channels;
+  mlib_s32   chbnnels = src -> chbnnels;
   mlib_s32   stride   = src -> stride;
-  mlib_u8    *data    = src -> data;
+  mlib_u8    *dbtb    = src -> dbtb;
   mlib_s32   bitoffset = 0;
 
-  data += y * stride;
+  dbtb += y * stride;
 
   switch (type) {
-    case MLIB_DOUBLE:
-      data += channels * x * 8;
-      break;
-    case MLIB_FLOAT:
-    case MLIB_INT:
-      data += channels * x * 4;
-      break;
-    case MLIB_USHORT:
-    case MLIB_SHORT:
-      data += channels * x * 2;
-      break;
-    case MLIB_BYTE:
-      data += channels * x;
-      break;
-    case MLIB_BIT:
-      bitoffset = src -> bitoffset + channels * x;
-      data += (bitoffset >= 0) ? bitoffset/8 : (bitoffset - 7)/8; /* with rounding toward -Inf */
+    cbse MLIB_DOUBLE:
+      dbtb += chbnnels * x * 8;
+      brebk;
+    cbse MLIB_FLOAT:
+    cbse MLIB_INT:
+      dbtb += chbnnels * x * 4;
+      brebk;
+    cbse MLIB_USHORT:
+    cbse MLIB_SHORT:
+      dbtb += chbnnels * x * 2;
+      brebk;
+    cbse MLIB_BYTE:
+      dbtb += chbnnels * x;
+      brebk;
+    cbse MLIB_BIT:
+      bitoffset = src -> bitoffset + chbnnels * x;
+      dbtb += (bitoffset >= 0) ? bitoffset/8 : (bitoffset - 7)/8; /* with rounding towbrd -Inf */
       bitoffset &= 7;
-      break;
-    default:
+      brebk;
+    defbult:
       return NULL;
   }
 
   if (h > 0) {
-    dst = mlib_ImageSet(dst, type, channels, w, h, stride, data);
+    dst = mlib_ImbgeSet(dst, type, chbnnels, w, h, stride, dbtb);
   } else {
     h = - h;
-    dst = mlib_ImageSet(dst, type, channels, w, h, - stride, data + (h - 1)*stride);
+    dst = mlib_ImbgeSet(dst, type, chbnnels, w, h, - stride, dbtb + (h - 1)*stride);
   }
 
   if (dst != NULL && type == MLIB_BIT) {
@@ -508,49 +508,49 @@ mlib_image *mlib_ImageSetSubimage(mlib_image       *dst,
 }
 
 /***************************************************************/
-void *mlib_ImageCreateRowTable(mlib_image *img)
+void *mlib_ImbgeCrebteRowTbble(mlib_imbge *img)
 {
-  mlib_u8  **rtable, *tline;
+  mlib_u8  **rtbble, *tline;
   mlib_s32 i, im_height, im_stride;
 
   if (img == NULL) return NULL;
-  if (img -> state)  return img -> state;
+  if (img -> stbte)  return img -> stbte;
 
-  im_height = mlib_ImageGetHeight(img);
-  im_stride = mlib_ImageGetStride(img);
-  tline     = mlib_ImageGetData(img);
+  im_height = mlib_ImbgeGetHeight(img);
+  im_stride = mlib_ImbgeGetStride(img);
+  tline     = mlib_ImbgeGetDbtb(img);
   if (tline == NULL) return NULL;
-  rtable    = mlib_malloc((3 + im_height)*sizeof(mlib_u8 *));
-  if (rtable == NULL) return NULL;
+  rtbble    = mlib_mblloc((3 + im_height)*sizeof(mlib_u8 *));
+  if (rtbble == NULL) return NULL;
 
-  rtable[0] = 0;
-  rtable[1] = (mlib_u8*)((void **)rtable + 1);
-  rtable[2 + im_height] = (mlib_u8*)((void **)rtable + 1);
+  rtbble[0] = 0;
+  rtbble[1] = (mlib_u8*)((void **)rtbble + 1);
+  rtbble[2 + im_height] = (mlib_u8*)((void **)rtbble + 1);
   for (i = 0; i < im_height; i++) {
-    rtable[i+2] = tline;
+    rtbble[i+2] = tline;
     tline    += im_stride;
   }
 
-  img -> state = ((void **)rtable + 2);
-  return img -> state;
+  img -> stbte = ((void **)rtbble + 2);
+  return img -> stbte;
 }
 
 /***************************************************************/
-void mlib_ImageDeleteRowTable(mlib_image *img)
+void mlib_ImbgeDeleteRowTbble(mlib_imbge *img)
 {
-  void **state;
+  void **stbte;
 
   if (img == NULL) return;
 
-  state = img -> state;
-  if (!state) return;
+  stbte = img -> stbte;
+  if (!stbte) return;
 
-  mlib_free(state - 2);
-  img -> state = 0;
+  mlib_free(stbte - 2);
+  img -> stbte = 0;
 }
 
 /***************************************************************/
-mlib_status mlib_ImageSetPaddings(mlib_image *img,
+mlib_stbtus mlib_ImbgeSetPbddings(mlib_imbge *img,
                                   mlib_u8    left,
                                   mlib_u8    top,
                                   mlib_u8    right,
@@ -561,21 +561,21 @@ mlib_status mlib_ImageSetPaddings(mlib_image *img,
   if ((left + right) >= img -> width ||
       (top + bottom) >= img -> height) return MLIB_OUTOFRANGE;
 
-  img -> paddings[0] = left;
-  img -> paddings[1] = top;
-  img -> paddings[2] = right;
-  img -> paddings[3] = bottom;
+  img -> pbddings[0] = left;
+  img -> pbddings[1] = top;
+  img -> pbddings[2] = right;
+  img -> pbddings[3] = bottom;
 
   return MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status mlib_ImageSetFormat(mlib_image  *img,
-                                mlib_format format)
+mlib_stbtus mlib_ImbgeSetFormbt(mlib_imbge  *img,
+                                mlib_formbt formbt)
 {
   if (img == NULL) return MLIB_FAILURE;
 
-  img -> format = format;
+  img -> formbt = formbt;
 
   return MLIB_SUCCESS;
 }

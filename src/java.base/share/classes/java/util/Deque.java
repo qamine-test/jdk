@@ -1,151 +1,151 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea and Josh Bloch with assistance from members of
- * JCP JSR-166 Expert Group and released to the public domain, as explained
- * at http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb bnd Josh Bloch with bssistbnce from members of
+ * JCP JSR-166 Expert Group bnd relebsed to the public dombin, bs explbined
+ * bt http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * A linear collection that supports element insertion and removal at
- * both ends.  The name <i>deque</i> is short for "double ended queue"
- * and is usually pronounced "deck".  Most {@code Deque}
- * implementations place no fixed limits on the number of elements
- * they may contain, but this interface supports capacity-restricted
- * deques as well as those with no fixed size limit.
+ * A linebr collection thbt supports element insertion bnd removbl bt
+ * both ends.  The nbme <i>deque</i> is short for "double ended queue"
+ * bnd is usublly pronounced "deck".  Most {@code Deque}
+ * implementbtions plbce no fixed limits on the number of elements
+ * they mby contbin, but this interfbce supports cbpbcity-restricted
+ * deques bs well bs those with no fixed size limit.
  *
- * <p>This interface defines methods to access the elements at both
- * ends of the deque.  Methods are provided to insert, remove, and
- * examine the element.  Each of these methods exists in two forms:
- * one throws an exception if the operation fails, the other returns a
- * special value (either {@code null} or {@code false}, depending on
- * the operation).  The latter form of the insert operation is
- * designed specifically for use with capacity-restricted
- * {@code Deque} implementations; in most implementations, insert
- * operations cannot fail.
+ * <p>This interfbce defines methods to bccess the elements bt both
+ * ends of the deque.  Methods bre provided to insert, remove, bnd
+ * exbmine the element.  Ebch of these methods exists in two forms:
+ * one throws bn exception if the operbtion fbils, the other returns b
+ * specibl vblue (either {@code null} or {@code fblse}, depending on
+ * the operbtion).  The lbtter form of the insert operbtion is
+ * designed specificblly for use with cbpbcity-restricted
+ * {@code Deque} implementbtions; in most implementbtions, insert
+ * operbtions cbnnot fbil.
  *
- * <p>The twelve methods described above are summarized in the
- * following table:
+ * <p>The twelve methods described bbove bre summbrized in the
+ * following tbble:
  *
- * <table BORDER CELLPADDING=3 CELLSPACING=1>
- * <caption>Summary of Deque methods</caption>
+ * <tbble BORDER CELLPADDING=3 CELLSPACING=1>
+ * <cbption>Summbry of Deque methods</cbption>
  *  <tr>
  *    <td></td>
- *    <td ALIGN=CENTER COLSPAN = 2> <b>First Element (Head)</b></td>
- *    <td ALIGN=CENTER COLSPAN = 2> <b>Last Element (Tail)</b></td>
+ *    <td ALIGN=CENTER COLSPAN = 2> <b>First Element (Hebd)</b></td>
+ *    <td ALIGN=CENTER COLSPAN = 2> <b>Lbst Element (Tbil)</b></td>
  *  </tr>
  *  <tr>
  *    <td></td>
  *    <td ALIGN=CENTER><em>Throws exception</em></td>
- *    <td ALIGN=CENTER><em>Special value</em></td>
+ *    <td ALIGN=CENTER><em>Specibl vblue</em></td>
  *    <td ALIGN=CENTER><em>Throws exception</em></td>
- *    <td ALIGN=CENTER><em>Special value</em></td>
+ *    <td ALIGN=CENTER><em>Specibl vblue</em></td>
  *  </tr>
  *  <tr>
  *    <td><b>Insert</b></td>
- *    <td>{@link Deque#addFirst addFirst(e)}</td>
+ *    <td>{@link Deque#bddFirst bddFirst(e)}</td>
  *    <td>{@link Deque#offerFirst offerFirst(e)}</td>
- *    <td>{@link Deque#addLast addLast(e)}</td>
- *    <td>{@link Deque#offerLast offerLast(e)}</td>
+ *    <td>{@link Deque#bddLbst bddLbst(e)}</td>
+ *    <td>{@link Deque#offerLbst offerLbst(e)}</td>
  *  </tr>
  *  <tr>
  *    <td><b>Remove</b></td>
  *    <td>{@link Deque#removeFirst removeFirst()}</td>
  *    <td>{@link Deque#pollFirst pollFirst()}</td>
- *    <td>{@link Deque#removeLast removeLast()}</td>
- *    <td>{@link Deque#pollLast pollLast()}</td>
+ *    <td>{@link Deque#removeLbst removeLbst()}</td>
+ *    <td>{@link Deque#pollLbst pollLbst()}</td>
  *  </tr>
  *  <tr>
- *    <td><b>Examine</b></td>
+ *    <td><b>Exbmine</b></td>
  *    <td>{@link Deque#getFirst getFirst()}</td>
  *    <td>{@link Deque#peekFirst peekFirst()}</td>
- *    <td>{@link Deque#getLast getLast()}</td>
- *    <td>{@link Deque#peekLast peekLast()}</td>
+ *    <td>{@link Deque#getLbst getLbst()}</td>
+ *    <td>{@link Deque#peekLbst peekLbst()}</td>
  *  </tr>
- * </table>
+ * </tbble>
  *
- * <p>This interface extends the {@link Queue} interface.  When a deque is
- * used as a queue, FIFO (First-In-First-Out) behavior results.  Elements are
- * added at the end of the deque and removed from the beginning.  The methods
- * inherited from the {@code Queue} interface are precisely equivalent to
- * {@code Deque} methods as indicated in the following table:
+ * <p>This interfbce extends the {@link Queue} interfbce.  When b deque is
+ * used bs b queue, FIFO (First-In-First-Out) behbvior results.  Elements bre
+ * bdded bt the end of the deque bnd removed from the beginning.  The methods
+ * inherited from the {@code Queue} interfbce bre precisely equivblent to
+ * {@code Deque} methods bs indicbted in the following tbble:
  *
- * <table BORDER CELLPADDING=3 CELLSPACING=1>
- * <caption>Comparison of Queue and Deque methods</caption>
+ * <tbble BORDER CELLPADDING=3 CELLSPACING=1>
+ * <cbption>Compbrison of Queue bnd Deque methods</cbption>
  *  <tr>
  *    <td ALIGN=CENTER> <b>{@code Queue} Method</b></td>
- *    <td ALIGN=CENTER> <b>Equivalent {@code Deque} Method</b></td>
+ *    <td ALIGN=CENTER> <b>Equivblent {@code Deque} Method</b></td>
  *  </tr>
  *  <tr>
- *    <td>{@link java.util.Queue#add add(e)}</td>
- *    <td>{@link #addLast addLast(e)}</td>
+ *    <td>{@link jbvb.util.Queue#bdd bdd(e)}</td>
+ *    <td>{@link #bddLbst bddLbst(e)}</td>
  *  </tr>
  *  <tr>
- *    <td>{@link java.util.Queue#offer offer(e)}</td>
- *    <td>{@link #offerLast offerLast(e)}</td>
+ *    <td>{@link jbvb.util.Queue#offer offer(e)}</td>
+ *    <td>{@link #offerLbst offerLbst(e)}</td>
  *  </tr>
  *  <tr>
- *    <td>{@link java.util.Queue#remove remove()}</td>
+ *    <td>{@link jbvb.util.Queue#remove remove()}</td>
  *    <td>{@link #removeFirst removeFirst()}</td>
  *  </tr>
  *  <tr>
- *    <td>{@link java.util.Queue#poll poll()}</td>
+ *    <td>{@link jbvb.util.Queue#poll poll()}</td>
  *    <td>{@link #pollFirst pollFirst()}</td>
  *  </tr>
  *  <tr>
- *    <td>{@link java.util.Queue#element element()}</td>
+ *    <td>{@link jbvb.util.Queue#element element()}</td>
  *    <td>{@link #getFirst getFirst()}</td>
  *  </tr>
  *  <tr>
- *    <td>{@link java.util.Queue#peek peek()}</td>
+ *    <td>{@link jbvb.util.Queue#peek peek()}</td>
  *    <td>{@link #peek peekFirst()}</td>
  *  </tr>
- * </table>
+ * </tbble>
  *
- * <p>Deques can also be used as LIFO (Last-In-First-Out) stacks.  This
- * interface should be used in preference to the legacy {@link Stack} class.
- * When a deque is used as a stack, elements are pushed and popped from the
- * beginning of the deque.  Stack methods are precisely equivalent to
- * {@code Deque} methods as indicated in the table below:
+ * <p>Deques cbn blso be used bs LIFO (Lbst-In-First-Out) stbcks.  This
+ * interfbce should be used in preference to the legbcy {@link Stbck} clbss.
+ * When b deque is used bs b stbck, elements bre pushed bnd popped from the
+ * beginning of the deque.  Stbck methods bre precisely equivblent to
+ * {@code Deque} methods bs indicbted in the tbble below:
  *
- * <table BORDER CELLPADDING=3 CELLSPACING=1>
- * <caption>Comparison of Stack and Deque methods</caption>
+ * <tbble BORDER CELLPADDING=3 CELLSPACING=1>
+ * <cbption>Compbrison of Stbck bnd Deque methods</cbption>
  *  <tr>
- *    <td ALIGN=CENTER> <b>Stack Method</b></td>
- *    <td ALIGN=CENTER> <b>Equivalent {@code Deque} Method</b></td>
+ *    <td ALIGN=CENTER> <b>Stbck Method</b></td>
+ *    <td ALIGN=CENTER> <b>Equivblent {@code Deque} Method</b></td>
  *  </tr>
  *  <tr>
  *    <td>{@link #push push(e)}</td>
- *    <td>{@link #addFirst addFirst(e)}</td>
+ *    <td>{@link #bddFirst bddFirst(e)}</td>
  *  </tr>
  *  <tr>
  *    <td>{@link #pop pop()}</td>
@@ -155,299 +155,299 @@ package java.util;
  *    <td>{@link #peek peek()}</td>
  *    <td>{@link #peekFirst peekFirst()}</td>
  *  </tr>
- * </table>
+ * </tbble>
  *
- * <p>Note that the {@link #peek peek} method works equally well when
- * a deque is used as a queue or a stack; in either case, elements are
- * drawn from the beginning of the deque.
+ * <p>Note thbt the {@link #peek peek} method works equblly well when
+ * b deque is used bs b queue or b stbck; in either cbse, elements bre
+ * drbwn from the beginning of the deque.
  *
- * <p>This interface provides two methods to remove interior
- * elements, {@link #removeFirstOccurrence removeFirstOccurrence} and
- * {@link #removeLastOccurrence removeLastOccurrence}.
+ * <p>This interfbce provides two methods to remove interior
+ * elements, {@link #removeFirstOccurrence removeFirstOccurrence} bnd
+ * {@link #removeLbstOccurrence removeLbstOccurrence}.
  *
- * <p>Unlike the {@link List} interface, this interface does not
- * provide support for indexed access to elements.
+ * <p>Unlike the {@link List} interfbce, this interfbce does not
+ * provide support for indexed bccess to elements.
  *
- * <p>While {@code Deque} implementations are not strictly required
- * to prohibit the insertion of null elements, they are strongly
- * encouraged to do so.  Users of any {@code Deque} implementations
- * that do allow null elements are strongly encouraged <i>not</i> to
- * take advantage of the ability to insert nulls.  This is so because
- * {@code null} is used as a special return value by various methods
- * to indicated that the deque is empty.
+ * <p>While {@code Deque} implementbtions bre not strictly required
+ * to prohibit the insertion of null elements, they bre strongly
+ * encourbged to do so.  Users of bny {@code Deque} implementbtions
+ * thbt do bllow null elements bre strongly encourbged <i>not</i> to
+ * tbke bdvbntbge of the bbility to insert nulls.  This is so becbuse
+ * {@code null} is used bs b specibl return vblue by vbrious methods
+ * to indicbted thbt the deque is empty.
  *
- * <p>{@code Deque} implementations generally do not define
- * element-based versions of the {@code equals} and {@code hashCode}
- * methods, but instead inherit the identity-based versions from class
+ * <p>{@code Deque} implementbtions generblly do not define
+ * element-bbsed versions of the {@code equbls} bnd {@code hbshCode}
+ * methods, but instebd inherit the identity-bbsed versions from clbss
  * {@code Object}.
  *
- * <p>This interface is a member of the <a
- * href="{@docRoot}/../technotes/guides/collections/index.html"> Java Collections
- * Framework</a>.
+ * <p>This interfbce is b member of the <b
+ * href="{@docRoot}/../technotes/guides/collections/index.html"> Jbvb Collections
+ * Frbmework</b>.
  *
- * @author Doug Lea
- * @author Josh Bloch
+ * @buthor Doug Leb
+ * @buthor Josh Bloch
  * @since  1.6
- * @param <E> the type of elements held in this collection
+ * @pbrbm <E> the type of elements held in this collection
  */
-public interface Deque<E> extends Queue<E> {
+public interfbce Deque<E> extends Queue<E> {
     /**
-     * Inserts the specified element at the front of this deque if it is
-     * possible to do so immediately without violating capacity restrictions,
-     * throwing an {@code IllegalStateException} if no space is currently
-     * available.  When using a capacity-restricted deque, it is generally
-     * preferable to use method {@link #offerFirst}.
+     * Inserts the specified element bt the front of this deque if it is
+     * possible to do so immedibtely without violbting cbpbcity restrictions,
+     * throwing bn {@code IllegblStbteException} if no spbce is currently
+     * bvbilbble.  When using b cbpbcity-restricted deque, it is generblly
+     * preferbble to use method {@link #offerFirst}.
      *
-     * @param e the element to add
-     * @throws IllegalStateException if the element cannot be added at this
-     *         time due to capacity restrictions
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm e the element to bdd
+     * @throws IllegblStbteException if the element cbnnot be bdded bt this
+     *         time due to cbpbcity restrictions
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this deque
+     * @throws NullPointerException if the specified element is null bnd this
      *         deque does not permit null elements
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this deque
      */
-    void addFirst(E e);
+    void bddFirst(E e);
 
     /**
-     * Inserts the specified element at the end of this deque if it is
-     * possible to do so immediately without violating capacity restrictions,
-     * throwing an {@code IllegalStateException} if no space is currently
-     * available.  When using a capacity-restricted deque, it is generally
-     * preferable to use method {@link #offerLast}.
+     * Inserts the specified element bt the end of this deque if it is
+     * possible to do so immedibtely without violbting cbpbcity restrictions,
+     * throwing bn {@code IllegblStbteException} if no spbce is currently
+     * bvbilbble.  When using b cbpbcity-restricted deque, it is generblly
+     * preferbble to use method {@link #offerLbst}.
      *
-     * <p>This method is equivalent to {@link #add}.
+     * <p>This method is equivblent to {@link #bdd}.
      *
-     * @param e the element to add
-     * @throws IllegalStateException if the element cannot be added at this
-     *         time due to capacity restrictions
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm e the element to bdd
+     * @throws IllegblStbteException if the element cbnnot be bdded bt this
+     *         time due to cbpbcity restrictions
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this deque
+     * @throws NullPointerException if the specified element is null bnd this
      *         deque does not permit null elements
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this deque
      */
-    void addLast(E e);
+    void bddLbst(E e);
 
     /**
-     * Inserts the specified element at the front of this deque unless it would
-     * violate capacity restrictions.  When using a capacity-restricted deque,
-     * this method is generally preferable to the {@link #addFirst} method,
-     * which can fail to insert an element only by throwing an exception.
+     * Inserts the specified element bt the front of this deque unless it would
+     * violbte cbpbcity restrictions.  When using b cbpbcity-restricted deque,
+     * this method is generblly preferbble to the {@link #bddFirst} method,
+     * which cbn fbil to insert bn element only by throwing bn exception.
      *
-     * @param e the element to add
-     * @return {@code true} if the element was added to this deque, else
-     *         {@code false}
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm e the element to bdd
+     * @return {@code true} if the element wbs bdded to this deque, else
+     *         {@code fblse}
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this deque
+     * @throws NullPointerException if the specified element is null bnd this
      *         deque does not permit null elements
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this deque
      */
-    boolean offerFirst(E e);
+    boolebn offerFirst(E e);
 
     /**
-     * Inserts the specified element at the end of this deque unless it would
-     * violate capacity restrictions.  When using a capacity-restricted deque,
-     * this method is generally preferable to the {@link #addLast} method,
-     * which can fail to insert an element only by throwing an exception.
+     * Inserts the specified element bt the end of this deque unless it would
+     * violbte cbpbcity restrictions.  When using b cbpbcity-restricted deque,
+     * this method is generblly preferbble to the {@link #bddLbst} method,
+     * which cbn fbil to insert bn element only by throwing bn exception.
      *
-     * @param e the element to add
-     * @return {@code true} if the element was added to this deque, else
-     *         {@code false}
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm e the element to bdd
+     * @return {@code true} if the element wbs bdded to this deque, else
+     *         {@code fblse}
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this deque
+     * @throws NullPointerException if the specified element is null bnd this
      *         deque does not permit null elements
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this deque
      */
-    boolean offerLast(E e);
+    boolebn offerLbst(E e);
 
     /**
-     * Retrieves and removes the first element of this deque.  This method
-     * differs from {@link #pollFirst pollFirst} only in that it throws an
+     * Retrieves bnd removes the first element of this deque.  This method
+     * differs from {@link #pollFirst pollFirst} only in thbt it throws bn
      * exception if this deque is empty.
      *
-     * @return the head of this deque
+     * @return the hebd of this deque
      * @throws NoSuchElementException if this deque is empty
      */
     E removeFirst();
 
     /**
-     * Retrieves and removes the last element of this deque.  This method
-     * differs from {@link #pollLast pollLast} only in that it throws an
+     * Retrieves bnd removes the lbst element of this deque.  This method
+     * differs from {@link #pollLbst pollLbst} only in thbt it throws bn
      * exception if this deque is empty.
      *
-     * @return the tail of this deque
+     * @return the tbil of this deque
      * @throws NoSuchElementException if this deque is empty
      */
-    E removeLast();
+    E removeLbst();
 
     /**
-     * Retrieves and removes the first element of this deque,
+     * Retrieves bnd removes the first element of this deque,
      * or returns {@code null} if this deque is empty.
      *
-     * @return the head of this deque, or {@code null} if this deque is empty
+     * @return the hebd of this deque, or {@code null} if this deque is empty
      */
     E pollFirst();
 
     /**
-     * Retrieves and removes the last element of this deque,
+     * Retrieves bnd removes the lbst element of this deque,
      * or returns {@code null} if this deque is empty.
      *
-     * @return the tail of this deque, or {@code null} if this deque is empty
+     * @return the tbil of this deque, or {@code null} if this deque is empty
      */
-    E pollLast();
+    E pollLbst();
 
     /**
      * Retrieves, but does not remove, the first element of this deque.
      *
-     * This method differs from {@link #peekFirst peekFirst} only in that it
-     * throws an exception if this deque is empty.
+     * This method differs from {@link #peekFirst peekFirst} only in thbt it
+     * throws bn exception if this deque is empty.
      *
-     * @return the head of this deque
+     * @return the hebd of this deque
      * @throws NoSuchElementException if this deque is empty
      */
     E getFirst();
 
     /**
-     * Retrieves, but does not remove, the last element of this deque.
-     * This method differs from {@link #peekLast peekLast} only in that it
-     * throws an exception if this deque is empty.
+     * Retrieves, but does not remove, the lbst element of this deque.
+     * This method differs from {@link #peekLbst peekLbst} only in thbt it
+     * throws bn exception if this deque is empty.
      *
-     * @return the tail of this deque
+     * @return the tbil of this deque
      * @throws NoSuchElementException if this deque is empty
      */
-    E getLast();
+    E getLbst();
 
     /**
      * Retrieves, but does not remove, the first element of this deque,
      * or returns {@code null} if this deque is empty.
      *
-     * @return the head of this deque, or {@code null} if this deque is empty
+     * @return the hebd of this deque, or {@code null} if this deque is empty
      */
     E peekFirst();
 
     /**
-     * Retrieves, but does not remove, the last element of this deque,
+     * Retrieves, but does not remove, the lbst element of this deque,
      * or returns {@code null} if this deque is empty.
      *
-     * @return the tail of this deque, or {@code null} if this deque is empty
+     * @return the tbil of this deque, or {@code null} if this deque is empty
      */
-    E peekLast();
+    E peekLbst();
 
     /**
      * Removes the first occurrence of the specified element from this deque.
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the first element {@code e} such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>
-     * (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * If the deque does not contbin the element, it is unchbnged.
+     * More formblly, removes the first element {@code e} such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>
+     * (if such bn element exists).
+     * Returns {@code true} if this deque contbined the specified element
+     * (or equivblently, if this deque chbnged bs b result of the cbll).
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if an element was removed as a result of this call
-     * @throws ClassCastException if the class of the specified element
-     *         is incompatible with this deque
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm o element to be removed from this deque, if present
+     * @return {@code true} if bn element wbs removed bs b result of this cbll
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         is incompbtible with this deque
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if the specified element is null bnd this
      *         deque does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
      */
-    boolean removeFirstOccurrence(Object o);
+    boolebn removeFirstOccurrence(Object o);
 
     /**
-     * Removes the last occurrence of the specified element from this deque.
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the last element {@code e} such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>
-     * (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * Removes the lbst occurrence of the specified element from this deque.
+     * If the deque does not contbin the element, it is unchbnged.
+     * More formblly, removes the lbst element {@code e} such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>
+     * (if such bn element exists).
+     * Returns {@code true} if this deque contbined the specified element
+     * (or equivblently, if this deque chbnged bs b result of the cbll).
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if an element was removed as a result of this call
-     * @throws ClassCastException if the class of the specified element
-     *         is incompatible with this deque
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm o element to be removed from this deque, if present
+     * @return {@code true} if bn element wbs removed bs b result of this cbll
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         is incompbtible with this deque
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if the specified element is null bnd this
      *         deque does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
      */
-    boolean removeLastOccurrence(Object o);
+    boolebn removeLbstOccurrence(Object o);
 
     // *** Queue methods ***
 
     /**
      * Inserts the specified element into the queue represented by this deque
-     * (in other words, at the tail of this deque) if it is possible to do so
-     * immediately without violating capacity restrictions, returning
-     * {@code true} upon success and throwing an
-     * {@code IllegalStateException} if no space is currently available.
-     * When using a capacity-restricted deque, it is generally preferable to
+     * (in other words, bt the tbil of this deque) if it is possible to do so
+     * immedibtely without violbting cbpbcity restrictions, returning
+     * {@code true} upon success bnd throwing bn
+     * {@code IllegblStbteException} if no spbce is currently bvbilbble.
+     * When using b cbpbcity-restricted deque, it is generblly preferbble to
      * use {@link #offer(Object) offer}.
      *
-     * <p>This method is equivalent to {@link #addLast}.
+     * <p>This method is equivblent to {@link #bddLbst}.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Collection#add})
-     * @throws IllegalStateException if the element cannot be added at this
-     *         time due to capacity restrictions
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm e the element to bdd
+     * @return {@code true} (bs specified by {@link Collection#bdd})
+     * @throws IllegblStbteException if the element cbnnot be bdded bt this
+     *         time due to cbpbcity restrictions
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this deque
+     * @throws NullPointerException if the specified element is null bnd this
      *         deque does not permit null elements
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this deque
      */
-    boolean add(E e);
+    boolebn bdd(E e);
 
     /**
      * Inserts the specified element into the queue represented by this deque
-     * (in other words, at the tail of this deque) if it is possible to do so
-     * immediately without violating capacity restrictions, returning
-     * {@code true} upon success and {@code false} if no space is currently
-     * available.  When using a capacity-restricted deque, this method is
-     * generally preferable to the {@link #add} method, which can fail to
-     * insert an element only by throwing an exception.
+     * (in other words, bt the tbil of this deque) if it is possible to do so
+     * immedibtely without violbting cbpbcity restrictions, returning
+     * {@code true} upon success bnd {@code fblse} if no spbce is currently
+     * bvbilbble.  When using b cbpbcity-restricted deque, this method is
+     * generblly preferbble to the {@link #bdd} method, which cbn fbil to
+     * insert bn element only by throwing bn exception.
      *
-     * <p>This method is equivalent to {@link #offerLast}.
+     * <p>This method is equivblent to {@link #offerLbst}.
      *
-     * @param e the element to add
-     * @return {@code true} if the element was added to this deque, else
-     *         {@code false}
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm e the element to bdd
+     * @return {@code true} if the element wbs bdded to this deque, else
+     *         {@code fblse}
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this deque
+     * @throws NullPointerException if the specified element is null bnd this
      *         deque does not permit null elements
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this deque
      */
-    boolean offer(E e);
+    boolebn offer(E e);
 
     /**
-     * Retrieves and removes the head of the queue represented by this deque
+     * Retrieves bnd removes the hebd of the queue represented by this deque
      * (in other words, the first element of this deque).
-     * This method differs from {@link #poll poll} only in that it throws an
+     * This method differs from {@link #poll poll} only in thbt it throws bn
      * exception if this deque is empty.
      *
-     * <p>This method is equivalent to {@link #removeFirst()}.
+     * <p>This method is equivblent to {@link #removeFirst()}.
      *
-     * @return the head of the queue represented by this deque
+     * @return the hebd of the queue represented by this deque
      * @throws NoSuchElementException if this deque is empty
      */
     E remove();
 
     /**
-     * Retrieves and removes the head of the queue represented by this deque
+     * Retrieves bnd removes the hebd of the queue represented by this deque
      * (in other words, the first element of this deque), or returns
      * {@code null} if this deque is empty.
      *
-     * <p>This method is equivalent to {@link #pollFirst()}.
+     * <p>This method is equivblent to {@link #pollFirst()}.
      *
      * @return the first element of this deque, or {@code null} if
      *         this deque is empty
@@ -455,61 +455,61 @@ public interface Deque<E> extends Queue<E> {
     E poll();
 
     /**
-     * Retrieves, but does not remove, the head of the queue represented by
+     * Retrieves, but does not remove, the hebd of the queue represented by
      * this deque (in other words, the first element of this deque).
-     * This method differs from {@link #peek peek} only in that it throws an
+     * This method differs from {@link #peek peek} only in thbt it throws bn
      * exception if this deque is empty.
      *
-     * <p>This method is equivalent to {@link #getFirst()}.
+     * <p>This method is equivblent to {@link #getFirst()}.
      *
-     * @return the head of the queue represented by this deque
+     * @return the hebd of the queue represented by this deque
      * @throws NoSuchElementException if this deque is empty
      */
     E element();
 
     /**
-     * Retrieves, but does not remove, the head of the queue represented by
+     * Retrieves, but does not remove, the hebd of the queue represented by
      * this deque (in other words, the first element of this deque), or
      * returns {@code null} if this deque is empty.
      *
-     * <p>This method is equivalent to {@link #peekFirst()}.
+     * <p>This method is equivblent to {@link #peekFirst()}.
      *
-     * @return the head of the queue represented by this deque, or
+     * @return the hebd of the queue represented by this deque, or
      *         {@code null} if this deque is empty
      */
     E peek();
 
 
-    // *** Stack methods ***
+    // *** Stbck methods ***
 
     /**
-     * Pushes an element onto the stack represented by this deque (in other
-     * words, at the head of this deque) if it is possible to do so
-     * immediately without violating capacity restrictions, throwing an
-     * {@code IllegalStateException} if no space is currently available.
+     * Pushes bn element onto the stbck represented by this deque (in other
+     * words, bt the hebd of this deque) if it is possible to do so
+     * immedibtely without violbting cbpbcity restrictions, throwing bn
+     * {@code IllegblStbteException} if no spbce is currently bvbilbble.
      *
-     * <p>This method is equivalent to {@link #addFirst}.
+     * <p>This method is equivblent to {@link #bddFirst}.
      *
-     * @param e the element to push
-     * @throws IllegalStateException if the element cannot be added at this
-     *         time due to capacity restrictions
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm e the element to push
+     * @throws IllegblStbteException if the element cbnnot be bdded bt this
+     *         time due to cbpbcity restrictions
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this deque
+     * @throws NullPointerException if the specified element is null bnd this
      *         deque does not permit null elements
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this deque
      */
     void push(E e);
 
     /**
-     * Pops an element from the stack represented by this deque.  In other
-     * words, removes and returns the first element of this deque.
+     * Pops bn element from the stbck represented by this deque.  In other
+     * words, removes bnd returns the first element of this deque.
      *
-     * <p>This method is equivalent to {@link #removeFirst()}.
+     * <p>This method is equivblent to {@link #removeFirst()}.
      *
-     * @return the element at the front of this deque (which is the top
-     *         of the stack represented by this deque)
+     * @return the element bt the front of this deque (which is the top
+     *         of the stbck represented by this deque)
      * @throws NoSuchElementException if this deque is empty
      */
     E pop();
@@ -519,42 +519,42 @@ public interface Deque<E> extends Queue<E> {
 
     /**
      * Removes the first occurrence of the specified element from this deque.
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the first element {@code e} such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>
-     * (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * If the deque does not contbin the element, it is unchbnged.
+     * More formblly, removes the first element {@code e} such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>
+     * (if such bn element exists).
+     * Returns {@code true} if this deque contbined the specified element
+     * (or equivblently, if this deque chbnged bs b result of the cbll).
      *
-     * <p>This method is equivalent to {@link #removeFirstOccurrence(Object)}.
+     * <p>This method is equivblent to {@link #removeFirstOccurrence(Object)}.
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if an element was removed as a result of this call
-     * @throws ClassCastException if the class of the specified element
-     *         is incompatible with this deque
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm o element to be removed from this deque, if present
+     * @return {@code true} if bn element wbs removed bs b result of this cbll
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         is incompbtible with this deque
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if the specified element is null bnd this
      *         deque does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
      */
-    boolean remove(Object o);
+    boolebn remove(Object o);
 
     /**
-     * Returns {@code true} if this deque contains the specified element.
-     * More formally, returns {@code true} if and only if this deque contains
-     * at least one element {@code e} such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
+     * Returns {@code true} if this deque contbins the specified element.
+     * More formblly, returns {@code true} if bnd only if this deque contbins
+     * bt lebst one element {@code e} such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>.
      *
-     * @param o element whose presence in this deque is to be tested
-     * @return {@code true} if this deque contains the specified element
-     * @throws ClassCastException if the type of the specified element
-     *         is incompatible with this deque
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm o element whose presence in this deque is to be tested
+     * @return {@code true} if this deque contbins the specified element
+     * @throws ClbssCbstException if the type of the specified element
+     *         is incompbtible with this deque
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if the specified element is null bnd this
      *         deque does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
      */
-    boolean contains(Object o);
+    boolebn contbins(Object o);
 
     /**
      * Returns the number of elements in this deque.
@@ -564,21 +564,21 @@ public interface Deque<E> extends Queue<E> {
     public int size();
 
     /**
-     * Returns an iterator over the elements in this deque in proper sequence.
-     * The elements will be returned in order from first (head) to last (tail).
+     * Returns bn iterbtor over the elements in this deque in proper sequence.
+     * The elements will be returned in order from first (hebd) to lbst (tbil).
      *
-     * @return an iterator over the elements in this deque in proper sequence
+     * @return bn iterbtor over the elements in this deque in proper sequence
      */
-    Iterator<E> iterator();
+    Iterbtor<E> iterbtor();
 
     /**
-     * Returns an iterator over the elements in this deque in reverse
-     * sequential order.  The elements will be returned in order from
-     * last (tail) to first (head).
+     * Returns bn iterbtor over the elements in this deque in reverse
+     * sequentibl order.  The elements will be returned in order from
+     * lbst (tbil) to first (hebd).
      *
-     * @return an iterator over the elements in this deque in reverse
+     * @return bn iterbtor over the elements in this deque in reverse
      * sequence
      */
-    Iterator<E> descendingIterator();
+    Iterbtor<E> descendingIterbtor();
 
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,129 +28,129 @@
 #include    "JPLISAgent.h"
 #include    "JPLISAssert.h"
 #include    "Utilities.h"
-#include    "JavaExceptions.h"
+#include    "JbvbExceptions.h"
 #include    "FileSystemSupport.h"   /* For uintptr_t */
-#include    "sun_instrument_InstrumentationImpl.h"
+#include    "sun_instrument_InstrumentbtionImpl.h"
 
 /*
  * Copyright 2003 Wily Technology, Inc.
  */
 
 /**
- * This module contains the native method implementations to back the
- * sun.instrument.InstrumentationImpl class.
- * The bridge between Java and native code is built by storing a native
- * pointer to the JPLISAgent data structure in a 64 bit scalar field
- * in the InstrumentationImpl instance which is passed to each method.
+ * This module contbins the nbtive method implementbtions to bbck the
+ * sun.instrument.InstrumentbtionImpl clbss.
+ * The bridge between Jbvb bnd nbtive code is built by storing b nbtive
+ * pointer to the JPLISAgent dbtb structure in b 64 bit scblbr field
+ * in the InstrumentbtionImpl instbnce which is pbssed to ebch method.
  */
 
 
 /*
- * Native methods
+ * Nbtive methods
  */
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    isModifiableClass0
- * Signature: (Ljava/lang/Class;)Z
+ * Clbss:     sun_instrument_InstrumentbtionImpl
+ * Method:    isModifibbleClbss0
+ * Signbture: (Ljbvb/lbng/Clbss;)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_instrument_InstrumentationImpl_isModifiableClass0
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jclass clazz) {
-    return isModifiableClass(jnienv, (JPLISAgent*)(intptr_t)agent, clazz);
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_instrument_InstrumentbtionImpl_isModifibbleClbss0
+  (JNIEnv * jnienv, jobject implThis, jlong bgent, jclbss clbzz) {
+    return isModifibbleClbss(jnienv, (JPLISAgent*)(intptr_t)bgent, clbzz);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    isRetransformClassesSupported0
- * Signature: ()Z
+ * Clbss:     sun_instrument_InstrumentbtionImpl
+ * Method:    isRetrbnsformClbssesSupported0
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_instrument_InstrumentationImpl_isRetransformClassesSupported0
-  (JNIEnv * jnienv, jobject implThis, jlong agent) {
-    return isRetransformClassesSupported(jnienv, (JPLISAgent*)(intptr_t)agent);
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_instrument_InstrumentbtionImpl_isRetrbnsformClbssesSupported0
+  (JNIEnv * jnienv, jobject implThis, jlong bgent) {
+    return isRetrbnsformClbssesSupported(jnienv, (JPLISAgent*)(intptr_t)bgent);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    setHasRetransformableTransformers
- * Signature: (Z)V
+ * Clbss:     sun_instrument_InstrumentbtionImpl
+ * Method:    setHbsRetrbnsformbbleTrbnsformers
+ * Signbture: (Z)V
  */
 JNIEXPORT void JNICALL
-Java_sun_instrument_InstrumentationImpl_setHasRetransformableTransformers
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jboolean has) {
-    setHasRetransformableTransformers(jnienv, (JPLISAgent*)(intptr_t)agent, has);
+Jbvb_sun_instrument_InstrumentbtionImpl_setHbsRetrbnsformbbleTrbnsformers
+  (JNIEnv * jnienv, jobject implThis, jlong bgent, jboolebn hbs) {
+    setHbsRetrbnsformbbleTrbnsformers(jnienv, (JPLISAgent*)(intptr_t)bgent, hbs);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    retransformClasses0
- * Signature: ([Ljava/lang/Class;)V
+ * Clbss:     sun_instrument_InstrumentbtionImpl
+ * Method:    retrbnsformClbsses0
+ * Signbture: ([Ljbvb/lbng/Clbss;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_instrument_InstrumentationImpl_retransformClasses0
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jobjectArray classes) {
-    retransformClasses(jnienv, (JPLISAgent*)(intptr_t)agent, classes);
+Jbvb_sun_instrument_InstrumentbtionImpl_retrbnsformClbsses0
+  (JNIEnv * jnienv, jobject implThis, jlong bgent, jobjectArrby clbsses) {
+    retrbnsformClbsses(jnienv, (JPLISAgent*)(intptr_t)bgent, clbsses);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    redefineClasses0
- * Signature: ([Ljava/lang/instrument/ClassDefinition;)V
+ * Clbss:     sun_instrument_InstrumentbtionImpl
+ * Method:    redefineClbsses0
+ * Signbture: ([Ljbvb/lbng/instrument/ClbssDefinition;)V
  */
-JNIEXPORT void JNICALL Java_sun_instrument_InstrumentationImpl_redefineClasses0
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jobjectArray classDefinitions) {
-    redefineClasses(jnienv, (JPLISAgent*)(intptr_t)agent, classDefinitions);
+JNIEXPORT void JNICALL Jbvb_sun_instrument_InstrumentbtionImpl_redefineClbsses0
+  (JNIEnv * jnienv, jobject implThis, jlong bgent, jobjectArrby clbssDefinitions) {
+    redefineClbsses(jnienv, (JPLISAgent*)(intptr_t)bgent, clbssDefinitions);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    getAllLoadedClasses0
- * Signature: ()[Ljava/lang/Class;
+ * Clbss:     sun_instrument_InstrumentbtionImpl
+ * Method:    getAllLobdedClbsses0
+ * Signbture: ()[Ljbvb/lbng/Clbss;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_instrument_InstrumentationImpl_getAllLoadedClasses0
-  (JNIEnv * jnienv, jobject implThis, jlong agent) {
-    return getAllLoadedClasses(jnienv, (JPLISAgent*)(intptr_t)agent);
+JNIEXPORT jobjectArrby JNICALL Jbvb_sun_instrument_InstrumentbtionImpl_getAllLobdedClbsses0
+  (JNIEnv * jnienv, jobject implThis, jlong bgent) {
+    return getAllLobdedClbsses(jnienv, (JPLISAgent*)(intptr_t)bgent);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    getInitiatedClasses0
- * Signature: (Ljava/lang/ClassLoader;)[Ljava/lang/Class;
+ * Clbss:     sun_instrument_InstrumentbtionImpl
+ * Method:    getInitibtedClbsses0
+ * Signbture: (Ljbvb/lbng/ClbssLobder;)[Ljbvb/lbng/Clbss;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_instrument_InstrumentationImpl_getInitiatedClasses0
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jobject classLoader) {
-    return getInitiatedClasses(jnienv, (JPLISAgent*)(intptr_t)agent, classLoader);
+JNIEXPORT jobjectArrby JNICALL Jbvb_sun_instrument_InstrumentbtionImpl_getInitibtedClbsses0
+  (JNIEnv * jnienv, jobject implThis, jlong bgent, jobject clbssLobder) {
+    return getInitibtedClbsses(jnienv, (JPLISAgent*)(intptr_t)bgent, clbssLobder);
 }
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
+ * Clbss:     sun_instrument_InstrumentbtionImpl
  * Method:    getObjectSize0
- * Signature: (Ljava/lang/Object;)J
+ * Signbture: (Ljbvb/lbng/Object;)J
  */
-JNIEXPORT jlong JNICALL Java_sun_instrument_InstrumentationImpl_getObjectSize0
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jobject objectToSize) {
-    return getObjectSize(jnienv, (JPLISAgent*)(intptr_t)agent, objectToSize);
+JNIEXPORT jlong JNICALL Jbvb_sun_instrument_InstrumentbtionImpl_getObjectSize0
+  (JNIEnv * jnienv, jobject implThis, jlong bgent, jobject objectToSize) {
+    return getObjectSize(jnienv, (JPLISAgent*)(intptr_t)bgent, objectToSize);
 }
 
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    appendToClassLoaderSearch0
- * Signature: (Ljava/lang/String;Z)V
+ * Clbss:     sun_instrument_InstrumentbtionImpl
+ * Method:    bppendToClbssLobderSebrch0
+ * Signbture: (Ljbvb/lbng/String;Z)V
  */
-JNIEXPORT void JNICALL Java_sun_instrument_InstrumentationImpl_appendToClassLoaderSearch0
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jstring jarFile, jboolean isBootLoader) {
-    appendToClassLoaderSearch(jnienv, (JPLISAgent*)(intptr_t)agent, jarFile, isBootLoader);
+JNIEXPORT void JNICALL Jbvb_sun_instrument_InstrumentbtionImpl_bppendToClbssLobderSebrch0
+  (JNIEnv * jnienv, jobject implThis, jlong bgent, jstring jbrFile, jboolebn isBootLobder) {
+    bppendToClbssLobderSebrch(jnienv, (JPLISAgent*)(intptr_t)bgent, jbrFile, isBootLobder);
 }
 
 
 /*
- * Class:     sun_instrument_InstrumentationImpl
- * Method:    setNativeMethodPrefixes
- * Signature: ([Ljava/lang/String;Z)V
+ * Clbss:     sun_instrument_InstrumentbtionImpl
+ * Method:    setNbtiveMethodPrefixes
+ * Signbture: ([Ljbvb/lbng/String;Z)V
  */
-JNIEXPORT void JNICALL Java_sun_instrument_InstrumentationImpl_setNativeMethodPrefixes
-  (JNIEnv * jnienv, jobject implThis, jlong agent, jobjectArray prefixArray, jboolean isRetransformable) {
-    setNativeMethodPrefixes(jnienv, (JPLISAgent*)(intptr_t)agent, prefixArray, isRetransformable);
+JNIEXPORT void JNICALL Jbvb_sun_instrument_InstrumentbtionImpl_setNbtiveMethodPrefixes
+  (JNIEnv * jnienv, jobject implThis, jlong bgent, jobjectArrby prefixArrby, jboolebn isRetrbnsformbble) {
+    setNbtiveMethodPrefixes(jnienv, (JPLISAgent*)(intptr_t)bgent, prefixArrby, isRetrbnsformbble);
 }

@@ -1,366 +1,366 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.beans.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.util.concurrent.Callable;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.util.*;
+import jbvb.util.concurrent.Cbllbble;
 
-import javax.accessibility.*;
-import javax.swing.*;
+import jbvbx.bccessibility.*;
+import jbvbx.swing.*;
 
-class CAccessibility implements PropertyChangeListener {
-    private static Set<String> ignoredRoles;
+clbss CAccessibility implements PropertyChbngeListener {
+    privbte stbtic Set<String> ignoredRoles;
 
-    static {
-        // Need to load the native library for this code.
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        // Need to lobd the nbtive librbry for this code.
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("awt");
+                    System.lobdLibrbry("bwt");
                     return null;
                 }
             });
     }
 
-    static CAccessibility sAccessibility;
-    static synchronized CAccessibility getAccessibility(final String[] roles) {
+    stbtic CAccessibility sAccessibility;
+    stbtic synchronized CAccessibility getAccessibility(finbl String[] roles) {
         if (sAccessibility != null) return sAccessibility;
         sAccessibility = new CAccessibility();
 
         if (roles != null) {
-            ignoredRoles = new HashSet<String>(roles.length);
-            for (final String role : roles) ignoredRoles.add(role);
+            ignoredRoles = new HbshSet<String>(roles.length);
+            for (finbl String role : roles) ignoredRoles.bdd(role);
         } else {
-            ignoredRoles = new HashSet<String>();
+            ignoredRoles = new HbshSet<String>();
         }
 
         return sAccessibility;
     }
 
-    private CAccessibility() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("focusOwner", this);
+    privbte CAccessibility() {
+        KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().bddPropertyChbngeListener("focusOwner", this);
     }
 
-    public void propertyChange(final PropertyChangeEvent evt) {
-        if (evt.getNewValue() == null) return;
-        focusChanged();
+    public void propertyChbnge(finbl PropertyChbngeEvent evt) {
+        if (evt.getNewVblue() == null) return;
+        focusChbnged();
     }
 
-    private native void focusChanged();
+    privbte nbtive void focusChbnged();
 
-    static <T> T invokeAndWait(final Callable<T> callable, final Component c) {
+    stbtic <T> T invokeAndWbit(finbl Cbllbble<T> cbllbble, finbl Component c) {
         try {
-            return LWCToolkit.invokeAndWait(callable, c);
-        } catch (final Exception e) { e.printStackTrace(); }
+            return LWCToolkit.invokeAndWbit(cbllbble, c);
+        } cbtch (finbl Exception e) { e.printStbckTrbce(); }
         return null;
     }
 
-    static void invokeLater(final Runnable runnable, final Component c) {
+    stbtic void invokeLbter(finbl Runnbble runnbble, finbl Component c) {
         try {
-            LWCToolkit.invokeLater(runnable, c);
-        } catch (InvocationTargetException e) { e.printStackTrace(); }
+            LWCToolkit.invokeLbter(runnbble, c);
+        } cbtch (InvocbtionTbrgetException e) { e.printStbckTrbce(); }
     }
 
-    public static String getAccessibleActionDescription(final AccessibleAction aa, final int index, final Component c) {
-        if (aa == null) return null;
+    public stbtic String getAccessibleActionDescription(finbl AccessibleAction bb, finbl int index, finbl Component c) {
+        if (bb == null) return null;
 
-        return invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                return aa.getAccessibleActionDescription(index);
+        return invokeAndWbit(new Cbllbble<String>() {
+            public String cbll() throws Exception {
+                return bb.getAccessibleActionDescription(index);
             }
         }, c);
     }
 
-    public static void doAccessibleAction(final AccessibleAction aa, final int index, final Component c) {
-        // We make this an invokeLater because we don't need a reply.
-        if (aa == null) return;
+    public stbtic void doAccessibleAction(finbl AccessibleAction bb, finbl int index, finbl Component c) {
+        // We mbke this bn invokeLbter becbuse we don't need b reply.
+        if (bb == null) return;
 
-        invokeLater(new Runnable() {
+        invokeLbter(new Runnbble() {
             public void run() {
-                aa.doAccessibleAction(index);
+                bb.doAccessibleAction(index);
             }
         }, c);
     }
 
-    public static Dimension getSize(final AccessibleComponent ac, final Component c) {
-        if (ac == null) return null;
+    public stbtic Dimension getSize(finbl AccessibleComponent bc, finbl Component c) {
+        if (bc == null) return null;
 
-        return invokeAndWait(new Callable<Dimension>() {
-            public Dimension call() throws Exception {
-                return ac.getSize();
+        return invokeAndWbit(new Cbllbble<Dimension>() {
+            public Dimension cbll() throws Exception {
+                return bc.getSize();
             }
         }, c);
     }
 
-    public static AccessibleSelection getAccessibleSelection(final AccessibleContext ac, final Component c) {
-        if (ac == null) return null;
+    public stbtic AccessibleSelection getAccessibleSelection(finbl AccessibleContext bc, finbl Component c) {
+        if (bc == null) return null;
 
-        return invokeAndWait(new Callable<AccessibleSelection>() {
-            public AccessibleSelection call() throws Exception {
-                return ac.getAccessibleSelection();
+        return invokeAndWbit(new Cbllbble<AccessibleSelection>() {
+            public AccessibleSelection cbll() throws Exception {
+                return bc.getAccessibleSelection();
             }
         }, c);
     }
 
-    public static Accessible ax_getAccessibleSelection(final AccessibleContext ac, final int index, final Component c) {
-        if (ac == null) return null;
+    public stbtic Accessible bx_getAccessibleSelection(finbl AccessibleContext bc, finbl int index, finbl Component c) {
+        if (bc == null) return null;
 
-        return invokeAndWait(new Callable<Accessible>() {
-            public Accessible call() throws Exception {
-                final AccessibleSelection as = ac.getAccessibleSelection();
-                if (as == null) return null;
-                return as.getAccessibleSelection(index);
+        return invokeAndWbit(new Cbllbble<Accessible>() {
+            public Accessible cbll() throws Exception {
+                finbl AccessibleSelection bs = bc.getAccessibleSelection();
+                if (bs == null) return null;
+                return bs.getAccessibleSelection(index);
             }
         }, c);
     }
 
-    // KCH - can we make this a postEvent?
-    public static void addAccessibleSelection(final AccessibleContext ac, final int index, final Component c) {
-        if (ac == null) return;
+    // KCH - cbn we mbke this b postEvent?
+    public stbtic void bddAccessibleSelection(finbl AccessibleContext bc, finbl int index, finbl Component c) {
+        if (bc == null) return;
 
-        invokeLater(new Runnable() {
+        invokeLbter(new Runnbble() {
             public void run() {
-                final AccessibleSelection as = ac.getAccessibleSelection();
-                if (as == null) return;
-                as.addAccessibleSelection(index);
+                finbl AccessibleSelection bs = bc.getAccessibleSelection();
+                if (bs == null) return;
+                bs.bddAccessibleSelection(index);
             }
         }, c);
     }
 
-    public static AccessibleContext getAccessibleContext(final Accessible a, final Component c) {
-        if (a == null) return null;
+    public stbtic AccessibleContext getAccessibleContext(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return invokeAndWait(new Callable<AccessibleContext>() {
-            public AccessibleContext call() throws Exception {
-                return a.getAccessibleContext();
+        return invokeAndWbit(new Cbllbble<AccessibleContext>() {
+            public AccessibleContext cbll() throws Exception {
+                return b.getAccessibleContext();
             }
         }, c);
     }
 
-    public static boolean isAccessibleChildSelected(final Accessible a, final int index, final Component c) {
-        if (a == null) return false;
+    public stbtic boolebn isAccessibleChildSelected(finbl Accessible b, finbl int index, finbl Component c) {
+        if (b == null) return fblse;
 
-        return invokeAndWait(new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return Boolean.FALSE;
+        return invokeAndWbit(new Cbllbble<Boolebn>() {
+            public Boolebn cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return Boolebn.FALSE;
 
-                final AccessibleSelection as = ac.getAccessibleSelection();
-                if (as == null) return Boolean.FALSE;
+                finbl AccessibleSelection bs = bc.getAccessibleSelection();
+                if (bs == null) return Boolebn.FALSE;
 
-                return new Boolean(as.isAccessibleChildSelected(index));
+                return new Boolebn(bs.isAccessibleChildSelected(index));
             }
         }, c);
     }
 
-    public static AccessibleStateSet getAccessibleStateSet(final AccessibleContext ac, final Component c) {
-        if (ac == null) return null;
+    public stbtic AccessibleStbteSet getAccessibleStbteSet(finbl AccessibleContext bc, finbl Component c) {
+        if (bc == null) return null;
 
-        return invokeAndWait(new Callable<AccessibleStateSet>() {
-            public AccessibleStateSet call() throws Exception {
-                return ac.getAccessibleStateSet();
+        return invokeAndWbit(new Cbllbble<AccessibleStbteSet>() {
+            public AccessibleStbteSet cbll() throws Exception {
+                return bc.getAccessibleStbteSet();
             }
         }, c);
     }
 
-    public static boolean contains(final AccessibleContext ac, final AccessibleState as, final Component c) {
-        if (ac == null || as == null) return false;
+    public stbtic boolebn contbins(finbl AccessibleContext bc, finbl AccessibleStbte bs, finbl Component c) {
+        if (bc == null || bs == null) return fblse;
 
-        return invokeAndWait(new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                final AccessibleStateSet ass = ac.getAccessibleStateSet();
-                if (ass == null) return null;
-                return ass.contains(as);
+        return invokeAndWbit(new Cbllbble<Boolebn>() {
+            public Boolebn cbll() throws Exception {
+                finbl AccessibleStbteSet bss = bc.getAccessibleStbteSet();
+                if (bss == null) return null;
+                return bss.contbins(bs);
             }
         }, c);
     }
 
-    static Field getAccessibleBundleKeyFieldWithReflection() {
+    stbtic Field getAccessibleBundleKeyFieldWithReflection() {
         try {
-            final Field fieldKey = AccessibleBundle.class.getDeclaredField("key");
+            finbl Field fieldKey = AccessibleBundle.clbss.getDeclbredField("key");
             fieldKey.setAccessible(true);
             return fieldKey;
-        } catch (final SecurityException e) {
-            e.printStackTrace();
-        } catch (final NoSuchFieldException e) {
-            e.printStackTrace();
+        } cbtch (finbl SecurityException e) {
+            e.printStbckTrbce();
+        } cbtch (finbl NoSuchFieldException e) {
+            e.printStbckTrbce();
         }
         return null;
     }
-    private static final Field FIELD_KEY = getAccessibleBundleKeyFieldWithReflection();
+    privbte stbtic finbl Field FIELD_KEY = getAccessibleBundleKeyFieldWithReflection();
 
-    static String getAccessibleRoleFor(final Accessible a) {
-        final AccessibleContext ac = a.getAccessibleContext();
-        if (ac == null) return null;
+    stbtic String getAccessibleRoleFor(finbl Accessible b) {
+        finbl AccessibleContext bc = b.getAccessibleContext();
+        if (bc == null) return null;
 
-        final AccessibleRole role = ac.getAccessibleRole();
+        finbl AccessibleRole role = bc.getAccessibleRole();
         try {
             return (String)FIELD_KEY.get(role);
-        } catch (final IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (final IllegalAccessException e) {
-            e.printStackTrace();
+        } cbtch (finbl IllegblArgumentException e) {
+            e.printStbckTrbce();
+        } cbtch (finbl IllegblAccessException e) {
+            e.printStbckTrbce();
         }
         return null;
     }
 
-    public static String getAccessibleRole(final Accessible a, final Component c) {
-        if (a == null) return null;
+    public stbtic String getAccessibleRole(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                final Accessible sa = CAccessible.getSwingAccessible(a);
-                final String role = getAccessibleRoleFor(a);
+        return invokeAndWbit(new Cbllbble<String>() {
+            public String cbll() throws Exception {
+                finbl Accessible sb = CAccessible.getSwingAccessible(b);
+                finbl String role = getAccessibleRoleFor(b);
 
-                if (!"text".equals(role)) return role;
-                if (sa instanceof JTextArea || sa instanceof JEditorPane) {
-                    return "textarea";
+                if (!"text".equbls(role)) return role;
+                if (sb instbnceof JTextAreb || sb instbnceof JEditorPbne) {
+                    return "textbreb";
                 }
                 return role;
             }
         }, c);
     }
 
-    public static Point getLocationOnScreen(final AccessibleComponent ac, final Component c) {
-        if (ac == null) return null;
+    public stbtic Point getLocbtionOnScreen(finbl AccessibleComponent bc, finbl Component c) {
+        if (bc == null) return null;
 
-        return invokeAndWait(new Callable<Point>() {
-            public Point call() throws Exception {
-                return ac.getLocationOnScreen();
+        return invokeAndWbit(new Cbllbble<Point>() {
+            public Point cbll() throws Exception {
+                return bc.getLocbtionOnScreen();
             }
         }, c);
     }
 
-    public static int getCharCount(final AccessibleText at, final Component c) {
-        if (at == null) return 0;
+    public stbtic int getChbrCount(finbl AccessibleText bt, finbl Component c) {
+        if (bt == null) return 0;
 
-        return invokeAndWait(new Callable<Integer>() {
-            public Integer call() throws Exception {
-                return at.getCharCount();
+        return invokeAndWbit(new Cbllbble<Integer>() {
+            public Integer cbll() throws Exception {
+                return bt.getChbrCount();
             }
         }, c);
     }
 
-    // Accessibility Threadsafety for JavaComponentAccessibility.m
-    public static Accessible getAccessibleParent(final Accessible a, final Component c) {
-        if (a == null) return null;
+    // Accessibility Threbdsbfety for JbvbComponentAccessibility.m
+    public stbtic Accessible getAccessiblePbrent(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return invokeAndWait(new Callable<Accessible>() {
-            public Accessible call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
-                return ac.getAccessibleParent();
+        return invokeAndWbit(new Cbllbble<Accessible>() {
+            public Accessible cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
+                return bc.getAccessiblePbrent();
             }
         }, c);
     }
 
-    public static int getAccessibleIndexInParent(final Accessible a, final Component c) {
-        if (a == null) return 0;
+    public stbtic int getAccessibleIndexInPbrent(finbl Accessible b, finbl Component c) {
+        if (b == null) return 0;
 
-        return invokeAndWait(new Callable<Integer>() {
-            public Integer call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
-                return ac.getAccessibleIndexInParent();
+        return invokeAndWbit(new Cbllbble<Integer>() {
+            public Integer cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
+                return bc.getAccessibleIndexInPbrent();
             }
         }, c);
     }
 
-    public static AccessibleComponent getAccessibleComponent(final Accessible a, final Component c) {
-        if (a == null) return null;
+    public stbtic AccessibleComponent getAccessibleComponent(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return invokeAndWait(new Callable<AccessibleComponent>() {
-            public AccessibleComponent call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
-                return ac.getAccessibleComponent();
+        return invokeAndWbit(new Cbllbble<AccessibleComponent>() {
+            public AccessibleComponent cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
+                return bc.getAccessibleComponent();
             }
         }, c);
     }
 
-    public static AccessibleValue getAccessibleValue(final Accessible a, final Component c) {
-        if (a == null) return null;
+    public stbtic AccessibleVblue getAccessibleVblue(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return invokeAndWait(new Callable<AccessibleValue>() {
-            public AccessibleValue call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        return invokeAndWbit(new Cbllbble<AccessibleVblue>() {
+            public AccessibleVblue cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
 
-                AccessibleValue accessibleValue = ac.getAccessibleValue();
-                return accessibleValue;
+                AccessibleVblue bccessibleVblue = bc.getAccessibleVblue();
+                return bccessibleVblue;
             }
         }, c);
     }
 
-    public static String getAccessibleName(final Accessible a, final Component c) {
-        if (a == null) return null;
+    public stbtic String getAccessibleNbme(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        return invokeAndWbit(new Cbllbble<String>() {
+            public String cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
 
-                final String accessibleName = ac.getAccessibleName();
-                if (accessibleName == null) {
-                    return ac.getAccessibleDescription();
+                finbl String bccessibleNbme = bc.getAccessibleNbme();
+                if (bccessibleNbme == null) {
+                    return bc.getAccessibleDescription();
                 }
-                return accessibleName;
+                return bccessibleNbme;
             }
         }, c);
     }
 
-    public static AccessibleText getAccessibleText(final Accessible a, final Component c) {
-        if (a == null) return null;
+    public stbtic AccessibleText getAccessibleText(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return invokeAndWait(new Callable<AccessibleText>() {
-            public AccessibleText call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        return invokeAndWbit(new Cbllbble<AccessibleText>() {
+            public AccessibleText cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
 
-                AccessibleText accessibleText = ac.getAccessibleText();
-                return accessibleText;
+                AccessibleText bccessibleText = bc.getAccessibleText();
+                return bccessibleText;
             }
         }, c);
     }
 
-    public static String getAccessibleDescription(final Accessible a, final Component c) {
-        if (a == null) return null;
+    public stbtic String getAccessibleDescription(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        return invokeAndWbit(new Cbllbble<String>() {
+            public String cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
 
-                final String accessibleDescription = ac.getAccessibleDescription();
-                if (accessibleDescription == null) {
-                    if (c instanceof JComponent) {
+                finbl String bccessibleDescription = bc.getAccessibleDescription();
+                if (bccessibleDescription == null) {
+                    if (c instbnceof JComponent) {
                         String toolTipText = ((JComponent)c).getToolTipText();
                         if (toolTipText != null) {
                             return toolTipText;
@@ -368,210 +368,210 @@ class CAccessibility implements PropertyChangeListener {
                     }
                 }
 
-                return accessibleDescription;
+                return bccessibleDescription;
             }
         }, c);
     }
 
-    public static boolean isFocusTraversable(final Accessible a, final Component c) {
-        if (a == null) return false;
+    public stbtic boolebn isFocusTrbversbble(finbl Accessible b, finbl Component c) {
+        if (b == null) return fblse;
 
-        return invokeAndWait(new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        return invokeAndWbit(new Cbllbble<Boolebn>() {
+            public Boolebn cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
 
-                final AccessibleComponent aComp = ac.getAccessibleComponent();
-                if (aComp == null) return null;
+                finbl AccessibleComponent bComp = bc.getAccessibleComponent();
+                if (bComp == null) return null;
 
-                return aComp.isFocusTraversable();
+                return bComp.isFocusTrbversbble();
             }
         }, c);
     }
 
-    public static Accessible accessibilityHitTest(final Container parent, final float hitPointX, final float hitPointY) {
-        return invokeAndWait(new Callable<Accessible>() {
-            public Accessible call() throws Exception {
-                final Point p = parent.getLocationOnScreen();
+    public stbtic Accessible bccessibilityHitTest(finbl Contbiner pbrent, finbl flobt hitPointX, finbl flobt hitPointY) {
+        return invokeAndWbit(new Cbllbble<Accessible>() {
+            public Accessible cbll() throws Exception {
+                finbl Point p = pbrent.getLocbtionOnScreen();
 
-                // Make it into local coords
-                final Point localPoint = new Point((int)(hitPointX - p.getX()), (int)(hitPointY - p.getY()));
+                // Mbke it into locbl coords
+                finbl Point locblPoint = new Point((int)(hitPointX - p.getX()), (int)(hitPointY - p.getY()));
 
-                final Component component = parent.findComponentAt(localPoint);
+                finbl Component component = pbrent.findComponentAt(locblPoint);
                 if (component == null) return null;
 
-                final AccessibleContext axContext = component.getAccessibleContext();
-                if (axContext == null) return null;
+                finbl AccessibleContext bxContext = component.getAccessibleContext();
+                if (bxContext == null) return null;
 
-                final AccessibleComponent axComponent = axContext.getAccessibleComponent();
-                if (axComponent == null) return null;
+                finbl AccessibleComponent bxComponent = bxContext.getAccessibleComponent();
+                if (bxComponent == null) return null;
 
-                final int numChildren = axContext.getAccessibleChildrenCount();
+                finbl int numChildren = bxContext.getAccessibleChildrenCount();
                 if (numChildren > 0) {
-                    // It has children, check to see which one is hit.
-                    final Point p2 = axComponent.getLocationOnScreen();
-                    final Point localP2 = new Point((int)(hitPointX - p2.getX()), (int)(hitPointY - p2.getY()));
-                    return CAccessible.getCAccessible(axComponent.getAccessibleAt(localP2));
+                    // It hbs children, check to see which one is hit.
+                    finbl Point p2 = bxComponent.getLocbtionOnScreen();
+                    finbl Point locblP2 = new Point((int)(hitPointX - p2.getX()), (int)(hitPointY - p2.getY()));
+                    return CAccessible.getCAccessible(bxComponent.getAccessibleAt(locblP2));
                 }
 
-                if (!(component instanceof Accessible)) return null;
+                if (!(component instbnceof Accessible)) return null;
                 return CAccessible.getCAccessible((Accessible)component);
             }
-        }, parent);
+        }, pbrent);
     }
 
-    public static AccessibleAction getAccessibleAction(final Accessible a, final Component c) {
-        return invokeAndWait(new Callable<AccessibleAction>() {
-            public AccessibleAction call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
-                return ac.getAccessibleAction();
+    public stbtic AccessibleAction getAccessibleAction(finbl Accessible b, finbl Component c) {
+        return invokeAndWbit(new Cbllbble<AccessibleAction>() {
+            public AccessibleAction cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
+                return bc.getAccessibleAction();
             }
         }, c);
     }
 
-    public static boolean isEnabled(final Accessible a, final Component c) {
-        if (a == null) return false;
+    public stbtic boolebn isEnbbled(finbl Accessible b, finbl Component c) {
+        if (b == null) return fblse;
 
-        return invokeAndWait(new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        return invokeAndWbit(new Cbllbble<Boolebn>() {
+            public Boolebn cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
 
-                final AccessibleComponent aComp = ac.getAccessibleComponent();
-                if (aComp == null) return null;
+                finbl AccessibleComponent bComp = bc.getAccessibleComponent();
+                if (bComp == null) return null;
 
-                return aComp.isEnabled();
+                return bComp.isEnbbled();
             }
         }, c);
     }
 
-    // KCH - can we make this a postEvent instead?
-    public static void requestFocus(final Accessible a, final Component c) {
-        if (a == null) return;
+    // KCH - cbn we mbke this b postEvent instebd?
+    public stbtic void requestFocus(finbl Accessible b, finbl Component c) {
+        if (b == null) return;
 
-        invokeLater(new Runnable() {
+        invokeLbter(new Runnbble() {
             public void run() {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return;
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return;
 
-                final AccessibleComponent aComp = ac.getAccessibleComponent();
-                if (aComp == null) return;
+                finbl AccessibleComponent bComp = bc.getAccessibleComponent();
+                if (bComp == null) return;
 
-                aComp.requestFocus();
+                bComp.requestFocus();
             }
         }, c);
     }
 
-    public static Number getMaximumAccessibleValue(final Accessible a, final Component c) {
-        if (a == null) return null;
+    public stbtic Number getMbximumAccessibleVblue(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return invokeAndWait(new Callable<Number>() {
-            public Number call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        return invokeAndWbit(new Cbllbble<Number>() {
+            public Number cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
 
-                final AccessibleValue av = ac.getAccessibleValue();
-                if (av == null) return null;
+                finbl AccessibleVblue bv = bc.getAccessibleVblue();
+                if (bv == null) return null;
 
-                return av.getMaximumAccessibleValue();
+                return bv.getMbximumAccessibleVblue();
             }
         }, c);
     }
 
-    public static Number getMinimumAccessibleValue(final Accessible a, final Component c) {
-        if (a == null) return null;
+    public stbtic Number getMinimumAccessibleVblue(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return invokeAndWait(new Callable<Number>() {
-            public Number call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        return invokeAndWbit(new Cbllbble<Number>() {
+            public Number cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
 
-                final AccessibleValue av = ac.getAccessibleValue();
-                if (av == null) return null;
+                finbl AccessibleVblue bv = bc.getAccessibleVblue();
+                if (bv == null) return null;
 
-                return av.getMinimumAccessibleValue();
+                return bv.getMinimumAccessibleVblue();
             }
         }, c);
     }
 
-    public static String getAccessibleRoleDisplayString(final Accessible a, final Component c) {
-        if (a == null) return null;
+    public stbtic String getAccessibleRoleDisplbyString(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        return invokeAndWbit(new Cbllbble<String>() {
+            public String cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
 
-                final AccessibleRole ar = ac.getAccessibleRole();
-                if (ar == null) return null;
+                finbl AccessibleRole br = bc.getAccessibleRole();
+                if (br == null) return null;
 
-                return ar.toDisplayString();
+                return br.toDisplbyString();
             }
         }, c);
     }
 
-    public static Number getCurrentAccessibleValue(final AccessibleValue av, final Component c) {
-        if (av == null) return null;
+    public stbtic Number getCurrentAccessibleVblue(finbl AccessibleVblue bv, finbl Component c) {
+        if (bv == null) return null;
 
-        return invokeAndWait(new Callable<Number>() {
-            public Number call() throws Exception {
-                Number currentAccessibleValue = av.getCurrentAccessibleValue();
-                return currentAccessibleValue;
+        return invokeAndWbit(new Cbllbble<Number>() {
+            public Number cbll() throws Exception {
+                Number currentAccessibleVblue = bv.getCurrentAccessibleVblue();
+                return currentAccessibleVblue;
             }
         }, c);
     }
 
-    public static Accessible getFocusOwner(final Component c) {
-        return invokeAndWait(new Callable<Accessible>() {
-            public Accessible call() throws Exception {
-                Component c = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-                if (c == null || !(c instanceof Accessible)) return null;
+    public stbtic Accessible getFocusOwner(finbl Component c) {
+        return invokeAndWbit(new Cbllbble<Accessible>() {
+            public Accessible cbll() throws Exception {
+                Component c = KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().getFocusOwner();
+                if (c == null || !(c instbnceof Accessible)) return null;
                 return CAccessible.getCAccessible((Accessible)c);
             }
         }, c);
     }
 
-    public static boolean[] getInitialAttributeStates(final Accessible a, final Component c) {
-        final boolean[] ret = new boolean[7];
-        if (a == null) return ret;
+    public stbtic boolebn[] getInitiblAttributeStbtes(finbl Accessible b, finbl Component c) {
+        finbl boolebn[] ret = new boolebn[7];
+        if (b == null) return ret;
 
-        return invokeAndWait(new Callable<boolean[]>() {
-            public boolean[] call() throws Exception {
-                final AccessibleContext aContext = a.getAccessibleContext();
-                if (aContext == null) return ret;
+        return invokeAndWbit(new Cbllbble<boolebn[]>() {
+            public boolebn[] cbll() throws Exception {
+                finbl AccessibleContext bContext = b.getAccessibleContext();
+                if (bContext == null) return ret;
 
-                final AccessibleComponent aComponent = aContext.getAccessibleComponent();
-                ret[0] = (aComponent != null);
-                ret[1] = ((aComponent != null) && (aComponent.isFocusTraversable()));
-                ret[2] = (aContext.getAccessibleValue() != null);
-                ret[3] = (aContext.getAccessibleText() != null);
+                finbl AccessibleComponent bComponent = bContext.getAccessibleComponent();
+                ret[0] = (bComponent != null);
+                ret[1] = ((bComponent != null) && (bComponent.isFocusTrbversbble()));
+                ret[2] = (bContext.getAccessibleVblue() != null);
+                ret[3] = (bContext.getAccessibleText() != null);
 
-                final AccessibleStateSet aStateSet = aContext.getAccessibleStateSet();
-                ret[4] = (aStateSet.contains(AccessibleState.HORIZONTAL) || aStateSet.contains(AccessibleState.VERTICAL));
-                ret[5] = (aContext.getAccessibleName() != null);
-                ret[6] = (aContext.getAccessibleChildrenCount() > 0);
+                finbl AccessibleStbteSet bStbteSet = bContext.getAccessibleStbteSet();
+                ret[4] = (bStbteSet.contbins(AccessibleStbte.HORIZONTAL) || bStbteSet.contbins(AccessibleStbte.VERTICAL));
+                ret[5] = (bContext.getAccessibleNbme() != null);
+                ret[6] = (bContext.getAccessibleChildrenCount() > 0);
                 return ret;
             }
         }, c);
     }
 
-    // Duplicated from JavaComponentAccessibility
-    // Note that values >=0 are indexes into the child array
-    final static int JAVA_AX_ALL_CHILDREN = -1;
-    final static int JAVA_AX_SELECTED_CHILDREN = -2;
-    final static int JAVA_AX_VISIBLE_CHILDREN = -3;
+    // Duplicbted from JbvbComponentAccessibility
+    // Note thbt vblues >=0 bre indexes into the child brrby
+    finbl stbtic int JAVA_AX_ALL_CHILDREN = -1;
+    finbl stbtic int JAVA_AX_SELECTED_CHILDREN = -2;
+    finbl stbtic int JAVA_AX_VISIBLE_CHILDREN = -3;
 
-    // Each child takes up two entries in the array: one for itself and one for its role
-    public static Object[] getChildrenAndRoles(final Accessible a, final Component c, final int whichChildren, final boolean allowIgnored) {
-        if (a == null) return null;
-        return invokeAndWait(new Callable<Object[]>() {
-            public Object[] call() throws Exception {
-                final ArrayList<Object> childrenAndRoles = new ArrayList<Object>();
-                _addChildren(a, whichChildren, allowIgnored, childrenAndRoles);
+    // Ebch child tbkes up two entries in the brrby: one for itself bnd one for its role
+    public stbtic Object[] getChildrenAndRoles(finbl Accessible b, finbl Component c, finbl int whichChildren, finbl boolebn bllowIgnored) {
+        if (b == null) return null;
+        return invokeAndWbit(new Cbllbble<Object[]>() {
+            public Object[] cbll() throws Exception {
+                finbl ArrbyList<Object> childrenAndRoles = new ArrbyList<Object>();
+                _bddChildren(b, whichChildren, bllowIgnored, childrenAndRoles);
 
                 if ((whichChildren < 0) || (whichChildren * 2 >= childrenAndRoles.size())) {
-                    return childrenAndRoles.toArray();
+                    return childrenAndRoles.toArrby();
                 }
 
                 return new Object[] { childrenAndRoles.get(whichChildren * 2), childrenAndRoles.get((whichChildren * 2) + 1) };
@@ -579,89 +579,89 @@ class CAccessibility implements PropertyChangeListener {
         }, c);
     }
 
-    private static AccessibleRole getAccessibleRoleForLabel(JLabel l, AccessibleRole fallback) {
+    privbte stbtic AccessibleRole getAccessibleRoleForLbbel(JLbbel l, AccessibleRole fbllbbck) {
         String text = l.getText();
         if (text != null && text.length() > 0) {
-            return fallback;
+            return fbllbbck;
         }
         Icon icon = l.getIcon();
         if (icon != null) {
             return AccessibleRole.ICON;
         }
-        return fallback;
+        return fbllbbck;
     }
 
-    private static AccessibleRole getAccessibleRole(Accessible a) {
-        AccessibleContext ac = a.getAccessibleContext();
-        AccessibleRole role = ac.getAccessibleRole();
-        Object component = CAccessible.getSwingAccessible(a);
+    privbte stbtic AccessibleRole getAccessibleRole(Accessible b) {
+        AccessibleContext bc = b.getAccessibleContext();
+        AccessibleRole role = bc.getAccessibleRole();
+        Object component = CAccessible.getSwingAccessible(b);
         if (role == null) return null;
         String roleString = role.toString();
-        if ("label".equals(roleString) && component instanceof JLabel) {
-            return getAccessibleRoleForLabel((JLabel) component, role);
+        if ("lbbel".equbls(roleString) && component instbnceof JLbbel) {
+            return getAccessibleRoleForLbbel((JLbbel) component, role);
         }
         return role;
     }
 
 
-    // Either gets the immediate children of a, or recursively gets all unignored children of a
-    private static void _addChildren(final Accessible a, final int whichChildren, final boolean allowIgnored, final ArrayList<Object> childrenAndRoles) {
-        if (a == null) return;
+    // Either gets the immedibte children of b, or recursively gets bll unignored children of b
+    privbte stbtic void _bddChildren(finbl Accessible b, finbl int whichChildren, finbl boolebn bllowIgnored, finbl ArrbyList<Object> childrenAndRoles) {
+        if (b == null) return;
 
-        final AccessibleContext ac = a.getAccessibleContext();
-        if (ac == null) return;
+        finbl AccessibleContext bc = b.getAccessibleContext();
+        if (bc == null) return;
 
-        final int numChildren = ac.getAccessibleChildrenCount();
+        finbl int numChildren = bc.getAccessibleChildrenCount();
 
-        // each child takes up two entries in the array: itself, and its role
-        // so the array holds alternating Accessible and AccessibleRole objects
+        // ebch child tbkes up two entries in the brrby: itself, bnd its role
+        // so the brrby holds blternbting Accessible bnd AccessibleRole objects
         for (int i = 0; i < numChildren; i++) {
-            final Accessible child = ac.getAccessibleChild(i);
+            finbl Accessible child = bc.getAccessibleChild(i);
             if (child == null) continue;
 
-            final AccessibleContext context = child.getAccessibleContext();
+            finbl AccessibleContext context = child.getAccessibleContext();
             if (context == null) continue;
 
             if (whichChildren == JAVA_AX_VISIBLE_CHILDREN) {
                 if (!context.getAccessibleComponent().isVisible()) continue;
             } else if (whichChildren == JAVA_AX_SELECTED_CHILDREN) {
-                if (!ac.getAccessibleSelection().isAccessibleChildSelected(i)) continue;
+                if (!bc.getAccessibleSelection().isAccessibleChildSelected(i)) continue;
             }
 
-            if (!allowIgnored) {
-                final AccessibleRole role = context.getAccessibleRole();
-                if (role != null && ignoredRoles.contains(roleKey(role))) {
+            if (!bllowIgnored) {
+                finbl AccessibleRole role = context.getAccessibleRole();
+                if (role != null && ignoredRoles.contbins(roleKey(role))) {
                     // Get the child's unignored children.
-                    _addChildren(child, whichChildren, false, childrenAndRoles);
+                    _bddChildren(child, whichChildren, fblse, childrenAndRoles);
                 } else {
-                    childrenAndRoles.add(child);
-                    childrenAndRoles.add(getAccessibleRole(child));
+                    childrenAndRoles.bdd(child);
+                    childrenAndRoles.bdd(getAccessibleRole(child));
                 }
             } else {
-                childrenAndRoles.add(child);
-                childrenAndRoles.add(getAccessibleRole(child));
+                childrenAndRoles.bdd(child);
+                childrenAndRoles.bdd(getAccessibleRole(child));
             }
 
-            // If there is an index, and we are beyond it, time to finish up
+            // If there is bn index, bnd we bre beyond it, time to finish up
             if ((whichChildren >= 0) && (childrenAndRoles.size() / 2) >= (whichChildren + 1)) {
                 return;
             }
         }
     }
 
-    private static native String roleKey(AccessibleRole aRole);
+    privbte stbtic nbtive String roleKey(AccessibleRole bRole);
 
-    public static Object[] getChildren(final Accessible a, final Component c) {
-        if (a == null) return null;
-        return invokeAndWait(new Callable<Object[]>() {
-            public Object[] call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+    public stbtic Object[] getChildren(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
+        return invokeAndWbit(new Cbllbble<Object[]>() {
+            public Object[] cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
 
-                final int numChildren = ac.getAccessibleChildrenCount();
-                final Object[] children = new Object[numChildren];
+                finbl int numChildren = bc.getAccessibleChildrenCount();
+                finbl Object[] children = new Object[numChildren];
                 for (int i = 0; i < numChildren; i++) {
-                    children[i] = ac.getAccessibleChild(i);
+                    children[i] = bc.getAccessibleChild(i);
                 }
                 return children;
             }

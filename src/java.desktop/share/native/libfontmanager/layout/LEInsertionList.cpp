@@ -1,32 +1,32 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
 
 /*
  **********************************************************************
- *   Copyright (C) 1998-2008, International Business Machines
- *   Corporation and others.  All Rights Reserved.
+ *   Copyright (C) 1998-2008, Internbtionbl Business Mbchines
+ *   Corporbtion bnd others.  All Rights Reserved.
  **********************************************************************
  */
 
@@ -48,9 +48,9 @@ struct InsertionRecord
 UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LEInsertionList)
 
 LEInsertionList::LEInsertionList(le_bool rightToLeft)
-: head(NULL), tail(NULL), growAmount(0), append(rightToLeft)
+: hebd(NULL), tbil(NULL), growAmount(0), bppend(rightToLeft)
 {
-    tail = (InsertionRecord *) &head;
+    tbil = (InsertionRecord *) &hebd;
 }
 
 LEInsertionList::~LEInsertionList()
@@ -60,14 +60,14 @@ LEInsertionList::~LEInsertionList()
 
 void LEInsertionList::reset()
 {
-    while (head != NULL) {
-        InsertionRecord *record = head;
+    while (hebd != NULL) {
+        InsertionRecord *record = hebd;
 
-        head = head->next;
+        hebd = hebd->next;
         LE_DELETE_ARRAY(record);
     }
 
-    tail = (InsertionRecord *) &head;
+    tbil = (InsertionRecord *) &hebd;
     growAmount = 0;
 }
 
@@ -82,7 +82,7 @@ LEGlyphID *LEInsertionList::insert(le_int32 position, le_int32 count, LEErrorCod
         return 0;
     }
 
-    InsertionRecord *insertion = (InsertionRecord *) LE_NEW_ARRAY(char, sizeof(InsertionRecord) + (count - ANY_NUMBER) * sizeof (LEGlyphID));
+    InsertionRecord *insertion = (InsertionRecord *) LE_NEW_ARRAY(chbr, sizeof(InsertionRecord) + (count - ANY_NUMBER) * sizeof (LEGlyphID));
     if (insertion == NULL) {
         success = LE_MEMORY_ALLOCATION_ERROR;
         return 0;
@@ -93,24 +93,24 @@ LEGlyphID *LEInsertionList::insert(le_int32 position, le_int32 count, LEErrorCod
 
     growAmount += count - 1;
 
-    if (append) {
+    if (bppend) {
         // insert on end of list...
         insertion->next = NULL;
-        tail->next = insertion;
-        tail = insertion;
+        tbil->next = insertion;
+        tbil = insertion;
     } else {
         // insert on front of list...
-        insertion->next = head;
-        head = insertion;
+        insertion->next = hebd;
+        hebd = insertion;
     }
 
     return insertion->glyphs;
 }
 
-le_bool LEInsertionList::applyInsertions(LEInsertionCallback *callback)
+le_bool LEInsertionList::bpplyInsertions(LEInsertionCbllbbck *cbllbbck)
 {
-    for (InsertionRecord *rec = head; rec != NULL; rec = rec->next) {
-        if (callback->applyInsertion(rec->position, rec->count, rec->glyphs)) {
+    for (InsertionRecord *rec = hebd; rec != NULL; rec = rec->next) {
+        if (cbllbbck->bpplyInsertion(rec->position, rec->count, rec->glyphs)) {
             return TRUE;
         }
     }

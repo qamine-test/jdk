@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.common;
+pbckbge com.sun.imbgeio.plugins.common;
 
-import java.awt.Transparency;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.Color;
-import javax.imageio.ImageTypeSpecifier;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.Color;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
 
 
 /**
- * This class implements the octree quantization method
- *  as it is described in the "Graphics Gems"
- *  (ISBN 0-12-286166-3, Chapter 4, pages 297-293)
+ * This clbss implements the octree qubntizbtion method
+ *  bs it is described in the "Grbphics Gems"
+ *  (ISBN 0-12-286166-3, Chbpter 4, pbges 297-293)
  */
-public class PaletteBuilder {
+public clbss PbletteBuilder {
 
     /**
-     * maximum of tree depth
+     * mbximum of tree depth
      */
-    protected static final int MAXLEVEL = 8;
+    protected stbtic finbl int MAXLEVEL = 8;
 
-    protected RenderedImage src;
+    protected RenderedImbge src;
     protected ColorModel srcColorModel;
-    protected Raster srcRaster;
+    protected Rbster srcRbster;
 
     protected int requiredSize;
 
     protected ColorNode root;
 
     protected int numNodes;
-    protected int maxNodes;
+    protected int mbxNodes;
     protected int currLevel;
     protected int currSize;
 
     protected ColorNode[] reduceList;
-    protected ColorNode[] palette;
+    protected ColorNode[] pblette;
 
-    protected int transparency;
-    protected ColorNode transColor;
+    protected int trbnspbrency;
+    protected ColorNode trbnsColor;
 
 
     /**
-     * Creates an image representing given image
+     * Crebtes bn imbge representing given imbge
      * <code>src</code> using <code>IndexColorModel</code>.
      *
-     * Lossless conversion is not always possible (e.g. if number
-     * of colors in the  given image exceeds maximum palette size).
-     * Result image then is an approximation constructed by octree
-     * quantization method.
+     * Lossless conversion is not blwbys possible (e.g. if number
+     * of colors in the  given imbge exceeds mbximum pblette size).
+     * Result imbge then is bn bpproximbtion constructed by octree
+     * qubntizbtion method.
      *
-     * @exception IllegalArgumentException if <code>src</code> is
+     * @exception IllegblArgumentException if <code>src</code> is
      * <code>null</code>.
      *
-     * @exception UnsupportedOperationException if implemented method
-     * is unable to create approximation of <code>src</code>
-     * and <code>canCreatePalette</code> returns <code>false</code>.
+     * @exception UnsupportedOperbtionException if implemented method
+     * is unbble to crebte bpproximbtion of <code>src</code>
+     * bnd <code>cbnCrebtePblette</code> returns <code>fblse</code>.
      *
-     * @see createIndexColorModel
+     * @see crebteIndexColorModel
      *
-     * @see canCreatePalette
+     * @see cbnCrebtePblette
      *
      */
-    public static RenderedImage createIndexedImage(RenderedImage src) {
-        PaletteBuilder pb = new PaletteBuilder(src);
-        pb.buildPalette();
-        return pb.getIndexedImage();
+    public stbtic RenderedImbge crebteIndexedImbge(RenderedImbge src) {
+        PbletteBuilder pb = new PbletteBuilder(src);
+        pb.buildPblette();
+        return pb.getIndexedImbge();
     }
 
     /**
-     * Creates an palette representing colors from given image
-     * <code>img</code>. If number of colors in the given image exceeds
-     * maximum palette size closest colors would be merged.
+     * Crebtes bn pblette representing colors from given imbge
+     * <code>img</code>. If number of colors in the given imbge exceeds
+     * mbximum pblette size closest colors would be merged.
      *
-     * @exception IllegalArgumentException if <code>img</code> is
+     * @exception IllegblArgumentException if <code>img</code> is
      * <code>null</code>.
      *
-     * @exception UnsupportedOperationException if implemented method
-     * is unable to create approximation of <code>img</code>
-     * and <code>canCreatePalette</code> returns <code>false</code>.
+     * @exception UnsupportedOperbtionException if implemented method
+     * is unbble to crebte bpproximbtion of <code>img</code>
+     * bnd <code>cbnCrebtePblette</code> returns <code>fblse</code>.
      *
-     * @see createIndexedImage
+     * @see crebteIndexedImbge
      *
-     * @see canCreatePalette
+     * @see cbnCrebtePblette
      *
      */
-    public static IndexColorModel createIndexColorModel(RenderedImage img) {
-        PaletteBuilder pb = new PaletteBuilder(img);
-        pb.buildPalette();
+    public stbtic IndexColorModel crebteIndexColorModel(RenderedImbge img) {
+        PbletteBuilder pb = new PbletteBuilder(img);
+        pb.buildPblette();
         return pb.getIndexColorModel();
     }
 
     /**
-     * Returns <code>true</code> if PaletteBuilder is able to create
-     * palette for given image type.
+     * Returns <code>true</code> if PbletteBuilder is bble to crebte
+     * pblette for given imbge type.
      *
-     * @param type an instance of <code>ImageTypeSpecifier</code> to be
+     * @pbrbm type bn instbnce of <code>ImbgeTypeSpecifier</code> to be
      * indexed.
      *
-     * @return <code>true</code> if the <code>PaletteBuilder</code>
-     * is likely to be able to create palette for this image type.
+     * @return <code>true</code> if the <code>PbletteBuilder</code>
+     * is likely to be bble to crebte pblette for this imbge type.
      *
-     * @exception IllegalArgumentException if <code>type</code>
+     * @exception IllegblArgumentException if <code>type</code>
      * is <code>null</code>.
      */
-    public static boolean canCreatePalette(ImageTypeSpecifier type) {
+    public stbtic boolebn cbnCrebtePblette(ImbgeTypeSpecifier type) {
         if (type == null) {
-            throw new IllegalArgumentException("type == null");
+            throw new IllegblArgumentException("type == null");
         }
         return true;
     }
 
     /**
-     * Returns <code>true</code> if PaletteBuilder is able to create
-     * palette for given rendered image.
+     * Returns <code>true</code> if PbletteBuilder is bble to crebte
+     * pblette for given rendered imbge.
      *
-     * @param image an instance of <code>RenderedImage</code> to be
+     * @pbrbm imbge bn instbnce of <code>RenderedImbge</code> to be
      * indexed.
      *
-     * @return <code>true</code> if the <code>PaletteBuilder</code>
-     * is likely to be able to create palette for this image type.
+     * @return <code>true</code> if the <code>PbletteBuilder</code>
+     * is likely to be bble to crebte pblette for this imbge type.
      *
-     * @exception IllegalArgumentException if <code>image</code>
+     * @exception IllegblArgumentException if <code>imbge</code>
      * is <code>null</code>.
      */
-    public static boolean canCreatePalette(RenderedImage image) {
-        if (image == null) {
-            throw new IllegalArgumentException("image == null");
+    public stbtic boolebn cbnCrebtePblette(RenderedImbge imbge) {
+        if (imbge == null) {
+            throw new IllegblArgumentException("imbge == null");
         }
-        ImageTypeSpecifier type = new ImageTypeSpecifier(image);
-        return canCreatePalette(type);
+        ImbgeTypeSpecifier type = new ImbgeTypeSpecifier(imbge);
+        return cbnCrebtePblette(type);
     }
 
-    protected RenderedImage getIndexedImage() {
+    protected RenderedImbge getIndexedImbge() {
         IndexColorModel icm = getIndexColorModel();
 
-        BufferedImage dst =
-            new BufferedImage(src.getWidth(), src.getHeight(),
-                              BufferedImage.TYPE_BYTE_INDEXED, icm);
+        BufferedImbge dst =
+            new BufferedImbge(src.getWidth(), src.getHeight(),
+                              BufferedImbge.TYPE_BYTE_INDEXED, icm);
 
-        WritableRaster wr = dst.getRaster();
+        WritbbleRbster wr = dst.getRbster();
         for (int y =0; y < dst.getHeight(); y++) {
             for (int x = 0; x < dst.getWidth(); x++) {
-                Color aColor = getSrcColor(x,y);
-                wr.setSample(x, y, 0, findColorIndex(root, aColor));
+                Color bColor = getSrcColor(x,y);
+                wr.setSbmple(x, y, 0, findColorIndex(root, bColor));
             }
         }
 
@@ -178,50 +178,50 @@ public class PaletteBuilder {
     }
 
 
-    protected PaletteBuilder(RenderedImage src) {
+    protected PbletteBuilder(RenderedImbge src) {
         this(src, 256);
     }
 
-    protected PaletteBuilder(RenderedImage src, int size) {
+    protected PbletteBuilder(RenderedImbge src, int size) {
         this.src = src;
         this.srcColorModel = src.getColorModel();
-        this.srcRaster = src.getData();
+        this.srcRbster = src.getDbtb();
 
-        this.transparency =
-            srcColorModel.getTransparency();
+        this.trbnspbrency =
+            srcColorModel.getTrbnspbrency();
 
         this.requiredSize = size;
     }
 
-    private Color getSrcColor(int x, int y) {
-        int argb = srcColorModel.getRGB(srcRaster.getDataElements(x, y, null));
-        return new Color(argb, transparency != Transparency.OPAQUE);
+    privbte Color getSrcColor(int x, int y) {
+        int brgb = srcColorModel.getRGB(srcRbster.getDbtbElements(x, y, null));
+        return new Color(brgb, trbnspbrency != Trbnspbrency.OPAQUE);
     }
 
-    protected int findColorIndex(ColorNode aNode, Color aColor) {
-        if (transparency != Transparency.OPAQUE &&
-            aColor.getAlpha() != 0xff)
+    protected int findColorIndex(ColorNode bNode, Color bColor) {
+        if (trbnspbrency != Trbnspbrency.OPAQUE &&
+            bColor.getAlphb() != 0xff)
         {
-            return 0; // default transparnt pixel
+            return 0; // defbult trbnspbrnt pixel
         }
 
-        if (aNode.isLeaf) {
-            return aNode.paletteIndex;
+        if (bNode.isLebf) {
+            return bNode.pbletteIndex;
         } else {
-            int childIndex = getBranchIndex(aColor, aNode.level);
+            int childIndex = getBrbnchIndex(bColor, bNode.level);
 
-            return findColorIndex(aNode.children[childIndex], aColor);
+            return findColorIndex(bNode.children[childIndex], bColor);
         }
     }
 
-    protected void buildPalette() {
+    protected void buildPblette() {
         reduceList = new ColorNode[MAXLEVEL + 1];
         for (int i = 0; i < reduceList.length; i++) {
             reduceList[i] = null;
         }
 
         numNodes = 0;
-        maxNodes = 0;
+        mbxNodes = 0;
         root = null;
         currSize = 0;
         currLevel = MAXLEVEL;
@@ -236,23 +236,23 @@ public class PaletteBuilder {
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
 
-                Color aColor = getSrcColor(w - x - 1, h - y - 1);
+                Color bColor = getSrcColor(w - x - 1, h - y - 1);
                 /*
-                 * If transparency of given image is not opaque we assume all
-                 * colors with alpha less than 1.0 as fully transparent.
+                 * If trbnspbrency of given imbge is not opbque we bssume bll
+                 * colors with blphb less thbn 1.0 bs fully trbnspbrent.
                  */
-                if (transparency != Transparency.OPAQUE &&
-                    aColor.getAlpha() != 0xff)
+                if (trbnspbrency != Trbnspbrency.OPAQUE &&
+                    bColor.getAlphb() != 0xff)
                 {
-                    if (transColor == null) {
-                        this.requiredSize --; // one slot for transparent color
+                    if (trbnsColor == null) {
+                        this.requiredSize --; // one slot for trbnspbrent color
 
-                        transColor = new ColorNode();
-                        transColor.isLeaf = true;
+                        trbnsColor = new ColorNode();
+                        trbnsColor.isLebf = true;
                     }
-                    transColor = insertNode(transColor, aColor, 0);
+                    trbnsColor = insertNode(trbnsColor, bColor, 0);
                 } else {
-                    root = insertNode(root, aColor, 0);
+                    root = insertNode(root, bColor, 0);
                 }
                 if (currSize > requiredSize) {
                     reduceTree();
@@ -261,44 +261,44 @@ public class PaletteBuilder {
         }
     }
 
-    protected ColorNode insertNode(ColorNode aNode, Color aColor, int aLevel) {
+    protected ColorNode insertNode(ColorNode bNode, Color bColor, int bLevel) {
 
-        if (aNode == null) {
-            aNode = new ColorNode();
+        if (bNode == null) {
+            bNode = new ColorNode();
             numNodes++;
-            if (numNodes > maxNodes) {
-                maxNodes = numNodes;
+            if (numNodes > mbxNodes) {
+                mbxNodes = numNodes;
             }
-            aNode.level = aLevel;
-            aNode.isLeaf = (aLevel > MAXLEVEL);
-            if (aNode.isLeaf) {
+            bNode.level = bLevel;
+            bNode.isLebf = (bLevel > MAXLEVEL);
+            if (bNode.isLebf) {
                 currSize++;
             }
         }
-        aNode.colorCount++;
-        aNode.red   += aColor.getRed();
-        aNode.green += aColor.getGreen();
-        aNode.blue  += aColor.getBlue();
+        bNode.colorCount++;
+        bNode.red   += bColor.getRed();
+        bNode.green += bColor.getGreen();
+        bNode.blue  += bColor.getBlue();
 
-        if (!aNode.isLeaf) {
-            int branchIndex = getBranchIndex(aColor, aLevel);
-            if (aNode.children[branchIndex] == null) {
-                aNode.childCount++;
-                if (aNode.childCount == 2) {
-                    aNode.nextReducible = reduceList[aLevel];
-                    reduceList[aLevel] = aNode;
+        if (!bNode.isLebf) {
+            int brbnchIndex = getBrbnchIndex(bColor, bLevel);
+            if (bNode.children[brbnchIndex] == null) {
+                bNode.childCount++;
+                if (bNode.childCount == 2) {
+                    bNode.nextReducible = reduceList[bLevel];
+                    reduceList[bLevel] = bNode;
                 }
             }
-            aNode.children[branchIndex] =
-                insertNode(aNode.children[branchIndex], aColor, aLevel + 1);
+            bNode.children[brbnchIndex] =
+                insertNode(bNode.children[brbnchIndex], bColor, bLevel + 1);
         }
-        return aNode;
+        return bNode;
     }
 
     protected IndexColorModel getIndexColorModel() {
         int size = currSize;
-        if (transColor != null) {
-            size ++; // we need place for transparent color;
+        if (trbnsColor != null) {
+            size ++; // we need plbce for trbnspbrent color;
         }
 
         byte[] red = new byte[size];
@@ -306,17 +306,17 @@ public class PaletteBuilder {
         byte[] blue = new byte[size];
 
         int index = 0;
-        palette = new ColorNode[size];
-        if (transColor != null) {
+        pblette = new ColorNode[size];
+        if (trbnsColor != null) {
             index ++;
         }
 
         if (root != null) {
-            findPaletteEntry(root, index, red, green, blue);
+            findPbletteEntry(root, index, red, green, blue);
         }
 
         IndexColorModel icm = null;
-        if (transColor  != null) {
+        if (trbnsColor  != null) {
             icm = new IndexColorModel(8, size, red, green, blue, 0);
         } else {
             icm = new IndexColorModel(8, currSize, red, green, blue);
@@ -324,22 +324,22 @@ public class PaletteBuilder {
         return icm;
     }
 
-    protected int findPaletteEntry(ColorNode aNode, int index,
+    protected int findPbletteEntry(ColorNode bNode, int index,
                                    byte[] red, byte[] green, byte[] blue)
         {
-            if (aNode.isLeaf) {
-                red[index]   = (byte)(aNode.red/aNode.colorCount);
-                green[index] = (byte)(aNode.green/aNode.colorCount);
-                blue[index]  = (byte)(aNode.blue/aNode.colorCount);
-                aNode.paletteIndex = index;
+            if (bNode.isLebf) {
+                red[index]   = (byte)(bNode.red/bNode.colorCount);
+                green[index] = (byte)(bNode.green/bNode.colorCount);
+                blue[index]  = (byte)(bNode.blue/bNode.colorCount);
+                bNode.pbletteIndex = index;
 
-                palette[index] = aNode;
+                pblette[index] = bNode;
 
                 index++;
             } else {
                 for (int i = 0; i < 8; i++) {
-                    if (aNode.children[i] != null) {
-                        index = findPaletteEntry(aNode.children[i], index,
+                    if (bNode.children[i] != null) {
+                        index = findPbletteEntry(bNode.children[i], index,
                                                  red, green, blue);
                     }
                 }
@@ -347,16 +347,16 @@ public class PaletteBuilder {
             return index;
         }
 
-    protected int getBranchIndex(Color aColor, int aLevel) {
-        if (aLevel > MAXLEVEL || aLevel < 0) {
-            throw new IllegalArgumentException("Invalid octree node depth: " +
-                                               aLevel);
+    protected int getBrbnchIndex(Color bColor, int bLevel) {
+        if (bLevel > MAXLEVEL || bLevel < 0) {
+            throw new IllegblArgumentException("Invblid octree node depth: " +
+                                               bLevel);
         }
 
-        int shift = MAXLEVEL - aLevel;
-        int red_index = 0x1 & ((0xff & aColor.getRed()) >> shift);
-        int green_index = 0x1 & ((0xff & aColor.getGreen()) >> shift);
-        int blue_index = 0x1 & ((0xff & aColor.getBlue()) >> shift);
+        int shift = MAXLEVEL - bLevel;
+        int red_index = 0x1 & ((0xff & bColor.getRed()) >> shift);
+        int green_index = 0x1 & ((0xff & bColor.getGreen()) >> shift);
+        int blue_index = 0x1 & ((0xff & bColor.getBlue()) >> shift);
         int index = (red_index << 2) | (green_index << 1) | blue_index;
         return index;
     }
@@ -387,8 +387,8 @@ public class PaletteBuilder {
             cnt++;
         }
 
-        // save pointer to first reducible node
-        // NB: current color count for node could be changed in future
+        // sbve pointer to first reducible node
+        // NB: current color count for node could be chbnged in future
         if (thisNode == reduceList[level]) {
             reduceList[level] = thisNode.nextReducible;
         } else {
@@ -397,27 +397,27 @@ public class PaletteBuilder {
             thisNode = pList;
         }
 
-        if (thisNode.isLeaf) {
+        if (thisNode.isLebf) {
             return;
         }
 
         // reduce node
-        int leafChildCount = thisNode.getLeafChildCount();
-        thisNode.isLeaf = true;
-        currSize -= (leafChildCount - 1);
-        int aDepth = thisNode.level;
+        int lebfChildCount = thisNode.getLebfChildCount();
+        thisNode.isLebf = true;
+        currSize -= (lebfChildCount - 1);
+        int bDepth = thisNode.level;
         for (int i = 0; i < 8; i++) {
             thisNode.children[i] = freeTree(thisNode.children[i]);
         }
         thisNode.childCount = 0;
     }
 
-    protected ColorNode freeTree(ColorNode aNode) {
-        if (aNode == null) {
+    protected ColorNode freeTree(ColorNode bNode) {
+        if (bNode == null) {
             return null;
         }
         for (int i = 0; i < 8; i++) {
-            aNode.children[i] = freeTree(aNode.children[i]);
+            bNode.children[i] = freeTree(bNode.children[i]);
         }
 
         numNodes--;
@@ -427,8 +427,8 @@ public class PaletteBuilder {
     /**
      * The node of color tree.
      */
-    protected class ColorNode {
-        public boolean isLeaf;
+    protected clbss ColorNode {
+        public boolebn isLebf;
         public int childCount;
         ColorNode[] children;
 
@@ -437,13 +437,13 @@ public class PaletteBuilder {
         public long blue;
         public long green;
 
-        public int paletteIndex;
+        public int pbletteIndex;
 
         public int level;
         ColorNode nextReducible;
 
         public ColorNode() {
-            isLeaf = false;
+            isLebf = fblse;
             level = 0;
             childCount = 0;
             children = new ColorNode[8];
@@ -454,20 +454,20 @@ public class PaletteBuilder {
             colorCount = 0;
             red = green = blue = 0;
 
-            paletteIndex = 0;
+            pbletteIndex = 0;
         }
 
-        public int getLeafChildCount() {
-            if (isLeaf) {
+        public int getLebfChildCount() {
+            if (isLebf) {
                 return 0;
             }
             int cnt = 0;
             for (int i = 0; i < children.length; i++) {
                 if (children[i] != null) {
-                    if (children[i].isLeaf) {
+                    if (children[i].isLebf) {
                         cnt ++;
                     } else {
-                        cnt += children[i].getLeafChildCount();
+                        cnt += children[i].getLebfChildCount();
                     }
                 }
             }

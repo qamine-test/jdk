@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.relation;
+pbckbge jbvbx.mbnbgement.relbtion;
 
-import static com.sun.jmx.mbeanserver.Util.cast;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtic com.sun.jmx.mbebnserver.Util.cbst;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.io.Serializable;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.Seriblizbble;
 
-import java.security.AccessController;
+import jbvb.security.AccessController;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
 
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * Represents an unresolved role: a role not retrieved from a relation due
- * to a problem. It provides the role name, value (if problem when trying to
- * set the role) and an integer defining the problem (constants defined in
- * RoleStatus).
+ * Represents bn unresolved role: b role not retrieved from b relbtion due
+ * to b problem. It provides the role nbme, vblue (if problem when trying to
+ * set the role) bnd bn integer defining the problem (constbnts defined in
+ * RoleStbtus).
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-48350262537070138L</code>.
+ * <p>The <b>seriblVersionUID</b> of this clbss is <code>-48350262537070138L</code>.
  *
  * @since 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class RoleUnresolved implements Serializable {
+@SuppressWbrnings("seribl")  // seriblVersionUID not constbnt
+public clbss RoleUnresolved implements Seriblizbble {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form depends
+    // on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -9026457686611660144L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = -9026457686611660144L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -48350262537070138L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = -48350262537070138L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-      new ObjectStreamField("myRoleName", String.class),
-      new ObjectStreamField("myRoleValue", ArrayList.class),
-      new ObjectStreamField("myPbType", int.class)
+      new ObjectStrebmField("myRoleNbme", String.clbss),
+      new ObjectStrebmField("myRoleVblue", ArrbyList.clbss),
+      new ObjectStrebmField("myPbType", int.clbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-      new ObjectStreamField("roleName", String.class),
-      new ObjectStreamField("roleValue", List.class),
-      new ObjectStreamField("problemType", int.class)
+      new ObjectStrebmField("roleNbme", String.clbss),
+      new ObjectStrebmField("roleVblue", List.clbss),
+      new ObjectStrebmField("problemType", int.clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
-    /** @serialField roleName String Role name
-     *  @serialField roleValue List Role value ({@link List} of {@link ObjectName} objects)
-     *  @serialField problemType int Problem type
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
+    /** @seriblField roleNbme String Role nbme
+     *  @seriblField roleVblue List Role vblue ({@link List} of {@link ObjectNbme} objects)
+     *  @seriblField problemType int Problem type
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte stbtic boolebn compbt = fblse;
+    stbtic {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            String form = AccessController.doPrivileged(bct);
+            compbt = (form != null && form.equbls("1.0"));
+        } cbtch (Exception e) {
+            // OK : Too bbd, no compbt with 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
     //
-    // Private members
+    // Privbte members
     //
 
     /**
-     * @serial Role name
+     * @seribl Role nbme
      */
-    private String roleName = null;
+    privbte String roleNbme = null;
 
     /**
-     * @serial Role value ({@link List} of {@link ObjectName} objects)
+     * @seribl Role vblue ({@link List} of {@link ObjectNbme} objects)
      */
-    private List<ObjectName> roleValue = null;
+    privbte List<ObjectNbme> roleVblue = null;
 
     /**
-     * @serial Problem type
+     * @seribl Problem type
      */
-    private int problemType;
+    privbte int problemType;
 
     //
     // Constructor
@@ -136,28 +136,28 @@ public class RoleUnresolved implements Serializable {
     /**
      * Constructor.
      *
-     * @param name  name of the role
-     * @param value  value of the role (if problem when setting the
+     * @pbrbm nbme  nbme of the role
+     * @pbrbm vblue  vblue of the role (if problem when setting the
      * role)
-     * @param pbType  type of problem (according to known problem types,
-     * listed as static final members).
+     * @pbrbm pbType  type of problem (bccording to known problem types,
+     * listed bs stbtic finbl members).
      *
-     * @exception IllegalArgumentException  if null parameter or incorrect
+     * @exception IllegblArgumentException  if null pbrbmeter or incorrect
      * problem type
      */
-    public RoleUnresolved(String name,
-                          List<ObjectName> value,
+    public RoleUnresolved(String nbme,
+                          List<ObjectNbme> vblue,
                           int pbType)
-        throws IllegalArgumentException {
+        throws IllegblArgumentException {
 
-        if (name == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (nbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        setRoleName(name);
-        setRoleValue(value);
-        // Can throw IllegalArgumentException
+        setRoleNbme(nbme);
+        setRoleVblue(vblue);
+        // Cbn throw IllegblArgumentException
         setProblemType(pbType);
         return;
     }
@@ -167,34 +167,34 @@ public class RoleUnresolved implements Serializable {
     //
 
     /**
-     * Retrieves role name.
+     * Retrieves role nbme.
      *
-     * @return the role name.
+     * @return the role nbme.
      *
-     * @see #setRoleName
+     * @see #setRoleNbme
      */
-    public String getRoleName() {
-        return roleName;
+    public String getRoleNbme() {
+        return roleNbme;
     }
 
     /**
-     * Retrieves role value.
+     * Retrieves role vblue.
      *
-     * @return an ArrayList of ObjectName objects, the one provided to be set
-     * in given role. Null if the unresolved role is returned for a read
-     * access.
+     * @return bn ArrbyList of ObjectNbme objects, the one provided to be set
+     * in given role. Null if the unresolved role is returned for b rebd
+     * bccess.
      *
-     * @see #setRoleValue
+     * @see #setRoleVblue
      */
-    public List<ObjectName> getRoleValue() {
-        return roleValue;
+    public List<ObjectNbme> getRoleVblue() {
+        return roleVblue;
     }
 
     /**
      * Retrieves problem type.
      *
-     * @return an integer corresponding to a problem, those being described as
-     * static final members of current class.
+     * @return bn integer corresponding to b problem, those being described bs
+     * stbtic finbl members of current clbss.
      *
      * @see #setProblemType
      */
@@ -203,40 +203,40 @@ public class RoleUnresolved implements Serializable {
     }
 
     /**
-     * Sets role name.
+     * Sets role nbme.
      *
-     * @param name the new role name.
+     * @pbrbm nbme the new role nbme.
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      *
-     * @see #getRoleName
+     * @see #getRoleNbme
      */
-    public void setRoleName(String name)
-        throws IllegalArgumentException {
+    public void setRoleNbme(String nbme)
+        throws IllegblArgumentException {
 
-        if (name == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (nbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        roleName = name;
+        roleNbme = nbme;
         return;
     }
 
     /**
-     * Sets role value.
+     * Sets role vblue.
      *
-     * @param value  List of ObjectName objects for referenced
-     * MBeans not set in role.
+     * @pbrbm vblue  List of ObjectNbme objects for referenced
+     * MBebns not set in role.
      *
-     * @see #getRoleValue
+     * @see #getRoleVblue
      */
-    public void setRoleValue(List<ObjectName> value) {
+    public void setRoleVblue(List<ObjectNbme> vblue) {
 
-        if (value != null) {
-            roleValue = new ArrayList<ObjectName>(value);
+        if (vblue != null) {
+            roleVblue = new ArrbyList<ObjectNbme>(vblue);
         } else {
-            roleValue = null;
+            roleVblue = null;
         }
         return;
     }
@@ -244,19 +244,19 @@ public class RoleUnresolved implements Serializable {
     /**
      * Sets problem type.
      *
-     * @param pbType  integer corresponding to a problem. Must be one of
-     * those described as static final members of current class.
+     * @pbrbm pbType  integer corresponding to b problem. Must be one of
+     * those described bs stbtic finbl members of current clbss.
      *
-     * @exception IllegalArgumentException  if incorrect problem type
+     * @exception IllegblArgumentException  if incorrect problem type
      *
      * @see #getProblemType
      */
     public void setProblemType(int pbType)
-        throws IllegalArgumentException {
+        throws IllegblArgumentException {
 
-        if (!(RoleStatus.isRoleStatus(pbType))) {
+        if (!(RoleStbtus.isRoleStbtus(pbType))) {
             String excMsg = "Incorrect problem type.";
-            throw new IllegalArgumentException(excMsg);
+            throw new IllegblArgumentException(excMsg);
         }
         problemType = pbType;
         return;
@@ -265,94 +265,94 @@ public class RoleUnresolved implements Serializable {
     /**
      * Clone this object.
      *
-     * @return an independent clone.
+     * @return bn independent clone.
      */
     public Object clone() {
         try {
-            return new RoleUnresolved(roleName, roleValue, problemType);
-        } catch (IllegalArgumentException exc) {
+            return new RoleUnresolved(roleNbme, roleVblue, problemType);
+        } cbtch (IllegblArgumentException exc) {
             return null; // :)
         }
     }
 
     /**
-     * Return a string describing this object.
+     * Return b string describing this object.
      *
-     * @return a description of this RoleUnresolved object.
+     * @return b description of this RoleUnresolved object.
      */
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("role name: " + roleName);
-        if (roleValue != null) {
-            result.append("; value: ");
-            for (Iterator<ObjectName> objNameIter = roleValue.iterator();
-                 objNameIter.hasNext();) {
-                ObjectName currObjName = objNameIter.next();
-                result.append(currObjName.toString());
-                if (objNameIter.hasNext()) {
-                    result.append(", ");
+        result.bppend("role nbme: " + roleNbme);
+        if (roleVblue != null) {
+            result.bppend("; vblue: ");
+            for (Iterbtor<ObjectNbme> objNbmeIter = roleVblue.iterbtor();
+                 objNbmeIter.hbsNext();) {
+                ObjectNbme currObjNbme = objNbmeIter.next();
+                result.bppend(currObjNbme.toString());
+                if (objNbmeIter.hbsNext()) {
+                    result.bppend(", ");
                 }
             }
         }
-        result.append("; problem type: " + problemType);
+        result.bppend("; problem type: " + problemType);
         return result.toString();
     }
 
     /**
-     * Deserializes a {@link RoleUnresolved} from an {@link ObjectInputStream}.
+     * Deseriblizes b {@link RoleUnresolved} from bn {@link ObjectInputStrebm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+      if (compbt)
       {
-        // Read an object serialized in the old serial form
+        // Rebd bn object seriblized in the old seribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
-        roleName = (String) fields.get("myRoleName", null);
-        if (fields.defaulted("myRoleName"))
+        ObjectInputStrebm.GetField fields = in.rebdFields();
+        roleNbme = (String) fields.get("myRoleNbme", null);
+        if (fields.defbulted("myRoleNbme"))
         {
-          throw new NullPointerException("myRoleName");
+          throw new NullPointerException("myRoleNbme");
         }
-        roleValue = cast(fields.get("myRoleValue", null));
-        if (fields.defaulted("myRoleValue"))
+        roleVblue = cbst(fields.get("myRoleVblue", null));
+        if (fields.defbulted("myRoleVblue"))
         {
-          throw new NullPointerException("myRoleValue");
+          throw new NullPointerException("myRoleVblue");
         }
         problemType = fields.get("myPbType", 0);
-        if (fields.defaulted("myPbType"))
+        if (fields.defbulted("myPbType"))
         {
           throw new NullPointerException("myPbType");
         }
       }
       else
       {
-        // Read an object serialized in the new serial form
+        // Rebd bn object seriblized in the new seribl form
         //
-        in.defaultReadObject();
+        in.defbultRebdObject();
       }
     }
 
 
     /**
-     * Serializes a {@link RoleUnresolved} to an {@link ObjectOutputStream}.
+     * Seriblizes b {@link RoleUnresolved} to bn {@link ObjectOutputStrebm}.
      */
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
             throws IOException {
-      if (compat)
+      if (compbt)
       {
-        // Serializes this instance in the old serial form
+        // Seriblizes this instbnce in the old seribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("myRoleName", roleName);
-        fields.put("myRoleValue", roleValue);
+        ObjectOutputStrebm.PutField fields = out.putFields();
+        fields.put("myRoleNbme", roleNbme);
+        fields.put("myRoleVblue", roleVblue);
         fields.put("myPbType", problemType);
         out.writeFields();
       }
       else
       {
-        // Serializes this instance in the new serial form
+        // Seriblizes this instbnce in the new seribl form
         //
-        out.defaultWriteObject();
+        out.defbultWriteObject();
       }
     }
 }

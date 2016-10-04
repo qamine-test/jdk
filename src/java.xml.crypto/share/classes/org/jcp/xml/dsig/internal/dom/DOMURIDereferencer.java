@@ -3,81 +3,81 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMURIDereferencer.java 1231033 2012-01-13 12:12:12Z coheigea $
+ * $Id: DOMURIDereferencer.jbvb 1231033 2012-01-13 12:12:12Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.sun.org.apache.xml.internal.security.Init;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
+import com.sun.org.bpbche.xml.internbl.security.Init;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolver;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.*;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.*;
 
 /**
- * DOM-based implementation of URIDereferencer.
+ * DOM-bbsed implementbtion of URIDereferencer.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public class DOMURIDereferencer implements URIDereferencer {
+public clbss DOMURIDereferencer implements URIDereferencer {
 
-    static final URIDereferencer INSTANCE = new DOMURIDereferencer();
+    stbtic finbl URIDereferencer INSTANCE = new DOMURIDereferencer();
 
-    private DOMURIDereferencer() {
-        // need to call com.sun.org.apache.xml.internal.security.Init.init()
-        // before calling any apache security code
+    privbte DOMURIDereferencer() {
+        // need to cbll com.sun.org.bpbche.xml.internbl.security.Init.init()
+        // before cblling bny bpbche security code
         Init.init();
     }
 
-    public Data dereference(URIReference uriRef, XMLCryptoContext context)
+    public Dbtb dereference(URIReference uriRef, XMLCryptoContext context)
         throws URIReferenceException {
 
         if (uriRef == null) {
-            throw new NullPointerException("uriRef cannot be null");
+            throw new NullPointerException("uriRef cbnnot be null");
         }
         if (context == null) {
-            throw new NullPointerException("context cannot be null");
+            throw new NullPointerException("context cbnnot be null");
         }
 
         DOMURIReference domRef = (DOMURIReference) uriRef;
         Attr uriAttr = (Attr) domRef.getHere();
         String uri = uriRef.getURI();
         DOMCryptoContext dcc = (DOMCryptoContext) context;
-        String baseURI = context.getBaseURI();
+        String bbseURI = context.getBbseURI();
 
-        boolean secVal = Utils.secureValidation(context);
+        boolebn secVbl = Utils.secureVblidbtion(context);
 
-        // Check if same-document URI and already registered on the context
-        if (uri != null && uri.length() != 0 && uri.charAt(0) == '#') {
+        // Check if sbme-document URI bnd blrebdy registered on the context
+        if (uri != null && uri.length() != 0 && uri.chbrAt(0) == '#') {
             String id = uri.substring(1);
 
-            if (id.startsWith("xpointer(id(")) {
+            if (id.stbrtsWith("xpointer(id(")) {
                 int i1 = id.indexOf('\'');
                 int i2 = id.indexOf('\'', i1+1);
                 id = id.substring(i1+1, i2);
@@ -85,40 +85,40 @@ public class DOMURIDereferencer implements URIDereferencer {
 
             Node referencedElem = dcc.getElementById(id);
             if (referencedElem != null) {
-                if (secVal) {
-                    Element start = referencedElem.getOwnerDocument().getDocumentElement();
-                    if (!XMLUtils.protectAgainstWrappingAttack(start, (Element)referencedElem, id)) {
-                        String error = "Multiple Elements with the same ID " + id + " were detected";
+                if (secVbl) {
+                    Element stbrt = referencedElem.getOwnerDocument().getDocumentElement();
+                    if (!XMLUtils.protectAgbinstWrbppingAttbck(stbrt, (Element)referencedElem, id)) {
+                        String error = "Multiple Elements with the sbme ID " + id + " were detected";
                         throw new URIReferenceException(error);
                     }
                 }
 
-                XMLSignatureInput result = new XMLSignatureInput(referencedElem);
-                if (!uri.substring(1).startsWith("xpointer(id(")) {
+                XMLSignbtureInput result = new XMLSignbtureInput(referencedElem);
+                if (!uri.substring(1).stbrtsWith("xpointer(id(")) {
                     result.setExcludeComments(true);
                 }
 
                 result.setMIMEType("text/xml");
-                if (baseURI != null && baseURI.length() > 0) {
-                    result.setSourceURI(baseURI.concat(uriAttr.getNodeValue()));
+                if (bbseURI != null && bbseURI.length() > 0) {
+                    result.setSourceURI(bbseURI.concbt(uriAttr.getNodeVblue()));
                 } else {
-                    result.setSourceURI(uriAttr.getNodeValue());
+                    result.setSourceURI(uriAttr.getNodeVblue());
                 }
-                return new ApacheNodeSetData(result);
+                return new ApbcheNodeSetDbtb(result);
             }
         }
 
         try {
-            ResourceResolver apacheResolver =
-                ResourceResolver.getInstance(uriAttr, baseURI, secVal);
-            XMLSignatureInput in = apacheResolver.resolve(uriAttr,
-                                                          baseURI, secVal);
-            if (in.isOctetStream()) {
-                return new ApacheOctetStreamData(in);
+            ResourceResolver bpbcheResolver =
+                ResourceResolver.getInstbnce(uriAttr, bbseURI, secVbl);
+            XMLSignbtureInput in = bpbcheResolver.resolve(uriAttr,
+                                                          bbseURI, secVbl);
+            if (in.isOctetStrebm()) {
+                return new ApbcheOctetStrebmDbtb(in);
             } else {
-                return new ApacheNodeSetData(in);
+                return new ApbcheNodeSetDbtb(in);
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new URIReferenceException(e);
         }
     }

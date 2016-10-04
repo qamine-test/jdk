@@ -3,219 +3,219 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: ApacheTransform.java 1333869 2012-05-04 10:42:44Z coheigea $
+ * $Id: ApbcheTrbnsform.jbvb 1333869 2012-05-04 10:42:44Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import java.io.OutputStream;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.spec.AlgorithmParameterSpec;
-import java.util.Set;
+import jbvb.io.OutputStrebm;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.util.Set;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.Transform;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsform;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsforms;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.spec.TrbnsformPbrbmeterSpec;
 
 /**
- * This is a wrapper/glue class which invokes the Apache XML-Security
- * Transform.
+ * This is b wrbpper/glue clbss which invokes the Apbche XML-Security
+ * Trbnsform.
  *
- * @author Sean Mullan
- * @author Erwin van der Koogh
+ * @buthor Sebn Mullbn
+ * @buthor Erwin vbn der Koogh
  */
-public abstract class ApacheTransform extends TransformService {
+public bbstrbct clbss ApbcheTrbnsform extends TrbnsformService {
 
-    static {
-        com.sun.org.apache.xml.internal.security.Init.init();
+    stbtic {
+        com.sun.org.bpbche.xml.internbl.security.Init.init();
     }
 
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger("org.jcp.xml.dsig.internal.dom");
-    private Transform apacheTransform;
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger("org.jcp.xml.dsig.internbl.dom");
+    privbte Trbnsform bpbcheTrbnsform;
     protected Document ownerDoc;
-    protected Element transformElem;
-    protected TransformParameterSpec params;
+    protected Element trbnsformElem;
+    protected TrbnsformPbrbmeterSpec pbrbms;
 
-    public final AlgorithmParameterSpec getParameterSpec() {
-        return params;
+    public finbl AlgorithmPbrbmeterSpec getPbrbmeterSpec() {
+        return pbrbms;
     }
 
-    public void init(XMLStructure parent, XMLCryptoContext context)
-        throws InvalidAlgorithmParameterException
+    public void init(XMLStructure pbrent, XMLCryptoContext context)
+        throws InvblidAlgorithmPbrbmeterException
     {
-        if (context != null && !(context instanceof DOMCryptoContext)) {
-            throw new ClassCastException
+        if (context != null && !(context instbnceof DOMCryptoContext)) {
+            throw new ClbssCbstException
                 ("context must be of type DOMCryptoContext");
         }
-        if (parent == null) {
+        if (pbrent == null) {
             throw new NullPointerException();
         }
-        if (!(parent instanceof javax.xml.crypto.dom.DOMStructure)) {
-            throw new ClassCastException("parent must be of type DOMStructure");
+        if (!(pbrent instbnceof jbvbx.xml.crypto.dom.DOMStructure)) {
+            throw new ClbssCbstException("pbrent must be of type DOMStructure");
         }
-        transformElem = (Element)
-            ((javax.xml.crypto.dom.DOMStructure) parent).getNode();
-        ownerDoc = DOMUtils.getOwnerDocument(transformElem);
+        trbnsformElem = (Element)
+            ((jbvbx.xml.crypto.dom.DOMStructure) pbrent).getNode();
+        ownerDoc = DOMUtils.getOwnerDocument(trbnsformElem);
     }
 
-    public void marshalParams(XMLStructure parent, XMLCryptoContext context)
-        throws MarshalException
+    public void mbrshblPbrbms(XMLStructure pbrent, XMLCryptoContext context)
+        throws MbrshblException
     {
-        if (context != null && !(context instanceof DOMCryptoContext)) {
-            throw new ClassCastException
+        if (context != null && !(context instbnceof DOMCryptoContext)) {
+            throw new ClbssCbstException
                 ("context must be of type DOMCryptoContext");
         }
-        if (parent == null) {
+        if (pbrent == null) {
             throw new NullPointerException();
         }
-        if (!(parent instanceof javax.xml.crypto.dom.DOMStructure)) {
-            throw new ClassCastException("parent must be of type DOMStructure");
+        if (!(pbrent instbnceof jbvbx.xml.crypto.dom.DOMStructure)) {
+            throw new ClbssCbstException("pbrent must be of type DOMStructure");
         }
-        transformElem = (Element)
-            ((javax.xml.crypto.dom.DOMStructure) parent).getNode();
-        ownerDoc = DOMUtils.getOwnerDocument(transformElem);
+        trbnsformElem = (Element)
+            ((jbvbx.xml.crypto.dom.DOMStructure) pbrent).getNode();
+        ownerDoc = DOMUtils.getOwnerDocument(trbnsformElem);
     }
 
-    public Data transform(Data data, XMLCryptoContext xc)
-        throws TransformException
+    public Dbtb trbnsform(Dbtb dbtb, XMLCryptoContext xc)
+        throws TrbnsformException
     {
-        if (data == null) {
-            throw new NullPointerException("data must not be null");
+        if (dbtb == null) {
+            throw new NullPointerException("dbtb must not be null");
         }
-        return transformIt(data, xc, (OutputStream)null);
+        return trbnsformIt(dbtb, xc, (OutputStrebm)null);
     }
 
-    public Data transform(Data data, XMLCryptoContext xc, OutputStream os)
-        throws TransformException
+    public Dbtb trbnsform(Dbtb dbtb, XMLCryptoContext xc, OutputStrebm os)
+        throws TrbnsformException
     {
-        if (data == null) {
-            throw new NullPointerException("data must not be null");
+        if (dbtb == null) {
+            throw new NullPointerException("dbtb must not be null");
         }
         if (os == null) {
-            throw new NullPointerException("output stream must not be null");
+            throw new NullPointerException("output strebm must not be null");
         }
-        return transformIt(data, xc, os);
+        return trbnsformIt(dbtb, xc, os);
     }
 
-    private Data transformIt(Data data, XMLCryptoContext xc, OutputStream os)
-        throws TransformException
+    privbte Dbtb trbnsformIt(Dbtb dbtb, XMLCryptoContext xc, OutputStrebm os)
+        throws TrbnsformException
     {
         if (ownerDoc == null) {
-            throw new TransformException("transform must be marshalled");
+            throw new TrbnsformException("trbnsform must be mbrshblled");
         }
 
-        if (apacheTransform == null) {
+        if (bpbcheTrbnsform == null) {
             try {
-                apacheTransform =
-                    new Transform(ownerDoc, getAlgorithm(), transformElem.getChildNodes());
-                apacheTransform.setElement(transformElem, xc.getBaseURI());
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Created transform for algorithm: " +
+                bpbcheTrbnsform =
+                    new Trbnsform(ownerDoc, getAlgorithm(), trbnsformElem.getChildNodes());
+                bpbcheTrbnsform.setElement(trbnsformElem, xc.getBbseURI());
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "Crebted trbnsform for blgorithm: " +
                             getAlgorithm());
                 }
-            } catch (Exception ex) {
-                throw new TransformException("Couldn't find Transform for: " +
+            } cbtch (Exception ex) {
+                throw new TrbnsformException("Couldn't find Trbnsform for: " +
                                              getAlgorithm(), ex);
             }
         }
 
-        if (Utils.secureValidation(xc)) {
-            String algorithm = getAlgorithm();
-            if (Transforms.TRANSFORM_XSLT.equals(algorithm)) {
-                throw new TransformException(
-                    "Transform " + algorithm + " is forbidden when secure validation is enabled"
+        if (Utils.secureVblidbtion(xc)) {
+            String blgorithm = getAlgorithm();
+            if (Trbnsforms.TRANSFORM_XSLT.equbls(blgorithm)) {
+                throw new TrbnsformException(
+                    "Trbnsform " + blgorithm + " is forbidden when secure vblidbtion is enbbled"
                 );
             }
         }
 
-        XMLSignatureInput in;
-        if (data instanceof ApacheData) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "ApacheData = true");
+        XMLSignbtureInput in;
+        if (dbtb instbnceof ApbcheDbtb) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "ApbcheDbtb = true");
             }
-            in = ((ApacheData)data).getXMLSignatureInput();
-        } else if (data instanceof NodeSetData) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "isNodeSet() = true");
+            in = ((ApbcheDbtb)dbtb).getXMLSignbtureInput();
+        } else if (dbtb instbnceof NodeSetDbtb) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "isNodeSet() = true");
             }
-            if (data instanceof DOMSubTreeData) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "DOMSubTreeData = true");
+            if (dbtb instbnceof DOMSubTreeDbtb) {
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "DOMSubTreeDbtb = true");
                 }
-                DOMSubTreeData subTree = (DOMSubTreeData)data;
-                in = new XMLSignatureInput(subTree.getRoot());
+                DOMSubTreeDbtb subTree = (DOMSubTreeDbtb)dbtb;
+                in = new XMLSignbtureInput(subTree.getRoot());
                 in.setExcludeComments(subTree.excludeComments());
             } else {
-                @SuppressWarnings("unchecked")
+                @SuppressWbrnings("unchecked")
                 Set<Node> nodeSet =
-                    Utils.toNodeSet(((NodeSetData)data).iterator());
-                in = new XMLSignatureInput(nodeSet);
+                    Utils.toNodeSet(((NodeSetDbtb)dbtb).iterbtor());
+                in = new XMLSignbtureInput(nodeSet);
             }
         } else {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "isNodeSet() = false");
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "isNodeSet() = fblse");
             }
             try {
-                in = new XMLSignatureInput
-                    (((OctetStreamData)data).getOctetStream());
-            } catch (Exception ex) {
-                throw new TransformException(ex);
+                in = new XMLSignbtureInput
+                    (((OctetStrebmDbtb)dbtb).getOctetStrebm());
+            } cbtch (Exception ex) {
+                throw new TrbnsformException(ex);
             }
         }
 
         try {
             if (os != null) {
-                in = apacheTransform.performTransform(in, os);
+                in = bpbcheTrbnsform.performTrbnsform(in, os);
                 if (!in.isNodeSet() && !in.isElement()) {
                     return null;
                 }
             } else {
-                in = apacheTransform.performTransform(in);
+                in = bpbcheTrbnsform.performTrbnsform(in);
             }
-            if (in.isOctetStream()) {
-                return new ApacheOctetStreamData(in);
+            if (in.isOctetStrebm()) {
+                return new ApbcheOctetStrebmDbtb(in);
             } else {
-                return new ApacheNodeSetData(in);
+                return new ApbcheNodeSetDbtb(in);
             }
-        } catch (Exception ex) {
-            throw new TransformException(ex);
+        } cbtch (Exception ex) {
+            throw new TrbnsformException(ex);
         }
     }
 
-    public final boolean isFeatureSupported(String feature) {
-        if (feature == null) {
+    public finbl boolebn isFebtureSupported(String febture) {
+        if (febture == null) {
             throw new NullPointerException();
         } else {
-            return false;
+            return fblse;
         }
     }
 }

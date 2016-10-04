@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * @author    IBM Corp.
+ * @buthor    IBM Corp.
  *
  * Copyright IBM Corp. 1999-2000.  All rights reserved.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import javax.management.MBeanException;
-import javax.management.RuntimeOperationsException;
-import javax.management.InstanceNotFoundException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
 
 /**
- *  This class is the interface to be implemented by MBeans that are meant to be
- *  persistent.  MBeans supporting this interface should call the load method during
- *  construction in order to prime the MBean from the persistent store.
- *  In the case of a ModelMBean, the store method should be called by the MBeanServer based on the descriptors in
- *  the ModelMBean or by the MBean itself during normal processing of the ModelMBean.
+ *  This clbss is the interfbce to be implemented by MBebns thbt bre mebnt to be
+ *  persistent.  MBebns supporting this interfbce should cbll the lobd method during
+ *  construction in order to prime the MBebn from the persistent store.
+ *  In the cbse of b ModelMBebn, the store method should be cblled by the MBebnServer bbsed on the descriptors in
+ *  the ModelMBebn or by the MBebn itself during normbl processing of the ModelMBebn.
  *
  * @since 1.5
  */
-public interface PersistentMBean {
+public interfbce PersistentMBebn {
 
 
     /**
-     * Instantiates thisMBean instance with the data found for
-     * the MBean in the persistent store.  The data loaded could include
-     * attribute and operation values.
+     * Instbntibtes thisMBebn instbnce with the dbtb found for
+     * the MBebn in the persistent store.  The dbtb lobded could include
+     * bttribute bnd operbtion vblues.
      *
-     * This method should be called during construction or initialization of this instance,
-     * and before the MBean is registered with the MBeanServer.
+     * This method should be cblled during construction or initiblizbtion of this instbnce,
+     * bnd before the MBebn is registered with the MBebnServer.
      *
-     * @exception MBeanException Wraps another exception or persistence is not supported
-     * @exception RuntimeOperationsException Wraps exceptions from the persistence mechanism
-     * @exception InstanceNotFoundException Could not find or load this MBean from persistent
-     *                                      storage
+     * @exception MBebnException Wrbps bnother exception or persistence is not supported
+     * @exception RuntimeOperbtionsException Wrbps exceptions from the persistence mechbnism
+     * @exception InstbnceNotFoundException Could not find or lobd this MBebn from persistent
+     *                                      storbge
      */
-    public void load()
-    throws MBeanException, RuntimeOperationsException, InstanceNotFoundException;
+    public void lobd()
+    throws MBebnException, RuntimeOperbtionsException, InstbnceNotFoundException;
 
     /**
-     * Captures the current state of this MBean instance and
-     * writes it out to the persistent store.  The state stored could include
-     * attribute and operation values. If one of these methods of persistence is
-     * not supported a "serviceNotFound" exception will be thrown.
+     * Cbptures the current stbte of this MBebn instbnce bnd
+     * writes it out to the persistent store.  The stbte stored could include
+     * bttribute bnd operbtion vblues. If one of these methods of persistence is
+     * not supported b "serviceNotFound" exception will be thrown.
      * <P>
-     * Persistence policy from the MBean and attribute descriptor is used to guide execution
-     * of this method. The MBean should be stored if 'persistPolicy' field is:
-     * <PRE>{@literal  != "never"
-     *   = "always"
-     *   = "onTimer" and now > 'lastPersistTime' + 'persistPeriod'
-     *   = "NoMoreOftenThan" and now > 'lastPersistTime' + 'persistPeriod'
+     * Persistence policy from the MBebn bnd bttribute descriptor is used to guide execution
+     * of this method. The MBebn should be stored if 'persistPolicy' field is:
+     * <PRE>{@literbl  != "never"
+     *   = "blwbys"
+     *   = "onTimer" bnd now > 'lbstPersistTime' + 'persistPeriod'
+     *   = "NoMoreOftenThbn" bnd now > 'lbstPersistTime' + 'persistPeriod'
      *   = "onUnregister"
      * }</PRE>
      * <p>
-     * Do not store the MBean if 'persistPolicy' field is:
-     * <PRE>{@literal
+     * Do not store the MBebn if 'persistPolicy' field is:
+     * <PRE>{@literbl
      *    = "never"
-     *    = "onUpdate"
-     *    = "onTimer" && now < 'lastPersistTime' + 'persistPeriod'
+     *    = "onUpdbte"
+     *    = "onTimer" && now < 'lbstPersistTime' + 'persistPeriod'
      * }</PRE>
      *
-     * @exception MBeanException Wraps another exception or persistence is not supported
-     * @exception RuntimeOperationsException Wraps exceptions from the persistence mechanism
-     * @exception InstanceNotFoundException Could not find/access the persistent store
+     * @exception MBebnException Wrbps bnother exception or persistence is not supported
+     * @exception RuntimeOperbtionsException Wrbps exceptions from the persistence mechbnism
+     * @exception InstbnceNotFoundException Could not find/bccess the persistent store
      */
     public void store()
-    throws MBeanException, RuntimeOperationsException, InstanceNotFoundException;
+    throws MBebnException, RuntimeOperbtionsException, InstbnceNotFoundException;
 
 }

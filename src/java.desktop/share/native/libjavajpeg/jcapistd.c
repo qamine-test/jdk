@@ -3,19 +3,19 @@
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jcapistd.c
+ * jcbpistd.c
  *
- * Copyright (C) 1994-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1994-1996, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains application interface code for the compression half
- * of the JPEG library.  These are the "standard" API routines that are
- * used in the normal full-compression case.  They are not used by a
- * transcoding-only application.  Note that if an application links in
- * jpeg_start_compress, it will end up linking in the entire compressor.
- * We thus must separate this file from jcapimin.c to avoid linking the
- * whole compression library into a transcoder.
+ * This file contbins bpplicbtion interfbce code for the compression hblf
+ * of the JPEG librbry.  These bre the "stbndbrd" API routines thbt bre
+ * used in the normbl full-compression cbse.  They bre not used by b
+ * trbnscoding-only bpplicbtion.  Note thbt if bn bpplicbtion links in
+ * jpeg_stbrt_compress, it will end up linking in the entire compressor.
+ * We thus must sepbrbte this file from jcbpimin.c to bvoid linking the
+ * whole compression librbry into b trbnscoder.
  */
 
 #define JPEG_INTERNALS
@@ -24,142 +24,142 @@
 
 
 /*
- * Compression initialization.
- * Before calling this, all parameters and a data destination must be set up.
+ * Compression initiblizbtion.
+ * Before cblling this, bll pbrbmeters bnd b dbtb destinbtion must be set up.
  *
- * We require a write_all_tables parameter as a failsafe check when writing
- * multiple datastreams from the same compression object.  Since prior runs
- * will have left all the tables marked sent_table=TRUE, a subsequent run
- * would emit an abbreviated stream (no tables) by default.  This may be what
- * is wanted, but for safety's sake it should not be the default behavior:
- * programmers should have to make a deliberate choice to emit abbreviated
- * images.  Therefore the documentation and examples should encourage people
- * to pass write_all_tables=TRUE; then it will take active thought to do the
+ * We require b write_bll_tbbles pbrbmeter bs b fbilsbfe check when writing
+ * multiple dbtbstrebms from the sbme compression object.  Since prior runs
+ * will hbve left bll the tbbles mbrked sent_tbble=TRUE, b subsequent run
+ * would emit bn bbbrevibted strebm (no tbbles) by defbult.  This mby be whbt
+ * is wbnted, but for sbfety's sbke it should not be the defbult behbvior:
+ * progrbmmers should hbve to mbke b deliberbte choice to emit bbbrevibted
+ * imbges.  Therefore the documentbtion bnd exbmples should encourbge people
+ * to pbss write_bll_tbbles=TRUE; then it will tbke bctive thought to do the
  * wrong thing.
  */
 
 GLOBAL(void)
-jpeg_start_compress (j_compress_ptr cinfo, boolean write_all_tables)
+jpeg_stbrt_compress (j_compress_ptr cinfo, boolebn write_bll_tbbles)
 {
-  if (cinfo->global_state != CSTATE_START)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+  if (cinfo->globbl_stbte != CSTATE_START)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
 
-  if (write_all_tables)
-    jpeg_suppress_tables(cinfo, FALSE); /* mark all tables to be written */
+  if (write_bll_tbbles)
+    jpeg_suppress_tbbles(cinfo, FALSE); /* mbrk bll tbbles to be written */
 
-  /* (Re)initialize error mgr and destination modules */
+  /* (Re)initiblize error mgr bnd destinbtion modules */
   (*cinfo->err->reset_error_mgr) ((j_common_ptr) cinfo);
-  (*cinfo->dest->init_destination) (cinfo);
-  /* Perform master selection of active modules */
-  jinit_compress_master(cinfo);
-  /* Set up for the first pass */
-  (*cinfo->master->prepare_for_pass) (cinfo);
-  /* Ready for application to drive first pass through jpeg_write_scanlines
-   * or jpeg_write_raw_data.
+  (*cinfo->dest->init_destinbtion) (cinfo);
+  /* Perform mbster selection of bctive modules */
+  jinit_compress_mbster(cinfo);
+  /* Set up for the first pbss */
+  (*cinfo->mbster->prepbre_for_pbss) (cinfo);
+  /* Rebdy for bpplicbtion to drive first pbss through jpeg_write_scbnlines
+   * or jpeg_write_rbw_dbtb.
    */
-  cinfo->next_scanline = 0;
-  cinfo->global_state = (cinfo->raw_data_in ? CSTATE_RAW_OK : CSTATE_SCANNING);
+  cinfo->next_scbnline = 0;
+  cinfo->globbl_stbte = (cinfo->rbw_dbtb_in ? CSTATE_RAW_OK : CSTATE_SCANNING);
 }
 
 
 /*
- * Write some scanlines of data to the JPEG compressor.
+ * Write some scbnlines of dbtb to the JPEG compressor.
  *
- * The return value will be the number of lines actually written.
- * This should be less than the supplied num_lines only in case that
- * the data destination module has requested suspension of the compressor,
- * or if more than image_height scanlines are passed in.
+ * The return vblue will be the number of lines bctublly written.
+ * This should be less thbn the supplied num_lines only in cbse thbt
+ * the dbtb destinbtion module hbs requested suspension of the compressor,
+ * or if more thbn imbge_height scbnlines bre pbssed in.
  *
- * Note: we warn about excess calls to jpeg_write_scanlines() since
- * this likely signals an application programmer error.  However,
- * excess scanlines passed in the last valid call are *silently* ignored,
- * so that the application need not adjust num_lines for end-of-image
- * when using a multiple-scanline buffer.
+ * Note: we wbrn bbout excess cblls to jpeg_write_scbnlines() since
+ * this likely signbls bn bpplicbtion progrbmmer error.  However,
+ * excess scbnlines pbssed in the lbst vblid cbll bre *silently* ignored,
+ * so thbt the bpplicbtion need not bdjust num_lines for end-of-imbge
+ * when using b multiple-scbnline buffer.
  */
 
 GLOBAL(JDIMENSION)
-jpeg_write_scanlines (j_compress_ptr cinfo, JSAMPARRAY scanlines,
+jpeg_write_scbnlines (j_compress_ptr cinfo, JSAMPARRAY scbnlines,
                       JDIMENSION num_lines)
 {
   JDIMENSION row_ctr, rows_left;
 
-  if (cinfo->global_state != CSTATE_SCANNING)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
-  if (cinfo->next_scanline >= cinfo->image_height)
+  if (cinfo->globbl_stbte != CSTATE_SCANNING)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
+  if (cinfo->next_scbnline >= cinfo->imbge_height)
     WARNMS(cinfo, JWRN_TOO_MUCH_DATA);
 
-  /* Call progress monitor hook if present */
+  /* Cbll progress monitor hook if present */
   if (cinfo->progress != NULL) {
-    cinfo->progress->pass_counter = (long) cinfo->next_scanline;
-    cinfo->progress->pass_limit = (long) cinfo->image_height;
+    cinfo->progress->pbss_counter = (long) cinfo->next_scbnline;
+    cinfo->progress->pbss_limit = (long) cinfo->imbge_height;
     (*cinfo->progress->progress_monitor) ((j_common_ptr) cinfo);
   }
 
-  /* Give master control module another chance if this is first call to
-   * jpeg_write_scanlines.  This lets output of the frame/scan headers be
-   * delayed so that application can write COM, etc, markers between
-   * jpeg_start_compress and jpeg_write_scanlines.
+  /* Give mbster control module bnother chbnce if this is first cbll to
+   * jpeg_write_scbnlines.  This lets output of the frbme/scbn hebders be
+   * delbyed so thbt bpplicbtion cbn write COM, etc, mbrkers between
+   * jpeg_stbrt_compress bnd jpeg_write_scbnlines.
    */
-  if (cinfo->master->call_pass_startup)
-    (*cinfo->master->pass_startup) (cinfo);
+  if (cinfo->mbster->cbll_pbss_stbrtup)
+    (*cinfo->mbster->pbss_stbrtup) (cinfo);
 
-  /* Ignore any extra scanlines at bottom of image. */
-  rows_left = cinfo->image_height - cinfo->next_scanline;
+  /* Ignore bny extrb scbnlines bt bottom of imbge. */
+  rows_left = cinfo->imbge_height - cinfo->next_scbnline;
   if (num_lines > rows_left)
     num_lines = rows_left;
 
   row_ctr = 0;
-  (*cinfo->main->process_data) (cinfo, scanlines, &row_ctr, num_lines);
-  cinfo->next_scanline += row_ctr;
+  (*cinfo->mbin->process_dbtb) (cinfo, scbnlines, &row_ctr, num_lines);
+  cinfo->next_scbnline += row_ctr;
   return row_ctr;
 }
 
 
 /*
- * Alternate entry point to write raw data.
- * Processes exactly one iMCU row per call, unless suspended.
+ * Alternbte entry point to write rbw dbtb.
+ * Processes exbctly one iMCU row per cbll, unless suspended.
  */
 
 GLOBAL(JDIMENSION)
-jpeg_write_raw_data (j_compress_ptr cinfo, JSAMPIMAGE data,
+jpeg_write_rbw_dbtb (j_compress_ptr cinfo, JSAMPIMAGE dbtb,
                      JDIMENSION num_lines)
 {
   JDIMENSION lines_per_iMCU_row;
 
-  if (cinfo->global_state != CSTATE_RAW_OK)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
-  if (cinfo->next_scanline >= cinfo->image_height) {
+  if (cinfo->globbl_stbte != CSTATE_RAW_OK)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
+  if (cinfo->next_scbnline >= cinfo->imbge_height) {
     WARNMS(cinfo, JWRN_TOO_MUCH_DATA);
     return 0;
   }
 
-  /* Call progress monitor hook if present */
+  /* Cbll progress monitor hook if present */
   if (cinfo->progress != NULL) {
-    cinfo->progress->pass_counter = (long) cinfo->next_scanline;
-    cinfo->progress->pass_limit = (long) cinfo->image_height;
+    cinfo->progress->pbss_counter = (long) cinfo->next_scbnline;
+    cinfo->progress->pbss_limit = (long) cinfo->imbge_height;
     (*cinfo->progress->progress_monitor) ((j_common_ptr) cinfo);
   }
 
-  /* Give master control module another chance if this is first call to
-   * jpeg_write_raw_data.  This lets output of the frame/scan headers be
-   * delayed so that application can write COM, etc, markers between
-   * jpeg_start_compress and jpeg_write_raw_data.
+  /* Give mbster control module bnother chbnce if this is first cbll to
+   * jpeg_write_rbw_dbtb.  This lets output of the frbme/scbn hebders be
+   * delbyed so thbt bpplicbtion cbn write COM, etc, mbrkers between
+   * jpeg_stbrt_compress bnd jpeg_write_rbw_dbtb.
    */
-  if (cinfo->master->call_pass_startup)
-    (*cinfo->master->pass_startup) (cinfo);
+  if (cinfo->mbster->cbll_pbss_stbrtup)
+    (*cinfo->mbster->pbss_stbrtup) (cinfo);
 
-  /* Verify that at least one iMCU row has been passed. */
-  lines_per_iMCU_row = cinfo->max_v_samp_factor * DCTSIZE;
+  /* Verify thbt bt lebst one iMCU row hbs been pbssed. */
+  lines_per_iMCU_row = cinfo->mbx_v_sbmp_fbctor * DCTSIZE;
   if (num_lines < lines_per_iMCU_row)
     ERREXIT(cinfo, JERR_BUFFER_SIZE);
 
   /* Directly compress the row. */
-  if (! (*cinfo->coef->compress_data) (cinfo, data)) {
+  if (! (*cinfo->coef->compress_dbtb) (cinfo, dbtb)) {
     /* If compressor did not consume the whole row, suspend processing. */
     return 0;
   }
 
   /* OK, we processed one iMCU row. */
-  cinfo->next_scanline += lines_per_iMCU_row;
+  cinfo->next_scbnline += lines_per_iMCU_row;
   return lines_per_iMCU_row;
 }

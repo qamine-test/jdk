@@ -3,68 +3,68 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.content;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.content;
 
-import java.math.BigInteger;
-import java.security.cert.X509Certificate;
+import jbvb.mbth.BigInteger;
+import jbvb.security.cert.X509Certificbte;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509CRL;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509Certificate;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509Digest;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509IssuerSerial;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509SKI;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509SubjectName;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509CRL;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509Certificbte;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509Digest;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509IssuerSeribl;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509SKI;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509SubjectNbme;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class X509Data extends SignatureElementProxy implements KeyInfoContent {
+public clbss X509Dbtb extends SignbtureElementProxy implements KeyInfoContent {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(X509Data.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(X509Dbtb.clbss.getNbme());
 
     /**
-     * Constructor X509Data
+     * Constructor X509Dbtb
      *
-     * @param doc
+     * @pbrbm doc
      */
-    public X509Data(Document doc) {
+    public X509Dbtb(Document doc) {
         super(doc);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Constructor X509Data
+     * Constructor X509Dbtb
      *
-     * @param element
-     * @param baseURI
+     * @pbrbm element
+     * @pbrbm bbseURI
      * @throws XMLSecurityException
      */
-    public X509Data(Element element, String baseURI) throws XMLSecurityException {
-        super(element, baseURI);
+    public X509Dbtb(Element element, String bbseURI) throws XMLSecurityException {
+        super(element, bbseURI);
 
         Node sibling = this.constructionElement.getFirstChild();
         while (sibling != null) {
@@ -75,265 +75,265 @@ public class X509Data extends SignatureElementProxy implements KeyInfoContent {
             return;
         }
         /* No Elements found */
-        Object exArgs[] = { "Elements", Constants._TAG_X509DATA };
+        Object exArgs[] = { "Elements", Constbnts._TAG_X509DATA };
         throw new XMLSecurityException("xml.WrongContent", exArgs);
     }
 
     /**
-     * Method addIssuerSerial
+     * Method bddIssuerSeribl
      *
-     * @param X509IssuerName
-     * @param X509SerialNumber
+     * @pbrbm X509IssuerNbme
+     * @pbrbm X509SeriblNumber
      */
-    public void addIssuerSerial(String X509IssuerName, BigInteger X509SerialNumber) {
-        this.add(new XMLX509IssuerSerial(this.doc, X509IssuerName, X509SerialNumber));
+    public void bddIssuerSeribl(String X509IssuerNbme, BigInteger X509SeriblNumber) {
+        this.bdd(new XMLX509IssuerSeribl(this.doc, X509IssuerNbme, X509SeriblNumber));
     }
 
     /**
-     * Method addIssuerSerial
+     * Method bddIssuerSeribl
      *
-     * @param X509IssuerName
-     * @param X509SerialNumber
+     * @pbrbm X509IssuerNbme
+     * @pbrbm X509SeriblNumber
      */
-    public void addIssuerSerial(String X509IssuerName, String X509SerialNumber) {
-        this.add(new XMLX509IssuerSerial(this.doc, X509IssuerName, X509SerialNumber));
+    public void bddIssuerSeribl(String X509IssuerNbme, String X509SeriblNumber) {
+        this.bdd(new XMLX509IssuerSeribl(this.doc, X509IssuerNbme, X509SeriblNumber));
     }
 
     /**
-     * Method addIssuerSerial
+     * Method bddIssuerSeribl
      *
-     * @param X509IssuerName
-     * @param X509SerialNumber
+     * @pbrbm X509IssuerNbme
+     * @pbrbm X509SeriblNumber
      */
-    public void addIssuerSerial(String X509IssuerName, int X509SerialNumber) {
-        this.add(new XMLX509IssuerSerial(this.doc, X509IssuerName, X509SerialNumber));
+    public void bddIssuerSeribl(String X509IssuerNbme, int X509SeriblNumber) {
+        this.bdd(new XMLX509IssuerSeribl(this.doc, X509IssuerNbme, X509SeriblNumber));
     }
 
     /**
-     * Method add
+     * Method bdd
      *
-     * @param xmlX509IssuerSerial
+     * @pbrbm xmlX509IssuerSeribl
      */
-    public void add(XMLX509IssuerSerial xmlX509IssuerSerial) {
+    public void bdd(XMLX509IssuerSeribl xmlX509IssuerSeribl) {
 
-        this.constructionElement.appendChild(xmlX509IssuerSerial.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+        this.constructionElement.bppendChild(xmlX509IssuerSeribl.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Method addSKI
+     * Method bddSKI
      *
-     * @param skiBytes
+     * @pbrbm skiBytes
      */
-    public void addSKI(byte[] skiBytes) {
-        this.add(new XMLX509SKI(this.doc, skiBytes));
+    public void bddSKI(byte[] skiBytes) {
+        this.bdd(new XMLX509SKI(this.doc, skiBytes));
     }
 
     /**
-     * Method addSKI
+     * Method bddSKI
      *
-     * @param x509certificate
+     * @pbrbm x509certificbte
      * @throws XMLSecurityException
      */
-    public void addSKI(X509Certificate x509certificate)
+    public void bddSKI(X509Certificbte x509certificbte)
         throws XMLSecurityException {
-        this.add(new XMLX509SKI(this.doc, x509certificate));
+        this.bdd(new XMLX509SKI(this.doc, x509certificbte));
     }
 
     /**
-     * Method add
+     * Method bdd
      *
-     * @param xmlX509SKI
+     * @pbrbm xmlX509SKI
      */
-    public void add(XMLX509SKI xmlX509SKI) {
-        this.constructionElement.appendChild(xmlX509SKI.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+    public void bdd(XMLX509SKI xmlX509SKI) {
+        this.constructionElement.bppendChild(xmlX509SKI.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Method addSubjectName
+     * Method bddSubjectNbme
      *
-     * @param subjectName
+     * @pbrbm subjectNbme
      */
-    public void addSubjectName(String subjectName) {
-        this.add(new XMLX509SubjectName(this.doc, subjectName));
+    public void bddSubjectNbme(String subjectNbme) {
+        this.bdd(new XMLX509SubjectNbme(this.doc, subjectNbme));
     }
 
     /**
-     * Method addSubjectName
+     * Method bddSubjectNbme
      *
-     * @param x509certificate
+     * @pbrbm x509certificbte
      */
-    public void addSubjectName(X509Certificate x509certificate) {
-        this.add(new XMLX509SubjectName(this.doc, x509certificate));
+    public void bddSubjectNbme(X509Certificbte x509certificbte) {
+        this.bdd(new XMLX509SubjectNbme(this.doc, x509certificbte));
     }
 
     /**
-     * Method add
+     * Method bdd
      *
-     * @param xmlX509SubjectName
+     * @pbrbm xmlX509SubjectNbme
      */
-    public void add(XMLX509SubjectName xmlX509SubjectName) {
-        this.constructionElement.appendChild(xmlX509SubjectName.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+    public void bdd(XMLX509SubjectNbme xmlX509SubjectNbme) {
+        this.constructionElement.bppendChild(xmlX509SubjectNbme.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Method addCertificate
+     * Method bddCertificbte
      *
-     * @param x509certificate
+     * @pbrbm x509certificbte
      * @throws XMLSecurityException
      */
-    public void addCertificate(X509Certificate x509certificate)
+    public void bddCertificbte(X509Certificbte x509certificbte)
         throws XMLSecurityException {
-        this.add(new XMLX509Certificate(this.doc, x509certificate));
+        this.bdd(new XMLX509Certificbte(this.doc, x509certificbte));
     }
 
     /**
-     * Method addCertificate
+     * Method bddCertificbte
      *
-     * @param x509certificateBytes
+     * @pbrbm x509certificbteBytes
      */
-    public void addCertificate(byte[] x509certificateBytes) {
-        this.add(new XMLX509Certificate(this.doc, x509certificateBytes));
+    public void bddCertificbte(byte[] x509certificbteBytes) {
+        this.bdd(new XMLX509Certificbte(this.doc, x509certificbteBytes));
     }
 
     /**
-     * Method add
+     * Method bdd
      *
-     * @param xmlX509Certificate
+     * @pbrbm xmlX509Certificbte
      */
-    public void add(XMLX509Certificate xmlX509Certificate) {
-        this.constructionElement.appendChild(xmlX509Certificate.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+    public void bdd(XMLX509Certificbte xmlX509Certificbte) {
+        this.constructionElement.bppendChild(xmlX509Certificbte.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Method addCRL
+     * Method bddCRL
      *
-     * @param crlBytes
+     * @pbrbm crlBytes
      */
-    public void addCRL(byte[] crlBytes) {
-        this.add(new XMLX509CRL(this.doc, crlBytes));
+    public void bddCRL(byte[] crlBytes) {
+        this.bdd(new XMLX509CRL(this.doc, crlBytes));
     }
 
     /**
-     * Method add
+     * Method bdd
      *
-     * @param xmlX509CRL
+     * @pbrbm xmlX509CRL
      */
-    public void add(XMLX509CRL xmlX509CRL) {
-        this.constructionElement.appendChild(xmlX509CRL.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+    public void bdd(XMLX509CRL xmlX509CRL) {
+        this.constructionElement.bppendChild(xmlX509CRL.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Method addDigest
+     * Method bddDigest
      *
-     * @param x509certificate
-     * @param algorithmURI
+     * @pbrbm x509certificbte
+     * @pbrbm blgorithmURI
      * @throws XMLSecurityException
      */
-    public void addDigest(X509Certificate x509certificate, String algorithmURI)
+    public void bddDigest(X509Certificbte x509certificbte, String blgorithmURI)
         throws XMLSecurityException {
-        this.add(new XMLX509Digest(this.doc, x509certificate, algorithmURI));
+        this.bdd(new XMLX509Digest(this.doc, x509certificbte, blgorithmURI));
     }
 
     /**
-     * Method addDigest
+     * Method bddDigest
      *
-     * @param x509CertificateDigestByes
-     * @param algorithmURI
+     * @pbrbm x509CertificbteDigestByes
+     * @pbrbm blgorithmURI
      */
-    public void addDigest(byte[] x509certificateDigestBytes, String algorithmURI) {
-        this.add(new XMLX509Digest(this.doc, x509certificateDigestBytes, algorithmURI));
+    public void bddDigest(byte[] x509certificbteDigestBytes, String blgorithmURI) {
+        this.bdd(new XMLX509Digest(this.doc, x509certificbteDigestBytes, blgorithmURI));
     }
 
     /**
-     * Method add
+     * Method bdd
      *
-     * @param XMLX509Digest
+     * @pbrbm XMLX509Digest
      */
-    public void add(XMLX509Digest xmlX509Digest) {
-        this.constructionElement.appendChild(xmlX509Digest.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+    public void bdd(XMLX509Digest xmlX509Digest) {
+        this.constructionElement.bppendChild(xmlX509Digest.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Method addUnknownElement
+     * Method bddUnknownElement
      *
-     * @param element
+     * @pbrbm element
      */
-    public void addUnknownElement(Element element) {
-        this.constructionElement.appendChild(element);
-        XMLUtils.addReturnToElement(this.constructionElement);
+    public void bddUnknownElement(Element element) {
+        this.constructionElement.bppendChild(element);
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Method lengthIssuerSerial
+     * Method lengthIssuerSeribl
      *
-     * @return the number of IssuerSerial elements in this X509Data
+     * @return the number of IssuerSeribl elements in this X509Dbtb
      */
-    public int lengthIssuerSerial() {
-        return this.length(Constants.SignatureSpecNS, Constants._TAG_X509ISSUERSERIAL);
+    public int lengthIssuerSeribl() {
+        return this.length(Constbnts.SignbtureSpecNS, Constbnts._TAG_X509ISSUERSERIAL);
     }
 
     /**
      * Method lengthSKI
      *
-     * @return the number of SKI elements in this X509Data
+     * @return the number of SKI elements in this X509Dbtb
      */
     public int lengthSKI() {
-        return this.length(Constants.SignatureSpecNS, Constants._TAG_X509SKI);
+        return this.length(Constbnts.SignbtureSpecNS, Constbnts._TAG_X509SKI);
     }
 
     /**
-     * Method lengthSubjectName
+     * Method lengthSubjectNbme
      *
-     * @return the number of SubjectName elements in this X509Data
+     * @return the number of SubjectNbme elements in this X509Dbtb
      */
-    public int lengthSubjectName() {
-        return this.length(Constants.SignatureSpecNS, Constants._TAG_X509SUBJECTNAME);
+    public int lengthSubjectNbme() {
+        return this.length(Constbnts.SignbtureSpecNS, Constbnts._TAG_X509SUBJECTNAME);
     }
 
     /**
-     * Method lengthCertificate
+     * Method lengthCertificbte
      *
-     * @return the number of Certificate elements in this X509Data
+     * @return the number of Certificbte elements in this X509Dbtb
      */
-    public int lengthCertificate() {
-        return this.length(Constants.SignatureSpecNS, Constants._TAG_X509CERTIFICATE);
+    public int lengthCertificbte() {
+        return this.length(Constbnts.SignbtureSpecNS, Constbnts._TAG_X509CERTIFICATE);
     }
 
     /**
      * Method lengthCRL
      *
-     * @return the number of CRL elements in this X509Data
+     * @return the number of CRL elements in this X509Dbtb
      */
     public int lengthCRL() {
-        return this.length(Constants.SignatureSpecNS, Constants._TAG_X509CRL);
+        return this.length(Constbnts.SignbtureSpecNS, Constbnts._TAG_X509CRL);
     }
 
     /**
      * Method lengthDigest
      *
-     * @return the number of X509Digest elements in this X509Data
+     * @return the number of X509Digest elements in this X509Dbtb
      */
     public int lengthDigest() {
-        return this.length(Constants.SignatureSpec11NS, Constants._TAG_X509DIGEST);
+        return this.length(Constbnts.SignbtureSpec11NS, Constbnts._TAG_X509DIGEST);
     }
 
     /**
      * Method lengthUnknownElement
      *
-     * @return the number of UnknownElement elements in this X509Data
+     * @return the number of UnknownElement elements in this X509Dbtb
      */
     public int lengthUnknownElement() {
         int result = 0;
         Node n = this.constructionElement.getFirstChild();
         while (n != null){
             if ((n.getNodeType() == Node.ELEMENT_NODE)
-                && !n.getNamespaceURI().equals(Constants.SignatureSpecNS)) {
+                && !n.getNbmespbceURI().equbls(Constbnts.SignbtureSpecNS)) {
                 result++;
             }
             n = n.getNextSibling();
@@ -343,19 +343,19 @@ public class X509Data extends SignatureElementProxy implements KeyInfoContent {
     }
 
     /**
-     * Method itemIssuerSerial
+     * Method itemIssuerSeribl
      *
-     * @param i
-     * @return the X509IssuerSerial, null if not present
+     * @pbrbm i
+     * @return the X509IssuerSeribl, null if not present
      * @throws XMLSecurityException
      */
-    public XMLX509IssuerSerial itemIssuerSerial(int i) throws XMLSecurityException {
+    public XMLX509IssuerSeribl itemIssuerSeribl(int i) throws XMLSecurityException {
         Element e =
             XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_X509ISSUERSERIAL, i);
+                this.constructionElement.getFirstChild(), Constbnts._TAG_X509ISSUERSERIAL, i);
 
         if (e != null) {
-            return new XMLX509IssuerSerial(e, this.baseURI);
+            return new XMLX509IssuerSeribl(e, this.bbseURI);
         }
         return null;
     }
@@ -363,7 +363,7 @@ public class X509Data extends SignatureElementProxy implements KeyInfoContent {
     /**
      * Method itemSKI
      *
-     * @param i
+     * @pbrbm i
      * @return the X509SKI, null if not present
      * @throws XMLSecurityException
      */
@@ -371,48 +371,48 @@ public class X509Data extends SignatureElementProxy implements KeyInfoContent {
 
         Element e =
             XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_X509SKI, i);
+                this.constructionElement.getFirstChild(), Constbnts._TAG_X509SKI, i);
 
         if (e != null) {
-            return new XMLX509SKI(e, this.baseURI);
+            return new XMLX509SKI(e, this.bbseURI);
         }
         return null;
     }
 
     /**
-     * Method itemSubjectName
+     * Method itemSubjectNbme
      *
-     * @param i
-     * @return the X509SubjectName, null if not present
+     * @pbrbm i
+     * @return the X509SubjectNbme, null if not present
      * @throws XMLSecurityException
      */
-    public XMLX509SubjectName itemSubjectName(int i) throws XMLSecurityException {
+    public XMLX509SubjectNbme itemSubjectNbme(int i) throws XMLSecurityException {
 
         Element e =
             XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_X509SUBJECTNAME, i);
+                this.constructionElement.getFirstChild(), Constbnts._TAG_X509SUBJECTNAME, i);
 
         if (e != null) {
-            return new XMLX509SubjectName(e, this.baseURI);
+            return new XMLX509SubjectNbme(e, this.bbseURI);
         }
         return null;
     }
 
     /**
-     * Method itemCertificate
+     * Method itemCertificbte
      *
-     * @param i
-     * @return the X509Certifacte, null if not present
+     * @pbrbm i
+     * @return the X509Certifbcte, null if not present
      * @throws XMLSecurityException
      */
-    public XMLX509Certificate itemCertificate(int i) throws XMLSecurityException {
+    public XMLX509Certificbte itemCertificbte(int i) throws XMLSecurityException {
 
         Element e =
             XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_X509CERTIFICATE, i);
+                this.constructionElement.getFirstChild(), Constbnts._TAG_X509CERTIFICATE, i);
 
         if (e != null) {
-            return new XMLX509Certificate(e, this.baseURI);
+            return new XMLX509Certificbte(e, this.bbseURI);
         }
         return null;
     }
@@ -420,7 +420,7 @@ public class X509Data extends SignatureElementProxy implements KeyInfoContent {
     /**
      * Method itemCRL
      *
-     * @param i
+     * @pbrbm i
      * @return the X509CRL, null if not present
      * @throws XMLSecurityException
      */
@@ -428,10 +428,10 @@ public class X509Data extends SignatureElementProxy implements KeyInfoContent {
 
         Element e =
             XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_X509CRL, i);
+                this.constructionElement.getFirstChild(), Constbnts._TAG_X509CRL, i);
 
         if (e != null) {
-            return new XMLX509CRL(e, this.baseURI);
+            return new XMLX509CRL(e, this.bbseURI);
         }
         return null;
     }
@@ -439,7 +439,7 @@ public class X509Data extends SignatureElementProxy implements KeyInfoContent {
     /**
      * Method itemDigest
      *
-     * @param i
+     * @pbrbm i
      * @return the X509Digest, null if not present
      * @throws XMLSecurityException
      */
@@ -447,10 +447,10 @@ public class X509Data extends SignatureElementProxy implements KeyInfoContent {
 
         Element e =
             XMLUtils.selectDs11Node(
-                this.constructionElement.getFirstChild(), Constants._TAG_X509DIGEST, i);
+                this.constructionElement.getFirstChild(), Constbnts._TAG_X509DIGEST, i);
 
         if (e != null) {
-            return new XMLX509Digest(e, this.baseURI);
+            return new XMLX509Digest(e, this.bbseURI);
         }
         return null;
     }
@@ -458,82 +458,82 @@ public class X509Data extends SignatureElementProxy implements KeyInfoContent {
     /**
      * Method itemUnknownElement
      *
-     * @param i
-     * @return the Unknown Element at i
+     * @pbrbm i
+     * @return the Unknown Element bt i
      * TODO implement
      **/
     public Element itemUnknownElement(int i) {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "itemUnknownElement not implemented:" + i);
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "itemUnknownElement not implemented:" + i);
         }
         return null;
     }
 
     /**
-     * Method containsIssuerSerial
+     * Method contbinsIssuerSeribl
      *
-     * @return true if this X509Data contains a IssuerSerial
+     * @return true if this X509Dbtb contbins b IssuerSeribl
      */
-    public boolean containsIssuerSerial() {
-        return this.lengthIssuerSerial() > 0;
+    public boolebn contbinsIssuerSeribl() {
+        return this.lengthIssuerSeribl() > 0;
     }
 
     /**
-     * Method containsSKI
+     * Method contbinsSKI
      *
-     * @return true if this X509Data contains a SKI
+     * @return true if this X509Dbtb contbins b SKI
      */
-    public boolean containsSKI() {
+    public boolebn contbinsSKI() {
         return this.lengthSKI() > 0;
     }
 
     /**
-     * Method containsSubjectName
+     * Method contbinsSubjectNbme
      *
-     * @return true if this X509Data contains a SubjectName
+     * @return true if this X509Dbtb contbins b SubjectNbme
      */
-    public boolean containsSubjectName() {
-        return this.lengthSubjectName() > 0;
+    public boolebn contbinsSubjectNbme() {
+        return this.lengthSubjectNbme() > 0;
     }
 
     /**
-     * Method containsCertificate
+     * Method contbinsCertificbte
      *
-     * @return true if this X509Data contains a Certificate
+     * @return true if this X509Dbtb contbins b Certificbte
      */
-    public boolean containsCertificate() {
-        return this.lengthCertificate() > 0;
+    public boolebn contbinsCertificbte() {
+        return this.lengthCertificbte() > 0;
     }
 
     /**
-     * Method containsDigest
+     * Method contbinsDigest
      *
-     * @return true if this X509Data contains an X509Digest
+     * @return true if this X509Dbtb contbins bn X509Digest
      */
-    public boolean containsDigest() {
+    public boolebn contbinsDigest() {
         return this.lengthDigest() > 0;
     }
 
     /**
-     * Method containsCRL
+     * Method contbinsCRL
      *
-     * @return true if this X509Data contains a CRL
+     * @return true if this X509Dbtb contbins b CRL
      */
-    public boolean containsCRL() {
+    public boolebn contbinsCRL() {
         return this.lengthCRL() > 0;
     }
 
     /**
-     * Method containsUnknownElement
+     * Method contbinsUnknownElement
      *
-     * @return true if this X509Data contains an UnknownElement
+     * @return true if this X509Dbtb contbins bn UnknownElement
      */
-    public boolean containsUnknownElement() {
+    public boolebn contbinsUnknownElement() {
         return this.lengthUnknownElement() > 0;
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_X509DATA;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_X509DATA;
     }
 }

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,208 +56,208 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * A dynamically extensible vector of bytes. This class is roughly equivalent to
- * a DataOutputStream on top of a ByteArrayOutputStream, but is more efficient.
+ * A dynbmicblly extensible vector of bytes. This clbss is roughly equivblent to
+ * b DbtbOutputStrebm on top of b ByteArrbyOutputStrebm, but is more efficient.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class ByteVector {
+public clbss ByteVector {
 
     /**
      * The content of this vector.
      */
-    byte[] data;
+    byte[] dbtb;
 
     /**
-     * Actual number of bytes in this vector.
+     * Actubl number of bytes in this vector.
      */
     int length;
 
     /**
-     * Constructs a new {@link ByteVector ByteVector} with a default initial
+     * Constructs b new {@link ByteVector ByteVector} with b defbult initibl
      * size.
      */
     public ByteVector() {
-        data = new byte[64];
+        dbtb = new byte[64];
     }
 
     /**
-     * Constructs a new {@link ByteVector ByteVector} with the given initial
+     * Constructs b new {@link ByteVector ByteVector} with the given initibl
      * size.
      *
-     * @param initialSize
-     *            the initial size of the byte vector to be constructed.
+     * @pbrbm initiblSize
+     *            the initibl size of the byte vector to be constructed.
      */
-    public ByteVector(final int initialSize) {
-        data = new byte[initialSize];
+    public ByteVector(finbl int initiblSize) {
+        dbtb = new byte[initiblSize];
     }
 
     /**
-     * Puts a byte into this byte vector. The byte vector is automatically
-     * enlarged if necessary.
+     * Puts b byte into this byte vector. The byte vector is butombticblly
+     * enlbrged if necessbry.
      *
-     * @param b
-     *            a byte.
+     * @pbrbm b
+     *            b byte.
      * @return this byte vector.
      */
-    public ByteVector putByte(final int b) {
+    public ByteVector putByte(finbl int b) {
         int length = this.length;
-        if (length + 1 > data.length) {
-            enlarge(1);
+        if (length + 1 > dbtb.length) {
+            enlbrge(1);
         }
-        data[length++] = (byte) b;
+        dbtb[length++] = (byte) b;
         this.length = length;
         return this;
     }
 
     /**
-     * Puts two bytes into this byte vector. The byte vector is automatically
-     * enlarged if necessary.
+     * Puts two bytes into this byte vector. The byte vector is butombticblly
+     * enlbrged if necessbry.
      *
-     * @param b1
-     *            a byte.
-     * @param b2
-     *            another byte.
+     * @pbrbm b1
+     *            b byte.
+     * @pbrbm b2
+     *            bnother byte.
      * @return this byte vector.
      */
-    ByteVector put11(final int b1, final int b2) {
+    ByteVector put11(finbl int b1, finbl int b2) {
         int length = this.length;
-        if (length + 2 > data.length) {
-            enlarge(2);
+        if (length + 2 > dbtb.length) {
+            enlbrge(2);
         }
-        byte[] data = this.data;
-        data[length++] = (byte) b1;
-        data[length++] = (byte) b2;
+        byte[] dbtb = this.dbtb;
+        dbtb[length++] = (byte) b1;
+        dbtb[length++] = (byte) b2;
         this.length = length;
         return this;
     }
 
     /**
-     * Puts a short into this byte vector. The byte vector is automatically
-     * enlarged if necessary.
+     * Puts b short into this byte vector. The byte vector is butombticblly
+     * enlbrged if necessbry.
      *
-     * @param s
-     *            a short.
+     * @pbrbm s
+     *            b short.
      * @return this byte vector.
      */
-    public ByteVector putShort(final int s) {
+    public ByteVector putShort(finbl int s) {
         int length = this.length;
-        if (length + 2 > data.length) {
-            enlarge(2);
+        if (length + 2 > dbtb.length) {
+            enlbrge(2);
         }
-        byte[] data = this.data;
-        data[length++] = (byte) (s >>> 8);
-        data[length++] = (byte) s;
+        byte[] dbtb = this.dbtb;
+        dbtb[length++] = (byte) (s >>> 8);
+        dbtb[length++] = (byte) s;
         this.length = length;
         return this;
     }
 
     /**
-     * Puts a byte and a short into this byte vector. The byte vector is
-     * automatically enlarged if necessary.
+     * Puts b byte bnd b short into this byte vector. The byte vector is
+     * butombticblly enlbrged if necessbry.
      *
-     * @param b
-     *            a byte.
-     * @param s
-     *            a short.
+     * @pbrbm b
+     *            b byte.
+     * @pbrbm s
+     *            b short.
      * @return this byte vector.
      */
-    ByteVector put12(final int b, final int s) {
+    ByteVector put12(finbl int b, finbl int s) {
         int length = this.length;
-        if (length + 3 > data.length) {
-            enlarge(3);
+        if (length + 3 > dbtb.length) {
+            enlbrge(3);
         }
-        byte[] data = this.data;
-        data[length++] = (byte) b;
-        data[length++] = (byte) (s >>> 8);
-        data[length++] = (byte) s;
+        byte[] dbtb = this.dbtb;
+        dbtb[length++] = (byte) b;
+        dbtb[length++] = (byte) (s >>> 8);
+        dbtb[length++] = (byte) s;
         this.length = length;
         return this;
     }
 
     /**
-     * Puts an int into this byte vector. The byte vector is automatically
-     * enlarged if necessary.
+     * Puts bn int into this byte vector. The byte vector is butombticblly
+     * enlbrged if necessbry.
      *
-     * @param i
-     *            an int.
+     * @pbrbm i
+     *            bn int.
      * @return this byte vector.
      */
-    public ByteVector putInt(final int i) {
+    public ByteVector putInt(finbl int i) {
         int length = this.length;
-        if (length + 4 > data.length) {
-            enlarge(4);
+        if (length + 4 > dbtb.length) {
+            enlbrge(4);
         }
-        byte[] data = this.data;
-        data[length++] = (byte) (i >>> 24);
-        data[length++] = (byte) (i >>> 16);
-        data[length++] = (byte) (i >>> 8);
-        data[length++] = (byte) i;
+        byte[] dbtb = this.dbtb;
+        dbtb[length++] = (byte) (i >>> 24);
+        dbtb[length++] = (byte) (i >>> 16);
+        dbtb[length++] = (byte) (i >>> 8);
+        dbtb[length++] = (byte) i;
         this.length = length;
         return this;
     }
 
     /**
-     * Puts a long into this byte vector. The byte vector is automatically
-     * enlarged if necessary.
+     * Puts b long into this byte vector. The byte vector is butombticblly
+     * enlbrged if necessbry.
      *
-     * @param l
-     *            a long.
+     * @pbrbm l
+     *            b long.
      * @return this byte vector.
      */
-    public ByteVector putLong(final long l) {
+    public ByteVector putLong(finbl long l) {
         int length = this.length;
-        if (length + 8 > data.length) {
-            enlarge(8);
+        if (length + 8 > dbtb.length) {
+            enlbrge(8);
         }
-        byte[] data = this.data;
+        byte[] dbtb = this.dbtb;
         int i = (int) (l >>> 32);
-        data[length++] = (byte) (i >>> 24);
-        data[length++] = (byte) (i >>> 16);
-        data[length++] = (byte) (i >>> 8);
-        data[length++] = (byte) i;
+        dbtb[length++] = (byte) (i >>> 24);
+        dbtb[length++] = (byte) (i >>> 16);
+        dbtb[length++] = (byte) (i >>> 8);
+        dbtb[length++] = (byte) i;
         i = (int) l;
-        data[length++] = (byte) (i >>> 24);
-        data[length++] = (byte) (i >>> 16);
-        data[length++] = (byte) (i >>> 8);
-        data[length++] = (byte) i;
+        dbtb[length++] = (byte) (i >>> 24);
+        dbtb[length++] = (byte) (i >>> 16);
+        dbtb[length++] = (byte) (i >>> 8);
+        dbtb[length++] = (byte) i;
         this.length = length;
         return this;
     }
 
     /**
-     * Puts an UTF8 string into this byte vector. The byte vector is
-     * automatically enlarged if necessary.
+     * Puts bn UTF8 string into this byte vector. The byte vector is
+     * butombticblly enlbrged if necessbry.
      *
-     * @param s
-     *            a String whose UTF8 encoded length must be less than 65536.
+     * @pbrbm s
+     *            b String whose UTF8 encoded length must be less thbn 65536.
      * @return this byte vector.
      */
-    public ByteVector putUTF8(final String s) {
-        int charLength = s.length();
-        if (charLength > 65535) {
-            throw new IllegalArgumentException();
+    public ByteVector putUTF8(finbl String s) {
+        int chbrLength = s.length();
+        if (chbrLength > 65535) {
+            throw new IllegblArgumentException();
         }
         int len = length;
-        if (len + 2 + charLength > data.length) {
-            enlarge(2 + charLength);
+        if (len + 2 + chbrLength > dbtb.length) {
+            enlbrge(2 + chbrLength);
         }
-        byte[] data = this.data;
-        // optimistic algorithm: instead of computing the byte length and then
-        // serializing the string (which requires two loops), we assume the byte
-        // length is equal to char length (which is the most frequent case), and
-        // we start serializing the string right away. During the serialization,
-        // if we find that this assumption is wrong, we continue with the
-        // general method.
-        data[len++] = (byte) (charLength >>> 8);
-        data[len++] = (byte) charLength;
-        for (int i = 0; i < charLength; ++i) {
-            char c = s.charAt(i);
+        byte[] dbtb = this.dbtb;
+        // optimistic blgorithm: instebd of computing the byte length bnd then
+        // seriblizing the string (which requires two loops), we bssume the byte
+        // length is equbl to chbr length (which is the most frequent cbse), bnd
+        // we stbrt seriblizing the string right bwby. During the seriblizbtion,
+        // if we find thbt this bssumption is wrong, we continue with the
+        // generbl method.
+        dbtb[len++] = (byte) (chbrLength >>> 8);
+        dbtb[len++] = (byte) chbrLength;
+        for (int i = 0; i < chbrLength; ++i) {
+            chbr c = s.chbrAt(i);
             if (c >= '\001' && c <= '\177') {
-                data[len++] = (byte) c;
+                dbtb[len++] = (byte) c;
             } else {
                 length = len;
                 return encodeUTF8(s, i, 65535);
@@ -268,28 +268,28 @@ public class ByteVector {
     }
 
     /**
-     * Puts an UTF8 string into this byte vector. The byte vector is
-     * automatically enlarged if necessary. The string length is encoded in two
-     * bytes before the encoded characters, if there is space for that (i.e. if
+     * Puts bn UTF8 string into this byte vector. The byte vector is
+     * butombticblly enlbrged if necessbry. The string length is encoded in two
+     * bytes before the encoded chbrbcters, if there is spbce for thbt (i.e. if
      * this.length - i - 2 >= 0).
      *
-     * @param s
+     * @pbrbm s
      *            the String to encode.
-     * @param i
-     *            the index of the first character to encode. The previous
-     *            characters are supposed to have already been encoded, using
-     *            only one byte per character.
-     * @param maxByteLength
-     *            the maximum byte length of the encoded string, including the
-     *            already encoded characters.
+     * @pbrbm i
+     *            the index of the first chbrbcter to encode. The previous
+     *            chbrbcters bre supposed to hbve blrebdy been encoded, using
+     *            only one byte per chbrbcter.
+     * @pbrbm mbxByteLength
+     *            the mbximum byte length of the encoded string, including the
+     *            blrebdy encoded chbrbcters.
      * @return this byte vector.
      */
-    ByteVector encodeUTF8(final String s, int i, int maxByteLength) {
-        int charLength = s.length();
+    ByteVector encodeUTF8(finbl String s, int i, int mbxByteLength) {
+        int chbrLength = s.length();
         int byteLength = i;
-        char c;
-        for (int j = i; j < charLength; ++j) {
-            c = s.charAt(j);
+        chbr c;
+        for (int j = i; j < chbrLength; ++j) {
+            c = s.chbrAt(j);
             if (c >= '\001' && c <= '\177') {
                 byteLength++;
             } else if (c > '\u07FF') {
@@ -298,29 +298,29 @@ public class ByteVector {
                 byteLength += 2;
             }
         }
-        if (byteLength > maxByteLength) {
-            throw new IllegalArgumentException();
+        if (byteLength > mbxByteLength) {
+            throw new IllegblArgumentException();
         }
-        int start = length - i - 2;
-        if (start >= 0) {
-          data[start] = (byte) (byteLength >>> 8);
-          data[start + 1] = (byte) byteLength;
+        int stbrt = length - i - 2;
+        if (stbrt >= 0) {
+          dbtb[stbrt] = (byte) (byteLength >>> 8);
+          dbtb[stbrt + 1] = (byte) byteLength;
         }
-        if (length + byteLength - i > data.length) {
-            enlarge(byteLength - i);
+        if (length + byteLength - i > dbtb.length) {
+            enlbrge(byteLength - i);
         }
         int len = length;
-        for (int j = i; j < charLength; ++j) {
-            c = s.charAt(j);
+        for (int j = i; j < chbrLength; ++j) {
+            c = s.chbrAt(j);
             if (c >= '\001' && c <= '\177') {
-                data[len++] = (byte) c;
+                dbtb[len++] = (byte) c;
             } else if (c > '\u07FF') {
-                data[len++] = (byte) (0xE0 | c >> 12 & 0xF);
-                data[len++] = (byte) (0x80 | c >> 6 & 0x3F);
-                data[len++] = (byte) (0x80 | c & 0x3F);
+                dbtb[len++] = (byte) (0xE0 | c >> 12 & 0xF);
+                dbtb[len++] = (byte) (0x80 | c >> 6 & 0x3F);
+                dbtb[len++] = (byte) (0x80 | c & 0x3F);
             } else {
-                data[len++] = (byte) (0xC0 | c >> 6 & 0x1F);
-                data[len++] = (byte) (0x80 | c & 0x3F);
+                dbtb[len++] = (byte) (0xC0 | c >> 6 & 0x1F);
+                dbtb[len++] = (byte) (0x80 | c & 0x3F);
             }
         }
         length = len;
@@ -328,41 +328,41 @@ public class ByteVector {
     }
 
     /**
-     * Puts an array of bytes into this byte vector. The byte vector is
-     * automatically enlarged if necessary.
+     * Puts bn brrby of bytes into this byte vector. The byte vector is
+     * butombticblly enlbrged if necessbry.
      *
-     * @param b
-     *            an array of bytes. May be <tt>null</tt> to put <tt>len</tt>
+     * @pbrbm b
+     *            bn brrby of bytes. Mby be <tt>null</tt> to put <tt>len</tt>
      *            null bytes into this byte vector.
-     * @param off
-     *            index of the fist byte of b that must be copied.
-     * @param len
-     *            number of bytes of b that must be copied.
+     * @pbrbm off
+     *            index of the fist byte of b thbt must be copied.
+     * @pbrbm len
+     *            number of bytes of b thbt must be copied.
      * @return this byte vector.
      */
-    public ByteVector putByteArray(final byte[] b, final int off, final int len) {
-        if (length + len > data.length) {
-            enlarge(len);
+    public ByteVector putByteArrby(finbl byte[] b, finbl int off, finbl int len) {
+        if (length + len > dbtb.length) {
+            enlbrge(len);
         }
         if (b != null) {
-            System.arraycopy(b, off, data, length, len);
+            System.brrbycopy(b, off, dbtb, length, len);
         }
         length += len;
         return this;
     }
 
     /**
-     * Enlarge this byte vector so that it can receive n more bytes.
+     * Enlbrge this byte vector so thbt it cbn receive n more bytes.
      *
-     * @param size
-     *            number of additional bytes that this byte vector should be
-     *            able to receive.
+     * @pbrbm size
+     *            number of bdditionbl bytes thbt this byte vector should be
+     *            bble to receive.
      */
-    private void enlarge(final int size) {
-        int length1 = 2 * data.length;
+    privbte void enlbrge(finbl int size) {
+        int length1 = 2 * dbtb.length;
         int length2 = length + size;
-        byte[] newData = new byte[length1 > length2 ? length1 : length2];
-        System.arraycopy(data, 0, newData, 0, length);
-        data = newData;
+        byte[] newDbtb = new byte[length1 > length2 ? length1 : length2];
+        System.brrbycopy(dbtb, 0, newDbtb, 0, length);
+        dbtb = newDbtb;
     }
 }

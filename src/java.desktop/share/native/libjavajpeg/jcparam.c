@@ -3,15 +3,15 @@
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jcparam.c
+ * jcpbrbm.c
  *
- * Copyright (C) 1991-1998, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1991-1998, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains optional default-setting code for the JPEG compressor.
- * Applications do not have to use this file, but those that don't use it
- * must know a lot more about the innards of the JPEG code.
+ * This file contbins optionbl defbult-setting code for the JPEG compressor.
+ * Applicbtions do not hbve to use this file, but those thbt don't use it
+ * must know b lot more bbout the innbrds of the JPEG code.
  */
 
 #define JPEG_INTERNALS
@@ -20,64 +20,64 @@
 
 
 /*
- * Quantization table setup routines
+ * Qubntizbtion tbble setup routines
  */
 
 GLOBAL(void)
-jpeg_add_quant_table (j_compress_ptr cinfo, int which_tbl,
-                      const unsigned int *basic_table,
-                      int scale_factor, boolean force_baseline)
-/* Define a quantization table equal to the basic_table times
- * a scale factor (given as a percentage).
- * If force_baseline is TRUE, the computed quantization table entries
- * are limited to 1..255 for JPEG baseline compatibility.
+jpeg_bdd_qubnt_tbble (j_compress_ptr cinfo, int which_tbl,
+                      const unsigned int *bbsic_tbble,
+                      int scble_fbctor, boolebn force_bbseline)
+/* Define b qubntizbtion tbble equbl to the bbsic_tbble times
+ * b scble fbctor (given bs b percentbge).
+ * If force_bbseline is TRUE, the computed qubntizbtion tbble entries
+ * bre limited to 1..255 for JPEG bbseline compbtibility.
  */
 {
   JQUANT_TBL ** qtblptr;
   int i;
   long temp;
 
-  /* Safety check to ensure start_compress not called yet. */
-  if (cinfo->global_state != CSTATE_START)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+  /* Sbfety check to ensure stbrt_compress not cblled yet. */
+  if (cinfo->globbl_stbte != CSTATE_START)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
 
   if (which_tbl < 0 || which_tbl >= NUM_QUANT_TBLS)
     ERREXIT1(cinfo, JERR_DQT_INDEX, which_tbl);
 
-  qtblptr = & cinfo->quant_tbl_ptrs[which_tbl];
+  qtblptr = & cinfo->qubnt_tbl_ptrs[which_tbl];
 
   if (*qtblptr == NULL)
-    *qtblptr = jpeg_alloc_quant_table((j_common_ptr) cinfo);
+    *qtblptr = jpeg_blloc_qubnt_tbble((j_common_ptr) cinfo);
 
   for (i = 0; i < DCTSIZE2; i++) {
-    temp = ((long) basic_table[i] * scale_factor + 50L) / 100L;
-    /* limit the values to the valid range */
+    temp = ((long) bbsic_tbble[i] * scble_fbctor + 50L) / 100L;
+    /* limit the vblues to the vblid rbnge */
     if (temp <= 0L) temp = 1L;
-    if (temp > 32767L) temp = 32767L; /* max quantizer needed for 12 bits */
-    if (force_baseline && temp > 255L)
-      temp = 255L;              /* limit to baseline range if requested */
-    (*qtblptr)->quantval[i] = (UINT16) temp;
+    if (temp > 32767L) temp = 32767L; /* mbx qubntizer needed for 12 bits */
+    if (force_bbseline && temp > 255L)
+      temp = 255L;              /* limit to bbseline rbnge if requested */
+    (*qtblptr)->qubntvbl[i] = (UINT16) temp;
   }
 
-  /* Initialize sent_table FALSE so table will be written to JPEG file. */
-  (*qtblptr)->sent_table = FALSE;
+  /* Initiblize sent_tbble FALSE so tbble will be written to JPEG file. */
+  (*qtblptr)->sent_tbble = FALSE;
 }
 
 
 GLOBAL(void)
-jpeg_set_linear_quality (j_compress_ptr cinfo, int scale_factor,
-                         boolean force_baseline)
-/* Set or change the 'quality' (quantization) setting, using default tables
- * and a straight percentage-scaling quality scale.  In most cases it's better
- * to use jpeg_set_quality (below); this entry point is provided for
- * applications that insist on a linear percentage scaling.
+jpeg_set_linebr_qublity (j_compress_ptr cinfo, int scble_fbctor,
+                         boolebn force_bbseline)
+/* Set or chbnge the 'qublity' (qubntizbtion) setting, using defbult tbbles
+ * bnd b strbight percentbge-scbling qublity scble.  In most cbses it's better
+ * to use jpeg_set_qublity (below); this entry point is provided for
+ * bpplicbtions thbt insist on b linebr percentbge scbling.
  */
 {
-  /* These are the sample quantization tables given in JPEG spec section K.1.
-   * The spec says that the values given produce "good" quality, and
-   * when divided by 2, "very good" quality.
+  /* These bre the sbmple qubntizbtion tbbles given in JPEG spec section K.1.
+   * The spec sbys thbt the vblues given produce "good" qublity, bnd
+   * when divided by 2, "very good" qublity.
    */
-  static const unsigned int std_luminance_quant_tbl[DCTSIZE2] = {
+  stbtic const unsigned int std_luminbnce_qubnt_tbl[DCTSIZE2] = {
     16,  11,  10,  16,  24,  40,  51,  61,
     12,  12,  14,  19,  26,  58,  60,  55,
     14,  13,  16,  24,  40,  57,  69,  56,
@@ -87,7 +87,7 @@ jpeg_set_linear_quality (j_compress_ptr cinfo, int scale_factor,
     49,  64,  78,  87, 103, 121, 120, 101,
     72,  92,  95,  98, 112, 100, 103,  99
   };
-  static const unsigned int std_chrominance_quant_tbl[DCTSIZE2] = {
+  stbtic const unsigned int std_chrominbnce_qubnt_tbl[DCTSIZE2] = {
     17,  18,  24,  47,  99,  99,  99,  99,
     18,  21,  26,  66,  99,  99,  99,  99,
     24,  26,  56,  99,  99,  99,  99,  99,
@@ -98,76 +98,76 @@ jpeg_set_linear_quality (j_compress_ptr cinfo, int scale_factor,
     99,  99,  99,  99,  99,  99,  99,  99
   };
 
-  /* Set up two quantization tables using the specified scaling */
-  jpeg_add_quant_table(cinfo, 0, std_luminance_quant_tbl,
-                       scale_factor, force_baseline);
-  jpeg_add_quant_table(cinfo, 1, std_chrominance_quant_tbl,
-                       scale_factor, force_baseline);
+  /* Set up two qubntizbtion tbbles using the specified scbling */
+  jpeg_bdd_qubnt_tbble(cinfo, 0, std_luminbnce_qubnt_tbl,
+                       scble_fbctor, force_bbseline);
+  jpeg_bdd_qubnt_tbble(cinfo, 1, std_chrominbnce_qubnt_tbl,
+                       scble_fbctor, force_bbseline);
 }
 
 
 GLOBAL(int)
-jpeg_quality_scaling (int quality)
-/* Convert a user-specified quality rating to a percentage scaling factor
- * for an underlying quantization table, using our recommended scaling curve.
- * The input 'quality' factor should be 0 (terrible) to 100 (very good).
+jpeg_qublity_scbling (int qublity)
+/* Convert b user-specified qublity rbting to b percentbge scbling fbctor
+ * for bn underlying qubntizbtion tbble, using our recommended scbling curve.
+ * The input 'qublity' fbctor should be 0 (terrible) to 100 (very good).
  */
 {
-  /* Safety limit on quality factor.  Convert 0 to 1 to avoid zero divide. */
-  if (quality <= 0) quality = 1;
-  if (quality > 100) quality = 100;
+  /* Sbfety limit on qublity fbctor.  Convert 0 to 1 to bvoid zero divide. */
+  if (qublity <= 0) qublity = 1;
+  if (qublity > 100) qublity = 100;
 
-  /* The basic table is used as-is (scaling 100) for a quality of 50.
-   * Qualities 50..100 are converted to scaling percentage 200 - 2*Q;
-   * note that at Q=100 the scaling is 0, which will cause jpeg_add_quant_table
-   * to make all the table entries 1 (hence, minimum quantization loss).
-   * Qualities 1..50 are converted to scaling percentage 5000/Q.
+  /* The bbsic tbble is used bs-is (scbling 100) for b qublity of 50.
+   * Qublities 50..100 bre converted to scbling percentbge 200 - 2*Q;
+   * note thbt bt Q=100 the scbling is 0, which will cbuse jpeg_bdd_qubnt_tbble
+   * to mbke bll the tbble entries 1 (hence, minimum qubntizbtion loss).
+   * Qublities 1..50 bre converted to scbling percentbge 5000/Q.
    */
-  if (quality < 50)
-    quality = 5000 / quality;
+  if (qublity < 50)
+    qublity = 5000 / qublity;
   else
-    quality = 200 - quality*2;
+    qublity = 200 - qublity*2;
 
-  return quality;
+  return qublity;
 }
 
 
 GLOBAL(void)
-jpeg_set_quality (j_compress_ptr cinfo, int quality, boolean force_baseline)
-/* Set or change the 'quality' (quantization) setting, using default tables.
- * This is the standard quality-adjusting entry point for typical user
- * interfaces; only those who want detailed control over quantization tables
+jpeg_set_qublity (j_compress_ptr cinfo, int qublity, boolebn force_bbseline)
+/* Set or chbnge the 'qublity' (qubntizbtion) setting, using defbult tbbles.
+ * This is the stbndbrd qublity-bdjusting entry point for typicbl user
+ * interfbces; only those who wbnt detbiled control over qubntizbtion tbbles
  * would use the preceding three routines directly.
  */
 {
-  /* Convert user 0-100 rating to percentage scaling */
-  quality = jpeg_quality_scaling(quality);
+  /* Convert user 0-100 rbting to percentbge scbling */
+  qublity = jpeg_qublity_scbling(qublity);
 
-  /* Set up standard quality tables */
-  jpeg_set_linear_quality(cinfo, quality, force_baseline);
+  /* Set up stbndbrd qublity tbbles */
+  jpeg_set_linebr_qublity(cinfo, qublity, force_bbseline);
 }
 
 
 /*
- * Huffman table setup routines
+ * Huffmbn tbble setup routines
  */
 
 LOCAL(void)
-add_huff_table (j_compress_ptr cinfo,
-                JHUFF_TBL **htblptr, const UINT8 *bits, const UINT8 *val)
-/* Define a Huffman table */
+bdd_huff_tbble (j_compress_ptr cinfo,
+                JHUFF_TBL **htblptr, const UINT8 *bits, const UINT8 *vbl)
+/* Define b Huffmbn tbble */
 {
   int nsymbols, len;
 
   if (*htblptr == NULL)
-    *htblptr = jpeg_alloc_huff_table((j_common_ptr) cinfo);
+    *htblptr = jpeg_blloc_huff_tbble((j_common_ptr) cinfo);
 
-  /* Copy the number-of-symbols-of-each-code-length counts */
+  /* Copy the number-of-symbols-of-ebch-code-length counts */
   MEMCOPY((*htblptr)->bits, bits, SIZEOF((*htblptr)->bits));
 
-  /* Validate the counts.  We do this here mainly so we can copy the right
-   * number of symbols from the val[] array, without risking marching off
-   * the end of memory.  jchuff.c will do a more thorough test later.
+  /* Vblidbte the counts.  We do this here mbinly so we cbn copy the right
+   * number of symbols from the vbl[] brrby, without risking mbrching off
+   * the end of memory.  jchuff.c will do b more thorough test lbter.
    */
   nsymbols = 0;
   for (len = 1; len <= 16; len++)
@@ -175,290 +175,290 @@ add_huff_table (j_compress_ptr cinfo,
   if (nsymbols < 1 || nsymbols > 256)
     ERREXIT(cinfo, JERR_BAD_HUFF_TABLE);
 
-  MEMCOPY((*htblptr)->huffval, val, nsymbols * SIZEOF(UINT8));
+  MEMCOPY((*htblptr)->huffvbl, vbl, nsymbols * SIZEOF(UINT8));
 
-  /* Initialize sent_table FALSE so table will be written to JPEG file. */
-  (*htblptr)->sent_table = FALSE;
+  /* Initiblize sent_tbble FALSE so tbble will be written to JPEG file. */
+  (*htblptr)->sent_tbble = FALSE;
 }
 
 
 LOCAL(void)
-std_huff_tables (j_compress_ptr cinfo)
-/* Set up the standard Huffman tables (cf. JPEG standard section K.3) */
-/* IMPORTANT: these are only valid for 8-bit data precision! */
+std_huff_tbbles (j_compress_ptr cinfo)
+/* Set up the stbndbrd Huffmbn tbbles (cf. JPEG stbndbrd section K.3) */
+/* IMPORTANT: these bre only vblid for 8-bit dbtb precision! */
 {
-  static const UINT8 bits_dc_luminance[17] =
-    { /* 0-base */ 0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };
-  static const UINT8 val_dc_luminance[] =
+  stbtic const UINT8 bits_dc_luminbnce[17] =
+    { /* 0-bbse */ 0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };
+  stbtic const UINT8 vbl_dc_luminbnce[] =
     { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 
-  static const UINT8 bits_dc_chrominance[17] =
-    { /* 0-base */ 0, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 };
-  static const UINT8 val_dc_chrominance[] =
+  stbtic const UINT8 bits_dc_chrominbnce[17] =
+    { /* 0-bbse */ 0, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 };
+  stbtic const UINT8 vbl_dc_chrominbnce[] =
     { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 
-  static const UINT8 bits_ac_luminance[17] =
-    { /* 0-base */ 0, 0, 2, 1, 3, 3, 2, 4, 3, 5, 5, 4, 4, 0, 0, 1, 0x7d };
-  static const UINT8 val_ac_luminance[] =
+  stbtic const UINT8 bits_bc_luminbnce[17] =
+    { /* 0-bbse */ 0, 0, 2, 1, 3, 3, 2, 4, 3, 5, 5, 4, 4, 0, 0, 1, 0x7d };
+  stbtic const UINT8 vbl_bc_luminbnce[] =
     { 0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12,
       0x21, 0x31, 0x41, 0x06, 0x13, 0x51, 0x61, 0x07,
-      0x22, 0x71, 0x14, 0x32, 0x81, 0x91, 0xa1, 0x08,
+      0x22, 0x71, 0x14, 0x32, 0x81, 0x91, 0xb1, 0x08,
       0x23, 0x42, 0xb1, 0xc1, 0x15, 0x52, 0xd1, 0xf0,
-      0x24, 0x33, 0x62, 0x72, 0x82, 0x09, 0x0a, 0x16,
-      0x17, 0x18, 0x19, 0x1a, 0x25, 0x26, 0x27, 0x28,
-      0x29, 0x2a, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39,
-      0x3a, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49,
-      0x4a, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59,
-      0x5a, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69,
-      0x6a, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79,
-      0x7a, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89,
-      0x8a, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98,
-      0x99, 0x9a, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7,
-      0xa8, 0xa9, 0xaa, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6,
-      0xb7, 0xb8, 0xb9, 0xba, 0xc2, 0xc3, 0xc4, 0xc5,
-      0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xd2, 0xd3, 0xd4,
-      0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xe1, 0xe2,
-      0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea,
+      0x24, 0x33, 0x62, 0x72, 0x82, 0x09, 0x0b, 0x16,
+      0x17, 0x18, 0x19, 0x1b, 0x25, 0x26, 0x27, 0x28,
+      0x29, 0x2b, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39,
+      0x3b, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49,
+      0x4b, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59,
+      0x5b, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69,
+      0x6b, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79,
+      0x7b, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89,
+      0x8b, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98,
+      0x99, 0x9b, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6, 0xb7,
+      0xb8, 0xb9, 0xbb, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6,
+      0xb7, 0xb8, 0xb9, 0xbb, 0xc2, 0xc3, 0xc4, 0xc5,
+      0xc6, 0xc7, 0xc8, 0xc9, 0xcb, 0xd2, 0xd3, 0xd4,
+      0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xdb, 0xe1, 0xe2,
+      0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xeb,
       0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
-      0xf9, 0xfa };
+      0xf9, 0xfb };
 
-  static const UINT8 bits_ac_chrominance[17] =
-    { /* 0-base */ 0, 0, 2, 1, 2, 4, 4, 3, 4, 7, 5, 4, 4, 0, 1, 2, 0x77 };
-  static const UINT8 val_ac_chrominance[] =
+  stbtic const UINT8 bits_bc_chrominbnce[17] =
+    { /* 0-bbse */ 0, 0, 2, 1, 2, 4, 4, 3, 4, 7, 5, 4, 4, 0, 1, 2, 0x77 };
+  stbtic const UINT8 vbl_bc_chrominbnce[] =
     { 0x00, 0x01, 0x02, 0x03, 0x11, 0x04, 0x05, 0x21,
       0x31, 0x06, 0x12, 0x41, 0x51, 0x07, 0x61, 0x71,
       0x13, 0x22, 0x32, 0x81, 0x08, 0x14, 0x42, 0x91,
-      0xa1, 0xb1, 0xc1, 0x09, 0x23, 0x33, 0x52, 0xf0,
-      0x15, 0x62, 0x72, 0xd1, 0x0a, 0x16, 0x24, 0x34,
-      0xe1, 0x25, 0xf1, 0x17, 0x18, 0x19, 0x1a, 0x26,
-      0x27, 0x28, 0x29, 0x2a, 0x35, 0x36, 0x37, 0x38,
-      0x39, 0x3a, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48,
-      0x49, 0x4a, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58,
-      0x59, 0x5a, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68,
-      0x69, 0x6a, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78,
-      0x79, 0x7a, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,
-      0x88, 0x89, 0x8a, 0x92, 0x93, 0x94, 0x95, 0x96,
-      0x97, 0x98, 0x99, 0x9a, 0xa2, 0xa3, 0xa4, 0xa5,
-      0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xb2, 0xb3, 0xb4,
-      0xb5, 0xb6, 0xb7, 0xb8, 0xb9, 0xba, 0xc2, 0xc3,
-      0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xd2,
-      0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda,
+      0xb1, 0xb1, 0xc1, 0x09, 0x23, 0x33, 0x52, 0xf0,
+      0x15, 0x62, 0x72, 0xd1, 0x0b, 0x16, 0x24, 0x34,
+      0xe1, 0x25, 0xf1, 0x17, 0x18, 0x19, 0x1b, 0x26,
+      0x27, 0x28, 0x29, 0x2b, 0x35, 0x36, 0x37, 0x38,
+      0x39, 0x3b, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48,
+      0x49, 0x4b, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58,
+      0x59, 0x5b, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68,
+      0x69, 0x6b, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78,
+      0x79, 0x7b, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,
+      0x88, 0x89, 0x8b, 0x92, 0x93, 0x94, 0x95, 0x96,
+      0x97, 0x98, 0x99, 0x9b, 0xb2, 0xb3, 0xb4, 0xb5,
+      0xb6, 0xb7, 0xb8, 0xb9, 0xbb, 0xb2, 0xb3, 0xb4,
+      0xb5, 0xb6, 0xb7, 0xb8, 0xb9, 0xbb, 0xc2, 0xc3,
+      0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xcb, 0xd2,
+      0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xdb,
       0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9,
-      0xea, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
-      0xf9, 0xfa };
+      0xeb, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
+      0xf9, 0xfb };
 
-  add_huff_table(cinfo, &cinfo->dc_huff_tbl_ptrs[0],
-                 bits_dc_luminance, val_dc_luminance);
-  add_huff_table(cinfo, &cinfo->ac_huff_tbl_ptrs[0],
-                 bits_ac_luminance, val_ac_luminance);
-  add_huff_table(cinfo, &cinfo->dc_huff_tbl_ptrs[1],
-                 bits_dc_chrominance, val_dc_chrominance);
-  add_huff_table(cinfo, &cinfo->ac_huff_tbl_ptrs[1],
-                 bits_ac_chrominance, val_ac_chrominance);
+  bdd_huff_tbble(cinfo, &cinfo->dc_huff_tbl_ptrs[0],
+                 bits_dc_luminbnce, vbl_dc_luminbnce);
+  bdd_huff_tbble(cinfo, &cinfo->bc_huff_tbl_ptrs[0],
+                 bits_bc_luminbnce, vbl_bc_luminbnce);
+  bdd_huff_tbble(cinfo, &cinfo->dc_huff_tbl_ptrs[1],
+                 bits_dc_chrominbnce, vbl_dc_chrominbnce);
+  bdd_huff_tbble(cinfo, &cinfo->bc_huff_tbl_ptrs[1],
+                 bits_bc_chrominbnce, vbl_bc_chrominbnce);
 }
 
 
 /*
- * Default parameter setup for compression.
+ * Defbult pbrbmeter setup for compression.
  *
- * Applications that don't choose to use this routine must do their
- * own setup of all these parameters.  Alternately, you can call this
- * to establish defaults and then alter parameters selectively.  This
- * is the recommended approach since, if we add any new parameters,
- * your code will still work (they'll be set to reasonable defaults).
+ * Applicbtions thbt don't choose to use this routine must do their
+ * own setup of bll these pbrbmeters.  Alternbtely, you cbn cbll this
+ * to estbblish defbults bnd then blter pbrbmeters selectively.  This
+ * is the recommended bpprobch since, if we bdd bny new pbrbmeters,
+ * your code will still work (they'll be set to rebsonbble defbults).
  */
 
 GLOBAL(void)
-jpeg_set_defaults (j_compress_ptr cinfo)
+jpeg_set_defbults (j_compress_ptr cinfo)
 {
   int i;
 
-  /* Safety check to ensure start_compress not called yet. */
-  if (cinfo->global_state != CSTATE_START)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+  /* Sbfety check to ensure stbrt_compress not cblled yet. */
+  if (cinfo->globbl_stbte != CSTATE_START)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
 
-  /* Allocate comp_info array large enough for maximum component count.
-   * Array is made permanent in case application wants to compress
-   * multiple images at same param settings.
+  /* Allocbte comp_info brrby lbrge enough for mbximum component count.
+   * Arrby is mbde permbnent in cbse bpplicbtion wbnts to compress
+   * multiple imbges bt sbme pbrbm settings.
    */
   if (cinfo->comp_info == NULL)
     cinfo->comp_info = (jpeg_component_info *)
-      (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_PERMANENT,
+      (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_PERMANENT,
                                   MAX_COMPONENTS * SIZEOF(jpeg_component_info));
 
-  /* Initialize everything not dependent on the color space */
+  /* Initiblize everything not dependent on the color spbce */
 
-  cinfo->data_precision = BITS_IN_JSAMPLE;
-  /* Set up two quantization tables using default quality of 75 */
-  jpeg_set_quality(cinfo, 75, TRUE);
-  /* Set up two Huffman tables */
-  std_huff_tables(cinfo);
+  cinfo->dbtb_precision = BITS_IN_JSAMPLE;
+  /* Set up two qubntizbtion tbbles using defbult qublity of 75 */
+  jpeg_set_qublity(cinfo, 75, TRUE);
+  /* Set up two Huffmbn tbbles */
+  std_huff_tbbles(cinfo);
 
-  /* Initialize default arithmetic coding conditioning */
+  /* Initiblize defbult brithmetic coding conditioning */
   for (i = 0; i < NUM_ARITH_TBLS; i++) {
-    cinfo->arith_dc_L[i] = 0;
-    cinfo->arith_dc_U[i] = 1;
-    cinfo->arith_ac_K[i] = 5;
+    cinfo->brith_dc_L[i] = 0;
+    cinfo->brith_dc_U[i] = 1;
+    cinfo->brith_bc_K[i] = 5;
   }
 
-  /* Default is no multiple-scan output */
-  cinfo->scan_info = NULL;
-  cinfo->num_scans = 0;
+  /* Defbult is no multiple-scbn output */
+  cinfo->scbn_info = NULL;
+  cinfo->num_scbns = 0;
 
-  /* Expect normal source image, not raw downsampled data */
-  cinfo->raw_data_in = FALSE;
+  /* Expect normbl source imbge, not rbw downsbmpled dbtb */
+  cinfo->rbw_dbtb_in = FALSE;
 
-  /* Use Huffman coding, not arithmetic coding, by default */
-  cinfo->arith_code = FALSE;
+  /* Use Huffmbn coding, not brithmetic coding, by defbult */
+  cinfo->brith_code = FALSE;
 
-  /* By default, don't do extra passes to optimize entropy coding */
+  /* By defbult, don't do extrb pbsses to optimize entropy coding */
   cinfo->optimize_coding = FALSE;
-  /* The standard Huffman tables are only valid for 8-bit data precision.
-   * If the precision is higher, force optimization on so that usable
-   * tables will be computed.  This test can be removed if default tables
-   * are supplied that are valid for the desired precision.
+  /* The stbndbrd Huffmbn tbbles bre only vblid for 8-bit dbtb precision.
+   * If the precision is higher, force optimizbtion on so thbt usbble
+   * tbbles will be computed.  This test cbn be removed if defbult tbbles
+   * bre supplied thbt bre vblid for the desired precision.
    */
-  if (cinfo->data_precision > 8)
+  if (cinfo->dbtb_precision > 8)
     cinfo->optimize_coding = TRUE;
 
-  /* By default, use the simpler non-cosited sampling alignment */
-  cinfo->CCIR601_sampling = FALSE;
+  /* By defbult, use the simpler non-cosited sbmpling blignment */
+  cinfo->CCIR601_sbmpling = FALSE;
 
   /* No input smoothing */
-  cinfo->smoothing_factor = 0;
+  cinfo->smoothing_fbctor = 0;
 
-  /* DCT algorithm preference */
+  /* DCT blgorithm preference */
   cinfo->dct_method = JDCT_DEFAULT;
 
-  /* No restart markers */
-  cinfo->restart_interval = 0;
-  cinfo->restart_in_rows = 0;
+  /* No restbrt mbrkers */
+  cinfo->restbrt_intervbl = 0;
+  cinfo->restbrt_in_rows = 0;
 
-  /* Fill in default JFIF marker parameters.  Note that whether the marker
-   * will actually be written is determined by jpeg_set_colorspace.
+  /* Fill in defbult JFIF mbrker pbrbmeters.  Note thbt whether the mbrker
+   * will bctublly be written is determined by jpeg_set_colorspbce.
    *
-   * By default, the library emits JFIF version code 1.01.
-   * An application that wants to emit JFIF 1.02 extension markers should set
-   * JFIF_minor_version to 2.  We could probably get away with just defaulting
-   * to 1.02, but there may still be some decoders in use that will complain
-   * about that; saying 1.01 should minimize compatibility problems.
+   * By defbult, the librbry emits JFIF version code 1.01.
+   * An bpplicbtion thbt wbnts to emit JFIF 1.02 extension mbrkers should set
+   * JFIF_minor_version to 2.  We could probbbly get bwby with just defbulting
+   * to 1.02, but there mby still be some decoders in use thbt will complbin
+   * bbout thbt; sbying 1.01 should minimize compbtibility problems.
    */
-  cinfo->JFIF_major_version = 1; /* Default JFIF version = 1.01 */
+  cinfo->JFIF_mbjor_version = 1; /* Defbult JFIF version = 1.01 */
   cinfo->JFIF_minor_version = 1;
-  cinfo->density_unit = 0;      /* Pixel size is unknown by default */
-  cinfo->X_density = 1;         /* Pixel aspect ratio is square by default */
+  cinfo->density_unit = 0;      /* Pixel size is unknown by defbult */
+  cinfo->X_density = 1;         /* Pixel bspect rbtio is squbre by defbult */
   cinfo->Y_density = 1;
 
-  /* Choose JPEG colorspace based on input space, set defaults accordingly */
+  /* Choose JPEG colorspbce bbsed on input spbce, set defbults bccordingly */
 
-  jpeg_default_colorspace(cinfo);
+  jpeg_defbult_colorspbce(cinfo);
 }
 
 
 /*
- * Select an appropriate JPEG colorspace for in_color_space.
+ * Select bn bppropribte JPEG colorspbce for in_color_spbce.
  */
 
 GLOBAL(void)
-jpeg_default_colorspace (j_compress_ptr cinfo)
+jpeg_defbult_colorspbce (j_compress_ptr cinfo)
 {
-  switch (cinfo->in_color_space) {
-  case JCS_GRAYSCALE:
-    jpeg_set_colorspace(cinfo, JCS_GRAYSCALE);
-    break;
-  case JCS_RGB:
-    jpeg_set_colorspace(cinfo, JCS_YCbCr);
-    break;
-  case JCS_YCbCr:
-    jpeg_set_colorspace(cinfo, JCS_YCbCr);
-    break;
-  case JCS_CMYK:
-    jpeg_set_colorspace(cinfo, JCS_CMYK); /* By default, no translation */
-    break;
-  case JCS_YCCK:
-    jpeg_set_colorspace(cinfo, JCS_YCCK);
-    break;
-  case JCS_UNKNOWN:
-    jpeg_set_colorspace(cinfo, JCS_UNKNOWN);
-    break;
-  default:
+  switch (cinfo->in_color_spbce) {
+  cbse JCS_GRAYSCALE:
+    jpeg_set_colorspbce(cinfo, JCS_GRAYSCALE);
+    brebk;
+  cbse JCS_RGB:
+    jpeg_set_colorspbce(cinfo, JCS_YCbCr);
+    brebk;
+  cbse JCS_YCbCr:
+    jpeg_set_colorspbce(cinfo, JCS_YCbCr);
+    brebk;
+  cbse JCS_CMYK:
+    jpeg_set_colorspbce(cinfo, JCS_CMYK); /* By defbult, no trbnslbtion */
+    brebk;
+  cbse JCS_YCCK:
+    jpeg_set_colorspbce(cinfo, JCS_YCCK);
+    brebk;
+  cbse JCS_UNKNOWN:
+    jpeg_set_colorspbce(cinfo, JCS_UNKNOWN);
+    brebk;
+  defbult:
     ERREXIT(cinfo, JERR_BAD_IN_COLORSPACE);
   }
 }
 
 
 /*
- * Set the JPEG colorspace, and choose colorspace-dependent default values.
+ * Set the JPEG colorspbce, bnd choose colorspbce-dependent defbult vblues.
  */
 
 GLOBAL(void)
-jpeg_set_colorspace (j_compress_ptr cinfo, J_COLOR_SPACE colorspace)
+jpeg_set_colorspbce (j_compress_ptr cinfo, J_COLOR_SPACE colorspbce)
 {
   jpeg_component_info * compptr;
   int ci;
 
-#define SET_COMP(index,id,hsamp,vsamp,quant,dctbl,actbl)  \
+#define SET_COMP(index,id,hsbmp,vsbmp,qubnt,dctbl,bctbl)  \
   (compptr = &cinfo->comp_info[index], \
    compptr->component_id = (id), \
-   compptr->h_samp_factor = (hsamp), \
-   compptr->v_samp_factor = (vsamp), \
-   compptr->quant_tbl_no = (quant), \
+   compptr->h_sbmp_fbctor = (hsbmp), \
+   compptr->v_sbmp_fbctor = (vsbmp), \
+   compptr->qubnt_tbl_no = (qubnt), \
    compptr->dc_tbl_no = (dctbl), \
-   compptr->ac_tbl_no = (actbl) )
+   compptr->bc_tbl_no = (bctbl) )
 
-  /* Safety check to ensure start_compress not called yet. */
-  if (cinfo->global_state != CSTATE_START)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+  /* Sbfety check to ensure stbrt_compress not cblled yet. */
+  if (cinfo->globbl_stbte != CSTATE_START)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
 
-  /* For all colorspaces, we use Q and Huff tables 0 for luminance components,
-   * tables 1 for chrominance components.
+  /* For bll colorspbces, we use Q bnd Huff tbbles 0 for luminbnce components,
+   * tbbles 1 for chrominbnce components.
    */
 
-  cinfo->jpeg_color_space = colorspace;
+  cinfo->jpeg_color_spbce = colorspbce;
 
-  cinfo->write_JFIF_header = FALSE; /* No marker for non-JFIF colorspaces */
-  cinfo->write_Adobe_marker = FALSE; /* write no Adobe marker by default */
+  cinfo->write_JFIF_hebder = FALSE; /* No mbrker for non-JFIF colorspbces */
+  cinfo->write_Adobe_mbrker = FALSE; /* write no Adobe mbrker by defbult */
 
-  switch (colorspace) {
-  case JCS_GRAYSCALE:
-    cinfo->write_JFIF_header = TRUE; /* Write a JFIF marker */
+  switch (colorspbce) {
+  cbse JCS_GRAYSCALE:
+    cinfo->write_JFIF_hebder = TRUE; /* Write b JFIF mbrker */
     cinfo->num_components = 1;
     /* JFIF specifies component ID 1 */
     SET_COMP(0, 1, 1,1, 0, 0,0);
-    break;
-  case JCS_RGB:
-    cinfo->write_Adobe_marker = TRUE; /* write Adobe marker to flag RGB */
+    brebk;
+  cbse JCS_RGB:
+    cinfo->write_Adobe_mbrker = TRUE; /* write Adobe mbrker to flbg RGB */
     cinfo->num_components = 3;
     SET_COMP(0, 0x52 /* 'R' */, 1,1, 0, 0,0);
     SET_COMP(1, 0x47 /* 'G' */, 1,1, 0, 0,0);
     SET_COMP(2, 0x42 /* 'B' */, 1,1, 0, 0,0);
-    break;
-  case JCS_YCbCr:
-    cinfo->write_JFIF_header = TRUE; /* Write a JFIF marker */
+    brebk;
+  cbse JCS_YCbCr:
+    cinfo->write_JFIF_hebder = TRUE; /* Write b JFIF mbrker */
     cinfo->num_components = 3;
     /* JFIF specifies component IDs 1,2,3 */
-    /* We default to 2x2 subsamples of chrominance */
+    /* We defbult to 2x2 subsbmples of chrominbnce */
     SET_COMP(0, 1, 2,2, 0, 0,0);
     SET_COMP(1, 2, 1,1, 1, 1,1);
     SET_COMP(2, 3, 1,1, 1, 1,1);
-    break;
-  case JCS_CMYK:
-    cinfo->write_Adobe_marker = TRUE; /* write Adobe marker to flag CMYK */
+    brebk;
+  cbse JCS_CMYK:
+    cinfo->write_Adobe_mbrker = TRUE; /* write Adobe mbrker to flbg CMYK */
     cinfo->num_components = 4;
     SET_COMP(0, 0x43 /* 'C' */, 1,1, 0, 0,0);
     SET_COMP(1, 0x4D /* 'M' */, 1,1, 0, 0,0);
     SET_COMP(2, 0x59 /* 'Y' */, 1,1, 0, 0,0);
     SET_COMP(3, 0x4B /* 'K' */, 1,1, 0, 0,0);
-    break;
-  case JCS_YCCK:
-    cinfo->write_Adobe_marker = TRUE; /* write Adobe marker to flag YCCK */
+    brebk;
+  cbse JCS_YCCK:
+    cinfo->write_Adobe_mbrker = TRUE; /* write Adobe mbrker to flbg YCCK */
     cinfo->num_components = 4;
     SET_COMP(0, 1, 2,2, 0, 0,0);
     SET_COMP(1, 2, 1,1, 1, 1,1);
     SET_COMP(2, 3, 1,1, 1, 1,1);
     SET_COMP(3, 4, 2,2, 0, 0,0);
-    break;
-  case JCS_UNKNOWN:
+    brebk;
+  cbse JCS_UNKNOWN:
     cinfo->num_components = cinfo->input_components;
     if (cinfo->num_components < 1 || cinfo->num_components > MAX_COMPONENTS)
       ERREXIT2(cinfo, JERR_COMPONENT_COUNT, cinfo->num_components,
@@ -466,8 +466,8 @@ jpeg_set_colorspace (j_compress_ptr cinfo, J_COLOR_SPACE colorspace)
     for (ci = 0; ci < cinfo->num_components; ci++) {
       SET_COMP(ci, ci, 1,1, 0, 0,0);
     }
-    break;
-  default:
+    brebk;
+  defbult:
     ERREXIT(cinfo, JERR_BAD_J_COLORSPACE);
   }
 }
@@ -475,139 +475,139 @@ jpeg_set_colorspace (j_compress_ptr cinfo, J_COLOR_SPACE colorspace)
 
 #ifdef C_PROGRESSIVE_SUPPORTED
 
-LOCAL(jpeg_scan_info *)
-fill_a_scan (jpeg_scan_info * scanptr, int ci,
+LOCAL(jpeg_scbn_info *)
+fill_b_scbn (jpeg_scbn_info * scbnptr, int ci,
              int Ss, int Se, int Ah, int Al)
-/* Support routine: generate one scan for specified component */
+/* Support routine: generbte one scbn for specified component */
 {
-  scanptr->comps_in_scan = 1;
-  scanptr->component_index[0] = ci;
-  scanptr->Ss = Ss;
-  scanptr->Se = Se;
-  scanptr->Ah = Ah;
-  scanptr->Al = Al;
-  scanptr++;
-  return scanptr;
+  scbnptr->comps_in_scbn = 1;
+  scbnptr->component_index[0] = ci;
+  scbnptr->Ss = Ss;
+  scbnptr->Se = Se;
+  scbnptr->Ah = Ah;
+  scbnptr->Al = Al;
+  scbnptr++;
+  return scbnptr;
 }
 
-LOCAL(jpeg_scan_info *)
-fill_scans (jpeg_scan_info * scanptr, int ncomps,
+LOCAL(jpeg_scbn_info *)
+fill_scbns (jpeg_scbn_info * scbnptr, int ncomps,
             int Ss, int Se, int Ah, int Al)
-/* Support routine: generate one scan for each component */
+/* Support routine: generbte one scbn for ebch component */
 {
   int ci;
 
   for (ci = 0; ci < ncomps; ci++) {
-    scanptr->comps_in_scan = 1;
-    scanptr->component_index[0] = ci;
-    scanptr->Ss = Ss;
-    scanptr->Se = Se;
-    scanptr->Ah = Ah;
-    scanptr->Al = Al;
-    scanptr++;
+    scbnptr->comps_in_scbn = 1;
+    scbnptr->component_index[0] = ci;
+    scbnptr->Ss = Ss;
+    scbnptr->Se = Se;
+    scbnptr->Ah = Ah;
+    scbnptr->Al = Al;
+    scbnptr++;
   }
-  return scanptr;
+  return scbnptr;
 }
 
-LOCAL(jpeg_scan_info *)
-fill_dc_scans (jpeg_scan_info * scanptr, int ncomps, int Ah, int Al)
-/* Support routine: generate interleaved DC scan if possible, else N scans */
+LOCAL(jpeg_scbn_info *)
+fill_dc_scbns (jpeg_scbn_info * scbnptr, int ncomps, int Ah, int Al)
+/* Support routine: generbte interlebved DC scbn if possible, else N scbns */
 {
   int ci;
 
   if (ncomps <= MAX_COMPS_IN_SCAN) {
-    /* Single interleaved DC scan */
-    scanptr->comps_in_scan = ncomps;
+    /* Single interlebved DC scbn */
+    scbnptr->comps_in_scbn = ncomps;
     for (ci = 0; ci < ncomps; ci++)
-      scanptr->component_index[ci] = ci;
-    scanptr->Ss = scanptr->Se = 0;
-    scanptr->Ah = Ah;
-    scanptr->Al = Al;
-    scanptr++;
+      scbnptr->component_index[ci] = ci;
+    scbnptr->Ss = scbnptr->Se = 0;
+    scbnptr->Ah = Ah;
+    scbnptr->Al = Al;
+    scbnptr++;
   } else {
-    /* Noninterleaved DC scan for each component */
-    scanptr = fill_scans(scanptr, ncomps, 0, 0, Ah, Al);
+    /* Noninterlebved DC scbn for ebch component */
+    scbnptr = fill_scbns(scbnptr, ncomps, 0, 0, Ah, Al);
   }
-  return scanptr;
+  return scbnptr;
 }
 
 
 /*
- * Create a recommended progressive-JPEG script.
- * cinfo->num_components and cinfo->jpeg_color_space must be correct.
+ * Crebte b recommended progressive-JPEG script.
+ * cinfo->num_components bnd cinfo->jpeg_color_spbce must be correct.
  */
 
 GLOBAL(void)
 jpeg_simple_progression (j_compress_ptr cinfo)
 {
   int ncomps = cinfo->num_components;
-  int nscans;
-  jpeg_scan_info * scanptr;
+  int nscbns;
+  jpeg_scbn_info * scbnptr;
 
-  /* Safety check to ensure start_compress not called yet. */
-  if (cinfo->global_state != CSTATE_START)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+  /* Sbfety check to ensure stbrt_compress not cblled yet. */
+  if (cinfo->globbl_stbte != CSTATE_START)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
 
-  /* Figure space needed for script.  Calculation must match code below! */
-  if (ncomps == 3 && cinfo->jpeg_color_space == JCS_YCbCr) {
-    /* Custom script for YCbCr color images. */
-    nscans = 10;
+  /* Figure spbce needed for script.  Cblculbtion must mbtch code below! */
+  if (ncomps == 3 && cinfo->jpeg_color_spbce == JCS_YCbCr) {
+    /* Custom script for YCbCr color imbges. */
+    nscbns = 10;
   } else {
-    /* All-purpose script for other color spaces. */
+    /* All-purpose script for other color spbces. */
     if (ncomps > MAX_COMPS_IN_SCAN)
-      nscans = 6 * ncomps;      /* 2 DC + 4 AC scans per component */
+      nscbns = 6 * ncomps;      /* 2 DC + 4 AC scbns per component */
     else
-      nscans = 2 + 4 * ncomps;  /* 2 DC scans; 4 AC scans per component */
+      nscbns = 2 + 4 * ncomps;  /* 2 DC scbns; 4 AC scbns per component */
   }
 
-  /* Allocate space for script.
-   * We need to put it in the permanent pool in case the application performs
-   * multiple compressions without changing the settings.  To avoid a memory
-   * leak if jpeg_simple_progression is called repeatedly for the same JPEG
-   * object, we try to re-use previously allocated space, and we allocate
-   * enough space to handle YCbCr even if initially asked for grayscale.
+  /* Allocbte spbce for script.
+   * We need to put it in the permbnent pool in cbse the bpplicbtion performs
+   * multiple compressions without chbnging the settings.  To bvoid b memory
+   * lebk if jpeg_simple_progression is cblled repebtedly for the sbme JPEG
+   * object, we try to re-use previously bllocbted spbce, bnd we bllocbte
+   * enough spbce to hbndle YCbCr even if initiblly bsked for grbyscble.
    */
-  if (cinfo->script_space == NULL || cinfo->script_space_size < nscans) {
-    cinfo->script_space_size = MAX(nscans, 10);
-    cinfo->script_space = (jpeg_scan_info *)
-      (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_PERMANENT,
-                        cinfo->script_space_size * SIZEOF(jpeg_scan_info));
+  if (cinfo->script_spbce == NULL || cinfo->script_spbce_size < nscbns) {
+    cinfo->script_spbce_size = MAX(nscbns, 10);
+    cinfo->script_spbce = (jpeg_scbn_info *)
+      (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_PERMANENT,
+                        cinfo->script_spbce_size * SIZEOF(jpeg_scbn_info));
   }
-  scanptr = cinfo->script_space;
-  cinfo->scan_info = scanptr;
-  cinfo->num_scans = nscans;
+  scbnptr = cinfo->script_spbce;
+  cinfo->scbn_info = scbnptr;
+  cinfo->num_scbns = nscbns;
 
-  if (ncomps == 3 && cinfo->jpeg_color_space == JCS_YCbCr) {
-    /* Custom script for YCbCr color images. */
-    /* Initial DC scan */
-    scanptr = fill_dc_scans(scanptr, ncomps, 0, 1);
-    /* Initial AC scan: get some luma data out in a hurry */
-    scanptr = fill_a_scan(scanptr, 0, 1, 5, 0, 2);
-    /* Chroma data is too small to be worth expending many scans on */
-    scanptr = fill_a_scan(scanptr, 2, 1, 63, 0, 1);
-    scanptr = fill_a_scan(scanptr, 1, 1, 63, 0, 1);
-    /* Complete spectral selection for luma AC */
-    scanptr = fill_a_scan(scanptr, 0, 6, 63, 0, 2);
-    /* Refine next bit of luma AC */
-    scanptr = fill_a_scan(scanptr, 0, 1, 63, 2, 1);
-    /* Finish DC successive approximation */
-    scanptr = fill_dc_scans(scanptr, ncomps, 1, 0);
-    /* Finish AC successive approximation */
-    scanptr = fill_a_scan(scanptr, 2, 1, 63, 1, 0);
-    scanptr = fill_a_scan(scanptr, 1, 1, 63, 1, 0);
-    /* Luma bottom bit comes last since it's usually largest scan */
-    scanptr = fill_a_scan(scanptr, 0, 1, 63, 1, 0);
+  if (ncomps == 3 && cinfo->jpeg_color_spbce == JCS_YCbCr) {
+    /* Custom script for YCbCr color imbges. */
+    /* Initibl DC scbn */
+    scbnptr = fill_dc_scbns(scbnptr, ncomps, 0, 1);
+    /* Initibl AC scbn: get some lumb dbtb out in b hurry */
+    scbnptr = fill_b_scbn(scbnptr, 0, 1, 5, 0, 2);
+    /* Chromb dbtb is too smbll to be worth expending mbny scbns on */
+    scbnptr = fill_b_scbn(scbnptr, 2, 1, 63, 0, 1);
+    scbnptr = fill_b_scbn(scbnptr, 1, 1, 63, 0, 1);
+    /* Complete spectrbl selection for lumb AC */
+    scbnptr = fill_b_scbn(scbnptr, 0, 6, 63, 0, 2);
+    /* Refine next bit of lumb AC */
+    scbnptr = fill_b_scbn(scbnptr, 0, 1, 63, 2, 1);
+    /* Finish DC successive bpproximbtion */
+    scbnptr = fill_dc_scbns(scbnptr, ncomps, 1, 0);
+    /* Finish AC successive bpproximbtion */
+    scbnptr = fill_b_scbn(scbnptr, 2, 1, 63, 1, 0);
+    scbnptr = fill_b_scbn(scbnptr, 1, 1, 63, 1, 0);
+    /* Lumb bottom bit comes lbst since it's usublly lbrgest scbn */
+    scbnptr = fill_b_scbn(scbnptr, 0, 1, 63, 1, 0);
   } else {
-    /* All-purpose script for other color spaces. */
-    /* Successive approximation first pass */
-    scanptr = fill_dc_scans(scanptr, ncomps, 0, 1);
-    scanptr = fill_scans(scanptr, ncomps, 1, 5, 0, 2);
-    scanptr = fill_scans(scanptr, ncomps, 6, 63, 0, 2);
-    /* Successive approximation second pass */
-    scanptr = fill_scans(scanptr, ncomps, 1, 63, 2, 1);
-    /* Successive approximation final pass */
-    scanptr = fill_dc_scans(scanptr, ncomps, 1, 0);
-    scanptr = fill_scans(scanptr, ncomps, 1, 63, 1, 0);
+    /* All-purpose script for other color spbces. */
+    /* Successive bpproximbtion first pbss */
+    scbnptr = fill_dc_scbns(scbnptr, ncomps, 0, 1);
+    scbnptr = fill_scbns(scbnptr, ncomps, 1, 5, 0, 2);
+    scbnptr = fill_scbns(scbnptr, ncomps, 6, 63, 0, 2);
+    /* Successive bpproximbtion second pbss */
+    scbnptr = fill_scbns(scbnptr, ncomps, 1, 63, 2, 1);
+    /* Successive bpproximbtion finbl pbss */
+    scbnptr = fill_dc_scbns(scbnptr, ncomps, 1, 0);
+    scbnptr = fill_scbns(scbnptr, ncomps, 1, 63, 1, 0);
   }
 }
 

@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2002, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 /**
- * This interface allows you to compute key localization and delta generation. It is useful when adding user in USM MIB. An instance of <CODE> SnmpUsmKeyHandler </CODE> is associated to each <CODE> SnmpEngine </CODE> object.
- * When computing key, an authentication algorithm is needed. The supported ones are : usmHMACMD5AuthProtocol and usmHMACSHAAuthProtocol.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * This interfbce bllows you to compute key locblizbtion bnd deltb generbtion. It is useful when bdding user in USM MIB. An instbnce of <CODE> SnmpUsmKeyHbndler </CODE> is bssocibted to ebch <CODE> SnmpEngine </CODE> object.
+ * When computing key, bn buthenticbtion blgorithm is needed. The supported ones bre : usmHMACMD5AuthProtocol bnd usmHMACSHAAuthProtocol.
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  * @since 1.5
  */
-public interface SnmpUsmKeyHandler {
+public interfbce SnmpUsmKeyHbndler {
 
     /**
-     * DES privacy algorithm key size. To be used when localizing privacy key
+     * DES privbcy blgorithm key size. To be used when locblizing privbcy key
      */
-    public static int DES_KEY_SIZE = 16;
+    public stbtic int DES_KEY_SIZE = 16;
 
     /**
-     * DES privacy algorithm delta size. To be used when calculing privacy key delta.
+     * DES privbcy blgorithm deltb size. To be used when cblculing privbcy key deltb.
      */
-    public static int DES_DELTA_SIZE = 16;
+    public stbtic int DES_DELTA_SIZE = 16;
 
     /**
-     * Translate a password to a key. It MUST be compliant to RFC 2574 description.
-     * @param algoName The authentication algorithm to use.
-     * @param password Password to convert.
+     * Trbnslbte b pbssword to b key. It MUST be complibnt to RFC 2574 description.
+     * @pbrbm blgoNbme The buthenticbtion blgorithm to use.
+     * @pbrbm pbssword Pbssword to convert.
      * @return The key.
-     * @exception IllegalArgumentException If the algorithm is unknown.
+     * @exception IllegblArgumentException If the blgorithm is unknown.
      */
-    public byte[] password_to_key(String algoName, String password) throws IllegalArgumentException;
+    public byte[] pbssword_to_key(String blgoNbme, String pbssword) throws IllegblArgumentException;
     /**
-     * Localize the passed key using the passed <CODE>SnmpEngineId</CODE>. It MUST be compliant to RFC 2574 description.
-     * @param algoName The authentication algorithm to use.
-     * @param key The key to localize;
-     * @param engineId The Id used to localize the key.
-     * @return The localized key.
-     * @exception IllegalArgumentException If the algorithm is unknown.
+     * Locblize the pbssed key using the pbssed <CODE>SnmpEngineId</CODE>. It MUST be complibnt to RFC 2574 description.
+     * @pbrbm blgoNbme The buthenticbtion blgorithm to use.
+     * @pbrbm key The key to locblize;
+     * @pbrbm engineId The Id used to locblize the key.
+     * @return The locblized key.
+     * @exception IllegblArgumentException If the blgorithm is unknown.
      */
-    public byte[] localizeAuthKey(String algoName, byte[] key, SnmpEngineId engineId) throws IllegalArgumentException;
+    public byte[] locblizeAuthKey(String blgoNbme, byte[] key, SnmpEngineId engineId) throws IllegblArgumentException;
 
     /**
-     * Localize the passed privacy key using the passed <CODE>SnmpEngineId</CODE>. It MUST be compliant to RFC 2574 description.
-     * @param algoName The authentication algorithm to use.
-     * @param key The key to localize;
-     * @param engineId The Id used to localize the key.
-     * @param keysize The privacy algorithm key size.
-     * @return The localized key.
-     * @exception IllegalArgumentException If the algorithm is unknown.
+     * Locblize the pbssed privbcy key using the pbssed <CODE>SnmpEngineId</CODE>. It MUST be complibnt to RFC 2574 description.
+     * @pbrbm blgoNbme The buthenticbtion blgorithm to use.
+     * @pbrbm key The key to locblize;
+     * @pbrbm engineId The Id used to locblize the key.
+     * @pbrbm keysize The privbcy blgorithm key size.
+     * @return The locblized key.
+     * @exception IllegblArgumentException If the blgorithm is unknown.
      */
-    public byte[] localizePrivKey(String algoName, byte[] key, SnmpEngineId engineId,int keysize) throws IllegalArgumentException;
+    public byte[] locblizePrivKey(String blgoNbme, byte[] key, SnmpEngineId engineId,int keysize) throws IllegblArgumentException;
 
     /**
-     * Calculate the delta parameter needed when processing key change. This computation is done by the key change initiator. It MUST be compliant to RFC 2574 description.
-     * @param algoName The authentication algorithm to use.
-     * @param oldKey The old key.
-     * @param newKey The new key.
-     * @param random The random value.
-     * @return The delta.
-     * @exception IllegalArgumentException If the algorithm is unknown.
+     * Cblculbte the deltb pbrbmeter needed when processing key chbnge. This computbtion is done by the key chbnge initibtor. It MUST be complibnt to RFC 2574 description.
+     * @pbrbm blgoNbme The buthenticbtion blgorithm to use.
+     * @pbrbm oldKey The old key.
+     * @pbrbm newKey The new key.
+     * @pbrbm rbndom The rbndom vblue.
+     * @return The deltb.
+     * @exception IllegblArgumentException If the blgorithm is unknown.
      */
-    public byte[] calculateAuthDelta(String algoName, byte[] oldKey, byte[] newKey, byte[] random) throws IllegalArgumentException;
+    public byte[] cblculbteAuthDeltb(String blgoNbme, byte[] oldKey, byte[] newKey, byte[] rbndom) throws IllegblArgumentException;
 
     /**
-     * Calculate the delta parameter needed when processing key change for a privacy algorithm. This computation is done by the key change initiator. It MUST be compliant to RFC 2574 description.
-     * @param algoName The authentication algorithm to use.
-     * @param oldKey The old key.
-     * @param newKey The new key.
-     * @param random The random value.
-     * @param deltaSize The algo delta size.
-     * @return The delta.
-     * @exception IllegalArgumentException If the algorithm is unknown.
+     * Cblculbte the deltb pbrbmeter needed when processing key chbnge for b privbcy blgorithm. This computbtion is done by the key chbnge initibtor. It MUST be complibnt to RFC 2574 description.
+     * @pbrbm blgoNbme The buthenticbtion blgorithm to use.
+     * @pbrbm oldKey The old key.
+     * @pbrbm newKey The new key.
+     * @pbrbm rbndom The rbndom vblue.
+     * @pbrbm deltbSize The blgo deltb size.
+     * @return The deltb.
+     * @exception IllegblArgumentException If the blgorithm is unknown.
      */
-    public byte[] calculatePrivDelta(String algoName, byte[] oldKey, byte[] newKey, byte[] random, int deltaSize) throws IllegalArgumentException;
+    public byte[] cblculbtePrivDeltb(String blgoNbme, byte[] oldKey, byte[] newKey, byte[] rbndom, int deltbSize) throws IllegblArgumentException;
 
 }

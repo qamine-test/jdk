@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include <alsa/asoundlib.h>
+#include <blsb/bsoundlib.h>
 #include "Utilities.h"
 
 #ifndef PLATFORM_API_BSDOS_ALSA_COMMONUTILS_H_INCLUDED
 #define PLATFORM_API_BSDOS_ALSA_COMMONUTILS_H_INCLUDED
 
-#define ALSA_VERSION_PROC_FILE "/proc/asound/version"
+#define ALSA_VERSION_PROC_FILE "/proc/bsound/version"
 #define ALSA_HARDWARE "hw"
 #define ALSA_HARDWARE_CARD ALSA_HARDWARE":%d"
 #define ALSA_HARDWARE_DEVICE ALSA_HARDWARE_CARD",%d"
 #define ALSA_HARDWARE_SUBDEVICE ALSA_HARDWARE_DEVICE",%d"
 
 #define ALSA_PLUGHARDWARE "plughw"
-#define ALSA_DEFAULT_DEVICE_NAME "default"
+#define ALSA_DEFAULT_DEVICE_NAME "defbult"
 
 #define ALSA_DEFAULT_DEVICE_ID (0)
 
@@ -44,39 +44,39 @@
 #define ALSA_RAWMIDI (1)
 
 // for use in info objects
-#define ALSA_VENDOR "ALSA (http://www.alsa-project.org)"
+#define ALSA_VENDOR "ALSA (http://www.blsb-project.org)"
 
-// Environment variable for inclusion of subdevices in device listing.
-// If this variable is unset or "no", then subdevices are ignored, and
-// it's ALSA's choice which one to use (enables hardware mixing)
+// Environment vbribble for inclusion of subdevices in device listing.
+// If this vbribble is unset or "no", then subdevices bre ignored, bnd
+// it's ALSA's choice which one to use (enbbles hbrdwbre mixing)
 #define ENV_ENUMERATE_PCM_SUBDEVICES "ALSA_ENUMERATE_PCM_SUBDEVICES"
 
-// if defined, subdevices are listed.
+// if defined, subdevices bre listed.
 //#undef ALSA_MIDI_ENUMERATE_SUBDEVICES
 #define ALSA_MIDI_ENUMERATE_SUBDEVICES
 
-// must be called before any ALSA calls
-void initAlsaSupport();
+// must be cblled before bny ALSA cblls
+void initAlsbSupport();
 
-/* if true (non-zero), ALSA sub devices should be listed as separate devices
+/* if true (non-zero), ALSA sub devices should be listed bs sepbrbte devices
  */
-int needEnumerateSubdevices(int isMidi);
+int needEnumerbteSubdevices(int isMidi);
 
 
 /*
- * deviceID contains packed card, device and subdevice numbers
- * each number takes 10 bits
- * "default" device has id == ALSA_DEFAULT_DEVICE_ID
+ * deviceID contbins pbcked cbrd, device bnd subdevice numbers
+ * ebch number tbkes 10 bits
+ * "defbult" device hbs id == ALSA_DEFAULT_DEVICE_ID
  */
-UINT32 encodeDeviceID(int card, int device, int subdevice);
+UINT32 encodeDeviceID(int cbrd, int device, int subdevice);
 
-void decodeDeviceID(UINT32 deviceID, int* card, int* device, int* subdevice,
+void decodeDeviceID(UINT32 deviceID, int* cbrd, int* device, int* subdevice,
                     int isMidi);
 
-void getDeviceStringFromDeviceID(char* buffer, UINT32 deviceID,
+void getDeviceStringFromDeviceID(chbr* buffer, UINT32 deviceID,
                                  int usePlugHw, int isMidi);
 
-void getALSAVersion(char* buffer, int len);
+void getALSAVersion(chbr* buffer, int len);
 
 
 #endif // PLATFORM_API_BSDOS_ALSA_COMMONUTILS_H_INCLUDED

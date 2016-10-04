@@ -1,212 +1,212 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.remote;
+pbckbge jbvbx.mbnbgement.remote;
 
-import java.io.IOException;
-import java.util.Map;
+import jbvb.io.IOException;
+import jbvb.util.Mbp;
 
 /**
- * <p>MBean interface for connector servers.  A JMX API connector server
- * is attached to an MBean server, and establishes connections to that
- * MBean server for remote clients.</p>
+ * <p>MBebn interfbce for connector servers.  A JMX API connector server
+ * is bttbched to bn MBebn server, bnd estbblishes connections to thbt
+ * MBebn server for remote clients.</p>
  *
- * <p>A newly-created connector server is <em>inactive</em>, and does
- * not yet listen for connections.  Only when its {@link #start start}
- * method has been called does it start listening for connections.</p>
+ * <p>A newly-crebted connector server is <em>inbctive</em>, bnd does
+ * not yet listen for connections.  Only when its {@link #stbrt stbrt}
+ * method hbs been cblled does it stbrt listening for connections.</p>
  *
  * @since 1.5
  */
-public interface JMXConnectorServerMBean {
+public interfbce JMXConnectorServerMBebn {
     /**
-     * <p>Activates the connector server, that is, starts listening for
-     * client connections.  Calling this method when the connector
-     * server is already active has no effect.  Calling this method
-     * when the connector server has been stopped will generate an
+     * <p>Activbtes the connector server, thbt is, stbrts listening for
+     * client connections.  Cblling this method when the connector
+     * server is blrebdy bctive hbs no effect.  Cblling this method
+     * when the connector server hbs been stopped will generbte bn
      * {@link IOException}.</p>
      *
-     * @exception IOException if it is not possible to start listening
-     * or if the connector server has been stopped.
+     * @exception IOException if it is not possible to stbrt listening
+     * or if the connector server hbs been stopped.
      *
-     * @exception IllegalStateException if the connector server has
-     * not been attached to an MBean server.
+     * @exception IllegblStbteException if the connector server hbs
+     * not been bttbched to bn MBebn server.
      */
-    public void start() throws IOException;
+    public void stbrt() throws IOException;
 
     /**
-     * <p>Deactivates the connector server, that is, stops listening for
-     * client connections.  Calling this method will also close all
-     * client connections that were made by this server.  After this
-     * method returns, whether normally or with an exception, the
-     * connector server will not create any new client
+     * <p>Debctivbtes the connector server, thbt is, stops listening for
+     * client connections.  Cblling this method will blso close bll
+     * client connections thbt were mbde by this server.  After this
+     * method returns, whether normblly or with bn exception, the
+     * connector server will not crebte bny new client
      * connections.</p>
      *
-     * <p>Once a connector server has been stopped, it cannot be started
-     * again.</p>
+     * <p>Once b connector server hbs been stopped, it cbnnot be stbrted
+     * bgbin.</p>
      *
-     * <p>Calling this method when the connector server has already
-     * been stopped has no effect.  Calling this method when the
-     * connector server has not yet been started will disable the
-     * connector server object permanently.</p>
+     * <p>Cblling this method when the connector server hbs blrebdy
+     * been stopped hbs no effect.  Cblling this method when the
+     * connector server hbs not yet been stbrted will disbble the
+     * connector server object permbnently.</p>
      *
-     * <p>If closing a client connection produces an exception, that
+     * <p>If closing b client connection produces bn exception, thbt
      * exception is not thrown from this method.  A {@link
-     * JMXConnectionNotification} with type {@link
-     * JMXConnectionNotification#FAILED} is emitted from this MBean
-     * with the connection ID of the connection that could not be
+     * JMXConnectionNotificbtion} with type {@link
+     * JMXConnectionNotificbtion#FAILED} is emitted from this MBebn
+     * with the connection ID of the connection thbt could not be
      * closed.</p>
      *
-     * <p>Closing a connector server is a potentially slow operation.
-     * For example, if a client machine with an open connection has
-     * crashed, the close operation might have to wait for a network
-     * protocol timeout.  Callers that do not want to block in a close
-     * operation should do it in a separate thread.</p>
+     * <p>Closing b connector server is b potentiblly slow operbtion.
+     * For exbmple, if b client mbchine with bn open connection hbs
+     * crbshed, the close operbtion might hbve to wbit for b network
+     * protocol timeout.  Cbllers thbt do not wbnt to block in b close
+     * operbtion should do it in b sepbrbte threbd.</p>
      *
-     * @exception IOException if the server cannot be closed cleanly.
-     * When this exception is thrown, the server has already attempted
-     * to close all client connections.  All client connections are
-     * closed except possibly those that generated exceptions when the
-     * server attempted to close them.
+     * @exception IOException if the server cbnnot be closed clebnly.
+     * When this exception is thrown, the server hbs blrebdy bttempted
+     * to close bll client connections.  All client connections bre
+     * closed except possibly those thbt generbted exceptions when the
+     * server bttempted to close them.
      */
     public void stop() throws IOException;
 
     /**
-     * <p>Determines whether the connector server is active.  A connector
-     * server starts being active when its {@link #start start} method
-     * returns successfully and remains active until either its
-     * {@link #stop stop} method is called or the connector server
-     * fails.</p>
+     * <p>Determines whether the connector server is bctive.  A connector
+     * server stbrts being bctive when its {@link #stbrt stbrt} method
+     * returns successfully bnd rembins bctive until either its
+     * {@link #stop stop} method is cblled or the connector server
+     * fbils.</p>
      *
-     * @return true if the connector server is active.
+     * @return true if the connector server is bctive.
      */
-    public boolean isActive();
+    public boolebn isActive();
 
     /**
-     * <p>Inserts an object that intercepts requests for the MBean server
-     * that arrive through this connector server.  This object will be
-     * supplied as the <code>MBeanServer</code> for any new connection
-     * created by this connector server.  Existing connections are
-     * unaffected.</p>
+     * <p>Inserts bn object thbt intercepts requests for the MBebn server
+     * thbt brrive through this connector server.  This object will be
+     * supplied bs the <code>MBebnServer</code> for bny new connection
+     * crebted by this connector server.  Existing connections bre
+     * unbffected.</p>
      *
-     * <p>This method can be called more than once with different
-     * {@link MBeanServerForwarder} objects.  The result is a chain
-     * of forwarders.  The last forwarder added is the first in the chain.
-     * In more detail:</p>
+     * <p>This method cbn be cblled more thbn once with different
+     * {@link MBebnServerForwbrder} objects.  The result is b chbin
+     * of forwbrders.  The lbst forwbrder bdded is the first in the chbin.
+     * In more detbil:</p>
      *
      * <ul>
-     * <li><p>If this connector server is already associated with an
-     * <code>MBeanServer</code> object, then that object is given to
-     * {@link MBeanServerForwarder#setMBeanServer
-     * mbsf.setMBeanServer}.  If doing so produces an exception, this
-     * method throws the same exception without any other effect.</p>
+     * <li><p>If this connector server is blrebdy bssocibted with bn
+     * <code>MBebnServer</code> object, then thbt object is given to
+     * {@link MBebnServerForwbrder#setMBebnServer
+     * mbsf.setMBebnServer}.  If doing so produces bn exception, this
+     * method throws the sbme exception without bny other effect.</p>
      *
-     * <li><p>If this connector is not already associated with an
-     * <code>MBeanServer</code> object, or if the
-     * <code>mbsf.setMBeanServer</code> call just mentioned succeeds,
+     * <li><p>If this connector is not blrebdy bssocibted with bn
+     * <code>MBebnServer</code> object, or if the
+     * <code>mbsf.setMBebnServer</code> cbll just mentioned succeeds,
      * then <code>mbsf</code> becomes this connector server's
-     * <code>MBeanServer</code>.</p>
+     * <code>MBebnServer</code>.</p>
      * </ul>
      *
-     * @param mbsf the new <code>MBeanServerForwarder</code>.
+     * @pbrbm mbsf the new <code>MBebnServerForwbrder</code>.
      *
-     * @exception IllegalArgumentException if the call to {@link
-     * MBeanServerForwarder#setMBeanServer mbsf.setMBeanServer} fails
-     * with <code>IllegalArgumentException</code>.  This includes the
-     * case where <code>mbsf</code> is null.
+     * @exception IllegblArgumentException if the cbll to {@link
+     * MBebnServerForwbrder#setMBebnServer mbsf.setMBebnServer} fbils
+     * with <code>IllegblArgumentException</code>.  This includes the
+     * cbse where <code>mbsf</code> is null.
      */
-    public void setMBeanServerForwarder(MBeanServerForwarder mbsf);
+    public void setMBebnServerForwbrder(MBebnServerForwbrder mbsf);
 
     /**
      * <p>The list of IDs for currently-open connections to this
      * connector server.</p>
      *
-     * @return a new string array containing the list of IDs.  If
-     * there are no currently-open connections, this array will be
+     * @return b new string brrby contbining the list of IDs.  If
+     * there bre no currently-open connections, this brrby will be
      * empty.
      */
     public String[] getConnectionIds();
 
     /**
-     * <p>The address of this connector server.</p>
+     * <p>The bddress of this connector server.</p>
      * <p>
-     * The address returned may not be the exact original {@link JMXServiceURL}
-     * that was supplied when creating the connector server, since the original
-     * address may not always be complete. For example the port number may be
-     * dynamically allocated when starting the connector server. Instead the
-     * address returned is the actual {@link JMXServiceURL} of the
-     * {@link JMXConnectorServer}. This is the address that clients supply
-     * to {@link JMXConnectorFactory#connect(JMXServiceURL)}.
+     * The bddress returned mby not be the exbct originbl {@link JMXServiceURL}
+     * thbt wbs supplied when crebting the connector server, since the originbl
+     * bddress mby not blwbys be complete. For exbmple the port number mby be
+     * dynbmicblly bllocbted when stbrting the connector server. Instebd the
+     * bddress returned is the bctubl {@link JMXServiceURL} of the
+     * {@link JMXConnectorServer}. This is the bddress thbt clients supply
+     * to {@link JMXConnectorFbctory#connect(JMXServiceURL)}.
      * </p>
-     * <p>Note that the address returned may be {@code null} if
-     *    the {@code JMXConnectorServer} is not yet {@link #isActive active}.
+     * <p>Note thbt the bddress returned mby be {@code null} if
+     *    the {@code JMXConnectorServer} is not yet {@link #isActive bctive}.
      * </p>
      *
-     * @return the address of this connector server, or null if it
-     * does not have one.
+     * @return the bddress of this connector server, or null if it
+     * does not hbve one.
      */
     public JMXServiceURL getAddress();
 
     /**
-     * <p>The attributes for this connector server.</p>
+     * <p>The bttributes for this connector server.</p>
      *
-     * @return a read-only map containing the attributes for this
-     * connector server.  Attributes whose values are not serializable
-     * are omitted from this map.  If there are no serializable
-     * attributes, the returned map is empty.
+     * @return b rebd-only mbp contbining the bttributes for this
+     * connector server.  Attributes whose vblues bre not seriblizbble
+     * bre omitted from this mbp.  If there bre no seriblizbble
+     * bttributes, the returned mbp is empty.
      */
-    public Map<String,?> getAttributes();
+    public Mbp<String,?> getAttributes();
 
     /**
-     * <p>Returns a client stub for this connector server.  A client
-     * stub is a serializable object whose {@link
-     * JMXConnector#connect(Map) connect} method can be used to make
+     * <p>Returns b client stub for this connector server.  A client
+     * stub is b seriblizbble object whose {@link
+     * JMXConnector#connect(Mbp) connect} method cbn be used to mbke
      * one new connection to this connector server.</p>
      *
-     * <p>A given connector need not support the generation of client
+     * <p>A given connector need not support the generbtion of client
      * stubs.  However, the connectors specified by the JMX Remote API do
-     * (JMXMP Connector and RMI Connector).</p>
+     * (JMXMP Connector bnd RMI Connector).</p>
      *
-     * @param env client connection parameters of the same sort that
-     * can be provided to {@link JMXConnector#connect(Map)
-     * JMXConnector.connect(Map)}.  Can be null, which is equivalent
-     * to an empty map.
+     * @pbrbm env client connection pbrbmeters of the sbme sort thbt
+     * cbn be provided to {@link JMXConnector#connect(Mbp)
+     * JMXConnector.connect(Mbp)}.  Cbn be null, which is equivblent
+     * to bn empty mbp.
      *
-     * @return a client stub that can be used to make a new connection
+     * @return b client stub thbt cbn be used to mbke b new connection
      * to this connector server.
      *
-     * @exception UnsupportedOperationException if this connector
-     * server does not support the generation of client stubs.
+     * @exception UnsupportedOperbtionException if this connector
+     * server does not support the generbtion of client stubs.
      *
-     * @exception IllegalStateException if the JMXConnectorServer is
-     * not started (see {@link JMXConnectorServerMBean#isActive()}).
+     * @exception IllegblStbteException if the JMXConnectorServer is
+     * not stbrted (see {@link JMXConnectorServerMBebn#isActive()}).
      *
-     * @exception IOException if a communications problem means that a
-     * stub cannot be created.
+     * @exception IOException if b communicbtions problem mebns thbt b
+     * stub cbnnot be crebted.
      *
      */
-    public JMXConnector toJMXConnector(Map<String,?> env)
+    public JMXConnector toJMXConnector(Mbp<String,?> env)
         throws IOException;
 }

@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.server;
+pbckbge sun.rmi.server;
 
-import java.io.File;
-import java.io.FilePermission;
-import java.io.IOException;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
-import java.net.JarURLConnection;
-import java.net.MalformedURLException;
-import java.net.SocketPermission;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.URLConnection;
-import java.security.AccessControlContext;
-import java.security.CodeSource;
-import java.security.Permission;
-import java.security.Permissions;
-import java.security.PermissionCollection;
-import java.security.Policy;
-import java.security.ProtectionDomain;
-import java.rmi.server.LogStream;
-import java.security.PrivilegedAction;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.WeakHashMap;
+import jbvb.io.File;
+import jbvb.io.FilePermission;
+import jbvb.io.IOException;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.net.JbrURLConnection;
+import jbvb.net.MblformedURLException;
+import jbvb.net.SocketPermission;
+import jbvb.net.URL;
+import jbvb.net.URLClbssLobder;
+import jbvb.net.URLConnection;
+import jbvb.security.AccessControlContext;
+import jbvb.security.CodeSource;
+import jbvb.security.Permission;
+import jbvb.security.Permissions;
+import jbvb.security.PermissionCollection;
+import jbvb.security.Policy;
+import jbvb.security.ProtectionDombin;
+import jbvb.rmi.server.LogStrebm;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.IdentityHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.StringTokenizer;
+import jbvb.util.WebkHbshMbp;
 import sun.reflect.misc.ReflectUtil;
 import sun.rmi.runtime.Log;
 
 /**
- * <code>LoaderHandler</code> provides the implementation of the static
- * methods of the <code>java.rmi.server.RMIClassLoader</code> class.
+ * <code>LobderHbndler</code> provides the implementbtion of the stbtic
+ * methods of the <code>jbvb.rmi.server.RMIClbssLobder</code> clbss.
  *
- * @author      Ann Wollrath
- * @author      Peter Jones
- * @author      Laird Dornin
+ * @buthor      Ann Wollrbth
+ * @buthor      Peter Jones
+ * @buthor      Lbird Dornin
  */
-@SuppressWarnings("deprecation")
-public final class LoaderHandler {
+@SuppressWbrnings("deprecbtion")
+public finbl clbss LobderHbndler {
 
-    /** RMI class loader log level */
-    static final int logLevel = LogStream.parseLevel(
-        java.security.AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.loader.logLevel")));
+    /** RMI clbss lobder log level */
+    stbtic finbl int logLevel = LogStrebm.pbrseLevel(
+        jbvb.security.AccessController.doPrivileged(
+            (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.lobder.logLevel")));
 
-    /* loader system log */
-    static final Log loaderLog =
-        Log.getLog("sun.rmi.loader", "loader", LoaderHandler.logLevel);
+    /* lobder system log */
+    stbtic finbl Log lobderLog =
+        Log.getLog("sun.rmi.lobder", "lobder", LobderHbndler.logLevel);
 
     /**
-     * value of "java.rmi.server.codebase" property, as cached at class
-     * initialization time.  It may contain malformed URLs.
+     * vblue of "jbvb.rmi.server.codebbse" property, bs cbched bt clbss
+     * initiblizbtion time.  It mby contbin mblformed URLs.
      */
-    private static String codebaseProperty = null;
-    static {
-        String prop = java.security.AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("java.rmi.server.codebase"));
+    privbte stbtic String codebbseProperty = null;
+    stbtic {
+        String prop = jbvb.security.AccessController.doPrivileged(
+            (PrivilegedAction<String>) () -> System.getProperty("jbvb.rmi.server.codebbse"));
         if (prop != null && prop.trim().length() > 0) {
-            codebaseProperty = prop;
+            codebbseProperty = prop;
         }
     }
 
-    /** list of URLs represented by the codebase property, if valid */
-    private static URL[] codebaseURLs = null;
+    /** list of URLs represented by the codebbse property, if vblid */
+    privbte stbtic URL[] codebbseURLs = null;
 
-    /** table of class loaders that use codebase property for annotation */
-    private static final Map<ClassLoader, Void> codebaseLoaders =
-        Collections.synchronizedMap(new IdentityHashMap<ClassLoader, Void>(5));
-    static {
-        for (ClassLoader codebaseLoader = ClassLoader.getSystemClassLoader();
-             codebaseLoader != null;
-             codebaseLoader = codebaseLoader.getParent())
+    /** tbble of clbss lobders thbt use codebbse property for bnnotbtion */
+    privbte stbtic finbl Mbp<ClbssLobder, Void> codebbseLobders =
+        Collections.synchronizedMbp(new IdentityHbshMbp<ClbssLobder, Void>(5));
+    stbtic {
+        for (ClbssLobder codebbseLobder = ClbssLobder.getSystemClbssLobder();
+             codebbseLobder != null;
+             codebbseLobder = codebbseLobder.getPbrent())
         {
-            codebaseLoaders.put(codebaseLoader, null);
+            codebbseLobders.put(codebbseLobder, null);
         }
     }
 
     /**
-     * table mapping codebase URL path and context class loader pairs
-     * to class loader instances.  Entries hold class loaders with weak
-     * references, so this table does not prevent loaders from being
-     * garbage collected.
+     * tbble mbpping codebbse URL pbth bnd context clbss lobder pbirs
+     * to clbss lobder instbnces.  Entries hold clbss lobders with webk
+     * references, so this tbble does not prevent lobders from being
+     * gbrbbge collected.
      */
-    private static final HashMap<LoaderKey, LoaderEntry> loaderTable
-        = new HashMap<>(5);
+    privbte stbtic finbl HbshMbp<LobderKey, LobderEntry> lobderTbble
+        = new HbshMbp<>(5);
 
-    /** reference queue for cleared class loader entries */
-    private static final ReferenceQueue<Loader> refQueue
+    /** reference queue for clebred clbss lobder entries */
+    privbte stbtic finbl ReferenceQueue<Lobder> refQueue
         = new ReferenceQueue<>();
 
     /*
-     * Disallow anyone from creating one of these.
+     * Disbllow bnyone from crebting one of these.
      */
-    private LoaderHandler() {}
+    privbte LobderHbndler() {}
 
     /**
-     * Returns an array of URLs initialized with the value of the
-     * java.rmi.server.codebase property as the URL path.
+     * Returns bn brrby of URLs initiblized with the vblue of the
+     * jbvb.rmi.server.codebbse property bs the URL pbth.
      */
-    private static synchronized URL[] getDefaultCodebaseURLs()
-        throws MalformedURLException
+    privbte stbtic synchronized URL[] getDefbultCodebbseURLs()
+        throws MblformedURLException
     {
         /*
-         * If it hasn't already been done, convert the codebase property
-         * into an array of URLs; this may throw a MalformedURLException.
+         * If it hbsn't blrebdy been done, convert the codebbse property
+         * into bn brrby of URLs; this mby throw b MblformedURLException.
          */
-        if (codebaseURLs == null) {
-            if (codebaseProperty != null) {
-                codebaseURLs = pathToURLs(codebaseProperty);
+        if (codebbseURLs == null) {
+            if (codebbseProperty != null) {
+                codebbseURLs = pbthToURLs(codebbseProperty);
             } else {
-                codebaseURLs = new URL[0];
+                codebbseURLs = new URL[0];
             }
         }
-        return codebaseURLs;
+        return codebbseURLs;
     }
 
     /**
-     * Load a class from a network location (one or more URLs),
-     * but first try to resolve the named class through the given
-     * "default loader".
+     * Lobd b clbss from b network locbtion (one or more URLs),
+     * but first try to resolve the nbmed clbss through the given
+     * "defbult lobder".
      */
-    public static Class<?> loadClass(String codebase, String name,
-                                     ClassLoader defaultLoader)
-        throws MalformedURLException, ClassNotFoundException
+    public stbtic Clbss<?> lobdClbss(String codebbse, String nbme,
+                                     ClbssLobder defbultLobder)
+        throws MblformedURLException, ClbssNotFoundException
     {
-        if (loaderLog.isLoggable(Log.BRIEF)) {
-            loaderLog.log(Log.BRIEF,
-                "name = \"" + name + "\", " +
-                "codebase = \"" + (codebase != null ? codebase : "") + "\"" +
-                (defaultLoader != null ?
-                 ", defaultLoader = " + defaultLoader : ""));
+        if (lobderLog.isLoggbble(Log.BRIEF)) {
+            lobderLog.log(Log.BRIEF,
+                "nbme = \"" + nbme + "\", " +
+                "codebbse = \"" + (codebbse != null ? codebbse : "") + "\"" +
+                (defbultLobder != null ?
+                 ", defbultLobder = " + defbultLobder : ""));
         }
 
         URL[] urls;
-        if (codebase != null) {
-            urls = pathToURLs(codebase);
+        if (codebbse != null) {
+            urls = pbthToURLs(codebbse);
         } else {
-            urls = getDefaultCodebaseURLs();
+            urls = getDefbultCodebbseURLs();
         }
 
-        if (defaultLoader != null) {
+        if (defbultLobder != null) {
             try {
-                Class<?> c = loadClassForName(name, false, defaultLoader);
-                if (loaderLog.isLoggable(Log.VERBOSE)) {
-                    loaderLog.log(Log.VERBOSE,
-                        "class \"" + name + "\" found via defaultLoader, " +
-                        "defined by " + c.getClassLoader());
+                Clbss<?> c = lobdClbssForNbme(nbme, fblse, defbultLobder);
+                if (lobderLog.isLoggbble(Log.VERBOSE)) {
+                    lobderLog.log(Log.VERBOSE,
+                        "clbss \"" + nbme + "\" found vib defbultLobder, " +
+                        "defined by " + c.getClbssLobder());
                 }
                 return c;
-            } catch (ClassNotFoundException e) {
+            } cbtch (ClbssNotFoundException e) {
             }
         }
 
-        return loadClass(urls, name);
+        return lobdClbss(urls, nbme);
     }
 
     /**
-     * Returns the class annotation (representing the location for
-     * a class) that RMI will use to annotate the call stream when
-     * marshalling objects of the given class.
+     * Returns the clbss bnnotbtion (representing the locbtion for
+     * b clbss) thbt RMI will use to bnnotbte the cbll strebm when
+     * mbrshblling objects of the given clbss.
      */
-    public static String getClassAnnotation(Class<?> cl) {
-        String name = cl.getName();
+    public stbtic String getClbssAnnotbtion(Clbss<?> cl) {
+        String nbme = cl.getNbme();
 
         /*
-         * Class objects for arrays of primitive types never need an
-         * annotation, because they never need to be (or can be) downloaded.
+         * Clbss objects for brrbys of primitive types never need bn
+         * bnnotbtion, becbuse they never need to be (or cbn be) downlobded.
          *
-         * REMIND: should we (not) be annotating classes that are in
-         * "java.*" packages?
+         * REMIND: should we (not) be bnnotbting clbsses thbt bre in
+         * "jbvb.*" pbckbges?
          */
-        int nameLength = name.length();
-        if (nameLength > 0 && name.charAt(0) == '[') {
-            // skip past all '[' characters (see bugid 4211906)
+        int nbmeLength = nbme.length();
+        if (nbmeLength > 0 && nbme.chbrAt(0) == '[') {
+            // skip pbst bll '[' chbrbcters (see bugid 4211906)
             int i = 1;
-            while (nameLength > i && name.charAt(i) == '[') {
+            while (nbmeLength > i && nbme.chbrAt(i) == '[') {
                 i++;
             }
-            if (nameLength > i && name.charAt(i) != 'L') {
+            if (nbmeLength > i && nbme.chbrAt(i) != 'L') {
                 return null;
             }
         }
 
         /*
-         * Get the class's class loader.  If it is null, the system class
-         * loader, an ancestor of the base class loader (such as the loader
-         * for installed extensions), return the value of the
-         * "java.rmi.server.codebase" property.
+         * Get the clbss's clbss lobder.  If it is null, the system clbss
+         * lobder, bn bncestor of the bbse clbss lobder (such bs the lobder
+         * for instblled extensions), return the vblue of the
+         * "jbvb.rmi.server.codebbse" property.
          */
-        ClassLoader loader = cl.getClassLoader();
-        if (loader == null || codebaseLoaders.containsKey(loader)) {
-            return codebaseProperty;
+        ClbssLobder lobder = cl.getClbssLobder();
+        if (lobder == null || codebbseLobders.contbinsKey(lobder)) {
+            return codebbseProperty;
         }
 
         /*
-         * Get the codebase URL path for the class loader, if it supports
-         * such a notion (i.e., if it is a URLClassLoader or subclass).
+         * Get the codebbse URL pbth for the clbss lobder, if it supports
+         * such b notion (i.e., if it is b URLClbssLobder or subclbss).
          */
-        String annotation = null;
-        if (loader instanceof Loader) {
+        String bnnotbtion = null;
+        if (lobder instbnceof Lobder) {
             /*
-             * If the class loader is one of our RMI class loaders, we have
-             * already computed the class annotation string, and no
-             * permissions are required to know the URLs.
+             * If the clbss lobder is one of our RMI clbss lobders, we hbve
+             * blrebdy computed the clbss bnnotbtion string, bnd no
+             * permissions bre required to know the URLs.
              */
-            annotation = ((Loader) loader).getClassAnnotation();
+            bnnotbtion = ((Lobder) lobder).getClbssAnnotbtion();
 
-        } else if (loader instanceof URLClassLoader) {
+        } else if (lobder instbnceof URLClbssLobder) {
             try {
-                URL[] urls = ((URLClassLoader) loader).getURLs();
+                URL[] urls = ((URLClbssLobder) lobder).getURLs();
                 if (urls != null) {
                     /*
-                     * If the class loader is not one of our RMI class loaders,
-                     * we must verify that the current access control context
-                     * has permission to know all of these URLs.
+                     * If the clbss lobder is not one of our RMI clbss lobders,
+                     * we must verify thbt the current bccess control context
+                     * hbs permission to know bll of these URLs.
                      */
-                    SecurityManager sm = System.getSecurityManager();
+                    SecurityMbnbger sm = System.getSecurityMbnbger();
                     if (sm != null) {
                         Permissions perms = new Permissions();
                         for (int i = 0; i < urls.length; i++) {
@@ -255,90 +255,90 @@ public final class LoaderHandler {
                             if (p != null) {
                                 if (!perms.implies(p)) {
                                     sm.checkPermission(p);
-                                    perms.add(p);
+                                    perms.bdd(p);
                                 }
                             }
                         }
                     }
 
-                    annotation = urlsToPath(urls);
+                    bnnotbtion = urlsToPbth(urls);
                 }
-            } catch (SecurityException | IOException e) {
+            } cbtch (SecurityException | IOException e) {
                 /*
-                 * SecurityException: If access was denied to the knowledge of
-                 * the class loader's URLs, fall back to the default behavior.
+                 * SecurityException: If bccess wbs denied to the knowledge of
+                 * the clbss lobder's URLs, fbll bbck to the defbult behbvior.
                  *
-                 * IOException: This shouldn't happen, although it is declared
-                 * to be thrown by openConnection() and getPermission().  If it
-                 * does happen, forget about this class loader's URLs and
-                 * fall back to the default behavior.
+                 * IOException: This shouldn't hbppen, blthough it is declbred
+                 * to be thrown by openConnection() bnd getPermission().  If it
+                 * does hbppen, forget bbout this clbss lobder's URLs bnd
+                 * fbll bbck to the defbult behbvior.
                  */
             }
         }
 
-        if (annotation != null) {
-            return annotation;
+        if (bnnotbtion != null) {
+            return bnnotbtion;
         } else {
-            return codebaseProperty;    // REMIND: does this make sense??
+            return codebbseProperty;    // REMIND: does this mbke sense??
         }
     }
 
     /**
-     * Returns a classloader that loads classes from the given codebase URL
-     * path.  The parent classloader of the returned classloader is the
-     * context class loader.
+     * Returns b clbsslobder thbt lobds clbsses from the given codebbse URL
+     * pbth.  The pbrent clbsslobder of the returned clbsslobder is the
+     * context clbss lobder.
      */
-    public static ClassLoader getClassLoader(String codebase)
-        throws MalformedURLException
+    public stbtic ClbssLobder getClbssLobder(String codebbse)
+        throws MblformedURLException
     {
-        ClassLoader parent = getRMIContextClassLoader();
+        ClbssLobder pbrent = getRMIContextClbssLobder();
 
         URL[] urls;
-        if (codebase != null) {
-            urls = pathToURLs(codebase);
+        if (codebbse != null) {
+            urls = pbthToURLs(codebbse);
         } else {
-            urls = getDefaultCodebaseURLs();
+            urls = getDefbultCodebbseURLs();
         }
 
         /*
-         * If there is a security manager, the current access control
-         * context must have the "getClassLoader" RuntimePermission.
+         * If there is b security mbnbger, the current bccess control
+         * context must hbve the "getClbssLobder" RuntimePermission.
          */
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("getClassLoader"));
+            sm.checkPermission(new RuntimePermission("getClbssLobder"));
         } else {
             /*
-             * But if no security manager is set, disable access to
-             * RMI class loaders and simply return the parent loader.
+             * But if no security mbnbger is set, disbble bccess to
+             * RMI clbss lobders bnd simply return the pbrent lobder.
              */
-            return parent;
+            return pbrent;
         }
 
-        Loader loader = lookupLoader(urls, parent);
+        Lobder lobder = lookupLobder(urls, pbrent);
 
         /*
-         * Verify that the caller has permission to access this loader.
+         * Verify thbt the cbller hbs permission to bccess this lobder.
          */
-        if (loader != null) {
-            loader.checkPermissions();
+        if (lobder != null) {
+            lobder.checkPermissions();
         }
 
-        return loader;
+        return lobder;
     }
 
     /**
-     * Return the security context of the given class loader.
+     * Return the security context of the given clbss lobder.
      */
-    public static Object getSecurityContext(ClassLoader loader) {
+    public stbtic Object getSecurityContext(ClbssLobder lobder) {
         /*
-         * REMIND: This is a bogus JDK1.1-compatible implementation.
-         * This method should never be called by application code anyway
-         * (hence the deprecation), but should it do something different
-         * and perhaps more useful, like return a String or a URL[]?
+         * REMIND: This is b bogus JDK1.1-compbtible implementbtion.
+         * This method should never be cblled by bpplicbtion code bnywby
+         * (hence the deprecbtion), but should it do something different
+         * bnd perhbps more useful, like return b String or b URL[]?
          */
-        if (loader instanceof Loader) {
-            URL[] urls = ((Loader) loader).getURLs();
+        if (lobder instbnceof Lobder) {
+            URL[] urls = ((Lobder) lobder).getURLs();
             if (urls.length > 0) {
                 return urls[0];
             }
@@ -347,652 +347,652 @@ public final class LoaderHandler {
     }
 
     /**
-     * Register a class loader as one whose classes should always be
-     * annotated with the value of the "java.rmi.server.codebase" property.
+     * Register b clbss lobder bs one whose clbsses should blwbys be
+     * bnnotbted with the vblue of the "jbvb.rmi.server.codebbse" property.
      */
-    public static void registerCodebaseLoader(ClassLoader loader) {
-        codebaseLoaders.put(loader, null);
+    public stbtic void registerCodebbseLobder(ClbssLobder lobder) {
+        codebbseLobders.put(lobder, null);
     }
 
     /**
-     * Load a class from the RMI class loader corresponding to the given
-     * codebase URL path in the current execution context.
+     * Lobd b clbss from the RMI clbss lobder corresponding to the given
+     * codebbse URL pbth in the current execution context.
      */
-    private static Class<?> loadClass(URL[] urls, String name)
-        throws ClassNotFoundException
+    privbte stbtic Clbss<?> lobdClbss(URL[] urls, String nbme)
+        throws ClbssNotFoundException
     {
-        ClassLoader parent = getRMIContextClassLoader();
-        if (loaderLog.isLoggable(Log.VERBOSE)) {
-            loaderLog.log(Log.VERBOSE,
-                "(thread context class loader: " + parent + ")");
+        ClbssLobder pbrent = getRMIContextClbssLobder();
+        if (lobderLog.isLoggbble(Log.VERBOSE)) {
+            lobderLog.log(Log.VERBOSE,
+                "(threbd context clbss lobder: " + pbrent + ")");
         }
 
         /*
-         * If no security manager is set, disable access to RMI class
-         * loaders and simply delegate request to the parent loader
+         * If no security mbnbger is set, disbble bccess to RMI clbss
+         * lobders bnd simply delegbte request to the pbrent lobder
          * (see bugid 4140511).
          */
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null) {
             try {
-                Class<?> c = Class.forName(name, false, parent);
-                if (loaderLog.isLoggable(Log.VERBOSE)) {
-                    loaderLog.log(Log.VERBOSE,
-                        "class \"" + name + "\" found via " +
-                        "thread context class loader " +
-                        "(no security manager: codebase disabled), " +
-                        "defined by " + c.getClassLoader());
+                Clbss<?> c = Clbss.forNbme(nbme, fblse, pbrent);
+                if (lobderLog.isLoggbble(Log.VERBOSE)) {
+                    lobderLog.log(Log.VERBOSE,
+                        "clbss \"" + nbme + "\" found vib " +
+                        "threbd context clbss lobder " +
+                        "(no security mbnbger: codebbse disbbled), " +
+                        "defined by " + c.getClbssLobder());
                 }
                 return c;
-            } catch (ClassNotFoundException e) {
-                if (loaderLog.isLoggable(Log.BRIEF)) {
-                    loaderLog.log(Log.BRIEF,
-                        "class \"" + name + "\" not found via " +
-                        "thread context class loader " +
-                        "(no security manager: codebase disabled)", e);
+            } cbtch (ClbssNotFoundException e) {
+                if (lobderLog.isLoggbble(Log.BRIEF)) {
+                    lobderLog.log(Log.BRIEF,
+                        "clbss \"" + nbme + "\" not found vib " +
+                        "threbd context clbss lobder " +
+                        "(no security mbnbger: codebbse disbbled)", e);
                 }
-                throw new ClassNotFoundException(e.getMessage() +
-                    " (no security manager: RMI class loader disabled)",
+                throw new ClbssNotFoundException(e.getMessbge() +
+                    " (no security mbnbger: RMI clbss lobder disbbled)",
                     e.getException());
             }
         }
 
         /*
-         * Get or create the RMI class loader for this codebase URL path
-         * and parent class loader pair.
+         * Get or crebte the RMI clbss lobder for this codebbse URL pbth
+         * bnd pbrent clbss lobder pbir.
          */
-        Loader loader = lookupLoader(urls, parent);
+        Lobder lobder = lookupLobder(urls, pbrent);
 
         try {
-            if (loader != null) {
+            if (lobder != null) {
                 /*
-                 * Verify that the caller has permission to access this loader.
+                 * Verify thbt the cbller hbs permission to bccess this lobder.
                  */
-                loader.checkPermissions();
+                lobder.checkPermissions();
             }
-        } catch (SecurityException e) {
+        } cbtch (SecurityException e) {
             /*
-             * If the current access control context does not have permission
-             * to access all of the URLs in the codebase path, wrap the
-             * resulting security exception in a ClassNotFoundException, so
-             * the caller can handle this outcome just like any other class
-             * loading failure (see bugid 4146529).
+             * If the current bccess control context does not hbve permission
+             * to bccess bll of the URLs in the codebbse pbth, wrbp the
+             * resulting security exception in b ClbssNotFoundException, so
+             * the cbller cbn hbndle this outcome just like bny other clbss
+             * lobding fbilure (see bugid 4146529).
              */
             try {
                 /*
-                 * But first, check to see if the named class could have been
-                 * resolved without the security-offending codebase anyway;
+                 * But first, check to see if the nbmed clbss could hbve been
+                 * resolved without the security-offending codebbse bnywby;
                  * if so, return successfully (see bugids 4191926 & 4349670).
                  */
-                Class<?> c = loadClassForName(name, false, parent);
-                if (loaderLog.isLoggable(Log.VERBOSE)) {
-                    loaderLog.log(Log.VERBOSE,
-                        "class \"" + name + "\" found via " +
-                        "thread context class loader " +
-                        "(access to codebase denied), " +
-                        "defined by " + c.getClassLoader());
+                Clbss<?> c = lobdClbssForNbme(nbme, fblse, pbrent);
+                if (lobderLog.isLoggbble(Log.VERBOSE)) {
+                    lobderLog.log(Log.VERBOSE,
+                        "clbss \"" + nbme + "\" found vib " +
+                        "threbd context clbss lobder " +
+                        "(bccess to codebbse denied), " +
+                        "defined by " + c.getClbssLobder());
                 }
                 return c;
-            } catch (ClassNotFoundException unimportant) {
+            } cbtch (ClbssNotFoundException unimportbnt) {
                 /*
-                 * Presumably the security exception is the more important
-                 * exception to report in this case.
+                 * Presumbbly the security exception is the more importbnt
+                 * exception to report in this cbse.
                  */
-                if (loaderLog.isLoggable(Log.BRIEF)) {
-                    loaderLog.log(Log.BRIEF,
-                        "class \"" + name + "\" not found via " +
-                        "thread context class loader " +
-                        "(access to codebase denied)", e);
+                if (lobderLog.isLoggbble(Log.BRIEF)) {
+                    lobderLog.log(Log.BRIEF,
+                        "clbss \"" + nbme + "\" not found vib " +
+                        "threbd context clbss lobder " +
+                        "(bccess to codebbse denied)", e);
                 }
-                throw new ClassNotFoundException(
-                    "access to class loader denied", e);
+                throw new ClbssNotFoundException(
+                    "bccess to clbss lobder denied", e);
             }
         }
 
         try {
-            Class<?> c = loadClassForName(name, false, loader);
-            if (loaderLog.isLoggable(Log.VERBOSE)) {
-                loaderLog.log(Log.VERBOSE,
-                    "class \"" + name + "\" " + "found via codebase, " +
-                    "defined by " + c.getClassLoader());
+            Clbss<?> c = lobdClbssForNbme(nbme, fblse, lobder);
+            if (lobderLog.isLoggbble(Log.VERBOSE)) {
+                lobderLog.log(Log.VERBOSE,
+                    "clbss \"" + nbme + "\" " + "found vib codebbse, " +
+                    "defined by " + c.getClbssLobder());
             }
             return c;
-        } catch (ClassNotFoundException e) {
-            if (loaderLog.isLoggable(Log.BRIEF)) {
-                loaderLog.log(Log.BRIEF,
-                    "class \"" + name + "\" not found via codebase", e);
+        } cbtch (ClbssNotFoundException e) {
+            if (lobderLog.isLoggbble(Log.BRIEF)) {
+                lobderLog.log(Log.BRIEF,
+                    "clbss \"" + nbme + "\" not found vib codebbse", e);
             }
             throw e;
         }
     }
 
     /**
-     * Define and return a dynamic proxy class in a class loader with
-     * URLs supplied in the given location.  The proxy class will
-     * implement interface classes named by the given array of
-     * interface names.
+     * Define bnd return b dynbmic proxy clbss in b clbss lobder with
+     * URLs supplied in the given locbtion.  The proxy clbss will
+     * implement interfbce clbsses nbmed by the given brrby of
+     * interfbce nbmes.
      */
-    public static Class<?> loadProxyClass(String codebase, String[] interfaces,
-                                          ClassLoader defaultLoader)
-        throws MalformedURLException, ClassNotFoundException
+    public stbtic Clbss<?> lobdProxyClbss(String codebbse, String[] interfbces,
+                                          ClbssLobder defbultLobder)
+        throws MblformedURLException, ClbssNotFoundException
     {
-        if (loaderLog.isLoggable(Log.BRIEF)) {
-            loaderLog.log(Log.BRIEF,
-                "interfaces = " + Arrays.asList(interfaces) + ", " +
-                "codebase = \"" + (codebase != null ? codebase : "") + "\"" +
-                (defaultLoader != null ?
-                 ", defaultLoader = " + defaultLoader : ""));
+        if (lobderLog.isLoggbble(Log.BRIEF)) {
+            lobderLog.log(Log.BRIEF,
+                "interfbces = " + Arrbys.bsList(interfbces) + ", " +
+                "codebbse = \"" + (codebbse != null ? codebbse : "") + "\"" +
+                (defbultLobder != null ?
+                 ", defbultLobder = " + defbultLobder : ""));
         }
 
         /*
-         * This method uses a fairly complex algorithm to load the
-         * proxy class and its interface classes in order to maximize
-         * the likelihood that the proxy's codebase annotation will be
-         * preserved.  The algorithm is (assuming that all of the
-         * proxy interface classes are public):
+         * This method uses b fbirly complex blgorithm to lobd the
+         * proxy clbss bnd its interfbce clbsses in order to mbximize
+         * the likelihood thbt the proxy's codebbse bnnotbtion will be
+         * preserved.  The blgorithm is (bssuming thbt bll of the
+         * proxy interfbce clbsses bre public):
          *
-         * If the default loader is not null, try to load the proxy
-         * interfaces through that loader. If the interfaces can be
-         * loaded in that loader, try to define the proxy class in an
-         * RMI class loader (child of the context class loader) before
-         * trying to define the proxy in the default loader.  If the
-         * attempt to define the proxy class succeeds, the codebase
-         * annotation is preserved.  If the attempt fails, try to
-         * define the proxy class in the default loader.
+         * If the defbult lobder is not null, try to lobd the proxy
+         * interfbces through thbt lobder. If the interfbces cbn be
+         * lobded in thbt lobder, try to define the proxy clbss in bn
+         * RMI clbss lobder (child of the context clbss lobder) before
+         * trying to define the proxy in the defbult lobder.  If the
+         * bttempt to define the proxy clbss succeeds, the codebbse
+         * bnnotbtion is preserved.  If the bttempt fbils, try to
+         * define the proxy clbss in the defbult lobder.
          *
-         * If the interface classes can not be loaded from the default
-         * loader or the default loader is null, try to load them from
-         * the RMI class loader.  Then try to define the proxy class
-         * in the RMI class loader.
+         * If the interfbce clbsses cbn not be lobded from the defbult
+         * lobder or the defbult lobder is null, try to lobd them from
+         * the RMI clbss lobder.  Then try to define the proxy clbss
+         * in the RMI clbss lobder.
          *
-         * Additionally, if any of the proxy interface classes are not
-         * public, all of the non-public interfaces must reside in the
-         * same class loader or it will be impossible to define the
-         * proxy class (an IllegalAccessError will be thrown).  An
-         * attempt to load the interfaces from the default loader is
-         * made.  If the attempt fails, a second attempt will be made
-         * to load the interfaces from the RMI loader. If all of the
-         * non-public interfaces classes do reside in the same class
-         * loader, then we attempt to define the proxy class in the
-         * class loader of the non-public interfaces.  No other
-         * attempt to define the proxy class will be made.
+         * Additionblly, if bny of the proxy interfbce clbsses bre not
+         * public, bll of the non-public interfbces must reside in the
+         * sbme clbss lobder or it will be impossible to define the
+         * proxy clbss (bn IllegblAccessError will be thrown).  An
+         * bttempt to lobd the interfbces from the defbult lobder is
+         * mbde.  If the bttempt fbils, b second bttempt will be mbde
+         * to lobd the interfbces from the RMI lobder. If bll of the
+         * non-public interfbces clbsses do reside in the sbme clbss
+         * lobder, then we bttempt to define the proxy clbss in the
+         * clbss lobder of the non-public interfbces.  No other
+         * bttempt to define the proxy clbss will be mbde.
          */
-        ClassLoader parent = getRMIContextClassLoader();
-        if (loaderLog.isLoggable(Log.VERBOSE)) {
-            loaderLog.log(Log.VERBOSE,
-                "(thread context class loader: " + parent + ")");
+        ClbssLobder pbrent = getRMIContextClbssLobder();
+        if (lobderLog.isLoggbble(Log.VERBOSE)) {
+            lobderLog.log(Log.VERBOSE,
+                "(threbd context clbss lobder: " + pbrent + ")");
         }
 
         URL[] urls;
-        if (codebase != null) {
-            urls = pathToURLs(codebase);
+        if (codebbse != null) {
+            urls = pbthToURLs(codebbse);
         } else {
-            urls = getDefaultCodebaseURLs();
+            urls = getDefbultCodebbseURLs();
         }
 
         /*
-         * If no security manager is set, disable access to RMI class
-         * loaders and use the would-de parent instead.
+         * If no security mbnbger is set, disbble bccess to RMI clbss
+         * lobders bnd use the would-de pbrent instebd.
          */
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null) {
             try {
-                Class<?> c = loadProxyClass(interfaces, defaultLoader, parent,
-                                         false);
-                if (loaderLog.isLoggable(Log.VERBOSE)) {
-                    loaderLog.log(Log.VERBOSE,
-                        "(no security manager: codebase disabled) " +
-                        "proxy class defined by " + c.getClassLoader());
+                Clbss<?> c = lobdProxyClbss(interfbces, defbultLobder, pbrent,
+                                         fblse);
+                if (lobderLog.isLoggbble(Log.VERBOSE)) {
+                    lobderLog.log(Log.VERBOSE,
+                        "(no security mbnbger: codebbse disbbled) " +
+                        "proxy clbss defined by " + c.getClbssLobder());
                 }
                 return c;
-            } catch (ClassNotFoundException e) {
-                if (loaderLog.isLoggable(Log.BRIEF)) {
-                    loaderLog.log(Log.BRIEF,
-                        "(no security manager: codebase disabled) " +
-                        "proxy class resolution failed", e);
+            } cbtch (ClbssNotFoundException e) {
+                if (lobderLog.isLoggbble(Log.BRIEF)) {
+                    lobderLog.log(Log.BRIEF,
+                        "(no security mbnbger: codebbse disbbled) " +
+                        "proxy clbss resolution fbiled", e);
                 }
-                throw new ClassNotFoundException(e.getMessage() +
-                    " (no security manager: RMI class loader disabled)",
+                throw new ClbssNotFoundException(e.getMessbge() +
+                    " (no security mbnbger: RMI clbss lobder disbbled)",
                     e.getException());
             }
         }
 
         /*
-         * Get or create the RMI class loader for this codebase URL path
-         * and parent class loader pair.
+         * Get or crebte the RMI clbss lobder for this codebbse URL pbth
+         * bnd pbrent clbss lobder pbir.
          */
-        Loader loader = lookupLoader(urls, parent);
+        Lobder lobder = lookupLobder(urls, pbrent);
 
         try {
-            if (loader != null) {
+            if (lobder != null) {
                 /*
-                 * Verify that the caller has permission to access this loader.
+                 * Verify thbt the cbller hbs permission to bccess this lobder.
                  */
-                loader.checkPermissions();
+                lobder.checkPermissions();
             }
-        } catch (SecurityException e) {
+        } cbtch (SecurityException e) {
             /*
-             * If the current access control context does not have permission
-             * to access all of the URLs in the codebase path, wrap the
-             * resulting security exception in a ClassNotFoundException, so
-             * the caller can handle this outcome just like any other class
-             * loading failure (see bugid 4146529).
+             * If the current bccess control context does not hbve permission
+             * to bccess bll of the URLs in the codebbse pbth, wrbp the
+             * resulting security exception in b ClbssNotFoundException, so
+             * the cbller cbn hbndle this outcome just like bny other clbss
+             * lobding fbilure (see bugid 4146529).
              */
             try {
                 /*
-                 * But first, check to see if the proxy class could have been
-                 * resolved without the security-offending codebase anyway;
+                 * But first, check to see if the proxy clbss could hbve been
+                 * resolved without the security-offending codebbse bnywby;
                  * if so, return successfully (see bugids 4191926 & 4349670).
                  */
-                Class<?> c = loadProxyClass(interfaces, defaultLoader, parent,
-                                            false);
-                if (loaderLog.isLoggable(Log.VERBOSE)) {
-                    loaderLog.log(Log.VERBOSE,
-                        "(access to codebase denied) " +
-                        "proxy class defined by " + c.getClassLoader());
+                Clbss<?> c = lobdProxyClbss(interfbces, defbultLobder, pbrent,
+                                            fblse);
+                if (lobderLog.isLoggbble(Log.VERBOSE)) {
+                    lobderLog.log(Log.VERBOSE,
+                        "(bccess to codebbse denied) " +
+                        "proxy clbss defined by " + c.getClbssLobder());
                 }
                 return c;
-            } catch (ClassNotFoundException unimportant) {
+            } cbtch (ClbssNotFoundException unimportbnt) {
                 /*
-                 * Presumably the security exception is the more important
-                 * exception to report in this case.
+                 * Presumbbly the security exception is the more importbnt
+                 * exception to report in this cbse.
                  */
-                if (loaderLog.isLoggable(Log.BRIEF)) {
-                    loaderLog.log(Log.BRIEF,
-                        "(access to codebase denied) " +
-                        "proxy class resolution failed", e);
+                if (lobderLog.isLoggbble(Log.BRIEF)) {
+                    lobderLog.log(Log.BRIEF,
+                        "(bccess to codebbse denied) " +
+                        "proxy clbss resolution fbiled", e);
                 }
-                throw new ClassNotFoundException(
-                    "access to class loader denied", e);
+                throw new ClbssNotFoundException(
+                    "bccess to clbss lobder denied", e);
             }
         }
 
         try {
-            Class<?> c = loadProxyClass(interfaces, defaultLoader, loader, true);
-            if (loaderLog.isLoggable(Log.VERBOSE)) {
-                loaderLog.log(Log.VERBOSE,
-                              "proxy class defined by " + c.getClassLoader());
+            Clbss<?> c = lobdProxyClbss(interfbces, defbultLobder, lobder, true);
+            if (lobderLog.isLoggbble(Log.VERBOSE)) {
+                lobderLog.log(Log.VERBOSE,
+                              "proxy clbss defined by " + c.getClbssLobder());
             }
             return c;
-        } catch (ClassNotFoundException e) {
-            if (loaderLog.isLoggable(Log.BRIEF)) {
-                loaderLog.log(Log.BRIEF,
-                              "proxy class resolution failed", e);
+        } cbtch (ClbssNotFoundException e) {
+            if (lobderLog.isLoggbble(Log.BRIEF)) {
+                lobderLog.log(Log.BRIEF,
+                              "proxy clbss resolution fbiled", e);
             }
             throw e;
         }
     }
 
     /**
-     * Define a proxy class in the default loader if appropriate.
-     * Define the class in an RMI class loader otherwise.  The proxy
-     * class will implement classes which are named in the supplied
-     * interfaceNames.
+     * Define b proxy clbss in the defbult lobder if bppropribte.
+     * Define the clbss in bn RMI clbss lobder otherwise.  The proxy
+     * clbss will implement clbsses which bre nbmed in the supplied
+     * interfbceNbmes.
      */
-    private static Class<?> loadProxyClass(String[] interfaceNames,
-                                           ClassLoader defaultLoader,
-                                           ClassLoader codebaseLoader,
-                                           boolean preferCodebase)
-        throws ClassNotFoundException
+    privbte stbtic Clbss<?> lobdProxyClbss(String[] interfbceNbmes,
+                                           ClbssLobder defbultLobder,
+                                           ClbssLobder codebbseLobder,
+                                           boolebn preferCodebbse)
+        throws ClbssNotFoundException
     {
-        ClassLoader proxyLoader = null;
-        Class<?>[] classObjs = new Class<?>[interfaceNames.length];
-        boolean[] nonpublic = { false };
+        ClbssLobder proxyLobder = null;
+        Clbss<?>[] clbssObjs = new Clbss<?>[interfbceNbmes.length];
+        boolebn[] nonpublic = { fblse };
 
-      defaultLoaderCase:
-        if (defaultLoader != null) {
+      defbultLobderCbse:
+        if (defbultLobder != null) {
             try {
-                proxyLoader =
-                    loadProxyInterfaces(interfaceNames, defaultLoader,
-                                        classObjs, nonpublic);
-                if (loaderLog.isLoggable(Log.VERBOSE)) {
-                    ClassLoader[] definingLoaders =
-                        new ClassLoader[classObjs.length];
-                    for (int i = 0; i < definingLoaders.length; i++) {
-                        definingLoaders[i] = classObjs[i].getClassLoader();
+                proxyLobder =
+                    lobdProxyInterfbces(interfbceNbmes, defbultLobder,
+                                        clbssObjs, nonpublic);
+                if (lobderLog.isLoggbble(Log.VERBOSE)) {
+                    ClbssLobder[] definingLobders =
+                        new ClbssLobder[clbssObjs.length];
+                    for (int i = 0; i < definingLobders.length; i++) {
+                        definingLobders[i] = clbssObjs[i].getClbssLobder();
                     }
-                    loaderLog.log(Log.VERBOSE,
-                        "proxy interfaces found via defaultLoader, " +
-                        "defined by " + Arrays.asList(definingLoaders));
+                    lobderLog.log(Log.VERBOSE,
+                        "proxy interfbces found vib defbultLobder, " +
+                        "defined by " + Arrbys.bsList(definingLobders));
                 }
-            } catch (ClassNotFoundException e) {
-                break defaultLoaderCase;
+            } cbtch (ClbssNotFoundException e) {
+                brebk defbultLobderCbse;
             }
             if (!nonpublic[0]) {
-                if (preferCodebase) {
+                if (preferCodebbse) {
                     try {
-                        return Proxy.getProxyClass(codebaseLoader, classObjs);
-                    } catch (IllegalArgumentException e) {
+                        return Proxy.getProxyClbss(codebbseLobder, clbssObjs);
+                    } cbtch (IllegblArgumentException e) {
                     }
                 }
-                proxyLoader = defaultLoader;
+                proxyLobder = defbultLobder;
             }
-            return loadProxyClass(proxyLoader, classObjs);
+            return lobdProxyClbss(proxyLobder, clbssObjs);
         }
 
-        nonpublic[0] = false;
-        proxyLoader = loadProxyInterfaces(interfaceNames, codebaseLoader,
-                                          classObjs, nonpublic);
-        if (loaderLog.isLoggable(Log.VERBOSE)) {
-            ClassLoader[] definingLoaders = new ClassLoader[classObjs.length];
-            for (int i = 0; i < definingLoaders.length; i++) {
-                definingLoaders[i] = classObjs[i].getClassLoader();
+        nonpublic[0] = fblse;
+        proxyLobder = lobdProxyInterfbces(interfbceNbmes, codebbseLobder,
+                                          clbssObjs, nonpublic);
+        if (lobderLog.isLoggbble(Log.VERBOSE)) {
+            ClbssLobder[] definingLobders = new ClbssLobder[clbssObjs.length];
+            for (int i = 0; i < definingLobders.length; i++) {
+                definingLobders[i] = clbssObjs[i].getClbssLobder();
             }
-            loaderLog.log(Log.VERBOSE,
-                "proxy interfaces found via codebase, " +
-                "defined by " + Arrays.asList(definingLoaders));
+            lobderLog.log(Log.VERBOSE,
+                "proxy interfbces found vib codebbse, " +
+                "defined by " + Arrbys.bsList(definingLobders));
         }
         if (!nonpublic[0]) {
-            proxyLoader = codebaseLoader;
+            proxyLobder = codebbseLobder;
         }
-        return loadProxyClass(proxyLoader, classObjs);
+        return lobdProxyClbss(proxyLobder, clbssObjs);
     }
 
     /**
-     * Define a proxy class in the given class loader.  The proxy
-     * class will implement the given interfaces Classes.
+     * Define b proxy clbss in the given clbss lobder.  The proxy
+     * clbss will implement the given interfbces Clbsses.
      */
-    private static Class<?> loadProxyClass(ClassLoader loader, Class<?>[] interfaces)
-        throws ClassNotFoundException
+    privbte stbtic Clbss<?> lobdProxyClbss(ClbssLobder lobder, Clbss<?>[] interfbces)
+        throws ClbssNotFoundException
     {
         try {
-            return Proxy.getProxyClass(loader, interfaces);
-        } catch (IllegalArgumentException e) {
-            throw new ClassNotFoundException(
-                "error creating dynamic proxy class", e);
+            return Proxy.getProxyClbss(lobder, interfbces);
+        } cbtch (IllegblArgumentException e) {
+            throw new ClbssNotFoundException(
+                "error crebting dynbmic proxy clbss", e);
         }
     }
 
     /*
-     * Load Class objects for the names in the interfaces array fron
-     * the given class loader.
+     * Lobd Clbss objects for the nbmes in the interfbces brrby fron
+     * the given clbss lobder.
      *
-     * We pass classObjs and nonpublic arrays to avoid needing a
-     * multi-element return value.  nonpublic is an array to enable
-     * the method to take a boolean argument by reference.
+     * We pbss clbssObjs bnd nonpublic brrbys to bvoid needing b
+     * multi-element return vblue.  nonpublic is bn brrby to enbble
+     * the method to tbke b boolebn brgument by reference.
      *
-     * nonpublic array is needed to signal when the return value of
-     * this method should be used as the proxy class loader.  Because
-     * null represents a valid class loader, that value is
-     * insufficient to signal that the return value should not be used
-     * as the proxy class loader.
+     * nonpublic brrby is needed to signbl when the return vblue of
+     * this method should be used bs the proxy clbss lobder.  Becbuse
+     * null represents b vblid clbss lobder, thbt vblue is
+     * insufficient to signbl thbt the return vblue should not be used
+     * bs the proxy clbss lobder.
      */
-    private static ClassLoader loadProxyInterfaces(String[] interfaces,
-                                                   ClassLoader loader,
-                                                   Class<?>[] classObjs,
-                                                   boolean[] nonpublic)
-        throws ClassNotFoundException
+    privbte stbtic ClbssLobder lobdProxyInterfbces(String[] interfbces,
+                                                   ClbssLobder lobder,
+                                                   Clbss<?>[] clbssObjs,
+                                                   boolebn[] nonpublic)
+        throws ClbssNotFoundException
     {
-        /* loader of a non-public interface class */
-        ClassLoader nonpublicLoader = null;
+        /* lobder of b non-public interfbce clbss */
+        ClbssLobder nonpublicLobder = null;
 
-        for (int i = 0; i < interfaces.length; i++) {
-            Class<?> cl =
-                (classObjs[i] = loadClassForName(interfaces[i], false, loader));
+        for (int i = 0; i < interfbces.length; i++) {
+            Clbss<?> cl =
+                (clbssObjs[i] = lobdClbssForNbme(interfbces[i], fblse, lobder));
 
             if (!Modifier.isPublic(cl.getModifiers())) {
-                ClassLoader current = cl.getClassLoader();
-                if (loaderLog.isLoggable(Log.VERBOSE)) {
-                    loaderLog.log(Log.VERBOSE,
-                        "non-public interface \"" + interfaces[i] +
+                ClbssLobder current = cl.getClbssLobder();
+                if (lobderLog.isLoggbble(Log.VERBOSE)) {
+                    lobderLog.log(Log.VERBOSE,
+                        "non-public interfbce \"" + interfbces[i] +
                         "\" defined by " + current);
                 }
                 if (!nonpublic[0]) {
-                    nonpublicLoader = current;
+                    nonpublicLobder = current;
                     nonpublic[0] = true;
-                } else if (current != nonpublicLoader) {
-                    throw new IllegalAccessError(
-                        "non-public interfaces defined in different " +
-                        "class loaders");
+                } else if (current != nonpublicLobder) {
+                    throw new IllegblAccessError(
+                        "non-public interfbces defined in different " +
+                        "clbss lobders");
                 }
             }
         }
-        return nonpublicLoader;
+        return nonpublicLobder;
     }
 
     /**
-     * Convert a string containing a space-separated list of URLs into a
-     * corresponding array of URL objects, throwing a MalformedURLException
-     * if any of the URLs are invalid.
+     * Convert b string contbining b spbce-sepbrbted list of URLs into b
+     * corresponding brrby of URL objects, throwing b MblformedURLException
+     * if bny of the URLs bre invblid.
      */
-    private static URL[] pathToURLs(String path)
-        throws MalformedURLException
+    privbte stbtic URL[] pbthToURLs(String pbth)
+        throws MblformedURLException
     {
-        synchronized (pathToURLsCache) {
-            Object[] v = pathToURLsCache.get(path);
+        synchronized (pbthToURLsCbche) {
+            Object[] v = pbthToURLsCbche.get(pbth);
             if (v != null) {
                 return ((URL[])v[0]);
             }
         }
-        StringTokenizer st = new StringTokenizer(path); // divide by spaces
+        StringTokenizer st = new StringTokenizer(pbth); // divide by spbces
         URL[] urls = new URL[st.countTokens()];
-        for (int i = 0; st.hasMoreTokens(); i++) {
+        for (int i = 0; st.hbsMoreTokens(); i++) {
             urls[i] = new URL(st.nextToken());
         }
-        synchronized (pathToURLsCache) {
-            pathToURLsCache.put(path,
-                                new Object[] {urls, new SoftReference<String>(path)});
+        synchronized (pbthToURLsCbche) {
+            pbthToURLsCbche.put(pbth,
+                                new Object[] {urls, new SoftReference<String>(pbth)});
         }
         return urls;
     }
 
-    /** map from weak(key=string) to [URL[], soft(key)] */
-    private static final Map<String, Object[]> pathToURLsCache
-        = new WeakHashMap<>(5);
+    /** mbp from webk(key=string) to [URL[], soft(key)] */
+    privbte stbtic finbl Mbp<String, Object[]> pbthToURLsCbche
+        = new WebkHbshMbp<>(5);
 
     /**
-     * Convert an array of URL objects into a corresponding string
-     * containing a space-separated list of URLs.
+     * Convert bn brrby of URL objects into b corresponding string
+     * contbining b spbce-sepbrbted list of URLs.
      *
-     * Note that if the array has zero elements, the return value is
+     * Note thbt if the brrby hbs zero elements, the return vblue is
      * null, not the empty string.
      */
-    private static String urlsToPath(URL[] urls) {
+    privbte stbtic String urlsToPbth(URL[] urls) {
         if (urls.length == 0) {
             return null;
         } else if (urls.length == 1) {
-            return urls[0].toExternalForm();
+            return urls[0].toExternblForm();
         } else {
-            StringBuilder path = new StringBuilder(urls[0].toExternalForm());
+            StringBuilder pbth = new StringBuilder(urls[0].toExternblForm());
             for (int i = 1; i < urls.length; i++) {
-                path.append(' ');
-                path.append(urls[i].toExternalForm());
+                pbth.bppend(' ');
+                pbth.bppend(urls[i].toExternblForm());
             }
-            return path.toString();
+            return pbth.toString();
         }
     }
 
     /**
-     * Return the class loader to be used as the parent for an RMI class
-     * loader used in the current execution context.
+     * Return the clbss lobder to be used bs the pbrent for bn RMI clbss
+     * lobder used in the current execution context.
      */
-    private static ClassLoader getRMIContextClassLoader() {
+    privbte stbtic ClbssLobder getRMIContextClbssLobder() {
         /*
-         * The current implementation simply uses the current thread's
-         * context class loader.
+         * The current implementbtion simply uses the current threbd's
+         * context clbss lobder.
          */
-        return Thread.currentThread().getContextClassLoader();
+        return Threbd.currentThrebd().getContextClbssLobder();
     }
 
     /**
-     * Look up the RMI class loader for the given codebase URL path
-     * and the given parent class loader.  A new class loader instance
-     * will be created and returned if no match is found.
+     * Look up the RMI clbss lobder for the given codebbse URL pbth
+     * bnd the given pbrent clbss lobder.  A new clbss lobder instbnce
+     * will be crebted bnd returned if no mbtch is found.
      */
-    private static Loader lookupLoader(final URL[] urls,
-                                       final ClassLoader parent)
+    privbte stbtic Lobder lookupLobder(finbl URL[] urls,
+                                       finbl ClbssLobder pbrent)
     {
         /*
-         * If the requested codebase URL path is empty, the supplied
-         * parent class loader will be sufficient.
+         * If the requested codebbse URL pbth is empty, the supplied
+         * pbrent clbss lobder will be sufficient.
          *
-         * REMIND: To be conservative, this optimization is commented out
-         * for now so that it does not open a security hole in the future
-         * by providing untrusted code with direct access to the public
-         * loadClass() method of a class loader instance that it cannot
-         * get a reference to.  (It's an unlikely optimization anyway.)
+         * REMIND: To be conservbtive, this optimizbtion is commented out
+         * for now so thbt it does not open b security hole in the future
+         * by providing untrusted code with direct bccess to the public
+         * lobdClbss() method of b clbss lobder instbnce thbt it cbnnot
+         * get b reference to.  (It's bn unlikely optimizbtion bnywby.)
          *
          * if (urls.length == 0) {
-         *     return parent;
+         *     return pbrent;
          * }
          */
 
-        LoaderEntry entry;
-        Loader loader;
+        LobderEntry entry;
+        Lobder lobder;
 
-        synchronized (LoaderHandler.class) {
+        synchronized (LobderHbndler.clbss) {
             /*
-             * Take this opportunity to remove from the table entries
-             * whose weak references have been cleared.
+             * Tbke this opportunity to remove from the tbble entries
+             * whose webk references hbve been clebred.
              */
-            while ((entry = (LoaderEntry) refQueue.poll()) != null) {
+            while ((entry = (LobderEntry) refQueue.poll()) != null) {
                 if (!entry.removed) {   // ignore entries removed below
-                    loaderTable.remove(entry.key);
+                    lobderTbble.remove(entry.key);
                 }
             }
 
             /*
-             * Look up the codebase URL path and parent class loader pair
-             * in the table of RMI class loaders.
+             * Look up the codebbse URL pbth bnd pbrent clbss lobder pbir
+             * in the tbble of RMI clbss lobders.
              */
-            LoaderKey key = new LoaderKey(urls, parent);
-            entry = loaderTable.get(key);
+            LobderKey key = new LobderKey(urls, pbrent);
+            entry = lobderTbble.get(key);
 
-            if (entry == null || (loader = entry.get()) == null) {
+            if (entry == null || (lobder = entry.get()) == null) {
                 /*
-                 * If entry was in table but it's weak reference was cleared,
-                 * remove it from the table and mark it as explicitly cleared,
-                 * so that new matching entry that we put in the table will
+                 * If entry wbs in tbble but it's webk reference wbs clebred,
+                 * remove it from the tbble bnd mbrk it bs explicitly clebred,
+                 * so thbt new mbtching entry thbt we put in the tbble will
                  * not be erroneously removed when this entry is processed
-                 * from the weak reference queue.
+                 * from the webk reference queue.
                  */
                 if (entry != null) {
-                    loaderTable.remove(key);
+                    lobderTbble.remove(key);
                     entry.removed = true;
                 }
 
                 /*
-                 * A matching loader was not found, so create a new class
-                 * loader instance for the requested codebase URL path and
-                 * parent class loader.  The instance is created within an
-                 * access control context retricted to the permissions
-                 * necessary to load classes from its codebase URL path.
+                 * A mbtching lobder wbs not found, so crebte b new clbss
+                 * lobder instbnce for the requested codebbse URL pbth bnd
+                 * pbrent clbss lobder.  The instbnce is crebted within bn
+                 * bccess control context retricted to the permissions
+                 * necessbry to lobd clbsses from its codebbse URL pbth.
                  */
-                AccessControlContext acc = getLoaderAccessControlContext(urls);
-                loader = java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Loader>() {
-                        public Loader run() {
-                            return new Loader(urls, parent);
+                AccessControlContext bcc = getLobderAccessControlContext(urls);
+                lobder = jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Lobder>() {
+                        public Lobder run() {
+                            return new Lobder(urls, pbrent);
                         }
-                    }, acc);
+                    }, bcc);
 
                 /*
-                 * Finally, create an entry to hold the new loader with a
-                 * weak reference and store it in the table with the key.
+                 * Finblly, crebte bn entry to hold the new lobder with b
+                 * webk reference bnd store it in the tbble with the key.
                  */
-                entry = new LoaderEntry(key, loader);
-                loaderTable.put(key, entry);
+                entry = new LobderEntry(key, lobder);
+                lobderTbble.put(key, entry);
             }
         }
 
-        return loader;
+        return lobder;
     }
 
     /**
-     * LoaderKey holds a codebase URL path and parent class loader pair
-     * used to look up RMI class loader instances in its class loader cache.
+     * LobderKey holds b codebbse URL pbth bnd pbrent clbss lobder pbir
+     * used to look up RMI clbss lobder instbnces in its clbss lobder cbche.
      */
-    private static class LoaderKey {
+    privbte stbtic clbss LobderKey {
 
-        private URL[] urls;
+        privbte URL[] urls;
 
-        private ClassLoader parent;
+        privbte ClbssLobder pbrent;
 
-        private int hashValue;
+        privbte int hbshVblue;
 
-        public LoaderKey(URL[] urls, ClassLoader parent) {
+        public LobderKey(URL[] urls, ClbssLobder pbrent) {
             this.urls = urls;
-            this.parent = parent;
+            this.pbrent = pbrent;
 
-            if (parent != null) {
-                hashValue = parent.hashCode();
+            if (pbrent != null) {
+                hbshVblue = pbrent.hbshCode();
             }
             for (int i = 0; i < urls.length; i++) {
-                hashValue ^= urls[i].hashCode();
+                hbshVblue ^= urls[i].hbshCode();
             }
         }
 
-        public int hashCode() {
-            return hashValue;
+        public int hbshCode() {
+            return hbshVblue;
         }
 
-        public boolean equals(Object obj) {
-            if (obj instanceof LoaderKey) {
-                LoaderKey other = (LoaderKey) obj;
-                if (parent != other.parent) {
-                    return false;
+        public boolebn equbls(Object obj) {
+            if (obj instbnceof LobderKey) {
+                LobderKey other = (LobderKey) obj;
+                if (pbrent != other.pbrent) {
+                    return fblse;
                 }
                 if (urls == other.urls) {
                     return true;
                 }
                 if (urls.length != other.urls.length) {
-                    return false;
+                    return fblse;
                 }
                 for (int i = 0; i < urls.length; i++) {
-                    if (!urls[i].equals(other.urls[i])) {
-                        return false;
+                    if (!urls[i].equbls(other.urls[i])) {
+                        return fblse;
                     }
                 }
                 return true;
             } else {
-                return false;
+                return fblse;
             }
         }
     }
 
     /**
-     * LoaderEntry contains a weak reference to an RMIClassLoader.  The
-     * weak reference is registered with the private static "refQueue"
-     * queue.  The entry contains the codebase URL path and parent class
-     * loader key for the loader so that the mapping can be removed from
-     * the table efficiently when the weak reference is cleared.
+     * LobderEntry contbins b webk reference to bn RMIClbssLobder.  The
+     * webk reference is registered with the privbte stbtic "refQueue"
+     * queue.  The entry contbins the codebbse URL pbth bnd pbrent clbss
+     * lobder key for the lobder so thbt the mbpping cbn be removed from
+     * the tbble efficiently when the webk reference is clebred.
      */
-    private static class LoaderEntry extends WeakReference<Loader> {
+    privbte stbtic clbss LobderEntry extends WebkReference<Lobder> {
 
-        public LoaderKey key;
+        public LobderKey key;
 
         /**
-         * set to true if the entry has been removed from the table
-         * because it has been replaced, so it should not be attempted
-         * to be removed again
+         * set to true if the entry hbs been removed from the tbble
+         * becbuse it hbs been replbced, so it should not be bttempted
+         * to be removed bgbin
          */
-        public boolean removed = false;
+        public boolebn removed = fblse;
 
-        public LoaderEntry(LoaderKey key, Loader loader) {
-            super(loader, refQueue);
+        public LobderEntry(LobderKey key, Lobder lobder) {
+            super(lobder, refQueue);
             this.key = key;
         }
     }
 
     /**
-     * Return the access control context that a loader for the given
-     * codebase URL path should execute with.
+     * Return the bccess control context thbt b lobder for the given
+     * codebbse URL pbth should execute with.
      */
-    private static AccessControlContext getLoaderAccessControlContext(
+    privbte stbtic AccessControlContext getLobderAccessControlContext(
         URL[] urls)
     {
         /*
-         * The approach used here is taken from the similar method
-         * getAccessControlContext() in the sun.applet.AppletPanel class.
+         * The bpprobch used here is tbken from the similbr method
+         * getAccessControlContext() in the sun.bpplet.AppletPbnel clbss.
          */
-        // begin with permissions granted to all code in current policy
+        // begin with permissions grbnted to bll code in current policy
         PermissionCollection perms =
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<PermissionCollection>() {
+            jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<PermissionCollection>() {
                 public PermissionCollection run() {
                     CodeSource codesource = new CodeSource(null,
-                        (java.security.cert.Certificate[]) null);
-                    Policy p = java.security.Policy.getPolicy();
+                        (jbvb.security.cert.Certificbte[]) null);
+                    Policy p = jbvb.security.Policy.getPolicy();
                     if (p != null) {
                         return p.getPermissions(codesource);
                     } else {
@@ -1001,39 +1001,39 @@ public final class LoaderHandler {
                 }
             });
 
-        // createClassLoader permission needed to create loader in context
-        perms.add(new RuntimePermission("createClassLoader"));
+        // crebteClbssLobder permission needed to crebte lobder in context
+        perms.bdd(new RuntimePermission("crebteClbssLobder"));
 
-        // add permissions to read any "java.*" property
-        perms.add(new java.util.PropertyPermission("java.*","read"));
+        // bdd permissions to rebd bny "jbvb.*" property
+        perms.bdd(new jbvb.util.PropertyPermission("jbvb.*","rebd"));
 
-        // add permissions reuiqred to load from codebase URL path
-        addPermissionsForURLs(urls, perms, true);
+        // bdd permissions reuiqred to lobd from codebbse URL pbth
+        bddPermissionsForURLs(urls, perms, true);
 
         /*
-         * Create an AccessControlContext that consists of a single
-         * protection domain with only the permissions calculated above.
+         * Crebte bn AccessControlContext thbt consists of b single
+         * protection dombin with only the permissions cblculbted bbove.
          */
-        ProtectionDomain pd = new ProtectionDomain(
+        ProtectionDombin pd = new ProtectionDombin(
             new CodeSource((urls.length > 0 ? urls[0] : null),
-                (java.security.cert.Certificate[]) null),
+                (jbvb.security.cert.Certificbte[]) null),
             perms);
-        return new AccessControlContext(new ProtectionDomain[] { pd });
+        return new AccessControlContext(new ProtectionDombin[] { pd });
     }
 
     /**
      * Adds to the specified permission collection the permissions
-     * necessary to load classes from a loader with the specified URL
-     * path; if "forLoader" is true, also adds URL-specific
-     * permissions necessary for the security context that such a
-     * loader operates within, such as permissions necessary for
-     * granting automatic permissions to classes defined by the
-     * loader.  A given permission is only added to the collection if
-     * it is not already implied by the collection.
+     * necessbry to lobd clbsses from b lobder with the specified URL
+     * pbth; if "forLobder" is true, blso bdds URL-specific
+     * permissions necessbry for the security context thbt such b
+     * lobder operbtes within, such bs permissions necessbry for
+     * grbnting butombtic permissions to clbsses defined by the
+     * lobder.  A given permission is only bdded to the collection if
+     * it is not blrebdy implied by the collection.
      */
-    private static void addPermissionsForURLs(URL[] urls,
+    privbte stbtic void bddPermissionsForURLs(URL[] urls,
                                              PermissionCollection perms,
-                                             boolean forLoader)
+                                             boolebn forLobder)
     {
         for (int i = 0; i < urls.length; i++) {
             URL url = urls[i];
@@ -1041,60 +1041,60 @@ public final class LoaderHandler {
                 URLConnection urlConnection = url.openConnection();
                 Permission p = urlConnection.getPermission();
                 if (p != null) {
-                    if (p instanceof FilePermission) {
+                    if (p instbnceof FilePermission) {
                         /*
-                         * If the codebase is a file, the permission required
-                         * to actually read classes from the codebase URL is
-                         * the permission to read all files beneath the last
-                         * directory in the file path, either because JAR
-                         * files can refer to other JAR files in the same
-                         * directory, or because permission to read a
-                         * directory is not implied by permission to read the
-                         * contents of a directory, which all that might be
-                         * granted.
+                         * If the codebbse is b file, the permission required
+                         * to bctublly rebd clbsses from the codebbse URL is
+                         * the permission to rebd bll files benebth the lbst
+                         * directory in the file pbth, either becbuse JAR
+                         * files cbn refer to other JAR files in the sbme
+                         * directory, or becbuse permission to rebd b
+                         * directory is not implied by permission to rebd the
+                         * contents of b directory, which bll thbt might be
+                         * grbnted.
                          */
-                        String path = p.getName();
-                        int endIndex = path.lastIndexOf(File.separatorChar);
+                        String pbth = p.getNbme();
+                        int endIndex = pbth.lbstIndexOf(File.sepbrbtorChbr);
                         if (endIndex != -1) {
-                            path = path.substring(0, endIndex+1);
-                            if (path.endsWith(File.separator)) {
-                                path += "-";
+                            pbth = pbth.substring(0, endIndex+1);
+                            if (pbth.endsWith(File.sepbrbtor)) {
+                                pbth += "-";
                             }
-                            Permission p2 = new FilePermission(path, "read");
+                            Permission p2 = new FilePermission(pbth, "rebd");
                             if (!perms.implies(p2)) {
-                                perms.add(p2);
+                                perms.bdd(p2);
                             }
-                            perms.add(new FilePermission(path, "read"));
+                            perms.bdd(new FilePermission(pbth, "rebd"));
                         } else {
                             /*
-                             * No directory separator: use permission to
-                             * read the file.
+                             * No directory sepbrbtor: use permission to
+                             * rebd the file.
                              */
                             if (!perms.implies(p)) {
-                                perms.add(p);
+                                perms.bdd(p);
                             }
                         }
                     } else {
                         if (!perms.implies(p)) {
-                            perms.add(p);
+                            perms.bdd(p);
                         }
 
                         /*
-                         * If the purpose of these permissions is to grant
-                         * them to an instance of a URLClassLoader subclass,
-                         * we must add permission to connect to and accept
+                         * If the purpose of these permissions is to grbnt
+                         * them to bn instbnce of b URLClbssLobder subclbss,
+                         * we must bdd permission to connect to bnd bccept
                          * from the host of non-"file:" URLs, otherwise the
-                         * getPermissions() method of URLClassLoader will
-                         * throw a security exception.
+                         * getPermissions() method of URLClbssLobder will
+                         * throw b security exception.
                          */
-                        if (forLoader) {
-                            // get URL with meaningful host component
+                        if (forLobder) {
+                            // get URL with mebningful host component
                             URL hostURL = url;
                             for (URLConnection conn = urlConnection;
-                                 conn instanceof JarURLConnection;)
+                                 conn instbnceof JbrURLConnection;)
                             {
                                 hostURL =
-                                    ((JarURLConnection) conn).getJarFileURL();
+                                    ((JbrURLConnection) conn).getJbrFileURL();
                                 conn = hostURL.openConnection();
                             }
                             String host = hostURL.getHost();
@@ -1104,19 +1104,19 @@ public final class LoaderHandler {
                             {
                                 Permission p2 =
                                     new SocketPermission(host,
-                                                         "connect,accept");
+                                                         "connect,bccept");
                                 if (!perms.implies(p2)) {
-                                    perms.add(p2);
+                                    perms.bdd(p2);
                                 }
                             }
                         }
                     }
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 /*
-                 * This shouldn't happen, although it is declared to be
-                 * thrown by openConnection() and getPermission().  If it
-                 * does, don't bother granting or requiring any permissions
+                 * This shouldn't hbppen, blthough it is declbred to be
+                 * thrown by openConnection() bnd getPermission().  If it
+                 * does, don't bother grbnting or requiring bny permissions
                  * for this URL.
                  */
             }
@@ -1124,101 +1124,101 @@ public final class LoaderHandler {
     }
 
     /**
-     * Loader is the actual class of the RMI class loaders created
-     * by the RMIClassLoader static methods.
+     * Lobder is the bctubl clbss of the RMI clbss lobders crebted
+     * by the RMIClbssLobder stbtic methods.
      */
-    private static class Loader extends URLClassLoader {
+    privbte stbtic clbss Lobder extends URLClbssLobder {
 
-        /** parent class loader, kept here as an optimization */
-        private ClassLoader parent;
+        /** pbrent clbss lobder, kept here bs bn optimizbtion */
+        privbte ClbssLobder pbrent;
 
-        /** string form of loader's codebase URL path, also an optimization */
-        private String annotation;
+        /** string form of lobder's codebbse URL pbth, blso bn optimizbtion */
+        privbte String bnnotbtion;
 
-        /** permissions required to access loader through public API */
-        private Permissions permissions;
+        /** permissions required to bccess lobder through public API */
+        privbte Permissions permissions;
 
-        private Loader(URL[] urls, ClassLoader parent) {
-            super(urls, parent);
-            this.parent = parent;
+        privbte Lobder(URL[] urls, ClbssLobder pbrent) {
+            super(urls, pbrent);
+            this.pbrent = pbrent;
 
             /*
-             * Precompute the permissions required to access the loader.
+             * Precompute the permissions required to bccess the lobder.
              */
             permissions = new Permissions();
-            addPermissionsForURLs(urls, permissions, false);
+            bddPermissionsForURLs(urls, permissions, fblse);
 
             /*
-             * Caching the value of class annotation string here assumes
-             * that the protected method addURL() is never called on this
-             * class loader.
+             * Cbching the vblue of clbss bnnotbtion string here bssumes
+             * thbt the protected method bddURL() is never cblled on this
+             * clbss lobder.
              */
-            annotation = urlsToPath(urls);
+            bnnotbtion = urlsToPbth(urls);
         }
 
         /**
-         * Return the string to be annotated with all classes loaded from
-         * this class loader.
+         * Return the string to be bnnotbted with bll clbsses lobded from
+         * this clbss lobder.
          */
-        public String getClassAnnotation() {
-            return annotation;
+        public String getClbssAnnotbtion() {
+            return bnnotbtion;
         }
 
         /**
-         * Check that the current access control context has all of the
-         * permissions necessary to load classes from this loader.
+         * Check thbt the current bccess control context hbs bll of the
+         * permissions necessbry to lobd clbsses from this lobder.
          */
-        private void checkPermissions() {
-            SecurityManager sm = System.getSecurityManager();
+        privbte void checkPermissions() {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {           // should never be null?
-                Enumeration<Permission> enum_ = permissions.elements();
-                while (enum_.hasMoreElements()) {
+                Enumerbtion<Permission> enum_ = permissions.elements();
+                while (enum_.hbsMoreElements()) {
                     sm.checkPermission(enum_.nextElement());
                 }
             }
         }
 
         /**
-         * Return the permissions to be granted to code loaded from the
+         * Return the permissions to be grbnted to code lobded from the
          * given code source.
          */
         protected PermissionCollection getPermissions(CodeSource codesource) {
             PermissionCollection perms = super.getPermissions(codesource);
             /*
-             * Grant the same permissions that URLClassLoader would grant.
+             * Grbnt the sbme permissions thbt URLClbssLobder would grbnt.
              */
             return perms;
         }
 
         /**
-         * Return a string representation of this loader (useful for
+         * Return b string representbtion of this lobder (useful for
          * debugging).
          */
         public String toString() {
-            return super.toString() + "[\"" + annotation + "\"]";
+            return super.toString() + "[\"" + bnnotbtion + "\"]";
         }
 
         @Override
-        protected Class<?> loadClass(String name, boolean resolve)
-                throws ClassNotFoundException {
-            if (parent == null) {
-                ReflectUtil.checkPackageAccess(name);
+        protected Clbss<?> lobdClbss(String nbme, boolebn resolve)
+                throws ClbssNotFoundException {
+            if (pbrent == null) {
+                ReflectUtil.checkPbckbgeAccess(nbme);
             }
-            return super.loadClass(name, resolve);
+            return super.lobdClbss(nbme, resolve);
         }
 
 
     }
 
-    private static Class<?> loadClassForName(String name,
-                                              boolean initialize,
-                                              ClassLoader loader)
-            throws ClassNotFoundException
+    privbte stbtic Clbss<?> lobdClbssForNbme(String nbme,
+                                              boolebn initiblize,
+                                              ClbssLobder lobder)
+            throws ClbssNotFoundException
     {
-        if (loader == null) {
-            ReflectUtil.checkPackageAccess(name);
+        if (lobder == null) {
+            ReflectUtil.checkPbckbgeAccess(nbme);
         }
-        return Class.forName(name, initialize, loader);
+        return Clbss.forNbme(nbme, initiblize, lobder);
     }
 
 }

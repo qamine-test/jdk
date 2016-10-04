@@ -1,285 +1,285 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.kerberos;
+pbckbge jbvbx.security.buth.kerberos;
 
-import java.io.*;
+import jbvb.io.*;
 import sun.security.krb5.KrbException;
-import sun.security.krb5.PrincipalName;
-import sun.security.krb5.Realm;
+import sun.security.krb5.PrincipblNbme;
+import sun.security.krb5.Reblm;
 import sun.security.util.*;
 
 /**
- * This class encapsulates a Kerberos principal.
+ * This clbss encbpsulbtes b Kerberos principbl.
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  * @since 1.4
  */
 
-public final class KerberosPrincipal
-    implements java.security.Principal, java.io.Serializable {
+public finbl clbss KerberosPrincipbl
+    implements jbvb.security.Principbl, jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = -7374788026156829911L;
+    privbte stbtic finbl long seriblVersionUID = -7374788026156829911L;
 
-    //name types
+    //nbme types
 
     /**
-     * unknown name type.
+     * unknown nbme type.
      */
 
-    public static final int KRB_NT_UNKNOWN =   0;
+    public stbtic finbl int KRB_NT_UNKNOWN =   0;
 
     /**
-     * user principal name type.
+     * user principbl nbme type.
      */
 
-    public static final int KRB_NT_PRINCIPAL = 1;
+    public stbtic finbl int KRB_NT_PRINCIPAL = 1;
 
     /**
-     * service and other unique instance (krbtgt) name type.
+     * service bnd other unique instbnce (krbtgt) nbme type.
      */
-    public static final int KRB_NT_SRV_INST =  2;
+    public stbtic finbl int KRB_NT_SRV_INST =  2;
 
     /**
-     * service with host name as instance (telnet, rcommands) name type.
-     */
-
-    public static final int KRB_NT_SRV_HST =   3;
-
-    /**
-     * service with host as remaining components name type.
+     * service with host nbme bs instbnce (telnet, rcommbnds) nbme type.
      */
 
-    public static final int KRB_NT_SRV_XHST =  4;
+    public stbtic finbl int KRB_NT_SRV_HST =   3;
 
     /**
-     * unique ID name type.
+     * service with host bs rembining components nbme type.
      */
 
-    public static final int KRB_NT_UID = 5;
+    public stbtic finbl int KRB_NT_SRV_XHST =  4;
 
-    private transient String fullName;
+    /**
+     * unique ID nbme type.
+     */
 
-    private transient String realm;
+    public stbtic finbl int KRB_NT_UID = 5;
 
-    private transient int nameType;
+    privbte trbnsient String fullNbme;
+
+    privbte trbnsient String reblm;
+
+    privbte trbnsient int nbmeType;
 
 
     /**
-     * Constructs a KerberosPrincipal from the provided string input. The
-     * name type for this  principal defaults to
+     * Constructs b KerberosPrincipbl from the provided string input. The
+     * nbme type for this  principbl defbults to
      * {@link #KRB_NT_PRINCIPAL KRB_NT_PRINCIPAL}
-     * This string is assumed to contain a name in the format
-     * that is specified in Section 2.1.1. (Kerberos Principal Name Form) of
-     * <a href=http://www.ietf.org/rfc/rfc1964.txt> RFC 1964 </a>
-     * (for example, <i>duke@FOO.COM</i>, where <i>duke</i>
-     * represents a principal, and <i>FOO.COM</i> represents a realm).
+     * This string is bssumed to contbin b nbme in the formbt
+     * thbt is specified in Section 2.1.1. (Kerberos Principbl Nbme Form) of
+     * <b href=http://www.ietf.org/rfc/rfc1964.txt> RFC 1964 </b>
+     * (for exbmple, <i>duke@FOO.COM</i>, where <i>duke</i>
+     * represents b principbl, bnd <i>FOO.COM</i> represents b reblm).
      *
-     * <p>If the input name does not contain a realm, the default realm
-     * is used. The default realm can be specified either in a Kerberos
-     * configuration file or via the java.security.krb5.realm
-     * system property. For more information,
-     * <a href="../../../../../technotes/guides/security/jgss/tutorials/index.html">
-     * Kerberos Requirements </a>
+     * <p>If the input nbme does not contbin b reblm, the defbult reblm
+     * is used. The defbult reblm cbn be specified either in b Kerberos
+     * configurbtion file or vib the jbvb.security.krb5.reblm
+     * system property. For more informbtion,
+     * <b href="../../../../../technotes/guides/security/jgss/tutoribls/index.html">
+     * Kerberos Requirements </b>
      *
-     * @param name the principal name
-     * @throws IllegalArgumentException if name is improperly
-     * formatted, if name is null, or if name does not contain
-     * the realm to use and the default realm is not specified
-     * in either a Kerberos configuration file or via the
-     * java.security.krb5.realm system property.
+     * @pbrbm nbme the principbl nbme
+     * @throws IllegblArgumentException if nbme is improperly
+     * formbtted, if nbme is null, or if nbme does not contbin
+     * the reblm to use bnd the defbult reblm is not specified
+     * in either b Kerberos configurbtion file or vib the
+     * jbvb.security.krb5.reblm system property.
      */
-    public KerberosPrincipal(String name) {
+    public KerberosPrincipbl(String nbme) {
 
-        PrincipalName krb5Principal = null;
+        PrincipblNbme krb5Principbl = null;
 
         try {
-            // Appends the default realm if it is missing
-            krb5Principal = new PrincipalName(name, KRB_NT_PRINCIPAL);
-        } catch (KrbException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            // Appends the defbult reblm if it is missing
+            krb5Principbl = new PrincipblNbme(nbme, KRB_NT_PRINCIPAL);
+        } cbtch (KrbException e) {
+            throw new IllegblArgumentException(e.getMessbge());
         }
-        nameType = KRB_NT_PRINCIPAL;  // default name type
-        fullName = krb5Principal.toString();
-        realm = krb5Principal.getRealmString();
+        nbmeType = KRB_NT_PRINCIPAL;  // defbult nbme type
+        fullNbme = krb5Principbl.toString();
+        reblm = krb5Principbl.getReblmString();
     }
 
     /**
-     * Constructs a KerberosPrincipal from the provided string and
-     * name type input.  The string is assumed to contain a name in the
-     * format that is specified in Section 2.1 (Mandatory Name Forms) of
-     * <a href=http://www.ietf.org/rfc/rfc1964.txt>RFC 1964</a>.
-     * Valid name types are specified in Section 6.2 (Principal Names) of
-     * <a href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</a>.
-     * The input name must be consistent with the provided name type.
-     * (for example, <i>duke@FOO.COM</i>, is a valid input string for the
-     * name type, KRB_NT_PRINCIPAL where <i>duke</i>
-     * represents a principal, and <i>FOO.COM</i> represents a realm).
+     * Constructs b KerberosPrincipbl from the provided string bnd
+     * nbme type input.  The string is bssumed to contbin b nbme in the
+     * formbt thbt is specified in Section 2.1 (Mbndbtory Nbme Forms) of
+     * <b href=http://www.ietf.org/rfc/rfc1964.txt>RFC 1964</b>.
+     * Vblid nbme types bre specified in Section 6.2 (Principbl Nbmes) of
+     * <b href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</b>.
+     * The input nbme must be consistent with the provided nbme type.
+     * (for exbmple, <i>duke@FOO.COM</i>, is b vblid input string for the
+     * nbme type, KRB_NT_PRINCIPAL where <i>duke</i>
+     * represents b principbl, bnd <i>FOO.COM</i> represents b reblm).
 
-     * <p> If the input name does not contain a realm, the default realm
-     * is used. The default realm can be specified either in a Kerberos
-     * configuration file or via the java.security.krb5.realm
-     * system property. For more information, see
-     * <a href="../../../../../technotes/guides/security/jgss/tutorials/index.html">
-     * Kerberos Requirements</a>.
+     * <p> If the input nbme does not contbin b reblm, the defbult reblm
+     * is used. The defbult reblm cbn be specified either in b Kerberos
+     * configurbtion file or vib the jbvb.security.krb5.reblm
+     * system property. For more informbtion, see
+     * <b href="../../../../../technotes/guides/security/jgss/tutoribls/index.html">
+     * Kerberos Requirements</b>.
      *
-     * @param name the principal name
-     * @param nameType the name type of the principal
-     * @throws IllegalArgumentException if name is improperly
-     * formatted, if name is null, if the nameType is not supported,
-     * or if name does not contain the realm to use and the default
-     * realm is not specified in either a Kerberos configuration
-     * file or via the java.security.krb5.realm system property.
+     * @pbrbm nbme the principbl nbme
+     * @pbrbm nbmeType the nbme type of the principbl
+     * @throws IllegblArgumentException if nbme is improperly
+     * formbtted, if nbme is null, if the nbmeType is not supported,
+     * or if nbme does not contbin the reblm to use bnd the defbult
+     * reblm is not specified in either b Kerberos configurbtion
+     * file or vib the jbvb.security.krb5.reblm system property.
      */
 
-    public KerberosPrincipal(String name, int nameType) {
+    public KerberosPrincipbl(String nbme, int nbmeType) {
 
-        PrincipalName krb5Principal = null;
+        PrincipblNbme krb5Principbl = null;
 
         try {
-            // Appends the default realm if it is missing
-            krb5Principal  = new PrincipalName(name,nameType);
-        } catch (KrbException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            // Appends the defbult reblm if it is missing
+            krb5Principbl  = new PrincipblNbme(nbme,nbmeType);
+        } cbtch (KrbException e) {
+            throw new IllegblArgumentException(e.getMessbge());
         }
 
-        this.nameType = nameType;
-        fullName = krb5Principal.toString();
-        realm = krb5Principal.getRealmString();
+        this.nbmeType = nbmeType;
+        fullNbme = krb5Principbl.toString();
+        reblm = krb5Principbl.getReblmString();
     }
     /**
-     * Returns the realm component of this Kerberos principal.
+     * Returns the reblm component of this Kerberos principbl.
      *
-     * @return the realm component of this Kerberos principal.
+     * @return the reblm component of this Kerberos principbl.
      */
-    public String getRealm() {
-        return realm;
+    public String getReblm() {
+        return reblm;
     }
 
     /**
-     * Returns a hashcode for this principal. The hash code is defined to
-     * be the result of the following  calculation:
+     * Returns b hbshcode for this principbl. The hbsh code is defined to
+     * be the result of the following  cblculbtion:
      * <pre>{@code
-     *  hashCode = getName().hashCode();
+     *  hbshCode = getNbme().hbshCode();
      * }</pre>
      *
-     * @return a hashCode() for the {@code KerberosPrincipal}
+     * @return b hbshCode() for the {@code KerberosPrincipbl}
      */
-    public int hashCode() {
-        return getName().hashCode();
+    public int hbshCode() {
+        return getNbme().hbshCode();
     }
 
     /**
-     * Compares the specified Object with this Principal for equality.
-     * Returns true if the given object is also a
-     * {@code KerberosPrincipal} and the two
-     * {@code KerberosPrincipal} instances are equivalent.
-     * More formally two {@code KerberosPrincipal} instances are equal
-     * if the values returned by {@code getName()} are equal.
+     * Compbres the specified Object with this Principbl for equblity.
+     * Returns true if the given object is blso b
+     * {@code KerberosPrincipbl} bnd the two
+     * {@code KerberosPrincipbl} instbnces bre equivblent.
+     * More formblly two {@code KerberosPrincipbl} instbnces bre equbl
+     * if the vblues returned by {@code getNbme()} bre equbl.
      *
-     * @param other the Object to compare to
-     * @return true if the Object passed in represents the same principal
-     * as this one, false otherwise.
+     * @pbrbm other the Object to compbre to
+     * @return true if the Object pbssed in represents the sbme principbl
+     * bs this one, fblse otherwise.
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
 
         if (other == this)
             return true;
 
-        if (! (other instanceof KerberosPrincipal)) {
-            return false;
+        if (! (other instbnceof KerberosPrincipbl)) {
+            return fblse;
         }
-        String myFullName = getName();
-        String otherFullName = ((KerberosPrincipal) other).getName();
-        return myFullName.equals(otherFullName);
+        String myFullNbme = getNbme();
+        String otherFullNbme = ((KerberosPrincipbl) other).getNbme();
+        return myFullNbme.equbls(otherFullNbme);
     }
 
     /**
-     * Save the KerberosPrincipal object to a stream
+     * Sbve the KerberosPrincipbl object to b strebm
      *
-     * @serialData this {@code KerberosPrincipal} is serialized
-     *          by writing out the PrincipalName and the
-     *          realm in their DER-encoded form as specified in Section 5.2.2 of
-     *          <a href=http://www.ietf.org/rfc/rfc4120.txt> RFC4120</a>.
+     * @seriblDbtb this {@code KerberosPrincipbl} is seriblized
+     *          by writing out the PrincipblNbme bnd the
+     *          reblm in their DER-encoded form bs specified in Section 5.2.2 of
+     *          <b href=http://www.ietf.org/rfc/rfc4120.txt> RFC4120</b>.
      */
-    private void writeObject(ObjectOutputStream oos)
+    privbte void writeObject(ObjectOutputStrebm oos)
             throws IOException {
 
-        PrincipalName krb5Principal;
+        PrincipblNbme krb5Principbl;
         try {
-            krb5Principal  = new PrincipalName(fullName, nameType);
-            oos.writeObject(krb5Principal.asn1Encode());
-            oos.writeObject(krb5Principal.getRealm().asn1Encode());
-        } catch (Exception e) {
+            krb5Principbl  = new PrincipblNbme(fullNbme, nbmeType);
+            oos.writeObject(krb5Principbl.bsn1Encode());
+            oos.writeObject(krb5Principbl.getReblm().bsn1Encode());
+        } cbtch (Exception e) {
             throw new IOException(e);
         }
     }
 
     /**
-     * Reads this object from a stream (i.e., deserializes it)
+     * Rebds this object from b strebm (i.e., deseriblizes it)
      */
-    private void readObject(ObjectInputStream ois)
-            throws IOException, ClassNotFoundException {
-        byte[] asn1EncPrincipal = (byte [])ois.readObject();
-        byte[] encRealm = (byte [])ois.readObject();
+    privbte void rebdObject(ObjectInputStrebm ois)
+            throws IOException, ClbssNotFoundException {
+        byte[] bsn1EncPrincipbl = (byte [])ois.rebdObject();
+        byte[] encReblm = (byte [])ois.rebdObject();
         try {
-           Realm realmObject = new Realm(new DerValue(encRealm));
-           PrincipalName krb5Principal = new PrincipalName(
-                   new DerValue(asn1EncPrincipal), realmObject);
-           realm = realmObject.toString();
-           fullName = krb5Principal.toString();
-           nameType = krb5Principal.getNameType();
-        } catch (Exception e) {
+           Reblm reblmObject = new Reblm(new DerVblue(encReblm));
+           PrincipblNbme krb5Principbl = new PrincipblNbme(
+                   new DerVblue(bsn1EncPrincipbl), reblmObject);
+           reblm = reblmObject.toString();
+           fullNbme = krb5Principbl.toString();
+           nbmeType = krb5Principbl.getNbmeType();
+        } cbtch (Exception e) {
             throw new IOException(e);
         }
     }
 
     /**
      * The returned string corresponds to the single-string
-     * representation of a Kerberos Principal name as specified in
-     * Section 2.1 of <a href=http://www.ietf.org/rfc/rfc1964.txt>RFC 1964</a>.
+     * representbtion of b Kerberos Principbl nbme bs specified in
+     * Section 2.1 of <b href=http://www.ietf.org/rfc/rfc1964.txt>RFC 1964</b>.
      *
-     * @return the principal name.
+     * @return the principbl nbme.
      */
-    public String getName() {
-        return fullName;
+    public String getNbme() {
+        return fullNbme;
     }
 
     /**
-     * Returns the name type of the KerberosPrincipal. Valid name types
-     * are specified in Section 6.2 of
-     * <a href=http://www.ietf.org/rfc/rfc4120.txt> RFC4120</a>.
+     * Returns the nbme type of the KerberosPrincipbl. Vblid nbme types
+     * bre specified in Section 6.2 of
+     * <b href=http://www.ietf.org/rfc/rfc4120.txt> RFC4120</b>.
      *
-     * @return the name type.
+     * @return the nbme type.
      */
-    public int getNameType() {
-        return nameType;
+    public int getNbmeType() {
+        return nbmeType;
     }
 
-    // Inherits javadocs from Object
+    // Inherits jbvbdocs from Object
     public String toString() {
-        return getName();
+        return getNbme();
     }
 }

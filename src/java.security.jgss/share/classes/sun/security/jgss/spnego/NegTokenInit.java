@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.spnego;
+pbckbge sun.security.jgss.spnego;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 import org.ietf.jgss.*;
 import sun.security.jgss.*;
 import sun.security.util.*;
 
 /**
  * Implements the SPNEGO NegTokenInit token
- * as specified in RFC 2478
+ * bs specified in RFC 2478
  *
  * NegTokenInit ::= SEQUENCE {
  *      mechTypes       [0] MechTypeList  OPTIONAL,
- *      reqFlags        [1] ContextFlags  OPTIONAL,
+ *      reqFlbgs        [1] ContextFlbgs  OPTIONAL,
  *      mechToken       [2] OCTET STRING  OPTIONAL,
  *      mechListMIC     [3] OCTET STRING  OPTIONAL
  * }
@@ -46,72 +46,72 @@ import sun.security.util.*;
  *
  * MechType::= OBJECT IDENTIFIER
  *
- * ContextFlags ::= BIT STRING {
- *      delegFlag       (0),
- *      mutualFlag      (1),
- *      replayFlag      (2),
- *      sequenceFlag    (3),
- *      anonFlag        (4),
- *      confFlag        (5),
- *      integFlag       (6)
+ * ContextFlbgs ::= BIT STRING {
+ *      delegFlbg       (0),
+ *      mutublFlbg      (1),
+ *      replbyFlbg      (2),
+ *      sequenceFlbg    (3),
+ *      bnonFlbg        (4),
+ *      confFlbg        (5),
+ *      integFlbg       (6)
  * }
  *
- * @author Seema Malkani
+ * @buthor Seemb Mblkbni
  * @since 1.6
  */
 
-public class NegTokenInit extends SpNegoToken {
+public clbss NegTokenInit extends SpNegoToken {
 
     // DER-encoded mechTypes
-    private byte[] mechTypes = null;
-    private Oid[] mechTypeList = null;
+    privbte byte[] mechTypes = null;
+    privbte Oid[] mechTypeList = null;
 
-    private BitArray reqFlags = null;
-    private byte[] mechToken = null;
-    private byte[] mechListMIC = null;
+    privbte BitArrby reqFlbgs = null;
+    privbte byte[] mechToken = null;
+    privbte byte[] mechListMIC = null;
 
-    NegTokenInit(byte[] mechTypes, BitArray flags,
+    NegTokenInit(byte[] mechTypes, BitArrby flbgs,
                 byte[] token, byte[] mechListMIC)
     {
         super(NEG_TOKEN_INIT_ID);
         this.mechTypes = mechTypes;
-        this.reqFlags = flags;
+        this.reqFlbgs = flbgs;
         this.mechToken = token;
         this.mechListMIC = mechListMIC;
     }
 
-    // Used by sun.security.jgss.wrapper.NativeGSSContext
-    // to parse SPNEGO tokens
+    // Used by sun.security.jgss.wrbpper.NbtiveGSSContext
+    // to pbrse SPNEGO tokens
     public NegTokenInit(byte[] in) throws GSSException {
         super(NEG_TOKEN_INIT_ID);
-        parseToken(in);
+        pbrseToken(in);
     }
 
-    final byte[] encode() throws GSSException {
+    finbl byte[] encode() throws GSSException {
         try {
-            // create negInitToken
-            DerOutputStream initToken = new DerOutputStream();
+            // crebte negInitToken
+            DerOutputStrebm initToken = new DerOutputStrebm();
 
             // DER-encoded mechTypes with CONTEXT 00
             if (mechTypes != null) {
-                initToken.write(DerValue.createTag(DerValue.TAG_CONTEXT,
+                initToken.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                                                 true, (byte) 0x00), mechTypes);
             }
 
-            // write context flags with CONTEXT 01
-            if (reqFlags != null) {
-                DerOutputStream flags = new DerOutputStream();
-                flags.putUnalignedBitString(reqFlags);
-                initToken.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                                true, (byte) 0x01), flags);
+            // write context flbgs with CONTEXT 01
+            if (reqFlbgs != null) {
+                DerOutputStrebm flbgs = new DerOutputStrebm();
+                flbgs.putUnblignedBitString(reqFlbgs);
+                initToken.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                                true, (byte) 0x01), flbgs);
             }
 
             // mechToken with CONTEXT 02
             if (mechToken != null) {
-                DerOutputStream dataValue = new DerOutputStream();
-                dataValue.putOctetString(mechToken);
-                initToken.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                                true, (byte) 0x02), dataValue);
+                DerOutputStrebm dbtbVblue = new DerOutputStrebm();
+                dbtbVblue.putOctetString(mechToken);
+                initToken.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                                true, (byte) 0x02), dbtbVblue);
             }
 
             // mechListMIC with CONTEXT 03
@@ -120,74 +120,74 @@ public class NegTokenInit extends SpNegoToken {
                     System.out.println("SpNegoToken NegTokenInit: " +
                                         "sending MechListMIC");
                 }
-                DerOutputStream mic = new DerOutputStream();
+                DerOutputStrebm mic = new DerOutputStrebm();
                 mic.putOctetString(mechListMIC);
-                initToken.write(DerValue.createTag(DerValue.TAG_CONTEXT,
+                initToken.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                                                 true, (byte) 0x03), mic);
             }
 
-            // insert in a SEQUENCE
-            DerOutputStream out = new DerOutputStream();
-            out.write(DerValue.tag_Sequence, initToken);
+            // insert in b SEQUENCE
+            DerOutputStrebm out = new DerOutputStrebm();
+            out.write(DerVblue.tbg_Sequence, initToken);
 
-            return out.toByteArray();
+            return out.toByteArrby();
 
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                "Invalid SPNEGO NegTokenInit token : " + e.getMessage());
+                "Invblid SPNEGO NegTokenInit token : " + e.getMessbge());
         }
     }
 
-    private void parseToken(byte[] in) throws GSSException {
+    privbte void pbrseToken(byte[] in) throws GSSException {
         try {
-            DerValue der = new DerValue(in);
-            // verify NegotiationToken type token
+            DerVblue der = new DerVblue(in);
+            // verify NegotibtionToken type token
             if (!der.isContextSpecific((byte) NEG_TOKEN_INIT_ID)) {
                 throw new IOException("SPNEGO NegoTokenInit : " +
-                                "did not have right token type");
+                                "did not hbve right token type");
             }
-            DerValue tmp1 = der.data.getDerValue();
-            if (tmp1.tag != DerValue.tag_Sequence) {
+            DerVblue tmp1 = der.dbtb.getDerVblue();
+            if (tmp1.tbg != DerVblue.tbg_Sequence) {
                 throw new IOException("SPNEGO NegoTokenInit : " +
-                                "did not have the Sequence tag");
+                                "did not hbve the Sequence tbg");
             }
 
-            // parse various fields if present
-            int lastField = -1;
-            while (tmp1.data.available() > 0) {
-                DerValue tmp2 = tmp1.data.getDerValue();
+            // pbrse vbrious fields if present
+            int lbstField = -1;
+            while (tmp1.dbtb.bvbilbble() > 0) {
+                DerVblue tmp2 = tmp1.dbtb.getDerVblue();
                 if (tmp2.isContextSpecific((byte)0x00)) {
                     // get the DER-encoded sequence of mechTypes
-                    lastField = checkNextField(lastField, 0);
-                    DerInputStream mValue = tmp2.data;
-                    mechTypes = mValue.toByteArray();
+                    lbstField = checkNextField(lbstField, 0);
+                    DerInputStrebm mVblue = tmp2.dbtb;
+                    mechTypes = mVblue.toByteArrby();
 
-                    // read all the mechTypes
-                    DerValue[] mList = mValue.getSequence(0);
+                    // rebd bll the mechTypes
+                    DerVblue[] mList = mVblue.getSequence(0);
                     mechTypeList = new Oid[mList.length];
                     ObjectIdentifier mech = null;
                     for (int i = 0; i < mList.length; i++) {
                         mech = mList[i].getOID();
                         if (DEBUG) {
                             System.out.println("SpNegoToken NegTokenInit: " +
-                                    "reading Mechanism Oid = " + mech);
+                                    "rebding Mechbnism Oid = " + mech);
                         }
                         mechTypeList[i] = new Oid(mech.toString());
                     }
                 } else if (tmp2.isContextSpecific((byte)0x01)) {
-                    lastField = checkNextField(lastField, 1);
-                    // received reqFlags, skip it
+                    lbstField = checkNextField(lbstField, 1);
+                    // received reqFlbgs, skip it
                 } else if (tmp2.isContextSpecific((byte)0x02)) {
-                    lastField = checkNextField(lastField, 2);
+                    lbstField = checkNextField(lbstField, 2);
                     if (DEBUG) {
                         System.out.println("SpNegoToken NegTokenInit: " +
-                                            "reading Mech Token");
+                                            "rebding Mech Token");
                     }
-                    mechToken = tmp2.data.getOctetString();
+                    mechToken = tmp2.dbtb.getOctetString();
                 } else if (tmp2.isContextSpecific((byte)0x03)) {
-                    lastField = checkNextField(lastField, 3);
+                    lbstField = checkNextField(lbstField, 3);
                     if (!GSSUtil.useMSInterop()) {
-                        mechListMIC = tmp2.data.getOctetString();
+                        mechListMIC = tmp2.dbtb.getOctetString();
                         if (DEBUG) {
                             System.out.println("SpNegoToken NegTokenInit: " +
                                     "MechListMIC Token = " +
@@ -196,9 +196,9 @@ public class NegTokenInit extends SpNegoToken {
                     }
                 }
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                "Invalid SPNEGO NegTokenInit token : " + e.getMessage());
+                "Invblid SPNEGO NegTokenInit token : " + e.getMessbge());
         }
     }
 
@@ -206,18 +206,18 @@ public class NegTokenInit extends SpNegoToken {
         return mechTypes;
     }
 
-    // Used by sun.security.jgss.wrapper.NativeGSSContext
+    // Used by sun.security.jgss.wrbpper.NbtiveGSSContext
     // to find the mechs in SPNEGO tokens
     public Oid[] getMechTypeList() {
         return mechTypeList;
     }
 
-    BitArray getReqFlags() {
-        return reqFlags;
+    BitArrby getReqFlbgs() {
+        return reqFlbgs;
     }
 
-    // Used by sun.security.jgss.wrapper.NativeGSSContext
-    // to access the mech token portion of SPNEGO tokens
+    // Used by sun.security.jgss.wrbpper.NbtiveGSSContext
+    // to bccess the mech token portion of SPNEGO tokens
     public byte[] getMechToken() {
         return mechToken;
     }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,55 +30,55 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* Functionality for checking hprof format=b output. */
+/* Functionblity for checking hprof formbt=b output. */
 
-/* ONLY used with logflags=4. */
+/* ONLY used with logflbgs=4. */
 
-/* Verifies and write a verbose textual version of a format=b file.
- *   Textual output file is gdata->checkfilename, fd is gdata->check_fd.
- *   Buffer is in gdata too, see gdata->check* variables.
- *   Could probably be isolated to a separate library or utility.
+/* Verifies bnd write b verbose textubl version of b formbt=b file.
+ *   Textubl output file is gdbtb->checkfilenbme, fd is gdbtb->check_fd.
+ *   Buffer is in gdbtb too, see gdbtb->check* vbribbles.
+ *   Could probbbly be isolbted to b sepbrbte librbry or utility.
  */
 
 #include "hprof.h"
 
-typedef TableIndex HprofId;
+typedef TbbleIndex HprofId;
 
 #include "hprof_b_spec.h"
 
-static int type_size[ /*HprofType*/ ] =  HPROF_TYPE_SIZES;
+stbtic int type_size[ /*HprofType*/ ] =  HPROF_TYPE_SIZES;
 
-/* For map from HPROF_UTF8 to a string */
-typedef struct UmapInfo {
-    char *str;
-} UmapInfo;
+/* For mbp from HPROF_UTF8 to b string */
+typedef struct UmbpInfo {
+    chbr *str;
+} UmbpInfo;
 
-/* Field information */
+/* Field informbtion */
 typedef struct Finfo {
     HprofId   id;
     HprofType ty;
 } Finfo;
 
-/* Class information map from class ID (ClassIndex) to class information */
-typedef struct CmapInfo {
-    int      max_finfo;
+/* Clbss informbtion mbp from clbss ID (ClbssIndex) to clbss informbtion */
+typedef struct CmbpInfo {
+    int      mbx_finfo;
     int      n_finfo;
     Finfo   *finfo;
     int      inst_size;
     HprofId  sup;
-} CmapInfo;
+} CmbpInfo;
 
-/* Read raw bytes from the file image, update the pointer */
-static void
-read_raw(unsigned char **pp, unsigned char *buf, int len)
+/* Rebd rbw bytes from the file imbge, updbte the pointer */
+stbtic void
+rebd_rbw(unsigned chbr **pp, unsigned chbr *buf, int len)
 {
     while ( len > 0 ) {
         *buf = **pp;
@@ -88,75 +88,75 @@ read_raw(unsigned char **pp, unsigned char *buf, int len)
     }
 }
 
-/* Read various sized elements, properly converted from big to right endian.
- *    File will contain big endian format.
+/* Rebd vbrious sized elements, properly converted from big to right endibn.
+ *    File will contbin big endibn formbt.
  */
-static unsigned
-read_u1(unsigned char **pp)
+stbtic unsigned
+rebd_u1(unsigned chbr **pp)
 {
-    unsigned char b;
+    unsigned chbr b;
 
-    read_raw(pp, &b, 1);
+    rebd_rbw(pp, &b, 1);
     return b;
 }
-static unsigned
-read_u2(unsigned char **pp)
+stbtic unsigned
+rebd_u2(unsigned chbr **pp)
 {
     unsigned short s;
 
-    read_raw(pp, (void*)&s, 2);
+    rebd_rbw(pp, (void*)&s, 2);
     return md_htons(s);
 }
-static unsigned
-read_u4(unsigned char **pp)
+stbtic unsigned
+rebd_u4(unsigned chbr **pp)
 {
     unsigned int u;
 
-    read_raw(pp, (void*)&u, 4);
+    rebd_rbw(pp, (void*)&u, 4);
     return md_htonl(u);
 }
-static jlong
-read_u8(unsigned char **pp)
+stbtic jlong
+rebd_u8(unsigned chbr **pp)
 {
     unsigned int high;
     unsigned int low;
     jlong        x;
 
-    high = read_u4(pp);
-    low  = read_u4(pp);
+    high = rebd_u4(pp);
+    low  = rebd_u4(pp);
     x = high;
     x = (x << 32) | low;
     return x;
 }
-static HprofId
-read_id(unsigned char **pp)
+stbtic HprofId
+rebd_id(unsigned chbr **pp)
 {
-    return (HprofId)read_u4(pp);
+    return (HprofId)rebd_u4(pp);
 }
 
 /* System error routine */
-static void
-system_error(const char *system_call, int rc, int errnum)
+stbtic void
+system_error(const chbr *system_cbll, int rc, int errnum)
 {
-    char buf[256];
-    char details[256];
+    chbr buf[256];
+    chbr detbils[256];
 
-    details[0] = 0;
+    detbils[0] = 0;
     if ( errnum != 0 ) {
-        md_system_error(details, (int)sizeof(details));
+        md_system_error(detbils, (int)sizeof(detbils));
     } else if ( rc >= 0 ) {
-        (void)strcpy(details,"Only part of buffer processed");
+        (void)strcpy(detbils,"Only pbrt of buffer processed");
     }
-    if ( details[0] == 0 ) {
-        (void)strcpy(details,"Unknown system error condition");
+    if ( detbils[0] == 0 ) {
+        (void)strcpy(detbils,"Unknown system error condition");
     }
-    (void)md_snprintf(buf, sizeof(buf), "System %s failed: %s\n",
-                            system_call, details);
+    (void)md_snprintf(buf, sizeof(buf), "System %s fbiled: %s\n",
+                            system_cbll, detbils);
     HPROF_ERROR(JNI_TRUE, buf);
 }
 
-/* Write to a fd */
-static void
+/* Write to b fd */
+stbtic void
 system_write(int fd, void *buf, int len)
 {
     int res;
@@ -169,60 +169,60 @@ system_write(int fd, void *buf, int len)
 }
 
 /* Flush check buffer */
-static void
+stbtic void
 check_flush(void)
 {
-    if ( gdata->check_fd < 0 ) {
+    if ( gdbtb->check_fd < 0 ) {
         return;
     }
-    if (gdata->check_buffer_index) {
-        system_write(gdata->check_fd, gdata->check_buffer, gdata->check_buffer_index);
-        gdata->check_buffer_index = 0;
+    if (gdbtb->check_buffer_index) {
+        system_write(gdbtb->check_fd, gdbtb->check_buffer, gdbtb->check_buffer_index);
+        gdbtb->check_buffer_index = 0;
     }
 }
 
-/* Read out a given typed element */
-static jvalue
-read_val(unsigned char **pp, HprofType ty)
+/* Rebd out b given typed element */
+stbtic jvblue
+rebd_vbl(unsigned chbr **pp, HprofType ty)
 {
-    jvalue        val;
-    static jvalue empty_val;
+    jvblue        vbl;
+    stbtic jvblue empty_vbl;
 
-    val = empty_val;
+    vbl = empty_vbl;
     switch ( ty ) {
-        case 0:
-        case HPROF_ARRAY_OBJECT:
-        case HPROF_NORMAL_OBJECT:
-            val.i = read_id(pp);
-            break;
-        case HPROF_BYTE:
-        case HPROF_BOOLEAN:
-            val.b = read_u1(pp);
-            break;
-        case HPROF_CHAR:
-        case HPROF_SHORT:
-            val.s = read_u2(pp);
-            break;
-        case HPROF_FLOAT:
-        case HPROF_INT:
-            val.i = read_u4(pp);
-            break;
-        case HPROF_DOUBLE:
-        case HPROF_LONG:
-            val.j = read_u8(pp);
-            break;
-        default:
-            HPROF_ERROR(JNI_TRUE, "bad type number");
-            break;
+        cbse 0:
+        cbse HPROF_ARRAY_OBJECT:
+        cbse HPROF_NORMAL_OBJECT:
+            vbl.i = rebd_id(pp);
+            brebk;
+        cbse HPROF_BYTE:
+        cbse HPROF_BOOLEAN:
+            vbl.b = rebd_u1(pp);
+            brebk;
+        cbse HPROF_CHAR:
+        cbse HPROF_SHORT:
+            vbl.s = rebd_u2(pp);
+            brebk;
+        cbse HPROF_FLOAT:
+        cbse HPROF_INT:
+            vbl.i = rebd_u4(pp);
+            brebk;
+        cbse HPROF_DOUBLE:
+        cbse HPROF_LONG:
+            vbl.j = rebd_u8(pp);
+            brebk;
+        defbult:
+            HPROF_ERROR(JNI_TRUE, "bbd type number");
+            brebk;
     }
-    return val;
+    return vbl;
 }
 
-/* Move arbitrary byte stream into gdata->check_fd */
-static void
-check_raw(void *buf, int len)
+/* Move brbitrbry byte strebm into gdbtb->check_fd */
+stbtic void
+check_rbw(void *buf, int len)
 {
-    if ( gdata->check_fd < 0 ) {
+    if ( gdbtb->check_fd < 0 ) {
         return;
     }
 
@@ -230,96 +230,96 @@ check_raw(void *buf, int len)
         return;
     }
 
-    if (gdata->check_buffer_index + len > gdata->check_buffer_size) {
+    if (gdbtb->check_buffer_index + len > gdbtb->check_buffer_size) {
         check_flush();
-        if (len > gdata->check_buffer_size) {
-            system_write(gdata->check_fd, buf, len);
+        if (len > gdbtb->check_buffer_size) {
+            system_write(gdbtb->check_fd, buf, len);
             return;
         }
     }
-    (void)memcpy(gdata->check_buffer + gdata->check_buffer_index, buf, len);
-    gdata->check_buffer_index += len;
+    (void)memcpy(gdbtb->check_buffer + gdbtb->check_buffer_index, buf, len);
+    gdbtb->check_buffer_index += len;
 }
 
-/* Printf for gdata->check_fd */
-static void
-check_printf(char *fmt, ...)
+/* Printf for gdbtb->check_fd */
+stbtic void
+check_printf(chbr *fmt, ...)
 {
-    char    buf[1024];
-    va_list args;
+    chbr    buf[1024];
+    vb_list brgs;
 
-    if ( gdata->check_fd < 0 ) {
+    if ( gdbtb->check_fd < 0 ) {
         return;
     }
 
-    va_start(args, fmt);
-    (void)md_vsnprintf(buf, sizeof(buf), fmt, args);
+    vb_stbrt(brgs, fmt);
+    (void)md_vsnprintf(buf, sizeof(buf), fmt, brgs);
     buf[sizeof(buf)-1] = 0;
-    check_raw(buf, (int)strlen(buf));
-    va_end(args);
+    check_rbw(buf, (int)strlen(buf));
+    vb_end(brgs);
 }
 
-/* Printf of an element for gdata->check_fd */
-static void
-check_printf_val(HprofType ty, jvalue val, int long_form)
+/* Printf of bn element for gdbtb->check_fd */
+stbtic void
+check_printf_vbl(HprofType ty, jvblue vbl, int long_form)
 {
     jint low;
     jint high;
 
     switch ( ty ) {
-        case HPROF_ARRAY_OBJECT:
-            check_printf("0x%08x", val.i);
-            break;
-        case HPROF_NORMAL_OBJECT:
-            check_printf("0x%08x", val.i);
-            break;
-        case HPROF_BOOLEAN:
-            check_printf("0x%02x", val.b);
-            break;
-        case HPROF_CHAR:
+        cbse HPROF_ARRAY_OBJECT:
+            check_printf("0x%08x", vbl.i);
+            brebk;
+        cbse HPROF_NORMAL_OBJECT:
+            check_printf("0x%08x", vbl.i);
+            brebk;
+        cbse HPROF_BOOLEAN:
+            check_printf("0x%02x", vbl.b);
+            brebk;
+        cbse HPROF_CHAR:
             if ( long_form ) {
-                if ( val.s < 0 || val.s > 0x7f || !isprint(val.s) ) {
-                    check_printf("0x%04x", val.s);
+                if ( vbl.s < 0 || vbl.s > 0x7f || !isprint(vbl.s) ) {
+                    check_printf("0x%04x", vbl.s);
                 } else {
-                    check_printf("0x%04x(%c)", val.s, val.s);
+                    check_printf("0x%04x(%c)", vbl.s, vbl.s);
                 }
             } else {
-                if ( val.s < 0 || val.s > 0x7f || !isprint(val.s) ) {
-                    check_printf("\\u%04x", val.s);
+                if ( vbl.s < 0 || vbl.s > 0x7f || !isprint(vbl.s) ) {
+                    check_printf("\\u%04x", vbl.s);
                 } else {
-                    check_printf("%c", val.s);
+                    check_printf("%c", vbl.s);
                 }
             }
-            break;
-        case HPROF_FLOAT:
-            low  = jlong_low(val.j);
-            check_printf("0x%08x(%f)", low, (double)val.f);
-            break;
-        case HPROF_DOUBLE:
-            high = jlong_high(val.j);
-            low  = jlong_low(val.j);
-            check_printf("0x%08x%08x(%f)", high, low, val.d);
-            break;
-        case HPROF_BYTE:
-            check_printf("0x%02x", val.b);
-            break;
-        case HPROF_SHORT:
-            check_printf("0x%04x", val.s);
-            break;
-        case HPROF_INT:
-            check_printf("0x%08x", val.i);
-            break;
-        case HPROF_LONG:
-            high = jlong_high(val.j);
-            low  = jlong_low(val.j);
+            brebk;
+        cbse HPROF_FLOAT:
+            low  = jlong_low(vbl.j);
+            check_printf("0x%08x(%f)", low, (double)vbl.f);
+            brebk;
+        cbse HPROF_DOUBLE:
+            high = jlong_high(vbl.j);
+            low  = jlong_low(vbl.j);
+            check_printf("0x%08x%08x(%f)", high, low, vbl.d);
+            brebk;
+        cbse HPROF_BYTE:
+            check_printf("0x%02x", vbl.b);
+            brebk;
+        cbse HPROF_SHORT:
+            check_printf("0x%04x", vbl.s);
+            brebk;
+        cbse HPROF_INT:
+            check_printf("0x%08x", vbl.i);
+            brebk;
+        cbse HPROF_LONG:
+            high = jlong_high(vbl.j);
+            low  = jlong_low(vbl.j);
             check_printf("0x%08x%08x", high, low);
-            break;
+            brebk;
     }
 }
 
-/* Printf of a string for gdata->check_fd */
-static void
-check_printf_str(char *str)
+/* Printf of b string for gdbtb->check_fd */
+stbtic void
+check_printf_str(chbr *str)
 {
     int len;
     int i;
@@ -330,7 +330,7 @@ check_printf_str(char *str)
     check_printf("\"");
     len = (int)strlen(str);
     for (i = 0; i < len; i++) {
-        unsigned char c;
+        unsigned chbr c;
         c = str[i];
         if ( isprint(c) ) {
             check_printf("%c", c);
@@ -341,464 +341,464 @@ check_printf_str(char *str)
     check_printf("\"");
 }
 
-/* Printf of a utf8 id for gdata->check_fd */
-static void
-check_print_utf8(struct LookupTable *utab, char *prefix, HprofId id)
+/* Printf of b utf8 id for gdbtb->check_fd */
+stbtic void
+check_print_utf8(struct LookupTbble *utbb, chbr *prefix, HprofId id)
 {
-    TableIndex uindex;
+    TbbleIndex uindex;
 
     if ( id == 0 ) {
         check_printf("%s0x%x", prefix, id);
     } else {
-        uindex = table_find_entry(utab, &id, sizeof(id));
+        uindex = tbble_find_entry(utbb, &id, sizeof(id));
         if ( uindex == 0 ) {
             check_printf("%s0x%x", prefix, id);
         } else {
-            UmapInfo *umap;
+            UmbpInfo *umbp;
 
-            umap = (UmapInfo*)table_get_info(utab, uindex);
-            HPROF_ASSERT(umap!=NULL);
-            HPROF_ASSERT(umap->str!=NULL);
+            umbp = (UmbpInfo*)tbble_get_info(utbb, uindex);
+            HPROF_ASSERT(umbp!=NULL);
+            HPROF_ASSERT(umbp->str!=NULL);
             check_printf("%s0x%x->", prefix, id);
-            check_printf_str(umap->str);
+            check_printf_str(umbp->str);
         }
     }
 }
 
-/* Add a instance field information to this cmap. */
-static void
-add_inst_field_to_cmap(CmapInfo *cmap, HprofId id, HprofType ty)
+/* Add b instbnce field informbtion to this cmbp. */
+stbtic void
+bdd_inst_field_to_cmbp(CmbpInfo *cmbp, HprofId id, HprofType ty)
 {
    int i;
 
-   HPROF_ASSERT(cmap!=NULL);
-   i = cmap->n_finfo++;
-   if ( i+1 >= cmap->max_finfo ) {
+   HPROF_ASSERT(cmbp!=NULL);
+   i = cmbp->n_finfo++;
+   if ( i+1 >= cmbp->mbx_finfo ) {
        int    osize;
        Finfo *new_finfo;
 
-       osize            = cmap->max_finfo;
-       cmap->max_finfo += 12;
-       new_finfo = (Finfo*)HPROF_MALLOC(cmap->max_finfo*(int)sizeof(Finfo));
-       (void)memset(new_finfo,0,cmap->max_finfo*(int)sizeof(Finfo));
+       osize            = cmbp->mbx_finfo;
+       cmbp->mbx_finfo += 12;
+       new_finfo = (Finfo*)HPROF_MALLOC(cmbp->mbx_finfo*(int)sizeof(Finfo));
+       (void)memset(new_finfo,0,cmbp->mbx_finfo*(int)sizeof(Finfo));
        if ( i == 0 ) {
-           cmap->finfo = new_finfo;
+           cmbp->finfo = new_finfo;
        } else {
-           (void)memcpy(new_finfo,cmap->finfo,osize*(int)sizeof(Finfo));
-           HPROF_FREE(cmap->finfo);
-           cmap->finfo = new_finfo;
+           (void)memcpy(new_finfo,cmbp->finfo,osize*(int)sizeof(Finfo));
+           HPROF_FREE(cmbp->finfo);
+           cmbp->finfo = new_finfo;
        }
    }
-   cmap->finfo[i].id = id;
-   cmap->finfo[i].ty = ty;
+   cmbp->finfo[i].id = id;
+   cmbp->finfo[i].ty = ty;
 }
 
-/* LookupTable callback for cmap entry cleanup */
-static void
-cmap_cleanup(TableIndex i, void *key_ptr, int key_len, void*info, void*data)
+/* LookupTbble cbllbbck for cmbp entry clebnup */
+stbtic void
+cmbp_clebnup(TbbleIndex i, void *key_ptr, int key_len, void*info, void*dbtb)
 {
-    CmapInfo *cmap = info;
+    CmbpInfo *cmbp = info;
 
-    if ( cmap == NULL ) {
+    if ( cmbp == NULL ) {
         return;
     }
-    if ( cmap->finfo != NULL ) {
-        HPROF_FREE(cmap->finfo);
-        cmap->finfo = NULL;
+    if ( cmbp->finfo != NULL ) {
+        HPROF_FREE(cmbp->finfo);
+        cmbp->finfo = NULL;
     }
 }
 
-/* Case label for a switch on hprof heap dump elements */
-#define CASE_HEAP(name) case name: label = #name;
+/* Cbse lbbel for b switch on hprof hebp dump elements */
+#define CASE_HEAP(nbme) cbse nbme: lbbel = #nbme;
 
-/* Given the heap dump data and the utf8 map, check/write the heap dump. */
-static int
-check_heap_tags(struct LookupTable *utab, unsigned char *pstart, int nbytes)
+/* Given the hebp dump dbtb bnd the utf8 mbp, check/write the hebp dump. */
+stbtic int
+check_hebp_tbgs(struct LookupTbble *utbb, unsigned chbr *pstbrt, int nbytes)
 {
     int                 nrecords;
-    unsigned char      *p;
-    unsigned char      *psave;
-    struct LookupTable *ctab;
-    CmapInfo            cmap;
-    char               *label;
-    unsigned            tag;
+    unsigned chbr      *p;
+    unsigned chbr      *psbve;
+    struct LookupTbble *ctbb;
+    CmbpInfo            cmbp;
+    chbr               *lbbel;
+    unsigned            tbg;
     HprofType           ty;
     HprofId             id, id2, fr, sup;
     int                 num_elements;
     int                 num_bytes;
-    SerialNumber        trace_serial_num;
-    SerialNumber        thread_serial_num;
+    SeriblNumber        trbce_seribl_num;
+    SeriblNumber        threbd_seribl_num;
     int                 npos;
     int                 i;
     int                 inst_size;
 
-    ctab     = table_initialize("temp ctab", 64, 64, 512, sizeof(CmapInfo));
+    ctbb     = tbble_initiblize("temp ctbb", 64, 64, 512, sizeof(CmbpInfo));
 
-    /* First pass over heap records just fills in the CmapInfo table */
+    /* First pbss over hebp records just fills in the CmbpInfo tbble */
     nrecords = 0;
-    p        = pstart;
-    while ( p < (pstart+nbytes) ) {
+    p        = pstbrt;
+    while ( p < (pstbrt+nbytes) ) {
         nrecords++;
         /*LINTED*/
-        npos = (int)(p - pstart);
-        tag  = read_u1(&p);
-        switch ( tag ) {
+        npos = (int)(p - pstbrt);
+        tbg  = rebd_u1(&p);
+        switch ( tbg ) {
             CASE_HEAP(HPROF_GC_ROOT_UNKNOWN)
-                id = read_id(&p);
-                break;
+                id = rebd_id(&p);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_JNI_GLOBAL)
-                id  = read_id(&p);
-                id2 = read_id(&p);
-                break;
+                id  = rebd_id(&p);
+                id2 = rebd_id(&p);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_JNI_LOCAL)
-                id = read_id(&p);
-                thread_serial_num = read_u4(&p);
-                fr = read_u4(&p);
-                break;
+                id = rebd_id(&p);
+                threbd_seribl_num = rebd_u4(&p);
+                fr = rebd_u4(&p);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_JAVA_FRAME)
-                id = read_id(&p);
-                thread_serial_num = read_u4(&p);
-                fr = read_u4(&p);
-                break;
+                id = rebd_id(&p);
+                threbd_seribl_num = rebd_u4(&p);
+                fr = rebd_u4(&p);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_NATIVE_STACK)
-                id = read_id(&p);
-                thread_serial_num = read_u4(&p);
-                break;
+                id = rebd_id(&p);
+                threbd_seribl_num = rebd_u4(&p);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_STICKY_CLASS)
-                id = read_id(&p);
-                break;
+                id = rebd_id(&p);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_THREAD_BLOCK)
-                id = read_id(&p);
-                thread_serial_num = read_u4(&p);
-                break;
+                id = rebd_id(&p);
+                threbd_seribl_num = rebd_u4(&p);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_MONITOR_USED)
-                id = read_id(&p);
-                break;
+                id = rebd_id(&p);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_THREAD_OBJ)
-                id = read_id(&p);
-                thread_serial_num = read_u4(&p);
-                trace_serial_num = read_u4(&p);
-                break;
+                id = rebd_id(&p);
+                threbd_seribl_num = rebd_u4(&p);
+                trbce_seribl_num = rebd_u4(&p);
+                brebk;
             CASE_HEAP(HPROF_GC_CLASS_DUMP)
-                (void)memset((void*)&cmap, 0, sizeof(cmap));
-                id = read_id(&p);
-                trace_serial_num = read_u4(&p);
+                (void)memset((void*)&cmbp, 0, sizeof(cmbp));
+                id = rebd_id(&p);
+                trbce_seribl_num = rebd_u4(&p);
                 {
                     HprofId ld, si, pr, re1, re2;
 
-                    sup      = read_id(&p);
-                    ld       = read_id(&p);
-                    si       = read_id(&p);
-                    pr       = read_id(&p);
-                    re1      = read_id(&p);
-                    re2      = read_id(&p);
-                    cmap.sup = sup;
+                    sup      = rebd_id(&p);
+                    ld       = rebd_id(&p);
+                    si       = rebd_id(&p);
+                    pr       = rebd_id(&p);
+                    re1      = rebd_id(&p);
+                    re2      = rebd_id(&p);
+                    cmbp.sup = sup;
                 }
-                inst_size = read_u4(&p);
-                cmap.inst_size = inst_size;
-                num_elements = read_u2(&p);
+                inst_size = rebd_u4(&p);
+                cmbp.inst_size = inst_size;
+                num_elements = rebd_u2(&p);
                 for(i=0; i<num_elements; i++) {
-                    (void)read_u2(&p);
-                    ty = read_u1(&p);
-                    (void)read_val(&p, ty);
+                    (void)rebd_u2(&p);
+                    ty = rebd_u1(&p);
+                    (void)rebd_vbl(&p, ty);
                 }
-                num_elements = read_u2(&p);
+                num_elements = rebd_u2(&p);
                 for(i=0; i<num_elements; i++) {
-                    (void)read_id(&p);
-                    ty = read_u1(&p);
-                    (void)read_val(&p, ty);
+                    (void)rebd_id(&p);
+                    ty = rebd_u1(&p);
+                    (void)rebd_vbl(&p, ty);
                 }
-                num_elements = read_u2(&p);
+                num_elements = rebd_u2(&p);
                 for(i=0; i<num_elements; i++) {
                     HprofType ty;
                     HprofId   id;
 
-                    id = read_id(&p);
-                    ty = read_u1(&p);
-                    add_inst_field_to_cmap(&cmap, id, ty);
+                    id = rebd_id(&p);
+                    ty = rebd_u1(&p);
+                    bdd_inst_field_to_cmbp(&cmbp, id, ty);
                 }
-                (void)table_create_entry(ctab, &id, sizeof(id), &cmap);
-                break;
+                (void)tbble_crebte_entry(ctbb, &id, sizeof(id), &cmbp);
+                brebk;
             CASE_HEAP(HPROF_GC_INSTANCE_DUMP)
-                id = read_id(&p);
-                trace_serial_num = read_u4(&p);
-                id2 = read_id(&p); /* class id */
-                num_bytes = read_u4(&p);
+                id = rebd_id(&p);
+                trbce_seribl_num = rebd_u4(&p);
+                id2 = rebd_id(&p); /* clbss id */
+                num_bytes = rebd_u4(&p);
                 p += num_bytes;
-                break;
+                brebk;
             CASE_HEAP(HPROF_GC_OBJ_ARRAY_DUMP)
-                id = read_id(&p);
-                trace_serial_num = read_u4(&p);
-                num_elements = read_u4(&p);
-                id2 = read_id(&p);
+                id = rebd_id(&p);
+                trbce_seribl_num = rebd_u4(&p);
+                num_elements = rebd_u4(&p);
+                id2 = rebd_id(&p);
                 p += num_elements*(int)sizeof(HprofId);
-                break;
+                brebk;
             CASE_HEAP(HPROF_GC_PRIM_ARRAY_DUMP)
-                id = read_id(&p);
-                trace_serial_num = read_u4(&p);
-                num_elements = read_u4(&p);
-                ty = read_u1(&p);
+                id = rebd_id(&p);
+                trbce_seribl_num = rebd_u4(&p);
+                num_elements = rebd_u4(&p);
+                ty = rebd_u1(&p);
                 p += type_size[ty]*num_elements;
-                break;
-            default:
-                label = "UNKNOWN";
+                brebk;
+            defbult:
+                lbbel = "UNKNOWN";
                 check_printf("H#%d@%d %s: ERROR!\n",
-                                nrecords, npos, label);
-                HPROF_ERROR(JNI_TRUE, "unknown heap record type");
-                break;
+                                nrecords, npos, lbbel);
+                HPROF_ERROR(JNI_TRUE, "unknown hebp record type");
+                brebk;
         }
     }
-    CHECK_FOR_ERROR(p==pstart+nbytes);
+    CHECK_FOR_ERROR(p==pstbrt+nbytes);
 
-    /* Scan again once we have our cmap */
+    /* Scbn bgbin once we hbve our cmbp */
     nrecords = 0;
-    p        = pstart;
-    while ( p < (pstart+nbytes) ) {
+    p        = pstbrt;
+    while ( p < (pstbrt+nbytes) ) {
         nrecords++;
         /*LINTED*/
-        npos = (int)(p - pstart);
-        tag  = read_u1(&p);
-        switch ( tag ) {
+        npos = (int)(p - pstbrt);
+        tbg  = rebd_u1(&p);
+        switch ( tbg ) {
             CASE_HEAP(HPROF_GC_ROOT_UNKNOWN)
-                id = read_id(&p);
+                id = rebd_id(&p);
                 check_printf("H#%d@%d %s: id=0x%x\n",
-                        nrecords, npos, label, id);
-                break;
+                        nrecords, npos, lbbel, id);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_JNI_GLOBAL)
-                id = read_id(&p);
-                id2 = read_id(&p);
+                id = rebd_id(&p);
+                id2 = rebd_id(&p);
                 check_printf("H#%d@%d %s: id=0x%x, id2=0x%x\n",
-                        nrecords, npos, label, id, id2);
-                break;
+                        nrecords, npos, lbbel, id, id2);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_JNI_LOCAL)
-                id = read_id(&p);
-                thread_serial_num = read_u4(&p);
-                fr = read_u4(&p);
-                check_printf("H#%d@%d %s: id=0x%x, thread_serial_num=%u, fr=0x%x\n",
-                        nrecords, npos, label, id, thread_serial_num, fr);
-                break;
+                id = rebd_id(&p);
+                threbd_seribl_num = rebd_u4(&p);
+                fr = rebd_u4(&p);
+                check_printf("H#%d@%d %s: id=0x%x, threbd_seribl_num=%u, fr=0x%x\n",
+                        nrecords, npos, lbbel, id, threbd_seribl_num, fr);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_JAVA_FRAME)
-                id = read_id(&p);
-                thread_serial_num = read_u4(&p);
-                fr = read_u4(&p);
-                check_printf("H#%d@%d %s: id=0x%x, thread_serial_num=%u, fr=0x%x\n",
-                        nrecords, npos, label, id, thread_serial_num, fr);
-                break;
+                id = rebd_id(&p);
+                threbd_seribl_num = rebd_u4(&p);
+                fr = rebd_u4(&p);
+                check_printf("H#%d@%d %s: id=0x%x, threbd_seribl_num=%u, fr=0x%x\n",
+                        nrecords, npos, lbbel, id, threbd_seribl_num, fr);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_NATIVE_STACK)
-                id = read_id(&p);
-                thread_serial_num = read_u4(&p);
-                check_printf("H#%d@%d %s: id=0x%x, thread_serial_num=%u\n",
-                        nrecords, npos, label, id, thread_serial_num);
-                break;
+                id = rebd_id(&p);
+                threbd_seribl_num = rebd_u4(&p);
+                check_printf("H#%d@%d %s: id=0x%x, threbd_seribl_num=%u\n",
+                        nrecords, npos, lbbel, id, threbd_seribl_num);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_STICKY_CLASS)
-                id = read_id(&p);
+                id = rebd_id(&p);
                 check_printf("H#%d@%d %s: id=0x%x\n",
-                        nrecords, npos, label, id);
-                break;
+                        nrecords, npos, lbbel, id);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_THREAD_BLOCK)
-                id = read_id(&p);
-                thread_serial_num = read_u4(&p);
-                check_printf("H#%d@%d %s: id=0x%x, thread_serial_num=%u\n",
-                        nrecords, npos, label, id, thread_serial_num);
-                break;
+                id = rebd_id(&p);
+                threbd_seribl_num = rebd_u4(&p);
+                check_printf("H#%d@%d %s: id=0x%x, threbd_seribl_num=%u\n",
+                        nrecords, npos, lbbel, id, threbd_seribl_num);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_MONITOR_USED)
-                id = read_id(&p);
+                id = rebd_id(&p);
                 check_printf("H#%d@%d %s: id=0x%x\n",
-                        nrecords, npos, label, id);
-                break;
+                        nrecords, npos, lbbel, id);
+                brebk;
             CASE_HEAP(HPROF_GC_ROOT_THREAD_OBJ)
-                id = read_id(&p);
-                thread_serial_num = read_u4(&p);
-                trace_serial_num = read_u4(&p);
-                CHECK_TRACE_SERIAL_NO(trace_serial_num);
-                check_printf("H#%d@%d %s: id=0x%x, thread_serial_num=%u,"
-                             " trace_serial_num=%u\n",
-                        nrecords, npos, label, id, thread_serial_num,
-                        trace_serial_num);
-                break;
+                id = rebd_id(&p);
+                threbd_seribl_num = rebd_u4(&p);
+                trbce_seribl_num = rebd_u4(&p);
+                CHECK_TRACE_SERIAL_NO(trbce_seribl_num);
+                check_printf("H#%d@%d %s: id=0x%x, threbd_seribl_num=%u,"
+                             " trbce_seribl_num=%u\n",
+                        nrecords, npos, lbbel, id, threbd_seribl_num,
+                        trbce_seribl_num);
+                brebk;
             CASE_HEAP(HPROF_GC_CLASS_DUMP)
-                id = read_id(&p);
-                trace_serial_num = read_u4(&p);
-                CHECK_TRACE_SERIAL_NO(trace_serial_num);
-                check_printf("H#%d@%d %s: id=0x%x, trace_serial_num=%u\n",
-                        nrecords, npos, label, id, trace_serial_num);
+                id = rebd_id(&p);
+                trbce_seribl_num = rebd_u4(&p);
+                CHECK_TRACE_SERIAL_NO(trbce_seribl_num);
+                check_printf("H#%d@%d %s: id=0x%x, trbce_seribl_num=%u\n",
+                        nrecords, npos, lbbel, id, trbce_seribl_num);
                 {
                     HprofId ld, si, pr, re1, re2;
 
-                    sup = read_id(&p);
-                    ld  = read_id(&p);
-                    si  = read_id(&p);
-                    pr  = read_id(&p);
-                    re1 = read_id(&p);
-                    re2 = read_id(&p);
+                    sup = rebd_id(&p);
+                    ld  = rebd_id(&p);
+                    si  = rebd_id(&p);
+                    pr  = rebd_id(&p);
+                    re1 = rebd_id(&p);
+                    re2 = rebd_id(&p);
                     check_printf("  su=0x%x, ld=0x%x, si=0x%x,"
                                  " pr=0x%x, re1=0x%x, re2=0x%x\n",
                         sup, ld, si, pr, re1, re2);
                 }
-                inst_size = read_u4(&p);
-                check_printf("  instance_size=%d\n", inst_size);
+                inst_size = rebd_u4(&p);
+                check_printf("  instbnce_size=%d\n", inst_size);
 
-                num_elements = read_u2(&p);
+                num_elements = rebd_u2(&p);
                 for(i=0; i<num_elements; i++) {
                     HprofType ty;
                     unsigned  cpi;
-                    jvalue    val;
+                    jvblue    vbl;
 
-                    cpi = read_u2(&p);
-                    ty  = read_u1(&p);
-                    val = read_val(&p, ty);
-                    check_printf("  constant_pool %d: cpi=%d, ty=%d, val=",
+                    cpi = rebd_u2(&p);
+                    ty  = rebd_u1(&p);
+                    vbl = rebd_vbl(&p, ty);
+                    check_printf("  constbnt_pool %d: cpi=%d, ty=%d, vbl=",
                                 i, cpi, ty);
-                    check_printf_val(ty, val, 1);
+                    check_printf_vbl(ty, vbl, 1);
                     check_printf("\n");
                 }
 
-                num_elements = read_u2(&p);
-                check_printf("  static_field_count=%d\n", num_elements);
+                num_elements = rebd_u2(&p);
+                check_printf("  stbtic_field_count=%d\n", num_elements);
                 for(i=0; i<num_elements; i++) {
                     HprofType ty;
                     HprofId   id;
-                    jvalue    val;
+                    jvblue    vbl;
 
-                    id  = read_id(&p);
-                    ty  = read_u1(&p);
-                    val = read_val(&p, ty);
-                    check_printf("  static field %d: ", i);
-                    check_print_utf8(utab, "id=", id);
-                    check_printf(", ty=%d, val=", ty);
-                    check_printf_val(ty, val, 1);
+                    id  = rebd_id(&p);
+                    ty  = rebd_u1(&p);
+                    vbl = rebd_vbl(&p, ty);
+                    check_printf("  stbtic field %d: ", i);
+                    check_print_utf8(utbb, "id=", id);
+                    check_printf(", ty=%d, vbl=", ty);
+                    check_printf_vbl(ty, vbl, 1);
                     check_printf("\n");
                 }
 
-                num_elements = read_u2(&p);
-                check_printf("  instance_field_count=%d\n", num_elements);
+                num_elements = rebd_u2(&p);
+                check_printf("  instbnce_field_count=%d\n", num_elements);
                 for(i=0; i<num_elements; i++) {
                     HprofType ty;
                     HprofId   id;
 
-                    id = read_id(&p);
-                    ty = read_u1(&p);
-                    check_printf("  instance_field %d: ", i);
-                    check_print_utf8(utab, "id=", id);
+                    id = rebd_id(&p);
+                    ty = rebd_u1(&p);
+                    check_printf("  instbnce_field %d: ", i);
+                    check_print_utf8(utbb, "id=", id);
                     check_printf(", ty=%d\n", ty);
                 }
-                break;
+                brebk;
             CASE_HEAP(HPROF_GC_INSTANCE_DUMP)
-                id = read_id(&p);
-                trace_serial_num = read_u4(&p);
-                CHECK_TRACE_SERIAL_NO(trace_serial_num);
-                id2 = read_id(&p); /* class id */
-                num_bytes = read_u4(&p);
-                check_printf("H#%d@%d %s: id=0x%x, trace_serial_num=%u,"
+                id = rebd_id(&p);
+                trbce_seribl_num = rebd_u4(&p);
+                CHECK_TRACE_SERIAL_NO(trbce_seribl_num);
+                id2 = rebd_id(&p); /* clbss id */
+                num_bytes = rebd_u4(&p);
+                check_printf("H#%d@%d %s: id=0x%x, trbce_seribl_num=%u,"
                              " cid=0x%x, nbytes=%d\n",
-                            nrecords, npos, label, id, trace_serial_num,
+                            nrecords, npos, lbbel, id, trbce_seribl_num,
                             id2, num_bytes);
-                /* This is a packed set of bytes for the instance fields */
+                /* This is b pbcked set of bytes for the instbnce fields */
                 if ( num_bytes > 0 ) {
-                    TableIndex cindex;
+                    TbbleIndex cindex;
                     int        ifield;
-                    CmapInfo  *map;
+                    CmbpInfo  *mbp;
 
-                    cindex = table_find_entry(ctab, &id2, sizeof(id2));
+                    cindex = tbble_find_entry(ctbb, &id2, sizeof(id2));
                     HPROF_ASSERT(cindex!=0);
-                    map = (CmapInfo*)table_get_info(ctab, cindex);
-                    HPROF_ASSERT(map!=NULL);
-                    HPROF_ASSERT(num_bytes==map->inst_size);
+                    mbp = (CmbpInfo*)tbble_get_info(ctbb, cindex);
+                    HPROF_ASSERT(mbp!=NULL);
+                    HPROF_ASSERT(num_bytes==mbp->inst_size);
 
-                    psave  = p;
+                    psbve  = p;
                     ifield = 0;
 
                     do {
-                        for(i=0;i<map->n_finfo;i++) {
+                        for(i=0;i<mbp->n_finfo;i++) {
                             HprofType ty;
                             HprofId   id;
-                            jvalue    val;
+                            jvblue    vbl;
 
-                            ty = map->finfo[i].ty;
-                            id = map->finfo[i].id;
+                            ty = mbp->finfo[i].ty;
+                            id = mbp->finfo[i].id;
                             HPROF_ASSERT(ty!=0);
                             HPROF_ASSERT(id!=0);
-                            val = read_val(&p, ty);
+                            vbl = rebd_vbl(&p, ty);
                             check_printf("  field %d: ", ifield);
-                            check_print_utf8(utab, "id=", id);
-                            check_printf(", ty=%d, val=", ty);
-                            check_printf_val(ty, val, 1);
+                            check_print_utf8(utbb, "id=", id);
+                            check_printf(", ty=%d, vbl=", ty);
+                            check_printf_vbl(ty, vbl, 1);
                             check_printf("\n");
                             ifield++;
                         }
-                        id2    = map->sup;
-                        map    = NULL;
+                        id2    = mbp->sup;
+                        mbp    = NULL;
                         cindex = 0;
                         if ( id2 != 0 ) {
-                            cindex = table_find_entry(ctab, &id2, sizeof(id2));
+                            cindex = tbble_find_entry(ctbb, &id2, sizeof(id2));
                             HPROF_ASSERT(cindex!=0);
-                            map = (CmapInfo*)table_get_info(ctab, cindex);
-                            HPROF_ASSERT(map!=NULL);
+                            mbp = (CmbpInfo*)tbble_get_info(ctbb, cindex);
+                            HPROF_ASSERT(mbp!=NULL);
                         }
-                    } while ( map != NULL );
-                    HPROF_ASSERT(num_bytes==(p-psave));
+                    } while ( mbp != NULL );
+                    HPROF_ASSERT(num_bytes==(p-psbve));
                 }
-                break;
+                brebk;
             CASE_HEAP(HPROF_GC_OBJ_ARRAY_DUMP)
-                id = read_id(&p);
-                trace_serial_num = read_u4(&p);
-                CHECK_TRACE_SERIAL_NO(trace_serial_num);
-                num_elements = read_u4(&p);
-                id2 = read_id(&p);
-                check_printf("H#%d@%d %s: id=0x%x, trace_serial_num=%u, nelems=%d, eid=0x%x\n",
-                                nrecords, npos, label, id, trace_serial_num, num_elements, id2);
+                id = rebd_id(&p);
+                trbce_seribl_num = rebd_u4(&p);
+                CHECK_TRACE_SERIAL_NO(trbce_seribl_num);
+                num_elements = rebd_u4(&p);
+                id2 = rebd_id(&p);
+                check_printf("H#%d@%d %s: id=0x%x, trbce_seribl_num=%u, nelems=%d, eid=0x%x\n",
+                                nrecords, npos, lbbel, id, trbce_seribl_num, num_elements, id2);
                 for(i=0; i<num_elements; i++) {
                     HprofId id;
 
-                    id = read_id(&p);
+                    id = rebd_id(&p);
                     check_printf("  [%d]: id=0x%x\n", i, id);
                 }
-                break;
+                brebk;
             CASE_HEAP(HPROF_GC_PRIM_ARRAY_DUMP)
-                id = read_id(&p);
-                trace_serial_num = read_u4(&p);
-                CHECK_TRACE_SERIAL_NO(trace_serial_num);
-                num_elements = read_u4(&p);
-                ty = read_u1(&p);
-                psave = p;
-                check_printf("H#%d@%d %s: id=0x%x, trace_serial_num=%u, "
+                id = rebd_id(&p);
+                trbce_seribl_num = rebd_u4(&p);
+                CHECK_TRACE_SERIAL_NO(trbce_seribl_num);
+                num_elements = rebd_u4(&p);
+                ty = rebd_u1(&p);
+                psbve = p;
+                check_printf("H#%d@%d %s: id=0x%x, trbce_seribl_num=%u, "
                              "nelems=%d, ty=%d\n",
-                                nrecords, npos, label, id, trace_serial_num, num_elements, ty);
+                                nrecords, npos, lbbel, id, trbce_seribl_num, num_elements, ty);
                 HPROF_ASSERT(HPROF_TYPE_IS_PRIMITIVE(ty));
                 if ( num_elements > 0 ) {
                     int   count;
                     int   long_form;
-                    int   max_count;
-                    char *quote;
+                    int   mbx_count;
+                    chbr *quote;
 
                     quote     = "";
                     long_form = 1;
-                    max_count = 8;
+                    mbx_count = 8;
                     count     = 0;
                     switch ( ty ) {
-                        case HPROF_CHAR:
+                        cbse HPROF_CHAR:
                             long_form = 0;
-                            max_count = 72;
+                            mbx_count = 72;
                             quote     = "\"";
                             /*FALLTHRU*/
-                        case HPROF_INT:
-                        case HPROF_DOUBLE:
-                        case HPROF_LONG:
-                        case HPROF_BYTE:
-                        case HPROF_BOOLEAN:
-                        case HPROF_SHORT:
-                        case HPROF_FLOAT:
-                            check_printf("  val=%s", quote);
+                        cbse HPROF_INT:
+                        cbse HPROF_DOUBLE:
+                        cbse HPROF_LONG:
+                        cbse HPROF_BYTE:
+                        cbse HPROF_BOOLEAN:
+                        cbse HPROF_SHORT:
+                        cbse HPROF_FLOAT:
+                            check_printf("  vbl=%s", quote);
                             for(i=0; i<num_elements; i++) {
-                                jvalue val;
+                                jvblue vbl;
 
                                 if ( i > 0 && count == 0 ) {
                                     check_printf("  %s", quote);
                                 }
-                                val = read_val(&p, ty);
-                                check_printf_val(ty, val, long_form);
+                                vbl = rebd_vbl(&p, ty);
+                                check_printf_vbl(ty, vbl, long_form);
                                 count += 1;
-                                if ( count >= max_count ) {
+                                if ( count >= mbx_count ) {
                                     check_printf("\"\n");
                                     count = 0;
                                 }
@@ -806,347 +806,347 @@ check_heap_tags(struct LookupTable *utab, unsigned char *pstart, int nbytes)
                             if ( count != 0 ) {
                                 check_printf("%s\n", quote);
                             }
-                            break;
+                            brebk;
                     }
                 }
-                HPROF_ASSERT(type_size[ty]*num_elements==(p-psave));
-                break;
-            default:
-                label = "UNKNOWN";
+                HPROF_ASSERT(type_size[ty]*num_elements==(p-psbve));
+                brebk;
+            defbult:
+                lbbel = "UNKNOWN";
                 check_printf("H#%d@%d %s: ERROR!\n",
-                                nrecords, npos, label);
-                HPROF_ERROR(JNI_TRUE, "unknown heap record type");
-                break;
+                                nrecords, npos, lbbel);
+                HPROF_ERROR(JNI_TRUE, "unknown hebp record type");
+                brebk;
         }
     }
-    CHECK_FOR_ERROR(p==pstart+nbytes);
+    CHECK_FOR_ERROR(p==pstbrt+nbytes);
 
-    table_cleanup(ctab, &cmap_cleanup, NULL);
+    tbble_clebnup(ctbb, &cmbp_clebnup, NULL);
 
     return nrecords;
 }
 
-/* LookupTable cleanup callback for utab */
-static void
-utab_cleanup(TableIndex i, void *key_ptr, int key_len, void*info, void*data)
+/* LookupTbble clebnup cbllbbck for utbb */
+stbtic void
+utbb_clebnup(TbbleIndex i, void *key_ptr, int key_len, void*info, void*dbtb)
 {
-    UmapInfo *umap = info;
+    UmbpInfo *umbp = info;
 
-    if ( umap == NULL ) {
+    if ( umbp == NULL ) {
         return;
     }
-    if ( umap->str != NULL ) {
-        HPROF_FREE(umap->str);
-        umap->str = NULL;
+    if ( umbp->str != NULL ) {
+        HPROF_FREE(umbp->str);
+        umbp->str = NULL;
     }
 }
 
-/* Check all the heap tags in a heap dump */
-static int
-check_tags(unsigned char *pstart, int nbytes)
+/* Check bll the hebp tbgs in b hebp dump */
+stbtic int
+check_tbgs(unsigned chbr *pstbrt, int nbytes)
 {
-    unsigned char      *p;
+    unsigned chbr      *p;
     int                 nrecord;
-    struct LookupTable *utab;
-    UmapInfo            umap;
+    struct LookupTbble *utbb;
+    UmbpInfo            umbp;
 
-    check_printf("\nCHECK TAGS: starting\n");
+    check_printf("\nCHECK TAGS: stbrting\n");
 
-    utab    = table_initialize("temp utf8 map", 64, 64, 512, sizeof(UmapInfo));
+    utbb    = tbble_initiblize("temp utf8 mbp", 64, 64, 512, sizeof(UmbpInfo));
 
-    /* Walk the tags, assumes UTF8 tags are defined before used */
-    p       = pstart;
+    /* Wblk the tbgs, bssumes UTF8 tbgs bre defined before used */
+    p       = pstbrt;
     nrecord = 0;
-    while ( p < (pstart+nbytes) ) {
-        unsigned     tag;
+    while ( p < (pstbrt+nbytes) ) {
+        unsigned     tbg;
         unsigned     size;
-        int          nheap_records;
+        int          nhebp_records;
         int          npos;
-        char        *label;
+        chbr        *lbbel;
         HprofId      id, nm, sg, so, gr, gn;
         int          i, li, num_elements;
         HprofType    ty;
-        SerialNumber trace_serial_num;
-        SerialNumber thread_serial_num;
-        SerialNumber class_serial_num;
-        unsigned     flags;
+        SeriblNumber trbce_seribl_num;
+        SeriblNumber threbd_seribl_num;
+        SeriblNumber clbss_seribl_num;
+        unsigned     flbgs;
         unsigned     depth;
-        float        cutoff;
+        flobt        cutoff;
         unsigned     temp;
         jint         nblive;
         jint         nilive;
         jlong        tbytes;
         jlong        tinsts;
-        jint         total_samples;
-        jint         trace_count;
+        jint         totbl_sbmples;
+        jint         trbce_count;
 
         nrecord++;
         /*LINTED*/
-        npos = (int)(p - pstart);
-        tag = read_u1(&p);
-        (void)read_u4(&p); /* microsecs */
-        size = read_u4(&p);
-        #define CASE_TAG(name) case name: label = #name;
-        switch ( tag ) {
+        npos = (int)(p - pstbrt);
+        tbg = rebd_u1(&p);
+        (void)rebd_u4(&p); /* microsecs */
+        size = rebd_u4(&p);
+        #define CASE_TAG(nbme) cbse nbme: lbbel = #nbme;
+        switch ( tbg ) {
             CASE_TAG(HPROF_UTF8)
                 CHECK_FOR_ERROR(size>=(int)sizeof(HprofId));
-                id = read_id(&p);
-                check_printf("#%d@%d: %s, sz=%d, name_id=0x%x, \"",
-                                nrecord, npos, label, size, id);
+                id = rebd_id(&p);
+                check_printf("#%d@%d: %s, sz=%d, nbme_id=0x%x, \"",
+                                nrecord, npos, lbbel, size, id);
                 num_elements = size-(int)sizeof(HprofId);
-                check_raw(p, num_elements);
+                check_rbw(p, num_elements);
                 check_printf("\"\n");
-                /* Create entry in umap */
-                umap.str = HPROF_MALLOC(num_elements+1);
-                (void)strncpy(umap.str, (char*)p, (size_t)num_elements);
-                umap.str[num_elements] = 0;
-                (void)table_create_entry(utab, &id, sizeof(id), &umap);
+                /* Crebte entry in umbp */
+                umbp.str = HPROF_MALLOC(num_elements+1);
+                (void)strncpy(umbp.str, (chbr*)p, (size_t)num_elements);
+                umbp.str[num_elements] = 0;
+                (void)tbble_crebte_entry(utbb, &id, sizeof(id), &umbp);
                 p += num_elements;
-                break;
+                brebk;
             CASE_TAG(HPROF_LOAD_CLASS)
                 CHECK_FOR_ERROR(size==2*4+2*(int)sizeof(HprofId));
-                class_serial_num = read_u4(&p);
-                CHECK_CLASS_SERIAL_NO(class_serial_num);
-                id = read_id(&p);
-                trace_serial_num = read_u4(&p);
-                CHECK_TRACE_SERIAL_NO(trace_serial_num);
-                nm = read_id(&p);
-                check_printf("#%d@%d: %s, sz=%d, class_serial_num=%u,"
-                             " id=0x%x, trace_serial_num=%u, name_id=0x%x\n",
-                                nrecord, npos, label, size, class_serial_num,
-                                id, trace_serial_num, nm);
-                break;
+                clbss_seribl_num = rebd_u4(&p);
+                CHECK_CLASS_SERIAL_NO(clbss_seribl_num);
+                id = rebd_id(&p);
+                trbce_seribl_num = rebd_u4(&p);
+                CHECK_TRACE_SERIAL_NO(trbce_seribl_num);
+                nm = rebd_id(&p);
+                check_printf("#%d@%d: %s, sz=%d, clbss_seribl_num=%u,"
+                             " id=0x%x, trbce_seribl_num=%u, nbme_id=0x%x\n",
+                                nrecord, npos, lbbel, size, clbss_seribl_num,
+                                id, trbce_seribl_num, nm);
+                brebk;
             CASE_TAG(HPROF_UNLOAD_CLASS)
                 CHECK_FOR_ERROR(size==4);
-                class_serial_num = read_u4(&p);
-                CHECK_CLASS_SERIAL_NO(class_serial_num);
-                check_printf("#%d@%d: %s, sz=%d, class_serial_num=%u\n",
-                                nrecord, npos, label, size, class_serial_num);
-                break;
+                clbss_seribl_num = rebd_u4(&p);
+                CHECK_CLASS_SERIAL_NO(clbss_seribl_num);
+                check_printf("#%d@%d: %s, sz=%d, clbss_seribl_num=%u\n",
+                                nrecord, npos, lbbel, size, clbss_seribl_num);
+                brebk;
             CASE_TAG(HPROF_FRAME)
                 CHECK_FOR_ERROR(size==2*4+4*(int)sizeof(HprofId));
-                id = read_id(&p);
-                nm = read_id(&p);
-                sg = read_id(&p);
-                so = read_id(&p);
-                class_serial_num = read_u4(&p);
-                CHECK_CLASS_SERIAL_NO(class_serial_num);
-                li = read_u4(&p);
-                check_printf("#%d@%d: %s, sz=%d, ", nrecord, npos, label, size);
-                check_print_utf8(utab, "id=", id);
-                check_printf(" name_id=0x%x, sig_id=0x%x, source_id=0x%x,"
-                             " class_serial_num=%u, lineno=%d\n",
-                                nm, sg, so, class_serial_num, li);
-                break;
+                id = rebd_id(&p);
+                nm = rebd_id(&p);
+                sg = rebd_id(&p);
+                so = rebd_id(&p);
+                clbss_seribl_num = rebd_u4(&p);
+                CHECK_CLASS_SERIAL_NO(clbss_seribl_num);
+                li = rebd_u4(&p);
+                check_printf("#%d@%d: %s, sz=%d, ", nrecord, npos, lbbel, size);
+                check_print_utf8(utbb, "id=", id);
+                check_printf(" nbme_id=0x%x, sig_id=0x%x, source_id=0x%x,"
+                             " clbss_seribl_num=%u, lineno=%d\n",
+                                nm, sg, so, clbss_seribl_num, li);
+                brebk;
             CASE_TAG(HPROF_TRACE)
                 CHECK_FOR_ERROR(size>=3*4);
-                trace_serial_num = read_u4(&p);
-                CHECK_TRACE_SERIAL_NO(trace_serial_num);
-                thread_serial_num = read_u4(&p); /* Can be 0 */
-                num_elements = read_u4(&p);
-                check_printf("#%d@%d: %s, sz=%d, trace_serial_num=%u,"
-                             " thread_serial_num=%u, nelems=%d [",
-                                nrecord, npos, label, size,
-                                trace_serial_num, thread_serial_num, num_elements);
+                trbce_seribl_num = rebd_u4(&p);
+                CHECK_TRACE_SERIAL_NO(trbce_seribl_num);
+                threbd_seribl_num = rebd_u4(&p); /* Cbn be 0 */
+                num_elements = rebd_u4(&p);
+                check_printf("#%d@%d: %s, sz=%d, trbce_seribl_num=%u,"
+                             " threbd_seribl_num=%u, nelems=%d [",
+                                nrecord, npos, lbbel, size,
+                                trbce_seribl_num, threbd_seribl_num, num_elements);
                 for(i=0; i< num_elements; i++) {
-                    check_printf("0x%x,", read_id(&p));
+                    check_printf("0x%x,", rebd_id(&p));
                 }
                 check_printf("]\n");
-                break;
+                brebk;
             CASE_TAG(HPROF_ALLOC_SITES)
                 CHECK_FOR_ERROR(size>=2+4*4+2*8);
-                flags = read_u2(&p);
-                temp  = read_u4(&p);
-                cutoff = *((float*)&temp);
-                nblive = read_u4(&p);
-                nilive = read_u4(&p);
-                tbytes = read_u8(&p);
-                tinsts = read_u8(&p);
-                num_elements     = read_u4(&p);
-                check_printf("#%d@%d: %s, sz=%d, flags=0x%x, cutoff=%g,"
+                flbgs = rebd_u2(&p);
+                temp  = rebd_u4(&p);
+                cutoff = *((flobt*)&temp);
+                nblive = rebd_u4(&p);
+                nilive = rebd_u4(&p);
+                tbytes = rebd_u8(&p);
+                tinsts = rebd_u8(&p);
+                num_elements     = rebd_u4(&p);
+                check_printf("#%d@%d: %s, sz=%d, flbgs=0x%x, cutoff=%g,"
                              " nblive=%d, nilive=%d, tbytes=(%d,%d),"
                              " tinsts=(%d,%d), num_elements=%d\n",
-                                nrecord, npos, label, size,
-                                flags, cutoff, nblive, nilive,
+                                nrecord, npos, lbbel, size,
+                                flbgs, cutoff, nblive, nilive,
                                 jlong_high(tbytes), jlong_low(tbytes),
                                 jlong_high(tinsts), jlong_low(tinsts),
                                 num_elements);
                 for(i=0; i< num_elements; i++) {
-                    ty = read_u1(&p);
-                    class_serial_num = read_u4(&p);
-                    CHECK_CLASS_SERIAL_NO(class_serial_num);
-                    trace_serial_num = read_u4(&p);
-                    CHECK_TRACE_SERIAL_NO(trace_serial_num);
-                    nblive = read_u4(&p);
-                    nilive = read_u4(&p);
-                    tbytes = read_u4(&p);
-                    tinsts = read_u4(&p);
-                    check_printf("\t %d: ty=%d, class_serial_num=%u,"
-                                 " trace_serial_num=%u, nblive=%d, nilive=%d,"
+                    ty = rebd_u1(&p);
+                    clbss_seribl_num = rebd_u4(&p);
+                    CHECK_CLASS_SERIAL_NO(clbss_seribl_num);
+                    trbce_seribl_num = rebd_u4(&p);
+                    CHECK_TRACE_SERIAL_NO(trbce_seribl_num);
+                    nblive = rebd_u4(&p);
+                    nilive = rebd_u4(&p);
+                    tbytes = rebd_u4(&p);
+                    tinsts = rebd_u4(&p);
+                    check_printf("\t %d: ty=%d, clbss_seribl_num=%u,"
+                                 " trbce_seribl_num=%u, nblive=%d, nilive=%d,"
                                  " tbytes=%d, tinsts=%d\n",
-                                 i, ty, class_serial_num, trace_serial_num,
+                                 i, ty, clbss_seribl_num, trbce_seribl_num,
                                  nblive, nilive, (jint)tbytes, (jint)tinsts);
                 }
-                break;
+                brebk;
             CASE_TAG(HPROF_HEAP_SUMMARY)
                 CHECK_FOR_ERROR(size==2*4+2*8);
-                nblive = read_u4(&p);
-                nilive = read_u4(&p);
-                tbytes = read_u8(&p);
-                tinsts = read_u8(&p);
+                nblive = rebd_u4(&p);
+                nilive = rebd_u4(&p);
+                tbytes = rebd_u8(&p);
+                tinsts = rebd_u8(&p);
                 check_printf("#%d@%d: %s, sz=%d,"
                              " nblive=%d, nilive=%d, tbytes=(%d,%d),"
                              " tinsts=(%d,%d)\n",
-                                nrecord, npos, label, size,
+                                nrecord, npos, lbbel, size,
                                 nblive, nilive,
                                 jlong_high(tbytes), jlong_low(tbytes),
                                 jlong_high(tinsts), jlong_low(tinsts));
-                break;
+                brebk;
             CASE_TAG(HPROF_START_THREAD)
                 CHECK_FOR_ERROR(size==2*4+4*(int)sizeof(HprofId));
-                thread_serial_num = read_u4(&p);
-                CHECK_THREAD_SERIAL_NO(thread_serial_num);
-                id = read_id(&p);
-                trace_serial_num = read_u4(&p);
-                CHECK_TRACE_SERIAL_NO(trace_serial_num);
-                nm = read_id(&p);
-                gr = read_id(&p);
-                gn = read_id(&p);
-                check_printf("#%d@%d: %s, sz=%d, thread_serial_num=%u,"
-                             " id=0x%x, trace_serial_num=%u, ",
-                                nrecord, npos, label, size,
-                                thread_serial_num, id, trace_serial_num);
-                check_print_utf8(utab, "nm=", id);
-                check_printf(" trace_serial_num=%u, nm=0x%x,"
+                threbd_seribl_num = rebd_u4(&p);
+                CHECK_THREAD_SERIAL_NO(threbd_seribl_num);
+                id = rebd_id(&p);
+                trbce_seribl_num = rebd_u4(&p);
+                CHECK_TRACE_SERIAL_NO(trbce_seribl_num);
+                nm = rebd_id(&p);
+                gr = rebd_id(&p);
+                gn = rebd_id(&p);
+                check_printf("#%d@%d: %s, sz=%d, threbd_seribl_num=%u,"
+                             " id=0x%x, trbce_seribl_num=%u, ",
+                                nrecord, npos, lbbel, size,
+                                threbd_seribl_num, id, trbce_seribl_num);
+                check_print_utf8(utbb, "nm=", id);
+                check_printf(" trbce_seribl_num=%u, nm=0x%x,"
                              " gr=0x%x, gn=0x%x\n",
-                                trace_serial_num, nm, gr, gn);
-                break;
+                                trbce_seribl_num, nm, gr, gn);
+                brebk;
             CASE_TAG(HPROF_END_THREAD)
                 CHECK_FOR_ERROR(size==4);
-                thread_serial_num = read_u4(&p);
-                CHECK_THREAD_SERIAL_NO(thread_serial_num);
-                check_printf("#%d@%d: %s, sz=%d, thread_serial_num=%u\n",
-                                nrecord, npos, label, size, thread_serial_num);
-                break;
+                threbd_seribl_num = rebd_u4(&p);
+                CHECK_THREAD_SERIAL_NO(threbd_seribl_num);
+                check_printf("#%d@%d: %s, sz=%d, threbd_seribl_num=%u\n",
+                                nrecord, npos, lbbel, size, threbd_seribl_num);
+                brebk;
             CASE_TAG(HPROF_HEAP_DUMP)
                 check_printf("#%d@%d: BEGIN: %s, sz=%d\n",
-                                nrecord, npos, label, size);
-                nheap_records = check_heap_tags(utab, p, size);
-                check_printf("#%d@%d: END: %s, sz=%d, nheap_recs=%d\n",
-                                nrecord, npos, label, size, nheap_records);
+                                nrecord, npos, lbbel, size);
+                nhebp_records = check_hebp_tbgs(utbb, p, size);
+                check_printf("#%d@%d: END: %s, sz=%d, nhebp_recs=%d\n",
+                                nrecord, npos, lbbel, size, nhebp_records);
                 p += size;
-                break;
+                brebk;
             CASE_TAG(HPROF_HEAP_DUMP_SEGMENT) /* 1.0.2 */
                 check_printf("#%d@%d: BEGIN SEGMENT: %s, sz=%d\n",
-                                nrecord, npos, label, size);
-                nheap_records = check_heap_tags(utab, p, size);
-                check_printf("#%d@%d: END SEGMENT: %s, sz=%d, nheap_recs=%d\n",
-                                nrecord, npos, label, size, nheap_records);
+                                nrecord, npos, lbbel, size);
+                nhebp_records = check_hebp_tbgs(utbb, p, size);
+                check_printf("#%d@%d: END SEGMENT: %s, sz=%d, nhebp_recs=%d\n",
+                                nrecord, npos, lbbel, size, nhebp_records);
                 p += size;
-                break;
+                brebk;
             CASE_TAG(HPROF_HEAP_DUMP_END) /* 1.0.2 */
                 check_printf("#%d@%d: SEGMENT END: %s, sz=%d\n",
-                                nrecord, npos, label, size);
-                break;
+                                nrecord, npos, lbbel, size);
+                brebk;
             CASE_TAG(HPROF_CPU_SAMPLES)
                 CHECK_FOR_ERROR(size>=2*4);
-                total_samples = read_u4(&p);
-                trace_count = read_u4(&p);
-                check_printf("#%d@%d: %s, sz=%d, total_samples=%d,"
-                             " trace_count=%d\n",
-                                nrecord, npos, label, size,
-                                total_samples, trace_count);
-                for(i=0; i< trace_count; i++) {
-                    num_elements = read_u4(&p);
-                    trace_serial_num = read_u4(&p);
-                    CHECK_TRACE_SERIAL_NO(trace_serial_num);
-                    check_printf("\t %d: samples=%d, trace_serial_num=%u\n",
-                                 trace_serial_num, num_elements);
+                totbl_sbmples = rebd_u4(&p);
+                trbce_count = rebd_u4(&p);
+                check_printf("#%d@%d: %s, sz=%d, totbl_sbmples=%d,"
+                             " trbce_count=%d\n",
+                                nrecord, npos, lbbel, size,
+                                totbl_sbmples, trbce_count);
+                for(i=0; i< trbce_count; i++) {
+                    num_elements = rebd_u4(&p);
+                    trbce_seribl_num = rebd_u4(&p);
+                    CHECK_TRACE_SERIAL_NO(trbce_seribl_num);
+                    check_printf("\t %d: sbmples=%d, trbce_seribl_num=%u\n",
+                                 trbce_seribl_num, num_elements);
                 }
-                break;
+                brebk;
             CASE_TAG(HPROF_CONTROL_SETTINGS)
                 CHECK_FOR_ERROR(size==4+2);
-                flags = read_u4(&p);
-                depth = read_u2(&p);
-                check_printf("#%d@%d: %s, sz=%d, flags=0x%x, depth=%d\n",
-                                nrecord, npos, label, size, flags, depth);
-                break;
-            default:
-                label = "UNKNOWN";
+                flbgs = rebd_u4(&p);
+                depth = rebd_u2(&p);
+                check_printf("#%d@%d: %s, sz=%d, flbgs=0x%x, depth=%d\n",
+                                nrecord, npos, lbbel, size, flbgs, depth);
+                brebk;
+            defbult:
+                lbbel = "UNKNOWN";
                 check_printf("#%d@%d: %s, sz=%d\n",
-                                nrecord, npos, label, size);
+                                nrecord, npos, lbbel, size);
                 HPROF_ERROR(JNI_TRUE, "unknown record type");
                 p += size;
-                break;
+                brebk;
         }
-        CHECK_FOR_ERROR(p<=(pstart+nbytes));
+        CHECK_FOR_ERROR(p<=(pstbrt+nbytes));
     }
     check_flush();
-    CHECK_FOR_ERROR(p==(pstart+nbytes));
-    table_cleanup(utab, &utab_cleanup, NULL);
+    CHECK_FOR_ERROR(p==(pstbrt+nbytes));
+    tbble_clebnup(utbb, &utbb_clebnup, NULL);
     return nrecord;
 }
 
-/* Read the entire file into memory */
-static void *
-get_binary_file_image(char *filename, int *pnbytes)
+/* Rebd the entire file into memory */
+stbtic void *
+get_binbry_file_imbge(chbr *filenbme, int *pnbytes)
 {
-    unsigned char *image;
+    unsigned chbr *imbge;
     int            fd;
     jlong          nbytes;
-    int            nread;
+    int            nrebd;
 
     *pnbytes = 0;
-    fd = md_open_binary(filename);
+    fd = md_open_binbry(filenbme);
     CHECK_FOR_ERROR(fd>=0);
     if ( (nbytes = md_seek(fd, (jlong)-1)) == (jlong)-1 ) {
-        HPROF_ERROR(JNI_TRUE, "Cannot md_seek() to end of file");
+        HPROF_ERROR(JNI_TRUE, "Cbnnot md_seek() to end of file");
     }
     CHECK_FOR_ERROR(((jint)nbytes)>512);
     if ( md_seek(fd, (jlong)0) != (jlong)0 ) {
-        HPROF_ERROR(JNI_TRUE, "Cannot md_seek() to start of file");
+        HPROF_ERROR(JNI_TRUE, "Cbnnot md_seek() to stbrt of file");
     }
-    image = HPROF_MALLOC(((jint)nbytes)+1);
-    CHECK_FOR_ERROR(image!=NULL);
+    imbge = HPROF_MALLOC(((jint)nbytes)+1);
+    CHECK_FOR_ERROR(imbge!=NULL);
 
-    /* Read the entire file image into memory */
-    nread = md_read(fd, image, (jint)nbytes);
-    if ( nread <= 0 ) {
-        HPROF_ERROR(JNI_TRUE, "System read failed.");
+    /* Rebd the entire file imbge into memory */
+    nrebd = md_rebd(fd, imbge, (jint)nbytes);
+    if ( nrebd <= 0 ) {
+        HPROF_ERROR(JNI_TRUE, "System rebd fbiled.");
     }
-    CHECK_FOR_ERROR(((jint)nbytes)==nread);
+    CHECK_FOR_ERROR(((jint)nbytes)==nrebd);
     md_close(fd);
     *pnbytes = (jint)nbytes;
-    return image;
+    return imbge;
 }
 
 /* ------------------------------------------------------------------ */
 
 void
-check_binary_file(char *filename)
+check_binbry_file(chbr *filenbme)
 {
-    unsigned char *image;
-    unsigned char *p;
+    unsigned chbr *imbge;
+    unsigned chbr *p;
     unsigned       idsize;
     int            nbytes;
     int            nrecords;
 
-    image = get_binary_file_image(filename, &nbytes);
-    if ( image == NULL ) {
-        check_printf("No file image: %s\n", filename);
+    imbge = get_binbry_file_imbge(filenbme, &nbytes);
+    if ( imbge == NULL ) {
+        check_printf("No file imbge: %s\n", filenbme);
         return;
     }
-    p = image;
-    CHECK_FOR_ERROR(strcmp((char*)p, gdata->header)==0);
-    check_printf("Filename=%s, nbytes=%d, header=\"%s\"\n",
-                        filename, nbytes, p);
-    p+=((int)strlen((char*)p)+1);
-    idsize = read_u4(&p);
+    p = imbge;
+    CHECK_FOR_ERROR(strcmp((chbr*)p, gdbtb->hebder)==0);
+    check_printf("Filenbme=%s, nbytes=%d, hebder=\"%s\"\n",
+                        filenbme, nbytes, p);
+    p+=((int)strlen((chbr*)p)+1);
+    idsize = rebd_u4(&p);
     CHECK_FOR_ERROR(idsize==sizeof(HprofId));
-    (void)read_u4(&p);
-    (void)read_u4(&p);
+    (void)rebd_u4(&p);
+    (void)rebd_u4(&p);
     /* LINTED */
-    nrecords = check_tags(p, nbytes - (int)( p - image ) );
-    check_printf("#%d total records found in %d bytes\n", nrecords, nbytes);
-    HPROF_FREE(image);
+    nrecords = check_tbgs(p, nbytes - (int)( p - imbge ) );
+    check_printf("#%d totbl records found in %d bytes\n", nrecords, nbytes);
+    HPROF_FREE(imbge);
 }

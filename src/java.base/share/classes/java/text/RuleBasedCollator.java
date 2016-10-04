@@ -1,504 +1,504 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996-1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.text.Normalizer;
-import java.util.Vector;
-import java.util.Locale;
+import jbvb.text.Normblizer;
+import jbvb.util.Vector;
+import jbvb.util.Locble;
 
 /**
- * The <code>RuleBasedCollator</code> class is a concrete subclass of
- * <code>Collator</code> that provides a simple, data-driven, table
- * collator.  With this class you can create a customized table-based
- * <code>Collator</code>.  <code>RuleBasedCollator</code> maps
- * characters to sort keys.
+ * The <code>RuleBbsedCollbtor</code> clbss is b concrete subclbss of
+ * <code>Collbtor</code> thbt provides b simple, dbtb-driven, tbble
+ * collbtor.  With this clbss you cbn crebte b customized tbble-bbsed
+ * <code>Collbtor</code>.  <code>RuleBbsedCollbtor</code> mbps
+ * chbrbcters to sort keys.
  *
  * <p>
- * <code>RuleBasedCollator</code> has the following restrictions
- * for efficiency (other subclasses may be used for more complex languages) :
+ * <code>RuleBbsedCollbtor</code> hbs the following restrictions
+ * for efficiency (other subclbsses mby be used for more complex lbngubges) :
  * <ol>
- * <li>If a special collation rule controlled by a &lt;modifier&gt; is
-      specified it applies to the whole collator object.
- * <li>All non-mentioned characters are at the end of the
- *     collation order.
+ * <li>If b specibl collbtion rule controlled by b &lt;modifier&gt; is
+      specified it bpplies to the whole collbtor object.
+ * <li>All non-mentioned chbrbcters bre bt the end of the
+ *     collbtion order.
  * </ol>
  *
  * <p>
- * The collation table is composed of a list of collation rules, where each
+ * The collbtion tbble is composed of b list of collbtion rules, where ebch
  * rule is of one of three forms:
  * <pre>
  *    &lt;modifier&gt;
- *    &lt;relation&gt; &lt;text-argument&gt;
- *    &lt;reset&gt; &lt;text-argument&gt;
+ *    &lt;relbtion&gt; &lt;text-brgument&gt;
+ *    &lt;reset&gt; &lt;text-brgument&gt;
  * </pre>
- * The definitions of the rule elements is as follows:
+ * The definitions of the rule elements is bs follows:
  * <UL>
- *    <LI><strong>Text-Argument</strong>: A text-argument is any sequence of
- *        characters, excluding special characters (that is, common
- *        whitespace characters [0009-000D, 0020] and rule syntax characters
+ *    <LI><strong>Text-Argument</strong>: A text-brgument is bny sequence of
+ *        chbrbcters, excluding specibl chbrbcters (thbt is, common
+ *        whitespbce chbrbcters [0009-000D, 0020] bnd rule syntbx chbrbcters
  *        [0021-002F, 003A-0040, 005B-0060, 007B-007E]). If those
- *        characters are desired, you can put them in single quotes
- *        (e.g. ampersand =&gt; '&amp;'). Note that unquoted white space characters
- *        are ignored; e.g. <code>b c</code> is treated as <code>bc</code>.
- *    <LI><strong>Modifier</strong>: There are currently two modifiers that
- *        turn on special collation rules.
+ *        chbrbcters bre desired, you cbn put them in single quotes
+ *        (e.g. bmpersbnd =&gt; '&bmp;'). Note thbt unquoted white spbce chbrbcters
+ *        bre ignored; e.g. <code>b c</code> is trebted bs <code>bc</code>.
+ *    <LI><strong>Modifier</strong>: There bre currently two modifiers thbt
+ *        turn on specibl collbtion rules.
  *        <UL>
- *            <LI>'@' : Turns on backwards sorting of accents (secondary
- *                      differences), as in French.
- *            <LI>'!' : Turns on Thai/Lao vowel-consonant swapping.  If this
- *                      rule is in force when a Thai vowel of the range
- *                      &#92;U0E40-&#92;U0E44 precedes a Thai consonant of the range
- *                      &#92;U0E01-&#92;U0E2E OR a Lao vowel of the range &#92;U0EC0-&#92;U0EC4
- *                      precedes a Lao consonant of the range &#92;U0E81-&#92;U0EAE then
- *                      the vowel is placed after the consonant for collation
+ *            <LI>'@' : Turns on bbckwbrds sorting of bccents (secondbry
+ *                      differences), bs in French.
+ *            <LI>'!' : Turns on Thbi/Lbo vowel-consonbnt swbpping.  If this
+ *                      rule is in force when b Thbi vowel of the rbnge
+ *                      &#92;U0E40-&#92;U0E44 precedes b Thbi consonbnt of the rbnge
+ *                      &#92;U0E01-&#92;U0E2E OR b Lbo vowel of the rbnge &#92;U0EC0-&#92;U0EC4
+ *                      precedes b Lbo consonbnt of the rbnge &#92;U0E81-&#92;U0EAE then
+ *                      the vowel is plbced bfter the consonbnt for collbtion
  *                      purposes.
  *        </UL>
- *        <p>'@' : Indicates that accents are sorted backwards, as in French.
- *    <LI><strong>Relation</strong>: The relations are the following:
+ *        <p>'@' : Indicbtes thbt bccents bre sorted bbckwbrds, bs in French.
+ *    <LI><strong>Relbtion</strong>: The relbtions bre the following:
  *        <UL>
- *            <LI>'&lt;' : Greater, as a letter difference (primary)
- *            <LI>';' : Greater, as an accent difference (secondary)
- *            <LI>',' : Greater, as a case difference (tertiary)
- *            <LI>'=' : Equal
+ *            <LI>'&lt;' : Grebter, bs b letter difference (primbry)
+ *            <LI>';' : Grebter, bs bn bccent difference (secondbry)
+ *            <LI>',' : Grebter, bs b cbse difference (tertibry)
+ *            <LI>'=' : Equbl
  *        </UL>
- *    <LI><strong>Reset</strong>: There is a single reset
- *        which is used primarily for contractions and expansions, but which
- *        can also be used to add a modification at the end of a set of rules.
- *        <p>'&amp;' : Indicates that the next rule follows the position to where
- *            the reset text-argument would be sorted.
+ *    <LI><strong>Reset</strong>: There is b single reset
+ *        which is used primbrily for contrbctions bnd expbnsions, but which
+ *        cbn blso be used to bdd b modificbtion bt the end of b set of rules.
+ *        <p>'&bmp;' : Indicbtes thbt the next rule follows the position to where
+ *            the reset text-brgument would be sorted.
  * </UL>
  *
  * <p>
- * This sounds more complicated than it is in practice. For example, the
- * following are equivalent ways of expressing the same thing:
+ * This sounds more complicbted thbn it is in prbctice. For exbmple, the
+ * following bre equivblent wbys of expressing the sbme thing:
  * <blockquote>
  * <pre>
- * a &lt; b &lt; c
- * a &lt; b &amp; b &lt; c
- * a &lt; c &amp; a &lt; b
+ * b &lt; b &lt; c
+ * b &lt; b &bmp; b &lt; c
+ * b &lt; c &bmp; b &lt; b
  * </pre>
  * </blockquote>
- * Notice that the order is important, as the subsequent item goes immediately
- * after the text-argument. The following are not equivalent:
+ * Notice thbt the order is importbnt, bs the subsequent item goes immedibtely
+ * bfter the text-brgument. The following bre not equivblent:
  * <blockquote>
  * <pre>
- * a &lt; b &amp; a &lt; c
- * a &lt; c &amp; a &lt; b
+ * b &lt; b &bmp; b &lt; c
+ * b &lt; c &bmp; b &lt; b
  * </pre>
  * </blockquote>
- * Either the text-argument must already be present in the sequence, or some
- * initial substring of the text-argument must be present. (e.g. "a &lt; b &amp; ae &lt;
- * e" is valid since "a" is present in the sequence before "ae" is reset). In
- * this latter case, "ae" is not entered and treated as a single character;
- * instead, "e" is sorted as if it were expanded to two characters: "a"
- * followed by an "e". This difference appears in natural languages: in
- * traditional Spanish "ch" is treated as though it contracts to a single
- * character (expressed as "c &lt; ch &lt; d"), while in traditional German
- * a-umlaut is treated as though it expanded to two characters
- * (expressed as "a,A &lt; b,B ... &amp;ae;&#92;u00e3&amp;AE;&#92;u00c3").
- * [&#92;u00e3 and &#92;u00c3 are, of course, the escape sequences for a-umlaut.]
+ * Either the text-brgument must blrebdy be present in the sequence, or some
+ * initibl substring of the text-brgument must be present. (e.g. "b &lt; b &bmp; be &lt;
+ * e" is vblid since "b" is present in the sequence before "be" is reset). In
+ * this lbtter cbse, "be" is not entered bnd trebted bs b single chbrbcter;
+ * instebd, "e" is sorted bs if it were expbnded to two chbrbcters: "b"
+ * followed by bn "e". This difference bppebrs in nbturbl lbngubges: in
+ * trbditionbl Spbnish "ch" is trebted bs though it contrbcts to b single
+ * chbrbcter (expressed bs "c &lt; ch &lt; d"), while in trbditionbl Germbn
+ * b-umlbut is trebted bs though it expbnded to two chbrbcters
+ * (expressed bs "b,A &lt; b,B ... &bmp;be;&#92;u00e3&bmp;AE;&#92;u00c3").
+ * [&#92;u00e3 bnd &#92;u00c3 bre, of course, the escbpe sequences for b-umlbut.]
  * <p>
- * <strong>Ignorable Characters</strong>
+ * <strong>Ignorbble Chbrbcters</strong>
  * <p>
- * For ignorable characters, the first rule must start with a relation (the
- * examples we have used above are really fragments; "a &lt; b" really should be
- * "&lt; a &lt; b"). If, however, the first relation is not "&lt;", then all the all
- * text-arguments up to the first "&lt;" are ignorable. For example, ", - &lt; a &lt; b"
- * makes "-" an ignorable character, as we saw earlier in the word
- * "black-birds". In the samples for different languages, you see that most
- * accents are ignorable.
+ * For ignorbble chbrbcters, the first rule must stbrt with b relbtion (the
+ * exbmples we hbve used bbove bre reblly frbgments; "b &lt; b" reblly should be
+ * "&lt; b &lt; b"). If, however, the first relbtion is not "&lt;", then bll the bll
+ * text-brguments up to the first "&lt;" bre ignorbble. For exbmple, ", - &lt; b &lt; b"
+ * mbkes "-" bn ignorbble chbrbcter, bs we sbw ebrlier in the word
+ * "blbck-birds". In the sbmples for different lbngubges, you see thbt most
+ * bccents bre ignorbble.
  *
- * <p><strong>Normalization and Accents</strong>
+ * <p><strong>Normblizbtion bnd Accents</strong>
  * <p>
- * <code>RuleBasedCollator</code> automatically processes its rule table to
- * include both pre-composed and combining-character versions of
- * accented characters.  Even if the provided rule string contains only
- * base characters and separate combining accent characters, the pre-composed
- * accented characters matching all canonical combinations of characters from
- * the rule string will be entered in the table.
+ * <code>RuleBbsedCollbtor</code> butombticblly processes its rule tbble to
+ * include both pre-composed bnd combining-chbrbcter versions of
+ * bccented chbrbcters.  Even if the provided rule string contbins only
+ * bbse chbrbcters bnd sepbrbte combining bccent chbrbcters, the pre-composed
+ * bccented chbrbcters mbtching bll cbnonicbl combinbtions of chbrbcters from
+ * the rule string will be entered in the tbble.
  * <p>
- * This allows you to use a RuleBasedCollator to compare accented strings
- * even when the collator is set to NO_DECOMPOSITION.  There are two caveats,
- * however.  First, if the strings to be collated contain combining
- * sequences that may not be in canonical order, you should set the collator to
- * CANONICAL_DECOMPOSITION or FULL_DECOMPOSITION to enable sorting of
- * combining sequences.  Second, if the strings contain characters with
- * compatibility decompositions (such as full-width and half-width forms),
- * you must use FULL_DECOMPOSITION, since the rule tables only include
- * canonical mappings.
+ * This bllows you to use b RuleBbsedCollbtor to compbre bccented strings
+ * even when the collbtor is set to NO_DECOMPOSITION.  There bre two cbvebts,
+ * however.  First, if the strings to be collbted contbin combining
+ * sequences thbt mby not be in cbnonicbl order, you should set the collbtor to
+ * CANONICAL_DECOMPOSITION or FULL_DECOMPOSITION to enbble sorting of
+ * combining sequences.  Second, if the strings contbin chbrbcters with
+ * compbtibility decompositions (such bs full-width bnd hblf-width forms),
+ * you must use FULL_DECOMPOSITION, since the rule tbbles only include
+ * cbnonicbl mbppings.
  *
  * <p><strong>Errors</strong>
  * <p>
- * The following are errors:
+ * The following bre errors:
  * <UL>
- *     <LI>A text-argument contains unquoted punctuation symbols
- *        (e.g. "a &lt; b-c &lt; d").
- *     <LI>A relation or reset character not followed by a text-argument
- *        (e.g. "a &lt; ,b").
- *     <LI>A reset where the text-argument (or an initial substring of the
- *         text-argument) is not already in the sequence.
- *         (e.g. "a &lt; b &amp; e &lt; f")
+ *     <LI>A text-brgument contbins unquoted punctubtion symbols
+ *        (e.g. "b &lt; b-c &lt; d").
+ *     <LI>A relbtion or reset chbrbcter not followed by b text-brgument
+ *        (e.g. "b &lt; ,b").
+ *     <LI>A reset where the text-brgument (or bn initibl substring of the
+ *         text-brgument) is not blrebdy in the sequence.
+ *         (e.g. "b &lt; b &bmp; e &lt; f")
  * </UL>
- * If you produce one of these errors, a <code>RuleBasedCollator</code> throws
- * a <code>ParseException</code>.
+ * If you produce one of these errors, b <code>RuleBbsedCollbtor</code> throws
+ * b <code>PbrseException</code>.
  *
- * <p><strong>Examples</strong>
- * <p>Simple:     "&lt; a &lt; b &lt; c &lt; d"
- * <p>Norwegian:  "&lt; a, A &lt; b, B &lt; c, C &lt; d, D &lt; e, E &lt; f, F
+ * <p><strong>Exbmples</strong>
+ * <p>Simple:     "&lt; b &lt; b &lt; c &lt; d"
+ * <p>Norwegibn:  "&lt; b, A &lt; b, B &lt; c, C &lt; d, D &lt; e, E &lt; f, F
  *                 &lt; g, G &lt; h, H &lt; i, I &lt; j, J &lt; k, K &lt; l, L
  *                 &lt; m, M &lt; n, N &lt; o, O &lt; p, P &lt; q, Q &lt; r, R
  *                 &lt; s, S &lt; t, T &lt; u, U &lt; v, V &lt; w, W &lt; x, X
  *                 &lt; y, Y &lt; z, Z
  *                 &lt; &#92;u00E6, &#92;u00C6
  *                 &lt; &#92;u00F8, &#92;u00D8
- *                 &lt; &#92;u00E5 = a&#92;u030A, &#92;u00C5 = A&#92;u030A;
- *                      aa, AA"
+ *                 &lt; &#92;u00E5 = b&#92;u030A, &#92;u00C5 = A&#92;u030A;
+ *                      bb, AA"
  *
  * <p>
- * To create a <code>RuleBasedCollator</code> object with specialized
- * rules tailored to your needs, you construct the <code>RuleBasedCollator</code>
- * with the rules contained in a <code>String</code> object. For example:
+ * To crebte b <code>RuleBbsedCollbtor</code> object with speciblized
+ * rules tbilored to your needs, you construct the <code>RuleBbsedCollbtor</code>
+ * with the rules contbined in b <code>String</code> object. For exbmple:
  * <blockquote>
  * <pre>
- * String simple = "&lt; a&lt; b&lt; c&lt; d";
- * RuleBasedCollator mySimple = new RuleBasedCollator(simple);
+ * String simple = "&lt; b&lt; b&lt; c&lt; d";
+ * RuleBbsedCollbtor mySimple = new RuleBbsedCollbtor(simple);
  * </pre>
  * </blockquote>
  * Or:
  * <blockquote>
  * <pre>
- * String Norwegian = "&lt; a, A &lt; b, B &lt; c, C &lt; d, D &lt; e, E &lt; f, F &lt; g, G &lt; h, H &lt; i, I" +
+ * String Norwegibn = "&lt; b, A &lt; b, B &lt; c, C &lt; d, D &lt; e, E &lt; f, F &lt; g, G &lt; h, H &lt; i, I" +
  *                    "&lt; j, J &lt; k, K &lt; l, L &lt; m, M &lt; n, N &lt; o, O &lt; p, P &lt; q, Q &lt; r, R" +
  *                    "&lt; s, S &lt; t, T &lt; u, U &lt; v, V &lt; w, W &lt; x, X &lt; y, Y &lt; z, Z" +
- *                    "&lt; &#92;u00E6, &#92;u00C6" +     // Latin letter ae &amp; AE
- *                    "&lt; &#92;u00F8, &#92;u00D8" +     // Latin letter o &amp; O with stroke
- *                    "&lt; &#92;u00E5 = a&#92;u030A," +  // Latin letter a with ring above
- *                    "  &#92;u00C5 = A&#92;u030A;" +  // Latin letter A with ring above
- *                    "  aa, AA";
- * RuleBasedCollator myNorwegian = new RuleBasedCollator(Norwegian);
+ *                    "&lt; &#92;u00E6, &#92;u00C6" +     // Lbtin letter be &bmp; AE
+ *                    "&lt; &#92;u00F8, &#92;u00D8" +     // Lbtin letter o &bmp; O with stroke
+ *                    "&lt; &#92;u00E5 = b&#92;u030A," +  // Lbtin letter b with ring bbove
+ *                    "  &#92;u00C5 = A&#92;u030A;" +  // Lbtin letter A with ring bbove
+ *                    "  bb, AA";
+ * RuleBbsedCollbtor myNorwegibn = new RuleBbsedCollbtor(Norwegibn);
  * </pre>
  * </blockquote>
  *
  * <p>
- * A new collation rules string can be created by concatenating rules
- * strings. For example, the rules returned by {@link #getRules()} could
- * be concatenated to combine multiple <code>RuleBasedCollator</code>s.
+ * A new collbtion rules string cbn be crebted by concbtenbting rules
+ * strings. For exbmple, the rules returned by {@link #getRules()} could
+ * be concbtenbted to combine multiple <code>RuleBbsedCollbtor</code>s.
  *
  * <p>
- * The following example demonstrates how to change the order of
- * non-spacing accents,
+ * The following exbmple demonstrbtes how to chbnge the order of
+ * non-spbcing bccents,
  * <blockquote>
  * <pre>
  * // old rule
- * String oldRules = "=&#92;u0301;&#92;u0300;&#92;u0302;&#92;u0308"    // main accents
- *                 + ";&#92;u0327;&#92;u0303;&#92;u0304;&#92;u0305"    // main accents
- *                 + ";&#92;u0306;&#92;u0307;&#92;u0309;&#92;u030A"    // main accents
- *                 + ";&#92;u030B;&#92;u030C;&#92;u030D;&#92;u030E"    // main accents
- *                 + ";&#92;u030F;&#92;u0310;&#92;u0311;&#92;u0312"    // main accents
- *                 + "&lt; a , A ; ae, AE ; &#92;u00e6 , &#92;u00c6"
- *                 + "&lt; b , B &lt; c, C &lt; e, E &amp; C &lt; d, D";
- * // change the order of accent characters
- * String addOn = "&amp; &#92;u0300 ; &#92;u0308 ; &#92;u0302";
- * RuleBasedCollator myCollator = new RuleBasedCollator(oldRules + addOn);
+ * String oldRules = "=&#92;u0301;&#92;u0300;&#92;u0302;&#92;u0308"    // mbin bccents
+ *                 + ";&#92;u0327;&#92;u0303;&#92;u0304;&#92;u0305"    // mbin bccents
+ *                 + ";&#92;u0306;&#92;u0307;&#92;u0309;&#92;u030A"    // mbin bccents
+ *                 + ";&#92;u030B;&#92;u030C;&#92;u030D;&#92;u030E"    // mbin bccents
+ *                 + ";&#92;u030F;&#92;u0310;&#92;u0311;&#92;u0312"    // mbin bccents
+ *                 + "&lt; b , A ; be, AE ; &#92;u00e6 , &#92;u00c6"
+ *                 + "&lt; b , B &lt; c, C &lt; e, E &bmp; C &lt; d, D";
+ * // chbnge the order of bccent chbrbcters
+ * String bddOn = "&bmp; &#92;u0300 ; &#92;u0308 ; &#92;u0302";
+ * RuleBbsedCollbtor myCollbtor = new RuleBbsedCollbtor(oldRules + bddOn);
  * </pre>
  * </blockquote>
  *
- * @see        Collator
- * @see        CollationElementIterator
- * @author     Helena Shih, Laura Werner, Richard Gillam
+ * @see        Collbtor
+ * @see        CollbtionElementIterbtor
+ * @buthor     Helenb Shih, Lburb Werner, Richbrd Gillbm
  */
-public class RuleBasedCollator extends Collator{
-    // IMPLEMENTATION NOTES:  The implementation of the collation algorithm is
-    // divided across three classes: RuleBasedCollator, RBCollationTables, and
-    // CollationElementIterator.  RuleBasedCollator contains the collator's
-    // transient state and includes the code that uses the other classes to
-    // implement comparison and sort-key building.  RuleBasedCollator also
-    // contains the logic to handle French secondary accent sorting.
-    // A RuleBasedCollator has two CollationElementIterators.  State doesn't
-    // need to be preserved in these objects between calls to compare() or
-    // getCollationKey(), but the objects persist anyway to avoid wasting extra
-    // creation time.  compare() and getCollationKey() are synchronized to ensure
-    // thread safety with this scheme.  The CollationElementIterator is responsible
-    // for generating collation elements from strings and returning one element at
-    // a time (sometimes there's a one-to-many or many-to-one mapping between
-    // characters and collation elements-- this class handles that).
-    // CollationElementIterator depends on RBCollationTables, which contains the
-    // collator's static state.  RBCollationTables contains the actual data
-    // tables specifying the collation order of characters for a particular locale
-    // or use.  It also contains the base logic that CollationElementIterator
-    // uses to map from characters to collation elements.  A single RBCollationTables
-    // object is shared among all RuleBasedCollators for the same locale, and
-    // thus by all the CollationElementIterators they create.
+public clbss RuleBbsedCollbtor extends Collbtor{
+    // IMPLEMENTATION NOTES:  The implementbtion of the collbtion blgorithm is
+    // divided bcross three clbsses: RuleBbsedCollbtor, RBCollbtionTbbles, bnd
+    // CollbtionElementIterbtor.  RuleBbsedCollbtor contbins the collbtor's
+    // trbnsient stbte bnd includes the code thbt uses the other clbsses to
+    // implement compbrison bnd sort-key building.  RuleBbsedCollbtor blso
+    // contbins the logic to hbndle French secondbry bccent sorting.
+    // A RuleBbsedCollbtor hbs two CollbtionElementIterbtors.  Stbte doesn't
+    // need to be preserved in these objects between cblls to compbre() or
+    // getCollbtionKey(), but the objects persist bnywby to bvoid wbsting extrb
+    // crebtion time.  compbre() bnd getCollbtionKey() bre synchronized to ensure
+    // threbd sbfety with this scheme.  The CollbtionElementIterbtor is responsible
+    // for generbting collbtion elements from strings bnd returning one element bt
+    // b time (sometimes there's b one-to-mbny or mbny-to-one mbpping between
+    // chbrbcters bnd collbtion elements-- this clbss hbndles thbt).
+    // CollbtionElementIterbtor depends on RBCollbtionTbbles, which contbins the
+    // collbtor's stbtic stbte.  RBCollbtionTbbles contbins the bctubl dbtb
+    // tbbles specifying the collbtion order of chbrbcters for b pbrticulbr locble
+    // or use.  It blso contbins the bbse logic thbt CollbtionElementIterbtor
+    // uses to mbp from chbrbcters to collbtion elements.  A single RBCollbtionTbbles
+    // object is shbred bmong bll RuleBbsedCollbtors for the sbme locble, bnd
+    // thus by bll the CollbtionElementIterbtors they crebte.
 
     /**
-     * RuleBasedCollator constructor.  This takes the table rules and builds
-     * a collation table out of them.  Please see RuleBasedCollator class
-     * description for more details on the collation rule syntax.
-     * @see java.util.Locale
-     * @param rules the collation rules to build the collation table from.
-     * @exception ParseException A format exception
-     * will be thrown if the build process of the rules fails. For
-     * example, build rule "a &lt; ? &lt; d" will cause the constructor to
-     * throw the ParseException because the '?' is not quoted.
+     * RuleBbsedCollbtor constructor.  This tbkes the tbble rules bnd builds
+     * b collbtion tbble out of them.  Plebse see RuleBbsedCollbtor clbss
+     * description for more detbils on the collbtion rule syntbx.
+     * @see jbvb.util.Locble
+     * @pbrbm rules the collbtion rules to build the collbtion tbble from.
+     * @exception PbrseException A formbt exception
+     * will be thrown if the build process of the rules fbils. For
+     * exbmple, build rule "b &lt; ? &lt; d" will cbuse the constructor to
+     * throw the PbrseException becbuse the '?' is not quoted.
      */
-    public RuleBasedCollator(String rules) throws ParseException {
-        this(rules, Collator.CANONICAL_DECOMPOSITION);
+    public RuleBbsedCollbtor(String rules) throws PbrseException {
+        this(rules, Collbtor.CANONICAL_DECOMPOSITION);
     }
 
     /**
-     * RuleBasedCollator constructor.  This takes the table rules and builds
-     * a collation table out of them.  Please see RuleBasedCollator class
-     * description for more details on the collation rule syntax.
-     * @see java.util.Locale
-     * @param rules the collation rules to build the collation table from.
-     * @param decomp the decomposition strength used to build the
-     * collation table and to perform comparisons.
-     * @exception ParseException A format exception
-     * will be thrown if the build process of the rules fails. For
-     * example, build rule "a < ? < d" will cause the constructor to
-     * throw the ParseException because the '?' is not quoted.
+     * RuleBbsedCollbtor constructor.  This tbkes the tbble rules bnd builds
+     * b collbtion tbble out of them.  Plebse see RuleBbsedCollbtor clbss
+     * description for more detbils on the collbtion rule syntbx.
+     * @see jbvb.util.Locble
+     * @pbrbm rules the collbtion rules to build the collbtion tbble from.
+     * @pbrbm decomp the decomposition strength used to build the
+     * collbtion tbble bnd to perform compbrisons.
+     * @exception PbrseException A formbt exception
+     * will be thrown if the build process of the rules fbils. For
+     * exbmple, build rule "b < ? < d" will cbuse the constructor to
+     * throw the PbrseException becbuse the '?' is not quoted.
      */
-    RuleBasedCollator(String rules, int decomp) throws ParseException {
-        setStrength(Collator.TERTIARY);
+    RuleBbsedCollbtor(String rules, int decomp) throws PbrseException {
+        setStrength(Collbtor.TERTIARY);
         setDecomposition(decomp);
-        tables = new RBCollationTables(rules, decomp);
+        tbbles = new RBCollbtionTbbles(rules, decomp);
     }
 
     /**
-     * "Copy constructor."  Used in clone() for performance.
+     * "Copy constructor."  Used in clone() for performbnce.
      */
-    private RuleBasedCollator(RuleBasedCollator that) {
-        setStrength(that.getStrength());
-        setDecomposition(that.getDecomposition());
-        tables = that.tables;
+    privbte RuleBbsedCollbtor(RuleBbsedCollbtor thbt) {
+        setStrength(thbt.getStrength());
+        setDecomposition(thbt.getDecomposition());
+        tbbles = thbt.tbbles;
     }
 
     /**
-     * Gets the table-based rules for the collation object.
-     * @return returns the collation rules that the table collation object
-     * was created from.
+     * Gets the tbble-bbsed rules for the collbtion object.
+     * @return returns the collbtion rules thbt the tbble collbtion object
+     * wbs crebted from.
      */
     public String getRules()
     {
-        return tables.getRules();
+        return tbbles.getRules();
     }
 
     /**
-     * Returns a CollationElementIterator for the given String.
+     * Returns b CollbtionElementIterbtor for the given String.
      *
-     * @param source the string to be collated
-     * @return a {@code CollationElementIterator} object
-     * @see java.text.CollationElementIterator
+     * @pbrbm source the string to be collbted
+     * @return b {@code CollbtionElementIterbtor} object
+     * @see jbvb.text.CollbtionElementIterbtor
      */
-    public CollationElementIterator getCollationElementIterator(String source) {
-        return new CollationElementIterator( source, this );
+    public CollbtionElementIterbtor getCollbtionElementIterbtor(String source) {
+        return new CollbtionElementIterbtor( source, this );
     }
 
     /**
-     * Returns a CollationElementIterator for the given CharacterIterator.
+     * Returns b CollbtionElementIterbtor for the given ChbrbcterIterbtor.
      *
-     * @param source the character iterator to be collated
-     * @return a {@code CollationElementIterator} object
-     * @see java.text.CollationElementIterator
+     * @pbrbm source the chbrbcter iterbtor to be collbted
+     * @return b {@code CollbtionElementIterbtor} object
+     * @see jbvb.text.CollbtionElementIterbtor
      * @since 1.2
      */
-    public CollationElementIterator getCollationElementIterator(
-                                                CharacterIterator source) {
-        return new CollationElementIterator( source, this );
+    public CollbtionElementIterbtor getCollbtionElementIterbtor(
+                                                ChbrbcterIterbtor source) {
+        return new CollbtionElementIterbtor( source, this );
     }
 
     /**
-     * Compares the character data stored in two different strings based on the
-     * collation rules.  Returns information about whether a string is less
-     * than, greater than or equal to another string in a language.
-     * This can be overriden in a subclass.
+     * Compbres the chbrbcter dbtb stored in two different strings bbsed on the
+     * collbtion rules.  Returns informbtion bbout whether b string is less
+     * thbn, grebter thbn or equbl to bnother string in b lbngubge.
+     * This cbn be overriden in b subclbss.
      *
-     * @exception NullPointerException if <code>source</code> or <code>target</code> is null.
+     * @exception NullPointerException if <code>source</code> or <code>tbrget</code> is null.
      */
-    public synchronized int compare(String source, String target)
+    public synchronized int compbre(String source, String tbrget)
     {
-        if (source == null || target == null) {
+        if (source == null || tbrget == null) {
             throw new NullPointerException();
         }
 
-        // The basic algorithm here is that we use CollationElementIterators
-        // to step through both the source and target strings.  We compare each
-        // collation element in the source string against the corresponding one
-        // in the target, checking for differences.
+        // The bbsic blgorithm here is thbt we use CollbtionElementIterbtors
+        // to step through both the source bnd tbrget strings.  We compbre ebch
+        // collbtion element in the source string bgbinst the corresponding one
+        // in the tbrget, checking for differences.
         //
-        // If a difference is found, we set <result> to LESS or GREATER to
-        // indicate whether the source string is less or greater than the target.
+        // If b difference is found, we set <result> to LESS or GREATER to
+        // indicbte whether the source string is less or grebter thbn the tbrget.
         //
-        // However, it's not that simple.  If we find a tertiary difference
-        // (e.g. 'A' vs. 'a') near the beginning of a string, it can be
-        // overridden by a primary difference (e.g. "A" vs. "B") later in
-        // the string.  For example, "AA" < "aB", even though 'A' > 'a'.
+        // However, it's not thbt simple.  If we find b tertibry difference
+        // (e.g. 'A' vs. 'b') nebr the beginning of b string, it cbn be
+        // overridden by b primbry difference (e.g. "A" vs. "B") lbter in
+        // the string.  For exbmple, "AA" < "bB", even though 'A' > 'b'.
         //
-        // To keep track of this, we use strengthResult to keep track of the
-        // strength of the most significant difference that has been found
-        // so far.  When we find a difference whose strength is greater than
-        // strengthResult, it overrides the last difference (if any) that
-        // was found.
+        // To keep trbck of this, we use strengthResult to keep trbck of the
+        // strength of the most significbnt difference thbt hbs been found
+        // so fbr.  When we find b difference whose strength is grebter thbn
+        // strengthResult, it overrides the lbst difference (if bny) thbt
+        // wbs found.
 
-        int result = Collator.EQUAL;
+        int result = Collbtor.EQUAL;
 
         if (sourceCursor == null) {
-            sourceCursor = getCollationElementIterator(source);
+            sourceCursor = getCollbtionElementIterbtor(source);
         } else {
             sourceCursor.setText(source);
         }
-        if (targetCursor == null) {
-            targetCursor = getCollationElementIterator(target);
+        if (tbrgetCursor == null) {
+            tbrgetCursor = getCollbtionElementIterbtor(tbrget);
         } else {
-            targetCursor.setText(target);
+            tbrgetCursor.setText(tbrget);
         }
 
         int sOrder = 0, tOrder = 0;
 
-        boolean initialCheckSecTer = getStrength() >= Collator.SECONDARY;
-        boolean checkSecTer = initialCheckSecTer;
-        boolean checkTertiary = getStrength() >= Collator.TERTIARY;
+        boolebn initiblCheckSecTer = getStrength() >= Collbtor.SECONDARY;
+        boolebn checkSecTer = initiblCheckSecTer;
+        boolebn checkTertibry = getStrength() >= Collbtor.TERTIARY;
 
-        boolean gets = true, gett = true;
+        boolebn gets = true, gett = true;
 
         while(true) {
-            // Get the next collation element in each of the strings, unless
+            // Get the next collbtion element in ebch of the strings, unless
             // we've been requested to skip it.
             if (gets) sOrder = sourceCursor.next(); else gets = true;
-            if (gett) tOrder = targetCursor.next(); else gett = true;
+            if (gett) tOrder = tbrgetCursor.next(); else gett = true;
 
             // If we've hit the end of one of the strings, jump out of the loop
-            if ((sOrder == CollationElementIterator.NULLORDER)||
-                (tOrder == CollationElementIterator.NULLORDER))
-                break;
+            if ((sOrder == CollbtionElementIterbtor.NULLORDER)||
+                (tOrder == CollbtionElementIterbtor.NULLORDER))
+                brebk;
 
-            int pSOrder = CollationElementIterator.primaryOrder(sOrder);
-            int pTOrder = CollationElementIterator.primaryOrder(tOrder);
+            int pSOrder = CollbtionElementIterbtor.primbryOrder(sOrder);
+            int pTOrder = CollbtionElementIterbtor.primbryOrder(tOrder);
 
-            // If there's no difference at this position, we can skip it
+            // If there's no difference bt this position, we cbn skip it
             if (sOrder == tOrder) {
-                if (tables.isFrenchSec() && pSOrder != 0) {
+                if (tbbles.isFrenchSec() && pSOrder != 0) {
                     if (!checkSecTer) {
-                        // in french, a secondary difference more to the right is stronger,
-                        // so accents have to be checked with each base element
-                        checkSecTer = initialCheckSecTer;
-                        // but tertiary differences are less important than the first
-                        // secondary difference, so checking tertiary remains disabled
-                        checkTertiary = false;
+                        // in french, b secondbry difference more to the right is stronger,
+                        // so bccents hbve to be checked with ebch bbse element
+                        checkSecTer = initiblCheckSecTer;
+                        // but tertibry differences bre less importbnt thbn the first
+                        // secondbry difference, so checking tertibry rembins disbbled
+                        checkTertibry = fblse;
                     }
                 }
                 continue;
             }
 
-            // Compare primary differences first.
+            // Compbre primbry differences first.
             if ( pSOrder != pTOrder )
             {
                 if (sOrder == 0) {
-                    // The entire source element is ignorable.
-                    // Skip to the next source element, but don't fetch another target element.
-                    gett = false;
+                    // The entire source element is ignorbble.
+                    // Skip to the next source element, but don't fetch bnother tbrget element.
+                    gett = fblse;
                     continue;
                 }
                 if (tOrder == 0) {
-                    gets = false;
+                    gets = fblse;
                     continue;
                 }
 
-                // The source and target elements aren't ignorable, but it's still possible
-                // for the primary component of one of the elements to be ignorable....
+                // The source bnd tbrget elements bren't ignorbble, but it's still possible
+                // for the primbry component of one of the elements to be ignorbble....
 
-                if (pSOrder == 0)  // primary order in source is ignorable
+                if (pSOrder == 0)  // primbry order in source is ignorbble
                 {
-                    // The source's primary is ignorable, but the target's isn't.  We treat ignorables
-                    // as a secondary difference, so remember that we found one.
+                    // The source's primbry is ignorbble, but the tbrget's isn't.  We trebt ignorbbles
+                    // bs b secondbry difference, so remember thbt we found one.
                     if (checkSecTer) {
-                        result = Collator.GREATER;  // (strength is SECONDARY)
-                        checkSecTer = false;
+                        result = Collbtor.GREATER;  // (strength is SECONDARY)
+                        checkSecTer = fblse;
                     }
-                    // Skip to the next source element, but don't fetch another target element.
-                    gett = false;
+                    // Skip to the next source element, but don't fetch bnother tbrget element.
+                    gett = fblse;
                 }
                 else if (pTOrder == 0)
                 {
-                    // record differences - see the comment above.
+                    // record differences - see the comment bbove.
                     if (checkSecTer) {
-                        result = Collator.LESS;  // (strength is SECONDARY)
-                        checkSecTer = false;
+                        result = Collbtor.LESS;  // (strength is SECONDARY)
+                        checkSecTer = fblse;
                     }
-                    // Skip to the next source element, but don't fetch another target element.
-                    gets = false;
+                    // Skip to the next source element, but don't fetch bnother tbrget element.
+                    gets = fblse;
                 } else {
-                    // Neither of the orders is ignorable, and we already know that the primary
-                    // orders are different because of the (pSOrder != pTOrder) test above.
-                    // Record the difference and stop the comparison.
+                    // Neither of the orders is ignorbble, bnd we blrebdy know thbt the primbry
+                    // orders bre different becbuse of the (pSOrder != pTOrder) test bbove.
+                    // Record the difference bnd stop the compbrison.
                     if (pSOrder < pTOrder) {
-                        return Collator.LESS;  // (strength is PRIMARY)
+                        return Collbtor.LESS;  // (strength is PRIMARY)
                     } else {
-                        return Collator.GREATER;  // (strength is PRIMARY)
+                        return Collbtor.GREATER;  // (strength is PRIMARY)
                     }
                 }
             } else { // else of if ( pSOrder != pTOrder )
-                // primary order is the same, but complete order is different. So there
-                // are no base elements at this point, only ignorables (Since the strings are
-                // normalized)
+                // primbry order is the sbme, but complete order is different. So there
+                // bre no bbse elements bt this point, only ignorbbles (Since the strings bre
+                // normblized)
 
                 if (checkSecTer) {
-                    // a secondary or tertiary difference may still matter
-                    short secSOrder = CollationElementIterator.secondaryOrder(sOrder);
-                    short secTOrder = CollationElementIterator.secondaryOrder(tOrder);
+                    // b secondbry or tertibry difference mby still mbtter
+                    short secSOrder = CollbtionElementIterbtor.secondbryOrder(sOrder);
+                    short secTOrder = CollbtionElementIterbtor.secondbryOrder(tOrder);
                     if (secSOrder != secTOrder) {
-                        // there is a secondary difference
-                        result = (secSOrder < secTOrder) ? Collator.LESS : Collator.GREATER;
+                        // there is b secondbry difference
+                        result = (secSOrder < secTOrder) ? Collbtor.LESS : Collbtor.GREATER;
                                                 // (strength is SECONDARY)
-                        checkSecTer = false;
-                        // (even in french, only the first secondary difference within
-                        //  a base character matters)
+                        checkSecTer = fblse;
+                        // (even in french, only the first secondbry difference within
+                        //  b bbse chbrbcter mbtters)
                     } else {
-                        if (checkTertiary) {
-                            // a tertiary difference may still matter
-                            short terSOrder = CollationElementIterator.tertiaryOrder(sOrder);
-                            short terTOrder = CollationElementIterator.tertiaryOrder(tOrder);
+                        if (checkTertibry) {
+                            // b tertibry difference mby still mbtter
+                            short terSOrder = CollbtionElementIterbtor.tertibryOrder(sOrder);
+                            short terTOrder = CollbtionElementIterbtor.tertibryOrder(tOrder);
                             if (terSOrder != terTOrder) {
-                                // there is a tertiary difference
-                                result = (terSOrder < terTOrder) ? Collator.LESS : Collator.GREATER;
+                                // there is b tertibry difference
+                                result = (terSOrder < terTOrder) ? Collbtor.LESS : Collbtor.GREATER;
                                                 // (strength is TERTIARY)
-                                checkTertiary = false;
+                                checkTertibry = fblse;
                             }
                         }
                     }
@@ -507,98 +507,98 @@ public class RuleBasedCollator extends Collator{
             }  // if ( pSOrder != pTOrder )
         } // while()
 
-        if (sOrder != CollationElementIterator.NULLORDER) {
-            // (tOrder must be CollationElementIterator::NULLORDER,
-            //  since this point is only reached when sOrder or tOrder is NULLORDER.)
-            // The source string has more elements, but the target string hasn't.
+        if (sOrder != CollbtionElementIterbtor.NULLORDER) {
+            // (tOrder must be CollbtionElementIterbtor::NULLORDER,
+            //  since this point is only rebched when sOrder or tOrder is NULLORDER.)
+            // The source string hbs more elements, but the tbrget string hbsn't.
             do {
-                if (CollationElementIterator.primaryOrder(sOrder) != 0) {
-                    // We found an additional non-ignorable base character in the source string.
-                    // This is a primary difference, so the source is greater
-                    return Collator.GREATER; // (strength is PRIMARY)
+                if (CollbtionElementIterbtor.primbryOrder(sOrder) != 0) {
+                    // We found bn bdditionbl non-ignorbble bbse chbrbcter in the source string.
+                    // This is b primbry difference, so the source is grebter
+                    return Collbtor.GREATER; // (strength is PRIMARY)
                 }
-                else if (CollationElementIterator.secondaryOrder(sOrder) != 0) {
-                    // Additional secondary elements mean the source string is greater
+                else if (CollbtionElementIterbtor.secondbryOrder(sOrder) != 0) {
+                    // Additionbl secondbry elements mebn the source string is grebter
                     if (checkSecTer) {
-                        result = Collator.GREATER;  // (strength is SECONDARY)
-                        checkSecTer = false;
+                        result = Collbtor.GREATER;  // (strength is SECONDARY)
+                        checkSecTer = fblse;
                     }
                 }
-            } while ((sOrder = sourceCursor.next()) != CollationElementIterator.NULLORDER);
+            } while ((sOrder = sourceCursor.next()) != CollbtionElementIterbtor.NULLORDER);
         }
-        else if (tOrder != CollationElementIterator.NULLORDER) {
-            // The target string has more elements, but the source string hasn't.
+        else if (tOrder != CollbtionElementIterbtor.NULLORDER) {
+            // The tbrget string hbs more elements, but the source string hbsn't.
             do {
-                if (CollationElementIterator.primaryOrder(tOrder) != 0)
-                    // We found an additional non-ignorable base character in the target string.
-                    // This is a primary difference, so the source is less
-                    return Collator.LESS; // (strength is PRIMARY)
-                else if (CollationElementIterator.secondaryOrder(tOrder) != 0) {
-                    // Additional secondary elements in the target mean the source string is less
+                if (CollbtionElementIterbtor.primbryOrder(tOrder) != 0)
+                    // We found bn bdditionbl non-ignorbble bbse chbrbcter in the tbrget string.
+                    // This is b primbry difference, so the source is less
+                    return Collbtor.LESS; // (strength is PRIMARY)
+                else if (CollbtionElementIterbtor.secondbryOrder(tOrder) != 0) {
+                    // Additionbl secondbry elements in the tbrget mebn the source string is less
                     if (checkSecTer) {
-                        result = Collator.LESS;  // (strength is SECONDARY)
-                        checkSecTer = false;
+                        result = Collbtor.LESS;  // (strength is SECONDARY)
+                        checkSecTer = fblse;
                     }
                 }
-            } while ((tOrder = targetCursor.next()) != CollationElementIterator.NULLORDER);
+            } while ((tOrder = tbrgetCursor.next()) != CollbtionElementIterbtor.NULLORDER);
         }
 
-        // For IDENTICAL comparisons, we use a bitwise character comparison
-        // as a tiebreaker if all else is equal
+        // For IDENTICAL compbrisons, we use b bitwise chbrbcter compbrison
+        // bs b tiebrebker if bll else is equbl
         if (result == 0 && getStrength() == IDENTICAL) {
             int mode = getDecomposition();
-            Normalizer.Form form;
+            Normblizer.Form form;
             if (mode == CANONICAL_DECOMPOSITION) {
-                form = Normalizer.Form.NFD;
+                form = Normblizer.Form.NFD;
             } else if (mode == FULL_DECOMPOSITION) {
-                form = Normalizer.Form.NFKD;
+                form = Normblizer.Form.NFKD;
             } else {
-                return source.compareTo(target);
+                return source.compbreTo(tbrget);
             }
 
-            String sourceDecomposition = Normalizer.normalize(source, form);
-            String targetDecomposition = Normalizer.normalize(target, form);
-            return sourceDecomposition.compareTo(targetDecomposition);
+            String sourceDecomposition = Normblizer.normblize(source, form);
+            String tbrgetDecomposition = Normblizer.normblize(tbrget, form);
+            return sourceDecomposition.compbreTo(tbrgetDecomposition);
         }
         return result;
     }
 
     /**
-     * Transforms the string into a series of characters that can be compared
-     * with CollationKey.compareTo. This overrides java.text.Collator.getCollationKey.
-     * It can be overriden in a subclass.
+     * Trbnsforms the string into b series of chbrbcters thbt cbn be compbred
+     * with CollbtionKey.compbreTo. This overrides jbvb.text.Collbtor.getCollbtionKey.
+     * It cbn be overriden in b subclbss.
      */
-    public synchronized CollationKey getCollationKey(String source)
+    public synchronized CollbtionKey getCollbtionKey(String source)
     {
         //
-        // The basic algorithm here is to find all of the collation elements for each
-        // character in the source string, convert them to a char representation,
-        // and put them into the collation key.  But it's trickier than that.
-        // Each collation element in a string has three components: primary (A vs B),
-        // secondary (A vs A-acute), and tertiary (A' vs a); and a primary difference
-        // at the end of a string takes precedence over a secondary or tertiary
-        // difference earlier in the string.
+        // The bbsic blgorithm here is to find bll of the collbtion elements for ebch
+        // chbrbcter in the source string, convert them to b chbr representbtion,
+        // bnd put them into the collbtion key.  But it's trickier thbn thbt.
+        // Ebch collbtion element in b string hbs three components: primbry (A vs B),
+        // secondbry (A vs A-bcute), bnd tertibry (A' vs b); bnd b primbry difference
+        // bt the end of b string tbkes precedence over b secondbry or tertibry
+        // difference ebrlier in the string.
         //
-        // To account for this, we put all of the primary orders at the beginning of the
-        // string, followed by the secondary and tertiary orders, separated by nulls.
+        // To bccount for this, we put bll of the primbry orders bt the beginning of the
+        // string, followed by the secondbry bnd tertibry orders, sepbrbted by nulls.
         //
-        // Here's a hypothetical example, with the collation element represented as
-        // a three-digit number, one digit for primary, one for secondary, etc.
+        // Here's b hypotheticbl exbmple, with the collbtion element represented bs
+        // b three-digit number, one digit for primbry, one for secondbry, etc.
         //
-        // String:              A     a     B   \u00e9 <--(e-acute)
-        // Collation Elements: 101   100   201  510
+        // String:              A     b     B   \u00e9 <--(e-bcute)
+        // Collbtion Elements: 101   100   201  510
         //
-        // Collation Key:      1125<null>0001<null>1010
+        // Collbtion Key:      1125<null>0001<null>1010
         //
-        // To make things even trickier, secondary differences (accent marks) are compared
-        // starting at the *end* of the string in languages with French secondary ordering.
-        // But when comparing the accent marks on a single base character, they are compared
-        // from the beginning.  To handle this, we reverse all of the accents that belong
-        // to each base character, then we reverse the entire string of secondary orderings
-        // at the end.  Taking the same example above, a French collator might return
-        // this instead:
+        // To mbke things even trickier, secondbry differences (bccent mbrks) bre compbred
+        // stbrting bt the *end* of the string in lbngubges with French secondbry ordering.
+        // But when compbring the bccent mbrks on b single bbse chbrbcter, they bre compbred
+        // from the beginning.  To hbndle this, we reverse bll of the bccents thbt belong
+        // to ebch bbse chbrbcter, then we reverse the entire string of secondbry orderings
+        // bt the end.  Tbking the sbme exbmple bbove, b French collbtor might return
+        // this instebd:
         //
-        // Collation Key:      1125<null>1000<null>1010
+        // Collbtion Key:      1125<null>1000<null>1010
         //
         if (source == null)
             return null;
@@ -613,157 +613,157 @@ public class RuleBasedCollator extends Collator{
             terResult.setLength(0);
         }
         int order = 0;
-        boolean compareSec = (getStrength() >= Collator.SECONDARY);
-        boolean compareTer = (getStrength() >= Collator.TERTIARY);
-        int secOrder = CollationElementIterator.NULLORDER;
-        int terOrder = CollationElementIterator.NULLORDER;
+        boolebn compbreSec = (getStrength() >= Collbtor.SECONDARY);
+        boolebn compbreTer = (getStrength() >= Collbtor.TERTIARY);
+        int secOrder = CollbtionElementIterbtor.NULLORDER;
+        int terOrder = CollbtionElementIterbtor.NULLORDER;
         int preSecIgnore = 0;
 
         if (sourceCursor == null) {
-            sourceCursor = getCollationElementIterator(source);
+            sourceCursor = getCollbtionElementIterbtor(source);
         } else {
             sourceCursor.setText(source);
         }
 
-        // walk through each character
+        // wblk through ebch chbrbcter
         while ((order = sourceCursor.next()) !=
-               CollationElementIterator.NULLORDER)
+               CollbtionElementIterbtor.NULLORDER)
         {
-            secOrder = CollationElementIterator.secondaryOrder(order);
-            terOrder = CollationElementIterator.tertiaryOrder(order);
-            if (!CollationElementIterator.isIgnorable(order))
+            secOrder = CollbtionElementIterbtor.secondbryOrder(order);
+            terOrder = CollbtionElementIterbtor.tertibryOrder(order);
+            if (!CollbtionElementIterbtor.isIgnorbble(order))
             {
-                primResult.append((char) (CollationElementIterator.primaryOrder(order)
+                primResult.bppend((chbr) (CollbtionElementIterbtor.primbryOrder(order)
                                     + COLLATIONKEYOFFSET));
 
-                if (compareSec) {
+                if (compbreSec) {
                     //
-                    // accumulate all of the ignorable/secondary characters attached
-                    // to a given base character
+                    // bccumulbte bll of the ignorbble/secondbry chbrbcters bttbched
+                    // to b given bbse chbrbcter
                     //
-                    if (tables.isFrenchSec() && preSecIgnore < secResult.length()) {
+                    if (tbbles.isFrenchSec() && preSecIgnore < secResult.length()) {
                         //
-                        // We're doing reversed secondary ordering and we've hit a base
-                        // (non-ignorable) character.  Reverse any secondary orderings
-                        // that applied to the last base character.  (see block comment above.)
+                        // We're doing reversed secondbry ordering bnd we've hit b bbse
+                        // (non-ignorbble) chbrbcter.  Reverse bny secondbry orderings
+                        // thbt bpplied to the lbst bbse chbrbcter.  (see block comment bbove.)
                         //
-                        RBCollationTables.reverse(secResult, preSecIgnore, secResult.length());
+                        RBCollbtionTbbles.reverse(secResult, preSecIgnore, secResult.length());
                     }
-                    // Remember where we are in the secondary orderings - this is how far
-                    // back to go if we need to reverse them later.
-                    secResult.append((char)(secOrder+ COLLATIONKEYOFFSET));
+                    // Remember where we bre in the secondbry orderings - this is how fbr
+                    // bbck to go if we need to reverse them lbter.
+                    secResult.bppend((chbr)(secOrder+ COLLATIONKEYOFFSET));
                     preSecIgnore = secResult.length();
                 }
-                if (compareTer) {
-                    terResult.append((char)(terOrder+ COLLATIONKEYOFFSET));
+                if (compbreTer) {
+                    terResult.bppend((chbr)(terOrder+ COLLATIONKEYOFFSET));
                 }
             }
             else
             {
-                if (compareSec && secOrder != 0)
-                    secResult.append((char)
-                        (secOrder + tables.getMaxSecOrder() + COLLATIONKEYOFFSET));
-                if (compareTer && terOrder != 0)
-                    terResult.append((char)
-                        (terOrder + tables.getMaxTerOrder() + COLLATIONKEYOFFSET));
+                if (compbreSec && secOrder != 0)
+                    secResult.bppend((chbr)
+                        (secOrder + tbbles.getMbxSecOrder() + COLLATIONKEYOFFSET));
+                if (compbreTer && terOrder != 0)
+                    terResult.bppend((chbr)
+                        (terOrder + tbbles.getMbxTerOrder() + COLLATIONKEYOFFSET));
             }
         }
-        if (tables.isFrenchSec())
+        if (tbbles.isFrenchSec())
         {
             if (preSecIgnore < secResult.length()) {
-                // If we've accumulated any secondary characters after the last base character,
+                // If we've bccumulbted bny secondbry chbrbcters bfter the lbst bbse chbrbcter,
                 // reverse them.
-                RBCollationTables.reverse(secResult, preSecIgnore, secResult.length());
+                RBCollbtionTbbles.reverse(secResult, preSecIgnore, secResult.length());
             }
-            // And now reverse the entire secResult to get French secondary ordering.
-            RBCollationTables.reverse(secResult, 0, secResult.length());
+            // And now reverse the entire secResult to get French secondbry ordering.
+            RBCollbtionTbbles.reverse(secResult, 0, secResult.length());
         }
-        primResult.append((char)0);
-        secResult.append((char)0);
-        secResult.append(terResult.toString());
-        primResult.append(secResult.toString());
+        primResult.bppend((chbr)0);
+        secResult.bppend((chbr)0);
+        secResult.bppend(terResult.toString());
+        primResult.bppend(secResult.toString());
 
         if (getStrength() == IDENTICAL) {
-            primResult.append((char)0);
+            primResult.bppend((chbr)0);
             int mode = getDecomposition();
             if (mode == CANONICAL_DECOMPOSITION) {
-                primResult.append(Normalizer.normalize(source, Normalizer.Form.NFD));
+                primResult.bppend(Normblizer.normblize(source, Normblizer.Form.NFD));
             } else if (mode == FULL_DECOMPOSITION) {
-                primResult.append(Normalizer.normalize(source, Normalizer.Form.NFKD));
+                primResult.bppend(Normblizer.normblize(source, Normblizer.Form.NFKD));
             } else {
-                primResult.append(source);
+                primResult.bppend(source);
             }
         }
-        return new RuleBasedCollationKey(source, primResult.toString());
+        return new RuleBbsedCollbtionKey(source, primResult.toString());
     }
 
     /**
-     * Standard override; no change in semantics.
+     * Stbndbrd override; no chbnge in sembntics.
      */
     public Object clone() {
-        // if we know we're not actually a subclass of RuleBasedCollator
-        // (this class really should have been made final), bypass
-        // Object.clone() and use our "copy constructor".  This is faster.
-        if (getClass() == RuleBasedCollator.class) {
-            return new RuleBasedCollator(this);
+        // if we know we're not bctublly b subclbss of RuleBbsedCollbtor
+        // (this clbss reblly should hbve been mbde finbl), bypbss
+        // Object.clone() bnd use our "copy constructor".  This is fbster.
+        if (getClbss() == RuleBbsedCollbtor.clbss) {
+            return new RuleBbsedCollbtor(this);
         }
         else {
-            RuleBasedCollator result = (RuleBasedCollator) super.clone();
+            RuleBbsedCollbtor result = (RuleBbsedCollbtor) super.clone();
             result.primResult = null;
             result.secResult = null;
             result.terResult = null;
             result.sourceCursor = null;
-            result.targetCursor = null;
+            result.tbrgetCursor = null;
             return result;
         }
     }
 
     /**
-     * Compares the equality of two collation objects.
-     * @param obj the table-based collation object to be compared with this.
-     * @return true if the current table-based collation object is the same
-     * as the table-based collation object obj; false otherwise.
+     * Compbres the equblity of two collbtion objects.
+     * @pbrbm obj the tbble-bbsed collbtion object to be compbred with this.
+     * @return true if the current tbble-bbsed collbtion object is the sbme
+     * bs the tbble-bbsed collbtion object obj; fblse otherwise.
      */
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (!super.equals(obj)) return false;  // super does class check
-        RuleBasedCollator other = (RuleBasedCollator) obj;
-        // all other non-transient information is also contained in rules.
-        return (getRules().equals(other.getRules()));
+    public boolebn equbls(Object obj) {
+        if (obj == null) return fblse;
+        if (!super.equbls(obj)) return fblse;  // super does clbss check
+        RuleBbsedCollbtor other = (RuleBbsedCollbtor) obj;
+        // bll other non-trbnsient informbtion is blso contbined in rules.
+        return (getRules().equbls(other.getRules()));
     }
 
     /**
-     * Generates the hash code for the table-based collation object
+     * Generbtes the hbsh code for the tbble-bbsed collbtion object
      */
-    public int hashCode() {
-        return getRules().hashCode();
+    public int hbshCode() {
+        return getRules().hbshCode();
     }
 
     /**
-     * Allows CollationElementIterator access to the tables object
+     * Allows CollbtionElementIterbtor bccess to the tbbles object
      */
-    RBCollationTables getTables() {
-        return tables;
+    RBCollbtionTbbles getTbbles() {
+        return tbbles;
     }
 
     // ==============================================================
-    // private
+    // privbte
     // ==============================================================
 
-    final static int CHARINDEX = 0x70000000;  // need look up in .commit()
-    final static int EXPANDCHARINDEX = 0x7E000000; // Expand index follows
-    final static int CONTRACTCHARINDEX = 0x7F000000;  // contract indexes follow
-    final static int UNMAPPED = 0xFFFFFFFF;
+    finbl stbtic int CHARINDEX = 0x70000000;  // need look up in .commit()
+    finbl stbtic int EXPANDCHARINDEX = 0x7E000000; // Expbnd index follows
+    finbl stbtic int CONTRACTCHARINDEX = 0x7F000000;  // contrbct indexes follow
+    finbl stbtic int UNMAPPED = 0xFFFFFFFF;
 
-    private final static int COLLATIONKEYOFFSET = 1;
+    privbte finbl stbtic int COLLATIONKEYOFFSET = 1;
 
-    private RBCollationTables tables = null;
+    privbte RBCollbtionTbbles tbbles = null;
 
-    // Internal objects that are cached across calls so that they don't have to
-    // be created/destroyed on every call to compare() and getCollationKey()
-    private StringBuffer primResult = null;
-    private StringBuffer secResult = null;
-    private StringBuffer terResult = null;
-    private CollationElementIterator sourceCursor = null;
-    private CollationElementIterator targetCursor = null;
+    // Internbl objects thbt bre cbched bcross cblls so thbt they don't hbve to
+    // be crebted/destroyed on every cbll to compbre() bnd getCollbtionKey()
+    privbte StringBuffer primResult = null;
+    privbte StringBuffer secResult = null;
+    privbte StringBuffer terResult = null;
+    privbte CollbtionElementIterbtor sourceCursor = null;
+    privbte CollbtionElementIterbtor tbrgetCursor = null;
 }

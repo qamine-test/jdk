@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
 /**
- * The management interface for a buffer pool, for example a pool of
- * {@link java.nio.ByteBuffer#allocateDirect direct} or {@link
- * java.nio.MappedByteBuffer mapped} buffers.
+ * The mbnbgement interfbce for b buffer pool, for exbmple b pool of
+ * {@link jbvb.nio.ByteBuffer#bllocbteDirect direct} or {@link
+ * jbvb.nio.MbppedByteBuffer mbpped} buffers.
  *
- * <p> A class implementing this interface is an
- * {@link javax.management.MXBean}. A Java
- * virtual machine has one or more implementations of this interface. The {@link
- * java.lang.management.ManagementFactory#getPlatformMXBeans getPlatformMXBeans}
- * method can be used to obtain the list of {@code BufferPoolMXBean} objects
- * representing the management interfaces for pools of buffers as follows:
+ * <p> A clbss implementing this interfbce is bn
+ * {@link jbvbx.mbnbgement.MXBebn}. A Jbvb
+ * virtubl mbchine hbs one or more implementbtions of this interfbce. The {@link
+ * jbvb.lbng.mbnbgement.MbnbgementFbctory#getPlbtformMXBebns getPlbtformMXBebns}
+ * method cbn be used to obtbin the list of {@code BufferPoolMXBebn} objects
+ * representing the mbnbgement interfbces for pools of buffers bs follows:
  * <pre>
- *     List&lt;BufferPoolMXBean&gt; pools = ManagementFactory.getPlatformMXBeans(BufferPoolMXBean.class);
+ *     List&lt;BufferPoolMXBebn&gt; pools = MbnbgementFbctory.getPlbtformMXBebns(BufferPoolMXBebn.clbss);
  * </pre>
  *
- * <p> The management interfaces are also registered with the platform {@link
- * javax.management.MBeanServer MBeanServer}. The {@link
- * javax.management.ObjectName ObjectName} that uniquely identifies the
- * management interface within the {@code MBeanServer} takes the form:
+ * <p> The mbnbgement interfbces bre blso registered with the plbtform {@link
+ * jbvbx.mbnbgement.MBebnServer MBebnServer}. The {@link
+ * jbvbx.mbnbgement.ObjectNbme ObjectNbme} thbt uniquely identifies the
+ * mbnbgement interfbce within the {@code MBebnServer} tbkes the form:
  * <pre>
- *     java.nio:type=BufferPool,name=<i>pool name</i>
+ *     jbvb.nio:type=BufferPool,nbme=<i>pool nbme</i>
  * </pre>
- * where <em>pool name</em> is the {@link #getName name} of the buffer pool.
+ * where <em>pool nbme</em> is the {@link #getNbme nbme} of the buffer pool.
  *
  * @since   1.7
  */
-public interface BufferPoolMXBean extends PlatformManagedObject {
+public interfbce BufferPoolMXBebn extends PlbtformMbnbgedObject {
 
     /**
-     * Returns the name representing this buffer pool.
+     * Returns the nbme representing this buffer pool.
      *
-     * @return  The name of this buffer pool.
+     * @return  The nbme of this buffer pool.
      */
-    String getName();
+    String getNbme();
 
     /**
-     * Returns an estimate of the number of buffers in the pool.
+     * Returns bn estimbte of the number of buffers in the pool.
      *
-     * @return  An estimate of the number of buffers in this pool
+     * @return  An estimbte of the number of buffers in this pool
      */
     long getCount();
 
     /**
-     * Returns an estimate of the total capacity of the buffers in this pool.
-     * A buffer's capacity is the number of elements it contains and the value
-     * returned by this method is an estimate of the total capacity of buffers
+     * Returns bn estimbte of the totbl cbpbcity of the buffers in this pool.
+     * A buffer's cbpbcity is the number of elements it contbins bnd the vblue
+     * returned by this method is bn estimbte of the totbl cbpbcity of buffers
      * in the pool in bytes.
      *
-     * @return  An estimate of the total capacity of the buffers in this pool
+     * @return  An estimbte of the totbl cbpbcity of the buffers in this pool
      *          in bytes
      */
-    long getTotalCapacity();
+    long getTotblCbpbcity();
 
     /**
-     * Returns an estimate of the memory that the Java virtual machine is using
-     * for this buffer pool. The value returned by this method may differ
-     * from the estimate of the total {@link #getTotalCapacity capacity} of
-     * the buffers in this pool. This difference is explained by alignment,
-     * memory allocator, and other implementation specific reasons.
+     * Returns bn estimbte of the memory thbt the Jbvb virtubl mbchine is using
+     * for this buffer pool. The vblue returned by this method mby differ
+     * from the estimbte of the totbl {@link #getTotblCbpbcity cbpbcity} of
+     * the buffers in this pool. This difference is explbined by blignment,
+     * memory bllocbtor, bnd other implementbtion specific rebsons.
      *
-     * @return  An estimate of the memory that the Java virtual machine is using
-     *          for this buffer pool in bytes, or {@code -1L} if an estimate of
-     *          the memory usage is not available
+     * @return  An estimbte of the memory thbt the Jbvb virtubl mbchine is using
+     *          for this buffer pool in bytes, or {@code -1L} if bn estimbte of
+     *          the memory usbge is not bvbilbble
      */
     long getMemoryUsed();
 }

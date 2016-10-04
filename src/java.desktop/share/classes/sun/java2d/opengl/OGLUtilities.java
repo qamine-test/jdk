@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.Rectangle;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.Region;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Rectbngle;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.pipe.Region;
 
 /**
- * This class contains a number of static utility methods that may be
- * called (via reflection) by a third-party library, such as JOGL, in order
- * to interoperate with the OGL-based Java 2D pipeline.
+ * This clbss contbins b number of stbtic utility methods thbt mby be
+ * cblled (vib reflection) by b third-pbrty librbry, such bs JOGL, in order
+ * to interoperbte with the OGL-bbsed Jbvb 2D pipeline.
  *
- * WARNING: These methods are being made available as a temporary measure
- * until we offer a more complete, public solution.  Like any sun.* class,
- * this class is not an officially supported public API; it may be modified
- * at will or removed completely in a future release.
+ * WARNING: These methods bre being mbde bvbilbble bs b temporbry mebsure
+ * until we offer b more complete, public solution.  Like bny sun.* clbss,
+ * this clbss is not bn officiblly supported public API; it mby be modified
+ * bt will or removed completely in b future relebse.
  */
-class OGLUtilities {
+clbss OGLUtilities {
 
     /**
-     * These OGL-specific surface type constants are the same as those
-     * defined in the OGLSurfaceData class and are duplicated here so that
-     * clients of this API can access them more easily via reflection.
+     * These OGL-specific surfbce type constbnts bre the sbme bs those
+     * defined in the OGLSurfbceDbtb clbss bnd bre duplicbted here so thbt
+     * clients of this API cbn bccess them more ebsily vib reflection.
      */
-    public static final int UNDEFINED       = OGLSurfaceData.UNDEFINED;
-    public static final int WINDOW          = OGLSurfaceData.WINDOW;
-    public static final int PBUFFER         = OGLSurfaceData.PBUFFER;
-    public static final int TEXTURE         = OGLSurfaceData.TEXTURE;
-    public static final int FLIP_BACKBUFFER = OGLSurfaceData.FLIP_BACKBUFFER;
-    public static final int FBOBJECT        = OGLSurfaceData.FBOBJECT;
+    public stbtic finbl int UNDEFINED       = OGLSurfbceDbtb.UNDEFINED;
+    public stbtic finbl int WINDOW          = OGLSurfbceDbtb.WINDOW;
+    public stbtic finbl int PBUFFER         = OGLSurfbceDbtb.PBUFFER;
+    public stbtic finbl int TEXTURE         = OGLSurfbceDbtb.TEXTURE;
+    public stbtic finbl int FLIP_BACKBUFFER = OGLSurfbceDbtb.FLIP_BACKBUFFER;
+    public stbtic finbl int FBOBJECT        = OGLSurfbceDbtb.FBOBJECT;
 
-    private OGLUtilities() {
+    privbte OGLUtilities() {
     }
 
     /**
-     * Returns true if the current thread is the OGL QueueFlusher thread.
+     * Returns true if the current threbd is the OGL QueueFlusher threbd.
      */
-    public static boolean isQueueFlusherThread() {
-        return OGLRenderQueue.isQueueFlusherThread();
+    public stbtic boolebn isQueueFlusherThrebd() {
+        return OGLRenderQueue.isQueueFlusherThrebd();
     }
 
     /**
-     * Invokes the given Runnable on the OGL QueueFlusher thread with the
-     * OpenGL context corresponding to the given Graphics object made
-     * current.  It is legal for OpenGL code executed in the given
-     * Runnable to change the current OpenGL context; it will be reset
-     * once the Runnable completes.  No guarantees are made as to the
-     * state of the OpenGL context of the Graphics object; for
-     * example, calling code must set the scissor box using the return
-     * value from {@link #getOGLScissorBox} to avoid drawing
-     * over other Swing components, and must typically set the OpenGL
-     * viewport using the return value from {@link #getOGLViewport} to
-     * make the client's OpenGL rendering appear in the correct place
-     * relative to the scissor region.
+     * Invokes the given Runnbble on the OGL QueueFlusher threbd with the
+     * OpenGL context corresponding to the given Grbphics object mbde
+     * current.  It is legbl for OpenGL code executed in the given
+     * Runnbble to chbnge the current OpenGL context; it will be reset
+     * once the Runnbble completes.  No gubrbntees bre mbde bs to the
+     * stbte of the OpenGL context of the Grbphics object; for
+     * exbmple, cblling code must set the scissor box using the return
+     * vblue from {@link #getOGLScissorBox} to bvoid drbwing
+     * over other Swing components, bnd must typicblly set the OpenGL
+     * viewport using the return vblue from {@link #getOGLViewport} to
+     * mbke the client's OpenGL rendering bppebr in the correct plbce
+     * relbtive to the scissor region.
      *
-     * In order to avoid deadlock, it is important that the given Runnable
-     * does not attempt to acquire the AWT lock, as that will be handled
-     * automatically as part of the <code>rq.flushAndInvokeNow()</code> step.
+     * In order to bvoid debdlock, it is importbnt thbt the given Runnbble
+     * does not bttempt to bcquire the AWT lock, bs thbt will be hbndled
+     * butombticblly bs pbrt of the <code>rq.flushAndInvokeNow()</code> step.
      *
-     * @param g the Graphics object for the corresponding destination surface;
-     * if null, the step making a context current to the destination surface
+     * @pbrbm g the Grbphics object for the corresponding destinbtion surfbce;
+     * if null, the step mbking b context current to the destinbtion surfbce
      * will be skipped
-     * @param r the action to be performed on the QFT; cannot be null
-     * @return true if the operation completed successfully, or false if
-     * there was any problem making a context current to the surface
-     * associated with the given Graphics object
+     * @pbrbm r the bction to be performed on the QFT; cbnnot be null
+     * @return true if the operbtion completed successfully, or fblse if
+     * there wbs bny problem mbking b context current to the surfbce
+     * bssocibted with the given Grbphics object
      */
-    public static boolean invokeWithOGLContextCurrent(Graphics g, Runnable r) {
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
+    public stbtic boolebn invokeWithOGLContextCurrent(Grbphics g, Runnbble r) {
+        OGLRenderQueue rq = OGLRenderQueue.getInstbnce();
         rq.lock();
         try {
             if (g != null) {
-                if (!(g instanceof SunGraphics2D)) {
-                    return false;
+                if (!(g instbnceof SunGrbphics2D)) {
+                    return fblse;
                 }
-                SurfaceData sData = ((SunGraphics2D)g).surfaceData;
-                if (!(sData instanceof OGLSurfaceData)) {
-                    return false;
+                SurfbceDbtb sDbtb = ((SunGrbphics2D)g).surfbceDbtb;
+                if (!(sDbtb instbnceof OGLSurfbceDbtb)) {
+                    return fblse;
                 }
 
-                // make a context current to the destination surface
-                OGLContext.validateContext((OGLSurfaceData)sData);
+                // mbke b context current to the destinbtion surfbce
+                OGLContext.vblidbteContext((OGLSurfbceDbtb)sDbtb);
             }
 
-            // invoke the given runnable on the QFT
+            // invoke the given runnbble on the QFT
             rq.flushAndInvokeNow(r);
 
-            // invalidate the current context so that the next time we render
-            // with Java 2D, the context state will be completely revalidated
-            OGLContext.invalidateCurrentContext();
-        } finally {
+            // invblidbte the current context so thbt the next time we render
+            // with Jbvb 2D, the context stbte will be completely revblidbted
+            OGLContext.invblidbteCurrentContext();
+        } finblly {
             rq.unlock();
         }
 
@@ -123,49 +123,49 @@ class OGLUtilities {
     }
 
     /**
-     * Invokes the given Runnable on the OGL QueueFlusher thread with the
-     * "shared" OpenGL context (corresponding to the given
-     * GraphicsConfiguration object) made current.  This method is typically
-     * used when the Runnable needs a current context to complete its
-     * operation, but does not require that the context be made current to
-     * a particular surface.  For example, an application may call this
-     * method so that the given Runnable can query the OpenGL capabilities
-     * of the given GraphicsConfiguration, without making a context current
-     * to a dummy surface (or similar hacky techniques).
+     * Invokes the given Runnbble on the OGL QueueFlusher threbd with the
+     * "shbred" OpenGL context (corresponding to the given
+     * GrbphicsConfigurbtion object) mbde current.  This method is typicblly
+     * used when the Runnbble needs b current context to complete its
+     * operbtion, but does not require thbt the context be mbde current to
+     * b pbrticulbr surfbce.  For exbmple, bn bpplicbtion mby cbll this
+     * method so thbt the given Runnbble cbn query the OpenGL cbpbbilities
+     * of the given GrbphicsConfigurbtion, without mbking b context current
+     * to b dummy surfbce (or similbr hbcky techniques).
      *
-     * In order to avoid deadlock, it is important that the given Runnable
-     * does not attempt to acquire the AWT lock, as that will be handled
-     * automatically as part of the <code>rq.flushAndInvokeNow()</code> step.
+     * In order to bvoid debdlock, it is importbnt thbt the given Runnbble
+     * does not bttempt to bcquire the AWT lock, bs thbt will be hbndled
+     * butombticblly bs pbrt of the <code>rq.flushAndInvokeNow()</code> step.
      *
-     * @param config the GraphicsConfiguration object whose "shared"
-     * context will be made current during this operation; if this value is
-     * null or if OpenGL is not enabled for the GraphicsConfiguration, this
-     * method will return false
-     * @param r the action to be performed on the QFT; cannot be null
-     * @return true if the operation completed successfully, or false if
-     * there was any problem making the shared context current
+     * @pbrbm config the GrbphicsConfigurbtion object whose "shbred"
+     * context will be mbde current during this operbtion; if this vblue is
+     * null or if OpenGL is not enbbled for the GrbphicsConfigurbtion, this
+     * method will return fblse
+     * @pbrbm r the bction to be performed on the QFT; cbnnot be null
+     * @return true if the operbtion completed successfully, or fblse if
+     * there wbs bny problem mbking the shbred context current
      */
-    public static boolean
-        invokeWithOGLSharedContextCurrent(GraphicsConfiguration config,
-                                          Runnable r)
+    public stbtic boolebn
+        invokeWithOGLShbredContextCurrent(GrbphicsConfigurbtion config,
+                                          Runnbble r)
     {
-        if (!(config instanceof OGLGraphicsConfig)) {
-            return false;
+        if (!(config instbnceof OGLGrbphicsConfig)) {
+            return fblse;
         }
 
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
+        OGLRenderQueue rq = OGLRenderQueue.getInstbnce();
         rq.lock();
         try {
-            // make the "shared" context current for the given GraphicsConfig
-            OGLContext.setScratchSurface((OGLGraphicsConfig)config);
+            // mbke the "shbred" context current for the given GrbphicsConfig
+            OGLContext.setScrbtchSurfbce((OGLGrbphicsConfig)config);
 
-            // invoke the given runnable on the QFT
+            // invoke the given runnbble on the QFT
             rq.flushAndInvokeNow(r);
 
-            // invalidate the current context so that the next time we render
-            // with Java 2D, the context state will be completely revalidated
-            OGLContext.invalidateCurrentContext();
-        } finally {
+            // invblidbte the current context so thbt the next time we render
+            // with Jbvb 2D, the context stbte will be completely revblidbted
+            OGLContext.invblidbteCurrentContext();
+        } finblly {
             rq.unlock();
         }
 
@@ -173,166 +173,166 @@ class OGLUtilities {
     }
 
     /**
-     * Returns the Rectangle describing the OpenGL viewport on the
-     * Java 2D surface associated with the given Graphics object and
-     * component width and height. When a third-party library is
+     * Returns the Rectbngle describing the OpenGL viewport on the
+     * Jbvb 2D surfbce bssocibted with the given Grbphics object bnd
+     * component width bnd height. When b third-pbrty librbry is
      * performing OpenGL rendering directly into the visible region of
-     * the associated surface, this viewport helps the application
-     * position the OpenGL output correctly on that surface.
+     * the bssocibted surfbce, this viewport helps the bpplicbtion
+     * position the OpenGL output correctly on thbt surfbce.
      *
-     * Note that the x/y values in the returned Rectangle object represent
-     * the lower-left corner of the viewport region, relative to the
-     * lower-left corner of the given surface.
+     * Note thbt the x/y vblues in the returned Rectbngle object represent
+     * the lower-left corner of the viewport region, relbtive to the
+     * lower-left corner of the given surfbce.
      *
-     * @param g the Graphics object for the corresponding destination surface;
-     * cannot be null
-     * @param componentWidth width of the component to be painted
-     * @param componentHeight height of the component to be painted
-     * @return a Rectangle describing the OpenGL viewport for the given
-     * destination surface and component dimensions, or null if the given
-     * Graphics object is invalid
+     * @pbrbm g the Grbphics object for the corresponding destinbtion surfbce;
+     * cbnnot be null
+     * @pbrbm componentWidth width of the component to be pbinted
+     * @pbrbm componentHeight height of the component to be pbinted
+     * @return b Rectbngle describing the OpenGL viewport for the given
+     * destinbtion surfbce bnd component dimensions, or null if the given
+     * Grbphics object is invblid
      */
-    public static Rectangle getOGLViewport(Graphics g,
+    public stbtic Rectbngle getOGLViewport(Grbphics g,
                                            int componentWidth,
                                            int componentHeight)
     {
-        if (!(g instanceof SunGraphics2D)) {
+        if (!(g instbnceof SunGrbphics2D)) {
             return null;
         }
 
-        SunGraphics2D sg2d = (SunGraphics2D)g;
-        SurfaceData sData = sg2d.surfaceData;
+        SunGrbphics2D sg2d = (SunGrbphics2D)g;
+        SurfbceDbtb sDbtb = sg2d.surfbceDbtb;
 
-        // this is the upper-left origin of the region to be painted,
-        // relative to the upper-left origin of the surface
-        // (in Java2D coordinates)
-        int x0 = sg2d.transX;
-        int y0 = sg2d.transY;
+        // this is the upper-left origin of the region to be pbinted,
+        // relbtive to the upper-left origin of the surfbce
+        // (in Jbvb2D coordinbtes)
+        int x0 = sg2d.trbnsX;
+        int y0 = sg2d.trbnsY;
 
-        // this is the lower-left origin of the region to be painted,
-        // relative to the lower-left origin of the surface
-        // (in OpenGL coordinates)
-        Rectangle surfaceBounds = sData.getBounds();
+        // this is the lower-left origin of the region to be pbinted,
+        // relbtive to the lower-left origin of the surfbce
+        // (in OpenGL coordinbtes)
+        Rectbngle surfbceBounds = sDbtb.getBounds();
         int x1 = x0;
-        int y1 = surfaceBounds.height - (y0 + componentHeight);
+        int y1 = surfbceBounds.height - (y0 + componentHeight);
 
-        return new Rectangle(x1, y1, componentWidth, componentHeight);
+        return new Rectbngle(x1, y1, componentWidth, componentHeight);
     }
 
     /**
-     * Returns the Rectangle describing the OpenGL scissor box on the
-     * Java 2D surface associated with the given Graphics object.  When a
-     * third-party library is performing OpenGL rendering directly
-     * into the visible region of the associated surface, this scissor box
-     * must be set to avoid drawing over existing rendering results.
+     * Returns the Rectbngle describing the OpenGL scissor box on the
+     * Jbvb 2D surfbce bssocibted with the given Grbphics object.  When b
+     * third-pbrty librbry is performing OpenGL rendering directly
+     * into the visible region of the bssocibted surfbce, this scissor box
+     * must be set to bvoid drbwing over existing rendering results.
      *
-     * Note that the x/y values in the returned Rectangle object represent
-     * the lower-left corner of the scissor region, relative to the
-     * lower-left corner of the given surface.
+     * Note thbt the x/y vblues in the returned Rectbngle object represent
+     * the lower-left corner of the scissor region, relbtive to the
+     * lower-left corner of the given surfbce.
      *
-     * @param g the Graphics object for the corresponding destination surface;
-     * cannot be null
-     * @return a Rectangle describing the OpenGL scissor box for the given
-     * Graphics object and corresponding destination surface, or null if the
-     * given Graphics object is invalid or the clip region is non-rectangular
+     * @pbrbm g the Grbphics object for the corresponding destinbtion surfbce;
+     * cbnnot be null
+     * @return b Rectbngle describing the OpenGL scissor box for the given
+     * Grbphics object bnd corresponding destinbtion surfbce, or null if the
+     * given Grbphics object is invblid or the clip region is non-rectbngulbr
      */
-    public static Rectangle getOGLScissorBox(Graphics g) {
-        if (!(g instanceof SunGraphics2D)) {
+    public stbtic Rectbngle getOGLScissorBox(Grbphics g) {
+        if (!(g instbnceof SunGrbphics2D)) {
             return null;
         }
 
-        SunGraphics2D sg2d = (SunGraphics2D)g;
-        SurfaceData sData = sg2d.surfaceData;
+        SunGrbphics2D sg2d = (SunGrbphics2D)g;
+        SurfbceDbtb sDbtb = sg2d.surfbceDbtb;
         Region r = sg2d.getCompClip();
-        if (!r.isRectangular()) {
-            // caller probably doesn't know how to handle shape clip
-            // appropriately, so just return null (Swing currently never
-            // sets a shape clip, but that could change in the future)
+        if (!r.isRectbngulbr()) {
+            // cbller probbbly doesn't know how to hbndle shbpe clip
+            // bppropribtely, so just return null (Swing currently never
+            // sets b shbpe clip, but thbt could chbnge in the future)
             return null;
         }
 
-        // this is the upper-left origin of the scissor box relative to the
-        // upper-left origin of the surface (in Java 2D coordinates)
+        // this is the upper-left origin of the scissor box relbtive to the
+        // upper-left origin of the surfbce (in Jbvb 2D coordinbtes)
         int x0 = r.getLoX();
         int y0 = r.getLoY();
 
-        // this is the width and height of the scissor region
+        // this is the width bnd height of the scissor region
         int w = r.getWidth();
         int h = r.getHeight();
 
-        // this is the lower-left origin of the scissor box relative to the
-        // lower-left origin of the surface (in OpenGL coordinates)
-        Rectangle surfaceBounds = sData.getBounds();
+        // this is the lower-left origin of the scissor box relbtive to the
+        // lower-left origin of the surfbce (in OpenGL coordinbtes)
+        Rectbngle surfbceBounds = sDbtb.getBounds();
         int x1 = x0;
-        int y1 = surfaceBounds.height - (y0 + h);
+        int y1 = surfbceBounds.height - (y0 + h);
 
-        return new Rectangle(x1, y1, w, h);
+        return new Rectbngle(x1, y1, w, h);
     }
 
     /**
-     * Returns an Object identifier for the Java 2D surface associated with
-     * the given Graphics object.  This identifier may be used to determine
-     * whether the surface has changed since the last invocation of this
-     * operation, and thereby whether the OpenGL state corresponding to the
-     * old surface must be destroyed and recreated.
+     * Returns bn Object identifier for the Jbvb 2D surfbce bssocibted with
+     * the given Grbphics object.  This identifier mby be used to determine
+     * whether the surfbce hbs chbnged since the lbst invocbtion of this
+     * operbtion, bnd thereby whether the OpenGL stbte corresponding to the
+     * old surfbce must be destroyed bnd recrebted.
      *
-     * @param g the Graphics object for the corresponding destination surface;
-     * cannot be null
-     * @return an identifier for the surface associated with the given
-     * Graphics object, or null if the given Graphics object is invalid
+     * @pbrbm g the Grbphics object for the corresponding destinbtion surfbce;
+     * cbnnot be null
+     * @return bn identifier for the surfbce bssocibted with the given
+     * Grbphics object, or null if the given Grbphics object is invblid
      */
-    public static Object getOGLSurfaceIdentifier(Graphics g) {
-        if (!(g instanceof SunGraphics2D)) {
+    public stbtic Object getOGLSurfbceIdentifier(Grbphics g) {
+        if (!(g instbnceof SunGrbphics2D)) {
             return null;
         }
-        return ((SunGraphics2D)g).surfaceData;
+        return ((SunGrbphics2D)g).surfbceDbtb;
     }
 
     /**
-     * Returns one of the OGL-specific surface type constants (defined in
-     * this class), which describes the surface associated with the given
-     * Graphics object.
+     * Returns one of the OGL-specific surfbce type constbnts (defined in
+     * this clbss), which describes the surfbce bssocibted with the given
+     * Grbphics object.
      *
-     * @param g the Graphics object for the corresponding destination surface;
-     * cannot be null
-     * @return a constant that describes the surface associated with the
-     * given Graphics object; if the given Graphics object is invalid (i.e.
-     * is not associated with an OpenGL surface) this method will return
+     * @pbrbm g the Grbphics object for the corresponding destinbtion surfbce;
+     * cbnnot be null
+     * @return b constbnt thbt describes the surfbce bssocibted with the
+     * given Grbphics object; if the given Grbphics object is invblid (i.e.
+     * is not bssocibted with bn OpenGL surfbce) this method will return
      * <code>OGLUtilities.UNDEFINED</code>
      */
-    public static int getOGLSurfaceType(Graphics g) {
-        if (!(g instanceof SunGraphics2D)) {
+    public stbtic int getOGLSurfbceType(Grbphics g) {
+        if (!(g instbnceof SunGrbphics2D)) {
             return UNDEFINED;
         }
-        SurfaceData sData = ((SunGraphics2D)g).surfaceData;
-        if (!(sData instanceof OGLSurfaceData)) {
+        SurfbceDbtb sDbtb = ((SunGrbphics2D)g).surfbceDbtb;
+        if (!(sDbtb instbnceof OGLSurfbceDbtb)) {
             return UNDEFINED;
         }
-        return ((OGLSurfaceData)sData).getType();
+        return ((OGLSurfbceDbtb)sDbtb).getType();
     }
 
     /**
-     * Returns the OpenGL texture target constant (either GL_TEXTURE_2D
-     * or GL_TEXTURE_RECTANGLE_ARB) for the surface associated with the
-     * given Graphics object.  This method is only useful for those surface
-     * types that are backed by an OpenGL texture, namely {@code TEXTURE},
-     * {@code FBOBJECT}, and (on Windows only) {@code PBUFFER}.
+     * Returns the OpenGL texture tbrget constbnt (either GL_TEXTURE_2D
+     * or GL_TEXTURE_RECTANGLE_ARB) for the surfbce bssocibted with the
+     * given Grbphics object.  This method is only useful for those surfbce
+     * types thbt bre bbcked by bn OpenGL texture, nbmely {@code TEXTURE},
+     * {@code FBOBJECT}, bnd (on Windows only) {@code PBUFFER}.
      *
-     * @param g the Graphics object for the corresponding destination surface;
-     * cannot be null
-     * @return the texture target constant for the surface associated with the
-     * given Graphics object; if the given Graphics object is invalid (i.e.
-     * is not associated with an OpenGL surface), or the associated surface
-     * is not backed by an OpenGL texture, this method will return zero.
+     * @pbrbm g the Grbphics object for the corresponding destinbtion surfbce;
+     * cbnnot be null
+     * @return the texture tbrget constbnt for the surfbce bssocibted with the
+     * given Grbphics object; if the given Grbphics object is invblid (i.e.
+     * is not bssocibted with bn OpenGL surfbce), or the bssocibted surfbce
+     * is not bbcked by bn OpenGL texture, this method will return zero.
      */
-    public static int getOGLTextureType(Graphics g) {
-        if (!(g instanceof SunGraphics2D)) {
+    public stbtic int getOGLTextureType(Grbphics g) {
+        if (!(g instbnceof SunGrbphics2D)) {
             return 0;
         }
-        SurfaceData sData = ((SunGraphics2D)g).surfaceData;
-        if (!(sData instanceof OGLSurfaceData)) {
+        SurfbceDbtb sDbtb = ((SunGrbphics2D)g).surfbceDbtb;
+        if (!(sDbtb instbnceof OGLSurfbceDbtb)) {
             return 0;
         }
-        return ((OGLSurfaceData)sData).getTextureTarget();
+        return ((OGLSurfbceDbtb)sDbtb).getTextureTbrget();
     }
 }

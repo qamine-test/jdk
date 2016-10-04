@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.beans.editors;
+pbckbge com.sun.bebns.editors;
 
-import java.awt.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
 
-public class ColorEditor extends Panel implements PropertyEditor {
-    private static final long serialVersionUID = 1781257185164716054L;
+public clbss ColorEditor extends Pbnel implements PropertyEditor {
+    privbte stbtic finbl long seriblVersionUID = 1781257185164716054L;
 
     public ColorEditor() {
-        setLayout(null);
+        setLbyout(null);
 
-        ourWidth = hPad;
+        ourWidth = hPbd;
 
-        // Create a sample color block bordered in black
-        Panel p = new Panel();
-        p.setLayout(null);
-        p.setBackground(Color.black);
-        sample = new Canvas();
-        p.add(sample);
-        sample.reshape(2, 2, sampleWidth, sampleHeight);
-        add(p);
-        p.reshape(ourWidth, 2, sampleWidth+4, sampleHeight+4);
-        ourWidth += sampleWidth + 4 + hPad;
+        // Crebte b sbmple color block bordered in blbck
+        Pbnel p = new Pbnel();
+        p.setLbyout(null);
+        p.setBbckground(Color.blbck);
+        sbmple = new Cbnvbs();
+        p.bdd(sbmple);
+        sbmple.reshbpe(2, 2, sbmpleWidth, sbmpleHeight);
+        bdd(p);
+        p.reshbpe(ourWidth, 2, sbmpleWidth+4, sbmpleHeight+4);
+        ourWidth += sbmpleWidth + 4 + hPbd;
 
         text = new TextField("", 14);
-        add(text);
-        text.reshape(ourWidth,0,100,30);
-        ourWidth += 100 + hPad;
+        bdd(text);
+        text.reshbpe(ourWidth,0,100,30);
+        ourWidth += 100 + hPbd;
 
         choser = new Choice();
-        int active = 0;
-        for (int i = 0; i < colorNames.length; i++) {
-            choser.addItem(colorNames[i]);
+        int bctive = 0;
+        for (int i = 0; i < colorNbmes.length; i++) {
+            choser.bddItem(colorNbmes[i]);
         }
-        add(choser);
-        choser.reshape(ourWidth,0,100,30);
-        ourWidth += 100 + hPad;
+        bdd(choser);
+        choser.reshbpe(ourWidth,0,100,30);
+        ourWidth += 100 + hPbd;
 
         resize(ourWidth,40);
     }
 
-    public void setValue(Object o) {
+    public void setVblue(Object o) {
         Color c = (Color)o;
-        changeColor(c);
+        chbngeColor(c);
     }
 
     public Dimension preferredSize() {
         return new Dimension(ourWidth, 40);
     }
 
-    public boolean keyUp(Event e, int key) {
-        if (e.target == text) {
+    public boolebn keyUp(Event e, int key) {
+        if (e.tbrget == text) {
             try {
                 setAsText(text.getText());
-            } catch (IllegalArgumentException ex) {
+            } cbtch (IllegblArgumentException ex) {
                 // Quietly ignore.
             }
         }
-        return (false);
+        return (fblse);
     }
 
-    public void setAsText(String s) throws java.lang.IllegalArgumentException {
+    public void setAsText(String s) throws jbvb.lbng.IllegblArgumentException {
         if (s == null) {
-            changeColor(null);
+            chbngeColor(null);
             return;
         }
         int c1 = s.indexOf(',');
         int c2 = s.indexOf(',', c1+1);
         if (c1 < 0 || c2 < 0) {
-            // Invalid string.
-            throw new IllegalArgumentException(s);
+            // Invblid string.
+            throw new IllegblArgumentException(s);
         }
         try {
-            int r = Integer.parseInt(s.substring(0,c1));
-            int g = Integer.parseInt(s.substring(c1+1, c2));
-            int b = Integer.parseInt(s.substring(c2+1));
+            int r = Integer.pbrseInt(s.substring(0,c1));
+            int g = Integer.pbrseInt(s.substring(c1+1, c2));
+            int b = Integer.pbrseInt(s.substring(c2+1));
             Color c = new Color(r,g,b);
-            changeColor(c);
-        } catch (Exception ex) {
-            throw new IllegalArgumentException(s);
+            chbngeColor(c);
+        } cbtch (Exception ex) {
+            throw new IllegblArgumentException(s);
         }
 
     }
 
-    public boolean action(Event e, Object arg) {
-        if (e.target == choser) {
-            changeColor(colors[choser.getSelectedIndex()]);
+    public boolebn bction(Event e, Object brg) {
+        if (e.tbrget == choser) {
+            chbngeColor(colors[choser.getSelectedIndex()]);
         }
-        return false;
+        return fblse;
     }
 
-    public String getJavaInitializationString() {
+    public String getJbvbInitiblizbtionString() {
         return (this.color != null)
-                ? "new java.awt.Color(" + this.color.getRGB() + ",true)"
+                ? "new jbvb.bwt.Color(" + this.color.getRGB() + ",true)"
                 : "null";
     }
 
 
-    private void changeColor(Color c) {
+    privbte void chbngeColor(Color c) {
 
         if (c == null) {
             this.color = null;
@@ -133,32 +133,32 @@ public class ColorEditor extends Panel implements PropertyEditor {
 
         text.setText("" + c.getRed() + "," + c.getGreen() + "," + c.getBlue());
 
-        int active = 0;
-        for (int i = 0; i < colorNames.length; i++) {
-            if (color.equals(colors[i])) {
-                active = i;
+        int bctive = 0;
+        for (int i = 0; i < colorNbmes.length; i++) {
+            if (color.equbls(colors[i])) {
+                bctive = i;
             }
         }
-        choser.select(active);
+        choser.select(bctive);
 
-        sample.setBackground(color);
-        sample.repaint();
+        sbmple.setBbckground(color);
+        sbmple.repbint();
 
-        support.firePropertyChange("", null, null);
+        support.firePropertyChbnge("", null, null);
     }
 
-    public Object getValue() {
+    public Object getVblue() {
         return color;
     }
 
-    public boolean isPaintable() {
+    public boolebn isPbintbble() {
         return true;
     }
 
-    public void paintValue(java.awt.Graphics gfx, java.awt.Rectangle box) {
+    public void pbintVblue(jbvb.bwt.Grbphics gfx, jbvb.bwt.Rectbngle box) {
         Color oldColor = gfx.getColor();
-        gfx.setColor(Color.black);
-        gfx.drawRect(box.x, box.y, box.width-3, box.height-3);
+        gfx.setColor(Color.blbck);
+        gfx.drbwRect(box.x, box.y, box.width-3, box.height-3);
         gfx.setColor(color);
         gfx.fillRect(box.x+1, box.y+1, box.width-4, box.height-4);
         gfx.setColor(oldColor);
@@ -170,45 +170,45 @@ public class ColorEditor extends Panel implements PropertyEditor {
                 : null;
     }
 
-    public String[] getTags() {
+    public String[] getTbgs() {
         return null;
     }
 
-    public java.awt.Component getCustomEditor() {
+    public jbvb.bwt.Component getCustomEditor() {
         return this;
     }
 
-    public boolean supportsCustomEditor() {
+    public boolebn supportsCustomEditor() {
         return true;
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener l) {
-        support.addPropertyChangeListener(l);
+    public void bddPropertyChbngeListener(PropertyChbngeListener l) {
+        support.bddPropertyChbngeListener(l);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener l) {
-        support.removePropertyChangeListener(l);
+    public void removePropertyChbngeListener(PropertyChbngeListener l) {
+        support.removePropertyChbngeListener(l);
     }
 
 
-    private String colorNames[] = { " ", "white", "lightGray", "gray", "darkGray",
-                        "black", "red", "pink", "orange",
-                        "yellow", "green", "magenta", "cyan",
+    privbte String colorNbmes[] = { " ", "white", "lightGrby", "grby", "dbrkGrby",
+                        "blbck", "red", "pink", "orbnge",
+                        "yellow", "green", "mbgentb", "cybn",
                         "blue"};
-    private Color colors[] = { null, Color.white, Color.lightGray, Color.gray, Color.darkGray,
-                        Color.black, Color.red, Color.pink, Color.orange,
-                        Color.yellow, Color.green, Color.magenta, Color.cyan,
+    privbte Color colors[] = { null, Color.white, Color.lightGrby, Color.grby, Color.dbrkGrby,
+                        Color.blbck, Color.red, Color.pink, Color.orbnge,
+                        Color.yellow, Color.green, Color.mbgentb, Color.cybn,
                         Color.blue};
 
-    private Canvas sample;
-    private int sampleHeight = 20;
-    private int sampleWidth = 40;
-    private int hPad = 5;
-    private int ourWidth;
+    privbte Cbnvbs sbmple;
+    privbte int sbmpleHeight = 20;
+    privbte int sbmpleWidth = 40;
+    privbte int hPbd = 5;
+    privbte int ourWidth;
 
-    private Color color;
-    private TextField text;
-    private Choice choser;
+    privbte Color color;
+    privbte TextField text;
+    privbte Choice choser;
 
-    private PropertyChangeSupport support = new PropertyChangeSupport(this);
+    privbte PropertyChbngeSupport support = new PropertyChbngeSupport(this);
 }

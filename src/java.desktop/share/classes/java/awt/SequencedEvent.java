@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.util.LinkedList;
-import sun.awt.AWTAccessor;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import jbvb.util.LinkedList;
+import sun.bwt.AWTAccessor;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
 
 /**
- * A mechanism for ensuring that a series of AWTEvents are executed in a
- * precise order, even across multiple AppContexts. The nested events will be
- * dispatched in the order in which their wrapping SequencedEvents were
- * constructed. The only exception to this rule is if the peer of the target of
- * the nested event was destroyed (with a call to Component.removeNotify)
- * before the wrapping SequencedEvent was able to be dispatched. In this case,
- * the nested event is never dispatched.
+ * A mechbnism for ensuring thbt b series of AWTEvents bre executed in b
+ * precise order, even bcross multiple AppContexts. The nested events will be
+ * dispbtched in the order in which their wrbpping SequencedEvents were
+ * constructed. The only exception to this rule is if the peer of the tbrget of
+ * the nested event wbs destroyed (with b cbll to Component.removeNotify)
+ * before the wrbpping SequencedEvent wbs bble to be dispbtched. In this cbse,
+ * the nested event is never dispbtched.
  *
- * @author David Mendenhall
+ * @buthor Dbvid Mendenhbll
  */
-class SequencedEvent extends AWTEvent implements ActiveEvent {
+clbss SequencedEvent extends AWTEvent implements ActiveEvent {
     /*
-     * serialVersionUID
+     * seriblVersionUID
      */
-    private static final long serialVersionUID = 547742659238625067L;
+    privbte stbtic finbl long seriblVersionUID = 547742659238625067L;
 
-    private static final int ID =
-        java.awt.event.FocusEvent.FOCUS_LAST + 1;
-    private static final LinkedList<SequencedEvent> list = new LinkedList<>();
+    privbte stbtic finbl int ID =
+        jbvb.bwt.event.FocusEvent.FOCUS_LAST + 1;
+    privbte stbtic finbl LinkedList<SequencedEvent> list = new LinkedList<>();
 
-    private final AWTEvent nested;
-    private AppContext appContext;
-    private boolean disposed;
+    privbte finbl AWTEvent nested;
+    privbte AppContext bppContext;
+    privbte boolebn disposed;
 
-    static {
+    stbtic {
         AWTAccessor.setSequencedEventAccessor(new AWTAccessor.SequencedEventAccessor() {
             public AWTEvent getNested(AWTEvent sequencedEvent) {
                 return ((SequencedEvent)sequencedEvent).nested;
             }
-            public boolean isSequencedEvent(AWTEvent event) {
-                return event instanceof SequencedEvent;
+            public boolebn isSequencedEvent(AWTEvent event) {
+                return event instbnceof SequencedEvent;
             }
         });
     }
 
     /**
-     * Constructs a new SequencedEvent which will dispatch the specified
+     * Constructs b new SequencedEvent which will dispbtch the specified
      * nested event.
      *
-     * @param nested the AWTEvent which this SequencedEvent's dispatch()
-     *        method will dispatch
+     * @pbrbm nested the AWTEvent which this SequencedEvent's dispbtch()
+     *        method will dispbtch
      */
     public SequencedEvent(AWTEvent nested) {
         super(nested.getSource(), ID);
         this.nested = nested;
-        // All AWTEvents that are wrapped in SequencedEvents are (at
-        // least currently) implicitly generated by the system
-        SunToolkit.setSystemGenerated(nested);
-        synchronized (SequencedEvent.class) {
-            list.add(this);
+        // All AWTEvents thbt bre wrbpped in SequencedEvents bre (bt
+        // lebst currently) implicitly generbted by the system
+        SunToolkit.setSystemGenerbted(nested);
+        synchronized (SequencedEvent.clbss) {
+            list.bdd(this);
         }
     }
 
     /**
-     * Dispatches the nested event after all previous nested events have been
-     * dispatched or disposed. If this method is invoked before all previous nested events
-     * have been dispatched, then this method blocks until such a point is
-     * reached.
-     * While waiting disposes nested events to disposed AppContext
+     * Dispbtches the nested event bfter bll previous nested events hbve been
+     * dispbtched or disposed. If this method is invoked before bll previous nested events
+     * hbve been dispbtched, then this method blocks until such b point is
+     * rebched.
+     * While wbiting disposes nested events to disposed AppContext
      *
-     * NOTE: Locking protocol.  Since dispose() can get EventQueue lock,
-     * dispatch() shall never call dispose() while holding the lock on the list,
-     * as EventQueue lock is held during dispatching.  The locks should be acquired
-     * in the same order.
+     * NOTE: Locking protocol.  Since dispose() cbn get EventQueue lock,
+     * dispbtch() shbll never cbll dispose() while holding the lock on the list,
+     * bs EventQueue lock is held during dispbtching.  The locks should be bcquired
+     * in the sbme order.
      */
-    public final void dispatch() {
+    public finbl void dispbtch() {
         try {
-            appContext = AppContext.getAppContext();
+            bppContext = AppContext.getAppContext();
 
             if (getFirst() != this) {
-                if (EventQueue.isDispatchThread()) {
-                    EventDispatchThread edt = (EventDispatchThread)
-                        Thread.currentThread();
-                    edt.pumpEvents(SentEvent.ID, new Conditional() {
-                        public boolean evaluate() {
+                if (EventQueue.isDispbtchThrebd()) {
+                    EventDispbtchThrebd edt = (EventDispbtchThrebd)
+                        Threbd.currentThrebd();
+                    edt.pumpEvents(SentEvent.ID, new Conditionbl() {
+                        public boolebn evblubte() {
                             return !SequencedEvent.this.isFirstOrDisposed();
                         }
                     });
                 } else {
                     while(!isFirstOrDisposed()) {
-                        synchronized (SequencedEvent.class) {
+                        synchronized (SequencedEvent.clbss) {
                             try {
-                                SequencedEvent.class.wait(1000);
-                            } catch (InterruptedException e) {
-                                break;
+                                SequencedEvent.clbss.wbit(1000);
+                            } cbtch (InterruptedException e) {
+                                brebk;
                             }
                         }
                     }
@@ -123,50 +123,50 @@ class SequencedEvent extends AWTEvent implements ActiveEvent {
             }
 
             if (!disposed) {
-                KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
                     setCurrentSequencedEvent(this);
-                Toolkit.getEventQueue().dispatchEvent(nested);
+                Toolkit.getEventQueue().dispbtchEvent(nested);
             }
-        } finally {
+        } finblly {
             dispose();
         }
     }
 
     /**
-     * true only if event exists and nested source appContext is disposed.
+     * true only if event exists bnd nested source bppContext is disposed.
      */
-    private final static boolean isOwnerAppContextDisposed(SequencedEvent se) {
+    privbte finbl stbtic boolebn isOwnerAppContextDisposed(SequencedEvent se) {
         if (se != null) {
-            Object target = se.nested.getSource();
-            if (target instanceof Component) {
-                return ((Component)target).appContext.isDisposed();
+            Object tbrget = se.nested.getSource();
+            if (tbrget instbnceof Component) {
+                return ((Component)tbrget).bppContext.isDisposed();
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Sequenced events are dispatched in order, so we cannot dispatch
-     * until we are the first sequenced event in the queue (i.e. it's our
-     * turn).  But while we wait for our turn to dispatch, the event
-     * could have been disposed for a number of reasons.
+     * Sequenced events bre dispbtched in order, so we cbnnot dispbtch
+     * until we bre the first sequenced event in the queue (i.e. it's our
+     * turn).  But while we wbit for our turn to dispbtch, the event
+     * could hbve been disposed for b number of rebsons.
      */
-    public final boolean isFirstOrDisposed() {
+    public finbl boolebn isFirstOrDisposed() {
         if (disposed) {
             return true;
         }
-        // getFirstWithContext can dispose this
+        // getFirstWithContext cbn dispose this
         return this == getFirstWithContext() || disposed;
     }
 
-    private final synchronized static SequencedEvent getFirst() {
+    privbte finbl synchronized stbtic SequencedEvent getFirst() {
         return list.getFirst();
     }
 
-    /* Disposes all events from disposed AppContext
-     * return first valid event
+    /* Disposes bll events from disposed AppContext
+     * return first vblid event
      */
-    private final static SequencedEvent getFirstWithContext() {
+    privbte finbl stbtic SequencedEvent getFirstWithContext() {
         SequencedEvent first = getFirst();
         while(isOwnerAppContextDisposed(first)) {
             first.dispose();
@@ -176,36 +176,36 @@ class SequencedEvent extends AWTEvent implements ActiveEvent {
     }
 
     /**
-     * Disposes of this instance. This method is invoked once the nested event
-     * has been dispatched and handled, or when the peer of the target of the
-     * nested event has been disposed with a call to Component.removeNotify.
+     * Disposes of this instbnce. This method is invoked once the nested event
+     * hbs been dispbtched bnd hbndled, or when the peer of the tbrget of the
+     * nested event hbs been disposed with b cbll to Component.removeNotify.
      *
-     * NOTE: Locking protocol.  Since SunToolkit.postEvent can get EventQueue lock,
-     * it shall never be called while holding the lock on the list,
-     * as EventQueue lock is held during dispatching and dispatch() will get
-     * lock on the list. The locks should be acquired in the same order.
+     * NOTE: Locking protocol.  Since SunToolkit.postEvent cbn get EventQueue lock,
+     * it shbll never be cblled while holding the lock on the list,
+     * bs EventQueue lock is held during dispbtching bnd dispbtch() will get
+     * lock on the list. The locks should be bcquired in the sbme order.
      */
-    final void dispose() {
-      synchronized (SequencedEvent.class) {
+    finbl void dispose() {
+      synchronized (SequencedEvent.clbss) {
             if (disposed) {
                 return;
             }
-            if (KeyboardFocusManager.getCurrentKeyboardFocusManager().
+            if (KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
                     getCurrentSequencedEvent() == this) {
-                KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
                     setCurrentSequencedEvent(null);
             }
             disposed = true;
         }
-        // Wake myself up
-        if (appContext != null) {
-            SunToolkit.postEvent(appContext, new SentEvent());
+        // Wbke myself up
+        if (bppContext != null) {
+            SunToolkit.postEvent(bppContext, new SentEvent());
         }
 
         SequencedEvent next = null;
 
-        synchronized (SequencedEvent.class) {
-          SequencedEvent.class.notifyAll();
+        synchronized (SequencedEvent.clbss) {
+          SequencedEvent.clbss.notifyAll();
 
           if (list.getFirst() == this) {
               list.removeFirst();
@@ -217,9 +217,9 @@ class SequencedEvent extends AWTEvent implements ActiveEvent {
               list.remove(this);
           }
       }
-        // Wake up waiting threads
-        if (next != null && next.appContext != null) {
-            SunToolkit.postEvent(next.appContext, new SentEvent());
+        // Wbke up wbiting threbds
+        if (next != null && next.bppContext != null) {
+            SunToolkit.postEvent(next.bppContext, new SentEvent());
         }
     }
 }

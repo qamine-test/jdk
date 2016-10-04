@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,1060 +30,1060 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.BorderLayout;
-import java.awt.CheckboxGroup;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.EnumSet;
-import java.util.StringTokenizer;
-import java.util.BitSet;
-import javax.swing.*;
-import javax.swing.event.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.CheckboxGroup;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.GridBbgConstrbints;
+import jbvb.bwt.GridBbgLbyout;
+import jbvb.bwt.GridLbyout;
+import jbvb.bwt.Insets;
+import jbvb.bwt.RenderingHints;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.event.ItemEvent;
+import jbvb.bwt.event.ItemListener;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileOutputStrebm;
+import jbvb.util.EnumSet;
+import jbvb.util.StringTokenizer;
+import jbvb.util.BitSet;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
 
 /**
- * Font2DTest.java
+ * Font2DTest.jbvb
  *
- * @author Shinsuke Fukuda
- * @author Ankit Patel [Conversion to Swing - 01/07/30]
+ * @buthor Shinsuke Fukudb
+ * @buthor Ankit Pbtel [Conversion to Swing - 01/07/30]
  */
 
-/// Main Font2DTest Class
+/// Mbin Font2DTest Clbss
 
-public final class Font2DTest extends JPanel
-    implements ActionListener, ItemListener, ChangeListener {
+public finbl clbss Font2DTest extends JPbnel
+    implements ActionListener, ItemListener, ChbngeListener {
 
-    /// JFrame that will contain Font2DTest
-    private final JFrame parent;
-    /// FontPanel class that will contain all graphical output
-    private final FontPanel fp;
-    /// RangeMenu class that contains info about the unicode ranges
-    private final RangeMenu rm;
+    /// JFrbme thbt will contbin Font2DTest
+    privbte finbl JFrbme pbrent;
+    /// FontPbnel clbss thbt will contbin bll grbphicbl output
+    privbte finbl FontPbnel fp;
+    /// RbngeMenu clbss thbt contbins info bbout the unicode rbnges
+    privbte finbl RbngeMenu rm;
 
-    /// Other menus to set parameters for text drawing
-    private final ChoiceV2 fontMenu;
-    private final JTextField sizeField;
-    private final ChoiceV2 styleMenu;
-    private final ChoiceV2 textMenu;
-    private int currentTextChoice = 0;
-    private final ChoiceV2 transformMenu;
-    private final ChoiceV2 transformMenuG2;
-    private final ChoiceV2 methodsMenu;
-    private final JComboBox antiAliasMenu;
-    private final JComboBox fracMetricsMenu;
+    /// Other menus to set pbrbmeters for text drbwing
+    privbte finbl ChoiceV2 fontMenu;
+    privbte finbl JTextField sizeField;
+    privbte finbl ChoiceV2 styleMenu;
+    privbte finbl ChoiceV2 textMenu;
+    privbte int currentTextChoice = 0;
+    privbte finbl ChoiceV2 trbnsformMenu;
+    privbte finbl ChoiceV2 trbnsformMenuG2;
+    privbte finbl ChoiceV2 methodsMenu;
+    privbte finbl JComboBox bntiAlibsMenu;
+    privbte finbl JComboBox frbcMetricsMenu;
 
-    private final JSlider contrastSlider;
+    privbte finbl JSlider contrbstSlider;
 
     /// CheckboxMenuItems
-    private CheckboxMenuItemV2 displayGridCBMI;
-    private CheckboxMenuItemV2 force16ColsCBMI;
-    private CheckboxMenuItemV2 showFontInfoCBMI;
+    privbte CheckboxMenuItemV2 displbyGridCBMI;
+    privbte CheckboxMenuItemV2 force16ColsCBMI;
+    privbte CheckboxMenuItemV2 showFontInfoCBMI;
 
-    /// JDialog boxes
-    private JDialog userTextDialog;
-    private JTextArea userTextArea;
-    private JDialog printDialog;
-    private JDialog fontInfoDialog;
-    private LabelV2 fontInfos[] = new LabelV2[2];
-    private JFileChooser filePromptDialog = null;
+    /// JDiblog boxes
+    privbte JDiblog userTextDiblog;
+    privbte JTextAreb userTextAreb;
+    privbte JDiblog printDiblog;
+    privbte JDiblog fontInfoDiblog;
+    privbte LbbelV2 fontInfos[] = new LbbelV2[2];
+    privbte JFileChooser filePromptDiblog = null;
 
-    private ButtonGroup printCBGroup;
-    private JRadioButton printModeCBs[] = new JRadioButton[3];
+    privbte ButtonGroup printCBGroup;
+    privbte JRbdioButton printModeCBs[] = new JRbdioButton[3];
 
-    /// Status bar
-    private final LabelV2 statusBar;
+    /// Stbtus bbr
+    privbte finbl LbbelV2 stbtusBbr;
 
-    private int fontStyles [] = {Font.PLAIN, Font.BOLD, Font.ITALIC, Font.BOLD | Font.ITALIC};
+    privbte int fontStyles [] = {Font.PLAIN, Font.BOLD, Font.ITALIC, Font.BOLD | Font.ITALIC};
 
-    /// Text filename
-    private String tFileName;
+    /// Text filenbme
+    privbte String tFileNbme;
 
-    // Enabled or disabled status of canDisplay check
-    private static boolean canDisplayCheck = true;
+    // Enbbled or disbbled stbtus of cbnDisplby check
+    privbte stbtic boolebn cbnDisplbyCheck = true;
 
-    /// Initialize GUI variables and its layouts
-    public Font2DTest( JFrame f, boolean isApplet ) {
-        parent = f;
+    /// Initiblize GUI vbribbles bnd its lbyouts
+    public Font2DTest( JFrbme f, boolebn isApplet ) {
+        pbrent = f;
 
-        rm = new RangeMenu( this, parent );
-        fp = new FontPanel( this, parent );
-        statusBar = new LabelV2("");
+        rm = new RbngeMenu( this, pbrent );
+        fp = new FontPbnel( this, pbrent );
+        stbtusBbr = new LbbelV2("");
 
-        fontMenu = new ChoiceV2( this, canDisplayCheck );
+        fontMenu = new ChoiceV2( this, cbnDisplbyCheck );
         sizeField = new JTextField( "12", 3 );
-        sizeField.addActionListener( this );
+        sizeField.bddActionListener( this );
         styleMenu = new ChoiceV2( this );
-        textMenu = new ChoiceV2( ); // listener added later
-        transformMenu = new ChoiceV2( this );
-        transformMenuG2 = new ChoiceV2( this );
+        textMenu = new ChoiceV2( ); // listener bdded lbter
+        trbnsformMenu = new ChoiceV2( this );
+        trbnsformMenuG2 = new ChoiceV2( this );
         methodsMenu = new ChoiceV2( this );
 
-        antiAliasMenu =
-            new JComboBox(EnumSet.allOf(FontPanel.AAValues.class).toArray());
-        antiAliasMenu.addActionListener(this);
-        fracMetricsMenu =
-            new JComboBox(EnumSet.allOf(FontPanel.FMValues.class).toArray());
-        fracMetricsMenu.addActionListener(this);
+        bntiAlibsMenu =
+            new JComboBox(EnumSet.bllOf(FontPbnel.AAVblues.clbss).toArrby());
+        bntiAlibsMenu.bddActionListener(this);
+        frbcMetricsMenu =
+            new JComboBox(EnumSet.bllOf(FontPbnel.FMVblues.clbss).toArrby());
+        frbcMetricsMenu.bddActionListener(this);
 
-        contrastSlider = new JSlider(JSlider.HORIZONTAL, 100, 250,
-                                 FontPanel.getDefaultLCDContrast().intValue());
-        contrastSlider.setEnabled(false);
-        contrastSlider.setMajorTickSpacing(20);
-        contrastSlider.setMinorTickSpacing(10);
-        contrastSlider.setPaintTicks(true);
-        contrastSlider.setPaintLabels(true);
-        contrastSlider.addChangeListener(this);
-        setupPanel();
+        contrbstSlider = new JSlider(JSlider.HORIZONTAL, 100, 250,
+                                 FontPbnel.getDefbultLCDContrbst().intVblue());
+        contrbstSlider.setEnbbled(fblse);
+        contrbstSlider.setMbjorTickSpbcing(20);
+        contrbstSlider.setMinorTickSpbcing(10);
+        contrbstSlider.setPbintTicks(true);
+        contrbstSlider.setPbintLbbels(true);
+        contrbstSlider.bddChbngeListener(this);
+        setupPbnel();
         setupMenu( isApplet );
-        setupDialog( isApplet );
+        setupDiblog( isApplet );
 
-        if(canDisplayCheck) {
-            fireRangeChanged();
+        if(cbnDisplbyCheck) {
+            fireRbngeChbnged();
         }
     }
 
-    /// Set up the main interface panel
-    private void setupPanel() {
-        GridBagLayout gbl = new GridBagLayout();
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+    /// Set up the mbin interfbce pbnel
+    privbte void setupPbnel() {
+        GridBbgLbyout gbl = new GridBbgLbyout();
+        GridBbgConstrbints gbc = new GridBbgConstrbints();
+        gbc.fill = GridBbgConstrbints.HORIZONTAL;
         gbc.weightx = 1;
         gbc.insets = new Insets( 2, 0, 2, 2 );
-        this.setLayout( gbl );
+        this.setLbyout( gbl );
 
-        addLabeledComponentToGBL( "Font: ", fontMenu, gbl, gbc, this );
-        addLabeledComponentToGBL( "Size: ", sizeField, gbl, gbc, this );
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        addLabeledComponentToGBL( "Font Transform:",
-                                  transformMenu, gbl, gbc, this );
+        bddLbbeledComponentToGBL( "Font: ", fontMenu, gbl, gbc, this );
+        bddLbbeledComponentToGBL( "Size: ", sizeField, gbl, gbc, this );
+        gbc.gridwidth = GridBbgConstrbints.REMAINDER;
+        bddLbbeledComponentToGBL( "Font Trbnsform:",
+                                  trbnsformMenu, gbl, gbc, this );
         gbc.gridwidth = 1;
 
-        addLabeledComponentToGBL( "Range: ", rm, gbl, gbc, this );
-        addLabeledComponentToGBL( "Style: ", styleMenu, gbl, gbc, this );
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        addLabeledComponentToGBL( "Graphics Transform: ",
-                                  transformMenuG2, gbl, gbc, this );
+        bddLbbeledComponentToGBL( "Rbnge: ", rm, gbl, gbc, this );
+        bddLbbeledComponentToGBL( "Style: ", styleMenu, gbl, gbc, this );
+        gbc.gridwidth = GridBbgConstrbints.REMAINDER;
+        bddLbbeledComponentToGBL( "Grbphics Trbnsform: ",
+                                  trbnsformMenuG2, gbl, gbc, this );
         gbc.gridwidth = 1;
 
-        gbc.anchor = GridBagConstraints.WEST;
-        addLabeledComponentToGBL( "Method: ", methodsMenu, gbl, gbc, this );
-        addLabeledComponentToGBL("", null, gbl, gbc, this);
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        addLabeledComponentToGBL( "Text to use:", textMenu, gbl, gbc, this );
+        gbc.bnchor = GridBbgConstrbints.WEST;
+        bddLbbeledComponentToGBL( "Method: ", methodsMenu, gbl, gbc, this );
+        bddLbbeledComponentToGBL("", null, gbl, gbc, this);
+        gbc.bnchor = GridBbgConstrbints.EAST;
+        gbc.gridwidth = GridBbgConstrbints.REMAINDER;
+        bddLbbeledComponentToGBL( "Text to use:", textMenu, gbl, gbc, this );
 
         gbc.weightx=1;
         gbc.gridwidth = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.WEST;
-        addLabeledComponentToGBL("LCD contrast: ",
-                                  contrastSlider, gbl, gbc, this);
+        gbc.fill = GridBbgConstrbints.HORIZONTAL;
+        gbc.bnchor = GridBbgConstrbints.WEST;
+        bddLbbeledComponentToGBL("LCD contrbst: ",
+                                  contrbstSlider, gbl, gbc, this);
 
         gbc.gridwidth = 1;
-        gbc.fill = GridBagConstraints.NONE;
-        addLabeledComponentToGBL("Antialiasing: ",
-                                  antiAliasMenu, gbl, gbc, this);
+        gbc.fill = GridBbgConstrbints.NONE;
+        bddLbbeledComponentToGBL("Antiblibsing: ",
+                                  bntiAlibsMenu, gbl, gbc, this);
 
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        addLabeledComponentToGBL("Fractional metrics: ",
-                                  fracMetricsMenu, gbl, gbc, this);
+        gbc.bnchor = GridBbgConstrbints.EAST;
+        gbc.gridwidth = GridBbgConstrbints.REMAINDER;
+        bddLbbeledComponentToGBL("Frbctionbl metrics: ",
+                                  frbcMetricsMenu, gbl, gbc, this);
 
         gbc.weightx = 1;
         gbc.weighty = 1;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.bnchor = GridBbgConstrbints.WEST;
         gbc.insets = new Insets( 2, 0, 0, 2 );
-        gbc.fill = GridBagConstraints.BOTH;
-        gbl.setConstraints( fp, gbc );
-        this.add( fp );
+        gbc.fill = GridBbgConstrbints.BOTH;
+        gbl.setConstrbints( fp, gbc );
+        this.bdd( fp );
 
         gbc.weighty = 0;
         gbc.insets = new Insets( 0, 2, 0, 0 );
-        gbl.setConstraints( statusBar, gbc );
-        this.add( statusBar );
+        gbl.setConstrbints( stbtusBbr, gbc );
+        this.bdd( stbtusBbr );
     }
 
-    /// Adds a component to a container with a label to its left in GridBagLayout
-    private void addLabeledComponentToGBL( String name,
+    /// Adds b component to b contbiner with b lbbel to its left in GridBbgLbyout
+    privbte void bddLbbeledComponentToGBL( String nbme,
                                            JComponent c,
-                                           GridBagLayout gbl,
-                                           GridBagConstraints gbc,
-                                           Container target ) {
-        LabelV2 l = new LabelV2( name );
-        GridBagConstraints gbcLabel = (GridBagConstraints) gbc.clone();
-        gbcLabel.insets = new Insets( 2, 2, 2, 0 );
-        gbcLabel.gridwidth = 1;
-        gbcLabel.weightx = 0;
+                                           GridBbgLbyout gbl,
+                                           GridBbgConstrbints gbc,
+                                           Contbiner tbrget ) {
+        LbbelV2 l = new LbbelV2( nbme );
+        GridBbgConstrbints gbcLbbel = (GridBbgConstrbints) gbc.clone();
+        gbcLbbel.insets = new Insets( 2, 2, 2, 0 );
+        gbcLbbel.gridwidth = 1;
+        gbcLbbel.weightx = 0;
 
         if ( c == null )
-          c = new JLabel( "" );
+          c = new JLbbel( "" );
 
-        gbl.setConstraints( l, gbcLabel );
-        target.add( l );
-        gbl.setConstraints( c, gbc );
-        target.add( c );
+        gbl.setConstrbints( l, gbcLbbel );
+        tbrget.bdd( l );
+        gbl.setConstrbints( c, gbc );
+        tbrget.bdd( c );
     }
 
     /// Sets up menu entries
-    private void setupMenu( boolean isApplet ) {
+    privbte void setupMenu( boolebn isApplet ) {
         JMenu fileMenu = new JMenu( "File" );
         JMenu optionMenu = new JMenu( "Option" );
 
-        fileMenu.add( new MenuItemV2( "Save Selected Options...", this ));
-        fileMenu.add( new MenuItemV2( "Load Options...", this ));
-        fileMenu.addSeparator();
-        fileMenu.add( new MenuItemV2( "Save as PNG...", this ));
-        fileMenu.add( new MenuItemV2( "Load PNG File to Compare...", this ));
-        fileMenu.add( new MenuItemV2( "Page Setup...", this ));
-        fileMenu.add( new MenuItemV2( "Print...", this ));
-        fileMenu.addSeparator();
+        fileMenu.bdd( new MenuItemV2( "Sbve Selected Options...", this ));
+        fileMenu.bdd( new MenuItemV2( "Lobd Options...", this ));
+        fileMenu.bddSepbrbtor();
+        fileMenu.bdd( new MenuItemV2( "Sbve bs PNG...", this ));
+        fileMenu.bdd( new MenuItemV2( "Lobd PNG File to Compbre...", this ));
+        fileMenu.bdd( new MenuItemV2( "Pbge Setup...", this ));
+        fileMenu.bdd( new MenuItemV2( "Print...", this ));
+        fileMenu.bddSepbrbtor();
         if ( !isApplet )
-          fileMenu.add( new MenuItemV2( "Exit", this ));
+          fileMenu.bdd( new MenuItemV2( "Exit", this ));
         else
-          fileMenu.add( new MenuItemV2( "Close", this ));
+          fileMenu.bdd( new MenuItemV2( "Close", this ));
 
-        displayGridCBMI = new CheckboxMenuItemV2( "Display Grid", true, this );
-        force16ColsCBMI = new CheckboxMenuItemV2( "Force 16 Columns", false, this );
-        showFontInfoCBMI = new CheckboxMenuItemV2( "Display Font Info", false, this );
-        optionMenu.add( displayGridCBMI );
-        optionMenu.add( force16ColsCBMI );
-        optionMenu.add( showFontInfoCBMI );
+        displbyGridCBMI = new CheckboxMenuItemV2( "Displby Grid", true, this );
+        force16ColsCBMI = new CheckboxMenuItemV2( "Force 16 Columns", fblse, this );
+        showFontInfoCBMI = new CheckboxMenuItemV2( "Displby Font Info", fblse, this );
+        optionMenu.bdd( displbyGridCBMI );
+        optionMenu.bdd( force16ColsCBMI );
+        optionMenu.bdd( showFontInfoCBMI );
 
-        JMenuBar mb = parent.getJMenuBar();
+        JMenuBbr mb = pbrent.getJMenuBbr();
         if ( mb == null )
-          mb = new JMenuBar();
-        mb.add( fileMenu );
-        mb.add( optionMenu );
+          mb = new JMenuBbr();
+        mb.bdd( fileMenu );
+        mb.bdd( optionMenu );
 
-        parent.setJMenuBar( mb );
+        pbrent.setJMenuBbr( mb );
 
         String fontList[] =
-          GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+          GrbphicsEnvironment.getLocblGrbphicsEnvironment().getAvbilbbleFontFbmilyNbmes();
 
         for ( int i = 0; i < fontList.length; i++ )
-          fontMenu.addItem( fontList[i] );
-        fontMenu.setSelectedItem( "Dialog" );
+          fontMenu.bddItem( fontList[i] );
+        fontMenu.setSelectedItem( "Diblog" );
 
-        styleMenu.addItem( "Plain" );
-        styleMenu.addItem( "Bold" );
-        styleMenu.addItem( "Italic" );
-        styleMenu.addItem( "Bold Italic" );
+        styleMenu.bddItem( "Plbin" );
+        styleMenu.bddItem( "Bold" );
+        styleMenu.bddItem( "Itblic" );
+        styleMenu.bddItem( "Bold Itblic" );
 
-        transformMenu.addItem( "None" );
-        transformMenu.addItem( "Scale" );
-        transformMenu.addItem( "Shear" );
-        transformMenu.addItem( "Rotate" );
+        trbnsformMenu.bddItem( "None" );
+        trbnsformMenu.bddItem( "Scble" );
+        trbnsformMenu.bddItem( "Shebr" );
+        trbnsformMenu.bddItem( "Rotbte" );
 
-        transformMenuG2.addItem( "None" );
-        transformMenuG2.addItem( "Scale" );
-        transformMenuG2.addItem( "Shear" );
-        transformMenuG2.addItem( "Rotate" );
+        trbnsformMenuG2.bddItem( "None" );
+        trbnsformMenuG2.bddItem( "Scble" );
+        trbnsformMenuG2.bddItem( "Shebr" );
+        trbnsformMenuG2.bddItem( "Rotbte" );
 
-        methodsMenu.addItem( "drawString" );
-        methodsMenu.addItem( "drawChars" );
-        methodsMenu.addItem( "drawBytes" );
-        methodsMenu.addItem( "drawGlyphVector" );
-        methodsMenu.addItem( "TextLayout.draw" );
-        methodsMenu.addItem( "GlyphVector.getOutline + draw" );
-        methodsMenu.addItem( "TextLayout.getOutline + draw" );
+        methodsMenu.bddItem( "drbwString" );
+        methodsMenu.bddItem( "drbwChbrs" );
+        methodsMenu.bddItem( "drbwBytes" );
+        methodsMenu.bddItem( "drbwGlyphVector" );
+        methodsMenu.bddItem( "TextLbyout.drbw" );
+        methodsMenu.bddItem( "GlyphVector.getOutline + drbw" );
+        methodsMenu.bddItem( "TextLbyout.getOutline + drbw" );
 
-        textMenu.addItem( "Unicode Range" );
-        textMenu.addItem( "All Glyphs" );
-        textMenu.addItem( "User Text" );
-        textMenu.addItem( "Text File" );
-        textMenu.addActionListener ( this ); // listener added later so unneeded events not thrown
+        textMenu.bddItem( "Unicode Rbnge" );
+        textMenu.bddItem( "All Glyphs" );
+        textMenu.bddItem( "User Text" );
+        textMenu.bddItem( "Text File" );
+        textMenu.bddActionListener ( this ); // listener bdded lbter so unneeded events not thrown
     }
 
-    /// Sets up the all dialogs used in Font2DTest...
-    private void setupDialog( boolean isApplet ) {
+    /// Sets up the bll diblogs used in Font2DTest...
+    privbte void setupDiblog( boolebn isApplet ) {
         if (!isApplet)
-                filePromptDialog = new JFileChooser( );
+                filePromptDiblog = new JFileChooser( );
         else
-                filePromptDialog = null;
+                filePromptDiblog = null;
 
-        /// Prepare user text dialog...
-        userTextDialog = new JDialog( parent, "User Text", false );
-        JPanel dialogTopPanel = new JPanel();
-        JPanel dialogBottomPanel = new JPanel();
-        LabelV2 message1 = new LabelV2( "Enter text below and then press update" );
-        LabelV2 message2 = new LabelV2( "(Unicode char can be denoted by \\uXXXX)" );
-        LabelV2 message3 = new LabelV2( "(Supplementary chars can be denoted by \\UXXXXXX)" );
-        userTextArea = new JTextArea( "Font2DTest!" );
-        ButtonV2 bUpdate = new ButtonV2( "Update", this );
-        userTextArea.setFont( new Font( "dialog", Font.PLAIN, 12 ));
-        dialogTopPanel.setLayout( new GridLayout( 3, 1 ));
-        dialogTopPanel.add( message1 );
-        dialogTopPanel.add( message2 );
-        dialogTopPanel.add( message3 );
-        dialogBottomPanel.add( bUpdate );
+        /// Prepbre user text diblog...
+        userTextDiblog = new JDiblog( pbrent, "User Text", fblse );
+        JPbnel diblogTopPbnel = new JPbnel();
+        JPbnel diblogBottomPbnel = new JPbnel();
+        LbbelV2 messbge1 = new LbbelV2( "Enter text below bnd then press updbte" );
+        LbbelV2 messbge2 = new LbbelV2( "(Unicode chbr cbn be denoted by \\uXXXX)" );
+        LbbelV2 messbge3 = new LbbelV2( "(Supplementbry chbrs cbn be denoted by \\UXXXXXX)" );
+        userTextAreb = new JTextAreb( "Font2DTest!" );
+        ButtonV2 bUpdbte = new ButtonV2( "Updbte", this );
+        userTextAreb.setFont( new Font( "diblog", Font.PLAIN, 12 ));
+        diblogTopPbnel.setLbyout( new GridLbyout( 3, 1 ));
+        diblogTopPbnel.bdd( messbge1 );
+        diblogTopPbnel.bdd( messbge2 );
+        diblogTopPbnel.bdd( messbge3 );
+        diblogBottomPbnel.bdd( bUpdbte );
         //ABP
-        JScrollPane userTextAreaSP = new JScrollPane(userTextArea);
-        userTextAreaSP.setPreferredSize(new Dimension(300, 100));
+        JScrollPbne userTextArebSP = new JScrollPbne(userTextAreb);
+        userTextArebSP.setPreferredSize(new Dimension(300, 100));
 
-        userTextDialog.getContentPane().setLayout( new BorderLayout() );
-        userTextDialog.getContentPane().add( "North", dialogTopPanel );
-        userTextDialog.getContentPane().add( "Center", userTextAreaSP );
-        userTextDialog.getContentPane().add( "South", dialogBottomPanel );
-        userTextDialog.pack();
-        userTextDialog.addWindowListener( new WindowAdapter() {
+        userTextDiblog.getContentPbne().setLbyout( new BorderLbyout() );
+        userTextDiblog.getContentPbne().bdd( "North", diblogTopPbnel );
+        userTextDiblog.getContentPbne().bdd( "Center", userTextArebSP );
+        userTextDiblog.getContentPbne().bdd( "South", diblogBottomPbnel );
+        userTextDiblog.pbck();
+        userTextDiblog.bddWindowListener( new WindowAdbpter() {
             public void windowClosing( WindowEvent e ) {
-                userTextDialog.hide();
+                userTextDiblog.hide();
             }
         });
 
-        /// Prepare printing dialog...
+        /// Prepbre printing diblog...
         printCBGroup = new ButtonGroup();
         printModeCBs[ fp.ONE_PAGE ] =
-          new JRadioButton( "Print one page from currently displayed character/line",
+          new JRbdioButton( "Print one pbge from currently displbyed chbrbcter/line",
                          true );
         printModeCBs[ fp.CUR_RANGE ] =
-          new JRadioButton( "Print all characters in currently selected range",
-                         false );
+          new JRbdioButton( "Print bll chbrbcters in currently selected rbnge",
+                         fblse );
         printModeCBs[ fp.ALL_TEXT ] =
-          new JRadioButton( "Print all lines of text",
-                         false );
-        LabelV2 l =
-          new LabelV2( "Note: Page range in native \"Print\" dialog will not affect the result" );
-        JPanel buttonPanel = new JPanel();
-        printModeCBs[ fp.ALL_TEXT ].setEnabled( false );
-        buttonPanel.add( new ButtonV2( "Print", this ));
-        buttonPanel.add( new ButtonV2( "Cancel", this ));
+          new JRbdioButton( "Print bll lines of text",
+                         fblse );
+        LbbelV2 l =
+          new LbbelV2( "Note: Pbge rbnge in nbtive \"Print\" diblog will not bffect the result" );
+        JPbnel buttonPbnel = new JPbnel();
+        printModeCBs[ fp.ALL_TEXT ].setEnbbled( fblse );
+        buttonPbnel.bdd( new ButtonV2( "Print", this ));
+        buttonPbnel.bdd( new ButtonV2( "Cbncel", this ));
 
-        printDialog = new JDialog( parent, "Print...", true );
-        printDialog.setResizable( false );
-        printDialog.addWindowListener( new WindowAdapter() {
+        printDiblog = new JDiblog( pbrent, "Print...", true );
+        printDiblog.setResizbble( fblse );
+        printDiblog.bddWindowListener( new WindowAdbpter() {
             public void windowClosing( WindowEvent e ) {
-                printDialog.hide();
+                printDiblog.hide();
             }
         });
-        printDialog.getContentPane().setLayout( new GridLayout( printModeCBs.length + 2, 1 ));
-        printDialog.getContentPane().add( l );
+        printDiblog.getContentPbne().setLbyout( new GridLbyout( printModeCBs.length + 2, 1 ));
+        printDiblog.getContentPbne().bdd( l );
         for ( int i = 0; i < printModeCBs.length; i++ ) {
-            printCBGroup.add( printModeCBs[i] );
-            printDialog.getContentPane().add( printModeCBs[i] );
+            printCBGroup.bdd( printModeCBs[i] );
+            printDiblog.getContentPbne().bdd( printModeCBs[i] );
         }
-        printDialog.getContentPane().add( buttonPanel );
-        printDialog.pack();
+        printDiblog.getContentPbne().bdd( buttonPbnel );
+        printDiblog.pbck();
 
-        /// Prepare font information dialog...
-        fontInfoDialog = new JDialog( parent, "Font info", false );
-        fontInfoDialog.setResizable( false );
-        fontInfoDialog.addWindowListener( new WindowAdapter() {
+        /// Prepbre font informbtion diblog...
+        fontInfoDiblog = new JDiblog( pbrent, "Font info", fblse );
+        fontInfoDiblog.setResizbble( fblse );
+        fontInfoDiblog.bddWindowListener( new WindowAdbpter() {
             public void windowClosing( WindowEvent e ) {
-                fontInfoDialog.hide();
-                showFontInfoCBMI.setState( false );
+                fontInfoDiblog.hide();
+                showFontInfoCBMI.setStbte( fblse );
             }
         });
-        JPanel fontInfoPanel = new JPanel();
-        fontInfoPanel.setLayout( new GridLayout( fontInfos.length, 1 ));
+        JPbnel fontInfoPbnel = new JPbnel();
+        fontInfoPbnel.setLbyout( new GridLbyout( fontInfos.length, 1 ));
         for ( int i = 0; i < fontInfos.length; i++ ) {
-            fontInfos[i] = new LabelV2("");
-            fontInfoPanel.add( fontInfos[i] );
+            fontInfos[i] = new LbbelV2("");
+            fontInfoPbnel.bdd( fontInfos[i] );
         }
-        fontInfoDialog.getContentPane().add( fontInfoPanel );
+        fontInfoDiblog.getContentPbne().bdd( fontInfoPbnel );
 
-        /// Move the location of the dialog...
-        userTextDialog.setLocation( 200, 300 );
-        fontInfoDialog.setLocation( 0, 400 );
+        /// Move the locbtion of the diblog...
+        userTextDiblog.setLocbtion( 200, 300 );
+        fontInfoDiblog.setLocbtion( 0, 400 );
     }
 
-    /// RangeMenu object signals using this function
-    /// when Unicode range has been changed and text needs to be redrawn
-    public void fireRangeChanged() {
-        int range[] = rm.getSelectedRange();
-        fp.setTextToDraw( fp.RANGE_TEXT, range, null, null );
-        if(canDisplayCheck) {
-            setupFontList(range[0], range[1]);
+    /// RbngeMenu object signbls using this function
+    /// when Unicode rbnge hbs been chbnged bnd text needs to be redrbwn
+    public void fireRbngeChbnged() {
+        int rbnge[] = rm.getSelectedRbnge();
+        fp.setTextToDrbw( fp.RANGE_TEXT, rbnge, null, null );
+        if(cbnDisplbyCheck) {
+            setupFontList(rbnge[0], rbnge[1]);
         }
-        if ( showFontInfoCBMI.getState() )
-          fireUpdateFontInfo();
+        if ( showFontInfoCBMI.getStbte() )
+          fireUpdbteFontInfo();
     }
 
-    /// Changes the message on the status bar
-    public void fireChangeStatus( String message, boolean error ) {
-        /// If this is not ran as an applet, use own status bar,
-        /// Otherwise, use the appletviewer/browser's status bar
-        statusBar.setText( message );
+    /// Chbnges the messbge on the stbtus bbr
+    public void fireChbngeStbtus( String messbge, boolebn error ) {
+        /// If this is not rbn bs bn bpplet, use own stbtus bbr,
+        /// Otherwise, use the bppletviewer/browser's stbtus bbr
+        stbtusBbr.setText( messbge );
         if ( error )
           fp.showingError = true;
         else
-          fp.showingError = false;
+          fp.showingError = fblse;
     }
 
-    /// Updates the information about the selected font
-    public void fireUpdateFontInfo() {
-        if ( showFontInfoCBMI.getState() ) {
+    /// Updbtes the informbtion bbout the selected font
+    public void fireUpdbteFontInfo() {
+        if ( showFontInfoCBMI.getStbte() ) {
             String infos[] = fp.getFontInfo();
             for ( int i = 0; i < fontInfos.length; i++ )
               fontInfos[i].setText( infos[i] );
-            fontInfoDialog.pack();
+            fontInfoDiblog.pbck();
         }
     }
 
-    private void setupFontList(int rangeStart, int rangeEnd) {
+    privbte void setupFontList(int rbngeStbrt, int rbngeEnd) {
 
         int listCount = fontMenu.getItemCount();
         int size = 16;
 
         try {
-            size =  Float.valueOf(sizeField.getText()).intValue();
+            size =  Flobt.vblueOf(sizeField.getText()).intVblue();
         }
-        catch ( Exception e ) {
-            System.out.println("Invalid font size in the size textField. Using default value of 16");
+        cbtch ( Exception e ) {
+            System.out.println("Invblid font size in the size textField. Using defbult vblue of 16");
         }
 
         int style = fontStyles[styleMenu.getSelectedIndex()];
         Font f;
         for (int i = 0; i < listCount; i++) {
-            String fontName = (String)fontMenu.getItemAt(i);
-            f = new Font(fontName, style, size);
-            if ((rm.getSelectedIndex() != RangeMenu.SURROGATES_AREA_INDEX) &&
-                canDisplayRange(f, rangeStart, rangeEnd)) {
+            String fontNbme = (String)fontMenu.getItemAt(i);
+            f = new Font(fontNbme, style, size);
+            if ((rm.getSelectedIndex() != RbngeMenu.SURROGATES_AREA_INDEX) &&
+                cbnDisplbyRbnge(f, rbngeStbrt, rbngeEnd)) {
                 fontMenu.setBit(i, true);
             }
             else {
-                fontMenu.setBit(i, false);
+                fontMenu.setBit(i, fblse);
             }
         }
 
-        fontMenu.repaint();
+        fontMenu.repbint();
     }
 
-    protected boolean canDisplayRange(Font font, int rangeStart, int rangeEnd) {
-        for (int i = rangeStart; i < rangeEnd; i++) {
-            if (font.canDisplay(i)) {
+    protected boolebn cbnDisplbyRbnge(Font font, int rbngeStbrt, int rbngeEnd) {
+        for (int i = rbngeStbrt; i < rbngeEnd; i++) {
+            if (font.cbnDisplby(i)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    /// Displays a file load/save dialog and returns the specified file
-    private String promptFile( boolean isSave, String initFileName ) {
-        int retVal;
+    /// Displbys b file lobd/sbve diblog bnd returns the specified file
+    privbte String promptFile( boolebn isSbve, String initFileNbme ) {
+        int retVbl;
         String str;
 
         /// ABP
-        if ( filePromptDialog == null)
+        if ( filePromptDiblog == null)
                 return null;
 
-        if ( isSave ) {
-            filePromptDialog.setDialogType( JFileChooser.SAVE_DIALOG );
-            filePromptDialog.setDialogTitle( "Save..." );
-            str = "Save";
+        if ( isSbve ) {
+            filePromptDiblog.setDiblogType( JFileChooser.SAVE_DIALOG );
+            filePromptDiblog.setDiblogTitle( "Sbve..." );
+            str = "Sbve";
 
 
         }
         else {
-            filePromptDialog.setDialogType( JFileChooser.OPEN_DIALOG );
-            filePromptDialog.setDialogTitle( "Load..." );
-            str = "Load";
+            filePromptDiblog.setDiblogType( JFileChooser.OPEN_DIALOG );
+            filePromptDiblog.setDiblogTitle( "Lobd..." );
+            str = "Lobd";
         }
 
-        if (initFileName != null)
-                filePromptDialog.setSelectedFile( new File( initFileName ) );
-        retVal = filePromptDialog.showDialog( this, str );
+        if (initFileNbme != null)
+                filePromptDiblog.setSelectedFile( new File( initFileNbme ) );
+        retVbl = filePromptDiblog.showDiblog( this, str );
 
-        if ( retVal == JFileChooser.APPROVE_OPTION ) {
-                File file = filePromptDialog.getSelectedFile();
-                String fileName = file.getAbsolutePath();
-                if ( fileName != null ) {
-                        return fileName;
+        if ( retVbl == JFileChooser.APPROVE_OPTION ) {
+                File file = filePromptDiblog.getSelectedFile();
+                String fileNbme = file.getAbsolutePbth();
+                if ( fileNbme != null ) {
+                        return fileNbme;
                 }
         }
 
         return null;
     }
 
-    /// Converts user text into arrays of String, delimited at newline character
-    /// Also replaces any valid escape sequence with appropriate unicode character
-    /// Support \\UXXXXXX notation for surrogates
-    private String[] parseUserText( String orig ) {
+    /// Converts user text into brrbys of String, delimited bt newline chbrbcter
+    /// Also replbces bny vblid escbpe sequence with bppropribte unicode chbrbcter
+    /// Support \\UXXXXXX notbtion for surrogbtes
+    privbte String[] pbrseUserText( String orig ) {
         int length = orig.length();
         StringTokenizer perLine = new StringTokenizer( orig, "\n" );
         String textLines[] = new String[ perLine.countTokens() ];
         int lineNumber = 0;
 
-        while ( perLine.hasMoreElements() ) {
+        while ( perLine.hbsMoreElements() ) {
             StringBuffer converted = new StringBuffer();
             String oneLine = perLine.nextToken();
             int lineLength = oneLine.length();
-            int prevEscapeEnd = 0;
-            int nextEscape = -1;
+            int prevEscbpeEnd = 0;
+            int nextEscbpe = -1;
             do {
-                int nextBMPEscape = oneLine.indexOf( "\\u", prevEscapeEnd );
-                int nextSupEscape = oneLine.indexOf( "\\U", prevEscapeEnd );
-                nextEscape = (nextBMPEscape < 0)
-                    ? ((nextSupEscape < 0)
+                int nextBMPEscbpe = oneLine.indexOf( "\\u", prevEscbpeEnd );
+                int nextSupEscbpe = oneLine.indexOf( "\\U", prevEscbpeEnd );
+                nextEscbpe = (nextBMPEscbpe < 0)
+                    ? ((nextSupEscbpe < 0)
                        ? -1
-                       : nextSupEscape)
-                    : ((nextSupEscape < 0)
-                       ? nextBMPEscape
-                       : Math.min(nextBMPEscape, nextSupEscape));
+                       : nextSupEscbpe)
+                    : ((nextSupEscbpe < 0)
+                       ? nextBMPEscbpe
+                       : Mbth.min(nextBMPEscbpe, nextSupEscbpe));
 
-                if ( nextEscape != -1 ) {
-                    if ( prevEscapeEnd < nextEscape )
-                        converted.append( oneLine.substring( prevEscapeEnd, nextEscape ));
+                if ( nextEscbpe != -1 ) {
+                    if ( prevEscbpeEnd < nextEscbpe )
+                        converted.bppend( oneLine.substring( prevEscbpeEnd, nextEscbpe ));
 
-                    prevEscapeEnd = nextEscape + (nextEscape == nextBMPEscape ? 6 : 8);
+                    prevEscbpeEnd = nextEscbpe + (nextEscbpe == nextBMPEscbpe ? 6 : 8);
                     try {
-                        String hex = oneLine.substring( nextEscape + 2, prevEscapeEnd );
-                        if (nextEscape == nextBMPEscape) {
-                            converted.append( (char) Integer.parseInt( hex, 16 ));
+                        String hex = oneLine.substring( nextEscbpe + 2, prevEscbpeEnd );
+                        if (nextEscbpe == nextBMPEscbpe) {
+                            converted.bppend( (chbr) Integer.pbrseInt( hex, 16 ));
                         } else {
-                            converted.append( new String( Character.toChars( Integer.parseInt( hex, 16 ))));
+                            converted.bppend( new String( Chbrbcter.toChbrs( Integer.pbrseInt( hex, 16 ))));
                         }
                     }
-                    catch ( Exception e ) {
-                        int copyLimit = Math.min(lineLength, prevEscapeEnd);
-                        converted.append( oneLine.substring( nextEscape, copyLimit ));
+                    cbtch ( Exception e ) {
+                        int copyLimit = Mbth.min(lineLength, prevEscbpeEnd);
+                        converted.bppend( oneLine.substring( nextEscbpe, copyLimit ));
                     }
                 }
-            } while (nextEscape != -1);
-            if ( prevEscapeEnd < lineLength )
-              converted.append( oneLine.substring( prevEscapeEnd, lineLength ));
+            } while (nextEscbpe != -1);
+            if ( prevEscbpeEnd < lineLength )
+              converted.bppend( oneLine.substring( prevEscbpeEnd, lineLength ));
             textLines[ lineNumber++ ] = converted.toString();
         }
         return textLines;
     }
 
-    /// Reads the text from specified file, detecting UTF-16 encoding
-    /// Then breaks the text into String array, delimited at every line break
-    private void readTextFile( String fileName ) {
+    /// Rebds the text from specified file, detecting UTF-16 encoding
+    /// Then brebks the text into String brrby, delimited bt every line brebk
+    privbte void rebdTextFile( String fileNbme ) {
         try {
             String fileText, textLines[];
-            BufferedInputStream bis =
-              new BufferedInputStream( new FileInputStream( fileName ));
-            int numBytes = bis.available();
+            BufferedInputStrebm bis =
+              new BufferedInputStrebm( new FileInputStrebm( fileNbme ));
+            int numBytes = bis.bvbilbble();
             if (numBytes == 0) {
-                throw new Exception("Text file " + fileName + " is empty");
+                throw new Exception("Text file " + fileNbme + " is empty");
             }
-            byte byteData[] = new byte[ numBytes ];
-            bis.read( byteData, 0, numBytes );
+            byte byteDbtb[] = new byte[ numBytes ];
+            bis.rebd( byteDbtb, 0, numBytes );
             bis.close();
 
-            /// If byte mark is found, then use UTF-16 encoding to convert bytes...
+            /// If byte mbrk is found, then use UTF-16 encoding to convert bytes...
             if (numBytes >= 2 &&
-                (( byteData[0] == (byte) 0xFF && byteData[1] == (byte) 0xFE ) ||
-                 ( byteData[0] == (byte) 0xFE && byteData[1] == (byte) 0xFF )))
-              fileText = new String( byteData, "UTF-16" );
-            /// Otherwise, use system default encoding
+                (( byteDbtb[0] == (byte) 0xFF && byteDbtb[1] == (byte) 0xFE ) ||
+                 ( byteDbtb[0] == (byte) 0xFE && byteDbtb[1] == (byte) 0xFF )))
+              fileText = new String( byteDbtb, "UTF-16" );
+            /// Otherwise, use system defbult encoding
             else
-              fileText = new String( byteData );
+              fileText = new String( byteDbtb );
 
             int length = fileText.length();
             StringTokenizer perLine = new StringTokenizer( fileText, "\n" );
-            /// Determine "Return Char" used in this file
+            /// Determine "Return Chbr" used in this file
             /// This simply finds first occurrence of CR, CR+LF or LF...
             for ( int i = 0; i < length; i++ ) {
-                char iTh = fileText.charAt( i );
+                chbr iTh = fileText.chbrAt( i );
                 if ( iTh == '\r' ) {
-                    if ( i < length - 1 && fileText.charAt( i + 1 ) == '\n' )
+                    if ( i < length - 1 && fileText.chbrAt( i + 1 ) == '\n' )
                       perLine = new StringTokenizer( fileText, "\r\n" );
                     else
                       perLine = new StringTokenizer( fileText, "\r" );
-                    break;
+                    brebk;
                 }
                 else if ( iTh == '\n' )
-                  /// Use the one already created
-                  break;
+                  /// Use the one blrebdy crebted
+                  brebk;
             }
             int lineNumber = 0, numLines = perLine.countTokens();
             textLines = new String[ numLines ];
 
-            while ( perLine.hasMoreElements() ) {
+            while ( perLine.hbsMoreElements() ) {
                 String oneLine = perLine.nextToken();
                 if ( oneLine == null )
-                  /// To make LineBreakMeasurer to return a valid TextLayout
-                  /// on an empty line, simply feed it a space char...
+                  /// To mbke LineBrebkMebsurer to return b vblid TextLbyout
+                  /// on bn empty line, simply feed it b spbce chbr...
                   oneLine = " ";
                 textLines[ lineNumber++ ] = oneLine;
             }
-            fp.setTextToDraw( fp.FILE_TEXT, null, null, textLines );
-            rm.setEnabled( false );
-            methodsMenu.setEnabled( false );
+            fp.setTextToDrbw( fp.FILE_TEXT, null, null, textLines );
+            rm.setEnbbled( fblse );
+            methodsMenu.setEnbbled( fblse );
         }
-        catch ( Exception ex ) {
-            fireChangeStatus( "ERROR: Failed to Read Text File; See Stack Trace", true );
-            ex.printStackTrace();
+        cbtch ( Exception ex ) {
+            fireChbngeStbtus( "ERROR: Fbiled to Rebd Text File; See Stbck Trbce", true );
+            ex.printStbckTrbce();
         }
     }
 
-    /// Returns a String storing current configuration
-    private void writeCurrentOptions( String fileName ) {
+    /// Returns b String storing current configurbtion
+    privbte void writeCurrentOptions( String fileNbme ) {
         try {
             String curOptions = fp.getCurrentOptions();
-            BufferedOutputStream bos =
-              new BufferedOutputStream( new FileOutputStream( fileName ));
-            /// Prepend title and the option that is only obtainable here
-            int range[] = rm.getSelectedRange();
+            BufferedOutputStrebm bos =
+              new BufferedOutputStrebm( new FileOutputStrebm( fileNbme ));
+            /// Prepend title bnd the option thbt is only obtbinbble here
+            int rbnge[] = rm.getSelectedRbnge();
             String completeOptions =
               ( "Font2DTest Option File\n" +
-                displayGridCBMI.getState() + "\n" +
-                force16ColsCBMI.getState() + "\n" +
-                showFontInfoCBMI.getState() + "\n" +
+                displbyGridCBMI.getStbte() + "\n" +
+                force16ColsCBMI.getStbte() + "\n" +
+                showFontInfoCBMI.getStbte() + "\n" +
                 rm.getSelectedItem() + "\n" +
-                range[0] + "\n" + range[1] + "\n" + curOptions + tFileName);
+                rbnge[0] + "\n" + rbnge[1] + "\n" + curOptions + tFileNbme);
             byte toBeWritten[] = completeOptions.getBytes( "UTF-16" );
             bos.write( toBeWritten, 0, toBeWritten.length );
             bos.close();
         }
-        catch ( Exception ex ) {
-            fireChangeStatus( "ERROR: Failed to Save Options File; See Stack Trace", true );
-            ex.printStackTrace();
+        cbtch ( Exception ex ) {
+            fireChbngeStbtus( "ERROR: Fbiled to Sbve Options File; See Stbck Trbce", true );
+            ex.printStbckTrbce();
         }
     }
 
-    /// Updates GUI visibility/status after some parameters have changed
-    private void updateGUI() {
+    /// Updbtes GUI visibility/stbtus bfter some pbrbmeters hbve chbnged
+    privbte void updbteGUI() {
         int selectedText = textMenu.getSelectedIndex();
 
-        /// Set the visibility of User Text dialog
+        /// Set the visibility of User Text diblog
         if ( selectedText == fp.USER_TEXT )
-          userTextDialog.show();
+          userTextDiblog.show();
         else
-          userTextDialog.hide();
-        /// Change the visibility/status/availability of Print JDialog buttons
+          userTextDiblog.hide();
+        /// Chbnge the visibility/stbtus/bvbilbbility of Print JDiblog buttons
         printModeCBs[ fp.ONE_PAGE ].setSelected( true );
         if ( selectedText == fp.FILE_TEXT || selectedText == fp.USER_TEXT ) {
             /// ABP
-            /// update methodsMenu to show that TextLayout.draw is being used
-            /// when we are in FILE_TEXT mode
+            /// updbte methodsMenu to show thbt TextLbyout.drbw is being used
+            /// when we bre in FILE_TEXT mode
             if ( selectedText == fp.FILE_TEXT )
-                methodsMenu.setSelectedItem("TextLayout.draw");
-            methodsMenu.setEnabled( selectedText == fp.USER_TEXT );
-            printModeCBs[ fp.CUR_RANGE ].setEnabled( false );
-            printModeCBs[ fp.ALL_TEXT ].setEnabled( true );
+                methodsMenu.setSelectedItem("TextLbyout.drbw");
+            methodsMenu.setEnbbled( selectedText == fp.USER_TEXT );
+            printModeCBs[ fp.CUR_RANGE ].setEnbbled( fblse );
+            printModeCBs[ fp.ALL_TEXT ].setEnbbled( true );
         }
         else {
             /// ABP
-            /// update methodsMenu to show that drawGlyph is being used
-            /// when we are in ALL_GLYPHS mode
+            /// updbte methodsMenu to show thbt drbwGlyph is being used
+            /// when we bre in ALL_GLYPHS mode
             if ( selectedText == fp.ALL_GLYPHS )
-                methodsMenu.setSelectedItem("drawGlyphVector");
-            methodsMenu.setEnabled( selectedText == fp.RANGE_TEXT );
-            printModeCBs[ fp.CUR_RANGE ].setEnabled( true );
-            printModeCBs[ fp.ALL_TEXT ].setEnabled( false );
+                methodsMenu.setSelectedItem("drbwGlyphVector");
+            methodsMenu.setEnbbled( selectedText == fp.RANGE_TEXT );
+            printModeCBs[ fp.CUR_RANGE ].setEnbbled( true );
+            printModeCBs[ fp.ALL_TEXT ].setEnbbled( fblse );
         }
-        /// Modify RangeMenu and fontInfo label availabilty
+        /// Modify RbngeMenu bnd fontInfo lbbel bvbilbbilty
         if ( selectedText == fp.RANGE_TEXT ) {
             fontInfos[1].setVisible( true );
-            rm.setEnabled( true );
+            rm.setEnbbled( true );
         }
         else {
-            fontInfos[1].setVisible( false );
-            rm.setEnabled( false );
+            fontInfos[1].setVisible( fblse );
+            rm.setEnbbled( fblse );
         }
     }
 
-    /// Loads saved options and applies them
-    private void loadOptions( String fileName ) {
+    /// Lobds sbved options bnd bpplies them
+    privbte void lobdOptions( String fileNbme ) {
         try {
-            BufferedInputStream bis =
-              new BufferedInputStream( new FileInputStream( fileName ));
-            int numBytes = bis.available();
-            byte byteData[] = new byte[ numBytes ];
-            bis.read( byteData, 0, numBytes );
+            BufferedInputStrebm bis =
+              new BufferedInputStrebm( new FileInputStrebm( fileNbme ));
+            int numBytes = bis.bvbilbble();
+            byte byteDbtb[] = new byte[ numBytes ];
+            bis.rebd( byteDbtb, 0, numBytes );
             bis.close();
             if ( numBytes < 2 ||
-                (byteData[0] != (byte) 0xFE || byteData[1] != (byte) 0xFF) )
-              throw new Exception( "Not a Font2DTest options file" );
+                (byteDbtb[0] != (byte) 0xFE || byteDbtb[1] != (byte) 0xFF) )
+              throw new Exception( "Not b Font2DTest options file" );
 
-            String options = new String( byteData, "UTF-16" );
+            String options = new String( byteDbtb, "UTF-16" );
             StringTokenizer perLine = new StringTokenizer( options, "\n" );
             String title = perLine.nextToken();
-            if ( !title.equals( "Font2DTest Option File" ))
-              throw new Exception( "Not a Font2DTest options file" );
+            if ( !title.equbls( "Font2DTest Option File" ))
+              throw new Exception( "Not b Font2DTest options file" );
 
-            /// Parse all options
-            boolean displayGridOpt = Boolean.parseBoolean( perLine.nextToken() );
-            boolean force16ColsOpt = Boolean.parseBoolean( perLine.nextToken() );
-            boolean showFontInfoOpt = Boolean.parseBoolean( perLine.nextToken() );
-            String rangeNameOpt = perLine.nextToken();
-            int rangeStartOpt = Integer.parseInt( perLine.nextToken() );
-            int rangeEndOpt = Integer.parseInt( perLine.nextToken() );
-            String fontNameOpt = perLine.nextToken();
-            float fontSizeOpt = Float.parseFloat( perLine.nextToken() );
-            int fontStyleOpt = Integer.parseInt( perLine.nextToken() );
-            int fontTransformOpt = Integer.parseInt( perLine.nextToken() );
-            int g2TransformOpt = Integer.parseInt( perLine.nextToken() );
-            int textToUseOpt = Integer.parseInt( perLine.nextToken() );
-            int drawMethodOpt = Integer.parseInt( perLine.nextToken() );
-            int antialiasOpt = Integer.parseInt(perLine.nextToken());
-            int fractionalOpt = Integer.parseInt(perLine.nextToken());
-            int lcdContrast = Integer.parseInt(perLine.nextToken());
+            /// Pbrse bll options
+            boolebn displbyGridOpt = Boolebn.pbrseBoolebn( perLine.nextToken() );
+            boolebn force16ColsOpt = Boolebn.pbrseBoolebn( perLine.nextToken() );
+            boolebn showFontInfoOpt = Boolebn.pbrseBoolebn( perLine.nextToken() );
+            String rbngeNbmeOpt = perLine.nextToken();
+            int rbngeStbrtOpt = Integer.pbrseInt( perLine.nextToken() );
+            int rbngeEndOpt = Integer.pbrseInt( perLine.nextToken() );
+            String fontNbmeOpt = perLine.nextToken();
+            flobt fontSizeOpt = Flobt.pbrseFlobt( perLine.nextToken() );
+            int fontStyleOpt = Integer.pbrseInt( perLine.nextToken() );
+            int fontTrbnsformOpt = Integer.pbrseInt( perLine.nextToken() );
+            int g2TrbnsformOpt = Integer.pbrseInt( perLine.nextToken() );
+            int textToUseOpt = Integer.pbrseInt( perLine.nextToken() );
+            int drbwMethodOpt = Integer.pbrseInt( perLine.nextToken() );
+            int bntiblibsOpt = Integer.pbrseInt(perLine.nextToken());
+            int frbctionblOpt = Integer.pbrseInt(perLine.nextToken());
+            int lcdContrbst = Integer.pbrseInt(perLine.nextToken());
             String userTextOpt[] = { "Font2DTest!" };
-            String dialogEntry = "Font2DTest!";
+            String diblogEntry = "Font2DTest!";
             if (textToUseOpt == fp.USER_TEXT )  {
                 int numLines = perLine.countTokens(), lineNumber = 0;
                 if ( numLines != 0 ) {
                     userTextOpt = new String[ numLines ];
-                    dialogEntry = "";
-                    for ( ; perLine.hasMoreElements(); lineNumber++ ) {
+                    diblogEntry = "";
+                    for ( ; perLine.hbsMoreElements(); lineNumber++ ) {
                         userTextOpt[ lineNumber ] = perLine.nextToken();
-                        dialogEntry += userTextOpt[ lineNumber ] + "\n";
+                        diblogEntry += userTextOpt[ lineNumber ] + "\n";
                     }
                 }
             }
 
             /// Reset GUIs
-            displayGridCBMI.setState( displayGridOpt );
-            force16ColsCBMI.setState( force16ColsOpt );
-            showFontInfoCBMI.setState( showFontInfoOpt );
-            rm.setSelectedRange( rangeNameOpt, rangeStartOpt, rangeEndOpt );
-            fontMenu.setSelectedItem( fontNameOpt );
-            sizeField.setText( String.valueOf( fontSizeOpt ));
+            displbyGridCBMI.setStbte( displbyGridOpt );
+            force16ColsCBMI.setStbte( force16ColsOpt );
+            showFontInfoCBMI.setStbte( showFontInfoOpt );
+            rm.setSelectedRbnge( rbngeNbmeOpt, rbngeStbrtOpt, rbngeEndOpt );
+            fontMenu.setSelectedItem( fontNbmeOpt );
+            sizeField.setText( String.vblueOf( fontSizeOpt ));
             styleMenu.setSelectedIndex( fontStyleOpt );
-            transformMenu.setSelectedIndex( fontTransformOpt );
-            transformMenuG2.setSelectedIndex( g2TransformOpt );
+            trbnsformMenu.setSelectedIndex( fontTrbnsformOpt );
+            trbnsformMenuG2.setSelectedIndex( g2TrbnsformOpt );
             textMenu.setSelectedIndex( textToUseOpt );
-            methodsMenu.setSelectedIndex( drawMethodOpt );
-            antiAliasMenu.setSelectedIndex( antialiasOpt );
-            fracMetricsMenu.setSelectedIndex( fractionalOpt );
-            contrastSlider.setValue(lcdContrast);
+            methodsMenu.setSelectedIndex( drbwMethodOpt );
+            bntiAlibsMenu.setSelectedIndex( bntiblibsOpt );
+            frbcMetricsMenu.setSelectedIndex( frbctionblOpt );
+            contrbstSlider.setVblue(lcdContrbst);
 
-            userTextArea.setText( dialogEntry );
-            updateGUI();
+            userTextAreb.setText( diblogEntry );
+            updbteGUI();
 
             if ( textToUseOpt == fp.FILE_TEXT ) {
-              tFileName = perLine.nextToken();
-              readTextFile(tFileName );
+              tFileNbme = perLine.nextToken();
+              rebdTextFile(tFileNbme );
             }
 
-            /// Reset option variables and repaint
-            fp.loadOptions( displayGridOpt, force16ColsOpt,
-                            rangeStartOpt, rangeEndOpt,
-                            fontNameOpt, fontSizeOpt,
-                            fontStyleOpt, fontTransformOpt, g2TransformOpt,
-                            textToUseOpt, drawMethodOpt,
-                            antialiasOpt, fractionalOpt,
-                            lcdContrast, userTextOpt );
+            /// Reset option vbribbles bnd repbint
+            fp.lobdOptions( displbyGridOpt, force16ColsOpt,
+                            rbngeStbrtOpt, rbngeEndOpt,
+                            fontNbmeOpt, fontSizeOpt,
+                            fontStyleOpt, fontTrbnsformOpt, g2TrbnsformOpt,
+                            textToUseOpt, drbwMethodOpt,
+                            bntiblibsOpt, frbctionblOpt,
+                            lcdContrbst, userTextOpt );
             if ( showFontInfoOpt ) {
-                fireUpdateFontInfo();
-                fontInfoDialog.show();
+                fireUpdbteFontInfo();
+                fontInfoDiblog.show();
             }
             else
-              fontInfoDialog.hide();
+              fontInfoDiblog.hide();
         }
-        catch ( Exception ex ) {
-            fireChangeStatus( "ERROR: Failed to Load Options File; See Stack Trace", true );
-            ex.printStackTrace();
+        cbtch ( Exception ex ) {
+            fireChbngeStbtus( "ERROR: Fbiled to Lobd Options File; See Stbck Trbce", true );
+            ex.printStbckTrbce();
         }
     }
 
-    /// Loads a previously saved image
-    private void loadComparisonPNG( String fileName ) {
+    /// Lobds b previously sbved imbge
+    privbte void lobdCompbrisonPNG( String fileNbme ) {
         try {
-            BufferedImage image =
-                javax.imageio.ImageIO.read(new File(fileName));
-            JFrame f = new JFrame( "Comparison PNG" );
-            ImagePanel ip = new ImagePanel( image );
-            f.setResizable( false );
-            f.getContentPane().add( ip );
-            f.addWindowListener( new WindowAdapter() {
+            BufferedImbge imbge =
+                jbvbx.imbgeio.ImbgeIO.rebd(new File(fileNbme));
+            JFrbme f = new JFrbme( "Compbrison PNG" );
+            ImbgePbnel ip = new ImbgePbnel( imbge );
+            f.setResizbble( fblse );
+            f.getContentPbne().bdd( ip );
+            f.bddWindowListener( new WindowAdbpter() {
                 public void windowClosing( WindowEvent e ) {
-                    ( (JFrame) e.getSource() ).dispose();
+                    ( (JFrbme) e.getSource() ).dispose();
                 }
             });
-            f.pack();
+            f.pbck();
             f.show();
         }
-        catch ( Exception ex ) {
-            fireChangeStatus( "ERROR: Failed to Load PNG File; See Stack Trace", true );
-            ex.printStackTrace();
+        cbtch ( Exception ex ) {
+            fireChbngeStbtus( "ERROR: Fbiled to Lobd PNG File; See Stbck Trbce", true );
+            ex.printStbckTrbce();
         }
     }
 
-    /// Interface functions...
+    /// Interfbce functions...
 
-    /// ActionListener interface function
-    /// Responds to JMenuItem, JTextField and JButton actions
-    public void actionPerformed( ActionEvent e ) {
+    /// ActionListener interfbce function
+    /// Responds to JMenuItem, JTextField bnd JButton bctions
+    public void bctionPerformed( ActionEvent e ) {
         Object source = e.getSource();
 
-        if ( source instanceof JMenuItem ) {
+        if ( source instbnceof JMenuItem ) {
             JMenuItem mi = (JMenuItem) source;
-            String itemName = mi.getText();
+            String itemNbme = mi.getText();
 
-            if ( itemName.equals( "Save Selected Options..." )) {
-                String fileName = promptFile( true, "options.txt" );
-                if ( fileName != null )
-                  writeCurrentOptions( fileName );
+            if ( itemNbme.equbls( "Sbve Selected Options..." )) {
+                String fileNbme = promptFile( true, "options.txt" );
+                if ( fileNbme != null )
+                  writeCurrentOptions( fileNbme );
             }
-            else if ( itemName.equals( "Load Options..." )) {
-                String fileName = promptFile( false, "options.txt" );
-                if ( fileName != null )
-                  loadOptions( fileName );
+            else if ( itemNbme.equbls( "Lobd Options..." )) {
+                String fileNbme = promptFile( fblse, "options.txt" );
+                if ( fileNbme != null )
+                  lobdOptions( fileNbme );
             }
-            else if ( itemName.equals( "Save as PNG..." )) {
-                String fileName = promptFile( true, fontMenu.getSelectedItem() + ".png" );
-                if ( fileName != null )
-                  fp.doSavePNG( fileName );
+            else if ( itemNbme.equbls( "Sbve bs PNG..." )) {
+                String fileNbme = promptFile( true, fontMenu.getSelectedItem() + ".png" );
+                if ( fileNbme != null )
+                  fp.doSbvePNG( fileNbme );
             }
-            else if ( itemName.equals( "Load PNG File to Compare..." )) {
-                String fileName = promptFile( false, null );
-                if ( fileName != null )
-                  loadComparisonPNG( fileName );
+            else if ( itemNbme.equbls( "Lobd PNG File to Compbre..." )) {
+                String fileNbme = promptFile( fblse, null );
+                if ( fileNbme != null )
+                  lobdCompbrisonPNG( fileNbme );
             }
-            else if ( itemName.equals( "Page Setup..." ))
-              fp.doPageSetup();
-            else if ( itemName.equals( "Print..." ))
-              printDialog.show();
-            else if ( itemName.equals( "Close" ))
-              parent.dispose();
-            else if ( itemName.equals( "Exit" ))
+            else if ( itemNbme.equbls( "Pbge Setup..." ))
+              fp.doPbgeSetup();
+            else if ( itemNbme.equbls( "Print..." ))
+              printDiblog.show();
+            else if ( itemNbme.equbls( "Close" ))
+              pbrent.dispose();
+            else if ( itemNbme.equbls( "Exit" ))
               System.exit(0);
         }
 
-        else if ( source instanceof JTextField ) {
+        else if ( source instbnceof JTextField ) {
             JTextField tf = (JTextField) source;
-            float sz = 12f;
+            flobt sz = 12f;
             try {
-                 sz = Float.parseFloat(sizeField.getText());
+                 sz = Flobt.pbrseFlobt(sizeField.getText());
                  if (sz < 1f || sz > 120f) {
                       sz = 12f;
                       sizeField.setText("12");
                  }
-            } catch (Exception se) {
+            } cbtch (Exception se) {
                  sizeField.setText("12");
             }
             if ( tf == sizeField )
-              fp.setFontParams( fontMenu.getSelectedItem(),
+              fp.setFontPbrbms( fontMenu.getSelectedItem(),
                                 sz,
                                 styleMenu.getSelectedIndex(),
-                                transformMenu.getSelectedIndex() );
+                                trbnsformMenu.getSelectedIndex() );
         }
 
-        else if ( source instanceof JButton ) {
-            String itemName = ( (JButton) source ).getText();
-            /// Print dialog buttons...
-            if ( itemName.equals( "Print" )) {
+        else if ( source instbnceof JButton ) {
+            String itemNbme = ( (JButton) source ).getText();
+            /// Print diblog buttons...
+            if ( itemNbme.equbls( "Print" )) {
                 for ( int i = 0; i < printModeCBs.length; i++ )
                   if ( printModeCBs[i].isSelected() ) {
-                      printDialog.hide();
+                      printDiblog.hide();
                       fp.doPrint( i );
                   }
             }
-            else if ( itemName.equals( "Cancel" ))
-              printDialog.hide();
-            /// Update button from Usert Text JDialog...
-            else if ( itemName.equals( "Update" ))
-              fp.setTextToDraw( fp.USER_TEXT, null,
-                                parseUserText( userTextArea.getText() ), null );
+            else if ( itemNbme.equbls( "Cbncel" ))
+              printDiblog.hide();
+            /// Updbte button from Usert Text JDiblog...
+            else if ( itemNbme.equbls( "Updbte" ))
+              fp.setTextToDrbw( fp.USER_TEXT, null,
+                                pbrseUserText( userTextAreb.getText() ), null );
         }
-        else if ( source instanceof JComboBox ) {
+        else if ( source instbnceof JComboBox ) {
             JComboBox c = (JComboBox) source;
 
-            /// RangeMenu handles actions by itself and then calls fireRangeChanged,
-            /// so it is not listed or handled here
-            if ( c == fontMenu || c == styleMenu || c == transformMenu ) {
-                float sz = 12f;
+            /// RbngeMenu hbndles bctions by itself bnd then cblls fireRbngeChbnged,
+            /// so it is not listed or hbndled here
+            if ( c == fontMenu || c == styleMenu || c == trbnsformMenu ) {
+                flobt sz = 12f;
                 try {
-                    sz = Float.parseFloat(sizeField.getText());
+                    sz = Flobt.pbrseFlobt(sizeField.getText());
                     if (sz < 1f || sz > 120f) {
                         sz = 12f;
                         sizeField.setText("12");
                     }
-                } catch (Exception se) {
+                } cbtch (Exception se) {
                     sizeField.setText("12");
                 }
-                fp.setFontParams(fontMenu.getSelectedItem(),
+                fp.setFontPbrbms(fontMenu.getSelectedItem(),
                                  sz,
                                  styleMenu.getSelectedIndex(),
-                                 transformMenu.getSelectedIndex());
+                                 trbnsformMenu.getSelectedIndex());
             } else if ( c == methodsMenu )
-              fp.setDrawMethod( methodsMenu.getSelectedIndex() );
+              fp.setDrbwMethod( methodsMenu.getSelectedIndex() );
             else if ( c == textMenu ) {
 
-                if(canDisplayCheck) {
-                    fireRangeChanged();
+                if(cbnDisplbyCheck) {
+                    fireRbngeChbnged();
                 }
 
                 int selected = textMenu.getSelectedIndex();
 
                 if ( selected == fp.RANGE_TEXT )
-                  fp.setTextToDraw( fp.RANGE_TEXT, rm.getSelectedRange(),
+                  fp.setTextToDrbw( fp.RANGE_TEXT, rm.getSelectedRbnge(),
                                     null, null );
                 else if ( selected == fp.USER_TEXT )
-                  fp.setTextToDraw( fp.USER_TEXT, null,
-                                    parseUserText( userTextArea.getText() ), null );
+                  fp.setTextToDrbw( fp.USER_TEXT, null,
+                                    pbrseUserText( userTextAreb.getText() ), null );
                 else if ( selected == fp.FILE_TEXT ) {
-                    String fileName = promptFile( false, null );
-                    if ( fileName != null ) {
-                      tFileName = fileName;
-                      readTextFile( fileName );
+                    String fileNbme = promptFile( fblse, null );
+                    if ( fileNbme != null ) {
+                      tFileNbme = fileNbme;
+                      rebdTextFile( fileNbme );
                     } else {
-                        /// User cancelled selection; reset to previous choice
+                        /// User cbncelled selection; reset to previous choice
                         c.setSelectedIndex( currentTextChoice );
                         return;
                     }
                 }
                 else if ( selected == fp.ALL_GLYPHS )
-                  fp.setTextToDraw( fp.ALL_GLYPHS, null, null, null );
+                  fp.setTextToDrbw( fp.ALL_GLYPHS, null, null, null );
 
-                updateGUI();
+                updbteGUI();
                 currentTextChoice = selected;
             }
-            else if ( c == transformMenuG2 ) {
-                fp.setTransformG2( transformMenuG2.getSelectedIndex() );
+            else if ( c == trbnsformMenuG2 ) {
+                fp.setTrbnsformG2( trbnsformMenuG2.getSelectedIndex() );
             }
-            else if (c == antiAliasMenu || c == fracMetricsMenu) {
-                if (c == antiAliasMenu) {
-                    boolean enabled = FontPanel.AAValues.
-                        isLCDMode(antiAliasMenu.getSelectedItem());
-                        contrastSlider.setEnabled(enabled);
+            else if (c == bntiAlibsMenu || c == frbcMetricsMenu) {
+                if (c == bntiAlibsMenu) {
+                    boolebn enbbled = FontPbnel.AAVblues.
+                        isLCDMode(bntiAlibsMenu.getSelectedItem());
+                        contrbstSlider.setEnbbled(enbbled);
                 }
-                fp.setRenderingHints(antiAliasMenu.getSelectedItem(),
-                                     fracMetricsMenu.getSelectedItem(),
-                                     contrastSlider.getValue());
+                fp.setRenderingHints(bntiAlibsMenu.getSelectedItem(),
+                                     frbcMetricsMenu.getSelectedItem(),
+                                     contrbstSlider.getVblue());
             }
         }
     }
 
-    public void stateChanged(ChangeEvent e) {
+    public void stbteChbnged(ChbngeEvent e) {
          Object source = e.getSource();
-         if (source instanceof JSlider) {
-             fp.setRenderingHints(antiAliasMenu.getSelectedItem(),
-                                  fracMetricsMenu.getSelectedItem(),
-                                  contrastSlider.getValue());
+         if (source instbnceof JSlider) {
+             fp.setRenderingHints(bntiAlibsMenu.getSelectedItem(),
+                                  frbcMetricsMenu.getSelectedItem(),
+                                  contrbstSlider.getVblue());
          }
     }
 
-    /// ItemListener interface function
-    /// Responds to JCheckBoxMenuItem, JComboBox and JCheckBox actions
-    public void itemStateChanged( ItemEvent e ) {
+    /// ItemListener interfbce function
+    /// Responds to JCheckBoxMenuItem, JComboBox bnd JCheckBox bctions
+    public void itemStbteChbnged( ItemEvent e ) {
         Object source = e.getSource();
 
-        if ( source instanceof JCheckBoxMenuItem ) {
+        if ( source instbnceof JCheckBoxMenuItem ) {
             JCheckBoxMenuItem cbmi = (JCheckBoxMenuItem) source;
-            if ( cbmi == displayGridCBMI )
-              fp.setGridDisplay( displayGridCBMI.getState() );
+            if ( cbmi == displbyGridCBMI )
+              fp.setGridDisplby( displbyGridCBMI.getStbte() );
             else if ( cbmi == force16ColsCBMI )
-              fp.setForce16Columns( force16ColsCBMI.getState() );
+              fp.setForce16Columns( force16ColsCBMI.getStbte() );
             else if ( cbmi == showFontInfoCBMI ) {
-                if ( showFontInfoCBMI.getState() ) {
-                    fireUpdateFontInfo();
-                    fontInfoDialog.show();
+                if ( showFontInfoCBMI.getStbte() ) {
+                    fireUpdbteFontInfo();
+                    fontInfoDiblog.show();
                 }
                 else
-                  fontInfoDialog.hide();
+                  fontInfoDiblog.hide();
             }
         }
     }
 
-    private static void printUsage() {
-        String usage = "Usage: java -jar Font2DTest.jar [options]\n" +
+    privbte stbtic void printUsbge() {
+        String usbge = "Usbge: jbvb -jbr Font2DTest.jbr [options]\n" +
             "\nwhere options include:\n" +
-            "    -dcdc | -disablecandisplaycheck disable canDisplay check for font\n" +
-            "    -?    | -help                   print this help message\n" +
-            "\nExample :\n" +
-            "     To disable canDisplay check on font for ranges\n" +
-            "     java -jar Font2DTest.jar -dcdc";
-        System.out.println(usage);
+            "    -dcdc | -disbblecbndisplbycheck disbble cbnDisplby check for font\n" +
+            "    -?    | -help                   print this help messbge\n" +
+            "\nExbmple :\n" +
+            "     To disbble cbnDisplby check on font for rbnges\n" +
+            "     jbvb -jbr Font2DTest.jbr -dcdc";
+        System.out.println(usbge);
         System.exit(0);
     }
 
-    /// Main function
-    public static void main(String argv[]) {
+    /// Mbin function
+    public stbtic void mbin(String brgv[]) {
 
-        if(argv.length > 0) {
-            if(argv[0].equalsIgnoreCase("-disablecandisplaycheck") ||
-               argv[0].equalsIgnoreCase("-dcdc")) {
-                canDisplayCheck = false;
+        if(brgv.length > 0) {
+            if(brgv[0].equblsIgnoreCbse("-disbblecbndisplbycheck") ||
+               brgv[0].equblsIgnoreCbse("-dcdc")) {
+                cbnDisplbyCheck = fblse;
             }
             else {
-                printUsage();
+                printUsbge();
             }
         }
 
-        UIManager.put("swing.boldMetal", Boolean.FALSE);
-        final JFrame f = new JFrame( "Font2DTest" );
-        final Font2DTest f2dt = new Font2DTest( f, false );
-        f.addWindowListener( new WindowAdapter() {
-            public void windowOpening( WindowEvent e ) { f2dt.repaint(); }
+        UIMbnbger.put("swing.boldMetbl", Boolebn.FALSE);
+        finbl JFrbme f = new JFrbme( "Font2DTest" );
+        finbl Font2DTest f2dt = new Font2DTest( f, fblse );
+        f.bddWindowListener( new WindowAdbpter() {
+            public void windowOpening( WindowEvent e ) { f2dt.repbint(); }
             public void windowClosing( WindowEvent e ) { System.exit(0); }
         });
 
-        f.getContentPane().add( f2dt );
-        f.pack();
+        f.getContentPbne().bdd( f2dt );
+        f.pbck();
         f.show();
     }
 
-    /// Inner class definitions...
+    /// Inner clbss definitions...
 
-    /// Class to display just an image file
-    /// Used to show the comparison PNG image
-    private final class ImagePanel extends JPanel {
-        private final BufferedImage bi;
+    /// Clbss to displby just bn imbge file
+    /// Used to show the compbrison PNG imbge
+    privbte finbl clbss ImbgePbnel extends JPbnel {
+        privbte finbl BufferedImbge bi;
 
-        public ImagePanel( BufferedImage image ) {
-            bi = image;
+        public ImbgePbnel( BufferedImbge imbge ) {
+            bi = imbge;
         }
 
         public Dimension getPreferredSize() {
             return new Dimension( bi.getWidth(), bi.getHeight() );
         }
 
-        public void paintComponent( Graphics g ) {
-            g.drawImage( bi, 0, 0, this );
+        public void pbintComponent( Grbphics g ) {
+            g.drbwImbge( bi, 0, 0, this );
         }
     }
 
-    /// Classes made to avoid repetitive calls... (being lazy)
-    private final class ButtonV2 extends JButton {
-        public ButtonV2( String name, ActionListener al ) {
-            super( name );
-            this.addActionListener( al );
+    /// Clbsses mbde to bvoid repetitive cblls... (being lbzy)
+    privbte finbl clbss ButtonV2 extends JButton {
+        public ButtonV2( String nbme, ActionListener bl ) {
+            super( nbme );
+            this.bddActionListener( bl );
         }
     }
 
-    private final class ChoiceV2 extends JComboBox {
+    privbte finbl clbss ChoiceV2 extends JComboBox {
 
-        private BitSet bitSet = null;
+        privbte BitSet bitSet = null;
 
         public ChoiceV2() {;}
 
-        public ChoiceV2( ActionListener al ) {
+        public ChoiceV2( ActionListener bl ) {
             super();
-            this.addActionListener( al );
+            this.bddActionListener( bl );
         }
 
-        public ChoiceV2( ActionListener al, boolean fontChoice) {
-            this(al);
+        public ChoiceV2( ActionListener bl, boolebn fontChoice) {
+            this(bl);
             if(fontChoice) {
-                //Register this component in ToolTipManager
+                //Register this component in ToolTipMbnbger
                 setToolTipText("");
                 bitSet = new BitSet();
                 setRenderer(new ChoiceV2Renderer(this));
@@ -1092,63 +1092,63 @@ public final class Font2DTest extends JPanel
 
         public String getToolTipText() {
             int index = this.getSelectedIndex();
-            String fontName = (String) this.getSelectedItem();
-            if(fontName != null &&
+            String fontNbme = (String) this.getSelectedItem();
+            if(fontNbme != null &&
                (textMenu.getSelectedIndex() == fp.RANGE_TEXT)) {
                 if (getBit(index)) {
-                    return "Font \"" + fontName + "\" can display some characters in \"" +
-                        rm.getSelectedItem() + "\" range";
+                    return "Font \"" + fontNbme + "\" cbn displby some chbrbcters in \"" +
+                        rm.getSelectedItem() + "\" rbnge";
                 }
                 else {
-                    return "Font \"" + fontName + "\" cannot display any characters in \"" +
-                        rm.getSelectedItem() + "\" range";
+                    return "Font \"" + fontNbme + "\" cbnnot displby bny chbrbcters in \"" +
+                        rm.getSelectedItem() + "\" rbnge";
                 }
             }
             return super.getToolTipText();
         }
 
-        public void setBit(int bitIndex, boolean value) {
-            bitSet.set(bitIndex, value);
+        public void setBit(int bitIndex, boolebn vblue) {
+            bitSet.set(bitIndex, vblue);
         }
 
-        public boolean getBit(int bitIndex) {
+        public boolebn getBit(int bitIndex) {
             return bitSet.get(bitIndex);
         }
     }
 
-    private final class ChoiceV2Renderer extends DefaultListCellRenderer {
+    privbte finbl clbss ChoiceV2Renderer extends DefbultListCellRenderer {
 
-        private ImageIcon yesImage, blankImage;
-        private ChoiceV2 choice = null;
+        privbte ImbgeIcon yesImbge, blbnkImbge;
+        privbte ChoiceV2 choice = null;
 
         public ChoiceV2Renderer(ChoiceV2 choice) {
-            BufferedImage yes =
-                new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g = yes.createGraphics();
+            BufferedImbge yes =
+                new BufferedImbge(10, 10, BufferedImbge.TYPE_INT_ARGB);
+            Grbphics2D g = yes.crebteGrbphics();
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                RenderingHints.VALUE_ANTIALIAS_ON);
             g.setColor(Color.BLUE);
-            g.drawLine(0, 5, 3, 10);
-            g.drawLine(1, 5, 4, 10);
-            g.drawLine(3, 10, 10, 0);
-            g.drawLine(4, 9, 9, 0);
+            g.drbwLine(0, 5, 3, 10);
+            g.drbwLine(1, 5, 4, 10);
+            g.drbwLine(3, 10, 10, 0);
+            g.drbwLine(4, 9, 9, 0);
             g.dispose();
-            BufferedImage blank =
-                new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
-            yesImage = new ImageIcon(yes);
-            blankImage = new ImageIcon(blank);
+            BufferedImbge blbnk =
+                new BufferedImbge(10, 10, BufferedImbge.TYPE_INT_ARGB);
+            yesImbge = new ImbgeIcon(yes);
+            blbnkImbge = new ImbgeIcon(blbnk);
             this.choice = choice;
         }
 
         public Component getListCellRendererComponent(JList list,
-                                                      Object value,
+                                                      Object vblue,
                                                       int index,
-                                                      boolean isSelected,
-                                                      boolean cellHasFocus) {
+                                                      boolebn isSelected,
+                                                      boolebn cellHbsFocus) {
 
             if(textMenu.getSelectedIndex() == fp.RANGE_TEXT) {
 
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                super.getListCellRendererComponent(list, vblue, index, isSelected, cellHbsFocus);
 
                 //For JComboBox if index is -1, its rendering the selected index.
                 if(index == -1) {
@@ -1156,38 +1156,38 @@ public final class Font2DTest extends JPanel
                 }
 
                 if(choice.getBit(index)) {
-                    setIcon(yesImage);
+                    setIcon(yesImbge);
                 }
                 else {
-                    setIcon(blankImage);
+                    setIcon(blbnkImbge);
                 }
 
             } else {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                setIcon(blankImage);
+                super.getListCellRendererComponent(list, vblue, index, isSelected, cellHbsFocus);
+                setIcon(blbnkImbge);
             }
 
             return this;
         }
     }
 
-    private final class LabelV2 extends JLabel {
-        public LabelV2( String name ) {
-            super( name );
+    privbte finbl clbss LbbelV2 extends JLbbel {
+        public LbbelV2( String nbme ) {
+            super( nbme );
         }
     }
 
-    private final class MenuItemV2 extends JMenuItem {
-        public MenuItemV2( String name, ActionListener al ) {
-            super( name );
-            this.addActionListener( al );
+    privbte finbl clbss MenuItemV2 extends JMenuItem {
+        public MenuItemV2( String nbme, ActionListener bl ) {
+            super( nbme );
+            this.bddActionListener( bl );
         }
     }
 
-    private final class CheckboxMenuItemV2 extends JCheckBoxMenuItem {
-        public CheckboxMenuItemV2( String name, boolean b, ItemListener il ) {
-            super( name, b );
-            this.addItemListener( il );
+    privbte finbl clbss CheckboxMenuItemV2 extends JCheckBoxMenuItem {
+        public CheckboxMenuItemV2( String nbme, boolebn b, ItemListener il ) {
+            super( nbme, b );
+            this.bddItemListener( il );
         }
     }
 }

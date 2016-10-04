@@ -1,39 +1,39 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
 
 /**
- * A computation to be performed with privileges enabled, that throws one or
- * more checked exceptions.  The computation is performed by invoking
+ * A computbtion to be performed with privileges enbbled, thbt throws one or
+ * more checked exceptions.  The computbtion is performed by invoking
  * {@code AccessController.doPrivileged} on the
- * {@code PrivilegedExceptionAction} object.  This interface is
- * used only for computations that throw checked exceptions;
- * computations that do not throw
- * checked exceptions should use {@code PrivilegedAction} instead.
+ * {@code PrivilegedExceptionAction} object.  This interfbce is
+ * used only for computbtions thbt throw checked exceptions;
+ * computbtions thbt do not throw
+ * checked exceptions should use {@code PrivilegedAction} instebd.
  *
  * @see AccessController
  * @see AccessController#doPrivileged(PrivilegedExceptionAction)
@@ -42,18 +42,18 @@ package java.security;
  * @see PrivilegedAction
  */
 
-public interface PrivilegedExceptionAction<T> {
+public interfbce PrivilegedExceptionAction<T> {
     /**
-     * Performs the computation.  This method will be called by
-     * {@code AccessController.doPrivileged} after enabling privileges.
+     * Performs the computbtion.  This method will be cblled by
+     * {@code AccessController.doPrivileged} bfter enbbling privileges.
      *
-     * @return a class-dependent value that may represent the results of the
-     *         computation.  Each class that implements
-     *         {@code PrivilegedExceptionAction} should document what
-     *         (if anything) this value represents.
-     * @throws Exception an exceptional condition has occurred.  Each class
-     *         that implements {@code PrivilegedExceptionAction} should
-     *         document the exceptions that its run method can throw.
+     * @return b clbss-dependent vblue thbt mby represent the results of the
+     *         computbtion.  Ebch clbss thbt implements
+     *         {@code PrivilegedExceptionAction} should document whbt
+     *         (if bnything) this vblue represents.
+     * @throws Exception bn exceptionbl condition hbs occurred.  Ebch clbss
+     *         thbt implements {@code PrivilegedExceptionAction} should
+     *         document the exceptions thbt its run method cbn throw.
      * @see AccessController#doPrivileged(PrivilegedExceptionAction)
      * @see AccessController#doPrivileged(PrivilegedExceptionAction,AccessControlContext)
      */

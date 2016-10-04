@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import sun.awt.CausedFocusEvent;
-import sun.java2d.SurfaceData;
-import sun.java2d.opengl.CGLLayer;
-import sun.lwawt.LWWindowPeer;
-import sun.lwawt.LWWindowPeer.PeerType;
-import sun.lwawt.PlatformWindow;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import sun.bwt.CbusedFocusEvent;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.opengl.CGLLbyer;
+import sun.lwbwt.LWWindowPeer;
+import sun.lwbwt.LWWindowPeer.PeerType;
+import sun.lwbwt.PlbtformWindow;
+import sun.util.logging.PlbtformLogger;
 
 /*
- * Provides a lightweight implementation of the EmbeddedFrame.
+ * Provides b lightweight implementbtion of the EmbeddedFrbme.
  */
-public class CPlatformEmbeddedFrame implements PlatformWindow {
+public clbss CPlbtformEmbeddedFrbme implements PlbtformWindow {
 
-    private static final PlatformLogger focusLogger = PlatformLogger.getLogger("sun.lwawt.macosx.focus.CPlatformEmbeddedFrame");
+    privbte stbtic finbl PlbtformLogger focusLogger = PlbtformLogger.getLogger("sun.lwbwt.mbcosx.focus.CPlbtformEmbeddedFrbme");
 
-    private CGLLayer windowLayer;
-    private LWWindowPeer peer;
-    private CEmbeddedFrame target;
+    privbte CGLLbyer windowLbyer;
+    privbte LWWindowPeer peer;
+    privbte CEmbeddedFrbme tbrget;
 
-    private volatile int screenX = 0;
-    private volatile int screenY = 0;
+    privbte volbtile int screenX = 0;
+    privbte volbtile int screenY = 0;
 
-    @Override // PlatformWindow
-    public void initialize(Window target, final LWWindowPeer peer, PlatformWindow owner) {
+    @Override // PlbtformWindow
+    public void initiblize(Window tbrget, finbl LWWindowPeer peer, PlbtformWindow owner) {
         this.peer = peer;
-        this.windowLayer = new CGLLayer(peer);
-        this.target = (CEmbeddedFrame)target;
+        this.windowLbyer = new CGLLbyer(peer);
+        this.tbrget = (CEmbeddedFrbme)tbrget;
     }
 
     @Override
@@ -61,33 +61,33 @@ public class CPlatformEmbeddedFrame implements PlatformWindow {
     }
 
     @Override
-    public long getLayerPtr() {
-        return windowLayer.getPointer();
+    public long getLbyerPtr() {
+        return windowLbyer.getPointer();
     }
 
     @Override
     public void dispose() {
-        windowLayer.dispose();
+        windowLbyer.dispose();
     }
 
     @Override
     public void setBounds(int x, int y, int w, int h) {
-        // This is a lightweight implementation of the EmbeddedFrame
-        // and we simply synthesize a reshape request.
+        // This is b lightweight implementbtion of the EmbeddedFrbme
+        // bnd we simply synthesize b reshbpe request.
         screenX = x;
         screenY = y;
-        peer.notifyReshape(x, y, w, h);
+        peer.notifyReshbpe(x, y, w, h);
     }
 
     @Override
-    public GraphicsDevice getGraphicsDevice() {
-        // REMIND: return the main screen for the initial implementation
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        return ge.getDefaultScreenDevice();
+    public GrbphicsDevice getGrbphicsDevice() {
+        // REMIND: return the mbin screen for the initibl implementbtion
+        GrbphicsEnvironment ge = GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        return ge.getDefbultScreenDevice();
     }
 
     @Override
-    public Point getLocationOnScreen() {
+    public Point getLocbtionOnScreen() {
         return new Point(screenX, screenY);
     }
 
@@ -97,17 +97,17 @@ public class CPlatformEmbeddedFrame implements PlatformWindow {
     }
 
     @Override
-    public SurfaceData getScreenSurface() {
-        return windowLayer.getSurfaceData();
+    public SurfbceDbtb getScreenSurfbce() {
+        return windowLbyer.getSurfbceDbtb();
     }
 
     @Override
-    public SurfaceData replaceSurfaceData() {
-        return windowLayer.replaceSurfaceData();
+    public SurfbceDbtb replbceSurfbceDbtb() {
+        return windowLbyer.replbceSurfbceDbtb();
     }
 
     @Override
-    public void setVisible(boolean visible) {}
+    public void setVisible(boolebn visible) {}
 
     @Override
     public void setTitle(String title) {}
@@ -121,63 +121,63 @@ public class CPlatformEmbeddedFrame implements PlatformWindow {
     public void toFront() {}
 
     @Override
-    public void toBack() {}
+    public void toBbck() {}
 
     @Override
-    public void setMenuBar(MenuBar mb) {}
+    public void setMenuBbr(MenuBbr mb) {}
 
     @Override
-    public void setAlwaysOnTop(boolean value) {}
+    public void setAlwbysOnTop(boolebn vblue) {}
 
-    // This method should be properly implemented for applets.
-    // It returns null just as a stub.
+    // This method should be properly implemented for bpplets.
+    // It returns null just bs b stub.
     @Override
-    public PlatformWindow getTopmostPlatformWindowUnderMouse() { return null; }
-
-    @Override
-    public void updateFocusableWindowState() {}
+    public PlbtformWindow getTopmostPlbtformWindowUnderMouse() { return null; }
 
     @Override
-    public boolean rejectFocusRequest(CausedFocusEvent.Cause cause) {
-        // Cross-app activation requests are not allowed.
-        if (cause != CausedFocusEvent.Cause.MOUSE_EVENT &&
-            !target.isParentWindowActive())
+    public void updbteFocusbbleWindowStbte() {}
+
+    @Override
+    public boolebn rejectFocusRequest(CbusedFocusEvent.Cbuse cbuse) {
+        // Cross-bpp bctivbtion requests bre not bllowed.
+        if (cbuse != CbusedFocusEvent.Cbuse.MOUSE_EVENT &&
+            !tbrget.isPbrentWindowActive())
         {
-            focusLogger.fine("the embedder is inactive, so the request is rejected");
+            focusLogger.fine("the embedder is inbctive, so the request is rejected");
             return true;
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public boolean requestWindowFocus() {
+    public boolebn requestWindowFocus() {
         return true;
     }
 
     @Override
-    public boolean isActive() {
+    public boolebn isActive() {
         return true;
     }
 
     @Override
-    public void setResizable(boolean resizable) {}
+    public void setResizbble(boolebn resizbble) {}
 
     @Override
-    public void setSizeConstraints(int minW, int minH, int maxW, int maxH) {}
+    public void setSizeConstrbints(int minW, int minH, int mbxW, int mbxH) {}
 
     @Override
-    public Graphics transformGraphics(Graphics g) {
+    public Grbphics trbnsformGrbphics(Grbphics g) {
         return g;
     }
 
     @Override
-    public void updateIconImages() {}
+    public void updbteIconImbges() {}
 
     @Override
-    public void setOpacity(float opacity) {}
+    public void setOpbcity(flobt opbcity) {}
 
     @Override
-    public void setOpaque(boolean isOpaque) {}
+    public void setOpbque(boolebn isOpbque) {}
 
     @Override
     public void enterFullScreenMode() {}
@@ -186,22 +186,22 @@ public class CPlatformEmbeddedFrame implements PlatformWindow {
     public void exitFullScreenMode() {}
 
     @Override
-    public boolean isFullScreenMode() {
-        return false;
+    public boolebn isFullScreenMode() {
+        return fblse;
     }
 
     @Override
-    public void setWindowState(int windowState) {}
+    public void setWindowStbte(int windowStbte) {}
 
     @Override
-    public void setModalBlocked(boolean blocked) {}
+    public void setModblBlocked(boolebn blocked) {}
 
     /*
-     * The method could not be implemented due to CALayer restrictions.
+     * The method could not be implemented due to CALbyer restrictions.
      * The exeption enforce clients not to use it.
      */
     @Override
-    public boolean isUnderMouse() {
+    public boolebn isUnderMouse() {
         throw new RuntimeException("Not implemented");
     }
 }

@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text.html.parser;
+pbckbge jbvbx.swing.text.html.pbrser;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.io.*;
+import jbvb.util.Vector;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
+import jbvb.io.*;
 
 /**
- * This class defines the attributes of an SGML element
- * as described in a DTD using the ATTLIST construct.
- * An AttributeList can be obtained from the Element
- * class using the getAttributes() method.
+ * This clbss defines the bttributes of bn SGML element
+ * bs described in b DTD using the ATTLIST construct.
+ * An AttributeList cbn be obtbined from the Element
+ * clbss using the getAttributes() method.
  * <p>
- * It is actually an element in a linked list. Use the
- * getNext() method repeatedly to enumerate all the attributes
- * of an element.
+ * It is bctublly bn element in b linked list. Use the
+ * getNext() method repebtedly to enumerbte bll the bttributes
+ * of bn element.
  *
  * @see         Element
- * @author      Arthur Van Hoff
+ * @buthor      Arthur Vbn Hoff
  *
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public final
-class AttributeList implements DTDConstants, Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public finbl
+clbss AttributeList implements DTDConstbnts, Seriblizbble {
 
     /**
-     * The attribute name
+     * The bttribute nbme
      */
-    public String name;
+    public String nbme;
 
     /**
-     * The attribute type
+     * The bttribute type
      */
     public int type;
 
     /**
-     * The possible attribute values
+     * The possible bttribute vblues
      */
-    public Vector<?> values;
+    public Vector<?> vblues;
 
     /**
-     * The attribute modifier
+     * The bttribute modifier
      */
     public int modifier;
 
     /**
-     * The default attribute value
+     * The defbult bttribute vblue
      */
-    public String value;
+    public String vblue;
 
     /**
-     * The next attribute in the list
+     * The next bttribute in the list
      */
     public AttributeList next;
 
@@ -82,96 +82,96 @@ class AttributeList implements DTDConstants, Serializable {
     }
 
     /**
-     * Create an attribute list element.
+     * Crebte bn bttribute list element.
      *
-     * @param name  the attribute name
+     * @pbrbm nbme  the bttribute nbme
      */
-    public AttributeList(String name) {
-        this.name = name;
+    public AttributeList(String nbme) {
+        this.nbme = nbme;
     }
 
     /**
-     * Create an attribute list element.
+     * Crebte bn bttribute list element.
      *
-     * @param name      the attribute name
-     * @param type      the attribute type
-     * @param modifier  the attribute modifier
-     * @param value     the default attribute value
-     * @param values    the possible attribute values
-     * @param next      the next attribute in the list
+     * @pbrbm nbme      the bttribute nbme
+     * @pbrbm type      the bttribute type
+     * @pbrbm modifier  the bttribute modifier
+     * @pbrbm vblue     the defbult bttribute vblue
+     * @pbrbm vblues    the possible bttribute vblues
+     * @pbrbm next      the next bttribute in the list
      */
-    public AttributeList(String name, int type, int modifier, String value, Vector<?> values, AttributeList next) {
-        this.name = name;
+    public AttributeList(String nbme, int type, int modifier, String vblue, Vector<?> vblues, AttributeList next) {
+        this.nbme = nbme;
         this.type = type;
         this.modifier = modifier;
-        this.value = value;
-        this.values = values;
+        this.vblue = vblue;
+        this.vblues = vblues;
         this.next = next;
     }
 
     /**
-     * @return attribute name
+     * @return bttribute nbme
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * @return attribute type
-     * @see DTDConstants
+     * @return bttribute type
+     * @see DTDConstbnts
      */
     public int getType() {
         return type;
     }
 
     /**
-     * @return attribute modifier
-     * @see DTDConstants
+     * @return bttribute modifier
+     * @see DTDConstbnts
      */
     public int getModifier() {
         return modifier;
     }
 
     /**
-     * @return possible attribute values
+     * @return possible bttribute vblues
      */
-    public Enumeration<?> getValues() {
-        return (values != null) ? values.elements() : null;
+    public Enumerbtion<?> getVblues() {
+        return (vblues != null) ? vblues.elements() : null;
     }
 
     /**
-     * @return default attribute value
+     * @return defbult bttribute vblue
      */
-    public String getValue() {
-        return value;
+    public String getVblue() {
+        return vblue;
     }
 
     /**
-     * @return the next attribute in the list
+     * @return the next bttribute in the list
      */
     public AttributeList getNext() {
         return next;
     }
 
     /**
-     * @return string representation
+     * @return string representbtion
      */
     public String toString() {
-        return name;
+        return nbme;
     }
 
     /**
-     * Create a hashtable of attribute types.
+     * Crebte b hbshtbble of bttribute types.
      */
-    static Hashtable<Object, Object> attributeTypes = new Hashtable<Object, Object>();
+    stbtic Hbshtbble<Object, Object> bttributeTypes = new Hbshtbble<Object, Object>();
 
-    static void defineAttributeType(String nm, int val) {
-        Integer num = Integer.valueOf(val);
-        attributeTypes.put(nm, num);
-        attributeTypes.put(num, nm);
+    stbtic void defineAttributeType(String nm, int vbl) {
+        Integer num = Integer.vblueOf(vbl);
+        bttributeTypes.put(nm, num);
+        bttributeTypes.put(num, nm);
     }
 
-    static {
+    stbtic {
         defineAttributeType("CDATA", CDATA);
         defineAttributeType("ENTITY", ENTITY);
         defineAttributeType("ENTITIES", ENTITIES);
@@ -188,31 +188,31 @@ class AttributeList implements DTDConstants, Serializable {
         defineAttributeType("NUTOKEN", NUTOKEN);
         defineAttributeType("NUTOKENS", NUTOKENS);
 
-        attributeTypes.put("fixed", Integer.valueOf(FIXED));
-        attributeTypes.put("required", Integer.valueOf(REQUIRED));
-        attributeTypes.put("current", Integer.valueOf(CURRENT));
-        attributeTypes.put("conref", Integer.valueOf(CONREF));
-        attributeTypes.put("implied", Integer.valueOf(IMPLIED));
+        bttributeTypes.put("fixed", Integer.vblueOf(FIXED));
+        bttributeTypes.put("required", Integer.vblueOf(REQUIRED));
+        bttributeTypes.put("current", Integer.vblueOf(CURRENT));
+        bttributeTypes.put("conref", Integer.vblueOf(CONREF));
+        bttributeTypes.put("implied", Integer.vblueOf(IMPLIED));
     }
 
     /**
-     * Converts an attribute name to the type
+     * Converts bn bttribute nbme to the type
      *
-     * @param nm an attribute name
+     * @pbrbm nm bn bttribute nbme
      * @return the type
      */
-    public static int name2type(String nm) {
-        Integer i = (Integer)attributeTypes.get(nm);
-        return (i == null) ? CDATA : i.intValue();
+    public stbtic int nbme2type(String nm) {
+        Integer i = (Integer)bttributeTypes.get(nm);
+        return (i == null) ? CDATA : i.intVblue();
     }
 
     /**
-     * Converts a type to the attribute name
+     * Converts b type to the bttribute nbme
      *
-     * @param tp a type
-     * @return the attribute name
+     * @pbrbm tp b type
+     * @return the bttribute nbme
      */
-    public static String type2name(int tp) {
-        return (String)attributeTypes.get(Integer.valueOf(tp));
+    public stbtic String type2nbme(int tp) {
+        return (String)bttributeTypes.get(Integer.vblueOf(tp));
     }
 }

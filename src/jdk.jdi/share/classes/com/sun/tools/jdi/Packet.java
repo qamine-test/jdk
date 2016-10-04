@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
-import java.io.IOException;
+import jbvb.io.IOException;
 
-public class Packet extends Object {
-    public final static short NoFlags = 0x0;
-    public final static short Reply = 0x80;
-    public final static short ReplyNoError = 0x0;
+public clbss Pbcket extends Object {
+    public finbl stbtic short NoFlbgs = 0x0;
+    public finbl stbtic short Reply = 0x80;
+    public finbl stbtic short ReplyNoError = 0x0;
 
-    static int uID = 1;
-    final static byte[] nullData = new byte[0];
+    stbtic int uID = 1;
+    finbl stbtic byte[] nullDbtb = new byte[0];
 
-    // Note! flags, cmdSet, and cmd are all byte values.
-    // We represent them as shorts to make them easier
+    // Note! flbgs, cmdSet, bnd cmd bre bll byte vblues.
+    // We represent them bs shorts to mbke them ebsier
     // to work with.
     int id;
-    short flags;
+    short flbgs;
     short cmdSet;
     short cmd;
     short errorCode;
-    byte[] data;
-    volatile boolean replied = false;
+    byte[] dbtb;
+    volbtile boolebn replied = fblse;
 
     /**
-     * Return byte representation of the packet
+     * Return byte representbtion of the pbcket
      */
-    public byte[] toByteArray() {
-        int len = data.length + 11;
+    public byte[] toByteArrby() {
+        int len = dbtb.length + 11;
         byte b[] = new byte[len];
         b[0] = (byte)((len >>> 24) & 0xff);
         b[1] = (byte)((len >>> 16) & 0xff);
@@ -61,26 +61,26 @@ public class Packet extends Object {
         b[5] = (byte)((id >>> 16) & 0xff);
         b[6] = (byte)((id >>>  8) & 0xff);
         b[7] = (byte)((id >>>  0) & 0xff);
-        b[8] = (byte)flags;
-        if ((flags & Packet.Reply) == 0) {
+        b[8] = (byte)flbgs;
+        if ((flbgs & Pbcket.Reply) == 0) {
             b[9] = (byte)cmdSet;
             b[10] = (byte)cmd;
         } else {
             b[9] = (byte)((errorCode >>>  8) & 0xff);
             b[10] = (byte)((errorCode >>>  0) & 0xff);
         }
-        if (data.length > 0) {
-            System.arraycopy(data, 0, b, 11, data.length);
+        if (dbtb.length > 0) {
+            System.brrbycopy(dbtb, 0, b, 11, dbtb.length);
         }
         return b;
     }
 
     /**
-     * Create a packet from its byte array representation
+     * Crebte b pbcket from its byte brrby representbtion
      */
-    public static Packet fromByteArray(byte b[]) throws IOException {
+    public stbtic Pbcket fromByteArrby(byte b[]) throws IOException {
         if (b.length < 11) {
-            throw new IOException("packet is insufficient size");
+            throw new IOException("pbcket is insufficient size");
         }
 
         int b0 = b[0] & 0xff;
@@ -89,7 +89,7 @@ public class Packet extends Object {
         int b3 = b[3] & 0xff;
         int len = ((b0 << 24) | (b1 << 16) | (b2 << 8) | (b3 << 0));
         if (len != b.length) {
-            throw new IOException("length size mis-match");
+            throw new IOException("length size mis-mbtch");
         }
 
         int b4 = b[4] & 0xff;
@@ -97,12 +97,12 @@ public class Packet extends Object {
         int b6 = b[6] & 0xff;
         int b7 = b[7] & 0xff;
 
-        Packet p = new Packet();
+        Pbcket p = new Pbcket();
         p.id = ((b4 << 24) | (b5 << 16) | (b6 << 8) | (b7 << 0));
 
-        p.flags = (short)(b[8] & 0xff);
+        p.flbgs = (short)(b[8] & 0xff);
 
-        if ((p.flags & Packet.Reply) == 0) {
+        if ((p.flbgs & Pbcket.Reply) == 0) {
             p.cmdSet = (short)(b[9] & 0xff);
             p.cmd = (short)(b[10] & 0xff);
         } else {
@@ -111,24 +111,24 @@ public class Packet extends Object {
             p.errorCode = (short)((b9 << 8) + (b10 << 0));
         }
 
-        p.data = new byte[b.length - 11];
-        System.arraycopy(b, 11, p.data, 0, p.data.length);
+        p.dbtb = new byte[b.length - 11];
+        System.brrbycopy(b, 11, p.dbtb, 0, p.dbtb.length);
         return p;
     }
 
-    Packet()
+    Pbcket()
     {
         id = uniqID();
-        flags = NoFlags;
-        data = nullData;
+        flbgs = NoFlbgs;
+        dbtb = nullDbtb;
     }
 
-    static synchronized private int uniqID()
+    stbtic synchronized privbte int uniqID()
     {
         /*
-         * JDWP spec does not require this id to be sequential and
-         * increasing, but our implementation does. See
-         * VirtualMachine.notifySuspend, for example.
+         * JDWP spec does not require this id to be sequentibl bnd
+         * increbsing, but our implementbtion does. See
+         * VirtublMbchine.notifySuspend, for exbmple.
          */
         return uID++;
     }

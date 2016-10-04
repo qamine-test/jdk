@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.*;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.io.UnsupportedEncodingException;
-import java.util.StringTokenizer;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.spi.*;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.util.StringTokenizer;
 import com.sun.jndi.toolkit.url.Uri;
 import com.sun.jndi.toolkit.url.UrlUtil;
 
 /*
- * Extract components of an LDAP URL.
+ * Extrbct components of bn LDAP URL.
  *
- * The format of an LDAP URL is defined in RFC 2255 as follows:
+ * The formbt of bn LDAP URL is defined in RFC 2255 bs follows:
  *
- *     ldapurl    = scheme "://" [hostport] ["/"
- *                  [dn ["?" [attributes] ["?" [scope]
+ *     ldbpurl    = scheme "://" [hostport] ["/"
+ *                  [dn ["?" [bttributes] ["?" [scope]
  *                  ["?" [filter] ["?" extensions]]]]]]
- *     scheme     = "ldap"
- *     attributes = attrdesc *("," attrdesc)
- *     scope      = "base" / "one" / "sub"
- *     dn         = distinguishedName from Section 3 of [1]
+ *     scheme     = "ldbp"
+ *     bttributes = bttrdesc *("," bttrdesc)
+ *     scope      = "bbse" / "one" / "sub"
+ *     dn         = distinguishedNbme from Section 3 of [1]
  *     hostport   = hostport from Section 5 of RFC 1738 [5]
- *     attrdesc   = AttributeDescription from Section 4.1.5 of [2]
+ *     bttrdesc   = AttributeDescription from Section 4.1.5 of [2]
  *     filter     = filter from Section 4 of [4]
  *     extensions = extension *("," extension)
- *     extension  = ["!"] extype ["=" exvalue]
+ *     extension  = ["!"] extype ["=" exvblue]
  *     extype     = token / xtoken
- *     exvalue    = LDAPString from section 4.1.2 of [2]
+ *     exvblue    = LDAPString from section 4.1.2 of [2]
  *     token      = oid from section 4.1 of [3]
  *     xtoken     = ("X-" / "x-") token
  *
- * For example,
+ * For exbmple,
  *
- *     ldap://ldap.itd.umich.edu/o=University%20of%20Michigan,c=US
- *     ldap://host.com:6666/o=IMC,c=US??sub?(cn=Babs%20Jensen)
+ *     ldbp://ldbp.itd.umich.edu/o=University%20of%20Michigbn,c=US
+ *     ldbp://host.com:6666/o=IMC,c=US??sub?(cn=Bbbs%20Jensen)
  *
- * This class also supports ldaps URLs.
+ * This clbss blso supports ldbps URLs.
  */
 
-final public class LdapURL extends Uri {
+finbl public clbss LdbpURL extends Uri {
 
-    private boolean useSsl = false;
-    private String DN = null;
-    private String attributes = null;
-    private String scope = null;
-    private String filter = null;
-    private String extensions = null;
+    privbte boolebn useSsl = fblse;
+    privbte String DN = null;
+    privbte String bttributes = null;
+    privbte String scope = null;
+    privbte String filter = null;
+    privbte String extensions = null;
 
     /**
-     * Creates an LdapURL object from an LDAP URL string.
+     * Crebtes bn LdbpURL object from bn LDAP URL string.
      */
-    public LdapURL(String url) throws NamingException {
+    public LdbpURL(String url) throws NbmingException {
 
         super();
 
         try {
-            init(url); // scheme, host, port, path, query
-            useSsl = scheme.equalsIgnoreCase("ldaps");
+            init(url); // scheme, host, port, pbth, query
+            useSsl = scheme.equblsIgnoreCbse("ldbps");
 
-            if (! (scheme.equalsIgnoreCase("ldap") || useSsl)) {
-                throw new MalformedURLException("Not an LDAP URL: " + url);
+            if (! (scheme.equblsIgnoreCbse("ldbp") || useSsl)) {
+                throw new MblformedURLException("Not bn LDAP URL: " + url);
             }
 
-            parsePathAndQuery(); // DN, attributes, scope, filter, extensions
+            pbrsePbthAndQuery(); // DN, bttributes, scope, filter, extensions
 
-        } catch (MalformedURLException e) {
-            NamingException ne = new NamingException("Cannot parse url: " + url);
-            ne.setRootCause(e);
+        } cbtch (MblformedURLException e) {
+            NbmingException ne = new NbmingException("Cbnnot pbrse url: " + url);
+            ne.setRootCbuse(e);
             throw ne;
-        } catch (UnsupportedEncodingException e) {
-            NamingException ne = new NamingException("Cannot parse url: " + url);
-            ne.setRootCause(e);
+        } cbtch (UnsupportedEncodingException e) {
+            NbmingException ne = new NbmingException("Cbnnot pbrse url: " + url);
+            ne.setRootCbuse(e);
             throw ne;
         }
     }
 
     /**
-     * Returns true if the URL is an LDAPS URL.
+     * Returns true if the URL is bn LDAPS URL.
      */
-    public boolean useSsl() {
+    public boolebn useSsl() {
         return useSsl;
     }
 
     /**
-     * Returns the LDAP URL's distinguished name.
+     * Returns the LDAP URL's distinguished nbme.
      */
     public String getDN() {
         return DN;
     }
 
     /**
-     * Returns the LDAP URL's attributes.
+     * Returns the LDAP URL's bttributes.
      */
     public String getAttributes() {
-        return attributes;
+        return bttributes;
     }
 
     /**
@@ -145,103 +145,103 @@ final public class LdapURL extends Uri {
     }
 
     /**
-     * Given a space-separated list of LDAP URLs, returns an array of strings.
+     * Given b spbce-sepbrbted list of LDAP URLs, returns bn brrby of strings.
      */
-    public static String[] fromList(String urlList) throws NamingException {
+    public stbtic String[] fromList(String urlList) throws NbmingException {
 
         String[] urls = new String[(urlList.length() + 1) / 2];
-        int i = 0;              // next available index in urls
+        int i = 0;              // next bvbilbble index in urls
         StringTokenizer st = new StringTokenizer(urlList, " ");
 
-        while (st.hasMoreTokens()) {
+        while (st.hbsMoreTokens()) {
             urls[i++] = st.nextToken();
         }
         String[] trimmed = new String[i];
-        System.arraycopy(urls, 0, trimmed, 0, i);
+        System.brrbycopy(urls, 0, trimmed, 0, i);
         return trimmed;
     }
 
     /**
-     * Determines whether an LDAP URL has query components.
+     * Determines whether bn LDAP URL hbs query components.
      */
-    public static boolean hasQueryComponents(String url) {
-        return (url.lastIndexOf('?') != -1);
+    public stbtic boolebn hbsQueryComponents(String url) {
+        return (url.lbstIndexOf('?') != -1);
     }
 
     /*
-     * Assembles an LDAP or LDAPS URL string from its components.
-     * If "host" is an IPv6 literal, it may optionally include delimiting
-     * brackets.
+     * Assembles bn LDAP or LDAPS URL string from its components.
+     * If "host" is bn IPv6 literbl, it mby optionblly include delimiting
+     * brbckets.
      */
-    static String toUrlString(String host, int port, String dn, boolean useSsl)
+    stbtic String toUrlString(String host, int port, String dn, boolebn useSsl)
         {
 
         try {
             String h = (host != null) ? host : "";
-            if ((h.indexOf(':') != -1) && (h.charAt(0) != '[')) {
-                h = "[" + h + "]";          // IPv6 literal
+            if ((h.indexOf(':') != -1) && (h.chbrAt(0) != '[')) {
+                h = "[" + h + "]";          // IPv6 literbl
             }
             String p = (port != -1) ? (":" + port) : "";
             String d = (dn != null) ? ("/" + UrlUtil.encode(dn, "UTF8")) : "";
 
-            return useSsl ? "ldaps://" + h + p + d : "ldap://" + h + p + d;
-        } catch (UnsupportedEncodingException e) {
-            // UTF8 should always be supported
-            throw new IllegalStateException("UTF-8 encoding unavailable");
+            return useSsl ? "ldbps://" + h + p + d : "ldbp://" + h + p + d;
+        } cbtch (UnsupportedEncodingException e) {
+            // UTF8 should blwbys be supported
+            throw new IllegblStbteException("UTF-8 encoding unbvbilbble");
         }
     }
 
     /*
-     * Parses the path and query components of an URL and sets this
-     * object's fields accordingly.
+     * Pbrses the pbth bnd query components of bn URL bnd sets this
+     * object's fields bccordingly.
      */
-    private void parsePathAndQuery() throws MalformedURLException,
+    privbte void pbrsePbthAndQuery() throws MblformedURLException,
         UnsupportedEncodingException {
 
-        // path begins with a '/' or is empty
+        // pbth begins with b '/' or is empty
 
-        if (path.equals("")) {
+        if (pbth.equbls("")) {
             return;
         }
 
-        DN = path.startsWith("/") ? path.substring(1) : path;
+        DN = pbth.stbrtsWith("/") ? pbth.substring(1) : pbth;
         if (DN.length() > 0) {
             DN = UrlUtil.decode(DN, "UTF8");
         }
 
-        // query begins with a '?' or is null
+        // query begins with b '?' or is null
 
         if (query == null) {
             return;
         }
 
-        int qmark2 = query.indexOf('?', 1);
+        int qmbrk2 = query.indexOf('?', 1);
 
-        if (qmark2 < 0) {
-            attributes = query.substring(1);
+        if (qmbrk2 < 0) {
+            bttributes = query.substring(1);
             return;
-        } else if (qmark2 != 1) {
-            attributes = query.substring(1, qmark2);
+        } else if (qmbrk2 != 1) {
+            bttributes = query.substring(1, qmbrk2);
         }
 
-        int qmark3 = query.indexOf('?', qmark2 + 1);
+        int qmbrk3 = query.indexOf('?', qmbrk2 + 1);
 
-        if (qmark3 < 0) {
-            scope = query.substring(qmark2 + 1);
+        if (qmbrk3 < 0) {
+            scope = query.substring(qmbrk2 + 1);
             return;
-        } else if (qmark3 != qmark2 + 1) {
-            scope = query.substring(qmark2 + 1, qmark3);
+        } else if (qmbrk3 != qmbrk2 + 1) {
+            scope = query.substring(qmbrk2 + 1, qmbrk3);
         }
 
-        int qmark4 = query.indexOf('?', qmark3 + 1);
+        int qmbrk4 = query.indexOf('?', qmbrk3 + 1);
 
-        if (qmark4 < 0) {
-            filter = query.substring(qmark3 + 1);
+        if (qmbrk4 < 0) {
+            filter = query.substring(qmbrk3 + 1);
         } else {
-            if (qmark4 != qmark3 + 1) {
-                filter = query.substring(qmark3 + 1, qmark4);
+            if (qmbrk4 != qmbrk3 + 1) {
+                filter = query.substring(qmbrk3 + 1, qmbrk4);
             }
-            extensions = query.substring(qmark4 + 1);
+            extensions = query.substring(qmbrk4 + 1);
             if (extensions.length() > 0) {
                 extensions = UrlUtil.decode(extensions, "UTF8");
             }
@@ -252,16 +252,16 @@ final public class LdapURL extends Uri {
     }
 
 /*
-    public static void main(String[] args) throws Exception {
+    public stbtic void mbin(String[] brgs) throws Exception {
 
-        LdapURL url = new LdapURL(args[0]);
+        LdbpURL url = new LdbpURL(brgs[0]);
 
-        System.out.println("Example LDAP URL: " + url.toString());
+        System.out.println("Exbmple LDAP URL: " + url.toString());
         System.out.println("  scheme: " + url.getScheme());
         System.out.println("    host: " + url.getHost());
         System.out.println("    port: " + url.getPort());
         System.out.println("      DN: " + url.getDN());
-        System.out.println("   attrs: " + url.getAttributes());
+        System.out.println("   bttrs: " + url.getAttributes());
         System.out.println("   scope: " + url.getScope());
         System.out.println("  filter: " + url.getFilter());
         System.out.println("  extens: " + url.getExtensions());

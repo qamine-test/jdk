@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.http;
+pbckbge sun.net.www.protocol.http;
 
-import java.io.*;
-import java.net.URL;
-import java.net.ProtocolException;
-import java.net.PasswordAuthentication;
-import java.util.Arrays;
-import java.util.StringTokenizer;
-import java.util.Random;
+import jbvb.io.*;
+import jbvb.net.URL;
+import jbvb.net.ProtocolException;
+import jbvb.net.PbsswordAuthenticbtion;
+import jbvb.util.Arrbys;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Rbndom;
 
-import sun.net.www.HeaderParser;
+import sun.net.www.HebderPbrser;
 import sun.net.NetProperties;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivilegedAction;
-import java.security.AccessController;
-import static sun.net.www.protocol.http.HttpURLConnection.HTTP_CONNECT;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import stbtic sun.net.www.protocol.http.HttpURLConnection.HTTP_CONNECT;
 
 /**
- * DigestAuthentication: Encapsulate an http server authentication using
- * the "Digest" scheme, as described in RFC2069 and updated in RFC2617
+ * DigestAuthenticbtion: Encbpsulbte bn http server buthenticbtion using
+ * the "Digest" scheme, bs described in RFC2069 bnd updbted in RFC2617
  *
- * @author Bill Foote
+ * @buthor Bill Foote
  */
 
-class DigestAuthentication extends AuthenticationInfo {
+clbss DigestAuthenticbtion extends AuthenticbtionInfo {
 
-    private static final long serialVersionUID = 100L;
+    privbte stbtic finbl long seriblVersionUID = 100L;
 
-    private String authMethod;
+    privbte String buthMethod;
 
-    private final static String compatPropName = "http.auth.digest." +
-        "quoteParameters";
+    privbte finbl stbtic String compbtPropNbme = "http.buth.digest." +
+        "quotePbrbmeters";
 
-    // true if http.auth.digest.quoteParameters Net property is true
-    private static final boolean delimCompatFlag;
+    // true if http.buth.digest.quotePbrbmeters Net property is true
+    privbte stbtic finbl boolebn delimCompbtFlbg;
 
-    static {
-        Boolean b = AccessController.doPrivileged(
-            new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    return NetProperties.getBoolean(compatPropName);
+    stbtic {
+        Boolebn b = AccessController.doPrivileged(
+            new PrivilegedAction<Boolebn>() {
+                public Boolebn run() {
+                    return NetProperties.getBoolebn(compbtPropNbme);
                 }
             }
         );
-        delimCompatFlag = (b == null) ? false : b.booleanValue();
+        delimCompbtFlbg = (b == null) ? fblse : b.boolebnVblue();
     }
 
-    // Authentication parameters defined in RFC2617.
-    // One instance of these may be shared among several DigestAuthentication
-    // instances as a result of a single authorization (for multiple domains)
+    // Authenticbtion pbrbmeters defined in RFC2617.
+    // One instbnce of these mby be shbred bmong severbl DigestAuthenticbtion
+    // instbnces bs b result of b single buthorizbtion (for multiple dombins)
 
-    static class Parameters implements java.io.Serializable {
-        private static final long serialVersionUID = -3584543755194526252L;
+    stbtic clbss Pbrbmeters implements jbvb.io.Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = -3584543755194526252L;
 
-        private boolean serverQop; // server proposed qop=auth
-        private String opaque;
-        private String cnonce;
-        private String nonce;
-        private String algorithm;
-        private int NCcount=0;
+        privbte boolebn serverQop; // server proposed qop=buth
+        privbte String opbque;
+        privbte String cnonce;
+        privbte String nonce;
+        privbte String blgorithm;
+        privbte int NCcount=0;
 
         // The H(A1) string used for MD5-sess
-        private String  cachedHA1;
+        privbte String  cbchedHA1;
 
-        // Force the HA1 value to be recalculated because the nonce has changed
-        private boolean redoCachedHA1 = true;
+        // Force the HA1 vblue to be recblculbted becbuse the nonce hbs chbnged
+        privbte boolebn redoCbchedHA1 = true;
 
-        private static final int cnonceRepeat = 5;
+        privbte stbtic finbl int cnonceRepebt = 5;
 
-        private static final int cnoncelen = 40; /* number of characters in cnonce */
+        privbte stbtic finbl int cnoncelen = 40; /* number of chbrbcters in cnonce */
 
-        private static Random   random;
+        privbte stbtic Rbndom   rbndom;
 
-        static {
-            random = new Random();
+        stbtic {
+            rbndom = new Rbndom();
         }
 
-        Parameters () {
-            serverQop = false;
-            opaque = null;
-            algorithm = null;
-            cachedHA1 = null;
+        Pbrbmeters () {
+            serverQop = fblse;
+            opbque = null;
+            blgorithm = null;
+            cbchedHA1 = null;
             nonce = null;
             setNewCnonce();
         }
 
-        boolean authQop () {
+        boolebn buthQop () {
             return serverQop;
         }
         synchronized void incrementNC() {
@@ -122,9 +122,9 @@ class DigestAuthentication extends AuthenticationInfo {
 
         int cnonce_count = 0;
 
-        /* each call increments the counter */
+        /* ebch cbll increments the counter */
         synchronized String getCnonce () {
-            if (cnonce_count >= cnonceRepeat) {
+            if (cnonce_count >= cnonceRepebt) {
                 setNewCnonce();
             }
             cnonce_count++;
@@ -132,243 +132,243 @@ class DigestAuthentication extends AuthenticationInfo {
         }
         synchronized void setNewCnonce () {
             byte bb[] = new byte [cnoncelen/2];
-            char cc[] = new char [cnoncelen];
-            random.nextBytes (bb);
+            chbr cc[] = new chbr [cnoncelen];
+            rbndom.nextBytes (bb);
             for (int  i=0; i<(cnoncelen/2); i++) {
                 int x = bb[i] + 128;
-                cc[i*2]= (char) ('A'+ x/16);
-                cc[i*2+1]= (char) ('A'+ x%16);
+                cc[i*2]= (chbr) ('A'+ x/16);
+                cc[i*2+1]= (chbr) ('A'+ x%16);
             }
             cnonce = new String (cc, 0, cnoncelen);
             cnonce_count = 0;
-            redoCachedHA1 = true;
+            redoCbchedHA1 = true;
         }
 
         synchronized void setQop (String qop) {
             if (qop != null) {
                 StringTokenizer st = new StringTokenizer (qop, " ");
-                while (st.hasMoreTokens()) {
-                    if (st.nextToken().equalsIgnoreCase ("auth")) {
+                while (st.hbsMoreTokens()) {
+                    if (st.nextToken().equblsIgnoreCbse ("buth")) {
                         serverQop = true;
                         return;
                     }
                 }
             }
-            serverQop = false;
+            serverQop = fblse;
         }
 
-        synchronized String getOpaque () { return opaque;}
-        synchronized void setOpaque (String s) { opaque=s;}
+        synchronized String getOpbque () { return opbque;}
+        synchronized void setOpbque (String s) { opbque=s;}
 
         synchronized String getNonce () { return nonce;}
 
         synchronized void setNonce (String s) {
-            if (!s.equals(nonce)) {
+            if (!s.equbls(nonce)) {
                 nonce=s;
                 NCcount = 0;
-                redoCachedHA1 = true;
+                redoCbchedHA1 = true;
             }
         }
 
-        synchronized String getCachedHA1 () {
-            if (redoCachedHA1) {
+        synchronized String getCbchedHA1 () {
+            if (redoCbchedHA1) {
                 return null;
             } else {
-                return cachedHA1;
+                return cbchedHA1;
             }
         }
 
-        synchronized void setCachedHA1 (String s) {
-            cachedHA1=s;
-            redoCachedHA1=false;
+        synchronized void setCbchedHA1 (String s) {
+            cbchedHA1=s;
+            redoCbchedHA1=fblse;
         }
 
-        synchronized String getAlgorithm () { return algorithm;}
-        synchronized void setAlgorithm (String s) { algorithm=s;}
+        synchronized String getAlgorithm () { return blgorithm;}
+        synchronized void setAlgorithm (String s) { blgorithm=s;}
     }
 
-    Parameters params;
+    Pbrbmeters pbrbms;
 
     /**
-     * Create a DigestAuthentication
+     * Crebte b DigestAuthenticbtion
      */
-    public DigestAuthentication(boolean isProxy, URL url, String realm,
-                                String authMethod, PasswordAuthentication pw,
-                                Parameters params) {
+    public DigestAuthenticbtion(boolebn isProxy, URL url, String reblm,
+                                String buthMethod, PbsswordAuthenticbtion pw,
+                                Pbrbmeters pbrbms) {
         super(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
               AuthScheme.DIGEST,
               url,
-              realm);
-        this.authMethod = authMethod;
+              reblm);
+        this.buthMethod = buthMethod;
         this.pw = pw;
-        this.params = params;
+        this.pbrbms = pbrbms;
     }
 
-    public DigestAuthentication(boolean isProxy, String host, int port, String realm,
-                                String authMethod, PasswordAuthentication pw,
-                                Parameters params) {
+    public DigestAuthenticbtion(boolebn isProxy, String host, int port, String reblm,
+                                String buthMethod, PbsswordAuthenticbtion pw,
+                                Pbrbmeters pbrbms) {
         super(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
               AuthScheme.DIGEST,
               host,
               port,
-              realm);
-        this.authMethod = authMethod;
+              reblm);
+        this.buthMethod = buthMethod;
         this.pw = pw;
-        this.params = params;
+        this.pbrbms = pbrbms;
     }
 
     /**
-     * @return true if this authentication supports preemptive authorization
+     * @return true if this buthenticbtion supports preemptive buthorizbtion
      */
     @Override
-    public boolean supportsPreemptiveAuthorization() {
+    public boolebn supportsPreemptiveAuthorizbtion() {
         return true;
     }
 
     /**
-     * Recalculates the request-digest and returns it.
+     * Recblculbtes the request-digest bnd returns it.
      *
-     * <P> Used in the common case where the requestURI is simply the
-     * abs_path.
+     * <P> Used in the common cbse where the requestURI is simply the
+     * bbs_pbth.
      *
-     * @param  url
+     * @pbrbm  url
      *         the URL
      *
-     * @param  method
+     * @pbrbm  method
      *         the HTTP method
      *
-     * @return the value of the HTTP header this authentication wants set
+     * @return the vblue of the HTTP hebder this buthenticbtion wbnts set
      */
     @Override
-    public String getHeaderValue(URL url, String method) {
-        return getHeaderValueImpl(url.getFile(), method);
+    public String getHebderVblue(URL url, String method) {
+        return getHebderVblueImpl(url.getFile(), method);
     }
 
     /**
-     * Recalculates the request-digest and returns it.
+     * Recblculbtes the request-digest bnd returns it.
      *
-     * <P> Used when the requestURI is not the abs_path. The exact
-     * requestURI can be passed as a String.
+     * <P> Used when the requestURI is not the bbs_pbth. The exbct
+     * requestURI cbn be pbssed bs b String.
      *
-     * @param  requestURI
+     * @pbrbm  requestURI
      *         the Request-URI from the HTTP request line
      *
-     * @param  method
+     * @pbrbm  method
      *         the HTTP method
      *
-     * @return the value of the HTTP header this authentication wants set
+     * @return the vblue of the HTTP hebder this buthenticbtion wbnts set
      */
-    String getHeaderValue(String requestURI, String method) {
-        return getHeaderValueImpl(requestURI, method);
+    String getHebderVblue(String requestURI, String method) {
+        return getHebderVblueImpl(requestURI, method);
     }
 
     /**
-     * Check if the header indicates that the current auth. parameters are stale.
-     * If so, then replace the relevant field with the new value
-     * and return true. Otherwise return false.
-     * returning true means the request can be retried with the same userid/password
-     * returning false means we have to go back to the user to ask for a new
-     * username password.
+     * Check if the hebder indicbtes thbt the current buth. pbrbmeters bre stble.
+     * If so, then replbce the relevbnt field with the new vblue
+     * bnd return true. Otherwise return fblse.
+     * returning true mebns the request cbn be retried with the sbme userid/pbssword
+     * returning fblse mebns we hbve to go bbck to the user to bsk for b new
+     * usernbme pbssword.
      */
     @Override
-    public boolean isAuthorizationStale (String header) {
-        HeaderParser p = new HeaderParser (header);
-        String s = p.findValue ("stale");
-        if (s == null || !s.equals("true"))
-            return false;
-        String newNonce = p.findValue ("nonce");
-        if (newNonce == null || "".equals(newNonce)) {
-            return false;
+    public boolebn isAuthorizbtionStble (String hebder) {
+        HebderPbrser p = new HebderPbrser (hebder);
+        String s = p.findVblue ("stble");
+        if (s == null || !s.equbls("true"))
+            return fblse;
+        String newNonce = p.findVblue ("nonce");
+        if (newNonce == null || "".equbls(newNonce)) {
+            return fblse;
         }
-        params.setNonce (newNonce);
+        pbrbms.setNonce (newNonce);
         return true;
     }
 
     /**
-     * Set header(s) on the given connection.
-     * @param conn The connection to apply the header(s) to
-     * @param p A source of header values for this connection, if needed.
-     * @param raw Raw header values for this connection, if needed.
-     * @return true if all goes well, false if no headers were set.
+     * Set hebder(s) on the given connection.
+     * @pbrbm conn The connection to bpply the hebder(s) to
+     * @pbrbm p A source of hebder vblues for this connection, if needed.
+     * @pbrbm rbw Rbw hebder vblues for this connection, if needed.
+     * @return true if bll goes well, fblse if no hebders were set.
      */
     @Override
-    public boolean setHeaders(HttpURLConnection conn, HeaderParser p, String raw) {
-        params.setNonce (p.findValue("nonce"));
-        params.setOpaque (p.findValue("opaque"));
-        params.setQop (p.findValue("qop"));
+    public boolebn setHebders(HttpURLConnection conn, HebderPbrser p, String rbw) {
+        pbrbms.setNonce (p.findVblue("nonce"));
+        pbrbms.setOpbque (p.findVblue("opbque"));
+        pbrbms.setQop (p.findVblue("qop"));
 
         String uri="";
         String method;
         if (type == PROXY_AUTHENTICATION &&
-                conn.tunnelState() == HttpURLConnection.TunnelState.SETUP) {
+                conn.tunnelStbte() == HttpURLConnection.TunnelStbte.SETUP) {
             uri = HttpURLConnection.connectRequestURI(conn.getURL());
             method = HTTP_CONNECT;
         } else {
             try {
                 uri = conn.getRequestURI();
-            } catch (IOException e) {}
+            } cbtch (IOException e) {}
             method = conn.getMethod();
         }
 
-        if (params.nonce == null || authMethod == null || pw == null || realm == null) {
-            return false;
+        if (pbrbms.nonce == null || buthMethod == null || pw == null || reblm == null) {
+            return fblse;
         }
-        if (authMethod.length() >= 1) {
-            // Method seems to get converted to all lower case elsewhere.
-            // It really does need to start with an upper case letter
+        if (buthMethod.length() >= 1) {
+            // Method seems to get converted to bll lower cbse elsewhere.
+            // It reblly does need to stbrt with bn upper cbse letter
             // here.
-            authMethod = Character.toUpperCase(authMethod.charAt(0))
-                        + authMethod.substring(1).toLowerCase();
+            buthMethod = Chbrbcter.toUpperCbse(buthMethod.chbrAt(0))
+                        + buthMethod.substring(1).toLowerCbse();
         }
-        String algorithm = p.findValue("algorithm");
-        if (algorithm == null || "".equals(algorithm)) {
-            algorithm = "MD5";  // The default, accoriding to rfc2069
+        String blgorithm = p.findVblue("blgorithm");
+        if (blgorithm == null || "".equbls(blgorithm)) {
+            blgorithm = "MD5";  // The defbult, bccoriding to rfc2069
         }
-        params.setAlgorithm (algorithm);
+        pbrbms.setAlgorithm (blgorithm);
 
-        // If authQop is true, then the server is doing RFC2617 and
-        // has offered qop=auth. We do not support any other modes
-        // and if auth is not offered we fallback to the RFC2069 behavior
+        // If buthQop is true, then the server is doing RFC2617 bnd
+        // hbs offered qop=buth. We do not support bny other modes
+        // bnd if buth is not offered we fbllbbck to the RFC2069 behbvior
 
-        if (params.authQop()) {
-            params.setNewCnonce();
+        if (pbrbms.buthQop()) {
+            pbrbms.setNewCnonce();
         }
 
-        String value = getHeaderValueImpl (uri, method);
-        if (value != null) {
-            conn.setAuthenticationProperty(getHeaderName(), value);
+        String vblue = getHebderVblueImpl (uri, method);
+        if (vblue != null) {
+            conn.setAuthenticbtionProperty(getHebderNbme(), vblue);
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    /* Calculate the Authorization header field given the request URI
-     * and based on the authorization information in params
+    /* Cblculbte the Authorizbtion hebder field given the request URI
+     * bnd bbsed on the buthorizbtion informbtion in pbrbms
      */
-    private String getHeaderValueImpl (String uri, String method) {
+    privbte String getHebderVblueImpl (String uri, String method) {
         String response;
-        char[] passwd = pw.getPassword();
-        boolean qop = params.authQop();
-        String opaque = params.getOpaque();
-        String cnonce = params.getCnonce ();
-        String nonce = params.getNonce ();
-        String algorithm = params.getAlgorithm ();
-        params.incrementNC ();
-        int  nccount = params.getNCCount ();
+        chbr[] pbsswd = pw.getPbssword();
+        boolebn qop = pbrbms.buthQop();
+        String opbque = pbrbms.getOpbque();
+        String cnonce = pbrbms.getCnonce ();
+        String nonce = pbrbms.getNonce ();
+        String blgorithm = pbrbms.getAlgorithm ();
+        pbrbms.incrementNC ();
+        int  nccount = pbrbms.getNCCount ();
         String ncstring=null;
 
         if (nccount != -1) {
-            ncstring = Integer.toHexString (nccount).toLowerCase();
+            ncstring = Integer.toHexString (nccount).toLowerCbse();
             int len = ncstring.length();
             if (len < 8)
-                ncstring = zeroPad [len] + ncstring;
+                ncstring = zeroPbd [len] + ncstring;
         }
 
         try {
-            response = computeDigest(true, pw.getUserName(),passwd,realm,
+            response = computeDigest(true, pw.getUserNbme(),pbsswd,reblm,
                                         method, uri, nonce, cnonce, ncstring);
-        } catch (NoSuchAlgorithmException ex) {
+        } cbtch (NoSuchAlgorithmException ex) {
             return null;
         }
 
@@ -377,112 +377,112 @@ class DigestAuthentication extends AuthenticationInfo {
             ncfield = "\", nc=" + ncstring;
         }
 
-        String algoS, qopS;
+        String blgoS, qopS;
 
-        if (delimCompatFlag) {
-            // Put quotes around these String value parameters
-            algoS = ", algorithm=\"" + algorithm + "\"";
-            qopS = ", qop=\"auth\"";
+        if (delimCompbtFlbg) {
+            // Put quotes bround these String vblue pbrbmeters
+            blgoS = ", blgorithm=\"" + blgorithm + "\"";
+            qopS = ", qop=\"buth\"";
         } else {
-            // Don't put quotes around them, per the RFC
-            algoS = ", algorithm=" + algorithm;
-            qopS = ", qop=auth";
+            // Don't put quotes bround them, per the RFC
+            blgoS = ", blgorithm=" + blgorithm;
+            qopS = ", qop=buth";
         }
 
-        String value = authMethod
-                        + " username=\"" + pw.getUserName()
-                        + "\", realm=\"" + realm
+        String vblue = buthMethod
+                        + " usernbme=\"" + pw.getUserNbme()
+                        + "\", reblm=\"" + reblm
                         + "\", nonce=\"" + nonce
                         + ncfield
                         + ", uri=\"" + uri
                         + "\", response=\"" + response + "\""
-                        + algoS;
-        if (opaque != null) {
-            value += ", opaque=\"" + opaque + "\"";
+                        + blgoS;
+        if (opbque != null) {
+            vblue += ", opbque=\"" + opbque + "\"";
         }
         if (cnonce != null) {
-            value += ", cnonce=\"" + cnonce + "\"";
+            vblue += ", cnonce=\"" + cnonce + "\"";
         }
         if (qop) {
-            value += qopS;
+            vblue += qopS;
         }
-        return value;
+        return vblue;
     }
 
-    public void checkResponse (String header, String method, URL url)
+    public void checkResponse (String hebder, String method, URL url)
                                                         throws IOException {
-        checkResponse (header, method, url.getFile());
+        checkResponse (hebder, method, url.getFile());
     }
 
-    public void checkResponse (String header, String method, String uri)
+    public void checkResponse (String hebder, String method, String uri)
                                                         throws IOException {
-        char[] passwd = pw.getPassword();
-        String username = pw.getUserName();
-        boolean qop = params.authQop();
-        String opaque = params.getOpaque();
-        String cnonce = params.cnonce;
-        String nonce = params.getNonce ();
-        String algorithm = params.getAlgorithm ();
-        int  nccount = params.getNCCount ();
+        chbr[] pbsswd = pw.getPbssword();
+        String usernbme = pw.getUserNbme();
+        boolebn qop = pbrbms.buthQop();
+        String opbque = pbrbms.getOpbque();
+        String cnonce = pbrbms.cnonce;
+        String nonce = pbrbms.getNonce ();
+        String blgorithm = pbrbms.getAlgorithm ();
+        int  nccount = pbrbms.getNCCount ();
         String ncstring=null;
 
-        if (header == null) {
-            throw new ProtocolException ("No authentication information in response");
+        if (hebder == null) {
+            throw new ProtocolException ("No buthenticbtion informbtion in response");
         }
 
         if (nccount != -1) {
-            ncstring = Integer.toHexString (nccount).toUpperCase();
+            ncstring = Integer.toHexString (nccount).toUpperCbse();
             int len = ncstring.length();
             if (len < 8)
-                ncstring = zeroPad [len] + ncstring;
+                ncstring = zeroPbd [len] + ncstring;
         }
         try {
-            String expected = computeDigest(false, username,passwd,realm,
+            String expected = computeDigest(fblse, usernbme,pbsswd,reblm,
                                         method, uri, nonce, cnonce, ncstring);
-            HeaderParser p = new HeaderParser (header);
-            String rspauth = p.findValue ("rspauth");
-            if (rspauth == null) {
+            HebderPbrser p = new HebderPbrser (hebder);
+            String rspbuth = p.findVblue ("rspbuth");
+            if (rspbuth == null) {
                 throw new ProtocolException ("No digest in response");
             }
-            if (!rspauth.equals (expected)) {
-                throw new ProtocolException ("Response digest invalid");
+            if (!rspbuth.equbls (expected)) {
+                throw new ProtocolException ("Response digest invblid");
             }
-            /* Check if there is a nextnonce field */
-            String nextnonce = p.findValue ("nextnonce");
-            if (nextnonce != null && ! "".equals(nextnonce)) {
-                params.setNonce (nextnonce);
+            /* Check if there is b nextnonce field */
+            String nextnonce = p.findVblue ("nextnonce");
+            if (nextnonce != null && ! "".equbls(nextnonce)) {
+                pbrbms.setNonce (nextnonce);
             }
 
-        } catch (NoSuchAlgorithmException ex) {
-            throw new ProtocolException ("Unsupported algorithm in response");
+        } cbtch (NoSuchAlgorithmException ex) {
+            throw new ProtocolException ("Unsupported blgorithm in response");
         }
     }
 
-    private String computeDigest(
-                        boolean isRequest, String userName, char[] password,
-                        String realm, String connMethod,
+    privbte String computeDigest(
+                        boolebn isRequest, String userNbme, chbr[] pbssword,
+                        String reblm, String connMethod,
                         String requestURI, String nonceString,
-                        String cnonce, String ncValue
+                        String cnonce, String ncVblue
                     ) throws NoSuchAlgorithmException
     {
 
-        String A1, HashA1;
-        String algorithm = params.getAlgorithm ();
-        boolean md5sess = algorithm.equalsIgnoreCase ("MD5-sess");
+        String A1, HbshA1;
+        String blgorithm = pbrbms.getAlgorithm ();
+        boolebn md5sess = blgorithm.equblsIgnoreCbse ("MD5-sess");
 
-        MessageDigest md = MessageDigest.getInstance(md5sess?"MD5":algorithm);
+        MessbgeDigest md = MessbgeDigest.getInstbnce(md5sess?"MD5":blgorithm);
 
         if (md5sess) {
-            if ((HashA1 = params.getCachedHA1 ()) == null) {
-                String s = userName + ":" + realm + ":";
-                String s1 = encode (s, password, md);
+            if ((HbshA1 = pbrbms.getCbchedHA1 ()) == null) {
+                String s = userNbme + ":" + reblm + ":";
+                String s1 = encode (s, pbssword, md);
                 A1 = s1 + ":" + nonceString + ":" + cnonce;
-                HashA1 = encode(A1, null, md);
-                params.setCachedHA1 (HashA1);
+                HbshA1 = encode(A1, null, md);
+                pbrbms.setCbchedHA1 (HbshA1);
             }
         } else {
-            A1 = userName + ":" + realm + ":";
-            HashA1 = encode(A1, password, md);
+            A1 = userNbme + ":" + reblm + ":";
+            HbshA1 = encode(A1, pbssword, md);
         }
 
         String A2;
@@ -491,53 +491,53 @@ class DigestAuthentication extends AuthenticationInfo {
         } else {
             A2 = ":" + requestURI;
         }
-        String HashA2 = encode(A2, null, md);
-        String combo, finalHash;
+        String HbshA2 = encode(A2, null, md);
+        String combo, finblHbsh;
 
-        if (params.authQop()) { /* RRC2617 when qop=auth */
-            combo = HashA1+ ":" + nonceString + ":" + ncValue + ":" +
-                        cnonce + ":auth:" +HashA2;
+        if (pbrbms.buthQop()) { /* RRC2617 when qop=buth */
+            combo = HbshA1+ ":" + nonceString + ":" + ncVblue + ":" +
+                        cnonce + ":buth:" +HbshA2;
 
-        } else { /* for compatibility with RFC2069 */
-            combo = HashA1 + ":" +
+        } else { /* for compbtibility with RFC2069 */
+            combo = HbshA1 + ":" +
                        nonceString + ":" +
-                       HashA2;
+                       HbshA2;
         }
-        finalHash = encode(combo, null, md);
-        return finalHash;
+        finblHbsh = encode(combo, null, md);
+        return finblHbsh;
     }
 
-    private final static char charArray[] = {
+    privbte finbl stbtic chbr chbrArrby[] = {
         '0', '1', '2', '3', '4', '5', '6', '7',
-        '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+        '8', '9', 'b', 'b', 'c', 'd', 'e', 'f'
     };
 
-    private final static String zeroPad[] = {
+    privbte finbl stbtic String zeroPbd[] = {
         // 0         1          2         3        4       5      6     7
         "00000000", "0000000", "000000", "00000", "0000", "000", "00", "0"
     };
 
-    private String encode(String src, char[] passwd, MessageDigest md) {
+    privbte String encode(String src, chbr[] pbsswd, MessbgeDigest md) {
         try {
-            md.update(src.getBytes("ISO-8859-1"));
-        } catch (java.io.UnsupportedEncodingException uee) {
-            assert false;
+            md.updbte(src.getBytes("ISO-8859-1"));
+        } cbtch (jbvb.io.UnsupportedEncodingException uee) {
+            bssert fblse;
         }
-        if (passwd != null) {
-            byte[] passwdBytes = new byte[passwd.length];
-            for (int i=0; i<passwd.length; i++)
-                passwdBytes[i] = (byte)passwd[i];
-            md.update(passwdBytes);
-            Arrays.fill(passwdBytes, (byte)0x00);
+        if (pbsswd != null) {
+            byte[] pbsswdBytes = new byte[pbsswd.length];
+            for (int i=0; i<pbsswd.length; i++)
+                pbsswdBytes[i] = (byte)pbsswd[i];
+            md.updbte(pbsswdBytes);
+            Arrbys.fill(pbsswdBytes, (byte)0x00);
         }
         byte[] digest = md.digest();
 
         StringBuilder res = new StringBuilder(digest.length * 2);
         for (int i = 0; i < digest.length; i++) {
-            int hashchar = ((digest[i] >>> 4) & 0xf);
-            res.append(charArray[hashchar]);
-            hashchar = (digest[i] & 0xf);
-            res.append(charArray[hashchar]);
+            int hbshchbr = ((digest[i] >>> 4) & 0xf);
+            res.bppend(chbrArrby[hbshchbr]);
+            hbshchbr = (digest[i] & 0xf);
+            res.bppend(chbrArrby[hbshchbr]);
         }
         return res.toString();
     }

@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.rtf;
+pbckbge jbvbx.swing.text.rtf;
 
-import javax.swing.text.StyleConstants;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.TabStop;
-import java.util.*;
-import java.io.IOException;
+import jbvbx.swing.text.StyleConstbnts;
+import jbvbx.swing.text.AttributeSet;
+import jbvbx.swing.text.MutbbleAttributeSet;
+import jbvbx.swing.text.TbbStop;
+import jbvb.util.*;
+import jbvb.io.IOException;
 
-class RTFAttributes
+clbss RTFAttributes
 {
-    static RTFAttribute attributes[];
+    stbtic RTFAttribute bttributes[];
 
-    static {
-        Vector<RTFAttribute> a = new Vector<RTFAttribute>();
+    stbtic {
+        Vector<RTFAttribute> b = new Vector<RTFAttribute>();
         int CHR = RTFAttribute.D_CHARACTER;
         int PGF = RTFAttribute.D_PARAGRAPH;
         int SEC = RTFAttribute.D_SECTION;
         int DOC = RTFAttribute.D_DOCUMENT;
         int PST = RTFAttribute.D_META;
-        Boolean True = Boolean.valueOf(true);
-        Boolean False = Boolean.valueOf(false);
+        Boolebn True = Boolebn.vblueOf(true);
+        Boolebn Fblse = Boolebn.vblueOf(fblse);
 
-        a.addElement(new BooleanAttribute(CHR, StyleConstants.Italic, "i"));
-        a.addElement(new BooleanAttribute(CHR, StyleConstants.Bold, "b"));
-        a.addElement(new BooleanAttribute(CHR, StyleConstants.Underline, "ul"));
-        a.addElement(NumericAttribute.NewTwips(PGF, StyleConstants.LeftIndent, "li",
+        b.bddElement(new BoolebnAttribute(CHR, StyleConstbnts.Itblic, "i"));
+        b.bddElement(new BoolebnAttribute(CHR, StyleConstbnts.Bold, "b"));
+        b.bddElement(new BoolebnAttribute(CHR, StyleConstbnts.Underline, "ul"));
+        b.bddElement(NumericAttribute.NewTwips(PGF, StyleConstbnts.LeftIndent, "li",
                                         0f, 0));
-        a.addElement(NumericAttribute.NewTwips(PGF, StyleConstants.RightIndent, "ri",
+        b.bddElement(NumericAttribute.NewTwips(PGF, StyleConstbnts.RightIndent, "ri",
                                         0f, 0));
-        a.addElement(NumericAttribute.NewTwips(PGF, StyleConstants.FirstLineIndent, "fi",
+        b.bddElement(NumericAttribute.NewTwips(PGF, StyleConstbnts.FirstLineIndent, "fi",
                                         0f, 0));
 
-        a.addElement(new AssertiveAttribute(PGF, StyleConstants.Alignment,
-                                            "ql", StyleConstants.ALIGN_LEFT));
-        a.addElement(new AssertiveAttribute(PGF, StyleConstants.Alignment,
-                                            "qr", StyleConstants.ALIGN_RIGHT));
-        a.addElement(new AssertiveAttribute(PGF, StyleConstants.Alignment,
-                                            "qc", StyleConstants.ALIGN_CENTER));
-        a.addElement(new AssertiveAttribute(PGF, StyleConstants.Alignment,
-                                            "qj", StyleConstants.ALIGN_JUSTIFIED));
-        a.addElement(NumericAttribute.NewTwips(PGF, StyleConstants.SpaceAbove,
-                                        "sa", 0));
-        a.addElement(NumericAttribute.NewTwips(PGF, StyleConstants.SpaceBelow,
+        b.bddElement(new AssertiveAttribute(PGF, StyleConstbnts.Alignment,
+                                            "ql", StyleConstbnts.ALIGN_LEFT));
+        b.bddElement(new AssertiveAttribute(PGF, StyleConstbnts.Alignment,
+                                            "qr", StyleConstbnts.ALIGN_RIGHT));
+        b.bddElement(new AssertiveAttribute(PGF, StyleConstbnts.Alignment,
+                                            "qc", StyleConstbnts.ALIGN_CENTER));
+        b.bddElement(new AssertiveAttribute(PGF, StyleConstbnts.Alignment,
+                                            "qj", StyleConstbnts.ALIGN_JUSTIFIED));
+        b.bddElement(NumericAttribute.NewTwips(PGF, StyleConstbnts.SpbceAbove,
+                                        "sb", 0));
+        b.bddElement(NumericAttribute.NewTwips(PGF, StyleConstbnts.SpbceBelow,
                                         "sb", 0));
 
-        a.addElement(new AssertiveAttribute(PST, RTFReader.TabAlignmentKey,
-                                            "tqr", TabStop.ALIGN_RIGHT));
-        a.addElement(new AssertiveAttribute(PST, RTFReader.TabAlignmentKey,
-                                            "tqc", TabStop.ALIGN_CENTER));
-        a.addElement(new AssertiveAttribute(PST, RTFReader.TabAlignmentKey,
-                                            "tqdec", TabStop.ALIGN_DECIMAL));
+        b.bddElement(new AssertiveAttribute(PST, RTFRebder.TbbAlignmentKey,
+                                            "tqr", TbbStop.ALIGN_RIGHT));
+        b.bddElement(new AssertiveAttribute(PST, RTFRebder.TbbAlignmentKey,
+                                            "tqc", TbbStop.ALIGN_CENTER));
+        b.bddElement(new AssertiveAttribute(PST, RTFRebder.TbbAlignmentKey,
+                                            "tqdec", TbbStop.ALIGN_DECIMAL));
 
 
-        a.addElement(new AssertiveAttribute(PST, RTFReader.TabLeaderKey,
-                                            "tldot", TabStop.LEAD_DOTS));
-        a.addElement(new AssertiveAttribute(PST, RTFReader.TabLeaderKey,
-                                            "tlhyph", TabStop.LEAD_HYPHENS));
-        a.addElement(new AssertiveAttribute(PST, RTFReader.TabLeaderKey,
-                                            "tlul", TabStop.LEAD_UNDERLINE));
-        a.addElement(new AssertiveAttribute(PST, RTFReader.TabLeaderKey,
-                                            "tlth", TabStop.LEAD_THICKLINE));
-        a.addElement(new AssertiveAttribute(PST, RTFReader.TabLeaderKey,
-                                            "tleq", TabStop.LEAD_EQUALS));
+        b.bddElement(new AssertiveAttribute(PST, RTFRebder.TbbLebderKey,
+                                            "tldot", TbbStop.LEAD_DOTS));
+        b.bddElement(new AssertiveAttribute(PST, RTFRebder.TbbLebderKey,
+                                            "tlhyph", TbbStop.LEAD_HYPHENS));
+        b.bddElement(new AssertiveAttribute(PST, RTFRebder.TbbLebderKey,
+                                            "tlul", TbbStop.LEAD_UNDERLINE));
+        b.bddElement(new AssertiveAttribute(PST, RTFRebder.TbbLebderKey,
+                                            "tlth", TbbStop.LEAD_THICKLINE));
+        b.bddElement(new AssertiveAttribute(PST, RTFRebder.TbbLebderKey,
+                                            "tleq", TbbStop.LEAD_EQUALS));
 
-        /* The following aren't actually recognized by Swing */
-        a.addElement(new BooleanAttribute(CHR, Constants.Caps,      "caps"));
-        a.addElement(new BooleanAttribute(CHR, Constants.Outline,   "outl"));
-        a.addElement(new BooleanAttribute(CHR, Constants.SmallCaps, "scaps"));
-        a.addElement(new BooleanAttribute(CHR, Constants.Shadow,    "shad"));
-        a.addElement(new BooleanAttribute(CHR, Constants.Hidden,    "v"));
-        a.addElement(new BooleanAttribute(CHR, Constants.Strikethrough,
+        /* The following bren't bctublly recognized by Swing */
+        b.bddElement(new BoolebnAttribute(CHR, Constbnts.Cbps,      "cbps"));
+        b.bddElement(new BoolebnAttribute(CHR, Constbnts.Outline,   "outl"));
+        b.bddElement(new BoolebnAttribute(CHR, Constbnts.SmbllCbps, "scbps"));
+        b.bddElement(new BoolebnAttribute(CHR, Constbnts.Shbdow,    "shbd"));
+        b.bddElement(new BoolebnAttribute(CHR, Constbnts.Hidden,    "v"));
+        b.bddElement(new BoolebnAttribute(CHR, Constbnts.Strikethrough,
                                                "strike"));
-        a.addElement(new BooleanAttribute(CHR, Constants.Deleted,
+        b.bddElement(new BoolebnAttribute(CHR, Constbnts.Deleted,
                                                "deleted"));
 
 
 
-        a.addElement(new AssertiveAttribute(DOC, "saveformat", "defformat", "RTF"));
-        a.addElement(new AssertiveAttribute(DOC, "landscape", "landscape"));
+        b.bddElement(new AssertiveAttribute(DOC, "sbveformbt", "defformbt", "RTF"));
+        b.bddElement(new AssertiveAttribute(DOC, "lbndscbpe", "lbndscbpe"));
 
-        a.addElement(NumericAttribute.NewTwips(DOC, Constants.PaperWidth,
-                                               "paperw", 12240));
-        a.addElement(NumericAttribute.NewTwips(DOC, Constants.PaperHeight,
-                                               "paperh", 15840));
-        a.addElement(NumericAttribute.NewTwips(DOC, Constants.MarginLeft,
-                                               "margl",  1800));
-        a.addElement(NumericAttribute.NewTwips(DOC, Constants.MarginRight,
-                                               "margr",  1800));
-        a.addElement(NumericAttribute.NewTwips(DOC, Constants.MarginTop,
-                                               "margt",  1440));
-        a.addElement(NumericAttribute.NewTwips(DOC, Constants.MarginBottom,
-                                               "margb",  1440));
-        a.addElement(NumericAttribute.NewTwips(DOC, Constants.GutterWidth,
+        b.bddElement(NumericAttribute.NewTwips(DOC, Constbnts.PbperWidth,
+                                               "pbperw", 12240));
+        b.bddElement(NumericAttribute.NewTwips(DOC, Constbnts.PbperHeight,
+                                               "pbperh", 15840));
+        b.bddElement(NumericAttribute.NewTwips(DOC, Constbnts.MbrginLeft,
+                                               "mbrgl",  1800));
+        b.bddElement(NumericAttribute.NewTwips(DOC, Constbnts.MbrginRight,
+                                               "mbrgr",  1800));
+        b.bddElement(NumericAttribute.NewTwips(DOC, Constbnts.MbrginTop,
+                                               "mbrgt",  1440));
+        b.bddElement(NumericAttribute.NewTwips(DOC, Constbnts.MbrginBottom,
+                                               "mbrgb",  1440));
+        b.bddElement(NumericAttribute.NewTwips(DOC, Constbnts.GutterWidth,
                                                "gutter", 0));
 
-        a.addElement(new AssertiveAttribute(PGF, Constants.WidowControl,
-                                            "nowidctlpar", False));
-        a.addElement(new AssertiveAttribute(PGF, Constants.WidowControl,
-                                            "widctlpar", True));
-        a.addElement(new AssertiveAttribute(DOC, Constants.WidowControl,
+        b.bddElement(new AssertiveAttribute(PGF, Constbnts.WidowControl,
+                                            "nowidctlpbr", Fblse));
+        b.bddElement(new AssertiveAttribute(PGF, Constbnts.WidowControl,
+                                            "widctlpbr", True));
+        b.bddElement(new AssertiveAttribute(DOC, Constbnts.WidowControl,
                                             "widowctrl", True));
 
 
-        RTFAttribute[] attrs = new RTFAttribute[a.size()];
-        a.copyInto(attrs);
-        attributes = attrs;
+        RTFAttribute[] bttrs = new RTFAttribute[b.size()];
+        b.copyInto(bttrs);
+        bttributes = bttrs;
     }
 
-    static Dictionary<String, RTFAttribute> attributesByKeyword()
+    stbtic Dictionbry<String, RTFAttribute> bttributesByKeyword()
     {
-        Dictionary<String, RTFAttribute> d = new Hashtable<String, RTFAttribute>(attributes.length);
+        Dictionbry<String, RTFAttribute> d = new Hbshtbble<String, RTFAttribute>(bttributes.length);
 
-        for (RTFAttribute attribute : attributes) {
-            d.put(attribute.rtfName(), attribute);
+        for (RTFAttribute bttribute : bttributes) {
+            d.put(bttribute.rtfNbme(), bttribute);
         }
 
         return d;
@@ -145,113 +145,113 @@ class RTFAttributes
     /************************************************************************/
     /************************************************************************/
 
-    static abstract class GenericAttribute
+    stbtic bbstrbct clbss GenericAttribute
     {
-        int domain;
-        Object swingName;
-        String rtfName;
+        int dombin;
+        Object swingNbme;
+        String rtfNbme;
 
         protected GenericAttribute(int d,Object s, String r)
         {
-            domain = d;
-            swingName = s;
-            rtfName = r;
+            dombin = d;
+            swingNbme = s;
+            rtfNbme = r;
         }
 
-        public int domain() { return domain; }
-        public Object swingName() { return swingName; }
-        public String rtfName() { return rtfName; }
+        public int dombin() { return dombin; }
+        public Object swingNbme() { return swingNbme; }
+        public String rtfNbme() { return rtfNbme; }
 
-        abstract boolean set(MutableAttributeSet target);
-        abstract boolean set(MutableAttributeSet target, int parameter);
-        abstract boolean setDefault(MutableAttributeSet target);
+        bbstrbct boolebn set(MutbbleAttributeSet tbrget);
+        bbstrbct boolebn set(MutbbleAttributeSet tbrget, int pbrbmeter);
+        bbstrbct boolebn setDefbult(MutbbleAttributeSet tbrget);
 
-        public boolean write(AttributeSet source,
-                             RTFGenerator target,
-                             boolean force)
+        public boolebn write(AttributeSet source,
+                             RTFGenerbtor tbrget,
+                             boolebn force)
             throws IOException
         {
-            return writeValue(source.getAttribute(swingName), target, force);
+            return writeVblue(source.getAttribute(swingNbme), tbrget, force);
         }
 
-        public boolean writeValue(Object value, RTFGenerator target,
-                                  boolean force)
+        public boolebn writeVblue(Object vblue, RTFGenerbtor tbrget,
+                                  boolebn force)
             throws IOException
         {
-            return false;
+            return fblse;
         }
     }
 
-    static class BooleanAttribute
+    stbtic clbss BoolebnAttribute
         extends GenericAttribute
         implements RTFAttribute
     {
-        boolean rtfDefault;
-        boolean swingDefault;
+        boolebn rtfDefbult;
+        boolebn swingDefbult;
 
-        protected static final Boolean True = Boolean.valueOf(true);
-        protected static final Boolean False = Boolean.valueOf(false);
+        protected stbtic finbl Boolebn True = Boolebn.vblueOf(true);
+        protected stbtic finbl Boolebn Fblse = Boolebn.vblueOf(fblse);
 
-        public BooleanAttribute(int d, Object s,
-                                String r, boolean ds, boolean dr)
+        public BoolebnAttribute(int d, Object s,
+                                String r, boolebn ds, boolebn dr)
         {
             super(d, s, r);
-            swingDefault = ds;
-            rtfDefault = dr;
+            swingDefbult = ds;
+            rtfDefbult = dr;
         }
 
-        public BooleanAttribute(int d, Object s, String r)
+        public BoolebnAttribute(int d, Object s, String r)
         {
             super(d, s, r);
 
-            swingDefault = false;
-            rtfDefault = false;
+            swingDefbult = fblse;
+            rtfDefbult = fblse;
         }
 
-        public boolean set(MutableAttributeSet target)
+        public boolebn set(MutbbleAttributeSet tbrget)
         {
-            /* TODO: There's some ambiguity about whether this should
-               *set* or *toggle* the attribute. */
-            target.addAttribute(swingName, True);
+            /* TODO: There's some bmbiguity bbout whether this should
+               *set* or *toggle* the bttribute. */
+            tbrget.bddAttribute(swingNbme, True);
 
-            return true;  /* true indicates we were successful */
+            return true;  /* true indicbtes we were successful */
         }
 
-        public boolean set(MutableAttributeSet target, int parameter)
+        public boolebn set(MutbbleAttributeSet tbrget, int pbrbmeter)
         {
-            /* See above note in the case that parameter==1 */
-            Boolean value = ( parameter != 0 ? True : False );
+            /* See bbove note in the cbse thbt pbrbmeter==1 */
+            Boolebn vblue = ( pbrbmeter != 0 ? True : Fblse );
 
-            target.addAttribute(swingName, value);
+            tbrget.bddAttribute(swingNbme, vblue);
 
-            return true; /* true indicates we were successful */
+            return true; /* true indicbtes we were successful */
         }
 
-        public boolean setDefault(MutableAttributeSet target)
+        public boolebn setDefbult(MutbbleAttributeSet tbrget)
         {
-            if (swingDefault != rtfDefault ||
-                ( target.getAttribute(swingName) != null ) )
-              target.addAttribute(swingName, Boolean.valueOf(rtfDefault));
+            if (swingDefbult != rtfDefbult ||
+                ( tbrget.getAttribute(swingNbme) != null ) )
+              tbrget.bddAttribute(swingNbme, Boolebn.vblueOf(rtfDefbult));
             return true;
         }
 
-        public boolean writeValue(Object o_value,
-                                  RTFGenerator target,
-                                  boolean force)
+        public boolebn writeVblue(Object o_vblue,
+                                  RTFGenerbtor tbrget,
+                                  boolebn force)
             throws IOException
         {
-            Boolean val;
+            Boolebn vbl;
 
-            if (o_value == null)
-              val = Boolean.valueOf(swingDefault);
+            if (o_vblue == null)
+              vbl = Boolebn.vblueOf(swingDefbult);
             else
-              val = (Boolean)o_value;
+              vbl = (Boolebn)o_vblue;
 
-            if (force || (val.booleanValue() != rtfDefault)) {
-                if (val.booleanValue()) {
-                    target.writeControlWord(rtfName);
+            if (force || (vbl.boolebnVblue() != rtfDefbult)) {
+                if (vbl.boolebnVblue()) {
+                    tbrget.writeControlWord(rtfNbme);
                 } else {
-                    target.writeControlWord(rtfName, 0);
+                    tbrget.writeControlWord(rtfNbme, 0);
                 }
             }
             return true;
@@ -259,62 +259,62 @@ class RTFAttributes
     }
 
 
-    static class AssertiveAttribute
+    stbtic clbss AssertiveAttribute
         extends GenericAttribute
         implements RTFAttribute
     {
-        Object swingValue;
+        Object swingVblue;
 
         public AssertiveAttribute(int d, Object s, String r)
         {
             super(d, s, r);
-            swingValue = Boolean.valueOf(true);
+            swingVblue = Boolebn.vblueOf(true);
         }
 
         public AssertiveAttribute(int d, Object s, String r, Object v)
         {
             super(d, s, r);
-            swingValue = v;
+            swingVblue = v;
         }
 
         public AssertiveAttribute(int d, Object s, String r, int v)
         {
             super(d, s, r);
-            swingValue = Integer.valueOf(v);
+            swingVblue = Integer.vblueOf(v);
         }
 
-        public boolean set(MutableAttributeSet target)
+        public boolebn set(MutbbleAttributeSet tbrget)
         {
-            if (swingValue == null)
-                target.removeAttribute(swingName);
+            if (swingVblue == null)
+                tbrget.removeAttribute(swingNbme);
             else
-                target.addAttribute(swingName, swingValue);
+                tbrget.bddAttribute(swingNbme, swingVblue);
 
             return true;
         }
 
-        public boolean set(MutableAttributeSet target, int parameter)
+        public boolebn set(MutbbleAttributeSet tbrget, int pbrbmeter)
         {
-            return false;
+            return fblse;
         }
 
-        public boolean setDefault(MutableAttributeSet target)
+        public boolebn setDefbult(MutbbleAttributeSet tbrget)
         {
-            target.removeAttribute(swingName);
+            tbrget.removeAttribute(swingNbme);
             return true;
         }
 
-        public boolean writeValue(Object value,
-                                  RTFGenerator target,
-                                  boolean force)
+        public boolebn writeVblue(Object vblue,
+                                  RTFGenerbtor tbrget,
+                                  boolebn force)
             throws IOException
         {
-            if (value == null) {
+            if (vblue == null) {
                 return ! force;
             }
 
-            if (value.equals(swingValue)) {
-                target.writeControlWord(rtfName);
+            if (vblue.equbls(swingVblue)) {
+                tbrget.writeControlWord(rtfNbme);
                 return true;
             }
 
@@ -323,98 +323,98 @@ class RTFAttributes
     }
 
 
-    static class NumericAttribute
+    stbtic clbss NumericAttribute
         extends GenericAttribute
         implements RTFAttribute
     {
-        int rtfDefault;
-        Number swingDefault;
-        float scale;
+        int rtfDefbult;
+        Number swingDefbult;
+        flobt scble;
 
         protected NumericAttribute(int d, Object s, String r)
         {
             super(d, s, r);
-            rtfDefault = 0;
-            swingDefault = null;
-            scale = 1f;
+            rtfDefbult = 0;
+            swingDefbult = null;
+            scble = 1f;
         }
 
         public NumericAttribute(int d, Object s,
                                 String r, int ds, int dr)
         {
-            this(d, s, r, Integer.valueOf(ds), dr, 1f);
+            this(d, s, r, Integer.vblueOf(ds), dr, 1f);
         }
 
         public NumericAttribute(int d, Object s,
-                                String r, Number ds, int dr, float sc)
+                                String r, Number ds, int dr, flobt sc)
         {
             super(d, s, r);
-            swingDefault = ds;
-            rtfDefault = dr;
-            scale = sc;
+            swingDefbult = ds;
+            rtfDefbult = dr;
+            scble = sc;
         }
 
-        public static NumericAttribute NewTwips(int d, Object s, String r,
-                                                float ds, int dr)
+        public stbtic NumericAttribute NewTwips(int d, Object s, String r,
+                                                flobt ds, int dr)
         {
-            return new NumericAttribute(d, s, r, new Float(ds), dr, 20f);
+            return new NumericAttribute(d, s, r, new Flobt(ds), dr, 20f);
         }
 
-        public static NumericAttribute NewTwips(int d, Object s, String r,
+        public stbtic NumericAttribute NewTwips(int d, Object s, String r,
                                                 int dr)
         {
             return new NumericAttribute(d, s, r, null, dr, 20f);
         }
 
-        public boolean set(MutableAttributeSet target)
+        public boolebn set(MutbbleAttributeSet tbrget)
         {
-            return false;
+            return fblse;
         }
 
-        public boolean set(MutableAttributeSet target, int parameter)
+        public boolebn set(MutbbleAttributeSet tbrget, int pbrbmeter)
         {
-            Number swingValue;
+            Number swingVblue;
 
-            if (scale == 1f)
-                swingValue = Integer.valueOf(parameter);
+            if (scble == 1f)
+                swingVblue = Integer.vblueOf(pbrbmeter);
             else
-                swingValue = new Float(parameter / scale);
-            target.addAttribute(swingName, swingValue);
+                swingVblue = new Flobt(pbrbmeter / scble);
+            tbrget.bddAttribute(swingNbme, swingVblue);
             return true;
         }
 
-        public boolean setDefault(MutableAttributeSet target)
+        public boolebn setDefbult(MutbbleAttributeSet tbrget)
         {
-            Number old = (Number)target.getAttribute(swingName);
+            Number old = (Number)tbrget.getAttribute(swingNbme);
             if (old == null)
-                old = swingDefault;
+                old = swingDefbult;
             if (old != null && (
-                    (scale == 1f && old.intValue() == rtfDefault) ||
-                    (Math.round(old.floatValue() * scale) == rtfDefault)
+                    (scble == 1f && old.intVblue() == rtfDefbult) ||
+                    (Mbth.round(old.flobtVblue() * scble) == rtfDefbult)
                ))
                 return true;
-            set(target, rtfDefault);
+            set(tbrget, rtfDefbult);
             return true;
         }
 
-        public boolean writeValue(Object o_value,
-                                  RTFGenerator target,
-                                  boolean force)
+        public boolebn writeVblue(Object o_vblue,
+                                  RTFGenerbtor tbrget,
+                                  boolebn force)
             throws IOException
         {
-            Number value = (Number)o_value;
-            if (value == null)
-                value = swingDefault;
-            if (value == null) {
-                /* TODO: What is the proper behavior if the Swing object does
-                   not specify a value, and we don't know its default value?
-                   Currently we pretend that the RTF default value is
-                   equivalent (probably a workable assumption) */
+            Number vblue = (Number)o_vblue;
+            if (vblue == null)
+                vblue = swingDefbult;
+            if (vblue == null) {
+                /* TODO: Whbt is the proper behbvior if the Swing object does
+                   not specify b vblue, bnd we don't know its defbult vblue?
+                   Currently we pretend thbt the RTF defbult vblue is
+                   equivblent (probbbly b workbble bssumption) */
                 return true;
             }
-            int int_value = Math.round(value.floatValue() * scale);
-            if (force || (int_value != rtfDefault))
-                target.writeControlWord(rtfName, int_value);
+            int int_vblue = Mbth.round(vblue.flobtVblue() * scble);
+            if (force || (int_vblue != rtfDefbult))
+                tbrget.writeControlWord(rtfNbme, int_vblue);
             return true;
         }
     }

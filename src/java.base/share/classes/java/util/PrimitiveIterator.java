@@ -1,301 +1,301 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util;
+pbckbge jbvb.util;
 
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.LongConsumer;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.DoubleConsumer;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.function.LongConsumer;
 
 /**
- * A base type for primitive specializations of {@code Iterator}.  Specialized
- * subtypes are provided for {@link OfInt int}, {@link OfLong long}, and
- * {@link OfDouble double} values.
+ * A bbse type for primitive speciblizbtions of {@code Iterbtor}.  Speciblized
+ * subtypes bre provided for {@link OfInt int}, {@link OfLong long}, bnd
+ * {@link OfDouble double} vblues.
  *
- * <p>The specialized subtype default implementations of {@link Iterator#next}
- * and {@link Iterator#forEachRemaining(java.util.function.Consumer)} box
- * primitive values to instances of their corresponding wrapper class.  Such
- * boxing may offset any advantages gained when using the primitive
- * specializations.  To avoid boxing, the corresponding primitive-based methods
- * should be used.  For example, {@link PrimitiveIterator.OfInt#nextInt()} and
- * {@link PrimitiveIterator.OfInt#forEachRemaining(java.util.function.IntConsumer)}
- * should be used in preference to {@link PrimitiveIterator.OfInt#next()} and
- * {@link PrimitiveIterator.OfInt#forEachRemaining(java.util.function.Consumer)}.
+ * <p>The speciblized subtype defbult implementbtions of {@link Iterbtor#next}
+ * bnd {@link Iterbtor#forEbchRembining(jbvb.util.function.Consumer)} box
+ * primitive vblues to instbnces of their corresponding wrbpper clbss.  Such
+ * boxing mby offset bny bdvbntbges gbined when using the primitive
+ * speciblizbtions.  To bvoid boxing, the corresponding primitive-bbsed methods
+ * should be used.  For exbmple, {@link PrimitiveIterbtor.OfInt#nextInt()} bnd
+ * {@link PrimitiveIterbtor.OfInt#forEbchRembining(jbvb.util.function.IntConsumer)}
+ * should be used in preference to {@link PrimitiveIterbtor.OfInt#next()} bnd
+ * {@link PrimitiveIterbtor.OfInt#forEbchRembining(jbvb.util.function.Consumer)}.
  *
- * <p>Iteration of primitive values using boxing-based methods
- * {@link Iterator#next next()} and
- * {@link Iterator#forEachRemaining(java.util.function.Consumer) forEachRemaining()},
- * does not affect the order in which the values, transformed to boxed values,
- * are encountered.
+ * <p>Iterbtion of primitive vblues using boxing-bbsed methods
+ * {@link Iterbtor#next next()} bnd
+ * {@link Iterbtor#forEbchRembining(jbvb.util.function.Consumer) forEbchRembining()},
+ * does not bffect the order in which the vblues, trbnsformed to boxed vblues,
+ * bre encountered.
  *
  * @implNote
- * If the boolean system property {@code org.openjdk.java.util.stream.tripwire}
- * is set to {@code true} then diagnostic warnings are reported if boxing of
- * primitive values occur when operating on primitive subtype specializations.
+ * If the boolebn system property {@code org.openjdk.jbvb.util.strebm.tripwire}
+ * is set to {@code true} then dibgnostic wbrnings bre reported if boxing of
+ * primitive vblues occur when operbting on primitive subtype speciblizbtions.
  *
- * @param <T> the type of elements returned by this PrimitiveIterator.  The
- *        type must be a wrapper type for a primitive type, such as
+ * @pbrbm <T> the type of elements returned by this PrimitiveIterbtor.  The
+ *        type must be b wrbpper type for b primitive type, such bs
  *        {@code Integer} for the primitive {@code int} type.
- * @param <T_CONS> the type of primitive consumer.  The type must be a
- *        primitive specialization of {@link java.util.function.Consumer} for
- *        {@code T}, such as {@link java.util.function.IntConsumer} for
+ * @pbrbm <T_CONS> the type of primitive consumer.  The type must be b
+ *        primitive speciblizbtion of {@link jbvb.util.function.Consumer} for
+ *        {@code T}, such bs {@link jbvb.util.function.IntConsumer} for
  *        {@code Integer}.
  *
  * @since 1.8
  */
-public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
+public interfbce PrimitiveIterbtor<T, T_CONS> extends Iterbtor<T> {
 
     /**
-     * Performs the given action for each remaining element, in the order
-     * elements occur when iterating, until all elements have been processed
-     * or the action throws an exception.  Errors or runtime exceptions
-     * thrown by the action are relayed to the caller.
+     * Performs the given bction for ebch rembining element, in the order
+     * elements occur when iterbting, until bll elements hbve been processed
+     * or the bction throws bn exception.  Errors or runtime exceptions
+     * thrown by the bction bre relbyed to the cbller.
      *
-     * @param action The action to be performed for each element
-     * @throws NullPointerException if the specified action is null
+     * @pbrbm bction The bction to be performed for ebch element
+     * @throws NullPointerException if the specified bction is null
      */
-    @SuppressWarnings("overloads")
-    void forEachRemaining(T_CONS action);
+    @SuppressWbrnings("overlobds")
+    void forEbchRembining(T_CONS bction);
 
     /**
-     * An Iterator specialized for {@code int} values.
+     * An Iterbtor speciblized for {@code int} vblues.
      * @since 1.8
      */
-    public static interface OfInt extends PrimitiveIterator<Integer, IntConsumer> {
+    public stbtic interfbce OfInt extends PrimitiveIterbtor<Integer, IntConsumer> {
 
         /**
-         * Returns the next {@code int} element in the iteration.
+         * Returns the next {@code int} element in the iterbtion.
          *
-         * @return the next {@code int} element in the iteration
-         * @throws NoSuchElementException if the iteration has no more elements
+         * @return the next {@code int} element in the iterbtion
+         * @throws NoSuchElementException if the iterbtion hbs no more elements
          */
         int nextInt();
 
         /**
-         * Performs the given action for each remaining element until all elements
-         * have been processed or the action throws an exception.  Actions are
-         * performed in the order of iteration, if that order is specified.
-         * Exceptions thrown by the action are relayed to the caller.
+         * Performs the given bction for ebch rembining element until bll elements
+         * hbve been processed or the bction throws bn exception.  Actions bre
+         * performed in the order of iterbtion, if thbt order is specified.
+         * Exceptions thrown by the bction bre relbyed to the cbller.
          *
          * @implSpec
-         * <p>The default implementation behaves as if:
+         * <p>The defbult implementbtion behbves bs if:
          * <pre>{@code
-         *     while (hasNext())
-         *         action.accept(nextInt());
+         *     while (hbsNext())
+         *         bction.bccept(nextInt());
          * }</pre>
          *
-         * @param action The action to be performed for each element
-         * @throws NullPointerException if the specified action is null
+         * @pbrbm bction The bction to be performed for ebch element
+         * @throws NullPointerException if the specified bction is null
          */
-        default void forEachRemaining(IntConsumer action) {
-            Objects.requireNonNull(action);
-            while (hasNext())
-                action.accept(nextInt());
+        defbult void forEbchRembining(IntConsumer bction) {
+            Objects.requireNonNull(bction);
+            while (hbsNext())
+                bction.bccept(nextInt());
         }
 
         /**
          * {@inheritDoc}
          * @implSpec
-         * The default implementation boxes the result of calling
-         * {@link #nextInt()}, and returns that boxed result.
+         * The defbult implementbtion boxes the result of cblling
+         * {@link #nextInt()}, bnd returns thbt boxed result.
          */
         @Override
-        default Integer next() {
+        defbult Integer next() {
             if (Tripwire.ENABLED)
-                Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfInt.nextInt()");
+                Tripwire.trip(getClbss(), "{0} cblling PrimitiveIterbtor.OfInt.nextInt()");
             return nextInt();
         }
 
         /**
          * {@inheritDoc}
          * @implSpec
-         * If the action is an instance of {@code IntConsumer} then it is cast
-         * to {@code IntConsumer} and passed to {@link #forEachRemaining};
-         * otherwise the action is adapted to an instance of
-         * {@code IntConsumer}, by boxing the argument of {@code IntConsumer},
-         * and then passed to {@link #forEachRemaining}.
+         * If the bction is bn instbnce of {@code IntConsumer} then it is cbst
+         * to {@code IntConsumer} bnd pbssed to {@link #forEbchRembining};
+         * otherwise the bction is bdbpted to bn instbnce of
+         * {@code IntConsumer}, by boxing the brgument of {@code IntConsumer},
+         * bnd then pbssed to {@link #forEbchRembining}.
          */
         @Override
-        default void forEachRemaining(Consumer<? super Integer> action) {
-            if (action instanceof IntConsumer) {
-                forEachRemaining((IntConsumer) action);
+        defbult void forEbchRembining(Consumer<? super Integer> bction) {
+            if (bction instbnceof IntConsumer) {
+                forEbchRembining((IntConsumer) bction);
             }
             else {
-                // The method reference action::accept is never null
-                Objects.requireNonNull(action);
+                // The method reference bction::bccept is never null
+                Objects.requireNonNull(bction);
                 if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfInt.forEachRemainingInt(action::accept)");
-                forEachRemaining((IntConsumer) action::accept);
+                    Tripwire.trip(getClbss(), "{0} cblling PrimitiveIterbtor.OfInt.forEbchRembiningInt(bction::bccept)");
+                forEbchRembining((IntConsumer) bction::bccept);
             }
         }
 
     }
 
     /**
-     * An Iterator specialized for {@code long} values.
+     * An Iterbtor speciblized for {@code long} vblues.
      * @since 1.8
      */
-    public static interface OfLong extends PrimitiveIterator<Long, LongConsumer> {
+    public stbtic interfbce OfLong extends PrimitiveIterbtor<Long, LongConsumer> {
 
         /**
-         * Returns the next {@code long} element in the iteration.
+         * Returns the next {@code long} element in the iterbtion.
          *
-         * @return the next {@code long} element in the iteration
-         * @throws NoSuchElementException if the iteration has no more elements
+         * @return the next {@code long} element in the iterbtion
+         * @throws NoSuchElementException if the iterbtion hbs no more elements
          */
         long nextLong();
 
         /**
-         * Performs the given action for each remaining element until all elements
-         * have been processed or the action throws an exception.  Actions are
-         * performed in the order of iteration, if that order is specified.
-         * Exceptions thrown by the action are relayed to the caller.
+         * Performs the given bction for ebch rembining element until bll elements
+         * hbve been processed or the bction throws bn exception.  Actions bre
+         * performed in the order of iterbtion, if thbt order is specified.
+         * Exceptions thrown by the bction bre relbyed to the cbller.
          *
          * @implSpec
-         * <p>The default implementation behaves as if:
+         * <p>The defbult implementbtion behbves bs if:
          * <pre>{@code
-         *     while (hasNext())
-         *         action.accept(nextLong());
+         *     while (hbsNext())
+         *         bction.bccept(nextLong());
          * }</pre>
          *
-         * @param action The action to be performed for each element
-         * @throws NullPointerException if the specified action is null
+         * @pbrbm bction The bction to be performed for ebch element
+         * @throws NullPointerException if the specified bction is null
          */
-        default void forEachRemaining(LongConsumer action) {
-            Objects.requireNonNull(action);
-            while (hasNext())
-                action.accept(nextLong());
+        defbult void forEbchRembining(LongConsumer bction) {
+            Objects.requireNonNull(bction);
+            while (hbsNext())
+                bction.bccept(nextLong());
         }
 
         /**
          * {@inheritDoc}
          * @implSpec
-         * The default implementation boxes the result of calling
-         * {@link #nextLong()}, and returns that boxed result.
+         * The defbult implementbtion boxes the result of cblling
+         * {@link #nextLong()}, bnd returns thbt boxed result.
          */
         @Override
-        default Long next() {
+        defbult Long next() {
             if (Tripwire.ENABLED)
-                Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfLong.nextLong()");
+                Tripwire.trip(getClbss(), "{0} cblling PrimitiveIterbtor.OfLong.nextLong()");
             return nextLong();
         }
 
         /**
          * {@inheritDoc}
          * @implSpec
-         * If the action is an instance of {@code LongConsumer} then it is cast
-         * to {@code LongConsumer} and passed to {@link #forEachRemaining};
-         * otherwise the action is adapted to an instance of
-         * {@code LongConsumer}, by boxing the argument of {@code LongConsumer},
-         * and then passed to {@link #forEachRemaining}.
+         * If the bction is bn instbnce of {@code LongConsumer} then it is cbst
+         * to {@code LongConsumer} bnd pbssed to {@link #forEbchRembining};
+         * otherwise the bction is bdbpted to bn instbnce of
+         * {@code LongConsumer}, by boxing the brgument of {@code LongConsumer},
+         * bnd then pbssed to {@link #forEbchRembining}.
          */
         @Override
-        default void forEachRemaining(Consumer<? super Long> action) {
-            if (action instanceof LongConsumer) {
-                forEachRemaining((LongConsumer) action);
+        defbult void forEbchRembining(Consumer<? super Long> bction) {
+            if (bction instbnceof LongConsumer) {
+                forEbchRembining((LongConsumer) bction);
             }
             else {
-                // The method reference action::accept is never null
-                Objects.requireNonNull(action);
+                // The method reference bction::bccept is never null
+                Objects.requireNonNull(bction);
                 if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfLong.forEachRemainingLong(action::accept)");
-                forEachRemaining((LongConsumer) action::accept);
+                    Tripwire.trip(getClbss(), "{0} cblling PrimitiveIterbtor.OfLong.forEbchRembiningLong(bction::bccept)");
+                forEbchRembining((LongConsumer) bction::bccept);
             }
         }
     }
 
     /**
-     * An Iterator specialized for {@code double} values.
+     * An Iterbtor speciblized for {@code double} vblues.
      * @since 1.8
      */
-    public static interface OfDouble extends PrimitiveIterator<Double, DoubleConsumer> {
+    public stbtic interfbce OfDouble extends PrimitiveIterbtor<Double, DoubleConsumer> {
 
         /**
-         * Returns the next {@code double} element in the iteration.
+         * Returns the next {@code double} element in the iterbtion.
          *
-         * @return the next {@code double} element in the iteration
-         * @throws NoSuchElementException if the iteration has no more elements
+         * @return the next {@code double} element in the iterbtion
+         * @throws NoSuchElementException if the iterbtion hbs no more elements
          */
         double nextDouble();
 
         /**
-         * Performs the given action for each remaining element until all elements
-         * have been processed or the action throws an exception.  Actions are
-         * performed in the order of iteration, if that order is specified.
-         * Exceptions thrown by the action are relayed to the caller.
+         * Performs the given bction for ebch rembining element until bll elements
+         * hbve been processed or the bction throws bn exception.  Actions bre
+         * performed in the order of iterbtion, if thbt order is specified.
+         * Exceptions thrown by the bction bre relbyed to the cbller.
          *
          * @implSpec
-         * <p>The default implementation behaves as if:
+         * <p>The defbult implementbtion behbves bs if:
          * <pre>{@code
-         *     while (hasNext())
-         *         action.accept(nextDouble());
+         *     while (hbsNext())
+         *         bction.bccept(nextDouble());
          * }</pre>
          *
-         * @param action The action to be performed for each element
-         * @throws NullPointerException if the specified action is null
+         * @pbrbm bction The bction to be performed for ebch element
+         * @throws NullPointerException if the specified bction is null
          */
-        default void forEachRemaining(DoubleConsumer action) {
-            Objects.requireNonNull(action);
-            while (hasNext())
-                action.accept(nextDouble());
+        defbult void forEbchRembining(DoubleConsumer bction) {
+            Objects.requireNonNull(bction);
+            while (hbsNext())
+                bction.bccept(nextDouble());
         }
 
         /**
          * {@inheritDoc}
          * @implSpec
-         * The default implementation boxes the result of calling
-         * {@link #nextDouble()}, and returns that boxed result.
+         * The defbult implementbtion boxes the result of cblling
+         * {@link #nextDouble()}, bnd returns thbt boxed result.
          */
         @Override
-        default Double next() {
+        defbult Double next() {
             if (Tripwire.ENABLED)
-                Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfDouble.nextLong()");
+                Tripwire.trip(getClbss(), "{0} cblling PrimitiveIterbtor.OfDouble.nextLong()");
             return nextDouble();
         }
 
         /**
          * {@inheritDoc}
          * @implSpec
-         * If the action is an instance of {@code DoubleConsumer} then it is
-         * cast to {@code DoubleConsumer} and passed to
-         * {@link #forEachRemaining}; otherwise the action is adapted to
-         * an instance of {@code DoubleConsumer}, by boxing the argument of
-         * {@code DoubleConsumer}, and then passed to
-         * {@link #forEachRemaining}.
+         * If the bction is bn instbnce of {@code DoubleConsumer} then it is
+         * cbst to {@code DoubleConsumer} bnd pbssed to
+         * {@link #forEbchRembining}; otherwise the bction is bdbpted to
+         * bn instbnce of {@code DoubleConsumer}, by boxing the brgument of
+         * {@code DoubleConsumer}, bnd then pbssed to
+         * {@link #forEbchRembining}.
          */
         @Override
-        default void forEachRemaining(Consumer<? super Double> action) {
-            if (action instanceof DoubleConsumer) {
-                forEachRemaining((DoubleConsumer) action);
+        defbult void forEbchRembining(Consumer<? super Double> bction) {
+            if (bction instbnceof DoubleConsumer) {
+                forEbchRembining((DoubleConsumer) bction);
             }
             else {
-                // The method reference action::accept is never null
-                Objects.requireNonNull(action);
+                // The method reference bction::bccept is never null
+                Objects.requireNonNull(bction);
                 if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfDouble.forEachRemainingDouble(action::accept)");
-                forEachRemaining((DoubleConsumer) action::accept);
+                    Tripwire.trip(getClbss(), "{0} cblling PrimitiveIterbtor.OfDouble.forEbchRembiningDouble(bction::bccept)");
+                forEbchRembining((DoubleConsumer) bction::bccept);
             }
         }
     }

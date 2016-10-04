@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.zip;
+pbckbge jbvb.util.zip;
 
-import java.io.FilterInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.EOFException;
+import jbvb.io.FilterInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.EOFException;
 
 /**
- * This class implements a stream filter for uncompressing data in the
- * "deflate" compression format. It is also used as the basis for other
- * decompression filters, such as GZIPInputStream.
+ * This clbss implements b strebm filter for uncompressing dbtb in the
+ * "deflbte" compression formbt. It is blso used bs the bbsis for other
+ * decompression filters, such bs GZIPInputStrebm.
  *
- * @see         Inflater
- * @author      David Connelly
+ * @see         Inflbter
+ * @buthor      Dbvid Connelly
  */
 public
-class InflaterInputStream extends FilterInputStream {
+clbss InflbterInputStrebm extends FilterInputStrebm {
     /**
-     * Decompressor for this stream.
+     * Decompressor for this strebm.
      */
-    protected Inflater inf;
+    protected Inflbter inf;
 
     /**
      * Input buffer for decompression.
@@ -55,90 +55,90 @@ class InflaterInputStream extends FilterInputStream {
      */
     protected int len;
 
-    private boolean closed = false;
-    // this flag is set to true after EOF has reached
-    private boolean reachEOF = false;
+    privbte boolebn closed = fblse;
+    // this flbg is set to true bfter EOF hbs rebched
+    privbte boolebn rebchEOF = fblse;
 
     /**
-     * Check to make sure that this stream has not been closed
+     * Check to mbke sure thbt this strebm hbs not been closed
      */
-    private void ensureOpen() throws IOException {
+    privbte void ensureOpen() throws IOException {
         if (closed) {
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
         }
     }
 
 
     /**
-     * Creates a new input stream with the specified decompressor and
+     * Crebtes b new input strebm with the specified decompressor bnd
      * buffer size.
-     * @param in the input stream
-     * @param inf the decompressor ("inflater")
-     * @param size the input buffer size
-     * @exception IllegalArgumentException if {@code size <= 0}
+     * @pbrbm in the input strebm
+     * @pbrbm inf the decompressor ("inflbter")
+     * @pbrbm size the input buffer size
+     * @exception IllegblArgumentException if {@code size <= 0}
      */
-    public InflaterInputStream(InputStream in, Inflater inf, int size) {
+    public InflbterInputStrebm(InputStrebm in, Inflbter inf, int size) {
         super(in);
         if (in == null || inf == null) {
             throw new NullPointerException();
         } else if (size <= 0) {
-            throw new IllegalArgumentException("buffer size <= 0");
+            throw new IllegblArgumentException("buffer size <= 0");
         }
         this.inf = inf;
         buf = new byte[size];
     }
 
     /**
-     * Creates a new input stream with the specified decompressor and a
-     * default buffer size.
-     * @param in the input stream
-     * @param inf the decompressor ("inflater")
+     * Crebtes b new input strebm with the specified decompressor bnd b
+     * defbult buffer size.
+     * @pbrbm in the input strebm
+     * @pbrbm inf the decompressor ("inflbter")
      */
-    public InflaterInputStream(InputStream in, Inflater inf) {
+    public InflbterInputStrebm(InputStrebm in, Inflbter inf) {
         this(in, inf, 512);
     }
 
-    boolean usesDefaultInflater = false;
+    boolebn usesDefbultInflbter = fblse;
 
     /**
-     * Creates a new input stream with a default decompressor and buffer size.
-     * @param in the input stream
+     * Crebtes b new input strebm with b defbult decompressor bnd buffer size.
+     * @pbrbm in the input strebm
      */
-    public InflaterInputStream(InputStream in) {
-        this(in, new Inflater());
-        usesDefaultInflater = true;
+    public InflbterInputStrebm(InputStrebm in) {
+        this(in, new Inflbter());
+        usesDefbultInflbter = true;
     }
 
-    private byte[] singleByteBuf = new byte[1];
+    privbte byte[] singleByteBuf = new byte[1];
 
     /**
-     * Reads a byte of uncompressed data. This method will block until
-     * enough input is available for decompression.
-     * @return the byte read, or -1 if end of compressed input is reached
-     * @exception IOException if an I/O error has occurred
+     * Rebds b byte of uncompressed dbtb. This method will block until
+     * enough input is bvbilbble for decompression.
+     * @return the byte rebd, or -1 if end of compressed input is rebched
+     * @exception IOException if bn I/O error hbs occurred
      */
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         ensureOpen();
-        return read(singleByteBuf, 0, 1) == -1 ? -1 : Byte.toUnsignedInt(singleByteBuf[0]);
+        return rebd(singleByteBuf, 0, 1) == -1 ? -1 : Byte.toUnsignedInt(singleByteBuf[0]);
     }
 
     /**
-     * Reads uncompressed data into an array of bytes. If <code>len</code> is not
-     * zero, the method will block until some input can be decompressed; otherwise,
-     * no bytes are read and <code>0</code> is returned.
-     * @param b the buffer into which the data is read
-     * @param off the start offset in the destination array <code>b</code>
-     * @param len the maximum number of bytes read
-     * @return the actual number of bytes read, or -1 if the end of the
-     *         compressed input is reached or a preset dictionary is needed
+     * Rebds uncompressed dbtb into bn brrby of bytes. If <code>len</code> is not
+     * zero, the method will block until some input cbn be decompressed; otherwise,
+     * no bytes bre rebd bnd <code>0</code> is returned.
+     * @pbrbm b the buffer into which the dbtb is rebd
+     * @pbrbm off the stbrt offset in the destinbtion brrby <code>b</code>
+     * @pbrbm len the mbximum number of bytes rebd
+     * @return the bctubl number of bytes rebd, or -1 if the end of the
+     *         compressed input is rebched or b preset dictionbry is needed
      * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
+     * @exception  IndexOutOfBoundsException If <code>off</code> is negbtive,
+     * <code>len</code> is negbtive, or <code>len</code> is grebter thbn
      * <code>b.length - off</code>
-     * @exception ZipException if a ZIP format error has occurred
-     * @exception IOException if an I/O error has occurred
+     * @exception ZipException if b ZIP formbt error hbs occurred
+     * @exception IOException if bn I/O error hbs occurred
      */
-    public int read(byte[] b, int off, int len) throws IOException {
+    public int rebd(byte[] b, int off, int len) throws IOException {
         ensureOpen();
         if (b == null) {
             throw new NullPointerException();
@@ -149,9 +149,9 @@ class InflaterInputStream extends FilterInputStream {
         }
         try {
             int n;
-            while ((n = inf.inflate(b, off, len)) == 0) {
-                if (inf.finished() || inf.needsDictionary()) {
-                    reachEOF = true;
+            while ((n = inf.inflbte(b, off, len)) == 0) {
+                if (inf.finished() || inf.needsDictionbry()) {
+                    rebchEOF = true;
                     return -1;
                 }
                 if (inf.needsInput()) {
@@ -159,70 +159,70 @@ class InflaterInputStream extends FilterInputStream {
                 }
             }
             return n;
-        } catch (DataFormatException e) {
-            String s = e.getMessage();
-            throw new ZipException(s != null ? s : "Invalid ZLIB data format");
+        } cbtch (DbtbFormbtException e) {
+            String s = e.getMessbge();
+            throw new ZipException(s != null ? s : "Invblid ZLIB dbtb formbt");
         }
     }
 
     /**
-     * Returns 0 after EOF has been reached, otherwise always return 1.
+     * Returns 0 bfter EOF hbs been rebched, otherwise blwbys return 1.
      * <p>
-     * Programs should not count on this method to return the actual number
-     * of bytes that could be read without blocking.
+     * Progrbms should not count on this method to return the bctubl number
+     * of bytes thbt could be rebd without blocking.
      *
-     * @return     1 before EOF and 0 after EOF.
-     * @exception  IOException  if an I/O error occurs.
+     * @return     1 before EOF bnd 0 bfter EOF.
+     * @exception  IOException  if bn I/O error occurs.
      *
      */
-    public int available() throws IOException {
+    public int bvbilbble() throws IOException {
         ensureOpen();
-        if (reachEOF) {
+        if (rebchEOF) {
             return 0;
         } else {
             return 1;
         }
     }
 
-    private byte[] b = new byte[512];
+    privbte byte[] b = new byte[512];
 
     /**
-     * Skips specified number of bytes of uncompressed data.
-     * @param n the number of bytes to skip
-     * @return the actual number of bytes skipped.
-     * @exception IOException if an I/O error has occurred
-     * @exception IllegalArgumentException if {@code n < 0}
+     * Skips specified number of bytes of uncompressed dbtb.
+     * @pbrbm n the number of bytes to skip
+     * @return the bctubl number of bytes skipped.
+     * @exception IOException if bn I/O error hbs occurred
+     * @exception IllegblArgumentException if {@code n < 0}
      */
     public long skip(long n) throws IOException {
         if (n < 0) {
-            throw new IllegalArgumentException("negative skip length");
+            throw new IllegblArgumentException("negbtive skip length");
         }
         ensureOpen();
-        int max = (int)Math.min(n, Integer.MAX_VALUE);
-        int total = 0;
-        while (total < max) {
-            int len = max - total;
+        int mbx = (int)Mbth.min(n, Integer.MAX_VALUE);
+        int totbl = 0;
+        while (totbl < mbx) {
+            int len = mbx - totbl;
             if (len > b.length) {
                 len = b.length;
             }
-            len = read(b, 0, len);
+            len = rebd(b, 0, len);
             if (len == -1) {
-                reachEOF = true;
-                break;
+                rebchEOF = true;
+                brebk;
             }
-            total += len;
+            totbl += len;
         }
-        return total;
+        return totbl;
     }
 
     /**
-     * Closes this input stream and releases any system resources associated
-     * with the stream.
-     * @exception IOException if an I/O error has occurred
+     * Closes this input strebm bnd relebses bny system resources bssocibted
+     * with the strebm.
+     * @exception IOException if bn I/O error hbs occurred
      */
     public void close() throws IOException {
         if (!closed) {
-            if (usesDefaultInflater)
+            if (usesDefbultInflbter)
                 inf.end();
             in.close();
             closed = true;
@@ -230,59 +230,59 @@ class InflaterInputStream extends FilterInputStream {
     }
 
     /**
-     * Fills input buffer with more data to decompress.
-     * @exception IOException if an I/O error has occurred
+     * Fills input buffer with more dbtb to decompress.
+     * @exception IOException if bn I/O error hbs occurred
      */
     protected void fill() throws IOException {
         ensureOpen();
-        len = in.read(buf, 0, buf.length);
+        len = in.rebd(buf, 0, buf.length);
         if (len == -1) {
-            throw new EOFException("Unexpected end of ZLIB input stream");
+            throw new EOFException("Unexpected end of ZLIB input strebm");
         }
         inf.setInput(buf, 0, len);
     }
 
     /**
-     * Tests if this input stream supports the <code>mark</code> and
-     * <code>reset</code> methods. The <code>markSupported</code>
-     * method of <code>InflaterInputStream</code> returns
-     * <code>false</code>.
+     * Tests if this input strebm supports the <code>mbrk</code> bnd
+     * <code>reset</code> methods. The <code>mbrkSupported</code>
+     * method of <code>InflbterInputStrebm</code> returns
+     * <code>fblse</code>.
      *
-     * @return  a <code>boolean</code> indicating if this stream type supports
-     *          the <code>mark</code> and <code>reset</code> methods.
-     * @see     java.io.InputStream#mark(int)
-     * @see     java.io.InputStream#reset()
+     * @return  b <code>boolebn</code> indicbting if this strebm type supports
+     *          the <code>mbrk</code> bnd <code>reset</code> methods.
+     * @see     jbvb.io.InputStrebm#mbrk(int)
+     * @see     jbvb.io.InputStrebm#reset()
      */
-    public boolean markSupported() {
-        return false;
+    public boolebn mbrkSupported() {
+        return fblse;
     }
 
     /**
-     * Marks the current position in this input stream.
+     * Mbrks the current position in this input strebm.
      *
-     * <p> The <code>mark</code> method of <code>InflaterInputStream</code>
+     * <p> The <code>mbrk</code> method of <code>InflbterInputStrebm</code>
      * does nothing.
      *
-     * @param   readlimit   the maximum limit of bytes that can be read before
-     *                      the mark position becomes invalid.
-     * @see     java.io.InputStream#reset()
+     * @pbrbm   rebdlimit   the mbximum limit of bytes thbt cbn be rebd before
+     *                      the mbrk position becomes invblid.
+     * @see     jbvb.io.InputStrebm#reset()
      */
-    public synchronized void mark(int readlimit) {
+    public synchronized void mbrk(int rebdlimit) {
     }
 
     /**
-     * Repositions this stream to the position at the time the
-     * <code>mark</code> method was last called on this input stream.
+     * Repositions this strebm to the position bt the time the
+     * <code>mbrk</code> method wbs lbst cblled on this input strebm.
      *
-     * <p> The method <code>reset</code> for class
-     * <code>InflaterInputStream</code> does nothing except throw an
+     * <p> The method <code>reset</code> for clbss
+     * <code>InflbterInputStrebm</code> does nothing except throw bn
      * <code>IOException</code>.
      *
      * @exception  IOException  if this method is invoked.
-     * @see     java.io.InputStream#mark(int)
-     * @see     java.io.IOException
+     * @see     jbvb.io.InputStrebm#mbrk(int)
+     * @see     jbvb.io.IOException
      */
     public synchronized void reset() throws IOException {
-        throw new IOException("mark/reset not supported");
+        throw new IOException("mbrk/reset not supported");
     }
 }

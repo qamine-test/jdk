@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset.spi;
+pbckbge jbvbx.sql.rowset.spi;
 
-import java.sql.SQLException;
-import java.io.Reader;
+import jbvb.sql.SQLException;
+import jbvb.io.Rebder;
 
-import javax.sql.RowSetWriter;
-import javax.sql.rowset.*;
-import java.sql.Savepoint;
+import jbvbx.sql.RowSetWriter;
+import jbvbx.sql.rowset.*;
+import jbvb.sql.Sbvepoint;
 
 /**
- * A specialized interface that facilitates an extension of the standard
- * <code>SyncProvider</code> abstract class so that it has finer grained
- * transaction control.
+ * A speciblized interfbce thbt fbcilitbtes bn extension of the stbndbrd
+ * <code>SyncProvider</code> bbstrbct clbss so thbt it hbs finer grbined
+ * trbnsbction control.
  * <p>
- * If one or more disconnected <code>RowSet</code> objects are participating
- * in a global transaction, they may wish to coordinate their synchronization
- * commits to preserve data integrity and reduce the number of
- * synchronization exceptions. If this is the case, an application should set
- * the <code>CachedRowSet</code> constant <code>COMMIT_ON_ACCEPT_CHANGES</code>
- * to <code>false</code> and use the <code>commit</code> and <code>rollback</code>
- * methods defined in this interface to manage transaction boundaries.
+ * If one or more disconnected <code>RowSet</code> objects bre pbrticipbting
+ * in b globbl trbnsbction, they mby wish to coordinbte their synchronizbtion
+ * commits to preserve dbtb integrity bnd reduce the number of
+ * synchronizbtion exceptions. If this is the cbse, bn bpplicbtion should set
+ * the <code>CbchedRowSet</code> constbnt <code>COMMIT_ON_ACCEPT_CHANGES</code>
+ * to <code>fblse</code> bnd use the <code>commit</code> bnd <code>rollbbck</code>
+ * methods defined in this interfbce to mbnbge trbnsbction boundbries.
  *
  * @since 1.5
  */
-public interface TransactionalWriter extends RowSetWriter {
+public interfbce TrbnsbctionblWriter extends RowSetWriter {
 
     /**
-     * Makes permanent all changes that have been performed by the
-     * <code>acceptChanges</code> method since the last call to either the
-     * <code>commit</code> or <code>rollback</code> methods.
-     * This method should be used only when auto-commit mode has been disabled.
+     * Mbkes permbnent bll chbnges thbt hbve been performed by the
+     * <code>bcceptChbnges</code> method since the lbst cbll to either the
+     * <code>commit</code> or <code>rollbbck</code> methods.
+     * This method should be used only when buto-commit mode hbs been disbbled.
      *
-     * @throws SQLException  if a database access error occurs or the
-     *         <code>Connection</code> object within this <code>CachedRowSet</code>
-     *         object is in auto-commit mode
+     * @throws SQLException  if b dbtbbbse bccess error occurs or the
+     *         <code>Connection</code> object within this <code>CbchedRowSet</code>
+     *         object is in buto-commit mode
      */
     public void commit() throws SQLException;
 
     /**
-     * Undoes all changes made in the current transaction. This method should be
-     * used only when auto-commit mode has been disabled.
+     * Undoes bll chbnges mbde in the current trbnsbction. This method should be
+     * used only when buto-commit mode hbs been disbbled.
      *
-     * @throws SQLException if a database access error occurs or the <code>Connection</code>
-     *         object within this <code>CachedRowSet</code> object is in auto-commit mode
+     * @throws SQLException if b dbtbbbse bccess error occurs or the <code>Connection</code>
+     *         object within this <code>CbchedRowSet</code> object is in buto-commit mode
      */
-    public void rollback() throws SQLException;
+    public void rollbbck() throws SQLException;
 
     /**
-     * Undoes all changes made in the current transaction made prior to the given
-     * <code>Savepoint</code> object.  This method should be used only when auto-commit
-     * mode has been disabled.
+     * Undoes bll chbnges mbde in the current trbnsbction mbde prior to the given
+     * <code>Sbvepoint</code> object.  This method should be used only when buto-commit
+     * mode hbs been disbbled.
      *
-     * @param s a <code>Savepoint</code> object marking a savepoint in the current
-     *        transaction.  All changes made before <i>s</i> was set will be undone.
-     *        All changes made after <i>s</i> was set will be made permanent.
-     * @throws SQLException if a database access error occurs or the <code>Connection</code>
-     *         object within this <code>CachedRowSet</code> object is in auto-commit mode
+     * @pbrbm s b <code>Sbvepoint</code> object mbrking b sbvepoint in the current
+     *        trbnsbction.  All chbnges mbde before <i>s</i> wbs set will be undone.
+     *        All chbnges mbde bfter <i>s</i> wbs set will be mbde permbnent.
+     * @throws SQLException if b dbtbbbse bccess error occurs or the <code>Connection</code>
+     *         object within this <code>CbchedRowSet</code> object is in buto-commit mode
      */
-    public void rollback(Savepoint s) throws SQLException;
+    public void rollbbck(Sbvepoint s) throws SQLException;
 }

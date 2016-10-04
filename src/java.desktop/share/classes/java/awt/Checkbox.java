@@ -1,342 +1,342 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.peer.CheckboxPeer;
-import java.awt.event.*;
-import java.util.EventListener;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import javax.accessibility.*;
+import jbvb.bwt.peer.CheckboxPeer;
+import jbvb.bwt.event.*;
+import jbvb.util.EventListener;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvbx.bccessibility.*;
 
 
 /**
- * A check box is a graphical component that can be in either an
- * "on" (<code>true</code>) or "off" (<code>false</code>) state.
- * Clicking on a check box changes its state from
+ * A check box is b grbphicbl component thbt cbn be in either bn
+ * "on" (<code>true</code>) or "off" (<code>fblse</code>) stbte.
+ * Clicking on b check box chbnges its stbte from
  * "on" to "off," or from "off" to "on."
  * <p>
- * The following code example creates a set of check boxes in
- * a grid layout:
+ * The following code exbmple crebtes b set of check boxes in
+ * b grid lbyout:
  *
  * <hr><blockquote><pre>
- * setLayout(new GridLayout(3, 1));
- * add(new Checkbox("one", null, true));
- * add(new Checkbox("two"));
- * add(new Checkbox("three"));
+ * setLbyout(new GridLbyout(3, 1));
+ * bdd(new Checkbox("one", null, true));
+ * bdd(new Checkbox("two"));
+ * bdd(new Checkbox("three"));
  * </pre></blockquote><hr>
  * <p>
- * This image depicts the check boxes and grid layout
- * created by this code example:
+ * This imbge depicts the check boxes bnd grid lbyout
+ * crebted by this code exbmple:
  * <p>
- * <img src="doc-files/Checkbox-1.gif" alt="The following context describes the graphic."
- * style="float:center; margin: 7px 10px;">
+ * <img src="doc-files/Checkbox-1.gif" blt="The following context describes the grbphic."
+ * style="flobt:center; mbrgin: 7px 10px;">
  * <p>
- * The button labeled <code>one</code> is in the "on" state, and the
- * other two are in the "off" state. In this example, which uses the
- * <code>GridLayout</code> class, the states of the three check
- * boxes are set independently.
+ * The button lbbeled <code>one</code> is in the "on" stbte, bnd the
+ * other two bre in the "off" stbte. In this exbmple, which uses the
+ * <code>GridLbyout</code> clbss, the stbtes of the three check
+ * boxes bre set independently.
  * <p>
- * Alternatively, several check boxes can be grouped together under
- * the control of a single object, using the
- * <code>CheckboxGroup</code> class.
- * In a check box group, at most one button can be in the "on"
- * state at any given time. Clicking on a check box to turn it on
- * forces any other check box in the same group that is on
- * into the "off" state.
+ * Alternbtively, severbl check boxes cbn be grouped together under
+ * the control of b single object, using the
+ * <code>CheckboxGroup</code> clbss.
+ * In b check box group, bt most one button cbn be in the "on"
+ * stbte bt bny given time. Clicking on b check box to turn it on
+ * forces bny other check box in the sbme group thbt is on
+ * into the "off" stbte.
  *
- * @author      Sami Shaio
- * @see         java.awt.GridLayout
- * @see         java.awt.CheckboxGroup
+ * @buthor      Sbmi Shbio
+ * @see         jbvb.bwt.GridLbyout
+ * @see         jbvb.bwt.CheckboxGroup
  * @since       1.0
  */
-public class Checkbox extends Component implements ItemSelectable, Accessible {
+public clbss Checkbox extends Component implements ItemSelectbble, Accessible {
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
     /**
-     * The label of the Checkbox.
-     * This field can be null.
-     * @serial
-     * @see #getLabel()
-     * @see #setLabel(String)
+     * The lbbel of the Checkbox.
+     * This field cbn be null.
+     * @seribl
+     * @see #getLbbel()
+     * @see #setLbbel(String)
      */
-    String label;
+    String lbbel;
 
     /**
-     * The state of the <code>Checkbox</code>.
-     * @serial
-     * @see #getState()
-     * @see #setState(boolean)
+     * The stbte of the <code>Checkbox</code>.
+     * @seribl
+     * @see #getStbte()
+     * @see #setStbte(boolebn)
      */
-    boolean state;
+    boolebn stbte;
 
     /**
      * The check box group.
-         * This field can be null indicating that the checkbox
-         * is not a group checkbox.
-         * @serial
+         * This field cbn be null indicbting thbt the checkbox
+         * is not b group checkbox.
+         * @seribl
      * @see #getCheckboxGroup()
      * @see #setCheckboxGroup(CheckboxGroup)
      */
     CheckboxGroup group;
 
-    transient ItemListener itemListener;
+    trbnsient ItemListener itemListener;
 
-    private static final String base = "checkbox";
-    private static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "checkbox";
+    privbte stbtic int nbmeCounter = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = 7270714317450821763L;
+    privbte stbtic finbl long seriblVersionUID = 7270714317450821763L;
 
     /**
-     * Helper function for setState and CheckboxGroup.setSelectedCheckbox
-     * Should remain package-private.
+     * Helper function for setStbte bnd CheckboxGroup.setSelectedCheckbox
+     * Should rembin pbckbge-privbte.
      */
-    void setStateInternal(boolean state) {
-        this.state = state;
+    void setStbteInternbl(boolebn stbte) {
+        this.stbte = stbte;
         CheckboxPeer peer = (CheckboxPeer)this.peer;
         if (peer != null) {
-            peer.setState(state);
+            peer.setStbte(stbte);
         }
     }
 
     /**
-     * Creates a check box with an empty string for its label.
-     * The state of this check box is set to "off," and it is not
-     * part of any check box group.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes b check box with bn empty string for its lbbel.
+     * The stbte of this check box is set to "off," bnd it is not
+     * pbrt of bny check box group.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public Checkbox() throws HeadlessException {
-        this("", false, null);
+    public Checkbox() throws HebdlessException {
+        this("", fblse, null);
     }
 
     /**
-     * Creates a check box with the specified label.  The state
-     * of this check box is set to "off," and it is not part of
-     * any check box group.
+     * Crebtes b check box with the specified lbbel.  The stbte
+     * of this check box is set to "off," bnd it is not pbrt of
+     * bny check box group.
      *
-     * @param     label   a string label for this check box,
-     *                        or <code>null</code> for no label.
-     * @exception HeadlessException if
-     *      <code>GraphicsEnvironment.isHeadless</code>
+     * @pbrbm     lbbel   b string lbbel for this check box,
+     *                        or <code>null</code> for no lbbel.
+     * @exception HebdlessException if
+     *      <code>GrbphicsEnvironment.isHebdless</code>
      *      returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public Checkbox(String label) throws HeadlessException {
-        this(label, false, null);
+    public Checkbox(String lbbel) throws HebdlessException {
+        this(lbbel, fblse, null);
     }
 
     /**
-     * Creates a check box with the specified label
-     * and sets the specified state.
-     * This check box is not part of any check box group.
+     * Crebtes b check box with the specified lbbel
+     * bnd sets the specified stbte.
+     * This check box is not pbrt of bny check box group.
      *
-     * @param     label   a string label for this check box,
-     *                        or <code>null</code> for no label
-     * @param     state    the initial state of this check box
-     * @exception HeadlessException if
-     *     <code>GraphicsEnvironment.isHeadless</code>
+     * @pbrbm     lbbel   b string lbbel for this check box,
+     *                        or <code>null</code> for no lbbel
+     * @pbrbm     stbte    the initibl stbte of this check box
+     * @exception HebdlessException if
+     *     <code>GrbphicsEnvironment.isHebdless</code>
      *     returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public Checkbox(String label, boolean state) throws HeadlessException {
-        this(label, state, null);
+    public Checkbox(String lbbel, boolebn stbte) throws HebdlessException {
+        this(lbbel, stbte, null);
     }
 
     /**
-     * Constructs a Checkbox with the specified label, set to the
-     * specified state, and in the specified check box group.
+     * Constructs b Checkbox with the specified lbbel, set to the
+     * specified stbte, bnd in the specified check box group.
      *
-     * @param     label   a string label for this check box,
-     *                        or <code>null</code> for no label.
-     * @param     state   the initial state of this check box.
-     * @param     group   a check box group for this check box,
+     * @pbrbm     lbbel   b string lbbel for this check box,
+     *                        or <code>null</code> for no lbbel.
+     * @pbrbm     stbte   the initibl stbte of this check box.
+     * @pbrbm     group   b check box group for this check box,
      *                           or <code>null</code> for no group.
-     * @exception HeadlessException if
-     *     <code>GraphicsEnvironment.isHeadless</code>
+     * @exception HebdlessException if
+     *     <code>GrbphicsEnvironment.isHebdless</code>
      *     returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.1
      */
-    public Checkbox(String label, boolean state, CheckboxGroup group)
-        throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        this.label = label;
-        this.state = state;
+    public Checkbox(String lbbel, boolebn stbte, CheckboxGroup group)
+        throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
+        this.lbbel = lbbel;
+        this.stbte = stbte;
         this.group = group;
-        if (state && (group != null)) {
+        if (stbte && (group != null)) {
             group.setSelectedCheckbox(this);
         }
     }
 
     /**
-     * Creates a check box with the specified label, in the specified
-     * check box group, and set to the specified state.
+     * Crebtes b check box with the specified lbbel, in the specified
+     * check box group, bnd set to the specified stbte.
      *
-     * @param     label   a string label for this check box,
-     *                        or <code>null</code> for no label.
-     * @param     group   a check box group for this check box,
+     * @pbrbm     lbbel   b string lbbel for this check box,
+     *                        or <code>null</code> for no lbbel.
+     * @pbrbm     group   b check box group for this check box,
      *                           or <code>null</code> for no group.
-     * @param     state   the initial state of this check box.
-     * @exception HeadlessException if
-     *    <code>GraphicsEnvironment.isHeadless</code>
+     * @pbrbm     stbte   the initibl stbte of this check box.
+     * @exception HebdlessException if
+     *    <code>GrbphicsEnvironment.isHebdless</code>
      *    returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.1
      */
-    public Checkbox(String label, CheckboxGroup group, boolean state)
-        throws HeadlessException {
-        this(label, state, group);
+    public Checkbox(String lbbel, CheckboxGroup group, boolebn stbte)
+        throws HebdlessException {
+        this(lbbel, stbte, group);
     }
 
     /**
-     * Constructs a name for this component.  Called by
-     * <code>getName</code> when the name is <code>null</code>.
+     * Constructs b nbme for this component.  Cblled by
+     * <code>getNbme</code> when the nbme is <code>null</code>.
      *
-     * @return a name for this component
+     * @return b nbme for this component
      */
-    String constructComponentName() {
-        synchronized (Checkbox.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (Checkbox.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Creates the peer of the Checkbox. The peer allows you to change the
-     * look of the Checkbox without changing its functionality.
+     * Crebtes the peer of the Checkbox. The peer bllows you to chbnge the
+     * look of the Checkbox without chbnging its functionblity.
      *
-     * @see     java.awt.Toolkit#createCheckbox(java.awt.Checkbox)
-     * @see     java.awt.Component#getToolkit()
+     * @see     jbvb.bwt.Toolkit#crebteCheckbox(jbvb.bwt.Checkbox)
+     * @see     jbvb.bwt.Component#getToolkit()
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
             if (peer == null)
-                peer = getToolkit().createCheckbox(this);
-            super.addNotify();
+                peer = getToolkit().crebteCheckbox(this);
+            super.bddNotify();
         }
     }
 
     /**
-     * Gets the label of this check box.
+     * Gets the lbbel of this check box.
      *
-     * @return   the label of this check box, or <code>null</code>
-     *                  if this check box has no label.
-     * @see      #setLabel(String)
+     * @return   the lbbel of this check box, or <code>null</code>
+     *                  if this check box hbs no lbbel.
+     * @see      #setLbbel(String)
      */
-    public String getLabel() {
-        return label;
+    public String getLbbel() {
+        return lbbel;
     }
 
     /**
-     * Sets this check box's label to be the string argument.
+     * Sets this check box's lbbel to be the string brgument.
      *
-     * @param    label   a string to set as the new label, or
-     *                        <code>null</code> for no label.
-     * @see      #getLabel
+     * @pbrbm    lbbel   b string to set bs the new lbbel, or
+     *                        <code>null</code> for no lbbel.
+     * @see      #getLbbel
      */
-    public void setLabel(String label) {
-        boolean testvalid = false;
+    public void setLbbel(String lbbel) {
+        boolebn testvblid = fblse;
 
         synchronized (this) {
-            if (label != this.label && (this.label == null ||
-                                        !this.label.equals(label))) {
-                this.label = label;
+            if (lbbel != this.lbbel && (this.lbbel == null ||
+                                        !this.lbbel.equbls(lbbel))) {
+                this.lbbel = lbbel;
                 CheckboxPeer peer = (CheckboxPeer)this.peer;
                 if (peer != null) {
-                    peer.setLabel(label);
+                    peer.setLbbel(lbbel);
                 }
-                testvalid = true;
+                testvblid = true;
             }
         }
 
-        // This could change the preferred size of the Component.
-        if (testvalid) {
-            invalidateIfValid();
+        // This could chbnge the preferred size of the Component.
+        if (testvblid) {
+            invblidbteIfVblid();
         }
     }
 
     /**
-     * Determines whether this check box is in the "on" or "off" state.
-     * The boolean value <code>true</code> indicates the "on" state,
-     * and <code>false</code> indicates the "off" state.
+     * Determines whether this check box is in the "on" or "off" stbte.
+     * The boolebn vblue <code>true</code> indicbtes the "on" stbte,
+     * bnd <code>fblse</code> indicbtes the "off" stbte.
      *
-     * @return    the state of this check box, as a boolean value
-     * @see       #setState
+     * @return    the stbte of this check box, bs b boolebn vblue
+     * @see       #setStbte
      */
-    public boolean getState() {
-        return state;
+    public boolebn getStbte() {
+        return stbte;
     }
 
     /**
-     * Sets the state of this check box to the specified state.
-     * The boolean value <code>true</code> indicates the "on" state,
-     * and <code>false</code> indicates the "off" state.
+     * Sets the stbte of this check box to the specified stbte.
+     * The boolebn vblue <code>true</code> indicbtes the "on" stbte,
+     * bnd <code>fblse</code> indicbtes the "off" stbte.
      *
-     * <p>Note that this method should be primarily used to
-     * initialize the state of the checkbox.  Programmatically
-     * setting the state of the checkbox will <i>not</i> trigger
-     * an <code>ItemEvent</code>.  The only way to trigger an
-     * <code>ItemEvent</code> is by user interaction.
+     * <p>Note thbt this method should be primbrily used to
+     * initiblize the stbte of the checkbox.  Progrbmmbticblly
+     * setting the stbte of the checkbox will <i>not</i> trigger
+     * bn <code>ItemEvent</code>.  The only wby to trigger bn
+     * <code>ItemEvent</code> is by user interbction.
      *
-     * @param     state   the boolean state of the check box
-     * @see       #getState
+     * @pbrbm     stbte   the boolebn stbte of the check box
+     * @see       #getStbte
      */
-    public void setState(boolean state) {
-        /* Cannot hold check box lock when calling group.setSelectedCheckbox. */
+    public void setStbte(boolebn stbte) {
+        /* Cbnnot hold check box lock when cblling group.setSelectedCheckbox. */
         CheckboxGroup group = this.group;
         if (group != null) {
-            if (state) {
+            if (stbte) {
                 group.setSelectedCheckbox(this);
             } else if (group.getSelectedCheckbox() == this) {
-                state = true;
+                stbte = true;
             }
         }
-        setStateInternal(state);
+        setStbteInternbl(stbte);
     }
 
     /**
-     * Returns an array (length 1) containing the checkbox
-     * label or null if the checkbox is not selected.
-     * @see ItemSelectable
+     * Returns bn brrby (length 1) contbining the checkbox
+     * lbbel or null if the checkbox is not selected.
+     * @see ItemSelectbble
      */
     public Object[] getSelectedObjects() {
-        if (state) {
+        if (stbte) {
             Object[] items = new Object[1];
-            items[0] = label;
+            items[0] = lbbel;
             return items;
         }
         return null;
@@ -345,7 +345,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
     /**
      * Determines this check box's group.
      * @return     this check box's group, or <code>null</code>
-     *               if the check box is not part of a check box group.
+     *               if the check box is not pbrt of b check box group.
      * @see        #setCheckboxGroup(CheckboxGroup)
      */
     public CheckboxGroup getCheckboxGroup() {
@@ -354,25 +354,25 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
 
     /**
      * Sets this check box's group to the specified check box group.
-     * If this check box is already in a different check box group,
-     * it is first taken out of that group.
+     * If this check box is blrebdy in b different check box group,
+     * it is first tbken out of thbt group.
      * <p>
-     * If the state of this check box is <code>true</code> and the new
-     * group already has a check box selected, this check box's state
-     * is changed to <code>false</code>.  If the state of this check
-     * box is <code>true</code> and the new group has no check box
+     * If the stbte of this check box is <code>true</code> bnd the new
+     * group blrebdy hbs b check box selected, this check box's stbte
+     * is chbnged to <code>fblse</code>.  If the stbte of this check
+     * box is <code>true</code> bnd the new group hbs no check box
      * selected, this check box becomes the selected checkbox for
-     * the new group and its state is <code>true</code>.
+     * the new group bnd its stbte is <code>true</code>.
      *
-     * @param     g   the new check box group, or <code>null</code>
-     *                to remove this check box from any check box group
+     * @pbrbm     g   the new check box group, or <code>null</code>
+     *                to remove this check box from bny check box group
      * @see       #getCheckboxGroup
      */
     public void setCheckboxGroup(CheckboxGroup g) {
         CheckboxGroup oldGroup;
-        boolean oldState;
+        boolebn oldStbte;
 
-        /* Do nothing if this check box has already belonged
+        /* Do nothing if this check box hbs blrebdy belonged
          * to the check box group g.
          */
         if (this.group == g) {
@@ -381,169 +381,169 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
 
         synchronized (this) {
             oldGroup = this.group;
-            oldState = getState();
+            oldStbte = getStbte();
 
             this.group = g;
             CheckboxPeer peer = (CheckboxPeer)this.peer;
             if (peer != null) {
                 peer.setCheckboxGroup(g);
             }
-            if (this.group != null && getState()) {
+            if (this.group != null && getStbte()) {
                 if (this.group.getSelectedCheckbox() != null) {
-                    setState(false);
+                    setStbte(fblse);
                 } else {
                     this.group.setSelectedCheckbox(this);
                 }
             }
         }
 
-        /* Locking check box below could cause deadlock with
+        /* Locking check box below could cbuse debdlock with
          * CheckboxGroup's setSelectedCheckbox method.
          *
-         * Fix for 4726853 by kdm@sparc.spb.su
-         * Here we should check if this check box was selected
-         * in the previous group and set selected check box to
-         * null for that group if so.
+         * Fix for 4726853 by kdm@spbrc.spb.su
+         * Here we should check if this check box wbs selected
+         * in the previous group bnd set selected check box to
+         * null for thbt group if so.
          */
-        if (oldGroup != null && oldState) {
+        if (oldGroup != null && oldStbte) {
             oldGroup.setSelectedCheckbox(null);
         }
     }
 
     /**
      * Adds the specified item listener to receive item events from
-     * this check box.  Item events are sent to listeners in response
-     * to user input, but not in response to calls to setState().
-     * If l is null, no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * this check box.  Item events bre sent to listeners in response
+     * to user input, but not in response to cblls to setStbte().
+     * If l is null, no exception is thrown bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param         l    the item listener
+     * @pbrbm         l    the item listener
      * @see           #removeItemListener
      * @see           #getItemListeners
-     * @see           #setState
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
+     * @see           #setStbte
+     * @see           jbvb.bwt.event.ItemEvent
+     * @see           jbvb.bwt.event.ItemListener
      * @since         1.1
      */
-    public synchronized void addItemListener(ItemListener l) {
+    public synchronized void bddItemListener(ItemListener l) {
         if (l == null) {
             return;
         }
-        itemListener = AWTEventMulticaster.add(itemListener, l);
+        itemListener = AWTEventMulticbster.bdd(itemListener, l);
         newEventsOnly = true;
     }
 
     /**
-     * Removes the specified item listener so that the item listener
+     * Removes the specified item listener so thbt the item listener
      * no longer receives item events from this check box.
-     * If l is null, no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * If l is null, no exception is thrown bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param         l    the item listener
-     * @see           #addItemListener
+     * @pbrbm         l    the item listener
+     * @see           #bddItemListener
      * @see           #getItemListeners
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
+     * @see           jbvb.bwt.event.ItemEvent
+     * @see           jbvb.bwt.event.ItemListener
      * @since         1.1
      */
     public synchronized void removeItemListener(ItemListener l) {
         if (l == null) {
             return;
         }
-        itemListener = AWTEventMulticaster.remove(itemListener, l);
+        itemListener = AWTEventMulticbster.remove(itemListener, l);
     }
 
     /**
-     * Returns an array of all the item listeners
+     * Returns bn brrby of bll the item listeners
      * registered on this checkbox.
      *
-     * @return all of this checkbox's <code>ItemListener</code>s
-     *         or an empty array if no item
-     *         listeners are currently registered
+     * @return bll of this checkbox's <code>ItemListener</code>s
+     *         or bn empty brrby if no item
+     *         listeners bre currently registered
      *
-     * @see           #addItemListener
+     * @see           #bddItemListener
      * @see           #removeItemListener
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
+     * @see           jbvb.bwt.event.ItemEvent
+     * @see           jbvb.bwt.event.ItemListener
      * @since 1.4
      */
     public synchronized ItemListener[] getItemListeners() {
-        return getListeners(ItemListener.class);
+        return getListeners(ItemListener.clbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
      * upon this <code>Checkbox</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl, such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
      * <code>Checkbox</code> <code>c</code>
      * for its item listeners with the following code:
      *
-     * <pre>ItemListener[] ils = (ItemListener[])(c.getListeners(ItemListener.class));</pre>
+     * <pre>ItemListener[] ils = (ItemListener[])(c.getListeners(ItemListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this checkbox,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @see #getItemListeners
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         EventListener l = null;
-        if  (listenerType == ItemListener.class) {
+        if  (listenerType == ItemListener.clbss) {
             l = itemListener;
         } else {
             return super.getListeners(listenerType);
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        return AWTEventMulticbster.getListeners(l, listenerType);
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
+    // REMIND: remove when filtering is done bt lower level
+    boolebn eventEnbbled(AWTEvent e) {
         if (e.id == ItemEvent.ITEM_STATE_CHANGED) {
-            if ((eventMask & AWTEvent.ITEM_EVENT_MASK) != 0 ||
+            if ((eventMbsk & AWTEvent.ITEM_EVENT_MASK) != 0 ||
                 itemListener != null) {
                 return true;
             }
-            return false;
+            return fblse;
         }
-        return super.eventEnabled(e);
+        return super.eventEnbbled(e);
     }
 
     /**
      * Processes events on this check box.
-     * If the event is an instance of <code>ItemEvent</code>,
+     * If the event is bn instbnce of <code>ItemEvent</code>,
      * this method invokes the <code>processItemEvent</code> method.
-     * Otherwise, it calls its superclass's <code>processEvent</code> method.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * Otherwise, it cblls its superclbss's <code>processEvent</code> method.
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param         e the event
-     * @see           java.awt.event.ItemEvent
+     * @pbrbm         e the event
+     * @see           jbvb.bwt.event.ItemEvent
      * @see           #processItemEvent
      * @since         1.1
      */
     protected void processEvent(AWTEvent e) {
-        if (e instanceof ItemEvent) {
+        if (e instbnceof ItemEvent) {
             processItemEvent((ItemEvent)e);
             return;
         }
@@ -552,129 +552,129 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
 
     /**
      * Processes item events occurring on this check box by
-     * dispatching them to any registered
+     * dispbtching them to bny registered
      * <code>ItemListener</code> objects.
      * <p>
-     * This method is not called unless item events are
-     * enabled for this component. Item events are enabled
+     * This method is not cblled unless item events bre
+     * enbbled for this component. Item events bre enbbled
      * when one of the following occurs:
      * <ul>
      * <li>An <code>ItemListener</code> object is registered
-     * via <code>addItemListener</code>.
-     * <li>Item events are enabled via <code>enableEvents</code>.
+     * vib <code>bddItemListener</code>.
+     * <li>Item events bre enbbled vib <code>enbbleEvents</code>.
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param       e the item event
-     * @see         java.awt.event.ItemEvent
-     * @see         java.awt.event.ItemListener
-     * @see         #addItemListener
-     * @see         java.awt.Component#enableEvents
+     * @pbrbm       e the item event
+     * @see         jbvb.bwt.event.ItemEvent
+     * @see         jbvb.bwt.event.ItemListener
+     * @see         #bddItemListener
+     * @see         jbvb.bwt.Component#enbbleEvents
      * @since       1.1
      */
     protected void processItemEvent(ItemEvent e) {
         ItemListener listener = itemListener;
         if (listener != null) {
-            listener.itemStateChanged(e);
+            listener.itemStbteChbnged(e);
         }
     }
 
     /**
-     * Returns a string representing the state of this <code>Checkbox</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * Returns b string representing the stbte of this <code>Checkbox</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return    the parameter string of this check box
+     * @return    the pbrbmeter string of this check box
      */
-    protected String paramString() {
-        String str = super.paramString();
-        String label = this.label;
-        if (label != null) {
-            str += ",label=" + label;
+    protected String pbrbmString() {
+        String str = super.pbrbmString();
+        String lbbel = this.lbbel;
+        if (lbbel != null) {
+            str += ",lbbel=" + lbbel;
         }
-        return str + ",state=" + state;
+        return str + ",stbte=" + stbte;
     }
 
 
-    /* Serialization support.
+    /* Seriblizbtion support.
      */
 
     /*
-     * Serialized data version
-     * @serial
+     * Seriblized dbtb version
+     * @seribl
      */
-    private int checkboxSerializedDataVersion = 1;
+    privbte int checkboxSeriblizedDbtbVersion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * a list of serializable <code>ItemListeners</code>
-     * as optional data.  The non-serializable
-     * <code>ItemListeners</code> are detected and
-     * no attempt is made to serialize them.
+     * Writes defbult seriblizbble fields to strebm.  Writes
+     * b list of seriblizbble <code>ItemListeners</code>
+     * bs optionbl dbtb.  The non-seriblizbble
+     * <code>ItemListeners</code> bre detected bnd
+     * no bttempt is mbde to seriblize them.
      *
-     * @param s the <code>ObjectOutputStream</code> to write
-     * @serialData <code>null</code> terminated sequence of 0
-     *   or more pairs; the pair consists of a <code>String</code>
-     *   and an <code>Object</code>; the <code>String</code> indicates
-     *   the type of object and is one of the following:
-     *   <code>itemListenerK</code> indicating an
+     * @pbrbm s the <code>ObjectOutputStrebm</code> to write
+     * @seriblDbtb <code>null</code> terminbted sequence of 0
+     *   or more pbirs; the pbir consists of b <code>String</code>
+     *   bnd bn <code>Object</code>; the <code>String</code> indicbtes
+     *   the type of object bnd is one of the following:
+     *   <code>itemListenerK</code> indicbting bn
      *     <code>ItemListener</code> object
      *
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see java.awt.Component#itemListenerK
-     * @see #readObject(ObjectInputStream)
+     * @see AWTEventMulticbster#sbve(ObjectOutputStrebm, String, EventListener)
+     * @see jbvb.bwt.Component#itemListenerK
+     * @see #rebdObject(ObjectInputStrebm)
      */
-    private void writeObject(ObjectOutputStream s)
-      throws java.io.IOException
+    privbte void writeObject(ObjectOutputStrebm s)
+      throws jbvb.io.IOException
     {
-      s.defaultWriteObject();
+      s.defbultWriteObject();
 
-      AWTEventMulticaster.save(s, itemListenerK, itemListener);
+      AWTEventMulticbster.sbve(s, itemListenerK, itemListener);
       s.writeObject(null);
     }
 
     /**
-     * Reads the <code>ObjectInputStream</code> and if it
-     * isn't <code>null</code> adds a listener to receive
+     * Rebds the <code>ObjectInputStrebm</code> bnd if it
+     * isn't <code>null</code> bdds b listener to receive
      * item events fired by the <code>Checkbox</code>.
-     * Unrecognized keys or values will be ignored.
+     * Unrecognized keys or vblues will be ignored.
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm s the <code>ObjectInputStrebm</code> to rebd
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @serial
+     * @seribl
      * @see #removeItemListener(ItemListener)
-     * @see #addItemListener(ItemListener)
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #writeObject(ObjectOutputStream)
+     * @see #bddItemListener(ItemListener)
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #writeObject(ObjectOutputStrebm)
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException, HebdlessException
     {
-      GraphicsEnvironment.checkHeadless();
-      s.defaultReadObject();
+      GrbphicsEnvironment.checkHebdless();
+      s.defbultRebdObject();
 
       Object keyOrNull;
-      while(null != (keyOrNull = s.readObject())) {
+      while(null != (keyOrNull = s.rebdObject())) {
         String key = ((String)keyOrNull).intern();
 
         if (itemListenerK == key)
-          addItemListener((ItemListener)(s.readObject()));
+          bddItemListener((ItemListener)(s.rebdObject()));
 
-        else // skip value for unrecognized key
-          s.readObject();
+        else // skip vblue for unrecognized key
+          s.rebdObject();
       }
     }
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblize JNI field bnd method ids
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
 
 /////////////////
@@ -683,68 +683,68 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
 
 
     /**
-     * Gets the AccessibleContext associated with this Checkbox.
-     * For checkboxes, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this Checkbox.
+     * For checkboxes, the AccessibleContext tbkes the form of bn
      * AccessibleAWTCheckbox.
-     * A new AccessibleAWTCheckbox is created if necessary.
+     * A new AccessibleAWTCheckbox is crebted if necessbry.
      *
-     * @return an AccessibleAWTCheckbox that serves as the
+     * @return bn AccessibleAWTCheckbox thbt serves bs the
      *         AccessibleContext of this Checkbox
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTCheckbox();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTCheckbox();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Checkbox</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to checkbox user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>Checkbox</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to checkbox user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleAWTCheckbox extends AccessibleAWTComponent
-        implements ItemListener, AccessibleAction, AccessibleValue
+    protected clbss AccessibleAWTCheckbox extends AccessibleAWTComponent
+        implements ItemListener, AccessibleAction, AccessibleVblue
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = 7881579233144754107L;
+        privbte stbtic finbl long seriblVersionUID = 7881579233144754107L;
 
         /**
          * Constructor for {@code AccessibleAWTCheckbox}
          */
         public AccessibleAWTCheckbox() {
             super();
-            Checkbox.this.addItemListener(this);
+            Checkbox.this.bddItemListener(this);
         }
 
         /**
-         * Fire accessible property change events when the state of the
-         * toggle button changes.
+         * Fire bccessible property chbnge events when the stbte of the
+         * toggle button chbnges.
          */
-        public void itemStateChanged(ItemEvent e) {
+        public void itemStbteChbnged(ItemEvent e) {
             Checkbox cb = (Checkbox) e.getSource();
-            if (Checkbox.this.accessibleContext != null) {
-                if (cb.getState()) {
-                    Checkbox.this.accessibleContext.firePropertyChange(
+            if (Checkbox.this.bccessibleContext != null) {
+                if (cb.getStbte()) {
+                    Checkbox.this.bccessibleContext.firePropertyChbnge(
                             AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                            null, AccessibleState.CHECKED);
+                            null, AccessibleStbte.CHECKED);
                 } else {
-                    Checkbox.this.accessibleContext.firePropertyChange(
+                    Checkbox.this.bccessibleContext.firePropertyChbnge(
                             AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                            AccessibleState.CHECKED, null);
+                            AccessibleStbte.CHECKED, null);
                 }
             }
         }
 
         /**
-         * Get the AccessibleAction associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleAction bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleAction interface on behalf of itself.
+         * AccessibleAction interfbce on behblf of itself.
          *
          * @return this object
          */
@@ -753,94 +753,94 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
         }
 
         /**
-         * Get the AccessibleValue associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleVblue bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleValue interface on behalf of itself.
+         * AccessibleVblue interfbce on behblf of itself.
          *
          * @return this object
          */
-        public AccessibleValue getAccessibleValue() {
+        public AccessibleVblue getAccessibleVblue() {
             return this;
         }
 
         /**
-         * Returns the number of Actions available in this object.
-         * If there is more than one, the first one is the "default"
-         * action.
+         * Returns the number of Actions bvbilbble in this object.
+         * If there is more thbn one, the first one is the "defbult"
+         * bction.
          *
          * @return the number of Actions in this object
          */
         public int getAccessibleActionCount() {
-            return 0;  //  To be fully implemented in a future release
+            return 0;  //  To be fully implemented in b future relebse
         }
 
         /**
-         * Return a description of the specified action of the object.
+         * Return b description of the specified bction of the object.
          *
-         * @param i zero-based index of the actions
+         * @pbrbm i zero-bbsed index of the bctions
          */
         public String getAccessibleActionDescription(int i) {
-            return null;  //  To be fully implemented in a future release
+            return null;  //  To be fully implemented in b future relebse
         }
 
         /**
          * Perform the specified Action on the object
          *
-         * @param i zero-based index of actions
-         * @return true if the the action was performed; else false.
+         * @pbrbm i zero-bbsed index of bctions
+         * @return true if the the bction wbs performed; else fblse.
          */
-        public boolean doAccessibleAction(int i) {
-            return false;    //  To be fully implemented in a future release
+        public boolebn doAccessibleAction(int i) {
+            return fblse;    //  To be fully implemented in b future relebse
         }
 
         /**
-         * Get the value of this object as a Number.  If the value has not been
-         * set, the return value will be null.
+         * Get the vblue of this object bs b Number.  If the vblue hbs not been
+         * set, the return vblue will be null.
          *
-         * @return value of the object
-         * @see #setCurrentAccessibleValue
+         * @return vblue of the object
+         * @see #setCurrentAccessibleVblue
          */
-        public Number getCurrentAccessibleValue() {
-            return null;  //  To be fully implemented in a future release
+        public Number getCurrentAccessibleVblue() {
+            return null;  //  To be fully implemented in b future relebse
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Set the vblue of this object bs b Number.
          *
-         * @return True if the value was set; else False
-         * @see #getCurrentAccessibleValue
+         * @return True if the vblue wbs set; else Fblse
+         * @see #getCurrentAccessibleVblue
          */
-        public boolean setCurrentAccessibleValue(Number n) {
-            return false;  //  To be fully implemented in a future release
+        public boolebn setCurrentAccessibleVblue(Number n) {
+            return fblse;  //  To be fully implemented in b future relebse
         }
 
         /**
-         * Get the minimum value of this object as a Number.
+         * Get the minimum vblue of this object bs b Number.
          *
-         * @return Minimum value of the object; null if this object does not
-         * have a minimum value
-         * @see #getMaximumAccessibleValue
+         * @return Minimum vblue of the object; null if this object does not
+         * hbve b minimum vblue
+         * @see #getMbximumAccessibleVblue
          */
-        public Number getMinimumAccessibleValue() {
-            return null;  //  To be fully implemented in a future release
+        public Number getMinimumAccessibleVblue() {
+            return null;  //  To be fully implemented in b future relebse
         }
 
         /**
-         * Get the maximum value of this object as a Number.
+         * Get the mbximum vblue of this object bs b Number.
          *
-         * @return Maximum value of the object; null if this object does not
-         * have a maximum value
-         * @see #getMinimumAccessibleValue
+         * @return Mbximum vblue of the object; null if this object does not
+         * hbve b mbximum vblue
+         * @see #getMinimumAccessibleVblue
          */
-        public Number getMaximumAccessibleValue() {
-            return null;  //  To be fully implemented in a future release
+        public Number getMbximumAccessibleVblue() {
+            return null;  //  To be fully implemented in b future relebse
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of
+         * @return bn instbnce of AccessibleRole describing the role of
          * the object
          * @see AccessibleRole
          */
@@ -849,21 +849,21 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
         }
 
         /**
-         * Get the state set of this object.
+         * Get the stbte set of this object.
          *
-         * @return an instance of AccessibleState containing the current state
+         * @return bn instbnce of AccessibleStbte contbining the current stbte
          * of the object
-         * @see AccessibleState
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            if (getState()) {
-                states.add(AccessibleState.CHECKED);
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            if (getStbte()) {
+                stbtes.bdd(AccessibleStbte.CHECKED);
             }
-            return states;
+            return stbtes;
         }
 
 
-    } // inner class AccessibleAWTCheckbox
+    } // inner clbss AccessibleAWTCheckbox
 
 }

@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.util.*;
-import javax.swing.plaf.*;
-import javax.swing.tree.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tree.*;
 
-import javax.swing.plaf.basic.*;
+import jbvbx.swing.plbf.bbsic.*;
 
 /**
- * The metal look and feel implementation of <code>TreeUI</code>.
+ * The metbl look bnd feel implementbtion of <code>TreeUI</code>.
  * <p>
- * <code>MetalTreeUI</code> allows for configuring how to
- * visually render the spacing and delineation between nodes. The following
- * hints are supported:
+ * <code>MetblTreeUI</code> bllows for configuring how to
+ * visublly render the spbcing bnd delinebtion between nodes. The following
+ * hints bre supported:
  *
- * <table summary="Descriptions of supported hints: Angled, Horizontal, and None">
+ * <tbble summbry="Descriptions of supported hints: Angled, Horizontbl, bnd None">
  *  <tr>
- *    <th><p style="text-align:left">Angled</p></th>
- *    <td>A line is drawn connecting the child to the parent. For handling
+ *    <th><p style="text-blign:left">Angled</p></th>
+ *    <td>A line is drbwn connecting the child to the pbrent. For hbndling
  *          of the root node refer to
- *          {@link javax.swing.JTree#setRootVisible} and
- *          {@link javax.swing.JTree#setShowsRootHandles}.
+ *          {@link jbvbx.swing.JTree#setRootVisible} bnd
+ *          {@link jbvbx.swing.JTree#setShowsRootHbndles}.
  *    </td>
  *  </tr>
  *  <tr>
- *     <th><p style="text-align:left">Horizontal</p></th>
- *     <td>A horizontal line is drawn dividing the children of the root node.</td>
+ *     <th><p style="text-blign:left">Horizontbl</p></th>
+ *     <td>A horizontbl line is drbwn dividing the children of the root node.</td>
  *  </tr>
  *  <tr>
- *      <th><p style="text-align:left">None</p></th>
- *      <td>Do not draw any visual indication between nodes.</td>
+ *      <th><p style="text-blign:left">None</p></th>
+ *      <td>Do not drbw bny visubl indicbtion between nodes.</td>
  *  </tr>
- * </table>
+ * </tbble>
  *
  * <p>
- * As it is typically impractical to obtain the <code>TreeUI</code> from
- * the <code>JTree</code> and cast to an instance of <code>MetalTreeUI</code>
- * you enable this property via the client property
- * <code>JTree.lineStyle</code>. For example, to switch to
- * <code>Horizontal</code> style you would do:
- * <code>tree.putClientProperty("JTree.lineStyle", "Horizontal");</code>
+ * As it is typicblly imprbcticbl to obtbin the <code>TreeUI</code> from
+ * the <code>JTree</code> bnd cbst to bn instbnce of <code>MetblTreeUI</code>
+ * you enbble this property vib the client property
+ * <code>JTree.lineStyle</code>. For exbmple, to switch to
+ * <code>Horizontbl</code> style you would do:
+ * <code>tree.putClientProperty("JTree.lineStyle", "Horizontbl");</code>
  * <p>
- * The default is <code>Angled</code>.
+ * The defbult is <code>Angled</code>.
  *
- * @author Tom Santos
- * @author Steve Wilson (value add stuff)
+ * @buthor Tom Sbntos
+ * @buthor Steve Wilson (vblue bdd stuff)
  */
-public class MetalTreeUI extends BasicTreeUI {
+public clbss MetblTreeUI extends BbsicTreeUI {
 
-    private static Color lineColor;
+    privbte stbtic Color lineColor;
 
-    private static final String LINE_STYLE = "JTree.lineStyle";
+    privbte stbtic finbl String LINE_STYLE = "JTree.lineStyle";
 
-    private static final String LEG_LINE_STYLE_STRING = "Angled";
-    private static final String HORIZ_STYLE_STRING = "Horizontal";
-    private static final String NO_STYLE_STRING = "None";
+    privbte stbtic finbl String LEG_LINE_STYLE_STRING = "Angled";
+    privbte stbtic finbl String HORIZ_STYLE_STRING = "Horizontbl";
+    privbte stbtic finbl String NO_STYLE_STRING = "None";
 
-    private static final int LEG_LINE_STYLE = 2;
-    private static final int HORIZ_LINE_STYLE = 1;
-    private static final int NO_LINE_STYLE = 0;
+    privbte stbtic finbl int LEG_LINE_STYLE = 2;
+    privbte stbtic finbl int HORIZ_LINE_STYLE = 1;
+    privbte stbtic finbl int NO_LINE_STYLE = 0;
 
-    private int lineStyle = LEG_LINE_STYLE;
-    private PropertyChangeListener lineStyleListener = new LineListener();
+    privbte int lineStyle = LEG_LINE_STYLE;
+    privbte PropertyChbngeListener lineStyleListener = new LineListener();
 
     /**
-     * Constructs the {@code MetalTreeUI}.
+     * Constructs the {@code MetblTreeUI}.
      *
-     * @param x a component
-     * @return the instance of the {@code MetalTreeUI}
+     * @pbrbm x b component
+     * @return the instbnce of the {@code MetblTreeUI}
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new MetalTreeUI();
+    public stbtic ComponentUI crebteUI(JComponent x) {
+        return new MetblTreeUI();
     }
 
     /**
-     * Constructs the {@code MetalTreeUI}.
+     * Constructs the {@code MetblTreeUI}.
      */
-    public MetalTreeUI() {
+    public MetblTreeUI() {
         super();
     }
 
-    protected int getHorizontalLegBuffer() {
+    protected int getHorizontblLegBuffer() {
         return 3;
     }
 
-    public void installUI( JComponent c ) {
-        super.installUI( c );
-        lineColor = UIManager.getColor( "Tree.line" );
+    public void instbllUI( JComponent c ) {
+        super.instbllUI( c );
+        lineColor = UIMbnbger.getColor( "Tree.line" );
 
-        Object lineStyleFlag = c.getClientProperty( LINE_STYLE );
-        decodeLineStyle(lineStyleFlag);
-        c.addPropertyChangeListener(lineStyleListener);
+        Object lineStyleFlbg = c.getClientProperty( LINE_STYLE );
+        decodeLineStyle(lineStyleFlbg);
+        c.bddPropertyChbngeListener(lineStyleListener);
 
     }
 
-    public void uninstallUI( JComponent c) {
-         c.removePropertyChangeListener(lineStyleListener);
-         super.uninstallUI(c);
+    public void uninstbllUI( JComponent c) {
+         c.removePropertyChbngeListener(lineStyleListener);
+         super.uninstbllUI(c);
     }
 
     /**
-     * Converts between the string passed into the client property
-     * and the internal representation (currently and int)
+     * Converts between the string pbssed into the client property
+     * bnd the internbl representbtion (currently bnd int)
      *
-     * @param lineStyleFlag a flag
+     * @pbrbm lineStyleFlbg b flbg
      */
-    protected void decodeLineStyle(Object lineStyleFlag) {
-        if ( lineStyleFlag == null ||
-                    lineStyleFlag.equals(LEG_LINE_STYLE_STRING)) {
-            lineStyle = LEG_LINE_STYLE; // default case
+    protected void decodeLineStyle(Object lineStyleFlbg) {
+        if ( lineStyleFlbg == null ||
+                    lineStyleFlbg.equbls(LEG_LINE_STYLE_STRING)) {
+            lineStyle = LEG_LINE_STYLE; // defbult cbse
         } else {
-            if ( lineStyleFlag.equals(NO_STYLE_STRING) ) {
+            if ( lineStyleFlbg.equbls(NO_STYLE_STRING) ) {
                 lineStyle = NO_LINE_STYLE;
-            } else if ( lineStyleFlag.equals(HORIZ_STYLE_STRING) ) {
+            } else if ( lineStyleFlbg.equbls(HORIZ_STYLE_STRING) ) {
                 lineStyle = HORIZ_LINE_STYLE;
             }
         }
     }
 
     /**
-     * Returns {@code true} if a point with X coordinate {@code mouseX}
-     * and Y coordinate {@code mouseY} is in expanded control.
+     * Returns {@code true} if b point with X coordinbte {@code mouseX}
+     * bnd Y coordinbte {@code mouseY} is in expbnded control.
      *
-     * @param row a row
-     * @param rowLevel a row level
-     * @param mouseX X coordinate
-     * @param mouseY Y coordinate
-     * @return {@code true} if a point with X coordinate {@code mouseX}
-     *         and Y coordinate {@code mouseY} is in expanded control.
+     * @pbrbm row b row
+     * @pbrbm rowLevel b row level
+     * @pbrbm mouseX X coordinbte
+     * @pbrbm mouseY Y coordinbte
+     * @return {@code true} if b point with X coordinbte {@code mouseX}
+     *         bnd Y coordinbte {@code mouseY} is in expbnded control.
      */
-    protected boolean isLocationInExpandControl(int row, int rowLevel,
+    protected boolebn isLocbtionInExpbndControl(int row, int rowLevel,
                                                 int mouseX, int mouseY) {
-        if(tree != null && !isLeaf(row)) {
+        if(tree != null && !isLebf(row)) {
             int                     boxWidth;
 
-            if(getExpandedIcon() != null)
-                boxWidth = getExpandedIcon().getIconWidth() + 6;
+            if(getExpbndedIcon() != null)
+                boxWidth = getExpbndedIcon().getIconWidth() + 6;
             else
                 boxWidth = 8;
 
@@ -173,40 +173,40 @@ public class MetalTreeUI extends BasicTreeUI {
             int    boxLeftX = (i != null) ? i.left : 0;
 
 
-            boxLeftX += (((rowLevel + depthOffset - 1) * totalChildIndent) +
+            boxLeftX += (((rowLevel + depthOffset - 1) * totblChildIndent) +
                         getLeftChildIndent()) - boxWidth/2;
 
             int boxRightX = boxLeftX + boxWidth;
 
             return mouseX >= boxLeftX && mouseX <= boxRightX;
         }
-        return false;
+        return fblse;
     }
 
-    public void paint(Graphics g, JComponent c) {
-        super.paint( g, c );
+    public void pbint(Grbphics g, JComponent c) {
+        super.pbint( g, c );
 
 
-        // Paint the lines
-        if (lineStyle == HORIZ_LINE_STYLE && !largeModel) {
-            paintHorizontalSeparators(g,c);
+        // Pbint the lines
+        if (lineStyle == HORIZ_LINE_STYLE && !lbrgeModel) {
+            pbintHorizontblSepbrbtors(g,c);
         }
     }
 
     /**
-     * Paints the horizontal separators.
+     * Pbints the horizontbl sepbrbtors.
      *
-     * @param g an instance of {@code Graphics}
-     * @param c a component
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm c b component
      */
-    protected void paintHorizontalSeparators(Graphics g, JComponent c) {
+    protected void pbintHorizontblSepbrbtors(Grbphics g, JComponent c) {
         g.setColor( lineColor );
 
-        Rectangle clipBounds = g.getClipBounds();
+        Rectbngle clipBounds = g.getClipBounds();
 
-        int beginRow = getRowForPath(tree, getClosestPathForLocation
+        int beginRow = getRowForPbth(tree, getClosestPbthForLocbtion
                                      (tree, 0, clipBounds.y));
-        int endRow = getRowForPath(tree, getClosestPathForLocation
+        int endRow = getRowForPbth(tree, getClosestPbthForLocbtion
                              (tree, 0, clipBounds.y + clipBounds.height - 1));
 
         if ( beginRow <= -1 || endRow <= -1 ) {
@@ -214,49 +214,49 @@ public class MetalTreeUI extends BasicTreeUI {
         }
 
         for ( int i = beginRow; i <= endRow; ++i ) {
-            TreePath        path = getPathForRow(tree, i);
+            TreePbth        pbth = getPbthForRow(tree, i);
 
-            if(path != null && path.getPathCount() == 2) {
-                Rectangle       rowBounds = getPathBounds(tree,getPathForRow
+            if(pbth != null && pbth.getPbthCount() == 2) {
+                Rectbngle       rowBounds = getPbthBounds(tree,getPbthForRow
                                                           (tree, i));
 
-                // Draw a line at the top
+                // Drbw b line bt the top
                 if(rowBounds != null)
-                    g.drawLine(clipBounds.x, rowBounds.y,
+                    g.drbwLine(clipBounds.x, rowBounds.y,
                                clipBounds.x + clipBounds.width, rowBounds.y);
             }
         }
 
     }
 
-    protected void paintVerticalPartOfLeg(Graphics g, Rectangle clipBounds,
-                                          Insets insets, TreePath path) {
+    protected void pbintVerticblPbrtOfLeg(Grbphics g, Rectbngle clipBounds,
+                                          Insets insets, TreePbth pbth) {
         if (lineStyle == LEG_LINE_STYLE) {
-            super.paintVerticalPartOfLeg(g, clipBounds, insets, path);
+            super.pbintVerticblPbrtOfLeg(g, clipBounds, insets, pbth);
         }
     }
 
-    protected void paintHorizontalPartOfLeg(Graphics g, Rectangle clipBounds,
-                                            Insets insets, Rectangle bounds,
-                                            TreePath path, int row,
-                                            boolean isExpanded,
-                                            boolean hasBeenExpanded, boolean
-                                            isLeaf) {
+    protected void pbintHorizontblPbrtOfLeg(Grbphics g, Rectbngle clipBounds,
+                                            Insets insets, Rectbngle bounds,
+                                            TreePbth pbth, int row,
+                                            boolebn isExpbnded,
+                                            boolebn hbsBeenExpbnded, boolebn
+                                            isLebf) {
         if (lineStyle == LEG_LINE_STYLE) {
-            super.paintHorizontalPartOfLeg(g, clipBounds, insets, bounds,
-                                           path, row, isExpanded,
-                                           hasBeenExpanded, isLeaf);
+            super.pbintHorizontblPbrtOfLeg(g, clipBounds, insets, bounds,
+                                           pbth, row, isExpbnded,
+                                           hbsBeenExpbnded, isLebf);
         }
     }
 
-    /** This class listens for changes in line style */
-    class LineListener implements PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent e) {
-            String name = e.getPropertyName();
-            if ( name.equals( LINE_STYLE ) ) {
-                decodeLineStyle(e.getNewValue());
+    /** This clbss listens for chbnges in line style */
+    clbss LineListener implements PropertyChbngeListener {
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String nbme = e.getPropertyNbme();
+            if ( nbme.equbls( LINE_STYLE ) ) {
+                decodeLineStyle(e.getNewVblue());
             }
         }
-    } // end class PaletteListener
+    } // end clbss PbletteListener
 
 }

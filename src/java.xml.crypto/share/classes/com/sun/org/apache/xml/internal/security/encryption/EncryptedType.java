@@ -3,57 +3,57 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
-import com.sun.org.apache.xml.internal.security.keys.KeyInfo;
+import com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo;
 
 /**
- * EncryptedType is the abstract type from which <code>EncryptedData</code> and
- * <code>EncryptedKey</code> are derived. While these two latter element types
- * are very similar with respect to their content models, a syntactical
+ * EncryptedType is the bbstrbct type from which <code>EncryptedDbtb</code> bnd
+ * <code>EncryptedKey</code> bre derived. While these two lbtter element types
+ * bre very similbr with respect to their content models, b syntbcticbl
  * distinction is useful to processing.
  * <p>
- * Its schema definition is as follows:
+ * Its schemb definition is bs follows:
  * <xmp>
- * <complexType name='EncryptedType' abstract='true'>
+ * <complexType nbme='EncryptedType' bbstrbct='true'>
  *     <sequence>
- *         <element name='EncryptionMethod' type='xenc:EncryptionMethodType'
+ *         <element nbme='EncryptionMethod' type='xenc:EncryptionMethodType'
  *             minOccurs='0'/>
  *         <element ref='ds:KeyInfo' minOccurs='0'/>
- *         <element ref='xenc:CipherData'/>
+ *         <element ref='xenc:CipherDbtb'/>
  *         <element ref='xenc:EncryptionProperties' minOccurs='0'/>
  *     </sequence>
- *     <attribute name='Id' type='ID' use='optional'/>
- *     <attribute name='Type' type='anyURI' use='optional'/>
- *     <attribute name='MimeType' type='string' use='optional'/>
- *     <attribute name='Encoding' type='anyURI' use='optional'/>
+ *     <bttribute nbme='Id' type='ID' use='optionbl'/>
+ *     <bttribute nbme='Type' type='bnyURI' use='optionbl'/>
+ *     <bttribute nbme='MimeType' type='string' use='optionbl'/>
+ *     <bttribute nbme='Encoding' type='bnyURI' use='optionbl'/>
  * </complexType>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @buthor Axl Mbttheus
  */
-public interface EncryptedType {
+public interfbce EncryptedType {
 
     /**
-     * Returns a <code>String</code> providing for the standard method of
-     * assigning an id to the element within the document context.
+     * Returns b <code>String</code> providing for the stbndbrd method of
+     * bssigning bn id to the element within the document context.
      *
      * @return the id for the <code>EncryptedType</code>.
      */
@@ -62,22 +62,22 @@ public interface EncryptedType {
     /**
      * Sets the id.
      *
-     * @param id
+     * @pbrbm id
      */
     void setId(String id);
 
     /**
-     * Returns an <code>URI</code> identifying type information about the
-     * plaintext form of the encrypted content. While optional, this
-     * specification takes advantage of it for mandatory processing described in
+     * Returns bn <code>URI</code> identifying type informbtion bbout the
+     * plbintext form of the encrypted content. While optionbl, this
+     * specificbtion tbkes bdvbntbge of it for mbndbtory processing described in
      * Processing Rules: Decryption (section 4.2). If the
-     * <code>EncryptedData</code> element contains data of Type 'element' or
-     * element 'content', and replaces that data in an XML document context, it
-     * is strongly recommended the Type attribute be provided. Without this
-     * information, the decryptor will be unable to automatically restore the
-     * XML document to its original cleartext form.
+     * <code>EncryptedDbtb</code> element contbins dbtb of Type 'element' or
+     * element 'content', bnd replbces thbt dbtb in bn XML document context, it
+     * is strongly recommended the Type bttribute be provided. Without this
+     * informbtion, the decryptor will be unbble to butombticblly restore the
+     * XML document to its originbl clebrtext form.
      *
-     * @return the identifier for the type of information in plaintext form of
+     * @return the identifier for the type of informbtion in plbintext form of
      *   encrypted content.
      */
     String getType();
@@ -85,40 +85,40 @@ public interface EncryptedType {
     /**
      * Sets the type.
      *
-     * @param type an <code>URI</code> identifying type information about the
-     *   plaintext form of the encrypted content.
+     * @pbrbm type bn <code>URI</code> identifying type informbtion bbout the
+     *   plbintext form of the encrypted content.
      */
     void setType(String type);
 
     /**
-     * Returns a <code>String</code> which describes the media type of the data
-     * which has been encrypted. The value of this attribute has values defined
-     * by [MIME]. For example, if the data that is encrypted is a base64 encoded
-     * PNG, the transfer Encoding may be specified as
-     * 'http://www.w3.org/2000/09/xmldsig#base64' and the MimeType as
-     * 'image/png'.
+     * Returns b <code>String</code> which describes the medib type of the dbtb
+     * which hbs been encrypted. The vblue of this bttribute hbs vblues defined
+     * by [MIME]. For exbmple, if the dbtb thbt is encrypted is b bbse64 encoded
+     * PNG, the trbnsfer Encoding mby be specified bs
+     * 'http://www.w3.org/2000/09/xmldsig#bbse64' bnd the MimeType bs
+     * 'imbge/png'.
      * <br>
-     * This attribute is purely advisory; no validation of the MimeType
-     * information is required and it does not indicate the encryption
-     * application must do any additional processing. Note, this information may
-     * not be necessary if it is already bound to the identifier in the Type
-     * attribute. For example, the Element and Content types defined in this
-     * specification are always UTF-8 encoded text.
+     * This bttribute is purely bdvisory; no vblidbtion of the MimeType
+     * informbtion is required bnd it does not indicbte the encryption
+     * bpplicbtion must do bny bdditionbl processing. Note, this informbtion mby
+     * not be necessbry if it is blrebdy bound to the identifier in the Type
+     * bttribute. For exbmple, the Element bnd Content types defined in this
+     * specificbtion bre blwbys UTF-8 encoded text.
      *
-     * @return the media type of the data which was encrypted.
+     * @return the medib type of the dbtb which wbs encrypted.
      */
     String getMimeType();
 
     /**
      * Sets the mime type.
      *
-     * @param type a <code>String</code> which describes the media type of the
-     *   data which has been encrypted.
+     * @pbrbm type b <code>String</code> which describes the medib type of the
+     *   dbtb which hbs been encrypted.
      */
     void setMimeType(String type);
 
     /**
-     * Return an <code>URI</code> representing the encoding of the
+     * Return bn <code>URI</code> representing the encoding of the
      * <code>EncryptedType</code>.
      *
      * @return the encoding of this <code>EncryptedType</code>.
@@ -129,68 +129,68 @@ public interface EncryptedType {
      * Sets the <code>URI</code> representing the encoding of the
      * <code>EncryptedType</code>.
      *
-     * @param encoding
+     * @pbrbm encoding
      */
     void setEncoding(String encoding);
 
     /**
-     * Returns an <code>EncryptionMethod</code> that describes the encryption
-     * algorithm applied to the cipher data. If the element is absent, the
-     * encryption algorithm must be known by the recipient or the decryption
-     * will fail.
+     * Returns bn <code>EncryptionMethod</code> thbt describes the encryption
+     * blgorithm bpplied to the cipher dbtb. If the element is bbsent, the
+     * encryption blgorithm must be known by the recipient or the decryption
+     * will fbil.
      *
-     * @return the method used to encrypt the cipher data.
+     * @return the method used to encrypt the cipher dbtb.
      */
     EncryptionMethod getEncryptionMethod();
 
     /**
-     * Sets the <code>EncryptionMethod</code> used to encrypt the cipher data.
+     * Sets the <code>EncryptionMethod</code> used to encrypt the cipher dbtb.
      *
-     * @param method the <code>EncryptionMethod</code>.
+     * @pbrbm method the <code>EncryptionMethod</code>.
      */
     void setEncryptionMethod(EncryptionMethod method);
 
     /**
-     * Returns the <code>ds:KeyInfo</code>, that carries information about the
-     * key used to encrypt the data. Subsequent sections of this specification
-     * define new elements that may appear as children of
+     * Returns the <code>ds:KeyInfo</code>, thbt cbrries informbtion bbout the
+     * key used to encrypt the dbtb. Subsequent sections of this specificbtion
+     * define new elements thbt mby bppebr bs children of
      * <code>ds:KeyInfo</code>.
      *
-     * @return information about the key that encrypted the cipher data.
+     * @return informbtion bbout the key thbt encrypted the cipher dbtb.
      */
     KeyInfo getKeyInfo();
 
     /**
-     * Sets the encryption key information.
+     * Sets the encryption key informbtion.
      *
-     * @param info the <code>ds:KeyInfo</code>, that carries information about
-     *   the key used to encrypt the data.
+     * @pbrbm info the <code>ds:KeyInfo</code>, thbt cbrries informbtion bbout
+     *   the key used to encrypt the dbtb.
      */
     void setKeyInfo(KeyInfo info);
 
     /**
-     * Returns the <code>CipherReference</code> that contains the
-     * <code>CipherValue</code> or <code>CipherReference</code> with the
-     * encrypted data.
+     * Returns the <code>CipherReference</code> thbt contbins the
+     * <code>CipherVblue</code> or <code>CipherReference</code> with the
+     * encrypted dbtb.
      *
-     * @return the cipher data for the encrypted type.
+     * @return the cipher dbtb for the encrypted type.
      */
-    CipherData getCipherData();
+    CipherDbtb getCipherDbtb();
 
     /**
-     * Returns additional information concerning the generation of the
+     * Returns bdditionbl informbtion concerning the generbtion of the
      * <code>EncryptedType</code>.
      *
-     * @return information relating to the generation of the
+     * @return informbtion relbting to the generbtion of the
      *   <code>EncryptedType</code>.
      */
     EncryptionProperties getEncryptionProperties();
 
     /**
-     * Sets the <code>EncryptionProperties</code> that supplies additional
-     * information about the generation of the <code>EncryptedType</code>.
+     * Sets the <code>EncryptionProperties</code> thbt supplies bdditionbl
+     * informbtion bbout the generbtion of the <code>EncryptedType</code>.
      *
-     * @param properties
+     * @pbrbm properties
      */
     void setEncryptionProperties(EncryptionProperties properties);
 }

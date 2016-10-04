@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,187 +45,187 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
-import java.util.*;
+import jbvb.util.*;
 
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 /**
- * This class contains onyl static methods. It is the place for all functions
- * that are used by several classes in this package.
+ * This clbss contbins onyl stbtic methods. It is the plbce for bll functions
+ * thbt bre used by severbl clbsses in this pbckbge.
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
+ * @buthor Mbrtin Schlbeffer <schlbeff@sbox.tugrbz.bt>
  */
-public class Functions {
+public clbss Functions {
 
-    // maps between ids and their names, forward and reverse
-    // ids are stored as Integers to save space
-    // since only the lower 32 bits are ever used anyway
+    // mbps between ids bnd their nbmes, forwbrd bnd reverse
+    // ids bre stored bs Integers to sbve spbce
+    // since only the lower 32 bits bre ever used bnywby
 
-    // mechanisms (CKM_*)
-    private static final Map<Integer,String> mechNames =
-        new HashMap<Integer,String>();
+    // mechbnisms (CKM_*)
+    privbte stbtic finbl Mbp<Integer,String> mechNbmes =
+        new HbshMbp<Integer,String>();
 
-    private static final Map<String,Integer> mechIds =
-        new HashMap<String,Integer>();
+    privbte stbtic finbl Mbp<String,Integer> mechIds =
+        new HbshMbp<String,Integer>();
 
     // key types (CKK_*)
-    private static final Map<Integer,String> keyNames =
-        new HashMap<Integer,String>();
+    privbte stbtic finbl Mbp<Integer,String> keyNbmes =
+        new HbshMbp<Integer,String>();
 
-    private static final Map<String,Integer> keyIds =
-        new HashMap<String,Integer>();
+    privbte stbtic finbl Mbp<String,Integer> keyIds =
+        new HbshMbp<String,Integer>();
 
-    // attributes (CKA_*)
-    private static final Map<Integer,String> attributeNames =
-        new HashMap<Integer,String>();
+    // bttributes (CKA_*)
+    privbte stbtic finbl Mbp<Integer,String> bttributeNbmes =
+        new HbshMbp<Integer,String>();
 
-    private static final Map<String,Integer> attributeIds =
-        new HashMap<String,Integer>();
+    privbte stbtic finbl Mbp<String,Integer> bttributeIds =
+        new HbshMbp<String,Integer>();
 
-    // object classes (CKO_*)
-    private static final Map<Integer,String> objectClassNames =
-        new HashMap<Integer,String>();
+    // object clbsses (CKO_*)
+    privbte stbtic finbl Mbp<Integer,String> objectClbssNbmes =
+        new HbshMbp<Integer,String>();
 
-    private static final Map<String,Integer> objectClassIds =
-        new HashMap<String,Integer>();
+    privbte stbtic finbl Mbp<String,Integer> objectClbssIds =
+        new HbshMbp<String,Integer>();
 
 
     /**
-     * For converting numbers to their hex presentation.
+     * For converting numbers to their hex presentbtion.
      */
-    private static final char[] HEX_DIGITS = "0123456789ABCDEF".toCharArray();
+    privbte stbtic finbl chbr[] HEX_DIGITS = "0123456789ABCDEF".toChbrArrby();
 
     /**
-     * Converts a long value to a hexadecimal String of length 16. Includes
-     * leading zeros if necessary.
+     * Converts b long vblue to b hexbdecimbl String of length 16. Includes
+     * lebding zeros if necessbry.
      *
-     * @param value The long value to be converted.
-     * @return The hexadecimal string representation of the long value.
+     * @pbrbm vblue The long vblue to be converted.
+     * @return The hexbdecimbl string representbtion of the long vblue.
      */
-    public static String toFullHexString(long value) {
-        long currentValue = value;
+    public stbtic String toFullHexString(long vblue) {
+        long currentVblue = vblue;
         StringBuilder sb = new StringBuilder(16);
         for(int j = 0; j < 16; j++) {
-            int currentDigit = (int) currentValue & 0xf;
-            sb.append(HEX_DIGITS[currentDigit]);
-            currentValue >>>= 4;
+            int currentDigit = (int) currentVblue & 0xf;
+            sb.bppend(HEX_DIGITS[currentDigit]);
+            currentVblue >>>= 4;
         }
 
         return sb.reverse().toString();
     }
 
     /**
-     * Converts a int value to a hexadecimal String of length 8. Includes
-     * leading zeros if necessary.
+     * Converts b int vblue to b hexbdecimbl String of length 8. Includes
+     * lebding zeros if necessbry.
      *
-     * @param value The int value to be converted.
-     * @return The hexadecimal string representation of the int value.
+     * @pbrbm vblue The int vblue to be converted.
+     * @return The hexbdecimbl string representbtion of the int vblue.
      */
-    public static String toFullHexString(int value) {
-        int currentValue = value;
+    public stbtic String toFullHexString(int vblue) {
+        int currentVblue = vblue;
         StringBuilder sb = new StringBuilder(8);
         for(int i = 0; i < 8; i++) {
-            int currentDigit = currentValue & 0xf;
-            sb.append(HEX_DIGITS[currentDigit]);
-            currentValue >>>= 4;
+            int currentDigit = currentVblue & 0xf;
+            sb.bppend(HEX_DIGITS[currentDigit]);
+            currentVblue >>>= 4;
         }
 
         return sb.reverse().toString();
     }
 
     /**
-     * converts a long value to a hexadecimal String
+     * converts b long vblue to b hexbdecimbl String
      *
-     * @param value the long value to be converted
-     * @return the hexadecimal string representation of the long value
+     * @pbrbm vblue the long vblue to be converted
+     * @return the hexbdecimbl string representbtion of the long vblue
      */
-    public static String toHexString(long value) {
-        return Long.toHexString(value);
+    public stbtic String toHexString(long vblue) {
+        return Long.toHexString(vblue);
     }
 
     /**
-     * Converts a byte array to a hexadecimal String. Each byte is presented by
-     * its two digit hex-code; 0x0A -> "0a", 0x00 -> "00". No leading "0x" is
+     * Converts b byte brrby to b hexbdecimbl String. Ebch byte is presented by
+     * its two digit hex-code; 0x0A -> "0b", 0x00 -> "00". No lebding "0x" is
      * included in the result.
      *
-     * @param value the byte array to be converted
-     * @return the hexadecimal string representation of the byte array
+     * @pbrbm vblue the byte brrby to be converted
+     * @return the hexbdecimbl string representbtion of the byte brrby
      */
-    public static String toHexString(byte[] value) {
-        if (value == null) {
+    public stbtic String toHexString(byte[] vblue) {
+        if (vblue == null) {
             return null;
         }
 
-        StringBuilder sb = new StringBuilder(2 * value.length);
+        StringBuilder sb = new StringBuilder(2 * vblue.length);
         int          single;
 
-        for (int i = 0; i < value.length; i++) {
-            single = value[i] & 0xFF;
+        for (int i = 0; i < vblue.length; i++) {
+            single = vblue[i] & 0xFF;
 
             if (single < 0x10) {
-                sb.append('0');
+                sb.bppend('0');
             }
 
-            sb.append(Integer.toString(single, 16));
+            sb.bppend(Integer.toString(single, 16));
         }
 
         return sb.toString();
     }
 
     /**
-     * converts a long value to a binary String
+     * converts b long vblue to b binbry String
      *
-     * @param value the long value to be converted
-     * @return the binary string representation of the long value
+     * @pbrbm vblue the long vblue to be converted
+     * @return the binbry string representbtion of the long vblue
      */
-    public static String toBinaryString(long value) {
-        return Long.toString(value, 2);
+    public stbtic String toBinbryString(long vblue) {
+        return Long.toString(vblue, 2);
     }
 
     /**
-     * converts a byte array to a binary String
+     * converts b byte brrby to b binbry String
      *
-     * @param value the byte array to be converted
-     * @return the binary string representation of the byte array
+     * @pbrbm vblue the byte brrby to be converted
+     * @return the binbry string representbtion of the byte brrby
      */
-    public static String toBinaryString(byte[] value) {
-        BigInteger helpBigInteger = new BigInteger(1, value);
+    public stbtic String toBinbryString(byte[] vblue) {
+        BigInteger helpBigInteger = new BigInteger(1, vblue);
 
         return helpBigInteger.toString(2);
     }
 
-    private static class Flags {
-        private final long[] flagIds;
-        private final String[] flagNames;
-        Flags(long[] flagIds, String[] flagNames) {
-            if (flagIds.length != flagNames.length) {
-                throw new AssertionError("Array lengths do not match");
+    privbte stbtic clbss Flbgs {
+        privbte finbl long[] flbgIds;
+        privbte finbl String[] flbgNbmes;
+        Flbgs(long[] flbgIds, String[] flbgNbmes) {
+            if (flbgIds.length != flbgNbmes.length) {
+                throw new AssertionError("Arrby lengths do not mbtch");
             }
-            this.flagIds = flagIds;
-            this.flagNames = flagNames;
+            this.flbgIds = flbgIds;
+            this.flbgNbmes = flbgNbmes;
         }
-        String toString(long val) {
+        String toString(long vbl) {
             StringBuilder sb = new StringBuilder();
-            boolean first = true;
-            for (int i = 0; i < flagIds.length; i++) {
-                if ((val & flagIds[i]) != 0) {
-                    if (first == false) {
-                        sb.append(" | ");
+            boolebn first = true;
+            for (int i = 0; i < flbgIds.length; i++) {
+                if ((vbl & flbgIds[i]) != 0) {
+                    if (first == fblse) {
+                        sb.bppend(" | ");
                     }
-                    sb.append(flagNames[i]);
-                    first = false;
+                    sb.bppend(flbgNbmes[i]);
+                    first = fblse;
                 }
             }
             return sb.toString();
         }
     }
 
-    private static final Flags slotInfoFlags = new Flags(new long[] {
+    privbte stbtic finbl Flbgs slotInfoFlbgs = new Flbgs(new long[] {
         CKF_TOKEN_PRESENT,
         CKF_REMOVABLE_DEVICE,
         CKF_HW_SLOT,
@@ -236,16 +236,16 @@ public class Functions {
     });
 
     /**
-     * converts the long value flags to a SlotInfoFlag string
+     * converts the long vblue flbgs to b SlotInfoFlbg string
      *
-     * @param flags the flags to be converted
-     * @return the SlotInfoFlag string representation of the flags
+     * @pbrbm flbgs the flbgs to be converted
+     * @return the SlotInfoFlbg string representbtion of the flbgs
      */
-    public static String slotInfoFlagsToString(long flags) {
-        return slotInfoFlags.toString(flags);
+    public stbtic String slotInfoFlbgsToString(long flbgs) {
+        return slotInfoFlbgs.toString(flbgs);
     }
 
-    private static final Flags tokenInfoFlags = new Flags(new long[] {
+    privbte stbtic finbl Flbgs tokenInfoFlbgs = new Flbgs(new long[] {
         CKF_RNG,
         CKF_WRITE_PROTECTED,
         CKF_LOGIN_REQUIRED,
@@ -286,16 +286,16 @@ public class Functions {
     });
 
     /**
-     * converts long value flags to a TokenInfoFlag string
+     * converts long vblue flbgs to b TokenInfoFlbg string
      *
-     * @param flags the flags to be converted
-     * @return the TokenInfoFlag string representation of the flags
+     * @pbrbm flbgs the flbgs to be converted
+     * @return the TokenInfoFlbg string representbtion of the flbgs
      */
-    public static String tokenInfoFlagsToString(long flags) {
-        return tokenInfoFlags.toString(flags);
+    public stbtic String tokenInfoFlbgsToString(long flbgs) {
+        return tokenInfoFlbgs.toString(flbgs);
     }
 
-    private static final Flags sessionInfoFlags = new Flags(new long[] {
+    privbte stbtic finbl Flbgs sessionInfoFlbgs = new Flbgs(new long[] {
         CKF_RW_SESSION,
         CKF_SERIAL_SESSION,
     }, new String[] {
@@ -304,42 +304,42 @@ public class Functions {
     });
 
     /**
-     * converts the long value flags to a SessionInfoFlag string
+     * converts the long vblue flbgs to b SessionInfoFlbg string
      *
-     * @param flags the flags to be converted
-     * @return the SessionInfoFlag string representation of the flags
+     * @pbrbm flbgs the flbgs to be converted
+     * @return the SessionInfoFlbg string representbtion of the flbgs
      */
-    public static String sessionInfoFlagsToString(long flags) {
-        return sessionInfoFlags.toString(flags);
+    public stbtic String sessionInfoFlbgsToString(long flbgs) {
+        return sessionInfoFlbgs.toString(flbgs);
     }
 
     /**
-     * converts the long value state to a SessionState string
+     * converts the long vblue stbte to b SessionStbte string
      *
-     * @param state the state to be converted
-     * @return the SessionState string representation of the state
+     * @pbrbm stbte the stbte to be converted
+     * @return the SessionStbte string representbtion of the stbte
      */
-    public static String sessionStateToString(long state) {
-        String name;
+    public stbtic String sessionStbteToString(long stbte) {
+        String nbme;
 
-        if (state == CKS_RO_PUBLIC_SESSION) {
-            name = "CKS_RO_PUBLIC_SESSION";
-        } else if (state == CKS_RO_USER_FUNCTIONS) {
-            name = "CKS_RO_USER_FUNCTIONS";
-        } else if (state == CKS_RW_PUBLIC_SESSION) {
-            name = "CKS_RW_PUBLIC_SESSION";
-        } else if (state == CKS_RW_USER_FUNCTIONS) {
-            name = "CKS_RW_USER_FUNCTIONS";
-        } else if (state == CKS_RW_SO_FUNCTIONS) {
-            name = "CKS_RW_SO_FUNCTIONS";
+        if (stbte == CKS_RO_PUBLIC_SESSION) {
+            nbme = "CKS_RO_PUBLIC_SESSION";
+        } else if (stbte == CKS_RO_USER_FUNCTIONS) {
+            nbme = "CKS_RO_USER_FUNCTIONS";
+        } else if (stbte == CKS_RW_PUBLIC_SESSION) {
+            nbme = "CKS_RW_PUBLIC_SESSION";
+        } else if (stbte == CKS_RW_USER_FUNCTIONS) {
+            nbme = "CKS_RW_USER_FUNCTIONS";
+        } else if (stbte == CKS_RW_SO_FUNCTIONS) {
+            nbme = "CKS_RW_SO_FUNCTIONS";
         } else {
-            name = "ERROR: unknown session state 0x" + toFullHexString(state);
+            nbme = "ERROR: unknown session stbte 0x" + toFullHexString(stbte);
         }
 
-        return name;
+        return nbme;
     }
 
-    private static final Flags mechanismInfoFlags = new Flags(new long[] {
+    privbte stbtic finbl Flbgs mechbnismInfoFlbgs = new Flbgs(new long[] {
         CKF_HW,
         CKF_ENCRYPT,
         CKF_DECRYPT,
@@ -384,537 +384,537 @@ public class Functions {
     });
 
     /**
-     * converts the long value flags to a MechanismInfoFlag string
+     * converts the long vblue flbgs to b MechbnismInfoFlbg string
      *
-     * @param flags the flags to be converted
-     * @return the MechanismInfoFlag string representation of the flags
+     * @pbrbm flbgs the flbgs to be converted
+     * @return the MechbnismInfoFlbg string representbtion of the flbgs
      */
-    public static String mechanismInfoFlagsToString(long flags) {
-        return mechanismInfoFlags.toString(flags);
+    public stbtic String mechbnismInfoFlbgsToString(long flbgs) {
+        return mechbnismInfoFlbgs.toString(flbgs);
     }
 
-    private static String getName(Map<Integer,String> nameMap, long id) {
-        String name = null;
+    privbte stbtic String getNbme(Mbp<Integer,String> nbmeMbp, long id) {
+        String nbme = null;
         if ((id >>> 32) == 0) {
-            name = nameMap.get(Integer.valueOf((int)id));
+            nbme = nbmeMbp.get(Integer.vblueOf((int)id));
         }
-        if (name == null) {
-            name = "Unknown 0x" + toFullHexString(id);
+        if (nbme == null) {
+            nbme = "Unknown 0x" + toFullHexString(id);
         }
-        return name;
+        return nbme;
     }
 
-    public static long getId(Map<String,Integer> idMap, String name) {
-        Integer mech = idMap.get(name);
+    public stbtic long getId(Mbp<String,Integer> idMbp, String nbme) {
+        Integer mech = idMbp.get(nbme);
         if (mech == null) {
-            throw new IllegalArgumentException("Unknown name " + name);
+            throw new IllegblArgumentException("Unknown nbme " + nbme);
         }
-        return mech.intValue() & 0xffffffffL;
+        return mech.intVblue() & 0xffffffffL;
     }
 
-    public static String getMechanismName(long id) {
-        return getName(mechNames, id);
+    public stbtic String getMechbnismNbme(long id) {
+        return getNbme(mechNbmes, id);
     }
 
-    public static long getMechanismId(String name) {
-        return getId(mechIds, name);
+    public stbtic long getMechbnismId(String nbme) {
+        return getId(mechIds, nbme);
     }
 
-    public static String getKeyName(long id) {
-        return getName(keyNames, id);
+    public stbtic String getKeyNbme(long id) {
+        return getNbme(keyNbmes, id);
     }
 
-    public static long getKeyId(String name) {
-        return getId(keyIds, name);
+    public stbtic long getKeyId(String nbme) {
+        return getId(keyIds, nbme);
     }
 
-    public static String getAttributeName(long id) {
-        return getName(attributeNames, id);
+    public stbtic String getAttributeNbme(long id) {
+        return getNbme(bttributeNbmes, id);
     }
 
-    public static long getAttributeId(String name) {
-        return getId(attributeIds, name);
+    public stbtic long getAttributeId(String nbme) {
+        return getId(bttributeIds, nbme);
     }
 
-    public static String getObjectClassName(long id) {
-        return getName(objectClassNames, id);
+    public stbtic String getObjectClbssNbme(long id) {
+        return getNbme(objectClbssNbmes, id);
     }
 
-    public static long getObjectClassId(String name) {
-        return getId(objectClassIds, name);
-    }
-
-    /**
-     * Check the given arrays for equalitiy. This method considers both arrays as
-     * equal, if both are <code>null</code> or both have the same length and
-     * contain exactly the same byte values.
-     *
-     * @param array1 The first array.
-     * @param array2 The second array.
-     * @return True, if both arrays are <code>null</code> or both have the same
-     *         length and contain exactly the same byte values. False, otherwise.
-     * @preconditions
-     * @postconditions
-     */
-    public static boolean equals(byte[] array1, byte[] array2) {
-        return Arrays.equals(array1, array2);
+    public stbtic long getObjectClbssId(String nbme) {
+        return getId(objectClbssIds, nbme);
     }
 
     /**
-     * Check the given arrays for equalitiy. This method considers both arrays as
-     * equal, if both are <code>null</code> or both have the same length and
-     * contain exactly the same char values.
+     * Check the given brrbys for equblitiy. This method considers both brrbys bs
+     * equbl, if both bre <code>null</code> or both hbve the sbme length bnd
+     * contbin exbctly the sbme byte vblues.
      *
-     * @param array1 The first array.
-     * @param array2 The second array.
-     * @return True, if both arrays are <code>null</code> or both have the same
-     *         length and contain exactly the same char values. False, otherwise.
+     * @pbrbm brrby1 The first brrby.
+     * @pbrbm brrby2 The second brrby.
+     * @return True, if both brrbys bre <code>null</code> or both hbve the sbme
+     *         length bnd contbin exbctly the sbme byte vblues. Fblse, otherwise.
      * @preconditions
      * @postconditions
      */
-    public static boolean equals(char[] array1, char[] array2) {
-        return Arrays.equals(array1, array2);
+    public stbtic boolebn equbls(byte[] brrby1, byte[] brrby2) {
+        return Arrbys.equbls(brrby1, brrby2);
     }
 
     /**
-     * Check the given dates for equalitiy. This method considers both dates as
-     * equal, if both are <code>null</code> or both contain exactly the same char
-     * values.
+     * Check the given brrbys for equblitiy. This method considers both brrbys bs
+     * equbl, if both bre <code>null</code> or both hbve the sbme length bnd
+     * contbin exbctly the sbme chbr vblues.
      *
-     * @param date1 The first date.
-     * @param date2 The second date.
-     * @return True, if both dates are <code>null</code> or both contain the same
-     *         char values. False, otherwise.
+     * @pbrbm brrby1 The first brrby.
+     * @pbrbm brrby2 The second brrby.
+     * @return True, if both brrbys bre <code>null</code> or both hbve the sbme
+     *         length bnd contbin exbctly the sbme chbr vblues. Fblse, otherwise.
      * @preconditions
      * @postconditions
      */
-    public static boolean equals(CK_DATE date1, CK_DATE date2) {
-        boolean equal = false;
+    public stbtic boolebn equbls(chbr[] brrby1, chbr[] brrby2) {
+        return Arrbys.equbls(brrby1, brrby2);
+    }
 
-        if (date1 == date2) {
-            equal = true;
-        } else if ((date1 != null) && (date2 != null)) {
-            equal = equals(date1.year, date2.year)
-              && equals(date1.month, date2.month)
-              && equals(date1.day, date2.day);
+    /**
+     * Check the given dbtes for equblitiy. This method considers both dbtes bs
+     * equbl, if both bre <code>null</code> or both contbin exbctly the sbme chbr
+     * vblues.
+     *
+     * @pbrbm dbte1 The first dbte.
+     * @pbrbm dbte2 The second dbte.
+     * @return True, if both dbtes bre <code>null</code> or both contbin the sbme
+     *         chbr vblues. Fblse, otherwise.
+     * @preconditions
+     * @postconditions
+     */
+    public stbtic boolebn equbls(CK_DATE dbte1, CK_DATE dbte2) {
+        boolebn equbl = fblse;
+
+        if (dbte1 == dbte2) {
+            equbl = true;
+        } else if ((dbte1 != null) && (dbte2 != null)) {
+            equbl = equbls(dbte1.yebr, dbte2.yebr)
+              && equbls(dbte1.month, dbte2.month)
+              && equbls(dbte1.dby, dbte2.dby);
         } else {
-            equal = false;
+            equbl = fblse;
         }
 
-        return equal ;
+        return equbl ;
     }
 
     /**
-     * Calculate a hash code for the given byte array.
+     * Cblculbte b hbsh code for the given byte brrby.
      *
-     * @param array The byte array.
-     * @return A hash code for the given array.
+     * @pbrbm brrby The byte brrby.
+     * @return A hbsh code for the given brrby.
      * @preconditions
      * @postconditions
      */
-    public static int hashCode(byte[] array) {
-        int hash = 0;
+    public stbtic int hbshCode(byte[] brrby) {
+        int hbsh = 0;
 
-        if (array != null) {
-            for (int i = 0; (i < 4) && (i < array.length); i++) {
-                hash ^= (0xFF & array[i]) << ((i%4) << 3);
+        if (brrby != null) {
+            for (int i = 0; (i < 4) && (i < brrby.length); i++) {
+                hbsh ^= (0xFF & brrby[i]) << ((i%4) << 3);
             }
         }
 
-        return hash ;
+        return hbsh ;
     }
 
     /**
-     * Calculate a hash code for the given char array.
+     * Cblculbte b hbsh code for the given chbr brrby.
      *
-     * @param array The char array.
-     * @return A hash code for the given array.
+     * @pbrbm brrby The chbr brrby.
+     * @return A hbsh code for the given brrby.
      * @preconditions
      * @postconditions
      */
-    public static int hashCode(char[] array) {
-        int hash = 0;
+    public stbtic int hbshCode(chbr[] brrby) {
+        int hbsh = 0;
 
-        if (array != null) {
-            for (int i = 0; (i < 4) && (i < array.length); i++) {
-                hash ^= (0xFFFF & array[i]) << ((i%2) << 4);
+        if (brrby != null) {
+            for (int i = 0; (i < 4) && (i < brrby.length); i++) {
+                hbsh ^= (0xFFFF & brrby[i]) << ((i%2) << 4);
             }
         }
 
-        return hash ;
+        return hbsh ;
     }
 
     /**
-     * Calculate a hash code for the given date object.
+     * Cblculbte b hbsh code for the given dbte object.
      *
-     * @param date The date object.
-     * @return A hash code for the given date.
+     * @pbrbm dbte The dbte object.
+     * @return A hbsh code for the given dbte.
      * @preconditions
      * @postconditions
      */
-    public static int hashCode(CK_DATE date) {
-        int hash = 0;
+    public stbtic int hbshCode(CK_DATE dbte) {
+        int hbsh = 0;
 
-        if (date != null) {
-            if (date.year.length == 4) {
-                hash ^= (0xFFFF & date.year[0]) << 16;
-                hash ^= 0xFFFF & date.year[1];
-                hash ^= (0xFFFF & date.year[2]) << 16;
-                hash ^= 0xFFFF & date.year[3];
+        if (dbte != null) {
+            if (dbte.yebr.length == 4) {
+                hbsh ^= (0xFFFF & dbte.yebr[0]) << 16;
+                hbsh ^= 0xFFFF & dbte.yebr[1];
+                hbsh ^= (0xFFFF & dbte.yebr[2]) << 16;
+                hbsh ^= 0xFFFF & dbte.yebr[3];
             }
-            if (date.month.length == 2) {
-                hash ^= (0xFFFF & date.month[0]) << 16;
-                hash ^= 0xFFFF & date.month[1];
+            if (dbte.month.length == 2) {
+                hbsh ^= (0xFFFF & dbte.month[0]) << 16;
+                hbsh ^= 0xFFFF & dbte.month[1];
             }
-            if (date.day.length == 2) {
-                hash ^= (0xFFFF & date.day[0]) << 16;
-                hash ^= 0xFFFF & date.day[1];
+            if (dbte.dby.length == 2) {
+                hbsh ^= (0xFFFF & dbte.dby[0]) << 16;
+                hbsh ^= 0xFFFF & dbte.dby[1];
             }
         }
 
-        return hash ;
+        return hbsh ;
     }
 
-    private static void addMapping(Map<Integer,String> nameMap,
-            Map<String,Integer> idMap, long id, String name) {
+    privbte stbtic void bddMbpping(Mbp<Integer,String> nbmeMbp,
+            Mbp<String,Integer> idMbp, long id, String nbme) {
         if ((id >>> 32) != 0) {
-            throw new AssertionError("Id has high bits set: " + id + ", " + name);
+            throw new AssertionError("Id hbs high bits set: " + id + ", " + nbme);
         }
-        Integer intId = Integer.valueOf((int)id);
-        if (nameMap.put(intId, name) != null) {
-            throw new AssertionError("Duplicate id: " + id + ", " + name);
+        Integer intId = Integer.vblueOf((int)id);
+        if (nbmeMbp.put(intId, nbme) != null) {
+            throw new AssertionError("Duplicbte id: " + id + ", " + nbme);
         }
-        if (idMap.put(name, intId) != null) {
-            throw new AssertionError("Duplicate name: " + id + ", " + name);
+        if (idMbp.put(nbme, intId) != null) {
+            throw new AssertionError("Duplicbte nbme: " + id + ", " + nbme);
         }
     }
 
-    private static void addMech(long id, String name) {
-        addMapping(mechNames, mechIds, id, name);
+    privbte stbtic void bddMech(long id, String nbme) {
+        bddMbpping(mechNbmes, mechIds, id, nbme);
     }
 
-    private static void addKeyType(long id, String name) {
-        addMapping(keyNames, keyIds, id, name);
+    privbte stbtic void bddKeyType(long id, String nbme) {
+        bddMbpping(keyNbmes, keyIds, id, nbme);
     }
 
-    private static void addAttribute(long id, String name) {
-        addMapping(attributeNames, attributeIds, id, name);
+    privbte stbtic void bddAttribute(long id, String nbme) {
+        bddMbpping(bttributeNbmes, bttributeIds, id, nbme);
     }
 
-    private static void addObjectClass(long id, String name) {
-        addMapping(objectClassNames, objectClassIds, id, name);
+    privbte stbtic void bddObjectClbss(long id, String nbme) {
+        bddMbpping(objectClbssNbmes, objectClbssIds, id, nbme);
     }
 
-    static {
-        addMech(CKM_RSA_PKCS_KEY_PAIR_GEN,      "CKM_RSA_PKCS_KEY_PAIR_GEN");
-        addMech(CKM_RSA_PKCS,                   "CKM_RSA_PKCS");
-        addMech(CKM_RSA_9796,                   "CKM_RSA_9796");
-        addMech(CKM_RSA_X_509,                  "CKM_RSA_X_509");
-        addMech(CKM_MD2_RSA_PKCS,               "CKM_MD2_RSA_PKCS");
-        addMech(CKM_MD5_RSA_PKCS,               "CKM_MD5_RSA_PKCS");
-        addMech(CKM_SHA1_RSA_PKCS,              "CKM_SHA1_RSA_PKCS");
-        addMech(CKM_RIPEMD128_RSA_PKCS,         "CKM_RIPEMD128_RSA_PKCS");
-        addMech(CKM_RIPEMD160_RSA_PKCS,         "CKM_RIPEMD160_RSA_PKCS");
-        addMech(CKM_RSA_PKCS_OAEP,              "CKM_RSA_PKCS_OAEP");
-        addMech(CKM_RSA_X9_31_KEY_PAIR_GEN,     "CKM_RSA_X9_31_KEY_PAIR_GEN");
-        addMech(CKM_RSA_X9_31,                  "CKM_RSA_X9_31");
-        addMech(CKM_SHA1_RSA_X9_31,             "CKM_SHA1_RSA_X9_31");
-        addMech(CKM_RSA_PKCS_PSS,               "CKM_RSA_PKCS_PSS");
-        addMech(CKM_SHA1_RSA_PKCS_PSS,          "CKM_SHA1_RSA_PKCS_PSS");
-        addMech(CKM_DSA_KEY_PAIR_GEN,           "CKM_DSA_KEY_PAIR_GEN");
-        addMech(CKM_DSA,                        "CKM_DSA");
-        addMech(CKM_DSA_SHA1,                   "CKM_DSA_SHA1");
-        addMech(CKM_DH_PKCS_KEY_PAIR_GEN,       "CKM_DH_PKCS_KEY_PAIR_GEN");
-        addMech(CKM_DH_PKCS_DERIVE,             "CKM_DH_PKCS_DERIVE");
-        addMech(CKM_X9_42_DH_KEY_PAIR_GEN,      "CKM_X9_42_DH_KEY_PAIR_GEN");
-        addMech(CKM_X9_42_DH_DERIVE,            "CKM_X9_42_DH_DERIVE");
-        addMech(CKM_X9_42_DH_HYBRID_DERIVE,     "CKM_X9_42_DH_HYBRID_DERIVE");
-        addMech(CKM_X9_42_MQV_DERIVE,           "CKM_X9_42_MQV_DERIVE");
-        addMech(CKM_SHA224_RSA_PKCS,            "CKM_SHA224_RSA_PKCS");
-        addMech(CKM_SHA256_RSA_PKCS,            "CKM_SHA256_RSA_PKCS");
-        addMech(CKM_SHA384_RSA_PKCS,            "CKM_SHA384_RSA_PKCS");
-        addMech(CKM_SHA512_RSA_PKCS,            "CKM_SHA512_RSA_PKCS");
-        addMech(CKM_RC2_KEY_GEN,                "CKM_RC2_KEY_GEN");
-        addMech(CKM_RC2_ECB,                    "CKM_RC2_ECB");
-        addMech(CKM_RC2_CBC,                    "CKM_RC2_CBC");
-        addMech(CKM_RC2_MAC,                    "CKM_RC2_MAC");
-        addMech(CKM_RC2_MAC_GENERAL,            "CKM_RC2_MAC_GENERAL");
-        addMech(CKM_RC2_CBC_PAD,                "CKM_RC2_CBC_PAD");
-        addMech(CKM_RC4_KEY_GEN,                "CKM_RC4_KEY_GEN");
-        addMech(CKM_RC4,                        "CKM_RC4");
-        addMech(CKM_DES_KEY_GEN,                "CKM_DES_KEY_GEN");
-        addMech(CKM_DES_ECB,                    "CKM_DES_ECB");
-        addMech(CKM_DES_CBC,                    "CKM_DES_CBC");
-        addMech(CKM_DES_MAC,                    "CKM_DES_MAC");
-        addMech(CKM_DES_MAC_GENERAL,            "CKM_DES_MAC_GENERAL");
-        addMech(CKM_DES_CBC_PAD,                "CKM_DES_CBC_PAD");
-        addMech(CKM_DES2_KEY_GEN,               "CKM_DES2_KEY_GEN");
-        addMech(CKM_DES3_KEY_GEN,               "CKM_DES3_KEY_GEN");
-        addMech(CKM_DES3_ECB,                   "CKM_DES3_ECB");
-        addMech(CKM_DES3_CBC,                   "CKM_DES3_CBC");
-        addMech(CKM_DES3_MAC,                   "CKM_DES3_MAC");
-        addMech(CKM_DES3_MAC_GENERAL,           "CKM_DES3_MAC_GENERAL");
-        addMech(CKM_DES3_CBC_PAD,               "CKM_DES3_CBC_PAD");
-        addMech(CKM_CDMF_KEY_GEN,               "CKM_CDMF_KEY_GEN");
-        addMech(CKM_CDMF_ECB,                   "CKM_CDMF_ECB");
-        addMech(CKM_CDMF_CBC,                   "CKM_CDMF_CBC");
-        addMech(CKM_CDMF_MAC,                   "CKM_CDMF_MAC");
-        addMech(CKM_CDMF_MAC_GENERAL,           "CKM_CDMF_MAC_GENERAL");
-        addMech(CKM_CDMF_CBC_PAD,               "CKM_CDMF_CBC_PAD");
-        addMech(CKM_MD2,                        "CKM_MD2");
-        addMech(CKM_MD2_HMAC,                   "CKM_MD2_HMAC");
-        addMech(CKM_MD2_HMAC_GENERAL,           "CKM_MD2_HMAC_GENERAL");
-        addMech(CKM_MD5,                        "CKM_MD5");
-        addMech(CKM_MD5_HMAC,                   "CKM_MD5_HMAC");
-        addMech(CKM_MD5_HMAC_GENERAL,           "CKM_MD5_HMAC_GENERAL");
-        addMech(CKM_SHA_1,                      "CKM_SHA_1");
-        addMech(CKM_SHA_1_HMAC,                 "CKM_SHA_1_HMAC");
-        addMech(CKM_SHA_1_HMAC_GENERAL,         "CKM_SHA_1_HMAC_GENERAL");
-        addMech(CKM_RIPEMD128,                  "CKM_RIPEMD128");
-        addMech(CKM_RIPEMD128_HMAC,             "CKM_RIPEMD128_HMAC");
-        addMech(CKM_RIPEMD128_HMAC_GENERAL,     "CKM_RIPEMD128_HMAC_GENERAL");
-        addMech(CKM_RIPEMD160,                  "CKM_RIPEMD160");
-        addMech(CKM_RIPEMD160_HMAC,             "CKM_RIPEMD160_HMAC");
-        addMech(CKM_RIPEMD160_HMAC_GENERAL,     "CKM_RIPEMD160_HMAC_GENERAL");
-        addMech(CKM_SHA224,                     "CKM_SHA224");
-        addMech(CKM_SHA224_HMAC,                "CKM_SHA224_HMAC");
-        addMech(CKM_SHA224_HMAC_GENERAL,        "CKM_SHA224_HMAC_GENERAL");
-        addMech(CKM_SHA256,                     "CKM_SHA256");
-        addMech(CKM_SHA256_HMAC,                "CKM_SHA256_HMAC");
-        addMech(CKM_SHA256_HMAC_GENERAL,        "CKM_SHA256_HMAC_GENERAL");
-        addMech(CKM_SHA384,                     "CKM_SHA384");
-        addMech(CKM_SHA384_HMAC,                "CKM_SHA384_HMAC");
-        addMech(CKM_SHA384_HMAC_GENERAL,        "CKM_SHA384_HMAC_GENERAL");
-        addMech(CKM_SHA512,                     "CKM_SHA512");
-        addMech(CKM_SHA512_HMAC,                "CKM_SHA512_HMAC");
-        addMech(CKM_SHA512_HMAC_GENERAL,        "CKM_SHA512_HMAC_GENERAL");
-        addMech(CKM_CAST_KEY_GEN,               "CKM_CAST_KEY_GEN");
-        addMech(CKM_CAST_ECB,                   "CKM_CAST_ECB");
-        addMech(CKM_CAST_CBC,                   "CKM_CAST_CBC");
-        addMech(CKM_CAST_MAC,                   "CKM_CAST_MAC");
-        addMech(CKM_CAST_MAC_GENERAL,           "CKM_CAST_MAC_GENERAL");
-        addMech(CKM_CAST_CBC_PAD,               "CKM_CAST_CBC_PAD");
-        addMech(CKM_CAST3_KEY_GEN,              "CKM_CAST3_KEY_GEN");
-        addMech(CKM_CAST3_ECB,                  "CKM_CAST3_ECB");
-        addMech(CKM_CAST3_CBC,                  "CKM_CAST3_CBC");
-        addMech(CKM_CAST3_MAC,                  "CKM_CAST3_MAC");
-        addMech(CKM_CAST3_MAC_GENERAL,          "CKM_CAST3_MAC_GENERAL");
-        addMech(CKM_CAST3_CBC_PAD,              "CKM_CAST3_CBC_PAD");
-        addMech(CKM_CAST128_KEY_GEN,            "CKM_CAST128_KEY_GEN");
-        addMech(CKM_CAST128_ECB,                "CKM_CAST128_ECB");
-        addMech(CKM_CAST128_CBC,                "CKM_CAST128_CBC");
-        addMech(CKM_CAST128_MAC,                "CKM_CAST128_MAC");
-        addMech(CKM_CAST128_MAC_GENERAL,        "CKM_CAST128_MAC_GENERAL");
-        addMech(CKM_CAST128_CBC_PAD,            "CKM_CAST128_CBC_PAD");
-        addMech(CKM_RC5_KEY_GEN,                "CKM_RC5_KEY_GEN");
-        addMech(CKM_RC5_ECB,                    "CKM_RC5_ECB");
-        addMech(CKM_RC5_CBC,                    "CKM_RC5_CBC");
-        addMech(CKM_RC5_MAC,                    "CKM_RC5_MAC");
-        addMech(CKM_RC5_MAC_GENERAL,            "CKM_RC5_MAC_GENERAL");
-        addMech(CKM_RC5_CBC_PAD,                "CKM_RC5_CBC_PAD");
-        addMech(CKM_IDEA_KEY_GEN,               "CKM_IDEA_KEY_GEN");
-        addMech(CKM_IDEA_ECB,                   "CKM_IDEA_ECB");
-        addMech(CKM_IDEA_CBC,                   "CKM_IDEA_CBC");
-        addMech(CKM_IDEA_MAC,                   "CKM_IDEA_MAC");
-        addMech(CKM_IDEA_MAC_GENERAL,           "CKM_IDEA_MAC_GENERAL");
-        addMech(CKM_IDEA_CBC_PAD,               "CKM_IDEA_CBC_PAD");
-        addMech(CKM_GENERIC_SECRET_KEY_GEN,     "CKM_GENERIC_SECRET_KEY_GEN");
-        addMech(CKM_CONCATENATE_BASE_AND_KEY,   "CKM_CONCATENATE_BASE_AND_KEY");
-        addMech(CKM_CONCATENATE_BASE_AND_DATA,  "CKM_CONCATENATE_BASE_AND_DATA");
-        addMech(CKM_CONCATENATE_DATA_AND_BASE,  "CKM_CONCATENATE_DATA_AND_BASE");
-        addMech(CKM_XOR_BASE_AND_DATA,          "CKM_XOR_BASE_AND_DATA");
-        addMech(CKM_EXTRACT_KEY_FROM_KEY,       "CKM_EXTRACT_KEY_FROM_KEY");
-        addMech(CKM_SSL3_PRE_MASTER_KEY_GEN,    "CKM_SSL3_PRE_MASTER_KEY_GEN");
-        addMech(CKM_SSL3_MASTER_KEY_DERIVE,     "CKM_SSL3_MASTER_KEY_DERIVE");
-        addMech(CKM_SSL3_KEY_AND_MAC_DERIVE,    "CKM_SSL3_KEY_AND_MAC_DERIVE");
-        addMech(CKM_SSL3_MASTER_KEY_DERIVE_DH,  "CKM_SSL3_MASTER_KEY_DERIVE_DH");
-        addMech(CKM_TLS_PRE_MASTER_KEY_GEN,     "CKM_TLS_PRE_MASTER_KEY_GEN");
-        addMech(CKM_TLS_MASTER_KEY_DERIVE,      "CKM_TLS_MASTER_KEY_DERIVE");
-        addMech(CKM_TLS_KEY_AND_MAC_DERIVE,     "CKM_TLS_KEY_AND_MAC_DERIVE");
-        addMech(CKM_TLS_MASTER_KEY_DERIVE_DH,   "CKM_TLS_MASTER_KEY_DERIVE_DH");
-        addMech(CKM_TLS_PRF,                    "CKM_TLS_PRF");
-        addMech(CKM_SSL3_MD5_MAC,               "CKM_SSL3_MD5_MAC");
-        addMech(CKM_SSL3_SHA1_MAC,              "CKM_SSL3_SHA1_MAC");
-        addMech(CKM_MD5_KEY_DERIVATION,         "CKM_MD5_KEY_DERIVATION");
-        addMech(CKM_MD2_KEY_DERIVATION,         "CKM_MD2_KEY_DERIVATION");
-        addMech(CKM_SHA1_KEY_DERIVATION,        "CKM_SHA1_KEY_DERIVATION");
-        addMech(CKM_SHA224_KEY_DERIVATION,      "CKM_SHA224_KEY_DERIVATION");
-        addMech(CKM_SHA256_KEY_DERIVATION,      "CKM_SHA256_KEY_DERIVATION");
-        addMech(CKM_SHA384_KEY_DERIVATION,      "CKM_SHA384_KEY_DERIVATION");
-        addMech(CKM_SHA512_KEY_DERIVATION,      "CKM_SHA512_KEY_DERIVATION");
-        addMech(CKM_PBE_MD2_DES_CBC,            "CKM_PBE_MD2_DES_CBC");
-        addMech(CKM_PBE_MD5_DES_CBC,            "CKM_PBE_MD5_DES_CBC");
-        addMech(CKM_PBE_MD5_CAST_CBC,           "CKM_PBE_MD5_CAST_CBC");
-        addMech(CKM_PBE_MD5_CAST3_CBC,          "CKM_PBE_MD5_CAST3_CBC");
-        addMech(CKM_PBE_MD5_CAST128_CBC,        "CKM_PBE_MD5_CAST128_CBC");
-        addMech(CKM_PBE_SHA1_CAST128_CBC,       "CKM_PBE_SHA1_CAST128_CBC");
-        addMech(CKM_PBE_SHA1_RC4_128,           "CKM_PBE_SHA1_RC4_128");
-        addMech(CKM_PBE_SHA1_RC4_40,            "CKM_PBE_SHA1_RC4_40");
-        addMech(CKM_PBE_SHA1_DES3_EDE_CBC,      "CKM_PBE_SHA1_DES3_EDE_CBC");
-        addMech(CKM_PBE_SHA1_DES2_EDE_CBC,      "CKM_PBE_SHA1_DES2_EDE_CBC");
-        addMech(CKM_PBE_SHA1_RC2_128_CBC,       "CKM_PBE_SHA1_RC2_128_CBC");
-        addMech(CKM_PBE_SHA1_RC2_40_CBC,        "CKM_PBE_SHA1_RC2_40_CBC");
-        addMech(CKM_PKCS5_PBKD2,                "CKM_PKCS5_PBKD2");
-        addMech(CKM_PBA_SHA1_WITH_SHA1_HMAC,    "CKM_PBA_SHA1_WITH_SHA1_HMAC");
-        addMech(CKM_KEY_WRAP_LYNKS,             "CKM_KEY_WRAP_LYNKS");
-        addMech(CKM_KEY_WRAP_SET_OAEP,          "CKM_KEY_WRAP_SET_OAEP");
-        addMech(CKM_SKIPJACK_KEY_GEN,           "CKM_SKIPJACK_KEY_GEN");
-        addMech(CKM_SKIPJACK_ECB64,             "CKM_SKIPJACK_ECB64");
-        addMech(CKM_SKIPJACK_CBC64,             "CKM_SKIPJACK_CBC64");
-        addMech(CKM_SKIPJACK_OFB64,             "CKM_SKIPJACK_OFB64");
-        addMech(CKM_SKIPJACK_CFB64,             "CKM_SKIPJACK_CFB64");
-        addMech(CKM_SKIPJACK_CFB32,             "CKM_SKIPJACK_CFB32");
-        addMech(CKM_SKIPJACK_CFB16,             "CKM_SKIPJACK_CFB16");
-        addMech(CKM_SKIPJACK_CFB8,              "CKM_SKIPJACK_CFB8");
-        addMech(CKM_SKIPJACK_WRAP,              "CKM_SKIPJACK_WRAP");
-        addMech(CKM_SKIPJACK_PRIVATE_WRAP,      "CKM_SKIPJACK_PRIVATE_WRAP");
-        addMech(CKM_SKIPJACK_RELAYX,            "CKM_SKIPJACK_RELAYX");
-        addMech(CKM_KEA_KEY_PAIR_GEN,           "CKM_KEA_KEY_PAIR_GEN");
-        addMech(CKM_KEA_KEY_DERIVE,             "CKM_KEA_KEY_DERIVE");
-        addMech(CKM_FORTEZZA_TIMESTAMP,         "CKM_FORTEZZA_TIMESTAMP");
-        addMech(CKM_BATON_KEY_GEN,              "CKM_BATON_KEY_GEN");
-        addMech(CKM_BATON_ECB128,               "CKM_BATON_ECB128");
-        addMech(CKM_BATON_ECB96,                "CKM_BATON_ECB96");
-        addMech(CKM_BATON_CBC128,               "CKM_BATON_CBC128");
-        addMech(CKM_BATON_COUNTER,              "CKM_BATON_COUNTER");
-        addMech(CKM_BATON_SHUFFLE,              "CKM_BATON_SHUFFLE");
-        addMech(CKM_BATON_WRAP,                 "CKM_BATON_WRAP");
-        addMech(CKM_EC_KEY_PAIR_GEN,            "CKM_EC_KEY_PAIR_GEN");
-        addMech(CKM_ECDSA,                      "CKM_ECDSA");
-        addMech(CKM_ECDSA_SHA1,                 "CKM_ECDSA_SHA1");
-        addMech(CKM_ECDH1_DERIVE,               "CKM_ECDH1_DERIVE");
-        addMech(CKM_ECDH1_COFACTOR_DERIVE,      "CKM_ECDH1_COFACTOR_DERIVE");
-        addMech(CKM_ECMQV_DERIVE,               "CKM_ECMQV_DERIVE");
-        addMech(CKM_JUNIPER_KEY_GEN,            "CKM_JUNIPER_KEY_GEN");
-        addMech(CKM_JUNIPER_ECB128,             "CKM_JUNIPER_ECB128");
-        addMech(CKM_JUNIPER_CBC128,             "CKM_JUNIPER_CBC128");
-        addMech(CKM_JUNIPER_COUNTER,            "CKM_JUNIPER_COUNTER");
-        addMech(CKM_JUNIPER_SHUFFLE,            "CKM_JUNIPER_SHUFFLE");
-        addMech(CKM_JUNIPER_WRAP,               "CKM_JUNIPER_WRAP");
-        addMech(CKM_FASTHASH,                   "CKM_FASTHASH");
-        addMech(CKM_AES_KEY_GEN,                "CKM_AES_KEY_GEN");
-        addMech(CKM_AES_ECB,                    "CKM_AES_ECB");
-        addMech(CKM_AES_CBC,                    "CKM_AES_CBC");
-        addMech(CKM_AES_MAC,                    "CKM_AES_MAC");
-        addMech(CKM_AES_MAC_GENERAL,            "CKM_AES_MAC_GENERAL");
-        addMech(CKM_AES_CBC_PAD,                "CKM_AES_CBC_PAD");
-        addMech(CKM_BLOWFISH_KEY_GEN,           "CKM_BLOWFISH_KEY_GEN");
-        addMech(CKM_BLOWFISH_CBC,               "CKM_BLOWFISH_CBC");
-        addMech(CKM_DSA_PARAMETER_GEN,          "CKM_DSA_PARAMETER_GEN");
-        addMech(CKM_DH_PKCS_PARAMETER_GEN,      "CKM_DH_PKCS_PARAMETER_GEN");
-        addMech(CKM_X9_42_DH_PARAMETER_GEN,     "CKM_X9_42_DH_PARAMETER_GEN");
-        addMech(CKM_VENDOR_DEFINED,             "CKM_VENDOR_DEFINED");
+    stbtic {
+        bddMech(CKM_RSA_PKCS_KEY_PAIR_GEN,      "CKM_RSA_PKCS_KEY_PAIR_GEN");
+        bddMech(CKM_RSA_PKCS,                   "CKM_RSA_PKCS");
+        bddMech(CKM_RSA_9796,                   "CKM_RSA_9796");
+        bddMech(CKM_RSA_X_509,                  "CKM_RSA_X_509");
+        bddMech(CKM_MD2_RSA_PKCS,               "CKM_MD2_RSA_PKCS");
+        bddMech(CKM_MD5_RSA_PKCS,               "CKM_MD5_RSA_PKCS");
+        bddMech(CKM_SHA1_RSA_PKCS,              "CKM_SHA1_RSA_PKCS");
+        bddMech(CKM_RIPEMD128_RSA_PKCS,         "CKM_RIPEMD128_RSA_PKCS");
+        bddMech(CKM_RIPEMD160_RSA_PKCS,         "CKM_RIPEMD160_RSA_PKCS");
+        bddMech(CKM_RSA_PKCS_OAEP,              "CKM_RSA_PKCS_OAEP");
+        bddMech(CKM_RSA_X9_31_KEY_PAIR_GEN,     "CKM_RSA_X9_31_KEY_PAIR_GEN");
+        bddMech(CKM_RSA_X9_31,                  "CKM_RSA_X9_31");
+        bddMech(CKM_SHA1_RSA_X9_31,             "CKM_SHA1_RSA_X9_31");
+        bddMech(CKM_RSA_PKCS_PSS,               "CKM_RSA_PKCS_PSS");
+        bddMech(CKM_SHA1_RSA_PKCS_PSS,          "CKM_SHA1_RSA_PKCS_PSS");
+        bddMech(CKM_DSA_KEY_PAIR_GEN,           "CKM_DSA_KEY_PAIR_GEN");
+        bddMech(CKM_DSA,                        "CKM_DSA");
+        bddMech(CKM_DSA_SHA1,                   "CKM_DSA_SHA1");
+        bddMech(CKM_DH_PKCS_KEY_PAIR_GEN,       "CKM_DH_PKCS_KEY_PAIR_GEN");
+        bddMech(CKM_DH_PKCS_DERIVE,             "CKM_DH_PKCS_DERIVE");
+        bddMech(CKM_X9_42_DH_KEY_PAIR_GEN,      "CKM_X9_42_DH_KEY_PAIR_GEN");
+        bddMech(CKM_X9_42_DH_DERIVE,            "CKM_X9_42_DH_DERIVE");
+        bddMech(CKM_X9_42_DH_HYBRID_DERIVE,     "CKM_X9_42_DH_HYBRID_DERIVE");
+        bddMech(CKM_X9_42_MQV_DERIVE,           "CKM_X9_42_MQV_DERIVE");
+        bddMech(CKM_SHA224_RSA_PKCS,            "CKM_SHA224_RSA_PKCS");
+        bddMech(CKM_SHA256_RSA_PKCS,            "CKM_SHA256_RSA_PKCS");
+        bddMech(CKM_SHA384_RSA_PKCS,            "CKM_SHA384_RSA_PKCS");
+        bddMech(CKM_SHA512_RSA_PKCS,            "CKM_SHA512_RSA_PKCS");
+        bddMech(CKM_RC2_KEY_GEN,                "CKM_RC2_KEY_GEN");
+        bddMech(CKM_RC2_ECB,                    "CKM_RC2_ECB");
+        bddMech(CKM_RC2_CBC,                    "CKM_RC2_CBC");
+        bddMech(CKM_RC2_MAC,                    "CKM_RC2_MAC");
+        bddMech(CKM_RC2_MAC_GENERAL,            "CKM_RC2_MAC_GENERAL");
+        bddMech(CKM_RC2_CBC_PAD,                "CKM_RC2_CBC_PAD");
+        bddMech(CKM_RC4_KEY_GEN,                "CKM_RC4_KEY_GEN");
+        bddMech(CKM_RC4,                        "CKM_RC4");
+        bddMech(CKM_DES_KEY_GEN,                "CKM_DES_KEY_GEN");
+        bddMech(CKM_DES_ECB,                    "CKM_DES_ECB");
+        bddMech(CKM_DES_CBC,                    "CKM_DES_CBC");
+        bddMech(CKM_DES_MAC,                    "CKM_DES_MAC");
+        bddMech(CKM_DES_MAC_GENERAL,            "CKM_DES_MAC_GENERAL");
+        bddMech(CKM_DES_CBC_PAD,                "CKM_DES_CBC_PAD");
+        bddMech(CKM_DES2_KEY_GEN,               "CKM_DES2_KEY_GEN");
+        bddMech(CKM_DES3_KEY_GEN,               "CKM_DES3_KEY_GEN");
+        bddMech(CKM_DES3_ECB,                   "CKM_DES3_ECB");
+        bddMech(CKM_DES3_CBC,                   "CKM_DES3_CBC");
+        bddMech(CKM_DES3_MAC,                   "CKM_DES3_MAC");
+        bddMech(CKM_DES3_MAC_GENERAL,           "CKM_DES3_MAC_GENERAL");
+        bddMech(CKM_DES3_CBC_PAD,               "CKM_DES3_CBC_PAD");
+        bddMech(CKM_CDMF_KEY_GEN,               "CKM_CDMF_KEY_GEN");
+        bddMech(CKM_CDMF_ECB,                   "CKM_CDMF_ECB");
+        bddMech(CKM_CDMF_CBC,                   "CKM_CDMF_CBC");
+        bddMech(CKM_CDMF_MAC,                   "CKM_CDMF_MAC");
+        bddMech(CKM_CDMF_MAC_GENERAL,           "CKM_CDMF_MAC_GENERAL");
+        bddMech(CKM_CDMF_CBC_PAD,               "CKM_CDMF_CBC_PAD");
+        bddMech(CKM_MD2,                        "CKM_MD2");
+        bddMech(CKM_MD2_HMAC,                   "CKM_MD2_HMAC");
+        bddMech(CKM_MD2_HMAC_GENERAL,           "CKM_MD2_HMAC_GENERAL");
+        bddMech(CKM_MD5,                        "CKM_MD5");
+        bddMech(CKM_MD5_HMAC,                   "CKM_MD5_HMAC");
+        bddMech(CKM_MD5_HMAC_GENERAL,           "CKM_MD5_HMAC_GENERAL");
+        bddMech(CKM_SHA_1,                      "CKM_SHA_1");
+        bddMech(CKM_SHA_1_HMAC,                 "CKM_SHA_1_HMAC");
+        bddMech(CKM_SHA_1_HMAC_GENERAL,         "CKM_SHA_1_HMAC_GENERAL");
+        bddMech(CKM_RIPEMD128,                  "CKM_RIPEMD128");
+        bddMech(CKM_RIPEMD128_HMAC,             "CKM_RIPEMD128_HMAC");
+        bddMech(CKM_RIPEMD128_HMAC_GENERAL,     "CKM_RIPEMD128_HMAC_GENERAL");
+        bddMech(CKM_RIPEMD160,                  "CKM_RIPEMD160");
+        bddMech(CKM_RIPEMD160_HMAC,             "CKM_RIPEMD160_HMAC");
+        bddMech(CKM_RIPEMD160_HMAC_GENERAL,     "CKM_RIPEMD160_HMAC_GENERAL");
+        bddMech(CKM_SHA224,                     "CKM_SHA224");
+        bddMech(CKM_SHA224_HMAC,                "CKM_SHA224_HMAC");
+        bddMech(CKM_SHA224_HMAC_GENERAL,        "CKM_SHA224_HMAC_GENERAL");
+        bddMech(CKM_SHA256,                     "CKM_SHA256");
+        bddMech(CKM_SHA256_HMAC,                "CKM_SHA256_HMAC");
+        bddMech(CKM_SHA256_HMAC_GENERAL,        "CKM_SHA256_HMAC_GENERAL");
+        bddMech(CKM_SHA384,                     "CKM_SHA384");
+        bddMech(CKM_SHA384_HMAC,                "CKM_SHA384_HMAC");
+        bddMech(CKM_SHA384_HMAC_GENERAL,        "CKM_SHA384_HMAC_GENERAL");
+        bddMech(CKM_SHA512,                     "CKM_SHA512");
+        bddMech(CKM_SHA512_HMAC,                "CKM_SHA512_HMAC");
+        bddMech(CKM_SHA512_HMAC_GENERAL,        "CKM_SHA512_HMAC_GENERAL");
+        bddMech(CKM_CAST_KEY_GEN,               "CKM_CAST_KEY_GEN");
+        bddMech(CKM_CAST_ECB,                   "CKM_CAST_ECB");
+        bddMech(CKM_CAST_CBC,                   "CKM_CAST_CBC");
+        bddMech(CKM_CAST_MAC,                   "CKM_CAST_MAC");
+        bddMech(CKM_CAST_MAC_GENERAL,           "CKM_CAST_MAC_GENERAL");
+        bddMech(CKM_CAST_CBC_PAD,               "CKM_CAST_CBC_PAD");
+        bddMech(CKM_CAST3_KEY_GEN,              "CKM_CAST3_KEY_GEN");
+        bddMech(CKM_CAST3_ECB,                  "CKM_CAST3_ECB");
+        bddMech(CKM_CAST3_CBC,                  "CKM_CAST3_CBC");
+        bddMech(CKM_CAST3_MAC,                  "CKM_CAST3_MAC");
+        bddMech(CKM_CAST3_MAC_GENERAL,          "CKM_CAST3_MAC_GENERAL");
+        bddMech(CKM_CAST3_CBC_PAD,              "CKM_CAST3_CBC_PAD");
+        bddMech(CKM_CAST128_KEY_GEN,            "CKM_CAST128_KEY_GEN");
+        bddMech(CKM_CAST128_ECB,                "CKM_CAST128_ECB");
+        bddMech(CKM_CAST128_CBC,                "CKM_CAST128_CBC");
+        bddMech(CKM_CAST128_MAC,                "CKM_CAST128_MAC");
+        bddMech(CKM_CAST128_MAC_GENERAL,        "CKM_CAST128_MAC_GENERAL");
+        bddMech(CKM_CAST128_CBC_PAD,            "CKM_CAST128_CBC_PAD");
+        bddMech(CKM_RC5_KEY_GEN,                "CKM_RC5_KEY_GEN");
+        bddMech(CKM_RC5_ECB,                    "CKM_RC5_ECB");
+        bddMech(CKM_RC5_CBC,                    "CKM_RC5_CBC");
+        bddMech(CKM_RC5_MAC,                    "CKM_RC5_MAC");
+        bddMech(CKM_RC5_MAC_GENERAL,            "CKM_RC5_MAC_GENERAL");
+        bddMech(CKM_RC5_CBC_PAD,                "CKM_RC5_CBC_PAD");
+        bddMech(CKM_IDEA_KEY_GEN,               "CKM_IDEA_KEY_GEN");
+        bddMech(CKM_IDEA_ECB,                   "CKM_IDEA_ECB");
+        bddMech(CKM_IDEA_CBC,                   "CKM_IDEA_CBC");
+        bddMech(CKM_IDEA_MAC,                   "CKM_IDEA_MAC");
+        bddMech(CKM_IDEA_MAC_GENERAL,           "CKM_IDEA_MAC_GENERAL");
+        bddMech(CKM_IDEA_CBC_PAD,               "CKM_IDEA_CBC_PAD");
+        bddMech(CKM_GENERIC_SECRET_KEY_GEN,     "CKM_GENERIC_SECRET_KEY_GEN");
+        bddMech(CKM_CONCATENATE_BASE_AND_KEY,   "CKM_CONCATENATE_BASE_AND_KEY");
+        bddMech(CKM_CONCATENATE_BASE_AND_DATA,  "CKM_CONCATENATE_BASE_AND_DATA");
+        bddMech(CKM_CONCATENATE_DATA_AND_BASE,  "CKM_CONCATENATE_DATA_AND_BASE");
+        bddMech(CKM_XOR_BASE_AND_DATA,          "CKM_XOR_BASE_AND_DATA");
+        bddMech(CKM_EXTRACT_KEY_FROM_KEY,       "CKM_EXTRACT_KEY_FROM_KEY");
+        bddMech(CKM_SSL3_PRE_MASTER_KEY_GEN,    "CKM_SSL3_PRE_MASTER_KEY_GEN");
+        bddMech(CKM_SSL3_MASTER_KEY_DERIVE,     "CKM_SSL3_MASTER_KEY_DERIVE");
+        bddMech(CKM_SSL3_KEY_AND_MAC_DERIVE,    "CKM_SSL3_KEY_AND_MAC_DERIVE");
+        bddMech(CKM_SSL3_MASTER_KEY_DERIVE_DH,  "CKM_SSL3_MASTER_KEY_DERIVE_DH");
+        bddMech(CKM_TLS_PRE_MASTER_KEY_GEN,     "CKM_TLS_PRE_MASTER_KEY_GEN");
+        bddMech(CKM_TLS_MASTER_KEY_DERIVE,      "CKM_TLS_MASTER_KEY_DERIVE");
+        bddMech(CKM_TLS_KEY_AND_MAC_DERIVE,     "CKM_TLS_KEY_AND_MAC_DERIVE");
+        bddMech(CKM_TLS_MASTER_KEY_DERIVE_DH,   "CKM_TLS_MASTER_KEY_DERIVE_DH");
+        bddMech(CKM_TLS_PRF,                    "CKM_TLS_PRF");
+        bddMech(CKM_SSL3_MD5_MAC,               "CKM_SSL3_MD5_MAC");
+        bddMech(CKM_SSL3_SHA1_MAC,              "CKM_SSL3_SHA1_MAC");
+        bddMech(CKM_MD5_KEY_DERIVATION,         "CKM_MD5_KEY_DERIVATION");
+        bddMech(CKM_MD2_KEY_DERIVATION,         "CKM_MD2_KEY_DERIVATION");
+        bddMech(CKM_SHA1_KEY_DERIVATION,        "CKM_SHA1_KEY_DERIVATION");
+        bddMech(CKM_SHA224_KEY_DERIVATION,      "CKM_SHA224_KEY_DERIVATION");
+        bddMech(CKM_SHA256_KEY_DERIVATION,      "CKM_SHA256_KEY_DERIVATION");
+        bddMech(CKM_SHA384_KEY_DERIVATION,      "CKM_SHA384_KEY_DERIVATION");
+        bddMech(CKM_SHA512_KEY_DERIVATION,      "CKM_SHA512_KEY_DERIVATION");
+        bddMech(CKM_PBE_MD2_DES_CBC,            "CKM_PBE_MD2_DES_CBC");
+        bddMech(CKM_PBE_MD5_DES_CBC,            "CKM_PBE_MD5_DES_CBC");
+        bddMech(CKM_PBE_MD5_CAST_CBC,           "CKM_PBE_MD5_CAST_CBC");
+        bddMech(CKM_PBE_MD5_CAST3_CBC,          "CKM_PBE_MD5_CAST3_CBC");
+        bddMech(CKM_PBE_MD5_CAST128_CBC,        "CKM_PBE_MD5_CAST128_CBC");
+        bddMech(CKM_PBE_SHA1_CAST128_CBC,       "CKM_PBE_SHA1_CAST128_CBC");
+        bddMech(CKM_PBE_SHA1_RC4_128,           "CKM_PBE_SHA1_RC4_128");
+        bddMech(CKM_PBE_SHA1_RC4_40,            "CKM_PBE_SHA1_RC4_40");
+        bddMech(CKM_PBE_SHA1_DES3_EDE_CBC,      "CKM_PBE_SHA1_DES3_EDE_CBC");
+        bddMech(CKM_PBE_SHA1_DES2_EDE_CBC,      "CKM_PBE_SHA1_DES2_EDE_CBC");
+        bddMech(CKM_PBE_SHA1_RC2_128_CBC,       "CKM_PBE_SHA1_RC2_128_CBC");
+        bddMech(CKM_PBE_SHA1_RC2_40_CBC,        "CKM_PBE_SHA1_RC2_40_CBC");
+        bddMech(CKM_PKCS5_PBKD2,                "CKM_PKCS5_PBKD2");
+        bddMech(CKM_PBA_SHA1_WITH_SHA1_HMAC,    "CKM_PBA_SHA1_WITH_SHA1_HMAC");
+        bddMech(CKM_KEY_WRAP_LYNKS,             "CKM_KEY_WRAP_LYNKS");
+        bddMech(CKM_KEY_WRAP_SET_OAEP,          "CKM_KEY_WRAP_SET_OAEP");
+        bddMech(CKM_SKIPJACK_KEY_GEN,           "CKM_SKIPJACK_KEY_GEN");
+        bddMech(CKM_SKIPJACK_ECB64,             "CKM_SKIPJACK_ECB64");
+        bddMech(CKM_SKIPJACK_CBC64,             "CKM_SKIPJACK_CBC64");
+        bddMech(CKM_SKIPJACK_OFB64,             "CKM_SKIPJACK_OFB64");
+        bddMech(CKM_SKIPJACK_CFB64,             "CKM_SKIPJACK_CFB64");
+        bddMech(CKM_SKIPJACK_CFB32,             "CKM_SKIPJACK_CFB32");
+        bddMech(CKM_SKIPJACK_CFB16,             "CKM_SKIPJACK_CFB16");
+        bddMech(CKM_SKIPJACK_CFB8,              "CKM_SKIPJACK_CFB8");
+        bddMech(CKM_SKIPJACK_WRAP,              "CKM_SKIPJACK_WRAP");
+        bddMech(CKM_SKIPJACK_PRIVATE_WRAP,      "CKM_SKIPJACK_PRIVATE_WRAP");
+        bddMech(CKM_SKIPJACK_RELAYX,            "CKM_SKIPJACK_RELAYX");
+        bddMech(CKM_KEA_KEY_PAIR_GEN,           "CKM_KEA_KEY_PAIR_GEN");
+        bddMech(CKM_KEA_KEY_DERIVE,             "CKM_KEA_KEY_DERIVE");
+        bddMech(CKM_FORTEZZA_TIMESTAMP,         "CKM_FORTEZZA_TIMESTAMP");
+        bddMech(CKM_BATON_KEY_GEN,              "CKM_BATON_KEY_GEN");
+        bddMech(CKM_BATON_ECB128,               "CKM_BATON_ECB128");
+        bddMech(CKM_BATON_ECB96,                "CKM_BATON_ECB96");
+        bddMech(CKM_BATON_CBC128,               "CKM_BATON_CBC128");
+        bddMech(CKM_BATON_COUNTER,              "CKM_BATON_COUNTER");
+        bddMech(CKM_BATON_SHUFFLE,              "CKM_BATON_SHUFFLE");
+        bddMech(CKM_BATON_WRAP,                 "CKM_BATON_WRAP");
+        bddMech(CKM_EC_KEY_PAIR_GEN,            "CKM_EC_KEY_PAIR_GEN");
+        bddMech(CKM_ECDSA,                      "CKM_ECDSA");
+        bddMech(CKM_ECDSA_SHA1,                 "CKM_ECDSA_SHA1");
+        bddMech(CKM_ECDH1_DERIVE,               "CKM_ECDH1_DERIVE");
+        bddMech(CKM_ECDH1_COFACTOR_DERIVE,      "CKM_ECDH1_COFACTOR_DERIVE");
+        bddMech(CKM_ECMQV_DERIVE,               "CKM_ECMQV_DERIVE");
+        bddMech(CKM_JUNIPER_KEY_GEN,            "CKM_JUNIPER_KEY_GEN");
+        bddMech(CKM_JUNIPER_ECB128,             "CKM_JUNIPER_ECB128");
+        bddMech(CKM_JUNIPER_CBC128,             "CKM_JUNIPER_CBC128");
+        bddMech(CKM_JUNIPER_COUNTER,            "CKM_JUNIPER_COUNTER");
+        bddMech(CKM_JUNIPER_SHUFFLE,            "CKM_JUNIPER_SHUFFLE");
+        bddMech(CKM_JUNIPER_WRAP,               "CKM_JUNIPER_WRAP");
+        bddMech(CKM_FASTHASH,                   "CKM_FASTHASH");
+        bddMech(CKM_AES_KEY_GEN,                "CKM_AES_KEY_GEN");
+        bddMech(CKM_AES_ECB,                    "CKM_AES_ECB");
+        bddMech(CKM_AES_CBC,                    "CKM_AES_CBC");
+        bddMech(CKM_AES_MAC,                    "CKM_AES_MAC");
+        bddMech(CKM_AES_MAC_GENERAL,            "CKM_AES_MAC_GENERAL");
+        bddMech(CKM_AES_CBC_PAD,                "CKM_AES_CBC_PAD");
+        bddMech(CKM_BLOWFISH_KEY_GEN,           "CKM_BLOWFISH_KEY_GEN");
+        bddMech(CKM_BLOWFISH_CBC,               "CKM_BLOWFISH_CBC");
+        bddMech(CKM_DSA_PARAMETER_GEN,          "CKM_DSA_PARAMETER_GEN");
+        bddMech(CKM_DH_PKCS_PARAMETER_GEN,      "CKM_DH_PKCS_PARAMETER_GEN");
+        bddMech(CKM_X9_42_DH_PARAMETER_GEN,     "CKM_X9_42_DH_PARAMETER_GEN");
+        bddMech(CKM_VENDOR_DEFINED,             "CKM_VENDOR_DEFINED");
 
-        addMech(CKM_NSS_TLS_PRF_GENERAL,        "CKM_NSS_TLS_PRF_GENERAL");
+        bddMech(CKM_NSS_TLS_PRF_GENERAL,        "CKM_NSS_TLS_PRF_GENERAL");
 
-        addMech(PCKM_SECURERANDOM,              "SecureRandom");
-        addMech(PCKM_KEYSTORE,                  "KeyStore");
+        bddMech(PCKM_SECURERANDOM,              "SecureRbndom");
+        bddMech(PCKM_KEYSTORE,                  "KeyStore");
 
-        addKeyType(CKK_RSA,                     "CKK_RSA");
-        addKeyType(CKK_DSA,                     "CKK_DSA");
-        addKeyType(CKK_DH,                      "CKK_DH");
-        addKeyType(CKK_EC,                      "CKK_EC");
-        addKeyType(CKK_X9_42_DH,                "CKK_X9_42_DH");
-        addKeyType(CKK_KEA,                     "CKK_KEA");
-        addKeyType(CKK_GENERIC_SECRET,          "CKK_GENERIC_SECRET");
-        addKeyType(CKK_RC2,                     "CKK_RC2");
-        addKeyType(CKK_RC4,                     "CKK_RC4");
-        addKeyType(CKK_DES,                     "CKK_DES");
-        addKeyType(CKK_DES2,                    "CKK_DES2");
-        addKeyType(CKK_DES3,                    "CKK_DES3");
-        addKeyType(CKK_CAST,                    "CKK_CAST");
-        addKeyType(CKK_CAST3,                   "CKK_CAST3");
-        addKeyType(CKK_CAST128,                 "CKK_CAST128");
-        addKeyType(CKK_RC5,                     "CKK_RC5");
-        addKeyType(CKK_IDEA,                    "CKK_IDEA");
-        addKeyType(CKK_SKIPJACK,                "CKK_SKIPJACK");
-        addKeyType(CKK_BATON,                   "CKK_BATON");
-        addKeyType(CKK_JUNIPER,                 "CKK_JUNIPER");
-        addKeyType(CKK_CDMF,                    "CKK_CDMF");
-        addKeyType(CKK_AES,                     "CKK_AES");
-        addKeyType(CKK_BLOWFISH,                "CKK_BLOWFISH");
-        addKeyType(CKK_VENDOR_DEFINED,          "CKK_VENDOR_DEFINED");
+        bddKeyType(CKK_RSA,                     "CKK_RSA");
+        bddKeyType(CKK_DSA,                     "CKK_DSA");
+        bddKeyType(CKK_DH,                      "CKK_DH");
+        bddKeyType(CKK_EC,                      "CKK_EC");
+        bddKeyType(CKK_X9_42_DH,                "CKK_X9_42_DH");
+        bddKeyType(CKK_KEA,                     "CKK_KEA");
+        bddKeyType(CKK_GENERIC_SECRET,          "CKK_GENERIC_SECRET");
+        bddKeyType(CKK_RC2,                     "CKK_RC2");
+        bddKeyType(CKK_RC4,                     "CKK_RC4");
+        bddKeyType(CKK_DES,                     "CKK_DES");
+        bddKeyType(CKK_DES2,                    "CKK_DES2");
+        bddKeyType(CKK_DES3,                    "CKK_DES3");
+        bddKeyType(CKK_CAST,                    "CKK_CAST");
+        bddKeyType(CKK_CAST3,                   "CKK_CAST3");
+        bddKeyType(CKK_CAST128,                 "CKK_CAST128");
+        bddKeyType(CKK_RC5,                     "CKK_RC5");
+        bddKeyType(CKK_IDEA,                    "CKK_IDEA");
+        bddKeyType(CKK_SKIPJACK,                "CKK_SKIPJACK");
+        bddKeyType(CKK_BATON,                   "CKK_BATON");
+        bddKeyType(CKK_JUNIPER,                 "CKK_JUNIPER");
+        bddKeyType(CKK_CDMF,                    "CKK_CDMF");
+        bddKeyType(CKK_AES,                     "CKK_AES");
+        bddKeyType(CKK_BLOWFISH,                "CKK_BLOWFISH");
+        bddKeyType(CKK_VENDOR_DEFINED,          "CKK_VENDOR_DEFINED");
 
-        addKeyType(PCKK_ANY,                    "*");
+        bddKeyType(PCKK_ANY,                    "*");
 
-        addAttribute(CKA_CLASS,                 "CKA_CLASS");
-        addAttribute(CKA_TOKEN,                 "CKA_TOKEN");
-        addAttribute(CKA_PRIVATE,               "CKA_PRIVATE");
-        addAttribute(CKA_LABEL,                 "CKA_LABEL");
-        addAttribute(CKA_APPLICATION,           "CKA_APPLICATION");
-        addAttribute(CKA_VALUE,                 "CKA_VALUE");
-        addAttribute(CKA_OBJECT_ID,             "CKA_OBJECT_ID");
-        addAttribute(CKA_CERTIFICATE_TYPE,      "CKA_CERTIFICATE_TYPE");
-        addAttribute(CKA_ISSUER,                "CKA_ISSUER");
-        addAttribute(CKA_SERIAL_NUMBER,         "CKA_SERIAL_NUMBER");
-        addAttribute(CKA_AC_ISSUER,             "CKA_AC_ISSUER");
-        addAttribute(CKA_OWNER,                 "CKA_OWNER");
-        addAttribute(CKA_ATTR_TYPES,            "CKA_ATTR_TYPES");
-        addAttribute(CKA_TRUSTED,               "CKA_TRUSTED");
-        addAttribute(CKA_KEY_TYPE,              "CKA_KEY_TYPE");
-        addAttribute(CKA_SUBJECT,               "CKA_SUBJECT");
-        addAttribute(CKA_ID,                    "CKA_ID");
-        addAttribute(CKA_SENSITIVE,             "CKA_SENSITIVE");
-        addAttribute(CKA_ENCRYPT,               "CKA_ENCRYPT");
-        addAttribute(CKA_DECRYPT,               "CKA_DECRYPT");
-        addAttribute(CKA_WRAP,                  "CKA_WRAP");
-        addAttribute(CKA_UNWRAP,                "CKA_UNWRAP");
-        addAttribute(CKA_SIGN,                  "CKA_SIGN");
-        addAttribute(CKA_SIGN_RECOVER,          "CKA_SIGN_RECOVER");
-        addAttribute(CKA_VERIFY,                "CKA_VERIFY");
-        addAttribute(CKA_VERIFY_RECOVER,        "CKA_VERIFY_RECOVER");
-        addAttribute(CKA_DERIVE,                "CKA_DERIVE");
-        addAttribute(CKA_START_DATE,            "CKA_START_DATE");
-        addAttribute(CKA_END_DATE,              "CKA_END_DATE");
-        addAttribute(CKA_MODULUS,               "CKA_MODULUS");
-        addAttribute(CKA_MODULUS_BITS,          "CKA_MODULUS_BITS");
-        addAttribute(CKA_PUBLIC_EXPONENT,       "CKA_PUBLIC_EXPONENT");
-        addAttribute(CKA_PRIVATE_EXPONENT,      "CKA_PRIVATE_EXPONENT");
-        addAttribute(CKA_PRIME_1,               "CKA_PRIME_1");
-        addAttribute(CKA_PRIME_2,               "CKA_PRIME_2");
-        addAttribute(CKA_EXPONENT_1,            "CKA_EXPONENT_1");
-        addAttribute(CKA_EXPONENT_2,            "CKA_EXPONENT_2");
-        addAttribute(CKA_COEFFICIENT,           "CKA_COEFFICIENT");
-        addAttribute(CKA_PRIME,                 "CKA_PRIME");
-        addAttribute(CKA_SUBPRIME,              "CKA_SUBPRIME");
-        addAttribute(CKA_BASE,                  "CKA_BASE");
-        addAttribute(CKA_PRIME_BITS,            "CKA_PRIME_BITS");
-        addAttribute(CKA_SUB_PRIME_BITS,        "CKA_SUB_PRIME_BITS");
-        addAttribute(CKA_VALUE_BITS,            "CKA_VALUE_BITS");
-        addAttribute(CKA_VALUE_LEN,             "CKA_VALUE_LEN");
-        addAttribute(CKA_EXTRACTABLE,           "CKA_EXTRACTABLE");
-        addAttribute(CKA_LOCAL,                 "CKA_LOCAL");
-        addAttribute(CKA_NEVER_EXTRACTABLE,     "CKA_NEVER_EXTRACTABLE");
-        addAttribute(CKA_ALWAYS_SENSITIVE,      "CKA_ALWAYS_SENSITIVE");
-        addAttribute(CKA_KEY_GEN_MECHANISM,     "CKA_KEY_GEN_MECHANISM");
-        addAttribute(CKA_MODIFIABLE,            "CKA_MODIFIABLE");
-        addAttribute(CKA_EC_PARAMS,             "CKA_EC_PARAMS");
-        addAttribute(CKA_EC_POINT,              "CKA_EC_POINT");
-        addAttribute(CKA_SECONDARY_AUTH,        "CKA_SECONDARY_AUTH");
-        addAttribute(CKA_AUTH_PIN_FLAGS,        "CKA_AUTH_PIN_FLAGS");
-        addAttribute(CKA_HW_FEATURE_TYPE,       "CKA_HW_FEATURE_TYPE");
-        addAttribute(CKA_RESET_ON_INIT,         "CKA_RESET_ON_INIT");
-        addAttribute(CKA_HAS_RESET,             "CKA_HAS_RESET");
-        addAttribute(CKA_VENDOR_DEFINED,        "CKA_VENDOR_DEFINED");
-        addAttribute(CKA_NETSCAPE_DB,           "CKA_NETSCAPE_DB");
+        bddAttribute(CKA_CLASS,                 "CKA_CLASS");
+        bddAttribute(CKA_TOKEN,                 "CKA_TOKEN");
+        bddAttribute(CKA_PRIVATE,               "CKA_PRIVATE");
+        bddAttribute(CKA_LABEL,                 "CKA_LABEL");
+        bddAttribute(CKA_APPLICATION,           "CKA_APPLICATION");
+        bddAttribute(CKA_VALUE,                 "CKA_VALUE");
+        bddAttribute(CKA_OBJECT_ID,             "CKA_OBJECT_ID");
+        bddAttribute(CKA_CERTIFICATE_TYPE,      "CKA_CERTIFICATE_TYPE");
+        bddAttribute(CKA_ISSUER,                "CKA_ISSUER");
+        bddAttribute(CKA_SERIAL_NUMBER,         "CKA_SERIAL_NUMBER");
+        bddAttribute(CKA_AC_ISSUER,             "CKA_AC_ISSUER");
+        bddAttribute(CKA_OWNER,                 "CKA_OWNER");
+        bddAttribute(CKA_ATTR_TYPES,            "CKA_ATTR_TYPES");
+        bddAttribute(CKA_TRUSTED,               "CKA_TRUSTED");
+        bddAttribute(CKA_KEY_TYPE,              "CKA_KEY_TYPE");
+        bddAttribute(CKA_SUBJECT,               "CKA_SUBJECT");
+        bddAttribute(CKA_ID,                    "CKA_ID");
+        bddAttribute(CKA_SENSITIVE,             "CKA_SENSITIVE");
+        bddAttribute(CKA_ENCRYPT,               "CKA_ENCRYPT");
+        bddAttribute(CKA_DECRYPT,               "CKA_DECRYPT");
+        bddAttribute(CKA_WRAP,                  "CKA_WRAP");
+        bddAttribute(CKA_UNWRAP,                "CKA_UNWRAP");
+        bddAttribute(CKA_SIGN,                  "CKA_SIGN");
+        bddAttribute(CKA_SIGN_RECOVER,          "CKA_SIGN_RECOVER");
+        bddAttribute(CKA_VERIFY,                "CKA_VERIFY");
+        bddAttribute(CKA_VERIFY_RECOVER,        "CKA_VERIFY_RECOVER");
+        bddAttribute(CKA_DERIVE,                "CKA_DERIVE");
+        bddAttribute(CKA_START_DATE,            "CKA_START_DATE");
+        bddAttribute(CKA_END_DATE,              "CKA_END_DATE");
+        bddAttribute(CKA_MODULUS,               "CKA_MODULUS");
+        bddAttribute(CKA_MODULUS_BITS,          "CKA_MODULUS_BITS");
+        bddAttribute(CKA_PUBLIC_EXPONENT,       "CKA_PUBLIC_EXPONENT");
+        bddAttribute(CKA_PRIVATE_EXPONENT,      "CKA_PRIVATE_EXPONENT");
+        bddAttribute(CKA_PRIME_1,               "CKA_PRIME_1");
+        bddAttribute(CKA_PRIME_2,               "CKA_PRIME_2");
+        bddAttribute(CKA_EXPONENT_1,            "CKA_EXPONENT_1");
+        bddAttribute(CKA_EXPONENT_2,            "CKA_EXPONENT_2");
+        bddAttribute(CKA_COEFFICIENT,           "CKA_COEFFICIENT");
+        bddAttribute(CKA_PRIME,                 "CKA_PRIME");
+        bddAttribute(CKA_SUBPRIME,              "CKA_SUBPRIME");
+        bddAttribute(CKA_BASE,                  "CKA_BASE");
+        bddAttribute(CKA_PRIME_BITS,            "CKA_PRIME_BITS");
+        bddAttribute(CKA_SUB_PRIME_BITS,        "CKA_SUB_PRIME_BITS");
+        bddAttribute(CKA_VALUE_BITS,            "CKA_VALUE_BITS");
+        bddAttribute(CKA_VALUE_LEN,             "CKA_VALUE_LEN");
+        bddAttribute(CKA_EXTRACTABLE,           "CKA_EXTRACTABLE");
+        bddAttribute(CKA_LOCAL,                 "CKA_LOCAL");
+        bddAttribute(CKA_NEVER_EXTRACTABLE,     "CKA_NEVER_EXTRACTABLE");
+        bddAttribute(CKA_ALWAYS_SENSITIVE,      "CKA_ALWAYS_SENSITIVE");
+        bddAttribute(CKA_KEY_GEN_MECHANISM,     "CKA_KEY_GEN_MECHANISM");
+        bddAttribute(CKA_MODIFIABLE,            "CKA_MODIFIABLE");
+        bddAttribute(CKA_EC_PARAMS,             "CKA_EC_PARAMS");
+        bddAttribute(CKA_EC_POINT,              "CKA_EC_POINT");
+        bddAttribute(CKA_SECONDARY_AUTH,        "CKA_SECONDARY_AUTH");
+        bddAttribute(CKA_AUTH_PIN_FLAGS,        "CKA_AUTH_PIN_FLAGS");
+        bddAttribute(CKA_HW_FEATURE_TYPE,       "CKA_HW_FEATURE_TYPE");
+        bddAttribute(CKA_RESET_ON_INIT,         "CKA_RESET_ON_INIT");
+        bddAttribute(CKA_HAS_RESET,             "CKA_HAS_RESET");
+        bddAttribute(CKA_VENDOR_DEFINED,        "CKA_VENDOR_DEFINED");
+        bddAttribute(CKA_NETSCAPE_DB,           "CKA_NETSCAPE_DB");
 
-        addAttribute(CKA_NETSCAPE_TRUST_SERVER_AUTH,      "CKA_NETSCAPE_TRUST_SERVER_AUTH");
-        addAttribute(CKA_NETSCAPE_TRUST_CLIENT_AUTH,      "CKA_NETSCAPE_TRUST_CLIENT_AUTH");
-        addAttribute(CKA_NETSCAPE_TRUST_CODE_SIGNING,     "CKA_NETSCAPE_TRUST_CODE_SIGNING");
-        addAttribute(CKA_NETSCAPE_TRUST_EMAIL_PROTECTION, "CKA_NETSCAPE_TRUST_EMAIL_PROTECTION");
-        addAttribute(CKA_NETSCAPE_CERT_SHA1_HASH,         "CKA_NETSCAPE_CERT_SHA1_HASH");
-        addAttribute(CKA_NETSCAPE_CERT_MD5_HASH,          "CKA_NETSCAPE_CERT_MD5_HASH");
+        bddAttribute(CKA_NETSCAPE_TRUST_SERVER_AUTH,      "CKA_NETSCAPE_TRUST_SERVER_AUTH");
+        bddAttribute(CKA_NETSCAPE_TRUST_CLIENT_AUTH,      "CKA_NETSCAPE_TRUST_CLIENT_AUTH");
+        bddAttribute(CKA_NETSCAPE_TRUST_CODE_SIGNING,     "CKA_NETSCAPE_TRUST_CODE_SIGNING");
+        bddAttribute(CKA_NETSCAPE_TRUST_EMAIL_PROTECTION, "CKA_NETSCAPE_TRUST_EMAIL_PROTECTION");
+        bddAttribute(CKA_NETSCAPE_CERT_SHA1_HASH,         "CKA_NETSCAPE_CERT_SHA1_HASH");
+        bddAttribute(CKA_NETSCAPE_CERT_MD5_HASH,          "CKA_NETSCAPE_CERT_MD5_HASH");
 
-        addObjectClass(CKO_DATA,                "CKO_DATA");
-        addObjectClass(CKO_CERTIFICATE,         "CKO_CERTIFICATE");
-        addObjectClass(CKO_PUBLIC_KEY,          "CKO_PUBLIC_KEY");
-        addObjectClass(CKO_PRIVATE_KEY,         "CKO_PRIVATE_KEY");
-        addObjectClass(CKO_SECRET_KEY,          "CKO_SECRET_KEY");
-        addObjectClass(CKO_HW_FEATURE,          "CKO_HW_FEATURE");
-        addObjectClass(CKO_DOMAIN_PARAMETERS,   "CKO_DOMAIN_PARAMETERS");
-        addObjectClass(CKO_VENDOR_DEFINED,      "CKO_VENDOR_DEFINED");
+        bddObjectClbss(CKO_DATA,                "CKO_DATA");
+        bddObjectClbss(CKO_CERTIFICATE,         "CKO_CERTIFICATE");
+        bddObjectClbss(CKO_PUBLIC_KEY,          "CKO_PUBLIC_KEY");
+        bddObjectClbss(CKO_PRIVATE_KEY,         "CKO_PRIVATE_KEY");
+        bddObjectClbss(CKO_SECRET_KEY,          "CKO_SECRET_KEY");
+        bddObjectClbss(CKO_HW_FEATURE,          "CKO_HW_FEATURE");
+        bddObjectClbss(CKO_DOMAIN_PARAMETERS,   "CKO_DOMAIN_PARAMETERS");
+        bddObjectClbss(CKO_VENDOR_DEFINED,      "CKO_VENDOR_DEFINED");
 
-        addObjectClass(PCKO_ANY,                "*");
+        bddObjectClbss(PCKO_ANY,                "*");
 
     }
 

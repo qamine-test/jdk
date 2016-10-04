@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-// Very much based on XListPeer from javaos
+// Very much bbsed on XListPeer from jbvbos
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.*;
-import java.util.Objects;
-import java.util.Vector;
-import java.awt.image.*;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.*;
+import jbvb.util.Objects;
+import jbvb.util.Vector;
+import jbvb.bwt.imbge.*;
+import sun.util.logging.PlbtformLogger;
 
-// TODO: some input actions should do nothing if Shift or Control are down
+// TODO: some input bctions should do nothing if Shift or Control bre down
 
-class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
+clbss XListPeer extends XComponentPeer implements ListPeer, XScrollbbrClient {
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XListPeer");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XListPeer");
 
-    public final static int     MARGIN = 2;
-    public final static int     SPACE = 1;
-    public final static int     SCROLLBAR_AREA = 17;  // Area reserved for the
-                                                      // scrollbar
-    public final static int     SCROLLBAR_WIDTH = 13; // Actual width of the
-                                                      // scrollbar
-    public final static int     NONE = -1;
-    public final static int     WINDOW = 0;
-    public final static int     VERSCROLLBAR = 1;
-    public final static int     HORSCROLLBAR = 2;
-    public final static int     DEFAULT_VISIBLE_ROWS = 4; // From java.awt.List,
-    public final static int     HORIZ_SCROLL_AMT = 10;
+    public finbl stbtic int     MARGIN = 2;
+    public finbl stbtic int     SPACE = 1;
+    public finbl stbtic int     SCROLLBAR_AREA = 17;  // Areb reserved for the
+                                                      // scrollbbr
+    public finbl stbtic int     SCROLLBAR_WIDTH = 13; // Actubl width of the
+                                                      // scrollbbr
+    public finbl stbtic int     NONE = -1;
+    public finbl stbtic int     WINDOW = 0;
+    public finbl stbtic int     VERSCROLLBAR = 1;
+    public finbl stbtic int     HORSCROLLBAR = 2;
+    public finbl stbtic int     DEFAULT_VISIBLE_ROWS = 4; // From jbvb.bwt.List,
+    public finbl stbtic int     HORIZ_SCROLL_AMT = 10;
 
-    private final static int    PAINT_VSCROLL = 2;
-    private final static int    PAINT_HSCROLL = 4;
-    private final static int    PAINT_ITEMS = 8;
-    private final static int    PAINT_FOCUS = 16;
-    private final static int    PAINT_BACKGROUND = 32;
-    private final static int    PAINT_HIDEFOCUS = 64;
-    private final static int    PAINT_ALL =
+    privbte finbl stbtic int    PAINT_VSCROLL = 2;
+    privbte finbl stbtic int    PAINT_HSCROLL = 4;
+    privbte finbl stbtic int    PAINT_ITEMS = 8;
+    privbte finbl stbtic int    PAINT_FOCUS = 16;
+    privbte finbl stbtic int    PAINT_BACKGROUND = 32;
+    privbte finbl stbtic int    PAINT_HIDEFOCUS = 64;
+    privbte finbl stbtic int    PAINT_ALL =
         PAINT_VSCROLL | PAINT_HSCROLL | PAINT_ITEMS | PAINT_FOCUS | PAINT_BACKGROUND;
-    private final static int    COPY_AREA = 128;
+    privbte finbl stbtic int    COPY_AREA = 128;
 
-    XVerticalScrollbar       vsb;
-    XHorizontalScrollbar     hsb;
-    ListPainter painter;
+    XVerticblScrollbbr       vsb;
+    XHorizontblScrollbbr     hsb;
+    ListPbinter pbinter;
 
     // TODO: ick - Vector?
     Vector<String>              items;
-    boolean                     multipleSelections;
-    int                         active = NONE;
+    boolebn                     multipleSelections;
+    int                         bctive = NONE;
 
-    // Holds the array of the indexes of the elements which is selected
-    // This array should be kept sorted, low to high.
+    // Holds the brrby of the indexes of the elements which is selected
+    // This brrby should be kept sorted, low to high.
     int                         selected[];
     int                         fontHeight;
     int                         fontAscent;
-    int                         fontLeading;
+    int                         fontLebding;
 
-    // Holds the index of the item used in the previous operation (selectItem, deselectItem)
-    // Adding of an item or clearing of the list sets this index to -1
-    // The index is used at the moment of the post of ACTION_PERFORMED event after the mouse double click event.
+    // Holds the index of the item used in the previous operbtion (selectItem, deselectItem)
+    // Adding of bn item or clebring of the list sets this index to -1
+    // The index is used bt the moment of the post of ACTION_PERFORMED event bfter the mouse double click event.
     int                         currentIndex = -1;
 
-    // Used for tracking selection/deselection between mousePress/Release
-    // and for ItemEvents
+    // Used for trbcking selection/deselection between mousePress/Relebse
+    // bnd for ItemEvents
     int                         eventIndex = -1;
     int                         eventType = NONE;
 
-    // Holds the index of the item that receive focus
-    // This variable is reasonable only for multiple list
-    // since 'focusIndex' and 'selected[0]' are equal for single-selection list
+    // Holds the index of the item thbt receive focus
+    // This vbribble is rebsonbble only for multiple list
+    // since 'focusIndex' bnd 'selected[0]' bre equbl for single-selection list
     int                         focusIndex;
 
-    int                         maxLength;
-    boolean                     vsbVis;  // visibility of scrollbars
-    boolean                     hsbVis;
+    int                         mbxLength;
+    boolebn                     vsbVis;  // visibility of scrollbbrs
+    boolebn                     hsbVis;
     int                         listWidth;  // Width of list portion of List
     int                         listHeight; // Height of list portion of List
-    // (i.e. without scrollbars)
+    // (i.e. without scrollbbrs)
 
-    private int firstTimeVisibleIndex = 0;
+    privbte int firstTimeVisibleIndex = 0;
 
-    // Motif Lists don't seem to inherit the background color from their
-    // parent when an app is first started up.  So, we track if the colors have
-    // been set.  See getListBackground()/getListForeground().
-    boolean bgColorSet;
-    boolean fgColorSet;
+    // Motif Lists don't seem to inherit the bbckground color from their
+    // pbrent when bn bpp is first stbrted up.  So, we trbck if the colors hbve
+    // been set.  See getListBbckground()/getListForeground().
+    boolebn bgColorSet;
+    boolebn fgColorSet;
 
-    // Holds the true if mouse is dragging outside of the area of the list
-    // The flag is used at the moment of the dragging and releasing mouse
-    // See 6243382 for more information
-    boolean mouseDraggedOutHorizontally = false;
-    boolean mouseDraggedOutVertically = false;
+    // Holds the true if mouse is drbgging outside of the breb of the list
+    // The flbg is used bt the moment of the drbgging bnd relebsing mouse
+    // See 6243382 for more informbtion
+    boolebn mouseDrbggedOutHorizontblly = fblse;
+    boolebn mouseDrbggedOutVerticblly = fblse;
 
-    // Holds the true if a mouse event was originated on the scrollbar
-    // See 6300527 for more information
-    boolean isScrollBarOriginated = false;
+    // Holds the true if b mouse event wbs originbted on the scrollbbr
+    // See 6300527 for more informbtion
+    boolebn isScrollBbrOriginbted = fblse;
 
-    // This variable is set to true after the "mouse pressed" event and to false after the "mouse released" event
-    // Fixed 6293432: Key events ('SPACE', 'UP', 'DOWN') aren't blocked if mouse is kept in 'PRESSED' state for List, XAWT
-    boolean isMousePressed = false;
+    // This vbribble is set to true bfter the "mouse pressed" event bnd to fblse bfter the "mouse relebsed" event
+    // Fixed 6293432: Key events ('SPACE', 'UP', 'DOWN') bren't blocked if mouse is kept in 'PRESSED' stbte for List, XAWT
+    boolebn isMousePressed = fblse;
 
     /**
-     * Create a list
+     * Crebte b list
      */
-    XListPeer(List target) {
-        super(target);
+    XListPeer(List tbrget) {
+        super(tbrget);
     }
 
     /**
      * Overridden from XWindow
      */
-    public void preInit(XCreateWindowParams params) {
-        super.preInit(params);
+    public void preInit(XCrebteWindowPbrbms pbrbms) {
+        super.preInit(pbrbms);
 
-        // Stuff that must be initialized before layout() is called
+        // Stuff thbt must be initiblized before lbyout() is cblled
         items = new Vector<>();
-        createVerScrollbar();
-        createHorScrollbar();
+        crebteVerScrollbbr();
+        crebteHorScrollbbr();
 
-        painter = new ListPainter();
+        pbinter = new ListPbinter();
 
-        // See 6246467 for more information
-        bgColorSet = target.isBackgroundSet();
-        fgColorSet = target.isForegroundSet();
+        // See 6246467 for more informbtion
+        bgColorSet = tbrget.isBbckgroundSet();
+        fgColorSet = tbrget.isForegroundSet();
     }
 
-    public void postInit(XCreateWindowParams params) {
-        super.postInit(params);
+    public void postInit(XCrebteWindowPbrbms pbrbms) {
+        super.postInit(pbrbms);
         initFontMetrics();
-        // TODO: more efficient way?
-        //       do we really want/need a copy of all the items?
-        // get all items from target
-        List l = (List)target;
+        // TODO: more efficient wby?
+        //       do we reblly wbnt/need b copy of bll the items?
+        // get bll items from tbrget
+        List l = (List)tbrget;
         int stop = l.getItemCount();
         for (int i = 0 ; i < stop; i++) {
-            items.addElement(l.getItem(i));
+            items.bddElement(l.getItem(i));
         }
 
-        /* make the visible position visible. */
+        /* mbke the visible position visible. */
         int index = l.getVisibleIndex();
         if (index >= 0) {
-            // Can't call makeVisible since it check scroll bar,
-            // initialize scroll bar instead
-            vsb.setValues(index, 0, 0, items.size());
+            // Cbn't cbll mbkeVisible since it check scroll bbr,
+            // initiblize scroll bbr instebd
+            vsb.setVblues(index, 0, 0, items.size());
         }
 
-        // NOTE: needs to have target set
-        maxLength = maxLength();
+        // NOTE: needs to hbve tbrget set
+        mbxLength = mbxLength();
 
-        // get the index containing all indexes to selected items
+        // get the index contbining bll indexes to selected items
         int sel[] = l.getSelectedIndexes();
         selected = new int[sel.length];
-        // TODO: shouldn't this be arraycopy()?
+        // TODO: shouldn't this be brrbycopy()?
         for (int i = 0 ; i < sel.length ; i ++) {
             selected[i] = sel[i];
         }
         // The select()ed item should become the focused item, but we don't
-        // get the select() call because the peer generally hasn't yet been
-        // created during app initialization.
+        // get the select() cbll becbuse the peer generblly hbsn't yet been
+        // crebted during bpp initiblizbtion.
         // TODO: For multi-select lists, it should be the highest selected index
         if (sel.length > 0) {
             setFocusIndex(sel[sel.length - 1]);
@@ -196,44 +196,44 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
 
 
     /**
-     * add Vertical Scrollbar
+     * bdd Verticbl Scrollbbr
      */
-    void createVerScrollbar() {
-        vsb = new XVerticalScrollbar(this);
-        vsb.setValues(0, 0, 0, 0, 1, 1);
+    void crebteVerScrollbbr() {
+        vsb = new XVerticblScrollbbr(this);
+        vsb.setVblues(0, 0, 0, 0, 1, 1);
     }
 
 
     /**
-     * add Horizontal scrollbar
+     * bdd Horizontbl scrollbbr
      */
-    void createHorScrollbar() {
-        hsb = new XHorizontalScrollbar(this);
-        hsb.setValues(0, 0, 0, 0, HORIZ_SCROLL_AMT, HORIZ_SCROLL_AMT);
+    void crebteHorScrollbbr() {
+        hsb = new XHorizontblScrollbbr(this);
+        hsb.setVblues(0, 0, 0, 0, HORIZ_SCROLL_AMT, HORIZ_SCROLL_AMT);
     }
 
-    /* New method name for 1.1 */
-    public void add(String item, int index) {
-        addItem(item, index);
+    /* New method nbme for 1.1 */
+    public void bdd(String item, int index) {
+        bddItem(item, index);
     }
 
-    /* New method name for 1.1 */
+    /* New method nbme for 1.1 */
     public void removeAll() {
-        clear();
-        maxLength = 0;
+        clebr();
+        mbxLength = 0;
     }
 
-    /* New method name for 1.1 */
-    public void setMultipleMode (boolean b) {
+    /* New method nbme for 1.1 */
+    public void setMultipleMode (boolebn b) {
         setMultipleSelections(b);
     }
 
-    /* New method name for 1.1 */
+    /* New method nbme for 1.1 */
     public Dimension getPreferredSize(int rows) {
         return preferredSize(rows);
     }
 
-    /* New method name for 1.1 */
+    /* New method nbme for 1.1 */
     public Dimension getMinimumSize(int rows) {
         return minimumSize(rows);
     }
@@ -258,37 +258,37 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
     public Dimension minimumSize(int v) {
         FontMetrics fm = getFontMetrics(getFont());
         initFontMetrics();
-        return new Dimension(20 + fm.stringWidth("0123456789abcde"),
+        return new Dimension(20 + fm.stringWidth("0123456789bbcde"),
                              getItemHeight() * v + (2*MARGIN));
     }
 
     /**
-     * Calculate font metrics
+     * Cblculbte font metrics
      */
     void initFontMetrics() {
         FontMetrics fm = getFontMetrics(getFont());
         fontHeight = fm.getHeight();
         fontAscent = fm.getAscent();
-        fontLeading = fm.getLeading();
+        fontLebding = fm.getLebding();
     }
 
 
     /**
-     * return the length of the largest item in the list
+     * return the length of the lbrgest item in the list
      */
-    int maxLength() {
+    int mbxLength() {
         FontMetrics fm = getFontMetrics(getFont());
         int m = 0;
         int end = items.size();
         for(int i = 0 ; i < end ; i++) {
             int l = fm.stringWidth(items.elementAt(i));
-            m = Math.max(m, l);
+            m = Mbth.mbx(m, l);
         }
         return m;
     }
 
     /**
-     * Calculates the width of item's label
+     * Cblculbtes the width of item's lbbel
      */
     int getItemWidth(int i) {
         FontMetrics fm = getFontMetrics(getFont());
@@ -299,7 +299,7 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
      * return the on-screen width of the given string "str"
      */
     int stringLength(String str) {
-        FontMetrics fm = getFontMetrics(target.getFont());
+        FontMetrics fm = getFontMetrics(tbrget.getFont());
         return fm.stringWidth(str);
     }
 
@@ -308,18 +308,18 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
         super.setForeground(c);
     }
 
-    public void setBackground(Color c) {
+    public void setBbckground(Color c) {
         bgColorSet = true;
-        super.setBackground(c);
+        super.setBbckground(c);
     }
 
     /**
-     * Returns the color that should be used to paint the background of
-     * the list of items.  Note that this is not the same as
-     * target.getBackground() which is the color of the scrollbars, and the
-     * lower-right corner of the Component when the scrollbars are displayed.
+     * Returns the color thbt should be used to pbint the bbckground of
+     * the list of items.  Note thbt this is not the sbme bs
+     * tbrget.getBbckground() which is the color of the scrollbbrs, bnd the
+     * lower-right corner of the Component when the scrollbbrs bre displbyed.
      */
-    private Color getListBackground(Color[] colors) {
+    privbte Color getListBbckground(Color[] colors) {
         if (bgColorSet) {
             return colors[BACKGROUND_COLOR];
         }
@@ -329,9 +329,9 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
     }
 
     /**
-     * Returns the color that should be used to paint the list item text.
+     * Returns the color thbt should be used to pbint the list item text.
      */
-    private Color getListForeground(Color[] colors) {
+    privbte Color getListForeground(Color[] colors) {
         if (fgColorSet) {
             return colors[FOREGROUND_COLOR];
         }
@@ -340,147 +340,147 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
         }
     }
 
-    Rectangle getVScrollBarRec() {
-        return new Rectangle(width - (SCROLLBAR_WIDTH), 0, SCROLLBAR_WIDTH+1, height);
+    Rectbngle getVScrollBbrRec() {
+        return new Rectbngle(width - (SCROLLBAR_WIDTH), 0, SCROLLBAR_WIDTH+1, height);
     }
 
-    Rectangle getHScrollBarRec() {
-        return new Rectangle(0, height - SCROLLBAR_WIDTH, width, SCROLLBAR_WIDTH);
+    Rectbngle getHScrollBbrRec() {
+        return new Rectbngle(0, height - SCROLLBAR_WIDTH, width, SCROLLBAR_WIDTH);
     }
 
     int getFirstVisibleItem() {
         if (vsbVis) {
-            return vsb.getValue();
+            return vsb.getVblue();
         } else {
             return 0;
         }
     }
 
-    int getLastVisibleItem() {
+    int getLbstVisibleItem() {
         if (vsbVis) {
-            return Math.min(items.size()-1, vsb.getValue() + itemsInWindow() -1);
+            return Mbth.min(items.size()-1, vsb.getVblue() + itemsInWindow() -1);
         } else {
-            return Math.min(items.size()-1, itemsInWindow()-1);
+            return Mbth.min(items.size()-1, itemsInWindow()-1);
         }
     }
-    public void repaintScrollbarRequest(XScrollbar scrollbar) {
-        if (scrollbar == hsb)  {
-            repaint(PAINT_HSCROLL);
+    public void repbintScrollbbrRequest(XScrollbbr scrollbbr) {
+        if (scrollbbr == hsb)  {
+            repbint(PAINT_HSCROLL);
         }
-        else if (scrollbar == vsb) {
-            repaint(PAINT_VSCROLL);
+        else if (scrollbbr == vsb) {
+            repbint(PAINT_VSCROLL);
         }
     }
     /**
-     * Overridden for performance
+     * Overridden for performbnce
      */
-    public void repaint() {
-        repaint(getFirstVisibleItem(), getLastVisibleItem(), PAINT_ALL);
+    public void repbint() {
+        repbint(getFirstVisibleItem(), getLbstVisibleItem(), PAINT_ALL);
     }
 
-    private void repaint(int options) {
-        repaint(getFirstVisibleItem(), getLastVisibleItem(), options);
+    privbte void repbint(int options) {
+        repbint(getFirstVisibleItem(), getLbstVisibleItem(), options);
     }
 
-    private void repaint(int firstItem, int lastItem, int options) {
-        repaint(firstItem, lastItem, options, null, null);
+    privbte void repbint(int firstItem, int lbstItem, int options) {
+        repbint(firstItem, lbstItem, options, null, null);
     }
 
     /**
-     * In most cases the entire area of the component doesn't have
-     * to be repainted. The method repaints the particular areas of
-     * the component. The areas to repaint is specified by the option
-     * parameter. The possible values of the option parameter are:
+     * In most cbses the entire breb of the component doesn't hbve
+     * to be repbinted. The method repbints the pbrticulbr brebs of
+     * the component. The brebs to repbint is specified by the option
+     * pbrbmeter. The possible vblues of the option pbrbmeter bre:
      * PAINT_VSCROLL, PAINT_HSCROLL, PAINT_ITEMS, PAINT_FOCUS,
      * PAINT_HIDEFOCUS, PAINT_BACKGROUND, PAINT_ALL, COPY_AREA.
      *
-     * Note that the COPY_AREA value initiates copy of a source area
-     * of the component by a distance by means of the copyArea method
-     * of the Graphics class.
+     * Note thbt the COPY_AREA vblue initibtes copy of b source breb
+     * of the component by b distbnce by mebns of the copyAreb method
+     * of the Grbphics clbss.
      *
-     * @param firstItem the position of the first item of the range to repaint
-     * @param lastItem the position of the last item of the range to repaint
-     * @param options specifies the particular area of the component to repaint
-     * @param source the area of the component to copy
-     * @param distance the distance to copy the source area
+     * @pbrbm firstItem the position of the first item of the rbnge to repbint
+     * @pbrbm lbstItem the position of the lbst item of the rbnge to repbint
+     * @pbrbm options specifies the pbrticulbr breb of the component to repbint
+     * @pbrbm source the breb of the component to copy
+     * @pbrbm distbnce the distbnce to copy the source breb
      */
-    private void repaint(int firstItem, int lastItem, int options, Rectangle source, Point distance) {
-        final Graphics g = getGraphics();
+    privbte void repbint(int firstItem, int lbstItem, int options, Rectbngle source, Point distbnce) {
+        finbl Grbphics g = getGrbphics();
         if (g != null) {
             try {
-                painter.paint(g, firstItem, lastItem, options, source, distance);
-                postPaintEvent(target, 0, 0, getWidth(), getHeight());
-            } finally {
+                pbinter.pbint(g, firstItem, lbstItem, options, source, distbnce);
+                postPbintEvent(tbrget, 0, 0, getWidth(), getHeight());
+            } finblly {
                 g.dispose();
             }
         }
     }
     @Override
-    void paintPeer(final Graphics g) {
-        painter.paint(g, getFirstVisibleItem(), getLastVisibleItem(), PAINT_ALL);
+    void pbintPeer(finbl Grbphics g) {
+        pbinter.pbint(g, getFirstVisibleItem(), getLbstVisibleItem(), PAINT_ALL);
     }
-    public boolean isFocusable() { return true; }
+    public boolebn isFocusbble() { return true; }
 
-    // TODO: share/promote the Focus methods?
-    public void focusGained(FocusEvent e) {
-        super.focusGained(e);
-        repaint(PAINT_FOCUS);
+    // TODO: shbre/promote the Focus methods?
+    public void focusGbined(FocusEvent e) {
+        super.focusGbined(e);
+        repbint(PAINT_FOCUS);
     }
 
     public void focusLost(FocusEvent e) {
         super.focusLost(e);
-        repaint(PAINT_FOCUS);
+        repbint(PAINT_FOCUS);
     }
 
     /**
-     * Layout the sub-components of the List - that is, the scrollbars and the
+     * Lbyout the sub-components of the List - thbt is, the scrollbbrs bnd the
      * list of items.
      */
-    public void layout() {
-        int vis, maximum;
-        boolean vsbWasVisible;
-        int origVSBVal;
-        assert(target != null);
+    public void lbyout() {
+        int vis, mbximum;
+        boolebn vsbWbsVisible;
+        int origVSBVbl;
+        bssert(tbrget != null);
 
-        // Start with assumption there is not a horizontal scrollbar,
-        // see if we need a vertical scrollbar
+        // Stbrt with bssumption there is not b horizontbl scrollbbr,
+        // see if we need b verticbl scrollbbr
 
-        // Bug: If the list DOES have a horiz scrollbar and the value is set to
-        // the very bottom value, value is reset in setValues() because it isn't
-        // a valid value for cases when the list DOESN'T have a horiz scrollbar.
-        // This is currently worked-around with origVSGVal.
-        origVSBVal = vsb.getValue();
-        vis = itemsInWindow(false);
-        maximum = items.size() < vis ? vis : items.size();
-        vsb.setValues(vsb.getValue(), vis, vsb.getMinimum(), maximum);
-        vsbVis = vsbWasVisible = vsbIsVisible(false);
+        // Bug: If the list DOES hbve b horiz scrollbbr bnd the vblue is set to
+        // the very bottom vblue, vblue is reset in setVblues() becbuse it isn't
+        // b vblid vblue for cbses when the list DOESN'T hbve b horiz scrollbbr.
+        // This is currently worked-bround with origVSGVbl.
+        origVSBVbl = vsb.getVblue();
+        vis = itemsInWindow(fblse);
+        mbximum = items.size() < vis ? vis : items.size();
+        vsb.setVblues(vsb.getVblue(), vis, vsb.getMinimum(), mbximum);
+        vsbVis = vsbWbsVisible = vsbIsVisible(fblse);
         listHeight = height;
 
-        // now see if we need a horizontal scrollbar
+        // now see if we need b horizontbl scrollbbr
         listWidth = getListWidth();
         vis = listWidth - ((2 * SPACE) + (2 * MARGIN));
-        maximum = maxLength < vis ? vis : maxLength;
-        hsb.setValues(hsb.getValue(), vis, hsb.getMinimum(), maximum);
+        mbximum = mbxLength < vis ? vis : mbxLength;
+        hsb.setVblues(hsb.getVblue(), vis, hsb.getMinimum(), mbximum);
         hsbVis = hsbIsVisible(vsbVis);
 
         if (hsbVis) {
-            // do need a horizontal scrollbar, so recalculate height of
-            // vertical s crollbar
+            // do need b horizontbl scrollbbr, so recblculbte height of
+            // verticbl s crollbbr
             listHeight = height - SCROLLBAR_AREA;
             vis = itemsInWindow(true);
-            maximum = items.size() < vis ? vis : items.size();
-            vsb.setValues(origVSBVal, vis, vsb.getMinimum(), maximum);
+            mbximum = items.size() < vis ? vis : items.size();
+            vsb.setVblues(origVSBVbl, vis, vsb.getMinimum(), mbximum);
             vsbVis = vsbIsVisible(true);
         }
 
-        // now check to make sure we haven't changed need for vertical
-        // scrollbar - if we have, we need to
-        // recalculate horizontal scrollbar width - then we're done...
-        if (vsbWasVisible != vsbVis) {
+        // now check to mbke sure we hbven't chbnged need for verticbl
+        // scrollbbr - if we hbve, we need to
+        // recblculbte horizontbl scrollbbr width - then we're done...
+        if (vsbWbsVisible != vsbVis) {
             listWidth = getListWidth();
             vis = listWidth - ((2 * SPACE) + (2 * MARGIN));
-            maximum = maxLength < vis ? 0 : maxLength;
-            hsb.setValues(hsb.getValue(), vis, hsb.getMinimum(), maximum);
+            mbximum = mbxLength < vis ? 0 : mbxLength;
+            hsb.setVblues(hsb.getVblue(), vis, hsb.getMinimum(), mbximum);
             hsbVis = hsbIsVisible(vsbVis);
         }
 
@@ -495,9 +495,9 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
         return width - ((2 * MARGIN) + (vsbVis ? SCROLLBAR_AREA : 0));
     }
 
-    /* Returns height of an item in the list */
+    /* Returns height of bn item in the list */
     int getItemHeight() {
-        return (fontHeight - fontLeading) + (2*SPACE);
+        return (fontHeight - fontLebding) + (2*SPACE);
     }
 
     int getItemX() {
@@ -512,29 +512,29 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
         return focusIndex;
     }
 
-    void setFocusIndex(int value) {
-        focusIndex = value;
+    void setFocusIndex(int vblue) {
+        focusIndex = vblue;
     }
 
     /**
-     * Update and return the focus rectangle.
-     * Focus is around the focused item, if it is visible, or
-     * around the border of the list if the focused item is scrolled off the top
+     * Updbte bnd return the focus rectbngle.
+     * Focus is bround the focused item, if it is visible, or
+     * bround the border of the list if the focused item is scrolled off the top
      * or bottom of the list.
      */
-    Rectangle getFocusRect() {
-        Rectangle focusRect = new Rectangle();
-        // width is always only based on presence of vert sb
+    Rectbngle getFocusRect() {
+        Rectbngle focusRect = new Rectbngle();
+        // width is blwbys only bbsed on presence of vert sb
         focusRect.x = 1;
         focusRect.width = getListWidth() - 3;
-        // if focused item is not currently displayed in the list,  paint
-        // focus around entire list (not including scrollbars)
-        if (isIndexDisplayed(getFocusIndex())) {
-            // focus rect is around the item
+        // if focused item is not currently displbyed in the list,  pbint
+        // focus bround entire list (not including scrollbbrs)
+        if (isIndexDisplbyed(getFocusIndex())) {
+            // focus rect is bround the item
             focusRect.y = index2y(getFocusIndex()) - 2;
             focusRect.height = getItemHeight()+1;
         } else {
-            // focus rect is around the list
+            // focus rect is bround the list
             focusRect.y = 1;
             focusRect.height = hsbVis ? height - SCROLLBAR_AREA : height;
             focusRect.height -= 3;
@@ -542,53 +542,53 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
         return focusRect;
     }
 
-    public void handleConfigureNotifyEvent(XEvent xev) {
-        super.handleConfigureNotifyEvent(xev);
+    public void hbndleConfigureNotifyEvent(XEvent xev) {
+        super.hbndleConfigureNotifyEvent(xev);
 
-        // Update buffer
-        painter.invalidate();
+        // Updbte buffer
+        pbinter.invblidbte();
     }
-    public boolean handlesWheelScrolling() { return true; }
+    public boolebn hbndlesWheelScrolling() { return true; }
 
     // FIXME: need to support MouseWheel scrolling, too
-    void handleJavaMouseEvent(MouseEvent e) {
-        super.handleJavaMouseEvent(e);
+    void hbndleJbvbMouseEvent(MouseEvent e) {
+        super.hbndleJbvbMouseEvent(e);
         int i = e.getID();
         switch (i) {
-          case MouseEvent.MOUSE_PRESSED:
+          cbse MouseEvent.MOUSE_PRESSED:
               mousePressed(e);
-              break;
-          case MouseEvent.MOUSE_RELEASED:
-              mouseReleased(e);
-              break;
-          case MouseEvent.MOUSE_DRAGGED:
-              mouseDragged(e);
-              break;
+              brebk;
+          cbse MouseEvent.MOUSE_RELEASED:
+              mouseRelebsed(e);
+              brebk;
+          cbse MouseEvent.MOUSE_DRAGGED:
+              mouseDrbgged(e);
+              brebk;
         }
     }
 
-    void handleJavaMouseWheelEvent(MouseWheelEvent e) {
+    void hbndleJbvbMouseWheelEvent(MouseWheelEvent e) {
         if (ListHelper.doWheelScroll(vsbVis ? vsb : null,
                                      hsbVis ? hsb : null, e)) {
-            repaint();
+            repbint();
         }
     }
 
     void mousePressed(MouseEvent mouseEvent) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
             log.finer(mouseEvent.toString() + ", hsb " + hsbVis + ", vsb " + vsbVis);
         }
-        if (isEnabled() && mouseEvent.getButton() == MouseEvent.BUTTON1) {
+        if (isEnbbled() && mouseEvent.getButton() == MouseEvent.BUTTON1) {
             if (inWindow(mouseEvent.getX(), mouseEvent.getY())) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("Mouse press in items area");
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("Mouse press in items breb");
                 }
-                active = WINDOW;
+                bctive = WINDOW;
                 int i = y2index(mouseEvent.getY());
                 if (i >= 0) {
                     if (multipleSelections) {
                         if (isSelected(i)) {
-                            // See 6243382 for more information
+                            // See 6243382 for more informbtion
                             deselectItem(i);
                             eventIndex = i;
                             eventType = ItemEvent.DESELECTED;
@@ -599,9 +599,9 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
                             eventType = ItemEvent.SELECTED;
                         }
                     }
-                    // Backward-compatible bug: even if a single-select
-                    // item is already selected, we send an ITEM_STATE_CHANGED/
-                    // SELECTED event.  Engineer's Toolbox appears to rely on
+                    // Bbckwbrd-compbtible bug: even if b single-select
+                    // item is blrebdy selected, we send bn ITEM_STATE_CHANGED/
+                    // SELECTED event.  Engineer's Toolbox bppebrs to rely on
                     // this.
                     //else if (!isSelected(i)) {
                     else {
@@ -609,30 +609,30 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
                         eventIndex = i;
                         eventType = ItemEvent.SELECTED;
                     }
-                    // Restoring Windows behaviour
-                    // We should update focus index after "mouse pressed" event
+                    // Restoring Windows behbviour
+                    // We should updbte focus index bfter "mouse pressed" event
                     setFocusIndex(i);
-                    repaint(PAINT_FOCUS);
+                    repbint(PAINT_FOCUS);
                 } else {
-                    // 6426186: reset variable to prevent action event
-                    // if user clicks on unoccupied area of list
+                    // 6426186: reset vbribble to prevent bction event
+                    // if user clicks on unoccupied breb of list
                     currentIndex = -1;
                 }
-            } else if (inVerticalScrollbar(mouseEvent.getX(), mouseEvent.getY())) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("Mouse press in vertical scrollbar");
+            } else if (inVerticblScrollbbr(mouseEvent.getX(), mouseEvent.getY())) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("Mouse press in verticbl scrollbbr");
                 }
-                active = VERSCROLLBAR;
-                vsb.handleMouseEvent(mouseEvent.getID(),
+                bctive = VERSCROLLBAR;
+                vsb.hbndleMouseEvent(mouseEvent.getID(),
                                      mouseEvent.getModifiers(),
                                      mouseEvent.getX() - (width - SCROLLBAR_WIDTH),
                                      mouseEvent.getY());
-            } else if (inHorizontalScrollbar(mouseEvent.getX(), mouseEvent.getY())) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("Mouse press in horizontal scrollbar");
+            } else if (inHorizontblScrollbbr(mouseEvent.getX(), mouseEvent.getY())) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("Mouse press in horizontbl scrollbbr");
                 }
-                active = HORSCROLLBAR;
-                hsb.handleMouseEvent(mouseEvent.getID(),
+                bctive = HORSCROLLBAR;
+                hsb.hbndleMouseEvent(mouseEvent.getID(),
                                      mouseEvent.getModifiers(),
                                      mouseEvent.getX(),
                                      mouseEvent.getY() - (height - SCROLLBAR_WIDTH));
@@ -641,70 +641,70 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
             isMousePressed = true;
         }
     }
-    void mouseReleased(MouseEvent mouseEvent) {
-        if (isEnabled() && mouseEvent.getButton() == MouseEvent.BUTTON1) {
-            //winReleaseCursorFocus();
+    void mouseRelebsed(MouseEvent mouseEvent) {
+        if (isEnbbled() && mouseEvent.getButton() == MouseEvent.BUTTON1) {
+            //winRelebseCursorFocus();
             int clickCount = mouseEvent.getClickCount();
-            if (active == VERSCROLLBAR) {
-                vsb.handleMouseEvent(mouseEvent.getID(),
+            if (bctive == VERSCROLLBAR) {
+                vsb.hbndleMouseEvent(mouseEvent.getID(),
                                      mouseEvent.getModifiers(),
                                      mouseEvent.getX()-(width-SCROLLBAR_WIDTH),
                                      mouseEvent.getY());
-            } else if(active == HORSCROLLBAR) {
-                hsb.handleMouseEvent(mouseEvent.getID(),
+            } else if(bctive == HORSCROLLBAR) {
+                hsb.hbndleMouseEvent(mouseEvent.getID(),
                                      mouseEvent.getModifiers(),
                                      mouseEvent.getX(),
                                      mouseEvent.getY()-(height-SCROLLBAR_WIDTH));
             } else if ( ( currentIndex >= 0 ) && ( clickCount >= 2 ) &&
                         ( clickCount % 2 == 0 ) ) {
-                postEvent(new ActionEvent(target,
+                postEvent(new ActionEvent(tbrget,
                                           ActionEvent.ACTION_PERFORMED,
                                           items.elementAt(currentIndex),
                                           mouseEvent.getWhen(),
                                           mouseEvent.getModifiers()));  // No ext mods
-            } else if (active == WINDOW) {
-                // See 6243382 for more information
-                trackMouseReleasedScroll();
+            } else if (bctive == WINDOW) {
+                // See 6243382 for more informbtion
+                trbckMouseRelebsedScroll();
 
                 if (eventType == ItemEvent.DESELECTED) {
-                    assert multipleSelections : "Shouldn't get a deselect for a single-select List";
-                    // Paint deselection the release
+                    bssert multipleSelections : "Shouldn't get b deselect for b single-select List";
+                    // Pbint deselection the relebse
                     deselectItem(eventIndex);
                 }
                 if (eventType != NONE) {
-                    postEvent(new ItemEvent((List)target,
+                    postEvent(new ItemEvent((List)tbrget,
                                 ItemEvent.ITEM_STATE_CHANGED,
-                                Integer.valueOf(eventIndex),
+                                Integer.vblueOf(eventIndex),
                                 eventType));
                 }
             }
-            active = NONE;
+            bctive = NONE;
             eventIndex = -1;
             eventType = NONE;
-            isMousePressed = false;
+            isMousePressed = fblse;
         }
     }
 
-    void mouseDragged(MouseEvent mouseEvent) {
-        // TODO: can you drag w/ any other buttons?  what about multiple buttons?
-        if (isEnabled() &&
+    void mouseDrbgged(MouseEvent mouseEvent) {
+        // TODO: cbn you drbg w/ bny other buttons?  whbt bbout multiple buttons?
+        if (isEnbbled() &&
             (mouseEvent.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) {
-            if ((active == VERSCROLLBAR)) {
-                vsb.handleMouseEvent(mouseEvent.getID(),
+            if ((bctive == VERSCROLLBAR)) {
+                vsb.hbndleMouseEvent(mouseEvent.getID(),
                                      mouseEvent.getModifiers(),
                                      mouseEvent.getX()-(width-SCROLLBAR_WIDTH),
                                      mouseEvent.getY());
-            } else if ((active == HORSCROLLBAR)) {
-                hsb.handleMouseEvent(mouseEvent.getID(),
+            } else if ((bctive == HORSCROLLBAR)) {
+                hsb.hbndleMouseEvent(mouseEvent.getID(),
                                      mouseEvent.getModifiers(),
                                      mouseEvent.getX(),
                                      mouseEvent.getY()-(height-SCROLLBAR_WIDTH));
-            } else if (active == WINDOW) {
+            } else if (bctive == WINDOW) {
                 int i = y2index(mouseEvent.getY());
                 if (multipleSelections) {
                     // Multi-select only:
-                    // If a selected item was pressed on and then dragged off
-                    // of, cancel the pending deselect.
+                    // If b selected item wbs pressed on bnd then drbgged off
+                    // of, cbncel the pending deselect.
                     if (eventType == ItemEvent.DESELECTED) {
                         if (i != eventIndex) {
                             eventType = NONE;
@@ -714,36 +714,36 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
                 }
                 else if (eventType == ItemEvent.SELECTED) {
                     // Single-select only:
-                    // If an unselected item was pressed on, track the drag
-                    // and select the item under the mouse
+                    // If bn unselected item wbs pressed on, trbck the drbg
+                    // bnd select the item under the mouse
 
-                    // See 6243382 for more information
-                    trackMouseDraggedScroll(mouseEvent);
+                    // See 6243382 for more informbtion
+                    trbckMouseDrbggedScroll(mouseEvent);
 
                     if (i >= 0 && !isSelected(i)) {
                         int oldSel = eventIndex;
                         selectItem(i);
                         eventIndex = i;
-                        repaint(oldSel, eventIndex, PAINT_ITEMS);
+                        repbint(oldSel, eventIndex, PAINT_ITEMS);
                     }
                 }
-                // Restoring Windows behaviour
-                // We should update focus index after "mouse dragged" event
+                // Restoring Windows behbviour
+                // We should updbte focus index bfter "mouse drbgged" event
                 if (i >= 0) {
                     setFocusIndex(i);
-                    repaint(PAINT_FOCUS);
+                    repbint(PAINT_FOCUS);
                 }
             }
         }
     }
 
     /*
-     * Helper method for XListPeer with integrated vertical scrollbar.
-     * Start or stop vertical scrolling when mouse dragged in / out the area of the list if it's required
-     * Restoring Motif behavior
-     * See 6243382 for more information
+     * Helper method for XListPeer with integrbted verticbl scrollbbr.
+     * Stbrt or stop verticbl scrolling when mouse drbgged in / out the breb of the list if it's required
+     * Restoring Motif behbvior
+     * See 6243382 for more informbtion
      */
-    void trackMouseDraggedScroll(MouseEvent mouseEvent){
+    void trbckMouseDrbggedScroll(MouseEvent mouseEvent){
 
         if (vsb.beforeThumb(mouseEvent.getX(), mouseEvent.getY())) {
             vsb.setMode(AdjustmentEvent.UNIT_DECREMENT);
@@ -752,14 +752,14 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
         }
 
         if(mouseEvent.getY() < 0 || mouseEvent.getY() >= listHeight){
-            if (!mouseDraggedOutVertically){
-                mouseDraggedOutVertically = true;
-                vsb.startScrollingInstance();
+            if (!mouseDrbggedOutVerticblly){
+                mouseDrbggedOutVerticblly = true;
+                vsb.stbrtScrollingInstbnce();
             }
         }else{
-            if (mouseDraggedOutVertically){
-                mouseDraggedOutVertically = false;
-                vsb.stopScrollingInstance();
+            if (mouseDrbggedOutVerticblly){
+                mouseDrbggedOutVerticblly = fblse;
+                vsb.stopScrollingInstbnce();
             }
         }
 
@@ -770,275 +770,275 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
         }
 
         if (mouseEvent.getX() < 0 || mouseEvent.getX() >= listWidth) {
-            if (!mouseDraggedOutHorizontally){
-                mouseDraggedOutHorizontally = true;
-                hsb.startScrollingInstance();
+            if (!mouseDrbggedOutHorizontblly){
+                mouseDrbggedOutHorizontblly = true;
+                hsb.stbrtScrollingInstbnce();
             }
         }else{
-            if (mouseDraggedOutHorizontally){
-                mouseDraggedOutHorizontally = false;
-                hsb.stopScrollingInstance();
+            if (mouseDrbggedOutHorizontblly){
+                mouseDrbggedOutHorizontblly = fblse;
+                hsb.stopScrollingInstbnce();
             }
         }
     }
 
     /*
-     * Helper method for XListPeer with integrated vertical scrollbar.
-     * Stop vertical scrolling when mouse released in / out the area of the list if it's required
-     * Restoring Motif behavior
-     * see 6243382 for more information
+     * Helper method for XListPeer with integrbted verticbl scrollbbr.
+     * Stop verticbl scrolling when mouse relebsed in / out the breb of the list if it's required
+     * Restoring Motif behbvior
+     * see 6243382 for more informbtion
      */
-    void trackMouseReleasedScroll(){
+    void trbckMouseRelebsedScroll(){
 
-        if (mouseDraggedOutVertically){
-            mouseDraggedOutVertically = false;
-            vsb.stopScrollingInstance();
+        if (mouseDrbggedOutVerticblly){
+            mouseDrbggedOutVerticblly = fblse;
+            vsb.stopScrollingInstbnce();
         }
 
-        if (mouseDraggedOutHorizontally){
-            mouseDraggedOutHorizontally = false;
-            hsb.stopScrollingInstance();
+        if (mouseDrbggedOutHorizontblly){
+            mouseDrbggedOutHorizontblly = fblse;
+            hsb.stopScrollingInstbnce();
         }
     }
 
-    void handleJavaKeyEvent(KeyEvent e) {
+    void hbndleJbvbKeyEvent(KeyEvent e) {
         switch(e.getID()) {
-          case KeyEvent.KEY_PRESSED:
+          cbse KeyEvent.KEY_PRESSED:
               if (!isMousePressed){
                   keyPressed(e);
               }
-              break;
+              brebk;
         }
     }
 
     void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine(e.toString());
         }
         switch(keyCode) {
-          case KeyEvent.VK_UP:
-          case KeyEvent.VK_KP_UP: // TODO: I assume we also want this, too
+          cbse KeyEvent.VK_UP:
+          cbse KeyEvent.VK_KP_UP: // TODO: I bssume we blso wbnt this, too
               if (getFocusIndex() > 0) {
                   setFocusIndex(getFocusIndex()-1);
-                  repaint(PAINT_HIDEFOCUS);
+                  repbint(PAINT_HIDEFOCUS);
                   // If single-select, select the item
                   if (!multipleSelections) {
                       selectItem(getFocusIndex());
-                      postEvent(new ItemEvent((List)target,
+                      postEvent(new ItemEvent((List)tbrget,
                                               ItemEvent.ITEM_STATE_CHANGED,
-                                              Integer.valueOf(getFocusIndex()),
+                                              Integer.vblueOf(getFocusIndex()),
                                               ItemEvent.SELECTED));
                   }
                   if (isItemHidden(getFocusIndex())) {
-                      makeVisible(getFocusIndex());
+                      mbkeVisible(getFocusIndex());
                   }
                   else {
-                      repaint(PAINT_FOCUS);
+                      repbint(PAINT_FOCUS);
                   }
               }
-              break;
-          case KeyEvent.VK_DOWN:
-          case KeyEvent.VK_KP_DOWN: // TODO: I assume we also want this, too
+              brebk;
+          cbse KeyEvent.VK_DOWN:
+          cbse KeyEvent.VK_KP_DOWN: // TODO: I bssume we blso wbnt this, too
               if (getFocusIndex() < items.size() - 1) {
                   setFocusIndex(getFocusIndex()+1);
-                  repaint(PAINT_HIDEFOCUS);
+                  repbint(PAINT_HIDEFOCUS);
                   // If single-select, select the item
                   if (!multipleSelections) {
                       selectItem(getFocusIndex());
-                      postEvent(new ItemEvent((List)target,
+                      postEvent(new ItemEvent((List)tbrget,
                                               ItemEvent.ITEM_STATE_CHANGED,
-                                              Integer.valueOf(getFocusIndex()),
+                                              Integer.vblueOf(getFocusIndex()),
                                               ItemEvent.SELECTED));
                   }
                   if (isItemHidden(getFocusIndex())) {
-                      makeVisible(getFocusIndex());
+                      mbkeVisible(getFocusIndex());
                   }
                   else {
-                      repaint(PAINT_FOCUS);
+                      repbint(PAINT_FOCUS);
                   }
               }
-              break;
-          case KeyEvent.VK_PAGE_UP: {
-              // Assumes that scrollbar does its own bounds-checking
-              int previousValue = vsb.getValue();
-              vsb.setValue(vsb.getValue() - vsb.getBlockIncrement());
-              int currentValue = vsb.getValue();
+              brebk;
+          cbse KeyEvent.VK_PAGE_UP: {
+              // Assumes thbt scrollbbr does its own bounds-checking
+              int previousVblue = vsb.getVblue();
+              vsb.setVblue(vsb.getVblue() - vsb.getBlockIncrement());
+              int currentVblue = vsb.getVblue();
               // 6190768 pressing pg-up on AWT multiple selection lists the items but no item event is triggered, on XToolkit
-              // Restoring Motif behavior
-              if (previousValue!=currentValue) {
-                  setFocusIndex(Math.max(getFocusIndex()-itemsInWindow(), 0));
+              // Restoring Motif behbvior
+              if (previousVblue!=currentVblue) {
+                  setFocusIndex(Mbth.mbx(getFocusIndex()-itemsInWindow(), 0));
                   if (!multipleSelections){
                       selectItem(getFocusIndex());
-                      postEvent(new ItemEvent((List)target,
+                      postEvent(new ItemEvent((List)tbrget,
                                               ItemEvent.ITEM_STATE_CHANGED,
-                                              Integer.valueOf(getFocusIndex()),
+                                              Integer.vblueOf(getFocusIndex()),
                                               ItemEvent.SELECTED));
                   }
               }
-              repaint();
-              break;
+              repbint();
+              brebk;
           }
-          case KeyEvent.VK_PAGE_DOWN: {
-              // Assumes that scrollbar does its own bounds-checking
-              int previousValue = vsb.getValue();
-              vsb.setValue(vsb.getValue() + vsb.getBlockIncrement());
-              int currentValue = vsb.getValue();
+          cbse KeyEvent.VK_PAGE_DOWN: {
+              // Assumes thbt scrollbbr does its own bounds-checking
+              int previousVblue = vsb.getVblue();
+              vsb.setVblue(vsb.getVblue() + vsb.getBlockIncrement());
+              int currentVblue = vsb.getVblue();
               // 6190768 pressing pg-down on AWT multiple selection list selects the items but no item event is triggered, on XToolkit
-              // Restoring Motif behavior
-              if (previousValue!=currentValue) {
-                  setFocusIndex(Math.min(getFocusIndex() + itemsInWindow(), items.size()-1));
+              // Restoring Motif behbvior
+              if (previousVblue!=currentVblue) {
+                  setFocusIndex(Mbth.min(getFocusIndex() + itemsInWindow(), items.size()-1));
                   if (!multipleSelections){
                       selectItem(getFocusIndex());
-                      postEvent(new ItemEvent((List)target,
+                      postEvent(new ItemEvent((List)tbrget,
                                               ItemEvent.ITEM_STATE_CHANGED,
-                                              Integer.valueOf(getFocusIndex()),
+                                              Integer.vblueOf(getFocusIndex()),
                                               ItemEvent.SELECTED));
                   }
               }
-              repaint();
-              break;
+              repbint();
+              brebk;
           }
-          case KeyEvent.VK_LEFT:
-          case KeyEvent.VK_KP_LEFT:
-              if (hsbVis & hsb.getValue() > 0) {
-                  hsb.setValue(hsb.getValue() - HORIZ_SCROLL_AMT);
-                  repaint();
+          cbse KeyEvent.VK_LEFT:
+          cbse KeyEvent.VK_KP_LEFT:
+              if (hsbVis & hsb.getVblue() > 0) {
+                  hsb.setVblue(hsb.getVblue() - HORIZ_SCROLL_AMT);
+                  repbint();
               }
-              break;
-          case KeyEvent.VK_RIGHT:
-          case KeyEvent.VK_KP_RIGHT:
-              if (hsbVis) { // Should check if already at end
-                  hsb.setValue(hsb.getValue() + HORIZ_SCROLL_AMT);
-                  repaint();
+              brebk;
+          cbse KeyEvent.VK_RIGHT:
+          cbse KeyEvent.VK_KP_RIGHT:
+              if (hsbVis) { // Should check if blrebdy bt end
+                  hsb.setVblue(hsb.getVblue() + HORIZ_SCROLL_AMT);
+                  repbint();
               }
-              break;
+              brebk;
           // 6190778 CTRL + HOME, CTRL + END keys do not work properly for list on XToolkit
-          // Restoring Motif behavior
-          case KeyEvent.VK_HOME:
-              if (!e.isControlDown() || ((List)target).getItemCount() <= 0)
-                  break;
+          // Restoring Motif behbvior
+          cbse KeyEvent.VK_HOME:
+              if (!e.isControlDown() || ((List)tbrget).getItemCount() <= 0)
+                  brebk;
               if (vsbVis) {
-                  vsb.setValue(vsb.getMinimum());
+                  vsb.setVblue(vsb.getMinimum());
               }
               setFocusIndex(0);
               if (!multipleSelections) {
                   selectItem(getFocusIndex());
-                  postEvent(new ItemEvent((List)target,
+                  postEvent(new ItemEvent((List)tbrget,
                                           ItemEvent.ITEM_STATE_CHANGED,
-                                          Integer.valueOf(getFocusIndex()),
+                                          Integer.vblueOf(getFocusIndex()),
                                           ItemEvent.SELECTED));
               }
-              repaint();
-              break;
-          case KeyEvent.VK_END:
-              if (!e.isControlDown() || ((List)target).getItemCount() <= 0)
-                  break;
+              repbint();
+              brebk;
+          cbse KeyEvent.VK_END:
+              if (!e.isControlDown() || ((List)tbrget).getItemCount() <= 0)
+                  brebk;
               if (vsbVis) {
-                  vsb.setValue(vsb.getMaximum());
+                  vsb.setVblue(vsb.getMbximum());
               }
               setFocusIndex(items.size()-1);
               if (!multipleSelections) {
                   selectItem(getFocusIndex());
-                  postEvent(new ItemEvent((List)target,
+                  postEvent(new ItemEvent((List)tbrget,
                                           ItemEvent.ITEM_STATE_CHANGED,
-                                          Integer.valueOf(getFocusIndex()),
+                                          Integer.vblueOf(getFocusIndex()),
                                           ItemEvent.SELECTED));
               }
-              repaint();
-              break;
-          case KeyEvent.VK_SPACE:
-              // Fixed 6299853: XToolkit: Pressing space triggers ItemStateChanged event after List.removeAll called
-              // If getFocusIndex() is less than 0, the event will not be triggered when space pressed
-              if (getFocusIndex() < 0 || ((List)target).getItemCount() <= 0) {
-                  break;
+              repbint();
+              brebk;
+          cbse KeyEvent.VK_SPACE:
+              // Fixed 6299853: XToolkit: Pressing spbce triggers ItemStbteChbnged event bfter List.removeAll cblled
+              // If getFocusIndex() is less thbn 0, the event will not be triggered when spbce pressed
+              if (getFocusIndex() < 0 || ((List)tbrget).getItemCount() <= 0) {
+                  brebk;
               }
 
-              boolean isSelected = isSelected(getFocusIndex());
+              boolebn isSelected = isSelected(getFocusIndex());
 
-              // Spacebar only deselects for multi-select Lists
+              // Spbcebbr only deselects for multi-select Lists
               if (multipleSelections && isSelected) {
                   deselectItem(getFocusIndex());
-                  postEvent(new ItemEvent((List)target,
+                  postEvent(new ItemEvent((List)tbrget,
                                           ItemEvent.ITEM_STATE_CHANGED,
-                                          Integer.valueOf(getFocusIndex()),
+                                          Integer.vblueOf(getFocusIndex()),
                                           ItemEvent.DESELECTED));
               }
-              else if (!isSelected) { // Note: this changes the Solaris/Linux
-                  // behavior to match that of win32.
-                  // That is, pressing space bar on a
+              else if (!isSelected) { // Note: this chbnges the Solbris/Linux
+                  // behbvior to mbtch thbt of win32.
+                  // Thbt is, pressing spbce bbr on b
                   // single-select list when the focused
-                  // item is already selected does NOT
-                  // send an ItemEvent.SELECTED event.
+                  // item is blrebdy selected does NOT
+                  // send bn ItemEvent.SELECTED event.
                   selectItem(getFocusIndex());
-                  postEvent(new ItemEvent((List)target,
+                  postEvent(new ItemEvent((List)tbrget,
                                           ItemEvent.ITEM_STATE_CHANGED,
-                                          Integer.valueOf(getFocusIndex()),
+                                          Integer.vblueOf(getFocusIndex()),
                                           ItemEvent.SELECTED));
               }
-              break;
-          case KeyEvent.VK_ENTER:
-              // It looks to me like there are bugs as well as inconsistencies
-              // in the way the Enter key is handled by both Solaris and Windows.
-              // So for now in XAWT, I'm going to simply go by what the List docs
-              // say: "AWT also generates an action event when the user presses
-              // the return key while an item in the list is selected."
+              brebk;
+          cbse KeyEvent.VK_ENTER:
+              // It looks to me like there bre bugs bs well bs inconsistencies
+              // in the wby the Enter key is hbndled by both Solbris bnd Windows.
+              // So for now in XAWT, I'm going to simply go by whbt the List docs
+              // sby: "AWT blso generbtes bn bction event when the user presses
+              // the return key while bn item in the list is selected."
               if (selected.length > 0) {
-                  postEvent(new ActionEvent((List)target,
+                  postEvent(new ActionEvent((List)tbrget,
                                             ActionEvent.ACTION_PERFORMED,
                                             items.elementAt(getFocusIndex()),
                                             e.getWhen(),
-                                            e.getModifiers()));  // ActionEvent doesn't have
+                                            e.getModifiers()));  // ActionEvent doesn't hbve
                   // extended modifiers.
               }
-              break;
+              brebk;
         }
     }
 
     /**
-     * return value from the scrollbar
+     * return vblue from the scrollbbr
      */
-    public void notifyValue(XScrollbar obj, int type, int v, boolean isAdjusting) {
+    public void notifyVblue(XScrollbbr obj, int type, int v, boolebn isAdjusting) {
 
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Notify value changed on " + obj + " to " + v);
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Notify vblue chbnged on " + obj + " to " + v);
         }
-        int value = obj.getValue();
+        int vblue = obj.getVblue();
         if (obj == vsb) {
-            scrollVertical(v - value);
+            scrollVerticbl(v - vblue);
 
-            // See 6243382 for more information
+            // See 6243382 for more informbtion
             int oldSel = eventIndex;
-            int newSel = eventIndex+v-value;
-            if (mouseDraggedOutVertically && !isSelected(newSel)){
+            int newSel = eventIndex+v-vblue;
+            if (mouseDrbggedOutVerticblly && !isSelected(newSel)){
                 selectItem(newSel);
                 eventIndex = newSel;
-                repaint(oldSel, eventIndex, PAINT_ITEMS);
-                // Scrolling select() should also set the focus index
-                // Otherwise, the updating of the 'focusIndex' variable will be incorrect
-                // if user drag mouse out of the area of the list
+                repbint(oldSel, eventIndex, PAINT_ITEMS);
+                // Scrolling select() should blso set the focus index
+                // Otherwise, the updbting of the 'focusIndex' vbribble will be incorrect
+                // if user drbg mouse out of the breb of the list
                 setFocusIndex(newSel);
-                repaint(PAINT_FOCUS);
+                repbint(PAINT_FOCUS);
             }
 
-        } else if ((XHorizontalScrollbar)obj == hsb) {
-            scrollHorizontal(v - value);
+        } else if ((XHorizontblScrollbbr)obj == hsb) {
+            scrollHorizontbl(v - vblue);
         }
 
     }
 
     /**
-     * deselect all items in List
+     * deselect bll items in List
      */
-    private void deselectAllItems() {
+    privbte void deselectAllItems() {
         selected = new int [0];
-        repaint(PAINT_ITEMS);
+        repbint(PAINT_ITEMS);
     }
 
     /**
      * set multiple selections
      */
-    public void setMultipleSelections(boolean v) {
+    public void setMultipleSelections(boolebn v) {
         if (multipleSelections != v) {
             if ( !v) {
                 int selPos = ( isSelected( focusIndex )) ? focusIndex: -1;
@@ -1052,83 +1052,83 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
     }
 
     /**
-     * add an item
-     * if the index of the item is < 0 or >= than items.size()
-     * then add the item to the end of the list
+     * bdd bn item
+     * if the index of the item is < 0 or >= thbn items.size()
+     * then bdd the item to the end of the list
      */
-    public void addItem(String item, int i) {
-        int oldMaxLength = maxLength;
-        boolean hsbWasVis = hsbVis;
-        boolean vsbWasVis = vsbVis;
+    public void bddItem(String item, int i) {
+        int oldMbxLength = mbxLength;
+        boolebn hsbWbsVis = hsbVis;
+        boolebn vsbWbsVis = vsbVis;
 
-        int addedIndex = 0; // Index where the new item ended up
+        int bddedIndex = 0; // Index where the new item ended up
         if (i < 0 || i >= items.size()) {
             i = -1;
         }
 
-        // Why we set this variable to -1 in spite of the fact that selected[] is changed in other way?
-        // It's not clear how to reproduce incorrect behaviour based on this assignment
-        // since before using this variable (mouseReleased) we certainly update it to correct value
-        // So we don't modify this behaviour now
+        // Why we set this vbribble to -1 in spite of the fbct thbt selected[] is chbnged in other wby?
+        // It's not clebr how to reproduce incorrect behbviour bbsed on this bssignment
+        // since before using this vbribble (mouseRelebsed) we certbinly updbte it to correct vblue
+        // So we don't modify this behbviour now
         currentIndex = -1;
 
         if (i == -1) {
-            items.addElement(item);
-            i = 0;              // fix the math for the paintItems test
-            addedIndex = items.size() - 1;
+            items.bddElement(item);
+            i = 0;              // fix the mbth for the pbintItems test
+            bddedIndex = items.size() - 1;
         } else {
             items.insertElementAt(item, i);
-            addedIndex = i;
+            bddedIndex = i;
             for (int j = 0 ; j < selected.length ; j++) {
                 if (selected[j] >= i) {
                     selected[j] += 1;
                 }
             }
         }
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("Adding item '" + item + "' to " + addedIndex);
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("Adding item '" + item + "' to " + bddedIndex);
         }
 
-        // Update maxLength
-        boolean repaintItems = !isItemHidden(addedIndex);
-        maxLength = Math.max(maxLength, getItemWidth(addedIndex));
-        layout();
+        // Updbte mbxLength
+        boolebn repbintItems = !isItemHidden(bddedIndex);
+        mbxLength = Mbth.mbx(mbxLength, getItemWidth(bddedIndex));
+        lbyout();
 
         int options = 0;
-        if (vsbVis != vsbWasVis || hsbVis != hsbWasVis) {
-            // Scrollbars are being added or removed, so we must repaint all
+        if (vsbVis != vsbWbsVis || hsbVis != hsbWbsVis) {
+            // Scrollbbrs bre being bdded or removed, so we must repbint bll
             options = PAINT_ALL;
         }
         else {
-            options = (repaintItems ? (PAINT_ITEMS):0)
-                | ((maxLength != oldMaxLength || (hsbWasVis ^ hsbVis))?(PAINT_HSCROLL):0)
-                | ((vsb.needsRepaint())?(PAINT_VSCROLL):0);
+            options = (repbintItems ? (PAINT_ITEMS):0)
+                | ((mbxLength != oldMbxLength || (hsbWbsVis ^ hsbVis))?(PAINT_HSCROLL):0)
+                | ((vsb.needsRepbint())?(PAINT_VSCROLL):0);
 
         }
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-            log.finest("Last visible: " + getLastVisibleItem() +
-            ", hsb changed : " + (hsbWasVis ^ hsbVis) + ", items changed " + repaintItems);
+        if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+            log.finest("Lbst visible: " + getLbstVisibleItem() +
+            ", hsb chbnged : " + (hsbWbsVis ^ hsbVis) + ", items chbnged " + repbintItems);
         }
-        repaint(addedIndex, getLastVisibleItem(), options);
+        repbint(bddedIndex, getLbstVisibleItem(), options);
     }
 
     /**
-     * delete items starting with s (start position) to e (end position) including s and e
+     * delete items stbrting with s (stbrt position) to e (end position) including s bnd e
      * if s < 0 then s = 0
      * if e >= items.size() then e = items.size() - 1
      */
     public void delItems(int s, int e) {
-        // save the current state of the scrollbars
-        boolean hsbWasVisible = hsbVis;
-        boolean vsbWasVisible = vsbVis;
-        int oldLastDisplayed = lastItemDisplayed();
+        // sbve the current stbte of the scrollbbrs
+        boolebn hsbWbsVisible = hsbVis;
+        boolebn vsbWbsVisible = vsbVis;
+        int oldLbstDisplbyed = lbstItemDisplbyed();
 
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("Deleting from " + s + " to " + e);
         }
 
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-            log.finest("Last displayed item: " + oldLastDisplayed + ", items in window " + itemsInWindow() +
+        if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+            log.finest("Lbst displbyed item: " + oldLbstDisplbyed + ", items in window " + itemsInWindow() +
             ", size " + items.size());
         }
 
@@ -1136,46 +1136,46 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
             return;
         }
 
-        // if user passed in flipped args, reverse them
+        // if user pbssed in flipped brgs, reverse them
         if (s > e) {
             int tmp = s;
             s = e;
             e = tmp;
         }
 
-        // check for starting point less than zero
+        // check for stbrting point less thbn zero
         if (s < 0) {
             s = 0;
         }
 
-        // check for end point greater than the size of the list
+        // check for end point grebter thbn the size of the list
         if (e >= items.size()) {
             e = items.size() - 1;
         }
 
-        // determine whether we're going to delete any visible elements
-        // repaint must also be done if scrollbars appear/disappear, which
-        // can happen from removing a non-showing list item
+        // determine whether we're going to delete bny visible elements
+        // repbint must blso be done if scrollbbrs bppebr/disbppebr, which
+        // cbn hbppen from removing b non-showing list item
         /*
-          boolean repaintNeeded =
-          ((s <= lastItemDisplayed()) && (e >= vsb.getValue()));
+          boolebn repbintNeeded =
+          ((s <= lbstItemDisplbyed()) && (e >= vsb.getVblue()));
         */
-        boolean repaintNeeded = (s >= getFirstVisibleItem() && s <= getLastVisibleItem());
+        boolebn repbintNeeded = (s >= getFirstVisibleItem() && s <= getLbstVisibleItem());
 
-        // delete the items out of the items list and out of the selected list
+        // delete the items out of the items list bnd out of the selected list
         for (int i = s ; i <= e ; i++) {
             items.removeElementAt(s);
             int j = posInSel(i);
             if (j != -1) {
                 int newsel[] = new int[selected.length - 1];
-                System.arraycopy(selected, 0, newsel, 0, j);
-                System.arraycopy(selected, j + 1, newsel, j, selected.length - (j + 1));
+                System.brrbycopy(selected, 0, newsel, 0, j);
+                System.brrbycopy(selected, j + 1, newsel, j, selected.length - (j + 1));
                 selected = newsel;
             }
 
         }
 
-        // update the indexes in the selected array
+        // updbte the indexes in the selected brrby
         int diff = (e - s) + 1;
         for (int i = 0 ; i < selected.length ; i++) {
             if (selected[i] > e) {
@@ -1184,68 +1184,68 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
         }
 
         int options = PAINT_VSCROLL;
-        // focusedIndex updating according to native (Window, Motif) behaviour
+        // focusedIndex updbting bccording to nbtive (Window, Motif) behbviour
         if (getFocusIndex() > e) {
             setFocusIndex(getFocusIndex() - (e - s + 1));
             options |= PAINT_FOCUS;
         } else if (getFocusIndex() >= s && getFocusIndex() <= e) {
             // Fixed 6299858: PIT. Focused border not shown on List if selected item is removed, XToolkit
-            // We should set focus to new first item if the current first item was removed
+            // We should set focus to new first item if the current first item wbs removed
             // except if the list is empty
             int focusBound = (items.size() > 0) ? 0 : -1;
-            setFocusIndex(Math.max(s-1, focusBound));
+            setFocusIndex(Mbth.mbx(s-1, focusBound));
             options |= PAINT_FOCUS;
         }
 
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
             log.finest("Multiple selections: " + multipleSelections);
         }
 
-        // update vsb.val
-        if (vsb.getValue() >= s) {
-            if (vsb.getValue() <= e) {
-                vsb.setValue(e+1 - diff);
+        // updbte vsb.vbl
+        if (vsb.getVblue() >= s) {
+            if (vsb.getVblue() <= e) {
+                vsb.setVblue(e+1 - diff);
             } else {
-                vsb.setValue(vsb.getValue() - diff);
+                vsb.setVblue(vsb.getVblue() - diff);
             }
         }
 
-        int oldMaxLength = maxLength;
-        maxLength = maxLength();
-        if (maxLength != oldMaxLength) {
-            // Width of the items changed affecting the range of
-            // horizontal scrollbar
+        int oldMbxLength = mbxLength;
+        mbxLength = mbxLength();
+        if (mbxLength != oldMbxLength) {
+            // Width of the items chbnged bffecting the rbnge of
+            // horizontbl scrollbbr
             options |= PAINT_HSCROLL;
         }
-        layout();
-        repaintNeeded |= (vsbWasVisible ^ vsbVis) || (hsbWasVisible ^ hsbVis); // If scrollbars visibility changed
-        if (repaintNeeded) {
+        lbyout();
+        repbintNeeded |= (vsbWbsVisible ^ vsbVis) || (hsbWbsVisible ^ hsbVis); // If scrollbbrs visibility chbnged
+        if (repbintNeeded) {
             options |= PAINT_ALL;
         }
-        repaint(s, oldLastDisplayed, options);
+        repbint(s, oldLbstDisplbyed, options);
     }
 
     /**
      * ListPeer method
      */
     public void select(int index) {
-        // Programmatic select() should also set the focus index
+        // Progrbmmbtic select() should blso set the focus index
         setFocusIndex(index);
-        repaint(PAINT_FOCUS);
+        repbint(PAINT_FOCUS);
         selectItem(index);
     }
 
     /**
      * select the index
-     * redraw the list to the screen
+     * redrbw the list to the screen
      */
     void selectItem(int index) {
-        // NOTE: instead of recalculating and the calling repaint(), painting
-        // is done immediately
+        // NOTE: instebd of recblculbting bnd the cblling repbint(), pbinting
+        // is done immedibtely
 
-        // 6190746 List does not trigger ActionEvent when double clicking a programmatically selected item, XToolkit
-        // If we invoke select(int) before setVisible(boolean), then variable currentIndex will equals -1. At the same time isSelected may be true.
-        // Restoring Motif behavior
+        // 6190746 List does not trigger ActionEvent when double clicking b progrbmmbticblly selected item, XToolkit
+        // If we invoke select(int) before setVisible(boolebn), then vbribble currentIndex will equbls -1. At the sbme time isSelected mby be true.
+        // Restoring Motif behbvior
         currentIndex = index;
 
         if (isSelected(index)) {
@@ -1260,12 +1260,12 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
                 int oldSel = selected[0];
                 selected[0] = index;
                 if (!isItemHidden(oldSel)) {
-                    // Only bother painting if item is visible (4895367)
-                    repaint(oldSel, oldSel, PAINT_ITEMS);
+                    // Only bother pbinting if item is visible (4895367)
+                    repbint(oldSel, oldSel, PAINT_ITEMS);
                 }
             }
         } else {
-            // insert "index" into the selection array
+            // insert "index" into the selection brrby
             int newsel[] = new int[selected.length + 1];
             int i = 0;
             while (i < selected.length && index > selected[i]) {
@@ -1273,18 +1273,18 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
                 i++;
             }
             newsel[i] = index;
-            System.arraycopy(selected, i, newsel, i+1, selected.length - i);
+            System.brrbycopy(selected, i, newsel, i+1, selected.length - i);
             selected = newsel;
         }
         if (!isItemHidden(index)) {
-            // Only bother painting if item is visible (4895367)
-            repaint(index, index, PAINT_ITEMS);
+            // Only bother pbinting if item is visible (4895367)
+            repbint(index, index, PAINT_ITEMS);
         }
     }
 
     /**
      * ListPeer method
-     * focusedIndex isn't updated according to native (Window, Motif) behaviour
+     * focusedIndex isn't updbted bccording to nbtive (Window, Motif) behbviour
      */
     public void deselect(int index) {
         deselectItem(index);
@@ -1292,66 +1292,66 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
 
     /**
      * deselect the index
-     * redraw the list to the screen
+     * redrbw the list to the screen
      */
     void deselectItem(int index) {
         if (!isSelected(index)) {
             return;
         }
         if (!multipleSelections) {
-            // TODO: keep an int[0] and int[1] around and just use them instead
-            // creating new ones all the time
+            // TODO: keep bn int[0] bnd int[1] bround bnd just use them instebd
+            // crebting new ones bll the time
             selected = new int[0];
         } else {
             int i = posInSel(index);
             int newsel[] = new int[selected.length - 1];
-            System.arraycopy(selected, 0, newsel, 0, i);
-            System.arraycopy(selected, i+1, newsel, i, selected.length - (i+1));
+            System.brrbycopy(selected, 0, newsel, 0, i);
+            System.brrbycopy(selected, i+1, newsel, i, selected.length - (i+1));
             selected = newsel;
         }
         currentIndex = index;
         if (!isItemHidden(index)) {
-            // Only bother repainting if item is visible
-            repaint(index, index, PAINT_ITEMS);
+            // Only bother repbinting if item is visible
+            repbint(index, index, PAINT_ITEMS);
         }
     }
 
     /**
-     * ensure that the given index is visible, scrolling the List
-     * if necessary, or doing nothing if the item is already visible.
-     * The List must be repainted for changes to be visible.
+     * ensure thbt the given index is visible, scrolling the List
+     * if necessbry, or doing nothing if the item is blrebdy visible.
+     * The List must be repbinted for chbnges to be visible.
      */
-    public void makeVisible(int index) {
+    public void mbkeVisible(int index) {
         if (index < 0 || index >= items.size()) {
             return;
         }
-        if (isItemHidden(index)) {  // Do I really need to call this?
-            // If index is above the top, scroll up
-            if (index < vsb.getValue()) {
-                scrollVertical(index - vsb.getValue());
+        if (isItemHidden(index)) {  // Do I reblly need to cbll this?
+            // If index is bbove the top, scroll up
+            if (index < vsb.getVblue()) {
+                scrollVerticbl(index - vsb.getVblue());
             }
             // If index is below the bottom, scroll down
-            else if (index > lastItemDisplayed()) {
-                int val = index - lastItemDisplayed();
-                scrollVertical(val);
+            else if (index > lbstItemDisplbyed()) {
+                int vbl = index - lbstItemDisplbyed();
+                scrollVerticbl(vbl);
             }
         }
     }
 
     /**
-     * clear
+     * clebr
      */
-    public void clear() {
+    public void clebr() {
         selected = new int[0];
         items = new Vector<>();
         currentIndex = -1;
-        // Fixed 6291736: ITEM_STATE_CHANGED triggered after List.removeAll(), XToolkit
-        // We should update 'focusIndex' variable more carefully
+        // Fixed 6291736: ITEM_STATE_CHANGED triggered bfter List.removeAll(), XToolkit
+        // We should updbte 'focusIndex' vbribble more cbrefully
         setFocusIndex(-1);
-        vsb.setValue(0);
-        maxLength = 0;
-        layout();
-        repaint();
+        vsb.setVblue(0);
+        mbxLength = 0;
+        lbyout();
+        repbint();
     }
 
     /**
@@ -1362,40 +1362,40 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
     }
 
     /**
-     * return the y value of the given index "i".
-     * the y value represents the top of the text
-     * NOTE: index can be larger than items.size as long
-     * as it can fit the window
+     * return the y vblue of the given index "i".
+     * the y vblue represents the top of the text
+     * NOTE: index cbn be lbrger thbn items.size bs long
+     * bs it cbn fit the window
      */
     int index2y(int index) {
         int h = getItemHeight();
 
-        //if (index < vsb.getValue() || index > vsb.getValue() + itemsInWindow()) {
-        return MARGIN + ((index - vsb.getValue()) * h) + SPACE;
+        //if (index < vsb.getVblue() || index > vsb.getVblue() + itemsInWindow()) {
+        return MARGIN + ((index - vsb.getVblue()) * h) + SPACE;
     }
 
-    /* return true if the y is a valid y coordinate for
-     *  a VISIBLE list item, otherwise returns false
+    /* return true if the y is b vblid y coordinbte for
+     *  b VISIBLE list item, otherwise returns fblse
      */
-    boolean validY(int y) {
+    boolebn vblidY(int y) {
 
-        int shown = itemsDisplayed();
-        int lastY = shown * getItemHeight() + MARGIN;
+        int shown = itemsDisplbyed();
+        int lbstY = shown * getItemHeight() + MARGIN;
 
         if (shown == itemsInWindow()) {
-            lastY += MARGIN;
+            lbstY += MARGIN;
         }
 
-        if (y < 0 || y >= lastY) {
-            return false;
+        if (y < 0 || y >= lbstY) {
+            return fblse;
         }
 
         return true;
     }
 
     /**
-     * return the position of the index in the selected array
-     * if the index isn't in the array selected return -1;
+     * return the position of the index in the selected brrby
+     * if the index isn't in the brrby selected return -1;
      */
     int posInSel(int index) {
         for (int i = 0 ; i < selected.length ; i++) {
@@ -1406,131 +1406,131 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
         return -1;
     }
 
-    boolean isIndexDisplayed(int idx) {
-        int lastDisplayed = lastItemDisplayed();
+    boolebn isIndexDisplbyed(int idx) {
+        int lbstDisplbyed = lbstItemDisplbyed();
 
-        return idx <= lastDisplayed &&
-            idx >= Math.max(0, lastDisplayed - itemsInWindow() + 1);
+        return idx <= lbstDisplbyed &&
+            idx >= Mbth.mbx(0, lbstDisplbyed - itemsInWindow() + 1);
     }
 
     /**
-     * returns index of last item displayed in the List
+     * returns index of lbst item displbyed in the List
      */
-    int lastItemDisplayed() {
+    int lbstItemDisplbyed() {
         int n = itemsInWindow();
-        return (Math.min(items.size() - 1, (vsb.getValue() + n) - 1));
+        return (Mbth.min(items.size() - 1, (vsb.getVblue() + n) - 1));
     }
 
     /**
      * returns whether the given index is currently scrolled off the top or
      * bottom of the List.
      */
-    boolean isItemHidden(int index) {
-        return index < vsb.getValue() ||
-            index >= vsb.getValue() + itemsInWindow();
+    boolebn isItemHidden(int index) {
+        return index < vsb.getVblue() ||
+            index >= vsb.getVblue() + itemsInWindow();
     }
 
     /**
-     * returns the width of the list portion of the component (accounts for
-     * presence of vertical scrollbar)
+     * returns the width of the list portion of the component (bccounts for
+     * presence of verticbl scrollbbr)
      */
     int getListWidth() {
         return vsbVis ? width - SCROLLBAR_AREA : width;
     }
 
     /**
-     * returns number of  items actually displayed in the List
+     * returns number of  items bctublly displbyed in the List
      */
-    int itemsDisplayed() {
+    int itemsDisplbyed() {
 
-        return (Math.min(items.size()-vsb.getValue(), itemsInWindow()));
+        return (Mbth.min(items.size()-vsb.getVblue(), itemsInWindow()));
 
     }
 
     /**
-     * scrollVertical
+     * scrollVerticbl
      * y is the number of items to scroll
      */
-    void scrollVertical(int y) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Scrolling vertically by " + y);
+    void scrollVerticbl(int y) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Scrolling verticblly by " + y);
         }
         int itemsInWin = itemsInWindow();
         int h = getItemHeight();
         int pixelsToScroll = y * h;
 
-        if (vsb.getValue() < -y) {
-            y = -vsb.getValue();
+        if (vsb.getVblue() < -y) {
+            y = -vsb.getVblue();
         }
-        vsb.setValue(vsb.getValue() + y);
+        vsb.setVblue(vsb.getVblue() + y);
 
-        Rectangle source = null;
-        Point distance = null;
-        int firstItem = 0, lastItem = 0;
+        Rectbngle source = null;
+        Point distbnce = null;
+        int firstItem = 0, lbstItem = 0;
         int options = PAINT_HIDEFOCUS | PAINT_ITEMS | PAINT_VSCROLL | PAINT_FOCUS;
         if (y > 0) {
             if (y < itemsInWin) {
-                source = new Rectangle(MARGIN, MARGIN + pixelsToScroll, width - SCROLLBAR_AREA, h * (itemsInWin - y - 1)-1);
-                distance = new Point(0, -pixelsToScroll);
+                source = new Rectbngle(MARGIN, MARGIN + pixelsToScroll, width - SCROLLBAR_AREA, h * (itemsInWin - y - 1)-1);
+                distbnce = new Point(0, -pixelsToScroll);
                 options |= COPY_AREA;
             }
-            firstItem = vsb.getValue() + itemsInWin - y - 1;
-            lastItem = vsb.getValue() + itemsInWin - 1;
+            firstItem = vsb.getVblue() + itemsInWin - y - 1;
+            lbstItem = vsb.getVblue() + itemsInWin - 1;
 
         } else if (y < 0) {
             if (y + itemsInWindow() > 0) {
-                source = new Rectangle(MARGIN, MARGIN, width - SCROLLBAR_AREA, h * (itemsInWin + y));
-                distance = new Point(0, -pixelsToScroll);
+                source = new Rectbngle(MARGIN, MARGIN, width - SCROLLBAR_AREA, h * (itemsInWin + y));
+                distbnce = new Point(0, -pixelsToScroll);
                 options |= COPY_AREA;
             }
-            firstItem = vsb.getValue();
-            lastItem = Math.min(getLastVisibleItem(), vsb.getValue() + -y);
+            firstItem = vsb.getVblue();
+            lbstItem = Mbth.min(getLbstVisibleItem(), vsb.getVblue() + -y);
         }
-        repaint(firstItem, lastItem, options, source, distance);
+        repbint(firstItem, lbstItem, options, source, distbnce);
     }
 
     /**
-     * scrollHorizontal
+     * scrollHorizontbl
      * x is the number of pixels to scroll
      */
-    void scrollHorizontal(int x) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Scrolling horizontally by " + y);
+    void scrollHorizontbl(int x) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Scrolling horizontblly by " + y);
         }
         int w = getListWidth();
         w -= ((2 * SPACE) + (2 * MARGIN));
         int h = height - (SCROLLBAR_AREA + (2 * MARGIN));
-        hsb.setValue(hsb.getValue() + x);
+        hsb.setVblue(hsb.getVblue() + x);
 
         int options = PAINT_ITEMS | PAINT_HSCROLL;
 
-        Rectangle source = null;
-        Point distance = null;
+        Rectbngle source = null;
+        Point distbnce = null;
         if (x < 0) {
-            source = new Rectangle(MARGIN + SPACE, MARGIN, w + x, h);
-            distance = new Point(-x, 0);
+            source = new Rectbngle(MARGIN + SPACE, MARGIN, w + x, h);
+            distbnce = new Point(-x, 0);
             options |= COPY_AREA;
         } else if (x > 0) {
-            source = new Rectangle(MARGIN + SPACE + x, MARGIN, w - x, h);
-            distance = new Point(-x, 0);
+            source = new Rectbngle(MARGIN + SPACE + x, MARGIN, w - x, h);
+            distbnce = new Point(-x, 0);
             options |= COPY_AREA;
         }
-        repaint(vsb.getValue(), lastItemDisplayed(), options, source, distance);
+        repbint(vsb.getVblue(), lbstItemDisplbyed(), options, source, distbnce);
     }
 
     /**
      * return the index
      */
     int y2index(int y) {
-        if (!validY(y)) {
+        if (!vblidY(y)) {
             return -1;
         }
 
-        int i = (y - MARGIN) / getItemHeight() + vsb.getValue();
-        int last = lastItemDisplayed();
+        int i = (y - MARGIN) / getItemHeight() + vsb.getVblue();
+        int lbst = lbstItemDisplbyed();
 
-        if (i > last) {
-            i = last;
+        if (i > lbst) {
+            i = lbst;
         }
 
         return i;
@@ -1540,7 +1540,7 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
     /**
      * is the index "index" selected
      */
-    boolean isSelected(int index) {
+    boolebn isSelected(int index) {
         if (eventType == ItemEvent.SELECTED && index == eventIndex) {
             return true;
         }
@@ -1549,16 +1549,16 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * return the number of items that can fit
+     * return the number of items thbt cbn fit
      * in the current window
      */
-    int itemsInWindow(boolean scrollbarVisible) {
+    int itemsInWindow(boolebn scrollbbrVisible) {
         int h;
-        if (scrollbarVisible) {
+        if (scrollbbrVisible) {
             h = height - ((2 * MARGIN) + SCROLLBAR_AREA);
         } else {
             h = height - 2*MARGIN;
@@ -1571,138 +1571,138 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
     }
 
     /**
-     * return true if the x and y position is in the horizontal scrollbar
+     * return true if the x bnd y position is in the horizontbl scrollbbr
      */
-    boolean inHorizontalScrollbar(int x, int y) {
+    boolebn inHorizontblScrollbbr(int x, int y) {
         int w = getListWidth();
         int h = height - SCROLLBAR_WIDTH;
         return (hsbVis &&  (x >= 0) && (x <= w) && (y > h));
     }
 
     /**
-     * return true if the x and y position is in the verticalscrollbar
+     * return true if the x bnd y position is in the verticblscrollbbr
      */
-    boolean inVerticalScrollbar(int x, int y) {
+    boolebn inVerticblScrollbbr(int x, int y) {
         int w = width - SCROLLBAR_WIDTH;
         int h = hsbVis ? height - SCROLLBAR_AREA : height;
         return (vsbVis && (x > w) && (y >= 0) && (y <= h));
     }
 
     /**
-     * return true if the x and y position is in the window
+     * return true if the x bnd y position is in the window
      */
-    boolean inWindow(int x, int y) {
+    boolebn inWindow(int x, int y) {
         int w = getListWidth();
         int h = hsbVis ? height - SCROLLBAR_AREA : height;
         return ((x >= 0) && (x <= w)) && ((y >= 0) && (y <= h));
     }
 
     /**
-     * return true if vertical scrollbar is visible and false otherwise;
-     * hsbVisible is the visibility of the horizontal scrollbar
+     * return true if verticbl scrollbbr is visible bnd fblse otherwise;
+     * hsbVisible is the visibility of the horizontbl scrollbbr
      */
-    boolean vsbIsVisible(boolean hsbVisible){
+    boolebn vsbIsVisible(boolebn hsbVisible){
         return (items.size() > itemsInWindow(hsbVisible));
     }
 
     /**
-     * return true if horizontal scrollbar is visible and false otherwise;
-     * vsbVisible is the visibility of the vertical scrollbar
+     * return true if horizontbl scrollbbr is visible bnd fblse otherwise;
+     * vsbVisible is the visibility of the verticbl scrollbbr
      */
-    boolean hsbIsVisible(boolean vsbVisible){
+    boolebn hsbIsVisible(boolebn vsbVisible){
         int w = width - ((2*SPACE) + (2*MARGIN) + (vsbVisible ? SCROLLBAR_AREA : 0));
-        return (maxLength > w);
+        return (mbxLength > w);
     }
 
     /*
-     * Returns true if the event has been handled and should not be
-     * posted to Java
+     * Returns true if the event hbs been hbndled bnd should not be
+     * posted to Jbvb
      */
-    boolean prePostEvent(final AWTEvent e) {
-        if (e instanceof MouseEvent) {
+    boolebn prePostEvent(finbl AWTEvent e) {
+        if (e instbnceof MouseEvent) {
             return prePostMouseEvent((MouseEvent)e);
         }
         return super.prePostEvent(e);
     }
 
     /*
-     * Fixed 6240151: XToolkit: Dragging the List scrollbar initiates DnD
-     * To be compatible with Motif, MouseEvent originated on the scrollbar
-     * should be sent into Java in this way:
+     * Fixed 6240151: XToolkit: Drbgging the List scrollbbr initibtes DnD
+     * To be compbtible with Motif, MouseEvent originbted on the scrollbbr
+     * should be sent into Jbvb in this wby:
      * - post: MOUSE_ENTERED, MOUSE_EXITED, MOUSE_MOVED
      * - don't post: MOUSE_PRESSED, MOUSE_RELEASED, MOUSE_CLICKED, MOUSE_DRAGGED
      */
-    boolean prePostMouseEvent(final MouseEvent me){
-        if (getToplevelXWindow().isModalBlocked()) {
-            return false;
+    boolebn prePostMouseEvent(finbl MouseEvent me){
+        if (getToplevelXWindow().isModblBlocked()) {
+            return fblse;
         }
 
         int eventId = me.getID();
 
         if (eventId == MouseEvent.MOUSE_MOVED)
         {
-            // only for performance improvement
+            // only for performbnce improvement
         }else if((eventId == MouseEvent.MOUSE_DRAGGED ||
                   eventId == MouseEvent.MOUSE_RELEASED) &&
-                 isScrollBarOriginated)
+                 isScrollBbrOriginbted)
         {
             if (eventId == MouseEvent.MOUSE_RELEASED) {
-                isScrollBarOriginated = false;
+                isScrollBbrOriginbted = fblse;
             }
-            handleJavaMouseEventOnEDT(me);
+            hbndleJbvbMouseEventOnEDT(me);
             return true;
         }else if ((eventId == MouseEvent.MOUSE_PRESSED ||
                    eventId == MouseEvent.MOUSE_CLICKED) &&
-                  (inVerticalScrollbar(me.getX(), me.getY()) ||
-                   inHorizontalScrollbar(me.getX(), me.getY())))
+                  (inVerticblScrollbbr(me.getX(), me.getY()) ||
+                   inHorizontblScrollbbr(me.getX(), me.getY())))
         {
             if (eventId == MouseEvent.MOUSE_PRESSED) {
-                isScrollBarOriginated = true;
+                isScrollBbrOriginbted = true;
             }
-            handleJavaMouseEventOnEDT(me);
+            hbndleJbvbMouseEventOnEDT(me);
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * Do handleJavaMouseEvent on EDT
+     * Do hbndleJbvbMouseEvent on EDT
      */
-    void handleJavaMouseEventOnEDT(final MouseEvent me){
-        InvocationEvent ev = new InvocationEvent(target, new Runnable() {
+    void hbndleJbvbMouseEventOnEDT(finbl MouseEvent me){
+        InvocbtionEvent ev = new InvocbtionEvent(tbrget, new Runnbble() {
             public void run() {
-                handleJavaMouseEvent(me);
+                hbndleJbvbMouseEvent(me);
             }
         });
         postEvent(ev);
     }
 
     /*
-     * Fixed 5010944: List's rows overlap one another
-     * The bug is due to incorrent caching of the list item size
-     * So we should recalculate font metrics on setFont
+     * Fixed 5010944: List's rows overlbp one bnother
+     * The bug is due to incorrent cbching of the list item size
+     * So we should recblculbte font metrics on setFont
      */
     public void setFont(Font f) {
-        if (!Objects.equals(getFont(), f)) {
+        if (!Objects.equbls(getFont(), f)) {
             super.setFont(f);
             initFontMetrics();
-            layout();
-            repaint();
+            lbyout();
+            repbint();
         }
     }
 
     /**
-     * Sometimes painter is called on Toolkit thread, so the lock sequence is:
-     *     awtLock -> Painter -> awtLock
-     * Sometimes it is called on other threads:
-     *     Painter -> awtLock
-     * Since we can't guarantee the sequence, use awtLock.
+     * Sometimes pbinter is cblled on Toolkit threbd, so the lock sequence is:
+     *     bwtLock -> Pbinter -> bwtLock
+     * Sometimes it is cblled on other threbds:
+     *     Pbinter -> bwtLock
+     * Since we cbn't gubrbntee the sequence, use bwtLock.
      */
-    class ListPainter {
-        VolatileImage buffer;
+    clbss ListPbinter {
+        VolbtileImbge buffer;
         Color[] colors;
 
-        private Color getListForeground() {
+        privbte Color getListForeground() {
             if (fgColorSet) {
                 return colors[FOREGROUND_COLOR];
             }
@@ -1710,7 +1710,7 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
             return SystemColor.textText;
             }
         }
-        private Color getListBackground() {
+        privbte Color getListBbckground() {
             if (bgColorSet) {
                 return colors[BACKGROUND_COLOR];
             }
@@ -1719,292 +1719,292 @@ class XListPeer extends XComponentPeer implements ListPeer, XScrollbarClient {
             }
         }
 
-        private Color getDisabledColor() {
-            Color backgroundColor = getListBackground();
+        privbte Color getDisbbledColor() {
+            Color bbckgroundColor = getListBbckground();
             Color foregroundColor = getListForeground();
-            return (backgroundColor.equals(Color.BLACK)) ? foregroundColor.darker() : backgroundColor.darker();
+            return (bbckgroundColor.equbls(Color.BLACK)) ? foregroundColor.dbrker() : bbckgroundColor.dbrker();
         }
 
-        private boolean createBuffer() {
-            VolatileImage localBuffer = null;
-            XToolkit.awtLock();
+        privbte boolebn crebteBuffer() {
+            VolbtileImbge locblBuffer = null;
+            XToolkit.bwtLock();
             try {
-                localBuffer = buffer;
-            } finally {
-                XToolkit.awtUnlock();
+                locblBuffer = buffer;
+            } finblly {
+                XToolkit.bwtUnlock();
             }
 
-            if (localBuffer == null) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("Creating buffer " + width + "x" + height);
+            if (locblBuffer == null) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("Crebting buffer " + width + "x" + height);
                 }
-                // use GraphicsConfig.cCVI() instead of Component.cVI(),
-                // because the latter may cause a deadlock with the tree lock
-                localBuffer =
-                    graphicsConfig.createCompatibleVolatileImage(width+1,
+                // use GrbphicsConfig.cCVI() instebd of Component.cVI(),
+                // becbuse the lbtter mby cbuse b debdlock with the tree lock
+                locblBuffer =
+                    grbphicsConfig.crebteCompbtibleVolbtileImbge(width+1,
                                                                  height+1);
             }
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
                 if (buffer == null) {
-                    buffer = localBuffer;
+                    buffer = locblBuffer;
                     return true;
                 }
-            } finally {
-                XToolkit.awtUnlock();
+            } finblly {
+                XToolkit.bwtUnlock();
             }
-            return false;
+            return fblse;
         }
 
-        public void invalidate() {
-            XToolkit.awtLock();
+        public void invblidbte() {
+            XToolkit.bwtLock();
             try {
                 if (buffer != null) {
                     buffer.flush();
                 }
                 buffer = null;
-            } finally {
-                XToolkit.awtUnlock();
+            } finblly {
+                XToolkit.bwtUnlock();
             }
         }
 
-        private void paint(Graphics listG, int firstItem, int lastItem, int options) {
-            paint(listG, firstItem, lastItem, options, null, null);
+        privbte void pbint(Grbphics listG, int firstItem, int lbstItem, int options) {
+            pbint(listG, firstItem, lbstItem, options, null, null);
         }
 
-        private void paint(Graphics listG, int firstItem, int lastItem, int options,
-                           Rectangle source, Point distance) {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("Repaint from " + firstItem + " to " + lastItem + " options " + options);
+        privbte void pbint(Grbphics listG, int firstItem, int lbstItem, int options,
+                           Rectbngle source, Point distbnce) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                log.finer("Repbint from " + firstItem + " to " + lbstItem + " options " + options);
             }
-            if (firstItem > lastItem) {
-                int t = lastItem;
-                lastItem = firstItem;
+            if (firstItem > lbstItem) {
+                int t = lbstItem;
+                lbstItem = firstItem;
                 firstItem = t;
             }
             if (firstItem < 0) {
                 firstItem = 0;
             }
             colors = getGUIcolors();
-            VolatileImage localBuffer = null;
+            VolbtileImbge locblBuffer = null;
             do {
-                XToolkit.awtLock();
+                XToolkit.bwtLock();
                 try {
-                    if (createBuffer()) {
-                        // First time created buffer should be painted over at full.
+                    if (crebteBuffer()) {
+                        // First time crebted buffer should be pbinted over bt full.
                         options = PAINT_ALL;
                     }
-                    localBuffer = buffer;
-                } finally {
-                    XToolkit.awtUnlock();
+                    locblBuffer = buffer;
+                } finblly {
+                    XToolkit.bwtUnlock();
                 }
-                switch (localBuffer.validate(getGraphicsConfiguration())) {
-                  case VolatileImage.IMAGE_INCOMPATIBLE:
-                      invalidate();
+                switch (locblBuffer.vblidbte(getGrbphicsConfigurbtion())) {
+                  cbse VolbtileImbge.IMAGE_INCOMPATIBLE:
+                      invblidbte();
                       options = PAINT_ALL;
                       continue;
-                  case VolatileImage.IMAGE_RESTORED:
+                  cbse VolbtileImbge.IMAGE_RESTORED:
                       options = PAINT_ALL;
                 }
-                Graphics g = localBuffer.createGraphics();
+                Grbphics g = locblBuffer.crebteGrbphics();
 
-                // Note that the order of the following painting operations
+                // Note thbt the order of the following pbinting operbtions
                 // should not be modified
                 try {
                     g.setFont(getFont());
 
-                    // hiding the focus rectangle must be done prior to copying
-                    // area and so this is the first action to be performed
+                    // hiding the focus rectbngle must be done prior to copying
+                    // breb bnd so this is the first bction to be performed
                     if ((options & (PAINT_HIDEFOCUS)) != 0) {
-                        paintFocus(g, PAINT_HIDEFOCUS);
+                        pbintFocus(g, PAINT_HIDEFOCUS);
                     }
                     /*
                      * The shift of the component contents occurs while someone
                      * scrolls the component, the only purpose of the shift is to
-                     * increase the painting performance. The shift should be done
-                     * prior to painting any area (except hiding focus) and actually
-                     * it should never be done jointly with erase background.
+                     * increbse the pbinting performbnce. The shift should be done
+                     * prior to pbinting bny breb (except hiding focus) bnd bctublly
+                     * it should never be done jointly with erbse bbckground.
                      */
                     if ((options & COPY_AREA) != 0) {
-                        g.copyArea(source.x, source.y, source.width, source.height,
-                            distance.x, distance.y);
+                        g.copyAreb(source.x, source.y, source.width, source.height,
+                            distbnce.x, distbnce.y);
                     }
                     if ((options & PAINT_BACKGROUND) != 0) {
-                        paintBackground(g);
-                        // Since we made full erase update items
+                        pbintBbckground(g);
+                        // Since we mbde full erbse updbte items
                         firstItem = getFirstVisibleItem();
-                        lastItem = getLastVisibleItem();
+                        lbstItem = getLbstVisibleItem();
                     }
                     if ((options & PAINT_ITEMS) != 0) {
-                        paintItems(g, firstItem, lastItem, options);
+                        pbintItems(g, firstItem, lbstItem, options);
                     }
                     if ((options & PAINT_VSCROLL) != 0 && vsbVis) {
-                        g.setClip(getVScrollBarRec());
-                        paintVerScrollbar(g, true);
+                        g.setClip(getVScrollBbrRec());
+                        pbintVerScrollbbr(g, true);
                     }
                     if ((options & PAINT_HSCROLL) != 0 && hsbVis) {
-                        g.setClip(getHScrollBarRec());
-                        paintHorScrollbar(g, true);
+                        g.setClip(getHScrollBbrRec());
+                        pbintHorScrollbbr(g, true);
                     }
                     if ((options & (PAINT_FOCUS)) != 0) {
-                        paintFocus(g, PAINT_FOCUS);
+                        pbintFocus(g, PAINT_FOCUS);
                     }
-                } finally {
+                } finblly {
                     g.dispose();
                 }
-            } while (localBuffer.contentsLost());
-            listG.drawImage(localBuffer, 0, 0, null);
+            } while (locblBuffer.contentsLost());
+            listG.drbwImbge(locblBuffer, 0, 0, null);
         }
 
-        private void paintBackground(Graphics g) {
+        privbte void pbintBbckground(Grbphics g) {
             g.setColor(SystemColor.window);
             g.fillRect(0, 0, width, height);
-            g.setColor(getListBackground());
+            g.setColor(getListBbckground());
             g.fillRect(0, 0, listWidth, listHeight);
-            draw3DRect(g, getSystemColors(), 0, 0, listWidth - 1, listHeight - 1, false);
+            drbw3DRect(g, getSystemColors(), 0, 0, listWidth - 1, listHeight - 1, fblse);
         }
 
-        private void paintItems(Graphics g, int firstItem, int lastItem, int options) {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("Painting items from " + firstItem + " to " + lastItem + ", focused " + focusIndex + ", first " + getFirstVisibleItem() + ", last " + getLastVisibleItem());
+        privbte void pbintItems(Grbphics g, int firstItem, int lbstItem, int options) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                log.finer("Pbinting items from " + firstItem + " to " + lbstItem + ", focused " + focusIndex + ", first " + getFirstVisibleItem() + ", lbst " + getLbstVisibleItem());
             }
 
-            firstItem = Math.max(getFirstVisibleItem(), firstItem);
-            if (firstItem > lastItem) {
-                int t = lastItem;
-                lastItem = firstItem;
+            firstItem = Mbth.mbx(getFirstVisibleItem(), firstItem);
+            if (firstItem > lbstItem) {
+                int t = lbstItem;
+                lbstItem = firstItem;
                 firstItem = t;
             }
-            firstItem = Math.max(getFirstVisibleItem(), firstItem);
-            lastItem = Math.min(lastItem, items.size()-1);
+            firstItem = Mbth.mbx(getFirstVisibleItem(), firstItem);
+            lbstItem = Mbth.min(lbstItem, items.size()-1);
 
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("Actually painting items from " + firstItem + " to " + lastItem +
+            if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                log.finer("Actublly pbinting items from " + firstItem + " to " + lbstItem +
                           ", items in window " + itemsInWindow());
             }
-            for (int i = firstItem; i <= lastItem; i++) {
-                paintItem(g, i);
+            for (int i = firstItem; i <= lbstItem; i++) {
+                pbintItem(g, i);
             }
         }
 
-        private void paintItem(Graphics g, int index) {
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest("Painting item " + index);
+        privbte void pbintItem(Grbphics g, int index) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                log.finest("Pbinting item " + index);
             }
-            // 4895367 - only paint items which are visible
+            // 4895367 - only pbint items which bre visible
             if (!isItemHidden(index)) {
-                Shape clip = g.getClip();
+                Shbpe clip = g.getClip();
                 int w = getItemWidth();
                 int h = getItemHeight();
                 int y = getItemY(index);
                 int x = getItemX();
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("Setting clip " + new Rectangle(x, y, w - (SPACE*2), h-(SPACE*2)));
+                if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                    log.finest("Setting clip " + new Rectbngle(x, y, w - (SPACE*2), h-(SPACE*2)));
                 }
                 g.setClip(x, y, w - (SPACE*2), h-(SPACE*2));
 
-                // Always paint the background so that focus is unpainted in
+                // Alwbys pbint the bbckground so thbt focus is unpbinted in
                 // multiselect mode
                 if (isSelected(index)) {
-                    if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                        log.finest("Painted item is selected");
+                    if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                        log.finest("Pbinted item is selected");
                     }
                     g.setColor(getListForeground());
                 } else {
-                    g.setColor(getListBackground());
+                    g.setColor(getListBbckground());
                 }
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("Filling " + new Rectangle(x, y, w, h));
+                if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                    log.finest("Filling " + new Rectbngle(x, y, w, h));
                 }
                 g.fillRect(x, y, w, h);
 
-                if (index <= getLastVisibleItem() && index < items.size()) {
-                    if (!isEnabled()){
-                        g.setColor(getDisabledColor());
+                if (index <= getLbstVisibleItem() && index < items.size()) {
+                    if (!isEnbbled()){
+                        g.setColor(getDisbbledColor());
                     } else if (isSelected(index)) {
-                        g.setColor(getListBackground());
+                        g.setColor(getListBbckground());
                     } else {
                         g.setColor(getListForeground());
                     }
                     String str = items.elementAt(index);
-                    g.drawString(str, x - hsb.getValue(), y + fontAscent);
+                    g.drbwString(str, x - hsb.getVblue(), y + fontAscent);
                 } else {
-                    // Clear the remaining area around the item - focus area and the rest of border
+                    // Clebr the rembining breb bround the item - focus breb bnd the rest of border
                     g.setClip(x, y, listWidth, h);
-                    g.setColor(getListBackground());
+                    g.setColor(getListBbckground());
                     g.fillRect(x, y, listWidth, h);
                 }
                 g.setClip(clip);
             }
         }
 
-        void paintScrollBar(XScrollbar scr, Graphics g, int x, int y, int width, int height, boolean paintAll) {
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest("Painting scrollbar " + scr + " width " +
-                width + " height " + height + ", paintAll " + paintAll);
+        void pbintScrollBbr(XScrollbbr scr, Grbphics g, int x, int y, int width, int height, boolebn pbintAll) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                log.finest("Pbinting scrollbbr " + scr + " width " +
+                width + " height " + height + ", pbintAll " + pbintAll);
             }
-            g.translate(x, y);
-            scr.paint(g, getSystemColors(), paintAll);
-            g.translate(-x, -y);
+            g.trbnslbte(x, y);
+            scr.pbint(g, getSystemColors(), pbintAll);
+            g.trbnslbte(-x, -y);
         }
 
         /**
-         * Paint the horizontal scrollbar to the screen
+         * Pbint the horizontbl scrollbbr to the screen
          *
-         * @param g the graphics context to draw into
-         * @param colors the colors used to draw the scrollbar
-         * @param paintAll paint the whole scrollbar if true, just the thumb if false
+         * @pbrbm g the grbphics context to drbw into
+         * @pbrbm colors the colors used to drbw the scrollbbr
+         * @pbrbm pbintAll pbint the whole scrollbbr if true, just the thumb if fblse
          */
-        void paintHorScrollbar(Graphics g, boolean paintAll) {
+        void pbintHorScrollbbr(Grbphics g, boolebn pbintAll) {
             int w = getListWidth();
-            paintScrollBar(hsb, g, 0, height - (SCROLLBAR_WIDTH), w, SCROLLBAR_WIDTH, paintAll);
+            pbintScrollBbr(hsb, g, 0, height - (SCROLLBAR_WIDTH), w, SCROLLBAR_WIDTH, pbintAll);
         }
 
         /**
-         * Paint the vertical scrollbar to the screen
+         * Pbint the verticbl scrollbbr to the screen
          *
-         * @param g the graphics context to draw into
-         * @param colors the colors used to draw the scrollbar
-         * @param paintAll paint the whole scrollbar if true, just the thumb if false
+         * @pbrbm g the grbphics context to drbw into
+         * @pbrbm colors the colors used to drbw the scrollbbr
+         * @pbrbm pbintAll pbint the whole scrollbbr if true, just the thumb if fblse
          */
-        void paintVerScrollbar(Graphics g, boolean paintAll) {
+        void pbintVerScrollbbr(Grbphics g, boolebn pbintAll) {
             int h = height - (hsbVis ? (SCROLLBAR_AREA-2) : 0);
-            paintScrollBar(vsb, g, width - SCROLLBAR_WIDTH, 0, SCROLLBAR_WIDTH - 2, h, paintAll);
+            pbintScrollBbr(vsb, g, width - SCROLLBAR_WIDTH, 0, SCROLLBAR_WIDTH - 2, h, pbintAll);
         }
 
 
-        private Rectangle prevFocusRect;
-        private void paintFocus(Graphics g, int options) {
-            boolean paintFocus = (options & PAINT_FOCUS) != 0;
-            if (paintFocus && !hasFocus()) {
-                paintFocus = false;
+        privbte Rectbngle prevFocusRect;
+        privbte void pbintFocus(Grbphics g, int options) {
+            boolebn pbintFocus = (options & PAINT_FOCUS) != 0;
+            if (pbintFocus && !hbsFocus()) {
+                pbintFocus = fblse;
             }
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("Painting focus, focus index " + getFocusIndex() + ", focus is " +
-                         (isItemHidden(getFocusIndex())?("invisible"):("visible")) + ", paint focus is " + paintFocus);
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                log.fine("Pbinting focus, focus index " + getFocusIndex() + ", focus is " +
+                         (isItemHidden(getFocusIndex())?("invisible"):("visible")) + ", pbint focus is " + pbintFocus);
             }
-            Shape clip = g.getClip();
+            Shbpe clip = g.getClip();
             g.setClip(0, 0, listWidth, listHeight);
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest("Setting focus clip " + new Rectangle(0, 0, listWidth, listHeight));
+            if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                log.finest("Setting focus clip " + new Rectbngle(0, 0, listWidth, listHeight));
             }
-            Rectangle rect = getFocusRect();
+            Rectbngle rect = getFocusRect();
             if (prevFocusRect != null) {
-                // Erase focus rect
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("Erasing previous focus rect " + prevFocusRect);
+                // Erbse focus rect
+                if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                    log.finest("Erbsing previous focus rect " + prevFocusRect);
                 }
-                g.setColor(getListBackground());
-                g.drawRect(prevFocusRect.x, prevFocusRect.y, prevFocusRect.width, prevFocusRect.height);
+                g.setColor(getListBbckground());
+                g.drbwRect(prevFocusRect.x, prevFocusRect.y, prevFocusRect.width, prevFocusRect.height);
                 prevFocusRect = null;
             }
-            if (paintFocus) {
-                // Paint new
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("Painting focus rect " + rect);
+            if (pbintFocus) {
+                // Pbint new
+                if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                    log.finest("Pbinting focus rect " + rect);
                 }
-                g.setColor(getListForeground());  // Focus color is always black on Linux
-                g.drawRect(rect.x, rect.y, rect.width, rect.height);
+                g.setColor(getListForeground());  // Focus color is blwbys blbck on Linux
+                g.drbwRect(rect.x, rect.y, rect.width, rect.height);
                 prevFocusRect = rect;
             }
             g.setClip(clip);

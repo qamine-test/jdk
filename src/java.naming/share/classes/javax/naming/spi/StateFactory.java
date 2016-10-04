@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.naming.spi;
+pbckbge jbvbx.nbming.spi;
 
-import javax.naming.*;
-import java.util.Hashtable;
+import jbvbx.nbming.*;
+import jbvb.util.Hbshtbble;
 
 /**
-  * This interface represents a factory for obtaining the state of an
+  * This interfbce represents b fbctory for obtbining the stbte of bn
   * object for binding.
   *<p>
-  * The JNDI framework allows for object implementations to
-  * be loaded in dynamically via <em>object factories</em>.
-  * For example, when looking up a printer bound in the name space,
-  * if the print service binds printer names to <tt>Reference</tt>s, the printer
-  * <tt>Reference</tt> could be used to create a printer object, so that
-  * the caller of lookup can directly operate on the printer object
-  * after the lookup.
-  * <p>An <tt>ObjectFactory</tt> is responsible
-  * for creating objects of a specific type.  In the above example,
-  * you may have a <tt>PrinterObjectFactory</tt> for creating
+  * The JNDI frbmework bllows for object implementbtions to
+  * be lobded in dynbmicblly vib <em>object fbctories</em>.
+  * For exbmple, when looking up b printer bound in the nbme spbce,
+  * if the print service binds printer nbmes to <tt>Reference</tt>s, the printer
+  * <tt>Reference</tt> could be used to crebte b printer object, so thbt
+  * the cbller of lookup cbn directly operbte on the printer object
+  * bfter the lookup.
+  * <p>An <tt>ObjectFbctory</tt> is responsible
+  * for crebting objects of b specific type.  In the bbove exbmple,
+  * you mby hbve b <tt>PrinterObjectFbctory</tt> for crebting
   * <tt>Printer</tt> objects.
   * <p>
-  * For the reverse process, when an object is bound into the namespace,
-  * JNDI provides <em>state factories</em>.
-  * Continuing with the printer example, suppose the printer object is
-  * updated and rebound:
+  * For the reverse process, when bn object is bound into the nbmespbce,
+  * JNDI provides <em>stbte fbctories</em>.
+  * Continuing with the printer exbmple, suppose the printer object is
+  * updbted bnd rebound:
   * <blockquote><pre>
   * ctx.rebind("inky", printer);
   * </pre></blockquote>
-  * The service provider for <tt>ctx</tt> uses a state factory
-  * to obtain the state of <tt>printer</tt> for binding into its namespace.
-  * A state factory for the <tt>Printer</tt> type object might return
-  * a more compact object for storage in the naming system.
+  * The service provider for <tt>ctx</tt> uses b stbte fbctory
+  * to obtbin the stbte of <tt>printer</tt> for binding into its nbmespbce.
+  * A stbte fbctory for the <tt>Printer</tt> type object might return
+  * b more compbct object for storbge in the nbming system.
   *<p>
-  * A state factory must implement the <tt>StateFactory</tt> interface.
-  * In addition, the factory class must be public and must have a
-  * public constructor that accepts no parameters.
+  * A stbte fbctory must implement the <tt>StbteFbctory</tt> interfbce.
+  * In bddition, the fbctory clbss must be public bnd must hbve b
+  * public constructor thbt bccepts no pbrbmeters.
   *<p>
-  * The <tt>getStateToBind()</tt> method of a state factory may
-  * be invoked multiple times, possibly using different parameters.
-  * The implementation is thread-safe.
+  * The <tt>getStbteToBind()</tt> method of b stbte fbctory mby
+  * be invoked multiple times, possibly using different pbrbmeters.
+  * The implementbtion is threbd-sbfe.
   *<p>
-  * <tt>StateFactory</tt> is intended for use with service providers
-  * that implement only the <tt>Context</tt> interface.
-  * <tt>DirStateFactory</tt> is intended for use with service providers
-  * that implement the <tt>DirContext</tt> interface.
+  * <tt>StbteFbctory</tt> is intended for use with service providers
+  * thbt implement only the <tt>Context</tt> interfbce.
+  * <tt>DirStbteFbctory</tt> is intended for use with service providers
+  * thbt implement the <tt>DirContext</tt> interfbce.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
-  * @see NamingManager#getStateToBind
-  * @see DirectoryManager#getStateToBind
-  * @see ObjectFactory
-  * @see DirStateFactory
+  * @see NbmingMbnbger#getStbteToBind
+  * @see DirectoryMbnbger#getStbteToBind
+  * @see ObjectFbctory
+  * @see DirStbteFbctory
   * @since 1.3
   */
-public interface StateFactory {
+public interfbce StbteFbctory {
 /**
- * Retrieves the state of an object for binding.
+ * Retrieves the stbte of bn object for binding.
  *<p>
- * <tt>NamingManager.getStateToBind()</tt>
- * successively loads in state factories and invokes this method
- * on them until one produces a non-null answer.
- * <tt>DirectoryManager.getStateToBind()</tt>
- * successively loads in state factories.  If a factory implements
- * <tt>DirStateFactory</tt>, then <tt>DirectoryManager</tt>
- * invokes <tt>DirStateFactory.getStateToBind()</tt>; otherwise
- * it invokes <tt>StateFactory.getStateToBind()</tt>.
- *<p> When an exception
- * is thrown by a factory, the exception is passed on to the caller
- * of <tt>NamingManager.getStateToBind()</tt> and
- * <tt>DirectoryManager.getStateToBind()</tt>.
- * The search for other factories
- * that may produce a non-null answer is halted.
- * A factory should only throw an exception if it is sure that
- * it is the only intended factory and that no other factories
+ * <tt>NbmingMbnbger.getStbteToBind()</tt>
+ * successively lobds in stbte fbctories bnd invokes this method
+ * on them until one produces b non-null bnswer.
+ * <tt>DirectoryMbnbger.getStbteToBind()</tt>
+ * successively lobds in stbte fbctories.  If b fbctory implements
+ * <tt>DirStbteFbctory</tt>, then <tt>DirectoryMbnbger</tt>
+ * invokes <tt>DirStbteFbctory.getStbteToBind()</tt>; otherwise
+ * it invokes <tt>StbteFbctory.getStbteToBind()</tt>.
+ *<p> When bn exception
+ * is thrown by b fbctory, the exception is pbssed on to the cbller
+ * of <tt>NbmingMbnbger.getStbteToBind()</tt> bnd
+ * <tt>DirectoryMbnbger.getStbteToBind()</tt>.
+ * The sebrch for other fbctories
+ * thbt mby produce b non-null bnswer is hblted.
+ * A fbctory should only throw bn exception if it is sure thbt
+ * it is the only intended fbctory bnd thbt no other fbctories
  * should be tried.
- * If this factory cannot create an object using the arguments supplied,
+ * If this fbctory cbnnot crebte bn object using the brguments supplied,
  * it should return null.
  * <p>
- * The <code>name</code> and <code>nameCtx</code> parameters may
- * optionally be used to specify the name of the object being created.
- * See the description of "Name and Context Parameters" in
- * {@link ObjectFactory#getObjectInstance ObjectFactory.getObjectInstance()}
- * for details.
- * If a factory uses <code>nameCtx</code> it should synchronize its use
- * against concurrent access, since context implementations are not
- * guaranteed to be thread-safe.
+ * The <code>nbme</code> bnd <code>nbmeCtx</code> pbrbmeters mby
+ * optionblly be used to specify the nbme of the object being crebted.
+ * See the description of "Nbme bnd Context Pbrbmeters" in
+ * {@link ObjectFbctory#getObjectInstbnce ObjectFbctory.getObjectInstbnce()}
+ * for detbils.
+ * If b fbctory uses <code>nbmeCtx</code> it should synchronize its use
+ * bgbinst concurrent bccess, since context implementbtions bre not
+ * gubrbnteed to be threbd-sbfe.
  * <p>
- * The <tt>name</tt> and <tt>environment</tt> parameters
- * are owned by the caller.
- * The implementation will not modify these objects or keep references
- * to them, although it may keep references to clones or copies.
+ * The <tt>nbme</tt> bnd <tt>environment</tt> pbrbmeters
+ * bre owned by the cbller.
+ * The implementbtion will not modify these objects or keep references
+ * to them, blthough it mby keep references to clones or copies.
  *
- * @param obj A non-null object whose state is to be retrieved.
- * @param name The name of this object relative to <code>nameCtx</code>,
- *              or null if no name is specified.
- * @param nameCtx The context relative to which the <code>name</code>
- *              parameter is specified, or null if <code>name</code> is
- *              relative to the default initial context.
- * @param environment The possibly null environment to
- *              be used in the creation of the object's state.
- * @return The object's state for binding;
- *              null if the factory is not returning any changes.
- * @exception NamingException if this factory encountered an exception
- * while attempting to get the object's state, and no other factories are
+ * @pbrbm obj A non-null object whose stbte is to be retrieved.
+ * @pbrbm nbme The nbme of this object relbtive to <code>nbmeCtx</code>,
+ *              or null if no nbme is specified.
+ * @pbrbm nbmeCtx The context relbtive to which the <code>nbme</code>
+ *              pbrbmeter is specified, or null if <code>nbme</code> is
+ *              relbtive to the defbult initibl context.
+ * @pbrbm environment The possibly null environment to
+ *              be used in the crebtion of the object's stbte.
+ * @return The object's stbte for binding;
+ *              null if the fbctory is not returning bny chbnges.
+ * @exception NbmingException if this fbctory encountered bn exception
+ * while bttempting to get the object's stbte, bnd no other fbctories bre
  * to be tried.
  *
- * @see NamingManager#getStateToBind
- * @see DirectoryManager#getStateToBind
+ * @see NbmingMbnbger#getStbteToBind
+ * @see DirectoryMbnbger#getStbteToBind
  */
-    public Object getStateToBind(Object obj, Name name, Context nameCtx,
-                                 Hashtable<?,?> environment)
-        throws NamingException;
+    public Object getStbteToBind(Object obj, Nbme nbme, Context nbmeCtx,
+                                 Hbshtbble<?,?> environment)
+        throws NbmingException;
 }

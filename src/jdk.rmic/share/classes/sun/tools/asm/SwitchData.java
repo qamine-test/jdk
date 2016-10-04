@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.asm;
+pbckbge sun.tools.bsm;
 
-import sun.tools.java.*;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Arrays;
+import sun.tools.jbvb.*;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Arrbys;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
-public final
-class SwitchData {
-    int minValue, maxValue;
-    Label defaultLabel = new Label();
-    Hashtable<Integer, Label> tab = new Hashtable<>();
+public finbl
+clbss SwitchDbtb {
+    int minVblue, mbxVblue;
+    Lbbel defbultLbbel = new Lbbel();
+    Hbshtbble<Integer, Lbbel> tbb = new Hbshtbble<>();
 // JCOV
-    Hashtable<Integer, Long> whereCaseTab = null;
+    Hbshtbble<Integer, Long> whereCbseTbb = null;
 // end JCOV
 
     /**
-     * Get a label
+     * Get b lbbel
      */
-    public Label get(int n) {
-        return tab.get(n);
+    public Lbbel get(int n) {
+        return tbb.get(n);
     }
 
     /**
-     * Get a label
+     * Get b lbbel
      */
-    public Label get(Integer n) {
-        return tab.get(n);
+    public Lbbel get(Integer n) {
+        return tbb.get(n);
     }
 
     /**
-     * Add a label
+     * Add b lbbel
      */
-    public void add(int n, Label lbl) {
-        if (tab.size() == 0) {
-            minValue = n;
-            maxValue = n;
+    public void bdd(int n, Lbbel lbl) {
+        if (tbb.size() == 0) {
+            minVblue = n;
+            mbxVblue = n;
         } else {
-            if (n < minValue) {
-                minValue = n;
+            if (n < minVblue) {
+                minVblue = n;
             }
-            if (n > maxValue) {
-                maxValue = n;
+            if (n > mbxVblue) {
+                mbxVblue = n;
             }
         }
-        tab.put(Integer.valueOf(n), lbl);
+        tbb.put(Integer.vblueOf(n), lbl);
     }
 
     /**
-     * Get the default label
+     * Get the defbult lbbel
      */
-    public Label getDefaultLabel() {
-        return defaultLabel;
+    public Lbbel getDefbultLbbel() {
+        return defbultLbbel;
     }
 
     /**
-     * Return the keys of this enumaration sorted in ascending order
+     * Return the keys of this enumbrbtion sorted in bscending order
      */
-    public synchronized Enumeration<Integer> sortedKeys() {
-        return new SwitchDataEnumeration(tab);
+    public synchronized Enumerbtion<Integer> sortedKeys() {
+        return new SwitchDbtbEnumerbtion(tbb);
     }
 
 // JCOV
-    public void initTableCase() {
-        whereCaseTab = new Hashtable<Integer, Long>();
+    public void initTbbleCbse() {
+        whereCbseTbb = new Hbshtbble<Integer, Long>();
     }
-    public void addTableCase(int index, long where) {
-        if (whereCaseTab != null)
-            whereCaseTab.put(Integer.valueOf(index), Long.valueOf(where));
+    public void bddTbbleCbse(int index, long where) {
+        if (whereCbseTbb != null)
+            whereCbseTbb.put(Integer.vblueOf(index), Long.vblueOf(where));
     }
-    // this puts String key into Hashtable<Integer, Long>
-    @SuppressWarnings("unchecked")
-    public void addTableDefault(long where) {
-        if (whereCaseTab != null)
-            ((Hashtable)whereCaseTab).put("default", Long.valueOf(where));
+    // this puts String key into Hbshtbble<Integer, Long>
+    @SuppressWbrnings("unchecked")
+    public void bddTbbleDefbult(long where) {
+        if (whereCbseTbb != null)
+            ((Hbshtbble)whereCbseTbb).put("defbult", Long.vblueOf(where));
     }
-    public long whereCase(Object key) {
-        Long i = whereCaseTab.get(key);
-        return (i == null) ? 0L : i.longValue();
+    public long whereCbse(Object key) {
+        Long i = whereCbseTbb.get(key);
+        return (i == null) ? 0L : i.longVblue();
     }
-    public boolean getDefault() {
-         return (whereCase("default") != 0L);
+    public boolebn getDefbult() {
+         return (whereCbse("defbult") != 0L);
     }
 // end JCOV
 }
 
-class SwitchDataEnumeration implements Enumeration<Integer> {
-    private Integer table[];
-    private int current_index = 0;
+clbss SwitchDbtbEnumerbtion implements Enumerbtion<Integer> {
+    privbte Integer tbble[];
+    privbte int current_index = 0;
 
     /**
-     * Create a new enumeration from the hashtable.  Each key in the
-     * hash table will be an Integer, with the value being a label.  The
-     * enumeration returns the keys in sorted order.
+     * Crebte b new enumerbtion from the hbshtbble.  Ebch key in the
+     * hbsh tbble will be bn Integer, with the vblue being b lbbel.  The
+     * enumerbtion returns the keys in sorted order.
      */
-    SwitchDataEnumeration(Hashtable<Integer, Label> tab) {
-        table = new Integer[tab.size()];
+    SwitchDbtbEnumerbtion(Hbshtbble<Integer, Lbbel> tbb) {
+        tbble = new Integer[tbb.size()];
         int i = 0;
-        for (Enumeration<Integer> e = tab.keys() ; e.hasMoreElements() ; ) {
-            table[i++] = e.nextElement();
+        for (Enumerbtion<Integer> e = tbb.keys() ; e.hbsMoreElements() ; ) {
+            tbble[i++] = e.nextElement();
         }
-        Arrays.sort(table);
+        Arrbys.sort(tbble);
         current_index = 0;
     }
 
     /**
      * Are there more keys to return?
      */
-    public boolean hasMoreElements() {
-        return current_index < table.length;
+    public boolebn hbsMoreElements() {
+        return current_index < tbble.length;
     }
 
     /**
      * Return the next key.
      */
     public Integer nextElement() {
-        return table[current_index++];
+        return tbble[current_index++];
     }
 }

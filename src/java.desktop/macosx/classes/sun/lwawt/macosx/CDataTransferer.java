@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.awt.image.*;
-import sun.awt.image.ImageRepresentation;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import sun.bwt.imbge.ImbgeRepresentbtion;
 
-import java.io.*;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.text.Normalizer;
-import java.text.Normalizer.Form;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.net.URL;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.text.Normblizer;
+import jbvb.text.Normblizer.Form;
+import jbvb.util.*;
 
-import java.awt.datatransfer.*;
-import sun.awt.datatransfer.*;
+import jbvb.bwt.dbtbtrbnsfer.*;
+import sun.bwt.dbtbtrbnsfer.*;
 
-public class CDataTransferer extends DataTransferer {
-    private static final Map<String, Long> predefinedClipboardNameMap;
-    private static final Map<Long, String> predefinedClipboardFormatMap;
+public clbss CDbtbTrbnsferer extends DbtbTrbnsferer {
+    privbte stbtic finbl Mbp<String, Long> predefinedClipbobrdNbmeMbp;
+    privbte stbtic finbl Mbp<Long, String> predefinedClipbobrdFormbtMbp;
 
-    // See SystemFlavorMap, or the flavormap.properties file:
-    // We should define a few more types in flavormap.properties, it's rather slim now.
-    private static final String[] predefinedClipboardNames = {
+    // See SystemFlbvorMbp, or the flbvormbp.properties file:
+    // We should define b few more types in flbvormbp.properties, it's rbther slim now.
+    privbte stbtic finbl String[] predefinedClipbobrdNbmes = {
         "",
         "STRING",
         "FILE_NAME",
@@ -58,176 +58,176 @@ public class CDataTransferer extends DataTransferer {
         "JFIF"
     };
 
-    static {
-        Map<String, Long> nameMap = new HashMap<>(predefinedClipboardNames.length, 1.0f);
-        Map<Long, String> formatMap = new HashMap<>(predefinedClipboardNames.length, 1.0f);
-        for (int i = 1; i < predefinedClipboardNames.length; i++) {
-            nameMap.put(predefinedClipboardNames[i], (long) i);
-            formatMap.put((long) i, predefinedClipboardNames[i]);
+    stbtic {
+        Mbp<String, Long> nbmeMbp = new HbshMbp<>(predefinedClipbobrdNbmes.length, 1.0f);
+        Mbp<Long, String> formbtMbp = new HbshMbp<>(predefinedClipbobrdNbmes.length, 1.0f);
+        for (int i = 1; i < predefinedClipbobrdNbmes.length; i++) {
+            nbmeMbp.put(predefinedClipbobrdNbmes[i], (long) i);
+            formbtMbp.put((long) i, predefinedClipbobrdNbmes[i]);
         }
-        predefinedClipboardNameMap = Collections.synchronizedMap(nameMap);
-        predefinedClipboardFormatMap = Collections.synchronizedMap(formatMap);
+        predefinedClipbobrdNbmeMbp = Collections.synchronizedMbp(nbmeMbp);
+        predefinedClipbobrdFormbtMbp = Collections.synchronizedMbp(formbtMbp);
     }
 
-    public static final int CF_UNSUPPORTED = 0;
-    public static final int CF_STRING      = 1;
-    public static final int CF_FILE        = 2;
-    public static final int CF_TIFF        = 3;
-    public static final int CF_RICH_TEXT   = 4;
-    public static final int CF_HTML        = 5;
-    public static final int CF_PDF         = 6;
-    public static final int CF_URL         = 7;
-    public static final int CF_PNG         = 8;
-    public static final int CF_JPEG        = 9;
+    public stbtic finbl int CF_UNSUPPORTED = 0;
+    public stbtic finbl int CF_STRING      = 1;
+    public stbtic finbl int CF_FILE        = 2;
+    public stbtic finbl int CF_TIFF        = 3;
+    public stbtic finbl int CF_RICH_TEXT   = 4;
+    public stbtic finbl int CF_HTML        = 5;
+    public stbtic finbl int CF_PDF         = 6;
+    public stbtic finbl int CF_URL         = 7;
+    public stbtic finbl int CF_PNG         = 8;
+    public stbtic finbl int CF_JPEG        = 9;
 
-    private CDataTransferer() {}
+    privbte CDbtbTrbnsferer() {}
 
-    private static CDataTransferer fTransferer;
+    privbte stbtic CDbtbTrbnsferer fTrbnsferer;
 
-    static synchronized CDataTransferer getInstanceImpl() {
-        if (fTransferer == null) {
-            fTransferer = new CDataTransferer();
+    stbtic synchronized CDbtbTrbnsferer getInstbnceImpl() {
+        if (fTrbnsferer == null) {
+            fTrbnsferer = new CDbtbTrbnsferer();
         }
 
-        return fTransferer;
+        return fTrbnsferer;
     }
 
     @Override
-    public String getDefaultUnicodeEncoding() {
+    public String getDefbultUnicodeEncoding() {
         return "utf-16le";
     }
 
     @Override
-    public boolean isLocaleDependentTextFormat(long format) {
-        return format == CF_STRING;
+    public boolebn isLocbleDependentTextFormbt(long formbt) {
+        return formbt == CF_STRING;
     }
 
     @Override
-    public boolean isFileFormat(long format) {
-        return format == CF_FILE;
+    public boolebn isFileFormbt(long formbt) {
+        return formbt == CF_FILE;
     }
 
     @Override
-    public boolean isImageFormat(long format) {
-        int ifmt = (int)format;
+    public boolebn isImbgeFormbt(long formbt) {
+        int ifmt = (int)formbt;
         switch(ifmt) {
-            case CF_TIFF:
-            case CF_PDF:
-            case CF_PNG:
-            case CF_JPEG:
+            cbse CF_TIFF:
+            cbse CF_PDF:
+            cbse CF_PNG:
+            cbse CF_JPEG:
                 return true;
-            default:
-                return false;
+            defbult:
+                return fblse;
         }
     }
 
     @Override
-    public Object translateBytes(byte[] bytes, DataFlavor flavor,
-                                    long format, Transferable transferable) throws IOException {
+    public Object trbnslbteBytes(byte[] bytes, DbtbFlbvor flbvor,
+                                    long formbt, Trbnsferbble trbnsferbble) throws IOException {
 
-            if (format == CF_URL && URL.class.equals(flavor.getRepresentationClass()))
+            if (formbt == CF_URL && URL.clbss.equbls(flbvor.getRepresentbtionClbss()))
             {
-                String charset = Charset.defaultCharset().name();
-                if (transferable != null && transferable.isDataFlavorSupported(javaTextEncodingFlavor)) {
+                String chbrset = Chbrset.defbultChbrset().nbme();
+                if (trbnsferbble != null && trbnsferbble.isDbtbFlbvorSupported(jbvbTextEncodingFlbvor)) {
                     try {
-                        charset = new String((byte[])transferable.getTransferData(javaTextEncodingFlavor), "UTF-8");
-                    } catch (UnsupportedFlavorException cannotHappen) {
+                        chbrset = new String((byte[])trbnsferbble.getTrbnsferDbtb(jbvbTextEncodingFlbvor), "UTF-8");
+                    } cbtch (UnsupportedFlbvorException cbnnotHbppen) {
                     }
                 }
 
-                return new URL(new String(bytes, charset));
+                return new URL(new String(bytes, chbrset));
             }
 
-            if (format == CF_STRING) {
-                bytes = Normalizer.normalize(new String(bytes, "UTF8"), Form.NFC).getBytes("UTF8");
+            if (formbt == CF_STRING) {
+                bytes = Normblizer.normblize(new String(bytes, "UTF8"), Form.NFC).getBytes("UTF8");
             }
 
-            return super.translateBytes(bytes, flavor, format, transferable);
+            return super.trbnslbteBytes(bytes, flbvor, formbt, trbnsferbble);
     }
 
     @Override
-    synchronized protected Long getFormatForNativeAsLong(String str) {
-        Long format = predefinedClipboardNameMap.get(str);
+    synchronized protected Long getFormbtForNbtiveAsLong(String str) {
+        Long formbt = predefinedClipbobrdNbmeMbp.get(str);
 
-        if (format == null) {
-            if (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance()) {
-                // Do not try to access native system for the unknown format
+        if (formbt == null) {
+            if (jbvb.bwt.GrbphicsEnvironment.getLocblGrbphicsEnvironment().isHebdlessInstbnce()) {
+                // Do not try to bccess nbtive system for the unknown formbt
                 return -1L;
             }
-            format = registerFormatWithPasteboard(str);
-            predefinedClipboardNameMap.put(str, format);
-            predefinedClipboardFormatMap.put(format, str);
+            formbt = registerFormbtWithPbstebobrd(str);
+            predefinedClipbobrdNbmeMbp.put(str, formbt);
+            predefinedClipbobrdFormbtMbp.put(formbt, str);
         }
 
-        return format;
+        return formbt;
     }
 
     /*
-     * Adds type to native mapping NSDictionary.
+     * Adds type to nbtive mbpping NSDictionbry.
      */
-    private native long registerFormatWithPasteboard(String type);
+    privbte nbtive long registerFormbtWithPbstebobrd(String type);
 
-    // Get registered native format string for an index, return null if unknown:
-    private native String formatForIndex(long index);
+    // Get registered nbtive formbt string for bn index, return null if unknown:
+    privbte nbtive String formbtForIndex(long index);
 
     @Override
-    protected String getNativeForFormat(long format) {
-        String returnValue = null;
+    protected String getNbtiveForFormbt(long formbt) {
+        String returnVblue = null;
 
-        // The most common case - just index the array of predefined names:
-        if (format >= 0 && format < predefinedClipboardNames.length) {
-            returnValue = predefinedClipboardNames[(int) format];
+        // The most common cbse - just index the brrby of predefined nbmes:
+        if (formbt >= 0 && formbt < predefinedClipbobrdNbmes.length) {
+            returnVblue = predefinedClipbobrdNbmes[(int) formbt];
         } else {
-            Long formatObj = format;
-            returnValue = predefinedClipboardFormatMap.get(formatObj);
+            Long formbtObj = formbt;
+            returnVblue = predefinedClipbobrdFormbtMbp.get(formbtObj);
 
-            // predefinedClipboardFormatMap may not know this format:
-            if (returnValue == null) {
-                returnValue = formatForIndex(format);
+            // predefinedClipbobrdFormbtMbp mby not know this formbt:
+            if (returnVblue == null) {
+                returnVblue = formbtForIndex(formbt);
 
-                // Native clipboard may not know this format either:
-                if (returnValue != null) {
-                    predefinedClipboardNameMap.put(returnValue, formatObj);
-                    predefinedClipboardFormatMap.put(formatObj, returnValue);
+                // Nbtive clipbobrd mby not know this formbt either:
+                if (returnVblue != null) {
+                    predefinedClipbobrdNbmeMbp.put(returnVblue, formbtObj);
+                    predefinedClipbobrdFormbtMbp.put(formbtObj, returnVblue);
                 }
             }
         }
 
-        if (returnValue == null) {
-            returnValue = predefinedClipboardNames[CF_UNSUPPORTED];
+        if (returnVblue == null) {
+            returnVblue = predefinedClipbobrdNbmes[CF_UNSUPPORTED];
         }
 
-        return returnValue;
+        return returnVblue;
     }
 
-    private final ToolkitThreadBlockedHandler handler = new CToolkitThreadBlockedHandler();
+    privbte finbl ToolkitThrebdBlockedHbndler hbndler = new CToolkitThrebdBlockedHbndler();
 
     @Override
-    public ToolkitThreadBlockedHandler getToolkitThreadBlockedHandler() {
-        return handler;
+    public ToolkitThrebdBlockedHbndler getToolkitThrebdBlockedHbndler() {
+        return hbndler;
     }
 
     @Override
-    protected byte[] imageToPlatformBytes(Image image, long format) {
-        return CImage.getCreator().getPlatformImageBytes(image);
+    protected byte[] imbgeToPlbtformBytes(Imbge imbge, long formbt) {
+        return CImbge.getCrebtor().getPlbtformImbgeBytes(imbge);
     }
 
-    private static native String[] nativeDragQueryFile(final byte[] bytes);
+    privbte stbtic nbtive String[] nbtiveDrbgQueryFile(finbl byte[] bytes);
     @Override
-    protected String[] dragQueryFile(final byte[] bytes) {
+    protected String[] drbgQueryFile(finbl byte[] bytes) {
         if (bytes == null) return null;
-        if (new String(bytes).startsWith("Unsupported type")) return null;
-        return nativeDragQueryFile(bytes);
+        if (new String(bytes).stbrtsWith("Unsupported type")) return null;
+        return nbtiveDrbgQueryFile(bytes);
     }
 
     @Override
-    protected Image platformImageBytesToImage(byte[] bytes, long format) throws IOException {
-        return CImage.getCreator().createImageFromPlatformImageBytes(bytes);
+    protected Imbge plbtformImbgeBytesToImbge(byte[] bytes, long formbt) throws IOException {
+        return CImbge.getCrebtor().crebteImbgeFromPlbtformImbgeBytes(bytes);
     }
 
     @Override
-    protected ByteArrayOutputStream convertFileListToBytes(ArrayList<String> fileList) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    protected ByteArrbyOutputStrebm convertFileListToBytes(ArrbyList<String> fileList) throws IOException {
+        ByteArrbyOutputStrebm bos = new ByteArrbyOutputStrebm();
         for (String file : fileList) {
             byte[] bytes = file.getBytes();
             bos.write(bytes, 0, bytes.length);
@@ -237,20 +237,20 @@ public class CDataTransferer extends DataTransferer {
     }
 
     @Override
-    protected boolean isURIListFormat(long format) {
-        String nat = getNativeForFormat(format);
-        if (nat == null) {
-            return false;
+    protected boolebn isURIListFormbt(long formbt) {
+        String nbt = getNbtiveForFormbt(formbt);
+        if (nbt == null) {
+            return fblse;
         }
         try {
-            DataFlavor df = new DataFlavor(nat);
-            if (df.getPrimaryType().equals("text") && df.getSubType().equals("uri-list")) {
+            DbtbFlbvor df = new DbtbFlbvor(nbt);
+            if (df.getPrimbryType().equbls("text") && df.getSubType().equbls("uri-list")) {
                 return true;
             }
-        } catch (Exception e) {
-            // Not a MIME format.
+        } cbtch (Exception e) {
+            // Not b MIME formbt.
         }
-        return false;
+        return fblse;
     }
 }
 

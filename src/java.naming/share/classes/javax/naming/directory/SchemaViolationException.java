@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.naming.directory;
+pbckbge jbvbx.nbming.directory;
 
-import javax.naming.NamingException;
+import jbvbx.nbming.NbmingException;
 
 /**
-  * This exception is thrown when a method
-  * in some ways violates the schema. An example of schema violation
-  * is modifying attributes of an object that violates the object's
-  * schema definition. Another example is renaming or moving an object
-  * to a part of the namespace that violates the namespace's
-  * schema definition.
+  * This exception is thrown when b method
+  * in some wbys violbtes the schemb. An exbmple of schemb violbtion
+  * is modifying bttributes of bn object thbt violbtes the object's
+  * schemb definition. Another exbmple is renbming or moving bn object
+  * to b pbrt of the nbmespbce thbt violbtes the nbmespbce's
+  * schemb definition.
   * <p>
-  * Synchronization and serialization issues that apply to NamingException
-  * apply directly here.
+  * Synchronizbtion bnd seriblizbtion issues thbt bpply to NbmingException
+  * bpply directly here.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
-  * @see javax.naming.Context#bind
+  * @see jbvbx.nbming.Context#bind
   * @see DirContext#bind
-  * @see javax.naming.Context#rebind
+  * @see jbvbx.nbming.Context#rebind
   * @see DirContext#rebind
-  * @see DirContext#createSubcontext
-  * @see javax.naming.Context#createSubcontext
+  * @see DirContext#crebteSubcontext
+  * @see jbvbx.nbming.Context#crebteSubcontext
   * @see DirContext#modifyAttributes
   * @since 1.3
   */
-public class SchemaViolationException extends NamingException {
+public clbss SchembViolbtionException extends NbmingException {
     /**
-     * Constructs a new instance of SchemaViolationException.
-     * All fields are set to null.
+     * Constructs b new instbnce of SchembViolbtionException.
+     * All fields bre set to null.
      */
-    public SchemaViolationException() {
+    public SchembViolbtionException() {
         super();
     }
 
     /**
-     * Constructs a new instance of SchemaViolationException
-     * using the explanation supplied. All other fields are set to null.
-     * @param explanation Detail about this exception. Can be null.
-     * @see java.lang.Throwable#getMessage
+     * Constructs b new instbnce of SchembViolbtionException
+     * using the explbnbtion supplied. All other fields bre set to null.
+     * @pbrbm explbnbtion Detbil bbout this exception. Cbn be null.
+     * @see jbvb.lbng.Throwbble#getMessbge
      */
-    public SchemaViolationException(String explanation) {
-        super(explanation);
+    public SchembViolbtionException(String explbnbtion) {
+        super(explbnbtion);
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = -3041762429525049663L;
+    privbte stbtic finbl long seriblVersionUID = -3041762429525049663L;
 }

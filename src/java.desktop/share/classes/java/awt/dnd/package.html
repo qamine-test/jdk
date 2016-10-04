@@ -1,143 +1,143 @@
 <!--
- Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ This code is free softwbre; you cbn redistribute it bnd/or modify it
+ under the terms of the GNU Generbl Public License version 2 only, bs
+ published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ by Orbcle in the LICENSE file thbt bccompbnied this code.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ This code is distributed in the hope thbt it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ version 2 for more detbils (b copy is included in the LICENSE file thbt
+ bccompbnied this code).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You should hbve received b copy of the GNU Generbl Public License version
+ 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
+ Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  questions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
-<head><title></title></head>
+<hebd><title></title></hebd>
 <body bgcolor="white">
 
-Drag and Drop is a direct manipulation gesture found in many Graphical
-User Interface systems that provides a mechanism to transfer
-information between two entities logically associated with presentation
-elements in the GUI. Normally driven by a physical gesture of a
-human user using an appropriate input device, Drag and Drop provides both
-a mechanism to enable continuous feedback regarding the
-possible outcome of any subsequent data transfer to the user during
-navigation over the presentation elements in the GUI, and the facilities
-to provide for any subsequent data negotiation and transfer. 
+Drbg bnd Drop is b direct mbnipulbtion gesture found in mbny Grbphicbl
+User Interfbce systems thbt provides b mechbnism to trbnsfer
+informbtion between two entities logicblly bssocibted with presentbtion
+elements in the GUI. Normblly driven by b physicbl gesture of b
+humbn user using bn bppropribte input device, Drbg bnd Drop provides both
+b mechbnism to enbble continuous feedbbck regbrding the
+possible outcome of bny subsequent dbtb trbnsfer to the user during
+nbvigbtion over the presentbtion elements in the GUI, bnd the fbcilities
+to provide for bny subsequent dbtb negotibtion bnd trbnsfer. 
 <P>
-This package defines the classes and interfaces necessary to perform Drag
-and Drop operations in Java. It
-defines classes for the drag-source and the drop-target, as well as
-events for transferring the data being dragged. This package also provides
-a means for giving visual feedback to the user throughout the
-duration of the Drag and Drop operation. 
+This pbckbge defines the clbsses bnd interfbces necessbry to perform Drbg
+bnd Drop operbtions in Jbvb. It
+defines clbsses for the drbg-source bnd the drop-tbrget, bs well bs
+events for trbnsferring the dbtb being drbgged. This pbckbge blso provides
+b mebns for giving visubl feedbbck to the user throughout the
+durbtion of the Drbg bnd Drop operbtion. 
 <P>
-A typical Drag and Drop operation can be decomposed into the following
-states (not entirely sequentially): 
+A typicbl Drbg bnd Drop operbtion cbn be decomposed into the following
+stbtes (not entirely sequentiblly): 
 <UL>
-<LI>A <code>DragSource</code> comes into existence, 
-associated with some presentation
-element (<code>Component</code>) in the GUI, to initiate a Drag and Drop of
-some potentially <code>Transferable</code> data. 
+<LI>A <code>DrbgSource</code> comes into existence, 
+bssocibted with some presentbtion
+element (<code>Component</code>) in the GUI, to initibte b Drbg bnd Drop of
+some potentiblly <code>Trbnsferbble</code> dbtb. 
 <br><br>
-<LI>1 or more <code>DropTarget</code>(s) come into/go out of 
-existence, associated
-with presentation elements in the GUI (Components), potentially
-capable of consuming <code>Transferable</code> data types. 
+<LI>1 or more <code>DropTbrget</code>(s) come into/go out of 
+existence, bssocibted
+with presentbtion elements in the GUI (Components), potentiblly
+cbpbble of consuming <code>Trbnsferbble</code> dbtb types. 
 <br><br>
-<LI> A <code>DragGestureRecognizer</code> is 
-obtained from the <code>DragSource</code> and is
-associated with a <code>Component</code> in order 
-to track and identify any Drag
-initiating gesture by the user over the <code>Component</code>. 
+<LI> A <code>DrbgGestureRecognizer</code> is 
+obtbined from the <code>DrbgSource</code> bnd is
+bssocibted with b <code>Component</code> in order 
+to trbck bnd identify bny Drbg
+initibting gesture by the user over the <code>Component</code>. 
 <br><br>
-<LI> A user makes a Drag gesture over the <code>Component</code>, 
+<LI> A user mbkes b Drbg gesture over the <code>Component</code>, 
 which the registered
-<code>DragGestureRecognizer</code> detects, and notifies its
-<code>DragGestureListener</code> of. 
+<code>DrbgGestureRecognizer</code> detects, bnd notifies its
+<code>DrbgGestureListener</code> of. 
 <P>
-Note: Although this API consistently refers to the stimulus for a
-drag and drop operation being a physical gesture by a human user, this
-does not preclude a programmatically driven DnD operation given the
-appropriate implementation of a <code>DragSource</code>. This package
-contains the abstract class <code>MouseDragGestureRecognizer</code> for
-recognizing mouse device gestures. Other abstract subclasses may be
-provided by the platform to support other input devices or
-particular <code>Component</code> class semantics. 
+Note: Although this API consistently refers to the stimulus for b
+drbg bnd drop operbtion being b physicbl gesture by b humbn user, this
+does not preclude b progrbmmbticblly driven DnD operbtion given the
+bppropribte implementbtion of b <code>DrbgSource</code>. This pbckbge
+contbins the bbstrbct clbss <code>MouseDrbgGestureRecognizer</code> for
+recognizing mouse device gestures. Other bbstrbct subclbsses mby be
+provided by the plbtform to support other input devices or
+pbrticulbr <code>Component</code> clbss sembntics. 
 <br><br>
-<LI> The <code>DragGestureListener</code> causes the 
-<code>DragSource</code> to initiate the Drag
-and Drop operation on behalf of the user, perhaps animating the
-GUI Cursor and/or rendering an <code>Image</code> of the item(s) that are the
-subject of the operation.
+<LI> The <code>DrbgGestureListener</code> cbuses the 
+<code>DrbgSource</code> to initibte the Drbg
+bnd Drop operbtion on behblf of the user, perhbps bnimbting the
+GUI Cursor bnd/or rendering bn <code>Imbge</code> of the item(s) thbt bre the
+subject of the operbtion.
 <br><br>
-<LI> As the user gestures navigate over <code>Component</code>(s) 
+<LI> As the user gestures nbvigbte over <code>Component</code>(s) 
 in the GUI with
-associated <code>DropTarget</code>(s), the <code>DragSource</code> 
-receives notifications in order
-to provide "Drag Over" feedback effects, and the <code>DropTarget</code>(s)
-receive notifications in order to provide "Drag Under" feedback effects
-based upon the operation(s) supported and the data type(s) involved. 
+bssocibted <code>DropTbrget</code>(s), the <code>DrbgSource</code> 
+receives notificbtions in order
+to provide "Drbg Over" feedbbck effects, bnd the <code>DropTbrget</code>(s)
+receive notificbtions in order to provide "Drbg Under" feedbbck effects
+bbsed upon the operbtion(s) supported bnd the dbtb type(s) involved. 
 </UL>
 <P>
 
-The gesture itself moves a logical cursor across the GUI hierarchy,
+The gesture itself moves b logicbl cursor bcross the GUI hierbrchy,
 intersecting the geometry of GUI Component(s), possibly resulting in
-the logical "Drag" cursor entering, crossing, and subsequently
-leaving <code>Component</code>(s) and associated <code>DropTarget</code>(s). 
+the logicbl "Drbg" cursor entering, crossing, bnd subsequently
+lebving <code>Component</code>(s) bnd bssocibted <code>DropTbrget</code>(s). 
 <P>
-The <code>DragSource</code> object manifests "Drag Over" feedback to the user, in the typical case by animating the GUI <code>Cursor</code> associated with the
-logical cursor. 
+The <code>DrbgSource</code> object mbnifests "Drbg Over" feedbbck to the user, in the typicbl cbse by bnimbting the GUI <code>Cursor</code> bssocibted with the
+logicbl cursor. 
 <P>
-<code>DropTarget</code> objects manifest "Drag Under" feedback to the user, in
-the typical case, by rendering animations into their associated GUI
+<code>DropTbrget</code> objects mbnifest "Drbg Under" feedbbck to the user, in
+the typicbl cbse, by rendering bnimbtions into their bssocibted GUI
 <code>Component</code>(s) under the GUI Cursor. 
 <P>
-The determination of the feedback effects, and the ultimate success
-or failure of the data transfer, should one occur, is parameterized
-as follows: 
+The determinbtion of the feedbbck effects, bnd the ultimbte success
+or fbilure of the dbtb trbnsfer, should one occur, is pbrbmeterized
+bs follows: 
 <UL>
-<LI> By the transfer "operation" selected by the user, and supported by
-both the <code>DragSource</code> and <code>DropTarget</code>: Copy, Move or Reference(link). 
+<LI> By the trbnsfer "operbtion" selected by the user, bnd supported by
+both the <code>DrbgSource</code> bnd <code>DropTbrget</code>: Copy, Move or Reference(link). 
 <br><br>
-<LI> By the intersection of the set of data types provided by the
-<code>DragSource</code> and the set of data types comprehensible by the 
-<code>DropTarget</code>. 
+<LI> By the intersection of the set of dbtb types provided by the
+<code>DrbgSource</code> bnd the set of dbtb types comprehensible by the 
+<code>DropTbrget</code>. 
 <br><br>
-<LI>When the user terminates the drag operation, normally resulting in a
-successful Drop, both the <code>DragSource</code> and <code>DropTarget</code>
+<LI>When the user terminbtes the drbg operbtion, normblly resulting in b
+successful Drop, both the <code>DrbgSource</code> bnd <code>DropTbrget</code>
 receive
-notifications that include, and result in the type negotiation and
-transfer of, the information associated with the <code>DragSource</code> via a
-<code>Transferable</code> object. 
+notificbtions thbt include, bnd result in the type negotibtion bnd
+trbnsfer of, the informbtion bssocibted with the <code>DrbgSource</code> vib b
+<code>Trbnsferbble</code> object. 
 </UL>
 
 <!--
-<h2>Package Specification</h2>
+<h2>Pbckbge Specificbtion</h2>
 
 ##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
 <ul>
-  <li><a href="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</a>
+  <li><b href="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
 </ul>
 
-<h2>Related Documentation</h2>
+<h2>Relbted Documentbtion</h2>
 
-For overviews, tutorials, examples, guides, and tool documentation, please see:
+For overviews, tutoribls, exbmples, guides, bnd tool documentbtion, plebse see:
 <ul>
-  <li><a href="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</a>
+  <li><b href="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
 </ul>
 -->
 

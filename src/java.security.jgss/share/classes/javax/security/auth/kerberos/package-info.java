@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /**
- * This package contains utility classes related to the Kerberos network
- * authentication protocol. They do not provide much Kerberos support
+ * This pbckbge contbins utility clbsses relbted to the Kerberos network
+ * buthenticbtion protocol. They do not provide much Kerberos support
  * themselves.<p>
  *
- * The Kerberos network authentication protocol is defined in
- * <a href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</a>. The Java
- * platform contains support for the client side of Kerberos via the
- * {@link org.ietf.jgss} package. There might also be
- * a login module that implements
- * {@link javax.security.auth.spi.LoginModule LoginModule} to authenticate
- * Kerberos principals.<p>
+ * The Kerberos network buthenticbtion protocol is defined in
+ * <b href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</b>. The Jbvb
+ * plbtform contbins support for the client side of Kerberos vib the
+ * {@link org.ietf.jgss} pbckbge. There might blso be
+ * b login module thbt implements
+ * {@link jbvbx.security.buth.spi.LoginModule LoginModule} to buthenticbte
+ * Kerberos principbls.<p>
  *
- * You can provide the name of your default realm and Key Distribution
- * Center (KDC) host for that realm using the system properties
- * {@code java.security.krb5.realm} and {@code java.security.krb5.kdc}.
+ * You cbn provide the nbme of your defbult reblm bnd Key Distribution
+ * Center (KDC) host for thbt reblm using the system properties
+ * {@code jbvb.security.krb5.reblm} bnd {@code jbvb.security.krb5.kdc}.
  * Both properties must be set.
- * Alternatively, the {@code java.security.krb5.conf} system property can
- * be set to the location of an MIT style {@code krb5.conf} configuration
- * file. If none of these system properties are set, the {@code krb5.conf}
- * file is searched for in an implementation-specific manner. Typically,
- * an implementation will first look for a {@code krb5.conf} file in
- * {@code <java-home>/lib/security} and failing that, in an OS-specific
- * location.<p>
+ * Alternbtively, the {@code jbvb.security.krb5.conf} system property cbn
+ * be set to the locbtion of bn MIT style {@code krb5.conf} configurbtion
+ * file. If none of these system properties bre set, the {@code krb5.conf}
+ * file is sebrched for in bn implementbtion-specific mbnner. Typicblly,
+ * bn implementbtion will first look for b {@code krb5.conf} file in
+ * {@code <jbvb-home>/lib/security} bnd fbiling thbt, in bn OS-specific
+ * locbtion.<p>
  *
- * The {@code krb5.conf} file is formatted in the Windows INI file style,
- * which contains a series of relations grouped into different sections.
- * Each relation contains a key and a value, the value can be an arbitrary
- * string or a boolean value. A boolean value can be one of "true", "false",
- * "yes", or "no", case-insensitive.<p>
+ * The {@code krb5.conf} file is formbtted in the Windows INI file style,
+ * which contbins b series of relbtions grouped into different sections.
+ * Ebch relbtion contbins b key bnd b vblue, the vblue cbn be bn brbitrbry
+ * string or b boolebn vblue. A boolebn vblue cbn be one of "true", "fblse",
+ * "yes", or "no", cbse-insensitive.<p>
  *
  * @since 1.4
  */
-package javax.security.auth.kerberos;
+pbckbge jbvbx.security.buth.kerberos;

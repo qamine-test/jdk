@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import java.awt.Component;
-import java.awt.event.*;
-import java.util.*;
+import jbvbx.swing.*;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.GridLbyout;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.Component;
+import jbvb.bwt.event.*;
+import jbvb.util.*;
 
-import javax.management.*;
+import jbvbx.mbnbgement.*;
 
-import sun.tools.jconsole.MBeansTab;
+import sun.tools.jconsole.MBebnsTbb;
 import sun.tools.jconsole.JConsole;
-import sun.tools.jconsole.Messages;
+import sun.tools.jconsole.Messbges;
 
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class XOperations extends JPanel implements ActionListener {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public bbstrbct clbss XOperbtions extends JPbnel implements ActionListener {
 
-    public final static String OPERATION_INVOCATION_EVENT =
-            "jam.xoperations.invoke.result";
-    private java.util.List<NotificationListener> notificationListenersList;
-    private Hashtable<JButton, OperationEntry> operationEntryTable;
-    private XMBean mbean;
-    private MBeanInfo mbeanInfo;
-    private MBeansTab mbeansTab;
+    public finbl stbtic String OPERATION_INVOCATION_EVENT =
+            "jbm.xoperbtions.invoke.result";
+    privbte jbvb.util.List<NotificbtionListener> notificbtionListenersList;
+    privbte Hbshtbble<JButton, OperbtionEntry> operbtionEntryTbble;
+    privbte XMBebn mbebn;
+    privbte MBebnInfo mbebnInfo;
+    privbte MBebnsTbb mbebnsTbb;
 
-    public XOperations(MBeansTab mbeansTab) {
-        super(new GridLayout(1, 1));
-        this.mbeansTab = mbeansTab;
-        operationEntryTable = new Hashtable<JButton, OperationEntry>();
-        ArrayList<NotificationListener> l =
-                new ArrayList<NotificationListener>(1);
-        notificationListenersList =
+    public XOperbtions(MBebnsTbb mbebnsTbb) {
+        super(new GridLbyout(1, 1));
+        this.mbebnsTbb = mbebnsTbb;
+        operbtionEntryTbble = new Hbshtbble<JButton, OperbtionEntry>();
+        ArrbyList<NotificbtionListener> l =
+                new ArrbyList<NotificbtionListener>(1);
+        notificbtionListenersList =
                 Collections.synchronizedList(l);
     }
 
-    // Call on EDT
-    public void removeOperations() {
+    // Cbll on EDT
+    public void removeOperbtions() {
         removeAll();
     }
 
-    // Call on EDT
-    public void loadOperations(XMBean mbean, MBeanInfo mbeanInfo) {
-        this.mbean = mbean;
-        this.mbeanInfo = mbeanInfo;
-        // add operations information
-        MBeanOperationInfo operations[] = mbeanInfo.getOperations();
-        invalidate();
+    // Cbll on EDT
+    public void lobdOperbtions(XMBebn mbebn, MBebnInfo mbebnInfo) {
+        this.mbebn = mbebn;
+        this.mbebnInfo = mbebnInfo;
+        // bdd operbtions informbtion
+        MBebnOperbtionInfo operbtions[] = mbebnInfo.getOperbtions();
+        invblidbte();
 
-        // remove listeners, if any
+        // remove listeners, if bny
         Component listeners[] = getComponents();
         for (int i = 0; i < listeners.length; i++) {
-            if (listeners[i] instanceof JButton) {
+            if (listeners[i] instbnceof JButton) {
                 ((JButton) listeners[i]).removeActionListener(this);
             }
         }
 
         removeAll();
-        setLayout(new BorderLayout());
+        setLbyout(new BorderLbyout());
 
         JButton methodButton;
-        JLabel methodLabel;
-        JPanel innerPanelLeft, innerPanelRight;
-        JPanel outerPanelLeft, outerPanelRight;
-        outerPanelLeft = new JPanel(new GridLayout(operations.length, 1));
-        outerPanelRight = new JPanel(new GridLayout(operations.length, 1));
+        JLbbel methodLbbel;
+        JPbnel innerPbnelLeft, innerPbnelRight;
+        JPbnel outerPbnelLeft, outerPbnelRight;
+        outerPbnelLeft = new JPbnel(new GridLbyout(operbtions.length, 1));
+        outerPbnelRight = new JPbnel(new GridLbyout(operbtions.length, 1));
 
-        for (int i = 0; i < operations.length; i++) {
-            innerPanelLeft = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            innerPanelRight = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            String returnType = operations[i].getReturnType();
+        for (int i = 0; i < operbtions.length; i++) {
+            innerPbnelLeft = new JPbnel(new FlowLbyout(FlowLbyout.RIGHT));
+            innerPbnelRight = new JPbnel(new FlowLbyout(FlowLbyout.LEFT));
+            String returnType = operbtions[i].getReturnType();
             if (returnType == null) {
-                methodLabel = new JLabel("null", JLabel.RIGHT);
+                methodLbbel = new JLbbel("null", JLbbel.RIGHT);
                 if (JConsole.isDebug()) {
                     System.err.println(
-                            "WARNING: The operation's return type " +
+                            "WARNING: The operbtion's return type " +
                             "shouldn't be \"null\". Check how the " +
-                            "MBeanOperationInfo for the \"" +
-                            operations[i].getName() + "\" operation has " +
-                            "been defined in the MBean's implementation code.");
+                            "MBebnOperbtionInfo for the \"" +
+                            operbtions[i].getNbme() + "\" operbtion hbs " +
+                            "been defined in the MBebn's implementbtion code.");
                 }
             } else {
-                methodLabel = new JLabel(
-                        Utils.getReadableClassName(returnType), JLabel.RIGHT);
+                methodLbbel = new JLbbel(
+                        Utils.getRebdbbleClbssNbme(returnType), JLbbel.RIGHT);
             }
-            innerPanelLeft.add(methodLabel);
-            if (methodLabel.getText().length() > 20) {
-                methodLabel.setText(methodLabel.getText().
-                        substring(methodLabel.getText().
-                        lastIndexOf('.') + 1,
-                        methodLabel.getText().length()));
+            innerPbnelLeft.bdd(methodLbbel);
+            if (methodLbbel.getText().length() > 20) {
+                methodLbbel.setText(methodLbbel.getText().
+                        substring(methodLbbel.getText().
+                        lbstIndexOf('.') + 1,
+                        methodLbbel.getText().length()));
             }
 
-            methodButton = new JButton(operations[i].getName());
-            methodButton.setToolTipText(operations[i].getDescription());
-            boolean callable = isCallable(operations[i].getSignature());
-            if (callable) {
-                methodButton.addActionListener(this);
+            methodButton = new JButton(operbtions[i].getNbme());
+            methodButton.setToolTipText(operbtions[i].getDescription());
+            boolebn cbllbble = isCbllbble(operbtions[i].getSignbture());
+            if (cbllbble) {
+                methodButton.bddActionListener(this);
             } else {
-                methodButton.setEnabled(false);
+                methodButton.setEnbbled(fblse);
             }
 
-            MBeanParameterInfo[] signature = operations[i].getSignature();
-            OperationEntry paramEntry = new OperationEntry(operations[i],
-                    callable,
+            MBebnPbrbmeterInfo[] signbture = operbtions[i].getSignbture();
+            OperbtionEntry pbrbmEntry = new OperbtionEntry(operbtions[i],
+                    cbllbble,
                     methodButton,
                     this);
-            operationEntryTable.put(methodButton, paramEntry);
-            innerPanelRight.add(methodButton);
-            if (signature.length == 0) {
-                innerPanelRight.add(new JLabel("( )", JLabel.CENTER));
+            operbtionEntryTbble.put(methodButton, pbrbmEntry);
+            innerPbnelRight.bdd(methodButton);
+            if (signbture.length == 0) {
+                innerPbnelRight.bdd(new JLbbel("( )", JLbbel.CENTER));
             } else {
-                innerPanelRight.add(paramEntry);
+                innerPbnelRight.bdd(pbrbmEntry);
             }
 
-            outerPanelLeft.add(innerPanelLeft, BorderLayout.WEST);
-            outerPanelRight.add(innerPanelRight, BorderLayout.CENTER);
+            outerPbnelLeft.bdd(innerPbnelLeft, BorderLbyout.WEST);
+            outerPbnelRight.bdd(innerPbnelRight, BorderLbyout.CENTER);
         }
-        add(outerPanelLeft, BorderLayout.WEST);
-        add(outerPanelRight, BorderLayout.CENTER);
-        validate();
+        bdd(outerPbnelLeft, BorderLbyout.WEST);
+        bdd(outerPbnelRight, BorderLbyout.CENTER);
+        vblidbte();
     }
 
-    private boolean isCallable(MBeanParameterInfo[] signature) {
-        for (int i = 0; i < signature.length; i++) {
-            if (!Utils.isEditableType(signature[i].getType())) {
-                return false;
+    privbte boolebn isCbllbble(MBebnPbrbmeterInfo[] signbture) {
+        for (int i = 0; i < signbture.length; i++) {
+            if (!Utils.isEditbbleType(signbture[i].getType())) {
+                return fblse;
             }
         }
         return true;
     }
 
-    // Call on EDT
-    public void actionPerformed(final ActionEvent e) {
+    // Cbll on EDT
+    public void bctionPerformed(finbl ActionEvent e) {
         performInvokeRequest((JButton) e.getSource());
     }
 
-    void performInvokeRequest(final JButton button) {
-        final OperationEntry entryIf = operationEntryTable.get(button);
+    void performInvokeRequest(finbl JButton button) {
+        finbl OperbtionEntry entryIf = operbtionEntryTbble.get(button);
         new SwingWorker<Object, Void>() {
             @Override
-            public Object doInBackground() throws Exception {
-                return mbean.invoke(button.getText(),
-                        entryIf.getParameters(), entryIf.getSignature());
+            public Object doInBbckground() throws Exception {
+                return mbebn.invoke(button.getText(),
+                        entryIf.getPbrbmeters(), entryIf.getSignbture());
             }
             @Override
             protected void done() {
                 try {
                     Object result = get();
-                    // sends result notification to upper level if
-                    // there is a return value
+                    // sends result notificbtion to upper level if
+                    // there is b return vblue
                     if (entryIf.getReturnType() != null &&
-                            !entryIf.getReturnType().equals(Void.TYPE.getName()) &&
-                            !entryIf.getReturnType().equals(Void.class.getName())) {
-                        fireChangedNotification(OPERATION_INVOCATION_EVENT, button, result);
+                            !entryIf.getReturnType().equbls(Void.TYPE.getNbme()) &&
+                            !entryIf.getReturnType().equbls(Void.clbss.getNbme())) {
+                        fireChbngedNotificbtion(OPERATION_INVOCATION_EVENT, button, result);
                     } else {
-                        new ThreadDialog(
+                        new ThrebdDiblog(
                                 button,
-                                Messages.METHOD_SUCCESSFULLY_INVOKED,
-                                Messages.INFO,
-                                JOptionPane.INFORMATION_MESSAGE).run();
+                                Messbges.METHOD_SUCCESSFULLY_INVOKED,
+                                Messbges.INFO,
+                                JOptionPbne.INFORMATION_MESSAGE).run();
                     }
-                } catch (Throwable t) {
-                    t = Utils.getActualException(t);
+                } cbtch (Throwbble t) {
+                    t = Utils.getActublException(t);
                     if (JConsole.isDebug()) {
-                        t.printStackTrace();
+                        t.printStbckTrbce();
                     }
-                    new ThreadDialog(
+                    new ThrebdDiblog(
                             button,
-                            Messages.PROBLEM_INVOKING + " " +
+                            Messbges.PROBLEM_INVOKING + " " +
                             button.getText() + " : " + t.toString(),
-                            Messages.ERROR,
-                            JOptionPane.ERROR_MESSAGE).run();
+                            Messbges.ERROR,
+                            JOptionPbne.ERROR_MESSAGE).run();
                 }
             }
         }.execute();
     }
 
-    public void addOperationsListener(NotificationListener nl) {
-        notificationListenersList.add(nl);
+    public void bddOperbtionsListener(NotificbtionListener nl) {
+        notificbtionListenersList.bdd(nl);
     }
 
-    public void removeOperationsListener(NotificationListener nl) {
-        notificationListenersList.remove(nl);
+    public void removeOperbtionsListener(NotificbtionListener nl) {
+        notificbtionListenersList.remove(nl);
     }
 
-    // Call on EDT
-    private void fireChangedNotification(
-            String type, Object source, Object handback) {
-        Notification n = new Notification(type, source, 0);
-        for (NotificationListener nl : notificationListenersList) {
-            nl.handleNotification(n, handback);
+    // Cbll on EDT
+    privbte void fireChbngedNotificbtion(
+            String type, Object source, Object hbndbbck) {
+        Notificbtion n = new Notificbtion(type, source, 0);
+        for (NotificbtionListener nl : notificbtionListenersList) {
+            nl.hbndleNotificbtion(n, hbndbbck);
         }
     }
 
-    protected abstract MBeanOperationInfo[] updateOperations(MBeanOperationInfo[] operations);
+    protected bbstrbct MBebnOperbtionInfo[] updbteOperbtions(MBebnOperbtionInfo[] operbtions);
 }

@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.swing;
+pbckbge sun.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.io.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.filechooser.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.filechooser.*;
 
-import sun.awt.shell.*;
-import sun.awt.OSInfo;
+import sun.bwt.shell.*;
+import sun.bwt.OSInfo;
 
 /**
- * <b>WARNING:</b> This class is an implementation detail and is only
- * public so that it can be used by two packages. You should NOT consider
+ * <b>WARNING:</b> This clbss is bn implementbtion detbil bnd is only
+ * public so thbt it cbn be used by two pbckbges. You should NOT consider
  * this public API.
  * <p>
  *
- * @author Leif Samuelsson
+ * @buthor Leif Sbmuelsson
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public class WindowsPlacesBar extends JToolBar
-                              implements ActionListener, PropertyChangeListener {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+public clbss WindowsPlbcesBbr extends JToolBbr
+                              implements ActionListener, PropertyChbngeListener {
     JFileChooser fc;
     JToggleButton[] buttons;
     ButtonGroup buttonGroup;
     File[] files;
-    final Dimension buttonSize;
+    finbl Dimension buttonSize;
 
-    public WindowsPlacesBar(JFileChooser fc, boolean isXPStyle) {
-        super(JToolBar.VERTICAL);
+    public WindowsPlbcesBbr(JFileChooser fc, boolebn isXPStyle) {
+        super(JToolBbr.VERTICAL);
         this.fc = fc;
-        setFloatable(false);
-        putClientProperty("JToolBar.isRollover", Boolean.TRUE);
+        setFlobtbble(fblse);
+        putClientProperty("JToolBbr.isRollover", Boolebn.TRUE);
 
-        boolean isXPPlatform = (OSInfo.getOSType() == OSInfo.OSType.WINDOWS &&
-                OSInfo.getWindowsVersion().compareTo(OSInfo.WINDOWS_XP) >= 0);
+        boolebn isXPPlbtform = (OSInfo.getOSType() == OSInfo.OSType.WINDOWS &&
+                OSInfo.getWindowsVersion().compbreTo(OSInfo.WINDOWS_XP) >= 0);
 
         if (isXPStyle) {
             buttonSize = new Dimension(83, 69);
-            putClientProperty("XPStyle.subAppName", "placesbar");
+            putClientProperty("XPStyle.subAppNbme", "plbcesbbr");
             setBorder(new EmptyBorder(1, 1, 1, 1));
         } else {
-            // The button size almost matches the XP style when in Classic style on XP
-            buttonSize = new Dimension(83, isXPPlatform ? 65 : 54);
+            // The button size blmost mbtches the XP style when in Clbssic style on XP
+            buttonSize = new Dimension(83, isXPPlbtform ? 65 : 54);
             setBorder(new BevelBorder(BevelBorder.LOWERED,
-                                      UIManager.getColor("ToolBar.highlight"),
-                                      UIManager.getColor("ToolBar.background"),
-                                      UIManager.getColor("ToolBar.darkShadow"),
-                                      UIManager.getColor("ToolBar.shadow")));
+                                      UIMbnbger.getColor("ToolBbr.highlight"),
+                                      UIMbnbger.getColor("ToolBbr.bbckground"),
+                                      UIMbnbger.getColor("ToolBbr.dbrkShbdow"),
+                                      UIMbnbger.getColor("ToolBbr.shbdow")));
         }
-        Color bgColor = new Color(UIManager.getColor("ToolBar.shadow").getRGB());
-        setBackground(bgColor);
+        Color bgColor = new Color(UIMbnbger.getColor("ToolBbr.shbdow").getRGB());
+        setBbckground(bgColor);
         FileSystemView fsv = fc.getFileSystemView();
 
         files = AccessController.doPrivileged(new PrivilegedAction<File[]>() {
             public File[] run() {
-                return (File[]) ShellFolder.get("fileChooserShortcutPanelFolders");
+                return (File[]) ShellFolder.get("fileChooserShortcutPbnelFolders");
             }
         });
 
@@ -92,85 +92,85 @@ public class WindowsPlacesBar extends JToolBar
         buttonGroup = new ButtonGroup();
         for (int i = 0; i < files.length; i++) {
             if (fsv.isFileSystemRoot(files[i])) {
-                // Create special File wrapper for drive path
-                files[i] = fsv.createFileObject(files[i].getAbsolutePath());
+                // Crebte specibl File wrbpper for drive pbth
+                files[i] = fsv.crebteFileObject(files[i].getAbsolutePbth());
             }
 
-            String folderName = fsv.getSystemDisplayName(files[i]);
-            int index = folderName.lastIndexOf(File.separatorChar);
-            if (index >= 0 && index < folderName.length() - 1) {
-                folderName = folderName.substring(index + 1);
+            String folderNbme = fsv.getSystemDisplbyNbme(files[i]);
+            int index = folderNbme.lbstIndexOf(File.sepbrbtorChbr);
+            if (index >= 0 && index < folderNbme.length() - 1) {
+                folderNbme = folderNbme.substring(index + 1);
             }
             Icon icon;
-            if (files[i] instanceof ShellFolder) {
-                // We want a large icon, fsv only gives us a small.
+            if (files[i] instbnceof ShellFolder) {
+                // We wbnt b lbrge icon, fsv only gives us b smbll.
                 ShellFolder sf = (ShellFolder)files[i];
-                Image image = sf.getIcon(true);
+                Imbge imbge = sf.getIcon(true);
 
-                if (image == null) {
-                    // Get default image
-                    image = (Image) ShellFolder.get("shell32LargeIcon 1");
+                if (imbge == null) {
+                    // Get defbult imbge
+                    imbge = (Imbge) ShellFolder.get("shell32LbrgeIcon 1");
                 }
 
-                icon = image == null ? null : new ImageIcon(image, sf.getFolderType());
+                icon = imbge == null ? null : new ImbgeIcon(imbge, sf.getFolderType());
             } else {
                 icon = fsv.getSystemIcon(files[i]);
             }
-            buttons[i] = new JToggleButton(folderName, icon);
+            buttons[i] = new JToggleButton(folderNbme, icon);
             if (isXPStyle) {
-                buttons[i].putClientProperty("XPStyle.subAppName", "placesbar");
+                buttons[i].putClientProperty("XPStyle.subAppNbme", "plbcesbbr");
             } else {
-                Color fgColor = new Color(UIManager.getColor("List.selectionForeground").getRGB());
-                buttons[i].setContentAreaFilled(false);
+                Color fgColor = new Color(UIMbnbger.getColor("List.selectionForeground").getRGB());
+                buttons[i].setContentArebFilled(fblse);
                 buttons[i].setForeground(fgColor);
             }
-            buttons[i].setMargin(new Insets(3, 2, 1, 2));
-            buttons[i].setFocusPainted(false);
-            buttons[i].setIconTextGap(0);
-            buttons[i].setHorizontalTextPosition(JToggleButton.CENTER);
-            buttons[i].setVerticalTextPosition(JToggleButton.BOTTOM);
+            buttons[i].setMbrgin(new Insets(3, 2, 1, 2));
+            buttons[i].setFocusPbinted(fblse);
+            buttons[i].setIconTextGbp(0);
+            buttons[i].setHorizontblTextPosition(JToggleButton.CENTER);
+            buttons[i].setVerticblTextPosition(JToggleButton.BOTTOM);
             buttons[i].setAlignmentX(JComponent.CENTER_ALIGNMENT);
             buttons[i].setPreferredSize(buttonSize);
-            buttons[i].setMaximumSize(buttonSize);
-            buttons[i].addActionListener(this);
-            add(buttons[i]);
+            buttons[i].setMbximumSize(buttonSize);
+            buttons[i].bddActionListener(this);
+            bdd(buttons[i]);
             if (i < files.length-1 && isXPStyle) {
-                add(Box.createRigidArea(new Dimension(1, 1)));
+                bdd(Box.crebteRigidAreb(new Dimension(1, 1)));
             }
-            buttonGroup.add(buttons[i]);
+            buttonGroup.bdd(buttons[i]);
         }
-        doDirectoryChanged(fc.getCurrentDirectory());
+        doDirectoryChbnged(fc.getCurrentDirectory());
     }
 
-    protected void doDirectoryChanged(File f) {
+    protected void doDirectoryChbnged(File f) {
         for (int i=0; i<buttons.length; i++) {
             JToggleButton b = buttons[i];
-            if (files[i].equals(f)) {
+            if (files[i].equbls(f)) {
                 b.setSelected(true);
-                break;
+                brebk;
             } else if (b.isSelected()) {
-                // Remove temporarily from group because it doesn't
-                // allow for no button to be selected.
+                // Remove temporbrily from group becbuse it doesn't
+                // bllow for no button to be selected.
                 buttonGroup.remove(b);
-                b.setSelected(false);
-                buttonGroup.add(b);
+                b.setSelected(fblse);
+                buttonGroup.bdd(b);
             }
         }
     }
 
-    public void propertyChange(PropertyChangeEvent e) {
-        String prop = e.getPropertyName();
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        String prop = e.getPropertyNbme();
         if (prop == JFileChooser.DIRECTORY_CHANGED_PROPERTY) {
-            doDirectoryChanged(fc.getCurrentDirectory());
+            doDirectoryChbnged(fc.getCurrentDirectory());
         }
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void bctionPerformed(ActionEvent e) {
         JToggleButton b = (JToggleButton)e.getSource();
         for (int i=0; i<buttons.length; i++) {
             if (b == buttons[i]) {
                 fc.setCurrentDirectory(files[i]);
-                break;
+                brebk;
             }
         }
     }

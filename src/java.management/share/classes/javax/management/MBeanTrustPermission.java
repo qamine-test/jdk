@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import java.security.BasicPermission;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
+import jbvb.security.BbsicPermission;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
 
 /**
- * This permission represents "trust" in a signer or codebase.
+ * This permission represents "trust" in b signer or codebbse.
  * <p>
- * MBeanTrustPermission contains a target name but no actions list.
- * A single target name, "register", is defined for this permission.
- * The target "*" is also allowed, permitting "register" and any future
- * targets that may be defined.
- * Only the null value or the empty string are allowed for the action
- * to allow the policy object to create the permissions specified in
+ * MBebnTrustPermission contbins b tbrget nbme but no bctions list.
+ * A single tbrget nbme, "register", is defined for this permission.
+ * The tbrget "*" is blso bllowed, permitting "register" bnd bny future
+ * tbrgets thbt mby be defined.
+ * Only the null vblue or the empty string bre bllowed for the bction
+ * to bllow the policy object to crebte the permissions specified in
  * the policy file.
  * <p>
- * If a signer, or codesource is granted this permission, then it is
- * considered a trusted source for MBeans. Only MBeans from trusted
- * sources may be registered in the MBeanServer.
+ * If b signer, or codesource is grbnted this permission, then it is
+ * considered b trusted source for MBebns. Only MBebns from trusted
+ * sources mby be registered in the MBebnServer.
  *
  * @since 1.5
  */
-public class MBeanTrustPermission extends BasicPermission {
+public clbss MBebnTrustPermission extends BbsicPermission {
 
-    private static final long serialVersionUID = -2952178077029018140L;
+    privbte stbtic finbl long seriblVersionUID = -2952178077029018140L;
 
-    /** <p>Create a new MBeanTrustPermission with the given name.</p>
-        <p>This constructor is equivalent to
-        <code>MBeanTrustPermission(name,null)</code>.</p>
-        @param name the name of the permission. It must be
+    /** <p>Crebte b new MBebnTrustPermission with the given nbme.</p>
+        <p>This constructor is equivblent to
+        <code>MBebnTrustPermission(nbme,null)</code>.</p>
+        @pbrbm nbme the nbme of the permission. It must be
         "register" or "*" for this permission.
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is neither
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>nbme</code> is neither
      * "register" nor "*".
      */
-    public MBeanTrustPermission(String name) {
-        this(name, null);
+    public MBebnTrustPermission(String nbme) {
+        this(nbme, null);
     }
 
-    /** <p>Create a new MBeanTrustPermission with the given name.</p>
-        @param name the name of the permission. It must be
+    /** <p>Crebte b new MBebnTrustPermission with the given nbme.</p>
+        @pbrbm nbme the nbme of the permission. It must be
         "register" or "*" for this permission.
-        @param actions the actions for the permission.  It must be
+        @pbrbm bctions the bctions for the permission.  It must be
         null or <code>""</code>.
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is neither
-     * "register" nor "*"; or if <code>actions</code> is a non-null
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>nbme</code> is neither
+     * "register" nor "*"; or if <code>bctions</code> is b non-null
      * non-empty string.
      */
-    public MBeanTrustPermission(String name, String actions) {
-        super(name, actions);
-        validate(name,actions);
+    public MBebnTrustPermission(String nbme, String bctions) {
+        super(nbme, bctions);
+        vblidbte(nbme,bctions);
     }
 
-    private static void validate(String name, String actions) {
-        /* Check that actions is a null empty string */
-        if (actions != null && actions.length() > 0) {
-            throw new IllegalArgumentException("MBeanTrustPermission actions must be null: " +
-                                               actions);
+    privbte stbtic void vblidbte(String nbme, String bctions) {
+        /* Check thbt bctions is b null empty string */
+        if (bctions != null && bctions.length() > 0) {
+            throw new IllegblArgumentException("MBebnTrustPermission bctions must be null: " +
+                                               bctions);
         }
 
-        if (!name.equals("register") && !name.equals("*")) {
-            throw new IllegalArgumentException("MBeanTrustPermission: Unknown target name " +
-                                               "[" + name + "]");
+        if (!nbme.equbls("register") && !nbme.equbls("*")) {
+            throw new IllegblArgumentException("MBebnTrustPermission: Unknown tbrget nbme " +
+                                               "[" + nbme + "]");
         }
     }
 
-    private void readObject(ObjectInputStream in)
-         throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm in)
+         throws IOException, ClbssNotFoundException {
 
-        // Reading private fields of base class
-        in.defaultReadObject();
+        // Rebding privbte fields of bbse clbss
+        in.defbultRebdObject();
         try {
-            validate(super.getName(),super.getActions());
-        } catch (IllegalArgumentException e) {
-            throw new InvalidObjectException(e.getMessage());
+            vblidbte(super.getNbme(),super.getActions());
+        } cbtch (IllegblArgumentException e) {
+            throw new InvblidObjectException(e.getMessbge());
         }
     }
 }

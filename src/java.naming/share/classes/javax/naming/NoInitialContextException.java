@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
 /**
-  * This exception is thrown when no initial context implementation
-  * can be created.  The policy of how an initial context implementation
-  * is selected is described in the documentation of the InitialContext class.
+  * This exception is thrown when no initibl context implementbtion
+  * cbn be crebted.  The policy of how bn initibl context implementbtion
+  * is selected is described in the documentbtion of the InitiblContext clbss.
   *<p>
-  * This exception can be thrown during any interaction with the
-  * InitialContext, not only when the InitialContext is constructed.
-  * For example, the implementation of the initial context might lazily
-  * retrieve the context only when actual methods are invoked on it.
-  * The application should not have any dependency on when the existence
-  * of an initial context is determined.
+  * This exception cbn be thrown during bny interbction with the
+  * InitiblContext, not only when the InitiblContext is constructed.
+  * For exbmple, the implementbtion of the initibl context might lbzily
+  * retrieve the context only when bctubl methods bre invoked on it.
+  * The bpplicbtion should not hbve bny dependency on when the existence
+  * of bn initibl context is determined.
   * <p>
-  * Synchronization and serialization issues that apply to NamingException
-  * apply directly here.
+  * Synchronizbtion bnd seriblizbtion issues thbt bpply to NbmingException
+  * bpply directly here.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
-  * @see InitialContext
-  * @see javax.naming.directory.InitialDirContext
-  * @see javax.naming.spi.NamingManager#getInitialContext
-  * @see javax.naming.spi.NamingManager#setInitialContextFactoryBuilder
+  * @see InitiblContext
+  * @see jbvbx.nbming.directory.InitiblDirContext
+  * @see jbvbx.nbming.spi.NbmingMbnbger#getInitiblContext
+  * @see jbvbx.nbming.spi.NbmingMbnbger#setInitiblContextFbctoryBuilder
   * @since 1.3
   */
-public class NoInitialContextException extends NamingException {
+public clbss NoInitiblContextException extends NbmingException {
     /**
-      * Constructs an instance of NoInitialContextException.
-      * All fields are initialized to null.
+      * Constructs bn instbnce of NoInitiblContextException.
+      * All fields bre initiblized to null.
       */
-    public NoInitialContextException() {
+    public NoInitiblContextException() {
         super();
     }
 
     /**
-      * Constructs an instance of NoInitialContextException with an
-      * explanation. All other fields are initialized to null.
-      * @param  explanation     Possibly null additional detail about this exception.
-      * @see java.lang.Throwable#getMessage
+      * Constructs bn instbnce of NoInitiblContextException with bn
+      * explbnbtion. All other fields bre initiblized to null.
+      * @pbrbm  explbnbtion     Possibly null bdditionbl detbil bbout this exception.
+      * @see jbvb.lbng.Throwbble#getMessbge
       */
-    public NoInitialContextException(String explanation) {
-        super(explanation);
+    public NoInitiblContextException(String explbnbtion) {
+        super(explbnbtion);
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = -3413733186901258623L;
+    privbte stbtic finbl long seriblVersionUID = -3413733186901258623L;
 }

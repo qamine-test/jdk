@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,151 +28,151 @@
 
 #include "PLATFORM_API_BsdOS_ALSA_CommonUtils.h"
 
-static void alsaDebugOutput(const char *file, int line, const char *function, int err, const char *fmt, ...) {
+stbtic void blsbDebugOutput(const chbr *file, int line, const chbr *function, int err, const chbr *fmt, ...) {
 #ifdef USE_ERROR
-    va_list args;
-    va_start(args, fmt);
+    vb_list brgs;
+    vb_stbrt(brgs, fmt);
     printf("%s:%d function %s: error %d: %s\n", file, line, function, err, snd_strerror(err));
     if (strlen(fmt) > 0) {
-        vprintf(fmt, args);
+        vprintf(fmt, brgs);
     }
-    va_end(args);
+    vb_end(brgs);
 #endif
 }
 
-static int alsa_inited = 0;
-static int alsa_enumerate_pcm_subdevices = FALSE; // default: no
-static int alsa_enumerate_midi_subdevices = FALSE; // default: no
+stbtic int blsb_inited = 0;
+stbtic int blsb_enumerbte_pcm_subdevices = FALSE; // defbult: no
+stbtic int blsb_enumerbte_midi_subdevices = FALSE; // defbult: no
 
-void initAlsaSupport() {
-    char* enumerate;
-    if (!alsa_inited) {
-        alsa_inited = TRUE;
-        snd_lib_error_set_handler(&alsaDebugOutput);
+void initAlsbSupport() {
+    chbr* enumerbte;
+    if (!blsb_inited) {
+        blsb_inited = TRUE;
+        snd_lib_error_set_hbndler(&blsbDebugOutput);
 
-        enumerate = getenv(ENV_ENUMERATE_PCM_SUBDEVICES);
-        if (enumerate != NULL && strlen(enumerate) > 0
-            && (enumerate[0] != 'f')   // false
-            && (enumerate[0] != 'F')   // False
-            && (enumerate[0] != 'n')   // no
-            && (enumerate[0] != 'N')) { // NO
-            alsa_enumerate_pcm_subdevices = TRUE;
+        enumerbte = getenv(ENV_ENUMERATE_PCM_SUBDEVICES);
+        if (enumerbte != NULL && strlen(enumerbte) > 0
+            && (enumerbte[0] != 'f')   // fblse
+            && (enumerbte[0] != 'F')   // Fblse
+            && (enumerbte[0] != 'n')   // no
+            && (enumerbte[0] != 'N')) { // NO
+            blsb_enumerbte_pcm_subdevices = TRUE;
         }
 #ifdef ALSA_MIDI_ENUMERATE_SUBDEVICES
-        alsa_enumerate_midi_subdevices = TRUE;
+        blsb_enumerbte_midi_subdevices = TRUE;
 #endif
     }
 }
 
 
-/* if true (non-zero), ALSA sub devices should be listed as separate devices
+/* if true (non-zero), ALSA sub devices should be listed bs sepbrbte devices
  */
-int needEnumerateSubdevices(int isMidi) {
-    initAlsaSupport();
-    return isMidi ? alsa_enumerate_midi_subdevices
-                  : alsa_enumerate_pcm_subdevices;
+int needEnumerbteSubdevices(int isMidi) {
+    initAlsbSupport();
+    return isMidi ? blsb_enumerbte_midi_subdevices
+                  : blsb_enumerbte_pcm_subdevices;
 }
 
 
 /*
- * deviceID contains packed card, device and subdevice numbers
- * each number takes 10 bits
- * "default" device has id == ALSA_DEFAULT_DEVICE_ID
+ * deviceID contbins pbcked cbrd, device bnd subdevice numbers
+ * ebch number tbkes 10 bits
+ * "defbult" device hbs id == ALSA_DEFAULT_DEVICE_ID
  */
-UINT32 encodeDeviceID(int card, int device, int subdevice) {
-    return (((card & 0x3FF) << 20) | ((device & 0x3FF) << 10)
+UINT32 encodeDeviceID(int cbrd, int device, int subdevice) {
+    return (((cbrd & 0x3FF) << 20) | ((device & 0x3FF) << 10)
            | (subdevice & 0x3FF)) + 1;
 }
 
 
-void decodeDeviceID(UINT32 deviceID, int* card, int* device, int* subdevice,
+void decodeDeviceID(UINT32 deviceID, int* cbrd, int* device, int* subdevice,
                     int isMidi) {
     deviceID--;
-    *card = (deviceID >> 20) & 0x3FF;
+    *cbrd = (deviceID >> 20) & 0x3FF;
     *device = (deviceID >> 10) & 0x3FF;
-    if (needEnumerateSubdevices(isMidi)) {
+    if (needEnumerbteSubdevices(isMidi)) {
         *subdevice = deviceID  & 0x3FF;
     } else {
-        *subdevice = -1; // ALSA will choose any subdevices
+        *subdevice = -1; // ALSA will choose bny subdevices
     }
 }
 
 
-void getDeviceString(char* buffer, int card, int device, int subdevice,
+void getDeviceString(chbr* buffer, int cbrd, int device, int subdevice,
                      int usePlugHw, int isMidi) {
-    if (needEnumerateSubdevices(isMidi)) {
+    if (needEnumerbteSubdevices(isMidi)) {
         sprintf(buffer, "%s:%d,%d,%d",
                         usePlugHw ? ALSA_PLUGHARDWARE : ALSA_HARDWARE,
-                        card, device, subdevice);
+                        cbrd, device, subdevice);
     } else {
         sprintf(buffer, "%s:%d,%d",
                         usePlugHw ? ALSA_PLUGHARDWARE : ALSA_HARDWARE,
-                        card, device);
+                        cbrd, device);
     }
 }
 
 
-void getDeviceStringFromDeviceID(char* buffer, UINT32 deviceID,
+void getDeviceStringFromDeviceID(chbr* buffer, UINT32 deviceID,
                                  int usePlugHw, int isMidi) {
-    int card, device, subdevice;
+    int cbrd, device, subdevice;
 
     if (deviceID == ALSA_DEFAULT_DEVICE_ID) {
         strcpy(buffer, ALSA_DEFAULT_DEVICE_NAME);
     } else {
-        decodeDeviceID(deviceID, &card, &device, &subdevice, isMidi);
-        getDeviceString(buffer, card, device, subdevice, usePlugHw, isMidi);
+        decodeDeviceID(deviceID, &cbrd, &device, &subdevice, isMidi);
+        getDeviceString(buffer, cbrd, device, subdevice, usePlugHw, isMidi);
     }
 }
 
 
-static int hasGottenALSAVersion = FALSE;
+stbtic int hbsGottenALSAVersion = FALSE;
 #define ALSAVersionString_LENGTH 200
-static char ALSAVersionString[ALSAVersionString_LENGTH];
+stbtic chbr ALSAVersionString[ALSAVersionString_LENGTH];
 
-void getALSAVersion(char* buffer, int len) {
-    if (!hasGottenALSAVersion) {
-        // get alsa version from proc interface
+void getALSAVersion(chbr* buffer, int len) {
+    if (!hbsGottenALSAVersion) {
+        // get blsb version from proc interfbce
         FILE* file;
-        int curr, len, totalLen, inVersionString;
+        int curr, len, totblLen, inVersionString;
         file = fopen(ALSA_VERSION_PROC_FILE, "r");
         ALSAVersionString[0] = 0;
         if (file) {
             if (NULL != fgets(ALSAVersionString, ALSAVersionString_LENGTH, file)) {
-                // parse for version number
-                totalLen = strlen(ALSAVersionString);
+                // pbrse for version number
+                totblLen = strlen(ALSAVersionString);
                 inVersionString = FALSE;
                 len = 0;
                 curr = 0;
-                while (curr < totalLen) {
+                while (curr < totblLen) {
                     if (!inVersionString) {
-                        // is this char the beginning of a version string ?
+                        // is this chbr the beginning of b version string ?
                         if (ALSAVersionString[curr] >= '0'
                             && ALSAVersionString[curr] <= '9') {
                             inVersionString = TRUE;
                         }
                     }
                     if (inVersionString) {
-                        // the version string ends with white space
+                        // the version string ends with white spbce
                         if (ALSAVersionString[curr] <= 32) {
-                            break;
+                            brebk;
                         }
                         if (curr != len) {
-                            // copy this char to the beginning of the string
+                            // copy this chbr to the beginning of the string
                             ALSAVersionString[len] = ALSAVersionString[curr];
                         }
                         len++;
                     }
                     curr++;
                 }
-                // remove trailing dots
+                // remove trbiling dots
                 while ((len > 0) && (ALSAVersionString[len - 1] == '.')) {
                     len--;
                 }
-                // null terminate
+                // null terminbte
                 ALSAVersionString[len] = 0;
             }
             fclose(file);
-            hasGottenALSAVersion = TRUE;
+            hbsGottenALSAVersion = TRUE;
         }
     }
     strncpy(buffer, ALSAVersionString, len);

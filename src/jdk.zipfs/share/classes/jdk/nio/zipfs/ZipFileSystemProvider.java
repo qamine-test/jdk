@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.nio.zipfs;
+pbckbge jdk.nio.zipfs;
 
-import java.io.*;
-import java.nio.channels.*;
-import java.nio.file.*;
-import java.nio.file.DirectoryStream.Filter;
-import java.nio.file.attribute.*;
-import java.nio.file.spi.FileSystemProvider;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.zip.ZipError;
-import java.util.concurrent.ExecutorService;
+import jbvb.io.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.file.*;
+import jbvb.nio.file.DirectoryStrebm.Filter;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.file.spi.FileSystemProvider;
+import jbvb.net.URI;
+import jbvb.net.URISyntbxException;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.zip.ZipError;
+import jbvb.util.concurrent.ExecutorService;
 
 /*
  *
- * @author  Xueming Shen, Rajendra Gutupalli, Jaya Hangal
+ * @buthor  Xueming Shen, Rbjendrb Gutupblli, Jbyb Hbngbl
  */
 
-public class ZipFileSystemProvider extends FileSystemProvider {
+public clbss ZipFileSystemProvider extends FileSystemProvider {
 
 
-    private final Map<Path, ZipFileSystem> filesystems = new HashMap<>();
+    privbte finbl Mbp<Pbth, ZipFileSystem> filesystems = new HbshMbp<>();
 
     public ZipFileSystemProvider() {}
 
     @Override
     public String getScheme() {
-        return "jar";
+        return "jbr";
     }
 
-    protected Path uriToPath(URI uri) {
+    protected Pbth uriToPbth(URI uri) {
         String scheme = uri.getScheme();
-        if ((scheme == null) || !scheme.equalsIgnoreCase(getScheme())) {
-            throw new IllegalArgumentException("URI scheme is not '" + getScheme() + "'");
+        if ((scheme == null) || !scheme.equblsIgnoreCbse(getScheme())) {
+            throw new IllegblArgumentException("URI scheme is not '" + getScheme() + "'");
         }
         try {
-            // only support legacy JAR URL syntax  jar:{uri}!/{entry} for now
-            String spec = uri.getRawSchemeSpecificPart();
+            // only support legbcy JAR URL syntbx  jbr:{uri}!/{entry} for now
+            String spec = uri.getRbwSchemeSpecificPbrt();
             int sep = spec.indexOf("!/");
             if (sep != -1)
                 spec = spec.substring(0, sep);
-            return Paths.get(new URI(spec)).toAbsolutePath();
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException(e.getMessage(), e);
+            return Pbths.get(new URI(spec)).toAbsolutePbth();
+        } cbtch (URISyntbxException e) {
+            throw new IllegblArgumentException(e.getMessbge(), e);
         }
     }
 
-    private boolean ensureFile(Path path) {
+    privbte boolebn ensureFile(Pbth pbth) {
         try {
-            BasicFileAttributes attrs =
-                Files.readAttributes(path, BasicFileAttributes.class);
-            if (!attrs.isRegularFile())
-                throw new UnsupportedOperationException();
+            BbsicFileAttributes bttrs =
+                Files.rebdAttributes(pbth, BbsicFileAttributes.clbss);
+            if (!bttrs.isRegulbrFile())
+                throw new UnsupportedOperbtionException();
             return true;
-        } catch (IOException ioe) {
-            return false;
+        } cbtch (IOException ioe) {
+            return fblse;
         }
     }
 
     @Override
-    public FileSystem newFileSystem(URI uri, Map<String, ?> env)
+    public FileSystem newFileSystem(URI uri, Mbp<String, ?> env)
         throws IOException
     {
-        Path path = uriToPath(uri);
+        Pbth pbth = uriToPbth(uri);
         synchronized(filesystems) {
-            Path realPath = null;
-            if (ensureFile(path)) {
-                realPath = path.toRealPath();
-                if (filesystems.containsKey(realPath))
-                    throw new FileSystemAlreadyExistsException();
+            Pbth reblPbth = null;
+            if (ensureFile(pbth)) {
+                reblPbth = pbth.toReblPbth();
+                if (filesystems.contbinsKey(reblPbth))
+                    throw new FileSystemAlrebdyExistsException();
             }
             ZipFileSystem zipfs = null;
             try {
-                zipfs = new ZipFileSystem(this, path, env);
-            } catch (ZipError ze) {
-                String pname = path.toString();
-                if (pname.endsWith(".zip") || pname.endsWith(".jar"))
+                zipfs = new ZipFileSystem(this, pbth, env);
+            } cbtch (ZipError ze) {
+                String pnbme = pbth.toString();
+                if (pnbme.endsWith(".zip") || pnbme.endsWith(".jbr"))
                     throw ze;
-                // assume NOT a zip/jar file
-                throw new UnsupportedOperationException();
+                // bssume NOT b zip/jbr file
+                throw new UnsupportedOperbtionException();
             }
-            filesystems.put(realPath, zipfs);
+            filesystems.put(reblPbth, zipfs);
             return zipfs;
         }
     }
 
     @Override
-    public FileSystem newFileSystem(Path path, Map<String, ?> env)
+    public FileSystem newFileSystem(Pbth pbth, Mbp<String, ?> env)
         throws IOException
     {
-        if (path.getFileSystem() != FileSystems.getDefault()) {
-            throw new UnsupportedOperationException();
+        if (pbth.getFileSystem() != FileSystems.getDefbult()) {
+            throw new UnsupportedOperbtionException();
         }
-        ensureFile(path);
+        ensureFile(pbth);
         try {
-            return new ZipFileSystem(this, path, env);
-        } catch (ZipError ze) {
-            String pname = path.toString();
-            if (pname.endsWith(".zip") || pname.endsWith(".jar"))
+            return new ZipFileSystem(this, pbth, env);
+        } cbtch (ZipError ze) {
+            String pnbme = pbth.toString();
+            if (pnbme.endsWith(".zip") || pnbme.endsWith(".jbr"))
                 throw ze;
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
     @Override
-    public Path getPath(URI uri) {
+    public Pbth getPbth(URI uri) {
 
-        String spec = uri.getSchemeSpecificPart();
+        String spec = uri.getSchemeSpecificPbrt();
         int sep = spec.indexOf("!/");
         if (sep == -1)
-            throw new IllegalArgumentException("URI: "
+            throw new IllegblArgumentException("URI: "
                 + uri
-                + " does not contain path info ex. jar:file:/c:/foo.zip!/BAR");
-        return getFileSystem(uri).getPath(spec.substring(sep + 1));
+                + " does not contbin pbth info ex. jbr:file:/c:/foo.zip!/BAR");
+        return getFileSystem(uri).getPbth(spec.substring(sep + 1));
     }
 
 
@@ -148,9 +148,9 @@ public class ZipFileSystemProvider extends FileSystemProvider {
         synchronized (filesystems) {
             ZipFileSystem zipfs = null;
             try {
-                zipfs = filesystems.get(uriToPath(uri).toRealPath());
-            } catch (IOException x) {
-                // ignore the ioe from toRealPath(), return FSNFE
+                zipfs = filesystems.get(uriToPbth(uri).toReblPbth());
+            } cbtch (IOException x) {
+                // ignore the ioe from toReblPbth(), return FSNFE
             }
             if (zipfs == null)
                 throw new FileSystemNotFoundException();
@@ -158,156 +158,156 @@ public class ZipFileSystemProvider extends FileSystemProvider {
         }
     }
 
-    // Checks that the given file is a UnixPath
-    static final ZipPath toZipPath(Path path) {
-        if (path == null)
+    // Checks thbt the given file is b UnixPbth
+    stbtic finbl ZipPbth toZipPbth(Pbth pbth) {
+        if (pbth == null)
             throw new NullPointerException();
-        if (!(path instanceof ZipPath))
-            throw new ProviderMismatchException();
-        return (ZipPath)path;
+        if (!(pbth instbnceof ZipPbth))
+            throw new ProviderMismbtchException();
+        return (ZipPbth)pbth;
     }
 
     @Override
-    public void checkAccess(Path path, AccessMode... modes) throws IOException {
-        toZipPath(path).checkAccess(modes);
+    public void checkAccess(Pbth pbth, AccessMode... modes) throws IOException {
+        toZipPbth(pbth).checkAccess(modes);
     }
 
     @Override
-    public void copy(Path src, Path target, CopyOption... options)
+    public void copy(Pbth src, Pbth tbrget, CopyOption... options)
         throws IOException
     {
-        toZipPath(src).copy(toZipPath(target), options);
+        toZipPbth(src).copy(toZipPbth(tbrget), options);
     }
 
     @Override
-    public void createDirectory(Path path, FileAttribute<?>... attrs)
+    public void crebteDirectory(Pbth pbth, FileAttribute<?>... bttrs)
         throws IOException
     {
-        toZipPath(path).createDirectory(attrs);
+        toZipPbth(pbth).crebteDirectory(bttrs);
     }
 
     @Override
-    public final void delete(Path path) throws IOException {
-        toZipPath(path).delete();
+    public finbl void delete(Pbth pbth) throws IOException {
+        toZipPbth(pbth).delete();
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public <V extends FileAttributeView> V
-        getFileAttributeView(Path path, Class<V> type, LinkOption... options)
+        getFileAttributeView(Pbth pbth, Clbss<V> type, LinkOption... options)
     {
-        return ZipFileAttributeView.get(toZipPath(path), type);
+        return ZipFileAttributeView.get(toZipPbth(pbth), type);
     }
 
     @Override
-    public FileStore getFileStore(Path path) throws IOException {
-        return toZipPath(path).getFileStore();
+    public FileStore getFileStore(Pbth pbth) throws IOException {
+        return toZipPbth(pbth).getFileStore();
     }
 
     @Override
-    public boolean isHidden(Path path) {
-        return toZipPath(path).isHidden();
+    public boolebn isHidden(Pbth pbth) {
+        return toZipPbth(pbth).isHidden();
     }
 
     @Override
-    public boolean isSameFile(Path path, Path other) throws IOException {
-        return toZipPath(path).isSameFile(other);
+    public boolebn isSbmeFile(Pbth pbth, Pbth other) throws IOException {
+        return toZipPbth(pbth).isSbmeFile(other);
     }
 
     @Override
-    public void move(Path src, Path target, CopyOption... options)
+    public void move(Pbth src, Pbth tbrget, CopyOption... options)
         throws IOException
     {
-        toZipPath(src).move(toZipPath(target), options);
+        toZipPbth(src).move(toZipPbth(tbrget), options);
     }
 
     @Override
-    public AsynchronousFileChannel newAsynchronousFileChannel(Path path,
+    public AsynchronousFileChbnnel newAsynchronousFileChbnnel(Pbth pbth,
             Set<? extends OpenOption> options,
             ExecutorService exec,
-            FileAttribute<?>... attrs)
+            FileAttribute<?>... bttrs)
             throws IOException
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     @Override
-    public SeekableByteChannel newByteChannel(Path path,
+    public SeekbbleByteChbnnel newByteChbnnel(Pbth pbth,
                                               Set<? extends OpenOption> options,
-                                              FileAttribute<?>... attrs)
+                                              FileAttribute<?>... bttrs)
         throws IOException
     {
-        return toZipPath(path).newByteChannel(options, attrs);
+        return toZipPbth(pbth).newByteChbnnel(options, bttrs);
     }
 
     @Override
-    public DirectoryStream<Path> newDirectoryStream(
-        Path path, Filter<? super Path> filter) throws IOException
+    public DirectoryStrebm<Pbth> newDirectoryStrebm(
+        Pbth pbth, Filter<? super Pbth> filter) throws IOException
     {
-        return toZipPath(path).newDirectoryStream(filter);
+        return toZipPbth(pbth).newDirectoryStrebm(filter);
     }
 
     @Override
-    public FileChannel newFileChannel(Path path,
+    public FileChbnnel newFileChbnnel(Pbth pbth,
                                       Set<? extends OpenOption> options,
-                                      FileAttribute<?>... attrs)
+                                      FileAttribute<?>... bttrs)
         throws IOException
     {
-        return toZipPath(path).newFileChannel(options, attrs);
+        return toZipPbth(pbth).newFileChbnnel(options, bttrs);
     }
 
     @Override
-    public InputStream newInputStream(Path path, OpenOption... options)
+    public InputStrebm newInputStrebm(Pbth pbth, OpenOption... options)
         throws IOException
     {
-        return toZipPath(path).newInputStream(options);
+        return toZipPbth(pbth).newInputStrebm(options);
     }
 
     @Override
-    public OutputStream newOutputStream(Path path, OpenOption... options)
+    public OutputStrebm newOutputStrebm(Pbth pbth, OpenOption... options)
         throws IOException
     {
-        return toZipPath(path).newOutputStream(options);
+        return toZipPbth(pbth).newOutputStrebm(options);
     }
 
     @Override
-    @SuppressWarnings("unchecked") // Cast to A
-    public <A extends BasicFileAttributes> A
-        readAttributes(Path path, Class<A> type, LinkOption... options)
+    @SuppressWbrnings("unchecked") // Cbst to A
+    public <A extends BbsicFileAttributes> A
+        rebdAttributes(Pbth pbth, Clbss<A> type, LinkOption... options)
         throws IOException
     {
-        if (type == BasicFileAttributes.class || type == ZipFileAttributes.class)
-            return (A)toZipPath(path).getAttributes();
+        if (type == BbsicFileAttributes.clbss || type == ZipFileAttributes.clbss)
+            return (A)toZipPbth(pbth).getAttributes();
         return null;
     }
 
     @Override
-    public Map<String, Object>
-        readAttributes(Path path, String attribute, LinkOption... options)
+    public Mbp<String, Object>
+        rebdAttributes(Pbth pbth, String bttribute, LinkOption... options)
         throws IOException
     {
-        return toZipPath(path).readAttributes(attribute, options);
+        return toZipPbth(pbth).rebdAttributes(bttribute, options);
     }
 
     @Override
-    public Path readSymbolicLink(Path link) throws IOException {
-        throw new UnsupportedOperationException("Not supported.");
+    public Pbth rebdSymbolicLink(Pbth link) throws IOException {
+        throw new UnsupportedOperbtionException("Not supported.");
     }
 
     @Override
-    public void setAttribute(Path path, String attribute,
-                             Object value, LinkOption... options)
+    public void setAttribute(Pbth pbth, String bttribute,
+                             Object vblue, LinkOption... options)
         throws IOException
     {
-        toZipPath(path).setAttribute(attribute, value, options);
+        toZipPbth(pbth).setAttribute(bttribute, vblue, options);
     }
 
     //////////////////////////////////////////////////////////////
-    void removeFileSystem(Path zfpath, ZipFileSystem zfs) throws IOException {
+    void removeFileSystem(Pbth zfpbth, ZipFileSystem zfs) throws IOException {
         synchronized (filesystems) {
-            zfpath = zfpath.toRealPath();
-            if (filesystems.get(zfpath) == zfs)
-                filesystems.remove(zfpath);
+            zfpbth = zfpbth.toReblPbth();
+            if (filesystems.get(zfpbth) == zfs)
+                filesystems.remove(zfpbth);
         }
     }
 }

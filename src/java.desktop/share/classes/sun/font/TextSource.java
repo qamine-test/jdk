@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
@@ -27,62 +27,62 @@
  * (C) Copyright IBM Corp. 1998-2003 - All Rights Reserved
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.LineMetrics;
 
 /**
- * A text source represents text for rendering, plus context information.
- * All text in the source uses the same font, metrics, and render context,
- * and is at the same bidi level.
+ * A text source represents text for rendering, plus context informbtion.
+ * All text in the source uses the sbme font, metrics, bnd render context,
+ * bnd is bt the sbme bidi level.
  */
 
-public abstract class TextSource {
-  /** Source character data. */
-  public abstract char[] getChars();
+public bbstrbct clbss TextSource {
+  /** Source chbrbcter dbtb. */
+  public bbstrbct chbr[] getChbrs();
 
-  /** Start of source data in char array returned from getChars. */
-  public abstract int getStart();
+  /** Stbrt of source dbtb in chbr brrby returned from getChbrs. */
+  public bbstrbct int getStbrt();
 
-  /** Length of source data. */
-  public abstract int getLength();
+  /** Length of source dbtb. */
+  public bbstrbct int getLength();
 
-  /** Start of context data in char array returned from getChars. */
-  public abstract int getContextStart();
+  /** Stbrt of context dbtb in chbr brrby returned from getChbrs. */
+  public bbstrbct int getContextStbrt();
 
-  /** Length of context data. */
-  public abstract int getContextLength();
+  /** Length of context dbtb. */
+  public bbstrbct int getContextLength();
 
-  /** Return the layout flags */
-  public abstract int getLayoutFlags();
+  /** Return the lbyout flbgs */
+  public bbstrbct int getLbyoutFlbgs();
 
-  /** Bidi level of all the characters in context. */
-  public abstract int getBidiLevel();
+  /** Bidi level of bll the chbrbcters in context. */
+  public bbstrbct int getBidiLevel();
 
-  /** Font for source data. */
-  public abstract Font getFont();
+  /** Font for source dbtb. */
+  public bbstrbct Font getFont();
 
-  /** Font render context to use when measuring or rendering source data. */
-  public abstract FontRenderContext getFRC();
+  /** Font render context to use when mebsuring or rendering source dbtb. */
+  public bbstrbct FontRenderContext getFRC();
 
-  /** Line metrics for source data. */
-  public abstract CoreMetrics getCoreMetrics();
+  /** Line metrics for source dbtb. */
+  public bbstrbct CoreMetrics getCoreMetrics();
 
-  /** Get subrange of this TextSource. dir is one of the TextLineComponent constants */
-  public abstract TextSource getSubSource(int start, int length, int dir);
+  /** Get subrbnge of this TextSource. dir is one of the TextLineComponent constbnts */
+  public bbstrbct TextSource getSubSource(int stbrt, int length, int dir);
 
-  /** Constant for toString(boolean).  Indicates that toString should not return info
-      outside of the context of this instance. */
-  public static final boolean WITHOUT_CONTEXT = false;
+  /** Constbnt for toString(boolebn).  Indicbtes thbt toString should not return info
+      outside of the context of this instbnce. */
+  public stbtic finbl boolebn WITHOUT_CONTEXT = fblse;
 
-  /** Constant for toString(boolean).  Indicates that toString should return info
-      outside of the context of this instance. */
-  public static final boolean WITH_CONTEXT = true;
+  /** Constbnt for toString(boolebn).  Indicbtes thbt toString should return info
+      outside of the context of this instbnce. */
+  public stbtic finbl boolebn WITH_CONTEXT = true;
 
-  /** Get debugging info about this TextSource instance. Default implementation just
-      returns toString.  Subclasses should implement this to match the semantics of
-      the toString constants. */
-  public abstract String toString(boolean withContext);
+  /** Get debugging info bbout this TextSource instbnce. Defbult implementbtion just
+      returns toString.  Subclbsses should implement this to mbtch the sembntics of
+      the toString constbnts. */
+  public bbstrbct String toString(boolebn withContext);
 }

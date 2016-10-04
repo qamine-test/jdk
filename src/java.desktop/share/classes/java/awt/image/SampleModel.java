@@ -1,360 +1,360 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* ****************************************************************
  ******************************************************************
  ******************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997
- *** As  an unpublished  work pursuant to Title 17 of the United
- *** States Code.  All rights reserved.
+ *** COPYRIGHT (c) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublished  work pursubnt to Title 17 of the United
+ *** Stbtes Code.  All rights reserved.
  ******************************************************************
  ******************************************************************
  ******************************************************************/
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
 /**
- *  This abstract class defines an interface for extracting samples of pixels
- *  in an image.  All image data is expressed as a collection of pixels.
- *  Each pixel consists of a number of samples. A sample is a datum
- *  for one band of an image and a band consists of all samples of a
- *  particular type in an image.  For example, a pixel might contain
- *  three samples representing its red, green and blue components.
- *  There are three bands in the image containing this pixel.  One band
- *  consists of all the red samples from all pixels in the
- *  image.  The second band consists of all the green samples and
- *  the remaining band consists of all of the blue samples.  The pixel
- *  can be stored in various formats.  For example, all samples from
- *  a particular band can be stored contiguously or all samples from a
- *  single pixel can be stored contiguously.
+ *  This bbstrbct clbss defines bn interfbce for extrbcting sbmples of pixels
+ *  in bn imbge.  All imbge dbtb is expressed bs b collection of pixels.
+ *  Ebch pixel consists of b number of sbmples. A sbmple is b dbtum
+ *  for one bbnd of bn imbge bnd b bbnd consists of bll sbmples of b
+ *  pbrticulbr type in bn imbge.  For exbmple, b pixel might contbin
+ *  three sbmples representing its red, green bnd blue components.
+ *  There bre three bbnds in the imbge contbining this pixel.  One bbnd
+ *  consists of bll the red sbmples from bll pixels in the
+ *  imbge.  The second bbnd consists of bll the green sbmples bnd
+ *  the rembining bbnd consists of bll of the blue sbmples.  The pixel
+ *  cbn be stored in vbrious formbts.  For exbmple, bll sbmples from
+ *  b pbrticulbr bbnd cbn be stored contiguously or bll sbmples from b
+ *  single pixel cbn be stored contiguously.
  *  <p>
- *  Subclasses of SampleModel specify the types of samples they can
+ *  Subclbsses of SbmpleModel specify the types of sbmples they cbn
  *  represent (e.g. unsigned 8-bit byte, signed 16-bit short, etc.)
- *  and may specify how the samples are organized in memory.
- *  In the Java 2D(tm) API, built-in image processing operators may
- *  not operate on all possible sample types, but generally will work
- *  for unsigned integral samples of 16 bits or less.  Some operators
- *  support a wider variety of sample types.
+ *  bnd mby specify how the sbmples bre orgbnized in memory.
+ *  In the Jbvb 2D(tm) API, built-in imbge processing operbtors mby
+ *  not operbte on bll possible sbmple types, but generblly will work
+ *  for unsigned integrbl sbmples of 16 bits or less.  Some operbtors
+ *  support b wider vbriety of sbmple types.
  *  <p>
- *  A collection of pixels is represented as a Raster, which consists of
- *  a DataBuffer and a SampleModel.  The SampleModel allows access to
- *  samples in the DataBuffer and may provide low-level information that
- *  a programmer can use to directly manipulate samples and pixels in the
- *  DataBuffer.
+ *  A collection of pixels is represented bs b Rbster, which consists of
+ *  b DbtbBuffer bnd b SbmpleModel.  The SbmpleModel bllows bccess to
+ *  sbmples in the DbtbBuffer bnd mby provide low-level informbtion thbt
+ *  b progrbmmer cbn use to directly mbnipulbte sbmples bnd pixels in the
+ *  DbtbBuffer.
  *  <p>
- *  This class is generally a fall back method for dealing with
- *  images.  More efficient code will cast the SampleModel to the
- *  appropriate subclass and extract the information needed to directly
- *  manipulate pixels in the DataBuffer.
+ *  This clbss is generblly b fbll bbck method for debling with
+ *  imbges.  More efficient code will cbst the SbmpleModel to the
+ *  bppropribte subclbss bnd extrbct the informbtion needed to directly
+ *  mbnipulbte pixels in the DbtbBuffer.
  *
- *  @see java.awt.image.DataBuffer
- *  @see java.awt.image.Raster
- *  @see java.awt.image.ComponentSampleModel
- *  @see java.awt.image.PixelInterleavedSampleModel
- *  @see java.awt.image.BandedSampleModel
- *  @see java.awt.image.MultiPixelPackedSampleModel
- *  @see java.awt.image.SinglePixelPackedSampleModel
+ *  @see jbvb.bwt.imbge.DbtbBuffer
+ *  @see jbvb.bwt.imbge.Rbster
+ *  @see jbvb.bwt.imbge.ComponentSbmpleModel
+ *  @see jbvb.bwt.imbge.PixelInterlebvedSbmpleModel
+ *  @see jbvb.bwt.imbge.BbndedSbmpleModel
+ *  @see jbvb.bwt.imbge.MultiPixelPbckedSbmpleModel
+ *  @see jbvb.bwt.imbge.SinglePixelPbckedSbmpleModel
  */
 
-public abstract class SampleModel
+public bbstrbct clbss SbmpleModel
 {
 
-    /** Width in pixels of the region of image data that this SampleModel
+    /** Width in pixels of the region of imbge dbtb thbt this SbmpleModel
      *  describes.
      */
     protected int width;
 
-    /** Height in pixels of the region of image data that this SampleModel
+    /** Height in pixels of the region of imbge dbtb thbt this SbmpleModel
      *  describes.
      */
     protected int height;
 
-    /** Number of bands of the image data that this SampleModel describes. */
-    protected int numBands;
+    /** Number of bbnds of the imbge dbtb thbt this SbmpleModel describes. */
+    protected int numBbnds;
 
-    /** Data type of the DataBuffer storing the pixel data.
-     *  @see java.awt.image.DataBuffer
+    /** Dbtb type of the DbtbBuffer storing the pixel dbtb.
+     *  @see jbvb.bwt.imbge.DbtbBuffer
      */
-    protected int dataType;
+    protected int dbtbType;
 
-    static private native void initIDs();
-    static {
-        ColorModel.loadLibraries();
+    stbtic privbte nbtive void initIDs();
+    stbtic {
+        ColorModel.lobdLibrbries();
         initIDs();
     }
 
     /**
-     * Constructs a SampleModel with the specified parameters.
-     * @param dataType  The data type of the DataBuffer storing the pixel data.
-     * @param w         The width (in pixels) of the region of image data.
-     * @param h         The height (in pixels) of the region of image data.
-     * @param numBands  The number of bands of the image data.
-     * @throws IllegalArgumentException if <code>w</code> or <code>h</code>
-     *         is not greater than 0
-     * @throws IllegalArgumentException if the product of <code>w</code>
-     *         and <code>h</code> is greater than
+     * Constructs b SbmpleModel with the specified pbrbmeters.
+     * @pbrbm dbtbType  The dbtb type of the DbtbBuffer storing the pixel dbtb.
+     * @pbrbm w         The width (in pixels) of the region of imbge dbtb.
+     * @pbrbm h         The height (in pixels) of the region of imbge dbtb.
+     * @pbrbm numBbnds  The number of bbnds of the imbge dbtb.
+     * @throws IllegblArgumentException if <code>w</code> or <code>h</code>
+     *         is not grebter thbn 0
+     * @throws IllegblArgumentException if the product of <code>w</code>
+     *         bnd <code>h</code> is grebter thbn
      *         <code>Integer.MAX_VALUE</code>
-     * @throws IllegalArgumentException if <code>dataType</code> is not
-     *         one of the supported data types
+     * @throws IllegblArgumentException if <code>dbtbType</code> is not
+     *         one of the supported dbtb types
      */
-    public SampleModel(int dataType, int w, int h, int numBands)
+    public SbmpleModel(int dbtbType, int w, int h, int numBbnds)
     {
         long size = (long)w * h;
         if (w <= 0 || h <= 0) {
-            throw new IllegalArgumentException("Width ("+w+") and height ("+
+            throw new IllegblArgumentException("Width ("+w+") bnd height ("+
                                                h+") must be > 0");
         }
         if (size >= Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Dimensions (width="+w+
-                                               " height="+h+") are too large");
+            throw new IllegblArgumentException("Dimensions (width="+w+
+                                               " height="+h+") bre too lbrge");
         }
 
-        if (dataType < DataBuffer.TYPE_BYTE ||
-            (dataType > DataBuffer.TYPE_DOUBLE &&
-             dataType != DataBuffer.TYPE_UNDEFINED))
+        if (dbtbType < DbtbBuffer.TYPE_BYTE ||
+            (dbtbType > DbtbBuffer.TYPE_DOUBLE &&
+             dbtbType != DbtbBuffer.TYPE_UNDEFINED))
         {
-            throw new IllegalArgumentException("Unsupported dataType: "+
-                                               dataType);
+            throw new IllegblArgumentException("Unsupported dbtbType: "+
+                                               dbtbType);
         }
 
-        if (numBands <= 0) {
-            throw new IllegalArgumentException("Number of bands must be > 0");
+        if (numBbnds <= 0) {
+            throw new IllegblArgumentException("Number of bbnds must be > 0");
         }
 
-        this.dataType = dataType;
+        this.dbtbType = dbtbType;
         this.width = w;
         this.height = h;
-        this.numBands = numBands;
+        this.numBbnds = numBbnds;
     }
 
     /** Returns the width in pixels.
-     *  @return the width in pixels of the region of image data
-     *          that this <code>SampleModel</code> describes.
+     *  @return the width in pixels of the region of imbge dbtb
+     *          thbt this <code>SbmpleModel</code> describes.
      */
-    final public int getWidth() {
+    finbl public int getWidth() {
          return width;
     }
 
     /** Returns the height in pixels.
-     *  @return the height in pixels of the region of image data
-     *          that this <code>SampleModel</code> describes.
+     *  @return the height in pixels of the region of imbge dbtb
+     *          thbt this <code>SbmpleModel</code> describes.
      */
-    final public int getHeight() {
+    finbl public int getHeight() {
          return height;
     }
 
-    /** Returns the total number of bands of image data.
-     *  @return the number of bands of image data that this
-     *          <code>SampleModel</code> describes.
+    /** Returns the totbl number of bbnds of imbge dbtb.
+     *  @return the number of bbnds of imbge dbtb thbt this
+     *          <code>SbmpleModel</code> describes.
      */
-    final public int getNumBands() {
-         return numBands;
+    finbl public int getNumBbnds() {
+         return numBbnds;
     }
 
-    /** Returns the number of data elements needed to transfer a pixel
-     *  via the getDataElements and setDataElements methods.  When pixels
-     *  are transferred via these methods, they may be transferred in a
-     *  packed or unpacked format, depending on the implementation of the
-     *  SampleModel.  Using these methods, pixels are transferred as an
-     *  array of getNumDataElements() elements of a primitive type given
-     *  by getTransferType().  The TransferType may or may not be the same
-     *  as the storage DataType.
-     *  @return the number of data elements.
-     *  @see #getDataElements(int, int, Object, DataBuffer)
-     *  @see #getDataElements(int, int, int, int, Object, DataBuffer)
-     *  @see #setDataElements(int, int, Object, DataBuffer)
-     *  @see #setDataElements(int, int, int, int, Object, DataBuffer)
-     *  @see #getTransferType
+    /** Returns the number of dbtb elements needed to trbnsfer b pixel
+     *  vib the getDbtbElements bnd setDbtbElements methods.  When pixels
+     *  bre trbnsferred vib these methods, they mby be trbnsferred in b
+     *  pbcked or unpbcked formbt, depending on the implementbtion of the
+     *  SbmpleModel.  Using these methods, pixels bre trbnsferred bs bn
+     *  brrby of getNumDbtbElements() elements of b primitive type given
+     *  by getTrbnsferType().  The TrbnsferType mby or mby not be the sbme
+     *  bs the storbge DbtbType.
+     *  @return the number of dbtb elements.
+     *  @see #getDbtbElements(int, int, Object, DbtbBuffer)
+     *  @see #getDbtbElements(int, int, int, int, Object, DbtbBuffer)
+     *  @see #setDbtbElements(int, int, Object, DbtbBuffer)
+     *  @see #setDbtbElements(int, int, int, int, Object, DbtbBuffer)
+     *  @see #getTrbnsferType
      */
-    public abstract int getNumDataElements();
+    public bbstrbct int getNumDbtbElements();
 
-    /** Returns the data type of the DataBuffer storing the pixel data.
-     *  @return the data type.
+    /** Returns the dbtb type of the DbtbBuffer storing the pixel dbtb.
+     *  @return the dbtb type.
      */
-    final public int getDataType() {
-        return dataType;
+    finbl public int getDbtbType() {
+        return dbtbType;
     }
 
-    /** Returns the TransferType used to transfer pixels via the
-     *  getDataElements and setDataElements methods.  When pixels
-     *  are transferred via these methods, they may be transferred in a
-     *  packed or unpacked format, depending on the implementation of the
-     *  SampleModel.  Using these methods, pixels are transferred as an
-     *  array of getNumDataElements() elements of a primitive type given
-     *  by getTransferType().  The TransferType may or may not be the same
-     *  as the storage DataType.  The TransferType will be one of the types
-     *  defined in DataBuffer.
-     *  @return the transfer type.
-     *  @see #getDataElements(int, int, Object, DataBuffer)
-     *  @see #getDataElements(int, int, int, int, Object, DataBuffer)
-     *  @see #setDataElements(int, int, Object, DataBuffer)
-     *  @see #setDataElements(int, int, int, int, Object, DataBuffer)
-     *  @see #getNumDataElements
-     *  @see java.awt.image.DataBuffer
+    /** Returns the TrbnsferType used to trbnsfer pixels vib the
+     *  getDbtbElements bnd setDbtbElements methods.  When pixels
+     *  bre trbnsferred vib these methods, they mby be trbnsferred in b
+     *  pbcked or unpbcked formbt, depending on the implementbtion of the
+     *  SbmpleModel.  Using these methods, pixels bre trbnsferred bs bn
+     *  brrby of getNumDbtbElements() elements of b primitive type given
+     *  by getTrbnsferType().  The TrbnsferType mby or mby not be the sbme
+     *  bs the storbge DbtbType.  The TrbnsferType will be one of the types
+     *  defined in DbtbBuffer.
+     *  @return the trbnsfer type.
+     *  @see #getDbtbElements(int, int, Object, DbtbBuffer)
+     *  @see #getDbtbElements(int, int, int, int, Object, DbtbBuffer)
+     *  @see #setDbtbElements(int, int, Object, DbtbBuffer)
+     *  @see #setDbtbElements(int, int, int, int, Object, DbtbBuffer)
+     *  @see #getNumDbtbElements
+     *  @see jbvb.bwt.imbge.DbtbBuffer
      */
-    public int getTransferType() {
-        return dataType;
+    public int getTrbnsferType() {
+        return dbtbType;
     }
 
     /**
-     * Returns the samples for a specified pixel in an int array,
-     * one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns the sbmples for b specified pixel in bn int brrby,
+     * one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location
-     * @param y         The Y coordinate of the pixel location
-     * @param iArray    If non-null, returns the samples in this array
-     * @param data      The DataBuffer containing the image data
-     * @return the samples for the specified pixel.
-     * @see #setPixel(int, int, int[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion
+     * @pbrbm y         The Y coordinbte of the pixel locbtion
+     * @pbrbm iArrby    If non-null, returns the sbmples in this brrby
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb
+     * @return the sbmples for the specified pixel.
+     * @see #setPixel(int, int, int[], DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if iArray is too small to hold the output.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if iArrby is too smbll to hold the output.
      */
-    public int[] getPixel(int x, int y, int iArray[], DataBuffer data) {
+    public int[] getPixel(int x, int y, int iArrby[], DbtbBuffer dbtb) {
 
         int pixels[];
 
-        if (iArray != null)
-            pixels = iArray;
+        if (iArrby != null)
+            pixels = iArrby;
         else
-            pixels = new int[numBands];
+            pixels = new int[numBbnds];
 
-        for (int i=0; i<numBands; i++) {
-            pixels[i] = getSample(x, y, i, data);
+        for (int i=0; i<numBbnds; i++) {
+            pixels[i] = getSbmple(x, y, i, dbtb);
         }
 
         return pixels;
     }
 
     /**
-     * Returns data for a single pixel in a primitive array of type
-     * TransferType.  For image data supported by the Java 2D API, this
-     * will be one of DataBuffer.TYPE_BYTE, DataBuffer.TYPE_USHORT,
-     * DataBuffer.TYPE_INT, DataBuffer.TYPE_SHORT, DataBuffer.TYPE_FLOAT,
-     * or DataBuffer.TYPE_DOUBLE.  Data may be returned in a packed format,
-     * thus increasing efficiency for data transfers. Generally, obj
-     * should be passed in as null, so that the Object will be created
-     * automatically and will be of the right primitive data type.
+     * Returns dbtb for b single pixel in b primitive brrby of type
+     * TrbnsferType.  For imbge dbtb supported by the Jbvb 2D API, this
+     * will be one of DbtbBuffer.TYPE_BYTE, DbtbBuffer.TYPE_USHORT,
+     * DbtbBuffer.TYPE_INT, DbtbBuffer.TYPE_SHORT, DbtbBuffer.TYPE_FLOAT,
+     * or DbtbBuffer.TYPE_DOUBLE.  Dbtb mby be returned in b pbcked formbt,
+     * thus increbsing efficiency for dbtb trbnsfers. Generblly, obj
+     * should be pbssed in bs null, so thbt the Object will be crebted
+     * butombticblly bnd will be of the right primitive dbtb type.
      * <p>
-     * The following code illustrates transferring data for one pixel from
-     * DataBuffer <code>db1</code>, whose storage layout is described by
-     * SampleModel <code>sm1</code>, to DataBuffer <code>db2</code>, whose
-     * storage layout is described by SampleModel <code>sm2</code>.
-     * The transfer will generally be more efficient than using
+     * The following code illustrbtes trbnsferring dbtb for one pixel from
+     * DbtbBuffer <code>db1</code>, whose storbge lbyout is described by
+     * SbmpleModel <code>sm1</code>, to DbtbBuffer <code>db2</code>, whose
+     * storbge lbyout is described by SbmpleModel <code>sm2</code>.
+     * The trbnsfer will generblly be more efficient thbn using
      * getPixel/setPixel.
      * <pre>
-     *       SampleModel sm1, sm2;
-     *       DataBuffer db1, db2;
-     *       sm2.setDataElements(x, y, sm1.getDataElements(x, y, null, db1), db2);
+     *       SbmpleModel sm1, sm2;
+     *       DbtbBuffer db1, db2;
+     *       sm2.setDbtbElements(x, y, sm1.getDbtbElements(x, y, null, db1), db2);
      * </pre>
-     * Using getDataElements/setDataElements to transfer between two
-     * DataBuffer/SampleModel pairs is legitimate if the SampleModels have
-     * the same number of bands, corresponding bands have the same number of
-     * bits per sample, and the TransferTypes are the same.
+     * Using getDbtbElements/setDbtbElements to trbnsfer between two
+     * DbtbBuffer/SbmpleModel pbirs is legitimbte if the SbmpleModels hbve
+     * the sbme number of bbnds, corresponding bbnds hbve the sbme number of
+     * bits per sbmple, bnd the TrbnsferTypes bre the sbme.
      * <p>
-     * If obj is non-null, it should be a primitive array of type TransferType.
-     * Otherwise, a ClassCastException is thrown.  An
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
-     * not in bounds, or if obj is non-null and is not large enough to hold
-     * the pixel data.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param obj       If non-null, a primitive array in which to return
-     *                  the pixel data.
-     * @param data      The DataBuffer containing the image data.
-     * @return the data elements for the specified pixel.
-     * @see #getNumDataElements
-     * @see #getTransferType
-     * @see java.awt.image.DataBuffer
-     * @see #setDataElements(int, int, Object, DataBuffer)
+     * If obj is non-null, it should be b primitive brrby of type TrbnsferType.
+     * Otherwise, b ClbssCbstException is thrown.  An
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
+     * not in bounds, or if obj is non-null bnd is not lbrge enough to hold
+     * the pixel dbtb.
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm obj       If non-null, b primitive brrby in which to return
+     *                  the pixel dbtb.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the dbtb elements for the specified pixel.
+     * @see #getNumDbtbElements
+     * @see #getTrbnsferType
+     * @see jbvb.bwt.imbge.DbtbBuffer
+     * @see #setDbtbElements(int, int, Object, DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if obj is too small to hold the output.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if obj is too smbll to hold the output.
      */
-    public abstract Object getDataElements(int x, int y,
-                                           Object obj, DataBuffer data);
+    public bbstrbct Object getDbtbElements(int x, int y,
+                                           Object obj, DbtbBuffer dbtb);
 
     /**
-     * Returns the pixel data for the specified rectangle of pixels in a
-     * primitive array of type TransferType.
-     * For image data supported by the Java 2D API, this
-     * will be one of DataBuffer.TYPE_BYTE, DataBuffer.TYPE_USHORT,
-     * DataBuffer.TYPE_INT, DataBuffer.TYPE_SHORT, DataBuffer.TYPE_FLOAT,
-     * or DataBuffer.TYPE_DOUBLE.  Data may be returned in a packed format,
-     * thus increasing efficiency for data transfers. Generally, obj
-     * should be passed in as null, so that the Object will be created
-     * automatically and will be of the right primitive data type.
+     * Returns the pixel dbtb for the specified rectbngle of pixels in b
+     * primitive brrby of type TrbnsferType.
+     * For imbge dbtb supported by the Jbvb 2D API, this
+     * will be one of DbtbBuffer.TYPE_BYTE, DbtbBuffer.TYPE_USHORT,
+     * DbtbBuffer.TYPE_INT, DbtbBuffer.TYPE_SHORT, DbtbBuffer.TYPE_FLOAT,
+     * or DbtbBuffer.TYPE_DOUBLE.  Dbtb mby be returned in b pbcked formbt,
+     * thus increbsing efficiency for dbtb trbnsfers. Generblly, obj
+     * should be pbssed in bs null, so thbt the Object will be crebted
+     * butombticblly bnd will be of the right primitive dbtb type.
      * <p>
-     * The following code illustrates transferring data for a rectangular
+     * The following code illustrbtes trbnsferring dbtb for b rectbngulbr
      * region of pixels from
-     * DataBuffer <code>db1</code>, whose storage layout is described by
-     * SampleModel <code>sm1</code>, to DataBuffer <code>db2</code>, whose
-     * storage layout is described by SampleModel <code>sm2</code>.
-     * The transfer will generally be more efficient than using
+     * DbtbBuffer <code>db1</code>, whose storbge lbyout is described by
+     * SbmpleModel <code>sm1</code>, to DbtbBuffer <code>db2</code>, whose
+     * storbge lbyout is described by SbmpleModel <code>sm2</code>.
+     * The trbnsfer will generblly be more efficient thbn using
      * getPixels/setPixels.
      * <pre>
-     *       SampleModel sm1, sm2;
-     *       DataBuffer db1, db2;
-     *       sm2.setDataElements(x, y, w, h, sm1.getDataElements(x, y, w,
+     *       SbmpleModel sm1, sm2;
+     *       DbtbBuffer db1, db2;
+     *       sm2.setDbtbElements(x, y, w, h, sm1.getDbtbElements(x, y, w,
      *                           h, null, db1), db2);
      * </pre>
-     * Using getDataElements/setDataElements to transfer between two
-     * DataBuffer/SampleModel pairs is legitimate if the SampleModels have
-     * the same number of bands, corresponding bands have the same number of
-     * bits per sample, and the TransferTypes are the same.
+     * Using getDbtbElements/setDbtbElements to trbnsfer between two
+     * DbtbBuffer/SbmpleModel pbirs is legitimbte if the SbmpleModels hbve
+     * the sbme number of bbnds, corresponding bbnds hbve the sbme number of
+     * bits per sbmple, bnd the TrbnsferTypes bre the sbme.
      * <p>
-     * If obj is non-null, it should be a primitive array of type TransferType.
-     * Otherwise, a ClassCastException is thrown.  An
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
-     * not in bounds, or if obj is non-null and is not large enough to hold
-     * the pixel data.
-     * @param x         The minimum X coordinate of the pixel rectangle.
-     * @param y         The minimum Y coordinate of the pixel rectangle.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param obj       If non-null, a primitive array in which to return
-     *                  the pixel data.
-     * @param data      The DataBuffer containing the image data.
-     * @return the data elements for the specified region of pixels.
-     * @see #getNumDataElements
-     * @see #getTransferType
-     * @see #setDataElements(int, int, int, int, Object, DataBuffer)
-     * @see java.awt.image.DataBuffer
+     * If obj is non-null, it should be b primitive brrby of type TrbnsferType.
+     * Otherwise, b ClbssCbstException is thrown.  An
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
+     * not in bounds, or if obj is non-null bnd is not lbrge enough to hold
+     * the pixel dbtb.
+     * @pbrbm x         The minimum X coordinbte of the pixel rectbngle.
+     * @pbrbm y         The minimum Y coordinbte of the pixel rectbngle.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm obj       If non-null, b primitive brrby in which to return
+     *                  the pixel dbtb.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the dbtb elements for the specified region of pixels.
+     * @see #getNumDbtbElements
+     * @see #getTrbnsferType
+     * @see #setDbtbElements(int, int, int, int, Object, DbtbBuffer)
+     * @see jbvb.bwt.imbge.DbtbBuffer
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if obj is too small to hold the output.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if obj is too smbll to hold the output.
      */
-    public Object getDataElements(int x, int y, int w, int h,
-                                  Object obj, DataBuffer data) {
+    public Object getDbtbElements(int x, int y, int w, int h,
+                                  Object obj, DbtbBuffer dbtb) {
 
-        int type = getTransferType();
-        int numDataElems = getNumDataElements();
+        int type = getTrbnsferType();
+        int numDbtbElems = getNumDbtbElements();
         int cnt = 0;
         Object o = null;
 
@@ -364,229 +364,229 @@ public abstract class SampleModel
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates.");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes.");
         }
 
         switch(type) {
 
-        case DataBuffer.TYPE_BYTE:
+        cbse DbtbBuffer.TYPE_BYTE:
 
             byte[] btemp;
-            byte[] bdata;
+            byte[] bdbtb;
 
             if (obj == null)
-                bdata = new byte[numDataElems*w*h];
+                bdbtb = new byte[numDbtbElems*w*h];
             else
-                bdata = (byte[])obj;
+                bdbtb = (byte[])obj;
 
             for (int i=y; i<y1; i++) {
                 for (int j=x; j<x1; j++) {
-                    o = getDataElements(j, i, o, data);
+                    o = getDbtbElements(j, i, o, dbtb);
                     btemp = (byte[])o;
-                    for (int k=0; k<numDataElems; k++) {
-                        bdata[cnt++] = btemp[k];
+                    for (int k=0; k<numDbtbElems; k++) {
+                        bdbtb[cnt++] = btemp[k];
                     }
                 }
             }
-            obj = (Object)bdata;
-            break;
+            obj = (Object)bdbtb;
+            brebk;
 
-        case DataBuffer.TYPE_USHORT:
-        case DataBuffer.TYPE_SHORT:
+        cbse DbtbBuffer.TYPE_USHORT:
+        cbse DbtbBuffer.TYPE_SHORT:
 
-            short[] sdata;
+            short[] sdbtb;
             short[] stemp;
 
             if (obj == null)
-                sdata = new short[numDataElems*w*h];
+                sdbtb = new short[numDbtbElems*w*h];
             else
-                sdata = (short[])obj;
+                sdbtb = (short[])obj;
 
             for (int i=y; i<y1; i++) {
                 for (int j=x; j<x1; j++) {
-                    o = getDataElements(j, i, o, data);
+                    o = getDbtbElements(j, i, o, dbtb);
                     stemp = (short[])o;
-                    for (int k=0; k<numDataElems; k++) {
-                        sdata[cnt++] = stemp[k];
+                    for (int k=0; k<numDbtbElems; k++) {
+                        sdbtb[cnt++] = stemp[k];
                     }
                 }
             }
 
-            obj = (Object)sdata;
-            break;
+            obj = (Object)sdbtb;
+            brebk;
 
-        case DataBuffer.TYPE_INT:
+        cbse DbtbBuffer.TYPE_INT:
 
-            int[] idata;
+            int[] idbtb;
             int[] itemp;
 
             if (obj == null)
-                idata = new int[numDataElems*w*h];
+                idbtb = new int[numDbtbElems*w*h];
             else
-                idata = (int[])obj;
+                idbtb = (int[])obj;
 
             for (int i=y; i<y1; i++) {
                 for (int j=x; j<x1; j++) {
-                    o = getDataElements(j, i, o, data);
+                    o = getDbtbElements(j, i, o, dbtb);
                     itemp = (int[])o;
-                    for (int k=0; k<numDataElems; k++) {
-                        idata[cnt++] = itemp[k];
+                    for (int k=0; k<numDbtbElems; k++) {
+                        idbtb[cnt++] = itemp[k];
                     }
                 }
             }
 
-            obj = (Object)idata;
-            break;
+            obj = (Object)idbtb;
+            brebk;
 
-        case DataBuffer.TYPE_FLOAT:
+        cbse DbtbBuffer.TYPE_FLOAT:
 
-            float[] fdata;
-            float[] ftemp;
+            flobt[] fdbtb;
+            flobt[] ftemp;
 
             if (obj == null)
-                fdata = new float[numDataElems*w*h];
+                fdbtb = new flobt[numDbtbElems*w*h];
             else
-                fdata = (float[])obj;
+                fdbtb = (flobt[])obj;
 
             for (int i=y; i<y1; i++) {
                 for (int j=x; j<x1; j++) {
-                    o = getDataElements(j, i, o, data);
-                    ftemp = (float[])o;
-                    for (int k=0; k<numDataElems; k++) {
-                        fdata[cnt++] = ftemp[k];
+                    o = getDbtbElements(j, i, o, dbtb);
+                    ftemp = (flobt[])o;
+                    for (int k=0; k<numDbtbElems; k++) {
+                        fdbtb[cnt++] = ftemp[k];
                     }
                 }
             }
 
-            obj = (Object)fdata;
-            break;
+            obj = (Object)fdbtb;
+            brebk;
 
-        case DataBuffer.TYPE_DOUBLE:
+        cbse DbtbBuffer.TYPE_DOUBLE:
 
-            double[] ddata;
+            double[] ddbtb;
             double[] dtemp;
 
             if (obj == null)
-                ddata = new double[numDataElems*w*h];
+                ddbtb = new double[numDbtbElems*w*h];
             else
-                ddata = (double[])obj;
+                ddbtb = (double[])obj;
 
             for (int i=y; i<y1; i++) {
                 for (int j=x; j<x1; j++) {
-                    o = getDataElements(j, i, o, data);
+                    o = getDbtbElements(j, i, o, dbtb);
                     dtemp = (double[])o;
-                    for (int k=0; k<numDataElems; k++) {
-                        ddata[cnt++] = dtemp[k];
+                    for (int k=0; k<numDbtbElems; k++) {
+                        ddbtb[cnt++] = dtemp[k];
                     }
                 }
             }
 
-            obj = (Object)ddata;
-            break;
+            obj = (Object)ddbtb;
+            brebk;
         }
 
         return obj;
     }
 
     /**
-     * Sets the data for a single pixel in the specified DataBuffer from a
-     * primitive array of type TransferType.  For image data supported by
-     * the Java 2D API, this will be one of DataBuffer.TYPE_BYTE,
-     * DataBuffer.TYPE_USHORT, DataBuffer.TYPE_INT, DataBuffer.TYPE_SHORT,
-     * DataBuffer.TYPE_FLOAT, or DataBuffer.TYPE_DOUBLE.  Data in the array
-     * may be in a packed format, thus increasing efficiency for data
-     * transfers.
+     * Sets the dbtb for b single pixel in the specified DbtbBuffer from b
+     * primitive brrby of type TrbnsferType.  For imbge dbtb supported by
+     * the Jbvb 2D API, this will be one of DbtbBuffer.TYPE_BYTE,
+     * DbtbBuffer.TYPE_USHORT, DbtbBuffer.TYPE_INT, DbtbBuffer.TYPE_SHORT,
+     * DbtbBuffer.TYPE_FLOAT, or DbtbBuffer.TYPE_DOUBLE.  Dbtb in the brrby
+     * mby be in b pbcked formbt, thus increbsing efficiency for dbtb
+     * trbnsfers.
      * <p>
-     * The following code illustrates transferring data for one pixel from
-     * DataBuffer <code>db1</code>, whose storage layout is described by
-     * SampleModel <code>sm1</code>, to DataBuffer <code>db2</code>, whose
-     * storage layout is described by SampleModel <code>sm2</code>.
-     * The transfer will generally be more efficient than using
+     * The following code illustrbtes trbnsferring dbtb for one pixel from
+     * DbtbBuffer <code>db1</code>, whose storbge lbyout is described by
+     * SbmpleModel <code>sm1</code>, to DbtbBuffer <code>db2</code>, whose
+     * storbge lbyout is described by SbmpleModel <code>sm2</code>.
+     * The trbnsfer will generblly be more efficient thbn using
      * getPixel/setPixel.
      * <pre>
-     *       SampleModel sm1, sm2;
-     *       DataBuffer db1, db2;
-     *       sm2.setDataElements(x, y, sm1.getDataElements(x, y, null, db1),
+     *       SbmpleModel sm1, sm2;
+     *       DbtbBuffer db1, db2;
+     *       sm2.setDbtbElements(x, y, sm1.getDbtbElements(x, y, null, db1),
      *                           db2);
      * </pre>
-     * Using getDataElements/setDataElements to transfer between two
-     * DataBuffer/SampleModel pairs is legitimate if the SampleModels have
-     * the same number of bands, corresponding bands have the same number of
-     * bits per sample, and the TransferTypes are the same.
+     * Using getDbtbElements/setDbtbElements to trbnsfer between two
+     * DbtbBuffer/SbmpleModel pbirs is legitimbte if the SbmpleModels hbve
+     * the sbme number of bbnds, corresponding bbnds hbve the sbme number of
+     * bits per sbmple, bnd the TrbnsferTypes bre the sbme.
      * <p>
-     * obj must be a primitive array of type TransferType.  Otherwise,
-     * a ClassCastException is thrown.  An
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
-     * not in bounds, or if obj is not large enough to hold the pixel data.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param obj       A primitive array containing pixel data.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getNumDataElements
-     * @see #getTransferType
-     * @see #getDataElements(int, int, Object, DataBuffer)
-     * @see java.awt.image.DataBuffer
+     * obj must be b primitive brrby of type TrbnsferType.  Otherwise,
+     * b ClbssCbstException is thrown.  An
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
+     * not in bounds, or if obj is not lbrge enough to hold the pixel dbtb.
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm obj       A primitive brrby contbining pixel dbtb.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getNumDbtbElements
+     * @see #getTrbnsferType
+     * @see #getDbtbElements(int, int, Object, DbtbBuffer)
+     * @see jbvb.bwt.imbge.DbtbBuffer
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if obj is too small to hold the input.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if obj is too smbll to hold the input.
      */
-    public abstract void setDataElements(int x, int y,
-                                         Object obj, DataBuffer data);
+    public bbstrbct void setDbtbElements(int x, int y,
+                                         Object obj, DbtbBuffer dbtb);
 
     /**
-     * Sets the data for a rectangle of pixels in the specified DataBuffer
-     * from a primitive array of type TransferType.  For image data supported
-     * by the Java 2D API, this will be one of DataBuffer.TYPE_BYTE,
-     * DataBuffer.TYPE_USHORT, DataBuffer.TYPE_INT, DataBuffer.TYPE_SHORT,
-     * DataBuffer.TYPE_FLOAT, or DataBuffer.TYPE_DOUBLE.  Data in the array
-     * may be in a packed format, thus increasing efficiency for data
-     * transfers.
+     * Sets the dbtb for b rectbngle of pixels in the specified DbtbBuffer
+     * from b primitive brrby of type TrbnsferType.  For imbge dbtb supported
+     * by the Jbvb 2D API, this will be one of DbtbBuffer.TYPE_BYTE,
+     * DbtbBuffer.TYPE_USHORT, DbtbBuffer.TYPE_INT, DbtbBuffer.TYPE_SHORT,
+     * DbtbBuffer.TYPE_FLOAT, or DbtbBuffer.TYPE_DOUBLE.  Dbtb in the brrby
+     * mby be in b pbcked formbt, thus increbsing efficiency for dbtb
+     * trbnsfers.
      * <p>
-     * The following code illustrates transferring data for a rectangular
+     * The following code illustrbtes trbnsferring dbtb for b rectbngulbr
      * region of pixels from
-     * DataBuffer <code>db1</code>, whose storage layout is described by
-     * SampleModel <code>sm1</code>, to DataBuffer <code>db2</code>, whose
-     * storage layout is described by SampleModel <code>sm2</code>.
-     * The transfer will generally be more efficient than using
+     * DbtbBuffer <code>db1</code>, whose storbge lbyout is described by
+     * SbmpleModel <code>sm1</code>, to DbtbBuffer <code>db2</code>, whose
+     * storbge lbyout is described by SbmpleModel <code>sm2</code>.
+     * The trbnsfer will generblly be more efficient thbn using
      * getPixels/setPixels.
      * <pre>
-     *       SampleModel sm1, sm2;
-     *       DataBuffer db1, db2;
-     *       sm2.setDataElements(x, y, w, h, sm1.getDataElements(x, y, w, h,
+     *       SbmpleModel sm1, sm2;
+     *       DbtbBuffer db1, db2;
+     *       sm2.setDbtbElements(x, y, w, h, sm1.getDbtbElements(x, y, w, h,
      *                           null, db1), db2);
      * </pre>
-     * Using getDataElements/setDataElements to transfer between two
-     * DataBuffer/SampleModel pairs is legitimate if the SampleModels have
-     * the same number of bands, corresponding bands have the same number of
-     * bits per sample, and the TransferTypes are the same.
+     * Using getDbtbElements/setDbtbElements to trbnsfer between two
+     * DbtbBuffer/SbmpleModel pbirs is legitimbte if the SbmpleModels hbve
+     * the sbme number of bbnds, corresponding bbnds hbve the sbme number of
+     * bits per sbmple, bnd the TrbnsferTypes bre the sbme.
      * <p>
-     * obj must be a primitive array of type TransferType.  Otherwise,
-     * a ClassCastException is thrown.  An
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
-     * not in bounds, or if obj is not large enough to hold the pixel data.
-     * @param x         The minimum X coordinate of the pixel rectangle.
-     * @param y         The minimum Y coordinate of the pixel rectangle.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param obj       A primitive array containing pixel data.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getNumDataElements
-     * @see #getTransferType
-     * @see #getDataElements(int, int, int, int, Object, DataBuffer)
-     * @see java.awt.image.DataBuffer
+     * obj must be b primitive brrby of type TrbnsferType.  Otherwise,
+     * b ClbssCbstException is thrown.  An
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
+     * not in bounds, or if obj is not lbrge enough to hold the pixel dbtb.
+     * @pbrbm x         The minimum X coordinbte of the pixel rectbngle.
+     * @pbrbm y         The minimum Y coordinbte of the pixel rectbngle.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm obj       A primitive brrby contbining pixel dbtb.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getNumDbtbElements
+     * @see #getTrbnsferType
+     * @see #getDbtbElements(int, int, int, int, Object, DbtbBuffer)
+     * @see jbvb.bwt.imbge.DbtbBuffer
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if obj is too small to hold the input.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if obj is too smbll to hold the input.
      */
-    public void setDataElements(int x, int y, int w, int h,
-                                Object obj, DataBuffer data) {
+    public void setDbtbElements(int x, int y, int w, int h,
+                                Object obj, DbtbBuffer dbtb) {
 
         int cnt = 0;
         Object o = null;
-        int type = getTransferType();
-        int numDataElems = getNumDataElements();
+        int type = getTrbnsferType();
+        int numDbtbElems = getNumDbtbElements();
 
         int x1 = x + w;
         int y1 = y + h;
@@ -594,177 +594,177 @@ public abstract class SampleModel
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates.");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes.");
         }
 
         switch(type) {
 
-        case DataBuffer.TYPE_BYTE:
+        cbse DbtbBuffer.TYPE_BYTE:
 
-            byte[] barray = (byte[])obj;
-            byte[] btemp = new byte[numDataElems];
-
-            for (int i=y; i<y1; i++) {
-                for (int j=x; j<x1; j++) {
-                    for (int k=0; k<numDataElems; k++) {
-                        btemp[k] = barray[cnt++];
-                    }
-
-                    setDataElements(j, i, btemp, data);
-                }
-            }
-            break;
-
-        case DataBuffer.TYPE_USHORT:
-        case DataBuffer.TYPE_SHORT:
-
-            short[] sarray = (short[])obj;
-            short[] stemp = new short[numDataElems];
+            byte[] bbrrby = (byte[])obj;
+            byte[] btemp = new byte[numDbtbElems];
 
             for (int i=y; i<y1; i++) {
                 for (int j=x; j<x1; j++) {
-                    for (int k=0; k<numDataElems; k++) {
-                        stemp[k] = sarray[cnt++];
+                    for (int k=0; k<numDbtbElems; k++) {
+                        btemp[k] = bbrrby[cnt++];
                     }
 
-                    setDataElements(j, i, stemp, data);
+                    setDbtbElements(j, i, btemp, dbtb);
                 }
             }
-            break;
+            brebk;
 
-        case DataBuffer.TYPE_INT:
+        cbse DbtbBuffer.TYPE_USHORT:
+        cbse DbtbBuffer.TYPE_SHORT:
 
-            int[] iArray = (int[])obj;
-            int[] itemp = new int[numDataElems];
+            short[] sbrrby = (short[])obj;
+            short[] stemp = new short[numDbtbElems];
 
             for (int i=y; i<y1; i++) {
                 for (int j=x; j<x1; j++) {
-                    for (int k=0; k<numDataElems; k++) {
-                        itemp[k] = iArray[cnt++];
+                    for (int k=0; k<numDbtbElems; k++) {
+                        stemp[k] = sbrrby[cnt++];
                     }
 
-                    setDataElements(j, i, itemp, data);
+                    setDbtbElements(j, i, stemp, dbtb);
                 }
             }
-            break;
+            brebk;
 
-        case DataBuffer.TYPE_FLOAT:
+        cbse DbtbBuffer.TYPE_INT:
 
-            float[] fArray = (float[])obj;
-            float[] ftemp = new float[numDataElems];
+            int[] iArrby = (int[])obj;
+            int[] itemp = new int[numDbtbElems];
 
             for (int i=y; i<y1; i++) {
                 for (int j=x; j<x1; j++) {
-                    for (int k=0; k<numDataElems; k++) {
-                        ftemp[k] = fArray[cnt++];
+                    for (int k=0; k<numDbtbElems; k++) {
+                        itemp[k] = iArrby[cnt++];
                     }
 
-                    setDataElements(j, i, ftemp, data);
+                    setDbtbElements(j, i, itemp, dbtb);
                 }
             }
-            break;
+            brebk;
 
-        case DataBuffer.TYPE_DOUBLE:
+        cbse DbtbBuffer.TYPE_FLOAT:
 
-            double[] dArray = (double[])obj;
-            double[] dtemp = new double[numDataElems];
+            flobt[] fArrby = (flobt[])obj;
+            flobt[] ftemp = new flobt[numDbtbElems];
 
             for (int i=y; i<y1; i++) {
                 for (int j=x; j<x1; j++) {
-                    for (int k=0; k<numDataElems; k++) {
-                        dtemp[k] = dArray[cnt++];
+                    for (int k=0; k<numDbtbElems; k++) {
+                        ftemp[k] = fArrby[cnt++];
                     }
 
-                    setDataElements(j, i, dtemp, data);
+                    setDbtbElements(j, i, ftemp, dbtb);
                 }
             }
-            break;
+            brebk;
+
+        cbse DbtbBuffer.TYPE_DOUBLE:
+
+            double[] dArrby = (double[])obj;
+            double[] dtemp = new double[numDbtbElems];
+
+            for (int i=y; i<y1; i++) {
+                for (int j=x; j<x1; j++) {
+                    for (int k=0; k<numDbtbElems; k++) {
+                        dtemp[k] = dArrby[cnt++];
+                    }
+
+                    setDbtbElements(j, i, dtemp, dbtb);
+                }
+            }
+            brebk;
         }
 
     }
 
     /**
-     * Returns the samples for the specified pixel in an array of float.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns the sbmples for the specified pixel in bn brrby of flobt.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param fArray    If non-null, returns the samples in this array.
-     * @param data      The DataBuffer containing the image data.
-     * @return the samples for the specified pixel.
-     * @see #setPixel(int, int, float[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm fArrby    If non-null, returns the sbmples in this brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmples for the specified pixel.
+     * @see #setPixel(int, int, flobt[], DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if fArray is too small to hold the output.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if fArrby is too smbll to hold the output.
      */
-    public float[] getPixel(int x, int y, float fArray[],
-                            DataBuffer data) {
+    public flobt[] getPixel(int x, int y, flobt fArrby[],
+                            DbtbBuffer dbtb) {
 
-        float pixels[];
+        flobt pixels[];
 
-        if (fArray != null)
-            pixels = fArray;
+        if (fArrby != null)
+            pixels = fArrby;
         else
-            pixels = new float[numBands];
+            pixels = new flobt[numBbnds];
 
-        for (int i=0; i<numBands; i++)
-            pixels[i] = getSampleFloat(x, y, i, data);
+        for (int i=0; i<numBbnds; i++)
+            pixels[i] = getSbmpleFlobt(x, y, i, dbtb);
 
         return pixels;
     }
 
     /**
-     * Returns the samples for the specified pixel in an array of double.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns the sbmples for the specified pixel in bn brrby of double.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param dArray    If non-null, returns the samples in this array.
-     * @param data      The DataBuffer containing the image data.
-     * @return the samples for the specified pixel.
-     * @see #setPixel(int, int, double[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm dArrby    If non-null, returns the sbmples in this brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmples for the specified pixel.
+     * @see #setPixel(int, int, double[], DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if dArray is too small to hold the output.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if dArrby is too smbll to hold the output.
      */
-    public double[] getPixel(int x, int y, double dArray[],
-                             DataBuffer data) {
+    public double[] getPixel(int x, int y, double dArrby[],
+                             DbtbBuffer dbtb) {
 
         double pixels[];
 
-        if(dArray != null)
-            pixels = dArray;
+        if(dArrby != null)
+            pixels = dArrby;
         else
-            pixels = new double[numBands];
+            pixels = new double[numBbnds];
 
-        for (int i=0; i<numBands; i++)
-            pixels[i] = getSampleDouble(x, y, i, data);
+        for (int i=0; i<numBbnds; i++)
+            pixels[i] = getSbmpleDouble(x, y, i, dbtb);
 
         return pixels;
     }
 
     /**
-     * Returns all samples for a rectangle of pixels in an
-     * int array, one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns bll sbmples for b rectbngle of pixels in bn
+     * int brrby, one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param iArray    If non-null, returns the samples in this array.
-     * @param data      The DataBuffer containing the image data.
-     * @return the samples for the specified region of pixels.
-     * @see #setPixels(int, int, int, int, int[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm iArrby    If non-null, returns the sbmples in this brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmples for the specified region of pixels.
+     * @see #setPixels(int, int, int, int, int[], DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if iArray is too small to hold the output.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if iArrby is too smbll to hold the output.
      */
     public int[] getPixels(int x, int y, int w, int h,
-                           int iArray[], DataBuffer data) {
+                           int iArrby[], DbtbBuffer dbtb) {
 
         int pixels[];
         int Offset=0;
@@ -774,18 +774,18 @@ public abstract class SampleModel
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates.");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes.");
         }
 
-        if (iArray != null)
-            pixels = iArray;
+        if (iArrby != null)
+            pixels = iArrby;
         else
-            pixels = new int[numBands * w * h];
+            pixels = new int[numBbnds * w * h];
 
         for (int i=y; i<y1; i++) {
             for (int j=x; j<x1; j++) {
-                for(int k=0; k<numBands; k++) {
-                    pixels[Offset++] = getSample(j, i, k, data);
+                for(int k=0; k<numBbnds; k++) {
+                    pixels[Offset++] = getSbmple(j, i, k, dbtb);
                 }
             }
         }
@@ -794,27 +794,27 @@ public abstract class SampleModel
     }
 
     /**
-     * Returns all samples for a rectangle of pixels in a float
-     * array, one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns bll sbmples for b rectbngle of pixels in b flobt
+     * brrby, one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param fArray    If non-null, returns the samples in this array.
-     * @param data      The DataBuffer containing the image data.
-     * @return the samples for the specified region of pixels.
-     * @see #setPixels(int, int, int, int, float[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm fArrby    If non-null, returns the sbmples in this brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmples for the specified region of pixels.
+     * @see #setPixels(int, int, int, int, flobt[], DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if fArray is too small to hold the output.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if fArrby is too smbll to hold the output.
      */
-    public float[] getPixels(int x, int y, int w, int h,
-                             float fArray[], DataBuffer data) {
+    public flobt[] getPixels(int x, int y, int w, int h,
+                             flobt fArrby[], DbtbBuffer dbtb) {
 
-        float pixels[];
+        flobt pixels[];
         int Offset = 0;
         int x1 = x + w;
         int y1 = y + h;
@@ -822,18 +822,18 @@ public abstract class SampleModel
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates.");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes.");
         }
 
-        if (fArray != null)
-            pixels = fArray;
+        if (fArrby != null)
+            pixels = fArrby;
         else
-            pixels = new float[numBands * w * h];
+            pixels = new flobt[numBbnds * w * h];
 
         for (int i=y; i<y1; i++) {
             for(int j=x; j<x1; j++) {
-                for(int k=0; k<numBands; k++) {
-                    pixels[Offset++] = getSampleFloat(j, i, k, data);
+                for(int k=0; k<numBbnds; k++) {
+                    pixels[Offset++] = getSbmpleFlobt(j, i, k, dbtb);
                 }
             }
         }
@@ -842,25 +842,25 @@ public abstract class SampleModel
     }
 
     /**
-     * Returns all samples for a rectangle of pixels in a double
-     * array, one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns bll sbmples for b rectbngle of pixels in b double
+     * brrby, one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param dArray    If non-null, returns the samples in this array.
-     * @param data      The DataBuffer containing the image data.
-     * @return the samples for the specified region of pixels.
-     * @see #setPixels(int, int, int, int, double[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm dArrby    If non-null, returns the sbmples in this brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmples for the specified region of pixels.
+     * @see #setPixels(int, int, int, int, double[], DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if dArray is too small to hold the output.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if dArrby is too smbll to hold the output.
      */
     public double[] getPixels(int x, int y, int w, int h,
-                              double dArray[], DataBuffer data) {
+                              double dArrby[], DbtbBuffer dbtb) {
         double pixels[];
         int    Offset = 0;
         int x1 = x + w;
@@ -869,19 +869,19 @@ public abstract class SampleModel
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates.");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes.");
         }
 
-        if (dArray != null)
-            pixels = dArray;
+        if (dArrby != null)
+            pixels = dArrby;
         else
-            pixels = new double[numBands * w * h];
+            pixels = new double[numBbnds * w * h];
 
         // Fix 4217412
         for (int i=y; i<y1; i++) {
             for (int j=x; j<x1; j++) {
-                for (int k=0; k<numBands; k++) {
-                    pixels[Offset++] = getSampleDouble(j, i, k, data);
+                for (int k=0; k<numBbnds; k++) {
+                    pixels[Offset++] = getSbmpleDouble(j, i, k, dbtb);
                 }
             }
         }
@@ -891,92 +891,92 @@ public abstract class SampleModel
 
 
     /**
-     * Returns the sample in a specified band for the pixel located
-     * at (x,y) as an int.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns the sbmple in b specified bbnd for the pixel locbted
+     * bt (x,y) bs bn int.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param b         The band to return.
-     * @param data      The DataBuffer containing the image data.
-     * @return the sample in a specified band for the specified pixel.
-     * @see #setSample(int, int, int, int, DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm b         The bbnd to return.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmple in b specified bbnd for the specified pixel.
+     * @see #setSbmple(int, int, int, int, DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds.
      */
-    public abstract int getSample(int x, int y, int b, DataBuffer data);
+    public bbstrbct int getSbmple(int x, int y, int b, DbtbBuffer dbtb);
 
 
     /**
-     * Returns the sample in a specified band
-     * for the pixel located at (x,y) as a float.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns the sbmple in b specified bbnd
+     * for the pixel locbted bt (x,y) bs b flobt.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param b         The band to return.
-     * @param data      The DataBuffer containing the image data.
-     * @return the sample in a specified band for the specified pixel.
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm b         The bbnd to return.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmple in b specified bbnd for the specified pixel.
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds.
      */
-    public float getSampleFloat(int x, int y, int b, DataBuffer data) {
+    public flobt getSbmpleFlobt(int x, int y, int b, DbtbBuffer dbtb) {
 
-        float sample;
-        sample = (float) getSample(x, y, b, data);
-        return sample;
+        flobt sbmple;
+        sbmple = (flobt) getSbmple(x, y, b, dbtb);
+        return sbmple;
     }
 
     /**
-     * Returns the sample in a specified band
-     * for a pixel located at (x,y) as a double.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns the sbmple in b specified bbnd
+     * for b pixel locbted bt (x,y) bs b double.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param b         The band to return.
-     * @param data      The DataBuffer containing the image data.
-     * @return the sample in a specified band for the specified pixel.
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm b         The bbnd to return.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmple in b specified bbnd for the specified pixel.
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds.
      */
-    public double getSampleDouble(int x, int y, int b, DataBuffer data) {
+    public double getSbmpleDouble(int x, int y, int b, DbtbBuffer dbtb) {
 
-        double sample;
+        double sbmple;
 
-        sample = (double) getSample(x, y, b, data);
-        return sample;
+        sbmple = (double) getSbmple(x, y, b, dbtb);
+        return sbmple;
     }
 
     /**
-     * Returns the samples for a specified band for the specified rectangle
-     * of pixels in an int array, one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns the sbmples for b specified bbnd for the specified rectbngle
+     * of pixels in bn int brrby, one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param b         The band to return.
-     * @param iArray    If non-null, returns the samples in this array.
-     * @param data      The DataBuffer containing the image data.
-     * @return the samples for the specified band for the specified region
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm b         The bbnd to return.
+     * @pbrbm iArrby    If non-null, returns the sbmples in this brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmples for the specified bbnd for the specified region
      *         of pixels.
-     * @see #setSamples(int, int, int, int, int, int[], DataBuffer)
+     * @see #setSbmples(int, int, int, int, int, int[], DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds, or if iArray is too small to
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds, or if iArrby is too smbll to
      * hold the output.
      */
-    public int[] getSamples(int x, int y, int w, int h, int b,
-                            int iArray[], DataBuffer data) {
+    public int[] getSbmples(int x, int y, int w, int h, int b,
+                            int iArrby[], DbtbBuffer dbtb) {
         int pixels[];
         int Offset=0;
         int x1 = x + w;
@@ -985,17 +985,17 @@ public abstract class SampleModel
         if (x < 0 || x1 < x || x1 > width ||
             y < 0 || y1 < y || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates.");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes.");
         }
 
-        if (iArray != null)
-            pixels = iArray;
+        if (iArrby != null)
+            pixels = iArrby;
         else
             pixels = new int[w * h];
 
         for(int i=y; i<y1; i++) {
             for (int j=x; j<x1; j++) {
-                pixels[Offset++] = getSample(j, i, b, data);
+                pixels[Offset++] = getSbmple(j, i, b, dbtb);
             }
         }
 
@@ -1003,30 +1003,30 @@ public abstract class SampleModel
     }
 
     /**
-     * Returns the samples for a specified band for the specified rectangle
-     * of pixels in a float array, one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns the sbmples for b specified bbnd for the specified rectbngle
+     * of pixels in b flobt brrby, one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param b         The band to return.
-     * @param fArray    If non-null, returns the samples in this array.
-     * @param data      The DataBuffer containing the image data.
-     * @return the samples for the specified band for the specified region
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm b         The bbnd to return.
+     * @pbrbm fArrby    If non-null, returns the sbmples in this brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmples for the specified bbnd for the specified region
      *         of pixels.
-     * @see #setSamples(int, int, int, int, int, float[], DataBuffer)
+     * @see #setSbmples(int, int, int, int, int, flobt[], DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds, or if fArray is too small to
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds, or if fArrby is too smbll to
      * hold the output.
      */
-    public float[] getSamples(int x, int y, int w, int h,
-                              int b, float fArray[],
-                              DataBuffer data) {
-        float pixels[];
+    public flobt[] getSbmples(int x, int y, int w, int h,
+                              int b, flobt fArrby[],
+                              DbtbBuffer dbtb) {
+        flobt pixels[];
         int   Offset=0;
         int x1 = x + w;
         int y1 = y + h;
@@ -1034,17 +1034,17 @@ public abstract class SampleModel
         if (x < 0 || x1 < x || x1 > width ||
             y < 0 || y1 < y || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes");
         }
 
-        if (fArray != null)
-            pixels = fArray;
+        if (fArrby != null)
+            pixels = fArrby;
         else
-            pixels = new float[w * h];
+            pixels = new flobt[w * h];
 
         for (int i=y; i<y1; i++) {
             for (int j=x; j<x1; j++) {
-                pixels[Offset++] = getSampleFloat(j, i, b, data);
+                pixels[Offset++] = getSbmpleFlobt(j, i, b, dbtb);
             }
         }
 
@@ -1052,29 +1052,29 @@ public abstract class SampleModel
     }
 
     /**
-     * Returns the samples for a specified band for a specified rectangle
-     * of pixels in a double array, one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns the sbmples for b specified bbnd for b specified rectbngle
+     * of pixels in b double brrby, one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param b         The band to return.
-     * @param dArray    If non-null, returns the samples in this array.
-     * @param data      The DataBuffer containing the image data.
-     * @return the samples for the specified band for the specified region
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm b         The bbnd to return.
+     * @pbrbm dArrby    If non-null, returns the sbmples in this brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmples for the specified bbnd for the specified region
      *         of pixels.
-     * @see #setSamples(int, int, int, int, int, double[], DataBuffer)
+     * @see #setSbmples(int, int, int, int, int, double[], DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds, or if dArray is too small to
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds, or if dArrby is too smbll to
      * hold the output.
      */
-    public double[] getSamples(int x, int y, int w, int h,
-                               int b, double dArray[],
-                               DataBuffer data) {
+    public double[] getSbmples(int x, int y, int w, int h,
+                               int b, double dArrby[],
+                               DbtbBuffer dbtb) {
         double pixels[];
         int    Offset=0;
         int x1 = x + w;
@@ -1083,17 +1083,17 @@ public abstract class SampleModel
         if (x < 0 || x1 < x || x1 > width ||
             y < 0 || y1 < y || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes");
         }
 
-        if (dArray != null)
-            pixels = dArray;
+        if (dArrby != null)
+            pixels = dArrby;
         else
             pixels = new double[w * h];
 
         for (int i=y; i<y1; i++) {
             for (int j=x; j<x1; j++) {
-                pixels[Offset++] = getSampleDouble(j, i, b, data);
+                pixels[Offset++] = getSbmpleDouble(j, i, b, dbtb);
             }
         }
 
@@ -1101,83 +1101,83 @@ public abstract class SampleModel
     }
 
     /**
-     * Sets a pixel in  the DataBuffer using an int array of samples for input.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b pixel in  the DbtbBuffer using bn int brrby of sbmples for input.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param iArray    The input samples in an int array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getPixel(int, int, int[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm iArrby    The input sbmples in bn int brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getPixel(int, int, int[], DbtbBuffer)
      *
-     * @throws NullPointerException if iArray or data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if iArray is too small to hold the input.
+     * @throws NullPointerException if iArrby or dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if iArrby is too smbll to hold the input.
      */
-    public void setPixel(int x, int y, int iArray[], DataBuffer data) {
+    public void setPixel(int x, int y, int iArrby[], DbtbBuffer dbtb) {
 
-        for (int i=0; i<numBands; i++)
-            setSample(x, y, i, iArray[i], data);
+        for (int i=0; i<numBbnds; i++)
+            setSbmple(x, y, i, iArrby[i], dbtb);
     }
 
     /**
-     * Sets a pixel in the DataBuffer using a float array of samples for input.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b pixel in the DbtbBuffer using b flobt brrby of sbmples for input.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param fArray    The input samples in a float array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getPixel(int, int, float[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm fArrby    The input sbmples in b flobt brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getPixel(int, int, flobt[], DbtbBuffer)
      *
-     * @throws NullPointerException if fArray or data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if fArray is too small to hold the input.
+     * @throws NullPointerException if fArrby or dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if fArrby is too smbll to hold the input.
      */
-    public void setPixel(int x, int y, float fArray[], DataBuffer data) {
+    public void setPixel(int x, int y, flobt fArrby[], DbtbBuffer dbtb) {
 
-        for (int i=0; i<numBands; i++)
-            setSample(x, y, i, fArray[i], data);
+        for (int i=0; i<numBbnds; i++)
+            setSbmple(x, y, i, fArrby[i], dbtb);
     }
 
     /**
-     * Sets a pixel in the DataBuffer using a double array of samples
+     * Sets b pixel in the DbtbBuffer using b double brrby of sbmples
      * for input.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param dArray    The input samples in a double array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getPixel(int, int, double[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm dArrby    The input sbmples in b double brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getPixel(int, int, double[], DbtbBuffer)
      *
-     * @throws NullPointerException if dArray or data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if fArray is too small to hold the input.
+     * @throws NullPointerException if dArrby or dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if fArrby is too smbll to hold the input.
      */
-    public void setPixel(int x, int y, double dArray[], DataBuffer data) {
+    public void setPixel(int x, int y, double dArrby[], DbtbBuffer dbtb) {
 
-        for (int i=0; i<numBands; i++)
-            setSample(x, y, i, dArray[i], data);
+        for (int i=0; i<numBbnds; i++)
+            setSbmple(x, y, i, dArrby[i], dbtb);
     }
 
     /**
-     * Sets all samples for a rectangle of pixels from an int array containing
-     * one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets bll sbmples for b rectbngle of pixels from bn int brrby contbining
+     * one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param iArray    The input samples in an int array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getPixels(int, int, int, int, int[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm iArrby    The input sbmples in bn int brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getPixels(int, int, int, int, int[], DbtbBuffer)
      *
-     * @throws NullPointerException if iArray or data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if iArray is too small to hold the input.
+     * @throws NullPointerException if iArrby or dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if iArrby is too smbll to hold the input.
      */
     public void setPixels(int x, int y, int w, int h,
-                          int iArray[], DataBuffer data) {
+                          int iArrby[], DbtbBuffer dbtb) {
         int Offset=0;
         int x1 = x + w;
         int y1 = y + h;
@@ -1185,37 +1185,37 @@ public abstract class SampleModel
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates.");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes.");
         }
 
         for (int i=y; i<y1; i++) {
             for (int j=x; j<x1; j++) {
-                for (int k=0; k<numBands; k++) {
-                    setSample(j, i, k, iArray[Offset++], data);
+                for (int k=0; k<numBbnds; k++) {
+                    setSbmple(j, i, k, iArrby[Offset++], dbtb);
                 }
             }
         }
     }
 
     /**
-     * Sets all samples for a rectangle of pixels from a float array containing
-     * one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets bll sbmples for b rectbngle of pixels from b flobt brrby contbining
+     * one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param fArray    The input samples in a float array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getPixels(int, int, int, int, float[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm fArrby    The input sbmples in b flobt brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getPixels(int, int, int, int, flobt[], DbtbBuffer)
      *
-     * @throws NullPointerException if fArray or data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if fArray is too small to hold the input.
+     * @throws NullPointerException if fArrby or dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if fArrby is too smbll to hold the input.
      */
     public void setPixels(int x, int y, int w, int h,
-                          float fArray[], DataBuffer data) {
+                          flobt fArrby[], DbtbBuffer dbtb) {
         int Offset=0;
         int x1 = x + w;
         int y1 = y + h;
@@ -1223,37 +1223,37 @@ public abstract class SampleModel
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width||
             y < 0 || y >= height || h > height || y1 < 0 || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates.");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes.");
         }
 
         for (int i=y; i<y1; i++) {
             for (int j=x; j<x1; j++) {
-                for(int k=0; k<numBands; k++) {
-                    setSample(j, i, k, fArray[Offset++], data);
+                for(int k=0; k<numBbnds; k++) {
+                    setSbmple(j, i, k, fArrby[Offset++], dbtb);
                 }
             }
         }
     }
 
     /**
-     * Sets all samples for a rectangle of pixels from a double array
-     * containing one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets bll sbmples for b rectbngle of pixels from b double brrby
+     * contbining one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param dArray    The input samples in a double array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getPixels(int, int, int, int, double[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm dArrby    The input sbmples in b double brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getPixels(int, int, int, int, double[], DbtbBuffer)
      *
-     * @throws NullPointerException if dArray or data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are
-     * not in bounds, or if dArray is too small to hold the input.
+     * @throws NullPointerException if dArrby or dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre
+     * not in bounds, or if dArrby is too smbll to hold the input.
      */
     public void setPixels(int x, int y, int w, int h,
-                          double dArray[], DataBuffer data) {
+                          double dArrby[], DbtbBuffer dbtb) {
         int Offset=0;
         int x1 = x + w;
         int y1 = y + h;
@@ -1261,115 +1261,115 @@ public abstract class SampleModel
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates.");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes.");
         }
 
         for (int i=y; i<y1; i++) {
             for (int j=x; j<x1; j++) {
-                for (int k=0; k<numBands; k++) {
-                    setSample(j, i, k, dArray[Offset++], data);
+                for (int k=0; k<numBbnds; k++) {
+                    setSbmple(j, i, k, dArrby[Offset++], dbtb);
                 }
             }
         }
     }
 
     /**
-     * Sets a sample in the specified band for the pixel located at (x,y)
-     * in the DataBuffer using an int for input.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b sbmple in the specified bbnd for the pixel locbted bt (x,y)
+     * in the DbtbBuffer using bn int for input.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param b         The band to set.
-     * @param s         The input sample as an int.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getSample(int, int, int,  DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm b         The bbnd to set.
+     * @pbrbm s         The input sbmple bs bn int.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getSbmple(int, int, int,  DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds.
      */
-    public abstract void setSample(int x, int y, int b,
+    public bbstrbct void setSbmple(int x, int y, int b,
                                    int s,
-                                   DataBuffer data);
+                                   DbtbBuffer dbtb);
 
     /**
-     * Sets a sample in the specified band for the pixel located at (x,y)
-     * in the DataBuffer using a float for input.
-     * The default implementation of this method casts the input
-     * float sample to an int and then calls the
-     * <code>setSample(int, int, int, DataBuffer)</code> method using
-     * that int value.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b sbmple in the specified bbnd for the pixel locbted bt (x,y)
+     * in the DbtbBuffer using b flobt for input.
+     * The defbult implementbtion of this method cbsts the input
+     * flobt sbmple to bn int bnd then cblls the
+     * <code>setSbmple(int, int, int, DbtbBuffer)</code> method using
+     * thbt int vblue.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param b         The band to set.
-     * @param s         The input sample as a float.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getSample(int, int, int, DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm b         The bbnd to set.
+     * @pbrbm s         The input sbmple bs b flobt.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getSbmple(int, int, int, DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds.
      */
-    public void setSample(int x, int y, int b,
-                          float s ,
-                          DataBuffer data) {
-        int sample = (int)s;
+    public void setSbmple(int x, int y, int b,
+                          flobt s ,
+                          DbtbBuffer dbtb) {
+        int sbmple = (int)s;
 
-        setSample(x, y, b, sample, data);
+        setSbmple(x, y, b, sbmple, dbtb);
     }
 
     /**
-     * Sets a sample in the specified band for the pixel located at (x,y)
-     * in the DataBuffer using a double for input.
-     * The default implementation of this method casts the input
-     * double sample to an int and then calls the
-     * <code>setSample(int, int, int, DataBuffer)</code> method using
-     * that int value.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b sbmple in the specified bbnd for the pixel locbted bt (x,y)
+     * in the DbtbBuffer using b double for input.
+     * The defbult implementbtion of this method cbsts the input
+     * double sbmple to bn int bnd then cblls the
+     * <code>setSbmple(int, int, int, DbtbBuffer)</code> method using
+     * thbt int vblue.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param b         The band to set.
-     * @param s         The input sample as a double.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getSample(int, int, int, DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm b         The bbnd to set.
+     * @pbrbm s         The input sbmple bs b double.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getSbmple(int, int, int, DbtbBuffer)
      *
-     * @throws NullPointerException if data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds.
+     * @throws NullPointerException if dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds.
      */
-    public void setSample(int x, int y, int b,
+    public void setSbmple(int x, int y, int b,
                           double s,
-                          DataBuffer data) {
-        int sample = (int)s;
+                          DbtbBuffer dbtb) {
+        int sbmple = (int)s;
 
-        setSample(x, y, b, sample, data);
+        setSbmple(x, y, b, sbmple, dbtb);
     }
 
     /**
-     * Sets the samples in the specified band for the specified rectangle
-     * of pixels from an int array containing one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets the sbmples in the specified bbnd for the specified rectbngle
+     * of pixels from bn int brrby contbining one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param b         The band to set.
-     * @param iArray    The input samples in an int array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getSamples(int, int, int, int, int, int[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm b         The bbnd to set.
+     * @pbrbm iArrby    The input sbmples in bn int brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getSbmples(int, int, int, int, int, int[], DbtbBuffer)
      *
-     * @throws NullPointerException if iArray or data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds, or if iArray is too small to
+     * @throws NullPointerException if iArrby or dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds, or if iArrby is too smbll to
      * hold the input.
      */
-    public void setSamples(int x, int y, int w, int h, int b,
-                           int iArray[], DataBuffer data) {
+    public void setSbmples(int x, int y, int w, int h, int b,
+                           int iArrby[], DbtbBuffer dbtb) {
 
         int Offset=0;
         int x1 = x + w;
@@ -1377,37 +1377,37 @@ public abstract class SampleModel
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates.");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes.");
         }
 
         for (int i=y; i<y1; i++) {
             for (int j=x; j<x1; j++) {
-                setSample(j, i, b, iArray[Offset++], data);
+                setSbmple(j, i, b, iArrby[Offset++], dbtb);
             }
         }
     }
 
     /**
-     * Sets the samples in the specified band for the specified rectangle
-     * of pixels from a float array containing one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets the sbmples in the specified bbnd for the specified rectbngle
+     * of pixels from b flobt brrby contbining one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param b         The band to set.
-     * @param fArray    The input samples in a float array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getSamples(int, int, int, int, int, float[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm b         The bbnd to set.
+     * @pbrbm fArrby    The input sbmples in b flobt brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getSbmples(int, int, int, int, int, flobt[], DbtbBuffer)
      *
-     * @throws NullPointerException if fArray or data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds, or if fArray is too small to
+     * @throws NullPointerException if fArrby or dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds, or if fArrby is too smbll to
      * hold the input.
      */
-    public void setSamples(int x, int y, int w, int h, int b,
-                           float fArray[], DataBuffer data) {
+    public void setSbmples(int x, int y, int w, int h, int b,
+                           flobt fArrby[], DbtbBuffer dbtb) {
         int Offset=0;
         int x1 = x + w;
         int y1 = y + h;
@@ -1415,37 +1415,37 @@ public abstract class SampleModel
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates.");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes.");
         }
 
         for (int i=y; i<y1; i++) {
             for (int j=x; j<x1; j++) {
-                setSample(j, i, b, fArray[Offset++], data);
+                setSbmple(j, i, b, fArrby[Offset++], dbtb);
             }
         }
     }
 
     /**
-     * Sets the samples in the specified band for the specified rectangle
-     * of pixels from a double array containing one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets the sbmples in the specified bbnd for the specified rectbngle
+     * of pixels from b double brrby contbining one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param b         The band to set.
-     * @param dArray    The input samples in a double array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getSamples(int, int, int, int, int, double[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm b         The bbnd to set.
+     * @pbrbm dArrby    The input sbmples in b double brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getSbmples(int, int, int, int, int, double[], DbtbBuffer)
      *
-     * @throws NullPointerException if dArray or data is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds, or if dArray is too small to
+     * @throws NullPointerException if dArrby or dbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds, or if dArrby is too smbll to
      * hold the input.
      */
-    public void setSamples(int x, int y, int w, int h, int b,
-                           double dArray[], DataBuffer data) {
+    public void setSbmples(int x, int y, int w, int h, int b,
+                           double dArrby[], DbtbBuffer dbtb) {
         int Offset=0;
         int x1 = x + w;
         int y1 = y + h;
@@ -1454,54 +1454,54 @@ public abstract class SampleModel
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 > height)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid coordinates.");
+            throw new ArrbyIndexOutOfBoundsException("Invblid coordinbtes.");
         }
 
         for (int i=y; i<y1; i++) {
             for (int j=x; j<x1; j++) {
-                setSample(j, i, b, dArray[Offset++], data);
+                setSbmple(j, i, b, dArrby[Offset++], dbtb);
             }
         }
     }
 
     /**
-     *  Creates a SampleModel which describes data in this SampleModel's
-     *  format, but with a different width and height.
-     *  @param w the width of the image data
-     *  @param h the height of the image data
-     *  @return a <code>SampleModel</code> describing the same image
-     *          data as this <code>SampleModel</code>, but with a
+     *  Crebtes b SbmpleModel which describes dbtb in this SbmpleModel's
+     *  formbt, but with b different width bnd height.
+     *  @pbrbm w the width of the imbge dbtb
+     *  @pbrbm h the height of the imbge dbtb
+     *  @return b <code>SbmpleModel</code> describing the sbme imbge
+     *          dbtb bs this <code>SbmpleModel</code>, but with b
      *          different size.
      */
-    public abstract SampleModel createCompatibleSampleModel(int w, int h);
+    public bbstrbct SbmpleModel crebteCompbtibleSbmpleModel(int w, int h);
 
     /**
-     * Creates a new SampleModel
-     * with a subset of the bands of this
-     * SampleModel.
-     * @param bands the subset of bands of this <code>SampleModel</code>
-     * @return a <code>SampleModel</code> with a subset of bands of this
-     *         <code>SampleModel</code>.
+     * Crebtes b new SbmpleModel
+     * with b subset of the bbnds of this
+     * SbmpleModel.
+     * @pbrbm bbnds the subset of bbnds of this <code>SbmpleModel</code>
+     * @return b <code>SbmpleModel</code> with b subset of bbnds of this
+     *         <code>SbmpleModel</code>.
      */
-    public abstract SampleModel createSubsetSampleModel(int bands[]);
+    public bbstrbct SbmpleModel crebteSubsetSbmpleModel(int bbnds[]);
 
     /**
-     * Creates a DataBuffer that corresponds to this SampleModel.
-     * The DataBuffer's width and height will match this SampleModel's.
-     * @return a <code>DataBuffer</code> corresponding to this
-     *         <code>SampleModel</code>.
+     * Crebtes b DbtbBuffer thbt corresponds to this SbmpleModel.
+     * The DbtbBuffer's width bnd height will mbtch this SbmpleModel's.
+     * @return b <code>DbtbBuffer</code> corresponding to this
+     *         <code>SbmpleModel</code>.
      */
-    public abstract DataBuffer createDataBuffer();
+    public bbstrbct DbtbBuffer crebteDbtbBuffer();
 
-    /** Returns the size in bits of samples for all bands.
-     *  @return the size of samples for all bands.
+    /** Returns the size in bits of sbmples for bll bbnds.
+     *  @return the size of sbmples for bll bbnds.
      */
-    public abstract int[] getSampleSize();
+    public bbstrbct int[] getSbmpleSize();
 
-    /** Returns the size in bits of samples for the specified band.
-     *  @param band the specified band
-     *  @return the size of the samples of the specified band.
+    /** Returns the size in bits of sbmples for the specified bbnd.
+     *  @pbrbm bbnd the specified bbnd
+     *  @return the size of the sbmples of the specified bbnd.
      */
-    public abstract int getSampleSize(int band);
+    public bbstrbct int getSbmpleSize(int bbnd);
 
 }

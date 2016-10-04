@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 2001, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
-import java.net.InetAddress;
-import java.io.Serializable;
-import java.net.UnknownHostException;
-import java.util.StringTokenizer;
-import java.util.Arrays;
-import java.util.NoSuchElementException;
+import jbvb.net.InetAddress;
+import jbvb.io.Seriblizbble;
+import jbvb.net.UnknownHostException;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Arrbys;
+import jbvb.util.NoSuchElementException;
 
-import com.sun.jmx.snmp.internal.SnmpTools;
+import com.sun.jmx.snmp.internbl.SnmpTools;
 
 /**
- * This class is handling an <CODE>SnmpEngineId</CODE> data. It copes with binary as well as <CODE>String</CODE> representation of an engine Id. A string format engine is an hex string starting with 0x.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * This clbss is hbndling bn <CODE>SnmpEngineId</CODE> dbtb. It copes with binbry bs well bs <CODE>String</CODE> representbtion of bn engine Id. A string formbt engine is bn hex string stbrting with 0x.
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  * @since 1.5
  */
-public class SnmpEngineId implements Serializable {
-    private static final long serialVersionUID = 5434729655830763317L;
+public clbss SnmpEngineId implements Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 5434729655830763317L;
 
     byte[] engineId = null;
     String hexString = null;
-    String humanString = null;
+    String humbnString = null;
     /**
-     * New <CODE>SnmpEngineId</CODE> with an hex string value. Can handle engine Id format &lt;host&gt:&lt;port&gt.
-     * @param hexString Hexa string.
+     * New <CODE>SnmpEngineId</CODE> with bn hex string vblue. Cbn hbndle engine Id formbt &lt;host&gt:&lt;port&gt.
+     * @pbrbm hexString Hexb string.
      */
     SnmpEngineId(String hexString) {
-        engineId = SnmpTools.ascii2binary(hexString);
-        this.hexString = hexString.toLowerCase();
+        engineId = SnmpTools.bscii2binbry(hexString);
+        this.hexString = hexString.toLowerCbse();
     }
     /**
-     * New <CODE>SnmpEngineId</CODE> with a binary value. You can use <CODE> SnmpTools </CODE> to convert from hex string to binary format.
-     * @param bin Binary value
+     * New <CODE>SnmpEngineId</CODE> with b binbry vblue. You cbn use <CODE> SnmpTools </CODE> to convert from hex string to binbry formbt.
+     * @pbrbm bin Binbry vblue
      */
     SnmpEngineId(byte[] bin) {
         engineId = bin;
-        hexString = SnmpTools.binary2ascii(bin).toLowerCase();
+        hexString = SnmpTools.binbry2bscii(bin).toLowerCbse();
     }
 
     /**
-     * If a string of the format &lt;address&gt;:&lt;port&gt;:&lt;IANA number&gt; has been provided at creation time, this string is returned.
-     * @return The Id as a readable string or null if not provided.
+     * If b string of the formbt &lt;bddress&gt;:&lt;port&gt;:&lt;IANA number&gt; hbs been provided bt crebtion time, this string is returned.
+     * @return The Id bs b rebdbble string or null if not provided.
      */
-    public String getReadableId() {
-        return humanString;
+    public String getRebdbbleId() {
+        return humbnString;
     }
 
     /**
-     * Returns a string format engine Id.
-     * @return String format value.
+     * Returns b string formbt engine Id.
+     * @return String formbt vblue.
      */
     public String toString() {
         return hexString;
     }
     /**
-     * Returns a binary engine Id.
-     * @return Binary value.
+     * Returns b binbry engine Id.
+     * @return Binbry vblue.
      */
     public byte[] getBytes() {
         return engineId;
     }
 
     /**
-     * In order to store the string used to create the engineId.
+     * In order to store the string used to crebte the engineId.
      */
-    void setStringValue(String val) {
-        humanString = val;
+    void setStringVblue(String vbl) {
+        humbnString = vbl;
     }
 
-    static void validateId(String str) throws IllegalArgumentException {
-        byte[] arr = SnmpTools.ascii2binary(str);
-        validateId(arr);
+    stbtic void vblidbteId(String str) throws IllegblArgumentException {
+        byte[] brr = SnmpTools.bscii2binbry(str);
+        vblidbteId(brr);
     }
 
-    static void validateId(byte[] arr) throws IllegalArgumentException {
+    stbtic void vblidbteId(byte[] brr) throws IllegblArgumentException {
 
-        if(arr.length < 5) throw new IllegalArgumentException("Id size lower than 5 bytes.");
-        if(arr.length > 32) throw new IllegalArgumentException("Id size greater than 32 bytes.");
+        if(brr.length < 5) throw new IllegblArgumentException("Id size lower thbn 5 bytes.");
+        if(brr.length > 32) throw new IllegblArgumentException("Id size grebter thbn 32 bytes.");
 
-        //octet strings with very first bit = 0 and length != 12 octets
-        if( ((arr[0] & 0x80) == 0) && arr.length != 12)
-            throw new IllegalArgumentException("Very first bit = 0 and length != 12 octets");
+        //octet strings with very first bit = 0 bnd length != 12 octets
+        if( ((brr[0] & 0x80) == 0) && brr.length != 12)
+            throw new IllegblArgumentException("Very first bit = 0 bnd length != 12 octets");
 
-        byte[] zeroedArrays = new byte[arr.length];
-        if(Arrays.equals(zeroedArrays, arr)) throw new IllegalArgumentException("Zeroed Id.");
-        byte[] FFArrays = new byte[arr.length];
-        Arrays.fill(FFArrays, (byte)0xFF);
-        if(Arrays.equals(FFArrays, arr)) throw new IllegalArgumentException("0xFF Id.");
+        byte[] zeroedArrbys = new byte[brr.length];
+        if(Arrbys.equbls(zeroedArrbys, brr)) throw new IllegblArgumentException("Zeroed Id.");
+        byte[] FFArrbys = new byte[brr.length];
+        Arrbys.fill(FFArrbys, (byte)0xFF);
+        if(Arrbys.equbls(FFArrbys, brr)) throw new IllegblArgumentException("0xFF Id.");
 
     }
 
     /**
-     * Generates an engine Id based on the passed array.
-     * @return The created engine Id or null if given arr is null or its length == 0;
-     * @exception IllegalArgumentException when:
+     * Generbtes bn engine Id bbsed on the pbssed brrby.
+     * @return The crebted engine Id or null if given brr is null or its length == 0;
+     * @exception IllegblArgumentException when:
      * <ul>
-     *  <li>octet string lower than 5 bytes.</li>
-     *  <li>octet string greater than 32 bytes.</li>
-     *  <li>octet string = all zeros.</li>
-     *  <li>octet string = all 'ff'H.</li>
-     *  <li>octet strings with very first bit = 0 and length != 12 octets</li>
+     *  <li>octet string lower thbn 5 bytes.</li>
+     *  <li>octet string grebter thbn 32 bytes.</li>
+     *  <li>octet string = bll zeros.</li>
+     *  <li>octet string = bll 'ff'H.</li>
+     *  <li>octet strings with very first bit = 0 bnd length != 12 octets</li>
      * </ul>
      */
-    public static SnmpEngineId createEngineId(byte[] arr) throws IllegalArgumentException {
-        if( (arr == null) || arr.length == 0) return null;
-        validateId(arr);
-        return new SnmpEngineId(arr);
+    public stbtic SnmpEngineId crebteEngineId(byte[] brr) throws IllegblArgumentException {
+        if( (brr == null) || brr.length == 0) return null;
+        vblidbteId(brr);
+        return new SnmpEngineId(brr);
     }
 
     /**
-     * Generates an engine Id that is unique to the host the agent is running on. The engine Id unicity is system time based. The creation algorithm uses the SUN Microsystems IANA number (42).
-     * @return The generated engine Id.
+     * Generbtes bn engine Id thbt is unique to the host the bgent is running on. The engine Id unicity is system time bbsed. The crebtion blgorithm uses the SUN Microsystems IANA number (42).
+     * @return The generbted engine Id.
      */
-    public static SnmpEngineId createEngineId() {
-        byte[] address = null;
+    public stbtic SnmpEngineId crebteEngineId() {
+        byte[] bddress = null;
         byte[] engineid = new byte[13];
-        int iana = 42;
-        long mask = 0xFF;
+        int ibnb = 42;
+        long mbsk = 0xFF;
         long time = System.currentTimeMillis();
 
-        engineid[0] = (byte) ( (iana & 0xFF000000) >> 24 );
+        engineid[0] = (byte) ( (ibnb & 0xFF000000) >> 24 );
         engineid[0] |= 0x80;
-        engineid[1] = (byte) ( (iana & 0x00FF0000) >> 16 );
-        engineid[2] = (byte) ( (iana & 0x0000FF00) >> 8 );
-        engineid[3] = (byte) (iana & 0x000000FF);
+        engineid[1] = (byte) ( (ibnb & 0x00FF0000) >> 16 );
+        engineid[2] = (byte) ( (ibnb & 0x0000FF00) >> 8 );
+        engineid[3] = (byte) (ibnb & 0x000000FF);
         engineid[4] = 0x05;
 
-        engineid[5] =  (byte) ( (time & (mask << 56)) >>> 56 );
-        engineid[6] =  (byte) ( (time & (mask << 48) ) >>> 48 );
-        engineid[7] =  (byte) ( (time & (mask << 40) ) >>> 40 );
-        engineid[8] =  (byte) ( (time & (mask << 32) ) >>> 32 );
-        engineid[9] =  (byte) ( (time & (mask << 24) ) >>> 24 );
-        engineid[10] = (byte) ( (time & (mask << 16) ) >>> 16 );
-        engineid[11] = (byte) ( (time & (mask << 8) ) >>> 8 );
-        engineid[12] = (byte) (time & mask);
+        engineid[5] =  (byte) ( (time & (mbsk << 56)) >>> 56 );
+        engineid[6] =  (byte) ( (time & (mbsk << 48) ) >>> 48 );
+        engineid[7] =  (byte) ( (time & (mbsk << 40) ) >>> 40 );
+        engineid[8] =  (byte) ( (time & (mbsk << 32) ) >>> 32 );
+        engineid[9] =  (byte) ( (time & (mbsk << 24) ) >>> 24 );
+        engineid[10] = (byte) ( (time & (mbsk << 16) ) >>> 16 );
+        engineid[11] = (byte) ( (time & (mbsk << 8) ) >>> 8 );
+        engineid[12] = (byte) (time & mbsk);
 
         return new SnmpEngineId(engineid);
     }
 
     /**
-     * Translates an engine Id in an SnmpOid format. This is useful when dealing with USM MIB indexes.
-     * The oid format is : <engine Id length>.<engine Id binary octet1>....<engine Id binary octetn - 1>.<engine Id binary octetn>
-     * Eg: "0x8000002a05819dcb6e00001f96" ==> 13.128.0.0.42.5.129.157.203.110.0.0.31.150
+     * Trbnslbtes bn engine Id in bn SnmpOid formbt. This is useful when debling with USM MIB indexes.
+     * The oid formbt is : <engine Id length>.<engine Id binbry octet1>....<engine Id binbry octetn - 1>.<engine Id binbry octetn>
+     * Eg: "0x8000002b05819dcb6e00001f96" ==> 13.128.0.0.42.5.129.157.203.110.0.0.31.150
      *
      * @return SnmpOid The oid.
      */
@@ -178,312 +178,312 @@ public class SnmpEngineId implements Serializable {
     }
 
    /**
-    * <P>Generates a unique engine Id. Hexadecimal strings as well as a textual description are supported. The textual format is as follow:
-    * <BR>  &lt;address&gt;:&lt;port&gt;:&lt;IANA number&gt;</P>
-    * <P>The allowed formats :</P>
+    * <P>Generbtes b unique engine Id. Hexbdecimbl strings bs well bs b textubl description bre supported. The textubl formbt is bs follow:
+    * <BR>  &lt;bddress&gt;:&lt;port&gt;:&lt;IANA number&gt;</P>
+    * <P>The bllowed formbts :</P>
     * <ul>
-    * <li> &lt;address&gt;:&lt;port&gt;:&lt;IANA number&gt
-    * <BR>   All these parameters are used to generate the Id. WARNING, this method is not compliant with IPv6 address format. Use { @link com.sun.jmx.snmp.SnmpEngineId#createEngineId(java.lang.String,java.lang.String) } instead.</li>
-    * <li> &lt;address&gt;:&lt;port&gt;
+    * <li> &lt;bddress&gt;:&lt;port&gt;:&lt;IANA number&gt
+    * <BR>   All these pbrbmeters bre used to generbte the Id. WARNING, this method is not complibnt with IPv6 bddress formbt. Use { @link com.sun.jmx.snmp.SnmpEngineId#crebteEngineId(jbvb.lbng.String,jbvb.lbng.String) } instebd.</li>
+    * <li> &lt;bddress&gt;:&lt;port&gt;
     * <BR>   The IANA number will be the SUN Microsystems one (42). </li>
-    * <li> address
-    * <BR>   The port 161 will be used to generate the Id. IANA number will be the SUN Microsystems one (42). </li>
+    * <li> bddress
+    * <BR>   The port 161 will be used to generbte the Id. IANA number will be the SUN Microsystems one (42). </li>
     * <li> :port
-    * <BR>   The host to use is localhost. IANA number will be the SUN Microsystems one (42). </li>
+    * <BR>   The host to use is locblhost. IANA number will be the SUN Microsystems one (42). </li>
     * <li> ::&lt;IANA number&gt &nbsp;&nbsp;&nbsp;
-    * <BR>   The port 161 and localhost will be used to generate the Id. </li>
+    * <BR>   The port 161 bnd locblhost will be used to generbte the Id. </li>
     * <li> :&lt;port&gt;:&lt;IANA number&gt;
-    * <BR>   The host to use is localhost. </li>
-    * <li> &lt;address&gt;::&lt;IANA number&gt
-    * <BR>   The port 161 will be used to generate the Id. </li>
+    * <BR>   The host to use is locblhost. </li>
+    * <li> &lt;bddress&gt;::&lt;IANA number&gt
+    * <BR>   The port 161 will be used to generbte the Id. </li>
     * <li> :: &nbsp;&nbsp;&nbsp;
-    * <BR>   The port 161, localhost and the SUN Microsystems IANA number will be used to generate the Id. </li>
+    * <BR>   The port 161, locblhost bnd the SUN Microsystems IANA number will be used to generbte the Id. </li>
     * </ul>
-    * @exception UnknownHostException if the host name contained in the textual format is unknown.
-    * @exception IllegalArgumentException when :
+    * @exception UnknownHostException if the host nbme contbined in the textubl formbt is unknown.
+    * @exception IllegblArgumentException when :
     * <ul>
-    *  <li>octet string lower than 5 bytes.</li>
-    *  <li>octet string greater than 32 bytes.</li>
-    *  <li>octet string = all zeros.</li>
-    *  <li>octet string = all 'ff'H.</li>
-    *  <li>octet strings with very first bit = 0 and length != 12 octets</li>
-    *  <li>An IPv6 address format is used in conjonction with the ":" separator</li>
+    *  <li>octet string lower thbn 5 bytes.</li>
+    *  <li>octet string grebter thbn 32 bytes.</li>
+    *  <li>octet string = bll zeros.</li>
+    *  <li>octet string = bll 'ff'H.</li>
+    *  <li>octet strings with very first bit = 0 bnd length != 12 octets</li>
+    *  <li>An IPv6 bddress formbt is used in conjonction with the ":" sepbrbtor</li>
     * </ul>
-    * @param str The string to parse.
-    * @return The generated engine Id or null if the passed string is null.
+    * @pbrbm str The string to pbrse.
+    * @return The generbted engine Id or null if the pbssed string is null.
     *
     */
-    public static SnmpEngineId createEngineId(String str)
-        throws IllegalArgumentException, UnknownHostException {
-        return createEngineId(str, null);
+    public stbtic SnmpEngineId crebteEngineId(String str)
+        throws IllegblArgumentException, UnknownHostException {
+        return crebteEngineId(str, null);
     }
 
     /**
      * Idem { @link
-     * com.sun.jmx.snmp.SnmpEngineId#createEngineId(java.lang.String) }
-     * with the ability to provide your own separator. This allows IPv6
-     * address format handling (eg: providing @ as separator).
-     * @param str The string to parse.
-     * @param separator the separator to use. If null is provided, the default
-     * separator ":" is used.
-     * @return The generated engine Id or null if the passed string is null.
-     * @exception UnknownHostException if the host name contained in the
-     * textual format is unknown.
-     * @exception IllegalArgumentException when :
+     * com.sun.jmx.snmp.SnmpEngineId#crebteEngineId(jbvb.lbng.String) }
+     * with the bbility to provide your own sepbrbtor. This bllows IPv6
+     * bddress formbt hbndling (eg: providing @ bs sepbrbtor).
+     * @pbrbm str The string to pbrse.
+     * @pbrbm sepbrbtor the sepbrbtor to use. If null is provided, the defbult
+     * sepbrbtor ":" is used.
+     * @return The generbted engine Id or null if the pbssed string is null.
+     * @exception UnknownHostException if the host nbme contbined in the
+     * textubl formbt is unknown.
+     * @exception IllegblArgumentException when :
      * <ul>
-     *  <li>octet string lower than 5 bytes.</li>
-     *  <li>octet string greater than 32 bytes.</li>
-     *  <li>octet string = all zeros.</li>
-     *  <li>octet string = all 'ff'H.</li>
-     *  <li>octet strings with very first bit = 0 and length != 12 octets</li>
-     *  <li>An IPv6 address format is used in conjonction with the ":"
-     *      separator</li>
+     *  <li>octet string lower thbn 5 bytes.</li>
+     *  <li>octet string grebter thbn 32 bytes.</li>
+     *  <li>octet string = bll zeros.</li>
+     *  <li>octet string = bll 'ff'H.</li>
+     *  <li>octet strings with very first bit = 0 bnd length != 12 octets</li>
+     *  <li>An IPv6 bddress formbt is used in conjonction with the ":"
+     *      sepbrbtor</li>
      * </ul>
      * @since 1.5
      */
-    public static SnmpEngineId createEngineId(String str, String separator)
-        throws IllegalArgumentException, UnknownHostException {
+    public stbtic SnmpEngineId crebteEngineId(String str, String sepbrbtor)
+        throws IllegblArgumentException, UnknownHostException {
         if(str == null) return null;
 
-        if(str.startsWith("0x") || str.startsWith("0X")) {
-            validateId(str);
+        if(str.stbrtsWith("0x") || str.stbrtsWith("0X")) {
+            vblidbteId(str);
             return new SnmpEngineId(str);
         }
-        separator = separator == null ? ":" : separator;
+        sepbrbtor = sepbrbtor == null ? ":" : sepbrbtor;
         StringTokenizer token = new StringTokenizer(str,
-                                                    separator,
+                                                    sepbrbtor,
                                                     true);
 
-        String address = null;
+        String bddress = null;
         String port = null;
-        String iana = null;
+        String ibnb = null;
         int objPort = 161;
-        int objIana = 42;
+        int objIbnb = 42;
         InetAddress objAddress = null;
         SnmpEngineId eng = null;
         try {
-            //Deal with address
+            //Debl with bddress
             try {
-                address = token.nextToken();
-            }catch(NoSuchElementException e) {
-                throw new IllegalArgumentException("Passed string is invalid : ["+str+"]");
+                bddress = token.nextToken();
+            }cbtch(NoSuchElementException e) {
+                throw new IllegblArgumentException("Pbssed string is invblid : ["+str+"]");
             }
-            if(!address.equals(separator)) {
-                objAddress = InetAddress.getByName(address);
+            if(!bddress.equbls(sepbrbtor)) {
+                objAddress = InetAddress.getByNbme(bddress);
                 try {
                     token.nextToken();
-                }catch(NoSuchElementException e) {
+                }cbtch(NoSuchElementException e) {
                     //No need to go further, no port.
-                    eng = SnmpEngineId.createEngineId(objAddress,
+                    eng = SnmpEngineId.crebteEngineId(objAddress,
                                                       objPort,
-                                                      objIana);
-                    eng.setStringValue(str);
+                                                      objIbnb);
+                    eng.setStringVblue(str);
                     return eng;
                 }
             }
             else
-                objAddress = InetAddress.getLocalHost();
+                objAddress = InetAddress.getLocblHost();
 
-            //Deal with port
+            //Debl with port
             try {
                 port = token.nextToken();
-            }catch(NoSuchElementException e) {
+            }cbtch(NoSuchElementException e) {
                 //No need to go further, no port.
-                eng = SnmpEngineId.createEngineId(objAddress,
+                eng = SnmpEngineId.crebteEngineId(objAddress,
                                                   objPort,
-                                                  objIana);
-                eng.setStringValue(str);
+                                                  objIbnb);
+                eng.setStringVblue(str);
                 return eng;
             }
 
-            if(!port.equals(separator)) {
-                objPort = Integer.parseInt(port);
+            if(!port.equbls(sepbrbtor)) {
+                objPort = Integer.pbrseInt(port);
                 try {
                     token.nextToken();
-                }catch(NoSuchElementException e) {
-                    //No need to go further, no iana.
-                    eng = SnmpEngineId.createEngineId(objAddress,
+                }cbtch(NoSuchElementException e) {
+                    //No need to go further, no ibnb.
+                    eng = SnmpEngineId.crebteEngineId(objAddress,
                                                       objPort,
-                                                      objIana);
-                    eng.setStringValue(str);
+                                                      objIbnb);
+                    eng.setStringVblue(str);
                     return eng;
                 }
             }
 
-            //Deal with iana
+            //Debl with ibnb
             try {
-                iana = token.nextToken();
-            }catch(NoSuchElementException e) {
+                ibnb = token.nextToken();
+            }cbtch(NoSuchElementException e) {
                 //No need to go further, no port.
-                eng = SnmpEngineId.createEngineId(objAddress,
+                eng = SnmpEngineId.crebteEngineId(objAddress,
                                                   objPort,
-                                                  objIana);
-                eng.setStringValue(str);
+                                                  objIbnb);
+                eng.setStringVblue(str);
                 return eng;
             }
 
-            if(!iana.equals(separator))
-                objIana = Integer.parseInt(iana);
+            if(!ibnb.equbls(sepbrbtor))
+                objIbnb = Integer.pbrseInt(ibnb);
 
-            eng = SnmpEngineId.createEngineId(objAddress,
+            eng = SnmpEngineId.crebteEngineId(objAddress,
                                               objPort,
-                                              objIana);
-            eng.setStringValue(str);
+                                              objIbnb);
+            eng.setStringVblue(str);
 
             return eng;
 
-        } catch(Exception e) {
-            throw new IllegalArgumentException("Passed string is invalid : ["+str+"]. Check that the used separator ["+ separator + "] is compatible with IPv6 address format.");
+        } cbtch(Exception e) {
+            throw new IllegblArgumentException("Pbssed string is invblid : ["+str+"]. Check thbt the used sepbrbtor ["+ sepbrbtor + "] is compbtible with IPv6 bddress formbt.");
         }
 
     }
 
     /**
-     * Generates a unique engine Id. The engine Id unicity is based on
-     * the host IP address and port. The IP address used is the
-     * localhost one. The creation algorithm uses the SUN Microsystems IANA
+     * Generbtes b unique engine Id. The engine Id unicity is bbsed on
+     * the host IP bddress bnd port. The IP bddress used is the
+     * locblhost one. The crebtion blgorithm uses the SUN Microsystems IANA
      * number (42).
-     * @param port The TCP/IP port the SNMPv3 Adaptor Server is listening to.
-     * @return The generated engine Id.
-     * @exception UnknownHostException if the local host name
-     *            used to calculate the id is unknown.
+     * @pbrbm port The TCP/IP port the SNMPv3 Adbptor Server is listening to.
+     * @return The generbted engine Id.
+     * @exception UnknownHostException if the locbl host nbme
+     *            used to cblculbte the id is unknown.
      */
-    public static SnmpEngineId createEngineId(int port)
+    public stbtic SnmpEngineId crebteEngineId(int port)
         throws UnknownHostException {
-        int suniana = 42;
-        InetAddress address = null;
-        address = InetAddress.getLocalHost();
-        return createEngineId(address, port, suniana);
+        int sunibnb = 42;
+        InetAddress bddress = null;
+        bddress = InetAddress.getLocblHost();
+        return crebteEngineId(bddress, port, sunibnb);
     }
     /**
-     * Generates a unique engine Id. The engine Id unicity is based on
-     * the host IP address and port. The IP address used is the passed
-     * one. The creation algorithm uses the SUN Microsystems IANA
+     * Generbtes b unique engine Id. The engine Id unicity is bbsed on
+     * the host IP bddress bnd port. The IP bddress used is the pbssed
+     * one. The crebtion blgorithm uses the SUN Microsystems IANA
      * number (42).
-     * @param address The IP address the SNMPv3 Adaptor Server is listening to.
-     * @param port The TCP/IP port the SNMPv3 Adaptor Server is listening to.
-     * @return The generated engine Id.
-     * @exception UnknownHostException. if the provided address is null.
+     * @pbrbm bddress The IP bddress the SNMPv3 Adbptor Server is listening to.
+     * @pbrbm port The TCP/IP port the SNMPv3 Adbptor Server is listening to.
+     * @return The generbted engine Id.
+     * @exception UnknownHostException. if the provided bddress is null.
      */
-    public static SnmpEngineId createEngineId(InetAddress address, int port)
-        throws IllegalArgumentException {
-        int suniana = 42;
-        if(address == null)
-            throw new IllegalArgumentException("InetAddress is null.");
-        return createEngineId(address, port, suniana);
+    public stbtic SnmpEngineId crebteEngineId(InetAddress bddress, int port)
+        throws IllegblArgumentException {
+        int sunibnb = 42;
+        if(bddress == null)
+            throw new IllegblArgumentException("InetAddress is null.");
+        return crebteEngineId(bddress, port, sunibnb);
     }
 
     /**
-     * Generates a unique engine Id. The engine Id unicity is based on
-     * the host IP address and port. The IP address is the localhost one.
-     * The creation algorithm uses the passed IANA number.
-     * @param port The TCP/IP port the SNMPv3 Adaptor Server is listening to.
-     * @param iana Your enterprise IANA number.
-     * @exception UnknownHostException if the local host name used to calculate the id is unknown.
-     * @return The generated engine Id.
+     * Generbtes b unique engine Id. The engine Id unicity is bbsed on
+     * the host IP bddress bnd port. The IP bddress is the locblhost one.
+     * The crebtion blgorithm uses the pbssed IANA number.
+     * @pbrbm port The TCP/IP port the SNMPv3 Adbptor Server is listening to.
+     * @pbrbm ibnb Your enterprise IANA number.
+     * @exception UnknownHostException if the locbl host nbme used to cblculbte the id is unknown.
+     * @return The generbted engine Id.
      */
-    public static SnmpEngineId createEngineId(int port, int iana) throws UnknownHostException {
-        InetAddress address = null;
-        address = InetAddress.getLocalHost();
-        return createEngineId(address, port, iana);
+    public stbtic SnmpEngineId crebteEngineId(int port, int ibnb) throws UnknownHostException {
+        InetAddress bddress = null;
+        bddress = InetAddress.getLocblHost();
+        return crebteEngineId(bddress, port, ibnb);
     }
 
     /**
-     * Generates a unique engine Id. The engine Id unicity is based on the host IP address and port. The IP address is the passed one, it handles IPv4 and IPv6 hosts. The creation algorithm uses the passed IANA number.
-     * @param addr The IP address the SNMPv3 Adaptor Server is listening to.
-     * @param port The TCP/IP port the SNMPv3 Adaptor Server is listening to.
-     * @param iana Your enterprise IANA number.
-     * @return The generated engine Id.
+     * Generbtes b unique engine Id. The engine Id unicity is bbsed on the host IP bddress bnd port. The IP bddress is the pbssed one, it hbndles IPv4 bnd IPv6 hosts. The crebtion blgorithm uses the pbssed IANA number.
+     * @pbrbm bddr The IP bddress the SNMPv3 Adbptor Server is listening to.
+     * @pbrbm port The TCP/IP port the SNMPv3 Adbptor Server is listening to.
+     * @pbrbm ibnb Your enterprise IANA number.
+     * @return The generbted engine Id.
      * @exception UnknownHostException if the provided <CODE>InetAddress </CODE> is null.
      */
-    public static SnmpEngineId createEngineId(InetAddress addr,
+    public stbtic SnmpEngineId crebteEngineId(InetAddress bddr,
                                               int port,
-                                              int iana) {
-        if(addr == null) throw new IllegalArgumentException("InetAddress is null.");
-        byte[] address = addr.getAddress();
-        byte[] engineid = new byte[9 + address.length];
-        engineid[0] = (byte) ( (iana & 0xFF000000) >> 24 );
+                                              int ibnb) {
+        if(bddr == null) throw new IllegblArgumentException("InetAddress is null.");
+        byte[] bddress = bddr.getAddress();
+        byte[] engineid = new byte[9 + bddress.length];
+        engineid[0] = (byte) ( (ibnb & 0xFF000000) >> 24 );
         engineid[0] |= 0x80;
-        engineid[1] = (byte) ( (iana & 0x00FF0000) >> 16 );
-        engineid[2] = (byte) ( (iana & 0x0000FF00) >> 8 );
+        engineid[1] = (byte) ( (ibnb & 0x00FF0000) >> 16 );
+        engineid[2] = (byte) ( (ibnb & 0x0000FF00) >> 8 );
 
-engineid[3] = (byte) (iana & 0x000000FF);
+engineid[3] = (byte) (ibnb & 0x000000FF);
         engineid[4] = 0x05;
 
-        if(address.length == 4)
+        if(bddress.length == 4)
             engineid[4] = 0x01;
 
-        if(address.length == 16)
+        if(bddress.length == 16)
             engineid[4] = 0x02;
 
-        for(int i = 0; i < address.length; i++) {
-            engineid[i + 5] = address[i];
+        for(int i = 0; i < bddress.length; i++) {
+            engineid[i + 5] = bddress[i];
         }
 
-        engineid[5 + address.length] = (byte)  ( (port & 0xFF000000) >> 24 );
-        engineid[6 + address.length] = (byte) ( (port & 0x00FF0000) >> 16 );
-        engineid[7 + address.length] = (byte) ( (port & 0x0000FF00) >> 8 );
-        engineid[8 + address.length] = (byte) (  port & 0x000000FF );
+        engineid[5 + bddress.length] = (byte)  ( (port & 0xFF000000) >> 24 );
+        engineid[6 + bddress.length] = (byte) ( (port & 0x00FF0000) >> 16 );
+        engineid[7 + bddress.length] = (byte) ( (port & 0x0000FF00) >> 8 );
+        engineid[8 + bddress.length] = (byte) (  port & 0x000000FF );
 
         return new SnmpEngineId(engineid);
     }
 
      /**
-     * Generates an engine Id based on an InetAddress. Handles IPv4 and IPv6 addresses. The creation algorithm uses the passed IANA number.
-     * @param iana Your enterprise IANA number.
-     * @param addr The IP address the SNMPv3 Adaptor Server is listening to.
-     * @return The generated engine Id.
+     * Generbtes bn engine Id bbsed on bn InetAddress. Hbndles IPv4 bnd IPv6 bddresses. The crebtion blgorithm uses the pbssed IANA number.
+     * @pbrbm ibnb Your enterprise IANA number.
+     * @pbrbm bddr The IP bddress the SNMPv3 Adbptor Server is listening to.
+     * @return The generbted engine Id.
      * @since 1.5
      * @exception UnknownHostException if the provided <CODE>InetAddress </CODE> is null.
      */
-    public static SnmpEngineId createEngineId(int iana, InetAddress addr)
+    public stbtic SnmpEngineId crebteEngineId(int ibnb, InetAddress bddr)
     {
-        if(addr == null) throw new IllegalArgumentException("InetAddress is null.");
-        byte[] address = addr.getAddress();
-        byte[] engineid = new byte[5 + address.length];
-        engineid[0] = (byte) ( (iana & 0xFF000000) >> 24 );
+        if(bddr == null) throw new IllegblArgumentException("InetAddress is null.");
+        byte[] bddress = bddr.getAddress();
+        byte[] engineid = new byte[5 + bddress.length];
+        engineid[0] = (byte) ( (ibnb & 0xFF000000) >> 24 );
         engineid[0] |= 0x80;
-        engineid[1] = (byte) ( (iana & 0x00FF0000) >> 16 );
-        engineid[2] = (byte) ( (iana & 0x0000FF00) >> 8 );
+        engineid[1] = (byte) ( (ibnb & 0x00FF0000) >> 16 );
+        engineid[2] = (byte) ( (ibnb & 0x0000FF00) >> 8 );
 
-        engineid[3] = (byte) (iana & 0x000000FF);
-        if(address.length == 4)
+        engineid[3] = (byte) (ibnb & 0x000000FF);
+        if(bddress.length == 4)
             engineid[4] = 0x01;
 
-        if(address.length == 16)
+        if(bddress.length == 16)
             engineid[4] = 0x02;
 
-        for(int i = 0; i < address.length; i++) {
-            engineid[i + 5] = address[i];
+        for(int i = 0; i < bddress.length; i++) {
+            engineid[i + 5] = bddress[i];
         }
 
         return new SnmpEngineId(engineid);
     }
 
     /**
-     * Generates an engine Id based on an InetAddress. Handles IPv4 and IPv6
-     * addresses. The creation algorithm uses the sun IANA number (42).
-     * @param addr The IP address the SNMPv3 Adaptor Server is listening to.
-     * @return The generated engine Id.
+     * Generbtes bn engine Id bbsed on bn InetAddress. Hbndles IPv4 bnd IPv6
+     * bddresses. The crebtion blgorithm uses the sun IANA number (42).
+     * @pbrbm bddr The IP bddress the SNMPv3 Adbptor Server is listening to.
+     * @return The generbted engine Id.
      * @since 1.5
      * @exception UnknownHostException if the provided
      *            <CODE>InetAddress</CODE> is null.
      */
-    public static SnmpEngineId createEngineId(InetAddress addr) {
-        return createEngineId(42, addr);
+    public stbtic SnmpEngineId crebteEngineId(InetAddress bddr) {
+        return crebteEngineId(42, bddr);
     }
 
 
     /**
-     * Tests <CODE>SnmpEngineId</CODE> instance equality. Two <CODE>SnmpEngineId</CODE> are equal if they have the same value.
-     * @return <CODE>true</CODE> if the two <CODE>SnmpEngineId</CODE> are equals, <CODE>false</CODE> otherwise.
+     * Tests <CODE>SnmpEngineId</CODE> instbnce equblity. Two <CODE>SnmpEngineId</CODE> bre equbl if they hbve the sbme vblue.
+     * @return <CODE>true</CODE> if the two <CODE>SnmpEngineId</CODE> bre equbls, <CODE>fblse</CODE> otherwise.
      */
-    public boolean equals(Object a) {
-        if(!(a instanceof SnmpEngineId) ) return false;
-        return hexString.equals(((SnmpEngineId) a).toString());
+    public boolebn equbls(Object b) {
+        if(!(b instbnceof SnmpEngineId) ) return fblse;
+        return hexString.equbls(((SnmpEngineId) b).toString());
     }
 
-    public int hashCode() {
-        return hexString.hashCode();
+    public int hbshCode() {
+        return hexString.hbshCode();
     }
 }

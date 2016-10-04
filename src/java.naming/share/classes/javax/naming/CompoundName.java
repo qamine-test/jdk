@@ -1,623 +1,623 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
-import java.util.Enumeration;
-import java.util.Properties;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Properties;
 
 /**
- * This class represents a compound name -- a name from
- * a hierarchical name space.
- * Each component in a compound name is an atomic name.
+ * This clbss represents b compound nbme -- b nbme from
+ * b hierbrchicbl nbme spbce.
+ * Ebch component in b compound nbme is bn btomic nbme.
  * <p>
- * The components of a compound name are numbered.  The indexes of a
- * compound name with N components range from 0 up to, but not including, N.
- * This range may be written as [0,N).
- * The most significant component is at index 0.
- * An empty compound name has no components.
+ * The components of b compound nbme bre numbered.  The indexes of b
+ * compound nbme with N components rbnge from 0 up to, but not including, N.
+ * This rbnge mby be written bs [0,N).
+ * The most significbnt component is bt index 0.
+ * An empty compound nbme hbs no components.
  *
- * <h1>Compound Name Syntax</h1>
- * The syntax of a compound name is specified using a set of properties:
+ * <h1>Compound Nbme Syntbx</h1>
+ * The syntbx of b compound nbme is specified using b set of properties:
  *<dl>
- *  <dt>jndi.syntax.direction
- *  <dd>Direction for parsing ("right_to_left", "left_to_right", "flat").
- *      If unspecified, defaults to "flat", which means the namespace is flat
- *      with no hierarchical structure.
+ *  <dt>jndi.syntbx.direction
+ *  <dd>Direction for pbrsing ("right_to_left", "left_to_right", "flbt").
+ *      If unspecified, defbults to "flbt", which mebns the nbmespbce is flbt
+ *      with no hierbrchicbl structure.
  *
- *  <dt>jndi.syntax.separator
- *  <dd>Separator between atomic name components.
- *      Required unless direction is "flat".
+ *  <dt>jndi.syntbx.sepbrbtor
+ *  <dd>Sepbrbtor between btomic nbme components.
+ *      Required unless direction is "flbt".
  *
- *  <dt>jndi.syntax.ignorecase
- *  <dd>If present, "true" means ignore the case when comparing name
- *      components. If its value is not "true", or if the property is not
- *      present, case is considered when comparing name components.
+ *  <dt>jndi.syntbx.ignorecbse
+ *  <dd>If present, "true" mebns ignore the cbse when compbring nbme
+ *      components. If its vblue is not "true", or if the property is not
+ *      present, cbse is considered when compbring nbme components.
  *
- *  <dt>jndi.syntax.escape
- *  <dd>If present, specifies the escape string for overriding separator,
- *      escapes and quotes.
+ *  <dt>jndi.syntbx.escbpe
+ *  <dd>If present, specifies the escbpe string for overriding sepbrbtor,
+ *      escbpes bnd quotes.
  *
- *  <dt>jndi.syntax.beginquote
- *  <dd>If present, specifies the string delimiting start of a quoted string.
+ *  <dt>jndi.syntbx.beginquote
+ *  <dd>If present, specifies the string delimiting stbrt of b quoted string.
  *
- *  <dt>jndi.syntax.endquote
+ *  <dt>jndi.syntbx.endquote
  *  <dd>String delimiting end of quoted string.
- *      If present, specifies the string delimiting the end of a quoted string.
- *      If not present, use syntax.beginquote as end quote.
- *  <dt>jndi.syntax.beginquote2
- *  <dd>Alternative set of begin/end quotes.
+ *      If present, specifies the string delimiting the end of b quoted string.
+ *      If not present, use syntbx.beginquote bs end quote.
+ *  <dt>jndi.syntbx.beginquote2
+ *  <dd>Alternbtive set of begin/end quotes.
  *
- *  <dt>jndi.syntax.endquote2
- *  <dd>Alternative set of begin/end quotes.
+ *  <dt>jndi.syntbx.endquote2
+ *  <dd>Alternbtive set of begin/end quotes.
  *
- *  <dt>jndi.syntax.trimblanks
- *  <dd>If present, "true" means trim any leading and trailing whitespaces
- *      in a name component for comparison purposes. If its value is not
- *      "true", or if the property is not present, blanks are significant.
- *  <dt>jndi.syntax.separator.ava
- *  <dd>If present, specifies the string that separates
- *      attribute-value-assertions when specifying multiple attribute/value
- *      pairs. (e.g. ","  in age=65,gender=male).
- *  <dt>jndi.syntax.separator.typeval
- *  <dd>If present, specifies the string that separators attribute
- *              from value (e.g. "=" in "age=65")
+ *  <dt>jndi.syntbx.trimblbnks
+ *  <dd>If present, "true" mebns trim bny lebding bnd trbiling whitespbces
+ *      in b nbme component for compbrison purposes. If its vblue is not
+ *      "true", or if the property is not present, blbnks bre significbnt.
+ *  <dt>jndi.syntbx.sepbrbtor.bvb
+ *  <dd>If present, specifies the string thbt sepbrbtes
+ *      bttribute-vblue-bssertions when specifying multiple bttribute/vblue
+ *      pbirs. (e.g. ","  in bge=65,gender=mble).
+ *  <dt>jndi.syntbx.sepbrbtor.typevbl
+ *  <dd>If present, specifies the string thbt sepbrbtors bttribute
+ *              from vblue (e.g. "=" in "bge=65")
  *</dl>
- * These properties are interpreted according to the following rules:
+ * These properties bre interpreted bccording to the following rules:
  *<ol>
  *<li>
- * In a string without quotes or escapes, any instance of the
- * separator delimits two atomic names. Each atomic name is referred
- * to as a <em>component</em>.
+ * In b string without quotes or escbpes, bny instbnce of the
+ * sepbrbtor delimits two btomic nbmes. Ebch btomic nbme is referred
+ * to bs b <em>component</em>.
  *<li>
- * A separator, quote or escape is escaped if preceded immediately
- * (on the left) by the escape.
+ * A sepbrbtor, quote or escbpe is escbped if preceded immedibtely
+ * (on the left) by the escbpe.
  *<li>
- * If there are two sets of quotes, a specific begin-quote must be matched
+ * If there bre two sets of quotes, b specific begin-quote must be mbtched
  * by its corresponding end-quote.
  *<li>
- * A non-escaped begin-quote which precedes a component must be
- * matched by a non-escaped end-quote at the end of the component.
- * A component thus quoted is referred to as a
- * <em>quoted component</em>. It is parsed by
- * removing the being- and end- quotes, and by treating the intervening
- * characters as ordinary characters unless one of the rules involving
- * quoted components listed below applies.
+ * A non-escbped begin-quote which precedes b component must be
+ * mbtched by b non-escbped end-quote bt the end of the component.
+ * A component thus quoted is referred to bs b
+ * <em>quoted component</em>. It is pbrsed by
+ * removing the being- bnd end- quotes, bnd by trebting the intervening
+ * chbrbcters bs ordinbry chbrbcters unless one of the rules involving
+ * quoted components listed below bpplies.
  *<li>
- * Quotes embedded in non-quoted components are treated as ordinary strings
- * and need not be matched.
+ * Quotes embedded in non-quoted components bre trebted bs ordinbry strings
+ * bnd need not be mbtched.
  *<li>
- * A separator that is escaped or appears between non-escaped
- * quotes is treated as an ordinary string and not a separator.
+ * A sepbrbtor thbt is escbped or bppebrs between non-escbped
+ * quotes is trebted bs bn ordinbry string bnd not b sepbrbtor.
  *<li>
- * An escape string within a quoted component acts as an escape only when
+ * An escbpe string within b quoted component bcts bs bn escbpe only when
  * followed by the corresponding end-quote string.
- * This can be used to embed an escaped quote within a quoted component.
+ * This cbn be used to embed bn escbped quote within b quoted component.
  *<li>
- * An escaped escape string is not treated as an escape string.
+ * An escbped escbpe string is not trebted bs bn escbpe string.
  *<li>
- * An escape string that does not precede a meta string (quotes or separator)
- * and is not at the end of a component is treated as an ordinary string.
+ * An escbpe string thbt does not precede b metb string (quotes or sepbrbtor)
+ * bnd is not bt the end of b component is trebted bs bn ordinbry string.
  *<li>
- * A leading separator (the compound name string begins with
- * a separator) denotes a leading empty atomic component (consisting
- * of an empty string).
- * A trailing separator (the compound name string ends with
- * a separator) denotes a trailing empty atomic component.
- * Adjacent separators denote an empty atomic component.
+ * A lebding sepbrbtor (the compound nbme string begins with
+ * b sepbrbtor) denotes b lebding empty btomic component (consisting
+ * of bn empty string).
+ * A trbiling sepbrbtor (the compound nbme string ends with
+ * b sepbrbtor) denotes b trbiling empty btomic component.
+ * Adjbcent sepbrbtors denote bn empty btomic component.
  *</ol>
  * <p>
- * The string form of the compound name follows the syntax described above.
- * When the components of the compound name are turned into their
- * string representation, the reserved syntax rules described above are
- * applied (e.g. embedded separators are escaped or quoted)
- * so that when the same string is parsed, it will yield the same components
- * of the original compound name.
+ * The string form of the compound nbme follows the syntbx described bbove.
+ * When the components of the compound nbme bre turned into their
+ * string representbtion, the reserved syntbx rules described bbove bre
+ * bpplied (e.g. embedded sepbrbtors bre escbped or quoted)
+ * so thbt when the sbme string is pbrsed, it will yield the sbme components
+ * of the originbl compound nbme.
  *
- *<h1>Multithreaded Access</h1>
- * A <tt>CompoundName</tt> instance is not synchronized against concurrent
- * multithreaded access. Multiple threads trying to access and modify a
- * <tt>CompoundName</tt> should lock the object.
+ *<h1>Multithrebded Access</h1>
+ * A <tt>CompoundNbme</tt> instbnce is not synchronized bgbinst concurrent
+ * multithrebded bccess. Multiple threbds trying to bccess bnd modify b
+ * <tt>CompoundNbme</tt> should lock the object.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
  * @since 1.3
  */
 
-public class CompoundName implements Name {
+public clbss CompoundNbme implements Nbme {
 
     /**
-      * Implementation of this compound name.
-      * This field is initialized by the constructors and cannot be null.
-      * It should be treated as a read-only variable by subclasses.
+      * Implementbtion of this compound nbme.
+      * This field is initiblized by the constructors bnd cbnnot be null.
+      * It should be trebted bs b rebd-only vbribble by subclbsses.
       */
-    protected transient NameImpl impl;
+    protected trbnsient NbmeImpl impl;
     /**
-      * Syntax properties for this compound name.
-      * This field is initialized by the constructors and cannot be null.
-      * It should be treated as a read-only variable by subclasses.
-      * Any necessary changes to mySyntax should be made within constructors
-      * and not after the compound name has been instantiated.
+      * Syntbx properties for this compound nbme.
+      * This field is initiblized by the constructors bnd cbnnot be null.
+      * It should be trebted bs b rebd-only vbribble by subclbsses.
+      * Any necessbry chbnges to mySyntbx should be mbde within constructors
+      * bnd not bfter the compound nbme hbs been instbntibted.
       */
-    protected transient Properties mySyntax;
+    protected trbnsient Properties mySyntbx;
 
     /**
-      * Constructs a new compound name instance using the components
-      * specified in comps and syntax. This protected method is intended
-      * to be used by subclasses of CompoundName when they override
-      * methods such as clone(), getPrefix(), getSuffix().
+      * Constructs b new compound nbme instbnce using the components
+      * specified in comps bnd syntbx. This protected method is intended
+      * to be used by subclbsses of CompoundNbme when they override
+      * methods such bs clone(), getPrefix(), getSuffix().
       *
-      * @param comps  A non-null enumeration of the components to add.
-      *   Each element of the enumeration is of class String.
-      *               The enumeration will be consumed to extract its
+      * @pbrbm comps  A non-null enumerbtion of the components to bdd.
+      *   Ebch element of the enumerbtion is of clbss String.
+      *               The enumerbtion will be consumed to extrbct its
       *               elements.
-      * @param syntax   A non-null properties that specify the syntax of
-      *                 this compound name. See class description for
+      * @pbrbm syntbx   A non-null properties thbt specify the syntbx of
+      *                 this compound nbme. See clbss description for
       *                 contents of properties.
       */
-    protected CompoundName(Enumeration<String> comps, Properties syntax) {
-        if (syntax == null) {
+    protected CompoundNbme(Enumerbtion<String> comps, Properties syntbx) {
+        if (syntbx == null) {
             throw new NullPointerException();
         }
-        mySyntax = syntax;
-        impl = new NameImpl(syntax, comps);
+        mySyntbx = syntbx;
+        impl = new NbmeImpl(syntbx, comps);
     }
 
     /**
-      * Constructs a new compound name instance by parsing the string n
-      * using the syntax specified by the syntax properties supplied.
+      * Constructs b new compound nbme instbnce by pbrsing the string n
+      * using the syntbx specified by the syntbx properties supplied.
       *
-      * @param  n       The non-null string to parse.
-      * @param syntax   A non-null list of properties that specify the syntax of
-      *                 this compound name.  See class description for
+      * @pbrbm  n       The non-null string to pbrse.
+      * @pbrbm syntbx   A non-null list of properties thbt specify the syntbx of
+      *                 this compound nbme.  See clbss description for
       *                 contents of properties.
-      * @exception      InvalidNameException If 'n' violates the syntax specified
-      *                 by <code>syntax</code>.
+      * @exception      InvblidNbmeException If 'n' violbtes the syntbx specified
+      *                 by <code>syntbx</code>.
       */
-    public CompoundName(String n, Properties syntax) throws InvalidNameException {
-        if (syntax == null) {
+    public CompoundNbme(String n, Properties syntbx) throws InvblidNbmeException {
+        if (syntbx == null) {
             throw new NullPointerException();
         }
-        mySyntax = syntax;
-        impl = new NameImpl(syntax, n);
+        mySyntbx = syntbx;
+        impl = new NbmeImpl(syntbx, n);
     }
 
     /**
-      * Generates the string representation of this compound name, using
-      * the syntax rules of the compound name. The syntax rules
-      * are described in the class description.
-      * An empty component is represented by an empty string.
+      * Generbtes the string representbtion of this compound nbme, using
+      * the syntbx rules of the compound nbme. The syntbx rules
+      * bre described in the clbss description.
+      * An empty component is represented by bn empty string.
       *
-      * The string representation thus generated can be passed to
-      * the CompoundName constructor with the same syntax properties
-      * to create a new equivalent compound name.
+      * The string representbtion thus generbted cbn be pbssed to
+      * the CompoundNbme constructor with the sbme syntbx properties
+      * to crebte b new equivblent compound nbme.
       *
-      * @return A non-null string representation of this compound name.
+      * @return A non-null string representbtion of this compound nbme.
       */
     public String toString() {
         return (impl.toString());
     }
 
     /**
-      * Determines whether obj is syntactically equal to this compound name.
-      * If obj is null or not a CompoundName, false is returned.
-      * Two compound names are equal if each component in one is "equal"
+      * Determines whether obj is syntbcticblly equbl to this compound nbme.
+      * If obj is null or not b CompoundNbme, fblse is returned.
+      * Two compound nbmes bre equbl if ebch component in one is "equbl"
       * to the corresponding component in the other.
       *<p>
-      * Equality is also defined in terms of the syntax of this compound name.
-      * The default implementation of CompoundName uses the syntax properties
-      * jndi.syntax.ignorecase and jndi.syntax.trimblanks when comparing
-      * two components for equality.  If case is ignored, two strings
-      * with the same sequence of characters but with different cases
-      * are considered equal. If blanks are being trimmed, leading and trailing
-      * blanks are ignored for the purpose of the comparison.
+      * Equblity is blso defined in terms of the syntbx of this compound nbme.
+      * The defbult implementbtion of CompoundNbme uses the syntbx properties
+      * jndi.syntbx.ignorecbse bnd jndi.syntbx.trimblbnks when compbring
+      * two components for equblity.  If cbse is ignored, two strings
+      * with the sbme sequence of chbrbcters but with different cbses
+      * bre considered equbl. If blbnks bre being trimmed, lebding bnd trbiling
+      * blbnks bre ignored for the purpose of the compbrison.
       *<p>
-      * Both compound names must have the same number of components.
+      * Both compound nbmes must hbve the sbme number of components.
       *<p>
-      * Implementation note: Currently the syntax properties of the two compound
-      * names are not compared for equality. They might be in the future.
+      * Implementbtion note: Currently the syntbx properties of the two compound
+      * nbmes bre not compbred for equblity. They might be in the future.
       *
-      * @param  obj     The possibly null object to compare against.
-      * @return true if obj is equal to this compound name, false otherwise.
-      * @see #compareTo(java.lang.Object obj)
+      * @pbrbm  obj     The possibly null object to compbre bgbinst.
+      * @return true if obj is equbl to this compound nbme, fblse otherwise.
+      * @see #compbreTo(jbvb.lbng.Object obj)
       */
-    public boolean equals(Object obj) {
-        // %%% check syntax too?
+    public boolebn equbls(Object obj) {
+        // %%% check syntbx too?
         return (obj != null &&
-                obj instanceof CompoundName &&
-                impl.equals(((CompoundName)obj).impl));
+                obj instbnceof CompoundNbme &&
+                impl.equbls(((CompoundNbme)obj).impl));
     }
 
     /**
-      * Computes the hash code of this compound name.
-      * The hash code is the sum of the hash codes of the "canonicalized"
-      * forms of individual components of this compound name.
-      * Each component is "canonicalized" according to the
-      * compound name's syntax before its hash code is computed.
-      * For a case-insensitive name, for example, the uppercased form of
-      * a name has the same hash code as its lowercased equivalent.
+      * Computes the hbsh code of this compound nbme.
+      * The hbsh code is the sum of the hbsh codes of the "cbnonicblized"
+      * forms of individubl components of this compound nbme.
+      * Ebch component is "cbnonicblized" bccording to the
+      * compound nbme's syntbx before its hbsh code is computed.
+      * For b cbse-insensitive nbme, for exbmple, the uppercbsed form of
+      * b nbme hbs the sbme hbsh code bs its lowercbsed equivblent.
       *
-      * @return An int representing the hash code of this name.
+      * @return An int representing the hbsh code of this nbme.
       */
-    public int hashCode() {
-        return impl.hashCode();
+    public int hbshCode() {
+        return impl.hbshCode();
     }
 
     /**
-      * Creates a copy of this compound name.
-      * Changes to the components of this compound name won't
-      * affect the new copy and vice versa.
-      * The clone and this compound name share the same syntax.
+      * Crebtes b copy of this compound nbme.
+      * Chbnges to the components of this compound nbme won't
+      * bffect the new copy bnd vice versb.
+      * The clone bnd this compound nbme shbre the sbme syntbx.
       *
-      * @return A non-null copy of this compound name.
+      * @return A non-null copy of this compound nbme.
       */
     public Object clone() {
-        return (new CompoundName(getAll(), mySyntax));
+        return (new CompoundNbme(getAll(), mySyntbx));
     }
 
     /**
-     * Compares this CompoundName with the specified Object for order.
-     * Returns a
-     * negative integer, zero, or a positive integer as this Name is less
-     * than, equal to, or greater than the given Object.
+     * Compbres this CompoundNbme with the specified Object for order.
+     * Returns b
+     * negbtive integer, zero, or b positive integer bs this Nbme is less
+     * thbn, equbl to, or grebter thbn the given Object.
      * <p>
-     * If obj is null or not an instance of CompoundName, ClassCastException
+     * If obj is null or not bn instbnce of CompoundNbme, ClbssCbstException
      * is thrown.
      * <p>
-     * See equals() for what it means for two compound names to be equal.
-     * If two compound names are equal, 0 is returned.
+     * See equbls() for whbt it mebns for two compound nbmes to be equbl.
+     * If two compound nbmes bre equbl, 0 is returned.
      *<p>
-     * Ordering of compound names depend on the syntax of the compound name.
-     * By default, they follow lexicographical rules for string comparison
-     * with the extension that this applies to all the components in the
-     * compound name and that comparison of individual components is
-     * affected by the jndi.syntax.ignorecase and jndi.syntax.trimblanks
-     * properties, identical to how they affect equals().
-     * If this compound name is "lexicographically" lesser than obj,
-     * a negative number is returned.
-     * If this compound name is "lexicographically" greater than obj,
-     * a positive number is returned.
+     * Ordering of compound nbmes depend on the syntbx of the compound nbme.
+     * By defbult, they follow lexicogrbphicbl rules for string compbrison
+     * with the extension thbt this bpplies to bll the components in the
+     * compound nbme bnd thbt compbrison of individubl components is
+     * bffected by the jndi.syntbx.ignorecbse bnd jndi.syntbx.trimblbnks
+     * properties, identicbl to how they bffect equbls().
+     * If this compound nbme is "lexicogrbphicblly" lesser thbn obj,
+     * b negbtive number is returned.
+     * If this compound nbme is "lexicogrbphicblly" grebter thbn obj,
+     * b positive number is returned.
      *<p>
-     * Implementation note: Currently the syntax properties of the two compound
-     * names are not compared when checking order. They might be in the future.
-     * @param   obj     The non-null object to compare against.
-     * @return  a negative integer, zero, or a positive integer as this Name
-     *          is less than, equal to, or greater than the given Object.
-     * @exception ClassCastException if obj is not a CompoundName.
-     * @see #equals(java.lang.Object)
+     * Implementbtion note: Currently the syntbx properties of the two compound
+     * nbmes bre not compbred when checking order. They might be in the future.
+     * @pbrbm   obj     The non-null object to compbre bgbinst.
+     * @return  b negbtive integer, zero, or b positive integer bs this Nbme
+     *          is less thbn, equbl to, or grebter thbn the given Object.
+     * @exception ClbssCbstException if obj is not b CompoundNbme.
+     * @see #equbls(jbvb.lbng.Object)
      */
-    public int compareTo(Object obj) {
-        if (!(obj instanceof CompoundName)) {
-            throw new ClassCastException("Not a CompoundName");
+    public int compbreTo(Object obj) {
+        if (!(obj instbnceof CompoundNbme)) {
+            throw new ClbssCbstException("Not b CompoundNbme");
         }
-        return impl.compareTo(((CompoundName)obj).impl);
+        return impl.compbreTo(((CompoundNbme)obj).impl);
     }
 
     /**
-      * Retrieves the number of components in this compound name.
+      * Retrieves the number of components in this compound nbme.
       *
-      * @return The nonnegative number of components in this compound name.
+      * @return The nonnegbtive number of components in this compound nbme.
       */
     public int size() {
         return (impl.size());
     }
 
     /**
-      * Determines whether this compound name is empty.
-      * A compound name is empty if it has zero components.
+      * Determines whether this compound nbme is empty.
+      * A compound nbme is empty if it hbs zero components.
       *
-      * @return true if this compound name is empty, false otherwise.
+      * @return true if this compound nbme is empty, fblse otherwise.
       */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return (impl.isEmpty());
     }
 
     /**
-      * Retrieves the components of this compound name as an enumeration
+      * Retrieves the components of this compound nbme bs bn enumerbtion
       * of strings.
-      * The effects of updates to this compound name on this enumeration
+      * The effects of updbtes to this compound nbme on this enumerbtion
       * is undefined.
       *
-      * @return A non-null enumeration of the components of this
-      * compound name. Each element of the enumeration is of class String.
+      * @return A non-null enumerbtion of the components of this
+      * compound nbme. Ebch element of the enumerbtion is of clbss String.
       */
-    public Enumeration<String> getAll() {
+    public Enumerbtion<String> getAll() {
         return (impl.getAll());
     }
 
     /**
-      * Retrieves a component of this compound name.
+      * Retrieves b component of this compound nbme.
       *
-      * @param  posn    The 0-based index of the component to retrieve.
-      *                 Must be in the range [0,size()).
-      * @return The component at index posn.
-      * @exception ArrayIndexOutOfBoundsException if posn is outside the
-      *         specified range.
+      * @pbrbm  posn    The 0-bbsed index of the component to retrieve.
+      *                 Must be in the rbnge [0,size()).
+      * @return The component bt index posn.
+      * @exception ArrbyIndexOutOfBoundsException if posn is outside the
+      *         specified rbnge.
       */
     public String get(int posn) {
         return (impl.get(posn));
     }
 
     /**
-      * Creates a compound name whose components consist of a prefix of the
-      * components in this compound name.
-      * The result and this compound name share the same syntax.
-      * Subsequent changes to
-      * this compound name do not affect the name that is returned and
-      * vice versa.
+      * Crebtes b compound nbme whose components consist of b prefix of the
+      * components in this compound nbme.
+      * The result bnd this compound nbme shbre the sbme syntbx.
+      * Subsequent chbnges to
+      * this compound nbme do not bffect the nbme thbt is returned bnd
+      * vice versb.
       *
-      * @param  posn    The 0-based index of the component at which to stop.
-      *                 Must be in the range [0,size()].
-      * @return A compound name consisting of the components at indexes in
-      *         the range [0,posn).
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
+      * @pbrbm  posn    The 0-bbsed index of the component bt which to stop.
+      *                 Must be in the rbnge [0,size()].
+      * @return A compound nbme consisting of the components bt indexes in
+      *         the rbnge [0,posn).
+      * @exception ArrbyIndexOutOfBoundsException
+      *         If posn is outside the specified rbnge.
       */
-    public Name getPrefix(int posn) {
-        Enumeration<String> comps = impl.getPrefix(posn);
-        return (new CompoundName(comps, mySyntax));
+    public Nbme getPrefix(int posn) {
+        Enumerbtion<String> comps = impl.getPrefix(posn);
+        return (new CompoundNbme(comps, mySyntbx));
     }
 
     /**
-      * Creates a compound name whose components consist of a suffix of the
-      * components in this compound name.
-      * The result and this compound name share the same syntax.
-      * Subsequent changes to
-      * this compound name do not affect the name that is returned.
+      * Crebtes b compound nbme whose components consist of b suffix of the
+      * components in this compound nbme.
+      * The result bnd this compound nbme shbre the sbme syntbx.
+      * Subsequent chbnges to
+      * this compound nbme do not bffect the nbme thbt is returned.
       *
-      * @param  posn    The 0-based index of the component at which to start.
-      *                 Must be in the range [0,size()].
-      * @return A compound name consisting of the components at indexes in
-      *         the range [posn,size()).  If posn is equal to
-      *         size(), an empty compound name is returned.
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
+      * @pbrbm  posn    The 0-bbsed index of the component bt which to stbrt.
+      *                 Must be in the rbnge [0,size()].
+      * @return A compound nbme consisting of the components bt indexes in
+      *         the rbnge [posn,size()).  If posn is equbl to
+      *         size(), bn empty compound nbme is returned.
+      * @exception ArrbyIndexOutOfBoundsException
+      *         If posn is outside the specified rbnge.
       */
-    public Name getSuffix(int posn) {
-        Enumeration<String> comps = impl.getSuffix(posn);
-        return (new CompoundName(comps, mySyntax));
+    public Nbme getSuffix(int posn) {
+        Enumerbtion<String> comps = impl.getSuffix(posn);
+        return (new CompoundNbme(comps, mySyntbx));
     }
 
     /**
-      * Determines whether a compound name is a prefix of this compound name.
-      * A compound name 'n' is a prefix if it is equal to
-      * getPrefix(n.size())--in other words, this compound name
-      * starts with 'n'.
-      * If n is null or not a compound name, false is returned.
+      * Determines whether b compound nbme is b prefix of this compound nbme.
+      * A compound nbme 'n' is b prefix if it is equbl to
+      * getPrefix(n.size())--in other words, this compound nbme
+      * stbrts with 'n'.
+      * If n is null or not b compound nbme, fblse is returned.
       *<p>
-      * Implementation note: Currently the syntax properties of n
-      *  are not used when doing the comparison. They might be in the future.
-      * @param  n       The possibly null compound name to check.
-      * @return true if n is a CompoundName and
-      *                 is a prefix of this compound name, false otherwise.
+      * Implementbtion note: Currently the syntbx properties of n
+      *  bre not used when doing the compbrison. They might be in the future.
+      * @pbrbm  n       The possibly null compound nbme to check.
+      * @return true if n is b CompoundNbme bnd
+      *                 is b prefix of this compound nbme, fblse otherwise.
       */
-    public boolean startsWith(Name n) {
-        if (n instanceof CompoundName) {
-            return (impl.startsWith(n.size(), n.getAll()));
+    public boolebn stbrtsWith(Nbme n) {
+        if (n instbnceof CompoundNbme) {
+            return (impl.stbrtsWith(n.size(), n.getAll()));
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-      * Determines whether a compound name is a suffix of this compound name.
-      * A compound name 'n' is a suffix if it is equal to
+      * Determines whether b compound nbme is b suffix of this compound nbme.
+      * A compound nbme 'n' is b suffix if it is equbl to
       * getSuffix(size()-n.size())--in other words, this
-      * compound name ends with 'n'.
-      * If n is null or not a compound name, false is returned.
+      * compound nbme ends with 'n'.
+      * If n is null or not b compound nbme, fblse is returned.
       *<p>
-      * Implementation note: Currently the syntax properties of n
-      *  are not used when doing the comparison. They might be in the future.
-      * @param  n       The possibly null compound name to check.
-      * @return true if n is a CompoundName and
-      *         is a suffix of this compound name, false otherwise.
+      * Implementbtion note: Currently the syntbx properties of n
+      *  bre not used when doing the compbrison. They might be in the future.
+      * @pbrbm  n       The possibly null compound nbme to check.
+      * @return true if n is b CompoundNbme bnd
+      *         is b suffix of this compound nbme, fblse otherwise.
       */
-    public boolean endsWith(Name n) {
-        if (n instanceof CompoundName) {
+    public boolebn endsWith(Nbme n) {
+        if (n instbnceof CompoundNbme) {
             return (impl.endsWith(n.size(), n.getAll()));
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-      * Adds the components of a compound name -- in order -- to the end of
-      * this compound name.
+      * Adds the components of b compound nbme -- in order -- to the end of
+      * this compound nbme.
       *<p>
-      * Implementation note: Currently the syntax properties of suffix
+      * Implementbtion note: Currently the syntbx properties of suffix
       *  is not used or checked. They might be in the future.
-      * @param suffix   The non-null components to add.
-      * @return The updated CompoundName, not a new one. Cannot be null.
-      * @exception InvalidNameException If suffix is not a compound name,
-      *            or if the addition of the components violates the syntax
-      *            of this compound name (e.g. exceeding number of components).
+      * @pbrbm suffix   The non-null components to bdd.
+      * @return The updbted CompoundNbme, not b new one. Cbnnot be null.
+      * @exception InvblidNbmeException If suffix is not b compound nbme,
+      *            or if the bddition of the components violbtes the syntbx
+      *            of this compound nbme (e.g. exceeding number of components).
       */
-    public Name addAll(Name suffix) throws InvalidNameException {
-        if (suffix instanceof CompoundName) {
-            impl.addAll(suffix.getAll());
+    public Nbme bddAll(Nbme suffix) throws InvblidNbmeException {
+        if (suffix instbnceof CompoundNbme) {
+            impl.bddAll(suffix.getAll());
             return this;
         } else {
-            throw new InvalidNameException("Not a compound name: " +
+            throw new InvblidNbmeException("Not b compound nbme: " +
                 suffix.toString());
         }
     }
 
     /**
-      * Adds the components of a compound name -- in order -- at a specified
-      * position within this compound name.
-      * Components of this compound name at or after the index of the first
-      * new component are shifted up (away from index 0)
-      * to accommodate the new components.
+      * Adds the components of b compound nbme -- in order -- bt b specified
+      * position within this compound nbme.
+      * Components of this compound nbme bt or bfter the index of the first
+      * new component bre shifted up (bwby from index 0)
+      * to bccommodbte the new components.
       *<p>
-      * Implementation note: Currently the syntax properties of suffix
+      * Implementbtion note: Currently the syntbx properties of suffix
       *  is not used or checked. They might be in the future.
       *
-      * @param n        The non-null components to add.
-      * @param posn     The index in this name at which to add the new
-      *                 components.  Must be in the range [0,size()].
-      * @return The updated CompoundName, not a new one. Cannot be null.
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
-      * @exception InvalidNameException If n is not a compound name,
-      *            or if the addition of the components violates the syntax
-      *            of this compound name (e.g. exceeding number of components).
+      * @pbrbm n        The non-null components to bdd.
+      * @pbrbm posn     The index in this nbme bt which to bdd the new
+      *                 components.  Must be in the rbnge [0,size()].
+      * @return The updbted CompoundNbme, not b new one. Cbnnot be null.
+      * @exception ArrbyIndexOutOfBoundsException
+      *         If posn is outside the specified rbnge.
+      * @exception InvblidNbmeException If n is not b compound nbme,
+      *            or if the bddition of the components violbtes the syntbx
+      *            of this compound nbme (e.g. exceeding number of components).
       */
-    public Name addAll(int posn, Name n) throws InvalidNameException {
-        if (n instanceof CompoundName) {
-            impl.addAll(posn, n.getAll());
+    public Nbme bddAll(int posn, Nbme n) throws InvblidNbmeException {
+        if (n instbnceof CompoundNbme) {
+            impl.bddAll(posn, n.getAll());
             return this;
         } else {
-            throw new InvalidNameException("Not a compound name: " +
+            throw new InvblidNbmeException("Not b compound nbme: " +
                 n.toString());
         }
     }
 
     /**
-      * Adds a single component to the end of this compound name.
+      * Adds b single component to the end of this compound nbme.
       *
-      * @param comp     The non-null component to add.
-      * @return The updated CompoundName, not a new one. Cannot be null.
-      * @exception InvalidNameException If adding comp at end of the name
-      *                         would violate the compound name's syntax.
+      * @pbrbm comp     The non-null component to bdd.
+      * @return The updbted CompoundNbme, not b new one. Cbnnot be null.
+      * @exception InvblidNbmeException If bdding comp bt end of the nbme
+      *                         would violbte the compound nbme's syntbx.
       */
-    public Name add(String comp) throws InvalidNameException{
-        impl.add(comp);
+    public Nbme bdd(String comp) throws InvblidNbmeException{
+        impl.bdd(comp);
         return this;
     }
 
     /**
-      * Adds a single component at a specified position within this
-      * compound name.
-      * Components of this compound name at or after the index of the new
-      * component are shifted up by one (away from index 0)
-      * to accommodate the new component.
+      * Adds b single component bt b specified position within this
+      * compound nbme.
+      * Components of this compound nbme bt or bfter the index of the new
+      * component bre shifted up by one (bwby from index 0)
+      * to bccommodbte the new component.
       *
-      * @param  comp    The non-null component to add.
-      * @param  posn    The index at which to add the new component.
-      *                 Must be in the range [0,size()].
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
-      * @return The updated CompoundName, not a new one. Cannot be null.
-      * @exception InvalidNameException If adding comp at the specified position
-      *                         would violate the compound name's syntax.
+      * @pbrbm  comp    The non-null component to bdd.
+      * @pbrbm  posn    The index bt which to bdd the new component.
+      *                 Must be in the rbnge [0,size()].
+      * @exception ArrbyIndexOutOfBoundsException
+      *         If posn is outside the specified rbnge.
+      * @return The updbted CompoundNbme, not b new one. Cbnnot be null.
+      * @exception InvblidNbmeException If bdding comp bt the specified position
+      *                         would violbte the compound nbme's syntbx.
       */
-    public Name add(int posn, String comp) throws InvalidNameException{
-        impl.add(posn, comp);
+    public Nbme bdd(int posn, String comp) throws InvblidNbmeException{
+        impl.bdd(posn, comp);
         return this;
     }
 
     /**
-      * Deletes a component from this compound name.
-      * The component of this compound name at position 'posn' is removed,
-      * and components at indices greater than 'posn'
-      * are shifted down (towards index 0) by one.
+      * Deletes b component from this compound nbme.
+      * The component of this compound nbme bt position 'posn' is removed,
+      * bnd components bt indices grebter thbn 'posn'
+      * bre shifted down (towbrds index 0) by one.
       *
-      * @param  posn    The index of the component to delete.
-      *                 Must be in the range [0,size()).
-      * @return The component removed (a String).
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range (includes case where
-      *         compound name is empty).
-      * @exception InvalidNameException If deleting the component
-      *                         would violate the compound name's syntax.
+      * @pbrbm  posn    The index of the component to delete.
+      *                 Must be in the rbnge [0,size()).
+      * @return The component removed (b String).
+      * @exception ArrbyIndexOutOfBoundsException
+      *         If posn is outside the specified rbnge (includes cbse where
+      *         compound nbme is empty).
+      * @exception InvblidNbmeException If deleting the component
+      *                         would violbte the compound nbme's syntbx.
       */
-    public Object remove(int posn) throws InvalidNameException {
+    public Object remove(int posn) throws InvblidNbmeException {
         return impl.remove(posn);
     }
 
     /**
-     * Overridden to avoid implementation dependency.
-     * @serialData The syntax <tt>Properties</tt>, followed by
-     * the number of components (an <tt>int</tt>), and the individual
-     * components (each a <tt>String</tt>).
+     * Overridden to bvoid implementbtion dependency.
+     * @seriblDbtb The syntbx <tt>Properties</tt>, followed by
+     * the number of components (bn <tt>int</tt>), bnd the individubl
+     * components (ebch b <tt>String</tt>).
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException {
-        s.writeObject(mySyntax);
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+            throws jbvb.io.IOException {
+        s.writeObject(mySyntbx);
         s.writeInt(size());
-        Enumeration<String> comps = getAll();
-        while (comps.hasMoreElements()) {
+        Enumerbtion<String> comps = getAll();
+        while (comps.hbsMoreElements()) {
             s.writeObject(comps.nextElement());
         }
     }
 
     /**
-     * Overridden to avoid implementation dependency.
+     * Overridden to bvoid implementbtion dependency.
      */
-    private void readObject(java.io.ObjectInputStream s)
-            throws java.io.IOException, ClassNotFoundException {
-        mySyntax = (Properties)s.readObject();
-        impl = new NameImpl(mySyntax);
-        int n = s.readInt();    // number of components
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+            throws jbvb.io.IOException, ClbssNotFoundException {
+        mySyntbx = (Properties)s.rebdObject();
+        impl = new NbmeImpl(mySyntbx);
+        int n = s.rebdInt();    // number of components
         try {
             while (--n >= 0) {
-                add((String)s.readObject());
+                bdd((String)s.rebdObject());
             }
-        } catch (InvalidNameException e) {
-            throw (new java.io.StreamCorruptedException("Invalid name"));
+        } cbtch (InvblidNbmeException e) {
+            throw (new jbvb.io.StrebmCorruptedException("Invblid nbme"));
         }
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = 3513100557083972036L;
+    privbte stbtic finbl long seriblVersionUID = 3513100557083972036L;
 
 /*
 //   For testing
 
-    public static void main(String[] args) {
-        Properties dotSyntax = new Properties();
-        dotSyntax.put("jndi.syntax.direction", "right_to_left");
-        dotSyntax.put("jndi.syntax.separator", ".");
-        dotSyntax.put("jndi.syntax.ignorecase", "true");
-        dotSyntax.put("jndi.syntax.escape", "\\");
-//      dotSyntax.put("jndi.syntax.beginquote", "\"");
-//      dotSyntax.put("jndi.syntax.beginquote2", "'");
+    public stbtic void mbin(String[] brgs) {
+        Properties dotSyntbx = new Properties();
+        dotSyntbx.put("jndi.syntbx.direction", "right_to_left");
+        dotSyntbx.put("jndi.syntbx.sepbrbtor", ".");
+        dotSyntbx.put("jndi.syntbx.ignorecbse", "true");
+        dotSyntbx.put("jndi.syntbx.escbpe", "\\");
+//      dotSyntbx.put("jndi.syntbx.beginquote", "\"");
+//      dotSyntbx.put("jndi.syntbx.beginquote2", "'");
 
-        Name first = null;
+        Nbme first = null;
         try {
-            for (int i = 0; i < args.length; i++) {
-                Name name;
-                Enumeration e;
-                System.out.println("Given name: " + args[i]);
-                name = new CompoundName(args[i], dotSyntax);
+            for (int i = 0; i < brgs.length; i++) {
+                Nbme nbme;
+                Enumerbtion e;
+                System.out.println("Given nbme: " + brgs[i]);
+                nbme = new CompoundNbme(brgs[i], dotSyntbx);
                 if (first == null) {
-                    first = name;
+                    first = nbme;
                 }
-                e = name.getComponents();
-                while (e.hasMoreElements()) {
+                e = nbme.getComponents();
+                while (e.hbsMoreElements()) {
                     System.out.println("Element: " + e.nextElement());
                 }
-                System.out.println("Constructed name: " + name.toString());
+                System.out.println("Constructed nbme: " + nbme.toString());
 
-                System.out.println("Compare " + first.toString() + " with "
-                    + name.toString() + " = " + first.compareTo(name));
+                System.out.println("Compbre " + first.toString() + " with "
+                    + nbme.toString() + " = " + first.compbreTo(nbme));
             }
-        } catch (Exception ne) {
-            ne.printStackTrace();
+        } cbtch (Exception ne) {
+            ne.printStbckTrbce();
         }
     }
 */

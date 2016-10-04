@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 // jmx import
 //
-import com.sun.jmx.snmp.SnmpPduFactory;
-import com.sun.jmx.snmp.SnmpMessage;
-import com.sun.jmx.snmp.SnmpPduPacket;
+import com.sun.jmx.snmp.SnmpPduFbctory;
+import com.sun.jmx.snmp.SnmpMessbge;
+import com.sun.jmx.snmp.SnmpPduPbcket;
 import com.sun.jmx.snmp.SnmpPdu;
 import com.sun.jmx.snmp.SnmpMsg;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpTooBigException;
 import com.sun.jmx.snmp.SnmpDefinitions;
 
 // SNMP Runtime import
 //
-import com.sun.jmx.snmp.SnmpV3Message;
+import com.sun.jmx.snmp.SnmpV3Messbge;
 
 /**
- * Default implementation of the {@link com.sun.jmx.snmp.SnmpPduFactory SnmpPduFactory} interface.
- * <BR>It uses the BER (basic encoding rules) standardized encoding scheme associated with ASN.1.
+ * Defbult implementbtion of the {@link com.sun.jmx.snmp.SnmpPduFbctory SnmpPduFbctory} interfbce.
+ * <BR>It uses the BER (bbsic encoding rules) stbndbrdized encoding scheme bssocibted with ASN.1.
  * <P>
- * This implementation of the <CODE>SnmpPduFactory</CODE> is very
- * basic: it simply calls encoding and decoding methods from
+ * This implementbtion of the <CODE>SnmpPduFbctory</CODE> is very
+ * bbsic: it simply cblls encoding bnd decoding methods from
  * {@link com.sun.jmx.snmp.SnmpMsg}.
  * <BLOCKQUOTE>
  * <PRE>
  * public SnmpPdu decodeSnmpPdu(SnmpMsg msg)
- * throws SnmpStatusException {
+ * throws SnmpStbtusException {
  *   return msg.decodeSnmpPdu() ;
  * }
  *
- * public SnmpMsg encodeSnmpPdu(SnmpPdu pdu, int maxPktSize)
- * throws SnmpStatusException, SnmpTooBigException {
- *   SnmpMsg result = new SnmpMessage() ;       // for SNMP v1/v2
+ * public SnmpMsg encodeSnmpPdu(SnmpPdu pdu, int mbxPktSize)
+ * throws SnmpStbtusException, SnmpTooBigException {
+ *   SnmpMsg result = new SnmpMessbge() ;       // for SNMP v1/v2
  * <I>or</I>
- *   SnmpMsg result = new SnmpV3Message() ;     // for SNMP v3
- *   result.encodeSnmpPdu(pdu, maxPktSize) ;
+ *   SnmpMsg result = new SnmpV3Messbge() ;     // for SNMP v3
+ *   result.encodeSnmpPdu(pdu, mbxPktSize) ;
  *   return result ;
  * }
  * </PRE>
  * </BLOCKQUOTE>
- * To implement your own object, you can implement <CODE>SnmpPduFactory</CODE>
- * or extend <CODE>SnmpPduFactoryBER</CODE>.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * To implement your own object, you cbn implement <CODE>SnmpPduFbctory</CODE>
+ * or extend <CODE>SnmpPduFbctoryBER</CODE>.
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public class SnmpPduFactoryBER implements SnmpPduFactory, Serializable {
-   private static final long serialVersionUID = -3525318344000547635L;
+public clbss SnmpPduFbctoryBER implements SnmpPduFbctory, Seriblizbble {
+   privbte stbtic finbl long seriblVersionUID = -3525318344000547635L;
 
    /**
-     * Calls {@link com.sun.jmx.snmp.SnmpMsg#decodeSnmpPdu SnmpMsg.decodeSnmpPdu}
-     * on the specified message and returns the resulting <CODE>SnmpPdu</CODE>.
+     * Cblls {@link com.sun.jmx.snmp.SnmpMsg#decodeSnmpPdu SnmpMsg.decodeSnmpPdu}
+     * on the specified messbge bnd returns the resulting <CODE>SnmpPdu</CODE>.
      *
-     * @param msg The SNMP message to be decoded.
-     * @return The resulting SNMP PDU packet.
-     * @exception SnmpStatusException If the encoding is invalid.
+     * @pbrbm msg The SNMP messbge to be decoded.
+     * @return The resulting SNMP PDU pbcket.
+     * @exception SnmpStbtusException If the encoding is invblid.
      *
      * @since 1.5
      */
-    public SnmpPdu decodeSnmpPdu(SnmpMsg msg) throws SnmpStatusException {
+    public SnmpPdu decodeSnmpPdu(SnmpMsg msg) throws SnmpStbtusException {
         return msg.decodeSnmpPdu();
     }
 
     /**
-     * Encodes the specified <CODE>SnmpPdu</CODE> and
+     * Encodes the specified <CODE>SnmpPdu</CODE> bnd
      * returns the resulting <CODE>SnmpMsg</CODE>. If this
      * method returns null, the specified <CODE>SnmpPdu</CODE>
-     * will be dropped and the current SNMP request will be
-     * aborted.
+     * will be dropped bnd the current SNMP request will be
+     * bborted.
      *
-     * @param p The <CODE>SnmpPdu</CODE> to be encoded.
-     * @param maxDataLength The size limit of the resulting encoding.
-     * @return Null or a fully encoded <CODE>SnmpMsg</CODE>.
-     * @exception SnmpStatusException If <CODE>pdu</CODE> contains
-     *            illegal values and cannot be encoded.
+     * @pbrbm p The <CODE>SnmpPdu</CODE> to be encoded.
+     * @pbrbm mbxDbtbLength The size limit of the resulting encoding.
+     * @return Null or b fully encoded <CODE>SnmpMsg</CODE>.
+     * @exception SnmpStbtusException If <CODE>pdu</CODE> contbins
+     *            illegbl vblues bnd cbnnot be encoded.
      * @exception SnmpTooBigException If the resulting encoding does not
-     *            fit into <CODE>maxPktSize</CODE> bytes.
+     *            fit into <CODE>mbxPktSize</CODE> bytes.
      *
      * @since 1.5
      */
-    public SnmpMsg encodeSnmpPdu(SnmpPdu p, int maxDataLength)
-        throws SnmpStatusException, SnmpTooBigException {
+    public SnmpMsg encodeSnmpPdu(SnmpPdu p, int mbxDbtbLength)
+        throws SnmpStbtusException, SnmpTooBigException {
         switch(p.version) {
-        case SnmpDefinitions.snmpVersionOne:
-        case SnmpDefinitions.snmpVersionTwo: {
-            SnmpMessage result = new SnmpMessage();
-            result.encodeSnmpPdu((SnmpPduPacket) p, maxDataLength);
+        cbse SnmpDefinitions.snmpVersionOne:
+        cbse SnmpDefinitions.snmpVersionTwo: {
+            SnmpMessbge result = new SnmpMessbge();
+            result.encodeSnmpPdu((SnmpPduPbcket) p, mbxDbtbLength);
             return result;
         }
-        case SnmpDefinitions.snmpVersionThree: {
-            SnmpV3Message result = new SnmpV3Message();
-            result.encodeSnmpPdu(p, maxDataLength);
+        cbse SnmpDefinitions.snmpVersionThree: {
+            SnmpV3Messbge result = new SnmpV3Messbge();
+            result.encodeSnmpPdu(p, mbxDbtbLength);
             return result;
         }
-        default:
+        defbult:
             return null;
         }
     }

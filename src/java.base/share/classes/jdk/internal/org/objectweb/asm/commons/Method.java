@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,211 +56,211 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.commons;
+pbckbge jdk.internbl.org.objectweb.bsm.commons;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.Type;
+import jdk.internbl.org.objectweb.bsm.Type;
 
 /**
- * A named method descriptor.
+ * A nbmed method descriptor.
  *
- * @author Juozas Baliuka
- * @author Chris Nokleberg
- * @author Eric Bruneton
+ * @buthor Juozbs Bbliukb
+ * @buthor Chris Nokleberg
+ * @buthor Eric Bruneton
  */
-public class Method {
+public clbss Method {
 
     /**
-     * The method name.
+     * The method nbme.
      */
-    private final String name;
+    privbte finbl String nbme;
 
     /**
      * The method descriptor.
      */
-    private final String desc;
+    privbte finbl String desc;
 
     /**
-     * Maps primitive Java type names to their descriptors.
+     * Mbps primitive Jbvb type nbmes to their descriptors.
      */
-    private static final Map<String, String> DESCRIPTORS;
+    privbte stbtic finbl Mbp<String, String> DESCRIPTORS;
 
-    static {
-        DESCRIPTORS = new HashMap<String, String>();
+    stbtic {
+        DESCRIPTORS = new HbshMbp<String, String>();
         DESCRIPTORS.put("void", "V");
         DESCRIPTORS.put("byte", "B");
-        DESCRIPTORS.put("char", "C");
+        DESCRIPTORS.put("chbr", "C");
         DESCRIPTORS.put("double", "D");
-        DESCRIPTORS.put("float", "F");
+        DESCRIPTORS.put("flobt", "F");
         DESCRIPTORS.put("int", "I");
         DESCRIPTORS.put("long", "J");
         DESCRIPTORS.put("short", "S");
-        DESCRIPTORS.put("boolean", "Z");
+        DESCRIPTORS.put("boolebn", "Z");
     }
 
     /**
-     * Creates a new {@link Method}.
+     * Crebtes b new {@link Method}.
      *
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor.
      */
-    public Method(final String name, final String desc) {
-        this.name = name;
+    public Method(finbl String nbme, finbl String desc) {
+        this.nbme = nbme;
         this.desc = desc;
     }
 
     /**
-     * Creates a new {@link Method}.
+     * Crebtes b new {@link Method}.
      *
-     * @param name
-     *            the method's name.
-     * @param returnType
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm returnType
      *            the method's return type.
-     * @param argumentTypes
-     *            the method's argument types.
+     * @pbrbm brgumentTypes
+     *            the method's brgument types.
      */
-    public Method(final String name, final Type returnType,
-            final Type[] argumentTypes) {
-        this(name, Type.getMethodDescriptor(returnType, argumentTypes));
+    public Method(finbl String nbme, finbl Type returnType,
+            finbl Type[] brgumentTypes) {
+        this(nbme, Type.getMethodDescriptor(returnType, brgumentTypes));
     }
 
     /**
-     * Creates a new {@link Method}.
+     * Crebtes b new {@link Method}.
      *
-     * @param m
-     *            a java.lang.reflect method descriptor
-     * @return a {@link Method} corresponding to the given Java method
-     *         declaration.
+     * @pbrbm m
+     *            b jbvb.lbng.reflect method descriptor
+     * @return b {@link Method} corresponding to the given Jbvb method
+     *         declbrbtion.
      */
-    public static Method getMethod(java.lang.reflect.Method m) {
-        return new Method(m.getName(), Type.getMethodDescriptor(m));
+    public stbtic Method getMethod(jbvb.lbng.reflect.Method m) {
+        return new Method(m.getNbme(), Type.getMethodDescriptor(m));
     }
 
     /**
-     * Creates a new {@link Method}.
+     * Crebtes b new {@link Method}.
      *
-     * @param c
-     *            a java.lang.reflect constructor descriptor
-     * @return a {@link Method} corresponding to the given Java constructor
-     *         declaration.
+     * @pbrbm c
+     *            b jbvb.lbng.reflect constructor descriptor
+     * @return b {@link Method} corresponding to the given Jbvb constructor
+     *         declbrbtion.
      */
-    public static Method getMethod(java.lang.reflect.Constructor<?> c) {
+    public stbtic Method getMethod(jbvb.lbng.reflect.Constructor<?> c) {
         return new Method("<init>", Type.getConstructorDescriptor(c));
     }
 
     /**
-     * Returns a {@link Method} corresponding to the given Java method
-     * declaration.
+     * Returns b {@link Method} corresponding to the given Jbvb method
+     * declbrbtion.
      *
-     * @param method
-     *            a Java method declaration, without argument names, of the form
-     *            "returnType name (argumentType1, ... argumentTypeN)", where
-     *            the types are in plain Java (e.g. "int", "float",
-     *            "java.util.List", ...). Classes of the java.lang package can
-     *            be specified by their unqualified name; all other classes
-     *            names must be fully qualified.
-     * @return a {@link Method} corresponding to the given Java method
-     *         declaration.
-     * @throws IllegalArgumentException
-     *             if <code>method</code> could not get parsed.
+     * @pbrbm method
+     *            b Jbvb method declbrbtion, without brgument nbmes, of the form
+     *            "returnType nbme (brgumentType1, ... brgumentTypeN)", where
+     *            the types bre in plbin Jbvb (e.g. "int", "flobt",
+     *            "jbvb.util.List", ...). Clbsses of the jbvb.lbng pbckbge cbn
+     *            be specified by their unqublified nbme; bll other clbsses
+     *            nbmes must be fully qublified.
+     * @return b {@link Method} corresponding to the given Jbvb method
+     *         declbrbtion.
+     * @throws IllegblArgumentException
+     *             if <code>method</code> could not get pbrsed.
      */
-    public static Method getMethod(final String method)
-            throws IllegalArgumentException {
-        return getMethod(method, false);
+    public stbtic Method getMethod(finbl String method)
+            throws IllegblArgumentException {
+        return getMethod(method, fblse);
     }
 
     /**
-     * Returns a {@link Method} corresponding to the given Java method
-     * declaration.
+     * Returns b {@link Method} corresponding to the given Jbvb method
+     * declbrbtion.
      *
-     * @param method
-     *            a Java method declaration, without argument names, of the form
-     *            "returnType name (argumentType1, ... argumentTypeN)", where
-     *            the types are in plain Java (e.g. "int", "float",
-     *            "java.util.List", ...). Classes of the java.lang package may
-     *            be specified by their unqualified name, depending on the
-     *            defaultPackage argument; all other classes names must be fully
-     *            qualified.
-     * @param defaultPackage
-     *            true if unqualified class names belong to the default package,
-     *            or false if they correspond to java.lang classes. For instance
-     *            "Object" means "Object" if this option is true, or
-     *            "java.lang.Object" otherwise.
-     * @return a {@link Method} corresponding to the given Java method
-     *         declaration.
-     * @throws IllegalArgumentException
-     *             if <code>method</code> could not get parsed.
+     * @pbrbm method
+     *            b Jbvb method declbrbtion, without brgument nbmes, of the form
+     *            "returnType nbme (brgumentType1, ... brgumentTypeN)", where
+     *            the types bre in plbin Jbvb (e.g. "int", "flobt",
+     *            "jbvb.util.List", ...). Clbsses of the jbvb.lbng pbckbge mby
+     *            be specified by their unqublified nbme, depending on the
+     *            defbultPbckbge brgument; bll other clbsses nbmes must be fully
+     *            qublified.
+     * @pbrbm defbultPbckbge
+     *            true if unqublified clbss nbmes belong to the defbult pbckbge,
+     *            or fblse if they correspond to jbvb.lbng clbsses. For instbnce
+     *            "Object" mebns "Object" if this option is true, or
+     *            "jbvb.lbng.Object" otherwise.
+     * @return b {@link Method} corresponding to the given Jbvb method
+     *         declbrbtion.
+     * @throws IllegblArgumentException
+     *             if <code>method</code> could not get pbrsed.
      */
-    public static Method getMethod(final String method,
-            final boolean defaultPackage) throws IllegalArgumentException {
-        int space = method.indexOf(' ');
-        int start = method.indexOf('(', space) + 1;
-        int end = method.indexOf(')', start);
-        if (space == -1 || start == -1 || end == -1) {
-            throw new IllegalArgumentException();
+    public stbtic Method getMethod(finbl String method,
+            finbl boolebn defbultPbckbge) throws IllegblArgumentException {
+        int spbce = method.indexOf(' ');
+        int stbrt = method.indexOf('(', spbce) + 1;
+        int end = method.indexOf(')', stbrt);
+        if (spbce == -1 || stbrt == -1 || end == -1) {
+            throw new IllegblArgumentException();
         }
-        String returnType = method.substring(0, space);
-        String methodName = method.substring(space + 1, start - 1).trim();
+        String returnType = method.substring(0, spbce);
+        String methodNbme = method.substring(spbce + 1, stbrt - 1).trim();
         StringBuilder sb = new StringBuilder();
-        sb.append('(');
+        sb.bppend('(');
         int p;
         do {
             String s;
-            p = method.indexOf(',', start);
+            p = method.indexOf(',', stbrt);
             if (p == -1) {
-                s = map(method.substring(start, end).trim(), defaultPackage);
+                s = mbp(method.substring(stbrt, end).trim(), defbultPbckbge);
             } else {
-                s = map(method.substring(start, p).trim(), defaultPackage);
-                start = p + 1;
+                s = mbp(method.substring(stbrt, p).trim(), defbultPbckbge);
+                stbrt = p + 1;
             }
-            sb.append(s);
+            sb.bppend(s);
         } while (p != -1);
-        sb.append(')');
-        sb.append(map(returnType, defaultPackage));
-        return new Method(methodName, sb.toString());
+        sb.bppend(')');
+        sb.bppend(mbp(returnType, defbultPbckbge));
+        return new Method(methodNbme, sb.toString());
     }
 
-    private static String map(final String type, final boolean defaultPackage) {
-        if ("".equals(type)) {
+    privbte stbtic String mbp(finbl String type, finbl boolebn defbultPbckbge) {
+        if ("".equbls(type)) {
             return type;
         }
 
         StringBuilder sb = new StringBuilder();
         int index = 0;
         while ((index = type.indexOf("[]", index) + 1) > 0) {
-            sb.append('[');
+            sb.bppend('[');
         }
 
         String t = type.substring(0, type.length() - sb.length() * 2);
         String desc = DESCRIPTORS.get(t);
         if (desc != null) {
-            sb.append(desc);
+            sb.bppend(desc);
         } else {
-            sb.append('L');
+            sb.bppend('L');
             if (t.indexOf('.') < 0) {
-                if (!defaultPackage) {
-                    sb.append("java/lang/");
+                if (!defbultPbckbge) {
+                    sb.bppend("jbvb/lbng/");
                 }
-                sb.append(t);
+                sb.bppend(t);
             } else {
-                sb.append(t.replace('.', '/'));
+                sb.bppend(t.replbce('.', '/'));
             }
-            sb.append(';');
+            sb.bppend(';');
         }
         return sb.toString();
     }
 
     /**
-     * Returns the name of the method described by this object.
+     * Returns the nbme of the method described by this object.
      *
-     * @return the name of the method described by this object.
+     * @return the nbme of the method described by this object.
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
@@ -282,9 +282,9 @@ public class Method {
     }
 
     /**
-     * Returns the argument types of the method described by this object.
+     * Returns the brgument types of the method described by this object.
      *
-     * @return the argument types of the method described by this object.
+     * @return the brgument types of the method described by this object.
      */
     public Type[] getArgumentTypes() {
         return Type.getArgumentTypes(desc);
@@ -292,20 +292,20 @@ public class Method {
 
     @Override
     public String toString() {
-        return name + desc;
+        return nbme + desc;
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (!(o instanceof Method)) {
-            return false;
+    public boolebn equbls(finbl Object o) {
+        if (!(o instbnceof Method)) {
+            return fblse;
         }
         Method other = (Method) o;
-        return name.equals(other.name) && desc.equals(other.desc);
+        return nbme.equbls(other.nbme) && desc.equbls(other.desc);
     }
 
     @Override
-    public int hashCode() {
-        return name.hashCode() ^ desc.hashCode();
+    public int hbshCode() {
+        return nbme.hbshCode() ^ desc.hbshCode();
     }
 }

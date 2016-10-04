@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
 /**
   * This exception is thrown when the client is
-  * unable to communicate with the directory or naming service.
-  * The inability to communicate with the service might be a result
-  * of many factors, such as network partitioning, hardware or interface problems,
-  * failures on either the client or server side.
-  * This exception is meant to be used to capture such communication problems.
+  * unbble to communicbte with the directory or nbming service.
+  * The inbbility to communicbte with the service might be b result
+  * of mbny fbctors, such bs network pbrtitioning, hbrdwbre or interfbce problems,
+  * fbilures on either the client or server side.
+  * This exception is mebnt to be used to cbpture such communicbtion problems.
   * <p>
-  * Synchronization and serialization issues that apply to NamingException
-  * apply directly here.
+  * Synchronizbtion bnd seriblizbtion issues thbt bpply to NbmingException
+  * bpply directly here.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   * @since 1.3
   */
-public class CommunicationException extends NamingException {
+public clbss CommunicbtionException extends NbmingException {
     /**
-     * Constructs a new instance of CommunicationException using the
-     * arguments supplied.
+     * Constructs b new instbnce of CommunicbtionException using the
+     * brguments supplied.
      *
-     * @param   explanation     Additional detail about this exception.
-     * @see java.lang.Throwable#getMessage
+     * @pbrbm   explbnbtion     Additionbl detbil bbout this exception.
+     * @see jbvb.lbng.Throwbble#getMessbge
      */
-    public CommunicationException(String explanation) {
-        super(explanation);
+    public CommunicbtionException(String explbnbtion) {
+        super(explbnbtion);
     }
 
     /**
-      * Constructs a new instance of CommunicationException.
+      * Constructs b new instbnce of CommunicbtionException.
       */
-    public CommunicationException() {
+    public CommunicbtionException() {
         super();
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = 3618507780299986611L;
+    privbte stbtic finbl long seriblVersionUID = 3618507780299986611L;
 }

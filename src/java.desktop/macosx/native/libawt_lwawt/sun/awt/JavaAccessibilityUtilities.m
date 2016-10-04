@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "JavaAccessibilityUtilities.h"
+#import "JbvbAccessibilityUtilities.h"
 
 #import <AppKit/AppKit.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 
-static BOOL JavaAccessibilityIsSupportedAttribute(id element, NSString *attribute);
-static void JavaAccessibilityLogError(NSString *message);
-static void _JavaAccessibilityRaiseException(NSString *reason, SInt32 errorCode);
-static NSString *AttributeWithoutAXPrefix(NSString *attribute);
-static SEL JavaAccessibilityAttributeGetter(NSString *attribute);
-static SEL JavaAccessibilityAttributeSettableTester(NSString *attribute);
-static SEL JavaAccessibilityAttributeSetter(NSString *attribute);
+stbtic BOOL JbvbAccessibilityIsSupportedAttribute(id element, NSString *bttribute);
+stbtic void JbvbAccessibilityLogError(NSString *messbge);
+stbtic void _JbvbAccessibilityRbiseException(NSString *rebson, SInt32 errorCode);
+stbtic NSString *AttributeWithoutAXPrefix(NSString *bttribute);
+stbtic SEL JbvbAccessibilityAttributeGetter(NSString *bttribute);
+stbtic SEL JbvbAccessibilityAttributeSettbbleTester(NSString *bttribute);
+stbtic SEL JbvbAccessibilityAttributeSetter(NSString *bttribute);
 
-NSString *const JavaAccessibilityIgnore = @"JavaAxIgnore";
+NSString *const JbvbAccessibilityIgnore = @"JbvbAxIgnore";
 
-NSMutableDictionary *sRoles = nil;
-void initializeRoles();
+NSMutbbleDictionbry *sRoles = nil;
+void initiblizeRoles();
 
 // Unique
-static JNF_CLASS_CACHE(sjc_AccessibleState, "javax/accessibility/AccessibleState");
+stbtic JNF_CLASS_CACHE(sjc_AccessibleStbte, "jbvbx/bccessibility/AccessibleStbte");
 
-// Duplicate
-JNF_CLASS_CACHE(sjc_CAccessibility, "sun/lwawt/macosx/CAccessibility");
-JNF_CLASS_CACHE(sjc_AccessibleComponent, "javax/accessibility/AccessibleComponent");
-JNF_CLASS_CACHE(sjc_AccessibleContext, "javax/accessibility/AccessibleContext");
-JNF_CLASS_CACHE(sjc_Accessible, "javax/accessibility/Accessible");
-JNF_CLASS_CACHE(sjc_AccessibleRole, "javax/accessibility/AccessibleRole");
-JNF_CLASS_CACHE(sjc_Point, "java/awt/Point");
-JNF_CLASS_CACHE(sjc_AccessibleText, "javax/accessibility/AccessibleText");
+// Duplicbte
+JNF_CLASS_CACHE(sjc_CAccessibility, "sun/lwbwt/mbcosx/CAccessibility");
+JNF_CLASS_CACHE(sjc_AccessibleComponent, "jbvbx/bccessibility/AccessibleComponent");
+JNF_CLASS_CACHE(sjc_AccessibleContext, "jbvbx/bccessibility/AccessibleContext");
+JNF_CLASS_CACHE(sjc_Accessible, "jbvbx/bccessibility/Accessible");
+JNF_CLASS_CACHE(sjc_AccessibleRole, "jbvbx/bccessibility/AccessibleRole");
+JNF_CLASS_CACHE(sjc_Point, "jbvb/bwt/Point");
+JNF_CLASS_CACHE(sjc_AccessibleText, "jbvbx/bccessibility/AccessibleText");
 
-JNF_MEMBER_CACHE(sjf_key, sjc_AccessibleRole, "key", "Ljava/lang/String;");
+JNF_MEMBER_CACHE(sjf_key, sjc_AccessibleRole, "key", "Ljbvb/lbng/String;");
 JNF_MEMBER_CACHE(sjf_X, sjc_Point, "x", "I");
 JNF_MEMBER_CACHE(sjf_Y, sjc_Point, "y", "I");
 
-NSSize getAxComponentSize(JNIEnv *env, jobject axComponent, jobject component)
+NSSize getAxComponentSize(JNIEnv *env, jobject bxComponent, jobject component)
 {
-    static JNF_CLASS_CACHE(jc_Dimension, "java/awt/Dimension");
-    static JNF_MEMBER_CACHE(jf_width, jc_Dimension, "width", "I");
-    static JNF_MEMBER_CACHE(jf_height, jc_Dimension, "height", "I");
-    static JNF_STATIC_MEMBER_CACHE(jm_getSize, sjc_CAccessibility, "getSize", "(Ljavax/accessibility/AccessibleComponent;Ljava/awt/Component;)Ljava/awt/Dimension;");
+    stbtic JNF_CLASS_CACHE(jc_Dimension, "jbvb/bwt/Dimension");
+    stbtic JNF_MEMBER_CACHE(jf_width, jc_Dimension, "width", "I");
+    stbtic JNF_MEMBER_CACHE(jf_height, jc_Dimension, "height", "I");
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getSize, sjc_CAccessibility, "getSize", "(Ljbvbx/bccessibility/AccessibleComponent;Ljbvb/bwt/Component;)Ljbvb/bwt/Dimension;");
 
-    jobject dimension = JNFCallStaticObjectMethod(env, jm_getSize, axComponent, component); // AWT_THREADING Safe (AWTRunLoopMode)
+    jobject dimension = JNFCbllStbticObjectMethod(env, jm_getSize, bxComponent, component); // AWT_THREADING Sbfe (AWTRunLoopMode)
 
     if (dimension == NULL) return NSZeroSize;
-    return NSMakeSize(JNFGetIntField(env, dimension, jf_width), JNFGetIntField(env, dimension, jf_height));
+    return NSMbkeSize(JNFGetIntField(env, dimension, jf_width), JNFGetIntField(env, dimension, jf_height));
 }
 
-NSString *getJavaRole(JNIEnv *env, jobject axComponent, jobject component)
+NSString *getJbvbRole(JNIEnv *env, jobject bxComponent, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleRole, sjc_CAccessibility, "getAccessibleRole", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljava/lang/String;");
-    jobject axRole = JNFCallStaticObjectMethod(env, sjm_getAccessibleRole, axComponent, component); // AWT_THREADING Safe (AWTRunLoopMode)
-    if (axRole == NULL) return @"unknown";
+    stbtic JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleRole, sjc_CAccessibility, "getAccessibleRole", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvb/lbng/String;");
+    jobject bxRole = JNFCbllStbticObjectMethod(env, sjm_getAccessibleRole, bxComponent, component); // AWT_THREADING Sbfe (AWTRunLoopMode)
+    if (bxRole == NULL) return @"unknown";
 
-    return JNFJavaToNSString(env, axRole);
+    return JNFJbvbToNSString(env, bxRole);
 }
 
-jobject getAxSelection(JNIEnv *env, jobject axContext, jobject component)
+jobject getAxSelection(JNIEnv *env, jobject bxContext, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getAccessibleSelection, sjc_CAccessibility, "getAccessibleSelection", "(Ljavax/accessibility/AccessibleContext;Ljava/awt/Component;)Ljavax/accessibility/AccessibleSelection;");
-    return JNFCallStaticObjectMethod(env, jm_getAccessibleSelection, axContext, component); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getAccessibleSelection, sjc_CAccessibility, "getAccessibleSelection", "(Ljbvbx/bccessibility/AccessibleContext;Ljbvb/bwt/Component;)Ljbvbx/bccessibility/AccessibleSelection;");
+    return JNFCbllStbticObjectMethod(env, jm_getAccessibleSelection, bxContext, component); // AWT_THREADING Sbfe (AWTRunLoopMode)
 }
 
-jobject getAxContextSelection(JNIEnv *env, jobject axContext, jint index, jobject component)
+jobject getAxContextSelection(JNIEnv *env, jobject bxContext, jint index, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_ax_getAccessibleSelection, sjc_CAccessibility, "ax_getAccessibleSelection", "(Ljavax/accessibility/AccessibleContext;ILjava/awt/Component;)Ljavax/accessibility/Accessible;");
-    return JNFCallStaticObjectMethod(env, jm_ax_getAccessibleSelection, axContext, index, component); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_bx_getAccessibleSelection, sjc_CAccessibility, "bx_getAccessibleSelection", "(Ljbvbx/bccessibility/AccessibleContext;ILjbvb/bwt/Component;)Ljbvbx/bccessibility/Accessible;");
+    return JNFCbllStbticObjectMethod(env, jm_bx_getAccessibleSelection, bxContext, index, component); // AWT_THREADING Sbfe (AWTRunLoopMode)
 }
 
-void setAxContextSelection(JNIEnv *env, jobject axContext, jint index, jobject component)
+void setAxContextSelection(JNIEnv *env, jobject bxContext, jint index, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_addAccessibleSelection, sjc_CAccessibility, "addAccessibleSelection", "(Ljavax/accessibility/AccessibleContext;ILjava/awt/Component;)V");
-    JNFCallStaticVoidMethod(env, jm_addAccessibleSelection, axContext, index, component); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_bddAccessibleSelection, sjc_CAccessibility, "bddAccessibleSelection", "(Ljbvbx/bccessibility/AccessibleContext;ILjbvb/bwt/Component;)V");
+    JNFCbllStbticVoidMethod(env, jm_bddAccessibleSelection, bxContext, index, component); // AWT_THREADING Sbfe (AWTRunLoopMode)
 }
 
-jobject getAxContext(JNIEnv *env, jobject accessible, jobject component)
+jobject getAxContext(JNIEnv *env, jobject bccessible, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getAccessibleContext, sjc_CAccessibility, "getAccessibleContext", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljavax/accessibility/AccessibleContext;");
-    return JNFCallStaticObjectMethod(env, jm_getAccessibleContext, accessible, component); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getAccessibleContext, sjc_CAccessibility, "getAccessibleContext", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvbx/bccessibility/AccessibleContext;");
+    return JNFCbllStbticObjectMethod(env, jm_getAccessibleContext, bccessible, component); // AWT_THREADING Sbfe (AWTRunLoopMode)
 }
 
-BOOL isChildSelected(JNIEnv *env, jobject accessible, jint index, jobject component)
+BOOL isChildSelected(JNIEnv *env, jobject bccessible, jint index, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_isAccessibleChildSelected, sjc_CAccessibility, "isAccessibleChildSelected", "(Ljavax/accessibility/Accessible;ILjava/awt/Component;)Z");
-    return JNFCallStaticBooleanMethod(env, jm_isAccessibleChildSelected, accessible, index, component); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_isAccessibleChildSelected, sjc_CAccessibility, "isAccessibleChildSelected", "(Ljbvbx/bccessibility/Accessible;ILjbvb/bwt/Component;)Z");
+    return JNFCbllStbticBoolebnMethod(env, jm_isAccessibleChildSelected, bccessible, index, component); // AWT_THREADING Sbfe (AWTRunLoopMode)
 }
 
-jobject getAxStateSet(JNIEnv *env, jobject axContext, jobject component)
+jobject getAxStbteSet(JNIEnv *env, jobject bxContext, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getAccessibleStateSet, sjc_CAccessibility, "getAccessibleStateSet", "(Ljavax/accessibility/AccessibleContext;Ljava/awt/Component;)Ljavax/accessibility/AccessibleStateSet;");
-    return JNFCallStaticObjectMethod(env, jm_getAccessibleStateSet, axContext, component); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getAccessibleStbteSet, sjc_CAccessibility, "getAccessibleStbteSet", "(Ljbvbx/bccessibility/AccessibleContext;Ljbvb/bwt/Component;)Ljbvbx/bccessibility/AccessibleStbteSet;");
+    return JNFCbllStbticObjectMethod(env, jm_getAccessibleStbteSet, bxContext, component); // AWT_THREADING Sbfe (AWTRunLoopMode)
 }
 
-BOOL containsAxState(JNIEnv *env, jobject axContext, jobject axState, jobject component)
+BOOL contbinsAxStbte(JNIEnv *env, jobject bxContext, jobject bxStbte, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_contains, sjc_CAccessibility, "contains", "(Ljavax/accessibility/AccessibleContext;Ljavax/accessibility/AccessibleState;Ljava/awt/Component;)Z");
-    return JNFCallStaticBooleanMethod(env, jm_contains, axContext, axState, component); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_contbins, sjc_CAccessibility, "contbins", "(Ljbvbx/bccessibility/AccessibleContext;Ljbvbx/bccessibility/AccessibleStbte;Ljbvb/bwt/Component;)Z");
+    return JNFCbllStbticBoolebnMethod(env, jm_contbins, bxContext, bxStbte, component); // AWT_THREADING Sbfe (AWTRunLoopMode)
 }
 
-BOOL isVertical(JNIEnv *env, jobject axContext, jobject component)
+BOOL isVerticbl(JNIEnv *env, jobject bxContext, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_VERTICAL, sjc_AccessibleState, "VERTICAL", "Ljavax/accessibility/AccessibleState;");
-    jobject axVertState = JNFGetStaticObjectField(env, jm_VERTICAL);
-    return containsAxState(env, axContext, axVertState, component);
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_VERTICAL, sjc_AccessibleStbte, "VERTICAL", "Ljbvbx/bccessibility/AccessibleStbte;");
+    jobject bxVertStbte = JNFGetStbticObjectField(env, jm_VERTICAL);
+    return contbinsAxStbte(env, bxContext, bxVertStbte, component);
 }
 
-BOOL isHorizontal(JNIEnv *env, jobject axContext, jobject component)
+BOOL isHorizontbl(JNIEnv *env, jobject bxContext, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_HORIZONTAL, sjc_AccessibleState, "HORIZONTAL", "Ljavax/accessibility/AccessibleState;");
-    jobject axHorizState = JNFGetStaticObjectField(env, jm_HORIZONTAL);
-    return containsAxState(env, axContext, axHorizState, component);
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_HORIZONTAL, sjc_AccessibleStbte, "HORIZONTAL", "Ljbvbx/bccessibility/AccessibleStbte;");
+    jobject bxHorizStbte = JNFGetStbticObjectField(env, jm_HORIZONTAL);
+    return contbinsAxStbte(env, bxContext, bxHorizStbte, component);
 }
 
-BOOL isShowing(JNIEnv *env, jobject axContext, jobject component)
+BOOL isShowing(JNIEnv *env, jobject bxContext, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_SHOWING, sjc_AccessibleState, "SHOWING", "Ljavax/accessibility/AccessibleState;");
-    jobject axVisibleState = JNFGetStaticObjectField(env, jm_SHOWING);
-    return containsAxState(env, axContext, axVisibleState, component);
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_SHOWING, sjc_AccessibleStbte, "SHOWING", "Ljbvbx/bccessibility/AccessibleStbte;");
+    jobject bxVisibleStbte = JNFGetStbticObjectField(env, jm_SHOWING);
+    return contbinsAxStbte(env, bxContext, bxVisibleStbte, component);
 }
 
-NSPoint getAxComponentLocationOnScreen(JNIEnv *env, jobject axComponent, jobject component)
+NSPoint getAxComponentLocbtionOnScreen(JNIEnv *env, jobject bxComponent, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getLocationOnScreen, sjc_CAccessibility, "getLocationOnScreen", "(Ljavax/accessibility/AccessibleComponent;Ljava/awt/Component;)Ljava/awt/Point;");
-    jobject jpoint = JNFCallStaticObjectMethod(env, jm_getLocationOnScreen, axComponent, component); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getLocbtionOnScreen, sjc_CAccessibility, "getLocbtionOnScreen", "(Ljbvbx/bccessibility/AccessibleComponent;Ljbvb/bwt/Component;)Ljbvb/bwt/Point;");
+    jobject jpoint = JNFCbllStbticObjectMethod(env, jm_getLocbtionOnScreen, bxComponent, component); // AWT_THREADING Sbfe (AWTRunLoopMode)
     if (jpoint == NULL) return NSZeroPoint;
-    return NSMakePoint(JNFGetIntField(env, jpoint, sjf_X), JNFGetIntField(env, jpoint, sjf_Y));
+    return NSMbkePoint(JNFGetIntField(env, jpoint, sjf_X), JNFGetIntField(env, jpoint, sjf_Y));
 }
 
-jint getAxTextCharCount(JNIEnv *env, jobject axText, jobject component)
+jint getAxTextChbrCount(JNIEnv *env, jobject bxText, jobject component)
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getCharCount, sjc_CAccessibility, "getCharCount", "(Ljavax/accessibility/AccessibleText;Ljava/awt/Component;)I");
-    return JNFCallStaticIntMethod(env, jm_getCharCount, axText, component); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getChbrCount, sjc_CAccessibility, "getChbrCount", "(Ljbvbx/bccessibility/AccessibleText;Ljbvb/bwt/Component;)I");
+    return JNFCbllStbticIntMethod(env, jm_getChbrCount, bxText, component); // AWT_THREADING Sbfe (AWTRunLoopMode)
 }
 
-// The following JavaAccessibility methods are copied from the corresponding
+// The following JbvbAccessibility methods bre copied from the corresponding
 // NSAccessibility methods in NSAccessibility.m.
 //
-// They implement a key-value-like coding scheme to transform messages like
-//        [self accessibilityAttributeValue:NSAccessibilityEnabledAttribute]
-// into calls on to specific methods like
-//        [self accessibilityEnabledAttribute].
+// They implement b key-vblue-like coding scheme to trbnsform messbges like
+//        [self bccessibilityAttributeVblue:NSAccessibilityEnbbledAttribute]
+// into cblls on to specific methods like
+//        [self bccessibilityEnbbledAttribute].
 
-static NSString *AttributeWithoutAXPrefix(NSString *attribute)
+stbtic NSString *AttributeWithoutAXPrefix(NSString *bttribute)
 {
-    return [attribute hasPrefix:@"AX"] ? [attribute substringFromIndex:2] : attribute;
+    return [bttribute hbsPrefix:@"AX"] ? [bttribute substringFromIndex:2] : bttribute;
 }
 
-static SEL JavaAccessibilityAttributeGetter(NSString *attribute)
+stbtic SEL JbvbAccessibilityAttributeGetter(NSString *bttribute)
 {
-    return NSSelectorFromString([NSString stringWithFormat:@"accessibility%@Attribute", AttributeWithoutAXPrefix(attribute)]);
+    return NSSelectorFromString([NSString stringWithFormbt:@"bccessibility%@Attribute", AttributeWithoutAXPrefix(bttribute)]);
 }
 
-static SEL JavaAccessibilityAttributeSettableTester(NSString *attribute)
+stbtic SEL JbvbAccessibilityAttributeSettbbleTester(NSString *bttribute)
 {
-    return NSSelectorFromString([NSString stringWithFormat:@"accessibilityIs%@AttributeSettable", AttributeWithoutAXPrefix(attribute)]);
+    return NSSelectorFromString([NSString stringWithFormbt:@"bccessibilityIs%@AttributeSettbble", AttributeWithoutAXPrefix(bttribute)]);
 }
 
-static SEL JavaAccessibilityAttributeSetter(NSString *attribute)
+stbtic SEL JbvbAccessibilityAttributeSetter(NSString *bttribute)
 {
-    return NSSelectorFromString([NSString stringWithFormat:@"accessibilitySet%@Attribute:", AttributeWithoutAXPrefix(attribute)]);
+    return NSSelectorFromString([NSString stringWithFormbt:@"bccessibilitySet%@Attribute:", AttributeWithoutAXPrefix(bttribute)]);
 }
 
-id JavaAccessibilityAttributeValue(id element, NSString *attribute)
+id JbvbAccessibilityAttributeVblue(id element, NSString *bttribute)
 {
-    if (!JavaAccessibilityIsSupportedAttribute(element, attribute)) return nil;
+    if (!JbvbAccessibilityIsSupportedAttribute(element, bttribute)) return nil;
 
-    SEL getter = JavaAccessibilityAttributeGetter(attribute);
+    SEL getter = JbvbAccessibilityAttributeGetter(bttribute);
 #ifdef JAVA_AX_DEBUG_PARMS
     if (![element respondsToSelector:getter]) {
-        JavaAccessibilityRaiseUnimplementedAttributeException(__FUNCTION__, element, attribute);
+        JbvbAccessibilityRbiseUnimplementedAttributeException(__FUNCTION__, element, bttribute);
         return nil;
     }
 #endif
@@ -200,14 +200,14 @@ id JavaAccessibilityAttributeValue(id element, NSString *attribute)
     return [element performSelector:getter];
 }
 
-BOOL JavaAccessibilityIsAttributeSettable(id element, NSString *attribute)
+BOOL JbvbAccessibilityIsAttributeSettbble(id element, NSString *bttribute)
 {
-    if (!JavaAccessibilityIsSupportedAttribute(element, attribute)) return NO;
+    if (!JbvbAccessibilityIsSupportedAttribute(element, bttribute)) return NO;
 
-    SEL tester = JavaAccessibilityAttributeSettableTester(attribute);
+    SEL tester = JbvbAccessibilityAttributeSettbbleTester(bttribute);
 #ifdef JAVA_AX_DEBUG_PARMS
     if (![element respondsToSelector:tester]) {
-        JavaAccessibilityRaiseUnimplementedAttributeException(__FUNCTION__, element, attribute);
+        JbvbAccessibilityRbiseUnimplementedAttributeException(__FUNCTION__, element, bttribute);
         return NO;
     }
 #endif
@@ -215,147 +215,147 @@ BOOL JavaAccessibilityIsAttributeSettable(id element, NSString *attribute)
     return [element performSelector:tester] != nil;
 }
 
-void JavaAccessibilitySetAttributeValue(id element, NSString *attribute ,id value)
+void JbvbAccessibilitySetAttributeVblue(id element, NSString *bttribute ,id vblue)
 {
-    if (!JavaAccessibilityIsSupportedAttribute(element, attribute)) return;
+    if (!JbvbAccessibilityIsSupportedAttribute(element, bttribute)) return;
 
-    SEL setter = JavaAccessibilityAttributeSetter(attribute);
-    if (![element accessibilityIsAttributeSettable:attribute]) return;
+    SEL setter = JbvbAccessibilityAttributeSetter(bttribute);
+    if (![element bccessibilityIsAttributeSettbble:bttribute]) return;
 
 #ifdef JAVA_AX_DEBUG_PARMS
     if (![element respondsToSelector:setter]) {
-        JavaAccessibilityRaiseUnimplementedAttributeException(__FUNCTION__, element, attribute);
+        JbvbAccessibilityRbiseUnimplementedAttributeException(__FUNCTION__, element, bttribute);
         return;
     }
 #endif
 
-    [element performSelector:setter withObject:value];
+    [element performSelector:setter withObject:vblue];
 }
 
-static BOOL JavaAccessibilityIsSupportedAttribute(id element, NSString *attribute)
+stbtic BOOL JbvbAccessibilityIsSupportedAttribute(id element, NSString *bttribute)
 {
-    return [[element accessibilityAttributeNames] indexOfObject:attribute] != NSNotFound;
+    return [[element bccessibilityAttributeNbmes] indexOfObject:bttribute] != NSNotFound;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CAccessibility
+ * Clbss:     sun_lwbwt_mbcosx_CAccessibility
  * Method:    roleKey
- * Signature: (Ljavax/accessibility/AccessibleRole;)Ljava/lang/String;
+ * Signbture: (Ljbvbx/bccessibility/AccessibleRole;)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_lwawt_macosx_CAccessibility_roleKey
-(JNIEnv *env, jclass clz, jobject axRole)
+JNIEXPORT jstring JNICALL Jbvb_sun_lwbwt_mbcosx_CAccessibility_roleKey
+(JNIEnv *env, jclbss clz, jobject bxRole)
 {
-    return JNFGetObjectField(env, axRole, sjf_key);
+    return JNFGetObjectField(env, bxRole, sjf_key);
 }
 
 
 // errors from NSAccessibilityErrors
-void JavaAccessibilityRaiseSetAttributeToIllegalTypeException(const char *functionName, id element, NSString *attribute, id value)
+void JbvbAccessibilityRbiseSetAttributeToIllegblTypeException(const chbr *functionNbme, id element, NSString *bttribute, id vblue)
 {
-    NSString *reason = [NSString stringWithFormat:@"%s: Attempt set \"%@\" attribute to illegal type of value (%@:%@) for element: %@", functionName, attribute, [value class], value, element];
-    _JavaAccessibilityRaiseException(reason, kAXErrorIllegalArgument);
+    NSString *rebson = [NSString stringWithFormbt:@"%s: Attempt set \"%@\" bttribute to illegbl type of vblue (%@:%@) for element: %@", functionNbme, bttribute, [vblue clbss], vblue, element];
+    _JbvbAccessibilityRbiseException(rebson, kAXErrorIllegblArgument);
 }
 
-void JavaAccessibilityRaiseUnimplementedAttributeException(const char *functionName, id element, NSString *attribute)
+void JbvbAccessibilityRbiseUnimplementedAttributeException(const chbr *functionNbme, id element, NSString *bttribute)
 {
-    NSString *reason = [NSString stringWithFormat:@"%s: \"%@\" attribute unimplemented by element: %@", functionName, attribute, element];
-    _JavaAccessibilityRaiseException(reason, kAXErrorFailure);
+    NSString *rebson = [NSString stringWithFormbt:@"%s: \"%@\" bttribute unimplemented by element: %@", functionNbme, bttribute, element];
+    _JbvbAccessibilityRbiseException(rebson, kAXErrorFbilure);
 }
 
-void JavaAccessibilityRaiseIllegalParameterTypeException(const char *functionName, id element, NSString *attribute, id parameter)
+void JbvbAccessibilityRbiseIllegblPbrbmeterTypeException(const chbr *functionNbme, id element, NSString *bttribute, id pbrbmeter)
 {
-    NSString *reason = [NSString stringWithFormat:@"%s: \"%@\" parameterized attribute passed illegal type of parameter (%@:%@) for element: %@", functionName, attribute, [parameter class], parameter, element];
-    _JavaAccessibilityRaiseException(reason, kAXErrorIllegalArgument);
+    NSString *rebson = [NSString stringWithFormbt:@"%s: \"%@\" pbrbmeterized bttribute pbssed illegbl type of pbrbmeter (%@:%@) for element: %@", functionNbme, bttribute, [pbrbmeter clbss], pbrbmeter, element];
+    _JbvbAccessibilityRbiseException(rebson, kAXErrorIllegblArgument);
 }
 
-static void _JavaAccessibilityRaiseException(NSString *reason, SInt32 errorCode)
+stbtic void _JbvbAccessibilityRbiseException(NSString *rebson, SInt32 errorCode)
 {
-    JavaAccessibilityLogError(reason);
-    [[NSException exceptionWithName:NSAccessibilityException reason:reason userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:errorCode], NSAccessibilityErrorCodeExceptionInfo, nil]] raise];
+    JbvbAccessibilityLogError(rebson);
+    [[NSException exceptionWithNbme:NSAccessibilityException rebson:rebson userInfo:[NSDictionbry dictionbryWithObjectsAndKeys:[NSNumber numberWithInt:errorCode], NSAccessibilityErrorCodeExceptionInfo, nil]] rbise];
 }
 
-static void JavaAccessibilityLogError(NSString *message)
+stbtic void JbvbAccessibilityLogError(NSString *messbge)
 {
-    NSLog(@"!!! %@", message);
+    NSLog(@"!!! %@", messbge);
 }
 
-// end appKit copies
+// end bppKit copies
 
 /*
- To get the roles below, verify the perl has table below called macRoleCodes is correct.
- Then copy the perl code into a perl script called makeAxTables.pl (make
- sure to chmod +x makeAxTables.pl). Then run the perl script like this:
+ To get the roles below, verify the perl hbs tbble below cblled mbcRoleCodes is correct.
+ Then copy the perl code into b perl script cblled mbkeAxTbbles.pl (mbke
+ sure to chmod +x mbkeAxTbbles.pl). Then run the perl script like this:
 
- ./makeAxTables.pl /Builds/jdk1_4_1/
+ ./mbkeAxTbbles.pl /Builds/jdk1_4_1/
 
- It will then write the void initializeRoles() method below to stdout.
+ It will then write the void initiblizeRoles() method below to stdout.
 
- Any new AccessibleRole items that aren't in the perl hash table will be written out as follows:
+ Any new AccessibleRole items thbt bren't in the perl hbsh tbble will be written out bs follows:
  // Unknown AccessibleRole: <role>
 
- Add these unknowns to the perl hash table and re-run the script, and use the new generated table.
+ Add these unknowns to the perl hbsh tbble bnd re-run the script, bnd use the new generbted tbble.
 */
 
-// NOTE: Don't modify this directly. It is machine generated. See below
-void initializeRoles()
+// NOTE: Don't modify this directly. It is mbchine generbted. See below
+void initiblizeRoles()
 {
-    sRoles = [[NSMutableDictionary alloc] initWithCapacity:56];
+    sRoles = [[NSMutbbleDictionbry blloc] initWithCbpbcity:56];
 
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"alert"];
-    [sRoles setObject:NSAccessibilityGroupRole forKey:@"awtcomponent"];
-    [sRoles setObject:NSAccessibilityGroupRole forKey:@"canvas"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"blert"];
+    [sRoles setObject:NSAccessibilityGroupRole forKey:@"bwtcomponent"];
+    [sRoles setObject:NSAccessibilityGroupRole forKey:@"cbnvbs"];
     [sRoles setObject:NSAccessibilityCheckBoxRole forKey:@"checkbox"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"colorchooser"];
-    [sRoles setObject:NSAccessibilityColumnRole forKey:@"columnheader"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"colorchooser"];
+    [sRoles setObject:NSAccessibilityColumnRole forKey:@"columnhebder"];
     [sRoles setObject:NSAccessibilityComboBoxRole forKey:@"combobox"];
-    [sRoles setObject:NSAccessibilityTextFieldRole forKey:@"dateeditor"];
-    [sRoles setObject:NSAccessibilityImageRole forKey:@"desktopicon"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"desktoppane"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"dialog"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"directorypane"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"filechooser"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"filler"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"fontchooser"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"frame"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"glasspane"];
+    [sRoles setObject:NSAccessibilityTextFieldRole forKey:@"dbteeditor"];
+    [sRoles setObject:NSAccessibilityImbgeRole forKey:@"desktopicon"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"desktoppbne"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"diblog"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"directorypbne"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"filechooser"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"filler"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"fontchooser"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"frbme"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"glbsspbne"];
     [sRoles setObject:NSAccessibilityGroupRole forKey:@"groupbox"];
-    [sRoles setObject:NSAccessibilityStaticTextRole forKey:@"hyperlink"]; //maybe a group?
-    [sRoles setObject:NSAccessibilityImageRole forKey:@"icon"];
-    [sRoles setObject:NSAccessibilityGroupRole forKey:@"internalframe"];
-    [sRoles setObject:NSAccessibilityStaticTextRole forKey:@"label"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"layeredpane"];
-    [sRoles setObject:NSAccessibilityListRole forKey:@"list"]; // maybe a group? AccessibleRole.java says a list is: "An object that presents a list of objects to the user and allows the user to select one or more of them."
+    [sRoles setObject:NSAccessibilityStbticTextRole forKey:@"hyperlink"]; //mbybe b group?
+    [sRoles setObject:NSAccessibilityImbgeRole forKey:@"icon"];
+    [sRoles setObject:NSAccessibilityGroupRole forKey:@"internblfrbme"];
+    [sRoles setObject:NSAccessibilityStbticTextRole forKey:@"lbbel"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"lbyeredpbne"];
+    [sRoles setObject:NSAccessibilityListRole forKey:@"list"]; // mbybe b group? AccessibleRole.jbvb sbys b list is: "An object thbt presents b list of objects to the user bnd bllows the user to select one or more of them."
     [sRoles setObject:NSAccessibilityListRole forKey:@"listitem"];
     [sRoles setObject:NSAccessibilityMenuRole forKey:@"menu"];
-    [sRoles setObject:NSAccessibilityMenuBarRole forKey:@"menubar"];
+    [sRoles setObject:NSAccessibilityMenuBbrRole forKey:@"menubbr"];
     [sRoles setObject:NSAccessibilityMenuItemRole forKey:@"menuitem"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"optionpane"];
-    [sRoles setObject:NSAccessibilityRadioButtonRole forKey:@"pagetab"]; // cmcnote: cocoa tabs are radio buttons - one selected button out of a group of options
-    [sRoles setObject:NSAccessibilityTabGroupRole forKey:@"pagetablist"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"panel"];
-    [sRoles setObject:NSAccessibilityTextFieldRole forKey:@"passwordtext"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"optionpbne"];
+    [sRoles setObject:NSAccessibilityRbdioButtonRole forKey:@"pbgetbb"]; // cmcnote: cocob tbbs bre rbdio buttons - one selected button out of b group of options
+    [sRoles setObject:NSAccessibilityTbbGroupRole forKey:@"pbgetbblist"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"pbnel"];
+    [sRoles setObject:NSAccessibilityTextFieldRole forKey:@"pbsswordtext"];
     [sRoles setObject:NSAccessibilityPopUpButtonRole forKey:@"popupmenu"];
-    [sRoles setObject:NSAccessibilityProgressIndicatorRole forKey:@"progressbar"];
+    [sRoles setObject:NSAccessibilityProgressIndicbtorRole forKey:@"progressbbr"];
     [sRoles setObject:NSAccessibilityButtonRole forKey:@"pushbutton"];
-    [sRoles setObject:NSAccessibilityRadioButtonRole forKey:@"radiobutton"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"rootpane"];
-    [sRoles setObject:NSAccessibilityRowRole forKey:@"rowheader"];
-    [sRoles setObject:NSAccessibilityScrollBarRole forKey:@"scrollbar"];
-    [sRoles setObject:NSAccessibilityScrollAreaRole forKey:@"scrollpane"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"separator"];
+    [sRoles setObject:NSAccessibilityRbdioButtonRole forKey:@"rbdiobutton"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"rootpbne"];
+    [sRoles setObject:NSAccessibilityRowRole forKey:@"rowhebder"];
+    [sRoles setObject:NSAccessibilityScrollBbrRole forKey:@"scrollbbr"];
+    [sRoles setObject:NSAccessibilityScrollArebRole forKey:@"scrollpbne"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"sepbrbtor"];
     [sRoles setObject:NSAccessibilitySliderRole forKey:@"slider"];
     [sRoles setObject:NSAccessibilityIncrementorRole forKey:@"spinbox"];
-    [sRoles setObject:NSAccessibilitySplitGroupRole forKey:@"splitpane"];
-    [sRoles setObject:NSAccessibilityValueIndicatorRole forKey:@"statusbar"];
+    [sRoles setObject:NSAccessibilitySplitGroupRole forKey:@"splitpbne"];
+    [sRoles setObject:NSAccessibilityVblueIndicbtorRole forKey:@"stbtusbbr"];
     [sRoles setObject:NSAccessibilityGroupRole forKey:@"swingcomponent"];
-    [sRoles setObject:NSAccessibilityTableRole forKey:@"table"];
+    [sRoles setObject:NSAccessibilityTbbleRole forKey:@"tbble"];
     [sRoles setObject:NSAccessibilityTextFieldRole forKey:@"text"];
-    [sRoles setObject:NSAccessibilityTextAreaRole forKey:@"textarea"]; // supports top/bottom of document notifications: CAccessability.getAccessibleRole()
+    [sRoles setObject:NSAccessibilityTextArebRole forKey:@"textbreb"]; // supports top/bottom of document notificbtions: CAccessbbility.getAccessibleRole()
     [sRoles setObject:NSAccessibilityCheckBoxRole forKey:@"togglebutton"];
-    [sRoles setObject:NSAccessibilityToolbarRole forKey:@"toolbar"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"tooltip"];
+    [sRoles setObject:NSAccessibilityToolbbrRole forKey:@"toolbbr"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"tooltip"];
     [sRoles setObject:NSAccessibilityBrowserRole forKey:@"tree"];
     [sRoles setObject:NSAccessibilityUnknownRole forKey:@"unknown"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"viewport"];
-    [sRoles setObject:JavaAccessibilityIgnore forKey:@"window"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"viewport"];
+    [sRoles setObject:JbvbAccessibilityIgnore forKey:@"window"];
 }

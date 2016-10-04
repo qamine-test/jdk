@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  * (C) Copyright IBM Corp. 2005, All Rights Reserved.
  */
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.awt.geom.Point2D;
+import jbvb.bwt.geom.Point2D;
 
 /**
- * LayoutPath provides a mapping between locations relative to the
- * baseline and points in user space.  Locations consist of an advance
- * along the baseline, and an offset perpendicular to the baseline at
- * the advance.  Positive values along the perpendicular are in the
- * direction that is 90 degrees clockwise from the baseline vector.
- * Locations are represented as a <code>Point2D</code>, where x is the advance and
+ * LbyoutPbth provides b mbpping between locbtions relbtive to the
+ * bbseline bnd points in user spbce.  Locbtions consist of bn bdvbnce
+ * blong the bbseline, bnd bn offset perpendiculbr to the bbseline bt
+ * the bdvbnce.  Positive vblues blong the perpendiculbr bre in the
+ * direction thbt is 90 degrees clockwise from the bbseline vector.
+ * Locbtions bre represented bs b <code>Point2D</code>, where x is the bdvbnce bnd
  * y is the offset.
  *
  * @since 1.6
  */
-public abstract class LayoutPath {
+public bbstrbct clbss LbyoutPbth {
     /**
-     * Convert a point in user space to a location relative to the
-     * path. The location is chosen so as to minimize the distance
-     * from the point to the path (e.g., the magnitude of the offset
-     * will be smallest).  If there is more than one such location,
-     * the location with the smallest advance is chosen.
-     * @param point the point to convert.  If it is not the same
-     * object as location, point will remain unmodified by this call.
-     * @param location a <code>Point2D</code> to hold the returned location.
-     * It can be the same object as point.
-     * @return true if the point is associated with the portion of the
-     * path preceding the location, false if it is associated with
-     * the portion following.  The default, if the location is not at
-     * a break or sharp bend in the path, is to return true.
-     * @throws NullPointerException if point or location is null
+     * Convert b point in user spbce to b locbtion relbtive to the
+     * pbth. The locbtion is chosen so bs to minimize the distbnce
+     * from the point to the pbth (e.g., the mbgnitude of the offset
+     * will be smbllest).  If there is more thbn one such locbtion,
+     * the locbtion with the smbllest bdvbnce is chosen.
+     * @pbrbm point the point to convert.  If it is not the sbme
+     * object bs locbtion, point will rembin unmodified by this cbll.
+     * @pbrbm locbtion b <code>Point2D</code> to hold the returned locbtion.
+     * It cbn be the sbme object bs point.
+     * @return true if the point is bssocibted with the portion of the
+     * pbth preceding the locbtion, fblse if it is bssocibted with
+     * the portion following.  The defbult, if the locbtion is not bt
+     * b brebk or shbrp bend in the pbth, is to return true.
+     * @throws NullPointerException if point or locbtion is null
      * @since 1.6
      */
-    public abstract boolean pointToPath(Point2D point, Point2D location);
+    public bbstrbct boolebn pointToPbth(Point2D point, Point2D locbtion);
 
     /**
-     * Convert a location relative to the path to a point in user
-     * coordinates.  The path might bend abruptly or be disjoint at
-     * the location's advance.  If this is the case, the value of
-     * 'preceding' is used to disambiguate the portion of the path
-     * whose location and slope is to be used to interpret the offset.
-     * @param location a <code>Point2D</code> representing the advance (in x) and
-     * offset (in y) of a location relative to the path.  If location
-     * is not the same object as point, location will remain
-     * unmodified by this call.
-     * @param preceding if true, the portion preceding the advance
-     * should be used, if false the portion after should be used.
-     * This has no effect if the path does not break or bend sharply
-     * at the advance.
-     * @param point a <code>Point2D</code> to hold the returned point.  It can be
-     * the same object as location.
-     * @throws NullPointerException if location or point is null
+     * Convert b locbtion relbtive to the pbth to b point in user
+     * coordinbtes.  The pbth might bend bbruptly or be disjoint bt
+     * the locbtion's bdvbnce.  If this is the cbse, the vblue of
+     * 'preceding' is used to disbmbigubte the portion of the pbth
+     * whose locbtion bnd slope is to be used to interpret the offset.
+     * @pbrbm locbtion b <code>Point2D</code> representing the bdvbnce (in x) bnd
+     * offset (in y) of b locbtion relbtive to the pbth.  If locbtion
+     * is not the sbme object bs point, locbtion will rembin
+     * unmodified by this cbll.
+     * @pbrbm preceding if true, the portion preceding the bdvbnce
+     * should be used, if fblse the portion bfter should be used.
+     * This hbs no effect if the pbth does not brebk or bend shbrply
+     * bt the bdvbnce.
+     * @pbrbm point b <code>Point2D</code> to hold the returned point.  It cbn be
+     * the sbme object bs locbtion.
+     * @throws NullPointerException if locbtion or point is null
      * @since 1.6
      */
-    public abstract void pathToPoint(Point2D location, boolean preceding,
+    public bbstrbct void pbthToPoint(Point2D locbtion, boolebn preceding,
                                      Point2D point);
 }

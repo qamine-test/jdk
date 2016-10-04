@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,243 +56,243 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree.analysis;
+pbckbge jdk.internbl.org.objectweb.bsm.tree.bnblysis;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.AbstractInsnNode;
-import jdk.internal.org.objectweb.asm.tree.IincInsnNode;
-import jdk.internal.org.objectweb.asm.tree.InsnList;
-import jdk.internal.org.objectweb.asm.tree.JumpInsnNode;
-import jdk.internal.org.objectweb.asm.tree.LabelNode;
-import jdk.internal.org.objectweb.asm.tree.LookupSwitchInsnNode;
-import jdk.internal.org.objectweb.asm.tree.MethodNode;
-import jdk.internal.org.objectweb.asm.tree.TableSwitchInsnNode;
-import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
-import jdk.internal.org.objectweb.asm.tree.VarInsnNode;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Type;
+import jdk.internbl.org.objectweb.bsm.tree.AbstrbctInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.IincInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.InsnList;
+import jdk.internbl.org.objectweb.bsm.tree.JumpInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.LbbelNode;
+import jdk.internbl.org.objectweb.bsm.tree.LookupSwitchInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.MethodNode;
+import jdk.internbl.org.objectweb.bsm.tree.TbbleSwitchInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.TryCbtchBlockNode;
+import jdk.internbl.org.objectweb.bsm.tree.VbrInsnNode;
 
 /**
- * A semantic bytecode analyzer. <i>This class does not fully check that JSR and
- * RET instructions are valid.</i>
+ * A sembntic bytecode bnblyzer. <i>This clbss does not fully check thbt JSR bnd
+ * RET instructions bre vblid.</i>
  *
- * @param <V>
- *            type of the Value used for the analysis.
+ * @pbrbm <V>
+ *            type of the Vblue used for the bnblysis.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class Analyzer<V extends Value> implements Opcodes {
+public clbss Anblyzer<V extends Vblue> implements Opcodes {
 
-    private final Interpreter<V> interpreter;
+    privbte finbl Interpreter<V> interpreter;
 
-    private int n;
+    privbte int n;
 
-    private InsnList insns;
+    privbte InsnList insns;
 
-    private List<TryCatchBlockNode>[] handlers;
+    privbte List<TryCbtchBlockNode>[] hbndlers;
 
-    private Frame<V>[] frames;
+    privbte Frbme<V>[] frbmes;
 
-    private Subroutine[] subroutines;
+    privbte Subroutine[] subroutines;
 
-    private boolean[] queued;
+    privbte boolebn[] queued;
 
-    private int[] queue;
+    privbte int[] queue;
 
-    private int top;
+    privbte int top;
 
     /**
-     * Constructs a new {@link Analyzer}.
+     * Constructs b new {@link Anblyzer}.
      *
-     * @param interpreter
-     *            the interpreter to be used to symbolically interpret the
+     * @pbrbm interpreter
+     *            the interpreter to be used to symbolicblly interpret the
      *            bytecode instructions.
      */
-    public Analyzer(final Interpreter<V> interpreter) {
+    public Anblyzer(finbl Interpreter<V> interpreter) {
         this.interpreter = interpreter;
     }
 
     /**
-     * Analyzes the given method.
+     * Anblyzes the given method.
      *
-     * @param owner
-     *            the internal name of the class to which the method belongs.
-     * @param m
-     *            the method to be analyzed.
-     * @return the symbolic state of the execution stack frame at each bytecode
-     *         instruction of the method. The size of the returned array is
-     *         equal to the number of instructions (and labels) of the method. A
-     *         given frame is <tt>null</tt> if and only if the corresponding
-     *         instruction cannot be reached (dead code).
-     * @throws AnalyzerException
-     *             if a problem occurs during the analysis.
+     * @pbrbm owner
+     *            the internbl nbme of the clbss to which the method belongs.
+     * @pbrbm m
+     *            the method to be bnblyzed.
+     * @return the symbolic stbte of the execution stbck frbme bt ebch bytecode
+     *         instruction of the method. The size of the returned brrby is
+     *         equbl to the number of instructions (bnd lbbels) of the method. A
+     *         given frbme is <tt>null</tt> if bnd only if the corresponding
+     *         instruction cbnnot be rebched (debd code).
+     * @throws AnblyzerException
+     *             if b problem occurs during the bnblysis.
      */
-    @SuppressWarnings("unchecked")
-    public Frame<V>[] analyze(final String owner, final MethodNode m)
-            throws AnalyzerException {
-        if ((m.access & (ACC_ABSTRACT | ACC_NATIVE)) != 0) {
-            frames = (Frame<V>[]) new Frame<?>[0];
-            return frames;
+    @SuppressWbrnings("unchecked")
+    public Frbme<V>[] bnblyze(finbl String owner, finbl MethodNode m)
+            throws AnblyzerException {
+        if ((m.bccess & (ACC_ABSTRACT | ACC_NATIVE)) != 0) {
+            frbmes = (Frbme<V>[]) new Frbme<?>[0];
+            return frbmes;
         }
         n = m.instructions.size();
         insns = m.instructions;
-        handlers = (List<TryCatchBlockNode>[]) new List<?>[n];
-        frames = (Frame<V>[]) new Frame<?>[n];
+        hbndlers = (List<TryCbtchBlockNode>[]) new List<?>[n];
+        frbmes = (Frbme<V>[]) new Frbme<?>[n];
         subroutines = new Subroutine[n];
-        queued = new boolean[n];
+        queued = new boolebn[n];
         queue = new int[n];
         top = 0;
 
-        // computes exception handlers for each instruction
-        for (int i = 0; i < m.tryCatchBlocks.size(); ++i) {
-            TryCatchBlockNode tcb = m.tryCatchBlocks.get(i);
-            int begin = insns.indexOf(tcb.start);
+        // computes exception hbndlers for ebch instruction
+        for (int i = 0; i < m.tryCbtchBlocks.size(); ++i) {
+            TryCbtchBlockNode tcb = m.tryCbtchBlocks.get(i);
+            int begin = insns.indexOf(tcb.stbrt);
             int end = insns.indexOf(tcb.end);
             for (int j = begin; j < end; ++j) {
-                List<TryCatchBlockNode> insnHandlers = handlers[j];
-                if (insnHandlers == null) {
-                    insnHandlers = new ArrayList<TryCatchBlockNode>();
-                    handlers[j] = insnHandlers;
+                List<TryCbtchBlockNode> insnHbndlers = hbndlers[j];
+                if (insnHbndlers == null) {
+                    insnHbndlers = new ArrbyList<TryCbtchBlockNode>();
+                    hbndlers[j] = insnHbndlers;
                 }
-                insnHandlers.add(tcb);
+                insnHbndlers.bdd(tcb);
             }
         }
 
-        // computes the subroutine for each instruction:
-        Subroutine main = new Subroutine(null, m.maxLocals, null);
-        List<AbstractInsnNode> subroutineCalls = new ArrayList<AbstractInsnNode>();
-        Map<LabelNode, Subroutine> subroutineHeads = new HashMap<LabelNode, Subroutine>();
-        findSubroutine(0, main, subroutineCalls);
-        while (!subroutineCalls.isEmpty()) {
-            JumpInsnNode jsr = (JumpInsnNode) subroutineCalls.remove(0);
-            Subroutine sub = subroutineHeads.get(jsr.label);
+        // computes the subroutine for ebch instruction:
+        Subroutine mbin = new Subroutine(null, m.mbxLocbls, null);
+        List<AbstrbctInsnNode> subroutineCblls = new ArrbyList<AbstrbctInsnNode>();
+        Mbp<LbbelNode, Subroutine> subroutineHebds = new HbshMbp<LbbelNode, Subroutine>();
+        findSubroutine(0, mbin, subroutineCblls);
+        while (!subroutineCblls.isEmpty()) {
+            JumpInsnNode jsr = (JumpInsnNode) subroutineCblls.remove(0);
+            Subroutine sub = subroutineHebds.get(jsr.lbbel);
             if (sub == null) {
-                sub = new Subroutine(jsr.label, m.maxLocals, jsr);
-                subroutineHeads.put(jsr.label, sub);
-                findSubroutine(insns.indexOf(jsr.label), sub, subroutineCalls);
+                sub = new Subroutine(jsr.lbbel, m.mbxLocbls, jsr);
+                subroutineHebds.put(jsr.lbbel, sub);
+                findSubroutine(insns.indexOf(jsr.lbbel), sub, subroutineCblls);
             } else {
-                sub.callers.add(jsr);
+                sub.cbllers.bdd(jsr);
             }
         }
         for (int i = 0; i < n; ++i) {
-            if (subroutines[i] != null && subroutines[i].start == null) {
+            if (subroutines[i] != null && subroutines[i].stbrt == null) {
                 subroutines[i] = null;
             }
         }
 
-        // initializes the data structures for the control flow analysis
-        Frame<V> current = newFrame(m.maxLocals, m.maxStack);
-        Frame<V> handler = newFrame(m.maxLocals, m.maxStack);
-        current.setReturn(interpreter.newValue(Type.getReturnType(m.desc)));
-        Type[] args = Type.getArgumentTypes(m.desc);
-        int local = 0;
-        if ((m.access & ACC_STATIC) == 0) {
+        // initiblizes the dbtb structures for the control flow bnblysis
+        Frbme<V> current = newFrbme(m.mbxLocbls, m.mbxStbck);
+        Frbme<V> hbndler = newFrbme(m.mbxLocbls, m.mbxStbck);
+        current.setReturn(interpreter.newVblue(Type.getReturnType(m.desc)));
+        Type[] brgs = Type.getArgumentTypes(m.desc);
+        int locbl = 0;
+        if ((m.bccess & ACC_STATIC) == 0) {
             Type ctype = Type.getObjectType(owner);
-            current.setLocal(local++, interpreter.newValue(ctype));
+            current.setLocbl(locbl++, interpreter.newVblue(ctype));
         }
-        for (int i = 0; i < args.length; ++i) {
-            current.setLocal(local++, interpreter.newValue(args[i]));
-            if (args[i].getSize() == 2) {
-                current.setLocal(local++, interpreter.newValue(null));
+        for (int i = 0; i < brgs.length; ++i) {
+            current.setLocbl(locbl++, interpreter.newVblue(brgs[i]));
+            if (brgs[i].getSize() == 2) {
+                current.setLocbl(locbl++, interpreter.newVblue(null));
             }
         }
-        while (local < m.maxLocals) {
-            current.setLocal(local++, interpreter.newValue(null));
+        while (locbl < m.mbxLocbls) {
+            current.setLocbl(locbl++, interpreter.newVblue(null));
         }
         merge(0, current, null);
 
         init(owner, m);
 
-        // control flow analysis
+        // control flow bnblysis
         while (top > 0) {
             int insn = queue[--top];
-            Frame<V> f = frames[insn];
+            Frbme<V> f = frbmes[insn];
             Subroutine subroutine = subroutines[insn];
-            queued[insn] = false;
+            queued[insn] = fblse;
 
-            AbstractInsnNode insnNode = null;
+            AbstrbctInsnNode insnNode = null;
             try {
                 insnNode = m.instructions.get(insn);
                 int insnOpcode = insnNode.getOpcode();
                 int insnType = insnNode.getType();
 
-                if (insnType == AbstractInsnNode.LABEL
-                        || insnType == AbstractInsnNode.LINE
-                        || insnType == AbstractInsnNode.FRAME) {
+                if (insnType == AbstrbctInsnNode.LABEL
+                        || insnType == AbstrbctInsnNode.LINE
+                        || insnType == AbstrbctInsnNode.FRAME) {
                     merge(insn + 1, f, subroutine);
                     newControlFlowEdge(insn, insn + 1);
                 } else {
                     current.init(f).execute(insnNode, interpreter);
                     subroutine = subroutine == null ? null : subroutine.copy();
 
-                    if (insnNode instanceof JumpInsnNode) {
+                    if (insnNode instbnceof JumpInsnNode) {
                         JumpInsnNode j = (JumpInsnNode) insnNode;
                         if (insnOpcode != GOTO && insnOpcode != JSR) {
                             merge(insn + 1, current, subroutine);
                             newControlFlowEdge(insn, insn + 1);
                         }
-                        int jump = insns.indexOf(j.label);
+                        int jump = insns.indexOf(j.lbbel);
                         if (insnOpcode == JSR) {
-                            merge(jump, current, new Subroutine(j.label,
-                                    m.maxLocals, j));
+                            merge(jump, current, new Subroutine(j.lbbel,
+                                    m.mbxLocbls, j));
                         } else {
                             merge(jump, current, subroutine);
                         }
                         newControlFlowEdge(insn, jump);
-                    } else if (insnNode instanceof LookupSwitchInsnNode) {
+                    } else if (insnNode instbnceof LookupSwitchInsnNode) {
                         LookupSwitchInsnNode lsi = (LookupSwitchInsnNode) insnNode;
                         int jump = insns.indexOf(lsi.dflt);
                         merge(jump, current, subroutine);
                         newControlFlowEdge(insn, jump);
-                        for (int j = 0; j < lsi.labels.size(); ++j) {
-                            LabelNode label = lsi.labels.get(j);
-                            jump = insns.indexOf(label);
+                        for (int j = 0; j < lsi.lbbels.size(); ++j) {
+                            LbbelNode lbbel = lsi.lbbels.get(j);
+                            jump = insns.indexOf(lbbel);
                             merge(jump, current, subroutine);
                             newControlFlowEdge(insn, jump);
                         }
-                    } else if (insnNode instanceof TableSwitchInsnNode) {
-                        TableSwitchInsnNode tsi = (TableSwitchInsnNode) insnNode;
+                    } else if (insnNode instbnceof TbbleSwitchInsnNode) {
+                        TbbleSwitchInsnNode tsi = (TbbleSwitchInsnNode) insnNode;
                         int jump = insns.indexOf(tsi.dflt);
                         merge(jump, current, subroutine);
                         newControlFlowEdge(insn, jump);
-                        for (int j = 0; j < tsi.labels.size(); ++j) {
-                            LabelNode label = tsi.labels.get(j);
-                            jump = insns.indexOf(label);
+                        for (int j = 0; j < tsi.lbbels.size(); ++j) {
+                            LbbelNode lbbel = tsi.lbbels.get(j);
+                            jump = insns.indexOf(lbbel);
                             merge(jump, current, subroutine);
                             newControlFlowEdge(insn, jump);
                         }
                     } else if (insnOpcode == RET) {
                         if (subroutine == null) {
-                            throw new AnalyzerException(insnNode,
-                                    "RET instruction outside of a sub routine");
+                            throw new AnblyzerException(insnNode,
+                                    "RET instruction outside of b sub routine");
                         }
-                        for (int i = 0; i < subroutine.callers.size(); ++i) {
-                            JumpInsnNode caller = subroutine.callers.get(i);
-                            int call = insns.indexOf(caller);
-                            if (frames[call] != null) {
-                                merge(call + 1, frames[call], current,
-                                        subroutines[call], subroutine.access);
-                                newControlFlowEdge(insn, call + 1);
+                        for (int i = 0; i < subroutine.cbllers.size(); ++i) {
+                            JumpInsnNode cbller = subroutine.cbllers.get(i);
+                            int cbll = insns.indexOf(cbller);
+                            if (frbmes[cbll] != null) {
+                                merge(cbll + 1, frbmes[cbll], current,
+                                        subroutines[cbll], subroutine.bccess);
+                                newControlFlowEdge(insn, cbll + 1);
                             }
                         }
                     } else if (insnOpcode != ATHROW
                             && (insnOpcode < IRETURN || insnOpcode > RETURN)) {
                         if (subroutine != null) {
-                            if (insnNode instanceof VarInsnNode) {
-                                int var = ((VarInsnNode) insnNode).var;
-                                subroutine.access[var] = true;
+                            if (insnNode instbnceof VbrInsnNode) {
+                                int vbr = ((VbrInsnNode) insnNode).vbr;
+                                subroutine.bccess[vbr] = true;
                                 if (insnOpcode == LLOAD || insnOpcode == DLOAD
                                         || insnOpcode == LSTORE
                                         || insnOpcode == DSTORE) {
-                                    subroutine.access[var + 1] = true;
+                                    subroutine.bccess[vbr + 1] = true;
                                 }
-                            } else if (insnNode instanceof IincInsnNode) {
-                                int var = ((IincInsnNode) insnNode).var;
-                                subroutine.access[var] = true;
+                            } else if (insnNode instbnceof IincInsnNode) {
+                                int vbr = ((IincInsnNode) insnNode).vbr;
+                                subroutine.bccess[vbr] = true;
                             }
                         }
                         merge(insn + 1, current, subroutine);
@@ -300,97 +300,97 @@ public class Analyzer<V extends Value> implements Opcodes {
                     }
                 }
 
-                List<TryCatchBlockNode> insnHandlers = handlers[insn];
-                if (insnHandlers != null) {
-                    for (int i = 0; i < insnHandlers.size(); ++i) {
-                        TryCatchBlockNode tcb = insnHandlers.get(i);
+                List<TryCbtchBlockNode> insnHbndlers = hbndlers[insn];
+                if (insnHbndlers != null) {
+                    for (int i = 0; i < insnHbndlers.size(); ++i) {
+                        TryCbtchBlockNode tcb = insnHbndlers.get(i);
                         Type type;
                         if (tcb.type == null) {
-                            type = Type.getObjectType("java/lang/Throwable");
+                            type = Type.getObjectType("jbvb/lbng/Throwbble");
                         } else {
                             type = Type.getObjectType(tcb.type);
                         }
-                        int jump = insns.indexOf(tcb.handler);
+                        int jump = insns.indexOf(tcb.hbndler);
                         if (newControlFlowExceptionEdge(insn, tcb)) {
-                            handler.init(f);
-                            handler.clearStack();
-                            handler.push(interpreter.newValue(type));
-                            merge(jump, handler, subroutine);
+                            hbndler.init(f);
+                            hbndler.clebrStbck();
+                            hbndler.push(interpreter.newVblue(type));
+                            merge(jump, hbndler, subroutine);
                         }
                     }
                 }
-            } catch (AnalyzerException e) {
-                throw new AnalyzerException(e.node, "Error at instruction "
-                        + insn + ": " + e.getMessage(), e);
-            } catch (Exception e) {
-                throw new AnalyzerException(insnNode, "Error at instruction "
-                        + insn + ": " + e.getMessage(), e);
+            } cbtch (AnblyzerException e) {
+                throw new AnblyzerException(e.node, "Error bt instruction "
+                        + insn + ": " + e.getMessbge(), e);
+            } cbtch (Exception e) {
+                throw new AnblyzerException(insnNode, "Error bt instruction "
+                        + insn + ": " + e.getMessbge(), e);
             }
         }
 
-        return frames;
+        return frbmes;
     }
 
-    private void findSubroutine(int insn, final Subroutine sub,
-            final List<AbstractInsnNode> calls) throws AnalyzerException {
+    privbte void findSubroutine(int insn, finbl Subroutine sub,
+            finbl List<AbstrbctInsnNode> cblls) throws AnblyzerException {
         while (true) {
             if (insn < 0 || insn >= n) {
-                throw new AnalyzerException(null,
-                        "Execution can fall off end of the code");
+                throw new AnblyzerException(null,
+                        "Execution cbn fbll off end of the code");
             }
             if (subroutines[insn] != null) {
                 return;
             }
             subroutines[insn] = sub.copy();
-            AbstractInsnNode node = insns.get(insn);
+            AbstrbctInsnNode node = insns.get(insn);
 
-            // calls findSubroutine recursively on normal successors
-            if (node instanceof JumpInsnNode) {
+            // cblls findSubroutine recursively on normbl successors
+            if (node instbnceof JumpInsnNode) {
                 if (node.getOpcode() == JSR) {
-                    // do not follow a JSR, it leads to another subroutine!
-                    calls.add(node);
+                    // do not follow b JSR, it lebds to bnother subroutine!
+                    cblls.bdd(node);
                 } else {
                     JumpInsnNode jnode = (JumpInsnNode) node;
-                    findSubroutine(insns.indexOf(jnode.label), sub, calls);
+                    findSubroutine(insns.indexOf(jnode.lbbel), sub, cblls);
                 }
-            } else if (node instanceof TableSwitchInsnNode) {
-                TableSwitchInsnNode tsnode = (TableSwitchInsnNode) node;
-                findSubroutine(insns.indexOf(tsnode.dflt), sub, calls);
-                for (int i = tsnode.labels.size() - 1; i >= 0; --i) {
-                    LabelNode l = tsnode.labels.get(i);
-                    findSubroutine(insns.indexOf(l), sub, calls);
+            } else if (node instbnceof TbbleSwitchInsnNode) {
+                TbbleSwitchInsnNode tsnode = (TbbleSwitchInsnNode) node;
+                findSubroutine(insns.indexOf(tsnode.dflt), sub, cblls);
+                for (int i = tsnode.lbbels.size() - 1; i >= 0; --i) {
+                    LbbelNode l = tsnode.lbbels.get(i);
+                    findSubroutine(insns.indexOf(l), sub, cblls);
                 }
-            } else if (node instanceof LookupSwitchInsnNode) {
+            } else if (node instbnceof LookupSwitchInsnNode) {
                 LookupSwitchInsnNode lsnode = (LookupSwitchInsnNode) node;
-                findSubroutine(insns.indexOf(lsnode.dflt), sub, calls);
-                for (int i = lsnode.labels.size() - 1; i >= 0; --i) {
-                    LabelNode l = lsnode.labels.get(i);
-                    findSubroutine(insns.indexOf(l), sub, calls);
+                findSubroutine(insns.indexOf(lsnode.dflt), sub, cblls);
+                for (int i = lsnode.lbbels.size() - 1; i >= 0; --i) {
+                    LbbelNode l = lsnode.lbbels.get(i);
+                    findSubroutine(insns.indexOf(l), sub, cblls);
                 }
             }
 
-            // calls findSubroutine recursively on exception handler successors
-            List<TryCatchBlockNode> insnHandlers = handlers[insn];
-            if (insnHandlers != null) {
-                for (int i = 0; i < insnHandlers.size(); ++i) {
-                    TryCatchBlockNode tcb = insnHandlers.get(i);
-                    findSubroutine(insns.indexOf(tcb.handler), sub, calls);
+            // cblls findSubroutine recursively on exception hbndler successors
+            List<TryCbtchBlockNode> insnHbndlers = hbndlers[insn];
+            if (insnHbndlers != null) {
+                for (int i = 0; i < insnHbndlers.size(); ++i) {
+                    TryCbtchBlockNode tcb = insnHbndlers.get(i);
+                    findSubroutine(insns.indexOf(tcb.hbndler), sub, cblls);
                 }
             }
 
-            // if insn does not falls through to the next instruction, return.
+            // if insn does not fblls through to the next instruction, return.
             switch (node.getOpcode()) {
-            case GOTO:
-            case RET:
-            case TABLESWITCH:
-            case LOOKUPSWITCH:
-            case IRETURN:
-            case LRETURN:
-            case FRETURN:
-            case DRETURN:
-            case ARETURN:
-            case RETURN:
-            case ATHROW:
+            cbse GOTO:
+            cbse RET:
+            cbse TABLESWITCH:
+            cbse LOOKUPSWITCH:
+            cbse IRETURN:
+            cbse LRETURN:
+            cbse FRETURN:
+            cbse DRETURN:
+            cbse ARETURN:
+            cbse RETURN:
+            cbse ATHROW:
                 return;
             }
             insn++;
@@ -398,180 +398,180 @@ public class Analyzer<V extends Value> implements Opcodes {
     }
 
     /**
-     * Returns the symbolic stack frame for each instruction of the last
-     * recently analyzed method.
+     * Returns the symbolic stbck frbme for ebch instruction of the lbst
+     * recently bnblyzed method.
      *
-     * @return the symbolic state of the execution stack frame at each bytecode
-     *         instruction of the method. The size of the returned array is
-     *         equal to the number of instructions (and labels) of the method. A
-     *         given frame is <tt>null</tt> if the corresponding instruction
-     *         cannot be reached, or if an error occured during the analysis of
+     * @return the symbolic stbte of the execution stbck frbme bt ebch bytecode
+     *         instruction of the method. The size of the returned brrby is
+     *         equbl to the number of instructions (bnd lbbels) of the method. A
+     *         given frbme is <tt>null</tt> if the corresponding instruction
+     *         cbnnot be rebched, or if bn error occured during the bnblysis of
      *         the method.
      */
-    public Frame<V>[] getFrames() {
-        return frames;
+    public Frbme<V>[] getFrbmes() {
+        return frbmes;
     }
 
     /**
-     * Returns the exception handlers for the given instruction.
+     * Returns the exception hbndlers for the given instruction.
      *
-     * @param insn
-     *            the index of an instruction of the last recently analyzed
+     * @pbrbm insn
+     *            the index of bn instruction of the lbst recently bnblyzed
      *            method.
-     * @return a list of {@link TryCatchBlockNode} objects.
+     * @return b list of {@link TryCbtchBlockNode} objects.
      */
-    public List<TryCatchBlockNode> getHandlers(final int insn) {
-        return handlers[insn];
+    public List<TryCbtchBlockNode> getHbndlers(finbl int insn) {
+        return hbndlers[insn];
     }
 
     /**
-     * Initializes this analyzer. This method is called just before the
-     * execution of control flow analysis loop in #analyze. The default
-     * implementation of this method does nothing.
+     * Initiblizes this bnblyzer. This method is cblled just before the
+     * execution of control flow bnblysis loop in #bnblyze. The defbult
+     * implementbtion of this method does nothing.
      *
-     * @param owner
-     *            the internal name of the class to which the method belongs.
-     * @param m
-     *            the method to be analyzed.
-     * @throws AnalyzerException
-     *             if a problem occurs.
+     * @pbrbm owner
+     *            the internbl nbme of the clbss to which the method belongs.
+     * @pbrbm m
+     *            the method to be bnblyzed.
+     * @throws AnblyzerException
+     *             if b problem occurs.
      */
-    protected void init(String owner, MethodNode m) throws AnalyzerException {
+    protected void init(String owner, MethodNode m) throws AnblyzerException {
     }
 
     /**
-     * Constructs a new frame with the given size.
+     * Constructs b new frbme with the given size.
      *
-     * @param nLocals
-     *            the maximum number of local variables of the frame.
-     * @param nStack
-     *            the maximum stack size of the frame.
-     * @return the created frame.
+     * @pbrbm nLocbls
+     *            the mbximum number of locbl vbribbles of the frbme.
+     * @pbrbm nStbck
+     *            the mbximum stbck size of the frbme.
+     * @return the crebted frbme.
      */
-    protected Frame<V> newFrame(final int nLocals, final int nStack) {
-        return new Frame<V>(nLocals, nStack);
+    protected Frbme<V> newFrbme(finbl int nLocbls, finbl int nStbck) {
+        return new Frbme<V>(nLocbls, nStbck);
     }
 
     /**
-     * Constructs a new frame that is identical to the given frame.
+     * Constructs b new frbme thbt is identicbl to the given frbme.
      *
-     * @param src
-     *            a frame.
-     * @return the created frame.
+     * @pbrbm src
+     *            b frbme.
+     * @return the crebted frbme.
      */
-    protected Frame<V> newFrame(final Frame<? extends V> src) {
-        return new Frame<V>(src);
+    protected Frbme<V> newFrbme(finbl Frbme<? extends V> src) {
+        return new Frbme<V>(src);
     }
 
     /**
-     * Creates a control flow graph edge. The default implementation of this
-     * method does nothing. It can be overriden in order to construct the
-     * control flow graph of a method (this method is called by the
-     * {@link #analyze analyze} method during its visit of the method's code).
+     * Crebtes b control flow grbph edge. The defbult implementbtion of this
+     * method does nothing. It cbn be overriden in order to construct the
+     * control flow grbph of b method (this method is cblled by the
+     * {@link #bnblyze bnblyze} method during its visit of the method's code).
      *
-     * @param insn
-     *            an instruction index.
-     * @param successor
-     *            index of a successor instruction.
+     * @pbrbm insn
+     *            bn instruction index.
+     * @pbrbm successor
+     *            index of b successor instruction.
      */
-    protected void newControlFlowEdge(final int insn, final int successor) {
+    protected void newControlFlowEdge(finbl int insn, finbl int successor) {
     }
 
     /**
-     * Creates a control flow graph edge corresponding to an exception handler.
-     * The default implementation of this method does nothing. It can be
-     * overridden in order to construct the control flow graph of a method (this
-     * method is called by the {@link #analyze analyze} method during its visit
+     * Crebtes b control flow grbph edge corresponding to bn exception hbndler.
+     * The defbult implementbtion of this method does nothing. It cbn be
+     * overridden in order to construct the control flow grbph of b method (this
+     * method is cblled by the {@link #bnblyze bnblyze} method during its visit
      * of the method's code).
      *
-     * @param insn
-     *            an instruction index.
-     * @param successor
-     *            index of a successor instruction.
-     * @return true if this edge must be considered in the data flow analysis
-     *         performed by this analyzer, or false otherwise. The default
-     *         implementation of this method always returns true.
+     * @pbrbm insn
+     *            bn instruction index.
+     * @pbrbm successor
+     *            index of b successor instruction.
+     * @return true if this edge must be considered in the dbtb flow bnblysis
+     *         performed by this bnblyzer, or fblse otherwise. The defbult
+     *         implementbtion of this method blwbys returns true.
      */
-    protected boolean newControlFlowExceptionEdge(final int insn,
-            final int successor) {
+    protected boolebn newControlFlowExceptionEdge(finbl int insn,
+            finbl int successor) {
         return true;
     }
 
     /**
-     * Creates a control flow graph edge corresponding to an exception handler.
-     * The default implementation of this method delegates to
+     * Crebtes b control flow grbph edge corresponding to bn exception hbndler.
+     * The defbult implementbtion of this method delegbtes to
      * {@link #newControlFlowExceptionEdge(int, int)
-     * newControlFlowExceptionEdge(int, int)}. It can be overridden in order to
-     * construct the control flow graph of a method (this method is called by
-     * the {@link #analyze analyze} method during its visit of the method's
+     * newControlFlowExceptionEdge(int, int)}. It cbn be overridden in order to
+     * construct the control flow grbph of b method (this method is cblled by
+     * the {@link #bnblyze bnblyze} method during its visit of the method's
      * code).
      *
-     * @param insn
-     *            an instruction index.
-     * @param tcb
-     *            TryCatchBlockNode corresponding to this edge.
-     * @return true if this edge must be considered in the data flow analysis
-     *         performed by this analyzer, or false otherwise. The default
-     *         implementation of this method delegates to
+     * @pbrbm insn
+     *            bn instruction index.
+     * @pbrbm tcb
+     *            TryCbtchBlockNode corresponding to this edge.
+     * @return true if this edge must be considered in the dbtb flow bnblysis
+     *         performed by this bnblyzer, or fblse otherwise. The defbult
+     *         implementbtion of this method delegbtes to
      *         {@link #newControlFlowExceptionEdge(int, int)
      *         newControlFlowExceptionEdge(int, int)}.
      */
-    protected boolean newControlFlowExceptionEdge(final int insn,
-            final TryCatchBlockNode tcb) {
-        return newControlFlowExceptionEdge(insn, insns.indexOf(tcb.handler));
+    protected boolebn newControlFlowExceptionEdge(finbl int insn,
+            finbl TryCbtchBlockNode tcb) {
+        return newControlFlowExceptionEdge(insn, insns.indexOf(tcb.hbndler));
     }
 
     // -------------------------------------------------------------------------
 
-    private void merge(final int insn, final Frame<V> frame,
-            final Subroutine subroutine) throws AnalyzerException {
-        Frame<V> oldFrame = frames[insn];
+    privbte void merge(finbl int insn, finbl Frbme<V> frbme,
+            finbl Subroutine subroutine) throws AnblyzerException {
+        Frbme<V> oldFrbme = frbmes[insn];
         Subroutine oldSubroutine = subroutines[insn];
-        boolean changes;
+        boolebn chbnges;
 
-        if (oldFrame == null) {
-            frames[insn] = newFrame(frame);
-            changes = true;
+        if (oldFrbme == null) {
+            frbmes[insn] = newFrbme(frbme);
+            chbnges = true;
         } else {
-            changes = oldFrame.merge(frame, interpreter);
+            chbnges = oldFrbme.merge(frbme, interpreter);
         }
 
         if (oldSubroutine == null) {
             if (subroutine != null) {
                 subroutines[insn] = subroutine.copy();
-                changes = true;
+                chbnges = true;
             }
         } else {
             if (subroutine != null) {
-                changes |= oldSubroutine.merge(subroutine);
+                chbnges |= oldSubroutine.merge(subroutine);
             }
         }
-        if (changes && !queued[insn]) {
+        if (chbnges && !queued[insn]) {
             queued[insn] = true;
             queue[top++] = insn;
         }
     }
 
-    private void merge(final int insn, final Frame<V> beforeJSR,
-            final Frame<V> afterRET, final Subroutine subroutineBeforeJSR,
-            final boolean[] access) throws AnalyzerException {
-        Frame<V> oldFrame = frames[insn];
+    privbte void merge(finbl int insn, finbl Frbme<V> beforeJSR,
+            finbl Frbme<V> bfterRET, finbl Subroutine subroutineBeforeJSR,
+            finbl boolebn[] bccess) throws AnblyzerException {
+        Frbme<V> oldFrbme = frbmes[insn];
         Subroutine oldSubroutine = subroutines[insn];
-        boolean changes;
+        boolebn chbnges;
 
-        afterRET.merge(beforeJSR, access);
+        bfterRET.merge(beforeJSR, bccess);
 
-        if (oldFrame == null) {
-            frames[insn] = newFrame(afterRET);
-            changes = true;
+        if (oldFrbme == null) {
+            frbmes[insn] = newFrbme(bfterRET);
+            chbnges = true;
         } else {
-            changes = oldFrame.merge(afterRET, interpreter);
+            chbnges = oldFrbme.merge(bfterRET, interpreter);
         }
 
         if (oldSubroutine != null && subroutineBeforeJSR != null) {
-            changes |= oldSubroutine.merge(subroutineBeforeJSR);
+            chbnges |= oldSubroutine.merge(subroutineBeforeJSR);
         }
-        if (changes && !queued[insn]) {
+        if (chbnges && !queued[insn]) {
             queued[insn] = true;
             queue[top++] = insn;
         }

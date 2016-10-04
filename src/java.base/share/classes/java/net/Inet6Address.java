@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.util.Enumeration;
-import java.util.Arrays;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Arrbys;
 
 /**
- * This class represents an Internet Protocol version 6 (IPv6) address.
- * Defined by <a href="http://www.ietf.org/rfc/rfc2373.txt">
- * <i>RFC&nbsp;2373: IP Version 6 Addressing Architecture</i></a>.
+ * This clbss represents bn Internet Protocol version 6 (IPv6) bddress.
+ * Defined by <b href="http://www.ietf.org/rfc/rfc2373.txt">
+ * <i>RFC&nbsp;2373: IP Version 6 Addressing Architecture</i></b>.
  *
- * <h3> <A NAME="format">Textual representation of IP addresses</a> </h3>
+ * <h3> <A NAME="formbt">Textubl representbtion of IP bddresses</b> </h3>
  *
- * Textual representation of IPv6 address used as input to methods
- * takes one of the following forms:
+ * Textubl representbtion of IPv6 bddress used bs input to methods
+ * tbkes one of the following forms:
  *
  * <ol>
- *   <li><p> <A NAME="lform">The preferred form</a> is x:x:x:x:x:x:x:x,
- *   where the 'x's are
- *   the hexadecimal values of the eight 16-bit pieces of the
- *   address. This is the full form.  For example,
+ *   <li><p> <A NAME="lform">The preferred form</b> is x:x:x:x:x:x:x:x,
+ *   where the 'x's bre
+ *   the hexbdecimbl vblues of the eight 16-bit pieces of the
+ *   bddress. This is the full form.  For exbmple,
  *
- *   <blockquote><table cellpadding=0 cellspacing=0 summary="layout">
+ *   <blockquote><tbble cellpbdding=0 cellspbcing=0 summbry="lbyout">
  *   <tr><td>{@code 1080:0:0:0:8:800:200C:417A}<td></tr>
- *   </table></blockquote>
+ *   </tbble></blockquote>
  *
- *   <p> Note that it is not necessary to write the leading zeros in
- *   an individual field. However, there must be at least one numeral
- *   in every field, except as described below.</li>
+ *   <p> Note thbt it is not necessbry to write the lebding zeros in
+ *   bn individubl field. However, there must be bt lebst one numerbl
+ *   in every field, except bs described below.</li>
  *
- *   <li><p> Due to some methods of allocating certain styles of IPv6
- *   addresses, it will be common for addresses to contain long
- *   strings of zero bits. In order to make writing addresses
- *   containing zero bits easier, a special syntax is available to
- *   compress the zeros. The use of "::" indicates multiple groups
- *   of 16-bits of zeros. The "::" can only appear once in an address.
- *   The "::" can also be used to compress the leading and/or trailing
- *   zeros in an address. For example,
+ *   <li><p> Due to some methods of bllocbting certbin styles of IPv6
+ *   bddresses, it will be common for bddresses to contbin long
+ *   strings of zero bits. In order to mbke writing bddresses
+ *   contbining zero bits ebsier, b specibl syntbx is bvbilbble to
+ *   compress the zeros. The use of "::" indicbtes multiple groups
+ *   of 16-bits of zeros. The "::" cbn only bppebr once in bn bddress.
+ *   The "::" cbn blso be used to compress the lebding bnd/or trbiling
+ *   zeros in bn bddress. For exbmple,
  *
- *   <blockquote><table cellpadding=0 cellspacing=0 summary="layout">
+ *   <blockquote><tbble cellpbdding=0 cellspbcing=0 summbry="lbyout">
  *   <tr><td>{@code 1080::8:800:200C:417A}<td></tr>
- *   </table></blockquote>
+ *   </tbble></blockquote>
  *
- *   <li><p> An alternative form that is sometimes more convenient
- *   when dealing with a mixed environment of IPv4 and IPv6 nodes is
- *   x:x:x:x:x:x:d.d.d.d, where the 'x's are the hexadecimal values
- *   of the six high-order 16-bit pieces of the address, and the 'd's
- *   are the decimal values of the four low-order 8-bit pieces of the
- *   standard IPv4 representation address, for example,
+ *   <li><p> An blternbtive form thbt is sometimes more convenient
+ *   when debling with b mixed environment of IPv4 bnd IPv6 nodes is
+ *   x:x:x:x:x:x:d.d.d.d, where the 'x's bre the hexbdecimbl vblues
+ *   of the six high-order 16-bit pieces of the bddress, bnd the 'd's
+ *   bre the decimbl vblues of the four low-order 8-bit pieces of the
+ *   stbndbrd IPv4 representbtion bddress, for exbmple,
  *
- *   <blockquote><table cellpadding=0 cellspacing=0 summary="layout">
+ *   <blockquote><tbble cellpbdding=0 cellspbcing=0 summbry="lbyout">
  *   <tr><td>{@code ::FFFF:129.144.52.38}<td></tr>
  *   <tr><td>{@code ::129.144.52.38}<td></tr>
- *   </table></blockquote>
+ *   </tbble></blockquote>
  *
- *   <p> where "::FFFF:d.d.d.d" and "::d.d.d.d" are, respectively, the
- *   general forms of an IPv4-mapped IPv6 address and an
- *   IPv4-compatible IPv6 address. Note that the IPv4 portion must be
- *   in the "d.d.d.d" form. The following forms are invalid:
+ *   <p> where "::FFFF:d.d.d.d" bnd "::d.d.d.d" bre, respectively, the
+ *   generbl forms of bn IPv4-mbpped IPv6 bddress bnd bn
+ *   IPv4-compbtible IPv6 bddress. Note thbt the IPv4 portion must be
+ *   in the "d.d.d.d" form. The following forms bre invblid:
  *
- *   <blockquote><table cellpadding=0 cellspacing=0 summary="layout">
+ *   <blockquote><tbble cellpbdding=0 cellspbcing=0 summbry="lbyout">
  *   <tr><td>{@code ::FFFF:d.d.d}<td></tr>
  *   <tr><td>{@code ::FFFF:d.d}<td></tr>
  *   <tr><td>{@code ::d.d.d}<td></tr>
  *   <tr><td>{@code ::d.d}<td></tr>
- *   </table></blockquote>
+ *   </tbble></blockquote>
  *
  *   <p> The following form:
  *
- *   <blockquote><table cellpadding=0 cellspacing=0 summary="layout">
+ *   <blockquote><tbble cellpbdding=0 cellspbcing=0 summbry="lbyout">
  *   <tr><td>{@code ::FFFF:d}<td></tr>
- *   </table></blockquote>
+ *   </tbble></blockquote>
  *
- *   <p> is valid, however it is an unconventional representation of
- *   the IPv4-compatible IPv6 address,
+ *   <p> is vblid, however it is bn unconventionbl representbtion of
+ *   the IPv4-compbtible IPv6 bddress,
  *
- *   <blockquote><table cellpadding=0 cellspacing=0 summary="layout">
+ *   <blockquote><tbble cellpbdding=0 cellspbcing=0 summbry="lbyout">
  *   <tr><td>{@code ::255.255.0.d}<td></tr>
- *   </table></blockquote>
+ *   </tbble></blockquote>
  *
- *   <p> while "::d" corresponds to the general IPv6 address
+ *   <p> while "::d" corresponds to the generbl IPv6 bddress
  *   "0:0:0:0:0:0:0:d".</li>
  * </ol>
  *
- * <p> For methods that return a textual representation as output
- * value, the full form is used. Inet6Address will return the full
- * form because it is unambiguous when used in combination with other
- * textual data.
+ * <p> For methods thbt return b textubl representbtion bs output
+ * vblue, the full form is used. Inet6Address will return the full
+ * form becbuse it is unbmbiguous when used in combinbtion with other
+ * textubl dbtb.
  *
- * <h4> Special IPv6 address </h4>
+ * <h4> Specibl IPv6 bddress </h4>
  *
  * <blockquote>
- * <table cellspacing=2 summary="Description of IPv4-mapped address">
- * <tr><th valign=top><i>IPv4-mapped address</i></th>
- *         <td>Of the form::ffff:w.x.y.z, this IPv6 address is used to
- *         represent an IPv4 address. It allows the native program to
- *         use the same address data structure and also the same
- *         socket when communicating with both IPv4 and IPv6 nodes.
+ * <tbble cellspbcing=2 summbry="Description of IPv4-mbpped bddress">
+ * <tr><th vblign=top><i>IPv4-mbpped bddress</i></th>
+ *         <td>Of the form::ffff:w.x.y.z, this IPv6 bddress is used to
+ *         represent bn IPv4 bddress. It bllows the nbtive progrbm to
+ *         use the sbme bddress dbtb structure bnd blso the sbme
+ *         socket when communicbting with both IPv4 bnd IPv6 nodes.
  *
- *         <p>In InetAddress and Inet6Address, it is used for internal
- *         representation; it has no functional role. Java will never
- *         return an IPv4-mapped address.  These classes can take an
- *         IPv4-mapped address as input, both in byte array and text
- *         representation. However, it will be converted into an IPv4
- *         address.</td></tr>
- * </table></blockquote>
+ *         <p>In InetAddress bnd Inet6Address, it is used for internbl
+ *         representbtion; it hbs no functionbl role. Jbvb will never
+ *         return bn IPv4-mbpped bddress.  These clbsses cbn tbke bn
+ *         IPv4-mbpped bddress bs input, both in byte brrby bnd text
+ *         representbtion. However, it will be converted into bn IPv4
+ *         bddress.</td></tr>
+ * </tbble></blockquote>
  *
- * <h4><A NAME="scoped">Textual representation of IPv6 scoped addresses</a></h4>
+ * <h4><A NAME="scoped">Textubl representbtion of IPv6 scoped bddresses</b></h4>
  *
- * <p> The textual representation of IPv6 addresses as described above can be
- * extended to specify IPv6 scoped addresses. This extension to the basic
- * addressing architecture is described in [draft-ietf-ipngwg-scoping-arch-04.txt].
+ * <p> The textubl representbtion of IPv6 bddresses bs described bbove cbn be
+ * extended to specify IPv6 scoped bddresses. This extension to the bbsic
+ * bddressing brchitecture is described in [drbft-ietf-ipngwg-scoping-brch-04.txt].
  *
- * <p> Because link-local and site-local addresses are non-global, it is possible
- * that different hosts may have the same destination address and may be
- * reachable through different interfaces on the same originating system. In
- * this case, the originating system is said to be connected to multiple zones
- * of the same scope. In order to disambiguate which is the intended destination
- * zone, it is possible to append a zone identifier (or <i>scope_id</i>) to an
- * IPv6 address.
+ * <p> Becbuse link-locbl bnd site-locbl bddresses bre non-globbl, it is possible
+ * thbt different hosts mby hbve the sbme destinbtion bddress bnd mby be
+ * rebchbble through different interfbces on the sbme originbting system. In
+ * this cbse, the originbting system is sbid to be connected to multiple zones
+ * of the sbme scope. In order to disbmbigubte which is the intended destinbtion
+ * zone, it is possible to bppend b zone identifier (or <i>scope_id</i>) to bn
+ * IPv6 bddress.
  *
- * <p> The general format for specifying the <i>scope_id</i> is the following:
+ * <p> The generbl formbt for specifying the <i>scope_id</i> is the following:
  *
- * <blockquote><i>IPv6-address</i>%<i>scope_id</i></blockquote>
- * <p> The IPv6-address is a literal IPv6 address as described above.
- * The <i>scope_id</i> refers to an interface on the local system, and it can be
- * specified in two ways.
- * <ol><li><i>As a numeric identifier.</i> This must be a positive integer
- * that identifies the particular interface and scope as understood by the
- * system. Usually, the numeric values can be determined through administration
- * tools on the system. Each interface may have multiple values, one for each
- * scope. If the scope is unspecified, then the default value used is zero.</li>
- * <li><i>As a string.</i> This must be the exact string that is returned by
- * {@link java.net.NetworkInterface#getName()} for the particular interface in
- * question. When an Inet6Address is created in this way, the numeric scope-id
- * is determined at the time the object is created by querying the relevant
- * NetworkInterface.</li></ol>
+ * <blockquote><i>IPv6-bddress</i>%<i>scope_id</i></blockquote>
+ * <p> The IPv6-bddress is b literbl IPv6 bddress bs described bbove.
+ * The <i>scope_id</i> refers to bn interfbce on the locbl system, bnd it cbn be
+ * specified in two wbys.
+ * <ol><li><i>As b numeric identifier.</i> This must be b positive integer
+ * thbt identifies the pbrticulbr interfbce bnd scope bs understood by the
+ * system. Usublly, the numeric vblues cbn be determined through bdministrbtion
+ * tools on the system. Ebch interfbce mby hbve multiple vblues, one for ebch
+ * scope. If the scope is unspecified, then the defbult vblue used is zero.</li>
+ * <li><i>As b string.</i> This must be the exbct string thbt is returned by
+ * {@link jbvb.net.NetworkInterfbce#getNbme()} for the pbrticulbr interfbce in
+ * question. When bn Inet6Address is crebted in this wby, the numeric scope-id
+ * is determined bt the time the object is crebted by querying the relevbnt
+ * NetworkInterfbce.</li></ol>
  *
- * <p> Note also, that the numeric <i>scope_id</i> can be retrieved from
- * Inet6Address instances returned from the NetworkInterface class. This can be
+ * <p> Note blso, thbt the numeric <i>scope_id</i> cbn be retrieved from
+ * Inet6Address instbnces returned from the NetworkInterfbce clbss. This cbn be
  * used to find out the current scope ids configured on the system.
  * @since 1.4
  */
 
-public final
-class Inet6Address extends InetAddress {
-    final static int INADDRSZ = 16;
+public finbl
+clbss Inet6Address extends InetAddress {
+    finbl stbtic int INADDRSZ = 16;
 
     /*
-     * cached scope_id - for link-local address use only.
+     * cbched scope_id - for link-locbl bddress use only.
      */
-    private transient int cached_scope_id;  // 0
+    privbte trbnsient int cbched_scope_id;  // 0
 
-    private class Inet6AddressHolder {
+    privbte clbss Inet6AddressHolder {
 
-        private Inet6AddressHolder() {
-            ipaddress = new byte[INADDRSZ];
+        privbte Inet6AddressHolder() {
+            ipbddress = new byte[INADDRSZ];
         }
 
-        private Inet6AddressHolder(
-            byte[] ipaddress, int scope_id, boolean scope_id_set,
-            NetworkInterface ifname, boolean scope_ifname_set)
+        privbte Inet6AddressHolder(
+            byte[] ipbddress, int scope_id, boolebn scope_id_set,
+            NetworkInterfbce ifnbme, boolebn scope_ifnbme_set)
         {
-            this.ipaddress = ipaddress;
+            this.ipbddress = ipbddress;
             this.scope_id = scope_id;
             this.scope_id_set = scope_id_set;
-            this.scope_ifname_set = scope_ifname_set;
-            this.scope_ifname = ifname;
+            this.scope_ifnbme_set = scope_ifnbme_set;
+            this.scope_ifnbme = ifnbme;
         }
 
         /**
-         * Holds a 128-bit (16 bytes) IPv6 address.
+         * Holds b 128-bit (16 bytes) IPv6 bddress.
          */
-        byte[] ipaddress;
+        byte[] ipbddress;
 
         /**
-         * scope_id. The scope specified when the object is created. If the object
-         * is created with an interface name, then the scope_id is not determined
+         * scope_id. The scope specified when the object is crebted. If the object
+         * is crebted with bn interfbce nbme, then the scope_id is not determined
          * until the time it is needed.
          */
         int scope_id;  // 0
 
         /**
-         * This will be set to true when the scope_id field contains a valid
+         * This will be set to true when the scope_id field contbins b vblid
          * integer scope_id.
          */
-        boolean scope_id_set;  // false
+        boolebn scope_id_set;  // fblse
 
         /**
-         * scoped interface. scope_id is derived from this as the scope_id of the first
-         * address whose scope is the same as this address for the named interface.
+         * scoped interfbce. scope_id is derived from this bs the scope_id of the first
+         * bddress whose scope is the sbme bs this bddress for the nbmed interfbce.
          */
-        NetworkInterface scope_ifname;  // null
+        NetworkInterfbce scope_ifnbme;  // null
 
         /**
-         * set if the object is constructed with a scoped
-         * interface instead of a numeric scope id.
+         * set if the object is constructed with b scoped
+         * interfbce instebd of b numeric scope id.
          */
-        boolean scope_ifname_set; // false;
+        boolebn scope_ifnbme_set; // fblse;
 
-        void setAddr(byte addr[]) {
-            if (addr.length == INADDRSZ) { // normal IPv6 address
-                System.arraycopy(addr, 0, ipaddress, 0, INADDRSZ);
+        void setAddr(byte bddr[]) {
+            if (bddr.length == INADDRSZ) { // normbl IPv6 bddress
+                System.brrbycopy(bddr, 0, ipbddress, 0, INADDRSZ);
             }
         }
 
-        void init(byte addr[], int scope_id) {
-            setAddr(addr);
+        void init(byte bddr[], int scope_id) {
+            setAddr(bddr);
 
             if (scope_id >= 0) {
                 this.scope_id = scope_id;
@@ -242,135 +242,135 @@ class Inet6Address extends InetAddress {
             }
         }
 
-        void init(byte addr[], NetworkInterface nif)
+        void init(byte bddr[], NetworkInterfbce nif)
             throws UnknownHostException
         {
-            setAddr(addr);
+            setAddr(bddr);
 
             if (nif != null) {
-                this.scope_id = deriveNumericScope(ipaddress, nif);
+                this.scope_id = deriveNumericScope(ipbddress, nif);
                 this.scope_id_set = true;
-                this.scope_ifname = nif;
-                this.scope_ifname_set = true;
+                this.scope_ifnbme = nif;
+                this.scope_ifnbme_set = true;
             }
         }
 
         String getHostAddress() {
-            String s = numericToTextFormat(ipaddress);
-            if (scope_ifname != null) { /* must check this first */
-                s = s + "%" + scope_ifname.getName();
+            String s = numericToTextFormbt(ipbddress);
+            if (scope_ifnbme != null) { /* must check this first */
+                s = s + "%" + scope_ifnbme.getNbme();
             } else if (scope_id_set) {
                 s = s + "%" + scope_id;
             }
             return s;
         }
 
-        public boolean equals(Object o) {
-            if (! (o instanceof Inet6AddressHolder)) {
-                return false;
+        public boolebn equbls(Object o) {
+            if (! (o instbnceof Inet6AddressHolder)) {
+                return fblse;
             }
-            Inet6AddressHolder that = (Inet6AddressHolder)o;
+            Inet6AddressHolder thbt = (Inet6AddressHolder)o;
 
-            return Arrays.equals(this.ipaddress, that.ipaddress);
+            return Arrbys.equbls(this.ipbddress, thbt.ipbddress);
         }
 
-        public int hashCode() {
-            if (ipaddress != null) {
+        public int hbshCode() {
+            if (ipbddress != null) {
 
-                int hash = 0;
+                int hbsh = 0;
                 int i=0;
                 while (i<INADDRSZ) {
                     int j=0;
                     int component=0;
                     while (j<4 && i<INADDRSZ) {
-                        component = (component << 8) + ipaddress[i];
+                        component = (component << 8) + ipbddress[i];
                         j++;
                         i++;
                     }
-                    hash += component;
+                    hbsh += component;
                 }
-                return hash;
+                return hbsh;
 
             } else {
                 return 0;
             }
         }
 
-        boolean isIPv4CompatibleAddress() {
-            if ((ipaddress[0] == 0x00) && (ipaddress[1] == 0x00) &&
-                (ipaddress[2] == 0x00) && (ipaddress[3] == 0x00) &&
-                (ipaddress[4] == 0x00) && (ipaddress[5] == 0x00) &&
-                (ipaddress[6] == 0x00) && (ipaddress[7] == 0x00) &&
-                (ipaddress[8] == 0x00) && (ipaddress[9] == 0x00) &&
-                (ipaddress[10] == 0x00) && (ipaddress[11] == 0x00))  {
+        boolebn isIPv4CompbtibleAddress() {
+            if ((ipbddress[0] == 0x00) && (ipbddress[1] == 0x00) &&
+                (ipbddress[2] == 0x00) && (ipbddress[3] == 0x00) &&
+                (ipbddress[4] == 0x00) && (ipbddress[5] == 0x00) &&
+                (ipbddress[6] == 0x00) && (ipbddress[7] == 0x00) &&
+                (ipbddress[8] == 0x00) && (ipbddress[9] == 0x00) &&
+                (ipbddress[10] == 0x00) && (ipbddress[11] == 0x00))  {
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        boolean isMulticastAddress() {
-            return ((ipaddress[0] & 0xff) == 0xff);
+        boolebn isMulticbstAddress() {
+            return ((ipbddress[0] & 0xff) == 0xff);
         }
 
-        boolean isAnyLocalAddress() {
+        boolebn isAnyLocblAddress() {
             byte test = 0x00;
             for (int i = 0; i < INADDRSZ; i++) {
-                test |= ipaddress[i];
+                test |= ipbddress[i];
             }
             return (test == 0x00);
         }
 
-        boolean isLoopbackAddress() {
+        boolebn isLoopbbckAddress() {
             byte test = 0x00;
             for (int i = 0; i < 15; i++) {
-                test |= ipaddress[i];
+                test |= ipbddress[i];
             }
-            return (test == 0x00) && (ipaddress[15] == 0x01);
+            return (test == 0x00) && (ipbddress[15] == 0x01);
         }
 
-        boolean isLinkLocalAddress() {
-            return ((ipaddress[0] & 0xff) == 0xfe
-                    && (ipaddress[1] & 0xc0) == 0x80);
+        boolebn isLinkLocblAddress() {
+            return ((ipbddress[0] & 0xff) == 0xfe
+                    && (ipbddress[1] & 0xc0) == 0x80);
         }
 
 
-        boolean isSiteLocalAddress() {
-            return ((ipaddress[0] & 0xff) == 0xfe
-                    && (ipaddress[1] & 0xc0) == 0xc0);
+        boolebn isSiteLocblAddress() {
+            return ((ipbddress[0] & 0xff) == 0xfe
+                    && (ipbddress[1] & 0xc0) == 0xc0);
         }
 
-        boolean isMCGlobal() {
-            return ((ipaddress[0] & 0xff) == 0xff
-                    && (ipaddress[1] & 0x0f) == 0x0e);
+        boolebn isMCGlobbl() {
+            return ((ipbddress[0] & 0xff) == 0xff
+                    && (ipbddress[1] & 0x0f) == 0x0e);
         }
 
-        boolean isMCNodeLocal() {
-            return ((ipaddress[0] & 0xff) == 0xff
-                    && (ipaddress[1] & 0x0f) == 0x01);
+        boolebn isMCNodeLocbl() {
+            return ((ipbddress[0] & 0xff) == 0xff
+                    && (ipbddress[1] & 0x0f) == 0x01);
         }
 
-        boolean isMCLinkLocal() {
-            return ((ipaddress[0] & 0xff) == 0xff
-                    && (ipaddress[1] & 0x0f) == 0x02);
+        boolebn isMCLinkLocbl() {
+            return ((ipbddress[0] & 0xff) == 0xff
+                    && (ipbddress[1] & 0x0f) == 0x02);
         }
 
-        boolean isMCSiteLocal() {
-            return ((ipaddress[0] & 0xff) == 0xff
-                    && (ipaddress[1] & 0x0f) == 0x05);
+        boolebn isMCSiteLocbl() {
+            return ((ipbddress[0] & 0xff) == 0xff
+                    && (ipbddress[1] & 0x0f) == 0x05);
         }
 
-        boolean isMCOrgLocal() {
-            return ((ipaddress[0] & 0xff) == 0xff
-                    && (ipaddress[1] & 0x0f) == 0x08);
+        boolebn isMCOrgLocbl() {
+            return ((ipbddress[0] & 0xff) == 0xff
+                    && (ipbddress[1] & 0x0f) == 0x08);
         }
     }
 
-    private final transient Inet6AddressHolder holder6;
+    privbte finbl trbnsient Inet6AddressHolder holder6;
 
-    private static final long serialVersionUID = 6880410070516793377L;
+    privbte stbtic finbl long seriblVersionUID = 6880410070516793377L;
 
-    // Perform native initialization
-    static { init(); }
+    // Perform nbtive initiblizbtion
+    stbtic { init(); }
 
     Inet6Address() {
         super();
@@ -378,466 +378,466 @@ class Inet6Address extends InetAddress {
         holder6 = new Inet6AddressHolder();
     }
 
-    /* checking of value for scope_id should be done by caller
-     * scope_id must be >= 0, or -1 to indicate not being set
+    /* checking of vblue for scope_id should be done by cbller
+     * scope_id must be >= 0, or -1 to indicbte not being set
      */
-    Inet6Address(String hostName, byte addr[], int scope_id) {
-        holder.init(hostName, IPv6);
+    Inet6Address(String hostNbme, byte bddr[], int scope_id) {
+        holder.init(hostNbme, IPv6);
         holder6 = new Inet6AddressHolder();
-        holder6.init(addr, scope_id);
+        holder6.init(bddr, scope_id);
     }
 
-    Inet6Address(String hostName, byte addr[]) {
+    Inet6Address(String hostNbme, byte bddr[]) {
         holder6 = new Inet6AddressHolder();
         try {
-            initif (hostName, addr, null);
-        } catch (UnknownHostException e) {} /* cant happen if ifname is null */
+            initif (hostNbme, bddr, null);
+        } cbtch (UnknownHostException e) {} /* cbnt hbppen if ifnbme is null */
     }
 
-    Inet6Address (String hostName, byte addr[], NetworkInterface nif)
+    Inet6Address (String hostNbme, byte bddr[], NetworkInterfbce nif)
         throws UnknownHostException
     {
         holder6 = new Inet6AddressHolder();
-        initif (hostName, addr, nif);
+        initif (hostNbme, bddr, nif);
     }
 
-    Inet6Address (String hostName, byte addr[], String ifname)
+    Inet6Address (String hostNbme, byte bddr[], String ifnbme)
         throws UnknownHostException
     {
         holder6 = new Inet6AddressHolder();
-        initstr (hostName, addr, ifname);
+        initstr (hostNbme, bddr, ifnbme);
     }
 
     /**
-     * Create an Inet6Address in the exact manner of {@link
-     * InetAddress#getByAddress(String,byte[])} except that the IPv6 scope_id is
-     * set to the value corresponding to the given interface for the address
-     * type specified in {@code addr}. The call will fail with an
-     * UnknownHostException if the given interface does not have a numeric
-     * scope_id assigned for the given address type (eg. link-local or site-local).
-     * See <a href="Inet6Address.html#scoped">here</a> for a description of IPv6
-     * scoped addresses.
+     * Crebte bn Inet6Address in the exbct mbnner of {@link
+     * InetAddress#getByAddress(String,byte[])} except thbt the IPv6 scope_id is
+     * set to the vblue corresponding to the given interfbce for the bddress
+     * type specified in {@code bddr}. The cbll will fbil with bn
+     * UnknownHostException if the given interfbce does not hbve b numeric
+     * scope_id bssigned for the given bddress type (eg. link-locbl or site-locbl).
+     * See <b href="Inet6Address.html#scoped">here</b> for b description of IPv6
+     * scoped bddresses.
      *
-     * @param host the specified host
-     * @param addr the raw IP address in network byte order
-     * @param nif an interface this address must be associated with.
-     * @return  an Inet6Address object created from the raw IP address.
+     * @pbrbm host the specified host
+     * @pbrbm bddr the rbw IP bddress in network byte order
+     * @pbrbm nif bn interfbce this bddress must be bssocibted with.
+     * @return  bn Inet6Address object crebted from the rbw IP bddress.
      * @throws  UnknownHostException
-     *          if IP address is of illegal length, or if the interface does not
-     *          have a numeric scope_id assigned for the given address type.
+     *          if IP bddress is of illegbl length, or if the interfbce does not
+     *          hbve b numeric scope_id bssigned for the given bddress type.
      *
      * @since 1.5
      */
-    public static Inet6Address getByAddress(String host, byte[] addr,
-                                            NetworkInterface nif)
+    public stbtic Inet6Address getByAddress(String host, byte[] bddr,
+                                            NetworkInterfbce nif)
         throws UnknownHostException
     {
-        if (host != null && host.length() > 0 && host.charAt(0) == '[') {
-            if (host.charAt(host.length()-1) == ']') {
+        if (host != null && host.length() > 0 && host.chbrAt(0) == '[') {
+            if (host.chbrAt(host.length()-1) == ']') {
                 host = host.substring(1, host.length() -1);
             }
         }
-        if (addr != null) {
-            if (addr.length == Inet6Address.INADDRSZ) {
-                return new Inet6Address(host, addr, nif);
+        if (bddr != null) {
+            if (bddr.length == Inet6Address.INADDRSZ) {
+                return new Inet6Address(host, bddr, nif);
             }
         }
-        throw new UnknownHostException("addr is of illegal length");
+        throw new UnknownHostException("bddr is of illegbl length");
     }
 
     /**
-     * Create an Inet6Address in the exact manner of {@link
-     * InetAddress#getByAddress(String,byte[])} except that the IPv6 scope_id is
-     * set to the given numeric value. The scope_id is not checked to determine
-     * if it corresponds to any interface on the system.
-     * See <a href="Inet6Address.html#scoped">here</a> for a description of IPv6
-     * scoped addresses.
+     * Crebte bn Inet6Address in the exbct mbnner of {@link
+     * InetAddress#getByAddress(String,byte[])} except thbt the IPv6 scope_id is
+     * set to the given numeric vblue. The scope_id is not checked to determine
+     * if it corresponds to bny interfbce on the system.
+     * See <b href="Inet6Address.html#scoped">here</b> for b description of IPv6
+     * scoped bddresses.
      *
-     * @param host the specified host
-     * @param addr the raw IP address in network byte order
-     * @param scope_id the numeric scope_id for the address.
-     * @return  an Inet6Address object created from the raw IP address.
-     * @throws  UnknownHostException  if IP address is of illegal length.
+     * @pbrbm host the specified host
+     * @pbrbm bddr the rbw IP bddress in network byte order
+     * @pbrbm scope_id the numeric scope_id for the bddress.
+     * @return  bn Inet6Address object crebted from the rbw IP bddress.
+     * @throws  UnknownHostException  if IP bddress is of illegbl length.
      *
      * @since 1.5
      */
-    public static Inet6Address getByAddress(String host, byte[] addr,
+    public stbtic Inet6Address getByAddress(String host, byte[] bddr,
                                             int scope_id)
         throws UnknownHostException
     {
-        if (host != null && host.length() > 0 && host.charAt(0) == '[') {
-            if (host.charAt(host.length()-1) == ']') {
+        if (host != null && host.length() > 0 && host.chbrAt(0) == '[') {
+            if (host.chbrAt(host.length()-1) == ']') {
                 host = host.substring(1, host.length() -1);
             }
         }
-        if (addr != null) {
-            if (addr.length == Inet6Address.INADDRSZ) {
-                return new Inet6Address(host, addr, scope_id);
+        if (bddr != null) {
+            if (bddr.length == Inet6Address.INADDRSZ) {
+                return new Inet6Address(host, bddr, scope_id);
             }
         }
-        throw new UnknownHostException("addr is of illegal length");
+        throw new UnknownHostException("bddr is of illegbl length");
     }
 
-    private void initstr(String hostName, byte addr[], String ifname)
+    privbte void initstr(String hostNbme, byte bddr[], String ifnbme)
         throws UnknownHostException
     {
         try {
-            NetworkInterface nif = NetworkInterface.getByName (ifname);
+            NetworkInterfbce nif = NetworkInterfbce.getByNbme (ifnbme);
             if (nif == null) {
-                throw new UnknownHostException ("no such interface " + ifname);
+                throw new UnknownHostException ("no such interfbce " + ifnbme);
             }
-            initif (hostName, addr, nif);
-        } catch (SocketException e) {
-            throw new UnknownHostException ("SocketException thrown" + ifname);
+            initif (hostNbme, bddr, nif);
+        } cbtch (SocketException e) {
+            throw new UnknownHostException ("SocketException thrown" + ifnbme);
         }
     }
 
-    private void initif(String hostName, byte addr[], NetworkInterface nif)
+    privbte void initif(String hostNbme, byte bddr[], NetworkInterfbce nif)
         throws UnknownHostException
     {
-        int family = -1;
-        holder6.init(addr, nif);
+        int fbmily = -1;
+        holder6.init(bddr, nif);
 
-        if (addr.length == INADDRSZ) { // normal IPv6 address
-            family = IPv6;
+        if (bddr.length == INADDRSZ) { // normbl IPv6 bddress
+            fbmily = IPv6;
         }
-        holder.init(hostName, family);
+        holder.init(hostNbme, fbmily);
     }
 
-    /* check the two Ipv6 addresses and return false if they are both
-     * non global address types, but not the same.
-     * (ie. one is sitelocal and the other linklocal)
+    /* check the two Ipv6 bddresses bnd return fblse if they bre both
+     * non globbl bddress types, but not the sbme.
+     * (ie. one is sitelocbl bnd the other linklocbl)
      * return true otherwise.
      */
 
-    private static boolean isDifferentLocalAddressType(
+    privbte stbtic boolebn isDifferentLocblAddressType(
         byte[] thisAddr, byte[] otherAddr) {
 
-        if (Inet6Address.isLinkLocalAddress(thisAddr) &&
-                !Inet6Address.isLinkLocalAddress(otherAddr)) {
-            return false;
+        if (Inet6Address.isLinkLocblAddress(thisAddr) &&
+                !Inet6Address.isLinkLocblAddress(otherAddr)) {
+            return fblse;
         }
-        if (Inet6Address.isSiteLocalAddress(thisAddr) &&
-                !Inet6Address.isSiteLocalAddress(otherAddr)) {
-            return false;
+        if (Inet6Address.isSiteLocblAddress(thisAddr) &&
+                !Inet6Address.isSiteLocblAddress(otherAddr)) {
+            return fblse;
         }
         return true;
     }
 
-    private static int deriveNumericScope (byte[] thisAddr, NetworkInterface ifc) throws UnknownHostException {
-        Enumeration<InetAddress> addresses = ifc.getInetAddresses();
-        while (addresses.hasMoreElements()) {
-            InetAddress addr = addresses.nextElement();
-            if (!(addr instanceof Inet6Address)) {
+    privbte stbtic int deriveNumericScope (byte[] thisAddr, NetworkInterfbce ifc) throws UnknownHostException {
+        Enumerbtion<InetAddress> bddresses = ifc.getInetAddresses();
+        while (bddresses.hbsMoreElements()) {
+            InetAddress bddr = bddresses.nextElement();
+            if (!(bddr instbnceof Inet6Address)) {
                 continue;
             }
-            Inet6Address ia6_addr = (Inet6Address)addr;
-            /* check if site or link local prefixes match */
-            if (!isDifferentLocalAddressType(thisAddr, ia6_addr.getAddress())){
-                /* type not the same, so carry on searching */
+            Inet6Address ib6_bddr = (Inet6Address)bddr;
+            /* check if site or link locbl prefixes mbtch */
+            if (!isDifferentLocblAddressType(thisAddr, ib6_bddr.getAddress())){
+                /* type not the sbme, so cbrry on sebrching */
                 continue;
             }
-            /* found a matching address - return its scope_id */
-            return ia6_addr.getScopeId();
+            /* found b mbtching bddress - return its scope_id */
+            return ib6_bddr.getScopeId();
         }
         throw new UnknownHostException ("no scope_id found");
     }
 
-    private int deriveNumericScope (String ifname) throws UnknownHostException {
-        Enumeration<NetworkInterface> en;
+    privbte int deriveNumericScope (String ifnbme) throws UnknownHostException {
+        Enumerbtion<NetworkInterfbce> en;
         try {
-            en = NetworkInterface.getNetworkInterfaces();
-        } catch (SocketException e) {
-            throw new UnknownHostException ("could not enumerate local network interfaces");
+            en = NetworkInterfbce.getNetworkInterfbces();
+        } cbtch (SocketException e) {
+            throw new UnknownHostException ("could not enumerbte locbl network interfbces");
         }
-        while (en.hasMoreElements()) {
-            NetworkInterface ifc = en.nextElement();
-            if (ifc.getName().equals (ifname)) {
-                return deriveNumericScope(holder6.ipaddress, ifc);
+        while (en.hbsMoreElements()) {
+            NetworkInterfbce ifc = en.nextElement();
+            if (ifc.getNbme().equbls (ifnbme)) {
+                return deriveNumericScope(holder6.ipbddress, ifc);
             }
         }
-        throw new UnknownHostException ("No matching address found for interface : " +ifname);
+        throw new UnknownHostException ("No mbtching bddress found for interfbce : " +ifnbme);
     }
 
     /**
-     * @serialField ipaddress byte[]
-     * @serialField scope_id int
-     * @serialField scope_id_set boolean
-     * @serialField scope_ifname_set boolean
-     * @serialField ifname String
+     * @seriblField ipbddress byte[]
+     * @seriblField scope_id int
+     * @seriblField scope_id_set boolebn
+     * @seriblField scope_ifnbme_set boolebn
+     * @seriblField ifnbme String
      */
 
-    private static final ObjectStreamField[] serialPersistentFields = {
-         new ObjectStreamField("ipaddress", byte[].class),
-         new ObjectStreamField("scope_id", int.class),
-         new ObjectStreamField("scope_id_set", boolean.class),
-         new ObjectStreamField("scope_ifname_set", boolean.class),
-         new ObjectStreamField("ifname", String.class)
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+         new ObjectStrebmField("ipbddress", byte[].clbss),
+         new ObjectStrebmField("scope_id", int.clbss),
+         new ObjectStrebmField("scope_id_set", boolebn.clbss),
+         new ObjectStrebmField("scope_ifnbme_set", boolebn.clbss),
+         new ObjectStrebmField("ifnbme", String.clbss)
     };
 
-    private static final long FIELDS_OFFSET;
-    private static final sun.misc.Unsafe UNSAFE;
+    privbte stbtic finbl long FIELDS_OFFSET;
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
 
-    static {
+    stbtic {
         try {
-            sun.misc.Unsafe unsafe = sun.misc.Unsafe.getUnsafe();
-            FIELDS_OFFSET = unsafe.objectFieldOffset(
-                    Inet6Address.class.getDeclaredField("holder6"));
-            UNSAFE = unsafe;
-        } catch (ReflectiveOperationException e) {
+            sun.misc.Unsbfe unsbfe = sun.misc.Unsbfe.getUnsbfe();
+            FIELDS_OFFSET = unsbfe.objectFieldOffset(
+                    Inet6Address.clbss.getDeclbredField("holder6"));
+            UNSAFE = unsbfe;
+        } cbtch (ReflectiveOperbtionException e) {
             throw new Error(e);
         }
     }
 
     /**
-     * restore the state of this object from stream
-     * including the scope information, only if the
-     * scoped interface name is valid on this system
+     * restore the stbte of this object from strebm
+     * including the scope informbtion, only if the
+     * scoped interfbce nbme is vblid on this system
      */
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        NetworkInterface scope_ifname = null;
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException {
+        NetworkInterfbce scope_ifnbme = null;
 
-        if (getClass().getClassLoader() != null) {
-            throw new SecurityException ("invalid address type");
+        if (getClbss().getClbssLobder() != null) {
+            throw new SecurityException ("invblid bddress type");
         }
 
-        ObjectInputStream.GetField gf = s.readFields();
-        byte[] ipaddress = (byte[])gf.get("ipaddress", null);
+        ObjectInputStrebm.GetField gf = s.rebdFields();
+        byte[] ipbddress = (byte[])gf.get("ipbddress", null);
         int scope_id = gf.get("scope_id", -1);
-        boolean scope_id_set = gf.get("scope_id_set", false);
-        boolean scope_ifname_set = gf.get("scope_ifname_set", false);
-        String ifname = (String)gf.get("ifname", null);
+        boolebn scope_id_set = gf.get("scope_id_set", fblse);
+        boolebn scope_ifnbme_set = gf.get("scope_ifnbme_set", fblse);
+        String ifnbme = (String)gf.get("ifnbme", null);
 
-        if (ifname != null && !"".equals (ifname)) {
+        if (ifnbme != null && !"".equbls (ifnbme)) {
             try {
-                scope_ifname = NetworkInterface.getByName(ifname);
-                if (scope_ifname == null) {
-                    /* the interface does not exist on this system, so we clear
-                     * the scope information completely */
-                    scope_id_set = false;
-                    scope_ifname_set = false;
+                scope_ifnbme = NetworkInterfbce.getByNbme(ifnbme);
+                if (scope_ifnbme == null) {
+                    /* the interfbce does not exist on this system, so we clebr
+                     * the scope informbtion completely */
+                    scope_id_set = fblse;
+                    scope_ifnbme_set = fblse;
                     scope_id = 0;
                 } else {
-                    scope_ifname_set = true;
+                    scope_ifnbme_set = true;
                     try {
-                        scope_id = deriveNumericScope (ipaddress, scope_ifname);
-                    } catch (UnknownHostException e) {
-                        // typically should not happen, but it may be that
-                        // the machine being used for deserialization has
-                        // the same interface name but without IPv6 configured.
+                        scope_id = deriveNumericScope (ipbddress, scope_ifnbme);
+                    } cbtch (UnknownHostException e) {
+                        // typicblly should not hbppen, but it mby be thbt
+                        // the mbchine being used for deseriblizbtion hbs
+                        // the sbme interfbce nbme but without IPv6 configured.
                     }
                 }
-            } catch (SocketException e) {}
+            } cbtch (SocketException e) {}
         }
 
-        /* if ifname was not supplied, then the numeric info is used */
+        /* if ifnbme wbs not supplied, then the numeric info is used */
 
-        ipaddress = ipaddress.clone();
+        ipbddress = ipbddress.clone();
 
-        // Check that our invariants are satisfied
-        if (ipaddress.length != INADDRSZ) {
-            throw new InvalidObjectException("invalid address length: "+
-                                             ipaddress.length);
+        // Check thbt our invbribnts bre sbtisfied
+        if (ipbddress.length != INADDRSZ) {
+            throw new InvblidObjectException("invblid bddress length: "+
+                                             ipbddress.length);
         }
 
-        if (holder.getFamily() != IPv6) {
-            throw new InvalidObjectException("invalid address family type");
+        if (holder.getFbmily() != IPv6) {
+            throw new InvblidObjectException("invblid bddress fbmily type");
         }
 
         Inet6AddressHolder h = new Inet6AddressHolder(
-            ipaddress, scope_id, scope_id_set, scope_ifname, scope_ifname_set
+            ipbddress, scope_id, scope_id_set, scope_ifnbme, scope_ifnbme_set
         );
 
         UNSAFE.putObject(this, FIELDS_OFFSET, h);
     }
 
     /**
-     * default behavior is overridden in order to write the
-     * scope_ifname field as a String, rather than a NetworkInterface
-     * which is not serializable
+     * defbult behbvior is overridden in order to write the
+     * scope_ifnbme field bs b String, rbther thbn b NetworkInterfbce
+     * which is not seriblizbble
      */
-    private synchronized void writeObject(ObjectOutputStream s)
+    privbte synchronized void writeObject(ObjectOutputStrebm s)
         throws IOException
     {
-            String ifname = null;
+            String ifnbme = null;
 
-        if (holder6.scope_ifname != null) {
-            ifname = holder6.scope_ifname.getName();
-            holder6.scope_ifname_set = true;
+        if (holder6.scope_ifnbme != null) {
+            ifnbme = holder6.scope_ifnbme.getNbme();
+            holder6.scope_ifnbme_set = true;
         }
-        ObjectOutputStream.PutField pfields = s.putFields();
-        pfields.put("ipaddress", holder6.ipaddress);
+        ObjectOutputStrebm.PutField pfields = s.putFields();
+        pfields.put("ipbddress", holder6.ipbddress);
         pfields.put("scope_id", holder6.scope_id);
         pfields.put("scope_id_set", holder6.scope_id_set);
-        pfields.put("scope_ifname_set", holder6.scope_ifname_set);
-        pfields.put("ifname", ifname);
+        pfields.put("scope_ifnbme_set", holder6.scope_ifnbme_set);
+        pfields.put("ifnbme", ifnbme);
         s.writeFields();
     }
 
     /**
-     * Utility routine to check if the InetAddress is an IP multicast
-     * address. 11111111 at the start of the address identifies the
-     * address as being a multicast address.
+     * Utility routine to check if the InetAddress is bn IP multicbst
+     * bddress. 11111111 bt the stbrt of the bddress identifies the
+     * bddress bs being b multicbst bddress.
      *
-     * @return a {@code boolean} indicating if the InetAddress is an IP
-     *         multicast address
+     * @return b {@code boolebn} indicbting if the InetAddress is bn IP
+     *         multicbst bddress
      *
      * @since 1.1
      */
     @Override
-    public boolean isMulticastAddress() {
-        return holder6.isMulticastAddress();
+    public boolebn isMulticbstAddress() {
+        return holder6.isMulticbstAddress();
     }
 
     /**
-     * Utility routine to check if the InetAddress in a wildcard address.
+     * Utility routine to check if the InetAddress in b wildcbrd bddress.
      *
-     * @return a {@code boolean} indicating if the Inetaddress is
-     *         a wildcard address.
+     * @return b {@code boolebn} indicbting if the Inetbddress is
+     *         b wildcbrd bddress.
      *
      * @since 1.4
      */
     @Override
-    public boolean isAnyLocalAddress() {
-        return holder6.isAnyLocalAddress();
+    public boolebn isAnyLocblAddress() {
+        return holder6.isAnyLocblAddress();
     }
 
     /**
-     * Utility routine to check if the InetAddress is a loopback address.
+     * Utility routine to check if the InetAddress is b loopbbck bddress.
      *
-     * @return a {@code boolean} indicating if the InetAddress is a loopback
-     *         address; or false otherwise.
+     * @return b {@code boolebn} indicbting if the InetAddress is b loopbbck
+     *         bddress; or fblse otherwise.
      *
      * @since 1.4
      */
     @Override
-    public boolean isLoopbackAddress() {
-        return holder6.isLoopbackAddress();
+    public boolebn isLoopbbckAddress() {
+        return holder6.isLoopbbckAddress();
     }
 
     /**
-     * Utility routine to check if the InetAddress is an link local address.
+     * Utility routine to check if the InetAddress is bn link locbl bddress.
      *
-     * @return a {@code boolean} indicating if the InetAddress is a link local
-     *         address; or false if address is not a link local unicast address.
+     * @return b {@code boolebn} indicbting if the InetAddress is b link locbl
+     *         bddress; or fblse if bddress is not b link locbl unicbst bddress.
      *
      * @since 1.4
      */
     @Override
-    public boolean isLinkLocalAddress() {
-        return holder6.isLinkLocalAddress();
+    public boolebn isLinkLocblAddress() {
+        return holder6.isLinkLocblAddress();
     }
 
-    /* static version of above */
-    static boolean isLinkLocalAddress(byte[] ipaddress) {
-        return ((ipaddress[0] & 0xff) == 0xfe
-                && (ipaddress[1] & 0xc0) == 0x80);
+    /* stbtic version of bbove */
+    stbtic boolebn isLinkLocblAddress(byte[] ipbddress) {
+        return ((ipbddress[0] & 0xff) == 0xfe
+                && (ipbddress[1] & 0xc0) == 0x80);
     }
 
     /**
-     * Utility routine to check if the InetAddress is a site local address.
+     * Utility routine to check if the InetAddress is b site locbl bddress.
      *
-     * @return a {@code boolean} indicating if the InetAddress is a site local
-     *         address; or false if address is not a site local unicast address.
+     * @return b {@code boolebn} indicbting if the InetAddress is b site locbl
+     *         bddress; or fblse if bddress is not b site locbl unicbst bddress.
      *
      * @since 1.4
      */
     @Override
-    public boolean isSiteLocalAddress() {
-        return holder6.isSiteLocalAddress();
+    public boolebn isSiteLocblAddress() {
+        return holder6.isSiteLocblAddress();
     }
 
-    /* static version of above */
-    static boolean isSiteLocalAddress(byte[] ipaddress) {
-        return ((ipaddress[0] & 0xff) == 0xfe
-                && (ipaddress[1] & 0xc0) == 0xc0);
+    /* stbtic version of bbove */
+    stbtic boolebn isSiteLocblAddress(byte[] ipbddress) {
+        return ((ipbddress[0] & 0xff) == 0xfe
+                && (ipbddress[1] & 0xc0) == 0xc0);
     }
 
     /**
-     * Utility routine to check if the multicast address has global scope.
+     * Utility routine to check if the multicbst bddress hbs globbl scope.
      *
-     * @return a {@code boolean} indicating if the address has is a multicast
-     *         address of global scope, false if it is not of global scope or
-     *         it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs is b multicbst
+     *         bddress of globbl scope, fblse if it is not of globbl scope or
+     *         it is not b multicbst bddress
      *
      * @since 1.4
      */
     @Override
-    public boolean isMCGlobal() {
-        return holder6.isMCGlobal();
+    public boolebn isMCGlobbl() {
+        return holder6.isMCGlobbl();
     }
 
     /**
-     * Utility routine to check if the multicast address has node scope.
+     * Utility routine to check if the multicbst bddress hbs node scope.
      *
-     * @return a {@code boolean} indicating if the address has is a multicast
-     *         address of node-local scope, false if it is not of node-local
-     *         scope or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs is b multicbst
+     *         bddress of node-locbl scope, fblse if it is not of node-locbl
+     *         scope or it is not b multicbst bddress
      *
      * @since 1.4
      */
     @Override
-    public boolean isMCNodeLocal() {
-        return holder6.isMCNodeLocal();
+    public boolebn isMCNodeLocbl() {
+        return holder6.isMCNodeLocbl();
     }
 
     /**
-     * Utility routine to check if the multicast address has link scope.
+     * Utility routine to check if the multicbst bddress hbs link scope.
      *
-     * @return a {@code boolean} indicating if the address has is a multicast
-     *         address of link-local scope, false if it is not of link-local
-     *         scope or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs is b multicbst
+     *         bddress of link-locbl scope, fblse if it is not of link-locbl
+     *         scope or it is not b multicbst bddress
      *
      * @since 1.4
      */
     @Override
-    public boolean isMCLinkLocal() {
-        return holder6.isMCLinkLocal();
+    public boolebn isMCLinkLocbl() {
+        return holder6.isMCLinkLocbl();
     }
 
     /**
-     * Utility routine to check if the multicast address has site scope.
+     * Utility routine to check if the multicbst bddress hbs site scope.
      *
-     * @return a {@code boolean} indicating if the address has is a multicast
-     *         address of site-local scope, false if it is not  of site-local
-     *         scope or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs is b multicbst
+     *         bddress of site-locbl scope, fblse if it is not  of site-locbl
+     *         scope or it is not b multicbst bddress
      *
      * @since 1.4
      */
     @Override
-    public boolean isMCSiteLocal() {
-        return holder6.isMCSiteLocal();
+    public boolebn isMCSiteLocbl() {
+        return holder6.isMCSiteLocbl();
     }
 
     /**
-     * Utility routine to check if the multicast address has organization scope.
+     * Utility routine to check if the multicbst bddress hbs orgbnizbtion scope.
      *
-     * @return a {@code boolean} indicating if the address has is a multicast
-     *         address of organization-local scope, false if it is not of
-     *         organization-local scope or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs is b multicbst
+     *         bddress of orgbnizbtion-locbl scope, fblse if it is not of
+     *         orgbnizbtion-locbl scope or it is not b multicbst bddress
      *
      * @since 1.4
      */
     @Override
-    public boolean isMCOrgLocal() {
-        return holder6.isMCOrgLocal();
+    public boolebn isMCOrgLocbl() {
+        return holder6.isMCOrgLocbl();
     }
     /**
-     * Returns the raw IP address of this {@code InetAddress} object. The result
-     * is in network byte order: the highest order byte of the address is in
+     * Returns the rbw IP bddress of this {@code InetAddress} object. The result
+     * is in network byte order: the highest order byte of the bddress is in
      * {@code getAddress()[0]}.
      *
-     * @return  the raw IP address of this object.
+     * @return  the rbw IP bddress of this object.
      */
     @Override
     public byte[] getAddress() {
-        return holder6.ipaddress.clone();
+        return holder6.ipbddress.clone();
     }
 
     /**
-     * Returns the numeric scopeId, if this instance is associated with
-     * an interface. If no scoped_id is set, the returned value is zero.
+     * Returns the numeric scopeId, if this instbnce is bssocibted with
+     * bn interfbce. If no scoped_id is set, the returned vblue is zero.
      *
      * @return the scopeId, or zero if not set.
      *
@@ -848,24 +848,24 @@ class Inet6Address extends InetAddress {
      }
 
     /**
-     * Returns the scoped interface, if this instance was created with
-     * with a scoped interface.
+     * Returns the scoped interfbce, if this instbnce wbs crebted with
+     * with b scoped interfbce.
      *
-     * @return the scoped interface, or null if not set.
+     * @return the scoped interfbce, or null if not set.
      * @since 1.5
      */
-     public NetworkInterface getScopedInterface() {
-        return holder6.scope_ifname;
+     public NetworkInterfbce getScopedInterfbce() {
+        return holder6.scope_ifnbme;
      }
 
     /**
-     * Returns the IP address string in textual presentation. If the instance
-     * was created specifying a scope identifier then the scope id is appended
-     * to the IP address preceded by a "%" (per-cent) character. This can be
-     * either a numeric value or a string, depending on which was used to create
-     * the instance.
+     * Returns the IP bddress string in textubl presentbtion. If the instbnce
+     * wbs crebted specifying b scope identifier then the scope id is bppended
+     * to the IP bddress preceded by b "%" (per-cent) chbrbcter. This cbn be
+     * either b numeric vblue or b string, depending on which wbs used to crebte
+     * the instbnce.
      *
-     * @return  the raw IP address in a string format.
+     * @return  the rbw IP bddress in b string formbt.
      */
     @Override
     public String getHostAddress() {
@@ -873,79 +873,79 @@ class Inet6Address extends InetAddress {
     }
 
     /**
-     * Returns a hashcode for this IP address.
+     * Returns b hbshcode for this IP bddress.
      *
-     * @return  a hash code value for this IP address.
+     * @return  b hbsh code vblue for this IP bddress.
      */
     @Override
-    public int hashCode() {
-        return holder6.hashCode();
+    public int hbshCode() {
+        return holder6.hbshCode();
     }
 
     /**
-     * Compares this object against the specified object. The result is {@code
-     * true} if and only if the argument is not {@code null} and it represents
-     * the same IP address as this object.
+     * Compbres this object bgbinst the specified object. The result is {@code
+     * true} if bnd only if the brgument is not {@code null} bnd it represents
+     * the sbme IP bddress bs this object.
      *
-     * <p> Two instances of {@code InetAddress} represent the same IP address
-     * if the length of the byte arrays returned by {@code getAddress} is the
-     * same for both, and each of the array components is the same for the byte
-     * arrays.
+     * <p> Two instbnces of {@code InetAddress} represent the sbme IP bddress
+     * if the length of the byte brrbys returned by {@code getAddress} is the
+     * sbme for both, bnd ebch of the brrby components is the sbme for the byte
+     * brrbys.
      *
-     * @param   obj   the object to compare against.
+     * @pbrbm   obj   the object to compbre bgbinst.
      *
-     * @return  {@code true} if the objects are the same; {@code false} otherwise.
+     * @return  {@code true} if the objects bre the sbme; {@code fblse} otherwise.
      *
-     * @see     java.net.InetAddress#getAddress()
+     * @see     jbvb.net.InetAddress#getAddress()
      */
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Inet6Address))
-            return false;
+    public boolebn equbls(Object obj) {
+        if (obj == null || !(obj instbnceof Inet6Address))
+            return fblse;
 
         Inet6Address inetAddr = (Inet6Address)obj;
 
-        return holder6.equals(inetAddr.holder6);
+        return holder6.equbls(inetAddr.holder6);
     }
 
     /**
-     * Utility routine to check if the InetAddress is an
-     * IPv4 compatible IPv6 address.
+     * Utility routine to check if the InetAddress is bn
+     * IPv4 compbtible IPv6 bddress.
      *
-     * @return a {@code boolean} indicating if the InetAddress is an IPv4
-     *         compatible IPv6 address; or false if address is IPv4 address.
+     * @return b {@code boolebn} indicbting if the InetAddress is bn IPv4
+     *         compbtible IPv6 bddress; or fblse if bddress is IPv4 bddress.
      *
      * @since 1.4
      */
-    public boolean isIPv4CompatibleAddress() {
-        return holder6.isIPv4CompatibleAddress();
+    public boolebn isIPv4CompbtibleAddress() {
+        return holder6.isIPv4CompbtibleAddress();
     }
 
     // Utilities
-    private final static int INT16SZ = 2;
+    privbte finbl stbtic int INT16SZ = 2;
 
     /*
-     * Convert IPv6 binary address into presentation (printable) format.
+     * Convert IPv6 binbry bddress into presentbtion (printbble) formbt.
      *
-     * @param src a byte array representing the IPv6 numeric address
-     * @return a String representing an IPv6 address in
-     *         textual representation format
+     * @pbrbm src b byte brrby representing the IPv6 numeric bddress
+     * @return b String representing bn IPv6 bddress in
+     *         textubl representbtion formbt
      * @since 1.4
      */
-    static String numericToTextFormat(byte[] src) {
+    stbtic String numericToTextFormbt(byte[] src) {
         StringBuilder sb = new StringBuilder(39);
         for (int i = 0; i < (INADDRSZ / INT16SZ); i++) {
-            sb.append(Integer.toHexString(((src[i<<1]<<8) & 0xff00)
+            sb.bppend(Integer.toHexString(((src[i<<1]<<8) & 0xff00)
                                           | (src[(i<<1)+1] & 0xff)));
             if (i < (INADDRSZ / INT16SZ) -1 ) {
-               sb.append(":");
+               sb.bppend(":");
             }
         }
         return sb.toString();
     }
 
     /**
-     * Perform class load-time initializations.
+     * Perform clbss lobd-time initiblizbtions.
      */
-    private static native void init();
+    privbte stbtic nbtive void init();
 }

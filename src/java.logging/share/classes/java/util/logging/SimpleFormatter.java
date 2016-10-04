@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.util.logging;
+pbckbge jbvb.util.logging;
 
-import java.io.*;
-import java.text.*;
-import java.util.Date;
+import jbvb.io.*;
+import jbvb.text.*;
+import jbvb.util.Dbte;
 import sun.util.logging.LoggingSupport;
 
 /**
- * Print a brief summary of the {@code LogRecord} in a human readable
- * format.  The summary will typically be 1 or 2 lines.
+ * Print b brief summbry of the {@code LogRecord} in b humbn rebdbble
+ * formbt.  The summbry will typicblly be 1 or 2 lines.
  *
  * <p>
- * <a name="formatting">
- * <b>Configuration:</b></a>
- * The {@code SimpleFormatter} is initialized with the
- * <a href="../Formatter.html#syntax">format string</a>
- * specified in the {@code java.util.logging.SimpleFormatter.format}
- * property to {@linkplain #format format} the log messages.
- * This property can be defined
- * in the {@linkplain LogManager#getProperty logging properties}
- * configuration file
- * or as a system property.  If this property is set in both
- * the logging properties and system properties,
- * the format string specified in the system property will be used.
- * If this property is not defined or the given format string
- * is {@linkplain java.util.IllegalFormatException illegal},
- * the default format is implementation-specific.
+ * <b nbme="formbtting">
+ * <b>Configurbtion:</b></b>
+ * The {@code SimpleFormbtter} is initiblized with the
+ * <b href="../Formbtter.html#syntbx">formbt string</b>
+ * specified in the {@code jbvb.util.logging.SimpleFormbtter.formbt}
+ * property to {@linkplbin #formbt formbt} the log messbges.
+ * This property cbn be defined
+ * in the {@linkplbin LogMbnbger#getProperty logging properties}
+ * configurbtion file
+ * or bs b system property.  If this property is set in both
+ * the logging properties bnd system properties,
+ * the formbt string specified in the system property will be used.
+ * If this property is not defined or the given formbt string
+ * is {@linkplbin jbvb.util.IllegblFormbtException illegbl},
+ * the defbult formbt is implementbtion-specific.
  *
  * @since 1.4
- * @see java.util.Formatter
+ * @see jbvb.util.Formbtter
  */
 
-public class SimpleFormatter extends Formatter {
+public clbss SimpleFormbtter extends Formbtter {
 
-    // format string for printing the log record
-    private static final String format = LoggingSupport.getSimpleFormat();
-    private final Date dat = new Date();
+    // formbt string for printing the log record
+    privbte stbtic finbl String formbt = LoggingSupport.getSimpleFormbt();
+    privbte finbl Dbte dbt = new Dbte();
 
     /**
-     * Format the given LogRecord.
+     * Formbt the given LogRecord.
      * <p>
-     * The formatting can be customized by specifying the
-     * <a href="../Formatter.html#syntax">format string</a>
-     * in the <a href="#formatting">
-     * {@code java.util.logging.SimpleFormatter.format}</a> property.
-     * The given {@code LogRecord} will be formatted as if by calling:
+     * The formbtting cbn be customized by specifying the
+     * <b href="../Formbtter.html#syntbx">formbt string</b>
+     * in the <b href="#formbtting">
+     * {@code jbvb.util.logging.SimpleFormbtter.formbt}</b> property.
+     * The given {@code LogRecord} will be formbtted bs if by cblling:
      * <pre>
-     *    {@link String#format String.format}(format, date, source, logger, level, message, thrown);
+     *    {@link String#formbt String.formbt}(formbt, dbte, source, logger, level, messbge, thrown);
      * </pre>
-     * where the arguments are:<br>
+     * where the brguments bre:<br>
      * <ol>
-     * <li>{@code format} - the {@link java.util.Formatter
-     *     java.util.Formatter} format string specified in the
-     *     {@code java.util.logging.SimpleFormatter.format} property
-     *     or the default format.</li>
-     * <li>{@code date} - a {@link Date} object representing
-     *     {@linkplain LogRecord#getMillis event time} of the log record.</li>
-     * <li>{@code source} - a string representing the caller, if available;
-     *     otherwise, the logger's name.</li>
-     * <li>{@code logger} - the logger's name.</li>
-     * <li>{@code level} - the {@linkplain Level#getLocalizedName
+     * <li>{@code formbt} - the {@link jbvb.util.Formbtter
+     *     jbvb.util.Formbtter} formbt string specified in the
+     *     {@code jbvb.util.logging.SimpleFormbtter.formbt} property
+     *     or the defbult formbt.</li>
+     * <li>{@code dbte} - b {@link Dbte} object representing
+     *     {@linkplbin LogRecord#getMillis event time} of the log record.</li>
+     * <li>{@code source} - b string representing the cbller, if bvbilbble;
+     *     otherwise, the logger's nbme.</li>
+     * <li>{@code logger} - the logger's nbme.</li>
+     * <li>{@code level} - the {@linkplbin Level#getLocblizedNbme
      *     log level}.</li>
-     * <li>{@code message} - the formatted log message
-     *     returned from the {@link Formatter#formatMessage(LogRecord)}
-     *     method.  It uses {@link java.text.MessageFormat java.text}
-     *     formatting and does not use the {@code java.util.Formatter
-     *     format} argument.</li>
-     * <li>{@code thrown} - a string representing
-     *     the {@linkplain LogRecord#getThrown throwable}
-     *     associated with the log record and its backtrace
-     *     beginning with a newline character, if any;
-     *     otherwise, an empty string.</li>
+     * <li>{@code messbge} - the formbtted log messbge
+     *     returned from the {@link Formbtter#formbtMessbge(LogRecord)}
+     *     method.  It uses {@link jbvb.text.MessbgeFormbt jbvb.text}
+     *     formbtting bnd does not use the {@code jbvb.util.Formbtter
+     *     formbt} brgument.</li>
+     * <li>{@code thrown} - b string representing
+     *     the {@linkplbin LogRecord#getThrown throwbble}
+     *     bssocibted with the log record bnd its bbcktrbce
+     *     beginning with b newline chbrbcter, if bny;
+     *     otherwise, bn empty string.</li>
      * </ol>
      *
-     * <p>Some example formats:<br>
+     * <p>Some exbmple formbts:<br>
      * <ul>
-     * <li> {@code java.util.logging.SimpleFormatter.format="%4$s: %5$s [%1$tc]%n"}
+     * <li> {@code jbvb.util.logging.SimpleFormbtter.formbt="%4$s: %5$s [%1$tc]%n"}
      *     <p>This prints 1 line with the log level ({@code 4$}),
-     *     the log message ({@code 5$}) and the timestamp ({@code 1$}) in
-     *     a square bracket.
+     *     the log messbge ({@code 5$}) bnd the timestbmp ({@code 1$}) in
+     *     b squbre brbcket.
      *     <pre>
-     *     WARNING: warning message [Tue Mar 22 13:11:31 PDT 2011]
+     *     WARNING: wbrning messbge [Tue Mbr 22 13:11:31 PDT 2011]
      *     </pre></li>
-     * <li> {@code java.util.logging.SimpleFormatter.format="%1$tc %2$s%n%4$s: %5$s%6$s%n"}
+     * <li> {@code jbvb.util.logging.SimpleFormbtter.formbt="%1$tc %2$s%n%4$s: %5$s%6$s%n"}
      *     <p>This prints 2 lines where the first line includes
-     *     the timestamp ({@code 1$}) and the source ({@code 2$});
-     *     the second line includes the log level ({@code 4$}) and
-     *     the log message ({@code 5$}) followed with the throwable
-     *     and its backtrace ({@code 6$}), if any:
+     *     the timestbmp ({@code 1$}) bnd the source ({@code 2$});
+     *     the second line includes the log level ({@code 4$}) bnd
+     *     the log messbge ({@code 5$}) followed with the throwbble
+     *     bnd its bbcktrbce ({@code 6$}), if bny:
      *     <pre>
-     *     Tue Mar 22 13:11:31 PDT 2011 MyClass fatal
-     *     SEVERE: several message with an exception
-     *     java.lang.IllegalArgumentException: invalid argument
-     *             at MyClass.mash(MyClass.java:9)
-     *             at MyClass.crunch(MyClass.java:6)
-     *             at MyClass.main(MyClass.java:3)
+     *     Tue Mbr 22 13:11:31 PDT 2011 MyClbss fbtbl
+     *     SEVERE: severbl messbge with bn exception
+     *     jbvb.lbng.IllegblArgumentException: invblid brgument
+     *             bt MyClbss.mbsh(MyClbss.jbvb:9)
+     *             bt MyClbss.crunch(MyClbss.jbvb:6)
+     *             bt MyClbss.mbin(MyClbss.jbvb:3)
      *     </pre></li>
-     * <li> {@code java.util.logging.SimpleFormatter.format="%1$tb %1$td, %1$tY %1$tl:%1$tM:%1$tS %1$Tp %2$s%n%4$s: %5$s%n"}
-     *      <p>This prints 2 lines similar to the example above
-     *         with a different date/time formatting and does not print
-     *         the throwable and its backtrace:
+     * <li> {@code jbvb.util.logging.SimpleFormbtter.formbt="%1$tb %1$td, %1$tY %1$tl:%1$tM:%1$tS %1$Tp %2$s%n%4$s: %5$s%n"}
+     *      <p>This prints 2 lines similbr to the exbmple bbove
+     *         with b different dbte/time formbtting bnd does not print
+     *         the throwbble bnd its bbcktrbce:
      *     <pre>
-     *     Mar 22, 2011 1:11:31 PM MyClass fatal
-     *     SEVERE: several message with an exception
+     *     Mbr 22, 2011 1:11:31 PM MyClbss fbtbl
+     *     SEVERE: severbl messbge with bn exception
      *     </pre></li>
      * </ul>
-     * <p>This method can also be overridden in a subclass.
-     * It is recommended to use the {@link Formatter#formatMessage}
-     * convenience method to localize and format the message field.
+     * <p>This method cbn blso be overridden in b subclbss.
+     * It is recommended to use the {@link Formbtter#formbtMessbge}
+     * convenience method to locblize bnd formbt the messbge field.
      *
-     * @param record the log record to be formatted.
-     * @return a formatted log record
+     * @pbrbm record the log record to be formbtted.
+     * @return b formbtted log record
      */
-    public synchronized String format(LogRecord record) {
-        dat.setTime(record.getMillis());
+    public synchronized String formbt(LogRecord record) {
+        dbt.setTime(record.getMillis());
         String source;
-        if (record.getSourceClassName() != null) {
-            source = record.getSourceClassName();
-            if (record.getSourceMethodName() != null) {
-               source += " " + record.getSourceMethodName();
+        if (record.getSourceClbssNbme() != null) {
+            source = record.getSourceClbssNbme();
+            if (record.getSourceMethodNbme() != null) {
+               source += " " + record.getSourceMethodNbme();
             }
         } else {
-            source = record.getLoggerName();
+            source = record.getLoggerNbme();
         }
-        String message = formatMessage(record);
-        String throwable = "";
+        String messbge = formbtMessbge(record);
+        String throwbble = "";
         if (record.getThrown() != null) {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             pw.println();
-            record.getThrown().printStackTrace(pw);
+            record.getThrown().printStbckTrbce(pw);
             pw.close();
-            throwable = sw.toString();
+            throwbble = sw.toString();
         }
-        return String.format(format,
-                             dat,
+        return String.formbt(formbt,
+                             dbt,
                              source,
-                             record.getLoggerName(),
-                             record.getLevel().getLocalizedLevelName(),
-                             message,
-                             throwable);
+                             record.getLoggerNbme(),
+                             record.getLevel().getLocblizedLevelNbme(),
+                             messbge,
+                             throwbble);
     }
 }

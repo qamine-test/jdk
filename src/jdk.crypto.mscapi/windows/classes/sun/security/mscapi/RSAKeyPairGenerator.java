@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.mscapi;
+pbckbge sun.security.mscbpi;
 
-import java.util.UUID;
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.RSAKeyGenParameterSpec;
+import jbvb.util.UUID;
+import jbvb.security.*;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.RSAKeyGenPbrbmeterSpec;
 
-import sun.security.jca.JCAUtil;
-import sun.security.rsa.RSAKeyFactory;
+import sun.security.jcb.JCAUtil;
+import sun.security.rsb.RSAKeyFbctory;
 
 /**
- * RSA keypair generator.
+ * RSA keypbir generbtor.
  *
- * Standard algorithm, minimum key length is 512 bit, maximum is 16,384.
- * Generates a private key that is exportable.
+ * Stbndbrd blgorithm, minimum key length is 512 bit, mbximum is 16,384.
+ * Generbtes b privbte key thbt is exportbble.
  *
  * @since 1.6
  */
-public final class RSAKeyPairGenerator extends KeyPairGeneratorSpi {
+public finbl clbss RSAKeyPbirGenerbtor extends KeyPbirGenerbtorSpi {
 
-    // Supported by Microsoft Base, Strong and Enhanced Cryptographic Providers
-    static final int KEY_SIZE_MIN = 512; // disallow MSCAPI min. of 384
-    static final int KEY_SIZE_MAX = 16384;
-    private static final int KEY_SIZE_DEFAULT = 1024;
+    // Supported by Microsoft Bbse, Strong bnd Enhbnced Cryptogrbphic Providers
+    stbtic finbl int KEY_SIZE_MIN = 512; // disbllow MSCAPI min. of 384
+    stbtic finbl int KEY_SIZE_MAX = 16384;
+    privbte stbtic finbl int KEY_SIZE_DEFAULT = 1024;
 
-    // size of the key to generate, KEY_SIZE_MIN <= keySize <= KEY_SIZE_MAX
-    private int keySize;
+    // size of the key to generbte, KEY_SIZE_MIN <= keySize <= KEY_SIZE_MAX
+    privbte int keySize;
 
-    public RSAKeyPairGenerator() {
-        // initialize to default in case the app does not call initialize()
-        initialize(KEY_SIZE_DEFAULT, null);
+    public RSAKeyPbirGenerbtor() {
+        // initiblize to defbult in cbse the bpp does not cbll initiblize()
+        initiblize(KEY_SIZE_DEFAULT, null);
     }
 
-    // initialize the generator. See JCA doc
-    // random is always ignored
-    public void initialize(int keySize, SecureRandom random) {
+    // initiblize the generbtor. See JCA doc
+    // rbndom is blwbys ignored
+    public void initiblize(int keySize, SecureRbndom rbndom) {
 
         try {
-            RSAKeyFactory.checkKeyLengths(keySize, null,
+            RSAKeyFbctory.checkKeyLengths(keySize, null,
                 KEY_SIZE_MIN, KEY_SIZE_MAX);
-        } catch (InvalidKeyException e) {
-            throw new InvalidParameterException(e.getMessage());
+        } cbtch (InvblidKeyException e) {
+            throw new InvblidPbrbmeterException(e.getMessbge());
         }
 
         this.keySize = keySize;
     }
 
-    // second initialize method. See JCA doc
-    // random and exponent are always ignored
-    public void initialize(AlgorithmParameterSpec params, SecureRandom random)
-            throws InvalidAlgorithmParameterException {
+    // second initiblize method. See JCA doc
+    // rbndom bnd exponent bre blwbys ignored
+    public void initiblize(AlgorithmPbrbmeterSpec pbrbms, SecureRbndom rbndom)
+            throws InvblidAlgorithmPbrbmeterException {
 
         int tmpSize;
-        if (params == null) {
+        if (pbrbms == null) {
             tmpSize = KEY_SIZE_DEFAULT;
-        } else if (params instanceof RSAKeyGenParameterSpec) {
+        } else if (pbrbms instbnceof RSAKeyGenPbrbmeterSpec) {
 
-            if (((RSAKeyGenParameterSpec) params).getPublicExponent() != null) {
-                throw new InvalidAlgorithmParameterException
-                    ("Exponent parameter is not supported");
+            if (((RSAKeyGenPbrbmeterSpec) pbrbms).getPublicExponent() != null) {
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("Exponent pbrbmeter is not supported");
             }
-            tmpSize = ((RSAKeyGenParameterSpec) params).getKeysize();
+            tmpSize = ((RSAKeyGenPbrbmeterSpec) pbrbms).getKeysize();
 
         } else {
-            throw new InvalidAlgorithmParameterException
-                ("Params must be an instance of RSAKeyGenParameterSpec");
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Pbrbms must be bn instbnce of RSAKeyGenPbrbmeterSpec");
         }
 
         try {
-            RSAKeyFactory.checkKeyLengths(tmpSize, null,
+            RSAKeyFbctory.checkKeyLengths(tmpSize, null,
                 KEY_SIZE_MIN, KEY_SIZE_MAX);
-        } catch (InvalidKeyException e) {
-            throw new InvalidAlgorithmParameterException(
-                "Invalid Key sizes", e);
+        } cbtch (InvblidKeyException e) {
+            throw new InvblidAlgorithmPbrbmeterException(
+                "Invblid Key sizes", e);
         }
 
         this.keySize = tmpSize;
     }
 
-    // generate the keypair. See JCA doc
-    public KeyPair generateKeyPair() {
+    // generbte the keypbir. See JCA doc
+    public KeyPbir generbteKeyPbir() {
 
         try {
 
-            // Generate each keypair in a unique key container
-            RSAKeyPair keys =
-                generateRSAKeyPair(keySize,
-                    "{" + UUID.randomUUID().toString() + "}");
+            // Generbte ebch keypbir in b unique key contbiner
+            RSAKeyPbir keys =
+                generbteRSAKeyPbir(keySize,
+                    "{" + UUID.rbndomUUID().toString() + "}");
 
-            return new KeyPair(keys.getPublic(), keys.getPrivate());
+            return new KeyPbir(keys.getPublic(), keys.getPrivbte());
 
-        } catch (KeyException e) {
+        } cbtch (KeyException e) {
             throw new ProviderException(e);
         }
     }
 
-    private static native RSAKeyPair generateRSAKeyPair(int keySize,
-        String keyContainerName) throws KeyException;
+    privbte stbtic nbtive RSAKeyPbir generbteRSAKeyPbir(int keySize,
+        String keyContbinerNbme) throws KeyException;
 }

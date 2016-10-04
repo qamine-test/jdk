@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
- * for javax.security.auth and sun.security.
+ * <p> This clbss represents the <code>ResourceBundle</code>
+ * for jbvbx.security.buth bnd sun.security.
  *
  */
-public class Resources_es extends java.util.ListResourceBundle {
+public clbss Resources_es extends jbvb.util.ListResourceBundle {
 
-    private static final Object[][] contents = {
+    privbte stbtic finbl Object[][] contents = {
 
-        // javax.security.auth.PrivateCredentialPermission
-        {"invalid.null.input.s.", "entradas nulas no v\u00E1lidas"},
-        {"actions.can.only.be.read.", "las acciones s\u00F3lo pueden 'leerse'"},
-        {"permission.name.name.syntax.invalid.",
-                "sintaxis de nombre de permiso [{0}] no v\u00E1lida: "},
-        {"Credential.Class.not.followed.by.a.Principal.Class.and.Name",
-                "La clase de credencial no va seguida de una clase y nombre de principal"},
-        {"Principal.Class.not.followed.by.a.Principal.Name",
-                "La clase de principal no va seguida de un nombre de principal"},
-        {"Principal.Name.must.be.surrounded.by.quotes",
-                "El nombre de principal debe ir entre comillas"},
-        {"Principal.Name.missing.end.quote",
-                "Faltan las comillas finales en el nombre de principal"},
-        {"PrivateCredentialPermission.Principal.Class.can.not.be.a.wildcard.value.if.Principal.Name.is.not.a.wildcard.value",
-                "La clase de principal PrivateCredentialPermission no puede ser un valor comod\u00EDn (*) si el nombre de principal no lo es tambi\u00E9n"},
-        {"CredOwner.Principal.Class.class.Principal.Name.name",
-                "CredOwner:\n\tClase de Principal = {0}\n\tNombre de Principal = {1}"},
+        // jbvbx.security.buth.PrivbteCredentiblPermission
+        {"invblid.null.input.s.", "entrbdbs nulbs no v\u00E1lidbs"},
+        {"bctions.cbn.only.be.rebd.", "lbs bcciones s\u00F3lo pueden 'leerse'"},
+        {"permission.nbme.nbme.syntbx.invblid.",
+                "sintbxis de nombre de permiso [{0}] no v\u00E1lidb: "},
+        {"Credentibl.Clbss.not.followed.by.b.Principbl.Clbss.bnd.Nbme",
+                "Lb clbse de credencibl no vb seguidb de unb clbse y nombre de principbl"},
+        {"Principbl.Clbss.not.followed.by.b.Principbl.Nbme",
+                "Lb clbse de principbl no vb seguidb de un nombre de principbl"},
+        {"Principbl.Nbme.must.be.surrounded.by.quotes",
+                "El nombre de principbl debe ir entre comillbs"},
+        {"Principbl.Nbme.missing.end.quote",
+                "Fbltbn lbs comillbs finbles en el nombre de principbl"},
+        {"PrivbteCredentiblPermission.Principbl.Clbss.cbn.not.be.b.wildcbrd.vblue.if.Principbl.Nbme.is.not.b.wildcbrd.vblue",
+                "Lb clbse de principbl PrivbteCredentiblPermission no puede ser un vblor comod\u00EDn (*) si el nombre de principbl no lo es tbmbi\u00E9n"},
+        {"CredOwner.Principbl.Clbss.clbss.Principbl.Nbme.nbme",
+                "CredOwner:\n\tClbse de Principbl = {0}\n\tNombre de Principbl = {1}"},
 
-        // javax.security.auth.x500
-        {"provided.null.name", "se ha proporcionado un nombre nulo"},
-        {"provided.null.keyword.map", "mapa de palabras clave proporcionado nulo"},
-        {"provided.null.OID.map", "mapa de OID proporcionado nulo"},
+        // jbvbx.security.buth.x500
+        {"provided.null.nbme", "se hb proporcionbdo un nombre nulo"},
+        {"provided.null.keyword.mbp", "mbpb de pblbbrbs clbve proporcionbdo nulo"},
+        {"provided.null.OID.mbp", "mbpb de OID proporcionbdo nulo"},
 
-        // javax.security.auth.Subject
+        // jbvbx.security.buth.Subject
         {"NEWLINE", "\n"},
-        {"invalid.null.AccessControlContext.provided",
-                "se ha proporcionado un AccessControlContext nulo no v\u00E1lido"},
-        {"invalid.null.action.provided", "se ha proporcionado una acci\u00F3n nula no v\u00E1lida"},
-        {"invalid.null.Class.provided", "se ha proporcionado una clase nula no v\u00E1lida"},
+        {"invblid.null.AccessControlContext.provided",
+                "se hb proporcionbdo un AccessControlContext nulo no v\u00E1lido"},
+        {"invblid.null.bction.provided", "se hb proporcionbdo unb bcci\u00F3n nulb no v\u00E1lidb"},
+        {"invblid.null.Clbss.provided", "se hb proporcionbdo unb clbse nulb no v\u00E1lidb"},
         {"Subject.", "Asunto:\n"},
-        {".Principal.", "\tPrincipal: "},
-        {".Public.Credential.", "\tCredencial P\u00FAblica: "},
-        {".Private.Credentials.inaccessible.",
-                "\tCredenciales Privadas Inaccesibles\n"},
-        {".Private.Credential.", "\tCredencial Privada: "},
-        {".Private.Credential.inaccessible.",
-                "\tCredencial Privada Inaccesible\n"},
-        {"Subject.is.read.only", "El asunto es de s\u00F3lo lectura"},
-        {"attempting.to.add.an.object.which.is.not.an.instance.of.java.security.Principal.to.a.Subject.s.Principal.Set",
-                "intentando agregar un objeto que no es una instancia de java.security.Principal al juego principal de un asunto"},
-        {"attempting.to.add.an.object.which.is.not.an.instance.of.class",
-                "intentando agregar un objeto que no es una instancia de {0}"},
+        {".Principbl.", "\tPrincipbl: "},
+        {".Public.Credentibl.", "\tCredencibl P\u00FAblicb: "},
+        {".Privbte.Credentibls.inbccessible.",
+                "\tCredencibles Privbdbs Inbccesibles\n"},
+        {".Privbte.Credentibl.", "\tCredencibl Privbdb: "},
+        {".Privbte.Credentibl.inbccessible.",
+                "\tCredencibl Privbdb Inbccesible\n"},
+        {"Subject.is.rebd.only", "El bsunto es de s\u00F3lo lecturb"},
+        {"bttempting.to.bdd.bn.object.which.is.not.bn.instbnce.of.jbvb.security.Principbl.to.b.Subject.s.Principbl.Set",
+                "intentbndo bgregbr un objeto que no es unb instbncib de jbvb.security.Principbl bl juego principbl de un bsunto"},
+        {"bttempting.to.bdd.bn.object.which.is.not.bn.instbnce.of.clbss",
+                "intentbndo bgregbr un objeto que no es unb instbncib de {0}"},
 
-        // javax.security.auth.login.AppConfigurationEntry
-        {"LoginModuleControlFlag.", "LoginModuleControlFlag: "},
+        // jbvbx.security.buth.login.AppConfigurbtionEntry
+        {"LoginModuleControlFlbg.", "LoginModuleControlFlbg: "},
 
-        // javax.security.auth.login.LoginContext
-        {"Invalid.null.input.name", "Entrada nula no v\u00E1lida: nombre"},
-        {"No.LoginModules.configured.for.name",
-         "No se han configurado LoginModules para {0}"},
-        {"invalid.null.Subject.provided", "se ha proporcionado un asunto nulo no v\u00E1lido"},
-        {"invalid.null.CallbackHandler.provided",
-                "se ha proporcionado CallbackHandler nulo no v\u00E1lido"},
-        {"null.subject.logout.called.before.login",
-                "asunto nulo - se ha llamado al cierre de sesi\u00F3n antes del inicio de sesi\u00F3n"},
-        {"unable.to.instantiate.LoginModule.module.because.it.does.not.provide.a.no.argument.constructor",
-                "no se ha podido instanciar LoginModule, {0}, porque no incluye un constructor sin argumentos"},
-        {"unable.to.instantiate.LoginModule",
-                "no se ha podido instanciar LoginModule"},
-        {"unable.to.instantiate.LoginModule.",
-                "no se ha podido instanciar LoginModule: "},
-        {"unable.to.find.LoginModule.class.",
-                "no se ha encontrado la clase LoginModule: "},
-        {"unable.to.access.LoginModule.",
-                "no se ha podido acceder a LoginModule: "},
-        {"Login.Failure.all.modules.ignored",
-                "Fallo en inicio de sesi\u00F3n: se han ignorado todos los m\u00F3dulos"},
+        // jbvbx.security.buth.login.LoginContext
+        {"Invblid.null.input.nbme", "Entrbdb nulb no v\u00E1lidb: nombre"},
+        {"No.LoginModules.configured.for.nbme",
+         "No se hbn configurbdo LoginModules pbrb {0}"},
+        {"invblid.null.Subject.provided", "se hb proporcionbdo un bsunto nulo no v\u00E1lido"},
+        {"invblid.null.CbllbbckHbndler.provided",
+                "se hb proporcionbdo CbllbbckHbndler nulo no v\u00E1lido"},
+        {"null.subject.logout.cblled.before.login",
+                "bsunto nulo - se hb llbmbdo bl cierre de sesi\u00F3n bntes del inicio de sesi\u00F3n"},
+        {"unbble.to.instbntibte.LoginModule.module.becbuse.it.does.not.provide.b.no.brgument.constructor",
+                "no se hb podido instbncibr LoginModule, {0}, porque no incluye un constructor sin brgumentos"},
+        {"unbble.to.instbntibte.LoginModule",
+                "no se hb podido instbncibr LoginModule"},
+        {"unbble.to.instbntibte.LoginModule.",
+                "no se hb podido instbncibr LoginModule: "},
+        {"unbble.to.find.LoginModule.clbss.",
+                "no se hb encontrbdo lb clbse LoginModule: "},
+        {"unbble.to.bccess.LoginModule.",
+                "no se hb podido bcceder b LoginModule: "},
+        {"Login.Fbilure.bll.modules.ignored",
+                "Fbllo en inicio de sesi\u00F3n: se hbn ignorbdo todos los m\u00F3dulos"},
 
         // sun.security.provider.PolicyFile
 
-        {"java.security.policy.error.parsing.policy.message",
-                "java.security.policy: error de an\u00E1lisis de {0}:\n\t{1}"},
-        {"java.security.policy.error.adding.Permission.perm.message",
-                "java.security.policy: error al agregar un permiso, {0}:\n\t{1}"},
-        {"java.security.policy.error.adding.Entry.message",
-                "java.security.policy: error al agregar una entrada:\n\t{0}"},
-        {"alias.name.not.provided.pe.name.", "no se ha proporcionado el nombre de alias ({0})"},
-        {"unable.to.perform.substitution.on.alias.suffix",
-                "no se puede realizar la sustituci\u00F3n en el alias, {0}"},
-        {"substitution.value.prefix.unsupported",
-                "valor de sustituci\u00F3n, {0}, no soportado"},
+        {"jbvb.security.policy.error.pbrsing.policy.messbge",
+                "jbvb.security.policy: error de bn\u00E1lisis de {0}:\n\t{1}"},
+        {"jbvb.security.policy.error.bdding.Permission.perm.messbge",
+                "jbvb.security.policy: error bl bgregbr un permiso, {0}:\n\t{1}"},
+        {"jbvb.security.policy.error.bdding.Entry.messbge",
+                "jbvb.security.policy: error bl bgregbr unb entrbdb:\n\t{0}"},
+        {"blibs.nbme.not.provided.pe.nbme.", "no se hb proporcionbdo el nombre de blibs ({0})"},
+        {"unbble.to.perform.substitution.on.blibs.suffix",
+                "no se puede reblizbr lb sustituci\u00F3n en el blibs, {0}"},
+        {"substitution.vblue.prefix.unsupported",
+                "vblor de sustituci\u00F3n, {0}, no soportbdo"},
         {"LPARAM", "("},
         {"RPARAM", ")"},
-        {"type.can.t.be.null","el tipo no puede ser nulo"},
+        {"type.cbn.t.be.null","el tipo no puede ser nulo"},
 
-        // sun.security.provider.PolicyParser
-        {"keystorePasswordURL.can.not.be.specified.without.also.specifying.keystore",
-                "keystorePasswordURL no puede especificarse sin especificar tambi\u00E9n el almac\u00E9n de claves"},
-        {"expected.keystore.type", "se esperaba un tipo de almac\u00E9n de claves"},
-        {"expected.keystore.provider", "se esperaba un proveedor de almac\u00E9n de claves"},
-        {"multiple.Codebase.expressions",
-                "expresiones m\u00FAltiples de CodeBase"},
+        // sun.security.provider.PolicyPbrser
+        {"keystorePbsswordURL.cbn.not.be.specified.without.blso.specifying.keystore",
+                "keystorePbsswordURL no puede especificbrse sin especificbr tbmbi\u00E9n el blmbc\u00E9n de clbves"},
+        {"expected.keystore.type", "se esperbbb un tipo de blmbc\u00E9n de clbves"},
+        {"expected.keystore.provider", "se esperbbb un proveedor de blmbc\u00E9n de clbves"},
+        {"multiple.Codebbse.expressions",
+                "expresiones m\u00FAltiples de CodeBbse"},
         {"multiple.SignedBy.expressions","expresiones m\u00FAltiples de SignedBy"},
-        {"duplicate.keystore.domain.name","nombre de dominio de almac\u00E9n de claves duplicado: {0}"},
-        {"duplicate.keystore.name","nombre de almac\u00E9n de claves duplicado: {0}"},
-        {"SignedBy.has.empty.alias","SignedBy tiene un alias vac\u00EDo"},
-        {"can.not.specify.Principal.with.a.wildcard.class.without.a.wildcard.name",
-                "no se puede especificar Principal con una clase de comod\u00EDn sin un nombre de comod\u00EDn"},
-        {"expected.codeBase.or.SignedBy.or.Principal",
-                "se esperaba codeBase o SignedBy o Principal"},
-        {"expected.permission.entry", "se esperaba una entrada de permiso"},
+        {"duplicbte.keystore.dombin.nbme","nombre de dominio de blmbc\u00E9n de clbves duplicbdo: {0}"},
+        {"duplicbte.keystore.nbme","nombre de blmbc\u00E9n de clbves duplicbdo: {0}"},
+        {"SignedBy.hbs.empty.blibs","SignedBy tiene un blibs vbc\u00EDo"},
+        {"cbn.not.specify.Principbl.with.b.wildcbrd.clbss.without.b.wildcbrd.nbme",
+                "no se puede especificbr Principbl con unb clbse de comod\u00EDn sin un nombre de comod\u00EDn"},
+        {"expected.codeBbse.or.SignedBy.or.Principbl",
+                "se esperbbb codeBbse o SignedBy o Principbl"},
+        {"expected.permission.entry", "se esperbbb unb entrbdb de permiso"},
         {"number.", "n\u00FAmero "},
-        {"expected.expect.read.end.of.file.",
-                "se esperaba [{0}], se ha le\u00EDdo [final de archivo]"},
-        {"expected.read.end.of.file.",
-                "se esperaba [;], se ha le\u00EDdo [final de archivo]"},
-        {"line.number.msg", "l\u00EDnea {0}: {1}"},
-        {"line.number.expected.expect.found.actual.",
-                "l\u00EDnea {0}: se esperaba [{1}], se ha encontrado [{2}]"},
-        {"null.principalClass.or.principalName",
-                "principalClass o principalName nulos"},
+        {"expected.expect.rebd.end.of.file.",
+                "se esperbbb [{0}], se hb le\u00EDdo [finbl de brchivo]"},
+        {"expected.rebd.end.of.file.",
+                "se esperbbb [;], se hb le\u00EDdo [finbl de brchivo]"},
+        {"line.number.msg", "l\u00EDneb {0}: {1}"},
+        {"line.number.expected.expect.found.bctubl.",
+                "l\u00EDneb {0}: se esperbbb [{1}], se hb encontrbdo [{2}]"},
+        {"null.principblClbss.or.principblNbme",
+                "principblClbss o principblNbme nulos"},
 
         // sun.security.pkcs11.SunPKCS11
-        {"PKCS11.Token.providerName.Password.",
-                "Contrase\u00F1a del Token PKCS11 [{0}]: "},
+        {"PKCS11.Token.providerNbme.Pbssword.",
+                "Contrbse\u00F1b del Token PKCS11 [{0}]: "},
 
         /* --- DEPRECATED --- */
-        // javax.security.auth.Policy
-        {"unable.to.instantiate.Subject.based.policy",
-                "no se ha podido instanciar una pol\u00EDtica basada en asunto"}
+        // jbvbx.security.buth.Policy
+        {"unbble.to.instbntibte.Subject.bbsed.policy",
+                "no se hb podido instbncibr unb pol\u00EDticb bbsbdb en bsunto"}
     };
 
 

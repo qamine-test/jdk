@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import javax.swing.text.*;
-import java.awt.*;
+import jbvbx.swing.text.*;
+import jbvb.bwt.*;
 
 /**
- * This is the view associated with the html tag NOFRAMES.
- * This view has been written to ignore the contents of the
- * NOFRAMES tag.  The contents of the tag will only be visible
- * when the JTextComponent the view is contained in is editable.
+ * This is the view bssocibted with the html tbg NOFRAMES.
+ * This view hbs been written to ignore the contents of the
+ * NOFRAMES tbg.  The contents of the tbg will only be visible
+ * when the JTextComponent the view is contbined in is editbble.
  *
- * @author  Sunita Mani
+ * @buthor  Sunitb Mbni
  */
-class NoFramesView extends BlockView {
+clbss NoFrbmesView extends BlockView {
 
     /**
-     * Creates a new view that represents an
-     * html box.  This can be used for a number
-     * of elements.  By default this view is not
+     * Crebtes b new view thbt represents bn
+     * html box.  This cbn be used for b number
+     * of elements.  By defbult this view is not
      * visible.
      *
-     * @param elem the element to create a view for
-     * @param axis either View.X_AXIS or View.Y_AXIS
+     * @pbrbm elem the element to crebte b view for
+     * @pbrbm bxis either View.X_AXIS or View.Y_AXIS
      */
-    public NoFramesView(Element elem, int axis) {
-        super(elem, axis);
-        visible = false;
+    public NoFrbmesView(Element elem, int bxis) {
+        super(elem, bxis);
+        visible = fblse;
     }
 
 
     /**
      * If this view is not visible, then it returns.
-     * Otherwise it invokes the superclass.
+     * Otherwise it invokes the superclbss.
      *
-     * @param g the rendering surface to use
-     * @param allocation the allocated region to render into
+     * @pbrbm g the rendering surfbce to use
+     * @pbrbm bllocbtion the bllocbted region to render into
      * @see #isVisible
-     * @see text.ParagraphView#paint
+     * @see text.PbrbgrbphView#pbint
      */
-    public void paint(Graphics g, Shape allocation) {
-        Container host = getContainer();
+    public void pbint(Grbphics g, Shbpe bllocbtion) {
+        Contbiner host = getContbiner();
         if (host != null &&
-            visible != ((JTextComponent)host).isEditable()) {
-            visible = ((JTextComponent)host).isEditable();
+            visible != ((JTextComponent)host).isEditbble()) {
+            visible = ((JTextComponent)host).isEditbble();
         }
 
         if (!isVisible()) {
             return;
         }
-        super.paint(g, allocation);
+        super.pbint(g, bllocbtion);
     }
 
 
     /**
-     * Determines if the JTextComponent that the view
-     * is contained in is editable. If so, then this
-     * view and all its child views are visible.
-     * Once this has been determined, the superclass
+     * Determines if the JTextComponent thbt the view
+     * is contbined in is editbble. If so, then this
+     * view bnd bll its child views bre visible.
+     * Once this hbs been determined, the superclbss
      * is invoked to continue processing.
      *
-     * @param p the parent View.
-     * @see BlockView#setParent
+     * @pbrbm p the pbrent View.
+     * @see BlockView#setPbrent
      */
-    public void setParent(View p) {
+    public void setPbrent(View p) {
         if (p != null) {
-            Container host = p.getContainer();
+            Contbiner host = p.getContbiner();
             if (host != null) {
-                visible = ((JTextComponent)host).isEditable();
+                visible = ((JTextComponent)host).isEditbble();
             }
         }
-        super.setParent(p);
+        super.setPbrent(p);
     }
 
     /**
-     * Returns a true/false value that represents
+     * Returns b true/fblse vblue thbt represents
      * whether the view is visible or not.
      */
-    public boolean isVisible() {
+    public boolebn isVisible() {
         return visible;
     }
 
 
     /**
      * Do nothing if the view is not visible, otherwise
-     * invoke the superclass to perform layout.
+     * invoke the superclbss to perform lbyout.
      */
-    protected void layout(int width, int height) {
+    protected void lbyout(int width, int height) {
         if (!isVisible()) {
             return;
         }
-        super.layout(width, height);
+        super.lbyout(width, height);
     }
 
     /**
-     * Determines the preferred span for this view.  Returns
-     * 0 if the view is not visible, otherwise it calls the
-     * superclass method to get the preferred span.
-     * axis.
+     * Determines the preferred spbn for this view.  Returns
+     * 0 if the view is not visible, otherwise it cblls the
+     * superclbss method to get the preferred spbn.
+     * bxis.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return   the span the view would like to be rendered into;
-     *           typically the view is told to render into the span
-     *           that is returned, although there is no guarantee;
-     *           the parent may choose to resize or break the view
-     * @see text.ParagraphView#getPreferredSpan
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @return   the spbn the view would like to be rendered into;
+     *           typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee;
+     *           the pbrent mby choose to resize or brebk the view
+     * @see text.PbrbgrbphView#getPreferredSpbn
      */
-    public float getPreferredSpan(int axis) {
+    public flobt getPreferredSpbn(int bxis) {
         if (!visible) {
             return 0;
         }
-        return super.getPreferredSpan(axis);
+        return super.getPreferredSpbn(bxis);
     }
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.  Returns 0 if the view is not visible, otherwise
-     * it calls the superclass method to get the minimum span.
+     * Determines the minimum spbn for this view blong bn
+     * bxis.  Returns 0 if the view is not visible, otherwise
+     * it cblls the superclbss method to get the minimum spbn.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
-     * @return  the minimum span the view can be rendered into
-     * @see text.ParagraphView#getMinimumSpan
+     * @return  the minimum spbn the view cbn be rendered into
+     * @see text.PbrbgrbphView#getMinimumSpbn
      */
-    public float getMinimumSpan(int axis) {
+    public flobt getMinimumSpbn(int bxis) {
         if (!visible) {
             return 0;
         }
-        return super.getMinimumSpan(axis);
+        return super.getMinimumSpbn(bxis);
     }
 
     /**
-     * Determines the maximum span for this view along an
-     * axis.  Returns 0 if the view is not visible, otherwise
-     * it calls the superclass method ot get the maximum span.
+     * Determines the mbximum spbn for this view blong bn
+     * bxis.  Returns 0 if the view is not visible, otherwise
+     * it cblls the superclbss method ot get the mbximum spbn.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *  <code>View.Y_AXIS</code>
-     * @return  the maximum span the view can be rendered into
-     * @see text.ParagraphView#getMaximumSpan
+     * @return  the mbximum spbn the view cbn be rendered into
+     * @see text.PbrbgrbphView#getMbximumSpbn
      */
-    public float getMaximumSpan(int axis) {
+    public flobt getMbximumSpbn(int bxis) {
         if (!visible) {
             return 0;
         }
-        return super.getMaximumSpan(axis);
+        return super.getMbximumSpbn(bxis);
     }
 
-    boolean visible;
+    boolebn visible;
 }

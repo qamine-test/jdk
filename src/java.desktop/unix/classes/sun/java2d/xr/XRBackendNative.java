@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.xr;
+pbckbge sun.jbvb2d.xr;
 
-import java.awt.geom.*;
-import java.util.*;
+import jbvb.bwt.geom.*;
+import jbvb.util.*;
 
 import sun.font.*;
-import sun.java2d.jules.*;
-import sun.java2d.pipe.*;
+import sun.jbvb2d.jules.*;
+import sun.jbvb2d.pipe.*;
 
-import static sun.java2d.xr.XRUtils.XDoubleToFixed;
+import stbtic sun.jbvb2d.xr.XRUtils.XDoubleToFixed;
 
 /**
- * Native implementation of XRBackend.
+ * Nbtive implementbtion of XRBbckend.
  * Almost direct 1:1 binding to libX11.
  *
- * @author Clemens Eisserer
+ * @buthor Clemens Eisserer
  */
 
-public class XRBackendNative implements XRBackend {
+public clbss XRBbckendNbtive implements XRBbckend {
 
-    static {
+    stbtic {
         initIDs();
     }
 
-    private static long FMTPTR_A8;
-    private static long FMTPTR_ARGB32;
-    private static long MASK_XIMG;
+    privbte stbtic long FMTPTR_A8;
+    privbte stbtic long FMTPTR_ARGB32;
+    privbte stbtic long MASK_XIMG;
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    public native long createGC(int drawable);
+    public nbtive long crebteGC(int drbwbble);
 
-    public native void freeGC(long gc);
+    public nbtive void freeGC(long gc);
 
-    public native int createPixmap(int drawable, int depth,
+    public nbtive int crebtePixmbp(int drbwbble, int depth,
                                    int width, int height);
 
-    private native int createPictureNative(int drawable, long formatID);
+    privbte nbtive int crebtePictureNbtive(int drbwbble, long formbtID);
 
-    public native void freePicture(int picture);
+    public nbtive void freePicture(int picture);
 
-    public native void freePixmap(int pixmap);
+    public nbtive void freePixmbp(int pixmbp);
 
-    public native void setGCExposures(long gc, boolean exposure);
+    public nbtive void setGCExposures(long gc, boolebn exposure);
 
-    public native void setGCForeground(long gc, int pixel);
+    public nbtive void setGCForeground(long gc, int pixel);
 
-    public native void setPictureRepeat(int picture, int repeat);
+    public nbtive void setPictureRepebt(int picture, int repebt);
 
-    public native void copyArea(int src, int dst, long gc,
+    public nbtive void copyAreb(int src, int dst, long gc,
                                 int srcx, int srcy, int width, int height,
                                  int dstx, int dsty);
 
-    public native void setGCMode(long gc, boolean copy);
+    public nbtive void setGCMode(long gc, boolebn copy);
 
-    private static native void GCRectanglesNative(int drawable, long gc,
-                                                  int[] rectArray, int rectCnt);
+    privbte stbtic nbtive void GCRectbnglesNbtive(int drbwbble, long gc,
+                                                  int[] rectArrby, int rectCnt);
 
-    public native void renderComposite(byte op, int src, int mask,
+    public nbtive void renderComposite(byte op, int src, int mbsk,
                                        int dst, int srcX, int srcY,
-                                       int maskX, int maskY, int dstX, int dstY,
+                                       int mbskX, int mbskY, int dstX, int dstY,
                                        int width, int height);
 
-    private native void renderRectangle(int dst, byte op,
+    privbte nbtive void renderRectbngle(int dst, byte op,
                                         short red, short green,
-                                        short blue, short alpha,
+                                        short blue, short blphb,
                                         int x, int y, int width, int height);
 
-    private static native void
-         XRenderRectanglesNative(int dst, byte op,
+    privbte stbtic nbtive void
+         XRenderRectbnglesNbtive(int dst, byte op,
                                  short red, short green,
-                                 short blue, short alpha,
+                                 short blue, short blphb,
                                  int[] rects, int rectCnt);
 
-    private native void XRSetTransformNative(int pic,
+    privbte nbtive void XRSetTrbnsformNbtive(int pic,
                                              int m00, int m01, int m02,
                                              int m10, int m11, int m12);
 
-    private static native int
-        XRCreateLinearGradientPaintNative(float[] fractionsArray,
-                                          short[] pixelsArray,
+    privbte stbtic nbtive int
+        XRCrebteLinebrGrbdientPbintNbtive(flobt[] frbctionsArrby,
+                                          short[] pixelsArrby,
                                           int x1, int y1, int x2, int y2,
-                                          int numStops, int repeat);
+                                          int numStops, int repebt);
 
-    private native static int
-        XRCreateRadialGradientPaintNative(float[] fractionsArray,
-                                          short[] pixelsArray, int numStops,
+    privbte nbtive stbtic int
+        XRCrebteRbdiblGrbdientPbintNbtive(flobt[] frbctionsArrby,
+                                          short[] pixelsArrby, int numStops,
                                           int centerX, int centerY,
-                                          int innerRadius, int outerRadius,
-                                          int repeat);
+                                          int innerRbdius, int outerRbdius,
+                                          int repebt);
 
-    public native void setFilter(int picture, int filter);
+    public nbtive void setFilter(int picture, int filter);
 
-    private static native void XRSetClipNative(long dst,
+    privbte stbtic nbtive void XRSetClipNbtive(long dst,
                                                int x1, int y1, int x2, int y2,
-                                               Region clip, boolean isGC);
+                                               Region clip, boolebn isGC);
 
-    public void GCRectangles(int drawable, long gc, GrowableRectArray rects) {
-        GCRectanglesNative(drawable, gc, rects.getArray(), rects.getSize());
+    public void GCRectbngles(int drbwbble, long gc, GrowbbleRectArrby rects) {
+        GCRectbnglesNbtive(drbwbble, gc, rects.getArrby(), rects.getSize());
     }
 
-    public int createPicture(int drawable, int formatID) {
-        return createPictureNative(drawable, getFormatPtr(formatID));
+    public int crebtePicture(int drbwbble, int formbtID) {
+        return crebtePictureNbtive(drbwbble, getFormbtPtr(formbtID));
     }
 
-    public void setPictureTransform(int picture, AffineTransform transform) {
-        XRSetTransformNative(picture,
-                             XDoubleToFixed(transform.getScaleX()),
-                             XDoubleToFixed(transform.getShearX()),
-                             XDoubleToFixed(transform.getTranslateX()),
-                             XDoubleToFixed(transform.getShearY()),
-                             XDoubleToFixed(transform.getScaleY()),
-                             XDoubleToFixed(transform.getTranslateY()));
+    public void setPictureTrbnsform(int picture, AffineTrbnsform trbnsform) {
+        XRSetTrbnsformNbtive(picture,
+                             XDoubleToFixed(trbnsform.getScbleX()),
+                             XDoubleToFixed(trbnsform.getShebrX()),
+                             XDoubleToFixed(trbnsform.getTrbnslbteX()),
+                             XDoubleToFixed(trbnsform.getShebrY()),
+                             XDoubleToFixed(trbnsform.getScbleY()),
+                             XDoubleToFixed(trbnsform.getTrbnslbteY()));
     }
 
-    public void renderRectangle(int dst, byte op, XRColor color,
+    public void renderRectbngle(int dst, byte op, XRColor color,
                                 int x, int y, int width, int height) {
-        renderRectangle(dst, op, (short)color.red, (short)color.green,
-                       (short)color.blue, (short)color.alpha,
+        renderRectbngle(dst, op, (short)color.red, (short)color.green,
+                       (short)color.blue, (short)color.blphb,
                         x, y, width, height);
     }
 
-    private short[] getRenderColors(int[] pixels) {
+    privbte short[] getRenderColors(int[] pixels) {
         short[] renderColors = new short[pixels.length * 4];
 
         XRColor c = new XRColor();
         for (int i = 0; i < pixels.length; i++) {
-            c.setColorValues(pixels[i], true);
-            renderColors[i * 4 + 0] = (short) c.alpha;
+            c.setColorVblues(pixels[i], true);
+            renderColors[i * 4 + 0] = (short) c.blphb;
             renderColors[i * 4 + 1] = (short) c.red;
             renderColors[i * 4 + 2] = (short) c.green;
             renderColors[i * 4 + 3] = (short) c.blue;
@@ -160,171 +160,171 @@ public class XRBackendNative implements XRBackend {
         return renderColors;
     }
 
-    private static long getFormatPtr(int formatID) {
-        switch (formatID) {
-        case XRUtils.PictStandardA8:
+    privbte stbtic long getFormbtPtr(int formbtID) {
+        switch (formbtID) {
+        cbse XRUtils.PictStbndbrdA8:
             return FMTPTR_A8;
-        case XRUtils.PictStandardARGB32:
+        cbse XRUtils.PictStbndbrdARGB32:
             return FMTPTR_ARGB32;
         }
 
         return 0L;
     }
 
-    public int createLinearGradient(Point2D p1, Point2D p2, float[] fractions,
-                              int[] pixels,  int repeat) {
+    public int crebteLinebrGrbdient(Point2D p1, Point2D p2, flobt[] frbctions,
+                              int[] pixels,  int repebt) {
 
-        short[] colorValues = getRenderColors(pixels);
-        int gradient =
-           XRCreateLinearGradientPaintNative(fractions, colorValues,
+        short[] colorVblues = getRenderColors(pixels);
+        int grbdient =
+           XRCrebteLinebrGrbdientPbintNbtive(frbctions, colorVblues,
                 XDoubleToFixed(p1.getX()), XDoubleToFixed(p1.getY()),
                 XDoubleToFixed(p2.getX()), XDoubleToFixed(p2.getY()),
-                fractions.length, repeat);
-        return gradient;
+                frbctions.length, repebt);
+        return grbdient;
     }
 
-    public int createRadialGradient(float centerX, float centerY,
-                                   float innerRadius, float outerRadius,
-                                   float[] fractions, int[] pixels, int repeat) {
+    public int crebteRbdiblGrbdient(flobt centerX, flobt centerY,
+                                   flobt innerRbdius, flobt outerRbdius,
+                                   flobt[] frbctions, int[] pixels, int repebt) {
 
-        short[] colorValues = getRenderColors(pixels);
-        return XRCreateRadialGradientPaintNative
-             (fractions, colorValues, fractions.length,
+        short[] colorVblues = getRenderColors(pixels);
+        return XRCrebteRbdiblGrbdientPbintNbtive
+             (frbctions, colorVblues, frbctions.length,
               XDoubleToFixed(centerX),
               XDoubleToFixed(centerY),
-              XDoubleToFixed(innerRadius),
-              XDoubleToFixed(outerRadius),
-              repeat);
+              XDoubleToFixed(innerRbdius),
+              XDoubleToFixed(outerRbdius),
+              repebt);
     }
 
-    public void setGCClipRectangles(long gc, Region clip) {
-        XRSetClipNative(gc, clip.getLoX(), clip.getLoY(),
+    public void setGCClipRectbngles(long gc, Region clip) {
+        XRSetClipNbtive(gc, clip.getLoX(), clip.getLoY(),
                         clip.getHiX(), clip.getHiY(),
-                        clip.isRectangular() ? null : clip, true);
+                        clip.isRectbngulbr() ? null : clip, true);
     }
 
-    public void setClipRectangles(int picture, Region clip) {
+    public void setClipRectbngles(int picture, Region clip) {
         if (clip != null) {
-            XRSetClipNative(picture, clip.getLoX(), clip.getLoY(),
+            XRSetClipNbtive(picture, clip.getLoX(), clip.getLoY(),
                             clip.getHiX(), clip.getHiY(),
-                            clip.isRectangular() ? null : clip, false);
+                            clip.isRectbngulbr() ? null : clip, fblse);
         } else {
-            XRSetClipNative(picture, 0, 0, 32767, 32767, null, false);
+            XRSetClipNbtive(picture, 0, 0, 32767, 32767, null, fblse);
         }
     }
 
-    public void renderRectangles(int dst, byte op, XRColor color,
-                                 GrowableRectArray rects) {
-        XRenderRectanglesNative(dst, op,
+    public void renderRectbngles(int dst, byte op, XRColor color,
+                                 GrowbbleRectArrby rects) {
+        XRenderRectbnglesNbtive(dst, op,
                                 (short) color.red, (short) color.green,
-                                (short) color.blue, (short) color.alpha,
-                                rects.getArray(), rects
+                                (short) color.blue, (short) color.blphb,
+                                rects.getArrby(), rects
                 .getSize());
     }
 
-    private static long[] getGlyphInfoPtrs(List<XRGlyphCacheEntry> cacheEntries) {
-        long[] glyphInfoPtrs = new long[cacheEntries.size()];
-        for (int i = 0; i < cacheEntries.size(); i++) {
-            glyphInfoPtrs[i] = cacheEntries.get(i).getGlyphInfoPtr();
+    privbte stbtic long[] getGlyphInfoPtrs(List<XRGlyphCbcheEntry> cbcheEntries) {
+        long[] glyphInfoPtrs = new long[cbcheEntries.size()];
+        for (int i = 0; i < cbcheEntries.size(); i++) {
+            glyphInfoPtrs[i] = cbcheEntries.get(i).getGlyphInfoPtr();
         }
         return glyphInfoPtrs;
     }
 
     public void XRenderAddGlyphs(int glyphSet, GlyphList gl,
-                                 List<XRGlyphCacheEntry> cacheEntries,
-                                 byte[] pixelData) {
-        long[] glyphInfoPtrs = getGlyphInfoPtrs(cacheEntries);
-        XRAddGlyphsNative(glyphSet, glyphInfoPtrs,
-                          glyphInfoPtrs.length, pixelData, pixelData.length);
+                                 List<XRGlyphCbcheEntry> cbcheEntries,
+                                 byte[] pixelDbtb) {
+        long[] glyphInfoPtrs = getGlyphInfoPtrs(cbcheEntries);
+        XRAddGlyphsNbtive(glyphSet, glyphInfoPtrs,
+                          glyphInfoPtrs.length, pixelDbtb, pixelDbtb.length);
     }
 
     public void XRenderFreeGlyphs(int glyphSet, int[] gids) {
-        XRFreeGlyphsNative(glyphSet, gids, gids.length);
+        XRFreeGlyphsNbtive(glyphSet, gids, gids.length);
     }
 
-    private static native void XRAddGlyphsNative(int glyphSet,
+    privbte stbtic nbtive void XRAddGlyphsNbtive(int glyphSet,
                                                  long[] glyphInfoPtrs,
                                                  int glyphCnt,
-                                                 byte[] pixelData,
-                                                 int pixelDataLength);
+                                                 byte[] pixelDbtb,
+                                                 int pixelDbtbLength);
 
-    private static native void XRFreeGlyphsNative(int glyphSet,
+    privbte stbtic nbtive void XRFreeGlyphsNbtive(int glyphSet,
                                                   int[] gids, int idCnt);
 
-    private static native void
-        XRenderCompositeTextNative(int op, int src, int dst,
-                                   int srcX, int srcY, long maskFormat,
-                                   int[] eltArray, int[] glyphIDs, int eltCnt,
+    privbte stbtic nbtive void
+        XRenderCompositeTextNbtive(int op, int src, int dst,
+                                   int srcX, int srcY, long mbskFormbt,
+                                   int[] eltArrby, int[] glyphIDs, int eltCnt,
                                    int glyphCnt);
 
-    public int XRenderCreateGlyphSet(int formatID) {
-        return XRenderCreateGlyphSetNative(getFormatPtr(formatID));
+    public int XRenderCrebteGlyphSet(int formbtID) {
+        return XRenderCrebteGlyphSetNbtive(getFormbtPtr(formbtID));
     }
 
-    private static native int XRenderCreateGlyphSetNative(long format);
+    privbte stbtic nbtive int XRenderCrebteGlyphSetNbtive(long formbt);
 
     public void XRenderCompositeText(byte op, int src, int dst,
-                                     int maskFormatID,
+                                     int mbskFormbtID,
                                      int sx, int sy, int dx, int dy,
-                                     int glyphset, GrowableEltArray elts) {
+                                     int glyphset, GrowbbleEltArrby elts) {
 
-        GrowableIntArray glyphs = elts.getGlyphs();
-        XRenderCompositeTextNative(op, src, dst, sx, sy, 0, elts.getArray(),
-                                   glyphs.getArray(), elts.getSize(),
+        GrowbbleIntArrby glyphs = elts.getGlyphs();
+        XRenderCompositeTextNbtive(op, src, dst, sx, sy, 0, elts.getArrby(),
+                                   glyphs.getArrby(), elts.getSize(),
                                    glyphs.getSize());
     }
 
-    public void putMaskImage(int drawable, long gc, byte[] imageData,
+    public void putMbskImbge(int drbwbble, long gc, byte[] imbgeDbtb,
                              int sx, int sy, int dx, int dy,
-                             int width, int height, int maskOff,
-                             int maskScan, float ea) {
-        putMaskNative(drawable, gc, imageData, sx, sy, dx, dy,
-                      width, height, maskOff, maskScan, ea, MASK_XIMG);
+                             int width, int height, int mbskOff,
+                             int mbskScbn, flobt eb) {
+        putMbskNbtive(drbwbble, gc, imbgeDbtb, sx, sy, dx, dy,
+                      width, height, mbskOff, mbskScbn, eb, MASK_XIMG);
     }
 
-    private static native void putMaskNative(int drawable, long gc,
-                                             byte[] imageData,
+    privbte stbtic nbtive void putMbskNbtive(int drbwbble, long gc,
+                                             byte[] imbgeDbtb,
                                              int sx, int sy, int dx, int dy,
                                              int width, int height,
-                                             int maskOff, int maskScan,
-                                             float ea, long xImg);
+                                             int mbskOff, int mbskScbn,
+                                             flobt eb, long xImg);
 
-    public void padBlit(byte op, int srcPict, int maskPict, int dstPict,
-                        AffineTransform maskTrx, int maskWidth, int maskHeight,
-                        int lastMaskWidth, int lastMaskHeight,
+    public void pbdBlit(byte op, int srcPict, int mbskPict, int dstPict,
+                        AffineTrbnsform mbskTrx, int mbskWidth, int mbskHeight,
+                        int lbstMbskWidth, int lbstMbskHeight,
                         int sx, int sy, int dx, int dy, int w, int h) {
 
-        padBlitNative(op, srcPict, maskPict, dstPict,
-                      XDoubleToFixed(maskTrx.getScaleX()),
-                      XDoubleToFixed(maskTrx.getShearX()),
-                      XDoubleToFixed(maskTrx.getTranslateX()),
-                      XDoubleToFixed(maskTrx.getShearY()),
-                      XDoubleToFixed(maskTrx.getScaleY()),
-                      XDoubleToFixed(maskTrx.getTranslateY()),
-                      maskWidth, maskHeight, lastMaskWidth, lastMaskHeight,
+        pbdBlitNbtive(op, srcPict, mbskPict, dstPict,
+                      XDoubleToFixed(mbskTrx.getScbleX()),
+                      XDoubleToFixed(mbskTrx.getShebrX()),
+                      XDoubleToFixed(mbskTrx.getTrbnslbteX()),
+                      XDoubleToFixed(mbskTrx.getShebrY()),
+                      XDoubleToFixed(mbskTrx.getScbleY()),
+                      XDoubleToFixed(mbskTrx.getTrbnslbteY()),
+                      mbskWidth, mbskHeight, lbstMbskWidth, lbstMbskHeight,
                       sx, sy, dx, dy, w, h);
     }
 
-    private static native void padBlitNative(byte op, int srcPict,
-                                             int maskPict, int dstPict,
+    privbte stbtic nbtive void pbdBlitNbtive(byte op, int srcPict,
+                                             int mbskPict, int dstPict,
                                              int m00, int m01, int m02,
                                              int m10, int m11, int m12,
-                                             int maskWidth, int maskHeight,
-                                             int lastMaskWidth,
-                                             int lastMaskHeight,
+                                             int mbskWidth, int mbskHeight,
+                                             int lbstMbskWidth,
+                                             int lbstMbskHeight,
                                              int sx, int sy, int dx, int dy,
                                              int w, int h);
 
-    public void renderCompositeTrapezoids(byte op, int src, int maskFormat,
+    public void renderCompositeTrbpezoids(byte op, int src, int mbskFormbt,
                                           int dst, int srcX, int srcY,
-                                          TrapezoidList trapList) {
-        renderCompositeTrapezoidsNative(op, src, getFormatPtr(maskFormat),
+                                          TrbpezoidList trbpList) {
+        renderCompositeTrbpezoidsNbtive(op, src, getFormbtPtr(mbskFormbt),
                                         dst, srcX, srcY,
-                                        trapList.getTrapArray());
+                                        trbpList.getTrbpArrby());
     }
 
-    private static native void
-        renderCompositeTrapezoidsNative(byte op, int src, long maskFormat,
+    privbte stbtic nbtive void
+        renderCompositeTrbpezoidsNbtive(byte op, int src, long mbskFormbt,
                                         int dst, int srcX, int srcY,
-                                        int[] trapezoids);
+                                        int[] trbpezoids);
 }

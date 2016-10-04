@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import sun.awt.image.IntegerComponentRaster;
-import java.util.Arrays;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import sun.bwt.imbge.IntegerComponentRbster;
+import jbvb.util.Arrbys;
 
-class ColorPaintContext implements PaintContext {
+clbss ColorPbintContext implements PbintContext {
     int color;
-    WritableRaster savedTile;
+    WritbbleRbster sbvedTile;
 
-    protected ColorPaintContext(int color, ColorModel cm) {
+    protected ColorPbintContext(int color, ColorModel cm) {
         this.color = color;
     }
 
@@ -45,13 +45,13 @@ class ColorPaintContext implements PaintContext {
     }
 
     /*
-     * Returns the RGB value representing the color in the default sRGB
+     * Returns the RGB vblue representing the color in the defbult sRGB
      * {@link ColorModel}.
-     * (Bits 24-31 are alpha, 16-23 are red, 8-15 are green, 0-7 are
+     * (Bits 24-31 bre blphb, 16-23 bre red, 8-15 bre green, 0-7 bre
      * blue).
-     * @return the RGB value of the color in the default sRGB
+     * @return the RGB vblue of the color in the defbult sRGB
      *         <code>ColorModel</code>.
-     * @see java.awt.image.ColorModel#getRGBdefault
+     * @see jbvb.bwt.imbge.ColorModel#getRGBdefbult
      * @see #getRed
      * @see #getGreen
      * @see #getBlue
@@ -61,20 +61,20 @@ class ColorPaintContext implements PaintContext {
     }
 
     public ColorModel getColorModel() {
-        return ColorModel.getRGBdefault();
+        return ColorModel.getRGBdefbult();
     }
 
-    public synchronized Raster getRaster(int x, int y, int w, int h) {
-        WritableRaster t = savedTile;
+    public synchronized Rbster getRbster(int x, int y, int w, int h) {
+        WritbbleRbster t = sbvedTile;
 
         if (t == null || w > t.getWidth() || h > t.getHeight()) {
-            t = getColorModel().createCompatibleWritableRaster(w, h);
-            IntegerComponentRaster icr = (IntegerComponentRaster) t;
-            Arrays.fill(icr.getDataStorage(), color);
-            // Note - markDirty is probably unnecessary since icr is brand new
-            icr.markDirty();
+            t = getColorModel().crebteCompbtibleWritbbleRbster(w, h);
+            IntegerComponentRbster icr = (IntegerComponentRbster) t;
+            Arrbys.fill(icr.getDbtbStorbge(), color);
+            // Note - mbrkDirty is probbbly unnecessbry since icr is brbnd new
+            icr.mbrkDirty();
             if (w <= 64 && h <= 64) {
-                savedTile = t;
+                sbvedTile = t;
             }
         }
 

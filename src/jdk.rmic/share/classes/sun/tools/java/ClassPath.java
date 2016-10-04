@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 1994, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.io.File;
-import java.io.IOException;
-import java.util.zip.*;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.util.zip.*;
 
 /**
- * This class is used to represent a class path, which can contain both
- * directories and zip files.
+ * This clbss is used to represent b clbss pbth, which cbn contbin both
+ * directories bnd zip files.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class ClassPath {
-    static final char dirSeparator = File.pathSeparatorChar;
+clbss ClbssPbth {
+    stbtic finbl chbr dirSepbrbtor = File.pbthSepbrbtorChbr;
 
     /**
-     * The original class path string
+     * The originbl clbss pbth string
      */
-    String pathstr;
+    String pbthstr;
 
     /**
-     * List of class path entries
+     * List of clbss pbth entries
      */
-    private ClassPathEntry[] path;
+    privbte ClbssPbthEntry[] pbth;
 
     /**
-     * Build a class path from the specified path string
+     * Build b clbss pbth from the specified pbth string
      */
-    public ClassPath(String pathstr) {
-        init(pathstr);
+    public ClbssPbth(String pbthstr) {
+        init(pbthstr);
     }
 
     /**
-     * Build a class path from the specified array of class path
-     * element strings.  This constructor, and the corresponding
-     * "init" method, were added as part of the fix for 6473331, which
-     * adds support for Class-Path manifest entries in JAR files to
-     * rmic.  It is conceivable that the value of a Class-Path
-     * manifest entry will contain a path separator, which would cause
-     * incorrect behavior if the expanded path were passed to the
-     * previous constructor as a single path-separator-delimited
-     * string; use of this constructor avoids that problem.
+     * Build b clbss pbth from the specified brrby of clbss pbth
+     * element strings.  This constructor, bnd the corresponding
+     * "init" method, were bdded bs pbrt of the fix for 6473331, which
+     * bdds support for Clbss-Pbth mbnifest entries in JAR files to
+     * rmic.  It is conceivbble thbt the vblue of b Clbss-Pbth
+     * mbnifest entry will contbin b pbth sepbrbtor, which would cbuse
+     * incorrect behbvior if the expbnded pbth were pbssed to the
+     * previous constructor bs b single pbth-sepbrbtor-delimited
+     * string; use of this constructor bvoids thbt problem.
      */
-    public ClassPath(String[] patharray) {
-        init(patharray);
+    public ClbssPbth(String[] pbthbrrby) {
+        init(pbthbrrby);
     }
 
     /**
-     * Build a default class path from the path strings specified by
-     * the properties sun.boot.class.path and env.class.path, in that
+     * Build b defbult clbss pbth from the pbth strings specified by
+     * the properties sun.boot.clbss.pbth bnd env.clbss.pbth, in thbt
      * order.
      */
-    public ClassPath() {
-        String syscp = System.getProperty("sun.boot.class.path");
-        String envcp = System.getProperty("env.class.path");
+    public ClbssPbth() {
+        String syscp = System.getProperty("sun.boot.clbss.pbth");
+        String envcp = System.getProperty("env.clbss.pbth");
         if (envcp == null) envcp = ".";
-        String cp = syscp + File.pathSeparator + envcp;
+        String cp = syscp + File.pbthSepbrbtor + envcp;
         init(cp);
     }
 
-    private void init(String pathstr) {
+    privbte void init(String pbthstr) {
         int i, j, n;
-        // Save original class path string
-        this.pathstr = pathstr;
+        // Sbve originbl clbss pbth string
+        this.pbthstr = pbthstr;
 
-        if (pathstr.length() == 0) {
-            this.path = new ClassPathEntry[0];
+        if (pbthstr.length() == 0) {
+            this.pbth = new ClbssPbthEntry[0];
         }
 
-        // Count the number of path separators
+        // Count the number of pbth sepbrbtors
         i = n = 0;
-        while ((i = pathstr.indexOf(dirSeparator, i)) != -1) {
+        while ((i = pbthstr.indexOf(dirSepbrbtor, i)) != -1) {
             n++; i++;
         }
-        // Build the class path
-        ClassPathEntry[] path = new ClassPathEntry[n+1];
-        int len = pathstr.length();
+        // Build the clbss pbth
+        ClbssPbthEntry[] pbth = new ClbssPbthEntry[n+1];
+        int len = pbthstr.length();
         for (i = n = 0; i < len; i = j + 1) {
-            if ((j = pathstr.indexOf(dirSeparator, i)) == -1) {
+            if ((j = pbthstr.indexOf(dirSepbrbtor, i)) == -1) {
                 j = len;
             }
             if (i == j) {
-                path[n] = new ClassPathEntry();
-                path[n++].dir = new File(".");
+                pbth[n] = new ClbssPbthEntry();
+                pbth[n++].dir = new File(".");
             } else {
-                File file = new File(pathstr.substring(i, j));
+                File file = new File(pbthstr.substring(i, j));
                 if (file.isFile()) {
                     try {
                         ZipFile zip = new ZipFile(file);
-                        path[n] = new ClassPathEntry();
-                        path[n++].zip = zip;
-                    } catch (ZipException e) {
-                    } catch (IOException e) {
-                        // Ignore exceptions, at least for now...
+                        pbth[n] = new ClbssPbthEntry();
+                        pbth[n++].zip = zip;
+                    } cbtch (ZipException e) {
+                    } cbtch (IOException e) {
+                        // Ignore exceptions, bt lebst for now...
                     }
                 } else {
-                    path[n] = new ClassPathEntry();
-                    path[n++].dir = file;
+                    pbth[n] = new ClbssPbthEntry();
+                    pbth[n++].dir = file;
                 }
             }
         }
-        // Trim class path to exact size
-        this.path = new ClassPathEntry[n];
-        System.arraycopy((Object)path, 0, (Object)this.path, 0, n);
+        // Trim clbss pbth to exbct size
+        this.pbth = new ClbssPbthEntry[n];
+        System.brrbycopy((Object)pbth, 0, (Object)this.pbth, 0, n);
     }
 
-    private void init(String[] patharray) {
-        // Save original class path string
-        if (patharray.length == 0) {
-            this.pathstr = "";
+    privbte void init(String[] pbthbrrby) {
+        // Sbve originbl clbss pbth string
+        if (pbthbrrby.length == 0) {
+            this.pbthstr = "";
         } else {
-            StringBuilder sb = new StringBuilder(patharray[0]);
-            for (int i = 1; i < patharray.length; i++) {
-                sb.append(File.pathSeparatorChar);
-                sb.append(patharray[i]);
+            StringBuilder sb = new StringBuilder(pbthbrrby[0]);
+            for (int i = 1; i < pbthbrrby.length; i++) {
+                sb.bppend(File.pbthSepbrbtorChbr);
+                sb.bppend(pbthbrrby[i]);
             }
-            this.pathstr = sb.toString();
+            this.pbthstr = sb.toString();
         }
 
-        // Build the class path
-        ClassPathEntry[] path = new ClassPathEntry[patharray.length];
+        // Build the clbss pbth
+        ClbssPbthEntry[] pbth = new ClbssPbthEntry[pbthbrrby.length];
         int n = 0;
-        for (String name : patharray) {
-            File file = new File(name);
+        for (String nbme : pbthbrrby) {
+            File file = new File(nbme);
             if (file.isFile()) {
                 try {
                     ZipFile zip = new ZipFile(file);
-                    path[n] = new ClassPathEntry();
-                    path[n++].zip = zip;
-                } catch (ZipException e) {
-                } catch (IOException e) {
-                    // Ignore exceptions, at least for now...
+                    pbth[n] = new ClbssPbthEntry();
+                    pbth[n++].zip = zip;
+                } cbtch (ZipException e) {
+                } cbtch (IOException e) {
+                    // Ignore exceptions, bt lebst for now...
                 }
             } else {
-                path[n] = new ClassPathEntry();
-                path[n++].dir = file;
+                pbth[n] = new ClbssPbthEntry();
+                pbth[n++].dir = file;
             }
         }
-        // Trim class path to exact size
-        this.path = new ClassPathEntry[n];
-        System.arraycopy((Object)path, 0, (Object)this.path, 0, n);
+        // Trim clbss pbth to exbct size
+        this.pbth = new ClbssPbthEntry[n];
+        System.brrbycopy((Object)pbth, 0, (Object)this.pbth, 0, n);
     }
 
     /**
-     * Find the specified directory in the class path
+     * Find the specified directory in the clbss pbth
      */
-    public ClassFile getDirectory(String name) {
-        return getFile(name, true);
+    public ClbssFile getDirectory(String nbme) {
+        return getFile(nbme, true);
     }
 
     /**
-     * Load the specified file from the class path
+     * Lobd the specified file from the clbss pbth
      */
-    public ClassFile getFile(String name) {
-        return getFile(name, false);
+    public ClbssFile getFile(String nbme) {
+        return getFile(nbme, fblse);
     }
 
-    private final String fileSeparatorChar = "" + File.separatorChar;
+    privbte finbl String fileSepbrbtorChbr = "" + File.sepbrbtorChbr;
 
-    private ClassFile getFile(String name, boolean isDirectory) {
-        String subdir = name;
-        String basename = "";
+    privbte ClbssFile getFile(String nbme, boolebn isDirectory) {
+        String subdir = nbme;
+        String bbsenbme = "";
         if (!isDirectory) {
-            int i = name.lastIndexOf(File.separatorChar);
-            subdir = name.substring(0, i + 1);
-            basename = name.substring(i + 1);
-        } else if (!subdir.equals("")
-                   && !subdir.endsWith(fileSeparatorChar)) {
-            // zip files are picky about "foo" vs. "foo/".
-            // also, the getFiles caches are keyed with a trailing /
-            subdir = subdir + File.separatorChar;
-            name = subdir;      // Note: isDirectory==true & basename==""
+            int i = nbme.lbstIndexOf(File.sepbrbtorChbr);
+            subdir = nbme.substring(0, i + 1);
+            bbsenbme = nbme.substring(i + 1);
+        } else if (!subdir.equbls("")
+                   && !subdir.endsWith(fileSepbrbtorChbr)) {
+            // zip files bre picky bbout "foo" vs. "foo/".
+            // blso, the getFiles cbches bre keyed with b trbiling /
+            subdir = subdir + File.sepbrbtorChbr;
+            nbme = subdir;      // Note: isDirectory==true & bbsenbme==""
         }
-        for (int i = 0; i < path.length; i++) {
-            if (path[i].zip != null) {
-                String newname = name.replace(File.separatorChar, '/');
-                ZipEntry entry = path[i].zip.getEntry(newname);
+        for (int i = 0; i < pbth.length; i++) {
+            if (pbth[i].zip != null) {
+                String newnbme = nbme.replbce(File.sepbrbtorChbr, '/');
+                ZipEntry entry = pbth[i].zip.getEntry(newnbme);
                 if (entry != null) {
-                    return new ClassFile(path[i].zip, entry);
+                    return new ClbssFile(pbth[i].zip, entry);
                 }
             } else {
-                File file = new File(path[i].dir.getPath(), name);
-                String list[] = path[i].getFiles(subdir);
+                File file = new File(pbth[i].dir.getPbth(), nbme);
+                String list[] = pbth[i].getFiles(subdir);
                 if (isDirectory) {
                     if (list.length > 0) {
-                        return new ClassFile(file);
+                        return new ClbssFile(file);
                     }
                 } else {
                     for (int j = 0; j < list.length; j++) {
-                        if (basename.equals(list[j])) {
+                        if (bbsenbme.equbls(list[j])) {
                             // Don't bother checking !file.isDir,
-                            // since we only look for names which
-                            // cannot already be packages (foo.java, etc).
-                            return new ClassFile(file);
+                            // since we only look for nbmes which
+                            // cbnnot blrebdy be pbckbges (foo.jbvb, etc).
+                            return new ClbssFile(file);
                         }
                     }
                 }
@@ -231,29 +231,29 @@ class ClassPath {
     }
 
     /**
-     * Returns list of files given a package name and extension.
+     * Returns list of files given b pbckbge nbme bnd extension.
      */
-    public Enumeration<ClassFile> getFiles(String pkg, String ext) {
-        Hashtable<String, ClassFile> files = new Hashtable<>();
-        for (int i = path.length; --i >= 0; ) {
-            if (path[i].zip != null) {
-                Enumeration<? extends ZipEntry> e = path[i].zip.entries();
-                while (e.hasMoreElements()) {
+    public Enumerbtion<ClbssFile> getFiles(String pkg, String ext) {
+        Hbshtbble<String, ClbssFile> files = new Hbshtbble<>();
+        for (int i = pbth.length; --i >= 0; ) {
+            if (pbth[i].zip != null) {
+                Enumerbtion<? extends ZipEntry> e = pbth[i].zip.entries();
+                while (e.hbsMoreElements()) {
                     ZipEntry entry = (ZipEntry)e.nextElement();
-                    String name = entry.getName();
-                    name = name.replace('/', File.separatorChar);
-                    if (name.startsWith(pkg) && name.endsWith(ext)) {
-                        files.put(name, new ClassFile(path[i].zip, entry));
+                    String nbme = entry.getNbme();
+                    nbme = nbme.replbce('/', File.sepbrbtorChbr);
+                    if (nbme.stbrtsWith(pkg) && nbme.endsWith(ext)) {
+                        files.put(nbme, new ClbssFile(pbth[i].zip, entry));
                     }
                 }
             } else {
-                String[] list = path[i].getFiles(pkg);
+                String[] list = pbth[i].getFiles(pkg);
                 for (int j = 0; j < list.length; j++) {
-                    String name = list[j];
-                    if (name.endsWith(ext)) {
-                        name = pkg + File.separatorChar + name;
-                        File file = new File(path[i].dir.getPath(), name);
-                        files.put(name, new ClassFile(file));
+                    String nbme = list[j];
+                    if (nbme.endsWith(ext)) {
+                        nbme = pkg + File.sepbrbtorChbr + nbme;
+                        File file = new File(pbth[i].dir.getPbth(), nbme);
+                        files.put(nbme, new ClbssFile(file));
                     }
                 }
             }
@@ -262,41 +262,41 @@ class ClassPath {
     }
 
     /**
-     * Release resources.
+     * Relebse resources.
      */
     public void close() throws IOException {
-        for (int i = path.length; --i >= 0; ) {
-            if (path[i].zip != null) {
-                path[i].zip.close();
+        for (int i = pbth.length; --i >= 0; ) {
+            if (pbth[i].zip != null) {
+                pbth[i].zip.close();
             }
         }
     }
 
     /**
-     * Returns original class path string
+     * Returns originbl clbss pbth string
      */
     public String toString() {
-        return pathstr;
+        return pbthstr;
     }
 }
 
 /**
- * A class path entry, which can either be a directory or an open zip file.
+ * A clbss pbth entry, which cbn either be b directory or bn open zip file.
  */
-class ClassPathEntry {
+clbss ClbssPbthEntry {
     File dir;
     ZipFile zip;
 
-    Hashtable<String, String[]> subdirs = new Hashtable<>(29); // cache of sub-directory listings:
+    Hbshtbble<String, String[]> subdirs = new Hbshtbble<>(29); // cbche of sub-directory listings:
     String[] getFiles(String subdir) {
         String files[] = subdirs.get(subdir);
         if (files == null) {
-            // search the directory, exactly once
-            File sd = new File(dir.getPath(), subdir);
+            // sebrch the directory, exbctly once
+            File sd = new File(dir.getPbth(), subdir);
             if (sd.isDirectory()) {
                 files = sd.list();
                 if (files == null) {
-                    // should not happen, but just in case, fail silently
+                    // should not hbppen, but just in cbse, fbil silently
                     files = new String[0];
                 }
                 if (files.length == 0) {

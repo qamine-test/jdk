@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_COMPONENT_H
 #define AWT_COMPONENT_H
 
-#include "awtmsg.h"
-#include "awt_Object.h"
-#include "awt_Font.h"
-#include "awt_Brush.h"
-#include "awt_Pen.h"
-#include "awt_Win32GraphicsDevice.h"
-#include "GDIWindowSurfaceData.h"
+#include "bwtmsg.h"
+#include "bwt_Object.h"
+#include "bwt_Font.h"
+#include "bwt_Brush.h"
+#include "bwt_Pen.h"
+#include "bwt_Win32GrbphicsDevice.h"
+#include "GDIWindowSurfbceDbtb.h"
 
-#include "java_awt_Component.h"
-#include "sun_awt_windows_WComponentPeer.h"
-#include "java_awt_event_KeyEvent.h"
-#include "java_awt_event_MouseEvent.h"
-#include "java_awt_event_WindowEvent.h"
-#include "java_awt_Dimension.h"
+#include "jbvb_bwt_Component.h"
+#include "sun_bwt_windows_WComponentPeer.h"
+#include "jbvb_bwt_event_KeyEvent.h"
+#include "jbvb_bwt_event_MouseEvent.h"
+#include "jbvb_bwt_event_WindowEvent.h"
+#include "jbvb_bwt_Dimension.h"
 
-extern LPCTSTR szAwtComponentClassName;
+extern LPCTSTR szAwtComponentClbssNbme;
 
-static LPCTSTR DrawingStateProp = TEXT("SunAwtDrawingStateProp");
+stbtic LPCTSTR DrbwingStbteProp = TEXT("SunAwtDrbwingStbteProp");
 
 const UINT IGNORE_KEY = (UINT)-1;
-const UINT MAX_ACP_STR_LEN = 7; // ANSI CP identifiers are no longer than this
+const UINT MAX_ACP_STR_LEN = 7; // ANSI CP identifiers bre no longer thbn this
 
 #define LEFT_BUTTON 1
 #define MIDDLE_BUTTON 2
@@ -63,120 +63,120 @@ const UINT MAX_ACP_STR_LEN = 7; // ANSI CP identifiers are no longer than this
 #define MK_XBUTTON2         0x0040
 #endif
 
-// combination of standard mouse button flags
+// combinbtion of stbndbrd mouse button flbgs
 const int ALL_MK_BUTTONS = MK_LBUTTON|MK_MBUTTON|MK_RBUTTON;
 const int X_BUTTONS = MK_XBUTTON1|MK_XBUTTON2;
 
 
 
-// Whether to check for embedded frame and adjust location
+// Whether to check for embedded frbme bnd bdjust locbtion
 #define CHECK_EMBEDDED 0
 #define DONT_CHECK_EMBEDDED 1
 
-class AwtPopupMenu;
+clbss AwtPopupMenu;
 
-class AwtDropTarget;
+clbss AwtDropTbrget;
 
 /*
- * Message routing codes
+ * Messbge routing codes
  */
 enum MsgRouting {
-    mrPassAlong,    /* pass along to next in chain */
-    mrDoDefault,    /* skip right to underlying default behavior */
-    mrConsume,      /* consume msg & terminate routing immediatly,
-                     * don't pass anywhere
+    mrPbssAlong,    /* pbss blong to next in chbin */
+    mrDoDefbult,    /* skip right to underlying defbult behbvior */
+    mrConsume,      /* consume msg & terminbte routing immedibtly,
+                     * don't pbss bnywhere
                      */
 };
 
 /************************************************************************
- * AwtComponent class
+ * AwtComponent clbss
  */
 
-class AwtComponent : public AwtObject {
+clbss AwtComponent : public AwtObject {
 public:
-    /* java.awt.Component fields and method IDs */
-    static jfieldID peerID;
-    static jfieldID xID;
-    static jfieldID yID;
-    static jfieldID widthID;
-    static jfieldID heightID;
-    static jfieldID visibleID;
-    static jfieldID backgroundID;
-    static jfieldID foregroundID;
-    static jfieldID enabledID;
-    static jfieldID parentID;
-    static jfieldID cursorID;
-    static jfieldID graphicsConfigID;
-    static jfieldID peerGCID;
-    static jfieldID focusableID;
-    static jfieldID appContextID;
-    static jfieldID hwndID;
+    /* jbvb.bwt.Component fields bnd method IDs */
+    stbtic jfieldID peerID;
+    stbtic jfieldID xID;
+    stbtic jfieldID yID;
+    stbtic jfieldID widthID;
+    stbtic jfieldID heightID;
+    stbtic jfieldID visibleID;
+    stbtic jfieldID bbckgroundID;
+    stbtic jfieldID foregroundID;
+    stbtic jfieldID enbbledID;
+    stbtic jfieldID pbrentID;
+    stbtic jfieldID cursorID;
+    stbtic jfieldID grbphicsConfigID;
+    stbtic jfieldID peerGCID;
+    stbtic jfieldID focusbbleID;
+    stbtic jfieldID bppContextID;
+    stbtic jfieldID hwndID;
 
-    static jmethodID getFontMID;
-    static jmethodID getToolkitMID;
-    static jmethodID isEnabledMID;
-    static jmethodID getLocationOnScreenMID;
-    static jmethodID replaceSurfaceDataMID;
-    static jmethodID replaceSurfaceDataLaterMID;
-    static jmethodID disposeLaterMID;
+    stbtic jmethodID getFontMID;
+    stbtic jmethodID getToolkitMID;
+    stbtic jmethodID isEnbbledMID;
+    stbtic jmethodID getLocbtionOnScreenMID;
+    stbtic jmethodID replbceSurfbceDbtbMID;
+    stbtic jmethodID replbceSurfbceDbtbLbterMID;
+    stbtic jmethodID disposeLbterMID;
 
-    static const UINT WmAwtIsComponent;
-    static jint * masks; //InputEvent mask array
+    stbtic const UINT WmAwtIsComponent;
+    stbtic jint * mbsks; //InputEvent mbsk brrby
     AwtComponent();
-    virtual ~AwtComponent();
+    virtubl ~AwtComponent();
 
     /*
-     * Dynamic class registration & creation
+     * Dynbmic clbss registrbtion & crebtion
      */
-    virtual LPCTSTR GetClassName() = 0;
+    virtubl LPCTSTR GetClbssNbme() = 0;
     /*
-     * Fix for 4964237: Win XP: Changing theme changes java dialogs title icon
-     * WNDCLASS structure has been superseded by the WNDCLASSEX in Win32
+     * Fix for 4964237: Win XP: Chbnging theme chbnges jbvb diblogs title icon
+     * WNDCLASS structure hbs been superseded by the WNDCLASSEX in Win32
      */
-    virtual void FillClassInfo(WNDCLASSEX *lpwc);
-    virtual void RegisterClass();
-    virtual void UnregisterClass();
+    virtubl void FillClbssInfo(WNDCLASSEX *lpwc);
+    virtubl void RegisterClbss();
+    virtubl void UnregisterClbss();
 
-    virtual void CreateHWnd(JNIEnv *env, LPCWSTR title,
+    virtubl void CrebteHWnd(JNIEnv *env, LPCWSTR title,
                     DWORD windowStyle, DWORD windowExStyle,
                     int x, int y, int w, int h,
-                    HWND hWndParent, HMENU hMenu,
-                    COLORREF colorForeground, COLORREF colorBackground,
+                    HWND hWndPbrent, HMENU hMenu,
+                    COLORREF colorForeground, COLORREF colorBbckground,
                     jobject peer);
-    virtual void DestroyHWnd();
-    void InitPeerGraphicsConfig(JNIEnv *env, jobject peer);
+    virtubl void DestroyHWnd();
+    void InitPeerGrbphicsConfig(JNIEnv *env, jobject peer);
 
-    virtual void Dispose();
+    virtubl void Dispose();
 
-    void UpdateBackground(JNIEnv *env, jobject target);
+    void UpdbteBbckground(JNIEnv *env, jobject tbrget);
 
-    virtual void SubclassHWND();
-    virtual void UnsubclassHWND();
+    virtubl void SubclbssHWND();
+    virtubl void UnsubclbssHWND();
 
-    static LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
-        WPARAM wParam, LPARAM lParam);
+    stbtic LRESULT CALLBACK WndProc(HWND hWnd, UINT messbge,
+        WPARAM wPbrbm, LPARAM lPbrbm);
 
     /*
-     * Access to the various objects of this aggregate component
+     * Access to the vbrious objects of this bggregbte component
      */
     INLINE HWND GetHWnd() { return m_hwnd; }
     INLINE void SetHWnd(HWND hwnd) { m_hwnd = hwnd; }
 
-    static AwtComponent* GetComponent(HWND hWnd);
+    stbtic AwtComponent* GetComponent(HWND hWnd);
 
     /*
      * Access to the properties of the component
      */
     INLINE COLORREF GetColor() { return m_colorForeground; }
-    virtual void SetColor(COLORREF c);
+    virtubl void SetColor(COLORREF c);
     HPEN GetForegroundPen();
 
-    COLORREF GetBackgroundColor();
-    virtual void SetBackgroundColor(COLORREF c);
-    HBRUSH GetBackgroundBrush();
-    INLINE BOOL IsBackgroundColorSet() { return m_backgroundColorSet; }
+    COLORREF GetBbckgroundColor();
+    virtubl void SetBbckgroundColor(COLORREF c);
+    HBRUSH GetBbckgroundBrush();
+    INLINE BOOL IsBbckgroundColorSet() { return m_bbckgroundColorSet; }
 
-    virtual void SetFont(AwtFont *pFont);
+    virtubl void SetFont(AwtFont *pFont);
 
     INLINE void SetText(LPCTSTR text) { ::SetWindowText(GetHWnd(), text); }
     INLINE int GetText(LPTSTR buffer, int size) {
@@ -184,7 +184,7 @@ public:
     }
     INLINE int GetTextLength() { return ::GetWindowTextLength(GetHWnd()); }
 
-    virtual void GetInsets(RECT* rect) {
+    virtubl void GetInsets(RECT* rect) {
         VERIFY(::SetRectEmpty(rect));
     }
 
@@ -193,624 +193,624 @@ public:
     HDC GetDCFromComponent();
 
     /*
-     * Enable/disable component
+     * Enbble/disbble component
      */
-    virtual void Enable(BOOL bEnable);
+    virtubl void Enbble(BOOL bEnbble);
 
     /*
-     * Validate and call handleExpose on rects of UpdateRgn
+     * Vblidbte bnd cbll hbndleExpose on rects of UpdbteRgn
      */
-    void PaintUpdateRgn(const RECT *insets);
+    void PbintUpdbteRgn(const RECT *insets);
 
-    static HWND GetTopLevelParentForWindow(HWND hwndDescendant);
+    stbtic HWND GetTopLevelPbrentForWindow(HWND hwndDescendbnt);
 
-    static jobject FindHeavyweightUnderCursor(BOOL useCache);
+    stbtic jobject FindHebvyweightUnderCursor(BOOL useCbche);
 
     /*
-     * Returns the parent component.  If no parent window, or the
-     * parent window isn't an AwtComponent, returns NULL.
+     * Returns the pbrent component.  If no pbrent window, or the
+     * pbrent window isn't bn AwtComponent, returns NULL.
      */
-    AwtComponent* GetParent();
+    AwtComponent* GetPbrent();
 
-    /* Get the component's immediate container. Note: may return NULL while
-       the component is being reparented in full-screen mode by Direct3D */
-    class AwtWindow* GetContainer();
+    /* Get the component's immedibte contbiner. Note: mby return NULL while
+       the component is being repbrented in full-screen mode by Direct3D */
+    clbss AwtWindow* GetContbiner();
 
-    /* Is a component a container? Used by above method */
-    virtual BOOL IsContainer() { return FALSE;} // Plain components can't
+    /* Is b component b contbiner? Used by bbove method */
+    virtubl BOOL IsContbiner() { return FALSE;} // Plbin components cbn't
 
     /**
-     * Returns TRUE if this message will trigger native focus change, FALSE otherwise.
+     * Returns TRUE if this messbge will trigger nbtive focus chbnge, FALSE otherwise.
      */
-    virtual BOOL IsFocusingKeyMessage(MSG *pMsg);
-    virtual BOOL IsFocusingMouseMessage(MSG *pMsg);
+    virtubl BOOL IsFocusingKeyMessbge(MSG *pMsg);
+    virtubl BOOL IsFocusingMouseMessbge(MSG *pMsg);
 
-    BOOL IsFocusable();
+    BOOL IsFocusbble();
 
     /*
-     * Returns an increasing unsigned value used for child control IDs.
-     * There is no attempt to reclaim command ID's.
+     * Returns bn increbsing unsigned vblue used for child control IDs.
+     * There is no bttempt to reclbim commbnd ID's.
      */
-    INLINE UINT CreateControlID() { return m_nextControlID++; }
+    INLINE UINT CrebteControlID() { return m_nextControlID++; }
 
-    // returns the current keyboard layout
-    INLINE static HKL GetKeyboardLayout() {
+    // returns the current keybobrd lbyout
+    INLINE stbtic HKL GetKeybobrdLbyout() {
         return m_hkl;
     }
 
-    // returns the current code page that should be used in
-    // all MultiByteToWideChar and WideCharToMultiByte calls.
-    // This code page should also be use in IsDBCSLeadByteEx.
-    INLINE static UINT GetCodePage()
+    // returns the current code pbge thbt should be used in
+    // bll MultiByteToWideChbr bnd WideChbrToMultiByte cblls.
+    // This code pbge should blso be use in IsDBCSLebdByteEx.
+    INLINE stbtic UINT GetCodePbge()
     {
-        return m_CodePage;
+        return m_CodePbge;
     }
 
-// Added by waleed for BIDI Support
-    // returns the right to left status
-    INLINE static BOOL GetRTLReadingOrder() {
-        return sm_rtlReadingOrder;
+// Added by wbleed for BIDI Support
+    // returns the right to left stbtus
+    INLINE stbtic BOOL GetRTLRebdingOrder() {
+        return sm_rtlRebdingOrder;
     }
-    // returns the right to left status
-    INLINE static BOOL GetRTL() {
+    // returns the right to left stbtus
+    INLINE stbtic BOOL GetRTL() {
         return sm_rtl;
     }
-    // returns the current sub language
-    INLINE static LANGID GetSubLanguage() {
-        return SUBLANGID(m_idLang);
+    // returns the current sub lbngubge
+    INLINE stbtic LANGID GetSubLbngubge() {
+        return SUBLANGID(m_idLbng);
     }
-// end waleed
+// end wbleed
 
-    // returns the current input language
-    INLINE static LANGID GetInputLanguage()
+    // returns the current input lbngubge
+    INLINE stbtic LANGID GetInputLbngubge()
     {
-        return m_idLang;
+        return m_idLbng;
     }
-    // Convert Language ID to CodePage
-    static UINT LangToCodePage(LANGID idLang);
+    // Convert Lbngubge ID to CodePbge
+    stbtic UINT LbngToCodePbge(LANGID idLbng);
 
     /*
      * methods on this component
      */
-    virtual void Show();
-    virtual void Hide();
-    virtual void Reshape(int x, int y, int w, int h);
+    virtubl void Show();
+    virtubl void Hide();
+    virtubl void Reshbpe(int x, int y, int w, int h);
 
     /*
      * Fix for 4046446.
-     * Component size/position helper, for the values above the short int limit.
+     * Component size/position helper, for the vblues bbove the short int limit.
      */
-    static BOOL SetWindowPos(HWND wnd, HWND after,
-                             int x, int y, int w, int h, UINT flags);
+    stbtic BOOL SetWindowPos(HWND wnd, HWND bfter,
+                             int x, int y, int w, int h, UINT flbgs);
 
     /*
-     * Sets the scrollbar values.  'bar' can be either SB_VERT or
-     * SB_HORZ.  'min', 'value', and 'max' can have the value INT_MAX
-     * which means that the value should not be changed.
+     * Sets the scrollbbr vblues.  'bbr' cbn be either SB_VERT or
+     * SB_HORZ.  'min', 'vblue', bnd 'mbx' cbn hbve the vblue INT_MAX
+     * which mebns thbt the vblue should not be chbnged.
      */
-    void SetScrollValues(UINT bar, int min, int value, int max);
+    void SetScrollVblues(UINT bbr, int min, int vblue, int mbx);
 
-    INLINE LRESULT SendMessage(UINT msg, WPARAM wParam=0, LPARAM lParam=0) {
+    INLINE LRESULT SendMessbge(UINT msg, WPARAM wPbrbm=0, LPARAM lPbrbm=0) {
         DASSERT(GetHWnd());
-        return ::SendMessage(GetHWnd(), msg, wParam, lParam);
+        return ::SendMessbge(GetHWnd(), msg, wPbrbm, lPbrbm);
     }
 
-    void PostUngrabEvent();
+    void PostUngrbbEvent();
 
-    INLINE virtual LONG GetStyle() {
+    INLINE virtubl LONG GetStyle() {
         DASSERT(GetHWnd());
         return ::GetWindowLong(GetHWnd(), GWL_STYLE);
     }
-    INLINE virtual void SetStyle(LONG style) {
+    INLINE virtubl void SetStyle(LONG style) {
         DASSERT(GetHWnd());
-        // SetWindowLong() error handling as recommended by Win32 API doc.
-        ::SetLastError(0);
+        // SetWindowLong() error hbndling bs recommended by Win32 API doc.
+        ::SetLbstError(0);
         DWORD ret = ::SetWindowLong(GetHWnd(), GWL_STYLE, style);
-        DASSERT(ret != 0 || ::GetLastError() == 0);
+        DASSERT(ret != 0 || ::GetLbstError() == 0);
     }
-    INLINE virtual LONG GetStyleEx() {
+    INLINE virtubl LONG GetStyleEx() {
         DASSERT(GetHWnd());
         return ::GetWindowLong(GetHWnd(), GWL_EXSTYLE);
     }
-    INLINE virtual void SetStyleEx(LONG style) {
+    INLINE virtubl void SetStyleEx(LONG style) {
         DASSERT(GetHWnd());
-        // SetWindowLong() error handling as recommended by Win32 API doc.
-        ::SetLastError(0);
+        // SetWindowLong() error hbndling bs recommended by Win32 API doc.
+        ::SetLbstError(0);
         DWORD ret = ::SetWindowLong(GetHWnd(), GWL_EXSTYLE, style);
-        DASSERT(ret != 0 || ::GetLastError() == 0);
+        DASSERT(ret != 0 || ::GetLbstError() == 0);
     }
 
-    virtual BOOL NeedDblClick() { return FALSE; }
+    virtubl BOOL NeedDblClick() { return FALSE; }
 
     /* for multifont component */
-    static void DrawWindowText(HDC hDC, jobject font, jstring text,
+    stbtic void DrbwWindowText(HDC hDC, jobject font, jstring text,
                                int x, int y);
-    static void DrawGrayText(HDC hDC, jobject font, jstring text,
+    stbtic void DrbwGrbyText(HDC hDC, jobject font, jstring text,
                              int x, int y);
 
-    void DrawListItem(JNIEnv *env, DRAWITEMSTRUCT &drawInfo);
+    void DrbwListItem(JNIEnv *env, DRAWITEMSTRUCT &drbwInfo);
 
-    void MeasureListItem(JNIEnv *env, MEASUREITEMSTRUCT &measureInfo);
+    void MebsureListItem(JNIEnv *env, MEASUREITEMSTRUCT &mebsureInfo);
 
-    jstring GetItemString(JNIEnv *env, jobject target, jint index);
+    jstring GetItemString(JNIEnv *env, jobject tbrget, jint index);
 
     jint GetFontHeight(JNIEnv *env);
 
-    virtual jobject PreferredItemSize(JNIEnv *env) {DASSERT(FALSE); return NULL; }
+    virtubl jobject PreferredItemSize(JNIEnv *env) {DASSERT(FALSE); return NULL; }
 
-    INLINE BOOL isEnabled() {
+    INLINE BOOL isEnbbled() {
         JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        if (env->EnsureLocalCapacity(2) < 0) {
+        if (env->EnsureLocblCbpbcity(2) < 0) {
             return NULL;
         }
         jobject self = GetPeer(env);
-        jobject target = env->GetObjectField(self, AwtObject::targetID);
-        BOOL e = env->CallBooleanMethod(target, AwtComponent::isEnabledMID);
-        DASSERT(!safe_ExceptionOccurred(env));
+        jobject tbrget = env->GetObjectField(self, AwtObject::tbrgetID);
+        BOOL e = env->CbllBoolebnMethod(tbrget, AwtComponent::isEnbbledMID);
+        DASSERT(!sbfe_ExceptionOccurred(env));
 
-        env->DeleteLocalRef(target);
+        env->DeleteLocblRef(tbrget);
 
         return e;
     }
 
-    INLINE BOOL isRecursivelyEnabled() {
+    INLINE BOOL isRecursivelyEnbbled() {
         AwtComponent* p = this;
         do {
-            if (!p->isEnabled()) {
+            if (!p->isEnbbled()) {
                 return FALSE;
             }
         } while (!p->IsTopLevel() &&
-            (p = p->GetParent()) != NULL);
+            (p = p->GetPbrent()) != NULL);
         return TRUE;
     }
 
-    void SendKeyEventToFocusOwner(jint id, jlong when, jint raw, jint cooked,
-                                  jint modifiers, jint keyLocation, jlong nativeCode,
+    void SendKeyEventToFocusOwner(jint id, jlong when, jint rbw, jint cooked,
+                                  jint modifiers, jint keyLocbtion, jlong nbtiveCode,
                                   MSG *msg = NULL);
     /*
-     * Allocate and initialize a new java.awt.event.KeyEvent, and
-     * post it to the peer's target object.  No response is expected
-     * from the target.
+     * Allocbte bnd initiblize b new jbvb.bwt.event.KeyEvent, bnd
+     * post it to the peer's tbrget object.  No response is expected
+     * from the tbrget.
      */
-    void SendKeyEvent(jint id, jlong when, jint raw, jint cooked,
-                      jint modifiers, jint keyLocation, jlong nativeCode,
+    void SendKeyEvent(jint id, jlong when, jint rbw, jint cooked,
+                      jint modifiers, jint keyLocbtion, jlong nbtiveCode,
                       MSG *msg = NULL);
 
     /*
-     * Allocate and initialize a new java.awt.event.MouseEvent, and
-     * post it to the peer's target object.  No response is expected
-     * from the target.
+     * Allocbte bnd initiblize b new jbvb.bwt.event.MouseEvent, bnd
+     * post it to the peer's tbrget object.  No response is expected
+     * from the tbrget.
      */
     void SendMouseEvent(jint id, jlong when, jint x, jint y,
                         jint modifiers, jint clickCount,
-                        jboolean popupTrigger, jint button = 0,
+                        jboolebn popupTrigger, jint button = 0,
                         MSG *msg = NULL);
 
     /*
-     * Allocate and initialize a new java.awt.event.MouseWheelEvent, and
-     * post it to the peer's target object.  No response is expected
-     * from the target.
+     * Allocbte bnd initiblize b new jbvb.bwt.event.MouseWheelEvent, bnd
+     * post it to the peer's tbrget object.  No response is expected
+     * from the tbrget.
      */
     void SendMouseWheelEvent(jint id, jlong when, jint x, jint y,
                              jint modifiers, jint clickCount,
-                             jboolean popupTrigger, jint scrollType,
-                             jint scrollAmount, jint wheelRotation,
-                             jdouble preciseWheelRotation, MSG *msg = NULL);
+                             jboolebn popupTrigger, jint scrollType,
+                             jint scrollAmount, jint wheelRotbtion,
+                             jdouble preciseWheelRotbtion, MSG *msg = NULL);
 
     /*
-     * Allocate and initialize a new java.awt.event.FocusEvent, and
-     * post it to the peer's target object.  No response is expected
-     * from the target.
+     * Allocbte bnd initiblize b new jbvb.bwt.event.FocusEvent, bnd
+     * post it to the peer's tbrget object.  No response is expected
+     * from the tbrget.
      */
     void SendFocusEvent(jint id, HWND opposite);
 
-    /* Forward a filtered event directly to the subclassed window.
-       synthetic should be TRUE iff the message was generated because
-       of a synthetic Java event, rather than a native event. */
-    virtual MsgRouting HandleEvent(MSG *msg, BOOL synthetic);
+    /* Forwbrd b filtered event directly to the subclbssed window.
+       synthetic should be TRUE iff the messbge wbs generbted becbuse
+       of b synthetic Jbvb event, rbther thbn b nbtive event. */
+    virtubl MsgRouting HbndleEvent(MSG *msg, BOOL synthetic);
 
-    /* Post a WM_AWT_HANDLE_EVENT message which invokes HandleEvent
-       on the toolkit thread. This method may pre-filter the messages. */
-    virtual BOOL PostHandleEventMessage(MSG *msg, BOOL synthetic);
+    /* Post b WM_AWT_HANDLE_EVENT messbge which invokes HbndleEvent
+       on the toolkit threbd. This method mby pre-filter the messbges. */
+    virtubl BOOL PostHbndleEventMessbge(MSG *msg, BOOL synthetic);
 
-    /* Event->message synthesizer methods. */
-    void SynthesizeKeyMessage(JNIEnv *env, jobject keyEvent);
-    void SynthesizeMouseMessage(JNIEnv *env, jobject mouseEvent);
+    /* Event->messbge synthesizer methods. */
+    void SynthesizeKeyMessbge(JNIEnv *env, jobject keyEvent);
+    void SynthesizeMouseMessbge(JNIEnv *env, jobject mouseEvent);
 
-    /* Components which inherit native mouse wheel behavior will
-     * return TRUE.  These are TextArea, Choice, FileDialog, and
+    /* Components which inherit nbtive mouse wheel behbvior will
+     * return TRUE.  These bre TextAreb, Choice, FileDiblog, bnd
      * List.  All other Components return FALSE.
      */
-    virtual BOOL InheritsNativeMouseWheelBehavior();
+    virtubl BOOL InheritsNbtiveMouseWheelBehbvior();
 
-    /* Determines whether the component is obscured by another window */
-    // Called on Toolkit thread
-    static jboolean _IsObscured(void *param);
+    /* Determines whether the component is obscured by bnother window */
+    // Cblled on Toolkit threbd
+    stbtic jboolebn _IsObscured(void *pbrbm);
 
-    /* Invalidate the specified rectangle. */
-    virtual void Invalidate(RECT* r);
+    /* Invblidbte the specified rectbngle. */
+    virtubl void Invblidbte(RECT* r);
 
-    /* Begin and end deferred window positioning. */
-    virtual void BeginValidate();
-    virtual void EndValidate();
+    /* Begin bnd end deferred window positioning. */
+    virtubl void BeginVblidbte();
+    virtubl void EndVblidbte();
 
-    /* Keyboard conversion routines. */
-    static void InitDynamicKeyMapTable();
-    static void BuildDynamicKeyMapTable();
-    static jint GetJavaModifiers();
-    static jint GetButton(int mouseButton);
-    static UINT GetButtonMK(int mouseButton);
-    static UINT WindowsKeyToJavaKey(UINT windowsKey, UINT modifiers, UINT character, BOOL isDeadKey);
-    static void JavaKeyToWindowsKey(UINT javaKey, UINT *windowsKey, UINT *modifiers, UINT originalWindowsKey);
-    static void UpdateDynPrimaryKeymap(UINT wkey, UINT jkeyLegacy, jint keyLocation, UINT modifiers);
+    /* Keybobrd conversion routines. */
+    stbtic void InitDynbmicKeyMbpTbble();
+    stbtic void BuildDynbmicKeyMbpTbble();
+    stbtic jint GetJbvbModifiers();
+    stbtic jint GetButton(int mouseButton);
+    stbtic UINT GetButtonMK(int mouseButton);
+    stbtic UINT WindowsKeyToJbvbKey(UINT windowsKey, UINT modifiers, UINT chbrbcter, BOOL isDebdKey);
+    stbtic void JbvbKeyToWindowsKey(UINT jbvbKey, UINT *windowsKey, UINT *modifiers, UINT originblWindowsKey);
+    stbtic void UpdbteDynPrimbryKeymbp(UINT wkey, UINT jkeyLegbcy, jint keyLocbtion, UINT modifiers);
 
-    INLINE static void AwtComponent::JavaKeyToWindowsKey(UINT javaKey,
+    INLINE stbtic void AwtComponent::JbvbKeyToWindowsKey(UINT jbvbKey,
                                        UINT *windowsKey, UINT *modifiers)
     {
-        JavaKeyToWindowsKey(javaKey, windowsKey, modifiers, IGNORE_KEY);
+        JbvbKeyToWindowsKey(jbvbKey, windowsKey, modifiers, IGNORE_KEY);
     }
 
-    enum TransOps {NONE, LOAD, SAVE};
+    enum TrbnsOps {NONE, LOAD, SAVE};
 
-    UINT WindowsKeyToJavaChar(UINT wkey, UINT modifiers, TransOps ops, BOOL &isDeadKey);
+    UINT WindowsKeyToJbvbChbr(UINT wkey, UINT modifiers, TrbnsOps ops, BOOL &isDebdKey);
 
     /* routines used for input method support */
-    void SetInputMethod(jobject im, BOOL useNativeCompWindow);
-    void SendInputMethodEvent(jint id, jstring text, int cClause,
-                              int *rgClauseBoundary, jstring *rgClauseReading,
-                              int cAttrBlock, int *rgAttrBoundary,
-                              BYTE *rgAttrValue, int commitedTextLength,
-                              int caretPos, int visiblePos);
-    void InquireCandidatePosition();
-    INLINE LPARAM GetCandidateType() { return m_bitsCandType; }
+    void SetInputMethod(jobject im, BOOL useNbtiveCompWindow);
+    void SendInputMethodEvent(jint id, jstring text, int cClbuse,
+                              int *rgClbuseBoundbry, jstring *rgClbuseRebding,
+                              int cAttrBlock, int *rgAttrBoundbry,
+                              BYTE *rgAttrVblue, int commitedTextLength,
+                              int cbretPos, int visiblePos);
+    void InquireCbndidbtePosition();
+    INLINE LPARAM GetCbndidbteType() { return m_bitsCbndType; }
     HWND ImmGetHWnd();
-    HIMC ImmAssociateContext(HIMC himc);
+    HIMC ImmAssocibteContext(HIMC himc);
     HWND GetProxyFocusOwner();
 
-    INLINE HWND GetProxyToplevelContainer() {
+    INLINE HWND GetProxyToplevelContbiner() {
         HWND proxyHWnd = GetProxyFocusOwner();
-        return ::GetAncestor(proxyHWnd, GA_ROOT); // a browser in case of EmbeddedFrame
+        return ::GetAncestor(proxyHWnd, GA_ROOT); // b browser in cbse of EmbeddedFrbme
     }
 
-    void CallProxyDefWindowProc(UINT message,
-                                WPARAM wParam,
-                                LPARAM lParam,
-                                LRESULT &retVal,
+    void CbllProxyDefWindowProc(UINT messbge,
+                                WPARAM wPbrbm,
+                                LPARAM lPbrbm,
+                                LRESULT &retVbl,
                                 MsgRouting &mr);
 
     /*
-     * Windows message handler functions
+     * Windows messbge hbndler functions
      */
-    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-    virtual LRESULT DefWindowProc(UINT msg, WPARAM wParam, LPARAM lParam);
+    virtubl LRESULT WindowProc(UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm);
+    virtubl LRESULT DefWindowProc(UINT msg, WPARAM wPbrbm, LPARAM lPbrbm);
 
     /* return true if msg is processed */
-    virtual MsgRouting PreProcessMsg(MSG& msg);
+    virtubl MsgRouting PreProcessMsg(MSG& msg);
 
-    virtual MsgRouting WmCreate() {return mrDoDefault;}
-    virtual MsgRouting WmClose() {return mrDoDefault;}
-    virtual MsgRouting WmDestroy();
-    virtual MsgRouting WmNcDestroy();
+    virtubl MsgRouting WmCrebte() {return mrDoDefbult;}
+    virtubl MsgRouting WmClose() {return mrDoDefbult;}
+    virtubl MsgRouting WmDestroy();
+    virtubl MsgRouting WmNcDestroy();
 
-    virtual MsgRouting WmActivate(UINT nState, BOOL fMinimized, HWND opposite)
+    virtubl MsgRouting WmActivbte(UINT nStbte, BOOL fMinimized, HWND opposite)
     {
-        return mrDoDefault;
+        return mrDoDefbult;
     }
 
-    virtual MsgRouting WmEraseBkgnd(HDC hDC, BOOL& didErase)
+    virtubl MsgRouting WmErbseBkgnd(HDC hDC, BOOL& didErbse)
     {
-        return mrDoDefault;
+        return mrDoDefbult;
     }
 
-    virtual MsgRouting WmPaint(HDC hDC);
-    virtual MsgRouting WmGetMinMaxInfo(LPMINMAXINFO lpmmi);
-    virtual MsgRouting WmMove(int x, int y);
-    virtual MsgRouting WmSize(UINT type, int w, int h);
-    virtual MsgRouting WmSizing();
-    virtual MsgRouting WmShowWindow(BOOL show, UINT status);
-    virtual MsgRouting WmSetFocus(HWND hWndLost);
-    virtual MsgRouting WmKillFocus(HWND hWndGot);
-    virtual MsgRouting WmCtlColor(HDC hDC, HWND hCtrl,
+    virtubl MsgRouting WmPbint(HDC hDC);
+    virtubl MsgRouting WmGetMinMbxInfo(LPMINMAXINFO lpmmi);
+    virtubl MsgRouting WmMove(int x, int y);
+    virtubl MsgRouting WmSize(UINT type, int w, int h);
+    virtubl MsgRouting WmSizing();
+    virtubl MsgRouting WmShowWindow(BOOL show, UINT stbtus);
+    virtubl MsgRouting WmSetFocus(HWND hWndLost);
+    virtubl MsgRouting WmKillFocus(HWND hWndGot);
+    virtubl MsgRouting WmCtlColor(HDC hDC, HWND hCtrl,
                                   UINT ctlColor, HBRUSH& retBrush);
-    virtual MsgRouting WmHScroll(UINT scrollCode, UINT pos, HWND hScrollBar);
-    virtual MsgRouting WmVScroll(UINT scrollCode, UINT pos, HWND hScrollBar);
+    virtubl MsgRouting WmHScroll(UINT scrollCode, UINT pos, HWND hScrollBbr);
+    virtubl MsgRouting WmVScroll(UINT scrollCode, UINT pos, HWND hScrollBbr);
 
-    virtual MsgRouting WmMouseEnter(UINT flags, int x, int y);
-    virtual MsgRouting WmMouseDown(UINT flags, int x, int y, int button);
-    virtual MsgRouting WmMouseUp(UINT flags, int x, int y, int button);
-    virtual MsgRouting WmMouseMove(UINT flags, int x, int y);
-    virtual MsgRouting WmMouseExit(UINT flags, int x, int y);
-    virtual MsgRouting WmMouseWheel(UINT flags, int x, int y,
-                                    int wheelRotation);
-    virtual MsgRouting WmNcMouseDown(WPARAM hitTest, int x, int y, int button);
-    virtual MsgRouting WmNcMouseUp(WPARAM hitTest, int x, int y, int button);
-    virtual MsgRouting WmWindowPosChanging(LPARAM windowPos);
-    virtual MsgRouting WmWindowPosChanged(LPARAM windowPos);
+    virtubl MsgRouting WmMouseEnter(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmMouseDown(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmMouseUp(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmMouseMove(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmMouseExit(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmMouseWheel(UINT flbgs, int x, int y,
+                                    int wheelRotbtion);
+    virtubl MsgRouting WmNcMouseDown(WPARAM hitTest, int x, int y, int button);
+    virtubl MsgRouting WmNcMouseUp(WPARAM hitTest, int x, int y, int button);
+    virtubl MsgRouting WmWindowPosChbnging(LPARAM windowPos);
+    virtubl MsgRouting WmWindowPosChbnged(LPARAM windowPos);
 
-    // NB: 64-bit: vkey is wParam of the message, but other API's take
-    // vkey parameters of type UINT, so we do the cast before dispatching.
-    virtual MsgRouting WmKeyDown(UINT vkey, UINT repCnt, UINT flags, BOOL system);
-    virtual MsgRouting WmKeyUp(UINT vkey, UINT repCnt, UINT flags, BOOL system);
+    // NB: 64-bit: vkey is wPbrbm of the messbge, but other API's tbke
+    // vkey pbrbmeters of type UINT, so we do the cbst before dispbtching.
+    virtubl MsgRouting WmKeyDown(UINT vkey, UINT repCnt, UINT flbgs, BOOL system);
+    virtubl MsgRouting WmKeyUp(UINT vkey, UINT repCnt, UINT flbgs, BOOL system);
 
-    virtual MsgRouting WmChar(UINT character, UINT repCnt, UINT flags, BOOL system);
-    virtual MsgRouting WmIMEChar(UINT character, UINT repCnt, UINT flags, BOOL system);
-    virtual MsgRouting WmInputLangChange(UINT charset, HKL hKeyBoardLayout);
-    virtual MsgRouting WmForwardChar(WCHAR character, LPARAM lParam,
+    virtubl MsgRouting WmChbr(UINT chbrbcter, UINT repCnt, UINT flbgs, BOOL system);
+    virtubl MsgRouting WmIMEChbr(UINT chbrbcter, UINT repCnt, UINT flbgs, BOOL system);
+    virtubl MsgRouting WmInputLbngChbnge(UINT chbrset, HKL hKeyBobrdLbyout);
+    virtubl MsgRouting WmForwbrdChbr(WCHAR chbrbcter, LPARAM lPbrbm,
                                      BOOL synthethic);
-    virtual MsgRouting WmPaste();
+    virtubl MsgRouting WmPbste();
 
-    virtual void SetCompositionWindow(RECT &r);
-    virtual void OpenCandidateWindow(int x, int y);
-    virtual void SetCandidateWindow(int iCandType, int x, int y);
-    virtual MsgRouting WmImeSetContext(BOOL fSet, LPARAM *lplParam);
-    virtual MsgRouting WmImeNotify(WPARAM subMsg, LPARAM bitsCandType);
-    virtual MsgRouting WmImeStartComposition();
-    virtual MsgRouting WmImeEndComposition();
-    virtual MsgRouting WmImeComposition(WORD wChar, LPARAM flags);
+    virtubl void SetCompositionWindow(RECT &r);
+    virtubl void OpenCbndidbteWindow(int x, int y);
+    virtubl void SetCbndidbteWindow(int iCbndType, int x, int y);
+    virtubl MsgRouting WmImeSetContext(BOOL fSet, LPARAM *lplPbrbm);
+    virtubl MsgRouting WmImeNotify(WPARAM subMsg, LPARAM bitsCbndType);
+    virtubl MsgRouting WmImeStbrtComposition();
+    virtubl MsgRouting WmImeEndComposition();
+    virtubl MsgRouting WmImeComposition(WORD wChbr, LPARAM flbgs);
 
-    virtual MsgRouting WmTimer(UINT_PTR timerID) {return mrDoDefault;}
+    virtubl MsgRouting WmTimer(UINT_PTR timerID) {return mrDoDefbult;}
 
-    virtual MsgRouting WmCommand(UINT id, HWND hWndCtrl, UINT notifyCode);
+    virtubl MsgRouting WmCommbnd(UINT id, HWND hWndCtrl, UINT notifyCode);
 
-    /* reflected WmCommand from parent */
-    virtual MsgRouting WmNotify(UINT notifyCode);
+    /* reflected WmCommbnd from pbrent */
+    virtubl MsgRouting WmNotify(UINT notifyCode);
 
-    virtual MsgRouting WmCompareItem(UINT /*ctrlId*/,
-                                     COMPAREITEMSTRUCT &compareInfo,
+    virtubl MsgRouting WmCompbreItem(UINT /*ctrlId*/,
+                                     COMPAREITEMSTRUCT &compbreInfo,
                                      LRESULT &result);
-    virtual MsgRouting WmDeleteItem(UINT /*ctrlId*/,
+    virtubl MsgRouting WmDeleteItem(UINT /*ctrlId*/,
                                     DELETEITEMSTRUCT &deleteInfo);
-    virtual MsgRouting WmDrawItem(UINT ctrlId,
-                                  DRAWITEMSTRUCT &drawInfo);
-    virtual MsgRouting WmMeasureItem(UINT ctrlId,
-                                     MEASUREITEMSTRUCT &measureInfo);
-    /* Fix 4181790 & 4223341 : These functions get overridden in owner-drawn
-     * components instead of the Wm... versions.
+    virtubl MsgRouting WmDrbwItem(UINT ctrlId,
+                                  DRAWITEMSTRUCT &drbwInfo);
+    virtubl MsgRouting WmMebsureItem(UINT ctrlId,
+                                     MEASUREITEMSTRUCT &mebsureInfo);
+    /* Fix 4181790 & 4223341 : These functions get overridden in owner-drbwn
+     * components instebd of the Wm... versions.
      */
-    virtual MsgRouting OwnerDrawItem(UINT ctrlId,
-                                     DRAWITEMSTRUCT &drawInfo);
-    virtual MsgRouting OwnerMeasureItem(UINT ctrlId,
-                                        MEASUREITEMSTRUCT &measureInfo);
+    virtubl MsgRouting OwnerDrbwItem(UINT ctrlId,
+                                     DRAWITEMSTRUCT &drbwInfo);
+    virtubl MsgRouting OwnerMebsureItem(UINT ctrlId,
+                                        MEASUREITEMSTRUCT &mebsureInfo);
 
-    virtual MsgRouting WmPrint(HDC hDC, LPARAM flags);
-    virtual MsgRouting WmPrintClient(HDC hDC, LPARAM flags);
+    virtubl MsgRouting WmPrint(HDC hDC, LPARAM flbgs);
+    virtubl MsgRouting WmPrintClient(HDC hDC, LPARAM flbgs);
 
-    virtual MsgRouting WmNcCalcSize(BOOL fCalcValidRects,
+    virtubl MsgRouting WmNcCblcSize(BOOL fCblcVblidRects,
                                     LPNCCALCSIZE_PARAMS lpncsp,
-                                    LRESULT &retVal);
-    virtual MsgRouting WmNcPaint(HRGN hrgn);
-    virtual MsgRouting WmNcHitTest(UINT x, UINT y, LRESULT &retVal);
-    virtual MsgRouting WmSysCommand(UINT uCmdType, int xPos, int yPos);
-    virtual MsgRouting WmExitSizeMove();
-    virtual MsgRouting WmEnterMenuLoop(BOOL isTrackPopupMenu);
-    virtual MsgRouting WmExitMenuLoop(BOOL isTrackPopupMenu);
+                                    LRESULT &retVbl);
+    virtubl MsgRouting WmNcPbint(HRGN hrgn);
+    virtubl MsgRouting WmNcHitTest(UINT x, UINT y, LRESULT &retVbl);
+    virtubl MsgRouting WmSysCommbnd(UINT uCmdType, int xPos, int yPos);
+    virtubl MsgRouting WmExitSizeMove();
+    virtubl MsgRouting WmEnterMenuLoop(BOOL isTrbckPopupMenu);
+    virtubl MsgRouting WmExitMenuLoop(BOOL isTrbckPopupMenu);
 
-    virtual MsgRouting WmQueryNewPalette(LRESULT &retVal);
-    virtual MsgRouting WmPaletteChanged(HWND hwndPalChg);
-    virtual MsgRouting WmPaletteIsChanging(HWND hwndPalChg);
-    virtual MsgRouting WmStyleChanged(int wStyleType, LPSTYLESTRUCT lpss);
-    virtual MsgRouting WmSettingChange(UINT wFlag, LPCTSTR pszSection);
+    virtubl MsgRouting WmQueryNewPblette(LRESULT &retVbl);
+    virtubl MsgRouting WmPbletteChbnged(HWND hwndPblChg);
+    virtubl MsgRouting WmPbletteIsChbnging(HWND hwndPblChg);
+    virtubl MsgRouting WmStyleChbnged(int wStyleType, LPSTYLESTRUCT lpss);
+    virtubl MsgRouting WmSettingChbnge(UINT wFlbg, LPCTSTR pszSection);
 
-    virtual MsgRouting WmContextMenu(HWND hCtrl, UINT xPos, UINT yPos) {
-        return mrDoDefault;
+    virtubl MsgRouting WmContextMenu(HWND hCtrl, UINT xPos, UINT yPos) {
+        return mrDoDefbult;
     }
 
-    void UpdateColorModel();
+    void UpdbteColorModel();
 
-    jintArray CreatePrintedPixels(SIZE &loc, SIZE &size, int alpha);
+    jintArrby CrebtePrintedPixels(SIZE &loc, SIZE &size, int blphb);
 
     /*
-     * HWND, AwtComponent and Java Peer interaction
+     * HWND, AwtComponent bnd Jbvb Peer interbction
      *
-     * Link the C++, Java peer, and HWNDs together.
+     * Link the C++, Jbvb peer, bnd HWNDs together.
      */
     void LinkObjects(JNIEnv *env, jobject peer);
 
     void UnlinkObjects();
 
-    static BOOL QueryNewPaletteCalled() { return m_QueryNewPaletteCalled; }
+    stbtic BOOL QueryNewPbletteCblled() { return m_QueryNewPbletteCblled; }
 
 #ifdef DEBUG
-    virtual void VerifyState(); /* verify component and peer are in sync. */
+    virtubl void VerifyStbte(); /* verify component bnd peer bre in sync. */
 #else
-    void VerifyState() {}       /* no-op */
+    void VerifyStbte() {}       /* no-op */
 #endif
 
-    virtual AwtDropTarget* CreateDropTarget(JNIEnv* env);
-    virtual void DestroyDropTarget();
+    virtubl AwtDropTbrget* CrebteDropTbrget(JNIEnv* env);
+    virtubl void DestroyDropTbrget();
 
-    INLINE virtual HWND GetDBCSEditHandle() { return NULL; }
-    // State for native drawing API
-    INLINE jint GetDrawState() { return GetDrawState(m_hwnd); }
-    INLINE void SetDrawState(jint state) { SetDrawState(m_hwnd, state); }    // State for native drawing API
+    INLINE virtubl HWND GetDBCSEditHbndle() { return NULL; }
+    // Stbte for nbtive drbwing API
+    INLINE jint GetDrbwStbte() { return GetDrbwStbte(m_hwnd); }
+    INLINE void SetDrbwStbte(jint stbte) { SetDrbwStbte(m_hwnd, stbte); }    // Stbte for nbtive drbwing API
 
-    INLINE virtual BOOL IsTopLevel() { return FALSE; }
-    INLINE virtual BOOL IsEmbeddedFrame() { return FALSE; }
-    INLINE virtual BOOL IsScrollbar() { return FALSE; }
+    INLINE virtubl BOOL IsTopLevel() { return FALSE; }
+    INLINE virtubl BOOL IsEmbeddedFrbme() { return FALSE; }
+    INLINE virtubl BOOL IsScrollbbr() { return FALSE; }
 
-    static INLINE BOOL IsTopLevelHWnd(HWND hwnd) {
+    stbtic INLINE BOOL IsTopLevelHWnd(HWND hwnd) {
         AwtComponent *comp = AwtComponent::GetComponent(hwnd);
         return (comp != NULL && comp->IsTopLevel());
     }
-    static INLINE BOOL IsEmbeddedFrameHWnd(HWND hwnd) {
+    stbtic INLINE BOOL IsEmbeddedFrbmeHWnd(HWND hwnd) {
         AwtComponent *comp = AwtComponent::GetComponent(hwnd);
-        return (comp != NULL && comp->IsEmbeddedFrame());
+        return (comp != NULL && comp->IsEmbeddedFrbme());
     }
 
-    static jint GetDrawState(HWND hwnd);
-    static void SetDrawState(HWND hwnd, jint state);
+    stbtic jint GetDrbwStbte(HWND hwnd);
+    stbtic void SetDrbwStbte(HWND hwnd, jint stbte);
 
-    static HWND GetHWnd(JNIEnv* env, jobject target);
+    stbtic HWND GetHWnd(JNIEnv* env, jobject tbrget);
 
-    static MSG* CreateMessage(UINT message, WPARAM wParam, LPARAM lParam, int x, int y);
-    static void InitMessage(MSG* msg, UINT message, WPARAM wParam, LPARAM lParam, int x, int y);
+    stbtic MSG* CrebteMessbge(UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm, int x, int y);
+    stbtic void InitMessbge(MSG* msg, UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm, int x, int y);
 
-    // Some methods to be called on Toolkit thread via Toolkit.InvokeFunction()
-    static void _Show(void *param);
-    static void _Hide(void *param);
-    static void _Enable(void *param);
-    static void _Disable(void *param);
-    static jobject _GetLocationOnScreen(void *param);
-    static void _Reshape(void *param);
-    static void _ReshapeNoCheck(void *param);
-    static void _NativeHandleEvent(void *param);
-    static void _SetForeground(void *param);
-    static void _SetBackground(void *param);
-    static void _SetFont(void *param);
-    static void _Start(void *param);
-    static void _BeginValidate(void *param);
-    static void _EndValidate(void *param);
-    static void _UpdateWindow(void *param);
-    static jlong _AddNativeDropTarget(void *param);
-    static void _RemoveNativeDropTarget(void *param);
-    static jintArray _CreatePrintedPixels(void *param);
-    static jboolean _NativeHandlesWheelScrolling(void *param);
-    static void _SetRectangularShape(void *param);
-    static void _SetZOrder(void *param);
+    // Some methods to be cblled on Toolkit threbd vib Toolkit.InvokeFunction()
+    stbtic void _Show(void *pbrbm);
+    stbtic void _Hide(void *pbrbm);
+    stbtic void _Enbble(void *pbrbm);
+    stbtic void _Disbble(void *pbrbm);
+    stbtic jobject _GetLocbtionOnScreen(void *pbrbm);
+    stbtic void _Reshbpe(void *pbrbm);
+    stbtic void _ReshbpeNoCheck(void *pbrbm);
+    stbtic void _NbtiveHbndleEvent(void *pbrbm);
+    stbtic void _SetForeground(void *pbrbm);
+    stbtic void _SetBbckground(void *pbrbm);
+    stbtic void _SetFont(void *pbrbm);
+    stbtic void _Stbrt(void *pbrbm);
+    stbtic void _BeginVblidbte(void *pbrbm);
+    stbtic void _EndVblidbte(void *pbrbm);
+    stbtic void _UpdbteWindow(void *pbrbm);
+    stbtic jlong _AddNbtiveDropTbrget(void *pbrbm);
+    stbtic void _RemoveNbtiveDropTbrget(void *pbrbm);
+    stbtic jintArrby _CrebtePrintedPixels(void *pbrbm);
+    stbtic jboolebn _NbtiveHbndlesWheelScrolling(void *pbrbm);
+    stbtic void _SetRectbngulbrShbpe(void *pbrbm);
+    stbtic void _SetZOrder(void *pbrbm);
 
-    static HWND sm_focusOwner;
+    stbtic HWND sm_focusOwner;
 
-private:
-    static HWND sm_focusedWindow;
+privbte:
+    stbtic HWND sm_focusedWindow;
 
 public:
-    static inline HWND GetFocusedWindow() { return sm_focusedWindow; }
-    static void SetFocusedWindow(HWND window);
+    stbtic inline HWND GetFocusedWindow() { return sm_focusedWindow; }
+    stbtic void SetFocusedWindow(HWND window);
 
-    static void _SetFocus(void *param);
+    stbtic void _SetFocus(void *pbrbm);
 
-    static void *SetNativeFocusOwner(void *self);
-    static void *GetNativeFocusedWindow();
-    static void *GetNativeFocusOwner();
+    stbtic void *SetNbtiveFocusOwner(void *self);
+    stbtic void *GetNbtiveFocusedWindow();
+    stbtic void *GetNbtiveFocusOwner();
 
-    static BOOL sm_inSynthesizeFocus;
+    stbtic BOOL sm_inSynthesizeFocus;
 
     // Execute on Toolkit only.
-    INLINE static LRESULT SynthesizeWmSetFocus(HWND targetHWnd, HWND oppositeHWnd) {
+    INLINE stbtic LRESULT SynthesizeWmSetFocus(HWND tbrgetHWnd, HWND oppositeHWnd) {
         sm_inSynthesizeFocus = TRUE;
-        LRESULT res = ::SendMessage(targetHWnd, WM_SETFOCUS, (WPARAM)oppositeHWnd, 0);
+        LRESULT res = ::SendMessbge(tbrgetHWnd, WM_SETFOCUS, (WPARAM)oppositeHWnd, 0);
         sm_inSynthesizeFocus = FALSE;
         return res;
     }
     // Execute on Toolkit only.
-    INLINE static LRESULT SynthesizeWmKillFocus(HWND targetHWnd, HWND oppositeHWnd) {
+    INLINE stbtic LRESULT SynthesizeWmKillFocus(HWND tbrgetHWnd, HWND oppositeHWnd) {
         sm_inSynthesizeFocus = TRUE;
-        LRESULT res = ::SendMessage(targetHWnd, WM_KILLFOCUS, (WPARAM)oppositeHWnd, 0);
+        LRESULT res = ::SendMessbge(tbrgetHWnd, WM_KILLFOCUS, (WPARAM)oppositeHWnd, 0);
         sm_inSynthesizeFocus = FALSE;
         return res;
     }
 
-    static BOOL sm_bMenuLoop;
-    static INLINE BOOL isMenuLoopActive() {
+    stbtic BOOL sm_bMenuLoop;
+    stbtic INLINE BOOL isMenuLoopActive() {
         return sm_bMenuLoop;
     }
 
-    // when this component is being destroyed, this method is called
-    // to find out if there are any messages being processed, and if
-    // there are some then disposal of this component is postponed
-    virtual BOOL CanBeDeleted() {
-        return m_MessagesProcessing == 0;
+    // when this component is being destroyed, this method is cblled
+    // to find out if there bre bny messbges being processed, bnd if
+    // there bre some then disposbl of this component is postponed
+    virtubl BOOL CbnBeDeleted() {
+        return m_MessbgesProcessing == 0;
     }
 
-    BOOL IsDestroyPaused() const {
-        return m_bPauseDestroy;
+    BOOL IsDestroyPbused() const {
+        return m_bPbuseDestroy;
     }
 
 protected:
-    static AwtComponent* GetComponentImpl(HWND hWnd);
+    stbtic AwtComponent* GetComponentImpl(HWND hWnd);
 
-    static int GetClickCount();
+    stbtic int GetClickCount();
 
     HWND     m_hwnd;
-    UINT     m_myControlID;     /* its own ID from the view point of parent */
-    BOOL     m_backgroundColorSet;
+    UINT     m_myControlID;     /* its own ID from the view point of pbrent */
+    BOOL     m_bbckgroundColorSet;
     BOOL     m_visible;         /* copy of Component.visible */
 
-    static BOOL sm_suppressFocusAndActivation;
-    static BOOL sm_restoreFocusAndActivation;
+    stbtic BOOL sm_suppressFocusAndActivbtion;
+    stbtic BOOL sm_restoreFocusAndActivbtion;
 
     /*
-     * The function sets the focus-restore flag ON/OFF.
-     * When the flag is ON, focus is restored immidiately after the proxy loses it.
-     * All focus messages are suppressed. It's also assumed that sm_focusedWindow and
-     * sm_focusOwner don't change after the flag is set ON and before it's set OFF.
+     * The function sets the focus-restore flbg ON/OFF.
+     * When the flbg is ON, focus is restored immidibtely bfter the proxy loses it.
+     * All focus messbges bre suppressed. It's blso bssumed thbt sm_focusedWindow bnd
+     * sm_focusOwner don't chbnge bfter the flbg is set ON bnd before it's set OFF.
      */
-    static INLINE void SetRestoreFocus(BOOL doSet) {
-        sm_suppressFocusAndActivation = doSet;
-        sm_restoreFocusAndActivation = doSet;
+    stbtic INLINE void SetRestoreFocus(BOOL doSet) {
+        sm_suppressFocusAndActivbtion = doSet;
+        sm_restoreFocusAndActivbtion = doSet;
     }
 
-    virtual void SetDragCapture(UINT flags);
-    virtual void ReleaseDragCapture(UINT flags);
+    virtubl void SetDrbgCbpture(UINT flbgs);
+    virtubl void RelebseDrbgCbpture(UINT flbgs);
 
-    virtual void FillBackground(HDC hMemoryDC, SIZE &size);
-    virtual void FillAlpha(void *bitmapBits, SIZE &size, BYTE alpha);
+    virtubl void FillBbckground(HDC hMemoryDC, SIZE &size);
+    virtubl void FillAlphb(void *bitmbpBits, SIZE &size, BYTE blphb);
 
-private:
-    /* A bitmask keeps the button's numbers as MK_LBUTTON, MK_MBUTTON, MK_RBUTTON
-     * which are allowed to
-     * generate the CLICK event after the RELEASE has happened.
-     * There are conditions that must be true for that sending CLICK event:
-     * 1) button was initially PRESSED
-     * 2) no movement or drag has happened until RELEASE
+privbte:
+    /* A bitmbsk keeps the button's numbers bs MK_LBUTTON, MK_MBUTTON, MK_RBUTTON
+     * which bre bllowed to
+     * generbte the CLICK event bfter the RELEASE hbs hbppened.
+     * There bre conditions thbt must be true for thbt sending CLICK event:
+     * 1) button wbs initiblly PRESSED
+     * 2) no movement or drbg hbs hbppened until RELEASE
     */
     UINT m_mouseButtonClickAllowed;
 
-    BOOL m_bSubclassed;
-    BOOL m_bPauseDestroy;
+    BOOL m_bSubclbssed;
+    BOOL m_bPbuseDestroy;
 
     COLORREF m_colorForeground;
-    COLORREF m_colorBackground;
+    COLORREF m_colorBbckground;
 
     AwtPen*  m_penForeground;
-    AwtBrush* m_brushBackground;
+    AwtBrush* m_brushBbckground;
 
     WNDPROC  m_DefWindowProc;
-    // counter for messages being processed by this component
-    UINT     m_MessagesProcessing;
+    // counter for messbges being processed by this component
+    UINT     m_MessbgesProcessing;
 
-    // provides a unique ID for child controls
+    // provides b unique ID for child controls
     UINT     m_nextControlID;
 
-    // DeferWindowPos handle for batched-up window positioning
+    // DeferWindowPos hbndle for bbtched-up window positioning
     HDWP     m_hdwp;
-    // Counter to handle nested calls to Begin/EndValidate
-    UINT     m_validationNestCount;
+    // Counter to hbndle nested cblls to Begin/EndVblidbte
+    UINT     m_vblidbtionNestCount;
 
-    AwtDropTarget* m_dropTarget; // associated DropTarget object
+    AwtDropTbrget* m_dropTbrget; // bssocibted DropTbrget object
 
-    // When we process WM_INPUTLANGCHANGE we remember the keyboard
-    // layout handle and associated input language and codepage.
-    // We also invalidate VK translation table for VK_OEM_* codes
-    static HKL    m_hkl;
-    static UINT   m_CodePage;
-    static LANGID m_idLang;
+    // When we process WM_INPUTLANGCHANGE we remember the keybobrd
+    // lbyout hbndle bnd bssocibted input lbngubge bnd codepbge.
+    // We blso invblidbte VK trbnslbtion tbble for VK_OEM_* codes
+    stbtic HKL    m_hkl;
+    stbtic UINT   m_CodePbge;
+    stbtic LANGID m_idLbng;
 
-    static BOOL sm_rtl;
-    static BOOL sm_rtlReadingOrder;
+    stbtic BOOL sm_rtl;
+    stbtic BOOL sm_rtlRebdingOrder;
 
-    static BOOL sm_PrimaryDynamicTableBuilt;
+    stbtic BOOL sm_PrimbryDynbmicTbbleBuilt;
 
     jobject m_InputMethod;
-    BOOL    m_useNativeCompWindow;
-    LPARAM  m_bitsCandType;
-    UINT    m_PendingLeadByte;
+    BOOL    m_useNbtiveCompWindow;
+    LPARAM  m_bitsCbndType;
+    UINT    m_PendingLebdByte;
 
     void SetComponentInHWND();
 
-    // Determines whether a given virtual key is on the numpad
-    static BOOL IsNumPadKey(UINT vkey, BOOL extended);
+    // Determines whether b given virtubl key is on the numpbd
+    stbtic BOOL IsNumPbdKey(UINT vkey, BOOL extended);
 
-    // Determines the keyLocation of a given key
-    static jint GetKeyLocation(UINT wkey, UINT flags);
-    static jint GetShiftKeyLocation(UINT wkey, UINT flags);
+    // Determines the keyLocbtion of b given key
+    stbtic jint GetKeyLocbtion(UINT wkey, UINT flbgs);
+    stbtic jint GetShiftKeyLocbtion(UINT wkey, UINT flbgs);
 
-    // Cache for FindComponent
-    static HWND sm_cursorOn;
+    // Cbche for FindComponent
+    stbtic HWND sm_cursorOn;
 
-    static BOOL m_QueryNewPaletteCalled;
+    stbtic BOOL m_QueryNewPbletteCblled;
 
-    static AwtComponent* sm_getComponentCache; // a cache for the GetComponent(..) method.
+    stbtic AwtComponent* sm_getComponentCbche; // b cbche for the GetComponent(..) method.
 
     int windowMoveLockPosX;
     int windowMoveLockPosY;
@@ -818,14 +818,14 @@ private:
     int windowMoveLockPosCY;
 
     // 6524352: support finer-resolution
-    int m_wheelRotationAmount;
+    int m_wheelRotbtionAmount;
 
     /*
-     * The association list of children's IDs and corresponding components.
-     * Some components like Choice or List are required their sizes while
-     * the creations of themselfs are in progress.
+     * The bssocibtion list of children's IDs bnd corresponding components.
+     * Some components like Choice or List bre required their sizes while
+     * the crebtions of themselfs bre in progress.
      */
-    class ChildListItem {
+    clbss ChildListItem {
     public:
         ChildListItem(UINT id, AwtComponent* component) {
             m_ID = id;
@@ -849,27 +849,27 @@ public:
         m_childList = child;
     }
 
-    static void SetParent(void * param);
-private:
-    AwtComponent* SearchChild(UINT id);
+    stbtic void SetPbrent(void * pbrbm);
+privbte:
+    AwtComponent* SebrchChild(UINT id);
     void RemoveChild(UINT id) ;
-    static BOOL IsNavigationKey(UINT wkey);
-    static void BuildPrimaryDynamicTable();
+    stbtic BOOL IsNbvigbtionKey(UINT wkey);
+    stbtic void BuildPrimbryDynbmicTbble();
 
     ChildListItem* m_childList;
 
-    HCURSOR m_hCursorCache; // the latest cursor which has been active within the heavyweight component
+    HCURSOR m_hCursorCbche; // the lbtest cursor which hbs been bctive within the hebvyweight component
 public:
-    inline void setCursorCache(HCURSOR hCursor) {
-        m_hCursorCache = hCursor;
+    inline void setCursorCbche(HCURSOR hCursor) {
+        m_hCursorCbche = hCursor;
     }
-    inline HCURSOR getCursorCache() {
-        return m_hCursorCache;
+    inline HCURSOR getCursorCbche() {
+        return m_hCursorCbche;
     }
 };
 
-class CounterHelper {
-private:
+clbss CounterHelper {
+privbte:
     UINT *m_counter;
 public:
     explicit CounterHelper(UINT *counter) {
@@ -882,34 +882,34 @@ public:
     }
 };
 
-// DC management objects; these classes are used to track the list of
-// DC's associated with a given Component.  Then DC's can be released
-// appropriately on demand or on window destruction to avoid resource
-// leakage.
-class DCItem {
+// DC mbnbgement objects; these clbsses bre used to trbck the list of
+// DC's bssocibted with b given Component.  Then DC's cbn be relebsed
+// bppropribtely on dembnd or on window destruction to bvoid resource
+// lebkbge.
+clbss DCItem {
 public:
     HDC             hDC;
     HWND            hWnd;
     DCItem          *next;
 };
-class DCList {
-    DCItem          *head;
-    CriticalSection listLock;
+clbss DCList {
+    DCItem          *hebd;
+    CriticblSection listLock;
 public:
-    DCList() { head = NULL; }
+    DCList() { hebd = NULL; }
 
     void            AddDC(HDC hDC, HWND hWnd);
     void            AddDCItem(DCItem *newItem);
     DCItem          *RemoveDC(HDC hDC);
     DCItem          *RemoveAllDCs(HWND hWnd);
-    void            RealizePalettes(int screen);
+    void            ReblizePblettes(int screen);
 };
 
-void ReleaseDCList(HWND hwnd, DCList &list);
-void MoveDCToPassiveList(HDC hDC);
+void RelebseDCList(HWND hwnd, DCList &list);
+void MoveDCToPbssiveList(HDC hDC);
 
-namespace TimeHelper{
-    jlong getMessageTimeUTC();
+nbmespbce TimeHelper{
+    jlong getMessbgeTimeUTC();
     jlong windowsToUTC(DWORD event_offset);
 }
 

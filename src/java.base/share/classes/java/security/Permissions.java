@@ -1,314 +1,314 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.NoSuchElementException;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Iterator;
-import java.util.Collections;
-import java.io.Serializable;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Iterbtor;
+import jbvb.util.Collections;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 
 /**
- * This class represents a heterogeneous collection of Permissions. That is,
- * it contains different types of Permission objects, organized into
- * PermissionCollections. For example, if any
- * {@code java.io.FilePermission} objects are added to an instance of
- * this class, they are all stored in a single
- * PermissionCollection. It is the PermissionCollection returned by a call to
- * the {@code newPermissionCollection} method in the FilePermission class.
- * Similarly, any {@code java.lang.RuntimePermission} objects are
- * stored in the PermissionCollection returned by a call to the
+ * This clbss represents b heterogeneous collection of Permissions. Thbt is,
+ * it contbins different types of Permission objects, orgbnized into
+ * PermissionCollections. For exbmple, if bny
+ * {@code jbvb.io.FilePermission} objects bre bdded to bn instbnce of
+ * this clbss, they bre bll stored in b single
+ * PermissionCollection. It is the PermissionCollection returned by b cbll to
+ * the {@code newPermissionCollection} method in the FilePermission clbss.
+ * Similbrly, bny {@code jbvb.lbng.RuntimePermission} objects bre
+ * stored in the PermissionCollection returned by b cbll to the
  * {@code newPermissionCollection} method in the
- * RuntimePermission class. Thus, this class represents a collection of
+ * RuntimePermission clbss. Thus, this clbss represents b collection of
  * PermissionCollections.
  *
- * <p>When the {@code add} method is called to add a Permission, the
- * Permission is stored in the appropriate PermissionCollection. If no such
- * collection exists yet, the Permission object's class is determined and the
- * {@code newPermissionCollection} method is called on that class to create
- * the PermissionCollection and add it to the Permissions object. If
- * {@code newPermissionCollection} returns null, then a default
- * PermissionCollection that uses a hashtable will be created and used. Each
- * hashtable entry stores a Permission object as both the key and the value.
+ * <p>When the {@code bdd} method is cblled to bdd b Permission, the
+ * Permission is stored in the bppropribte PermissionCollection. If no such
+ * collection exists yet, the Permission object's clbss is determined bnd the
+ * {@code newPermissionCollection} method is cblled on thbt clbss to crebte
+ * the PermissionCollection bnd bdd it to the Permissions object. If
+ * {@code newPermissionCollection} returns null, then b defbult
+ * PermissionCollection thbt uses b hbshtbble will be crebted bnd used. Ebch
+ * hbshtbble entry stores b Permission object bs both the key bnd the vblue.
  *
- * <p> Enumerations returned via the {@code elements} method are
- * not <em>fail-fast</em>.  Modifications to a collection should not be
- * performed while enumerating over that collection.
+ * <p> Enumerbtions returned vib the {@code elements} method bre
+ * not <em>fbil-fbst</em>.  Modificbtions to b collection should not be
+ * performed while enumerbting over thbt collection.
  *
  * @see Permission
  * @see PermissionCollection
  * @see AllPermission
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @buthor Mbribnne Mueller
+ * @buthor Rolbnd Schemers
  *
- * @serial exclude
+ * @seribl exclude
  */
 
-public final class Permissions extends PermissionCollection
-implements Serializable
+public finbl clbss Permissions extends PermissionCollection
+implements Seriblizbble
 {
     /**
-     * Key is permissions Class, value is PermissionCollection for that class.
-     * Not serialized; see serialization section at end of class.
+     * Key is permissions Clbss, vblue is PermissionCollection for thbt clbss.
+     * Not seriblized; see seriblizbtion section bt end of clbss.
      */
-    private transient Map<Class<?>, PermissionCollection> permsMap;
+    privbte trbnsient Mbp<Clbss<?>, PermissionCollection> permsMbp;
 
-    // optimization. keep track of whether unresolved permissions need to be
+    // optimizbtion. keep trbck of whether unresolved permissions need to be
     // checked
-    private transient boolean hasUnresolved = false;
+    privbte trbnsient boolebn hbsUnresolved = fblse;
 
-    // optimization. keep track of the AllPermission collection
-    // - package private for ProtectionDomain optimization
-    PermissionCollection allPermission;
+    // optimizbtion. keep trbck of the AllPermission collection
+    // - pbckbge privbte for ProtectionDombin optimizbtion
+    PermissionCollection bllPermission;
 
     /**
-     * Creates a new Permissions object containing no PermissionCollections.
+     * Crebtes b new Permissions object contbining no PermissionCollections.
      */
     public Permissions() {
-        permsMap = new HashMap<Class<?>, PermissionCollection>(11);
-        allPermission = null;
+        permsMbp = new HbshMbp<Clbss<?>, PermissionCollection>(11);
+        bllPermission = null;
     }
 
     /**
-     * Adds a permission object to the PermissionCollection for the class the
-     * permission belongs to. For example, if <i>permission</i> is a
-     * FilePermission, it is added to the FilePermissionCollection stored
+     * Adds b permission object to the PermissionCollection for the clbss the
+     * permission belongs to. For exbmple, if <i>permission</i> is b
+     * FilePermission, it is bdded to the FilePermissionCollection stored
      * in this Permissions object.
      *
-     * This method creates
-     * a new PermissionCollection object (and adds the permission to it)
-     * if an appropriate collection does not yet exist. <p>
+     * This method crebtes
+     * b new PermissionCollection object (bnd bdds the permission to it)
+     * if bn bppropribte collection does not yet exist. <p>
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      *
      * @exception SecurityException if this Permissions object is
-     * marked as readonly.
+     * mbrked bs rebdonly.
      *
-     * @see PermissionCollection#isReadOnly()
+     * @see PermissionCollection#isRebdOnly()
      */
 
-    public void add(Permission permission) {
-        if (isReadOnly())
+    public void bdd(Permission permission) {
+        if (isRebdOnly())
             throw new SecurityException(
-              "attempt to add a Permission to a readonly Permissions object");
+              "bttempt to bdd b Permission to b rebdonly Permissions object");
 
         PermissionCollection pc;
 
         synchronized (this) {
             pc = getPermissionCollection(permission, true);
-            pc.add(permission);
+            pc.bdd(permission);
         }
 
-        // No sync; staleness -> optimizations delayed, which is OK
-        if (permission instanceof AllPermission) {
-            allPermission = pc;
+        // No sync; stbleness -> optimizbtions delbyed, which is OK
+        if (permission instbnceof AllPermission) {
+            bllPermission = pc;
         }
-        if (permission instanceof UnresolvedPermission) {
-            hasUnresolved = true;
+        if (permission instbnceof UnresolvedPermission) {
+            hbsUnresolved = true;
         }
     }
 
     /**
      * Checks to see if this object's PermissionCollection for permissions of
-     * the specified permission's class implies the permissions
+     * the specified permission's clbss implies the permissions
      * expressed in the <i>permission</i> object. Returns true if the
-     * combination of permissions in the appropriate PermissionCollection
-     * (e.g., a FilePermissionCollection for a FilePermission) together
+     * combinbtion of permissions in the bppropribte PermissionCollection
+     * (e.g., b FilePermissionCollection for b FilePermission) together
      * imply the specified permission.
      *
-     * <p>For example, suppose there is a FilePermissionCollection in this
-     * Permissions object, and it contains one FilePermission that specifies
-     * "read" access for  all files in all subdirectories of the "/tmp"
-     * directory, and another FilePermission that specifies "write" access
-     * for all files in the "/tmp/scratch/foo" directory.
+     * <p>For exbmple, suppose there is b FilePermissionCollection in this
+     * Permissions object, bnd it contbins one FilePermission thbt specifies
+     * "rebd" bccess for  bll files in bll subdirectories of the "/tmp"
+     * directory, bnd bnother FilePermission thbt specifies "write" bccess
+     * for bll files in the "/tmp/scrbtch/foo" directory.
      * Then if the {@code implies} method
-     * is called with a permission specifying both "read" and "write" access
-     * to files in the "/tmp/scratch/foo" directory, {@code true} is
+     * is cblled with b permission specifying both "rebd" bnd "write" bccess
+     * to files in the "/tmp/scrbtch/foo" directory, {@code true} is
      * returned.
      *
-     * <p>Additionally, if this PermissionCollection contains the
-     * AllPermission, this method will always return true.
+     * <p>Additionblly, if this PermissionCollection contbins the
+     * AllPermission, this method will blwbys return true.
      * <p>
-     * @param permission the Permission object to check.
+     * @pbrbm permission the Permission object to check.
      *
      * @return true if "permission" is implied by the permissions in the
      * PermissionCollection it
-     * belongs to, false if not.
+     * belongs to, fblse if not.
      */
 
-    public boolean implies(Permission permission) {
-        // No sync; staleness -> skip optimization, which is OK
-        if (allPermission != null) {
-            return true; // AllPermission has already been added
+    public boolebn implies(Permission permission) {
+        // No sync; stbleness -> skip optimizbtion, which is OK
+        if (bllPermission != null) {
+            return true; // AllPermission hbs blrebdy been bdded
         } else {
             synchronized (this) {
                 PermissionCollection pc = getPermissionCollection(permission,
-                    false);
+                    fblse);
                 if (pc != null) {
                     return pc.implies(permission);
                 } else {
                     // none found
-                    return false;
+                    return fblse;
                 }
             }
         }
     }
 
     /**
-     * Returns an enumeration of all the Permission objects in all the
+     * Returns bn enumerbtion of bll the Permission objects in bll the
      * PermissionCollections in this Permissions object.
      *
-     * @return an enumeration of all the Permissions.
+     * @return bn enumerbtion of bll the Permissions.
      */
 
-    public Enumeration<Permission> elements() {
-        // go through each Permissions in the hash table
-        // and call their elements() function.
+    public Enumerbtion<Permission> elements() {
+        // go through ebch Permissions in the hbsh tbble
+        // bnd cbll their elements() function.
 
         synchronized (this) {
-            return new PermissionsEnumerator(permsMap.values().iterator());
+            return new PermissionsEnumerbtor(permsMbp.vblues().iterbtor());
         }
     }
 
     /**
      * Gets the PermissionCollection in this Permissions object for
-     * permissions whose type is the same as that of <i>p</i>.
-     * For example, if <i>p</i> is a FilePermission,
+     * permissions whose type is the sbme bs thbt of <i>p</i>.
+     * For exbmple, if <i>p</i> is b FilePermission,
      * the FilePermissionCollection
      * stored in this Permissions object will be returned.
      *
-     * If createEmpty is true,
-     * this method creates a new PermissionCollection object for the specified
+     * If crebteEmpty is true,
+     * this method crebtes b new PermissionCollection object for the specified
      * type of permission objects if one does not yet exist.
-     * To do so, it first calls the {@code newPermissionCollection} method
-     * on <i>p</i>.  Subclasses of class Permission
-     * override that method if they need to store their permissions in a
-     * particular PermissionCollection object in order to provide the
-     * correct semantics when the {@code PermissionCollection.implies}
-     * method is called.
-     * If the call returns a PermissionCollection, that collection is stored
-     * in this Permissions object. If the call returns null and createEmpty
+     * To do so, it first cblls the {@code newPermissionCollection} method
+     * on <i>p</i>.  Subclbsses of clbss Permission
+     * override thbt method if they need to store their permissions in b
+     * pbrticulbr PermissionCollection object in order to provide the
+     * correct sembntics when the {@code PermissionCollection.implies}
+     * method is cblled.
+     * If the cbll returns b PermissionCollection, thbt collection is stored
+     * in this Permissions object. If the cbll returns null bnd crebteEmpty
      * is true, then
-     * this method instantiates and stores a default PermissionCollection
-     * that uses a hashtable to store its permission objects.
+     * this method instbntibtes bnd stores b defbult PermissionCollection
+     * thbt uses b hbshtbble to store its permission objects.
      *
-     * createEmpty is ignored when creating empty PermissionCollection
-     * for unresolved permissions because of the overhead of determining the
+     * crebteEmpty is ignored when crebting empty PermissionCollection
+     * for unresolved permissions becbuse of the overhebd of determining the
      * PermissionCollection to use.
      *
-     * createEmpty should be set to false when this method is invoked from
-     * implies() because it incurs the additional overhead of creating and
-     * adding an empty PermissionCollection that will just return false.
-     * It should be set to true when invoked from add().
+     * crebteEmpty should be set to fblse when this method is invoked from
+     * implies() becbuse it incurs the bdditionbl overhebd of crebting bnd
+     * bdding bn empty PermissionCollection thbt will just return fblse.
+     * It should be set to true when invoked from bdd().
      */
-    private PermissionCollection getPermissionCollection(Permission p,
-        boolean createEmpty) {
-        Class<?> c = p.getClass();
+    privbte PermissionCollection getPermissionCollection(Permission p,
+        boolebn crebteEmpty) {
+        Clbss<?> c = p.getClbss();
 
-        PermissionCollection pc = permsMap.get(c);
+        PermissionCollection pc = permsMbp.get(c);
 
-        if (!hasUnresolved && !createEmpty) {
+        if (!hbsUnresolved && !crebteEmpty) {
             return pc;
         } else if (pc == null) {
 
             // Check for unresolved permissions
-            pc = (hasUnresolved ? getUnresolvedPermissions(p) : null);
+            pc = (hbsUnresolved ? getUnresolvedPermissions(p) : null);
 
-            // if still null, create a new collection
-            if (pc == null && createEmpty) {
+            // if still null, crebte b new collection
+            if (pc == null && crebteEmpty) {
 
                 pc = p.newPermissionCollection();
 
                 // still no PermissionCollection?
-                // We'll give them a PermissionsHash.
+                // We'll give them b PermissionsHbsh.
                 if (pc == null)
-                    pc = new PermissionsHash();
+                    pc = new PermissionsHbsh();
             }
 
             if (pc != null) {
-                permsMap.put(c, pc);
+                permsMbp.put(c, pc);
             }
         }
         return pc;
     }
 
     /**
-     * Resolves any unresolved permissions of type p.
+     * Resolves bny unresolved permissions of type p.
      *
-     * @param p the type of unresolved permission to resolve
+     * @pbrbm p the type of unresolved permission to resolve
      *
-     * @return PermissionCollection containing the unresolved permissions,
+     * @return PermissionCollection contbining the unresolved permissions,
      *  or null if there were no unresolved permissions of type p.
      *
      */
-    private PermissionCollection getUnresolvedPermissions(Permission p)
+    privbte PermissionCollection getUnresolvedPermissions(Permission p)
     {
-        // Called from within synchronized method so permsMap doesn't need lock
+        // Cblled from within synchronized method so permsMbp doesn't need lock
 
         UnresolvedPermissionCollection uc =
-        (UnresolvedPermissionCollection) permsMap.get(UnresolvedPermission.class);
+        (UnresolvedPermissionCollection) permsMbp.get(UnresolvedPermission.clbss);
 
-        // we have no unresolved permissions if uc is null
+        // we hbve no unresolved permissions if uc is null
         if (uc == null)
             return null;
 
         List<UnresolvedPermission> unresolvedPerms =
                                         uc.getUnresolvedPermissions(p);
 
-        // we have no unresolved permissions of this type if unresolvedPerms is null
+        // we hbve no unresolved permissions of this type if unresolvedPerms is null
         if (unresolvedPerms == null)
             return null;
 
-        java.security.cert.Certificate certs[] = null;
+        jbvb.security.cert.Certificbte certs[] = null;
 
-        Object signers[] = p.getClass().getSigners();
+        Object signers[] = p.getClbss().getSigners();
 
         int n = 0;
         if (signers != null) {
             for (int j=0; j < signers.length; j++) {
-                if (signers[j] instanceof java.security.cert.Certificate) {
+                if (signers[j] instbnceof jbvb.security.cert.Certificbte) {
                     n++;
                 }
             }
-            certs = new java.security.cert.Certificate[n];
+            certs = new jbvb.security.cert.Certificbte[n];
             n = 0;
             for (int j=0; j < signers.length; j++) {
-                if (signers[j] instanceof java.security.cert.Certificate) {
-                    certs[n++] = (java.security.cert.Certificate)signers[j];
+                if (signers[j] instbnceof jbvb.security.cert.Certificbte) {
+                    certs[n++] = (jbvb.security.cert.Certificbte)signers[j];
                 }
             }
         }
@@ -323,138 +323,138 @@ implements Serializable
                     if (pc == null) {
                         pc = p.newPermissionCollection();
                         if (pc == null)
-                            pc = new PermissionsHash();
+                            pc = new PermissionsHbsh();
                     }
-                    pc.add(perm);
+                    pc.bdd(perm);
                 }
             }
         }
         return pc;
     }
 
-    private static final long serialVersionUID = 4858622370623524688L;
+    privbte stbtic finbl long seriblVersionUID = 4858622370623524688L;
 
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
-    // private Hashtable perms;
+    // Need to mbintbin seriblizbtion interoperbbility with ebrlier relebses,
+    // which hbd the seriblizbble field:
+    // privbte Hbshtbble perms;
 
     /**
-     * @serialField perms java.util.Hashtable
-     *     A table of the Permission classes and PermissionCollections.
-     * @serialField allPermission java.security.PermissionCollection
+     * @seriblField perms jbvb.util.Hbshtbble
+     *     A tbble of the Permission clbsses bnd PermissionCollections.
+     * @seriblField bllPermission jbvb.security.PermissionCollection
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("perms", Hashtable.class),
-        new ObjectStreamField("allPermission", PermissionCollection.class),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("perms", Hbshtbble.clbss),
+        new ObjectStrebmField("bllPermission", PermissionCollection.clbss),
     };
 
     /**
-     * @serialData Default fields.
+     * @seriblDbtb Defbult fields.
      */
     /*
-     * Writes the contents of the permsMap field out as a Hashtable for
-     * serialization compatibility with earlier releases. allPermission
-     * unchanged.
+     * Writes the contents of the permsMbp field out bs b Hbshtbble for
+     * seriblizbtion compbtibility with ebrlier relebses. bllPermission
+     * unchbnged.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        // Don't cbll out.defbultWriteObject()
 
-        // Copy perms into a Hashtable
-        Hashtable<Class<?>, PermissionCollection> perms =
-            new Hashtable<>(permsMap.size()*2); // no sync; estimate
+        // Copy perms into b Hbshtbble
+        Hbshtbble<Clbss<?>, PermissionCollection> perms =
+            new Hbshtbble<>(permsMbp.size()*2); // no sync; estimbte
         synchronized (this) {
-            perms.putAll(permsMap);
+            perms.putAll(permsMbp);
         }
 
-        // Write out serializable fields
-        ObjectOutputStream.PutField pfields = out.putFields();
+        // Write out seriblizbble fields
+        ObjectOutputStrebm.PutField pfields = out.putFields();
 
-        pfields.put("allPermission", allPermission); // no sync; staleness OK
+        pfields.put("bllPermission", bllPermission); // no sync; stbleness OK
         pfields.put("perms", perms);
         out.writeFields();
     }
 
     /*
-     * Reads in a Hashtable of Class/PermissionCollections and saves them in the
-     * permsMap field. Reads in allPermission.
+     * Rebds in b Hbshtbble of Clbss/PermissionCollections bnd sbves them in the
+     * permsMbp field. Rebds in bllPermission.
      */
-    private void readObject(ObjectInputStream in) throws IOException,
-    ClassNotFoundException {
-        // Don't call defaultReadObject()
+    privbte void rebdObject(ObjectInputStrebm in) throws IOException,
+    ClbssNotFoundException {
+        // Don't cbll defbultRebdObject()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rebd in seriblized fields
+        ObjectInputStrebm.GetField gfields = in.rebdFields();
 
-        // Get allPermission
-        allPermission = (PermissionCollection) gfields.get("allPermission", null);
+        // Get bllPermission
+        bllPermission = (PermissionCollection) gfields.get("bllPermission", null);
 
         // Get permissions
-        // writeObject writes a Hashtable<Class<?>, PermissionCollection> for
-        // the perms key, so this cast is safe, unless the data is corrupt.
-        @SuppressWarnings("unchecked")
-        Hashtable<Class<?>, PermissionCollection> perms =
-            (Hashtable<Class<?>, PermissionCollection>)gfields.get("perms", null);
-        permsMap = new HashMap<Class<?>, PermissionCollection>(perms.size()*2);
-        permsMap.putAll(perms);
+        // writeObject writes b Hbshtbble<Clbss<?>, PermissionCollection> for
+        // the perms key, so this cbst is sbfe, unless the dbtb is corrupt.
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<Clbss<?>, PermissionCollection> perms =
+            (Hbshtbble<Clbss<?>, PermissionCollection>)gfields.get("perms", null);
+        permsMbp = new HbshMbp<Clbss<?>, PermissionCollection>(perms.size()*2);
+        permsMbp.putAll(perms);
 
-        // Set hasUnresolved
+        // Set hbsUnresolved
         UnresolvedPermissionCollection uc =
-        (UnresolvedPermissionCollection) permsMap.get(UnresolvedPermission.class);
-        hasUnresolved = (uc != null && uc.elements().hasMoreElements());
+        (UnresolvedPermissionCollection) permsMbp.get(UnresolvedPermission.clbss);
+        hbsUnresolved = (uc != null && uc.elements().hbsMoreElements());
     }
 }
 
-final class PermissionsEnumerator implements Enumeration<Permission> {
+finbl clbss PermissionsEnumerbtor implements Enumerbtion<Permission> {
 
-    // all the perms
-    private Iterator<PermissionCollection> perms;
+    // bll the perms
+    privbte Iterbtor<PermissionCollection> perms;
     // the current set
-    private Enumeration<Permission> permset;
+    privbte Enumerbtion<Permission> permset;
 
-    PermissionsEnumerator(Iterator<PermissionCollection> e) {
+    PermissionsEnumerbtor(Iterbtor<PermissionCollection> e) {
         perms = e;
         permset = getNextEnumWithMore();
     }
 
-    // No need to synchronize; caller should sync on object as required
-    public boolean hasMoreElements() {
+    // No need to synchronize; cbller should sync on object bs required
+    public boolebn hbsMoreElements() {
         // if we enter with permissionimpl null, we know
-        // there are no more left.
+        // there bre no more left.
 
         if (permset == null)
-            return  false;
+            return  fblse;
 
-        // try to see if there are any left in the current one
+        // try to see if there bre bny left in the current one
 
-        if (permset.hasMoreElements())
+        if (permset.hbsMoreElements())
             return true;
 
-        // get the next one that has something in it...
+        // get the next one thbt hbs something in it...
         permset = getNextEnumWithMore();
 
-        // if it is null, we are done!
+        // if it is null, we bre done!
         return (permset != null);
     }
 
-    // No need to synchronize; caller should sync on object as required
+    // No need to synchronize; cbller should sync on object bs required
     public Permission nextElement() {
 
-        // hasMoreElements will update permset to the next permset
+        // hbsMoreElements will updbte permset to the next permset
         // with something in it...
 
-        if (hasMoreElements()) {
+        if (hbsMoreElements()) {
             return permset.nextElement();
         } else {
-            throw new NoSuchElementException("PermissionsEnumerator");
+            throw new NoSuchElementException("PermissionsEnumerbtor");
         }
 
     }
 
-    private Enumeration<Permission> getNextEnumWithMore() {
-        while (perms.hasNext()) {
+    privbte Enumerbtion<Permission> getNextEnumWithMore() {
+        while (perms.hbsNext()) {
             PermissionCollection pc = perms.next();
-            Enumeration<Permission> next =pc.elements();
-            if (next.hasMoreElements())
+            Enumerbtion<Permission> next =pc.elements();
+            if (next.hbsMoreElements())
                 return next;
         }
         return null;
@@ -463,69 +463,69 @@ final class PermissionsEnumerator implements Enumeration<Permission> {
 }
 
 /**
- * A PermissionsHash stores a homogeneous set of permissions in a hashtable.
+ * A PermissionsHbsh stores b homogeneous set of permissions in b hbshtbble.
  *
  * @see Permission
  * @see Permissions
  *
  *
- * @author Roland Schemers
+ * @buthor Rolbnd Schemers
  *
- * @serial include
+ * @seribl include
  */
 
-final class PermissionsHash extends PermissionCollection
-implements Serializable
+finbl clbss PermissionsHbsh extends PermissionCollection
+implements Seriblizbble
 {
     /**
-     * Key and value are (same) permissions objects.
-     * Not serialized; see serialization section at end of class.
+     * Key bnd vblue bre (sbme) permissions objects.
+     * Not seriblized; see seriblizbtion section bt end of clbss.
      */
-    private transient Map<Permission, Permission> permsMap;
+    privbte trbnsient Mbp<Permission, Permission> permsMbp;
 
     /**
-     * Create an empty PermissionsHash object.
+     * Crebte bn empty PermissionsHbsh object.
      */
 
-    PermissionsHash() {
-        permsMap = new HashMap<Permission, Permission>(11);
+    PermissionsHbsh() {
+        permsMbp = new HbshMbp<Permission, Permission>(11);
     }
 
     /**
-     * Adds a permission to the PermissionsHash.
+     * Adds b permission to the PermissionsHbsh.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      */
 
-    public void add(Permission permission) {
+    public void bdd(Permission permission) {
         synchronized (this) {
-            permsMap.put(permission, permission);
+            permsMbp.put(permission, permission);
         }
     }
 
     /**
-     * Check and see if this set of permissions implies the permissions
+     * Check bnd see if this set of permissions implies the permissions
      * expressed in "permission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm permission the Permission object to compbre
      *
-     * @return true if "permission" is a proper subset of a permission in
-     * the set, false if not.
+     * @return true if "permission" is b proper subset of b permission in
+     * the set, fblse if not.
      */
 
-    public boolean implies(Permission permission) {
-        // attempt a fast lookup and implies. If that fails
-        // then enumerate through all the permissions.
+    public boolebn implies(Permission permission) {
+        // bttempt b fbst lookup bnd implies. If thbt fbils
+        // then enumerbte through bll the permissions.
         synchronized (this) {
-            Permission p = permsMap.get(permission);
+            Permission p = permsMbp.get(permission);
 
-            // If permission is found, then p.equals(permission)
+            // If permission is found, then p.equbls(permission)
             if (p == null) {
-                for (Permission p_ : permsMap.values()) {
+                for (Permission p_ : permsMbp.vblues()) {
                     if (p_.implies(permission))
                         return true;
                 }
-                return false;
+                return fblse;
             } else {
                 return true;
             }
@@ -533,71 +533,71 @@ implements Serializable
     }
 
     /**
-     * Returns an enumeration of all the Permission objects in the container.
+     * Returns bn enumerbtion of bll the Permission objects in the contbiner.
      *
-     * @return an enumeration of all the Permissions.
+     * @return bn enumerbtion of bll the Permissions.
      */
 
-    public Enumeration<Permission> elements() {
-        // Convert Iterator of Map values into an Enumeration
+    public Enumerbtion<Permission> elements() {
+        // Convert Iterbtor of Mbp vblues into bn Enumerbtion
         synchronized (this) {
-            return Collections.enumeration(permsMap.values());
+            return Collections.enumerbtion(permsMbp.vblues());
         }
     }
 
-    private static final long serialVersionUID = -8491988220802933440L;
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
-    // private Hashtable perms;
+    privbte stbtic finbl long seriblVersionUID = -8491988220802933440L;
+    // Need to mbintbin seriblizbtion interoperbbility with ebrlier relebses,
+    // which hbd the seriblizbble field:
+    // privbte Hbshtbble perms;
     /**
-     * @serialField perms java.util.Hashtable
-     *     A table of the Permissions (both key and value are same).
+     * @seriblField perms jbvb.util.Hbshtbble
+     *     A tbble of the Permissions (both key bnd vblue bre sbme).
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("perms", Hashtable.class),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("perms", Hbshtbble.clbss),
     };
 
     /**
-     * @serialData Default fields.
+     * @seriblDbtb Defbult fields.
      */
     /*
-     * Writes the contents of the permsMap field out as a Hashtable for
-     * serialization compatibility with earlier releases.
+     * Writes the contents of the permsMbp field out bs b Hbshtbble for
+     * seriblizbtion compbtibility with ebrlier relebses.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        // Don't cbll out.defbultWriteObject()
 
-        // Copy perms into a Hashtable
-        Hashtable<Permission, Permission> perms =
-                new Hashtable<>(permsMap.size()*2);
+        // Copy perms into b Hbshtbble
+        Hbshtbble<Permission, Permission> perms =
+                new Hbshtbble<>(permsMbp.size()*2);
         synchronized (this) {
-            perms.putAll(permsMap);
+            perms.putAll(permsMbp);
         }
 
-        // Write out serializable fields
-        ObjectOutputStream.PutField pfields = out.putFields();
+        // Write out seriblizbble fields
+        ObjectOutputStrebm.PutField pfields = out.putFields();
         pfields.put("perms", perms);
         out.writeFields();
     }
 
     /*
-     * Reads in a Hashtable of Permission/Permission and saves them in the
-     * permsMap field.
+     * Rebds in b Hbshtbble of Permission/Permission bnd sbves them in the
+     * permsMbp field.
      */
-    private void readObject(ObjectInputStream in) throws IOException,
-    ClassNotFoundException {
-        // Don't call defaultReadObject()
+    privbte void rebdObject(ObjectInputStrebm in) throws IOException,
+    ClbssNotFoundException {
+        // Don't cbll defbultRebdObject()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rebd in seriblized fields
+        ObjectInputStrebm.GetField gfields = in.rebdFields();
 
         // Get permissions
-        // writeObject writes a Hashtable<Class<?>, PermissionCollection> for
-        // the perms key, so this cast is safe, unless the data is corrupt.
-        @SuppressWarnings("unchecked")
-        Hashtable<Permission, Permission> perms =
-                (Hashtable<Permission, Permission>)gfields.get("perms", null);
-        permsMap = new HashMap<Permission, Permission>(perms.size()*2);
-        permsMap.putAll(perms);
+        // writeObject writes b Hbshtbble<Clbss<?>, PermissionCollection> for
+        // the perms key, so this cbst is sbfe, unless the dbtb is corrupt.
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<Permission, Permission> perms =
+                (Hbshtbble<Permission, Permission>)gfields.get("perms", null);
+        permsMbp = new HbshMbp<Permission, Permission>(perms.size()*2);
+        permsMbp.putAll(perms);
     }
 }

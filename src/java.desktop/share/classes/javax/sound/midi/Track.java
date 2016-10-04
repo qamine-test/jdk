@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
-import java.util.Vector;
-import java.util.ArrayList;
-import java.util.HashSet;
-import com.sun.media.sound.MidiUtils;
+import jbvb.util.Vector;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSet;
+import com.sun.medib.sound.MidiUtils;
 
 /**
- * A MIDI track is an independent stream of MIDI events (time-stamped MIDI
- * data) that can be stored along with other tracks in a standard MIDI file.
- * The MIDI specification allows only 16 channels of MIDI data, but tracks
- * are a way to get around this limitation.  A MIDI file can contain any number
- * of tracks, each containing its own stream of up to 16 channels of MIDI data.
+ * A MIDI trbck is bn independent strebm of MIDI events (time-stbmped MIDI
+ * dbtb) thbt cbn be stored blong with other trbcks in b stbndbrd MIDI file.
+ * The MIDI specificbtion bllows only 16 chbnnels of MIDI dbtb, but trbcks
+ * bre b wby to get bround this limitbtion.  A MIDI file cbn contbin bny number
+ * of trbcks, ebch contbining its own strebm of up to 16 chbnnels of MIDI dbtb.
  * <p>
- * A <code>Track</code> occupies a middle level in the hierarchy of data played
- * by a <code>{@link Sequencer}</code>: sequencers play sequences, which contain tracks,
- * which contain MIDI events.  A sequencer may provide controls that mute
- * or solo individual tracks.
+ * A <code>Trbck</code> occupies b middle level in the hierbrchy of dbtb plbyed
+ * by b <code>{@link Sequencer}</code>: sequencers plby sequences, which contbin trbcks,
+ * which contbin MIDI events.  A sequencer mby provide controls thbt mute
+ * or solo individubl trbcks.
  * <p>
- * The timing information and resolution for a track is controlled by and stored
- * in the sequence containing the track. A given <code>Track</code>
- * is considered to belong to the particular <code>{@link Sequence}</code> that
- * maintains its timing. For this reason, a new (empty) track is created by calling the
- * <code>{@link Sequence#createTrack}</code> method, rather than by directly invoking a
- * <code>Track</code> constructor.
+ * The timing informbtion bnd resolution for b trbck is controlled by bnd stored
+ * in the sequence contbining the trbck. A given <code>Trbck</code>
+ * is considered to belong to the pbrticulbr <code>{@link Sequence}</code> thbt
+ * mbintbins its timing. For this rebson, b new (empty) trbck is crebted by cblling the
+ * <code>{@link Sequence#crebteTrbck}</code> method, rbther thbn by directly invoking b
+ * <code>Trbck</code> constructor.
  * <p>
- * The <code>Track</code> class provides methods to edit the track by adding
- * or removing <code>MidiEvent</code> objects from it.  These operations keep
- * the event list in the correct time order.  Methods are also
- * included to obtain the track's size, in terms of either the number of events
- * it contains or its duration in ticks.
+ * The <code>Trbck</code> clbss provides methods to edit the trbck by bdding
+ * or removing <code>MidiEvent</code> objects from it.  These operbtions keep
+ * the event list in the correct time order.  Methods bre blso
+ * included to obtbin the trbck's size, in terms of either the number of events
+ * it contbins or its durbtion in ticks.
  *
- * @see Sequencer#setTrackMute
- * @see Sequencer#setTrackSolo
+ * @see Sequencer#setTrbckMute
+ * @see Sequencer#setTrbckSolo
  *
- * @author Kara Kytle
- * @author Florian Bomers
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
  */
-public class Track {
+public clbss Trbck {
 
-    // TODO: use arrays for faster access
+    // TODO: use brrbys for fbster bccess
 
-    // the list containing the events
-    private ArrayList<MidiEvent> eventsList = new ArrayList<>();
+    // the list contbining the events
+    privbte ArrbyList<MidiEvent> eventsList = new ArrbyList<>();
 
-    // use a hashset to detect duplicate events in add(MidiEvent)
-    private HashSet<MidiEvent> set = new HashSet<>();
+    // use b hbshset to detect duplicbte events in bdd(MidiEvent)
+    privbte HbshSet<MidiEvent> set = new HbshSet<>();
 
-    private MidiEvent eotEvent;
+    privbte MidiEvent eotEvent;
 
 
     /**
-     * Package-private constructor.  Constructs a new, empty Track object,
-     * which initially contains one event, the meta-event End of Track.
+     * Pbckbge-privbte constructor.  Constructs b new, empty Trbck object,
+     * which initiblly contbins one event, the metb-event End of Trbck.
      */
-    Track() {
-        // start with the end of track event
-        MetaMessage eot = new ImmutableEndOfTrack();
+    Trbck() {
+        // stbrt with the end of trbck event
+        MetbMessbge eot = new ImmutbbleEndOfTrbck();
         eotEvent = new MidiEvent(eot, 0);
-        eventsList.add(eotEvent);
-        set.add(eotEvent);
+        eventsList.bdd(eotEvent);
+        set.bdd(eotEvent);
     }
 
     /**
-     * Adds a new event to the track.  However, if the event is already
-     * contained in the track, it is not added again.  The list of events
-     * is kept in time order, meaning that this event inserted at the
-     * appropriate place in the list, not necessarily at the end.
+     * Adds b new event to the trbck.  However, if the event is blrebdy
+     * contbined in the trbck, it is not bdded bgbin.  The list of events
+     * is kept in time order, mebning thbt this event inserted bt the
+     * bppropribte plbce in the list, not necessbrily bt the end.
      *
-     * @param event the event to add
-     * @return <code>true</code> if the event did not already exist in the
-     * track and was added, otherwise <code>false</code>
+     * @pbrbm event the event to bdd
+     * @return <code>true</code> if the event did not blrebdy exist in the
+     * trbck bnd wbs bdded, otherwise <code>fblse</code>
      */
-    public boolean add(MidiEvent event) {
+    public boolebn bdd(MidiEvent event) {
         if (event == null) {
-            return false;
+            return fblse;
         }
         synchronized(eventsList) {
 
-            if (!set.contains(event)) {
+            if (!set.contbins(event)) {
                 int eventsCount = eventsList.size();
 
-                // get the last event
-                MidiEvent lastEvent = null;
+                // get the lbst event
+                MidiEvent lbstEvent = null;
                 if (eventsCount > 0) {
-                    lastEvent = eventsList.get(eventsCount - 1);
+                    lbstEvent = eventsList.get(eventsCount - 1);
                 }
-                // sanity check that we have a correct end-of-track
-                if (lastEvent != eotEvent) {
-                    // if there is no eot event, add our immutable instance again
-                    if (lastEvent != null) {
-                        // set eotEvent's tick to the last tick of the track
-                        eotEvent.setTick(lastEvent.getTick());
+                // sbnity check thbt we hbve b correct end-of-trbck
+                if (lbstEvent != eotEvent) {
+                    // if there is no eot event, bdd our immutbble instbnce bgbin
+                    if (lbstEvent != null) {
+                        // set eotEvent's tick to the lbst tick of the trbck
+                        eotEvent.setTick(lbstEvent.getTick());
                     } else {
                         // if the events list is empty, just set the tick to 0
                         eotEvent.setTick(0);
                     }
-                    // we needn't check for a duplicate of eotEvent in "eventsList",
-                    // since then it would appear in the set.
-                    eventsList.add(eotEvent);
-                    set.add(eotEvent);
+                    // we needn't check for b duplicbte of eotEvent in "eventsList",
+                    // since then it would bppebr in the set.
+                    eventsList.bdd(eotEvent);
+                    set.bdd(eotEvent);
                     eventsCount = eventsList.size();
                 }
 
-                // first see if we are trying to add
-                // and endoftrack event.
-                if (MidiUtils.isMetaEndOfTrack(event.getMessage())) {
-                    // since end of track event is useful
-                    // for delays at the end of a track, we want to keep
-                    // the tick value requested here if it is greater
-                    // than the one on the eot we are maintaining.
-                    // Otherwise, we only want a single eot event, so ignore.
+                // first see if we bre trying to bdd
+                // bnd endoftrbck event.
+                if (MidiUtils.isMetbEndOfTrbck(event.getMessbge())) {
+                    // since end of trbck event is useful
+                    // for delbys bt the end of b trbck, we wbnt to keep
+                    // the tick vblue requested here if it is grebter
+                    // thbn the one on the eot we bre mbintbining.
+                    // Otherwise, we only wbnt b single eot event, so ignore.
                     if (event.getTick() > eotEvent.getTick()) {
                         eotEvent.setTick(event.getTick());
                     }
                     return true;
                 }
 
-                // prevent duplicates
-                set.add(event);
+                // prevent duplicbtes
+                set.bdd(event);
 
-                // insert event such that events is sorted in increasing
+                // insert event such thbt events is sorted in increbsing
                 // tick order
                 int i = eventsCount;
                 for ( ; i > 0; i--) {
                     if (event.getTick() >= (eventsList.get(i-1)).getTick()) {
-                        break;
+                        brebk;
                     }
                 }
                 if (i == eventsCount) {
-                    // we're adding an event after the
-                    // tick value of our eot, so push the eot out.
-                    // Always add at the end for better performance:
-                    // this saves all the checks and arraycopy when inserting
+                    // we're bdding bn event bfter the
+                    // tick vblue of our eot, so push the eot out.
+                    // Alwbys bdd bt the end for better performbnce:
+                    // this sbves bll the checks bnd brrbycopy when inserting
 
                     // overwrite eot with new event
                     eventsList.set(eventsCount - 1, event);
-                    // set new time of eot, if necessary
+                    // set new time of eot, if necessbry
                     if (eotEvent.getTick() < event.getTick()) {
                         eotEvent.setTick(event.getTick());
                     }
-                    // add eot again at the end
-                    eventsList.add(eotEvent);
+                    // bdd eot bgbin bt the end
+                    eventsList.bdd(eotEvent);
                 } else {
-                    eventsList.add(i, event);
+                    eventsList.bdd(i, event);
                 }
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Removes the specified event from the track.
-     * @param event the event to remove
-     * @return <code>true</code> if the event existed in the track and was removed,
-     * otherwise <code>false</code>
+     * Removes the specified event from the trbck.
+     * @pbrbm event the event to remove
+     * @return <code>true</code> if the event existed in the trbck bnd wbs removed,
+     * otherwise <code>fblse</code>
      */
-    public boolean remove(MidiEvent event) {
+    public boolebn remove(MidiEvent event) {
 
-        // this implementation allows removing the EOT event.
-        // pretty bad, but would probably be too risky to
-        // change behavior now, in case someone does tricks like:
+        // this implementbtion bllows removing the EOT event.
+        // pretty bbd, but would probbbly be too risky to
+        // chbnge behbvior now, in cbse someone does tricks like:
         //
-        // while (track.size() > 0) track.remove(track.get(track.size() - 1));
+        // while (trbck.size() > 0) trbck.remove(trbck.get(trbck.size() - 1));
 
-        // also, would it make sense to adjust the EOT's time
-        // to the last event, if the last non-EOT event is removed?
-        // Or: document that the ticks() length will not be reduced
+        // blso, would it mbke sense to bdjust the EOT's time
+        // to the lbst event, if the lbst non-EOT event is removed?
+        // Or: document thbt the ticks() length will not be reduced
         // by deleting events (unless the EOT event is removed)
         synchronized(eventsList) {
             if (set.remove(event)) {
@@ -204,33 +204,33 @@ public class Track {
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Obtains the event at the specified index.
-     * @param index the location of the desired event in the event vector
-     * @throws ArrayIndexOutOfBoundsException  if the
-     * specified index is negative or not less than the current size of
-     * this track.
+     * Obtbins the event bt the specified index.
+     * @pbrbm index the locbtion of the desired event in the event vector
+     * @throws ArrbyIndexOutOfBoundsException  if the
+     * specified index is negbtive or not less thbn the current size of
+     * this trbck.
      * @see #size
-     * @return the event at the specified index
+     * @return the event bt the specified index
      */
-    public MidiEvent get(int index) throws ArrayIndexOutOfBoundsException {
+    public MidiEvent get(int index) throws ArrbyIndexOutOfBoundsException {
         try {
             synchronized(eventsList) {
                 return eventsList.get(index);
             }
-        } catch (IndexOutOfBoundsException ioobe) {
-            throw new ArrayIndexOutOfBoundsException(ioobe.getMessage());
+        } cbtch (IndexOutOfBoundsException ioobe) {
+            throw new ArrbyIndexOutOfBoundsException(ioobe.getMessbge());
         }
     }
 
 
     /**
-     * Obtains the number of events in this track.
-     * @return the size of the track's event vector
+     * Obtbins the number of events in this trbck.
+     * @return the size of the trbck's event vector
      */
     public int size() {
         synchronized(eventsList) {
@@ -240,13 +240,13 @@ public class Track {
 
 
     /**
-     * Obtains the length of the track, expressed in MIDI ticks.  (The
-     * duration of a tick in seconds is determined by the timing resolution
-     * of the <code>Sequence</code> containing this track, and also by
-     * the tempo of the music as set by the sequencer.)
-     * @return the duration, in ticks
-     * @see Sequence#Sequence(float, int)
-     * @see Sequencer#setTempoInBPM(float)
+     * Obtbins the length of the trbck, expressed in MIDI ticks.  (The
+     * durbtion of b tick in seconds is determined by the timing resolution
+     * of the <code>Sequence</code> contbining this trbck, bnd blso by
+     * the tempo of the music bs set by the sequencer.)
+     * @return the durbtion, in ticks
+     * @see Sequence#Sequence(flobt, int)
+     * @see Sequencer#setTempoInBPM(flobt)
      * @see Sequencer#getTickPosition()
      */
     public long ticks() {
@@ -259,16 +259,16 @@ public class Track {
         return ret;
     }
 
-    private static class ImmutableEndOfTrack extends MetaMessage {
-        private ImmutableEndOfTrack() {
+    privbte stbtic clbss ImmutbbleEndOfTrbck extends MetbMessbge {
+        privbte ImmutbbleEndOfTrbck() {
             super(new byte[3]);
-            data[0] = (byte) META;
-            data[1] = MidiUtils.META_END_OF_TRACK_TYPE;
-            data[2] = 0;
+            dbtb[0] = (byte) META;
+            dbtb[1] = MidiUtils.META_END_OF_TRACK_TYPE;
+            dbtb[2] = 0;
         }
 
-        public void setMessage(int type, byte[] data, int length) throws InvalidMidiDataException {
-            throw new InvalidMidiDataException("cannot modify end of track message");
+        public void setMessbge(int type, byte[] dbtb, int length) throws InvblidMidiDbtbException {
+            throw new InvblidMidiDbtbException("cbnnot modify end of trbck messbge");
         }
     }
 

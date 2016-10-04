@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /**
- * Interfaces and classes providing access to file and file system attributes.
+ * Interfbces bnd clbsses providing bccess to file bnd file system bttributes.
  *
- * <blockquote><table cellspacing=1 cellpadding=0 summary="Attribute views">
- * <tr><th align="left">Attribute views</th><th align="left">Description</th></tr>
- * <tr><td valign=top><tt><i>{@link java.nio.file.attribute.AttributeView}</i></tt></td>
- *     <td>Can read or update non-opaque values associated with objects in a file system</td></tr>
- * <tr><td valign=top><tt>&nbsp;&nbsp;<i>{@link java.nio.file.attribute.FileAttributeView}</i></tt></td>
- *     <td>Can read or update file attributes</td></tr>
- * <tr><td valign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link java.nio.file.attribute.BasicFileAttributeView}&nbsp;&nbsp;</i></tt></td>
- *     <td>Can read or update a basic set of file attributes</td></tr>
- * <tr><td valign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link java.nio.file.attribute.PosixFileAttributeView}&nbsp;&nbsp;</i></tt></td>
- *     <td>Can read or update POSIX defined file attributes</td></tr>
- * <tr><td valign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link java.nio.file.attribute.DosFileAttributeView}&nbsp;&nbsp;</i></tt></td>
- *     <td>Can read or update FAT file attributes</td></tr>
- * <tr><td valign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link java.nio.file.attribute.FileOwnerAttributeView}&nbsp;&nbsp;</i></tt></td>
- *     <td>Can read or update the owner of a file</td></tr>
- * <tr><td valign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link java.nio.file.attribute.AclFileAttributeView}&nbsp;&nbsp;</i></tt></td>
- *     <td>Can read or update Access Control Lists</td></tr>
- * <tr><td valign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link java.nio.file.attribute.UserDefinedFileAttributeView}&nbsp;&nbsp;</i></tt></td>
- *     <td>Can read or update user-defined file attributes</td></tr>
- * <tr><td valign=top><tt>&nbsp;&nbsp;<i>{@link java.nio.file.attribute.FileStoreAttributeView}</i></tt></td>
- *     <td>Can read or update file system attributes</td></tr>
- * </table></blockquote>
+ * <blockquote><tbble cellspbcing=1 cellpbdding=0 summbry="Attribute views">
+ * <tr><th blign="left">Attribute views</th><th blign="left">Description</th></tr>
+ * <tr><td vblign=top><tt><i>{@link jbvb.nio.file.bttribute.AttributeView}</i></tt></td>
+ *     <td>Cbn rebd or updbte non-opbque vblues bssocibted with objects in b file system</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;<i>{@link jbvb.nio.file.bttribute.FileAttributeView}</i></tt></td>
+ *     <td>Cbn rebd or updbte file bttributes</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link jbvb.nio.file.bttribute.BbsicFileAttributeView}&nbsp;&nbsp;</i></tt></td>
+ *     <td>Cbn rebd or updbte b bbsic set of file bttributes</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link jbvb.nio.file.bttribute.PosixFileAttributeView}&nbsp;&nbsp;</i></tt></td>
+ *     <td>Cbn rebd or updbte POSIX defined file bttributes</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link jbvb.nio.file.bttribute.DosFileAttributeView}&nbsp;&nbsp;</i></tt></td>
+ *     <td>Cbn rebd or updbte FAT file bttributes</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link jbvb.nio.file.bttribute.FileOwnerAttributeView}&nbsp;&nbsp;</i></tt></td>
+ *     <td>Cbn rebd or updbte the owner of b file</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link jbvb.nio.file.bttribute.AclFileAttributeView}&nbsp;&nbsp;</i></tt></td>
+ *     <td>Cbn rebd or updbte Access Control Lists</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link jbvb.nio.file.bttribute.UserDefinedFileAttributeView}&nbsp;&nbsp;</i></tt></td>
+ *     <td>Cbn rebd or updbte user-defined file bttributes</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;<i>{@link jbvb.nio.file.bttribute.FileStoreAttributeView}</i></tt></td>
+ *     <td>Cbn rebd or updbte file system bttributes</td></tr>
+ * </tbble></blockquote>
  *
- * <p> An attribute view provides a read-only or updatable view of the non-opaque
- * values, or <em>metadata</em>, associated with objects in a file system.
- * The {@link java.nio.file.attribute.FileAttributeView} interface is
- * extended by several other interfaces that that views to specific sets of file
- * attributes. {@code FileAttributeViews} are selected by invoking the {@link
- * java.nio.file.Files#getFileAttributeView} method with a
- * <em>type-token</em> to identify the required view. Views can also be identified
- * by name. The {@link java.nio.file.attribute.FileStoreAttributeView} interface
- * provides access to file store attributes. A {@code FileStoreAttributeView} of
- * a given type is obtained by invoking the {@link
- * java.nio.file.FileStore#getFileStoreAttributeView} method.
+ * <p> An bttribute view provides b rebd-only or updbtbble view of the non-opbque
+ * vblues, or <em>metbdbtb</em>, bssocibted with objects in b file system.
+ * The {@link jbvb.nio.file.bttribute.FileAttributeView} interfbce is
+ * extended by severbl other interfbces thbt thbt views to specific sets of file
+ * bttributes. {@code FileAttributeViews} bre selected by invoking the {@link
+ * jbvb.nio.file.Files#getFileAttributeView} method with b
+ * <em>type-token</em> to identify the required view. Views cbn blso be identified
+ * by nbme. The {@link jbvb.nio.file.bttribute.FileStoreAttributeView} interfbce
+ * provides bccess to file store bttributes. A {@code FileStoreAttributeView} of
+ * b given type is obtbined by invoking the {@link
+ * jbvb.nio.file.FileStore#getFileStoreAttributeView} method.
  *
- * <p> The {@link java.nio.file.attribute.BasicFileAttributeView}
- * class defines methods to read and update a <em>basic</em> set of file
- * attributes that are common to many file systems.
+ * <p> The {@link jbvb.nio.file.bttribute.BbsicFileAttributeView}
+ * clbss defines methods to rebd bnd updbte b <em>bbsic</em> set of file
+ * bttributes thbt bre common to mbny file systems.
  *
- * <p> The {@link java.nio.file.attribute.PosixFileAttributeView}
- * interface extends {@code BasicFileAttributeView} by defining methods
- * to access the file attributes commonly used by file systems and operating systems
- * that implement the Portable Operating System Interface (POSIX) family of
- * standards.
+ * <p> The {@link jbvb.nio.file.bttribute.PosixFileAttributeView}
+ * interfbce extends {@code BbsicFileAttributeView} by defining methods
+ * to bccess the file bttributes commonly used by file systems bnd operbting systems
+ * thbt implement the Portbble Operbting System Interfbce (POSIX) fbmily of
+ * stbndbrds.
  *
- * <p> The {@link java.nio.file.attribute.DosFileAttributeView}
- * class extends {@code BasicFileAttributeView} by defining methods to
- * access the legacy "DOS" file attributes supported on file systems such as File
- * Allocation Tabl (FAT), commonly used in consumer devices.
+ * <p> The {@link jbvb.nio.file.bttribute.DosFileAttributeView}
+ * clbss extends {@code BbsicFileAttributeView} by defining methods to
+ * bccess the legbcy "DOS" file bttributes supported on file systems such bs File
+ * Allocbtion Tbbl (FAT), commonly used in consumer devices.
  *
- * <p> The {@link java.nio.file.attribute.AclFileAttributeView}
- * class defines methods to read and write the Access Control List (ACL)
- * file attribute. The ACL model used by this file attribute view is based
- * on the model defined by <a href="http://www.ietf.org/rfc/rfc3530.txt">
- * <i>RFC&nbsp;3530: Network File System (NFS) version 4 Protocol</i></a>.
+ * <p> The {@link jbvb.nio.file.bttribute.AclFileAttributeView}
+ * clbss defines methods to rebd bnd write the Access Control List (ACL)
+ * file bttribute. The ACL model used by this file bttribute view is bbsed
+ * on the model defined by <b href="http://www.ietf.org/rfc/rfc3530.txt">
+ * <i>RFC&nbsp;3530: Network File System (NFS) version 4 Protocol</i></b>.
  *
- * <p> In addition to attribute views, this package also defines classes and
- * interfaces that are used when accessing attributes:
+ * <p> In bddition to bttribute views, this pbckbge blso defines clbsses bnd
+ * interfbces thbt bre used when bccessing bttributes:
  *
  * <ul>
  *
- *   <li> The {@link java.nio.file.attribute.UserPrincipal} and
- *   {@link java.nio.file.attribute.GroupPrincipal} interfaces represent an
+ *   <li> The {@link jbvb.nio.file.bttribute.UserPrincipbl} bnd
+ *   {@link jbvb.nio.file.bttribute.GroupPrincipbl} interfbces represent bn
  *   identity or group identity. </li>
  *
- *   <li> The {@link java.nio.file.attribute.UserPrincipalLookupService}
- *   interface defines methods to lookup user or group principals. </li>
+ *   <li> The {@link jbvb.nio.file.bttribute.UserPrincipblLookupService}
+ *   interfbce defines methods to lookup user or group principbls. </li>
  *
- *   <li> The {@link java.nio.file.attribute.FileAttribute} interface
- *   represents the value of an attribute for cases where the attribute value is
- *   required to be set atomically when creating an object in the file system. </li>
+ *   <li> The {@link jbvb.nio.file.bttribute.FileAttribute} interfbce
+ *   represents the vblue of bn bttribute for cbses where the bttribute vblue is
+ *   required to be set btomicblly when crebting bn object in the file system. </li>
  *
  * </ul>
  *
  *
- * <p> Unless otherwise noted, passing a <tt>null</tt> argument to a constructor
- * or method in any class or interface in this package will cause a {@link
- * java.lang.NullPointerException NullPointerException} to be thrown.
+ * <p> Unless otherwise noted, pbssing b <tt>null</tt> brgument to b constructor
+ * or method in bny clbss or interfbce in this pbckbge will cbuse b {@link
+ * jbvb.lbng.NullPointerException NullPointerException} to be thrown.
  *
  * @since 1.7
  */
 
-package java.nio.file.attribute;
+pbckbge jbvb.nio.file.bttribute;

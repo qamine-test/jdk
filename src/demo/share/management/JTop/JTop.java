@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,398 +30,398 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  *
- * Example of using the java.lang.management API to sort threads
- * by CPU usage.
+ * Exbmple of using the jbvb.lbng.mbnbgement API to sort threbds
+ * by CPU usbge.
  *
- * JTop class can be run as a standalone application.
- * It first establishs a connection to a target VM specified
- * by the given hostname and port number where the JMX agent
- * to be connected.  It then polls for the thread information
- * and the CPU consumption of each thread to display every 2
+ * JTop clbss cbn be run bs b stbndblone bpplicbtion.
+ * It first estbblishs b connection to b tbrget VM specified
+ * by the given hostnbme bnd port number where the JMX bgent
+ * to be connected.  It then polls for the threbd informbtion
+ * bnd the CPU consumption of ebch threbd to displby every 2
  * seconds.
  *
- * It is also used by JTopPlugin which is a JConsolePlugin
- * that can be used with JConsole (see README.txt). The JTop
- * GUI will be added as a JConsole tab by the JTop plugin.
+ * It is blso used by JTopPlugin which is b JConsolePlugin
+ * thbt cbn be used with JConsole (see README.txt). The JTop
+ * GUI will be bdded bs b JConsole tbb by the JTop plugin.
  *
  * @see com.sun.tools.jconsole.JConsolePlugin
  *
- * @author Mandy Chung
+ * @buthor Mbndy Chung
  */
-import java.lang.management.*;
-import javax.management.*;
-import javax.management.remote.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.TreeMap;
-import java.util.concurrent.ExecutionException;
-import java.text.NumberFormat;
-import java.net.MalformedURLException;
-import static java.lang.management.ManagementFactory.*;
+import jbvb.lbng.mbnbgement.*;
+import jbvbx.mbnbgement.*;
+import jbvbx.mbnbgement.remote.*;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.SortedMbp;
+import jbvb.util.Timer;
+import jbvb.util.TimerTbsk;
+import jbvb.util.TreeMbp;
+import jbvb.util.concurrent.ExecutionException;
+import jbvb.text.NumberFormbt;
+import jbvb.net.MblformedURLException;
+import stbtic jbvb.lbng.mbnbgement.MbnbgementFbctory.*;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.table.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.tbble.*;
 
 /**
- * JTop is a JPanel to display thread's name, CPU time, and its state
- * in a table.
+ * JTop is b JPbnel to displby threbd's nbme, CPU time, bnd its stbte
+ * in b tbble.
  */
-public class JTop extends JPanel {
+public clbss JTop extends JPbnel {
 
-    private static class StatusBar extends JPanel {
-        private static final long serialVersionUID = -6483392381797633018L;
-        private final JLabel statusText;
+    privbte stbtic clbss StbtusBbr extends JPbnel {
+        privbte stbtic finbl long seriblVersionUID = -6483392381797633018L;
+        privbte finbl JLbbel stbtusText;
 
-        public StatusBar(boolean defaultVisible) {
-            super(new GridLayout(1, 1));
-            statusText = new JLabel();
-            statusText.setVisible(defaultVisible);
-            add(statusText);
+        public StbtusBbr(boolebn defbultVisible) {
+            super(new GridLbyout(1, 1));
+            stbtusText = new JLbbel();
+            stbtusText.setVisible(defbultVisible);
+            bdd(stbtusText);
         }
 
         @Override
-        public Dimension getMaximumSize() {
-            Dimension maximum = super.getMaximumSize();
+        public Dimension getMbximumSize() {
+            Dimension mbximum = super.getMbximumSize();
             Dimension minimum = getMinimumSize();
-            return new Dimension(maximum.width, minimum.height);
+            return new Dimension(mbximum.width, minimum.height);
         }
 
-        public void setMessage(String text) {
-            statusText.setText(text);
-            statusText.setVisible(true);
+        public void setMessbge(String text) {
+            stbtusText.setText(text);
+            stbtusText.setVisible(true);
         }
     }
-    private static final long serialVersionUID = -1499762160973870696L;
-    private MBeanServerConnection server;
-    private ThreadMXBean tmbean;
-    private MyTableModel tmodel;
-    private final StatusBar statusBar;
+    privbte stbtic finbl long seriblVersionUID = -1499762160973870696L;
+    privbte MBebnServerConnection server;
+    privbte ThrebdMXBebn tmbebn;
+    privbte MyTbbleModel tmodel;
+    privbte finbl StbtusBbr stbtusBbr;
     public JTop() {
-        super(new GridBagLayout());
+        super(new GridBbgLbyout());
 
-        tmodel = new MyTableModel();
-        JTable table = new JTable(tmodel);
-        table.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tmodel = new MyTbbleModel();
+        JTbble tbble = new JTbble(tmodel);
+        tbble.setPreferredScrollbbleViewportSize(new Dimension(500, 300));
 
-        // Set the renderer to format Double
-        table.setDefaultRenderer(Double.class, new DoubleRenderer());
-        // Add some space
-        table.setIntercellSpacing(new Dimension(6,3));
-        table.setRowHeight(table.getRowHeight() + 4);
+        // Set the renderer to formbt Double
+        tbble.setDefbultRenderer(Double.clbss, new DoubleRenderer());
+        // Add some spbce
+        tbble.setIntercellSpbcing(new Dimension(6,3));
+        tbble.setRowHeight(tbble.getRowHeight() + 4);
 
-        // Create the scroll pane and add the table to it.
-        JScrollPane scrollPane = new JScrollPane(table);
+        // Crebte the scroll pbne bnd bdd the tbble to it.
+        JScrollPbne scrollPbne = new JScrollPbne(tbble);
 
-        // Add the scroll pane to this panel.
-        GridBagConstraints c1 = new GridBagConstraints();
-        c1.fill = GridBagConstraints.BOTH;
+        // Add the scroll pbne to this pbnel.
+        GridBbgConstrbints c1 = new GridBbgConstrbints();
+        c1.fill = GridBbgConstrbints.BOTH;
         c1.gridy = 0;
         c1.gridx = 0;
         c1.weightx = 1;
         c1.weighty = 1;
-        add(scrollPane, c1);
+        bdd(scrollPbne, c1);
 
-        statusBar = new StatusBar(false);
-        GridBagConstraints c2 = new GridBagConstraints();
-        c2.fill = GridBagConstraints.HORIZONTAL;
+        stbtusBbr = new StbtusBbr(fblse);
+        GridBbgConstrbints c2 = new GridBbgConstrbints();
+        c2.fill = GridBbgConstrbints.HORIZONTAL;
         c2.gridy = 1;
         c2.gridx = 0;
         c2.weightx = 1.0;
         c2.weighty = 0.0;
-        add(statusBar, c2);
+        bdd(stbtusBbr, c2);
     }
 
-    // Set the MBeanServerConnection object for communicating
-    // with the target VM
-    public void setMBeanServerConnection(MBeanServerConnection mbs) {
+    // Set the MBebnServerConnection object for communicbting
+    // with the tbrget VM
+    public void setMBebnServerConnection(MBebnServerConnection mbs) {
         this.server = mbs;
         try {
-            this.tmbean = newPlatformMXBeanProxy(server,
+            this.tmbebn = newPlbtformMXBebnProxy(server,
                                                  THREAD_MXBEAN_NAME,
-                                                 ThreadMXBean.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+                                                 ThrebdMXBebn.clbss);
+        } cbtch (IOException e) {
+            e.printStbckTrbce();
         }
-        if (!tmbean.isThreadCpuTimeSupported()) {
-            statusBar.setMessage("Monitored VM does not support thread CPU time measurement");
+        if (!tmbebn.isThrebdCpuTimeSupported()) {
+            stbtusBbr.setMessbge("Monitored VM does not support threbd CPU time mebsurement");
         } else {
             try {
-                tmbean.setThreadCpuTimeEnabled(true);
-            } catch (SecurityException e) {
-                statusBar.setMessage("Monitored VM does not have permission for enabling thread cpu time measurement");
+                tmbebn.setThrebdCpuTimeEnbbled(true);
+            } cbtch (SecurityException e) {
+                stbtusBbr.setMessbge("Monitored VM does not hbve permission for enbbling threbd cpu time mebsurement");
             }
         }
     }
 
-    class MyTableModel extends AbstractTableModel {
-        private static final long serialVersionUID = -7877310288576779514L;
-        private String[] columnNames = {"ThreadName",
+    clbss MyTbbleModel extends AbstrbctTbbleModel {
+        privbte stbtic finbl long seriblVersionUID = -7877310288576779514L;
+        privbte String[] columnNbmes = {"ThrebdNbme",
                                         "CPU(sec)",
-                                        "State"};
-        // List of all threads. The key of each entry is the CPU time
-        // and its value is the ThreadInfo object with no stack trace.
-        private List<Map.Entry<Long, ThreadInfo>> threadList =
+                                        "Stbte"};
+        // List of bll threbds. The key of ebch entry is the CPU time
+        // bnd its vblue is the ThrebdInfo object with no stbck trbce.
+        privbte List<Mbp.Entry<Long, ThrebdInfo>> threbdList =
             Collections.emptyList();
 
-        public MyTableModel() {
+        public MyTbbleModel() {
         }
 
         @Override
         public int getColumnCount() {
-            return columnNames.length;
+            return columnNbmes.length;
         }
 
         @Override
         public int getRowCount() {
-            return threadList.size();
+            return threbdList.size();
         }
 
         @Override
-        public String getColumnName(int col) {
-            return columnNames[col];
+        public String getColumnNbme(int col) {
+            return columnNbmes[col];
         }
 
         @Override
-        public Object getValueAt(int row, int col) {
-            Map.Entry<Long, ThreadInfo> me = threadList.get(row);
+        public Object getVblueAt(int row, int col) {
+            Mbp.Entry<Long, ThrebdInfo> me = threbdList.get(row);
             switch (col) {
-                case 0 :
-                    // Column 0 shows the thread name
-                    return me.getValue().getThreadName();
-                case 1 :
-                    // Column 1 shows the CPU usage
-                    long ns = me.getKey().longValue();
+                cbse 0 :
+                    // Column 0 shows the threbd nbme
+                    return me.getVblue().getThrebdNbme();
+                cbse 1 :
+                    // Column 1 shows the CPU usbge
+                    long ns = me.getKey().longVblue();
                     double sec = ns / 1000000000;
                     return new Double(sec);
-                case 2 :
-                    // Column 2 shows the thread state
-                    return me.getValue().getThreadState();
-                default:
+                cbse 2 :
+                    // Column 2 shows the threbd stbte
+                    return me.getVblue().getThrebdStbte();
+                defbult:
                     return null;
             }
         }
 
         @Override
-        public Class<?> getColumnClass(int c) {
-            return getValueAt(0, c).getClass();
+        public Clbss<?> getColumnClbss(int c) {
+            return getVblueAt(0, c).getClbss();
         }
 
-        void setThreadList(List<Map.Entry<Long, ThreadInfo>> list) {
-            threadList = list;
+        void setThrebdList(List<Mbp.Entry<Long, ThrebdInfo>> list) {
+            threbdList = list;
         }
     }
 
     /**
-     * Get the thread list with CPU consumption and the ThreadInfo
-     * for each thread sorted by the CPU time.
+     * Get the threbd list with CPU consumption bnd the ThrebdInfo
+     * for ebch threbd sorted by the CPU time.
      */
-    private List<Map.Entry<Long, ThreadInfo>> getThreadList() {
-        // Get all threads and their ThreadInfo objects
-        // with no stack trace
-        long[] tids = tmbean.getAllThreadIds();
-        ThreadInfo[] tinfos = tmbean.getThreadInfo(tids);
+    privbte List<Mbp.Entry<Long, ThrebdInfo>> getThrebdList() {
+        // Get bll threbds bnd their ThrebdInfo objects
+        // with no stbck trbce
+        long[] tids = tmbebn.getAllThrebdIds();
+        ThrebdInfo[] tinfos = tmbebn.getThrebdInfo(tids);
 
-        // build a map with key = CPU time and value = ThreadInfo
-        SortedMap<Long, ThreadInfo> map = new TreeMap<Long, ThreadInfo>();
+        // build b mbp with key = CPU time bnd vblue = ThrebdInfo
+        SortedMbp<Long, ThrebdInfo> mbp = new TreeMbp<Long, ThrebdInfo>();
         for (int i = 0; i < tids.length; i++) {
-            long cpuTime = tmbean.getThreadCpuTime(tids[i]);
-            // filter out threads that have been terminated
+            long cpuTime = tmbebn.getThrebdCpuTime(tids[i]);
+            // filter out threbds thbt hbve been terminbted
             if (cpuTime != -1 && tinfos[i] != null) {
-                map.put(new Long(cpuTime), tinfos[i]);
+                mbp.put(new Long(cpuTime), tinfos[i]);
             }
         }
 
-        // build the thread list and sort it with CPU time
-        // in decreasing order
-        Set<Map.Entry<Long, ThreadInfo>> set = map.entrySet();
-        List<Map.Entry<Long, ThreadInfo>> list =
-            new ArrayList<Map.Entry<Long, ThreadInfo>>(set);
+        // build the threbd list bnd sort it with CPU time
+        // in decrebsing order
+        Set<Mbp.Entry<Long, ThrebdInfo>> set = mbp.entrySet();
+        List<Mbp.Entry<Long, ThrebdInfo>> list =
+            new ArrbyList<Mbp.Entry<Long, ThrebdInfo>>(set);
         Collections.reverse(list);
         return list;
     }
 
 
     /**
-     * Format Double with 4 fraction digits
+     * Formbt Double with 4 frbction digits
      */
-    class DoubleRenderer extends DefaultTableCellRenderer {
-        private static final long serialVersionUID = 1704639497162584382L;
-        NumberFormat formatter;
+    clbss DoubleRenderer extends DefbultTbbleCellRenderer {
+        privbte stbtic finbl long seriblVersionUID = 1704639497162584382L;
+        NumberFormbt formbtter;
         public DoubleRenderer() {
             super();
-            setHorizontalAlignment(JLabel.RIGHT);
+            setHorizontblAlignment(JLbbel.RIGHT);
         }
 
         @Override
-        public void setValue(Object value) {
-            if (formatter==null) {
-                formatter = NumberFormat.getInstance();
-                formatter.setMinimumFractionDigits(4);
+        public void setVblue(Object vblue) {
+            if (formbtter==null) {
+                formbtter = NumberFormbt.getInstbnce();
+                formbtter.setMinimumFrbctionDigits(4);
             }
-            setText((value == null) ? "" : formatter.format(value));
+            setText((vblue == null) ? "" : formbtter.formbt(vblue));
         }
     }
 
-    // SwingWorker responsible for updating the GUI
+    // SwingWorker responsible for updbting the GUI
     //
-    // It first gets the thread and CPU usage information as a
-    // background task done by a worker thread so that
-    // it will not block the event dispatcher thread.
+    // It first gets the threbd bnd CPU usbge informbtion bs b
+    // bbckground tbsk done by b worker threbd so thbt
+    // it will not block the event dispbtcher threbd.
     //
-    // When the worker thread finishes, the event dispatcher
-    // thread will invoke the done() method which will update
+    // When the worker threbd finishes, the event dispbtcher
+    // threbd will invoke the done() method which will updbte
     // the UI.
-    class Worker extends SwingWorker<List<Map.Entry<Long, ThreadInfo>>,Object> {
-        private MyTableModel tmodel;
-        Worker(MyTableModel tmodel) {
+    clbss Worker extends SwingWorker<List<Mbp.Entry<Long, ThrebdInfo>>,Object> {
+        privbte MyTbbleModel tmodel;
+        Worker(MyTbbleModel tmodel) {
             this.tmodel = tmodel;
         }
 
-        // Get the current thread info and CPU time
+        // Get the current threbd info bnd CPU time
         @Override
-        public List<Map.Entry<Long, ThreadInfo>> doInBackground() {
-            return getThreadList();
+        public List<Mbp.Entry<Long, ThrebdInfo>> doInBbckground() {
+            return getThrebdList();
         }
 
-        // fire table data changed to trigger GUI update
-        // when doInBackground() is finished
+        // fire tbble dbtb chbnged to trigger GUI updbte
+        // when doInBbckground() is finished
         @Override
         protected void done() {
             try {
-                // Set table model with the new thread list
-                tmodel.setThreadList(get());
-                // refresh the table model
-                tmodel.fireTableDataChanged();
-            } catch (InterruptedException e) {
-            } catch (ExecutionException e) {
+                // Set tbble model with the new threbd list
+                tmodel.setThrebdList(get());
+                // refresh the tbble model
+                tmodel.fireTbbleDbtbChbnged();
+            } cbtch (InterruptedException e) {
+            } cbtch (ExecutionException e) {
             }
         }
     }
 
-    // Return a new SwingWorker for UI update
+    // Return b new SwingWorker for UI updbte
     public SwingWorker<?,?> newSwingWorker() {
         return new Worker(tmodel);
     }
 
-    public static void main(String[] args) throws Exception {
-        // Validate the input arguments
-        if (args.length != 1) {
-            usage();
+    public stbtic void mbin(String[] brgs) throws Exception {
+        // Vblidbte the input brguments
+        if (brgs.length != 1) {
+            usbge();
         }
 
-        String[] arg2 = args[0].split(":");
-        if (arg2.length != 2) {
-            usage();
+        String[] brg2 = brgs[0].split(":");
+        if (brg2.length != 2) {
+            usbge();
         }
-        String hostname = arg2[0];
+        String hostnbme = brg2[0];
         int port = -1;
         try {
-            port = Integer.parseInt(arg2[1]);
-        } catch (NumberFormatException x) {
-            usage();
+            port = Integer.pbrseInt(brg2[1]);
+        } cbtch (NumberFormbtException x) {
+            usbge();
         }
         if (port < 0) {
-            usage();
+            usbge();
         }
 
-        // Create the JTop Panel
-        final JTop jtop = new JTop();
-        // Set up the MBeanServerConnection to the target VM
-        MBeanServerConnection server = connect(hostname, port);
-        jtop.setMBeanServerConnection(server);
+        // Crebte the JTop Pbnel
+        finbl JTop jtop = new JTop();
+        // Set up the MBebnServerConnection to the tbrget VM
+        MBebnServerConnection server = connect(hostnbme, port);
+        jtop.setMBebnServerConnection(server);
 
-        // A timer task to update GUI per each interval
-        TimerTask timerTask = new TimerTask() {
+        // A timer tbsk to updbte GUI per ebch intervbl
+        TimerTbsk timerTbsk = new TimerTbsk() {
             @Override
             public void run() {
-                // Schedule the SwingWorker to update the GUI
+                // Schedule the SwingWorker to updbte the GUI
                 jtop.newSwingWorker().execute();
             }
         };
 
-        // Create the standalone window with JTop panel
-        // by the event dispatcher thread
-        SwingUtilities.invokeAndWait(new Runnable() {
+        // Crebte the stbndblone window with JTop pbnel
+        // by the event dispbtcher threbd
+        SwingUtilities.invokeAndWbit(new Runnbble() {
             @Override
             public void run() {
-                createAndShowGUI(jtop);
+                crebteAndShowGUI(jtop);
             }
         });
 
         // refresh every 2 seconds
-        Timer timer = new Timer("JTop Sampling thread");
-        timer.schedule(timerTask, 0, 2000);
+        Timer timer = new Timer("JTop Sbmpling threbd");
+        timer.schedule(timerTbsk, 0, 2000);
 
     }
 
-    // Establish a connection with the remote application
+    // Estbblish b connection with the remote bpplicbtion
     //
-    // You can modify the urlPath to the address of the JMX agent
-    // of your application if it has a different URL.
+    // You cbn modify the urlPbth to the bddress of the JMX bgent
+    // of your bpplicbtion if it hbs b different URL.
     //
-    // You can also modify the following code to take
-    // username and password for client authentication.
-    private static MBeanServerConnection connect(String hostname, int port) {
-        // Create an RMI connector client and connect it to
+    // You cbn blso modify the following code to tbke
+    // usernbme bnd pbssword for client buthenticbtion.
+    privbte stbtic MBebnServerConnection connect(String hostnbme, int port) {
+        // Crebte bn RMI connector client bnd connect it to
         // the RMI connector server
-        String urlPath = "/jndi/rmi://" + hostname + ":" + port + "/jmxrmi";
-        MBeanServerConnection server = null;
+        String urlPbth = "/jndi/rmi://" + hostnbme + ":" + port + "/jmxrmi";
+        MBebnServerConnection server = null;
         try {
-            JMXServiceURL url = new JMXServiceURL("rmi", "", 0, urlPath);
-            JMXConnector jmxc = JMXConnectorFactory.connect(url);
-            server = jmxc.getMBeanServerConnection();
-        } catch (MalformedURLException e) {
-            // should not reach here
-        } catch (IOException e) {
-            System.err.println("\nCommunication error: " + e.getMessage());
+            JMXServiceURL url = new JMXServiceURL("rmi", "", 0, urlPbth);
+            JMXConnector jmxc = JMXConnectorFbctory.connect(url);
+            server = jmxc.getMBebnServerConnection();
+        } cbtch (MblformedURLException e) {
+            // should not rebch here
+        } cbtch (IOException e) {
+            System.err.println("\nCommunicbtion error: " + e.getMessbge());
             System.exit(1);
         }
         return server;
     }
 
-    private static void usage() {
-        System.out.println("Usage: java JTop <hostname>:<port>");
+    privbte stbtic void usbge() {
+        System.out.println("Usbge: jbvb JTop <hostnbme>:<port>");
         System.exit(1);
     }
     /**
-     * Create the GUI and show it.  For thread safety,
+     * Crebte the GUI bnd show it.  For threbd sbfety,
      * this method should be invoked from the
-     * event-dispatching thread.
+     * event-dispbtching threbd.
      */
-    private static void createAndShowGUI(JPanel jtop) {
-        // Create and set up the window.
-        JFrame frame = new JFrame("JTop");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    privbte stbtic void crebteAndShowGUI(JPbnel jtop) {
+        // Crebte bnd set up the window.
+        JFrbme frbme = new JFrbme("JTop");
+        frbme.setDefbultCloseOperbtion(JFrbme.EXIT_ON_CLOSE);
 
-        // Create and set up the content pane.
-        JComponent contentPane = (JComponent) frame.getContentPane();
-        contentPane.add(jtop, BorderLayout.CENTER);
-        contentPane.setOpaque(true); //content panes must be opaque
-        contentPane.setBorder(new EmptyBorder(12, 12, 12, 12));
-        frame.setContentPane(contentPane);
+        // Crebte bnd set up the content pbne.
+        JComponent contentPbne = (JComponent) frbme.getContentPbne();
+        contentPbne.bdd(jtop, BorderLbyout.CENTER);
+        contentPbne.setOpbque(true); //content pbnes must be opbque
+        contentPbne.setBorder(new EmptyBorder(12, 12, 12, 12));
+        frbme.setContentPbne(contentPbne);
 
-        // Display the window.
-        frame.pack();
-        frame.setVisible(true);
+        // Displby the window.
+        frbme.pbck();
+        frbme.setVisible(true);
     }
 
 }

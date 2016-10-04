@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbckbge com.sun.tools.hbt.internbl.server;
 
-import java.io.PrintWriter;
+import jbvb.io.PrintWriter;
 
-import com.sun.tools.hat.internal.model.*;
-import com.sun.tools.hat.internal.util.Misc;
-import java.io.StringWriter;
+import com.sun.tools.hbt.internbl.model.*;
+import com.sun.tools.hbt.internbl.util.Misc;
+import jbvb.io.StringWriter;
 
-import java.net.URLEncoder;
-import java.io.UnsupportedEncodingException;
+import jbvb.net.URLEncoder;
+import jbvb.io.UnsupportedEncodingException;
 
 /**
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
 
-abstract class QueryHandler {
+bbstrbct clbss QueryHbndler {
 
-    protected String urlStart;
+    protected String urlStbrt;
     protected String query;
     protected PrintWriter out;
-    protected Snapshot snapshot;
+    protected Snbpshot snbpshot;
 
-    abstract void run();
+    bbstrbct void run();
 
 
-    void setUrlStart(String s) {
-        urlStart = s;
+    void setUrlStbrt(String s) {
+        urlStbrt = s;
     }
 
     void setQuery(String s) {
@@ -69,21 +69,21 @@ abstract class QueryHandler {
         this.out = o;
     }
 
-    void setSnapshot(Snapshot ss) {
-        this.snapshot = ss;
+    void setSnbpshot(Snbpshot ss) {
+        this.snbpshot = ss;
     }
 
     protected String encodeForURL(String s) {
         try {
             s = URLEncoder.encode(s, "UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            // Should never happen
-            ex.printStackTrace();
+        } cbtch (UnsupportedEncodingException ex) {
+            // Should never hbppen
+            ex.printStbckTrbce();
         }
         return s;
     }
 
-    protected void startHtml(String title) {
+    protected void stbrtHtml(String title) {
         out.print("<html><title>");
         print(title);
         out.println("</title>");
@@ -100,41 +100,41 @@ abstract class QueryHandler {
         println(msg);
     }
 
-    protected void printAnchorStart() {
-        out.print("<a href=\"");
-        out.print(urlStart);
+    protected void printAnchorStbrt() {
+        out.print("<b href=\"");
+        out.print(urlStbrt);
     }
 
-    protected void printThingAnchorTag(long id) {
-        printAnchorStart();
+    protected void printThingAnchorTbg(long id) {
+        printAnchorStbrt();
         out.print("object/");
         printHex(id);
         out.print("\">");
     }
 
-    protected void printObject(JavaObject obj) {
+    protected void printObject(JbvbObject obj) {
         printThing(obj);
     }
 
-    protected void printThing(JavaThing thing) {
+    protected void printThing(JbvbThing thing) {
         if (thing == null) {
             out.print("null");
             return;
         }
-        if (thing instanceof JavaHeapObject) {
-            JavaHeapObject ho = (JavaHeapObject) thing;
+        if (thing instbnceof JbvbHebpObject) {
+            JbvbHebpObject ho = (JbvbHebpObject) thing;
             long id = ho.getId();
             if (id != -1L) {
                 if (ho.isNew())
                 out.println("<strong>");
-                printThingAnchorTag(id);
+                printThingAnchorTbg(id);
             }
             print(thing.toString());
             if (id != -1) {
                 if (ho.isNew())
                     out.println("[new]</strong>");
                 out.print(" (" + ho.getSize() + " bytes)");
-                out.println("</a>");
+                out.println("</b>");
             }
         } else {
             print(thing.toString());
@@ -142,91 +142,91 @@ abstract class QueryHandler {
     }
 
     protected void printRoot(Root root) {
-        StackTrace st = root.getStackTrace();
-        boolean traceAvailable = (st != null) && (st.getFrames().length != 0);
-        if (traceAvailable) {
-            printAnchorStart();
-            out.print("rootStack/");
+        StbckTrbce st = root.getStbckTrbce();
+        boolebn trbceAvbilbble = (st != null) && (st.getFrbmes().length != 0);
+        if (trbceAvbilbble) {
+            printAnchorStbrt();
+            out.print("rootStbck/");
             printHex(root.getIndex());
             out.print("\">");
         }
         print(root.getDescription());
-        if (traceAvailable) {
-            out.print("</a>");
+        if (trbceAvbilbble) {
+            out.print("</b>");
         }
     }
 
-    protected void printClass(JavaClass clazz) {
-        if (clazz == null) {
+    protected void printClbss(JbvbClbss clbzz) {
+        if (clbzz == null) {
             out.println("null");
             return;
         }
-        printAnchorStart();
-        out.print("class/");
-        print(encodeForURL(clazz));
+        printAnchorStbrt();
+        out.print("clbss/");
+        print(encodeForURL(clbzz));
         out.print("\">");
-        print(clazz.toString());
-        out.println("</a>");
+        print(clbzz.toString());
+        out.println("</b>");
     }
 
-    protected String encodeForURL(JavaClass clazz) {
-        if (clazz.getId() == -1) {
-            return encodeForURL(clazz.getName());
+    protected String encodeForURL(JbvbClbss clbzz) {
+        if (clbzz.getId() == -1) {
+            return encodeForURL(clbzz.getNbme());
         } else {
-            return clazz.getIdString();
+            return clbzz.getIdString();
         }
     }
 
-    protected void printField(JavaField field) {
-        print(field.getName() + " (" + field.getSignature() + ")");
+    protected void printField(JbvbField field) {
+        print(field.getNbme() + " (" + field.getSignbture() + ")");
     }
 
-    protected void printStatic(JavaStatic member) {
-        JavaField f = member.getField();
+    protected void printStbtic(JbvbStbtic member) {
+        JbvbField f = member.getField();
         printField(f);
         out.print(" : ");
-        if (f.hasId()) {
-            JavaThing t = member.getValue();
+        if (f.hbsId()) {
+            JbvbThing t = member.getVblue();
             printThing(t);
         } else {
-            print(member.getValue().toString());
+            print(member.getVblue().toString());
         }
     }
 
-    protected void printStackTrace(StackTrace trace) {
-        StackFrame[] frames = trace.getFrames();
-        for (int i = 0; i < frames.length; i++) {
-            StackFrame f = frames[i];
-            String clazz = f.getClassName();
+    protected void printStbckTrbce(StbckTrbce trbce) {
+        StbckFrbme[] frbmes = trbce.getFrbmes();
+        for (int i = 0; i < frbmes.length; i++) {
+            StbckFrbme f = frbmes[i];
+            String clbzz = f.getClbssNbme();
             out.print("<font color=purple>");
-            print(clazz);
+            print(clbzz);
             out.print("</font>");
-            print("." + f.getMethodName() + "(" + f.getMethodSignature() + ")");
+            print("." + f.getMethodNbme() + "(" + f.getMethodSignbture() + ")");
             out.print(" <bold>:</bold> ");
-            print(f.getSourceFileName() + " line " + f.getLineNumber());
+            print(f.getSourceFileNbme() + " line " + f.getLineNumber());
             out.println("<br>");
         }
     }
 
-    protected void printException(Throwable t) {
-        println(t.getMessage());
+    protected void printException(Throwbble t) {
+        println(t.getMessbge());
         out.println("<pre>");
         StringWriter sw = new StringWriter();
-        t.printStackTrace(new PrintWriter(sw));
+        t.printStbckTrbce(new PrintWriter(sw));
         print(sw.toString());
         out.println("</pre>");
     }
 
-    protected void printHex(long addr) {
-        if (snapshot.getIdentifierSize() == 4) {
-            out.print(Misc.toHex((int)addr));
+    protected void printHex(long bddr) {
+        if (snbpshot.getIdentifierSize() == 4) {
+            out.print(Misc.toHex((int)bddr));
         } else {
-            out.print(Misc.toHex(addr));
+            out.print(Misc.toHex(bddr));
         }
     }
 
-    protected long parseHex(String value) {
-        return Misc.parseHex(value);
+    protected long pbrseHex(String vblue) {
+        return Misc.pbrseHex(vblue);
     }
 
     protected void print(String str) {

@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.bmp;
+pbckbge com.sun.imbgeio.plugins.bmp;
 
-import java.util.ListResourceBundle;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
+import jbvb.util.ListResourceBundle;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbt;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbtImpl;
 
-public class BMPMetadataFormatResources extends ListResourceBundle {
+public clbss BMPMetbdbtbFormbtResources extends ListResourceBundle {
 
-    public BMPMetadataFormatResources() {}
+    public BMPMetbdbtbFormbtResources() {}
 
     protected Object[][] getContents() {
         return new Object[][] {
 
-        // Node name, followed by description
+        // Node nbme, followed by description
         { "BMPVersion", "BMP version string" },
-        { "Width", "The width of the image" },
-        { "Height","The height of the image" },
+        { "Width", "The width of the imbge" },
+        { "Height","The height of the imbge" },
         { "BitsPerPixel", "" },
-        { "PixelsPerMeter", "Resolution in pixels per unit distance" },
-        { "X", "Pixels Per Meter along X" },
-        { "Y", "Pixels Per Meter along Y" },
+        { "PixelsPerMeter", "Resolution in pixels per unit distbnce" },
+        { "X", "Pixels Per Meter blong X" },
+        { "Y", "Pixels Per Meter blong Y" },
         { "ColorsUsed",
-          "Number of color indexes in the color table actually used" },
-        { "ColorsImportant",
-          "Number of color indexes considered important for display" },
-        { "Mask",
-          "Color masks; present for BI_BITFIELDS compression only"},
+          "Number of color indexes in the color tbble bctublly used" },
+        { "ColorsImportbnt",
+          "Number of color indexes considered importbnt for displby" },
+        { "Mbsk",
+          "Color mbsks; present for BI_BITFIELDS compression only"},
 
         { "Intent", "Rendering intent" },
-        { "Palette", "The color palette" },
+        { "Pblette", "The color pblette" },
 
-        { "Red", "Red Mask/Color Palette" },
-        { "Green", "Green Mask/Color Palette/Gamma" },
-        { "Blue", "Blue Mask/Color Palette/Gamma" },
-        { "Alpha", "Alpha Mask/Color Palette/Gamma" },
+        { "Red", "Red Mbsk/Color Pblette" },
+        { "Green", "Green Mbsk/Color Pblette/Gbmmb" },
+        { "Blue", "Blue Mbsk/Color Pblette/Gbmmb" },
+        { "Alphb", "Alphb Mbsk/Color Pblette/Gbmmb" },
 
-        { "ColorSpaceType", "Color Space Type" },
+        { "ColorSpbceType", "Color Spbce Type" },
 
-        { "X", "The X coordinate of a point in XYZ color space" },
-        { "Y", "The Y coordinate of a point in XYZ color space" },
-        { "Z", "The Z coordinate of a point in XYZ color space" },
+        { "X", "The X coordinbte of b point in XYZ color spbce" },
+        { "Y", "The Y coordinbte of b point in XYZ color spbce" },
+        { "Z", "The Z coordinbte of b point in XYZ color spbce" },
         };
     }
 }

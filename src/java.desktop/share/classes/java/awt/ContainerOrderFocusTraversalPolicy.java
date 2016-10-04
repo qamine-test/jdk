@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.util.List;
-import java.util.ArrayList;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * A FocusTraversalPolicy that determines traversal order based on the order
- * of child Components in a Container. From a particular focus cycle root, the
- * policy makes a pre-order traversal of the Component hierarchy, and traverses
- * a Container's children according to the ordering of the array returned by
- * <code>Container.getComponents()</code>. Portions of the hierarchy that are
- * not visible and displayable will not be searched.
+ * A FocusTrbversblPolicy thbt determines trbversbl order bbsed on the order
+ * of child Components in b Contbiner. From b pbrticulbr focus cycle root, the
+ * policy mbkes b pre-order trbversbl of the Component hierbrchy, bnd trbverses
+ * b Contbiner's children bccording to the ordering of the brrby returned by
+ * <code>Contbiner.getComponents()</code>. Portions of the hierbrchy thbt bre
+ * not visible bnd displbybble will not be sebrched.
  * <p>
- * By default, ContainerOrderFocusTraversalPolicy implicitly transfers focus
- * down-cycle. That is, during normal forward focus traversal, the Component
- * traversed after a focus cycle root will be the focus-cycle-root's default
- * Component to focus. This behavior can be disabled using the
- * <code>setImplicitDownCycleTraversal</code> method.
+ * By defbult, ContbinerOrderFocusTrbversblPolicy implicitly trbnsfers focus
+ * down-cycle. Thbt is, during normbl forwbrd focus trbversbl, the Component
+ * trbversed bfter b focus cycle root will be the focus-cycle-root's defbult
+ * Component to focus. This behbvior cbn be disbbled using the
+ * <code>setImplicitDownCycleTrbversbl</code> method.
  * <p>
- * By default, methods of this class will return a Component only if it is
- * visible, displayable, enabled, and focusable. Subclasses can modify this
- * behavior by overriding the <code>accept</code> method.
+ * By defbult, methods of this clbss will return b Component only if it is
+ * visible, displbybble, enbbled, bnd focusbble. Subclbsses cbn modify this
+ * behbvior by overriding the <code>bccept</code> method.
  * <p>
- * This policy takes into account <a
- * href="doc-files/FocusSpec.html#FocusTraversalPolicyProviders">focus traversal
- * policy providers</a>.  When searching for first/last/next/previous Component,
- * if a focus traversal policy provider is encountered, its focus traversal
- * policy is used to perform the search operation.
+ * This policy tbkes into bccount <b
+ * href="doc-files/FocusSpec.html#FocusTrbversblPolicyProviders">focus trbversbl
+ * policy providers</b>.  When sebrching for first/lbst/next/previous Component,
+ * if b focus trbversbl policy provider is encountered, its focus trbversbl
+ * policy is used to perform the sebrch operbtion.
  *
- * @author David Mendenhall
+ * @buthor Dbvid Mendenhbll
  *
- * @see Container#getComponents
+ * @see Contbiner#getComponents
  * @since 1.4
  */
-public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
-    implements java.io.Serializable
+public clbss ContbinerOrderFocusTrbversblPolicy extends FocusTrbversblPolicy
+    implements jbvb.io.Seriblizbble
 {
-    private static final PlatformLogger log = PlatformLogger.getLogger("java.awt.ContainerOrderFocusTraversalPolicy");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("jbvb.bwt.ContbinerOrderFocusTrbversblPolicy");
 
-    final private int FORWARD_TRAVERSAL = 0;
-    final private int BACKWARD_TRAVERSAL = 1;
+    finbl privbte int FORWARD_TRAVERSAL = 0;
+    finbl privbte int BACKWARD_TRAVERSAL = 1;
 
     /*
-     * JDK 1.4 serialVersionUID
+     * JDK 1.4 seriblVersionUID
      */
-    private static final long serialVersionUID = 486933713763926351L;
+    privbte stbtic finbl long seriblVersionUID = 486933713763926351L;
 
-    private boolean implicitDownCycleTraversal = true;
+    privbte boolebn implicitDownCycleTrbversbl = true;
 
     /**
-     * Used by getComponentAfter and getComponentBefore for efficiency. In
-     * order to maintain compliance with the specification of
-     * FocusTraversalPolicy, if traversal wraps, we should invoke
-     * getFirstComponent or getLastComponent. These methods may be overriden in
-     * subclasses to behave in a non-generic way. However, in the generic case,
-     * these methods will simply return the first or last Components of the
-     * sorted list, respectively. Since getComponentAfter and
-     * getComponentBefore have already built the list before determining
-     * that they need to invoke getFirstComponent or getLastComponent, the
+     * Used by getComponentAfter bnd getComponentBefore for efficiency. In
+     * order to mbintbin complibnce with the specificbtion of
+     * FocusTrbversblPolicy, if trbversbl wrbps, we should invoke
+     * getFirstComponent or getLbstComponent. These methods mby be overriden in
+     * subclbsses to behbve in b non-generic wby. However, in the generic cbse,
+     * these methods will simply return the first or lbst Components of the
+     * sorted list, respectively. Since getComponentAfter bnd
+     * getComponentBefore hbve blrebdy built the list before determining
+     * thbt they need to invoke getFirstComponent or getLbstComponent, the
      * list should be reused if possible.
      */
-    transient private Container cachedRoot;
-    transient private List<Component> cachedCycle;
+    trbnsient privbte Contbiner cbchedRoot;
+    trbnsient privbte List<Component> cbchedCycle;
 
     /*
-     * We suppose to use getFocusTraversalCycle & getComponentIndex methods in order
-     * to divide the policy into two parts:
-     * 1) Making the focus traversal cycle.
-     * 2) Traversing the cycle.
-     * The 1st point assumes producing a list of components representing the focus
-     * traversal cycle. The two methods mentioned above should implement this logic.
-     * The 2nd point assumes implementing the common concepts of operating on the
-     * cycle: traversing back and forth, retrieving the initial/default/first/last
-     * component. These concepts are described in the AWT Focus Spec and they are
-     * applied to the FocusTraversalPolicy in general.
-     * Thus, a descendant of this policy may wish to not reimplement the logic of
-     * the 2nd point but just override the implementation of the 1st one.
-     * A striking example of such a descendant is the javax.swing.SortingFocusTraversalPolicy.
+     * We suppose to use getFocusTrbversblCycle & getComponentIndex methods in order
+     * to divide the policy into two pbrts:
+     * 1) Mbking the focus trbversbl cycle.
+     * 2) Trbversing the cycle.
+     * The 1st point bssumes producing b list of components representing the focus
+     * trbversbl cycle. The two methods mentioned bbove should implement this logic.
+     * The 2nd point bssumes implementing the common concepts of operbting on the
+     * cycle: trbversing bbck bnd forth, retrieving the initibl/defbult/first/lbst
+     * component. These concepts bre described in the AWT Focus Spec bnd they bre
+     * bpplied to the FocusTrbversblPolicy in generbl.
+     * Thus, b descendbnt of this policy mby wish to not reimplement the logic of
+     * the 2nd point but just override the implementbtion of the 1st one.
+     * A striking exbmple of such b descendbnt is the jbvbx.swing.SortingFocusTrbversblPolicy.
      */
-    /*protected*/ private List<Component> getFocusTraversalCycle(Container aContainer) {
-        List<Component> cycle = new ArrayList<Component>();
-        enumerateCycle(aContainer, cycle);
+    /*protected*/ privbte List<Component> getFocusTrbversblCycle(Contbiner bContbiner) {
+        List<Component> cycle = new ArrbyList<Component>();
+        enumerbteCycle(bContbiner, cycle);
         return cycle;
     }
-    /*protected*/ private int getComponentIndex(List<Component> cycle, Component aComponent) {
-        return cycle.indexOf(aComponent);
+    /*protected*/ privbte int getComponentIndex(List<Component> cycle, Component bComponent) {
+        return cycle.indexOf(bComponent);
     }
 
-    private void enumerateCycle(Container container, List<Component> cycle) {
-        if (!(container.isVisible() && container.isDisplayable())) {
+    privbte void enumerbteCycle(Contbiner contbiner, List<Component> cycle) {
+        if (!(contbiner.isVisible() && contbiner.isDisplbybble())) {
             return;
         }
 
-        cycle.add(container);
+        cycle.bdd(contbiner);
 
-        Component[] components = container.getComponents();
+        Component[] components = contbiner.getComponents();
         for (int i = 0; i < components.length; i++) {
             Component comp = components[i];
-            if (comp instanceof Container) {
-                Container cont = (Container)comp;
+            if (comp instbnceof Contbiner) {
+                Contbiner cont = (Contbiner)comp;
 
-                if (!cont.isFocusCycleRoot() && !cont.isFocusTraversalPolicyProvider()) {
-                    enumerateCycle(cont, cycle);
+                if (!cont.isFocusCycleRoot() && !cont.isFocusTrbversblPolicyProvider()) {
+                    enumerbteCycle(cont, cycle);
                     continue;
                 }
             }
-            cycle.add(comp);
+            cycle.bdd(comp);
         }
     }
 
-    private Container getTopmostProvider(Container focusCycleRoot, Component aComponent) {
-        Container aCont = aComponent.getParent();
-        Container ftp = null;
-        while (aCont  != focusCycleRoot && aCont != null) {
-            if (aCont.isFocusTraversalPolicyProvider()) {
-                ftp = aCont;
+    privbte Contbiner getTopmostProvider(Contbiner focusCycleRoot, Component bComponent) {
+        Contbiner bCont = bComponent.getPbrent();
+        Contbiner ftp = null;
+        while (bCont  != focusCycleRoot && bCont != null) {
+            if (bCont.isFocusTrbversblPolicyProvider()) {
+                ftp = bCont;
             }
-            aCont = aCont.getParent();
+            bCont = bCont.getPbrent();
         }
-        if (aCont == null) {
+        if (bCont == null) {
             return null;
         }
         return ftp;
     }
 
     /*
-     * Checks if a new focus cycle takes place and returns a Component to traverse focus to.
-     * @param comp a possible focus cycle root or policy provider
-     * @param traversalDirection the direction of the traversal
-     * @return a Component to traverse focus to if {@code comp} is a root or provider
-     *         and implicit down-cycle is set, otherwise {@code null}
+     * Checks if b new focus cycle tbkes plbce bnd returns b Component to trbverse focus to.
+     * @pbrbm comp b possible focus cycle root or policy provider
+     * @pbrbm trbversblDirection the direction of the trbversbl
+     * @return b Component to trbverse focus to if {@code comp} is b root or provider
+     *         bnd implicit down-cycle is set, otherwise {@code null}
      */
-    private Component getComponentDownCycle(Component comp, int traversalDirection) {
+    privbte Component getComponentDownCycle(Component comp, int trbversblDirection) {
         Component retComp = null;
 
-        if (comp instanceof Container) {
-            Container cont = (Container)comp;
+        if (comp instbnceof Contbiner) {
+            Contbiner cont = (Contbiner)comp;
 
             if (cont.isFocusCycleRoot()) {
-                if (getImplicitDownCycleTraversal()) {
-                    retComp = cont.getFocusTraversalPolicy().getDefaultComponent(cont);
+                if (getImplicitDownCycleTrbversbl()) {
+                    retComp = cont.getFocusTrbversblPolicy().getDefbultComponent(cont);
 
-                    if (retComp != null && log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("### Transfered focus down-cycle to " + retComp +
+                    if (retComp != null && log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                        log.fine("### Trbnsfered focus down-cycle to " + retComp +
                                  " in the focus cycle root " + cont);
                     }
                 } else {
                     return null;
                 }
-            } else if (cont.isFocusTraversalPolicyProvider()) {
-                retComp = (traversalDirection == FORWARD_TRAVERSAL ?
-                           cont.getFocusTraversalPolicy().getDefaultComponent(cont) :
-                           cont.getFocusTraversalPolicy().getLastComponent(cont));
+            } else if (cont.isFocusTrbversblPolicyProvider()) {
+                retComp = (trbversblDirection == FORWARD_TRAVERSAL ?
+                           cont.getFocusTrbversblPolicy().getDefbultComponent(cont) :
+                           cont.getFocusTrbversblPolicy().getLbstComponent(cont));
 
-                if (retComp != null && log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("### Transfered focus to " + retComp + " in the FTP provider " + cont);
+                if (retComp != null && log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("### Trbnsfered focus to " + retComp + " in the FTP provider " + cont);
                 }
             }
         }
@@ -186,109 +186,109 @@ public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
     }
 
     /**
-     * Returns the Component that should receive the focus after aComponent.
-     * aContainer must be a focus cycle root of aComponent or a focus traversal policy provider.
+     * Returns the Component thbt should receive the focus bfter bComponent.
+     * bContbiner must be b focus cycle root of bComponent or b focus trbversbl policy provider.
      * <p>
-     * By default, ContainerOrderFocusTraversalPolicy implicitly transfers
-     * focus down-cycle. That is, during normal forward focus traversal, the
-     * Component traversed after a focus cycle root will be the focus-cycle-
-     * root's default Component to focus. This behavior can be disabled using
-     * the <code>setImplicitDownCycleTraversal</code> method.
+     * By defbult, ContbinerOrderFocusTrbversblPolicy implicitly trbnsfers
+     * focus down-cycle. Thbt is, during normbl forwbrd focus trbversbl, the
+     * Component trbversed bfter b focus cycle root will be the focus-cycle-
+     * root's defbult Component to focus. This behbvior cbn be disbbled using
+     * the <code>setImplicitDownCycleTrbversbl</code> method.
      * <p>
-     * If aContainer is <a href="doc-files/FocusSpec.html#FocusTraversalPolicyProviders">focus
-     * traversal policy provider</a>, the focus is always transferred down-cycle.
+     * If bContbiner is <b href="doc-files/FocusSpec.html#FocusTrbversblPolicyProviders">focus
+     * trbversbl policy provider</b>, the focus is blwbys trbnsferred down-cycle.
      *
-     * @param aContainer a focus cycle root of aComponent or a focus traversal policy provider
-     * @param aComponent a (possibly indirect) child of aContainer, or
-     *        aContainer itself
-     * @return the Component that should receive the focus after aComponent, or
-     *         null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is not a focus cycle
-     *         root of aComponent or focus traversal policy provider, or if either aContainer or
-     *         aComponent is null
+     * @pbrbm bContbiner b focus cycle root of bComponent or b focus trbversbl policy provider
+     * @pbrbm bComponent b (possibly indirect) child of bContbiner, or
+     *        bContbiner itself
+     * @return the Component thbt should receive the focus bfter bComponent, or
+     *         null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is not b focus cycle
+     *         root of bComponent or focus trbversbl policy provider, or if either bContbiner or
+     *         bComponent is null
      */
-    public Component getComponentAfter(Container aContainer, Component aComponent) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("### Searching in " + aContainer + " for component after " + aComponent);
+    public Component getComponentAfter(Contbiner bContbiner, Component bComponent) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("### Sebrching in " + bContbiner + " for component bfter " + bComponent);
         }
 
-        if (aContainer == null || aComponent == null) {
-            throw new IllegalArgumentException("aContainer and aComponent cannot be null");
+        if (bContbiner == null || bComponent == null) {
+            throw new IllegblArgumentException("bContbiner bnd bComponent cbnnot be null");
         }
-        if (!aContainer.isFocusTraversalPolicyProvider() && !aContainer.isFocusCycleRoot()) {
-            throw new IllegalArgumentException("aContainer should be focus cycle root or focus traversal policy provider");
+        if (!bContbiner.isFocusTrbversblPolicyProvider() && !bContbiner.isFocusCycleRoot()) {
+            throw new IllegblArgumentException("bContbiner should be focus cycle root or focus trbversbl policy provider");
 
-        } else if (aContainer.isFocusCycleRoot() && !aComponent.isFocusCycleRoot(aContainer)) {
-            throw new IllegalArgumentException("aContainer is not a focus cycle root of aComponent");
+        } else if (bContbiner.isFocusCycleRoot() && !bComponent.isFocusCycleRoot(bContbiner)) {
+            throw new IllegblArgumentException("bContbiner is not b focus cycle root of bComponent");
         }
 
-        synchronized(aContainer.getTreeLock()) {
+        synchronized(bContbiner.getTreeLock()) {
 
-            if (!(aContainer.isVisible() && aContainer.isDisplayable())) {
+            if (!(bContbiner.isVisible() && bContbiner.isDisplbybble())) {
                 return null;
             }
 
-            // Before all the ckecks below we first see if it's an FTP provider or a focus cycle root.
-            // If it's the case just go down cycle (if it's set to "implicit").
-            Component comp = getComponentDownCycle(aComponent, FORWARD_TRAVERSAL);
+            // Before bll the ckecks below we first see if it's bn FTP provider or b focus cycle root.
+            // If it's the cbse just go down cycle (if it's set to "implicit").
+            Component comp = getComponentDownCycle(bComponent, FORWARD_TRAVERSAL);
             if (comp != null) {
                 return comp;
             }
 
             // See if the component is inside of policy provider.
-            Container provider = getTopmostProvider(aContainer, aComponent);
+            Contbiner provider = getTopmostProvider(bContbiner, bComponent);
             if (provider != null) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("### Asking FTP " + provider + " for component after " + aComponent);
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("### Asking FTP " + provider + " for component bfter " + bComponent);
                 }
 
-                // FTP knows how to find component after the given. We don't.
-                FocusTraversalPolicy policy = provider.getFocusTraversalPolicy();
-                Component afterComp = policy.getComponentAfter(provider, aComponent);
+                // FTP knows how to find component bfter the given. We don't.
+                FocusTrbversblPolicy policy = provider.getFocusTrbversblPolicy();
+                Component bfterComp = policy.getComponentAfter(provider, bComponent);
 
-                // Null result means that we overstepped the limit of the FTP's cycle.
-                // In that case we must quit the cycle, otherwise return the component found.
-                if (afterComp != null) {
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("### FTP returned " + afterComp);
+                // Null result mebns thbt we overstepped the limit of the FTP's cycle.
+                // In thbt cbse we must quit the cycle, otherwise return the component found.
+                if (bfterComp != null) {
+                    if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                        log.fine("### FTP returned " + bfterComp);
                     }
-                    return afterComp;
+                    return bfterComp;
                 }
-                aComponent = provider;
+                bComponent = provider;
             }
 
-            List<Component> cycle = getFocusTraversalCycle(aContainer);
+            List<Component> cycle = getFocusTrbversblCycle(bContbiner);
 
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("### Cycle is " + cycle + ", component is " + aComponent);
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                log.fine("### Cycle is " + cycle + ", component is " + bComponent);
             }
 
-            int index = getComponentIndex(cycle, aComponent);
+            int index = getComponentIndex(cycle, bComponent);
 
             if (index < 0) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("### Didn't find component " + aComponent + " in a cycle " + aContainer);
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("### Didn't find component " + bComponent + " in b cycle " + bContbiner);
                 }
-                return getFirstComponent(aContainer);
+                return getFirstComponent(bContbiner);
             }
 
             for (index++; index < cycle.size(); index++) {
                 comp = cycle.get(index);
-                if (accept(comp)) {
+                if (bccept(comp)) {
                     return comp;
                 } else if ((comp = getComponentDownCycle(comp, FORWARD_TRAVERSAL)) != null) {
                     return comp;
                 }
             }
 
-            if (aContainer.isFocusCycleRoot()) {
-                this.cachedRoot = aContainer;
-                this.cachedCycle = cycle;
+            if (bContbiner.isFocusCycleRoot()) {
+                this.cbchedRoot = bContbiner;
+                this.cbchedCycle = cycle;
 
-                comp = getFirstComponent(aContainer);
+                comp = getFirstComponent(bContbiner);
 
-                this.cachedRoot = null;
-                this.cachedCycle = null;
+                this.cbchedRoot = null;
+                this.cbchedCycle = null;
 
                 return comp;
             }
@@ -297,77 +297,77 @@ public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
     }
 
     /**
-     * Returns the Component that should receive the focus before aComponent.
-     * aContainer must be a focus cycle root of aComponent or a <a
-     * href="doc-files/FocusSpec.html#FocusTraversalPolicyProviders">focus traversal policy
-     * provider</a>.
+     * Returns the Component thbt should receive the focus before bComponent.
+     * bContbiner must be b focus cycle root of bComponent or b <b
+     * href="doc-files/FocusSpec.html#FocusTrbversblPolicyProviders">focus trbversbl policy
+     * provider</b>.
      *
-     * @param aContainer a focus cycle root of aComponent or focus traversal policy provider
-     * @param aComponent a (possibly indirect) child of aContainer, or
-     *        aContainer itself
-     * @return the Component that should receive the focus before aComponent,
-     *         or null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is not a focus cycle
-     *         root of aComponent or focus traversal policy provider, or if either aContainer or
-     *         aComponent is null
+     * @pbrbm bContbiner b focus cycle root of bComponent or focus trbversbl policy provider
+     * @pbrbm bComponent b (possibly indirect) child of bContbiner, or
+     *        bContbiner itself
+     * @return the Component thbt should receive the focus before bComponent,
+     *         or null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is not b focus cycle
+     *         root of bComponent or focus trbversbl policy provider, or if either bContbiner or
+     *         bComponent is null
      */
-    public Component getComponentBefore(Container aContainer, Component aComponent) {
-        if (aContainer == null || aComponent == null) {
-            throw new IllegalArgumentException("aContainer and aComponent cannot be null");
+    public Component getComponentBefore(Contbiner bContbiner, Component bComponent) {
+        if (bContbiner == null || bComponent == null) {
+            throw new IllegblArgumentException("bContbiner bnd bComponent cbnnot be null");
         }
-        if (!aContainer.isFocusTraversalPolicyProvider() && !aContainer.isFocusCycleRoot()) {
-            throw new IllegalArgumentException("aContainer should be focus cycle root or focus traversal policy provider");
+        if (!bContbiner.isFocusTrbversblPolicyProvider() && !bContbiner.isFocusCycleRoot()) {
+            throw new IllegblArgumentException("bContbiner should be focus cycle root or focus trbversbl policy provider");
 
-        } else if (aContainer.isFocusCycleRoot() && !aComponent.isFocusCycleRoot(aContainer)) {
-            throw new IllegalArgumentException("aContainer is not a focus cycle root of aComponent");
+        } else if (bContbiner.isFocusCycleRoot() && !bComponent.isFocusCycleRoot(bContbiner)) {
+            throw new IllegblArgumentException("bContbiner is not b focus cycle root of bComponent");
         }
 
-        synchronized(aContainer.getTreeLock()) {
+        synchronized(bContbiner.getTreeLock()) {
 
-            if (!(aContainer.isVisible() && aContainer.isDisplayable())) {
+            if (!(bContbiner.isVisible() && bContbiner.isDisplbybble())) {
                 return null;
             }
 
             // See if the component is inside of policy provider.
-            Container provider = getTopmostProvider(aContainer, aComponent);
+            Contbiner provider = getTopmostProvider(bContbiner, bComponent);
             if (provider != null) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("### Asking FTP " + provider + " for component after " + aComponent);
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("### Asking FTP " + provider + " for component bfter " + bComponent);
                 }
 
-                // FTP knows how to find component after the given. We don't.
-                FocusTraversalPolicy policy = provider.getFocusTraversalPolicy();
-                Component beforeComp = policy.getComponentBefore(provider, aComponent);
+                // FTP knows how to find component bfter the given. We don't.
+                FocusTrbversblPolicy policy = provider.getFocusTrbversblPolicy();
+                Component beforeComp = policy.getComponentBefore(provider, bComponent);
 
-                // Null result means that we overstepped the limit of the FTP's cycle.
-                // In that case we must quit the cycle, otherwise return the component found.
+                // Null result mebns thbt we overstepped the limit of the FTP's cycle.
+                // In thbt cbse we must quit the cycle, otherwise return the component found.
                 if (beforeComp != null) {
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
+                    if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                         log.fine("### FTP returned " + beforeComp);
                     }
                     return beforeComp;
                 }
-                aComponent = provider;
+                bComponent = provider;
 
-                // If the provider is traversable it's returned.
-                if (accept(aComponent)) {
-                    return aComponent;
+                // If the provider is trbversbble it's returned.
+                if (bccept(bComponent)) {
+                    return bComponent;
                 }
             }
 
-            List<Component> cycle = getFocusTraversalCycle(aContainer);
+            List<Component> cycle = getFocusTrbversblCycle(bContbiner);
 
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("### Cycle is " + cycle + ", component is " + aComponent);
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                log.fine("### Cycle is " + cycle + ", component is " + bComponent);
             }
 
-            int index = getComponentIndex(cycle, aComponent);
+            int index = getComponentIndex(cycle, bComponent);
 
             if (index < 0) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("### Didn't find component " + aComponent + " in a cycle " + aContainer);
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("### Didn't find component " + bComponent + " in b cycle " + bContbiner);
                 }
-                return getLastComponent(aContainer);
+                return getLbstComponent(bContbiner);
             }
 
             Component comp = null;
@@ -375,21 +375,21 @@ public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
 
             for (index--; index>=0; index--) {
                 comp = cycle.get(index);
-                if (comp != aContainer && (tryComp = getComponentDownCycle(comp, BACKWARD_TRAVERSAL)) != null) {
+                if (comp != bContbiner && (tryComp = getComponentDownCycle(comp, BACKWARD_TRAVERSAL)) != null) {
                     return tryComp;
-                } else if (accept(comp)) {
+                } else if (bccept(comp)) {
                     return comp;
                 }
             }
 
-            if (aContainer.isFocusCycleRoot()) {
-                this.cachedRoot = aContainer;
-                this.cachedCycle = cycle;
+            if (bContbiner.isFocusCycleRoot()) {
+                this.cbchedRoot = bContbiner;
+                this.cbchedCycle = cycle;
 
-                comp = getLastComponent(aContainer);
+                comp = getLbstComponent(bContbiner);
 
-                this.cachedRoot = null;
-                this.cachedCycle = null;
+                this.cbchedRoot = null;
+                this.cbchedCycle = null;
 
                 return comp;
             }
@@ -398,53 +398,53 @@ public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
     }
 
     /**
-     * Returns the first Component in the traversal cycle. This method is used
-     * to determine the next Component to focus when traversal wraps in the
-     * forward direction.
+     * Returns the first Component in the trbversbl cycle. This method is used
+     * to determine the next Component to focus when trbversbl wrbps in the
+     * forwbrd direction.
      *
-     * @param aContainer the focus cycle root or focus traversal policy provider whose first
+     * @pbrbm bContbiner the focus cycle root or focus trbversbl policy provider whose first
      *        Component is to be returned
-     * @return the first Component in the traversal cycle of aContainer,
-     *         or null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is null
+     * @return the first Component in the trbversbl cycle of bContbiner,
+     *         or null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is null
      */
-    public Component getFirstComponent(Container aContainer) {
+    public Component getFirstComponent(Contbiner bContbiner) {
         List<Component> cycle;
 
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("### Getting first component in " + aContainer);
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("### Getting first component in " + bContbiner);
         }
-        if (aContainer == null) {
-            throw new IllegalArgumentException("aContainer cannot be null");
+        if (bContbiner == null) {
+            throw new IllegblArgumentException("bContbiner cbnnot be null");
 
         }
 
-        synchronized(aContainer.getTreeLock()) {
+        synchronized(bContbiner.getTreeLock()) {
 
-            if (!(aContainer.isVisible() && aContainer.isDisplayable())) {
+            if (!(bContbiner.isVisible() && bContbiner.isDisplbybble())) {
                 return null;
             }
 
-            if (this.cachedRoot == aContainer) {
-                cycle = this.cachedCycle;
+            if (this.cbchedRoot == bContbiner) {
+                cycle = this.cbchedCycle;
             } else {
-                cycle = getFocusTraversalCycle(aContainer);
+                cycle = getFocusTrbversblCycle(bContbiner);
             }
 
             if (cycle.size() == 0) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                     log.fine("### Cycle is empty");
                 }
                 return null;
             }
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                 log.fine("### Cycle is " + cycle);
             }
 
             for (Component comp : cycle) {
-                if (accept(comp)) {
+                if (bccept(comp)) {
                     return comp;
-                } else if (comp != aContainer &&
+                } else if (comp != bContbiner &&
                            (comp = getComponentDownCycle(comp, FORWARD_TRAVERSAL)) != null)
                 {
                     return comp;
@@ -455,56 +455,56 @@ public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
     }
 
     /**
-     * Returns the last Component in the traversal cycle. This method is used
-     * to determine the next Component to focus when traversal wraps in the
+     * Returns the lbst Component in the trbversbl cycle. This method is used
+     * to determine the next Component to focus when trbversbl wrbps in the
      * reverse direction.
      *
-     * @param aContainer the focus cycle root or focus traversal policy provider whose last
+     * @pbrbm bContbiner the focus cycle root or focus trbversbl policy provider whose lbst
      *        Component is to be returned
-     * @return the last Component in the traversal cycle of aContainer,
-     *         or null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is null
+     * @return the lbst Component in the trbversbl cycle of bContbiner,
+     *         or null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is null
      */
-    public Component getLastComponent(Container aContainer) {
+    public Component getLbstComponent(Contbiner bContbiner) {
         List<Component> cycle;
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("### Getting last component in " + aContainer);
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("### Getting lbst component in " + bContbiner);
         }
 
-        if (aContainer == null) {
-            throw new IllegalArgumentException("aContainer cannot be null");
+        if (bContbiner == null) {
+            throw new IllegblArgumentException("bContbiner cbnnot be null");
         }
 
-        synchronized(aContainer.getTreeLock()) {
+        synchronized(bContbiner.getTreeLock()) {
 
-            if (!(aContainer.isVisible() && aContainer.isDisplayable())) {
+            if (!(bContbiner.isVisible() && bContbiner.isDisplbybble())) {
                 return null;
             }
 
-            if (this.cachedRoot == aContainer) {
-                cycle = this.cachedCycle;
+            if (this.cbchedRoot == bContbiner) {
+                cycle = this.cbchedCycle;
             } else {
-                cycle = getFocusTraversalCycle(aContainer);
+                cycle = getFocusTrbversblCycle(bContbiner);
             }
 
             if (cycle.size() == 0) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                     log.fine("### Cycle is empty");
                 }
                 return null;
             }
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                 log.fine("### Cycle is " + cycle);
             }
 
             for (int i= cycle.size() - 1; i >= 0; i--) {
                 Component comp = cycle.get(i);
-                if (accept(comp)) {
+                if (bccept(comp)) {
                     return comp;
-                } else if (comp instanceof Container && comp != aContainer) {
-                    Container cont = (Container)comp;
-                    if (cont.isFocusTraversalPolicyProvider()) {
-                        return cont.getFocusTraversalPolicy().getLastComponent(cont);
+                } else if (comp instbnceof Contbiner && comp != bContbiner) {
+                    Contbiner cont = (Contbiner)comp;
+                    if (cont.isFocusTrbversblPolicyProvider()) {
+                        return cont.getFocusTrbversblPolicy().getLbstComponent(cont);
                     }
                 }
             }
@@ -513,86 +513,86 @@ public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
     }
 
     /**
-     * Returns the default Component to focus. This Component will be the first
-     * to receive focus when traversing down into a new focus traversal cycle
-     * rooted at aContainer. The default implementation of this method
-     * returns the same Component as <code>getFirstComponent</code>.
+     * Returns the defbult Component to focus. This Component will be the first
+     * to receive focus when trbversing down into b new focus trbversbl cycle
+     * rooted bt bContbiner. The defbult implementbtion of this method
+     * returns the sbme Component bs <code>getFirstComponent</code>.
      *
-     * @param aContainer the focus cycle root or focus traversal policy provider whose default
+     * @pbrbm bContbiner the focus cycle root or focus trbversbl policy provider whose defbult
      *        Component is to be returned
-     * @return the default Component in the traversal cycle of aContainer,
-     *         or null if no suitable Component can be found
+     * @return the defbult Component in the trbversbl cycle of bContbiner,
+     *         or null if no suitbble Component cbn be found
      * @see #getFirstComponent
-     * @throws IllegalArgumentException if aContainer is null
+     * @throws IllegblArgumentException if bContbiner is null
      */
-    public Component getDefaultComponent(Container aContainer) {
-        return getFirstComponent(aContainer);
+    public Component getDefbultComponent(Contbiner bContbiner) {
+        return getFirstComponent(bContbiner);
     }
 
     /**
-     * Sets whether this ContainerOrderFocusTraversalPolicy transfers focus
-     * down-cycle implicitly. If <code>true</code>, during normal forward focus
-     * traversal, the Component traversed after a focus cycle root will be the
-     * focus-cycle-root's default Component to focus. If <code>false</code>,
-     * the next Component in the focus traversal cycle rooted at the specified
-     * focus cycle root will be traversed instead. The default value for this
+     * Sets whether this ContbinerOrderFocusTrbversblPolicy trbnsfers focus
+     * down-cycle implicitly. If <code>true</code>, during normbl forwbrd focus
+     * trbversbl, the Component trbversed bfter b focus cycle root will be the
+     * focus-cycle-root's defbult Component to focus. If <code>fblse</code>,
+     * the next Component in the focus trbversbl cycle rooted bt the specified
+     * focus cycle root will be trbversed instebd. The defbult vblue for this
      * property is <code>true</code>.
      *
-     * @param implicitDownCycleTraversal whether this
-     *        ContainerOrderFocusTraversalPolicy transfers focus down-cycle
+     * @pbrbm implicitDownCycleTrbversbl whether this
+     *        ContbinerOrderFocusTrbversblPolicy trbnsfers focus down-cycle
      *        implicitly
-     * @see #getImplicitDownCycleTraversal
+     * @see #getImplicitDownCycleTrbversbl
      * @see #getFirstComponent
      */
-    public void setImplicitDownCycleTraversal(boolean implicitDownCycleTraversal) {
-        this.implicitDownCycleTraversal = implicitDownCycleTraversal;
+    public void setImplicitDownCycleTrbversbl(boolebn implicitDownCycleTrbversbl) {
+        this.implicitDownCycleTrbversbl = implicitDownCycleTrbversbl;
     }
 
     /**
-     * Returns whether this ContainerOrderFocusTraversalPolicy transfers focus
-     * down-cycle implicitly. If <code>true</code>, during normal forward focus
-     * traversal, the Component traversed after a focus cycle root will be the
-     * focus-cycle-root's default Component to focus. If <code>false</code>,
-     * the next Component in the focus traversal cycle rooted at the specified
-     * focus cycle root will be traversed instead.
+     * Returns whether this ContbinerOrderFocusTrbversblPolicy trbnsfers focus
+     * down-cycle implicitly. If <code>true</code>, during normbl forwbrd focus
+     * trbversbl, the Component trbversed bfter b focus cycle root will be the
+     * focus-cycle-root's defbult Component to focus. If <code>fblse</code>,
+     * the next Component in the focus trbversbl cycle rooted bt the specified
+     * focus cycle root will be trbversed instebd.
      *
-     * @return whether this ContainerOrderFocusTraversalPolicy transfers focus
+     * @return whether this ContbinerOrderFocusTrbversblPolicy trbnsfers focus
      *         down-cycle implicitly
-     * @see #setImplicitDownCycleTraversal
+     * @see #setImplicitDownCycleTrbversbl
      * @see #getFirstComponent
      */
-    public boolean getImplicitDownCycleTraversal() {
-        return implicitDownCycleTraversal;
+    public boolebn getImplicitDownCycleTrbversbl() {
+        return implicitDownCycleTrbversbl;
     }
 
     /**
-     * Determines whether a Component is an acceptable choice as the new
-     * focus owner. By default, this method will accept a Component if and
-     * only if it is visible, displayable, enabled, and focusable.
+     * Determines whether b Component is bn bcceptbble choice bs the new
+     * focus owner. By defbult, this method will bccept b Component if bnd
+     * only if it is visible, displbybble, enbbled, bnd focusbble.
      *
-     * @param aComponent the Component whose fitness as a focus owner is to
+     * @pbrbm bComponent the Component whose fitness bs b focus owner is to
      *        be tested
-     * @return <code>true</code> if aComponent is visible, displayable,
-     *         enabled, and focusable; <code>false</code> otherwise
+     * @return <code>true</code> if bComponent is visible, displbybble,
+     *         enbbled, bnd focusbble; <code>fblse</code> otherwise
      */
-    protected boolean accept(Component aComponent) {
-        if (!aComponent.canBeFocusOwner()) {
-            return false;
+    protected boolebn bccept(Component bComponent) {
+        if (!bComponent.cbnBeFocusOwner()) {
+            return fblse;
         }
 
-        // Verify that the Component is recursively enabled. Disabling a
-        // heavyweight Container disables its children, whereas disabling
-        // a lightweight Container does not.
-        if (!(aComponent instanceof Window)) {
-            for (Container enableTest = aComponent.getParent();
-                 enableTest != null;
-                 enableTest = enableTest.getParent())
+        // Verify thbt the Component is recursively enbbled. Disbbling b
+        // hebvyweight Contbiner disbbles its children, wherebs disbbling
+        // b lightweight Contbiner does not.
+        if (!(bComponent instbnceof Window)) {
+            for (Contbiner enbbleTest = bComponent.getPbrent();
+                 enbbleTest != null;
+                 enbbleTest = enbbleTest.getPbrent())
             {
-                if (!(enableTest.isEnabled() || enableTest.isLightweight())) {
-                    return false;
+                if (!(enbbleTest.isEnbbled() || enbbleTest.isLightweight())) {
+                    return fblse;
                 }
-                if (enableTest instanceof Window) {
-                    break;
+                if (enbbleTest instbnceof Window) {
+                    brebk;
                 }
             }
         }

@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * Thrown to indicate that an unknown service exception has
- * occurred. Either the MIME type returned by a URL connection does
- * not make sense, or the application is attempting to write to a
- * read-only URL connection.
+ * Thrown to indicbte thbt bn unknown service exception hbs
+ * occurred. Either the MIME type returned by b URL connection does
+ * not mbke sense, or the bpplicbtion is bttempting to write to b
+ * rebd-only URL connection.
  *
- * @author  unascribed
+ * @buthor  unbscribed
  * @since   1.0
  */
-public class UnknownServiceException extends IOException {
-    private static final long serialVersionUID = -4169033248853639508L;
+public clbss UnknownServiceException extends IOException {
+    privbte stbtic finbl long seriblVersionUID = -4169033248853639508L;
 
     /**
-     * Constructs a new {@code UnknownServiceException} with no
-     * detail message.
+     * Constructs b new {@code UnknownServiceException} with no
+     * detbil messbge.
      */
     public UnknownServiceException() {
     }
 
     /**
-     * Constructs a new {@code UnknownServiceException} with the
-     * specified detail message.
+     * Constructs b new {@code UnknownServiceException} with the
+     * specified detbil messbge.
      *
-     * @param   msg   the detail message.
+     * @pbrbm   msg   the detbil messbge.
      */
     public UnknownServiceException(String msg) {
         super(msg);

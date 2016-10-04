@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,32 +30,32 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench.tests.iio;
+pbckbge j2dbench.tests.iio;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
-import javax.imageio.event.IIOWriteProgressListener;
-import javax.imageio.spi.IIORegistry;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.stream.ImageOutputStream;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.imbgeio.ImbgeIO;
+import jbvbx.imbgeio.ImbgeWriter;
+import jbvbx.imbgeio.event.IIOWriteProgressListener;
+import jbvbx.imbgeio.spi.IIORegistry;
+import jbvbx.imbgeio.spi.ImbgeWriterSpi;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
 
 import j2dbench.Group;
 import j2dbench.Modifier;
@@ -64,120 +64,120 @@ import j2dbench.Result;
 import j2dbench.Test;
 import j2dbench.TestEnvironment;
 
-abstract class OutputImageTests extends OutputTests {
+bbstrbct clbss OutputImbgeTests extends OutputTests {
 
-    private static final int TEST_IMAGEIO     = 1;
-    private static final int TEST_IMAGEWRITER = 2;
+    privbte stbtic finbl int TEST_IMAGEIO     = 1;
+    privbte stbtic finbl int TEST_IMAGEWRITER = 2;
 
-    private static Group imageRoot;
+    privbte stbtic Group imbgeRoot;
 
-    private static Group imageioRoot;
-    private static Group imageioOptRoot;
-    private static ImageWriterSpi[] imageioWriterSpis;
-    private static String[] imageioWriteFormatShortNames;
-    private static Option imageioWriteFormatList;
-    private static Group imageioTestRoot;
+    privbte stbtic Group imbgeioRoot;
+    privbte stbtic Group imbgeioOptRoot;
+    privbte stbtic ImbgeWriterSpi[] imbgeioWriterSpis;
+    privbte stbtic String[] imbgeioWriteFormbtShortNbmes;
+    privbte stbtic Option imbgeioWriteFormbtList;
+    privbte stbtic Group imbgeioTestRoot;
 
-    private static Group imageWriterRoot;
-    private static Group imageWriterOptRoot;
-    private static Option installListenerTog;
-    private static Group imageWriterTestRoot;
+    privbte stbtic Group imbgeWriterRoot;
+    privbte stbtic Group imbgeWriterOptRoot;
+    privbte stbtic Option instbllListenerTog;
+    privbte stbtic Group imbgeWriterTestRoot;
 
-    public static void init() {
-        imageRoot = new Group(outputRoot, "image", "Image Writing Benchmarks");
-        imageRoot.setTabbed();
+    public stbtic void init() {
+        imbgeRoot = new Group(outputRoot, "imbge", "Imbge Writing Benchmbrks");
+        imbgeRoot.setTbbbed();
 
-        // Image I/O Benchmarks
-        if (hasImageIO) {
-            imageioRoot = new Group(imageRoot, "imageio", "Image I/O");
+        // Imbge I/O Benchmbrks
+        if (hbsImbgeIO) {
+            imbgeioRoot = new Group(imbgeRoot, "imbgeio", "Imbge I/O");
 
-            // Image I/O Options
-            imageioOptRoot = new Group(imageioRoot, "opts",
-                                       "Image I/O Options");
-            initIIOWriteFormats();
-            imageioWriteFormatList =
-                new Option.ObjectList(imageioOptRoot,
-                                      "format", "Image Format",
-                                      imageioWriteFormatShortNames,
-                                      imageioWriterSpis,
-                                      imageioWriteFormatShortNames,
-                                      imageioWriteFormatShortNames,
+            // Imbge I/O Options
+            imbgeioOptRoot = new Group(imbgeioRoot, "opts",
+                                       "Imbge I/O Options");
+            initIIOWriteFormbts();
+            imbgeioWriteFormbtList =
+                new Option.ObjectList(imbgeioOptRoot,
+                                      "formbt", "Imbge Formbt",
+                                      imbgeioWriteFormbtShortNbmes,
+                                      imbgeioWriterSpis,
+                                      imbgeioWriteFormbtShortNbmes,
+                                      imbgeioWriteFormbtShortNbmes,
                                       0x0);
 
-            // Image I/O Tests
-            imageioTestRoot = new Group(imageioRoot, "tests",
-                                        "Image I/O Tests");
-            new ImageIOWrite();
+            // Imbge I/O Tests
+            imbgeioTestRoot = new Group(imbgeioRoot, "tests",
+                                        "Imbge I/O Tests");
+            new ImbgeIOWrite();
 
-            // ImageWriter Options
-            imageWriterRoot = new Group(imageioRoot, "writer",
-                                        "ImageWriter Benchmarks");
-            imageWriterOptRoot = new Group(imageWriterRoot, "opts",
-                                           "ImageWriter Options");
-            installListenerTog =
-                new Option.Toggle(imageWriterOptRoot,
-                                  "installListener",
-                                  "Install Progress Listener",
+            // ImbgeWriter Options
+            imbgeWriterRoot = new Group(imbgeioRoot, "writer",
+                                        "ImbgeWriter Benchmbrks");
+            imbgeWriterOptRoot = new Group(imbgeWriterRoot, "opts",
+                                           "ImbgeWriter Options");
+            instbllListenerTog =
+                new Option.Toggle(imbgeWriterOptRoot,
+                                  "instbllListener",
+                                  "Instbll Progress Listener",
                                   Option.Toggle.Off);
 
-            // ImageWriter Tests
-            imageWriterTestRoot = new Group(imageWriterRoot, "tests",
-                                            "ImageWriter Tests");
-            new ImageWriterWrite();
+            // ImbgeWriter Tests
+            imbgeWriterTestRoot = new Group(imbgeWriterRoot, "tests",
+                                            "ImbgeWriter Tests");
+            new ImbgeWriterWrite();
         }
     }
 
-    private static void initIIOWriteFormats() {
-        List spis = new ArrayList();
-        List shortNames = new ArrayList();
+    privbte stbtic void initIIOWriteFormbts() {
+        List spis = new ArrbyList();
+        List shortNbmes = new ArrbyList();
 
-        ImageIO.scanForPlugins();
-        IIORegistry registry = IIORegistry.getDefaultInstance();
-        java.util.Iterator writerspis =
-            registry.getServiceProviders(ImageWriterSpi.class, false);
-        while (writerspis.hasNext()) {
-            // REMIND: there could be more than one non-core plugin for
-            // a particular format, as is the case for JPEG2000 in the JAI
-            // IIO Tools package, so we should support that somehow
-            ImageWriterSpi spi = (ImageWriterSpi)writerspis.next();
-            String klass = spi.getClass().getName();
-            String format = spi.getFormatNames()[0].toLowerCase();
-            String suffix = spi.getFileSuffixes()[0].toLowerCase();
-            if (suffix == null || suffix.equals("")) {
-                suffix = format;
+        ImbgeIO.scbnForPlugins();
+        IIORegistry registry = IIORegistry.getDefbultInstbnce();
+        jbvb.util.Iterbtor writerspis =
+            registry.getServiceProviders(ImbgeWriterSpi.clbss, fblse);
+        while (writerspis.hbsNext()) {
+            // REMIND: there could be more thbn one non-core plugin for
+            // b pbrticulbr formbt, bs is the cbse for JPEG2000 in the JAI
+            // IIO Tools pbckbge, so we should support thbt somehow
+            ImbgeWriterSpi spi = (ImbgeWriterSpi)writerspis.next();
+            String klbss = spi.getClbss().getNbme();
+            String formbt = spi.getFormbtNbmes()[0].toLowerCbse();
+            String suffix = spi.getFileSuffixes()[0].toLowerCbse();
+            if (suffix == null || suffix.equbls("")) {
+                suffix = formbt;
             }
-            String shortName;
-            if (klass.startsWith("com.sun.imageio.plugins")) {
-                shortName = "core-" + suffix;
+            String shortNbme;
+            if (klbss.stbrtsWith("com.sun.imbgeio.plugins")) {
+                shortNbme = "core-" + suffix;
             } else {
-                shortName = "ext-" + suffix;
+                shortNbme = "ext-" + suffix;
             }
-            spis.add(spi);
-            shortNames.add(shortName);
+            spis.bdd(spi);
+            shortNbmes.bdd(shortNbme);
         }
 
-        imageioWriterSpis = new ImageWriterSpi[spis.size()];
-        imageioWriterSpis = (ImageWriterSpi[])spis.toArray(imageioWriterSpis);
-        imageioWriteFormatShortNames = new String[shortNames.size()];
-        imageioWriteFormatShortNames =
-            (String[])shortNames.toArray(imageioWriteFormatShortNames);
+        imbgeioWriterSpis = new ImbgeWriterSpi[spis.size()];
+        imbgeioWriterSpis = (ImbgeWriterSpi[])spis.toArrby(imbgeioWriterSpis);
+        imbgeioWriteFormbtShortNbmes = new String[shortNbmes.size()];
+        imbgeioWriteFormbtShortNbmes =
+            (String[])shortNbmes.toArrby(imbgeioWriteFormbtShortNbmes);
     }
 
-    protected OutputImageTests(Group parent,
-                               String nodeName, String description)
+    protected OutputImbgeTests(Group pbrent,
+                               String nodeNbme, String description)
     {
-        super(parent, nodeName, description);
+        super(pbrent, nodeNbme, description);
     }
 
-    public void cleanupTest(TestEnvironment env, Object ctx) {
+    public void clebnupTest(TestEnvironment env, Object ctx) {
         Context iioctx = (Context)ctx;
-        iioctx.cleanup(env);
+        iioctx.clebnup(env);
     }
 
-    private static class Context extends OutputTests.Context {
-        String format;
-        BufferedImage image;
-        ImageWriter writer;
+    privbte stbtic clbss Context extends OutputTests.Context {
+        String formbt;
+        BufferedImbge imbge;
+        ImbgeWriter writer;
 
         Context(TestEnvironment env, Result result, int testType) {
             super(env, result);
@@ -186,58 +186,58 @@ abstract class OutputImageTests extends OutputTests {
             if (content == null) {
                 content = CONTENT_BLANK;
             }
-            // REMIND: add option for non-opaque images
-            image = createBufferedImage(size, size, content, false);
+            // REMIND: bdd option for non-opbque imbges
+            imbge = crebteBufferedImbge(size, size, content, fblse);
 
             result.setUnits(size*size);
-            result.setUnitName("pixel");
+            result.setUnitNbme("pixel");
 
             if (testType == TEST_IMAGEIO || testType == TEST_IMAGEWRITER) {
-                ImageWriterSpi writerspi =
-                    (ImageWriterSpi)env.getModifier(imageioWriteFormatList);
-                format = writerspi.getFileSuffixes()[0].toLowerCase();
+                ImbgeWriterSpi writerspi =
+                    (ImbgeWriterSpi)env.getModifier(imbgeioWriteFormbtList);
+                formbt = writerspi.getFileSuffixes()[0].toLowerCbse();
                 if (testType == TEST_IMAGEWRITER) {
                     try {
-                        writer = writerspi.createWriterInstance();
-                    } catch (IOException e) {
-                        System.err.println("error creating writer");
-                        e.printStackTrace();
+                        writer = writerspi.crebteWriterInstbnce();
+                    } cbtch (IOException e) {
+                        System.err.println("error crebting writer");
+                        e.printStbckTrbce();
                     }
-                    if (env.isEnabled(installListenerTog)) {
-                        writer.addIIOWriteProgressListener(
+                    if (env.isEnbbled(instbllListenerTog)) {
+                        writer.bddIIOWriteProgressListener(
                             new WriteProgressListener());
                     }
                 }
-                if (format.equals("wbmp")) {
-                    // REMIND: this is a hack to create an image that the
-                    //         WBMPImageWriter can handle (a better approach
-                    //         would involve checking the ImageTypeSpecifier
-                    //         of the writer's default image param)
-                    BufferedImage newimg =
-                        new BufferedImage(size, size,
-                                          BufferedImage.TYPE_BYTE_BINARY);
-                    Graphics g = newimg.createGraphics();
-                    g.drawImage(image, 0, 0, null);
+                if (formbt.equbls("wbmp")) {
+                    // REMIND: this is b hbck to crebte bn imbge thbt the
+                    //         WBMPImbgeWriter cbn hbndle (b better bpprobch
+                    //         would involve checking the ImbgeTypeSpecifier
+                    //         of the writer's defbult imbge pbrbm)
+                    BufferedImbge newimg =
+                        new BufferedImbge(size, size,
+                                          BufferedImbge.TYPE_BYTE_BINARY);
+                    Grbphics g = newimg.crebteGrbphics();
+                    g.drbwImbge(imbge, 0, 0, null);
                     g.dispose();
-                    image = newimg;
+                    imbge = newimg;
                 }
             } else { // testType == TEST_JPEGCODEC
-                format = "jpeg";
+                formbt = "jpeg";
             }
 
             initOutput();
         }
 
         void initContents(File f) throws IOException {
-            ImageIO.write(image, format, f);
+            ImbgeIO.write(imbge, formbt, f);
         }
 
-        void initContents(OutputStream out) throws IOException {
-            ImageIO.write(image, format, out);
+        void initContents(OutputStrebm out) throws IOException {
+            ImbgeIO.write(imbge, formbt, out);
         }
 
-        void cleanup(TestEnvironment env) {
-            super.cleanup(env);
+        void clebnup(TestEnvironment env) {
+            super.clebnup(env);
             if (writer != null) {
                 writer.dispose();
                 writer = null;
@@ -245,24 +245,24 @@ abstract class OutputImageTests extends OutputTests {
         }
     }
 
-    private static class ImageIOWrite extends OutputImageTests {
-        public ImageIOWrite() {
-            super(imageioTestRoot,
-                  "imageioWrite",
-                  "ImageIO.write()");
-            addDependency(generalDestRoot,
+    privbte stbtic clbss ImbgeIOWrite extends OutputImbgeTests {
+        public ImbgeIOWrite() {
+            super(imbgeioTestRoot,
+                  "imbgeioWrite",
+                  "ImbgeIO.write()");
+            bddDependency(generblDestRoot,
                 new Modifier.Filter() {
-                    public boolean isCompatible(Object val) {
-                        // ImageIO.write() handles FILE and ARRAY, but
-                        // not FILECHANNEL (well, I suppose we could create
-                        // an ImageOutputStream from a FileChannel source,
-                        // but that's not a common use case; FileChannel is
-                        // better handled by the ImageWriter tests below)
-                        OutputType t = (OutputType)val;
+                    public boolebn isCompbtible(Object vbl) {
+                        // ImbgeIO.write() hbndles FILE bnd ARRAY, but
+                        // not FILECHANNEL (well, I suppose we could crebte
+                        // bn ImbgeOutputStrebm from b FileChbnnel source,
+                        // but thbt's not b common use cbse; FileChbnnel is
+                        // better hbndled by the ImbgeWriter tests below)
+                        OutputType t = (OutputType)vbl;
                         return (t.getType() != OUTPUT_FILECHANNEL);
                     }
                 });
-            addDependencies(imageioOptRoot, true);
+            bddDependencies(imbgeioOptRoot, true);
         }
 
         public Object initTest(TestEnvironment env, Result result) {
@@ -270,50 +270,50 @@ abstract class OutputImageTests extends OutputTests {
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final Object output = ictx.output;
-            final BufferedImage image = ictx.image;
-            final String format = ictx.format;
-            final int outputType = ictx.outputType;
+            finbl Context ictx = (Context)ctx;
+            finbl Object output = ictx.output;
+            finbl BufferedImbge imbge = ictx.imbge;
+            finbl String formbt = ictx.formbt;
+            finbl int outputType = ictx.outputType;
             switch (outputType) {
-            case OUTPUT_FILE:
+            cbse OUTPUT_FILE:
                 do {
                     try {
-                        ImageIO.write(image, format, (File)output);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        ImbgeIO.write(imbge, formbt, (File)output);
+                    } cbtch (Exception e) {
+                        e.printStbckTrbce();
                     }
                 } while (--numReps >= 0);
-                break;
-            case OUTPUT_ARRAY:
+                brebk;
+            cbse OUTPUT_ARRAY:
                 do {
                     try {
-                        ByteArrayOutputStream baos =
-                            new ByteArrayOutputStream();
-                        BufferedOutputStream bos =
-                            new BufferedOutputStream(baos);
-                        ImageIO.write(image, format, bos);
-                        baos.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        ByteArrbyOutputStrebm bbos =
+                            new ByteArrbyOutputStrebm();
+                        BufferedOutputStrebm bos =
+                            new BufferedOutputStrebm(bbos);
+                        ImbgeIO.write(imbge, formbt, bos);
+                        bbos.close();
+                    } cbtch (Exception e) {
+                        e.printStbckTrbce();
                     }
                 } while (--numReps >= 0);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid output type");
+                brebk;
+            defbult:
+                throw new IllegblArgumentException("Invblid output type");
             }
         }
     }
 
-    private static class ImageWriterWrite extends OutputImageTests {
-        public ImageWriterWrite() {
-            super(imageWriterTestRoot,
+    privbte stbtic clbss ImbgeWriterWrite extends OutputImbgeTests {
+        public ImbgeWriterWrite() {
+            super(imbgeWriterTestRoot,
                   "write",
-                  "ImageWriter.write()");
-            addDependency(generalDestRoot);
-            addDependencies(imageioGeneralOptRoot, true);
-            addDependencies(imageioOptRoot, true);
-            addDependencies(imageWriterOptRoot, true);
+                  "ImbgeWriter.write()");
+            bddDependency(generblDestRoot);
+            bddDependencies(imbgeioGenerblOptRoot, true);
+            bddDependencies(imbgeioOptRoot, true);
+            bddDependencies(imbgeWriterOptRoot, true);
         }
 
         public Object initTest(TestEnvironment env, Result result) {
@@ -321,36 +321,36 @@ abstract class OutputImageTests extends OutputTests {
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageWriter writer = ictx.writer;
-            final BufferedImage image = ictx.image;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeWriter writer = ictx.writer;
+            finbl BufferedImbge imbge = ictx.imbge;
             do {
                 try {
-                    ImageOutputStream ios = ictx.createImageOutputStream();
+                    ImbgeOutputStrebm ios = ictx.crebteImbgeOutputStrebm();
                     writer.setOutput(ios);
-                    writer.write(image);
+                    writer.write(imbge);
                     writer.reset();
                     ios.close();
-                    ictx.closeOriginalStream();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    ictx.closeOriginblStrebm();
+                } cbtch (IOException e) {
+                    e.printStbckTrbce();
                 }
             } while (--numReps >= 0);
         }
     }
 
-    private static class WriteProgressListener
+    privbte stbtic clbss WriteProgressListener
         implements IIOWriteProgressListener
     {
-        public void imageStarted(ImageWriter source, int imageIndex) {}
-        public void imageProgress(ImageWriter source,
-                                  float percentageDone) {}
-        public void imageComplete(ImageWriter source) {}
-        public void thumbnailStarted(ImageWriter source,
-                                     int imageIndex, int thumbnailIndex) {}
-        public void thumbnailProgress(ImageWriter source,
-                                      float percentageDone) {}
-        public void thumbnailComplete(ImageWriter source) {}
-        public void writeAborted(ImageWriter source) {}
+        public void imbgeStbrted(ImbgeWriter source, int imbgeIndex) {}
+        public void imbgeProgress(ImbgeWriter source,
+                                  flobt percentbgeDone) {}
+        public void imbgeComplete(ImbgeWriter source) {}
+        public void thumbnbilStbrted(ImbgeWriter source,
+                                     int imbgeIndex, int thumbnbilIndex) {}
+        public void thumbnbilProgress(ImbgeWriter source,
+                                      flobt percentbgeDone) {}
+        public void thumbnbilComplete(ImbgeWriter source) {}
+        public void writeAborted(ImbgeWriter source) {}
     }
 }

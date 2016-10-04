@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*-
- *      Reads JPEG images from an InputStream and reports the
- *      image data to an InputStreamImageSource object.
+ *      Rebds JPEG imbges from bn InputStrebm bnd reports the
+ *      imbge dbtb to bn InputStrebmImbgeSource object.
  *
- * The native implementation of the JPEG image decoder was adapted from
- * release 6 of the free JPEG software from the Independent JPEG Group.
+ * The nbtive implementbtion of the JPEG imbge decoder wbs bdbpted from
+ * relebse 6 of the free JPEG softwbre from the Independent JPEG Group.
  */
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.io.InputStream;
-import java.io.IOException;
-import java.awt.image.*;
+import jbvb.util.Vector;
+import jbvb.util.Hbshtbble;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.bwt.imbge.*;
 
 /**
- * JPEG Image converter
+ * JPEG Imbge converter
  *
- * @author Jim Graham
+ * @buthor Jim Grbhbm
  */
-public class JPEGImageDecoder extends ImageDecoder {
-    private static ColorModel RGBcolormodel;
-    private static ColorModel ARGBcolormodel;
-    private static ColorModel Graycolormodel;
+public clbss JPEGImbgeDecoder extends ImbgeDecoder {
+    privbte stbtic ColorModel RGBcolormodel;
+    privbte stbtic ColorModel ARGBcolormodel;
+    privbte stbtic ColorModel Grbycolormodel;
 
-    private static final Class<?> InputStreamClass = InputStream.class;
-    private static native void initIDs(Class<?> InputStreamClass);
+    privbte stbtic finbl Clbss<?> InputStrebmClbss = InputStrebm.clbss;
+    privbte stbtic nbtive void initIDs(Clbss<?> InputStrebmClbss);
 
-    private ColorModel colormodel;
+    privbte ColorModel colormodel;
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("javajpeg");
+                    System.lobdLibrbry("jbvbjpeg");
                     return null;
                 }
             });
-        initIDs(InputStreamClass);
+        initIDs(InputStrebmClbss);
         RGBcolormodel = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-        ARGBcolormodel = ColorModel.getRGBdefault();
+        ARGBcolormodel = ColorModel.getRGBdefbult();
         byte g[] = new byte[256];
         for (int i = 0; i < 256; i++) {
             g[i] = (byte) i;
         }
-        Graycolormodel = new IndexColorModel(8, 256, g, g, g);
+        Grbycolormodel = new IndexColorModel(8, 256, g, g, g);
     }
 
-    private native void readImage(InputStream is, byte buf[])
-        throws ImageFormatException, IOException;
+    privbte nbtive void rebdImbge(InputStrebm is, byte buf[])
+        throws ImbgeFormbtException, IOException;
 
-    Hashtable<String, Object> props = new Hashtable<>();
+    Hbshtbble<String, Object> props = new Hbshtbble<>();
 
-    public JPEGImageDecoder(InputStreamImageSource src, InputStream is) {
+    public JPEGImbgeDecoder(InputStrebmImbgeSource src, InputStrebm is) {
         super(src, is);
     }
 
     /**
-     * An error has occurred. Throw an exception.
+     * An error hbs occurred. Throw bn exception.
      */
-    private static void error(String s1) throws ImageFormatException {
-        throw new ImageFormatException(s1);
+    privbte stbtic void error(String s1) throws ImbgeFormbtException {
+        throw new ImbgeFormbtException(s1);
     }
 
-    public boolean sendHeaderInfo(int width, int height,
-                                  boolean gray, boolean hasalpha,
-                                  boolean multipass)
+    public boolebn sendHebderInfo(int width, int height,
+                                  boolebn grby, boolebn hbsblphb,
+                                  boolebn multipbss)
     {
         setDimensions(width, height);
 
         setProperties(props);
-        if (gray) {
-            colormodel = Graycolormodel;
+        if (grby) {
+            colormodel = Grbycolormodel;
         } else {
-            if (hasalpha) {
+            if (hbsblphb) {
                 colormodel = ARGBcolormodel;
             } else {
                 colormodel = RGBcolormodel;
@@ -105,56 +105,56 @@ public class JPEGImageDecoder extends ImageDecoder {
 
         setColorModel(colormodel);
 
-        int flags = hintflags;
-        if (!multipass) {
-            flags |= ImageConsumer.SINGLEPASS;
+        int flbgs = hintflbgs;
+        if (!multipbss) {
+            flbgs |= ImbgeConsumer.SINGLEPASS;
         }
-        setHints(hintflags);
-        headerComplete();
+        setHints(hintflbgs);
+        hebderComplete();
 
         return true;
     }
 
-    public boolean sendPixels(int pixels[], int y) {
+    public boolebn sendPixels(int pixels[], int y) {
         int count = setPixels(0, y, pixels.length, 1, colormodel,
                               pixels, 0, pixels.length);
         if (count <= 0) {
-            aborted = true;
+            bborted = true;
         }
-        return !aborted;
+        return !bborted;
     }
 
-    public boolean sendPixels(byte pixels[], int y) {
+    public boolebn sendPixels(byte pixels[], int y) {
         int count = setPixels(0, y, pixels.length, 1, colormodel,
                               pixels, 0, pixels.length);
         if (count <= 0) {
-            aborted = true;
+            bborted = true;
         }
-        return !aborted;
+        return !bborted;
     }
 
     /**
-     * produce an image from the stream.
+     * produce bn imbge from the strebm.
      */
-    public void produceImage() throws IOException, ImageFormatException {
+    public void produceImbge() throws IOException, ImbgeFormbtException {
         try {
-            readImage(input, new byte[1024]);
-            if (!aborted) {
-                imageComplete(ImageConsumer.STATICIMAGEDONE, true);
+            rebdImbge(input, new byte[1024]);
+            if (!bborted) {
+                imbgeComplete(ImbgeConsumer.STATICIMAGEDONE, true);
             }
-        } catch (IOException e) {
-            if (!aborted) {
+        } cbtch (IOException e) {
+            if (!bborted) {
                 throw e;
             }
-        } finally {
+        } finblly {
             close();
         }
     }
 
     /**
-     * The ImageConsumer hints flag for a JPEG image.
+     * The ImbgeConsumer hints flbg for b JPEG imbge.
      */
-    private static final int hintflags =
-        ImageConsumer.TOPDOWNLEFTRIGHT | ImageConsumer.COMPLETESCANLINES |
-        ImageConsumer.SINGLEFRAME;
+    privbte stbtic finbl int hintflbgs =
+        ImbgeConsumer.TOPDOWNLEFTRIGHT | ImbgeConsumer.COMPLETESCANLINES |
+        ImbgeConsumer.SINGLEFRAME;
 }

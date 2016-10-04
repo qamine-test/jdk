@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
-import java.lang.ref.*;
+pbckbge jbvb.lbng;
+import jbvb.lbng.ref.*;
 
 /**
- * This class extends <tt>ThreadLocal</tt> to provide inheritance of values
- * from parent thread to child thread: when a child thread is created, the
- * child receives initial values for all inheritable thread-local variables
- * for which the parent has values.  Normally the child's values will be
- * identical to the parent's; however, the child's value can be made an
- * arbitrary function of the parent's by overriding the <tt>childValue</tt>
- * method in this class.
+ * This clbss extends <tt>ThrebdLocbl</tt> to provide inheritbnce of vblues
+ * from pbrent threbd to child threbd: when b child threbd is crebted, the
+ * child receives initibl vblues for bll inheritbble threbd-locbl vbribbles
+ * for which the pbrent hbs vblues.  Normblly the child's vblues will be
+ * identicbl to the pbrent's; however, the child's vblue cbn be mbde bn
+ * brbitrbry function of the pbrent's by overriding the <tt>childVblue</tt>
+ * method in this clbss.
  *
- * <p>Inheritable thread-local variables are used in preference to
- * ordinary thread-local variables when the per-thread-attribute being
- * maintained in the variable (e.g., User ID, Transaction ID) must be
- * automatically transmitted to any child threads that are created.
+ * <p>Inheritbble threbd-locbl vbribbles bre used in preference to
+ * ordinbry threbd-locbl vbribbles when the per-threbd-bttribute being
+ * mbintbined in the vbribble (e.g., User ID, Trbnsbction ID) must be
+ * butombticblly trbnsmitted to bny child threbds thbt bre crebted.
  *
- * @author  Josh Bloch and Doug Lea
- * @see     ThreadLocal
+ * @buthor  Josh Bloch bnd Doug Leb
+ * @see     ThrebdLocbl
  * @since   1.2
  */
 
-public class InheritableThreadLocal<T> extends ThreadLocal<T> {
+public clbss InheritbbleThrebdLocbl<T> extends ThrebdLocbl<T> {
     /**
-     * Computes the child's initial value for this inheritable thread-local
-     * variable as a function of the parent's value at the time the child
-     * thread is created.  This method is called from within the parent
-     * thread before the child is started.
+     * Computes the child's initibl vblue for this inheritbble threbd-locbl
+     * vbribble bs b function of the pbrent's vblue bt the time the child
+     * threbd is crebted.  This method is cblled from within the pbrent
+     * threbd before the child is stbrted.
      * <p>
-     * This method merely returns its input argument, and should be overridden
-     * if a different behavior is desired.
+     * This method merely returns its input brgument, bnd should be overridden
+     * if b different behbvior is desired.
      *
-     * @param parentValue the parent thread's value
-     * @return the child thread's initial value
+     * @pbrbm pbrentVblue the pbrent threbd's vblue
+     * @return the child threbd's initibl vblue
      */
-    protected T childValue(T parentValue) {
-        return parentValue;
+    protected T childVblue(T pbrentVblue) {
+        return pbrentVblue;
     }
 
     /**
-     * Get the map associated with a ThreadLocal.
+     * Get the mbp bssocibted with b ThrebdLocbl.
      *
-     * @param t the current thread
+     * @pbrbm t the current threbd
      */
-    ThreadLocalMap getMap(Thread t) {
-       return t.inheritableThreadLocals;
+    ThrebdLocblMbp getMbp(Threbd t) {
+       return t.inheritbbleThrebdLocbls;
     }
 
     /**
-     * Create the map associated with a ThreadLocal.
+     * Crebte the mbp bssocibted with b ThrebdLocbl.
      *
-     * @param t the current thread
-     * @param firstValue value for the initial entry of the table.
+     * @pbrbm t the current threbd
+     * @pbrbm firstVblue vblue for the initibl entry of the tbble.
      */
-    void createMap(Thread t, T firstValue) {
-        t.inheritableThreadLocals = new ThreadLocalMap(this, firstValue);
+    void crebteMbp(Threbd t, T firstVblue) {
+        t.inheritbbleThrebdLocbls = new ThrebdLocblMbp(this, firstVblue);
     }
 }

@@ -1,121 +1,121 @@
 '\" t
-.\"  Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Java Web Services Tools
-.\"     Title: schemagen.1
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
+.\"     SectDesc: Jbvb Web Services Tools
+.\"     Title: schembgen.1
 .\"
 .if n .pl 99999
-.TH schemagen 1 "21 November 2013" "JDK 8" "Java Web Services Tools"
+.TH schembgen 1 "21 November 2013" "JDK 8" "Jbvb Web Services Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-schemagen \- Generates a schema for every name space that is referenced in your Java classes\&.
+schembgen \- Generbtes b schemb for every nbme spbce thbt is referenced in your Jbvb clbsses\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBschemagen\fR [ \fIoptions\fR ] \fIjava\-files\fR
+\fBschembgen\fR [ \fIoptions\fR ] \fIjbvb\-files\fR
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+The commbnd-line options\&. See Options\&.
 .TP     
-\fIjava-files\fR
-The Java class files to be processed\&.
+\fIjbvb-files\fR
+The Jbvb clbss files to be processed\&.
 .SH DESCRIPTION    
-The schema generator creates a schema file for each name space referenced in your Java classes\&. Currently, you cannot control the name of the generated schema files\&. To control the schema file names, see Using SchemaGen with Ant at http://jaxb\&.java\&.net/nonav/2\&.2\&.3u1/docs/schemagenTask\&.html
+The schemb generbtor crebtes b schemb file for ebch nbme spbce referenced in your Jbvb clbsses\&. Currently, you cbnnot control the nbme of the generbted schemb files\&. To control the schemb file nbmes, see Using SchembGen with Ant bt http://jbxb\&.jbvb\&.net/nonbv/2\&.2\&.3u1/docs/schembgenTbsk\&.html
 .PP
-Start the schema generator with the appropriate \f3schemagen\fR shell script in the bin directory for your platform\&. The current schema generator can process either Java source files or class files\&.
+Stbrt the schemb generbtor with the bppropribte \f3schembgen\fR shell script in the bin directory for your plbtform\&. The current schemb generbtor cbn process either Jbvb source files or clbss files\&.
 .sp     
 .nf     
-\f3schemagen\&.sh Foo\&.java Bar\&.java \&.\&.\&.\fP
+\f3schembgen\&.sh Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.\fP
 .fi     
 .nf     
-\f3Note: Writing schema1\&.xsd\fP
+\f3Note: Writing schemb1\&.xsd\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-If your java files reference other classes, then those classes must be accessible on your system \f3CLASSPATH\fR environment variable, or they need to be specified in the \f3schemagen\fR command line with the class path options\&. See Options\&. If the referenced files are not accessible or specified, then you get errors when you generate the schema\&.
+If your jbvb files reference other clbsses, then those clbsses must be bccessible on your system \f3CLASSPATH\fR environment vbribble, or they need to be specified in the \f3schembgen\fR commbnd line with the clbss pbth options\&. See Options\&. If the referenced files bre not bccessible or specified, then you get errors when you generbte the schemb\&.
 .SH OPTIONS    
 .TP
--d \fIpath\fR
+-d \fIpbth\fR
 .br
-The location where the \f3schemagen\fR command places processor-generated and \f3javac\fR-generated class files\&.
+The locbtion where the \f3schembgen\fR commbnd plbces processor-generbted bnd \f3jbvbc\fR-generbted clbss files\&.
 .TP
--cp \fIpath\fR
+-cp \fIpbth\fR
 .br
-The location where the \f3schemagen\fR command places user-specified files\&.
+The locbtion where the \f3schembgen\fR commbnd plbces user-specified files\&.
 .TP
--classpath \fIpath\fR
+-clbsspbth \fIpbth\fR
 .br
-The location where the \f3schemagen\fR command places user-specified files\&.
+The locbtion where the \f3schembgen\fR commbnd plbces user-specified files\&.
 .TP
 -encoding \fIencoding\fR
 .br
-Specifies the encoding to use for \f3apt\fR or \f3javac\fR command invocations\&.
+Specifies the encoding to use for \f3bpt\fR or \f3jbvbc\fR commbnd invocbtions\&.
 .TP
 -episode \fIfile\fR
 .br
-Generates an episode file for separate compilation\&.
+Generbtes bn episode file for sepbrbte compilbtion\&.
 .TP
 -version
 .br
-Displays release information\&.
+Displbys relebse informbtion\&.
 .TP
 -help
 .br
-Displays a help message\&.
+Displbys b help messbge\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-Using SchemaGen with Ant at http://jaxb\&.java\&.net/nonav/2\&.2\&.3u1/docs/schemagenTask\&.html
+Using SchembGen with Ant bt http://jbxb\&.jbvb\&.net/nonbv/2\&.2\&.3u1/docs/schembgenTbsk\&.html
 .TP 0.2i    
 \(bu
-Java Architecture for XML Binding (JAXB) at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/xml/jaxb/index\&.html
+Jbvb Architecture for XML Binding (JAXB) bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/xml/jbxb/index\&.html
 .RE
 .br
 'pl 8.5i

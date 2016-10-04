@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * The function here is used to get a GDI rasterized LCD glyph and place it
- * into the JDK glyph cache. The benefit is rendering fidelity for the
- * most common cases, with no impact on the 2D rendering pipelines.
+ * The function here is used to get b GDI rbsterized LCD glyph bnd plbce it
+ * into the JDK glyph cbche. The benefit is rendering fidelity for the
+ * most common cbses, with no impbct on the 2D rendering pipelines.
  *
- * Requires that the font and graphics are unrotated, and the scale is
- * a simple one, and the font is a TT font registered with windows.
- * Those conditions are established by the calling code.
+ * Requires thbt the font bnd grbphics bre unrotbted, bnd the scble is
+ * b simple one, bnd the font is b TT font registered with windows.
+ * Those conditions bre estbblished by the cblling code.
  *
  * This code
- * - Receives the family name, style, and size of the font
- * and creates a Font object.
- * - Create a surface from which we can get a DC : must be 16 bit or more.
- * Ideally we'd be able to specify the depth of this, but in practice we
- * have to accept it will be the same as the default screen.
+ * - Receives the fbmily nbme, style, bnd size of the font
+ * bnd crebtes b Font object.
+ * - Crebte b surfbce from which we cbn get b DC : must be 16 bit or more.
+ * Ideblly we'd be bble to specify the depth of this, but in prbctice we
+ * hbve to bccept it will be the sbme bs the defbult screen.
  * - Selects the GDI font on to the device
- * - Uses GetGlyphOutline to estimate the bounds.
- * - Creates a DIB on to which to blit the image.
- * - Creates a GlyphInfo structure and copies the GDI glyph and offsets
+ * - Uses GetGlyphOutline to estimbte the bounds.
+ * - Crebtes b DIB on to which to blit the imbge.
+ * - Crebtes b GlyphInfo structure bnd copies the GDI glyph bnd offsets
  * into the glyph which is returned.
  */
 
 #include <stdio.h>
-#include <malloc.h>
-#include <math.h>
+#include <mblloc.h>
+#include <mbth.h>
 #include <windows.h>
 #include <winuser.h>
 
 #include <jni.h>
 #include <jni_util.h>
 #include <jlong_md.h>
-#include <sizecalc.h>
+#include <sizecblc.h>
 #include <sun_font_FileFontStrike.h>
 
-#include "fontscalerdefs.h"
+#include "fontscblerdefs.h"
 
-/* Some of these are also defined in awtmsg.h but I don't want a dependency
- * on that here. They are needed here - and in awtmsg.h - until we
+/* Some of these bre blso defined in bwtmsg.h but I don't wbnt b dependency
+ * on thbt here. They bre needed here - bnd in bwtmsg.h - until we
  * move up our build to define WIN32_WINNT >= 0x501 (ie XP), since MS
- * headers will not define them otherwise.
+ * hebders will not define them otherwise.
  */
 #ifndef SPI_GETFONTSMOOTHINGTYPE
 #define SPI_GETFONTSMOOTHINGTYPE        0x200A
@@ -88,53 +88,53 @@
 #define MAX_GAMMA 220
 #define LCDLUTCOUNT (MAX_GAMMA-MIN_GAMMA+1)
 
-static unsigned char* igLUTable[LCDLUTCOUNT];
+stbtic unsigned chbr* igLUTbble[LCDLUTCOUNT];
 
-static unsigned char* getIGTable(int gamma) {
+stbtic unsigned chbr* getIGTbble(int gbmmb) {
     int i, index;
     double ig;
-    char *igTable;
+    chbr *igTbble;
 
-    if (gamma < MIN_GAMMA) {
-        gamma = MIN_GAMMA;
-    } else if (gamma > MAX_GAMMA) {
-        gamma = MAX_GAMMA;
+    if (gbmmb < MIN_GAMMA) {
+        gbmmb = MIN_GAMMA;
+    } else if (gbmmb > MAX_GAMMA) {
+        gbmmb = MAX_GAMMA;
     }
 
-    index = gamma - MIN_GAMMA;
+    index = gbmmb - MIN_GAMMA;
 
-    if (igLUTable[index] != NULL) {
-        return igLUTable[index];
+    if (igLUTbble[index] != NULL) {
+        return igLUTbble[index];
     }
-    igTable = (unsigned char*)malloc(256);
-    if (igTable == NULL) {
+    igTbble = (unsigned chbr*)mblloc(256);
+    if (igTbble == NULL) {
       return NULL;
     }
-    igTable[0] = 0;
-    igTable[255] = 255;
-    ig = ((double)gamma)/100.0;
+    igTbble[0] = 0;
+    igTbble[255] = 255;
+    ig = ((double)gbmmb)/100.0;
 
     for (i=1;i<255;i++) {
-        igTable[i] = (unsigned char)(pow(((double)i)/255.0, ig)*255);
+        igTbble[i] = (unsigned chbr)(pow(((double)i)/255.0, ig)*255);
     }
-    igLUTable[index] = igTable;
-    return igTable;
+    igLUTbble[index] = igTbble;
+    return igTbble;
 }
 
 
-JNIEXPORT jboolean JNICALL
-    Java_sun_font_FileFontStrike_initNative(JNIEnv *env, jclass unused) {
+JNIEXPORT jboolebn JNICALL
+    Jbvb_sun_font_FileFontStrike_initNbtive(JNIEnv *env, jclbss unused) {
 
     DWORD osVersion = GetVersion();
-    DWORD majorVersion = (DWORD)(LOBYTE(LOWORD(osVersion)));
+    DWORD mbjorVersion = (DWORD)(LOBYTE(LOWORD(osVersion)));
     DWORD minorVersion = (DWORD)(HIBYTE(LOWORD(osVersion)));
 
-    /* Need at least XP which is 5.1 */
-    if (majorVersion < 5 || (majorVersion == 5 && minorVersion < 1)) {
+    /* Need bt lebst XP which is 5.1 */
+    if (mbjorVersion < 5 || (mbjorVersion == 5 && minorVersion < 1)) {
         return JNI_FALSE;
     }
 
-    memset(igLUTable, 0,  LCDLUTCOUNT);
+    memset(igLUTbble, 0,  LCDLUTCOUNT);
 
     return JNI_TRUE;
 }
@@ -149,16 +149,16 @@ JNIEXPORT jboolean JNICALL
 
 #define FREE_AND_RETURN \
     if (hDesktopDC != 0 && hWnd != 0) { \
-       ReleaseDC(hWnd, hDesktopDC); \
+       RelebseDC(hWnd, hDesktopDC); \
     }\
     if (hMemoryDC != 0) { \
         DeleteObject(hMemoryDC); \
     } \
-    if (hBitmap != 0) { \
-        DeleteObject(hBitmap); \
+    if (hBitmbp != 0) { \
+        DeleteObject(hBitmbp); \
     } \
-    if (dibImage != NULL) { \
-        free(dibImage); \
+    if (dibImbge != NULL) { \
+        free(dibImbge); \
     } \
     if (glyphInfo != NULL) { \
         free(glyphInfo); \
@@ -167,36 +167,36 @@ JNIEXPORT jboolean JNICALL
 /* end define */
 
 JNIEXPORT jlong JNICALL
-Java_sun_font_FileFontStrike__1getGlyphImageFromWindows
+Jbvb_sun_font_FileFontStrike__1getGlyphImbgeFromWindows
 (JNIEnv *env, jobject unused,
- jstring fontFamily, jint style, jint size, jint glyphCode, jboolean fm) {
+ jstring fontFbmily, jint style, jint size, jint glyphCode, jboolebn fm) {
 
     GLYPHMETRICS glyphMetrics;
     LOGFONTW lf;
     BITMAPINFO bmi;
     TEXTMETRIC textMetric;
     RECT rect;
-    int bytesWidth, dibBytesWidth, extra, imageSize, dibImageSize;
-    unsigned char* dibImage = NULL, *rowPtr, *pixelPtr, *dibPixPtr, *dibRowPtr;
-    unsigned char r,g,b;
-    unsigned char* igTable;
+    int bytesWidth, dibBytesWidth, extrb, imbgeSize, dibImbgeSize;
+    unsigned chbr* dibImbge = NULL, *rowPtr, *pixelPtr, *dibPixPtr, *dibRowPtr;
+    unsigned chbr r,g,b;
+    unsigned chbr* igTbble;
     GlyphInfo* glyphInfo = NULL;
-    int nameLen;
-    LPWSTR name;
+    int nbmeLen;
+    LPWSTR nbme;
     HFONT oldFont, hFont;
-    MAT2 mat2;
+    MAT2 mbt2;
 
     unsigned short width;
     unsigned short height;
-    short advanceX;
-    short advanceY;
+    short bdvbnceX;
+    short bdvbnceY;
     int topLeftX;
     int topLeftY;
     int err;
     int bmWidth, bmHeight;
     int x, y;
-    HBITMAP hBitmap = NULL, hOrigBM;
-    int gamma, orient;
+    HBITMAP hBitmbp = NULL, hOrigBM;
+    int gbmmb, orient;
 
     HWND hWnd = NULL;
     HDC hDesktopDC = NULL;
@@ -207,15 +207,15 @@ Java_sun_font_FileFontStrike__1getGlyphImageFromWindows
     if (hDesktopDC == NULL) {
         return (jlong)0;
     }
-    if (GetDeviceCaps(hDesktopDC, BITSPIXEL) < 15) {
+    if (GetDeviceCbps(hDesktopDC, BITSPIXEL) < 15) {
         FREE_AND_RETURN;
     }
 
-    hMemoryDC = CreateCompatibleDC(hDesktopDC);
-    if (hMemoryDC == NULL || fontFamily == NULL) {
+    hMemoryDC = CrebteCompbtibleDC(hDesktopDC);
+    if (hMemoryDC == NULL || fontFbmily == NULL) {
         FREE_AND_RETURN;
     }
-    err = SetMapMode(hMemoryDC, MM_TEXT);
+    err = SetMbpMode(hMemoryDC, MM_TEXT);
     if (err == 0) {
         FREE_AND_RETURN;
     }
@@ -223,28 +223,28 @@ Java_sun_font_FileFontStrike__1getGlyphImageFromWindows
     memset(&lf, 0, sizeof(LOGFONTW));
     lf.lfHeight = -size;
     lf.lfWeight = (style & 1) ? FW_BOLD : FW_NORMAL;
-    lf.lfItalic = (style & 2) ? 0xff : 0;
-    lf.lfCharSet = DEFAULT_CHARSET;
-    lf.lfQuality = CLEARTYPE_QUALITY;
+    lf.lfItblic = (style & 2) ? 0xff : 0;
+    lf.lfChbrSet = DEFAULT_CHARSET;
+    lf.lfQublity = CLEARTYPE_QUALITY;
     lf.lfOutPrecision = OUT_TT_PRECIS;
     lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-    lf.lfPitchAndFamily = DEFAULT_PITCH;
+    lf.lfPitchAndFbmily = DEFAULT_PITCH;
 
-    nameLen = (*env)->GetStringLength(env, fontFamily);
-    name = (LPWSTR)alloca((nameLen+1)*2);
-    if (name == NULL) {
+    nbmeLen = (*env)->GetStringLength(env, fontFbmily);
+    nbme = (LPWSTR)bllocb((nbmeLen+1)*2);
+    if (nbme == NULL) {
        FREE_AND_RETURN;
     }
-    (*env)->GetStringRegion(env, fontFamily, 0, nameLen, name);
-    name[nameLen] = '\0';
+    (*env)->GetStringRegion(env, fontFbmily, 0, nbmeLen, nbme);
+    nbme[nbmeLen] = '\0';
 
-    if (nameLen < (sizeof(lf.lfFaceName) / sizeof(lf.lfFaceName[0]))) {
-        wcscpy(lf.lfFaceName, name);
+    if (nbmeLen < (sizeof(lf.lfFbceNbme) / sizeof(lf.lfFbceNbme[0]))) {
+        wcscpy(lf.lfFbceNbme, nbme);
     } else {
         FREE_AND_RETURN;
     }
 
-    hFont = CreateFontIndirectW(&lf);
+    hFont = CrebteFontIndirectW(&lf);
     if (hFont == NULL) {
         FREE_AND_RETURN;
     }
@@ -256,98 +256,98 @@ Java_sun_font_FileFontStrike__1getGlyphImageFromWindows
         FREE_AND_RETURN;
     }
     memset(&glyphMetrics, 0, sizeof(GLYPHMETRICS));
-    memset(&mat2, 0, sizeof(MAT2));
-    mat2.eM11.value = 1; mat2.eM22.value = 1;
+    memset(&mbt2, 0, sizeof(MAT2));
+    mbt2.eM11.vblue = 1; mbt2.eM22.vblue = 1;
     err = GetGlyphOutline(hMemoryDC, glyphCode,
                           GGO_METRICS|GGO_GLYPH_INDEX,
                           &glyphMetrics,
-                          0, NULL, &mat2);
+                          0, NULL, &mbt2);
     if (err == GDI_ERROR) {
-        /* Probably no such glyph - ie the font wasn't the one we expected. */
+        /* Probbbly no such glyph - ie the font wbsn't the one we expected. */
         FREE_AND_RETURN;
     }
 
-    width  = (unsigned short)glyphMetrics.gmBlackBoxX;
-    height = (unsigned short)glyphMetrics.gmBlackBoxY;
+    width  = (unsigned short)glyphMetrics.gmBlbckBoxX;
+    height = (unsigned short)glyphMetrics.gmBlbckBoxY;
 
-    /* Don't handle "invisible" glyphs in this code */
+    /* Don't hbndle "invisible" glyphs in this code */
     if (width <= 0 || height == 0) {
        FREE_AND_RETURN;
     }
 
-    advanceX = glyphMetrics.gmCellIncX;
-    advanceY = glyphMetrics.gmCellIncY;
+    bdvbnceX = glyphMetrics.gmCellIncX;
+    bdvbnceY = glyphMetrics.gmCellIncY;
     topLeftX = glyphMetrics.gmptGlyphOrigin.x;
     topLeftY = glyphMetrics.gmptGlyphOrigin.y;
 
-    /* GetGlyphOutline pre-dates cleartype and I'm not sure that it will
-     * account for all pixels touched by the rendering. Need to widen,
-     * and also adjust by one the x position at which it is rendered.
-     * The extra pixels of width are used as follows :
-     * One extra pixel at the left and the right will be needed to absorb
-     * the pixels that will be touched by filtering by GDI to compensate
+    /* GetGlyphOutline pre-dbtes clebrtype bnd I'm not sure thbt it will
+     * bccount for bll pixels touched by the rendering. Need to widen,
+     * bnd blso bdjust by one the x position bt which it is rendered.
+     * The extrb pixels of width bre used bs follows :
+     * One extrb pixel bt the left bnd the right will be needed to bbsorb
+     * the pixels thbt will be touched by filtering by GDI to compensbte
      * for colour fringing.
-     * However there seem to be some cases where GDI renders two extra
-     * pixels to the right, so we add one additional pixel to the right,
-     * and in the code that copies this to the image cache we test for
-     * the (rare) cases when this is touched, and if its not reduce the
-     * stated image width for the blitting loops.
-     * For fractional metrics :
-     * One extra pixel at each end to account for sub-pixel positioning used
-     * when fractional metrics is on in LCD mode.
-     * The pixel at the left is needed so the blitting loop can index into
-     * that a byte at a time to more accurately position the glyph.
-     * The pixel at the right is needed so that when such indexing happens,
-     * the blitting still can use the same width.
-     * Consequently the width that is specified for the glyph is one less
-     * than that of the actual image.
-     * Note that in the FM case as a consequence we need to adjust the
-     * position at which GDI renders, and the declared width of the glyph
-     * See the if (fm) {} cases in the code.
-     * For the non-FM case, we not only save 3 bytes per row, but this
-     * prevents apparent glyph overlapping which affects the rendering
-     * performance of accelerated pipelines since it adds additional
-     * read-back requirements.
+     * However there seem to be some cbses where GDI renders two extrb
+     * pixels to the right, so we bdd one bdditionbl pixel to the right,
+     * bnd in the code thbt copies this to the imbge cbche we test for
+     * the (rbre) cbses when this is touched, bnd if its not reduce the
+     * stbted imbge width for the blitting loops.
+     * For frbctionbl metrics :
+     * One extrb pixel bt ebch end to bccount for sub-pixel positioning used
+     * when frbctionbl metrics is on in LCD mode.
+     * The pixel bt the left is needed so the blitting loop cbn index into
+     * thbt b byte bt b time to more bccurbtely position the glyph.
+     * The pixel bt the right is needed so thbt when such indexing hbppens,
+     * the blitting still cbn use the sbme width.
+     * Consequently the width thbt is specified for the glyph is one less
+     * thbn thbt of the bctubl imbge.
+     * Note thbt in the FM cbse bs b consequence we need to bdjust the
+     * position bt which GDI renders, bnd the declbred width of the glyph
+     * See the if (fm) {} cbses in the code.
+     * For the non-FM cbse, we not only sbve 3 bytes per row, but this
+     * prevents bppbrent glyph overlbpping which bffects the rendering
+     * performbnce of bccelerbted pipelines since it bdds bdditionbl
+     * rebd-bbck requirements.
      */
     width+=3;
     if (fm) {
         width+=1;
     }
-    /* DIB scanline must end on a DWORD boundary. We specify 3 bytes per pixel,
-     * so must round up as needed to a multiple of 4 bytes.
+    /* DIB scbnline must end on b DWORD boundbry. We specify 3 bytes per pixel,
+     * so must round up bs needed to b multiple of 4 bytes.
      */
     dibBytesWidth = bytesWidth = width*3;
-    extra = dibBytesWidth % 4;
-    if (extra != 0) {
-        dibBytesWidth += (4-extra);
+    extrb = dibBytesWidth % 4;
+    if (extrb != 0) {
+        dibBytesWidth += (4-extrb);
     }
-    /* The glyph cache image must be a multiple of 3 bytes wide. */
-    extra = bytesWidth % 3;
-    if (extra != 0) {
-        bytesWidth += (3-extra);
+    /* The glyph cbche imbge must be b multiple of 3 bytes wide. */
+    extrb = bytesWidth % 3;
+    if (extrb != 0) {
+        bytesWidth += (3-extrb);
     }
     bmWidth = width;
     bmHeight = height;
 
-    /* Must use desktop DC to create a bitmap of that depth */
-    hBitmap = CreateCompatibleBitmap(hDesktopDC, bmWidth, bmHeight);
-    if (hBitmap == NULL) {
+    /* Must use desktop DC to crebte b bitmbp of thbt depth */
+    hBitmbp = CrebteCompbtibleBitmbp(hDesktopDC, bmWidth, bmHeight);
+    if (hBitmbp == NULL) {
         FREE_AND_RETURN;
     }
-    hOrigBM = (HBITMAP)SelectObject(hMemoryDC, hBitmap);
+    hOrigBM = (HBITMAP)SelectObject(hMemoryDC, hBitmbp);
 
-    /* Fill in black */
+    /* Fill in blbck */
     rect.left = 0;
     rect.top = 0;
     rect.right = bmWidth;
     rect.bottom = bmHeight;
     FillRect(hMemoryDC, (LPRECT)&rect, GetStockObject(BLACK_BRUSH));
 
-    /* Set text color to white, background to black. */
+    /* Set text color to white, bbckground to blbck. */
     SetBkColor(hMemoryDC, RGB(0,0,0));
     SetTextColor(hMemoryDC, RGB(255,255,255));
 
-    /* adjust rendering position */
+    /* bdjust rendering position */
     x = -topLeftX+1;
     if (fm) {
         x += 1;
@@ -359,94 +359,94 @@ Java_sun_font_FileFontStrike__1getGlyphImageFromWindows
         FREE_AND_RETURN;
     }
 
-    /* Now get the image into a DIB.
-     * MS docs for GetDIBits says the compatible bitmap must not be
-     * selected into a DC, so restore the original first.
+    /* Now get the imbge into b DIB.
+     * MS docs for GetDIBits sbys the compbtible bitmbp must not be
+     * selected into b DC, so restore the originbl first.
      */
     SelectObject(hMemoryDC, hOrigBM);
     SelectObject(hMemoryDC, oldFont);
     DeleteObject(hFont);
 
     memset(&bmi, 0, sizeof(BITMAPINFO));
-    bmi.bmiHeader.biSize = sizeof(bmi.bmiHeader);
-    bmi.bmiHeader.biWidth = width;
-    bmi.bmiHeader.biHeight = -height;
-    bmi.bmiHeader.biPlanes = 1;
-    bmi.bmiHeader.biBitCount = 24;
-    bmi.bmiHeader.biCompression = BI_RGB;
+    bmi.bmiHebder.biSize = sizeof(bmi.bmiHebder);
+    bmi.bmiHebder.biWidth = width;
+    bmi.bmiHebder.biHeight = -height;
+    bmi.bmiHebder.biPlbnes = 1;
+    bmi.bmiHebder.biBitCount = 24;
+    bmi.bmiHebder.biCompression = BI_RGB;
 
-    dibImage = SAFE_SIZE_ARRAY_ALLOC(malloc, dibBytesWidth, height);
-    if (dibImage == NULL) {
+    dibImbge = SAFE_SIZE_ARRAY_ALLOC(mblloc, dibBytesWidth, height);
+    if (dibImbge == NULL) {
         FREE_AND_RETURN;
     }
-    dibImageSize = dibBytesWidth*height;
-    memset(dibImage, 0, dibImageSize);
+    dibImbgeSize = dibBytesWidth*height;
+    memset(dibImbge, 0, dibImbgeSize);
 
-    err = GetDIBits(hMemoryDC, hBitmap, 0, height, dibImage,
+    err = GetDIBits(hMemoryDC, hBitmbp, 0, height, dibImbge,
                     &bmi, DIB_RGB_COLORS);
 
-    if (err == 0) {        /* GetDIBits failed. */
+    if (err == 0) {        /* GetDIBits fbiled. */
         FREE_AND_RETURN;
     }
 
-    err = SystemParametersInfo(SPI_GETFONTSMOOTHINGORIENTATION, 0, &orient, 0);
+    err = SystemPbrbmetersInfo(SPI_GETFONTSMOOTHINGORIENTATION, 0, &orient, 0);
     if (err == 0) {
         FREE_AND_RETURN;
     }
-    err = SystemParametersInfo(SPI_GETFONTSMOOTHINGCONTRAST, 0, &gamma, 0);
+    err = SystemPbrbmetersInfo(SPI_GETFONTSMOOTHINGCONTRAST, 0, &gbmmb, 0);
     if (err == 0) {
         FREE_AND_RETURN;
     }
-    igTable = getIGTable(gamma/10);
-    if (igTable == NULL) {
+    igTbble = getIGTbble(gbmmb/10);
+    if (igTbble == NULL) {
         FREE_AND_RETURN;
     }
 
-    /* Now copy glyph image into a GlyphInfo structure and return it.
-     * NB the xadvance calculated here may be overwritten by the caller.
-     * 1 is subtracted from the bitmap width to get the glyph width, since
-     * that extra "1" was added as padding, so the sub-pixel positioning of
-     * fractional metrics could index into it.
+    /* Now copy glyph imbge into b GlyphInfo structure bnd return it.
+     * NB the xbdvbnce cblculbted here mby be overwritten by the cbller.
+     * 1 is subtrbcted from the bitmbp width to get the glyph width, since
+     * thbt extrb "1" wbs bdded bs pbdding, so the sub-pixel positioning of
+     * frbctionbl metrics could index into it.
      */
-    glyphInfo = (GlyphInfo*)SAFE_SIZE_STRUCT_ALLOC(malloc, sizeof(GlyphInfo),
+    glyphInfo = (GlyphInfo*)SAFE_SIZE_STRUCT_ALLOC(mblloc, sizeof(GlyphInfo),
             bytesWidth, height);
     if (glyphInfo == NULL) {
         FREE_AND_RETURN;
     }
-    imageSize = bytesWidth*height;
+    imbgeSize = bytesWidth*height;
     glyphInfo->cellInfo = NULL;
     glyphInfo->rowBytes = bytesWidth;
     glyphInfo->width = width;
     if (fm) {
-        glyphInfo->width -= 1; // must subtract 1
+        glyphInfo->width -= 1; // must subtrbct 1
     }
     glyphInfo->height = height;
-    glyphInfo->advanceX = advanceX;
-    glyphInfo->advanceY = advanceY;
-    glyphInfo->topLeftX = (float)(topLeftX-1);
+    glyphInfo->bdvbnceX = bdvbnceX;
+    glyphInfo->bdvbnceY = bdvbnceY;
+    glyphInfo->topLeftX = (flobt)(topLeftX-1);
     if (fm) {
         glyphInfo->topLeftX -= 1;
     }
-    glyphInfo->topLeftY = (float)-topLeftY;
-    glyphInfo->image = (unsigned char*)glyphInfo+sizeof(GlyphInfo);
-    memset(glyphInfo->image, 0, imageSize);
+    glyphInfo->topLeftY = (flobt)-topLeftY;
+    glyphInfo->imbge = (unsigned chbr*)glyphInfo+sizeof(GlyphInfo);
+    memset(glyphInfo->imbge, 0, imbgeSize);
 
-    /* DIB 24bpp data is always stored in BGR order, but we usually
-     * need this in RGB, so we can't just memcpy and need to swap B and R.
-     * Also need to apply inverse gamma adjustment here.
-     * We re-use the variable "extra" to see if the last pixel is touched
-     * at all. If its not we can reduce the glyph image width. This comes
-     * into play in some cases where GDI touches more pixels than accounted
-     * for by increasing width by two pixels over the B&W image. Whilst
-     * the bytes are in the cache, it doesn't affect rendering performance
-     * of the hardware pipelines.
+    /* DIB 24bpp dbtb is blwbys stored in BGR order, but we usublly
+     * need this in RGB, so we cbn't just memcpy bnd need to swbp B bnd R.
+     * Also need to bpply inverse gbmmb bdjustment here.
+     * We re-use the vbribble "extrb" to see if the lbst pixel is touched
+     * bt bll. If its not we cbn reduce the glyph imbge width. This comes
+     * into plby in some cbses where GDI touches more pixels thbn bccounted
+     * for by increbsing width by two pixels over the B&W imbge. Whilst
+     * the bytes bre in the cbche, it doesn't bffect rendering performbnce
+     * of the hbrdwbre pipelines.
      */
-    extra = 0;
+    extrb = 0;
     if (fm) {
-        extra = 1; // always need it.
+        extrb = 1; // blwbys need it.
     }
-    dibRowPtr = dibImage;
-    rowPtr = glyphInfo->image;
+    dibRowPtr = dibImbge;
+    rowPtr = glyphInfo->imbge;
     for (y=0;y<height;y++) {
         pixelPtr = rowPtr;
         dibPixPtr = dibRowPtr;
@@ -460,24 +460,24 @@ Java_sun_font_FileFontStrike__1getGlyphImageFromWindows
                 g = *dibPixPtr++;
                 b = *dibPixPtr++;
             }
-            *pixelPtr++ = igTable[r];
-            *pixelPtr++ = igTable[g];
-            *pixelPtr++ = igTable[b];
+            *pixelPtr++ = igTbble[r];
+            *pixelPtr++ = igTbble[g];
+            *pixelPtr++ = igTbble[b];
             if (!fm && (x==(width-1)) && (r|g|b)) {
-                extra = 1;
+                extrb = 1;
             }
         }
         dibRowPtr += dibBytesWidth;
         rowPtr  += bytesWidth;
     }
-    if (!extra) {
+    if (!extrb) {
         glyphInfo->width -= 1;
     }
 
-    free(dibImage);
-    ReleaseDC(hWnd, hDesktopDC);
+    free(dibImbge);
+    RelebseDC(hWnd, hDesktopDC);
     DeleteObject(hMemoryDC);
-    DeleteObject(hBitmap);
+    DeleteObject(hBitmbp);
 
     return ptr_to_jlong(glyphInfo);
 }

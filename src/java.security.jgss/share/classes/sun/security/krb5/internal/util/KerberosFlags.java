@@ -1,104 +1,104 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.util;
+pbckbge sun.security.krb5.internbl.util;
 
-import java.io.IOException;
-import java.util.Arrays;
-import sun.security.krb5.internal.Krb5;
-import sun.security.util.BitArray;
-import sun.security.util.DerOutputStream;
+import jbvb.io.IOException;
+import jbvb.util.Arrbys;
+import sun.security.krb5.internbl.Krb5;
+import sun.security.util.BitArrby;
+import sun.security.util.DerOutputStrebm;
 
 /**
- * A wrapper class around sun.security.util.BitArray, so that KDCOptions,
- * TicketFlags and ApOptions in krb5 classes can utilize some functions
- * in BitArray classes.
+ * A wrbpper clbss bround sun.security.util.BitArrby, so thbt KDCOptions,
+ * TicketFlbgs bnd ApOptions in krb5 clbsses cbn utilize some functions
+ * in BitArrby clbsses.
  *
- * The data type is defined in RFC 4120 as:
+ * The dbtb type is defined in RFC 4120 bs:
  *
- * 5.2.8.  KerberosFlags
+ * 5.2.8.  KerberosFlbgs
  *
- *  For several message types, a specific constrained bit string type,
- *  KerberosFlags, is used.
+ *  For severbl messbge types, b specific constrbined bit string type,
+ *  KerberosFlbgs, is used.
  *
- *  KerberosFlags   ::= BIT STRING (SIZE (32..MAX))
- *                      -- minimum number of bits shall be sent,
- *                      -- but no fewer than 32
+ *  KerberosFlbgs   ::= BIT STRING (SIZE (32..MAX))
+ *                      -- minimum number of bits shbll be sent,
+ *                      -- but no fewer thbn 32
  *
- * @author Yanni Zhang
+ * @buthor Ybnni Zhbng
  */
-public class KerberosFlags {
-    BitArray bits;
+public clbss KerberosFlbgs {
+    BitArrby bits;
 
-    // This constant is used by child classes.
-    protected static final int BITS_PER_UNIT = 8;
+    // This constbnt is used by child clbsses.
+    protected stbtic finbl int BITS_PER_UNIT = 8;
 
-    public KerberosFlags(int length) throws IllegalArgumentException {
-        bits = new BitArray(length);
+    public KerberosFlbgs(int length) throws IllegblArgumentException {
+        bits = new BitArrby(length);
     }
 
-    public KerberosFlags(int length, byte[] a) throws IllegalArgumentException {
-        bits = new BitArray(length, a);
+    public KerberosFlbgs(int length, byte[] b) throws IllegblArgumentException {
+        bits = new BitArrby(length, b);
         if (length != Krb5.KRB_FLAGS_MAX+1) {
-            bits = new BitArray(Arrays.copyOf(bits.toBooleanArray(), Krb5.KRB_FLAGS_MAX+1));
+            bits = new BitArrby(Arrbys.copyOf(bits.toBoolebnArrby(), Krb5.KRB_FLAGS_MAX+1));
         }
     }
 
-    public KerberosFlags(boolean[] bools) {
-        bits = new BitArray((bools.length==Krb5.KRB_FLAGS_MAX+1)?
+    public KerberosFlbgs(boolebn[] bools) {
+        bits = new BitArrby((bools.length==Krb5.KRB_FLAGS_MAX+1)?
             bools:
-            Arrays.copyOf(bools, Krb5.KRB_FLAGS_MAX+1));
+            Arrbys.copyOf(bools, Krb5.KRB_FLAGS_MAX+1));
     }
 
-    public void set(int index, boolean value) {
-        bits.set(index, value);
+    public void set(int index, boolebn vblue) {
+        bits.set(index, vblue);
     }
 
-    public boolean get(int index) {
+    public boolebn get(int index) {
         return bits.get(index);
     }
 
-    public boolean[] toBooleanArray() {
-        return bits.toBooleanArray();
+    public boolebn[] toBoolebnArrby() {
+        return bits.toBoolebnArrby();
     }
 
     /**
-     * Writes the encoded data.
+     * Writes the encoded dbtb.
      *
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @return an byte array of encoded KDCOptions.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
+     * @return bn byte brrby of encoded KDCOptions.
      */
-    public byte[] asn1Encode() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        out.putUnalignedBitString(bits);
-        return out.toByteArray();
+    public byte[] bsn1Encode() throws IOException {
+        DerOutputStrebm out = new DerOutputStrebm();
+        out.putUnblignedBitString(bits);
+        return out.toByteArrby();
     }
 
     public String toString() {

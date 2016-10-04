@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
 /**
- * A <code>CollationKey</code> represents a <code>String</code> under the
- * rules of a specific <code>Collator</code> object. Comparing two
- * <code>CollationKey</code>s returns the relative order of the
- * <code>String</code>s they represent. Using <code>CollationKey</code>s
- * to compare <code>String</code>s is generally faster than using
- * <code>Collator.compare</code>. Thus, when the <code>String</code>s
- * must be compared multiple times, for example when sorting a list
- * of <code>String</code>s. It's more efficient to use <code>CollationKey</code>s.
+ * A <code>CollbtionKey</code> represents b <code>String</code> under the
+ * rules of b specific <code>Collbtor</code> object. Compbring two
+ * <code>CollbtionKey</code>s returns the relbtive order of the
+ * <code>String</code>s they represent. Using <code>CollbtionKey</code>s
+ * to compbre <code>String</code>s is generblly fbster thbn using
+ * <code>Collbtor.compbre</code>. Thus, when the <code>String</code>s
+ * must be compbred multiple times, for exbmple when sorting b list
+ * of <code>String</code>s. It's more efficient to use <code>CollbtionKey</code>s.
  *
  * <p>
- * You can not create <code>CollationKey</code>s directly. Rather,
- * generate them by calling <code>Collator.getCollationKey</code>.
- * You can only compare <code>CollationKey</code>s generated from
- * the same <code>Collator</code> object.
+ * You cbn not crebte <code>CollbtionKey</code>s directly. Rbther,
+ * generbte them by cblling <code>Collbtor.getCollbtionKey</code>.
+ * You cbn only compbre <code>CollbtionKey</code>s generbted from
+ * the sbme <code>Collbtor</code> object.
  *
  * <p>
- * Generating a <code>CollationKey</code> for a <code>String</code>
- * involves examining the entire <code>String</code>
- * and converting it to series of bits that can be compared bitwise. This
- * allows fast comparisons once the keys are generated. The cost of generating
- * keys is recouped in faster comparisons when <code>String</code>s need
- * to be compared many times. On the other hand, the result of a comparison
- * is often determined by the first couple of characters of each <code>String</code>.
- * <code>Collator.compare</code> examines only as many characters as it needs which
- * allows it to be faster when doing single comparisons.
+ * Generbting b <code>CollbtionKey</code> for b <code>String</code>
+ * involves exbmining the entire <code>String</code>
+ * bnd converting it to series of bits thbt cbn be compbred bitwise. This
+ * bllows fbst compbrisons once the keys bre generbted. The cost of generbting
+ * keys is recouped in fbster compbrisons when <code>String</code>s need
+ * to be compbred mbny times. On the other hbnd, the result of b compbrison
+ * is often determined by the first couple of chbrbcters of ebch <code>String</code>.
+ * <code>Collbtor.compbre</code> exbmines only bs mbny chbrbcters bs it needs which
+ * bllows it to be fbster when doing single compbrisons.
  * <p>
- * The following example shows how <code>CollationKey</code>s might be used
- * to sort a list of <code>String</code>s.
+ * The following exbmple shows how <code>CollbtionKey</code>s might be used
+ * to sort b list of <code>String</code>s.
  * <blockquote>
  * <pre>{@code
- * // Create an array of CollationKeys for the Strings to be sorted.
- * Collator myCollator = Collator.getInstance();
- * CollationKey[] keys = new CollationKey[3];
- * keys[0] = myCollator.getCollationKey("Tom");
- * keys[1] = myCollator.getCollationKey("Dick");
- * keys[2] = myCollator.getCollationKey("Harry");
+ * // Crebte bn brrby of CollbtionKeys for the Strings to be sorted.
+ * Collbtor myCollbtor = Collbtor.getInstbnce();
+ * CollbtionKey[] keys = new CollbtionKey[3];
+ * keys[0] = myCollbtor.getCollbtionKey("Tom");
+ * keys[1] = myCollbtor.getCollbtionKey("Dick");
+ * keys[2] = myCollbtor.getCollbtionKey("Hbrry");
  * sort(keys);
  *
  * //...
  *
- * // Inside body of sort routine, compare keys this way
- * if (keys[i].compareTo(keys[j]) > 0)
- *    // swap keys[i] and keys[j]
+ * // Inside body of sort routine, compbre keys this wby
+ * if (keys[i].compbreTo(keys[j]) > 0)
+ *    // swbp keys[i] bnd keys[j]
  *
  * //...
  *
- * // Finally, when we've returned from sort.
+ * // Finblly, when we've returned from sort.
  * System.out.println(keys[0].getSourceString());
  * System.out.println(keys[1].getSourceString());
  * System.out.println(keys[2].getSourceString());
  * }</pre>
  * </blockquote>
  *
- * @see          Collator
- * @see          RuleBasedCollator
- * @author       Helena Shih
+ * @see          Collbtor
+ * @see          RuleBbsedCollbtor
+ * @buthor       Helenb Shih
  */
 
-public abstract class CollationKey implements Comparable<CollationKey> {
+public bbstrbct clbss CollbtionKey implements Compbrbble<CollbtionKey> {
     /**
-     * Compare this CollationKey to the target CollationKey. The collation rules of the
-     * Collator object which created these keys are applied. <strong>Note:</strong>
-     * CollationKeys created by different Collators can not be compared.
-     * @param target target CollationKey
-     * @return Returns an integer value. Value is less than zero if this is less
-     * than target, value is zero if this and target are equal and value is greater than
-     * zero if this is greater than target.
-     * @see java.text.Collator#compare
+     * Compbre this CollbtionKey to the tbrget CollbtionKey. The collbtion rules of the
+     * Collbtor object which crebted these keys bre bpplied. <strong>Note:</strong>
+     * CollbtionKeys crebted by different Collbtors cbn not be compbred.
+     * @pbrbm tbrget tbrget CollbtionKey
+     * @return Returns bn integer vblue. Vblue is less thbn zero if this is less
+     * thbn tbrget, vblue is zero if this bnd tbrget bre equbl bnd vblue is grebter thbn
+     * zero if this is grebter thbn tbrget.
+     * @see jbvb.text.Collbtor#compbre
      */
-    abstract public int compareTo(CollationKey target);
+    bbstrbct public int compbreTo(CollbtionKey tbrget);
 
     /**
-     * Returns the String that this CollationKey represents.
+     * Returns the String thbt this CollbtionKey represents.
      *
-     * @return the source string of this CollationKey
+     * @return the source string of this CollbtionKey
      */
     public String getSourceString() {
         return source;
@@ -121,29 +121,29 @@ public abstract class CollationKey implements Comparable<CollationKey> {
 
 
     /**
-     * Converts the CollationKey to a sequence of bits. If two CollationKeys
-     * could be legitimately compared, then one could compare the byte arrays
-     * for each of those keys to obtain the same result.  Byte arrays are
-     * organized most significant byte first.
+     * Converts the CollbtionKey to b sequence of bits. If two CollbtionKeys
+     * could be legitimbtely compbred, then one could compbre the byte brrbys
+     * for ebch of those keys to obtbin the sbme result.  Byte brrbys bre
+     * orgbnized most significbnt byte first.
      *
-     * @return a byte array representation of the CollationKey
+     * @return b byte brrby representbtion of the CollbtionKey
      */
-    abstract public byte[] toByteArray();
+    bbstrbct public byte[] toByteArrby();
 
 
   /**
-   * CollationKey constructor.
+   * CollbtionKey constructor.
    *
-   * @param source the source string
+   * @pbrbm source the source string
    * @exception NullPointerException if {@code source} is null
    * @since 1.6
    */
-    protected CollationKey(String source) {
+    protected CollbtionKey(String source) {
         if (source==null){
             throw new NullPointerException();
         }
         this.source = source;
     }
 
-    final private String source;
+    finbl privbte String source;
 }

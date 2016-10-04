@@ -1,25 +1,25 @@
 <!--
- Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ This code is free softwbre; you cbn redistribute it bnd/or modify it
+ under the terms of the GNU Generbl Public License version 2 only, bs
+ published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ by Orbcle in the LICENSE file thbt bccompbnied this code.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ This code is distributed in the hope thbt it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ version 2 for more detbils (b copy is included in the LICENSE file thbt
+ bccompbnied this code).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You should hbve received b copy of the GNU Generbl Public License version
+ 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
+ Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  questions.
 -->
 
@@ -27,113 +27,113 @@
 <html>
 <body bgcolor="white">
 
-Defines buffers, which are containers for data, and provides an overview of the
-other NIO packages.
+Defines buffers, which bre contbiners for dbtb, bnd provides bn overview of the
+other NIO pbckbges.
 
 
-<p> The central abstractions of the NIO APIs are: </p>
+<p> The centrbl bbstrbctions of the NIO APIs bre: </p>
 
 <ul>
 
-  <li><p> <a href="#buffers"><i>Buffers</i></a>, which are containers for data;
+  <li><p> <b href="#buffers"><i>Buffers</i></b>, which bre contbiners for dbtb;
   </p></li>
 
-  <li><p> <a href="charset/package-summary.html"><i>Charsets</i></a> and their
-  associated <i>decoders</i> and <i>encoders</i>, <br> which translate between
-  bytes and Unicode characters; </p></li>
+  <li><p> <b href="chbrset/pbckbge-summbry.html"><i>Chbrsets</i></b> bnd their
+  bssocibted <i>decoders</i> bnd <i>encoders</i>, <br> which trbnslbte between
+  bytes bnd Unicode chbrbcters; </p></li>
 
-  <li><p> <a href="channels/package-summary.html"><i>Channels</i></a> of
-  various types, which represent connections <br> to entities capable of
-  performing I/O operations; and </p></li>
+  <li><p> <b href="chbnnels/pbckbge-summbry.html"><i>Chbnnels</i></b> of
+  vbrious types, which represent connections <br> to entities cbpbble of
+  performing I/O operbtions; bnd </p></li>
 
-  <li><p> <i>Selectors</i> and <i>selection keys</i>, which together with <br>
-  <i>selectable channels</i> define a <a
-  href="channels/package-summary.html#multiplex">multiplexed, non-blocking <br>
-  I/O</a>&nbsp;facility.  </p></li>
+  <li><p> <i>Selectors</i> bnd <i>selection keys</i>, which together with <br>
+  <i>selectbble chbnnels</i> define b <b
+  href="chbnnels/pbckbge-summbry.html#multiplex">multiplexed, non-blocking <br>
+  I/O</b>&nbsp;fbcility.  </p></li>
 
 </ul>
 
-<p> The <tt>java.nio</tt> package defines the buffer classes, which are used
-throughout the NIO APIs.  The charset API is defined in the {@link
-java.nio.charset} package, and the channel and selector APIs are defined in the
-{@link java.nio.channels} package.  Each of these subpackages has its own
-service-provider (SPI) subpackage, the contents of which can be used to extend
-the platform's default implementations or to construct alternative
-implementations.
+<p> The <tt>jbvb.nio</tt> pbckbge defines the buffer clbsses, which bre used
+throughout the NIO APIs.  The chbrset API is defined in the {@link
+jbvb.nio.chbrset} pbckbge, bnd the chbnnel bnd selector APIs bre defined in the
+{@link jbvb.nio.chbnnels} pbckbge.  Ebch of these subpbckbges hbs its own
+service-provider (SPI) subpbckbge, the contents of which cbn be used to extend
+the plbtform's defbult implementbtions or to construct blternbtive
+implementbtions.
 
 
-<a name="buffers"> </a>
+<b nbme="buffers"> </b>
 
-<blockquote><table cellspacing=1 cellpadding=0 summary="Description of the various buffers">
-  <tr><th><p align="left">Buffers</p></th><th><p align="left">Description</p></th></tr> 
-  <tr><td valign=top><tt>{@link java.nio.Buffer}</tt></td>
-      <td>Position, limit, and capacity;
-          <br>clear, flip, rewind, and mark/reset</td></tr>
-  <tr><td valign=top><tt>&nbsp;&nbsp;{@link java.nio.ByteBuffer}</tt></td>
-      <td>Get/put, compact, views; allocate,&nbsp;wrap</td></tr>
-  <tr><td valign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;{@link java.nio.MappedByteBuffer}&nbsp;&nbsp;</tt></td>
-      <td>A byte buffer mapped to a file</td></tr>
-  <tr><td valign=top><tt>&nbsp;&nbsp;{@link java.nio.CharBuffer}</tt></td>
-      <td>Get/put, compact; allocate,&nbsp;wrap</td></tr>
-  <tr><td valign=top><tt>&nbsp;&nbsp;{@link java.nio.DoubleBuffer}</tt></td>
+<blockquote><tbble cellspbcing=1 cellpbdding=0 summbry="Description of the vbrious buffers">
+  <tr><th><p blign="left">Buffers</p></th><th><p blign="left">Description</p></th></tr> 
+  <tr><td vblign=top><tt>{@link jbvb.nio.Buffer}</tt></td>
+      <td>Position, limit, bnd cbpbcity;
+          <br>clebr, flip, rewind, bnd mbrk/reset</td></tr>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.ByteBuffer}</tt></td>
+      <td>Get/put, compbct, views; bllocbte,&nbsp;wrbp</td></tr>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;{@link jbvb.nio.MbppedByteBuffer}&nbsp;&nbsp;</tt></td>
+      <td>A byte buffer mbpped to b file</td></tr>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.ChbrBuffer}</tt></td>
+      <td>Get/put, compbct; bllocbte,&nbsp;wrbp</td></tr>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.DoubleBuffer}</tt></td>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'</td></tr>
-  <tr><td valign=top><tt>&nbsp;&nbsp;{@link java.nio.FloatBuffer}</tt></td>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.FlobtBuffer}</tt></td>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'</td></tr>
-  <tr><td valign=top><tt>&nbsp;&nbsp;{@link java.nio.IntBuffer}</tt></td>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.IntBuffer}</tt></td>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'</td></tr>
-  <tr><td valign=top><tt>&nbsp;&nbsp;{@link java.nio.LongBuffer}</tt></td>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.LongBuffer}</tt></td>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'</td></tr>
-  <tr><td valign=top><tt>&nbsp;&nbsp;{@link java.nio.ShortBuffer}</tt></td>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.ShortBuffer}</tt></td>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'</td></tr>
-  <tr><td valign=top><tt>{@link java.nio.ByteOrder}</tt></td>
-      <td>Typesafe enumeration for&nbsp;byte&nbsp;orders</td></tr>
-</table></blockquote>
+  <tr><td vblign=top><tt>{@link jbvb.nio.ByteOrder}</tt></td>
+      <td>Typesbfe enumerbtion for&nbsp;byte&nbsp;orders</td></tr>
+</tbble></blockquote>
 
-<p> A <i>buffer</i> is a container for a fixed amount of data of a specific
-primitive type.  In addition to its content a buffer has a <i>position</i>,
-which is the index of the next element to be read or written, and a
-<i>limit</i>, which is the index of the first element that should not be read
-or written.  The base {@link java.nio.Buffer} class defines these properties as
-well as methods for <i>clearing</i>, <i>flipping</i>, and <i>rewinding</i>, for
-<i>marking</i> the current position, and for <i>resetting</i> the position to
-the previous mark.
+<p> A <i>buffer</i> is b contbiner for b fixed bmount of dbtb of b specific
+primitive type.  In bddition to its content b buffer hbs b <i>position</i>,
+which is the index of the next element to be rebd or written, bnd b
+<i>limit</i>, which is the index of the first element thbt should not be rebd
+or written.  The bbse {@link jbvb.nio.Buffer} clbss defines these properties bs
+well bs methods for <i>clebring</i>, <i>flipping</i>, bnd <i>rewinding</i>, for
+<i>mbrking</i> the current position, bnd for <i>resetting</i> the position to
+the previous mbrk.
 
-<p> There is a buffer class for each non-boolean primitive type.  Each class
-defines a family of <i>get</i> and <i>put</i> methods for moving data out of
-and in to a buffer, methods for <i>compacting</i>, <i>duplicating</i>, and
-<i>slicing</i> a buffer, and static methods for <i>allocating</i> a new buffer
-as well as for <i>wrapping</i> an existing array into a buffer.
+<p> There is b buffer clbss for ebch non-boolebn primitive type.  Ebch clbss
+defines b fbmily of <i>get</i> bnd <i>put</i> methods for moving dbtb out of
+bnd in to b buffer, methods for <i>compbcting</i>, <i>duplicbting</i>, bnd
+<i>slicing</i> b buffer, bnd stbtic methods for <i>bllocbting</i> b new buffer
+bs well bs for <i>wrbpping</i> bn existing brrby into b buffer.
 
-<p> Byte buffers are distinguished in that they can be used as the sources and
-targets of I/O operations.  They also support several features not found in the
-other buffer classes:
+<p> Byte buffers bre distinguished in thbt they cbn be used bs the sources bnd
+tbrgets of I/O operbtions.  They blso support severbl febtures not found in the
+other buffer clbsses:
 
 <ul>
 
-  <li><p> A byte buffer can be allocated as a <a href="ByteBuffer.html#direct">
-  <i>direct</i></a> buffer, in which case the Java virtual machine will make a
-  best effort to perform native I/O operations directly upon it.  </p></li>
+  <li><p> A byte buffer cbn be bllocbted bs b <b href="ByteBuffer.html#direct">
+  <i>direct</i></b> buffer, in which cbse the Jbvb virtubl mbchine will mbke b
+  best effort to perform nbtive I/O operbtions directly upon it.  </p></li>
 
-  <li><p> A byte buffer can be created by {@link
-  java.nio.channels.FileChannel#map <i>mapping</i>} a region of a
-  file directly into memory, in which case a few additional file-related
-  operations defined in the {@link java.nio.MappedByteBuffer} class are
-  available.  </p></li>
+  <li><p> A byte buffer cbn be crebted by {@link
+  jbvb.nio.chbnnels.FileChbnnel#mbp <i>mbpping</i>} b region of b
+  file directly into memory, in which cbse b few bdditionbl file-relbted
+  operbtions defined in the {@link jbvb.nio.MbppedByteBuffer} clbss bre
+  bvbilbble.  </p></li>
 
-  <li><p> A byte buffer provides access to its content as either a heterogeneous
-  or homogeneous sequence of <a href="ByteBuffer.html#bin"><i>binary data</i></a>
-  of any non-boolean primitive type, in either big-endian or little-endian <a
-  href="ByteOrder.html">byte order</a>.  </p></li>
+  <li><p> A byte buffer provides bccess to its content bs either b heterogeneous
+  or homogeneous sequence of <b href="ByteBuffer.html#bin"><i>binbry dbtb</i></b>
+  of bny non-boolebn primitive type, in either big-endibn or little-endibn <b
+  href="ByteOrder.html">byte order</b>.  </p></li>
 
 </ul>
 
-<p> Unless otherwise noted, passing a <tt>null</tt> argument to a constructor
-or method in any class or interface in this package will cause a {@link
-java.lang.NullPointerException NullPointerException} to be thrown.
+<p> Unless otherwise noted, pbssing b <tt>null</tt> brgument to b constructor
+or method in bny clbss or interfbce in this pbckbge will cbuse b {@link
+jbvb.lbng.NullPointerException NullPointerException} to be thrown.
 
 @since 1.4
-@author Mark Reinhold
-@author JSR-51 Expert Group
+@buthor Mbrk Reinhold
+@buthor JSR-51 Expert Group
 
 </body>
 </html>

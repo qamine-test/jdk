@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
-import java.awt.Frame;
-import java.awt.peer.MenuComponentPeer;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.peer.MenuComponentPeer;
 
-import javax.swing.*;
-import javax.swing.plaf.MenuBarUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.MenuBbrUI;
 
-import com.apple.laf.ScreenMenuBar;
-import sun.lwawt.macosx.CMenuBar;
+import com.bpple.lbf.ScreenMenuBbr;
+import sun.lwbwt.mbcosx.CMenuBbr;
 
-import com.apple.laf.AquaMenuBarUI;
+import com.bpple.lbf.AqubMenuBbrUI;
 
-class _AppMenuBarHandler {
-    private static final int MENU_ABOUT = 1;
-    private static final int MENU_PREFS = 2;
+clbss _AppMenuBbrHbndler {
+    privbte stbtic finbl int MENU_ABOUT = 1;
+    privbte stbtic finbl int MENU_PREFS = 2;
 
-    private static native void nativeSetMenuState(final int menu, final boolean visible, final boolean enabled);
-    private static native void nativeSetDefaultMenuBar(final long menuBarPeer);
+    privbte stbtic nbtive void nbtiveSetMenuStbte(finbl int menu, finbl boolebn visible, finbl boolebn enbbled);
+    privbte stbtic nbtive void nbtiveSetDefbultMenuBbr(finbl long menuBbrPeer);
 
-    static final _AppMenuBarHandler instance = new _AppMenuBarHandler();
-    static _AppMenuBarHandler getInstance() {
-        return instance;
+    stbtic finbl _AppMenuBbrHbndler instbnce = new _AppMenuBbrHbndler();
+    stbtic _AppMenuBbrHbndler getInstbnce() {
+        return instbnce;
     }
 
-    // callback from the native delegate -init function
-    private static void initMenuStates(final boolean aboutMenuItemVisible, final boolean aboutMenuItemEnabled, final boolean prefsMenuItemVisible, final boolean prefsMenuItemEnabled) {
-        synchronized (instance) {
-            instance.aboutMenuItemVisible = aboutMenuItemVisible;
-            instance.aboutMenuItemEnabled = aboutMenuItemEnabled;
-            instance.prefsMenuItemVisible = prefsMenuItemVisible;
-            instance.prefsMenuItemEnabled = prefsMenuItemEnabled;
+    // cbllbbck from the nbtive delegbte -init function
+    privbte stbtic void initMenuStbtes(finbl boolebn bboutMenuItemVisible, finbl boolebn bboutMenuItemEnbbled, finbl boolebn prefsMenuItemVisible, finbl boolebn prefsMenuItemEnbbled) {
+        synchronized (instbnce) {
+            instbnce.bboutMenuItemVisible = bboutMenuItemVisible;
+            instbnce.bboutMenuItemEnbbled = bboutMenuItemEnbbled;
+            instbnce.prefsMenuItemVisible = prefsMenuItemVisible;
+            instbnce.prefsMenuItemEnbbled = prefsMenuItemEnbbled;
         }
     }
 
-    _AppMenuBarHandler() { }
+    _AppMenuBbrHbndler() { }
 
-    boolean aboutMenuItemVisible;
-    boolean aboutMenuItemEnabled;
+    boolebn bboutMenuItemVisible;
+    boolebn bboutMenuItemEnbbled;
 
-    boolean prefsMenuItemVisible;
-    boolean prefsMenuItemEnabled;
-    boolean prefsMenuItemExplicitlySet;
+    boolebn prefsMenuItemVisible;
+    boolebn prefsMenuItemEnbbled;
+    boolebn prefsMenuItemExplicitlySet;
 
-    void setDefaultMenuBar(final JMenuBar menuBar) {
-        installDefaultMenuBar(menuBar);
+    void setDefbultMenuBbr(finbl JMenuBbr menuBbr) {
+        instbllDefbultMenuBbr(menuBbr);
 
-        // scan the current frames, and see if any are foreground
-        final Frame[] frames = Frame.getFrames();
-        for (final Frame frame : frames) {
-            if (frame.isVisible() && !isFrameMinimized(frame)) {
+        // scbn the current frbmes, bnd see if bny bre foreground
+        finbl Frbme[] frbmes = Frbme.getFrbmes();
+        for (finbl Frbme frbme : frbmes) {
+            if (frbme.isVisible() && !isFrbmeMinimized(frbme)) {
                 return;
             }
         }
 
-        // if we have no foreground frames, then we have to "kick" the menubar
-        final JFrame pingFrame = new JFrame();
-        pingFrame.getRootPane().putClientProperty("Window.alpha", new Float(0.0f));
-        pingFrame.setUndecorated(true);
-        pingFrame.setVisible(true);
-        pingFrame.toFront();
-        pingFrame.setVisible(false);
-        pingFrame.dispose();
+        // if we hbve no foreground frbmes, then we hbve to "kick" the menubbr
+        finbl JFrbme pingFrbme = new JFrbme();
+        pingFrbme.getRootPbne().putClientProperty("Window.blphb", new Flobt(0.0f));
+        pingFrbme.setUndecorbted(true);
+        pingFrbme.setVisible(true);
+        pingFrbme.toFront();
+        pingFrbme.setVisible(fblse);
+        pingFrbme.dispose();
     }
 
-    static boolean isFrameMinimized(final Frame frame) {
-        return (frame.getExtendedState() & Frame.ICONIFIED) != 0;
+    stbtic boolebn isFrbmeMinimized(finbl Frbme frbme) {
+        return (frbme.getExtendedStbte() & Frbme.ICONIFIED) != 0;
     }
 
-    @SuppressWarnings("deprecation")
-    static void installDefaultMenuBar(final JMenuBar menuBar) {
-        if (menuBar == null) {
-            // intentionally clearing the default menu
-            nativeSetDefaultMenuBar(0);
+    @SuppressWbrnings("deprecbtion")
+    stbtic void instbllDefbultMenuBbr(finbl JMenuBbr menuBbr) {
+        if (menuBbr == null) {
+            // intentionblly clebring the defbult menu
+            nbtiveSetDefbultMenuBbr(0);
             return;
         }
 
-        final MenuBarUI ui = menuBar.getUI();
-        if (!(ui instanceof AquaMenuBarUI)) {
-            // Aqua was not installed
-            throw new IllegalStateException("Application.setDefaultMenuBar() only works with the Aqua Look and Feel");
+        finbl MenuBbrUI ui = menuBbr.getUI();
+        if (!(ui instbnceof AqubMenuBbrUI)) {
+            // Aqub wbs not instblled
+            throw new IllegblStbteException("Applicbtion.setDefbultMenuBbr() only works with the Aqub Look bnd Feel");
         }
 
-        final AquaMenuBarUI aquaUI = (AquaMenuBarUI)ui;
-        final ScreenMenuBar screenMenuBar = aquaUI.getScreenMenuBar();
-        if (screenMenuBar == null) {
-            // Aqua is installed, but we aren't using the screen menu bar
-            throw new IllegalStateException("Application.setDefaultMenuBar() only works if apple.laf.useScreenMenuBar=true");
+        finbl AqubMenuBbrUI bqubUI = (AqubMenuBbrUI)ui;
+        finbl ScreenMenuBbr screenMenuBbr = bqubUI.getScreenMenuBbr();
+        if (screenMenuBbr == null) {
+            // Aqub is instblled, but we bren't using the screen menu bbr
+            throw new IllegblStbteException("Applicbtion.setDefbultMenuBbr() only works if bpple.lbf.useScreenMenuBbr=true");
         }
 
-        screenMenuBar.addNotify();
-        final MenuComponentPeer peer = screenMenuBar.getPeer();
-        if (!(peer instanceof CMenuBar)) {
-            // such a thing should not be possible
-            throw new IllegalStateException("Unable to determine native menu bar from provided JMenuBar");
+        screenMenuBbr.bddNotify();
+        finbl MenuComponentPeer peer = screenMenuBbr.getPeer();
+        if (!(peer instbnceof CMenuBbr)) {
+            // such b thing should not be possible
+            throw new IllegblStbteException("Unbble to determine nbtive menu bbr from provided JMenuBbr");
         }
 
-        // grab the pointer to the CMenuBar, and retain it in native
-        nativeSetDefaultMenuBar(((CMenuBar)peer).getModel());
+        // grbb the pointer to the CMenuBbr, bnd retbin it in nbtive
+        nbtiveSetDefbultMenuBbr(((CMenuBbr)peer).getModel());
     }
 
-    void setAboutMenuItemVisible(final boolean present) {
+    void setAboutMenuItemVisible(finbl boolebn present) {
         synchronized (this) {
-            if (aboutMenuItemVisible == present) return;
-            aboutMenuItemVisible = present;
+            if (bboutMenuItemVisible == present) return;
+            bboutMenuItemVisible = present;
         }
 
-        nativeSetMenuState(MENU_ABOUT, aboutMenuItemVisible, aboutMenuItemEnabled);
+        nbtiveSetMenuStbte(MENU_ABOUT, bboutMenuItemVisible, bboutMenuItemEnbbled);
     }
 
-    void setPreferencesMenuItemVisible(final boolean present) {
+    void setPreferencesMenuItemVisible(finbl boolebn present) {
         synchronized (this) {
             prefsMenuItemExplicitlySet = true;
             if (prefsMenuItemVisible == present) return;
             prefsMenuItemVisible = present;
         }
-        nativeSetMenuState(MENU_PREFS, prefsMenuItemVisible, prefsMenuItemEnabled);
+        nbtiveSetMenuStbte(MENU_PREFS, prefsMenuItemVisible, prefsMenuItemEnbbled);
     }
 
-    void setAboutMenuItemEnabled(final boolean enable) {
+    void setAboutMenuItemEnbbled(finbl boolebn enbble) {
         synchronized (this) {
-            if (aboutMenuItemEnabled == enable) return;
-            aboutMenuItemEnabled = enable;
+            if (bboutMenuItemEnbbled == enbble) return;
+            bboutMenuItemEnbbled = enbble;
         }
-        nativeSetMenuState(MENU_ABOUT, aboutMenuItemVisible, aboutMenuItemEnabled);
+        nbtiveSetMenuStbte(MENU_ABOUT, bboutMenuItemVisible, bboutMenuItemEnbbled);
     }
 
-    void setPreferencesMenuItemEnabled(final boolean enable) {
+    void setPreferencesMenuItemEnbbled(finbl boolebn enbble) {
         synchronized (this) {
             prefsMenuItemExplicitlySet = true;
-            if (prefsMenuItemEnabled == enable) return;
-            prefsMenuItemEnabled = enable;
+            if (prefsMenuItemEnbbled == enbble) return;
+            prefsMenuItemEnbbled = enbble;
         }
-        nativeSetMenuState(MENU_PREFS, prefsMenuItemVisible, prefsMenuItemEnabled);
+        nbtiveSetMenuStbte(MENU_PREFS, prefsMenuItemVisible, prefsMenuItemEnbbled);
     }
 
-    boolean isAboutMenuItemVisible() {
-        return aboutMenuItemVisible;
+    boolebn isAboutMenuItemVisible() {
+        return bboutMenuItemVisible;
     }
 
-    boolean isPreferencesMenuItemVisible() {
+    boolebn isPreferencesMenuItemVisible() {
         return prefsMenuItemVisible;
     }
 
-    boolean isAboutMenuItemEnabled() {
-        return aboutMenuItemEnabled;
+    boolebn isAboutMenuItemEnbbled() {
+        return bboutMenuItemEnbbled;
     }
 
-    boolean isPreferencesMenuItemEnabled() {
-        return prefsMenuItemEnabled;
+    boolebn isPreferencesMenuItemEnbbled() {
+        return prefsMenuItemEnbbled;
     }
 }

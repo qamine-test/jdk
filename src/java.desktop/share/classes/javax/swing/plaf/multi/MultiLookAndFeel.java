@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.multi;
+pbckbge jbvbx.swing.plbf.multi;
 
-import java.util.Vector;
-import java.lang.reflect.Method;
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvb.util.Vector;
+import jbvb.lbng.reflect.Method;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * <p>A multiplexing look and feel that allows more than one UI
- * to be associated with a component at the same time.
- * The primary look and feel is called
- * the <em>default</em> look and feel,
- * and the other look and feels are called <em>auxiliary</em>.
+ * <p>A multiplexing look bnd feel thbt bllows more thbn one UI
+ * to be bssocibted with b component bt the sbme time.
+ * The primbry look bnd feel is cblled
+ * the <em>defbult</em> look bnd feel,
+ * bnd the other look bnd feels bre cblled <em>buxilibry</em>.
  * <p>
  *
- * For further information, see
- * <a href="doc-files/multi_tsc.html" target="_top">Using the
- * Multiplexing Look and Feel.</a>
+ * For further informbtion, see
+ * <b href="doc-files/multi_tsc.html" tbrget="_top">Using the
+ * Multiplexing Look bnd Feel.</b>
  *
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see UIManager#addAuxiliaryLookAndFeel
- * @see javax.swing.plaf.multi
+ * @see UIMbnbger#bddAuxilibryLookAndFeel
+ * @see jbvbx.swing.plbf.multi
  *
- * @author Willie Walker
+ * @buthor Willie Wblker
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MultiLookAndFeel extends LookAndFeel {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss MultiLookAndFeel extends LookAndFeel {
 
 //////////////////////////////
 // LookAndFeel methods
 //////////////////////////////
 
     /**
-     * Returns a string, suitable for use in menus,
-     * that identifies this look and feel.
+     * Returns b string, suitbble for use in menus,
+     * thbt identifies this look bnd feel.
      *
-     * @return a string such as "Multiplexing Look and Feel"
+     * @return b string such bs "Multiplexing Look bnd Feel"
      */
-    public String getName() {
-        return "Multiplexing Look and Feel";
+    public String getNbme() {
+        return "Multiplexing Look bnd Feel";
     }
 
     /**
-     * Returns a string, suitable for use by applications/services,
-     * that identifies this look and feel.
+     * Returns b string, suitbble for use by bpplicbtions/services,
+     * thbt identifies this look bnd feel.
      *
      * @return "Multiplex"
      */
@@ -84,98 +84,98 @@ public class MultiLookAndFeel extends LookAndFeel {
     }
 
     /**
-     * Returns a one-line description of this look and feel.
+     * Returns b one-line description of this look bnd feel.
      *
-     * @return a descriptive string such as "Allows multiple UI instances per component instance"
+     * @return b descriptive string such bs "Allows multiple UI instbnces per component instbnce"
      */
     public String getDescription() {
-        return "Allows multiple UI instances per component instance";
+        return "Allows multiple UI instbnces per component instbnce";
     }
 
     /**
-     * Returns <code>false</code>;
-     * this look and feel is not native to any platform.
+     * Returns <code>fblse</code>;
+     * this look bnd feel is not nbtive to bny plbtform.
      *
-     * @return <code>false</code>
+     * @return <code>fblse</code>
      */
-    public boolean isNativeLookAndFeel() {
-        return false;
+    public boolebn isNbtiveLookAndFeel() {
+        return fblse;
     }
 
     /**
      * Returns <code>true</code>;
-     * every platform permits this look and feel.
+     * every plbtform permits this look bnd feel.
      *
      * @return <code>true</code>
      */
-    public boolean isSupportedLookAndFeel() {
+    public boolebn isSupportedLookAndFeel() {
         return true;
     }
 
     /**
-     * Creates, initializes, and returns
-     * the look and feel specific defaults.
-     * For this look and feel,
-     * the defaults consist solely of
-     * mappings of UI class IDs
-     * (such as "ButtonUI")
-     * to <code>ComponentUI</code> class names
-     * (such as "javax.swing.plaf.multi.MultiButtonUI").
+     * Crebtes, initiblizes, bnd returns
+     * the look bnd feel specific defbults.
+     * For this look bnd feel,
+     * the defbults consist solely of
+     * mbppings of UI clbss IDs
+     * (such bs "ButtonUI")
+     * to <code>ComponentUI</code> clbss nbmes
+     * (such bs "jbvbx.swing.plbf.multi.MultiButtonUI").
      *
-     * @return an initialized <code>UIDefaults</code> object
-     * @see javax.swing.JComponent#getUIClassID
+     * @return bn initiblized <code>UIDefbults</code> object
+     * @see jbvbx.swing.JComponent#getUIClbssID
      */
-    public UIDefaults getDefaults() {
-        String packageName = "javax.swing.plaf.multi.Multi";
-        Object[] uiDefaults = {
-                   "ButtonUI", packageName + "ButtonUI",
-         "CheckBoxMenuItemUI", packageName + "MenuItemUI",
-                 "CheckBoxUI", packageName + "ButtonUI",
-             "ColorChooserUI", packageName + "ColorChooserUI",
-                 "ComboBoxUI", packageName + "ComboBoxUI",
-              "DesktopIconUI", packageName + "DesktopIconUI",
-              "DesktopPaneUI", packageName + "DesktopPaneUI",
-               "EditorPaneUI", packageName + "TextUI",
-              "FileChooserUI", packageName + "FileChooserUI",
-       "FormattedTextFieldUI", packageName + "TextUI",
-            "InternalFrameUI", packageName + "InternalFrameUI",
-                    "LabelUI", packageName + "LabelUI",
-                     "ListUI", packageName + "ListUI",
-                  "MenuBarUI", packageName + "MenuBarUI",
-                 "MenuItemUI", packageName + "MenuItemUI",
-                     "MenuUI", packageName + "MenuItemUI",
-               "OptionPaneUI", packageName + "OptionPaneUI",
-                    "PanelUI", packageName + "PanelUI",
-            "PasswordFieldUI", packageName + "TextUI",
-       "PopupMenuSeparatorUI", packageName + "SeparatorUI",
-                "PopupMenuUI", packageName + "PopupMenuUI",
-              "ProgressBarUI", packageName + "ProgressBarUI",
-      "RadioButtonMenuItemUI", packageName + "MenuItemUI",
-              "RadioButtonUI", packageName + "ButtonUI",
-                 "RootPaneUI", packageName + "RootPaneUI",
-                "ScrollBarUI", packageName + "ScrollBarUI",
-               "ScrollPaneUI", packageName + "ScrollPaneUI",
-                "SeparatorUI", packageName + "SeparatorUI",
-                   "SliderUI", packageName + "SliderUI",
-                  "SpinnerUI", packageName + "SpinnerUI",
-                "SplitPaneUI", packageName + "SplitPaneUI",
-               "TabbedPaneUI", packageName + "TabbedPaneUI",
-              "TableHeaderUI", packageName + "TableHeaderUI",
-                    "TableUI", packageName + "TableUI",
-                 "TextAreaUI", packageName + "TextUI",
-                "TextFieldUI", packageName + "TextUI",
-                 "TextPaneUI", packageName + "TextUI",
-             "ToggleButtonUI", packageName + "ButtonUI",
-         "ToolBarSeparatorUI", packageName + "SeparatorUI",
-                  "ToolBarUI", packageName + "ToolBarUI",
-                  "ToolTipUI", packageName + "ToolTipUI",
-                     "TreeUI", packageName + "TreeUI",
-                 "ViewportUI", packageName + "ViewportUI",
+    public UIDefbults getDefbults() {
+        String pbckbgeNbme = "jbvbx.swing.plbf.multi.Multi";
+        Object[] uiDefbults = {
+                   "ButtonUI", pbckbgeNbme + "ButtonUI",
+         "CheckBoxMenuItemUI", pbckbgeNbme + "MenuItemUI",
+                 "CheckBoxUI", pbckbgeNbme + "ButtonUI",
+             "ColorChooserUI", pbckbgeNbme + "ColorChooserUI",
+                 "ComboBoxUI", pbckbgeNbme + "ComboBoxUI",
+              "DesktopIconUI", pbckbgeNbme + "DesktopIconUI",
+              "DesktopPbneUI", pbckbgeNbme + "DesktopPbneUI",
+               "EditorPbneUI", pbckbgeNbme + "TextUI",
+              "FileChooserUI", pbckbgeNbme + "FileChooserUI",
+       "FormbttedTextFieldUI", pbckbgeNbme + "TextUI",
+            "InternblFrbmeUI", pbckbgeNbme + "InternblFrbmeUI",
+                    "LbbelUI", pbckbgeNbme + "LbbelUI",
+                     "ListUI", pbckbgeNbme + "ListUI",
+                  "MenuBbrUI", pbckbgeNbme + "MenuBbrUI",
+                 "MenuItemUI", pbckbgeNbme + "MenuItemUI",
+                     "MenuUI", pbckbgeNbme + "MenuItemUI",
+               "OptionPbneUI", pbckbgeNbme + "OptionPbneUI",
+                    "PbnelUI", pbckbgeNbme + "PbnelUI",
+            "PbsswordFieldUI", pbckbgeNbme + "TextUI",
+       "PopupMenuSepbrbtorUI", pbckbgeNbme + "SepbrbtorUI",
+                "PopupMenuUI", pbckbgeNbme + "PopupMenuUI",
+              "ProgressBbrUI", pbckbgeNbme + "ProgressBbrUI",
+      "RbdioButtonMenuItemUI", pbckbgeNbme + "MenuItemUI",
+              "RbdioButtonUI", pbckbgeNbme + "ButtonUI",
+                 "RootPbneUI", pbckbgeNbme + "RootPbneUI",
+                "ScrollBbrUI", pbckbgeNbme + "ScrollBbrUI",
+               "ScrollPbneUI", pbckbgeNbme + "ScrollPbneUI",
+                "SepbrbtorUI", pbckbgeNbme + "SepbrbtorUI",
+                   "SliderUI", pbckbgeNbme + "SliderUI",
+                  "SpinnerUI", pbckbgeNbme + "SpinnerUI",
+                "SplitPbneUI", pbckbgeNbme + "SplitPbneUI",
+               "TbbbedPbneUI", pbckbgeNbme + "TbbbedPbneUI",
+              "TbbleHebderUI", pbckbgeNbme + "TbbleHebderUI",
+                    "TbbleUI", pbckbgeNbme + "TbbleUI",
+                 "TextArebUI", pbckbgeNbme + "TextUI",
+                "TextFieldUI", pbckbgeNbme + "TextUI",
+                 "TextPbneUI", pbckbgeNbme + "TextUI",
+             "ToggleButtonUI", pbckbgeNbme + "ButtonUI",
+         "ToolBbrSepbrbtorUI", pbckbgeNbme + "SepbrbtorUI",
+                  "ToolBbrUI", pbckbgeNbme + "ToolBbrUI",
+                  "ToolTipUI", pbckbgeNbme + "ToolTipUI",
+                     "TreeUI", pbckbgeNbme + "TreeUI",
+                 "ViewportUI", pbckbgeNbme + "ViewportUI",
         };
 
-        UIDefaults table = new MultiUIDefaults(uiDefaults.length / 2, 0.75f);
-        table.putDefaults(uiDefaults);
-        return table;
+        UIDefbults tbble = new MultiUIDefbults(uiDefbults.length / 2, 0.75f);
+        tbble.putDefbults(uiDefbults);
+        return tbble;
     }
 
 ///////////////////////////////
@@ -183,60 +183,60 @@ public class MultiLookAndFeel extends LookAndFeel {
 ///////////////////////////////
 
     /**
-     * Creates the <code>ComponentUI</code> objects
+     * Crebtes the <code>ComponentUI</code> objects
      * required to present
-     * the <code>target</code> component,
-     * placing the objects in the <code>uis</code> vector and
+     * the <code>tbrget</code> component,
+     * plbcing the objects in the <code>uis</code> vector bnd
      * returning the
      * <code>ComponentUI</code> object
-     * that best represents the component's UI.
+     * thbt best represents the component's UI.
      * This method finds the <code>ComponentUI</code> objects
      * by invoking
-     * <code>getDefaults().getUI(target)</code> on each
-     * default and auxiliary look and feel currently in use.
-     * The first UI object this method adds
+     * <code>getDefbults().getUI(tbrget)</code> on ebch
+     * defbult bnd buxilibry look bnd feel currently in use.
+     * The first UI object this method bdds
      * to the <code>uis</code> vector
-     * is for the default look and feel.
+     * is for the defbult look bnd feel.
      * <p>
-     * This method is invoked by the <code>createUI</code> method
-     * of <code>MultiXxxxUI</code> classes.
+     * This method is invoked by the <code>crebteUI</code> method
+     * of <code>MultiXxxxUI</code> clbsses.
      *
-     * @param mui the <code>ComponentUI</code> object
-     *            that represents the complete UI
-     *            for the <code>target</code> component;
-     *            this should be an instance
-     *            of one of the <code>MultiXxxxUI</code> classes
-     * @param uis a <code>Vector</code>;
-     *            generally this is the <code>uis</code> field
-     *            of the <code>mui</code> argument
-     * @param target a component whose UI is represented by <code>mui</code>
+     * @pbrbm mui the <code>ComponentUI</code> object
+     *            thbt represents the complete UI
+     *            for the <code>tbrget</code> component;
+     *            this should be bn instbnce
+     *            of one of the <code>MultiXxxxUI</code> clbsses
+     * @pbrbm uis b <code>Vector</code>;
+     *            generblly this is the <code>uis</code> field
+     *            of the <code>mui</code> brgument
+     * @pbrbm tbrget b component whose UI is represented by <code>mui</code>
      *
-     * @return <code>mui</code> if the component has any auxiliary UI objects;
-     *         otherwise, returns the UI object for the default look and feel
-     *         or <code>null</code> if the default UI object couldn't be found
+     * @return <code>mui</code> if the component hbs bny buxilibry UI objects;
+     *         otherwise, returns the UI object for the defbult look bnd feel
+     *         or <code>null</code> if the defbult UI object couldn't be found
      *
-     * @see javax.swing.UIManager#getAuxiliaryLookAndFeels
-     * @see javax.swing.UIDefaults#getUI
+     * @see jbvbx.swing.UIMbnbger#getAuxilibryLookAndFeels
+     * @see jbvbx.swing.UIDefbults#getUI
      * @see MultiButtonUI#uis
-     * @see MultiButtonUI#createUI
+     * @see MultiButtonUI#crebteUI
      */
-    public static ComponentUI createUIs(ComponentUI mui,
+    public stbtic ComponentUI crebteUIs(ComponentUI mui,
                                         Vector<ComponentUI> uis,
-                                        JComponent  target) {
+                                        JComponent  tbrget) {
         ComponentUI ui;
 
-        // Make sure we can at least get the default UI
+        // Mbke sure we cbn bt lebst get the defbult UI
         //
-        ui = UIManager.getDefaults().getUI(target);
+        ui = UIMbnbger.getDefbults().getUI(tbrget);
         if (ui != null) {
-            uis.addElement(ui);
-            LookAndFeel[] auxiliaryLookAndFeels;
-            auxiliaryLookAndFeels = UIManager.getAuxiliaryLookAndFeels();
-            if (auxiliaryLookAndFeels != null) {
-                for (int i = 0; i < auxiliaryLookAndFeels.length; i++) {
-                    ui = auxiliaryLookAndFeels[i].getDefaults().getUI(target);
+            uis.bddElement(ui);
+            LookAndFeel[] buxilibryLookAndFeels;
+            buxilibryLookAndFeels = UIMbnbger.getAuxilibryLookAndFeels();
+            if (buxilibryLookAndFeels != null) {
+                for (int i = 0; i < buxilibryLookAndFeels.length; i++) {
+                    ui = buxilibryLookAndFeels[i].getDefbults().getUI(tbrget);
                     if (ui != null) {
-                        uis.addElement(ui);
+                        uis.bddElement(ui);
                     }
                 }
             }
@@ -244,8 +244,8 @@ public class MultiLookAndFeel extends LookAndFeel {
             return null;
         }
 
-        // Don't bother returning the multiplexing UI if all we did was
-        // get a UI from just the default look and feel.
+        // Don't bother returning the multiplexing UI if bll we did wbs
+        // get b UI from just the defbult look bnd feel.
         //
         if (uis.size() == 1) {
             return uis.elementAt(0);
@@ -255,21 +255,21 @@ public class MultiLookAndFeel extends LookAndFeel {
     }
 
     /**
-     * Creates an array,
-     * populates it with UI objects from the passed-in vector,
-     * and returns the array.
+     * Crebtes bn brrby,
+     * populbtes it with UI objects from the pbssed-in vector,
+     * bnd returns the brrby.
      * If <code>uis</code> is null,
-     * this method returns an array with zero elements.
-     * If <code>uis</code> is an empty vector,
+     * this method returns bn brrby with zero elements.
+     * If <code>uis</code> is bn empty vector,
      * this method returns <code>null</code>.
-     * A run-time error occurs if any objects in the <code>uis</code> vector
-     * are not of type <code>ComponentUI</code>.
+     * A run-time error occurs if bny objects in the <code>uis</code> vector
+     * bre not of type <code>ComponentUI</code>.
      *
-     * @param uis a vector containing <code>ComponentUI</code> objects
-     * @return an array equivalent to the passed-in vector
+     * @pbrbm uis b vector contbining <code>ComponentUI</code> objects
+     * @return bn brrby equivblent to the pbssed-in vector
      *
      */
-    protected static ComponentUI[] uisToArray(Vector<? extends ComponentUI> uis) {
+    protected stbtic ComponentUI[] uisToArrby(Vector<? extends ComponentUI> uis) {
         if (uis == null) {
             return new ComponentUI[0];
         } else {
@@ -288,16 +288,16 @@ public class MultiLookAndFeel extends LookAndFeel {
 }
 
 /**
- * We want the Multiplexing LookAndFeel to be quiet and fallback
- * gracefully if it cannot find a UI.  This class overrides the
- * getUIError method of UIDefaults, which is the method that
- * emits error messages when it cannot find a UI class in the
+ * We wbnt the Multiplexing LookAndFeel to be quiet bnd fbllbbck
+ * grbcefully if it cbnnot find b UI.  This clbss overrides the
+ * getUIError method of UIDefbults, which is the method thbt
+ * emits error messbges when it cbnnot find b UI clbss in the
  * LAF.
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class MultiUIDefaults extends UIDefaults {
-    MultiUIDefaults(int initialCapacity, float loadFactor) {
-        super(initialCapacity, loadFactor);
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss MultiUIDefbults extends UIDefbults {
+    MultiUIDefbults(int initiblCbpbcity, flobt lobdFbctor) {
+        super(initiblCbpbcity, lobdFbctor);
     }
     protected void getUIError(String msg) {
         System.err.println("Multiplexing LAF:  " + msg);

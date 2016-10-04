@@ -1,96 +1,96 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
 import sun.security.util.*;
 import sun.security.krb5.Asn1Exception;
-import java.io.IOException;
+import jbvb.io.IOException;
 
-public class LastReqEntry {
-    private int lrType;
-    private KerberosTime lrValue;
+public clbss LbstReqEntry {
+    privbte int lrType;
+    privbte KerberosTime lrVblue;
 
-    private LastReqEntry() {
+    privbte LbstReqEntry() {
     }
 
-    public LastReqEntry(int Type, KerberosTime time){
+    public LbstReqEntry(int Type, KerberosTime time){
         lrType = Type;
-        lrValue = time;
-        // XXX check the type and time.
+        lrVblue = time;
+        // XXX check the type bnd time.
     }
 
     /**
-     * Constructs a LastReqEntry object.
-     * @param encoding a Der-encoded data.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Constructs b LbstReqEntry object.
+     * @pbrbm encoding b Der-encoded dbtb.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      */
-    public LastReqEntry(DerValue encoding) throws Asn1Exception, IOException {
-        if (encoding.getTag() != DerValue.tag_Sequence) {
+    public LbstReqEntry(DerVblue encoding) throws Asn1Exception, IOException {
+        if (encoding.getTbg() != DerVblue.tbg_Sequence) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        DerValue der;
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & 0x1F) == 0x00){
-            lrType = der.getData().getBigInteger().intValue();
+        DerVblue der;
+        der = encoding.getDbtb().getDerVblue();
+        if ((der.getTbg() & 0x1F) == 0x00){
+            lrType = der.getDbtb().getBigInteger().intVblue();
         }
         else
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
 
-        lrValue = KerberosTime.parse(encoding.getData(), (byte)0x01, false);
-        if (encoding.getData().available() > 0)
+        lrVblue = KerberosTime.pbrse(encoding.getDbtb(), (byte)0x01, fblse);
+        if (encoding.getDbtb().bvbilbble() > 0)
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
     }
 
     /**
-     * Encodes an LastReqEntry object.
-     * @return the byte array of encoded LastReqEntry object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Encodes bn LbstReqEntry object.
+     * @return the byte brrby of encoded LbstReqEntry object.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
+    public byte[] bsn1Encode() throws Asn1Exception, IOException {
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        DerOutputStrebm temp = new DerOutputStrebm();
         temp.putInteger(lrType);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x00), temp);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x01), lrValue.asn1Encode());
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x00), temp);
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x01), lrVblue.bsn1Encode());
+        temp = new DerOutputStrebm();
+        temp.write(DerVblue.tbg_Sequence, bytes);
+        return temp.toByteArrby();
     }
 
     public Object clone() {
-        LastReqEntry newEntry = new LastReqEntry();
+        LbstReqEntry newEntry = new LbstReqEntry();
         newEntry.lrType = lrType;
-        newEntry.lrValue = lrValue;
+        newEntry.lrVblue = lrVblue;
         return newEntry;
     }
 }

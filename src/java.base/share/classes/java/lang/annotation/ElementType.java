@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.annotation;
+pbckbge jbvb.lbng.bnnotbtion;
 
 /**
- * The constants of this enumerated type provide a simple classification of the
- * syntactic locations where annotations may appear in a Java program. These
- * constants are used in {@link Target java.lang.annotation.Target}
- * meta-annotations to specify where it is legal to write annotations of a
+ * The constbnts of this enumerbted type provide b simple clbssificbtion of the
+ * syntbctic locbtions where bnnotbtions mby bppebr in b Jbvb progrbm. These
+ * constbnts bre used in {@link Tbrget jbvb.lbng.bnnotbtion.Tbrget}
+ * metb-bnnotbtions to specify where it is legbl to write bnnotbtions of b
  * given type.
  *
- * <p>The syntactic locations where annotations may appear are split into
- * <em>declaration contexts</em> , where annotations apply to declarations, and
- * <em>type contexts</em> , where annotations apply to types used in
- * declarations and expressions.
+ * <p>The syntbctic locbtions where bnnotbtions mby bppebr bre split into
+ * <em>declbrbtion contexts</em> , where bnnotbtions bpply to declbrbtions, bnd
+ * <em>type contexts</em> , where bnnotbtions bpply to types used in
+ * declbrbtions bnd expressions.
  *
- * <p>The constants {@link #ANNOTATION_TYPE} , {@link #CONSTRUCTOR} , {@link
+ * <p>The constbnts {@link #ANNOTATION_TYPE} , {@link #CONSTRUCTOR} , {@link
  * #FIELD} , {@link #LOCAL_VARIABLE} , {@link #METHOD} , {@link #PACKAGE} ,
- * {@link #PARAMETER} , {@link #TYPE} , and {@link #TYPE_PARAMETER} correspond
- * to the declaration contexts in JLS 9.6.4.1.
+ * {@link #PARAMETER} , {@link #TYPE} , bnd {@link #TYPE_PARAMETER} correspond
+ * to the declbrbtion contexts in JLS 9.6.4.1.
  *
- * <p>For example, an annotation whose type is meta-annotated with
- * {@code @Target(ElementType.FIELD)} may only be written as a modifier for a
- * field declaration.
+ * <p>For exbmple, bn bnnotbtion whose type is metb-bnnotbted with
+ * {@code @Tbrget(ElementType.FIELD)} mby only be written bs b modifier for b
+ * field declbrbtion.
  *
- * <p>The constant {@link #TYPE_USE} corresponds to the 15 type contexts in JLS
- * 4.11, as well as to two declaration contexts: type declarations (including
- * annotation type declarations) and type parameter declarations.
+ * <p>The constbnt {@link #TYPE_USE} corresponds to the 15 type contexts in JLS
+ * 4.11, bs well bs to two declbrbtion contexts: type declbrbtions (including
+ * bnnotbtion type declbrbtions) bnd type pbrbmeter declbrbtions.
  *
- * <p>For example, an annotation whose type is meta-annotated with
- * {@code @Target(ElementType.TYPE_USE)} may be written on the type of a field
- * (or within the type of the field, if it is a nested, parameterized, or array
- * type), and may also appear as a modifier for, say, a class declaration.
+ * <p>For exbmple, bn bnnotbtion whose type is metb-bnnotbted with
+ * {@code @Tbrget(ElementType.TYPE_USE)} mby be written on the type of b field
+ * (or within the type of the field, if it is b nested, pbrbmeterized, or brrby
+ * type), bnd mby blso bppebr bs b modifier for, sby, b clbss declbrbtion.
  *
- * <p>The {@code TYPE_USE} constant includes type declarations and type
- * parameter declarations as a convenience for designers of type checkers which
- * give semantics to annotation types. For example, if the annotation type
- * {@code NonNull} is meta-annotated with
- * {@code @Target(ElementType.TYPE_USE)}, then {@code @NonNull}
- * {@code class C {...}} could be treated by a type checker as indicating that
- * all variables of class {@code C} are non-null, while still allowing
- * variables of other classes to be non-null or not non-null based on whether
- * {@code @NonNull} appears at the variable's declaration.
+ * <p>The {@code TYPE_USE} constbnt includes type declbrbtions bnd type
+ * pbrbmeter declbrbtions bs b convenience for designers of type checkers which
+ * give sembntics to bnnotbtion types. For exbmple, if the bnnotbtion type
+ * {@code NonNull} is metb-bnnotbted with
+ * {@code @Tbrget(ElementType.TYPE_USE)}, then {@code @NonNull}
+ * {@code clbss C {...}} could be trebted by b type checker bs indicbting thbt
+ * bll vbribbles of clbss {@code C} bre non-null, while still bllowing
+ * vbribbles of other clbsses to be non-null or not non-null bbsed on whether
+ * {@code @NonNull} bppebrs bt the vbribble's declbrbtion.
  *
- * @author  Joshua Bloch
+ * @buthor  Joshub Bloch
  * @since 1.5
- * @jls 9.6.4.1 @Target
- * @jls 4.1 The Kinds of Types and Values
+ * @jls 9.6.4.1 @Tbrget
+ * @jls 4.1 The Kinds of Types bnd Vblues
  */
 public enum ElementType {
-    /** Class, interface (including annotation type), or enum declaration */
+    /** Clbss, interfbce (including bnnotbtion type), or enum declbrbtion */
     TYPE,
 
-    /** Field declaration (includes enum constants) */
+    /** Field declbrbtion (includes enum constbnts) */
     FIELD,
 
-    /** Method declaration */
+    /** Method declbrbtion */
     METHOD,
 
-    /** Formal parameter declaration */
+    /** Formbl pbrbmeter declbrbtion */
     PARAMETER,
 
-    /** Constructor declaration */
+    /** Constructor declbrbtion */
     CONSTRUCTOR,
 
-    /** Local variable declaration */
+    /** Locbl vbribble declbrbtion */
     LOCAL_VARIABLE,
 
-    /** Annotation type declaration */
+    /** Annotbtion type declbrbtion */
     ANNOTATION_TYPE,
 
-    /** Package declaration */
+    /** Pbckbge declbrbtion */
     PACKAGE,
 
     /**
-     * Type parameter declaration
+     * Type pbrbmeter declbrbtion
      *
      * @since 1.8
      */
     TYPE_PARAMETER,
 
     /**
-     * Use of a type
+     * Use of b type
      *
      * @since 1.8
      */

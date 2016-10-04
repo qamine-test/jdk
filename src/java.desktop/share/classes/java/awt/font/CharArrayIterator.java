@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.text.CharacterIterator;
+import jbvb.text.ChbrbcterIterbtor;
 
-class CharArrayIterator implements CharacterIterator {
+clbss ChbrArrbyIterbtor implements ChbrbcterIterbtor {
 
-    private char[] chars;
-    private int pos;
-    private int begin;
+    privbte chbr[] chbrs;
+    privbte int pos;
+    privbte int begin;
 
-    CharArrayIterator(char[] chars) {
+    ChbrArrbyIterbtor(chbr[] chbrs) {
 
-        reset(chars, 0);
+        reset(chbrs, 0);
     }
 
-    CharArrayIterator(char[] chars, int begin) {
+    ChbrArrbyIterbtor(chbr[] chbrs, int begin) {
 
-        reset(chars, begin);
+        reset(chbrs, begin);
     }
 
     /**
-     * Sets the position to getBeginIndex() and returns the character at that
+     * Sets the position to getBeginIndex() bnd returns the chbrbcter bt thbt
      * position.
-     * @return the first character in the text, or DONE if the text is empty
+     * @return the first chbrbcter in the text, or DONE if the text is empty
      * @see getBeginIndex
      */
-    public char first() {
+    public chbr first() {
 
         pos = 0;
         return current();
@@ -57,14 +57,14 @@ class CharArrayIterator implements CharacterIterator {
 
     /**
      * Sets the position to getEndIndex()-1 (getEndIndex() if the text is empty)
-     * and returns the character at that position.
-     * @return the last character in the text, or DONE if the text is empty
+     * bnd returns the chbrbcter bt thbt position.
+     * @return the lbst chbrbcter in the text, or DONE if the text is empty
      * @see getEndIndex
      */
-    public char last() {
+    public chbr lbst() {
 
-        if (chars.length > 0) {
-            pos = chars.length-1;
+        if (chbrs.length > 0) {
+            pos = chbrs.length-1;
         }
         else {
             pos = 0;
@@ -73,15 +73,15 @@ class CharArrayIterator implements CharacterIterator {
     }
 
     /**
-     * Gets the character at the current position (as returned by getIndex()).
-     * @return the character at the current position or DONE if the current
+     * Gets the chbrbcter bt the current position (bs returned by getIndex()).
+     * @return the chbrbcter bt the current position or DONE if the current
      * position is off the end of the text.
      * @see getIndex
      */
-    public char current() {
+    public chbr current() {
 
-        if (pos >= 0 && pos < chars.length) {
-            return chars[pos];
+        if (pos >= 0 && pos < chbrs.length) {
+            return chbrs[pos];
         }
         else {
             return DONE;
@@ -89,37 +89,37 @@ class CharArrayIterator implements CharacterIterator {
     }
 
     /**
-     * Increments the iterator's index by one and returns the character
-     * at the new index.  If the resulting index is greater or equal
-     * to getEndIndex(), the current index is reset to getEndIndex() and
-     * a value of DONE is returned.
-     * @return the character at the new position or DONE if the new
-     * position is off the end of the text range.
+     * Increments the iterbtor's index by one bnd returns the chbrbcter
+     * bt the new index.  If the resulting index is grebter or equbl
+     * to getEndIndex(), the current index is reset to getEndIndex() bnd
+     * b vblue of DONE is returned.
+     * @return the chbrbcter bt the new position or DONE if the new
+     * position is off the end of the text rbnge.
      */
-    public char next() {
+    public chbr next() {
 
-        if (pos < chars.length-1) {
+        if (pos < chbrs.length-1) {
             pos++;
-            return chars[pos];
+            return chbrs[pos];
         }
         else {
-            pos = chars.length;
+            pos = chbrs.length;
             return DONE;
         }
     }
 
     /**
-     * Decrements the iterator's index by one and returns the character
-     * at the new index. If the current index is getBeginIndex(), the index
-     * remains at getBeginIndex() and a value of DONE is returned.
-     * @return the character at the new position or DONE if the current
-     * position is equal to getBeginIndex().
+     * Decrements the iterbtor's index by one bnd returns the chbrbcter
+     * bt the new index. If the current index is getBeginIndex(), the index
+     * rembins bt getBeginIndex() bnd b vblue of DONE is returned.
+     * @return the chbrbcter bt the new position or DONE if the current
+     * position is equbl to getBeginIndex().
      */
-    public char previous() {
+    public chbr previous() {
 
         if (pos > 0) {
             pos--;
-            return chars[pos];
+            return chbrs[pos];
         }
         else {
             pos = 0;
@@ -128,26 +128,26 @@ class CharArrayIterator implements CharacterIterator {
     }
 
     /**
-     * Sets the position to the specified position in the text and returns that
-     * character.
-     * @param position the position within the text.  Valid values range from
-     * getBeginIndex() to getEndIndex().  An IllegalArgumentException is thrown
-     * if an invalid value is supplied.
-     * @return the character at the specified position or DONE if the specified position is equal to getEndIndex()
+     * Sets the position to the specified position in the text bnd returns thbt
+     * chbrbcter.
+     * @pbrbm position the position within the text.  Vblid vblues rbnge from
+     * getBeginIndex() to getEndIndex().  An IllegblArgumentException is thrown
+     * if bn invblid vblue is supplied.
+     * @return the chbrbcter bt the specified position or DONE if the specified position is equbl to getEndIndex()
      */
-    public char setIndex(int position) {
+    public chbr setIndex(int position) {
 
         position -= begin;
-        if (position < 0 || position > chars.length) {
-            throw new IllegalArgumentException("Invalid index");
+        if (position < 0 || position > chbrs.length) {
+            throw new IllegblArgumentException("Invblid index");
         }
         pos = position;
         return current();
     }
 
     /**
-     * Returns the start index of the text.
-     * @return the index at which the text begins.
+     * Returns the stbrt index of the text.
+     * @return the index bt which the text begins.
      */
     public int getBeginIndex() {
         return begin;
@@ -155,11 +155,11 @@ class CharArrayIterator implements CharacterIterator {
 
     /**
      * Returns the end index of the text.  This index is the index of the first
-     * character following the end of the text.
-     * @return the index after the last character in the text
+     * chbrbcter following the end of the text.
+     * @return the index bfter the lbst chbrbcter in the text
      */
     public int getEndIndex() {
-        return begin+chars.length;
+        return begin+chbrs.length;
     }
 
     /**
@@ -171,22 +171,22 @@ class CharArrayIterator implements CharacterIterator {
     }
 
     /**
-     * Create a copy of this iterator
+     * Crebte b copy of this iterbtor
      * @return A copy of this
      */
     public Object clone() {
-        CharArrayIterator c = new CharArrayIterator(chars, begin);
+        ChbrArrbyIterbtor c = new ChbrArrbyIterbtor(chbrs, begin);
         c.pos = this.pos;
         return c;
     }
 
-    void reset(char[] chars) {
-        reset(chars, 0);
+    void reset(chbr[] chbrs) {
+        reset(chbrs, 0);
     }
 
-    void reset(char[] chars, int begin) {
+    void reset(chbr[] chbrs, int begin) {
 
-        this.chars = chars;
+        this.chbrs = chbrs;
         this.begin = begin;
         pos = 0;
     }

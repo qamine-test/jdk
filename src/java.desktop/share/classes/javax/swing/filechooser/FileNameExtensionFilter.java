@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.filechooser;
+pbckbge jbvbx.swing.filechooser;
 
-import java.io.File;
-import java.util.Locale;
+import jbvb.io.File;
+import jbvb.util.Locble;
 
 /**
- * An implementation of {@code FileFilter} that filters using a
- * specified set of extensions. The extension for a file is the
- * portion of the file name after the last ".". Files whose name does
- * not contain a "." have no file name extension. File name extension
- * comparisons are case insensitive.
+ * An implementbtion of {@code FileFilter} thbt filters using b
+ * specified set of extensions. The extension for b file is the
+ * portion of the file nbme bfter the lbst ".". Files whose nbme does
+ * not contbin b "." hbve no file nbme extension. File nbme extension
+ * compbrisons bre cbse insensitive.
  * <p>
- * The following example creates a
- * {@code FileNameExtensionFilter} that will show {@code jpg} files:
+ * The following exbmple crebtes b
+ * {@code FileNbmeExtensionFilter} thbt will show {@code jpg} files:
  * <pre>
- * FileFilter filter = new FileNameExtensionFilter("JPEG file", "jpg", "jpeg");
+ * FileFilter filter = new FileNbmeExtensionFilter("JPEG file", "jpg", "jpeg");
  * JFileChooser fileChooser = ...;
- * fileChooser.addChoosableFileFilter(filter);
+ * fileChooser.bddChoosbbleFileFilter(filter);
  * </pre>
  *
  * @see FileFilter
- * @see javax.swing.JFileChooser#setFileFilter
- * @see javax.swing.JFileChooser#addChoosableFileFilter
- * @see javax.swing.JFileChooser#getFileFilter
+ * @see jbvbx.swing.JFileChooser#setFileFilter
+ * @see jbvbx.swing.JFileChooser#bddChoosbbleFileFilter
+ * @see jbvbx.swing.JFileChooser#getFileFilter
  *
  * @since 1.6
  */
-public final class FileNameExtensionFilter extends FileFilter {
+public finbl clbss FileNbmeExtensionFilter extends FileFilter {
     // Description of this filter.
-    private final String description;
+    privbte finbl String description;
     // Known extensions.
-    private final String[] extensions;
-    // Cached ext
-    private final String[] lowerCaseExtensions;
+    privbte finbl String[] extensions;
+    // Cbched ext
+    privbte finbl String[] lowerCbseExtensions;
 
     /**
-     * Creates a {@code FileNameExtensionFilter} with the specified
-     * description and file name extensions. The returned {@code
-     * FileNameExtensionFilter} will accept all directories and any
-     * file with a file name extension contained in {@code extensions}.
+     * Crebtes b {@code FileNbmeExtensionFilter} with the specified
+     * description bnd file nbme extensions. The returned {@code
+     * FileNbmeExtensionFilter} will bccept bll directories bnd bny
+     * file with b file nbme extension contbined in {@code extensions}.
      *
-     * @param description textual description for the filter, may be
+     * @pbrbm description textubl description for the filter, mby be
      *                    {@code null}
-     * @param extensions the accepted file name extensions
-     * @throws IllegalArgumentException if extensions is {@code null}, empty,
-     *         contains {@code null}, or contains an empty string
-     * @see #accept
+     * @pbrbm extensions the bccepted file nbme extensions
+     * @throws IllegblArgumentException if extensions is {@code null}, empty,
+     *         contbins {@code null}, or contbins bn empty string
+     * @see #bccept
      */
-    public FileNameExtensionFilter(String description, String... extensions) {
+    public FileNbmeExtensionFilter(String description, String... extensions) {
         if (extensions == null || extensions.length == 0) {
-            throw new IllegalArgumentException(
-                    "Extensions must be non-null and not empty");
+            throw new IllegblArgumentException(
+                    "Extensions must be non-null bnd not empty");
         }
         this.description = description;
         this.extensions = new String[extensions.length];
-        this.lowerCaseExtensions = new String[extensions.length];
+        this.lowerCbseExtensions = new String[extensions.length];
         for (int i = 0; i < extensions.length; i++) {
             if (extensions[i] == null || extensions[i].length() == 0) {
-                throw new IllegalArgumentException(
-                    "Each extension must be non-null and not empty");
+                throw new IllegblArgumentException(
+                    "Ebch extension must be non-null bnd not empty");
             }
             this.extensions[i] = extensions[i];
-            lowerCaseExtensions[i] = extensions[i].toLowerCase(Locale.ENGLISH);
+            lowerCbseExtensions[i] = extensions[i].toLowerCbse(Locble.ENGLISH);
         }
     }
 
     /**
      * Tests the specified file, returning true if the file is
-     * accepted, false otherwise. True is returned if the extension
-     * matches one of the file name extensions of this {@code
-     * FileFilter}, or the file is a directory.
+     * bccepted, fblse otherwise. True is returned if the extension
+     * mbtches one of the file nbme extensions of this {@code
+     * FileFilter}, or the file is b directory.
      *
-     * @param f the {@code File} to test
-     * @return true if the file is to be accepted, false otherwise
+     * @pbrbm f the {@code File} to test
+     * @return true if the file is to be bccepted, fblse otherwise
      */
-    public boolean accept(File f) {
+    public boolebn bccept(File f) {
         if (f != null) {
             if (f.isDirectory()) {
                 return true;
             }
-            // NOTE: we tested implementations using Maps, binary search
-            // on a sorted list and this implementation. All implementations
-            // provided roughly the same speed, most likely because of
-            // overhead associated with java.io.File. Therefor we've stuck
-            // with the simple lightweight approach.
-            String fileName = f.getName();
-            int i = fileName.lastIndexOf('.');
-            if (i > 0 && i < fileName.length() - 1) {
-                String desiredExtension = fileName.substring(i+1).
-                        toLowerCase(Locale.ENGLISH);
-                for (String extension : lowerCaseExtensions) {
-                    if (desiredExtension.equals(extension)) {
+            // NOTE: we tested implementbtions using Mbps, binbry sebrch
+            // on b sorted list bnd this implementbtion. All implementbtions
+            // provided roughly the sbme speed, most likely becbuse of
+            // overhebd bssocibted with jbvb.io.File. Therefor we've stuck
+            // with the simple lightweight bpprobch.
+            String fileNbme = f.getNbme();
+            int i = fileNbme.lbstIndexOf('.');
+            if (i > 0 && i < fileNbme.length() - 1) {
+                String desiredExtension = fileNbme.substring(i+1).
+                        toLowerCbse(Locble.ENGLISH);
+                for (String extension : lowerCbseExtensions) {
+                    if (desiredExtension.equbls(extension)) {
                         return true;
                     }
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * The description of this filter. For example: "JPG and GIF Images."
+     * The description of this filter. For exbmple: "JPG bnd GIF Imbges."
      *
      * @return the description of this filter
      */
@@ -133,26 +133,26 @@ public final class FileNameExtensionFilter extends FileFilter {
     }
 
     /**
-     * Returns the set of file name extensions files are tested against.
+     * Returns the set of file nbme extensions files bre tested bgbinst.
      *
-     * @return the set of file name extensions files are tested against
+     * @return the set of file nbme extensions files bre tested bgbinst
      */
     public String[] getExtensions() {
         String[] result = new String[extensions.length];
-        System.arraycopy(extensions, 0, result, 0, extensions.length);
+        System.brrbycopy(extensions, 0, result, 0, extensions.length);
         return result;
     }
 
     /**
-     * Returns a string representation of the {@code FileNameExtensionFilter}.
+     * Returns b string representbtion of the {@code FileNbmeExtensionFilter}.
      * This method is intended to be used for debugging purposes,
-     * and the content and format of the returned string may vary
-     * between implementations.
+     * bnd the content bnd formbt of the returned string mby vbry
+     * between implementbtions.
      *
-     * @return a string representation of this {@code FileNameExtensionFilter}
+     * @return b string representbtion of this {@code FileNbmeExtensionFilter}
      */
     public String toString() {
         return super.toString() + "[description=" + getDescription() +
-            " extensions=" + java.util.Arrays.asList(getExtensions()) + "]";
+            " extensions=" + jbvb.util.Arrbys.bsList(getExtensions()) + "]";
     }
 }

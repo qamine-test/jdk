@@ -1,484 +1,484 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.toolkit.ctx;
+pbckbge com.sun.jndi.toolkit.ctx;
 
-import javax.naming.*;
-import javax.naming.spi.ResolveResult;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.ResolveResult;
 
 /**
-  * Provides implementation of p_* operations using
-  * c_* operations provided by subclasses.
+  * Provides implementbtion of p_* operbtions using
+  * c_* operbtions provided by subclbsses.
   *
-  * Clients: deal only with names for its own naming service.  Must
-  * provide implementations for c_* methods, and for p_parseComponent()
-  * and the c_*_nns methods if the defaults are not appropriate.
+  * Clients: debl only with nbmes for its own nbming service.  Must
+  * provide implementbtions for c_* methods, bnd for p_pbrseComponent()
+  * bnd the c_*_nns methods if the defbults bre not bppropribte.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   */
 
-public abstract class ComponentContext extends PartialCompositeContext {
-    private static int debug = 0;
+public bbstrbct clbss ComponentContext extends PbrtiblCompositeContext {
+    privbte stbtic int debug = 0;
 
     protected ComponentContext() {
         _contextType = _COMPONENT;
     }
 
-// ------ Abstract methods whose implementation are provided by subclass
+// ------ Abstrbct methods whose implementbtion bre provided by subclbss
 
-    /* Equivalent methods in Context interface */
-    protected abstract Object c_lookup(Name name, Continuation cont)
-        throws NamingException;
-    protected abstract Object c_lookupLink(Name name, Continuation cont)
-        throws NamingException;
+    /* Equivblent methods in Context interfbce */
+    protected bbstrbct Object c_lookup(Nbme nbme, Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct Object c_lookupLink(Nbme nbme, Continubtion cont)
+        throws NbmingException;
 
-    protected abstract NamingEnumeration<NameClassPair> c_list(Name name,
-        Continuation cont) throws NamingException;
-    protected abstract NamingEnumeration<Binding> c_listBindings(Name name,
-        Continuation cont) throws NamingException;
-    protected abstract void c_bind(Name name, Object obj, Continuation cont)
-        throws NamingException;
-    protected abstract void c_rebind(Name name, Object obj, Continuation cont)
-        throws NamingException;
-    protected abstract void c_unbind(Name name, Continuation cont)
-        throws NamingException;
-    protected abstract void c_destroySubcontext(Name name, Continuation cont)
-        throws NamingException;
-    protected abstract Context c_createSubcontext(Name name,
-        Continuation cont) throws NamingException;
-    protected abstract void c_rename(Name oldname, Name newname,
-        Continuation cont) throws NamingException;
-    protected abstract NameParser c_getNameParser(Name name, Continuation cont)
-        throws NamingException;
+    protected bbstrbct NbmingEnumerbtion<NbmeClbssPbir> c_list(Nbme nbme,
+        Continubtion cont) throws NbmingException;
+    protected bbstrbct NbmingEnumerbtion<Binding> c_listBindings(Nbme nbme,
+        Continubtion cont) throws NbmingException;
+    protected bbstrbct void c_bind(Nbme nbme, Object obj, Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct void c_rebind(Nbme nbme, Object obj, Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct void c_unbind(Nbme nbme, Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct void c_destroySubcontext(Nbme nbme, Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct Context c_crebteSubcontext(Nbme nbme,
+        Continubtion cont) throws NbmingException;
+    protected bbstrbct void c_renbme(Nbme oldnbme, Nbme newnbme,
+        Continubtion cont) throws NbmingException;
+    protected bbstrbct NbmePbrser c_getNbmePbrser(Nbme nbme, Continubtion cont)
+        throws NbmingException;
 
-// ------ Methods that may need to be overridden by subclass
+// ------ Methods thbt mby need to be overridden by subclbss
 
-    /* Parsing method */
+    /* Pbrsing method */
     /**
-      * Determines which of the first components of 'name' belong
-      * to this naming system.
-      * If no components belong to this naming system, return
-      * the empty name (new CompositeName()) as the head,
-      * and the entire name as the tail.
+      * Determines which of the first components of 'nbme' belong
+      * to this nbming system.
+      * If no components belong to this nbming system, return
+      * the empty nbme (new CompositeNbme()) bs the hebd,
+      * bnd the entire nbme bs the tbil.
       *
-      * The default implementation supports strong separation.
-      * If the name is empty or if the first component is empty,
-      * head is the empty name and tail is the entire name.
-      * (This means that this context does not have any name to work with).
-      * Otherwise, it returns the first component as head, and the rest of
-      * the components as tail.
+      * The defbult implementbtion supports strong sepbrbtion.
+      * If the nbme is empty or if the first component is empty,
+      * hebd is the empty nbme bnd tbil is the entire nbme.
+      * (This mebns thbt this context does not hbve bny nbme to work with).
+      * Otherwise, it returns the first component bs hebd, bnd the rest of
+      * the components bs tbil.
       *
-      * Subclass should override this method according its own policies.
+      * Subclbss should override this method bccording its own policies.
       *
-      * For example, a weakly separated system with dynamic boundary
-      * determination would simply return as head 'name'.
-      * A weakly separated with static boundary
-      * determination would select the components in the front of 'name'
-      * that conform to some syntax rules.  (e.g. in X.500 syntax, perhaps
-      * select front components that have a equal sign).
-      * If none conforms, return an empty name.
+      * For exbmple, b webkly sepbrbted system with dynbmic boundbry
+      * determinbtion would simply return bs hebd 'nbme'.
+      * A webkly sepbrbted with stbtic boundbry
+      * determinbtion would select the components in the front of 'nbme'
+      * thbt conform to some syntbx rules.  (e.g. in X.500 syntbx, perhbps
+      * select front components thbt hbve b equbl sign).
+      * If none conforms, return bn empty nbme.
       */
-    protected HeadTail p_parseComponent(Name name, Continuation cont)
-        throws NamingException {
-        int separator;
-        // if no name to parse, or if we're already at boundary
-        if (name.isEmpty() ||  name.get(0).equals("")) {
-            separator = 0;
+    protected HebdTbil p_pbrseComponent(Nbme nbme, Continubtion cont)
+        throws NbmingException {
+        int sepbrbtor;
+        // if no nbme to pbrse, or if we're blrebdy bt boundbry
+        if (nbme.isEmpty() ||  nbme.get(0).equbls("")) {
+            sepbrbtor = 0;
         } else {
-            separator = 1;
+            sepbrbtor = 1;
         }
-        Name head, tail;
+        Nbme hebd, tbil;
 
-        if (name instanceof CompositeName) {
-            head = name.getPrefix(separator);
-            tail = name.getSuffix(separator);
+        if (nbme instbnceof CompositeNbme) {
+            hebd = nbme.getPrefix(sepbrbtor);
+            tbil = nbme.getSuffix(sepbrbtor);
         } else {
-            // treat like compound name
-            head = new CompositeName().add(name.toString());
-            tail = null;
+            // trebt like compound nbme
+            hebd = new CompositeNbme().bdd(nbme.toString());
+            tbil = null;
         }
 
         if (debug > 2) {
-            System.err.println("ORIG: " + name);
-            System.err.println("PREFIX: " + name);
+            System.err.println("ORIG: " + nbme);
+            System.err.println("PREFIX: " + nbme);
             System.err.println("SUFFIX: " + null);
         }
-        return new HeadTail(head, tail);
+        return new HebdTbil(hebd, tbil);
     }
 
 
-    /* Resolution method for supporting federation */
+    /* Resolution method for supporting federbtion */
 
     /**
-      * Resolves the nns for 'name' when the named context is acting
-      * as an intermediate context.
+      * Resolves the nns for 'nbme' when the nbmed context is bcting
+      * bs bn intermedibte context.
       *
-      * For a system that supports only junctions, this would be
-      * equivalent to
-      *         c_lookup(name, cont);
-      * because for junctions, an intermediate slash simply signifies
-      * a syntactic separator.
+      * For b system thbt supports only junctions, this would be
+      * equivblent to
+      *         c_lookup(nbme, cont);
+      * becbuse for junctions, bn intermedibte slbsh simply signifies
+      * b syntbctic sepbrbtor.
       *
-      * For a system that supports only implicit nns, this would be
-      * equivalent to
-      *         c_lookup_nns(name, cont);
-      * because for implicit nns, a slash always signifies the implicit nns,
-      * regardless of whether it is intermediate or trailing.
+      * For b system thbt supports only implicit nns, this would be
+      * equivblent to
+      *         c_lookup_nns(nbme, cont);
+      * becbuse for implicit nns, b slbsh blwbys signifies the implicit nns,
+      * regbrdless of whether it is intermedibte or trbiling.
       *
-      * By default this method supports junctions, and also allows for an
-      * implicit nns to be dynamically determined through the use of the
+      * By defbult this method supports junctions, bnd blso bllows for bn
+      * implicit nns to be dynbmicblly determined through the use of the
       * "nns" reference (see c_processJunction_nns()).
-      * Contexts that implement implicit nns directly should provide an
-      * appropriate override.
+      * Contexts thbt implement implicit nns directly should provide bn
+      * bppropribte override.
       *
-      * A junction, by definition, is a binding of a name in one
-      * namespace to an object in another.  The default implementation
-      * of this method detects the crossover into another namespace
-      * using the following heuristic:  there is a junction when "name"
-      * resolves to a context that is not an instance of
-      * this.getClass().  Contexts supporting junctions for which this
-      * heuristic is inappropriate should override this method.
+      * A junction, by definition, is b binding of b nbme in one
+      * nbmespbce to bn object in bnother.  The defbult implementbtion
+      * of this method detects the crossover into bnother nbmespbce
+      * using the following heuristic:  there is b junction when "nbme"
+      * resolves to b context thbt is not bn instbnce of
+      * this.getClbss().  Contexts supporting junctions for which this
+      * heuristic is inbppropribte should override this method.
       */
-    protected Object c_resolveIntermediate_nns(Name name, Continuation cont)
-        throws NamingException {
+    protected Object c_resolveIntermedibte_nns(Nbme nbme, Continubtion cont)
+        throws NbmingException {
             try {
-                final Object obj = c_lookup(name, cont);
+                finbl Object obj = c_lookup(nbme, cont);
 
-                // Do not append "" to Continuation 'cont' even if set
-                // because the intention is to ignore the nns
+                // Do not bppend "" to Continubtion 'cont' even if set
+                // becbuse the intention is to ignore the nns
 
-                if (obj != null && getClass().isInstance(obj)) {
-                    // If "obj" is in the same type as this object, it must
-                    // not be a junction. Continue the lookup with "/".
+                if (obj != null && getClbss().isInstbnce(obj)) {
+                    // If "obj" is in the sbme type bs this object, it must
+                    // not be b junction. Continue the lookup with "/".
 
-                    cont.setContinueNNS(obj, name, this);
+                    cont.setContinueNNS(obj, nbme, this);
                     return null;
 
-                } else if (obj != null && !(obj instanceof Context)) {
-                    // obj is not even a context, so try to find its nns
-                    // dynamically by constructing a Reference containing obj.
-                    RefAddr addr = new RefAddr("nns") {
+                } else if (obj != null && !(obj instbnceof Context)) {
+                    // obj is not even b context, so try to find its nns
+                    // dynbmicblly by constructing b Reference contbining obj.
+                    RefAddr bddr = new RefAddr("nns") {
                         public Object getContent() {
                             return obj;
                         }
-                        private static final long serialVersionUID =
+                        privbte stbtic finbl long seriblVersionUID =
                             -8831204798861786362L;
                     };
-                    Reference ref = new Reference("java.lang.Object", addr);
+                    Reference ref = new Reference("jbvb.lbng.Object", bddr);
 
-                    // Resolved name has trailing slash to indicate nns
-                    CompositeName resName = (CompositeName)name.clone();
-                    resName.add(""); // add trailing slash
+                    // Resolved nbme hbs trbiling slbsh to indicbte nns
+                    CompositeNbme resNbme = (CompositeNbme)nbme.clone();
+                    resNbme.bdd(""); // bdd trbiling slbsh
 
-                    // Set continuation leave it to
-                    // PartialCompositeContext.getPCContext() to throw CPE.
-                    // Do not use setContinueNNS() because we've already
-                    // consumed "/" (i.e., moved it to resName).
+                    // Set continubtion lebve it to
+                    // PbrtiblCompositeContext.getPCContext() to throw CPE.
+                    // Do not use setContinueNNS() becbuse we've blrebdy
+                    // consumed "/" (i.e., moved it to resNbme).
 
-                    cont.setContinue(ref, resName, this);
+                    cont.setContinue(ref, resNbme, this);
                     return null;
                 } else {
-                    // Consume "/" and continue
+                    // Consume "/" bnd continue
                     return obj;
                 }
 
-            } catch (NamingException e) {
-                e.appendRemainingComponent(""); // add nns back
+            } cbtch (NbmingException e) {
+                e.bppendRembiningComponent(""); // bdd nns bbck
                 throw e;
             }
         }
 
-    /* Equivalent of Context Methods for supporting nns */
+    /* Equivblent of Context Methods for supporting nns */
 
-    // The following methods are called when the Context methods
-    // are invoked with a name that has a trailing slash.
-    // For naming systems that support implicit nns,
-    // the trailing slash signifies the implicit nns.
-    // For such naming systems, override these c_*_nns methods.
+    // The following methods bre cblled when the Context methods
+    // bre invoked with b nbme thbt hbs b trbiling slbsh.
+    // For nbming systems thbt support implicit nns,
+    // the trbiling slbsh signifies the implicit nns.
+    // For such nbming systems, override these c_*_nns methods.
     //
-    // For naming systems that do not support implicit nns, the
-    // default implementations here throw an exception.  See
-    // c_processJunction_nns() for details.
+    // For nbming systems thbt do not support implicit nns, the
+    // defbult implementbtions here throw bn exception.  See
+    // c_processJunction_nns() for detbils.
 
-    protected Object c_lookup_nns(Name name, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected Object c_lookup_nns(Nbme nbme, Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-    protected Object c_lookupLink_nns(Name name, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected Object c_lookupLink_nns(Nbme nbme, Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-    protected NamingEnumeration<NameClassPair> c_list_nns(Name name,
-        Continuation cont) throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected NbmingEnumerbtion<NbmeClbssPbir> c_list_nns(Nbme nbme,
+        Continubtion cont) throws NbmingException {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-    protected NamingEnumeration<Binding> c_listBindings_nns(Name name,
-        Continuation cont) throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected NbmingEnumerbtion<Binding> c_listBindings_nns(Nbme nbme,
+        Continubtion cont) throws NbmingException {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-    protected void c_bind_nns(Name name, Object obj, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected void c_bind_nns(Nbme nbme, Object obj, Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
         }
 
-    protected void c_rebind_nns(Name name, Object obj, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected void c_rebind_nns(Nbme nbme, Object obj, Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
         }
 
-    protected void c_unbind_nns(Name name, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected void c_unbind_nns(Nbme nbme, Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
         }
 
-    protected Context c_createSubcontext_nns(Name name,
-        Continuation cont) throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected Context c_crebteSubcontext_nns(Nbme nbme,
+        Continubtion cont) throws NbmingException {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-    protected void c_destroySubcontext_nns(Name name, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected void c_destroySubcontext_nns(Nbme nbme, Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
         }
 
 
-    protected void c_rename_nns(Name oldname, Name newname, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(oldname, cont);
+    protected void c_renbme_nns(Nbme oldnbme, Nbme newnbme, Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(oldnbme, cont);
         }
 
-    protected NameParser c_getNameParser_nns(Name name, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected NbmePbrser c_getNbmePbrser_nns(Nbme nbme, Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-// ------ internal method used by ComponentContext
+// ------ internbl method used by ComponentContext
 
     /**
-     * Locates the nns using the default policy.  This policy fully
-     * handles junctions, but otherwise throws an exception when an
-     * attempt is made to resolve an implicit nns.
+     * Locbtes the nns using the defbult policy.  This policy fully
+     * hbndles junctions, but otherwise throws bn exception when bn
+     * bttempt is mbde to resolve bn implicit nns.
      *
-     * The default policy is as follows:  If there is a junction in
-     * the namespace, then resolve to the junction and continue the
-     * operation there (thus deferring to that context to find its own
-     * nns).  Otherwise, resolve as far as possible and then throw
-     * CannotProceedException with the resolved object being a reference:
-     * the address type is "nns", and the address contents is this
+     * The defbult policy is bs follows:  If there is b junction in
+     * the nbmespbce, then resolve to the junction bnd continue the
+     * operbtion there (thus deferring to thbt context to find its own
+     * nns).  Otherwise, resolve bs fbr bs possible bnd then throw
+     * CbnnotProceedException with the resolved object being b reference:
+     * the bddress type is "nns", bnd the bddress contents is this
      * context.
      *
-     * For example, when c_bind_nns(name, obj, ...) is invoked, the
-     * caller is attempting to bind the object "obj" to the nns of
-     * "name".  If "name" is a junction, it names an object in another
-     * naming system that (presumably) has an nns.  c_bind_nns() will
-     * first resolve "name" to a context and then attempt to continue
-     * the bind operation there, (thus binding to the nns of the
-     * context named by "name").  If "name" is empty then throw an
-     * exception, since this context does not by default support an
+     * For exbmple, when c_bind_nns(nbme, obj, ...) is invoked, the
+     * cbller is bttempting to bind the object "obj" to the nns of
+     * "nbme".  If "nbme" is b junction, it nbmes bn object in bnother
+     * nbming system thbt (presumbbly) hbs bn nns.  c_bind_nns() will
+     * first resolve "nbme" to b context bnd then bttempt to continue
+     * the bind operbtion there, (thus binding to the nns of the
+     * context nbmed by "nbme").  If "nbme" is empty then throw bn
+     * exception, since this context does not by defbult support bn
      * implicit nns.
      *
-     * To implement a context that does support an implicit nns, it is
-     * necessary to override this default policy.  This is done by
-     * overriding the c_*_nns() methods (which each call this method
-     * by default).
+     * To implement b context thbt does support bn implicit nns, it is
+     * necessbry to override this defbult policy.  This is done by
+     * overriding the c_*_nns() methods (which ebch cbll this method
+     * by defbult).
      */
-    protected void c_processJunction_nns(Name name, Continuation cont)
-            throws NamingException
+    protected void c_processJunction_nns(Nbme nbme, Continubtion cont)
+            throws NbmingException
     {
-        if (name.isEmpty()) {
-            // Construct a new Reference that contains this context.
-            RefAddr addr = new RefAddr("nns") {
+        if (nbme.isEmpty()) {
+            // Construct b new Reference thbt contbins this context.
+            RefAddr bddr = new RefAddr("nns") {
                 public Object getContent() {
                     return ComponentContext.this;
                 }
-                private static final long serialVersionUID =
+                privbte stbtic finbl long seriblVersionUID =
                     -1389472957988053402L;
             };
-            Reference ref = new Reference("java.lang.Object", addr);
+            Reference ref = new Reference("jbvb.lbng.Object", bddr);
 
-            // Set continuation leave it to PartialCompositeContext.getPCContext()
+            // Set continubtion lebve it to PbrtiblCompositeContext.getPCContext()
             // to throw the exception.
-            // Do not use setContinueNNS() because we've are
-            // setting relativeResolvedName to "/".
+            // Do not use setContinueNNS() becbuse we've bre
+            // setting relbtiveResolvedNbme to "/".
             cont.setContinue(ref, _NNS_NAME, this);
             return;
         }
 
         try {
-            // lookup name to continue operation in nns
-            Object target = c_lookup(name, cont);
+            // lookup nbme to continue operbtion in nns
+            Object tbrget = c_lookup(nbme, cont);
             if (cont.isContinue())
-                cont.appendRemainingComponent("");
+                cont.bppendRembiningComponent("");
             else {
-                cont.setContinueNNS(target, name, this);
+                cont.setContinueNNS(tbrget, nbme, this);
             }
-        } catch (NamingException e) {
-            e.appendRemainingComponent(""); // add nns back
+        } cbtch (NbmingException e) {
+            e.bppendRembiningComponent(""); // bdd nns bbck
             throw e;
         }
     }
 
-    protected static final byte USE_CONTINUATION = 1;
-    protected static final byte TERMINAL_COMPONENT = 2;
-    protected static final byte TERMINAL_NNS_COMPONENT = 3;
+    protected stbtic finbl byte USE_CONTINUATION = 1;
+    protected stbtic finbl byte TERMINAL_COMPONENT = 2;
+    protected stbtic finbl byte TERMINAL_NNS_COMPONENT = 3;
 
     /**
-      * Determine whether 'name' is a terminal component in
-      * this naming system.
-      * If so, return status indicating so, so that caller
-      * can perform context operation on this name.
+      * Determine whether 'nbme' is b terminbl component in
+      * this nbming system.
+      * If so, return stbtus indicbting so, so thbt cbller
+      * cbn perform context operbtion on this nbme.
       *
-      * If not, then the first component(s) of 'name' names
-      * an intermediate context.  In that case, resolve these components
-      * and set Continuation to be the object named.
+      * If not, then the first component(s) of 'nbme' nbmes
+      * bn intermedibte context.  In thbt cbse, resolve these components
+      * bnd set Continubtion to be the object nbmed.
       *
-      * see test cases at bottom of file.
+      * see test cbses bt bottom of file.
       */
 
-    protected HeadTail p_resolveIntermediate(Name name, Continuation cont)
-        throws NamingException {
+    protected HebdTbil p_resolveIntermedibte(Nbme nbme, Continubtion cont)
+        throws NbmingException {
         int ret = USE_CONTINUATION;
-        cont.setSuccess();      // initialize
-        HeadTail p = p_parseComponent(name, cont);
-        Name tail = p.getTail();
-        Name head = p.getHead();
+        cont.setSuccess();      // initiblize
+        HebdTbil p = p_pbrseComponent(nbme, cont);
+        Nbme tbil = p.getTbil();
+        Nbme hebd = p.getHebd();
 
-        if (tail == null || tail.isEmpty()) {
-//System.out.println("terminal : " + head);
+        if (tbil == null || tbil.isEmpty()) {
+//System.out.println("terminbl : " + hebd);
             ret = TERMINAL_COMPONENT;
-        } else if (!tail.get(0).equals("")) {
-            // tail does not begin with "/"
+        } else if (!tbil.get(0).equbls("")) {
+            // tbil does not begin with "/"
 /*
-            if (head.isEmpty()) {
-                // Context could not find name that it can use
-                // illegal syntax error or name not found
-//System.out.println("nnf exception : " + head);
-                NamingException e = new NameNotFoundException();
-                cont.setError(this, name);
+            if (hebd.isEmpty()) {
+                // Context could not find nbme thbt it cbn use
+                // illegbl syntbx error or nbme not found
+//System.out.println("nnf exception : " + hebd);
+                NbmingException e = new NbmeNotFoundException();
+                cont.setError(this, nbme);
                 throw cont.fillInException(e);
             } else  {
 */
-                // head is being used as intermediate context,
-                // resolve head and set Continuation with tail
+                // hebd is being used bs intermedibte context,
+                // resolve hebd bnd set Continubtion with tbil
                 try {
-                    Object obj = c_resolveIntermediate_nns(head, cont);
-//System.out.println("resInter : " + head + "=" + obj);
+                    Object obj = c_resolveIntermedibte_nns(hebd, cont);
+//System.out.println("resInter : " + hebd + "=" + obj);
                     if (obj != null)
-                        cont.setContinue(obj, head, this, tail);
+                        cont.setContinue(obj, hebd, this, tbil);
                     else if (cont.isContinue()) {
-                        checkAndAdjustRemainingName(cont.getRemainingName());
-                        cont.appendRemainingName(tail);
+                        checkAndAdjustRembiningNbme(cont.getRembiningNbme());
+                        cont.bppendRembiningNbme(tbil);
                     }
-                } catch (NamingException e) {
-                    checkAndAdjustRemainingName(e.getRemainingName());
-                    e.appendRemainingName(tail);
+                } cbtch (NbmingException e) {
+                    checkAndAdjustRembiningNbme(e.getRembiningNbme());
+                    e.bppendRembiningNbme(tbil);
                     throw e;
                 }
 /*
             }
 */
         } else {
-            // tail begins with "/"
-            if (tail.size() == 1) {
+            // tbil begins with "/"
+            if (tbil.size() == 1) {
                 ret = TERMINAL_NNS_COMPONENT;
-//System.out.println("terminal_nns : " + head);
-            } else if (head.isEmpty() || isAllEmpty(tail)) {
-                // resolve nns of head and continue with tail.getSuffix(1)
-                Name newTail = tail.getSuffix(1);
+//System.out.println("terminbl_nns : " + hebd);
+            } else if (hebd.isEmpty() || isAllEmpty(tbil)) {
+                // resolve nns of hebd bnd continue with tbil.getSuffix(1)
+                Nbme newTbil = tbil.getSuffix(1);
                 try {
-                    Object obj = c_lookup_nns(head, cont);
-//System.out.println("lookup_nns : " + head + "=" + obj);
+                    Object obj = c_lookup_nns(hebd, cont);
+//System.out.println("lookup_nns : " + hebd + "=" + obj);
                     if (obj != null)
-                        cont.setContinue(obj, head, this, newTail);
+                        cont.setContinue(obj, hebd, this, newTbil);
                     else if (cont.isContinue()) {
-                        cont.appendRemainingName(newTail);
-//                      Name rname = cont.getRemainingName();
-//System.out.println("cont.rname" + rname);
+                        cont.bppendRembiningNbme(newTbil);
+//                      Nbme rnbme = cont.getRembiningNbme();
+//System.out.println("cont.rnbme" + rnbme);
                     }
-                } catch (NamingException e) {
-                    e.appendRemainingName(newTail);
+                } cbtch (NbmingException e) {
+                    e.bppendRembiningNbme(newTbil);
                     throw e;
                 }
             } else {
-                // head is being used as intermediate context
-                // resolve and set continuation to tail
+                // hebd is being used bs intermedibte context
+                // resolve bnd set continubtion to tbil
                 try {
-                    Object obj = c_resolveIntermediate_nns(head, cont);
-//System.out.println("resInter2 : " + head + "=" + obj);
+                    Object obj = c_resolveIntermedibte_nns(hebd, cont);
+//System.out.println("resInter2 : " + hebd + "=" + obj);
                     if (obj != null)
-                        cont.setContinue(obj, head, this, tail);
+                        cont.setContinue(obj, hebd, this, tbil);
                     else if (cont.isContinue()) {
-                        checkAndAdjustRemainingName(cont.getRemainingName());
-                        cont.appendRemainingName(tail);
+                        checkAndAdjustRembiningNbme(cont.getRembiningNbme());
+                        cont.bppendRembiningNbme(tbil);
                     }
-                } catch (NamingException e) {
-                    checkAndAdjustRemainingName(e.getRemainingName());
-                    e.appendRemainingName(tail);
+                } cbtch (NbmingException e) {
+                    checkAndAdjustRembiningNbme(e.getRembiningNbme());
+                    e.bppendRembiningNbme(tbil);
                     throw e;
                 }
             }
         }
 
-        p.setStatus(ret);
+        p.setStbtus(ret);
         return p;
     }
 
-    // When c_resolveIntermediate_nns() or c_lookup_nns() sets up
-    // its continuation, to indicate "nns", it appends an empty
-    // component to the remaining name (e.g. "eng/"). If last
-    // component of remaining name is empty; delete empty component
-    // before appending tail so that composition of the names work
-    // correctly. For example, when merging "eng/" and "c.b.a", we want
-    // the result to be "eng/c.b.a" because the trailing slash in eng
-    // is extraneous.  When merging "" and "c.b.a", we want the result
-    // to be "/c.b.a" and so must keep the trailing slash (empty name).
-    void checkAndAdjustRemainingName(Name rname) throws InvalidNameException {
+    // When c_resolveIntermedibte_nns() or c_lookup_nns() sets up
+    // its continubtion, to indicbte "nns", it bppends bn empty
+    // component to the rembining nbme (e.g. "eng/"). If lbst
+    // component of rembining nbme is empty; delete empty component
+    // before bppending tbil so thbt composition of the nbmes work
+    // correctly. For exbmple, when merging "eng/" bnd "c.b.b", we wbnt
+    // the result to be "eng/c.b.b" becbuse the trbiling slbsh in eng
+    // is extrbneous.  When merging "" bnd "c.b.b", we wbnt the result
+    // to be "/c.b.b" bnd so must keep the trbiling slbsh (empty nbme).
+    void checkAndAdjustRembiningNbme(Nbme rnbme) throws InvblidNbmeException {
         int count;
-        if (rname != null && (count=rname.size()) > 1 &&
-            rname.get(count-1).equals("")) {
-            rname.remove(count-1);
+        if (rnbme != null && (count=rnbme.size()) > 1 &&
+            rnbme.get(count-1).equbls("")) {
+            rnbme.remove(count-1);
         }
     }
 
-    // Returns true if n contains only empty components
-    protected boolean isAllEmpty(Name n) {
+    // Returns true if n contbins only empty components
+    protected boolebn isAllEmpty(Nbme n) {
         int count = n.size();
         for (int i =0; i < count; i++ ) {
-            if (!n.get(i).equals("")) {
-                return false;
+            if (!n.get(i).equbls("")) {
+                return fblse;
             }
         }
         return true;
@@ -486,303 +486,303 @@ public abstract class ComponentContext extends PartialCompositeContext {
 
 
 
-// ------ implementations of p_ Resolver and Context methods using
-// ------ corresponding c_ and c_*_nns methods
+// ------ implementbtions of p_ Resolver bnd Context methods using
+// ------ corresponding c_ bnd c_*_nns methods
 
 
-    /* implementation for Resolver method */
+    /* implementbtion for Resolver method */
 
-    protected ResolveResult p_resolveToClass(Name name,
-                                             Class<?> contextType,
-                                             Continuation cont)
-            throws NamingException {
+    protected ResolveResult p_resolveToClbss(Nbme nbme,
+                                             Clbss<?> contextType,
+                                             Continubtion cont)
+            throws NbmingException {
 
-        if (contextType.isInstance(this)) {
+        if (contextType.isInstbnce(this)) {
             cont.setSuccess();
-            return (new ResolveResult(this, name));
+            return (new ResolveResult(this, nbme));
         }
 
         ResolveResult ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-        case TERMINAL_NNS_COMPONENT:
-            Object obj = p_lookup(name, cont);
-            if (!cont.isContinue() && contextType.isInstance(obj)) {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+        cbse TERMINAL_NNS_COMPONENT:
+            Object obj = p_lookup(nbme, cont);
+            if (!cont.isContinue() && contextType.isInstbnce(obj)) {
                 ret = new ResolveResult(obj, _EMPTY_NAME);
             }
-            break;
+            brebk;
 
-        case TERMINAL_COMPONENT:
+        cbse TERMINAL_COMPONENT:
             cont.setSuccess();  // no contextType found; return null
-            break;
+            brebk;
 
-        default:
+        defbult:
             /* USE_CONTINUATION */
-            /* pcont already set or exception thrown */
-            break;
+            /* pcont blrebdy set or exception thrown */
+            brebk;
         }
         return ret;
     }
 
-    /* implementations of p_ Context methods */
+    /* implementbtions of p_ Context methods */
 
-    protected Object p_lookup(Name name, Continuation cont) throws NamingException {
+    protected Object p_lookup(Nbme nbme, Continubtion cont) throws NbmingException {
         Object ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                ret = c_lookup_nns(res.getHead(), cont);
-                if (ret instanceof LinkRef) {
-                    cont.setContinue(ret, res.getHead(), this);
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                ret = c_lookup_nns(res.getHebd(), cont);
+                if (ret instbnceof LinkRef) {
+                    cont.setContinue(ret, res.getHebd(), this);
                     ret = null;
                 }
-                break;
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                ret = c_lookup(res.getHead(), cont);
-                if (ret instanceof LinkRef) {
-                    cont.setContinue(ret, res.getHead(), this);
+            cbse TERMINAL_COMPONENT:
+                ret = c_lookup(res.getHebd(), cont);
+                if (ret instbnceof LinkRef) {
+                    cont.setContinue(ret, res.getHebd(), this);
                     ret = null;
                 }
-                break;
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* pcont already set or exception thrown */
-                break;
+                /* pcont blrebdy set or exception thrown */
+                brebk;
         }
         return ret;
     }
 
-    protected NamingEnumeration<NameClassPair> p_list(Name name, Continuation cont)
-        throws NamingException {
-        NamingEnumeration<NameClassPair> ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
+    protected NbmingEnumerbtion<NbmeClbssPbir> p_list(Nbme nbme, Continubtion cont)
+        throws NbmingException {
+        NbmingEnumerbtion<NbmeClbssPbir> ret = null;
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
                 if (debug > 0)
-                    System.out.println("c_list_nns(" + res.getHead() + ")");
-                ret = c_list_nns(res.getHead(), cont);
-                break;
+                    System.out.println("c_list_nns(" + res.getHebd() + ")");
+                ret = c_list_nns(res.getHebd(), cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
+            cbse TERMINAL_COMPONENT:
                 if (debug > 0)
-                    System.out.println("c_list(" + res.getHead() + ")");
-                ret = c_list(res.getHead(), cont);
-                break;
+                    System.out.println("c_list(" + res.getHebd() + ")");
+                ret = c_list(res.getHebd(), cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
         }
         return ret;
     }
 
-    protected NamingEnumeration<Binding> p_listBindings(Name name, Continuation cont) throws
-        NamingException {
-        NamingEnumeration<Binding> ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                ret = c_listBindings_nns(res.getHead(), cont);
-                break;
+    protected NbmingEnumerbtion<Binding> p_listBindings(Nbme nbme, Continubtion cont) throws
+        NbmingException {
+        NbmingEnumerbtion<Binding> ret = null;
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                ret = c_listBindings_nns(res.getHebd(), cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                ret = c_listBindings(res.getHead(), cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                ret = c_listBindings(res.getHebd(), cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
         }
         return ret;
     }
 
-    protected void p_bind(Name name, Object obj, Continuation cont) throws
-        NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_bind_nns(res.getHead(), obj, cont);
-                break;
+    protected void p_bind(Nbme nbme, Object obj, Continubtion cont) throws
+        NbmingException {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                c_bind_nns(res.getHebd(), obj, cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                c_bind(res.getHead(), obj, cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                c_bind(res.getHebd(), obj, cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
         }
     }
 
-    protected void p_rebind(Name name, Object obj, Continuation cont) throws
-        NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_rebind_nns(res.getHead(), obj, cont);
-                break;
+    protected void p_rebind(Nbme nbme, Object obj, Continubtion cont) throws
+        NbmingException {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                c_rebind_nns(res.getHebd(), obj, cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                c_rebind(res.getHead(), obj, cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                c_rebind(res.getHebd(), obj, cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
         }
     }
 
-    protected void p_unbind(Name name, Continuation cont) throws
-        NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_unbind_nns(res.getHead(), cont);
-                break;
+    protected void p_unbind(Nbme nbme, Continubtion cont) throws
+        NbmingException {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                c_unbind_nns(res.getHebd(), cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                c_unbind(res.getHead(), cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                c_unbind(res.getHebd(), cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
         }
     }
 
-    protected void p_destroySubcontext(Name name, Continuation cont) throws
-        NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_destroySubcontext_nns(res.getHead(), cont);
-                break;
+    protected void p_destroySubcontext(Nbme nbme, Continubtion cont) throws
+        NbmingException {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                c_destroySubcontext_nns(res.getHebd(), cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                c_destroySubcontext(res.getHead(), cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                c_destroySubcontext(res.getHebd(), cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
         }
     }
 
-    protected Context p_createSubcontext(Name name, Continuation cont) throws
-        NamingException {
+    protected Context p_crebteSubcontext(Nbme nbme, Continubtion cont) throws
+        NbmingException {
             Context ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                ret = c_createSubcontext_nns(res.getHead(), cont);
-                break;
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                ret = c_crebteSubcontext_nns(res.getHebd(), cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                ret = c_createSubcontext(res.getHead(), cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                ret = c_crebteSubcontext(res.getHebd(), cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
         }
         return ret;
     }
 
-    protected void p_rename(Name oldName, Name newName, Continuation cont) throws
-        NamingException {
-        HeadTail res = p_resolveIntermediate(oldName, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_rename_nns(res.getHead(), newName, cont);
-                break;
+    protected void p_renbme(Nbme oldNbme, Nbme newNbme, Continubtion cont) throws
+        NbmingException {
+        HebdTbil res = p_resolveIntermedibte(oldNbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                c_renbme_nns(res.getHebd(), newNbme, cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                c_rename(res.getHead(), newName, cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                c_renbme(res.getHebd(), newNbme, cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
         }
     }
 
-    protected NameParser p_getNameParser(Name name, Continuation cont) throws
-        NamingException {
-        NameParser ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                ret = c_getNameParser_nns(res.getHead(), cont);
-                break;
+    protected NbmePbrser p_getNbmePbrser(Nbme nbme, Continubtion cont) throws
+        NbmingException {
+        NbmePbrser ret = null;
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                ret = c_getNbmePbrser_nns(res.getHebd(), cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                ret = c_getNameParser(res.getHead(), cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                ret = c_getNbmePbrser(res.getHebd(), cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
         }
         return ret;
     }
 
-    protected Object p_lookupLink(Name name, Continuation cont)
-        throws NamingException {
+    protected Object p_lookupLink(Nbme nbme, Continubtion cont)
+        throws NbmingException {
         Object ret = null;
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                ret = c_lookupLink_nns(res.getHead(), cont);
-                break;
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                ret = c_lookupLink_nns(res.getHebd(), cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                ret = c_lookupLink(res.getHead(), cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                ret = c_lookupLink(res.getHebd(), cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
         }
         return ret;
     }
 }
 
 /*
- *      How p_resolveIntermediate() should behave for various test cases
+ *      How p_resolveIntermedibte() should behbve for vbrious test cbses
 
-a.b/x   {a.b, x}
-        c_resolveIntermediate_nns(a.b)
+b.b/x   {b.b, x}
+        c_resolveIntermedibte_nns(b.b)
         continue(x)
         {x,}
-        terminal(x)
+        terminbl(x)
 
-a.b/    {a.b, ""}
-        terminal_nns(a.b);
+b.b/    {b.b, ""}
+        terminbl_nns(b.b);
 
-a.b//
-        {a.b, ("", "")}
-        c_lookup_nns(a.b)
+b.b//
+        {b.b, ("", "")}
+        c_lookup_nns(b.b)
         continue({""})
         {,""}
-        terminal_nns({})
+        terminbl_nns({})
 
 /x      {{}, {"", x}}
         c_lookup_nns({})
         continue(x)
         {x,}
-        terminal(x)
+        terminbl(x)
 
 //y     {{}, {"", "", y}}
         c_lookup_nns({})
@@ -791,15 +791,15 @@ a.b//
         c_lookup_nns({})
         continue(y)
         {y,}
-        terminal(y)
+        terminbl(y)
 
-a.b//y  {a.b, {"", y}}
-        c_resolveIntermediate_nns(a.b)
+b.b//y  {b.b, {"", y}}
+        c_resolveIntermedibte_nns(b.b)
         continue({"", y})
         {{}, {"",y}}
         c_lookup_nns({});
         continue(y)
         {y,}
-        terminal(y);
+        terminbl(y);
  *
  */

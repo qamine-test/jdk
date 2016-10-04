@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,99 +28,99 @@
  *
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.font.GlyphJustificationInfo;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.font.GlyphJustificbtionInfo;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.LineMetrics;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Rectbngle2D;
 
-public interface TextLineComponent {
+public interfbce TextLineComponent {
 
     public CoreMetrics getCoreMetrics();
-    public void draw(Graphics2D g2d, float x, float y);
-    public Rectangle2D getCharVisualBounds(int index);
-    public Rectangle2D getVisualBounds();
-    public float getAdvance();
-    public Shape getOutline(float x, float y);
+    public void drbw(Grbphics2D g2d, flobt x, flobt y);
+    public Rectbngle2D getChbrVisublBounds(int index);
+    public Rectbngle2D getVisublBounds();
+    public flobt getAdvbnce();
+    public Shbpe getOutline(flobt x, flobt y);
 
-    public int getNumCharacters();
+    public int getNumChbrbcters();
 
-    public float getCharX(int index);
-    public float getCharY(int index);
-    public float getCharAdvance(int index);
-    public boolean caretAtOffsetIsValid(int index);
+    public flobt getChbrX(int index);
+    public flobt getChbrY(int index);
+    public flobt getChbrAdvbnce(int index);
+    public boolebn cbretAtOffsetIsVblid(int index);
 
-    // measures characters in context, in logical order
-    public int getLineBreakIndex(int start, float width);
+    // mebsures chbrbcters in context, in logicbl order
+    public int getLineBrebkIndex(int stbrt, flobt width);
 
-    // measures characters in context, in logical order
-    public float getAdvanceBetween(int start, int limit);
+    // mebsures chbrbcters in context, in logicbl order
+    public flobt getAdvbnceBetween(int stbrt, int limit);
 
-    public Rectangle2D getLogicalBounds();
+    public Rectbngle2D getLogicblBounds();
 
-    public Rectangle2D getItalicBounds();
+    public Rectbngle2D getItblicBounds();
 
-    public AffineTransform getBaselineTransform();
+    public AffineTrbnsform getBbselineTrbnsform();
 
-    // return true if this wraps a glyphvector with no baseline rotation and
-    // has no styles requiring complex pixel bounds calculations.
-    public boolean isSimple();
+    // return true if this wrbps b glyphvector with no bbseline rotbtion bnd
+    // hbs no styles requiring complex pixel bounds cblculbtions.
+    public boolebn isSimple();
 
-    // return the pixel bounds if we wrap a glyphvector, else throw an
-    // internal error
-    public Rectangle getPixelBounds(FontRenderContext frc, float x, float y);
+    // return the pixel bounds if we wrbp b glyphvector, else throw bn
+    // internbl error
+    public Rectbngle getPixelBounds(FontRenderContext frc, flobt x, flobt y);
 
     /**
-     * Force subset characters to run left-to-right.
+     * Force subset chbrbcters to run left-to-right.
      */
-    public static final int LEFT_TO_RIGHT = 0;
+    public stbtic finbl int LEFT_TO_RIGHT = 0;
     /**
-     * Force subset characters to run right-to-left.
+     * Force subset chbrbcters to run right-to-left.
      */
-    public static final int RIGHT_TO_LEFT = 1;
+    public stbtic finbl int RIGHT_TO_LEFT = 1;
 
     /**
-     * Leave subset character direction and ordering unchanged.
+     * Lebve subset chbrbcter direction bnd ordering unchbnged.
      */
-    public static final int UNCHANGED = 2;
+    public stbtic finbl int UNCHANGED = 2;
 
     /**
-     * Return a TextLineComponent for the characters in the range
-     * start, limit.  The range is relative to this TextLineComponent
-     * (ie, the first character is at 0).
-     * @param dir one of the constants LEFT_TO_RIGHT, RIGHT_TO_LEFT, or UNCHANGED
+     * Return b TextLineComponent for the chbrbcters in the rbnge
+     * stbrt, limit.  The rbnge is relbtive to this TextLineComponent
+     * (ie, the first chbrbcter is bt 0).
+     * @pbrbm dir one of the constbnts LEFT_TO_RIGHT, RIGHT_TO_LEFT, or UNCHANGED
      */
-    public TextLineComponent getSubset(int start, int limit, int dir);
+    public TextLineComponent getSubset(int stbrt, int limit, int dir);
 
     /**
-     * Return the number of justification records this uses.
+     * Return the number of justificbtion records this uses.
      */
-    public int getNumJustificationInfos();
+    public int getNumJustificbtionInfos();
 
     /**
-     * Return GlyphJustificationInfo objects for the characters between
-     * charStart and charLimit, starting at offset infoStart.  Infos
-     * will be in visual order.  All positions between infoStart and
-     * getNumJustificationInfos will be set.  If a position corresponds
-     * to a character outside the provided range, it is set to null.
+     * Return GlyphJustificbtionInfo objects for the chbrbcters between
+     * chbrStbrt bnd chbrLimit, stbrting bt offset infoStbrt.  Infos
+     * will be in visubl order.  All positions between infoStbrt bnd
+     * getNumJustificbtionInfos will be set.  If b position corresponds
+     * to b chbrbcter outside the provided rbnge, it is set to null.
      */
-    public void getJustificationInfos(GlyphJustificationInfo[] infos, int infoStart, int charStart, int charLimit);
+    public void getJustificbtionInfos(GlyphJustificbtionInfo[] infos, int infoStbrt, int chbrStbrt, int chbrLimit);
 
     /**
-     * Apply deltas to the data in this component, starting at offset
-     * deltaStart, and return the new component.  There are two floats
-     * for each justification info, for a total of 2 * getNumJustificationInfos.
-     * The first delta is the left adjustment, the second is the right
-     * adjustment.
+     * Apply deltbs to the dbtb in this component, stbrting bt offset
+     * deltbStbrt, bnd return the new component.  There bre two flobts
+     * for ebch justificbtion info, for b totbl of 2 * getNumJustificbtionInfos.
+     * The first deltb is the left bdjustment, the second is the right
+     * bdjustment.
      * <p>
-     * If flags[0] is true on entry, rejustification is allowed.  If
-     * the new component requires rejustification (ligatures were
-     * formed or split), flags[0] will be set on exit.
+     * If flbgs[0] is true on entry, rejustificbtion is bllowed.  If
+     * the new component requires rejustificbtion (ligbtures were
+     * formed or split), flbgs[0] will be set on exit.
      */
-    public TextLineComponent applyJustificationDeltas(float[] deltas, int deltaStart, boolean[] flags);
+    public TextLineComponent bpplyJustificbtionDeltbs(flobt[] deltbs, int deltbStbrt, boolebn[] flbgs);
 }

@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.httpserver;
+pbckbge sun.net.httpserver;
 
-import java.nio.*;
-import java.io.*;
-import java.nio.channels.*;
+import jbvb.nio.*;
+import jbvb.io.*;
+import jbvb.nio.chbnnels.*;
 import com.sun.net.httpserver.*;
 
 /**
  */
-class Request {
+clbss Request {
 
-    final static int BUF_LEN = 2048;
-    final static byte CR = 13;
-    final static byte LF = 10;
+    finbl stbtic int BUF_LEN = 2048;
+    finbl stbtic byte CR = 13;
+    finbl stbtic byte LF = 10;
 
-    private String startLine;
-    private SocketChannel chan;
-    private InputStream is;
-    private OutputStream os;
+    privbte String stbrtLine;
+    privbte SocketChbnnel chbn;
+    privbte InputStrebm is;
+    privbte OutputStrebm os;
 
-    Request (InputStream rawInputStream, OutputStream rawout) throws IOException {
-        is = rawInputStream;
-        os = rawout;
+    Request (InputStrebm rbwInputStrebm, OutputStrebm rbwout) throws IOException {
+        is = rbwInputStrebm;
+        os = rbwout;
         do {
-            startLine = readLine();
-            if (startLine == null) {
+            stbrtLine = rebdLine();
+            if (stbrtLine == null) {
                 return;
             }
-            /* skip blank lines */
-        } while (startLine == null ? false : startLine.equals (""));
+            /* skip blbnk lines */
+        } while (stbrtLine == null ? fblse : stbrtLine.equbls (""));
     }
 
 
-    char[] buf = new char [BUF_LEN];
+    chbr[] buf = new chbr [BUF_LEN];
     int pos;
     StringBuffer lineBuf;
 
-    public InputStream inputStream () {
+    public InputStrebm inputStrebm () {
         return is;
     }
 
-    public OutputStream outputStream () {
+    public OutputStrebm outputStrebm () {
         return os;
     }
 
     /**
-     * read a line from the stream returning as a String.
-     * Not used for reading headers.
+     * rebd b line from the strebm returning bs b String.
+     * Not used for rebding hebders.
      */
 
-    public String readLine () throws IOException {
-        boolean gotCR = false, gotLF = false;
+    public String rebdLine () throws IOException {
+        boolebn gotCR = fblse, gotLF = fblse;
         pos = 0; lineBuf = new StringBuffer();
         while (!gotLF) {
-            int c = is.read();
+            int c = is.rebd();
             if (c == -1) {
                 return null;
             }
@@ -85,7 +85,7 @@ class Request {
                 if (c == LF) {
                     gotLF = true;
                 } else {
-                    gotCR = false;
+                    gotCR = fblse;
                     consume (CR);
                     consume (c);
                 }
@@ -97,45 +97,45 @@ class Request {
                 }
             }
         }
-        lineBuf.append (buf, 0, pos);
+        lineBuf.bppend (buf, 0, pos);
         return new String (lineBuf);
     }
 
-    private void consume (int c) {
+    privbte void consume (int c) {
         if (pos == BUF_LEN) {
-            lineBuf.append (buf);
+            lineBuf.bppend (buf);
             pos = 0;
         }
-        buf[pos++] = (char)c;
+        buf[pos++] = (chbr)c;
     }
 
     /**
-     * returns the request line (first line of a request)
+     * returns the request line (first line of b request)
      */
     public String requestLine () {
-        return startLine;
+        return stbrtLine;
     }
 
-    Headers hdrs = null;
-    @SuppressWarnings("fallthrough")
-    Headers headers () throws IOException {
+    Hebders hdrs = null;
+    @SuppressWbrnings("fbllthrough")
+    Hebders hebders () throws IOException {
         if (hdrs != null) {
             return hdrs;
         }
-        hdrs = new Headers();
+        hdrs = new Hebders();
 
-        char s[] = new char[10];
+        chbr s[] = new chbr[10];
         int len = 0;
 
-        int firstc = is.read();
+        int firstc = is.rebd();
 
-        // check for empty headers
+        // check for empty hebders
         if (firstc == CR || firstc == LF) {
-            int c = is.read();
+            int c = is.rebd();
             if (c == CR || c == LF) {
                 return hdrs;
             }
-            s[0] = (char)firstc;
+            s[0] = (chbr)firstc;
             len = 1;
             firstc = c;
         }
@@ -143,42 +143,42 @@ class Request {
         while (firstc != LF && firstc != CR && firstc >= 0) {
             int keyend = -1;
             int c;
-            boolean inKey = firstc > ' ';
-            s[len++] = (char) firstc;
-    parseloop:{
-                while ((c = is.read()) >= 0) {
+            boolebn inKey = firstc > ' ';
+            s[len++] = (chbr) firstc;
+    pbrseloop:{
+                while ((c = is.rebd()) >= 0) {
                     switch (c) {
-                      /*fallthrough*/
-                      case ':':
+                      /*fbllthrough*/
+                      cbse ':':
                         if (inKey && len > 0)
                             keyend = len;
-                        inKey = false;
-                        break;
-                      case '\t':
+                        inKey = fblse;
+                        brebk;
+                      cbse '\t':
                         c = ' ';
-                      case ' ':
-                        inKey = false;
-                        break;
-                      case CR:
-                      case LF:
-                        firstc = is.read();
+                      cbse ' ':
+                        inKey = fblse;
+                        brebk;
+                      cbse CR:
+                      cbse LF:
+                        firstc = is.rebd();
                         if (c == CR && firstc == LF) {
-                            firstc = is.read();
+                            firstc = is.rebd();
                             if (firstc == CR)
-                                firstc = is.read();
+                                firstc = is.rebd();
                         }
                         if (firstc == LF || firstc == CR || firstc > ' ')
-                            break parseloop;
-                        /* continuation */
+                            brebk pbrseloop;
+                        /* continubtion */
                         c = ' ';
-                        break;
+                        brebk;
                     }
                     if (len >= s.length) {
-                        char ns[] = new char[s.length * 2];
-                        System.arraycopy(s, 0, ns, 0, len);
+                        chbr ns[] = new chbr[s.length * 2];
+                        System.brrbycopy(s, 0, ns, 0, len);
                         s = ns;
                     }
-                    s[len++] = (char) c;
+                    s[len++] = (chbr) c;
                 }
                 firstc = -1;
             }
@@ -189,7 +189,7 @@ class Request {
                 k = null;
                 keyend = 0;
             } else {
-                k = String.copyValueOf(s, 0, keyend);
+                k = String.copyVblueOf(s, 0, keyend);
                 if (keyend < len && s[keyend] == ':')
                     keyend++;
                 while (keyend < len && s[keyend] <= ' ')
@@ -199,52 +199,52 @@ class Request {
             if (keyend >= len)
                 v = new String();
             else
-                v = String.copyValueOf(s, keyend, len - keyend);
+                v = String.copyVblueOf(s, keyend, len - keyend);
 
-            if (hdrs.size() >= ServerConfig.getMaxReqHeaders()) {
-                throw new IOException("Maximum number of request headers (" +
-                        "sun.net.httpserver.maxReqHeaders) exceeded, " +
-                        ServerConfig.getMaxReqHeaders() + ".");
+            if (hdrs.size() >= ServerConfig.getMbxReqHebders()) {
+                throw new IOException("Mbximum number of request hebders (" +
+                        "sun.net.httpserver.mbxReqHebders) exceeded, " +
+                        ServerConfig.getMbxReqHebders() + ".");
             }
 
-            hdrs.add (k,v);
+            hdrs.bdd (k,v);
             len = 0;
         }
         return hdrs;
     }
 
     /**
-     * Implements blocking reading semantics on top of a non-blocking channel
+     * Implements blocking rebding sembntics on top of b non-blocking chbnnel
      */
 
-    static class ReadStream extends InputStream {
-        SocketChannel channel;
-        ByteBuffer chanbuf;
+    stbtic clbss RebdStrebm extends InputStrebm {
+        SocketChbnnel chbnnel;
+        ByteBuffer chbnbuf;
         byte[] one;
-        private boolean closed = false, eof = false;
-        ByteBuffer markBuf; /* reads may be satisfied from this buffer */
-        boolean marked;
-        boolean reset;
-        int readlimit;
-        static long readTimeout;
+        privbte boolebn closed = fblse, eof = fblse;
+        ByteBuffer mbrkBuf; /* rebds mby be sbtisfied from this buffer */
+        boolebn mbrked;
+        boolebn reset;
+        int rebdlimit;
+        stbtic long rebdTimeout;
         ServerImpl server;
-        final static int BUFSIZE = 8 * 1024;
+        finbl stbtic int BUFSIZE = 8 * 1024;
 
-        public ReadStream (ServerImpl server, SocketChannel chan) throws IOException {
-            this.channel = chan;
+        public RebdStrebm (ServerImpl server, SocketChbnnel chbn) throws IOException {
+            this.chbnnel = chbn;
             this.server = server;
-            chanbuf = ByteBuffer.allocate (BUFSIZE);
-            chanbuf.clear();
+            chbnbuf = ByteBuffer.bllocbte (BUFSIZE);
+            chbnbuf.clebr();
             one = new byte[1];
-            closed = marked = reset = false;
+            closed = mbrked = reset = fblse;
         }
 
-        public synchronized int read (byte[] b) throws IOException {
-            return read (b, 0, b.length);
+        public synchronized int rebd (byte[] b) throws IOException {
+            return rebd (b, 0, b.length);
         }
 
-        public synchronized int read () throws IOException {
-            int result = read (one, 0, 1);
+        public synchronized int rebd () throws IOException {
+            int result = rebd (one, 0, 1);
             if (result == 1) {
                 return one[0] & 0xFF;
             } else {
@@ -252,117 +252,117 @@ class Request {
             }
         }
 
-        public synchronized int read (byte[] b, int off, int srclen) throws IOException {
+        public synchronized int rebd (byte[] b, int off, int srclen) throws IOException {
 
-            int canreturn, willreturn;
+            int cbnreturn, willreturn;
 
             if (closed)
-                throw new IOException ("Stream closed");
+                throw new IOException ("Strebm closed");
 
             if (eof) {
                 return -1;
             }
 
-            assert channel.isBlocking();
+            bssert chbnnel.isBlocking();
 
             if (off < 0 || srclen < 0|| srclen > (b.length-off)) {
                 throw new IndexOutOfBoundsException ();
             }
 
-            if (reset) { /* satisfy from markBuf */
-                canreturn = markBuf.remaining ();
-                willreturn = canreturn>srclen ? srclen : canreturn;
-                markBuf.get(b, off, willreturn);
-                if (canreturn == willreturn) {
-                    reset = false;
+            if (reset) { /* sbtisfy from mbrkBuf */
+                cbnreturn = mbrkBuf.rembining ();
+                willreturn = cbnreturn>srclen ? srclen : cbnreturn;
+                mbrkBuf.get(b, off, willreturn);
+                if (cbnreturn == willreturn) {
+                    reset = fblse;
                 }
-            } else { /* satisfy from channel */
-                chanbuf.clear ();
+            } else { /* sbtisfy from chbnnel */
+                chbnbuf.clebr ();
                 if (srclen <  BUFSIZE) {
-                    chanbuf.limit (srclen);
+                    chbnbuf.limit (srclen);
                 }
                 do {
-                    willreturn = channel.read (chanbuf);
+                    willreturn = chbnnel.rebd (chbnbuf);
                 } while (willreturn == 0);
                 if (willreturn == -1) {
                     eof = true;
                     return -1;
                 }
-                chanbuf.flip ();
-                chanbuf.get(b, off, willreturn);
+                chbnbuf.flip ();
+                chbnbuf.get(b, off, willreturn);
 
-                if (marked) { /* copy into markBuf */
+                if (mbrked) { /* copy into mbrkBuf */
                     try {
-                        markBuf.put (b, off, willreturn);
-                    } catch (BufferOverflowException e) {
-                        marked = false;
+                        mbrkBuf.put (b, off, willreturn);
+                    } cbtch (BufferOverflowException e) {
+                        mbrked = fblse;
                     }
                 }
             }
             return willreturn;
         }
 
-        public boolean markSupported () {
+        public boolebn mbrkSupported () {
             return true;
         }
 
         /* Does not query the OS socket */
-        public synchronized int available () throws IOException {
+        public synchronized int bvbilbble () throws IOException {
             if (closed)
-                throw new IOException ("Stream is closed");
+                throw new IOException ("Strebm is closed");
 
             if (eof)
                 return -1;
 
             if (reset)
-                return markBuf.remaining();
+                return mbrkBuf.rembining();
 
-            return chanbuf.remaining();
+            return chbnbuf.rembining();
         }
 
         public void close () throws IOException {
             if (closed) {
                 return;
             }
-            channel.close ();
+            chbnnel.close ();
             closed = true;
         }
 
-        public synchronized void mark (int readlimit) {
+        public synchronized void mbrk (int rebdlimit) {
             if (closed)
                 return;
-            this.readlimit = readlimit;
-            markBuf = ByteBuffer.allocate (readlimit);
-            marked = true;
-            reset = false;
+            this.rebdlimit = rebdlimit;
+            mbrkBuf = ByteBuffer.bllocbte (rebdlimit);
+            mbrked = true;
+            reset = fblse;
         }
 
         public synchronized void reset () throws IOException {
             if (closed )
                 return;
-            if (!marked)
-                throw new IOException ("Stream not marked");
-            marked = false;
+            if (!mbrked)
+                throw new IOException ("Strebm not mbrked");
+            mbrked = fblse;
             reset = true;
-            markBuf.flip ();
+            mbrkBuf.flip ();
         }
     }
 
-    static class WriteStream extends java.io.OutputStream {
-        SocketChannel channel;
+    stbtic clbss WriteStrebm extends jbvb.io.OutputStrebm {
+        SocketChbnnel chbnnel;
         ByteBuffer buf;
         SelectionKey key;
-        boolean closed;
+        boolebn closed;
         byte[] one;
         ServerImpl server;
 
-        public WriteStream (ServerImpl server, SocketChannel channel) throws IOException {
-            this.channel = channel;
+        public WriteStrebm (ServerImpl server, SocketChbnnel chbnnel) throws IOException {
+            this.chbnnel = chbnnel;
             this.server = server;
-            assert channel.isBlocking();
-            closed = false;
+            bssert chbnnel.isBlocking();
+            closed = fblse;
             one = new byte [1];
-            buf = ByteBuffer.allocate (4096);
+            buf = ByteBuffer.bllocbte (4096);
         }
 
         public synchronized void write (int b) throws IOException {
@@ -377,18 +377,18 @@ class Request {
         public synchronized void write (byte[] b, int off, int len) throws IOException {
             int l = len;
             if (closed)
-                throw new IOException ("stream is closed");
+                throw new IOException ("strebm is closed");
 
-            int cap = buf.capacity();
-            if (cap < len) {
-                int diff = len - cap;
-                buf = ByteBuffer.allocate (2*(cap+diff));
+            int cbp = buf.cbpbcity();
+            if (cbp < len) {
+                int diff = len - cbp;
+                buf = ByteBuffer.bllocbte (2*(cbp+diff));
             }
-            buf.clear();
+            buf.clebr();
             buf.put (b, off, len);
             buf.flip ();
             int n;
-            while ((n = channel.write (buf)) < l) {
+            while ((n = chbnnel.write (buf)) < l) {
                 l -= n;
                 if (l == 0)
                     return;
@@ -398,8 +398,8 @@ class Request {
         public void close () throws IOException {
             if (closed)
                 return;
-            //server.logStackTrace ("Request.OS.close: isOpen="+channel.isOpen());
-            channel.close ();
+            //server.logStbckTrbce ("Request.OS.close: isOpen="+chbnnel.isOpen());
+            chbnnel.close ();
             closed = true;
         }
     }

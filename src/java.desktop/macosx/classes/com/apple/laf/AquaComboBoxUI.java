@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import javax.accessibility.*;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import com.apple.laf.ClientPropertyApplicator.Property;
-import apple.laf.JRSUIConstants.Size;
+import jbvbx.bccessibility.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import com.bpple.lbf.ClientPropertyApplicbtor.Property;
+import bpple.lbf.JRSUIConstbnts.Size;
 
-import com.apple.laf.AquaUtilControlSize.Sizeable;
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import com.bpple.lbf.AqubUtilControlSize.Sizebble;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
 
-// Inspired by MetalComboBoxUI, which also has a combined text-and-arrow button for noneditables
-public class AquaComboBoxUI extends BasicComboBoxUI implements Sizeable {
-    static final String POPDOWN_CLIENT_PROPERTY_KEY = "JComboBox.isPopDown";
-    static final String ISSQUARE_CLIENT_PROPERTY_KEY = "JComboBox.isSquare";
+// Inspired by MetblComboBoxUI, which blso hbs b combined text-bnd-brrow button for noneditbbles
+public clbss AqubComboBoxUI extends BbsicComboBoxUI implements Sizebble {
+    stbtic finbl String POPDOWN_CLIENT_PROPERTY_KEY = "JComboBox.isPopDown";
+    stbtic finbl String ISSQUARE_CLIENT_PROPERTY_KEY = "JComboBox.isSqubre";
 
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaComboBoxUI();
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubComboBoxUI();
     }
 
-    private boolean wasOpaque;
-    public void installUI(final JComponent c) {
-        super.installUI(c);
+    privbte boolebn wbsOpbque;
+    public void instbllUI(finbl JComponent c) {
+        super.instbllUI(c);
 
-        // this doesn't work right now, because the JComboBox.init() method calls
-        // .setOpaque(false) directly, and doesn't allow the LaF to decided. Bad Sun!
-        LookAndFeel.installProperty(c, "opaque", Boolean.FALSE);
+        // this doesn't work right now, becbuse the JComboBox.init() method cblls
+        // .setOpbque(fblse) directly, bnd doesn't bllow the LbF to decided. Bbd Sun!
+        LookAndFeel.instbllProperty(c, "opbque", Boolebn.FALSE);
 
-        wasOpaque = c.isOpaque();
-        c.setOpaque(false);
+        wbsOpbque = c.isOpbque();
+        c.setOpbque(fblse);
     }
 
-    public void uninstallUI(final JComponent c) {
-        c.setOpaque(wasOpaque);
-        super.uninstallUI(c);
+    public void uninstbllUI(finbl JComponent c) {
+        c.setOpbque(wbsOpbque);
+        super.uninstbllUI(c);
     }
 
-    protected void installListeners() {
-        super.installListeners();
-        AquaUtilControlSize.addSizePropertyListener(comboBox);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        AqubUtilControlSize.bddSizePropertyListener(comboBox);
     }
 
-    protected void uninstallListeners() {
-        AquaUtilControlSize.removeSizePropertyListener(comboBox);
-        super.uninstallListeners();
+    protected void uninstbllListeners() {
+        AqubUtilControlSize.removeSizePropertyListener(comboBox);
+        super.uninstbllListeners();
     }
 
-    protected void installComponents() {
-        super.installComponents();
+    protected void instbllComponents() {
+        super.instbllComponents();
 
-        // client properties must be applied after the components have been installed,
-        // because isSquare and isPopdown are applied to the installed button
-        getApplicator().attachAndApplyClientProperties(comboBox);
+        // client properties must be bpplied bfter the components hbve been instblled,
+        // becbuse isSqubre bnd isPopdown bre bpplied to the instblled button
+        getApplicbtor().bttbchAndApplyClientProperties(comboBox);
     }
 
-    protected void uninstallComponents() {
-        getApplicator().removeFrom(comboBox);
-        super.uninstallComponents();
+    protected void uninstbllComponents() {
+        getApplicbtor().removeFrom(comboBox);
+        super.uninstbllComponents();
     }
 
-    protected ItemListener createItemListener() {
+    protected ItemListener crebteItemListener() {
         return new ItemListener() {
-            long lastBlink = 0L;
-            public void itemStateChanged(final ItemEvent e) {
-                if (e.getStateChange() != ItemEvent.SELECTED) return;
+            long lbstBlink = 0L;
+            public void itemStbteChbnged(finbl ItemEvent e) {
+                if (e.getStbteChbnge() != ItemEvent.SELECTED) return;
                 if (!popup.isVisible()) return;
 
-                // sometimes, multiple selection changes can occur while the popup is up,
-                // and blinking more than "once" (in a second) is not desirable
-                final long now = System.currentTimeMillis();
-                if (now - 1000 < lastBlink) return;
-                lastBlink = now;
+                // sometimes, multiple selection chbnges cbn occur while the popup is up,
+                // bnd blinking more thbn "once" (in b second) is not desirbble
+                finbl long now = System.currentTimeMillis();
+                if (now - 1000 < lbstBlink) return;
+                lbstBlink = now;
 
-                final JList<Object> itemList = popup.getList();
-                final ListUI listUI = itemList.getUI();
-                if (!(listUI instanceof AquaListUI)) return;
-                final AquaListUI aquaListUI = (AquaListUI)listUI;
+                finbl JList<Object> itemList = popup.getList();
+                finbl ListUI listUI = itemList.getUI();
+                if (!(listUI instbnceof AqubListUI)) return;
+                finbl AqubListUI bqubListUI = (AqubListUI)listUI;
 
-                final int selectedIndex = comboBox.getSelectedIndex();
-                final ListModel<Object> dataModel = itemList.getModel();
-                if (dataModel == null) return;
+                finbl int selectedIndex = comboBox.getSelectedIndex();
+                finbl ListModel<Object> dbtbModel = itemList.getModel();
+                if (dbtbModel == null) return;
 
-                final Object value = dataModel.getElementAt(selectedIndex);
-                AquaUtils.blinkMenu(new AquaUtils.Selectable() {
-                    public void paintSelected(final boolean selected) {
-                        aquaListUI.repaintCell(value, selectedIndex, selected);
+                finbl Object vblue = dbtbModel.getElementAt(selectedIndex);
+                AqubUtils.blinkMenu(new AqubUtils.Selectbble() {
+                    public void pbintSelected(finbl boolebn selected) {
+                        bqubListUI.repbintCell(vblue, selectedIndex, selected);
                     }
                 });
             }
         };
     }
 
-    public void paint(final Graphics g, final JComponent c) {
-        // this space intentionally left blank
+    public void pbint(finbl Grbphics g, finbl JComponent c) {
+        // this spbce intentionblly left blbnk
     }
 
-    protected ListCellRenderer<Object> createRenderer() {
-        return new AquaComboBoxRenderer(comboBox);
+    protected ListCellRenderer<Object> crebteRenderer() {
+        return new AqubComboBoxRenderer(comboBox);
     }
 
-    protected ComboPopup createPopup() {
-        return new AquaComboBoxPopup(comboBox);
+    protected ComboPopup crebtePopup() {
+        return new AqubComboBoxPopup(comboBox);
     }
 
-    protected JButton createArrowButton() {
-        return new AquaComboBoxButton(this, comboBox, currentValuePane, listBox);
+    protected JButton crebteArrowButton() {
+        return new AqubComboBoxButton(this, comboBox, currentVbluePbne, listBox);
     }
 
-    protected ComboBoxEditor createEditor() {
-        return new AquaComboBoxEditor();
+    protected ComboBoxEditor crebteEditor() {
+        return new AqubComboBoxEditor();
     }
 
-    final class AquaComboBoxEditor extends BasicComboBoxEditor
+    finbl clbss AqubComboBoxEditor extends BbsicComboBoxEditor
             implements UIResource, DocumentListener {
 
-        AquaComboBoxEditor() {
+        AqubComboBoxEditor() {
             super();
-            editor = new AquaCustomComboTextField();
-            editor.addFocusListener(this);
-            editor.getDocument().addDocumentListener(this);
+            editor = new AqubCustomComboTextField();
+            editor.bddFocusListener(this);
+            editor.getDocument().bddDocumentListener(this);
         }
 
         @Override
-        public void focusGained(final FocusEvent e) {
-            if (arrowButton != null) {
-                arrowButton.repaint();
+        public void focusGbined(finbl FocusEvent e) {
+            if (brrowButton != null) {
+                brrowButton.repbint();
             }
         }
 
         @Override
-        public void focusLost(final FocusEvent e) {
-            if (arrowButton != null) {
-                arrowButton.repaint();
+        public void focusLost(finbl FocusEvent e) {
+            if (brrowButton != null) {
+                brrowButton.repbint();
             }
         }
 
         @Override
-        public void changedUpdate(final DocumentEvent e) {
-            editorTextChanged();
+        public void chbngedUpdbte(finbl DocumentEvent e) {
+            editorTextChbnged();
         }
 
         @Override
-        public void insertUpdate(final DocumentEvent e) {
-            editorTextChanged();
+        public void insertUpdbte(finbl DocumentEvent e) {
+            editorTextChbnged();
         }
 
         @Override
-        public void removeUpdate(final DocumentEvent e) {
-            editorTextChanged();
+        public void removeUpdbte(finbl DocumentEvent e) {
+            editorTextChbnged();
         }
 
-        private void editorTextChanged() {
+        privbte void editorTextChbnged() {
             if (!popup.isVisible()) return;
 
-            final Object text = editor.getText();
+            finbl Object text = editor.getText();
 
-            final ListModel<Object> model = listBox.getModel();
-            final int items = model.getSize();
+            finbl ListModel<Object> model = listBox.getModel();
+            finbl int items = model.getSize();
             for (int i = 0; i < items; i++) {
-                final Object element = model.getElementAt(i);
+                finbl Object element = model.getElementAt(i);
                 if (element == null) continue;
 
-                final String asString = element.toString();
-                if (asString == null || !asString.equals(text)) continue;
+                finbl String bsString = element.toString();
+                if (bsString == null || !bsString.equbls(text)) continue;
 
                 popup.getList().setSelectedIndex(i);
                 return;
             }
 
-            popup.getList().clearSelection();
+            popup.getList().clebrSelection();
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class AquaCustomComboTextField extends JTextField {
-        @SuppressWarnings("serial") // anonymous class
-        public AquaCustomComboTextField() {
-            final InputMap inputMap = getInputMap();
-            inputMap.put(KeyStroke.getKeyStroke("DOWN"), highlightNextAction);
-            inputMap.put(KeyStroke.getKeyStroke("KP_DOWN"), highlightNextAction);
-            inputMap.put(KeyStroke.getKeyStroke("UP"), highlightPreviousAction);
-            inputMap.put(KeyStroke.getKeyStroke("KP_UP"), highlightPreviousAction);
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss AqubCustomComboTextField extends JTextField {
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        public AqubCustomComboTextField() {
+            finbl InputMbp inputMbp = getInputMbp();
+            inputMbp.put(KeyStroke.getKeyStroke("DOWN"), highlightNextAction);
+            inputMbp.put(KeyStroke.getKeyStroke("KP_DOWN"), highlightNextAction);
+            inputMbp.put(KeyStroke.getKeyStroke("UP"), highlightPreviousAction);
+            inputMbp.put(KeyStroke.getKeyStroke("KP_UP"), highlightPreviousAction);
 
-            inputMap.put(KeyStroke.getKeyStroke("HOME"), highlightFirstAction);
-            inputMap.put(KeyStroke.getKeyStroke("END"), highlightLastAction);
-            inputMap.put(KeyStroke.getKeyStroke("PAGE_UP"), highlightPageUpAction);
-            inputMap.put(KeyStroke.getKeyStroke("PAGE_DOWN"), highlightPageDownAction);
+            inputMbp.put(KeyStroke.getKeyStroke("HOME"), highlightFirstAction);
+            inputMbp.put(KeyStroke.getKeyStroke("END"), highlightLbstAction);
+            inputMbp.put(KeyStroke.getKeyStroke("PAGE_UP"), highlightPbgeUpAction);
+            inputMbp.put(KeyStroke.getKeyStroke("PAGE_DOWN"), highlightPbgeDownAction);
 
-            final Action action = getActionMap().get(JTextField.notifyAction);
-            inputMap.put(KeyStroke.getKeyStroke("ENTER"), new AbstractAction() {
-                public void actionPerformed(final ActionEvent e) {
+            finbl Action bction = getActionMbp().get(JTextField.notifyAction);
+            inputMbp.put(KeyStroke.getKeyStroke("ENTER"), new AbstrbctAction() {
+                public void bctionPerformed(finbl ActionEvent e) {
                     if (popup.isVisible()) {
                         triggerSelectionEvent(comboBox, e);
 
-                        if (editor instanceof AquaCustomComboTextField) {
-                            ((AquaCustomComboTextField)editor).selectAll();
+                        if (editor instbnceof AqubCustomComboTextField) {
+                            ((AqubCustomComboTextField)editor).selectAll();
                         }
                     } else {
-                        action.actionPerformed(e);
+                        bction.bctionPerformed(e);
                     }
                 }
             });
         }
 
-        // workaround for 4530952
-        public void setText(final String s) {
-            if (getText().equals(s)) {
+        // workbround for 4530952
+        public void setText(finbl String s) {
+            if (getText().equbls(s)) {
                 return;
             }
             super.setText(s);
@@ -243,277 +243,277 @@ public class AquaComboBoxUI extends BasicComboBoxUI implements Sizeable {
     }
 
     /**
-     * This listener hides the popup when the focus is lost.  It also repaints
-     * when focus is gained or lost.
+     * This listener hides the popup when the focus is lost.  It blso repbints
+     * when focus is gbined or lost.
      *
-     * This override is necessary because the Basic L&F for the combo box is working
-     * around a Solaris-only bug that we don't have on Mac OS X.  So, remove the lightweight
-     * popup check here. rdar://Problem/3518582
+     * This override is necessbry becbuse the Bbsic L&F for the combo box is working
+     * bround b Solbris-only bug thbt we don't hbve on Mbc OS X.  So, remove the lightweight
+     * popup check here. rdbr://Problem/3518582
      */
-    protected FocusListener createFocusListener() {
-        return new BasicComboBoxUI.FocusHandler() {
-            public void focusLost(final FocusEvent e) {
-                hasFocus = false;
-                if (!e.isTemporary()) {
-                    setPopupVisible(comboBox, false);
+    protected FocusListener crebteFocusListener() {
+        return new BbsicComboBoxUI.FocusHbndler() {
+            public void focusLost(finbl FocusEvent e) {
+                hbsFocus = fblse;
+                if (!e.isTemporbry()) {
+                    setPopupVisible(comboBox, fblse);
                 }
-                comboBox.repaint();
+                comboBox.repbint();
 
-                // Notify assistive technologies that the combo box lost focus
-                final AccessibleContext ac = ((Accessible)comboBox).getAccessibleContext();
-                if (ac != null) {
-                    ac.firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY, AccessibleState.FOCUSED, null);
+                // Notify bssistive technologies thbt the combo box lost focus
+                finbl AccessibleContext bc = ((Accessible)comboBox).getAccessibleContext();
+                if (bc != null) {
+                    bc.firePropertyChbnge(AccessibleContext.ACCESSIBLE_STATE_PROPERTY, AccessibleStbte.FOCUSED, null);
                 }
             }
         };
     }
 
-    protected void installKeyboardActions() {
-        super.installKeyboardActions();
+    protected void instbllKeybobrdActions() {
+        super.instbllKeybobrdActions();
 
-        ActionMap actionMap = new ActionMapUIResource();
+        ActionMbp bctionMbp = new ActionMbpUIResource();
 
-        actionMap.put("aquaSelectNext", highlightNextAction);
-        actionMap.put("aquaSelectPrevious", highlightPreviousAction);
-        actionMap.put("aquaEnterPressed", triggerSelectionAction);
-        actionMap.put("aquaSpacePressed", toggleSelectionAction);
+        bctionMbp.put("bqubSelectNext", highlightNextAction);
+        bctionMbp.put("bqubSelectPrevious", highlightPreviousAction);
+        bctionMbp.put("bqubEnterPressed", triggerSelectionAction);
+        bctionMbp.put("bqubSpbcePressed", toggleSelectionAction);
 
-        actionMap.put("aquaSelectHome", highlightFirstAction);
-        actionMap.put("aquaSelectEnd", highlightLastAction);
-        actionMap.put("aquaSelectPageUp", highlightPageUpAction);
-        actionMap.put("aquaSelectPageDown", highlightPageDownAction);
+        bctionMbp.put("bqubSelectHome", highlightFirstAction);
+        bctionMbp.put("bqubSelectEnd", highlightLbstAction);
+        bctionMbp.put("bqubSelectPbgeUp", highlightPbgeUpAction);
+        bctionMbp.put("bqubSelectPbgeDown", highlightPbgeDownAction);
 
-        actionMap.put("aquaHidePopup", hideAction);
+        bctionMbp.put("bqubHidePopup", hideAction);
 
-        SwingUtilities.replaceUIActionMap(comboBox, actionMap);
+        SwingUtilities.replbceUIActionMbp(comboBox, bctionMbp);
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private abstract class ComboBoxAction extends AbstractAction {
-        public void actionPerformed(final ActionEvent e) {
-            if (!comboBox.isEnabled() || !comboBox.isShowing()) {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte bbstrbct clbss ComboBoxAction extends AbstrbctAction {
+        public void bctionPerformed(finbl ActionEvent e) {
+            if (!comboBox.isEnbbled() || !comboBox.isShowing()) {
                 return;
             }
 
             if (comboBox.isPopupVisible()) {
-                final AquaComboBoxUI ui = (AquaComboBoxUI)comboBox.getUI();
+                finbl AqubComboBoxUI ui = (AqubComboBoxUI)comboBox.getUI();
                 performComboBoxAction(ui);
             } else {
                 comboBox.setPopupVisible(true);
             }
         }
 
-        abstract void performComboBoxAction(final AquaComboBoxUI ui);
+        bbstrbct void performComboBoxAction(finbl AqubComboBoxUI ui);
     }
 
     /**
      * Hilight _but do not select_ the next item in the list.
      */
-    @SuppressWarnings("serial") // anonymous class
-    private Action highlightNextAction = new ComboBoxAction() {
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    privbte Action highlightNextAction = new ComboBoxAction() {
         @Override
-        public void performComboBoxAction(AquaComboBoxUI ui) {
-            final int si = listBox.getSelectedIndex();
+        public void performComboBoxAction(AqubComboBoxUI ui) {
+            finbl int si = listBox.getSelectedIndex();
 
             if (si < comboBox.getModel().getSize() - 1) {
                 listBox.setSelectedIndex(si + 1);
                 listBox.ensureIndexIsVisible(si + 1);
             }
-            comboBox.repaint();
+            comboBox.repbint();
         }
     };
 
     /**
      * Hilight _but do not select_ the previous item in the list.
      */
-    @SuppressWarnings("serial") // anonymous class
-    private Action highlightPreviousAction = new ComboBoxAction() {
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    privbte Action highlightPreviousAction = new ComboBoxAction() {
         @Override
-        void performComboBoxAction(final AquaComboBoxUI ui) {
-            final int si = listBox.getSelectedIndex();
+        void performComboBoxAction(finbl AqubComboBoxUI ui) {
+            finbl int si = listBox.getSelectedIndex();
             if (si > 0) {
                 listBox.setSelectedIndex(si - 1);
                 listBox.ensureIndexIsVisible(si - 1);
             }
-            comboBox.repaint();
+            comboBox.repbint();
         }
     };
 
-    @SuppressWarnings("serial") // anonymous class
-    private Action highlightFirstAction = new ComboBoxAction() {
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    privbte Action highlightFirstAction = new ComboBoxAction() {
         @Override
-        void performComboBoxAction(final AquaComboBoxUI ui) {
+        void performComboBoxAction(finbl AqubComboBoxUI ui) {
             listBox.setSelectedIndex(0);
             listBox.ensureIndexIsVisible(0);
         }
     };
 
-    @SuppressWarnings("serial") // anonymous class
-    private Action highlightLastAction = new ComboBoxAction() {
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    privbte Action highlightLbstAction = new ComboBoxAction() {
         @Override
-        void performComboBoxAction(final AquaComboBoxUI ui) {
-            final int size = listBox.getModel().getSize();
+        void performComboBoxAction(finbl AqubComboBoxUI ui) {
+            finbl int size = listBox.getModel().getSize();
             listBox.setSelectedIndex(size - 1);
             listBox.ensureIndexIsVisible(size - 1);
         }
     };
 
-    @SuppressWarnings("serial") // anonymous class
-    private Action highlightPageUpAction = new ComboBoxAction() {
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    privbte Action highlightPbgeUpAction = new ComboBoxAction() {
         @Override
-        void performComboBoxAction(final AquaComboBoxUI ui) {
-            final int current = listBox.getSelectedIndex();
-            final int first = listBox.getFirstVisibleIndex();
+        void performComboBoxAction(finbl AqubComboBoxUI ui) {
+            finbl int current = listBox.getSelectedIndex();
+            finbl int first = listBox.getFirstVisibleIndex();
 
             if (current != first) {
                 listBox.setSelectedIndex(first);
                 return;
             }
 
-            final int page = listBox.getVisibleRect().height / listBox.getCellBounds(0, 0).height;
-            int target = first - page;
-            if (target < 0) target = 0;
+            finbl int pbge = listBox.getVisibleRect().height / listBox.getCellBounds(0, 0).height;
+            int tbrget = first - pbge;
+            if (tbrget < 0) tbrget = 0;
 
-            listBox.ensureIndexIsVisible(target);
-            listBox.setSelectedIndex(target);
+            listBox.ensureIndexIsVisible(tbrget);
+            listBox.setSelectedIndex(tbrget);
         }
     };
 
-    @SuppressWarnings("serial") // anonymous class
-    private Action highlightPageDownAction = new ComboBoxAction() {
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    privbte Action highlightPbgeDownAction = new ComboBoxAction() {
         @Override
-        void performComboBoxAction(final AquaComboBoxUI ui) {
-            final int current = listBox.getSelectedIndex();
-            final int last = listBox.getLastVisibleIndex();
+        void performComboBoxAction(finbl AqubComboBoxUI ui) {
+            finbl int current = listBox.getSelectedIndex();
+            finbl int lbst = listBox.getLbstVisibleIndex();
 
-            if (current != last) {
-                listBox.setSelectedIndex(last);
+            if (current != lbst) {
+                listBox.setSelectedIndex(lbst);
                 return;
             }
 
-            final int page = listBox.getVisibleRect().height / listBox.getCellBounds(0, 0).height;
-            final int end = listBox.getModel().getSize() - 1;
-            int target = last + page;
-            if (target > end) target = end;
+            finbl int pbge = listBox.getVisibleRect().height / listBox.getCellBounds(0, 0).height;
+            finbl int end = listBox.getModel().getSize() - 1;
+            int tbrget = lbst + pbge;
+            if (tbrget > end) tbrget = end;
 
-            listBox.ensureIndexIsVisible(target);
-            listBox.setSelectedIndex(target);
+            listBox.ensureIndexIsVisible(tbrget);
+            listBox.setSelectedIndex(tbrget);
         }
     };
 
-    // For <rdar://problem/3759984> Java 1.4.2_5: Serializing Swing components not working
-    // Inner classes were using a this reference and then trying to serialize the AquaComboBoxUI
-    // We shouldn't do that. But we need to be able to get the popup from other classes, so we need
-    // a public accessor.
+    // For <rdbr://problem/3759984> Jbvb 1.4.2_5: Seriblizing Swing components not working
+    // Inner clbsses were using b this reference bnd then trying to seriblize the AqubComboBoxUI
+    // We shouldn't do thbt. But we need to be bble to get the popup from other clbsses, so we need
+    // b public bccessor.
     public ComboPopup getPopup() {
         return popup;
     }
 
-    protected LayoutManager createLayoutManager() {
-        return new AquaComboBoxLayoutManager();
+    protected LbyoutMbnbger crebteLbyoutMbnbger() {
+        return new AqubComboBoxLbyoutMbnbger();
     }
 
-    class AquaComboBoxLayoutManager extends BasicComboBoxUI.ComboBoxLayoutManager {
-        public void layoutContainer(final Container parent) {
-            if (arrowButton != null && !comboBox.isEditable()) {
-                final Insets insets = comboBox.getInsets();
-                final int width = comboBox.getWidth();
-                final int height = comboBox.getHeight();
-                arrowButton.setBounds(insets.left, insets.top, width - (insets.left + insets.right), height - (insets.top + insets.bottom));
+    clbss AqubComboBoxLbyoutMbnbger extends BbsicComboBoxUI.ComboBoxLbyoutMbnbger {
+        public void lbyoutContbiner(finbl Contbiner pbrent) {
+            if (brrowButton != null && !comboBox.isEditbble()) {
+                finbl Insets insets = comboBox.getInsets();
+                finbl int width = comboBox.getWidth();
+                finbl int height = comboBox.getHeight();
+                brrowButton.setBounds(insets.left, insets.top, width - (insets.left + insets.right), height - (insets.top + insets.bottom));
                 return;
             }
 
-            final JComboBox<?> cb = (JComboBox<?>) parent;
-            final int width = cb.getWidth();
-            final int height = cb.getHeight();
+            finbl JComboBox<?> cb = (JComboBox<?>) pbrent;
+            finbl int width = cb.getWidth();
+            finbl int height = cb.getHeight();
 
-            final Insets insets = getInsets();
-            final int buttonHeight = height - (insets.top + insets.bottom);
-            final int buttonWidth = 20;
+            finbl Insets insets = getInsets();
+            finbl int buttonHeight = height - (insets.top + insets.bottom);
+            finbl int buttonWidth = 20;
 
-            if (arrowButton != null) {
-                arrowButton.setBounds(width - (insets.right + buttonWidth), insets.top, buttonWidth, buttonHeight);
+            if (brrowButton != null) {
+                brrowButton.setBounds(width - (insets.right + buttonWidth), insets.top, buttonWidth, buttonHeight);
             }
 
             if (editor != null) {
-                final Rectangle editorRect = rectangleForCurrentValue();
+                finbl Rectbngle editorRect = rectbngleForCurrentVblue();
                 editorRect.width += 4;
                 editor.setBounds(editorRect);
             }
         }
     }
 
-    // This is here because Sun can't use protected like they should!
-    protected static final String IS_TABLE_CELL_EDITOR = "JComboBox.isTableCellEditor";
+    // This is here becbuse Sun cbn't use protected like they should!
+    protected stbtic finbl String IS_TABLE_CELL_EDITOR = "JComboBox.isTbbleCellEditor";
 
-    protected static boolean isTableCellEditor(final JComponent c) {
-        return Boolean.TRUE.equals(c.getClientProperty(AquaComboBoxUI.IS_TABLE_CELL_EDITOR));
+    protected stbtic boolebn isTbbleCellEditor(finbl JComponent c) {
+        return Boolebn.TRUE.equbls(c.getClientProperty(AqubComboBoxUI.IS_TABLE_CELL_EDITOR));
     }
 
-    protected static boolean isPopdown(final JComboBox<?> c) {
-        return c.isEditable() || Boolean.TRUE.equals(c.getClientProperty(AquaComboBoxUI.POPDOWN_CLIENT_PROPERTY_KEY));
+    protected stbtic boolebn isPopdown(finbl JComboBox<?> c) {
+        return c.isEditbble() || Boolebn.TRUE.equbls(c.getClientProperty(AqubComboBoxUI.POPDOWN_CLIENT_PROPERTY_KEY));
     }
 
-    protected static void triggerSelectionEvent(final JComboBox<?> comboBox, final ActionEvent e) {
-        if (!comboBox.isEnabled()) return;
+    protected stbtic void triggerSelectionEvent(finbl JComboBox<?> comboBox, finbl ActionEvent e) {
+        if (!comboBox.isEnbbled()) return;
 
-        final AquaComboBoxUI aquaUi = (AquaComboBoxUI)comboBox.getUI();
+        finbl AqubComboBoxUI bqubUi = (AqubComboBoxUI)comboBox.getUI();
 
-        if (aquaUi.getPopup().getList().getSelectedIndex() < 0) {
-            comboBox.setPopupVisible(false);
+        if (bqubUi.getPopup().getList().getSelectedIndex() < 0) {
+            comboBox.setPopupVisible(fblse);
         }
 
-        if (isTableCellEditor(comboBox)) {
-            // Forces the selection of the list item if the combo box is in a JTable
-            comboBox.setSelectedIndex(aquaUi.getPopup().getList().getSelectedIndex());
+        if (isTbbleCellEditor(comboBox)) {
+            // Forces the selection of the list item if the combo box is in b JTbble
+            comboBox.setSelectedIndex(bqubUi.getPopup().getList().getSelectedIndex());
             return;
         }
 
         if (comboBox.isPopupVisible()) {
-            comboBox.setSelectedIndex(aquaUi.getPopup().getList().getSelectedIndex());
-            comboBox.setPopupVisible(false);
+            comboBox.setSelectedIndex(bqubUi.getPopup().getList().getSelectedIndex());
+            comboBox.setPopupVisible(fblse);
             return;
         }
 
-        // Call the default button binding.
-        // This is a pretty messy way of passing an event through to the root pane
-        final JRootPane root = SwingUtilities.getRootPane(comboBox);
+        // Cbll the defbult button binding.
+        // This is b pretty messy wby of pbssing bn event through to the root pbne
+        finbl JRootPbne root = SwingUtilities.getRootPbne(comboBox);
         if (root == null) return;
 
-        final InputMap im = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        final ActionMap am = root.getActionMap();
-        if (im == null || am == null) return;
+        finbl InputMbp im = root.getInputMbp(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        finbl ActionMbp bm = root.getActionMbp();
+        if (im == null || bm == null) return;
 
-        final Object obj = im.get(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
+        finbl Object obj = im.get(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
         if (obj == null) return;
 
-        final Action action = am.get(obj);
-        if (action == null) return;
+        finbl Action bction = bm.get(obj);
+        if (bction == null) return;
 
-        action.actionPerformed(new ActionEvent(root, e.getID(), e.getActionCommand(), e.getWhen(), e.getModifiers()));
+        bction.bctionPerformed(new ActionEvent(root, e.getID(), e.getActionCommbnd(), e.getWhen(), e.getModifiers()));
     }
 
-    // This is somewhat messy.  The difference here from BasicComboBoxUI.EnterAction is that
-    // arrow up or down does not automatically select the
-    @SuppressWarnings("serial") // anonymous class
-    private static final Action triggerSelectionAction = new AbstractAction() {
-        public void actionPerformed(final ActionEvent e) {
+    // This is somewhbt messy.  The difference here from BbsicComboBoxUI.EnterAction is thbt
+    // brrow up or down does not butombticblly select the
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    privbte stbtic finbl Action triggerSelectionAction = new AbstrbctAction() {
+        public void bctionPerformed(finbl ActionEvent e) {
             triggerSelectionEvent((JComboBox)e.getSource(), e);
         }
     };
 
-    @SuppressWarnings("serial") // anonymous class
-    private static final Action toggleSelectionAction = new AbstractAction() {
-        public void actionPerformed(final ActionEvent e) {
-            final JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
-            if (!comboBox.isEnabled()) return;
-            if (comboBox.isEditable()) return;
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    privbte stbtic finbl Action toggleSelectionAction = new AbstrbctAction() {
+        public void bctionPerformed(finbl ActionEvent e) {
+            finbl JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
+            if (!comboBox.isEnbbled()) return;
+            if (comboBox.isEditbble()) return;
 
-            final AquaComboBoxUI aquaUi = (AquaComboBoxUI)comboBox.getUI();
+            finbl AqubComboBoxUI bqubUi = (AqubComboBoxUI)comboBox.getUI();
 
             if (comboBox.isPopupVisible()) {
-                comboBox.setSelectedIndex(aquaUi.getPopup().getList().getSelectedIndex());
-                comboBox.setPopupVisible(false);
+                comboBox.setSelectedIndex(bqubUi.getPopup().getList().getSelectedIndex());
+                comboBox.setPopupVisible(fblse);
                 return;
             }
 
@@ -521,128 +521,128 @@ public class AquaComboBoxUI extends BasicComboBoxUI implements Sizeable {
         }
     };
 
-    @SuppressWarnings("serial") // anonymous class
-    private final Action hideAction = new AbstractAction() {
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    privbte finbl Action hideAction = new AbstrbctAction() {
         @Override
-        public void actionPerformed(final ActionEvent e) {
-            final JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
-            comboBox.firePopupMenuCanceled();
-            comboBox.setPopupVisible(false);
+        public void bctionPerformed(finbl ActionEvent e) {
+            finbl JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
+            comboBox.firePopupMenuCbnceled();
+            comboBox.setPopupVisible(fblse);
         }
 
         @Override
-        public boolean isEnabled() {
-            return comboBox.isPopupVisible() && super.isEnabled();
+        public boolebn isEnbbled() {
+            return comboBox.isPopupVisible() && super.isEnbbled();
         }
     };
 
-    public void applySizeFor(final JComponent c, final Size size) {
-        if (arrowButton == null) return;
-        final Border border = arrowButton.getBorder();
-        if (!(border instanceof AquaButtonBorder)) return;
-        final AquaButtonBorder aquaBorder = (AquaButtonBorder)border;
-        arrowButton.setBorder(aquaBorder.deriveBorderForSize(size));
+    public void bpplySizeFor(finbl JComponent c, finbl Size size) {
+        if (brrowButton == null) return;
+        finbl Border border = brrowButton.getBorder();
+        if (!(border instbnceof AqubButtonBorder)) return;
+        finbl AqubButtonBorder bqubBorder = (AqubButtonBorder)border;
+        brrowButton.setBorder(bqubBorder.deriveBorderForSize(size));
     }
 
-    public Dimension getMinimumSize(final JComponent c) {
+    public Dimension getMinimumSize(finbl JComponent c) {
         if (!isMinimumSizeDirty) {
-            return new Dimension(cachedMinimumSize);
+            return new Dimension(cbchedMinimumSize);
         }
 
-        final boolean editable = comboBox.isEditable();
+        finbl boolebn editbble = comboBox.isEditbble();
 
-        final Dimension size;
-        if (!editable && arrowButton != null && arrowButton instanceof AquaComboBoxButton) {
-            final AquaComboBoxButton button = (AquaComboBoxButton)arrowButton;
-            final Insets buttonInsets = button.getInsets();
+        finbl Dimension size;
+        if (!editbble && brrowButton != null && brrowButton instbnceof AqubComboBoxButton) {
+            finbl AqubComboBoxButton button = (AqubComboBoxButton)brrowButton;
+            finbl Insets buttonInsets = button.getInsets();
             //  Insets insets = comboBox.getInsets();
-            final Insets insets = new Insets(0, 5, 0, 25);//comboBox.getInsets();
+            finbl Insets insets = new Insets(0, 5, 0, 25);//comboBox.getInsets();
 
-            size = getDisplaySize();
+            size = getDisplbySize();
             size.width += insets.left + insets.right;
             size.width += buttonInsets.left + buttonInsets.right;
             size.width += buttonInsets.right + 10;
             size.height += insets.top + insets.bottom;
             size.height += buttonInsets.top + buttonInsets.bottom;
-            // Min height = Height of arrow button plus 2 pixels fuzz above plus 2 below.  23 + 2 + 2
-            size.height = Math.max(27, size.height);
-        } else if (editable && arrowButton != null && editor != null) {
+            // Min height = Height of brrow button plus 2 pixels fuzz bbove plus 2 below.  23 + 2 + 2
+            size.height = Mbth.mbx(27, size.height);
+        } else if (editbble && brrowButton != null && editor != null) {
             size = super.getMinimumSize(c);
-            final Insets margin = arrowButton.getMargin();
-            size.height += margin.top + margin.bottom;
+            finbl Insets mbrgin = brrowButton.getMbrgin();
+            size.height += mbrgin.top + mbrgin.bottom;
         } else {
             size = super.getMinimumSize(c);
         }
 
-        final Border border = c.getBorder();
+        finbl Border border = c.getBorder();
         if (border != null) {
-            final Insets insets = border.getBorderInsets(c);
+            finbl Insets insets = border.getBorderInsets(c);
             size.height += insets.top + insets.bottom;
             size.width += insets.left + insets.right;
         }
 
-        cachedMinimumSize.setSize(size.width, size.height);
-        isMinimumSizeDirty = false;
+        cbchedMinimumSize.setSize(size.width, size.height);
+        isMinimumSizeDirty = fblse;
 
-        return new Dimension(cachedMinimumSize);
+        return new Dimension(cbchedMinimumSize);
     }
 
-    @SuppressWarnings("unchecked")
-    static final RecyclableSingleton<ClientPropertyApplicator<JComboBox<?>, AquaComboBoxUI>> APPLICATOR = new
-            RecyclableSingleton<ClientPropertyApplicator<JComboBox<?>, AquaComboBoxUI>>() {
+    @SuppressWbrnings("unchecked")
+    stbtic finbl RecyclbbleSingleton<ClientPropertyApplicbtor<JComboBox<?>, AqubComboBoxUI>> APPLICATOR = new
+            RecyclbbleSingleton<ClientPropertyApplicbtor<JComboBox<?>, AqubComboBoxUI>>() {
         @Override
-        protected ClientPropertyApplicator<JComboBox<?>, AquaComboBoxUI> getInstance() {
-            return new ClientPropertyApplicator<JComboBox<?>, AquaComboBoxUI>(
-                new Property<AquaComboBoxUI>(AquaFocusHandler.FRAME_ACTIVE_PROPERTY) {
-                    public void applyProperty(final AquaComboBoxUI target, final Object value) {
-                        if (Boolean.FALSE.equals(value)) {
-                            if (target.comboBox != null) target.comboBox.hidePopup();
+        protected ClientPropertyApplicbtor<JComboBox<?>, AqubComboBoxUI> getInstbnce() {
+            return new ClientPropertyApplicbtor<JComboBox<?>, AqubComboBoxUI>(
+                new Property<AqubComboBoxUI>(AqubFocusHbndler.FRAME_ACTIVE_PROPERTY) {
+                    public void bpplyProperty(finbl AqubComboBoxUI tbrget, finbl Object vblue) {
+                        if (Boolebn.FALSE.equbls(vblue)) {
+                            if (tbrget.comboBox != null) tbrget.comboBox.hidePopup();
                         }
-                        if (target.listBox != null) target.listBox.repaint();
+                        if (tbrget.listBox != null) tbrget.listBox.repbint();
                     }
                 },
-                new Property<AquaComboBoxUI>("editable") {
-                    public void applyProperty(final AquaComboBoxUI target, final Object value) {
-                        if (target.comboBox == null) return;
-                        target.comboBox.repaint();
+                new Property<AqubComboBoxUI>("editbble") {
+                    public void bpplyProperty(finbl AqubComboBoxUI tbrget, finbl Object vblue) {
+                        if (tbrget.comboBox == null) return;
+                        tbrget.comboBox.repbint();
                     }
                 },
-                new Property<AquaComboBoxUI>("background") {
-                    public void applyProperty(final AquaComboBoxUI target, final Object value) {
-                        final Color color = (Color)value;
-                        if (target.arrowButton != null) target.arrowButton.setBackground(color);
-                        if (target.listBox != null) target.listBox.setBackground(color);
+                new Property<AqubComboBoxUI>("bbckground") {
+                    public void bpplyProperty(finbl AqubComboBoxUI tbrget, finbl Object vblue) {
+                        finbl Color color = (Color)vblue;
+                        if (tbrget.brrowButton != null) tbrget.brrowButton.setBbckground(color);
+                        if (tbrget.listBox != null) tbrget.listBox.setBbckground(color);
                     }
                 },
-                new Property<AquaComboBoxUI>("foreground") {
-                    public void applyProperty(final AquaComboBoxUI target, final Object value) {
-                        final Color color = (Color)value;
-                        if (target.arrowButton != null) target.arrowButton.setForeground(color);
-                        if (target.listBox != null) target.listBox.setForeground(color);
+                new Property<AqubComboBoxUI>("foreground") {
+                    public void bpplyProperty(finbl AqubComboBoxUI tbrget, finbl Object vblue) {
+                        finbl Color color = (Color)vblue;
+                        if (tbrget.brrowButton != null) tbrget.brrowButton.setForeground(color);
+                        if (tbrget.listBox != null) tbrget.listBox.setForeground(color);
                     }
                 },
-                new Property<AquaComboBoxUI>(POPDOWN_CLIENT_PROPERTY_KEY) {
-                    public void applyProperty(final AquaComboBoxUI target, final Object value) {
-                        if (!(target.arrowButton instanceof AquaComboBoxButton)) return;
-                        ((AquaComboBoxButton)target.arrowButton).setIsPopDown(Boolean.TRUE.equals(value));
+                new Property<AqubComboBoxUI>(POPDOWN_CLIENT_PROPERTY_KEY) {
+                    public void bpplyProperty(finbl AqubComboBoxUI tbrget, finbl Object vblue) {
+                        if (!(tbrget.brrowButton instbnceof AqubComboBoxButton)) return;
+                        ((AqubComboBoxButton)tbrget.brrowButton).setIsPopDown(Boolebn.TRUE.equbls(vblue));
                     }
                 },
-                new Property<AquaComboBoxUI>(ISSQUARE_CLIENT_PROPERTY_KEY) {
-                    public void applyProperty(final AquaComboBoxUI target, final Object value) {
-                        if (!(target.arrowButton instanceof AquaComboBoxButton)) return;
-                        ((AquaComboBoxButton)target.arrowButton).setIsSquare(Boolean.TRUE.equals(value));
+                new Property<AqubComboBoxUI>(ISSQUARE_CLIENT_PROPERTY_KEY) {
+                    public void bpplyProperty(finbl AqubComboBoxUI tbrget, finbl Object vblue) {
+                        if (!(tbrget.brrowButton instbnceof AqubComboBoxButton)) return;
+                        ((AqubComboBoxButton)tbrget.brrowButton).setIsSqubre(Boolebn.TRUE.equbls(vblue));
                     }
                 }
             ) {
-                public AquaComboBoxUI convertJComponentToTarget(final JComboBox<?> combo) {
-                    final ComboBoxUI comboUI = combo.getUI();
-                    if (comboUI instanceof AquaComboBoxUI) return (AquaComboBoxUI)comboUI;
+                public AqubComboBoxUI convertJComponentToTbrget(finbl JComboBox<?> combo) {
+                    finbl ComboBoxUI comboUI = combo.getUI();
+                    if (comboUI instbnceof AqubComboBoxUI) return (AqubComboBoxUI)comboUI;
                     return null;
                 }
             };
         }
     };
-    static ClientPropertyApplicator<JComboBox<?>, AquaComboBoxUI> getApplicator() {
+    stbtic ClientPropertyApplicbtor<JComboBox<?>, AqubComboBoxUI> getApplicbtor() {
         return APPLICATOR.get();
     }
 }
